@@ -1,0 +1,43 @@
+# 配置protoc生成规则
+version: v2
+
+clean: false
+
+managed:
+  enabled: true
+
+  disable:
+    - module: buf.build/googleapis/googleapis
+    - module: 'buf.build/envoyproxy/protoc-gen-validate'
+    - module: 'buf.build/kratos/apis'
+    - module: 'buf.build/gnostic/gnostic'
+    - module: 'buf.build/gogo/protobuf'
+    - module: 'buf.build/tx7do/pagination'
+
+  override:
+    - file_option: go_package_prefix
+      value: kratos-admin/api/gen/go
+
+inputs:
+  - directory: protos
+    paths:
+      - protos/admin/service/v1
+
+plugins:
+  # generate openapi v2 json doc
+  #  - local: protoc-gen-openapiv2
+  #    out: ../app/admin/service/cmd/server/assets
+  #    opt:
+  #      - json_names_for_fields=true
+  #      - logtostderr=true
+
+  # generate openapi v3 yaml doc
+  - local: protoc-gen-openapi
+    out: ../app/admin/service/cmd/server/assets
+    opt:
+      - naming=json # 命名约定。使用"proto"则直接从proto文件传递名称。默认为：json
+      - depth=2 # 循环消息的递归深度，默认为：2
+      - default_response=false # 添加默认响应消息。如果为“true”，则自动为使用google.rpc.Status消息的操作添加默认响应。如果您使用envoy或grpc-gateway进行转码，则非常有用，因为它们使用此类型作为默认错误响应。默认为：true。
+      - enum_type=string # 枚举类型的序列化的类型。使用"string"则进行基于字符串的序列化。默认为：integer。
+      - output_mode=merged # 输出文件生成模式。默认情况下，只有一个openapi.yaml文件会生成在输出文件夹。使用“source_relative”则会为每一个'[inputfile].proto'文件单独生成一个“[inputfile].openapi.yaml”文件。默认为：merged。
+      - fq_schema_naming=false # Schema的命名是否加上包名，为true，则会加上包名，例如：system.service.v1.ListDictDetailResponse，否则为：ListDictDetailResponse。默认为：false。

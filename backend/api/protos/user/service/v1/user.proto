@@ -1,0 +1,271 @@
+syntax = "proto3";
+
+package user.service.v1;
+
+import "gnostic/openapi/v3/annotations.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/timestamp.proto";
+import "google/api/field_behavior.proto";
+
+import "pagination/v1/pagination.proto";
+
+// 用户服务
+service UserService {
+  // 查询用户列表
+  rpc ListUser (pagination.PagingRequest) returns (ListUserResponse) {}
+
+  // 查询用户详情
+  rpc GetUser (GetUserRequest) returns (User) {}
+
+  // 创建用户
+  rpc CreateUser (CreateUserRequest) returns (google.protobuf.Empty) {}
+
+  // 更新用户
+  rpc UpdateUser (UpdateUserRequest) returns (google.protobuf.Empty) {}
+
+  // 删除用户
+  rpc DeleteUser (DeleteUserRequest) returns (google.protobuf.Empty) {}
+
+  // 查询用户详情
+  rpc GetUserByUserName (GetUserByUserNameRequest) returns (User) {}
+
+  // 验证密码
+  rpc VerifyPassword (VerifyPasswordRequest) returns (VerifyPasswordResponse) {}
+
+  // 用户是否存在
+  rpc UserExists (UserExistsRequest) returns (UserExistsResponse) {}
+}
+
+// 验证密码结果码
+enum VerifyPasswordResult {
+  SUCCESS = 0;  // 验证成功
+  ACCOUNT_NOT_EXISTS = 1; // 账号不存在
+  WRONG_PASSWORD = 2;// 密码错误
+  FREEZE = 3;// 已冻结
+  DELETED = 4;// 已删除
+}
+
+// 用户权限
+enum UserAuthority {
+  SYS_ADMIN = 0;  // 系统超级用户
+  SYS_MANAGER = 1;  // 系统管理员
+  CUSTOMER_USER = 2;  // 普通用户
+  GUEST_USER = 3;  // 游客
+
+  REFRESH_TOKEN = 4; // 刷新令牌
+}
+
+// 用户性别
+enum UserGender {
+  SECRET = 0;  // 未知
+  MALE = 1;     // 男性
+  FEMALE = 2;   // 女性
+}
+
+// 用户状态
+enum UserStatus {
+  OFF = 0;
+  ON = 1;
+}
+
+// 用户
+message User {
+  optional uint32 id = 1 [
+    json_name = "id",
+    (gnostic.openapi.v3.property) = {description: "用户ID"}
+  ];  // 用户ID
+
+  optional uint32 role_id = 2 [json_name = "roleId", (gnostic.openapi.v3.property) = {description: "角色ID"}];  // 角色ID
+  optional uint32 work_id = 3 [json_name = "workId", (gnostic.openapi.v3.property) = {description: "工号"}];  // 工号
+  optional uint32 org_id = 4 [json_name = "orgId", (gnostic.openapi.v3.property) = {description: "部门ID"}];  // 部门ID
+  optional uint32 position_id = 5 [json_name = "positionId", (gnostic.openapi.v3.property) = {description: "岗位ID"}];  // 岗位ID
+  optional uint32 creator_id = 6 [json_name = "creatorId", (gnostic.openapi.v3.property) = {description: "创建者ID"}]; // 创建者ID
+
+  optional string user_name = 10 [
+    json_name = "userName",
+    (gnostic.openapi.v3.property) = {description: "登录名"}
+  ]; // 登录名
+
+  optional string nick_name = 11 [
+    json_name = "nickName",
+    (gnostic.openapi.v3.property) = {description: "昵称"}
+  ]; // 昵称
+
+  optional string real_name = 12 [
+    json_name = "realName",
+    (gnostic.openapi.v3.property) = {description: "真实姓名"}
+  ]; // 真实姓名
+
+  optional string avatar = 13 [
+    json_name = "avatar",
+    (gnostic.openapi.v3.property) = {description: "头像"}
+  ]; // 头像
+
+  optional string email = 14 [
+    json_name = "email",
+    (gnostic.openapi.v3.property) = {description: "邮箱"}
+  ]; // 邮箱
+
+  optional string mobile = 15 [
+    json_name = "mobile",
+    (gnostic.openapi.v3.property) = {description: "手机号"}
+  ]; // 手机号
+
+  optional string telephone = 16 [
+    json_name = "telephone",
+    (gnostic.openapi.v3.property) = {description: "座机号"}
+  ]; // 手机号
+
+  optional UserGender gender = 17 [
+    json_name = "gender",
+    (gnostic.openapi.v3.property) = {description: "性别"}
+  ]; // 性别
+
+  optional string address = 18 [
+    json_name = "address",
+    (gnostic.openapi.v3.property) = {description: "住址"}
+  ]; // 住址
+
+  optional string region = 19 [
+    json_name = "region",
+    (gnostic.openapi.v3.property) = {description: "国家地区"}
+  ]; // 国家地区
+
+  optional string description = 20 [
+    json_name = "description",
+    (gnostic.openapi.v3.property) = {description: "个人描述"}
+  ]; // 个人描述
+
+  optional string remark = 21 [
+    json_name = "remark",
+    (gnostic.openapi.v3.property) = {description: "备注名"}
+  ]; // 备注名
+
+  optional int64 last_login_time = 30 [
+    json_name = "lastLoginTime",
+    (gnostic.openapi.v3.property) = {description: "最后登录时间"}
+  ]; // 最后登录时间
+
+  optional string last_login_ip = 31 [
+    json_name = "lastLoginIp",
+    (gnostic.openapi.v3.property) = {description: "最后登录IP"}
+  ]; // 最后登录IP
+
+  optional UserStatus status = 32 [(gnostic.openapi.v3.property) = {
+    description: "用户状态"
+    default: {string: "ON"}
+  }]; // 用户状态
+
+  optional UserAuthority authority = 33 [(gnostic.openapi.v3.property) = {
+    description: "权限"
+    default: {string: "CUSTOMER_USER"}
+  }]; // 权限
+
+  optional google.protobuf.Timestamp create_time = 200 [json_name = "createTime", (gnostic.openapi.v3.property) = {description: "创建时间"}];// 创建时间
+  optional google.protobuf.Timestamp update_time = 201 [json_name = "updateTime", (gnostic.openapi.v3.property) = {description: "更新时间"}];// 更新时间
+  optional google.protobuf.Timestamp delete_time = 202 [json_name = "deleteTime", (gnostic.openapi.v3.property) = {description: "删除时间"}];// 删除时间
+}
+
+// 获取用户列表 - 答复
+message ListUserResponse {
+  repeated User items = 1;
+  int32 total = 2;
+}
+
+// 获取用户数据 - 请求
+message GetUserRequest {
+  uint32 id = 1;
+}
+message GetUserByUserNameRequest {
+  string user_name = 1 [
+    (gnostic.openapi.v3.property) = {description: "用户登录名", read_only: true},
+    json_name = "userName"
+  ]; // 用户登录名
+}
+
+// 创建用户 - 请求
+message CreateUserRequest {
+  optional uint32 operator_id = 1 [
+    (gnostic.openapi.v3.property) = {description: "操作用户ID", read_only: true},
+    json_name = "operatorId"
+  ]; // 操作用户ID
+
+  User user = 2;
+
+  optional string password = 3 [
+    (gnostic.openapi.v3.property) = {description: "用户登录密码", read_only: true},
+    json_name = "password"
+  ]; // 用户登录密码
+}
+
+// 更新用户 - 请求
+message UpdateUserRequest {
+  optional uint32 operator_id = 1 [
+    json_name = "operatorId",
+    (gnostic.openapi.v3.property) = {description: "操作用户ID", read_only: true}
+  ]; // 操作用户ID
+
+  User user = 2 [
+    json_name = "user",
+    (google.api.field_behavior) = REQUIRED,
+    (gnostic.openapi.v3.property) = {description: "用户的数据"}
+  ]; // 用户的数据
+
+  optional string password = 3 [
+    (gnostic.openapi.v3.property) = {description: "用户登录密码", read_only: true},
+    json_name = "password"
+  ]; // 用户登录密码
+
+  google.protobuf.FieldMask update_mask = 4 [
+    json_name = "updateMask",
+    (gnostic.openapi.v3.property) = {
+      description: "要更新的字段列表",
+      example: {yaml : "id,realName,userName"}
+    }
+  ]; // 要更新的字段列表
+
+  optional bool allow_missing = 5 [
+    json_name = "allowMissing",
+    (gnostic.openapi.v3.property) = {description: "如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。"}
+  ]; // 如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。
+}
+
+// 删除用户 - 请求
+message DeleteUserRequest {
+  optional uint32 operator_id = 1 [
+    (gnostic.openapi.v3.property) = {description: "操作用户ID", read_only: true},
+    json_name = "operatorId"
+  ]; // 操作用户ID
+
+  uint32 id = 2;
+}
+
+// 验证密码 - 请求
+message VerifyPasswordRequest {
+  string user_name = 1 [
+    (gnostic.openapi.v3.property) = {description: "用户登录名", read_only: true},
+    json_name = "userName"
+  ]; // 用户登录名
+
+  string password = 2 [
+    (gnostic.openapi.v3.property) = {description: "用户登录密码", read_only: true},
+    json_name = "password"
+  ]; // 用户登录密码
+}
+// 验证密码 - 答复
+message VerifyPasswordResponse {
+  VerifyPasswordResult result = 1;
+}
+
+// 用户是否存在 - 请求
+message UserExistsRequest {
+  string user_name = 1 [
+    (gnostic.openapi.v3.property) = {description: "用户登录名", read_only: true},
+    json_name = "userName"
+  ]; // 用户登录名
+}
+// 用户是否存在 - 答复
+message UserExistsResponse {
+  bool exist = 1;
+}

@@ -1,0 +1,50 @@
+syntax = "proto3";
+
+package admin.service.v1;
+
+import "gnostic/openapi/v3/annotations.proto";
+import "google/api/annotations.proto";
+import "google/protobuf/empty.proto";
+
+import "pagination/v1/pagination.proto";
+import "system/service/v1/menu.proto";
+
+// 后台菜单管理服务
+service MenuService {
+  // 查询菜单列表
+  rpc ListMenu (pagination.PagingRequest) returns (system.service.v1.ListMenuResponse) {
+    option (google.api.http) = {
+      get: "/admin/v1/menus"
+    };
+  }
+
+  // 查询菜单详情
+  rpc GetMenu (system.service.v1.GetMenuRequest) returns (system.service.v1.Menu) {
+    option (google.api.http) = {
+      get: "/admin/v1/menus/{id}"
+    };
+  }
+
+  // 创建菜单
+  rpc CreateMenu (system.service.v1.CreateMenuRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      post: "/admin/v1/menus"
+      body: "*"
+    };
+  }
+
+  // 更新菜单
+  rpc UpdateMenu (system.service.v1.UpdateMenuRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      put: "/admin/v1/menus/{menu.id}"
+      body: "*"
+    };
+  }
+
+  // 删除菜单
+  rpc DeleteMenu (system.service.v1.DeleteMenuRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      delete: "/admin/v1/menus/{id}"
+    };
+  }
+}

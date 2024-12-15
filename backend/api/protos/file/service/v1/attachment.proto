@@ -1,0 +1,77 @@
+syntax = "proto3";
+
+package file.service.v1;
+
+import "gnostic/openapi/v3/annotations.proto";
+
+import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
+
+import "pagination/v1/pagination.proto";
+
+// 附件服务
+service AttachmentService {
+  // 获取附件列表
+  rpc ListAttachment (pagination.PagingRequest) returns (ListAttachmentResponse) {}
+
+  // 获取附件数据
+  rpc GetAttachment (GetAttachmentRequest) returns (Attachment) {}
+
+  // 创建附件
+  rpc CreateAttachment (CreateAttachmentRequest) returns (google.protobuf.Empty) {}
+
+  // 更新附件
+  rpc UpdateAttachment (UpdateAttachmentRequest) returns (google.protobuf.Empty) {}
+
+  // 删除附件
+  rpc DeleteAttachment (DeleteAttachmentRequest) returns (google.protobuf.Empty) {}
+}
+
+// 附件
+message Attachment {
+  uint32 id = 1;
+  optional string name = 2;
+  optional string path = 3;
+  optional string fileKey = 4;
+  optional string thumbPath = 5;
+  optional string mediaType = 6;
+  optional string suffix = 7;
+  optional int32 width = 8;
+  optional int32 height = 9;
+  optional uint64 size = 10;
+  optional int32 type = 11;
+
+  optional google.protobuf.Timestamp create_time = 200 [json_name = "createTime", (gnostic.openapi.v3.property) = {description: "创建时间"}];// 创建时间
+  optional google.protobuf.Timestamp update_time = 201 [json_name = "updateTime", (gnostic.openapi.v3.property) = {description: "更新时间"}];// 更新时间
+  optional google.protobuf.Timestamp delete_time = 202 [json_name = "deleteTime", (gnostic.openapi.v3.property) = {description: "删除时间"}];// 删除时间
+}
+
+// 附件列表 - 回应
+message ListAttachmentResponse {
+  repeated Attachment items = 1;
+  int32 total = 2;
+}
+
+// 附件数据 - 请求
+message GetAttachmentRequest {
+  uint32 id = 1;
+}
+
+// 创建附件 - 请求
+message CreateAttachmentRequest {
+  Attachment attachment = 1;
+  optional uint32 operatorId = 2;
+}
+
+// 更新附件 - 请求
+message UpdateAttachmentRequest {
+  uint32 id = 1;
+  Attachment attachment = 2;
+  optional uint32 operatorId = 3;
+}
+
+// 删除附件 - 请求
+message DeleteAttachmentRequest {
+  uint32 id = 1;
+  optional uint32 operatorId = 2;
+}

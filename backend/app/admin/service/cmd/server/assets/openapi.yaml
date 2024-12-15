@@ -1,0 +1,1562 @@
+# Generated with protoc-gen-openapi
+# https://github.com/google/gnostic/tree/master/cmd/protoc-gen-openapi
+
+openapi: 3.0.3
+info:
+    title: Kratos Admin API
+    description: Kratos Admin API
+    contact:
+        name: tx7do
+        url: https://github.com/tx7do/kratos-admin
+        email: yanglinbo@gmail.com
+    license:
+        name: MIT License
+        url: https://github.com/tx7do/kratos-admin/blob/master/LICENSE
+    version: "1.0"
+paths:
+    /admin/v1/login:
+        post:
+            tags:
+                - AuthenticationService
+            description: 登录
+            operationId: AuthenticationService_Login
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/LoginRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/LoginResponse'
+            security:
+                - {}
+    /admin/v1/logout:
+        post:
+            tags:
+                - AuthenticationService
+            description: 登出
+            operationId: AuthenticationService_Logout
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/LogoutRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content: {}
+    /admin/v1/me:
+        get:
+            tags:
+                - AuthenticationService
+            description: 后台获取已经登录的用户的数据
+            operationId: AuthenticationService_GetMe
+            parameters:
+                - name: id
+                  in: query
+                  schema:
+                    type: integer
+                    format: uint32
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/User'
+    /admin/v1/menus:
+        get:
+            tags:
+                - MenuService
+            description: 查询菜单列表
+            operationId: MenuService_ListMenu
+            parameters:
+                - name: page
+                  in: query
+                  description: 当前页码
+                  schema:
+                    type: integer
+                    format: int32
+                - name: pageSize
+                  in: query
+                  description: 每一页的行数
+                  schema:
+                    type: integer
+                    format: int32
+                - name: query
+                  in: query
+                  description: AND过滤参数，其语法为json格式的字符串，如：{"key1":"val1","key2":"val2"}，具体请参见：https://github.com/tx7do/go-utils/tree/main/entgo/query/README.md
+                  schema:
+                    type: string
+                - name: or
+                  in: query
+                  description: OR过滤参数，语法同AND过滤参数。
+                  schema:
+                    type: string
+                - name: orderBy
+                  in: query
+                  description: 排序条件，其语法为JSON字符串，例如：{"val1", "-val2"}。字段名前加'-'为降序，否则为升序。
+                  schema:
+                    type: array
+                    items:
+                        type: string
+                - name: noPaging
+                  in: query
+                  description: 是否不分页，如果为true，则page和pageSize参数无效。
+                  schema:
+                    type: boolean
+                - name: fieldMask
+                  in: query
+                  description: 字段掩码，其作用为SELECT中的字段，其语法为使用逗号分隔字段名，例如：id,realName,userName。如果为空则选中所有字段，即SELECT *。
+                  schema:
+                    type: string
+                    format: field-mask
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ListMenuResponse'
+        post:
+            tags:
+                - MenuService
+            description: 创建菜单
+            operationId: MenuService_CreateMenu
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/CreateMenuRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content: {}
+    /admin/v1/menus/{id}:
+        get:
+            tags:
+                - MenuService
+            description: 查询菜单详情
+            operationId: MenuService_GetMenu
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: int32
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Menu'
+        delete:
+            tags:
+                - MenuService
+            description: 删除菜单
+            operationId: MenuService_DeleteMenu
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: int32
+                - name: operatorId
+                  in: query
+                  schema:
+                    type: integer
+                    format: uint32
+            responses:
+                "200":
+                    description: OK
+                    content: {}
+    /admin/v1/menus/{menu.id}:
+        put:
+            tags:
+                - MenuService
+            description: 更新菜单
+            operationId: MenuService_UpdateMenu
+            parameters:
+                - name: menu.id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/UpdateMenuRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content: {}
+    /admin/v1/orgs:
+        get:
+            tags:
+                - OrganizationService
+            description: 查询部门列表
+            operationId: OrganizationService_ListOrganization
+            parameters:
+                - name: page
+                  in: query
+                  description: 当前页码
+                  schema:
+                    type: integer
+                    format: int32
+                - name: pageSize
+                  in: query
+                  description: 每一页的行数
+                  schema:
+                    type: integer
+                    format: int32
+                - name: query
+                  in: query
+                  description: AND过滤参数，其语法为json格式的字符串，如：{"key1":"val1","key2":"val2"}，具体请参见：https://github.com/tx7do/go-utils/tree/main/entgo/query/README.md
+                  schema:
+                    type: string
+                - name: or
+                  in: query
+                  description: OR过滤参数，语法同AND过滤参数。
+                  schema:
+                    type: string
+                - name: orderBy
+                  in: query
+                  description: 排序条件，其语法为JSON字符串，例如：{"val1", "-val2"}。字段名前加'-'为降序，否则为升序。
+                  schema:
+                    type: array
+                    items:
+                        type: string
+                - name: noPaging
+                  in: query
+                  description: 是否不分页，如果为true，则page和pageSize参数无效。
+                  schema:
+                    type: boolean
+                - name: fieldMask
+                  in: query
+                  description: 字段掩码，其作用为SELECT中的字段，其语法为使用逗号分隔字段名，例如：id,realName,userName。如果为空则选中所有字段，即SELECT *。
+                  schema:
+                    type: string
+                    format: field-mask
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ListOrganizationResponse'
+        post:
+            tags:
+                - OrganizationService
+            description: 创建部门
+            operationId: OrganizationService_CreateOrganization
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/CreateOrganizationRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content: {}
+    /admin/v1/orgs/{id}:
+        get:
+            tags:
+                - OrganizationService
+            description: 查询部门详情
+            operationId: OrganizationService_GetOrganization
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: uint32
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Organization'
+        delete:
+            tags:
+                - OrganizationService
+            description: 删除部门
+            operationId: OrganizationService_DeleteOrganization
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: uint32
+                - name: operatorId
+                  in: query
+                  schema:
+                    type: integer
+                    format: uint32
+            responses:
+                "200":
+                    description: OK
+                    content: {}
+    /admin/v1/orgs/{org.id}:
+        put:
+            tags:
+                - OrganizationService
+            description: 更新部门
+            operationId: OrganizationService_UpdateOrganization
+            parameters:
+                - name: org.id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/UpdateOrganizationRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content: {}
+    /admin/v1/perm-codes:
+        get:
+            tags:
+                - RouterService
+            description: 查询权限码列表
+            operationId: RouterService_ListPermissionCode
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ListPermissionCodeResponse'
+    /admin/v1/positions:
+        get:
+            tags:
+                - PositionService
+            description: 查询职位列表
+            operationId: PositionService_ListPosition
+            parameters:
+                - name: page
+                  in: query
+                  description: 当前页码
+                  schema:
+                    type: integer
+                    format: int32
+                - name: pageSize
+                  in: query
+                  description: 每一页的行数
+                  schema:
+                    type: integer
+                    format: int32
+                - name: query
+                  in: query
+                  description: AND过滤参数，其语法为json格式的字符串，如：{"key1":"val1","key2":"val2"}，具体请参见：https://github.com/tx7do/go-utils/tree/main/entgo/query/README.md
+                  schema:
+                    type: string
+                - name: or
+                  in: query
+                  description: OR过滤参数，语法同AND过滤参数。
+                  schema:
+                    type: string
+                - name: orderBy
+                  in: query
+                  description: 排序条件，其语法为JSON字符串，例如：{"val1", "-val2"}。字段名前加'-'为降序，否则为升序。
+                  schema:
+                    type: array
+                    items:
+                        type: string
+                - name: noPaging
+                  in: query
+                  description: 是否不分页，如果为true，则page和pageSize参数无效。
+                  schema:
+                    type: boolean
+                - name: fieldMask
+                  in: query
+                  description: 字段掩码，其作用为SELECT中的字段，其语法为使用逗号分隔字段名，例如：id,realName,userName。如果为空则选中所有字段，即SELECT *。
+                  schema:
+                    type: string
+                    format: field-mask
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ListPositionResponse'
+        post:
+            tags:
+                - PositionService
+            description: 创建职位
+            operationId: PositionService_CreatePosition
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/CreatePositionRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content: {}
+    /admin/v1/positions/{id}:
+        get:
+            tags:
+                - PositionService
+            description: 查询职位详情
+            operationId: PositionService_GetPosition
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: uint32
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Position'
+        delete:
+            tags:
+                - PositionService
+            description: 删除职位
+            operationId: PositionService_DeletePosition
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: uint32
+                - name: operatorId
+                  in: query
+                  schema:
+                    type: integer
+                    format: uint32
+            responses:
+                "200":
+                    description: OK
+                    content: {}
+    /admin/v1/positions/{position.id}:
+        put:
+            tags:
+                - PositionService
+            description: 更新职位
+            operationId: PositionService_UpdatePosition
+            parameters:
+                - name: position.id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/UpdatePositionRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content: {}
+    /admin/v1/refresh_token:
+        post:
+            tags:
+                - AuthenticationService
+            description: 刷新认证令牌
+            operationId: AuthenticationService_RefreshToken
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/RefreshTokenRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/LoginResponse'
+    /admin/v1/roles:
+        get:
+            tags:
+                - RoleService
+            description: 查询角色列表
+            operationId: RoleService_ListRole
+            parameters:
+                - name: page
+                  in: query
+                  description: 当前页码
+                  schema:
+                    type: integer
+                    format: int32
+                - name: pageSize
+                  in: query
+                  description: 每一页的行数
+                  schema:
+                    type: integer
+                    format: int32
+                - name: query
+                  in: query
+                  description: AND过滤参数，其语法为json格式的字符串，如：{"key1":"val1","key2":"val2"}，具体请参见：https://github.com/tx7do/go-utils/tree/main/entgo/query/README.md
+                  schema:
+                    type: string
+                - name: or
+                  in: query
+                  description: OR过滤参数，语法同AND过滤参数。
+                  schema:
+                    type: string
+                - name: orderBy
+                  in: query
+                  description: 排序条件，其语法为JSON字符串，例如：{"val1", "-val2"}。字段名前加'-'为降序，否则为升序。
+                  schema:
+                    type: array
+                    items:
+                        type: string
+                - name: noPaging
+                  in: query
+                  description: 是否不分页，如果为true，则page和pageSize参数无效。
+                  schema:
+                    type: boolean
+                - name: fieldMask
+                  in: query
+                  description: 字段掩码，其作用为SELECT中的字段，其语法为使用逗号分隔字段名，例如：id,realName,userName。如果为空则选中所有字段，即SELECT *。
+                  schema:
+                    type: string
+                    format: field-mask
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ListRoleResponse'
+        post:
+            tags:
+                - RoleService
+            description: 创建角色
+            operationId: RoleService_CreateRole
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/CreateRoleRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content: {}
+    /admin/v1/roles/{id}:
+        get:
+            tags:
+                - RoleService
+            description: 查询角色详情
+            operationId: RoleService_GetRole
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: uint32
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Role'
+        delete:
+            tags:
+                - RoleService
+            description: 删除角色
+            operationId: RoleService_DeleteRole
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: uint32
+                - name: operatorId
+                  in: query
+                  schema:
+                    type: integer
+                    format: uint32
+            responses:
+                "200":
+                    description: OK
+                    content: {}
+    /admin/v1/roles/{role.id}:
+        put:
+            tags:
+                - RoleService
+            description: 更新角色
+            operationId: RoleService_UpdateRole
+            parameters:
+                - name: role.id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/UpdateRoleRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content: {}
+    /admin/v1/routes:
+        get:
+            tags:
+                - RouterService
+            description: 查询路由列表
+            operationId: RouterService_ListRoute
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ListRouteResponse'
+    /admin/v1/users:
+        get:
+            tags:
+                - UserService
+            description: 获取用户列表
+            operationId: UserService_ListUser
+            parameters:
+                - name: page
+                  in: query
+                  description: 当前页码
+                  schema:
+                    type: integer
+                    format: int32
+                - name: pageSize
+                  in: query
+                  description: 每一页的行数
+                  schema:
+                    type: integer
+                    format: int32
+                - name: query
+                  in: query
+                  description: AND过滤参数，其语法为json格式的字符串，如：{"key1":"val1","key2":"val2"}，具体请参见：https://github.com/tx7do/go-utils/tree/main/entgo/query/README.md
+                  schema:
+                    type: string
+                - name: or
+                  in: query
+                  description: OR过滤参数，语法同AND过滤参数。
+                  schema:
+                    type: string
+                - name: orderBy
+                  in: query
+                  description: 排序条件，其语法为JSON字符串，例如：{"val1", "-val2"}。字段名前加'-'为降序，否则为升序。
+                  schema:
+                    type: array
+                    items:
+                        type: string
+                - name: noPaging
+                  in: query
+                  description: 是否不分页，如果为true，则page和pageSize参数无效。
+                  schema:
+                    type: boolean
+                - name: fieldMask
+                  in: query
+                  description: 字段掩码，其作用为SELECT中的字段，其语法为使用逗号分隔字段名，例如：id,realName,userName。如果为空则选中所有字段，即SELECT *。
+                  schema:
+                    type: string
+                    format: field-mask
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ListUserResponse'
+        post:
+            tags:
+                - UserService
+            description: 创建用户
+            operationId: UserService_CreateUser
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/CreateUserRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content: {}
+    /admin/v1/users/{id}:
+        get:
+            tags:
+                - UserService
+            description: 获取用户数据
+            operationId: UserService_GetUser
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: uint32
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/User'
+        delete:
+            tags:
+                - UserService
+            description: 删除用户
+            operationId: UserService_DeleteUser
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: uint32
+                - name: operatorId
+                  in: query
+                  schema:
+                    type: integer
+                    format: uint32
+            responses:
+                "200":
+                    description: OK
+                    content: {}
+    /admin/v1/users/{user.id}:
+        put:
+            tags:
+                - UserService
+            description: 更新用户
+            operationId: UserService_UpdateUser
+            parameters:
+                - name: user.id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/UpdateUserRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content: {}
+components:
+    schemas:
+        CreateMenuRequest:
+            type: object
+            properties:
+                operatorId:
+                    readOnly: true
+                    type: integer
+                    description: 操作用户ID
+                    format: uint32
+                menu:
+                    $ref: '#/components/schemas/Menu'
+            description: 创建菜单 - 请求
+        CreateOrganizationRequest:
+            type: object
+            properties:
+                operatorId:
+                    readOnly: true
+                    type: integer
+                    description: 操作用户ID
+                    format: uint32
+                org:
+                    $ref: '#/components/schemas/Organization'
+            description: 创建部门 - 请求
+        CreatePositionRequest:
+            type: object
+            properties:
+                operatorId:
+                    readOnly: true
+                    type: integer
+                    description: 操作用户ID
+                    format: uint32
+                position:
+                    $ref: '#/components/schemas/Position'
+            description: 创建职位 - 请求
+        CreateRoleRequest:
+            type: object
+            properties:
+                operatorId:
+                    readOnly: true
+                    type: integer
+                    description: 操作用户ID
+                    format: uint32
+                role:
+                    $ref: '#/components/schemas/Role'
+            description: 创建角色 - 请求
+        CreateUserRequest:
+            type: object
+            properties:
+                operatorId:
+                    readOnly: true
+                    type: integer
+                    description: 操作用户ID
+                    format: uint32
+                user:
+                    $ref: '#/components/schemas/User'
+                password:
+                    readOnly: true
+                    type: string
+                    description: 用户登录密码
+            description: 创建用户 - 请求
+        KratosStatus:
+            type: object
+            properties:
+                code:
+                    type: number
+                    description: 错误码
+                    format: int32
+                message:
+                    type: string
+                    description: 错误消息
+                reason:
+                    type: string
+                    description: 错误原因
+                metadata:
+                    type: object
+                    description: 元数据
+            description: Kratos错误返回
+        ListMenuResponse:
+            type: object
+            properties:
+                items:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Menu'
+                total:
+                    type: integer
+                    format: int32
+            description: 查询菜单列表 - 回应
+        ListOrganizationResponse:
+            type: object
+            properties:
+                items:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Organization'
+                total:
+                    type: integer
+                    format: int32
+            description: 部门列表 - 答复
+        ListPermissionCodeResponse:
+            type: object
+            properties:
+                codes:
+                    type: array
+                    items:
+                        type: string
+            description: 查询权限码列表 - 回应
+        ListPositionResponse:
+            type: object
+            properties:
+                items:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Position'
+                total:
+                    type: integer
+                    format: int32
+            description: 获取职位列表 - 答复
+        ListRoleResponse:
+            type: object
+            properties:
+                items:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Role'
+                total:
+                    type: integer
+                    format: int32
+            description: 角色列表 - 答复
+        ListRouteResponse:
+            type: object
+            properties:
+                items:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/RouteItem'
+            description: 查询路由列表 - 回应
+        ListUserResponse:
+            type: object
+            properties:
+                items:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/User'
+                total:
+                    type: integer
+                    format: int32
+            description: 获取用户列表 - 答复
+        LoginRequest:
+            required:
+                - username
+                - password
+                - grant_type
+            type: object
+            properties:
+                username:
+                    type: string
+                password:
+                    type: string
+                grant_type:
+                    type: string
+                    default: password
+                    description: 授权类型，此处的值固定为"password"，必选项。
+                scope:
+                    type: string
+                client_id:
+                    type: string
+                    description: 应用程序的识别ID
+                client_secret:
+                    type: string
+                    description: 应用程序的密码
+            description: 用户后台登录 - 请求
+        LoginResponse:
+            required:
+                - access_token
+                - refresh_token
+            type: object
+            properties:
+                access_token:
+                    type: string
+                    description: 访问令牌，必选项。授权服务器颁发的访问令牌字符串。
+                refresh_token:
+                    type: string
+                    description: 更新令牌，用来获取下一次的访问令牌，可选项。如果访问令牌将过期，则返回刷新令牌很有用，应用程序可以使用该刷新令牌来获取另一个访问令牌。但是，通过隐式授予颁发的令牌不能颁发刷新令牌。
+                token_type:
+                    type: string
+                    default: Bearer
+                    description: 令牌的类型，该值大小写不敏感，必选项，可以是bearer类型或mac类型，通常只是字符串“Bearer”。
+                expires_in:
+                    type: string
+                    description: 令牌有效时间，单位为秒。如果访问令牌过期，服务器应回复授予访问令牌的持续时间。如果省略该参数，必须其他方式设置过期时间。
+                scope:
+                    type: string
+                    description: 以空格分隔的用户授予范围列表。如果未提供，scope则授权任何范围，默认为空列表。
+            description: 用户后台登录 - 回应
+        LogoutRequest:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: uint32
+            description: 用户后台登出 - 请求
+        Menu:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    description: 菜单ID
+                    format: int32
+                status:
+                    enum:
+                        - OFF
+                        - ON
+                    type: string
+                    default: ON
+                    description: 菜单状态
+                    format: enum
+                type:
+                    enum:
+                        - FOLDER
+                        - MENU
+                        - BUTTON
+                    type: string
+                    default: FOLDER
+                    description: 菜单类型
+                    format: enum
+                path:
+                    type: string
+                    description: 路由路径
+                redirect:
+                    type: string
+                    description: 重定向地址
+                alias:
+                    type: string
+                    description: 路由别名
+                name:
+                    type: string
+                    description: 路由命名，然后我们可以使用 name 而不是 path 来传递 to 属性给 <router-link>。
+                component:
+                    type: string
+                    description: 指向的组件
+                meta:
+                    $ref: '#/components/schemas/RouteMeta'
+                parentId:
+                    type: integer
+                    description: 父节点ID
+                    format: int32
+                children:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Menu'
+                    description: 子节点树
+                createTime:
+                    type: string
+                    description: 创建时间
+                    format: date-time
+                updateTime:
+                    type: string
+                    description: 更新时间
+                    format: date-time
+                deleteTime:
+                    type: string
+                    description: 删除时间
+                    format: date-time
+            description: 菜单
+        Organization:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    description: 部门ID
+                    format: uint32
+                name:
+                    type: string
+                    description: 部门名称
+                orderNo:
+                    type: integer
+                    description: 排序号
+                    format: int32
+                status:
+                    enum:
+                        - ON
+                        - OFF
+                    type: string
+                    default: ON
+                    description: 状态
+                remark:
+                    type: string
+                    description: 备注
+                parentId:
+                    type: integer
+                    description: 父节点ID
+                    format: uint32
+                children:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Organization'
+                    description: 子节点树
+                createTime:
+                    type: string
+                    description: 创建时间
+                    format: date-time
+                updateTime:
+                    type: string
+                    description: 更新时间
+                    format: date-time
+                deleteTime:
+                    type: string
+                    description: 删除时间
+                    format: date-time
+            description: 部门
+        Position:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    description: 职位ID
+                    format: uint32
+                name:
+                    type: string
+                    description: 职位名称
+                orderNo:
+                    type: integer
+                    description: 排序号
+                    format: int32
+                code:
+                    type: string
+                    description: 职位值
+                status:
+                    enum:
+                        - ON
+                        - OFF
+                    type: string
+                    default: ON
+                    description: 状态
+                remark:
+                    type: string
+                    description: 备注
+                parentId:
+                    type: integer
+                    description: 父节点ID
+                    format: uint32
+                children:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Position'
+                    description: 子节点树
+                createTime:
+                    type: string
+                    description: 创建时间
+                    format: date-time
+                updateTime:
+                    type: string
+                    description: 更新时间
+                    format: date-time
+                deleteTime:
+                    type: string
+                    description: 删除时间
+                    format: date-time
+            description: 职位
+        RefreshTokenRequest:
+            required:
+                - refresh_token
+                - grant_type
+            type: object
+            properties:
+                refresh_token:
+                    type: string
+                    description: 更新令牌，用来获取下一次的访问令牌，可选项。如果访问令牌将过期，则返回刷新令牌很有用，应用程序可以使用该刷新令牌来获取另一个访问令牌。但是，通过隐式授予颁发的令牌不能颁发刷新令牌。
+                grant_type:
+                    type: string
+                    default: refresh_token
+                    description: 授权类型，此处的值固定为"refresh_token"，必选项。
+                scope:
+                    type: string
+                    description: 以空格分隔的用户授予范围列表。如果未提供，scope则授权任何范围，默认为空列表。
+                client_id:
+                    type: string
+                    description: 应用程序的识别ID
+                client_secret:
+                    type: string
+                    description: 应用程序的密码
+            description: 用户刷新令牌 - 请求
+        Role:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    description: 角色ID
+                    format: uint32
+                name:
+                    type: string
+                    description: 角色名称
+                orderNo:
+                    type: integer
+                    description: 排序号
+                    format: int32
+                code:
+                    type: string
+                    description: 角色值
+                status:
+                    enum:
+                        - ON
+                        - OFF
+                    type: string
+                    default: ON
+                    description: 状态
+                remark:
+                    type: string
+                    description: 备注
+                parentId:
+                    type: integer
+                    description: 父节点ID
+                    format: uint32
+                children:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Role'
+                    description: 子节点树
+                createTime:
+                    type: string
+                    description: 创建时间
+                    format: date-time
+                updateTime:
+                    type: string
+                    description: 更新时间
+                    format: date-time
+                deleteTime:
+                    type: string
+                    description: 删除时间
+                    format: date-time
+            description: 角色
+        RouteItem:
+            type: object
+            properties:
+                children:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/RouteItem'
+                    description: 子节点树
+                path:
+                    type: string
+                    description: 路由路径
+                redirect:
+                    type: string
+                    description: 重定向地址
+                alias:
+                    type: string
+                    description: 路由别名
+                name:
+                    type: string
+                    description: 路由命名，然后我们可以使用 name 而不是 path 来传递 to 属性给 <router-link>。
+                component:
+                    type: string
+                    description: 指向的组件
+                meta:
+                    $ref: '#/components/schemas/RouteMeta'
+            description: 路由项
+        RouteMeta:
+            type: object
+            properties:
+                activeIcon:
+                    type: string
+                    description: 激活图标，用于：菜单、tab
+                activePath:
+                    type: string
+                    description: 当前激活的菜单，有时候不想激活现有菜单，需要激活父级菜单时使用
+                affixTab:
+                    type: boolean
+                    description: 是否固定标签页
+                affixTabOrder:
+                    type: integer
+                    description: 固定标签页的顺序
+                    format: int32
+                authority:
+                    type: array
+                    items:
+                        type: string
+                    description: 权限列表，需要特定的角色标识才可以访问
+                badge:
+                    type: string
+                    description: 徽标
+                badgeType:
+                    enum:
+                        - dot
+                        - normal
+                    type: string
+                    description: 徽标类型
+                badgeVariants:
+                    enum:
+                        - default
+                        - destructive
+                        - primary
+                        - success
+                        - warning
+                    type: string
+                    description: 徽标颜色
+                hideChildrenInMenu:
+                    type: boolean
+                    description: 当前路由的子级在菜单中不展现
+                hideInBreadcrumb:
+                    type: boolean
+                    description: 当前路由在面包屑中不展现
+                hideInMenu:
+                    type: boolean
+                    description: 当前路由在菜单中不展现
+                hideInTab:
+                    type: boolean
+                    description: 当前路由在标签页不展现
+                icon:
+                    type: string
+                    description: 图标，用于：菜单、标签页
+                iframeSrc:
+                    type: string
+                    description: iframe 地址
+                ignoreAccess:
+                    type: boolean
+                    description: 忽略权限，直接可以访问
+                keepAlive:
+                    type: boolean
+                    description: 开启KeepAlive缓存
+                link:
+                    type: string
+                    description: 外链-跳转路径
+                loaded:
+                    type: boolean
+                    description: 路由是否已经加载过
+                maxNumOfOpenTab:
+                    type: integer
+                    description: 标签页最大打开数量
+                    format: int32
+                menuVisibleWithForbidden:
+                    type: boolean
+                    description: 菜单可以看到，但是访问会被重定向到403
+                openInNewWindow:
+                    type: boolean
+                    description: 在新窗口打开
+                order:
+                    type: integer
+                    description: 排序ID，用于路由->菜单排序
+                    format: int32
+                title:
+                    type: string
+                    description: 标题名称，路由上显示的标题
+            description: 路由元数据
+        UpdateMenuRequest:
+            type: object
+            properties:
+                operatorId:
+                    readOnly: true
+                    type: integer
+                    description: 操作用户ID
+                    format: uint32
+                menu:
+                    $ref: '#/components/schemas/Menu'
+                updateMask:
+                    example: id,realName,userName
+                    type: string
+                    description: 要更新的字段列表
+                    format: field-mask
+                allowMissing:
+                    type: boolean
+                    description: 如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。
+            description: 更新菜单 - 请求
+        UpdateOrganizationRequest:
+            type: object
+            properties:
+                operatorId:
+                    readOnly: true
+                    type: integer
+                    description: 操作用户ID
+                    format: uint32
+                org:
+                    $ref: '#/components/schemas/Organization'
+                updateMask:
+                    example: id,realName,userName
+                    type: string
+                    description: 要更新的字段列表
+                    format: field-mask
+                allowMissing:
+                    type: boolean
+                    description: 如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。
+            description: 更新部门 - 请求
+        UpdatePositionRequest:
+            type: object
+            properties:
+                operatorId:
+                    readOnly: true
+                    type: integer
+                    description: 操作用户ID
+                    format: uint32
+                position:
+                    $ref: '#/components/schemas/Position'
+                updateMask:
+                    example: id,realName,userName
+                    type: string
+                    description: 要更新的字段列表
+                    format: field-mask
+                allowMissing:
+                    type: boolean
+                    description: 如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。
+            description: 更新职位 - 请求
+        UpdateRoleRequest:
+            type: object
+            properties:
+                operatorId:
+                    readOnly: true
+                    type: integer
+                    description: 操作用户ID
+                    format: uint32
+                role:
+                    $ref: '#/components/schemas/Role'
+                updateMask:
+                    example: id,realName,userName
+                    type: string
+                    description: 要更新的字段列表
+                    format: field-mask
+                allowMissing:
+                    type: boolean
+                    description: 如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。
+            description: 更新角色 - 请求
+        UpdateUserRequest:
+            required:
+                - user
+            type: object
+            properties:
+                operatorId:
+                    readOnly: true
+                    type: integer
+                    description: 操作用户ID
+                    format: uint32
+                user:
+                    $ref: '#/components/schemas/User'
+                password:
+                    readOnly: true
+                    type: string
+                    description: 用户登录密码
+                updateMask:
+                    example: id,realName,userName
+                    type: string
+                    description: 要更新的字段列表
+                    format: field-mask
+                allowMissing:
+                    type: boolean
+                    description: 如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。
+            description: 更新用户 - 请求
+        User:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    description: 用户ID
+                    format: uint32
+                roleId:
+                    type: integer
+                    description: 角色ID
+                    format: uint32
+                workId:
+                    type: integer
+                    description: 工号
+                    format: uint32
+                orgId:
+                    type: integer
+                    description: 部门ID
+                    format: uint32
+                positionId:
+                    type: integer
+                    description: 岗位ID
+                    format: uint32
+                creatorId:
+                    type: integer
+                    description: 创建者ID
+                    format: uint32
+                userName:
+                    type: string
+                    description: 登录名
+                nickName:
+                    type: string
+                    description: 昵称
+                realName:
+                    type: string
+                    description: 真实姓名
+                avatar:
+                    type: string
+                    description: 头像
+                email:
+                    type: string
+                    description: 邮箱
+                mobile:
+                    type: string
+                    description: 手机号
+                telephone:
+                    type: string
+                    description: 座机号
+                gender:
+                    enum:
+                        - SECRET
+                        - MALE
+                        - FEMALE
+                    type: string
+                    description: 性别
+                    format: enum
+                address:
+                    type: string
+                    description: 住址
+                region:
+                    type: string
+                    description: 国家地区
+                description:
+                    type: string
+                    description: 个人描述
+                remark:
+                    type: string
+                    description: 备注名
+                lastLoginTime:
+                    type: string
+                    description: 最后登录时间
+                lastLoginIp:
+                    type: string
+                    description: 最后登录IP
+                status:
+                    enum:
+                        - OFF
+                        - ON
+                    type: string
+                    default: ON
+                    description: 用户状态
+                    format: enum
+                authority:
+                    enum:
+                        - SYS_ADMIN
+                        - SYS_MANAGER
+                        - CUSTOMER_USER
+                        - GUEST_USER
+                        - REFRESH_TOKEN
+                    type: string
+                    default: CUSTOMER_USER
+                    description: 权限
+                    format: enum
+                createTime:
+                    type: string
+                    description: 创建时间
+                    format: date-time
+                updateTime:
+                    type: string
+                    description: 更新时间
+                    format: date-time
+                deleteTime:
+                    type: string
+                    description: 删除时间
+                    format: date-time
+            description: 用户
+    responses:
+        default:
+            description: default kratos response
+            content:
+                application/json:
+                    schema:
+                        $ref: '#/components/schemas/KratosStatus'
+    securitySchemes:
+        OAuth2PasswordBearer:
+            type: oauth2
+            flows:
+                password:
+                    tokenUrl: /admin/v1/login
+                    refreshUrl: /admin/v1/refresh_token
+                    scopes: {}
+security:
+    - OAuth2PasswordBearer: []
+tags:
+    - name: AuthenticationService
+      description: 用户后台登录认证服务
+    - name: MenuService
+      description: 后台菜单管理服务
+    - name: OrganizationService
+      description: 组织部门管理服务
+    - name: PositionService
+      description: 职位管理服务
+    - name: RoleService
+      description: 角色管理服务
+    - name: RouterService
+      description: 网站后台动态路由服务
+    - name: UserService
+      description: 用户管理服务

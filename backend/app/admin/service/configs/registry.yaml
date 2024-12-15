@@ -1,0 +1,52 @@
+registry:
+  type: "consul"
+
+  consul:
+    address: "localhost:8500"
+    scheme: "http"
+    heartbeat: false
+    health_check: false
+    health_check_interval: 5
+
+  etcd:
+    endpoints:
+      - "localhost:8500"
+
+  zookeeper:
+    endpoints:
+      - "localhost:8500"
+    timeout: 10s
+
+  nacos:
+    address: "localhost"
+    port: 8848
+    namespace_id: "public"
+    log_level: "../../configs/cache"
+    cache_dir: "../../configs/log"
+    log_dir: "debug"
+    update_thread_num: 20
+    timeout: 10s
+    beat_interval: 5s
+    not_load_cache_at_start: true
+    update_cache_when_empty: true
+
+  kubernetes:
+
+  eureka:
+    endpoints:
+      - "localhost:18761"
+    heartbeat_interval: 10s
+    refresh_interval: 10s
+    path:
+
+  polaris:
+    address:
+    port:
+    instance_count:
+    namespace:
+    service:
+    token:
+
+  servicecomb:
+    endpoints:
+      - "localhost:8500"

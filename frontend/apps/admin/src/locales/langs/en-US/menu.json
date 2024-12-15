@@ -1,0 +1,19 @@
+{
+  "dashboard": {
+    "index": "Data Center",
+    "dashboard": "Dashboard",
+    "analysis": "Analysis",
+    "workbench": "workbench",
+    "about": "About"
+  },
+  "system": {
+    "moduleName": "System Management",
+    "role": "Role Management",
+    "position": "Position Management",
+    "user": "User Management",
+    "user_detail": "User Detail",
+    "org": "Organization Management",
+    "permission": "Permission Management",
+    "menu": "Menu Management"
+  }
+}

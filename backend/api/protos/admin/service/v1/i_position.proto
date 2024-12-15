@@ -1,0 +1,50 @@
+syntax = "proto3";
+
+package admin.service.v1;
+
+import "gnostic/openapi/v3/annotations.proto";
+import "google/api/annotations.proto";
+import "google/protobuf/empty.proto";
+
+import "user/service/v1/position.proto";
+import "pagination/v1/pagination.proto";
+
+// 职位管理服务
+service PositionService {
+  // 查询职位列表
+  rpc ListPosition (pagination.PagingRequest) returns (user.service.v1.ListPositionResponse) {
+    option (google.api.http) = {
+      get: "/admin/v1/positions"
+    };
+  }
+
+  // 查询职位详情
+  rpc GetPosition (user.service.v1.GetPositionRequest) returns (user.service.v1.Position) {
+    option (google.api.http) = {
+      get: "/admin/v1/positions/{id}"
+    };
+  }
+
+  // 创建职位
+  rpc CreatePosition (user.service.v1.CreatePositionRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      post: "/admin/v1/positions"
+      body: "*"
+    };
+  }
+
+  // 更新职位
+  rpc UpdatePosition (user.service.v1.UpdatePositionRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      put: "/admin/v1/positions/{position.id}"
+      body: "*"
+    };
+  }
+
+  // 删除职位
+  rpc DeletePosition (user.service.v1.DeletePositionRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      delete: "/admin/v1/positions/{id}"
+    };
+  }
+}

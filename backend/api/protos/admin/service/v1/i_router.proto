@@ -1,0 +1,36 @@
+syntax = "proto3";
+
+package admin.service.v1;
+
+import "gnostic/openapi/v3/annotations.proto";
+import "google/api/annotations.proto";
+import "google/protobuf/empty.proto";
+
+import "system/service/v1/menu.proto";
+
+// 网站后台动态路由服务
+service RouterService {
+  // 查询路由列表
+  rpc ListRoute (google.protobuf.Empty) returns (ListRouteResponse) {
+    option (google.api.http) = {
+      get: "/admin/v1/routes"
+    };
+  }
+
+  // 查询权限码列表
+  rpc ListPermissionCode (google.protobuf.Empty) returns (ListPermissionCodeResponse) {
+    option (google.api.http) = {
+      get: "/admin/v1/perm-codes"
+    };
+  }
+}
+
+// 查询路由列表 - 回应
+message ListRouteResponse {
+  repeated system.service.v1.RouteItem items = 1;
+}
+
+// 查询权限码列表 - 回应
+message ListPermissionCodeResponse {
+  repeated string codes = 1;
+}

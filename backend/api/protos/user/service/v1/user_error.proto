@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package user.service.v1;
+
+import "errors/errors.proto";
+
+// 信息性回复 ( 100 – 199)
+// 成功回复 ( 200 – 299)
+// 重定向消息 ( 300 – 399)
+// 客户端错误响应 ( 400 – 499)
+// 服务器错误响应 ( 500 – 599)
+
+enum UserErrorReason {
+  option (errors.default_code) = 500;
+
+  NOT_LOGGED_IN = 0 [(errors.code) = 401];// 401
+
+  INVALID_USERID = 14 [(errors.code) = 400];// 用户ID无效
+  INVALID_PASSWORD = 15 [(errors.code) = 400];// 密码无效
+  TOKEN_EXPIRED = 16 [(errors.code) = 400];// token过期
+  INVALID_TOKEN = 17 [(errors.code) = 400];// token无效
+  TOKEN_NOT_EXIST = 18 [(errors.code) = 404];// token不存在
+  USER_NOT_EXIST = 19 [(errors.code) = 404];// 用户不存在
+}

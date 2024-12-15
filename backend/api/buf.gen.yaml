@@ -1,0 +1,53 @@
+# 配置protoc生成规则
+version: v2
+
+clean: true
+
+managed:
+  enabled: true
+
+  disable:
+    - module: buf.build/googleapis/googleapis
+    - module: 'buf.build/envoyproxy/protoc-gen-validate'
+    - module: 'buf.build/kratos/apis'
+    - module: 'buf.build/gnostic/gnostic'
+    - module: 'buf.build/gogo/protobuf'
+    - module: 'buf.build/tx7do/pagination'
+
+  override:
+    - file_option: go_package_prefix
+      value: kratos-admin/api/gen/go
+
+plugins:
+  # 使用go插件生成go代码
+  #- plugin: buf.build/protocolbuffers/go
+  - local: protoc-gen-go
+    out: gen/go
+    opt: paths=source_relative # 使用相对路径
+
+  # 使用go-grpc插件生成gRPC服务代码
+  #- plugin: buf.build/grpc/go
+  - local: protoc-gen-go-grpc
+    out: gen/go
+    opt:
+      - paths=source_relative # 使用相对路径
+
+  # generate rest service code
+  - local: protoc-gen-go-http
+    out: gen/go
+    opt:
+      - paths=source_relative # 使用相对路径
+
+  # generate kratos errors code
+  - local: protoc-gen-go-errors
+    out: gen/go
+    opt:
+      - paths=source_relative # 使用相对路径
+
+  # generate message validator code
+  #- plugin: buf.build/bufbuild/validate-go
+  - local: protoc-gen-validate
+    out: gen/go
+    opt:
+      - paths=source_relative # 使用相对路径
+      - lang=go

@@ -1,0 +1,34 @@
+syntax = "proto3";
+
+package admin.service.v1;
+
+import "errors/errors.proto";
+
+enum AdminErrorReason {
+    option (errors.default_code) = 500;
+
+    NOT_LOGGED_IN = 0 [(errors.code) = 401];// 401
+    ACCESS_FORBIDDEN = 1 [(errors.code) = 403]; // 403
+    RESOURCE_NOT_FOUND = 2 [(errors.code) = 404]; // 404
+    METHOD_NOT_ALLOWED = 3 [(errors.code) = 405]; // 405
+    REQUEST_TIMEOUT = 4 [(errors.code) = 408]; // 408
+    INTERNAL_SERVER_ERROR = 5 [(errors.code) = 500]; // 500
+    NOT_IMPLEMENTED = 6 [(errors.code) = 501]; // 501
+    NETWORK_ERROR = 7 [(errors.code) = 502]; // 502
+    SERVICE_UNAVAILABLE = 8 [(errors.code) = 503]; // 503
+    NETWORK_TIMEOUT = 9 [(errors.code) = 504]; // 504
+    REQUEST_NOT_SUPPORT = 10 [(errors.code) = 505]; // 505
+
+    USER_NOT_FOUND = 11 [(errors.code) = 600];
+    INCORRECT_PASSWORD = 12 [(errors.code) = 599];
+    USER_FREEZE = 13 [(errors.code) = 598];
+
+    INVALID_USERID = 14 [(errors.code) = 400];// 用户ID无效
+    INVALID_PASSWORD = 15 [(errors.code) = 400];// 密码无效
+    TOKEN_EXPIRED = 16 [(errors.code) = 400];// token过期
+    INVALID_TOKEN = 17 [(errors.code) = 400];// token无效
+    TOKEN_NOT_EXIST = 18 [(errors.code) = 404];// token不存在
+    USER_NOT_EXIST = 19 [(errors.code) = 404];// 用户不存在
+
+    BAD_REQUEST = 20 [(errors.code) = 400];// 400
+}

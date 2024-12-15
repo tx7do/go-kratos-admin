@@ -1,0 +1,72 @@
+syntax = "proto3";
+
+package file.service.v1;
+
+import "gnostic/openapi/v3/annotations.proto";
+import "google/api/annotations.proto";
+
+// 文件服务
+service FileService {
+  // 获取对象存储（OSS）上传链接
+  rpc OssUploadUrl (OssUploadUrlRequest) returns (OssUploadUrlResponse) {}
+
+  // 获取对象存储（OSS）下载链接
+  rpc GetDownloadUrl (GetDownloadUrlRequest) returns (GetDownloadUrlResponse) {}
+
+  // 获取文件夹下面的文件列表
+  rpc ListFile (ListFileRequest) returns (ListFileResponse) {}
+
+  // 删除一个文件
+  rpc DeleteFile (DeleteFileRequest) returns (DeleteFileResponse) {}
+}
+
+// 前端上传文件所用的HTTP方法
+enum UploadMethod {
+  Put = 0;
+  Post = 1;
+}
+
+// 获取对象存储上传链接 - 请求
+message OssUploadUrlRequest {
+  UploadMethod method = 1 [(gnostic.openapi.v3.property) = { description: "上传文件所用的HTTP方法，支持POST和PUT" }];  // 上传文件所用的HTTP方法
+  optional string contentType = 2 [(gnostic.openapi.v3.property) = { description: "文件的MIME类型" }];  // 文件的MIME类型
+  optional string bucketName = 3 [(gnostic.openapi.v3.property) = { description: "文件桶名称，如果不填写，将会根据文件名或者MIME类型进行自动解析" }]; // 文件桶名称，如果不填写，将会根据文件名或者MIME类型进行自动解析。
+  optional string filePath = 4 [(gnostic.openapi.v3.property) = { description: "远端的文件路径，可以不填写" }]; // 远端的文件路径，可以不填写。
+  optional string fileName = 5 [(gnostic.openapi.v3.property) = { description: "文件名，如果不填写，则会生成UUID，有同名文件也会改为UUID" }]; // 文件名，如果不填写，则会生成UUID，有同名文件也会改为UUID。
+}
+
+// 获取对象存储上传链接 - 回应
+message OssUploadUrlResponse {
+  string uploadUrl = 1 [(gnostic.openapi.v3.property) = { description: "文件的上传链接，默认1个小时的过期时间" }]; // 文件的上传链接，默认1个小时的过期时间。
+  string downloadUrl = 2 [(gnostic.openapi.v3.property) = { description: "文件的下载链接" }]; // 文件的下载链接
+  optional string bucketName = 3 [(gnostic.openapi.v3.property) = { description: "文件桶名称" }]; // 文件桶名称
+  string objectName = 4 [(gnostic.openapi.v3.property) = { description: "文件名" }];  // 文件名
+  map<string, string> formData = 5 [(gnostic.openapi.v3.property) = { description: "表单数据，使用POST方法时填写" }];
+}
+
+message GetDownloadUrlRequest {
+
+}
+
+message GetDownloadUrlResponse {
+  
+}
+
+message ListFileRequest {
+  optional string bucket = 1 [(gnostic.openapi.v3.property) = { description: "文件桶名称" }]; // 文件桶名称
+  optional string folder = 2 [(gnostic.openapi.v3.property) = { description: "文件夹名称" }]; // 文件夹名称
+  optional bool recursive = 3 [(gnostic.openapi.v3.property) = { description: "是否递归文件夹" }]; // 是否递归文件夹
+}
+
+message ListFileResponse {
+  repeated string files = 1 [(gnostic.openapi.v3.property) = { description: "文件列表" }];
+}
+
+message DeleteFileRequest {
+  optional string bucket = 1 [(gnostic.openapi.v3.property) = { description: "文件桶名称" }]; // 文件桶名称
+  optional string object = 2 [(gnostic.openapi.v3.property) = { description: "文件名" }]; // 文件名
+}
+
+message DeleteFileResponse {
+
+}

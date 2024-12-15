@@ -1,0 +1,50 @@
+syntax = "proto3";
+
+package admin.service.v1;
+
+import "gnostic/openapi/v3/annotations.proto";
+import "google/api/annotations.proto";
+import "google/protobuf/empty.proto";
+
+import "user/service/v1/organization.proto";
+import "pagination/v1/pagination.proto";
+
+// 组织部门管理服务
+service OrganizationService {
+  // 查询部门列表
+  rpc ListOrganization (pagination.PagingRequest) returns (user.service.v1.ListOrganizationResponse) {
+    option (google.api.http) = {
+      get: "/admin/v1/orgs"
+    };
+  }
+
+  // 查询部门详情
+  rpc GetOrganization (user.service.v1.GetOrganizationRequest) returns (user.service.v1.Organization) {
+    option (google.api.http) = {
+      get: "/admin/v1/orgs/{id}"
+    };
+  }
+
+  // 创建部门
+  rpc CreateOrganization (user.service.v1.CreateOrganizationRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      post: "/admin/v1/orgs"
+      body: "*"
+    };
+  }
+
+  // 更新部门
+  rpc UpdateOrganization (user.service.v1.UpdateOrganizationRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      put: "/admin/v1/orgs/{org.id}"
+      body: "*"
+    };
+  }
+
+  // 删除部门
+  rpc DeleteOrganization (user.service.v1.DeleteOrganizationRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      delete: "/admin/v1/orgs/{id}"
+    };
+  }
+}

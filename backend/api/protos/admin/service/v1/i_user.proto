@@ -1,0 +1,50 @@
+syntax = "proto3";
+
+package admin.service.v1;
+
+import "gnostic/openapi/v3/annotations.proto";
+import "google/api/annotations.proto";
+import "google/protobuf/empty.proto";
+
+import "user/service/v1/user.proto";
+import "pagination/v1/pagination.proto";
+
+// 用户管理服务
+service UserService {
+  // 获取用户列表
+  rpc ListUser (pagination.PagingRequest) returns (user.service.v1.ListUserResponse) {
+    option (google.api.http) = {
+      get: "/admin/v1/users"
+    };
+  }
+
+  // 获取用户数据
+  rpc GetUser (user.service.v1.GetUserRequest) returns (user.service.v1.User) {
+    option (google.api.http) = {
+      get: "/admin/v1/users/{id}"
+    };
+  }
+
+  // 创建用户
+  rpc CreateUser (user.service.v1.CreateUserRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      post: "/admin/v1/users"
+      body: "*"
+    };
+  }
+
+  // 更新用户
+  rpc UpdateUser (user.service.v1.UpdateUserRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      put: "/admin/v1/users/{user.id}"
+      body: "*"
+    };
+  }
+
+  // 删除用户
+  rpc DeleteUser (user.service.v1.DeleteUserRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      delete: "/admin/v1/users/{id}"
+    };
+  }
+}

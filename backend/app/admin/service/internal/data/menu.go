@@ -219,7 +219,8 @@ func (r *MenuRepo) Create(ctx context.Context, req *systemV1.CreateMenuRequest) 
 		SetNillableAlias(req.Menu.Alias).
 		SetNillableName(req.Menu.Name).
 		SetNillableComponent(req.Menu.Component).
-		SetNillableStatus(r.convertUserStatusToEnt(req.Menu.Status))
+		SetNillableStatus(r.convertUserStatusToEnt(req.Menu.Status)).
+		SetNillableCreateBy(req.OperatorId)
 
 	if req.Menu.CreateTime == nil {
 		builder.SetCreateTime(time.Now())

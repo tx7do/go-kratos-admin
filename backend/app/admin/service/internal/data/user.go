@@ -234,7 +234,6 @@ func (r *UserRepo) Create(ctx context.Context, req *userV1.CreateUserRequest) er
 		SetNillableRemark(req.User.Remark).
 		SetNillableLastLoginTime(req.User.LastLoginTime).
 		SetNillableLastLoginIP(req.User.LastLoginIp).
-		SetCreateBy(req.GetOperatorId()).
 		SetNillableStatus(r.convertUserStatusToEnt(req.User.Status)).
 		SetNillableGender(r.convertUserGenderToEnt(req.User.Gender)).
 		SetNillableAuthority(r.convertUserAuthorityToEnt(req.User.Authority)).
@@ -242,7 +241,8 @@ func (r *UserRepo) Create(ctx context.Context, req *userV1.CreateUserRequest) er
 		SetNillableOrgID(req.User.OrgId).
 		SetNillableRoleID(req.User.RoleId).
 		SetNillableWorkID(req.User.WorkId).
-		SetNillablePositionID(req.User.PositionId)
+		SetNillablePositionID(req.User.PositionId).
+		SetNillableCreateBy(req.OperatorId)
 
 	if req.User.CreateTime == nil {
 		builder.SetCreateTime(time.Now())
@@ -297,7 +297,6 @@ func (r *UserRepo) Update(ctx context.Context, req *userV1.UpdateUserRequest) er
 		SetNillableRemark(req.User.Remark).
 		SetNillableLastLoginTime(req.User.LastLoginTime).
 		SetNillableLastLoginIP(req.User.LastLoginIp).
-		SetCreateBy(req.GetOperatorId()).
 		SetNillableStatus(r.convertUserStatusToEnt(req.User.Status)).
 		SetNillableGender(r.convertUserGenderToEnt(req.User.Gender)).
 		SetNillableAuthority(r.convertUserAuthorityToEnt(req.User.Authority)).

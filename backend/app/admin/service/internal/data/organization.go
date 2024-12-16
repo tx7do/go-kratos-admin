@@ -179,7 +179,7 @@ func (r *OrganizationRepo) Create(ctx context.Context, req *userV1.CreateOrganiz
 		SetNillableOrderNo(req.Org.OrderNo).
 		SetNillableRemark(req.Org.Remark).
 		SetNillableStatus((*organization.Status)(req.Org.Status)).
-		SetCreateBy(req.GetOperatorId())
+		SetNillableCreateBy(req.OperatorId)
 
 	if req.Org.CreateTime == nil {
 		builder.SetCreateTime(time.Now())

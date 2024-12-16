@@ -133,7 +133,7 @@ func (r *RoleRepo) Create(ctx context.Context, req *userV1.CreateRoleRequest) er
 		SetNillableCode(req.Role.Code).
 		SetNillableStatus((*role.Status)(req.Role.Status)).
 		SetNillableRemark(req.Role.Remark).
-		SetCreateBy(req.GetOperatorId())
+		SetNillableCreateBy(req.OperatorId)
 
 	if req.Role.CreateTime == nil {
 		builder.SetCreateTime(time.Now())

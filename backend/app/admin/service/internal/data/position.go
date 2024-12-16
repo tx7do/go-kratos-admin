@@ -133,7 +133,7 @@ func (r *PositionRepo) Create(ctx context.Context, req *userV1.CreatePositionReq
 		SetNillableCode(req.Position.Code).
 		SetNillableStatus((*position.Status)(req.Position.Status)).
 		SetNillableRemark(req.Position.Remark).
-		SetCreateBy(req.GetOperatorId())
+		SetNillableCreateBy(req.OperatorId)
 
 	if req.Position.CreateTime == nil {
 		builder.SetCreateTime(time.Now())

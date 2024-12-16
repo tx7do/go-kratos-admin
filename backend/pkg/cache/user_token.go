@@ -129,6 +129,7 @@ func (r *UserToken) IsExistAccessToken(ctx context.Context, userId uint32) bool 
 	key := r.makeAccessTokenKey(userId)
 	n, err := r.rdb.Exists(ctx, key).Result()
 	if err != nil {
+		r.log.Errorf("check redis user access token failed: %s", err.Error())
 		return false
 	}
 	return n > 0
@@ -139,6 +140,7 @@ func (r *UserToken) IsExistRefreshToken(ctx context.Context, userId uint32) bool
 	key := r.makeRefreshTokenKey(userId)
 	n, err := r.rdb.Exists(ctx, key).Result()
 	if err != nil {
+		r.log.Errorf("check redis user refresh token failed: %s", err.Error())
 		return false
 	}
 	return n > 0

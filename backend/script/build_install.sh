@@ -1,21 +1,65 @@
 #!/usr/bin/env bash
 
 cd ..
+
+# 编译服务
 make build
 
-mkdir -p ~/app/kratos_admin
+project_name=kratos_admin
+install_root=~/app/$project_name
+project_root=$(cd $(dirname $0);pwd)
+app_root=$project_root/app
 
-mkdir -p ~/app/kratos_admin/admin/service/bin/
+function list_dir() {
+#    echo $1
+    for file in $1/*
+    do
+    if test -d $file
+    then
+#        echo $file
+        arr=(${arr[*]} $file)
+    fi
+    done
+}
 
-mkdir -p ~/app/kratos_admin/admin/service/configs/
+list_dir $app_root
+#echo ${arr[@]}
 
-mv -f ./app/admin/service/bin/server ~/app/kratos_admin/admin/service/bin/server
+# 创建安装文件夹
+mkdir -p $install_root
 
-cp -rf ./app/admin/service/configs/*.yaml ~/app/kratos_admin/admin/service/configs/
+for v in ${arr[@]}
+do
+		app=${v##*$app_root/}
+		echo $app service installing...
 
-cd ~/app/kratos_admin/admin/service/bin/
-pm2 start --namespace kratos_admin --name admin server -- -conf ../configs/
+		app_install_root=$install_root/$app/
+		echo $app_install_root
+
+    # 创建二进制存放路径
+    mkdir -p $app_install_root/service/bin/
+    # 创建配置存放路径
+    mkdir -p $app_install_root/service/configs/
+
+    # 安装二进制程序
+    mv -f $app_root/$app/service/bin/server $app_install_root/service/bin/server
+    # 拷贝配置文件
+    cp -rf $app_root/$app/service/configs/*.yaml $app_install_root/service/configs/
+done
+
+# 加入PM2监控运行
+for v in ${arr[@]}
+do
+		app=${v##*$app_root/}
+		echo $app service starting...
+
+    app_install_root=$install_root/$app/
+    echo $app_install_root
+
+    # 加入PM2监控运行
+    cd $app_install_root/service/bin/
+    pm2 start --namespace $project_name --name $app server -- -conf ../configs/
+done
 
 pm2 save
-
-pm2 restart kratos_admin
+pm2 restart $project_name

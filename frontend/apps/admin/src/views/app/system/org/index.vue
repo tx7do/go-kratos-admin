@@ -61,6 +61,7 @@ const gridOptions: VxeGridProps<User> = {
   treeConfig: {
     childrenField: 'children',
     rowField: 'id',
+    transform: true,
   },
 
   proxyConfig: {

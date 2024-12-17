@@ -5,7 +5,7 @@ import { $t } from '#/locales';
 
 const system: RouteRecordRaw[] = [
   {
-    path: '/system',
+    path: '/',
     name: 'System',
     component: BasicLayout,
     meta: {

@@ -146,6 +146,24 @@ func (r *UserToken) IsExistRefreshToken(ctx context.Context, userId uint32) bool
 	return n > 0
 }
 
+// MakeAuthClaims 构建认证声明
+func (r *UserToken) MakeAuthClaims(userName string, userId uint32) *authn.AuthClaims {
+	return &authn.AuthClaims{
+		Subject:  strconv.FormatUint(uint64(userId), 10),
+		Audience: userName,
+		Scopes:   make(authn.ScopeSet),
+	}
+}
+
+// ExtractAuthClaims 解析认证声明
+func (r *UserToken) ExtractAuthClaims(claims *authn.AuthClaims) (string, uint32, error) {
+	userId, err := strconv.ParseUint(claims.Subject, 10, 32)
+	if err != nil {
+		return "", 0, err
+	}
+	return claims.Audience, uint32(userId), nil
+}
+
 // setAccessTokenToRedis 设置访问令牌
 func (r *UserToken) setAccessTokenToRedis(ctx context.Context, userId uint32, token string, expires int32) error {
 	key := r.makeAccessTokenKey(userId)
@@ -197,13 +215,8 @@ func (r *UserToken) deleteRefreshTokenFromRedis(ctx context.Context, userId uint
 }
 
 // createAccessJwtToken 生成JWT访问令牌
-func (r *UserToken) createAccessJwtToken(_ string, userId uint32) string {
-	principal := authn.AuthClaims{
-		Subject: strconv.FormatUint(uint64(userId), 10),
-		Scopes:  make(authn.ScopeSet),
-	}
-
-	signedToken, err := r.authenticator.CreateIdentity(principal)
+func (r *UserToken) createAccessJwtToken(userName string, userId uint32) string {
+	signedToken, err := r.authenticator.CreateIdentity(*r.MakeAuthClaims(userName, userId))
 	if err != nil {
 		r.log.Error("create access token failed: [%v]", err)
 	}

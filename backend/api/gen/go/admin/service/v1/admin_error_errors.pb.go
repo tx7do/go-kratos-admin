@@ -11,49 +11,7 @@ import (
 // is compatible with the kratos package it is being compiled against.
 const _ = errors.SupportPackageIsVersion1
 
-// 401
-func IsNotLoggedIn(err error) bool {
-	if err == nil {
-		return false
-	}
-	e := errors.FromError(err)
-	return e.Reason == AdminErrorReason_NOT_LOGGED_IN.String() && e.Code == 401
-}
-
-// 401
-func ErrorNotLoggedIn(format string, args ...interface{}) *errors.Error {
-	return errors.New(401, AdminErrorReason_NOT_LOGGED_IN.String(), fmt.Sprintf(format, args...))
-}
-
-// 403
-func IsAccessForbidden(err error) bool {
-	if err == nil {
-		return false
-	}
-	e := errors.FromError(err)
-	return e.Reason == AdminErrorReason_ACCESS_FORBIDDEN.String() && e.Code == 403
-}
-
-// 403
-func ErrorAccessForbidden(format string, args ...interface{}) *errors.Error {
-	return errors.New(403, AdminErrorReason_ACCESS_FORBIDDEN.String(), fmt.Sprintf(format, args...))
-}
-
-// 404
-func IsResourceNotFound(err error) bool {
-	if err == nil {
-		return false
-	}
-	e := errors.FromError(err)
-	return e.Reason == AdminErrorReason_RESOURCE_NOT_FOUND.String() && e.Code == 404
-}
-
-// 404
-func ErrorResourceNotFound(format string, args ...interface{}) *errors.Error {
-	return errors.New(404, AdminErrorReason_RESOURCE_NOT_FOUND.String(), fmt.Sprintf(format, args...))
-}
-
-// 405
+// common error
 func IsMethodNotAllowed(err error) bool {
 	if err == nil {
 		return false
@@ -62,7 +20,7 @@ func IsMethodNotAllowed(err error) bool {
 	return e.Reason == AdminErrorReason_METHOD_NOT_ALLOWED.String() && e.Code == 405
 }
 
-// 405
+// common error
 func ErrorMethodNotAllowed(format string, args ...interface{}) *errors.Error {
 	return errors.New(405, AdminErrorReason_METHOD_NOT_ALLOWED.String(), fmt.Sprintf(format, args...))
 }
@@ -165,40 +123,32 @@ func ErrorRequestNotSupport(format string, args ...interface{}) *errors.Error {
 	return errors.New(505, AdminErrorReason_REQUEST_NOT_SUPPORT.String(), fmt.Sprintf(format, args...))
 }
 
-func IsUserNotFound(err error) bool {
+// 400
+func IsBadRequest(err error) bool {
 	if err == nil {
 		return false
 	}
 	e := errors.FromError(err)
-	return e.Reason == AdminErrorReason_USER_NOT_FOUND.String() && e.Code == 600
+	return e.Reason == AdminErrorReason_BAD_REQUEST.String() && e.Code == 400
 }
 
-func ErrorUserNotFound(format string, args ...interface{}) *errors.Error {
-	return errors.New(600, AdminErrorReason_USER_NOT_FOUND.String(), fmt.Sprintf(format, args...))
+// 400
+func ErrorBadRequest(format string, args ...interface{}) *errors.Error {
+	return errors.New(400, AdminErrorReason_BAD_REQUEST.String(), fmt.Sprintf(format, args...))
 }
 
-func IsIncorrectPassword(err error) bool {
+// 400
+func IsInvalidGrantType(err error) bool {
 	if err == nil {
 		return false
 	}
 	e := errors.FromError(err)
-	return e.Reason == AdminErrorReason_INCORRECT_PASSWORD.String() && e.Code == 599
+	return e.Reason == AdminErrorReason_INVALID_GRANT_TYPE.String() && e.Code == 400
 }
 
-func ErrorIncorrectPassword(format string, args ...interface{}) *errors.Error {
-	return errors.New(599, AdminErrorReason_INCORRECT_PASSWORD.String(), fmt.Sprintf(format, args...))
-}
-
-func IsUserFreeze(err error) bool {
-	if err == nil {
-		return false
-	}
-	e := errors.FromError(err)
-	return e.Reason == AdminErrorReason_USER_FREEZE.String() && e.Code == 598
-}
-
-func ErrorUserFreeze(format string, args ...interface{}) *errors.Error {
-	return errors.New(598, AdminErrorReason_USER_FREEZE.String(), fmt.Sprintf(format, args...))
+// 400
+func ErrorInvalidGrantType(format string, args ...interface{}) *errors.Error {
+	return errors.New(400, AdminErrorReason_INVALID_GRANT_TYPE.String(), fmt.Sprintf(format, args...))
 }
 
 // 用户ID无效
@@ -215,34 +165,6 @@ func ErrorInvalidUserid(format string, args ...interface{}) *errors.Error {
 	return errors.New(400, AdminErrorReason_INVALID_USERID.String(), fmt.Sprintf(format, args...))
 }
 
-// 密码无效
-func IsInvalidPassword(err error) bool {
-	if err == nil {
-		return false
-	}
-	e := errors.FromError(err)
-	return e.Reason == AdminErrorReason_INVALID_PASSWORD.String() && e.Code == 400
-}
-
-// 密码无效
-func ErrorInvalidPassword(format string, args ...interface{}) *errors.Error {
-	return errors.New(400, AdminErrorReason_INVALID_PASSWORD.String(), fmt.Sprintf(format, args...))
-}
-
-// token过期
-func IsTokenExpired(err error) bool {
-	if err == nil {
-		return false
-	}
-	e := errors.FromError(err)
-	return e.Reason == AdminErrorReason_TOKEN_EXPIRED.String() && e.Code == 400
-}
-
-// token过期
-func ErrorTokenExpired(format string, args ...interface{}) *errors.Error {
-	return errors.New(400, AdminErrorReason_TOKEN_EXPIRED.String(), fmt.Sprintf(format, args...))
-}
-
 // token无效
 func IsInvalidToken(err error) bool {
 	if err == nil {
@@ -257,44 +179,170 @@ func ErrorInvalidToken(format string, args ...interface{}) *errors.Error {
 	return errors.New(400, AdminErrorReason_INVALID_TOKEN.String(), fmt.Sprintf(format, args...))
 }
 
+// 密码无效
+func IsInvalidPassword(err error) bool {
+	if err == nil {
+		return false
+	}
+	e := errors.FromError(err)
+	return e.Reason == AdminErrorReason_INVALID_PASSWORD.String() && e.Code == 400
+}
+
+// 密码无效
+func ErrorInvalidPassword(format string, args ...interface{}) *errors.Error {
+	return errors.New(400, AdminErrorReason_INVALID_PASSWORD.String(), fmt.Sprintf(format, args...))
+}
+
+// 404
+func IsResourceNotFound(err error) bool {
+	if err == nil {
+		return false
+	}
+	e := errors.FromError(err)
+	return e.Reason == AdminErrorReason_RESOURCE_NOT_FOUND.String() && e.Code == 404
+}
+
+// 404
+func ErrorResourceNotFound(format string, args ...interface{}) *errors.Error {
+	return errors.New(404, AdminErrorReason_RESOURCE_NOT_FOUND.String(), fmt.Sprintf(format, args...))
+}
+
+// 用户不存在
+func IsUserNotFound(err error) bool {
+	if err == nil {
+		return false
+	}
+	e := errors.FromError(err)
+	return e.Reason == AdminErrorReason_USER_NOT_FOUND.String() && e.Code == 404
+}
+
+// 用户不存在
+func ErrorUserNotFound(format string, args ...interface{}) *errors.Error {
+	return errors.New(404, AdminErrorReason_USER_NOT_FOUND.String(), fmt.Sprintf(format, args...))
+}
+
+// 401
+func IsNotLoggedIn(err error) bool {
+	if err == nil {
+		return false
+	}
+	e := errors.FromError(err)
+	return e.Reason == AdminErrorReason_NOT_LOGGED_IN.String() && e.Code == 401
+}
+
+// 401
+func ErrorNotLoggedIn(format string, args ...interface{}) *errors.Error {
+	return errors.New(401, AdminErrorReason_NOT_LOGGED_IN.String(), fmt.Sprintf(format, args...))
+}
+
+// 用户被冻结
+func IsUserFreeze(err error) bool {
+	if err == nil {
+		return false
+	}
+	e := errors.FromError(err)
+	return e.Reason == AdminErrorReason_USER_FREEZE.String() && e.Code == 401
+}
+
+// 用户被冻结
+func ErrorUserFreeze(format string, args ...interface{}) *errors.Error {
+	return errors.New(401, AdminErrorReason_USER_FREEZE.String(), fmt.Sprintf(format, args...))
+}
+
+// 密码错误
+func IsIncorrectPassword(err error) bool {
+	if err == nil {
+		return false
+	}
+	e := errors.FromError(err)
+	return e.Reason == AdminErrorReason_INCORRECT_PASSWORD.String() && e.Code == 401
+}
+
+// 密码错误
+func ErrorIncorrectPassword(format string, args ...interface{}) *errors.Error {
+	return errors.New(401, AdminErrorReason_INCORRECT_PASSWORD.String(), fmt.Sprintf(format, args...))
+}
+
+// 密钥错误
+func IsIncorrectAppSecret(err error) bool {
+	if err == nil {
+		return false
+	}
+	e := errors.FromError(err)
+	return e.Reason == AdminErrorReason_INCORRECT_APP_SECRET.String() && e.Code == 401
+}
+
+// 密钥错误
+func ErrorIncorrectAppSecret(format string, args ...interface{}) *errors.Error {
+	return errors.New(401, AdminErrorReason_INCORRECT_APP_SECRET.String(), fmt.Sprintf(format, args...))
+}
+
+// 访问令牌错误
+func IsIncorrectAccessToken(err error) bool {
+	if err == nil {
+		return false
+	}
+	e := errors.FromError(err)
+	return e.Reason == AdminErrorReason_INCORRECT_ACCESS_TOKEN.String() && e.Code == 401
+}
+
+// 访问令牌错误
+func ErrorIncorrectAccessToken(format string, args ...interface{}) *errors.Error {
+	return errors.New(401, AdminErrorReason_INCORRECT_ACCESS_TOKEN.String(), fmt.Sprintf(format, args...))
+}
+
+// 刷新令牌错误
+func IsIncorrectRefreshToken(err error) bool {
+	if err == nil {
+		return false
+	}
+	e := errors.FromError(err)
+	return e.Reason == AdminErrorReason_INCORRECT_REFRESH_TOKEN.String() && e.Code == 401
+}
+
+// 刷新令牌错误
+func ErrorIncorrectRefreshToken(format string, args ...interface{}) *errors.Error {
+	return errors.New(401, AdminErrorReason_INCORRECT_REFRESH_TOKEN.String(), fmt.Sprintf(format, args...))
+}
+
+// token过期
+func IsTokenExpired(err error) bool {
+	if err == nil {
+		return false
+	}
+	e := errors.FromError(err)
+	return e.Reason == AdminErrorReason_TOKEN_EXPIRED.String() && e.Code == 401
+}
+
+// token过期
+func ErrorTokenExpired(format string, args ...interface{}) *errors.Error {
+	return errors.New(401, AdminErrorReason_TOKEN_EXPIRED.String(), fmt.Sprintf(format, args...))
+}
+
 // token不存在
 func IsTokenNotExist(err error) bool {
 	if err == nil {
 		return false
 	}
 	e := errors.FromError(err)
-	return e.Reason == AdminErrorReason_TOKEN_NOT_EXIST.String() && e.Code == 404
+	return e.Reason == AdminErrorReason_TOKEN_NOT_EXIST.String() && e.Code == 401
 }
 
 // token不存在
 func ErrorTokenNotExist(format string, args ...interface{}) *errors.Error {
-	return errors.New(404, AdminErrorReason_TOKEN_NOT_EXIST.String(), fmt.Sprintf(format, args...))
+	return errors.New(401, AdminErrorReason_TOKEN_NOT_EXIST.String(), fmt.Sprintf(format, args...))
 }
 
-// 用户不存在
-func IsUserNotExist(err error) bool {
+// 403
+func IsAccessForbidden(err error) bool {
 	if err == nil {
 		return false
 	}
 	e := errors.FromError(err)
-	return e.Reason == AdminErrorReason_USER_NOT_EXIST.String() && e.Code == 404
+	return e.Reason == AdminErrorReason_ACCESS_FORBIDDEN.String() && e.Code == 403
 }
 
-// 用户不存在
-func ErrorUserNotExist(format string, args ...interface{}) *errors.Error {
-	return errors.New(404, AdminErrorReason_USER_NOT_EXIST.String(), fmt.Sprintf(format, args...))
-}
-
-// 400
-func IsBadRequest(err error) bool {
-	if err == nil {
-		return false
-	}
-	e := errors.FromError(err)
-	return e.Reason == AdminErrorReason_BAD_REQUEST.String() && e.Code == 400
-}
-
-// 400
-func ErrorBadRequest(format string, args ...interface{}) *errors.Error {
-	return errors.New(400, AdminErrorReason_BAD_REQUEST.String(), fmt.Sprintf(format, args...))
+// 403
+func ErrorAccessForbidden(format string, args ...interface{}) *errors.Error {
+	return errors.New(403, AdminErrorReason_ACCESS_FORBIDDEN.String(), fmt.Sprintf(format, args...))
 }

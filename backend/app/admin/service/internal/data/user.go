@@ -359,24 +359,29 @@ func (r *UserRepo) GetUserByUserName(ctx context.Context, userName string) (*use
 	return u, err
 }
 
-func (r *UserRepo) VerifyPassword(ctx context.Context, req *userV1.VerifyPasswordRequest) (*userV1.User, error) {
+func (r *UserRepo) VerifyPassword(ctx context.Context, req *userV1.VerifyPasswordRequest) (*userV1.VerifyPasswordResponse, error) {
 	ret, err := r.data.db.Client().User.
 		Query().
 		Select(user.FieldID, user.FieldPassword).
 		Where(user.UsernameEQ(req.GetUserName())).
 		Only(ctx)
 	if err != nil {
-		r.log.Errorf("query user data failed: %s", err.Error())
-		return nil, userV1.ErrorUserNotExist("用户未找到")
+		return &userV1.VerifyPasswordResponse{
+			Result: userV1.VerifyPasswordResult_ACCOUNT_NOT_EXISTS,
+		}, userV1.ErrorUserNotFound("用户未找到")
 	}
 
 	bMatched := crypto.CheckPasswordHash(req.GetPassword(), *ret.Password)
+
 	if !bMatched {
-		return nil, userV1.ErrorInvalidPassword("密码错误")
+		return &userV1.VerifyPasswordResponse{
+			Result: userV1.VerifyPasswordResult_WRONG_PASSWORD,
+		}, userV1.ErrorIncorrectPassword("密码错误")
 	}
 
-	u := r.convertEntToProto(ret)
-	return u, err
+	return &userV1.VerifyPasswordResponse{
+		Result: userV1.VerifyPasswordResult_SUCCESS,
+	}, nil
 }
 
 func (r *UserRepo) UserExists(ctx context.Context, req *userV1.UserExistsRequest) (*userV1.UserExistsResponse, error) {

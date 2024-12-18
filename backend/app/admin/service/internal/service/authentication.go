@@ -36,18 +36,30 @@ func NewAuthenticationService(logger log.Logger, uc *data.UserRepo, utuc *cache.
 // Login 登录
 func (s *AuthenticationService) Login(ctx context.Context, req *adminV1.LoginRequest) (*adminV1.LoginResponse, error) {
 	if req.GetGrantType() != adminV1.GrantType_password.String() {
-		return nil, adminV1.ErrorInvalidToken("非法的授权类型")
+		return nil, adminV1.ErrorInvalidGrantType("invalid grant type")
 	}
 
-	var user *userV1.User
 	var err error
-	if user, err = s.uc.VerifyPassword(ctx, &userV1.VerifyPasswordRequest{
+	if _, err = s.uc.VerifyPassword(ctx, &userV1.VerifyPasswordRequest{
 		UserName: req.GetUsername(),
 		Password: req.GetPassword(),
 	}); err != nil {
 		return nil, err
 	}
 
+	// 获取用户信息
+	var user *userV1.User
+	user, err = s.uc.GetUserByUserName(ctx, req.GetUsername())
+	if err != nil {
+		return nil, err
+	}
+
+	// 验证权限
+	if user.GetAuthority() != userV1.UserAuthority_SYS_ADMIN && user.GetAuthority() != userV1.UserAuthority_SYS_ADMIN {
+		return &adminV1.LoginResponse{}, adminV1.ErrorAccessForbidden("权限不够")
+	}
+
+	// 生成访问令牌
 	accessToken, refreshToken, err := s.utuc.GenerateToken(ctx, user)
 	if err != nil {
 		return nil, err
@@ -85,21 +97,24 @@ func (s *AuthenticationService) GetMe(ctx context.Context, req *adminV1.GetMeReq
 
 // RefreshToken 刷新令牌
 func (s *AuthenticationService) RefreshToken(ctx context.Context, req *adminV1.RefreshTokenRequest) (*adminV1.LoginResponse, error) {
+	// 校验授权类型
+	if req.GetGrantType() != adminV1.GrantType_refresh_token.String() {
+		return nil, adminV1.ErrorInvalidGrantType("invalid grant type")
+	}
+
 	authInfo, err := auth.FromContext(ctx)
 	if err != nil {
 		s.log.Errorf("用户认证失败[%s]", err.Error())
 		return nil, adminV1.ErrorAccessForbidden("用户认证失败")
 	}
 
-	if req.GetGrantType() != adminV1.GrantType_refresh_token.String() {
-		return nil, adminV1.ErrorInvalidToken("非法的授权类型")
-	}
-
+	// 校验刷新令牌
 	refreshToken := s.utuc.GetRefreshToken(ctx, authInfo.UserId)
 	if refreshToken != req.GetRefreshToken() {
-		return nil, adminV1.ErrorInvalidToken("非法的刷新令牌")
+		return nil, adminV1.ErrorIncorrectRefreshToken("invalid refresh token")
 	}
 
+	// 生成新的访问令牌
 	accessToken, err := s.utuc.GenerateAccessToken(ctx, authInfo.UserId, authInfo.UserName)
 	if err != nil {
 		return nil, err

@@ -33,11 +33,11 @@ func NewUserService(logger log.Logger, uc *data.UserRepo) *UserService {
 }
 
 func (s *UserService) ListUser(ctx context.Context, req *pagination.PagingRequest) (*userV1.ListUserResponse, error) {
-	return s.uc.List(ctx, req)
+	return s.uc.ListUser(ctx, req)
 }
 
 func (s *UserService) GetUser(ctx context.Context, req *userV1.GetUserRequest) (*userV1.User, error) {
-	return s.uc.Get(ctx, req)
+	return s.uc.GetUser(ctx, req.GetId())
 }
 
 func (s *UserService) GetUserByUserName(ctx context.Context, req *userV1.GetUserByUserNameRequest) (*userV1.User, error) {
@@ -61,7 +61,26 @@ func (s *UserService) CreateUser(ctx context.Context, req *userV1.CreateUserRequ
 		req.User.Authority = userV1.UserAuthority_CUSTOMER_USER.Enum()
 	}
 
-	err = s.uc.Create(ctx, req)
+	// 获取操作者的用户信息
+	operator, err := s.uc.GetUser(ctx, req.GetOperatorId())
+	if err != nil {
+		return nil, err
+	}
+
+	// 校验操作者的权限
+	if operator.GetAuthority() != userV1.UserAuthority_SYS_ADMIN && operator.GetAuthority() != userV1.UserAuthority_SYS_MANAGER {
+		return nil, adminV1.ErrorAccessForbidden("权限不够")
+	}
+
+	if req.User.Authority != nil {
+		if operator.GetAuthority() >= req.User.GetAuthority() {
+			return nil, adminV1.ErrorAccessForbidden("不能够创建同级用户或者比自己权限高的用户")
+		}
+	}
+
+	// 创建用户
+	err = s.uc.CreateUser(ctx, req)
+
 	return &emptypb.Empty{}, nil
 }
 
@@ -78,7 +97,26 @@ func (s *UserService) UpdateUser(ctx context.Context, req *userV1.UpdateUserRequ
 
 	req.OperatorId = trans.Ptr(authInfo.UserId)
 
-	err = s.uc.Update(ctx, req)
+	// 获取操作者的用户信息
+	operator, err := s.uc.GetUser(ctx, req.GetOperatorId())
+	if err != nil {
+		return nil, err
+	}
+
+	// 校验操作者的权限
+	if operator.GetAuthority() != userV1.UserAuthority_SYS_ADMIN && operator.GetAuthority() != userV1.UserAuthority_SYS_MANAGER {
+		return nil, adminV1.ErrorAccessForbidden("权限不够")
+	}
+
+	if req.User.Authority != nil {
+		if operator.GetAuthority() >= req.User.GetAuthority() {
+			return nil, adminV1.ErrorAccessForbidden("不能够赋权同级用户或者比自己权限高的用户")
+		}
+	}
+
+	// 更新用户
+	err = s.uc.UpdateUser(ctx, req)
+
 	return &emptypb.Empty{}, nil
 }
 
@@ -91,7 +129,34 @@ func (s *UserService) DeleteUser(ctx context.Context, req *userV1.DeleteUserRequ
 
 	req.OperatorId = trans.Ptr(authInfo.UserId)
 
-	_, err = s.uc.Delete(ctx, req)
+	// 获取操作者的用户信息
+	operator, err := s.uc.GetUser(ctx, req.GetOperatorId())
+	if err != nil {
+		return nil, err
+	}
+
+	// 校验操作者的权限
+	if operator.GetAuthority() != userV1.UserAuthority_SYS_ADMIN && operator.GetAuthority() != userV1.UserAuthority_SYS_MANAGER {
+		return nil, adminV1.ErrorAccessForbidden("权限不够")
+	}
+
+	// 获取将被删除的用户信息
+	user, err := s.uc.GetUser(ctx, req.GetId())
+	if err != nil {
+		return nil, err
+	}
+
+	// 不能删除超级管理员
+	if user.GetAuthority() == userV1.UserAuthority_SYS_ADMIN {
+		return nil, adminV1.ErrorAccessForbidden("闹哪样？不能删除超级管理员！")
+	}
+
+	if operator.GetAuthority() == user.GetAuthority() {
+		return nil, adminV1.ErrorAccessForbidden("不能删除同级用户！")
+	}
+
+	// 删除用户
+	_, err = s.uc.DeleteUser(ctx, req.GetId())
 
 	return &emptypb.Empty{}, err
 }

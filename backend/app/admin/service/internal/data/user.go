@@ -150,7 +150,7 @@ func (r *UserRepo) Count(ctx context.Context, whereCond []func(s *sql.Selector))
 	return count, err
 }
 
-func (r *UserRepo) List(ctx context.Context, req *pagination.PagingRequest) (*userV1.ListUserResponse, error) {
+func (r *UserRepo) ListUser(ctx context.Context, req *pagination.PagingRequest) (*userV1.ListUserResponse, error) {
 	builder := r.data.db.Client().User.Query()
 
 	err, whereSelectors, querySelectors := entgo.BuildQuerySelector(
@@ -197,8 +197,8 @@ func (r *UserRepo) IsExist(ctx context.Context, id uint32) (bool, error) {
 		Exist(ctx)
 }
 
-func (r *UserRepo) Get(ctx context.Context, req *userV1.GetUserRequest) (*userV1.User, error) {
-	ret, err := r.data.db.Client().User.Get(ctx, req.GetId())
+func (r *UserRepo) GetUser(ctx context.Context, userId uint32) (*userV1.User, error) {
+	ret, err := r.data.db.Client().User.Get(ctx, userId)
 	if err != nil && !ent.IsNotFound(err) {
 		r.log.Errorf("query one data failed: %s", err.Error())
 		return nil, err
@@ -209,7 +209,7 @@ func (r *UserRepo) Get(ctx context.Context, req *userV1.GetUserRequest) (*userV1
 	return u, err
 }
 
-func (r *UserRepo) Create(ctx context.Context, req *userV1.CreateUserRequest) error {
+func (r *UserRepo) CreateUser(ctx context.Context, req *userV1.CreateUserRequest) error {
 	if req.User == nil {
 		return errors.New("invalid request")
 	}
@@ -259,7 +259,7 @@ func (r *UserRepo) Create(ctx context.Context, req *userV1.CreateUserRequest) er
 	return nil
 }
 
-func (r *UserRepo) Update(ctx context.Context, req *userV1.UpdateUserRequest) error {
+func (r *UserRepo) UpdateUser(ctx context.Context, req *userV1.UpdateUserRequest) error {
 	if req.User == nil {
 		return errors.New("invalid request")
 	}
@@ -271,7 +271,7 @@ func (r *UserRepo) Update(ctx context.Context, req *userV1.UpdateUserRequest) er
 			return err
 		}
 		if !exist {
-			return r.Create(ctx, &userV1.CreateUserRequest{User: req.User, OperatorId: req.OperatorId})
+			return r.CreateUser(ctx, &userV1.CreateUserRequest{User: req.User, OperatorId: req.OperatorId})
 		}
 	}
 
@@ -335,9 +335,9 @@ func (r *UserRepo) Update(ctx context.Context, req *userV1.UpdateUserRequest) er
 	return nil
 }
 
-func (r *UserRepo) Delete(ctx context.Context, req *userV1.DeleteUserRequest) (bool, error) {
+func (r *UserRepo) DeleteUser(ctx context.Context, userId uint32) (bool, error) {
 	err := r.data.db.Client().User.
-		DeleteOneID(req.GetId()).
+		DeleteOneID(userId).
 		Exec(ctx)
 	if err != nil {
 		r.log.Errorf("delete one data failed: %s", err.Error())

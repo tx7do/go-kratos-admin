@@ -89,7 +89,7 @@ func (s *AuthenticationService) GetMe(ctx context.Context, req *adminV1.GetMeReq
 	}
 
 	req.Id = authInfo.UserId
-	ret, err := s.uc.Get(ctx, &userV1.GetUserRequest{
+	ret, err := s.uc.GetUser(ctx, &userV1.GetUserRequest{
 		Id: req.GetId(),
 	})
 	return ret, err

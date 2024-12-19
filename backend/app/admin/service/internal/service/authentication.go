@@ -55,7 +55,7 @@ func (s *AuthenticationService) Login(ctx context.Context, req *adminV1.LoginReq
 	}
 
 	// 验证权限
-	if user.GetAuthority() != userV1.UserAuthority_SYS_ADMIN && user.GetAuthority() != userV1.UserAuthority_SYS_ADMIN {
+	if user.GetAuthority() != userV1.UserAuthority_SYS_ADMIN && user.GetAuthority() != userV1.UserAuthority_SYS_MANAGER {
 		return &adminV1.LoginResponse{}, adminV1.ErrorAccessForbidden("权限不够")
 	}
 

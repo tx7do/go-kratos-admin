@@ -11,7 +11,7 @@ const defaultPreferences: Preferences = {
     contentCompact: 'wide',
     defaultAvatar: '/default-avatar.webp',
     dynamicTitle: true,
-    enableCheckUpdates: true,
+    enableCheckUpdates: false,
     enablePreferences: true,
     enableRefreshToken: false,
     isMobile: false,

@@ -223,6 +223,30 @@ var schemaGraph = func() *sqlgraph.Schema {
 		"Position",
 		"Position",
 	)
+	graph.MustAddE(
+		"parent",
+		&sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2O,
+			Inverse: true,
+			Table:   role.ParentTable,
+			Columns: []string{role.ParentColumn},
+			Bidi:    false,
+		},
+		"Role",
+		"Role",
+	)
+	graph.MustAddE(
+		"children",
+		&sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   role.ChildrenTable,
+			Columns: []string{role.ChildrenColumn},
+			Bidi:    false,
+		},
+		"Role",
+		"Role",
+	)
 	return graph
 }()
 
@@ -684,6 +708,34 @@ func (f *RoleFilter) WhereParentID(p entql.Uint32P) {
 // WhereOrderNo applies the entql int32 predicate on the order_no field.
 func (f *RoleFilter) WhereOrderNo(p entql.Int32P) {
 	f.Where(p.Field(role.FieldOrderNo))
+}
+
+// WhereHasParent applies a predicate to check if query has an edge parent.
+func (f *RoleFilter) WhereHasParent() {
+	f.Where(entql.HasEdge("parent"))
+}
+
+// WhereHasParentWith applies a predicate to check if query has an edge parent with a given conditions (other predicates).
+func (f *RoleFilter) WhereHasParentWith(preds ...predicate.Role) {
+	f.Where(entql.HasEdgeWith("parent", sqlgraph.WrapFunc(func(s *sql.Selector) {
+		for _, p := range preds {
+			p(s)
+		}
+	})))
+}
+
+// WhereHasChildren applies a predicate to check if query has an edge children.
+func (f *RoleFilter) WhereHasChildren() {
+	f.Where(entql.HasEdge("children"))
+}
+
+// WhereHasChildrenWith applies a predicate to check if query has an edge children with a given conditions (other predicates).
+func (f *RoleFilter) WhereHasChildrenWith(preds ...predicate.Role) {
+	f.Where(entql.HasEdgeWith("children", sqlgraph.WrapFunc(func(s *sql.Selector) {
+		for _, p := range preds {
+			p(s)
+		}
+	})))
 }
 
 // addPredicate implements the predicateAdder interface.

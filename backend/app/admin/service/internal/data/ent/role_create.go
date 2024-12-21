@@ -168,6 +168,26 @@ func (rc *RoleCreate) SetID(u uint32) *RoleCreate {
 	return rc
 }
 
+// SetParent sets the "parent" edge to the Role entity.
+func (rc *RoleCreate) SetParent(r *Role) *RoleCreate {
+	return rc.SetParentID(r.ID)
+}
+
+// AddChildIDs adds the "children" edge to the Role entity by IDs.
+func (rc *RoleCreate) AddChildIDs(ids ...uint32) *RoleCreate {
+	rc.mutation.AddChildIDs(ids...)
+	return rc
+}
+
+// AddChildren adds the "children" edges to the Role entity.
+func (rc *RoleCreate) AddChildren(r ...*Role) *RoleCreate {
+	ids := make([]uint32, len(r))
+	for i := range r {
+		ids[i] = r[i].ID
+	}
+	return rc.AddChildIDs(ids...)
+}
+
 // Mutation returns the RoleMutation object of the builder.
 func (rc *RoleCreate) Mutation() *RoleMutation {
 	return rc.mutation
@@ -308,13 +328,42 @@ func (rc *RoleCreate) createSpec() (*Role, *sqlgraph.CreateSpec) {
 		_spec.SetField(role.FieldCode, field.TypeString, value)
 		_node.Code = &value
 	}
-	if value, ok := rc.mutation.ParentID(); ok {
-		_spec.SetField(role.FieldParentID, field.TypeUint32, value)
-		_node.ParentID = &value
-	}
 	if value, ok := rc.mutation.OrderNo(); ok {
 		_spec.SetField(role.FieldOrderNo, field.TypeInt32, value)
 		_node.OrderNo = &value
+	}
+	if nodes := rc.mutation.ParentIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2O,
+			Inverse: true,
+			Table:   role.ParentTable,
+			Columns: []string{role.ParentColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(role.FieldID, field.TypeUint32),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_node.ParentID = &nodes[0]
+		_spec.Edges = append(_spec.Edges, edge)
+	}
+	if nodes := rc.mutation.ChildrenIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   role.ChildrenTable,
+			Columns: []string{role.ChildrenColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(role.FieldID, field.TypeUint32),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges = append(_spec.Edges, edge)
 	}
 	return _node, _spec
 }
@@ -509,12 +558,6 @@ func (u *RoleUpsert) SetParentID(v uint32) *RoleUpsert {
 // UpdateParentID sets the "parent_id" field to the value that was provided on create.
 func (u *RoleUpsert) UpdateParentID() *RoleUpsert {
 	u.SetExcluded(role.FieldParentID)
-	return u
-}
-
-// AddParentID adds v to the "parent_id" field.
-func (u *RoleUpsert) AddParentID(v uint32) *RoleUpsert {
-	u.Add(role.FieldParentID, v)
 	return u
 }
 
@@ -757,13 +800,6 @@ func (u *RoleUpsertOne) ClearCode() *RoleUpsertOne {
 func (u *RoleUpsertOne) SetParentID(v uint32) *RoleUpsertOne {
 	return u.Update(func(s *RoleUpsert) {
 		s.SetParentID(v)
-	})
-}
-
-// AddParentID adds v to the "parent_id" field.
-func (u *RoleUpsertOne) AddParentID(v uint32) *RoleUpsertOne {
-	return u.Update(func(s *RoleUpsert) {
-		s.AddParentID(v)
 	})
 }
 
@@ -1184,13 +1220,6 @@ func (u *RoleUpsertBulk) ClearCode() *RoleUpsertBulk {
 func (u *RoleUpsertBulk) SetParentID(v uint32) *RoleUpsertBulk {
 	return u.Update(func(s *RoleUpsert) {
 		s.SetParentID(v)
-	})
-}
-
-// AddParentID adds v to the "parent_id" field.
-func (u *RoleUpsertBulk) AddParentID(v uint32) *RoleUpsertBulk {
-	return u.Update(func(s *RoleUpsert) {
-		s.AddParentID(v)
 	})
 }
 

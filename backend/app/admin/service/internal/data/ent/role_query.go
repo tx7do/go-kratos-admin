@@ -4,6 +4,7 @@ package ent
 
 import (
 	"context"
+	"database/sql/driver"
 	"fmt"
 	"kratos-admin/app/admin/service/internal/data/ent/predicate"
 	"kratos-admin/app/admin/service/internal/data/ent/role"
@@ -19,11 +20,13 @@ import (
 // RoleQuery is the builder for querying Role entities.
 type RoleQuery struct {
 	config
-	ctx        *QueryContext
-	order      []role.OrderOption
-	inters     []Interceptor
-	predicates []predicate.Role
-	modifiers  []func(*sql.Selector)
+	ctx          *QueryContext
+	order        []role.OrderOption
+	inters       []Interceptor
+	predicates   []predicate.Role
+	withParent   *RoleQuery
+	withChildren *RoleQuery
+	modifiers    []func(*sql.Selector)
 	// intermediate query (i.e. traversal path).
 	sql  *sql.Selector
 	path func(context.Context) (*sql.Selector, error)
@@ -58,6 +61,50 @@ func (rq *RoleQuery) Unique(unique bool) *RoleQuery {
 func (rq *RoleQuery) Order(o ...role.OrderOption) *RoleQuery {
 	rq.order = append(rq.order, o...)
 	return rq
+}
+
+// QueryParent chains the current query on the "parent" edge.
+func (rq *RoleQuery) QueryParent() *RoleQuery {
+	query := (&RoleClient{config: rq.config}).Query()
+	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
+		if err := rq.prepareQuery(ctx); err != nil {
+			return nil, err
+		}
+		selector := rq.sqlQuery(ctx)
+		if err := selector.Err(); err != nil {
+			return nil, err
+		}
+		step := sqlgraph.NewStep(
+			sqlgraph.From(role.Table, role.FieldID, selector),
+			sqlgraph.To(role.Table, role.FieldID),
+			sqlgraph.Edge(sqlgraph.M2O, true, role.ParentTable, role.ParentColumn),
+		)
+		fromU = sqlgraph.SetNeighbors(rq.driver.Dialect(), step)
+		return fromU, nil
+	}
+	return query
+}
+
+// QueryChildren chains the current query on the "children" edge.
+func (rq *RoleQuery) QueryChildren() *RoleQuery {
+	query := (&RoleClient{config: rq.config}).Query()
+	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
+		if err := rq.prepareQuery(ctx); err != nil {
+			return nil, err
+		}
+		selector := rq.sqlQuery(ctx)
+		if err := selector.Err(); err != nil {
+			return nil, err
+		}
+		step := sqlgraph.NewStep(
+			sqlgraph.From(role.Table, role.FieldID, selector),
+			sqlgraph.To(role.Table, role.FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, role.ChildrenTable, role.ChildrenColumn),
+		)
+		fromU = sqlgraph.SetNeighbors(rq.driver.Dialect(), step)
+		return fromU, nil
+	}
+	return query
 }
 
 // First returns the first Role entity from the query.
@@ -247,16 +294,40 @@ func (rq *RoleQuery) Clone() *RoleQuery {
 		return nil
 	}
 	return &RoleQuery{
-		config:     rq.config,
-		ctx:        rq.ctx.Clone(),
-		order:      append([]role.OrderOption{}, rq.order...),
-		inters:     append([]Interceptor{}, rq.inters...),
-		predicates: append([]predicate.Role{}, rq.predicates...),
+		config:       rq.config,
+		ctx:          rq.ctx.Clone(),
+		order:        append([]role.OrderOption{}, rq.order...),
+		inters:       append([]Interceptor{}, rq.inters...),
+		predicates:   append([]predicate.Role{}, rq.predicates...),
+		withParent:   rq.withParent.Clone(),
+		withChildren: rq.withChildren.Clone(),
 		// clone intermediate query.
 		sql:       rq.sql.Clone(),
 		path:      rq.path,
 		modifiers: append([]func(*sql.Selector){}, rq.modifiers...),
 	}
+}
+
+// WithParent tells the query-builder to eager-load the nodes that are connected to
+// the "parent" edge. The optional arguments are used to configure the query builder of the edge.
+func (rq *RoleQuery) WithParent(opts ...func(*RoleQuery)) *RoleQuery {
+	query := (&RoleClient{config: rq.config}).Query()
+	for _, opt := range opts {
+		opt(query)
+	}
+	rq.withParent = query
+	return rq
+}
+
+// WithChildren tells the query-builder to eager-load the nodes that are connected to
+// the "children" edge. The optional arguments are used to configure the query builder of the edge.
+func (rq *RoleQuery) WithChildren(opts ...func(*RoleQuery)) *RoleQuery {
+	query := (&RoleClient{config: rq.config}).Query()
+	for _, opt := range opts {
+		opt(query)
+	}
+	rq.withChildren = query
+	return rq
 }
 
 // GroupBy is used to group vertices by one or more fields/columns.
@@ -335,8 +406,12 @@ func (rq *RoleQuery) prepareQuery(ctx context.Context) error {
 
 func (rq *RoleQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*Role, error) {
 	var (
-		nodes = []*Role{}
-		_spec = rq.querySpec()
+		nodes       = []*Role{}
+		_spec       = rq.querySpec()
+		loadedTypes = [2]bool{
+			rq.withParent != nil,
+			rq.withChildren != nil,
+		}
 	)
 	_spec.ScanValues = func(columns []string) ([]any, error) {
 		return (*Role).scanValues(nil, columns)
@@ -344,6 +419,7 @@ func (rq *RoleQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*Role, e
 	_spec.Assign = func(columns []string, values []any) error {
 		node := &Role{config: rq.config}
 		nodes = append(nodes, node)
+		node.Edges.loadedTypes = loadedTypes
 		return node.assignValues(columns, values)
 	}
 	if len(rq.modifiers) > 0 {
@@ -358,7 +434,86 @@ func (rq *RoleQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*Role, e
 	if len(nodes) == 0 {
 		return nodes, nil
 	}
+	if query := rq.withParent; query != nil {
+		if err := rq.loadParent(ctx, query, nodes, nil,
+			func(n *Role, e *Role) { n.Edges.Parent = e }); err != nil {
+			return nil, err
+		}
+	}
+	if query := rq.withChildren; query != nil {
+		if err := rq.loadChildren(ctx, query, nodes,
+			func(n *Role) { n.Edges.Children = []*Role{} },
+			func(n *Role, e *Role) { n.Edges.Children = append(n.Edges.Children, e) }); err != nil {
+			return nil, err
+		}
+	}
 	return nodes, nil
+}
+
+func (rq *RoleQuery) loadParent(ctx context.Context, query *RoleQuery, nodes []*Role, init func(*Role), assign func(*Role, *Role)) error {
+	ids := make([]uint32, 0, len(nodes))
+	nodeids := make(map[uint32][]*Role)
+	for i := range nodes {
+		if nodes[i].ParentID == nil {
+			continue
+		}
+		fk := *nodes[i].ParentID
+		if _, ok := nodeids[fk]; !ok {
+			ids = append(ids, fk)
+		}
+		nodeids[fk] = append(nodeids[fk], nodes[i])
+	}
+	if len(ids) == 0 {
+		return nil
+	}
+	query.Where(role.IDIn(ids...))
+	neighbors, err := query.All(ctx)
+	if err != nil {
+		return err
+	}
+	for _, n := range neighbors {
+		nodes, ok := nodeids[n.ID]
+		if !ok {
+			return fmt.Errorf(`unexpected foreign-key "parent_id" returned %v`, n.ID)
+		}
+		for i := range nodes {
+			assign(nodes[i], n)
+		}
+	}
+	return nil
+}
+func (rq *RoleQuery) loadChildren(ctx context.Context, query *RoleQuery, nodes []*Role, init func(*Role), assign func(*Role, *Role)) error {
+	fks := make([]driver.Value, 0, len(nodes))
+	nodeids := make(map[uint32]*Role)
+	for i := range nodes {
+		fks = append(fks, nodes[i].ID)
+		nodeids[nodes[i].ID] = nodes[i]
+		if init != nil {
+			init(nodes[i])
+		}
+	}
+	if len(query.ctx.Fields) > 0 {
+		query.ctx.AppendFieldOnce(role.FieldParentID)
+	}
+	query.Where(predicate.Role(func(s *sql.Selector) {
+		s.Where(sql.InValues(s.C(role.ChildrenColumn), fks...))
+	}))
+	neighbors, err := query.All(ctx)
+	if err != nil {
+		return err
+	}
+	for _, n := range neighbors {
+		fk := n.ParentID
+		if fk == nil {
+			return fmt.Errorf(`foreign-key "parent_id" is nil for node %v`, n.ID)
+		}
+		node, ok := nodeids[*fk]
+		if !ok {
+			return fmt.Errorf(`unexpected referenced foreign-key "parent_id" returned %v for node %v`, *fk, n.ID)
+		}
+		assign(node, n)
+	}
+	return nil
 }
 
 func (rq *RoleQuery) sqlCount(ctx context.Context) (int, error) {
@@ -388,6 +543,9 @@ func (rq *RoleQuery) querySpec() *sqlgraph.QuerySpec {
 			if fields[i] != role.FieldID {
 				_spec.Node.Columns = append(_spec.Node.Columns, fields[i])
 			}
+		}
+		if rq.withParent != nil {
+			_spec.Node.AddColumnOnce(role.FieldParentID)
 		}
 	}
 	if ps := rq.predicates; len(ps) > 0 {

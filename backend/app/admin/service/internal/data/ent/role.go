@@ -37,8 +37,42 @@ type Role struct {
 	// 上一层角色ID
 	ParentID *uint32 `json:"parent_id,omitempty"`
 	// 排序ID
-	OrderNo      *int32 `json:"order_no,omitempty"`
+	OrderNo *int32 `json:"order_no,omitempty"`
+	// Edges holds the relations/edges for other nodes in the graph.
+	// The values are being populated by the RoleQuery when eager-loading is set.
+	Edges        RoleEdges `json:"edges"`
 	selectValues sql.SelectValues
+}
+
+// RoleEdges holds the relations/edges for other nodes in the graph.
+type RoleEdges struct {
+	// Parent holds the value of the parent edge.
+	Parent *Role `json:"parent,omitempty"`
+	// Children holds the value of the children edge.
+	Children []*Role `json:"children,omitempty"`
+	// loadedTypes holds the information for reporting if a
+	// type was loaded (or requested) in eager-loading or not.
+	loadedTypes [2]bool
+}
+
+// ParentOrErr returns the Parent value or an error if the edge
+// was not loaded in eager-loading, or loaded but was not found.
+func (e RoleEdges) ParentOrErr() (*Role, error) {
+	if e.Parent != nil {
+		return e.Parent, nil
+	} else if e.loadedTypes[0] {
+		return nil, &NotFoundError{label: role.Label}
+	}
+	return nil, &NotLoadedError{edge: "parent"}
+}
+
+// ChildrenOrErr returns the Children value or an error if the edge
+// was not loaded in eager-loading.
+func (e RoleEdges) ChildrenOrErr() ([]*Role, error) {
+	if e.loadedTypes[1] {
+		return e.Children, nil
+	}
+	return nil, &NotLoadedError{edge: "children"}
 }
 
 // scanValues returns the types for scanning values from sql.Rows.
@@ -154,6 +188,16 @@ func (r *Role) assignValues(columns []string, values []any) error {
 // This includes values selected through modifiers, order, etc.
 func (r *Role) Value(name string) (ent.Value, error) {
 	return r.selectValues.Get(name)
+}
+
+// QueryParent queries the "parent" edge of the Role entity.
+func (r *Role) QueryParent() *RoleQuery {
+	return NewRoleClient(r.config).QueryParent(r)
+}
+
+// QueryChildren queries the "children" edge of the Role entity.
+func (r *Role) QueryChildren() *RoleQuery {
+	return NewRoleClient(r.config).QueryChildren(r)
 }
 
 // Update returns a builder for updating this Role.

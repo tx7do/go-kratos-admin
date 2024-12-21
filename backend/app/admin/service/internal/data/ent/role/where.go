@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"entgo.io/ent/dialect/sql"
+	"entgo.io/ent/dialect/sql/sqlgraph"
 )
 
 // ID filters vertices based on their ID field.
@@ -574,26 +575,6 @@ func ParentIDNotIn(vs ...uint32) predicate.Role {
 	return predicate.Role(sql.FieldNotIn(FieldParentID, vs...))
 }
 
-// ParentIDGT applies the GT predicate on the "parent_id" field.
-func ParentIDGT(v uint32) predicate.Role {
-	return predicate.Role(sql.FieldGT(FieldParentID, v))
-}
-
-// ParentIDGTE applies the GTE predicate on the "parent_id" field.
-func ParentIDGTE(v uint32) predicate.Role {
-	return predicate.Role(sql.FieldGTE(FieldParentID, v))
-}
-
-// ParentIDLT applies the LT predicate on the "parent_id" field.
-func ParentIDLT(v uint32) predicate.Role {
-	return predicate.Role(sql.FieldLT(FieldParentID, v))
-}
-
-// ParentIDLTE applies the LTE predicate on the "parent_id" field.
-func ParentIDLTE(v uint32) predicate.Role {
-	return predicate.Role(sql.FieldLTE(FieldParentID, v))
-}
-
 // ParentIDIsNil applies the IsNil predicate on the "parent_id" field.
 func ParentIDIsNil() predicate.Role {
 	return predicate.Role(sql.FieldIsNull(FieldParentID))
@@ -652,6 +633,52 @@ func OrderNoIsNil() predicate.Role {
 // OrderNoNotNil applies the NotNil predicate on the "order_no" field.
 func OrderNoNotNil() predicate.Role {
 	return predicate.Role(sql.FieldNotNull(FieldOrderNo))
+}
+
+// HasParent applies the HasEdge predicate on the "parent" edge.
+func HasParent() predicate.Role {
+	return predicate.Role(func(s *sql.Selector) {
+		step := sqlgraph.NewStep(
+			sqlgraph.From(Table, FieldID),
+			sqlgraph.Edge(sqlgraph.M2O, true, ParentTable, ParentColumn),
+		)
+		sqlgraph.HasNeighbors(s, step)
+	})
+}
+
+// HasParentWith applies the HasEdge predicate on the "parent" edge with a given conditions (other predicates).
+func HasParentWith(preds ...predicate.Role) predicate.Role {
+	return predicate.Role(func(s *sql.Selector) {
+		step := newParentStep()
+		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
+			for _, p := range preds {
+				p(s)
+			}
+		})
+	})
+}
+
+// HasChildren applies the HasEdge predicate on the "children" edge.
+func HasChildren() predicate.Role {
+	return predicate.Role(func(s *sql.Selector) {
+		step := sqlgraph.NewStep(
+			sqlgraph.From(Table, FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, ChildrenTable, ChildrenColumn),
+		)
+		sqlgraph.HasNeighbors(s, step)
+	})
+}
+
+// HasChildrenWith applies the HasEdge predicate on the "children" edge with a given conditions (other predicates).
+func HasChildrenWith(preds ...predicate.Role) predicate.Role {
+	return predicate.Role(func(s *sql.Selector) {
+		step := newChildrenStep()
+		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
+			for _, p := range preds {
+				p(s)
+			}
+		})
+	})
 }
 
 // And groups predicates with the AND operator between them.

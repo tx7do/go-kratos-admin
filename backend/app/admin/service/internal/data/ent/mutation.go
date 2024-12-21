@@ -3756,26 +3756,29 @@ func (m *PositionMutation) ResetEdge(name string) error {
 // RoleMutation represents an operation that mutates the Role nodes in the graph.
 type RoleMutation struct {
 	config
-	op            Op
-	typ           string
-	id            *uint32
-	create_time   *time.Time
-	update_time   *time.Time
-	delete_time   *time.Time
-	status        *role.Status
-	create_by     *uint32
-	addcreate_by  *int32
-	remark        *string
-	name          *string
-	code          *string
-	parent_id     *uint32
-	addparent_id  *int32
-	order_no      *int32
-	addorder_no   *int32
-	clearedFields map[string]struct{}
-	done          bool
-	oldValue      func(context.Context) (*Role, error)
-	predicates    []predicate.Role
+	op              Op
+	typ             string
+	id              *uint32
+	create_time     *time.Time
+	update_time     *time.Time
+	delete_time     *time.Time
+	status          *role.Status
+	create_by       *uint32
+	addcreate_by    *int32
+	remark          *string
+	name            *string
+	code            *string
+	order_no        *int32
+	addorder_no     *int32
+	clearedFields   map[string]struct{}
+	parent          *uint32
+	clearedparent   bool
+	children        map[uint32]struct{}
+	removedchildren map[uint32]struct{}
+	clearedchildren bool
+	done            bool
+	oldValue        func(context.Context) (*Role, error)
+	predicates      []predicate.Role
 }
 
 var _ ent.Mutation = (*RoleMutation)(nil)
@@ -4297,13 +4300,12 @@ func (m *RoleMutation) ResetCode() {
 
 // SetParentID sets the "parent_id" field.
 func (m *RoleMutation) SetParentID(u uint32) {
-	m.parent_id = &u
-	m.addparent_id = nil
+	m.parent = &u
 }
 
 // ParentID returns the value of the "parent_id" field in the mutation.
 func (m *RoleMutation) ParentID() (r uint32, exists bool) {
-	v := m.parent_id
+	v := m.parent
 	if v == nil {
 		return
 	}
@@ -4327,28 +4329,9 @@ func (m *RoleMutation) OldParentID(ctx context.Context) (v *uint32, err error) {
 	return oldValue.ParentID, nil
 }
 
-// AddParentID adds u to the "parent_id" field.
-func (m *RoleMutation) AddParentID(u int32) {
-	if m.addparent_id != nil {
-		*m.addparent_id += u
-	} else {
-		m.addparent_id = &u
-	}
-}
-
-// AddedParentID returns the value that was added to the "parent_id" field in this mutation.
-func (m *RoleMutation) AddedParentID() (r int32, exists bool) {
-	v := m.addparent_id
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
 // ClearParentID clears the value of the "parent_id" field.
 func (m *RoleMutation) ClearParentID() {
-	m.parent_id = nil
-	m.addparent_id = nil
+	m.parent = nil
 	m.clearedFields[role.FieldParentID] = struct{}{}
 }
 
@@ -4360,8 +4343,7 @@ func (m *RoleMutation) ParentIDCleared() bool {
 
 // ResetParentID resets all changes to the "parent_id" field.
 func (m *RoleMutation) ResetParentID() {
-	m.parent_id = nil
-	m.addparent_id = nil
+	m.parent = nil
 	delete(m.clearedFields, role.FieldParentID)
 }
 
@@ -4435,6 +4417,87 @@ func (m *RoleMutation) ResetOrderNo() {
 	delete(m.clearedFields, role.FieldOrderNo)
 }
 
+// ClearParent clears the "parent" edge to the Role entity.
+func (m *RoleMutation) ClearParent() {
+	m.clearedparent = true
+	m.clearedFields[role.FieldParentID] = struct{}{}
+}
+
+// ParentCleared reports if the "parent" edge to the Role entity was cleared.
+func (m *RoleMutation) ParentCleared() bool {
+	return m.ParentIDCleared() || m.clearedparent
+}
+
+// ParentIDs returns the "parent" edge IDs in the mutation.
+// Note that IDs always returns len(IDs) <= 1 for unique edges, and you should use
+// ParentID instead. It exists only for internal usage by the builders.
+func (m *RoleMutation) ParentIDs() (ids []uint32) {
+	if id := m.parent; id != nil {
+		ids = append(ids, *id)
+	}
+	return
+}
+
+// ResetParent resets all changes to the "parent" edge.
+func (m *RoleMutation) ResetParent() {
+	m.parent = nil
+	m.clearedparent = false
+}
+
+// AddChildIDs adds the "children" edge to the Role entity by ids.
+func (m *RoleMutation) AddChildIDs(ids ...uint32) {
+	if m.children == nil {
+		m.children = make(map[uint32]struct{})
+	}
+	for i := range ids {
+		m.children[ids[i]] = struct{}{}
+	}
+}
+
+// ClearChildren clears the "children" edge to the Role entity.
+func (m *RoleMutation) ClearChildren() {
+	m.clearedchildren = true
+}
+
+// ChildrenCleared reports if the "children" edge to the Role entity was cleared.
+func (m *RoleMutation) ChildrenCleared() bool {
+	return m.clearedchildren
+}
+
+// RemoveChildIDs removes the "children" edge to the Role entity by IDs.
+func (m *RoleMutation) RemoveChildIDs(ids ...uint32) {
+	if m.removedchildren == nil {
+		m.removedchildren = make(map[uint32]struct{})
+	}
+	for i := range ids {
+		delete(m.children, ids[i])
+		m.removedchildren[ids[i]] = struct{}{}
+	}
+}
+
+// RemovedChildren returns the removed IDs of the "children" edge to the Role entity.
+func (m *RoleMutation) RemovedChildrenIDs() (ids []uint32) {
+	for id := range m.removedchildren {
+		ids = append(ids, id)
+	}
+	return
+}
+
+// ChildrenIDs returns the "children" edge IDs in the mutation.
+func (m *RoleMutation) ChildrenIDs() (ids []uint32) {
+	for id := range m.children {
+		ids = append(ids, id)
+	}
+	return
+}
+
+// ResetChildren resets all changes to the "children" edge.
+func (m *RoleMutation) ResetChildren() {
+	m.children = nil
+	m.clearedchildren = false
+	m.removedchildren = nil
+}
+
 // Where appends a list predicates to the RoleMutation builder.
 func (m *RoleMutation) Where(ps ...predicate.Role) {
 	m.predicates = append(m.predicates, ps...)
@@ -4494,7 +4557,7 @@ func (m *RoleMutation) Fields() []string {
 	if m.code != nil {
 		fields = append(fields, role.FieldCode)
 	}
-	if m.parent_id != nil {
+	if m.parent != nil {
 		fields = append(fields, role.FieldParentID)
 	}
 	if m.order_no != nil {
@@ -4647,9 +4710,6 @@ func (m *RoleMutation) AddedFields() []string {
 	if m.addcreate_by != nil {
 		fields = append(fields, role.FieldCreateBy)
 	}
-	if m.addparent_id != nil {
-		fields = append(fields, role.FieldParentID)
-	}
 	if m.addorder_no != nil {
 		fields = append(fields, role.FieldOrderNo)
 	}
@@ -4663,8 +4723,6 @@ func (m *RoleMutation) AddedField(name string) (ent.Value, bool) {
 	switch name {
 	case role.FieldCreateBy:
 		return m.AddedCreateBy()
-	case role.FieldParentID:
-		return m.AddedParentID()
 	case role.FieldOrderNo:
 		return m.AddedOrderNo()
 	}
@@ -4682,13 +4740,6 @@ func (m *RoleMutation) AddField(name string, value ent.Value) error {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.AddCreateBy(v)
-		return nil
-	case role.FieldParentID:
-		v, ok := value.(int32)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.AddParentID(v)
 		return nil
 	case role.FieldOrderNo:
 		v, ok := value.(int32)
@@ -4823,49 +4874,103 @@ func (m *RoleMutation) ResetField(name string) error {
 
 // AddedEdges returns all edge names that were set/added in this mutation.
 func (m *RoleMutation) AddedEdges() []string {
-	edges := make([]string, 0, 0)
+	edges := make([]string, 0, 2)
+	if m.parent != nil {
+		edges = append(edges, role.EdgeParent)
+	}
+	if m.children != nil {
+		edges = append(edges, role.EdgeChildren)
+	}
 	return edges
 }
 
 // AddedIDs returns all IDs (to other nodes) that were added for the given edge
 // name in this mutation.
 func (m *RoleMutation) AddedIDs(name string) []ent.Value {
+	switch name {
+	case role.EdgeParent:
+		if id := m.parent; id != nil {
+			return []ent.Value{*id}
+		}
+	case role.EdgeChildren:
+		ids := make([]ent.Value, 0, len(m.children))
+		for id := range m.children {
+			ids = append(ids, id)
+		}
+		return ids
+	}
 	return nil
 }
 
 // RemovedEdges returns all edge names that were removed in this mutation.
 func (m *RoleMutation) RemovedEdges() []string {
-	edges := make([]string, 0, 0)
+	edges := make([]string, 0, 2)
+	if m.removedchildren != nil {
+		edges = append(edges, role.EdgeChildren)
+	}
 	return edges
 }
 
 // RemovedIDs returns all IDs (to other nodes) that were removed for the edge with
 // the given name in this mutation.
 func (m *RoleMutation) RemovedIDs(name string) []ent.Value {
+	switch name {
+	case role.EdgeChildren:
+		ids := make([]ent.Value, 0, len(m.removedchildren))
+		for id := range m.removedchildren {
+			ids = append(ids, id)
+		}
+		return ids
+	}
 	return nil
 }
 
 // ClearedEdges returns all edge names that were cleared in this mutation.
 func (m *RoleMutation) ClearedEdges() []string {
-	edges := make([]string, 0, 0)
+	edges := make([]string, 0, 2)
+	if m.clearedparent {
+		edges = append(edges, role.EdgeParent)
+	}
+	if m.clearedchildren {
+		edges = append(edges, role.EdgeChildren)
+	}
 	return edges
 }
 
 // EdgeCleared returns a boolean which indicates if the edge with the given name
 // was cleared in this mutation.
 func (m *RoleMutation) EdgeCleared(name string) bool {
+	switch name {
+	case role.EdgeParent:
+		return m.clearedparent
+	case role.EdgeChildren:
+		return m.clearedchildren
+	}
 	return false
 }
 
 // ClearEdge clears the value of the edge with the given name. It returns an error
 // if that edge is not defined in the schema.
 func (m *RoleMutation) ClearEdge(name string) error {
+	switch name {
+	case role.EdgeParent:
+		m.ClearParent()
+		return nil
+	}
 	return fmt.Errorf("unknown Role unique edge %s", name)
 }
 
 // ResetEdge resets all changes to the edge with the given name in this mutation.
 // It returns an error if the edge is not defined in the schema.
 func (m *RoleMutation) ResetEdge(name string) error {
+	switch name {
+	case role.EdgeParent:
+		m.ResetParent()
+		return nil
+	case role.EdgeChildren:
+		m.ResetChildren()
+		return nil
+	}
 	return fmt.Errorf("unknown Role edge %s", name)
 }
 

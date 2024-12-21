@@ -33,6 +33,7 @@
     "pinia": "catalog:",
     "vue": "catalog:",
     "vue-router": "catalog:",
-    "@iconify/vue": "catalog:"
+    "@iconify/vue": "catalog:",
+    "@iconify/json": "catalog:"
   }
 }

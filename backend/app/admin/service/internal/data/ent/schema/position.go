@@ -29,17 +29,17 @@ func (Position) Annotations() []schema.Annotation {
 func (Position) Fields() []ent.Field {
 	return []ent.Field{
 		field.String("name").
-			Comment("角色名称").
+			Comment("职位名称").
 			Default("").
 			MaxLen(128),
 
 		field.String("code").
-			Comment("角色标识").
+			Comment("职位标识").
 			Default("").
 			MaxLen(128),
 
 		field.Uint32("parent_id").
-			Comment("上一层角色ID").
+			Comment("上一层职位ID").
 			Default(0).
 			Optional(),
 

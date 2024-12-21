@@ -83,10 +83,10 @@ var (
 		{Name: "status", Type: field.TypeEnum, Nullable: true, Comment: "状态", Enums: []string{"OFF", "ON"}, Default: "ON"},
 		{Name: "create_by", Type: field.TypeUint32, Nullable: true, Comment: "创建者ID"},
 		{Name: "remark", Type: field.TypeString, Nullable: true, Comment: "备注", Default: ""},
-		{Name: "name", Type: field.TypeString, Size: 128, Comment: "角色名称", Default: ""},
-		{Name: "code", Type: field.TypeString, Size: 128, Comment: "角色标识", Default: ""},
+		{Name: "name", Type: field.TypeString, Size: 128, Comment: "职位名称", Default: ""},
+		{Name: "code", Type: field.TypeString, Size: 128, Comment: "职位标识", Default: ""},
 		{Name: "order_no", Type: field.TypeInt32, Comment: "排序ID", Default: 0},
-		{Name: "parent_id", Type: field.TypeUint32, Nullable: true, Comment: "上一层角色ID", Default: 0, SchemaType: map[string]string{"mysql": "int", "postgres": "serial"}},
+		{Name: "parent_id", Type: field.TypeUint32, Nullable: true, Comment: "上一层职位ID", Default: 0, SchemaType: map[string]string{"mysql": "int", "postgres": "serial"}},
 	}
 	// PositionsTable holds the schema information for the "positions" table.
 	PositionsTable = &schema.Table{

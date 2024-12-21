@@ -4,6 +4,8 @@ import { computed, ref } from 'vue';
 import { useVbenDrawer } from '@vben/common-ui';
 import { $t } from '@vben/locales';
 
+import lucide from '@iconify/json/json/lucide.json';
+import { addCollection } from '@iconify/vue';
 import { notification } from 'ant-design-vue';
 
 import { useVbenForm } from '#/adapter/form';
@@ -15,6 +17,7 @@ import {
 } from '#/rpc';
 
 const data = ref();
+addCollection(lucide);
 
 const getTitle = computed(() => (data.value?.create ? '创建菜单' : '编辑菜单'));
 // const isCreate = computed(() => data.value?.create);
@@ -72,6 +75,9 @@ const [BaseForm, baseFormApi] = useVbenForm({
       component: 'IconPicker',
       fieldName: 'icon',
       label: '图标',
+      componentProps: {
+        prefix: 'lucide',
+      },
     },
     {
       component: 'Input',

@@ -30,11 +30,11 @@ type Position struct {
 	CreateBy *uint32 `json:"create_by,omitempty"`
 	// 备注
 	Remark *string `json:"remark,omitempty"`
-	// 角色名称
+	// 职位名称
 	Name string `json:"name,omitempty"`
-	// 角色标识
+	// 职位标识
 	Code string `json:"code,omitempty"`
-	// 上一层角色ID
+	// 上一层职位ID
 	ParentID uint32 `json:"parent_id,omitempty"`
 	// 排序ID
 	OrderNo int32 `json:"order_no,omitempty"`

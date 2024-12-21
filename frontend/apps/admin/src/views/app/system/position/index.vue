@@ -55,7 +55,14 @@ const gridOptions: VxeGridProps<User> = {
   rowConfig: {
     isHover: true,
   },
-  stripe: true,
+
+  // stripe: true,
+
+  treeConfig: {
+    childrenField: 'children',
+    rowField: 'id',
+    // transform: true,
+  },
 
   proxyConfig: {
     ajax: {
@@ -74,7 +81,7 @@ const gridOptions: VxeGridProps<User> = {
 
   columns: [
     { title: '序号', type: 'seq', width: 50 },
-    { title: '职位名称', field: 'name' },
+    { title: '职位名称', field: 'name', treeNode: true },
     { title: '排序', field: 'orderNo', width: 50 },
     { title: '状态', field: 'status', slots: { default: 'status' }, width: 80 },
     {
@@ -165,13 +172,25 @@ async function handleStatusChanged(row: any, checked: boolean) {
     row.pending = false;
   }
 }
+
+const expandAll = () => {
+  gridApi.grid?.setAllTreeExpand(true);
+};
+
+const collapseAll = () => {
+  gridApi.grid?.setAllTreeExpand(false);
+};
 </script>
 
 <template>
   <Page auto-content-height>
     <Grid :table-title="$t('menu.system.position')">
       <template #toolbar-tools>
-        <Button type="primary" @click="handleCreate">创建职位</Button>
+        <Button class="mr-2" type="primary" @click="handleCreate">
+          创建职位
+        </Button>
+        <Button class="mr-2" @click="expandAll"> 展开全部 </Button>
+        <Button class="mr-2" @click="collapseAll"> 折叠全部 </Button>
       </template>
       <template #status="{ row }">
         <Switch

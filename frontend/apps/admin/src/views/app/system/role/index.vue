@@ -55,7 +55,14 @@ const gridOptions: VxeGridProps<User> = {
   rowConfig: {
     isHover: true,
   },
-  stripe: true,
+
+  // stripe: true,
+
+  treeConfig: {
+    childrenField: 'children',
+    rowField: 'id',
+    // transform: true,
+  },
 
   proxyConfig: {
     ajax: {
@@ -74,23 +81,23 @@ const gridOptions: VxeGridProps<User> = {
 
   columns: [
     { title: '序号', type: 'seq', width: 50 },
-    { title: '角色名称', field: 'name', width: 100 },
+    { title: '角色名称', field: 'name', width: 100, treeNode: true },
     { title: '角色值', field: 'code', width: 140 },
     { title: '排序', field: 'orderNo', width: 50 },
     { title: '状态', field: 'status', slots: { default: 'status' }, width: 80 },
+    { title: '备注', field: 'remark' },
     {
       title: '创建时间',
       field: 'createTime',
       formatter: 'formatDateTime',
       width: 140,
     },
-    { title: '备注', field: 'remark' },
     {
       title: '操作',
       field: 'action',
       fixed: 'right',
       slots: { default: 'action' },
-      width: 210,
+      width: 230,
     },
   ],
 };
@@ -166,13 +173,25 @@ async function handleStatusChanged(row: any, checked: boolean) {
     row.pending = false;
   }
 }
+
+const expandAll = () => {
+  gridApi.grid?.setAllTreeExpand(true);
+};
+
+const collapseAll = () => {
+  gridApi.grid?.setAllTreeExpand(false);
+};
 </script>
 
 <template>
   <Page auto-content-height>
     <Grid :table-title="$t('menu.system.role')">
       <template #toolbar-tools>
-        <Button type="primary" @click="handleCreate">创建角色</Button>
+        <Button class="mr-2" type="primary" @click="handleCreate">
+          创建角色
+        </Button>
+        <Button class="mr-2" @click="expandAll"> 展开全部 </Button>
+        <Button class="mr-2" @click="collapseAll"> 折叠全部 </Button>
       </template>
       <template #status="{ row }">
         <Switch

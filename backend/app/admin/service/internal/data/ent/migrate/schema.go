@@ -120,14 +120,22 @@ var (
 		{Name: "remark", Type: field.TypeString, Nullable: true, Comment: "备注", Default: ""},
 		{Name: "name", Type: field.TypeString, Unique: true, Nullable: true, Size: 128, Comment: "角色名称"},
 		{Name: "code", Type: field.TypeString, Nullable: true, Size: 128, Comment: "角色标识", Default: ""},
-		{Name: "parent_id", Type: field.TypeUint32, Nullable: true, Comment: "上一层角色ID"},
 		{Name: "order_no", Type: field.TypeInt32, Nullable: true, Comment: "排序ID", Default: 0},
+		{Name: "parent_id", Type: field.TypeUint32, Nullable: true, Comment: "上一层角色ID", SchemaType: map[string]string{"mysql": "int", "postgres": "serial"}},
 	}
 	// RolesTable holds the schema information for the "roles" table.
 	RolesTable = &schema.Table{
 		Name:       "roles",
 		Columns:    RolesColumns,
 		PrimaryKey: []*schema.Column{RolesColumns[0]},
+		ForeignKeys: []*schema.ForeignKey{
+			{
+				Symbol:     "roles_roles_children",
+				Columns:    []*schema.Column{RolesColumns[10]},
+				RefColumns: []*schema.Column{RolesColumns[0]},
+				OnDelete:   schema.SetNull,
+			},
+		},
 		Indexes: []*schema.Index{
 			{
 				Name:    "role_id",
@@ -212,6 +220,7 @@ func init() {
 		Charset:   "utf8mb4",
 		Collation: "utf8mb4_bin",
 	}
+	RolesTable.ForeignKeys[0].RefTable = RolesTable
 	RolesTable.Annotation = &entsql.Annotation{
 		Table:     "roles",
 		Charset:   "utf8mb4",

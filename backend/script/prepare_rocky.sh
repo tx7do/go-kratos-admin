@@ -21,7 +21,7 @@ sudo dnf -y install \
     https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm \
     https://dl.fedoraproject.org/pub/epel/epel-next-release-latest-9.noarch.rpm
 
-sudo dnf -y install epel-release htop wget unzip
+sudo dnf -y install epel-release htop wget unzip git jq
 
 ####################################
 ## 安装PM2
@@ -48,19 +48,7 @@ sudo systemctl enable pm2-${USER}
 ## 安装Golang
 ####################################
 
-latest_version=1.23.4
-
-wget https://dl.google.com/go/go$latest_version.linux-amd64.tar.gz
-
-rm -rf /usr/local/go && tar -C /usr/local -xzf go$latest_version.linux-amd64.tar.gz
-rm -fr go$latest_version.linux-amd64.tar.gz
-
-echo "export GOROOT=/usr/local/go" >> ~/.bashrc
-echo "export PATH=$PATH:/usr/local/go/bin" >> ~/.bashrc
-echo "export GOPATH=~/go" >> ~/.bashrc
-source ~/.bashrc
-
-go version
+./install_golang.sh
 
 ####################################
 ## 安装Docker

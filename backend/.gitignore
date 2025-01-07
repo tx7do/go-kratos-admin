@@ -33,3 +33,6 @@ bin/
 .vscode/
 .idea/
 *.swp
+
+# Go workspace file
+go.work

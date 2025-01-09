@@ -14,8 +14,21 @@
 # Output of the go coverage tool, specifically when used with LiteIDE
 *.out
 
-# Dependency directories (remove the comment below to include it)
-# vendor/
+# Compiled Object files, Static and Dynamic libs (Shared Objects)
+*.o
+*.a
 
-# Go workspace file
-go.work
+# OS General
+Thumbs.db
+.DS_Store
+
+# project
+*.cert
+*.key
+*.log
+bin/
+
+# Develop tools
+.vscode/
+.idea/
+*.swp

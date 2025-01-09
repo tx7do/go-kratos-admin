@@ -12,6 +12,7 @@ import { $t, setupI18n } from '#/locales';
 
 import { initComponentAdapter } from './adapter/component';
 import App from './app.vue';
+import { registerGlobComp } from './registerGlobComp';
 import { router } from './router';
 
 async function bootstrap(namespace: string) {
@@ -19,6 +20,9 @@ async function bootstrap(namespace: string) {
   await initComponentAdapter();
 
   const app = createApp(App);
+
+  // 注册全局组件
+  registerGlobComp(app);
 
   // 国际化 i18n 配置
   await setupI18n(app);

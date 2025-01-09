@@ -189,8 +189,12 @@ const collapseAll = () => {
         <a-button class="mr-2" type="primary" @click="handleCreate">
           创建职位
         </a-button>
-        <a-button class="mr-2" @click="expandAll"> 展开全部</a-button>
-        <a-button class="mr-2" @click="collapseAll"> 折叠全部</a-button>
+        <a-button type="default" class="mr-2" @click="expandAll">
+          展开全部
+        </a-button>
+        <a-button type="default" class="mr-2" @click="collapseAll">
+          折叠全部
+        </a-button>
       </template>
       <template #status="{ row }">
         <a-switch

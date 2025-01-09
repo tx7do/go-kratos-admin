@@ -172,13 +172,13 @@ const [Drawer, drawerApi] = useVbenDrawer({
     try {
       await (data.value?.create
         ? defMenuService.CreateMenu({
-            menu: {
+            data: {
               ...values,
               children: [],
             },
           })
         : defMenuService.UpdateMenu({
-            menu: {
+            data: {
               id: data.value.row.id,
               children: [],
               ...values,

@@ -89,7 +89,7 @@ const [Drawer, drawerApi] = useVbenDrawer({
     try {
       await (data.value?.create
         ? defRoleService.CreateRole({
-            role: {
+            data: {
               ...values,
               children: [],
             },

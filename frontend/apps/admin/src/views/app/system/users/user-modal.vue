@@ -7,7 +7,12 @@ import { $t } from '@vben/locales';
 import { notification } from 'ant-design-vue';
 
 import { useVbenForm, z } from '#/adapter/form';
-import { authorityList, defOrganizationService, defUserService } from '#/rpc';
+import {
+  authorityList,
+  defOrganizationService,
+  defUserService,
+  makeUpdateMask,
+} from '#/rpc';
 
 const data = ref();
 
@@ -138,12 +143,12 @@ const [Modal, modalApi] = useVbenModal({
     try {
       await (data.value?.create
         ? defUserService.CreateUser({
-            user: {
+            data: {
               ...values,
             },
           })
         : defUserService.UpdateUser({
-            user: {
+            data: {
               id: data.value.row.id,
               ...values,
             },

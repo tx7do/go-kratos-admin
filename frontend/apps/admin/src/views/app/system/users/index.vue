@@ -4,7 +4,7 @@ import type { User } from '#/rpc/api/user/service/v1/user.pb';
 
 import { Page, useVbenModal, type VbenFormProps } from '@vben/common-ui';
 
-import { Button, notification, Popconfirm, Switch, Tag } from 'ant-design-vue';
+import { notification } from 'ant-design-vue';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
 import { $t } from '#/locales';
@@ -165,7 +165,7 @@ async function handleStatusChanged(row: any, checked: boolean) {
 
   try {
     await defUserService.UpdateUser({
-      user: { id: row.id, status: row.status },
+      data: { id: row.id, status: row.status },
       updateMask: 'id,status',
     });
 

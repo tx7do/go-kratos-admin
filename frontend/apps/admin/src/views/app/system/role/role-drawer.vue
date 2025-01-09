@@ -95,7 +95,7 @@ const [Drawer, drawerApi] = useVbenDrawer({
             },
           })
         : defRoleService.UpdateRole({
-            role: {
+            data: {
               id: data.value.row.id,
               children: [],
               ...values,

@@ -35,7 +35,9 @@ class UserServiceImpl implements UserService {
 
   async UpdateUser(request: UpdateUserRequest): Promise<Empty> {
     const id = request.data?.id;
-    if (request.data !== null) request.data.id = undefined;
+    if (request.data !== null && request.data !== undefined) {
+      request.data.id = undefined;
+    }
     return await requestClient.put<Empty>(`/users/${id}`, request);
   }
 }

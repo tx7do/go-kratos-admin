@@ -158,7 +158,7 @@ async function handleStatusChanged(row: any, checked: boolean) {
 
   try {
     await defRoleService.UpdateRole({
-      role: { id: row.id, status: row.status },
+      data: { id: row.id, status: row.status },
       updateMask: 'id,status',
     });
 

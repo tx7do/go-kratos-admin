@@ -173,7 +173,7 @@ async function handleStatusChanged(row: any, checked: boolean) {
 
   try {
     await defMenuService.UpdateMenu({
-      menu: { id: row.id, status: row.status },
+      data: { id: row.id, status: row.status },
       updateMask: 'id,status',
     });
 

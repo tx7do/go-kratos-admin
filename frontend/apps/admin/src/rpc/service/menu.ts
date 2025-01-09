@@ -35,7 +35,9 @@ class MenuServiceImpl implements MenuService {
 
   async UpdateMenu(request: UpdateMenuRequest): Promise<Empty> {
     const id = request.data?.id;
-    if (request.data !== null) request.data.id = undefined;
+    if (request.data !== null && request.data !== undefined) {
+      request.data.id = undefined;
+    }
     return await requestClient.put<Empty>(`/menus/${id}`, request);
   }
 }

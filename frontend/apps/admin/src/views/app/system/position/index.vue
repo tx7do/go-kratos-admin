@@ -157,7 +157,7 @@ async function handleStatusChanged(row: any, checked: boolean) {
 
   try {
     await defPositionService.UpdatePosition({
-      position: { id: row.id, status: row.status },
+      data: { id: row.id, status: row.status },
       updateMask: 'id,status',
     });
 

@@ -8,7 +8,7 @@ import { Page, useVbenDrawer, type VbenFormProps } from '@vben/common-ui';
 import { LucideFilePenLine, LucideTrash2 } from '@vben/icons';
 
 import { Icon } from '@iconify/vue';
-import { Button, notification, Popconfirm, Switch } from 'ant-design-vue';
+import { notification } from 'ant-design-vue';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
 import { $t } from '#/locales';
@@ -202,11 +202,11 @@ const collapseAll = () => {
   <Page auto-content-height>
     <Grid :table-title="$t('menu.system.menu')">
       <template #toolbar-tools>
-        <Button class="mr-2" type="primary" @click="handleCreate">
+        <a-button class="mr-2" type="primary" @click="handleCreate">
           创建菜单
-        </Button>
-        <Button class="mr-2" @click="expandAll"> 展开全部 </Button>
-        <Button class="mr-2" @click="collapseAll"> 折叠全部 </Button>
+        </a-button>
+        <a-button class="mr-2" @click="expandAll"> 展开全部 </a-button>
+        <a-button class="mr-2" @click="collapseAll"> 折叠全部 </a-button>
       </template>
       <template #title="{ row }">
         <span :style="{ marginRight: '15px' }">{{ $t(row.meta.title) }}</span>
@@ -219,28 +219,30 @@ const collapseAll = () => {
         />
       </template>
       <template #status="{ row }">
-        <Switch
+        <a-switch
           :checked="row.status === 'ON'"
           :loading="row.pending"
           checked-children="正常"
           un-checked-children="停用"
-          @change="(checked) => handleStatusChanged(row, checked as boolean)"
+          @change="
+            (checked: any) => handleStatusChanged(row, checked as boolean)
+          "
         />
       </template>
       <template #action="{ row }">
-        <Button
+        <a-button
           type="link"
           :icon="h(LucideFilePenLine)"
           @click="() => handleEdit(row)"
         />
-        <Popconfirm
+        <a-popconfirm
           cancel-text="不要"
           ok-text="是的"
           title="你是否要删除掉该菜单？"
           @confirm="() => handleDelete(row)"
         >
-          <Button danger type="link" :icon="h(LucideTrash2)" />
-        </Popconfirm>
+          <a-button danger type="link" :icon="h(LucideTrash2)" />
+        </a-popconfirm>
       </template>
     </Grid>
     <Drawer />

@@ -5,8 +5,6 @@ import { useRoute } from 'vue-router';
 import { Page, useVbenModal } from '@vben/common-ui';
 import { LucideArrowLeft } from '@vben/icons';
 
-import { Button, Card, TabPane, Tabs } from 'ant-design-vue';
-
 import { router } from '#/router';
 
 import DetailPage from './detail-page.vue';
@@ -67,35 +65,38 @@ function handleEditPassword() {
           gap: 10px;
         "
       >
-        <Button type="text" @click="goBack">
+        <a-button type="text" @click="goBack">
           <template #icon>
             <LucideArrowLeft class="text-align:center" />
           </template>
-        </Button>
+        </a-button>
         <span>用户{{ userId }}的资料</span>
       </div>
     </template>
     <template #extra>
-      <Button class="mr-2" danger type="primary" @click="handleBanAccount">
+      <a-button class="mr-2" danger type="primary" @click="handleBanAccount">
         禁用账号
-      </Button>
-      <Button class="mr-2" type="primary" @click="handleEditPassword">
+      </a-button>
+      <a-button class="mr-2" type="primary" @click="handleEditPassword">
         修改密码
-      </Button>
+      </a-button>
     </template>
     <template #description>
-      <Tabs v-model:active-key="activeTab" :tab-bar-style="{ marginBottom: 0 }">
-        <TabPane key="detail" tab="用户资料" />
-        <TabPane key="log" tab="操作日志" />
-      </Tabs>
+      <a-tabs
+        v-model:active-key="activeTab"
+        :tab-bar-style="{ marginBottom: 0 }"
+      >
+        <a-tab-pane key="detail" tab="用户资料" />
+        <a-tab-pane key="log" tab="操作日志" />
+      </a-tabs>
     </template>
 
-    <Card v-show="activeTab === 'detail'">
+    <a-card v-show="activeTab === 'detail'">
       <DetailPage />
-    </Card>
-    <Card v-show="activeTab === 'log'">
+    </a-card>
+    <a-card v-show="activeTab === 'log'">
       <LogPage />
-    </Card>
+    </a-card>
     <Modal />
   </Page>
 </template>

@@ -13,6 +13,7 @@
     "user": "User Management",
     "user_detail": "User Detail",
     "org": "Organization Management",
+    "dept": "Department Management",
     "permission": "Permission Management",
     "menu": "Menu Management"
   }

@@ -44,6 +44,7 @@ const system: RouteRecordRaw[] = [
         },
         component: () => import('#/views/app/system/menu/index.vue'),
       },
+
       {
         path: 'organizations',
         name: 'OrganizationManagement',
@@ -52,6 +53,16 @@ const system: RouteRecordRaw[] = [
           title: $t('menu.system.org'),
         },
         component: () => import('#/views/app/system/org/index.vue'),
+      },
+
+      {
+        path: 'departments',
+        name: 'DepartmentManagement',
+        meta: {
+          icon: 'lucide:network',
+          title: $t('menu.system.dept'),
+        },
+        component: () => import('#/views/app/system/dept/index.vue'),
       },
 
       {

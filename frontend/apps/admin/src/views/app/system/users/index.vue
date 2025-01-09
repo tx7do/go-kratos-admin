@@ -186,10 +186,10 @@ async function handleStatusChanged(row: any, checked: boolean) {
   <Page auto-content-height>
     <Grid :table-title="$t('menu.system.user')">
       <template #toolbar-tools>
-        <Button type="primary" @click="handleCreate">创建账号</Button>
+        <a-button type="primary" @click="handleCreate">创建账号</a-button>
       </template>
       <template #status="{ row }">
-        <Switch
+        <a-switch
           :checked="row.status === 'ON'"
           :loading="row.pending"
           checked-children="正常"
@@ -198,22 +198,22 @@ async function handleStatusChanged(row: any, checked: boolean) {
         />
       </template>
       <template #authority="{ row }">
-        <Tag :color="authorityToColor(row.authority)">
+        <a-tag :color="authorityToColor(row.authority)">
           {{ authorityToName(row.authority) }}
-        </Tag>
+        </a-tag>
       </template>
       <template #action="{ row }">
-        <Button type="link" @click="() => handleDetail(row)">详情</Button>
+        <a-button type="link" @click="() => handleDetail(row)">详情</a-button>
 
-        <Button type="link" @click="() => handleEdit(row)">编辑</Button>
-        <Popconfirm
+        <a-button type="link" @click="() => handleEdit(row)">编辑</a-button>
+        <a-popconfirm
           cancel-text="不要"
           ok-text="是的"
           title="你是否要删除掉该用户？"
           @confirm="() => handleDelete(row)"
         >
-          <Button danger type="link">删除</Button>
-        </Popconfirm>
+          <a-button danger type="link">删除</a-button>
+        </a-popconfirm>
       </template>
     </Grid>
     <Modal />

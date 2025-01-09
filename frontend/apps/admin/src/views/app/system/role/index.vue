@@ -4,7 +4,7 @@ import type { User } from '#/rpc/api/user/service/v1/user.pb';
 
 import { Page, useVbenDrawer, type VbenFormProps } from '@vben/common-ui';
 
-import { Button, notification, Popconfirm, Switch } from 'ant-design-vue';
+import { notification } from 'ant-design-vue';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
 import { $t } from '#/locales';
@@ -83,7 +83,7 @@ const gridOptions: VxeGridProps<User> = {
     { title: '序号', type: 'seq', width: 50 },
     { title: '角色名称', field: 'name', width: 100, treeNode: true },
     { title: '角色值', field: 'code', width: 140 },
-    { title: '排序', field: 'orderNo', width: 50 },
+    { title: '排序', field: 'sortId', width: 50 },
     { title: '状态', field: 'status', slots: { default: 'status' }, width: 80 },
     { title: '备注', field: 'remark' },
     {
@@ -187,31 +187,33 @@ const collapseAll = () => {
   <Page auto-content-height>
     <Grid :table-title="$t('menu.system.role')">
       <template #toolbar-tools>
-        <Button class="mr-2" type="primary" @click="handleCreate">
+        <a-button class="mr-2" type="primary" @click="handleCreate">
           创建角色
-        </Button>
-        <Button class="mr-2" @click="expandAll"> 展开全部 </Button>
-        <Button class="mr-2" @click="collapseAll"> 折叠全部 </Button>
+        </a-button>
+        <a-button class="mr-2" @click="expandAll"> 展开全部 </a-button>
+        <a-button class="mr-2" @click="collapseAll"> 折叠全部 </a-button>
       </template>
       <template #status="{ row }">
-        <Switch
+        <a-switch
           :checked="row.status === 'ON'"
           :loading="row.pending"
           checked-children="正常"
           un-checked-children="停用"
-          @change="(checked) => handleStatusChanged(row, checked as boolean)"
+          @change="
+            (checked: any) => handleStatusChanged(row, checked as boolean)
+          "
         />
       </template>
       <template #action="{ row }">
-        <Button type="link" @click="() => handleEdit(row)">编辑</Button>
-        <Popconfirm
+        <a-button type="link" @click="() => handleEdit(row)">编辑</a-button>
+        <a-popconfirm
           cancel-text="不要"
           ok-text="是的"
           title="你是否要删除掉该角色？"
           @confirm="() => handleDelete(row)"
         >
-          <Button danger type="link">删除</Button>
-        </Popconfirm>
+          <a-button danger type="link">删除</a-button>
+        </a-popconfirm>
       </template>
     </Grid>
     <Drawer />

@@ -4,7 +4,7 @@ import type { User } from '#/rpc/api/user/service/v1/user.pb';
 
 import { Page, useVbenModal, type VbenFormProps } from '@vben/common-ui';
 
-import { Button, notification, Popconfirm, Switch } from 'ant-design-vue';
+import { notification } from 'ant-design-vue';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
 import { $t } from '#/locales';
@@ -191,28 +191,30 @@ const collapseAll = () => {
         <a-button class="mr-2" type="primary" @click="handleCreate">
           创建部门
         </a-button>
-        <a-button class="mr-2" @click="expandAll"> 展开全部 </a-button>
-        <a-button class="mr-2" @click="collapseAll"> 折叠全部 </a-button>
+        <a-button class="mr-2" @click="expandAll"> 展开全部</a-button>
+        <a-button class="mr-2" @click="collapseAll"> 折叠全部</a-button>
       </template>
       <template #status="{ row }">
-        <Switch
+        <a-switch
           :checked="row.status === 'ON'"
           :loading="row.pending"
           checked-children="正常"
           un-checked-children="停用"
-          @change="(checked) => handleStatusChanged(row, checked as boolean)"
+          @change="
+            (checked: any) => handleStatusChanged(row, checked as boolean)
+          "
         />
       </template>
       <template #action="{ row }">
         <a-button type="link" @click="() => handleEdit(row)">编辑</a-button>
-        <Popconfirm
+        <a-popconfirm
           cancel-text="不要"
           ok-text="是的"
           title="你是否要删除掉该部门？"
           @confirm="() => handleDelete(row)"
         >
           <a-button danger type="link">删除</a-button>
-        </Popconfirm>
+        </a-popconfirm>
       </template>
     </Grid>
     <Modal />

@@ -28,6 +28,8 @@ type Role struct {
 	Status *role.Status `json:"status,omitempty"`
 	// 创建者ID
 	CreateBy *uint32 `json:"create_by,omitempty"`
+	// 更新者ID
+	UpdateBy *uint32 `json:"update_by,omitempty"`
 	// 备注
 	Remark *string `json:"remark,omitempty"`
 	// 角色名称
@@ -37,7 +39,7 @@ type Role struct {
 	// 上一层角色ID
 	ParentID *uint32 `json:"parent_id,omitempty"`
 	// 排序ID
-	OrderNo *int32 `json:"order_no,omitempty"`
+	SortID *int32 `json:"sort_id,omitempty"`
 	// Edges holds the relations/edges for other nodes in the graph.
 	// The values are being populated by the RoleQuery when eager-loading is set.
 	Edges        RoleEdges `json:"edges"`
@@ -80,7 +82,7 @@ func (*Role) scanValues(columns []string) ([]any, error) {
 	values := make([]any, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case role.FieldID, role.FieldCreateBy, role.FieldParentID, role.FieldOrderNo:
+		case role.FieldID, role.FieldCreateBy, role.FieldUpdateBy, role.FieldParentID, role.FieldSortID:
 			values[i] = new(sql.NullInt64)
 		case role.FieldStatus, role.FieldRemark, role.FieldName, role.FieldCode:
 			values[i] = new(sql.NullString)
@@ -142,6 +144,13 @@ func (r *Role) assignValues(columns []string, values []any) error {
 				r.CreateBy = new(uint32)
 				*r.CreateBy = uint32(value.Int64)
 			}
+		case role.FieldUpdateBy:
+			if value, ok := values[i].(*sql.NullInt64); !ok {
+				return fmt.Errorf("unexpected type %T for field update_by", values[i])
+			} else if value.Valid {
+				r.UpdateBy = new(uint32)
+				*r.UpdateBy = uint32(value.Int64)
+			}
 		case role.FieldRemark:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field remark", values[i])
@@ -170,12 +179,12 @@ func (r *Role) assignValues(columns []string, values []any) error {
 				r.ParentID = new(uint32)
 				*r.ParentID = uint32(value.Int64)
 			}
-		case role.FieldOrderNo:
+		case role.FieldSortID:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for field order_no", values[i])
+				return fmt.Errorf("unexpected type %T for field sort_id", values[i])
 			} else if value.Valid {
-				r.OrderNo = new(int32)
-				*r.OrderNo = int32(value.Int64)
+				r.SortID = new(int32)
+				*r.SortID = int32(value.Int64)
 			}
 		default:
 			r.selectValues.Set(columns[i], values[i])
@@ -248,6 +257,11 @@ func (r *Role) String() string {
 		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteString(", ")
+	if v := r.UpdateBy; v != nil {
+		builder.WriteString("update_by=")
+		builder.WriteString(fmt.Sprintf("%v", *v))
+	}
+	builder.WriteString(", ")
 	if v := r.Remark; v != nil {
 		builder.WriteString("remark=")
 		builder.WriteString(*v)
@@ -268,8 +282,8 @@ func (r *Role) String() string {
 		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteString(", ")
-	if v := r.OrderNo; v != nil {
-		builder.WriteString("order_no=")
+	if v := r.SortID; v != nil {
+		builder.WriteString("sort_id=")
 		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteByte(')')

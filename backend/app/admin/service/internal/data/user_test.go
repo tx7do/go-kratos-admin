@@ -28,7 +28,7 @@ func TestUserFieldMask(t *testing.T) {
 	}
 
 	updateUserReq := &userV1.UpdateUserRequest{
-		User: &userV1.User{
+		Data: &userV1.User{
 			UserName: trans.String("UserName1"),
 			RealName: trans.String("RealName1"),
 			//Avatar:   trans.String("Avatar1"),
@@ -44,8 +44,8 @@ func TestUserFieldMask(t *testing.T) {
 		panic("invalid field mask")
 	}
 
-	fieldmaskutil.Filter(updateUserReq.GetUser(), updateUserReq.UpdateMask.GetPaths())
-	proto.Merge(u, updateUserReq.GetUser())
+	fieldmaskutil.Filter(updateUserReq.GetData(), updateUserReq.UpdateMask.GetPaths())
+	proto.Merge(u, updateUserReq.GetData())
 
 	fmt.Println(reSpaces.ReplaceAllString(u.String(), " "))
 }

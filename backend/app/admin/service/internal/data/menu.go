@@ -207,33 +207,33 @@ func (r *MenuRepo) Get(ctx context.Context, req *systemV1.GetMenuRequest) (*syst
 }
 
 func (r *MenuRepo) Create(ctx context.Context, req *systemV1.CreateMenuRequest) error {
-	if req.Menu == nil {
+	if req.Data == nil {
 		return errors.New("invalid request")
 	}
 
 	builder := r.data.db.Client().Menu.Create().
-		SetNillableParentID(req.Menu.ParentId).
-		SetNillableType(r.convertMenuTypeToEnt(req.Menu.Type)).
-		SetNillablePath(req.Menu.Path).
-		SetNillableRedirect(req.Menu.Redirect).
-		SetNillableAlias(req.Menu.Alias).
-		SetNillableName(req.Menu.Name).
-		SetNillableComponent(req.Menu.Component).
-		SetNillableStatus(r.convertUserStatusToEnt(req.Menu.Status)).
+		SetNillableParentID(req.Data.ParentId).
+		SetNillableType(r.convertMenuTypeToEnt(req.Data.Type)).
+		SetNillablePath(req.Data.Path).
+		SetNillableRedirect(req.Data.Redirect).
+		SetNillableAlias(req.Data.Alias).
+		SetNillableName(req.Data.Name).
+		SetNillableComponent(req.Data.Component).
+		SetNillableStatus(r.convertUserStatusToEnt(req.Data.Status)).
 		SetNillableCreateBy(req.OperatorId)
 
-	if req.Menu.CreateTime == nil {
+	if req.Data.CreateTime == nil {
 		builder.SetCreateTime(time.Now())
 	} else {
-		builder.SetCreateTime(*timeutil.TimestamppbToTime(req.Menu.CreateTime))
+		builder.SetCreateTime(*timeutil.TimestamppbToTime(req.Data.CreateTime))
 	}
 
-	if req.Menu.Meta != nil {
-		builder.SetMeta(req.Menu.Meta)
+	if req.Data.Meta != nil {
+		builder.SetMeta(req.Data.Meta)
 	}
 
-	if req.Menu.Id != nil {
-		builder.SetID(req.Menu.GetId())
+	if req.Data.Id != nil {
+		builder.SetID(req.Data.GetId())
 	}
 
 	err := builder.Exec(ctx)
@@ -246,18 +246,18 @@ func (r *MenuRepo) Create(ctx context.Context, req *systemV1.CreateMenuRequest) 
 }
 
 func (r *MenuRepo) Update(ctx context.Context, req *systemV1.UpdateMenuRequest) error {
-	if req.Menu == nil {
+	if req.Data == nil {
 		return errors.New("invalid request")
 	}
 
 	// 如果不存在则创建
 	if req.GetAllowMissing() {
-		exist, err := r.IsExist(ctx, req.GetMenu().GetId())
+		exist, err := r.IsExist(ctx, req.GetData().GetId())
 		if err != nil {
 			return err
 		}
 		if !exist {
-			return r.Create(ctx, &systemV1.CreateMenuRequest{Menu: req.Menu, OperatorId: req.OperatorId})
+			return r.Create(ctx, &systemV1.CreateMenuRequest{Data: req.Data, OperatorId: req.OperatorId})
 		}
 	}
 
@@ -270,36 +270,37 @@ func (r *MenuRepo) Update(ctx context.Context, req *systemV1.UpdateMenuRequest) 
 		}
 
 		req.UpdateMask.Normalize()
-		if !req.UpdateMask.IsValid(req.Menu) {
+		if !req.UpdateMask.IsValid(req.Data) {
 			return errors.New("invalid field mask")
 		}
-		fieldmaskutil.Filter(req.GetMenu(), req.UpdateMask.GetPaths())
+		fieldmaskutil.Filter(req.GetData(), req.UpdateMask.GetPaths())
 	}
 
 	builder := r.data.db.Client().
 		//Debug().
-		Menu.UpdateOneID(req.Menu.GetId()).
-		SetNillableParentID(req.Menu.ParentId).
-		SetNillableType(r.convertMenuTypeToEnt(req.Menu.Type)).
-		SetNillablePath(req.Menu.Path).
-		SetNillableRedirect(req.Menu.Redirect).
-		SetNillableAlias(req.Menu.Alias).
-		SetNillableName(req.Menu.Name).
-		SetNillableComponent(req.Menu.Component).
-		SetNillableStatus(r.convertUserStatusToEnt(req.Menu.Status))
+		Menu.UpdateOneID(req.Data.GetId()).
+		SetNillableParentID(req.Data.ParentId).
+		SetNillableType(r.convertMenuTypeToEnt(req.Data.Type)).
+		SetNillablePath(req.Data.Path).
+		SetNillableRedirect(req.Data.Redirect).
+		SetNillableAlias(req.Data.Alias).
+		SetNillableName(req.Data.Name).
+		SetNillableComponent(req.Data.Component).
+		SetNillableStatus(r.convertUserStatusToEnt(req.Data.Status)).
+		SetNillableUpdateBy(req.OperatorId)
 
-	if req.Menu.UpdateTime == nil {
+	if req.Data.UpdateTime == nil {
 		builder.SetUpdateTime(time.Now())
 	} else {
-		builder.SetUpdateTime(*timeutil.TimestamppbToTime(req.Menu.UpdateTime))
+		builder.SetUpdateTime(*timeutil.TimestamppbToTime(req.Data.UpdateTime))
 	}
 
-	if req.Menu.Meta != nil {
-		r.updateMetaField(builder, req.Menu.Meta, metaPaths)
+	if req.Data.Meta != nil {
+		r.updateMetaField(builder, req.Data.Meta, metaPaths)
 	}
 
 	if req.UpdateMask != nil {
-		nilPaths := fieldmaskutil.NilValuePaths(req.Menu, req.GetUpdateMask().GetPaths())
+		nilPaths := fieldmaskutil.NilValuePaths(req.Data, req.GetUpdateMask().GetPaths())
 		nilUpdater := entgoUpdate.BuildSetNullUpdater(nilPaths)
 		if nilUpdater != nil {
 			builder.Modify(nilUpdater)

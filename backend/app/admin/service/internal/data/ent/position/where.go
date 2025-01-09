@@ -75,6 +75,11 @@ func CreateBy(v uint32) predicate.Position {
 	return predicate.Position(sql.FieldEQ(FieldCreateBy, v))
 }
 
+// UpdateBy applies equality check predicate on the "update_by" field. It's identical to UpdateByEQ.
+func UpdateBy(v uint32) predicate.Position {
+	return predicate.Position(sql.FieldEQ(FieldUpdateBy, v))
+}
+
 // Remark applies equality check predicate on the "remark" field. It's identical to RemarkEQ.
 func Remark(v string) predicate.Position {
 	return predicate.Position(sql.FieldEQ(FieldRemark, v))
@@ -95,9 +100,9 @@ func ParentID(v uint32) predicate.Position {
 	return predicate.Position(sql.FieldEQ(FieldParentID, v))
 }
 
-// OrderNo applies equality check predicate on the "order_no" field. It's identical to OrderNoEQ.
-func OrderNo(v int32) predicate.Position {
-	return predicate.Position(sql.FieldEQ(FieldOrderNo, v))
+// SortID applies equality check predicate on the "sort_id" field. It's identical to SortIDEQ.
+func SortID(v int32) predicate.Position {
+	return predicate.Position(sql.FieldEQ(FieldSortID, v))
 }
 
 // CreateTimeEQ applies the EQ predicate on the "create_time" field.
@@ -328,6 +333,56 @@ func CreateByIsNil() predicate.Position {
 // CreateByNotNil applies the NotNil predicate on the "create_by" field.
 func CreateByNotNil() predicate.Position {
 	return predicate.Position(sql.FieldNotNull(FieldCreateBy))
+}
+
+// UpdateByEQ applies the EQ predicate on the "update_by" field.
+func UpdateByEQ(v uint32) predicate.Position {
+	return predicate.Position(sql.FieldEQ(FieldUpdateBy, v))
+}
+
+// UpdateByNEQ applies the NEQ predicate on the "update_by" field.
+func UpdateByNEQ(v uint32) predicate.Position {
+	return predicate.Position(sql.FieldNEQ(FieldUpdateBy, v))
+}
+
+// UpdateByIn applies the In predicate on the "update_by" field.
+func UpdateByIn(vs ...uint32) predicate.Position {
+	return predicate.Position(sql.FieldIn(FieldUpdateBy, vs...))
+}
+
+// UpdateByNotIn applies the NotIn predicate on the "update_by" field.
+func UpdateByNotIn(vs ...uint32) predicate.Position {
+	return predicate.Position(sql.FieldNotIn(FieldUpdateBy, vs...))
+}
+
+// UpdateByGT applies the GT predicate on the "update_by" field.
+func UpdateByGT(v uint32) predicate.Position {
+	return predicate.Position(sql.FieldGT(FieldUpdateBy, v))
+}
+
+// UpdateByGTE applies the GTE predicate on the "update_by" field.
+func UpdateByGTE(v uint32) predicate.Position {
+	return predicate.Position(sql.FieldGTE(FieldUpdateBy, v))
+}
+
+// UpdateByLT applies the LT predicate on the "update_by" field.
+func UpdateByLT(v uint32) predicate.Position {
+	return predicate.Position(sql.FieldLT(FieldUpdateBy, v))
+}
+
+// UpdateByLTE applies the LTE predicate on the "update_by" field.
+func UpdateByLTE(v uint32) predicate.Position {
+	return predicate.Position(sql.FieldLTE(FieldUpdateBy, v))
+}
+
+// UpdateByIsNil applies the IsNil predicate on the "update_by" field.
+func UpdateByIsNil() predicate.Position {
+	return predicate.Position(sql.FieldIsNull(FieldUpdateBy))
+}
+
+// UpdateByNotNil applies the NotNil predicate on the "update_by" field.
+func UpdateByNotNil() predicate.Position {
+	return predicate.Position(sql.FieldNotNull(FieldUpdateBy))
 }
 
 // RemarkEQ applies the EQ predicate on the "remark" field.
@@ -565,44 +620,44 @@ func ParentIDNotNil() predicate.Position {
 	return predicate.Position(sql.FieldNotNull(FieldParentID))
 }
 
-// OrderNoEQ applies the EQ predicate on the "order_no" field.
-func OrderNoEQ(v int32) predicate.Position {
-	return predicate.Position(sql.FieldEQ(FieldOrderNo, v))
+// SortIDEQ applies the EQ predicate on the "sort_id" field.
+func SortIDEQ(v int32) predicate.Position {
+	return predicate.Position(sql.FieldEQ(FieldSortID, v))
 }
 
-// OrderNoNEQ applies the NEQ predicate on the "order_no" field.
-func OrderNoNEQ(v int32) predicate.Position {
-	return predicate.Position(sql.FieldNEQ(FieldOrderNo, v))
+// SortIDNEQ applies the NEQ predicate on the "sort_id" field.
+func SortIDNEQ(v int32) predicate.Position {
+	return predicate.Position(sql.FieldNEQ(FieldSortID, v))
 }
 
-// OrderNoIn applies the In predicate on the "order_no" field.
-func OrderNoIn(vs ...int32) predicate.Position {
-	return predicate.Position(sql.FieldIn(FieldOrderNo, vs...))
+// SortIDIn applies the In predicate on the "sort_id" field.
+func SortIDIn(vs ...int32) predicate.Position {
+	return predicate.Position(sql.FieldIn(FieldSortID, vs...))
 }
 
-// OrderNoNotIn applies the NotIn predicate on the "order_no" field.
-func OrderNoNotIn(vs ...int32) predicate.Position {
-	return predicate.Position(sql.FieldNotIn(FieldOrderNo, vs...))
+// SortIDNotIn applies the NotIn predicate on the "sort_id" field.
+func SortIDNotIn(vs ...int32) predicate.Position {
+	return predicate.Position(sql.FieldNotIn(FieldSortID, vs...))
 }
 
-// OrderNoGT applies the GT predicate on the "order_no" field.
-func OrderNoGT(v int32) predicate.Position {
-	return predicate.Position(sql.FieldGT(FieldOrderNo, v))
+// SortIDGT applies the GT predicate on the "sort_id" field.
+func SortIDGT(v int32) predicate.Position {
+	return predicate.Position(sql.FieldGT(FieldSortID, v))
 }
 
-// OrderNoGTE applies the GTE predicate on the "order_no" field.
-func OrderNoGTE(v int32) predicate.Position {
-	return predicate.Position(sql.FieldGTE(FieldOrderNo, v))
+// SortIDGTE applies the GTE predicate on the "sort_id" field.
+func SortIDGTE(v int32) predicate.Position {
+	return predicate.Position(sql.FieldGTE(FieldSortID, v))
 }
 
-// OrderNoLT applies the LT predicate on the "order_no" field.
-func OrderNoLT(v int32) predicate.Position {
-	return predicate.Position(sql.FieldLT(FieldOrderNo, v))
+// SortIDLT applies the LT predicate on the "sort_id" field.
+func SortIDLT(v int32) predicate.Position {
+	return predicate.Position(sql.FieldLT(FieldSortID, v))
 }
 
-// OrderNoLTE applies the LTE predicate on the "order_no" field.
-func OrderNoLTE(v int32) predicate.Position {
-	return predicate.Position(sql.FieldLTE(FieldOrderNo, v))
+// SortIDLTE applies the LTE predicate on the "sort_id" field.
+func SortIDLTE(v int32) predicate.Position {
+	return predicate.Position(sql.FieldLTE(FieldSortID, v))
 }
 
 // HasParent applies the HasEdge predicate on the "parent" edge.

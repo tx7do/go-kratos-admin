@@ -93,6 +93,34 @@ func (mc *MenuCreate) SetNillableCreateBy(u *uint32) *MenuCreate {
 	return mc
 }
 
+// SetUpdateBy sets the "update_by" field.
+func (mc *MenuCreate) SetUpdateBy(u uint32) *MenuCreate {
+	mc.mutation.SetUpdateBy(u)
+	return mc
+}
+
+// SetNillableUpdateBy sets the "update_by" field if the given value is not nil.
+func (mc *MenuCreate) SetNillableUpdateBy(u *uint32) *MenuCreate {
+	if u != nil {
+		mc.SetUpdateBy(*u)
+	}
+	return mc
+}
+
+// SetRemark sets the "remark" field.
+func (mc *MenuCreate) SetRemark(s string) *MenuCreate {
+	mc.mutation.SetRemark(s)
+	return mc
+}
+
+// SetNillableRemark sets the "remark" field if the given value is not nil.
+func (mc *MenuCreate) SetNillableRemark(s *string) *MenuCreate {
+	if s != nil {
+		mc.SetRemark(*s)
+	}
+	return mc
+}
+
 // SetParentID sets the "parent_id" field.
 func (mc *MenuCreate) SetParentID(i int32) *MenuCreate {
 	mc.mutation.SetParentID(i)
@@ -262,6 +290,10 @@ func (mc *MenuCreate) defaults() {
 		v := menu.DefaultStatus
 		mc.mutation.SetStatus(v)
 	}
+	if _, ok := mc.mutation.Remark(); !ok {
+		v := menu.DefaultRemark
+		mc.mutation.SetRemark(v)
+	}
 	if _, ok := mc.mutation.GetType(); !ok {
 		v := menu.DefaultType
 		mc.mutation.SetType(v)
@@ -350,6 +382,14 @@ func (mc *MenuCreate) createSpec() (*Menu, *sqlgraph.CreateSpec) {
 	if value, ok := mc.mutation.CreateBy(); ok {
 		_spec.SetField(menu.FieldCreateBy, field.TypeUint32, value)
 		_node.CreateBy = &value
+	}
+	if value, ok := mc.mutation.UpdateBy(); ok {
+		_spec.SetField(menu.FieldUpdateBy, field.TypeUint32, value)
+		_node.UpdateBy = &value
+	}
+	if value, ok := mc.mutation.Remark(); ok {
+		_spec.SetField(menu.FieldRemark, field.TypeString, value)
+		_node.Remark = &value
 	}
 	if value, ok := mc.mutation.GetType(); ok {
 		_spec.SetField(menu.FieldType, field.TypeEnum, value)
@@ -539,6 +579,48 @@ func (u *MenuUpsert) AddCreateBy(v uint32) *MenuUpsert {
 // ClearCreateBy clears the value of the "create_by" field.
 func (u *MenuUpsert) ClearCreateBy() *MenuUpsert {
 	u.SetNull(menu.FieldCreateBy)
+	return u
+}
+
+// SetUpdateBy sets the "update_by" field.
+func (u *MenuUpsert) SetUpdateBy(v uint32) *MenuUpsert {
+	u.Set(menu.FieldUpdateBy, v)
+	return u
+}
+
+// UpdateUpdateBy sets the "update_by" field to the value that was provided on create.
+func (u *MenuUpsert) UpdateUpdateBy() *MenuUpsert {
+	u.SetExcluded(menu.FieldUpdateBy)
+	return u
+}
+
+// AddUpdateBy adds v to the "update_by" field.
+func (u *MenuUpsert) AddUpdateBy(v uint32) *MenuUpsert {
+	u.Add(menu.FieldUpdateBy, v)
+	return u
+}
+
+// ClearUpdateBy clears the value of the "update_by" field.
+func (u *MenuUpsert) ClearUpdateBy() *MenuUpsert {
+	u.SetNull(menu.FieldUpdateBy)
+	return u
+}
+
+// SetRemark sets the "remark" field.
+func (u *MenuUpsert) SetRemark(v string) *MenuUpsert {
+	u.Set(menu.FieldRemark, v)
+	return u
+}
+
+// UpdateRemark sets the "remark" field to the value that was provided on create.
+func (u *MenuUpsert) UpdateRemark() *MenuUpsert {
+	u.SetExcluded(menu.FieldRemark)
+	return u
+}
+
+// ClearRemark clears the value of the "remark" field.
+func (u *MenuUpsert) ClearRemark() *MenuUpsert {
+	u.SetNull(menu.FieldRemark)
 	return u
 }
 
@@ -825,6 +907,55 @@ func (u *MenuUpsertOne) UpdateCreateBy() *MenuUpsertOne {
 func (u *MenuUpsertOne) ClearCreateBy() *MenuUpsertOne {
 	return u.Update(func(s *MenuUpsert) {
 		s.ClearCreateBy()
+	})
+}
+
+// SetUpdateBy sets the "update_by" field.
+func (u *MenuUpsertOne) SetUpdateBy(v uint32) *MenuUpsertOne {
+	return u.Update(func(s *MenuUpsert) {
+		s.SetUpdateBy(v)
+	})
+}
+
+// AddUpdateBy adds v to the "update_by" field.
+func (u *MenuUpsertOne) AddUpdateBy(v uint32) *MenuUpsertOne {
+	return u.Update(func(s *MenuUpsert) {
+		s.AddUpdateBy(v)
+	})
+}
+
+// UpdateUpdateBy sets the "update_by" field to the value that was provided on create.
+func (u *MenuUpsertOne) UpdateUpdateBy() *MenuUpsertOne {
+	return u.Update(func(s *MenuUpsert) {
+		s.UpdateUpdateBy()
+	})
+}
+
+// ClearUpdateBy clears the value of the "update_by" field.
+func (u *MenuUpsertOne) ClearUpdateBy() *MenuUpsertOne {
+	return u.Update(func(s *MenuUpsert) {
+		s.ClearUpdateBy()
+	})
+}
+
+// SetRemark sets the "remark" field.
+func (u *MenuUpsertOne) SetRemark(v string) *MenuUpsertOne {
+	return u.Update(func(s *MenuUpsert) {
+		s.SetRemark(v)
+	})
+}
+
+// UpdateRemark sets the "remark" field to the value that was provided on create.
+func (u *MenuUpsertOne) UpdateRemark() *MenuUpsertOne {
+	return u.Update(func(s *MenuUpsert) {
+		s.UpdateRemark()
+	})
+}
+
+// ClearRemark clears the value of the "remark" field.
+func (u *MenuUpsertOne) ClearRemark() *MenuUpsertOne {
+	return u.Update(func(s *MenuUpsert) {
+		s.ClearRemark()
 	})
 }
 
@@ -1301,6 +1432,55 @@ func (u *MenuUpsertBulk) UpdateCreateBy() *MenuUpsertBulk {
 func (u *MenuUpsertBulk) ClearCreateBy() *MenuUpsertBulk {
 	return u.Update(func(s *MenuUpsert) {
 		s.ClearCreateBy()
+	})
+}
+
+// SetUpdateBy sets the "update_by" field.
+func (u *MenuUpsertBulk) SetUpdateBy(v uint32) *MenuUpsertBulk {
+	return u.Update(func(s *MenuUpsert) {
+		s.SetUpdateBy(v)
+	})
+}
+
+// AddUpdateBy adds v to the "update_by" field.
+func (u *MenuUpsertBulk) AddUpdateBy(v uint32) *MenuUpsertBulk {
+	return u.Update(func(s *MenuUpsert) {
+		s.AddUpdateBy(v)
+	})
+}
+
+// UpdateUpdateBy sets the "update_by" field to the value that was provided on create.
+func (u *MenuUpsertBulk) UpdateUpdateBy() *MenuUpsertBulk {
+	return u.Update(func(s *MenuUpsert) {
+		s.UpdateUpdateBy()
+	})
+}
+
+// ClearUpdateBy clears the value of the "update_by" field.
+func (u *MenuUpsertBulk) ClearUpdateBy() *MenuUpsertBulk {
+	return u.Update(func(s *MenuUpsert) {
+		s.ClearUpdateBy()
+	})
+}
+
+// SetRemark sets the "remark" field.
+func (u *MenuUpsertBulk) SetRemark(v string) *MenuUpsertBulk {
+	return u.Update(func(s *MenuUpsert) {
+		s.SetRemark(v)
+	})
+}
+
+// UpdateRemark sets the "remark" field to the value that was provided on create.
+func (u *MenuUpsertBulk) UpdateRemark() *MenuUpsertBulk {
+	return u.Update(func(s *MenuUpsert) {
+		s.UpdateRemark()
+	})
+}
+
+// ClearRemark clears the value of the "remark" field.
+func (u *MenuUpsertBulk) ClearRemark() *MenuUpsertBulk {
+	return u.Update(func(s *MenuUpsert) {
+		s.ClearRemark()
 	})
 }
 

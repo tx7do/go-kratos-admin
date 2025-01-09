@@ -51,14 +51,14 @@ func (s *UserService) CreateUser(ctx context.Context, req *userV1.CreateUserRequ
 		return nil, adminV1.ErrorAccessForbidden("用户认证失败")
 	}
 
-	if req.User == nil {
+	if req.Data == nil {
 		return nil, adminV1.ErrorBadRequest("错误的参数")
 	}
 
 	req.OperatorId = trans.Ptr(authInfo.UserId)
-	req.User.CreatorId = trans.Ptr(authInfo.UserId)
-	if req.User.Authority == nil {
-		req.User.Authority = userV1.UserAuthority_CUSTOMER_USER.Enum()
+	req.Data.CreatorId = trans.Ptr(authInfo.UserId)
+	if req.Data.Authority == nil {
+		req.Data.Authority = userV1.UserAuthority_CUSTOMER_USER.Enum()
 	}
 
 	// 获取操作者的用户信息
@@ -72,8 +72,8 @@ func (s *UserService) CreateUser(ctx context.Context, req *userV1.CreateUserRequ
 		return nil, adminV1.ErrorAccessForbidden("权限不够")
 	}
 
-	if req.User.Authority != nil {
-		if operator.GetAuthority() >= req.User.GetAuthority() {
+	if req.Data.Authority != nil {
+		if operator.GetAuthority() >= req.Data.GetAuthority() {
 			return nil, adminV1.ErrorAccessForbidden("不能够创建同级用户或者比自己权限高的用户")
 		}
 	}
@@ -91,7 +91,7 @@ func (s *UserService) UpdateUser(ctx context.Context, req *userV1.UpdateUserRequ
 		return nil, adminV1.ErrorAccessForbidden("用户认证失败")
 	}
 
-	if req.User == nil {
+	if req.Data == nil {
 		return nil, adminV1.ErrorBadRequest("错误的参数")
 	}
 
@@ -108,8 +108,8 @@ func (s *UserService) UpdateUser(ctx context.Context, req *userV1.UpdateUserRequ
 		return nil, adminV1.ErrorAccessForbidden("权限不够")
 	}
 
-	if req.User.Authority != nil {
-		if operator.GetAuthority() >= req.User.GetAuthority() {
+	if req.Data.Authority != nil {
+		if operator.GetAuthority() >= req.Data.GetAuthority() {
 			return nil, adminV1.ErrorAccessForbidden("不能够赋权同级用户或者比自己权限高的用户")
 		}
 	}
@@ -163,4 +163,8 @@ func (s *UserService) DeleteUser(ctx context.Context, req *userV1.DeleteUserRequ
 
 func (s *UserService) UserExists(ctx context.Context, req *userV1.UserExistsRequest) (*userV1.UserExistsResponse, error) {
 	return s.uc.UserExists(ctx, req)
+}
+
+func (s *UserService) VerifyPassword(ctx context.Context, req *userV1.VerifyPasswordRequest) (*userV1.VerifyPasswordResponse, error) {
+	return s.uc.VerifyPassword(ctx, req)
 }

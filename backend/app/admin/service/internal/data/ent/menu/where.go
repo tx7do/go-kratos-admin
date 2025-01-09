@@ -75,6 +75,16 @@ func CreateBy(v uint32) predicate.Menu {
 	return predicate.Menu(sql.FieldEQ(FieldCreateBy, v))
 }
 
+// UpdateBy applies equality check predicate on the "update_by" field. It's identical to UpdateByEQ.
+func UpdateBy(v uint32) predicate.Menu {
+	return predicate.Menu(sql.FieldEQ(FieldUpdateBy, v))
+}
+
+// Remark applies equality check predicate on the "remark" field. It's identical to RemarkEQ.
+func Remark(v string) predicate.Menu {
+	return predicate.Menu(sql.FieldEQ(FieldRemark, v))
+}
+
 // ParentID applies equality check predicate on the "parent_id" field. It's identical to ParentIDEQ.
 func ParentID(v int32) predicate.Menu {
 	return predicate.Menu(sql.FieldEQ(FieldParentID, v))
@@ -333,6 +343,131 @@ func CreateByIsNil() predicate.Menu {
 // CreateByNotNil applies the NotNil predicate on the "create_by" field.
 func CreateByNotNil() predicate.Menu {
 	return predicate.Menu(sql.FieldNotNull(FieldCreateBy))
+}
+
+// UpdateByEQ applies the EQ predicate on the "update_by" field.
+func UpdateByEQ(v uint32) predicate.Menu {
+	return predicate.Menu(sql.FieldEQ(FieldUpdateBy, v))
+}
+
+// UpdateByNEQ applies the NEQ predicate on the "update_by" field.
+func UpdateByNEQ(v uint32) predicate.Menu {
+	return predicate.Menu(sql.FieldNEQ(FieldUpdateBy, v))
+}
+
+// UpdateByIn applies the In predicate on the "update_by" field.
+func UpdateByIn(vs ...uint32) predicate.Menu {
+	return predicate.Menu(sql.FieldIn(FieldUpdateBy, vs...))
+}
+
+// UpdateByNotIn applies the NotIn predicate on the "update_by" field.
+func UpdateByNotIn(vs ...uint32) predicate.Menu {
+	return predicate.Menu(sql.FieldNotIn(FieldUpdateBy, vs...))
+}
+
+// UpdateByGT applies the GT predicate on the "update_by" field.
+func UpdateByGT(v uint32) predicate.Menu {
+	return predicate.Menu(sql.FieldGT(FieldUpdateBy, v))
+}
+
+// UpdateByGTE applies the GTE predicate on the "update_by" field.
+func UpdateByGTE(v uint32) predicate.Menu {
+	return predicate.Menu(sql.FieldGTE(FieldUpdateBy, v))
+}
+
+// UpdateByLT applies the LT predicate on the "update_by" field.
+func UpdateByLT(v uint32) predicate.Menu {
+	return predicate.Menu(sql.FieldLT(FieldUpdateBy, v))
+}
+
+// UpdateByLTE applies the LTE predicate on the "update_by" field.
+func UpdateByLTE(v uint32) predicate.Menu {
+	return predicate.Menu(sql.FieldLTE(FieldUpdateBy, v))
+}
+
+// UpdateByIsNil applies the IsNil predicate on the "update_by" field.
+func UpdateByIsNil() predicate.Menu {
+	return predicate.Menu(sql.FieldIsNull(FieldUpdateBy))
+}
+
+// UpdateByNotNil applies the NotNil predicate on the "update_by" field.
+func UpdateByNotNil() predicate.Menu {
+	return predicate.Menu(sql.FieldNotNull(FieldUpdateBy))
+}
+
+// RemarkEQ applies the EQ predicate on the "remark" field.
+func RemarkEQ(v string) predicate.Menu {
+	return predicate.Menu(sql.FieldEQ(FieldRemark, v))
+}
+
+// RemarkNEQ applies the NEQ predicate on the "remark" field.
+func RemarkNEQ(v string) predicate.Menu {
+	return predicate.Menu(sql.FieldNEQ(FieldRemark, v))
+}
+
+// RemarkIn applies the In predicate on the "remark" field.
+func RemarkIn(vs ...string) predicate.Menu {
+	return predicate.Menu(sql.FieldIn(FieldRemark, vs...))
+}
+
+// RemarkNotIn applies the NotIn predicate on the "remark" field.
+func RemarkNotIn(vs ...string) predicate.Menu {
+	return predicate.Menu(sql.FieldNotIn(FieldRemark, vs...))
+}
+
+// RemarkGT applies the GT predicate on the "remark" field.
+func RemarkGT(v string) predicate.Menu {
+	return predicate.Menu(sql.FieldGT(FieldRemark, v))
+}
+
+// RemarkGTE applies the GTE predicate on the "remark" field.
+func RemarkGTE(v string) predicate.Menu {
+	return predicate.Menu(sql.FieldGTE(FieldRemark, v))
+}
+
+// RemarkLT applies the LT predicate on the "remark" field.
+func RemarkLT(v string) predicate.Menu {
+	return predicate.Menu(sql.FieldLT(FieldRemark, v))
+}
+
+// RemarkLTE applies the LTE predicate on the "remark" field.
+func RemarkLTE(v string) predicate.Menu {
+	return predicate.Menu(sql.FieldLTE(FieldRemark, v))
+}
+
+// RemarkContains applies the Contains predicate on the "remark" field.
+func RemarkContains(v string) predicate.Menu {
+	return predicate.Menu(sql.FieldContains(FieldRemark, v))
+}
+
+// RemarkHasPrefix applies the HasPrefix predicate on the "remark" field.
+func RemarkHasPrefix(v string) predicate.Menu {
+	return predicate.Menu(sql.FieldHasPrefix(FieldRemark, v))
+}
+
+// RemarkHasSuffix applies the HasSuffix predicate on the "remark" field.
+func RemarkHasSuffix(v string) predicate.Menu {
+	return predicate.Menu(sql.FieldHasSuffix(FieldRemark, v))
+}
+
+// RemarkIsNil applies the IsNil predicate on the "remark" field.
+func RemarkIsNil() predicate.Menu {
+	return predicate.Menu(sql.FieldIsNull(FieldRemark))
+}
+
+// RemarkNotNil applies the NotNil predicate on the "remark" field.
+func RemarkNotNil() predicate.Menu {
+	return predicate.Menu(sql.FieldNotNull(FieldRemark))
+}
+
+// RemarkEqualFold applies the EqualFold predicate on the "remark" field.
+func RemarkEqualFold(v string) predicate.Menu {
+	return predicate.Menu(sql.FieldEqualFold(FieldRemark, v))
+}
+
+// RemarkContainsFold applies the ContainsFold predicate on the "remark" field.
+func RemarkContainsFold(v string) predicate.Menu {
+	return predicate.Menu(sql.FieldContainsFold(FieldRemark, v))
 }
 
 // ParentIDEQ applies the EQ predicate on the "parent_id" field.

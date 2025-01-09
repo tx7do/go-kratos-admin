@@ -59,6 +59,11 @@ func CreateBy(v uint32) predicate.User {
 	return predicate.User(sql.FieldEQ(FieldCreateBy, v))
 }
 
+// UpdateBy applies equality check predicate on the "update_by" field. It's identical to UpdateByEQ.
+func UpdateBy(v uint32) predicate.User {
+	return predicate.User(sql.FieldEQ(FieldUpdateBy, v))
+}
+
 // CreateTime applies equality check predicate on the "create_time" field. It's identical to CreateTimeEQ.
 func CreateTime(v time.Time) predicate.User {
 	return predicate.User(sql.FieldEQ(FieldCreateTime, v))
@@ -212,6 +217,56 @@ func CreateByIsNil() predicate.User {
 // CreateByNotNil applies the NotNil predicate on the "create_by" field.
 func CreateByNotNil() predicate.User {
 	return predicate.User(sql.FieldNotNull(FieldCreateBy))
+}
+
+// UpdateByEQ applies the EQ predicate on the "update_by" field.
+func UpdateByEQ(v uint32) predicate.User {
+	return predicate.User(sql.FieldEQ(FieldUpdateBy, v))
+}
+
+// UpdateByNEQ applies the NEQ predicate on the "update_by" field.
+func UpdateByNEQ(v uint32) predicate.User {
+	return predicate.User(sql.FieldNEQ(FieldUpdateBy, v))
+}
+
+// UpdateByIn applies the In predicate on the "update_by" field.
+func UpdateByIn(vs ...uint32) predicate.User {
+	return predicate.User(sql.FieldIn(FieldUpdateBy, vs...))
+}
+
+// UpdateByNotIn applies the NotIn predicate on the "update_by" field.
+func UpdateByNotIn(vs ...uint32) predicate.User {
+	return predicate.User(sql.FieldNotIn(FieldUpdateBy, vs...))
+}
+
+// UpdateByGT applies the GT predicate on the "update_by" field.
+func UpdateByGT(v uint32) predicate.User {
+	return predicate.User(sql.FieldGT(FieldUpdateBy, v))
+}
+
+// UpdateByGTE applies the GTE predicate on the "update_by" field.
+func UpdateByGTE(v uint32) predicate.User {
+	return predicate.User(sql.FieldGTE(FieldUpdateBy, v))
+}
+
+// UpdateByLT applies the LT predicate on the "update_by" field.
+func UpdateByLT(v uint32) predicate.User {
+	return predicate.User(sql.FieldLT(FieldUpdateBy, v))
+}
+
+// UpdateByLTE applies the LTE predicate on the "update_by" field.
+func UpdateByLTE(v uint32) predicate.User {
+	return predicate.User(sql.FieldLTE(FieldUpdateBy, v))
+}
+
+// UpdateByIsNil applies the IsNil predicate on the "update_by" field.
+func UpdateByIsNil() predicate.User {
+	return predicate.User(sql.FieldIsNull(FieldUpdateBy))
+}
+
+// UpdateByNotNil applies the NotNil predicate on the "update_by" field.
+func UpdateByNotNil() predicate.User {
+	return predicate.User(sql.FieldNotNull(FieldUpdateBy))
 }
 
 // CreateTimeEQ applies the EQ predicate on the "create_time" field.

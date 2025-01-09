@@ -43,7 +43,7 @@ func (r *RoleRepo) convertEntToProto(in *ent.Role) *userV1.Role {
 		Name:       in.Name,
 		Code:       in.Code,
 		Remark:     in.Remark,
-		OrderNo:    in.OrderNo,
+		SortId:     in.SortID,
 		ParentId:   in.ParentID,
 		Status:     (*string)(in.Status),
 		CreateTime: timeutil.TimeToTimestamppb(in.CreateTime),
@@ -122,23 +122,23 @@ func (r *RoleRepo) Get(ctx context.Context, req *userV1.GetRoleRequest) (*userV1
 }
 
 func (r *RoleRepo) Create(ctx context.Context, req *userV1.CreateRoleRequest) error {
-	if req.Role == nil {
+	if req.Data == nil {
 		return errors.New("invalid request")
 	}
 
 	builder := r.data.db.Client().Role.Create().
-		SetNillableName(req.Role.Name).
-		SetNillableParentID(req.Role.ParentId).
-		SetNillableOrderNo(req.Role.OrderNo).
-		SetNillableCode(req.Role.Code).
-		SetNillableStatus((*role.Status)(req.Role.Status)).
-		SetNillableRemark(req.Role.Remark).
+		SetNillableName(req.Data.Name).
+		SetNillableParentID(req.Data.ParentId).
+		SetNillableSortID(req.Data.SortId).
+		SetNillableCode(req.Data.Code).
+		SetNillableStatus((*role.Status)(req.Data.Status)).
+		SetNillableRemark(req.Data.Remark).
 		SetNillableCreateBy(req.OperatorId)
 
-	if req.Role.CreateTime == nil {
+	if req.Data.CreateTime == nil {
 		builder.SetCreateTime(time.Now())
 	} else {
-		builder.SetCreateTime(*timeutil.TimestamppbToTime(req.Role.CreateTime))
+		builder.SetCreateTime(*timeutil.TimestamppbToTime(req.Data.CreateTime))
 	}
 
 	err := builder.Exec(ctx)
@@ -151,45 +151,46 @@ func (r *RoleRepo) Create(ctx context.Context, req *userV1.CreateRoleRequest) er
 }
 
 func (r *RoleRepo) Update(ctx context.Context, req *userV1.UpdateRoleRequest) error {
-	if req.Role == nil {
+	if req.Data == nil {
 		return errors.New("invalid request")
 	}
 
 	// 如果不存在则创建
 	if req.GetAllowMissing() {
-		exist, err := r.IsExist(ctx, req.GetRole().GetId())
+		exist, err := r.IsExist(ctx, req.GetData().GetId())
 		if err != nil {
 			return err
 		}
 		if !exist {
-			return r.Create(ctx, &userV1.CreateRoleRequest{Role: req.Role, OperatorId: req.OperatorId})
+			return r.Create(ctx, &userV1.CreateRoleRequest{Data: req.Data, OperatorId: req.OperatorId})
 		}
 	}
 
 	if req.UpdateMask != nil {
 		req.UpdateMask.Normalize()
-		if !req.UpdateMask.IsValid(req.Role) {
+		if !req.UpdateMask.IsValid(req.Data) {
 			return errors.New("invalid field mask")
 		}
-		fieldmaskutil.Filter(req.GetRole(), req.UpdateMask.GetPaths())
+		fieldmaskutil.Filter(req.GetData(), req.UpdateMask.GetPaths())
 	}
 
-	builder := r.data.db.Client().Role.UpdateOneID(req.Role.GetId()).
-		SetNillableName(req.Role.Name).
-		SetNillableParentID(req.Role.ParentId).
-		SetNillableOrderNo(req.Role.OrderNo).
-		SetNillableCode(req.Role.Code).
-		SetNillableRemark(req.Role.Remark).
-		SetNillableStatus((*role.Status)(req.Role.Status))
+	builder := r.data.db.Client().Role.UpdateOneID(req.Data.GetId()).
+		SetNillableName(req.Data.Name).
+		SetNillableParentID(req.Data.ParentId).
+		SetNillableSortID(req.Data.SortId).
+		SetNillableCode(req.Data.Code).
+		SetNillableRemark(req.Data.Remark).
+		SetNillableStatus((*role.Status)(req.Data.Status)).
+		SetNillableUpdateBy(req.OperatorId)
 
-	if req.Role.UpdateTime == nil {
+	if req.Data.UpdateTime == nil {
 		builder.SetUpdateTime(time.Now())
 	} else {
-		builder.SetUpdateTime(*timeutil.TimestamppbToTime(req.Role.UpdateTime))
+		builder.SetUpdateTime(*timeutil.TimestamppbToTime(req.Data.UpdateTime))
 	}
 
 	if req.UpdateMask != nil {
-		nilPaths := fieldmaskutil.NilValuePaths(req.Role, req.GetUpdateMask().GetPaths())
+		nilPaths := fieldmaskutil.NilValuePaths(req.Data, req.GetUpdateMask().GetPaths())
 		nilUpdater := entgoUpdate.BuildSetNullUpdater(nilPaths)
 		if nilUpdater != nil {
 			builder.Modify(nilUpdater)

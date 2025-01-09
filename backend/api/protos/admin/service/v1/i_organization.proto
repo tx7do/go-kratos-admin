@@ -6,8 +6,9 @@ import "gnostic/openapi/v3/annotations.proto";
 import "google/api/annotations.proto";
 import "google/protobuf/empty.proto";
 
-import "user/service/v1/organization.proto";
 import "pagination/v1/pagination.proto";
+
+import "user/service/v1/organization.proto";
 
 // 组织部门管理服务
 service OrganizationService {
@@ -36,7 +37,7 @@ service OrganizationService {
   // 更新部门
   rpc UpdateOrganization (user.service.v1.UpdateOrganizationRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
-      put: "/admin/v1/orgs/{org.id}"
+      put: "/admin/v1/orgs/{data.id}"
       body: "*"
     };
   }

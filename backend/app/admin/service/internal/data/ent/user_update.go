@@ -56,6 +56,33 @@ func (uu *UserUpdate) ClearCreateBy() *UserUpdate {
 	return uu
 }
 
+// SetUpdateBy sets the "update_by" field.
+func (uu *UserUpdate) SetUpdateBy(u uint32) *UserUpdate {
+	uu.mutation.ResetUpdateBy()
+	uu.mutation.SetUpdateBy(u)
+	return uu
+}
+
+// SetNillableUpdateBy sets the "update_by" field if the given value is not nil.
+func (uu *UserUpdate) SetNillableUpdateBy(u *uint32) *UserUpdate {
+	if u != nil {
+		uu.SetUpdateBy(*u)
+	}
+	return uu
+}
+
+// AddUpdateBy adds u to the "update_by" field.
+func (uu *UserUpdate) AddUpdateBy(u int32) *UserUpdate {
+	uu.mutation.AddUpdateBy(u)
+	return uu
+}
+
+// ClearUpdateBy clears the value of the "update_by" field.
+func (uu *UserUpdate) ClearUpdateBy() *UserUpdate {
+	uu.mutation.ClearUpdateBy()
+	return uu
+}
+
 // SetUpdateTime sets the "update_time" field.
 func (uu *UserUpdate) SetUpdateTime(t time.Time) *UserUpdate {
 	uu.mutation.SetUpdateTime(t)
@@ -665,6 +692,15 @@ func (uu *UserUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	if uu.mutation.CreateByCleared() {
 		_spec.ClearField(user.FieldCreateBy, field.TypeUint32)
 	}
+	if value, ok := uu.mutation.UpdateBy(); ok {
+		_spec.SetField(user.FieldUpdateBy, field.TypeUint32, value)
+	}
+	if value, ok := uu.mutation.AddedUpdateBy(); ok {
+		_spec.AddField(user.FieldUpdateBy, field.TypeUint32, value)
+	}
+	if uu.mutation.UpdateByCleared() {
+		_spec.ClearField(user.FieldUpdateBy, field.TypeUint32)
+	}
 	if uu.mutation.CreateTimeCleared() {
 		_spec.ClearField(user.FieldCreateTime, field.TypeTime)
 	}
@@ -864,6 +900,33 @@ func (uuo *UserUpdateOne) AddCreateBy(u int32) *UserUpdateOne {
 // ClearCreateBy clears the value of the "create_by" field.
 func (uuo *UserUpdateOne) ClearCreateBy() *UserUpdateOne {
 	uuo.mutation.ClearCreateBy()
+	return uuo
+}
+
+// SetUpdateBy sets the "update_by" field.
+func (uuo *UserUpdateOne) SetUpdateBy(u uint32) *UserUpdateOne {
+	uuo.mutation.ResetUpdateBy()
+	uuo.mutation.SetUpdateBy(u)
+	return uuo
+}
+
+// SetNillableUpdateBy sets the "update_by" field if the given value is not nil.
+func (uuo *UserUpdateOne) SetNillableUpdateBy(u *uint32) *UserUpdateOne {
+	if u != nil {
+		uuo.SetUpdateBy(*u)
+	}
+	return uuo
+}
+
+// AddUpdateBy adds u to the "update_by" field.
+func (uuo *UserUpdateOne) AddUpdateBy(u int32) *UserUpdateOne {
+	uuo.mutation.AddUpdateBy(u)
+	return uuo
+}
+
+// ClearUpdateBy clears the value of the "update_by" field.
+func (uuo *UserUpdateOne) ClearUpdateBy() *UserUpdateOne {
+	uuo.mutation.ClearUpdateBy()
 	return uuo
 }
 
@@ -1505,6 +1568,15 @@ func (uuo *UserUpdateOne) sqlSave(ctx context.Context) (_node *User, err error) 
 	}
 	if uuo.mutation.CreateByCleared() {
 		_spec.ClearField(user.FieldCreateBy, field.TypeUint32)
+	}
+	if value, ok := uuo.mutation.UpdateBy(); ok {
+		_spec.SetField(user.FieldUpdateBy, field.TypeUint32, value)
+	}
+	if value, ok := uuo.mutation.AddedUpdateBy(); ok {
+		_spec.AddField(user.FieldUpdateBy, field.TypeUint32, value)
+	}
+	if uuo.mutation.UpdateByCleared() {
+		_spec.ClearField(user.FieldUpdateBy, field.TypeUint32)
 	}
 	if uuo.mutation.CreateTimeCleared() {
 		_spec.ClearField(user.FieldCreateTime, field.TypeTime)

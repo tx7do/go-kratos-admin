@@ -15,6 +15,8 @@ const (
 	FieldID = "id"
 	// FieldCreateBy holds the string denoting the create_by field in the database.
 	FieldCreateBy = "create_by"
+	// FieldUpdateBy holds the string denoting the update_by field in the database.
+	FieldUpdateBy = "update_by"
 	// FieldCreateTime holds the string denoting the create_time field in the database.
 	FieldCreateTime = "create_time"
 	// FieldUpdateTime holds the string denoting the update_time field in the database.
@@ -71,6 +73,7 @@ const (
 var Columns = []string{
 	FieldID,
 	FieldCreateBy,
+	FieldUpdateBy,
 	FieldCreateTime,
 	FieldUpdateTime,
 	FieldDeleteTime,
@@ -238,6 +241,11 @@ func ByID(opts ...sql.OrderTermOption) OrderOption {
 // ByCreateBy orders the results by the create_by field.
 func ByCreateBy(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldCreateBy, opts...).ToFunc()
+}
+
+// ByUpdateBy orders the results by the update_by field.
+func ByUpdateBy(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldUpdateBy, opts...).ToFunc()
 }
 
 // ByCreateTime orders the results by the create_time field.

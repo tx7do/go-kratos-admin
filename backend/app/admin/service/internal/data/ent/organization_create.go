@@ -92,6 +92,20 @@ func (oc *OrganizationCreate) SetNillableCreateBy(u *uint32) *OrganizationCreate
 	return oc
 }
 
+// SetUpdateBy sets the "update_by" field.
+func (oc *OrganizationCreate) SetUpdateBy(u uint32) *OrganizationCreate {
+	oc.mutation.SetUpdateBy(u)
+	return oc
+}
+
+// SetNillableUpdateBy sets the "update_by" field if the given value is not nil.
+func (oc *OrganizationCreate) SetNillableUpdateBy(u *uint32) *OrganizationCreate {
+	if u != nil {
+		oc.SetUpdateBy(*u)
+	}
+	return oc
+}
+
 // SetRemark sets the "remark" field.
 func (oc *OrganizationCreate) SetRemark(s string) *OrganizationCreate {
 	oc.mutation.SetRemark(s)
@@ -134,16 +148,16 @@ func (oc *OrganizationCreate) SetNillableParentID(u *uint32) *OrganizationCreate
 	return oc
 }
 
-// SetOrderNo sets the "order_no" field.
-func (oc *OrganizationCreate) SetOrderNo(i int32) *OrganizationCreate {
-	oc.mutation.SetOrderNo(i)
+// SetSortID sets the "sort_id" field.
+func (oc *OrganizationCreate) SetSortID(i int32) *OrganizationCreate {
+	oc.mutation.SetSortID(i)
 	return oc
 }
 
-// SetNillableOrderNo sets the "order_no" field if the given value is not nil.
-func (oc *OrganizationCreate) SetNillableOrderNo(i *int32) *OrganizationCreate {
+// SetNillableSortID sets the "sort_id" field if the given value is not nil.
+func (oc *OrganizationCreate) SetNillableSortID(i *int32) *OrganizationCreate {
 	if i != nil {
-		oc.SetOrderNo(*i)
+		oc.SetSortID(*i)
 	}
 	return oc
 }
@@ -221,9 +235,9 @@ func (oc *OrganizationCreate) defaults() {
 		v := organization.DefaultName
 		oc.mutation.SetName(v)
 	}
-	if _, ok := oc.mutation.OrderNo(); !ok {
-		v := organization.DefaultOrderNo
-		oc.mutation.SetOrderNo(v)
+	if _, ok := oc.mutation.SortID(); !ok {
+		v := organization.DefaultSortID
+		oc.mutation.SetSortID(v)
 	}
 }
 
@@ -232,11 +246,6 @@ func (oc *OrganizationCreate) check() error {
 	if v, ok := oc.mutation.Status(); ok {
 		if err := organization.StatusValidator(v); err != nil {
 			return &ValidationError{Name: "status", err: fmt.Errorf(`ent: validator failed for field "Organization.status": %w`, err)}
-		}
-	}
-	if v, ok := oc.mutation.Name(); ok {
-		if err := organization.NameValidator(v); err != nil {
-			return &ValidationError{Name: "name", err: fmt.Errorf(`ent: validator failed for field "Organization.name": %w`, err)}
 		}
 	}
 	if v, ok := oc.mutation.ID(); ok {
@@ -297,6 +306,10 @@ func (oc *OrganizationCreate) createSpec() (*Organization, *sqlgraph.CreateSpec)
 		_spec.SetField(organization.FieldCreateBy, field.TypeUint32, value)
 		_node.CreateBy = &value
 	}
+	if value, ok := oc.mutation.UpdateBy(); ok {
+		_spec.SetField(organization.FieldUpdateBy, field.TypeUint32, value)
+		_node.UpdateBy = &value
+	}
 	if value, ok := oc.mutation.Remark(); ok {
 		_spec.SetField(organization.FieldRemark, field.TypeString, value)
 		_node.Remark = &value
@@ -305,9 +318,9 @@ func (oc *OrganizationCreate) createSpec() (*Organization, *sqlgraph.CreateSpec)
 		_spec.SetField(organization.FieldName, field.TypeString, value)
 		_node.Name = &value
 	}
-	if value, ok := oc.mutation.OrderNo(); ok {
-		_spec.SetField(organization.FieldOrderNo, field.TypeInt32, value)
-		_node.OrderNo = &value
+	if value, ok := oc.mutation.SortID(); ok {
+		_spec.SetField(organization.FieldSortID, field.TypeInt32, value)
+		_node.SortID = &value
 	}
 	if nodes := oc.mutation.ParentIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
@@ -472,6 +485,30 @@ func (u *OrganizationUpsert) ClearCreateBy() *OrganizationUpsert {
 	return u
 }
 
+// SetUpdateBy sets the "update_by" field.
+func (u *OrganizationUpsert) SetUpdateBy(v uint32) *OrganizationUpsert {
+	u.Set(organization.FieldUpdateBy, v)
+	return u
+}
+
+// UpdateUpdateBy sets the "update_by" field to the value that was provided on create.
+func (u *OrganizationUpsert) UpdateUpdateBy() *OrganizationUpsert {
+	u.SetExcluded(organization.FieldUpdateBy)
+	return u
+}
+
+// AddUpdateBy adds v to the "update_by" field.
+func (u *OrganizationUpsert) AddUpdateBy(v uint32) *OrganizationUpsert {
+	u.Add(organization.FieldUpdateBy, v)
+	return u
+}
+
+// ClearUpdateBy clears the value of the "update_by" field.
+func (u *OrganizationUpsert) ClearUpdateBy() *OrganizationUpsert {
+	u.SetNull(organization.FieldUpdateBy)
+	return u
+}
+
 // SetRemark sets the "remark" field.
 func (u *OrganizationUpsert) SetRemark(v string) *OrganizationUpsert {
 	u.Set(organization.FieldRemark, v)
@@ -526,27 +563,27 @@ func (u *OrganizationUpsert) ClearParentID() *OrganizationUpsert {
 	return u
 }
 
-// SetOrderNo sets the "order_no" field.
-func (u *OrganizationUpsert) SetOrderNo(v int32) *OrganizationUpsert {
-	u.Set(organization.FieldOrderNo, v)
+// SetSortID sets the "sort_id" field.
+func (u *OrganizationUpsert) SetSortID(v int32) *OrganizationUpsert {
+	u.Set(organization.FieldSortID, v)
 	return u
 }
 
-// UpdateOrderNo sets the "order_no" field to the value that was provided on create.
-func (u *OrganizationUpsert) UpdateOrderNo() *OrganizationUpsert {
-	u.SetExcluded(organization.FieldOrderNo)
+// UpdateSortID sets the "sort_id" field to the value that was provided on create.
+func (u *OrganizationUpsert) UpdateSortID() *OrganizationUpsert {
+	u.SetExcluded(organization.FieldSortID)
 	return u
 }
 
-// AddOrderNo adds v to the "order_no" field.
-func (u *OrganizationUpsert) AddOrderNo(v int32) *OrganizationUpsert {
-	u.Add(organization.FieldOrderNo, v)
+// AddSortID adds v to the "sort_id" field.
+func (u *OrganizationUpsert) AddSortID(v int32) *OrganizationUpsert {
+	u.Add(organization.FieldSortID, v)
 	return u
 }
 
-// ClearOrderNo clears the value of the "order_no" field.
-func (u *OrganizationUpsert) ClearOrderNo() *OrganizationUpsert {
-	u.SetNull(organization.FieldOrderNo)
+// ClearSortID clears the value of the "sort_id" field.
+func (u *OrganizationUpsert) ClearSortID() *OrganizationUpsert {
+	u.SetNull(organization.FieldSortID)
 	return u
 }
 
@@ -692,6 +729,34 @@ func (u *OrganizationUpsertOne) ClearCreateBy() *OrganizationUpsertOne {
 	})
 }
 
+// SetUpdateBy sets the "update_by" field.
+func (u *OrganizationUpsertOne) SetUpdateBy(v uint32) *OrganizationUpsertOne {
+	return u.Update(func(s *OrganizationUpsert) {
+		s.SetUpdateBy(v)
+	})
+}
+
+// AddUpdateBy adds v to the "update_by" field.
+func (u *OrganizationUpsertOne) AddUpdateBy(v uint32) *OrganizationUpsertOne {
+	return u.Update(func(s *OrganizationUpsert) {
+		s.AddUpdateBy(v)
+	})
+}
+
+// UpdateUpdateBy sets the "update_by" field to the value that was provided on create.
+func (u *OrganizationUpsertOne) UpdateUpdateBy() *OrganizationUpsertOne {
+	return u.Update(func(s *OrganizationUpsert) {
+		s.UpdateUpdateBy()
+	})
+}
+
+// ClearUpdateBy clears the value of the "update_by" field.
+func (u *OrganizationUpsertOne) ClearUpdateBy() *OrganizationUpsertOne {
+	return u.Update(func(s *OrganizationUpsert) {
+		s.ClearUpdateBy()
+	})
+}
+
 // SetRemark sets the "remark" field.
 func (u *OrganizationUpsertOne) SetRemark(v string) *OrganizationUpsertOne {
 	return u.Update(func(s *OrganizationUpsert) {
@@ -755,31 +820,31 @@ func (u *OrganizationUpsertOne) ClearParentID() *OrganizationUpsertOne {
 	})
 }
 
-// SetOrderNo sets the "order_no" field.
-func (u *OrganizationUpsertOne) SetOrderNo(v int32) *OrganizationUpsertOne {
+// SetSortID sets the "sort_id" field.
+func (u *OrganizationUpsertOne) SetSortID(v int32) *OrganizationUpsertOne {
 	return u.Update(func(s *OrganizationUpsert) {
-		s.SetOrderNo(v)
+		s.SetSortID(v)
 	})
 }
 
-// AddOrderNo adds v to the "order_no" field.
-func (u *OrganizationUpsertOne) AddOrderNo(v int32) *OrganizationUpsertOne {
+// AddSortID adds v to the "sort_id" field.
+func (u *OrganizationUpsertOne) AddSortID(v int32) *OrganizationUpsertOne {
 	return u.Update(func(s *OrganizationUpsert) {
-		s.AddOrderNo(v)
+		s.AddSortID(v)
 	})
 }
 
-// UpdateOrderNo sets the "order_no" field to the value that was provided on create.
-func (u *OrganizationUpsertOne) UpdateOrderNo() *OrganizationUpsertOne {
+// UpdateSortID sets the "sort_id" field to the value that was provided on create.
+func (u *OrganizationUpsertOne) UpdateSortID() *OrganizationUpsertOne {
 	return u.Update(func(s *OrganizationUpsert) {
-		s.UpdateOrderNo()
+		s.UpdateSortID()
 	})
 }
 
-// ClearOrderNo clears the value of the "order_no" field.
-func (u *OrganizationUpsertOne) ClearOrderNo() *OrganizationUpsertOne {
+// ClearSortID clears the value of the "sort_id" field.
+func (u *OrganizationUpsertOne) ClearSortID() *OrganizationUpsertOne {
 	return u.Update(func(s *OrganizationUpsert) {
-		s.ClearOrderNo()
+		s.ClearSortID()
 	})
 }
 
@@ -1091,6 +1156,34 @@ func (u *OrganizationUpsertBulk) ClearCreateBy() *OrganizationUpsertBulk {
 	})
 }
 
+// SetUpdateBy sets the "update_by" field.
+func (u *OrganizationUpsertBulk) SetUpdateBy(v uint32) *OrganizationUpsertBulk {
+	return u.Update(func(s *OrganizationUpsert) {
+		s.SetUpdateBy(v)
+	})
+}
+
+// AddUpdateBy adds v to the "update_by" field.
+func (u *OrganizationUpsertBulk) AddUpdateBy(v uint32) *OrganizationUpsertBulk {
+	return u.Update(func(s *OrganizationUpsert) {
+		s.AddUpdateBy(v)
+	})
+}
+
+// UpdateUpdateBy sets the "update_by" field to the value that was provided on create.
+func (u *OrganizationUpsertBulk) UpdateUpdateBy() *OrganizationUpsertBulk {
+	return u.Update(func(s *OrganizationUpsert) {
+		s.UpdateUpdateBy()
+	})
+}
+
+// ClearUpdateBy clears the value of the "update_by" field.
+func (u *OrganizationUpsertBulk) ClearUpdateBy() *OrganizationUpsertBulk {
+	return u.Update(func(s *OrganizationUpsert) {
+		s.ClearUpdateBy()
+	})
+}
+
 // SetRemark sets the "remark" field.
 func (u *OrganizationUpsertBulk) SetRemark(v string) *OrganizationUpsertBulk {
 	return u.Update(func(s *OrganizationUpsert) {
@@ -1154,31 +1247,31 @@ func (u *OrganizationUpsertBulk) ClearParentID() *OrganizationUpsertBulk {
 	})
 }
 
-// SetOrderNo sets the "order_no" field.
-func (u *OrganizationUpsertBulk) SetOrderNo(v int32) *OrganizationUpsertBulk {
+// SetSortID sets the "sort_id" field.
+func (u *OrganizationUpsertBulk) SetSortID(v int32) *OrganizationUpsertBulk {
 	return u.Update(func(s *OrganizationUpsert) {
-		s.SetOrderNo(v)
+		s.SetSortID(v)
 	})
 }
 
-// AddOrderNo adds v to the "order_no" field.
-func (u *OrganizationUpsertBulk) AddOrderNo(v int32) *OrganizationUpsertBulk {
+// AddSortID adds v to the "sort_id" field.
+func (u *OrganizationUpsertBulk) AddSortID(v int32) *OrganizationUpsertBulk {
 	return u.Update(func(s *OrganizationUpsert) {
-		s.AddOrderNo(v)
+		s.AddSortID(v)
 	})
 }
 
-// UpdateOrderNo sets the "order_no" field to the value that was provided on create.
-func (u *OrganizationUpsertBulk) UpdateOrderNo() *OrganizationUpsertBulk {
+// UpdateSortID sets the "sort_id" field to the value that was provided on create.
+func (u *OrganizationUpsertBulk) UpdateSortID() *OrganizationUpsertBulk {
 	return u.Update(func(s *OrganizationUpsert) {
-		s.UpdateOrderNo()
+		s.UpdateSortID()
 	})
 }
 
-// ClearOrderNo clears the value of the "order_no" field.
-func (u *OrganizationUpsertBulk) ClearOrderNo() *OrganizationUpsertBulk {
+// ClearSortID clears the value of the "sort_id" field.
+func (u *OrganizationUpsertBulk) ClearSortID() *OrganizationUpsertBulk {
 	return u.Update(func(s *OrganizationUpsert) {
-		s.ClearOrderNo()
+		s.ClearSortID()
 	})
 }
 

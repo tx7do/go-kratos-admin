@@ -199,7 +199,7 @@ export interface GetUserByUserNameRequest {
 export interface CreateUserRequest {
   /** 操作用户ID */
   operatorId?: number | null | undefined;
-  user:
+  data:
     | User
     | null;
   /** 用户登录密码 */
@@ -214,7 +214,7 @@ export interface UpdateUserRequest {
     | null
     | undefined;
   /** 用户的数据 */
-  user:
+  data:
     | User
     | null;
   /** 用户登录密码 */

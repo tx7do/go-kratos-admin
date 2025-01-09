@@ -51,7 +51,7 @@ func NewData(
 
 	return d, func() {
 		l.Info("message", "closing the data resources")
-		d.db.Close()
+		_ = d.db.Close()
 		if err := d.rdb.Close(); err != nil {
 			l.Error(err)
 		}

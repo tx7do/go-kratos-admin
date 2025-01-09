@@ -92,6 +92,20 @@ func (pc *PositionCreate) SetNillableCreateBy(u *uint32) *PositionCreate {
 	return pc
 }
 
+// SetUpdateBy sets the "update_by" field.
+func (pc *PositionCreate) SetUpdateBy(u uint32) *PositionCreate {
+	pc.mutation.SetUpdateBy(u)
+	return pc
+}
+
+// SetNillableUpdateBy sets the "update_by" field if the given value is not nil.
+func (pc *PositionCreate) SetNillableUpdateBy(u *uint32) *PositionCreate {
+	if u != nil {
+		pc.SetUpdateBy(*u)
+	}
+	return pc
+}
+
 // SetRemark sets the "remark" field.
 func (pc *PositionCreate) SetRemark(s string) *PositionCreate {
 	pc.mutation.SetRemark(s)
@@ -148,16 +162,16 @@ func (pc *PositionCreate) SetNillableParentID(u *uint32) *PositionCreate {
 	return pc
 }
 
-// SetOrderNo sets the "order_no" field.
-func (pc *PositionCreate) SetOrderNo(i int32) *PositionCreate {
-	pc.mutation.SetOrderNo(i)
+// SetSortID sets the "sort_id" field.
+func (pc *PositionCreate) SetSortID(i int32) *PositionCreate {
+	pc.mutation.SetSortID(i)
 	return pc
 }
 
-// SetNillableOrderNo sets the "order_no" field if the given value is not nil.
-func (pc *PositionCreate) SetNillableOrderNo(i *int32) *PositionCreate {
+// SetNillableSortID sets the "sort_id" field if the given value is not nil.
+func (pc *PositionCreate) SetNillableSortID(i *int32) *PositionCreate {
 	if i != nil {
-		pc.SetOrderNo(*i)
+		pc.SetSortID(*i)
 	}
 	return pc
 }
@@ -243,9 +257,9 @@ func (pc *PositionCreate) defaults() {
 		v := position.DefaultParentID
 		pc.mutation.SetParentID(v)
 	}
-	if _, ok := pc.mutation.OrderNo(); !ok {
-		v := position.DefaultOrderNo
-		pc.mutation.SetOrderNo(v)
+	if _, ok := pc.mutation.SortID(); !ok {
+		v := position.DefaultSortID
+		pc.mutation.SetSortID(v)
 	}
 }
 
@@ -272,8 +286,8 @@ func (pc *PositionCreate) check() error {
 			return &ValidationError{Name: "code", err: fmt.Errorf(`ent: validator failed for field "Position.code": %w`, err)}
 		}
 	}
-	if _, ok := pc.mutation.OrderNo(); !ok {
-		return &ValidationError{Name: "order_no", err: errors.New(`ent: missing required field "Position.order_no"`)}
+	if _, ok := pc.mutation.SortID(); !ok {
+		return &ValidationError{Name: "sort_id", err: errors.New(`ent: missing required field "Position.sort_id"`)}
 	}
 	if v, ok := pc.mutation.ID(); ok {
 		if err := position.IDValidator(v); err != nil {
@@ -333,6 +347,10 @@ func (pc *PositionCreate) createSpec() (*Position, *sqlgraph.CreateSpec) {
 		_spec.SetField(position.FieldCreateBy, field.TypeUint32, value)
 		_node.CreateBy = &value
 	}
+	if value, ok := pc.mutation.UpdateBy(); ok {
+		_spec.SetField(position.FieldUpdateBy, field.TypeUint32, value)
+		_node.UpdateBy = &value
+	}
 	if value, ok := pc.mutation.Remark(); ok {
 		_spec.SetField(position.FieldRemark, field.TypeString, value)
 		_node.Remark = &value
@@ -345,9 +363,9 @@ func (pc *PositionCreate) createSpec() (*Position, *sqlgraph.CreateSpec) {
 		_spec.SetField(position.FieldCode, field.TypeString, value)
 		_node.Code = value
 	}
-	if value, ok := pc.mutation.OrderNo(); ok {
-		_spec.SetField(position.FieldOrderNo, field.TypeInt32, value)
-		_node.OrderNo = value
+	if value, ok := pc.mutation.SortID(); ok {
+		_spec.SetField(position.FieldSortID, field.TypeInt32, value)
+		_node.SortID = value
 	}
 	if nodes := pc.mutation.ParentIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
@@ -512,6 +530,30 @@ func (u *PositionUpsert) ClearCreateBy() *PositionUpsert {
 	return u
 }
 
+// SetUpdateBy sets the "update_by" field.
+func (u *PositionUpsert) SetUpdateBy(v uint32) *PositionUpsert {
+	u.Set(position.FieldUpdateBy, v)
+	return u
+}
+
+// UpdateUpdateBy sets the "update_by" field to the value that was provided on create.
+func (u *PositionUpsert) UpdateUpdateBy() *PositionUpsert {
+	u.SetExcluded(position.FieldUpdateBy)
+	return u
+}
+
+// AddUpdateBy adds v to the "update_by" field.
+func (u *PositionUpsert) AddUpdateBy(v uint32) *PositionUpsert {
+	u.Add(position.FieldUpdateBy, v)
+	return u
+}
+
+// ClearUpdateBy clears the value of the "update_by" field.
+func (u *PositionUpsert) ClearUpdateBy() *PositionUpsert {
+	u.SetNull(position.FieldUpdateBy)
+	return u
+}
+
 // SetRemark sets the "remark" field.
 func (u *PositionUpsert) SetRemark(v string) *PositionUpsert {
 	u.Set(position.FieldRemark, v)
@@ -572,21 +614,21 @@ func (u *PositionUpsert) ClearParentID() *PositionUpsert {
 	return u
 }
 
-// SetOrderNo sets the "order_no" field.
-func (u *PositionUpsert) SetOrderNo(v int32) *PositionUpsert {
-	u.Set(position.FieldOrderNo, v)
+// SetSortID sets the "sort_id" field.
+func (u *PositionUpsert) SetSortID(v int32) *PositionUpsert {
+	u.Set(position.FieldSortID, v)
 	return u
 }
 
-// UpdateOrderNo sets the "order_no" field to the value that was provided on create.
-func (u *PositionUpsert) UpdateOrderNo() *PositionUpsert {
-	u.SetExcluded(position.FieldOrderNo)
+// UpdateSortID sets the "sort_id" field to the value that was provided on create.
+func (u *PositionUpsert) UpdateSortID() *PositionUpsert {
+	u.SetExcluded(position.FieldSortID)
 	return u
 }
 
-// AddOrderNo adds v to the "order_no" field.
-func (u *PositionUpsert) AddOrderNo(v int32) *PositionUpsert {
-	u.Add(position.FieldOrderNo, v)
+// AddSortID adds v to the "sort_id" field.
+func (u *PositionUpsert) AddSortID(v int32) *PositionUpsert {
+	u.Add(position.FieldSortID, v)
 	return u
 }
 
@@ -732,6 +774,34 @@ func (u *PositionUpsertOne) ClearCreateBy() *PositionUpsertOne {
 	})
 }
 
+// SetUpdateBy sets the "update_by" field.
+func (u *PositionUpsertOne) SetUpdateBy(v uint32) *PositionUpsertOne {
+	return u.Update(func(s *PositionUpsert) {
+		s.SetUpdateBy(v)
+	})
+}
+
+// AddUpdateBy adds v to the "update_by" field.
+func (u *PositionUpsertOne) AddUpdateBy(v uint32) *PositionUpsertOne {
+	return u.Update(func(s *PositionUpsert) {
+		s.AddUpdateBy(v)
+	})
+}
+
+// UpdateUpdateBy sets the "update_by" field to the value that was provided on create.
+func (u *PositionUpsertOne) UpdateUpdateBy() *PositionUpsertOne {
+	return u.Update(func(s *PositionUpsert) {
+		s.UpdateUpdateBy()
+	})
+}
+
+// ClearUpdateBy clears the value of the "update_by" field.
+func (u *PositionUpsertOne) ClearUpdateBy() *PositionUpsertOne {
+	return u.Update(func(s *PositionUpsert) {
+		s.ClearUpdateBy()
+	})
+}
+
 // SetRemark sets the "remark" field.
 func (u *PositionUpsertOne) SetRemark(v string) *PositionUpsertOne {
 	return u.Update(func(s *PositionUpsert) {
@@ -802,24 +872,24 @@ func (u *PositionUpsertOne) ClearParentID() *PositionUpsertOne {
 	})
 }
 
-// SetOrderNo sets the "order_no" field.
-func (u *PositionUpsertOne) SetOrderNo(v int32) *PositionUpsertOne {
+// SetSortID sets the "sort_id" field.
+func (u *PositionUpsertOne) SetSortID(v int32) *PositionUpsertOne {
 	return u.Update(func(s *PositionUpsert) {
-		s.SetOrderNo(v)
+		s.SetSortID(v)
 	})
 }
 
-// AddOrderNo adds v to the "order_no" field.
-func (u *PositionUpsertOne) AddOrderNo(v int32) *PositionUpsertOne {
+// AddSortID adds v to the "sort_id" field.
+func (u *PositionUpsertOne) AddSortID(v int32) *PositionUpsertOne {
 	return u.Update(func(s *PositionUpsert) {
-		s.AddOrderNo(v)
+		s.AddSortID(v)
 	})
 }
 
-// UpdateOrderNo sets the "order_no" field to the value that was provided on create.
-func (u *PositionUpsertOne) UpdateOrderNo() *PositionUpsertOne {
+// UpdateSortID sets the "sort_id" field to the value that was provided on create.
+func (u *PositionUpsertOne) UpdateSortID() *PositionUpsertOne {
 	return u.Update(func(s *PositionUpsert) {
-		s.UpdateOrderNo()
+		s.UpdateSortID()
 	})
 }
 
@@ -1131,6 +1201,34 @@ func (u *PositionUpsertBulk) ClearCreateBy() *PositionUpsertBulk {
 	})
 }
 
+// SetUpdateBy sets the "update_by" field.
+func (u *PositionUpsertBulk) SetUpdateBy(v uint32) *PositionUpsertBulk {
+	return u.Update(func(s *PositionUpsert) {
+		s.SetUpdateBy(v)
+	})
+}
+
+// AddUpdateBy adds v to the "update_by" field.
+func (u *PositionUpsertBulk) AddUpdateBy(v uint32) *PositionUpsertBulk {
+	return u.Update(func(s *PositionUpsert) {
+		s.AddUpdateBy(v)
+	})
+}
+
+// UpdateUpdateBy sets the "update_by" field to the value that was provided on create.
+func (u *PositionUpsertBulk) UpdateUpdateBy() *PositionUpsertBulk {
+	return u.Update(func(s *PositionUpsert) {
+		s.UpdateUpdateBy()
+	})
+}
+
+// ClearUpdateBy clears the value of the "update_by" field.
+func (u *PositionUpsertBulk) ClearUpdateBy() *PositionUpsertBulk {
+	return u.Update(func(s *PositionUpsert) {
+		s.ClearUpdateBy()
+	})
+}
+
 // SetRemark sets the "remark" field.
 func (u *PositionUpsertBulk) SetRemark(v string) *PositionUpsertBulk {
 	return u.Update(func(s *PositionUpsert) {
@@ -1201,24 +1299,24 @@ func (u *PositionUpsertBulk) ClearParentID() *PositionUpsertBulk {
 	})
 }
 
-// SetOrderNo sets the "order_no" field.
-func (u *PositionUpsertBulk) SetOrderNo(v int32) *PositionUpsertBulk {
+// SetSortID sets the "sort_id" field.
+func (u *PositionUpsertBulk) SetSortID(v int32) *PositionUpsertBulk {
 	return u.Update(func(s *PositionUpsert) {
-		s.SetOrderNo(v)
+		s.SetSortID(v)
 	})
 }
 
-// AddOrderNo adds v to the "order_no" field.
-func (u *PositionUpsertBulk) AddOrderNo(v int32) *PositionUpsertBulk {
+// AddSortID adds v to the "sort_id" field.
+func (u *PositionUpsertBulk) AddSortID(v int32) *PositionUpsertBulk {
 	return u.Update(func(s *PositionUpsert) {
-		s.AddOrderNo(v)
+		s.AddSortID(v)
 	})
 }
 
-// UpdateOrderNo sets the "order_no" field to the value that was provided on create.
-func (u *PositionUpsertBulk) UpdateOrderNo() *PositionUpsertBulk {
+// UpdateSortID sets the "sort_id" field to the value that was provided on create.
+func (u *PositionUpsertBulk) UpdateSortID() *PositionUpsertBulk {
 	return u.Update(func(s *PositionUpsert) {
-		s.UpdateOrderNo()
+		s.UpdateSortID()
 	})
 }
 

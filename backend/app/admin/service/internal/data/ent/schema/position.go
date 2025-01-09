@@ -43,7 +43,7 @@ func (Position) Fields() []ent.Field {
 			Default(0).
 			Optional(),
 
-		field.Int32("order_no").
+		field.Int32("sort_id").
 			Comment("排序ID").
 			Default(0),
 	}
@@ -56,6 +56,7 @@ func (Position) Mixin() []ent.Mixin {
 		mixin.Time{},
 		mixin.SwitchStatus{},
 		mixin.CreateBy{},
+		mixin.UpdateBy{},
 		mixin.Remark{},
 	}
 }

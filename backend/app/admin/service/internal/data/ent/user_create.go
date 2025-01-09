@@ -36,6 +36,20 @@ func (uc *UserCreate) SetNillableCreateBy(u *uint32) *UserCreate {
 	return uc
 }
 
+// SetUpdateBy sets the "update_by" field.
+func (uc *UserCreate) SetUpdateBy(u uint32) *UserCreate {
+	uc.mutation.SetUpdateBy(u)
+	return uc
+}
+
+// SetNillableUpdateBy sets the "update_by" field if the given value is not nil.
+func (uc *UserCreate) SetNillableUpdateBy(u *uint32) *UserCreate {
+	if u != nil {
+		uc.SetUpdateBy(*u)
+	}
+	return uc
+}
+
 // SetCreateTime sets the "create_time" field.
 func (uc *UserCreate) SetCreateTime(t time.Time) *UserCreate {
 	uc.mutation.SetCreateTime(t)
@@ -566,6 +580,10 @@ func (uc *UserCreate) createSpec() (*User, *sqlgraph.CreateSpec) {
 		_spec.SetField(user.FieldCreateBy, field.TypeUint32, value)
 		_node.CreateBy = &value
 	}
+	if value, ok := uc.mutation.UpdateBy(); ok {
+		_spec.SetField(user.FieldUpdateBy, field.TypeUint32, value)
+		_node.UpdateBy = &value
+	}
 	if value, ok := uc.mutation.CreateTime(); ok {
 		_spec.SetField(user.FieldCreateTime, field.TypeTime, value)
 		_node.CreateTime = &value
@@ -735,6 +753,30 @@ func (u *UserUpsert) AddCreateBy(v uint32) *UserUpsert {
 // ClearCreateBy clears the value of the "create_by" field.
 func (u *UserUpsert) ClearCreateBy() *UserUpsert {
 	u.SetNull(user.FieldCreateBy)
+	return u
+}
+
+// SetUpdateBy sets the "update_by" field.
+func (u *UserUpsert) SetUpdateBy(v uint32) *UserUpsert {
+	u.Set(user.FieldUpdateBy, v)
+	return u
+}
+
+// UpdateUpdateBy sets the "update_by" field to the value that was provided on create.
+func (u *UserUpsert) UpdateUpdateBy() *UserUpsert {
+	u.SetExcluded(user.FieldUpdateBy)
+	return u
+}
+
+// AddUpdateBy adds v to the "update_by" field.
+func (u *UserUpsert) AddUpdateBy(v uint32) *UserUpsert {
+	u.Add(user.FieldUpdateBy, v)
+	return u
+}
+
+// ClearUpdateBy clears the value of the "update_by" field.
+func (u *UserUpsert) ClearUpdateBy() *UserUpsert {
+	u.SetNull(user.FieldUpdateBy)
 	return u
 }
 
@@ -1243,6 +1285,34 @@ func (u *UserUpsertOne) UpdateCreateBy() *UserUpsertOne {
 func (u *UserUpsertOne) ClearCreateBy() *UserUpsertOne {
 	return u.Update(func(s *UserUpsert) {
 		s.ClearCreateBy()
+	})
+}
+
+// SetUpdateBy sets the "update_by" field.
+func (u *UserUpsertOne) SetUpdateBy(v uint32) *UserUpsertOne {
+	return u.Update(func(s *UserUpsert) {
+		s.SetUpdateBy(v)
+	})
+}
+
+// AddUpdateBy adds v to the "update_by" field.
+func (u *UserUpsertOne) AddUpdateBy(v uint32) *UserUpsertOne {
+	return u.Update(func(s *UserUpsert) {
+		s.AddUpdateBy(v)
+	})
+}
+
+// UpdateUpdateBy sets the "update_by" field to the value that was provided on create.
+func (u *UserUpsertOne) UpdateUpdateBy() *UserUpsertOne {
+	return u.Update(func(s *UserUpsert) {
+		s.UpdateUpdateBy()
+	})
+}
+
+// ClearUpdateBy clears the value of the "update_by" field.
+func (u *UserUpsertOne) ClearUpdateBy() *UserUpsertOne {
+	return u.Update(func(s *UserUpsert) {
+		s.ClearUpdateBy()
 	})
 }
 
@@ -1988,6 +2058,34 @@ func (u *UserUpsertBulk) UpdateCreateBy() *UserUpsertBulk {
 func (u *UserUpsertBulk) ClearCreateBy() *UserUpsertBulk {
 	return u.Update(func(s *UserUpsert) {
 		s.ClearCreateBy()
+	})
+}
+
+// SetUpdateBy sets the "update_by" field.
+func (u *UserUpsertBulk) SetUpdateBy(v uint32) *UserUpsertBulk {
+	return u.Update(func(s *UserUpsert) {
+		s.SetUpdateBy(v)
+	})
+}
+
+// AddUpdateBy adds v to the "update_by" field.
+func (u *UserUpsertBulk) AddUpdateBy(v uint32) *UserUpsertBulk {
+	return u.Update(func(s *UserUpsert) {
+		s.AddUpdateBy(v)
+	})
+}
+
+// UpdateUpdateBy sets the "update_by" field to the value that was provided on create.
+func (u *UserUpsertBulk) UpdateUpdateBy() *UserUpsertBulk {
+	return u.Update(func(s *UserUpsert) {
+		s.UpdateUpdateBy()
+	})
+}
+
+// ClearUpdateBy clears the value of the "update_by" field.
+func (u *UserUpsertBulk) ClearUpdateBy() *UserUpsertBulk {
+	return u.Update(func(s *UserUpsert) {
+		s.ClearUpdateBy()
 	})
 }
 

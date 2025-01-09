@@ -98,8 +98,8 @@ func (m *Role) validate(all bool) error {
 		// no validation rules for Name
 	}
 
-	if m.OrderNo != nil {
-		// no validation rules for OrderNo
+	if m.SortId != nil {
+		// no validation rules for SortId
 	}
 
 	if m.Code != nil {
@@ -555,11 +555,11 @@ func (m *CreateRoleRequest) validate(all bool) error {
 	var errors []error
 
 	if all {
-		switch v := interface{}(m.GetRole()).(type) {
+		switch v := interface{}(m.GetData()).(type) {
 		case interface{ ValidateAll() error }:
 			if err := v.ValidateAll(); err != nil {
 				errors = append(errors, CreateRoleRequestValidationError{
-					field:  "Role",
+					field:  "Data",
 					reason: "embedded message failed validation",
 					cause:  err,
 				})
@@ -567,16 +567,16 @@ func (m *CreateRoleRequest) validate(all bool) error {
 		case interface{ Validate() error }:
 			if err := v.Validate(); err != nil {
 				errors = append(errors, CreateRoleRequestValidationError{
-					field:  "Role",
+					field:  "Data",
 					reason: "embedded message failed validation",
 					cause:  err,
 				})
 			}
 		}
-	} else if v, ok := interface{}(m.GetRole()).(interface{ Validate() error }); ok {
+	} else if v, ok := interface{}(m.GetData()).(interface{ Validate() error }); ok {
 		if err := v.Validate(); err != nil {
 			return CreateRoleRequestValidationError{
-				field:  "Role",
+				field:  "Data",
 				reason: "embedded message failed validation",
 				cause:  err,
 			}
@@ -690,11 +690,11 @@ func (m *UpdateRoleRequest) validate(all bool) error {
 	var errors []error
 
 	if all {
-		switch v := interface{}(m.GetRole()).(type) {
+		switch v := interface{}(m.GetData()).(type) {
 		case interface{ ValidateAll() error }:
 			if err := v.ValidateAll(); err != nil {
 				errors = append(errors, UpdateRoleRequestValidationError{
-					field:  "Role",
+					field:  "Data",
 					reason: "embedded message failed validation",
 					cause:  err,
 				})
@@ -702,16 +702,16 @@ func (m *UpdateRoleRequest) validate(all bool) error {
 		case interface{ Validate() error }:
 			if err := v.Validate(); err != nil {
 				errors = append(errors, UpdateRoleRequestValidationError{
-					field:  "Role",
+					field:  "Data",
 					reason: "embedded message failed validation",
 					cause:  err,
 				})
 			}
 		}
-	} else if v, ok := interface{}(m.GetRole()).(interface{ Validate() error }); ok {
+	} else if v, ok := interface{}(m.GetData()).(interface{ Validate() error }); ok {
 		if err := v.Validate(); err != nil {
 			return UpdateRoleRequestValidationError{
-				field:  "Role",
+				field:  "Data",
 				reason: "embedded message failed validation",
 				cause:  err,
 			}

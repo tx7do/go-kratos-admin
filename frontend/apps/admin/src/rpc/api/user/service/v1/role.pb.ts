@@ -21,8 +21,8 @@ export interface Role {
     | string
     | null
     | undefined;
-  /** 排序号 */
-  orderNo?:
+  /** 排序编号 */
+  sortId?:
     | number
     | null
     | undefined;
@@ -73,14 +73,14 @@ export interface GetRoleRequest {
 export interface CreateRoleRequest {
   /** 操作用户ID */
   operatorId?: number | null | undefined;
-  role: Role | null;
+  data: Role | null;
 }
 
 /** 更新角色 - 请求 */
 export interface UpdateRoleRequest {
   /** 操作用户ID */
   operatorId?: number | null | undefined;
-  role:
+  data:
     | Role
     | null;
   /** 要更新的字段列表 */

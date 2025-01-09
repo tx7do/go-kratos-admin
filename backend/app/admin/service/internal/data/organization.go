@@ -43,7 +43,7 @@ func (r *OrganizationRepo) convertEntToProto(in *ent.Organization) *userV1.Organ
 		Id:         trans.Ptr(in.ID),
 		Name:       in.Name,
 		Remark:     in.Remark,
-		OrderNo:    in.OrderNo,
+		SortId:     in.SortID,
 		ParentId:   in.ParentID,
 		Status:     (*string)(in.Status),
 		CreateTime: timeutil.TimeToTimestamppb(in.CreateTime),
@@ -169,22 +169,22 @@ func (r *OrganizationRepo) Get(ctx context.Context, req *userV1.GetOrganizationR
 }
 
 func (r *OrganizationRepo) Create(ctx context.Context, req *userV1.CreateOrganizationRequest) error {
-	if req.Org == nil {
+	if req.Data == nil {
 		return errors.New("invalid request")
 	}
 
 	builder := r.data.db.Client().Organization.Create().
-		SetNillableName(req.Org.Name).
-		SetNillableParentID(req.Org.ParentId).
-		SetNillableOrderNo(req.Org.OrderNo).
-		SetNillableRemark(req.Org.Remark).
-		SetNillableStatus((*organization.Status)(req.Org.Status)).
+		SetNillableName(req.Data.Name).
+		SetNillableParentID(req.Data.ParentId).
+		SetNillableSortID(req.Data.SortId).
+		SetNillableRemark(req.Data.Remark).
+		SetNillableStatus((*organization.Status)(req.Data.Status)).
 		SetNillableCreateBy(req.OperatorId)
 
-	if req.Org.CreateTime == nil {
+	if req.Data.CreateTime == nil {
 		builder.SetCreateTime(time.Now())
 	} else {
-		builder.SetCreateTime(*timeutil.TimestamppbToTime(req.Org.CreateTime))
+		builder.SetCreateTime(*timeutil.TimestamppbToTime(req.Data.CreateTime))
 	}
 
 	err := builder.Exec(ctx)
@@ -197,44 +197,46 @@ func (r *OrganizationRepo) Create(ctx context.Context, req *userV1.CreateOrganiz
 }
 
 func (r *OrganizationRepo) Update(ctx context.Context, req *userV1.UpdateOrganizationRequest) error {
-	if req.Org == nil {
+	if req.Data == nil {
 		return errors.New("invalid request")
 	}
 
 	// 如果不存在则创建
 	if req.GetAllowMissing() {
-		exist, err := r.IsExist(ctx, req.GetOrg().GetId())
+		exist, err := r.IsExist(ctx, req.GetData().GetId())
 		if err != nil {
 			return err
 		}
 		if !exist {
-			return r.Create(ctx, &userV1.CreateOrganizationRequest{Org: req.Org, OperatorId: req.OperatorId})
+			return r.Create(ctx, &userV1.CreateOrganizationRequest{Data: req.Data, OperatorId: req.OperatorId})
 		}
 	}
 
 	if req.UpdateMask != nil {
 		req.UpdateMask.Normalize()
-		if !req.UpdateMask.IsValid(req.Org) {
+		if !req.UpdateMask.IsValid(req.Data) {
 			return errors.New("invalid field mask")
 		}
-		fieldmaskutil.Filter(req.GetOrg(), req.UpdateMask.GetPaths())
+		fieldmaskutil.Filter(req.GetData(), req.UpdateMask.GetPaths())
 	}
 
-	builder := r.data.db.Client().Organization.UpdateOneID(req.Org.GetId()).
-		SetNillableName(req.Org.Name).
-		SetNillableParentID(req.Org.ParentId).
-		SetNillableOrderNo(req.Org.OrderNo).
-		SetNillableRemark(req.Org.Remark).
-		SetNillableStatus((*organization.Status)(req.Org.Status))
+	builder := r.data.db.Client().Organization.
+		UpdateOneID(req.Data.GetId()).
+		SetNillableName(req.Data.Name).
+		SetNillableParentID(req.Data.ParentId).
+		SetNillableSortID(req.Data.SortId).
+		SetNillableRemark(req.Data.Remark).
+		SetNillableStatus((*organization.Status)(req.Data.Status)).
+		SetNillableUpdateBy(req.OperatorId)
 
-	if req.Org.UpdateTime == nil {
+	if req.Data.UpdateTime == nil {
 		builder.SetUpdateTime(time.Now())
 	} else {
-		builder.SetUpdateTime(*timeutil.TimestamppbToTime(req.Org.UpdateTime))
+		builder.SetUpdateTime(*timeutil.TimestamppbToTime(req.Data.UpdateTime))
 	}
 
 	if req.UpdateMask != nil {
-		nilPaths := fieldmaskutil.NilValuePaths(req.Org, req.GetUpdateMask().GetPaths())
+		nilPaths := fieldmaskutil.NilValuePaths(req.Data, req.GetUpdateMask().GetPaths())
 		nilUpdater := entgoUpdate.BuildSetNullUpdater(nilPaths)
 		if nilUpdater != nil {
 			builder.Modify(nilUpdater)

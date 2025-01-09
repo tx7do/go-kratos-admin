@@ -117,6 +117,53 @@ func (mu *MenuUpdate) ClearCreateBy() *MenuUpdate {
 	return mu
 }
 
+// SetUpdateBy sets the "update_by" field.
+func (mu *MenuUpdate) SetUpdateBy(u uint32) *MenuUpdate {
+	mu.mutation.ResetUpdateBy()
+	mu.mutation.SetUpdateBy(u)
+	return mu
+}
+
+// SetNillableUpdateBy sets the "update_by" field if the given value is not nil.
+func (mu *MenuUpdate) SetNillableUpdateBy(u *uint32) *MenuUpdate {
+	if u != nil {
+		mu.SetUpdateBy(*u)
+	}
+	return mu
+}
+
+// AddUpdateBy adds u to the "update_by" field.
+func (mu *MenuUpdate) AddUpdateBy(u int32) *MenuUpdate {
+	mu.mutation.AddUpdateBy(u)
+	return mu
+}
+
+// ClearUpdateBy clears the value of the "update_by" field.
+func (mu *MenuUpdate) ClearUpdateBy() *MenuUpdate {
+	mu.mutation.ClearUpdateBy()
+	return mu
+}
+
+// SetRemark sets the "remark" field.
+func (mu *MenuUpdate) SetRemark(s string) *MenuUpdate {
+	mu.mutation.SetRemark(s)
+	return mu
+}
+
+// SetNillableRemark sets the "remark" field if the given value is not nil.
+func (mu *MenuUpdate) SetNillableRemark(s *string) *MenuUpdate {
+	if s != nil {
+		mu.SetRemark(*s)
+	}
+	return mu
+}
+
+// ClearRemark clears the value of the "remark" field.
+func (mu *MenuUpdate) ClearRemark() *MenuUpdate {
+	mu.mutation.ClearRemark()
+	return mu
+}
+
 // SetParentID sets the "parent_id" field.
 func (mu *MenuUpdate) SetParentID(i int32) *MenuUpdate {
 	mu.mutation.SetParentID(i)
@@ -416,6 +463,21 @@ func (mu *MenuUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	if mu.mutation.CreateByCleared() {
 		_spec.ClearField(menu.FieldCreateBy, field.TypeUint32)
 	}
+	if value, ok := mu.mutation.UpdateBy(); ok {
+		_spec.SetField(menu.FieldUpdateBy, field.TypeUint32, value)
+	}
+	if value, ok := mu.mutation.AddedUpdateBy(); ok {
+		_spec.AddField(menu.FieldUpdateBy, field.TypeUint32, value)
+	}
+	if mu.mutation.UpdateByCleared() {
+		_spec.ClearField(menu.FieldUpdateBy, field.TypeUint32)
+	}
+	if value, ok := mu.mutation.Remark(); ok {
+		_spec.SetField(menu.FieldRemark, field.TypeString, value)
+	}
+	if mu.mutation.RemarkCleared() {
+		_spec.ClearField(menu.FieldRemark, field.TypeString)
+	}
 	if value, ok := mu.mutation.GetType(); ok {
 		_spec.SetField(menu.FieldType, field.TypeEnum, value)
 	}
@@ -638,6 +700,53 @@ func (muo *MenuUpdateOne) AddCreateBy(u int32) *MenuUpdateOne {
 // ClearCreateBy clears the value of the "create_by" field.
 func (muo *MenuUpdateOne) ClearCreateBy() *MenuUpdateOne {
 	muo.mutation.ClearCreateBy()
+	return muo
+}
+
+// SetUpdateBy sets the "update_by" field.
+func (muo *MenuUpdateOne) SetUpdateBy(u uint32) *MenuUpdateOne {
+	muo.mutation.ResetUpdateBy()
+	muo.mutation.SetUpdateBy(u)
+	return muo
+}
+
+// SetNillableUpdateBy sets the "update_by" field if the given value is not nil.
+func (muo *MenuUpdateOne) SetNillableUpdateBy(u *uint32) *MenuUpdateOne {
+	if u != nil {
+		muo.SetUpdateBy(*u)
+	}
+	return muo
+}
+
+// AddUpdateBy adds u to the "update_by" field.
+func (muo *MenuUpdateOne) AddUpdateBy(u int32) *MenuUpdateOne {
+	muo.mutation.AddUpdateBy(u)
+	return muo
+}
+
+// ClearUpdateBy clears the value of the "update_by" field.
+func (muo *MenuUpdateOne) ClearUpdateBy() *MenuUpdateOne {
+	muo.mutation.ClearUpdateBy()
+	return muo
+}
+
+// SetRemark sets the "remark" field.
+func (muo *MenuUpdateOne) SetRemark(s string) *MenuUpdateOne {
+	muo.mutation.SetRemark(s)
+	return muo
+}
+
+// SetNillableRemark sets the "remark" field if the given value is not nil.
+func (muo *MenuUpdateOne) SetNillableRemark(s *string) *MenuUpdateOne {
+	if s != nil {
+		muo.SetRemark(*s)
+	}
+	return muo
+}
+
+// ClearRemark clears the value of the "remark" field.
+func (muo *MenuUpdateOne) ClearRemark() *MenuUpdateOne {
+	muo.mutation.ClearRemark()
 	return muo
 }
 
@@ -969,6 +1078,21 @@ func (muo *MenuUpdateOne) sqlSave(ctx context.Context) (_node *Menu, err error) 
 	}
 	if muo.mutation.CreateByCleared() {
 		_spec.ClearField(menu.FieldCreateBy, field.TypeUint32)
+	}
+	if value, ok := muo.mutation.UpdateBy(); ok {
+		_spec.SetField(menu.FieldUpdateBy, field.TypeUint32, value)
+	}
+	if value, ok := muo.mutation.AddedUpdateBy(); ok {
+		_spec.AddField(menu.FieldUpdateBy, field.TypeUint32, value)
+	}
+	if muo.mutation.UpdateByCleared() {
+		_spec.ClearField(menu.FieldUpdateBy, field.TypeUint32)
+	}
+	if value, ok := muo.mutation.Remark(); ok {
+		_spec.SetField(menu.FieldRemark, field.TypeString, value)
+	}
+	if muo.mutation.RemarkCleared() {
+		_spec.ClearField(menu.FieldRemark, field.TypeString)
 	}
 	if value, ok := muo.mutation.GetType(); ok {
 		_spec.SetField(menu.FieldType, field.TypeEnum, value)

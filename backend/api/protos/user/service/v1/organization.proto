@@ -36,7 +36,7 @@ message Organization {
 
   optional string name = 2 [json_name = "name", (gnostic.openapi.v3.property) = {description: "部门名称"}];  // 部门名称
 
-  optional int32 order_no = 3 [json_name = "orderNo", (gnostic.openapi.v3.property) = {description: "排序号"}];  // 排序号
+  optional int32 sort_id = 3 [json_name = "sortId", (gnostic.openapi.v3.property) = {description: "排序编号"}];  // 排序编号
 
   optional string status = 4 [(gnostic.openapi.v3.property) = {
     description: "状态"
@@ -71,7 +71,7 @@ message CreateOrganizationRequest {
     json_name = "operatorId"
   ]; // 操作用户ID
 
-  Organization org = 2;
+  Organization data = 2;
 }
 
 // 更新部门 - 请求
@@ -81,7 +81,7 @@ message UpdateOrganizationRequest {
     json_name = "operatorId"
   ]; // 操作用户ID
 
-  Organization org = 2;
+  Organization data = 2;
 
   google.protobuf.FieldMask update_mask = 3 [
     (gnostic.openapi.v3.property) = {

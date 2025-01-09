@@ -91,6 +91,8 @@ func (Menu) Mixin() []ent.Mixin {
 		mixin.SwitchStatus{},
 		mixin.Time{},
 		mixin.CreateBy{},
+		mixin.UpdateBy{},
+		mixin.Remark{},
 	}
 }
 

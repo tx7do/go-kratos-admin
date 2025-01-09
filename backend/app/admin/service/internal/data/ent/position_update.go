@@ -116,6 +116,33 @@ func (pu *PositionUpdate) ClearCreateBy() *PositionUpdate {
 	return pu
 }
 
+// SetUpdateBy sets the "update_by" field.
+func (pu *PositionUpdate) SetUpdateBy(u uint32) *PositionUpdate {
+	pu.mutation.ResetUpdateBy()
+	pu.mutation.SetUpdateBy(u)
+	return pu
+}
+
+// SetNillableUpdateBy sets the "update_by" field if the given value is not nil.
+func (pu *PositionUpdate) SetNillableUpdateBy(u *uint32) *PositionUpdate {
+	if u != nil {
+		pu.SetUpdateBy(*u)
+	}
+	return pu
+}
+
+// AddUpdateBy adds u to the "update_by" field.
+func (pu *PositionUpdate) AddUpdateBy(u int32) *PositionUpdate {
+	pu.mutation.AddUpdateBy(u)
+	return pu
+}
+
+// ClearUpdateBy clears the value of the "update_by" field.
+func (pu *PositionUpdate) ClearUpdateBy() *PositionUpdate {
+	pu.mutation.ClearUpdateBy()
+	return pu
+}
+
 // SetRemark sets the "remark" field.
 func (pu *PositionUpdate) SetRemark(s string) *PositionUpdate {
 	pu.mutation.SetRemark(s)
@@ -184,24 +211,24 @@ func (pu *PositionUpdate) ClearParentID() *PositionUpdate {
 	return pu
 }
 
-// SetOrderNo sets the "order_no" field.
-func (pu *PositionUpdate) SetOrderNo(i int32) *PositionUpdate {
-	pu.mutation.ResetOrderNo()
-	pu.mutation.SetOrderNo(i)
+// SetSortID sets the "sort_id" field.
+func (pu *PositionUpdate) SetSortID(i int32) *PositionUpdate {
+	pu.mutation.ResetSortID()
+	pu.mutation.SetSortID(i)
 	return pu
 }
 
-// SetNillableOrderNo sets the "order_no" field if the given value is not nil.
-func (pu *PositionUpdate) SetNillableOrderNo(i *int32) *PositionUpdate {
+// SetNillableSortID sets the "sort_id" field if the given value is not nil.
+func (pu *PositionUpdate) SetNillableSortID(i *int32) *PositionUpdate {
 	if i != nil {
-		pu.SetOrderNo(*i)
+		pu.SetSortID(*i)
 	}
 	return pu
 }
 
-// AddOrderNo adds i to the "order_no" field.
-func (pu *PositionUpdate) AddOrderNo(i int32) *PositionUpdate {
-	pu.mutation.AddOrderNo(i)
+// AddSortID adds i to the "sort_id" field.
+func (pu *PositionUpdate) AddSortID(i int32) *PositionUpdate {
+	pu.mutation.AddSortID(i)
 	return pu
 }
 
@@ -352,6 +379,15 @@ func (pu *PositionUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	if pu.mutation.CreateByCleared() {
 		_spec.ClearField(position.FieldCreateBy, field.TypeUint32)
 	}
+	if value, ok := pu.mutation.UpdateBy(); ok {
+		_spec.SetField(position.FieldUpdateBy, field.TypeUint32, value)
+	}
+	if value, ok := pu.mutation.AddedUpdateBy(); ok {
+		_spec.AddField(position.FieldUpdateBy, field.TypeUint32, value)
+	}
+	if pu.mutation.UpdateByCleared() {
+		_spec.ClearField(position.FieldUpdateBy, field.TypeUint32)
+	}
 	if value, ok := pu.mutation.Remark(); ok {
 		_spec.SetField(position.FieldRemark, field.TypeString, value)
 	}
@@ -364,11 +400,11 @@ func (pu *PositionUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	if value, ok := pu.mutation.Code(); ok {
 		_spec.SetField(position.FieldCode, field.TypeString, value)
 	}
-	if value, ok := pu.mutation.OrderNo(); ok {
-		_spec.SetField(position.FieldOrderNo, field.TypeInt32, value)
+	if value, ok := pu.mutation.SortID(); ok {
+		_spec.SetField(position.FieldSortID, field.TypeInt32, value)
 	}
-	if value, ok := pu.mutation.AddedOrderNo(); ok {
-		_spec.AddField(position.FieldOrderNo, field.TypeInt32, value)
+	if value, ok := pu.mutation.AddedSortID(); ok {
+		_spec.AddField(position.FieldSortID, field.TypeInt32, value)
 	}
 	if pu.mutation.ParentCleared() {
 		edge := &sqlgraph.EdgeSpec{
@@ -553,6 +589,33 @@ func (puo *PositionUpdateOne) ClearCreateBy() *PositionUpdateOne {
 	return puo
 }
 
+// SetUpdateBy sets the "update_by" field.
+func (puo *PositionUpdateOne) SetUpdateBy(u uint32) *PositionUpdateOne {
+	puo.mutation.ResetUpdateBy()
+	puo.mutation.SetUpdateBy(u)
+	return puo
+}
+
+// SetNillableUpdateBy sets the "update_by" field if the given value is not nil.
+func (puo *PositionUpdateOne) SetNillableUpdateBy(u *uint32) *PositionUpdateOne {
+	if u != nil {
+		puo.SetUpdateBy(*u)
+	}
+	return puo
+}
+
+// AddUpdateBy adds u to the "update_by" field.
+func (puo *PositionUpdateOne) AddUpdateBy(u int32) *PositionUpdateOne {
+	puo.mutation.AddUpdateBy(u)
+	return puo
+}
+
+// ClearUpdateBy clears the value of the "update_by" field.
+func (puo *PositionUpdateOne) ClearUpdateBy() *PositionUpdateOne {
+	puo.mutation.ClearUpdateBy()
+	return puo
+}
+
 // SetRemark sets the "remark" field.
 func (puo *PositionUpdateOne) SetRemark(s string) *PositionUpdateOne {
 	puo.mutation.SetRemark(s)
@@ -621,24 +684,24 @@ func (puo *PositionUpdateOne) ClearParentID() *PositionUpdateOne {
 	return puo
 }
 
-// SetOrderNo sets the "order_no" field.
-func (puo *PositionUpdateOne) SetOrderNo(i int32) *PositionUpdateOne {
-	puo.mutation.ResetOrderNo()
-	puo.mutation.SetOrderNo(i)
+// SetSortID sets the "sort_id" field.
+func (puo *PositionUpdateOne) SetSortID(i int32) *PositionUpdateOne {
+	puo.mutation.ResetSortID()
+	puo.mutation.SetSortID(i)
 	return puo
 }
 
-// SetNillableOrderNo sets the "order_no" field if the given value is not nil.
-func (puo *PositionUpdateOne) SetNillableOrderNo(i *int32) *PositionUpdateOne {
+// SetNillableSortID sets the "sort_id" field if the given value is not nil.
+func (puo *PositionUpdateOne) SetNillableSortID(i *int32) *PositionUpdateOne {
 	if i != nil {
-		puo.SetOrderNo(*i)
+		puo.SetSortID(*i)
 	}
 	return puo
 }
 
-// AddOrderNo adds i to the "order_no" field.
-func (puo *PositionUpdateOne) AddOrderNo(i int32) *PositionUpdateOne {
-	puo.mutation.AddOrderNo(i)
+// AddSortID adds i to the "sort_id" field.
+func (puo *PositionUpdateOne) AddSortID(i int32) *PositionUpdateOne {
+	puo.mutation.AddSortID(i)
 	return puo
 }
 
@@ -819,6 +882,15 @@ func (puo *PositionUpdateOne) sqlSave(ctx context.Context) (_node *Position, err
 	if puo.mutation.CreateByCleared() {
 		_spec.ClearField(position.FieldCreateBy, field.TypeUint32)
 	}
+	if value, ok := puo.mutation.UpdateBy(); ok {
+		_spec.SetField(position.FieldUpdateBy, field.TypeUint32, value)
+	}
+	if value, ok := puo.mutation.AddedUpdateBy(); ok {
+		_spec.AddField(position.FieldUpdateBy, field.TypeUint32, value)
+	}
+	if puo.mutation.UpdateByCleared() {
+		_spec.ClearField(position.FieldUpdateBy, field.TypeUint32)
+	}
 	if value, ok := puo.mutation.Remark(); ok {
 		_spec.SetField(position.FieldRemark, field.TypeString, value)
 	}
@@ -831,11 +903,11 @@ func (puo *PositionUpdateOne) sqlSave(ctx context.Context) (_node *Position, err
 	if value, ok := puo.mutation.Code(); ok {
 		_spec.SetField(position.FieldCode, field.TypeString, value)
 	}
-	if value, ok := puo.mutation.OrderNo(); ok {
-		_spec.SetField(position.FieldOrderNo, field.TypeInt32, value)
+	if value, ok := puo.mutation.SortID(); ok {
+		_spec.SetField(position.FieldSortID, field.TypeInt32, value)
 	}
-	if value, ok := puo.mutation.AddedOrderNo(); ok {
-		_spec.AddField(position.FieldOrderNo, field.TypeInt32, value)
+	if value, ok := puo.mutation.AddedSortID(); ok {
+		_spec.AddField(position.FieldSortID, field.TypeInt32, value)
 	}
 	if puo.mutation.ParentCleared() {
 		edge := &sqlgraph.EdgeSpec{

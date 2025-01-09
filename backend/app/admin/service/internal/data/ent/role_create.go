@@ -92,6 +92,20 @@ func (rc *RoleCreate) SetNillableCreateBy(u *uint32) *RoleCreate {
 	return rc
 }
 
+// SetUpdateBy sets the "update_by" field.
+func (rc *RoleCreate) SetUpdateBy(u uint32) *RoleCreate {
+	rc.mutation.SetUpdateBy(u)
+	return rc
+}
+
+// SetNillableUpdateBy sets the "update_by" field if the given value is not nil.
+func (rc *RoleCreate) SetNillableUpdateBy(u *uint32) *RoleCreate {
+	if u != nil {
+		rc.SetUpdateBy(*u)
+	}
+	return rc
+}
+
 // SetRemark sets the "remark" field.
 func (rc *RoleCreate) SetRemark(s string) *RoleCreate {
 	rc.mutation.SetRemark(s)
@@ -148,16 +162,16 @@ func (rc *RoleCreate) SetNillableParentID(u *uint32) *RoleCreate {
 	return rc
 }
 
-// SetOrderNo sets the "order_no" field.
-func (rc *RoleCreate) SetOrderNo(i int32) *RoleCreate {
-	rc.mutation.SetOrderNo(i)
+// SetSortID sets the "sort_id" field.
+func (rc *RoleCreate) SetSortID(i int32) *RoleCreate {
+	rc.mutation.SetSortID(i)
 	return rc
 }
 
-// SetNillableOrderNo sets the "order_no" field if the given value is not nil.
-func (rc *RoleCreate) SetNillableOrderNo(i *int32) *RoleCreate {
+// SetNillableSortID sets the "sort_id" field if the given value is not nil.
+func (rc *RoleCreate) SetNillableSortID(i *int32) *RoleCreate {
 	if i != nil {
-		rc.SetOrderNo(*i)
+		rc.SetSortID(*i)
 	}
 	return rc
 }
@@ -235,9 +249,9 @@ func (rc *RoleCreate) defaults() {
 		v := role.DefaultCode
 		rc.mutation.SetCode(v)
 	}
-	if _, ok := rc.mutation.OrderNo(); !ok {
-		v := role.DefaultOrderNo
-		rc.mutation.SetOrderNo(v)
+	if _, ok := rc.mutation.SortID(); !ok {
+		v := role.DefaultSortID
+		rc.mutation.SetSortID(v)
 	}
 }
 
@@ -316,6 +330,10 @@ func (rc *RoleCreate) createSpec() (*Role, *sqlgraph.CreateSpec) {
 		_spec.SetField(role.FieldCreateBy, field.TypeUint32, value)
 		_node.CreateBy = &value
 	}
+	if value, ok := rc.mutation.UpdateBy(); ok {
+		_spec.SetField(role.FieldUpdateBy, field.TypeUint32, value)
+		_node.UpdateBy = &value
+	}
 	if value, ok := rc.mutation.Remark(); ok {
 		_spec.SetField(role.FieldRemark, field.TypeString, value)
 		_node.Remark = &value
@@ -328,9 +346,9 @@ func (rc *RoleCreate) createSpec() (*Role, *sqlgraph.CreateSpec) {
 		_spec.SetField(role.FieldCode, field.TypeString, value)
 		_node.Code = &value
 	}
-	if value, ok := rc.mutation.OrderNo(); ok {
-		_spec.SetField(role.FieldOrderNo, field.TypeInt32, value)
-		_node.OrderNo = &value
+	if value, ok := rc.mutation.SortID(); ok {
+		_spec.SetField(role.FieldSortID, field.TypeInt32, value)
+		_node.SortID = &value
 	}
 	if nodes := rc.mutation.ParentIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
@@ -495,6 +513,30 @@ func (u *RoleUpsert) ClearCreateBy() *RoleUpsert {
 	return u
 }
 
+// SetUpdateBy sets the "update_by" field.
+func (u *RoleUpsert) SetUpdateBy(v uint32) *RoleUpsert {
+	u.Set(role.FieldUpdateBy, v)
+	return u
+}
+
+// UpdateUpdateBy sets the "update_by" field to the value that was provided on create.
+func (u *RoleUpsert) UpdateUpdateBy() *RoleUpsert {
+	u.SetExcluded(role.FieldUpdateBy)
+	return u
+}
+
+// AddUpdateBy adds v to the "update_by" field.
+func (u *RoleUpsert) AddUpdateBy(v uint32) *RoleUpsert {
+	u.Add(role.FieldUpdateBy, v)
+	return u
+}
+
+// ClearUpdateBy clears the value of the "update_by" field.
+func (u *RoleUpsert) ClearUpdateBy() *RoleUpsert {
+	u.SetNull(role.FieldUpdateBy)
+	return u
+}
+
 // SetRemark sets the "remark" field.
 func (u *RoleUpsert) SetRemark(v string) *RoleUpsert {
 	u.Set(role.FieldRemark, v)
@@ -567,27 +609,27 @@ func (u *RoleUpsert) ClearParentID() *RoleUpsert {
 	return u
 }
 
-// SetOrderNo sets the "order_no" field.
-func (u *RoleUpsert) SetOrderNo(v int32) *RoleUpsert {
-	u.Set(role.FieldOrderNo, v)
+// SetSortID sets the "sort_id" field.
+func (u *RoleUpsert) SetSortID(v int32) *RoleUpsert {
+	u.Set(role.FieldSortID, v)
 	return u
 }
 
-// UpdateOrderNo sets the "order_no" field to the value that was provided on create.
-func (u *RoleUpsert) UpdateOrderNo() *RoleUpsert {
-	u.SetExcluded(role.FieldOrderNo)
+// UpdateSortID sets the "sort_id" field to the value that was provided on create.
+func (u *RoleUpsert) UpdateSortID() *RoleUpsert {
+	u.SetExcluded(role.FieldSortID)
 	return u
 }
 
-// AddOrderNo adds v to the "order_no" field.
-func (u *RoleUpsert) AddOrderNo(v int32) *RoleUpsert {
-	u.Add(role.FieldOrderNo, v)
+// AddSortID adds v to the "sort_id" field.
+func (u *RoleUpsert) AddSortID(v int32) *RoleUpsert {
+	u.Add(role.FieldSortID, v)
 	return u
 }
 
-// ClearOrderNo clears the value of the "order_no" field.
-func (u *RoleUpsert) ClearOrderNo() *RoleUpsert {
-	u.SetNull(role.FieldOrderNo)
+// ClearSortID clears the value of the "sort_id" field.
+func (u *RoleUpsert) ClearSortID() *RoleUpsert {
+	u.SetNull(role.FieldSortID)
 	return u
 }
 
@@ -733,6 +775,34 @@ func (u *RoleUpsertOne) ClearCreateBy() *RoleUpsertOne {
 	})
 }
 
+// SetUpdateBy sets the "update_by" field.
+func (u *RoleUpsertOne) SetUpdateBy(v uint32) *RoleUpsertOne {
+	return u.Update(func(s *RoleUpsert) {
+		s.SetUpdateBy(v)
+	})
+}
+
+// AddUpdateBy adds v to the "update_by" field.
+func (u *RoleUpsertOne) AddUpdateBy(v uint32) *RoleUpsertOne {
+	return u.Update(func(s *RoleUpsert) {
+		s.AddUpdateBy(v)
+	})
+}
+
+// UpdateUpdateBy sets the "update_by" field to the value that was provided on create.
+func (u *RoleUpsertOne) UpdateUpdateBy() *RoleUpsertOne {
+	return u.Update(func(s *RoleUpsert) {
+		s.UpdateUpdateBy()
+	})
+}
+
+// ClearUpdateBy clears the value of the "update_by" field.
+func (u *RoleUpsertOne) ClearUpdateBy() *RoleUpsertOne {
+	return u.Update(func(s *RoleUpsert) {
+		s.ClearUpdateBy()
+	})
+}
+
 // SetRemark sets the "remark" field.
 func (u *RoleUpsertOne) SetRemark(v string) *RoleUpsertOne {
 	return u.Update(func(s *RoleUpsert) {
@@ -817,31 +887,31 @@ func (u *RoleUpsertOne) ClearParentID() *RoleUpsertOne {
 	})
 }
 
-// SetOrderNo sets the "order_no" field.
-func (u *RoleUpsertOne) SetOrderNo(v int32) *RoleUpsertOne {
+// SetSortID sets the "sort_id" field.
+func (u *RoleUpsertOne) SetSortID(v int32) *RoleUpsertOne {
 	return u.Update(func(s *RoleUpsert) {
-		s.SetOrderNo(v)
+		s.SetSortID(v)
 	})
 }
 
-// AddOrderNo adds v to the "order_no" field.
-func (u *RoleUpsertOne) AddOrderNo(v int32) *RoleUpsertOne {
+// AddSortID adds v to the "sort_id" field.
+func (u *RoleUpsertOne) AddSortID(v int32) *RoleUpsertOne {
 	return u.Update(func(s *RoleUpsert) {
-		s.AddOrderNo(v)
+		s.AddSortID(v)
 	})
 }
 
-// UpdateOrderNo sets the "order_no" field to the value that was provided on create.
-func (u *RoleUpsertOne) UpdateOrderNo() *RoleUpsertOne {
+// UpdateSortID sets the "sort_id" field to the value that was provided on create.
+func (u *RoleUpsertOne) UpdateSortID() *RoleUpsertOne {
 	return u.Update(func(s *RoleUpsert) {
-		s.UpdateOrderNo()
+		s.UpdateSortID()
 	})
 }
 
-// ClearOrderNo clears the value of the "order_no" field.
-func (u *RoleUpsertOne) ClearOrderNo() *RoleUpsertOne {
+// ClearSortID clears the value of the "sort_id" field.
+func (u *RoleUpsertOne) ClearSortID() *RoleUpsertOne {
 	return u.Update(func(s *RoleUpsert) {
-		s.ClearOrderNo()
+		s.ClearSortID()
 	})
 }
 
@@ -1153,6 +1223,34 @@ func (u *RoleUpsertBulk) ClearCreateBy() *RoleUpsertBulk {
 	})
 }
 
+// SetUpdateBy sets the "update_by" field.
+func (u *RoleUpsertBulk) SetUpdateBy(v uint32) *RoleUpsertBulk {
+	return u.Update(func(s *RoleUpsert) {
+		s.SetUpdateBy(v)
+	})
+}
+
+// AddUpdateBy adds v to the "update_by" field.
+func (u *RoleUpsertBulk) AddUpdateBy(v uint32) *RoleUpsertBulk {
+	return u.Update(func(s *RoleUpsert) {
+		s.AddUpdateBy(v)
+	})
+}
+
+// UpdateUpdateBy sets the "update_by" field to the value that was provided on create.
+func (u *RoleUpsertBulk) UpdateUpdateBy() *RoleUpsertBulk {
+	return u.Update(func(s *RoleUpsert) {
+		s.UpdateUpdateBy()
+	})
+}
+
+// ClearUpdateBy clears the value of the "update_by" field.
+func (u *RoleUpsertBulk) ClearUpdateBy() *RoleUpsertBulk {
+	return u.Update(func(s *RoleUpsert) {
+		s.ClearUpdateBy()
+	})
+}
+
 // SetRemark sets the "remark" field.
 func (u *RoleUpsertBulk) SetRemark(v string) *RoleUpsertBulk {
 	return u.Update(func(s *RoleUpsert) {
@@ -1237,31 +1335,31 @@ func (u *RoleUpsertBulk) ClearParentID() *RoleUpsertBulk {
 	})
 }
 
-// SetOrderNo sets the "order_no" field.
-func (u *RoleUpsertBulk) SetOrderNo(v int32) *RoleUpsertBulk {
+// SetSortID sets the "sort_id" field.
+func (u *RoleUpsertBulk) SetSortID(v int32) *RoleUpsertBulk {
 	return u.Update(func(s *RoleUpsert) {
-		s.SetOrderNo(v)
+		s.SetSortID(v)
 	})
 }
 
-// AddOrderNo adds v to the "order_no" field.
-func (u *RoleUpsertBulk) AddOrderNo(v int32) *RoleUpsertBulk {
+// AddSortID adds v to the "sort_id" field.
+func (u *RoleUpsertBulk) AddSortID(v int32) *RoleUpsertBulk {
 	return u.Update(func(s *RoleUpsert) {
-		s.AddOrderNo(v)
+		s.AddSortID(v)
 	})
 }
 
-// UpdateOrderNo sets the "order_no" field to the value that was provided on create.
-func (u *RoleUpsertBulk) UpdateOrderNo() *RoleUpsertBulk {
+// UpdateSortID sets the "sort_id" field to the value that was provided on create.
+func (u *RoleUpsertBulk) UpdateSortID() *RoleUpsertBulk {
 	return u.Update(func(s *RoleUpsert) {
-		s.UpdateOrderNo()
+		s.UpdateSortID()
 	})
 }
 
-// ClearOrderNo clears the value of the "order_no" field.
-func (u *RoleUpsertBulk) ClearOrderNo() *RoleUpsertBulk {
+// ClearSortID clears the value of the "sort_id" field.
+func (u *RoleUpsertBulk) ClearSortID() *RoleUpsertBulk {
 	return u.Update(func(s *RoleUpsert) {
-		s.ClearOrderNo()
+		s.ClearSortID()
 	})
 }
 

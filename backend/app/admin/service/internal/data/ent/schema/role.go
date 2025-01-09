@@ -47,7 +47,7 @@ func (Role) Fields() []ent.Field {
 			Nillable().
 			Optional(),
 
-		field.Int32("order_no").
+		field.Int32("sort_id").
 			Comment("排序ID").
 			Optional().
 			Nillable().
@@ -62,6 +62,7 @@ func (Role) Mixin() []ent.Mixin {
 		mixin.Time{},
 		mixin.SwitchStatus{},
 		mixin.CreateBy{},
+		mixin.UpdateBy{},
 		mixin.Remark{},
 	}
 }

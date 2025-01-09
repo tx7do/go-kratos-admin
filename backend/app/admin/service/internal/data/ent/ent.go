@@ -6,6 +6,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"kratos-admin/app/admin/service/internal/data/ent/dict"
 	"kratos-admin/app/admin/service/internal/data/ent/menu"
 	"kratos-admin/app/admin/service/internal/data/ent/organization"
 	"kratos-admin/app/admin/service/internal/data/ent/position"
@@ -77,6 +78,7 @@ var (
 func checkColumn(table, column string) error {
 	initCheck.Do(func() {
 		columnCheck = sql.NewColumnCheck(map[string]func(string) bool{
+			dict.Table:         dict.ValidColumn,
 			menu.Table:         menu.ValidColumn,
 			organization.Table: organization.ValidColumn,
 			position.Table:     position.ValidColumn,

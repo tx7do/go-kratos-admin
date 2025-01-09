@@ -24,14 +24,16 @@ const (
 	FieldStatus = "status"
 	// FieldCreateBy holds the string denoting the create_by field in the database.
 	FieldCreateBy = "create_by"
+	// FieldUpdateBy holds the string denoting the update_by field in the database.
+	FieldUpdateBy = "update_by"
 	// FieldRemark holds the string denoting the remark field in the database.
 	FieldRemark = "remark"
 	// FieldName holds the string denoting the name field in the database.
 	FieldName = "name"
 	// FieldParentID holds the string denoting the parent_id field in the database.
 	FieldParentID = "parent_id"
-	// FieldOrderNo holds the string denoting the order_no field in the database.
-	FieldOrderNo = "order_no"
+	// FieldSortID holds the string denoting the sort_id field in the database.
+	FieldSortID = "sort_id"
 	// EdgeParent holds the string denoting the parent edge name in mutations.
 	EdgeParent = "parent"
 	// EdgeChildren holds the string denoting the children edge name in mutations.
@@ -56,10 +58,11 @@ var Columns = []string{
 	FieldDeleteTime,
 	FieldStatus,
 	FieldCreateBy,
+	FieldUpdateBy,
 	FieldRemark,
 	FieldName,
 	FieldParentID,
-	FieldOrderNo,
+	FieldSortID,
 }
 
 // ValidColumn reports if the column name is valid (part of the table columns).
@@ -77,10 +80,8 @@ var (
 	DefaultRemark string
 	// DefaultName holds the default value on creation for the "name" field.
 	DefaultName string
-	// NameValidator is a validator for the "name" field. It is called by the builders before save.
-	NameValidator func(string) error
-	// DefaultOrderNo holds the default value on creation for the "order_no" field.
-	DefaultOrderNo int32
+	// DefaultSortID holds the default value on creation for the "sort_id" field.
+	DefaultSortID int32
 	// IDValidator is a validator for the "id" field. It is called by the builders before save.
 	IDValidator func(uint32) error
 )
@@ -144,6 +145,11 @@ func ByCreateBy(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldCreateBy, opts...).ToFunc()
 }
 
+// ByUpdateBy orders the results by the update_by field.
+func ByUpdateBy(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldUpdateBy, opts...).ToFunc()
+}
+
 // ByRemark orders the results by the remark field.
 func ByRemark(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldRemark, opts...).ToFunc()
@@ -159,9 +165,9 @@ func ByParentID(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldParentID, opts...).ToFunc()
 }
 
-// ByOrderNo orders the results by the order_no field.
-func ByOrderNo(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldOrderNo, opts...).ToFunc()
+// BySortID orders the results by the sort_id field.
+func BySortID(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldSortID, opts...).ToFunc()
 }
 
 // ByParentField orders the results by parent field.

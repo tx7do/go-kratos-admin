@@ -20,5 +20,7 @@ var ProviderSet = wire.NewSet(
 	NewPositionRepo,
 	NewRoleRepo,
 	NewUserRepo,
+	NewDictRepo,
+
 	NewUserTokenRepo,
 )

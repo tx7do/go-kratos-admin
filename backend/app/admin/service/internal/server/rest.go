@@ -70,6 +70,7 @@ func NewRESTServer(
 	orgSvc *service.OrganizationService,
 	roleSvc *service.RoleService,
 	positionSvc *service.PositionService,
+	dictSvc *service.DictService,
 ) *http.Server {
 	srv := rpc.CreateRestServer(cfg, newRestMiddleware(logger, authenticator, authorizer, userToken)...)
 
@@ -80,6 +81,7 @@ func NewRESTServer(
 	adminV1.RegisterOrganizationServiceHTTPServer(srv, orgSvc)
 	adminV1.RegisterRoleServiceHTTPServer(srv, roleSvc)
 	adminV1.RegisterPositionServiceHTTPServer(srv, positionSvc)
+	adminV1.RegisterDictServiceHTTPServer(srv, dictSvc)
 
 	if cfg.GetServer().GetRest().GetEnableSwagger() {
 		swaggerUI.RegisterSwaggerUIServerWithOption(

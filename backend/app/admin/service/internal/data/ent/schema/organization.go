@@ -1,7 +1,6 @@
 package schema
 
 import (
-	"entgo.io/contrib/entproto"
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/entsql"
 	"entgo.io/ent/schema"
@@ -32,7 +31,6 @@ func (Organization) Fields() []ent.Field {
 		field.String("name").
 			Comment("名字").
 			Default("").
-			MaxLen(128).
 			Optional().
 			Nillable(),
 
@@ -41,12 +39,9 @@ func (Organization) Fields() []ent.Field {
 			Optional().
 			Nillable(),
 
-		field.Int32("order_no").
+		field.Int32("sort_id").
 			Comment("排序ID").
 			Default(0).
-			Annotations(
-				entproto.Field(6),
-			).
 			Optional().
 			Nillable(),
 	}
@@ -59,6 +54,7 @@ func (Organization) Mixin() []ent.Mixin {
 		mixin.Time{},
 		mixin.SwitchStatus{},
 		mixin.CreateBy{},
+		mixin.UpdateBy{},
 		mixin.Remark{},
 	}
 }

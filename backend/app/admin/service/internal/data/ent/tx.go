@@ -12,6 +12,8 @@ import (
 // Tx is a transactional client that is created by calling Client.Tx().
 type Tx struct {
 	config
+	// Dict is the client for interacting with the Dict builders.
+	Dict *DictClient
 	// Menu is the client for interacting with the Menu builders.
 	Menu *MenuClient
 	// Organization is the client for interacting with the Organization builders.
@@ -153,6 +155,7 @@ func (tx *Tx) Client() *Client {
 }
 
 func (tx *Tx) init() {
+	tx.Dict = NewDictClient(tx.config)
 	tx.Menu = NewMenuClient(tx.config)
 	tx.Organization = NewOrganizationClient(tx.config)
 	tx.Position = NewPositionClient(tx.config)
@@ -167,7 +170,7 @@ func (tx *Tx) init() {
 // of them in order to commit or rollback the transaction.
 //
 // If a closed transaction is embedded in one of the generated entities, and the entity
-// applies a query, for example: Menu.QueryXXX(), the query will be executed
+// applies a query, for example: Dict.QueryXXX(), the query will be executed
 // through the driver which created this transaction.
 //
 // Note that txDriver is not goroutine safe.

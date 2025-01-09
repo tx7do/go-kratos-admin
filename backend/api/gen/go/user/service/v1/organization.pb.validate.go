@@ -99,8 +99,8 @@ func (m *Organization) validate(all bool) error {
 		// no validation rules for Name
 	}
 
-	if m.OrderNo != nil {
-		// no validation rules for OrderNo
+	if m.SortId != nil {
+		// no validation rules for SortId
 	}
 
 	if m.Status != nil {
@@ -556,11 +556,11 @@ func (m *CreateOrganizationRequest) validate(all bool) error {
 	var errors []error
 
 	if all {
-		switch v := interface{}(m.GetOrg()).(type) {
+		switch v := interface{}(m.GetData()).(type) {
 		case interface{ ValidateAll() error }:
 			if err := v.ValidateAll(); err != nil {
 				errors = append(errors, CreateOrganizationRequestValidationError{
-					field:  "Org",
+					field:  "Data",
 					reason: "embedded message failed validation",
 					cause:  err,
 				})
@@ -568,16 +568,16 @@ func (m *CreateOrganizationRequest) validate(all bool) error {
 		case interface{ Validate() error }:
 			if err := v.Validate(); err != nil {
 				errors = append(errors, CreateOrganizationRequestValidationError{
-					field:  "Org",
+					field:  "Data",
 					reason: "embedded message failed validation",
 					cause:  err,
 				})
 			}
 		}
-	} else if v, ok := interface{}(m.GetOrg()).(interface{ Validate() error }); ok {
+	} else if v, ok := interface{}(m.GetData()).(interface{ Validate() error }); ok {
 		if err := v.Validate(); err != nil {
 			return CreateOrganizationRequestValidationError{
-				field:  "Org",
+				field:  "Data",
 				reason: "embedded message failed validation",
 				cause:  err,
 			}
@@ -691,11 +691,11 @@ func (m *UpdateOrganizationRequest) validate(all bool) error {
 	var errors []error
 
 	if all {
-		switch v := interface{}(m.GetOrg()).(type) {
+		switch v := interface{}(m.GetData()).(type) {
 		case interface{ ValidateAll() error }:
 			if err := v.ValidateAll(); err != nil {
 				errors = append(errors, UpdateOrganizationRequestValidationError{
-					field:  "Org",
+					field:  "Data",
 					reason: "embedded message failed validation",
 					cause:  err,
 				})
@@ -703,16 +703,16 @@ func (m *UpdateOrganizationRequest) validate(all bool) error {
 		case interface{ Validate() error }:
 			if err := v.Validate(); err != nil {
 				errors = append(errors, UpdateOrganizationRequestValidationError{
-					field:  "Org",
+					field:  "Data",
 					reason: "embedded message failed validation",
 					cause:  err,
 				})
 			}
 		}
-	} else if v, ok := interface{}(m.GetOrg()).(interface{ Validate() error }); ok {
+	} else if v, ok := interface{}(m.GetData()).(interface{ Validate() error }); ok {
 		if err := v.Validate(); err != nil {
 			return UpdateOrganizationRequestValidationError{
-				field:  "Org",
+				field:  "Data",
 				reason: "embedded message failed validation",
 				cause:  err,
 			}

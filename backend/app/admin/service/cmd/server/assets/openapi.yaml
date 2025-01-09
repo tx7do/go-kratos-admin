@@ -14,6 +14,138 @@ info:
         url: https://github.com/tx7do/kratos-admin/blob/master/LICENSE
     version: "1.0"
 paths:
+    /admin/v1/dict:
+        get:
+            tags:
+                - DictService
+            description: 查询字典列表
+            operationId: DictService_ListDict
+            parameters:
+                - name: page
+                  in: query
+                  description: 当前页码
+                  schema:
+                    type: integer
+                    format: int32
+                - name: pageSize
+                  in: query
+                  description: 每一页的行数
+                  schema:
+                    type: integer
+                    format: int32
+                - name: query
+                  in: query
+                  description: AND过滤参数，其语法为json格式的字符串，如：{"key1":"val1","key2":"val2"}，具体请参见：https://github.com/tx7do/go-utils/tree/main/entgo/query/README.md
+                  schema:
+                    type: string
+                - name: or
+                  in: query
+                  description: OR过滤参数，语法同AND过滤参数。
+                  schema:
+                    type: string
+                - name: orderBy
+                  in: query
+                  description: 排序条件，其语法为JSON字符串，例如：{"val1", "-val2"}。字段名前加'-'为降序，否则为升序。
+                  schema:
+                    type: array
+                    items:
+                        type: string
+                - name: noPaging
+                  in: query
+                  description: 是否不分页，如果为true，则page和pageSize参数无效。
+                  schema:
+                    type: boolean
+                - name: fieldMask
+                  in: query
+                  description: 字段掩码，其作用为SELECT中的字段，其语法为使用逗号分隔字段名，例如：id,realName,userName。如果为空则选中所有字段，即SELECT *。
+                  schema:
+                    type: string
+                    format: field-mask
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ListDictResponse'
+        post:
+            tags:
+                - DictService
+            description: 创建字典
+            operationId: DictService_CreateDict
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/CreateDictRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content: {}
+    /admin/v1/dict/{data.id}:
+        put:
+            tags:
+                - DictService
+            description: 更新字典
+            operationId: DictService_UpdateDict
+            parameters:
+                - name: data.id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/UpdateDictRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content: {}
+    /admin/v1/dict/{id}:
+        get:
+            tags:
+                - DictService
+            description: 查询字典详情
+            operationId: DictService_GetDict
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: uint32
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Dict'
+        delete:
+            tags:
+                - DictService
+            description: 删除字典
+            operationId: DictService_DeleteDict
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: uint32
+                - name: operatorId
+                  in: query
+                  schema:
+                    type: integer
+                    format: uint32
+            responses:
+                "200":
+                    description: OK
+                    content: {}
     /admin/v1/login:
         post:
             tags:
@@ -139,6 +271,28 @@ paths:
                 "200":
                     description: OK
                     content: {}
+    /admin/v1/menus/{data.id}:
+        put:
+            tags:
+                - MenuService
+            description: 更新菜单
+            operationId: MenuService_UpdateMenu
+            parameters:
+                - name: data.id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/UpdateMenuRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content: {}
     /admin/v1/menus/{id}:
         get:
             tags:
@@ -176,28 +330,6 @@ paths:
                   schema:
                     type: integer
                     format: uint32
-            responses:
-                "200":
-                    description: OK
-                    content: {}
-    /admin/v1/menus/{menu.id}:
-        put:
-            tags:
-                - MenuService
-            description: 更新菜单
-            operationId: MenuService_UpdateMenu
-            parameters:
-                - name: menu.id
-                  in: path
-                  required: true
-                  schema:
-                    type: string
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/UpdateMenuRequest'
-                required: true
             responses:
                 "200":
                     description: OK
@@ -271,6 +403,28 @@ paths:
                 "200":
                     description: OK
                     content: {}
+    /admin/v1/orgs/{data.id}:
+        put:
+            tags:
+                - OrganizationService
+            description: 更新部门
+            operationId: OrganizationService_UpdateOrganization
+            parameters:
+                - name: data.id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/UpdateOrganizationRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content: {}
     /admin/v1/orgs/{id}:
         get:
             tags:
@@ -308,28 +462,6 @@ paths:
                   schema:
                     type: integer
                     format: uint32
-            responses:
-                "200":
-                    description: OK
-                    content: {}
-    /admin/v1/orgs/{org.id}:
-        put:
-            tags:
-                - OrganizationService
-            description: 更新部门
-            operationId: OrganizationService_UpdateOrganization
-            parameters:
-                - name: org.id
-                  in: path
-                  required: true
-                  schema:
-                    type: string
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/UpdateOrganizationRequest'
-                required: true
             responses:
                 "200":
                     description: OK
@@ -416,6 +548,28 @@ paths:
                 "200":
                     description: OK
                     content: {}
+    /admin/v1/positions/{data.id}:
+        put:
+            tags:
+                - PositionService
+            description: 更新职位
+            operationId: PositionService_UpdatePosition
+            parameters:
+                - name: data.id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/UpdatePositionRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content: {}
     /admin/v1/positions/{id}:
         get:
             tags:
@@ -453,28 +607,6 @@ paths:
                   schema:
                     type: integer
                     format: uint32
-            responses:
-                "200":
-                    description: OK
-                    content: {}
-    /admin/v1/positions/{position.id}:
-        put:
-            tags:
-                - PositionService
-            description: 更新职位
-            operationId: PositionService_UpdatePosition
-            parameters:
-                - name: position.id
-                  in: path
-                  required: true
-                  schema:
-                    type: string
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/UpdatePositionRequest'
-                required: true
             responses:
                 "200":
                     description: OK
@@ -567,6 +699,28 @@ paths:
                 "200":
                     description: OK
                     content: {}
+    /admin/v1/roles/{data.id}:
+        put:
+            tags:
+                - RoleService
+            description: 更新角色
+            operationId: RoleService_UpdateRole
+            parameters:
+                - name: data.id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/UpdateRoleRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content: {}
     /admin/v1/roles/{id}:
         get:
             tags:
@@ -604,28 +758,6 @@ paths:
                   schema:
                     type: integer
                     format: uint32
-            responses:
-                "200":
-                    description: OK
-                    content: {}
-    /admin/v1/roles/{role.id}:
-        put:
-            tags:
-                - RoleService
-            description: 更新角色
-            operationId: RoleService_UpdateRole
-            parameters:
-                - name: role.id
-                  in: path
-                  required: true
-                  schema:
-                    type: string
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/UpdateRoleRequest'
-                required: true
             responses:
                 "200":
                     description: OK
@@ -712,6 +844,28 @@ paths:
                 "200":
                     description: OK
                     content: {}
+    /admin/v1/users/{data.id}:
+        put:
+            tags:
+                - UserService
+            description: 更新用户
+            operationId: UserService_UpdateUser
+            parameters:
+                - name: data.id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/UpdateUserRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content: {}
     /admin/v1/users/{id}:
         get:
             tags:
@@ -753,30 +907,19 @@ paths:
                 "200":
                     description: OK
                     content: {}
-    /admin/v1/users/{user.id}:
-        put:
-            tags:
-                - UserService
-            description: 更新用户
-            operationId: UserService_UpdateUser
-            parameters:
-                - name: user.id
-                  in: path
-                  required: true
-                  schema:
-                    type: string
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/UpdateUserRequest'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content: {}
 components:
     schemas:
+        CreateDictRequest:
+            type: object
+            properties:
+                operatorId:
+                    readOnly: true
+                    type: integer
+                    description: 操作用户ID
+                    format: uint32
+                data:
+                    $ref: '#/components/schemas/Dict'
+            description: 创建字典 - 请求
         CreateMenuRequest:
             type: object
             properties:
@@ -785,7 +928,7 @@ components:
                     type: integer
                     description: 操作用户ID
                     format: uint32
-                menu:
+                data:
                     $ref: '#/components/schemas/Menu'
             description: 创建菜单 - 请求
         CreateOrganizationRequest:
@@ -796,7 +939,7 @@ components:
                     type: integer
                     description: 操作用户ID
                     format: uint32
-                org:
+                data:
                     $ref: '#/components/schemas/Organization'
             description: 创建部门 - 请求
         CreatePositionRequest:
@@ -807,7 +950,7 @@ components:
                     type: integer
                     description: 操作用户ID
                     format: uint32
-                position:
+                data:
                     $ref: '#/components/schemas/Position'
             description: 创建职位 - 请求
         CreateRoleRequest:
@@ -818,7 +961,7 @@ components:
                     type: integer
                     description: 操作用户ID
                     format: uint32
-                role:
+                data:
                     $ref: '#/components/schemas/Role'
             description: 创建角色 - 请求
         CreateUserRequest:
@@ -829,13 +972,65 @@ components:
                     type: integer
                     description: 操作用户ID
                     format: uint32
-                user:
+                data:
                     $ref: '#/components/schemas/User'
                 password:
                     readOnly: true
                     type: string
                     description: 用户登录密码
             description: 创建用户 - 请求
+        Dict:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    description: 字典ID
+                    format: uint32
+                category:
+                    type: string
+                    description: 字典分类
+                categoryDesc:
+                    type: string
+                    description: 字典分类名称
+                key:
+                    type: string
+                    description: 字典键
+                value:
+                    type: string
+                    description: 字典值
+                valueDesc:
+                    type: string
+                    description: 字典值名称
+                valueDataType:
+                    type: string
+                    description: 字典值数据类型
+                status:
+                    enum:
+                        - ON
+                        - OFF
+                    type: string
+                    default: ON
+                    description: 字典状态
+                sortId:
+                    type: integer
+                    description: 排序编号
+                    format: int32
+                remark:
+                    type: string
+                    description: 备注
+                createTime:
+                    type: string
+                    description: 创建时间
+                    format: date-time
+                updateTime:
+                    type: string
+                    description: 更新时间
+                    format: date-time
+                deleteTime:
+                    type: string
+                    description: 删除时间
+                    format: date-time
+            description: 字典
         KratosStatus:
             type: object
             properties:
@@ -853,6 +1048,17 @@ components:
                     type: object
                     description: 元数据
             description: Kratos错误返回
+        ListDictResponse:
+            type: object
+            properties:
+                items:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Dict'
+                total:
+                    type: integer
+                    format: uint32
+            description: 查询字典列表 - 回应
         ListMenuResponse:
             type: object
             properties:
@@ -989,6 +1195,8 @@ components:
                     enum:
                         - OFF
                         - ON
+                        - ON
+                        - OFF
                     type: string
                     default: ON
                     description: 菜单状态
@@ -1051,9 +1259,9 @@ components:
                 name:
                     type: string
                     description: 部门名称
-                orderNo:
+                sortId:
                     type: integer
-                    description: 排序号
+                    description: 排序编号
                     format: int32
                 status:
                     enum:
@@ -1097,9 +1305,9 @@ components:
                 name:
                     type: string
                     description: 职位名称
-                orderNo:
+                sortId:
                     type: integer
-                    description: 排序号
+                    description: 排序编号
                     format: int32
                 code:
                     type: string
@@ -1169,9 +1377,9 @@ components:
                 name:
                     type: string
                     description: 角色名称
-                orderNo:
+                sortId:
                     type: integer
-                    description: 排序号
+                    description: 排序编号
                     format: int32
                 code:
                     type: string
@@ -1313,14 +1521,33 @@ components:
                 openInNewWindow:
                     type: boolean
                     description: 在新窗口打开
-                order:
+                sortId:
                     type: integer
-                    description: 排序ID，用于路由->菜单排序
+                    description: 排序编号，用于路由->菜单排序
                     format: int32
                 title:
                     type: string
                     description: 标题名称，路由上显示的标题
             description: 路由元数据
+        UpdateDictRequest:
+            type: object
+            properties:
+                operatorId:
+                    readOnly: true
+                    type: integer
+                    description: 操作用户ID
+                    format: uint32
+                data:
+                    $ref: '#/components/schemas/Dict'
+                updateMask:
+                    example: id,realName,userName
+                    type: string
+                    description: 要更新的字段列表
+                    format: field-mask
+                allowMissing:
+                    type: boolean
+                    description: 如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。
+            description: 更新字典 - 请求
         UpdateMenuRequest:
             type: object
             properties:
@@ -1329,7 +1556,7 @@ components:
                     type: integer
                     description: 操作用户ID
                     format: uint32
-                menu:
+                data:
                     $ref: '#/components/schemas/Menu'
                 updateMask:
                     example: id,realName,userName
@@ -1348,7 +1575,7 @@ components:
                     type: integer
                     description: 操作用户ID
                     format: uint32
-                org:
+                data:
                     $ref: '#/components/schemas/Organization'
                 updateMask:
                     example: id,realName,userName
@@ -1367,7 +1594,7 @@ components:
                     type: integer
                     description: 操作用户ID
                     format: uint32
-                position:
+                data:
                     $ref: '#/components/schemas/Position'
                 updateMask:
                     example: id,realName,userName
@@ -1386,7 +1613,7 @@ components:
                     type: integer
                     description: 操作用户ID
                     format: uint32
-                role:
+                data:
                     $ref: '#/components/schemas/Role'
                 updateMask:
                     example: id,realName,userName
@@ -1399,7 +1626,7 @@ components:
             description: 更新角色 - 请求
         UpdateUserRequest:
             required:
-                - user
+                - data
             type: object
             properties:
                 operatorId:
@@ -1407,7 +1634,7 @@ components:
                     type: integer
                     description: 操作用户ID
                     format: uint32
-                user:
+                data:
                     $ref: '#/components/schemas/User'
                 password:
                     readOnly: true
@@ -1500,6 +1727,8 @@ components:
                     enum:
                         - OFF
                         - ON
+                        - ON
+                        - OFF
                     type: string
                     default: ON
                     description: 用户状态
@@ -1548,6 +1777,8 @@ security:
 tags:
     - name: AuthenticationService
       description: 用户后台登录认证服务
+    - name: DictService
+      description: 字典管理服务
     - name: MenuService
       description: 后台菜单管理服务
     - name: OrganizationService

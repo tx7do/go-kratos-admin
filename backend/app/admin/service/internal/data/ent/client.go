@@ -11,6 +11,7 @@ import (
 
 	"kratos-admin/app/admin/service/internal/data/ent/migrate"
 
+	"kratos-admin/app/admin/service/internal/data/ent/dict"
 	"kratos-admin/app/admin/service/internal/data/ent/menu"
 	"kratos-admin/app/admin/service/internal/data/ent/organization"
 	"kratos-admin/app/admin/service/internal/data/ent/position"
@@ -28,6 +29,8 @@ type Client struct {
 	config
 	// Schema is the client for creating, migrating and dropping schema.
 	Schema *migrate.Schema
+	// Dict is the client for interacting with the Dict builders.
+	Dict *DictClient
 	// Menu is the client for interacting with the Menu builders.
 	Menu *MenuClient
 	// Organization is the client for interacting with the Organization builders.
@@ -49,6 +52,7 @@ func NewClient(opts ...Option) *Client {
 
 func (c *Client) init() {
 	c.Schema = migrate.NewSchema(c.driver)
+	c.Dict = NewDictClient(c.config)
 	c.Menu = NewMenuClient(c.config)
 	c.Organization = NewOrganizationClient(c.config)
 	c.Position = NewPositionClient(c.config)
@@ -146,6 +150,7 @@ func (c *Client) Tx(ctx context.Context) (*Tx, error) {
 	return &Tx{
 		ctx:          ctx,
 		config:       cfg,
+		Dict:         NewDictClient(cfg),
 		Menu:         NewMenuClient(cfg),
 		Organization: NewOrganizationClient(cfg),
 		Position:     NewPositionClient(cfg),
@@ -170,6 +175,7 @@ func (c *Client) BeginTx(ctx context.Context, opts *sql.TxOptions) (*Tx, error) 
 	return &Tx{
 		ctx:          ctx,
 		config:       cfg,
+		Dict:         NewDictClient(cfg),
 		Menu:         NewMenuClient(cfg),
 		Organization: NewOrganizationClient(cfg),
 		Position:     NewPositionClient(cfg),
@@ -181,7 +187,7 @@ func (c *Client) BeginTx(ctx context.Context, opts *sql.TxOptions) (*Tx, error) 
 // Debug returns a new debug-client. It's used to get verbose logging on specific operations.
 //
 //	client.Debug().
-//		Menu.
+//		Dict.
 //		Query().
 //		Count(ctx)
 func (c *Client) Debug() *Client {
@@ -203,26 +209,28 @@ func (c *Client) Close() error {
 // Use adds the mutation hooks to all the entity clients.
 // In order to add hooks to a specific client, call: `client.Node.Use(...)`.
 func (c *Client) Use(hooks ...Hook) {
-	c.Menu.Use(hooks...)
-	c.Organization.Use(hooks...)
-	c.Position.Use(hooks...)
-	c.Role.Use(hooks...)
-	c.User.Use(hooks...)
+	for _, n := range []interface{ Use(...Hook) }{
+		c.Dict, c.Menu, c.Organization, c.Position, c.Role, c.User,
+	} {
+		n.Use(hooks...)
+	}
 }
 
 // Intercept adds the query interceptors to all the entity clients.
 // In order to add interceptors to a specific client, call: `client.Node.Intercept(...)`.
 func (c *Client) Intercept(interceptors ...Interceptor) {
-	c.Menu.Intercept(interceptors...)
-	c.Organization.Intercept(interceptors...)
-	c.Position.Intercept(interceptors...)
-	c.Role.Intercept(interceptors...)
-	c.User.Intercept(interceptors...)
+	for _, n := range []interface{ Intercept(...Interceptor) }{
+		c.Dict, c.Menu, c.Organization, c.Position, c.Role, c.User,
+	} {
+		n.Intercept(interceptors...)
+	}
 }
 
 // Mutate implements the ent.Mutator interface.
 func (c *Client) Mutate(ctx context.Context, m Mutation) (Value, error) {
 	switch m := m.(type) {
+	case *DictMutation:
+		return c.Dict.mutate(ctx, m)
 	case *MenuMutation:
 		return c.Menu.mutate(ctx, m)
 	case *OrganizationMutation:
@@ -235,6 +243,139 @@ func (c *Client) Mutate(ctx context.Context, m Mutation) (Value, error) {
 		return c.User.mutate(ctx, m)
 	default:
 		return nil, fmt.Errorf("ent: unknown mutation type %T", m)
+	}
+}
+
+// DictClient is a client for the Dict schema.
+type DictClient struct {
+	config
+}
+
+// NewDictClient returns a client for the Dict from the given config.
+func NewDictClient(c config) *DictClient {
+	return &DictClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `dict.Hooks(f(g(h())))`.
+func (c *DictClient) Use(hooks ...Hook) {
+	c.hooks.Dict = append(c.hooks.Dict, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `dict.Intercept(f(g(h())))`.
+func (c *DictClient) Intercept(interceptors ...Interceptor) {
+	c.inters.Dict = append(c.inters.Dict, interceptors...)
+}
+
+// Create returns a builder for creating a Dict entity.
+func (c *DictClient) Create() *DictCreate {
+	mutation := newDictMutation(c.config, OpCreate)
+	return &DictCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of Dict entities.
+func (c *DictClient) CreateBulk(builders ...*DictCreate) *DictCreateBulk {
+	return &DictCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *DictClient) MapCreateBulk(slice any, setFunc func(*DictCreate, int)) *DictCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &DictCreateBulk{err: fmt.Errorf("calling to DictClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*DictCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &DictCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for Dict.
+func (c *DictClient) Update() *DictUpdate {
+	mutation := newDictMutation(c.config, OpUpdate)
+	return &DictUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *DictClient) UpdateOne(d *Dict) *DictUpdateOne {
+	mutation := newDictMutation(c.config, OpUpdateOne, withDict(d))
+	return &DictUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *DictClient) UpdateOneID(id uint32) *DictUpdateOne {
+	mutation := newDictMutation(c.config, OpUpdateOne, withDictID(id))
+	return &DictUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for Dict.
+func (c *DictClient) Delete() *DictDelete {
+	mutation := newDictMutation(c.config, OpDelete)
+	return &DictDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *DictClient) DeleteOne(d *Dict) *DictDeleteOne {
+	return c.DeleteOneID(d.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *DictClient) DeleteOneID(id uint32) *DictDeleteOne {
+	builder := c.Delete().Where(dict.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &DictDeleteOne{builder}
+}
+
+// Query returns a query builder for Dict.
+func (c *DictClient) Query() *DictQuery {
+	return &DictQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeDict},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a Dict entity by its id.
+func (c *DictClient) Get(ctx context.Context, id uint32) (*Dict, error) {
+	return c.Query().Where(dict.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *DictClient) GetX(ctx context.Context, id uint32) *Dict {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *DictClient) Hooks() []Hook {
+	return c.hooks.Dict
+}
+
+// Interceptors returns the client interceptors.
+func (c *DictClient) Interceptors() []Interceptor {
+	return c.inters.Dict
+}
+
+func (c *DictClient) mutate(ctx context.Context, m *DictMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&DictCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&DictUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&DictUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&DictDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown Dict mutation op: %q", m.Op())
 	}
 }
 
@@ -1034,9 +1175,9 @@ func (c *UserClient) mutate(ctx context.Context, m *UserMutation) (Value, error)
 // hooks and interceptors per client, for fast access.
 type (
 	hooks struct {
-		Menu, Organization, Position, Role, User []ent.Hook
+		Dict, Menu, Organization, Position, Role, User []ent.Hook
 	}
 	inters struct {
-		Menu, Organization, Position, Role, User []ent.Interceptor
+		Dict, Menu, Organization, Position, Role, User []ent.Interceptor
 	}
 )

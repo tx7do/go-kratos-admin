@@ -155,6 +155,7 @@ message User {
   optional UserStatus status = 32 [(gnostic.openapi.v3.property) = {
     description: "用户状态"
     default: {string: "ON"}
+    enum: [{yaml: "ON"}, {yaml: "OFF"}]
   }]; // 用户状态
 
   optional UserAuthority authority = 33 [(gnostic.openapi.v3.property) = {
@@ -191,7 +192,7 @@ message CreateUserRequest {
     json_name = "operatorId"
   ]; // 操作用户ID
 
-  User user = 2;
+  User data = 2;
 
   optional string password = 3 [
     (gnostic.openapi.v3.property) = {description: "用户登录密码", read_only: true},
@@ -206,8 +207,8 @@ message UpdateUserRequest {
     (gnostic.openapi.v3.property) = {description: "操作用户ID", read_only: true}
   ]; // 操作用户ID
 
-  User user = 2 [
-    json_name = "user",
+  User data = 2 [
+    json_name = "data",
     (google.api.field_behavior) = REQUIRED,
     (gnostic.openapi.v3.property) = {description: "用户的数据"}
   ]; // 用户的数据

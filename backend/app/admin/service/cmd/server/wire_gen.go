@@ -41,7 +41,9 @@ func initApp(logger log.Logger, registrar registry.Registrar, bootstrap *v1.Boot
 	roleService := service.NewRoleService(roleRepo, logger)
 	positionRepo := data.NewPositionRepo(dataData, logger)
 	positionService := service.NewPositionService(positionRepo, logger)
-	httpServer := server.NewRESTServer(bootstrap, logger, authenticator, engine, userToken, authenticationService, userService, menuService, routerService, organizationService, roleService, positionService)
+	dictRepo := data.NewDictRepo(dataData, logger)
+	dictService := service.NewDictService(dictRepo, logger)
+	httpServer := server.NewRESTServer(bootstrap, logger, authenticator, engine, userToken, authenticationService, userService, menuService, routerService, organizationService, roleService, positionService, dictService)
 	app := newApp(logger, registrar, httpServer)
 	return app, func() {
 		cleanup()

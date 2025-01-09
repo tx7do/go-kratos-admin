@@ -24,6 +24,10 @@ const (
 	FieldDeleteTime = "delete_time"
 	// FieldCreateBy holds the string denoting the create_by field in the database.
 	FieldCreateBy = "create_by"
+	// FieldUpdateBy holds the string denoting the update_by field in the database.
+	FieldUpdateBy = "update_by"
+	// FieldRemark holds the string denoting the remark field in the database.
+	FieldRemark = "remark"
 	// FieldParentID holds the string denoting the parent_id field in the database.
 	FieldParentID = "parent_id"
 	// FieldType holds the string denoting the type field in the database.
@@ -64,6 +68,8 @@ var Columns = []string{
 	FieldUpdateTime,
 	FieldDeleteTime,
 	FieldCreateBy,
+	FieldUpdateBy,
+	FieldRemark,
 	FieldParentID,
 	FieldType,
 	FieldPath,
@@ -85,6 +91,8 @@ func ValidColumn(column string) bool {
 }
 
 var (
+	// DefaultRemark holds the default value on creation for the "remark" field.
+	DefaultRemark string
 	// DefaultPath holds the default value on creation for the "path" field.
 	DefaultPath string
 	// DefaultComponent holds the default value on creation for the "component" field.
@@ -177,6 +185,16 @@ func ByDeleteTime(opts ...sql.OrderTermOption) OrderOption {
 // ByCreateBy orders the results by the create_by field.
 func ByCreateBy(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldCreateBy, opts...).ToFunc()
+}
+
+// ByUpdateBy orders the results by the update_by field.
+func ByUpdateBy(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldUpdateBy, opts...).ToFunc()
+}
+
+// ByRemark orders the results by the remark field.
+func ByRemark(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldRemark, opts...).ToFunc()
 }
 
 // ByParentID orders the results by the parent_id field.

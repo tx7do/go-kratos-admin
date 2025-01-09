@@ -210,47 +210,48 @@ func (r *UserRepo) GetUser(ctx context.Context, userId uint32) (*userV1.User, er
 }
 
 func (r *UserRepo) CreateUser(ctx context.Context, req *userV1.CreateUserRequest) error {
-	if req.User == nil {
+	if req.Data == nil {
 		return errors.New("invalid request")
 	}
 
-	ph, err := crypto.HashPassword(req.GetPassword())
-	if err != nil {
-		return err
-	}
-
 	builder := r.data.db.Client().User.Create().
-		SetNillableUsername(req.User.UserName).
-		SetNillableNickName(req.User.NickName).
-		SetNillableEmail(req.User.Email).
-		SetNillableRealName(req.User.RealName).
-		SetNillableEmail(req.User.Email).
-		SetNillableTelephone(req.User.Telephone).
-		SetNillableMobile(req.User.Mobile).
-		SetNillableAvatar(req.User.Avatar).
-		SetNillableRegion(req.User.Region).
-		SetNillableAddress(req.User.Address).
-		SetNillableDescription(req.User.Description).
-		SetNillableRemark(req.User.Remark).
-		SetNillableLastLoginTime(req.User.LastLoginTime).
-		SetNillableLastLoginIP(req.User.LastLoginIp).
-		SetNillableStatus(r.convertUserStatusToEnt(req.User.Status)).
-		SetNillableGender(r.convertUserGenderToEnt(req.User.Gender)).
-		SetNillableAuthority(r.convertUserAuthorityToEnt(req.User.Authority)).
-		SetPassword(ph).
-		SetNillableOrgID(req.User.OrgId).
-		SetNillableRoleID(req.User.RoleId).
-		SetNillableWorkID(req.User.WorkId).
-		SetNillablePositionID(req.User.PositionId).
+		SetNillableUsername(req.Data.UserName).
+		SetNillableNickName(req.Data.NickName).
+		SetNillableEmail(req.Data.Email).
+		SetNillableRealName(req.Data.RealName).
+		SetNillableEmail(req.Data.Email).
+		SetNillableTelephone(req.Data.Telephone).
+		SetNillableMobile(req.Data.Mobile).
+		SetNillableAvatar(req.Data.Avatar).
+		SetNillableRegion(req.Data.Region).
+		SetNillableAddress(req.Data.Address).
+		SetNillableDescription(req.Data.Description).
+		SetNillableRemark(req.Data.Remark).
+		SetNillableLastLoginTime(req.Data.LastLoginTime).
+		SetNillableLastLoginIP(req.Data.LastLoginIp).
+		SetNillableStatus(r.convertUserStatusToEnt(req.Data.Status)).
+		SetNillableGender(r.convertUserGenderToEnt(req.Data.Gender)).
+		SetNillableAuthority(r.convertUserAuthorityToEnt(req.Data.Authority)).
+		SetNillableOrgID(req.Data.OrgId).
+		SetNillableRoleID(req.Data.RoleId).
+		SetNillableWorkID(req.Data.WorkId).
+		SetNillablePositionID(req.Data.PositionId).
 		SetNillableCreateBy(req.OperatorId)
 
-	if req.User.CreateTime == nil {
-		builder.SetCreateTime(time.Now())
-	} else {
-		builder.SetCreateTime(*timeutil.TimestamppbToTime(req.User.CreateTime))
+	if len(req.GetPassword()) > 0 {
+		cryptoPassword, err := crypto.HashPassword(req.GetPassword())
+		if err == nil {
+			builder.SetPassword(cryptoPassword)
+		}
 	}
 
-	err = builder.Exec(ctx)
+	if req.Data.CreateTime == nil {
+		builder.SetCreateTime(time.Now())
+	} else {
+		builder.SetCreateTime(*timeutil.TimestamppbToTime(req.Data.CreateTime))
+	}
+
+	err := builder.Exec(ctx)
 	if err != nil {
 		r.log.Errorf("insert one data failed: %s", err.Error())
 		return err
@@ -260,55 +261,57 @@ func (r *UserRepo) CreateUser(ctx context.Context, req *userV1.CreateUserRequest
 }
 
 func (r *UserRepo) UpdateUser(ctx context.Context, req *userV1.UpdateUserRequest) error {
-	if req.User == nil {
+	if req.Data == nil {
 		return errors.New("invalid request")
 	}
 
 	// 如果不存在则创建
 	if req.GetAllowMissing() {
-		exist, err := r.IsExist(ctx, req.GetUser().GetId())
+		exist, err := r.IsExist(ctx, req.GetData().GetId())
 		if err != nil {
 			return err
 		}
 		if !exist {
-			return r.CreateUser(ctx, &userV1.CreateUserRequest{User: req.User, OperatorId: req.OperatorId})
+			return r.CreateUser(ctx, &userV1.CreateUserRequest{Data: req.Data, OperatorId: req.OperatorId})
 		}
 	}
 
 	if req.UpdateMask != nil {
 		req.UpdateMask.Normalize()
-		if !req.UpdateMask.IsValid(req.User) {
+		if !req.UpdateMask.IsValid(req.Data) {
 			return errors.New("invalid field mask")
 		}
-		fieldmaskutil.Filter(req.GetUser(), req.UpdateMask.GetPaths())
+		fieldmaskutil.Filter(req.GetData(), req.UpdateMask.GetPaths())
 	}
 
-	builder := r.data.db.Client().User.UpdateOneID(req.User.GetId()).
-		SetNillableNickName(req.User.NickName).
-		SetNillableEmail(req.User.Email).
-		SetNillableRealName(req.User.RealName).
-		SetNillableEmail(req.User.Email).
-		SetNillableTelephone(req.User.Telephone).
-		SetNillableMobile(req.User.Mobile).
-		SetNillableAvatar(req.User.Avatar).
-		SetNillableRegion(req.User.Region).
-		SetNillableAddress(req.User.Address).
-		SetNillableDescription(req.User.Description).
-		SetNillableRemark(req.User.Remark).
-		SetNillableLastLoginTime(req.User.LastLoginTime).
-		SetNillableLastLoginIP(req.User.LastLoginIp).
-		SetNillableStatus(r.convertUserStatusToEnt(req.User.Status)).
-		SetNillableGender(r.convertUserGenderToEnt(req.User.Gender)).
-		SetNillableAuthority(r.convertUserAuthorityToEnt(req.User.Authority)).
-		SetNillableOrgID(req.User.OrgId).
-		SetNillableRoleID(req.User.RoleId).
-		SetNillableWorkID(req.User.WorkId).
-		SetNillablePositionID(req.User.PositionId)
+	builder := r.data.db.Client().User.
+		UpdateOneID(req.Data.GetId()).
+		SetNillableNickName(req.Data.NickName).
+		SetNillableEmail(req.Data.Email).
+		SetNillableRealName(req.Data.RealName).
+		SetNillableEmail(req.Data.Email).
+		SetNillableTelephone(req.Data.Telephone).
+		SetNillableMobile(req.Data.Mobile).
+		SetNillableAvatar(req.Data.Avatar).
+		SetNillableRegion(req.Data.Region).
+		SetNillableAddress(req.Data.Address).
+		SetNillableDescription(req.Data.Description).
+		SetNillableRemark(req.Data.Remark).
+		SetNillableLastLoginTime(req.Data.LastLoginTime).
+		SetNillableLastLoginIP(req.Data.LastLoginIp).
+		SetNillableStatus(r.convertUserStatusToEnt(req.Data.Status)).
+		SetNillableGender(r.convertUserGenderToEnt(req.Data.Gender)).
+		SetNillableAuthority(r.convertUserAuthorityToEnt(req.Data.Authority)).
+		SetNillableOrgID(req.Data.OrgId).
+		SetNillableRoleID(req.Data.RoleId).
+		SetNillableWorkID(req.Data.WorkId).
+		SetNillablePositionID(req.Data.PositionId).
+		SetNillableUpdateBy(req.OperatorId)
 
-	if req.User.UpdateTime == nil {
+	if req.Data.UpdateTime == nil {
 		builder.SetUpdateTime(time.Now())
 	} else {
-		builder.SetUpdateTime(*timeutil.TimestamppbToTime(req.User.UpdateTime))
+		builder.SetUpdateTime(*timeutil.TimestamppbToTime(req.Data.UpdateTime))
 	}
 
 	if len(req.GetPassword()) > 0 {
@@ -319,7 +322,7 @@ func (r *UserRepo) UpdateUser(ctx context.Context, req *userV1.UpdateUserRequest
 	}
 
 	if req.UpdateMask != nil {
-		nilPaths := fieldmaskutil.NilValuePaths(req.User, req.GetUpdateMask().GetPaths())
+		nilPaths := fieldmaskutil.NilValuePaths(req.Data, req.GetUpdateMask().GetPaths())
 		nilUpdater := entgoUpdate.BuildSetNullUpdater(nilPaths)
 		if nilUpdater != nil {
 			builder.Modify(nilUpdater)

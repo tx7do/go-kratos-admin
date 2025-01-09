@@ -20,6 +20,8 @@ type User struct {
 	ID uint32 `json:"id,omitempty"`
 	// 创建者ID
 	CreateBy *uint32 `json:"create_by,omitempty"`
+	// 更新者ID
+	UpdateBy *uint32 `json:"update_by,omitempty"`
 	// 创建时间
 	CreateTime *time.Time `json:"create_time,omitempty"`
 	// 更新时间
@@ -76,7 +78,7 @@ func (*User) scanValues(columns []string) ([]any, error) {
 	values := make([]any, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case user.FieldID, user.FieldCreateBy, user.FieldLastLoginTime, user.FieldRoleID, user.FieldOrgID, user.FieldPositionID, user.FieldWorkID:
+		case user.FieldID, user.FieldCreateBy, user.FieldUpdateBy, user.FieldLastLoginTime, user.FieldRoleID, user.FieldOrgID, user.FieldPositionID, user.FieldWorkID:
 			values[i] = new(sql.NullInt64)
 		case user.FieldRemark, user.FieldStatus, user.FieldUsername, user.FieldPassword, user.FieldNickName, user.FieldRealName, user.FieldEmail, user.FieldMobile, user.FieldTelephone, user.FieldAvatar, user.FieldGender, user.FieldAddress, user.FieldRegion, user.FieldDescription, user.FieldAuthority, user.FieldLastLoginIP:
 			values[i] = new(sql.NullString)
@@ -109,6 +111,13 @@ func (u *User) assignValues(columns []string, values []any) error {
 			} else if value.Valid {
 				u.CreateBy = new(uint32)
 				*u.CreateBy = uint32(value.Int64)
+			}
+		case user.FieldUpdateBy:
+			if value, ok := values[i].(*sql.NullInt64); !ok {
+				return fmt.Errorf("unexpected type %T for field update_by", values[i])
+			} else if value.Valid {
+				u.UpdateBy = new(uint32)
+				*u.UpdateBy = uint32(value.Int64)
 			}
 		case user.FieldCreateTime:
 			if value, ok := values[i].(*sql.NullTime); !ok {
@@ -316,6 +325,11 @@ func (u *User) String() string {
 	builder.WriteString(fmt.Sprintf("id=%v, ", u.ID))
 	if v := u.CreateBy; v != nil {
 		builder.WriteString("create_by=")
+		builder.WriteString(fmt.Sprintf("%v", *v))
+	}
+	builder.WriteString(", ")
+	if v := u.UpdateBy; v != nil {
+		builder.WriteString("update_by=")
 		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteString(", ")

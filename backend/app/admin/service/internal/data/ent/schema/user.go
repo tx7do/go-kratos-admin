@@ -31,7 +31,6 @@ func (User) Fields() []ent.Field {
 		field.String("username").
 			Comment("用户名").
 			Unique().
-			MaxLen(320).
 			NotEmpty().
 			Immutable().
 			Optional().
@@ -164,6 +163,7 @@ func (User) Mixin() []ent.Mixin {
 	return []ent.Mixin{
 		mixin.AutoIncrementId{},
 		mixin.CreateBy{},
+		mixin.UpdateBy{},
 		mixin.Time{},
 		mixin.Remark{},
 		mixin.SwitchStatus{},

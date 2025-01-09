@@ -6,8 +6,9 @@ import "gnostic/openapi/v3/annotations.proto";
 import "google/api/annotations.proto";
 import "google/protobuf/empty.proto";
 
-import "user/service/v1/role.proto";
 import "pagination/v1/pagination.proto";
+
+import "user/service/v1/role.proto";
 
 // 角色管理服务
 service RoleService {
@@ -36,7 +37,7 @@ service RoleService {
   // 更新角色
   rpc UpdateRole (user.service.v1.UpdateRoleRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
-      put: "/admin/v1/roles/{role.id}"
+      put: "/admin/v1/roles/{data.id}"
       body: "*"
     };
   }

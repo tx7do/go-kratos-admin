@@ -116,6 +116,33 @@ func (ou *OrganizationUpdate) ClearCreateBy() *OrganizationUpdate {
 	return ou
 }
 
+// SetUpdateBy sets the "update_by" field.
+func (ou *OrganizationUpdate) SetUpdateBy(u uint32) *OrganizationUpdate {
+	ou.mutation.ResetUpdateBy()
+	ou.mutation.SetUpdateBy(u)
+	return ou
+}
+
+// SetNillableUpdateBy sets the "update_by" field if the given value is not nil.
+func (ou *OrganizationUpdate) SetNillableUpdateBy(u *uint32) *OrganizationUpdate {
+	if u != nil {
+		ou.SetUpdateBy(*u)
+	}
+	return ou
+}
+
+// AddUpdateBy adds u to the "update_by" field.
+func (ou *OrganizationUpdate) AddUpdateBy(u int32) *OrganizationUpdate {
+	ou.mutation.AddUpdateBy(u)
+	return ou
+}
+
+// ClearUpdateBy clears the value of the "update_by" field.
+func (ou *OrganizationUpdate) ClearUpdateBy() *OrganizationUpdate {
+	ou.mutation.ClearUpdateBy()
+	return ou
+}
+
 // SetRemark sets the "remark" field.
 func (ou *OrganizationUpdate) SetRemark(s string) *OrganizationUpdate {
 	ou.mutation.SetRemark(s)
@@ -176,30 +203,30 @@ func (ou *OrganizationUpdate) ClearParentID() *OrganizationUpdate {
 	return ou
 }
 
-// SetOrderNo sets the "order_no" field.
-func (ou *OrganizationUpdate) SetOrderNo(i int32) *OrganizationUpdate {
-	ou.mutation.ResetOrderNo()
-	ou.mutation.SetOrderNo(i)
+// SetSortID sets the "sort_id" field.
+func (ou *OrganizationUpdate) SetSortID(i int32) *OrganizationUpdate {
+	ou.mutation.ResetSortID()
+	ou.mutation.SetSortID(i)
 	return ou
 }
 
-// SetNillableOrderNo sets the "order_no" field if the given value is not nil.
-func (ou *OrganizationUpdate) SetNillableOrderNo(i *int32) *OrganizationUpdate {
+// SetNillableSortID sets the "sort_id" field if the given value is not nil.
+func (ou *OrganizationUpdate) SetNillableSortID(i *int32) *OrganizationUpdate {
 	if i != nil {
-		ou.SetOrderNo(*i)
+		ou.SetSortID(*i)
 	}
 	return ou
 }
 
-// AddOrderNo adds i to the "order_no" field.
-func (ou *OrganizationUpdate) AddOrderNo(i int32) *OrganizationUpdate {
-	ou.mutation.AddOrderNo(i)
+// AddSortID adds i to the "sort_id" field.
+func (ou *OrganizationUpdate) AddSortID(i int32) *OrganizationUpdate {
+	ou.mutation.AddSortID(i)
 	return ou
 }
 
-// ClearOrderNo clears the value of the "order_no" field.
-func (ou *OrganizationUpdate) ClearOrderNo() *OrganizationUpdate {
-	ou.mutation.ClearOrderNo()
+// ClearSortID clears the value of the "sort_id" field.
+func (ou *OrganizationUpdate) ClearSortID() *OrganizationUpdate {
+	ou.mutation.ClearSortID()
 	return ou
 }
 
@@ -289,11 +316,6 @@ func (ou *OrganizationUpdate) check() error {
 			return &ValidationError{Name: "status", err: fmt.Errorf(`ent: validator failed for field "Organization.status": %w`, err)}
 		}
 	}
-	if v, ok := ou.mutation.Name(); ok {
-		if err := organization.NameValidator(v); err != nil {
-			return &ValidationError{Name: "name", err: fmt.Errorf(`ent: validator failed for field "Organization.name": %w`, err)}
-		}
-	}
 	return nil
 }
 
@@ -345,6 +367,15 @@ func (ou *OrganizationUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	if ou.mutation.CreateByCleared() {
 		_spec.ClearField(organization.FieldCreateBy, field.TypeUint32)
 	}
+	if value, ok := ou.mutation.UpdateBy(); ok {
+		_spec.SetField(organization.FieldUpdateBy, field.TypeUint32, value)
+	}
+	if value, ok := ou.mutation.AddedUpdateBy(); ok {
+		_spec.AddField(organization.FieldUpdateBy, field.TypeUint32, value)
+	}
+	if ou.mutation.UpdateByCleared() {
+		_spec.ClearField(organization.FieldUpdateBy, field.TypeUint32)
+	}
 	if value, ok := ou.mutation.Remark(); ok {
 		_spec.SetField(organization.FieldRemark, field.TypeString, value)
 	}
@@ -357,14 +388,14 @@ func (ou *OrganizationUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	if ou.mutation.NameCleared() {
 		_spec.ClearField(organization.FieldName, field.TypeString)
 	}
-	if value, ok := ou.mutation.OrderNo(); ok {
-		_spec.SetField(organization.FieldOrderNo, field.TypeInt32, value)
+	if value, ok := ou.mutation.SortID(); ok {
+		_spec.SetField(organization.FieldSortID, field.TypeInt32, value)
 	}
-	if value, ok := ou.mutation.AddedOrderNo(); ok {
-		_spec.AddField(organization.FieldOrderNo, field.TypeInt32, value)
+	if value, ok := ou.mutation.AddedSortID(); ok {
+		_spec.AddField(organization.FieldSortID, field.TypeInt32, value)
 	}
-	if ou.mutation.OrderNoCleared() {
-		_spec.ClearField(organization.FieldOrderNo, field.TypeInt32)
+	if ou.mutation.SortIDCleared() {
+		_spec.ClearField(organization.FieldSortID, field.TypeInt32)
 	}
 	if ou.mutation.ParentCleared() {
 		edge := &sqlgraph.EdgeSpec{
@@ -549,6 +580,33 @@ func (ouo *OrganizationUpdateOne) ClearCreateBy() *OrganizationUpdateOne {
 	return ouo
 }
 
+// SetUpdateBy sets the "update_by" field.
+func (ouo *OrganizationUpdateOne) SetUpdateBy(u uint32) *OrganizationUpdateOne {
+	ouo.mutation.ResetUpdateBy()
+	ouo.mutation.SetUpdateBy(u)
+	return ouo
+}
+
+// SetNillableUpdateBy sets the "update_by" field if the given value is not nil.
+func (ouo *OrganizationUpdateOne) SetNillableUpdateBy(u *uint32) *OrganizationUpdateOne {
+	if u != nil {
+		ouo.SetUpdateBy(*u)
+	}
+	return ouo
+}
+
+// AddUpdateBy adds u to the "update_by" field.
+func (ouo *OrganizationUpdateOne) AddUpdateBy(u int32) *OrganizationUpdateOne {
+	ouo.mutation.AddUpdateBy(u)
+	return ouo
+}
+
+// ClearUpdateBy clears the value of the "update_by" field.
+func (ouo *OrganizationUpdateOne) ClearUpdateBy() *OrganizationUpdateOne {
+	ouo.mutation.ClearUpdateBy()
+	return ouo
+}
+
 // SetRemark sets the "remark" field.
 func (ouo *OrganizationUpdateOne) SetRemark(s string) *OrganizationUpdateOne {
 	ouo.mutation.SetRemark(s)
@@ -609,30 +667,30 @@ func (ouo *OrganizationUpdateOne) ClearParentID() *OrganizationUpdateOne {
 	return ouo
 }
 
-// SetOrderNo sets the "order_no" field.
-func (ouo *OrganizationUpdateOne) SetOrderNo(i int32) *OrganizationUpdateOne {
-	ouo.mutation.ResetOrderNo()
-	ouo.mutation.SetOrderNo(i)
+// SetSortID sets the "sort_id" field.
+func (ouo *OrganizationUpdateOne) SetSortID(i int32) *OrganizationUpdateOne {
+	ouo.mutation.ResetSortID()
+	ouo.mutation.SetSortID(i)
 	return ouo
 }
 
-// SetNillableOrderNo sets the "order_no" field if the given value is not nil.
-func (ouo *OrganizationUpdateOne) SetNillableOrderNo(i *int32) *OrganizationUpdateOne {
+// SetNillableSortID sets the "sort_id" field if the given value is not nil.
+func (ouo *OrganizationUpdateOne) SetNillableSortID(i *int32) *OrganizationUpdateOne {
 	if i != nil {
-		ouo.SetOrderNo(*i)
+		ouo.SetSortID(*i)
 	}
 	return ouo
 }
 
-// AddOrderNo adds i to the "order_no" field.
-func (ouo *OrganizationUpdateOne) AddOrderNo(i int32) *OrganizationUpdateOne {
-	ouo.mutation.AddOrderNo(i)
+// AddSortID adds i to the "sort_id" field.
+func (ouo *OrganizationUpdateOne) AddSortID(i int32) *OrganizationUpdateOne {
+	ouo.mutation.AddSortID(i)
 	return ouo
 }
 
-// ClearOrderNo clears the value of the "order_no" field.
-func (ouo *OrganizationUpdateOne) ClearOrderNo() *OrganizationUpdateOne {
-	ouo.mutation.ClearOrderNo()
+// ClearSortID clears the value of the "sort_id" field.
+func (ouo *OrganizationUpdateOne) ClearSortID() *OrganizationUpdateOne {
+	ouo.mutation.ClearSortID()
 	return ouo
 }
 
@@ -735,11 +793,6 @@ func (ouo *OrganizationUpdateOne) check() error {
 			return &ValidationError{Name: "status", err: fmt.Errorf(`ent: validator failed for field "Organization.status": %w`, err)}
 		}
 	}
-	if v, ok := ouo.mutation.Name(); ok {
-		if err := organization.NameValidator(v); err != nil {
-			return &ValidationError{Name: "name", err: fmt.Errorf(`ent: validator failed for field "Organization.name": %w`, err)}
-		}
-	}
 	return nil
 }
 
@@ -808,6 +861,15 @@ func (ouo *OrganizationUpdateOne) sqlSave(ctx context.Context) (_node *Organizat
 	if ouo.mutation.CreateByCleared() {
 		_spec.ClearField(organization.FieldCreateBy, field.TypeUint32)
 	}
+	if value, ok := ouo.mutation.UpdateBy(); ok {
+		_spec.SetField(organization.FieldUpdateBy, field.TypeUint32, value)
+	}
+	if value, ok := ouo.mutation.AddedUpdateBy(); ok {
+		_spec.AddField(organization.FieldUpdateBy, field.TypeUint32, value)
+	}
+	if ouo.mutation.UpdateByCleared() {
+		_spec.ClearField(organization.FieldUpdateBy, field.TypeUint32)
+	}
 	if value, ok := ouo.mutation.Remark(); ok {
 		_spec.SetField(organization.FieldRemark, field.TypeString, value)
 	}
@@ -820,14 +882,14 @@ func (ouo *OrganizationUpdateOne) sqlSave(ctx context.Context) (_node *Organizat
 	if ouo.mutation.NameCleared() {
 		_spec.ClearField(organization.FieldName, field.TypeString)
 	}
-	if value, ok := ouo.mutation.OrderNo(); ok {
-		_spec.SetField(organization.FieldOrderNo, field.TypeInt32, value)
+	if value, ok := ouo.mutation.SortID(); ok {
+		_spec.SetField(organization.FieldSortID, field.TypeInt32, value)
 	}
-	if value, ok := ouo.mutation.AddedOrderNo(); ok {
-		_spec.AddField(organization.FieldOrderNo, field.TypeInt32, value)
+	if value, ok := ouo.mutation.AddedSortID(); ok {
+		_spec.AddField(organization.FieldSortID, field.TypeInt32, value)
 	}
-	if ouo.mutation.OrderNoCleared() {
-		_spec.ClearField(organization.FieldOrderNo, field.TypeInt32)
+	if ouo.mutation.SortIDCleared() {
+		_spec.ClearField(organization.FieldSortID, field.TypeInt32)
 	}
 	if ouo.mutation.ParentCleared() {
 		edge := &sqlgraph.EdgeSpec{

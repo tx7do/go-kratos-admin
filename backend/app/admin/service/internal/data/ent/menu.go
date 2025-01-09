@@ -30,6 +30,10 @@ type Menu struct {
 	DeleteTime *time.Time `json:"delete_time,omitempty"`
 	// 创建者ID
 	CreateBy *uint32 `json:"create_by,omitempty"`
+	// 更新者ID
+	UpdateBy *uint32 `json:"update_by,omitempty"`
+	// 备注
+	Remark *string `json:"remark,omitempty"`
 	// 上一层菜单ID
 	ParentID *int32 `json:"parent_id,omitempty"`
 	// 菜单类型 FOLDER: 目录 MENU: 菜单 BUTTON: 按钮
@@ -90,9 +94,9 @@ func (*Menu) scanValues(columns []string) ([]any, error) {
 		switch columns[i] {
 		case menu.FieldMeta:
 			values[i] = new([]byte)
-		case menu.FieldID, menu.FieldCreateBy, menu.FieldParentID:
+		case menu.FieldID, menu.FieldCreateBy, menu.FieldUpdateBy, menu.FieldParentID:
 			values[i] = new(sql.NullInt64)
-		case menu.FieldStatus, menu.FieldType, menu.FieldPath, menu.FieldRedirect, menu.FieldAlias, menu.FieldName, menu.FieldComponent:
+		case menu.FieldStatus, menu.FieldRemark, menu.FieldType, menu.FieldPath, menu.FieldRedirect, menu.FieldAlias, menu.FieldName, menu.FieldComponent:
 			values[i] = new(sql.NullString)
 		case menu.FieldCreateTime, menu.FieldUpdateTime, menu.FieldDeleteTime:
 			values[i] = new(sql.NullTime)
@@ -151,6 +155,20 @@ func (m *Menu) assignValues(columns []string, values []any) error {
 			} else if value.Valid {
 				m.CreateBy = new(uint32)
 				*m.CreateBy = uint32(value.Int64)
+			}
+		case menu.FieldUpdateBy:
+			if value, ok := values[i].(*sql.NullInt64); !ok {
+				return fmt.Errorf("unexpected type %T for field update_by", values[i])
+			} else if value.Valid {
+				m.UpdateBy = new(uint32)
+				*m.UpdateBy = uint32(value.Int64)
+			}
+		case menu.FieldRemark:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field remark", values[i])
+			} else if value.Valid {
+				m.Remark = new(string)
+				*m.Remark = value.String
 			}
 		case menu.FieldParentID:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
@@ -278,6 +296,16 @@ func (m *Menu) String() string {
 	if v := m.CreateBy; v != nil {
 		builder.WriteString("create_by=")
 		builder.WriteString(fmt.Sprintf("%v", *v))
+	}
+	builder.WriteString(", ")
+	if v := m.UpdateBy; v != nil {
+		builder.WriteString("update_by=")
+		builder.WriteString(fmt.Sprintf("%v", *v))
+	}
+	builder.WriteString(", ")
+	if v := m.Remark; v != nil {
+		builder.WriteString("remark=")
+		builder.WriteString(*v)
 	}
 	builder.WriteString(", ")
 	if v := m.ParentID; v != nil {

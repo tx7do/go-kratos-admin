@@ -116,6 +116,33 @@ func (ru *RoleUpdate) ClearCreateBy() *RoleUpdate {
 	return ru
 }
 
+// SetUpdateBy sets the "update_by" field.
+func (ru *RoleUpdate) SetUpdateBy(u uint32) *RoleUpdate {
+	ru.mutation.ResetUpdateBy()
+	ru.mutation.SetUpdateBy(u)
+	return ru
+}
+
+// SetNillableUpdateBy sets the "update_by" field if the given value is not nil.
+func (ru *RoleUpdate) SetNillableUpdateBy(u *uint32) *RoleUpdate {
+	if u != nil {
+		ru.SetUpdateBy(*u)
+	}
+	return ru
+}
+
+// AddUpdateBy adds u to the "update_by" field.
+func (ru *RoleUpdate) AddUpdateBy(u int32) *RoleUpdate {
+	ru.mutation.AddUpdateBy(u)
+	return ru
+}
+
+// ClearUpdateBy clears the value of the "update_by" field.
+func (ru *RoleUpdate) ClearUpdateBy() *RoleUpdate {
+	ru.mutation.ClearUpdateBy()
+	return ru
+}
+
 // SetRemark sets the "remark" field.
 func (ru *RoleUpdate) SetRemark(s string) *RoleUpdate {
 	ru.mutation.SetRemark(s)
@@ -196,30 +223,30 @@ func (ru *RoleUpdate) ClearParentID() *RoleUpdate {
 	return ru
 }
 
-// SetOrderNo sets the "order_no" field.
-func (ru *RoleUpdate) SetOrderNo(i int32) *RoleUpdate {
-	ru.mutation.ResetOrderNo()
-	ru.mutation.SetOrderNo(i)
+// SetSortID sets the "sort_id" field.
+func (ru *RoleUpdate) SetSortID(i int32) *RoleUpdate {
+	ru.mutation.ResetSortID()
+	ru.mutation.SetSortID(i)
 	return ru
 }
 
-// SetNillableOrderNo sets the "order_no" field if the given value is not nil.
-func (ru *RoleUpdate) SetNillableOrderNo(i *int32) *RoleUpdate {
+// SetNillableSortID sets the "sort_id" field if the given value is not nil.
+func (ru *RoleUpdate) SetNillableSortID(i *int32) *RoleUpdate {
 	if i != nil {
-		ru.SetOrderNo(*i)
+		ru.SetSortID(*i)
 	}
 	return ru
 }
 
-// AddOrderNo adds i to the "order_no" field.
-func (ru *RoleUpdate) AddOrderNo(i int32) *RoleUpdate {
-	ru.mutation.AddOrderNo(i)
+// AddSortID adds i to the "sort_id" field.
+func (ru *RoleUpdate) AddSortID(i int32) *RoleUpdate {
+	ru.mutation.AddSortID(i)
 	return ru
 }
 
-// ClearOrderNo clears the value of the "order_no" field.
-func (ru *RoleUpdate) ClearOrderNo() *RoleUpdate {
-	ru.mutation.ClearOrderNo()
+// ClearSortID clears the value of the "sort_id" field.
+func (ru *RoleUpdate) ClearSortID() *RoleUpdate {
+	ru.mutation.ClearSortID()
 	return ru
 }
 
@@ -370,6 +397,15 @@ func (ru *RoleUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	if ru.mutation.CreateByCleared() {
 		_spec.ClearField(role.FieldCreateBy, field.TypeUint32)
 	}
+	if value, ok := ru.mutation.UpdateBy(); ok {
+		_spec.SetField(role.FieldUpdateBy, field.TypeUint32, value)
+	}
+	if value, ok := ru.mutation.AddedUpdateBy(); ok {
+		_spec.AddField(role.FieldUpdateBy, field.TypeUint32, value)
+	}
+	if ru.mutation.UpdateByCleared() {
+		_spec.ClearField(role.FieldUpdateBy, field.TypeUint32)
+	}
 	if value, ok := ru.mutation.Remark(); ok {
 		_spec.SetField(role.FieldRemark, field.TypeString, value)
 	}
@@ -388,14 +424,14 @@ func (ru *RoleUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	if ru.mutation.CodeCleared() {
 		_spec.ClearField(role.FieldCode, field.TypeString)
 	}
-	if value, ok := ru.mutation.OrderNo(); ok {
-		_spec.SetField(role.FieldOrderNo, field.TypeInt32, value)
+	if value, ok := ru.mutation.SortID(); ok {
+		_spec.SetField(role.FieldSortID, field.TypeInt32, value)
 	}
-	if value, ok := ru.mutation.AddedOrderNo(); ok {
-		_spec.AddField(role.FieldOrderNo, field.TypeInt32, value)
+	if value, ok := ru.mutation.AddedSortID(); ok {
+		_spec.AddField(role.FieldSortID, field.TypeInt32, value)
 	}
-	if ru.mutation.OrderNoCleared() {
-		_spec.ClearField(role.FieldOrderNo, field.TypeInt32)
+	if ru.mutation.SortIDCleared() {
+		_spec.ClearField(role.FieldSortID, field.TypeInt32)
 	}
 	if ru.mutation.ParentCleared() {
 		edge := &sqlgraph.EdgeSpec{
@@ -580,6 +616,33 @@ func (ruo *RoleUpdateOne) ClearCreateBy() *RoleUpdateOne {
 	return ruo
 }
 
+// SetUpdateBy sets the "update_by" field.
+func (ruo *RoleUpdateOne) SetUpdateBy(u uint32) *RoleUpdateOne {
+	ruo.mutation.ResetUpdateBy()
+	ruo.mutation.SetUpdateBy(u)
+	return ruo
+}
+
+// SetNillableUpdateBy sets the "update_by" field if the given value is not nil.
+func (ruo *RoleUpdateOne) SetNillableUpdateBy(u *uint32) *RoleUpdateOne {
+	if u != nil {
+		ruo.SetUpdateBy(*u)
+	}
+	return ruo
+}
+
+// AddUpdateBy adds u to the "update_by" field.
+func (ruo *RoleUpdateOne) AddUpdateBy(u int32) *RoleUpdateOne {
+	ruo.mutation.AddUpdateBy(u)
+	return ruo
+}
+
+// ClearUpdateBy clears the value of the "update_by" field.
+func (ruo *RoleUpdateOne) ClearUpdateBy() *RoleUpdateOne {
+	ruo.mutation.ClearUpdateBy()
+	return ruo
+}
+
 // SetRemark sets the "remark" field.
 func (ruo *RoleUpdateOne) SetRemark(s string) *RoleUpdateOne {
 	ruo.mutation.SetRemark(s)
@@ -660,30 +723,30 @@ func (ruo *RoleUpdateOne) ClearParentID() *RoleUpdateOne {
 	return ruo
 }
 
-// SetOrderNo sets the "order_no" field.
-func (ruo *RoleUpdateOne) SetOrderNo(i int32) *RoleUpdateOne {
-	ruo.mutation.ResetOrderNo()
-	ruo.mutation.SetOrderNo(i)
+// SetSortID sets the "sort_id" field.
+func (ruo *RoleUpdateOne) SetSortID(i int32) *RoleUpdateOne {
+	ruo.mutation.ResetSortID()
+	ruo.mutation.SetSortID(i)
 	return ruo
 }
 
-// SetNillableOrderNo sets the "order_no" field if the given value is not nil.
-func (ruo *RoleUpdateOne) SetNillableOrderNo(i *int32) *RoleUpdateOne {
+// SetNillableSortID sets the "sort_id" field if the given value is not nil.
+func (ruo *RoleUpdateOne) SetNillableSortID(i *int32) *RoleUpdateOne {
 	if i != nil {
-		ruo.SetOrderNo(*i)
+		ruo.SetSortID(*i)
 	}
 	return ruo
 }
 
-// AddOrderNo adds i to the "order_no" field.
-func (ruo *RoleUpdateOne) AddOrderNo(i int32) *RoleUpdateOne {
-	ruo.mutation.AddOrderNo(i)
+// AddSortID adds i to the "sort_id" field.
+func (ruo *RoleUpdateOne) AddSortID(i int32) *RoleUpdateOne {
+	ruo.mutation.AddSortID(i)
 	return ruo
 }
 
-// ClearOrderNo clears the value of the "order_no" field.
-func (ruo *RoleUpdateOne) ClearOrderNo() *RoleUpdateOne {
-	ruo.mutation.ClearOrderNo()
+// ClearSortID clears the value of the "sort_id" field.
+func (ruo *RoleUpdateOne) ClearSortID() *RoleUpdateOne {
+	ruo.mutation.ClearSortID()
 	return ruo
 }
 
@@ -864,6 +927,15 @@ func (ruo *RoleUpdateOne) sqlSave(ctx context.Context) (_node *Role, err error) 
 	if ruo.mutation.CreateByCleared() {
 		_spec.ClearField(role.FieldCreateBy, field.TypeUint32)
 	}
+	if value, ok := ruo.mutation.UpdateBy(); ok {
+		_spec.SetField(role.FieldUpdateBy, field.TypeUint32, value)
+	}
+	if value, ok := ruo.mutation.AddedUpdateBy(); ok {
+		_spec.AddField(role.FieldUpdateBy, field.TypeUint32, value)
+	}
+	if ruo.mutation.UpdateByCleared() {
+		_spec.ClearField(role.FieldUpdateBy, field.TypeUint32)
+	}
 	if value, ok := ruo.mutation.Remark(); ok {
 		_spec.SetField(role.FieldRemark, field.TypeString, value)
 	}
@@ -882,14 +954,14 @@ func (ruo *RoleUpdateOne) sqlSave(ctx context.Context) (_node *Role, err error) 
 	if ruo.mutation.CodeCleared() {
 		_spec.ClearField(role.FieldCode, field.TypeString)
 	}
-	if value, ok := ruo.mutation.OrderNo(); ok {
-		_spec.SetField(role.FieldOrderNo, field.TypeInt32, value)
+	if value, ok := ruo.mutation.SortID(); ok {
+		_spec.SetField(role.FieldSortID, field.TypeInt32, value)
 	}
-	if value, ok := ruo.mutation.AddedOrderNo(); ok {
-		_spec.AddField(role.FieldOrderNo, field.TypeInt32, value)
+	if value, ok := ruo.mutation.AddedSortID(); ok {
+		_spec.AddField(role.FieldSortID, field.TypeInt32, value)
 	}
-	if ruo.mutation.OrderNoCleared() {
-		_spec.ClearField(role.FieldOrderNo, field.TypeInt32)
+	if ruo.mutation.SortIDCleared() {
+		_spec.ClearField(role.FieldSortID, field.TypeInt32)
 	}
 	if ruo.mutation.ParentCleared() {
 		edge := &sqlgraph.EdgeSpec{

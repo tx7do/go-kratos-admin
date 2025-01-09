@@ -6,8 +6,9 @@ import "gnostic/openapi/v3/annotations.proto";
 import "google/api/annotations.proto";
 import "google/protobuf/empty.proto";
 
-import "user/service/v1/user.proto";
 import "pagination/v1/pagination.proto";
+
+import "user/service/v1/user.proto";
 
 // 用户管理服务
 service UserService {
@@ -36,7 +37,7 @@ service UserService {
   // 更新用户
   rpc UpdateUser (user.service.v1.UpdateUserRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
-      put: "/admin/v1/users/{user.id}"
+      put: "/admin/v1/users/{data.id}"
       body: "*"
     };
   }

@@ -623,8 +623,8 @@ func (m *RouteMeta) validate(all bool) error {
 		// no validation rules for OpenInNewWindow
 	}
 
-	if m.Order != nil {
-		// no validation rules for Order
+	if m.SortId != nil {
+		// no validation rules for SortId
 	}
 
 	if m.Title != nil {
@@ -969,11 +969,11 @@ func (m *CreateMenuRequest) validate(all bool) error {
 	var errors []error
 
 	if all {
-		switch v := interface{}(m.GetMenu()).(type) {
+		switch v := interface{}(m.GetData()).(type) {
 		case interface{ ValidateAll() error }:
 			if err := v.ValidateAll(); err != nil {
 				errors = append(errors, CreateMenuRequestValidationError{
-					field:  "Menu",
+					field:  "Data",
 					reason: "embedded message failed validation",
 					cause:  err,
 				})
@@ -981,16 +981,16 @@ func (m *CreateMenuRequest) validate(all bool) error {
 		case interface{ Validate() error }:
 			if err := v.Validate(); err != nil {
 				errors = append(errors, CreateMenuRequestValidationError{
-					field:  "Menu",
+					field:  "Data",
 					reason: "embedded message failed validation",
 					cause:  err,
 				})
 			}
 		}
-	} else if v, ok := interface{}(m.GetMenu()).(interface{ Validate() error }); ok {
+	} else if v, ok := interface{}(m.GetData()).(interface{ Validate() error }); ok {
 		if err := v.Validate(); err != nil {
 			return CreateMenuRequestValidationError{
-				field:  "Menu",
+				field:  "Data",
 				reason: "embedded message failed validation",
 				cause:  err,
 			}
@@ -1104,11 +1104,11 @@ func (m *UpdateMenuRequest) validate(all bool) error {
 	var errors []error
 
 	if all {
-		switch v := interface{}(m.GetMenu()).(type) {
+		switch v := interface{}(m.GetData()).(type) {
 		case interface{ ValidateAll() error }:
 			if err := v.ValidateAll(); err != nil {
 				errors = append(errors, UpdateMenuRequestValidationError{
-					field:  "Menu",
+					field:  "Data",
 					reason: "embedded message failed validation",
 					cause:  err,
 				})
@@ -1116,16 +1116,16 @@ func (m *UpdateMenuRequest) validate(all bool) error {
 		case interface{ Validate() error }:
 			if err := v.Validate(); err != nil {
 				errors = append(errors, UpdateMenuRequestValidationError{
-					field:  "Menu",
+					field:  "Data",
 					reason: "embedded message failed validation",
 					cause:  err,
 				})
 			}
 		}
-	} else if v, ok := interface{}(m.GetMenu()).(interface{ Validate() error }); ok {
+	} else if v, ok := interface{}(m.GetData()).(interface{ Validate() error }); ok {
 		if err := v.Validate(); err != nil {
 			return UpdateMenuRequestValidationError{
-				field:  "Menu",
+				field:  "Data",
 				reason: "embedded message failed validation",
 				cause:  err,
 			}

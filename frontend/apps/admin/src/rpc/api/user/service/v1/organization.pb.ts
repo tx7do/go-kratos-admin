@@ -21,8 +21,8 @@ export interface Organization {
     | string
     | null
     | undefined;
-  /** 排序号 */
-  orderNo?:
+  /** 排序编号 */
+  sortId?:
     | number
     | null
     | undefined;
@@ -72,14 +72,14 @@ export interface GetOrganizationRequest {
 export interface CreateOrganizationRequest {
   /** 操作用户ID */
   operatorId?: number | null | undefined;
-  org: Organization | null;
+  data: Organization | null;
 }
 
 /** 更新部门 - 请求 */
 export interface UpdateOrganizationRequest {
   /** 操作用户ID */
   operatorId?: number | null | undefined;
-  org:
+  data:
     | Organization
     | null;
   /** 要更新的字段列表 */

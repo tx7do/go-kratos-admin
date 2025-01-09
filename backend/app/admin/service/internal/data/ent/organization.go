@@ -28,6 +28,8 @@ type Organization struct {
 	Status *organization.Status `json:"status,omitempty"`
 	// 创建者ID
 	CreateBy *uint32 `json:"create_by,omitempty"`
+	// 更新者ID
+	UpdateBy *uint32 `json:"update_by,omitempty"`
 	// 备注
 	Remark *string `json:"remark,omitempty"`
 	// 名字
@@ -35,7 +37,7 @@ type Organization struct {
 	// 上一层部门ID
 	ParentID *uint32 `json:"parent_id,omitempty"`
 	// 排序ID
-	OrderNo *int32 `json:"order_no,omitempty"`
+	SortID *int32 `json:"sort_id,omitempty"`
 	// Edges holds the relations/edges for other nodes in the graph.
 	// The values are being populated by the OrganizationQuery when eager-loading is set.
 	Edges        OrganizationEdges `json:"edges"`
@@ -78,7 +80,7 @@ func (*Organization) scanValues(columns []string) ([]any, error) {
 	values := make([]any, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case organization.FieldID, organization.FieldCreateBy, organization.FieldParentID, organization.FieldOrderNo:
+		case organization.FieldID, organization.FieldCreateBy, organization.FieldUpdateBy, organization.FieldParentID, organization.FieldSortID:
 			values[i] = new(sql.NullInt64)
 		case organization.FieldStatus, organization.FieldRemark, organization.FieldName:
 			values[i] = new(sql.NullString)
@@ -140,6 +142,13 @@ func (o *Organization) assignValues(columns []string, values []any) error {
 				o.CreateBy = new(uint32)
 				*o.CreateBy = uint32(value.Int64)
 			}
+		case organization.FieldUpdateBy:
+			if value, ok := values[i].(*sql.NullInt64); !ok {
+				return fmt.Errorf("unexpected type %T for field update_by", values[i])
+			} else if value.Valid {
+				o.UpdateBy = new(uint32)
+				*o.UpdateBy = uint32(value.Int64)
+			}
 		case organization.FieldRemark:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field remark", values[i])
@@ -161,12 +170,12 @@ func (o *Organization) assignValues(columns []string, values []any) error {
 				o.ParentID = new(uint32)
 				*o.ParentID = uint32(value.Int64)
 			}
-		case organization.FieldOrderNo:
+		case organization.FieldSortID:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for field order_no", values[i])
+				return fmt.Errorf("unexpected type %T for field sort_id", values[i])
 			} else if value.Valid {
-				o.OrderNo = new(int32)
-				*o.OrderNo = int32(value.Int64)
+				o.SortID = new(int32)
+				*o.SortID = int32(value.Int64)
 			}
 		default:
 			o.selectValues.Set(columns[i], values[i])
@@ -239,6 +248,11 @@ func (o *Organization) String() string {
 		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteString(", ")
+	if v := o.UpdateBy; v != nil {
+		builder.WriteString("update_by=")
+		builder.WriteString(fmt.Sprintf("%v", *v))
+	}
+	builder.WriteString(", ")
 	if v := o.Remark; v != nil {
 		builder.WriteString("remark=")
 		builder.WriteString(*v)
@@ -254,8 +268,8 @@ func (o *Organization) String() string {
 		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteString(", ")
-	if v := o.OrderNo; v != nil {
-		builder.WriteString("order_no=")
+	if v := o.SortID; v != nil {
+		builder.WriteString("sort_id=")
 		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteByte(')')

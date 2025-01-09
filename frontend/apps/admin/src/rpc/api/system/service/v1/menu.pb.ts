@@ -230,8 +230,8 @@ export interface RouteMeta {
     | boolean
     | null
     | undefined;
-  /** 排序ID，用于路由->菜单排序 */
-  order?:
+  /** 排序编号，用于路由->菜单排序 */
+  sortId?:
     | number
     | null
     | undefined;
@@ -254,14 +254,14 @@ export interface GetMenuRequest {
 export interface CreateMenuRequest {
   /** 操作用户ID */
   operatorId?: number | null | undefined;
-  menu: Menu | null;
+  data: Menu | null;
 }
 
 /** 更新菜单 - 请求 */
 export interface UpdateMenuRequest {
   /** 操作用户ID */
   operatorId?: number | null | undefined;
-  menu:
+  data:
     | Menu
     | null;
   /** 要更新的字段列表 */

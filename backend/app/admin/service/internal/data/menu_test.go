@@ -17,10 +17,10 @@ import (
 
 func TestMenuMetaFieldMask(t *testing.T) {
 	updateMenuReq := &systemV1.UpdateMenuRequest{
-		Menu: &systemV1.Menu{
+		Data: &systemV1.Menu{
 			Meta: &systemV1.RouteMeta{
-				Title: trans.Ptr("标题1"),
-				Order: trans.Ptr(int32(1)),
+				Title:  trans.Ptr("标题1"),
+				SortId: trans.Ptr(int32(1)),
 			},
 		},
 		UpdateMask: &field_mask.FieldMask{
@@ -34,16 +34,16 @@ func TestMenuMetaFieldMask(t *testing.T) {
 		}
 	}
 	updateMenuReq.UpdateMask.Normalize()
-	if !updateMenuReq.UpdateMask.IsValid(updateMenuReq.Menu) {
+	if !updateMenuReq.UpdateMask.IsValid(updateMenuReq.Data) {
 		// Return an error.
 		panic("invalid field mask")
 	}
-	fieldmaskutil.Filter(updateMenuReq.GetMenu(), updateMenuReq.UpdateMask.GetPaths())
+	fieldmaskutil.Filter(updateMenuReq.GetData(), updateMenuReq.UpdateMask.GetPaths())
 
-	fieldmaskutil.Filter(updateMenuReq.GetMenu().Meta, metaPaths)
+	fieldmaskutil.Filter(updateMenuReq.GetData().Meta, metaPaths)
 
-	nilPaths := fieldmaskutil.NilValuePaths(updateMenuReq.GetMenu().Meta, metaPaths)
-	keyValues := entgoUpdate.ExtractJsonFieldKeyValues(updateMenuReq.GetMenu().Meta, metaPaths, false)
+	nilPaths := fieldmaskutil.NilValuePaths(updateMenuReq.GetData().Meta, metaPaths)
+	keyValues := entgoUpdate.ExtractJsonFieldKeyValues(updateMenuReq.GetData().Meta, metaPaths, false)
 
-	log.Infof("UPDATE: [%v] [%v] [%v] [%v]", updateMenuReq.Menu, updateMenuReq.Menu.Meta, nilPaths, keyValues)
+	log.Infof("UPDATE: [%v] [%v] [%v] [%v]", updateMenuReq.Data, updateMenuReq.Data.Meta, nilPaths, keyValues)
 }

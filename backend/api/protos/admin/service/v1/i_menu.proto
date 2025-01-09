@@ -7,6 +7,7 @@ import "google/api/annotations.proto";
 import "google/protobuf/empty.proto";
 
 import "pagination/v1/pagination.proto";
+
 import "system/service/v1/menu.proto";
 
 // 后台菜单管理服务
@@ -36,7 +37,7 @@ service MenuService {
   // 更新菜单
   rpc UpdateMenu (system.service.v1.UpdateMenuRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
-      put: "/admin/v1/menus/{menu.id}"
+      put: "/admin/v1/menus/{data.id}"
       body: "*"
     };
   }

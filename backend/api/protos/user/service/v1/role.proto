@@ -36,7 +36,7 @@ message Role {
 
   optional string name = 2 [json_name = "name", (gnostic.openapi.v3.property) = {description: "角色名称"}];  // 角色名称
 
-  optional int32 order_no = 3 [json_name = "orderNo", (gnostic.openapi.v3.property) = {description: "排序号"}];  // 排序号
+  optional int32 sort_id = 3 [json_name = "sortId", (gnostic.openapi.v3.property) = {description: "排序编号"}];  // 排序编号
 
   optional string code = 4 [json_name = "code", (gnostic.openapi.v3.property) = {description: "角色值"}];  // 角色值
 
@@ -74,7 +74,7 @@ message CreateRoleRequest {
     json_name = "operatorId"
   ]; // 操作用户ID
 
-  Role role = 2;
+  Role data = 2;
 }
 
 // 更新角色 - 请求
@@ -84,7 +84,7 @@ message UpdateRoleRequest {
     json_name = "operatorId"
   ]; // 操作用户ID
 
-  Role role = 2;
+  Role data = 2;
 
   google.protobuf.FieldMask update_mask = 3 [
     (gnostic.openapi.v3.property) = {

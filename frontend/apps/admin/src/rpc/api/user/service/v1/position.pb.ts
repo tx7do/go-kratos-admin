@@ -21,8 +21,8 @@ export interface Position {
     | string
     | null
     | undefined;
-  /** 排序号 */
-  orderNo?:
+  /** 排序编号 */
+  sortId?:
     | number
     | null
     | undefined;
@@ -77,14 +77,14 @@ export interface GetPositionRequest {
 export interface CreatePositionRequest {
   /** 操作用户ID */
   operatorId?: number | null | undefined;
-  position: Position | null;
+  data: Position | null;
 }
 
 /** 更新职位 - 请求 */
 export interface UpdatePositionRequest {
   /** 操作用户ID */
   operatorId?: number | null | undefined;
-  position:
+  data:
     | Position
     | null;
   /** 要更新的字段列表 */

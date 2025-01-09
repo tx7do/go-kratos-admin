@@ -59,6 +59,7 @@ message Menu {
     (gnostic.openapi.v3.property) = {
       description: "菜单状态"
       default: {string: "ON"}
+      enum: [{yaml: "ON"}, {yaml: "OFF"}]
     }
   ]; // 菜单状态
 
@@ -351,13 +352,13 @@ message RouteMeta {
     }
   ]; // 在新窗口打开
 
-  optional int32 order = 22 [
-    json_name = "order",
+  optional int32 sort_id = 22 [
+    json_name = "sortId",
     (google.api.field_behavior) = OPTIONAL,
     (gnostic.openapi.v3.property) = {
-      description: "排序ID，用于路由->菜单排序"
+      description: "排序编号，用于路由->菜单排序"
     }
-  ]; // 排序ID，用于路由->菜单排序
+  ]; // 排序编号，用于路由->菜单排序
 
   optional string title = 23 [
     json_name = "title",
@@ -386,7 +387,7 @@ message CreateMenuRequest {
     json_name = "operatorId"
   ]; // 操作用户ID
 
-  Menu menu = 2;
+  Menu data = 2;
 }
 
 // 更新菜单 - 请求
@@ -396,7 +397,7 @@ message UpdateMenuRequest {
     json_name = "operatorId"
   ]; // 操作用户ID
 
-  Menu menu = 2;
+  Menu data = 2;
 
   google.protobuf.FieldMask update_mask = 3 [
     (gnostic.openapi.v3.property) = {

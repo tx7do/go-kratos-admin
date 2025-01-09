@@ -16,6 +16,26 @@ const system: RouteRecordRaw[] = [
     },
     children: [
       {
+        path: 'menus',
+        name: 'MenuManagement',
+        meta: {
+          icon: 'lucide:square-menu',
+          title: $t('menu.system.menu'),
+        },
+        component: () => import('#/views/app/system/menu/index.vue'),
+      },
+
+      {
+        path: 'dict',
+        name: 'DictManagement',
+        meta: {
+          icon: 'lucide:library-big',
+          title: $t('menu.system.dict'),
+        },
+        component: () => import('#/views/app/system/dict/index.vue'),
+      },
+
+      {
         path: 'users',
         name: 'UserManagement',
         meta: {
@@ -36,20 +56,21 @@ const system: RouteRecordRaw[] = [
       },
 
       {
-        path: 'menus',
-        name: 'MenuManagement',
+        path: 'roles',
+        name: 'RoleManagement',
         meta: {
-          icon: 'lucide:square-menu',
-          title: $t('menu.system.menu'),
+          icon: 'lucide:shirt',
+          title: $t('menu.system.role'),
+          hideInTab: false,
         },
-        component: () => import('#/views/app/system/menu/index.vue'),
+        component: () => import('#/views/app/system/role/index.vue'),
       },
 
       {
         path: 'organizations',
         name: 'OrganizationManagement',
         meta: {
-          icon: 'lucide:network',
+          icon: 'lucide:building-2',
           title: $t('menu.system.org'),
         },
         component: () => import('#/views/app/system/org/index.vue'),
@@ -65,16 +86,6 @@ const system: RouteRecordRaw[] = [
         component: () => import('#/views/app/system/dept/index.vue'),
       },
 
-      {
-        path: 'roles',
-        name: 'RoleManagement',
-        meta: {
-          icon: 'lucide:shield-check',
-          title: $t('menu.system.role'),
-          hideInTab: false,
-        },
-        component: () => import('#/views/app/system/role/index.vue'),
-      },
       {
         path: 'positions',
         name: 'PositionManagement',

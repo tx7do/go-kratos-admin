@@ -15,6 +15,7 @@
     "org": "Organization Management",
     "dept": "Department Management",
     "permission": "Permission Management",
+    "dict": "Dict Management",
     "menu": "Menu Management"
   }
 }

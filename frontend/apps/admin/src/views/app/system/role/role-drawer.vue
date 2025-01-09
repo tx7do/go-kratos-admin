@@ -7,7 +7,9 @@ import { $t } from '@vben/locales';
 import { notification } from 'ant-design-vue';
 
 import { useVbenForm } from '#/adapter/form';
-import { defRoleService, makeUpdateMask, statusList } from '#/rpc';
+import { statusList, useRoleStore } from '#/store';
+
+const roleStore = useRoleStore();
 
 const data = ref();
 
@@ -88,20 +90,8 @@ const [Drawer, drawerApi] = useVbenDrawer({
 
     try {
       await (data.value?.create
-        ? defRoleService.CreateRole({
-            data: {
-              ...values,
-              children: [],
-            },
-          })
-        : defRoleService.UpdateRole({
-            data: {
-              id: data.value.row.id,
-              children: [],
-              ...values,
-            },
-            updateMask: makeUpdateMask(Object.keys(values)),
-          }));
+        ? roleStore.createRole(values)
+        : roleStore.updateRole(data.value.row.id, values));
 
       notification.success({
         message: `${getTitle.value}成功`,

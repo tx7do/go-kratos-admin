@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { VxeGridProps } from '#/adapter/vxe-table';
-import type { User } from '#/rpc/api/user/service/v1/user.pb';
+import type { Department } from '#/rpc/api/user/service/v1/department.pb';
 
 import { Page, useVbenModal, type VbenFormProps } from '@vben/common-ui';
 
@@ -8,9 +8,11 @@ import { notification } from 'ant-design-vue';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
 import { $t } from '#/locales';
-import { defDepartmentService, makeQueryString, statusList } from '#/rpc';
+import { statusList, useDepartmentStore } from '#/store';
 
 import DeptModal from './dept-modal.vue';
+
+const deptStore = useDepartmentStore();
 
 const formOptions: VbenFormProps = {
   // 默认展开
@@ -41,7 +43,7 @@ const formOptions: VbenFormProps = {
   ],
 };
 
-const gridOptions: VxeGridProps<User> = {
+const gridOptions: VxeGridProps<Department> = {
   toolbarConfig: {
     custom: true,
     export: true,
@@ -68,13 +70,12 @@ const gridOptions: VxeGridProps<User> = {
     ajax: {
       query: async ({ page }, formValues) => {
         console.log('query:', formValues);
-        return await defDepartmentService.ListDepartment({
-          fieldMask: null,
-          orderBy: [],
-          query: makeQueryString(formValues),
-          page: page.currentPage,
-          pageSize: page.pageSize,
-        });
+
+        return await deptStore.listDepartment(
+          page.currentPage,
+          page.pageSize,
+          formValues,
+        );
       },
     },
   },
@@ -132,17 +133,17 @@ function handleEdit(row: any) {
 }
 
 /* 删除 */
-function handleDelete(row: any) {
+async function handleDelete(row: any) {
   console.log('删除', row);
 
   try {
-    defDepartmentService.DeleteDepartment({ id: row.id });
+    await deptStore.deleteDepartment(row.id);
 
     notification.success({
       message: '删除部门成功',
     });
 
-    gridApi.reload();
+    await gridApi.reload();
   } catch {
     notification.error({
       message: '删除部门失败',
@@ -158,10 +159,7 @@ async function handleStatusChanged(row: any, checked: boolean) {
   row.status = checked ? 'ON' : 'OFF';
 
   try {
-    await defDepartmentService.UpdateDepartment({
-      data: { id: row.id, status: row.status },
-      updateMask: 'id,status',
-    });
+    await deptStore.updateDepartment(row.id, { status: row.status });
 
     notification.success({
       message: '更新部门状态成功',

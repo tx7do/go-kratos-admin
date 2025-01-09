@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { VxeGridProps } from '#/adapter/vxe-table';
-import type { User } from '#/rpc/api/user/service/v1/user.pb';
+import type { Menu } from '#/rpc/api/system/service/v1/menu.pb';
 
 import { h } from 'vue';
 
@@ -12,9 +12,11 @@ import { notification } from 'ant-design-vue';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
 import { $t } from '#/locales';
-import { defMenuService, makeQueryString, statusList } from '#/rpc';
+import { statusList, useMenuStore } from '#/store';
 
 import MenuDrawer from './menu-drawer.vue';
+
+const menuStore = useMenuStore();
 
 const formOptions: VbenFormProps = {
   // 默认展开
@@ -45,7 +47,7 @@ const formOptions: VbenFormProps = {
   ],
 };
 
-const gridOptions: VxeGridProps<User> = {
+const gridOptions: VxeGridProps<Menu> = {
   toolbarConfig: {
     custom: true,
     export: true,
@@ -75,13 +77,12 @@ const gridOptions: VxeGridProps<User> = {
     ajax: {
       query: async ({ page }, formValues) => {
         console.log('query:', formValues);
-        return await defMenuService.ListMenu({
-          fieldMask: null,
-          orderBy: [],
-          query: makeQueryString(formValues),
-          page: page.currentPage,
-          pageSize: page.pageSize,
-        });
+
+        return await menuStore.listMenu(
+          page.currentPage,
+          page.pageSize,
+          formValues,
+        );
       },
     },
   },
@@ -146,17 +147,17 @@ function handleEdit(row: any) {
 }
 
 /* 删除 */
-function handleDelete(row: any) {
+async function handleDelete(row: any) {
   console.log('删除', row);
 
   try {
-    defMenuService.DeleteMenu({ id: row.id });
+    await menuStore.deleteMenu(row.id);
 
     notification.success({
       message: '删除菜单成功',
     });
 
-    gridApi.reload();
+    await gridApi.reload();
   } catch {
     notification.error({
       message: '删除菜单失败',
@@ -172,10 +173,7 @@ async function handleStatusChanged(row: any, checked: boolean) {
   row.status = checked ? 'ON' : 'OFF';
 
   try {
-    await defMenuService.UpdateMenu({
-      data: { id: row.id, status: row.status },
-      updateMask: 'id,status',
-    });
+    await menuStore.updateMenu(row.id, { status: row.status });
 
     notification.success({
       message: '更新菜单状态成功',
@@ -205,8 +203,8 @@ const collapseAll = () => {
         <a-button class="mr-2" type="primary" @click="handleCreate">
           创建菜单
         </a-button>
-        <a-button class="mr-2" @click="expandAll"> 展开全部 </a-button>
-        <a-button class="mr-2" @click="collapseAll"> 折叠全部 </a-button>
+        <a-button class="mr-2" @click="expandAll"> 展开全部</a-button>
+        <a-button class="mr-2" @click="collapseAll"> 折叠全部</a-button>
       </template>
       <template #title="{ row }">
         <span :style="{ marginRight: '15px' }">{{ $t(row.meta.title) }}</span>

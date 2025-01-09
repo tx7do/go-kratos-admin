@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { VxeGridProps } from '#/adapter/vxe-table';
-import type { User } from '#/rpc/api/user/service/v1/user.pb';
+import type { Organization } from '#/rpc/api/user/service/v1/organization.pb';
 
 import { Page, useVbenModal, type VbenFormProps } from '@vben/common-ui';
 
@@ -8,9 +8,11 @@ import { notification } from 'ant-design-vue';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
 import { $t } from '#/locales';
-import { defOrganizationService, makeQueryString, statusList } from '#/rpc';
+import { statusList, useOrganizationStore } from '#/store';
 
 import OrgModal from './org-modal.vue';
+
+const orgStore = useOrganizationStore();
 
 const formOptions: VbenFormProps = {
   // 默认展开
@@ -41,7 +43,7 @@ const formOptions: VbenFormProps = {
   ],
 };
 
-const gridOptions: VxeGridProps<User> = {
+const gridOptions: VxeGridProps<Organization> = {
   toolbarConfig: {
     custom: true,
     export: true,
@@ -68,13 +70,12 @@ const gridOptions: VxeGridProps<User> = {
     ajax: {
       query: async ({ page }, formValues) => {
         console.log('query:', formValues);
-        return await defOrganizationService.ListOrganization({
-          fieldMask: null,
-          orderBy: [],
-          query: makeQueryString(formValues),
-          page: page.currentPage,
-          pageSize: page.pageSize,
-        });
+
+        return await orgStore.listOrganization(
+          page.currentPage,
+          page.pageSize,
+          formValues,
+        );
       },
     },
   },
@@ -132,17 +133,17 @@ function handleEdit(row: any) {
 }
 
 /* 删除 */
-function handleDelete(row: any) {
+async function handleDelete(row: any) {
   console.log('删除', row);
 
   try {
-    defOrganizationService.DeleteOrganization({ id: row.id });
+    await orgStore.deleteOrganization(row.id);
 
     notification.success({
       message: '删除组织成功',
     });
 
-    gridApi.reload();
+    await gridApi.reload();
   } catch {
     notification.error({
       message: '删除组织失败',
@@ -158,10 +159,7 @@ async function handleStatusChanged(row: any, checked: boolean) {
   row.status = checked ? 'ON' : 'OFF';
 
   try {
-    await defOrganizationService.UpdateOrganization({
-      data: { id: row.id, status: row.status },
-      updateMask: 'id,status',
-    });
+    await orgStore.updateOrganization(row.id, { status: row.status });
 
     notification.success({
       message: '更新组织状态成功',
@@ -191,8 +189,8 @@ const collapseAll = () => {
         <a-button class="mr-2" type="primary" @click="handleCreate">
           创建组织
         </a-button>
-        <a-button class="mr-2" @click="expandAll"> 展开全部 </a-button>
-        <a-button class="mr-2" @click="collapseAll"> 折叠全部 </a-button>
+        <a-button class="mr-2" @click="expandAll"> 展开全部</a-button>
+        <a-button class="mr-2" @click="collapseAll"> 折叠全部</a-button>
       </template>
       <template #status="{ row }">
         <a-switch

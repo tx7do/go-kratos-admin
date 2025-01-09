@@ -7,7 +7,9 @@ import { $t } from '@vben/locales';
 import { notification } from 'ant-design-vue';
 
 import { useVbenForm } from '#/adapter/form';
-import { defOrganizationService, makeUpdateMask, statusList } from '#/rpc';
+import { statusList, useOrganizationStore } from '#/store';
+
+const orgStore = useOrganizationStore();
 
 const data = ref();
 
@@ -96,20 +98,8 @@ const [Modal, modalApi] = useVbenModal({
 
     try {
       await (data.value?.create
-        ? defOrganizationService.CreateOrganization({
-            data: {
-              ...values,
-              children: [],
-            },
-          })
-        : defOrganizationService.UpdateOrganization({
-            data: {
-              id: data.value.row.id,
-              ...values,
-              children: [],
-            },
-            updateMask: makeUpdateMask(Object.keys(values)),
-          }));
+        ? orgStore.createOrganization(values)
+        : orgStore.updateOrganization(data.value.row.id, values));
 
       notification.success({
         message: `${getTitle.value}成功`,

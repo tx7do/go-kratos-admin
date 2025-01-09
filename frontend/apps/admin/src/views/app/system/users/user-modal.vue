@@ -7,12 +7,10 @@ import { $t } from '@vben/locales';
 import { notification } from 'ant-design-vue';
 
 import { useVbenForm, z } from '#/adapter/form';
-import {
-  authorityList,
-  defOrganizationService,
-  defUserService,
-  makeUpdateMask,
-} from '#/rpc';
+import { authorityList, useOrganizationStore, useUserStore } from '#/store';
+
+const userStore = useUserStore();
+const orgStore = useOrganizationStore();
 
 const data = ref();
 
@@ -66,10 +64,15 @@ const [BaseForm, baseFormApi] = useVbenForm({
       componentProps: {
         placeholder: $t('ui.placeholder.select'),
         api: async () => {
-          const result = await defOrganizationService.ListOrganization({
-            noPaging: true,
-            orderBy: [],
-          });
+          const result = await orgStore.listOrganization(
+            null,
+            null,
+            null,
+            null,
+            null,
+            true,
+          );
+
           return result.items;
         },
         numberToString: true,
@@ -142,18 +145,8 @@ const [Modal, modalApi] = useVbenModal({
 
     try {
       await (data.value?.create
-        ? defUserService.CreateUser({
-            data: {
-              ...values,
-            },
-          })
-        : defUserService.UpdateUser({
-            data: {
-              id: data.value.row.id,
-              ...values,
-            },
-            updateMask: makeUpdateMask(Object.keys(values)),
-          }));
+        ? userStore.createUser(values)
+        : userStore.updateUser(data.value.row.id, values));
 
       notification.success({
         message: `${getTitle.value}成功`,

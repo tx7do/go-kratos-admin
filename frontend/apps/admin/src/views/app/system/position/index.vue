@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { VxeGridProps } from '#/adapter/vxe-table';
-import type { User } from '#/rpc/api/user/service/v1/user.pb';
+import type { Position } from '#/rpc/api/user/service/v1/position.pb';
 
 import { Page, useVbenDrawer, type VbenFormProps } from '@vben/common-ui';
 
@@ -8,9 +8,11 @@ import { notification } from 'ant-design-vue';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
 import { $t } from '#/locales';
-import { defPositionService, makeQueryString, statusList } from '#/rpc';
+import { statusList, usePositionStore } from '#/store';
 
 import PositionDrawer from './position-drawer.vue';
+
+const positionStore = usePositionStore();
 
 const formOptions: VbenFormProps = {
   // 默认展开
@@ -41,7 +43,7 @@ const formOptions: VbenFormProps = {
   ],
 };
 
-const gridOptions: VxeGridProps<User> = {
+const gridOptions: VxeGridProps<Position> = {
   toolbarConfig: {
     custom: true,
     export: true,
@@ -68,13 +70,12 @@ const gridOptions: VxeGridProps<User> = {
     ajax: {
       query: async ({ page }, formValues) => {
         console.log('query:', formValues);
-        return await defPositionService.ListPosition({
-          fieldMask: null,
-          orderBy: [],
-          query: makeQueryString(formValues),
-          page: page.currentPage,
-          pageSize: page.pageSize,
-        });
+
+        return await positionStore.listPosition(
+          page.currentPage,
+          page.pageSize,
+          formValues,
+        );
       },
     },
   },
@@ -130,17 +131,17 @@ function handleEdit(row: any) {
 }
 
 /* 删除 */
-function handleDelete(row: any) {
+async function handleDelete(row: any) {
   console.log('删除', row);
 
   try {
-    defPositionService.DeletePosition({ id: row.id });
+    await positionStore.deletePosition(row.id);
 
     notification.success({
       message: '删除职位成功',
     });
 
-    gridApi.reload();
+    await gridApi.reload();
   } catch {
     notification.error({
       message: '删除职位失败',
@@ -156,10 +157,7 @@ async function handleStatusChanged(row: any, checked: boolean) {
   row.status = checked ? 'ON' : 'OFF';
 
   try {
-    await defPositionService.UpdatePosition({
-      data: { id: row.id, status: row.status },
-      updateMask: 'id,status',
-    });
+    await positionStore.updatePosition(row.id, { status: row.status });
 
     notification.success({
       message: '更新职位状态成功',

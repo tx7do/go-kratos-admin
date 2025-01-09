@@ -7,7 +7,9 @@ import { $t } from '@vben/locales';
 import { notification } from 'ant-design-vue';
 
 import { useVbenForm } from '#/adapter/form';
-import { defPositionService, makeUpdateMask, statusList } from '#/rpc';
+import { statusList, usePositionStore } from '#/store';
+
+const positionStore = usePositionStore();
 
 const data = ref();
 
@@ -77,20 +79,8 @@ const [Drawer, drawerApi] = useVbenDrawer({
 
     try {
       await (data.value?.create
-        ? defPositionService.CreatePosition({
-            data: {
-              ...values,
-              children: [],
-            },
-          })
-        : defPositionService.UpdatePosition({
-            data: {
-              id: data.value.row.id,
-              children: [],
-              ...values,
-            },
-            updateMask: makeUpdateMask(Object.keys(values)),
-          }));
+        ? positionStore.createPosition(values)
+        : positionStore.updatePosition(data.value.row.id, values));
 
       notification.success({
         message: `${getTitle.value}成功`,

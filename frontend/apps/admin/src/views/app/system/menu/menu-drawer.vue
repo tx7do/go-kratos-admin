@@ -9,15 +9,13 @@ import { addCollection } from '@iconify/vue';
 import { notification } from 'ant-design-vue';
 
 import { useVbenForm } from '#/adapter/form';
-import {
-  defMenuService,
-  makeUpdateMask,
-  menuTypeList,
-  statusList,
-} from '#/rpc';
+import { menuTypeList, statusList, useMenuStore } from '#/store';
+
+const menuStore = useMenuStore();
+
+addCollection(lucide);
 
 const data = ref();
-addCollection(lucide);
 
 const getTitle = computed(() => (data.value?.create ? '创建菜单' : '编辑菜单'));
 // const isCreate = computed(() => data.value?.create);
@@ -171,20 +169,8 @@ const [Drawer, drawerApi] = useVbenDrawer({
 
     try {
       await (data.value?.create
-        ? defMenuService.CreateMenu({
-            data: {
-              ...values,
-              children: [],
-            },
-          })
-        : defMenuService.UpdateMenu({
-            data: {
-              id: data.value.row.id,
-              children: [],
-              ...values,
-            },
-            updateMask: makeUpdateMask(Object.keys(values)),
-          }));
+        ? menuStore.createMenu(values)
+        : menuStore.updateMenu(data.value.row.id, values));
 
       notification.success({
         message: `${getTitle.value}成功`,

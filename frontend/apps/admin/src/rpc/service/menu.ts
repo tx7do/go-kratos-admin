@@ -10,7 +10,6 @@ import type {
   UpdateMenuRequest,
 } from '#/rpc/api/system/service/v1/menu.pb';
 
-import { MenuType } from '#/rpc/api/system/service/v1/menu.pb';
 import { requestClient } from '#/rpc/request';
 
 /** 后台菜单管理服务 */
@@ -43,9 +42,3 @@ class MenuServiceImpl implements MenuService {
 }
 
 export const defMenuService = new MenuServiceImpl();
-
-export const menuTypeList = [
-  { value: MenuType.FOLDER, label: '目录' },
-  { value: MenuType.MENU, label: '菜单' },
-  { value: MenuType.BUTTON, label: '按钮' },
-];

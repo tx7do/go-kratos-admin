@@ -12,11 +12,14 @@ import { router } from '#/router';
 import {
   authorityToColor,
   authorityToName,
-  defUserService,
-  makeQueryString,
-} from '#/rpc';
+  useOrganizationStore,
+  useUserStore,
+} from '#/store';
 
 import UserModal from './user-modal.vue';
+
+const userStore = useUserStore();
+const orgStore = useOrganizationStore();
 
 const formOptions: VbenFormProps = {
   // 默认展开
@@ -67,13 +70,12 @@ const gridOptions: VxeGridProps<User> = {
     ajax: {
       query: async ({ page }, formValues) => {
         // console.log('query:', filters, form, formValues);
-        return await defUserService.ListUser({
-          fieldMask: null,
-          orderBy: [],
-          query: makeQueryString(formValues),
-          page: page.currentPage,
-          pageSize: page.pageSize,
-        });
+
+        return await userStore.listUser(
+          page.currentPage,
+          page.pageSize,
+          formValues,
+        );
       },
     },
   },
@@ -133,17 +135,17 @@ function handleEdit(row: any) {
 }
 
 /* 删除 */
-function handleDelete(row: any) {
+async function handleDelete(row: any) {
   console.log('删除', row);
 
   try {
-    defUserService.DeleteUser({ id: row.id });
+    await userStore.deleteUser(row.id);
 
     notification.success({
       message: '删除用户成功',
     });
 
-    gridApi.reload();
+    await gridApi.reload();
   } catch {
     notification.error({
       message: '删除用户失败',
@@ -164,10 +166,7 @@ async function handleStatusChanged(row: any, checked: boolean) {
   row.status = checked ? 'ON' : 'OFF';
 
   try {
-    await defUserService.UpdateUser({
-      data: { id: row.id, status: row.status },
-      updateMask: 'id,status',
-    });
+    await userStore.updateUser(row.id, { status: row.status });
 
     notification.success({
       message: '更新用户状态成功',
@@ -194,7 +193,9 @@ async function handleStatusChanged(row: any, checked: boolean) {
           :loading="row.pending"
           checked-children="正常"
           un-checked-children="停用"
-          @change="(checked) => handleStatusChanged(row, checked as boolean)"
+          @change="
+            (checked: boolean) => handleStatusChanged(row, checked as boolean)
+          "
         />
       </template>
       <template #authority="{ row }">

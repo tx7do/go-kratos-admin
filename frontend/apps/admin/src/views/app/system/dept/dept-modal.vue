@@ -7,7 +7,9 @@ import { $t } from '@vben/locales';
 import { notification } from 'ant-design-vue';
 
 import { useVbenForm } from '#/adapter/form';
-import { defDepartmentService, makeUpdateMask, statusList } from '#/rpc';
+import { statusList, useDepartmentStore } from '#/store';
+
+const deptStore = useDepartmentStore();
 
 const data = ref();
 
@@ -96,20 +98,8 @@ const [Modal, modalApi] = useVbenModal({
 
     try {
       await (data.value?.create
-        ? defDepartmentService.CreateDepartment({
-            data: {
-              ...values,
-              children: [],
-            },
-          })
-        : defDepartmentService.UpdateDepartment({
-            data: {
-              id: data.value.row.id,
-              ...values,
-              children: [],
-            },
-            updateMask: makeUpdateMask(Object.keys(values)),
-          }));
+        ? deptStore.createDepartment(values)
+        : deptStore.updateDepartment(data.value.row.id, values));
 
       notification.success({
         message: `${getTitle.value}成功`,

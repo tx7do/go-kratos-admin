@@ -3,9 +3,11 @@ import type { TreeProps } from 'ant-design-vue';
 
 import { onMounted, ref } from 'vue';
 
-import { defOrganizationService } from '#/rpc';
+import { useOrganizationStore } from '#/store';
 
 const emit = defineEmits(['select']);
+
+const orgStore = useOrganizationStore();
 
 const expandedKeys = ref<(number | string)[]>([]);
 const searchValue = ref<string>('');
@@ -14,11 +16,14 @@ const treeData = ref<TreeProps['treeData']>([]);
 const dataList: TreeProps['treeData'] = [];
 
 async function fetch() {
-  const orgData =
-    (await defOrganizationService.ListOrganization({
-      noPaging: true,
-      orderBy: [],
-    })) || [];
+  const orgData = await orgStore.listOrganization(
+    null,
+    null,
+    null,
+    null,
+    null,
+    true,
+  );
 
   for (let i = 0; i < orgData.items.length; i++) {
     const node = orgData.items[i];

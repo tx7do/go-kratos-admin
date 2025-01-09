@@ -22,7 +22,7 @@ export interface Dict {
     | null
     | undefined;
   /** 字典分类名称 */
-  categoryName?:
+  categoryDesc?:
     | string
     | null
     | undefined;
@@ -37,7 +37,12 @@ export interface Dict {
     | null
     | undefined;
   /** 字典值名称 */
-  valueName?:
+  valueDesc?:
+    | string
+    | null
+    | undefined;
+  /** 字典值数据类型 */
+  valueDataType?:
     | string
     | null
     | undefined;

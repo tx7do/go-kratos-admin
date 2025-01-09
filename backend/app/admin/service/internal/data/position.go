@@ -101,7 +101,7 @@ func (r *PositionRepo) List(ctx context.Context, req *pagination.PagingRequest) 
 	}
 
 	return &userV1.ListPositionResponse{
-		Total: int32(count),
+		Total: uint32(count),
 		Items: items,
 	}, err
 }

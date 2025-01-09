@@ -146,7 +146,7 @@ func (r *OrganizationRepo) List(ctx context.Context, req *pagination.PagingReque
 	}
 
 	ret := userV1.ListOrganizationResponse{
-		Total: int32(count),
+		Total: uint32(count),
 		Items: items,
 	}
 

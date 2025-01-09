@@ -9,13 +9,12 @@ import (
 	"kratos-admin/app/admin/service/internal/data"
 
 	pagination "github.com/tx7do/kratos-bootstrap/api/gen/go/pagination/v1"
-
-	v1 "kratos-admin/api/gen/go/user/service/v1"
-	v12 "kratos-admin/api/gen/go/user/service/v1"
+	adminV1 "kratos-admin/api/gen/go/admin/service/v1"
+	userV1 "kratos-admin/api/gen/go/user/service/v1"
 )
 
 type OrganizationService struct {
-	v12.UnimplementedOrganizationServiceServer
+	adminV1.OrganizationServiceHTTPServer
 
 	log *log.Helper
 
@@ -30,15 +29,15 @@ func NewOrganizationService(uc *data.OrganizationRepo, logger log.Logger) *Organ
 	}
 }
 
-func (s *OrganizationService) ListOrganization(ctx context.Context, req *pagination.PagingRequest) (*v1.ListOrganizationResponse, error) {
+func (s *OrganizationService) ListOrganization(ctx context.Context, req *pagination.PagingRequest) (*userV1.ListOrganizationResponse, error) {
 	return s.uc.List(ctx, req)
 }
 
-func (s *OrganizationService) GetOrganization(ctx context.Context, req *v1.GetOrganizationRequest) (*v1.Organization, error) {
+func (s *OrganizationService) GetOrganization(ctx context.Context, req *userV1.GetOrganizationRequest) (*userV1.Organization, error) {
 	return s.uc.Get(ctx, req)
 }
 
-func (s *OrganizationService) CreateOrganization(ctx context.Context, req *v1.CreateOrganizationRequest) (*emptypb.Empty, error) {
+func (s *OrganizationService) CreateOrganization(ctx context.Context, req *userV1.CreateOrganizationRequest) (*emptypb.Empty, error) {
 	err := s.uc.Create(ctx, req)
 	if err != nil {
 
@@ -48,7 +47,7 @@ func (s *OrganizationService) CreateOrganization(ctx context.Context, req *v1.Cr
 	return &emptypb.Empty{}, nil
 }
 
-func (s *OrganizationService) UpdateOrganization(ctx context.Context, req *v1.UpdateOrganizationRequest) (*emptypb.Empty, error) {
+func (s *OrganizationService) UpdateOrganization(ctx context.Context, req *userV1.UpdateOrganizationRequest) (*emptypb.Empty, error) {
 	err := s.uc.Update(ctx, req)
 	if err != nil {
 
@@ -58,7 +57,7 @@ func (s *OrganizationService) UpdateOrganization(ctx context.Context, req *v1.Up
 	return &emptypb.Empty{}, nil
 }
 
-func (s *OrganizationService) DeleteOrganization(ctx context.Context, req *v1.DeleteOrganizationRequest) (*emptypb.Empty, error) {
+func (s *OrganizationService) DeleteOrganization(ctx context.Context, req *userV1.DeleteOrganizationRequest) (*emptypb.Empty, error) {
 	_, err := s.uc.Delete(ctx, req)
 	if err != nil {
 		return nil, err

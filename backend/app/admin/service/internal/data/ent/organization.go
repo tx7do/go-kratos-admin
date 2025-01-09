@@ -34,7 +34,7 @@ type Organization struct {
 	Remark *string `json:"remark,omitempty"`
 	// 名字
 	Name *string `json:"name,omitempty"`
-	// 上一层部门ID
+	// 上一层组织ID
 	ParentID *uint32 `json:"parent_id,omitempty"`
 	// 排序ID
 	SortID *int32 `json:"sort_id,omitempty"`

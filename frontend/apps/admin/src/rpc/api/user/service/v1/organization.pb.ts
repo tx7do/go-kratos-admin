@@ -9,14 +9,14 @@ import { type Empty } from "../../../google/protobuf/empty.pb";
 import { type Timestamp } from "../../../google/protobuf/timestamp.pb";
 import { type PagingRequest } from "../../../pagination/v1/pagination.pb";
 
-/** 部门 */
+/** 组织 */
 export interface Organization {
-  /** 部门ID */
+  /** 组织ID */
   id?:
     | number
     | null
     | undefined;
-  /** 部门名称 */
+  /** 组织名称 */
   name?:
     | string
     | null
@@ -57,25 +57,25 @@ export interface Organization {
   deleteTime?: Timestamp | null | undefined;
 }
 
-/** 部门列表 - 答复 */
+/** 组织列表 - 答复 */
 export interface ListOrganizationResponse {
   items: Organization[];
   total: number;
 }
 
-/** 部门数据 - 请求 */
+/** 组织数据 - 请求 */
 export interface GetOrganizationRequest {
   id: number;
 }
 
-/** 创建部门 - 请求 */
+/** 创建组织 - 请求 */
 export interface CreateOrganizationRequest {
   /** 操作用户ID */
   operatorId?: number | null | undefined;
   data: Organization | null;
 }
 
-/** 更新部门 - 请求 */
+/** 更新组织 - 请求 */
 export interface UpdateOrganizationRequest {
   /** 操作用户ID */
   operatorId?: number | null | undefined;
@@ -90,23 +90,23 @@ export interface UpdateOrganizationRequest {
   allowMissing?: boolean | null | undefined;
 }
 
-/** 删除部门 - 请求 */
+/** 删除组织 - 请求 */
 export interface DeleteOrganizationRequest {
   /** 操作用户ID */
   operatorId?: number | null | undefined;
   id: number;
 }
 
-/** 部门管理服务 */
+/** 组织服务 */
 export interface OrganizationService {
-  /** 查询部门列表 */
+  /** 查询组织列表 */
   ListOrganization(request: PagingRequest): Promise<ListOrganizationResponse>;
-  /** 查询部门详情 */
+  /** 查询组织详情 */
   GetOrganization(request: GetOrganizationRequest): Promise<Organization>;
-  /** 创建部门 */
+  /** 创建组织 */
   CreateOrganization(request: CreateOrganizationRequest): Promise<Empty>;
-  /** 更新部门 */
+  /** 更新组织 */
   UpdateOrganization(request: UpdateOrganizationRequest): Promise<Empty>;
-  /** 删除部门 */
+  /** 删除组织 */
   DeleteOrganization(request: DeleteOrganizationRequest): Promise<Empty>;
 }

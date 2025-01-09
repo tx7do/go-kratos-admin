@@ -16,11 +16,13 @@ var ProviderSet = wire.NewSet(
 	NewAuthorizer,
 
 	NewMenuRepo,
+	NewDictRepo,
+
 	NewOrganizationRepo,
+	NewDepartmentRepo,
 	NewPositionRepo,
 	NewRoleRepo,
 	NewUserRepo,
-	NewDictRepo,
 
 	NewUserTokenRepo,
 )

@@ -171,7 +171,7 @@ message User {
 // 获取用户列表 - 答复
 message ListUserResponse {
   repeated User items = 1;
-  int32 total = 2;
+  uint32 total = 2;
 }
 
 // 获取用户数据 - 请求

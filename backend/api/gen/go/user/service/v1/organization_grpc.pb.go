@@ -32,17 +32,17 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 //
-// 部门管理服务
+// 组织服务
 type OrganizationServiceClient interface {
-	// 查询部门列表
+	// 查询组织列表
 	ListOrganization(ctx context.Context, in *v1.PagingRequest, opts ...grpc.CallOption) (*ListOrganizationResponse, error)
-	// 查询部门详情
+	// 查询组织详情
 	GetOrganization(ctx context.Context, in *GetOrganizationRequest, opts ...grpc.CallOption) (*Organization, error)
-	// 创建部门
+	// 创建组织
 	CreateOrganization(ctx context.Context, in *CreateOrganizationRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
-	// 更新部门
+	// 更新组织
 	UpdateOrganization(ctx context.Context, in *UpdateOrganizationRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
-	// 删除部门
+	// 删除组织
 	DeleteOrganization(ctx context.Context, in *DeleteOrganizationRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 }
 
@@ -108,17 +108,17 @@ func (c *organizationServiceClient) DeleteOrganization(ctx context.Context, in *
 // All implementations must embed UnimplementedOrganizationServiceServer
 // for forward compatibility.
 //
-// 部门管理服务
+// 组织服务
 type OrganizationServiceServer interface {
-	// 查询部门列表
+	// 查询组织列表
 	ListOrganization(context.Context, *v1.PagingRequest) (*ListOrganizationResponse, error)
-	// 查询部门详情
+	// 查询组织详情
 	GetOrganization(context.Context, *GetOrganizationRequest) (*Organization, error)
-	// 创建部门
+	// 创建组织
 	CreateOrganization(context.Context, *CreateOrganizationRequest) (*emptypb.Empty, error)
-	// 更新部门
+	// 更新组织
 	UpdateOrganization(context.Context, *UpdateOrganizationRequest) (*emptypb.Empty, error)
-	// 删除部门
+	// 删除组织
 	DeleteOrganization(context.Context, *DeleteOrganizationRequest) (*emptypb.Empty, error)
 	mustEmbedUnimplementedOrganizationServiceServer()
 }

@@ -186,7 +186,7 @@ func (r *UserRepo) ListUser(ctx context.Context, req *pagination.PagingRequest) 
 	}
 
 	return &userV1.ListUserResponse{
-		Total: int32(count),
+		Total: uint32(count),
 		Items: items,
 	}, nil
 }

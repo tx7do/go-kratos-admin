@@ -9,10 +9,9 @@ import (
 
 	"kratos-admin/app/admin/service/internal/data"
 
+	pagination "github.com/tx7do/kratos-bootstrap/api/gen/go/pagination/v1"
 	adminV1 "kratos-admin/api/gen/go/admin/service/v1"
 	userV1 "kratos-admin/api/gen/go/user/service/v1"
-
-	pagination "github.com/tx7do/kratos-bootstrap/api/gen/go/pagination/v1"
 
 	"kratos-admin/pkg/middleware/auth"
 )

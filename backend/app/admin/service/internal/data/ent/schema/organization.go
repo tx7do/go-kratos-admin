@@ -35,7 +35,7 @@ func (Organization) Fields() []ent.Field {
 			Nillable(),
 
 		field.Uint32("parent_id").
-			Comment("上一层部门ID").
+			Comment("上一层组织ID").
 			Optional().
 			Nillable(),
 

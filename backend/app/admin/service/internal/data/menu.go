@@ -185,7 +185,7 @@ func (r *MenuRepo) List(ctx context.Context, req *pagination.PagingRequest) (*sy
 	}
 
 	return &systemV1.ListMenuResponse{
-		Total: int32(count),
+		Total: uint32(count),
 		Items: items,
 	}, nil
 }

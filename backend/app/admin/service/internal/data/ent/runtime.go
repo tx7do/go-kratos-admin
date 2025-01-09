@@ -3,6 +3,7 @@
 package ent
 
 import (
+	"kratos-admin/app/admin/service/internal/data/ent/department"
 	"kratos-admin/app/admin/service/internal/data/ent/dict"
 	"kratos-admin/app/admin/service/internal/data/ent/menu"
 	"kratos-admin/app/admin/service/internal/data/ent/organization"
@@ -16,6 +17,31 @@ import (
 // (default values, validators, hooks and policies) and stitches it
 // to their package variables.
 func init() {
+	departmentMixin := schema.Department{}.Mixin()
+	departmentMixinFields0 := departmentMixin[0].Fields()
+	_ = departmentMixinFields0
+	departmentMixinFields2 := departmentMixin[2].Fields()
+	_ = departmentMixinFields2
+	departmentMixinFields5 := departmentMixin[5].Fields()
+	_ = departmentMixinFields5
+	departmentFields := schema.Department{}.Fields()
+	_ = departmentFields
+	// departmentDescRemark is the schema descriptor for remark field.
+	departmentDescRemark := departmentMixinFields5[0].Descriptor()
+	// department.DefaultRemark holds the default value on creation for the remark field.
+	department.DefaultRemark = departmentDescRemark.Default.(string)
+	// departmentDescName is the schema descriptor for name field.
+	departmentDescName := departmentFields[0].Descriptor()
+	// department.DefaultName holds the default value on creation for the name field.
+	department.DefaultName = departmentDescName.Default.(string)
+	// departmentDescSortID is the schema descriptor for sort_id field.
+	departmentDescSortID := departmentFields[3].Descriptor()
+	// department.DefaultSortID holds the default value on creation for the sort_id field.
+	department.DefaultSortID = departmentDescSortID.Default.(int32)
+	// departmentDescID is the schema descriptor for id field.
+	departmentDescID := departmentMixinFields0[0].Descriptor()
+	// department.IDValidator is a validator for the "id" field. It is called by the builders before save.
+	department.IDValidator = departmentDescID.Validators[0].(func(uint32) error)
 	dictMixin := schema.Dict{}.Mixin()
 	dictMixinFields0 := dictMixin[0].Fields()
 	_ = dictMixinFields0

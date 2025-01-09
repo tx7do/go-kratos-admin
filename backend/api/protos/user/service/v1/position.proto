@@ -59,7 +59,7 @@ message Position {
 // 获取职位列表 - 答复
 message ListPositionResponse {
   repeated Position items = 1;
-  int32 total = 2;
+  uint32 total = 2;
 }
 
 // 获取职位数据 - 请求

@@ -12,26 +12,28 @@ import type {
 
 import { requestClient } from '#/rpc/request';
 
-/** 组织部门管理服务 */
+/** 组织管理服务 */
 class OrganizationServiceImpl implements OrganizationService {
   async CreateOrganization(request: CreateOrganizationRequest): Promise<Empty> {
-    return await requestClient.post<Empty>('/orgs', request);
+    return await requestClient.post<Empty>('/organizations', request);
   }
 
   async DeleteOrganization(request: DeleteOrganizationRequest): Promise<Empty> {
-    return await requestClient.delete<Empty>(`/orgs/${request.id}`);
+    return await requestClient.delete<Empty>(`/organizations/${request.id}`);
   }
 
   async GetOrganization(
     request: GetOrganizationRequest,
   ): Promise<Organization> {
-    return await requestClient.get<Organization>(`/orgs/${request.id}`);
+    return await requestClient.get<Organization>(
+      `/organizations/${request.id}`,
+    );
   }
 
   async ListOrganization(
     request: PagingRequest,
   ): Promise<ListOrganizationResponse> {
-    return await requestClient.get<ListOrganizationResponse>('/orgs', {
+    return await requestClient.get<ListOrganizationResponse>('/organizations', {
       params: request,
     });
   }
@@ -39,7 +41,7 @@ class OrganizationServiceImpl implements OrganizationService {
   async UpdateOrganization(request: UpdateOrganizationRequest): Promise<Empty> {
     const id = request.data?.id;
     if (request.data !== null) request.data.id = undefined;
-    return await requestClient.put<Empty>(`/orgs/${id}`, request);
+    return await requestClient.put<Empty>(`/organizations/${id}`, request);
   }
 }
 

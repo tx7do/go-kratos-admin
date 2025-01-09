@@ -101,7 +101,7 @@ func (r *RoleRepo) List(ctx context.Context, req *pagination.PagingRequest) (*us
 	}
 
 	return &userV1.ListRoleResponse{
-		Total: int32(count),
+		Total: uint32(count),
 		Items: items,
 	}, err
 }

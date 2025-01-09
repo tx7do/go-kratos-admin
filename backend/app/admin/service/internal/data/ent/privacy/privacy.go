@@ -111,6 +111,30 @@ func DenyMutationOperationRule(op ent.Op) MutationRule {
 	return OnMutationOperation(rule, op)
 }
 
+// The DepartmentQueryRuleFunc type is an adapter to allow the use of ordinary
+// functions as a query rule.
+type DepartmentQueryRuleFunc func(context.Context, *ent.DepartmentQuery) error
+
+// EvalQuery return f(ctx, q).
+func (f DepartmentQueryRuleFunc) EvalQuery(ctx context.Context, q ent.Query) error {
+	if q, ok := q.(*ent.DepartmentQuery); ok {
+		return f(ctx, q)
+	}
+	return Denyf("ent/privacy: unexpected query type %T, expect *ent.DepartmentQuery", q)
+}
+
+// The DepartmentMutationRuleFunc type is an adapter to allow the use of ordinary
+// functions as a mutation rule.
+type DepartmentMutationRuleFunc func(context.Context, *ent.DepartmentMutation) error
+
+// EvalMutation calls f(ctx, m).
+func (f DepartmentMutationRuleFunc) EvalMutation(ctx context.Context, m ent.Mutation) error {
+	if m, ok := m.(*ent.DepartmentMutation); ok {
+		return f(ctx, m)
+	}
+	return Denyf("ent/privacy: unexpected mutation type %T, expect *ent.DepartmentMutation", m)
+}
+
 // The DictQueryRuleFunc type is an adapter to allow the use of ordinary
 // functions as a query rule.
 type DictQueryRuleFunc func(context.Context, *ent.DictQuery) error
@@ -290,6 +314,8 @@ var _ QueryMutationRule = FilterFunc(nil)
 
 func queryFilter(q ent.Query) (Filter, error) {
 	switch q := q.(type) {
+	case *ent.DepartmentQuery:
+		return q.Filter(), nil
 	case *ent.DictQuery:
 		return q.Filter(), nil
 	case *ent.MenuQuery:
@@ -309,6 +335,8 @@ func queryFilter(q ent.Query) (Filter, error) {
 
 func mutationFilter(m ent.Mutation) (Filter, error) {
 	switch m := m.(type) {
+	case *ent.DepartmentMutation:
+		return m.Filter(), nil
 	case *ent.DictMutation:
 		return m.Filter(), nil
 	case *ent.MenuMutation:

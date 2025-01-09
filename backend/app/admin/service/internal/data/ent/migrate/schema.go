@@ -9,6 +9,42 @@ import (
 )
 
 var (
+	// DepartmentsColumns holds the columns for the "departments" table.
+	DepartmentsColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeUint32, Increment: true, Comment: "id", SchemaType: map[string]string{"mysql": "int", "postgres": "serial"}},
+		{Name: "create_time", Type: field.TypeTime, Nullable: true, Comment: "创建时间"},
+		{Name: "update_time", Type: field.TypeTime, Nullable: true, Comment: "更新时间"},
+		{Name: "delete_time", Type: field.TypeTime, Nullable: true, Comment: "删除时间"},
+		{Name: "status", Type: field.TypeEnum, Nullable: true, Comment: "状态", Enums: []string{"OFF", "ON"}, Default: "ON"},
+		{Name: "create_by", Type: field.TypeUint32, Nullable: true, Comment: "创建者ID"},
+		{Name: "update_by", Type: field.TypeUint32, Nullable: true, Comment: "更新者ID"},
+		{Name: "remark", Type: field.TypeString, Nullable: true, Comment: "备注", Default: ""},
+		{Name: "name", Type: field.TypeString, Nullable: true, Comment: "名字", Default: ""},
+		{Name: "organization_id", Type: field.TypeUint32, Nullable: true, Comment: "所属组织ID"},
+		{Name: "sort_id", Type: field.TypeInt32, Nullable: true, Comment: "排序ID", Default: 0},
+		{Name: "parent_id", Type: field.TypeUint32, Nullable: true, Comment: "上一层部门ID", SchemaType: map[string]string{"mysql": "int", "postgres": "serial"}},
+	}
+	// DepartmentsTable holds the schema information for the "departments" table.
+	DepartmentsTable = &schema.Table{
+		Name:       "departments",
+		Columns:    DepartmentsColumns,
+		PrimaryKey: []*schema.Column{DepartmentsColumns[0]},
+		ForeignKeys: []*schema.ForeignKey{
+			{
+				Symbol:     "departments_departments_children",
+				Columns:    []*schema.Column{DepartmentsColumns[11]},
+				RefColumns: []*schema.Column{DepartmentsColumns[0]},
+				OnDelete:   schema.SetNull,
+			},
+		},
+		Indexes: []*schema.Index{
+			{
+				Name:    "department_id",
+				Unique:  false,
+				Columns: []*schema.Column{DepartmentsColumns[0]},
+			},
+		},
+	}
 	// DictColumns holds the columns for the "dict" table.
 	DictColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeUint32, Increment: true, Comment: "id", SchemaType: map[string]string{"mysql": "int", "postgres": "serial"}},
@@ -85,7 +121,7 @@ var (
 		{Name: "remark", Type: field.TypeString, Nullable: true, Comment: "备注", Default: ""},
 		{Name: "name", Type: field.TypeString, Nullable: true, Comment: "名字", Default: ""},
 		{Name: "sort_id", Type: field.TypeInt32, Nullable: true, Comment: "排序ID", Default: 0},
-		{Name: "parent_id", Type: field.TypeUint32, Nullable: true, Comment: "上一层部门ID", SchemaType: map[string]string{"mysql": "int", "postgres": "serial"}},
+		{Name: "parent_id", Type: field.TypeUint32, Nullable: true, Comment: "上一层组织ID", SchemaType: map[string]string{"mysql": "int", "postgres": "serial"}},
 	}
 	// OrganizationsTable holds the schema information for the "organizations" table.
 	OrganizationsTable = &schema.Table{
@@ -230,6 +266,7 @@ var (
 	}
 	// Tables holds all the tables in the schema.
 	Tables = []*schema.Table{
+		DepartmentsTable,
 		DictTable,
 		MenusTable,
 		OrganizationsTable,
@@ -240,6 +277,12 @@ var (
 )
 
 func init() {
+	DepartmentsTable.ForeignKeys[0].RefTable = DepartmentsTable
+	DepartmentsTable.Annotation = &entsql.Annotation{
+		Table:     "departments",
+		Charset:   "utf8mb4",
+		Collation: "utf8mb4_bin",
+	}
 	DictTable.Annotation = &entsql.Annotation{
 		Table:     "dict",
 		Charset:   "utf8mb4",

@@ -3,6 +3,7 @@
 package ent
 
 import (
+	"kratos-admin/app/admin/service/internal/data/ent/department"
 	"kratos-admin/app/admin/service/internal/data/ent/dict"
 	"kratos-admin/app/admin/service/internal/data/ent/menu"
 	"kratos-admin/app/admin/service/internal/data/ent/organization"
@@ -19,8 +20,32 @@ import (
 
 // schemaGraph holds a representation of ent/schema at runtime.
 var schemaGraph = func() *sqlgraph.Schema {
-	graph := &sqlgraph.Schema{Nodes: make([]*sqlgraph.Node, 6)}
+	graph := &sqlgraph.Schema{Nodes: make([]*sqlgraph.Node, 7)}
 	graph.Nodes[0] = &sqlgraph.Node{
+		NodeSpec: sqlgraph.NodeSpec{
+			Table:   department.Table,
+			Columns: department.Columns,
+			ID: &sqlgraph.FieldSpec{
+				Type:   field.TypeUint32,
+				Column: department.FieldID,
+			},
+		},
+		Type: "Department",
+		Fields: map[string]*sqlgraph.FieldSpec{
+			department.FieldCreateTime:     {Type: field.TypeTime, Column: department.FieldCreateTime},
+			department.FieldUpdateTime:     {Type: field.TypeTime, Column: department.FieldUpdateTime},
+			department.FieldDeleteTime:     {Type: field.TypeTime, Column: department.FieldDeleteTime},
+			department.FieldStatus:         {Type: field.TypeEnum, Column: department.FieldStatus},
+			department.FieldCreateBy:       {Type: field.TypeUint32, Column: department.FieldCreateBy},
+			department.FieldUpdateBy:       {Type: field.TypeUint32, Column: department.FieldUpdateBy},
+			department.FieldRemark:         {Type: field.TypeString, Column: department.FieldRemark},
+			department.FieldName:           {Type: field.TypeString, Column: department.FieldName},
+			department.FieldParentID:       {Type: field.TypeUint32, Column: department.FieldParentID},
+			department.FieldOrganizationID: {Type: field.TypeUint32, Column: department.FieldOrganizationID},
+			department.FieldSortID:         {Type: field.TypeInt32, Column: department.FieldSortID},
+		},
+	}
+	graph.Nodes[1] = &sqlgraph.Node{
 		NodeSpec: sqlgraph.NodeSpec{
 			Table:   dict.Table,
 			Columns: dict.Columns,
@@ -47,7 +72,7 @@ var schemaGraph = func() *sqlgraph.Schema {
 			dict.FieldSortID:        {Type: field.TypeInt32, Column: dict.FieldSortID},
 		},
 	}
-	graph.Nodes[1] = &sqlgraph.Node{
+	graph.Nodes[2] = &sqlgraph.Node{
 		NodeSpec: sqlgraph.NodeSpec{
 			Table:   menu.Table,
 			Columns: menu.Columns,
@@ -75,7 +100,7 @@ var schemaGraph = func() *sqlgraph.Schema {
 			menu.FieldMeta:       {Type: field.TypeJSON, Column: menu.FieldMeta},
 		},
 	}
-	graph.Nodes[2] = &sqlgraph.Node{
+	graph.Nodes[3] = &sqlgraph.Node{
 		NodeSpec: sqlgraph.NodeSpec{
 			Table:   organization.Table,
 			Columns: organization.Columns,
@@ -98,7 +123,7 @@ var schemaGraph = func() *sqlgraph.Schema {
 			organization.FieldSortID:     {Type: field.TypeInt32, Column: organization.FieldSortID},
 		},
 	}
-	graph.Nodes[3] = &sqlgraph.Node{
+	graph.Nodes[4] = &sqlgraph.Node{
 		NodeSpec: sqlgraph.NodeSpec{
 			Table:   position.Table,
 			Columns: position.Columns,
@@ -122,7 +147,7 @@ var schemaGraph = func() *sqlgraph.Schema {
 			position.FieldSortID:     {Type: field.TypeInt32, Column: position.FieldSortID},
 		},
 	}
-	graph.Nodes[4] = &sqlgraph.Node{
+	graph.Nodes[5] = &sqlgraph.Node{
 		NodeSpec: sqlgraph.NodeSpec{
 			Table:   role.Table,
 			Columns: role.Columns,
@@ -146,7 +171,7 @@ var schemaGraph = func() *sqlgraph.Schema {
 			role.FieldSortID:     {Type: field.TypeInt32, Column: role.FieldSortID},
 		},
 	}
-	graph.Nodes[5] = &sqlgraph.Node{
+	graph.Nodes[6] = &sqlgraph.Node{
 		NodeSpec: sqlgraph.NodeSpec{
 			Table:   user.Table,
 			Columns: user.Columns,
@@ -185,6 +210,30 @@ var schemaGraph = func() *sqlgraph.Schema {
 			user.FieldWorkID:        {Type: field.TypeUint32, Column: user.FieldWorkID},
 		},
 	}
+	graph.MustAddE(
+		"parent",
+		&sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2O,
+			Inverse: true,
+			Table:   department.ParentTable,
+			Columns: []string{department.ParentColumn},
+			Bidi:    false,
+		},
+		"Department",
+		"Department",
+	)
+	graph.MustAddE(
+		"children",
+		&sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   department.ChildrenTable,
+			Columns: []string{department.ChildrenColumn},
+			Bidi:    false,
+		},
+		"Department",
+		"Department",
+	)
 	graph.MustAddE(
 		"parent",
 		&sqlgraph.EdgeSpec{
@@ -291,6 +340,129 @@ type predicateAdder interface {
 }
 
 // addPredicate implements the predicateAdder interface.
+func (dq *DepartmentQuery) addPredicate(pred func(s *sql.Selector)) {
+	dq.predicates = append(dq.predicates, pred)
+}
+
+// Filter returns a Filter implementation to apply filters on the DepartmentQuery builder.
+func (dq *DepartmentQuery) Filter() *DepartmentFilter {
+	return &DepartmentFilter{config: dq.config, predicateAdder: dq}
+}
+
+// addPredicate implements the predicateAdder interface.
+func (m *DepartmentMutation) addPredicate(pred func(s *sql.Selector)) {
+	m.predicates = append(m.predicates, pred)
+}
+
+// Filter returns an entql.Where implementation to apply filters on the DepartmentMutation builder.
+func (m *DepartmentMutation) Filter() *DepartmentFilter {
+	return &DepartmentFilter{config: m.config, predicateAdder: m}
+}
+
+// DepartmentFilter provides a generic filtering capability at runtime for DepartmentQuery.
+type DepartmentFilter struct {
+	predicateAdder
+	config
+}
+
+// Where applies the entql predicate on the query filter.
+func (f *DepartmentFilter) Where(p entql.P) {
+	f.addPredicate(func(s *sql.Selector) {
+		if err := schemaGraph.EvalP(schemaGraph.Nodes[0].Type, p, s); err != nil {
+			s.AddError(err)
+		}
+	})
+}
+
+// WhereID applies the entql uint32 predicate on the id field.
+func (f *DepartmentFilter) WhereID(p entql.Uint32P) {
+	f.Where(p.Field(department.FieldID))
+}
+
+// WhereCreateTime applies the entql time.Time predicate on the create_time field.
+func (f *DepartmentFilter) WhereCreateTime(p entql.TimeP) {
+	f.Where(p.Field(department.FieldCreateTime))
+}
+
+// WhereUpdateTime applies the entql time.Time predicate on the update_time field.
+func (f *DepartmentFilter) WhereUpdateTime(p entql.TimeP) {
+	f.Where(p.Field(department.FieldUpdateTime))
+}
+
+// WhereDeleteTime applies the entql time.Time predicate on the delete_time field.
+func (f *DepartmentFilter) WhereDeleteTime(p entql.TimeP) {
+	f.Where(p.Field(department.FieldDeleteTime))
+}
+
+// WhereStatus applies the entql string predicate on the status field.
+func (f *DepartmentFilter) WhereStatus(p entql.StringP) {
+	f.Where(p.Field(department.FieldStatus))
+}
+
+// WhereCreateBy applies the entql uint32 predicate on the create_by field.
+func (f *DepartmentFilter) WhereCreateBy(p entql.Uint32P) {
+	f.Where(p.Field(department.FieldCreateBy))
+}
+
+// WhereUpdateBy applies the entql uint32 predicate on the update_by field.
+func (f *DepartmentFilter) WhereUpdateBy(p entql.Uint32P) {
+	f.Where(p.Field(department.FieldUpdateBy))
+}
+
+// WhereRemark applies the entql string predicate on the remark field.
+func (f *DepartmentFilter) WhereRemark(p entql.StringP) {
+	f.Where(p.Field(department.FieldRemark))
+}
+
+// WhereName applies the entql string predicate on the name field.
+func (f *DepartmentFilter) WhereName(p entql.StringP) {
+	f.Where(p.Field(department.FieldName))
+}
+
+// WhereParentID applies the entql uint32 predicate on the parent_id field.
+func (f *DepartmentFilter) WhereParentID(p entql.Uint32P) {
+	f.Where(p.Field(department.FieldParentID))
+}
+
+// WhereOrganizationID applies the entql uint32 predicate on the organization_id field.
+func (f *DepartmentFilter) WhereOrganizationID(p entql.Uint32P) {
+	f.Where(p.Field(department.FieldOrganizationID))
+}
+
+// WhereSortID applies the entql int32 predicate on the sort_id field.
+func (f *DepartmentFilter) WhereSortID(p entql.Int32P) {
+	f.Where(p.Field(department.FieldSortID))
+}
+
+// WhereHasParent applies a predicate to check if query has an edge parent.
+func (f *DepartmentFilter) WhereHasParent() {
+	f.Where(entql.HasEdge("parent"))
+}
+
+// WhereHasParentWith applies a predicate to check if query has an edge parent with a given conditions (other predicates).
+func (f *DepartmentFilter) WhereHasParentWith(preds ...predicate.Department) {
+	f.Where(entql.HasEdgeWith("parent", sqlgraph.WrapFunc(func(s *sql.Selector) {
+		for _, p := range preds {
+			p(s)
+		}
+	})))
+}
+
+// WhereHasChildren applies a predicate to check if query has an edge children.
+func (f *DepartmentFilter) WhereHasChildren() {
+	f.Where(entql.HasEdge("children"))
+}
+
+// WhereHasChildrenWith applies a predicate to check if query has an edge children with a given conditions (other predicates).
+func (f *DepartmentFilter) WhereHasChildrenWith(preds ...predicate.Department) {
+	f.Where(entql.HasEdgeWith("children", sqlgraph.WrapFunc(func(s *sql.Selector) {
+		for _, p := range preds {
+			p(s)
+		}
+	})))
+}
+
+// addPredicate implements the predicateAdder interface.
 func (dq *DictQuery) addPredicate(pred func(s *sql.Selector)) {
 	dq.predicates = append(dq.predicates, pred)
 }
@@ -319,7 +491,7 @@ type DictFilter struct {
 // Where applies the entql predicate on the query filter.
 func (f *DictFilter) Where(p entql.P) {
 	f.addPredicate(func(s *sql.Selector) {
-		if err := schemaGraph.EvalP(schemaGraph.Nodes[0].Type, p, s); err != nil {
+		if err := schemaGraph.EvalP(schemaGraph.Nodes[1].Type, p, s); err != nil {
 			s.AddError(err)
 		}
 	})
@@ -429,7 +601,7 @@ type MenuFilter struct {
 // Where applies the entql predicate on the query filter.
 func (f *MenuFilter) Where(p entql.P) {
 	f.addPredicate(func(s *sql.Selector) {
-		if err := schemaGraph.EvalP(schemaGraph.Nodes[1].Type, p, s); err != nil {
+		if err := schemaGraph.EvalP(schemaGraph.Nodes[2].Type, p, s); err != nil {
 			s.AddError(err)
 		}
 	})
@@ -572,7 +744,7 @@ type OrganizationFilter struct {
 // Where applies the entql predicate on the query filter.
 func (f *OrganizationFilter) Where(p entql.P) {
 	f.addPredicate(func(s *sql.Selector) {
-		if err := schemaGraph.EvalP(schemaGraph.Nodes[2].Type, p, s); err != nil {
+		if err := schemaGraph.EvalP(schemaGraph.Nodes[3].Type, p, s); err != nil {
 			s.AddError(err)
 		}
 	})
@@ -690,7 +862,7 @@ type PositionFilter struct {
 // Where applies the entql predicate on the query filter.
 func (f *PositionFilter) Where(p entql.P) {
 	f.addPredicate(func(s *sql.Selector) {
-		if err := schemaGraph.EvalP(schemaGraph.Nodes[3].Type, p, s); err != nil {
+		if err := schemaGraph.EvalP(schemaGraph.Nodes[4].Type, p, s); err != nil {
 			s.AddError(err)
 		}
 	})
@@ -813,7 +985,7 @@ type RoleFilter struct {
 // Where applies the entql predicate on the query filter.
 func (f *RoleFilter) Where(p entql.P) {
 	f.addPredicate(func(s *sql.Selector) {
-		if err := schemaGraph.EvalP(schemaGraph.Nodes[4].Type, p, s); err != nil {
+		if err := schemaGraph.EvalP(schemaGraph.Nodes[5].Type, p, s); err != nil {
 			s.AddError(err)
 		}
 	})
@@ -936,7 +1108,7 @@ type UserFilter struct {
 // Where applies the entql predicate on the query filter.
 func (f *UserFilter) Where(p entql.P) {
 	f.addPredicate(func(s *sql.Selector) {
-		if err := schemaGraph.EvalP(schemaGraph.Nodes[5].Type, p, s); err != nil {
+		if err := schemaGraph.EvalP(schemaGraph.Nodes[6].Type, p, s); err != nil {
 			s.AddError(err)
 		}
 	})

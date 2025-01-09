@@ -16,16 +16,16 @@ import {
   type UpdateOrganizationRequest,
 } from "../../../user/service/v1/organization.pb";
 
-/** 组织部门管理服务 */
+/** 组织管理服务 */
 export interface OrganizationService {
-  /** 查询部门列表 */
+  /** 查询组织列表 */
   ListOrganization(request: PagingRequest): Promise<ListOrganizationResponse>;
-  /** 查询部门详情 */
+  /** 查询组织详情 */
   GetOrganization(request: GetOrganizationRequest): Promise<Organization>;
-  /** 创建部门 */
+  /** 创建组织 */
   CreateOrganization(request: CreateOrganizationRequest): Promise<Empty>;
-  /** 更新部门 */
+  /** 更新组织 */
   UpdateOrganization(request: UpdateOrganizationRequest): Promise<Empty>;
-  /** 删除部门 */
+  /** 删除组织 */
   DeleteOrganization(request: DeleteOrganizationRequest): Promise<Empty>;
 }

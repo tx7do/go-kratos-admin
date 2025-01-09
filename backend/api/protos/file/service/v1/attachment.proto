@@ -49,7 +49,7 @@ message Attachment {
 // 附件列表 - 回应
 message ListAttachmentResponse {
   repeated Attachment items = 1;
-  int32 total = 2;
+  uint32 total = 2;
 }
 
 // 附件数据 - 请求

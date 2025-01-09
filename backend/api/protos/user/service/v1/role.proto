@@ -59,7 +59,7 @@ message Role {
 // 角色列表 - 答复
 message ListRoleResponse {
   repeated Role items = 1;
-  int32 total = 2;
+  uint32 total = 2;
 }
 
 // 角色数据 - 请求

@@ -8,6 +8,18 @@ import (
 	"kratos-admin/app/admin/service/internal/data/ent"
 )
 
+// The DepartmentFunc type is an adapter to allow the use of ordinary
+// function as Department mutator.
+type DepartmentFunc func(context.Context, *ent.DepartmentMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f DepartmentFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.DepartmentMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.DepartmentMutation", m)
+}
+
 // The DictFunc type is an adapter to allow the use of ordinary
 // function as Dict mutator.
 type DictFunc func(context.Context, *ent.DictMutation) (ent.Value, error)

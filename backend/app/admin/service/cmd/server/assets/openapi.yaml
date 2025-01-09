@@ -14,6 +14,138 @@ info:
         url: https://github.com/tx7do/kratos-admin/blob/master/LICENSE
     version: "1.0"
 paths:
+    /admin/v1/departments:
+        get:
+            tags:
+                - DepartmentService
+            description: 查询部门列表
+            operationId: DepartmentService_ListDepartment
+            parameters:
+                - name: page
+                  in: query
+                  description: 当前页码
+                  schema:
+                    type: integer
+                    format: int32
+                - name: pageSize
+                  in: query
+                  description: 每一页的行数
+                  schema:
+                    type: integer
+                    format: int32
+                - name: query
+                  in: query
+                  description: AND过滤参数，其语法为json格式的字符串，如：{"key1":"val1","key2":"val2"}，具体请参见：https://github.com/tx7do/go-utils/tree/main/entgo/query/README.md
+                  schema:
+                    type: string
+                - name: or
+                  in: query
+                  description: OR过滤参数，语法同AND过滤参数。
+                  schema:
+                    type: string
+                - name: orderBy
+                  in: query
+                  description: 排序条件，其语法为JSON字符串，例如：{"val1", "-val2"}。字段名前加'-'为降序，否则为升序。
+                  schema:
+                    type: array
+                    items:
+                        type: string
+                - name: noPaging
+                  in: query
+                  description: 是否不分页，如果为true，则page和pageSize参数无效。
+                  schema:
+                    type: boolean
+                - name: fieldMask
+                  in: query
+                  description: 字段掩码，其作用为SELECT中的字段，其语法为使用逗号分隔字段名，例如：id,realName,userName。如果为空则选中所有字段，即SELECT *。
+                  schema:
+                    type: string
+                    format: field-mask
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ListDepartmentResponse'
+        post:
+            tags:
+                - DepartmentService
+            description: 创建部门
+            operationId: DepartmentService_CreateDepartment
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/CreateDepartmentRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content: {}
+    /admin/v1/departments/{data.id}:
+        put:
+            tags:
+                - DepartmentService
+            description: 更新部门
+            operationId: DepartmentService_UpdateDepartment
+            parameters:
+                - name: data.id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/UpdateDepartmentRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content: {}
+    /admin/v1/departments/{id}:
+        get:
+            tags:
+                - DepartmentService
+            description: 查询部门详情
+            operationId: DepartmentService_GetDepartment
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: uint32
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Department'
+        delete:
+            tags:
+                - DepartmentService
+            description: 删除部门
+            operationId: DepartmentService_DeleteDepartment
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: uint32
+                - name: operatorId
+                  in: query
+                  schema:
+                    type: integer
+                    format: uint32
+            responses:
+                "200":
+                    description: OK
+                    content: {}
     /admin/v1/dict:
         get:
             tags:
@@ -334,11 +466,11 @@ paths:
                 "200":
                     description: OK
                     content: {}
-    /admin/v1/orgs:
+    /admin/v1/organizations:
         get:
             tags:
                 - OrganizationService
-            description: 查询部门列表
+            description: 查询组织列表
             operationId: OrganizationService_ListOrganization
             parameters:
                 - name: page
@@ -391,7 +523,7 @@ paths:
         post:
             tags:
                 - OrganizationService
-            description: 创建部门
+            description: 创建组织
             operationId: OrganizationService_CreateOrganization
             requestBody:
                 content:
@@ -403,11 +535,11 @@ paths:
                 "200":
                     description: OK
                     content: {}
-    /admin/v1/orgs/{data.id}:
+    /admin/v1/organizations/{data.id}:
         put:
             tags:
                 - OrganizationService
-            description: 更新部门
+            description: 更新组织
             operationId: OrganizationService_UpdateOrganization
             parameters:
                 - name: data.id
@@ -425,11 +557,11 @@ paths:
                 "200":
                     description: OK
                     content: {}
-    /admin/v1/orgs/{id}:
+    /admin/v1/organizations/{id}:
         get:
             tags:
                 - OrganizationService
-            description: 查询部门详情
+            description: 查询组织详情
             operationId: OrganizationService_GetOrganization
             parameters:
                 - name: id
@@ -448,7 +580,7 @@ paths:
         delete:
             tags:
                 - OrganizationService
-            description: 删除部门
+            description: 删除组织
             operationId: OrganizationService_DeleteOrganization
             parameters:
                 - name: id
@@ -909,6 +1041,17 @@ paths:
                     content: {}
 components:
     schemas:
+        CreateDepartmentRequest:
+            type: object
+            properties:
+                operatorId:
+                    readOnly: true
+                    type: integer
+                    description: 操作用户ID
+                    format: uint32
+                data:
+                    $ref: '#/components/schemas/Department'
+            description: 创建部门 - 请求
         CreateDictRequest:
             type: object
             properties:
@@ -941,7 +1084,7 @@ components:
                     format: uint32
                 data:
                     $ref: '#/components/schemas/Organization'
-            description: 创建部门 - 请求
+            description: 创建组织 - 请求
         CreatePositionRequest:
             type: object
             properties:
@@ -979,6 +1122,59 @@ components:
                     type: string
                     description: 用户登录密码
             description: 创建用户 - 请求
+        Department:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    description: 部门ID
+                    format: uint32
+                name:
+                    type: string
+                    description: 部门名称
+                organizationId:
+                    type: integer
+                    description: 所属组织ID
+                    format: int32
+                organizationName:
+                    type: string
+                    description: 所属组织名称
+                sortId:
+                    type: integer
+                    description: 排序编号
+                    format: int32
+                status:
+                    enum:
+                        - ON
+                        - OFF
+                    type: string
+                    default: ON
+                    description: 状态
+                remark:
+                    type: string
+                    description: 备注
+                parentId:
+                    type: integer
+                    description: 父节点ID
+                    format: uint32
+                children:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Department'
+                    description: 子节点树
+                createTime:
+                    type: string
+                    description: 创建时间
+                    format: date-time
+                updateTime:
+                    type: string
+                    description: 更新时间
+                    format: date-time
+                deleteTime:
+                    type: string
+                    description: 删除时间
+                    format: date-time
+            description: 部门
         Dict:
             type: object
             properties:
@@ -1048,6 +1244,17 @@ components:
                     type: object
                     description: 元数据
             description: Kratos错误返回
+        ListDepartmentResponse:
+            type: object
+            properties:
+                items:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Department'
+                total:
+                    type: integer
+                    format: uint32
+            description: 部门列表 - 答复
         ListDictResponse:
             type: object
             properties:
@@ -1068,7 +1275,7 @@ components:
                         $ref: '#/components/schemas/Menu'
                 total:
                     type: integer
-                    format: int32
+                    format: uint32
             description: 查询菜单列表 - 回应
         ListOrganizationResponse:
             type: object
@@ -1079,8 +1286,8 @@ components:
                         $ref: '#/components/schemas/Organization'
                 total:
                     type: integer
-                    format: int32
-            description: 部门列表 - 答复
+                    format: uint32
+            description: 组织列表 - 答复
         ListPermissionCodeResponse:
             type: object
             properties:
@@ -1098,7 +1305,7 @@ components:
                         $ref: '#/components/schemas/Position'
                 total:
                     type: integer
-                    format: int32
+                    format: uint32
             description: 获取职位列表 - 答复
         ListRoleResponse:
             type: object
@@ -1109,7 +1316,7 @@ components:
                         $ref: '#/components/schemas/Role'
                 total:
                     type: integer
-                    format: int32
+                    format: uint32
             description: 角色列表 - 答复
         ListRouteResponse:
             type: object
@@ -1128,7 +1335,7 @@ components:
                         $ref: '#/components/schemas/User'
                 total:
                     type: integer
-                    format: int32
+                    format: uint32
             description: 获取用户列表 - 答复
         LoginRequest:
             required:
@@ -1254,11 +1461,11 @@ components:
             properties:
                 id:
                     type: integer
-                    description: 部门ID
+                    description: 组织ID
                     format: uint32
                 name:
                     type: string
-                    description: 部门名称
+                    description: 组织名称
                 sortId:
                     type: integer
                     description: 排序编号
@@ -1294,7 +1501,7 @@ components:
                     type: string
                     description: 删除时间
                     format: date-time
-            description: 部门
+            description: 组织
         Position:
             type: object
             properties:
@@ -1529,6 +1736,25 @@ components:
                     type: string
                     description: 标题名称，路由上显示的标题
             description: 路由元数据
+        UpdateDepartmentRequest:
+            type: object
+            properties:
+                operatorId:
+                    readOnly: true
+                    type: integer
+                    description: 操作用户ID
+                    format: uint32
+                data:
+                    $ref: '#/components/schemas/Department'
+                updateMask:
+                    example: id,realName,userName
+                    type: string
+                    description: 要更新的字段列表
+                    format: field-mask
+                allowMissing:
+                    type: boolean
+                    description: 如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。
+            description: 更新部门 - 请求
         UpdateDictRequest:
             type: object
             properties:
@@ -1585,7 +1811,7 @@ components:
                 allowMissing:
                     type: boolean
                     description: 如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。
-            description: 更新部门 - 请求
+            description: 更新组织 - 请求
         UpdatePositionRequest:
             type: object
             properties:
@@ -1777,12 +2003,14 @@ security:
 tags:
     - name: AuthenticationService
       description: 用户后台登录认证服务
+    - name: DepartmentService
+      description: 部门管理服务
     - name: DictService
       description: 字典管理服务
     - name: MenuService
       description: 后台菜单管理服务
     - name: OrganizationService
-      description: 组织部门管理服务
+      description: 组织管理服务
     - name: PositionService
       description: 职位管理服务
     - name: RoleService

@@ -16,6 +16,7 @@ var ProviderSet = wire.NewSet(
 	NewTaskService,
 	NewRoleService,
 	NewOrganizationService,
+	NewDepartmentService,
 	NewPositionService,
 	NewDictService,
 )

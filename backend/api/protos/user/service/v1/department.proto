@@ -1,0 +1,124 @@
+syntax = "proto3";
+
+package user.service.v1;
+
+import "gnostic/openapi/v3/annotations.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/field_mask.proto";
+
+import "pagination/v1/pagination.proto";
+
+// 部门服务
+service DepartmentService {
+  // 查询部门列表
+  rpc ListDepartment (pagination.PagingRequest) returns (ListDepartmentResponse) {}
+
+  // 查询部门详情
+  rpc GetDepartment (GetDepartmentRequest) returns (Department) {}
+
+  // 创建部门
+  rpc CreateDepartment (CreateDepartmentRequest) returns (google.protobuf.Empty) {}
+
+  // 更新部门
+  rpc UpdateDepartment (UpdateDepartmentRequest) returns (google.protobuf.Empty) {}
+
+  // 删除部门
+  rpc DeleteDepartment (DeleteDepartmentRequest) returns (google.protobuf.Empty) {}
+}
+
+// 部门
+message Department {
+  optional uint32 id = 1 [
+    json_name = "id",
+    (gnostic.openapi.v3.property) = {description: "部门ID"}
+  ];  // 部门ID
+
+  optional string name = 2 [
+    json_name = "name",
+    (gnostic.openapi.v3.property) = {description: "部门名称"}
+  ];  // 部门名称
+
+  optional int32 organization_id = 3 [
+    json_name = "organizationId",
+    (gnostic.openapi.v3.property) = {description: "所属组织ID"}
+  ];  // 所属组织ID
+
+  optional string organization_name = 4 [
+    json_name = "organizationName",
+    (gnostic.openapi.v3.property) = {description: "所属组织名称"}
+  ];  // 所属组织名称
+
+  optional int32 sort_id = 10 [
+    json_name = "sortId",
+    (gnostic.openapi.v3.property) = {description: "排序编号"}
+  ];  // 排序编号
+
+  optional string status = 11 [(gnostic.openapi.v3.property) = {
+    description: "状态"
+    default: {string: "ON"}
+    enum: [{yaml: "ON"}, {yaml: "OFF"}]
+  }]; // 状态
+
+  optional string remark = 5 [json_name = "remark", (gnostic.openapi.v3.property) = {description: "备注"}];  // 备注
+
+  optional uint32 parent_id = 100 [json_name = "parentId", (gnostic.openapi.v3.property) = {description: "父节点ID"}];  // 父节点ID
+  repeated Department children = 101 [json_name = "children", (gnostic.openapi.v3.property) = {description: "子节点树"}];  // 子节点树
+
+  optional google.protobuf.Timestamp create_time = 200 [json_name = "createTime", (gnostic.openapi.v3.property) = {description: "创建时间"}];// 创建时间
+  optional google.protobuf.Timestamp update_time = 201 [json_name = "updateTime", (gnostic.openapi.v3.property) = {description: "更新时间"}];// 更新时间
+  optional google.protobuf.Timestamp delete_time = 202 [json_name = "deleteTime", (gnostic.openapi.v3.property) = {description: "删除时间"}];// 删除时间
+}
+// 部门列表 - 答复
+message ListDepartmentResponse {
+  repeated Department items = 1;
+  uint32 total = 2;
+}
+
+// 部门数据 - 请求
+message GetDepartmentRequest {
+  uint32 id = 1;
+}
+
+// 创建部门 - 请求
+message CreateDepartmentRequest {
+  optional uint32 operator_id = 1 [
+    (gnostic.openapi.v3.property) = {description: "操作用户ID", read_only: true},
+    json_name = "operatorId"
+  ]; // 操作用户ID
+
+  Department data = 2;
+}
+
+// 更新部门 - 请求
+message UpdateDepartmentRequest {
+  optional uint32 operator_id = 1 [
+    (gnostic.openapi.v3.property) = {description: "操作用户ID", read_only: true},
+    json_name = "operatorId"
+  ]; // 操作用户ID
+
+  Department data = 2;
+
+  google.protobuf.FieldMask update_mask = 3 [
+    (gnostic.openapi.v3.property) = {
+      description: "要更新的字段列表",
+      example: {yaml : "id,realName,userName"}
+    },
+    json_name = "updateMask"
+  ]; // 要更新的字段列表
+
+  optional bool allow_missing = 4 [
+    (gnostic.openapi.v3.property) = {description: "如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。"},
+    json_name = "allowMissing"
+  ]; // 如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。
+}
+
+// 删除部门 - 请求
+message DeleteDepartmentRequest {
+  optional uint32 operator_id = 1 [
+    (gnostic.openapi.v3.property) = {description: "操作用户ID", read_only: true},
+    json_name = "operatorId"
+  ]; // 操作用户ID
+
+  uint32 id = 2;
+}

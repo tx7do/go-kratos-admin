@@ -3,6 +3,7 @@ package logging
 import (
 	"fmt"
 	"io"
+	"net"
 	"net/url"
 	"strings"
 
@@ -46,18 +47,57 @@ func getClientRealIP(request *http.Request) string {
 	}
 
 	// 先检查 X-Forwarded-For 头
+	// 由于它可以记录整个代理链中的IP地址，因此适用于多级代理的情况。
+	// 当请求经过多个代理服务器时，X-Forwarded-For字段可以完整地记录原始请求的客户端IP地址和所有代理服务器的IP地址。
+	// 需要注意：
+	// 最外层Nginx配置为：proxy_set_header X-Forwarded-For $remote_addr; 如此做可以覆写掉ip。以防止ip伪造。
+	// 里层Nginx配置为：proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
 	xff := request.Header.Get(HeaderKeyXForwardedFor)
 	if xff != "" {
-		return xff
+		// X-Forwarded-For字段的值是一个逗号分隔的IP地址列表，
+		// 一般来说，第一个IP地址是原始请求的客户端IP地址（当然，它可以被伪造）。
+		ips := strings.Split(xff, ",")
+
+		for _, ip := range ips {
+			// 去除空格
+			ip = strings.TrimSpace(ip)
+			// 检查是否是合法的IP地址
+			if net.ParseIP(ip) != nil {
+				return ip
+			}
+		}
 	}
 
 	// 接着检查反向代理的 X-Real-IP 头
+	// 通常只在反向代理服务器中使用，并且只记录原始请求的客户端IP地址。
+	// 它不适用于多级代理的情况，因为每经过一个代理服务器，X-Real-IP字段的值都会被覆盖为最新的客户端IP地址。
 	xri := request.Header.Get(HeaderKeyXRealIP)
 	if xri != "" {
-		return xri
+		if net.ParseIP(xri) != nil {
+			return xri
+		}
 	}
 
-	return request.RemoteAddr
+	return getIPFromRemoteAddr(request.RemoteAddr)
+}
+
+func getIPFromRemoteAddr(hostAddress string) string {
+	// Check if the host address contains a port
+	if strings.Contains(hostAddress, ":") {
+		// Attempt to split the host address into host and port
+		host, _, err := net.SplitHostPort(strings.TrimSpace(hostAddress))
+		if err == nil {
+			// Validate the host as an IP address
+			if net.ParseIP(host) != nil {
+				return host
+			}
+		}
+	}
+	// Validate the host address as an IP address
+	if net.ParseIP(hostAddress) != nil {
+		return hostAddress
+	}
+	return ""
 }
 
 // getRequestId 获取请求ID

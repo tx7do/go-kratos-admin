@@ -32,7 +32,7 @@ func initApp(logger log.Logger, registrar registry.Registrar, bootstrap *v1.Boot
 	adminOperationLogRepo := data.NewAdminOperationLogRepo(dataData, logger)
 	adminLoginLogRepo := data.NewAdminLoginLogRepo(dataData, logger)
 	userRepo := data.NewUserRepo(dataData, logger)
-	authenticationService := service.NewAuthenticationService(logger, userRepo, userToken, adminLoginLogRepo)
+	authenticationService := service.NewAuthenticationService(logger, userRepo, userToken)
 	userService := service.NewUserService(logger, userRepo)
 	menuRepo := data.NewMenuRepo(dataData, logger)
 	menuService := service.NewMenuService(menuRepo, logger)

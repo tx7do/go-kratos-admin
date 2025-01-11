@@ -3,6 +3,8 @@
 package ent
 
 import (
+	"kratos-admin/app/admin/service/internal/data/ent/adminloginlog"
+	"kratos-admin/app/admin/service/internal/data/ent/adminoperationlog"
 	"kratos-admin/app/admin/service/internal/data/ent/department"
 	"kratos-admin/app/admin/service/internal/data/ent/dict"
 	"kratos-admin/app/admin/service/internal/data/ent/menu"
@@ -20,8 +22,80 @@ import (
 
 // schemaGraph holds a representation of ent/schema at runtime.
 var schemaGraph = func() *sqlgraph.Schema {
-	graph := &sqlgraph.Schema{Nodes: make([]*sqlgraph.Node, 7)}
+	graph := &sqlgraph.Schema{Nodes: make([]*sqlgraph.Node, 9)}
 	graph.Nodes[0] = &sqlgraph.Node{
+		NodeSpec: sqlgraph.NodeSpec{
+			Table:   adminloginlog.Table,
+			Columns: adminloginlog.Columns,
+			ID: &sqlgraph.FieldSpec{
+				Type:   field.TypeUint32,
+				Column: adminloginlog.FieldID,
+			},
+		},
+		Type: "AdminLoginLog",
+		Fields: map[string]*sqlgraph.FieldSpec{
+			adminloginlog.FieldCreateTime:     {Type: field.TypeTime, Column: adminloginlog.FieldCreateTime},
+			adminloginlog.FieldUpdateTime:     {Type: field.TypeTime, Column: adminloginlog.FieldUpdateTime},
+			adminloginlog.FieldDeleteTime:     {Type: field.TypeTime, Column: adminloginlog.FieldDeleteTime},
+			adminloginlog.FieldLoginIP:        {Type: field.TypeString, Column: adminloginlog.FieldLoginIP},
+			adminloginlog.FieldLoginMAC:       {Type: field.TypeString, Column: adminloginlog.FieldLoginMAC},
+			adminloginlog.FieldLoginTime:      {Type: field.TypeTime, Column: adminloginlog.FieldLoginTime},
+			adminloginlog.FieldUserAgent:      {Type: field.TypeString, Column: adminloginlog.FieldUserAgent},
+			adminloginlog.FieldBrowserName:    {Type: field.TypeString, Column: adminloginlog.FieldBrowserName},
+			adminloginlog.FieldBrowserVersion: {Type: field.TypeString, Column: adminloginlog.FieldBrowserVersion},
+			adminloginlog.FieldClientID:       {Type: field.TypeString, Column: adminloginlog.FieldClientID},
+			adminloginlog.FieldClientName:     {Type: field.TypeString, Column: adminloginlog.FieldClientName},
+			adminloginlog.FieldOsName:         {Type: field.TypeString, Column: adminloginlog.FieldOsName},
+			adminloginlog.FieldOsVersion:      {Type: field.TypeString, Column: adminloginlog.FieldOsVersion},
+			adminloginlog.FieldUserID:         {Type: field.TypeUint32, Column: adminloginlog.FieldUserID},
+			adminloginlog.FieldUserName:       {Type: field.TypeString, Column: adminloginlog.FieldUserName},
+			adminloginlog.FieldStatusCode:     {Type: field.TypeInt32, Column: adminloginlog.FieldStatusCode},
+			adminloginlog.FieldSuccess:        {Type: field.TypeBool, Column: adminloginlog.FieldSuccess},
+			adminloginlog.FieldReason:         {Type: field.TypeString, Column: adminloginlog.FieldReason},
+			adminloginlog.FieldLocation:       {Type: field.TypeString, Column: adminloginlog.FieldLocation},
+		},
+	}
+	graph.Nodes[1] = &sqlgraph.Node{
+		NodeSpec: sqlgraph.NodeSpec{
+			Table:   adminoperationlog.Table,
+			Columns: adminoperationlog.Columns,
+			ID: &sqlgraph.FieldSpec{
+				Type:   field.TypeUint32,
+				Column: adminoperationlog.FieldID,
+			},
+		},
+		Type: "AdminOperationLog",
+		Fields: map[string]*sqlgraph.FieldSpec{
+			adminoperationlog.FieldCreateTime:     {Type: field.TypeTime, Column: adminoperationlog.FieldCreateTime},
+			adminoperationlog.FieldUpdateTime:     {Type: field.TypeTime, Column: adminoperationlog.FieldUpdateTime},
+			adminoperationlog.FieldDeleteTime:     {Type: field.TypeTime, Column: adminoperationlog.FieldDeleteTime},
+			adminoperationlog.FieldRequestID:      {Type: field.TypeString, Column: adminoperationlog.FieldRequestID},
+			adminoperationlog.FieldMethod:         {Type: field.TypeString, Column: adminoperationlog.FieldMethod},
+			adminoperationlog.FieldOperation:      {Type: field.TypeString, Column: adminoperationlog.FieldOperation},
+			adminoperationlog.FieldPath:           {Type: field.TypeString, Column: adminoperationlog.FieldPath},
+			adminoperationlog.FieldReferer:        {Type: field.TypeString, Column: adminoperationlog.FieldReferer},
+			adminoperationlog.FieldRequestURI:     {Type: field.TypeString, Column: adminoperationlog.FieldRequestURI},
+			adminoperationlog.FieldRequestBody:    {Type: field.TypeString, Column: adminoperationlog.FieldRequestBody},
+			adminoperationlog.FieldRequestHeader:  {Type: field.TypeString, Column: adminoperationlog.FieldRequestHeader},
+			adminoperationlog.FieldResponse:       {Type: field.TypeString, Column: adminoperationlog.FieldResponse},
+			adminoperationlog.FieldCostTime:       {Type: field.TypeFloat64, Column: adminoperationlog.FieldCostTime},
+			adminoperationlog.FieldUserID:         {Type: field.TypeUint32, Column: adminoperationlog.FieldUserID},
+			adminoperationlog.FieldUserName:       {Type: field.TypeString, Column: adminoperationlog.FieldUserName},
+			adminoperationlog.FieldClientIP:       {Type: field.TypeString, Column: adminoperationlog.FieldClientIP},
+			adminoperationlog.FieldStatusCode:     {Type: field.TypeInt32, Column: adminoperationlog.FieldStatusCode},
+			adminoperationlog.FieldReason:         {Type: field.TypeString, Column: adminoperationlog.FieldReason},
+			adminoperationlog.FieldSuccess:        {Type: field.TypeBool, Column: adminoperationlog.FieldSuccess},
+			adminoperationlog.FieldLocation:       {Type: field.TypeString, Column: adminoperationlog.FieldLocation},
+			adminoperationlog.FieldUserAgent:      {Type: field.TypeString, Column: adminoperationlog.FieldUserAgent},
+			adminoperationlog.FieldBrowserName:    {Type: field.TypeString, Column: adminoperationlog.FieldBrowserName},
+			adminoperationlog.FieldBrowserVersion: {Type: field.TypeString, Column: adminoperationlog.FieldBrowserVersion},
+			adminoperationlog.FieldClientID:       {Type: field.TypeString, Column: adminoperationlog.FieldClientID},
+			adminoperationlog.FieldClientName:     {Type: field.TypeString, Column: adminoperationlog.FieldClientName},
+			adminoperationlog.FieldOsName:         {Type: field.TypeString, Column: adminoperationlog.FieldOsName},
+			adminoperationlog.FieldOsVersion:      {Type: field.TypeString, Column: adminoperationlog.FieldOsVersion},
+		},
+	}
+	graph.Nodes[2] = &sqlgraph.Node{
 		NodeSpec: sqlgraph.NodeSpec{
 			Table:   department.Table,
 			Columns: department.Columns,
@@ -45,7 +119,7 @@ var schemaGraph = func() *sqlgraph.Schema {
 			department.FieldSortID:         {Type: field.TypeInt32, Column: department.FieldSortID},
 		},
 	}
-	graph.Nodes[1] = &sqlgraph.Node{
+	graph.Nodes[3] = &sqlgraph.Node{
 		NodeSpec: sqlgraph.NodeSpec{
 			Table:   dict.Table,
 			Columns: dict.Columns,
@@ -72,7 +146,7 @@ var schemaGraph = func() *sqlgraph.Schema {
 			dict.FieldSortID:        {Type: field.TypeInt32, Column: dict.FieldSortID},
 		},
 	}
-	graph.Nodes[2] = &sqlgraph.Node{
+	graph.Nodes[4] = &sqlgraph.Node{
 		NodeSpec: sqlgraph.NodeSpec{
 			Table:   menu.Table,
 			Columns: menu.Columns,
@@ -100,7 +174,7 @@ var schemaGraph = func() *sqlgraph.Schema {
 			menu.FieldMeta:       {Type: field.TypeJSON, Column: menu.FieldMeta},
 		},
 	}
-	graph.Nodes[3] = &sqlgraph.Node{
+	graph.Nodes[5] = &sqlgraph.Node{
 		NodeSpec: sqlgraph.NodeSpec{
 			Table:   organization.Table,
 			Columns: organization.Columns,
@@ -123,7 +197,7 @@ var schemaGraph = func() *sqlgraph.Schema {
 			organization.FieldSortID:     {Type: field.TypeInt32, Column: organization.FieldSortID},
 		},
 	}
-	graph.Nodes[4] = &sqlgraph.Node{
+	graph.Nodes[6] = &sqlgraph.Node{
 		NodeSpec: sqlgraph.NodeSpec{
 			Table:   position.Table,
 			Columns: position.Columns,
@@ -147,7 +221,7 @@ var schemaGraph = func() *sqlgraph.Schema {
 			position.FieldSortID:     {Type: field.TypeInt32, Column: position.FieldSortID},
 		},
 	}
-	graph.Nodes[5] = &sqlgraph.Node{
+	graph.Nodes[7] = &sqlgraph.Node{
 		NodeSpec: sqlgraph.NodeSpec{
 			Table:   role.Table,
 			Columns: role.Columns,
@@ -171,7 +245,7 @@ var schemaGraph = func() *sqlgraph.Schema {
 			role.FieldSortID:     {Type: field.TypeInt32, Column: role.FieldSortID},
 		},
 	}
-	graph.Nodes[6] = &sqlgraph.Node{
+	graph.Nodes[8] = &sqlgraph.Node{
 		NodeSpec: sqlgraph.NodeSpec{
 			Table:   user.Table,
 			Columns: user.Columns,
@@ -340,6 +414,316 @@ type predicateAdder interface {
 }
 
 // addPredicate implements the predicateAdder interface.
+func (allq *AdminLoginLogQuery) addPredicate(pred func(s *sql.Selector)) {
+	allq.predicates = append(allq.predicates, pred)
+}
+
+// Filter returns a Filter implementation to apply filters on the AdminLoginLogQuery builder.
+func (allq *AdminLoginLogQuery) Filter() *AdminLoginLogFilter {
+	return &AdminLoginLogFilter{config: allq.config, predicateAdder: allq}
+}
+
+// addPredicate implements the predicateAdder interface.
+func (m *AdminLoginLogMutation) addPredicate(pred func(s *sql.Selector)) {
+	m.predicates = append(m.predicates, pred)
+}
+
+// Filter returns an entql.Where implementation to apply filters on the AdminLoginLogMutation builder.
+func (m *AdminLoginLogMutation) Filter() *AdminLoginLogFilter {
+	return &AdminLoginLogFilter{config: m.config, predicateAdder: m}
+}
+
+// AdminLoginLogFilter provides a generic filtering capability at runtime for AdminLoginLogQuery.
+type AdminLoginLogFilter struct {
+	predicateAdder
+	config
+}
+
+// Where applies the entql predicate on the query filter.
+func (f *AdminLoginLogFilter) Where(p entql.P) {
+	f.addPredicate(func(s *sql.Selector) {
+		if err := schemaGraph.EvalP(schemaGraph.Nodes[0].Type, p, s); err != nil {
+			s.AddError(err)
+		}
+	})
+}
+
+// WhereID applies the entql uint32 predicate on the id field.
+func (f *AdminLoginLogFilter) WhereID(p entql.Uint32P) {
+	f.Where(p.Field(adminloginlog.FieldID))
+}
+
+// WhereCreateTime applies the entql time.Time predicate on the create_time field.
+func (f *AdminLoginLogFilter) WhereCreateTime(p entql.TimeP) {
+	f.Where(p.Field(adminloginlog.FieldCreateTime))
+}
+
+// WhereUpdateTime applies the entql time.Time predicate on the update_time field.
+func (f *AdminLoginLogFilter) WhereUpdateTime(p entql.TimeP) {
+	f.Where(p.Field(adminloginlog.FieldUpdateTime))
+}
+
+// WhereDeleteTime applies the entql time.Time predicate on the delete_time field.
+func (f *AdminLoginLogFilter) WhereDeleteTime(p entql.TimeP) {
+	f.Where(p.Field(adminloginlog.FieldDeleteTime))
+}
+
+// WhereLoginIP applies the entql string predicate on the login_ip field.
+func (f *AdminLoginLogFilter) WhereLoginIP(p entql.StringP) {
+	f.Where(p.Field(adminloginlog.FieldLoginIP))
+}
+
+// WhereLoginMAC applies the entql string predicate on the login_mac field.
+func (f *AdminLoginLogFilter) WhereLoginMAC(p entql.StringP) {
+	f.Where(p.Field(adminloginlog.FieldLoginMAC))
+}
+
+// WhereLoginTime applies the entql time.Time predicate on the login_time field.
+func (f *AdminLoginLogFilter) WhereLoginTime(p entql.TimeP) {
+	f.Where(p.Field(adminloginlog.FieldLoginTime))
+}
+
+// WhereUserAgent applies the entql string predicate on the user_agent field.
+func (f *AdminLoginLogFilter) WhereUserAgent(p entql.StringP) {
+	f.Where(p.Field(adminloginlog.FieldUserAgent))
+}
+
+// WhereBrowserName applies the entql string predicate on the browser_name field.
+func (f *AdminLoginLogFilter) WhereBrowserName(p entql.StringP) {
+	f.Where(p.Field(adminloginlog.FieldBrowserName))
+}
+
+// WhereBrowserVersion applies the entql string predicate on the browser_version field.
+func (f *AdminLoginLogFilter) WhereBrowserVersion(p entql.StringP) {
+	f.Where(p.Field(adminloginlog.FieldBrowserVersion))
+}
+
+// WhereClientID applies the entql string predicate on the client_id field.
+func (f *AdminLoginLogFilter) WhereClientID(p entql.StringP) {
+	f.Where(p.Field(adminloginlog.FieldClientID))
+}
+
+// WhereClientName applies the entql string predicate on the client_name field.
+func (f *AdminLoginLogFilter) WhereClientName(p entql.StringP) {
+	f.Where(p.Field(adminloginlog.FieldClientName))
+}
+
+// WhereOsName applies the entql string predicate on the os_name field.
+func (f *AdminLoginLogFilter) WhereOsName(p entql.StringP) {
+	f.Where(p.Field(adminloginlog.FieldOsName))
+}
+
+// WhereOsVersion applies the entql string predicate on the os_version field.
+func (f *AdminLoginLogFilter) WhereOsVersion(p entql.StringP) {
+	f.Where(p.Field(adminloginlog.FieldOsVersion))
+}
+
+// WhereUserID applies the entql uint32 predicate on the user_id field.
+func (f *AdminLoginLogFilter) WhereUserID(p entql.Uint32P) {
+	f.Where(p.Field(adminloginlog.FieldUserID))
+}
+
+// WhereUserName applies the entql string predicate on the user_name field.
+func (f *AdminLoginLogFilter) WhereUserName(p entql.StringP) {
+	f.Where(p.Field(adminloginlog.FieldUserName))
+}
+
+// WhereStatusCode applies the entql int32 predicate on the status_code field.
+func (f *AdminLoginLogFilter) WhereStatusCode(p entql.Int32P) {
+	f.Where(p.Field(adminloginlog.FieldStatusCode))
+}
+
+// WhereSuccess applies the entql bool predicate on the success field.
+func (f *AdminLoginLogFilter) WhereSuccess(p entql.BoolP) {
+	f.Where(p.Field(adminloginlog.FieldSuccess))
+}
+
+// WhereReason applies the entql string predicate on the reason field.
+func (f *AdminLoginLogFilter) WhereReason(p entql.StringP) {
+	f.Where(p.Field(adminloginlog.FieldReason))
+}
+
+// WhereLocation applies the entql string predicate on the location field.
+func (f *AdminLoginLogFilter) WhereLocation(p entql.StringP) {
+	f.Where(p.Field(adminloginlog.FieldLocation))
+}
+
+// addPredicate implements the predicateAdder interface.
+func (aolq *AdminOperationLogQuery) addPredicate(pred func(s *sql.Selector)) {
+	aolq.predicates = append(aolq.predicates, pred)
+}
+
+// Filter returns a Filter implementation to apply filters on the AdminOperationLogQuery builder.
+func (aolq *AdminOperationLogQuery) Filter() *AdminOperationLogFilter {
+	return &AdminOperationLogFilter{config: aolq.config, predicateAdder: aolq}
+}
+
+// addPredicate implements the predicateAdder interface.
+func (m *AdminOperationLogMutation) addPredicate(pred func(s *sql.Selector)) {
+	m.predicates = append(m.predicates, pred)
+}
+
+// Filter returns an entql.Where implementation to apply filters on the AdminOperationLogMutation builder.
+func (m *AdminOperationLogMutation) Filter() *AdminOperationLogFilter {
+	return &AdminOperationLogFilter{config: m.config, predicateAdder: m}
+}
+
+// AdminOperationLogFilter provides a generic filtering capability at runtime for AdminOperationLogQuery.
+type AdminOperationLogFilter struct {
+	predicateAdder
+	config
+}
+
+// Where applies the entql predicate on the query filter.
+func (f *AdminOperationLogFilter) Where(p entql.P) {
+	f.addPredicate(func(s *sql.Selector) {
+		if err := schemaGraph.EvalP(schemaGraph.Nodes[1].Type, p, s); err != nil {
+			s.AddError(err)
+		}
+	})
+}
+
+// WhereID applies the entql uint32 predicate on the id field.
+func (f *AdminOperationLogFilter) WhereID(p entql.Uint32P) {
+	f.Where(p.Field(adminoperationlog.FieldID))
+}
+
+// WhereCreateTime applies the entql time.Time predicate on the create_time field.
+func (f *AdminOperationLogFilter) WhereCreateTime(p entql.TimeP) {
+	f.Where(p.Field(adminoperationlog.FieldCreateTime))
+}
+
+// WhereUpdateTime applies the entql time.Time predicate on the update_time field.
+func (f *AdminOperationLogFilter) WhereUpdateTime(p entql.TimeP) {
+	f.Where(p.Field(adminoperationlog.FieldUpdateTime))
+}
+
+// WhereDeleteTime applies the entql time.Time predicate on the delete_time field.
+func (f *AdminOperationLogFilter) WhereDeleteTime(p entql.TimeP) {
+	f.Where(p.Field(adminoperationlog.FieldDeleteTime))
+}
+
+// WhereRequestID applies the entql string predicate on the request_id field.
+func (f *AdminOperationLogFilter) WhereRequestID(p entql.StringP) {
+	f.Where(p.Field(adminoperationlog.FieldRequestID))
+}
+
+// WhereMethod applies the entql string predicate on the method field.
+func (f *AdminOperationLogFilter) WhereMethod(p entql.StringP) {
+	f.Where(p.Field(adminoperationlog.FieldMethod))
+}
+
+// WhereOperation applies the entql string predicate on the operation field.
+func (f *AdminOperationLogFilter) WhereOperation(p entql.StringP) {
+	f.Where(p.Field(adminoperationlog.FieldOperation))
+}
+
+// WherePath applies the entql string predicate on the path field.
+func (f *AdminOperationLogFilter) WherePath(p entql.StringP) {
+	f.Where(p.Field(adminoperationlog.FieldPath))
+}
+
+// WhereReferer applies the entql string predicate on the referer field.
+func (f *AdminOperationLogFilter) WhereReferer(p entql.StringP) {
+	f.Where(p.Field(adminoperationlog.FieldReferer))
+}
+
+// WhereRequestURI applies the entql string predicate on the request_uri field.
+func (f *AdminOperationLogFilter) WhereRequestURI(p entql.StringP) {
+	f.Where(p.Field(adminoperationlog.FieldRequestURI))
+}
+
+// WhereRequestBody applies the entql string predicate on the request_body field.
+func (f *AdminOperationLogFilter) WhereRequestBody(p entql.StringP) {
+	f.Where(p.Field(adminoperationlog.FieldRequestBody))
+}
+
+// WhereRequestHeader applies the entql string predicate on the request_header field.
+func (f *AdminOperationLogFilter) WhereRequestHeader(p entql.StringP) {
+	f.Where(p.Field(adminoperationlog.FieldRequestHeader))
+}
+
+// WhereResponse applies the entql string predicate on the response field.
+func (f *AdminOperationLogFilter) WhereResponse(p entql.StringP) {
+	f.Where(p.Field(adminoperationlog.FieldResponse))
+}
+
+// WhereCostTime applies the entql float64 predicate on the cost_time field.
+func (f *AdminOperationLogFilter) WhereCostTime(p entql.Float64P) {
+	f.Where(p.Field(adminoperationlog.FieldCostTime))
+}
+
+// WhereUserID applies the entql uint32 predicate on the user_id field.
+func (f *AdminOperationLogFilter) WhereUserID(p entql.Uint32P) {
+	f.Where(p.Field(adminoperationlog.FieldUserID))
+}
+
+// WhereUserName applies the entql string predicate on the user_name field.
+func (f *AdminOperationLogFilter) WhereUserName(p entql.StringP) {
+	f.Where(p.Field(adminoperationlog.FieldUserName))
+}
+
+// WhereClientIP applies the entql string predicate on the client_ip field.
+func (f *AdminOperationLogFilter) WhereClientIP(p entql.StringP) {
+	f.Where(p.Field(adminoperationlog.FieldClientIP))
+}
+
+// WhereStatusCode applies the entql int32 predicate on the status_code field.
+func (f *AdminOperationLogFilter) WhereStatusCode(p entql.Int32P) {
+	f.Where(p.Field(adminoperationlog.FieldStatusCode))
+}
+
+// WhereReason applies the entql string predicate on the reason field.
+func (f *AdminOperationLogFilter) WhereReason(p entql.StringP) {
+	f.Where(p.Field(adminoperationlog.FieldReason))
+}
+
+// WhereSuccess applies the entql bool predicate on the success field.
+func (f *AdminOperationLogFilter) WhereSuccess(p entql.BoolP) {
+	f.Where(p.Field(adminoperationlog.FieldSuccess))
+}
+
+// WhereLocation applies the entql string predicate on the location field.
+func (f *AdminOperationLogFilter) WhereLocation(p entql.StringP) {
+	f.Where(p.Field(adminoperationlog.FieldLocation))
+}
+
+// WhereUserAgent applies the entql string predicate on the user_agent field.
+func (f *AdminOperationLogFilter) WhereUserAgent(p entql.StringP) {
+	f.Where(p.Field(adminoperationlog.FieldUserAgent))
+}
+
+// WhereBrowserName applies the entql string predicate on the browser_name field.
+func (f *AdminOperationLogFilter) WhereBrowserName(p entql.StringP) {
+	f.Where(p.Field(adminoperationlog.FieldBrowserName))
+}
+
+// WhereBrowserVersion applies the entql string predicate on the browser_version field.
+func (f *AdminOperationLogFilter) WhereBrowserVersion(p entql.StringP) {
+	f.Where(p.Field(adminoperationlog.FieldBrowserVersion))
+}
+
+// WhereClientID applies the entql string predicate on the client_id field.
+func (f *AdminOperationLogFilter) WhereClientID(p entql.StringP) {
+	f.Where(p.Field(adminoperationlog.FieldClientID))
+}
+
+// WhereClientName applies the entql string predicate on the client_name field.
+func (f *AdminOperationLogFilter) WhereClientName(p entql.StringP) {
+	f.Where(p.Field(adminoperationlog.FieldClientName))
+}
+
+// WhereOsName applies the entql string predicate on the os_name field.
+func (f *AdminOperationLogFilter) WhereOsName(p entql.StringP) {
+	f.Where(p.Field(adminoperationlog.FieldOsName))
+}
+
+// WhereOsVersion applies the entql string predicate on the os_version field.
+func (f *AdminOperationLogFilter) WhereOsVersion(p entql.StringP) {
+	f.Where(p.Field(adminoperationlog.FieldOsVersion))
+}
+
+// addPredicate implements the predicateAdder interface.
 func (dq *DepartmentQuery) addPredicate(pred func(s *sql.Selector)) {
 	dq.predicates = append(dq.predicates, pred)
 }
@@ -368,7 +752,7 @@ type DepartmentFilter struct {
 // Where applies the entql predicate on the query filter.
 func (f *DepartmentFilter) Where(p entql.P) {
 	f.addPredicate(func(s *sql.Selector) {
-		if err := schemaGraph.EvalP(schemaGraph.Nodes[0].Type, p, s); err != nil {
+		if err := schemaGraph.EvalP(schemaGraph.Nodes[2].Type, p, s); err != nil {
 			s.AddError(err)
 		}
 	})
@@ -491,7 +875,7 @@ type DictFilter struct {
 // Where applies the entql predicate on the query filter.
 func (f *DictFilter) Where(p entql.P) {
 	f.addPredicate(func(s *sql.Selector) {
-		if err := schemaGraph.EvalP(schemaGraph.Nodes[1].Type, p, s); err != nil {
+		if err := schemaGraph.EvalP(schemaGraph.Nodes[3].Type, p, s); err != nil {
 			s.AddError(err)
 		}
 	})
@@ -601,7 +985,7 @@ type MenuFilter struct {
 // Where applies the entql predicate on the query filter.
 func (f *MenuFilter) Where(p entql.P) {
 	f.addPredicate(func(s *sql.Selector) {
-		if err := schemaGraph.EvalP(schemaGraph.Nodes[2].Type, p, s); err != nil {
+		if err := schemaGraph.EvalP(schemaGraph.Nodes[4].Type, p, s); err != nil {
 			s.AddError(err)
 		}
 	})
@@ -744,7 +1128,7 @@ type OrganizationFilter struct {
 // Where applies the entql predicate on the query filter.
 func (f *OrganizationFilter) Where(p entql.P) {
 	f.addPredicate(func(s *sql.Selector) {
-		if err := schemaGraph.EvalP(schemaGraph.Nodes[3].Type, p, s); err != nil {
+		if err := schemaGraph.EvalP(schemaGraph.Nodes[5].Type, p, s); err != nil {
 			s.AddError(err)
 		}
 	})
@@ -862,7 +1246,7 @@ type PositionFilter struct {
 // Where applies the entql predicate on the query filter.
 func (f *PositionFilter) Where(p entql.P) {
 	f.addPredicate(func(s *sql.Selector) {
-		if err := schemaGraph.EvalP(schemaGraph.Nodes[4].Type, p, s); err != nil {
+		if err := schemaGraph.EvalP(schemaGraph.Nodes[6].Type, p, s); err != nil {
 			s.AddError(err)
 		}
 	})
@@ -985,7 +1369,7 @@ type RoleFilter struct {
 // Where applies the entql predicate on the query filter.
 func (f *RoleFilter) Where(p entql.P) {
 	f.addPredicate(func(s *sql.Selector) {
-		if err := schemaGraph.EvalP(schemaGraph.Nodes[5].Type, p, s); err != nil {
+		if err := schemaGraph.EvalP(schemaGraph.Nodes[7].Type, p, s); err != nil {
 			s.AddError(err)
 		}
 	})
@@ -1108,7 +1492,7 @@ type UserFilter struct {
 // Where applies the entql predicate on the query filter.
 func (f *UserFilter) Where(p entql.P) {
 	f.addPredicate(func(s *sql.Selector) {
-		if err := schemaGraph.EvalP(schemaGraph.Nodes[6].Type, p, s); err != nil {
+		if err := schemaGraph.EvalP(schemaGraph.Nodes[8].Type, p, s); err != nil {
 			s.AddError(err)
 		}
 	})

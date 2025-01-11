@@ -7,6 +7,8 @@ import (
 	"errors"
 	"fmt"
 	servicev1 "kratos-admin/api/gen/go/system/service/v1"
+	"kratos-admin/app/admin/service/internal/data/ent/adminloginlog"
+	"kratos-admin/app/admin/service/internal/data/ent/adminoperationlog"
 	"kratos-admin/app/admin/service/internal/data/ent/department"
 	"kratos-admin/app/admin/service/internal/data/ent/dict"
 	"kratos-admin/app/admin/service/internal/data/ent/menu"
@@ -31,14 +33,4112 @@ const (
 	OpUpdateOne = ent.OpUpdateOne
 
 	// Node types.
-	TypeDepartment   = "Department"
-	TypeDict         = "Dict"
-	TypeMenu         = "Menu"
-	TypeOrganization = "Organization"
-	TypePosition     = "Position"
-	TypeRole         = "Role"
-	TypeUser         = "User"
+	TypeAdminLoginLog     = "AdminLoginLog"
+	TypeAdminOperationLog = "AdminOperationLog"
+	TypeDepartment        = "Department"
+	TypeDict              = "Dict"
+	TypeMenu              = "Menu"
+	TypeOrganization      = "Organization"
+	TypePosition          = "Position"
+	TypeRole              = "Role"
+	TypeUser              = "User"
 )
+
+// AdminLoginLogMutation represents an operation that mutates the AdminLoginLog nodes in the graph.
+type AdminLoginLogMutation struct {
+	config
+	op              Op
+	typ             string
+	id              *uint32
+	create_time     *time.Time
+	update_time     *time.Time
+	delete_time     *time.Time
+	login_ip        *string
+	login_mac       *string
+	login_time      *time.Time
+	user_agent      *string
+	browser_name    *string
+	browser_version *string
+	client_id       *string
+	client_name     *string
+	os_name         *string
+	os_version      *string
+	user_id         *uint32
+	adduser_id      *int32
+	user_name       *string
+	status_code     *int32
+	addstatus_code  *int32
+	success         *bool
+	reason          *string
+	location        *string
+	clearedFields   map[string]struct{}
+	done            bool
+	oldValue        func(context.Context) (*AdminLoginLog, error)
+	predicates      []predicate.AdminLoginLog
+}
+
+var _ ent.Mutation = (*AdminLoginLogMutation)(nil)
+
+// adminloginlogOption allows management of the mutation configuration using functional options.
+type adminloginlogOption func(*AdminLoginLogMutation)
+
+// newAdminLoginLogMutation creates new mutation for the AdminLoginLog entity.
+func newAdminLoginLogMutation(c config, op Op, opts ...adminloginlogOption) *AdminLoginLogMutation {
+	m := &AdminLoginLogMutation{
+		config:        c,
+		op:            op,
+		typ:           TypeAdminLoginLog,
+		clearedFields: make(map[string]struct{}),
+	}
+	for _, opt := range opts {
+		opt(m)
+	}
+	return m
+}
+
+// withAdminLoginLogID sets the ID field of the mutation.
+func withAdminLoginLogID(id uint32) adminloginlogOption {
+	return func(m *AdminLoginLogMutation) {
+		var (
+			err   error
+			once  sync.Once
+			value *AdminLoginLog
+		)
+		m.oldValue = func(ctx context.Context) (*AdminLoginLog, error) {
+			once.Do(func() {
+				if m.done {
+					err = errors.New("querying old values post mutation is not allowed")
+				} else {
+					value, err = m.Client().AdminLoginLog.Get(ctx, id)
+				}
+			})
+			return value, err
+		}
+		m.id = &id
+	}
+}
+
+// withAdminLoginLog sets the old AdminLoginLog of the mutation.
+func withAdminLoginLog(node *AdminLoginLog) adminloginlogOption {
+	return func(m *AdminLoginLogMutation) {
+		m.oldValue = func(context.Context) (*AdminLoginLog, error) {
+			return node, nil
+		}
+		m.id = &node.ID
+	}
+}
+
+// Client returns a new `ent.Client` from the mutation. If the mutation was
+// executed in a transaction (ent.Tx), a transactional client is returned.
+func (m AdminLoginLogMutation) Client() *Client {
+	client := &Client{config: m.config}
+	client.init()
+	return client
+}
+
+// Tx returns an `ent.Tx` for mutations that were executed in transactions;
+// it returns an error otherwise.
+func (m AdminLoginLogMutation) Tx() (*Tx, error) {
+	if _, ok := m.driver.(*txDriver); !ok {
+		return nil, errors.New("ent: mutation is not running in a transaction")
+	}
+	tx := &Tx{config: m.config}
+	tx.init()
+	return tx, nil
+}
+
+// SetID sets the value of the id field. Note that this
+// operation is only accepted on creation of AdminLoginLog entities.
+func (m *AdminLoginLogMutation) SetID(id uint32) {
+	m.id = &id
+}
+
+// ID returns the ID value in the mutation. Note that the ID is only available
+// if it was provided to the builder or after it was returned from the database.
+func (m *AdminLoginLogMutation) ID() (id uint32, exists bool) {
+	if m.id == nil {
+		return
+	}
+	return *m.id, true
+}
+
+// IDs queries the database and returns the entity ids that match the mutation's predicate.
+// That means, if the mutation is applied within a transaction with an isolation level such
+// as sql.LevelSerializable, the returned ids match the ids of the rows that will be updated
+// or updated by the mutation.
+func (m *AdminLoginLogMutation) IDs(ctx context.Context) ([]uint32, error) {
+	switch {
+	case m.op.Is(OpUpdateOne | OpDeleteOne):
+		id, exists := m.ID()
+		if exists {
+			return []uint32{id}, nil
+		}
+		fallthrough
+	case m.op.Is(OpUpdate | OpDelete):
+		return m.Client().AdminLoginLog.Query().Where(m.predicates...).IDs(ctx)
+	default:
+		return nil, fmt.Errorf("IDs is not allowed on %s operations", m.op)
+	}
+}
+
+// SetCreateTime sets the "create_time" field.
+func (m *AdminLoginLogMutation) SetCreateTime(t time.Time) {
+	m.create_time = &t
+}
+
+// CreateTime returns the value of the "create_time" field in the mutation.
+func (m *AdminLoginLogMutation) CreateTime() (r time.Time, exists bool) {
+	v := m.create_time
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldCreateTime returns the old "create_time" field's value of the AdminLoginLog entity.
+// If the AdminLoginLog object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *AdminLoginLogMutation) OldCreateTime(ctx context.Context) (v *time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldCreateTime is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldCreateTime requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldCreateTime: %w", err)
+	}
+	return oldValue.CreateTime, nil
+}
+
+// ClearCreateTime clears the value of the "create_time" field.
+func (m *AdminLoginLogMutation) ClearCreateTime() {
+	m.create_time = nil
+	m.clearedFields[adminloginlog.FieldCreateTime] = struct{}{}
+}
+
+// CreateTimeCleared returns if the "create_time" field was cleared in this mutation.
+func (m *AdminLoginLogMutation) CreateTimeCleared() bool {
+	_, ok := m.clearedFields[adminloginlog.FieldCreateTime]
+	return ok
+}
+
+// ResetCreateTime resets all changes to the "create_time" field.
+func (m *AdminLoginLogMutation) ResetCreateTime() {
+	m.create_time = nil
+	delete(m.clearedFields, adminloginlog.FieldCreateTime)
+}
+
+// SetUpdateTime sets the "update_time" field.
+func (m *AdminLoginLogMutation) SetUpdateTime(t time.Time) {
+	m.update_time = &t
+}
+
+// UpdateTime returns the value of the "update_time" field in the mutation.
+func (m *AdminLoginLogMutation) UpdateTime() (r time.Time, exists bool) {
+	v := m.update_time
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldUpdateTime returns the old "update_time" field's value of the AdminLoginLog entity.
+// If the AdminLoginLog object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *AdminLoginLogMutation) OldUpdateTime(ctx context.Context) (v *time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldUpdateTime is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldUpdateTime requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldUpdateTime: %w", err)
+	}
+	return oldValue.UpdateTime, nil
+}
+
+// ClearUpdateTime clears the value of the "update_time" field.
+func (m *AdminLoginLogMutation) ClearUpdateTime() {
+	m.update_time = nil
+	m.clearedFields[adminloginlog.FieldUpdateTime] = struct{}{}
+}
+
+// UpdateTimeCleared returns if the "update_time" field was cleared in this mutation.
+func (m *AdminLoginLogMutation) UpdateTimeCleared() bool {
+	_, ok := m.clearedFields[adminloginlog.FieldUpdateTime]
+	return ok
+}
+
+// ResetUpdateTime resets all changes to the "update_time" field.
+func (m *AdminLoginLogMutation) ResetUpdateTime() {
+	m.update_time = nil
+	delete(m.clearedFields, adminloginlog.FieldUpdateTime)
+}
+
+// SetDeleteTime sets the "delete_time" field.
+func (m *AdminLoginLogMutation) SetDeleteTime(t time.Time) {
+	m.delete_time = &t
+}
+
+// DeleteTime returns the value of the "delete_time" field in the mutation.
+func (m *AdminLoginLogMutation) DeleteTime() (r time.Time, exists bool) {
+	v := m.delete_time
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldDeleteTime returns the old "delete_time" field's value of the AdminLoginLog entity.
+// If the AdminLoginLog object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *AdminLoginLogMutation) OldDeleteTime(ctx context.Context) (v *time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldDeleteTime is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldDeleteTime requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldDeleteTime: %w", err)
+	}
+	return oldValue.DeleteTime, nil
+}
+
+// ClearDeleteTime clears the value of the "delete_time" field.
+func (m *AdminLoginLogMutation) ClearDeleteTime() {
+	m.delete_time = nil
+	m.clearedFields[adminloginlog.FieldDeleteTime] = struct{}{}
+}
+
+// DeleteTimeCleared returns if the "delete_time" field was cleared in this mutation.
+func (m *AdminLoginLogMutation) DeleteTimeCleared() bool {
+	_, ok := m.clearedFields[adminloginlog.FieldDeleteTime]
+	return ok
+}
+
+// ResetDeleteTime resets all changes to the "delete_time" field.
+func (m *AdminLoginLogMutation) ResetDeleteTime() {
+	m.delete_time = nil
+	delete(m.clearedFields, adminloginlog.FieldDeleteTime)
+}
+
+// SetLoginIP sets the "login_ip" field.
+func (m *AdminLoginLogMutation) SetLoginIP(s string) {
+	m.login_ip = &s
+}
+
+// LoginIP returns the value of the "login_ip" field in the mutation.
+func (m *AdminLoginLogMutation) LoginIP() (r string, exists bool) {
+	v := m.login_ip
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldLoginIP returns the old "login_ip" field's value of the AdminLoginLog entity.
+// If the AdminLoginLog object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *AdminLoginLogMutation) OldLoginIP(ctx context.Context) (v *string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldLoginIP is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldLoginIP requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldLoginIP: %w", err)
+	}
+	return oldValue.LoginIP, nil
+}
+
+// ClearLoginIP clears the value of the "login_ip" field.
+func (m *AdminLoginLogMutation) ClearLoginIP() {
+	m.login_ip = nil
+	m.clearedFields[adminloginlog.FieldLoginIP] = struct{}{}
+}
+
+// LoginIPCleared returns if the "login_ip" field was cleared in this mutation.
+func (m *AdminLoginLogMutation) LoginIPCleared() bool {
+	_, ok := m.clearedFields[adminloginlog.FieldLoginIP]
+	return ok
+}
+
+// ResetLoginIP resets all changes to the "login_ip" field.
+func (m *AdminLoginLogMutation) ResetLoginIP() {
+	m.login_ip = nil
+	delete(m.clearedFields, adminloginlog.FieldLoginIP)
+}
+
+// SetLoginMAC sets the "login_mac" field.
+func (m *AdminLoginLogMutation) SetLoginMAC(s string) {
+	m.login_mac = &s
+}
+
+// LoginMAC returns the value of the "login_mac" field in the mutation.
+func (m *AdminLoginLogMutation) LoginMAC() (r string, exists bool) {
+	v := m.login_mac
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldLoginMAC returns the old "login_mac" field's value of the AdminLoginLog entity.
+// If the AdminLoginLog object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *AdminLoginLogMutation) OldLoginMAC(ctx context.Context) (v *string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldLoginMAC is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldLoginMAC requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldLoginMAC: %w", err)
+	}
+	return oldValue.LoginMAC, nil
+}
+
+// ClearLoginMAC clears the value of the "login_mac" field.
+func (m *AdminLoginLogMutation) ClearLoginMAC() {
+	m.login_mac = nil
+	m.clearedFields[adminloginlog.FieldLoginMAC] = struct{}{}
+}
+
+// LoginMACCleared returns if the "login_mac" field was cleared in this mutation.
+func (m *AdminLoginLogMutation) LoginMACCleared() bool {
+	_, ok := m.clearedFields[adminloginlog.FieldLoginMAC]
+	return ok
+}
+
+// ResetLoginMAC resets all changes to the "login_mac" field.
+func (m *AdminLoginLogMutation) ResetLoginMAC() {
+	m.login_mac = nil
+	delete(m.clearedFields, adminloginlog.FieldLoginMAC)
+}
+
+// SetLoginTime sets the "login_time" field.
+func (m *AdminLoginLogMutation) SetLoginTime(t time.Time) {
+	m.login_time = &t
+}
+
+// LoginTime returns the value of the "login_time" field in the mutation.
+func (m *AdminLoginLogMutation) LoginTime() (r time.Time, exists bool) {
+	v := m.login_time
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldLoginTime returns the old "login_time" field's value of the AdminLoginLog entity.
+// If the AdminLoginLog object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *AdminLoginLogMutation) OldLoginTime(ctx context.Context) (v *time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldLoginTime is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldLoginTime requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldLoginTime: %w", err)
+	}
+	return oldValue.LoginTime, nil
+}
+
+// ClearLoginTime clears the value of the "login_time" field.
+func (m *AdminLoginLogMutation) ClearLoginTime() {
+	m.login_time = nil
+	m.clearedFields[adminloginlog.FieldLoginTime] = struct{}{}
+}
+
+// LoginTimeCleared returns if the "login_time" field was cleared in this mutation.
+func (m *AdminLoginLogMutation) LoginTimeCleared() bool {
+	_, ok := m.clearedFields[adminloginlog.FieldLoginTime]
+	return ok
+}
+
+// ResetLoginTime resets all changes to the "login_time" field.
+func (m *AdminLoginLogMutation) ResetLoginTime() {
+	m.login_time = nil
+	delete(m.clearedFields, adminloginlog.FieldLoginTime)
+}
+
+// SetUserAgent sets the "user_agent" field.
+func (m *AdminLoginLogMutation) SetUserAgent(s string) {
+	m.user_agent = &s
+}
+
+// UserAgent returns the value of the "user_agent" field in the mutation.
+func (m *AdminLoginLogMutation) UserAgent() (r string, exists bool) {
+	v := m.user_agent
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldUserAgent returns the old "user_agent" field's value of the AdminLoginLog entity.
+// If the AdminLoginLog object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *AdminLoginLogMutation) OldUserAgent(ctx context.Context) (v *string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldUserAgent is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldUserAgent requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldUserAgent: %w", err)
+	}
+	return oldValue.UserAgent, nil
+}
+
+// ClearUserAgent clears the value of the "user_agent" field.
+func (m *AdminLoginLogMutation) ClearUserAgent() {
+	m.user_agent = nil
+	m.clearedFields[adminloginlog.FieldUserAgent] = struct{}{}
+}
+
+// UserAgentCleared returns if the "user_agent" field was cleared in this mutation.
+func (m *AdminLoginLogMutation) UserAgentCleared() bool {
+	_, ok := m.clearedFields[adminloginlog.FieldUserAgent]
+	return ok
+}
+
+// ResetUserAgent resets all changes to the "user_agent" field.
+func (m *AdminLoginLogMutation) ResetUserAgent() {
+	m.user_agent = nil
+	delete(m.clearedFields, adminloginlog.FieldUserAgent)
+}
+
+// SetBrowserName sets the "browser_name" field.
+func (m *AdminLoginLogMutation) SetBrowserName(s string) {
+	m.browser_name = &s
+}
+
+// BrowserName returns the value of the "browser_name" field in the mutation.
+func (m *AdminLoginLogMutation) BrowserName() (r string, exists bool) {
+	v := m.browser_name
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldBrowserName returns the old "browser_name" field's value of the AdminLoginLog entity.
+// If the AdminLoginLog object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *AdminLoginLogMutation) OldBrowserName(ctx context.Context) (v *string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldBrowserName is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldBrowserName requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldBrowserName: %w", err)
+	}
+	return oldValue.BrowserName, nil
+}
+
+// ClearBrowserName clears the value of the "browser_name" field.
+func (m *AdminLoginLogMutation) ClearBrowserName() {
+	m.browser_name = nil
+	m.clearedFields[adminloginlog.FieldBrowserName] = struct{}{}
+}
+
+// BrowserNameCleared returns if the "browser_name" field was cleared in this mutation.
+func (m *AdminLoginLogMutation) BrowserNameCleared() bool {
+	_, ok := m.clearedFields[adminloginlog.FieldBrowserName]
+	return ok
+}
+
+// ResetBrowserName resets all changes to the "browser_name" field.
+func (m *AdminLoginLogMutation) ResetBrowserName() {
+	m.browser_name = nil
+	delete(m.clearedFields, adminloginlog.FieldBrowserName)
+}
+
+// SetBrowserVersion sets the "browser_version" field.
+func (m *AdminLoginLogMutation) SetBrowserVersion(s string) {
+	m.browser_version = &s
+}
+
+// BrowserVersion returns the value of the "browser_version" field in the mutation.
+func (m *AdminLoginLogMutation) BrowserVersion() (r string, exists bool) {
+	v := m.browser_version
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldBrowserVersion returns the old "browser_version" field's value of the AdminLoginLog entity.
+// If the AdminLoginLog object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *AdminLoginLogMutation) OldBrowserVersion(ctx context.Context) (v *string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldBrowserVersion is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldBrowserVersion requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldBrowserVersion: %w", err)
+	}
+	return oldValue.BrowserVersion, nil
+}
+
+// ClearBrowserVersion clears the value of the "browser_version" field.
+func (m *AdminLoginLogMutation) ClearBrowserVersion() {
+	m.browser_version = nil
+	m.clearedFields[adminloginlog.FieldBrowserVersion] = struct{}{}
+}
+
+// BrowserVersionCleared returns if the "browser_version" field was cleared in this mutation.
+func (m *AdminLoginLogMutation) BrowserVersionCleared() bool {
+	_, ok := m.clearedFields[adminloginlog.FieldBrowserVersion]
+	return ok
+}
+
+// ResetBrowserVersion resets all changes to the "browser_version" field.
+func (m *AdminLoginLogMutation) ResetBrowserVersion() {
+	m.browser_version = nil
+	delete(m.clearedFields, adminloginlog.FieldBrowserVersion)
+}
+
+// SetClientID sets the "client_id" field.
+func (m *AdminLoginLogMutation) SetClientID(s string) {
+	m.client_id = &s
+}
+
+// ClientID returns the value of the "client_id" field in the mutation.
+func (m *AdminLoginLogMutation) ClientID() (r string, exists bool) {
+	v := m.client_id
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldClientID returns the old "client_id" field's value of the AdminLoginLog entity.
+// If the AdminLoginLog object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *AdminLoginLogMutation) OldClientID(ctx context.Context) (v *string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldClientID is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldClientID requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldClientID: %w", err)
+	}
+	return oldValue.ClientID, nil
+}
+
+// ClearClientID clears the value of the "client_id" field.
+func (m *AdminLoginLogMutation) ClearClientID() {
+	m.client_id = nil
+	m.clearedFields[adminloginlog.FieldClientID] = struct{}{}
+}
+
+// ClientIDCleared returns if the "client_id" field was cleared in this mutation.
+func (m *AdminLoginLogMutation) ClientIDCleared() bool {
+	_, ok := m.clearedFields[adminloginlog.FieldClientID]
+	return ok
+}
+
+// ResetClientID resets all changes to the "client_id" field.
+func (m *AdminLoginLogMutation) ResetClientID() {
+	m.client_id = nil
+	delete(m.clearedFields, adminloginlog.FieldClientID)
+}
+
+// SetClientName sets the "client_name" field.
+func (m *AdminLoginLogMutation) SetClientName(s string) {
+	m.client_name = &s
+}
+
+// ClientName returns the value of the "client_name" field in the mutation.
+func (m *AdminLoginLogMutation) ClientName() (r string, exists bool) {
+	v := m.client_name
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldClientName returns the old "client_name" field's value of the AdminLoginLog entity.
+// If the AdminLoginLog object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *AdminLoginLogMutation) OldClientName(ctx context.Context) (v *string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldClientName is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldClientName requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldClientName: %w", err)
+	}
+	return oldValue.ClientName, nil
+}
+
+// ClearClientName clears the value of the "client_name" field.
+func (m *AdminLoginLogMutation) ClearClientName() {
+	m.client_name = nil
+	m.clearedFields[adminloginlog.FieldClientName] = struct{}{}
+}
+
+// ClientNameCleared returns if the "client_name" field was cleared in this mutation.
+func (m *AdminLoginLogMutation) ClientNameCleared() bool {
+	_, ok := m.clearedFields[adminloginlog.FieldClientName]
+	return ok
+}
+
+// ResetClientName resets all changes to the "client_name" field.
+func (m *AdminLoginLogMutation) ResetClientName() {
+	m.client_name = nil
+	delete(m.clearedFields, adminloginlog.FieldClientName)
+}
+
+// SetOsName sets the "os_name" field.
+func (m *AdminLoginLogMutation) SetOsName(s string) {
+	m.os_name = &s
+}
+
+// OsName returns the value of the "os_name" field in the mutation.
+func (m *AdminLoginLogMutation) OsName() (r string, exists bool) {
+	v := m.os_name
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldOsName returns the old "os_name" field's value of the AdminLoginLog entity.
+// If the AdminLoginLog object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *AdminLoginLogMutation) OldOsName(ctx context.Context) (v *string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldOsName is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldOsName requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldOsName: %w", err)
+	}
+	return oldValue.OsName, nil
+}
+
+// ClearOsName clears the value of the "os_name" field.
+func (m *AdminLoginLogMutation) ClearOsName() {
+	m.os_name = nil
+	m.clearedFields[adminloginlog.FieldOsName] = struct{}{}
+}
+
+// OsNameCleared returns if the "os_name" field was cleared in this mutation.
+func (m *AdminLoginLogMutation) OsNameCleared() bool {
+	_, ok := m.clearedFields[adminloginlog.FieldOsName]
+	return ok
+}
+
+// ResetOsName resets all changes to the "os_name" field.
+func (m *AdminLoginLogMutation) ResetOsName() {
+	m.os_name = nil
+	delete(m.clearedFields, adminloginlog.FieldOsName)
+}
+
+// SetOsVersion sets the "os_version" field.
+func (m *AdminLoginLogMutation) SetOsVersion(s string) {
+	m.os_version = &s
+}
+
+// OsVersion returns the value of the "os_version" field in the mutation.
+func (m *AdminLoginLogMutation) OsVersion() (r string, exists bool) {
+	v := m.os_version
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldOsVersion returns the old "os_version" field's value of the AdminLoginLog entity.
+// If the AdminLoginLog object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *AdminLoginLogMutation) OldOsVersion(ctx context.Context) (v *string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldOsVersion is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldOsVersion requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldOsVersion: %w", err)
+	}
+	return oldValue.OsVersion, nil
+}
+
+// ClearOsVersion clears the value of the "os_version" field.
+func (m *AdminLoginLogMutation) ClearOsVersion() {
+	m.os_version = nil
+	m.clearedFields[adminloginlog.FieldOsVersion] = struct{}{}
+}
+
+// OsVersionCleared returns if the "os_version" field was cleared in this mutation.
+func (m *AdminLoginLogMutation) OsVersionCleared() bool {
+	_, ok := m.clearedFields[adminloginlog.FieldOsVersion]
+	return ok
+}
+
+// ResetOsVersion resets all changes to the "os_version" field.
+func (m *AdminLoginLogMutation) ResetOsVersion() {
+	m.os_version = nil
+	delete(m.clearedFields, adminloginlog.FieldOsVersion)
+}
+
+// SetUserID sets the "user_id" field.
+func (m *AdminLoginLogMutation) SetUserID(u uint32) {
+	m.user_id = &u
+	m.adduser_id = nil
+}
+
+// UserID returns the value of the "user_id" field in the mutation.
+func (m *AdminLoginLogMutation) UserID() (r uint32, exists bool) {
+	v := m.user_id
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldUserID returns the old "user_id" field's value of the AdminLoginLog entity.
+// If the AdminLoginLog object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *AdminLoginLogMutation) OldUserID(ctx context.Context) (v *uint32, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldUserID is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldUserID requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldUserID: %w", err)
+	}
+	return oldValue.UserID, nil
+}
+
+// AddUserID adds u to the "user_id" field.
+func (m *AdminLoginLogMutation) AddUserID(u int32) {
+	if m.adduser_id != nil {
+		*m.adduser_id += u
+	} else {
+		m.adduser_id = &u
+	}
+}
+
+// AddedUserID returns the value that was added to the "user_id" field in this mutation.
+func (m *AdminLoginLogMutation) AddedUserID() (r int32, exists bool) {
+	v := m.adduser_id
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ClearUserID clears the value of the "user_id" field.
+func (m *AdminLoginLogMutation) ClearUserID() {
+	m.user_id = nil
+	m.adduser_id = nil
+	m.clearedFields[adminloginlog.FieldUserID] = struct{}{}
+}
+
+// UserIDCleared returns if the "user_id" field was cleared in this mutation.
+func (m *AdminLoginLogMutation) UserIDCleared() bool {
+	_, ok := m.clearedFields[adminloginlog.FieldUserID]
+	return ok
+}
+
+// ResetUserID resets all changes to the "user_id" field.
+func (m *AdminLoginLogMutation) ResetUserID() {
+	m.user_id = nil
+	m.adduser_id = nil
+	delete(m.clearedFields, adminloginlog.FieldUserID)
+}
+
+// SetUserName sets the "user_name" field.
+func (m *AdminLoginLogMutation) SetUserName(s string) {
+	m.user_name = &s
+}
+
+// UserName returns the value of the "user_name" field in the mutation.
+func (m *AdminLoginLogMutation) UserName() (r string, exists bool) {
+	v := m.user_name
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldUserName returns the old "user_name" field's value of the AdminLoginLog entity.
+// If the AdminLoginLog object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *AdminLoginLogMutation) OldUserName(ctx context.Context) (v *string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldUserName is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldUserName requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldUserName: %w", err)
+	}
+	return oldValue.UserName, nil
+}
+
+// ClearUserName clears the value of the "user_name" field.
+func (m *AdminLoginLogMutation) ClearUserName() {
+	m.user_name = nil
+	m.clearedFields[adminloginlog.FieldUserName] = struct{}{}
+}
+
+// UserNameCleared returns if the "user_name" field was cleared in this mutation.
+func (m *AdminLoginLogMutation) UserNameCleared() bool {
+	_, ok := m.clearedFields[adminloginlog.FieldUserName]
+	return ok
+}
+
+// ResetUserName resets all changes to the "user_name" field.
+func (m *AdminLoginLogMutation) ResetUserName() {
+	m.user_name = nil
+	delete(m.clearedFields, adminloginlog.FieldUserName)
+}
+
+// SetStatusCode sets the "status_code" field.
+func (m *AdminLoginLogMutation) SetStatusCode(i int32) {
+	m.status_code = &i
+	m.addstatus_code = nil
+}
+
+// StatusCode returns the value of the "status_code" field in the mutation.
+func (m *AdminLoginLogMutation) StatusCode() (r int32, exists bool) {
+	v := m.status_code
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldStatusCode returns the old "status_code" field's value of the AdminLoginLog entity.
+// If the AdminLoginLog object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *AdminLoginLogMutation) OldStatusCode(ctx context.Context) (v *int32, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldStatusCode is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldStatusCode requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldStatusCode: %w", err)
+	}
+	return oldValue.StatusCode, nil
+}
+
+// AddStatusCode adds i to the "status_code" field.
+func (m *AdminLoginLogMutation) AddStatusCode(i int32) {
+	if m.addstatus_code != nil {
+		*m.addstatus_code += i
+	} else {
+		m.addstatus_code = &i
+	}
+}
+
+// AddedStatusCode returns the value that was added to the "status_code" field in this mutation.
+func (m *AdminLoginLogMutation) AddedStatusCode() (r int32, exists bool) {
+	v := m.addstatus_code
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ClearStatusCode clears the value of the "status_code" field.
+func (m *AdminLoginLogMutation) ClearStatusCode() {
+	m.status_code = nil
+	m.addstatus_code = nil
+	m.clearedFields[adminloginlog.FieldStatusCode] = struct{}{}
+}
+
+// StatusCodeCleared returns if the "status_code" field was cleared in this mutation.
+func (m *AdminLoginLogMutation) StatusCodeCleared() bool {
+	_, ok := m.clearedFields[adminloginlog.FieldStatusCode]
+	return ok
+}
+
+// ResetStatusCode resets all changes to the "status_code" field.
+func (m *AdminLoginLogMutation) ResetStatusCode() {
+	m.status_code = nil
+	m.addstatus_code = nil
+	delete(m.clearedFields, adminloginlog.FieldStatusCode)
+}
+
+// SetSuccess sets the "success" field.
+func (m *AdminLoginLogMutation) SetSuccess(b bool) {
+	m.success = &b
+}
+
+// Success returns the value of the "success" field in the mutation.
+func (m *AdminLoginLogMutation) Success() (r bool, exists bool) {
+	v := m.success
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldSuccess returns the old "success" field's value of the AdminLoginLog entity.
+// If the AdminLoginLog object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *AdminLoginLogMutation) OldSuccess(ctx context.Context) (v *bool, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldSuccess is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldSuccess requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldSuccess: %w", err)
+	}
+	return oldValue.Success, nil
+}
+
+// ClearSuccess clears the value of the "success" field.
+func (m *AdminLoginLogMutation) ClearSuccess() {
+	m.success = nil
+	m.clearedFields[adminloginlog.FieldSuccess] = struct{}{}
+}
+
+// SuccessCleared returns if the "success" field was cleared in this mutation.
+func (m *AdminLoginLogMutation) SuccessCleared() bool {
+	_, ok := m.clearedFields[adminloginlog.FieldSuccess]
+	return ok
+}
+
+// ResetSuccess resets all changes to the "success" field.
+func (m *AdminLoginLogMutation) ResetSuccess() {
+	m.success = nil
+	delete(m.clearedFields, adminloginlog.FieldSuccess)
+}
+
+// SetReason sets the "reason" field.
+func (m *AdminLoginLogMutation) SetReason(s string) {
+	m.reason = &s
+}
+
+// Reason returns the value of the "reason" field in the mutation.
+func (m *AdminLoginLogMutation) Reason() (r string, exists bool) {
+	v := m.reason
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldReason returns the old "reason" field's value of the AdminLoginLog entity.
+// If the AdminLoginLog object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *AdminLoginLogMutation) OldReason(ctx context.Context) (v *string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldReason is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldReason requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldReason: %w", err)
+	}
+	return oldValue.Reason, nil
+}
+
+// ClearReason clears the value of the "reason" field.
+func (m *AdminLoginLogMutation) ClearReason() {
+	m.reason = nil
+	m.clearedFields[adminloginlog.FieldReason] = struct{}{}
+}
+
+// ReasonCleared returns if the "reason" field was cleared in this mutation.
+func (m *AdminLoginLogMutation) ReasonCleared() bool {
+	_, ok := m.clearedFields[adminloginlog.FieldReason]
+	return ok
+}
+
+// ResetReason resets all changes to the "reason" field.
+func (m *AdminLoginLogMutation) ResetReason() {
+	m.reason = nil
+	delete(m.clearedFields, adminloginlog.FieldReason)
+}
+
+// SetLocation sets the "location" field.
+func (m *AdminLoginLogMutation) SetLocation(s string) {
+	m.location = &s
+}
+
+// Location returns the value of the "location" field in the mutation.
+func (m *AdminLoginLogMutation) Location() (r string, exists bool) {
+	v := m.location
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldLocation returns the old "location" field's value of the AdminLoginLog entity.
+// If the AdminLoginLog object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *AdminLoginLogMutation) OldLocation(ctx context.Context) (v *string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldLocation is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldLocation requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldLocation: %w", err)
+	}
+	return oldValue.Location, nil
+}
+
+// ClearLocation clears the value of the "location" field.
+func (m *AdminLoginLogMutation) ClearLocation() {
+	m.location = nil
+	m.clearedFields[adminloginlog.FieldLocation] = struct{}{}
+}
+
+// LocationCleared returns if the "location" field was cleared in this mutation.
+func (m *AdminLoginLogMutation) LocationCleared() bool {
+	_, ok := m.clearedFields[adminloginlog.FieldLocation]
+	return ok
+}
+
+// ResetLocation resets all changes to the "location" field.
+func (m *AdminLoginLogMutation) ResetLocation() {
+	m.location = nil
+	delete(m.clearedFields, adminloginlog.FieldLocation)
+}
+
+// Where appends a list predicates to the AdminLoginLogMutation builder.
+func (m *AdminLoginLogMutation) Where(ps ...predicate.AdminLoginLog) {
+	m.predicates = append(m.predicates, ps...)
+}
+
+// WhereP appends storage-level predicates to the AdminLoginLogMutation builder. Using this method,
+// users can use type-assertion to append predicates that do not depend on any generated package.
+func (m *AdminLoginLogMutation) WhereP(ps ...func(*sql.Selector)) {
+	p := make([]predicate.AdminLoginLog, len(ps))
+	for i := range ps {
+		p[i] = ps[i]
+	}
+	m.Where(p...)
+}
+
+// Op returns the operation name.
+func (m *AdminLoginLogMutation) Op() Op {
+	return m.op
+}
+
+// SetOp allows setting the mutation operation.
+func (m *AdminLoginLogMutation) SetOp(op Op) {
+	m.op = op
+}
+
+// Type returns the node type of this mutation (AdminLoginLog).
+func (m *AdminLoginLogMutation) Type() string {
+	return m.typ
+}
+
+// Fields returns all fields that were changed during this mutation. Note that in
+// order to get all numeric fields that were incremented/decremented, call
+// AddedFields().
+func (m *AdminLoginLogMutation) Fields() []string {
+	fields := make([]string, 0, 19)
+	if m.create_time != nil {
+		fields = append(fields, adminloginlog.FieldCreateTime)
+	}
+	if m.update_time != nil {
+		fields = append(fields, adminloginlog.FieldUpdateTime)
+	}
+	if m.delete_time != nil {
+		fields = append(fields, adminloginlog.FieldDeleteTime)
+	}
+	if m.login_ip != nil {
+		fields = append(fields, adminloginlog.FieldLoginIP)
+	}
+	if m.login_mac != nil {
+		fields = append(fields, adminloginlog.FieldLoginMAC)
+	}
+	if m.login_time != nil {
+		fields = append(fields, adminloginlog.FieldLoginTime)
+	}
+	if m.user_agent != nil {
+		fields = append(fields, adminloginlog.FieldUserAgent)
+	}
+	if m.browser_name != nil {
+		fields = append(fields, adminloginlog.FieldBrowserName)
+	}
+	if m.browser_version != nil {
+		fields = append(fields, adminloginlog.FieldBrowserVersion)
+	}
+	if m.client_id != nil {
+		fields = append(fields, adminloginlog.FieldClientID)
+	}
+	if m.client_name != nil {
+		fields = append(fields, adminloginlog.FieldClientName)
+	}
+	if m.os_name != nil {
+		fields = append(fields, adminloginlog.FieldOsName)
+	}
+	if m.os_version != nil {
+		fields = append(fields, adminloginlog.FieldOsVersion)
+	}
+	if m.user_id != nil {
+		fields = append(fields, adminloginlog.FieldUserID)
+	}
+	if m.user_name != nil {
+		fields = append(fields, adminloginlog.FieldUserName)
+	}
+	if m.status_code != nil {
+		fields = append(fields, adminloginlog.FieldStatusCode)
+	}
+	if m.success != nil {
+		fields = append(fields, adminloginlog.FieldSuccess)
+	}
+	if m.reason != nil {
+		fields = append(fields, adminloginlog.FieldReason)
+	}
+	if m.location != nil {
+		fields = append(fields, adminloginlog.FieldLocation)
+	}
+	return fields
+}
+
+// Field returns the value of a field with the given name. The second boolean
+// return value indicates that this field was not set, or was not defined in the
+// schema.
+func (m *AdminLoginLogMutation) Field(name string) (ent.Value, bool) {
+	switch name {
+	case adminloginlog.FieldCreateTime:
+		return m.CreateTime()
+	case adminloginlog.FieldUpdateTime:
+		return m.UpdateTime()
+	case adminloginlog.FieldDeleteTime:
+		return m.DeleteTime()
+	case adminloginlog.FieldLoginIP:
+		return m.LoginIP()
+	case adminloginlog.FieldLoginMAC:
+		return m.LoginMAC()
+	case adminloginlog.FieldLoginTime:
+		return m.LoginTime()
+	case adminloginlog.FieldUserAgent:
+		return m.UserAgent()
+	case adminloginlog.FieldBrowserName:
+		return m.BrowserName()
+	case adminloginlog.FieldBrowserVersion:
+		return m.BrowserVersion()
+	case adminloginlog.FieldClientID:
+		return m.ClientID()
+	case adminloginlog.FieldClientName:
+		return m.ClientName()
+	case adminloginlog.FieldOsName:
+		return m.OsName()
+	case adminloginlog.FieldOsVersion:
+		return m.OsVersion()
+	case adminloginlog.FieldUserID:
+		return m.UserID()
+	case adminloginlog.FieldUserName:
+		return m.UserName()
+	case adminloginlog.FieldStatusCode:
+		return m.StatusCode()
+	case adminloginlog.FieldSuccess:
+		return m.Success()
+	case adminloginlog.FieldReason:
+		return m.Reason()
+	case adminloginlog.FieldLocation:
+		return m.Location()
+	}
+	return nil, false
+}
+
+// OldField returns the old value of the field from the database. An error is
+// returned if the mutation operation is not UpdateOne, or the query to the
+// database failed.
+func (m *AdminLoginLogMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
+	switch name {
+	case adminloginlog.FieldCreateTime:
+		return m.OldCreateTime(ctx)
+	case adminloginlog.FieldUpdateTime:
+		return m.OldUpdateTime(ctx)
+	case adminloginlog.FieldDeleteTime:
+		return m.OldDeleteTime(ctx)
+	case adminloginlog.FieldLoginIP:
+		return m.OldLoginIP(ctx)
+	case adminloginlog.FieldLoginMAC:
+		return m.OldLoginMAC(ctx)
+	case adminloginlog.FieldLoginTime:
+		return m.OldLoginTime(ctx)
+	case adminloginlog.FieldUserAgent:
+		return m.OldUserAgent(ctx)
+	case adminloginlog.FieldBrowserName:
+		return m.OldBrowserName(ctx)
+	case adminloginlog.FieldBrowserVersion:
+		return m.OldBrowserVersion(ctx)
+	case adminloginlog.FieldClientID:
+		return m.OldClientID(ctx)
+	case adminloginlog.FieldClientName:
+		return m.OldClientName(ctx)
+	case adminloginlog.FieldOsName:
+		return m.OldOsName(ctx)
+	case adminloginlog.FieldOsVersion:
+		return m.OldOsVersion(ctx)
+	case adminloginlog.FieldUserID:
+		return m.OldUserID(ctx)
+	case adminloginlog.FieldUserName:
+		return m.OldUserName(ctx)
+	case adminloginlog.FieldStatusCode:
+		return m.OldStatusCode(ctx)
+	case adminloginlog.FieldSuccess:
+		return m.OldSuccess(ctx)
+	case adminloginlog.FieldReason:
+		return m.OldReason(ctx)
+	case adminloginlog.FieldLocation:
+		return m.OldLocation(ctx)
+	}
+	return nil, fmt.Errorf("unknown AdminLoginLog field %s", name)
+}
+
+// SetField sets the value of a field with the given name. It returns an error if
+// the field is not defined in the schema, or if the type mismatched the field
+// type.
+func (m *AdminLoginLogMutation) SetField(name string, value ent.Value) error {
+	switch name {
+	case adminloginlog.FieldCreateTime:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetCreateTime(v)
+		return nil
+	case adminloginlog.FieldUpdateTime:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetUpdateTime(v)
+		return nil
+	case adminloginlog.FieldDeleteTime:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetDeleteTime(v)
+		return nil
+	case adminloginlog.FieldLoginIP:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetLoginIP(v)
+		return nil
+	case adminloginlog.FieldLoginMAC:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetLoginMAC(v)
+		return nil
+	case adminloginlog.FieldLoginTime:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetLoginTime(v)
+		return nil
+	case adminloginlog.FieldUserAgent:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetUserAgent(v)
+		return nil
+	case adminloginlog.FieldBrowserName:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetBrowserName(v)
+		return nil
+	case adminloginlog.FieldBrowserVersion:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetBrowserVersion(v)
+		return nil
+	case adminloginlog.FieldClientID:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetClientID(v)
+		return nil
+	case adminloginlog.FieldClientName:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetClientName(v)
+		return nil
+	case adminloginlog.FieldOsName:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetOsName(v)
+		return nil
+	case adminloginlog.FieldOsVersion:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetOsVersion(v)
+		return nil
+	case adminloginlog.FieldUserID:
+		v, ok := value.(uint32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetUserID(v)
+		return nil
+	case adminloginlog.FieldUserName:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetUserName(v)
+		return nil
+	case adminloginlog.FieldStatusCode:
+		v, ok := value.(int32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetStatusCode(v)
+		return nil
+	case adminloginlog.FieldSuccess:
+		v, ok := value.(bool)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetSuccess(v)
+		return nil
+	case adminloginlog.FieldReason:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetReason(v)
+		return nil
+	case adminloginlog.FieldLocation:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetLocation(v)
+		return nil
+	}
+	return fmt.Errorf("unknown AdminLoginLog field %s", name)
+}
+
+// AddedFields returns all numeric fields that were incremented/decremented during
+// this mutation.
+func (m *AdminLoginLogMutation) AddedFields() []string {
+	var fields []string
+	if m.adduser_id != nil {
+		fields = append(fields, adminloginlog.FieldUserID)
+	}
+	if m.addstatus_code != nil {
+		fields = append(fields, adminloginlog.FieldStatusCode)
+	}
+	return fields
+}
+
+// AddedField returns the numeric value that was incremented/decremented on a field
+// with the given name. The second boolean return value indicates that this field
+// was not set, or was not defined in the schema.
+func (m *AdminLoginLogMutation) AddedField(name string) (ent.Value, bool) {
+	switch name {
+	case adminloginlog.FieldUserID:
+		return m.AddedUserID()
+	case adminloginlog.FieldStatusCode:
+		return m.AddedStatusCode()
+	}
+	return nil, false
+}
+
+// AddField adds the value to the field with the given name. It returns an error if
+// the field is not defined in the schema, or if the type mismatched the field
+// type.
+func (m *AdminLoginLogMutation) AddField(name string, value ent.Value) error {
+	switch name {
+	case adminloginlog.FieldUserID:
+		v, ok := value.(int32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddUserID(v)
+		return nil
+	case adminloginlog.FieldStatusCode:
+		v, ok := value.(int32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddStatusCode(v)
+		return nil
+	}
+	return fmt.Errorf("unknown AdminLoginLog numeric field %s", name)
+}
+
+// ClearedFields returns all nullable fields that were cleared during this
+// mutation.
+func (m *AdminLoginLogMutation) ClearedFields() []string {
+	var fields []string
+	if m.FieldCleared(adminloginlog.FieldCreateTime) {
+		fields = append(fields, adminloginlog.FieldCreateTime)
+	}
+	if m.FieldCleared(adminloginlog.FieldUpdateTime) {
+		fields = append(fields, adminloginlog.FieldUpdateTime)
+	}
+	if m.FieldCleared(adminloginlog.FieldDeleteTime) {
+		fields = append(fields, adminloginlog.FieldDeleteTime)
+	}
+	if m.FieldCleared(adminloginlog.FieldLoginIP) {
+		fields = append(fields, adminloginlog.FieldLoginIP)
+	}
+	if m.FieldCleared(adminloginlog.FieldLoginMAC) {
+		fields = append(fields, adminloginlog.FieldLoginMAC)
+	}
+	if m.FieldCleared(adminloginlog.FieldLoginTime) {
+		fields = append(fields, adminloginlog.FieldLoginTime)
+	}
+	if m.FieldCleared(adminloginlog.FieldUserAgent) {
+		fields = append(fields, adminloginlog.FieldUserAgent)
+	}
+	if m.FieldCleared(adminloginlog.FieldBrowserName) {
+		fields = append(fields, adminloginlog.FieldBrowserName)
+	}
+	if m.FieldCleared(adminloginlog.FieldBrowserVersion) {
+		fields = append(fields, adminloginlog.FieldBrowserVersion)
+	}
+	if m.FieldCleared(adminloginlog.FieldClientID) {
+		fields = append(fields, adminloginlog.FieldClientID)
+	}
+	if m.FieldCleared(adminloginlog.FieldClientName) {
+		fields = append(fields, adminloginlog.FieldClientName)
+	}
+	if m.FieldCleared(adminloginlog.FieldOsName) {
+		fields = append(fields, adminloginlog.FieldOsName)
+	}
+	if m.FieldCleared(adminloginlog.FieldOsVersion) {
+		fields = append(fields, adminloginlog.FieldOsVersion)
+	}
+	if m.FieldCleared(adminloginlog.FieldUserID) {
+		fields = append(fields, adminloginlog.FieldUserID)
+	}
+	if m.FieldCleared(adminloginlog.FieldUserName) {
+		fields = append(fields, adminloginlog.FieldUserName)
+	}
+	if m.FieldCleared(adminloginlog.FieldStatusCode) {
+		fields = append(fields, adminloginlog.FieldStatusCode)
+	}
+	if m.FieldCleared(adminloginlog.FieldSuccess) {
+		fields = append(fields, adminloginlog.FieldSuccess)
+	}
+	if m.FieldCleared(adminloginlog.FieldReason) {
+		fields = append(fields, adminloginlog.FieldReason)
+	}
+	if m.FieldCleared(adminloginlog.FieldLocation) {
+		fields = append(fields, adminloginlog.FieldLocation)
+	}
+	return fields
+}
+
+// FieldCleared returns a boolean indicating if a field with the given name was
+// cleared in this mutation.
+func (m *AdminLoginLogMutation) FieldCleared(name string) bool {
+	_, ok := m.clearedFields[name]
+	return ok
+}
+
+// ClearField clears the value of the field with the given name. It returns an
+// error if the field is not defined in the schema.
+func (m *AdminLoginLogMutation) ClearField(name string) error {
+	switch name {
+	case adminloginlog.FieldCreateTime:
+		m.ClearCreateTime()
+		return nil
+	case adminloginlog.FieldUpdateTime:
+		m.ClearUpdateTime()
+		return nil
+	case adminloginlog.FieldDeleteTime:
+		m.ClearDeleteTime()
+		return nil
+	case adminloginlog.FieldLoginIP:
+		m.ClearLoginIP()
+		return nil
+	case adminloginlog.FieldLoginMAC:
+		m.ClearLoginMAC()
+		return nil
+	case adminloginlog.FieldLoginTime:
+		m.ClearLoginTime()
+		return nil
+	case adminloginlog.FieldUserAgent:
+		m.ClearUserAgent()
+		return nil
+	case adminloginlog.FieldBrowserName:
+		m.ClearBrowserName()
+		return nil
+	case adminloginlog.FieldBrowserVersion:
+		m.ClearBrowserVersion()
+		return nil
+	case adminloginlog.FieldClientID:
+		m.ClearClientID()
+		return nil
+	case adminloginlog.FieldClientName:
+		m.ClearClientName()
+		return nil
+	case adminloginlog.FieldOsName:
+		m.ClearOsName()
+		return nil
+	case adminloginlog.FieldOsVersion:
+		m.ClearOsVersion()
+		return nil
+	case adminloginlog.FieldUserID:
+		m.ClearUserID()
+		return nil
+	case adminloginlog.FieldUserName:
+		m.ClearUserName()
+		return nil
+	case adminloginlog.FieldStatusCode:
+		m.ClearStatusCode()
+		return nil
+	case adminloginlog.FieldSuccess:
+		m.ClearSuccess()
+		return nil
+	case adminloginlog.FieldReason:
+		m.ClearReason()
+		return nil
+	case adminloginlog.FieldLocation:
+		m.ClearLocation()
+		return nil
+	}
+	return fmt.Errorf("unknown AdminLoginLog nullable field %s", name)
+}
+
+// ResetField resets all changes in the mutation for the field with the given name.
+// It returns an error if the field is not defined in the schema.
+func (m *AdminLoginLogMutation) ResetField(name string) error {
+	switch name {
+	case adminloginlog.FieldCreateTime:
+		m.ResetCreateTime()
+		return nil
+	case adminloginlog.FieldUpdateTime:
+		m.ResetUpdateTime()
+		return nil
+	case adminloginlog.FieldDeleteTime:
+		m.ResetDeleteTime()
+		return nil
+	case adminloginlog.FieldLoginIP:
+		m.ResetLoginIP()
+		return nil
+	case adminloginlog.FieldLoginMAC:
+		m.ResetLoginMAC()
+		return nil
+	case adminloginlog.FieldLoginTime:
+		m.ResetLoginTime()
+		return nil
+	case adminloginlog.FieldUserAgent:
+		m.ResetUserAgent()
+		return nil
+	case adminloginlog.FieldBrowserName:
+		m.ResetBrowserName()
+		return nil
+	case adminloginlog.FieldBrowserVersion:
+		m.ResetBrowserVersion()
+		return nil
+	case adminloginlog.FieldClientID:
+		m.ResetClientID()
+		return nil
+	case adminloginlog.FieldClientName:
+		m.ResetClientName()
+		return nil
+	case adminloginlog.FieldOsName:
+		m.ResetOsName()
+		return nil
+	case adminloginlog.FieldOsVersion:
+		m.ResetOsVersion()
+		return nil
+	case adminloginlog.FieldUserID:
+		m.ResetUserID()
+		return nil
+	case adminloginlog.FieldUserName:
+		m.ResetUserName()
+		return nil
+	case adminloginlog.FieldStatusCode:
+		m.ResetStatusCode()
+		return nil
+	case adminloginlog.FieldSuccess:
+		m.ResetSuccess()
+		return nil
+	case adminloginlog.FieldReason:
+		m.ResetReason()
+		return nil
+	case adminloginlog.FieldLocation:
+		m.ResetLocation()
+		return nil
+	}
+	return fmt.Errorf("unknown AdminLoginLog field %s", name)
+}
+
+// AddedEdges returns all edge names that were set/added in this mutation.
+func (m *AdminLoginLogMutation) AddedEdges() []string {
+	edges := make([]string, 0, 0)
+	return edges
+}
+
+// AddedIDs returns all IDs (to other nodes) that were added for the given edge
+// name in this mutation.
+func (m *AdminLoginLogMutation) AddedIDs(name string) []ent.Value {
+	return nil
+}
+
+// RemovedEdges returns all edge names that were removed in this mutation.
+func (m *AdminLoginLogMutation) RemovedEdges() []string {
+	edges := make([]string, 0, 0)
+	return edges
+}
+
+// RemovedIDs returns all IDs (to other nodes) that were removed for the edge with
+// the given name in this mutation.
+func (m *AdminLoginLogMutation) RemovedIDs(name string) []ent.Value {
+	return nil
+}
+
+// ClearedEdges returns all edge names that were cleared in this mutation.
+func (m *AdminLoginLogMutation) ClearedEdges() []string {
+	edges := make([]string, 0, 0)
+	return edges
+}
+
+// EdgeCleared returns a boolean which indicates if the edge with the given name
+// was cleared in this mutation.
+func (m *AdminLoginLogMutation) EdgeCleared(name string) bool {
+	return false
+}
+
+// ClearEdge clears the value of the edge with the given name. It returns an error
+// if that edge is not defined in the schema.
+func (m *AdminLoginLogMutation) ClearEdge(name string) error {
+	return fmt.Errorf("unknown AdminLoginLog unique edge %s", name)
+}
+
+// ResetEdge resets all changes to the edge with the given name in this mutation.
+// It returns an error if the edge is not defined in the schema.
+func (m *AdminLoginLogMutation) ResetEdge(name string) error {
+	return fmt.Errorf("unknown AdminLoginLog edge %s", name)
+}
+
+// AdminOperationLogMutation represents an operation that mutates the AdminOperationLog nodes in the graph.
+type AdminOperationLogMutation struct {
+	config
+	op              Op
+	typ             string
+	id              *uint32
+	create_time     *time.Time
+	update_time     *time.Time
+	delete_time     *time.Time
+	request_id      *string
+	method          *string
+	operation       *string
+	_path           *string
+	referer         *string
+	request_uri     *string
+	request_body    *string
+	request_header  *string
+	response        *string
+	cost_time       *float64
+	addcost_time    *float64
+	user_id         *uint32
+	adduser_id      *int32
+	user_name       *string
+	client_ip       *string
+	status_code     *int32
+	addstatus_code  *int32
+	reason          *string
+	success         *bool
+	location        *string
+	user_agent      *string
+	browser_name    *string
+	browser_version *string
+	client_id       *string
+	client_name     *string
+	os_name         *string
+	os_version      *string
+	clearedFields   map[string]struct{}
+	done            bool
+	oldValue        func(context.Context) (*AdminOperationLog, error)
+	predicates      []predicate.AdminOperationLog
+}
+
+var _ ent.Mutation = (*AdminOperationLogMutation)(nil)
+
+// adminoperationlogOption allows management of the mutation configuration using functional options.
+type adminoperationlogOption func(*AdminOperationLogMutation)
+
+// newAdminOperationLogMutation creates new mutation for the AdminOperationLog entity.
+func newAdminOperationLogMutation(c config, op Op, opts ...adminoperationlogOption) *AdminOperationLogMutation {
+	m := &AdminOperationLogMutation{
+		config:        c,
+		op:            op,
+		typ:           TypeAdminOperationLog,
+		clearedFields: make(map[string]struct{}),
+	}
+	for _, opt := range opts {
+		opt(m)
+	}
+	return m
+}
+
+// withAdminOperationLogID sets the ID field of the mutation.
+func withAdminOperationLogID(id uint32) adminoperationlogOption {
+	return func(m *AdminOperationLogMutation) {
+		var (
+			err   error
+			once  sync.Once
+			value *AdminOperationLog
+		)
+		m.oldValue = func(ctx context.Context) (*AdminOperationLog, error) {
+			once.Do(func() {
+				if m.done {
+					err = errors.New("querying old values post mutation is not allowed")
+				} else {
+					value, err = m.Client().AdminOperationLog.Get(ctx, id)
+				}
+			})
+			return value, err
+		}
+		m.id = &id
+	}
+}
+
+// withAdminOperationLog sets the old AdminOperationLog of the mutation.
+func withAdminOperationLog(node *AdminOperationLog) adminoperationlogOption {
+	return func(m *AdminOperationLogMutation) {
+		m.oldValue = func(context.Context) (*AdminOperationLog, error) {
+			return node, nil
+		}
+		m.id = &node.ID
+	}
+}
+
+// Client returns a new `ent.Client` from the mutation. If the mutation was
+// executed in a transaction (ent.Tx), a transactional client is returned.
+func (m AdminOperationLogMutation) Client() *Client {
+	client := &Client{config: m.config}
+	client.init()
+	return client
+}
+
+// Tx returns an `ent.Tx` for mutations that were executed in transactions;
+// it returns an error otherwise.
+func (m AdminOperationLogMutation) Tx() (*Tx, error) {
+	if _, ok := m.driver.(*txDriver); !ok {
+		return nil, errors.New("ent: mutation is not running in a transaction")
+	}
+	tx := &Tx{config: m.config}
+	tx.init()
+	return tx, nil
+}
+
+// SetID sets the value of the id field. Note that this
+// operation is only accepted on creation of AdminOperationLog entities.
+func (m *AdminOperationLogMutation) SetID(id uint32) {
+	m.id = &id
+}
+
+// ID returns the ID value in the mutation. Note that the ID is only available
+// if it was provided to the builder or after it was returned from the database.
+func (m *AdminOperationLogMutation) ID() (id uint32, exists bool) {
+	if m.id == nil {
+		return
+	}
+	return *m.id, true
+}
+
+// IDs queries the database and returns the entity ids that match the mutation's predicate.
+// That means, if the mutation is applied within a transaction with an isolation level such
+// as sql.LevelSerializable, the returned ids match the ids of the rows that will be updated
+// or updated by the mutation.
+func (m *AdminOperationLogMutation) IDs(ctx context.Context) ([]uint32, error) {
+	switch {
+	case m.op.Is(OpUpdateOne | OpDeleteOne):
+		id, exists := m.ID()
+		if exists {
+			return []uint32{id}, nil
+		}
+		fallthrough
+	case m.op.Is(OpUpdate | OpDelete):
+		return m.Client().AdminOperationLog.Query().Where(m.predicates...).IDs(ctx)
+	default:
+		return nil, fmt.Errorf("IDs is not allowed on %s operations", m.op)
+	}
+}
+
+// SetCreateTime sets the "create_time" field.
+func (m *AdminOperationLogMutation) SetCreateTime(t time.Time) {
+	m.create_time = &t
+}
+
+// CreateTime returns the value of the "create_time" field in the mutation.
+func (m *AdminOperationLogMutation) CreateTime() (r time.Time, exists bool) {
+	v := m.create_time
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldCreateTime returns the old "create_time" field's value of the AdminOperationLog entity.
+// If the AdminOperationLog object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *AdminOperationLogMutation) OldCreateTime(ctx context.Context) (v *time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldCreateTime is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldCreateTime requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldCreateTime: %w", err)
+	}
+	return oldValue.CreateTime, nil
+}
+
+// ClearCreateTime clears the value of the "create_time" field.
+func (m *AdminOperationLogMutation) ClearCreateTime() {
+	m.create_time = nil
+	m.clearedFields[adminoperationlog.FieldCreateTime] = struct{}{}
+}
+
+// CreateTimeCleared returns if the "create_time" field was cleared in this mutation.
+func (m *AdminOperationLogMutation) CreateTimeCleared() bool {
+	_, ok := m.clearedFields[adminoperationlog.FieldCreateTime]
+	return ok
+}
+
+// ResetCreateTime resets all changes to the "create_time" field.
+func (m *AdminOperationLogMutation) ResetCreateTime() {
+	m.create_time = nil
+	delete(m.clearedFields, adminoperationlog.FieldCreateTime)
+}
+
+// SetUpdateTime sets the "update_time" field.
+func (m *AdminOperationLogMutation) SetUpdateTime(t time.Time) {
+	m.update_time = &t
+}
+
+// UpdateTime returns the value of the "update_time" field in the mutation.
+func (m *AdminOperationLogMutation) UpdateTime() (r time.Time, exists bool) {
+	v := m.update_time
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldUpdateTime returns the old "update_time" field's value of the AdminOperationLog entity.
+// If the AdminOperationLog object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *AdminOperationLogMutation) OldUpdateTime(ctx context.Context) (v *time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldUpdateTime is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldUpdateTime requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldUpdateTime: %w", err)
+	}
+	return oldValue.UpdateTime, nil
+}
+
+// ClearUpdateTime clears the value of the "update_time" field.
+func (m *AdminOperationLogMutation) ClearUpdateTime() {
+	m.update_time = nil
+	m.clearedFields[adminoperationlog.FieldUpdateTime] = struct{}{}
+}
+
+// UpdateTimeCleared returns if the "update_time" field was cleared in this mutation.
+func (m *AdminOperationLogMutation) UpdateTimeCleared() bool {
+	_, ok := m.clearedFields[adminoperationlog.FieldUpdateTime]
+	return ok
+}
+
+// ResetUpdateTime resets all changes to the "update_time" field.
+func (m *AdminOperationLogMutation) ResetUpdateTime() {
+	m.update_time = nil
+	delete(m.clearedFields, adminoperationlog.FieldUpdateTime)
+}
+
+// SetDeleteTime sets the "delete_time" field.
+func (m *AdminOperationLogMutation) SetDeleteTime(t time.Time) {
+	m.delete_time = &t
+}
+
+// DeleteTime returns the value of the "delete_time" field in the mutation.
+func (m *AdminOperationLogMutation) DeleteTime() (r time.Time, exists bool) {
+	v := m.delete_time
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldDeleteTime returns the old "delete_time" field's value of the AdminOperationLog entity.
+// If the AdminOperationLog object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *AdminOperationLogMutation) OldDeleteTime(ctx context.Context) (v *time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldDeleteTime is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldDeleteTime requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldDeleteTime: %w", err)
+	}
+	return oldValue.DeleteTime, nil
+}
+
+// ClearDeleteTime clears the value of the "delete_time" field.
+func (m *AdminOperationLogMutation) ClearDeleteTime() {
+	m.delete_time = nil
+	m.clearedFields[adminoperationlog.FieldDeleteTime] = struct{}{}
+}
+
+// DeleteTimeCleared returns if the "delete_time" field was cleared in this mutation.
+func (m *AdminOperationLogMutation) DeleteTimeCleared() bool {
+	_, ok := m.clearedFields[adminoperationlog.FieldDeleteTime]
+	return ok
+}
+
+// ResetDeleteTime resets all changes to the "delete_time" field.
+func (m *AdminOperationLogMutation) ResetDeleteTime() {
+	m.delete_time = nil
+	delete(m.clearedFields, adminoperationlog.FieldDeleteTime)
+}
+
+// SetRequestID sets the "request_id" field.
+func (m *AdminOperationLogMutation) SetRequestID(s string) {
+	m.request_id = &s
+}
+
+// RequestID returns the value of the "request_id" field in the mutation.
+func (m *AdminOperationLogMutation) RequestID() (r string, exists bool) {
+	v := m.request_id
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldRequestID returns the old "request_id" field's value of the AdminOperationLog entity.
+// If the AdminOperationLog object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *AdminOperationLogMutation) OldRequestID(ctx context.Context) (v *string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldRequestID is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldRequestID requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldRequestID: %w", err)
+	}
+	return oldValue.RequestID, nil
+}
+
+// ClearRequestID clears the value of the "request_id" field.
+func (m *AdminOperationLogMutation) ClearRequestID() {
+	m.request_id = nil
+	m.clearedFields[adminoperationlog.FieldRequestID] = struct{}{}
+}
+
+// RequestIDCleared returns if the "request_id" field was cleared in this mutation.
+func (m *AdminOperationLogMutation) RequestIDCleared() bool {
+	_, ok := m.clearedFields[adminoperationlog.FieldRequestID]
+	return ok
+}
+
+// ResetRequestID resets all changes to the "request_id" field.
+func (m *AdminOperationLogMutation) ResetRequestID() {
+	m.request_id = nil
+	delete(m.clearedFields, adminoperationlog.FieldRequestID)
+}
+
+// SetMethod sets the "method" field.
+func (m *AdminOperationLogMutation) SetMethod(s string) {
+	m.method = &s
+}
+
+// Method returns the value of the "method" field in the mutation.
+func (m *AdminOperationLogMutation) Method() (r string, exists bool) {
+	v := m.method
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldMethod returns the old "method" field's value of the AdminOperationLog entity.
+// If the AdminOperationLog object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *AdminOperationLogMutation) OldMethod(ctx context.Context) (v *string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldMethod is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldMethod requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldMethod: %w", err)
+	}
+	return oldValue.Method, nil
+}
+
+// ClearMethod clears the value of the "method" field.
+func (m *AdminOperationLogMutation) ClearMethod() {
+	m.method = nil
+	m.clearedFields[adminoperationlog.FieldMethod] = struct{}{}
+}
+
+// MethodCleared returns if the "method" field was cleared in this mutation.
+func (m *AdminOperationLogMutation) MethodCleared() bool {
+	_, ok := m.clearedFields[adminoperationlog.FieldMethod]
+	return ok
+}
+
+// ResetMethod resets all changes to the "method" field.
+func (m *AdminOperationLogMutation) ResetMethod() {
+	m.method = nil
+	delete(m.clearedFields, adminoperationlog.FieldMethod)
+}
+
+// SetOperation sets the "operation" field.
+func (m *AdminOperationLogMutation) SetOperation(s string) {
+	m.operation = &s
+}
+
+// Operation returns the value of the "operation" field in the mutation.
+func (m *AdminOperationLogMutation) Operation() (r string, exists bool) {
+	v := m.operation
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldOperation returns the old "operation" field's value of the AdminOperationLog entity.
+// If the AdminOperationLog object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *AdminOperationLogMutation) OldOperation(ctx context.Context) (v *string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldOperation is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldOperation requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldOperation: %w", err)
+	}
+	return oldValue.Operation, nil
+}
+
+// ClearOperation clears the value of the "operation" field.
+func (m *AdminOperationLogMutation) ClearOperation() {
+	m.operation = nil
+	m.clearedFields[adminoperationlog.FieldOperation] = struct{}{}
+}
+
+// OperationCleared returns if the "operation" field was cleared in this mutation.
+func (m *AdminOperationLogMutation) OperationCleared() bool {
+	_, ok := m.clearedFields[adminoperationlog.FieldOperation]
+	return ok
+}
+
+// ResetOperation resets all changes to the "operation" field.
+func (m *AdminOperationLogMutation) ResetOperation() {
+	m.operation = nil
+	delete(m.clearedFields, adminoperationlog.FieldOperation)
+}
+
+// SetPath sets the "path" field.
+func (m *AdminOperationLogMutation) SetPath(s string) {
+	m._path = &s
+}
+
+// Path returns the value of the "path" field in the mutation.
+func (m *AdminOperationLogMutation) Path() (r string, exists bool) {
+	v := m._path
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldPath returns the old "path" field's value of the AdminOperationLog entity.
+// If the AdminOperationLog object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *AdminOperationLogMutation) OldPath(ctx context.Context) (v *string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldPath is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldPath requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldPath: %w", err)
+	}
+	return oldValue.Path, nil
+}
+
+// ClearPath clears the value of the "path" field.
+func (m *AdminOperationLogMutation) ClearPath() {
+	m._path = nil
+	m.clearedFields[adminoperationlog.FieldPath] = struct{}{}
+}
+
+// PathCleared returns if the "path" field was cleared in this mutation.
+func (m *AdminOperationLogMutation) PathCleared() bool {
+	_, ok := m.clearedFields[adminoperationlog.FieldPath]
+	return ok
+}
+
+// ResetPath resets all changes to the "path" field.
+func (m *AdminOperationLogMutation) ResetPath() {
+	m._path = nil
+	delete(m.clearedFields, adminoperationlog.FieldPath)
+}
+
+// SetReferer sets the "referer" field.
+func (m *AdminOperationLogMutation) SetReferer(s string) {
+	m.referer = &s
+}
+
+// Referer returns the value of the "referer" field in the mutation.
+func (m *AdminOperationLogMutation) Referer() (r string, exists bool) {
+	v := m.referer
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldReferer returns the old "referer" field's value of the AdminOperationLog entity.
+// If the AdminOperationLog object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *AdminOperationLogMutation) OldReferer(ctx context.Context) (v *string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldReferer is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldReferer requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldReferer: %w", err)
+	}
+	return oldValue.Referer, nil
+}
+
+// ClearReferer clears the value of the "referer" field.
+func (m *AdminOperationLogMutation) ClearReferer() {
+	m.referer = nil
+	m.clearedFields[adminoperationlog.FieldReferer] = struct{}{}
+}
+
+// RefererCleared returns if the "referer" field was cleared in this mutation.
+func (m *AdminOperationLogMutation) RefererCleared() bool {
+	_, ok := m.clearedFields[adminoperationlog.FieldReferer]
+	return ok
+}
+
+// ResetReferer resets all changes to the "referer" field.
+func (m *AdminOperationLogMutation) ResetReferer() {
+	m.referer = nil
+	delete(m.clearedFields, adminoperationlog.FieldReferer)
+}
+
+// SetRequestURI sets the "request_uri" field.
+func (m *AdminOperationLogMutation) SetRequestURI(s string) {
+	m.request_uri = &s
+}
+
+// RequestURI returns the value of the "request_uri" field in the mutation.
+func (m *AdminOperationLogMutation) RequestURI() (r string, exists bool) {
+	v := m.request_uri
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldRequestURI returns the old "request_uri" field's value of the AdminOperationLog entity.
+// If the AdminOperationLog object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *AdminOperationLogMutation) OldRequestURI(ctx context.Context) (v *string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldRequestURI is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldRequestURI requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldRequestURI: %w", err)
+	}
+	return oldValue.RequestURI, nil
+}
+
+// ClearRequestURI clears the value of the "request_uri" field.
+func (m *AdminOperationLogMutation) ClearRequestURI() {
+	m.request_uri = nil
+	m.clearedFields[adminoperationlog.FieldRequestURI] = struct{}{}
+}
+
+// RequestURICleared returns if the "request_uri" field was cleared in this mutation.
+func (m *AdminOperationLogMutation) RequestURICleared() bool {
+	_, ok := m.clearedFields[adminoperationlog.FieldRequestURI]
+	return ok
+}
+
+// ResetRequestURI resets all changes to the "request_uri" field.
+func (m *AdminOperationLogMutation) ResetRequestURI() {
+	m.request_uri = nil
+	delete(m.clearedFields, adminoperationlog.FieldRequestURI)
+}
+
+// SetRequestBody sets the "request_body" field.
+func (m *AdminOperationLogMutation) SetRequestBody(s string) {
+	m.request_body = &s
+}
+
+// RequestBody returns the value of the "request_body" field in the mutation.
+func (m *AdminOperationLogMutation) RequestBody() (r string, exists bool) {
+	v := m.request_body
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldRequestBody returns the old "request_body" field's value of the AdminOperationLog entity.
+// If the AdminOperationLog object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *AdminOperationLogMutation) OldRequestBody(ctx context.Context) (v *string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldRequestBody is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldRequestBody requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldRequestBody: %w", err)
+	}
+	return oldValue.RequestBody, nil
+}
+
+// ClearRequestBody clears the value of the "request_body" field.
+func (m *AdminOperationLogMutation) ClearRequestBody() {
+	m.request_body = nil
+	m.clearedFields[adminoperationlog.FieldRequestBody] = struct{}{}
+}
+
+// RequestBodyCleared returns if the "request_body" field was cleared in this mutation.
+func (m *AdminOperationLogMutation) RequestBodyCleared() bool {
+	_, ok := m.clearedFields[adminoperationlog.FieldRequestBody]
+	return ok
+}
+
+// ResetRequestBody resets all changes to the "request_body" field.
+func (m *AdminOperationLogMutation) ResetRequestBody() {
+	m.request_body = nil
+	delete(m.clearedFields, adminoperationlog.FieldRequestBody)
+}
+
+// SetRequestHeader sets the "request_header" field.
+func (m *AdminOperationLogMutation) SetRequestHeader(s string) {
+	m.request_header = &s
+}
+
+// RequestHeader returns the value of the "request_header" field in the mutation.
+func (m *AdminOperationLogMutation) RequestHeader() (r string, exists bool) {
+	v := m.request_header
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldRequestHeader returns the old "request_header" field's value of the AdminOperationLog entity.
+// If the AdminOperationLog object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *AdminOperationLogMutation) OldRequestHeader(ctx context.Context) (v *string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldRequestHeader is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldRequestHeader requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldRequestHeader: %w", err)
+	}
+	return oldValue.RequestHeader, nil
+}
+
+// ClearRequestHeader clears the value of the "request_header" field.
+func (m *AdminOperationLogMutation) ClearRequestHeader() {
+	m.request_header = nil
+	m.clearedFields[adminoperationlog.FieldRequestHeader] = struct{}{}
+}
+
+// RequestHeaderCleared returns if the "request_header" field was cleared in this mutation.
+func (m *AdminOperationLogMutation) RequestHeaderCleared() bool {
+	_, ok := m.clearedFields[adminoperationlog.FieldRequestHeader]
+	return ok
+}
+
+// ResetRequestHeader resets all changes to the "request_header" field.
+func (m *AdminOperationLogMutation) ResetRequestHeader() {
+	m.request_header = nil
+	delete(m.clearedFields, adminoperationlog.FieldRequestHeader)
+}
+
+// SetResponse sets the "response" field.
+func (m *AdminOperationLogMutation) SetResponse(s string) {
+	m.response = &s
+}
+
+// Response returns the value of the "response" field in the mutation.
+func (m *AdminOperationLogMutation) Response() (r string, exists bool) {
+	v := m.response
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldResponse returns the old "response" field's value of the AdminOperationLog entity.
+// If the AdminOperationLog object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *AdminOperationLogMutation) OldResponse(ctx context.Context) (v *string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldResponse is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldResponse requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldResponse: %w", err)
+	}
+	return oldValue.Response, nil
+}
+
+// ClearResponse clears the value of the "response" field.
+func (m *AdminOperationLogMutation) ClearResponse() {
+	m.response = nil
+	m.clearedFields[adminoperationlog.FieldResponse] = struct{}{}
+}
+
+// ResponseCleared returns if the "response" field was cleared in this mutation.
+func (m *AdminOperationLogMutation) ResponseCleared() bool {
+	_, ok := m.clearedFields[adminoperationlog.FieldResponse]
+	return ok
+}
+
+// ResetResponse resets all changes to the "response" field.
+func (m *AdminOperationLogMutation) ResetResponse() {
+	m.response = nil
+	delete(m.clearedFields, adminoperationlog.FieldResponse)
+}
+
+// SetCostTime sets the "cost_time" field.
+func (m *AdminOperationLogMutation) SetCostTime(f float64) {
+	m.cost_time = &f
+	m.addcost_time = nil
+}
+
+// CostTime returns the value of the "cost_time" field in the mutation.
+func (m *AdminOperationLogMutation) CostTime() (r float64, exists bool) {
+	v := m.cost_time
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldCostTime returns the old "cost_time" field's value of the AdminOperationLog entity.
+// If the AdminOperationLog object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *AdminOperationLogMutation) OldCostTime(ctx context.Context) (v *float64, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldCostTime is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldCostTime requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldCostTime: %w", err)
+	}
+	return oldValue.CostTime, nil
+}
+
+// AddCostTime adds f to the "cost_time" field.
+func (m *AdminOperationLogMutation) AddCostTime(f float64) {
+	if m.addcost_time != nil {
+		*m.addcost_time += f
+	} else {
+		m.addcost_time = &f
+	}
+}
+
+// AddedCostTime returns the value that was added to the "cost_time" field in this mutation.
+func (m *AdminOperationLogMutation) AddedCostTime() (r float64, exists bool) {
+	v := m.addcost_time
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ClearCostTime clears the value of the "cost_time" field.
+func (m *AdminOperationLogMutation) ClearCostTime() {
+	m.cost_time = nil
+	m.addcost_time = nil
+	m.clearedFields[adminoperationlog.FieldCostTime] = struct{}{}
+}
+
+// CostTimeCleared returns if the "cost_time" field was cleared in this mutation.
+func (m *AdminOperationLogMutation) CostTimeCleared() bool {
+	_, ok := m.clearedFields[adminoperationlog.FieldCostTime]
+	return ok
+}
+
+// ResetCostTime resets all changes to the "cost_time" field.
+func (m *AdminOperationLogMutation) ResetCostTime() {
+	m.cost_time = nil
+	m.addcost_time = nil
+	delete(m.clearedFields, adminoperationlog.FieldCostTime)
+}
+
+// SetUserID sets the "user_id" field.
+func (m *AdminOperationLogMutation) SetUserID(u uint32) {
+	m.user_id = &u
+	m.adduser_id = nil
+}
+
+// UserID returns the value of the "user_id" field in the mutation.
+func (m *AdminOperationLogMutation) UserID() (r uint32, exists bool) {
+	v := m.user_id
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldUserID returns the old "user_id" field's value of the AdminOperationLog entity.
+// If the AdminOperationLog object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *AdminOperationLogMutation) OldUserID(ctx context.Context) (v *uint32, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldUserID is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldUserID requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldUserID: %w", err)
+	}
+	return oldValue.UserID, nil
+}
+
+// AddUserID adds u to the "user_id" field.
+func (m *AdminOperationLogMutation) AddUserID(u int32) {
+	if m.adduser_id != nil {
+		*m.adduser_id += u
+	} else {
+		m.adduser_id = &u
+	}
+}
+
+// AddedUserID returns the value that was added to the "user_id" field in this mutation.
+func (m *AdminOperationLogMutation) AddedUserID() (r int32, exists bool) {
+	v := m.adduser_id
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ClearUserID clears the value of the "user_id" field.
+func (m *AdminOperationLogMutation) ClearUserID() {
+	m.user_id = nil
+	m.adduser_id = nil
+	m.clearedFields[adminoperationlog.FieldUserID] = struct{}{}
+}
+
+// UserIDCleared returns if the "user_id" field was cleared in this mutation.
+func (m *AdminOperationLogMutation) UserIDCleared() bool {
+	_, ok := m.clearedFields[adminoperationlog.FieldUserID]
+	return ok
+}
+
+// ResetUserID resets all changes to the "user_id" field.
+func (m *AdminOperationLogMutation) ResetUserID() {
+	m.user_id = nil
+	m.adduser_id = nil
+	delete(m.clearedFields, adminoperationlog.FieldUserID)
+}
+
+// SetUserName sets the "user_name" field.
+func (m *AdminOperationLogMutation) SetUserName(s string) {
+	m.user_name = &s
+}
+
+// UserName returns the value of the "user_name" field in the mutation.
+func (m *AdminOperationLogMutation) UserName() (r string, exists bool) {
+	v := m.user_name
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldUserName returns the old "user_name" field's value of the AdminOperationLog entity.
+// If the AdminOperationLog object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *AdminOperationLogMutation) OldUserName(ctx context.Context) (v *string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldUserName is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldUserName requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldUserName: %w", err)
+	}
+	return oldValue.UserName, nil
+}
+
+// ClearUserName clears the value of the "user_name" field.
+func (m *AdminOperationLogMutation) ClearUserName() {
+	m.user_name = nil
+	m.clearedFields[adminoperationlog.FieldUserName] = struct{}{}
+}
+
+// UserNameCleared returns if the "user_name" field was cleared in this mutation.
+func (m *AdminOperationLogMutation) UserNameCleared() bool {
+	_, ok := m.clearedFields[adminoperationlog.FieldUserName]
+	return ok
+}
+
+// ResetUserName resets all changes to the "user_name" field.
+func (m *AdminOperationLogMutation) ResetUserName() {
+	m.user_name = nil
+	delete(m.clearedFields, adminoperationlog.FieldUserName)
+}
+
+// SetClientIP sets the "client_ip" field.
+func (m *AdminOperationLogMutation) SetClientIP(s string) {
+	m.client_ip = &s
+}
+
+// ClientIP returns the value of the "client_ip" field in the mutation.
+func (m *AdminOperationLogMutation) ClientIP() (r string, exists bool) {
+	v := m.client_ip
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldClientIP returns the old "client_ip" field's value of the AdminOperationLog entity.
+// If the AdminOperationLog object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *AdminOperationLogMutation) OldClientIP(ctx context.Context) (v *string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldClientIP is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldClientIP requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldClientIP: %w", err)
+	}
+	return oldValue.ClientIP, nil
+}
+
+// ClearClientIP clears the value of the "client_ip" field.
+func (m *AdminOperationLogMutation) ClearClientIP() {
+	m.client_ip = nil
+	m.clearedFields[adminoperationlog.FieldClientIP] = struct{}{}
+}
+
+// ClientIPCleared returns if the "client_ip" field was cleared in this mutation.
+func (m *AdminOperationLogMutation) ClientIPCleared() bool {
+	_, ok := m.clearedFields[adminoperationlog.FieldClientIP]
+	return ok
+}
+
+// ResetClientIP resets all changes to the "client_ip" field.
+func (m *AdminOperationLogMutation) ResetClientIP() {
+	m.client_ip = nil
+	delete(m.clearedFields, adminoperationlog.FieldClientIP)
+}
+
+// SetStatusCode sets the "status_code" field.
+func (m *AdminOperationLogMutation) SetStatusCode(i int32) {
+	m.status_code = &i
+	m.addstatus_code = nil
+}
+
+// StatusCode returns the value of the "status_code" field in the mutation.
+func (m *AdminOperationLogMutation) StatusCode() (r int32, exists bool) {
+	v := m.status_code
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldStatusCode returns the old "status_code" field's value of the AdminOperationLog entity.
+// If the AdminOperationLog object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *AdminOperationLogMutation) OldStatusCode(ctx context.Context) (v *int32, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldStatusCode is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldStatusCode requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldStatusCode: %w", err)
+	}
+	return oldValue.StatusCode, nil
+}
+
+// AddStatusCode adds i to the "status_code" field.
+func (m *AdminOperationLogMutation) AddStatusCode(i int32) {
+	if m.addstatus_code != nil {
+		*m.addstatus_code += i
+	} else {
+		m.addstatus_code = &i
+	}
+}
+
+// AddedStatusCode returns the value that was added to the "status_code" field in this mutation.
+func (m *AdminOperationLogMutation) AddedStatusCode() (r int32, exists bool) {
+	v := m.addstatus_code
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ClearStatusCode clears the value of the "status_code" field.
+func (m *AdminOperationLogMutation) ClearStatusCode() {
+	m.status_code = nil
+	m.addstatus_code = nil
+	m.clearedFields[adminoperationlog.FieldStatusCode] = struct{}{}
+}
+
+// StatusCodeCleared returns if the "status_code" field was cleared in this mutation.
+func (m *AdminOperationLogMutation) StatusCodeCleared() bool {
+	_, ok := m.clearedFields[adminoperationlog.FieldStatusCode]
+	return ok
+}
+
+// ResetStatusCode resets all changes to the "status_code" field.
+func (m *AdminOperationLogMutation) ResetStatusCode() {
+	m.status_code = nil
+	m.addstatus_code = nil
+	delete(m.clearedFields, adminoperationlog.FieldStatusCode)
+}
+
+// SetReason sets the "reason" field.
+func (m *AdminOperationLogMutation) SetReason(s string) {
+	m.reason = &s
+}
+
+// Reason returns the value of the "reason" field in the mutation.
+func (m *AdminOperationLogMutation) Reason() (r string, exists bool) {
+	v := m.reason
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldReason returns the old "reason" field's value of the AdminOperationLog entity.
+// If the AdminOperationLog object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *AdminOperationLogMutation) OldReason(ctx context.Context) (v *string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldReason is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldReason requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldReason: %w", err)
+	}
+	return oldValue.Reason, nil
+}
+
+// ClearReason clears the value of the "reason" field.
+func (m *AdminOperationLogMutation) ClearReason() {
+	m.reason = nil
+	m.clearedFields[adminoperationlog.FieldReason] = struct{}{}
+}
+
+// ReasonCleared returns if the "reason" field was cleared in this mutation.
+func (m *AdminOperationLogMutation) ReasonCleared() bool {
+	_, ok := m.clearedFields[adminoperationlog.FieldReason]
+	return ok
+}
+
+// ResetReason resets all changes to the "reason" field.
+func (m *AdminOperationLogMutation) ResetReason() {
+	m.reason = nil
+	delete(m.clearedFields, adminoperationlog.FieldReason)
+}
+
+// SetSuccess sets the "success" field.
+func (m *AdminOperationLogMutation) SetSuccess(b bool) {
+	m.success = &b
+}
+
+// Success returns the value of the "success" field in the mutation.
+func (m *AdminOperationLogMutation) Success() (r bool, exists bool) {
+	v := m.success
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldSuccess returns the old "success" field's value of the AdminOperationLog entity.
+// If the AdminOperationLog object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *AdminOperationLogMutation) OldSuccess(ctx context.Context) (v *bool, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldSuccess is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldSuccess requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldSuccess: %w", err)
+	}
+	return oldValue.Success, nil
+}
+
+// ClearSuccess clears the value of the "success" field.
+func (m *AdminOperationLogMutation) ClearSuccess() {
+	m.success = nil
+	m.clearedFields[adminoperationlog.FieldSuccess] = struct{}{}
+}
+
+// SuccessCleared returns if the "success" field was cleared in this mutation.
+func (m *AdminOperationLogMutation) SuccessCleared() bool {
+	_, ok := m.clearedFields[adminoperationlog.FieldSuccess]
+	return ok
+}
+
+// ResetSuccess resets all changes to the "success" field.
+func (m *AdminOperationLogMutation) ResetSuccess() {
+	m.success = nil
+	delete(m.clearedFields, adminoperationlog.FieldSuccess)
+}
+
+// SetLocation sets the "location" field.
+func (m *AdminOperationLogMutation) SetLocation(s string) {
+	m.location = &s
+}
+
+// Location returns the value of the "location" field in the mutation.
+func (m *AdminOperationLogMutation) Location() (r string, exists bool) {
+	v := m.location
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldLocation returns the old "location" field's value of the AdminOperationLog entity.
+// If the AdminOperationLog object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *AdminOperationLogMutation) OldLocation(ctx context.Context) (v *string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldLocation is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldLocation requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldLocation: %w", err)
+	}
+	return oldValue.Location, nil
+}
+
+// ClearLocation clears the value of the "location" field.
+func (m *AdminOperationLogMutation) ClearLocation() {
+	m.location = nil
+	m.clearedFields[adminoperationlog.FieldLocation] = struct{}{}
+}
+
+// LocationCleared returns if the "location" field was cleared in this mutation.
+func (m *AdminOperationLogMutation) LocationCleared() bool {
+	_, ok := m.clearedFields[adminoperationlog.FieldLocation]
+	return ok
+}
+
+// ResetLocation resets all changes to the "location" field.
+func (m *AdminOperationLogMutation) ResetLocation() {
+	m.location = nil
+	delete(m.clearedFields, adminoperationlog.FieldLocation)
+}
+
+// SetUserAgent sets the "user_agent" field.
+func (m *AdminOperationLogMutation) SetUserAgent(s string) {
+	m.user_agent = &s
+}
+
+// UserAgent returns the value of the "user_agent" field in the mutation.
+func (m *AdminOperationLogMutation) UserAgent() (r string, exists bool) {
+	v := m.user_agent
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldUserAgent returns the old "user_agent" field's value of the AdminOperationLog entity.
+// If the AdminOperationLog object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *AdminOperationLogMutation) OldUserAgent(ctx context.Context) (v *string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldUserAgent is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldUserAgent requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldUserAgent: %w", err)
+	}
+	return oldValue.UserAgent, nil
+}
+
+// ClearUserAgent clears the value of the "user_agent" field.
+func (m *AdminOperationLogMutation) ClearUserAgent() {
+	m.user_agent = nil
+	m.clearedFields[adminoperationlog.FieldUserAgent] = struct{}{}
+}
+
+// UserAgentCleared returns if the "user_agent" field was cleared in this mutation.
+func (m *AdminOperationLogMutation) UserAgentCleared() bool {
+	_, ok := m.clearedFields[adminoperationlog.FieldUserAgent]
+	return ok
+}
+
+// ResetUserAgent resets all changes to the "user_agent" field.
+func (m *AdminOperationLogMutation) ResetUserAgent() {
+	m.user_agent = nil
+	delete(m.clearedFields, adminoperationlog.FieldUserAgent)
+}
+
+// SetBrowserName sets the "browser_name" field.
+func (m *AdminOperationLogMutation) SetBrowserName(s string) {
+	m.browser_name = &s
+}
+
+// BrowserName returns the value of the "browser_name" field in the mutation.
+func (m *AdminOperationLogMutation) BrowserName() (r string, exists bool) {
+	v := m.browser_name
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldBrowserName returns the old "browser_name" field's value of the AdminOperationLog entity.
+// If the AdminOperationLog object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *AdminOperationLogMutation) OldBrowserName(ctx context.Context) (v *string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldBrowserName is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldBrowserName requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldBrowserName: %w", err)
+	}
+	return oldValue.BrowserName, nil
+}
+
+// ClearBrowserName clears the value of the "browser_name" field.
+func (m *AdminOperationLogMutation) ClearBrowserName() {
+	m.browser_name = nil
+	m.clearedFields[adminoperationlog.FieldBrowserName] = struct{}{}
+}
+
+// BrowserNameCleared returns if the "browser_name" field was cleared in this mutation.
+func (m *AdminOperationLogMutation) BrowserNameCleared() bool {
+	_, ok := m.clearedFields[adminoperationlog.FieldBrowserName]
+	return ok
+}
+
+// ResetBrowserName resets all changes to the "browser_name" field.
+func (m *AdminOperationLogMutation) ResetBrowserName() {
+	m.browser_name = nil
+	delete(m.clearedFields, adminoperationlog.FieldBrowserName)
+}
+
+// SetBrowserVersion sets the "browser_version" field.
+func (m *AdminOperationLogMutation) SetBrowserVersion(s string) {
+	m.browser_version = &s
+}
+
+// BrowserVersion returns the value of the "browser_version" field in the mutation.
+func (m *AdminOperationLogMutation) BrowserVersion() (r string, exists bool) {
+	v := m.browser_version
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldBrowserVersion returns the old "browser_version" field's value of the AdminOperationLog entity.
+// If the AdminOperationLog object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *AdminOperationLogMutation) OldBrowserVersion(ctx context.Context) (v *string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldBrowserVersion is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldBrowserVersion requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldBrowserVersion: %w", err)
+	}
+	return oldValue.BrowserVersion, nil
+}
+
+// ClearBrowserVersion clears the value of the "browser_version" field.
+func (m *AdminOperationLogMutation) ClearBrowserVersion() {
+	m.browser_version = nil
+	m.clearedFields[adminoperationlog.FieldBrowserVersion] = struct{}{}
+}
+
+// BrowserVersionCleared returns if the "browser_version" field was cleared in this mutation.
+func (m *AdminOperationLogMutation) BrowserVersionCleared() bool {
+	_, ok := m.clearedFields[adminoperationlog.FieldBrowserVersion]
+	return ok
+}
+
+// ResetBrowserVersion resets all changes to the "browser_version" field.
+func (m *AdminOperationLogMutation) ResetBrowserVersion() {
+	m.browser_version = nil
+	delete(m.clearedFields, adminoperationlog.FieldBrowserVersion)
+}
+
+// SetClientID sets the "client_id" field.
+func (m *AdminOperationLogMutation) SetClientID(s string) {
+	m.client_id = &s
+}
+
+// ClientID returns the value of the "client_id" field in the mutation.
+func (m *AdminOperationLogMutation) ClientID() (r string, exists bool) {
+	v := m.client_id
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldClientID returns the old "client_id" field's value of the AdminOperationLog entity.
+// If the AdminOperationLog object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *AdminOperationLogMutation) OldClientID(ctx context.Context) (v *string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldClientID is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldClientID requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldClientID: %w", err)
+	}
+	return oldValue.ClientID, nil
+}
+
+// ClearClientID clears the value of the "client_id" field.
+func (m *AdminOperationLogMutation) ClearClientID() {
+	m.client_id = nil
+	m.clearedFields[adminoperationlog.FieldClientID] = struct{}{}
+}
+
+// ClientIDCleared returns if the "client_id" field was cleared in this mutation.
+func (m *AdminOperationLogMutation) ClientIDCleared() bool {
+	_, ok := m.clearedFields[adminoperationlog.FieldClientID]
+	return ok
+}
+
+// ResetClientID resets all changes to the "client_id" field.
+func (m *AdminOperationLogMutation) ResetClientID() {
+	m.client_id = nil
+	delete(m.clearedFields, adminoperationlog.FieldClientID)
+}
+
+// SetClientName sets the "client_name" field.
+func (m *AdminOperationLogMutation) SetClientName(s string) {
+	m.client_name = &s
+}
+
+// ClientName returns the value of the "client_name" field in the mutation.
+func (m *AdminOperationLogMutation) ClientName() (r string, exists bool) {
+	v := m.client_name
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldClientName returns the old "client_name" field's value of the AdminOperationLog entity.
+// If the AdminOperationLog object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *AdminOperationLogMutation) OldClientName(ctx context.Context) (v *string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldClientName is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldClientName requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldClientName: %w", err)
+	}
+	return oldValue.ClientName, nil
+}
+
+// ClearClientName clears the value of the "client_name" field.
+func (m *AdminOperationLogMutation) ClearClientName() {
+	m.client_name = nil
+	m.clearedFields[adminoperationlog.FieldClientName] = struct{}{}
+}
+
+// ClientNameCleared returns if the "client_name" field was cleared in this mutation.
+func (m *AdminOperationLogMutation) ClientNameCleared() bool {
+	_, ok := m.clearedFields[adminoperationlog.FieldClientName]
+	return ok
+}
+
+// ResetClientName resets all changes to the "client_name" field.
+func (m *AdminOperationLogMutation) ResetClientName() {
+	m.client_name = nil
+	delete(m.clearedFields, adminoperationlog.FieldClientName)
+}
+
+// SetOsName sets the "os_name" field.
+func (m *AdminOperationLogMutation) SetOsName(s string) {
+	m.os_name = &s
+}
+
+// OsName returns the value of the "os_name" field in the mutation.
+func (m *AdminOperationLogMutation) OsName() (r string, exists bool) {
+	v := m.os_name
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldOsName returns the old "os_name" field's value of the AdminOperationLog entity.
+// If the AdminOperationLog object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *AdminOperationLogMutation) OldOsName(ctx context.Context) (v *string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldOsName is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldOsName requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldOsName: %w", err)
+	}
+	return oldValue.OsName, nil
+}
+
+// ClearOsName clears the value of the "os_name" field.
+func (m *AdminOperationLogMutation) ClearOsName() {
+	m.os_name = nil
+	m.clearedFields[adminoperationlog.FieldOsName] = struct{}{}
+}
+
+// OsNameCleared returns if the "os_name" field was cleared in this mutation.
+func (m *AdminOperationLogMutation) OsNameCleared() bool {
+	_, ok := m.clearedFields[adminoperationlog.FieldOsName]
+	return ok
+}
+
+// ResetOsName resets all changes to the "os_name" field.
+func (m *AdminOperationLogMutation) ResetOsName() {
+	m.os_name = nil
+	delete(m.clearedFields, adminoperationlog.FieldOsName)
+}
+
+// SetOsVersion sets the "os_version" field.
+func (m *AdminOperationLogMutation) SetOsVersion(s string) {
+	m.os_version = &s
+}
+
+// OsVersion returns the value of the "os_version" field in the mutation.
+func (m *AdminOperationLogMutation) OsVersion() (r string, exists bool) {
+	v := m.os_version
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldOsVersion returns the old "os_version" field's value of the AdminOperationLog entity.
+// If the AdminOperationLog object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *AdminOperationLogMutation) OldOsVersion(ctx context.Context) (v *string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldOsVersion is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldOsVersion requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldOsVersion: %w", err)
+	}
+	return oldValue.OsVersion, nil
+}
+
+// ClearOsVersion clears the value of the "os_version" field.
+func (m *AdminOperationLogMutation) ClearOsVersion() {
+	m.os_version = nil
+	m.clearedFields[adminoperationlog.FieldOsVersion] = struct{}{}
+}
+
+// OsVersionCleared returns if the "os_version" field was cleared in this mutation.
+func (m *AdminOperationLogMutation) OsVersionCleared() bool {
+	_, ok := m.clearedFields[adminoperationlog.FieldOsVersion]
+	return ok
+}
+
+// ResetOsVersion resets all changes to the "os_version" field.
+func (m *AdminOperationLogMutation) ResetOsVersion() {
+	m.os_version = nil
+	delete(m.clearedFields, adminoperationlog.FieldOsVersion)
+}
+
+// Where appends a list predicates to the AdminOperationLogMutation builder.
+func (m *AdminOperationLogMutation) Where(ps ...predicate.AdminOperationLog) {
+	m.predicates = append(m.predicates, ps...)
+}
+
+// WhereP appends storage-level predicates to the AdminOperationLogMutation builder. Using this method,
+// users can use type-assertion to append predicates that do not depend on any generated package.
+func (m *AdminOperationLogMutation) WhereP(ps ...func(*sql.Selector)) {
+	p := make([]predicate.AdminOperationLog, len(ps))
+	for i := range ps {
+		p[i] = ps[i]
+	}
+	m.Where(p...)
+}
+
+// Op returns the operation name.
+func (m *AdminOperationLogMutation) Op() Op {
+	return m.op
+}
+
+// SetOp allows setting the mutation operation.
+func (m *AdminOperationLogMutation) SetOp(op Op) {
+	m.op = op
+}
+
+// Type returns the node type of this mutation (AdminOperationLog).
+func (m *AdminOperationLogMutation) Type() string {
+	return m.typ
+}
+
+// Fields returns all fields that were changed during this mutation. Note that in
+// order to get all numeric fields that were incremented/decremented, call
+// AddedFields().
+func (m *AdminOperationLogMutation) Fields() []string {
+	fields := make([]string, 0, 27)
+	if m.create_time != nil {
+		fields = append(fields, adminoperationlog.FieldCreateTime)
+	}
+	if m.update_time != nil {
+		fields = append(fields, adminoperationlog.FieldUpdateTime)
+	}
+	if m.delete_time != nil {
+		fields = append(fields, adminoperationlog.FieldDeleteTime)
+	}
+	if m.request_id != nil {
+		fields = append(fields, adminoperationlog.FieldRequestID)
+	}
+	if m.method != nil {
+		fields = append(fields, adminoperationlog.FieldMethod)
+	}
+	if m.operation != nil {
+		fields = append(fields, adminoperationlog.FieldOperation)
+	}
+	if m._path != nil {
+		fields = append(fields, adminoperationlog.FieldPath)
+	}
+	if m.referer != nil {
+		fields = append(fields, adminoperationlog.FieldReferer)
+	}
+	if m.request_uri != nil {
+		fields = append(fields, adminoperationlog.FieldRequestURI)
+	}
+	if m.request_body != nil {
+		fields = append(fields, adminoperationlog.FieldRequestBody)
+	}
+	if m.request_header != nil {
+		fields = append(fields, adminoperationlog.FieldRequestHeader)
+	}
+	if m.response != nil {
+		fields = append(fields, adminoperationlog.FieldResponse)
+	}
+	if m.cost_time != nil {
+		fields = append(fields, adminoperationlog.FieldCostTime)
+	}
+	if m.user_id != nil {
+		fields = append(fields, adminoperationlog.FieldUserID)
+	}
+	if m.user_name != nil {
+		fields = append(fields, adminoperationlog.FieldUserName)
+	}
+	if m.client_ip != nil {
+		fields = append(fields, adminoperationlog.FieldClientIP)
+	}
+	if m.status_code != nil {
+		fields = append(fields, adminoperationlog.FieldStatusCode)
+	}
+	if m.reason != nil {
+		fields = append(fields, adminoperationlog.FieldReason)
+	}
+	if m.success != nil {
+		fields = append(fields, adminoperationlog.FieldSuccess)
+	}
+	if m.location != nil {
+		fields = append(fields, adminoperationlog.FieldLocation)
+	}
+	if m.user_agent != nil {
+		fields = append(fields, adminoperationlog.FieldUserAgent)
+	}
+	if m.browser_name != nil {
+		fields = append(fields, adminoperationlog.FieldBrowserName)
+	}
+	if m.browser_version != nil {
+		fields = append(fields, adminoperationlog.FieldBrowserVersion)
+	}
+	if m.client_id != nil {
+		fields = append(fields, adminoperationlog.FieldClientID)
+	}
+	if m.client_name != nil {
+		fields = append(fields, adminoperationlog.FieldClientName)
+	}
+	if m.os_name != nil {
+		fields = append(fields, adminoperationlog.FieldOsName)
+	}
+	if m.os_version != nil {
+		fields = append(fields, adminoperationlog.FieldOsVersion)
+	}
+	return fields
+}
+
+// Field returns the value of a field with the given name. The second boolean
+// return value indicates that this field was not set, or was not defined in the
+// schema.
+func (m *AdminOperationLogMutation) Field(name string) (ent.Value, bool) {
+	switch name {
+	case adminoperationlog.FieldCreateTime:
+		return m.CreateTime()
+	case adminoperationlog.FieldUpdateTime:
+		return m.UpdateTime()
+	case adminoperationlog.FieldDeleteTime:
+		return m.DeleteTime()
+	case adminoperationlog.FieldRequestID:
+		return m.RequestID()
+	case adminoperationlog.FieldMethod:
+		return m.Method()
+	case adminoperationlog.FieldOperation:
+		return m.Operation()
+	case adminoperationlog.FieldPath:
+		return m.Path()
+	case adminoperationlog.FieldReferer:
+		return m.Referer()
+	case adminoperationlog.FieldRequestURI:
+		return m.RequestURI()
+	case adminoperationlog.FieldRequestBody:
+		return m.RequestBody()
+	case adminoperationlog.FieldRequestHeader:
+		return m.RequestHeader()
+	case adminoperationlog.FieldResponse:
+		return m.Response()
+	case adminoperationlog.FieldCostTime:
+		return m.CostTime()
+	case adminoperationlog.FieldUserID:
+		return m.UserID()
+	case adminoperationlog.FieldUserName:
+		return m.UserName()
+	case adminoperationlog.FieldClientIP:
+		return m.ClientIP()
+	case adminoperationlog.FieldStatusCode:
+		return m.StatusCode()
+	case adminoperationlog.FieldReason:
+		return m.Reason()
+	case adminoperationlog.FieldSuccess:
+		return m.Success()
+	case adminoperationlog.FieldLocation:
+		return m.Location()
+	case adminoperationlog.FieldUserAgent:
+		return m.UserAgent()
+	case adminoperationlog.FieldBrowserName:
+		return m.BrowserName()
+	case adminoperationlog.FieldBrowserVersion:
+		return m.BrowserVersion()
+	case adminoperationlog.FieldClientID:
+		return m.ClientID()
+	case adminoperationlog.FieldClientName:
+		return m.ClientName()
+	case adminoperationlog.FieldOsName:
+		return m.OsName()
+	case adminoperationlog.FieldOsVersion:
+		return m.OsVersion()
+	}
+	return nil, false
+}
+
+// OldField returns the old value of the field from the database. An error is
+// returned if the mutation operation is not UpdateOne, or the query to the
+// database failed.
+func (m *AdminOperationLogMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
+	switch name {
+	case adminoperationlog.FieldCreateTime:
+		return m.OldCreateTime(ctx)
+	case adminoperationlog.FieldUpdateTime:
+		return m.OldUpdateTime(ctx)
+	case adminoperationlog.FieldDeleteTime:
+		return m.OldDeleteTime(ctx)
+	case adminoperationlog.FieldRequestID:
+		return m.OldRequestID(ctx)
+	case adminoperationlog.FieldMethod:
+		return m.OldMethod(ctx)
+	case adminoperationlog.FieldOperation:
+		return m.OldOperation(ctx)
+	case adminoperationlog.FieldPath:
+		return m.OldPath(ctx)
+	case adminoperationlog.FieldReferer:
+		return m.OldReferer(ctx)
+	case adminoperationlog.FieldRequestURI:
+		return m.OldRequestURI(ctx)
+	case adminoperationlog.FieldRequestBody:
+		return m.OldRequestBody(ctx)
+	case adminoperationlog.FieldRequestHeader:
+		return m.OldRequestHeader(ctx)
+	case adminoperationlog.FieldResponse:
+		return m.OldResponse(ctx)
+	case adminoperationlog.FieldCostTime:
+		return m.OldCostTime(ctx)
+	case adminoperationlog.FieldUserID:
+		return m.OldUserID(ctx)
+	case adminoperationlog.FieldUserName:
+		return m.OldUserName(ctx)
+	case adminoperationlog.FieldClientIP:
+		return m.OldClientIP(ctx)
+	case adminoperationlog.FieldStatusCode:
+		return m.OldStatusCode(ctx)
+	case adminoperationlog.FieldReason:
+		return m.OldReason(ctx)
+	case adminoperationlog.FieldSuccess:
+		return m.OldSuccess(ctx)
+	case adminoperationlog.FieldLocation:
+		return m.OldLocation(ctx)
+	case adminoperationlog.FieldUserAgent:
+		return m.OldUserAgent(ctx)
+	case adminoperationlog.FieldBrowserName:
+		return m.OldBrowserName(ctx)
+	case adminoperationlog.FieldBrowserVersion:
+		return m.OldBrowserVersion(ctx)
+	case adminoperationlog.FieldClientID:
+		return m.OldClientID(ctx)
+	case adminoperationlog.FieldClientName:
+		return m.OldClientName(ctx)
+	case adminoperationlog.FieldOsName:
+		return m.OldOsName(ctx)
+	case adminoperationlog.FieldOsVersion:
+		return m.OldOsVersion(ctx)
+	}
+	return nil, fmt.Errorf("unknown AdminOperationLog field %s", name)
+}
+
+// SetField sets the value of a field with the given name. It returns an error if
+// the field is not defined in the schema, or if the type mismatched the field
+// type.
+func (m *AdminOperationLogMutation) SetField(name string, value ent.Value) error {
+	switch name {
+	case adminoperationlog.FieldCreateTime:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetCreateTime(v)
+		return nil
+	case adminoperationlog.FieldUpdateTime:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetUpdateTime(v)
+		return nil
+	case adminoperationlog.FieldDeleteTime:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetDeleteTime(v)
+		return nil
+	case adminoperationlog.FieldRequestID:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetRequestID(v)
+		return nil
+	case adminoperationlog.FieldMethod:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetMethod(v)
+		return nil
+	case adminoperationlog.FieldOperation:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetOperation(v)
+		return nil
+	case adminoperationlog.FieldPath:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetPath(v)
+		return nil
+	case adminoperationlog.FieldReferer:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetReferer(v)
+		return nil
+	case adminoperationlog.FieldRequestURI:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetRequestURI(v)
+		return nil
+	case adminoperationlog.FieldRequestBody:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetRequestBody(v)
+		return nil
+	case adminoperationlog.FieldRequestHeader:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetRequestHeader(v)
+		return nil
+	case adminoperationlog.FieldResponse:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetResponse(v)
+		return nil
+	case adminoperationlog.FieldCostTime:
+		v, ok := value.(float64)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetCostTime(v)
+		return nil
+	case adminoperationlog.FieldUserID:
+		v, ok := value.(uint32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetUserID(v)
+		return nil
+	case adminoperationlog.FieldUserName:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetUserName(v)
+		return nil
+	case adminoperationlog.FieldClientIP:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetClientIP(v)
+		return nil
+	case adminoperationlog.FieldStatusCode:
+		v, ok := value.(int32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetStatusCode(v)
+		return nil
+	case adminoperationlog.FieldReason:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetReason(v)
+		return nil
+	case adminoperationlog.FieldSuccess:
+		v, ok := value.(bool)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetSuccess(v)
+		return nil
+	case adminoperationlog.FieldLocation:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetLocation(v)
+		return nil
+	case adminoperationlog.FieldUserAgent:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetUserAgent(v)
+		return nil
+	case adminoperationlog.FieldBrowserName:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetBrowserName(v)
+		return nil
+	case adminoperationlog.FieldBrowserVersion:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetBrowserVersion(v)
+		return nil
+	case adminoperationlog.FieldClientID:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetClientID(v)
+		return nil
+	case adminoperationlog.FieldClientName:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetClientName(v)
+		return nil
+	case adminoperationlog.FieldOsName:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetOsName(v)
+		return nil
+	case adminoperationlog.FieldOsVersion:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetOsVersion(v)
+		return nil
+	}
+	return fmt.Errorf("unknown AdminOperationLog field %s", name)
+}
+
+// AddedFields returns all numeric fields that were incremented/decremented during
+// this mutation.
+func (m *AdminOperationLogMutation) AddedFields() []string {
+	var fields []string
+	if m.addcost_time != nil {
+		fields = append(fields, adminoperationlog.FieldCostTime)
+	}
+	if m.adduser_id != nil {
+		fields = append(fields, adminoperationlog.FieldUserID)
+	}
+	if m.addstatus_code != nil {
+		fields = append(fields, adminoperationlog.FieldStatusCode)
+	}
+	return fields
+}
+
+// AddedField returns the numeric value that was incremented/decremented on a field
+// with the given name. The second boolean return value indicates that this field
+// was not set, or was not defined in the schema.
+func (m *AdminOperationLogMutation) AddedField(name string) (ent.Value, bool) {
+	switch name {
+	case adminoperationlog.FieldCostTime:
+		return m.AddedCostTime()
+	case adminoperationlog.FieldUserID:
+		return m.AddedUserID()
+	case adminoperationlog.FieldStatusCode:
+		return m.AddedStatusCode()
+	}
+	return nil, false
+}
+
+// AddField adds the value to the field with the given name. It returns an error if
+// the field is not defined in the schema, or if the type mismatched the field
+// type.
+func (m *AdminOperationLogMutation) AddField(name string, value ent.Value) error {
+	switch name {
+	case adminoperationlog.FieldCostTime:
+		v, ok := value.(float64)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddCostTime(v)
+		return nil
+	case adminoperationlog.FieldUserID:
+		v, ok := value.(int32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddUserID(v)
+		return nil
+	case adminoperationlog.FieldStatusCode:
+		v, ok := value.(int32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddStatusCode(v)
+		return nil
+	}
+	return fmt.Errorf("unknown AdminOperationLog numeric field %s", name)
+}
+
+// ClearedFields returns all nullable fields that were cleared during this
+// mutation.
+func (m *AdminOperationLogMutation) ClearedFields() []string {
+	var fields []string
+	if m.FieldCleared(adminoperationlog.FieldCreateTime) {
+		fields = append(fields, adminoperationlog.FieldCreateTime)
+	}
+	if m.FieldCleared(adminoperationlog.FieldUpdateTime) {
+		fields = append(fields, adminoperationlog.FieldUpdateTime)
+	}
+	if m.FieldCleared(adminoperationlog.FieldDeleteTime) {
+		fields = append(fields, adminoperationlog.FieldDeleteTime)
+	}
+	if m.FieldCleared(adminoperationlog.FieldRequestID) {
+		fields = append(fields, adminoperationlog.FieldRequestID)
+	}
+	if m.FieldCleared(adminoperationlog.FieldMethod) {
+		fields = append(fields, adminoperationlog.FieldMethod)
+	}
+	if m.FieldCleared(adminoperationlog.FieldOperation) {
+		fields = append(fields, adminoperationlog.FieldOperation)
+	}
+	if m.FieldCleared(adminoperationlog.FieldPath) {
+		fields = append(fields, adminoperationlog.FieldPath)
+	}
+	if m.FieldCleared(adminoperationlog.FieldReferer) {
+		fields = append(fields, adminoperationlog.FieldReferer)
+	}
+	if m.FieldCleared(adminoperationlog.FieldRequestURI) {
+		fields = append(fields, adminoperationlog.FieldRequestURI)
+	}
+	if m.FieldCleared(adminoperationlog.FieldRequestBody) {
+		fields = append(fields, adminoperationlog.FieldRequestBody)
+	}
+	if m.FieldCleared(adminoperationlog.FieldRequestHeader) {
+		fields = append(fields, adminoperationlog.FieldRequestHeader)
+	}
+	if m.FieldCleared(adminoperationlog.FieldResponse) {
+		fields = append(fields, adminoperationlog.FieldResponse)
+	}
+	if m.FieldCleared(adminoperationlog.FieldCostTime) {
+		fields = append(fields, adminoperationlog.FieldCostTime)
+	}
+	if m.FieldCleared(adminoperationlog.FieldUserID) {
+		fields = append(fields, adminoperationlog.FieldUserID)
+	}
+	if m.FieldCleared(adminoperationlog.FieldUserName) {
+		fields = append(fields, adminoperationlog.FieldUserName)
+	}
+	if m.FieldCleared(adminoperationlog.FieldClientIP) {
+		fields = append(fields, adminoperationlog.FieldClientIP)
+	}
+	if m.FieldCleared(adminoperationlog.FieldStatusCode) {
+		fields = append(fields, adminoperationlog.FieldStatusCode)
+	}
+	if m.FieldCleared(adminoperationlog.FieldReason) {
+		fields = append(fields, adminoperationlog.FieldReason)
+	}
+	if m.FieldCleared(adminoperationlog.FieldSuccess) {
+		fields = append(fields, adminoperationlog.FieldSuccess)
+	}
+	if m.FieldCleared(adminoperationlog.FieldLocation) {
+		fields = append(fields, adminoperationlog.FieldLocation)
+	}
+	if m.FieldCleared(adminoperationlog.FieldUserAgent) {
+		fields = append(fields, adminoperationlog.FieldUserAgent)
+	}
+	if m.FieldCleared(adminoperationlog.FieldBrowserName) {
+		fields = append(fields, adminoperationlog.FieldBrowserName)
+	}
+	if m.FieldCleared(adminoperationlog.FieldBrowserVersion) {
+		fields = append(fields, adminoperationlog.FieldBrowserVersion)
+	}
+	if m.FieldCleared(adminoperationlog.FieldClientID) {
+		fields = append(fields, adminoperationlog.FieldClientID)
+	}
+	if m.FieldCleared(adminoperationlog.FieldClientName) {
+		fields = append(fields, adminoperationlog.FieldClientName)
+	}
+	if m.FieldCleared(adminoperationlog.FieldOsName) {
+		fields = append(fields, adminoperationlog.FieldOsName)
+	}
+	if m.FieldCleared(adminoperationlog.FieldOsVersion) {
+		fields = append(fields, adminoperationlog.FieldOsVersion)
+	}
+	return fields
+}
+
+// FieldCleared returns a boolean indicating if a field with the given name was
+// cleared in this mutation.
+func (m *AdminOperationLogMutation) FieldCleared(name string) bool {
+	_, ok := m.clearedFields[name]
+	return ok
+}
+
+// ClearField clears the value of the field with the given name. It returns an
+// error if the field is not defined in the schema.
+func (m *AdminOperationLogMutation) ClearField(name string) error {
+	switch name {
+	case adminoperationlog.FieldCreateTime:
+		m.ClearCreateTime()
+		return nil
+	case adminoperationlog.FieldUpdateTime:
+		m.ClearUpdateTime()
+		return nil
+	case adminoperationlog.FieldDeleteTime:
+		m.ClearDeleteTime()
+		return nil
+	case adminoperationlog.FieldRequestID:
+		m.ClearRequestID()
+		return nil
+	case adminoperationlog.FieldMethod:
+		m.ClearMethod()
+		return nil
+	case adminoperationlog.FieldOperation:
+		m.ClearOperation()
+		return nil
+	case adminoperationlog.FieldPath:
+		m.ClearPath()
+		return nil
+	case adminoperationlog.FieldReferer:
+		m.ClearReferer()
+		return nil
+	case adminoperationlog.FieldRequestURI:
+		m.ClearRequestURI()
+		return nil
+	case adminoperationlog.FieldRequestBody:
+		m.ClearRequestBody()
+		return nil
+	case adminoperationlog.FieldRequestHeader:
+		m.ClearRequestHeader()
+		return nil
+	case adminoperationlog.FieldResponse:
+		m.ClearResponse()
+		return nil
+	case adminoperationlog.FieldCostTime:
+		m.ClearCostTime()
+		return nil
+	case adminoperationlog.FieldUserID:
+		m.ClearUserID()
+		return nil
+	case adminoperationlog.FieldUserName:
+		m.ClearUserName()
+		return nil
+	case adminoperationlog.FieldClientIP:
+		m.ClearClientIP()
+		return nil
+	case adminoperationlog.FieldStatusCode:
+		m.ClearStatusCode()
+		return nil
+	case adminoperationlog.FieldReason:
+		m.ClearReason()
+		return nil
+	case adminoperationlog.FieldSuccess:
+		m.ClearSuccess()
+		return nil
+	case adminoperationlog.FieldLocation:
+		m.ClearLocation()
+		return nil
+	case adminoperationlog.FieldUserAgent:
+		m.ClearUserAgent()
+		return nil
+	case adminoperationlog.FieldBrowserName:
+		m.ClearBrowserName()
+		return nil
+	case adminoperationlog.FieldBrowserVersion:
+		m.ClearBrowserVersion()
+		return nil
+	case adminoperationlog.FieldClientID:
+		m.ClearClientID()
+		return nil
+	case adminoperationlog.FieldClientName:
+		m.ClearClientName()
+		return nil
+	case adminoperationlog.FieldOsName:
+		m.ClearOsName()
+		return nil
+	case adminoperationlog.FieldOsVersion:
+		m.ClearOsVersion()
+		return nil
+	}
+	return fmt.Errorf("unknown AdminOperationLog nullable field %s", name)
+}
+
+// ResetField resets all changes in the mutation for the field with the given name.
+// It returns an error if the field is not defined in the schema.
+func (m *AdminOperationLogMutation) ResetField(name string) error {
+	switch name {
+	case adminoperationlog.FieldCreateTime:
+		m.ResetCreateTime()
+		return nil
+	case adminoperationlog.FieldUpdateTime:
+		m.ResetUpdateTime()
+		return nil
+	case adminoperationlog.FieldDeleteTime:
+		m.ResetDeleteTime()
+		return nil
+	case adminoperationlog.FieldRequestID:
+		m.ResetRequestID()
+		return nil
+	case adminoperationlog.FieldMethod:
+		m.ResetMethod()
+		return nil
+	case adminoperationlog.FieldOperation:
+		m.ResetOperation()
+		return nil
+	case adminoperationlog.FieldPath:
+		m.ResetPath()
+		return nil
+	case adminoperationlog.FieldReferer:
+		m.ResetReferer()
+		return nil
+	case adminoperationlog.FieldRequestURI:
+		m.ResetRequestURI()
+		return nil
+	case adminoperationlog.FieldRequestBody:
+		m.ResetRequestBody()
+		return nil
+	case adminoperationlog.FieldRequestHeader:
+		m.ResetRequestHeader()
+		return nil
+	case adminoperationlog.FieldResponse:
+		m.ResetResponse()
+		return nil
+	case adminoperationlog.FieldCostTime:
+		m.ResetCostTime()
+		return nil
+	case adminoperationlog.FieldUserID:
+		m.ResetUserID()
+		return nil
+	case adminoperationlog.FieldUserName:
+		m.ResetUserName()
+		return nil
+	case adminoperationlog.FieldClientIP:
+		m.ResetClientIP()
+		return nil
+	case adminoperationlog.FieldStatusCode:
+		m.ResetStatusCode()
+		return nil
+	case adminoperationlog.FieldReason:
+		m.ResetReason()
+		return nil
+	case adminoperationlog.FieldSuccess:
+		m.ResetSuccess()
+		return nil
+	case adminoperationlog.FieldLocation:
+		m.ResetLocation()
+		return nil
+	case adminoperationlog.FieldUserAgent:
+		m.ResetUserAgent()
+		return nil
+	case adminoperationlog.FieldBrowserName:
+		m.ResetBrowserName()
+		return nil
+	case adminoperationlog.FieldBrowserVersion:
+		m.ResetBrowserVersion()
+		return nil
+	case adminoperationlog.FieldClientID:
+		m.ResetClientID()
+		return nil
+	case adminoperationlog.FieldClientName:
+		m.ResetClientName()
+		return nil
+	case adminoperationlog.FieldOsName:
+		m.ResetOsName()
+		return nil
+	case adminoperationlog.FieldOsVersion:
+		m.ResetOsVersion()
+		return nil
+	}
+	return fmt.Errorf("unknown AdminOperationLog field %s", name)
+}
+
+// AddedEdges returns all edge names that were set/added in this mutation.
+func (m *AdminOperationLogMutation) AddedEdges() []string {
+	edges := make([]string, 0, 0)
+	return edges
+}
+
+// AddedIDs returns all IDs (to other nodes) that were added for the given edge
+// name in this mutation.
+func (m *AdminOperationLogMutation) AddedIDs(name string) []ent.Value {
+	return nil
+}
+
+// RemovedEdges returns all edge names that were removed in this mutation.
+func (m *AdminOperationLogMutation) RemovedEdges() []string {
+	edges := make([]string, 0, 0)
+	return edges
+}
+
+// RemovedIDs returns all IDs (to other nodes) that were removed for the edge with
+// the given name in this mutation.
+func (m *AdminOperationLogMutation) RemovedIDs(name string) []ent.Value {
+	return nil
+}
+
+// ClearedEdges returns all edge names that were cleared in this mutation.
+func (m *AdminOperationLogMutation) ClearedEdges() []string {
+	edges := make([]string, 0, 0)
+	return edges
+}
+
+// EdgeCleared returns a boolean which indicates if the edge with the given name
+// was cleared in this mutation.
+func (m *AdminOperationLogMutation) EdgeCleared(name string) bool {
+	return false
+}
+
+// ClearEdge clears the value of the edge with the given name. It returns an error
+// if that edge is not defined in the schema.
+func (m *AdminOperationLogMutation) ClearEdge(name string) error {
+	return fmt.Errorf("unknown AdminOperationLog unique edge %s", name)
+}
+
+// ResetEdge resets all changes to the edge with the given name in this mutation.
+// It returns an error if the edge is not defined in the schema.
+func (m *AdminOperationLogMutation) ResetEdge(name string) error {
+	return fmt.Errorf("unknown AdminOperationLog edge %s", name)
+}
 
 // DepartmentMutation represents an operation that mutates the Department nodes in the graph.
 type DepartmentMutation struct {

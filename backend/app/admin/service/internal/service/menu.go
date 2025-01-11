@@ -4,9 +4,11 @@ import (
 	"context"
 
 	"github.com/go-kratos/kratos/v2/log"
+	"github.com/tx7do/go-utils/trans"
 	"google.golang.org/protobuf/types/known/emptypb"
 
 	"kratos-admin/app/admin/service/internal/data"
+	"kratos-admin/app/admin/service/internal/middleware/auth"
 
 	pagination "github.com/tx7do/kratos-bootstrap/api/gen/go/pagination/v1"
 	adminV1 "kratos-admin/api/gen/go/admin/service/v1"
@@ -50,7 +52,19 @@ func (s *MenuService) GetMenu(ctx context.Context, req *systemV1.GetMenuRequest)
 }
 
 func (s *MenuService) CreateMenu(ctx context.Context, req *systemV1.CreateMenuRequest) (*emptypb.Empty, error) {
-	err := s.uc.Create(ctx, req)
+	authInfo, err := auth.FromContext(ctx)
+	if err != nil {
+		s.log.Errorf("用户认证失败[%s]", err.Error())
+		return nil, adminV1.ErrorAccessForbidden("用户认证失败")
+	}
+
+	if req.Data == nil {
+		return nil, adminV1.ErrorBadRequest("错误的参数")
+	}
+
+	req.OperatorId = trans.Ptr(authInfo.UserId)
+
+	err = s.uc.Create(ctx, req)
 	if err != nil {
 
 		return nil, err
@@ -60,7 +74,19 @@ func (s *MenuService) CreateMenu(ctx context.Context, req *systemV1.CreateMenuRe
 }
 
 func (s *MenuService) UpdateMenu(ctx context.Context, req *systemV1.UpdateMenuRequest) (*emptypb.Empty, error) {
-	err := s.uc.Update(ctx, req)
+	authInfo, err := auth.FromContext(ctx)
+	if err != nil {
+		s.log.Errorf("用户认证失败[%s]", err.Error())
+		return nil, adminV1.ErrorAccessForbidden("用户认证失败")
+	}
+
+	if req.Data == nil {
+		return nil, adminV1.ErrorBadRequest("错误的参数")
+	}
+
+	req.OperatorId = trans.Ptr(authInfo.UserId)
+
+	err = s.uc.Update(ctx, req)
 	if err != nil {
 
 		return nil, err
@@ -70,7 +96,15 @@ func (s *MenuService) UpdateMenu(ctx context.Context, req *systemV1.UpdateMenuRe
 }
 
 func (s *MenuService) DeleteMenu(ctx context.Context, req *systemV1.DeleteMenuRequest) (*emptypb.Empty, error) {
-	_, err := s.uc.Delete(ctx, req)
+	authInfo, err := auth.FromContext(ctx)
+	if err != nil {
+		s.log.Errorf("用户认证失败[%s]", err.Error())
+		return nil, adminV1.ErrorAccessForbidden("用户认证失败")
+	}
+
+	req.OperatorId = trans.Ptr(authInfo.UserId)
+
+	_, err = s.uc.Delete(ctx, req)
 	if err != nil {
 
 		return nil, err

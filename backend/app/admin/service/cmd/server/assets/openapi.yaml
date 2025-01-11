@@ -14,6 +14,270 @@ info:
         url: https://github.com/tx7do/kratos-admin/blob/master/LICENSE
     version: "1.0"
 paths:
+    /admin/v1/admin_login_logs:
+        get:
+            tags:
+                - AdminLoginLogService
+            description: 查询后台登录日志列表
+            operationId: AdminLoginLogService_ListAdminLoginLog
+            parameters:
+                - name: page
+                  in: query
+                  description: 当前页码
+                  schema:
+                    type: integer
+                    format: int32
+                - name: pageSize
+                  in: query
+                  description: 每一页的行数
+                  schema:
+                    type: integer
+                    format: int32
+                - name: query
+                  in: query
+                  description: AND过滤参数，其语法为json格式的字符串，如：{"key1":"val1","key2":"val2"}，具体请参见：https://github.com/tx7do/go-utils/tree/main/entgo/query/README.md
+                  schema:
+                    type: string
+                - name: or
+                  in: query
+                  description: OR过滤参数，语法同AND过滤参数。
+                  schema:
+                    type: string
+                - name: orderBy
+                  in: query
+                  description: 排序条件，其语法为JSON字符串，例如：{"val1", "-val2"}。字段名前加'-'为降序，否则为升序。
+                  schema:
+                    type: array
+                    items:
+                        type: string
+                - name: noPaging
+                  in: query
+                  description: 是否不分页，如果为true，则page和pageSize参数无效。
+                  schema:
+                    type: boolean
+                - name: fieldMask
+                  in: query
+                  description: 字段掩码，其作用为SELECT中的字段，其语法为使用逗号分隔字段名，例如：id,realName,userName。如果为空则选中所有字段，即SELECT *。
+                  schema:
+                    type: string
+                    format: field-mask
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ListAdminLoginLogResponse'
+        post:
+            tags:
+                - AdminLoginLogService
+            description: 创建后台登录日志
+            operationId: AdminLoginLogService_CreateAdminLoginLog
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/CreateAdminLoginLogRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content: {}
+    /admin/v1/admin_login_logs/{data.id}:
+        put:
+            tags:
+                - AdminLoginLogService
+            description: 更新后台登录日志
+            operationId: AdminLoginLogService_UpdateAdminLoginLog
+            parameters:
+                - name: data.id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/UpdateAdminLoginLogRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content: {}
+    /admin/v1/admin_login_logs/{id}:
+        get:
+            tags:
+                - AdminLoginLogService
+            description: 查询后台登录日志详情
+            operationId: AdminLoginLogService_GetAdminLoginLog
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: uint32
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/AdminLoginLog'
+        delete:
+            tags:
+                - AdminLoginLogService
+            description: 删除后台登录日志
+            operationId: AdminLoginLogService_DeleteAdminLoginLog
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: uint32
+                - name: operatorId
+                  in: query
+                  schema:
+                    type: integer
+                    format: uint32
+            responses:
+                "200":
+                    description: OK
+                    content: {}
+    /admin/v1/admin_operation_logs:
+        get:
+            tags:
+                - AdminOperationLogService
+            description: 查询后台操作日志列表
+            operationId: AdminOperationLogService_ListAdminOperationLog
+            parameters:
+                - name: page
+                  in: query
+                  description: 当前页码
+                  schema:
+                    type: integer
+                    format: int32
+                - name: pageSize
+                  in: query
+                  description: 每一页的行数
+                  schema:
+                    type: integer
+                    format: int32
+                - name: query
+                  in: query
+                  description: AND过滤参数，其语法为json格式的字符串，如：{"key1":"val1","key2":"val2"}，具体请参见：https://github.com/tx7do/go-utils/tree/main/entgo/query/README.md
+                  schema:
+                    type: string
+                - name: or
+                  in: query
+                  description: OR过滤参数，语法同AND过滤参数。
+                  schema:
+                    type: string
+                - name: orderBy
+                  in: query
+                  description: 排序条件，其语法为JSON字符串，例如：{"val1", "-val2"}。字段名前加'-'为降序，否则为升序。
+                  schema:
+                    type: array
+                    items:
+                        type: string
+                - name: noPaging
+                  in: query
+                  description: 是否不分页，如果为true，则page和pageSize参数无效。
+                  schema:
+                    type: boolean
+                - name: fieldMask
+                  in: query
+                  description: 字段掩码，其作用为SELECT中的字段，其语法为使用逗号分隔字段名，例如：id,realName,userName。如果为空则选中所有字段，即SELECT *。
+                  schema:
+                    type: string
+                    format: field-mask
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ListAdminOperationLogResponse'
+        post:
+            tags:
+                - AdminOperationLogService
+            description: 创建后台操作日志
+            operationId: AdminOperationLogService_CreateAdminOperationLog
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/CreateAdminOperationLogRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content: {}
+    /admin/v1/admin_operation_logs/{data.id}:
+        put:
+            tags:
+                - AdminOperationLogService
+            description: 更新后台操作日志
+            operationId: AdminOperationLogService_UpdateAdminOperationLog
+            parameters:
+                - name: data.id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/UpdateAdminOperationLogRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content: {}
+    /admin/v1/admin_operation_logs/{id}:
+        get:
+            tags:
+                - AdminOperationLogService
+            description: 查询后台操作日志详情
+            operationId: AdminOperationLogService_GetAdminOperationLog
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: uint32
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/AdminOperationLog'
+        delete:
+            tags:
+                - AdminOperationLogService
+            description: 删除后台操作日志
+            operationId: AdminOperationLogService_DeleteAdminOperationLog
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: uint32
+                - name: operatorId
+                  in: query
+                  schema:
+                    type: integer
+                    format: uint32
+            responses:
+                "200":
+                    description: OK
+                    content: {}
     /admin/v1/departments:
         get:
             tags:
@@ -1041,6 +1305,194 @@ paths:
                     content: {}
 components:
     schemas:
+        AdminLoginLog:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    description: 后台登录日志ID
+                    format: uint32
+                loginIp:
+                    type: string
+                    description: 登录IP地址
+                loginMac:
+                    type: string
+                    description: 登录MAC地址
+                loginTime:
+                    type: string
+                    description: 登录时间
+                    format: date-time
+                statusCode:
+                    type: integer
+                    description: 状态码
+                    format: int32
+                success:
+                    type: boolean
+                    description: 登录是否成功
+                reason:
+                    type: string
+                    description: 登录失败原因
+                location:
+                    type: string
+                    description: 登录地理位置
+                userAgent:
+                    type: string
+                    description: 浏览器的用户代理信息
+                browserName:
+                    type: string
+                    description: 浏览器名称
+                browserVersion:
+                    type: string
+                    description: 浏览器版本
+                clientId:
+                    type: string
+                    description: 客户端ID
+                clientName:
+                    type: string
+                    description: 客户端名称
+                osName:
+                    type: string
+                    description: 操作系统名称
+                osVersion:
+                    type: string
+                    description: 操作系统版本
+                userId:
+                    type: integer
+                    description: 操作者用户ID
+                    format: uint32
+                userName:
+                    type: string
+                    description: 操作者账号名
+                createTime:
+                    type: string
+                    description: 创建时间
+                    format: date-time
+                updateTime:
+                    type: string
+                    description: 更新时间
+                    format: date-time
+                deleteTime:
+                    type: string
+                    description: 删除时间
+                    format: date-time
+            description: 后台登录日志
+        AdminOperationLog:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    description: 后台操作日志ID
+                    format: uint32
+                costTime:
+                    pattern: ^-?(?:0|[1-9][0-9]{0,11})(?:\.[0-9]{1,9})?s$
+                    type: string
+                    description: 操作耗时
+                success:
+                    type: boolean
+                    description: 操作是否成功
+                requestId:
+                    type: string
+                    description: 请求ID
+                statusCode:
+                    type: integer
+                    description: 状态码
+                    format: int32
+                method:
+                    type: string
+                    description: 请求方法
+                operation:
+                    type: string
+                    description: 操作方法
+                path:
+                    type: string
+                    description: 请求路径
+                referer:
+                    type: string
+                    description: 请求源
+                requestUri:
+                    type: string
+                    description: 请求URI
+                reason:
+                    type: string
+                    description: 操作失败原因
+                location:
+                    type: string
+                    description: 操作地理位置
+                requestHeader:
+                    type: string
+                    description: 请求头
+                requestBody:
+                    type: string
+                    description: 请求体
+                response:
+                    type: string
+                    description: 响应信息
+                userId:
+                    type: integer
+                    description: 操作者用户ID
+                    format: uint32
+                userName:
+                    type: string
+                    description: 操作者账号名
+                clientIp:
+                    type: string
+                    description: 操作者IP
+                userAgent:
+                    type: string
+                    description: 浏览器的用户代理信息
+                browserName:
+                    type: string
+                    description: 浏览器名称
+                browserVersion:
+                    type: string
+                    description: 浏览器版本
+                clientId:
+                    type: string
+                    description: 客户端ID
+                clientName:
+                    type: string
+                    description: 客户端名称
+                osName:
+                    type: string
+                    description: 操作系统名称
+                osVersion:
+                    type: string
+                    description: 操作系统版本
+                createTime:
+                    type: string
+                    description: 创建时间
+                    format: date-time
+                updateTime:
+                    type: string
+                    description: 更新时间
+                    format: date-time
+                deleteTime:
+                    type: string
+                    description: 删除时间
+                    format: date-time
+            description: 后台操作日志
+        CreateAdminLoginLogRequest:
+            type: object
+            properties:
+                operatorId:
+                    readOnly: true
+                    type: integer
+                    description: 操作用户ID
+                    format: uint32
+                data:
+                    $ref: '#/components/schemas/AdminLoginLog'
+            description: 创建后台登录日志 - 请求
+        CreateAdminOperationLogRequest:
+            type: object
+            properties:
+                operatorId:
+                    readOnly: true
+                    type: integer
+                    description: 操作用户ID
+                    format: uint32
+                data:
+                    $ref: '#/components/schemas/AdminOperationLog'
+            description: 创建后台操作日志 - 请求
         CreateDepartmentRequest:
             type: object
             properties:
@@ -1244,6 +1696,28 @@ components:
                     type: object
                     description: 元数据
             description: Kratos错误返回
+        ListAdminLoginLogResponse:
+            type: object
+            properties:
+                items:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/AdminLoginLog'
+                total:
+                    type: integer
+                    format: uint32
+            description: 查询后台登录日志列表 - 回应
+        ListAdminOperationLogResponse:
+            type: object
+            properties:
+                items:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/AdminOperationLog'
+                total:
+                    type: integer
+                    format: uint32
+            description: 查询后台操作日志列表 - 回应
         ListDepartmentResponse:
             type: object
             properties:
@@ -1736,6 +2210,44 @@ components:
                     type: string
                     description: 标题名称，路由上显示的标题
             description: 路由元数据
+        UpdateAdminLoginLogRequest:
+            type: object
+            properties:
+                operatorId:
+                    readOnly: true
+                    type: integer
+                    description: 操作用户ID
+                    format: uint32
+                data:
+                    $ref: '#/components/schemas/AdminLoginLog'
+                updateMask:
+                    example: id,realName,userName
+                    type: string
+                    description: 要更新的字段列表
+                    format: field-mask
+                allowMissing:
+                    type: boolean
+                    description: 如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。
+            description: 更新后台登录日志 - 请求
+        UpdateAdminOperationLogRequest:
+            type: object
+            properties:
+                operatorId:
+                    readOnly: true
+                    type: integer
+                    description: 操作用户ID
+                    format: uint32
+                data:
+                    $ref: '#/components/schemas/AdminOperationLog'
+                updateMask:
+                    example: id,realName,userName
+                    type: string
+                    description: 要更新的字段列表
+                    format: field-mask
+                allowMissing:
+                    type: boolean
+                    description: 如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。
+            description: 更新后台操作日志 - 请求
         UpdateDepartmentRequest:
             type: object
             properties:
@@ -2001,6 +2513,10 @@ components:
 security:
     - OAuth2PasswordBearer: []
 tags:
+    - name: AdminLoginLogService
+      description: 后台登录日志管理服务
+    - name: AdminOperationLogService
+      description: 后台操作日志管理服务
     - name: AuthenticationService
       description: 用户后台登录认证服务
     - name: DepartmentService

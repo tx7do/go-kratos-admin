@@ -29,8 +29,10 @@ func initApp(logger log.Logger, registrar registry.Registrar, bootstrap *v1.Boot
 		return nil, nil, err
 	}
 	userToken := data.NewUserTokenRepo(dataData, authenticator, logger)
+	adminOperationLogRepo := data.NewAdminOperationLogRepo(dataData, logger)
+	adminLoginLogRepo := data.NewAdminLoginLogRepo(dataData, logger)
 	userRepo := data.NewUserRepo(dataData, logger)
-	authenticationService := service.NewAuthenticationService(logger, userRepo, userToken)
+	authenticationService := service.NewAuthenticationService(logger, userRepo, userToken, adminLoginLogRepo)
 	userService := service.NewUserService(logger, userRepo)
 	menuRepo := data.NewMenuRepo(dataData, logger)
 	menuService := service.NewMenuService(menuRepo, logger)
@@ -45,7 +47,9 @@ func initApp(logger log.Logger, registrar registry.Registrar, bootstrap *v1.Boot
 	dictService := service.NewDictService(dictRepo, logger)
 	departmentRepo := data.NewDepartmentRepo(dataData, logger)
 	departmentService := service.NewDepartmentService(departmentRepo, logger)
-	httpServer := server.NewRESTServer(bootstrap, logger, authenticator, engine, userToken, authenticationService, userService, menuService, routerService, organizationService, roleService, positionService, dictService, departmentService)
+	adminLoginLogService := service.NewAdminLoginLogService(adminLoginLogRepo, logger)
+	adminOperationLogService := service.NewAdminOperationLogService(adminOperationLogRepo, logger)
+	httpServer := server.NewRESTServer(bootstrap, logger, authenticator, engine, userToken, adminOperationLogRepo, adminLoginLogRepo, authenticationService, userService, menuService, routerService, organizationService, roleService, positionService, dictService, departmentService, adminLoginLogService, adminOperationLogService)
 	app := newApp(logger, registrar, httpServer)
 	return app, func() {
 		cleanup()

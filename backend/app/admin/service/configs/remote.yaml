@@ -1,7 +1,0 @@
-config:
-  type: "consul"
-
-  consul:
-    scheme: "http"
-    address: "localhost:8500"
-    key: "kratos-admin/admin/service"

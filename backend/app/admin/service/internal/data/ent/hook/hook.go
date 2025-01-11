@@ -8,6 +8,30 @@ import (
 	"kratos-admin/app/admin/service/internal/data/ent"
 )
 
+// The AdminLoginLogFunc type is an adapter to allow the use of ordinary
+// function as AdminLoginLog mutator.
+type AdminLoginLogFunc func(context.Context, *ent.AdminLoginLogMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f AdminLoginLogFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.AdminLoginLogMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.AdminLoginLogMutation", m)
+}
+
+// The AdminOperationLogFunc type is an adapter to allow the use of ordinary
+// function as AdminOperationLog mutator.
+type AdminOperationLogFunc func(context.Context, *ent.AdminOperationLogMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f AdminOperationLogFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.AdminOperationLogMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.AdminOperationLogMutation", m)
+}
+
 // The DepartmentFunc type is an adapter to allow the use of ordinary
 // function as Department mutator.
 type DepartmentFunc func(context.Context, *ent.DepartmentMutation) (ent.Value, error)

@@ -6,6 +6,12 @@ import (
 	"entgo.io/ent/dialect/sql"
 )
 
+// AdminLoginLog is the predicate function for adminloginlog builders.
+type AdminLoginLog func(*sql.Selector)
+
+// AdminOperationLog is the predicate function for adminoperationlog builders.
+type AdminOperationLog func(*sql.Selector)
+
 // Department is the predicate function for department builders.
 type Department func(*sql.Selector)
 

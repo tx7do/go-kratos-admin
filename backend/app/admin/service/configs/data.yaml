@@ -1,7 +1,7 @@
 data:
   database:
     driver: "postgres"
-    source: "host=localhost port=5432 user=postgres password=*Abcd123456 dbname=kratos_admin sslmode=disable"
+    source: "host=localhost port=5432 user=postgres password=@Abcd123456 dbname=kratos_admin sslmode=disable"
     migrate: true
     debug: false
     enable_trace: false
@@ -12,7 +12,7 @@ data:
 
   redis:
     addr: "localhost:6379"
-    password: "Abcd123456"
+    password: "*Abcd123456"
     dial_timeout: 10s
     read_timeout: 0.4s
     write_timeout: 0.6s

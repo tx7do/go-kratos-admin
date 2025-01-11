@@ -7,29 +7,31 @@ import (
 	"google.golang.org/protobuf/types/known/emptypb"
 
 	"kratos-admin/app/admin/service/internal/data"
+	"kratos-admin/app/admin/service/internal/middleware/auth"
 
 	adminV1 "kratos-admin/api/gen/go/admin/service/v1"
 	userV1 "kratos-admin/api/gen/go/user/service/v1"
-
-	"kratos-admin/pkg/cache"
-	"kratos-admin/pkg/middleware/auth"
 )
 
 type AuthenticationService struct {
 	adminV1.AuthenticationServiceHTTPServer
 
-	uc   *data.UserRepo
-	utuc *cache.UserToken
+	userRepo  *data.UserRepo
+	userToken *data.UserToken
 
 	log *log.Helper
 }
 
-func NewAuthenticationService(logger log.Logger, uc *data.UserRepo, utuc *cache.UserToken) *AuthenticationService {
+func NewAuthenticationService(
+	logger log.Logger,
+	userRepo *data.UserRepo,
+	userToken *data.UserToken,
+) *AuthenticationService {
 	l := log.NewHelper(log.With(logger, "module", "authn/service/admin-service"))
 	return &AuthenticationService{
-		log:  l,
-		uc:   uc,
-		utuc: utuc,
+		log:       l,
+		userRepo:  userRepo,
+		userToken: userToken,
 	}
 }
 
@@ -40,7 +42,7 @@ func (s *AuthenticationService) Login(ctx context.Context, req *adminV1.LoginReq
 	}
 
 	var err error
-	if _, err = s.uc.VerifyPassword(ctx, &userV1.VerifyPasswordRequest{
+	if _, err = s.userRepo.VerifyPassword(ctx, &userV1.VerifyPasswordRequest{
 		UserName: req.GetUsername(),
 		Password: req.GetPassword(),
 	}); err != nil {
@@ -49,7 +51,7 @@ func (s *AuthenticationService) Login(ctx context.Context, req *adminV1.LoginReq
 
 	// 获取用户信息
 	var user *userV1.User
-	user, err = s.uc.GetUserByUserName(ctx, req.GetUsername())
+	user, err = s.userRepo.GetUserByUserName(ctx, req.GetUsername())
 	if err != nil {
 		return nil, err
 	}
@@ -60,7 +62,7 @@ func (s *AuthenticationService) Login(ctx context.Context, req *adminV1.LoginReq
 	}
 
 	// 生成访问令牌
-	accessToken, refreshToken, err := s.utuc.GenerateToken(ctx, user)
+	accessToken, refreshToken, err := s.userToken.GenerateToken(ctx, user)
 	if err != nil {
 		return nil, err
 	}
@@ -74,7 +76,7 @@ func (s *AuthenticationService) Login(ctx context.Context, req *adminV1.LoginReq
 
 // Logout 登出
 func (s *AuthenticationService) Logout(ctx context.Context, req *adminV1.LogoutRequest) (*emptypb.Empty, error) {
-	err := s.utuc.RemoveToken(ctx, req.GetId())
+	err := s.userToken.RemoveToken(ctx, req.GetId())
 	if err != nil {
 		return nil, err
 	}
@@ -89,7 +91,7 @@ func (s *AuthenticationService) GetMe(ctx context.Context, req *adminV1.GetMeReq
 	}
 
 	req.Id = authInfo.UserId
-	ret, err := s.uc.GetUser(ctx, req.GetId())
+	ret, err := s.userRepo.GetUser(ctx, req.GetId())
 	return ret, err
 }
 
@@ -107,13 +109,13 @@ func (s *AuthenticationService) RefreshToken(ctx context.Context, req *adminV1.R
 	}
 
 	// 校验刷新令牌
-	refreshToken := s.utuc.GetRefreshToken(ctx, authInfo.UserId)
+	refreshToken := s.userToken.GetRefreshToken(ctx, authInfo.UserId)
 	if refreshToken != req.GetRefreshToken() {
 		return nil, adminV1.ErrorIncorrectRefreshToken("invalid refresh token")
 	}
 
 	// 生成新的访问令牌
-	accessToken, err := s.utuc.GenerateAccessToken(ctx, authInfo.UserId, authInfo.UserName)
+	accessToken, err := s.userToken.GenerateAccessToken(ctx, authInfo.UserId, authInfo.UserName)
 	if err != nil {
 		return nil, err
 	}

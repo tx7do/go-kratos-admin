@@ -6,6 +6,8 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"kratos-admin/app/admin/service/internal/data/ent/adminloginlog"
+	"kratos-admin/app/admin/service/internal/data/ent/adminoperationlog"
 	"kratos-admin/app/admin/service/internal/data/ent/department"
 	"kratos-admin/app/admin/service/internal/data/ent/dict"
 	"kratos-admin/app/admin/service/internal/data/ent/menu"
@@ -79,13 +81,15 @@ var (
 func checkColumn(table, column string) error {
 	initCheck.Do(func() {
 		columnCheck = sql.NewColumnCheck(map[string]func(string) bool{
-			department.Table:   department.ValidColumn,
-			dict.Table:         dict.ValidColumn,
-			menu.Table:         menu.ValidColumn,
-			organization.Table: organization.ValidColumn,
-			position.Table:     position.ValidColumn,
-			role.Table:         role.ValidColumn,
-			user.Table:         user.ValidColumn,
+			adminloginlog.Table:     adminloginlog.ValidColumn,
+			adminoperationlog.Table: adminoperationlog.ValidColumn,
+			department.Table:        department.ValidColumn,
+			dict.Table:              dict.ValidColumn,
+			menu.Table:              menu.ValidColumn,
+			organization.Table:      organization.ValidColumn,
+			position.Table:          position.ValidColumn,
+			role.Table:              role.ValidColumn,
+			user.Table:              user.ValidColumn,
 		})
 	})
 	return columnCheck(table, column)

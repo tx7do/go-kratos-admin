@@ -21,10 +21,11 @@ import (
 	"github.com/tx7do/kratos-bootstrap/rpc"
 
 	"kratos-admin/app/admin/service/cmd/server/assets"
-	"kratos-admin/app/admin/service/internal/service"
 
-	"kratos-admin/pkg/cache"
-	"kratos-admin/pkg/middleware/auth"
+	"kratos-admin/app/admin/service/internal/data"
+	"kratos-admin/app/admin/service/internal/middleware/auth"
+	applogging "kratos-admin/app/admin/service/internal/middleware/logging"
+	"kratos-admin/app/admin/service/internal/service"
 
 	adminV1 "kratos-admin/api/gen/go/admin/service/v1"
 )
@@ -46,15 +47,21 @@ func newRestMiddleware(
 	logger log.Logger,
 	authenticator authnEngine.Authenticator,
 	authorizer authzEngine.Engine,
-	userToken *cache.UserToken,
+	userToken *data.UserToken,
+	operationLogRepo *data.AdminOperationLogRepo,
+	loginLogRepo *data.AdminLoginLogRepo,
 ) []middleware.Middleware {
 	var ms []middleware.Middleware
 	ms = append(ms, logging.Server(logger))
+
+	ms = append(ms, applogging.Server(operationLogRepo, loginLogRepo, authenticator))
+
 	ms = append(ms, selector.Server(
 		authn.Server(authenticator),
 		auth.Server(userToken),
 		authz.Server(authorizer),
 	).Match(newRestWhiteListMatcher()).Build())
+
 	return ms
 }
 
@@ -62,7 +69,9 @@ func newRestMiddleware(
 func NewRESTServer(
 	cfg *conf.Bootstrap, logger log.Logger,
 	authenticator authnEngine.Authenticator, authorizer authzEngine.Engine,
-	userToken *cache.UserToken,
+	userToken *data.UserToken,
+	operationLogRepo *data.AdminOperationLogRepo,
+	loginLogRepo *data.AdminLoginLogRepo,
 	authnSvc *service.AuthenticationService,
 	userSvc *service.UserService,
 	menuSvc *service.MenuService,
@@ -72,8 +81,12 @@ func NewRESTServer(
 	positionSvc *service.PositionService,
 	dictSvc *service.DictService,
 	deptSvc *service.DepartmentService,
+	adminLoginLogSvc *service.AdminLoginLogService,
+	adminOperationLogSvc *service.AdminOperationLogService,
 ) *http.Server {
-	srv := rpc.CreateRestServer(cfg, newRestMiddleware(logger, authenticator, authorizer, userToken)...)
+	srv := rpc.CreateRestServer(cfg,
+		newRestMiddleware(logger, authenticator, authorizer, userToken, operationLogRepo, loginLogRepo)...,
+	)
 
 	adminV1.RegisterAuthenticationServiceHTTPServer(srv, authnSvc)
 	adminV1.RegisterUserServiceHTTPServer(srv, userSvc)
@@ -84,6 +97,8 @@ func NewRESTServer(
 	adminV1.RegisterPositionServiceHTTPServer(srv, positionSvc)
 	adminV1.RegisterDictServiceHTTPServer(srv, dictSvc)
 	adminV1.RegisterDepartmentServiceHTTPServer(srv, deptSvc)
+	adminV1.RegisterAdminLoginLogServiceHTTPServer(srv, adminLoginLogSvc)
+	adminV1.RegisterAdminOperationLogServiceHTTPServer(srv, adminOperationLogSvc)
 
 	if cfg.GetServer().GetRest().GetEnableSwagger() {
 		swaggerUI.RegisterSwaggerUIServerWithOption(

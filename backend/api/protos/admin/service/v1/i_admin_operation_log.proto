@@ -1,0 +1,51 @@
+syntax = "proto3";
+
+package admin.service.v1;
+
+import "gnostic/openapi/v3/annotations.proto";
+import "google/api/annotations.proto";
+import "google/protobuf/empty.proto";
+
+import "pagination/v1/pagination.proto";
+
+import "system/service/v1/admin_operation_log.proto";
+
+// 后台操作日志管理服务
+service AdminOperationLogService {
+  // 查询后台操作日志列表
+  rpc ListAdminOperationLog (pagination.PagingRequest) returns (system.service.v1.ListAdminOperationLogResponse) {
+    option (google.api.http) = {
+      get: "/admin/v1/admin_operation_logs"
+    };
+  }
+
+  // 查询后台操作日志详情
+  rpc GetAdminOperationLog (system.service.v1.GetAdminOperationLogRequest) returns (system.service.v1.AdminOperationLog) {
+    option (google.api.http) = {
+      get: "/admin/v1/admin_operation_logs/{id}"
+    };
+  }
+
+  // 创建后台操作日志
+  rpc CreateAdminOperationLog (system.service.v1.CreateAdminOperationLogRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      post: "/admin/v1/admin_operation_logs"
+      body: "*"
+    };
+  }
+
+  // 更新后台操作日志
+  rpc UpdateAdminOperationLog (system.service.v1.UpdateAdminOperationLogRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      put: "/admin/v1/admin_operation_logs/{data.id}"
+      body: "*"
+    };
+  }
+
+  // 删除后台操作日志
+  rpc DeleteAdminOperationLog (system.service.v1.DeleteAdminOperationLogRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      delete: "/admin/v1/admin_operation_logs/{id}"
+    };
+  }
+}

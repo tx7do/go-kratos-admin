@@ -16,8 +16,6 @@ import (
 	redisClient "github.com/tx7do/kratos-bootstrap/cache/redis"
 
 	"kratos-admin/app/admin/service/internal/data/ent"
-
-	"kratos-admin/pkg/cache"
 )
 
 // Data .
@@ -78,10 +76,10 @@ func NewAuthorizer() authzEngine.Engine {
 	return noop.State{}
 }
 
-func NewUserTokenRepo(data *Data, authenticator authnEngine.Authenticator, logger log.Logger) *cache.UserToken {
+func NewUserTokenRepo(data *Data, authenticator authnEngine.Authenticator, logger log.Logger) *UserToken {
 	const (
 		userAccessTokenKeyPrefix  = "uat_"
 		userRefreshTokenKeyPrefix = "urt_"
 	)
-	return cache.NewUserToken(data.rdb, authenticator, logger, userAccessTokenKeyPrefix, userRefreshTokenKeyPrefix)
+	return NewUserToken(data.rdb, authenticator, logger, userAccessTokenKeyPrefix, userRefreshTokenKeyPrefix)
 }

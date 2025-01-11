@@ -9,6 +9,86 @@ import (
 )
 
 var (
+	// AdminLoginLogsColumns holds the columns for the "admin_login_logs" table.
+	AdminLoginLogsColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeUint32, Increment: true, Comment: "id", SchemaType: map[string]string{"mysql": "int", "postgres": "serial"}},
+		{Name: "create_time", Type: field.TypeTime, Nullable: true, Comment: "创建时间"},
+		{Name: "update_time", Type: field.TypeTime, Nullable: true, Comment: "更新时间"},
+		{Name: "delete_time", Type: field.TypeTime, Nullable: true, Comment: "删除时间"},
+		{Name: "login_ip", Type: field.TypeString, Nullable: true, Comment: "登录IP地址"},
+		{Name: "login_mac", Type: field.TypeString, Nullable: true, Comment: "登录MAC地址"},
+		{Name: "login_time", Type: field.TypeTime, Nullable: true, Comment: "登录时间"},
+		{Name: "user_agent", Type: field.TypeString, Nullable: true, Comment: "浏览器的用户代理信息"},
+		{Name: "browser_name", Type: field.TypeString, Nullable: true, Comment: "浏览器名称"},
+		{Name: "browser_version", Type: field.TypeString, Nullable: true, Comment: "浏览器版本"},
+		{Name: "client_id", Type: field.TypeString, Nullable: true, Comment: "客户端ID"},
+		{Name: "client_name", Type: field.TypeString, Nullable: true, Comment: "客户端名称"},
+		{Name: "os_name", Type: field.TypeString, Nullable: true, Comment: "操作系统名称"},
+		{Name: "os_version", Type: field.TypeString, Nullable: true, Comment: "操作系统版本"},
+		{Name: "user_id", Type: field.TypeUint32, Nullable: true, Comment: "操作者用户ID"},
+		{Name: "user_name", Type: field.TypeString, Nullable: true, Comment: "操作者账号名"},
+		{Name: "status_code", Type: field.TypeInt32, Nullable: true, Comment: "状态码"},
+		{Name: "success", Type: field.TypeBool, Nullable: true, Comment: "操作成功"},
+		{Name: "reason", Type: field.TypeString, Nullable: true, Comment: "登录失败原因"},
+		{Name: "location", Type: field.TypeString, Nullable: true, Comment: "登录地理位置"},
+	}
+	// AdminLoginLogsTable holds the schema information for the "admin_login_logs" table.
+	AdminLoginLogsTable = &schema.Table{
+		Name:       "admin_login_logs",
+		Columns:    AdminLoginLogsColumns,
+		PrimaryKey: []*schema.Column{AdminLoginLogsColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "adminloginlog_id",
+				Unique:  false,
+				Columns: []*schema.Column{AdminLoginLogsColumns[0]},
+			},
+		},
+	}
+	// AdminOperationLogsColumns holds the columns for the "admin_operation_logs" table.
+	AdminOperationLogsColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeUint32, Increment: true, Comment: "id", SchemaType: map[string]string{"mysql": "int", "postgres": "serial"}},
+		{Name: "create_time", Type: field.TypeTime, Nullable: true, Comment: "创建时间"},
+		{Name: "update_time", Type: field.TypeTime, Nullable: true, Comment: "更新时间"},
+		{Name: "delete_time", Type: field.TypeTime, Nullable: true, Comment: "删除时间"},
+		{Name: "request_id", Type: field.TypeString, Nullable: true, Comment: "请求ID"},
+		{Name: "method", Type: field.TypeString, Nullable: true, Comment: "请求方法"},
+		{Name: "operation", Type: field.TypeString, Nullable: true, Comment: "操作方法"},
+		{Name: "path", Type: field.TypeString, Nullable: true, Comment: "请求路径"},
+		{Name: "referer", Type: field.TypeString, Nullable: true, Comment: "请求源"},
+		{Name: "request_uri", Type: field.TypeString, Nullable: true, Comment: "请求URI"},
+		{Name: "request_body", Type: field.TypeString, Nullable: true, Comment: "请求体"},
+		{Name: "request_header", Type: field.TypeString, Nullable: true, Comment: "请求头"},
+		{Name: "response", Type: field.TypeString, Nullable: true, Comment: "响应信息"},
+		{Name: "cost_time", Type: field.TypeFloat64, Nullable: true, Comment: "操作耗时"},
+		{Name: "user_id", Type: field.TypeUint32, Nullable: true, Comment: "操作者用户ID"},
+		{Name: "user_name", Type: field.TypeString, Nullable: true, Comment: "操作者账号名"},
+		{Name: "client_ip", Type: field.TypeString, Nullable: true, Comment: "操作者IP"},
+		{Name: "status_code", Type: field.TypeInt32, Nullable: true, Comment: "状态码"},
+		{Name: "reason", Type: field.TypeString, Nullable: true, Comment: "操作失败原因"},
+		{Name: "success", Type: field.TypeBool, Nullable: true, Comment: "操作成功"},
+		{Name: "location", Type: field.TypeString, Nullable: true, Comment: "操作地理位置"},
+		{Name: "user_agent", Type: field.TypeString, Nullable: true, Comment: "浏览器的用户代理信息"},
+		{Name: "browser_name", Type: field.TypeString, Nullable: true, Comment: "浏览器名称"},
+		{Name: "browser_version", Type: field.TypeString, Nullable: true, Comment: "浏览器版本"},
+		{Name: "client_id", Type: field.TypeString, Nullable: true, Comment: "客户端ID"},
+		{Name: "client_name", Type: field.TypeString, Nullable: true, Comment: "客户端名称"},
+		{Name: "os_name", Type: field.TypeString, Nullable: true, Comment: "操作系统名称"},
+		{Name: "os_version", Type: field.TypeString, Nullable: true, Comment: "操作系统版本"},
+	}
+	// AdminOperationLogsTable holds the schema information for the "admin_operation_logs" table.
+	AdminOperationLogsTable = &schema.Table{
+		Name:       "admin_operation_logs",
+		Columns:    AdminOperationLogsColumns,
+		PrimaryKey: []*schema.Column{AdminOperationLogsColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "adminoperationlog_id",
+				Unique:  false,
+				Columns: []*schema.Column{AdminOperationLogsColumns[0]},
+			},
+		},
+	}
 	// DepartmentsColumns holds the columns for the "departments" table.
 	DepartmentsColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeUint32, Increment: true, Comment: "id", SchemaType: map[string]string{"mysql": "int", "postgres": "serial"}},
@@ -266,6 +346,8 @@ var (
 	}
 	// Tables holds all the tables in the schema.
 	Tables = []*schema.Table{
+		AdminLoginLogsTable,
+		AdminOperationLogsTable,
 		DepartmentsTable,
 		DictTable,
 		MenusTable,
@@ -277,6 +359,16 @@ var (
 )
 
 func init() {
+	AdminLoginLogsTable.Annotation = &entsql.Annotation{
+		Table:     "admin_login_logs",
+		Charset:   "utf8mb4",
+		Collation: "utf8mb4_bin",
+	}
+	AdminOperationLogsTable.Annotation = &entsql.Annotation{
+		Table:     "admin_operation_logs",
+		Charset:   "utf8mb4",
+		Collation: "utf8mb4_bin",
+	}
 	DepartmentsTable.ForeignKeys[0].RefTable = DepartmentsTable
 	DepartmentsTable.Annotation = &entsql.Annotation{
 		Table:     "departments",

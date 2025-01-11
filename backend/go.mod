@@ -12,20 +12,22 @@ replace (
 require (
 	entgo.io/contrib v0.6.0
 	entgo.io/ent v0.14.1
-	github.com/go-kratos/kratos/v2 v2.8.2
+	github.com/go-kratos/kratos/v2 v2.8.3
 	github.com/go-sql-driver/mysql v1.8.1
 	github.com/google/gnostic v0.7.0
 	github.com/google/uuid v1.6.0
 	github.com/google/wire v0.6.0
 	github.com/jackc/pgx/v4 v4.18.3
 	github.com/lib/pq v1.10.9
+	github.com/mileusna/useragent v1.3.5
 	github.com/redis/go-redis/v9 v9.7.0
 	github.com/stretchr/testify v1.10.0
 	github.com/tx7do/go-utils v1.1.13
 	github.com/tx7do/go-utils/entgo v1.1.18
-	github.com/tx7do/kratos-authn v1.1.2
-	github.com/tx7do/kratos-authn/engine/jwt v1.1.2
-	github.com/tx7do/kratos-authn/middleware v1.1.3
+	github.com/tx7do/go-utils/geoip v1.1.3
+	github.com/tx7do/kratos-authn v1.1.5
+	github.com/tx7do/kratos-authn/engine/jwt v1.1.5
+	github.com/tx7do/kratos-authn/middleware v1.1.5
 	github.com/tx7do/kratos-authz v1.0.2
 	github.com/tx7do/kratos-authz/middleware v1.0.2
 	github.com/tx7do/kratos-bootstrap/api v0.0.11
@@ -36,8 +38,8 @@ require (
 	github.com/tx7do/kratos-transport/transport/asynq v1.2.18
 	google.golang.org/genproto v0.0.0-20241209162323-e6fa225c2576
 	google.golang.org/genproto/googleapis/api v0.0.0-20241209162323-e6fa225c2576
-	google.golang.org/grpc v1.69.0
-	google.golang.org/protobuf v1.35.2
+	google.golang.org/grpc v1.69.2
+	google.golang.org/protobuf v1.36.2
 )
 
 require (
@@ -213,12 +215,12 @@ require (
 	golang.org/x/net v0.32.0 // indirect
 	golang.org/x/oauth2 v0.24.0 // indirect
 	golang.org/x/sync v0.10.0 // indirect
-	golang.org/x/sys v0.28.0 // indirect
+	golang.org/x/sys v0.29.0 // indirect
 	golang.org/x/term v0.27.0 // indirect
 	golang.org/x/text v0.21.0 // indirect
 	golang.org/x/time v0.8.0 // indirect
 	golang.org/x/tools v0.28.0 // indirect
-	google.golang.org/genproto/googleapis/rpc v0.0.0-20241209162323-e6fa225c2576 // indirect
+	google.golang.org/genproto/googleapis/rpc v0.0.0-20250106144421-5f5ef82da422 // indirect
 	gopkg.in/evanphx/json-patch.v4 v4.12.0 // indirect
 	gopkg.in/inf.v0 v0.9.1 // indirect
 	gopkg.in/ini.v1 v1.67.0 // indirect

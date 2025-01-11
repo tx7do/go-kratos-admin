@@ -2,7 +2,7 @@ package auth
 
 import (
 	"context"
-	"strconv"
+	"kratos-admin/app/admin/service/internal/data"
 
 	"github.com/go-kratos/kratos/v2/middleware"
 	"github.com/go-kratos/kratos/v2/transport"
@@ -12,14 +12,12 @@ import (
 
 	authzEngine "github.com/tx7do/kratos-authz/engine"
 	authz "github.com/tx7do/kratos-authz/middleware"
-
-	"kratos-admin/pkg/cache"
 )
 
 var action = authzEngine.Action("ANY")
 
 // Server 衔接认证和权鉴
-func Server(userToken *cache.UserToken) middleware.Middleware {
+func Server(userToken *data.UserToken) middleware.Middleware {
 	return func(handler middleware.Handler) middleware.Handler {
 		return func(ctx context.Context, req interface{}) (interface{}, error) {
 			tr, ok := transport.FromServerContext(ctx)
@@ -37,10 +35,11 @@ func Server(userToken *cache.UserToken) middleware.Middleware {
 				return nil, err
 			}
 
-			sub := authzEngine.Subject(authnClaims.Subject)
+			sub, _ := authnClaims.GetSubject()
 			path := authzEngine.Resource(tr.Operation())
+
 			authzClaims := authzEngine.AuthClaims{
-				Subject:  &sub,
+				Subject:  (*authzEngine.Subject)(&sub),
 				Action:   &action,
 				Resource: &path,
 			}
@@ -52,37 +51,24 @@ func Server(userToken *cache.UserToken) middleware.Middleware {
 	}
 }
 
-type Result struct {
-	UserId   uint32
-	UserName string
-}
-
-func FromContext(ctx context.Context) (*Result, error) {
+func FromContext(ctx context.Context) (*data.UserTokenPayload, error) {
 	claims, ok := authnEngine.AuthClaimsFromContext(ctx)
 	if !ok {
 		return nil, ErrMissingJwtToken
 	}
 
-	userId, err := strconv.ParseUint(claims.Subject, 10, 32)
-	if err != nil {
-		return nil, ErrExtractSubjectFailed
-	}
-
-	return &Result{
-		UserId:   uint32(userId),
-		UserName: "",
-	}, nil
+	return data.NewUserTokenPayloadWithClaims(claims)
 }
 
 // verifyAccessToken 校验访问令牌
-func verifyAccessToken(ctx context.Context, userToken *cache.UserToken, authnClaims *authnEngine.AuthClaims) error {
-	userId, err := strconv.ParseUint(authnClaims.Subject, 10, 32)
+func verifyAccessToken(ctx context.Context, userToken *data.UserToken, authnClaims *authnEngine.AuthClaims) error {
+	ut, err := data.NewUserTokenPayloadWithClaims(authnClaims)
 	if err != nil {
-		return ErrExtractSubjectFailed
+		return ErrExtractUserInfoFailed
 	}
 
 	// 校验访问令牌是否存在
-	if !userToken.IsExistAccessToken(ctx, uint32(userId)) {
+	if !userToken.IsExistAccessToken(ctx, ut.UserId) {
 		return ErrAccessTokenExpired
 	}
 

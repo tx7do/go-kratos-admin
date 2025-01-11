@@ -11,6 +11,8 @@ import (
 
 	"kratos-admin/app/admin/service/internal/data/ent/migrate"
 
+	"kratos-admin/app/admin/service/internal/data/ent/adminloginlog"
+	"kratos-admin/app/admin/service/internal/data/ent/adminoperationlog"
 	"kratos-admin/app/admin/service/internal/data/ent/department"
 	"kratos-admin/app/admin/service/internal/data/ent/dict"
 	"kratos-admin/app/admin/service/internal/data/ent/menu"
@@ -30,6 +32,10 @@ type Client struct {
 	config
 	// Schema is the client for creating, migrating and dropping schema.
 	Schema *migrate.Schema
+	// AdminLoginLog is the client for interacting with the AdminLoginLog builders.
+	AdminLoginLog *AdminLoginLogClient
+	// AdminOperationLog is the client for interacting with the AdminOperationLog builders.
+	AdminOperationLog *AdminOperationLogClient
 	// Department is the client for interacting with the Department builders.
 	Department *DepartmentClient
 	// Dict is the client for interacting with the Dict builders.
@@ -55,6 +61,8 @@ func NewClient(opts ...Option) *Client {
 
 func (c *Client) init() {
 	c.Schema = migrate.NewSchema(c.driver)
+	c.AdminLoginLog = NewAdminLoginLogClient(c.config)
+	c.AdminOperationLog = NewAdminOperationLogClient(c.config)
 	c.Department = NewDepartmentClient(c.config)
 	c.Dict = NewDictClient(c.config)
 	c.Menu = NewMenuClient(c.config)
@@ -152,15 +160,17 @@ func (c *Client) Tx(ctx context.Context) (*Tx, error) {
 	cfg := c.config
 	cfg.driver = tx
 	return &Tx{
-		ctx:          ctx,
-		config:       cfg,
-		Department:   NewDepartmentClient(cfg),
-		Dict:         NewDictClient(cfg),
-		Menu:         NewMenuClient(cfg),
-		Organization: NewOrganizationClient(cfg),
-		Position:     NewPositionClient(cfg),
-		Role:         NewRoleClient(cfg),
-		User:         NewUserClient(cfg),
+		ctx:               ctx,
+		config:            cfg,
+		AdminLoginLog:     NewAdminLoginLogClient(cfg),
+		AdminOperationLog: NewAdminOperationLogClient(cfg),
+		Department:        NewDepartmentClient(cfg),
+		Dict:              NewDictClient(cfg),
+		Menu:              NewMenuClient(cfg),
+		Organization:      NewOrganizationClient(cfg),
+		Position:          NewPositionClient(cfg),
+		Role:              NewRoleClient(cfg),
+		User:              NewUserClient(cfg),
 	}, nil
 }
 
@@ -178,22 +188,24 @@ func (c *Client) BeginTx(ctx context.Context, opts *sql.TxOptions) (*Tx, error) 
 	cfg := c.config
 	cfg.driver = &txDriver{tx: tx, drv: c.driver}
 	return &Tx{
-		ctx:          ctx,
-		config:       cfg,
-		Department:   NewDepartmentClient(cfg),
-		Dict:         NewDictClient(cfg),
-		Menu:         NewMenuClient(cfg),
-		Organization: NewOrganizationClient(cfg),
-		Position:     NewPositionClient(cfg),
-		Role:         NewRoleClient(cfg),
-		User:         NewUserClient(cfg),
+		ctx:               ctx,
+		config:            cfg,
+		AdminLoginLog:     NewAdminLoginLogClient(cfg),
+		AdminOperationLog: NewAdminOperationLogClient(cfg),
+		Department:        NewDepartmentClient(cfg),
+		Dict:              NewDictClient(cfg),
+		Menu:              NewMenuClient(cfg),
+		Organization:      NewOrganizationClient(cfg),
+		Position:          NewPositionClient(cfg),
+		Role:              NewRoleClient(cfg),
+		User:              NewUserClient(cfg),
 	}, nil
 }
 
 // Debug returns a new debug-client. It's used to get verbose logging on specific operations.
 //
 //	client.Debug().
-//		Department.
+//		AdminLoginLog.
 //		Query().
 //		Count(ctx)
 func (c *Client) Debug() *Client {
@@ -216,7 +228,8 @@ func (c *Client) Close() error {
 // In order to add hooks to a specific client, call: `client.Node.Use(...)`.
 func (c *Client) Use(hooks ...Hook) {
 	for _, n := range []interface{ Use(...Hook) }{
-		c.Department, c.Dict, c.Menu, c.Organization, c.Position, c.Role, c.User,
+		c.AdminLoginLog, c.AdminOperationLog, c.Department, c.Dict, c.Menu,
+		c.Organization, c.Position, c.Role, c.User,
 	} {
 		n.Use(hooks...)
 	}
@@ -226,7 +239,8 @@ func (c *Client) Use(hooks ...Hook) {
 // In order to add interceptors to a specific client, call: `client.Node.Intercept(...)`.
 func (c *Client) Intercept(interceptors ...Interceptor) {
 	for _, n := range []interface{ Intercept(...Interceptor) }{
-		c.Department, c.Dict, c.Menu, c.Organization, c.Position, c.Role, c.User,
+		c.AdminLoginLog, c.AdminOperationLog, c.Department, c.Dict, c.Menu,
+		c.Organization, c.Position, c.Role, c.User,
 	} {
 		n.Intercept(interceptors...)
 	}
@@ -235,6 +249,10 @@ func (c *Client) Intercept(interceptors ...Interceptor) {
 // Mutate implements the ent.Mutator interface.
 func (c *Client) Mutate(ctx context.Context, m Mutation) (Value, error) {
 	switch m := m.(type) {
+	case *AdminLoginLogMutation:
+		return c.AdminLoginLog.mutate(ctx, m)
+	case *AdminOperationLogMutation:
+		return c.AdminOperationLog.mutate(ctx, m)
 	case *DepartmentMutation:
 		return c.Department.mutate(ctx, m)
 	case *DictMutation:
@@ -251,6 +269,272 @@ func (c *Client) Mutate(ctx context.Context, m Mutation) (Value, error) {
 		return c.User.mutate(ctx, m)
 	default:
 		return nil, fmt.Errorf("ent: unknown mutation type %T", m)
+	}
+}
+
+// AdminLoginLogClient is a client for the AdminLoginLog schema.
+type AdminLoginLogClient struct {
+	config
+}
+
+// NewAdminLoginLogClient returns a client for the AdminLoginLog from the given config.
+func NewAdminLoginLogClient(c config) *AdminLoginLogClient {
+	return &AdminLoginLogClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `adminloginlog.Hooks(f(g(h())))`.
+func (c *AdminLoginLogClient) Use(hooks ...Hook) {
+	c.hooks.AdminLoginLog = append(c.hooks.AdminLoginLog, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `adminloginlog.Intercept(f(g(h())))`.
+func (c *AdminLoginLogClient) Intercept(interceptors ...Interceptor) {
+	c.inters.AdminLoginLog = append(c.inters.AdminLoginLog, interceptors...)
+}
+
+// Create returns a builder for creating a AdminLoginLog entity.
+func (c *AdminLoginLogClient) Create() *AdminLoginLogCreate {
+	mutation := newAdminLoginLogMutation(c.config, OpCreate)
+	return &AdminLoginLogCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of AdminLoginLog entities.
+func (c *AdminLoginLogClient) CreateBulk(builders ...*AdminLoginLogCreate) *AdminLoginLogCreateBulk {
+	return &AdminLoginLogCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *AdminLoginLogClient) MapCreateBulk(slice any, setFunc func(*AdminLoginLogCreate, int)) *AdminLoginLogCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &AdminLoginLogCreateBulk{err: fmt.Errorf("calling to AdminLoginLogClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*AdminLoginLogCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &AdminLoginLogCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for AdminLoginLog.
+func (c *AdminLoginLogClient) Update() *AdminLoginLogUpdate {
+	mutation := newAdminLoginLogMutation(c.config, OpUpdate)
+	return &AdminLoginLogUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *AdminLoginLogClient) UpdateOne(all *AdminLoginLog) *AdminLoginLogUpdateOne {
+	mutation := newAdminLoginLogMutation(c.config, OpUpdateOne, withAdminLoginLog(all))
+	return &AdminLoginLogUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *AdminLoginLogClient) UpdateOneID(id uint32) *AdminLoginLogUpdateOne {
+	mutation := newAdminLoginLogMutation(c.config, OpUpdateOne, withAdminLoginLogID(id))
+	return &AdminLoginLogUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for AdminLoginLog.
+func (c *AdminLoginLogClient) Delete() *AdminLoginLogDelete {
+	mutation := newAdminLoginLogMutation(c.config, OpDelete)
+	return &AdminLoginLogDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *AdminLoginLogClient) DeleteOne(all *AdminLoginLog) *AdminLoginLogDeleteOne {
+	return c.DeleteOneID(all.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *AdminLoginLogClient) DeleteOneID(id uint32) *AdminLoginLogDeleteOne {
+	builder := c.Delete().Where(adminloginlog.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &AdminLoginLogDeleteOne{builder}
+}
+
+// Query returns a query builder for AdminLoginLog.
+func (c *AdminLoginLogClient) Query() *AdminLoginLogQuery {
+	return &AdminLoginLogQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeAdminLoginLog},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a AdminLoginLog entity by its id.
+func (c *AdminLoginLogClient) Get(ctx context.Context, id uint32) (*AdminLoginLog, error) {
+	return c.Query().Where(adminloginlog.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *AdminLoginLogClient) GetX(ctx context.Context, id uint32) *AdminLoginLog {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *AdminLoginLogClient) Hooks() []Hook {
+	return c.hooks.AdminLoginLog
+}
+
+// Interceptors returns the client interceptors.
+func (c *AdminLoginLogClient) Interceptors() []Interceptor {
+	return c.inters.AdminLoginLog
+}
+
+func (c *AdminLoginLogClient) mutate(ctx context.Context, m *AdminLoginLogMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&AdminLoginLogCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&AdminLoginLogUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&AdminLoginLogUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&AdminLoginLogDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown AdminLoginLog mutation op: %q", m.Op())
+	}
+}
+
+// AdminOperationLogClient is a client for the AdminOperationLog schema.
+type AdminOperationLogClient struct {
+	config
+}
+
+// NewAdminOperationLogClient returns a client for the AdminOperationLog from the given config.
+func NewAdminOperationLogClient(c config) *AdminOperationLogClient {
+	return &AdminOperationLogClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `adminoperationlog.Hooks(f(g(h())))`.
+func (c *AdminOperationLogClient) Use(hooks ...Hook) {
+	c.hooks.AdminOperationLog = append(c.hooks.AdminOperationLog, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `adminoperationlog.Intercept(f(g(h())))`.
+func (c *AdminOperationLogClient) Intercept(interceptors ...Interceptor) {
+	c.inters.AdminOperationLog = append(c.inters.AdminOperationLog, interceptors...)
+}
+
+// Create returns a builder for creating a AdminOperationLog entity.
+func (c *AdminOperationLogClient) Create() *AdminOperationLogCreate {
+	mutation := newAdminOperationLogMutation(c.config, OpCreate)
+	return &AdminOperationLogCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of AdminOperationLog entities.
+func (c *AdminOperationLogClient) CreateBulk(builders ...*AdminOperationLogCreate) *AdminOperationLogCreateBulk {
+	return &AdminOperationLogCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *AdminOperationLogClient) MapCreateBulk(slice any, setFunc func(*AdminOperationLogCreate, int)) *AdminOperationLogCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &AdminOperationLogCreateBulk{err: fmt.Errorf("calling to AdminOperationLogClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*AdminOperationLogCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &AdminOperationLogCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for AdminOperationLog.
+func (c *AdminOperationLogClient) Update() *AdminOperationLogUpdate {
+	mutation := newAdminOperationLogMutation(c.config, OpUpdate)
+	return &AdminOperationLogUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *AdminOperationLogClient) UpdateOne(aol *AdminOperationLog) *AdminOperationLogUpdateOne {
+	mutation := newAdminOperationLogMutation(c.config, OpUpdateOne, withAdminOperationLog(aol))
+	return &AdminOperationLogUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *AdminOperationLogClient) UpdateOneID(id uint32) *AdminOperationLogUpdateOne {
+	mutation := newAdminOperationLogMutation(c.config, OpUpdateOne, withAdminOperationLogID(id))
+	return &AdminOperationLogUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for AdminOperationLog.
+func (c *AdminOperationLogClient) Delete() *AdminOperationLogDelete {
+	mutation := newAdminOperationLogMutation(c.config, OpDelete)
+	return &AdminOperationLogDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *AdminOperationLogClient) DeleteOne(aol *AdminOperationLog) *AdminOperationLogDeleteOne {
+	return c.DeleteOneID(aol.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *AdminOperationLogClient) DeleteOneID(id uint32) *AdminOperationLogDeleteOne {
+	builder := c.Delete().Where(adminoperationlog.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &AdminOperationLogDeleteOne{builder}
+}
+
+// Query returns a query builder for AdminOperationLog.
+func (c *AdminOperationLogClient) Query() *AdminOperationLogQuery {
+	return &AdminOperationLogQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeAdminOperationLog},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a AdminOperationLog entity by its id.
+func (c *AdminOperationLogClient) Get(ctx context.Context, id uint32) (*AdminOperationLog, error) {
+	return c.Query().Where(adminoperationlog.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *AdminOperationLogClient) GetX(ctx context.Context, id uint32) *AdminOperationLog {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *AdminOperationLogClient) Hooks() []Hook {
+	return c.hooks.AdminOperationLog
+}
+
+// Interceptors returns the client interceptors.
+func (c *AdminOperationLogClient) Interceptors() []Interceptor {
+	return c.inters.AdminOperationLog
+}
+
+func (c *AdminOperationLogClient) mutate(ctx context.Context, m *AdminOperationLogMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&AdminOperationLogCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&AdminOperationLogUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&AdminOperationLogUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&AdminOperationLogDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown AdminOperationLog mutation op: %q", m.Op())
 	}
 }
 
@@ -1348,9 +1632,11 @@ func (c *UserClient) mutate(ctx context.Context, m *UserMutation) (Value, error)
 // hooks and interceptors per client, for fast access.
 type (
 	hooks struct {
-		Department, Dict, Menu, Organization, Position, Role, User []ent.Hook
+		AdminLoginLog, AdminOperationLog, Department, Dict, Menu, Organization,
+		Position, Role, User []ent.Hook
 	}
 	inters struct {
-		Department, Dict, Menu, Organization, Position, Role, User []ent.Interceptor
+		AdminLoginLog, AdminOperationLog, Department, Dict, Menu, Organization,
+		Position, Role, User []ent.Interceptor
 	}
 )

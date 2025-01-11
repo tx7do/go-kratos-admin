@@ -2,7 +2,10 @@
 import type { VxeGridProps } from '#/adapter/vxe-table';
 import type { Role } from '#/rpc/api/user/service/v1/role.pb';
 
+import { h } from 'vue';
+
 import { Page, useVbenDrawer, type VbenFormProps } from '@vben/common-ui';
+import { LucideFilePenLine, LucideTrash2 } from '@vben/icons';
 
 import { notification } from 'ant-design-vue';
 
@@ -98,7 +101,7 @@ const gridOptions: VxeGridProps<Role> = {
       field: 'action',
       fixed: 'right',
       slots: { default: 'action' },
-      width: 230,
+      width: 90,
     },
   ],
 };
@@ -203,14 +206,18 @@ const collapseAll = () => {
         />
       </template>
       <template #action="{ row }">
-        <a-button type="link" @click="() => handleEdit(row)">编辑</a-button>
+        <a-button
+          type="link"
+          :icon="h(LucideFilePenLine)"
+          @click="() => handleEdit(row)"
+        />
         <a-popconfirm
           cancel-text="不要"
           ok-text="是的"
           title="你是否要删除掉该角色？"
           @confirm="() => handleDelete(row)"
         >
-          <a-button danger type="link">删除</a-button>
+          <a-button danger type="link" :icon="h(LucideTrash2)" />
         </a-popconfirm>
       </template>
     </Grid>

@@ -2,7 +2,10 @@
 import type { VxeGridProps } from '#/adapter/vxe-table';
 import type { User } from '#/rpc/api/user/service/v1/user.pb';
 
+import { h } from 'vue';
+
 import { Page, useVbenModal, type VbenFormProps } from '@vben/common-ui';
+import { LucideFilePenLine, LucideInfo, LucideTrash2 } from '@vben/icons';
 
 import { notification } from 'ant-design-vue';
 
@@ -93,14 +96,19 @@ const gridOptions: VxeGridProps<User> = {
       formatter: 'formatDateTime',
       width: 140,
     },
-    { title: '权限', field: 'authority', slots: { default: 'authority' } },
+    {
+      title: '权限',
+      field: 'authority',
+      slots: { default: 'authority' },
+      width: 80,
+    },
     { title: '状态', field: 'status', slots: { default: 'status' }, width: 80 },
     {
       title: '操作',
       field: 'action',
       fixed: 'right',
       slots: { default: 'action' },
-      width: 210,
+      width: 120,
     },
   ],
 };
@@ -204,16 +212,24 @@ async function handleStatusChanged(row: any, checked: boolean) {
         </a-tag>
       </template>
       <template #action="{ row }">
-        <a-button type="link" @click="() => handleDetail(row)">详情</a-button>
+        <a-button
+          type="link"
+          :icon="h(LucideInfo)"
+          @click="() => handleDetail(row)"
+        />
 
-        <a-button type="link" @click="() => handleEdit(row)">编辑</a-button>
+        <a-button
+          type="link"
+          :icon="h(LucideFilePenLine)"
+          @click="() => handleEdit(row)"
+        />
         <a-popconfirm
           cancel-text="不要"
           ok-text="是的"
           title="你是否要删除掉该用户？"
           @confirm="() => handleDelete(row)"
         >
-          <a-button danger type="link">删除</a-button>
+          <a-button danger type="link" :icon="h(LucideTrash2)" />
         </a-popconfirm>
       </template>
     </Grid>

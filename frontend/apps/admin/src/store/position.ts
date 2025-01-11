@@ -26,6 +26,13 @@ export const usePositionStore = defineStore('position', () => {
   }
 
   /**
+   * 获取职位
+   */
+  async function getPosition(id: number) {
+    return await defPositionService.GetPosition({ id });
+  }
+
+  /**
    * 创建职位
    */
   async function createPosition(values: object) {
@@ -61,6 +68,7 @@ export const usePositionStore = defineStore('position', () => {
 
   return {
     listPosition,
+    getPosition,
     createPosition,
     updatePosition,
     deletePosition,

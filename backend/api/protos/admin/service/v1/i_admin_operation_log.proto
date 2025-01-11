@@ -25,27 +25,4 @@ service AdminOperationLogService {
       get: "/admin/v1/admin_operation_logs/{id}"
     };
   }
-
-  // 创建后台操作日志
-  rpc CreateAdminOperationLog (system.service.v1.CreateAdminOperationLogRequest) returns (google.protobuf.Empty) {
-    option (google.api.http) = {
-      post: "/admin/v1/admin_operation_logs"
-      body: "*"
-    };
-  }
-
-  // 更新后台操作日志
-  rpc UpdateAdminOperationLog (system.service.v1.UpdateAdminOperationLogRequest) returns (google.protobuf.Empty) {
-    option (google.api.http) = {
-      put: "/admin/v1/admin_operation_logs/{data.id}"
-      body: "*"
-    };
-  }
-
-  // 删除后台操作日志
-  rpc DeleteAdminOperationLog (system.service.v1.DeleteAdminOperationLogRequest) returns (google.protobuf.Empty) {
-    option (google.api.http) = {
-      delete: "/admin/v1/admin_operation_logs/{id}"
-    };
-  }
 }

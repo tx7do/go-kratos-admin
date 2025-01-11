@@ -27,6 +27,13 @@ export const useUserStore = defineStore('user', () => {
   }
 
   /**
+   * 获取用户
+   */
+  async function getUser(id: number) {
+    return await defUserService.GetUser({ id });
+  }
+
+  /**
    * 创建用户
    */
   async function createUser(values: object) {
@@ -60,6 +67,7 @@ export const useUserStore = defineStore('user', () => {
 
   return {
     listUser,
+    getUser,
     createUser,
     updateUser,
     deleteUser,

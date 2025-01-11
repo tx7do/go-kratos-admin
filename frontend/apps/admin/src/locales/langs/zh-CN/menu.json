@@ -17,5 +17,10 @@
     "permission": "权限管理",
     "dict": "字典管理",
     "menu": "菜单管理"
+  },
+  "log": {
+    "moduleName": "日志审计",
+    "admin_login_log": "登录日志",
+    "admin_operation_log": "操作日志"
   }
 }

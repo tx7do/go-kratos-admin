@@ -26,6 +26,13 @@ export const useDepartmentStore = defineStore('department', () => {
   }
 
   /**
+   * 获取部门
+   */
+  async function getDepartment(id: number) {
+    return await defDepartmentService.GetDepartment({ id });
+  }
+
+  /**
    * 创建部门
    */
   async function createDepartment(values: object) {
@@ -61,6 +68,7 @@ export const useDepartmentStore = defineStore('department', () => {
 
   return {
     listDepartment,
+    getDepartment,
     createDepartment,
     updateDepartment,
     deleteDepartment,

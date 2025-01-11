@@ -17,5 +17,10 @@
     "permission": "Permission Management",
     "dict": "Dict Management",
     "menu": "Menu Management"
+  },
+  "log": {
+    "moduleName": "Log Audit",
+    "admin_login_log": "Login Log",
+    "admin_operation_log": "Operation Log"
   }
 }

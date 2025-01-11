@@ -26,6 +26,13 @@ export const useDictStore = defineStore('dict', () => {
   }
 
   /**
+   * 获取字典
+   */
+  async function getDict(id: number) {
+    return await defDictService.GetDict({ id });
+  }
+
+  /**
    * 创建字典
    */
   async function createDict(values: object) {
@@ -59,6 +66,7 @@ export const useDictStore = defineStore('dict', () => {
 
   return {
     listDict,
+    getDict,
     createDict,
     updateDict,
     deleteDict,

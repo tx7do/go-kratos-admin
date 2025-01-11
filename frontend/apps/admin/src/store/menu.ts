@@ -27,6 +27,13 @@ export const useMenuStore = defineStore('menu', () => {
   }
 
   /**
+   * 获取菜单
+   */
+  async function getMenu(id: number) {
+    return await defMenuService.GetMenu({ id });
+  }
+
+  /**
    * 创建菜单
    */
   async function createMenu(values: object) {
@@ -62,6 +69,7 @@ export const useMenuStore = defineStore('menu', () => {
 
   return {
     listMenu,
+    getMenu,
     createMenu,
     updateMenu,
     deleteMenu,

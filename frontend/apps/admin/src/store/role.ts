@@ -26,6 +26,13 @@ export const useRoleStore = defineStore('role', () => {
   }
 
   /**
+   * 获取职位
+   */
+  async function getRole(id: number) {
+    return await defRoleService.GetRole({ id });
+  }
+
+  /**
    * 创建职位
    */
   async function createRole(values: object) {
@@ -61,6 +68,7 @@ export const useRoleStore = defineStore('role', () => {
 
   return {
     listRole,
+    getRole,
     createRole,
     updateRole,
     deleteRole,

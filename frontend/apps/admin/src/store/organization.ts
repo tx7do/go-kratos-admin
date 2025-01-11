@@ -26,6 +26,13 @@ export const useOrganizationStore = defineStore('organization', () => {
   }
 
   /**
+   * 获取组织
+   */
+  async function getOrganization(id: number) {
+    return await defOrganizationService.GetOrganization({ id });
+  }
+
+  /**
    * 创建组织
    */
   async function createOrganization(values: object) {
@@ -61,6 +68,7 @@ export const useOrganizationStore = defineStore('organization', () => {
 
   return {
     listOrganization,
+    getOrganization,
     createOrganization,
     updateOrganization,
     deleteOrganization,

@@ -1,3 +1,5 @@
+export * from './admin_login_log';
+export * from './admin_operation_log';
 export * from './auth';
 export * from './department';
 export * from './dict';

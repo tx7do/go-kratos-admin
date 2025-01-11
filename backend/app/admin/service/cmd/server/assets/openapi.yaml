@@ -68,43 +68,6 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/ListAdminLoginLogResponse'
-        post:
-            tags:
-                - AdminLoginLogService
-            description: 创建后台登录日志
-            operationId: AdminLoginLogService_CreateAdminLoginLog
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/CreateAdminLoginLogRequest'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content: {}
-    /admin/v1/admin_login_logs/{data.id}:
-        put:
-            tags:
-                - AdminLoginLogService
-            description: 更新后台登录日志
-            operationId: AdminLoginLogService_UpdateAdminLoginLog
-            parameters:
-                - name: data.id
-                  in: path
-                  required: true
-                  schema:
-                    type: string
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/UpdateAdminLoginLogRequest'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content: {}
     /admin/v1/admin_login_logs/{id}:
         get:
             tags:
@@ -125,27 +88,6 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/AdminLoginLog'
-        delete:
-            tags:
-                - AdminLoginLogService
-            description: 删除后台登录日志
-            operationId: AdminLoginLogService_DeleteAdminLoginLog
-            parameters:
-                - name: id
-                  in: path
-                  required: true
-                  schema:
-                    type: integer
-                    format: uint32
-                - name: operatorId
-                  in: query
-                  schema:
-                    type: integer
-                    format: uint32
-            responses:
-                "200":
-                    description: OK
-                    content: {}
     /admin/v1/admin_operation_logs:
         get:
             tags:
@@ -200,43 +142,6 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/ListAdminOperationLogResponse'
-        post:
-            tags:
-                - AdminOperationLogService
-            description: 创建后台操作日志
-            operationId: AdminOperationLogService_CreateAdminOperationLog
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/CreateAdminOperationLogRequest'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content: {}
-    /admin/v1/admin_operation_logs/{data.id}:
-        put:
-            tags:
-                - AdminOperationLogService
-            description: 更新后台操作日志
-            operationId: AdminOperationLogService_UpdateAdminOperationLog
-            parameters:
-                - name: data.id
-                  in: path
-                  required: true
-                  schema:
-                    type: string
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/UpdateAdminOperationLogRequest'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content: {}
     /admin/v1/admin_operation_logs/{id}:
         get:
             tags:
@@ -257,27 +162,6 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/AdminOperationLog'
-        delete:
-            tags:
-                - AdminOperationLogService
-            description: 删除后台操作日志
-            operationId: AdminOperationLogService_DeleteAdminOperationLog
-            parameters:
-                - name: id
-                  in: path
-                  required: true
-                  schema:
-                    type: integer
-                    format: uint32
-                - name: operatorId
-                  in: query
-                  schema:
-                    type: integer
-                    format: uint32
-            responses:
-                "200":
-                    description: OK
-                    content: {}
     /admin/v1/departments:
         get:
             tags:
@@ -1471,28 +1355,6 @@ components:
                     description: 删除时间
                     format: date-time
             description: 后台操作日志
-        CreateAdminLoginLogRequest:
-            type: object
-            properties:
-                operatorId:
-                    readOnly: true
-                    type: integer
-                    description: 操作用户ID
-                    format: uint32
-                data:
-                    $ref: '#/components/schemas/AdminLoginLog'
-            description: 创建后台登录日志 - 请求
-        CreateAdminOperationLogRequest:
-            type: object
-            properties:
-                operatorId:
-                    readOnly: true
-                    type: integer
-                    description: 操作用户ID
-                    format: uint32
-                data:
-                    $ref: '#/components/schemas/AdminOperationLog'
-            description: 创建后台操作日志 - 请求
         CreateDepartmentRequest:
             type: object
             properties:
@@ -2210,44 +2072,6 @@ components:
                     type: string
                     description: 标题名称，路由上显示的标题
             description: 路由元数据
-        UpdateAdminLoginLogRequest:
-            type: object
-            properties:
-                operatorId:
-                    readOnly: true
-                    type: integer
-                    description: 操作用户ID
-                    format: uint32
-                data:
-                    $ref: '#/components/schemas/AdminLoginLog'
-                updateMask:
-                    example: id,realName,userName
-                    type: string
-                    description: 要更新的字段列表
-                    format: field-mask
-                allowMissing:
-                    type: boolean
-                    description: 如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。
-            description: 更新后台登录日志 - 请求
-        UpdateAdminOperationLogRequest:
-            type: object
-            properties:
-                operatorId:
-                    readOnly: true
-                    type: integer
-                    description: 操作用户ID
-                    format: uint32
-                data:
-                    $ref: '#/components/schemas/AdminOperationLog'
-                updateMask:
-                    example: id,realName,userName
-                    type: string
-                    description: 要更新的字段列表
-                    format: field-mask
-                allowMissing:
-                    type: boolean
-                    description: 如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。
-            description: 更新后台操作日志 - 请求
         UpdateDepartmentRequest:
             type: object
             properties:

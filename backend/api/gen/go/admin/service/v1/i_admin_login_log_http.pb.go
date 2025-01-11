@@ -11,7 +11,6 @@ import (
 	http "github.com/go-kratos/kratos/v2/transport/http"
 	binding "github.com/go-kratos/kratos/v2/transport/http/binding"
 	v1 "github.com/tx7do/kratos-bootstrap/api/gen/go/pagination/v1"
-	emptypb "google.golang.org/protobuf/types/known/emptypb"
 	v11 "kratos-admin/api/gen/go/system/service/v1"
 )
 
@@ -22,32 +21,20 @@ var _ = binding.EncodeURL
 
 const _ = http.SupportPackageIsVersion1
 
-const OperationAdminLoginLogServiceCreateAdminLoginLog = "/admin.service.v1.AdminLoginLogService/CreateAdminLoginLog"
-const OperationAdminLoginLogServiceDeleteAdminLoginLog = "/admin.service.v1.AdminLoginLogService/DeleteAdminLoginLog"
 const OperationAdminLoginLogServiceGetAdminLoginLog = "/admin.service.v1.AdminLoginLogService/GetAdminLoginLog"
 const OperationAdminLoginLogServiceListAdminLoginLog = "/admin.service.v1.AdminLoginLogService/ListAdminLoginLog"
-const OperationAdminLoginLogServiceUpdateAdminLoginLog = "/admin.service.v1.AdminLoginLogService/UpdateAdminLoginLog"
 
 type AdminLoginLogServiceHTTPServer interface {
-	// CreateAdminLoginLog 创建后台登录日志
-	CreateAdminLoginLog(context.Context, *v11.CreateAdminLoginLogRequest) (*emptypb.Empty, error)
-	// DeleteAdminLoginLog 删除后台登录日志
-	DeleteAdminLoginLog(context.Context, *v11.DeleteAdminLoginLogRequest) (*emptypb.Empty, error)
 	// GetAdminLoginLog 查询后台登录日志详情
 	GetAdminLoginLog(context.Context, *v11.GetAdminLoginLogRequest) (*v11.AdminLoginLog, error)
 	// ListAdminLoginLog 查询后台登录日志列表
 	ListAdminLoginLog(context.Context, *v1.PagingRequest) (*v11.ListAdminLoginLogResponse, error)
-	// UpdateAdminLoginLog 更新后台登录日志
-	UpdateAdminLoginLog(context.Context, *v11.UpdateAdminLoginLogRequest) (*emptypb.Empty, error)
 }
 
 func RegisterAdminLoginLogServiceHTTPServer(s *http.Server, srv AdminLoginLogServiceHTTPServer) {
 	r := s.Route("/")
 	r.GET("/admin/v1/admin_login_logs", _AdminLoginLogService_ListAdminLoginLog0_HTTP_Handler(srv))
 	r.GET("/admin/v1/admin_login_logs/{id}", _AdminLoginLogService_GetAdminLoginLog0_HTTP_Handler(srv))
-	r.POST("/admin/v1/admin_login_logs", _AdminLoginLogService_CreateAdminLoginLog0_HTTP_Handler(srv))
-	r.PUT("/admin/v1/admin_login_logs/{data.id}", _AdminLoginLogService_UpdateAdminLoginLog0_HTTP_Handler(srv))
-	r.DELETE("/admin/v1/admin_login_logs/{id}", _AdminLoginLogService_DeleteAdminLoginLog0_HTTP_Handler(srv))
 }
 
 func _AdminLoginLogService_ListAdminLoginLog0_HTTP_Handler(srv AdminLoginLogServiceHTTPServer) func(ctx http.Context) error {
@@ -91,81 +78,9 @@ func _AdminLoginLogService_GetAdminLoginLog0_HTTP_Handler(srv AdminLoginLogServi
 	}
 }
 
-func _AdminLoginLogService_CreateAdminLoginLog0_HTTP_Handler(srv AdminLoginLogServiceHTTPServer) func(ctx http.Context) error {
-	return func(ctx http.Context) error {
-		var in v11.CreateAdminLoginLogRequest
-		if err := ctx.Bind(&in); err != nil {
-			return err
-		}
-		if err := ctx.BindQuery(&in); err != nil {
-			return err
-		}
-		http.SetOperation(ctx, OperationAdminLoginLogServiceCreateAdminLoginLog)
-		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
-			return srv.CreateAdminLoginLog(ctx, req.(*v11.CreateAdminLoginLogRequest))
-		})
-		out, err := h(ctx, &in)
-		if err != nil {
-			return err
-		}
-		reply := out.(*emptypb.Empty)
-		return ctx.Result(200, reply)
-	}
-}
-
-func _AdminLoginLogService_UpdateAdminLoginLog0_HTTP_Handler(srv AdminLoginLogServiceHTTPServer) func(ctx http.Context) error {
-	return func(ctx http.Context) error {
-		var in v11.UpdateAdminLoginLogRequest
-		if err := ctx.Bind(&in); err != nil {
-			return err
-		}
-		if err := ctx.BindQuery(&in); err != nil {
-			return err
-		}
-		if err := ctx.BindVars(&in); err != nil {
-			return err
-		}
-		http.SetOperation(ctx, OperationAdminLoginLogServiceUpdateAdminLoginLog)
-		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
-			return srv.UpdateAdminLoginLog(ctx, req.(*v11.UpdateAdminLoginLogRequest))
-		})
-		out, err := h(ctx, &in)
-		if err != nil {
-			return err
-		}
-		reply := out.(*emptypb.Empty)
-		return ctx.Result(200, reply)
-	}
-}
-
-func _AdminLoginLogService_DeleteAdminLoginLog0_HTTP_Handler(srv AdminLoginLogServiceHTTPServer) func(ctx http.Context) error {
-	return func(ctx http.Context) error {
-		var in v11.DeleteAdminLoginLogRequest
-		if err := ctx.BindQuery(&in); err != nil {
-			return err
-		}
-		if err := ctx.BindVars(&in); err != nil {
-			return err
-		}
-		http.SetOperation(ctx, OperationAdminLoginLogServiceDeleteAdminLoginLog)
-		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
-			return srv.DeleteAdminLoginLog(ctx, req.(*v11.DeleteAdminLoginLogRequest))
-		})
-		out, err := h(ctx, &in)
-		if err != nil {
-			return err
-		}
-		reply := out.(*emptypb.Empty)
-		return ctx.Result(200, reply)
-	}
-}
-
 type AdminLoginLogServiceHTTPClient interface {
-	CreateAdminLoginLog(ctx context.Context, req *v11.CreateAdminLoginLogRequest, opts ...http.CallOption) (rsp *emptypb.Empty, err error)
-	DeleteAdminLoginLog(ctx context.Context, req *v11.DeleteAdminLoginLogRequest, opts ...http.CallOption) (rsp *emptypb.Empty, err error)
 	GetAdminLoginLog(ctx context.Context, req *v11.GetAdminLoginLogRequest, opts ...http.CallOption) (rsp *v11.AdminLoginLog, err error)
 	ListAdminLoginLog(ctx context.Context, req *v1.PagingRequest, opts ...http.CallOption) (rsp *v11.ListAdminLoginLogResponse, err error)
-	UpdateAdminLoginLog(ctx context.Context, req *v11.UpdateAdminLoginLogRequest, opts ...http.CallOption) (rsp *emptypb.Empty, err error)
 }
 
 type AdminLoginLogServiceHTTPClientImpl struct {
@@ -174,32 +89,6 @@ type AdminLoginLogServiceHTTPClientImpl struct {
 
 func NewAdminLoginLogServiceHTTPClient(client *http.Client) AdminLoginLogServiceHTTPClient {
 	return &AdminLoginLogServiceHTTPClientImpl{client}
-}
-
-func (c *AdminLoginLogServiceHTTPClientImpl) CreateAdminLoginLog(ctx context.Context, in *v11.CreateAdminLoginLogRequest, opts ...http.CallOption) (*emptypb.Empty, error) {
-	var out emptypb.Empty
-	pattern := "/admin/v1/admin_login_logs"
-	path := binding.EncodeURL(pattern, in, false)
-	opts = append(opts, http.Operation(OperationAdminLoginLogServiceCreateAdminLoginLog))
-	opts = append(opts, http.PathTemplate(pattern))
-	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return &out, nil
-}
-
-func (c *AdminLoginLogServiceHTTPClientImpl) DeleteAdminLoginLog(ctx context.Context, in *v11.DeleteAdminLoginLogRequest, opts ...http.CallOption) (*emptypb.Empty, error) {
-	var out emptypb.Empty
-	pattern := "/admin/v1/admin_login_logs/{id}"
-	path := binding.EncodeURL(pattern, in, true)
-	opts = append(opts, http.Operation(OperationAdminLoginLogServiceDeleteAdminLoginLog))
-	opts = append(opts, http.PathTemplate(pattern))
-	err := c.cc.Invoke(ctx, "DELETE", path, nil, &out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return &out, nil
 }
 
 func (c *AdminLoginLogServiceHTTPClientImpl) GetAdminLoginLog(ctx context.Context, in *v11.GetAdminLoginLogRequest, opts ...http.CallOption) (*v11.AdminLoginLog, error) {
@@ -222,19 +111,6 @@ func (c *AdminLoginLogServiceHTTPClientImpl) ListAdminLoginLog(ctx context.Conte
 	opts = append(opts, http.Operation(OperationAdminLoginLogServiceListAdminLoginLog))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return &out, nil
-}
-
-func (c *AdminLoginLogServiceHTTPClientImpl) UpdateAdminLoginLog(ctx context.Context, in *v11.UpdateAdminLoginLogRequest, opts ...http.CallOption) (*emptypb.Empty, error) {
-	var out emptypb.Empty
-	pattern := "/admin/v1/admin_login_logs/{data.id}"
-	path := binding.EncodeURL(pattern, in, false)
-	opts = append(opts, http.Operation(OperationAdminLoginLogServiceUpdateAdminLoginLog))
-	opts = append(opts, http.PathTemplate(pattern))
-	err := c.cc.Invoke(ctx, "PUT", path, in, &out, opts...)
 	if err != nil {
 		return nil, err
 	}

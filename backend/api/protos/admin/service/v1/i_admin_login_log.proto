@@ -25,27 +25,4 @@ service AdminLoginLogService {
       get: "/admin/v1/admin_login_logs/{id}"
     };
   }
-
-  // 创建后台登录日志
-  rpc CreateAdminLoginLog (system.service.v1.CreateAdminLoginLogRequest) returns (google.protobuf.Empty) {
-    option (google.api.http) = {
-      post: "/admin/v1/admin_login_logs"
-      body: "*"
-    };
-  }
-
-  // 更新后台登录日志
-  rpc UpdateAdminLoginLog (system.service.v1.UpdateAdminLoginLogRequest) returns (google.protobuf.Empty) {
-    option (google.api.http) = {
-      put: "/admin/v1/admin_login_logs/{data.id}"
-      body: "*"
-    };
-  }
-
-  // 删除后台登录日志
-  rpc DeleteAdminLoginLog (system.service.v1.DeleteAdminLoginLogRequest) returns (google.protobuf.Empty) {
-    option (google.api.http) = {
-      delete: "/admin/v1/admin_login_logs/{id}"
-    };
-  }
 }

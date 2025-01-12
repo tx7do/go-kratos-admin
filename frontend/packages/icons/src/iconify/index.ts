@@ -32,3 +32,8 @@ export const LucideNotebookPen = createIconifyIcon('lucide:notebook-pen');
 export const LucideFilePenLine = createIconifyIcon('lucide:file-pen-line');
 
 export const LucideInfo = createIconifyIcon('lucide:info');
+
+export const LucideEllipsisVertical = createIconifyIcon(
+  'lucide:ellipsis-vertical',
+);
+export const LucideEllipsis = createIconifyIcon('lucide:ellipsis');

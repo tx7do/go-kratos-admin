@@ -75,6 +75,7 @@ const gridOptions: VxeGridProps<Department> = {
         console.log('query:', formValues);
 
         return await deptStore.listDepartment(
+          false,
           page.currentPage,
           page.pageSize,
           formValues,

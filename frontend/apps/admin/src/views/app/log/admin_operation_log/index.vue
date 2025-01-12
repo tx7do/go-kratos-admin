@@ -82,6 +82,7 @@ const gridOptions: VxeGridProps<AdminOperationLog> = {
         }
 
         return await adminOperationLogStore.listAdminOperationLog(
+          false,
           page.currentPage,
           page.pageSize,
           {

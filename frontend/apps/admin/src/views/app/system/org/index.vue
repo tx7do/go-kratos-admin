@@ -75,6 +75,7 @@ const gridOptions: VxeGridProps<Organization> = {
         console.log('query:', formValues);
 
         return await orgStore.listOrganization(
+          false,
           page.currentPage,
           page.pageSize,
           formValues,

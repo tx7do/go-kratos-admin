@@ -3,9 +3,12 @@ import type { App } from 'vue';
 import {
   Button,
   Card,
+  Divider,
+  Dropdown,
   Input,
   Layout,
   Popconfirm,
+  Space,
   Switch,
   Tabs,
   Tag,
@@ -21,10 +24,13 @@ export function registerGlobComp(app: App) {
     .use(Input)
     .use(Button)
     .use(Layout)
+    .use(Space)
     .use(Card)
     .use(Switch)
     .use(Popconfirm)
+    .use(Dropdown)
     .use(Tag)
     .use(Tabs)
+    .use(Divider)
     .use(Tree);
 }

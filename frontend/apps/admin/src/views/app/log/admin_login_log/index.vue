@@ -8,13 +8,7 @@ import dayjs from 'dayjs';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
 import { $t } from '#/locales';
-import {
-  authorityToColor,
-  authorityToName,
-  successToColor,
-  successToName,
-  useAdminLoginLogStore
-} from '#/store';
+import { successToColor, successToName, useAdminLoginLogStore } from '#/store';
 
 const adminLoginLogStore = useAdminLoginLogStore();
 
@@ -84,6 +78,7 @@ const gridOptions: VxeGridProps<AdminLoginLog> = {
         }
 
         return await adminLoginLogStore.listAdminLoginLog(
+          false,
           page.currentPage,
           page.pageSize,
           {

@@ -12,17 +12,12 @@ import { notification } from 'ant-design-vue';
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
 import { $t } from '#/locales';
 import { router } from '#/router';
-import {
-  authorityToColor,
-  authorityToName,
-  useOrganizationStore,
-  useUserStore,
-} from '#/store';
+import { authorityToColor, authorityToName, useUserStore } from '#/store';
 
+import DeptTree from './dept-tree.vue';
 import UserModal from './user-modal.vue';
 
 const userStore = useUserStore();
-const orgStore = useOrganizationStore();
 
 const formOptions: VbenFormProps = {
   // 默认展开
@@ -75,6 +70,7 @@ const gridOptions: VxeGridProps<User> = {
         // console.log('query:', filters, form, formValues);
 
         return await userStore.listUser(
+          false,
           page.currentPage,
           page.pageSize,
           formValues,
@@ -190,8 +186,9 @@ async function handleStatusChanged(row: any, checked: boolean) {
 </script>
 
 <template>
-  <Page auto-content-height>
-    <Grid :table-title="$t('menu.system.user')">
+  <Page auto-content-height dense content-class="flex">
+    <DeptTree class="w-1/4 xl:w-1/5" />
+    <Grid :table-title="$t('menu.system.user')" class="w-3/4 xl:w-4/5">
       <template #toolbar-tools>
         <a-button type="primary" @click="handleCreate">创建账号</a-button>
       </template>

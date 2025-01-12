@@ -8,18 +8,18 @@ export const useMenuStore = defineStore('menu', () => {
    * 查询菜单列表
    */
   async function listMenu(
-    page: number,
-    pageSize: number,
-    formValues: object,
-    fieldMask: null | string = null,
-    orderBy: string[] = [],
     noPaging: boolean = false,
+    page?: null | number,
+    pageSize?: null | number,
+    formValues?: null | object,
+    fieldMask?: null | string,
+    orderBy?: null | string[],
   ) {
     return await defMenuService.ListMenu({
       // @ts-ignore proto generated code is error.
       fieldMask,
-      orderBy,
-      query: makeQueryString(formValues),
+      orderBy: orderBy ?? [],
+      query: makeQueryString(formValues ?? null),
       page,
       pageSize,
       noPaging,

@@ -573,6 +573,12 @@ importers:
       '@iconify/vue':
         specifier: 'catalog:'
         version: 4.2.0(vue@3.5.13(typescript@5.7.2))
+      '@vben-core/shadcn-ui':
+        specifier: workspace:*
+        version: link:../../packages/@core/ui-kit/shadcn-ui
+      '@vben-core/shared':
+        specifier: workspace:*
+        version: link:../../packages/@core/base/shared
       '@vben/access':
         specifier: workspace:*
         version: link:../../packages/effects/access

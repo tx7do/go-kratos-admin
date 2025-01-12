@@ -68,6 +68,7 @@ const gridOptions: VxeGridProps<Dict> = {
         // console.log('query:', filters, form, formValues);
 
         return await dictStore.listDict(
+          false,
           page.currentPage,
           page.pageSize,
           formValues,

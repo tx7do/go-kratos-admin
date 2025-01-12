@@ -1,0 +1,13 @@
+{
+  "input-search": {
+    "placeholder": "搜索"
+  },
+  "tree": {
+    "select_all": "选择全部",
+    "unselect_all": "取消选择",
+    "expand_all": "展开全部",
+    "collapse_all": "折叠全部",
+    "hierarchical_association": "层级关联",
+    "hierarchical_independence": "层级独立"
+  }
+}

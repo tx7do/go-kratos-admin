@@ -1,0 +1,13 @@
+{
+  "input-search": {
+    "placeholder": "Search"
+  },
+  "tree": {
+    "select_all": "Select All",
+    "unselect_all": "Cancel Select",
+    "expand_all": "Expand All",
+    "collapse_all": "Collapse all",
+    "hierarchical_association": "Hierarchical association",
+    "hierarchical_independence": "Hierarchical independence"
+  }
+}

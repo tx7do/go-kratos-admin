@@ -7,18 +7,18 @@ export const useDictStore = defineStore('dict', () => {
    * 查询字典列表
    */
   async function listDict(
-    page: number,
-    pageSize: number,
-    formValues: object,
-    fieldMask: null | string = null,
-    orderBy: string[] = [],
     noPaging: boolean = false,
+    page?: null | number,
+    pageSize?: null | number,
+    formValues?: null | object,
+    fieldMask?: null | string,
+    orderBy?: null | string[],
   ) {
     return await defDictService.ListDict({
       // @ts-ignore proto generated code is error.
       fieldMask,
-      orderBy,
-      query: makeQueryString(formValues),
+      orderBy: orderBy ?? [],
+      query: makeQueryString(formValues ?? null),
       page,
       pageSize,
       noPaging,

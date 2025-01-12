@@ -7,18 +7,18 @@ export const useDepartmentStore = defineStore('department', () => {
    * 查询部门列表
    */
   async function listDepartment(
-    page: number,
-    pageSize: number,
-    formValues: object,
-    fieldMask: null | string = null,
-    orderBy: string[] = [],
     noPaging: boolean = false,
+    page?: null | number,
+    pageSize?: null | number,
+    formValues?: null | object,
+    fieldMask?: null | string,
+    orderBy?: null | string[],
   ) {
     return await defDepartmentService.ListDepartment({
       // @ts-ignore proto generated code is error.
       fieldMask,
-      orderBy,
-      query: makeQueryString(formValues),
+      orderBy: orderBy ?? [],
+      query: makeQueryString(formValues ?? null),
       page,
       pageSize,
       noPaging,

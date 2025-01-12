@@ -64,14 +64,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
       componentProps: {
         placeholder: $t('ui.placeholder.select'),
         api: async () => {
-          const result = await orgStore.listOrganization(
-            null,
-            null,
-            null,
-            null,
-            null,
-            true,
-          );
+          const result = await orgStore.listOrganization(true);
 
           return result.items;
         },

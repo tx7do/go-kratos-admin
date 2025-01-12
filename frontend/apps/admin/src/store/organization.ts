@@ -7,18 +7,18 @@ export const useOrganizationStore = defineStore('organization', () => {
    * 查询组织列表
    */
   async function listOrganization(
+    noPaging: boolean = false,
     page?: null | number,
     pageSize?: null | number,
-    queryValues?: null | object,
+    formValues?: null | object,
     fieldMask?: null | string,
     orderBy?: null | string[],
-    noPaging?: boolean,
   ) {
     return await defOrganizationService.ListOrganization({
       // @ts-ignore proto generated code is error.
       fieldMask,
       orderBy: orderBy ?? [],
-      query: makeQueryString(queryValues ?? null),
+      query: makeQueryString(formValues ?? null),
       page,
       pageSize,
       noPaging,

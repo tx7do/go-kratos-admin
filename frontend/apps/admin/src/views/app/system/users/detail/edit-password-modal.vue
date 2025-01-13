@@ -21,7 +21,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
     {
       component: 'VbenInputPassword',
       fieldName: 'old_password',
-      label: '当前密码',
+      label: $t('page.user.form.oldPassword'),
       componentProps: {
         placeholder: $t('ui.placeholder.input'),
       },
@@ -30,7 +30,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
     {
       component: 'VbenInputPassword',
       fieldName: 'new_password',
-      label: '新密码',
+      label: $t('page.user.form.newPassword'),
       componentProps: {
         passwordStrength: true,
         placeholder: $t('ui.placeholder.input'),
@@ -40,7 +40,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
     {
       component: 'VbenInputPassword',
       fieldName: 'confirm_password',
-      label: '确认密码',
+      label: $t('page.user.form.confirmPassword'),
       componentProps: {
         placeholder: $t('ui.placeholder.input'),
       },
@@ -90,7 +90,7 @@ function setLoading(loading: boolean) {
 </script>
 
 <template>
-  <Modal title="修改密码">
+  <Modal :title="$t('page.user.button.editPassword')">
     <BaseForm />
   </Modal>
 </template>

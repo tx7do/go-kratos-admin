@@ -10,5 +10,111 @@
     "title": "Dashboard",
     "analytics": "Analytics",
     "workspace": "Workspace"
+  },
+  "user": {
+    "moduleName": "User",
+    "form": {
+      "real_name": "UserName",
+      "phone": "Phone",
+      "oldPassword": "Old Password",
+      "newPassword": "New Password",
+      "confirmPassword": "Confirm Password"
+    },
+    "table": {
+      "seq": "Seq",
+      "userName": "User Name",
+      "nickName": "Nick Name",
+      "realName": "Real Name",
+      "email": "Email",
+      "phone": "Phone",
+      "authority": "Authority",
+      "orgId": "Subordinate Organization",
+      "deptId": "Subordinate Department"
+    },
+    "button": {
+      "create": "Create",
+      "editPassword": "Edit Password",
+      "banAccount": "Ban Account"
+    },
+    "tab": {
+      "detail": "User Detail",
+      "log": "Operation Log"
+    },
+    "detailTitle": "{userId}'s information"
+  },
+  "role": {
+    "moduleName": "Role",
+    "name": "Name",
+    "code": "Code",
+    "button": {
+      "create": "Create"
+    }
+  },
+  "dept": {
+    "moduleName": "Department",
+    "name": "Department Name",
+    "parentId": "Parent Department",
+    "button": {
+      "create": "Create"
+    }
+  },
+  "dict": {
+    "moduleName": "Dict",
+    "key": "Key",
+    "category": "Category",
+    "categoryDesc": "Category Desc",
+    "value": "value",
+    "valueDesc": "Value Desc",
+    "button": {
+      "create": "Create"
+    }
+  },
+  "menu": {
+    "moduleName": "Menu",
+    "name": "Menu Name",
+    "type": "Menu Type",
+    "icon": "Icon",
+    "path": "Path",
+    "component": "Component",
+    "show": "Show",
+    "isExt": "Is Ext",
+    "keepAlive": "Keep Alive",
+    "parentId": "Parent Menu",
+    "button": {
+      "create": "Create"
+    }
+  },
+  "org": {
+    "moduleName": "Organization",
+    "name": "Organization Name",
+    "parentId": "Parent Organization",
+    "button": {
+      "create": "Create"
+    }
+  },
+  "position": {
+    "moduleName": "Position",
+    "name": "Position Name",
+    "button": {
+      "create": "Create"
+    }
+  },
+  "admin_login_log": {
+    "moduleName": "Login Log",
+    "userName": "User Name",
+    "success": "Success",
+    "loginTime": "Login Time",
+    "location": "Location",
+    "clientName": "Platform",
+    "loginIp": "Login IP"
+  },
+  "admin_operation_log": {
+    "moduleName": "Operation Log",
+    "userName": "User Name",
+    "success": "Success",
+    "location": "Location",
+    "clientName": "Platform",
+    "clientIp": "Client IP",
+    "createTime": "Operation Time"
   }
 }

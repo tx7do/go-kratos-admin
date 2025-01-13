@@ -27,7 +27,7 @@ const formOptions: VbenFormProps = {
     {
       component: 'Input',
       fieldName: 'userName',
-      label: '操作者名',
+      label: $t('page.admin_operation_log.userName'),
       componentProps: {
         placeholder: $t('ui.placeholder.input'),
         allowClear: true,
@@ -36,7 +36,7 @@ const formOptions: VbenFormProps = {
     {
       component: 'RangePicker',
       fieldName: 'createTime',
-      label: '操作时间',
+      label: $t('page.admin_operation_log.createTime'),
       componentProps: {
         showTime: true,
         allowClear: true,
@@ -96,18 +96,30 @@ const gridOptions: VxeGridProps<AdminOperationLog> = {
   },
 
   columns: [
-    { title: '序号', type: 'seq', width: 50 },
-    { title: '登录名', field: 'userName' },
-    { title: '操作状态', field: 'success', slots: { default: 'success' } },
+    { title: $t('ui.table.seq'), type: 'seq', width: 50 },
+    { title: $t('page.admin_operation_log.userName'), field: 'userName' },
     {
-      title: '操作时间',
+      title: $t('page.admin_operation_log.success'),
+      field: 'success',
+      slots: { default: 'success' },
+    },
+    {
+      title: $t('page.admin_operation_log.createTime'),
       field: 'createTime',
       formatter: 'formatDateTime',
       width: 140,
     },
-    { title: '操作地', field: 'location' },
-    { title: '操作平台', field: 'clientName', slots: { default: 'platform' } },
-    { title: '操作地址', field: 'clientIp', width: 140 },
+    { title: $t('page.admin_operation_log.location'), field: 'location' },
+    {
+      title: $t('page.admin_operation_log.clientName'),
+      field: 'clientName',
+      slots: { default: 'platform' },
+    },
+    {
+      title: $t('page.admin_operation_log.clientIp'),
+      field: 'clientIp',
+      width: 140,
+    },
   ],
 };
 

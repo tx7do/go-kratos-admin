@@ -29,7 +29,7 @@ const formOptions: VbenFormProps = {
     {
       component: 'Input',
       fieldName: 'name',
-      label: '菜单名称',
+      label: $t('page.menu.name'),
       componentProps: {
         placeholder: $t('ui.placeholder.input'),
         allowClear: true,
@@ -38,7 +38,7 @@ const formOptions: VbenFormProps = {
     {
       component: 'Select',
       fieldName: 'status',
-      label: '状态',
+      label: $t('ui.table.status'),
       componentProps: {
         options: statusList,
         placeholder: $t('ui.placeholder.select'),
@@ -89,28 +89,38 @@ const gridOptions: VxeGridProps<Menu> = {
   },
 
   columns: [
-    { title: '序号', type: 'seq', width: 50 },
+    { title: $t('ui.table.seq'), type: 'seq', width: 50 },
     {
-      title: '菜单名称',
+      title: $t('page.menu.name'),
       field: 'meta.title',
       slots: { default: 'title' },
       width: 200,
       treeNode: true,
     },
-    { title: '图标', field: 'icon', slots: { default: 'icon' }, width: 50 },
-    { title: '排序', field: 'meta.order', width: 50 },
-    // { title: '权限标识', field: 'permissionCode', width: 50 },
-    { title: '路由地址', field: 'path' },
-    { title: '组件路径', field: 'component' },
-    { title: '状态', field: 'status', slots: { default: 'status' }, width: 80 },
     {
-      title: '更新时间',
+      title: $t('page.menu.icon'),
+      field: 'icon',
+      slots: { default: 'icon' },
+      width: 50,
+    },
+    { title: $t('ui.table.sortId'), field: 'meta.order', width: 70 },
+    // { title: '权限标识', field: 'permissionCode', width: 50 },
+    { title: $t('page.menu.path'), field: 'path' },
+    { title: $t('page.menu.component'), field: 'component' },
+    {
+      title: $t('ui.table.status'),
+      field: 'status',
+      slots: { default: 'status' },
+      width: 95,
+    },
+    {
+      title: $t('ui.table.updateTime'),
       field: 'updateTime',
       formatter: 'formatDateTime',
       width: 140,
     },
     {
-      title: '操作',
+      title: $t('ui.table.action'),
       field: 'action',
       fixed: 'right',
       slots: { default: 'action' },
@@ -155,13 +165,13 @@ async function handleDelete(row: any) {
     await menuStore.deleteMenu(row.id);
 
     notification.success({
-      message: '删除菜单成功',
+      message: $t('ui.notification.delete_success'),
     });
 
     await gridApi.reload();
   } catch {
     notification.error({
-      message: '删除菜单失败',
+      message: $t('ui.notification.delete_failed'),
     });
   }
 }
@@ -177,11 +187,11 @@ async function handleStatusChanged(row: any, checked: boolean) {
     await menuStore.updateMenu(row.id, { status: row.status });
 
     notification.success({
-      message: '更新菜单状态成功',
+      message: $t('ui.notification.update_status_success'),
     });
   } catch {
     notification.error({
-      message: '更新菜单状态失败',
+      message: $t('ui.notification.update_status_failed'),
     });
   } finally {
     row.pending = false;
@@ -202,10 +212,14 @@ const collapseAll = () => {
     <Grid :table-title="$t('menu.system.menu')">
       <template #toolbar-tools>
         <a-button class="mr-2" type="primary" @click="handleCreate">
-          创建菜单
+          {{$t('page.menu.button.create')}}
         </a-button>
-        <a-button class="mr-2" @click="expandAll"> 展开全部</a-button>
-        <a-button class="mr-2" @click="collapseAll"> 折叠全部</a-button>
+        <a-button class="mr-2" @click="expandAll">
+          {{ $t('ui.tree.expand_all') }}
+        </a-button>
+        <a-button class="mr-2" @click="collapseAll">
+          {{ $t('ui.tree.collapse_all') }}
+        </a-button>
       </template>
       <template #title="{ row }">
         <span :style="{ marginRight: '15px' }">{{ $t(row.meta.title) }}</span>
@@ -221,8 +235,8 @@ const collapseAll = () => {
         <a-switch
           :checked="row.status === 'ON'"
           :loading="row.pending"
-          checked-children="正常"
-          un-checked-children="停用"
+          :checked-children="$t('ui.switch.active')"
+          :un-checked-children="$t('ui.switch.inactive')"
           @change="
             (checked: any) => handleStatusChanged(row, checked as boolean)
           "
@@ -235,9 +249,13 @@ const collapseAll = () => {
           @click="() => handleEdit(row)"
         />
         <a-popconfirm
-          cancel-text="不要"
-          ok-text="是的"
-          title="你是否要删除掉该菜单？"
+          :cancel-text="$t('ui.button.cancel')"
+          :ok-text="$t('ui.button.ok')"
+          :title="
+            $t('ui.text.do_you_want_delete', {
+              moduleName: $t('page.menu.moduleName'),
+            })
+          "
           @confirm="() => handleDelete(row)"
         >
           <a-button danger type="link" :icon="h(LucideTrash2)" />

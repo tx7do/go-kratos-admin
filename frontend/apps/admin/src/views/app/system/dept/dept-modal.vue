@@ -13,7 +13,11 @@ const deptStore = useDepartmentStore();
 
 const data = ref();
 
-const getTitle = computed(() => (data.value?.create ? '创建部门' : '编辑部门'));
+const getTitle = computed(() =>
+  data.value?.create
+    ? $t('ui.modal.create', { moduleName: $t('page.dept.moduleName') })
+    : $t('ui.modal.update', { moduleName: $t('page.dept.moduleName') }),
+);
 // const isCreate = computed(() => data.value?.create);
 
 const [BaseForm, baseFormApi] = useVbenForm({
@@ -29,7 +33,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
     {
       component: 'Input',
       fieldName: 'name',
-      label: '部门名称',
+      label: $t('page.dept.name'),
       componentProps: {
         placeholder: $t('ui.placeholder.input'),
         allowClear: true,
@@ -39,7 +43,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
     {
       component: 'TreeSelect',
       fieldName: 'parentId',
-      label: '上级部门',
+      label: $t('page.dept.parentId'),
       componentProps: {
         placeholder: $t('ui.placeholder.select'),
       },
@@ -48,7 +52,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
     {
       component: 'InputNumber',
       fieldName: 'sortId',
-      label: '排序',
+      label: $t('ui.table.sortId'),
       componentProps: {
         placeholder: $t('ui.placeholder.input'),
         allowClear: true,
@@ -59,7 +63,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
       component: 'RadioGroup',
       fieldName: 'status',
       defaultValue: 'ON',
-      label: '状态',
+      label: $t('ui.table.status'),
       rules: 'selectRequired',
       componentProps: {
         optionType: 'button',
@@ -70,7 +74,11 @@ const [BaseForm, baseFormApi] = useVbenForm({
     {
       component: 'Textarea',
       fieldName: 'remark',
-      label: '备注',
+      label: $t('ui.table.remark'),
+      componentProps: {
+        placeholder: $t('ui.placeholder.input'),
+        allowClear: true,
+      },
     },
   ],
 });
@@ -102,11 +110,15 @@ const [Modal, modalApi] = useVbenModal({
         : deptStore.updateDepartment(data.value.row.id, values));
 
       notification.success({
-        message: `${getTitle.value}成功`,
+        message: data.value?.create
+          ? $t('ui.notification.create_success')
+          : $t('ui.notification.update_success'),
       });
     } catch {
-      notification.success({
-        message: `${getTitle.value}失败`,
+      notification.error({
+        message: data.value?.create
+          ? $t('ui.notification.create_failed')
+          : $t('ui.notification.update_failed'),
       });
     } finally {
       // 关闭窗口

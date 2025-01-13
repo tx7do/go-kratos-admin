@@ -13,7 +13,11 @@ const dictStore = useDictStore();
 
 const data = ref();
 
-const getTitle = computed(() => (data.value?.create ? '创建条目' : '编辑条目'));
+const getTitle = computed(() =>
+  data.value?.create
+    ? $t('ui.modal.create', { moduleName: $t('page.dict.moduleName') })
+    : $t('ui.modal.update', { moduleName: $t('page.dict.moduleName') }),
+);
 // const isCreate = computed(() => data.value?.create);
 
 const [BaseForm, baseFormApi] = useVbenForm({
@@ -29,7 +33,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
     {
       component: 'Input',
       fieldName: 'key',
-      label: '字典键',
+      label: $t('page.dict.key'),
       componentProps: {
         placeholder: $t('ui.placeholder.input'),
         allowClear: true,
@@ -39,7 +43,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
     {
       component: 'Input',
       fieldName: 'category',
-      label: '字典类型',
+      label: $t('page.dict.category'),
       componentProps: {
         placeholder: $t('ui.placeholder.input'),
         allowClear: true,
@@ -49,7 +53,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
     {
       component: 'Input',
       fieldName: 'categoryDesc',
-      label: '字典类型名称',
+      label: $t('page.dict.categoryDesc'),
       componentProps: {
         placeholder: $t('ui.placeholder.input'),
         allowClear: true,
@@ -59,7 +63,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
     {
       component: 'Input',
       fieldName: 'value',
-      label: '字典值',
+      label: $t('page.dict.value'),
       componentProps: {
         placeholder: $t('ui.placeholder.input'),
         allowClear: true,
@@ -69,7 +73,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
     {
       component: 'Input',
       fieldName: 'valueDesc',
-      label: '字典值名称',
+      label: $t('page.dict.valueDesc'),
       componentProps: {
         placeholder: $t('ui.placeholder.input'),
         allowClear: true,
@@ -80,7 +84,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
     {
       component: 'InputNumber',
       fieldName: 'sortId',
-      label: '排序',
+      label: $t('ui.table.sortId'),
       componentProps: {
         placeholder: $t('ui.placeholder.input'),
         allowClear: true,
@@ -90,7 +94,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
     {
       component: 'Textarea',
       fieldName: 'remark',
-      label: '备注',
+      label: $t('ui.table.remark'),
       componentProps: {
         placeholder: $t('ui.placeholder.input'),
         allowClear: true,
@@ -127,11 +131,15 @@ const [Modal, modalApi] = useVbenModal({
         : dictStore.updateDict(data.value.row.id, values));
 
       notification.success({
-        message: `${getTitle.value}成功`,
+        message: data.value?.create
+          ? $t('ui.notification.create_success')
+          : $t('ui.notification.update_success'),
       });
     } catch {
-      notification.success({
-        message: `${getTitle.value}失败`,
+      notification.error({
+        message: data.value?.create
+          ? $t('ui.notification.create_failed')
+          : $t('ui.notification.update_failed'),
       });
     } finally {
       // 关闭窗口

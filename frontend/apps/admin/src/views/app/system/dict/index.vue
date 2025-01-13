@@ -28,7 +28,7 @@ const formOptions: VbenFormProps = {
     {
       component: 'Input',
       fieldName: 'key',
-      label: '字典键',
+      label: $t('page.dict.key'),
       componentProps: {
         placeholder: $t('ui.placeholder.input'),
         allowClear: true,
@@ -37,7 +37,7 @@ const formOptions: VbenFormProps = {
     {
       component: 'Input',
       fieldName: 'categoryDesc',
-      label: '字典类型名称',
+      label: $t('page.dict.categoryDesc'),
       componentProps: {
         placeholder: $t('ui.placeholder.input'),
         allowClear: true,
@@ -78,23 +78,28 @@ const gridOptions: VxeGridProps<Dict> = {
   },
 
   columns: [
-    { title: '序号', type: 'seq', width: 50 },
-    { title: '字典键', field: 'key' },
-    { title: '字典类型', field: 'category' },
-    { title: '字典类型名称', field: 'categoryDesc' },
-    { title: '字典值', field: 'value' },
-    { title: '字典值名称', field: 'valueDesc' },
-    { title: '排序', field: 'sortId' },
-    { title: '描述', field: 'remark' },
-    { title: '状态', field: 'status', slots: { default: 'status' }, width: 80 },
+    { title: $t('ui.table.seq'), type: 'seq', width: 50 },
+    { title: $t('page.dict.key'), field: 'key' },
+    { title: $t('page.dict.category'), field: 'category' },
+    { title: $t('page.dict.categoryDesc'), field: 'categoryDesc' },
+    { title: $t('page.dict.value'), field: 'value' },
+    { title: $t('page.dict.valueDesc'), field: 'valueDesc' },
+    { title: $t('ui.table.sortId'), field: 'sortId', width: 70 },
+    { title: $t('ui.table.remark'), field: 'remark' },
     {
-      title: '创建时间',
+      title: $t('ui.table.status'),
+      field: 'status',
+      slots: { default: 'status' },
+      width: 95,
+    },
+    {
+      title: $t('ui.table.createTime'),
       field: 'createTime',
       formatter: 'formatDateTime',
       width: 140,
     },
     {
-      title: '操作',
+      title: $t('ui.table.action'),
       field: 'action',
       fixed: 'right',
       slots: { default: 'action' },
@@ -140,13 +145,13 @@ async function handleDelete(row: any) {
     await dictStore.deleteDict(row.id);
 
     notification.success({
-      message: '删除字典成功',
+      message: $t('ui.notification.delete_success'),
     });
 
     await gridApi.reload();
   } catch {
     notification.error({
-      message: '删除字典失败',
+      message: $t('ui.notification.delete_failed'),
     });
   }
 }
@@ -162,11 +167,11 @@ async function handleStatusChanged(row: any, checked: boolean) {
     await dictStore.updateDict(row.id, { status: row.status });
 
     notification.success({
-      message: '更新字典状态成功',
+      message: $t('ui.notification.update_status_success'),
     });
   } catch {
     notification.error({
-      message: '更新字典状态失败',
+      message: $t('ui.notification.update_status_failed'),
     });
   } finally {
     row.pending = false;
@@ -178,14 +183,16 @@ async function handleStatusChanged(row: any, checked: boolean) {
   <Page auto-content-height>
     <Grid :table-title="$t('menu.system.dict')">
       <template #toolbar-tools>
-        <a-button type="primary" @click="handleCreate">创建条目</a-button>
+        <a-button type="primary" @click="handleCreate">
+          {{ $t('page.dict.button.create') }}
+        </a-button>
       </template>
       <template #status="{ row }">
         <a-switch
           :checked="row.status === 'ON'"
           :loading="row.pending"
-          checked-children="正常"
-          un-checked-children="停用"
+          :checked-children="$t('ui.switch.active')"
+          :un-checked-children="$t('ui.switch.inactive')"
           @change="
             (checked: boolean) => handleStatusChanged(row, checked as boolean)
           "
@@ -198,9 +205,13 @@ async function handleStatusChanged(row: any, checked: boolean) {
           @click="() => handleEdit(row)"
         />
         <a-popconfirm
-          cancel-text="不要"
-          ok-text="是的"
-          title="你是否要删除掉该条目？"
+          :cancel-text="$t('ui.button.cancel')"
+          :ok-text="$t('ui.button.ok')"
+          :title="
+            $t('ui.text.do_you_want_delete', {
+              moduleName: $t('page.dict.moduleName'),
+            })
+          "
           @confirm="() => handleDelete(row)"
         >
           <a-button danger type="link" :icon="h(LucideTrash2)" />

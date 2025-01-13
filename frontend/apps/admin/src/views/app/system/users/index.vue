@@ -29,7 +29,7 @@ const formOptions: VbenFormProps = {
     {
       component: 'Input',
       fieldName: 'realName',
-      label: '用户名称',
+      label: $t('page.user.form.real_name'),
       componentProps: {
         placeholder: $t('ui.placeholder.input'),
         allowClear: true,
@@ -38,7 +38,7 @@ const formOptions: VbenFormProps = {
     {
       component: 'Input',
       fieldName: 'phone',
-      label: '手机号码',
+      label: $t('page.user.form.phone'),
       componentProps: {
         placeholder: $t('ui.placeholder.input'),
         allowClear: true,
@@ -79,27 +79,32 @@ const gridOptions: VxeGridProps<User> = {
   },
 
   columns: [
-    { title: '序号', type: 'seq', width: 50 },
-    { title: '用户名', field: 'userName' },
-    { title: '昵称', field: 'nickName' },
-    { title: '姓名', field: 'realName' },
-    { title: '邮箱', field: 'email' },
-    { title: '手机', field: 'phone' },
+    { title: $t('ui.table.seq'), type: 'seq', width: 50 },
+    { title: $t('page.user.table.userName'), field: 'userName' },
+    { title: $t('page.user.table.nickName'), field: 'nickName' },
+    { title: $t('page.user.table.realName'), field: 'realName' },
+    { title: $t('page.user.table.email'), field: 'email' },
+    { title: $t('page.user.table.phone'), field: 'phone' },
     {
-      title: '创建时间',
+      title: $t('ui.table.createTime'),
       field: 'createTime',
       formatter: 'formatDateTime',
       width: 140,
     },
     {
-      title: '权限',
+      title: $t('page.user.table.authority'),
       field: 'authority',
       slots: { default: 'authority' },
       width: 80,
     },
-    { title: '状态', field: 'status', slots: { default: 'status' }, width: 80 },
     {
-      title: '操作',
+      title: $t('ui.table.status'),
+      field: 'status',
+      slots: { default: 'status' },
+      width: 95,
+    },
+    {
+      title: $t('ui.table.action'),
       field: 'action',
       fixed: 'right',
       slots: { default: 'action' },
@@ -145,13 +150,13 @@ async function handleDelete(row: any) {
     await userStore.deleteUser(row.id);
 
     notification.success({
-      message: '删除用户成功',
+      message: $t('ui.notification.delete_success'),
     });
 
     await gridApi.reload();
   } catch {
     notification.error({
-      message: '删除用户失败',
+      message: $t('ui.notification.delete_failed'),
     });
   }
 }
@@ -172,11 +177,11 @@ async function handleStatusChanged(row: any, checked: boolean) {
     await userStore.updateUser(row.id, { status: row.status });
 
     notification.success({
-      message: '更新用户状态成功',
+      message: $t('ui.notification.update_status_success'),
     });
   } catch {
     notification.error({
-      message: '更新用户状态失败',
+      message: $t('ui.notification.update_status_failed'),
     });
   } finally {
     row.pending = false;
@@ -188,14 +193,16 @@ async function handleStatusChanged(row: any, checked: boolean) {
   <Page auto-content-height>
     <Grid :table-title="$t('menu.system.user')">
       <template #toolbar-tools>
-        <a-button type="primary" @click="handleCreate">创建账号</a-button>
+        <a-button type="primary" @click="handleCreate">
+          {{ $t('page.user.button.create') }}
+        </a-button>
       </template>
       <template #status="{ row }">
         <a-switch
           :checked="row.status === 'ON'"
           :loading="row.pending"
-          checked-children="正常"
-          un-checked-children="停用"
+          :checked-children="$t('ui.switch.active')"
+          :un-checked-children="$t('ui.switch.inactive')"
           @change="
             (checked: boolean) => handleStatusChanged(row, checked as boolean)
           "
@@ -219,9 +226,13 @@ async function handleStatusChanged(row: any, checked: boolean) {
           @click="() => handleEdit(row)"
         />
         <a-popconfirm
-          cancel-text="不要"
-          ok-text="是的"
-          title="你是否要删除掉该用户？"
+          :cancel-text="$t('ui.button.cancel')"
+          :ok-text="$t('ui.button.ok')"
+          :title="
+            $t('ui.text.do_you_want_delete', {
+              moduleName: $t('page.user.moduleName'),
+            })
+          "
           @confirm="() => handleDelete(row)"
         >
           <a-button danger type="link" :icon="h(LucideTrash2)" />

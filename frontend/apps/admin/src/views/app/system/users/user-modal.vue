@@ -14,7 +14,11 @@ const orgStore = useOrganizationStore();
 
 const data = ref();
 
-const getTitle = computed(() => (data.value?.create ? '创建账号' : '编辑账号'));
+const getTitle = computed(() =>
+  data.value?.create
+    ? $t('ui.modal.create', { moduleName: $t('page.user.moduleName') })
+    : $t('ui.modal.update', { moduleName: $t('page.user.moduleName') }),
+);
 // const isCreate = computed(() => data.value?.create);
 
 const [BaseForm, baseFormApi] = useVbenForm({
@@ -30,7 +34,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
     {
       component: 'Input',
       fieldName: 'userName',
-      label: '用户名',
+      label: $t('page.user.table.userName'),
       componentProps: {
         placeholder: $t('ui.placeholder.input'),
         allowClear: true,
@@ -50,7 +54,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
     {
       component: 'Select',
       fieldName: 'authority',
-      label: '权限',
+      label: $t('page.user.table.authority'),
       componentProps: {
         placeholder: $t('ui.placeholder.select'),
         options: authorityList,
@@ -60,7 +64,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
     {
       component: 'ApiTreeSelect',
       fieldName: 'orgId',
-      label: '所属部门',
+      label: $t('page.user.table.orgId'),
       componentProps: {
         placeholder: $t('ui.placeholder.select'),
         api: async () => {
@@ -84,7 +88,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
     {
       component: 'Input',
       fieldName: 'nickName',
-      label: '昵称',
+      label: $t('page.user.table.nickName'),
       componentProps: {
         placeholder: $t('ui.placeholder.input'),
         allowClear: true,
@@ -94,7 +98,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
     {
       component: 'Input',
       fieldName: 'email',
-      label: '邮箱',
+      label: $t('page.user.table.email'),
       componentProps: {
         placeholder: $t('ui.placeholder.input'),
         allowClear: true,
@@ -105,7 +109,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
     {
       component: 'Textarea',
       fieldName: 'remark',
-      label: '备注',
+      label: $t('ui.table.remark'),
       componentProps: {
         placeholder: $t('ui.placeholder.input'),
         allowClear: true,
@@ -142,11 +146,15 @@ const [Modal, modalApi] = useVbenModal({
         : userStore.updateUser(data.value.row.id, values));
 
       notification.success({
-        message: `${getTitle.value}成功`,
+        message: data.value?.create
+          ? $t('ui.notification.create_success')
+          : $t('ui.notification.update_success'),
       });
     } catch {
-      notification.success({
-        message: `${getTitle.value}失败`,
+      notification.error({
+        message: data.value?.create
+          ? $t('ui.notification.create_failed')
+          : $t('ui.notification.update_failed'),
       });
     } finally {
       // 关闭窗口

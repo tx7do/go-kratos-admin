@@ -9,5 +9,47 @@
     "collapse_all": "折叠全部",
     "hierarchical_association": "层级关联",
     "hierarchical_independence": "层级独立"
+  },
+  "table": {
+    "seq": "序号",
+    "createTime": "创建时间",
+    "updateTime": "更新时间",
+    "deleteTime": "删除时间",
+    "status": "状态",
+    "action": "操作",
+    "sortId": "排序",
+    "remark": "备注",
+    "description": "描述"
+  },
+  "switch": {
+    "on": "开",
+    "off": "关",
+    "active": "启用",
+    "inactive": "停用"
+  },
+  "button": {
+    "ok": "是的",
+    "cancel": "不要",
+    "create": "创建{moduleName}",
+    "update": "编辑{moduleName}",
+    "delete": "删除{moduleName}"
+  },
+  "modal": {
+    "create": "创建{moduleName}",
+    "update": "编辑{moduleName}",
+    "delete": "删除{moduleName}"
+  },
+  "notification": {
+    "create_success": "创建成功",
+    "create_failed": "创建失败",
+    "update_success": "更新成功",
+    "update_failed": "更新失败",
+    "delete_success": "删除成功",
+    "delete_failed": "删除失败",
+    "update_status_success": "更新状态成功",
+    "update_status_failed": "更新状态失败"
+  },
+  "text": {
+    "do_you_want_delete": "你是否要删除掉该{moduleName}？"
   }
 }

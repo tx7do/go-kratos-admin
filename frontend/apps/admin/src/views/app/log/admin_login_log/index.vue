@@ -23,7 +23,7 @@ const formOptions: VbenFormProps = {
     {
       component: 'Input',
       fieldName: 'userName',
-      label: '登录名',
+      label: $t('page.admin_login_log.userName'),
       componentProps: {
         placeholder: $t('ui.placeholder.input'),
         allowClear: true,
@@ -32,7 +32,7 @@ const formOptions: VbenFormProps = {
     {
       component: 'RangePicker',
       fieldName: 'loginTime',
-      label: '登录时间',
+      label: $t('page.admin_login_log.loginTime'),
       componentProps: {
         showTime: true,
         allowClear: true,
@@ -92,18 +92,26 @@ const gridOptions: VxeGridProps<AdminLoginLog> = {
   },
 
   columns: [
-    { title: '序号', type: 'seq', width: 50 },
-    { title: '登录名', field: 'userName' },
-    { title: '登录状态', field: 'success', slots: { default: 'success' } },
+    { title: $t('ui.table.seq'), type: 'seq', width: 50 },
+    { title: $t('page.admin_login_log.userName'), field: 'userName' },
     {
-      title: '登录时间',
+      title: $t('page.admin_login_log.success'),
+      field: 'success',
+      slots: { default: 'success' },
+    },
+    {
+      title: $t('page.admin_login_log.loginTime'),
       field: 'loginTime',
       formatter: 'formatDateTime',
       width: 140,
     },
-    { title: '登录地', field: 'location' },
-    { title: '登录平台', field: 'clientName', slots: { default: 'platform' } },
-    { title: '登录地址', field: 'loginIp', width: 140 },
+    { title: $t('page.admin_login_log.location'), field: 'location' },
+    {
+      title: $t('page.admin_login_log.clientName'),
+      field: 'clientName',
+      slots: { default: 'platform' },
+    },
+    { title: $t('page.admin_login_log.loginIp'), field: 'loginIp', width: 140 },
   ],
 };
 

@@ -17,7 +17,11 @@ addCollection(lucide);
 
 const data = ref();
 
-const getTitle = computed(() => (data.value?.create ? '创建菜单' : '编辑菜单'));
+const getTitle = computed(() =>
+  data.value?.create
+    ? $t('ui.modal.create', { moduleName: $t('page.menu.moduleName') })
+    : $t('ui.modal.update', { moduleName: $t('page.menu.moduleName') }),
+);
 // const isCreate = computed(() => data.value?.create);
 
 const [BaseForm, baseFormApi] = useVbenForm({
@@ -33,7 +37,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
     {
       component: 'RadioGroup',
       fieldName: 'type',
-      label: '菜单类型',
+      label: $t('page.menu.type'),
       componentProps: {
         optionType: 'button',
         class: 'flex flex-wrap', // 如果选项过多，可以添加class来自动折叠
@@ -45,7 +49,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
     {
       component: 'Input',
       fieldName: 'name',
-      label: '菜单名称',
+      label: $t('page.menu.name'),
       componentProps: {
         placeholder: $t('ui.placeholder.input'),
         allowClear: true,
@@ -55,7 +59,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
     {
       component: 'TreeSelect',
       fieldName: 'parentId',
-      label: '上级菜单',
+      label: $t('page.menu.parentId'),
       componentProps: {
         placeholder: $t('ui.placeholder.select'),
       },
@@ -63,7 +67,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
     {
       component: 'InputNumber',
       fieldName: 'sortId',
-      label: '排序',
+      label: $t('ui.table.sortId'),
       componentProps: {
         placeholder: $t('ui.placeholder.input'),
         allowClear: true,
@@ -72,7 +76,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
     {
       component: 'IconPicker',
       fieldName: 'icon',
-      label: '图标',
+      label: $t('page.menu.icon'),
       componentProps: {
         prefix: 'lucide',
       },
@@ -80,7 +84,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
     {
       component: 'Input',
       fieldName: 'path',
-      label: '路由地址',
+      label: $t('page.menu.path'),
       componentProps: {
         placeholder: $t('ui.placeholder.input'),
         allowClear: true,
@@ -90,7 +94,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
     {
       component: 'Input',
       fieldName: 'component',
-      label: '组件路径',
+      label: $t('page.menu.component'),
       defaultValue: 'BasicLayout',
       componentProps: {
         placeholder: $t('ui.placeholder.input'),
@@ -111,7 +115,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
       component: 'RadioGroup',
       fieldName: 'status',
       defaultValue: 'ON',
-      label: '状态',
+      label: $t('ui.table.status'),
       rules: 'selectRequired',
       componentProps: {
         optionType: 'button',
@@ -122,7 +126,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
     {
       component: 'Switch',
       fieldName: 'isExt',
-      label: '是否外链',
+      label: $t('page.menu.isExt'),
       componentProps: {
         class: 'w-auto',
       },
@@ -130,7 +134,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
     {
       component: 'Switch',
       fieldName: 'keepAlive',
-      label: '是否缓存',
+      label: $t('page.menu.keepAlive'),
       componentProps: {
         class: 'w-auto',
       },
@@ -138,7 +142,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
     {
       component: 'Switch',
       fieldName: 'show',
-      label: '是否显示',
+      label: $t('page.menu.show'),
       componentProps: {
         class: 'w-auto',
       },
@@ -173,11 +177,15 @@ const [Drawer, drawerApi] = useVbenDrawer({
         : menuStore.updateMenu(data.value.row.id, values));
 
       notification.success({
-        message: `${getTitle.value}成功`,
+        message: data.value?.create
+          ? $t('ui.notification.create_success')
+          : $t('ui.notification.update_success'),
       });
     } catch {
-      notification.success({
-        message: `${getTitle.value}失败`,
+      notification.error({
+        message: data.value?.create
+          ? $t('ui.notification.create_failed')
+          : $t('ui.notification.update_failed'),
       });
     } finally {
       drawerApi.close();

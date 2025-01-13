@@ -10,5 +10,111 @@
     "title": "概览",
     "analytics": "分析页",
     "workspace": "工作台"
+  },
+  "user": {
+    "moduleName": "用户",
+    "form": {
+      "real_name": "用户名称",
+      "phone": "手机号码",
+      "oldPassword": "当前密码",
+      "newPassword": "新密码",
+      "confirmPassword": "确认密码"
+    },
+    "table": {
+      "seq": "编号",
+      "userName": "用户名",
+      "nickName": "昵称",
+      "realName": "姓名",
+      "email": "邮箱",
+      "phone": "手机",
+      "authority": "权限",
+      "orgId": "所属组织",
+      "deptId": "所属部门"
+    },
+    "button": {
+      "create": "创建账号",
+      "editPassword": "修改密码",
+      "banAccount": "禁用账号"
+    },
+    "tab": {
+      "detail": "用户资料",
+      "log": "操作日志"
+    },
+    "detailTitle": "用户{userId}的资料"
+  },
+  "role": {
+    "moduleName": "角色",
+    "name": "角色名称",
+    "code": "角色值",
+    "button": {
+      "create": "创建角色"
+    }
+  },
+  "dept": {
+    "moduleName": "部门",
+    "name": "部门名称",
+    "parentId": "上级部门",
+    "button": {
+      "create": "创建部门"
+    }
+  },
+  "dict": {
+    "moduleName": "字典",
+    "key": "字典键",
+    "category": "字典类型",
+    "categoryDesc": "字典类型名称",
+    "value": "字典值",
+    "valueDesc": "字典值名称",
+    "button": {
+      "create": "创建条目"
+    }
+  },
+  "menu": {
+    "moduleName": "菜单",
+    "name": "菜单名称",
+    "type": "菜单类型",
+    "icon": "图标",
+    "path": "路由地址",
+    "component": "组件路径",
+    "show": "是否显示",
+    "isExt": "是否外链",
+    "keepAlive": "是否缓存",
+    "parentId": "上级菜单",
+    "button": {
+      "create": "创建菜单"
+    }
+  },
+  "org": {
+    "moduleName": "组织",
+    "name": "组织名称",
+    "parentId": "上级组织",
+    "button": {
+      "create": "创建组织"
+    }
+  },
+  "position": {
+    "moduleName": "岗位",
+    "name": "岗位名称",
+    "button": {
+      "create": "创建岗位"
+    }
+  },
+  "admin_login_log": {
+    "moduleName": "登录日志",
+    "userName": "登录名",
+    "success": "登录状态",
+    "loginTime": "登录时间",
+    "location": "登录地",
+    "clientName": "登录平台",
+    "loginIp": "登录地址"
+  },
+  "admin_operation_log": {
+    "moduleName": "操作日志",
+    "userName": "操作者名",
+    "success": "操作状态",
+    "location": "操作地",
+    "clientName": "操作平台",
+    "clientIp": "操作地址",
+    "createTime": "操作时间"
   }
 }

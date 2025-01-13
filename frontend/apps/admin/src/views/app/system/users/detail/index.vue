@@ -70,15 +70,15 @@ function handleEditPassword() {
             <LucideArrowLeft class="text-align:center" />
           </template>
         </a-button>
-        <span>用户{{ userId }}的资料</span>
+        <span>{{ $t('page.user.detailTitle', { userId }) }}</span>
       </div>
     </template>
     <template #extra>
       <a-button class="mr-2" danger type="primary" @click="handleBanAccount">
-        禁用账号
+        {{ $t('page.user.button.banAccount') }}
       </a-button>
       <a-button class="mr-2" type="primary" @click="handleEditPassword">
-        修改密码
+        {{ $t('page.user.button.editPassword') }}
       </a-button>
     </template>
     <template #description>
@@ -86,8 +86,8 @@ function handleEditPassword() {
         v-model:active-key="activeTab"
         :tab-bar-style="{ marginBottom: 0 }"
       >
-        <a-tab-pane key="detail" tab="用户资料" />
-        <a-tab-pane key="log" tab="操作日志" />
+        <a-tab-pane key="detail" :tab="$t('page.user.tab.detail')" />
+        <a-tab-pane key="log" :tab="$t('page.user.tab.log')" />
       </a-tabs>
     </template>
 

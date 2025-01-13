@@ -13,7 +13,11 @@ const positionStore = usePositionStore();
 
 const data = ref();
 
-const getTitle = computed(() => (data.value?.create ? '创建职位' : '编辑职位'));
+const getTitle = computed(() =>
+  data.value?.create
+    ? $t('ui.modal.create', { moduleName: $t('page.position.moduleName') })
+    : $t('ui.modal.update', { moduleName: $t('page.position.moduleName') }),
+);
 // const isCreate = computed(() => data.value?.create);
 
 const [BaseForm, baseFormApi] = useVbenForm({
@@ -29,7 +33,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
     {
       component: 'Input',
       fieldName: 'name',
-      label: '职位名称',
+      label: $t('page.position.name'),
       componentProps: {
         placeholder: $t('ui.placeholder.input'),
         allowClear: true,
@@ -39,7 +43,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
     {
       component: 'RadioGroup',
       fieldName: 'status',
-      label: '状态',
+      label: $t('ui.table.status'),
       defaultValue: 'ON',
       rules: 'selectRequired',
       componentProps: {
@@ -51,7 +55,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
     {
       component: 'Textarea',
       fieldName: 'remark',
-      label: '备注',
+      label: $t('ui.table.remark'),
     },
   ],
 });
@@ -83,11 +87,15 @@ const [Drawer, drawerApi] = useVbenDrawer({
         : positionStore.updatePosition(data.value.row.id, values));
 
       notification.success({
-        message: `${getTitle.value}成功`,
+        message: data.value?.create
+          ? $t('ui.notification.create_success')
+          : $t('ui.notification.update_success'),
       });
     } catch {
-      notification.success({
-        message: `${getTitle.value}失败`,
+      notification.error({
+        message: data.value?.create
+          ? $t('ui.notification.create_failed')
+          : $t('ui.notification.update_failed'),
       });
     } finally {
       drawerApi.close();

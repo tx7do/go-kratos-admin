@@ -14,7 +14,6 @@ import { $t } from '#/locales';
 import { router } from '#/router';
 import { authorityToColor, authorityToName, useUserStore } from '#/store';
 
-import DeptTree from './dept-tree.vue';
 import UserModal from './user-modal.vue';
 
 const userStore = useUserStore();
@@ -186,9 +185,8 @@ async function handleStatusChanged(row: any, checked: boolean) {
 </script>
 
 <template>
-  <Page auto-content-height dense content-class="flex">
-    <DeptTree class="w-1/4 xl:w-1/5" />
-    <Grid :table-title="$t('menu.system.user')" class="w-3/4 xl:w-4/5">
+  <Page auto-content-height>
+    <Grid :table-title="$t('menu.system.user')">
       <template #toolbar-tools>
         <a-button type="primary" @click="handleCreate">创建账号</a-button>
       </template>

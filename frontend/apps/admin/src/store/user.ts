@@ -1,3 +1,5 @@
+import { computed } from 'vue';
+
 import { $t } from '@vben/locales';
 
 import { defineStore } from 'pinia';
@@ -76,7 +78,7 @@ export const useUserStore = defineStore('user', () => {
   };
 });
 
-export const authorityList = [
+export const authorityList = computed(() => [
   {
     value: UserAuthority.GUEST_USER,
     label: $t('enum.authority.GUEST_USER'),
@@ -90,7 +92,7 @@ export const authorityList = [
     label: $t('enum.authority.SYS_MANAGER'),
   },
   { value: UserAuthority.SYS_ADMIN, label: $t('enum.authority.SYS_ADMIN') },
-];
+]);
 
 /**
  * 权限转名称
@@ -140,7 +142,7 @@ export function authorityToColor(authority: any) {
   }
 }
 
-export const statusList = [
+export const statusList = computed(() => [
   { value: 'ON', label: $t('enum.status.ON') },
   { value: 'OFF', label: $t('enum.status.OFF') },
-];
+]);

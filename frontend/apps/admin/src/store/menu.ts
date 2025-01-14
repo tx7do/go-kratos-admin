@@ -1,3 +1,5 @@
+import { computed } from 'vue';
+
 import { $t } from '@vben/locales';
 
 import { defineStore } from 'pinia';
@@ -78,8 +80,8 @@ export const useMenuStore = defineStore('menu', () => {
   };
 });
 
-export const menuTypeList = [
+export const menuTypeList = computed(() => [
   { value: MenuType.FOLDER, label: $t('enum.menuType.FOLDER') },
-  { value: MenuType.MENU, label: $t('enum.menuType.FOLDER') },
-  { value: MenuType.BUTTON, label: $t('enum.menuType.FOLDER') },
-];
+  { value: MenuType.MENU, label: $t('enum.menuType.MENU') },
+  { value: MenuType.BUTTON, label: $t('enum.menuType.BUTTON') },
+]);

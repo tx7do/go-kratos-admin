@@ -16,4 +16,5 @@ sudo chown -R 1001:1001 /root/app/doris/
 sudo sysctl -w vm.max_map_count=2000000
 
 # 部署
-docker-compose up -d -f ../.docker/compose/docker-compose.yaml
+cd ../.docker/compose/
+docker-compose up -d --force-recreate

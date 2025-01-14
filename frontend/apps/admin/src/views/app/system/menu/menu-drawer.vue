@@ -10,6 +10,7 @@ import { notification } from 'ant-design-vue';
 
 import { useVbenForm } from '#/adapter/form';
 import { menuTypeList, statusList, useMenuStore } from '#/store';
+import {MenuType} from "#/rpc/api/system/service/v1/menu.pb";
 
 const menuStore = useMenuStore();
 
@@ -38,6 +39,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
       component: 'RadioGroup',
       fieldName: 'type',
       label: $t('page.menu.type'),
+      defaultValue: MenuType.FOLDER,
       componentProps: {
         optionType: 'button',
         class: 'flex flex-wrap', // 如果选项过多，可以添加class来自动折叠

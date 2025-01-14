@@ -115,6 +115,8 @@
     "location": "Location",
     "clientName": "Platform",
     "clientIp": "Client IP",
-    "createTime": "Operation Time"
+    "createTime": "Operation Time",
+    "path": "Path",
+    "method": "Method"
   }
 }

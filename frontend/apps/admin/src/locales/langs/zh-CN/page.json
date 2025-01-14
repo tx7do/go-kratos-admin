@@ -115,6 +115,8 @@
     "location": "操作地",
     "clientName": "操作平台",
     "clientIp": "操作地址",
-    "createTime": "操作时间"
+    "createTime": "操作时间",
+    "path": "路径",
+    "method": "方法"
   }
 }

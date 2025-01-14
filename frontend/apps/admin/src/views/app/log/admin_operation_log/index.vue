@@ -102,6 +102,7 @@ const gridOptions: VxeGridProps<AdminOperationLog> = {
       title: $t('page.admin_operation_log.success'),
       field: 'success',
       slots: { default: 'success' },
+      width: 80,
     },
     {
       title: $t('page.admin_operation_log.createTime'),
@@ -109,6 +110,12 @@ const gridOptions: VxeGridProps<AdminOperationLog> = {
       formatter: 'formatDateTime',
       width: 140,
     },
+    {
+      title: $t('page.admin_operation_log.method'),
+      field: 'method',
+      width: 80,
+    },
+    { title: $t('page.admin_operation_log.path'), field: 'path' },
     { title: $t('page.admin_operation_log.location'), field: 'location' },
     {
       title: $t('page.admin_operation_log.clientName'),

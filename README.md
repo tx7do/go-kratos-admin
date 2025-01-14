@@ -1,14 +1,17 @@
 # Kratos Admin
 
-开箱即用的全栈Admin。
+开箱即用的Golang全栈Admin。
+
+其后端是基于的GO微服务框架[go-kratos](https://go-kratos.dev/)，前端也是基于Vue微服务框架的[Vben Admin](https://doc.vben.pro/)。
+
+虽然都是使用的微服务的框架，但是前后端都是可以使用单体架构的方式进行开发和部署的。
+
+上手容易，功能丰富，适合快速开发企业级管理系统。
 
 ## 技术栈
 
--
-
-后端基于 [Golang](https://go.dev/) + [go-kratos](https://go-kratos.dev/) + [wire](https://github.com/google/wire) + [ent](https://entgo.io/docs/getting-started/)
--
-前端基于 [Vue](https://vuejs.org/) + [TypeScript](https://www.typescriptlang.org/) + [Ant Design Vue](https://antdv.com/) + [Vben Admin](https://doc.vben.pro/)
+- 后端基于 [Golang](https://go.dev/) + [go-kratos](https://go-kratos.dev/) + [wire](https://github.com/google/wire) + [ent](https://entgo.io/docs/getting-started/)
+- 前端基于 [Vue](https://vuejs.org/) + [TypeScript](https://www.typescriptlang.org/) + [Ant Design Vue](https://antdv.com/) + [Vben Admin](https://doc.vben.pro/)
 
 ## 功能列表
 

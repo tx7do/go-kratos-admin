@@ -1,3 +1,5 @@
+import { $t } from '@vben/locales';
+
 import { defineStore } from 'pinia';
 
 import { defMenuService, makeQueryString, makeUpdateMask } from '#/rpc';
@@ -77,7 +79,7 @@ export const useMenuStore = defineStore('menu', () => {
 });
 
 export const menuTypeList = [
-  { value: MenuType.FOLDER, label: '目录' },
-  { value: MenuType.MENU, label: '菜单' },
-  { value: MenuType.BUTTON, label: '按钮' },
+  { value: MenuType.FOLDER, label: $t('enum.menuType.FOLDER') },
+  { value: MenuType.MENU, label: $t('enum.menuType.FOLDER') },
+  { value: MenuType.BUTTON, label: $t('enum.menuType.FOLDER') },
 ];

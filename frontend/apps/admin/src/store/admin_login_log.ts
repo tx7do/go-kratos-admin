@@ -1,3 +1,5 @@
+import { $t } from '@vben/locales';
+
 import { defineStore } from 'pinia';
 
 import { defAdminLoginLogService, makeQueryString } from '#/rpc';
@@ -47,5 +49,7 @@ export function successToColor(success: boolean) {
 }
 
 export function successToName(success: boolean, statusCode: number) {
-  return success ? '成功' : `失败 (${statusCode})`;
+  return success
+    ? $t('enum.successStatus.success')
+    : ` ${$t('enum.successStatus.success')} (${statusCode})`;
 }

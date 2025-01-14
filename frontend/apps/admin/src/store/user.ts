@@ -1,3 +1,5 @@
+import { $t } from '@vben/locales';
+
 import { defineStore } from 'pinia';
 
 import { defUserService, makeQueryString, makeUpdateMask } from '#/rpc';
@@ -75,10 +77,19 @@ export const useUserStore = defineStore('user', () => {
 });
 
 export const authorityList = [
-  { value: UserAuthority.GUEST_USER, label: '游客' },
-  { value: UserAuthority.CUSTOMER_USER, label: '普通用户' },
-  { value: UserAuthority.SYS_MANAGER, label: '普通管理' },
-  { value: UserAuthority.SYS_ADMIN, label: '超级管理' },
+  {
+    value: UserAuthority.GUEST_USER,
+    label: $t('enum.authority.GUEST_USER'),
+  },
+  {
+    value: UserAuthority.CUSTOMER_USER,
+    label: $t('enum.authority.CUSTOMER_USER'),
+  },
+  {
+    value: UserAuthority.SYS_MANAGER,
+    label: $t('enum.authority.SYS_MANAGER'),
+  },
+  { value: UserAuthority.SYS_ADMIN, label: $t('enum.authority.SYS_ADMIN') },
 ];
 
 /**
@@ -88,16 +99,16 @@ export const authorityList = [
 export function authorityToName(authority: any) {
   switch (authority) {
     case UserAuthority.CUSTOMER_USER: {
-      return '普通用户';
+      return $t('enum.authority.CUSTOMER_USER');
     }
     case UserAuthority.GUEST_USER: {
-      return '游客';
+      return $t('enum.authority.GUEST_USER');
     }
     case UserAuthority.SYS_ADMIN: {
-      return '超级管理';
+      return $t('enum.authority.SYS_ADMIN');
     }
     case UserAuthority.SYS_MANAGER: {
-      return '普通管理';
+      return $t('enum.authority.SYS_MANAGER');
     }
     default: {
       return '';
@@ -130,6 +141,6 @@ export function authorityToColor(authority: any) {
 }
 
 export const statusList = [
-  { value: 'ON', label: '正常' },
-  { value: 'OFF', label: '停用' },
+  { value: 'ON', label: $t('enum.status.ON') },
+  { value: 'OFF', label: $t('enum.status.OFF') },
 ];

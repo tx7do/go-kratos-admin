@@ -54,5 +54,5 @@ export function successToColor(success: boolean) {
 export function successToName(success: boolean, statusCode: number) {
   return success
     ? $t('enum.successStatus.success')
-    : ` ${$t('enum.successStatus.success')} (${statusCode})`;
+    : ` ${$t('enum.successStatus.failed')} (${statusCode})`;
 }

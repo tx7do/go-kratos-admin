@@ -71,7 +71,10 @@ export const useMenuStore = defineStore('menu', () => {
     return await defMenuService.DeleteMenu({ id });
   }
 
+  function $reset() {}
+
   return {
+    $reset,
     listMenu,
     getMenu,
     createMenu,

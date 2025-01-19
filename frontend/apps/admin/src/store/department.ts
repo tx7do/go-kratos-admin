@@ -66,7 +66,10 @@ export const useDepartmentStore = defineStore('department', () => {
     return await defDepartmentService.DeleteDepartment({ id });
   }
 
+  function $reset() {}
+
   return {
+    $reset,
     listDepartment,
     getDepartment,
     createDepartment,

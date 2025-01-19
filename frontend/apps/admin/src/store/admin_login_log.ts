@@ -34,7 +34,10 @@ export const useAdminLoginLogStore = defineStore('admin_login_log', () => {
     return await defAdminLoginLogService.GetAdminLoginLog({ id });
   }
 
+  function $reset() {}
+
   return {
+    $reset,
     listAdminLoginLog,
     getAdminLoginLog,
   };

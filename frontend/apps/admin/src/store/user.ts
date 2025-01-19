@@ -69,7 +69,10 @@ export const useUserStore = defineStore('user', () => {
     return await defUserService.DeleteUser({ id });
   }
 
+  function $reset() {}
+
   return {
+    $reset,
     listUser,
     getUser,
     createUser,

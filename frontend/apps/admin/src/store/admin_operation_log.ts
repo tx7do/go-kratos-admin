@@ -34,7 +34,10 @@ export const useAdminOperationLogStore = defineStore(
       return await defAdminOperationLogService.GetAdminOperationLog({ id });
     }
 
+    function $reset() {}
+
     return {
+      $reset,
       listAdminOperationLog,
       getAdminOperationLog,
     };

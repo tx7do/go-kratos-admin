@@ -66,7 +66,10 @@ export const useOrganizationStore = defineStore('organization', () => {
     return await defOrganizationService.DeleteOrganization({ id });
   }
 
+  function $reset() {}
+
   return {
+    $reset,
     listOrganization,
     getOrganization,
     createOrganization,

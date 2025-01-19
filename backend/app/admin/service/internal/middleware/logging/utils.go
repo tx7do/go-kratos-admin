@@ -1,10 +1,10 @@
 package logging
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 	"net"
-	"net/url"
 	"strings"
 
 	"github.com/go-kratos/kratos/v2/errors"
@@ -18,7 +18,7 @@ import (
 	adminV1 "kratos-admin/api/gen/go/admin/service/v1"
 )
 
-var ipClient *qqwry.Client = qqwry.NewClient()
+var ipClient = qqwry.NewClient()
 
 // extractAuthToken 从JWT Token中提取用户信息
 func extractAuthToken(authToken string, authenticator authnEngine.Authenticator) *data.UserTokenPayload {
@@ -193,23 +193,22 @@ func PrintUserAgent(strUserAgent string) {
 	}
 }
 
-func BindLoginRequest(r *http.Request, v *adminV1.LoginRequest) error {
+func BindLoginRequest(r *http.Request) (string, error) {
 	body, err := io.ReadAll(r.Body)
 	if err != nil {
 		fmt.Println("BindQuery ReadAll", err)
-		return err
+		return "", err
 	}
 	defer r.Body.Close()
 
-	values, err := url.ParseQuery(string(body))
+	var loginRequest adminV1.LoginRequest
+	err = json.Unmarshal(body, &loginRequest)
 	if err != nil {
-		fmt.Println("BindQuery ParseQuery", err)
-		return err
+		fmt.Println("BindLoginRequest Unmarshal", err)
+		return "", err
 	}
 
-	v.Username = values.Get("username")
-
-	return nil
+	return loginRequest.Username, nil
 }
 
 // clientIpToLocation 获取客户端IP的地理位置

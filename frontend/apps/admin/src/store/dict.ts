@@ -64,7 +64,10 @@ export const useDictStore = defineStore('dict', () => {
     return await defDictService.DeleteDict({ id });
   }
 
+  function $reset() {}
+
   return {
+    $reset,
     listDict,
     getDict,
     createDict,

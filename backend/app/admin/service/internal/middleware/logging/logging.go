@@ -110,9 +110,8 @@ func fillLoginLog(htr *http.Transport) *systemV1.AdminLoginLog {
 
 	loginLogData.Location = trans.Ptr(clientIpToLocation(clientIp))
 
-	var loginRequest adminV1.LoginRequest
-	if err := BindLoginRequest(htr.Request(), &loginRequest); err == nil {
-		loginLogData.UserName = trans.Ptr(loginRequest.Username)
+	if username, err := BindLoginRequest(htr.Request()); err == nil {
+		loginLogData.UserName = trans.Ptr(username)
 	}
 
 	// 获取客户端ID

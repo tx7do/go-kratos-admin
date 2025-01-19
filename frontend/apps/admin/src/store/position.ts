@@ -66,7 +66,10 @@ export const usePositionStore = defineStore('position', () => {
     return await defPositionService.DeletePosition({ id });
   }
 
+  function $reset() {}
+
   return {
+    $reset,
     listPosition,
     getPosition,
     createPosition,

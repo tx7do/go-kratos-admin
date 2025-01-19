@@ -66,7 +66,10 @@ export const useRoleStore = defineStore('role', () => {
     return await defRoleService.DeleteRole({ id });
   }
 
+  function $reset() {}
+
   return {
+    $reset,
     listRole,
     getRole,
     createRole,

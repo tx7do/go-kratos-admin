@@ -4,7 +4,7 @@ import type { User } from '#/rpc/api/user/service/v1/user.pb';
 
 import { h } from 'vue';
 
-import { Page, useVbenModal, type VbenFormProps } from '@vben/common-ui';
+import { Page, useVbenDrawer, type VbenFormProps } from '@vben/common-ui';
 import { LucideFilePenLine, LucideInfo, LucideTrash2 } from '@vben/icons';
 
 import { notification } from 'ant-design-vue';
@@ -14,7 +14,7 @@ import { $t } from '#/locales';
 import { router } from '#/router';
 import { authorityToColor, authorityToName, useUserStore } from '#/store';
 
-import UserModal from './user-modal.vue';
+import UserDrawer from './user-drawer.vue';
 
 const userStore = useUserStore();
 
@@ -115,31 +115,31 @@ const gridOptions: VxeGridProps<User> = {
 
 const [Grid, gridApi] = useVbenVxeGrid({ gridOptions, formOptions });
 
-const [Modal, modalApi] = useVbenModal({
+const [Drawer, drawerApi] = useVbenDrawer({
   // 连接抽离的组件
-  connectedComponent: UserModal,
+  connectedComponent: UserDrawer,
 });
 
 /* 打开模态窗口 */
-function openModal(create: boolean, row?: any) {
-  modalApi.setData({
+function openDrawer(create: boolean, row?: any) {
+  drawerApi.setData({
     create,
     row,
   });
 
-  modalApi.open();
+  drawerApi.open();
 }
 
 /* 创建 */
 function handleCreate() {
   console.log('创建');
-  openModal(true);
+  openDrawer(true);
 }
 
 /* 编辑 */
 function handleEdit(row: any) {
   console.log('编辑', row);
-  openModal(false, row);
+  openDrawer(false, row);
 }
 
 /* 删除 */
@@ -239,6 +239,6 @@ async function handleStatusChanged(row: any, checked: boolean) {
         </a-popconfirm>
       </template>
     </Grid>
-    <Modal />
+    <Drawer />
   </Page>
 </template>

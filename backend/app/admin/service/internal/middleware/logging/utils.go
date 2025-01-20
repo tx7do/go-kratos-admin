@@ -1,14 +1,17 @@
 package logging
 
 import (
-	"encoding/json"
 	"fmt"
 	"io"
 	"net"
 	"strings"
 
+	"encoding/json"
+	"net/url"
+
 	"github.com/go-kratos/kratos/v2/errors"
 	"github.com/go-kratos/kratos/v2/transport/http"
+
 	"github.com/mileusna/useragent"
 	"github.com/tx7do/go-utils/geoip/qqwry"
 	authnEngine "github.com/tx7do/kratos-authn/engine"
@@ -202,13 +205,17 @@ func BindLoginRequest(r *http.Request) (string, error) {
 	defer r.Body.Close()
 
 	var loginRequest adminV1.LoginRequest
-	err = json.Unmarshal(body, &loginRequest)
-	if err != nil {
-		fmt.Println("BindLoginRequest Unmarshal", err)
-		return "", err
+	if err = json.Unmarshal(body, &loginRequest); err == nil {
+		//fmt.Println("BindLoginRequest Unmarshal JSON failed", err)
+		return loginRequest.Username, nil
 	}
 
-	return loginRequest.Username, nil
+	if values, err := url.ParseQuery(string(body)); err == nil {
+		//fmt.Println("BindLoginRequest Unmarshal Query", err)
+		return values.Get("username"), nil
+	}
+
+	return "", err
 }
 
 // clientIpToLocation 获取客户端IP的地理位置

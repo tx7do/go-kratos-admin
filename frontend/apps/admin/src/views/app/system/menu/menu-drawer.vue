@@ -9,8 +9,15 @@ import { addCollection } from '@iconify/vue';
 import { notification } from 'ant-design-vue';
 
 import { useVbenForm } from '#/adapter/form';
-import { menuTypeList, statusList, useMenuStore } from '#/store';
-import {MenuType} from "#/rpc/api/system/service/v1/menu.pb";
+import { MenuType } from '#/rpc/api/system/service/v1/menu.pb';
+import {
+  isButton,
+  isFolder,
+  isMenu,
+  menuTypeList,
+  statusList,
+  useMenuStore,
+} from '#/store';
 
 const menuStore = useMenuStore();
 
@@ -38,38 +45,38 @@ const [BaseForm, baseFormApi] = useVbenForm({
     {
       component: 'RadioGroup',
       fieldName: 'type',
-      label: $t('page.menu.type'),
-      defaultValue: MenuType.FOLDER,
+      label: '菜单类型',
       componentProps: {
         optionType: 'button',
         class: 'flex flex-wrap', // 如果选项过多，可以添加class来自动折叠
         options: menuTypeList,
       },
+      defaultValue: MenuType.FOLDER,
       rules: 'selectRequired',
     },
 
     {
       component: 'Input',
       fieldName: 'name',
-      label: $t('page.menu.name'),
+      label: '菜单名称',
+      rules: 'required',
       componentProps: {
         placeholder: $t('ui.placeholder.input'),
         allowClear: true,
       },
-      rules: 'required',
     },
     {
       component: 'TreeSelect',
       fieldName: 'parentId',
-      label: $t('page.menu.parentId'),
+      label: '上级菜单',
       componentProps: {
         placeholder: $t('ui.placeholder.select'),
       },
     },
     {
       component: 'InputNumber',
-      fieldName: 'sortId',
-      label: $t('ui.table.sortId'),
+      fieldName: 'orderNo',
+      label: '排序',
       componentProps: {
         placeholder: $t('ui.placeholder.input'),
         allowClear: true,
@@ -78,46 +85,62 @@ const [BaseForm, baseFormApi] = useVbenForm({
     {
       component: 'IconPicker',
       fieldName: 'icon',
-      label: $t('page.menu.icon'),
+      label: '图标',
       componentProps: {
         prefix: 'lucide',
+      },
+      dependencies: {
+        show: (values) => !isButton(values.type),
+        triggerFields: ['type'],
       },
     },
     {
       component: 'Input',
       fieldName: 'path',
-      label: $t('page.menu.path'),
+      label: '路由地址',
+      rules: 'required',
       componentProps: {
         placeholder: $t('ui.placeholder.input'),
         allowClear: true,
       },
-      rules: 'required',
+      dependencies: {
+        show: (values) => !isButton(values.type),
+        triggerFields: ['type'],
+      },
     },
     {
       component: 'Input',
       fieldName: 'component',
-      label: $t('page.menu.component'),
+      label: '组件路径',
       defaultValue: 'BasicLayout',
+      rules: 'required',
       componentProps: {
         placeholder: $t('ui.placeholder.input'),
         allowClear: true,
       },
-      rules: 'required',
+      dependencies: {
+        show: (values) => isMenu(values.type),
+        triggerFields: ['type'],
+      },
     },
-    // {
-    //   component: 'Input',
-    //   fieldName: 'permissionCode',
-    //   label: '权限标识',
-    //   componentProps: {
-    //     placeholder: $t('ui.placeholder.input'),
-    //     allowClear: true,
-    //   },
-    // },
+    {
+      component: 'Input',
+      fieldName: 'meta.authority',
+      label: '权限标识',
+      componentProps: {
+        placeholder: $t('ui.placeholder.input'),
+        allowClear: true,
+      },
+      dependencies: {
+        show: (values) => !isFolder(values.type),
+        triggerFields: ['type'],
+      },
+    },
     {
       component: 'RadioGroup',
       fieldName: 'status',
       defaultValue: 'ON',
-      label: $t('ui.table.status'),
+      label: '状态',
       rules: 'selectRequired',
       componentProps: {
         optionType: 'button',
@@ -128,25 +151,37 @@ const [BaseForm, baseFormApi] = useVbenForm({
     {
       component: 'Switch',
       fieldName: 'isExt',
-      label: $t('page.menu.isExt'),
+      label: '是否外链',
       componentProps: {
         class: 'w-auto',
+      },
+      dependencies: {
+        show: (values) => !isButton(values.type),
+        triggerFields: ['type'],
       },
     },
     {
       component: 'Switch',
       fieldName: 'keepAlive',
-      label: $t('page.menu.keepAlive'),
+      label: '是否缓存',
       componentProps: {
         class: 'w-auto',
+      },
+      dependencies: {
+        show: (values) => isMenu(values.type),
+        triggerFields: ['type'],
       },
     },
     {
       component: 'Switch',
       fieldName: 'show',
-      label: $t('page.menu.show'),
+      label: '是否显示',
       componentProps: {
         class: 'w-auto',
+      },
+      dependencies: {
+        show: (values) => !isButton(values.type),
+        triggerFields: ['type'],
       },
     },
   ],

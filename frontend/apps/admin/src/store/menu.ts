@@ -88,3 +88,7 @@ export const menuTypeList = computed(() => [
   { value: MenuType.MENU, label: $t('enum.menuType.MENU') },
   { value: MenuType.BUTTON, label: $t('enum.menuType.BUTTON') },
 ]);
+
+export const isFolder = (type: string) => type === MenuType.FOLDER;
+export const isMenu = (type: string) => type === MenuType.MENU;
+export const isButton = (type: string) => type === MenuType.BUTTON;

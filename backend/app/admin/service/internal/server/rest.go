@@ -83,6 +83,8 @@ func NewRESTServer(
 	deptSvc *service.DepartmentService,
 	adminLoginLogSvc *service.AdminLoginLogService,
 	adminOperationLogSvc *service.AdminOperationLogService,
+	fileSvc *service.FileService,
+	ueditorSvc *service.UEditorService,
 ) *http.Server {
 	srv := rpc.CreateRestServer(cfg,
 		newRestMiddleware(logger, authenticator, authorizer, userToken, operationLogRepo, loginLogRepo)...,
@@ -99,6 +101,12 @@ func NewRESTServer(
 	adminV1.RegisterDepartmentServiceHTTPServer(srv, deptSvc)
 	adminV1.RegisterAdminLoginLogServiceHTTPServer(srv, adminLoginLogSvc)
 	adminV1.RegisterAdminOperationLogServiceHTTPServer(srv, adminOperationLogSvc)
+
+	adminV1.RegisterFileServiceHTTPServer(srv, fileSvc)
+	adminV1.RegisterUEditorServiceHTTPServer(srv, ueditorSvc)
+
+	registerFileUploadHandler(srv, fileSvc)
+	registerUEditorUploadHandler(srv, ueditorSvc)
 
 	if cfg.GetServer().GetRest().GetEnableSwagger() {
 		swaggerUI.RegisterSwaggerUIServerWithOption(

@@ -3,6 +3,7 @@ package data
 import (
 	authnEngine "github.com/tx7do/kratos-authn/engine"
 	"github.com/tx7do/kratos-authn/engine/jwt"
+	"kratos-admin/pkg/oss"
 
 	authzEngine "github.com/tx7do/kratos-authz/engine"
 	"github.com/tx7do/kratos-authz/engine/noop"
@@ -82,4 +83,8 @@ func NewUserTokenRepo(data *Data, authenticator authnEngine.Authenticator, logge
 		userRefreshTokenKeyPrefix = "urt_"
 	)
 	return NewUserToken(data.rdb, authenticator, logger, userAccessTokenKeyPrefix, userRefreshTokenKeyPrefix)
+}
+
+func NewMinIoClient(cfg *conf.Bootstrap, logger log.Logger) *oss.MinIOClient {
+	return oss.NewMinIoClient(cfg, logger)
 }

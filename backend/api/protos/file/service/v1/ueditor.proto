@@ -1,0 +1,155 @@
+syntax = "proto3";
+
+package file.service.v1;
+
+import "gnostic/openapi/v3/annotations.proto";
+import "google/api/annotations.proto";
+import "google/api/httpbody.proto";
+
+// UEditor后端服务
+service UEditorService {
+  // UEditor API
+  rpc UEditorAPI (UEditorRequest) returns (UEditorResponse) {}
+
+  // 上传文件
+  rpc UploadFile (UEditorUploadRequest) returns (UEditorUploadResponse) {}
+}
+
+// 动作
+enum UEditorAction {
+  config = 0; // 配置
+
+  listFile = 1;// 文件
+  listImage = 2;// 图片
+
+  uploadFile = 10;// 文件
+  uploadImage = 11;// 图片
+  uploadVideo = 12; // 视频
+  uploadScrawl = 13; // 涂鸦图片
+  catchImage = 14; // 抓取远程图片
+}
+
+message File {
+  string file_name = 1;
+  string mime = 2;
+  bytes content = 3;
+}
+
+message UEditorRequest {
+  string action = 1;
+  string encode = 2;
+  int32 start = 3;
+  int32 size = 4;
+}
+message UEditorResponse {
+  optional string imageActionName = 1;// 执行上传图片的action名称
+  optional string imageFieldName = 2;// 提交的图片表单名称
+  optional int64 imageMaxSize = 3;// 上传大小限制，单位B
+  repeated string imageAllowFiles = 4;// 上传图片格式显示
+  optional bool imageCompressEnable = 5;// 是否压缩图片,默认是true
+  optional int64 imageCompressBorder = 6;// 图片压缩最长边限制
+  optional string imageInsertAlign = 7;// 插入的图片浮动方式
+  optional string imageUrlPrefix = 8;// 图片访问路径前缀
+  optional string imagePathFormat = 9;// 上传保存路径,可以自定义保存路径和文件名格式
+
+  optional string scrawlActionName = 10;// 执行上传涂鸦的action名称
+  optional string scrawlFieldName = 11;// 提交的图片表单名称
+  optional int64 scrawlMaxSize = 12;// 上传大小限制，单位B
+  optional string scrawlUrlPrefix = 13;// 图片访问路径前缀
+  optional string scrawlInsertAlign = 14;//
+  optional string scrawlPathFormat = 15;// 上传保存路径,可以自定义保存路径和文件名格式
+
+  optional string snapscreenActionName = 20;// 执行上传截图的action名称
+  optional string snapscreenUrlPrefix = 21;// 图片访问路径前缀
+  optional string snapscreenInsertAlign = 22;// 插入的图片浮动方式
+  optional string snapscreenPathFormat = 23;// 上传保存路径,可以自定义保存路径和文件名格式
+
+  optional string catcherActionName = 30;// 执行抓取远程图片的action名称
+  optional string catcherFieldName = 31;// 提交的图片列表表单名称
+  repeated string catcherLocalDomain = 32;//
+  optional string catcherUrlPrefix = 33;// 图片访问路径前缀
+  optional int64 catcherMaxSize = 34;// 上传大小限制，单位B
+  repeated string catcherAllowFiles = 35;// 列出的文件类型
+  optional string catcherPathFormat = 36;// 上传保存路径,可以自定义保存路径和文件名格式
+
+  optional string videoActionName = 40;// 执行上传视频的action名称
+  optional string videoFieldName = 41;// 提交的视频表单名称
+  optional string videoUrlPrefix = 42;// 视频访问路径前缀
+  optional int64 videoMaxSize = 43;// 上传大小限制，单位B，默认100MB
+  repeated string videoAllowFiles = 44;// 列出的文件类型
+  optional string videoPathFormat = 45;// 上传保存路径,可以自定义保存路径和文件名格式
+
+  optional string fileActionName = 50;// 执行上传视频的action名称
+  optional string fileFieldName = 51;// 提交的文件表单名称
+  optional string fileUrlPrefix = 52;// 文件访问路径前缀
+  optional int64 fileMaxSize = 53;// 上传大小限制，单位B，默认50MB
+  repeated string fileAllowFiles = 54;// 列出的文件类型
+  optional string filePathFormat = 55;// 上传保存路径,可以自定义保存路径和文件名格式
+
+  optional string imageManagerActionName = 60;// 图片列表配置
+  optional int64 imageManagerListSize = 61;// 每次列出文件数量
+  optional string imageManagerUrlPrefix = 62;// 图片访问路径前缀
+  optional string imageManagerInsertAlign = 63;// 插入的图片浮动方式，默认值：none
+  repeated string imageManagerAllowFiles = 64; // 列出的文件类型
+  optional string imageManagerListPath = 65; // 指定要列出图片的目录
+
+  optional string fileManagerActionName = 70; // 文件列表配置
+  optional string fileManagerUrlPrefix = 71;// 指定要列出文件的目录
+  optional int64 fileManagerListSize = 72;// 每次列出文件数量
+  repeated string fileManagerAllowFiles = 73;// 列出的文件类型
+  optional string FileManagerListPath = 74;// 列出的文件类型
+
+  message FormulaConfig {
+    string imageUrlTemplate = 1;// 公式渲染的路径
+  }
+  optional FormulaConfig formulaConfig = 80;// 公式配置
+
+  optional string state = 100; // 上传状态，上传成功时必须返回"SUCCESS"
+
+  optional int32 start = 101;
+  optional int32 total = 102;
+
+  message Item {
+    string url = 1;
+    int64 mtime = 2;
+  }
+  repeated Item list = 103;
+}
+
+message UEditorUploadRequest {
+  string action = 1;
+  optional File file = 2;
+}
+
+message UEditorUploadResponse {
+  optional string state = 1; // 上传状态，上传成功时必须返回"SUCCESS"
+
+  optional string url = 2;// 返回的地址
+  optional string title = 3;// 新文件名
+  optional string original = 4;// 原始文件名
+  optional string type = 5;// 文件类型
+  optional int32 size = 6; // 文件大小
+
+  message Item {
+    string state = 1; // 上传状态，上传成功时必须返回"SUCCESS"
+    optional string url = 2; // 返回的地址
+    optional string title = 3;// 新文件名
+    optional string original = 4;// 原始文件名
+    optional string type = 5;// 文件类型
+    optional int32 size = 6; // 文件大小
+  }
+  repeated Item list = 10;
+}
+
+message UEditorListResponse {
+  string state = 1;
+
+  int32 start = 2;
+  int32 total = 3;
+
+  message Item {
+    string url = 1;
+    int64 mtime = 2;
+  }
+  repeated Item list = 10;
+}

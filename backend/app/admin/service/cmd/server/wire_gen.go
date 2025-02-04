@@ -49,7 +49,10 @@ func initApp(logger log.Logger, registrar registry.Registrar, bootstrap *v1.Boot
 	departmentService := service.NewDepartmentService(departmentRepo, logger)
 	adminLoginLogService := service.NewAdminLoginLogService(adminLoginLogRepo, logger)
 	adminOperationLogService := service.NewAdminOperationLogService(adminOperationLogRepo, logger)
-	httpServer := server.NewRESTServer(bootstrap, logger, authenticator, engine, userToken, adminOperationLogRepo, adminLoginLogRepo, authenticationService, userService, menuService, routerService, organizationService, roleService, positionService, dictService, departmentService, adminLoginLogService, adminOperationLogService)
+	minIOClient := data.NewMinIoClient(bootstrap, logger)
+	fileService := service.NewFileService(logger, minIOClient)
+	uEditorService := service.NewUEditorService(logger, minIOClient)
+	httpServer := server.NewRESTServer(bootstrap, logger, authenticator, engine, userToken, adminOperationLogRepo, adminLoginLogRepo, authenticationService, userService, menuService, routerService, organizationService, roleService, positionService, dictService, departmentService, adminLoginLogService, adminOperationLogService, fileService, uEditorService)
 	app := newApp(logger, registrar, httpServer)
 	return app, func() {
 		cleanup()

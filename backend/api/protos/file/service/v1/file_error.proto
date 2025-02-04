@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package file.service.v1;
+
+import "errors/errors.proto";
+
+enum FileErrorReason {
+    option (errors.default_code) = 500;
+
+    // common error
+    METHOD_NOT_ALLOWED = 0 [(errors.code) = 405]; // 405
+
+    // file upload/download errors
+    FILE_NOT_FOUND = 1 [(errors.code) = 404]; // 404
+    FILE_TOO_LARGE = 2 [(errors.code) = 413]; // 413
+    UNSUPPORTED_FILE_TYPE = 3 [(errors.code) = 415]; // 415
+    UPLOAD_FAILED = 4 [(errors.code) = 500]; // 500
+    DOWNLOAD_FAILED = 5 [(errors.code) = 500]; // 500
+}

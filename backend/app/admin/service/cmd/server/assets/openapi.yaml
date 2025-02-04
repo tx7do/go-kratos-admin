@@ -426,6 +426,62 @@ paths:
                 "200":
                     description: OK
                     content: {}
+    /admin/v1/file:upload:
+        put:
+            tags:
+                - FileService
+            description: PUT方法上传文件
+            operationId: FileService_PutUploadFile
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/UploadFileRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/UploadFileResponse'
+        post:
+            tags:
+                - FileService
+            description: POST方法上传文件
+            operationId: FileService_PostUploadFile
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/UploadFileRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/UploadFileResponse'
+    /admin/v1/file:upload-url:
+        post:
+            tags:
+                - FileService
+            description: 获取对象存储（OSS）上传用的预签名链接
+            operationId: FileService_OssUploadUrl
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/OssUploadUrlRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/OssUploadUrlResponse'
     /admin/v1/login:
         post:
             tags:
@@ -1055,6 +1111,56 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/ListRouteResponse'
+    /admin/v1/ueditor:
+        get:
+            tags:
+                - UEditorService
+            description: UEditor API
+            operationId: UEditorService_UEditorAPI
+            parameters:
+                - name: action
+                  in: query
+                  schema:
+                    type: string
+                - name: encode
+                  in: query
+                  schema:
+                    type: string
+                - name: start
+                  in: query
+                  schema:
+                    type: integer
+                    format: int32
+                - name: size
+                  in: query
+                  schema:
+                    type: integer
+                    format: int32
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/UEditorResponse'
+        post:
+            tags:
+                - UEditorService
+            description: 上传文件
+            operationId: UEditorService_UploadFile
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/UEditorUploadRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/UEditorUploadResponse'
     /admin/v1/users:
         get:
             tags:
@@ -1541,6 +1647,16 @@ components:
                     description: 删除时间
                     format: date-time
             description: 字典
+        File:
+            type: object
+            properties:
+                fileName:
+                    type: string
+                mime:
+                    type: string
+                content:
+                    type: string
+                    format: bytes
         KratosStatus:
             type: object
             properties:
@@ -1838,6 +1954,50 @@ components:
                     description: 删除时间
                     format: date-time
             description: 组织
+        OssUploadUrlRequest:
+            type: object
+            properties:
+                method:
+                    enum:
+                        - Put
+                        - Post
+                    type: string
+                    description: 上传文件所用的HTTP方法，支持POST和PUT
+                    format: enum
+                contentType:
+                    type: string
+                    description: 文件的MIME类型
+                bucketName:
+                    type: string
+                    description: 文件桶名称，如果不填写，将会根据文件名或者MIME类型进行自动解析
+                filePath:
+                    type: string
+                    description: 远端的文件路径，可以不填写
+                fileName:
+                    type: string
+                    description: 文件名，如果不填写，则会生成UUID，有同名文件也会改为UUID
+            description: 获取对象存储上传链接 - 请求
+        OssUploadUrlResponse:
+            type: object
+            properties:
+                uploadUrl:
+                    type: string
+                    description: 文件的上传链接，默认1个小时的过期时间
+                downloadUrl:
+                    type: string
+                    description: 文件的下载链接
+                bucketName:
+                    type: string
+                    description: 文件桶名称
+                objectName:
+                    type: string
+                    description: 文件名
+                formData:
+                    type: object
+                    additionalProperties:
+                        type: string
+                    description: 表单数据，使用POST方法时填写
+            description: 获取对象存储上传链接 - 回应
         Position:
             type: object
             properties:
@@ -2072,6 +2232,190 @@ components:
                     type: string
                     description: 标题名称，路由上显示的标题
             description: 路由元数据
+        UEditorResponse:
+            type: object
+            properties:
+                imageActionName:
+                    type: string
+                imageFieldName:
+                    type: string
+                imageMaxSize:
+                    type: string
+                imageAllowFiles:
+                    type: array
+                    items:
+                        type: string
+                imageCompressEnable:
+                    type: boolean
+                imageCompressBorder:
+                    type: string
+                imageInsertAlign:
+                    type: string
+                imageUrlPrefix:
+                    type: string
+                imagePathFormat:
+                    type: string
+                scrawlActionName:
+                    type: string
+                scrawlFieldName:
+                    type: string
+                scrawlMaxSize:
+                    type: string
+                scrawlUrlPrefix:
+                    type: string
+                scrawlInsertAlign:
+                    type: string
+                scrawlPathFormat:
+                    type: string
+                snapscreenActionName:
+                    type: string
+                snapscreenUrlPrefix:
+                    type: string
+                snapscreenInsertAlign:
+                    type: string
+                snapscreenPathFormat:
+                    type: string
+                catcherActionName:
+                    type: string
+                catcherFieldName:
+                    type: string
+                catcherLocalDomain:
+                    type: array
+                    items:
+                        type: string
+                catcherUrlPrefix:
+                    type: string
+                catcherMaxSize:
+                    type: string
+                catcherAllowFiles:
+                    type: array
+                    items:
+                        type: string
+                catcherPathFormat:
+                    type: string
+                videoActionName:
+                    type: string
+                videoFieldName:
+                    type: string
+                videoUrlPrefix:
+                    type: string
+                videoMaxSize:
+                    type: string
+                videoAllowFiles:
+                    type: array
+                    items:
+                        type: string
+                videoPathFormat:
+                    type: string
+                fileActionName:
+                    type: string
+                fileFieldName:
+                    type: string
+                fileUrlPrefix:
+                    type: string
+                fileMaxSize:
+                    type: string
+                fileAllowFiles:
+                    type: array
+                    items:
+                        type: string
+                filePathFormat:
+                    type: string
+                imageManagerActionName:
+                    type: string
+                imageManagerListSize:
+                    type: string
+                imageManagerUrlPrefix:
+                    type: string
+                imageManagerInsertAlign:
+                    type: string
+                imageManagerAllowFiles:
+                    type: array
+                    items:
+                        type: string
+                imageManagerListPath:
+                    type: string
+                fileManagerActionName:
+                    type: string
+                fileManagerUrlPrefix:
+                    type: string
+                fileManagerListSize:
+                    type: string
+                fileManagerAllowFiles:
+                    type: array
+                    items:
+                        type: string
+                FileManagerListPath:
+                    type: string
+                formulaConfig:
+                    $ref: '#/components/schemas/UEditorResponse_FormulaConfig'
+                state:
+                    type: string
+                start:
+                    type: integer
+                    format: int32
+                total:
+                    type: integer
+                    format: int32
+                list:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/UEditorResponse_Item'
+        UEditorResponse_FormulaConfig:
+            type: object
+            properties:
+                imageUrlTemplate:
+                    type: string
+        UEditorResponse_Item:
+            type: object
+            properties:
+                url:
+                    type: string
+                mtime:
+                    type: string
+        UEditorUploadRequest:
+            type: object
+            properties:
+                action:
+                    type: string
+                file:
+                    $ref: '#/components/schemas/File'
+        UEditorUploadResponse:
+            type: object
+            properties:
+                state:
+                    type: string
+                url:
+                    type: string
+                title:
+                    type: string
+                original:
+                    type: string
+                type:
+                    type: string
+                size:
+                    type: integer
+                    format: int32
+                list:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/UEditorUploadResponse_Item'
+        UEditorUploadResponse_Item:
+            type: object
+            properties:
+                state:
+                    type: string
+                url:
+                    type: string
+                title:
+                    type: string
+                original:
+                    type: string
+                type:
+                    type: string
+                size:
+                    type: integer
+                    format: int32
         UpdateDepartmentRequest:
             type: object
             properties:
@@ -2211,6 +2555,24 @@ components:
                     type: boolean
                     description: 如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。
             description: 更新用户 - 请求
+        UploadFileRequest:
+            type: object
+            properties:
+                bucketName:
+                    type: string
+                    description: 文件桶名称
+                objectName:
+                    type: string
+                    description: 文件名
+                file:
+                    type: string
+                    description: 文件内容
+                    format: bytes
+        UploadFileResponse:
+            type: object
+            properties:
+                url:
+                    type: string
         User:
             type: object
             properties:
@@ -2347,6 +2709,8 @@ tags:
       description: 部门管理服务
     - name: DictService
       description: 字典管理服务
+    - name: FileService
+      description: 文件服务
     - name: MenuService
       description: 后台菜单管理服务
     - name: OrganizationService
@@ -2357,5 +2721,7 @@ tags:
       description: 角色管理服务
     - name: RouterService
       description: 网站后台动态路由服务
+    - name: UEditorService
+      description: UEditor后端服务
     - name: UserService
       description: 用户管理服务

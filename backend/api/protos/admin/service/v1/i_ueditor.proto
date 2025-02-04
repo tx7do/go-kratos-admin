@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+package admin.service.v1;
+
+import "gnostic/openapi/v3/annotations.proto";
+import "google/api/annotations.proto";
+import "google/api/httpbody.proto";
+
+import "file/service/v1/ueditor.proto";
+
+// UEditor后端服务
+service UEditorService {
+  // UEditor API
+  rpc UEditorAPI (file.service.v1.UEditorRequest) returns (file.service.v1.UEditorResponse) {
+    option (google.api.http) = {
+      get: "/admin/v1/ueditor"
+    };
+  }
+
+  // 上传文件
+  rpc UploadFile (stream file.service.v1.UEditorUploadRequest) returns (file.service.v1.UEditorUploadResponse) {
+    option (google.api.http) = {
+      post: "/admin/v1/ueditor"
+      body: "*"
+    };
+  }
+}

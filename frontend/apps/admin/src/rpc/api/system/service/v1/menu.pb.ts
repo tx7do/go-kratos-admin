@@ -231,7 +231,7 @@ export interface RouteMeta {
     | null
     | undefined;
   /** 排序编号，用于路由->菜单排序 */
-  sortId?:
+  order?:
     | number
     | null
     | undefined;

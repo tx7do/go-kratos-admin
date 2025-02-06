@@ -4,7 +4,7 @@ import type { Dict } from '#/rpc/api/system/service/v1/dict.pb';
 
 import { h } from 'vue';
 
-import { Page, useVbenModal, type VbenFormProps } from '@vben/common-ui';
+import { Page, useVbenDrawer, type VbenFormProps } from '@vben/common-ui';
 import { LucideFilePenLine, LucideTrash2 } from '@vben/icons';
 
 import { notification } from 'ant-design-vue';
@@ -13,7 +13,7 @@ import { useVbenVxeGrid } from '#/adapter/vxe-table';
 import { $t } from '#/locales';
 import { useDictStore } from '#/store';
 
-import DictModal from './dict-modal.vue';
+import DictDrawer from './dict-drawer.vue';
 
 const dictStore = useDictStore();
 
@@ -110,31 +110,31 @@ const gridOptions: VxeGridProps<Dict> = {
 
 const [Grid, gridApi] = useVbenVxeGrid({ gridOptions, formOptions });
 
-const [Modal, modalApi] = useVbenModal({
+const [Drawer, drawerApi] = useVbenDrawer({
   // 连接抽离的组件
-  connectedComponent: DictModal,
+  connectedComponent: DictDrawer,
 });
 
 /* 打开模态窗口 */
-function openModal(create: boolean, row?: any) {
-  modalApi.setData({
+function openDrawer(create: boolean, row?: any) {
+  drawerApi.setData({
     create,
     row,
   });
 
-  modalApi.open();
+  drawerApi.open();
 }
 
 /* 创建 */
 function handleCreate() {
   console.log('创建');
-  openModal(true);
+  openDrawer(true);
 }
 
 /* 编辑 */
 function handleEdit(row: any) {
   console.log('编辑', row);
-  openModal(false, row);
+  openDrawer(false, row);
 }
 
 /* 删除 */
@@ -218,6 +218,6 @@ async function handleStatusChanged(row: any, checked: boolean) {
         </a-popconfirm>
       </template>
     </Grid>
-    <Modal />
+    <Drawer />
   </Page>
 </template>

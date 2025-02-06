@@ -2224,7 +2224,7 @@ components:
                 openInNewWindow:
                     type: boolean
                     description: 在新窗口打开
-                sortId:
+                order:
                     type: integer
                     description: 排序编号，用于路由->菜单排序
                     format: int32

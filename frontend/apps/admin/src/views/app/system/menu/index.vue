@@ -78,15 +78,10 @@ const gridOptions: VxeGridProps<Menu> = {
       query: async ({ page }, formValues) => {
         console.log('query:', formValues);
 
-        return await menuStore.listMenu(
-          false,
-          page.currentPage,
-          page.pageSize,
-          {
-            'meta.title': formValues.name,
-            status: formValues.status,
-          },
-        );
+        return await menuStore.listMenu(true, page.currentPage, page.pageSize, {
+          'meta.title': formValues.name,
+          status: formValues.status,
+        });
       },
     },
   },
@@ -102,7 +97,7 @@ const gridOptions: VxeGridProps<Menu> = {
     },
     {
       title: $t('page.menu.icon'),
-      field: 'icon',
+      field: 'meta.icon',
       slots: { default: 'icon' },
       width: 50,
     },

@@ -75,7 +75,7 @@ const gridOptions: VxeGridProps<Position> = {
         console.log('query:', formValues);
 
         return await positionStore.listPosition(
-          false,
+          true,
           page.currentPage,
           page.pageSize,
           formValues,

@@ -352,8 +352,8 @@ message RouteMeta {
     }
   ]; // 在新窗口打开
 
-  optional int32 sortId = 22 [
-    json_name = "sortId",
+  optional int32 order = 22 [
+    json_name = "order",
     (google.api.field_behavior) = OPTIONAL,
     (gnostic.openapi.v3.property) = {
       description: "排序编号，用于路由->菜单排序"

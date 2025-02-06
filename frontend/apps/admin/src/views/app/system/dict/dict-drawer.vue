@@ -1,22 +1,22 @@
 <script lang="ts" setup>
 import { computed, ref } from 'vue';
 
-import { useVbenModal } from '@vben/common-ui';
+import { useVbenDrawer } from '@vben/common-ui';
 import { $t } from '@vben/locales';
 
 import { notification } from 'ant-design-vue';
 
-import { useVbenForm } from '#/adapter/form';
-import { statusList, useDepartmentStore } from '#/store';
+import { useVbenForm, z } from '#/adapter/form';
+import { useDictStore } from '#/store';
 
-const deptStore = useDepartmentStore();
+const dictStore = useDictStore();
 
 const data = ref();
 
 const getTitle = computed(() =>
   data.value?.create
-    ? $t('ui.modal.create', { moduleName: $t('page.dept.moduleName') })
-    : $t('ui.modal.update', { moduleName: $t('page.dept.moduleName') }),
+    ? $t('ui.modal.create', { moduleName: $t('page.dict.moduleName') })
+    : $t('ui.modal.update', { moduleName: $t('page.dict.moduleName') }),
 );
 // const isCreate = computed(() => data.value?.create);
 
@@ -32,8 +32,18 @@ const [BaseForm, baseFormApi] = useVbenForm({
   schema: [
     {
       component: 'Input',
-      fieldName: 'name',
-      label: $t('page.dept.name'),
+      fieldName: 'key',
+      label: $t('page.dict.key'),
+      componentProps: {
+        placeholder: $t('ui.placeholder.input'),
+        allowClear: true,
+      },
+      rules: z.string().min(1, { message: $t('ui.formRules.required') }),
+    },
+    {
+      component: 'Input',
+      fieldName: 'category',
+      label: $t('page.dict.category'),
       componentProps: {
         placeholder: $t('ui.placeholder.input'),
         allowClear: true,
@@ -41,14 +51,36 @@ const [BaseForm, baseFormApi] = useVbenForm({
       rules: 'required',
     },
     {
-      component: 'TreeSelect',
-      fieldName: 'parentId',
-      label: $t('page.dept.parentId'),
+      component: 'Input',
+      fieldName: 'categoryDesc',
+      label: $t('page.dict.categoryDesc'),
       componentProps: {
-        placeholder: $t('ui.placeholder.select'),
+        placeholder: $t('ui.placeholder.input'),
+        allowClear: true,
       },
-      rules: 'selectRequired',
+      rules: 'required',
     },
+    {
+      component: 'Input',
+      fieldName: 'value',
+      label: $t('page.dict.value'),
+      componentProps: {
+        placeholder: $t('ui.placeholder.input'),
+        allowClear: true,
+      },
+      rules: 'required',
+    },
+    {
+      component: 'Input',
+      fieldName: 'valueDesc',
+      label: $t('page.dict.valueDesc'),
+      componentProps: {
+        placeholder: $t('ui.placeholder.input'),
+        allowClear: true,
+      },
+      rules: 'required',
+    },
+
     {
       component: 'InputNumber',
       fieldName: 'sortId',
@@ -57,20 +89,8 @@ const [BaseForm, baseFormApi] = useVbenForm({
         placeholder: $t('ui.placeholder.input'),
         allowClear: true,
       },
-      rules: 'required',
     },
-    {
-      component: 'RadioGroup',
-      fieldName: 'status',
-      defaultValue: 'ON',
-      label: $t('ui.table.status'),
-      rules: 'selectRequired',
-      componentProps: {
-        optionType: 'button',
-        class: 'flex flex-wrap', // 如果选项过多，可以添加class来自动折叠
-        options: statusList,
-      },
-    },
+
     {
       component: 'Textarea',
       fieldName: 'remark',
@@ -83,9 +103,9 @@ const [BaseForm, baseFormApi] = useVbenForm({
   ],
 });
 
-const [Modal, modalApi] = useVbenModal({
+const [Drawer, drawerApi] = useVbenDrawer({
   onCancel() {
-    modalApi.close();
+    drawerApi.close();
   },
 
   async onConfirm() {
@@ -97,17 +117,18 @@ const [Modal, modalApi] = useVbenModal({
       return;
     }
 
+    // 加载条设置为加载状态
     setLoading(true);
 
     // 获取表单数据
     const values = await baseFormApi.getValues();
 
-    console.log(getTitle.value, values);
+    console.log(getTitle.value, Object.keys(values));
 
     try {
       await (data.value?.create
-        ? deptStore.createDepartment(values)
-        : deptStore.updateDepartment(data.value.row.id, values));
+        ? dictStore.createDict(values)
+        : dictStore.updateDict(data.value.row.id, values));
 
       notification.success({
         message: data.value?.create
@@ -122,7 +143,7 @@ const [Modal, modalApi] = useVbenModal({
       });
     } finally {
       // 关闭窗口
-      modalApi.close();
+      drawerApi.close();
       setLoading(false);
     }
   },
@@ -130,10 +151,12 @@ const [Modal, modalApi] = useVbenModal({
   onOpenChange(isOpen: boolean) {
     if (isOpen) {
       // 获取传入的数据
-      data.value = modalApi.getData<Record<string, any>>();
+      data.value = drawerApi.getData<Record<string, any>>();
 
       // 为表单赋值
-      baseFormApi.setValues(data.value?.row);
+      if (data.value.row !== undefined) {
+        baseFormApi.setValues(data.value?.row);
+      }
 
       setLoading(false);
 
@@ -143,12 +166,12 @@ const [Modal, modalApi] = useVbenModal({
 });
 
 function setLoading(loading: boolean) {
-  modalApi.setState({ confirmLoading: loading });
+  drawerApi.setState({ confirmLoading: loading });
 }
 </script>
 
 <template>
-  <Modal :title="getTitle">
+  <Drawer :title="getTitle">
     <BaseForm />
-  </Modal>
+  </Drawer>
 </template>

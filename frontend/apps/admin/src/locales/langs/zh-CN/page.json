@@ -93,10 +93,10 @@
     }
   },
   "position": {
-    "moduleName": "岗位",
-    "name": "岗位名称",
+    "moduleName": "职位",
+    "name": "职位名称",
     "button": {
-      "create": "创建岗位"
+      "create": "创建职位"
     }
   },
   "admin_login_log": {

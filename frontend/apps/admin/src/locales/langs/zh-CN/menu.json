@@ -9,7 +9,7 @@
   "system": {
     "moduleName": "系统管理",
     "role": "角色管理",
-    "position": "职务管理",
+    "position": "职位管理",
     "user": "用户管理",
     "user_detail": "用户详情",
     "org": "组织管理",

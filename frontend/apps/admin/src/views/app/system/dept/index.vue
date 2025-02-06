@@ -4,7 +4,7 @@ import type { Department } from '#/rpc/api/user/service/v1/department.pb';
 
 import { h } from 'vue';
 
-import { Page, useVbenModal, type VbenFormProps } from '@vben/common-ui';
+import { Page, useVbenDrawer, type VbenFormProps } from '@vben/common-ui';
 import { LucideFilePenLine, LucideTrash2 } from '@vben/icons';
 
 import { notification } from 'ant-design-vue';
@@ -13,7 +13,7 @@ import { useVbenVxeGrid } from '#/adapter/vxe-table';
 import { $t } from '#/locales';
 import { statusList, useDepartmentStore } from '#/store';
 
-import DeptModal from './dept-modal.vue';
+import DeptDrawer from './dept-drawer.vue';
 
 const deptStore = useDepartmentStore();
 
@@ -75,7 +75,7 @@ const gridOptions: VxeGridProps<Department> = {
         console.log('query:', formValues);
 
         return await deptStore.listDepartment(
-          false,
+          true,
           page.currentPage,
           page.pageSize,
           formValues,
@@ -113,19 +113,19 @@ const gridOptions: VxeGridProps<Department> = {
 
 const [Grid, gridApi] = useVbenVxeGrid({ gridOptions, formOptions });
 
-const [Modal, modalApi] = useVbenModal({
+const [Drawer, drawerApi] = useVbenDrawer({
   // 连接抽离的组件
-  connectedComponent: DeptModal,
+  connectedComponent: DeptDrawer,
 });
 
 /* 打开模态窗口 */
 function openModal(create: boolean, row?: any) {
-  modalApi.setData({
+  drawerApi.setData({
     create,
     row,
   });
 
-  modalApi.open();
+  drawerApi.open();
 }
 
 /* 创建 */
@@ -236,6 +236,6 @@ const collapseAll = () => {
         </a-popconfirm>
       </template>
     </Grid>
-    <Modal />
+    <Drawer />
   </Page>
 </template>

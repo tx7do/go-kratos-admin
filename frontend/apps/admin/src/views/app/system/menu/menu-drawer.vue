@@ -9,7 +9,7 @@ import { addCollection } from '@iconify/vue';
 import { notification } from 'ant-design-vue';
 
 import { useVbenForm } from '#/adapter/form';
-import { MenuType } from '#/rpc/api/system/service/v1/menu.pb';
+import { type Menu, MenuType } from '#/rpc/api/system/service/v1/menu.pb';
 import {
   isButton,
   isFolder,
@@ -31,6 +31,15 @@ const getTitle = computed(() =>
     : $t('ui.modal.update', { moduleName: $t('page.menu.moduleName') }),
 );
 // const isCreate = computed(() => data.value?.create);
+
+function modifyTitle(nodes: Menu[]) {
+  for (const node of nodes) {
+    if (node?.meta?.title) {
+      node.meta.title = $t(node?.meta?.title ?? '');
+    }
+    modifyTitle(node.children);
+  }
+}
 
 const [BaseForm, baseFormApi] = useVbenForm({
   showDefaultActions: false,
@@ -57,7 +66,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
 
     {
       component: 'Input',
-      fieldName: 'name',
+      fieldName: 'meta.title',
       label: '菜单名称',
       rules: 'required',
       componentProps: {
@@ -66,16 +75,31 @@ const [BaseForm, baseFormApi] = useVbenForm({
       },
     },
     {
-      component: 'TreeSelect',
+      component: 'ApiTreeSelect',
       fieldName: 'parentId',
       label: '上级菜单',
       componentProps: {
         placeholder: $t('ui.placeholder.select'),
+        api: async () => {
+          const result = await menuStore.listMenu(true, null, null, {
+            // parent_id: 0,
+            status: 'ON',
+          });
+          return result.items;
+        },
+        numberToString: true,
+        childrenField: 'children',
+        labelField: 'meta.title',
+        valueField: 'id',
+        afterFetch: (data: any) => {
+          modifyTitle(data);
+          return data;
+        },
       },
     },
     {
       component: 'InputNumber',
-      fieldName: 'orderNo',
+      fieldName: 'meta.order',
       label: '排序',
       componentProps: {
         placeholder: $t('ui.placeholder.input'),
@@ -84,7 +108,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
     },
     {
       component: 'IconPicker',
-      fieldName: 'icon',
+      fieldName: 'meta.icon',
       label: '图标',
       componentProps: {
         prefix: 'lucide',
@@ -150,8 +174,8 @@ const [BaseForm, baseFormApi] = useVbenForm({
     },
     {
       component: 'Switch',
-      fieldName: 'isExt',
-      label: '是否外链',
+      fieldName: 'meta.affixTab',
+      label: '固定标签页',
       componentProps: {
         class: 'w-auto',
       },
@@ -162,25 +186,61 @@ const [BaseForm, baseFormApi] = useVbenForm({
     },
     {
       component: 'Switch',
-      fieldName: 'keepAlive',
+      fieldName: 'meta.hideChildrenInMenu',
+      label: '子级不展现',
+      componentProps: {
+        class: 'w-auto',
+      },
+      dependencies: {
+        show: (values) => !isButton(values.type),
+        triggerFields: ['type'],
+      },
+    },
+    {
+      component: 'Switch',
+      fieldName: 'meta.hideInBreadcrumb',
+      label: '面包屑中不展现',
+      componentProps: {
+        class: 'w-auto',
+      },
+      dependencies: {
+        show: (values) => !isButton(values.type),
+        triggerFields: ['type'],
+      },
+    },
+    {
+      component: 'Switch',
+      fieldName: 'meta.hideInMenu',
+      label: '菜单中不展现',
+      componentProps: {
+        class: 'w-auto',
+      },
+      dependencies: {
+        show: (values) => !isButton(values.type),
+        triggerFields: ['type'],
+      },
+    },
+    {
+      component: 'Switch',
+      fieldName: 'meta.hideInTab',
+      label: '标签页中不展现',
+      componentProps: {
+        class: 'w-auto',
+      },
+      dependencies: {
+        show: (values) => !isButton(values.type),
+        triggerFields: ['type'],
+      },
+    },
+    {
+      component: 'Switch',
+      fieldName: 'meta.keepAlive',
       label: '是否缓存',
       componentProps: {
         class: 'w-auto',
       },
       dependencies: {
         show: (values) => isMenu(values.type),
-        triggerFields: ['type'],
-      },
-    },
-    {
-      component: 'Switch',
-      fieldName: 'show',
-      label: '是否显示',
-      componentProps: {
-        class: 'w-auto',
-      },
-      dependencies: {
-        show: (values) => !isButton(values.type),
         triggerFields: ['type'],
       },
     },

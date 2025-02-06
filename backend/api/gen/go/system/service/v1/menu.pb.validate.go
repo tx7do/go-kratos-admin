@@ -623,8 +623,8 @@ func (m *RouteMeta) validate(all bool) error {
 		// no validation rules for OpenInNewWindow
 	}
 
-	if m.SortId != nil {
-		// no validation rules for SortId
+	if m.Order != nil {
+		// no validation rules for Order
 	}
 
 	if m.Title != nil {

@@ -4,7 +4,7 @@ import type { Organization } from '#/rpc/api/user/service/v1/organization.pb';
 
 import { h } from 'vue';
 
-import { Page, useVbenModal, type VbenFormProps } from '@vben/common-ui';
+import { Page, useVbenDrawer, type VbenFormProps } from '@vben/common-ui';
 import { LucideFilePenLine, LucideTrash2 } from '@vben/icons';
 
 import { notification } from 'ant-design-vue';
@@ -13,7 +13,7 @@ import { useVbenVxeGrid } from '#/adapter/vxe-table';
 import { $t } from '#/locales';
 import { statusList, useOrganizationStore } from '#/store';
 
-import OrgModal from './org-modal.vue';
+import OrgDrawer from './org-drawer.vue';
 
 const orgStore = useOrganizationStore();
 
@@ -75,7 +75,7 @@ const gridOptions: VxeGridProps<Organization> = {
         console.log('query:', formValues);
 
         return await orgStore.listOrganization(
-          false,
+          true,
           page.currentPage,
           page.pageSize,
           formValues,
@@ -113,32 +113,32 @@ const gridOptions: VxeGridProps<Organization> = {
 
 const [Grid, gridApi] = useVbenVxeGrid({ gridOptions, formOptions });
 
-const [Modal, modalApi] = useVbenModal({
+const [Drawer, drawerApi] = useVbenDrawer({
   // 连接抽离的组件
-  connectedComponent: OrgModal,
+  connectedComponent: OrgDrawer,
 });
 
 /* 打开模态窗口 */
-function openModal(create: boolean, row?: any) {
-  modalApi.setData({
+function openDrawer(create: boolean, row?: any) {
+  drawerApi.setData({
     create,
     row,
   });
 
-  modalApi.open();
+  drawerApi.open();
 }
 
 /* 创建 */
 function handleCreate() {
   console.log('创建');
 
-  openModal(true);
+  openDrawer(true);
 }
 
 /* 编辑 */
 function handleEdit(row: any) {
   console.log('编辑', row);
-  openModal(false, row);
+  openDrawer(false, row);
 }
 
 /* 删除 */
@@ -236,6 +236,6 @@ const collapseAll = () => {
         </a-popconfirm>
       </template>
     </Grid>
-    <Modal />
+    <Drawer />
   </Page>
 </template>

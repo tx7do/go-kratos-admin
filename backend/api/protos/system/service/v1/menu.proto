@@ -182,7 +182,7 @@ message RouteItem {
 
 // 路由元数据
 message RouteMeta {
-  optional string active_icon = 1 [
+  optional string activeIcon = 1 [
     json_name = "activeIcon",
     (google.api.field_behavior) = OPTIONAL,
     (gnostic.openapi.v3.property) = {
@@ -190,7 +190,7 @@ message RouteMeta {
     }
   ]; // 激活图标，用于：菜单、tab
 
-  optional string active_path = 2 [
+  optional string activePath = 2 [
     json_name = "activePath",
     (google.api.field_behavior) = OPTIONAL,
     (gnostic.openapi.v3.property) = {
@@ -198,7 +198,7 @@ message RouteMeta {
     }
   ]; // 当前激活的菜单，有时候不想激活现有菜单，需要激活父级菜单时使用
 
-  optional bool affix_tab = 3 [
+  optional bool affixTab = 3 [
     json_name = "affixTab",
     (google.api.field_behavior) = OPTIONAL,
     (gnostic.openapi.v3.property) = {
@@ -206,7 +206,7 @@ message RouteMeta {
     }
   ]; // 是否固定标签页
 
-  optional int32 affix_tab_order = 4 [
+  optional int32 affixTabOrder = 4 [
     json_name = "affixTabOrder",
     (google.api.field_behavior) = OPTIONAL,
     (gnostic.openapi.v3.property) = {
@@ -230,7 +230,7 @@ message RouteMeta {
     }
   ]; // 徽标
 
-  optional string badge_type = 7 [
+  optional string badgeType = 7 [
     json_name = "badgeType",
     (google.api.field_behavior) = OPTIONAL,
     (gnostic.openapi.v3.property) = {
@@ -239,7 +239,7 @@ message RouteMeta {
     }
   ]; // 徽标类型
 
-  optional string badge_variants = 8 [
+  optional string badgeVariants = 8 [
     json_name = "badgeVariants",
     (google.api.field_behavior) = OPTIONAL,
     (gnostic.openapi.v3.property) = {
@@ -248,7 +248,7 @@ message RouteMeta {
     }
   ]; // 徽标颜色
 
-  optional bool hide_children_in_menu = 9 [
+  optional bool hideChildrenInMenu = 9 [
     json_name = "hideChildrenInMenu",
     (google.api.field_behavior) = OPTIONAL,
     (gnostic.openapi.v3.property) = {
@@ -256,7 +256,7 @@ message RouteMeta {
     }
   ]; // 当前路由的子级在菜单中不展现
 
-  optional bool hide_in_breadcrumb = 10 [
+  optional bool hideInBreadcrumb = 10 [
     json_name = "hideInBreadcrumb",
     (google.api.field_behavior) = OPTIONAL,
     (gnostic.openapi.v3.property) = {
@@ -264,7 +264,7 @@ message RouteMeta {
     }
   ]; // 当前路由在面包屑中不展现
 
-  optional bool hide_in_menu = 11 [
+  optional bool hideInMenu = 11 [
     json_name = "hideInMenu",
     (google.api.field_behavior) = OPTIONAL,
     (gnostic.openapi.v3.property) = {
@@ -272,7 +272,7 @@ message RouteMeta {
     }
   ]; // 当前路由在菜单中不展现
 
-  optional bool hide_in_tab = 12 [
+  optional bool hideInTab = 12 [
     json_name = "hideInTab",
     (google.api.field_behavior) = OPTIONAL,
     (gnostic.openapi.v3.property) = {
@@ -288,7 +288,7 @@ message RouteMeta {
     }
   ]; // 图标，用于：菜单、标签页
 
-  optional string iframe_src = 14 [
+  optional string iframeSrc = 14 [
     json_name = "iframeSrc",
     (google.api.field_behavior) = OPTIONAL,
     (gnostic.openapi.v3.property) = {
@@ -296,7 +296,7 @@ message RouteMeta {
     }
   ]; // iframe 地址
 
-  optional bool ignore_access = 15 [
+  optional bool ignoreAccess = 15 [
     json_name = "ignoreAccess",
     (google.api.field_behavior) = OPTIONAL,
     (gnostic.openapi.v3.property) = {
@@ -304,7 +304,7 @@ message RouteMeta {
     }
   ]; // 忽略权限，直接可以访问
 
-  optional bool keep_alive = 16 [
+  optional bool keepAlive = 16 [
     json_name = "keepAlive",
     (google.api.field_behavior) = OPTIONAL,
     (gnostic.openapi.v3.property) = {
@@ -328,7 +328,7 @@ message RouteMeta {
     }
   ]; // 路由是否已经加载过
 
-  optional int32 max_num_of_open_tab = 19 [
+  optional int32 maxNumOfOpenTab = 19 [
     json_name = "maxNumOfOpenTab",
     (google.api.field_behavior) = OPTIONAL,
     (gnostic.openapi.v3.property) = {
@@ -336,7 +336,7 @@ message RouteMeta {
     }
   ]; // 标签页最大打开数量
 
-  optional bool menu_visible_with_forbidden = 20 [
+  optional bool menuVisibleWithForbidden = 20 [
     json_name = "menuVisibleWithForbidden",
     (google.api.field_behavior) = OPTIONAL,
     (gnostic.openapi.v3.property) = {
@@ -344,7 +344,7 @@ message RouteMeta {
     }
   ]; // 菜单可以看到，但是访问会被重定向到403
 
-  optional bool open_in_new_window = 21 [
+  optional bool openInNewWindow = 21 [
     json_name = "openInNewWindow",
     (google.api.field_behavior) = OPTIONAL,
     (gnostic.openapi.v3.property) = {
@@ -352,7 +352,7 @@ message RouteMeta {
     }
   ]; // 在新窗口打开
 
-  optional int32 sort_id = 22 [
+  optional int32 sortId = 22 [
     json_name = "sortId",
     (google.api.field_behavior) = OPTIONAL,
     (gnostic.openapi.v3.property) = {

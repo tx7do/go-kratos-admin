@@ -27,9 +27,7 @@ async function generateRoutesByBackend(
       normalizePageMap[normalizeViewPath(key)] = value;
     }
 
-    const routes = convertRoutes(menuRoutes, layoutMap, normalizePageMap);
-
-    return routes;
+    return convertRoutes(menuRoutes, layoutMap, normalizePageMap);
   } catch (error) {
     console.error(error);
     return [];
@@ -55,6 +53,7 @@ function convertRoutes(
       // 页面组件转换
     } else if (component) {
       const normalizePath = normalizeViewPath(component);
+
       route.component =
         pageMap[
           normalizePath.endsWith('.vue')

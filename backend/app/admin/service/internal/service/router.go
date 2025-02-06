@@ -34,7 +34,7 @@ func (s *RouterService) ListPermissionCode(_ context.Context, _ *emptypb.Empty) 
 	return &adminV1.ListPermissionCodeResponse{}, nil
 }
 
-func fillRouteItem(menus []*systemV1.Menu) []*systemV1.RouteItem {
+func (s *RouterService) fillRouteItem(menus []*systemV1.Menu) []*systemV1.RouteItem {
 	if len(menus) == 0 {
 		return nil
 	}
@@ -59,7 +59,7 @@ func fillRouteItem(menus []*systemV1.Menu) []*systemV1.RouteItem {
 		}
 
 		if len(v.Children) > 0 {
-			item.Children = fillRouteItem(v.Children)
+			item.Children = s.fillRouteItem(v.Children)
 		}
 
 		routers = append(routers, item)
@@ -77,7 +77,7 @@ func (s *RouterService) ListRoute(ctx context.Context, _ *emptypb.Empty) (*admin
 		return nil, errors.New("读取列表发生错误")
 	}
 
-	resp := &adminV1.ListRouteResponse{Items: fillRouteItem(menuList.Items)}
+	resp := &adminV1.ListRouteResponse{Items: s.fillRouteItem(menuList.Items)}
 
 	return resp, nil
 }

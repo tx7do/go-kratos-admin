@@ -1,0 +1,9 @@
+oss:
+  minio:
+    endpoint: "127.0.0.1:9000"
+    upload_host: "127.0.0.1:9000"
+    download_host: "http://127.0.0.1:9000"
+    access_key: "root"
+    secret_key: "@Abcd123456"
+    token: ""
+    use_ssl: false

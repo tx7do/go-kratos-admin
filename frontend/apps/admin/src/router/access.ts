@@ -1,4 +1,7 @@
-import type { ComponentRecordType, GenerateMenuAndRoutesOptions } from '@vben/types';
+import type {
+  ComponentRecordType,
+  GenerateMenuAndRoutesOptions,
+} from '@vben/types';
 
 import { generateAccessible } from '@vben/access';
 import { preferences } from '@vben/preferences';
@@ -26,7 +29,8 @@ async function generateAccess(options: GenerateMenuAndRoutesOptions) {
         content: `${$t('common.loadingMenu')}...`,
         duration: 1.5,
       });
-      return await defRouterService.ListRoute({});
+      const data = (await defRouterService.ListRoute({})) ?? [];
+      return data.items ?? [];
     },
     // 可以指定没有权限跳转403页面
     forbiddenComponent,

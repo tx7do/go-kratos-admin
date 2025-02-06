@@ -82,7 +82,10 @@ const gridOptions: VxeGridProps<Menu> = {
           false,
           page.currentPage,
           page.pageSize,
-          formValues,
+          {
+            'meta.title': formValues.name,
+            status: formValues.status,
+          },
         );
       },
     },
@@ -212,7 +215,7 @@ const collapseAll = () => {
     <Grid :table-title="$t('menu.system.menu')">
       <template #toolbar-tools>
         <a-button class="mr-2" type="primary" @click="handleCreate">
-          {{$t('page.menu.button.create')}}
+          {{ $t('page.menu.button.create') }}
         </a-button>
         <a-button class="mr-2" @click="expandAll">
           {{ $t('ui.tree.expand_all') }}

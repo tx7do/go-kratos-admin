@@ -25,7 +25,7 @@ class PreferenceManager {
   // private flattenedState: Flatten<Preferences>;
   private initialPreferences: Preferences = defaultPreferences;
   private isInitialized: boolean = false;
-  private savePreferences: (preference: Preferences) => void;
+  private readonly savePreferences: (preference: Preferences) => void;
   private state: Preferences = reactive<Preferences>({
     ...this.loadPreferences(),
   });

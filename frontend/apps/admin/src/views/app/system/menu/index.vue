@@ -65,12 +65,13 @@ const gridOptions: VxeGridProps<Menu> = {
     isHover: true,
   },
 
-  // stripe: true,
+  stripe: true,
 
   treeConfig: {
-    childrenField: 'children',
+    parentField: 'parentId',
+    // childrenField: 'children',
     rowField: 'id',
-    // transform: true,
+    transform: true,
   },
 
   proxyConfig: {
@@ -79,7 +80,7 @@ const gridOptions: VxeGridProps<Menu> = {
         console.log('query:', formValues);
 
         return await menuStore.listMenu(true, page.currentPage, page.pageSize, {
-          'meta.title': formValues.name,
+          meta__title: formValues.name,
           status: formValues.status,
         });
       },

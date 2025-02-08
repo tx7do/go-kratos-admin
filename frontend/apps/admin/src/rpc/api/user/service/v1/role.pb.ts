@@ -37,6 +37,8 @@ export interface Role {
     | string
     | null
     | undefined;
+  /** 分配的菜单列表 */
+  menus: number[];
   /** 父节点ID */
   parentId?:
     | number

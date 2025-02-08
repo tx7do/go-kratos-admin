@@ -69,9 +69,9 @@ func (s *RouterService) fillRouteItem(menus []*systemV1.Menu) []*systemV1.RouteI
 }
 
 func (s *RouterService) ListRoute(ctx context.Context, _ *emptypb.Empty) (*adminV1.ListRouteResponse, error) {
-	menuList, err := s.uc.TravelList(ctx, &pagination.PagingRequest{
+	menuList, err := s.uc.List(ctx, &pagination.PagingRequest{
 		NoPaging: trans.Ptr(true),
-	})
+	}, true)
 	if err != nil {
 		s.log.Errorf("查询列表发生错误[%s]", err.Error())
 		return nil, errors.New("读取列表发生错误")

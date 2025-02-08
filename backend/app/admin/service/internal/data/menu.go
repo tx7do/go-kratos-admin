@@ -141,7 +141,7 @@ func (r *MenuRepo) Count(ctx context.Context, whereCond []func(s *sql.Selector))
 	return count, err
 }
 
-func (r *MenuRepo) List(ctx context.Context, req *pagination.PagingRequest) (*systemV1.ListMenuResponse, error) {
+func (r *MenuRepo) List(ctx context.Context, req *pagination.PagingRequest, treeTravel bool) (*systemV1.ListMenuResponse, error) {
 	builder := r.data.db.Client().Debug().Menu.Query()
 
 	err, whereSelectors, querySelectors := entgo.BuildQuerySelector(
@@ -166,57 +166,23 @@ func (r *MenuRepo) List(ctx context.Context, req *pagination.PagingRequest) (*sy
 	}
 
 	items := make([]*systemV1.Menu, 0, len(results))
-	for _, res := range results {
-		item := r.convertEntToProto(res)
-		items = append(items, item)
-	}
-
-	count, err := r.Count(ctx, whereSelectors)
-	if err != nil {
-		return nil, err
-	}
-
-	return &systemV1.ListMenuResponse{
-		Total: uint32(count),
-		Items: items,
-	}, nil
-}
-
-func (r *MenuRepo) TravelList(ctx context.Context, req *pagination.PagingRequest) (*systemV1.ListMenuResponse, error) {
-	builder := r.data.db.Client().Menu.Query()
-
-	err, whereSelectors, querySelectors := entgo.BuildQuerySelector(
-		req.GetQuery(), req.GetOrQuery(),
-		req.GetPage(), req.GetPageSize(), req.GetNoPaging(),
-		req.GetOrderBy(), menu.FieldCreateTime,
-		req.GetFieldMask().GetPaths(),
-	)
-	if err != nil {
-		r.log.Errorf("解析SELECT条件发生错误[%s]", err.Error())
-		return nil, err
-	}
-
-	if querySelectors != nil {
-		builder.Modify(querySelectors...)
-	}
-
-	results, err := builder.All(ctx)
-	if err != nil {
-		r.log.Errorf("query list failed: %s", err.Error())
-		return nil, err
-	}
-
-	items := make([]*systemV1.Menu, 0, len(results))
-	for _, m := range results {
-		if m.ParentID == nil {
-			item := r.convertEntToProto(m)
-			items = append(items, item)
+	if treeTravel {
+		for _, m := range results {
+			if m.ParentID == nil {
+				item := r.convertEntToProto(m)
+				items = append(items, item)
+			}
 		}
-	}
-	for _, m := range results {
-		if m.ParentID != nil {
-			item := r.convertEntToProto(m)
-			r.travelChild(items, item)
+		for _, m := range results {
+			if m.ParentID != nil {
+				item := r.convertEntToProto(m)
+				r.travelChild(items, item)
+			}
+		}
+	} else {
+		for _, res := range results {
+			item := r.convertEntToProto(res)
+			items = append(items, item)
 		}
 	}
 

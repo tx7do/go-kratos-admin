@@ -32,7 +32,7 @@ func NewMenuService(uc *data.MenuRepo, logger log.Logger) *MenuService {
 }
 
 func (s *MenuService) ListMenu(ctx context.Context, req *pagination.PagingRequest) (*systemV1.ListMenuResponse, error) {
-	ret, err := s.uc.List(ctx, req)
+	ret, err := s.uc.List(ctx, req, false)
 	if err != nil {
 
 		return nil, err

@@ -24,7 +24,7 @@ require (
 	github.com/redis/go-redis/v9 v9.7.0
 	github.com/stretchr/testify v1.10.0
 	github.com/tx7do/go-utils v1.1.13
-	github.com/tx7do/go-utils/entgo v1.1.20
+	github.com/tx7do/go-utils/entgo v1.1.24
 	github.com/tx7do/go-utils/geoip v1.1.3
 	github.com/tx7do/kratos-authn v1.1.5
 	github.com/tx7do/kratos-authn/engine/jwt v1.1.5

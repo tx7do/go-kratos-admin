@@ -690,6 +690,16 @@ func SortIDNotNil() predicate.Role {
 	return predicate.Role(sql.FieldNotNull(FieldSortID))
 }
 
+// MenusIsNil applies the IsNil predicate on the "menus" field.
+func MenusIsNil() predicate.Role {
+	return predicate.Role(sql.FieldIsNull(FieldMenus))
+}
+
+// MenusNotNil applies the NotNil predicate on the "menus" field.
+func MenusNotNil() predicate.Role {
+	return predicate.Role(sql.FieldNotNull(FieldMenus))
+}
+
 // HasParent applies the HasEdge predicate on the "parent" edge.
 func HasParent() predicate.Role {
 	return predicate.Role(func(s *sql.Selector) {

@@ -243,6 +243,7 @@ var schemaGraph = func() *sqlgraph.Schema {
 			role.FieldCode:       {Type: field.TypeString, Column: role.FieldCode},
 			role.FieldParentID:   {Type: field.TypeUint32, Column: role.FieldParentID},
 			role.FieldSortID:     {Type: field.TypeInt32, Column: role.FieldSortID},
+			role.FieldMenus:      {Type: field.TypeJSON, Column: role.FieldMenus},
 		},
 	}
 	graph.Nodes[8] = &sqlgraph.Node{
@@ -1433,6 +1434,11 @@ func (f *RoleFilter) WhereParentID(p entql.Uint32P) {
 // WhereSortID applies the entql int32 predicate on the sort_id field.
 func (f *RoleFilter) WhereSortID(p entql.Int32P) {
 	f.Where(p.Field(role.FieldSortID))
+}
+
+// WhereMenus applies the entql json.RawMessage predicate on the menus field.
+func (f *RoleFilter) WhereMenus(p entql.BytesP) {
+	f.Where(p.Field(role.FieldMenus))
 }
 
 // WhereHasParent applies a predicate to check if query has an edge parent.

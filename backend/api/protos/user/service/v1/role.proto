@@ -48,6 +48,8 @@ message Role {
 
   optional string remark = 6 [json_name = "remark", (gnostic.openapi.v3.property) = {description: "备注"}];  // 备注
 
+  repeated uint32 menus = 7 [json_name = "menus", (gnostic.openapi.v3.property) = {description: "分配的菜单列表"}];  // 分配的菜单列表
+
   optional uint32 parent_id = 100 [json_name = "parentId", (gnostic.openapi.v3.property) = {description: "父节点ID"}];  // 父节点ID
   repeated Role children = 101 [json_name = "children", (gnostic.openapi.v3.property) = {description: "子节点树"}];  // 子节点树
 

@@ -7,6 +7,7 @@ import {
   Dropdown,
   Input,
   Layout,
+  Menu,
   Popconfirm,
   Space,
   Switch,
@@ -32,5 +33,6 @@ export function registerGlobComp(app: App) {
     .use(Tag)
     .use(Tabs)
     .use(Divider)
+    .use(Menu)
     .use(Tree);
 }

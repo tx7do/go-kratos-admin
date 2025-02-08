@@ -3,6 +3,7 @@
 package ent
 
 import (
+	"encoding/json"
 	"fmt"
 	"kratos-admin/app/admin/service/internal/data/ent/role"
 	"strings"
@@ -40,6 +41,8 @@ type Role struct {
 	ParentID *uint32 `json:"parent_id,omitempty"`
 	// 排序ID
 	SortID *int32 `json:"sort_id,omitempty"`
+	// 分配的菜单列表
+	Menus []uint32 `json:"menus,omitempty"`
 	// Edges holds the relations/edges for other nodes in the graph.
 	// The values are being populated by the RoleQuery when eager-loading is set.
 	Edges        RoleEdges `json:"edges"`
@@ -82,6 +85,8 @@ func (*Role) scanValues(columns []string) ([]any, error) {
 	values := make([]any, len(columns))
 	for i := range columns {
 		switch columns[i] {
+		case role.FieldMenus:
+			values[i] = new([]byte)
 		case role.FieldID, role.FieldCreateBy, role.FieldUpdateBy, role.FieldParentID, role.FieldSortID:
 			values[i] = new(sql.NullInt64)
 		case role.FieldStatus, role.FieldRemark, role.FieldName, role.FieldCode:
@@ -186,6 +191,14 @@ func (r *Role) assignValues(columns []string, values []any) error {
 				r.SortID = new(int32)
 				*r.SortID = int32(value.Int64)
 			}
+		case role.FieldMenus:
+			if value, ok := values[i].(*[]byte); !ok {
+				return fmt.Errorf("unexpected type %T for field menus", values[i])
+			} else if value != nil && len(*value) > 0 {
+				if err := json.Unmarshal(*value, &r.Menus); err != nil {
+					return fmt.Errorf("unmarshal field menus: %w", err)
+				}
+			}
 		default:
 			r.selectValues.Set(columns[i], values[i])
 		}
@@ -286,6 +299,9 @@ func (r *Role) String() string {
 		builder.WriteString("sort_id=")
 		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
+	builder.WriteString(", ")
+	builder.WriteString("menus=")
+	builder.WriteString(fmt.Sprintf("%v", r.Menus))
 	builder.WriteByte(')')
 	return builder.String()
 }

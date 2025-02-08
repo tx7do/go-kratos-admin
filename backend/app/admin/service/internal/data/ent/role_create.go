@@ -176,6 +176,12 @@ func (rc *RoleCreate) SetNillableSortID(i *int32) *RoleCreate {
 	return rc
 }
 
+// SetMenus sets the "menus" field.
+func (rc *RoleCreate) SetMenus(u []uint32) *RoleCreate {
+	rc.mutation.SetMenus(u)
+	return rc
+}
+
 // SetID sets the "id" field.
 func (rc *RoleCreate) SetID(u uint32) *RoleCreate {
 	rc.mutation.SetID(u)
@@ -349,6 +355,10 @@ func (rc *RoleCreate) createSpec() (*Role, *sqlgraph.CreateSpec) {
 	if value, ok := rc.mutation.SortID(); ok {
 		_spec.SetField(role.FieldSortID, field.TypeInt32, value)
 		_node.SortID = &value
+	}
+	if value, ok := rc.mutation.Menus(); ok {
+		_spec.SetField(role.FieldMenus, field.TypeJSON, value)
+		_node.Menus = value
 	}
 	if nodes := rc.mutation.ParentIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
@@ -633,6 +643,24 @@ func (u *RoleUpsert) ClearSortID() *RoleUpsert {
 	return u
 }
 
+// SetMenus sets the "menus" field.
+func (u *RoleUpsert) SetMenus(v []uint32) *RoleUpsert {
+	u.Set(role.FieldMenus, v)
+	return u
+}
+
+// UpdateMenus sets the "menus" field to the value that was provided on create.
+func (u *RoleUpsert) UpdateMenus() *RoleUpsert {
+	u.SetExcluded(role.FieldMenus)
+	return u
+}
+
+// ClearMenus clears the value of the "menus" field.
+func (u *RoleUpsert) ClearMenus() *RoleUpsert {
+	u.SetNull(role.FieldMenus)
+	return u
+}
+
 // UpdateNewValues updates the mutable fields using the new values that were set on create except the ID field.
 // Using this option is equivalent to using:
 //
@@ -912,6 +940,27 @@ func (u *RoleUpsertOne) UpdateSortID() *RoleUpsertOne {
 func (u *RoleUpsertOne) ClearSortID() *RoleUpsertOne {
 	return u.Update(func(s *RoleUpsert) {
 		s.ClearSortID()
+	})
+}
+
+// SetMenus sets the "menus" field.
+func (u *RoleUpsertOne) SetMenus(v []uint32) *RoleUpsertOne {
+	return u.Update(func(s *RoleUpsert) {
+		s.SetMenus(v)
+	})
+}
+
+// UpdateMenus sets the "menus" field to the value that was provided on create.
+func (u *RoleUpsertOne) UpdateMenus() *RoleUpsertOne {
+	return u.Update(func(s *RoleUpsert) {
+		s.UpdateMenus()
+	})
+}
+
+// ClearMenus clears the value of the "menus" field.
+func (u *RoleUpsertOne) ClearMenus() *RoleUpsertOne {
+	return u.Update(func(s *RoleUpsert) {
+		s.ClearMenus()
 	})
 }
 
@@ -1360,6 +1409,27 @@ func (u *RoleUpsertBulk) UpdateSortID() *RoleUpsertBulk {
 func (u *RoleUpsertBulk) ClearSortID() *RoleUpsertBulk {
 	return u.Update(func(s *RoleUpsert) {
 		s.ClearSortID()
+	})
+}
+
+// SetMenus sets the "menus" field.
+func (u *RoleUpsertBulk) SetMenus(v []uint32) *RoleUpsertBulk {
+	return u.Update(func(s *RoleUpsert) {
+		s.SetMenus(v)
+	})
+}
+
+// UpdateMenus sets the "menus" field to the value that was provided on create.
+func (u *RoleUpsertBulk) UpdateMenus() *RoleUpsertBulk {
+	return u.Update(func(s *RoleUpsert) {
+		s.UpdateMenus()
+	})
+}
+
+// ClearMenus clears the value of the "menus" field.
+func (u *RoleUpsertBulk) ClearMenus() *RoleUpsertBulk {
+	return u.Update(func(s *RoleUpsert) {
+		s.ClearMenus()
 	})
 }
 

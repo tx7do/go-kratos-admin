@@ -11040,6 +11040,8 @@ type RoleMutation struct {
 	code            *string
 	sort_id         *int32
 	addsort_id      *int32
+	menus           *[]uint32
+	appendmenus     []uint32
 	clearedFields   map[string]struct{}
 	parent          *uint32
 	clearedparent   bool
@@ -11757,6 +11759,71 @@ func (m *RoleMutation) ResetSortID() {
 	delete(m.clearedFields, role.FieldSortID)
 }
 
+// SetMenus sets the "menus" field.
+func (m *RoleMutation) SetMenus(u []uint32) {
+	m.menus = &u
+	m.appendmenus = nil
+}
+
+// Menus returns the value of the "menus" field in the mutation.
+func (m *RoleMutation) Menus() (r []uint32, exists bool) {
+	v := m.menus
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldMenus returns the old "menus" field's value of the Role entity.
+// If the Role object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *RoleMutation) OldMenus(ctx context.Context) (v []uint32, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldMenus is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldMenus requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldMenus: %w", err)
+	}
+	return oldValue.Menus, nil
+}
+
+// AppendMenus adds u to the "menus" field.
+func (m *RoleMutation) AppendMenus(u []uint32) {
+	m.appendmenus = append(m.appendmenus, u...)
+}
+
+// AppendedMenus returns the list of values that were appended to the "menus" field in this mutation.
+func (m *RoleMutation) AppendedMenus() ([]uint32, bool) {
+	if len(m.appendmenus) == 0 {
+		return nil, false
+	}
+	return m.appendmenus, true
+}
+
+// ClearMenus clears the value of the "menus" field.
+func (m *RoleMutation) ClearMenus() {
+	m.menus = nil
+	m.appendmenus = nil
+	m.clearedFields[role.FieldMenus] = struct{}{}
+}
+
+// MenusCleared returns if the "menus" field was cleared in this mutation.
+func (m *RoleMutation) MenusCleared() bool {
+	_, ok := m.clearedFields[role.FieldMenus]
+	return ok
+}
+
+// ResetMenus resets all changes to the "menus" field.
+func (m *RoleMutation) ResetMenus() {
+	m.menus = nil
+	m.appendmenus = nil
+	delete(m.clearedFields, role.FieldMenus)
+}
+
 // ClearParent clears the "parent" edge to the Role entity.
 func (m *RoleMutation) ClearParent() {
 	m.clearedparent = true
@@ -11872,7 +11939,7 @@ func (m *RoleMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *RoleMutation) Fields() []string {
-	fields := make([]string, 0, 11)
+	fields := make([]string, 0, 12)
 	if m.create_time != nil {
 		fields = append(fields, role.FieldCreateTime)
 	}
@@ -11906,6 +11973,9 @@ func (m *RoleMutation) Fields() []string {
 	if m.sort_id != nil {
 		fields = append(fields, role.FieldSortID)
 	}
+	if m.menus != nil {
+		fields = append(fields, role.FieldMenus)
+	}
 	return fields
 }
 
@@ -11936,6 +12006,8 @@ func (m *RoleMutation) Field(name string) (ent.Value, bool) {
 		return m.ParentID()
 	case role.FieldSortID:
 		return m.SortID()
+	case role.FieldMenus:
+		return m.Menus()
 	}
 	return nil, false
 }
@@ -11967,6 +12039,8 @@ func (m *RoleMutation) OldField(ctx context.Context, name string) (ent.Value, er
 		return m.OldParentID(ctx)
 	case role.FieldSortID:
 		return m.OldSortID(ctx)
+	case role.FieldMenus:
+		return m.OldMenus(ctx)
 	}
 	return nil, fmt.Errorf("unknown Role field %s", name)
 }
@@ -12052,6 +12126,13 @@ func (m *RoleMutation) SetField(name string, value ent.Value) error {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetSortID(v)
+		return nil
+	case role.FieldMenus:
+		v, ok := value.([]uint32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetMenus(v)
 		return nil
 	}
 	return fmt.Errorf("unknown Role field %s", name)
@@ -12155,6 +12236,9 @@ func (m *RoleMutation) ClearedFields() []string {
 	if m.FieldCleared(role.FieldSortID) {
 		fields = append(fields, role.FieldSortID)
 	}
+	if m.FieldCleared(role.FieldMenus) {
+		fields = append(fields, role.FieldMenus)
+	}
 	return fields
 }
 
@@ -12202,6 +12286,9 @@ func (m *RoleMutation) ClearField(name string) error {
 	case role.FieldSortID:
 		m.ClearSortID()
 		return nil
+	case role.FieldMenus:
+		m.ClearMenus()
+		return nil
 	}
 	return fmt.Errorf("unknown Role nullable field %s", name)
 }
@@ -12242,6 +12329,9 @@ func (m *RoleMutation) ResetField(name string) error {
 		return nil
 	case role.FieldSortID:
 		m.ResetSortID()
+		return nil
+	case role.FieldMenus:
+		m.ResetMenus()
 		return nil
 	}
 	return fmt.Errorf("unknown Role field %s", name)

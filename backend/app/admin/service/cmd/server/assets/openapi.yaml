@@ -2097,6 +2097,12 @@ components:
                 remark:
                     type: string
                     description: 备注
+                menus:
+                    type: array
+                    items:
+                        type: integer
+                        format: uint32
+                    description: 分配的菜单列表
                 parentId:
                     type: integer
                     description: 父节点ID

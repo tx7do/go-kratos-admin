@@ -36,7 +36,12 @@ import {
   Upload,
 } from 'ant-design-vue';
 
-const withDefaultPlaceholder = <T extends Component>(component: T, type: 'input' | 'select') => {
+import { ApiTree } from './ApiTree';
+
+const withDefaultPlaceholder = <T extends Component>(
+  component: T,
+  type: 'input' | 'select',
+) => {
   return (props: any, { attrs, slots }: Omit<SetupContext, 'expose'>) => {
     const placeholder = props?.placeholder || $t(`ui.placeholder.${type}`);
     return h(component, { ...props, ...attrs, placeholder }, slots);
@@ -46,6 +51,7 @@ const withDefaultPlaceholder = <T extends Component>(component: T, type: 'input'
 // 这里需要自行根据业务组件库进行适配，需要用到的组件都需要在这里类型说明
 export type ComponentType =
   | 'ApiSelect'
+  | 'ApiTree'
   | 'ApiTreeSelect'
   | 'AutoComplete'
   | 'Checkbox'
@@ -145,6 +151,7 @@ async function initComponentAdapter() {
     TimePicker,
     TreeSelect: withDefaultPlaceholder(TreeSelect, 'select'),
     Upload,
+    ApiTree,
   };
 
   // 将组件注册到全局共享状态中

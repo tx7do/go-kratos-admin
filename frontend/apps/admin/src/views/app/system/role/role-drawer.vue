@@ -7,7 +7,7 @@ import { $t } from '@vben/locales';
 import { notification } from 'ant-design-vue';
 
 import { useVbenForm } from '#/adapter/form';
-import { statusList, useRoleStore } from '#/store';
+import { buildMenuTree, statusList, useMenuStore, useRoleStore } from '#/store';
 
 const roleStore = useRoleStore();
 
@@ -19,6 +19,8 @@ const getTitle = computed(() =>
     : $t('ui.modal.update', { moduleName: $t('page.role.moduleName') }),
 );
 // const isCreate = computed(() => data.value?.create);
+
+const menuStore = useMenuStore();
 
 const [BaseForm, baseFormApi] = useVbenForm({
   showDefaultActions: false,
@@ -70,6 +72,26 @@ const [BaseForm, baseFormApi] = useVbenForm({
       componentProps: {
         placeholder: $t('ui.placeholder.input'),
         allowClear: true,
+      },
+    },
+    {
+      component: 'ApiTree',
+      fieldName: 'menus',
+      componentProps: {
+        title: '菜单分配',
+        api: async () => {
+          return await menuStore.listMenu(true, null, null, {
+            status: 'ON',
+          });
+        },
+        numberToString: true,
+        childrenField: 'children',
+        labelField: 'meta.title',
+        valueField: 'id',
+        resultField: 'items',
+        afterFetch: (data: any) => {
+          return buildMenuTree(data.items);
+        },
       },
     },
   ],

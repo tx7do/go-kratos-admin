@@ -12,6 +12,7 @@ import (
 
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
+	"entgo.io/ent/dialect/sql/sqljson"
 	"entgo.io/ent/schema/field"
 )
 
@@ -250,6 +251,24 @@ func (ru *RoleUpdate) ClearSortID() *RoleUpdate {
 	return ru
 }
 
+// SetMenus sets the "menus" field.
+func (ru *RoleUpdate) SetMenus(u []uint32) *RoleUpdate {
+	ru.mutation.SetMenus(u)
+	return ru
+}
+
+// AppendMenus appends u to the "menus" field.
+func (ru *RoleUpdate) AppendMenus(u []uint32) *RoleUpdate {
+	ru.mutation.AppendMenus(u)
+	return ru
+}
+
+// ClearMenus clears the value of the "menus" field.
+func (ru *RoleUpdate) ClearMenus() *RoleUpdate {
+	ru.mutation.ClearMenus()
+	return ru
+}
+
 // SetParent sets the "parent" edge to the Role entity.
 func (ru *RoleUpdate) SetParent(r *Role) *RoleUpdate {
 	return ru.SetParentID(r.ID)
@@ -432,6 +451,17 @@ func (ru *RoleUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	}
 	if ru.mutation.SortIDCleared() {
 		_spec.ClearField(role.FieldSortID, field.TypeInt32)
+	}
+	if value, ok := ru.mutation.Menus(); ok {
+		_spec.SetField(role.FieldMenus, field.TypeJSON, value)
+	}
+	if value, ok := ru.mutation.AppendedMenus(); ok {
+		_spec.AddModifier(func(u *sql.UpdateBuilder) {
+			sqljson.Append(u, role.FieldMenus, value)
+		})
+	}
+	if ru.mutation.MenusCleared() {
+		_spec.ClearField(role.FieldMenus, field.TypeJSON)
 	}
 	if ru.mutation.ParentCleared() {
 		edge := &sqlgraph.EdgeSpec{
@@ -750,6 +780,24 @@ func (ruo *RoleUpdateOne) ClearSortID() *RoleUpdateOne {
 	return ruo
 }
 
+// SetMenus sets the "menus" field.
+func (ruo *RoleUpdateOne) SetMenus(u []uint32) *RoleUpdateOne {
+	ruo.mutation.SetMenus(u)
+	return ruo
+}
+
+// AppendMenus appends u to the "menus" field.
+func (ruo *RoleUpdateOne) AppendMenus(u []uint32) *RoleUpdateOne {
+	ruo.mutation.AppendMenus(u)
+	return ruo
+}
+
+// ClearMenus clears the value of the "menus" field.
+func (ruo *RoleUpdateOne) ClearMenus() *RoleUpdateOne {
+	ruo.mutation.ClearMenus()
+	return ruo
+}
+
 // SetParent sets the "parent" edge to the Role entity.
 func (ruo *RoleUpdateOne) SetParent(r *Role) *RoleUpdateOne {
 	return ruo.SetParentID(r.ID)
@@ -962,6 +1010,17 @@ func (ruo *RoleUpdateOne) sqlSave(ctx context.Context) (_node *Role, err error) 
 	}
 	if ruo.mutation.SortIDCleared() {
 		_spec.ClearField(role.FieldSortID, field.TypeInt32)
+	}
+	if value, ok := ruo.mutation.Menus(); ok {
+		_spec.SetField(role.FieldMenus, field.TypeJSON, value)
+	}
+	if value, ok := ruo.mutation.AppendedMenus(); ok {
+		_spec.AddModifier(func(u *sql.UpdateBuilder) {
+			sqljson.Append(u, role.FieldMenus, value)
+		})
+	}
+	if ruo.mutation.MenusCleared() {
+		_spec.ClearField(role.FieldMenus, field.TypeJSON)
 	}
 	if ruo.mutation.ParentCleared() {
 		edge := &sqlgraph.EdgeSpec{

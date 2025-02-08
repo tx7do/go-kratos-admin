@@ -45,6 +45,7 @@ func (r *RoleRepo) convertEntToProto(in *ent.Role) *userV1.Role {
 		Remark:     in.Remark,
 		SortId:     in.SortID,
 		ParentId:   in.ParentID,
+		Menus:      in.Menus,
 		Status:     (*string)(in.Status),
 		CreateTime: timeutil.TimeToTimestamppb(in.CreateTime),
 		UpdateTime: timeutil.TimeToTimestamppb(in.UpdateTime),
@@ -141,6 +142,10 @@ func (r *RoleRepo) Create(ctx context.Context, req *userV1.CreateRoleRequest) er
 		builder.SetCreateTime(*timeutil.TimestamppbToTime(req.Data.CreateTime))
 	}
 
+	if req.Data.Menus != nil {
+		builder.SetMenus(req.Data.Menus)
+	}
+
 	err := builder.Exec(ctx)
 	if err != nil {
 		r.log.Errorf("insert one data failed: %s", err.Error())
@@ -187,6 +192,10 @@ func (r *RoleRepo) Update(ctx context.Context, req *userV1.UpdateRoleRequest) er
 		builder.SetUpdateTime(time.Now())
 	} else {
 		builder.SetUpdateTime(*timeutil.TimestamppbToTime(req.Data.UpdateTime))
+	}
+
+	if req.Data.Menus != nil {
+		builder.SetMenus(req.Data.Menus)
 	}
 
 	if req.UpdateMask != nil {

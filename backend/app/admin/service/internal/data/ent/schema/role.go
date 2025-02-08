@@ -52,6 +52,10 @@ func (Role) Fields() []ent.Field {
 			Optional().
 			Nillable().
 			Default(0),
+
+		field.JSON("menus", []uint32{}).
+			Comment("分配的菜单列表").
+			Optional(),
 	}
 }
 

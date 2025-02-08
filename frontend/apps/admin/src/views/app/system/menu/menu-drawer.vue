@@ -9,8 +9,9 @@ import { addCollection } from '@iconify/vue';
 import { notification } from 'ant-design-vue';
 
 import { useVbenForm } from '#/adapter/form';
-import { type Menu, MenuType } from '#/rpc/api/system/service/v1/menu.pb';
+import { MenuType } from '#/rpc/api/system/service/v1/menu.pb';
 import {
+  buildMenuTree,
   isButton,
   isFolder,
   isMenu,
@@ -32,76 +33,6 @@ const getTitle = computed(() =>
 );
 
 // const isCreate = computed(() => data.value?.create);
-
-function travelMenuChild(nodes: Menu[], parent: Menu): boolean {
-  if (nodes === undefined) {
-    return false;
-  }
-
-  if (parent.parentId === 0 || parent.parentId === undefined) {
-    if (parent?.meta?.title) {
-      parent.meta.title = $t(parent?.meta?.title ?? '');
-    }
-    nodes.push(parent);
-    return true;
-  }
-
-  for (const node of nodes) {
-    if (node.id === parent.parentId) {
-      if (parent?.meta?.title) {
-        parent.meta.title = $t(parent?.meta?.title ?? '');
-      }
-      node.children.push(parent);
-      return true;
-    }
-
-    if (travelMenuChild(node.children, parent)) {
-      return true;
-    }
-  }
-
-  return false;
-}
-
-function buildMenuTree(menus: Menu[]): Menu[] {
-  const tree: Menu[] = [];
-
-  for (const menu of menus) {
-    if (!menu) {
-      continue;
-    }
-
-    if (menu.parentId !== 0 && menu.parentId !== undefined) {
-      continue;
-    }
-
-    if (menu?.meta?.title) {
-      menu.meta.title = $t(menu?.meta?.title ?? '');
-    }
-    tree.push(menu);
-  }
-
-  for (const menu of menus) {
-    if (!menu) {
-      continue;
-    }
-
-    if (menu.parentId === 0 || menu.parentId === undefined) {
-      continue;
-    }
-
-    if (travelMenuChild(tree, menu)) {
-      continue;
-    }
-
-    if (menu?.meta?.title) {
-      menu.meta.title = $t(menu?.meta?.title ?? '');
-    }
-    tree.push(menu);
-  }
-
-  return tree;
-}
 
 const [BaseForm, baseFormApi] = useVbenForm({
   showDefaultActions: false,

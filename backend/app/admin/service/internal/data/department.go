@@ -136,7 +136,12 @@ func (r *DepartmentRepo) List(ctx context.Context, req *pagination.PagingRequest
 	for _, m := range results {
 		if m.ParentID != nil {
 			item := r.convertEntToProto(m)
-			r.travelChild(items, item)
+
+			if r.travelChild(items, item) {
+				continue
+			}
+
+			items = append(items, item)
 		}
 	}
 

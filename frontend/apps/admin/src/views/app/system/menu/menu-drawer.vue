@@ -30,15 +30,78 @@ const getTitle = computed(() =>
     ? $t('ui.modal.create', { moduleName: $t('page.menu.moduleName') })
     : $t('ui.modal.update', { moduleName: $t('page.menu.moduleName') }),
 );
+
 // const isCreate = computed(() => data.value?.create);
 
-function modifyTitle(nodes: Menu[]) {
-  for (const node of nodes) {
-    if (node?.meta?.title) {
-      node.meta.title = $t(node?.meta?.title ?? '');
-    }
-    modifyTitle(node.children);
+function travelMenuChild(nodes: Menu[], parent: Menu): boolean {
+  if (nodes === undefined) {
+    return false;
   }
+
+  if (parent.parentId === 0 || parent.parentId === undefined) {
+    if (parent?.meta?.title) {
+      parent.meta.title = $t(parent?.meta?.title ?? '');
+    }
+    nodes.push(parent);
+    return true;
+  }
+
+  for (const node of nodes) {
+    if (node.id === parent.parentId) {
+      if (parent?.meta?.title) {
+        parent.meta.title = $t(parent?.meta?.title ?? '');
+      }
+      node.children.push(parent);
+      return true;
+    }
+
+    if (travelMenuChild(node.children, parent)) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+function buildMenuTree(menus: Menu[]): Menu[] {
+  const tree: Menu[] = [];
+
+  for (const menu of menus) {
+    if (!menu) {
+      continue;
+    }
+
+    if (menu.parentId !== 0 && menu.parentId !== undefined) {
+      continue;
+    }
+
+    if (menu?.meta?.title) {
+      menu.meta.title = $t(menu?.meta?.title ?? '');
+    }
+    tree.push(menu);
+  }
+
+  for (const menu of menus) {
+    if (!menu) {
+      continue;
+    }
+
+    if (menu.parentId === 0 || menu.parentId === undefined) {
+      continue;
+    }
+
+    console.log('menu:', menu.parentId);
+    if (travelMenuChild(tree, menu)) {
+      continue;
+    }
+
+    if (menu?.meta?.title) {
+      menu.meta.title = $t(menu?.meta?.title ?? '');
+    }
+    tree.push(menu);
+  }
+
+  return tree;
 }
 
 const [BaseForm, baseFormApi] = useVbenForm({
@@ -82,7 +145,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
         placeholder: $t('ui.placeholder.select'),
         api: async () => {
           const result = await menuStore.listMenu(true, null, null, {
-            // parent_id: 0,
+            // parentId: '6',
             status: 'ON',
           });
           return result.items;
@@ -92,8 +155,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
         labelField: 'meta.title',
         valueField: 'id',
         afterFetch: (data: any) => {
-          modifyTitle(data);
-          return data;
+          return buildMenuTree(data);
         },
       },
     },

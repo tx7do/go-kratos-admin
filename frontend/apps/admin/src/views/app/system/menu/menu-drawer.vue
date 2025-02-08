@@ -90,7 +90,6 @@ function buildMenuTree(menus: Menu[]): Menu[] {
       continue;
     }
 
-    console.log('menu:', menu.parentId);
     if (travelMenuChild(tree, menu)) {
       continue;
     }

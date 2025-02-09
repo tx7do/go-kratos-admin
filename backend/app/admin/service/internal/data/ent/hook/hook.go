@@ -224,14 +224,14 @@ func If(hk ent.Hook, cond Condition) ent.Hook {
 
 // On executes the given hook only for the given operation.
 //
-//	hook.On(Log, ent.Delete|ent.Create)
+//	hook.On(Log, ent.DeleteRole|ent.CreateRole)
 func On(hk ent.Hook, op ent.Op) ent.Hook {
 	return If(hk, HasOp(op))
 }
 
 // Unless skips the given hook only for the given operation.
 //
-//	hook.Unless(Log, ent.Update|ent.UpdateOne)
+//	hook.Unless(Log, ent.UpdateRole|ent.UpdateOne)
 func Unless(hk ent.Hook, op ent.Op) ent.Hook {
 	return If(hk, Not(HasOp(op)))
 }
@@ -249,7 +249,7 @@ func FixedError(err error) ent.Hook {
 //
 //	func (T) Hooks() []ent.Hook {
 //		return []ent.Hook{
-//			Reject(ent.Delete|ent.Update),
+//			Reject(ent.DeleteRole|ent.UpdateRole),
 //		}
 //	}
 func Reject(op ent.Op) ent.Hook {

@@ -18,6 +18,7 @@ type AuthenticationService struct {
 
 	userRepo  *data.UserRepo
 	userToken *data.UserToken
+	roleRepo  *data.RoleRepo
 
 	log *log.Helper
 }
@@ -26,12 +27,14 @@ func NewAuthenticationService(
 	logger log.Logger,
 	userRepo *data.UserRepo,
 	userToken *data.UserToken,
+	roleRepo *data.RoleRepo,
 ) *AuthenticationService {
 	l := log.NewHelper(log.With(logger, "module", "authn/service/admin-service"))
 	return &AuthenticationService{
 		log:       l,
 		userRepo:  userRepo,
 		userToken: userToken,
+		roleRepo:  roleRepo,
 	}
 }
 
@@ -91,8 +94,18 @@ func (s *AuthenticationService) GetMe(ctx context.Context, req *adminV1.GetMeReq
 	}
 
 	req.Id = authInfo.UserId
-	ret, err := s.userRepo.GetUser(ctx, req.GetId())
-	return ret, err
+	user, err := s.userRepo.GetUser(ctx, req.GetId())
+	if err != nil {
+		s.log.Errorf("查询用户失败[%s]", err.Error())
+		return nil, adminV1.ErrorAccessForbidden("查询用户失败")
+	}
+
+	role, err := s.roleRepo.GetRole(ctx, user.GetRoleId())
+	if err == nil && role != nil {
+		user.Roles = append(user.Roles, role.GetCode())
+	}
+
+	return user, err
 }
 
 // RefreshToken 刷新令牌

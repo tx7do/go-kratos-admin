@@ -458,16 +458,16 @@ func (mc *MenuCreate) createSpec() (*Menu, *sqlgraph.CreateSpec) {
 // OnConflict allows configuring the `ON CONFLICT` / `ON DUPLICATE KEY` clause
 // of the `INSERT` statement. For example:
 //
-//	client.Menu.Create().
+//	client.Menu.CreateRole().
 //		SetStatus(v).
 //		OnConflict(
-//			// Update the row with the new values
+//			// UpdateRole the row with the new values
 //			// the was proposed for insertion.
 //			sql.ResolveWithNewValues(),
 //		).
 //		// Override some of the fields with custom
 //		// update values.
-//		Update(func(u *ent.MenuUpsert) {
+//		UpdateRole(func(u *ent.MenuUpsert) {
 //			SetStatus(v+v).
 //		}).
 //		Exec(ctx)
@@ -481,7 +481,7 @@ func (mc *MenuCreate) OnConflict(opts ...sql.ConflictOption) *MenuUpsertOne {
 // OnConflictColumns calls `OnConflict` and configures the columns
 // as conflict target. Using this option is equivalent to using:
 //
-//	client.Menu.Create().
+//	client.Menu.CreateRole().
 //		OnConflict(sql.ConflictColumns(columns...)).
 //		Exec(ctx)
 func (mc *MenuCreate) OnConflictColumns(columns ...string) *MenuUpsertOne {
@@ -771,7 +771,7 @@ func (u *MenuUpsert) ClearMeta() *MenuUpsert {
 // UpdateNewValues updates the mutable fields using the new values that were set on create except the ID field.
 // Using this option is equivalent to using:
 //
-//	client.Menu.Create().
+//	client.Menu.CreateRole().
 //		OnConflict(
 //			sql.ResolveWithNewValues(),
 //			sql.ResolveWith(func(u *sql.UpdateSet) {
@@ -795,7 +795,7 @@ func (u *MenuUpsertOne) UpdateNewValues() *MenuUpsertOne {
 // Ignore sets each column to itself in case of conflict.
 // Using this option is equivalent to using:
 //
-//	client.Menu.Create().
+//	client.Menu.CreateRole().
 //	    OnConflict(sql.ResolveWithIgnore()).
 //	    Exec(ctx)
 func (u *MenuUpsertOne) Ignore() *MenuUpsertOne {
@@ -1255,13 +1255,13 @@ func (mcb *MenuCreateBulk) ExecX(ctx context.Context) {
 //
 //	client.Menu.CreateBulk(builders...).
 //		OnConflict(
-//			// Update the row with the new values
+//			// UpdateRole the row with the new values
 //			// the was proposed for insertion.
 //			sql.ResolveWithNewValues(),
 //		).
 //		// Override some of the fields with custom
 //		// update values.
-//		Update(func(u *ent.MenuUpsert) {
+//		UpdateRole(func(u *ent.MenuUpsert) {
 //			SetStatus(v+v).
 //		}).
 //		Exec(ctx)
@@ -1275,7 +1275,7 @@ func (mcb *MenuCreateBulk) OnConflict(opts ...sql.ConflictOption) *MenuUpsertBul
 // OnConflictColumns calls `OnConflict` and configures the columns
 // as conflict target. Using this option is equivalent to using:
 //
-//	client.Menu.Create().
+//	client.Menu.CreateRole().
 //		OnConflict(sql.ConflictColumns(columns...)).
 //		Exec(ctx)
 func (mcb *MenuCreateBulk) OnConflictColumns(columns ...string) *MenuUpsertBulk {
@@ -1294,7 +1294,7 @@ type MenuUpsertBulk struct {
 // UpdateNewValues updates the mutable fields using the new values that
 // were set on create. Using this option is equivalent to using:
 //
-//	client.Menu.Create().
+//	client.Menu.CreateRole().
 //		OnConflict(
 //			sql.ResolveWithNewValues(),
 //			sql.ResolveWith(func(u *sql.UpdateSet) {
@@ -1320,7 +1320,7 @@ func (u *MenuUpsertBulk) UpdateNewValues() *MenuUpsertBulk {
 // Ignore sets each column to itself in case of conflict.
 // Using this option is equivalent to using:
 //
-//	client.Menu.Create().
+//	client.Menu.CreateRole().
 //		OnConflict(sql.ResolveWithIgnore()).
 //		Exec(ctx)
 func (u *MenuUpsertBulk) Ignore() *MenuUpsertBulk {

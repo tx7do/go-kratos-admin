@@ -2674,6 +2674,11 @@ components:
                     default: CUSTOMER_USER
                     description: 权限
                     format: enum
+                roles:
+                    type: array
+                    items:
+                        type: string
+                    description: 角色码
                 createTime:
                     type: string
                     description: 创建时间

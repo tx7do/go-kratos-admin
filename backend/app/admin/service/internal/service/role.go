@@ -36,7 +36,7 @@ func (s *RoleService) ListRole(ctx context.Context, req *pagination.PagingReques
 }
 
 func (s *RoleService) GetRole(ctx context.Context, req *userV1.GetRoleRequest) (*userV1.Role, error) {
-	return s.uc.Get(ctx, req)
+	return s.uc.GetRole(ctx, req.GetId())
 }
 
 func (s *RoleService) CreateRole(ctx context.Context, req *userV1.CreateRoleRequest) (*emptypb.Empty, error) {
@@ -52,7 +52,7 @@ func (s *RoleService) CreateRole(ctx context.Context, req *userV1.CreateRoleRequ
 
 	req.OperatorId = trans.Ptr(authInfo.UserId)
 
-	err = s.uc.Create(ctx, req)
+	err = s.uc.CreateRole(ctx, req)
 	if err != nil {
 
 		return nil, err
@@ -74,7 +74,7 @@ func (s *RoleService) UpdateRole(ctx context.Context, req *userV1.UpdateRoleRequ
 
 	req.OperatorId = trans.Ptr(authInfo.UserId)
 
-	err = s.uc.Update(ctx, req)
+	err = s.uc.UpdateRole(ctx, req)
 	if err != nil {
 
 		return nil, err
@@ -92,7 +92,7 @@ func (s *RoleService) DeleteRole(ctx context.Context, req *userV1.DeleteRoleRequ
 
 	req.OperatorId = trans.Ptr(authInfo.UserId)
 
-	_, err = s.uc.Delete(ctx, req)
+	_, err = s.uc.DeleteRole(ctx, req)
 	if err != nil {
 		return nil, err
 	}

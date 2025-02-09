@@ -11,7 +11,7 @@ import { notification } from 'ant-design-vue';
 import { defineStore } from 'pinia';
 
 import { $t } from '#/locales';
-import { defAuthnService } from '#/rpc';
+import { defAuthnService, defRouterService } from '#/rpc';
 
 export const useAuthStore = defineStore('auth', () => {
   const accessStore = useAccessStore();
@@ -46,10 +46,15 @@ export const useAuthStore = defineStore('auth', () => {
         accessStore.setAccessToken(access_token);
 
         // 获取用户信息并存储到 accessStore 中
-        userInfo = await fetchUserInfo();
+        const [fetchUserInfoResult, accessCodes] = await Promise.all([
+          fetchUserInfo(),
+          fetchAccessCodes(),
+        ]);
+
+        userInfo = fetchUserInfoResult;
 
         userStore.setUserInfo(userInfo);
-        // accessStore.setAccessCodes(accessCodes);
+        accessStore.setAccessCodes(accessCodes.codes);
 
         if (accessStore.loginExpired) {
           accessStore.setLoginExpired(false);
@@ -140,6 +145,13 @@ export const useAuthStore = defineStore('auth', () => {
    */
   async function fetchUserInfo() {
     return (await defAuthnService.GetMe({ id: 0 })) as UserInfo;
+  }
+
+  /**
+   * 获取用户权限码
+   */
+  async function fetchAccessCodes() {
+    return await defRouterService.ListPermissionCode({});
   }
 
   function $reset() {

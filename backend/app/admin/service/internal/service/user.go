@@ -18,28 +18,55 @@ import (
 type UserService struct {
 	adminV1.UserServiceHTTPServer
 
-	uc  *data.UserRepo
 	log *log.Helper
+
+	userRepo *data.UserRepo
+	roleRepo *data.RoleRepo
 }
 
-func NewUserService(logger log.Logger, uc *data.UserRepo) *UserService {
+func NewUserService(
+	logger log.Logger,
+	userRepo *data.UserRepo,
+	roleRepo *data.RoleRepo,
+) *UserService {
 	l := log.NewHelper(log.With(logger, "module", "user/service/admin-service"))
 	return &UserService{
-		log: l,
-		uc:  uc,
+		log:      l,
+		userRepo: userRepo,
+		roleRepo: roleRepo,
 	}
 }
 
 func (s *UserService) ListUser(ctx context.Context, req *pagination.PagingRequest) (*userV1.ListUserResponse, error) {
-	return s.uc.ListUser(ctx, req)
+	return s.userRepo.ListUser(ctx, req)
 }
 
 func (s *UserService) GetUser(ctx context.Context, req *userV1.GetUserRequest) (*userV1.User, error) {
-	return s.uc.GetUser(ctx, req.GetId())
+	user, err := s.userRepo.GetUser(ctx, req.GetId())
+	if err != nil {
+		return nil, err
+	}
+
+	role, err := s.roleRepo.GetRole(ctx, user.GetRoleId())
+	if err == nil && role != nil {
+		user.Roles = append(user.Roles, role.GetCode())
+	}
+
+	return user, err
 }
 
 func (s *UserService) GetUserByUserName(ctx context.Context, req *userV1.GetUserByUserNameRequest) (*userV1.User, error) {
-	return s.uc.GetUserByUserName(ctx, req.GetUserName())
+	user, err := s.userRepo.GetUserByUserName(ctx, req.GetUserName())
+	if err != nil {
+		return nil, err
+	}
+
+	role, err := s.roleRepo.GetRole(ctx, user.GetRoleId())
+	if err == nil && role != nil {
+		user.Roles = append(user.Roles, role.GetCode())
+	}
+
+	return user, err
 }
 
 func (s *UserService) CreateUser(ctx context.Context, req *userV1.CreateUserRequest) (*emptypb.Empty, error) {
@@ -60,7 +87,7 @@ func (s *UserService) CreateUser(ctx context.Context, req *userV1.CreateUserRequ
 	}
 
 	// 获取操作者的用户信息
-	operator, err := s.uc.GetUser(ctx, req.GetOperatorId())
+	operator, err := s.userRepo.GetUser(ctx, req.GetOperatorId())
 	if err != nil {
 		return nil, err
 	}
@@ -77,7 +104,7 @@ func (s *UserService) CreateUser(ctx context.Context, req *userV1.CreateUserRequ
 	}
 
 	// 创建用户
-	err = s.uc.CreateUser(ctx, req)
+	err = s.userRepo.CreateUser(ctx, req)
 
 	return &emptypb.Empty{}, nil
 }
@@ -96,7 +123,7 @@ func (s *UserService) UpdateUser(ctx context.Context, req *userV1.UpdateUserRequ
 	req.OperatorId = trans.Ptr(authInfo.UserId)
 
 	// 获取操作者的用户信息
-	operator, err := s.uc.GetUser(ctx, req.GetOperatorId())
+	operator, err := s.userRepo.GetUser(ctx, req.GetOperatorId())
 	if err != nil {
 		return nil, err
 	}
@@ -113,7 +140,7 @@ func (s *UserService) UpdateUser(ctx context.Context, req *userV1.UpdateUserRequ
 	}
 
 	// 更新用户
-	err = s.uc.UpdateUser(ctx, req)
+	err = s.userRepo.UpdateUser(ctx, req)
 
 	return &emptypb.Empty{}, nil
 }
@@ -128,7 +155,7 @@ func (s *UserService) DeleteUser(ctx context.Context, req *userV1.DeleteUserRequ
 	req.OperatorId = trans.Ptr(authInfo.UserId)
 
 	// 获取操作者的用户信息
-	operator, err := s.uc.GetUser(ctx, req.GetOperatorId())
+	operator, err := s.userRepo.GetUser(ctx, req.GetOperatorId())
 	if err != nil {
 		return nil, err
 	}
@@ -139,7 +166,7 @@ func (s *UserService) DeleteUser(ctx context.Context, req *userV1.DeleteUserRequ
 	}
 
 	// 获取将被删除的用户信息
-	user, err := s.uc.GetUser(ctx, req.GetId())
+	user, err := s.userRepo.GetUser(ctx, req.GetId())
 	if err != nil {
 		return nil, err
 	}
@@ -154,15 +181,15 @@ func (s *UserService) DeleteUser(ctx context.Context, req *userV1.DeleteUserRequ
 	}
 
 	// 删除用户
-	_, err = s.uc.DeleteUser(ctx, req.GetId())
+	_, err = s.userRepo.DeleteUser(ctx, req.GetId())
 
 	return &emptypb.Empty{}, err
 }
 
 func (s *UserService) UserExists(ctx context.Context, req *userV1.UserExistsRequest) (*userV1.UserExistsResponse, error) {
-	return s.uc.UserExists(ctx, req)
+	return s.userRepo.UserExists(ctx, req)
 }
 
 func (s *UserService) VerifyPassword(ctx context.Context, req *userV1.VerifyPasswordRequest) (*userV1.VerifyPasswordResponse, error) {
-	return s.uc.VerifyPassword(ctx, req)
+	return s.userRepo.VerifyPassword(ctx, req)
 }

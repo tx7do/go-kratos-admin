@@ -142,7 +142,7 @@ func (r *MenuRepo) Count(ctx context.Context, whereCond []func(s *sql.Selector))
 }
 
 func (r *MenuRepo) List(ctx context.Context, req *pagination.PagingRequest, treeTravel bool) (*systemV1.ListMenuResponse, error) {
-	builder := r.data.db.Client().Debug().Menu.Query()
+	builder := r.data.db.Client().Menu.Query()
 
 	err, whereSelectors, querySelectors := entgo.BuildQuerySelector(
 		req.GetQuery(), req.GetOrQuery(),

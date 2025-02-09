@@ -1,10 +1,10 @@
 -- 默认的角色
 TRUNCATE TABLE kratos_admin.public.roles;
-INSERT INTO kratos_admin.public.roles(id, parent_id, create_by, sort_id, name, code, status, remark, create_time)
-VALUES (1, null, 0, 1, '超级管理员', 'SYS_ADMIN', 'ON', '超级管理员拥有对系统的最高权限', now()),
-       (2, null, 0, 2, '管理员', 'SYS_MANAGER', 'ON', '系统管理员拥有对整个系统的管理权限', now()),
-       (3, null, 0, 3, '普通用户', 'CUSTOMER_USER', 'ON', '普通用户没有管理权限，只有设备和APP的使用权限', now()),
-       (4, null, 0, 4, '游客', 'GUEST_USER', 'ON', '游客只有非常有限的数据读取权限', now());
+INSERT INTO kratos_admin.public.roles(id, parent_id, create_by, sort_id, name, code, status, remark, menus, create_time)
+VALUES (1, null, 0, 1, '超级管理员', 'super', 'ON', '超级管理员拥有对系统的最高权限', '[1, 2, 6, 7, 8, 9, 10, 11, 12, 13, 14, 20, 21, 22]', now()),
+       (2, null, 0, 2, '管理员', 'admin', 'ON', '系统管理员拥有对整个系统的管理权限', '[1, 2, 6, 7, 8, 9, 10, 11, 12, 13, 14]', now()),
+       (3, null, 0, 3, '普通用户', 'user', 'ON', '普通用户没有管理权限，只有设备和APP的使用权限', '[]', now()),
+       (4, null, 0, 4, '游客', 'guest', 'ON', '游客只有非常有限的数据读取权限', '[]', now());
 
 -- 默认的组织
 TRUNCATE TABLE kratos_admin.public.organizations;

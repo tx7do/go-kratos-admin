@@ -9,7 +9,7 @@ import type {
 import type { Empty } from '#/rpc/api/google/protobuf/empty.pb';
 import type { User } from '#/rpc/api/user/service/v1/user.pb';
 
-import { baseRequestClient, requestClient } from '#/rpc/request';
+import { requestClient } from '#/rpc/request';
 
 export type {
   AuthenticationService,
@@ -30,14 +30,12 @@ export class AuthenticationServiceImpl implements AuthenticationService {
     return await requestClient.post<LoginResponse>('/login', request);
   }
 
-  async Logout(_request: LogoutRequest): Promise<Empty> {
-    return await baseRequestClient.post('/logout', {
-      withCredentials: true,
-    });
+  async Logout(request: LogoutRequest): Promise<Empty> {
+    return await requestClient.post('/logout', request);
   }
 
   async RefreshToken(request: RefreshTokenRequest): Promise<LoginResponse> {
-    return baseRequestClient.post<LoginResponse>('/refresh_token', request);
+    return requestClient.post<LoginResponse>('/refresh_token', request);
   }
 }
 

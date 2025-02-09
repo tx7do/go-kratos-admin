@@ -163,6 +163,10 @@ message User {
     default: {string: "CUSTOMER_USER"}
   }]; // 权限
 
+  repeated string roles = 34 [(gnostic.openapi.v3.property) = {
+    description: "角色码"
+  }]; // 角色码
+
   optional google.protobuf.Timestamp create_time = 200 [json_name = "createTime", (gnostic.openapi.v3.property) = {description: "创建时间"}];// 创建时间
   optional google.protobuf.Timestamp update_time = 201 [json_name = "updateTime", (gnostic.openapi.v3.property) = {description: "更新时间"}];// 更新时间
   optional google.protobuf.Timestamp delete_time = 202 [json_name = "deleteTime", (gnostic.openapi.v3.property) = {description: "删除时间"}];// 删除时间

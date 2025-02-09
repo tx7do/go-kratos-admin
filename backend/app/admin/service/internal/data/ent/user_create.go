@@ -686,16 +686,16 @@ func (uc *UserCreate) createSpec() (*User, *sqlgraph.CreateSpec) {
 // OnConflict allows configuring the `ON CONFLICT` / `ON DUPLICATE KEY` clause
 // of the `INSERT` statement. For example:
 //
-//	client.User.Create().
+//	client.User.CreateRole().
 //		SetCreateBy(v).
 //		OnConflict(
-//			// Update the row with the new values
+//			// UpdateRole the row with the new values
 //			// the was proposed for insertion.
 //			sql.ResolveWithNewValues(),
 //		).
 //		// Override some of the fields with custom
 //		// update values.
-//		Update(func(u *ent.UserUpsert) {
+//		UpdateRole(func(u *ent.UserUpsert) {
 //			SetCreateBy(v+v).
 //		}).
 //		Exec(ctx)
@@ -709,7 +709,7 @@ func (uc *UserCreate) OnConflict(opts ...sql.ConflictOption) *UserUpsertOne {
 // OnConflictColumns calls `OnConflict` and configures the columns
 // as conflict target. Using this option is equivalent to using:
 //
-//	client.User.Create().
+//	client.User.CreateRole().
 //		OnConflict(sql.ConflictColumns(columns...)).
 //		Exec(ctx)
 func (uc *UserCreate) OnConflictColumns(columns ...string) *UserUpsertOne {
@@ -1209,7 +1209,7 @@ func (u *UserUpsert) ClearWorkID() *UserUpsert {
 // UpdateNewValues updates the mutable fields using the new values that were set on create except the ID field.
 // Using this option is equivalent to using:
 //
-//	client.User.Create().
+//	client.User.CreateRole().
 //		OnConflict(
 //			sql.ResolveWithNewValues(),
 //			sql.ResolveWith(func(u *sql.UpdateSet) {
@@ -1236,7 +1236,7 @@ func (u *UserUpsertOne) UpdateNewValues() *UserUpsertOne {
 // Ignore sets each column to itself in case of conflict.
 // Using this option is equivalent to using:
 //
-//	client.User.Create().
+//	client.User.CreateRole().
 //	    OnConflict(sql.ResolveWithIgnore()).
 //	    Exec(ctx)
 func (u *UserUpsertOne) Ignore() *UserUpsertOne {
@@ -1941,13 +1941,13 @@ func (ucb *UserCreateBulk) ExecX(ctx context.Context) {
 //
 //	client.User.CreateBulk(builders...).
 //		OnConflict(
-//			// Update the row with the new values
+//			// UpdateRole the row with the new values
 //			// the was proposed for insertion.
 //			sql.ResolveWithNewValues(),
 //		).
 //		// Override some of the fields with custom
 //		// update values.
-//		Update(func(u *ent.UserUpsert) {
+//		UpdateRole(func(u *ent.UserUpsert) {
 //			SetCreateBy(v+v).
 //		}).
 //		Exec(ctx)
@@ -1961,7 +1961,7 @@ func (ucb *UserCreateBulk) OnConflict(opts ...sql.ConflictOption) *UserUpsertBul
 // OnConflictColumns calls `OnConflict` and configures the columns
 // as conflict target. Using this option is equivalent to using:
 //
-//	client.User.Create().
+//	client.User.CreateRole().
 //		OnConflict(sql.ConflictColumns(columns...)).
 //		Exec(ctx)
 func (ucb *UserCreateBulk) OnConflictColumns(columns ...string) *UserUpsertBulk {
@@ -1980,7 +1980,7 @@ type UserUpsertBulk struct {
 // UpdateNewValues updates the mutable fields using the new values that
 // were set on create. Using this option is equivalent to using:
 //
-//	client.User.Create().
+//	client.User.CreateRole().
 //		OnConflict(
 //			sql.ResolveWithNewValues(),
 //			sql.ResolveWith(func(u *sql.UpdateSet) {
@@ -2009,7 +2009,7 @@ func (u *UserUpsertBulk) UpdateNewValues() *UserUpsertBulk {
 // Ignore sets each column to itself in case of conflict.
 // Using this option is equivalent to using:
 //
-//	client.User.Create().
+//	client.User.CreateRole().
 //		OnConflict(sql.ResolveWithIgnore()).
 //		Exec(ctx)
 func (u *UserUpsertBulk) Ignore() *UserUpsertBulk {

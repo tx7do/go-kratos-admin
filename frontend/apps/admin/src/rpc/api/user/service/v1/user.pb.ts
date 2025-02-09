@@ -165,6 +165,8 @@ export interface User {
     | UserAuthority
     | null
     | undefined;
+  /** 角色码 */
+  roles: string[];
   /** 创建时间 */
   createTime?:
     | Timestamp

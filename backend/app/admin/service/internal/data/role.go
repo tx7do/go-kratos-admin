@@ -113,8 +113,8 @@ func (r *RoleRepo) IsExist(ctx context.Context, id uint32) (bool, error) {
 		Exist(ctx)
 }
 
-func (r *RoleRepo) Get(ctx context.Context, req *userV1.GetRoleRequest) (*userV1.Role, error) {
-	ret, err := r.data.db.Client().Role.Get(ctx, req.GetId())
+func (r *RoleRepo) GetRole(ctx context.Context, id uint32) (*userV1.Role, error) {
+	ret, err := r.data.db.Client().Role.Get(ctx, id)
 	if err != nil && !ent.IsNotFound(err) {
 		return nil, err
 	}
@@ -122,7 +122,7 @@ func (r *RoleRepo) Get(ctx context.Context, req *userV1.GetRoleRequest) (*userV1
 	return r.convertEntToProto(ret), err
 }
 
-func (r *RoleRepo) Create(ctx context.Context, req *userV1.CreateRoleRequest) error {
+func (r *RoleRepo) CreateRole(ctx context.Context, req *userV1.CreateRoleRequest) error {
 	if req.Data == nil {
 		return errors.New("invalid request")
 	}
@@ -155,7 +155,7 @@ func (r *RoleRepo) Create(ctx context.Context, req *userV1.CreateRoleRequest) er
 	return err
 }
 
-func (r *RoleRepo) Update(ctx context.Context, req *userV1.UpdateRoleRequest) error {
+func (r *RoleRepo) UpdateRole(ctx context.Context, req *userV1.UpdateRoleRequest) error {
 	if req.Data == nil {
 		return errors.New("invalid request")
 	}
@@ -167,7 +167,7 @@ func (r *RoleRepo) Update(ctx context.Context, req *userV1.UpdateRoleRequest) er
 			return err
 		}
 		if !exist {
-			return r.Create(ctx, &userV1.CreateRoleRequest{Data: req.Data, OperatorId: req.OperatorId})
+			return r.CreateRole(ctx, &userV1.CreateRoleRequest{Data: req.Data, OperatorId: req.OperatorId})
 		}
 	}
 
@@ -215,7 +215,7 @@ func (r *RoleRepo) Update(ctx context.Context, req *userV1.UpdateRoleRequest) er
 	return err
 }
 
-func (r *RoleRepo) Delete(ctx context.Context, req *userV1.DeleteRoleRequest) (bool, error) {
+func (r *RoleRepo) DeleteRole(ctx context.Context, req *userV1.DeleteRoleRequest) (bool, error) {
 	err := r.data.db.Client().Role.
 		DeleteOneID(req.GetId()).
 		Exec(ctx)

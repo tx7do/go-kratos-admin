@@ -448,16 +448,16 @@ func (allc *AdminLoginLogCreate) createSpec() (*AdminLoginLog, *sqlgraph.CreateS
 // OnConflict allows configuring the `ON CONFLICT` / `ON DUPLICATE KEY` clause
 // of the `INSERT` statement. For example:
 //
-//	client.AdminLoginLog.Create().
+//	client.AdminLoginLog.CreateRole().
 //		SetCreateTime(v).
 //		OnConflict(
-//			// Update the row with the new values
+//			// UpdateRole the row with the new values
 //			// the was proposed for insertion.
 //			sql.ResolveWithNewValues(),
 //		).
 //		// Override some of the fields with custom
 //		// update values.
-//		Update(func(u *ent.AdminLoginLogUpsert) {
+//		UpdateRole(func(u *ent.AdminLoginLogUpsert) {
 //			SetCreateTime(v+v).
 //		}).
 //		Exec(ctx)
@@ -471,7 +471,7 @@ func (allc *AdminLoginLogCreate) OnConflict(opts ...sql.ConflictOption) *AdminLo
 // OnConflictColumns calls `OnConflict` and configures the columns
 // as conflict target. Using this option is equivalent to using:
 //
-//	client.AdminLoginLog.Create().
+//	client.AdminLoginLog.CreateRole().
 //		OnConflict(sql.ConflictColumns(columns...)).
 //		Exec(ctx)
 func (allc *AdminLoginLogCreate) OnConflictColumns(columns ...string) *AdminLoginLogUpsertOne {
@@ -833,7 +833,7 @@ func (u *AdminLoginLogUpsert) ClearLocation() *AdminLoginLogUpsert {
 // UpdateNewValues updates the mutable fields using the new values that were set on create except the ID field.
 // Using this option is equivalent to using:
 //
-//	client.AdminLoginLog.Create().
+//	client.AdminLoginLog.CreateRole().
 //		OnConflict(
 //			sql.ResolveWithNewValues(),
 //			sql.ResolveWith(func(u *sql.UpdateSet) {
@@ -857,7 +857,7 @@ func (u *AdminLoginLogUpsertOne) UpdateNewValues() *AdminLoginLogUpsertOne {
 // Ignore sets each column to itself in case of conflict.
 // Using this option is equivalent to using:
 //
-//	client.AdminLoginLog.Create().
+//	client.AdminLoginLog.CreateRole().
 //	    OnConflict(sql.ResolveWithIgnore()).
 //	    Exec(ctx)
 func (u *AdminLoginLogUpsertOne) Ignore() *AdminLoginLogUpsertOne {
@@ -1400,13 +1400,13 @@ func (allcb *AdminLoginLogCreateBulk) ExecX(ctx context.Context) {
 //
 //	client.AdminLoginLog.CreateBulk(builders...).
 //		OnConflict(
-//			// Update the row with the new values
+//			// UpdateRole the row with the new values
 //			// the was proposed for insertion.
 //			sql.ResolveWithNewValues(),
 //		).
 //		// Override some of the fields with custom
 //		// update values.
-//		Update(func(u *ent.AdminLoginLogUpsert) {
+//		UpdateRole(func(u *ent.AdminLoginLogUpsert) {
 //			SetCreateTime(v+v).
 //		}).
 //		Exec(ctx)
@@ -1420,7 +1420,7 @@ func (allcb *AdminLoginLogCreateBulk) OnConflict(opts ...sql.ConflictOption) *Ad
 // OnConflictColumns calls `OnConflict` and configures the columns
 // as conflict target. Using this option is equivalent to using:
 //
-//	client.AdminLoginLog.Create().
+//	client.AdminLoginLog.CreateRole().
 //		OnConflict(sql.ConflictColumns(columns...)).
 //		Exec(ctx)
 func (allcb *AdminLoginLogCreateBulk) OnConflictColumns(columns ...string) *AdminLoginLogUpsertBulk {
@@ -1439,7 +1439,7 @@ type AdminLoginLogUpsertBulk struct {
 // UpdateNewValues updates the mutable fields using the new values that
 // were set on create. Using this option is equivalent to using:
 //
-//	client.AdminLoginLog.Create().
+//	client.AdminLoginLog.CreateRole().
 //		OnConflict(
 //			sql.ResolveWithNewValues(),
 //			sql.ResolveWith(func(u *sql.UpdateSet) {
@@ -1465,7 +1465,7 @@ func (u *AdminLoginLogUpsertBulk) UpdateNewValues() *AdminLoginLogUpsertBulk {
 // Ignore sets each column to itself in case of conflict.
 // Using this option is equivalent to using:
 //
-//	client.AdminLoginLog.Create().
+//	client.AdminLoginLog.CreateRole().
 //		OnConflict(sql.ResolveWithIgnore()).
 //		Exec(ctx)
 func (u *AdminLoginLogUpsertBulk) Ignore() *AdminLoginLogUpsertBulk {

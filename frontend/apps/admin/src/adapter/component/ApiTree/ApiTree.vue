@@ -188,9 +188,13 @@ async function fetchApi() {
   }
 }
 
+function getModalValue() {
+  return unref(getOptions).length > 0 ? unref(modelValue) : [];
+}
+
 const bindProps = computed(() => {
   return {
-    [props.modelPropName]: unref(modelValue),
+    [props.modelPropName]: getModalValue(),
     [props.optionsPropName]: unref(getOptions),
     [`onUpdate:${props.modelPropName}`]: (val: any) => {
       modelValue.value = val;

@@ -1,7 +1,5 @@
 <script setup lang="ts">
-import type { TreeProps } from 'ant-design-vue';
-
-import { computed, h, ref, unref, watch } from 'vue';
+import { computed, h, ref, unref, useAttrs, watch } from 'vue';
 
 import { LucideEllipsisVertical } from '@vben/icons';
 import { $t } from '@vben/locales';
@@ -26,21 +24,27 @@ const props = withDefaults(defineProps<Props>(), {
 
   labelField: 'label',
   valueField: 'value',
-  childrenField: '',
-  resultField: '',
+  childrenField: 'children',
+  optionsPropName: 'treeData',
+  resultField: 'items',
+  visibleEvent: 'onVisibleChange',
   numberToString: false,
   params: () => ({}),
   immediate: true,
   alwaysLoad: false,
-  loadingSlot: '',
+  loadingSlot: 'suffixIcon',
   beforeFetch: undefined,
   afterFetch: undefined,
-  modelPropName: 'modelValue',
+  modelPropName: 'checked-keys',
   api: undefined,
   options: () => [],
 });
 
 const emit = defineEmits<TreeEmits>();
+
+const attrs = useAttrs();
+
+const modelValue = defineModel({ default: [] });
 
 const refOptions = ref<OptionsItem[]>([]);
 
@@ -48,10 +52,8 @@ const refOptions = ref<OptionsItem[]>([]);
 const isFirstLoaded = ref(false);
 const loading = ref(false);
 
-const treeData = ref<TreeProps['treeData']>([]);
 const expandedKeys = ref<string[]>();
 const selectedKeys = ref<string[]>();
-const checkedKeys = ref<string[]>();
 const checkStrictly = ref(false);
 
 const toolbarList = computed(() => {
@@ -141,7 +143,6 @@ const getOptions = computed(() => {
 });
 
 function emitChange() {
-  treeData.value = unref(getOptions) as TreeProps['treeData'];
   emit('optionsChange', unref(getOptions));
 }
 
@@ -187,6 +188,22 @@ async function fetchApi() {
   }
 }
 
+const bindProps = computed(() => {
+  return {
+    [props.modelPropName]: unref(modelValue),
+    [props.optionsPropName]: unref(getOptions),
+    [`onUpdate:${props.modelPropName}`]: (val: any) => {
+      modelValue.value = val;
+    },
+    ...objectOmit(attrs, ['onUpdate:value']),
+    ...(props.visibleEvent
+      ? {
+          [props.visibleEvent]: handleFetchForVisible,
+        }
+      : {}),
+  };
+});
+
 async function handleFetchForVisible(visible: boolean) {
   if (visible) {
     if (props.alwaysLoad) {
@@ -197,11 +214,11 @@ async function handleFetchForVisible(visible: boolean) {
   }
 }
 
-function getAllKeys() {
-  const keys: string[] = [];
+function getAllKeys(): never[] {
+  const keys: never[] = [];
   function getKeys(data: OptionsItem[]) {
     data.forEach((item) => {
-      keys.push(item.key);
+      keys.push(item.key as never);
       if (item.children) {
         getKeys(item.children);
       }
@@ -229,14 +246,14 @@ function collapseAll() {
  * 全选
  */
 function checkAll() {
-  checkedKeys.value = getAllKeys();
+  modelValue.value = getAllKeys();
 }
 
 /**
  * 全不选
  */
 function uncheckAll() {
-  checkedKeys.value = [];
+  modelValue.value = [];
 }
 
 watch(
@@ -249,12 +266,10 @@ watch(
   },
   { deep: true, immediate: props.immediate },
 );
-
-handleFetchForVisible(true);
 </script>
 
 <template>
-  <a-space direction="vertical">
+  <a-space direction="vertical" v-bind="{ ...$attrs }">
     <a-space>
       <div>{{ props.title }}</div>
       <a-dropdown>
@@ -273,10 +288,9 @@ handleFetchForVisible(true);
     </a-space>
     <a-tree
       checkable
+      v-bind="bindProps"
       v-model:expanded-keys="expandedKeys"
       v-model:selected-keys="selectedKeys"
-      v-model:checked-keys="checkedKeys"
-      :tree-data="treeData"
       :check-strictly="checkStrictly"
     />
   </a-space>

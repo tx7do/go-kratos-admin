@@ -30,6 +30,8 @@ export interface Props {
   childrenField?: string;
   /** value字段名 */
   valueField?: string;
+  /** 组件接收options数据的属性名 */
+  optionsPropName?: string;
   /** 是否立即调用api */
   immediate?: boolean;
   /** 每次`visibleEvent`事件发生时都重新请求数据 */
@@ -42,6 +44,8 @@ export interface Props {
   options?: OptionsItem[];
   /** 组件的插槽名称，用来显示一个"加载中"的图标 */
   loadingSlot?: string;
+  /** 触发api请求的事件名 */
+  visibleEvent?: string;
   /** 组件的v-model属性名，默认为modelValue。部分组件可能为value */
   modelPropName?: string;
 }

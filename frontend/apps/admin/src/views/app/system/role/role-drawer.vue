@@ -84,7 +84,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
             status: 'ON',
           });
         },
-        numberToString: true,
+        loadingSlot: 'suffixIcon',
         childrenField: 'children',
         labelField: 'meta.title',
         valueField: 'id',

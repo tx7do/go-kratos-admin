@@ -74,8 +74,9 @@ const [BaseForm, baseFormApi] = useVbenForm({
       componentProps: {
         placeholder: $t('ui.placeholder.select'),
         api: async () => {
+          const fieldValue = baseFormApi.form.values;
           const result = await menuStore.listMenu(true, null, null, {
-            // parentId: '6',
+            parentId: fieldValue.parentId,
             status: 'ON',
           });
           return result.items;
@@ -261,6 +262,10 @@ const [Drawer, drawerApi] = useVbenDrawer({
     console.log(getTitle.value, values);
 
     try {
+      if (values.meta.authority) {
+        values.meta.authority = values.meta.authority.split(',');
+      }
+
       await (data.value?.create
         ? menuStore.createMenu(values)
         : menuStore.updateMenu(data.value.row.id, values));
@@ -286,6 +291,12 @@ const [Drawer, drawerApi] = useVbenDrawer({
     if (isOpen) {
       // 获取传入的数据
       data.value = drawerApi.getData<Record<string, any>>();
+
+      data.value.row.meta = data.value?.row.meta || {};
+      if (data.value.row.meta.authority) {
+        const authority = data.value.row.meta.authority;
+        data.value.row.meta.authority = authority.join(',');
+      }
 
       // 为表单赋值
       baseFormApi.setValues(data.value?.row);

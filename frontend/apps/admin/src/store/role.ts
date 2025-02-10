@@ -4,7 +4,7 @@ import { defRoleService, makeQueryString, makeUpdateMask } from '#/rpc';
 
 export const useRoleStore = defineStore('role', () => {
   /**
-   * 查询职位列表
+   * 查询角色列表
    */
   async function listRole(
     noPaging: boolean = false,
@@ -26,14 +26,14 @@ export const useRoleStore = defineStore('role', () => {
   }
 
   /**
-   * 获取职位
+   * 获取角色
    */
   async function getRole(id: number) {
     return await defRoleService.GetRole({ id });
   }
 
   /**
-   * 创建职位
+   * 创建角色
    */
   async function createRole(values: object) {
     return await defRoleService.CreateRole({
@@ -45,7 +45,7 @@ export const useRoleStore = defineStore('role', () => {
   }
 
   /**
-   * 更新职位
+   * 更新角色
    */
   async function updateRole(id: number, values: object) {
     return await defRoleService.UpdateRole({
@@ -60,7 +60,7 @@ export const useRoleStore = defineStore('role', () => {
   }
 
   /**
-   * 删除职位
+   * 删除角色
    */
   async function deleteRole(id: number) {
     return await defRoleService.DeleteRole({ id });

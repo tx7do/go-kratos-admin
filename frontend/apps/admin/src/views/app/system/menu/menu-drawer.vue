@@ -292,8 +292,7 @@ const [Drawer, drawerApi] = useVbenDrawer({
       // 获取传入的数据
       data.value = drawerApi.getData<Record<string, any>>();
 
-      data.value.row.meta = data.value?.row.meta || {};
-      if (data.value.row.meta.authority) {
+      if (data.value?.row?.meta && data.value?.row?.meta?.authority) {
         const authority = data.value.row.meta.authority;
         data.value.row.meta.authority = authority.join(',');
       }

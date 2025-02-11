@@ -8,6 +8,14 @@
 
 上手容易，功能丰富，适合快速开发企业级管理系统。
 
+## 演示地址
+
+> 前端地址：<http://124.221.26.30:8080/>
+> 
+> 后端Swagger地址：<http://124.221.26.30:7788/docs/>
+> 
+> 默认账号密码: `admin` / `admin`
+
 ## 技术栈
 
 - 后端基于 [Golang](https://go.dev/) + [go-kratos](https://go-kratos.dev/) + [wire](https://github.com/google/wire) + [ent](https://entgo.io/docs/getting-started/)

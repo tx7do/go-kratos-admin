@@ -16,6 +16,7 @@
     "form": {
       "real_name": "UserName",
       "phone": "Phone",
+      "roleId": "Role",
       "oldPassword": "Old Password",
       "newPassword": "New Password",
       "confirmPassword": "Confirm Password"

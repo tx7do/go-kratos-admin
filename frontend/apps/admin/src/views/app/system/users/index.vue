@@ -12,11 +12,17 @@ import { notification } from 'ant-design-vue';
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
 import { $t } from '#/locales';
 import { router } from '#/router';
-import { authorityToColor, authorityToName, useUserStore } from '#/store';
+import {
+  authorityToColor,
+  authorityToName,
+  useRoleStore,
+  useUserStore,
+} from '#/store';
 
 import UserDrawer from './user-drawer.vue';
 
 const userStore = useUserStore();
+const roleStore = useRoleStore();
 
 const formOptions: VbenFormProps = {
   // 默认展开
@@ -42,6 +48,25 @@ const formOptions: VbenFormProps = {
       componentProps: {
         placeholder: $t('ui.placeholder.input'),
         allowClear: true,
+      },
+    },
+    {
+      component: 'ApiSelect',
+      fieldName: 'roleId',
+      label: $t('page.user.form.roleId'),
+      componentProps: {
+        placeholder: $t('ui.placeholder.select'),
+        allowClear: true,
+        afterFetch: (data: { name: string; path: string }[]) => {
+          return data.map((item: any) => ({
+            label: item.name,
+            value: item.id.toString(),
+          }));
+        },
+        api: async () => {
+          const result = await roleStore.listRole(true);
+          return result.items;
+        },
       },
     },
   ],

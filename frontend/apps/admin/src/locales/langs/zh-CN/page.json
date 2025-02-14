@@ -16,6 +16,7 @@
     "form": {
       "real_name": "用户名称",
       "phone": "手机号码",
+      "roleId": "角色",
       "oldPassword": "当前密码",
       "newPassword": "新密码",
       "confirmPassword": "确认密码"

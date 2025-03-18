@@ -117,7 +117,10 @@ func (r *DictRepo) IsExist(ctx context.Context, id uint32) (bool, error) {
 
 func (r *DictRepo) Get(ctx context.Context, req *systemV1.GetDictRequest) (*systemV1.Dict, error) {
 	ret, err := r.data.db.Client().Dict.Get(ctx, req.GetId())
-	if err != nil && !ent.IsNotFound(err) {
+	if err != nil {
+		if ent.IsNotFound(err) {
+			return nil, systemV1.ErrorResourceNotFound("dict not found")
+		}
 		return nil, err
 	}
 

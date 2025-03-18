@@ -43,6 +43,7 @@ buf generate --template buf.admin.openapi.gen.yaml
 ```bash
 flutter pub global activate protoc_plugin
 ```
+
 或者
 
 ```bash
@@ -71,63 +72,79 @@ buf generate --template buf.admin.typescript.gen.yaml
 
 ## Make构建
 
-请在`app/{服务名}/service`下执行：
+### 在后端项目根目录下执行：
 
-### 初始化开发环境
+#### 初始化开发环境
+
+安装命令行工具和插件：
 
 ```bash
 make init
 ```
 
-### 生成API的go代码
+#### 安装更新命令行工具
+
+```bash
+make cli
+```
+
+#### 安装更新插件
+
+```bash
+make plugin
+```
+
+### 在`app/{服务名}/service`下执行：
+
+#### 生成API的go代码
 
 ```bash
 make api
 ```
 
-### 生成API的OpenAPI v3 文档
+#### 生成API的OpenAPI v3 文档
 
 ```bash
 make openapi
 ```
 
-### 生成API的dart代码
+#### 生成API的dart代码
 
 ```bash
 make dart
 ```
 
-### 生成API的typescript代码
+#### 生成API的typescript代码
 
 ```bash
 make ts
 ```
 
-### 生成ent代码
+#### 生成ent代码
 
 ```bash
 make ent
 ```
 
-### 生成wire代码
+#### 生成wire代码
 
 ```bash
 make wire
 ```
 
-### 构建程序
+#### 构建二进制文件
 
 ```bash
 make build
 ```
 
-### 调试运行
+#### 调试运行
 
 ```bash
 make run
 ```
 
-### 构建Docker镜像
+#### 构建Docker镜像
 
 ```bash
 make docker

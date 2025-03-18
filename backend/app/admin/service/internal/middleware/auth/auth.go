@@ -2,7 +2,6 @@ package auth
 
 import (
 	"context"
-	"kratos-admin/app/admin/service/internal/data"
 
 	"github.com/go-kratos/kratos/v2/middleware"
 	"github.com/go-kratos/kratos/v2/transport"
@@ -12,6 +11,8 @@ import (
 
 	authzEngine "github.com/tx7do/kratos-authz/engine"
 	authz "github.com/tx7do/kratos-authz/middleware"
+
+	"kratos-admin/app/admin/service/internal/data"
 )
 
 var action = authzEngine.Action("ANY")

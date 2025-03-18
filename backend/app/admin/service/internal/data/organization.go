@@ -166,7 +166,11 @@ func (r *OrganizationRepo) IsExist(ctx context.Context, id uint32) (bool, error)
 
 func (r *OrganizationRepo) Get(ctx context.Context, req *userV1.GetOrganizationRequest) (*userV1.Organization, error) {
 	ret, err := r.data.db.Client().Organization.Get(ctx, req.GetId())
-	if err != nil && !ent.IsNotFound(err) {
+	if err != nil {
+		if ent.IsNotFound(err) {
+			return nil, userV1.ErrorOrganizationNotFound("organization not found")
+		}
+
 		return nil, err
 	}
 

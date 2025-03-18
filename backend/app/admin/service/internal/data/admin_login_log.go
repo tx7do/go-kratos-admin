@@ -124,7 +124,10 @@ func (r *AdminLoginLogRepo) IsExist(ctx context.Context, id uint32) (bool, error
 
 func (r *AdminLoginLogRepo) Get(ctx context.Context, req *systemV1.GetAdminLoginLogRequest) (*systemV1.AdminLoginLog, error) {
 	ret, err := r.data.db.Client().AdminLoginLog.Get(ctx, req.GetId())
-	if err != nil && !ent.IsNotFound(err) {
+	if err != nil {
+		if ent.IsNotFound(err) {
+			return nil, systemV1.ErrorResourceNotFound("admin login log not found")
+		}
 		return nil, err
 	}
 

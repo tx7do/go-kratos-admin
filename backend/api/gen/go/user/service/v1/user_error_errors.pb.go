@@ -137,20 +137,6 @@ func ErrorBadRequest(format string, args ...interface{}) *errors.Error {
 	return errors.New(400, UserErrorReason_BAD_REQUEST.String(), fmt.Sprintf(format, args...))
 }
 
-// 400
-func IsInvalidGrantType(err error) bool {
-	if err == nil {
-		return false
-	}
-	e := errors.FromError(err)
-	return e.Reason == UserErrorReason_INVALID_GRANT_TYPE.String() && e.Code == 400
-}
-
-// 400
-func ErrorInvalidGrantType(format string, args ...interface{}) *errors.Error {
-	return errors.New(400, UserErrorReason_INVALID_GRANT_TYPE.String(), fmt.Sprintf(format, args...))
-}
-
 // 用户ID无效
 func IsInvalidUserid(err error) bool {
 	if err == nil {
@@ -163,20 +149,6 @@ func IsInvalidUserid(err error) bool {
 // 用户ID无效
 func ErrorInvalidUserid(format string, args ...interface{}) *errors.Error {
 	return errors.New(400, UserErrorReason_INVALID_USERID.String(), fmt.Sprintf(format, args...))
-}
-
-// token无效
-func IsInvalidToken(err error) bool {
-	if err == nil {
-		return false
-	}
-	e := errors.FromError(err)
-	return e.Reason == UserErrorReason_INVALID_TOKEN.String() && e.Code == 400
-}
-
-// token无效
-func ErrorInvalidToken(format string, args ...interface{}) *errors.Error {
-	return errors.New(400, UserErrorReason_INVALID_TOKEN.String(), fmt.Sprintf(format, args...))
 }
 
 // 密码无效
@@ -221,6 +193,62 @@ func ErrorUserNotFound(format string, args ...interface{}) *errors.Error {
 	return errors.New(404, UserErrorReason_USER_NOT_FOUND.String(), fmt.Sprintf(format, args...))
 }
 
+// 角色不存在
+func IsRoleNotFound(err error) bool {
+	if err == nil {
+		return false
+	}
+	e := errors.FromError(err)
+	return e.Reason == UserErrorReason_ROLE_NOT_FOUND.String() && e.Code == 404
+}
+
+// 角色不存在
+func ErrorRoleNotFound(format string, args ...interface{}) *errors.Error {
+	return errors.New(404, UserErrorReason_ROLE_NOT_FOUND.String(), fmt.Sprintf(format, args...))
+}
+
+// 部门不存在
+func IsDepartmentNotFound(err error) bool {
+	if err == nil {
+		return false
+	}
+	e := errors.FromError(err)
+	return e.Reason == UserErrorReason_DEPARTMENT_NOT_FOUND.String() && e.Code == 404
+}
+
+// 部门不存在
+func ErrorDepartmentNotFound(format string, args ...interface{}) *errors.Error {
+	return errors.New(404, UserErrorReason_DEPARTMENT_NOT_FOUND.String(), fmt.Sprintf(format, args...))
+}
+
+// 组织不存在
+func IsOrganizationNotFound(err error) bool {
+	if err == nil {
+		return false
+	}
+	e := errors.FromError(err)
+	return e.Reason == UserErrorReason_ORGANIZATION_NOT_FOUND.String() && e.Code == 404
+}
+
+// 组织不存在
+func ErrorOrganizationNotFound(format string, args ...interface{}) *errors.Error {
+	return errors.New(404, UserErrorReason_ORGANIZATION_NOT_FOUND.String(), fmt.Sprintf(format, args...))
+}
+
+// 职位不存在
+func IsPositionNotFound(err error) bool {
+	if err == nil {
+		return false
+	}
+	e := errors.FromError(err)
+	return e.Reason == UserErrorReason_POSITION_NOT_FOUND.String() && e.Code == 404
+}
+
+// 职位不存在
+func ErrorPositionNotFound(format string, args ...interface{}) *errors.Error {
+	return errors.New(404, UserErrorReason_POSITION_NOT_FOUND.String(), fmt.Sprintf(format, args...))
+}
+
 // 401
 func IsNotLoggedIn(err error) bool {
 	if err == nil {
@@ -261,76 +289,6 @@ func IsIncorrectPassword(err error) bool {
 // 密码错误
 func ErrorIncorrectPassword(format string, args ...interface{}) *errors.Error {
 	return errors.New(401, UserErrorReason_INCORRECT_PASSWORD.String(), fmt.Sprintf(format, args...))
-}
-
-// 密钥错误
-func IsIncorrectAppSecret(err error) bool {
-	if err == nil {
-		return false
-	}
-	e := errors.FromError(err)
-	return e.Reason == UserErrorReason_INCORRECT_APP_SECRET.String() && e.Code == 401
-}
-
-// 密钥错误
-func ErrorIncorrectAppSecret(format string, args ...interface{}) *errors.Error {
-	return errors.New(401, UserErrorReason_INCORRECT_APP_SECRET.String(), fmt.Sprintf(format, args...))
-}
-
-// 访问令牌错误
-func IsIncorrectAccessToken(err error) bool {
-	if err == nil {
-		return false
-	}
-	e := errors.FromError(err)
-	return e.Reason == UserErrorReason_INCORRECT_ACCESS_TOKEN.String() && e.Code == 401
-}
-
-// 访问令牌错误
-func ErrorIncorrectAccessToken(format string, args ...interface{}) *errors.Error {
-	return errors.New(401, UserErrorReason_INCORRECT_ACCESS_TOKEN.String(), fmt.Sprintf(format, args...))
-}
-
-// 刷新令牌错误
-func IsIncorrectRefreshToken(err error) bool {
-	if err == nil {
-		return false
-	}
-	e := errors.FromError(err)
-	return e.Reason == UserErrorReason_INCORRECT_REFRESH_TOKEN.String() && e.Code == 401
-}
-
-// 刷新令牌错误
-func ErrorIncorrectRefreshToken(format string, args ...interface{}) *errors.Error {
-	return errors.New(401, UserErrorReason_INCORRECT_REFRESH_TOKEN.String(), fmt.Sprintf(format, args...))
-}
-
-// token过期
-func IsTokenExpired(err error) bool {
-	if err == nil {
-		return false
-	}
-	e := errors.FromError(err)
-	return e.Reason == UserErrorReason_TOKEN_EXPIRED.String() && e.Code == 401
-}
-
-// token过期
-func ErrorTokenExpired(format string, args ...interface{}) *errors.Error {
-	return errors.New(401, UserErrorReason_TOKEN_EXPIRED.String(), fmt.Sprintf(format, args...))
-}
-
-// token不存在
-func IsTokenNotExist(err error) bool {
-	if err == nil {
-		return false
-	}
-	e := errors.FromError(err)
-	return e.Reason == UserErrorReason_TOKEN_NOT_EXIST.String() && e.Code == 401
-}
-
-// token不存在
-func ErrorTokenNotExist(format string, args ...interface{}) *errors.Error {
-	return errors.New(401, UserErrorReason_TOKEN_NOT_EXIST.String(), fmt.Sprintf(format, args...))
 }
 
 // 403

@@ -115,7 +115,11 @@ func (r *RoleRepo) IsExist(ctx context.Context, id uint32) (bool, error) {
 
 func (r *RoleRepo) GetRole(ctx context.Context, id uint32) (*userV1.Role, error) {
 	ret, err := r.data.db.Client().Role.Get(ctx, id)
-	if err != nil && !ent.IsNotFound(err) {
+	if err != nil {
+		if ent.IsNotFound(err) {
+			return nil, userV1.ErrorRoleNotFound("role not found")
+		}
+
 		return nil, err
 	}
 

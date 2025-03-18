@@ -133,7 +133,10 @@ func (r *AdminOperationLogRepo) IsExist(ctx context.Context, id uint32) (bool, e
 
 func (r *AdminOperationLogRepo) Get(ctx context.Context, req *systemV1.GetAdminOperationLogRequest) (*systemV1.AdminOperationLog, error) {
 	ret, err := r.data.db.Client().AdminOperationLog.Get(ctx, req.GetId())
-	if err != nil && !ent.IsNotFound(err) {
+	if err != nil {
+		if ent.IsNotFound(err) {
+			return nil, systemV1.ErrorResourceNotFound("admin operation log not found")
+		}
 		return nil, err
 	}
 

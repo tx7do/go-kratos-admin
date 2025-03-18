@@ -199,8 +199,13 @@ func (r *UserRepo) IsExist(ctx context.Context, id uint32) (bool, error) {
 
 func (r *UserRepo) GetUser(ctx context.Context, userId uint32) (*userV1.User, error) {
 	ret, err := r.data.db.Client().User.Get(ctx, userId)
-	if err != nil && !ent.IsNotFound(err) {
+	if err != nil {
 		r.log.Errorf("query one data failed: %s", err.Error())
+
+		if ent.IsNotFound(err) {
+			return nil, userV1.ErrorUserNotFound("user not found")
+		}
+
 		return nil, err
 	}
 
@@ -355,6 +360,11 @@ func (r *UserRepo) GetUserByUserName(ctx context.Context, userName string) (*use
 		Only(ctx)
 	if err != nil {
 		r.log.Errorf("query user data failed: %s", err.Error())
+
+		if ent.IsNotFound(err) {
+			return nil, userV1.ErrorUserNotFound("user not found")
+		}
+
 		return nil, err
 	}
 

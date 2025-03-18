@@ -1,3 +1,5 @@
+.PHONY: build clean docker gen ent wire api openapi run app help
+
 GOPATH ?= $(shell go env GOPATH)
 # GOVERSION is the current go version, e.g. go1.9.2
 GOVERSION ?= $(shell go version | awk '{print $$3;}')
@@ -6,28 +8,28 @@ GOVERSION ?= $(shell go version | awk '{print $$3;}')
 ifeq "$(GOPATH)" ""
   $(error Please set the environment variable GOPATH before running `make`)
 endif
-FAIL_ON_STDOUT := awk '{ print } END { if (NR > 0) { exit 1 } }'
+FAIL_ON_STDOUT	:= awk '{ print } END { if (NR > 0) { exit 1 } }'
 
 GO_CMD			:= GO111MODULE=on go
 GIT_CMD			:= git
 DOCKER_CMD		:= docker
 
-ARCH      := "`uname -s`"
-LINUX     := "Linux"
-MAC       := "Darwin"
+ARCH			:= "`uname -s`"
+LINUX			:= "Linux"
+MAC				:= "Darwin"
 
-DEFAULT_VERSION:=0.0.1
+DEFAULT_VERSION	:= 0.0.1
 
 ifeq ($(OS),Windows_NT)
-    IS_WINDOWS:=TRUE
+    IS_WINDOWS	:= TRUE
 endif
 
 ifneq (git,)
-	GIT_EXIST:=TRUE
+	GIT_EXIST	:= TRUE
 endif
 
 ifneq ("$(wildcard .git)", "")
-	HAS_DOTGIT:=TRUE
+	HAS_DOTGIT	:= TRUE
 endif
 
 ifeq ($(GIT_EXIST),TRUE)
@@ -46,33 +48,20 @@ ifeq ($(HAS_DOTGIT),TRUE)
 endif
 endif
 
-CUR_TAG ?= $(DEFAULT_VERSION)
-LAST_TAG ?= v$(DEFAULT_VERSION)
-VERSION ?= $(DEFAULT_VERSION)
+CUR_TAG		?= $(DEFAULT_VERSION)
+LAST_TAG	?= v$(DEFAULT_VERSION)
+VERSION		?= $(DEFAULT_VERSION)
 
 # GOFLAGS is the flags for the go compiler.
-GOFLAGS ?= -ldflags "-X main.version=$(VERSION)"
+GOFLAGS		?= -ldflags "-X main.version=$(VERSION)"
 
-APP_RELATIVE_PATH=$(shell a=`basename $$PWD` && cd .. && b=`basename $$PWD` && echo $$b/$$a)
-APP_NAME=$(shell echo $(APP_RELATIVE_PATH) | sed -En "s/\//-/p")
-APP_DOCKER_IMAGE=$(shell echo $(APP_NAME) |awk -F '@' '{print "kratos-admin/" $$0 ":0.1.0"}')
-
-
-.PHONY: dep vendor build clean docker gen ent wire api openapi run test cover vet lint app
-
-# download dependencies of module
-dep:
-	@go mod download
-
-# create vendor
-vendor:
-	@go mod vendor
+PROJECT_NAME		:= kratos-admin
+APP_RELATIVE_PATH	:= $(shell a=`basename $$PWD` && cd .. && b=`basename $$PWD` && echo $$b/$$a)
+SERVICE_NAME		:= $(shell a=`basename $$PWD` && cd .. && b=`basename $$PWD` && echo $$b)
+APP_NAME			:= $(shell echo $(APP_RELATIVE_PATH) | sed -En "s/\//-/p")
 
 # build golang application
 build:
-ifeq ("$(wildcard ./bin/)","")
-	mkdir bin
-endif
 	@go build -ldflags "-X main.version=$(APP_VERSION)" -o ./bin/ ./...
 
 # clean build files
@@ -82,9 +71,10 @@ clean:
 
 # build docker image
 docker:
-	@docker build -t $(APP_DOCKER_IMAGE) . \
-				  -f ../../../.docker/Dockerfile \
-				  --build-arg APP_RELATIVE_PATH=$(APP_RELATIVE_PATH) GRPC_PORT=9000 REST_PORT=8000
+	@docker build -t $(PROJECT_NAME)/$(APP_NAME) \
+				  --build-arg SERVICE_NAME=$(SERVICE_NAME) \
+				  --build-arg APP_VERSION=$(APP_VERSION) \
+				  -f ../../../.docker/Dockerfile ../../../
 
 # generate code
 gen: ent wire api openapi
@@ -119,24 +109,8 @@ openapi:
 run: api openapi
 	@go run ./cmd/server -conf ./configs
 
-# run tests
-test:
-	@go test ./...
-
-# run coverage tests
-cover:
-	@go test -v ./... -coverprofile=coverage.out
-
-# run static analysis
-vet:
-	@go vet
-
-# run lint
-lint:
-	@golangci-lint run
-
 # build service app
-app: api wire conf ent build
+app: api openapi wire ent build
 
 # show help
 help:

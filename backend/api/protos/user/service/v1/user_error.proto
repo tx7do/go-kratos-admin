@@ -25,24 +25,21 @@ enum UserErrorReason {
 
   // 400
   BAD_REQUEST = 100 [(errors.code) = 400];// 400
-  INVALID_GRANT_TYPE = 101 [(errors.code) = 400];// 400
-  INVALID_USERID = 102 [(errors.code) = 400];// 用户ID无效
-  INVALID_TOKEN = 103 [(errors.code) = 400];// token无效
-  INVALID_PASSWORD = 104 [(errors.code) = 400];// 密码无效
+  INVALID_USERID = 101 [(errors.code) = 400];// 用户ID无效
+  INVALID_PASSWORD = 102 [(errors.code) = 400];// 密码无效
 
   // 404
   RESOURCE_NOT_FOUND = 200 [(errors.code) = 404]; // 404
   USER_NOT_FOUND = 201 [(errors.code) = 404]; // 用户不存在
+  ROLE_NOT_FOUND = 202 [(errors.code) = 404]; // 角色不存在
+  DEPARTMENT_NOT_FOUND = 203 [(errors.code) = 404]; // 部门不存在
+  ORGANIZATION_NOT_FOUND = 204 [(errors.code) = 404]; // 组织不存在
+  POSITION_NOT_FOUND = 205 [(errors.code) = 404]; // 职位不存在
 
   // 401
   NOT_LOGGED_IN = 300 [(errors.code) = 401];
   USER_FREEZE = 301 [(errors.code) = 401]; // 用户被冻结
   INCORRECT_PASSWORD = 302 [(errors.code) = 401]; // 密码错误
-  INCORRECT_APP_SECRET = 303 [(errors.code) = 401];// 密钥错误
-  INCORRECT_ACCESS_TOKEN = 304 [(errors.code) = 401];// 访问令牌错误
-  INCORRECT_REFRESH_TOKEN = 305 [(errors.code) = 401];// 刷新令牌错误
-  TOKEN_EXPIRED = 306 [(errors.code) = 401];// token过期
-  TOKEN_NOT_EXIST = 307 [(errors.code) = 401];// token不存在
 
   // 403
   ACCESS_FORBIDDEN = 400 [(errors.code) = 403];

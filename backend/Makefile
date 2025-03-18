@@ -1,15 +1,15 @@
 # Not Support Windows
 
-.PHONY: help wire gen ent build api openapi init all
+.PHONY: help wire gen ent build api openapi init all vendor dep test cover vet lint docker
 
 ifeq ($(OS),Windows_NT)
-    IS_WINDOWS:=1
+    IS_WINDOWS := 1
 endif
 
-CURRENT_DIR := $(patsubst %/,%,$(dir $(abspath $(lastword $(MAKEFILE_LIST)))))
-ROOT_DIR := $(dir $(realpath $(lastword $(MAKEFILE_LIST))))
+CURRENT_DIR	:= $(patsubst %/,%,$(dir $(abspath $(lastword $(MAKEFILE_LIST)))))
+ROOT_DIR	:= $(dir $(realpath $(lastword $(MAKEFILE_LIST))))
 
-SRCS_MK := $(foreach dir, app, $(wildcard $(dir)/*/*/Makefile))
+SRCS_MK		:= $(foreach dir, app, $(wildcard $(dir)/*/*/Makefile))
 
 # initialize develop environment
 init: plugin cli
@@ -35,6 +35,30 @@ cli:
 	@go install github.com/bufbuild/buf/cmd/buf@latest
 	@go install entgo.io/ent/cmd/ent@latest
 	@go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
+
+# download dependencies of module
+dep:
+	@go mod download
+
+# create vendor
+vendor:
+	@go mod vendor
+
+# run tests
+test:
+	@go test ./...
+
+# run coverage tests
+cover:
+	@go test -v ./... -coverprofile=coverage.out
+
+# run static analysis
+vet:
+	@go vet
+
+# run lint
+lint:
+	@golangci-lint run
 
 # generate wire code
 wire:
@@ -77,6 +101,13 @@ build:
 	$(foreach dir, $(dir $(realpath $(SRCS_MK))),\
       cd $(dir);\
       make build;\
+    )
+
+# build docker image
+docker:
+	$(foreach dir, $(dir $(realpath $(SRCS_MK))),\
+      cd $(dir);\
+      make docker;\
     )
 
 # generate & build all service applications

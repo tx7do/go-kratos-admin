@@ -94,6 +94,12 @@ make cli
 make plugin
 ```
 
+#### 使用docker-compose部署整套服务（包含三方中间件）
+
+```bash
+make docker-compose
+```
+
 ### 在`app/{服务名}/service`下执行：
 
 #### 生成API的go代码

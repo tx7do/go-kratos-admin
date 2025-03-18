@@ -74,7 +74,7 @@ docker:
 	@docker build -t $(PROJECT_NAME)/$(APP_NAME) \
 				  --build-arg SERVICE_NAME=$(SERVICE_NAME) \
 				  --build-arg APP_VERSION=$(APP_VERSION) \
-				  -f ../../../.docker/Dockerfile ../../../
+				  -f ../../../Dockerfile ../../../
 
 # generate code
 gen: ent wire api openapi

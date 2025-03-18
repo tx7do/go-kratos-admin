@@ -38,8 +38,7 @@ cli:
 
 # use docker compose install middleware.
 docker-compose:
-	@cd .docker/compose && \
-    docker compose up -d --force-recreate
+	@docker compose up -d --force-recreate
 
 # download dependencies of module
 dep:

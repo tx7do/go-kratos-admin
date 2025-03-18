@@ -36,6 +36,11 @@ cli:
 	@go install entgo.io/ent/cmd/ent@latest
 	@go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
 
+# use docker compose install middleware.
+docker-compose:
+	@cd .docker/compose && \
+    docker compose up -d --force-recreate
+
 # download dependencies of module
 dep:
 	@go mod download

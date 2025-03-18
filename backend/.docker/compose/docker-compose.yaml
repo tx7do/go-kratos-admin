@@ -80,3 +80,13 @@ services:
     environment:
       - COLLECTOR_ZIPKIN_HOST_PORT=:9411
       - COLLECTOR_OTLP_ENABLED=true
+
+#  admin-service:
+#    container_name: kratos-admin/admin-service
+#    build:
+#      context: ../  # 指定 Dockerfile 所在的上下文路径
+#      args:
+#        SERVICE_NAME: admin
+#        APP_VERSION: 1.0.0
+#    ports:
+#      - "7788:7788"  # 端口映射，将容器的 7788 端口映射到主机的 7788 端口

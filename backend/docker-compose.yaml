@@ -7,6 +7,7 @@ networks:
 services:
   postgres:
     image: docker.io/timescale/timescaledb:latest-pg15
+    restart: always
     ports:
       - "5432:5432"
     networks:
@@ -18,6 +19,7 @@ services:
 
   redis:
     image: docker.io/bitnami/redis:latest
+    restart: always
     ports:
       - "6379:6379"
     networks:
@@ -33,6 +35,7 @@ services:
 
   minio:
     image: docker.io/minio/minio:latest
+    restart: always
     ports:
       - "9000:9000"
       - "9001:9001"
@@ -50,6 +53,7 @@ services:
 
   consul:
     image: docker.io/bitnami/consul:latest
+    restart: always
     ports:
       - "8300:8300"
       - "8500:8500"
@@ -65,6 +69,7 @@ services:
 
   jaeger:
     image: docker.io/jaegertracing/all-in-one:latest
+    restart: always
     ports:
       - "6831:6831/udp"
       - "5778:5778"
@@ -82,10 +87,17 @@ services:
 
   admin-service:
     image: kratos-admin/admin-service
+    restart: always
     networks:
       - app-tier
     ports:
       - "7788:7788"  # 端口映射，将容器的 7788 端口映射到主机的 7788 端口
+    depends_on:
+      - postgres
+      - redis
+      - minio
+      - consul
+      - jaeger
     build:
       context: ./  # 指定 Dockerfile 所在的上下文路径
       args:

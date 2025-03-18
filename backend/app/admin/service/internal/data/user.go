@@ -241,7 +241,8 @@ func (r *UserRepo) CreateUser(ctx context.Context, req *userV1.CreateUserRequest
 		SetNillableRoleID(req.Data.RoleId).
 		SetNillableWorkID(req.Data.WorkId).
 		SetNillablePositionID(req.Data.PositionId).
-		SetNillableCreateBy(req.OperatorId)
+		SetNillableCreateBy(req.OperatorId).
+		SetNillableCreateTime(timeutil.TimestamppbToTime(req.Data.CreateTime))
 
 	if len(req.GetPassword()) > 0 {
 		cryptoPassword, err := crypto.HashPassword(req.GetPassword())
@@ -252,8 +253,6 @@ func (r *UserRepo) CreateUser(ctx context.Context, req *userV1.CreateUserRequest
 
 	if req.Data.CreateTime == nil {
 		builder.SetCreateTime(time.Now())
-	} else {
-		builder.SetCreateTime(*timeutil.TimestamppbToTime(req.Data.CreateTime))
 	}
 
 	err := builder.Exec(ctx)
@@ -311,12 +310,11 @@ func (r *UserRepo) UpdateUser(ctx context.Context, req *userV1.UpdateUserRequest
 		SetNillableRoleID(req.Data.RoleId).
 		SetNillableWorkID(req.Data.WorkId).
 		SetNillablePositionID(req.Data.PositionId).
-		SetNillableUpdateBy(req.OperatorId)
+		SetNillableUpdateBy(req.OperatorId).
+		SetNillableUpdateTime(timeutil.TimestamppbToTime(req.Data.UpdateTime))
 
 	if req.Data.UpdateTime == nil {
 		builder.SetUpdateTime(time.Now())
-	} else {
-		builder.SetUpdateTime(*timeutil.TimestamppbToTime(req.Data.UpdateTime))
 	}
 
 	if len(req.GetPassword()) > 0 {

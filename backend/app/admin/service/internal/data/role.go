@@ -138,12 +138,11 @@ func (r *RoleRepo) CreateRole(ctx context.Context, req *userV1.CreateRoleRequest
 		SetNillableCode(req.Data.Code).
 		SetNillableStatus((*role.Status)(req.Data.Status)).
 		SetNillableRemark(req.Data.Remark).
-		SetNillableCreateBy(req.OperatorId)
+		SetNillableCreateBy(req.OperatorId).
+		SetNillableCreateTime(timeutil.TimestamppbToTime(req.Data.CreateTime))
 
 	if req.Data.CreateTime == nil {
 		builder.SetCreateTime(time.Now())
-	} else {
-		builder.SetCreateTime(*timeutil.TimestamppbToTime(req.Data.CreateTime))
 	}
 
 	if req.Data.Menus != nil {
@@ -190,12 +189,11 @@ func (r *RoleRepo) UpdateRole(ctx context.Context, req *userV1.UpdateRoleRequest
 		SetNillableCode(req.Data.Code).
 		SetNillableRemark(req.Data.Remark).
 		SetNillableStatus((*role.Status)(req.Data.Status)).
-		SetNillableUpdateBy(req.OperatorId)
+		SetNillableUpdateBy(req.OperatorId).
+		SetNillableUpdateTime(timeutil.TimestamppbToTime(req.Data.UpdateTime))
 
 	if req.Data.UpdateTime == nil {
 		builder.SetUpdateTime(time.Now())
-	} else {
-		builder.SetUpdateTime(*timeutil.TimestamppbToTime(req.Data.UpdateTime))
 	}
 
 	if req.Data.Menus != nil {

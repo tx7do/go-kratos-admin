@@ -155,18 +155,16 @@ func (r *AdminLoginLogRepo) Create(ctx context.Context, req *systemV1.CreateAdmi
 		SetNillableStatusCode(req.Data.StatusCode).
 		SetNillableSuccess(req.Data.Success).
 		SetNillableReason(req.Data.Reason).
-		SetNillableLocation(req.Data.Location)
+		SetNillableLocation(req.Data.Location).
+		SetNillableLoginTime(timeutil.TimestamppbToTime(req.Data.LoginTime)).
+		SetNillableCreateTime(timeutil.TimestamppbToTime(req.Data.CreateTime))
 
 	if req.Data.LoginTime == nil {
 		builder.SetLoginTime(time.Now())
-	} else {
-		builder.SetLoginTime(*timeutil.TimestamppbToTime(req.Data.LoginTime))
 	}
 
 	if req.Data.CreateTime == nil {
 		builder.SetCreateTime(time.Now())
-	} else {
-		builder.SetCreateTime(*timeutil.TimestamppbToTime(req.Data.CreateTime))
 	}
 
 	err := builder.Exec(ctx)
@@ -218,18 +216,16 @@ func (r *AdminLoginLogRepo) Update(ctx context.Context, req *systemV1.UpdateAdmi
 		SetNillableStatusCode(req.Data.StatusCode).
 		SetNillableSuccess(req.Data.Success).
 		SetNillableReason(req.Data.Reason).
-		SetNillableLocation(req.Data.Location)
+		SetNillableLocation(req.Data.Location).
+		SetNillableLoginTime(timeutil.TimestamppbToTime(req.Data.LoginTime)).
+		SetNillableUpdateTime(timeutil.TimestamppbToTime(req.Data.UpdateTime))
 
 	if req.Data.LoginTime == nil {
 		builder.SetLoginTime(time.Now())
-	} else {
-		builder.SetLoginTime(*timeutil.TimestamppbToTime(req.Data.LoginTime))
 	}
 
 	if req.Data.UpdateTime == nil {
 		builder.SetUpdateTime(time.Now())
-	} else {
-		builder.SetUpdateTime(*timeutil.TimestamppbToTime(req.Data.UpdateTime))
 	}
 
 	if req.UpdateMask != nil {

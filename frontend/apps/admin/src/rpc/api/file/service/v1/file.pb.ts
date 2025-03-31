@@ -5,124 +5,153 @@
 // source: file/service/v1/file.proto
 
 /* eslint-disable */
+import { type Empty } from "../../../google/protobuf/empty.pb";
+import { type Timestamp } from "../../../google/protobuf/timestamp.pb";
+import { type PagingRequest } from "../../../pagination/v1/pagination.pb";
 
-/** 前端上传文件所用的HTTP方法 */
-export enum UploadMethod {
-  Put = "Put",
-  Post = "Post",
+/** OSS供应商 */
+export enum OSSProvider {
+  MinIO = "MinIO",
+  Aliyun = "Aliyun",
+  AWS = "AWS",
+  Azure = "Azure",
+  Baidu = "Baidu",
+  Qiniu = "Qiniu",
+  Tencent = "Tencent",
+  Google = "Google",
+  Huawei = "Huawei",
+  QCloud = "QCloud",
+  Local = "Local",
 }
 
-/** 获取对象存储上传链接 - 请求 */
-export interface OssUploadUrlRequest {
-  /** 上传文件所用的HTTP方法 */
-  method: UploadMethod;
-  /** 文件的MIME类型 */
-  contentType?:
-    | string
+/** 文件 */
+export interface File {
+  /** 文件ID */
+  id?:
+    | number
     | null
     | undefined;
-  /** 文件桶名称，如果不填写，将会根据文件名或者MIME类型进行自动解析。 */
+  /** OSS供应商 */
+  provider?:
+    | OSSProvider
+    | null
+    | undefined;
+  /** 存储桶名称 */
   bucketName?:
     | string
     | null
     | undefined;
-  /** 远端的文件路径，可以不填写。 */
-  filePath?:
+  /** 文件目录 */
+  fileDirectory?:
     | string
     | null
     | undefined;
-  /** 文件名，如果不填写，则会生成UUID，有同名文件也会改为UUID。 */
-  fileName?: string | null | undefined;
-}
-
-/** 获取对象存储上传链接 - 回应 */
-export interface OssUploadUrlResponse {
-  /** 文件的上传链接，默认1个小时的过期时间。 */
-  uploadUrl: string;
-  /** 文件的下载链接 */
-  downloadUrl: string;
-  /** 文件桶名称 */
-  bucketName?:
+  /** 文件Guid */
+  fileGuid?:
+    | string
+    | null
+    | undefined;
+  /** 保存文件名 */
+  saveFileName?:
     | string
     | null
     | undefined;
   /** 文件名 */
-  objectName: string;
-  formData: Map<string, string>;
-}
-
-export interface OssUploadUrlResponse_FormDataEntry {
-  key: string;
-  value: string;
-}
-
-export interface GetDownloadUrlRequest {
-}
-
-export interface GetDownloadUrlResponse {
-}
-
-export interface ListFileRequest {
-  /** 文件桶名称 */
-  bucketName?:
+  fileName?:
     | string
     | null
     | undefined;
-  /** 文件夹名称 */
-  folder?:
+  /** 文件扩展名 */
+  extension?:
     | string
     | null
     | undefined;
-  /** 是否递归文件夹 */
-  recursive?: boolean | null | undefined;
+  /** 文件字节长度 */
+  size?:
+    | string
+    | null
+    | undefined;
+  /** 文件大小格式化 */
+  sizeFormat?:
+    | string
+    | null
+    | undefined;
+  /** 链接地址 */
+  linkUrl?:
+    | string
+    | null
+    | undefined;
+  /** md5码，防止上传重复文件 */
+  md5?:
+    | string
+    | null
+    | undefined;
+  /** 创建时间 */
+  createTime?:
+    | Timestamp
+    | null
+    | undefined;
+  /** 更新时间 */
+  updateTime?:
+    | Timestamp
+    | null
+    | undefined;
+  /** 删除时间 */
+  deleteTime?: Timestamp | null | undefined;
 }
 
+/** 文件列表 - 回应 */
 export interface ListFileResponse {
-  files: string[];
+  items: File[];
+  total: number;
 }
 
+/** 文件数据 - 请求 */
+export interface GetFileRequest {
+  id: number;
+}
+
+/** 创建文件 - 请求 */
+export interface CreateFileRequest {
+  data:
+    | File
+    | null;
+  /** 操作用户ID */
+  operatorId?: number | null | undefined;
+}
+
+/** 更新文件 - 请求 */
+export interface UpdateFileRequest {
+  /** 操作用户ID */
+  operatorId?: number | null | undefined;
+  data:
+    | File
+    | null;
+  /** 要更新的字段列表 */
+  updateMask:
+    | string[]
+    | null;
+  /** 如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。 */
+  allowMissing?: boolean | null | undefined;
+}
+
+/** 删除文件 - 请求 */
 export interface DeleteFileRequest {
-  /** 文件桶名称 */
-  bucketName?:
-    | string
-    | null
-    | undefined;
-  /** 文件名 */
-  objectName?: string | null | undefined;
-}
-
-export interface DeleteFileResponse {
-}
-
-export interface UploadFileRequest {
-  /** 文件桶名称 */
-  bucketName?:
-    | string
-    | null
-    | undefined;
-  /** 文件名 */
-  objectName?:
-    | string
-    | null
-    | undefined;
-  /** 文件内容 */
-  file?: Uint8Array | null | undefined;
-}
-
-export interface UploadFileResponse {
-  url: string;
+  id: number;
+  /** 操作用户ID */
+  operatorId?: number | null | undefined;
 }
 
 /** 文件服务 */
 export interface FileService {
-  /** 获取对象存储（OSS）上传链接 */
-  OssUploadUrl(request: OssUploadUrlRequest): Promise<OssUploadUrlResponse>;
-  /** 获取对象存储（OSS）下载链接 */
-  GetDownloadUrl(request: GetDownloadUrlRequest): Promise<GetDownloadUrlResponse>;
-  /** 获取文件夹下面的文件列表 */
-  ListFile(request: ListFileRequest): Promise<ListFileResponse>;
-  /** 删除一个文件 */
-  DeleteFile(request: DeleteFileRequest): Promise<DeleteFileResponse>;
-  /** 上传文件 */
-  UploadFile(request: UploadFileRequest): Promise<UploadFileResponse>;
+  /** 获取文件列表 */
+  ListFile(request: PagingRequest): Promise<ListFileResponse>;
+  /** 获取文件数据 */
+  GetFile(request: GetFileRequest): Promise<File>;
+  /** 创建文件 */
+  CreateFile(request: CreateFileRequest): Promise<Empty>;
+  /** 更新文件 */
+  UpdateFile(request: UpdateFileRequest): Promise<Empty>;
+  /** 删除文件 */
+  DeleteFile(request: DeleteFileRequest): Promise<Empty>;
 }

@@ -26,7 +26,7 @@ export enum UEditorAction {
   catchImage = "catchImage",
 }
 
-export interface File {
+export interface FileData {
   fileName: string;
   mime: string;
   content: Uint8Array;
@@ -288,7 +288,7 @@ export interface UEditorResponse_Item {
 
 export interface UEditorUploadRequest {
   action: string;
-  file?: File | null | undefined;
+  file?: FileData | null | undefined;
 }
 
 export interface UEditorUploadResponse {

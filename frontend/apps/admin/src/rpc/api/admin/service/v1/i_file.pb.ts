@@ -5,20 +5,27 @@
 // source: admin/service/v1/i_file.proto
 
 /* eslint-disable */
-import { Observable } from "rxjs";
 import {
-  type OssUploadUrlRequest,
-  type OssUploadUrlResponse,
-  type UploadFileRequest,
-  type UploadFileResponse,
+  type CreateFileRequest,
+  type DeleteFileRequest,
+  type File,
+  type GetFileRequest,
+  type ListFileResponse,
+  type UpdateFileRequest,
 } from "../../../file/service/v1/file.pb";
+import { type Empty } from "../../../google/protobuf/empty.pb";
+import { type PagingRequest } from "../../../pagination/v1/pagination.pb";
 
-/** 文件服务 */
+/** 文件管理服务 */
 export interface FileService {
-  /** 获取对象存储（OSS）上传用的预签名链接 */
-  OssUploadUrl(request: OssUploadUrlRequest): Promise<OssUploadUrlResponse>;
-  /** POST方法上传文件 */
-  PostUploadFile(request: Observable<UploadFileRequest>): Promise<UploadFileResponse>;
-  /** PUT方法上传文件 */
-  PutUploadFile(request: Observable<UploadFileRequest>): Promise<UploadFileResponse>;
+  /** 查询文件列表 */
+  ListFile(request: PagingRequest): Promise<ListFileResponse>;
+  /** 查询文件详情 */
+  GetFile(request: GetFileRequest): Promise<File>;
+  /** 创建文件 */
+  CreateFile(request: CreateFileRequest): Promise<Empty>;
+  /** 更新文件 */
+  UpdateFile(request: UpdateFileRequest): Promise<Empty>;
+  /** 删除文件 */
+  DeleteFile(request: DeleteFileRequest): Promise<Empty>;
 }

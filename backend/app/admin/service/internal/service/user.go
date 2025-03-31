@@ -52,7 +52,7 @@ func (s *UserService) GetUser(ctx context.Context, req *userV1.GetUserRequest) (
 		user.Roles = append(user.Roles, role.GetCode())
 	}
 
-	return user, err
+	return user, nil
 }
 
 func (s *UserService) GetUserByUserName(ctx context.Context, req *userV1.GetUserByUserNameRequest) (*userV1.User, error) {
@@ -66,7 +66,7 @@ func (s *UserService) GetUserByUserName(ctx context.Context, req *userV1.GetUser
 		user.Roles = append(user.Roles, role.GetCode())
 	}
 
-	return user, err
+	return user, nil
 }
 
 func (s *UserService) CreateUser(ctx context.Context, req *userV1.CreateUserRequest) (*emptypb.Empty, error) {

@@ -84,8 +84,8 @@ ent:
 ifneq ("$(wildcard ./internal/data/ent)","")
 	@go run -mod=mod entgo.io/ent/cmd/ent generate \
 				--feature privacy \
-				--feature sql/modifier \
 				--feature entql \
+				--feature sql/modifier \
 				--feature sql/upsert \
 				--feature sql/lock \
 				./internal/data/ent/schema

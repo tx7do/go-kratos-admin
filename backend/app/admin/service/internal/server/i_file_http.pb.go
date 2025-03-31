@@ -12,7 +12,7 @@ import (
 	fileV1 "kratos-admin/api/gen/go/file/service/v1"
 )
 
-func registerFileUploadHandler(srv *http.Server, svc *service.FileService) {
+func registerFileUploadHandler(srv *http.Server, svc *service.OssService) {
 	r := srv.Route("/")
 	r.POST("admin/v1/file:upload", _FileService_PostUploadFile_HTTP_Handler(svc))
 	r.PUT("admin/v1/file:upload", _FileService_PutUploadFile_HTTP_Handler(svc))
@@ -21,14 +21,14 @@ func registerFileUploadHandler(srv *http.Server, svc *service.FileService) {
 const OperationFileServicePostUploadFile = "/admin.service.v1.FileService/PostUploadFile"
 const OperationFileServicePutUploadFile = "/admin.service.v1.FileService/PutUploadFile"
 
-func _FileService_PostUploadFile_HTTP_Handler(svc *service.FileService) func(ctx http.Context) error {
+func _FileService_PostUploadFile_HTTP_Handler(svc *service.OssService) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
 		http.SetOperation(ctx, OperationFileServicePostUploadFile)
 
-		var in fileV1.UploadFileRequest
+		var in fileV1.UploadOssFileRequest
 		var err error
 
-		var aFile *fileV1.File
+		var aFile *fileV1.FileData
 
 		file, header, err := ctx.Request().FormFile("file")
 		if err == nil {
@@ -37,7 +37,7 @@ func _FileService_PostUploadFile_HTTP_Handler(svc *service.FileService) func(ctx
 			b := new(strings.Builder)
 			_, err = io.Copy(b, file)
 
-			aFile = &fileV1.File{
+			aFile = &fileV1.FileData{
 				FileName: header.Filename,
 				Mime:     header.Header.Get("Content-Type"),
 				Content:  []byte(b.String()),
@@ -49,7 +49,7 @@ func _FileService_PostUploadFile_HTTP_Handler(svc *service.FileService) func(ctx
 		}
 
 		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
-			return svc.PostUploadFile(ctx, req.(*fileV1.UploadFileRequest), aFile)
+			return svc.PostUploadFile(ctx, req.(*fileV1.UploadOssFileRequest), aFile)
 		})
 
 		// 逻辑处理，取数据
@@ -58,20 +58,20 @@ func _FileService_PostUploadFile_HTTP_Handler(svc *service.FileService) func(ctx
 			return err
 		}
 
-		reply := out.(*fileV1.UploadFileResponse)
+		reply := out.(*fileV1.UploadOssFileResponse)
 
 		return ctx.Result(200, reply)
 	}
 }
 
-func _FileService_PutUploadFile_HTTP_Handler(svc *service.FileService) func(ctx http.Context) error {
+func _FileService_PutUploadFile_HTTP_Handler(svc *service.OssService) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
 		http.SetOperation(ctx, OperationFileServicePutUploadFile)
 
-		var in fileV1.UploadFileRequest
+		var in fileV1.UploadOssFileRequest
 		var err error
 
-		var aFile *fileV1.File
+		var aFile *fileV1.FileData
 
 		file, header, err := ctx.Request().FormFile("file")
 		if err == nil {
@@ -80,7 +80,7 @@ func _FileService_PutUploadFile_HTTP_Handler(svc *service.FileService) func(ctx 
 			b := new(strings.Builder)
 			_, err = io.Copy(b, file)
 
-			aFile = &fileV1.File{
+			aFile = &fileV1.FileData{
 				FileName: header.Filename,
 				Mime:     header.Header.Get("Content-Type"),
 				Content:  []byte(b.String()),
@@ -92,7 +92,7 @@ func _FileService_PutUploadFile_HTTP_Handler(svc *service.FileService) func(ctx 
 		}
 
 		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
-			return svc.PutUploadFile(ctx, req.(*fileV1.UploadFileRequest), aFile)
+			return svc.PutUploadFile(ctx, req.(*fileV1.UploadOssFileRequest), aFile)
 		})
 
 		// 逻辑处理，取数据
@@ -101,7 +101,7 @@ func _FileService_PutUploadFile_HTTP_Handler(svc *service.FileService) func(ctx 
 			return err
 		}
 
-		reply := out.(*fileV1.UploadFileResponse)
+		reply := out.(*fileV1.UploadOssFileResponse)
 
 		return ctx.Result(200, reply)
 	}

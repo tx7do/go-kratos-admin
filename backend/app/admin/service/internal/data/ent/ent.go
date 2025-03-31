@@ -10,6 +10,9 @@ import (
 	"kratos-admin/app/admin/service/internal/data/ent/adminoperationlog"
 	"kratos-admin/app/admin/service/internal/data/ent/department"
 	"kratos-admin/app/admin/service/internal/data/ent/dict"
+	"kratos-admin/app/admin/service/internal/data/ent/file"
+	"kratos-admin/app/admin/service/internal/data/ent/insitemessage"
+	"kratos-admin/app/admin/service/internal/data/ent/insitemessagecategory"
 	"kratos-admin/app/admin/service/internal/data/ent/menu"
 	"kratos-admin/app/admin/service/internal/data/ent/organization"
 	"kratos-admin/app/admin/service/internal/data/ent/position"
@@ -81,15 +84,18 @@ var (
 func checkColumn(table, column string) error {
 	initCheck.Do(func() {
 		columnCheck = sql.NewColumnCheck(map[string]func(string) bool{
-			adminloginlog.Table:     adminloginlog.ValidColumn,
-			adminoperationlog.Table: adminoperationlog.ValidColumn,
-			department.Table:        department.ValidColumn,
-			dict.Table:              dict.ValidColumn,
-			menu.Table:              menu.ValidColumn,
-			organization.Table:      organization.ValidColumn,
-			position.Table:          position.ValidColumn,
-			role.Table:              role.ValidColumn,
-			user.Table:              user.ValidColumn,
+			adminloginlog.Table:         adminloginlog.ValidColumn,
+			adminoperationlog.Table:     adminoperationlog.ValidColumn,
+			department.Table:            department.ValidColumn,
+			dict.Table:                  dict.ValidColumn,
+			file.Table:                  file.ValidColumn,
+			insitemessage.Table:         insitemessage.ValidColumn,
+			insitemessagecategory.Table: insitemessagecategory.ValidColumn,
+			menu.Table:                  menu.ValidColumn,
+			organization.Table:          organization.ValidColumn,
+			position.Table:              position.ValidColumn,
+			role.Table:                  role.ValidColumn,
+			user.Table:                  user.ValidColumn,
 		})
 	})
 	return columnCheck(table, column)

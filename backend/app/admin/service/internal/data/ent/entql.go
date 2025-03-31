@@ -7,6 +7,9 @@ import (
 	"kratos-admin/app/admin/service/internal/data/ent/adminoperationlog"
 	"kratos-admin/app/admin/service/internal/data/ent/department"
 	"kratos-admin/app/admin/service/internal/data/ent/dict"
+	"kratos-admin/app/admin/service/internal/data/ent/file"
+	"kratos-admin/app/admin/service/internal/data/ent/insitemessage"
+	"kratos-admin/app/admin/service/internal/data/ent/insitemessagecategory"
 	"kratos-admin/app/admin/service/internal/data/ent/menu"
 	"kratos-admin/app/admin/service/internal/data/ent/organization"
 	"kratos-admin/app/admin/service/internal/data/ent/position"
@@ -22,7 +25,7 @@ import (
 
 // schemaGraph holds a representation of ent/schema at runtime.
 var schemaGraph = func() *sqlgraph.Schema {
-	graph := &sqlgraph.Schema{Nodes: make([]*sqlgraph.Node, 9)}
+	graph := &sqlgraph.Schema{Nodes: make([]*sqlgraph.Node, 12)}
 	graph.Nodes[0] = &sqlgraph.Node{
 		NodeSpec: sqlgraph.NodeSpec{
 			Table:   adminloginlog.Table,
@@ -148,6 +151,82 @@ var schemaGraph = func() *sqlgraph.Schema {
 	}
 	graph.Nodes[4] = &sqlgraph.Node{
 		NodeSpec: sqlgraph.NodeSpec{
+			Table:   file.Table,
+			Columns: file.Columns,
+			ID: &sqlgraph.FieldSpec{
+				Type:   field.TypeUint32,
+				Column: file.FieldID,
+			},
+		},
+		Type: "File",
+		Fields: map[string]*sqlgraph.FieldSpec{
+			file.FieldCreateTime:    {Type: field.TypeTime, Column: file.FieldCreateTime},
+			file.FieldUpdateTime:    {Type: field.TypeTime, Column: file.FieldUpdateTime},
+			file.FieldDeleteTime:    {Type: field.TypeTime, Column: file.FieldDeleteTime},
+			file.FieldCreateBy:      {Type: field.TypeUint32, Column: file.FieldCreateBy},
+			file.FieldRemark:        {Type: field.TypeString, Column: file.FieldRemark},
+			file.FieldProvider:      {Type: field.TypeEnum, Column: file.FieldProvider},
+			file.FieldBucketName:    {Type: field.TypeString, Column: file.FieldBucketName},
+			file.FieldFileDirectory: {Type: field.TypeString, Column: file.FieldFileDirectory},
+			file.FieldFileGUID:      {Type: field.TypeString, Column: file.FieldFileGUID},
+			file.FieldSaveFileName:  {Type: field.TypeString, Column: file.FieldSaveFileName},
+			file.FieldFileName:      {Type: field.TypeString, Column: file.FieldFileName},
+			file.FieldExtension:     {Type: field.TypeString, Column: file.FieldExtension},
+			file.FieldSize:          {Type: field.TypeUint64, Column: file.FieldSize},
+			file.FieldSizeFormat:    {Type: field.TypeString, Column: file.FieldSizeFormat},
+			file.FieldLinkURL:       {Type: field.TypeString, Column: file.FieldLinkURL},
+			file.FieldMd5:           {Type: field.TypeString, Column: file.FieldMd5},
+		},
+	}
+	graph.Nodes[5] = &sqlgraph.Node{
+		NodeSpec: sqlgraph.NodeSpec{
+			Table:   insitemessage.Table,
+			Columns: insitemessage.Columns,
+			ID: &sqlgraph.FieldSpec{
+				Type:   field.TypeUint32,
+				Column: insitemessage.FieldID,
+			},
+		},
+		Type: "InSiteMessage",
+		Fields: map[string]*sqlgraph.FieldSpec{
+			insitemessage.FieldCreateTime: {Type: field.TypeTime, Column: insitemessage.FieldCreateTime},
+			insitemessage.FieldUpdateTime: {Type: field.TypeTime, Column: insitemessage.FieldUpdateTime},
+			insitemessage.FieldDeleteTime: {Type: field.TypeTime, Column: insitemessage.FieldDeleteTime},
+			insitemessage.FieldCreateBy:   {Type: field.TypeUint32, Column: insitemessage.FieldCreateBy},
+			insitemessage.FieldUpdateBy:   {Type: field.TypeUint32, Column: insitemessage.FieldUpdateBy},
+			insitemessage.FieldRemark:     {Type: field.TypeString, Column: insitemessage.FieldRemark},
+			insitemessage.FieldTitle:      {Type: field.TypeString, Column: insitemessage.FieldTitle},
+			insitemessage.FieldContent:    {Type: field.TypeString, Column: insitemessage.FieldContent},
+			insitemessage.FieldCategoryID: {Type: field.TypeUint32, Column: insitemessage.FieldCategoryID},
+			insitemessage.FieldStatus:     {Type: field.TypeEnum, Column: insitemessage.FieldStatus},
+		},
+	}
+	graph.Nodes[6] = &sqlgraph.Node{
+		NodeSpec: sqlgraph.NodeSpec{
+			Table:   insitemessagecategory.Table,
+			Columns: insitemessagecategory.Columns,
+			ID: &sqlgraph.FieldSpec{
+				Type:   field.TypeUint32,
+				Column: insitemessagecategory.FieldID,
+			},
+		},
+		Type: "InSiteMessageCategory",
+		Fields: map[string]*sqlgraph.FieldSpec{
+			insitemessagecategory.FieldCreateTime: {Type: field.TypeTime, Column: insitemessagecategory.FieldCreateTime},
+			insitemessagecategory.FieldUpdateTime: {Type: field.TypeTime, Column: insitemessagecategory.FieldUpdateTime},
+			insitemessagecategory.FieldDeleteTime: {Type: field.TypeTime, Column: insitemessagecategory.FieldDeleteTime},
+			insitemessagecategory.FieldCreateBy:   {Type: field.TypeUint32, Column: insitemessagecategory.FieldCreateBy},
+			insitemessagecategory.FieldUpdateBy:   {Type: field.TypeUint32, Column: insitemessagecategory.FieldUpdateBy},
+			insitemessagecategory.FieldRemark:     {Type: field.TypeString, Column: insitemessagecategory.FieldRemark},
+			insitemessagecategory.FieldName:       {Type: field.TypeString, Column: insitemessagecategory.FieldName},
+			insitemessagecategory.FieldCode:       {Type: field.TypeString, Column: insitemessagecategory.FieldCode},
+			insitemessagecategory.FieldSortID:     {Type: field.TypeInt32, Column: insitemessagecategory.FieldSortID},
+			insitemessagecategory.FieldEnable:     {Type: field.TypeBool, Column: insitemessagecategory.FieldEnable},
+			insitemessagecategory.FieldParentID:   {Type: field.TypeUint32, Column: insitemessagecategory.FieldParentID},
+		},
+	}
+	graph.Nodes[7] = &sqlgraph.Node{
+		NodeSpec: sqlgraph.NodeSpec{
 			Table:   menu.Table,
 			Columns: menu.Columns,
 			ID: &sqlgraph.FieldSpec{
@@ -174,7 +253,7 @@ var schemaGraph = func() *sqlgraph.Schema {
 			menu.FieldMeta:       {Type: field.TypeJSON, Column: menu.FieldMeta},
 		},
 	}
-	graph.Nodes[5] = &sqlgraph.Node{
+	graph.Nodes[8] = &sqlgraph.Node{
 		NodeSpec: sqlgraph.NodeSpec{
 			Table:   organization.Table,
 			Columns: organization.Columns,
@@ -197,7 +276,7 @@ var schemaGraph = func() *sqlgraph.Schema {
 			organization.FieldSortID:     {Type: field.TypeInt32, Column: organization.FieldSortID},
 		},
 	}
-	graph.Nodes[6] = &sqlgraph.Node{
+	graph.Nodes[9] = &sqlgraph.Node{
 		NodeSpec: sqlgraph.NodeSpec{
 			Table:   position.Table,
 			Columns: position.Columns,
@@ -221,7 +300,7 @@ var schemaGraph = func() *sqlgraph.Schema {
 			position.FieldSortID:     {Type: field.TypeInt32, Column: position.FieldSortID},
 		},
 	}
-	graph.Nodes[7] = &sqlgraph.Node{
+	graph.Nodes[10] = &sqlgraph.Node{
 		NodeSpec: sqlgraph.NodeSpec{
 			Table:   role.Table,
 			Columns: role.Columns,
@@ -246,7 +325,7 @@ var schemaGraph = func() *sqlgraph.Schema {
 			role.FieldMenus:      {Type: field.TypeJSON, Column: role.FieldMenus},
 		},
 	}
-	graph.Nodes[8] = &sqlgraph.Node{
+	graph.Nodes[11] = &sqlgraph.Node{
 		NodeSpec: sqlgraph.NodeSpec{
 			Table:   user.Table,
 			Columns: user.Columns,
@@ -308,6 +387,30 @@ var schemaGraph = func() *sqlgraph.Schema {
 		},
 		"Department",
 		"Department",
+	)
+	graph.MustAddE(
+		"parent",
+		&sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2O,
+			Inverse: true,
+			Table:   insitemessagecategory.ParentTable,
+			Columns: []string{insitemessagecategory.ParentColumn},
+			Bidi:    false,
+		},
+		"InSiteMessageCategory",
+		"InSiteMessageCategory",
+	)
+	graph.MustAddE(
+		"children",
+		&sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   insitemessagecategory.ChildrenTable,
+			Columns: []string{insitemessagecategory.ChildrenColumn},
+			Bidi:    false,
+		},
+		"InSiteMessageCategory",
+		"InSiteMessageCategory",
 	)
 	graph.MustAddE(
 		"parent",
@@ -958,6 +1061,339 @@ func (f *DictFilter) WhereSortID(p entql.Int32P) {
 }
 
 // addPredicate implements the predicateAdder interface.
+func (fq *FileQuery) addPredicate(pred func(s *sql.Selector)) {
+	fq.predicates = append(fq.predicates, pred)
+}
+
+// Filter returns a Filter implementation to apply filters on the FileQuery builder.
+func (fq *FileQuery) Filter() *FileFilter {
+	return &FileFilter{config: fq.config, predicateAdder: fq}
+}
+
+// addPredicate implements the predicateAdder interface.
+func (m *FileMutation) addPredicate(pred func(s *sql.Selector)) {
+	m.predicates = append(m.predicates, pred)
+}
+
+// Filter returns an entql.Where implementation to apply filters on the FileMutation builder.
+func (m *FileMutation) Filter() *FileFilter {
+	return &FileFilter{config: m.config, predicateAdder: m}
+}
+
+// FileFilter provides a generic filtering capability at runtime for FileQuery.
+type FileFilter struct {
+	predicateAdder
+	config
+}
+
+// Where applies the entql predicate on the query filter.
+func (f *FileFilter) Where(p entql.P) {
+	f.addPredicate(func(s *sql.Selector) {
+		if err := schemaGraph.EvalP(schemaGraph.Nodes[4].Type, p, s); err != nil {
+			s.AddError(err)
+		}
+	})
+}
+
+// WhereID applies the entql uint32 predicate on the id field.
+func (f *FileFilter) WhereID(p entql.Uint32P) {
+	f.Where(p.Field(file.FieldID))
+}
+
+// WhereCreateTime applies the entql time.Time predicate on the create_time field.
+func (f *FileFilter) WhereCreateTime(p entql.TimeP) {
+	f.Where(p.Field(file.FieldCreateTime))
+}
+
+// WhereUpdateTime applies the entql time.Time predicate on the update_time field.
+func (f *FileFilter) WhereUpdateTime(p entql.TimeP) {
+	f.Where(p.Field(file.FieldUpdateTime))
+}
+
+// WhereDeleteTime applies the entql time.Time predicate on the delete_time field.
+func (f *FileFilter) WhereDeleteTime(p entql.TimeP) {
+	f.Where(p.Field(file.FieldDeleteTime))
+}
+
+// WhereCreateBy applies the entql uint32 predicate on the create_by field.
+func (f *FileFilter) WhereCreateBy(p entql.Uint32P) {
+	f.Where(p.Field(file.FieldCreateBy))
+}
+
+// WhereRemark applies the entql string predicate on the remark field.
+func (f *FileFilter) WhereRemark(p entql.StringP) {
+	f.Where(p.Field(file.FieldRemark))
+}
+
+// WhereProvider applies the entql string predicate on the provider field.
+func (f *FileFilter) WhereProvider(p entql.StringP) {
+	f.Where(p.Field(file.FieldProvider))
+}
+
+// WhereBucketName applies the entql string predicate on the bucket_name field.
+func (f *FileFilter) WhereBucketName(p entql.StringP) {
+	f.Where(p.Field(file.FieldBucketName))
+}
+
+// WhereFileDirectory applies the entql string predicate on the file_directory field.
+func (f *FileFilter) WhereFileDirectory(p entql.StringP) {
+	f.Where(p.Field(file.FieldFileDirectory))
+}
+
+// WhereFileGUID applies the entql string predicate on the file_guid field.
+func (f *FileFilter) WhereFileGUID(p entql.StringP) {
+	f.Where(p.Field(file.FieldFileGUID))
+}
+
+// WhereSaveFileName applies the entql string predicate on the save_file_name field.
+func (f *FileFilter) WhereSaveFileName(p entql.StringP) {
+	f.Where(p.Field(file.FieldSaveFileName))
+}
+
+// WhereFileName applies the entql string predicate on the file_name field.
+func (f *FileFilter) WhereFileName(p entql.StringP) {
+	f.Where(p.Field(file.FieldFileName))
+}
+
+// WhereExtension applies the entql string predicate on the extension field.
+func (f *FileFilter) WhereExtension(p entql.StringP) {
+	f.Where(p.Field(file.FieldExtension))
+}
+
+// WhereSize applies the entql uint64 predicate on the size field.
+func (f *FileFilter) WhereSize(p entql.Uint64P) {
+	f.Where(p.Field(file.FieldSize))
+}
+
+// WhereSizeFormat applies the entql string predicate on the size_format field.
+func (f *FileFilter) WhereSizeFormat(p entql.StringP) {
+	f.Where(p.Field(file.FieldSizeFormat))
+}
+
+// WhereLinkURL applies the entql string predicate on the link_url field.
+func (f *FileFilter) WhereLinkURL(p entql.StringP) {
+	f.Where(p.Field(file.FieldLinkURL))
+}
+
+// WhereMd5 applies the entql string predicate on the md5 field.
+func (f *FileFilter) WhereMd5(p entql.StringP) {
+	f.Where(p.Field(file.FieldMd5))
+}
+
+// addPredicate implements the predicateAdder interface.
+func (ismq *InSiteMessageQuery) addPredicate(pred func(s *sql.Selector)) {
+	ismq.predicates = append(ismq.predicates, pred)
+}
+
+// Filter returns a Filter implementation to apply filters on the InSiteMessageQuery builder.
+func (ismq *InSiteMessageQuery) Filter() *InSiteMessageFilter {
+	return &InSiteMessageFilter{config: ismq.config, predicateAdder: ismq}
+}
+
+// addPredicate implements the predicateAdder interface.
+func (m *InSiteMessageMutation) addPredicate(pred func(s *sql.Selector)) {
+	m.predicates = append(m.predicates, pred)
+}
+
+// Filter returns an entql.Where implementation to apply filters on the InSiteMessageMutation builder.
+func (m *InSiteMessageMutation) Filter() *InSiteMessageFilter {
+	return &InSiteMessageFilter{config: m.config, predicateAdder: m}
+}
+
+// InSiteMessageFilter provides a generic filtering capability at runtime for InSiteMessageQuery.
+type InSiteMessageFilter struct {
+	predicateAdder
+	config
+}
+
+// Where applies the entql predicate on the query filter.
+func (f *InSiteMessageFilter) Where(p entql.P) {
+	f.addPredicate(func(s *sql.Selector) {
+		if err := schemaGraph.EvalP(schemaGraph.Nodes[5].Type, p, s); err != nil {
+			s.AddError(err)
+		}
+	})
+}
+
+// WhereID applies the entql uint32 predicate on the id field.
+func (f *InSiteMessageFilter) WhereID(p entql.Uint32P) {
+	f.Where(p.Field(insitemessage.FieldID))
+}
+
+// WhereCreateTime applies the entql time.Time predicate on the create_time field.
+func (f *InSiteMessageFilter) WhereCreateTime(p entql.TimeP) {
+	f.Where(p.Field(insitemessage.FieldCreateTime))
+}
+
+// WhereUpdateTime applies the entql time.Time predicate on the update_time field.
+func (f *InSiteMessageFilter) WhereUpdateTime(p entql.TimeP) {
+	f.Where(p.Field(insitemessage.FieldUpdateTime))
+}
+
+// WhereDeleteTime applies the entql time.Time predicate on the delete_time field.
+func (f *InSiteMessageFilter) WhereDeleteTime(p entql.TimeP) {
+	f.Where(p.Field(insitemessage.FieldDeleteTime))
+}
+
+// WhereCreateBy applies the entql uint32 predicate on the create_by field.
+func (f *InSiteMessageFilter) WhereCreateBy(p entql.Uint32P) {
+	f.Where(p.Field(insitemessage.FieldCreateBy))
+}
+
+// WhereUpdateBy applies the entql uint32 predicate on the update_by field.
+func (f *InSiteMessageFilter) WhereUpdateBy(p entql.Uint32P) {
+	f.Where(p.Field(insitemessage.FieldUpdateBy))
+}
+
+// WhereRemark applies the entql string predicate on the remark field.
+func (f *InSiteMessageFilter) WhereRemark(p entql.StringP) {
+	f.Where(p.Field(insitemessage.FieldRemark))
+}
+
+// WhereTitle applies the entql string predicate on the title field.
+func (f *InSiteMessageFilter) WhereTitle(p entql.StringP) {
+	f.Where(p.Field(insitemessage.FieldTitle))
+}
+
+// WhereContent applies the entql string predicate on the content field.
+func (f *InSiteMessageFilter) WhereContent(p entql.StringP) {
+	f.Where(p.Field(insitemessage.FieldContent))
+}
+
+// WhereCategoryID applies the entql uint32 predicate on the category_id field.
+func (f *InSiteMessageFilter) WhereCategoryID(p entql.Uint32P) {
+	f.Where(p.Field(insitemessage.FieldCategoryID))
+}
+
+// WhereStatus applies the entql string predicate on the status field.
+func (f *InSiteMessageFilter) WhereStatus(p entql.StringP) {
+	f.Where(p.Field(insitemessage.FieldStatus))
+}
+
+// addPredicate implements the predicateAdder interface.
+func (ismcq *InSiteMessageCategoryQuery) addPredicate(pred func(s *sql.Selector)) {
+	ismcq.predicates = append(ismcq.predicates, pred)
+}
+
+// Filter returns a Filter implementation to apply filters on the InSiteMessageCategoryQuery builder.
+func (ismcq *InSiteMessageCategoryQuery) Filter() *InSiteMessageCategoryFilter {
+	return &InSiteMessageCategoryFilter{config: ismcq.config, predicateAdder: ismcq}
+}
+
+// addPredicate implements the predicateAdder interface.
+func (m *InSiteMessageCategoryMutation) addPredicate(pred func(s *sql.Selector)) {
+	m.predicates = append(m.predicates, pred)
+}
+
+// Filter returns an entql.Where implementation to apply filters on the InSiteMessageCategoryMutation builder.
+func (m *InSiteMessageCategoryMutation) Filter() *InSiteMessageCategoryFilter {
+	return &InSiteMessageCategoryFilter{config: m.config, predicateAdder: m}
+}
+
+// InSiteMessageCategoryFilter provides a generic filtering capability at runtime for InSiteMessageCategoryQuery.
+type InSiteMessageCategoryFilter struct {
+	predicateAdder
+	config
+}
+
+// Where applies the entql predicate on the query filter.
+func (f *InSiteMessageCategoryFilter) Where(p entql.P) {
+	f.addPredicate(func(s *sql.Selector) {
+		if err := schemaGraph.EvalP(schemaGraph.Nodes[6].Type, p, s); err != nil {
+			s.AddError(err)
+		}
+	})
+}
+
+// WhereID applies the entql uint32 predicate on the id field.
+func (f *InSiteMessageCategoryFilter) WhereID(p entql.Uint32P) {
+	f.Where(p.Field(insitemessagecategory.FieldID))
+}
+
+// WhereCreateTime applies the entql time.Time predicate on the create_time field.
+func (f *InSiteMessageCategoryFilter) WhereCreateTime(p entql.TimeP) {
+	f.Where(p.Field(insitemessagecategory.FieldCreateTime))
+}
+
+// WhereUpdateTime applies the entql time.Time predicate on the update_time field.
+func (f *InSiteMessageCategoryFilter) WhereUpdateTime(p entql.TimeP) {
+	f.Where(p.Field(insitemessagecategory.FieldUpdateTime))
+}
+
+// WhereDeleteTime applies the entql time.Time predicate on the delete_time field.
+func (f *InSiteMessageCategoryFilter) WhereDeleteTime(p entql.TimeP) {
+	f.Where(p.Field(insitemessagecategory.FieldDeleteTime))
+}
+
+// WhereCreateBy applies the entql uint32 predicate on the create_by field.
+func (f *InSiteMessageCategoryFilter) WhereCreateBy(p entql.Uint32P) {
+	f.Where(p.Field(insitemessagecategory.FieldCreateBy))
+}
+
+// WhereUpdateBy applies the entql uint32 predicate on the update_by field.
+func (f *InSiteMessageCategoryFilter) WhereUpdateBy(p entql.Uint32P) {
+	f.Where(p.Field(insitemessagecategory.FieldUpdateBy))
+}
+
+// WhereRemark applies the entql string predicate on the remark field.
+func (f *InSiteMessageCategoryFilter) WhereRemark(p entql.StringP) {
+	f.Where(p.Field(insitemessagecategory.FieldRemark))
+}
+
+// WhereName applies the entql string predicate on the name field.
+func (f *InSiteMessageCategoryFilter) WhereName(p entql.StringP) {
+	f.Where(p.Field(insitemessagecategory.FieldName))
+}
+
+// WhereCode applies the entql string predicate on the code field.
+func (f *InSiteMessageCategoryFilter) WhereCode(p entql.StringP) {
+	f.Where(p.Field(insitemessagecategory.FieldCode))
+}
+
+// WhereSortID applies the entql int32 predicate on the sort_id field.
+func (f *InSiteMessageCategoryFilter) WhereSortID(p entql.Int32P) {
+	f.Where(p.Field(insitemessagecategory.FieldSortID))
+}
+
+// WhereEnable applies the entql bool predicate on the enable field.
+func (f *InSiteMessageCategoryFilter) WhereEnable(p entql.BoolP) {
+	f.Where(p.Field(insitemessagecategory.FieldEnable))
+}
+
+// WhereParentID applies the entql uint32 predicate on the parent_id field.
+func (f *InSiteMessageCategoryFilter) WhereParentID(p entql.Uint32P) {
+	f.Where(p.Field(insitemessagecategory.FieldParentID))
+}
+
+// WhereHasParent applies a predicate to check if query has an edge parent.
+func (f *InSiteMessageCategoryFilter) WhereHasParent() {
+	f.Where(entql.HasEdge("parent"))
+}
+
+// WhereHasParentWith applies a predicate to check if query has an edge parent with a given conditions (other predicates).
+func (f *InSiteMessageCategoryFilter) WhereHasParentWith(preds ...predicate.InSiteMessageCategory) {
+	f.Where(entql.HasEdgeWith("parent", sqlgraph.WrapFunc(func(s *sql.Selector) {
+		for _, p := range preds {
+			p(s)
+		}
+	})))
+}
+
+// WhereHasChildren applies a predicate to check if query has an edge children.
+func (f *InSiteMessageCategoryFilter) WhereHasChildren() {
+	f.Where(entql.HasEdge("children"))
+}
+
+// WhereHasChildrenWith applies a predicate to check if query has an edge children with a given conditions (other predicates).
+func (f *InSiteMessageCategoryFilter) WhereHasChildrenWith(preds ...predicate.InSiteMessageCategory) {
+	f.Where(entql.HasEdgeWith("children", sqlgraph.WrapFunc(func(s *sql.Selector) {
+		for _, p := range preds {
+			p(s)
+		}
+	})))
+}
+
+// addPredicate implements the predicateAdder interface.
 func (mq *MenuQuery) addPredicate(pred func(s *sql.Selector)) {
 	mq.predicates = append(mq.predicates, pred)
 }
@@ -986,7 +1422,7 @@ type MenuFilter struct {
 // Where applies the entql predicate on the query filter.
 func (f *MenuFilter) Where(p entql.P) {
 	f.addPredicate(func(s *sql.Selector) {
-		if err := schemaGraph.EvalP(schemaGraph.Nodes[4].Type, p, s); err != nil {
+		if err := schemaGraph.EvalP(schemaGraph.Nodes[7].Type, p, s); err != nil {
 			s.AddError(err)
 		}
 	})
@@ -1129,7 +1565,7 @@ type OrganizationFilter struct {
 // Where applies the entql predicate on the query filter.
 func (f *OrganizationFilter) Where(p entql.P) {
 	f.addPredicate(func(s *sql.Selector) {
-		if err := schemaGraph.EvalP(schemaGraph.Nodes[5].Type, p, s); err != nil {
+		if err := schemaGraph.EvalP(schemaGraph.Nodes[8].Type, p, s); err != nil {
 			s.AddError(err)
 		}
 	})
@@ -1247,7 +1683,7 @@ type PositionFilter struct {
 // Where applies the entql predicate on the query filter.
 func (f *PositionFilter) Where(p entql.P) {
 	f.addPredicate(func(s *sql.Selector) {
-		if err := schemaGraph.EvalP(schemaGraph.Nodes[6].Type, p, s); err != nil {
+		if err := schemaGraph.EvalP(schemaGraph.Nodes[9].Type, p, s); err != nil {
 			s.AddError(err)
 		}
 	})
@@ -1370,7 +1806,7 @@ type RoleFilter struct {
 // Where applies the entql predicate on the query filter.
 func (f *RoleFilter) Where(p entql.P) {
 	f.addPredicate(func(s *sql.Selector) {
-		if err := schemaGraph.EvalP(schemaGraph.Nodes[7].Type, p, s); err != nil {
+		if err := schemaGraph.EvalP(schemaGraph.Nodes[10].Type, p, s); err != nil {
 			s.AddError(err)
 		}
 	})
@@ -1498,7 +1934,7 @@ type UserFilter struct {
 // Where applies the entql predicate on the query filter.
 func (f *UserFilter) Where(p entql.P) {
 	f.addPredicate(func(s *sql.Selector) {
-		if err := schemaGraph.EvalP(schemaGraph.Nodes[8].Type, p, s); err != nil {
+		if err := schemaGraph.EvalP(schemaGraph.Nodes[11].Type, p, s); err != nil {
 			s.AddError(err)
 		}
 	})

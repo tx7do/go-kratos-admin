@@ -1,0 +1,139 @@
+syntax = "proto3";
+
+package system.service.v1;
+
+import "gnostic/openapi/v3/annotations.proto";
+
+import "google/api/annotations.proto";
+import "google/api/field_behavior.proto";
+
+import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/field_mask.proto";
+
+import "pagination/v1/pagination.proto";
+
+// 站内信服务
+service InSiteMessageService {
+  // 查询站内信列表
+  rpc ListInSiteMessage (pagination.PagingRequest) returns (ListInSiteMessageResponse) {}
+
+  // 查询站内信详情
+  rpc GetInSiteMessage (GetInSiteMessageRequest) returns (InSiteMessage) {}
+
+  // 创建站内信
+  rpc CreateInSiteMessage (CreateInSiteMessageRequest) returns (google.protobuf.Empty) {}
+
+  // 更新站内信
+  rpc UpdateInSiteMessage (UpdateInSiteMessageRequest) returns (google.protobuf.Empty) {}
+
+  // 删除站内信
+  rpc DeleteInSiteMessage (DeleteInSiteMessageRequest) returns (google.protobuf.Empty) {}
+}
+
+// 消息状态
+enum MessageStatus {
+  MessageStatus_Unknown = 0; // 未知状态
+
+  MessageStatus_Draft = 1; // 草稿
+  MessageStatus_Published = 2; // 已发布
+  MessageStatus_Scheduled = 3; // 定时发布
+  MessageStatus_Revoked = 4; // 已撤销
+  MessageStatus_Archived = 5; // 已归档
+}
+
+// 站内信
+message InSiteMessage {
+  optional uint32 id = 1 [
+    json_name = "id",
+    (google.api.field_behavior) = OPTIONAL,
+    (gnostic.openapi.v3.property) = { description: "消息ID" }
+  ]; // 消息ID
+
+  optional string title = 2 [
+    json_name = "title",
+    (gnostic.openapi.v3.property) = { description: "标题" }
+  ]; // 标题
+
+  optional string content = 3 [
+    json_name = "content",
+    (gnostic.openapi.v3.property) = { description: "内容" }
+  ]; // 内容
+
+  optional uint32 category_id = 4 [
+    json_name = "categoryId",
+    (gnostic.openapi.v3.property) = { description: "分类ID" }
+  ]; // 分类ID
+
+  optional string category_name = 5 [
+    json_name = "categoryName",
+    (gnostic.openapi.v3.property) = {
+      description: "分类名称"
+    }
+  ]; // 分类名称
+
+  optional MessageStatus status = 6 [
+    json_name = "status",
+    (gnostic.openapi.v3.property) = {
+      description: "消息状态"
+    }
+  ]; // 消息状态
+
+  optional google.protobuf.Timestamp create_time = 200 [json_name = "createTime", (gnostic.openapi.v3.property) = {description: "创建时间"}];// 创建时间
+  optional google.protobuf.Timestamp update_time = 201 [json_name = "updateTime", (gnostic.openapi.v3.property) = {description: "更新时间"}];// 更新时间
+  optional google.protobuf.Timestamp delete_time = 202 [json_name = "deleteTime", (gnostic.openapi.v3.property) = {description: "删除时间"}];// 删除时间
+}
+
+// 查询站内信列表 - 回应
+message ListInSiteMessageResponse {
+  repeated InSiteMessage items = 1;
+  uint32 total = 2;
+}
+
+// 查询站内信详情 - 请求
+message GetInSiteMessageRequest {
+  uint32 id = 1;
+}
+
+// 创建站内信 - 请求
+message CreateInSiteMessageRequest {
+  optional uint32 operator_id = 1 [
+    (gnostic.openapi.v3.property) = {description: "操作用户ID", read_only: true},
+    json_name = "operatorId"
+  ]; // 操作用户ID
+
+  InSiteMessage data = 2;
+}
+
+// 更新站内信 - 请求
+message UpdateInSiteMessageRequest {
+  optional uint32 operator_id = 1 [
+    (gnostic.openapi.v3.property) = {description: "操作用户ID", read_only: true},
+    json_name = "operatorId"
+  ]; // 操作用户ID
+
+  InSiteMessage data = 2;
+
+  google.protobuf.FieldMask update_mask = 3 [
+    (gnostic.openapi.v3.property) = {
+      description: "要更新的字段列表",
+      example: {yaml : "id,realName,userName"}
+    },
+    json_name = "updateMask"
+  ]; // 要更新的字段列表
+
+  optional bool allow_missing = 4 [
+    (gnostic.openapi.v3.property) = {description: "如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。"},
+    json_name = "allowMissing"
+  ]; // 如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。
+}
+
+// 删除站内信 - 请求
+message DeleteInSiteMessageRequest {
+  optional uint32 operator_id = 1 [
+    (gnostic.openapi.v3.property) = {description: "操作用户ID", read_only: true},
+    json_name = "operatorId"
+  ]; // 操作用户ID
+
+  uint32 id = 2;
+}

@@ -20,6 +20,12 @@ type Tx struct {
 	Department *DepartmentClient
 	// Dict is the client for interacting with the Dict builders.
 	Dict *DictClient
+	// File is the client for interacting with the File builders.
+	File *FileClient
+	// InSiteMessage is the client for interacting with the InSiteMessage builders.
+	InSiteMessage *InSiteMessageClient
+	// InSiteMessageCategory is the client for interacting with the InSiteMessageCategory builders.
+	InSiteMessageCategory *InSiteMessageCategoryClient
 	// Menu is the client for interacting with the Menu builders.
 	Menu *MenuClient
 	// Organization is the client for interacting with the Organization builders.
@@ -165,6 +171,9 @@ func (tx *Tx) init() {
 	tx.AdminOperationLog = NewAdminOperationLogClient(tx.config)
 	tx.Department = NewDepartmentClient(tx.config)
 	tx.Dict = NewDictClient(tx.config)
+	tx.File = NewFileClient(tx.config)
+	tx.InSiteMessage = NewInSiteMessageClient(tx.config)
+	tx.InSiteMessageCategory = NewInSiteMessageCategoryClient(tx.config)
 	tx.Menu = NewMenuClient(tx.config)
 	tx.Organization = NewOrganizationClient(tx.config)
 	tx.Position = NewPositionClient(tx.config)

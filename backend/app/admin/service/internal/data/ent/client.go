@@ -15,6 +15,9 @@ import (
 	"kratos-admin/app/admin/service/internal/data/ent/adminoperationlog"
 	"kratos-admin/app/admin/service/internal/data/ent/department"
 	"kratos-admin/app/admin/service/internal/data/ent/dict"
+	"kratos-admin/app/admin/service/internal/data/ent/file"
+	"kratos-admin/app/admin/service/internal/data/ent/insitemessage"
+	"kratos-admin/app/admin/service/internal/data/ent/insitemessagecategory"
 	"kratos-admin/app/admin/service/internal/data/ent/menu"
 	"kratos-admin/app/admin/service/internal/data/ent/organization"
 	"kratos-admin/app/admin/service/internal/data/ent/position"
@@ -40,6 +43,12 @@ type Client struct {
 	Department *DepartmentClient
 	// Dict is the client for interacting with the Dict builders.
 	Dict *DictClient
+	// File is the client for interacting with the File builders.
+	File *FileClient
+	// InSiteMessage is the client for interacting with the InSiteMessage builders.
+	InSiteMessage *InSiteMessageClient
+	// InSiteMessageCategory is the client for interacting with the InSiteMessageCategory builders.
+	InSiteMessageCategory *InSiteMessageCategoryClient
 	// Menu is the client for interacting with the Menu builders.
 	Menu *MenuClient
 	// Organization is the client for interacting with the Organization builders.
@@ -65,6 +74,9 @@ func (c *Client) init() {
 	c.AdminOperationLog = NewAdminOperationLogClient(c.config)
 	c.Department = NewDepartmentClient(c.config)
 	c.Dict = NewDictClient(c.config)
+	c.File = NewFileClient(c.config)
+	c.InSiteMessage = NewInSiteMessageClient(c.config)
+	c.InSiteMessageCategory = NewInSiteMessageCategoryClient(c.config)
 	c.Menu = NewMenuClient(c.config)
 	c.Organization = NewOrganizationClient(c.config)
 	c.Position = NewPositionClient(c.config)
@@ -160,17 +172,20 @@ func (c *Client) Tx(ctx context.Context) (*Tx, error) {
 	cfg := c.config
 	cfg.driver = tx
 	return &Tx{
-		ctx:               ctx,
-		config:            cfg,
-		AdminLoginLog:     NewAdminLoginLogClient(cfg),
-		AdminOperationLog: NewAdminOperationLogClient(cfg),
-		Department:        NewDepartmentClient(cfg),
-		Dict:              NewDictClient(cfg),
-		Menu:              NewMenuClient(cfg),
-		Organization:      NewOrganizationClient(cfg),
-		Position:          NewPositionClient(cfg),
-		Role:              NewRoleClient(cfg),
-		User:              NewUserClient(cfg),
+		ctx:                   ctx,
+		config:                cfg,
+		AdminLoginLog:         NewAdminLoginLogClient(cfg),
+		AdminOperationLog:     NewAdminOperationLogClient(cfg),
+		Department:            NewDepartmentClient(cfg),
+		Dict:                  NewDictClient(cfg),
+		File:                  NewFileClient(cfg),
+		InSiteMessage:         NewInSiteMessageClient(cfg),
+		InSiteMessageCategory: NewInSiteMessageCategoryClient(cfg),
+		Menu:                  NewMenuClient(cfg),
+		Organization:          NewOrganizationClient(cfg),
+		Position:              NewPositionClient(cfg),
+		Role:                  NewRoleClient(cfg),
+		User:                  NewUserClient(cfg),
 	}, nil
 }
 
@@ -188,17 +203,20 @@ func (c *Client) BeginTx(ctx context.Context, opts *sql.TxOptions) (*Tx, error) 
 	cfg := c.config
 	cfg.driver = &txDriver{tx: tx, drv: c.driver}
 	return &Tx{
-		ctx:               ctx,
-		config:            cfg,
-		AdminLoginLog:     NewAdminLoginLogClient(cfg),
-		AdminOperationLog: NewAdminOperationLogClient(cfg),
-		Department:        NewDepartmentClient(cfg),
-		Dict:              NewDictClient(cfg),
-		Menu:              NewMenuClient(cfg),
-		Organization:      NewOrganizationClient(cfg),
-		Position:          NewPositionClient(cfg),
-		Role:              NewRoleClient(cfg),
-		User:              NewUserClient(cfg),
+		ctx:                   ctx,
+		config:                cfg,
+		AdminLoginLog:         NewAdminLoginLogClient(cfg),
+		AdminOperationLog:     NewAdminOperationLogClient(cfg),
+		Department:            NewDepartmentClient(cfg),
+		Dict:                  NewDictClient(cfg),
+		File:                  NewFileClient(cfg),
+		InSiteMessage:         NewInSiteMessageClient(cfg),
+		InSiteMessageCategory: NewInSiteMessageCategoryClient(cfg),
+		Menu:                  NewMenuClient(cfg),
+		Organization:          NewOrganizationClient(cfg),
+		Position:              NewPositionClient(cfg),
+		Role:                  NewRoleClient(cfg),
+		User:                  NewUserClient(cfg),
 	}, nil
 }
 
@@ -228,8 +246,9 @@ func (c *Client) Close() error {
 // In order to add hooks to a specific client, call: `client.Node.Use(...)`.
 func (c *Client) Use(hooks ...Hook) {
 	for _, n := range []interface{ Use(...Hook) }{
-		c.AdminLoginLog, c.AdminOperationLog, c.Department, c.Dict, c.Menu,
-		c.Organization, c.Position, c.Role, c.User,
+		c.AdminLoginLog, c.AdminOperationLog, c.Department, c.Dict, c.File,
+		c.InSiteMessage, c.InSiteMessageCategory, c.Menu, c.Organization, c.Position,
+		c.Role, c.User,
 	} {
 		n.Use(hooks...)
 	}
@@ -239,8 +258,9 @@ func (c *Client) Use(hooks ...Hook) {
 // In order to add interceptors to a specific client, call: `client.Node.Intercept(...)`.
 func (c *Client) Intercept(interceptors ...Interceptor) {
 	for _, n := range []interface{ Intercept(...Interceptor) }{
-		c.AdminLoginLog, c.AdminOperationLog, c.Department, c.Dict, c.Menu,
-		c.Organization, c.Position, c.Role, c.User,
+		c.AdminLoginLog, c.AdminOperationLog, c.Department, c.Dict, c.File,
+		c.InSiteMessage, c.InSiteMessageCategory, c.Menu, c.Organization, c.Position,
+		c.Role, c.User,
 	} {
 		n.Intercept(interceptors...)
 	}
@@ -257,6 +277,12 @@ func (c *Client) Mutate(ctx context.Context, m Mutation) (Value, error) {
 		return c.Department.mutate(ctx, m)
 	case *DictMutation:
 		return c.Dict.mutate(ctx, m)
+	case *FileMutation:
+		return c.File.mutate(ctx, m)
+	case *InSiteMessageMutation:
+		return c.InSiteMessage.mutate(ctx, m)
+	case *InSiteMessageCategoryMutation:
+		return c.InSiteMessageCategory.mutate(ctx, m)
 	case *MenuMutation:
 		return c.Menu.mutate(ctx, m)
 	case *OrganizationMutation:
@@ -833,6 +859,437 @@ func (c *DictClient) mutate(ctx context.Context, m *DictMutation) (Value, error)
 		return (&DictDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
 	default:
 		return nil, fmt.Errorf("ent: unknown Dict mutation op: %q", m.Op())
+	}
+}
+
+// FileClient is a client for the File schema.
+type FileClient struct {
+	config
+}
+
+// NewFileClient returns a client for the File from the given config.
+func NewFileClient(c config) *FileClient {
+	return &FileClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `file.Hooks(f(g(h())))`.
+func (c *FileClient) Use(hooks ...Hook) {
+	c.hooks.File = append(c.hooks.File, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `file.Intercept(f(g(h())))`.
+func (c *FileClient) Intercept(interceptors ...Interceptor) {
+	c.inters.File = append(c.inters.File, interceptors...)
+}
+
+// Create returns a builder for creating a File entity.
+func (c *FileClient) Create() *FileCreate {
+	mutation := newFileMutation(c.config, OpCreate)
+	return &FileCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of File entities.
+func (c *FileClient) CreateBulk(builders ...*FileCreate) *FileCreateBulk {
+	return &FileCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *FileClient) MapCreateBulk(slice any, setFunc func(*FileCreate, int)) *FileCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &FileCreateBulk{err: fmt.Errorf("calling to FileClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*FileCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &FileCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for File.
+func (c *FileClient) Update() *FileUpdate {
+	mutation := newFileMutation(c.config, OpUpdate)
+	return &FileUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *FileClient) UpdateOne(f *File) *FileUpdateOne {
+	mutation := newFileMutation(c.config, OpUpdateOne, withFile(f))
+	return &FileUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *FileClient) UpdateOneID(id uint32) *FileUpdateOne {
+	mutation := newFileMutation(c.config, OpUpdateOne, withFileID(id))
+	return &FileUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for File.
+func (c *FileClient) Delete() *FileDelete {
+	mutation := newFileMutation(c.config, OpDelete)
+	return &FileDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *FileClient) DeleteOne(f *File) *FileDeleteOne {
+	return c.DeleteOneID(f.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *FileClient) DeleteOneID(id uint32) *FileDeleteOne {
+	builder := c.Delete().Where(file.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &FileDeleteOne{builder}
+}
+
+// Query returns a query builder for File.
+func (c *FileClient) Query() *FileQuery {
+	return &FileQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeFile},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a File entity by its id.
+func (c *FileClient) Get(ctx context.Context, id uint32) (*File, error) {
+	return c.Query().Where(file.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *FileClient) GetX(ctx context.Context, id uint32) *File {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *FileClient) Hooks() []Hook {
+	return c.hooks.File
+}
+
+// Interceptors returns the client interceptors.
+func (c *FileClient) Interceptors() []Interceptor {
+	return c.inters.File
+}
+
+func (c *FileClient) mutate(ctx context.Context, m *FileMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&FileCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&FileUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&FileUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&FileDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown File mutation op: %q", m.Op())
+	}
+}
+
+// InSiteMessageClient is a client for the InSiteMessage schema.
+type InSiteMessageClient struct {
+	config
+}
+
+// NewInSiteMessageClient returns a client for the InSiteMessage from the given config.
+func NewInSiteMessageClient(c config) *InSiteMessageClient {
+	return &InSiteMessageClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `insitemessage.Hooks(f(g(h())))`.
+func (c *InSiteMessageClient) Use(hooks ...Hook) {
+	c.hooks.InSiteMessage = append(c.hooks.InSiteMessage, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `insitemessage.Intercept(f(g(h())))`.
+func (c *InSiteMessageClient) Intercept(interceptors ...Interceptor) {
+	c.inters.InSiteMessage = append(c.inters.InSiteMessage, interceptors...)
+}
+
+// Create returns a builder for creating a InSiteMessage entity.
+func (c *InSiteMessageClient) Create() *InSiteMessageCreate {
+	mutation := newInSiteMessageMutation(c.config, OpCreate)
+	return &InSiteMessageCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of InSiteMessage entities.
+func (c *InSiteMessageClient) CreateBulk(builders ...*InSiteMessageCreate) *InSiteMessageCreateBulk {
+	return &InSiteMessageCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *InSiteMessageClient) MapCreateBulk(slice any, setFunc func(*InSiteMessageCreate, int)) *InSiteMessageCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &InSiteMessageCreateBulk{err: fmt.Errorf("calling to InSiteMessageClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*InSiteMessageCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &InSiteMessageCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for InSiteMessage.
+func (c *InSiteMessageClient) Update() *InSiteMessageUpdate {
+	mutation := newInSiteMessageMutation(c.config, OpUpdate)
+	return &InSiteMessageUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *InSiteMessageClient) UpdateOne(ism *InSiteMessage) *InSiteMessageUpdateOne {
+	mutation := newInSiteMessageMutation(c.config, OpUpdateOne, withInSiteMessage(ism))
+	return &InSiteMessageUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *InSiteMessageClient) UpdateOneID(id uint32) *InSiteMessageUpdateOne {
+	mutation := newInSiteMessageMutation(c.config, OpUpdateOne, withInSiteMessageID(id))
+	return &InSiteMessageUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for InSiteMessage.
+func (c *InSiteMessageClient) Delete() *InSiteMessageDelete {
+	mutation := newInSiteMessageMutation(c.config, OpDelete)
+	return &InSiteMessageDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *InSiteMessageClient) DeleteOne(ism *InSiteMessage) *InSiteMessageDeleteOne {
+	return c.DeleteOneID(ism.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *InSiteMessageClient) DeleteOneID(id uint32) *InSiteMessageDeleteOne {
+	builder := c.Delete().Where(insitemessage.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &InSiteMessageDeleteOne{builder}
+}
+
+// Query returns a query builder for InSiteMessage.
+func (c *InSiteMessageClient) Query() *InSiteMessageQuery {
+	return &InSiteMessageQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeInSiteMessage},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a InSiteMessage entity by its id.
+func (c *InSiteMessageClient) Get(ctx context.Context, id uint32) (*InSiteMessage, error) {
+	return c.Query().Where(insitemessage.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *InSiteMessageClient) GetX(ctx context.Context, id uint32) *InSiteMessage {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *InSiteMessageClient) Hooks() []Hook {
+	return c.hooks.InSiteMessage
+}
+
+// Interceptors returns the client interceptors.
+func (c *InSiteMessageClient) Interceptors() []Interceptor {
+	return c.inters.InSiteMessage
+}
+
+func (c *InSiteMessageClient) mutate(ctx context.Context, m *InSiteMessageMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&InSiteMessageCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&InSiteMessageUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&InSiteMessageUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&InSiteMessageDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown InSiteMessage mutation op: %q", m.Op())
+	}
+}
+
+// InSiteMessageCategoryClient is a client for the InSiteMessageCategory schema.
+type InSiteMessageCategoryClient struct {
+	config
+}
+
+// NewInSiteMessageCategoryClient returns a client for the InSiteMessageCategory from the given config.
+func NewInSiteMessageCategoryClient(c config) *InSiteMessageCategoryClient {
+	return &InSiteMessageCategoryClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `insitemessagecategory.Hooks(f(g(h())))`.
+func (c *InSiteMessageCategoryClient) Use(hooks ...Hook) {
+	c.hooks.InSiteMessageCategory = append(c.hooks.InSiteMessageCategory, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `insitemessagecategory.Intercept(f(g(h())))`.
+func (c *InSiteMessageCategoryClient) Intercept(interceptors ...Interceptor) {
+	c.inters.InSiteMessageCategory = append(c.inters.InSiteMessageCategory, interceptors...)
+}
+
+// Create returns a builder for creating a InSiteMessageCategory entity.
+func (c *InSiteMessageCategoryClient) Create() *InSiteMessageCategoryCreate {
+	mutation := newInSiteMessageCategoryMutation(c.config, OpCreate)
+	return &InSiteMessageCategoryCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of InSiteMessageCategory entities.
+func (c *InSiteMessageCategoryClient) CreateBulk(builders ...*InSiteMessageCategoryCreate) *InSiteMessageCategoryCreateBulk {
+	return &InSiteMessageCategoryCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *InSiteMessageCategoryClient) MapCreateBulk(slice any, setFunc func(*InSiteMessageCategoryCreate, int)) *InSiteMessageCategoryCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &InSiteMessageCategoryCreateBulk{err: fmt.Errorf("calling to InSiteMessageCategoryClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*InSiteMessageCategoryCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &InSiteMessageCategoryCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for InSiteMessageCategory.
+func (c *InSiteMessageCategoryClient) Update() *InSiteMessageCategoryUpdate {
+	mutation := newInSiteMessageCategoryMutation(c.config, OpUpdate)
+	return &InSiteMessageCategoryUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *InSiteMessageCategoryClient) UpdateOne(ismc *InSiteMessageCategory) *InSiteMessageCategoryUpdateOne {
+	mutation := newInSiteMessageCategoryMutation(c.config, OpUpdateOne, withInSiteMessageCategory(ismc))
+	return &InSiteMessageCategoryUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *InSiteMessageCategoryClient) UpdateOneID(id uint32) *InSiteMessageCategoryUpdateOne {
+	mutation := newInSiteMessageCategoryMutation(c.config, OpUpdateOne, withInSiteMessageCategoryID(id))
+	return &InSiteMessageCategoryUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for InSiteMessageCategory.
+func (c *InSiteMessageCategoryClient) Delete() *InSiteMessageCategoryDelete {
+	mutation := newInSiteMessageCategoryMutation(c.config, OpDelete)
+	return &InSiteMessageCategoryDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *InSiteMessageCategoryClient) DeleteOne(ismc *InSiteMessageCategory) *InSiteMessageCategoryDeleteOne {
+	return c.DeleteOneID(ismc.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *InSiteMessageCategoryClient) DeleteOneID(id uint32) *InSiteMessageCategoryDeleteOne {
+	builder := c.Delete().Where(insitemessagecategory.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &InSiteMessageCategoryDeleteOne{builder}
+}
+
+// Query returns a query builder for InSiteMessageCategory.
+func (c *InSiteMessageCategoryClient) Query() *InSiteMessageCategoryQuery {
+	return &InSiteMessageCategoryQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeInSiteMessageCategory},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a InSiteMessageCategory entity by its id.
+func (c *InSiteMessageCategoryClient) Get(ctx context.Context, id uint32) (*InSiteMessageCategory, error) {
+	return c.Query().Where(insitemessagecategory.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *InSiteMessageCategoryClient) GetX(ctx context.Context, id uint32) *InSiteMessageCategory {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// QueryParent queries the parent edge of a InSiteMessageCategory.
+func (c *InSiteMessageCategoryClient) QueryParent(ismc *InSiteMessageCategory) *InSiteMessageCategoryQuery {
+	query := (&InSiteMessageCategoryClient{config: c.config}).Query()
+	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
+		id := ismc.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(insitemessagecategory.Table, insitemessagecategory.FieldID, id),
+			sqlgraph.To(insitemessagecategory.Table, insitemessagecategory.FieldID),
+			sqlgraph.Edge(sqlgraph.M2O, true, insitemessagecategory.ParentTable, insitemessagecategory.ParentColumn),
+		)
+		fromV = sqlgraph.Neighbors(ismc.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
+// QueryChildren queries the children edge of a InSiteMessageCategory.
+func (c *InSiteMessageCategoryClient) QueryChildren(ismc *InSiteMessageCategory) *InSiteMessageCategoryQuery {
+	query := (&InSiteMessageCategoryClient{config: c.config}).Query()
+	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
+		id := ismc.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(insitemessagecategory.Table, insitemessagecategory.FieldID, id),
+			sqlgraph.To(insitemessagecategory.Table, insitemessagecategory.FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, insitemessagecategory.ChildrenTable, insitemessagecategory.ChildrenColumn),
+		)
+		fromV = sqlgraph.Neighbors(ismc.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
+// Hooks returns the client hooks.
+func (c *InSiteMessageCategoryClient) Hooks() []Hook {
+	return c.hooks.InSiteMessageCategory
+}
+
+// Interceptors returns the client interceptors.
+func (c *InSiteMessageCategoryClient) Interceptors() []Interceptor {
+	return c.inters.InSiteMessageCategory
+}
+
+func (c *InSiteMessageCategoryClient) mutate(ctx context.Context, m *InSiteMessageCategoryMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&InSiteMessageCategoryCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&InSiteMessageCategoryUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&InSiteMessageCategoryUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&InSiteMessageCategoryDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown InSiteMessageCategory mutation op: %q", m.Op())
 	}
 }
 
@@ -1632,11 +2089,12 @@ func (c *UserClient) mutate(ctx context.Context, m *UserMutation) (Value, error)
 // hooks and interceptors per client, for fast access.
 type (
 	hooks struct {
-		AdminLoginLog, AdminOperationLog, Department, Dict, Menu, Organization,
-		Position, Role, User []ent.Hook
+		AdminLoginLog, AdminOperationLog, Department, Dict, File, InSiteMessage,
+		InSiteMessageCategory, Menu, Organization, Position, Role, User []ent.Hook
 	}
 	inters struct {
-		AdminLoginLog, AdminOperationLog, Department, Dict, Menu, Organization,
-		Position, Role, User []ent.Interceptor
+		AdminLoginLog, AdminOperationLog, Department, Dict, File, InSiteMessage,
+		InSiteMessageCategory, Menu, Organization, Position, Role,
+		User []ent.Interceptor
 	}
 )

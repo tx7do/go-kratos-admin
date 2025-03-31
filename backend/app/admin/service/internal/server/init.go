@@ -11,4 +11,5 @@ import (
 var ProviderSet = wire.NewSet(
 	NewRESTServer,
 	NewAsynqServer,
+	NewSseServer,
 )

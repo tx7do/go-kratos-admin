@@ -11,7 +11,12 @@ import (
 	"kratos-admin/pkg/task"
 )
 
+// NewAsynqServer creates a new asynq server.
 func NewAsynqServer(cfg *conf.Bootstrap, _ log.Logger, svc *service.TaskService) *asynq.Server {
+	if cfg == nil || cfg.Server == nil || cfg.Server.Asynq == nil {
+		return nil
+	}
+
 	srv := asynq.NewServer(
 		asynq.WithAddress(cfg.Server.Asynq.GetEndpoint()),
 		asynq.WithRedisPassword(cfg.Server.Asynq.GetPassword()),

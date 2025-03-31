@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+package admin.service.v1;
+
+import "gnostic/openapi/v3/annotations.proto";
+import "google/api/annotations.proto";
+
+import "file/service/v1/oss.proto";
+
+// OSS服务
+service OssService {
+  // 获取对象存储（OSS）上传用的预签名链接
+  rpc OssUploadUrl (file.service.v1.OssUploadUrlRequest) returns (file.service.v1.OssUploadUrlResponse) {
+    option (google.api.http) = {
+      post: "/admin/v1/file:upload-url"
+      body: "*"
+    };
+  }
+
+  // POST方法上传文件
+  rpc PostUploadFile (stream file.service.v1.UploadOssFileRequest) returns (file.service.v1.UploadOssFileResponse) {
+    option (google.api.http) = {
+      post: "/admin/v1/file:upload"
+      body: "*"
+    };
+  }
+
+  // PUT方法上传文件
+  rpc PutUploadFile (stream file.service.v1.UploadOssFileRequest) returns (file.service.v1.UploadOssFileResponse) {
+    option (google.api.http) = {
+      put: "/admin/v1/file:upload"
+      body: "*"
+    };
+  }
+}

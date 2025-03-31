@@ -5,11 +5,14 @@ import (
 
 	"github.com/go-kratos/kratos/v2/log"
 	"github.com/tx7do/go-utils/trans"
+	"google.golang.org/protobuf/types/known/emptypb"
 
+	"kratos-admin/app/admin/service/internal/data"
+	"kratos-admin/app/admin/service/internal/middleware/auth"
+
+	pagination "github.com/tx7do/kratos-bootstrap/api/gen/go/pagination/v1"
 	adminV1 "kratos-admin/api/gen/go/admin/service/v1"
 	fileV1 "kratos-admin/api/gen/go/file/service/v1"
-
-	"kratos-admin/pkg/oss"
 )
 
 type FileService struct {
@@ -17,53 +20,81 @@ type FileService struct {
 
 	log *log.Helper
 
-	mc *oss.MinIOClient
+	uc *data.FileRepo
 }
 
-func NewFileService(logger log.Logger, mc *oss.MinIOClient) *FileService {
+func NewFileService(uc *data.FileRepo, logger log.Logger) *FileService {
 	l := log.NewHelper(log.With(logger, "module", "file/service/admin-service"))
 	return &FileService{
 		log: l,
-		mc:  mc,
+		uc:  uc,
 	}
 }
 
-func (s *FileService) OssUploadUrl(ctx context.Context, req *fileV1.OssUploadUrlRequest) (*fileV1.OssUploadUrlResponse, error) {
-	return s.mc.OssUploadUrl(ctx, req)
+func (s *FileService) ListFile(ctx context.Context, req *pagination.PagingRequest) (*fileV1.ListFileResponse, error) {
+	return s.uc.List(ctx, req)
 }
 
-func (s *FileService) PostUploadFile(ctx context.Context, req *fileV1.UploadFileRequest, file *fileV1.File) (*fileV1.UploadFileResponse, error) {
-	if file == nil {
-		return nil, fileV1.ErrorUploadFailed("unknown file")
-	}
-
-	if req.BucketName == nil {
-		req.BucketName = trans.Ptr(s.mc.ContentTypeToBucketName(file.Mime))
-	}
-	if req.ObjectName == nil {
-		req.ObjectName = trans.Ptr(file.FileName)
-	}
-
-	downloadUrl, err := s.mc.UploadFile(ctx, req.GetBucketName(), req.GetObjectName(), file.Content)
-	return &fileV1.UploadFileResponse{
-		Url: downloadUrl,
-	}, err
+func (s *FileService) GetFile(ctx context.Context, req *fileV1.GetFileRequest) (*fileV1.File, error) {
+	return s.uc.Get(ctx, req)
 }
 
-func (s *FileService) PutUploadFile(ctx context.Context, req *fileV1.UploadFileRequest, file *fileV1.File) (*fileV1.UploadFileResponse, error) {
-	if file == nil {
-		return nil, fileV1.ErrorUploadFailed("unknown file")
+func (s *FileService) CreateFile(ctx context.Context, req *fileV1.CreateFileRequest) (*emptypb.Empty, error) {
+	authInfo, err := auth.FromContext(ctx)
+	if err != nil {
+		s.log.Errorf("用户认证失败[%s]", err.Error())
+		return nil, adminV1.ErrorAccessForbidden("用户认证失败")
 	}
 
-	if req.BucketName == nil {
-		req.BucketName = trans.Ptr(s.mc.ContentTypeToBucketName(file.Mime))
-	}
-	if req.ObjectName == nil {
-		req.ObjectName = trans.Ptr(file.FileName)
+	if req.Data == nil {
+		return nil, adminV1.ErrorBadRequest("错误的参数")
 	}
 
-	downloadUrl, err := s.mc.UploadFile(ctx, req.GetBucketName(), req.GetObjectName(), file.Content)
-	return &fileV1.UploadFileResponse{
-		Url: downloadUrl,
-	}, err
+	req.OperatorId = trans.Ptr(authInfo.UserId)
+
+	err = s.uc.Create(ctx, req)
+	if err != nil {
+
+		return nil, err
+	}
+
+	return &emptypb.Empty{}, nil
+}
+
+func (s *FileService) UpdateFile(ctx context.Context, req *fileV1.UpdateFileRequest) (*emptypb.Empty, error) {
+	authInfo, err := auth.FromContext(ctx)
+	if err != nil {
+		s.log.Errorf("用户认证失败[%s]", err.Error())
+		return nil, adminV1.ErrorAccessForbidden("用户认证失败")
+	}
+
+	if req.Data == nil {
+		return nil, adminV1.ErrorBadRequest("错误的参数")
+	}
+
+	req.OperatorId = trans.Ptr(authInfo.UserId)
+
+	err = s.uc.Update(ctx, req)
+	if err != nil {
+
+		return nil, err
+	}
+
+	return &emptypb.Empty{}, nil
+}
+
+func (s *FileService) DeleteFile(ctx context.Context, req *fileV1.DeleteFileRequest) (*emptypb.Empty, error) {
+	authInfo, err := auth.FromContext(ctx)
+	if err != nil {
+		s.log.Errorf("用户认证失败[%s]", err.Error())
+		return nil, adminV1.ErrorAccessForbidden("用户认证失败")
+	}
+
+	req.OperatorId = trans.Ptr(authInfo.UserId)
+
+	_, err = s.uc.Delete(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+	return &emptypb.Empty{}, nil
 }

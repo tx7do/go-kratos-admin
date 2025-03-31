@@ -4,32 +4,48 @@ package admin.service.v1;
 
 import "gnostic/openapi/v3/annotations.proto";
 import "google/api/annotations.proto";
+import "google/protobuf/empty.proto";
+
+import "pagination/v1/pagination.proto";
 
 import "file/service/v1/file.proto";
 
-// 文件服务
+// 文件管理服务
 service FileService {
-  // 获取对象存储（OSS）上传用的预签名链接
-  rpc OssUploadUrl (file.service.v1.OssUploadUrlRequest) returns (file.service.v1.OssUploadUrlResponse) {
+  // 查询文件列表
+  rpc ListFile (pagination.PagingRequest) returns (file.service.v1.ListFileResponse) {
     option (google.api.http) = {
-      post: "/admin/v1/file:upload-url"
+      get: "/admin/v1/files"
+    };
+  }
+
+  // 查询文件详情
+  rpc GetFile (file.service.v1.GetFileRequest) returns (file.service.v1.File) {
+    option (google.api.http) = {
+      get: "/admin/v1/files/{id}"
+    };
+  }
+
+  // 创建文件
+  rpc CreateFile (file.service.v1.CreateFileRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      post: "/admin/v1/files"
       body: "*"
     };
   }
 
-  // POST方法上传文件
-  rpc PostUploadFile (stream file.service.v1.UploadFileRequest) returns (file.service.v1.UploadFileResponse) {
+  // 更新文件
+  rpc UpdateFile (file.service.v1.UpdateFileRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
-      post: "/admin/v1/file:upload"
+      put: "/admin/v1/dict/{data.id}"
       body: "*"
     };
   }
 
-  // PUT方法上传文件
-  rpc PutUploadFile (stream file.service.v1.UploadFileRequest) returns (file.service.v1.UploadFileResponse) {
+  // 删除文件
+  rpc DeleteFile (file.service.v1.DeleteFileRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
-      put: "/admin/v1/file:upload"
-      body: "*"
+      delete: "/admin/v1/files/{id}"
     };
   }
 }

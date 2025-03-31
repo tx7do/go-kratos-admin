@@ -3,151 +3,166 @@ syntax = "proto3";
 package file.service.v1;
 
 import "gnostic/openapi/v3/annotations.proto";
-import "google/api/annotations.proto";
+
+import "google/api/field_behavior.proto";
+
+import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/field_mask.proto";
+
+import "pagination/v1/pagination.proto";
 
 // 文件服务
 service FileService {
-  // 获取对象存储（OSS）上传链接
-  rpc OssUploadUrl (OssUploadUrlRequest) returns (OssUploadUrlResponse) {}
+  // 获取文件列表
+  rpc ListFile (pagination.PagingRequest) returns (ListFileResponse) {}
 
-  // 获取对象存储（OSS）下载链接
-  rpc GetDownloadUrl (GetDownloadUrlRequest) returns (GetDownloadUrlResponse) {}
+  // 获取文件数据
+  rpc GetFile (GetFileRequest) returns (File) {}
 
-  // 获取文件夹下面的文件列表
-  rpc ListFile (ListFileRequest) returns (ListFileResponse) {}
+  // 创建文件
+  rpc CreateFile (CreateFileRequest) returns (google.protobuf.Empty) {}
 
-  // 删除一个文件
-  rpc DeleteFile (DeleteFileRequest) returns (DeleteFileResponse) {}
+  // 更新文件
+  rpc UpdateFile (UpdateFileRequest) returns (google.protobuf.Empty) {}
 
-  // 上传文件
-  rpc UploadFile (UploadFileRequest) returns (UploadFileResponse) {}
+  // 删除文件
+  rpc DeleteFile (DeleteFileRequest) returns (google.protobuf.Empty) {}
 }
 
-// 前端上传文件所用的HTTP方法
-enum UploadMethod {
-  Put = 0;
-  Post = 1;
+// OSS供应商
+enum OSSProvider {
+  MinIO = 0;
+  Aliyun = 1;
+  AWS = 2;
+  Azure = 3;
+  Baidu = 4;
+  Qiniu = 5;
+  Tencent = 6;
+  Google = 7;
+  Huawei = 8;
+  QCloud = 9;
+  Local = 10;
 }
 
-// 获取对象存储上传链接 - 请求
-message OssUploadUrlRequest {
-  UploadMethod method = 1 [
-    json_name = "method",
-    (gnostic.openapi.v3.property) = { description: "上传文件所用的HTTP方法，支持POST和PUT" }
-  ];  // 上传文件所用的HTTP方法
+// 文件
+message File {
+  optional uint32 id = 1 [
+    json_name = "id",
+    (google.api.field_behavior) = OPTIONAL,
+    (gnostic.openapi.v3.property) = { description: "消息ID" }
+  ]; // 文件ID
 
-  optional string content_type = 2 [
-    json_name = "contentType",
-    (gnostic.openapi.v3.property) = { description: "文件的MIME类型" }
-  ];  // 文件的MIME类型
+  optional OSSProvider provider = 2 [
+    json_name = "provider",
+    (gnostic.openapi.v3.property) = { description: "OSS供应商" }
+  ];  // OSS供应商
 
   optional string bucket_name = 3 [
     json_name = "bucketName",
-    (gnostic.openapi.v3.property) = { description: "文件桶名称，如果不填写，将会根据文件名或者MIME类型进行自动解析" }
-  ]; // 文件桶名称，如果不填写，将会根据文件名或者MIME类型进行自动解析。
+    (gnostic.openapi.v3.property) = { description: "存储桶名称" }
+  ];  // 存储桶名称
 
-  optional string file_path = 4 [
-    json_name = "filePath",
-    (gnostic.openapi.v3.property) = { description: "远端的文件路径，可以不填写" }
-  ]; // 远端的文件路径，可以不填写。
+  optional string file_directory = 4 [
+    json_name = "fileDirectory",
+    (gnostic.openapi.v3.property) = { description: "文件目录" }
+  ];  // 文件目录
 
-  optional string file_name = 5 [
+  optional string file_guid = 5 [
+    json_name = "fileGuid",
+    (gnostic.openapi.v3.property) = { description: "文件Guid" }
+  ];  // 文件Guid
+
+  optional string save_file_name = 6 [
+    json_name = "saveFileName",
+    (gnostic.openapi.v3.property) = { description: "保存文件名" }
+  ];  // 保存文件名
+
+  optional string file_name = 7 [
     json_name = "fileName",
-    (gnostic.openapi.v3.property) = { description: "文件名，如果不填写，则会生成UUID，有同名文件也会改为UUID" }
-  ]; // 文件名，如果不填写，则会生成UUID，有同名文件也会改为UUID。
-}
-
-// 获取对象存储上传链接 - 回应
-message OssUploadUrlResponse {
-  string upload_url = 1 [
-    json_name = "uploadUrl",
-    (gnostic.openapi.v3.property) = { description: "文件的上传链接，默认1个小时的过期时间" }
-  ]; // 文件的上传链接，默认1个小时的过期时间。
-
-  string download_url = 2 [
-    json_name = "downloadUrl",
-    (gnostic.openapi.v3.property) = { description: "文件的下载链接" }
-  ]; // 文件的下载链接
-
-  optional string bucket_name = 3 [
-    json_name = "bucketName",
-    (gnostic.openapi.v3.property) = { description: "文件桶名称" }
-  ]; // 文件桶名称
-
-  string object_name = 4 [
-    json_name = "objectName",
     (gnostic.openapi.v3.property) = { description: "文件名" }
   ];  // 文件名
 
-  map<string, string> form_data = 5 [
-    json_name = "formData",
-    (gnostic.openapi.v3.property) = { description: "表单数据，使用POST方法时填写" }
-  ];
+  optional string extension = 8 [
+    json_name = "extension",
+    (gnostic.openapi.v3.property) = { description: "文件扩展名" }
+  ];  // 文件扩展名
+
+  optional uint64 size = 9 [
+    json_name = "size",
+    (gnostic.openapi.v3.property) = { description: "文件字节长度" }
+  ];  // 文件字节长度
+
+  optional string size_format = 10 [
+    json_name = "sizeFormat",
+    (gnostic.openapi.v3.property) = { description: "文件大小格式化" }
+  ];  // 文件大小格式化
+
+  optional string link_url = 11 [
+    json_name = "linkUrl",
+    (gnostic.openapi.v3.property) = { description: "链接地址" }
+  ];  // 链接地址
+
+  optional string md5 = 12 [
+    json_name = "md5",
+    (gnostic.openapi.v3.property) = { description: "md5码，防止上传重复文件" }
+  ];  // md5码，防止上传重复文件
+
+  optional google.protobuf.Timestamp create_time = 200 [json_name = "createTime", (gnostic.openapi.v3.property) = {description: "创建时间"}];// 创建时间
+  optional google.protobuf.Timestamp update_time = 201 [json_name = "updateTime", (gnostic.openapi.v3.property) = {description: "更新时间"}];// 更新时间
+  optional google.protobuf.Timestamp delete_time = 202 [json_name = "deleteTime", (gnostic.openapi.v3.property) = {description: "删除时间"}];// 删除时间
 }
 
-message GetDownloadUrlRequest {
-
-}
-
-message GetDownloadUrlResponse {
-  
-}
-
-message ListFileRequest {
-  optional string bucket_name = 1 [
-    json_name = "bucketName",
-    (gnostic.openapi.v3.property) = { description: "文件桶名称" }
-  ]; // 文件桶名称
-
-  optional string folder = 2 [
-    json_name = "folder",
-    (gnostic.openapi.v3.property) = { description: "文件夹名称" }
-  ]; // 文件夹名称
-
-  optional bool recursive = 3 [
-    json_name = "recursive",
-    (gnostic.openapi.v3.property) = { description: "是否递归文件夹" }
-  ]; // 是否递归文件夹
-}
-
+// 文件列表 - 回应
 message ListFileResponse {
-  repeated string files = 1 [
-    json_name = "files",
-    (gnostic.openapi.v3.property) = { description: "文件列表" }
-  ];
+  repeated File items = 1;
+  uint32 total = 2;
 }
 
+// 文件数据 - 请求
+message GetFileRequest {
+  uint32 id = 1;
+}
+
+// 创建文件 - 请求
+message CreateFileRequest {
+  File data = 1;
+
+  optional uint32 operator_id = 2 [
+    (gnostic.openapi.v3.property) = {description: "操作用户ID", read_only: true},
+    json_name = "operatorId"
+  ]; // 操作用户ID
+}
+
+// 更新文件 - 请求
+message UpdateFileRequest {
+  optional uint32 operator_id = 1 [
+    (gnostic.openapi.v3.property) = {description: "操作用户ID", read_only: true},
+    json_name = "operatorId"
+  ]; // 操作用户ID
+
+  File data = 2;
+
+  google.protobuf.FieldMask update_mask = 3 [
+    (gnostic.openapi.v3.property) = {
+      description: "要更新的字段列表",
+      example: {yaml : "id,realName,userName"}
+    },
+    json_name = "updateMask"
+  ]; // 要更新的字段列表
+
+  optional bool allow_missing = 4 [
+    (gnostic.openapi.v3.property) = {description: "如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。"},
+    json_name = "allowMissing"
+  ]; // 如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。
+}
+
+// 删除文件 - 请求
 message DeleteFileRequest {
-  optional string bucket_name = 1 [
-    json_name = "bucketName",
-    (gnostic.openapi.v3.property) = { description: "文件桶名称" }
-  ]; // 文件桶名称
-  optional string object_name = 2 [
-    json_name = "objectName",
-    (gnostic.openapi.v3.property) = { description: "文件名" }
-  ]; // 文件名
-}
+  uint32 id = 1;
 
-message DeleteFileResponse {
-
-}
-
-message UploadFileRequest {
-  optional string bucket_name = 1 [
-    json_name = "bucketName",
-    (gnostic.openapi.v3.property) = { description: "文件桶名称" }
-  ]; // 文件桶名称
-
-  optional string object_name = 2 [
-    json_name = "objectName",
-    (gnostic.openapi.v3.property) = { description: "文件名" }
-  ]; // 文件名
-
-  optional bytes file = 3 [
-    json_name = "file",
-    (gnostic.openapi.v3.property) = { description: "文件内容" }
-  ]; // 文件内容
-}
-message UploadFileResponse {
-  string url = 1;
+  optional uint32 operator_id = 2 [
+    (gnostic.openapi.v3.property) = {description: "操作用户ID", read_only: true},
+    json_name = "operatorId"
+  ]; // 操作用户ID
 }

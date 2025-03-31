@@ -8,9 +8,11 @@ package servicev1
 
 import (
 	context "context"
+	v1 "github.com/tx7do/kratos-bootstrap/api/gen/go/pagination/v1"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
+	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
 // This is a compile-time assertion to ensure that this generated file
@@ -19,11 +21,11 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	FileService_OssUploadUrl_FullMethodName   = "/file.service.v1.FileService/OssUploadUrl"
-	FileService_GetDownloadUrl_FullMethodName = "/file.service.v1.FileService/GetDownloadUrl"
-	FileService_ListFile_FullMethodName       = "/file.service.v1.FileService/ListFile"
-	FileService_DeleteFile_FullMethodName     = "/file.service.v1.FileService/DeleteFile"
-	FileService_UploadFile_FullMethodName     = "/file.service.v1.FileService/UploadFile"
+	FileService_ListFile_FullMethodName   = "/file.service.v1.FileService/ListFile"
+	FileService_GetFile_FullMethodName    = "/file.service.v1.FileService/GetFile"
+	FileService_CreateFile_FullMethodName = "/file.service.v1.FileService/CreateFile"
+	FileService_UpdateFile_FullMethodName = "/file.service.v1.FileService/UpdateFile"
+	FileService_DeleteFile_FullMethodName = "/file.service.v1.FileService/DeleteFile"
 )
 
 // FileServiceClient is the client API for FileService service.
@@ -32,16 +34,16 @@ const (
 //
 // 文件服务
 type FileServiceClient interface {
-	// 获取对象存储（OSS）上传链接
-	OssUploadUrl(ctx context.Context, in *OssUploadUrlRequest, opts ...grpc.CallOption) (*OssUploadUrlResponse, error)
-	// 获取对象存储（OSS）下载链接
-	GetDownloadUrl(ctx context.Context, in *GetDownloadUrlRequest, opts ...grpc.CallOption) (*GetDownloadUrlResponse, error)
-	// 获取文件夹下面的文件列表
-	ListFile(ctx context.Context, in *ListFileRequest, opts ...grpc.CallOption) (*ListFileResponse, error)
-	// 删除一个文件
-	DeleteFile(ctx context.Context, in *DeleteFileRequest, opts ...grpc.CallOption) (*DeleteFileResponse, error)
-	// 上传文件
-	UploadFile(ctx context.Context, in *UploadFileRequest, opts ...grpc.CallOption) (*UploadFileResponse, error)
+	// 获取文件列表
+	ListFile(ctx context.Context, in *v1.PagingRequest, opts ...grpc.CallOption) (*ListFileResponse, error)
+	// 获取文件数据
+	GetFile(ctx context.Context, in *GetFileRequest, opts ...grpc.CallOption) (*File, error)
+	// 创建文件
+	CreateFile(ctx context.Context, in *CreateFileRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	// 更新文件
+	UpdateFile(ctx context.Context, in *UpdateFileRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	// 删除文件
+	DeleteFile(ctx context.Context, in *DeleteFileRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 }
 
 type fileServiceClient struct {
@@ -52,27 +54,7 @@ func NewFileServiceClient(cc grpc.ClientConnInterface) FileServiceClient {
 	return &fileServiceClient{cc}
 }
 
-func (c *fileServiceClient) OssUploadUrl(ctx context.Context, in *OssUploadUrlRequest, opts ...grpc.CallOption) (*OssUploadUrlResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(OssUploadUrlResponse)
-	err := c.cc.Invoke(ctx, FileService_OssUploadUrl_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *fileServiceClient) GetDownloadUrl(ctx context.Context, in *GetDownloadUrlRequest, opts ...grpc.CallOption) (*GetDownloadUrlResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(GetDownloadUrlResponse)
-	err := c.cc.Invoke(ctx, FileService_GetDownloadUrl_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *fileServiceClient) ListFile(ctx context.Context, in *ListFileRequest, opts ...grpc.CallOption) (*ListFileResponse, error) {
+func (c *fileServiceClient) ListFile(ctx context.Context, in *v1.PagingRequest, opts ...grpc.CallOption) (*ListFileResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(ListFileResponse)
 	err := c.cc.Invoke(ctx, FileService_ListFile_FullMethodName, in, out, cOpts...)
@@ -82,20 +64,40 @@ func (c *fileServiceClient) ListFile(ctx context.Context, in *ListFileRequest, o
 	return out, nil
 }
 
-func (c *fileServiceClient) DeleteFile(ctx context.Context, in *DeleteFileRequest, opts ...grpc.CallOption) (*DeleteFileResponse, error) {
+func (c *fileServiceClient) GetFile(ctx context.Context, in *GetFileRequest, opts ...grpc.CallOption) (*File, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(DeleteFileResponse)
-	err := c.cc.Invoke(ctx, FileService_DeleteFile_FullMethodName, in, out, cOpts...)
+	out := new(File)
+	err := c.cc.Invoke(ctx, FileService_GetFile_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *fileServiceClient) UploadFile(ctx context.Context, in *UploadFileRequest, opts ...grpc.CallOption) (*UploadFileResponse, error) {
+func (c *fileServiceClient) CreateFile(ctx context.Context, in *CreateFileRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(UploadFileResponse)
-	err := c.cc.Invoke(ctx, FileService_UploadFile_FullMethodName, in, out, cOpts...)
+	out := new(emptypb.Empty)
+	err := c.cc.Invoke(ctx, FileService_CreateFile_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *fileServiceClient) UpdateFile(ctx context.Context, in *UpdateFileRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(emptypb.Empty)
+	err := c.cc.Invoke(ctx, FileService_UpdateFile_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *fileServiceClient) DeleteFile(ctx context.Context, in *DeleteFileRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(emptypb.Empty)
+	err := c.cc.Invoke(ctx, FileService_DeleteFile_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -108,16 +110,16 @@ func (c *fileServiceClient) UploadFile(ctx context.Context, in *UploadFileReques
 //
 // 文件服务
 type FileServiceServer interface {
-	// 获取对象存储（OSS）上传链接
-	OssUploadUrl(context.Context, *OssUploadUrlRequest) (*OssUploadUrlResponse, error)
-	// 获取对象存储（OSS）下载链接
-	GetDownloadUrl(context.Context, *GetDownloadUrlRequest) (*GetDownloadUrlResponse, error)
-	// 获取文件夹下面的文件列表
-	ListFile(context.Context, *ListFileRequest) (*ListFileResponse, error)
-	// 删除一个文件
-	DeleteFile(context.Context, *DeleteFileRequest) (*DeleteFileResponse, error)
-	// 上传文件
-	UploadFile(context.Context, *UploadFileRequest) (*UploadFileResponse, error)
+	// 获取文件列表
+	ListFile(context.Context, *v1.PagingRequest) (*ListFileResponse, error)
+	// 获取文件数据
+	GetFile(context.Context, *GetFileRequest) (*File, error)
+	// 创建文件
+	CreateFile(context.Context, *CreateFileRequest) (*emptypb.Empty, error)
+	// 更新文件
+	UpdateFile(context.Context, *UpdateFileRequest) (*emptypb.Empty, error)
+	// 删除文件
+	DeleteFile(context.Context, *DeleteFileRequest) (*emptypb.Empty, error)
 	mustEmbedUnimplementedFileServiceServer()
 }
 
@@ -128,20 +130,20 @@ type FileServiceServer interface {
 // pointer dereference when methods are called.
 type UnimplementedFileServiceServer struct{}
 
-func (UnimplementedFileServiceServer) OssUploadUrl(context.Context, *OssUploadUrlRequest) (*OssUploadUrlResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method OssUploadUrl not implemented")
-}
-func (UnimplementedFileServiceServer) GetDownloadUrl(context.Context, *GetDownloadUrlRequest) (*GetDownloadUrlResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetDownloadUrl not implemented")
-}
-func (UnimplementedFileServiceServer) ListFile(context.Context, *ListFileRequest) (*ListFileResponse, error) {
+func (UnimplementedFileServiceServer) ListFile(context.Context, *v1.PagingRequest) (*ListFileResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListFile not implemented")
 }
-func (UnimplementedFileServiceServer) DeleteFile(context.Context, *DeleteFileRequest) (*DeleteFileResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DeleteFile not implemented")
+func (UnimplementedFileServiceServer) GetFile(context.Context, *GetFileRequest) (*File, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetFile not implemented")
 }
-func (UnimplementedFileServiceServer) UploadFile(context.Context, *UploadFileRequest) (*UploadFileResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UploadFile not implemented")
+func (UnimplementedFileServiceServer) CreateFile(context.Context, *CreateFileRequest) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateFile not implemented")
+}
+func (UnimplementedFileServiceServer) UpdateFile(context.Context, *UpdateFileRequest) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateFile not implemented")
+}
+func (UnimplementedFileServiceServer) DeleteFile(context.Context, *DeleteFileRequest) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteFile not implemented")
 }
 func (UnimplementedFileServiceServer) mustEmbedUnimplementedFileServiceServer() {}
 func (UnimplementedFileServiceServer) testEmbeddedByValue()                     {}
@@ -164,44 +166,8 @@ func RegisterFileServiceServer(s grpc.ServiceRegistrar, srv FileServiceServer) {
 	s.RegisterService(&FileService_ServiceDesc, srv)
 }
 
-func _FileService_OssUploadUrl_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(OssUploadUrlRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(FileServiceServer).OssUploadUrl(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: FileService_OssUploadUrl_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(FileServiceServer).OssUploadUrl(ctx, req.(*OssUploadUrlRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _FileService_GetDownloadUrl_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetDownloadUrlRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(FileServiceServer).GetDownloadUrl(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: FileService_GetDownloadUrl_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(FileServiceServer).GetDownloadUrl(ctx, req.(*GetDownloadUrlRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 func _FileService_ListFile_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ListFileRequest)
+	in := new(v1.PagingRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -213,7 +179,61 @@ func _FileService_ListFile_Handler(srv interface{}, ctx context.Context, dec fun
 		FullMethod: FileService_ListFile_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(FileServiceServer).ListFile(ctx, req.(*ListFileRequest))
+		return srv.(FileServiceServer).ListFile(ctx, req.(*v1.PagingRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _FileService_GetFile_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetFileRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(FileServiceServer).GetFile(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: FileService_GetFile_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(FileServiceServer).GetFile(ctx, req.(*GetFileRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _FileService_CreateFile_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateFileRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(FileServiceServer).CreateFile(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: FileService_CreateFile_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(FileServiceServer).CreateFile(ctx, req.(*CreateFileRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _FileService_UpdateFile_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateFileRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(FileServiceServer).UpdateFile(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: FileService_UpdateFile_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(FileServiceServer).UpdateFile(ctx, req.(*UpdateFileRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -236,24 +256,6 @@ func _FileService_DeleteFile_Handler(srv interface{}, ctx context.Context, dec f
 	return interceptor(ctx, in, info, handler)
 }
 
-func _FileService_UploadFile_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UploadFileRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(FileServiceServer).UploadFile(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: FileService_UploadFile_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(FileServiceServer).UploadFile(ctx, req.(*UploadFileRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 // FileService_ServiceDesc is the grpc.ServiceDesc for FileService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -262,24 +264,24 @@ var FileService_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*FileServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "OssUploadUrl",
-			Handler:    _FileService_OssUploadUrl_Handler,
-		},
-		{
-			MethodName: "GetDownloadUrl",
-			Handler:    _FileService_GetDownloadUrl_Handler,
-		},
-		{
 			MethodName: "ListFile",
 			Handler:    _FileService_ListFile_Handler,
 		},
 		{
-			MethodName: "DeleteFile",
-			Handler:    _FileService_DeleteFile_Handler,
+			MethodName: "GetFile",
+			Handler:    _FileService_GetFile_Handler,
 		},
 		{
-			MethodName: "UploadFile",
-			Handler:    _FileService_UploadFile_Handler,
+			MethodName: "CreateFile",
+			Handler:    _FileService_CreateFile_Handler,
+		},
+		{
+			MethodName: "UpdateFile",
+			Handler:    _FileService_UpdateFile_Handler,
+		},
+		{
+			MethodName: "DeleteFile",
+			Handler:    _FileService_DeleteFile_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

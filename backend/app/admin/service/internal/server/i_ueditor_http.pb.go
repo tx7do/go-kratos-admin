@@ -27,7 +27,7 @@ func _UEditorService_UploadFile_HTTP_Handler(svc *service.UEditorService) func(c
 		var in fileV1.UEditorUploadRequest
 		var err error
 
-		var aFile *fileV1.File
+		var fileData *fileV1.FileData
 
 		file, header, err := ctx.Request().FormFile("file")
 		if err == nil {
@@ -36,7 +36,7 @@ func _UEditorService_UploadFile_HTTP_Handler(svc *service.UEditorService) func(c
 			b := new(strings.Builder)
 			_, err = io.Copy(b, file)
 
-			aFile = &fileV1.File{
+			fileData = &fileV1.FileData{
 				FileName: header.Filename,
 				Mime:     header.Header.Get("Content-Type"),
 				Content:  []byte(b.String()),
@@ -48,7 +48,7 @@ func _UEditorService_UploadFile_HTTP_Handler(svc *service.UEditorService) func(c
 		}
 
 		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
-			return svc.UploadFile(ctx, req.(*fileV1.UEditorUploadRequest), aFile)
+			return svc.UploadFile(ctx, req.(*fileV1.UEditorUploadRequest), fileData)
 		})
 
 		// 逻辑处理，取数据

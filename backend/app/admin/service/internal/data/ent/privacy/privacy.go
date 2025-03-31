@@ -207,6 +207,78 @@ func (f DictMutationRuleFunc) EvalMutation(ctx context.Context, m ent.Mutation) 
 	return Denyf("ent/privacy: unexpected mutation type %T, expect *ent.DictMutation", m)
 }
 
+// The FileQueryRuleFunc type is an adapter to allow the use of ordinary
+// functions as a query rule.
+type FileQueryRuleFunc func(context.Context, *ent.FileQuery) error
+
+// EvalQuery return f(ctx, q).
+func (f FileQueryRuleFunc) EvalQuery(ctx context.Context, q ent.Query) error {
+	if q, ok := q.(*ent.FileQuery); ok {
+		return f(ctx, q)
+	}
+	return Denyf("ent/privacy: unexpected query type %T, expect *ent.FileQuery", q)
+}
+
+// The FileMutationRuleFunc type is an adapter to allow the use of ordinary
+// functions as a mutation rule.
+type FileMutationRuleFunc func(context.Context, *ent.FileMutation) error
+
+// EvalMutation calls f(ctx, m).
+func (f FileMutationRuleFunc) EvalMutation(ctx context.Context, m ent.Mutation) error {
+	if m, ok := m.(*ent.FileMutation); ok {
+		return f(ctx, m)
+	}
+	return Denyf("ent/privacy: unexpected mutation type %T, expect *ent.FileMutation", m)
+}
+
+// The InSiteMessageQueryRuleFunc type is an adapter to allow the use of ordinary
+// functions as a query rule.
+type InSiteMessageQueryRuleFunc func(context.Context, *ent.InSiteMessageQuery) error
+
+// EvalQuery return f(ctx, q).
+func (f InSiteMessageQueryRuleFunc) EvalQuery(ctx context.Context, q ent.Query) error {
+	if q, ok := q.(*ent.InSiteMessageQuery); ok {
+		return f(ctx, q)
+	}
+	return Denyf("ent/privacy: unexpected query type %T, expect *ent.InSiteMessageQuery", q)
+}
+
+// The InSiteMessageMutationRuleFunc type is an adapter to allow the use of ordinary
+// functions as a mutation rule.
+type InSiteMessageMutationRuleFunc func(context.Context, *ent.InSiteMessageMutation) error
+
+// EvalMutation calls f(ctx, m).
+func (f InSiteMessageMutationRuleFunc) EvalMutation(ctx context.Context, m ent.Mutation) error {
+	if m, ok := m.(*ent.InSiteMessageMutation); ok {
+		return f(ctx, m)
+	}
+	return Denyf("ent/privacy: unexpected mutation type %T, expect *ent.InSiteMessageMutation", m)
+}
+
+// The InSiteMessageCategoryQueryRuleFunc type is an adapter to allow the use of ordinary
+// functions as a query rule.
+type InSiteMessageCategoryQueryRuleFunc func(context.Context, *ent.InSiteMessageCategoryQuery) error
+
+// EvalQuery return f(ctx, q).
+func (f InSiteMessageCategoryQueryRuleFunc) EvalQuery(ctx context.Context, q ent.Query) error {
+	if q, ok := q.(*ent.InSiteMessageCategoryQuery); ok {
+		return f(ctx, q)
+	}
+	return Denyf("ent/privacy: unexpected query type %T, expect *ent.InSiteMessageCategoryQuery", q)
+}
+
+// The InSiteMessageCategoryMutationRuleFunc type is an adapter to allow the use of ordinary
+// functions as a mutation rule.
+type InSiteMessageCategoryMutationRuleFunc func(context.Context, *ent.InSiteMessageCategoryMutation) error
+
+// EvalMutation calls f(ctx, m).
+func (f InSiteMessageCategoryMutationRuleFunc) EvalMutation(ctx context.Context, m ent.Mutation) error {
+	if m, ok := m.(*ent.InSiteMessageCategoryMutation); ok {
+		return f(ctx, m)
+	}
+	return Denyf("ent/privacy: unexpected mutation type %T, expect *ent.InSiteMessageCategoryMutation", m)
+}
+
 // The MenuQueryRuleFunc type is an adapter to allow the use of ordinary
 // functions as a query rule.
 type MenuQueryRuleFunc func(context.Context, *ent.MenuQuery) error
@@ -370,6 +442,12 @@ func queryFilter(q ent.Query) (Filter, error) {
 		return q.Filter(), nil
 	case *ent.DictQuery:
 		return q.Filter(), nil
+	case *ent.FileQuery:
+		return q.Filter(), nil
+	case *ent.InSiteMessageQuery:
+		return q.Filter(), nil
+	case *ent.InSiteMessageCategoryQuery:
+		return q.Filter(), nil
 	case *ent.MenuQuery:
 		return q.Filter(), nil
 	case *ent.OrganizationQuery:
@@ -394,6 +472,12 @@ func mutationFilter(m ent.Mutation) (Filter, error) {
 	case *ent.DepartmentMutation:
 		return m.Filter(), nil
 	case *ent.DictMutation:
+		return m.Filter(), nil
+	case *ent.FileMutation:
+		return m.Filter(), nil
+	case *ent.InSiteMessageMutation:
+		return m.Filter(), nil
+	case *ent.InSiteMessageCategoryMutation:
 		return m.Filter(), nil
 	case *ent.MenuMutation:
 		return m.Filter(), nil

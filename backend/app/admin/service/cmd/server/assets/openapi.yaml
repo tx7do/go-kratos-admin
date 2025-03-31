@@ -366,9 +366,9 @@ paths:
     /admin/v1/dict/{data.id}:
         put:
             tags:
-                - DictService
-            description: 更新字典
-            operationId: DictService_UpdateDict
+                - FileService
+            description: 更新文件
+            operationId: FileService_UpdateFile
             parameters:
                 - name: data.id
                   in: path
@@ -379,7 +379,7 @@ paths:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/UpdateDictRequest'
+                            $ref: '#/components/schemas/UpdateFileRequest'
                 required: true
             responses:
                 "200":
@@ -429,14 +429,14 @@ paths:
     /admin/v1/file:upload:
         put:
             tags:
-                - FileService
+                - OssService
             description: PUT方法上传文件
-            operationId: FileService_PutUploadFile
+            operationId: OssService_PutUploadFile
             requestBody:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/UploadFileRequest'
+                            $ref: '#/components/schemas/UploadOssFileRequest'
                 required: true
             responses:
                 "200":
@@ -444,17 +444,17 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/UploadFileResponse'
+                                $ref: '#/components/schemas/UploadOssFileResponse'
         post:
             tags:
-                - FileService
+                - OssService
             description: POST方法上传文件
-            operationId: FileService_PostUploadFile
+            operationId: OssService_PostUploadFile
             requestBody:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/UploadFileRequest'
+                            $ref: '#/components/schemas/UploadOssFileRequest'
                 required: true
             responses:
                 "200":
@@ -462,13 +462,13 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/UploadFileResponse'
+                                $ref: '#/components/schemas/UploadOssFileResponse'
     /admin/v1/file:upload-url:
         post:
             tags:
-                - FileService
+                - OssService
             description: 获取对象存储（OSS）上传用的预签名链接
-            operationId: FileService_OssUploadUrl
+            operationId: OssService_OssUploadUrl
             requestBody:
                 content:
                     application/json:
@@ -482,6 +482,116 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/OssUploadUrlResponse'
+    /admin/v1/files:
+        get:
+            tags:
+                - FileService
+            description: 查询文件列表
+            operationId: FileService_ListFile
+            parameters:
+                - name: page
+                  in: query
+                  description: 当前页码
+                  schema:
+                    type: integer
+                    format: int32
+                - name: pageSize
+                  in: query
+                  description: 每一页的行数
+                  schema:
+                    type: integer
+                    format: int32
+                - name: query
+                  in: query
+                  description: AND过滤参数，其语法为json格式的字符串，如：{"key1":"val1","key2":"val2"}，具体请参见：https://github.com/tx7do/go-utils/tree/main/entgo/query/README.md
+                  schema:
+                    type: string
+                - name: or
+                  in: query
+                  description: OR过滤参数，语法同AND过滤参数。
+                  schema:
+                    type: string
+                - name: orderBy
+                  in: query
+                  description: 排序条件，其语法为JSON字符串，例如：{"val1", "-val2"}。字段名前加'-'为降序，否则为升序。
+                  schema:
+                    type: array
+                    items:
+                        type: string
+                - name: noPaging
+                  in: query
+                  description: 是否不分页，如果为true，则page和pageSize参数无效。
+                  schema:
+                    type: boolean
+                - name: fieldMask
+                  in: query
+                  description: 字段掩码，其作用为SELECT中的字段，其语法为使用逗号分隔字段名，例如：id,realName,userName。如果为空则选中所有字段，即SELECT *。
+                  schema:
+                    type: string
+                    format: field-mask
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ListFileResponse'
+        post:
+            tags:
+                - FileService
+            description: 创建文件
+            operationId: FileService_CreateFile
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/CreateFileRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content: {}
+    /admin/v1/files/{id}:
+        get:
+            tags:
+                - FileService
+            description: 查询文件详情
+            operationId: FileService_GetFile
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: uint32
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/File'
+        delete:
+            tags:
+                - FileService
+            description: 删除文件
+            operationId: FileService_DeleteFile
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: uint32
+                - name: operatorId
+                  in: query
+                  schema:
+                    type: integer
+                    format: uint32
+            responses:
+                "200":
+                    description: OK
+                    content: {}
     /admin/v1/login:
         post:
             tags:
@@ -661,6 +771,270 @@ paths:
                   schema:
                     type: integer
                     format: int32
+                - name: operatorId
+                  in: query
+                  schema:
+                    type: integer
+                    format: uint32
+            responses:
+                "200":
+                    description: OK
+                    content: {}
+    /admin/v1/msg:
+        get:
+            tags:
+                - InSiteMessageService
+            description: 查询站内信列表
+            operationId: InSiteMessageService_ListInSiteMessage
+            parameters:
+                - name: page
+                  in: query
+                  description: 当前页码
+                  schema:
+                    type: integer
+                    format: int32
+                - name: pageSize
+                  in: query
+                  description: 每一页的行数
+                  schema:
+                    type: integer
+                    format: int32
+                - name: query
+                  in: query
+                  description: AND过滤参数，其语法为json格式的字符串，如：{"key1":"val1","key2":"val2"}，具体请参见：https://github.com/tx7do/go-utils/tree/main/entgo/query/README.md
+                  schema:
+                    type: string
+                - name: or
+                  in: query
+                  description: OR过滤参数，语法同AND过滤参数。
+                  schema:
+                    type: string
+                - name: orderBy
+                  in: query
+                  description: 排序条件，其语法为JSON字符串，例如：{"val1", "-val2"}。字段名前加'-'为降序，否则为升序。
+                  schema:
+                    type: array
+                    items:
+                        type: string
+                - name: noPaging
+                  in: query
+                  description: 是否不分页，如果为true，则page和pageSize参数无效。
+                  schema:
+                    type: boolean
+                - name: fieldMask
+                  in: query
+                  description: 字段掩码，其作用为SELECT中的字段，其语法为使用逗号分隔字段名，例如：id,realName,userName。如果为空则选中所有字段，即SELECT *。
+                  schema:
+                    type: string
+                    format: field-mask
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ListInSiteMessageResponse'
+        post:
+            tags:
+                - InSiteMessageService
+            description: 创建站内信
+            operationId: InSiteMessageService_CreateInSiteMessage
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/CreateInSiteMessageRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content: {}
+    /admin/v1/msg/{data.id}:
+        put:
+            tags:
+                - InSiteMessageService
+            description: 更新站内信
+            operationId: InSiteMessageService_UpdateInSiteMessage
+            parameters:
+                - name: data.id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/UpdateInSiteMessageRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content: {}
+    /admin/v1/msg/{id}:
+        get:
+            tags:
+                - InSiteMessageService
+            description: 查询站内信详情
+            operationId: InSiteMessageService_GetInSiteMessage
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: uint32
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/InSiteMessage'
+        delete:
+            tags:
+                - InSiteMessageService
+            description: 删除站内信
+            operationId: InSiteMessageService_DeleteInSiteMessage
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: uint32
+                - name: operatorId
+                  in: query
+                  schema:
+                    type: integer
+                    format: uint32
+            responses:
+                "200":
+                    description: OK
+                    content: {}
+    /admin/v1/msg:categories:
+        get:
+            tags:
+                - InSiteMessageCategoryService
+            description: 查询站内信分类列表
+            operationId: InSiteMessageCategoryService_ListInSiteMessageCategory
+            parameters:
+                - name: page
+                  in: query
+                  description: 当前页码
+                  schema:
+                    type: integer
+                    format: int32
+                - name: pageSize
+                  in: query
+                  description: 每一页的行数
+                  schema:
+                    type: integer
+                    format: int32
+                - name: query
+                  in: query
+                  description: AND过滤参数，其语法为json格式的字符串，如：{"key1":"val1","key2":"val2"}，具体请参见：https://github.com/tx7do/go-utils/tree/main/entgo/query/README.md
+                  schema:
+                    type: string
+                - name: or
+                  in: query
+                  description: OR过滤参数，语法同AND过滤参数。
+                  schema:
+                    type: string
+                - name: orderBy
+                  in: query
+                  description: 排序条件，其语法为JSON字符串，例如：{"val1", "-val2"}。字段名前加'-'为降序，否则为升序。
+                  schema:
+                    type: array
+                    items:
+                        type: string
+                - name: noPaging
+                  in: query
+                  description: 是否不分页，如果为true，则page和pageSize参数无效。
+                  schema:
+                    type: boolean
+                - name: fieldMask
+                  in: query
+                  description: 字段掩码，其作用为SELECT中的字段，其语法为使用逗号分隔字段名，例如：id,realName,userName。如果为空则选中所有字段，即SELECT *。
+                  schema:
+                    type: string
+                    format: field-mask
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ListInSiteMessageCategoryResponse'
+        post:
+            tags:
+                - InSiteMessageCategoryService
+            description: 创建站内信分类
+            operationId: InSiteMessageCategoryService_CreateInSiteMessageCategory
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/CreateInSiteMessageCategoryRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content: {}
+    /admin/v1/msg:categories/{data.id}:
+        put:
+            tags:
+                - InSiteMessageCategoryService
+            description: 更新站内信分类
+            operationId: InSiteMessageCategoryService_UpdateInSiteMessageCategory
+            parameters:
+                - name: data.id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/UpdateInSiteMessageCategoryRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content: {}
+    /admin/v1/msg:categories/{id}:
+        get:
+            tags:
+                - InSiteMessageCategoryService
+            description: 查询站内信分类详情
+            operationId: InSiteMessageCategoryService_GetInSiteMessageCategory
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: uint32
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/InSiteMessageCategory'
+        delete:
+            tags:
+                - InSiteMessageCategoryService
+            description: 删除站内信分类
+            operationId: InSiteMessageCategoryService_DeleteInSiteMessageCategory
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: uint32
                 - name: operatorId
                   in: query
                   schema:
@@ -1483,6 +1857,39 @@ components:
                 data:
                     $ref: '#/components/schemas/Dict'
             description: 创建字典 - 请求
+        CreateFileRequest:
+            type: object
+            properties:
+                data:
+                    $ref: '#/components/schemas/File'
+                operatorId:
+                    readOnly: true
+                    type: integer
+                    description: 操作用户ID
+                    format: uint32
+            description: 创建文件 - 请求
+        CreateInSiteMessageCategoryRequest:
+            type: object
+            properties:
+                operatorId:
+                    readOnly: true
+                    type: integer
+                    description: 操作用户ID
+                    format: uint32
+                data:
+                    $ref: '#/components/schemas/InSiteMessageCategory'
+            description: 创建站内信分类 - 请求
+        CreateInSiteMessageRequest:
+            type: object
+            properties:
+                operatorId:
+                    readOnly: true
+                    type: integer
+                    description: 操作用户ID
+                    format: uint32
+                data:
+                    $ref: '#/components/schemas/InSiteMessage'
+            description: 创建站内信 - 请求
         CreateMenuRequest:
             type: object
             properties:
@@ -1650,6 +2057,72 @@ components:
         File:
             type: object
             properties:
+                id:
+                    type: integer
+                    description: 消息ID
+                    format: uint32
+                provider:
+                    enum:
+                        - MinIO
+                        - Aliyun
+                        - AWS
+                        - Azure
+                        - Baidu
+                        - Qiniu
+                        - Tencent
+                        - Google
+                        - Huawei
+                        - QCloud
+                        - Local
+                    type: string
+                    description: OSS供应商
+                    format: enum
+                bucketName:
+                    type: string
+                    description: 存储桶名称
+                fileDirectory:
+                    type: string
+                    description: 文件目录
+                fileGuid:
+                    type: string
+                    description: 文件Guid
+                saveFileName:
+                    type: string
+                    description: 保存文件名
+                fileName:
+                    type: string
+                    description: 文件名
+                extension:
+                    type: string
+                    description: 文件扩展名
+                size:
+                    type: string
+                    description: 文件字节长度
+                sizeFormat:
+                    type: string
+                    description: 文件大小格式化
+                linkUrl:
+                    type: string
+                    description: 链接地址
+                md5:
+                    type: string
+                    description: md5码，防止上传重复文件
+                createTime:
+                    type: string
+                    description: 创建时间
+                    format: date-time
+                updateTime:
+                    type: string
+                    description: 更新时间
+                    format: date-time
+                deleteTime:
+                    type: string
+                    description: 删除时间
+                    format: date-time
+            description: 文件
+        FileData:
+            type: object
+            properties:
                 fileName:
                     type: string
                 mime:
@@ -1657,6 +2130,92 @@ components:
                 content:
                     type: string
                     format: bytes
+        InSiteMessage:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    description: 消息ID
+                    format: uint32
+                title:
+                    type: string
+                    description: 标题
+                content:
+                    type: string
+                    description: 内容
+                categoryId:
+                    type: integer
+                    description: 分类ID
+                    format: uint32
+                categoryName:
+                    type: string
+                    description: 分类名称
+                status:
+                    enum:
+                        - MessageStatus_Unknown
+                        - MessageStatus_Draft
+                        - MessageStatus_Published
+                        - MessageStatus_Scheduled
+                        - MessageStatus_Revoked
+                        - MessageStatus_Archived
+                    type: string
+                    description: 消息状态
+                    format: enum
+                createTime:
+                    type: string
+                    description: 创建时间
+                    format: date-time
+                updateTime:
+                    type: string
+                    description: 更新时间
+                    format: date-time
+                deleteTime:
+                    type: string
+                    description: 删除时间
+                    format: date-time
+            description: 站内信
+        InSiteMessageCategory:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    description: 分类ID
+                    format: uint32
+                name:
+                    type: string
+                    description: 名称
+                code:
+                    type: string
+                    description: 编码
+                sortId:
+                    type: integer
+                    description: 排序编号
+                    format: int32
+                enable:
+                    type: boolean
+                    description: 是否启用
+                parentId:
+                    type: integer
+                    description: 父节点ID
+                    format: uint32
+                children:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/InSiteMessageCategory'
+                    description: 子节点树
+                createTime:
+                    type: string
+                    description: 创建时间
+                    format: date-time
+                updateTime:
+                    type: string
+                    description: 更新时间
+                    format: date-time
+                deleteTime:
+                    type: string
+                    description: 删除时间
+                    format: date-time
+            description: 站内信分类
         KratosStatus:
             type: object
             properties:
@@ -1718,6 +2277,39 @@ components:
                     type: integer
                     format: uint32
             description: 查询字典列表 - 回应
+        ListFileResponse:
+            type: object
+            properties:
+                items:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/File'
+                total:
+                    type: integer
+                    format: uint32
+            description: 文件列表 - 回应
+        ListInSiteMessageCategoryResponse:
+            type: object
+            properties:
+                items:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/InSiteMessageCategory'
+                total:
+                    type: integer
+                    format: uint32
+            description: 查询站内信分类列表 - 回应
+        ListInSiteMessageResponse:
+            type: object
+            properties:
+                items:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/InSiteMessage'
+                total:
+                    type: integer
+                    format: uint32
+            description: 查询站内信列表 - 回应
         ListMenuResponse:
             type: object
             properties:
@@ -2385,7 +2977,7 @@ components:
                 action:
                     type: string
                 file:
-                    $ref: '#/components/schemas/File'
+                    $ref: '#/components/schemas/FileData'
         UEditorUploadResponse:
             type: object
             properties:
@@ -2460,6 +3052,63 @@ components:
                     type: boolean
                     description: 如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。
             description: 更新字典 - 请求
+        UpdateFileRequest:
+            type: object
+            properties:
+                operatorId:
+                    readOnly: true
+                    type: integer
+                    description: 操作用户ID
+                    format: uint32
+                data:
+                    $ref: '#/components/schemas/File'
+                updateMask:
+                    example: id,realName,userName
+                    type: string
+                    description: 要更新的字段列表
+                    format: field-mask
+                allowMissing:
+                    type: boolean
+                    description: 如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。
+            description: 更新文件 - 请求
+        UpdateInSiteMessageCategoryRequest:
+            type: object
+            properties:
+                operatorId:
+                    readOnly: true
+                    type: integer
+                    description: 操作用户ID
+                    format: uint32
+                data:
+                    $ref: '#/components/schemas/InSiteMessageCategory'
+                updateMask:
+                    example: id,realName,userName
+                    type: string
+                    description: 要更新的字段列表
+                    format: field-mask
+                allowMissing:
+                    type: boolean
+                    description: 如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。
+            description: 更新站内信分类 - 请求
+        UpdateInSiteMessageRequest:
+            type: object
+            properties:
+                operatorId:
+                    readOnly: true
+                    type: integer
+                    description: 操作用户ID
+                    format: uint32
+                data:
+                    $ref: '#/components/schemas/InSiteMessage'
+                updateMask:
+                    example: id,realName,userName
+                    type: string
+                    description: 要更新的字段列表
+                    format: field-mask
+                allowMissing:
+                    type: boolean
+                    description: 如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。
+            description: 更新站内信 - 请求
         UpdateMenuRequest:
             type: object
             properties:
@@ -2561,7 +3210,7 @@ components:
                     type: boolean
                     description: 如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。
             description: 更新用户 - 请求
-        UploadFileRequest:
+        UploadOssFileRequest:
             type: object
             properties:
                 bucketName:
@@ -2574,7 +3223,7 @@ components:
                     type: string
                     description: 文件内容
                     format: bytes
-        UploadFileResponse:
+        UploadOssFileResponse:
             type: object
             properties:
                 url:
@@ -2721,11 +3370,17 @@ tags:
     - name: DictService
       description: 字典管理服务
     - name: FileService
-      description: 文件服务
+      description: 文件管理服务
+    - name: InSiteMessageCategoryService
+      description: 站内信分类管理服务
+    - name: InSiteMessageService
+      description: 站内信管理服务
     - name: MenuService
       description: 后台菜单管理服务
     - name: OrganizationService
       description: 组织管理服务
+    - name: OssService
+      description: OSS服务
     - name: PositionService
       description: 职位管理服务
     - name: RoleService

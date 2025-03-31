@@ -29,7 +29,7 @@ enum UEditorAction {
   catchImage = 14; // 抓取远程图片
 }
 
-message File {
+message FileData {
   string file_name = 1;
   string mime = 2;
   bytes content = 3;
@@ -118,7 +118,7 @@ message UEditorResponse {
 
 message UEditorUploadRequest {
   string action = 1;
-  optional File file = 2;
+  optional FileData file = 2;
 }
 
 message UEditorUploadResponse {

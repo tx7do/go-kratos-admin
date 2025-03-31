@@ -18,6 +18,15 @@ type Department func(*sql.Selector)
 // Dict is the predicate function for dict builders.
 type Dict func(*sql.Selector)
 
+// File is the predicate function for file builders.
+type File func(*sql.Selector)
+
+// InSiteMessage is the predicate function for insitemessage builders.
+type InSiteMessage func(*sql.Selector)
+
+// InSiteMessageCategory is the predicate function for insitemessagecategory builders.
+type InSiteMessageCategory func(*sql.Selector)
+
 // Menu is the predicate function for menu builders.
 type Menu func(*sql.Selector)
 

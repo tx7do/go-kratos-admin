@@ -21,6 +21,9 @@ var ProviderSet = wire.NewSet(
 	NewDictService,
 	NewAdminLoginLogService,
 	NewAdminOperationLogService,
-	NewFileService,
+	NewOssService,
 	NewUEditorService,
+	NewFileService,
+	NewInSiteMessageService,
+	NewInSiteMessageCategoryService,
 )

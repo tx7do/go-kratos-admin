@@ -379,16 +379,16 @@ func (dc *DepartmentCreate) createSpec() (*Department, *sqlgraph.CreateSpec) {
 // OnConflict allows configuring the `ON CONFLICT` / `ON DUPLICATE KEY` clause
 // of the `INSERT` statement. For example:
 //
-//	client.Department.CreateRole().
+//	client.Department.Create().
 //		SetCreateTime(v).
 //		OnConflict(
-//			// UpdateRole the row with the new values
+//			// Update the row with the new values
 //			// the was proposed for insertion.
 //			sql.ResolveWithNewValues(),
 //		).
 //		// Override some of the fields with custom
 //		// update values.
-//		UpdateRole(func(u *ent.DepartmentUpsert) {
+//		Update(func(u *ent.DepartmentUpsert) {
 //			SetCreateTime(v+v).
 //		}).
 //		Exec(ctx)
@@ -402,7 +402,7 @@ func (dc *DepartmentCreate) OnConflict(opts ...sql.ConflictOption) *DepartmentUp
 // OnConflictColumns calls `OnConflict` and configures the columns
 // as conflict target. Using this option is equivalent to using:
 //
-//	client.Department.CreateRole().
+//	client.Department.Create().
 //		OnConflict(sql.ConflictColumns(columns...)).
 //		Exec(ctx)
 func (dc *DepartmentCreate) OnConflictColumns(columns ...string) *DepartmentUpsertOne {
@@ -632,7 +632,7 @@ func (u *DepartmentUpsert) ClearSortID() *DepartmentUpsert {
 // UpdateNewValues updates the mutable fields using the new values that were set on create except the ID field.
 // Using this option is equivalent to using:
 //
-//	client.Department.CreateRole().
+//	client.Department.Create().
 //		OnConflict(
 //			sql.ResolveWithNewValues(),
 //			sql.ResolveWith(func(u *sql.UpdateSet) {
@@ -656,7 +656,7 @@ func (u *DepartmentUpsertOne) UpdateNewValues() *DepartmentUpsertOne {
 // Ignore sets each column to itself in case of conflict.
 // Using this option is equivalent to using:
 //
-//	client.Department.CreateRole().
+//	client.Department.Create().
 //	    OnConflict(sql.ResolveWithIgnore()).
 //	    Exec(ctx)
 func (u *DepartmentUpsertOne) Ignore() *DepartmentUpsertOne {
@@ -1046,13 +1046,13 @@ func (dcb *DepartmentCreateBulk) ExecX(ctx context.Context) {
 //
 //	client.Department.CreateBulk(builders...).
 //		OnConflict(
-//			// UpdateRole the row with the new values
+//			// Update the row with the new values
 //			// the was proposed for insertion.
 //			sql.ResolveWithNewValues(),
 //		).
 //		// Override some of the fields with custom
 //		// update values.
-//		UpdateRole(func(u *ent.DepartmentUpsert) {
+//		Update(func(u *ent.DepartmentUpsert) {
 //			SetCreateTime(v+v).
 //		}).
 //		Exec(ctx)
@@ -1066,7 +1066,7 @@ func (dcb *DepartmentCreateBulk) OnConflict(opts ...sql.ConflictOption) *Departm
 // OnConflictColumns calls `OnConflict` and configures the columns
 // as conflict target. Using this option is equivalent to using:
 //
-//	client.Department.CreateRole().
+//	client.Department.Create().
 //		OnConflict(sql.ConflictColumns(columns...)).
 //		Exec(ctx)
 func (dcb *DepartmentCreateBulk) OnConflictColumns(columns ...string) *DepartmentUpsertBulk {
@@ -1085,7 +1085,7 @@ type DepartmentUpsertBulk struct {
 // UpdateNewValues updates the mutable fields using the new values that
 // were set on create. Using this option is equivalent to using:
 //
-//	client.Department.CreateRole().
+//	client.Department.Create().
 //		OnConflict(
 //			sql.ResolveWithNewValues(),
 //			sql.ResolveWith(func(u *sql.UpdateSet) {
@@ -1111,7 +1111,7 @@ func (u *DepartmentUpsertBulk) UpdateNewValues() *DepartmentUpsertBulk {
 // Ignore sets each column to itself in case of conflict.
 // Using this option is equivalent to using:
 //
-//	client.Department.CreateRole().
+//	client.Department.Create().
 //		OnConflict(sql.ResolveWithIgnore()).
 //		Exec(ctx)
 func (u *DepartmentUpsertBulk) Ignore() *DepartmentUpsertBulk {

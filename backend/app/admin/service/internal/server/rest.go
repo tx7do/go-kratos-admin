@@ -83,9 +83,16 @@ func NewRESTServer(
 	deptSvc *service.DepartmentService,
 	adminLoginLogSvc *service.AdminLoginLogService,
 	adminOperationLogSvc *service.AdminOperationLogService,
-	fileSvc *service.FileService,
+	ossSvc *service.OssService,
 	ueditorSvc *service.UEditorService,
+	fileService *service.FileService,
+	inSiteMessageService *service.InSiteMessageService,
+	inSiteMessageCategoryService *service.InSiteMessageCategoryService,
 ) *http.Server {
+	if cfg == nil || cfg.Server == nil || cfg.Server.Rest == nil {
+		return nil
+	}
+
 	srv := rpc.CreateRestServer(cfg,
 		newRestMiddleware(logger, authenticator, authorizer, userToken, operationLogRepo, loginLogRepo)...,
 	)
@@ -102,10 +109,15 @@ func NewRESTServer(
 	adminV1.RegisterAdminLoginLogServiceHTTPServer(srv, adminLoginLogSvc)
 	adminV1.RegisterAdminOperationLogServiceHTTPServer(srv, adminOperationLogSvc)
 
-	adminV1.RegisterFileServiceHTTPServer(srv, fileSvc)
+	adminV1.RegisterOssServiceHTTPServer(srv, ossSvc)
+	adminV1.RegisterFileServiceHTTPServer(srv, fileService)
+
 	adminV1.RegisterUEditorServiceHTTPServer(srv, ueditorSvc)
 
-	registerFileUploadHandler(srv, fileSvc)
+	adminV1.RegisterInSiteMessageServiceHTTPServer(srv, inSiteMessageService)
+	adminV1.RegisterInSiteMessageCategoryServiceHTTPServer(srv, inSiteMessageCategoryService)
+
+	registerFileUploadHandler(srv, ossSvc)
 	registerUEditorUploadHandler(srv, ueditorSvc)
 
 	if cfg.GetServer().GetRest().GetEnableSwagger() {

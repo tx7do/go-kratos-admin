@@ -156,6 +156,102 @@ var (
 			},
 		},
 	}
+	// FilesColumns holds the columns for the "files" table.
+	FilesColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeUint32, Increment: true, Comment: "id", SchemaType: map[string]string{"mysql": "int", "postgres": "serial"}},
+		{Name: "create_time", Type: field.TypeTime, Nullable: true, Comment: "创建时间"},
+		{Name: "update_time", Type: field.TypeTime, Nullable: true, Comment: "更新时间"},
+		{Name: "delete_time", Type: field.TypeTime, Nullable: true, Comment: "删除时间"},
+		{Name: "create_by", Type: field.TypeUint32, Nullable: true, Comment: "创建者ID"},
+		{Name: "remark", Type: field.TypeString, Nullable: true, Comment: "备注", Default: ""},
+		{Name: "provider", Type: field.TypeEnum, Nullable: true, Comment: "OSS供应商", Enums: []string{"MinIO", "Aliyun", "Qiniu", "Tencent", "AWS", "Google", "Azure", "Baidu", "Huawei", "QCloud", "Local", "Unknown"}},
+		{Name: "bucket_name", Type: field.TypeString, Nullable: true, Comment: "存储桶名称"},
+		{Name: "file_directory", Type: field.TypeString, Nullable: true, Comment: "文件目录"},
+		{Name: "file_guid", Type: field.TypeString, Nullable: true, Comment: "文件Guid"},
+		{Name: "save_file_name", Type: field.TypeString, Nullable: true, Comment: "保存文件名"},
+		{Name: "file_name", Type: field.TypeString, Nullable: true, Comment: "文件名"},
+		{Name: "extension", Type: field.TypeString, Nullable: true, Comment: "文件扩展名"},
+		{Name: "size", Type: field.TypeUint64, Nullable: true, Comment: "文件字节长度"},
+		{Name: "size_format", Type: field.TypeString, Nullable: true, Comment: "文件大小格式化"},
+		{Name: "link_url", Type: field.TypeString, Nullable: true, Comment: "链接地址"},
+		{Name: "md5", Type: field.TypeString, Nullable: true, Comment: "md5码，防止上传重复文件"},
+	}
+	// FilesTable holds the schema information for the "files" table.
+	FilesTable = &schema.Table{
+		Name:       "files",
+		Columns:    FilesColumns,
+		PrimaryKey: []*schema.Column{FilesColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "file_id",
+				Unique:  false,
+				Columns: []*schema.Column{FilesColumns[0]},
+			},
+		},
+	}
+	// InSiteMessagesColumns holds the columns for the "in_site_messages" table.
+	InSiteMessagesColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeUint32, Increment: true, Comment: "id", SchemaType: map[string]string{"mysql": "int", "postgres": "serial"}},
+		{Name: "create_time", Type: field.TypeTime, Nullable: true, Comment: "创建时间"},
+		{Name: "update_time", Type: field.TypeTime, Nullable: true, Comment: "更新时间"},
+		{Name: "delete_time", Type: field.TypeTime, Nullable: true, Comment: "删除时间"},
+		{Name: "create_by", Type: field.TypeUint32, Nullable: true, Comment: "创建者ID"},
+		{Name: "update_by", Type: field.TypeUint32, Nullable: true, Comment: "更新者ID"},
+		{Name: "remark", Type: field.TypeString, Nullable: true, Comment: "备注", Default: ""},
+		{Name: "title", Type: field.TypeString, Nullable: true, Comment: "标题"},
+		{Name: "content", Type: field.TypeString, Nullable: true, Comment: "内容"},
+		{Name: "category_id", Type: field.TypeUint32, Nullable: true, Comment: "分类ID"},
+		{Name: "status", Type: field.TypeEnum, Nullable: true, Comment: "消息状态", Enums: []string{"Draft", "Published", "Scheduled", "Revoked", "Archived", "Unknown"}},
+	}
+	// InSiteMessagesTable holds the schema information for the "in_site_messages" table.
+	InSiteMessagesTable = &schema.Table{
+		Name:       "in_site_messages",
+		Columns:    InSiteMessagesColumns,
+		PrimaryKey: []*schema.Column{InSiteMessagesColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "insitemessage_id",
+				Unique:  false,
+				Columns: []*schema.Column{InSiteMessagesColumns[0]},
+			},
+		},
+	}
+	// InSiteMessageCategoriesColumns holds the columns for the "in_site_message_categories" table.
+	InSiteMessageCategoriesColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeUint32, Increment: true, Comment: "id", SchemaType: map[string]string{"mysql": "int", "postgres": "serial"}},
+		{Name: "create_time", Type: field.TypeTime, Nullable: true, Comment: "创建时间"},
+		{Name: "update_time", Type: field.TypeTime, Nullable: true, Comment: "更新时间"},
+		{Name: "delete_time", Type: field.TypeTime, Nullable: true, Comment: "删除时间"},
+		{Name: "create_by", Type: field.TypeUint32, Nullable: true, Comment: "创建者ID"},
+		{Name: "update_by", Type: field.TypeUint32, Nullable: true, Comment: "更新者ID"},
+		{Name: "remark", Type: field.TypeString, Nullable: true, Comment: "备注", Default: ""},
+		{Name: "name", Type: field.TypeString, Nullable: true, Comment: "名称"},
+		{Name: "code", Type: field.TypeString, Nullable: true, Comment: "编码"},
+		{Name: "sort_id", Type: field.TypeInt32, Nullable: true, Comment: "排序编号"},
+		{Name: "enable", Type: field.TypeBool, Nullable: true, Comment: "是否启用"},
+		{Name: "parent_id", Type: field.TypeUint32, Nullable: true, Comment: "父节点ID", SchemaType: map[string]string{"mysql": "int", "postgres": "serial"}},
+	}
+	// InSiteMessageCategoriesTable holds the schema information for the "in_site_message_categories" table.
+	InSiteMessageCategoriesTable = &schema.Table{
+		Name:       "in_site_message_categories",
+		Columns:    InSiteMessageCategoriesColumns,
+		PrimaryKey: []*schema.Column{InSiteMessageCategoriesColumns[0]},
+		ForeignKeys: []*schema.ForeignKey{
+			{
+				Symbol:     "in_site_message_categories_in_site_message_categories_children",
+				Columns:    []*schema.Column{InSiteMessageCategoriesColumns[11]},
+				RefColumns: []*schema.Column{InSiteMessageCategoriesColumns[0]},
+				OnDelete:   schema.SetNull,
+			},
+		},
+		Indexes: []*schema.Index{
+			{
+				Name:    "insitemessagecategory_id",
+				Unique:  false,
+				Columns: []*schema.Column{InSiteMessageCategoriesColumns[0]},
+			},
+		},
+	}
 	// MenusColumns holds the columns for the "menus" table.
 	MenusColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt32, Increment: true, Comment: "id"},
@@ -351,6 +447,9 @@ var (
 		AdminOperationLogsTable,
 		DepartmentsTable,
 		DictTable,
+		FilesTable,
+		InSiteMessagesTable,
+		InSiteMessageCategoriesTable,
 		MenusTable,
 		OrganizationsTable,
 		PositionsTable,
@@ -378,6 +477,22 @@ func init() {
 	}
 	DictTable.Annotation = &entsql.Annotation{
 		Table:     "dict",
+		Charset:   "utf8mb4",
+		Collation: "utf8mb4_bin",
+	}
+	FilesTable.Annotation = &entsql.Annotation{
+		Table:     "files",
+		Charset:   "utf8mb4",
+		Collation: "utf8mb4_bin",
+	}
+	InSiteMessagesTable.Annotation = &entsql.Annotation{
+		Table:     "in_site_messages",
+		Charset:   "utf8mb4",
+		Collation: "utf8mb4_bin",
+	}
+	InSiteMessageCategoriesTable.ForeignKeys[0].RefTable = InSiteMessageCategoriesTable
+	InSiteMessageCategoriesTable.Annotation = &entsql.Annotation{
+		Table:     "in_site_message_categories",
 		Charset:   "utf8mb4",
 		Collation: "utf8mb4_bin",
 	}

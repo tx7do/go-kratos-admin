@@ -117,7 +117,7 @@ func (s *UEditorService) UEditorAPI(ctx context.Context, req *fileV1.UEditorRequ
 	}
 }
 
-func (s *UEditorService) UploadFile(ctx context.Context, req *fileV1.UEditorUploadRequest, file *fileV1.File) (*fileV1.UEditorUploadResponse, error) {
+func (s *UEditorService) UploadFile(ctx context.Context, req *fileV1.UEditorUploadRequest, file *fileV1.FileData) (*fileV1.UEditorUploadResponse, error) {
 	//s.log.Infof("上传文件： %s", req.GetFile())
 
 	if file == nil {

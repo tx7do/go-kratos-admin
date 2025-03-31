@@ -7,6 +7,9 @@ import (
 	"kratos-admin/app/admin/service/internal/data/ent/adminoperationlog"
 	"kratos-admin/app/admin/service/internal/data/ent/department"
 	"kratos-admin/app/admin/service/internal/data/ent/dict"
+	"kratos-admin/app/admin/service/internal/data/ent/file"
+	"kratos-admin/app/admin/service/internal/data/ent/insitemessage"
+	"kratos-admin/app/admin/service/internal/data/ent/insitemessagecategory"
 	"kratos-admin/app/admin/service/internal/data/ent/menu"
 	"kratos-admin/app/admin/service/internal/data/ent/organization"
 	"kratos-admin/app/admin/service/internal/data/ent/position"
@@ -83,6 +86,51 @@ func init() {
 	dictDescID := dictMixinFields0[0].Descriptor()
 	// dict.IDValidator is a validator for the "id" field. It is called by the builders before save.
 	dict.IDValidator = dictDescID.Validators[0].(func(uint32) error)
+	fileMixin := schema.File{}.Mixin()
+	fileMixinFields0 := fileMixin[0].Fields()
+	_ = fileMixinFields0
+	fileMixinFields3 := fileMixin[3].Fields()
+	_ = fileMixinFields3
+	fileFields := schema.File{}.Fields()
+	_ = fileFields
+	// fileDescRemark is the schema descriptor for remark field.
+	fileDescRemark := fileMixinFields3[0].Descriptor()
+	// file.DefaultRemark holds the default value on creation for the remark field.
+	file.DefaultRemark = fileDescRemark.Default.(string)
+	// fileDescID is the schema descriptor for id field.
+	fileDescID := fileMixinFields0[0].Descriptor()
+	// file.IDValidator is a validator for the "id" field. It is called by the builders before save.
+	file.IDValidator = fileDescID.Validators[0].(func(uint32) error)
+	insitemessageMixin := schema.InSiteMessage{}.Mixin()
+	insitemessageMixinFields0 := insitemessageMixin[0].Fields()
+	_ = insitemessageMixinFields0
+	insitemessageMixinFields4 := insitemessageMixin[4].Fields()
+	_ = insitemessageMixinFields4
+	insitemessageFields := schema.InSiteMessage{}.Fields()
+	_ = insitemessageFields
+	// insitemessageDescRemark is the schema descriptor for remark field.
+	insitemessageDescRemark := insitemessageMixinFields4[0].Descriptor()
+	// insitemessage.DefaultRemark holds the default value on creation for the remark field.
+	insitemessage.DefaultRemark = insitemessageDescRemark.Default.(string)
+	// insitemessageDescID is the schema descriptor for id field.
+	insitemessageDescID := insitemessageMixinFields0[0].Descriptor()
+	// insitemessage.IDValidator is a validator for the "id" field. It is called by the builders before save.
+	insitemessage.IDValidator = insitemessageDescID.Validators[0].(func(uint32) error)
+	insitemessagecategoryMixin := schema.InSiteMessageCategory{}.Mixin()
+	insitemessagecategoryMixinFields0 := insitemessagecategoryMixin[0].Fields()
+	_ = insitemessagecategoryMixinFields0
+	insitemessagecategoryMixinFields4 := insitemessagecategoryMixin[4].Fields()
+	_ = insitemessagecategoryMixinFields4
+	insitemessagecategoryFields := schema.InSiteMessageCategory{}.Fields()
+	_ = insitemessagecategoryFields
+	// insitemessagecategoryDescRemark is the schema descriptor for remark field.
+	insitemessagecategoryDescRemark := insitemessagecategoryMixinFields4[0].Descriptor()
+	// insitemessagecategory.DefaultRemark holds the default value on creation for the remark field.
+	insitemessagecategory.DefaultRemark = insitemessagecategoryDescRemark.Default.(string)
+	// insitemessagecategoryDescID is the schema descriptor for id field.
+	insitemessagecategoryDescID := insitemessagecategoryMixinFields0[0].Descriptor()
+	// insitemessagecategory.IDValidator is a validator for the "id" field. It is called by the builders before save.
+	insitemessagecategory.IDValidator = insitemessagecategoryDescID.Validators[0].(func(uint32) error)
 	menuMixin := schema.Menu{}.Mixin()
 	menuMixinFields0 := menuMixin[0].Fields()
 	_ = menuMixinFields0

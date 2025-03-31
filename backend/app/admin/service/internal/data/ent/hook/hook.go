@@ -56,6 +56,42 @@ func (f DictFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error)
 	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.DictMutation", m)
 }
 
+// The FileFunc type is an adapter to allow the use of ordinary
+// function as File mutator.
+type FileFunc func(context.Context, *ent.FileMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f FileFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.FileMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.FileMutation", m)
+}
+
+// The InSiteMessageFunc type is an adapter to allow the use of ordinary
+// function as InSiteMessage mutator.
+type InSiteMessageFunc func(context.Context, *ent.InSiteMessageMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f InSiteMessageFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.InSiteMessageMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.InSiteMessageMutation", m)
+}
+
+// The InSiteMessageCategoryFunc type is an adapter to allow the use of ordinary
+// function as InSiteMessageCategory mutator.
+type InSiteMessageCategoryFunc func(context.Context, *ent.InSiteMessageCategoryMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f InSiteMessageCategoryFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.InSiteMessageCategoryMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.InSiteMessageCategoryMutation", m)
+}
+
 // The MenuFunc type is an adapter to allow the use of ordinary
 // function as Menu mutator.
 type MenuFunc func(context.Context, *ent.MenuMutation) (ent.Value, error)
@@ -224,14 +260,14 @@ func If(hk ent.Hook, cond Condition) ent.Hook {
 
 // On executes the given hook only for the given operation.
 //
-//	hook.On(Log, ent.DeleteRole|ent.CreateRole)
+//	hook.On(Log, ent.Delete|ent.Create)
 func On(hk ent.Hook, op ent.Op) ent.Hook {
 	return If(hk, HasOp(op))
 }
 
 // Unless skips the given hook only for the given operation.
 //
-//	hook.Unless(Log, ent.UpdateRole|ent.UpdateOne)
+//	hook.Unless(Log, ent.Update|ent.UpdateOne)
 func Unless(hk ent.Hook, op ent.Op) ent.Hook {
 	return If(hk, Not(HasOp(op)))
 }
@@ -249,7 +285,7 @@ func FixedError(err error) ent.Hook {
 //
 //	func (T) Hooks() []ent.Hook {
 //		return []ent.Hook{
-//			Reject(ent.DeleteRole|ent.UpdateRole),
+//			Reject(ent.Delete|ent.Update),
 //		}
 //	}
 func Reject(op ent.Op) ent.Hook {

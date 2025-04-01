@@ -10,11 +10,11 @@ registry:
 
   etcd:
     endpoints:
-      - "localhost:8500"
+      - "localhost:2379"
 
   zookeeper:
     endpoints:
-      - "localhost:8500"
+      - "localhost:2181"
     timeout: 10s
 
   nacos:
@@ -49,4 +49,4 @@ registry:
 
   servicecomb:
     endpoints:
-      - "localhost:8500"
+      - "localhost:30100"

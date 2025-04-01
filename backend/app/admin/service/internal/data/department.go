@@ -46,6 +46,8 @@ func (r *DepartmentRepo) convertEntToProto(in *ent.Department) *userV1.Departmen
 		SortId:     in.SortID,
 		ParentId:   in.ParentID,
 		Status:     (*string)(in.Status),
+		CreateBy:   in.CreateBy,
+		UpdateBy:   in.UpdateBy,
 		CreateTime: timeutil.TimeToTimestamppb(in.CreateTime),
 		UpdateTime: timeutil.TimeToTimestamppb(in.UpdateTime),
 		DeleteTime: timeutil.TimeToTimestamppb(in.DeleteTime),

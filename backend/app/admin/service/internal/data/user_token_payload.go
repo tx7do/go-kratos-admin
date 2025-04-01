@@ -5,20 +5,23 @@ import (
 )
 
 const (
+	ClaimFieldTenantID = "tid"
 	ClaimFieldUserID   = "uid"
 	ClaimFieldClientID = "cid"
 )
 
 // UserTokenPayload 用户JWT令牌载荷
 type UserTokenPayload struct {
+	TenantId uint32
 	UserId   uint32
 	UserName string
 	ClientId string
 }
 
 // NewUserTokenPayload 创建用户令牌
-func NewUserTokenPayload(userId uint32, userName string) *UserTokenPayload {
+func NewUserTokenPayload(tenantId uint32, userId uint32, userName string) *UserTokenPayload {
 	return &UserTokenPayload{
+		TenantId: tenantId,
 		UserId:   userId,
 		UserName: userName,
 	}
@@ -48,6 +51,11 @@ func (t *UserTokenPayload) ExtractAuthClaims(claims *authn.AuthClaims) error {
 	sub, _ := claims.GetSubject()
 	if sub != "" {
 		t.UserName = sub
+	}
+
+	tenantId, _ := claims.GetUint32(ClaimFieldTenantID)
+	if tenantId != 0 {
+		t.TenantId = tenantId
 	}
 
 	userId, _ := claims.GetUint32(ClaimFieldUserID)

@@ -25,12 +25,17 @@ var ProviderSet = wire.NewSet(
 	NewPositionRepo,
 	NewRoleRepo,
 	NewUserRepo,
+	NewTenantRepo,
+
 	NewAdminLoginLogRepo,
 	NewAdminOperationLogRepo,
 
 	NewFileRepo,
-	NewInSiteMessageRepo,
-	NewInSiteMessageCategoryRepo,
+
+	NewNotificationMessageRepo,
+	NewNotificationMessageCategoryRepo,
+	NewNotificationMessageRecipientRepo,
+	NewPrivateMessageRepo,
 
 	NewUserTokenRepo,
 )

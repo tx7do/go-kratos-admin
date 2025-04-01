@@ -11,12 +11,15 @@ import (
 	"kratos-admin/app/admin/service/internal/data/ent/department"
 	"kratos-admin/app/admin/service/internal/data/ent/dict"
 	"kratos-admin/app/admin/service/internal/data/ent/file"
-	"kratos-admin/app/admin/service/internal/data/ent/insitemessage"
-	"kratos-admin/app/admin/service/internal/data/ent/insitemessagecategory"
 	"kratos-admin/app/admin/service/internal/data/ent/menu"
+	"kratos-admin/app/admin/service/internal/data/ent/notificationmessage"
+	"kratos-admin/app/admin/service/internal/data/ent/notificationmessagecategory"
+	"kratos-admin/app/admin/service/internal/data/ent/notificationmessagerecipient"
 	"kratos-admin/app/admin/service/internal/data/ent/organization"
 	"kratos-admin/app/admin/service/internal/data/ent/position"
+	"kratos-admin/app/admin/service/internal/data/ent/privatemessage"
 	"kratos-admin/app/admin/service/internal/data/ent/role"
+	"kratos-admin/app/admin/service/internal/data/ent/tenant"
 	"kratos-admin/app/admin/service/internal/data/ent/user"
 	"reflect"
 	"sync"
@@ -84,18 +87,21 @@ var (
 func checkColumn(table, column string) error {
 	initCheck.Do(func() {
 		columnCheck = sql.NewColumnCheck(map[string]func(string) bool{
-			adminloginlog.Table:         adminloginlog.ValidColumn,
-			adminoperationlog.Table:     adminoperationlog.ValidColumn,
-			department.Table:            department.ValidColumn,
-			dict.Table:                  dict.ValidColumn,
-			file.Table:                  file.ValidColumn,
-			insitemessage.Table:         insitemessage.ValidColumn,
-			insitemessagecategory.Table: insitemessagecategory.ValidColumn,
-			menu.Table:                  menu.ValidColumn,
-			organization.Table:          organization.ValidColumn,
-			position.Table:              position.ValidColumn,
-			role.Table:                  role.ValidColumn,
-			user.Table:                  user.ValidColumn,
+			adminloginlog.Table:                adminloginlog.ValidColumn,
+			adminoperationlog.Table:            adminoperationlog.ValidColumn,
+			department.Table:                   department.ValidColumn,
+			dict.Table:                         dict.ValidColumn,
+			file.Table:                         file.ValidColumn,
+			menu.Table:                         menu.ValidColumn,
+			notificationmessage.Table:          notificationmessage.ValidColumn,
+			notificationmessagecategory.Table:  notificationmessagecategory.ValidColumn,
+			notificationmessagerecipient.Table: notificationmessagerecipient.ValidColumn,
+			organization.Table:                 organization.ValidColumn,
+			position.Table:                     position.ValidColumn,
+			privatemessage.Table:               privatemessage.ValidColumn,
+			role.Table:                         role.ValidColumn,
+			tenant.Table:                       tenant.ValidColumn,
+			user.Table:                         user.ValidColumn,
 		})
 	})
 	return columnCheck(table, column)

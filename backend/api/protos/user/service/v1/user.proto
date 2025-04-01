@@ -80,7 +80,10 @@ message User {
   optional uint32 work_id = 3 [json_name = "workId", (gnostic.openapi.v3.property) = {description: "工号"}];  // 工号
   optional uint32 org_id = 4 [json_name = "orgId", (gnostic.openapi.v3.property) = {description: "部门ID"}];  // 部门ID
   optional uint32 position_id = 5 [json_name = "positionId", (gnostic.openapi.v3.property) = {description: "岗位ID"}];  // 岗位ID
-  optional uint32 creator_id = 6 [json_name = "creatorId", (gnostic.openapi.v3.property) = {description: "创建者ID"}]; // 创建者ID
+  optional uint32 tenant_id = 6 [json_name = "tenantId", (gnostic.openapi.v3.property) = {description: "租户ID"}];  // 租户ID
+
+  optional uint32 create_by = 7 [json_name = "createBy", (gnostic.openapi.v3.property) = {description: "创建者ID"}]; // 创建者ID
+  optional uint32 update_by = 8 [json_name = "updateBy", (gnostic.openapi.v3.property) = {description: "更新者ID"}]; // 更新者ID
 
   optional string user_name = 10 [
     json_name = "userName",

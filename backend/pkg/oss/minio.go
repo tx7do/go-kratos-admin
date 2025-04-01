@@ -183,8 +183,8 @@ func (c *MinIOClient) OssUploadUrl(ctx context.Context, req *fileV1.OssUploadUrl
 }
 
 // ListFile 获取文件夹下面的文件列表
-func (c *MinIOClient) ListFile(ctx context.Context, req *fileV1.ListFileRequest) (*fileV1.ListFileResponse, error) {
-	resp := &fileV1.ListFileResponse{
+func (c *MinIOClient) ListFile(ctx context.Context, req *fileV1.ListOssFileRequest) (*fileV1.ListOssFileResponse, error) {
+	resp := &fileV1.ListOssFileResponse{
 		Files: make([]string, 0),
 	}
 	for object := range c.mc.ListObjects(ctx,
@@ -227,13 +227,13 @@ func (c *MinIOClient) ListFileForUEditor(ctx context.Context, bucketName string,
 }
 
 // DeleteFile 删除一个文件
-func (c *MinIOClient) DeleteFile(ctx context.Context, req *fileV1.DeleteFileRequest) (*fileV1.DeleteFileResponse, error) {
+func (c *MinIOClient) DeleteFile(ctx context.Context, req *fileV1.DeleteOssFileRequest) (*fileV1.DeleteOssFileResponse, error) {
 	err := c.mc.RemoveObject(ctx, req.GetBucketName(), req.GetObjectName(), minio.RemoveObjectOptions{})
 	if err != nil {
 		return nil, err
 	}
 
-	return &fileV1.DeleteFileResponse{}, nil
+	return &fileV1.DeleteOssFileResponse{}, nil
 }
 
 func (c *MinIOClient) UploadFile(ctx context.Context, bucketName string, objectName string, file []byte) (string, error) {

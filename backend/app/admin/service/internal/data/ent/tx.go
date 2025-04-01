@@ -22,18 +22,24 @@ type Tx struct {
 	Dict *DictClient
 	// File is the client for interacting with the File builders.
 	File *FileClient
-	// InSiteMessage is the client for interacting with the InSiteMessage builders.
-	InSiteMessage *InSiteMessageClient
-	// InSiteMessageCategory is the client for interacting with the InSiteMessageCategory builders.
-	InSiteMessageCategory *InSiteMessageCategoryClient
 	// Menu is the client for interacting with the Menu builders.
 	Menu *MenuClient
+	// NotificationMessage is the client for interacting with the NotificationMessage builders.
+	NotificationMessage *NotificationMessageClient
+	// NotificationMessageCategory is the client for interacting with the NotificationMessageCategory builders.
+	NotificationMessageCategory *NotificationMessageCategoryClient
+	// NotificationMessageRecipient is the client for interacting with the NotificationMessageRecipient builders.
+	NotificationMessageRecipient *NotificationMessageRecipientClient
 	// Organization is the client for interacting with the Organization builders.
 	Organization *OrganizationClient
 	// Position is the client for interacting with the Position builders.
 	Position *PositionClient
+	// PrivateMessage is the client for interacting with the PrivateMessage builders.
+	PrivateMessage *PrivateMessageClient
 	// Role is the client for interacting with the Role builders.
 	Role *RoleClient
+	// Tenant is the client for interacting with the Tenant builders.
+	Tenant *TenantClient
 	// User is the client for interacting with the User builders.
 	User *UserClient
 
@@ -172,12 +178,15 @@ func (tx *Tx) init() {
 	tx.Department = NewDepartmentClient(tx.config)
 	tx.Dict = NewDictClient(tx.config)
 	tx.File = NewFileClient(tx.config)
-	tx.InSiteMessage = NewInSiteMessageClient(tx.config)
-	tx.InSiteMessageCategory = NewInSiteMessageCategoryClient(tx.config)
 	tx.Menu = NewMenuClient(tx.config)
+	tx.NotificationMessage = NewNotificationMessageClient(tx.config)
+	tx.NotificationMessageCategory = NewNotificationMessageCategoryClient(tx.config)
+	tx.NotificationMessageRecipient = NewNotificationMessageRecipientClient(tx.config)
 	tx.Organization = NewOrganizationClient(tx.config)
 	tx.Position = NewPositionClient(tx.config)
+	tx.PrivateMessage = NewPrivateMessageClient(tx.config)
 	tx.Role = NewRoleClient(tx.config)
+	tx.Tenant = NewTenantClient(tx.config)
 	tx.User = NewUserClient(tx.config)
 }
 

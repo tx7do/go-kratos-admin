@@ -8,13 +8,16 @@ import (
 	"kratos-admin/app/admin/service/internal/data/ent/department"
 	"kratos-admin/app/admin/service/internal/data/ent/dict"
 	"kratos-admin/app/admin/service/internal/data/ent/file"
-	"kratos-admin/app/admin/service/internal/data/ent/insitemessage"
-	"kratos-admin/app/admin/service/internal/data/ent/insitemessagecategory"
 	"kratos-admin/app/admin/service/internal/data/ent/menu"
+	"kratos-admin/app/admin/service/internal/data/ent/notificationmessage"
+	"kratos-admin/app/admin/service/internal/data/ent/notificationmessagecategory"
+	"kratos-admin/app/admin/service/internal/data/ent/notificationmessagerecipient"
 	"kratos-admin/app/admin/service/internal/data/ent/organization"
 	"kratos-admin/app/admin/service/internal/data/ent/position"
 	"kratos-admin/app/admin/service/internal/data/ent/predicate"
+	"kratos-admin/app/admin/service/internal/data/ent/privatemessage"
 	"kratos-admin/app/admin/service/internal/data/ent/role"
+	"kratos-admin/app/admin/service/internal/data/ent/tenant"
 	"kratos-admin/app/admin/service/internal/data/ent/user"
 
 	"entgo.io/ent/dialect/sql"
@@ -25,7 +28,7 @@ import (
 
 // schemaGraph holds a representation of ent/schema at runtime.
 var schemaGraph = func() *sqlgraph.Schema {
-	graph := &sqlgraph.Schema{Nodes: make([]*sqlgraph.Node, 12)}
+	graph := &sqlgraph.Schema{Nodes: make([]*sqlgraph.Node, 15)}
 	graph.Nodes[0] = &sqlgraph.Node{
 		NodeSpec: sqlgraph.NodeSpec{
 			Table:   adminloginlog.Table,
@@ -180,53 +183,6 @@ var schemaGraph = func() *sqlgraph.Schema {
 	}
 	graph.Nodes[5] = &sqlgraph.Node{
 		NodeSpec: sqlgraph.NodeSpec{
-			Table:   insitemessage.Table,
-			Columns: insitemessage.Columns,
-			ID: &sqlgraph.FieldSpec{
-				Type:   field.TypeUint32,
-				Column: insitemessage.FieldID,
-			},
-		},
-		Type: "InSiteMessage",
-		Fields: map[string]*sqlgraph.FieldSpec{
-			insitemessage.FieldCreateTime: {Type: field.TypeTime, Column: insitemessage.FieldCreateTime},
-			insitemessage.FieldUpdateTime: {Type: field.TypeTime, Column: insitemessage.FieldUpdateTime},
-			insitemessage.FieldDeleteTime: {Type: field.TypeTime, Column: insitemessage.FieldDeleteTime},
-			insitemessage.FieldCreateBy:   {Type: field.TypeUint32, Column: insitemessage.FieldCreateBy},
-			insitemessage.FieldUpdateBy:   {Type: field.TypeUint32, Column: insitemessage.FieldUpdateBy},
-			insitemessage.FieldRemark:     {Type: field.TypeString, Column: insitemessage.FieldRemark},
-			insitemessage.FieldTitle:      {Type: field.TypeString, Column: insitemessage.FieldTitle},
-			insitemessage.FieldContent:    {Type: field.TypeString, Column: insitemessage.FieldContent},
-			insitemessage.FieldCategoryID: {Type: field.TypeUint32, Column: insitemessage.FieldCategoryID},
-			insitemessage.FieldStatus:     {Type: field.TypeEnum, Column: insitemessage.FieldStatus},
-		},
-	}
-	graph.Nodes[6] = &sqlgraph.Node{
-		NodeSpec: sqlgraph.NodeSpec{
-			Table:   insitemessagecategory.Table,
-			Columns: insitemessagecategory.Columns,
-			ID: &sqlgraph.FieldSpec{
-				Type:   field.TypeUint32,
-				Column: insitemessagecategory.FieldID,
-			},
-		},
-		Type: "InSiteMessageCategory",
-		Fields: map[string]*sqlgraph.FieldSpec{
-			insitemessagecategory.FieldCreateTime: {Type: field.TypeTime, Column: insitemessagecategory.FieldCreateTime},
-			insitemessagecategory.FieldUpdateTime: {Type: field.TypeTime, Column: insitemessagecategory.FieldUpdateTime},
-			insitemessagecategory.FieldDeleteTime: {Type: field.TypeTime, Column: insitemessagecategory.FieldDeleteTime},
-			insitemessagecategory.FieldCreateBy:   {Type: field.TypeUint32, Column: insitemessagecategory.FieldCreateBy},
-			insitemessagecategory.FieldUpdateBy:   {Type: field.TypeUint32, Column: insitemessagecategory.FieldUpdateBy},
-			insitemessagecategory.FieldRemark:     {Type: field.TypeString, Column: insitemessagecategory.FieldRemark},
-			insitemessagecategory.FieldName:       {Type: field.TypeString, Column: insitemessagecategory.FieldName},
-			insitemessagecategory.FieldCode:       {Type: field.TypeString, Column: insitemessagecategory.FieldCode},
-			insitemessagecategory.FieldSortID:     {Type: field.TypeInt32, Column: insitemessagecategory.FieldSortID},
-			insitemessagecategory.FieldEnable:     {Type: field.TypeBool, Column: insitemessagecategory.FieldEnable},
-			insitemessagecategory.FieldParentID:   {Type: field.TypeUint32, Column: insitemessagecategory.FieldParentID},
-		},
-	}
-	graph.Nodes[7] = &sqlgraph.Node{
-		NodeSpec: sqlgraph.NodeSpec{
 			Table:   menu.Table,
 			Columns: menu.Columns,
 			ID: &sqlgraph.FieldSpec{
@@ -253,7 +209,72 @@ var schemaGraph = func() *sqlgraph.Schema {
 			menu.FieldMeta:       {Type: field.TypeJSON, Column: menu.FieldMeta},
 		},
 	}
+	graph.Nodes[6] = &sqlgraph.Node{
+		NodeSpec: sqlgraph.NodeSpec{
+			Table:   notificationmessage.Table,
+			Columns: notificationmessage.Columns,
+			ID: &sqlgraph.FieldSpec{
+				Type:   field.TypeUint32,
+				Column: notificationmessage.FieldID,
+			},
+		},
+		Type: "NotificationMessage",
+		Fields: map[string]*sqlgraph.FieldSpec{
+			notificationmessage.FieldCreateTime: {Type: field.TypeTime, Column: notificationmessage.FieldCreateTime},
+			notificationmessage.FieldUpdateTime: {Type: field.TypeTime, Column: notificationmessage.FieldUpdateTime},
+			notificationmessage.FieldDeleteTime: {Type: field.TypeTime, Column: notificationmessage.FieldDeleteTime},
+			notificationmessage.FieldCreateBy:   {Type: field.TypeUint32, Column: notificationmessage.FieldCreateBy},
+			notificationmessage.FieldUpdateBy:   {Type: field.TypeUint32, Column: notificationmessage.FieldUpdateBy},
+			notificationmessage.FieldSubject:    {Type: field.TypeString, Column: notificationmessage.FieldSubject},
+			notificationmessage.FieldContent:    {Type: field.TypeString, Column: notificationmessage.FieldContent},
+			notificationmessage.FieldCategoryID: {Type: field.TypeUint32, Column: notificationmessage.FieldCategoryID},
+			notificationmessage.FieldStatus:     {Type: field.TypeEnum, Column: notificationmessage.FieldStatus},
+		},
+	}
+	graph.Nodes[7] = &sqlgraph.Node{
+		NodeSpec: sqlgraph.NodeSpec{
+			Table:   notificationmessagecategory.Table,
+			Columns: notificationmessagecategory.Columns,
+			ID: &sqlgraph.FieldSpec{
+				Type:   field.TypeUint32,
+				Column: notificationmessagecategory.FieldID,
+			},
+		},
+		Type: "NotificationMessageCategory",
+		Fields: map[string]*sqlgraph.FieldSpec{
+			notificationmessagecategory.FieldCreateTime: {Type: field.TypeTime, Column: notificationmessagecategory.FieldCreateTime},
+			notificationmessagecategory.FieldUpdateTime: {Type: field.TypeTime, Column: notificationmessagecategory.FieldUpdateTime},
+			notificationmessagecategory.FieldDeleteTime: {Type: field.TypeTime, Column: notificationmessagecategory.FieldDeleteTime},
+			notificationmessagecategory.FieldCreateBy:   {Type: field.TypeUint32, Column: notificationmessagecategory.FieldCreateBy},
+			notificationmessagecategory.FieldUpdateBy:   {Type: field.TypeUint32, Column: notificationmessagecategory.FieldUpdateBy},
+			notificationmessagecategory.FieldRemark:     {Type: field.TypeString, Column: notificationmessagecategory.FieldRemark},
+			notificationmessagecategory.FieldName:       {Type: field.TypeString, Column: notificationmessagecategory.FieldName},
+			notificationmessagecategory.FieldCode:       {Type: field.TypeString, Column: notificationmessagecategory.FieldCode},
+			notificationmessagecategory.FieldSortID:     {Type: field.TypeInt32, Column: notificationmessagecategory.FieldSortID},
+			notificationmessagecategory.FieldEnable:     {Type: field.TypeBool, Column: notificationmessagecategory.FieldEnable},
+			notificationmessagecategory.FieldParentID:   {Type: field.TypeUint32, Column: notificationmessagecategory.FieldParentID},
+		},
+	}
 	graph.Nodes[8] = &sqlgraph.Node{
+		NodeSpec: sqlgraph.NodeSpec{
+			Table:   notificationmessagerecipient.Table,
+			Columns: notificationmessagerecipient.Columns,
+			ID: &sqlgraph.FieldSpec{
+				Type:   field.TypeUint32,
+				Column: notificationmessagerecipient.FieldID,
+			},
+		},
+		Type: "NotificationMessageRecipient",
+		Fields: map[string]*sqlgraph.FieldSpec{
+			notificationmessagerecipient.FieldCreateTime:  {Type: field.TypeTime, Column: notificationmessagerecipient.FieldCreateTime},
+			notificationmessagerecipient.FieldUpdateTime:  {Type: field.TypeTime, Column: notificationmessagerecipient.FieldUpdateTime},
+			notificationmessagerecipient.FieldDeleteTime:  {Type: field.TypeTime, Column: notificationmessagerecipient.FieldDeleteTime},
+			notificationmessagerecipient.FieldMessageID:   {Type: field.TypeUint32, Column: notificationmessagerecipient.FieldMessageID},
+			notificationmessagerecipient.FieldRecipientID: {Type: field.TypeUint32, Column: notificationmessagerecipient.FieldRecipientID},
+			notificationmessagerecipient.FieldStatus:      {Type: field.TypeEnum, Column: notificationmessagerecipient.FieldStatus},
+		},
+	}
+	graph.Nodes[9] = &sqlgraph.Node{
 		NodeSpec: sqlgraph.NodeSpec{
 			Table:   organization.Table,
 			Columns: organization.Columns,
@@ -276,7 +297,7 @@ var schemaGraph = func() *sqlgraph.Schema {
 			organization.FieldSortID:     {Type: field.TypeInt32, Column: organization.FieldSortID},
 		},
 	}
-	graph.Nodes[9] = &sqlgraph.Node{
+	graph.Nodes[10] = &sqlgraph.Node{
 		NodeSpec: sqlgraph.NodeSpec{
 			Table:   position.Table,
 			Columns: position.Columns,
@@ -300,7 +321,28 @@ var schemaGraph = func() *sqlgraph.Schema {
 			position.FieldSortID:     {Type: field.TypeInt32, Column: position.FieldSortID},
 		},
 	}
-	graph.Nodes[10] = &sqlgraph.Node{
+	graph.Nodes[11] = &sqlgraph.Node{
+		NodeSpec: sqlgraph.NodeSpec{
+			Table:   privatemessage.Table,
+			Columns: privatemessage.Columns,
+			ID: &sqlgraph.FieldSpec{
+				Type:   field.TypeUint32,
+				Column: privatemessage.FieldID,
+			},
+		},
+		Type: "PrivateMessage",
+		Fields: map[string]*sqlgraph.FieldSpec{
+			privatemessage.FieldCreateTime: {Type: field.TypeTime, Column: privatemessage.FieldCreateTime},
+			privatemessage.FieldUpdateTime: {Type: field.TypeTime, Column: privatemessage.FieldUpdateTime},
+			privatemessage.FieldDeleteTime: {Type: field.TypeTime, Column: privatemessage.FieldDeleteTime},
+			privatemessage.FieldSubject:    {Type: field.TypeString, Column: privatemessage.FieldSubject},
+			privatemessage.FieldContent:    {Type: field.TypeString, Column: privatemessage.FieldContent},
+			privatemessage.FieldStatus:     {Type: field.TypeEnum, Column: privatemessage.FieldStatus},
+			privatemessage.FieldSenderID:   {Type: field.TypeUint32, Column: privatemessage.FieldSenderID},
+			privatemessage.FieldReceiverID: {Type: field.TypeUint32, Column: privatemessage.FieldReceiverID},
+		},
+	}
+	graph.Nodes[12] = &sqlgraph.Node{
 		NodeSpec: sqlgraph.NodeSpec{
 			Table:   role.Table,
 			Columns: role.Columns,
@@ -325,7 +367,32 @@ var schemaGraph = func() *sqlgraph.Schema {
 			role.FieldMenus:      {Type: field.TypeJSON, Column: role.FieldMenus},
 		},
 	}
-	graph.Nodes[11] = &sqlgraph.Node{
+	graph.Nodes[13] = &sqlgraph.Node{
+		NodeSpec: sqlgraph.NodeSpec{
+			Table:   tenant.Table,
+			Columns: tenant.Columns,
+			ID: &sqlgraph.FieldSpec{
+				Type:   field.TypeUint32,
+				Column: tenant.FieldID,
+			},
+		},
+		Type: "Tenant",
+		Fields: map[string]*sqlgraph.FieldSpec{
+			tenant.FieldCreateTime:     {Type: field.TypeTime, Column: tenant.FieldCreateTime},
+			tenant.FieldUpdateTime:     {Type: field.TypeTime, Column: tenant.FieldUpdateTime},
+			tenant.FieldDeleteTime:     {Type: field.TypeTime, Column: tenant.FieldDeleteTime},
+			tenant.FieldStatus:         {Type: field.TypeEnum, Column: tenant.FieldStatus},
+			tenant.FieldCreateBy:       {Type: field.TypeUint32, Column: tenant.FieldCreateBy},
+			tenant.FieldUpdateBy:       {Type: field.TypeUint32, Column: tenant.FieldUpdateBy},
+			tenant.FieldRemark:         {Type: field.TypeString, Column: tenant.FieldRemark},
+			tenant.FieldName:           {Type: field.TypeString, Column: tenant.FieldName},
+			tenant.FieldCode:           {Type: field.TypeString, Column: tenant.FieldCode},
+			tenant.FieldMemberCount:    {Type: field.TypeInt32, Column: tenant.FieldMemberCount},
+			tenant.FieldSubscriptionAt: {Type: field.TypeTime, Column: tenant.FieldSubscriptionAt},
+			tenant.FieldUnsubscribeAt:  {Type: field.TypeTime, Column: tenant.FieldUnsubscribeAt},
+		},
+	}
+	graph.Nodes[14] = &sqlgraph.Node{
 		NodeSpec: sqlgraph.NodeSpec{
 			Table:   user.Table,
 			Columns: user.Columns,
@@ -362,6 +429,7 @@ var schemaGraph = func() *sqlgraph.Schema {
 			user.FieldOrgID:         {Type: field.TypeUint32, Column: user.FieldOrgID},
 			user.FieldPositionID:    {Type: field.TypeUint32, Column: user.FieldPositionID},
 			user.FieldWorkID:        {Type: field.TypeUint32, Column: user.FieldWorkID},
+			user.FieldTenantID:      {Type: field.TypeUint32, Column: user.FieldTenantID},
 		},
 	}
 	graph.MustAddE(
@@ -393,30 +461,6 @@ var schemaGraph = func() *sqlgraph.Schema {
 		&sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
-			Table:   insitemessagecategory.ParentTable,
-			Columns: []string{insitemessagecategory.ParentColumn},
-			Bidi:    false,
-		},
-		"InSiteMessageCategory",
-		"InSiteMessageCategory",
-	)
-	graph.MustAddE(
-		"children",
-		&sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.O2M,
-			Inverse: false,
-			Table:   insitemessagecategory.ChildrenTable,
-			Columns: []string{insitemessagecategory.ChildrenColumn},
-			Bidi:    false,
-		},
-		"InSiteMessageCategory",
-		"InSiteMessageCategory",
-	)
-	graph.MustAddE(
-		"parent",
-		&sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.M2O,
-			Inverse: true,
 			Table:   menu.ParentTable,
 			Columns: []string{menu.ParentColumn},
 			Bidi:    false,
@@ -435,6 +479,30 @@ var schemaGraph = func() *sqlgraph.Schema {
 		},
 		"Menu",
 		"Menu",
+	)
+	graph.MustAddE(
+		"parent",
+		&sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2O,
+			Inverse: true,
+			Table:   notificationmessagecategory.ParentTable,
+			Columns: []string{notificationmessagecategory.ParentColumn},
+			Bidi:    false,
+		},
+		"NotificationMessageCategory",
+		"NotificationMessageCategory",
+	)
+	graph.MustAddE(
+		"children",
+		&sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: false,
+			Table:   notificationmessagecategory.ChildrenTable,
+			Columns: []string{notificationmessagecategory.ChildrenColumn},
+			Bidi:    false,
+		},
+		"NotificationMessageCategory",
+		"NotificationMessageCategory",
 	)
 	graph.MustAddE(
 		"parent",
@@ -1181,219 +1249,6 @@ func (f *FileFilter) WhereMd5(p entql.StringP) {
 }
 
 // addPredicate implements the predicateAdder interface.
-func (ismq *InSiteMessageQuery) addPredicate(pred func(s *sql.Selector)) {
-	ismq.predicates = append(ismq.predicates, pred)
-}
-
-// Filter returns a Filter implementation to apply filters on the InSiteMessageQuery builder.
-func (ismq *InSiteMessageQuery) Filter() *InSiteMessageFilter {
-	return &InSiteMessageFilter{config: ismq.config, predicateAdder: ismq}
-}
-
-// addPredicate implements the predicateAdder interface.
-func (m *InSiteMessageMutation) addPredicate(pred func(s *sql.Selector)) {
-	m.predicates = append(m.predicates, pred)
-}
-
-// Filter returns an entql.Where implementation to apply filters on the InSiteMessageMutation builder.
-func (m *InSiteMessageMutation) Filter() *InSiteMessageFilter {
-	return &InSiteMessageFilter{config: m.config, predicateAdder: m}
-}
-
-// InSiteMessageFilter provides a generic filtering capability at runtime for InSiteMessageQuery.
-type InSiteMessageFilter struct {
-	predicateAdder
-	config
-}
-
-// Where applies the entql predicate on the query filter.
-func (f *InSiteMessageFilter) Where(p entql.P) {
-	f.addPredicate(func(s *sql.Selector) {
-		if err := schemaGraph.EvalP(schemaGraph.Nodes[5].Type, p, s); err != nil {
-			s.AddError(err)
-		}
-	})
-}
-
-// WhereID applies the entql uint32 predicate on the id field.
-func (f *InSiteMessageFilter) WhereID(p entql.Uint32P) {
-	f.Where(p.Field(insitemessage.FieldID))
-}
-
-// WhereCreateTime applies the entql time.Time predicate on the create_time field.
-func (f *InSiteMessageFilter) WhereCreateTime(p entql.TimeP) {
-	f.Where(p.Field(insitemessage.FieldCreateTime))
-}
-
-// WhereUpdateTime applies the entql time.Time predicate on the update_time field.
-func (f *InSiteMessageFilter) WhereUpdateTime(p entql.TimeP) {
-	f.Where(p.Field(insitemessage.FieldUpdateTime))
-}
-
-// WhereDeleteTime applies the entql time.Time predicate on the delete_time field.
-func (f *InSiteMessageFilter) WhereDeleteTime(p entql.TimeP) {
-	f.Where(p.Field(insitemessage.FieldDeleteTime))
-}
-
-// WhereCreateBy applies the entql uint32 predicate on the create_by field.
-func (f *InSiteMessageFilter) WhereCreateBy(p entql.Uint32P) {
-	f.Where(p.Field(insitemessage.FieldCreateBy))
-}
-
-// WhereUpdateBy applies the entql uint32 predicate on the update_by field.
-func (f *InSiteMessageFilter) WhereUpdateBy(p entql.Uint32P) {
-	f.Where(p.Field(insitemessage.FieldUpdateBy))
-}
-
-// WhereRemark applies the entql string predicate on the remark field.
-func (f *InSiteMessageFilter) WhereRemark(p entql.StringP) {
-	f.Where(p.Field(insitemessage.FieldRemark))
-}
-
-// WhereTitle applies the entql string predicate on the title field.
-func (f *InSiteMessageFilter) WhereTitle(p entql.StringP) {
-	f.Where(p.Field(insitemessage.FieldTitle))
-}
-
-// WhereContent applies the entql string predicate on the content field.
-func (f *InSiteMessageFilter) WhereContent(p entql.StringP) {
-	f.Where(p.Field(insitemessage.FieldContent))
-}
-
-// WhereCategoryID applies the entql uint32 predicate on the category_id field.
-func (f *InSiteMessageFilter) WhereCategoryID(p entql.Uint32P) {
-	f.Where(p.Field(insitemessage.FieldCategoryID))
-}
-
-// WhereStatus applies the entql string predicate on the status field.
-func (f *InSiteMessageFilter) WhereStatus(p entql.StringP) {
-	f.Where(p.Field(insitemessage.FieldStatus))
-}
-
-// addPredicate implements the predicateAdder interface.
-func (ismcq *InSiteMessageCategoryQuery) addPredicate(pred func(s *sql.Selector)) {
-	ismcq.predicates = append(ismcq.predicates, pred)
-}
-
-// Filter returns a Filter implementation to apply filters on the InSiteMessageCategoryQuery builder.
-func (ismcq *InSiteMessageCategoryQuery) Filter() *InSiteMessageCategoryFilter {
-	return &InSiteMessageCategoryFilter{config: ismcq.config, predicateAdder: ismcq}
-}
-
-// addPredicate implements the predicateAdder interface.
-func (m *InSiteMessageCategoryMutation) addPredicate(pred func(s *sql.Selector)) {
-	m.predicates = append(m.predicates, pred)
-}
-
-// Filter returns an entql.Where implementation to apply filters on the InSiteMessageCategoryMutation builder.
-func (m *InSiteMessageCategoryMutation) Filter() *InSiteMessageCategoryFilter {
-	return &InSiteMessageCategoryFilter{config: m.config, predicateAdder: m}
-}
-
-// InSiteMessageCategoryFilter provides a generic filtering capability at runtime for InSiteMessageCategoryQuery.
-type InSiteMessageCategoryFilter struct {
-	predicateAdder
-	config
-}
-
-// Where applies the entql predicate on the query filter.
-func (f *InSiteMessageCategoryFilter) Where(p entql.P) {
-	f.addPredicate(func(s *sql.Selector) {
-		if err := schemaGraph.EvalP(schemaGraph.Nodes[6].Type, p, s); err != nil {
-			s.AddError(err)
-		}
-	})
-}
-
-// WhereID applies the entql uint32 predicate on the id field.
-func (f *InSiteMessageCategoryFilter) WhereID(p entql.Uint32P) {
-	f.Where(p.Field(insitemessagecategory.FieldID))
-}
-
-// WhereCreateTime applies the entql time.Time predicate on the create_time field.
-func (f *InSiteMessageCategoryFilter) WhereCreateTime(p entql.TimeP) {
-	f.Where(p.Field(insitemessagecategory.FieldCreateTime))
-}
-
-// WhereUpdateTime applies the entql time.Time predicate on the update_time field.
-func (f *InSiteMessageCategoryFilter) WhereUpdateTime(p entql.TimeP) {
-	f.Where(p.Field(insitemessagecategory.FieldUpdateTime))
-}
-
-// WhereDeleteTime applies the entql time.Time predicate on the delete_time field.
-func (f *InSiteMessageCategoryFilter) WhereDeleteTime(p entql.TimeP) {
-	f.Where(p.Field(insitemessagecategory.FieldDeleteTime))
-}
-
-// WhereCreateBy applies the entql uint32 predicate on the create_by field.
-func (f *InSiteMessageCategoryFilter) WhereCreateBy(p entql.Uint32P) {
-	f.Where(p.Field(insitemessagecategory.FieldCreateBy))
-}
-
-// WhereUpdateBy applies the entql uint32 predicate on the update_by field.
-func (f *InSiteMessageCategoryFilter) WhereUpdateBy(p entql.Uint32P) {
-	f.Where(p.Field(insitemessagecategory.FieldUpdateBy))
-}
-
-// WhereRemark applies the entql string predicate on the remark field.
-func (f *InSiteMessageCategoryFilter) WhereRemark(p entql.StringP) {
-	f.Where(p.Field(insitemessagecategory.FieldRemark))
-}
-
-// WhereName applies the entql string predicate on the name field.
-func (f *InSiteMessageCategoryFilter) WhereName(p entql.StringP) {
-	f.Where(p.Field(insitemessagecategory.FieldName))
-}
-
-// WhereCode applies the entql string predicate on the code field.
-func (f *InSiteMessageCategoryFilter) WhereCode(p entql.StringP) {
-	f.Where(p.Field(insitemessagecategory.FieldCode))
-}
-
-// WhereSortID applies the entql int32 predicate on the sort_id field.
-func (f *InSiteMessageCategoryFilter) WhereSortID(p entql.Int32P) {
-	f.Where(p.Field(insitemessagecategory.FieldSortID))
-}
-
-// WhereEnable applies the entql bool predicate on the enable field.
-func (f *InSiteMessageCategoryFilter) WhereEnable(p entql.BoolP) {
-	f.Where(p.Field(insitemessagecategory.FieldEnable))
-}
-
-// WhereParentID applies the entql uint32 predicate on the parent_id field.
-func (f *InSiteMessageCategoryFilter) WhereParentID(p entql.Uint32P) {
-	f.Where(p.Field(insitemessagecategory.FieldParentID))
-}
-
-// WhereHasParent applies a predicate to check if query has an edge parent.
-func (f *InSiteMessageCategoryFilter) WhereHasParent() {
-	f.Where(entql.HasEdge("parent"))
-}
-
-// WhereHasParentWith applies a predicate to check if query has an edge parent with a given conditions (other predicates).
-func (f *InSiteMessageCategoryFilter) WhereHasParentWith(preds ...predicate.InSiteMessageCategory) {
-	f.Where(entql.HasEdgeWith("parent", sqlgraph.WrapFunc(func(s *sql.Selector) {
-		for _, p := range preds {
-			p(s)
-		}
-	})))
-}
-
-// WhereHasChildren applies a predicate to check if query has an edge children.
-func (f *InSiteMessageCategoryFilter) WhereHasChildren() {
-	f.Where(entql.HasEdge("children"))
-}
-
-// WhereHasChildrenWith applies a predicate to check if query has an edge children with a given conditions (other predicates).
-func (f *InSiteMessageCategoryFilter) WhereHasChildrenWith(preds ...predicate.InSiteMessageCategory) {
-	f.Where(entql.HasEdgeWith("children", sqlgraph.WrapFunc(func(s *sql.Selector) {
-		for _, p := range preds {
-			p(s)
-		}
-	})))
-}
-
-// addPredicate implements the predicateAdder interface.
 func (mq *MenuQuery) addPredicate(pred func(s *sql.Selector)) {
 	mq.predicates = append(mq.predicates, pred)
 }
@@ -1422,7 +1277,7 @@ type MenuFilter struct {
 // Where applies the entql predicate on the query filter.
 func (f *MenuFilter) Where(p entql.P) {
 	f.addPredicate(func(s *sql.Selector) {
-		if err := schemaGraph.EvalP(schemaGraph.Nodes[7].Type, p, s); err != nil {
+		if err := schemaGraph.EvalP(schemaGraph.Nodes[5].Type, p, s); err != nil {
 			s.AddError(err)
 		}
 	})
@@ -1537,6 +1392,284 @@ func (f *MenuFilter) WhereHasChildrenWith(preds ...predicate.Menu) {
 }
 
 // addPredicate implements the predicateAdder interface.
+func (nmq *NotificationMessageQuery) addPredicate(pred func(s *sql.Selector)) {
+	nmq.predicates = append(nmq.predicates, pred)
+}
+
+// Filter returns a Filter implementation to apply filters on the NotificationMessageQuery builder.
+func (nmq *NotificationMessageQuery) Filter() *NotificationMessageFilter {
+	return &NotificationMessageFilter{config: nmq.config, predicateAdder: nmq}
+}
+
+// addPredicate implements the predicateAdder interface.
+func (m *NotificationMessageMutation) addPredicate(pred func(s *sql.Selector)) {
+	m.predicates = append(m.predicates, pred)
+}
+
+// Filter returns an entql.Where implementation to apply filters on the NotificationMessageMutation builder.
+func (m *NotificationMessageMutation) Filter() *NotificationMessageFilter {
+	return &NotificationMessageFilter{config: m.config, predicateAdder: m}
+}
+
+// NotificationMessageFilter provides a generic filtering capability at runtime for NotificationMessageQuery.
+type NotificationMessageFilter struct {
+	predicateAdder
+	config
+}
+
+// Where applies the entql predicate on the query filter.
+func (f *NotificationMessageFilter) Where(p entql.P) {
+	f.addPredicate(func(s *sql.Selector) {
+		if err := schemaGraph.EvalP(schemaGraph.Nodes[6].Type, p, s); err != nil {
+			s.AddError(err)
+		}
+	})
+}
+
+// WhereID applies the entql uint32 predicate on the id field.
+func (f *NotificationMessageFilter) WhereID(p entql.Uint32P) {
+	f.Where(p.Field(notificationmessage.FieldID))
+}
+
+// WhereCreateTime applies the entql time.Time predicate on the create_time field.
+func (f *NotificationMessageFilter) WhereCreateTime(p entql.TimeP) {
+	f.Where(p.Field(notificationmessage.FieldCreateTime))
+}
+
+// WhereUpdateTime applies the entql time.Time predicate on the update_time field.
+func (f *NotificationMessageFilter) WhereUpdateTime(p entql.TimeP) {
+	f.Where(p.Field(notificationmessage.FieldUpdateTime))
+}
+
+// WhereDeleteTime applies the entql time.Time predicate on the delete_time field.
+func (f *NotificationMessageFilter) WhereDeleteTime(p entql.TimeP) {
+	f.Where(p.Field(notificationmessage.FieldDeleteTime))
+}
+
+// WhereCreateBy applies the entql uint32 predicate on the create_by field.
+func (f *NotificationMessageFilter) WhereCreateBy(p entql.Uint32P) {
+	f.Where(p.Field(notificationmessage.FieldCreateBy))
+}
+
+// WhereUpdateBy applies the entql uint32 predicate on the update_by field.
+func (f *NotificationMessageFilter) WhereUpdateBy(p entql.Uint32P) {
+	f.Where(p.Field(notificationmessage.FieldUpdateBy))
+}
+
+// WhereSubject applies the entql string predicate on the subject field.
+func (f *NotificationMessageFilter) WhereSubject(p entql.StringP) {
+	f.Where(p.Field(notificationmessage.FieldSubject))
+}
+
+// WhereContent applies the entql string predicate on the content field.
+func (f *NotificationMessageFilter) WhereContent(p entql.StringP) {
+	f.Where(p.Field(notificationmessage.FieldContent))
+}
+
+// WhereCategoryID applies the entql uint32 predicate on the category_id field.
+func (f *NotificationMessageFilter) WhereCategoryID(p entql.Uint32P) {
+	f.Where(p.Field(notificationmessage.FieldCategoryID))
+}
+
+// WhereStatus applies the entql string predicate on the status field.
+func (f *NotificationMessageFilter) WhereStatus(p entql.StringP) {
+	f.Where(p.Field(notificationmessage.FieldStatus))
+}
+
+// addPredicate implements the predicateAdder interface.
+func (nmcq *NotificationMessageCategoryQuery) addPredicate(pred func(s *sql.Selector)) {
+	nmcq.predicates = append(nmcq.predicates, pred)
+}
+
+// Filter returns a Filter implementation to apply filters on the NotificationMessageCategoryQuery builder.
+func (nmcq *NotificationMessageCategoryQuery) Filter() *NotificationMessageCategoryFilter {
+	return &NotificationMessageCategoryFilter{config: nmcq.config, predicateAdder: nmcq}
+}
+
+// addPredicate implements the predicateAdder interface.
+func (m *NotificationMessageCategoryMutation) addPredicate(pred func(s *sql.Selector)) {
+	m.predicates = append(m.predicates, pred)
+}
+
+// Filter returns an entql.Where implementation to apply filters on the NotificationMessageCategoryMutation builder.
+func (m *NotificationMessageCategoryMutation) Filter() *NotificationMessageCategoryFilter {
+	return &NotificationMessageCategoryFilter{config: m.config, predicateAdder: m}
+}
+
+// NotificationMessageCategoryFilter provides a generic filtering capability at runtime for NotificationMessageCategoryQuery.
+type NotificationMessageCategoryFilter struct {
+	predicateAdder
+	config
+}
+
+// Where applies the entql predicate on the query filter.
+func (f *NotificationMessageCategoryFilter) Where(p entql.P) {
+	f.addPredicate(func(s *sql.Selector) {
+		if err := schemaGraph.EvalP(schemaGraph.Nodes[7].Type, p, s); err != nil {
+			s.AddError(err)
+		}
+	})
+}
+
+// WhereID applies the entql uint32 predicate on the id field.
+func (f *NotificationMessageCategoryFilter) WhereID(p entql.Uint32P) {
+	f.Where(p.Field(notificationmessagecategory.FieldID))
+}
+
+// WhereCreateTime applies the entql time.Time predicate on the create_time field.
+func (f *NotificationMessageCategoryFilter) WhereCreateTime(p entql.TimeP) {
+	f.Where(p.Field(notificationmessagecategory.FieldCreateTime))
+}
+
+// WhereUpdateTime applies the entql time.Time predicate on the update_time field.
+func (f *NotificationMessageCategoryFilter) WhereUpdateTime(p entql.TimeP) {
+	f.Where(p.Field(notificationmessagecategory.FieldUpdateTime))
+}
+
+// WhereDeleteTime applies the entql time.Time predicate on the delete_time field.
+func (f *NotificationMessageCategoryFilter) WhereDeleteTime(p entql.TimeP) {
+	f.Where(p.Field(notificationmessagecategory.FieldDeleteTime))
+}
+
+// WhereCreateBy applies the entql uint32 predicate on the create_by field.
+func (f *NotificationMessageCategoryFilter) WhereCreateBy(p entql.Uint32P) {
+	f.Where(p.Field(notificationmessagecategory.FieldCreateBy))
+}
+
+// WhereUpdateBy applies the entql uint32 predicate on the update_by field.
+func (f *NotificationMessageCategoryFilter) WhereUpdateBy(p entql.Uint32P) {
+	f.Where(p.Field(notificationmessagecategory.FieldUpdateBy))
+}
+
+// WhereRemark applies the entql string predicate on the remark field.
+func (f *NotificationMessageCategoryFilter) WhereRemark(p entql.StringP) {
+	f.Where(p.Field(notificationmessagecategory.FieldRemark))
+}
+
+// WhereName applies the entql string predicate on the name field.
+func (f *NotificationMessageCategoryFilter) WhereName(p entql.StringP) {
+	f.Where(p.Field(notificationmessagecategory.FieldName))
+}
+
+// WhereCode applies the entql string predicate on the code field.
+func (f *NotificationMessageCategoryFilter) WhereCode(p entql.StringP) {
+	f.Where(p.Field(notificationmessagecategory.FieldCode))
+}
+
+// WhereSortID applies the entql int32 predicate on the sort_id field.
+func (f *NotificationMessageCategoryFilter) WhereSortID(p entql.Int32P) {
+	f.Where(p.Field(notificationmessagecategory.FieldSortID))
+}
+
+// WhereEnable applies the entql bool predicate on the enable field.
+func (f *NotificationMessageCategoryFilter) WhereEnable(p entql.BoolP) {
+	f.Where(p.Field(notificationmessagecategory.FieldEnable))
+}
+
+// WhereParentID applies the entql uint32 predicate on the parent_id field.
+func (f *NotificationMessageCategoryFilter) WhereParentID(p entql.Uint32P) {
+	f.Where(p.Field(notificationmessagecategory.FieldParentID))
+}
+
+// WhereHasParent applies a predicate to check if query has an edge parent.
+func (f *NotificationMessageCategoryFilter) WhereHasParent() {
+	f.Where(entql.HasEdge("parent"))
+}
+
+// WhereHasParentWith applies a predicate to check if query has an edge parent with a given conditions (other predicates).
+func (f *NotificationMessageCategoryFilter) WhereHasParentWith(preds ...predicate.NotificationMessageCategory) {
+	f.Where(entql.HasEdgeWith("parent", sqlgraph.WrapFunc(func(s *sql.Selector) {
+		for _, p := range preds {
+			p(s)
+		}
+	})))
+}
+
+// WhereHasChildren applies a predicate to check if query has an edge children.
+func (f *NotificationMessageCategoryFilter) WhereHasChildren() {
+	f.Where(entql.HasEdge("children"))
+}
+
+// WhereHasChildrenWith applies a predicate to check if query has an edge children with a given conditions (other predicates).
+func (f *NotificationMessageCategoryFilter) WhereHasChildrenWith(preds ...predicate.NotificationMessageCategory) {
+	f.Where(entql.HasEdgeWith("children", sqlgraph.WrapFunc(func(s *sql.Selector) {
+		for _, p := range preds {
+			p(s)
+		}
+	})))
+}
+
+// addPredicate implements the predicateAdder interface.
+func (nmrq *NotificationMessageRecipientQuery) addPredicate(pred func(s *sql.Selector)) {
+	nmrq.predicates = append(nmrq.predicates, pred)
+}
+
+// Filter returns a Filter implementation to apply filters on the NotificationMessageRecipientQuery builder.
+func (nmrq *NotificationMessageRecipientQuery) Filter() *NotificationMessageRecipientFilter {
+	return &NotificationMessageRecipientFilter{config: nmrq.config, predicateAdder: nmrq}
+}
+
+// addPredicate implements the predicateAdder interface.
+func (m *NotificationMessageRecipientMutation) addPredicate(pred func(s *sql.Selector)) {
+	m.predicates = append(m.predicates, pred)
+}
+
+// Filter returns an entql.Where implementation to apply filters on the NotificationMessageRecipientMutation builder.
+func (m *NotificationMessageRecipientMutation) Filter() *NotificationMessageRecipientFilter {
+	return &NotificationMessageRecipientFilter{config: m.config, predicateAdder: m}
+}
+
+// NotificationMessageRecipientFilter provides a generic filtering capability at runtime for NotificationMessageRecipientQuery.
+type NotificationMessageRecipientFilter struct {
+	predicateAdder
+	config
+}
+
+// Where applies the entql predicate on the query filter.
+func (f *NotificationMessageRecipientFilter) Where(p entql.P) {
+	f.addPredicate(func(s *sql.Selector) {
+		if err := schemaGraph.EvalP(schemaGraph.Nodes[8].Type, p, s); err != nil {
+			s.AddError(err)
+		}
+	})
+}
+
+// WhereID applies the entql uint32 predicate on the id field.
+func (f *NotificationMessageRecipientFilter) WhereID(p entql.Uint32P) {
+	f.Where(p.Field(notificationmessagerecipient.FieldID))
+}
+
+// WhereCreateTime applies the entql time.Time predicate on the create_time field.
+func (f *NotificationMessageRecipientFilter) WhereCreateTime(p entql.TimeP) {
+	f.Where(p.Field(notificationmessagerecipient.FieldCreateTime))
+}
+
+// WhereUpdateTime applies the entql time.Time predicate on the update_time field.
+func (f *NotificationMessageRecipientFilter) WhereUpdateTime(p entql.TimeP) {
+	f.Where(p.Field(notificationmessagerecipient.FieldUpdateTime))
+}
+
+// WhereDeleteTime applies the entql time.Time predicate on the delete_time field.
+func (f *NotificationMessageRecipientFilter) WhereDeleteTime(p entql.TimeP) {
+	f.Where(p.Field(notificationmessagerecipient.FieldDeleteTime))
+}
+
+// WhereMessageID applies the entql uint32 predicate on the message_id field.
+func (f *NotificationMessageRecipientFilter) WhereMessageID(p entql.Uint32P) {
+	f.Where(p.Field(notificationmessagerecipient.FieldMessageID))
+}
+
+// WhereRecipientID applies the entql uint32 predicate on the recipient_id field.
+func (f *NotificationMessageRecipientFilter) WhereRecipientID(p entql.Uint32P) {
+	f.Where(p.Field(notificationmessagerecipient.FieldRecipientID))
+}
+
+// WhereStatus applies the entql string predicate on the status field.
+func (f *NotificationMessageRecipientFilter) WhereStatus(p entql.StringP) {
+	f.Where(p.Field(notificationmessagerecipient.FieldStatus))
+}
+
+// addPredicate implements the predicateAdder interface.
 func (oq *OrganizationQuery) addPredicate(pred func(s *sql.Selector)) {
 	oq.predicates = append(oq.predicates, pred)
 }
@@ -1565,7 +1698,7 @@ type OrganizationFilter struct {
 // Where applies the entql predicate on the query filter.
 func (f *OrganizationFilter) Where(p entql.P) {
 	f.addPredicate(func(s *sql.Selector) {
-		if err := schemaGraph.EvalP(schemaGraph.Nodes[8].Type, p, s); err != nil {
+		if err := schemaGraph.EvalP(schemaGraph.Nodes[9].Type, p, s); err != nil {
 			s.AddError(err)
 		}
 	})
@@ -1683,7 +1816,7 @@ type PositionFilter struct {
 // Where applies the entql predicate on the query filter.
 func (f *PositionFilter) Where(p entql.P) {
 	f.addPredicate(func(s *sql.Selector) {
-		if err := schemaGraph.EvalP(schemaGraph.Nodes[9].Type, p, s); err != nil {
+		if err := schemaGraph.EvalP(schemaGraph.Nodes[10].Type, p, s); err != nil {
 			s.AddError(err)
 		}
 	})
@@ -1778,6 +1911,86 @@ func (f *PositionFilter) WhereHasChildrenWith(preds ...predicate.Position) {
 }
 
 // addPredicate implements the predicateAdder interface.
+func (pmq *PrivateMessageQuery) addPredicate(pred func(s *sql.Selector)) {
+	pmq.predicates = append(pmq.predicates, pred)
+}
+
+// Filter returns a Filter implementation to apply filters on the PrivateMessageQuery builder.
+func (pmq *PrivateMessageQuery) Filter() *PrivateMessageFilter {
+	return &PrivateMessageFilter{config: pmq.config, predicateAdder: pmq}
+}
+
+// addPredicate implements the predicateAdder interface.
+func (m *PrivateMessageMutation) addPredicate(pred func(s *sql.Selector)) {
+	m.predicates = append(m.predicates, pred)
+}
+
+// Filter returns an entql.Where implementation to apply filters on the PrivateMessageMutation builder.
+func (m *PrivateMessageMutation) Filter() *PrivateMessageFilter {
+	return &PrivateMessageFilter{config: m.config, predicateAdder: m}
+}
+
+// PrivateMessageFilter provides a generic filtering capability at runtime for PrivateMessageQuery.
+type PrivateMessageFilter struct {
+	predicateAdder
+	config
+}
+
+// Where applies the entql predicate on the query filter.
+func (f *PrivateMessageFilter) Where(p entql.P) {
+	f.addPredicate(func(s *sql.Selector) {
+		if err := schemaGraph.EvalP(schemaGraph.Nodes[11].Type, p, s); err != nil {
+			s.AddError(err)
+		}
+	})
+}
+
+// WhereID applies the entql uint32 predicate on the id field.
+func (f *PrivateMessageFilter) WhereID(p entql.Uint32P) {
+	f.Where(p.Field(privatemessage.FieldID))
+}
+
+// WhereCreateTime applies the entql time.Time predicate on the create_time field.
+func (f *PrivateMessageFilter) WhereCreateTime(p entql.TimeP) {
+	f.Where(p.Field(privatemessage.FieldCreateTime))
+}
+
+// WhereUpdateTime applies the entql time.Time predicate on the update_time field.
+func (f *PrivateMessageFilter) WhereUpdateTime(p entql.TimeP) {
+	f.Where(p.Field(privatemessage.FieldUpdateTime))
+}
+
+// WhereDeleteTime applies the entql time.Time predicate on the delete_time field.
+func (f *PrivateMessageFilter) WhereDeleteTime(p entql.TimeP) {
+	f.Where(p.Field(privatemessage.FieldDeleteTime))
+}
+
+// WhereSubject applies the entql string predicate on the subject field.
+func (f *PrivateMessageFilter) WhereSubject(p entql.StringP) {
+	f.Where(p.Field(privatemessage.FieldSubject))
+}
+
+// WhereContent applies the entql string predicate on the content field.
+func (f *PrivateMessageFilter) WhereContent(p entql.StringP) {
+	f.Where(p.Field(privatemessage.FieldContent))
+}
+
+// WhereStatus applies the entql string predicate on the status field.
+func (f *PrivateMessageFilter) WhereStatus(p entql.StringP) {
+	f.Where(p.Field(privatemessage.FieldStatus))
+}
+
+// WhereSenderID applies the entql uint32 predicate on the sender_id field.
+func (f *PrivateMessageFilter) WhereSenderID(p entql.Uint32P) {
+	f.Where(p.Field(privatemessage.FieldSenderID))
+}
+
+// WhereReceiverID applies the entql uint32 predicate on the receiver_id field.
+func (f *PrivateMessageFilter) WhereReceiverID(p entql.Uint32P) {
+	f.Where(p.Field(privatemessage.FieldReceiverID))
+}
+
+// addPredicate implements the predicateAdder interface.
 func (rq *RoleQuery) addPredicate(pred func(s *sql.Selector)) {
 	rq.predicates = append(rq.predicates, pred)
 }
@@ -1806,7 +2019,7 @@ type RoleFilter struct {
 // Where applies the entql predicate on the query filter.
 func (f *RoleFilter) Where(p entql.P) {
 	f.addPredicate(func(s *sql.Selector) {
-		if err := schemaGraph.EvalP(schemaGraph.Nodes[10].Type, p, s); err != nil {
+		if err := schemaGraph.EvalP(schemaGraph.Nodes[12].Type, p, s); err != nil {
 			s.AddError(err)
 		}
 	})
@@ -1906,6 +2119,106 @@ func (f *RoleFilter) WhereHasChildrenWith(preds ...predicate.Role) {
 }
 
 // addPredicate implements the predicateAdder interface.
+func (tq *TenantQuery) addPredicate(pred func(s *sql.Selector)) {
+	tq.predicates = append(tq.predicates, pred)
+}
+
+// Filter returns a Filter implementation to apply filters on the TenantQuery builder.
+func (tq *TenantQuery) Filter() *TenantFilter {
+	return &TenantFilter{config: tq.config, predicateAdder: tq}
+}
+
+// addPredicate implements the predicateAdder interface.
+func (m *TenantMutation) addPredicate(pred func(s *sql.Selector)) {
+	m.predicates = append(m.predicates, pred)
+}
+
+// Filter returns an entql.Where implementation to apply filters on the TenantMutation builder.
+func (m *TenantMutation) Filter() *TenantFilter {
+	return &TenantFilter{config: m.config, predicateAdder: m}
+}
+
+// TenantFilter provides a generic filtering capability at runtime for TenantQuery.
+type TenantFilter struct {
+	predicateAdder
+	config
+}
+
+// Where applies the entql predicate on the query filter.
+func (f *TenantFilter) Where(p entql.P) {
+	f.addPredicate(func(s *sql.Selector) {
+		if err := schemaGraph.EvalP(schemaGraph.Nodes[13].Type, p, s); err != nil {
+			s.AddError(err)
+		}
+	})
+}
+
+// WhereID applies the entql uint32 predicate on the id field.
+func (f *TenantFilter) WhereID(p entql.Uint32P) {
+	f.Where(p.Field(tenant.FieldID))
+}
+
+// WhereCreateTime applies the entql time.Time predicate on the create_time field.
+func (f *TenantFilter) WhereCreateTime(p entql.TimeP) {
+	f.Where(p.Field(tenant.FieldCreateTime))
+}
+
+// WhereUpdateTime applies the entql time.Time predicate on the update_time field.
+func (f *TenantFilter) WhereUpdateTime(p entql.TimeP) {
+	f.Where(p.Field(tenant.FieldUpdateTime))
+}
+
+// WhereDeleteTime applies the entql time.Time predicate on the delete_time field.
+func (f *TenantFilter) WhereDeleteTime(p entql.TimeP) {
+	f.Where(p.Field(tenant.FieldDeleteTime))
+}
+
+// WhereStatus applies the entql string predicate on the status field.
+func (f *TenantFilter) WhereStatus(p entql.StringP) {
+	f.Where(p.Field(tenant.FieldStatus))
+}
+
+// WhereCreateBy applies the entql uint32 predicate on the create_by field.
+func (f *TenantFilter) WhereCreateBy(p entql.Uint32P) {
+	f.Where(p.Field(tenant.FieldCreateBy))
+}
+
+// WhereUpdateBy applies the entql uint32 predicate on the update_by field.
+func (f *TenantFilter) WhereUpdateBy(p entql.Uint32P) {
+	f.Where(p.Field(tenant.FieldUpdateBy))
+}
+
+// WhereRemark applies the entql string predicate on the remark field.
+func (f *TenantFilter) WhereRemark(p entql.StringP) {
+	f.Where(p.Field(tenant.FieldRemark))
+}
+
+// WhereName applies the entql string predicate on the name field.
+func (f *TenantFilter) WhereName(p entql.StringP) {
+	f.Where(p.Field(tenant.FieldName))
+}
+
+// WhereCode applies the entql string predicate on the code field.
+func (f *TenantFilter) WhereCode(p entql.StringP) {
+	f.Where(p.Field(tenant.FieldCode))
+}
+
+// WhereMemberCount applies the entql int32 predicate on the member_count field.
+func (f *TenantFilter) WhereMemberCount(p entql.Int32P) {
+	f.Where(p.Field(tenant.FieldMemberCount))
+}
+
+// WhereSubscriptionAt applies the entql time.Time predicate on the subscription_at field.
+func (f *TenantFilter) WhereSubscriptionAt(p entql.TimeP) {
+	f.Where(p.Field(tenant.FieldSubscriptionAt))
+}
+
+// WhereUnsubscribeAt applies the entql time.Time predicate on the unsubscribe_at field.
+func (f *TenantFilter) WhereUnsubscribeAt(p entql.TimeP) {
+	f.Where(p.Field(tenant.FieldUnsubscribeAt))
+}
+
+// addPredicate implements the predicateAdder interface.
 func (uq *UserQuery) addPredicate(pred func(s *sql.Selector)) {
 	uq.predicates = append(uq.predicates, pred)
 }
@@ -1934,7 +2247,7 @@ type UserFilter struct {
 // Where applies the entql predicate on the query filter.
 func (f *UserFilter) Where(p entql.P) {
 	f.addPredicate(func(s *sql.Selector) {
-		if err := schemaGraph.EvalP(schemaGraph.Nodes[11].Type, p, s); err != nil {
+		if err := schemaGraph.EvalP(schemaGraph.Nodes[14].Type, p, s); err != nil {
 			s.AddError(err)
 		}
 	})
@@ -2073,4 +2386,9 @@ func (f *UserFilter) WherePositionID(p entql.Uint32P) {
 // WhereWorkID applies the entql uint32 predicate on the work_id field.
 func (f *UserFilter) WhereWorkID(p entql.Uint32P) {
 	f.Where(p.Field(user.FieldWorkID))
+}
+
+// WhereTenantID applies the entql uint32 predicate on the tenant_id field.
+func (f *UserFilter) WhereTenantID(p entql.Uint32P) {
+	f.Where(p.Field(user.FieldTenantID))
 }

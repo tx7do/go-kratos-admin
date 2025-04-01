@@ -114,6 +114,14 @@ func (m *Role) validate(all bool) error {
 		// no validation rules for Remark
 	}
 
+	if m.CreateBy != nil {
+		// no validation rules for CreateBy
+	}
+
+	if m.UpdateBy != nil {
+		// no validation rules for UpdateBy
+	}
+
 	if m.ParentId != nil {
 		// no validation rules for ParentId
 	}

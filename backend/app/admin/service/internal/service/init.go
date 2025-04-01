@@ -24,6 +24,9 @@ var ProviderSet = wire.NewSet(
 	NewOssService,
 	NewUEditorService,
 	NewFileService,
-	NewInSiteMessageService,
-	NewInSiteMessageCategoryService,
+	NewTenantService,
+	NewNotificationMessageService,
+	NewNotificationMessageCategoryService,
+	NewNotificationMessageRecipientService,
+	NewPrivateMessageService,
 )

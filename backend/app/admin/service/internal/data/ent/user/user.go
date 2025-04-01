@@ -65,6 +65,8 @@ const (
 	FieldPositionID = "position_id"
 	// FieldWorkID holds the string denoting the work_id field in the database.
 	FieldWorkID = "work_id"
+	// FieldTenantID holds the string denoting the tenant_id field in the database.
+	FieldTenantID = "tenant_id"
 	// Table holds the table name of the user in the database.
 	Table = "users"
 )
@@ -98,6 +100,7 @@ var Columns = []string{
 	FieldOrgID,
 	FieldPositionID,
 	FieldWorkID,
+	FieldTenantID,
 }
 
 // ValidColumn reports if the column name is valid (part of the table columns).
@@ -366,4 +369,9 @@ func ByPositionID(opts ...sql.OrderTermOption) OrderOption {
 // ByWorkID orders the results by the work_id field.
 func ByWorkID(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldWorkID, opts...).ToFunc()
+}
+
+// ByTenantID orders the results by the tenant_id field.
+func ByTenantID(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldTenantID, opts...).ToFunc()
 }

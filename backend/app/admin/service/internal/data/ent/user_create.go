@@ -386,6 +386,20 @@ func (uc *UserCreate) SetNillableWorkID(u *uint32) *UserCreate {
 	return uc
 }
 
+// SetTenantID sets the "tenant_id" field.
+func (uc *UserCreate) SetTenantID(u uint32) *UserCreate {
+	uc.mutation.SetTenantID(u)
+	return uc
+}
+
+// SetNillableTenantID sets the "tenant_id" field if the given value is not nil.
+func (uc *UserCreate) SetNillableTenantID(u *uint32) *UserCreate {
+	if u != nil {
+		uc.SetTenantID(*u)
+	}
+	return uc
+}
+
 // SetID sets the "id" field.
 func (uc *UserCreate) SetID(u uint32) *UserCreate {
 	uc.mutation.SetID(u)
@@ -679,6 +693,10 @@ func (uc *UserCreate) createSpec() (*User, *sqlgraph.CreateSpec) {
 	if value, ok := uc.mutation.WorkID(); ok {
 		_spec.SetField(user.FieldWorkID, field.TypeUint32, value)
 		_node.WorkID = &value
+	}
+	if value, ok := uc.mutation.TenantID(); ok {
+		_spec.SetField(user.FieldTenantID, field.TypeUint32, value)
+		_node.TenantID = &value
 	}
 	return _node, _spec
 }
@@ -1203,6 +1221,30 @@ func (u *UserUpsert) AddWorkID(v uint32) *UserUpsert {
 // ClearWorkID clears the value of the "work_id" field.
 func (u *UserUpsert) ClearWorkID() *UserUpsert {
 	u.SetNull(user.FieldWorkID)
+	return u
+}
+
+// SetTenantID sets the "tenant_id" field.
+func (u *UserUpsert) SetTenantID(v uint32) *UserUpsert {
+	u.Set(user.FieldTenantID, v)
+	return u
+}
+
+// UpdateTenantID sets the "tenant_id" field to the value that was provided on create.
+func (u *UserUpsert) UpdateTenantID() *UserUpsert {
+	u.SetExcluded(user.FieldTenantID)
+	return u
+}
+
+// AddTenantID adds v to the "tenant_id" field.
+func (u *UserUpsert) AddTenantID(v uint32) *UserUpsert {
+	u.Add(user.FieldTenantID, v)
+	return u
+}
+
+// ClearTenantID clears the value of the "tenant_id" field.
+func (u *UserUpsert) ClearTenantID() *UserUpsert {
+	u.SetNull(user.FieldTenantID)
 	return u
 }
 
@@ -1810,6 +1852,34 @@ func (u *UserUpsertOne) UpdateWorkID() *UserUpsertOne {
 func (u *UserUpsertOne) ClearWorkID() *UserUpsertOne {
 	return u.Update(func(s *UserUpsert) {
 		s.ClearWorkID()
+	})
+}
+
+// SetTenantID sets the "tenant_id" field.
+func (u *UserUpsertOne) SetTenantID(v uint32) *UserUpsertOne {
+	return u.Update(func(s *UserUpsert) {
+		s.SetTenantID(v)
+	})
+}
+
+// AddTenantID adds v to the "tenant_id" field.
+func (u *UserUpsertOne) AddTenantID(v uint32) *UserUpsertOne {
+	return u.Update(func(s *UserUpsert) {
+		s.AddTenantID(v)
+	})
+}
+
+// UpdateTenantID sets the "tenant_id" field to the value that was provided on create.
+func (u *UserUpsertOne) UpdateTenantID() *UserUpsertOne {
+	return u.Update(func(s *UserUpsert) {
+		s.UpdateTenantID()
+	})
+}
+
+// ClearTenantID clears the value of the "tenant_id" field.
+func (u *UserUpsertOne) ClearTenantID() *UserUpsertOne {
+	return u.Update(func(s *UserUpsert) {
+		s.ClearTenantID()
 	})
 }
 
@@ -2583,6 +2653,34 @@ func (u *UserUpsertBulk) UpdateWorkID() *UserUpsertBulk {
 func (u *UserUpsertBulk) ClearWorkID() *UserUpsertBulk {
 	return u.Update(func(s *UserUpsert) {
 		s.ClearWorkID()
+	})
+}
+
+// SetTenantID sets the "tenant_id" field.
+func (u *UserUpsertBulk) SetTenantID(v uint32) *UserUpsertBulk {
+	return u.Update(func(s *UserUpsert) {
+		s.SetTenantID(v)
+	})
+}
+
+// AddTenantID adds v to the "tenant_id" field.
+func (u *UserUpsertBulk) AddTenantID(v uint32) *UserUpsertBulk {
+	return u.Update(func(s *UserUpsert) {
+		s.AddTenantID(v)
+	})
+}
+
+// UpdateTenantID sets the "tenant_id" field to the value that was provided on create.
+func (u *UserUpsertBulk) UpdateTenantID() *UserUpsertBulk {
+	return u.Update(func(s *UserUpsert) {
+		s.UpdateTenantID()
+	})
+}
+
+// ClearTenantID clears the value of the "tenant_id" field.
+func (u *UserUpsertBulk) ClearTenantID() *UserUpsertBulk {
+	return u.Update(func(s *UserUpsert) {
+		s.ClearTenantID()
 	})
 }
 

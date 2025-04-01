@@ -49,6 +49,8 @@ func (r *DictRepo) convertEntToProto(in *ent.Dict) *systemV1.Dict {
 		SortId:        in.SortID,
 		Remark:        in.Remark,
 		Status:        (*string)(in.Status),
+		CreateBy:      in.CreateBy,
+		UpdateBy:      in.UpdateBy,
 		CreateTime:    timeutil.TimeToTimestamppb(in.CreateTime),
 		UpdateTime:    timeutil.TimeToTimestamppb(in.UpdateTime),
 		DeleteTime:    timeutil.TimeToTimestamppb(in.DeleteTime),

@@ -79,6 +79,16 @@ export interface Menu {
     | undefined;
   /** 子节点树 */
   children: Menu[];
+  /** 创建者ID */
+  createBy?:
+    | number
+    | null
+    | undefined;
+  /** 更新者ID */
+  updateBy?:
+    | number
+    | null
+    | undefined;
   /** 创建时间 */
   createTime?:
     | Timestamp

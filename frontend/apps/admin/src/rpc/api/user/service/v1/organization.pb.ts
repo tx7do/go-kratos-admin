@@ -31,6 +31,16 @@ export interface Organization {
     | string
     | null
     | undefined;
+  /** 创建者ID */
+  createBy?:
+    | number
+    | null
+    | undefined;
+  /** 更新者ID */
+  updateBy?:
+    | number
+    | null
+    | undefined;
   /** 备注 */
   remark?:
     | string

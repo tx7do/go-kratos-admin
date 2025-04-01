@@ -76,8 +76,16 @@ func (m *User) validate(all bool) error {
 		// no validation rules for PositionId
 	}
 
-	if m.CreatorId != nil {
-		// no validation rules for CreatorId
+	if m.TenantId != nil {
+		// no validation rules for TenantId
+	}
+
+	if m.CreateBy != nil {
+		// no validation rules for CreateBy
+	}
+
+	if m.UpdateBy != nil {
+		// no validation rules for UpdateBy
 	}
 
 	if m.UserName != nil {

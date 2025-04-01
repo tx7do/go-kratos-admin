@@ -80,8 +80,18 @@ export interface User {
     | number
     | null
     | undefined;
+  /** 租户ID */
+  tenantId?:
+    | number
+    | null
+    | undefined;
   /** 创建者ID */
-  creatorId?:
+  createBy?:
+    | number
+    | null
+    | undefined;
+  /** 更新者ID */
+  updateBy?:
     | number
     | null
     | undefined;

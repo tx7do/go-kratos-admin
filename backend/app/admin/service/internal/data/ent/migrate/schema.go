@@ -189,30 +189,62 @@ var (
 			},
 		},
 	}
-	// InSiteMessagesColumns holds the columns for the "in_site_messages" table.
-	InSiteMessagesColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeUint32, Increment: true, Comment: "id", SchemaType: map[string]string{"mysql": "int", "postgres": "serial"}},
+	// MenusColumns holds the columns for the "menus" table.
+	MenusColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt32, Increment: true, Comment: "id"},
+		{Name: "status", Type: field.TypeEnum, Nullable: true, Comment: "状态", Enums: []string{"OFF", "ON"}, Default: "ON"},
 		{Name: "create_time", Type: field.TypeTime, Nullable: true, Comment: "创建时间"},
 		{Name: "update_time", Type: field.TypeTime, Nullable: true, Comment: "更新时间"},
 		{Name: "delete_time", Type: field.TypeTime, Nullable: true, Comment: "删除时间"},
 		{Name: "create_by", Type: field.TypeUint32, Nullable: true, Comment: "创建者ID"},
 		{Name: "update_by", Type: field.TypeUint32, Nullable: true, Comment: "更新者ID"},
 		{Name: "remark", Type: field.TypeString, Nullable: true, Comment: "备注", Default: ""},
-		{Name: "title", Type: field.TypeString, Nullable: true, Comment: "标题"},
+		{Name: "type", Type: field.TypeEnum, Nullable: true, Comment: "菜单类型 FOLDER: 目录 MENU: 菜单 BUTTON: 按钮", Enums: []string{"FOLDER", "MENU", "BUTTON"}, Default: "MENU"},
+		{Name: "path", Type: field.TypeString, Nullable: true, Comment: "路径,当其类型为'按钮'的时候对应的数据操作名,例如:/user.service.v1.UserService/Login", Default: ""},
+		{Name: "redirect", Type: field.TypeString, Nullable: true, Comment: "重定向地址"},
+		{Name: "alias", Type: field.TypeString, Nullable: true, Comment: "路由别名"},
+		{Name: "name", Type: field.TypeString, Nullable: true, Comment: "路由命名，然后我们可以使用 name 而不是 path 来传递 to 属性给 <router-link>。"},
+		{Name: "component", Type: field.TypeString, Nullable: true, Comment: "前端页面组件", Default: ""},
+		{Name: "meta", Type: field.TypeJSON, Nullable: true, Comment: "前端页面组件"},
+		{Name: "parent_id", Type: field.TypeInt32, Nullable: true, Comment: "上一层菜单ID"},
+	}
+	// MenusTable holds the schema information for the "menus" table.
+	MenusTable = &schema.Table{
+		Name:       "menus",
+		Columns:    MenusColumns,
+		PrimaryKey: []*schema.Column{MenusColumns[0]},
+		ForeignKeys: []*schema.ForeignKey{
+			{
+				Symbol:     "menus_menus_children",
+				Columns:    []*schema.Column{MenusColumns[15]},
+				RefColumns: []*schema.Column{MenusColumns[0]},
+				OnDelete:   schema.SetNull,
+			},
+		},
+	}
+	// NotificationMessagesColumns holds the columns for the "notification_messages" table.
+	NotificationMessagesColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeUint32, Increment: true, Comment: "id", SchemaType: map[string]string{"mysql": "int", "postgres": "serial"}},
+		{Name: "create_time", Type: field.TypeTime, Nullable: true, Comment: "创建时间"},
+		{Name: "update_time", Type: field.TypeTime, Nullable: true, Comment: "更新时间"},
+		{Name: "delete_time", Type: field.TypeTime, Nullable: true, Comment: "删除时间"},
+		{Name: "create_by", Type: field.TypeUint32, Nullable: true, Comment: "创建者ID"},
+		{Name: "update_by", Type: field.TypeUint32, Nullable: true, Comment: "更新者ID"},
+		{Name: "subject", Type: field.TypeString, Nullable: true, Comment: "主题"},
 		{Name: "content", Type: field.TypeString, Nullable: true, Comment: "内容"},
 		{Name: "category_id", Type: field.TypeUint32, Nullable: true, Comment: "分类ID"},
-		{Name: "status", Type: field.TypeEnum, Nullable: true, Comment: "消息状态", Enums: []string{"Draft", "Published", "Scheduled", "Revoked", "Archived", "Unknown"}},
+		{Name: "status", Type: field.TypeEnum, Nullable: true, Comment: "消息状态", Enums: []string{"Draft", "Published", "Scheduled", "Revoked", "Archived", "Unknown", "Deleted"}},
 	}
-	// InSiteMessagesTable holds the schema information for the "in_site_messages" table.
-	InSiteMessagesTable = &schema.Table{
-		Name:       "in_site_messages",
-		Columns:    InSiteMessagesColumns,
-		PrimaryKey: []*schema.Column{InSiteMessagesColumns[0]},
+	// NotificationMessagesTable holds the schema information for the "notification_messages" table.
+	NotificationMessagesTable = &schema.Table{
+		Name:       "notification_messages",
+		Columns:    NotificationMessagesColumns,
+		PrimaryKey: []*schema.Column{NotificationMessagesColumns[0]},
 		Indexes: []*schema.Index{
 			{
-				Name:    "insitemessage_id",
+				Name:    "notificationmessage_id",
 				Unique:  false,
-				Columns: []*schema.Column{InSiteMessagesColumns[0]},
+				Columns: []*schema.Column{NotificationMessagesColumns[0]},
 			},
 		},
 	}
@@ -246,42 +278,32 @@ var (
 		},
 		Indexes: []*schema.Index{
 			{
-				Name:    "insitemessagecategory_id",
+				Name:    "notificationmessagecategory_id",
 				Unique:  false,
 				Columns: []*schema.Column{InSiteMessageCategoriesColumns[0]},
 			},
 		},
 	}
-	// MenusColumns holds the columns for the "menus" table.
-	MenusColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt32, Increment: true, Comment: "id"},
-		{Name: "status", Type: field.TypeEnum, Nullable: true, Comment: "状态", Enums: []string{"OFF", "ON"}, Default: "ON"},
+	// NotificationMessageRecipientsColumns holds the columns for the "notification_message_recipients" table.
+	NotificationMessageRecipientsColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeUint32, Increment: true, Comment: "id", SchemaType: map[string]string{"mysql": "int", "postgres": "serial"}},
 		{Name: "create_time", Type: field.TypeTime, Nullable: true, Comment: "创建时间"},
 		{Name: "update_time", Type: field.TypeTime, Nullable: true, Comment: "更新时间"},
 		{Name: "delete_time", Type: field.TypeTime, Nullable: true, Comment: "删除时间"},
-		{Name: "create_by", Type: field.TypeUint32, Nullable: true, Comment: "创建者ID"},
-		{Name: "update_by", Type: field.TypeUint32, Nullable: true, Comment: "更新者ID"},
-		{Name: "remark", Type: field.TypeString, Nullable: true, Comment: "备注", Default: ""},
-		{Name: "type", Type: field.TypeEnum, Nullable: true, Comment: "菜单类型 FOLDER: 目录 MENU: 菜单 BUTTON: 按钮", Enums: []string{"FOLDER", "MENU", "BUTTON"}, Default: "MENU"},
-		{Name: "path", Type: field.TypeString, Nullable: true, Comment: "路径,当其类型为'按钮'的时候对应的数据操作名,例如:/user.service.v1.UserService/Login", Default: ""},
-		{Name: "redirect", Type: field.TypeString, Nullable: true, Comment: "重定向地址"},
-		{Name: "alias", Type: field.TypeString, Nullable: true, Comment: "路由别名"},
-		{Name: "name", Type: field.TypeString, Nullable: true, Comment: "路由命名，然后我们可以使用 name 而不是 path 来传递 to 属性给 <router-link>。"},
-		{Name: "component", Type: field.TypeString, Nullable: true, Comment: "前端页面组件", Default: ""},
-		{Name: "meta", Type: field.TypeJSON, Nullable: true, Comment: "前端页面组件"},
-		{Name: "parent_id", Type: field.TypeInt32, Nullable: true, Comment: "上一层菜单ID"},
+		{Name: "message_id", Type: field.TypeUint32, Nullable: true, Comment: "群发消息ID"},
+		{Name: "recipient_id", Type: field.TypeUint32, Nullable: true, Comment: "接收者用户ID"},
+		{Name: "status", Type: field.TypeEnum, Nullable: true, Comment: "消息状态", Enums: []string{"Received", "Read", "Archived", "Unknown", "Deleted"}},
 	}
-	// MenusTable holds the schema information for the "menus" table.
-	MenusTable = &schema.Table{
-		Name:       "menus",
-		Columns:    MenusColumns,
-		PrimaryKey: []*schema.Column{MenusColumns[0]},
-		ForeignKeys: []*schema.ForeignKey{
+	// NotificationMessageRecipientsTable holds the schema information for the "notification_message_recipients" table.
+	NotificationMessageRecipientsTable = &schema.Table{
+		Name:       "notification_message_recipients",
+		Columns:    NotificationMessageRecipientsColumns,
+		PrimaryKey: []*schema.Column{NotificationMessageRecipientsColumns[0]},
+		Indexes: []*schema.Index{
 			{
-				Symbol:     "menus_menus_children",
-				Columns:    []*schema.Column{MenusColumns[15]},
-				RefColumns: []*schema.Column{MenusColumns[0]},
-				OnDelete:   schema.SetNull,
+				Name:    "notificationmessagerecipient_id",
+				Unique:  false,
+				Columns: []*schema.Column{NotificationMessageRecipientsColumns[0]},
 			},
 		},
 	}
@@ -356,6 +378,31 @@ var (
 			},
 		},
 	}
+	// PrivateMessagesColumns holds the columns for the "private_messages" table.
+	PrivateMessagesColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeUint32, Increment: true, Comment: "id", SchemaType: map[string]string{"mysql": "int", "postgres": "serial"}},
+		{Name: "create_time", Type: field.TypeTime, Nullable: true, Comment: "创建时间"},
+		{Name: "update_time", Type: field.TypeTime, Nullable: true, Comment: "更新时间"},
+		{Name: "delete_time", Type: field.TypeTime, Nullable: true, Comment: "删除时间"},
+		{Name: "subject", Type: field.TypeString, Nullable: true, Comment: "主题"},
+		{Name: "content", Type: field.TypeString, Nullable: true, Comment: "内容"},
+		{Name: "status", Type: field.TypeEnum, Nullable: true, Comment: "消息状态", Enums: []string{"Draft", "Sent", "Received", "Read", "Archived", "Unknown", "Deleted"}},
+		{Name: "sender_id", Type: field.TypeUint32, Nullable: true, Comment: "发送者用户ID"},
+		{Name: "receiver_id", Type: field.TypeUint32, Nullable: true, Comment: "接收者用户ID"},
+	}
+	// PrivateMessagesTable holds the schema information for the "private_messages" table.
+	PrivateMessagesTable = &schema.Table{
+		Name:       "private_messages",
+		Columns:    PrivateMessagesColumns,
+		PrimaryKey: []*schema.Column{PrivateMessagesColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "privatemessage_id",
+				Unique:  false,
+				Columns: []*schema.Column{PrivateMessagesColumns[0]},
+			},
+		},
+	}
 	// RolesColumns holds the columns for the "roles" table.
 	RolesColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeUint32, Increment: true, Comment: "id", SchemaType: map[string]string{"mysql": "int", "postgres": "serial"}},
@@ -393,6 +440,35 @@ var (
 			},
 		},
 	}
+	// TenantsColumns holds the columns for the "tenants" table.
+	TenantsColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeUint32, Increment: true, Comment: "id", SchemaType: map[string]string{"mysql": "int", "postgres": "serial"}},
+		{Name: "create_time", Type: field.TypeTime, Nullable: true, Comment: "创建时间"},
+		{Name: "update_time", Type: field.TypeTime, Nullable: true, Comment: "更新时间"},
+		{Name: "delete_time", Type: field.TypeTime, Nullable: true, Comment: "删除时间"},
+		{Name: "status", Type: field.TypeEnum, Nullable: true, Comment: "状态", Enums: []string{"OFF", "ON"}, Default: "ON"},
+		{Name: "create_by", Type: field.TypeUint32, Nullable: true, Comment: "创建者ID"},
+		{Name: "update_by", Type: field.TypeUint32, Nullable: true, Comment: "更新者ID"},
+		{Name: "remark", Type: field.TypeString, Nullable: true, Comment: "备注", Default: ""},
+		{Name: "name", Type: field.TypeString, Nullable: true, Comment: "租户名称"},
+		{Name: "code", Type: field.TypeString, Nullable: true, Size: 64, Comment: "租户编号"},
+		{Name: "member_count", Type: field.TypeInt32, Nullable: true, Comment: "成员数", Default: 0},
+		{Name: "subscription_at", Type: field.TypeTime, Nullable: true, Comment: "订阅时间"},
+		{Name: "unsubscribe_at", Type: field.TypeTime, Nullable: true, Comment: "取消订阅时间"},
+	}
+	// TenantsTable holds the schema information for the "tenants" table.
+	TenantsTable = &schema.Table{
+		Name:       "tenants",
+		Columns:    TenantsColumns,
+		PrimaryKey: []*schema.Column{TenantsColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "tenant_id",
+				Unique:  false,
+				Columns: []*schema.Column{TenantsColumns[0]},
+			},
+		},
+	}
 	// UsersColumns holds the columns for the "users" table.
 	UsersColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeUint32, Increment: true, Comment: "id", SchemaType: map[string]string{"mysql": "int", "postgres": "serial"}},
@@ -422,6 +498,7 @@ var (
 		{Name: "org_id", Type: field.TypeUint32, Nullable: true, Comment: "部门ID"},
 		{Name: "position_id", Type: field.TypeUint32, Nullable: true, Comment: "职位ID"},
 		{Name: "work_id", Type: field.TypeUint32, Nullable: true, Comment: "员工工号"},
+		{Name: "tenant_id", Type: field.TypeUint32, Nullable: true, Comment: "租户ID"},
 	}
 	// UsersTable holds the schema information for the "users" table.
 	UsersTable = &schema.Table{
@@ -448,12 +525,15 @@ var (
 		DepartmentsTable,
 		DictTable,
 		FilesTable,
-		InSiteMessagesTable,
-		InSiteMessageCategoriesTable,
 		MenusTable,
+		NotificationMessagesTable,
+		InSiteMessageCategoriesTable,
+		NotificationMessageRecipientsTable,
 		OrganizationsTable,
 		PositionsTable,
+		PrivateMessagesTable,
 		RolesTable,
+		TenantsTable,
 		UsersTable,
 	}
 )
@@ -485,8 +565,14 @@ func init() {
 		Charset:   "utf8mb4",
 		Collation: "utf8mb4_bin",
 	}
-	InSiteMessagesTable.Annotation = &entsql.Annotation{
-		Table:     "in_site_messages",
+	MenusTable.ForeignKeys[0].RefTable = MenusTable
+	MenusTable.Annotation = &entsql.Annotation{
+		Table:     "menus",
+		Charset:   "utf8mb4",
+		Collation: "utf8mb4_bin",
+	}
+	NotificationMessagesTable.Annotation = &entsql.Annotation{
+		Table:     "notification_messages",
 		Charset:   "utf8mb4",
 		Collation: "utf8mb4_bin",
 	}
@@ -496,9 +582,8 @@ func init() {
 		Charset:   "utf8mb4",
 		Collation: "utf8mb4_bin",
 	}
-	MenusTable.ForeignKeys[0].RefTable = MenusTable
-	MenusTable.Annotation = &entsql.Annotation{
-		Table:     "menus",
+	NotificationMessageRecipientsTable.Annotation = &entsql.Annotation{
+		Table:     "notification_message_recipients",
 		Charset:   "utf8mb4",
 		Collation: "utf8mb4_bin",
 	}
@@ -514,9 +599,19 @@ func init() {
 		Charset:   "utf8mb4",
 		Collation: "utf8mb4_bin",
 	}
+	PrivateMessagesTable.Annotation = &entsql.Annotation{
+		Table:     "private_messages",
+		Charset:   "utf8mb4",
+		Collation: "utf8mb4_bin",
+	}
 	RolesTable.ForeignKeys[0].RefTable = RolesTable
 	RolesTable.Annotation = &entsql.Annotation{
 		Table:     "roles",
+		Charset:   "utf8mb4",
+		Collation: "utf8mb4_bin",
+	}
+	TenantsTable.Annotation = &entsql.Annotation{
+		Table:     "tenants",
 		Charset:   "utf8mb4",
 		Collation: "utf8mb4_bin",
 	}

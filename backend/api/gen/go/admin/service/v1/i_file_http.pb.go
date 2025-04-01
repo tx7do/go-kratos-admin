@@ -46,7 +46,7 @@ func RegisterFileServiceHTTPServer(s *http.Server, srv FileServiceHTTPServer) {
 	r.GET("/admin/v1/files", _FileService_ListFile0_HTTP_Handler(srv))
 	r.GET("/admin/v1/files/{id}", _FileService_GetFile0_HTTP_Handler(srv))
 	r.POST("/admin/v1/files", _FileService_CreateFile0_HTTP_Handler(srv))
-	r.PUT("/admin/v1/dict/{data.id}", _FileService_UpdateFile0_HTTP_Handler(srv))
+	r.PUT("/admin/v1/files/{data.id}", _FileService_UpdateFile0_HTTP_Handler(srv))
 	r.DELETE("/admin/v1/files/{id}", _FileService_DeleteFile0_HTTP_Handler(srv))
 }
 
@@ -230,7 +230,7 @@ func (c *FileServiceHTTPClientImpl) ListFile(ctx context.Context, in *v1.PagingR
 
 func (c *FileServiceHTTPClientImpl) UpdateFile(ctx context.Context, in *v11.UpdateFileRequest, opts ...http.CallOption) (*emptypb.Empty, error) {
 	var out emptypb.Empty
-	pattern := "/admin/v1/dict/{data.id}"
+	pattern := "/admin/v1/files/{data.id}"
 	path := binding.EncodeURL(pattern, in, false)
 	opts = append(opts, http.Operation(OperationFileServiceUpdateFile))
 	opts = append(opts, http.PathTemplate(pattern))

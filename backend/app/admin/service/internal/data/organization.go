@@ -45,6 +45,8 @@ func (r *OrganizationRepo) convertEntToProto(in *ent.Organization) *userV1.Organ
 		Remark:     in.Remark,
 		SortId:     in.SortID,
 		ParentId:   in.ParentID,
+		CreateBy:   in.CreateBy,
+		UpdateBy:   in.UpdateBy,
 		Status:     (*string)(in.Status),
 		CreateTime: timeutil.TimeToTimestamppb(in.CreateTime),
 		UpdateTime: timeutil.TimeToTimestamppb(in.UpdateTime),

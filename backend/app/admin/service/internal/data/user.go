@@ -6,7 +6,6 @@ import (
 	"time"
 
 	"entgo.io/ent/dialect/sql"
-
 	"github.com/go-kratos/kratos/v2/log"
 
 	"github.com/tx7do/go-utils/crypto"
@@ -113,7 +112,7 @@ func (r *UserRepo) convertEntToProto(in *ent.User) *userV1.User {
 		WorkId:        in.WorkID,
 		OrgId:         in.OrgID,
 		PositionId:    in.PositionID,
-		CreatorId:     in.CreateBy,
+		TenantId:      in.TenantID,
 		UserName:      in.Username,
 		NickName:      in.NickName,
 		RealName:      in.RealName,
@@ -127,6 +126,8 @@ func (r *UserRepo) convertEntToProto(in *ent.User) *userV1.User {
 		Remark:        in.Remark,
 		LastLoginTime: in.LastLoginTime,
 		LastLoginIp:   in.LastLoginIP,
+		CreateBy:      in.CreateBy,
+		UpdateBy:      in.UpdateBy,
 		Gender:        r.convertUserGenderToProto(in.Gender),
 		Authority:     r.convertUserAuthorityToProto(in.Authority),
 		Status:        r.convertUserStatusToProto(in.Status),
@@ -241,6 +242,7 @@ func (r *UserRepo) CreateUser(ctx context.Context, req *userV1.CreateUserRequest
 		SetNillableRoleID(req.Data.RoleId).
 		SetNillableWorkID(req.Data.WorkId).
 		SetNillablePositionID(req.Data.PositionId).
+		SetNillableTenantID(req.Data.TenantId).
 		SetNillableCreateBy(req.OperatorId).
 		SetNillableCreateTime(timeutil.TimestamppbToTime(req.Data.CreateTime))
 
@@ -310,6 +312,7 @@ func (r *UserRepo) UpdateUser(ctx context.Context, req *userV1.UpdateUserRequest
 		SetNillableRoleID(req.Data.RoleId).
 		SetNillableWorkID(req.Data.WorkId).
 		SetNillablePositionID(req.Data.PositionId).
+		SetNillableTenantID(req.Data.TenantId).
 		SetNillableUpdateBy(req.OperatorId).
 		SetNillableUpdateTime(timeutil.TimestamppbToTime(req.Data.UpdateTime))
 

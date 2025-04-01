@@ -86,8 +86,11 @@ func NewRESTServer(
 	ossSvc *service.OssService,
 	ueditorSvc *service.UEditorService,
 	fileService *service.FileService,
-	inSiteMessageService *service.InSiteMessageService,
-	inSiteMessageCategoryService *service.InSiteMessageCategoryService,
+	tenantService *service.TenantService,
+	notificationMessageService *service.NotificationMessageService,
+	notificationMessageCategoryService *service.NotificationMessageCategoryService,
+	notificationMessageRecipientService *service.NotificationMessageRecipientService,
+	privateMessageService *service.PrivateMessageService,
 ) *http.Server {
 	if cfg == nil || cfg.Server == nil || cfg.Server.Rest == nil {
 		return nil
@@ -98,14 +101,18 @@ func NewRESTServer(
 	)
 
 	adminV1.RegisterAuthenticationServiceHTTPServer(srv, authnSvc)
-	adminV1.RegisterUserServiceHTTPServer(srv, userSvc)
+
 	adminV1.RegisterMenuServiceHTTPServer(srv, menuSvc)
 	adminV1.RegisterRouterServiceHTTPServer(srv, routerSvc)
+	adminV1.RegisterDictServiceHTTPServer(srv, dictSvc)
+
+	adminV1.RegisterUserServiceHTTPServer(srv, userSvc)
 	adminV1.RegisterOrganizationServiceHTTPServer(srv, orgSvc)
 	adminV1.RegisterRoleServiceHTTPServer(srv, roleSvc)
 	adminV1.RegisterPositionServiceHTTPServer(srv, positionSvc)
-	adminV1.RegisterDictServiceHTTPServer(srv, dictSvc)
 	adminV1.RegisterDepartmentServiceHTTPServer(srv, deptSvc)
+	adminV1.RegisterTenantServiceHTTPServer(srv, tenantService)
+
 	adminV1.RegisterAdminLoginLogServiceHTTPServer(srv, adminLoginLogSvc)
 	adminV1.RegisterAdminOperationLogServiceHTTPServer(srv, adminOperationLogSvc)
 
@@ -114,8 +121,10 @@ func NewRESTServer(
 
 	adminV1.RegisterUEditorServiceHTTPServer(srv, ueditorSvc)
 
-	adminV1.RegisterInSiteMessageServiceHTTPServer(srv, inSiteMessageService)
-	adminV1.RegisterInSiteMessageCategoryServiceHTTPServer(srv, inSiteMessageCategoryService)
+	adminV1.RegisterNotificationMessageServiceHTTPServer(srv, notificationMessageService)
+	adminV1.RegisterNotificationMessageCategoryServiceHTTPServer(srv, notificationMessageCategoryService)
+	adminV1.RegisterNotificationMessageRecipientServiceHTTPServer(srv, notificationMessageRecipientService)
+	adminV1.RegisterPrivateMessageServiceHTTPServer(srv, privateMessageService)
 
 	registerFileUploadHandler(srv, ossSvc)
 	registerUEditorUploadHandler(srv, ueditorSvc)

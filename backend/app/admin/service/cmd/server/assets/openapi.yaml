@@ -366,9 +366,9 @@ paths:
     /admin/v1/dict/{data.id}:
         put:
             tags:
-                - FileService
-            description: 更新文件
-            operationId: FileService_UpdateFile
+                - DictService
+            description: 更新字典
+            operationId: DictService_UpdateDict
             parameters:
                 - name: data.id
                   in: path
@@ -379,7 +379,7 @@ paths:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/UpdateFileRequest'
+                            $ref: '#/components/schemas/UpdateDictRequest'
                 required: true
             responses:
                 "200":
@@ -546,6 +546,28 @@ paths:
                     application/json:
                         schema:
                             $ref: '#/components/schemas/CreateFileRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content: {}
+    /admin/v1/files/{data.id}:
+        put:
+            tags:
+                - FileService
+            description: 更新文件
+            operationId: FileService_UpdateFile
+            parameters:
+                - name: data.id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/UpdateFileRequest'
                 required: true
             responses:
                 "200":
@@ -780,12 +802,12 @@ paths:
                 "200":
                     description: OK
                     content: {}
-    /admin/v1/msg:
+    /admin/v1/notifications:
         get:
             tags:
-                - InSiteMessageService
-            description: 查询站内信列表
-            operationId: InSiteMessageService_ListInSiteMessage
+                - NotificationMessageService
+            description: 查询通知消息列表
+            operationId: NotificationMessageService_ListNotificationMessage
             parameters:
                 - name: page
                   in: query
@@ -833,28 +855,28 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/ListInSiteMessageResponse'
+                                $ref: '#/components/schemas/ListNotificationMessageResponse'
         post:
             tags:
-                - InSiteMessageService
-            description: 创建站内信
-            operationId: InSiteMessageService_CreateInSiteMessage
+                - NotificationMessageService
+            description: 创建通知消息
+            operationId: NotificationMessageService_CreateNotificationMessage
             requestBody:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/CreateInSiteMessageRequest'
+                            $ref: '#/components/schemas/CreateNotificationMessageRequest'
                 required: true
             responses:
                 "200":
                     description: OK
                     content: {}
-    /admin/v1/msg/{data.id}:
+    /admin/v1/notifications/{data.id}:
         put:
             tags:
-                - InSiteMessageService
-            description: 更新站内信
-            operationId: InSiteMessageService_UpdateInSiteMessage
+                - NotificationMessageService
+            description: 更新通知消息
+            operationId: NotificationMessageService_UpdateNotificationMessage
             parameters:
                 - name: data.id
                   in: path
@@ -865,18 +887,18 @@ paths:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/UpdateInSiteMessageRequest'
+                            $ref: '#/components/schemas/UpdateNotificationMessageRequest'
                 required: true
             responses:
                 "200":
                     description: OK
                     content: {}
-    /admin/v1/msg/{id}:
+    /admin/v1/notifications/{id}:
         get:
             tags:
-                - InSiteMessageService
-            description: 查询站内信详情
-            operationId: InSiteMessageService_GetInSiteMessage
+                - NotificationMessageService
+            description: 查询通知消息详情
+            operationId: NotificationMessageService_GetNotificationMessage
             parameters:
                 - name: id
                   in: path
@@ -890,12 +912,12 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/InSiteMessage'
+                                $ref: '#/components/schemas/NotificationMessage'
         delete:
             tags:
-                - InSiteMessageService
-            description: 删除站内信
-            operationId: InSiteMessageService_DeleteInSiteMessage
+                - NotificationMessageService
+            description: 删除通知消息
+            operationId: NotificationMessageService_DeleteNotificationMessage
             parameters:
                 - name: id
                   in: path
@@ -912,12 +934,12 @@ paths:
                 "200":
                     description: OK
                     content: {}
-    /admin/v1/msg:categories:
+    /admin/v1/notifications:categories:
         get:
             tags:
-                - InSiteMessageCategoryService
-            description: 查询站内信分类列表
-            operationId: InSiteMessageCategoryService_ListInSiteMessageCategory
+                - NotificationMessageCategoryService
+            description: 查询通知消息分类列表
+            operationId: NotificationMessageCategoryService_ListNotificationMessageCategory
             parameters:
                 - name: page
                   in: query
@@ -965,28 +987,28 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/ListInSiteMessageCategoryResponse'
+                                $ref: '#/components/schemas/ListNotificationMessageCategoryResponse'
         post:
             tags:
-                - InSiteMessageCategoryService
-            description: 创建站内信分类
-            operationId: InSiteMessageCategoryService_CreateInSiteMessageCategory
+                - NotificationMessageCategoryService
+            description: 创建通知消息分类
+            operationId: NotificationMessageCategoryService_CreateNotificationMessageCategory
             requestBody:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/CreateInSiteMessageCategoryRequest'
+                            $ref: '#/components/schemas/CreateNotificationMessageCategoryRequest'
                 required: true
             responses:
                 "200":
                     description: OK
                     content: {}
-    /admin/v1/msg:categories/{data.id}:
+    /admin/v1/notifications:categories/{data.id}:
         put:
             tags:
-                - InSiteMessageCategoryService
-            description: 更新站内信分类
-            operationId: InSiteMessageCategoryService_UpdateInSiteMessageCategory
+                - NotificationMessageCategoryService
+            description: 更新通知消息分类
+            operationId: NotificationMessageCategoryService_UpdateNotificationMessageCategory
             parameters:
                 - name: data.id
                   in: path
@@ -997,18 +1019,18 @@ paths:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/UpdateInSiteMessageCategoryRequest'
+                            $ref: '#/components/schemas/UpdateNotificationMessageCategoryRequest'
                 required: true
             responses:
                 "200":
                     description: OK
                     content: {}
-    /admin/v1/msg:categories/{id}:
+    /admin/v1/notifications:categories/{id}:
         get:
             tags:
-                - InSiteMessageCategoryService
-            description: 查询站内信分类详情
-            operationId: InSiteMessageCategoryService_GetInSiteMessageCategory
+                - NotificationMessageCategoryService
+            description: 查询通知消息分类详情
+            operationId: NotificationMessageCategoryService_GetNotificationMessageCategory
             parameters:
                 - name: id
                   in: path
@@ -1022,12 +1044,144 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/InSiteMessageCategory'
+                                $ref: '#/components/schemas/NotificationMessageCategory'
         delete:
             tags:
-                - InSiteMessageCategoryService
-            description: 删除站内信分类
-            operationId: InSiteMessageCategoryService_DeleteInSiteMessageCategory
+                - NotificationMessageCategoryService
+            description: 删除通知消息分类
+            operationId: NotificationMessageCategoryService_DeleteNotificationMessageCategory
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: uint32
+                - name: operatorId
+                  in: query
+                  schema:
+                    type: integer
+                    format: uint32
+            responses:
+                "200":
+                    description: OK
+                    content: {}
+    /admin/v1/notifications:recipients:
+        get:
+            tags:
+                - NotificationMessageRecipientService
+            description: 查询通知消息接收者列表
+            operationId: NotificationMessageRecipientService_ListNotificationMessageRecipient
+            parameters:
+                - name: page
+                  in: query
+                  description: 当前页码
+                  schema:
+                    type: integer
+                    format: int32
+                - name: pageSize
+                  in: query
+                  description: 每一页的行数
+                  schema:
+                    type: integer
+                    format: int32
+                - name: query
+                  in: query
+                  description: AND过滤参数，其语法为json格式的字符串，如：{"key1":"val1","key2":"val2"}，具体请参见：https://github.com/tx7do/go-utils/tree/main/entgo/query/README.md
+                  schema:
+                    type: string
+                - name: or
+                  in: query
+                  description: OR过滤参数，语法同AND过滤参数。
+                  schema:
+                    type: string
+                - name: orderBy
+                  in: query
+                  description: 排序条件，其语法为JSON字符串，例如：{"val1", "-val2"}。字段名前加'-'为降序，否则为升序。
+                  schema:
+                    type: array
+                    items:
+                        type: string
+                - name: noPaging
+                  in: query
+                  description: 是否不分页，如果为true，则page和pageSize参数无效。
+                  schema:
+                    type: boolean
+                - name: fieldMask
+                  in: query
+                  description: 字段掩码，其作用为SELECT中的字段，其语法为使用逗号分隔字段名，例如：id,realName,userName。如果为空则选中所有字段，即SELECT *。
+                  schema:
+                    type: string
+                    format: field-mask
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ListNotificationMessageRecipientResponse'
+        post:
+            tags:
+                - NotificationMessageRecipientService
+            description: 创建通知消息接收者
+            operationId: NotificationMessageRecipientService_CreateNotificationMessageRecipient
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/CreateNotificationMessageRecipientRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content: {}
+    /admin/v1/notifications:recipients/{data.id}:
+        put:
+            tags:
+                - NotificationMessageRecipientService
+            description: 更新通知消息接收者
+            operationId: NotificationMessageRecipientService_UpdateNotificationMessageRecipient
+            parameters:
+                - name: data.id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/UpdateNotificationMessageRecipientRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content: {}
+    /admin/v1/notifications:recipients/{id}:
+        get:
+            tags:
+                - NotificationMessageRecipientService
+            description: 查询通知消息接收者详情
+            operationId: NotificationMessageRecipientService_GetNotificationMessageRecipient
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: uint32
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/NotificationMessageRecipient'
+        delete:
+            tags:
+                - NotificationMessageRecipientService
+            description: 删除通知消息接收者
+            operationId: NotificationMessageRecipientService_DeleteNotificationMessageRecipient
             parameters:
                 - name: id
                   in: path
@@ -1321,6 +1475,138 @@ paths:
                 "200":
                     description: OK
                     content: {}
+    /admin/v1/private_messages:
+        get:
+            tags:
+                - PrivateMessageService
+            description: 查询私信消息列表
+            operationId: PrivateMessageService_ListPrivateMessage
+            parameters:
+                - name: page
+                  in: query
+                  description: 当前页码
+                  schema:
+                    type: integer
+                    format: int32
+                - name: pageSize
+                  in: query
+                  description: 每一页的行数
+                  schema:
+                    type: integer
+                    format: int32
+                - name: query
+                  in: query
+                  description: AND过滤参数，其语法为json格式的字符串，如：{"key1":"val1","key2":"val2"}，具体请参见：https://github.com/tx7do/go-utils/tree/main/entgo/query/README.md
+                  schema:
+                    type: string
+                - name: or
+                  in: query
+                  description: OR过滤参数，语法同AND过滤参数。
+                  schema:
+                    type: string
+                - name: orderBy
+                  in: query
+                  description: 排序条件，其语法为JSON字符串，例如：{"val1", "-val2"}。字段名前加'-'为降序，否则为升序。
+                  schema:
+                    type: array
+                    items:
+                        type: string
+                - name: noPaging
+                  in: query
+                  description: 是否不分页，如果为true，则page和pageSize参数无效。
+                  schema:
+                    type: boolean
+                - name: fieldMask
+                  in: query
+                  description: 字段掩码，其作用为SELECT中的字段，其语法为使用逗号分隔字段名，例如：id,realName,userName。如果为空则选中所有字段，即SELECT *。
+                  schema:
+                    type: string
+                    format: field-mask
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ListPrivateMessageResponse'
+        post:
+            tags:
+                - PrivateMessageService
+            description: 创建私信消息
+            operationId: PrivateMessageService_CreatePrivateMessage
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/CreatePrivateMessageRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content: {}
+    /admin/v1/private_messages/{data.id}:
+        put:
+            tags:
+                - PrivateMessageService
+            description: 更新私信消息
+            operationId: PrivateMessageService_UpdatePrivateMessage
+            parameters:
+                - name: data.id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/UpdatePrivateMessageRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content: {}
+    /admin/v1/private_messages/{id}:
+        get:
+            tags:
+                - PrivateMessageService
+            description: 查询私信消息详情
+            operationId: PrivateMessageService_GetPrivateMessage
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: uint32
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/PrivateMessage'
+        delete:
+            tags:
+                - PrivateMessageService
+            description: 删除私信消息
+            operationId: PrivateMessageService_DeletePrivateMessage
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: uint32
+                - name: operatorId
+                  in: query
+                  schema:
+                    type: integer
+                    format: uint32
+            responses:
+                "200":
+                    description: OK
+                    content: {}
     /admin/v1/refresh_token:
         post:
             tags:
@@ -1485,6 +1771,138 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/ListRouteResponse'
+    /admin/v1/tenants:
+        get:
+            tags:
+                - TenantService
+            description: 获取租户列表
+            operationId: TenantService_ListTenant
+            parameters:
+                - name: page
+                  in: query
+                  description: 当前页码
+                  schema:
+                    type: integer
+                    format: int32
+                - name: pageSize
+                  in: query
+                  description: 每一页的行数
+                  schema:
+                    type: integer
+                    format: int32
+                - name: query
+                  in: query
+                  description: AND过滤参数，其语法为json格式的字符串，如：{"key1":"val1","key2":"val2"}，具体请参见：https://github.com/tx7do/go-utils/tree/main/entgo/query/README.md
+                  schema:
+                    type: string
+                - name: or
+                  in: query
+                  description: OR过滤参数，语法同AND过滤参数。
+                  schema:
+                    type: string
+                - name: orderBy
+                  in: query
+                  description: 排序条件，其语法为JSON字符串，例如：{"val1", "-val2"}。字段名前加'-'为降序，否则为升序。
+                  schema:
+                    type: array
+                    items:
+                        type: string
+                - name: noPaging
+                  in: query
+                  description: 是否不分页，如果为true，则page和pageSize参数无效。
+                  schema:
+                    type: boolean
+                - name: fieldMask
+                  in: query
+                  description: 字段掩码，其作用为SELECT中的字段，其语法为使用逗号分隔字段名，例如：id,realName,userName。如果为空则选中所有字段，即SELECT *。
+                  schema:
+                    type: string
+                    format: field-mask
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ListTenantResponse'
+        post:
+            tags:
+                - TenantService
+            description: 创建租户
+            operationId: TenantService_CreateTenant
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/CreateTenantRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content: {}
+    /admin/v1/tenants/{data.id}:
+        put:
+            tags:
+                - TenantService
+            description: 更新租户
+            operationId: TenantService_UpdateTenant
+            parameters:
+                - name: data.id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/UpdateTenantRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content: {}
+    /admin/v1/tenants/{id}:
+        get:
+            tags:
+                - TenantService
+            description: 获取租户数据
+            operationId: TenantService_GetTenant
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: uint32
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Tenant'
+        delete:
+            tags:
+                - TenantService
+            description: 删除租户
+            operationId: TenantService_DeleteTenant
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: uint32
+                - name: operatorId
+                  in: query
+                  schema:
+                    type: integer
+                    format: uint32
+            responses:
+                "200":
+                    description: OK
+                    content: {}
     /admin/v1/ueditor:
         get:
             tags:
@@ -1868,28 +2286,6 @@ components:
                     description: 操作用户ID
                     format: uint32
             description: 创建文件 - 请求
-        CreateInSiteMessageCategoryRequest:
-            type: object
-            properties:
-                operatorId:
-                    readOnly: true
-                    type: integer
-                    description: 操作用户ID
-                    format: uint32
-                data:
-                    $ref: '#/components/schemas/InSiteMessageCategory'
-            description: 创建站内信分类 - 请求
-        CreateInSiteMessageRequest:
-            type: object
-            properties:
-                operatorId:
-                    readOnly: true
-                    type: integer
-                    description: 操作用户ID
-                    format: uint32
-                data:
-                    $ref: '#/components/schemas/InSiteMessage'
-            description: 创建站内信 - 请求
         CreateMenuRequest:
             type: object
             properties:
@@ -1901,6 +2297,39 @@ components:
                 data:
                     $ref: '#/components/schemas/Menu'
             description: 创建菜单 - 请求
+        CreateNotificationMessageCategoryRequest:
+            type: object
+            properties:
+                operatorId:
+                    readOnly: true
+                    type: integer
+                    description: 操作用户ID
+                    format: uint32
+                data:
+                    $ref: '#/components/schemas/NotificationMessageCategory'
+            description: 创建通知消息分类 - 请求
+        CreateNotificationMessageRecipientRequest:
+            type: object
+            properties:
+                operatorId:
+                    readOnly: true
+                    type: integer
+                    description: 操作用户ID
+                    format: uint32
+                data:
+                    $ref: '#/components/schemas/NotificationMessageRecipient'
+            description: 创建通知消息接收者 - 请求
+        CreateNotificationMessageRequest:
+            type: object
+            properties:
+                operatorId:
+                    readOnly: true
+                    type: integer
+                    description: 操作用户ID
+                    format: uint32
+                data:
+                    $ref: '#/components/schemas/NotificationMessage'
+            description: 创建通知消息 - 请求
         CreateOrganizationRequest:
             type: object
             properties:
@@ -1923,6 +2352,17 @@ components:
                 data:
                     $ref: '#/components/schemas/Position'
             description: 创建职位 - 请求
+        CreatePrivateMessageRequest:
+            type: object
+            properties:
+                operatorId:
+                    readOnly: true
+                    type: integer
+                    description: 操作用户ID
+                    format: uint32
+                data:
+                    $ref: '#/components/schemas/PrivateMessage'
+            description: 创建私信消息 - 请求
         CreateRoleRequest:
             type: object
             properties:
@@ -1934,6 +2374,17 @@ components:
                 data:
                     $ref: '#/components/schemas/Role'
             description: 创建角色 - 请求
+        CreateTenantRequest:
+            type: object
+            properties:
+                data:
+                    $ref: '#/components/schemas/Tenant'
+                operatorId:
+                    readOnly: true
+                    type: integer
+                    description: 操作用户ID
+                    format: uint32
+            description: 创建租户 - 请求
         CreateUserRequest:
             type: object
             properties:
@@ -1966,6 +2417,14 @@ components:
                 organizationName:
                     type: string
                     description: 所属组织名称
+                createBy:
+                    type: integer
+                    description: 创建者ID
+                    format: uint32
+                updateBy:
+                    type: integer
+                    description: 更新者ID
+                    format: uint32
                 sortId:
                     type: integer
                     description: 排序编号
@@ -2041,6 +2500,14 @@ components:
                 remark:
                     type: string
                     description: 备注
+                createBy:
+                    type: integer
+                    description: 创建者ID
+                    format: uint32
+                updateBy:
+                    type: integer
+                    description: 更新者ID
+                    format: uint32
                 createTime:
                     type: string
                     description: 创建时间
@@ -2130,92 +2597,6 @@ components:
                 content:
                     type: string
                     format: bytes
-        InSiteMessage:
-            type: object
-            properties:
-                id:
-                    type: integer
-                    description: 消息ID
-                    format: uint32
-                title:
-                    type: string
-                    description: 标题
-                content:
-                    type: string
-                    description: 内容
-                categoryId:
-                    type: integer
-                    description: 分类ID
-                    format: uint32
-                categoryName:
-                    type: string
-                    description: 分类名称
-                status:
-                    enum:
-                        - MessageStatus_Unknown
-                        - MessageStatus_Draft
-                        - MessageStatus_Published
-                        - MessageStatus_Scheduled
-                        - MessageStatus_Revoked
-                        - MessageStatus_Archived
-                    type: string
-                    description: 消息状态
-                    format: enum
-                createTime:
-                    type: string
-                    description: 创建时间
-                    format: date-time
-                updateTime:
-                    type: string
-                    description: 更新时间
-                    format: date-time
-                deleteTime:
-                    type: string
-                    description: 删除时间
-                    format: date-time
-            description: 站内信
-        InSiteMessageCategory:
-            type: object
-            properties:
-                id:
-                    type: integer
-                    description: 分类ID
-                    format: uint32
-                name:
-                    type: string
-                    description: 名称
-                code:
-                    type: string
-                    description: 编码
-                sortId:
-                    type: integer
-                    description: 排序编号
-                    format: int32
-                enable:
-                    type: boolean
-                    description: 是否启用
-                parentId:
-                    type: integer
-                    description: 父节点ID
-                    format: uint32
-                children:
-                    type: array
-                    items:
-                        $ref: '#/components/schemas/InSiteMessageCategory'
-                    description: 子节点树
-                createTime:
-                    type: string
-                    description: 创建时间
-                    format: date-time
-                updateTime:
-                    type: string
-                    description: 更新时间
-                    format: date-time
-                deleteTime:
-                    type: string
-                    description: 删除时间
-                    format: date-time
-            description: 站内信分类
         KratosStatus:
             type: object
             properties:
@@ -2288,28 +2669,6 @@ components:
                     type: integer
                     format: uint32
             description: 文件列表 - 回应
-        ListInSiteMessageCategoryResponse:
-            type: object
-            properties:
-                items:
-                    type: array
-                    items:
-                        $ref: '#/components/schemas/InSiteMessageCategory'
-                total:
-                    type: integer
-                    format: uint32
-            description: 查询站内信分类列表 - 回应
-        ListInSiteMessageResponse:
-            type: object
-            properties:
-                items:
-                    type: array
-                    items:
-                        $ref: '#/components/schemas/InSiteMessage'
-                total:
-                    type: integer
-                    format: uint32
-            description: 查询站内信列表 - 回应
         ListMenuResponse:
             type: object
             properties:
@@ -2321,6 +2680,39 @@ components:
                     type: integer
                     format: uint32
             description: 查询菜单列表 - 回应
+        ListNotificationMessageCategoryResponse:
+            type: object
+            properties:
+                items:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/NotificationMessageCategory'
+                total:
+                    type: integer
+                    format: uint32
+            description: 查询通知消息分类列表 - 回应
+        ListNotificationMessageRecipientResponse:
+            type: object
+            properties:
+                items:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/NotificationMessageRecipient'
+                total:
+                    type: integer
+                    format: uint32
+            description: 查询通知消息接收者列表 - 回应
+        ListNotificationMessageResponse:
+            type: object
+            properties:
+                items:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/NotificationMessage'
+                total:
+                    type: integer
+                    format: uint32
+            description: 查询通知消息列表 - 回应
         ListOrganizationResponse:
             type: object
             properties:
@@ -2351,6 +2743,17 @@ components:
                     type: integer
                     format: uint32
             description: 获取职位列表 - 答复
+        ListPrivateMessageResponse:
+            type: object
+            properties:
+                items:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/PrivateMessage'
+                total:
+                    type: integer
+                    format: uint32
+            description: 查询私信消息列表 - 回应
         ListRoleResponse:
             type: object
             properties:
@@ -2370,6 +2773,17 @@ components:
                     items:
                         $ref: '#/components/schemas/RouteItem'
             description: 查询路由列表 - 回应
+        ListTenantResponse:
+            type: object
+            properties:
+                items:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Tenant'
+                total:
+                    type: integer
+                    format: uint32
+            description: 租户列表 - 答复
         ListUserResponse:
             type: object
             properties:
@@ -2487,6 +2901,14 @@ components:
                     items:
                         $ref: '#/components/schemas/Menu'
                     description: 子节点树
+                createBy:
+                    type: integer
+                    description: 创建者ID
+                    format: uint32
+                updateBy:
+                    type: integer
+                    description: 更新者ID
+                    format: uint32
                 createTime:
                     type: string
                     description: 创建时间
@@ -2500,6 +2922,131 @@ components:
                     description: 删除时间
                     format: date-time
             description: 菜单
+        NotificationMessage:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    description: 消息ID
+                    format: uint32
+                subject:
+                    type: string
+                    description: 主题
+                content:
+                    type: string
+                    description: 内容
+                status:
+                    enum:
+                        - NotificationMessageStatus_Unknown
+                        - NotificationMessageStatus_Draft
+                        - NotificationMessageStatus_Published
+                        - NotificationMessageStatus_Scheduled
+                        - NotificationMessageStatus_Revoked
+                        - NotificationMessageStatus_Archived
+                        - NotificationMessageStatus_Deleted
+                    type: string
+                    description: 消息状态
+                    format: enum
+                categoryId:
+                    type: integer
+                    description: 分类ID
+                    format: uint32
+                categoryName:
+                    type: string
+                    description: 分类名称
+                createTime:
+                    type: string
+                    description: 创建时间
+                    format: date-time
+                updateTime:
+                    type: string
+                    description: 更新时间
+                    format: date-time
+                deleteTime:
+                    type: string
+                    description: 删除时间
+                    format: date-time
+            description: 通知消息
+        NotificationMessageCategory:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    description: 分类ID
+                    format: uint32
+                name:
+                    type: string
+                    description: 名称
+                code:
+                    type: string
+                    description: 编码
+                sortId:
+                    type: integer
+                    description: 排序编号
+                    format: int32
+                enable:
+                    type: boolean
+                    description: 是否启用
+                parentId:
+                    type: integer
+                    description: 父节点ID
+                    format: uint32
+                children:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/NotificationMessageCategory'
+                    description: 子节点树
+                createTime:
+                    type: string
+                    description: 创建时间
+                    format: date-time
+                updateTime:
+                    type: string
+                    description: 更新时间
+                    format: date-time
+                deleteTime:
+                    type: string
+                    description: 删除时间
+                    format: date-time
+            description: 通知消息分类
+        NotificationMessageRecipient:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    description: 记录ID
+                    format: uint32
+                messageId:
+                    type: integer
+                    description: 群发消息ID
+                    format: uint32
+                recipientId:
+                    type: integer
+                    description: 接收者用户ID
+                    format: uint32
+                status:
+                    enum:
+                        - NotificationMessageRecipientStatus_Unknown
+                        - NotificationMessageRecipientStatus_Received
+                        - NotificationMessageRecipientStatus_Read
+                        - NotificationMessageRecipientStatus_Archived
+                        - NotificationMessageRecipientStatus_Deleted
+                    type: string
+                    description: 消息状态
+                    format: enum
+                createTime:
+                    type: string
+                    description: 创建时间
+                    format: date-time
+                updateTime:
+                    type: string
+                    description: 更新时间
+                    format: date-time
+                deleteTime:
+                    type: string
+                    description: 删除时间
+                    format: date-time
+            description: 通知消息接收者
         Organization:
             type: object
             properties:
@@ -2521,6 +3068,14 @@ components:
                     type: string
                     default: ON
                     description: 状态
+                createBy:
+                    type: integer
+                    description: 创建者ID
+                    format: uint32
+                updateBy:
+                    type: integer
+                    description: 更新者ID
+                    format: uint32
                 remark:
                     type: string
                     description: 备注
@@ -2617,6 +3172,14 @@ components:
                 remark:
                     type: string
                     description: 备注
+                createBy:
+                    type: integer
+                    description: 创建者ID
+                    format: uint32
+                updateBy:
+                    type: integer
+                    description: 更新者ID
+                    format: uint32
                 parentId:
                     type: integer
                     description: 父节点ID
@@ -2639,6 +3202,64 @@ components:
                     description: 删除时间
                     format: date-time
             description: 职位
+        PrivateMessage:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    description: 消息ID
+                    format: uint32
+                subject:
+                    type: string
+                    description: 主题
+                content:
+                    type: string
+                    description: 内容
+                status:
+                    enum:
+                        - PrivateMessageStatus_Unknown
+                        - PrivateMessageStatus_Draft
+                        - PrivateMessageStatus_Sent
+                        - PrivateMessageStatus_Received
+                        - PrivateMessageStatus_Read
+                        - PrivateMessageStatus_Archived
+                        - PrivateMessageStatus_Deleted
+                    type: string
+                    description: 消息状态
+                    format: enum
+                senderId:
+                    type: integer
+                    description: 发送者用户ID
+                    format: uint32
+                senderName:
+                    type: string
+                    description: 发送者用户名称
+                senderAvatar:
+                    type: string
+                    description: 发送者用户头像
+                receiverId:
+                    type: integer
+                    description: 接收者用户ID
+                    format: uint32
+                receiverName:
+                    type: string
+                    description: 接收者用户名称
+                receiverAvatar:
+                    type: string
+                    description: 接收者用户头像
+                createTime:
+                    type: string
+                    description: 创建时间
+                    format: date-time
+                updateTime:
+                    type: string
+                    description: 更新时间
+                    format: date-time
+                deleteTime:
+                    type: string
+                    description: 删除时间
+                    format: date-time
+            description: 私信消息
         RefreshTokenRequest:
             required:
                 - refresh_token
@@ -2695,6 +3316,14 @@ components:
                         type: integer
                         format: uint32
                     description: 分配的菜单列表
+                createBy:
+                    type: integer
+                    description: 创建者ID
+                    format: uint32
+                updateBy:
+                    type: integer
+                    description: 更新者ID
+                    format: uint32
                 parentId:
                     type: integer
                     description: 父节点ID
@@ -2830,6 +3459,62 @@ components:
                     type: string
                     description: 标题名称，路由上显示的标题
             description: 路由元数据
+        Tenant:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    description: 租户ID
+                    format: uint32
+                name:
+                    type: string
+                    description: 租户名称
+                code:
+                    type: string
+                    description: 租户编码
+                memberCount:
+                    type: integer
+                    description: 成员数量
+                    format: int32
+                status:
+                    enum:
+                        - ON
+                        - OFF
+                    type: string
+                    default: ON
+                    description: 状态
+                remark:
+                    type: string
+                    description: 备注
+                createBy:
+                    type: integer
+                    description: 创建者ID
+                    format: uint32
+                updateBy:
+                    type: integer
+                    description: 更新者ID
+                    format: uint32
+                subscriptionAt:
+                    type: string
+                    description: 订阅时间
+                    format: date-time
+                unsubscribeAt:
+                    type: string
+                    description: 退订时间
+                    format: date-time
+                createTime:
+                    type: string
+                    description: 创建时间
+                    format: date-time
+                updateTime:
+                    type: string
+                    description: 更新时间
+                    format: date-time
+                deleteTime:
+                    type: string
+                    description: 删除时间
+                    format: date-time
+            description: 租户
         UEditorResponse:
             type: object
             properties:
@@ -3071,44 +3756,6 @@ components:
                     type: boolean
                     description: 如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。
             description: 更新文件 - 请求
-        UpdateInSiteMessageCategoryRequest:
-            type: object
-            properties:
-                operatorId:
-                    readOnly: true
-                    type: integer
-                    description: 操作用户ID
-                    format: uint32
-                data:
-                    $ref: '#/components/schemas/InSiteMessageCategory'
-                updateMask:
-                    example: id,realName,userName
-                    type: string
-                    description: 要更新的字段列表
-                    format: field-mask
-                allowMissing:
-                    type: boolean
-                    description: 如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。
-            description: 更新站内信分类 - 请求
-        UpdateInSiteMessageRequest:
-            type: object
-            properties:
-                operatorId:
-                    readOnly: true
-                    type: integer
-                    description: 操作用户ID
-                    format: uint32
-                data:
-                    $ref: '#/components/schemas/InSiteMessage'
-                updateMask:
-                    example: id,realName,userName
-                    type: string
-                    description: 要更新的字段列表
-                    format: field-mask
-                allowMissing:
-                    type: boolean
-                    description: 如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。
-            description: 更新站内信 - 请求
         UpdateMenuRequest:
             type: object
             properties:
@@ -3128,6 +3775,63 @@ components:
                     type: boolean
                     description: 如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。
             description: 更新菜单 - 请求
+        UpdateNotificationMessageCategoryRequest:
+            type: object
+            properties:
+                operatorId:
+                    readOnly: true
+                    type: integer
+                    description: 操作用户ID
+                    format: uint32
+                data:
+                    $ref: '#/components/schemas/NotificationMessageCategory'
+                updateMask:
+                    example: id,realName,userName
+                    type: string
+                    description: 要更新的字段列表
+                    format: field-mask
+                allowMissing:
+                    type: boolean
+                    description: 如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。
+            description: 更新通知消息分类 - 请求
+        UpdateNotificationMessageRecipientRequest:
+            type: object
+            properties:
+                operatorId:
+                    readOnly: true
+                    type: integer
+                    description: 操作用户ID
+                    format: uint32
+                data:
+                    $ref: '#/components/schemas/NotificationMessageRecipient'
+                updateMask:
+                    example: id,realName,userName
+                    type: string
+                    description: 要更新的字段列表
+                    format: field-mask
+                allowMissing:
+                    type: boolean
+                    description: 如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。
+            description: 更新通知消息接收者 - 请求
+        UpdateNotificationMessageRequest:
+            type: object
+            properties:
+                operatorId:
+                    readOnly: true
+                    type: integer
+                    description: 操作用户ID
+                    format: uint32
+                data:
+                    $ref: '#/components/schemas/NotificationMessage'
+                updateMask:
+                    example: id,realName,userName
+                    type: string
+                    description: 要更新的字段列表
+                    format: field-mask
+                allowMissing:
+                    type: boolean
+                    description: 如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。
+            description: 更新通知消息 - 请求
         UpdateOrganizationRequest:
             type: object
             properties:
@@ -3166,6 +3870,25 @@ components:
                     type: boolean
                     description: 如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。
             description: 更新职位 - 请求
+        UpdatePrivateMessageRequest:
+            type: object
+            properties:
+                operatorId:
+                    readOnly: true
+                    type: integer
+                    description: 操作用户ID
+                    format: uint32
+                data:
+                    $ref: '#/components/schemas/PrivateMessage'
+                updateMask:
+                    example: id,realName,userName
+                    type: string
+                    description: 要更新的字段列表
+                    format: field-mask
+                allowMissing:
+                    type: boolean
+                    description: 如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。
+            description: 更新私信消息 - 请求
         UpdateRoleRequest:
             type: object
             properties:
@@ -3185,6 +3908,25 @@ components:
                     type: boolean
                     description: 如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。
             description: 更新角色 - 请求
+        UpdateTenantRequest:
+            type: object
+            properties:
+                operatorId:
+                    readOnly: true
+                    type: integer
+                    description: 操作用户ID
+                    format: uint32
+                data:
+                    $ref: '#/components/schemas/Tenant'
+                updateMask:
+                    example: id,realName,userName
+                    type: string
+                    description: 要更新的字段列表
+                    format: field-mask
+                allowMissing:
+                    type: boolean
+                    description: 如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。
+            description: 更新租户 -请求
         UpdateUserRequest:
             required:
                 - data
@@ -3251,9 +3993,17 @@ components:
                     type: integer
                     description: 岗位ID
                     format: uint32
-                creatorId:
+                tenantId:
+                    type: integer
+                    description: 租户ID
+                    format: uint32
+                createBy:
                     type: integer
                     description: 创建者ID
+                    format: uint32
+                updateBy:
+                    type: integer
+                    description: 更新者ID
                     format: uint32
                 userName:
                     type: string
@@ -3371,22 +4121,28 @@ tags:
       description: 字典管理服务
     - name: FileService
       description: 文件管理服务
-    - name: InSiteMessageCategoryService
-      description: 站内信分类管理服务
-    - name: InSiteMessageService
-      description: 站内信管理服务
     - name: MenuService
       description: 后台菜单管理服务
+    - name: NotificationMessageCategoryService
+      description: 通知消息分类管理服务
+    - name: NotificationMessageRecipientService
+      description: 通知消息接收者管理服务
+    - name: NotificationMessageService
+      description: 通知消息管理服务
     - name: OrganizationService
       description: 组织管理服务
     - name: OssService
       description: OSS服务
     - name: PositionService
       description: 职位管理服务
+    - name: PrivateMessageService
+      description: 私信消息管理服务
     - name: RoleService
       description: 角色管理服务
     - name: RouterService
       description: 网站后台动态路由服务
+    - name: TenantService
+      description: 租户管理服务
     - name: UEditorService
       description: UEditor后端服务
     - name: UserService

@@ -558,6 +558,33 @@ func (uu *UserUpdate) ClearWorkID() *UserUpdate {
 	return uu
 }
 
+// SetTenantID sets the "tenant_id" field.
+func (uu *UserUpdate) SetTenantID(u uint32) *UserUpdate {
+	uu.mutation.ResetTenantID()
+	uu.mutation.SetTenantID(u)
+	return uu
+}
+
+// SetNillableTenantID sets the "tenant_id" field if the given value is not nil.
+func (uu *UserUpdate) SetNillableTenantID(u *uint32) *UserUpdate {
+	if u != nil {
+		uu.SetTenantID(*u)
+	}
+	return uu
+}
+
+// AddTenantID adds u to the "tenant_id" field.
+func (uu *UserUpdate) AddTenantID(u int32) *UserUpdate {
+	uu.mutation.AddTenantID(u)
+	return uu
+}
+
+// ClearTenantID clears the value of the "tenant_id" field.
+func (uu *UserUpdate) ClearTenantID() *UserUpdate {
+	uu.mutation.ClearTenantID()
+	return uu
+}
+
 // Mutation returns the UserMutation object of the builder.
 func (uu *UserUpdate) Mutation() *UserMutation {
 	return uu.mutation
@@ -853,6 +880,15 @@ func (uu *UserUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	}
 	if uu.mutation.WorkIDCleared() {
 		_spec.ClearField(user.FieldWorkID, field.TypeUint32)
+	}
+	if value, ok := uu.mutation.TenantID(); ok {
+		_spec.SetField(user.FieldTenantID, field.TypeUint32, value)
+	}
+	if value, ok := uu.mutation.AddedTenantID(); ok {
+		_spec.AddField(user.FieldTenantID, field.TypeUint32, value)
+	}
+	if uu.mutation.TenantIDCleared() {
+		_spec.ClearField(user.FieldTenantID, field.TypeUint32)
 	}
 	_spec.AddModifiers(uu.modifiers...)
 	if n, err = sqlgraph.UpdateNodes(ctx, uu.driver, _spec); err != nil {
@@ -1405,6 +1441,33 @@ func (uuo *UserUpdateOne) ClearWorkID() *UserUpdateOne {
 	return uuo
 }
 
+// SetTenantID sets the "tenant_id" field.
+func (uuo *UserUpdateOne) SetTenantID(u uint32) *UserUpdateOne {
+	uuo.mutation.ResetTenantID()
+	uuo.mutation.SetTenantID(u)
+	return uuo
+}
+
+// SetNillableTenantID sets the "tenant_id" field if the given value is not nil.
+func (uuo *UserUpdateOne) SetNillableTenantID(u *uint32) *UserUpdateOne {
+	if u != nil {
+		uuo.SetTenantID(*u)
+	}
+	return uuo
+}
+
+// AddTenantID adds u to the "tenant_id" field.
+func (uuo *UserUpdateOne) AddTenantID(u int32) *UserUpdateOne {
+	uuo.mutation.AddTenantID(u)
+	return uuo
+}
+
+// ClearTenantID clears the value of the "tenant_id" field.
+func (uuo *UserUpdateOne) ClearTenantID() *UserUpdateOne {
+	uuo.mutation.ClearTenantID()
+	return uuo
+}
+
 // Mutation returns the UserMutation object of the builder.
 func (uuo *UserUpdateOne) Mutation() *UserMutation {
 	return uuo.mutation
@@ -1730,6 +1793,15 @@ func (uuo *UserUpdateOne) sqlSave(ctx context.Context) (_node *User, err error) 
 	}
 	if uuo.mutation.WorkIDCleared() {
 		_spec.ClearField(user.FieldWorkID, field.TypeUint32)
+	}
+	if value, ok := uuo.mutation.TenantID(); ok {
+		_spec.SetField(user.FieldTenantID, field.TypeUint32, value)
+	}
+	if value, ok := uuo.mutation.AddedTenantID(); ok {
+		_spec.AddField(user.FieldTenantID, field.TypeUint32, value)
+	}
+	if uuo.mutation.TenantIDCleared() {
+		_spec.ClearField(user.FieldTenantID, field.TypeUint32)
 	}
 	_spec.AddModifiers(uuo.modifiers...)
 	_node = &User{config: uuo.config}

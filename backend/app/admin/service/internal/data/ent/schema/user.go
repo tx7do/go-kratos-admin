@@ -155,6 +155,11 @@ func (User) Fields() []ent.Field {
 			Comment("员工工号").
 			Optional().
 			Nillable(),
+
+		field.Uint32("tenant_id").
+			Comment("租户ID").
+			Optional().
+			Nillable(),
 	}
 }
 

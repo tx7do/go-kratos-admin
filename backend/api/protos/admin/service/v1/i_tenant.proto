@@ -1,0 +1,50 @@
+syntax = "proto3";
+
+package admin.service.v1;
+
+import "gnostic/openapi/v3/annotations.proto";
+import "google/api/annotations.proto";
+import "google/protobuf/empty.proto";
+
+import "user/service/v1/tenant.proto";
+import "pagination/v1/pagination.proto";
+
+// 租户管理服务
+service TenantService {
+  // 获取租户列表
+  rpc ListTenant (pagination.PagingRequest) returns (user.service.v1.ListTenantResponse) {
+    option (google.api.http) = {
+      get: "/admin/v1/tenants"
+    };
+  }
+
+  // 获取租户数据
+  rpc GetTenant (user.service.v1.GetTenantRequest) returns (user.service.v1.Tenant) {
+    option (google.api.http) = {
+      get: "/admin/v1/tenants/{id}"
+    };
+  }
+
+  // 创建租户
+  rpc CreateTenant (user.service.v1.CreateTenantRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      post: "/admin/v1/tenants"
+      body: "*"
+    };
+  }
+
+  // 更新租户
+  rpc UpdateTenant (user.service.v1.UpdateTenantRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      put: "/admin/v1/tenants/{data.id}"
+      body: "*"
+    };
+  }
+
+  // 删除租户
+  rpc DeleteTenant (user.service.v1.DeleteTenantRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      delete: "/admin/v1/tenants/{id}"
+    };
+  }
+}

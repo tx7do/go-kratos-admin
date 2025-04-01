@@ -94,6 +94,8 @@ func (r *MenuRepo) convertEntToProto(in *ent.Menu) *systemV1.Menu {
 		Meta:       in.Meta,
 		Type:       r.convertMenuTypeToProto(in.Type),
 		Status:     r.convertUserStatusToProto(in.Status),
+		CreateBy:   in.CreateBy,
+		UpdateBy:   in.UpdateBy,
 		CreateTime: timeutil.TimeToTimestamppb(in.CreateTime),
 		UpdateTime: timeutil.TimeToTimestamppb(in.UpdateTime),
 		DeleteTime: timeutil.TimeToTimestamppb(in.DeleteTime),

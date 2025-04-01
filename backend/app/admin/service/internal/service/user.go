@@ -81,7 +81,7 @@ func (s *UserService) CreateUser(ctx context.Context, req *userV1.CreateUserRequ
 	}
 
 	req.OperatorId = trans.Ptr(authInfo.UserId)
-	req.Data.CreatorId = trans.Ptr(authInfo.UserId)
+	//req.Data.CreateBy = trans.Ptr(authInfo.UserId)
 	if req.Data.Authority == nil {
 		req.Data.Authority = userV1.UserAuthority_CUSTOMER_USER.Enum()
 	}

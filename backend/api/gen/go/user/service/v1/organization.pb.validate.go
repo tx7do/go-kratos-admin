@@ -107,6 +107,14 @@ func (m *Organization) validate(all bool) error {
 		// no validation rules for Status
 	}
 
+	if m.CreateBy != nil {
+		// no validation rules for CreateBy
+	}
+
+	if m.UpdateBy != nil {
+		// no validation rules for UpdateBy
+	}
+
 	if m.Remark != nil {
 		// no validation rules for Remark
 	}

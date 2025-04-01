@@ -16,12 +16,15 @@ import (
 	"kratos-admin/app/admin/service/internal/data/ent/department"
 	"kratos-admin/app/admin/service/internal/data/ent/dict"
 	"kratos-admin/app/admin/service/internal/data/ent/file"
-	"kratos-admin/app/admin/service/internal/data/ent/insitemessage"
-	"kratos-admin/app/admin/service/internal/data/ent/insitemessagecategory"
 	"kratos-admin/app/admin/service/internal/data/ent/menu"
+	"kratos-admin/app/admin/service/internal/data/ent/notificationmessage"
+	"kratos-admin/app/admin/service/internal/data/ent/notificationmessagecategory"
+	"kratos-admin/app/admin/service/internal/data/ent/notificationmessagerecipient"
 	"kratos-admin/app/admin/service/internal/data/ent/organization"
 	"kratos-admin/app/admin/service/internal/data/ent/position"
+	"kratos-admin/app/admin/service/internal/data/ent/privatemessage"
 	"kratos-admin/app/admin/service/internal/data/ent/role"
+	"kratos-admin/app/admin/service/internal/data/ent/tenant"
 	"kratos-admin/app/admin/service/internal/data/ent/user"
 
 	"entgo.io/ent"
@@ -45,18 +48,24 @@ type Client struct {
 	Dict *DictClient
 	// File is the client for interacting with the File builders.
 	File *FileClient
-	// InSiteMessage is the client for interacting with the InSiteMessage builders.
-	InSiteMessage *InSiteMessageClient
-	// InSiteMessageCategory is the client for interacting with the InSiteMessageCategory builders.
-	InSiteMessageCategory *InSiteMessageCategoryClient
 	// Menu is the client for interacting with the Menu builders.
 	Menu *MenuClient
+	// NotificationMessage is the client for interacting with the NotificationMessage builders.
+	NotificationMessage *NotificationMessageClient
+	// NotificationMessageCategory is the client for interacting with the NotificationMessageCategory builders.
+	NotificationMessageCategory *NotificationMessageCategoryClient
+	// NotificationMessageRecipient is the client for interacting with the NotificationMessageRecipient builders.
+	NotificationMessageRecipient *NotificationMessageRecipientClient
 	// Organization is the client for interacting with the Organization builders.
 	Organization *OrganizationClient
 	// Position is the client for interacting with the Position builders.
 	Position *PositionClient
+	// PrivateMessage is the client for interacting with the PrivateMessage builders.
+	PrivateMessage *PrivateMessageClient
 	// Role is the client for interacting with the Role builders.
 	Role *RoleClient
+	// Tenant is the client for interacting with the Tenant builders.
+	Tenant *TenantClient
 	// User is the client for interacting with the User builders.
 	User *UserClient
 }
@@ -75,12 +84,15 @@ func (c *Client) init() {
 	c.Department = NewDepartmentClient(c.config)
 	c.Dict = NewDictClient(c.config)
 	c.File = NewFileClient(c.config)
-	c.InSiteMessage = NewInSiteMessageClient(c.config)
-	c.InSiteMessageCategory = NewInSiteMessageCategoryClient(c.config)
 	c.Menu = NewMenuClient(c.config)
+	c.NotificationMessage = NewNotificationMessageClient(c.config)
+	c.NotificationMessageCategory = NewNotificationMessageCategoryClient(c.config)
+	c.NotificationMessageRecipient = NewNotificationMessageRecipientClient(c.config)
 	c.Organization = NewOrganizationClient(c.config)
 	c.Position = NewPositionClient(c.config)
+	c.PrivateMessage = NewPrivateMessageClient(c.config)
 	c.Role = NewRoleClient(c.config)
+	c.Tenant = NewTenantClient(c.config)
 	c.User = NewUserClient(c.config)
 }
 
@@ -172,20 +184,23 @@ func (c *Client) Tx(ctx context.Context) (*Tx, error) {
 	cfg := c.config
 	cfg.driver = tx
 	return &Tx{
-		ctx:                   ctx,
-		config:                cfg,
-		AdminLoginLog:         NewAdminLoginLogClient(cfg),
-		AdminOperationLog:     NewAdminOperationLogClient(cfg),
-		Department:            NewDepartmentClient(cfg),
-		Dict:                  NewDictClient(cfg),
-		File:                  NewFileClient(cfg),
-		InSiteMessage:         NewInSiteMessageClient(cfg),
-		InSiteMessageCategory: NewInSiteMessageCategoryClient(cfg),
-		Menu:                  NewMenuClient(cfg),
-		Organization:          NewOrganizationClient(cfg),
-		Position:              NewPositionClient(cfg),
-		Role:                  NewRoleClient(cfg),
-		User:                  NewUserClient(cfg),
+		ctx:                          ctx,
+		config:                       cfg,
+		AdminLoginLog:                NewAdminLoginLogClient(cfg),
+		AdminOperationLog:            NewAdminOperationLogClient(cfg),
+		Department:                   NewDepartmentClient(cfg),
+		Dict:                         NewDictClient(cfg),
+		File:                         NewFileClient(cfg),
+		Menu:                         NewMenuClient(cfg),
+		NotificationMessage:          NewNotificationMessageClient(cfg),
+		NotificationMessageCategory:  NewNotificationMessageCategoryClient(cfg),
+		NotificationMessageRecipient: NewNotificationMessageRecipientClient(cfg),
+		Organization:                 NewOrganizationClient(cfg),
+		Position:                     NewPositionClient(cfg),
+		PrivateMessage:               NewPrivateMessageClient(cfg),
+		Role:                         NewRoleClient(cfg),
+		Tenant:                       NewTenantClient(cfg),
+		User:                         NewUserClient(cfg),
 	}, nil
 }
 
@@ -203,20 +218,23 @@ func (c *Client) BeginTx(ctx context.Context, opts *sql.TxOptions) (*Tx, error) 
 	cfg := c.config
 	cfg.driver = &txDriver{tx: tx, drv: c.driver}
 	return &Tx{
-		ctx:                   ctx,
-		config:                cfg,
-		AdminLoginLog:         NewAdminLoginLogClient(cfg),
-		AdminOperationLog:     NewAdminOperationLogClient(cfg),
-		Department:            NewDepartmentClient(cfg),
-		Dict:                  NewDictClient(cfg),
-		File:                  NewFileClient(cfg),
-		InSiteMessage:         NewInSiteMessageClient(cfg),
-		InSiteMessageCategory: NewInSiteMessageCategoryClient(cfg),
-		Menu:                  NewMenuClient(cfg),
-		Organization:          NewOrganizationClient(cfg),
-		Position:              NewPositionClient(cfg),
-		Role:                  NewRoleClient(cfg),
-		User:                  NewUserClient(cfg),
+		ctx:                          ctx,
+		config:                       cfg,
+		AdminLoginLog:                NewAdminLoginLogClient(cfg),
+		AdminOperationLog:            NewAdminOperationLogClient(cfg),
+		Department:                   NewDepartmentClient(cfg),
+		Dict:                         NewDictClient(cfg),
+		File:                         NewFileClient(cfg),
+		Menu:                         NewMenuClient(cfg),
+		NotificationMessage:          NewNotificationMessageClient(cfg),
+		NotificationMessageCategory:  NewNotificationMessageCategoryClient(cfg),
+		NotificationMessageRecipient: NewNotificationMessageRecipientClient(cfg),
+		Organization:                 NewOrganizationClient(cfg),
+		Position:                     NewPositionClient(cfg),
+		PrivateMessage:               NewPrivateMessageClient(cfg),
+		Role:                         NewRoleClient(cfg),
+		Tenant:                       NewTenantClient(cfg),
+		User:                         NewUserClient(cfg),
 	}, nil
 }
 
@@ -246,9 +264,10 @@ func (c *Client) Close() error {
 // In order to add hooks to a specific client, call: `client.Node.Use(...)`.
 func (c *Client) Use(hooks ...Hook) {
 	for _, n := range []interface{ Use(...Hook) }{
-		c.AdminLoginLog, c.AdminOperationLog, c.Department, c.Dict, c.File,
-		c.InSiteMessage, c.InSiteMessageCategory, c.Menu, c.Organization, c.Position,
-		c.Role, c.User,
+		c.AdminLoginLog, c.AdminOperationLog, c.Department, c.Dict, c.File, c.Menu,
+		c.NotificationMessage, c.NotificationMessageCategory,
+		c.NotificationMessageRecipient, c.Organization, c.Position, c.PrivateMessage,
+		c.Role, c.Tenant, c.User,
 	} {
 		n.Use(hooks...)
 	}
@@ -258,9 +277,10 @@ func (c *Client) Use(hooks ...Hook) {
 // In order to add interceptors to a specific client, call: `client.Node.Intercept(...)`.
 func (c *Client) Intercept(interceptors ...Interceptor) {
 	for _, n := range []interface{ Intercept(...Interceptor) }{
-		c.AdminLoginLog, c.AdminOperationLog, c.Department, c.Dict, c.File,
-		c.InSiteMessage, c.InSiteMessageCategory, c.Menu, c.Organization, c.Position,
-		c.Role, c.User,
+		c.AdminLoginLog, c.AdminOperationLog, c.Department, c.Dict, c.File, c.Menu,
+		c.NotificationMessage, c.NotificationMessageCategory,
+		c.NotificationMessageRecipient, c.Organization, c.Position, c.PrivateMessage,
+		c.Role, c.Tenant, c.User,
 	} {
 		n.Intercept(interceptors...)
 	}
@@ -279,18 +299,24 @@ func (c *Client) Mutate(ctx context.Context, m Mutation) (Value, error) {
 		return c.Dict.mutate(ctx, m)
 	case *FileMutation:
 		return c.File.mutate(ctx, m)
-	case *InSiteMessageMutation:
-		return c.InSiteMessage.mutate(ctx, m)
-	case *InSiteMessageCategoryMutation:
-		return c.InSiteMessageCategory.mutate(ctx, m)
 	case *MenuMutation:
 		return c.Menu.mutate(ctx, m)
+	case *NotificationMessageMutation:
+		return c.NotificationMessage.mutate(ctx, m)
+	case *NotificationMessageCategoryMutation:
+		return c.NotificationMessageCategory.mutate(ctx, m)
+	case *NotificationMessageRecipientMutation:
+		return c.NotificationMessageRecipient.mutate(ctx, m)
 	case *OrganizationMutation:
 		return c.Organization.mutate(ctx, m)
 	case *PositionMutation:
 		return c.Position.mutate(ctx, m)
+	case *PrivateMessageMutation:
+		return c.PrivateMessage.mutate(ctx, m)
 	case *RoleMutation:
 		return c.Role.mutate(ctx, m)
+	case *TenantMutation:
+		return c.Tenant.mutate(ctx, m)
 	case *UserMutation:
 		return c.User.mutate(ctx, m)
 	default:
@@ -995,304 +1021,6 @@ func (c *FileClient) mutate(ctx context.Context, m *FileMutation) (Value, error)
 	}
 }
 
-// InSiteMessageClient is a client for the InSiteMessage schema.
-type InSiteMessageClient struct {
-	config
-}
-
-// NewInSiteMessageClient returns a client for the InSiteMessage from the given config.
-func NewInSiteMessageClient(c config) *InSiteMessageClient {
-	return &InSiteMessageClient{config: c}
-}
-
-// Use adds a list of mutation hooks to the hooks stack.
-// A call to `Use(f, g, h)` equals to `insitemessage.Hooks(f(g(h())))`.
-func (c *InSiteMessageClient) Use(hooks ...Hook) {
-	c.hooks.InSiteMessage = append(c.hooks.InSiteMessage, hooks...)
-}
-
-// Intercept adds a list of query interceptors to the interceptors stack.
-// A call to `Intercept(f, g, h)` equals to `insitemessage.Intercept(f(g(h())))`.
-func (c *InSiteMessageClient) Intercept(interceptors ...Interceptor) {
-	c.inters.InSiteMessage = append(c.inters.InSiteMessage, interceptors...)
-}
-
-// Create returns a builder for creating a InSiteMessage entity.
-func (c *InSiteMessageClient) Create() *InSiteMessageCreate {
-	mutation := newInSiteMessageMutation(c.config, OpCreate)
-	return &InSiteMessageCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// CreateBulk returns a builder for creating a bulk of InSiteMessage entities.
-func (c *InSiteMessageClient) CreateBulk(builders ...*InSiteMessageCreate) *InSiteMessageCreateBulk {
-	return &InSiteMessageCreateBulk{config: c.config, builders: builders}
-}
-
-// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
-// a builder and applies setFunc on it.
-func (c *InSiteMessageClient) MapCreateBulk(slice any, setFunc func(*InSiteMessageCreate, int)) *InSiteMessageCreateBulk {
-	rv := reflect.ValueOf(slice)
-	if rv.Kind() != reflect.Slice {
-		return &InSiteMessageCreateBulk{err: fmt.Errorf("calling to InSiteMessageClient.MapCreateBulk with wrong type %T, need slice", slice)}
-	}
-	builders := make([]*InSiteMessageCreate, rv.Len())
-	for i := 0; i < rv.Len(); i++ {
-		builders[i] = c.Create()
-		setFunc(builders[i], i)
-	}
-	return &InSiteMessageCreateBulk{config: c.config, builders: builders}
-}
-
-// Update returns an update builder for InSiteMessage.
-func (c *InSiteMessageClient) Update() *InSiteMessageUpdate {
-	mutation := newInSiteMessageMutation(c.config, OpUpdate)
-	return &InSiteMessageUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// UpdateOne returns an update builder for the given entity.
-func (c *InSiteMessageClient) UpdateOne(ism *InSiteMessage) *InSiteMessageUpdateOne {
-	mutation := newInSiteMessageMutation(c.config, OpUpdateOne, withInSiteMessage(ism))
-	return &InSiteMessageUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// UpdateOneID returns an update builder for the given id.
-func (c *InSiteMessageClient) UpdateOneID(id uint32) *InSiteMessageUpdateOne {
-	mutation := newInSiteMessageMutation(c.config, OpUpdateOne, withInSiteMessageID(id))
-	return &InSiteMessageUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// Delete returns a delete builder for InSiteMessage.
-func (c *InSiteMessageClient) Delete() *InSiteMessageDelete {
-	mutation := newInSiteMessageMutation(c.config, OpDelete)
-	return &InSiteMessageDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// DeleteOne returns a builder for deleting the given entity.
-func (c *InSiteMessageClient) DeleteOne(ism *InSiteMessage) *InSiteMessageDeleteOne {
-	return c.DeleteOneID(ism.ID)
-}
-
-// DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *InSiteMessageClient) DeleteOneID(id uint32) *InSiteMessageDeleteOne {
-	builder := c.Delete().Where(insitemessage.ID(id))
-	builder.mutation.id = &id
-	builder.mutation.op = OpDeleteOne
-	return &InSiteMessageDeleteOne{builder}
-}
-
-// Query returns a query builder for InSiteMessage.
-func (c *InSiteMessageClient) Query() *InSiteMessageQuery {
-	return &InSiteMessageQuery{
-		config: c.config,
-		ctx:    &QueryContext{Type: TypeInSiteMessage},
-		inters: c.Interceptors(),
-	}
-}
-
-// Get returns a InSiteMessage entity by its id.
-func (c *InSiteMessageClient) Get(ctx context.Context, id uint32) (*InSiteMessage, error) {
-	return c.Query().Where(insitemessage.ID(id)).Only(ctx)
-}
-
-// GetX is like Get, but panics if an error occurs.
-func (c *InSiteMessageClient) GetX(ctx context.Context, id uint32) *InSiteMessage {
-	obj, err := c.Get(ctx, id)
-	if err != nil {
-		panic(err)
-	}
-	return obj
-}
-
-// Hooks returns the client hooks.
-func (c *InSiteMessageClient) Hooks() []Hook {
-	return c.hooks.InSiteMessage
-}
-
-// Interceptors returns the client interceptors.
-func (c *InSiteMessageClient) Interceptors() []Interceptor {
-	return c.inters.InSiteMessage
-}
-
-func (c *InSiteMessageClient) mutate(ctx context.Context, m *InSiteMessageMutation) (Value, error) {
-	switch m.Op() {
-	case OpCreate:
-		return (&InSiteMessageCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
-	case OpUpdate:
-		return (&InSiteMessageUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
-	case OpUpdateOne:
-		return (&InSiteMessageUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
-	case OpDelete, OpDeleteOne:
-		return (&InSiteMessageDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
-	default:
-		return nil, fmt.Errorf("ent: unknown InSiteMessage mutation op: %q", m.Op())
-	}
-}
-
-// InSiteMessageCategoryClient is a client for the InSiteMessageCategory schema.
-type InSiteMessageCategoryClient struct {
-	config
-}
-
-// NewInSiteMessageCategoryClient returns a client for the InSiteMessageCategory from the given config.
-func NewInSiteMessageCategoryClient(c config) *InSiteMessageCategoryClient {
-	return &InSiteMessageCategoryClient{config: c}
-}
-
-// Use adds a list of mutation hooks to the hooks stack.
-// A call to `Use(f, g, h)` equals to `insitemessagecategory.Hooks(f(g(h())))`.
-func (c *InSiteMessageCategoryClient) Use(hooks ...Hook) {
-	c.hooks.InSiteMessageCategory = append(c.hooks.InSiteMessageCategory, hooks...)
-}
-
-// Intercept adds a list of query interceptors to the interceptors stack.
-// A call to `Intercept(f, g, h)` equals to `insitemessagecategory.Intercept(f(g(h())))`.
-func (c *InSiteMessageCategoryClient) Intercept(interceptors ...Interceptor) {
-	c.inters.InSiteMessageCategory = append(c.inters.InSiteMessageCategory, interceptors...)
-}
-
-// Create returns a builder for creating a InSiteMessageCategory entity.
-func (c *InSiteMessageCategoryClient) Create() *InSiteMessageCategoryCreate {
-	mutation := newInSiteMessageCategoryMutation(c.config, OpCreate)
-	return &InSiteMessageCategoryCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// CreateBulk returns a builder for creating a bulk of InSiteMessageCategory entities.
-func (c *InSiteMessageCategoryClient) CreateBulk(builders ...*InSiteMessageCategoryCreate) *InSiteMessageCategoryCreateBulk {
-	return &InSiteMessageCategoryCreateBulk{config: c.config, builders: builders}
-}
-
-// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
-// a builder and applies setFunc on it.
-func (c *InSiteMessageCategoryClient) MapCreateBulk(slice any, setFunc func(*InSiteMessageCategoryCreate, int)) *InSiteMessageCategoryCreateBulk {
-	rv := reflect.ValueOf(slice)
-	if rv.Kind() != reflect.Slice {
-		return &InSiteMessageCategoryCreateBulk{err: fmt.Errorf("calling to InSiteMessageCategoryClient.MapCreateBulk with wrong type %T, need slice", slice)}
-	}
-	builders := make([]*InSiteMessageCategoryCreate, rv.Len())
-	for i := 0; i < rv.Len(); i++ {
-		builders[i] = c.Create()
-		setFunc(builders[i], i)
-	}
-	return &InSiteMessageCategoryCreateBulk{config: c.config, builders: builders}
-}
-
-// Update returns an update builder for InSiteMessageCategory.
-func (c *InSiteMessageCategoryClient) Update() *InSiteMessageCategoryUpdate {
-	mutation := newInSiteMessageCategoryMutation(c.config, OpUpdate)
-	return &InSiteMessageCategoryUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// UpdateOne returns an update builder for the given entity.
-func (c *InSiteMessageCategoryClient) UpdateOne(ismc *InSiteMessageCategory) *InSiteMessageCategoryUpdateOne {
-	mutation := newInSiteMessageCategoryMutation(c.config, OpUpdateOne, withInSiteMessageCategory(ismc))
-	return &InSiteMessageCategoryUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// UpdateOneID returns an update builder for the given id.
-func (c *InSiteMessageCategoryClient) UpdateOneID(id uint32) *InSiteMessageCategoryUpdateOne {
-	mutation := newInSiteMessageCategoryMutation(c.config, OpUpdateOne, withInSiteMessageCategoryID(id))
-	return &InSiteMessageCategoryUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// Delete returns a delete builder for InSiteMessageCategory.
-func (c *InSiteMessageCategoryClient) Delete() *InSiteMessageCategoryDelete {
-	mutation := newInSiteMessageCategoryMutation(c.config, OpDelete)
-	return &InSiteMessageCategoryDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// DeleteOne returns a builder for deleting the given entity.
-func (c *InSiteMessageCategoryClient) DeleteOne(ismc *InSiteMessageCategory) *InSiteMessageCategoryDeleteOne {
-	return c.DeleteOneID(ismc.ID)
-}
-
-// DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *InSiteMessageCategoryClient) DeleteOneID(id uint32) *InSiteMessageCategoryDeleteOne {
-	builder := c.Delete().Where(insitemessagecategory.ID(id))
-	builder.mutation.id = &id
-	builder.mutation.op = OpDeleteOne
-	return &InSiteMessageCategoryDeleteOne{builder}
-}
-
-// Query returns a query builder for InSiteMessageCategory.
-func (c *InSiteMessageCategoryClient) Query() *InSiteMessageCategoryQuery {
-	return &InSiteMessageCategoryQuery{
-		config: c.config,
-		ctx:    &QueryContext{Type: TypeInSiteMessageCategory},
-		inters: c.Interceptors(),
-	}
-}
-
-// Get returns a InSiteMessageCategory entity by its id.
-func (c *InSiteMessageCategoryClient) Get(ctx context.Context, id uint32) (*InSiteMessageCategory, error) {
-	return c.Query().Where(insitemessagecategory.ID(id)).Only(ctx)
-}
-
-// GetX is like Get, but panics if an error occurs.
-func (c *InSiteMessageCategoryClient) GetX(ctx context.Context, id uint32) *InSiteMessageCategory {
-	obj, err := c.Get(ctx, id)
-	if err != nil {
-		panic(err)
-	}
-	return obj
-}
-
-// QueryParent queries the parent edge of a InSiteMessageCategory.
-func (c *InSiteMessageCategoryClient) QueryParent(ismc *InSiteMessageCategory) *InSiteMessageCategoryQuery {
-	query := (&InSiteMessageCategoryClient{config: c.config}).Query()
-	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
-		id := ismc.ID
-		step := sqlgraph.NewStep(
-			sqlgraph.From(insitemessagecategory.Table, insitemessagecategory.FieldID, id),
-			sqlgraph.To(insitemessagecategory.Table, insitemessagecategory.FieldID),
-			sqlgraph.Edge(sqlgraph.M2O, true, insitemessagecategory.ParentTable, insitemessagecategory.ParentColumn),
-		)
-		fromV = sqlgraph.Neighbors(ismc.driver.Dialect(), step)
-		return fromV, nil
-	}
-	return query
-}
-
-// QueryChildren queries the children edge of a InSiteMessageCategory.
-func (c *InSiteMessageCategoryClient) QueryChildren(ismc *InSiteMessageCategory) *InSiteMessageCategoryQuery {
-	query := (&InSiteMessageCategoryClient{config: c.config}).Query()
-	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
-		id := ismc.ID
-		step := sqlgraph.NewStep(
-			sqlgraph.From(insitemessagecategory.Table, insitemessagecategory.FieldID, id),
-			sqlgraph.To(insitemessagecategory.Table, insitemessagecategory.FieldID),
-			sqlgraph.Edge(sqlgraph.O2M, false, insitemessagecategory.ChildrenTable, insitemessagecategory.ChildrenColumn),
-		)
-		fromV = sqlgraph.Neighbors(ismc.driver.Dialect(), step)
-		return fromV, nil
-	}
-	return query
-}
-
-// Hooks returns the client hooks.
-func (c *InSiteMessageCategoryClient) Hooks() []Hook {
-	return c.hooks.InSiteMessageCategory
-}
-
-// Interceptors returns the client interceptors.
-func (c *InSiteMessageCategoryClient) Interceptors() []Interceptor {
-	return c.inters.InSiteMessageCategory
-}
-
-func (c *InSiteMessageCategoryClient) mutate(ctx context.Context, m *InSiteMessageCategoryMutation) (Value, error) {
-	switch m.Op() {
-	case OpCreate:
-		return (&InSiteMessageCategoryCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
-	case OpUpdate:
-		return (&InSiteMessageCategoryUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
-	case OpUpdateOne:
-		return (&InSiteMessageCategoryUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
-	case OpDelete, OpDeleteOne:
-		return (&InSiteMessageCategoryDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
-	default:
-		return nil, fmt.Errorf("ent: unknown InSiteMessageCategory mutation op: %q", m.Op())
-	}
-}
-
 // MenuClient is a client for the Menu schema.
 type MenuClient struct {
 	config
@@ -1455,6 +1183,437 @@ func (c *MenuClient) mutate(ctx context.Context, m *MenuMutation) (Value, error)
 		return (&MenuDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
 	default:
 		return nil, fmt.Errorf("ent: unknown Menu mutation op: %q", m.Op())
+	}
+}
+
+// NotificationMessageClient is a client for the NotificationMessage schema.
+type NotificationMessageClient struct {
+	config
+}
+
+// NewNotificationMessageClient returns a client for the NotificationMessage from the given config.
+func NewNotificationMessageClient(c config) *NotificationMessageClient {
+	return &NotificationMessageClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `notificationmessage.Hooks(f(g(h())))`.
+func (c *NotificationMessageClient) Use(hooks ...Hook) {
+	c.hooks.NotificationMessage = append(c.hooks.NotificationMessage, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `notificationmessage.Intercept(f(g(h())))`.
+func (c *NotificationMessageClient) Intercept(interceptors ...Interceptor) {
+	c.inters.NotificationMessage = append(c.inters.NotificationMessage, interceptors...)
+}
+
+// Create returns a builder for creating a NotificationMessage entity.
+func (c *NotificationMessageClient) Create() *NotificationMessageCreate {
+	mutation := newNotificationMessageMutation(c.config, OpCreate)
+	return &NotificationMessageCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of NotificationMessage entities.
+func (c *NotificationMessageClient) CreateBulk(builders ...*NotificationMessageCreate) *NotificationMessageCreateBulk {
+	return &NotificationMessageCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *NotificationMessageClient) MapCreateBulk(slice any, setFunc func(*NotificationMessageCreate, int)) *NotificationMessageCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &NotificationMessageCreateBulk{err: fmt.Errorf("calling to NotificationMessageClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*NotificationMessageCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &NotificationMessageCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for NotificationMessage.
+func (c *NotificationMessageClient) Update() *NotificationMessageUpdate {
+	mutation := newNotificationMessageMutation(c.config, OpUpdate)
+	return &NotificationMessageUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *NotificationMessageClient) UpdateOne(nm *NotificationMessage) *NotificationMessageUpdateOne {
+	mutation := newNotificationMessageMutation(c.config, OpUpdateOne, withNotificationMessage(nm))
+	return &NotificationMessageUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *NotificationMessageClient) UpdateOneID(id uint32) *NotificationMessageUpdateOne {
+	mutation := newNotificationMessageMutation(c.config, OpUpdateOne, withNotificationMessageID(id))
+	return &NotificationMessageUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for NotificationMessage.
+func (c *NotificationMessageClient) Delete() *NotificationMessageDelete {
+	mutation := newNotificationMessageMutation(c.config, OpDelete)
+	return &NotificationMessageDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *NotificationMessageClient) DeleteOne(nm *NotificationMessage) *NotificationMessageDeleteOne {
+	return c.DeleteOneID(nm.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *NotificationMessageClient) DeleteOneID(id uint32) *NotificationMessageDeleteOne {
+	builder := c.Delete().Where(notificationmessage.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &NotificationMessageDeleteOne{builder}
+}
+
+// Query returns a query builder for NotificationMessage.
+func (c *NotificationMessageClient) Query() *NotificationMessageQuery {
+	return &NotificationMessageQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeNotificationMessage},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a NotificationMessage entity by its id.
+func (c *NotificationMessageClient) Get(ctx context.Context, id uint32) (*NotificationMessage, error) {
+	return c.Query().Where(notificationmessage.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *NotificationMessageClient) GetX(ctx context.Context, id uint32) *NotificationMessage {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *NotificationMessageClient) Hooks() []Hook {
+	return c.hooks.NotificationMessage
+}
+
+// Interceptors returns the client interceptors.
+func (c *NotificationMessageClient) Interceptors() []Interceptor {
+	return c.inters.NotificationMessage
+}
+
+func (c *NotificationMessageClient) mutate(ctx context.Context, m *NotificationMessageMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&NotificationMessageCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&NotificationMessageUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&NotificationMessageUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&NotificationMessageDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown NotificationMessage mutation op: %q", m.Op())
+	}
+}
+
+// NotificationMessageCategoryClient is a client for the NotificationMessageCategory schema.
+type NotificationMessageCategoryClient struct {
+	config
+}
+
+// NewNotificationMessageCategoryClient returns a client for the NotificationMessageCategory from the given config.
+func NewNotificationMessageCategoryClient(c config) *NotificationMessageCategoryClient {
+	return &NotificationMessageCategoryClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `notificationmessagecategory.Hooks(f(g(h())))`.
+func (c *NotificationMessageCategoryClient) Use(hooks ...Hook) {
+	c.hooks.NotificationMessageCategory = append(c.hooks.NotificationMessageCategory, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `notificationmessagecategory.Intercept(f(g(h())))`.
+func (c *NotificationMessageCategoryClient) Intercept(interceptors ...Interceptor) {
+	c.inters.NotificationMessageCategory = append(c.inters.NotificationMessageCategory, interceptors...)
+}
+
+// Create returns a builder for creating a NotificationMessageCategory entity.
+func (c *NotificationMessageCategoryClient) Create() *NotificationMessageCategoryCreate {
+	mutation := newNotificationMessageCategoryMutation(c.config, OpCreate)
+	return &NotificationMessageCategoryCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of NotificationMessageCategory entities.
+func (c *NotificationMessageCategoryClient) CreateBulk(builders ...*NotificationMessageCategoryCreate) *NotificationMessageCategoryCreateBulk {
+	return &NotificationMessageCategoryCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *NotificationMessageCategoryClient) MapCreateBulk(slice any, setFunc func(*NotificationMessageCategoryCreate, int)) *NotificationMessageCategoryCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &NotificationMessageCategoryCreateBulk{err: fmt.Errorf("calling to NotificationMessageCategoryClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*NotificationMessageCategoryCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &NotificationMessageCategoryCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for NotificationMessageCategory.
+func (c *NotificationMessageCategoryClient) Update() *NotificationMessageCategoryUpdate {
+	mutation := newNotificationMessageCategoryMutation(c.config, OpUpdate)
+	return &NotificationMessageCategoryUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *NotificationMessageCategoryClient) UpdateOne(nmc *NotificationMessageCategory) *NotificationMessageCategoryUpdateOne {
+	mutation := newNotificationMessageCategoryMutation(c.config, OpUpdateOne, withNotificationMessageCategory(nmc))
+	return &NotificationMessageCategoryUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *NotificationMessageCategoryClient) UpdateOneID(id uint32) *NotificationMessageCategoryUpdateOne {
+	mutation := newNotificationMessageCategoryMutation(c.config, OpUpdateOne, withNotificationMessageCategoryID(id))
+	return &NotificationMessageCategoryUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for NotificationMessageCategory.
+func (c *NotificationMessageCategoryClient) Delete() *NotificationMessageCategoryDelete {
+	mutation := newNotificationMessageCategoryMutation(c.config, OpDelete)
+	return &NotificationMessageCategoryDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *NotificationMessageCategoryClient) DeleteOne(nmc *NotificationMessageCategory) *NotificationMessageCategoryDeleteOne {
+	return c.DeleteOneID(nmc.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *NotificationMessageCategoryClient) DeleteOneID(id uint32) *NotificationMessageCategoryDeleteOne {
+	builder := c.Delete().Where(notificationmessagecategory.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &NotificationMessageCategoryDeleteOne{builder}
+}
+
+// Query returns a query builder for NotificationMessageCategory.
+func (c *NotificationMessageCategoryClient) Query() *NotificationMessageCategoryQuery {
+	return &NotificationMessageCategoryQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeNotificationMessageCategory},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a NotificationMessageCategory entity by its id.
+func (c *NotificationMessageCategoryClient) Get(ctx context.Context, id uint32) (*NotificationMessageCategory, error) {
+	return c.Query().Where(notificationmessagecategory.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *NotificationMessageCategoryClient) GetX(ctx context.Context, id uint32) *NotificationMessageCategory {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// QueryParent queries the parent edge of a NotificationMessageCategory.
+func (c *NotificationMessageCategoryClient) QueryParent(nmc *NotificationMessageCategory) *NotificationMessageCategoryQuery {
+	query := (&NotificationMessageCategoryClient{config: c.config}).Query()
+	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
+		id := nmc.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(notificationmessagecategory.Table, notificationmessagecategory.FieldID, id),
+			sqlgraph.To(notificationmessagecategory.Table, notificationmessagecategory.FieldID),
+			sqlgraph.Edge(sqlgraph.M2O, true, notificationmessagecategory.ParentTable, notificationmessagecategory.ParentColumn),
+		)
+		fromV = sqlgraph.Neighbors(nmc.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
+// QueryChildren queries the children edge of a NotificationMessageCategory.
+func (c *NotificationMessageCategoryClient) QueryChildren(nmc *NotificationMessageCategory) *NotificationMessageCategoryQuery {
+	query := (&NotificationMessageCategoryClient{config: c.config}).Query()
+	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
+		id := nmc.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(notificationmessagecategory.Table, notificationmessagecategory.FieldID, id),
+			sqlgraph.To(notificationmessagecategory.Table, notificationmessagecategory.FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, notificationmessagecategory.ChildrenTable, notificationmessagecategory.ChildrenColumn),
+		)
+		fromV = sqlgraph.Neighbors(nmc.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
+// Hooks returns the client hooks.
+func (c *NotificationMessageCategoryClient) Hooks() []Hook {
+	return c.hooks.NotificationMessageCategory
+}
+
+// Interceptors returns the client interceptors.
+func (c *NotificationMessageCategoryClient) Interceptors() []Interceptor {
+	return c.inters.NotificationMessageCategory
+}
+
+func (c *NotificationMessageCategoryClient) mutate(ctx context.Context, m *NotificationMessageCategoryMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&NotificationMessageCategoryCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&NotificationMessageCategoryUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&NotificationMessageCategoryUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&NotificationMessageCategoryDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown NotificationMessageCategory mutation op: %q", m.Op())
+	}
+}
+
+// NotificationMessageRecipientClient is a client for the NotificationMessageRecipient schema.
+type NotificationMessageRecipientClient struct {
+	config
+}
+
+// NewNotificationMessageRecipientClient returns a client for the NotificationMessageRecipient from the given config.
+func NewNotificationMessageRecipientClient(c config) *NotificationMessageRecipientClient {
+	return &NotificationMessageRecipientClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `notificationmessagerecipient.Hooks(f(g(h())))`.
+func (c *NotificationMessageRecipientClient) Use(hooks ...Hook) {
+	c.hooks.NotificationMessageRecipient = append(c.hooks.NotificationMessageRecipient, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `notificationmessagerecipient.Intercept(f(g(h())))`.
+func (c *NotificationMessageRecipientClient) Intercept(interceptors ...Interceptor) {
+	c.inters.NotificationMessageRecipient = append(c.inters.NotificationMessageRecipient, interceptors...)
+}
+
+// Create returns a builder for creating a NotificationMessageRecipient entity.
+func (c *NotificationMessageRecipientClient) Create() *NotificationMessageRecipientCreate {
+	mutation := newNotificationMessageRecipientMutation(c.config, OpCreate)
+	return &NotificationMessageRecipientCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of NotificationMessageRecipient entities.
+func (c *NotificationMessageRecipientClient) CreateBulk(builders ...*NotificationMessageRecipientCreate) *NotificationMessageRecipientCreateBulk {
+	return &NotificationMessageRecipientCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *NotificationMessageRecipientClient) MapCreateBulk(slice any, setFunc func(*NotificationMessageRecipientCreate, int)) *NotificationMessageRecipientCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &NotificationMessageRecipientCreateBulk{err: fmt.Errorf("calling to NotificationMessageRecipientClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*NotificationMessageRecipientCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &NotificationMessageRecipientCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for NotificationMessageRecipient.
+func (c *NotificationMessageRecipientClient) Update() *NotificationMessageRecipientUpdate {
+	mutation := newNotificationMessageRecipientMutation(c.config, OpUpdate)
+	return &NotificationMessageRecipientUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *NotificationMessageRecipientClient) UpdateOne(nmr *NotificationMessageRecipient) *NotificationMessageRecipientUpdateOne {
+	mutation := newNotificationMessageRecipientMutation(c.config, OpUpdateOne, withNotificationMessageRecipient(nmr))
+	return &NotificationMessageRecipientUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *NotificationMessageRecipientClient) UpdateOneID(id uint32) *NotificationMessageRecipientUpdateOne {
+	mutation := newNotificationMessageRecipientMutation(c.config, OpUpdateOne, withNotificationMessageRecipientID(id))
+	return &NotificationMessageRecipientUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for NotificationMessageRecipient.
+func (c *NotificationMessageRecipientClient) Delete() *NotificationMessageRecipientDelete {
+	mutation := newNotificationMessageRecipientMutation(c.config, OpDelete)
+	return &NotificationMessageRecipientDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *NotificationMessageRecipientClient) DeleteOne(nmr *NotificationMessageRecipient) *NotificationMessageRecipientDeleteOne {
+	return c.DeleteOneID(nmr.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *NotificationMessageRecipientClient) DeleteOneID(id uint32) *NotificationMessageRecipientDeleteOne {
+	builder := c.Delete().Where(notificationmessagerecipient.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &NotificationMessageRecipientDeleteOne{builder}
+}
+
+// Query returns a query builder for NotificationMessageRecipient.
+func (c *NotificationMessageRecipientClient) Query() *NotificationMessageRecipientQuery {
+	return &NotificationMessageRecipientQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeNotificationMessageRecipient},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a NotificationMessageRecipient entity by its id.
+func (c *NotificationMessageRecipientClient) Get(ctx context.Context, id uint32) (*NotificationMessageRecipient, error) {
+	return c.Query().Where(notificationmessagerecipient.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *NotificationMessageRecipientClient) GetX(ctx context.Context, id uint32) *NotificationMessageRecipient {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *NotificationMessageRecipientClient) Hooks() []Hook {
+	return c.hooks.NotificationMessageRecipient
+}
+
+// Interceptors returns the client interceptors.
+func (c *NotificationMessageRecipientClient) Interceptors() []Interceptor {
+	return c.inters.NotificationMessageRecipient
+}
+
+func (c *NotificationMessageRecipientClient) mutate(ctx context.Context, m *NotificationMessageRecipientMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&NotificationMessageRecipientCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&NotificationMessageRecipientUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&NotificationMessageRecipientUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&NotificationMessageRecipientDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown NotificationMessageRecipient mutation op: %q", m.Op())
 	}
 }
 
@@ -1788,6 +1947,139 @@ func (c *PositionClient) mutate(ctx context.Context, m *PositionMutation) (Value
 	}
 }
 
+// PrivateMessageClient is a client for the PrivateMessage schema.
+type PrivateMessageClient struct {
+	config
+}
+
+// NewPrivateMessageClient returns a client for the PrivateMessage from the given config.
+func NewPrivateMessageClient(c config) *PrivateMessageClient {
+	return &PrivateMessageClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `privatemessage.Hooks(f(g(h())))`.
+func (c *PrivateMessageClient) Use(hooks ...Hook) {
+	c.hooks.PrivateMessage = append(c.hooks.PrivateMessage, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `privatemessage.Intercept(f(g(h())))`.
+func (c *PrivateMessageClient) Intercept(interceptors ...Interceptor) {
+	c.inters.PrivateMessage = append(c.inters.PrivateMessage, interceptors...)
+}
+
+// Create returns a builder for creating a PrivateMessage entity.
+func (c *PrivateMessageClient) Create() *PrivateMessageCreate {
+	mutation := newPrivateMessageMutation(c.config, OpCreate)
+	return &PrivateMessageCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of PrivateMessage entities.
+func (c *PrivateMessageClient) CreateBulk(builders ...*PrivateMessageCreate) *PrivateMessageCreateBulk {
+	return &PrivateMessageCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *PrivateMessageClient) MapCreateBulk(slice any, setFunc func(*PrivateMessageCreate, int)) *PrivateMessageCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &PrivateMessageCreateBulk{err: fmt.Errorf("calling to PrivateMessageClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*PrivateMessageCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &PrivateMessageCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for PrivateMessage.
+func (c *PrivateMessageClient) Update() *PrivateMessageUpdate {
+	mutation := newPrivateMessageMutation(c.config, OpUpdate)
+	return &PrivateMessageUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *PrivateMessageClient) UpdateOne(pm *PrivateMessage) *PrivateMessageUpdateOne {
+	mutation := newPrivateMessageMutation(c.config, OpUpdateOne, withPrivateMessage(pm))
+	return &PrivateMessageUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *PrivateMessageClient) UpdateOneID(id uint32) *PrivateMessageUpdateOne {
+	mutation := newPrivateMessageMutation(c.config, OpUpdateOne, withPrivateMessageID(id))
+	return &PrivateMessageUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for PrivateMessage.
+func (c *PrivateMessageClient) Delete() *PrivateMessageDelete {
+	mutation := newPrivateMessageMutation(c.config, OpDelete)
+	return &PrivateMessageDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *PrivateMessageClient) DeleteOne(pm *PrivateMessage) *PrivateMessageDeleteOne {
+	return c.DeleteOneID(pm.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *PrivateMessageClient) DeleteOneID(id uint32) *PrivateMessageDeleteOne {
+	builder := c.Delete().Where(privatemessage.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &PrivateMessageDeleteOne{builder}
+}
+
+// Query returns a query builder for PrivateMessage.
+func (c *PrivateMessageClient) Query() *PrivateMessageQuery {
+	return &PrivateMessageQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypePrivateMessage},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a PrivateMessage entity by its id.
+func (c *PrivateMessageClient) Get(ctx context.Context, id uint32) (*PrivateMessage, error) {
+	return c.Query().Where(privatemessage.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *PrivateMessageClient) GetX(ctx context.Context, id uint32) *PrivateMessage {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *PrivateMessageClient) Hooks() []Hook {
+	return c.hooks.PrivateMessage
+}
+
+// Interceptors returns the client interceptors.
+func (c *PrivateMessageClient) Interceptors() []Interceptor {
+	return c.inters.PrivateMessage
+}
+
+func (c *PrivateMessageClient) mutate(ctx context.Context, m *PrivateMessageMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&PrivateMessageCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&PrivateMessageUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&PrivateMessageUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&PrivateMessageDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown PrivateMessage mutation op: %q", m.Op())
+	}
+}
+
 // RoleClient is a client for the Role schema.
 type RoleClient struct {
 	config
@@ -1953,6 +2245,139 @@ func (c *RoleClient) mutate(ctx context.Context, m *RoleMutation) (Value, error)
 	}
 }
 
+// TenantClient is a client for the Tenant schema.
+type TenantClient struct {
+	config
+}
+
+// NewTenantClient returns a client for the Tenant from the given config.
+func NewTenantClient(c config) *TenantClient {
+	return &TenantClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `tenant.Hooks(f(g(h())))`.
+func (c *TenantClient) Use(hooks ...Hook) {
+	c.hooks.Tenant = append(c.hooks.Tenant, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `tenant.Intercept(f(g(h())))`.
+func (c *TenantClient) Intercept(interceptors ...Interceptor) {
+	c.inters.Tenant = append(c.inters.Tenant, interceptors...)
+}
+
+// Create returns a builder for creating a Tenant entity.
+func (c *TenantClient) Create() *TenantCreate {
+	mutation := newTenantMutation(c.config, OpCreate)
+	return &TenantCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of Tenant entities.
+func (c *TenantClient) CreateBulk(builders ...*TenantCreate) *TenantCreateBulk {
+	return &TenantCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *TenantClient) MapCreateBulk(slice any, setFunc func(*TenantCreate, int)) *TenantCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &TenantCreateBulk{err: fmt.Errorf("calling to TenantClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*TenantCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &TenantCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for Tenant.
+func (c *TenantClient) Update() *TenantUpdate {
+	mutation := newTenantMutation(c.config, OpUpdate)
+	return &TenantUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *TenantClient) UpdateOne(t *Tenant) *TenantUpdateOne {
+	mutation := newTenantMutation(c.config, OpUpdateOne, withTenant(t))
+	return &TenantUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *TenantClient) UpdateOneID(id uint32) *TenantUpdateOne {
+	mutation := newTenantMutation(c.config, OpUpdateOne, withTenantID(id))
+	return &TenantUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for Tenant.
+func (c *TenantClient) Delete() *TenantDelete {
+	mutation := newTenantMutation(c.config, OpDelete)
+	return &TenantDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *TenantClient) DeleteOne(t *Tenant) *TenantDeleteOne {
+	return c.DeleteOneID(t.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *TenantClient) DeleteOneID(id uint32) *TenantDeleteOne {
+	builder := c.Delete().Where(tenant.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &TenantDeleteOne{builder}
+}
+
+// Query returns a query builder for Tenant.
+func (c *TenantClient) Query() *TenantQuery {
+	return &TenantQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeTenant},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a Tenant entity by its id.
+func (c *TenantClient) Get(ctx context.Context, id uint32) (*Tenant, error) {
+	return c.Query().Where(tenant.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *TenantClient) GetX(ctx context.Context, id uint32) *Tenant {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *TenantClient) Hooks() []Hook {
+	return c.hooks.Tenant
+}
+
+// Interceptors returns the client interceptors.
+func (c *TenantClient) Interceptors() []Interceptor {
+	return c.inters.Tenant
+}
+
+func (c *TenantClient) mutate(ctx context.Context, m *TenantMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&TenantCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&TenantUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&TenantUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&TenantDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown Tenant mutation op: %q", m.Op())
+	}
+}
+
 // UserClient is a client for the User schema.
 type UserClient struct {
 	config
@@ -2089,12 +2514,13 @@ func (c *UserClient) mutate(ctx context.Context, m *UserMutation) (Value, error)
 // hooks and interceptors per client, for fast access.
 type (
 	hooks struct {
-		AdminLoginLog, AdminOperationLog, Department, Dict, File, InSiteMessage,
-		InSiteMessageCategory, Menu, Organization, Position, Role, User []ent.Hook
+		AdminLoginLog, AdminOperationLog, Department, Dict, File, Menu,
+		NotificationMessage, NotificationMessageCategory, NotificationMessageRecipient,
+		Organization, Position, PrivateMessage, Role, Tenant, User []ent.Hook
 	}
 	inters struct {
-		AdminLoginLog, AdminOperationLog, Department, Dict, File, InSiteMessage,
-		InSiteMessageCategory, Menu, Organization, Position, Role,
-		User []ent.Interceptor
+		AdminLoginLog, AdminOperationLog, Department, Dict, File, Menu,
+		NotificationMessage, NotificationMessageCategory, NotificationMessageRecipient,
+		Organization, Position, PrivateMessage, Role, Tenant, User []ent.Interceptor
 	}
 )

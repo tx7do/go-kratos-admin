@@ -249,6 +249,20 @@ func ErrorPositionNotFound(format string, args ...interface{}) *errors.Error {
 	return errors.New(404, UserErrorReason_POSITION_NOT_FOUND.String(), fmt.Sprintf(format, args...))
 }
 
+// 租户不存在
+func IsTenantNotFound(err error) bool {
+	if err == nil {
+		return false
+	}
+	e := errors.FromError(err)
+	return e.Reason == UserErrorReason_TENANT_NOT_FOUND.String() && e.Code == 404
+}
+
+// 租户不存在
+func ErrorTenantNotFound(format string, args ...interface{}) *errors.Error {
+	return errors.New(404, UserErrorReason_TENANT_NOT_FOUND.String(), fmt.Sprintf(format, args...))
+}
+
 // 401
 func IsNotLoggedIn(err error) bool {
 	if err == nil {

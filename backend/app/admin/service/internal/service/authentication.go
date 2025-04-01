@@ -128,7 +128,7 @@ func (s *AuthenticationService) RefreshToken(ctx context.Context, req *adminV1.R
 	}
 
 	// 生成新的访问令牌
-	accessToken, err := s.userToken.GenerateAccessToken(ctx, authInfo.UserId, authInfo.UserName)
+	accessToken, err := s.userToken.GenerateAccessToken(ctx, authInfo.TenantId, authInfo.UserId, authInfo.UserName)
 	if err != nil {
 		return nil, err
 	}

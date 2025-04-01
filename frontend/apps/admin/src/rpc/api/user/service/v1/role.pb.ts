@@ -39,6 +39,16 @@ export interface Role {
     | undefined;
   /** 分配的菜单列表 */
   menus: number[];
+  /** 创建者ID */
+  createBy?:
+    | number
+    | null
+    | undefined;
+  /** 更新者ID */
+  updateBy?:
+    | number
+    | null
+    | undefined;
   /** 父节点ID */
   parentId?:
     | number

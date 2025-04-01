@@ -1,0 +1,139 @@
+syntax = "proto3";
+
+package user.service.v1;
+
+import "gnostic/openapi/v3/annotations.proto";
+
+import "google/protobuf/empty.proto";
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/timestamp.proto";
+
+import "pagination/v1/pagination.proto";
+
+// 租户服务
+service TenantService {
+  // 查询租户列表
+  rpc ListTenant (pagination.PagingRequest) returns (ListTenantResponse) {}
+
+  // 查询租户详情
+  rpc GetTenant (GetTenantRequest) returns (Tenant) {}
+
+  // 创建租户
+  rpc CreateTenant (CreateTenantRequest) returns (google.protobuf.Empty) {}
+
+  // 更新租户
+  rpc UpdateTenant (UpdateTenantRequest) returns (google.protobuf.Empty) {}
+
+  // 删除租户
+  rpc DeleteTenant (DeleteTenantRequest) returns (google.protobuf.Empty) {}
+}
+
+// 租户
+message Tenant {
+  optional uint32 id = 1 [
+    json_name = "id",
+    (gnostic.openapi.v3.property) = {description: "租户ID"}
+  ];  // 租户ID
+
+  optional string name = 2 [
+    json_name = "name",
+    (gnostic.openapi.v3.property) = {description: "租户名称"}
+  ];  // 租户名称
+
+  optional string code = 3 [
+    json_name = "code",
+    (gnostic.openapi.v3.property) = {description: "租户编码"}
+  ];  // 租户编码
+
+  optional int32 member_count = 4 [
+    json_name = "memberCount",
+    (gnostic.openapi.v3.property) = {description: "成员数量"}
+  ];  // 成员数量
+
+  optional string status = 5 [(gnostic.openapi.v3.property) = {
+    description: "状态"
+    default: { string: "ON" }
+    enum: [{yaml: "ON"}, {yaml: "OFF"}]
+  }];
+
+  optional string remark = 6 [
+    json_name = "remark",
+    (gnostic.openapi.v3.property) = {
+      description: "备注"
+    }
+  ]; // 备注
+
+  optional uint32 create_by = 7 [json_name = "createBy", (gnostic.openapi.v3.property) = {description: "创建者ID"}]; // 创建者ID
+  optional uint32 update_by = 8 [json_name = "updateBy", (gnostic.openapi.v3.property) = {description: "更新者ID"}]; // 更新者ID
+
+  optional google.protobuf.Timestamp subscription_at = 10 [
+    json_name = "subscriptionAt",
+    (gnostic.openapi.v3.property) = {
+      description: "订阅时间"
+    }
+  ];
+  optional google.protobuf.Timestamp unsubscribe_at = 11 [
+    json_name = "unsubscribeAt",
+    (gnostic.openapi.v3.property) = {
+      description: "退订时间"
+    }
+  ];
+
+  optional google.protobuf.Timestamp create_time = 200 [json_name = "createTime", (gnostic.openapi.v3.property) = {description: "创建时间"}];// 创建时间
+  optional google.protobuf.Timestamp update_time = 201 [json_name = "updateTime", (gnostic.openapi.v3.property) = {description: "更新时间"}];// 更新时间
+  optional google.protobuf.Timestamp delete_time = 202 [json_name = "deleteTime", (gnostic.openapi.v3.property) = {description: "删除时间"}];// 删除时间
+}
+
+// 租户列表 - 答复
+message ListTenantResponse {
+  repeated Tenant items = 1;
+  uint32 total = 2;
+}
+
+// 租户数据 - 请求
+message GetTenantRequest {
+  uint32 id = 1;
+}
+
+// 创建租户 - 请求
+message CreateTenantRequest {
+  Tenant data = 1;
+
+  optional uint32 operator_id = 2 [
+    (gnostic.openapi.v3.property) = {description: "操作用户ID", read_only: true},
+    json_name = "operatorId"
+  ]; // 操作用户ID
+}
+
+// 更新租户 -请求
+message UpdateTenantRequest {
+  optional uint32 operator_id = 1 [
+    (gnostic.openapi.v3.property) = {description: "操作用户ID", read_only: true},
+    json_name = "operatorId"
+  ]; // 操作用户ID
+
+  Tenant data = 2;
+
+  google.protobuf.FieldMask update_mask = 3 [
+    (gnostic.openapi.v3.property) = {
+      description: "要更新的字段列表",
+      example: {yaml : "id,realName,userName"}
+    },
+    json_name = "updateMask"
+  ]; // 要更新的字段列表
+
+  optional bool allow_missing = 4 [
+    (gnostic.openapi.v3.property) = {description: "如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。"},
+    json_name = "allowMissing"
+  ]; // 如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。
+}
+
+// 删除租户 - 请求
+message DeleteTenantRequest {
+  uint32 id = 1;
+
+  optional uint32 operator_id = 2 [
+    (gnostic.openapi.v3.property) = {description: "操作用户ID", read_only: true},
+    json_name = "operatorId"
+  ]; // 操作用户ID
+}

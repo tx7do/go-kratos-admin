@@ -21,14 +21,17 @@ type Dict func(*sql.Selector)
 // File is the predicate function for file builders.
 type File func(*sql.Selector)
 
-// InSiteMessage is the predicate function for insitemessage builders.
-type InSiteMessage func(*sql.Selector)
-
-// InSiteMessageCategory is the predicate function for insitemessagecategory builders.
-type InSiteMessageCategory func(*sql.Selector)
-
 // Menu is the predicate function for menu builders.
 type Menu func(*sql.Selector)
+
+// NotificationMessage is the predicate function for notificationmessage builders.
+type NotificationMessage func(*sql.Selector)
+
+// NotificationMessageCategory is the predicate function for notificationmessagecategory builders.
+type NotificationMessageCategory func(*sql.Selector)
+
+// NotificationMessageRecipient is the predicate function for notificationmessagerecipient builders.
+type NotificationMessageRecipient func(*sql.Selector)
 
 // Organization is the predicate function for organization builders.
 type Organization func(*sql.Selector)
@@ -36,8 +39,14 @@ type Organization func(*sql.Selector)
 // Position is the predicate function for position builders.
 type Position func(*sql.Selector)
 
+// PrivateMessage is the predicate function for privatemessage builders.
+type PrivateMessage func(*sql.Selector)
+
 // Role is the predicate function for role builders.
 type Role func(*sql.Selector)
+
+// Tenant is the predicate function for tenant builders.
+type Tenant func(*sql.Selector)
 
 // User is the predicate function for user builders.
 type User func(*sql.Selector)

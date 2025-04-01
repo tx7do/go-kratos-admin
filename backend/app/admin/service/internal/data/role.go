@@ -47,6 +47,8 @@ func (r *RoleRepo) convertEntToProto(in *ent.Role) *userV1.Role {
 		ParentId:   in.ParentID,
 		Menus:      in.Menus,
 		Status:     (*string)(in.Status),
+		CreateBy:   in.CreateBy,
+		UpdateBy:   in.UpdateBy,
 		CreateTime: timeutil.TimeToTimestamppb(in.CreateTime),
 		UpdateTime: timeutil.TimeToTimestamppb(in.UpdateTime),
 		DeleteTime: timeutil.TimeToTimestamppb(in.DeleteTime),

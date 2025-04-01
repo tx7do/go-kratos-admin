@@ -31,6 +31,16 @@ export interface Department {
     | string
     | null
     | undefined;
+  /** 创建者ID */
+  createBy?:
+    | number
+    | null
+    | undefined;
+  /** 更新者ID */
+  updateBy?:
+    | number
+    | null
+    | undefined;
   /** 排序编号 */
   sortId?:
     | number

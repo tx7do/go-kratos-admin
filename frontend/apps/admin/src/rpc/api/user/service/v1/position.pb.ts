@@ -41,6 +41,16 @@ export interface Position {
     | string
     | null
     | undefined;
+  /** 创建者ID */
+  createBy?:
+    | number
+    | null
+    | undefined;
+  /** 更新者ID */
+  updateBy?:
+    | number
+    | null
+    | undefined;
   /** 父节点ID */
   parentId?:
     | number

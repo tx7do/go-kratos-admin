@@ -107,6 +107,14 @@ func (m *Department) validate(all bool) error {
 		// no validation rules for OrganizationName
 	}
 
+	if m.CreateBy != nil {
+		// no validation rules for CreateBy
+	}
+
+	if m.UpdateBy != nil {
+		// no validation rules for UpdateBy
+	}
+
 	if m.SortId != nil {
 		// no validation rules for SortId
 	}

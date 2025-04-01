@@ -1,0 +1,51 @@
+syntax = "proto3";
+
+package admin.service.v1;
+
+import "gnostic/openapi/v3/annotations.proto";
+import "google/api/annotations.proto";
+import "google/protobuf/empty.proto";
+
+import "pagination/v1/pagination.proto";
+
+import "internal_message/service/v1/notification_message_recipient.proto";
+
+// 通知消息接收者管理服务
+service NotificationMessageRecipientService {
+  // 查询通知消息接收者列表
+  rpc ListNotificationMessageRecipient (pagination.PagingRequest) returns (internal_message.service.v1.ListNotificationMessageRecipientResponse) {
+    option (google.api.http) = {
+      get: "/admin/v1/notifications:recipients"
+    };
+  }
+
+  // 查询通知消息接收者详情
+  rpc GetNotificationMessageRecipient (internal_message.service.v1.GetNotificationMessageRecipientRequest) returns (internal_message.service.v1.NotificationMessageRecipient) {
+    option (google.api.http) = {
+      get: "/admin/v1/notifications:recipients/{id}"
+    };
+  }
+
+  // 创建通知消息接收者
+  rpc CreateNotificationMessageRecipient (internal_message.service.v1.CreateNotificationMessageRecipientRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      post: "/admin/v1/notifications:recipients"
+      body: "*"
+    };
+  }
+
+  // 更新通知消息接收者
+  rpc UpdateNotificationMessageRecipient (internal_message.service.v1.UpdateNotificationMessageRecipientRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      put: "/admin/v1/notifications:recipients/{data.id}"
+      body: "*"
+    };
+  }
+
+  // 删除通知消息接收者
+  rpc DeleteNotificationMessageRecipient (internal_message.service.v1.DeleteNotificationMessageRecipientRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      delete: "/admin/v1/notifications:recipients/{id}"
+    };
+  }
+}

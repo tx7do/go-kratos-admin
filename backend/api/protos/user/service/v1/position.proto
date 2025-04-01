@@ -48,6 +48,9 @@ message Position {
 
   optional string remark = 6 [json_name = "remark", (gnostic.openapi.v3.property) = {description: "备注"}];  // 备注
 
+  optional uint32 create_by = 7 [json_name = "createBy", (gnostic.openapi.v3.property) = {description: "创建者ID"}]; // 创建者ID
+  optional uint32 update_by = 8 [json_name = "updateBy", (gnostic.openapi.v3.property) = {description: "更新者ID"}]; // 更新者ID
+
   optional uint32 parent_id = 100 [json_name = "parentId", (gnostic.openapi.v3.property) = {description: "父节点ID"}];  // 父节点ID
   repeated Position children = 101 [json_name = "children", (gnostic.openapi.v3.property) = {description: "子节点树"}];  // 子节点树
 

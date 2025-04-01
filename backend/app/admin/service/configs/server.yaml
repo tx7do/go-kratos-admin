@@ -24,11 +24,11 @@ server:
         key: "some_api_key"
 
   asynq:
-    endpoint: "redis:6379"
+    endpoint: "localhost:6379"
     password: "*Abcd123456"
     db: 1
 
   sse:
-    addr: "0.0.0.0:7789"
+    addr: ":7789"
     codec: "json"
     path: "/events"

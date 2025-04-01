@@ -55,9 +55,12 @@ services:
     image: docker.io/bitnami/consul:latest
     restart: always
     ports:
-      - "8300:8300"
-      - "8500:8500"
-      - "8600:8600/udp"
+      - '8300:8300'
+      - '8301:8301'
+      - '8301:8301/udp'
+      - '8500:8500'
+      - '8600:8600'
+      - '8600:8600/udp'
     networks:
       - app-tier
     environment:

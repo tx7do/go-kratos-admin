@@ -2,7 +2,7 @@ registry:
   type: "consul"
 
   consul:
-    address: "consul:8500"
+    address: "localhost:8500"
     scheme: "http"
     heartbeat: false
     health_check: false

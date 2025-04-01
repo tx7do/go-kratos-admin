@@ -45,7 +45,7 @@ func TestListFile(t *testing.T) {
 	cli := createTestClient()
 	assert.NotNil(t, cli)
 
-	req := &v1.ListFileRequest{
+	req := &v1.ListOssFileRequest{
 		BucketName: trans.Ptr("users"),
 		Folder:     trans.Ptr("1"),
 		Recursive:  trans.Ptr(true),

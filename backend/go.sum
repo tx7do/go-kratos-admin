@@ -1030,8 +1030,8 @@ github.com/grpc-ecosystem/grpc-gateway/v2 v2.11.3/go.mod h1:o//XUCC/F+yRGJoPO/VU
 github.com/grpc-ecosystem/grpc-gateway/v2 v2.26.3 h1:5ZPtiqj0JL5oKWmcsq4VMaAW5ukBEgSGXEN89zeH1Jo=
 github.com/grpc-ecosystem/grpc-gateway/v2 v2.26.3/go.mod h1:ndYquD05frm2vACXE1nsccT4oJzjhw2arTS2cpUD1PI=
 github.com/hashicorp/consul/api v1.1.0/go.mod h1:VmuI/Lkw1nC05EYQWNKwWGbkg+FbDBtguAZLlVdkD9Q=
-github.com/hashicorp/consul/api v1.31.2 h1:NicObVJHcCmyOIl7Z9iHPvvFrocgTYo9cITSGg0/7pw=
-github.com/hashicorp/consul/api v1.31.2/go.mod h1:Z8YgY0eVPukT/17ejW+l+C7zJmKwgPHtjU1q16v/Y40=
+github.com/hashicorp/consul/api v1.32.0 h1:5wp5u780Gri7c4OedGEPzmlUEzi0g2KyiPphSr6zjVg=
+github.com/hashicorp/consul/api v1.32.0/go.mod h1:Z8YgY0eVPukT/17ejW+l+C7zJmKwgPHtjU1q16v/Y40=
 github.com/hashicorp/consul/sdk v0.1.1/go.mod h1:VKf9jXwCTEY1QZP2MOLRhb5i/I/ssyNV1vwHyQBF0x8=
 github.com/hashicorp/consul/sdk v0.16.1 h1:V8TxTnImoPD5cj0U9Spl0TUxcytjcbbJeADFF07KdHg=
 github.com/hashicorp/consul/sdk v0.16.1/go.mod h1:fSXvwxB2hmh1FMZCNl6PwX0Q/1wdWtHJcZ7Ea5tns0s=
@@ -1483,8 +1483,8 @@ github.com/tx7do/kratos-authz/middleware v1.0.2 h1:vbBNyc3Lde4RQmWFGQ9H0UNfnZwnA
 github.com/tx7do/kratos-authz/middleware v1.0.2/go.mod h1:XjYjosD5RFjsexFusAnOGS5Ofpc3c+KxEv/XN/pvpes=
 github.com/tx7do/kratos-bootstrap/api v0.0.11 h1:28RoBHE1isdRhDMDlDRBzG0zg4H+JNiROAi6PseY408=
 github.com/tx7do/kratos-bootstrap/api v0.0.11/go.mod h1:2pJjrcupwdNtfMvpz+aCgskEfrSw8LRSxnms6LLxvmo=
-github.com/tx7do/kratos-bootstrap/bootstrap v0.0.13 h1:sb9s3R+ZgXaxlc/EnVrAyK9wkV3f3AUr/OC4vcXVONQ=
-github.com/tx7do/kratos-bootstrap/bootstrap v0.0.13/go.mod h1:RI+D9OWQYD87DY7ZIjbwIywvBWg6hRSs0PeBK0YPCQI=
+github.com/tx7do/kratos-bootstrap/bootstrap v0.0.14 h1:Yi4uyqYxwSvaRDs2lNrYKGQHFYrZCQbbKWT4OoX9mPA=
+github.com/tx7do/kratos-bootstrap/bootstrap v0.0.14/go.mod h1:RI+D9OWQYD87DY7ZIjbwIywvBWg6hRSs0PeBK0YPCQI=
 github.com/tx7do/kratos-bootstrap/cache/redis v0.0.8 h1:Vk12hobotOxVNevkHhigNKcZHp038GjmHgls7V8EKHY=
 github.com/tx7do/kratos-bootstrap/cache/redis v0.0.8/go.mod h1:xMd1gxhb5L7QvJ2pFzbLShLZEn9WV9WqXlAK6Pi6bQk=
 github.com/tx7do/kratos-bootstrap/config v0.0.8 h1:yEu6liTiAsqOK2CAKskuFkuvAgpNdNZpAlMxq8gaMdc=
@@ -2300,8 +2300,8 @@ google.golang.org/grpc v1.50.1/go.mod h1:ZgQEeidpAuNRZ8iRrlBKXZQP1ghovWIVhdJRyCD
 google.golang.org/grpc v1.51.0/go.mod h1:wgNDFcnuBGmxLKI/qn4T+m5BtEBYXJPvibbUPsAIPww=
 google.golang.org/grpc v1.53.0/go.mod h1:OnIrk0ipVdj4N5d9IUoFUx72/VlD7+jUsHwZgwSMQpw=
 google.golang.org/grpc v1.54.0/go.mod h1:PUSEXI6iWghWaB6lXM4knEgpJNu2qUcKfDtNci3EC2g=
-google.golang.org/grpc v1.71.0 h1:kF77BGdPTQ4/JZWMlb9VpJ5pa25aqvVqogsxNHHdeBg=
-google.golang.org/grpc v1.71.0/go.mod h1:H0GRtasmQOh9LkFoCPDu3ZrwUtD1YGE+b2vYBYd/8Ec=
+google.golang.org/grpc v1.71.1 h1:ffsFWr7ygTUscGPI0KKK6TLrGz0476KUvvsbqWK0rPI=
+google.golang.org/grpc v1.71.1/go.mod h1:H0GRtasmQOh9LkFoCPDu3ZrwUtD1YGE+b2vYBYd/8Ec=
 google.golang.org/grpc/cmd/protoc-gen-go-grpc v1.1.0/go.mod h1:6Kw0yEErY5E/yWrBtf03jp27GLLJujG4z/JK95pnjjw=
 google.golang.org/protobuf v0.0.0-20200109180630-ec00e32a8dfd/go.mod h1:DFci5gLYBciE7Vtevhsrf46CRTquxDuWsQurQQe4oz8=
 google.golang.org/protobuf v0.0.0-20200221191635-4d8936d0db64/go.mod h1:kwYJMbMJ01Woi6D6+Kah6886xMZcty6N08ah7+eCXa0=

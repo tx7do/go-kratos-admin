@@ -1,6 +1,6 @@
 server:
   rest:
-    addr: "0.0.0.0:7788"
+    addr: ":7788"
     timeout: 10s
     enable_swagger: true
     enable_pprof: true
@@ -23,17 +23,12 @@ server:
         method: "HS256"
         key: "some_api_key"
 
-  grpc:
-    addr: "0.0.0.0:0"
-    timeout: 10s
-    middleware:
-
   asynq:
-    endpoint: "localhost:6379"
-    password: "123456"
+    endpoint: "redis:6379"
+    password: "*Abcd123456"
     db: 1
 
   sse:
-    addr: "0.0.0.0:7788"
+    addr: "0.0.0.0:7789"
     codec: "json"
     path: "/events"

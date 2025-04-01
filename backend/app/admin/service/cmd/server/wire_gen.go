@@ -24,7 +24,7 @@ func initApp(logger log.Logger, registrar registry.Registrar, bootstrap *v1.Boot
 	engine := data.NewAuthorizer()
 	entClient := data.NewEntClient(bootstrap, logger)
 	client := data.NewRedisClient(bootstrap, logger)
-	dataData, cleanup, err := data.NewData(entClient, client, authenticator, engine, logger)
+	dataData, cleanup, err := data.NewData(logger, entClient, client, authenticator, engine)
 	if err != nil {
 		return nil, nil, err
 	}

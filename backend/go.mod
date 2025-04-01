@@ -32,7 +32,7 @@ require (
 	github.com/tx7do/kratos-authz v1.0.2
 	github.com/tx7do/kratos-authz/middleware v1.0.2
 	github.com/tx7do/kratos-bootstrap/api v0.0.11
-	github.com/tx7do/kratos-bootstrap/bootstrap v0.0.13
+	github.com/tx7do/kratos-bootstrap/bootstrap v0.0.14
 	github.com/tx7do/kratos-bootstrap/cache/redis v0.0.8
 	github.com/tx7do/kratos-bootstrap/oss/minio v0.0.8
 	github.com/tx7do/kratos-bootstrap/rpc v0.0.9
@@ -41,7 +41,7 @@ require (
 	github.com/tx7do/kratos-transport/transport/sse v1.2.19
 	google.golang.org/genproto v0.0.0-20250324211829-b45e905df463
 	google.golang.org/genproto/googleapis/api v0.0.0-20250324211829-b45e905df463
-	google.golang.org/grpc v1.71.0
+	google.golang.org/grpc v1.71.1
 	google.golang.org/protobuf v1.36.6
 )
 
@@ -118,7 +118,7 @@ require (
 	github.com/gorilla/websocket v1.5.3 // indirect
 	github.com/grpc-ecosystem/go-grpc-middleware v1.4.0 // indirect
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.26.3 // indirect
-	github.com/hashicorp/consul/api v1.31.2 // indirect
+	github.com/hashicorp/consul/api v1.32.0 // indirect
 	github.com/hashicorp/errwrap v1.1.0 // indirect
 	github.com/hashicorp/go-cleanhttp v0.5.2 // indirect
 	github.com/hashicorp/go-hclog v1.6.3 // indirect

@@ -3,7 +3,6 @@ package data
 import (
 	authnEngine "github.com/tx7do/kratos-authn/engine"
 	"github.com/tx7do/kratos-authn/engine/jwt"
-	"kratos-admin/pkg/oss"
 
 	authzEngine "github.com/tx7do/kratos-authz/engine"
 	"github.com/tx7do/kratos-authz/engine/noop"
@@ -17,6 +16,8 @@ import (
 	redisClient "github.com/tx7do/kratos-bootstrap/cache/redis"
 
 	"kratos-admin/app/admin/service/internal/data/ent"
+
+	"kratos-admin/pkg/oss"
 )
 
 // Data .
@@ -32,25 +33,29 @@ type Data struct {
 
 // NewData .
 func NewData(
+	logger log.Logger,
 	entClient *entgo.EntClient[*ent.Client],
 	redisClient *redis.Client,
 	authenticator authnEngine.Authenticator,
 	authorizer authzEngine.Engine,
-	logger log.Logger,
 ) (*Data, func(), error) {
 	l := log.NewHelper(log.With(logger, "module", "data/admin-service"))
 
 	d := &Data{
-		db:            entClient,
-		rdb:           redisClient,
-		log:           l,
+		log: l,
+
+		db:  entClient,
+		rdb: redisClient,
+
 		authenticator: authenticator,
 		authorizer:    authorizer,
 	}
 
 	return d, func() {
-		l.Info("message", "closing the data resources")
+		l.Info("closing the data resources")
+
 		_ = d.db.Close()
+
 		if err := d.rdb.Close(); err != nil {
 			l.Error(err)
 		}

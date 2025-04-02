@@ -1461,8 +1461,8 @@ github.com/tklauser/go-sysconf v0.3.15/go.mod h1:Dmjwr6tYFIseJw7a3dRLJfsHAMXZ3nE
 github.com/tklauser/numcpus v0.10.0 h1:18njr6LDBk1zuna922MgdjQuJFjrdppsZG60sHGfjso=
 github.com/tklauser/numcpus v0.10.0/go.mod h1:BiTKazU708GQTYF4mB+cmlpT2Is1gLk7XVuEeem8LsQ=
 github.com/tv42/httpunix v0.0.0-20150427012821-b75d8614f926/go.mod h1:9ESjWnEqriFuLhtthL60Sar/7RFoluCcXsuvEwTV5KM=
-github.com/tx7do/go-utils v1.1.13 h1:d7gvsUo5m6fGzcOtlqBmsNHsVJjniZvQZbzVPYmJBig=
-github.com/tx7do/go-utils v1.1.13/go.mod h1:FyrDYse1+mSQKbA0ALg7j2n+MuBPoAl+Xdn3FButAgI=
+github.com/tx7do/go-utils v1.1.14 h1:TFHKMcgetj5fgBQSpKnQjiLMB4SzpdO0Q5ooXDmm5xU=
+github.com/tx7do/go-utils v1.1.14/go.mod h1:rr2Trbyx3k6tSG2FyftyI7ueHy2vzhZThR32xltOxMs=
 github.com/tx7do/go-utils/entgo v1.1.24 h1:NlcRGQRublzAlIFcFu5eXBxmVVVWVS0/Bb7Rz9awV34=
 github.com/tx7do/go-utils/entgo v1.1.24/go.mod h1:JAPNk9mpCHQTQTCuDVeuuc7FDfwG7QTZcWqIlMcl+rc=
 github.com/tx7do/go-utils/geoip v1.1.3 h1:02dalRXkLUdZ40JdXD4wju+7F7NYcDtnYEC9rueL4Tc=

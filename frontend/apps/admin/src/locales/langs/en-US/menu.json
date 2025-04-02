@@ -14,9 +14,15 @@
     "user_detail": "User Detail",
     "org": "Organization Management",
     "dept": "Department Management",
+    "tenant": "Tenant Management",
     "permission": "Permission Management",
     "dict": "Dict Management",
-    "menu": "Menu Management"
+    "menu": "Menu Management",
+    "task": "Task Management",
+    "file": "File Management",
+    "notification_message": "Notification Message",
+    "notification_message_category": "Notification Type",
+    "private_message": "Private Message"
   },
   "log": {
     "moduleName": "Log Audit",

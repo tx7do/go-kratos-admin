@@ -17,13 +17,14 @@ require (
 	github.com/google/gnostic v0.7.0
 	github.com/google/uuid v1.6.0
 	github.com/google/wire v0.6.0
+	github.com/hibiken/asynq v0.25.1
 	github.com/jackc/pgx/v4 v4.18.3
 	github.com/lib/pq v1.10.9
 	github.com/mileusna/useragent v1.3.5
 	github.com/minio/minio-go/v7 v7.0.89
 	github.com/redis/go-redis/v9 v9.7.3
 	github.com/stretchr/testify v1.10.0
-	github.com/tx7do/go-utils v1.1.13
+	github.com/tx7do/go-utils v1.1.14
 	github.com/tx7do/go-utils/entgo v1.1.24
 	github.com/tx7do/go-utils/geoip v1.1.3
 	github.com/tx7do/kratos-authn v1.1.5
@@ -37,6 +38,7 @@ require (
 	github.com/tx7do/kratos-bootstrap/oss/minio v0.0.8
 	github.com/tx7do/kratos-bootstrap/rpc v0.0.9
 	github.com/tx7do/kratos-swagger-ui v0.0.0-20241213153527-eca591f9f8b2
+	github.com/tx7do/kratos-transport v1.1.12
 	github.com/tx7do/kratos-transport/transport/asynq v1.2.19
 	github.com/tx7do/kratos-transport/transport/sse v1.2.19
 	google.golang.org/genproto v0.0.0-20250324211829-b45e905df463
@@ -129,7 +131,6 @@ require (
 	github.com/hashicorp/golang-lru v1.0.2 // indirect
 	github.com/hashicorp/hcl/v2 v2.23.0 // indirect
 	github.com/hashicorp/serf v0.10.2 // indirect
-	github.com/hibiken/asynq v0.25.1 // indirect
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
 	github.com/jackc/chunkreader/v2 v2.0.1 // indirect
 	github.com/jackc/pgconn v1.14.3 // indirect
@@ -196,7 +197,6 @@ require (
 	github.com/tx7do/kratos-bootstrap/registry v0.0.8 // indirect
 	github.com/tx7do/kratos-bootstrap/tracer v0.0.8 // indirect
 	github.com/tx7do/kratos-bootstrap/utils v0.1.2 // indirect
-	github.com/tx7do/kratos-transport v1.1.12 // indirect
 	github.com/vearutop/statigz v1.4.3 // indirect
 	github.com/x448/float16 v0.8.4 // indirect
 	github.com/yusufpapurcu/wmi v1.2.4 // indirect

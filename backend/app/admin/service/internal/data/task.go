@@ -7,12 +7,10 @@ import (
 
 	"entgo.io/ent/dialect/sql"
 	"github.com/go-kratos/kratos/v2/log"
-	"google.golang.org/protobuf/types/known/durationpb"
-
 	"github.com/tx7do/go-utils/entgo/query"
 	entgoUpdate "github.com/tx7do/go-utils/entgo/update"
 	"github.com/tx7do/go-utils/fieldmaskutil"
-	timeutil "github.com/tx7do/go-utils/timeutil"
+	"github.com/tx7do/go-utils/timeutil"
 	"github.com/tx7do/go-utils/trans"
 
 	"kratos-admin/app/admin/service/internal/data/ent"
@@ -33,26 +31,6 @@ func NewTaskRepo(data *Data, logger log.Logger) *TaskRepo {
 		data: data,
 		log:  l,
 	}
-}
-
-// 将 uint64 类型的秒数转换为 timestamppb.Duration
-func secondToDuration(seconds *uint64) *durationpb.Duration {
-	if seconds == nil {
-		return nil
-	}
-
-	// 创建并返回一个新的 durationpb.Duration 实例
-	return durationpb.New(time.Duration(*seconds) * time.Second)
-}
-
-func durationToSecond(d *durationpb.Duration) *uint64 {
-	if d == nil {
-		return nil
-	}
-
-	// 将 durationpb.Duration 转换为秒数
-	seconds := uint64(d.AsDuration().Seconds())
-	return &seconds
 }
 
 func (r *TaskRepo) toEntType(in *systemV1.TaskType) *task.Type {
@@ -107,9 +85,9 @@ func (r *TaskRepo) convertEntToProto(in *ent.Task) *systemV1.Task {
 		TaskPayload: in.TaskPayload,
 		CronSpec:    in.CronSpec,
 		RetryCount:  in.RetryCount,
-		Timeout:     secondToDuration(in.Timeout),
+		Timeout:     timeutil.NumberToDurationpb(in.Timeout, time.Second),
 		Deadline:    timeutil.TimeToTimestamppb(in.Deadline),
-		ProcessIn:   secondToDuration(in.ProcessIn),
+		ProcessIn:   timeutil.NumberToDurationpb(in.ProcessIn, time.Second),
 		ProcessAt:   timeutil.TimeToTimestamppb(in.ProcessAt),
 		Enable:      in.Enable,
 		Remark:      in.Remark,
@@ -225,9 +203,9 @@ func (r *TaskRepo) Create(ctx context.Context, req *systemV1.CreateTaskRequest) 
 		SetNillableTaskPayload(req.Data.TaskPayload).
 		SetNillableCronSpec(req.Data.CronSpec).
 		SetNillableRetryCount(req.Data.RetryCount).
-		SetNillableTimeout(durationToSecond(req.Data.Timeout)).
+		SetNillableTimeout(timeutil.DurationpbToNumber[uint64](req.Data.Timeout, time.Second)).
 		SetNillableDeadline(timeutil.TimestamppbToTime(req.Data.Deadline)).
-		SetNillableProcessIn(durationToSecond(req.Data.ProcessIn)).
+		SetNillableProcessIn(timeutil.DurationpbToNumber[uint64](req.Data.ProcessIn, time.Second)).
 		SetNillableProcessAt(timeutil.TimestamppbToTime(req.Data.ProcessAt)).
 		SetNillableEnable(req.Data.Enable).
 		SetNillableRemark(req.Data.Remark).
@@ -283,9 +261,9 @@ func (r *TaskRepo) Update(ctx context.Context, req *systemV1.UpdateTaskRequest) 
 		SetNillableTaskPayload(req.Data.TaskPayload).
 		SetNillableCronSpec(req.Data.CronSpec).
 		SetNillableRetryCount(req.Data.RetryCount).
-		SetNillableTimeout(durationToSecond(req.Data.Timeout)).
+		SetNillableTimeout(timeutil.DurationpbToNumber[uint64](req.Data.Timeout, time.Second)).
 		SetNillableDeadline(timeutil.TimestamppbToTime(req.Data.Deadline)).
-		SetNillableProcessIn(durationToSecond(req.Data.ProcessIn)).
+		SetNillableProcessIn(timeutil.DurationpbToNumber[uint64](req.Data.ProcessIn, time.Second)).
 		SetNillableProcessAt(timeutil.TimestamppbToTime(req.Data.ProcessAt)).
 		SetNillableEnable(req.Data.Enable).
 		SetNillableRemark(req.Data.Remark).

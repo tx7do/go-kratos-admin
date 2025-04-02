@@ -14,9 +14,15 @@
     "user_detail": "用户详情",
     "org": "组织管理",
     "dept": "部门管理",
+    "tenant": "租户管理",
     "permission": "权限管理",
     "dict": "字典管理",
-    "menu": "菜单管理"
+    "menu": "菜单管理",
+    "task": "任务管理",
+    "file": "文件管理",
+    "notification_message": "通知消息",
+    "notification_message_category": "通知类型",
+    "private_message": "私聊消息"
   },
   "log": {
     "moduleName": "日志审计",

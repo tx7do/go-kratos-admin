@@ -4,7 +4,6 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
-
 	"github.com/go-kratos/kratos/v2/log"
 	"github.com/hibiken/asynq"
 	"github.com/tx7do/go-utils/trans"
@@ -264,13 +263,13 @@ func (s *TaskService) convertTaskOption(t *systemV1.Task) (opts []asynq.Option, 
 		opts = append(opts, asynq.MaxRetry(int(t.GetRetryCount())))
 	}
 	if t.GetTimeout() != nil {
-		//opts = append(opts, asynq.Timeout(t.GetTimeout()))
+		opts = append(opts, asynq.Timeout(t.Timeout.AsDuration()))
 	}
 	if t.GetDeadline() != nil {
 		opts = append(opts, asynq.Deadline(t.GetDeadline().AsTime()))
 	}
 	if t.GetProcessIn() != nil {
-		//opts = append(opts, asynq.ProcessIn(t.GetProcessIn()))
+		opts = append(opts, asynq.ProcessIn(t.GetProcessIn().AsDuration()))
 	}
 	if t.GetProcessAt() != nil {
 		opts = append(opts, asynq.ProcessAt(t.GetProcessAt().AsTime()))

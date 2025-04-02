@@ -21,7 +21,7 @@ const log: RouteRecordRaw[] = [
         name: 'AdminLoginLog',
         meta: {
           icon: 'lucide:log-in',
-          title: $t('menu.log.admin_login_log'),
+          title: $t('menu.log.adminLoginLog'),
           authority: ['super'],
         },
         component: () => import('#/views/app/log/admin_login_log/index.vue'),
@@ -32,7 +32,7 @@ const log: RouteRecordRaw[] = [
         name: 'AdminOperationLog',
         meta: {
           icon: 'lucide:arrow-up-down',
-          title: $t('menu.log.admin_operation_log'),
+          title: $t('menu.log.adminOperationLog'),
           authority: ['super'],
         },
         component: () =>

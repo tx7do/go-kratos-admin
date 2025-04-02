@@ -6,18 +6,18 @@ import { $t } from '@vben/locales';
 
 import { notification } from 'ant-design-vue';
 
-import { useVbenForm, z } from '#/adapter/form';
-import { authorityList, useOrganizationStore, useUserStore } from '#/store';
+import { useVbenForm } from '#/adapter/form';
+import { TaskType } from '#/rpc/api/system/service/v1/task.pb';
+import { enableBoolList, taskTypeList, useTaskStore } from '#/store';
 
-const userStore = useUserStore();
-const orgStore = useOrganizationStore();
+const taskStore = useTaskStore();
 
 const data = ref();
 
 const getTitle = computed(() =>
   data.value?.create
-    ? $t('ui.modal.create', { moduleName: $t('page.user.moduleName') })
-    : $t('ui.modal.update', { moduleName: $t('page.user.moduleName') }),
+    ? $t('ui.modal.create', { moduleName: $t('page.task.moduleName') })
+    : $t('ui.modal.update', { moduleName: $t('page.task.moduleName') }),
 );
 // const isCreate = computed(() => data.value?.create);
 
@@ -32,78 +32,60 @@ const [BaseForm, baseFormApi] = useVbenForm({
   },
   schema: [
     {
-      component: 'Input',
-      fieldName: 'userName',
-      label: $t('page.user.table.userName'),
-      componentProps: {
-        placeholder: $t('ui.placeholder.input'),
-        allowClear: true,
-      },
-      rules: z.string().min(1, { message: $t('ui.formRules.required') }),
-    },
-    // {
-    //   component: 'VbenInputPassword',
-    //   fieldName: 'password',
-    //   label: '密码',
-    //   componentProps: {
-    //     passwordStrength: true,
-    //     placeholder: $t('ui.placeholder.input'),
-    //   },
-    //   rules: 'required',
-    // },
-    {
       component: 'Select',
-      fieldName: 'authority',
-      label: $t('page.user.table.authority'),
+      fieldName: 'type',
+      label: $t('page.task.type'),
+      defaultValue: TaskType.TaskType_Periodic,
       componentProps: {
         placeholder: $t('ui.placeholder.select'),
-        options: authorityList,
+        options: taskTypeList,
       },
       rules: 'selectRequired',
     },
-    {
-      component: 'ApiTreeSelect',
-      fieldName: 'orgId',
-      label: $t('page.user.table.orgId'),
-      componentProps: {
-        placeholder: $t('ui.placeholder.select'),
-        api: async () => {
-          const result = await orgStore.listOrganization(true);
 
-          return result.items;
-        },
-        numberToString: true,
-        childrenField: 'children',
-        labelField: 'name',
-        valueField: 'id',
-        // afterFetch: (data: any) => {
-        //   return data.map((item: any) => ({
-        //     label: item.name,
-        //     value: item.id,
-        //   }));
-        // },
+    {
+      component: 'Input',
+      fieldName: 'typeName',
+      label: $t('page.task.typeName'),
+      componentProps: {
+        placeholder: $t('ui.placeholder.input'),
+        allowClear: true,
       },
+      rules: 'required',
+    },
+
+    {
+      component: 'Input',
+      fieldName: 'cronSpec',
+      label: $t('page.task.cronSpec'),
+      componentProps: {
+        placeholder: $t('ui.placeholder.input'),
+        allowClear: true,
+      },
+      rules: 'required',
+    },
+
+    {
+      component: 'Textarea',
+      fieldName: 'taskPayload',
+      label: $t('page.task.taskPayload'),
+      componentProps: {
+        placeholder: $t('ui.placeholder.input'),
+        allowClear: true,
+      },
+    },
+
+    {
+      component: 'RadioGroup',
+      fieldName: 'enable',
+      defaultValue: 'true',
+      label: $t('page.task.enable'),
       rules: 'selectRequired',
-    },
-    {
-      component: 'Input',
-      fieldName: 'nickName',
-      label: $t('page.user.table.nickName'),
       componentProps: {
-        placeholder: $t('ui.placeholder.input'),
-        allowClear: true,
+        optionType: 'button',
+        class: 'flex flex-wrap', // 如果选项过多，可以添加class来自动折叠
+        options: enableBoolList,
       },
-      rules: 'required',
-    },
-    {
-      component: 'Input',
-      fieldName: 'email',
-      label: $t('page.user.table.email'),
-      componentProps: {
-        placeholder: $t('ui.placeholder.input'),
-        allowClear: true,
-      },
-      rules: 'required',
     },
 
     {
@@ -132,18 +114,17 @@ const [Drawer, drawerApi] = useVbenDrawer({
       return;
     }
 
-    // 加载条设置为加载状态
     setLoading(true);
 
     // 获取表单数据
     const values = await baseFormApi.getValues();
 
-    console.log(getTitle.value, Object.keys(values));
+    console.log(getTitle.value, values);
 
     try {
       await (data.value?.create
-        ? userStore.createUser(values)
-        : userStore.updateUser(data.value.row.id, values));
+        ? taskStore.createTask(values)
+        : taskStore.updateTask(data.value.row.id, values));
 
       notification.success({
         message: data.value?.create
@@ -169,10 +150,7 @@ const [Drawer, drawerApi] = useVbenDrawer({
       data.value = drawerApi.getData<Record<string, any>>();
 
       // 为表单赋值
-      if (data.value.row !== undefined) {
-        data.value.row.orgId = data.value?.row?.orgId.toString();
-        baseFormApi.setValues(data.value?.row);
-      }
+      baseFormApi.setValues(data.value?.row);
 
       setLoading(false);
 

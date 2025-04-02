@@ -1,27 +1,20 @@
 <script lang="ts" setup>
 import type { VxeGridProps } from '#/adapter/vxe-table';
-import type { User } from '#/rpc/api/user/service/v1/user.pb';
+import type { Role } from '#/rpc/api/user/service/v1/role.pb';
 
 import { h } from 'vue';
 
 import { Page, useVbenDrawer, type VbenFormProps } from '@vben/common-ui';
-import { LucideFilePenLine, LucideInfo, LucideTrash2 } from '@vben/icons';
+import { LucideFilePenLine, LucideTrash2 } from '@vben/icons';
 
 import { notification } from 'ant-design-vue';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
 import { $t } from '#/locales';
-import { router } from '#/router';
-import {
-  authorityToColor,
-  authorityToName,
-  useRoleStore,
-  useUserStore,
-} from '#/store';
+import { statusList, useRoleStore } from '#/store';
 
-import UserDrawer from './user-drawer.vue';
+import RoleDrawer from './role-drawer.vue';
 
-const userStore = useUserStore();
 const roleStore = useRoleStore();
 
 const formOptions: VbenFormProps = {
@@ -34,45 +27,27 @@ const formOptions: VbenFormProps = {
   schema: [
     {
       component: 'Input',
-      fieldName: 'realName',
-      label: $t('page.user.form.real_name'),
+      fieldName: 'name',
+      label: $t('page.role.name'),
       componentProps: {
         placeholder: $t('ui.placeholder.input'),
         allowClear: true,
       },
     },
     {
-      component: 'Input',
-      fieldName: 'phone',
-      label: $t('page.user.form.phone'),
+      component: 'Select',
+      fieldName: 'status',
+      label: $t('ui.table.status'),
       componentProps: {
-        placeholder: $t('ui.placeholder.input'),
-        allowClear: true,
-      },
-    },
-    {
-      component: 'ApiSelect',
-      fieldName: 'roleId',
-      label: $t('page.user.form.roleId'),
-      componentProps: {
+        options: statusList,
         placeholder: $t('ui.placeholder.select'),
         allowClear: true,
-        afterFetch: (data: { name: string; path: string }[]) => {
-          return data.map((item: any) => ({
-            label: item.name,
-            value: item.id.toString(),
-          }));
-        },
-        api: async () => {
-          const result = await roleStore.listRole(true);
-          return result.items;
-        },
       },
     },
   ],
 };
 
-const gridOptions: VxeGridProps<User> = {
+const gridOptions: VxeGridProps<Role> = {
   toolbarConfig: {
     custom: true,
     export: true,
@@ -86,14 +61,21 @@ const gridOptions: VxeGridProps<User> = {
   rowConfig: {
     isHover: true,
   },
-  stripe: true,
+
+  // stripe: true,
+
+  treeConfig: {
+    childrenField: 'children',
+    rowField: 'id',
+    // transform: true,
+  },
 
   proxyConfig: {
     ajax: {
       query: async ({ page }, formValues) => {
-        // console.log('query:', filters, form, formValues);
+        console.log('query:', formValues);
 
-        return await userStore.listUser(
+        return await roleStore.listRole(
           false,
           page.currentPage,
           page.pageSize,
@@ -105,11 +87,16 @@ const gridOptions: VxeGridProps<User> = {
 
   columns: [
     { title: $t('ui.table.seq'), type: 'seq', width: 50 },
-    { title: $t('page.user.table.userName'), field: 'userName' },
-    { title: $t('page.user.table.nickName'), field: 'nickName' },
-    { title: $t('page.user.table.realName'), field: 'realName' },
-    { title: $t('page.user.table.email'), field: 'email' },
-    { title: $t('page.user.table.phone'), field: 'phone' },
+    { title: $t('page.role.name'), field: 'name', treeNode: true },
+    { title: $t('page.role.code'), field: 'code', width: 140 },
+    { title: $t('ui.table.sortId'), field: 'sortId', width: 70 },
+    {
+      title: $t('ui.table.status'),
+      field: 'status',
+      slots: { default: 'status' },
+      width: 95,
+    },
+    { title: $t('ui.table.remark'), field: 'remark' },
     {
       title: $t('ui.table.createTime'),
       field: 'createTime',
@@ -117,23 +104,11 @@ const gridOptions: VxeGridProps<User> = {
       width: 140,
     },
     {
-      title: $t('page.user.table.authority'),
-      field: 'authority',
-      slots: { default: 'authority' },
-      width: 80,
-    },
-    {
-      title: $t('ui.table.status'),
-      field: 'status',
-      slots: { default: 'status' },
-      width: 95,
-    },
-    {
       title: $t('ui.table.action'),
       field: 'action',
       fixed: 'right',
       slots: { default: 'action' },
-      width: 120,
+      width: 90,
     },
   ],
 };
@@ -142,22 +117,21 @@ const [Grid, gridApi] = useVbenVxeGrid({ gridOptions, formOptions });
 
 const [Drawer, drawerApi] = useVbenDrawer({
   // 连接抽离的组件
-  connectedComponent: UserDrawer,
+  connectedComponent: RoleDrawer,
 });
 
-/* 打开模态窗口 */
 function openDrawer(create: boolean, row?: any) {
   drawerApi.setData({
     create,
     row,
   });
-
   drawerApi.open();
 }
 
 /* 创建 */
 function handleCreate() {
   console.log('创建');
+
   openDrawer(true);
 }
 
@@ -172,7 +146,7 @@ async function handleDelete(row: any) {
   console.log('删除', row);
 
   try {
-    await userStore.deleteUser(row.id);
+    await roleStore.deleteRole(row.id);
 
     notification.success({
       message: $t('ui.notification.delete_success'),
@@ -186,12 +160,7 @@ async function handleDelete(row: any) {
   }
 }
 
-/* 详情 */
-function handleDetail(row: any) {
-  router.push(`/system/users/detail/${row.userName}`);
-}
-
-/* 修改用户状态 */
+/* 修改角色状态 */
 async function handleStatusChanged(row: any, checked: boolean) {
   console.log('handleStatusChanged', row.status, checked);
 
@@ -199,7 +168,7 @@ async function handleStatusChanged(row: any, checked: boolean) {
   row.status = checked ? 'ON' : 'OFF';
 
   try {
-    await userStore.updateUser(row.id, { status: row.status });
+    await roleStore.updateRole(row.id, { status: row.status });
 
     notification.success({
       message: $t('ui.notification.update_status_success'),
@@ -216,10 +185,10 @@ async function handleStatusChanged(row: any, checked: boolean) {
 
 <template>
   <Page auto-content-height>
-    <Grid :table-title="$t('menu.system.user')">
+    <Grid :table-title="$t('menu.auth.role')">
       <template #toolbar-tools>
-        <a-button type="primary" @click="handleCreate">
-          {{ $t('page.user.button.create') }}
+        <a-button class="mr-2" type="primary" @click="handleCreate">
+          {{ $t('page.role.button.create') }}
         </a-button>
       </template>
       <template #status="{ row }">
@@ -229,22 +198,11 @@ async function handleStatusChanged(row: any, checked: boolean) {
           :checked-children="$t('ui.switch.active')"
           :un-checked-children="$t('ui.switch.inactive')"
           @change="
-            (checked: boolean) => handleStatusChanged(row, checked as boolean)
+            (checked: any) => handleStatusChanged(row, checked as boolean)
           "
         />
       </template>
-      <template #authority="{ row }">
-        <a-tag :color="authorityToColor(row.authority)">
-          {{ authorityToName(row.authority) }}
-        </a-tag>
-      </template>
       <template #action="{ row }">
-        <a-button
-          type="link"
-          :icon="h(LucideInfo)"
-          @click="() => handleDetail(row)"
-        />
-
         <a-button
           type="link"
           :icon="h(LucideFilePenLine)"
@@ -255,7 +213,7 @@ async function handleStatusChanged(row: any, checked: boolean) {
           :ok-text="$t('ui.button.ok')"
           :title="
             $t('ui.text.do_you_want_delete', {
-              moduleName: $t('page.user.moduleName'),
+              moduleName: $t('page.role.moduleName'),
             })
           "
           @confirm="() => handleDelete(row)"

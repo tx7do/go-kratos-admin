@@ -100,7 +100,61 @@
       "create": "创建职位"
     }
   },
-  "admin_login_log": {
+  "tenant": {
+    "moduleName": "租户",
+    "name": "租户名称",
+    "code": "租户编码",
+    "button": {
+      "create": "创建租户"
+    }
+  },
+  "file": {
+    "moduleName": "文件",
+    "fileName": "文件名",
+    "bucketName": "存储桶",
+    "fileDirectory": "目录",
+    "provider": "供应商",
+    "fileGuid": "GUID",
+    "size": "大小",
+    "uploader": "上传者",
+    "button": {
+      "create": "创建文件"
+    }
+  },
+  "task": {
+    "moduleName": "任务",
+    "type": "调度类型",
+    "typeName": "任务名",
+    "taskPayload": "任务参数",
+    "cronSpec": "cron表达式",
+    "enable": "启用状态",
+    "button": {
+      "create": "创建任务"
+    }
+  },
+  "notificationMessage": {
+    "moduleName": "通知消息",
+    "subject": "通知主题",
+    "categoryName": "消息分类",
+    "button": {
+      "create": "创建通知"
+    }
+  },
+  "notificationMessageCategory": {
+    "moduleName": "通知类型",
+    "name": "类型名称",
+    "button": {
+      "create": "创建类型"
+    }
+  },
+  "privateMessage": {
+    "moduleName": "私信消息",
+    "subject": "私信主题",
+    "button": {
+      "create": "创建私信"
+    }
+  },
+  "adminLoginLog": {
     "moduleName": "登录日志",
     "userName": "登录名",
     "success": "登录状态",
@@ -109,7 +163,7 @@
     "clientName": "登录平台",
     "loginIp": "登录地址"
   },
-  "admin_operation_log": {
+  "adminOperationLog": {
     "moduleName": "操作日志",
     "userName": "操作者名",
     "success": "操作状态",

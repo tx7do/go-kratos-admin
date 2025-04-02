@@ -1,6 +1,11 @@
+import { computed } from 'vue';
+
+import { $t } from '@vben/locales';
+
 import { defineStore } from 'pinia';
 
 import { defTaskService, makeQueryString, makeUpdateMask } from '#/rpc';
+import { TaskType } from '#/rpc/api/system/service/v1/task.pb';
 
 export const useTaskStore = defineStore('task', () => {
   /**
@@ -75,3 +80,60 @@ export const useTaskStore = defineStore('task', () => {
     deleteTask,
   };
 });
+
+export const enableList = computed(() => [
+  { value: 'true', label: $t('enum.enable.true') },
+  { value: 'false', label: $t('enum.enable.false') },
+]);
+
+export const enableBoolList = computed(() => [
+  { value: true, label: $t('enum.enable.true') },
+  { value: false, label: $t('enum.enable.false') },
+]);
+
+export const taskTypeList = computed(() => [
+  {
+    value: TaskType.TaskType_Periodic,
+    label: $t('enum.taskType.Periodic'),
+  },
+  {
+    value: TaskType.TaskType_Delay,
+    label: $t('enum.taskType.Delay'),
+  },
+  {
+    value: TaskType.TaskType_WaitResult,
+    label: $t('enum.taskType.WaitResult'),
+  },
+]);
+
+export function taskTypeToName(taskType: any) {
+  switch (taskType) {
+    case TaskType.TaskType_Delay: {
+      return $t('enum.taskType.Delay');
+    }
+
+    case TaskType.TaskType_Periodic: {
+      return $t('enum.taskType.Periodic');
+    }
+
+    case TaskType.TaskType_WaitResult: {
+      return $t('enum.taskType.WaitResult');
+    }
+  }
+}
+
+export function taskTypeToColor(taskType: any) {
+  switch (taskType) {
+    case TaskType.TaskType_Delay: {
+      return 'green';
+    }
+
+    case TaskType.TaskType_Periodic: {
+      return 'orange';
+    }
+
+    case TaskType.TaskType_WaitResult: {
+      return 'red';
+    }
+  }
+}

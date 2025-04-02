@@ -24,7 +24,9 @@
     "on": "ON",
     "off": "OFF",
     "active": "Active",
-    "inactive": "Inactive"
+    "inactive": "Inactive",
+    "enable": "Enable",
+    "disable": "Disable"
   },
   "button": {
     "ok": "OK",

@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { VxeGridProps } from '#/adapter/vxe-table';
-import type { Department } from '#/rpc/api/user/service/v1/department.pb';
+import type { File } from '#/rpc/api/file/service/v1/file.pb';
 
 import { h } from 'vue';
 
@@ -11,11 +11,11 @@ import { notification } from 'ant-design-vue';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
 import { $t } from '#/locales';
-import { statusList, useDepartmentStore } from '#/store';
+import { useFileStore } from '#/store';
 
-import DeptDrawer from './dept-drawer.vue';
+import FileDrawer from './file-drawer.vue';
 
-const deptStore = useDepartmentStore();
+const fileStore = useFileStore();
 
 const formOptions: VbenFormProps = {
   // 默认展开
@@ -27,26 +27,17 @@ const formOptions: VbenFormProps = {
   schema: [
     {
       component: 'Input',
-      fieldName: 'name',
-      label: $t('page.dept.name'),
+      fieldName: 'saveFileName',
+      label: $t('page.file.name'),
       componentProps: {
         placeholder: $t('ui.placeholder.input'),
         allowClear: true,
       },
     },
-    {
-      component: 'Select',
-      fieldName: 'status',
-      label: $t('ui.table.status'),
-      componentProps: {
-        options: statusList,
-        placeholder: $t('ui.placeholder.select'),
-      },
-    },
   ],
 };
 
-const gridOptions: VxeGridProps<Department> = {
+const gridOptions: VxeGridProps<File> = {
   toolbarConfig: {
     custom: true,
     export: true,
@@ -63,18 +54,12 @@ const gridOptions: VxeGridProps<Department> = {
     isHover: true,
   },
 
-  treeConfig: {
-    childrenField: 'children',
-    rowField: 'id',
-    // transform: true,
-  },
-
   proxyConfig: {
     ajax: {
       query: async ({ page }, formValues) => {
         console.log('query:', formValues);
 
-        return await deptStore.listDepartment(
+        return await fileStore.listFile(
           true,
           page.currentPage,
           page.pageSize,
@@ -86,21 +71,16 @@ const gridOptions: VxeGridProps<Department> = {
 
   columns: [
     { title: $t('ui.table.seq'), type: 'seq', width: 50 },
-    { title: $t('page.dept.name'), field: 'name', treeNode: true },
-    { title: $t('ui.table.sortId'), field: 'sortId', width: 70 },
-    {
-      title: $t('ui.table.status'),
-      field: 'status',
-      slots: { default: 'status' },
-      width: 95,
-    },
+    { title: $t('page.file.fileName'), field: 'saveFileName' },
+    { title: $t('page.file.size'), field: 'size' },
+    { title: $t('page.file.bucketName'), field: 'bucketName' },
+    { title: $t('page.file.fileDirectory'), field: 'fileDirectory' },
     {
       title: $t('ui.table.createTime'),
       field: 'createTime',
       formatter: 'formatDateTime',
       width: 140,
     },
-    { title: $t('ui.table.remark'), field: 'remark' },
     {
       title: $t('ui.table.action'),
       field: 'action',
@@ -115,7 +95,7 @@ const [Grid, gridApi] = useVbenVxeGrid({ gridOptions, formOptions });
 
 const [Drawer, drawerApi] = useVbenDrawer({
   // 连接抽离的组件
-  connectedComponent: DeptDrawer,
+  connectedComponent: FileDrawer,
 });
 
 /* 打开模态窗口 */
@@ -131,14 +111,13 @@ function openModal(create: boolean, row?: any) {
 /* 创建 */
 function handleCreate() {
   console.log('创建');
-
-  openModal(true);
+  // openModal(true);
 }
 
 /* 编辑 */
 function handleEdit(row: any) {
   console.log('编辑', row);
-  openModal(false, row);
+  // openModal(false, row);
 }
 
 /* 删除 */
@@ -146,7 +125,7 @@ async function handleDelete(row: any) {
   console.log('删除', row);
 
   try {
-    await deptStore.deleteDepartment(row.id);
+    await fileStore.deleteFile(row.id);
 
     notification.success({
       message: $t('ui.notification.delete_success'),
@@ -160,7 +139,7 @@ async function handleDelete(row: any) {
   }
 }
 
-/* 修改部门状态 */
+/* 修改状态 */
 async function handleStatusChanged(row: any, checked: boolean) {
   console.log('handleStatusChanged', row.status, checked);
 
@@ -168,7 +147,7 @@ async function handleStatusChanged(row: any, checked: boolean) {
   row.status = checked ? 'ON' : 'OFF';
 
   try {
-    await deptStore.updateDepartment(row.id, { status: row.status });
+    await fileStore.updateFile(row.id, { status: row.status });
 
     notification.success({
       message: $t('ui.notification.update_status_success'),
@@ -181,28 +160,14 @@ async function handleStatusChanged(row: any, checked: boolean) {
     row.pending = false;
   }
 }
-
-const expandAll = () => {
-  gridApi.grid?.setAllTreeExpand(true);
-};
-
-const collapseAll = () => {
-  gridApi.grid?.setAllTreeExpand(false);
-};
 </script>
 
 <template>
   <Page auto-content-height>
-    <Grid :table-title="$t('menu.system.dept')">
+    <Grid :table-title="$t('menu.system.file')">
       <template #toolbar-tools>
         <a-button class="mr-2" type="primary" @click="handleCreate">
-          {{ $t('page.dept.button.create') }}
-        </a-button>
-        <a-button class="mr-2" @click="expandAll">
-          {{ $t('ui.tree.expand_all') }}
-        </a-button>
-        <a-button class="mr-2" @click="collapseAll">
-          {{ $t('ui.tree.collapse_all') }}
+          {{ $t('page.file.button.create') }}
         </a-button>
       </template>
       <template #status="{ row }">
@@ -227,7 +192,7 @@ const collapseAll = () => {
           :ok-text="$t('ui.button.ok')"
           :title="
             $t('ui.text.do_you_want_delete', {
-              moduleName: $t('page.dept.moduleName'),
+              moduleName: $t('page.file.moduleName'),
             })
           "
           @confirm="() => handleDelete(row)"

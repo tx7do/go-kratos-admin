@@ -27,7 +27,7 @@ const formOptions: VbenFormProps = {
     {
       component: 'Input',
       fieldName: 'userName',
-      label: $t('page.admin_operation_log.userName'),
+      label: $t('page.adminOperationLog.userName'),
       componentProps: {
         placeholder: $t('ui.placeholder.input'),
         allowClear: true,
@@ -135,7 +135,7 @@ const [Grid] = useVbenVxeGrid({ gridOptions, formOptions });
 
 <template>
   <Page auto-content-height>
-    <Grid :table-title="$t('menu.log.admin_operation_log')">
+    <Grid :table-title="$t('menu.log.adminOperationLog')">
       <template #success="{ row }">
         <a-tag :color="successToColor(row.success)">
           {{ successToName(row.success, row.statusCode) }}

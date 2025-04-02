@@ -3,6 +3,10 @@
     "ON": "正常",
     "OFF": "停用"
   },
+  "enable": {
+    "true": "启用",
+    "false": "禁用"
+  },
   "authority": {
     "CUSTOMER_USER": "普通用户",
     "GUEST_USER": "游客",
@@ -17,5 +21,10 @@
   "successStatus": {
     "success": "成功",
     "failed": "失败"
+  },
+  "taskType" : {
+    "Periodic": "周期性",
+    "Delay": "延时任务",
+    "WaitResult": "等待结果"
   }
 }

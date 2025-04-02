@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { VxeGridProps } from '#/adapter/vxe-table';
-import type { Organization } from '#/rpc/api/user/service/v1/organization.pb';
+import type { NotificationMessageCategory } from '#/rpc/api/internal_message/service/v1/notification_message_category.pb';
 
 import { h } from 'vue';
 
@@ -11,11 +11,11 @@ import { notification } from 'ant-design-vue';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
 import { $t } from '#/locales';
-import { statusList, useOrganizationStore } from '#/store';
+import { useNotificationMessageCategoryStore } from '#/store';
 
-import OrgDrawer from './org-drawer.vue';
+import NotificationMessageCategoryCategoryDrawer from './notification-message-category-drawer.vue';
 
-const orgStore = useOrganizationStore();
+const notificationMessageCategoryStore = useNotificationMessageCategoryStore();
 
 const formOptions: VbenFormProps = {
   // 默认展开
@@ -28,25 +28,16 @@ const formOptions: VbenFormProps = {
     {
       component: 'Input',
       fieldName: 'name',
-      label: $t('page.org.name'),
+      label: $t('page.notificationMessageCategory.name'),
       componentProps: {
         placeholder: $t('ui.placeholder.input'),
         allowClear: true,
       },
     },
-    {
-      component: 'Select',
-      fieldName: 'status',
-      label: $t('ui.table.status'),
-      componentProps: {
-        options: statusList,
-        placeholder: $t('ui.placeholder.select'),
-      },
-    },
   ],
 };
 
-const gridOptions: VxeGridProps<Organization> = {
+const gridOptions: VxeGridProps<NotificationMessageCategory> = {
   toolbarConfig: {
     custom: true,
     export: true,
@@ -63,18 +54,12 @@ const gridOptions: VxeGridProps<Organization> = {
     isHover: true,
   },
 
-  treeConfig: {
-    childrenField: 'children',
-    rowField: 'id',
-    // transform: true,
-  },
-
   proxyConfig: {
     ajax: {
       query: async ({ page }, formValues) => {
         console.log('query:', formValues);
 
-        return await orgStore.listOrganization(
+        return await notificationMessageCategoryStore.listNotificationMessageCategory(
           true,
           page.currentPage,
           page.pageSize,
@@ -86,13 +71,9 @@ const gridOptions: VxeGridProps<Organization> = {
 
   columns: [
     { title: $t('ui.table.seq'), type: 'seq', width: 50 },
-    { title: $t('page.org.name'), field: 'name', treeNode: true },
-    { title: $t('ui.table.sortId'), field: 'sortId', width: 70 },
     {
-      title: $t('ui.table.status'),
-      field: 'status',
-      slots: { default: 'status' },
-      width: 95,
+      title: $t('page.notificationMessageCategory.name'),
+      field: 'name',
     },
     {
       title: $t('ui.table.createTime'),
@@ -115,11 +96,11 @@ const [Grid, gridApi] = useVbenVxeGrid({ gridOptions, formOptions });
 
 const [Drawer, drawerApi] = useVbenDrawer({
   // 连接抽离的组件
-  connectedComponent: OrgDrawer,
+  connectedComponent: NotificationMessageCategoryCategoryDrawer,
 });
 
 /* 打开模态窗口 */
-function openDrawer(create: boolean, row?: any) {
+function openModal(create: boolean, row?: any) {
   drawerApi.setData({
     create,
     row,
@@ -132,13 +113,13 @@ function openDrawer(create: boolean, row?: any) {
 function handleCreate() {
   console.log('创建');
 
-  openDrawer(true);
+  openModal(true);
 }
 
 /* 编辑 */
 function handleEdit(row: any) {
   console.log('编辑', row);
-  openDrawer(false, row);
+  openModal(false, row);
 }
 
 /* 删除 */
@@ -146,7 +127,9 @@ async function handleDelete(row: any) {
   console.log('删除', row);
 
   try {
-    await orgStore.deleteOrganization(row.id);
+    await notificationMessageCategoryStore.deleteNotificationMessageCategory(
+      row.id,
+    );
 
     notification.success({
       message: $t('ui.notification.delete_success'),
@@ -160,7 +143,7 @@ async function handleDelete(row: any) {
   }
 }
 
-/* 修改组织状态 */
+/* 修改状态 */
 async function handleStatusChanged(row: any, checked: boolean) {
   console.log('handleStatusChanged', row.status, checked);
 
@@ -168,7 +151,12 @@ async function handleStatusChanged(row: any, checked: boolean) {
   row.status = checked ? 'ON' : 'OFF';
 
   try {
-    await orgStore.updateOrganization(row.id, { status: row.status });
+    await notificationMessageCategoryStore.updateNotificationMessageCategory(
+      row.id,
+      {
+        status: row.status,
+      },
+    );
 
     notification.success({
       message: $t('ui.notification.update_status_success'),
@@ -181,28 +169,14 @@ async function handleStatusChanged(row: any, checked: boolean) {
     row.pending = false;
   }
 }
-
-const expandAll = () => {
-  gridApi.grid?.setAllTreeExpand(true);
-};
-
-const collapseAll = () => {
-  gridApi.grid?.setAllTreeExpand(false);
-};
 </script>
 
 <template>
   <Page auto-content-height>
-    <Grid :table-title="$t('menu.system.org')">
+    <Grid :table-title="$t('menu.system.notificationMessageCategory')">
       <template #toolbar-tools>
         <a-button class="mr-2" type="primary" @click="handleCreate">
-          {{ $t('page.org.button.create') }}
-        </a-button>
-        <a-button class="mr-2" @click="expandAll">
-          {{ $t('ui.tree.expand_all') }}
-        </a-button>
-        <a-button class="mr-2" @click="collapseAll">
-          {{ $t('ui.tree.collapse_all') }}
+          {{ $t('page.notificationMessageCategory.button.create') }}
         </a-button>
       </template>
       <template #status="{ row }">
@@ -227,7 +201,7 @@ const collapseAll = () => {
           :ok-text="$t('ui.button.ok')"
           :title="
             $t('ui.text.do_you_want_delete', {
-              moduleName: $t('page.org.moduleName'),
+              moduleName: $t('page.notificationMessageCategory.moduleName'),
             })
           "
           @confirm="() => handleDelete(row)"

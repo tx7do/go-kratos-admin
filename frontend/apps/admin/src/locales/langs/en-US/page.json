@@ -100,7 +100,61 @@
       "create": "Create"
     }
   },
-  "admin_login_log": {
+  "tenant": {
+    "moduleName": "Tenant",
+    "name": "Tenant Name",
+    "code": "Tenant Code",
+    "button": {
+      "create": "Create"
+    }
+  },
+  "file": {
+    "moduleName": "File",
+    "fileName": "File Name",
+    "bucketName": "Bucket Name",
+    "fileDirectory": "Directory",
+    "provider": "Provider",
+    "fileGuid": "GUID",
+    "size": "Size",
+    "uploader": "Uploader",
+    "button": {
+      "create": "Create"
+    }
+  },
+  "task": {
+    "moduleName": "Task",
+    "type": "Type",
+    "typeName": "Type Name",
+    "taskPayload": "Task Payload",
+    "cronSpec": "Cron Spec",
+    "enable": "Enable",
+    "button": {
+      "create": "Create"
+    }
+  },
+  "notificationMessage": {
+    "moduleName": "Notification",
+    "subject": "Subject",
+    "categoryName": "Category",
+    "button": {
+      "create": "Create"
+    }
+  },
+  "notificationMessageCategory": {
+    "moduleName": "Notification Message Category",
+    "name": "Name",
+    "button": {
+      "create": "Create"
+    }
+  },
+  "privateMessage": {
+    "moduleName": "Private Message",
+    "subject": "Subject",
+    "button": {
+      "create": "Create"
+    }
+  },
+  "adminLoginLog": {
     "moduleName": "Login Log",
     "userName": "User Name",
     "success": "Success",
@@ -109,7 +163,7 @@
     "clientName": "Platform",
     "loginIp": "Login IP"
   },
-  "admin_operation_log": {
+  "adminOperationLog": {
     "moduleName": "Operation Log",
     "userName": "User Name",
     "success": "Success",

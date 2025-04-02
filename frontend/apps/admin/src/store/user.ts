@@ -42,6 +42,7 @@ export const useUserStore = defineStore('user', () => {
    */
   async function createUser(values: object) {
     return await defUserService.CreateUser({
+      // @ts-ignore proto generated code is error.
       data: {
         ...values,
       },
@@ -53,6 +54,7 @@ export const useUserStore = defineStore('user', () => {
    */
   async function updateUser(id: number, values: object) {
     return await defUserService.UpdateUser({
+      // @ts-ignore proto generated code is error.
       data: {
         id,
         ...values,
@@ -94,7 +96,10 @@ export const authorityList = computed(() => [
     value: UserAuthority.SYS_MANAGER,
     label: $t('enum.authority.SYS_MANAGER'),
   },
-  { value: UserAuthority.SYS_ADMIN, label: $t('enum.authority.SYS_ADMIN') },
+  {
+    value: UserAuthority.SYS_ADMIN,
+    label: $t('enum.authority.SYS_ADMIN'),
+  },
 ]);
 
 /**

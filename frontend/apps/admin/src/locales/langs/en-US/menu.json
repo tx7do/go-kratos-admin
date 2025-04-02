@@ -6,27 +6,30 @@
     "workbench": "workbench",
     "about": "About"
   },
-  "system": {
-    "moduleName": "System Management",
+  "auth": {
+    "moduleName": "Auth Management",
     "role": "Role Management",
     "position": "Position Management",
     "user": "User Management",
-    "user_detail": "User Detail",
+    "userDetail": "User Detail",
     "org": "Organization Management",
     "dept": "Department Management",
     "tenant": "Tenant Management",
     "permission": "Permission Management",
+    "menu": "Menu Management"
+  },
+  "system": {
+    "moduleName": "System Management",
     "dict": "Dict Management",
-    "menu": "Menu Management",
     "task": "Task Management",
     "file": "File Management",
-    "notification_message": "Notification Message",
-    "notification_message_category": "Notification Type",
-    "private_message": "Private Message"
+    "notificationMessage": "Notification Message",
+    "notificationMessageCategory": "Notification Type",
+    "privateMessage": "Private Message"
   },
   "log": {
     "moduleName": "Log Audit",
-    "admin_login_log": "Login Log",
-    "admin_operation_log": "Operation Log"
+    "adminLoginLog": "Login Log",
+    "adminOperationLog": "Operation Log"
   }
 }

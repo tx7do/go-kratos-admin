@@ -23,7 +23,7 @@ const formOptions: VbenFormProps = {
     {
       component: 'Input',
       fieldName: 'userName',
-      label: $t('page.admin_login_log.userName'),
+      label: $t('page.adminLoginLog.userName'),
       componentProps: {
         placeholder: $t('ui.placeholder.input'),
         allowClear: true,
@@ -32,7 +32,7 @@ const formOptions: VbenFormProps = {
     {
       component: 'RangePicker',
       fieldName: 'loginTime',
-      label: $t('page.admin_login_log.loginTime'),
+      label: $t('page.adminLoginLog.loginTime'),
       componentProps: {
         showTime: true,
         allowClear: true,
@@ -120,7 +120,7 @@ const [Grid] = useVbenVxeGrid({ gridOptions, formOptions });
 
 <template>
   <Page auto-content-height>
-    <Grid :table-title="$t('menu.log.admin_login_log')">
+    <Grid :table-title="$t('menu.log.adminLoginLog')">
       <template #success="{ row }">
         <a-tag :color="successToColor(row.success)">
           {{ successToName(row.success, row.statusCode) }}

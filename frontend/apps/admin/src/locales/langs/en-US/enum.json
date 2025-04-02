@@ -3,6 +3,10 @@
     "ON": "ON",
     "OFF": "OFF"
   },
+  "enable": {
+    "true": "Enable",
+    "false": "Disable"
+  },
   "authority": {
     "CUSTOMER_USER": "Customer",
     "GUEST_USER": "Guest",
@@ -17,5 +21,10 @@
   "successStatus": {
     "success": "Success",
     "failed": "Failed"
+  },
+  "taskType" : {
+    "Periodic": "Periodic",
+    "Delay": "Delay",
+    "WaitResult": "Wait Result"
   }
 }

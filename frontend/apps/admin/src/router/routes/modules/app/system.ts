@@ -17,17 +17,6 @@ const system: RouteRecordRaw[] = [
     },
     children: [
       {
-        path: 'menus',
-        name: 'MenuManagement',
-        meta: {
-          icon: 'lucide:square-menu',
-          title: $t('menu.system.menu'),
-          authority: ['super', 'admin'],
-        },
-        component: () => import('#/views/app/system/menu/index.vue'),
-      },
-
-      {
         path: 'dict',
         name: 'DictManagement',
         meta: {
@@ -39,71 +28,60 @@ const system: RouteRecordRaw[] = [
       },
 
       {
-        path: 'users',
-        name: 'UserManagement',
+        path: 'files',
+        name: 'FileManagement',
         meta: {
-          icon: 'lucide:users',
-          title: $t('menu.system.user'),
+          icon: 'lucide:file',
+          title: $t('menu.system.file'),
           authority: ['super', 'admin'],
         },
-        component: () => import('#/views/app/system/users/index.vue'),
-      },
-      {
-        path: 'users/detail/:id',
-        name: 'UserDetail',
-        meta: {
-          hideInTab: false,
-          hideInMenu: true,
-          title: $t('menu.system.user_detail'),
-          authority: ['super', 'admin'],
-        },
-        component: () => import('#/views/app/system/users/detail/index.vue'),
+        component: () => import('#/views/app/system/file/index.vue'),
       },
 
       {
-        path: 'roles',
-        name: 'RoleManagement',
+        path: 'tasks',
+        name: 'TaskManagement',
         meta: {
-          icon: 'lucide:shirt',
-          title: $t('menu.system.role'),
-          hideInTab: false,
+          icon: 'lucide:calendar-clock',
+          title: $t('menu.system.task'),
           authority: ['super', 'admin'],
         },
-        component: () => import('#/views/app/system/role/index.vue'),
+        component: () => import('#/views/app/system/task/index.vue'),
       },
 
       {
-        path: 'organizations',
-        name: 'OrganizationManagement',
+        path: 'notifications',
+        name: 'NotificationMessageManagement',
         meta: {
-          icon: 'lucide:building-2',
-          title: $t('menu.system.org'),
+          icon: 'lucide:bell',
+          title: $t('menu.system.notificationMessage'),
           authority: ['super', 'admin'],
         },
-        component: () => import('#/views/app/system/org/index.vue'),
+        component: () =>
+          import('#/views/app/system/notification_message/index.vue'),
       },
 
       {
-        path: 'departments',
-        name: 'DepartmentManagement',
+        path: 'notification_categories',
+        name: 'NotificationMessageCategoryManagement',
         meta: {
-          icon: 'lucide:network',
-          title: $t('menu.system.dept'),
+          icon: 'lucide:bell-dot',
+          title: $t('menu.system.notificationMessageCategory'),
           authority: ['super', 'admin'],
         },
-        component: () => import('#/views/app/system/dept/index.vue'),
+        component: () =>
+          import('#/views/app/system/notification_message_category/index.vue'),
       },
 
       {
-        path: 'positions',
-        name: 'PositionManagement',
+        path: 'private_messages',
+        name: 'PrivateMessageManagement',
         meta: {
-          icon: 'lucide:id-card',
-          title: $t('menu.system.position'),
-          hideInTab: false,
+          icon: 'lucide:message-circle-more',
+          title: $t('menu.system.privateMessage'),
           authority: ['super', 'admin'],
         },
-        component: () => import('#/views/app/system/position/index.vue'),
+        component: () => import('#/views/app/system/private_message/index.vue'),
       },
     ],
   },

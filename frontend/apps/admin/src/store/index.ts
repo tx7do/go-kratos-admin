@@ -12,5 +12,6 @@ export * from './organization';
 export * from './position';
 export * from './private_message';
 export * from './role';
+export * from './task';
 export * from './tenant';
 export * from './user';

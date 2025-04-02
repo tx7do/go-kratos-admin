@@ -41,6 +41,7 @@ const formOptions: VbenFormProps = {
       componentProps: {
         options: statusList,
         placeholder: $t('ui.placeholder.select'),
+        allowClear: true,
       },
     },
   ],
@@ -191,7 +192,7 @@ const collapseAll = () => {
 
 <template>
   <Page auto-content-height>
-    <Grid :table-title="$t('menu.system.position')">
+    <Grid :table-title="$t('menu.auth.position')">
       <template #toolbar-tools>
         <a-button class="mr-2" type="primary" @click="handleCreate">
           {{ $t('page.position.button.create') }}

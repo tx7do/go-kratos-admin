@@ -1,3 +1,11 @@
+-- 租户
+TRUNCATE TABLE kratos_admin.public.tenants;
+INSERT INTO kratos_admin.public.tenants(id, name, code, status, create_time)
+VALUES (1, '超级租户', 'super', 'ON', now()),
+       (2, '测试租户', 'test', 'ON', now()),
+       (3, '测试租户2', 'test2', 'ON', now())
+;
+
 -- 组织
 TRUNCATE TABLE kratos_admin.public.organizations;
 INSERT INTO kratos_admin.public.organizations(id, parent_id, sort_id, name, status, create_time)

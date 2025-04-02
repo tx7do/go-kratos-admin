@@ -69,9 +69,13 @@
 
 ![后台目录管理界面](./docs/images/admin_menu_management.png)
 
-- 组织架构管理界面
+- 组织管理界面
 
-![组织架构管理界面](./docs/images/admin_organization_management.png)
+![组织管理界面](./docs/images/admin_organization_management.png)
+
+- 部门管理界面
+
+![部门管理界面](./docs/images/admin_department_management.png)
 
 - 用户角色管理界面
 
@@ -80,6 +84,26 @@
 - 用户职位管理界面
 
 ![用户职位管理界面](./docs/images/admin_position_management.png)
+
+- 租户管理界面
+
+![租户管理界面](./docs/images/admin_tenant_management.png)
+
+- 调度任务管理界面
+
+![调度任务管理界面](./docs/images/admin_task_management.png)
+
+- 字典管理界面
+
+![字典管理界面](./docs/images/admin_dict_management.png)
+
+- 后台登录日志界面
+
+![后台登录日志界面](./docs/images/admin_operation_log.png)
+
+- 后台操作日志界面
+
+![后台操作日志界面](./docs/images/admin_login_log.png)
 
 - 后端内置Swagger UI界面
 

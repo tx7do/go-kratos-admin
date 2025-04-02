@@ -1,4 +1,4 @@
--- 默认的组织
+-- 组织
 TRUNCATE TABLE kratos_admin.public.organizations;
 INSERT INTO kratos_admin.public.organizations(id, parent_id, sort_id, name, status, create_time)
 VALUES (1, null, 1, '华东分部', 'ON', now()),
@@ -6,7 +6,7 @@ VALUES (1, null, 1, '华东分部', 'ON', now()),
        (3, null, 2, '西北分部', 'ON', now())
 ;
 
--- 默认的部门
+-- 部门
 TRUNCATE TABLE kratos_admin.public.departments;
 INSERT INTO kratos_admin.public.departments(id, parent_id, sort_id, name, status, create_time)
 VALUES (1, null, 1, '华东分部', 'ON', now()),
@@ -26,4 +26,10 @@ VALUES (1, null, 1, '华东分部', 'ON', now()),
        (31, 3, 2, '市场部', 'ON', now()),
        (32, 3, 3, '商务部', 'ON', now()),
        (33, 3, 4, '财务部', 'ON', now())
+;
+
+-- 调度任务
+TRUNCATE TABLE kratos_admin.public.tasks;
+INSERT INTO kratos_admin.public.tasks(id, type, type_name, task_payload, cron_spec, enable, create_time)
+VALUES (1, 'Periodic', 'backup', '{ "name": "test"}', '*/1 * * * ?', true,now())
 ;

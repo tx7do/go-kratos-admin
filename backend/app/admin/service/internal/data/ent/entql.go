@@ -17,6 +17,7 @@ import (
 	"kratos-admin/app/admin/service/internal/data/ent/predicate"
 	"kratos-admin/app/admin/service/internal/data/ent/privatemessage"
 	"kratos-admin/app/admin/service/internal/data/ent/role"
+	"kratos-admin/app/admin/service/internal/data/ent/task"
 	"kratos-admin/app/admin/service/internal/data/ent/tenant"
 	"kratos-admin/app/admin/service/internal/data/ent/user"
 
@@ -28,7 +29,7 @@ import (
 
 // schemaGraph holds a representation of ent/schema at runtime.
 var schemaGraph = func() *sqlgraph.Schema {
-	graph := &sqlgraph.Schema{Nodes: make([]*sqlgraph.Node, 15)}
+	graph := &sqlgraph.Schema{Nodes: make([]*sqlgraph.Node, 16)}
 	graph.Nodes[0] = &sqlgraph.Node{
 		NodeSpec: sqlgraph.NodeSpec{
 			Table:   adminloginlog.Table,
@@ -369,6 +370,35 @@ var schemaGraph = func() *sqlgraph.Schema {
 	}
 	graph.Nodes[13] = &sqlgraph.Node{
 		NodeSpec: sqlgraph.NodeSpec{
+			Table:   task.Table,
+			Columns: task.Columns,
+			ID: &sqlgraph.FieldSpec{
+				Type:   field.TypeUint32,
+				Column: task.FieldID,
+			},
+		},
+		Type: "Task",
+		Fields: map[string]*sqlgraph.FieldSpec{
+			task.FieldCreateTime:  {Type: field.TypeTime, Column: task.FieldCreateTime},
+			task.FieldUpdateTime:  {Type: field.TypeTime, Column: task.FieldUpdateTime},
+			task.FieldDeleteTime:  {Type: field.TypeTime, Column: task.FieldDeleteTime},
+			task.FieldCreateBy:    {Type: field.TypeUint32, Column: task.FieldCreateBy},
+			task.FieldUpdateBy:    {Type: field.TypeUint32, Column: task.FieldUpdateBy},
+			task.FieldRemark:      {Type: field.TypeString, Column: task.FieldRemark},
+			task.FieldType:        {Type: field.TypeEnum, Column: task.FieldType},
+			task.FieldTypeName:    {Type: field.TypeString, Column: task.FieldTypeName},
+			task.FieldTaskPayload: {Type: field.TypeString, Column: task.FieldTaskPayload},
+			task.FieldCronSpec:    {Type: field.TypeString, Column: task.FieldCronSpec},
+			task.FieldRetryCount:  {Type: field.TypeUint32, Column: task.FieldRetryCount},
+			task.FieldTimeout:     {Type: field.TypeUint64, Column: task.FieldTimeout},
+			task.FieldDeadline:    {Type: field.TypeTime, Column: task.FieldDeadline},
+			task.FieldProcessIn:   {Type: field.TypeUint64, Column: task.FieldProcessIn},
+			task.FieldProcessAt:   {Type: field.TypeTime, Column: task.FieldProcessAt},
+			task.FieldEnable:      {Type: field.TypeBool, Column: task.FieldEnable},
+		},
+	}
+	graph.Nodes[14] = &sqlgraph.Node{
+		NodeSpec: sqlgraph.NodeSpec{
 			Table:   tenant.Table,
 			Columns: tenant.Columns,
 			ID: &sqlgraph.FieldSpec{
@@ -392,7 +422,7 @@ var schemaGraph = func() *sqlgraph.Schema {
 			tenant.FieldUnsubscribeAt:  {Type: field.TypeTime, Column: tenant.FieldUnsubscribeAt},
 		},
 	}
-	graph.Nodes[14] = &sqlgraph.Node{
+	graph.Nodes[15] = &sqlgraph.Node{
 		NodeSpec: sqlgraph.NodeSpec{
 			Table:   user.Table,
 			Columns: user.Columns,
@@ -2119,6 +2149,126 @@ func (f *RoleFilter) WhereHasChildrenWith(preds ...predicate.Role) {
 }
 
 // addPredicate implements the predicateAdder interface.
+func (tq *TaskQuery) addPredicate(pred func(s *sql.Selector)) {
+	tq.predicates = append(tq.predicates, pred)
+}
+
+// Filter returns a Filter implementation to apply filters on the TaskQuery builder.
+func (tq *TaskQuery) Filter() *TaskFilter {
+	return &TaskFilter{config: tq.config, predicateAdder: tq}
+}
+
+// addPredicate implements the predicateAdder interface.
+func (m *TaskMutation) addPredicate(pred func(s *sql.Selector)) {
+	m.predicates = append(m.predicates, pred)
+}
+
+// Filter returns an entql.Where implementation to apply filters on the TaskMutation builder.
+func (m *TaskMutation) Filter() *TaskFilter {
+	return &TaskFilter{config: m.config, predicateAdder: m}
+}
+
+// TaskFilter provides a generic filtering capability at runtime for TaskQuery.
+type TaskFilter struct {
+	predicateAdder
+	config
+}
+
+// Where applies the entql predicate on the query filter.
+func (f *TaskFilter) Where(p entql.P) {
+	f.addPredicate(func(s *sql.Selector) {
+		if err := schemaGraph.EvalP(schemaGraph.Nodes[13].Type, p, s); err != nil {
+			s.AddError(err)
+		}
+	})
+}
+
+// WhereID applies the entql uint32 predicate on the id field.
+func (f *TaskFilter) WhereID(p entql.Uint32P) {
+	f.Where(p.Field(task.FieldID))
+}
+
+// WhereCreateTime applies the entql time.Time predicate on the create_time field.
+func (f *TaskFilter) WhereCreateTime(p entql.TimeP) {
+	f.Where(p.Field(task.FieldCreateTime))
+}
+
+// WhereUpdateTime applies the entql time.Time predicate on the update_time field.
+func (f *TaskFilter) WhereUpdateTime(p entql.TimeP) {
+	f.Where(p.Field(task.FieldUpdateTime))
+}
+
+// WhereDeleteTime applies the entql time.Time predicate on the delete_time field.
+func (f *TaskFilter) WhereDeleteTime(p entql.TimeP) {
+	f.Where(p.Field(task.FieldDeleteTime))
+}
+
+// WhereCreateBy applies the entql uint32 predicate on the create_by field.
+func (f *TaskFilter) WhereCreateBy(p entql.Uint32P) {
+	f.Where(p.Field(task.FieldCreateBy))
+}
+
+// WhereUpdateBy applies the entql uint32 predicate on the update_by field.
+func (f *TaskFilter) WhereUpdateBy(p entql.Uint32P) {
+	f.Where(p.Field(task.FieldUpdateBy))
+}
+
+// WhereRemark applies the entql string predicate on the remark field.
+func (f *TaskFilter) WhereRemark(p entql.StringP) {
+	f.Where(p.Field(task.FieldRemark))
+}
+
+// WhereType applies the entql string predicate on the type field.
+func (f *TaskFilter) WhereType(p entql.StringP) {
+	f.Where(p.Field(task.FieldType))
+}
+
+// WhereTypeName applies the entql string predicate on the type_name field.
+func (f *TaskFilter) WhereTypeName(p entql.StringP) {
+	f.Where(p.Field(task.FieldTypeName))
+}
+
+// WhereTaskPayload applies the entql string predicate on the task_payload field.
+func (f *TaskFilter) WhereTaskPayload(p entql.StringP) {
+	f.Where(p.Field(task.FieldTaskPayload))
+}
+
+// WhereCronSpec applies the entql string predicate on the cron_spec field.
+func (f *TaskFilter) WhereCronSpec(p entql.StringP) {
+	f.Where(p.Field(task.FieldCronSpec))
+}
+
+// WhereRetryCount applies the entql uint32 predicate on the retry_count field.
+func (f *TaskFilter) WhereRetryCount(p entql.Uint32P) {
+	f.Where(p.Field(task.FieldRetryCount))
+}
+
+// WhereTimeout applies the entql uint64 predicate on the timeout field.
+func (f *TaskFilter) WhereTimeout(p entql.Uint64P) {
+	f.Where(p.Field(task.FieldTimeout))
+}
+
+// WhereDeadline applies the entql time.Time predicate on the deadline field.
+func (f *TaskFilter) WhereDeadline(p entql.TimeP) {
+	f.Where(p.Field(task.FieldDeadline))
+}
+
+// WhereProcessIn applies the entql uint64 predicate on the process_in field.
+func (f *TaskFilter) WhereProcessIn(p entql.Uint64P) {
+	f.Where(p.Field(task.FieldProcessIn))
+}
+
+// WhereProcessAt applies the entql time.Time predicate on the process_at field.
+func (f *TaskFilter) WhereProcessAt(p entql.TimeP) {
+	f.Where(p.Field(task.FieldProcessAt))
+}
+
+// WhereEnable applies the entql bool predicate on the enable field.
+func (f *TaskFilter) WhereEnable(p entql.BoolP) {
+	f.Where(p.Field(task.FieldEnable))
+}
+
+// addPredicate implements the predicateAdder interface.
 func (tq *TenantQuery) addPredicate(pred func(s *sql.Selector)) {
 	tq.predicates = append(tq.predicates, pred)
 }
@@ -2147,7 +2297,7 @@ type TenantFilter struct {
 // Where applies the entql predicate on the query filter.
 func (f *TenantFilter) Where(p entql.P) {
 	f.addPredicate(func(s *sql.Selector) {
-		if err := schemaGraph.EvalP(schemaGraph.Nodes[13].Type, p, s); err != nil {
+		if err := schemaGraph.EvalP(schemaGraph.Nodes[14].Type, p, s); err != nil {
 			s.AddError(err)
 		}
 	})
@@ -2247,7 +2397,7 @@ type UserFilter struct {
 // Where applies the entql predicate on the query filter.
 func (f *UserFilter) Where(p entql.P) {
 	f.addPredicate(func(s *sql.Selector) {
-		if err := schemaGraph.EvalP(schemaGraph.Nodes[14].Type, p, s); err != nil {
+		if err := schemaGraph.EvalP(schemaGraph.Nodes[15].Type, p, s); err != nil {
 			s.AddError(err)
 		}
 	})

@@ -1,0 +1,75 @@
+syntax = "proto3";
+
+package admin.service.v1;
+
+import "gnostic/openapi/v3/annotations.proto";
+import "google/api/annotations.proto";
+import "google/protobuf/empty.proto";
+
+import "pagination/v1/pagination.proto";
+
+import "system/service/v1/task.proto";
+
+// 调度任务管理服务
+service TaskService {
+  // 查询调度任务列表
+  rpc ListTask (pagination.PagingRequest) returns (system.service.v1.ListTaskResponse) {
+    option (google.api.http) = {
+      get: "/admin/v1/tasks"
+    };
+  }
+
+  // 查询调度任务详情
+  rpc GetTask (system.service.v1.GetTaskRequest) returns (system.service.v1.Task) {
+    option (google.api.http) = {
+      get: "/admin/v1/tasks/{id}"
+    };
+  }
+
+  // 创建调度任务
+  rpc CreateTask (system.service.v1.CreateTaskRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      post: "/admin/v1/tasks"
+      body: "*"
+    };
+  }
+
+  // 更新调度任务
+  rpc UpdateTask (system.service.v1.UpdateTaskRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      put: "/admin/v1/tasks/{data.id}"
+      body: "*"
+    };
+  }
+
+  // 删除调度任务
+  rpc DeleteTask (system.service.v1.DeleteTaskRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      delete: "/admin/v1/tasks/{id}"
+    };
+  }
+
+  // 重启所有的调度任务
+  rpc RestartAllTask (google.protobuf.Empty) returns (system.service.v1.RestartAllTaskResponse) {
+    option (google.api.http) = {
+      post: "/admin/v1/tasks:restart"
+      body: "*"
+    };
+  }
+
+  // 停止所有的调度任务
+  rpc StopAllTask (google.protobuf.Empty) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      post: "/admin/v1/tasks:stop"
+      body: "*"
+    };
+  }
+
+  // 控制调度任务
+  rpc ControlTask (system.service.v1.ControlTaskRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      post: "/admin/v1/tasks:control"
+      body: "*"
+    };
+  }
+}

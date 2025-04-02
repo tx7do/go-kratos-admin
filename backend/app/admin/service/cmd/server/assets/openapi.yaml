@@ -1771,6 +1771,185 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/ListRouteResponse'
+    /admin/v1/tasks:
+        get:
+            tags:
+                - TaskService
+            description: 查询调度任务列表
+            operationId: TaskService_ListTask
+            parameters:
+                - name: page
+                  in: query
+                  description: 当前页码
+                  schema:
+                    type: integer
+                    format: int32
+                - name: pageSize
+                  in: query
+                  description: 每一页的行数
+                  schema:
+                    type: integer
+                    format: int32
+                - name: query
+                  in: query
+                  description: AND过滤参数，其语法为json格式的字符串，如：{"key1":"val1","key2":"val2"}，具体请参见：https://github.com/tx7do/go-utils/tree/main/entgo/query/README.md
+                  schema:
+                    type: string
+                - name: or
+                  in: query
+                  description: OR过滤参数，语法同AND过滤参数。
+                  schema:
+                    type: string
+                - name: orderBy
+                  in: query
+                  description: 排序条件，其语法为JSON字符串，例如：{"val1", "-val2"}。字段名前加'-'为降序，否则为升序。
+                  schema:
+                    type: array
+                    items:
+                        type: string
+                - name: noPaging
+                  in: query
+                  description: 是否不分页，如果为true，则page和pageSize参数无效。
+                  schema:
+                    type: boolean
+                - name: fieldMask
+                  in: query
+                  description: 字段掩码，其作用为SELECT中的字段，其语法为使用逗号分隔字段名，例如：id,realName,userName。如果为空则选中所有字段，即SELECT *。
+                  schema:
+                    type: string
+                    format: field-mask
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ListTaskResponse'
+        post:
+            tags:
+                - TaskService
+            description: 创建调度任务
+            operationId: TaskService_CreateTask
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/CreateTaskRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content: {}
+    /admin/v1/tasks/{data.id}:
+        put:
+            tags:
+                - TaskService
+            description: 更新调度任务
+            operationId: TaskService_UpdateTask
+            parameters:
+                - name: data.id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/UpdateTaskRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content: {}
+    /admin/v1/tasks/{id}:
+        get:
+            tags:
+                - TaskService
+            description: 查询调度任务详情
+            operationId: TaskService_GetTask
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: uint32
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Task'
+        delete:
+            tags:
+                - TaskService
+            description: 删除调度任务
+            operationId: TaskService_DeleteTask
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: uint32
+                - name: operatorId
+                  in: query
+                  schema:
+                    type: integer
+                    format: uint32
+            responses:
+                "200":
+                    description: OK
+                    content: {}
+    /admin/v1/tasks:control:
+        post:
+            tags:
+                - TaskService
+            description: 控制调度任务
+            operationId: TaskService_ControlTask
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/ControlTaskRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content: {}
+    /admin/v1/tasks:restart:
+        post:
+            tags:
+                - TaskService
+            description: 重启所有的调度任务
+            operationId: TaskService_RestartAllTask
+            requestBody:
+                content:
+                    application/json: {}
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/RestartAllTaskResponse'
+    /admin/v1/tasks:stop:
+        post:
+            tags:
+                - TaskService
+            description: 停止所有的调度任务
+            operationId: TaskService_StopAllTask
+            requestBody:
+                content:
+                    application/json: {}
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content: {}
     /admin/v1/tenants:
         get:
             tags:
@@ -2253,6 +2432,25 @@ components:
                     description: 删除时间
                     format: date-time
             description: 后台操作日志
+        ControlTaskRequest:
+            type: object
+            properties:
+                operatorId:
+                    readOnly: true
+                    type: integer
+                    description: 操作用户ID
+                    format: uint32
+                controlType:
+                    enum:
+                        - ControlType_Start
+                        - ControlType_Stop
+                        - ControlType_Restart
+                    type: string
+                    format: enum
+                typeName:
+                    type: string
+                    description: 任务执行类型名，例如 "send_email"、"generate_report" 等，用于区分不同类型的任务
+            description: 控制调度任务 - 请求
         CreateDepartmentRequest:
             type: object
             properties:
@@ -2374,6 +2572,17 @@ components:
                 data:
                     $ref: '#/components/schemas/Role'
             description: 创建角色 - 请求
+        CreateTaskRequest:
+            type: object
+            properties:
+                operatorId:
+                    readOnly: true
+                    type: integer
+                    description: 操作用户ID
+                    format: uint32
+                data:
+                    $ref: '#/components/schemas/Task'
+            description: 创建调度任务 - 请求
         CreateTenantRequest:
             type: object
             properties:
@@ -2773,6 +2982,17 @@ components:
                     items:
                         $ref: '#/components/schemas/RouteItem'
             description: 查询路由列表 - 回应
+        ListTaskResponse:
+            type: object
+            properties:
+                items:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Task'
+                total:
+                    type: integer
+                    format: uint32
+            description: 查询调度任务列表 - 回应
         ListTenantResponse:
             type: object
             properties:
@@ -3283,6 +3503,13 @@ components:
                     type: string
                     description: 应用程序的密码
             description: 用户刷新令牌 - 请求
+        RestartAllTaskResponse:
+            type: object
+            properties:
+                count:
+                    type: integer
+                    format: int32
+            description: 重启调度任务 - 回应
         Role:
             type: object
             properties:
@@ -3459,6 +3686,77 @@ components:
                     type: string
                     description: 标题名称，路由上显示的标题
             description: 路由元数据
+        Task:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    description: 任务ID
+                    format: uint32
+                type:
+                    enum:
+                        - TaskType_Periodic
+                        - TaskType_Delay
+                        - TaskType_WaitResult
+                    type: string
+                    description: 任务类型
+                    format: enum
+                typeName:
+                    type: string
+                    description: 任务执行类型名，例如 "send_email"、"generate_report" 等，用于区分不同类型的任务
+                taskPayload:
+                    type: string
+                    description: 任务的参数，以 JSON 格式存储，方便存储不同类型和数量的参数
+                cronSpec:
+                    type: string
+                    description: cron表达式，用于定义任务的调度时间
+                retryCount:
+                    type: integer
+                    description: 任务最多可以重试的次数
+                    format: uint32
+                timeout:
+                    pattern: ^-?(?:0|[1-9][0-9]{0,11})(?:\.[0-9]{1,9})?s$
+                    type: string
+                    description: 任务超时时间
+                deadline:
+                    type: string
+                    description: 任务截止时间
+                    format: date-time
+                processIn:
+                    pattern: ^-?(?:0|[1-9][0-9]{0,11})(?:\.[0-9]{1,9})?s$
+                    type: string
+                    description: 任务延迟处理时间
+                processAt:
+                    type: string
+                    description: 任务执行时间点
+                    format: date-time
+                enable:
+                    type: boolean
+                    description: 启用/禁用任务
+                remark:
+                    type: string
+                    description: 备注
+                createBy:
+                    type: integer
+                    description: 创建者ID
+                    format: uint32
+                updateBy:
+                    type: integer
+                    description: 更新者ID
+                    format: uint32
+                createTime:
+                    type: string
+                    description: 创建时间
+                    format: date-time
+                updateTime:
+                    type: string
+                    description: 更新时间
+                    format: date-time
+                deleteTime:
+                    type: string
+                    description: 删除时间
+                    format: date-time
+            description: 调度任务
         Tenant:
             type: object
             properties:
@@ -3908,6 +4206,25 @@ components:
                     type: boolean
                     description: 如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。
             description: 更新角色 - 请求
+        UpdateTaskRequest:
+            type: object
+            properties:
+                operatorId:
+                    readOnly: true
+                    type: integer
+                    description: 操作用户ID
+                    format: uint32
+                data:
+                    $ref: '#/components/schemas/Task'
+                updateMask:
+                    example: id,realName,userName
+                    type: string
+                    description: 要更新的字段列表
+                    format: field-mask
+                allowMissing:
+                    type: boolean
+                    description: 如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。
+            description: 更新调度任务 - 请求
         UpdateTenantRequest:
             type: object
             properties:
@@ -4141,6 +4458,8 @@ tags:
       description: 角色管理服务
     - name: RouterService
       description: 网站后台动态路由服务
+    - name: TaskService
+      description: 调度任务管理服务
     - name: TenantService
       description: 租户管理服务
     - name: UEditorService

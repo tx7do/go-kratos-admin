@@ -18,7 +18,7 @@ type NotificationMessageCategory struct {
 func (NotificationMessageCategory) Annotations() []schema.Annotation {
 	return []schema.Annotation{
 		entsql.Annotation{
-			Table:     "in_site_message_categories",
+			Table:     "notification_message_categories",
 			Charset:   "utf8mb4",
 			Collation: "utf8mb4_bin",
 		},

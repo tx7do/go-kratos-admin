@@ -248,8 +248,8 @@ var (
 			},
 		},
 	}
-	// InSiteMessageCategoriesColumns holds the columns for the "in_site_message_categories" table.
-	InSiteMessageCategoriesColumns = []*schema.Column{
+	// NotificationMessageCategoriesColumns holds the columns for the "notification_message_categories" table.
+	NotificationMessageCategoriesColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeUint32, Increment: true, Comment: "id", SchemaType: map[string]string{"mysql": "int", "postgres": "serial"}},
 		{Name: "create_time", Type: field.TypeTime, Nullable: true, Comment: "创建时间"},
 		{Name: "update_time", Type: field.TypeTime, Nullable: true, Comment: "更新时间"},
@@ -263,16 +263,16 @@ var (
 		{Name: "enable", Type: field.TypeBool, Nullable: true, Comment: "是否启用"},
 		{Name: "parent_id", Type: field.TypeUint32, Nullable: true, Comment: "父节点ID", SchemaType: map[string]string{"mysql": "int", "postgres": "serial"}},
 	}
-	// InSiteMessageCategoriesTable holds the schema information for the "in_site_message_categories" table.
-	InSiteMessageCategoriesTable = &schema.Table{
-		Name:       "in_site_message_categories",
-		Columns:    InSiteMessageCategoriesColumns,
-		PrimaryKey: []*schema.Column{InSiteMessageCategoriesColumns[0]},
+	// NotificationMessageCategoriesTable holds the schema information for the "notification_message_categories" table.
+	NotificationMessageCategoriesTable = &schema.Table{
+		Name:       "notification_message_categories",
+		Columns:    NotificationMessageCategoriesColumns,
+		PrimaryKey: []*schema.Column{NotificationMessageCategoriesColumns[0]},
 		ForeignKeys: []*schema.ForeignKey{
 			{
-				Symbol:     "in_site_message_categories_in_site_message_categories_children",
-				Columns:    []*schema.Column{InSiteMessageCategoriesColumns[11]},
-				RefColumns: []*schema.Column{InSiteMessageCategoriesColumns[0]},
+				Symbol:     "notification_message_categories_notification_message_categories_children",
+				Columns:    []*schema.Column{NotificationMessageCategoriesColumns[11]},
+				RefColumns: []*schema.Column{NotificationMessageCategoriesColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
 		},
@@ -280,7 +280,7 @@ var (
 			{
 				Name:    "notificationmessagecategory_id",
 				Unique:  false,
-				Columns: []*schema.Column{InSiteMessageCategoriesColumns[0]},
+				Columns: []*schema.Column{NotificationMessageCategoriesColumns[0]},
 			},
 		},
 	}
@@ -440,6 +440,39 @@ var (
 			},
 		},
 	}
+	// TasksColumns holds the columns for the "tasks" table.
+	TasksColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeUint32, Increment: true, Comment: "id", SchemaType: map[string]string{"mysql": "int", "postgres": "serial"}},
+		{Name: "create_time", Type: field.TypeTime, Nullable: true, Comment: "创建时间"},
+		{Name: "update_time", Type: field.TypeTime, Nullable: true, Comment: "更新时间"},
+		{Name: "delete_time", Type: field.TypeTime, Nullable: true, Comment: "删除时间"},
+		{Name: "create_by", Type: field.TypeUint32, Nullable: true, Comment: "创建者ID"},
+		{Name: "update_by", Type: field.TypeUint32, Nullable: true, Comment: "更新者ID"},
+		{Name: "remark", Type: field.TypeString, Nullable: true, Comment: "备注", Default: ""},
+		{Name: "type", Type: field.TypeEnum, Nullable: true, Comment: "任务类型", Enums: []string{"Periodic", "Delay", "WaitResult"}},
+		{Name: "type_name", Type: field.TypeString, Unique: true, Nullable: true, Comment: "任务执行类型名"},
+		{Name: "task_payload", Type: field.TypeString, Nullable: true, Comment: "任务的参数，以 JSON 格式存储，方便存储不同类型和数量的参数"},
+		{Name: "cron_spec", Type: field.TypeString, Nullable: true, Comment: "cron表达式，用于定义任务的调度时间"},
+		{Name: "retry_count", Type: field.TypeUint32, Nullable: true, Comment: "任务最多可以重试的次数"},
+		{Name: "timeout", Type: field.TypeUint64, Nullable: true, Comment: "任务超时时间"},
+		{Name: "deadline", Type: field.TypeTime, Nullable: true, Comment: "任务超时时间"},
+		{Name: "process_in", Type: field.TypeUint64, Nullable: true, Comment: "任务延迟处理时间"},
+		{Name: "process_at", Type: field.TypeTime, Nullable: true, Comment: "任务执行时间点"},
+		{Name: "enable", Type: field.TypeBool, Nullable: true, Comment: "启用/禁用任务"},
+	}
+	// TasksTable holds the schema information for the "tasks" table.
+	TasksTable = &schema.Table{
+		Name:       "tasks",
+		Columns:    TasksColumns,
+		PrimaryKey: []*schema.Column{TasksColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "task_id",
+				Unique:  false,
+				Columns: []*schema.Column{TasksColumns[0]},
+			},
+		},
+	}
 	// TenantsColumns holds the columns for the "tenants" table.
 	TenantsColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeUint32, Increment: true, Comment: "id", SchemaType: map[string]string{"mysql": "int", "postgres": "serial"}},
@@ -527,12 +560,13 @@ var (
 		FilesTable,
 		MenusTable,
 		NotificationMessagesTable,
-		InSiteMessageCategoriesTable,
+		NotificationMessageCategoriesTable,
 		NotificationMessageRecipientsTable,
 		OrganizationsTable,
 		PositionsTable,
 		PrivateMessagesTable,
 		RolesTable,
+		TasksTable,
 		TenantsTable,
 		UsersTable,
 	}
@@ -576,9 +610,9 @@ func init() {
 		Charset:   "utf8mb4",
 		Collation: "utf8mb4_bin",
 	}
-	InSiteMessageCategoriesTable.ForeignKeys[0].RefTable = InSiteMessageCategoriesTable
-	InSiteMessageCategoriesTable.Annotation = &entsql.Annotation{
-		Table:     "in_site_message_categories",
+	NotificationMessageCategoriesTable.ForeignKeys[0].RefTable = NotificationMessageCategoriesTable
+	NotificationMessageCategoriesTable.Annotation = &entsql.Annotation{
+		Table:     "notification_message_categories",
 		Charset:   "utf8mb4",
 		Collation: "utf8mb4_bin",
 	}
@@ -607,6 +641,11 @@ func init() {
 	RolesTable.ForeignKeys[0].RefTable = RolesTable
 	RolesTable.Annotation = &entsql.Annotation{
 		Table:     "roles",
+		Charset:   "utf8mb4",
+		Collation: "utf8mb4_bin",
+	}
+	TasksTable.Annotation = &entsql.Annotation{
+		Table:     "tasks",
 		Charset:   "utf8mb4",
 		Collation: "utf8mb4_bin",
 	}

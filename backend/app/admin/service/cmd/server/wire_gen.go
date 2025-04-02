@@ -56,6 +56,8 @@ func initApp(logger log.Logger, registrar registry.Registrar, bootstrap *v1.Boot
 	fileService := service.NewFileService(fileRepo, logger)
 	tenantRepo := data.NewTenantRepo(dataData, logger)
 	tenantService := service.NewTenantService(tenantRepo, logger)
+	taskRepo := data.NewTaskRepo(dataData, logger)
+	taskService := service.NewTaskService(logger, taskRepo, userRepo)
 	notificationMessageRepo := data.NewNotificationMessageRepo(dataData, logger)
 	notificationMessageService := service.NewNotificationMessageService(notificationMessageRepo, logger)
 	notificationMessageCategoryRepo := data.NewNotificationMessageCategoryRepo(dataData, logger)
@@ -64,8 +66,10 @@ func initApp(logger log.Logger, registrar registry.Registrar, bootstrap *v1.Boot
 	notificationMessageRecipientService := service.NewNotificationMessageRecipientService(notificationMessageRecipientRepo, logger)
 	privateMessageRepo := data.NewPrivateMessageRepo(dataData, logger)
 	privateMessageService := service.NewPrivateMessageService(privateMessageRepo, logger)
-	httpServer := server.NewRESTServer(bootstrap, logger, authenticator, engine, userToken, adminOperationLogRepo, adminLoginLogRepo, authenticationService, userService, menuService, routerService, organizationService, roleService, positionService, dictService, departmentService, adminLoginLogService, adminOperationLogService, ossService, uEditorService, fileService, tenantService, notificationMessageService, notificationMessageCategoryService, notificationMessageRecipientService, privateMessageService)
-	app := newApp(logger, registrar, httpServer)
+	httpServer := server.NewRESTServer(bootstrap, logger, authenticator, engine, userToken, adminOperationLogRepo, adminLoginLogRepo, authenticationService, userService, menuService, routerService, organizationService, roleService, positionService, dictService, departmentService, adminLoginLogService, adminOperationLogService, ossService, uEditorService, fileService, tenantService, taskService, notificationMessageService, notificationMessageCategoryService, notificationMessageRecipientService, privateMessageService)
+	asynqServer := server.NewAsynqServer(bootstrap, logger, taskService)
+	sseServer := server.NewSseServer(bootstrap, logger)
+	app := newApp(logger, registrar, httpServer, asynqServer, sseServer)
 	return app, func() {
 		cleanup()
 	}, nil

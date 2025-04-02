@@ -19,6 +19,7 @@ import (
 	"kratos-admin/app/admin/service/internal/data/ent/position"
 	"kratos-admin/app/admin/service/internal/data/ent/privatemessage"
 	"kratos-admin/app/admin/service/internal/data/ent/role"
+	"kratos-admin/app/admin/service/internal/data/ent/task"
 	"kratos-admin/app/admin/service/internal/data/ent/tenant"
 	"kratos-admin/app/admin/service/internal/data/ent/user"
 	"reflect"
@@ -100,6 +101,7 @@ func checkColumn(table, column string) error {
 			position.Table:                     position.ValidColumn,
 			privatemessage.Table:               privatemessage.ValidColumn,
 			role.Table:                         role.ValidColumn,
+			task.Table:                         task.ValidColumn,
 			tenant.Table:                       tenant.ValidColumn,
 			user.Table:                         user.ValidColumn,
 		})

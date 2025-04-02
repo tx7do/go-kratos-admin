@@ -87,6 +87,7 @@ func NewRESTServer(
 	ueditorSvc *service.UEditorService,
 	fileService *service.FileService,
 	tenantService *service.TenantService,
+	taskService *service.TaskService,
 	notificationMessageService *service.NotificationMessageService,
 	notificationMessageCategoryService *service.NotificationMessageCategoryService,
 	notificationMessageRecipientService *service.NotificationMessageRecipientService,
@@ -105,6 +106,7 @@ func NewRESTServer(
 	adminV1.RegisterMenuServiceHTTPServer(srv, menuSvc)
 	adminV1.RegisterRouterServiceHTTPServer(srv, routerSvc)
 	adminV1.RegisterDictServiceHTTPServer(srv, dictSvc)
+	adminV1.RegisterTaskServiceHTTPServer(srv, taskService)
 
 	adminV1.RegisterUserServiceHTTPServer(srv, userSvc)
 	adminV1.RegisterOrganizationServiceHTTPServer(srv, orgSvc)

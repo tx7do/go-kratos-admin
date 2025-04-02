@@ -451,7 +451,7 @@ var (
 		{Name: "remark", Type: field.TypeString, Nullable: true, Comment: "备注", Default: ""},
 		{Name: "type", Type: field.TypeEnum, Nullable: true, Comment: "任务类型", Enums: []string{"Periodic", "Delay", "WaitResult"}},
 		{Name: "type_name", Type: field.TypeString, Unique: true, Nullable: true, Comment: "任务执行类型名"},
-		{Name: "task_payload", Type: field.TypeString, Nullable: true, Comment: "任务的参数，以 JSON 格式存储，方便存储不同类型和数量的参数"},
+		{Name: "task_payload", Type: field.TypeString, Nullable: true, Comment: "任务的参数，以 JSON 格式存储，方便存储不同类型和数量的参数", SchemaType: map[string]string{"mysql": "json", "postgres": "jsonb"}},
 		{Name: "cron_spec", Type: field.TypeString, Nullable: true, Comment: "cron表达式，用于定义任务的调度时间"},
 		{Name: "retry_count", Type: field.TypeUint32, Nullable: true, Comment: "任务最多可以重试的次数"},
 		{Name: "timeout", Type: field.TypeUint64, Nullable: true, Comment: "任务超时时间"},

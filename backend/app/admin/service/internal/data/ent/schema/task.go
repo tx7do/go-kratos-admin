@@ -2,6 +2,7 @@ package schema
 
 import (
 	"entgo.io/ent"
+	"entgo.io/ent/dialect"
 	"entgo.io/ent/dialect/entsql"
 	"entgo.io/ent/schema"
 	"entgo.io/ent/schema/field"
@@ -41,6 +42,10 @@ func (Task) Fields() []ent.Field {
 
 		field.String("task_payload").
 			Comment("任务的参数，以 JSON 格式存储，方便存储不同类型和数量的参数").
+			SchemaType(map[string]string{
+				dialect.MySQL:    "json",
+				dialect.Postgres: "jsonb",
+			}).
 			Optional().
 			Nillable(),
 

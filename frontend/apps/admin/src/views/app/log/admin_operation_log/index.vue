@@ -36,7 +36,7 @@ const formOptions: VbenFormProps = {
     {
       component: 'RangePicker',
       fieldName: 'createTime',
-      label: $t('page.admin_operation_log.createTime'),
+      label: $t('page.adminOperationLog.createTime'),
       componentProps: {
         showTime: true,
         allowClear: true,
@@ -97,33 +97,33 @@ const gridOptions: VxeGridProps<AdminOperationLog> = {
 
   columns: [
     { title: $t('ui.table.seq'), type: 'seq', width: 50 },
-    { title: $t('page.admin_operation_log.userName'), field: 'userName' },
+    { title: $t('page.adminOperationLog.userName'), field: 'userName' },
     {
-      title: $t('page.admin_operation_log.success'),
+      title: $t('page.adminOperationLog.success'),
       field: 'success',
       slots: { default: 'success' },
       width: 80,
     },
     {
-      title: $t('page.admin_operation_log.createTime'),
+      title: $t('page.adminOperationLog.createTime'),
       field: 'createTime',
       formatter: 'formatDateTime',
       width: 140,
     },
     {
-      title: $t('page.admin_operation_log.method'),
+      title: $t('page.adminOperationLog.method'),
       field: 'method',
       width: 80,
     },
-    { title: $t('page.admin_operation_log.path'), field: 'path' },
-    { title: $t('page.admin_operation_log.location'), field: 'location' },
+    { title: $t('page.adminOperationLog.path'), field: 'path' },
+    { title: $t('page.adminOperationLog.location'), field: 'location' },
     {
-      title: $t('page.admin_operation_log.clientName'),
+      title: $t('page.adminOperationLog.clientName'),
       field: 'clientName',
       slots: { default: 'platform' },
     },
     {
-      title: $t('page.admin_operation_log.clientIp'),
+      title: $t('page.adminOperationLog.clientIp'),
       field: 'clientIp',
       width: 140,
     },

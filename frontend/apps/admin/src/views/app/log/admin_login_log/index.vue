@@ -93,25 +93,25 @@ const gridOptions: VxeGridProps<AdminLoginLog> = {
 
   columns: [
     { title: $t('ui.table.seq'), type: 'seq', width: 50 },
-    { title: $t('page.admin_login_log.userName'), field: 'userName' },
+    { title: $t('page.adminLoginLog.userName'), field: 'userName' },
     {
-      title: $t('page.admin_login_log.success'),
+      title: $t('page.adminLoginLog.success'),
       field: 'success',
       slots: { default: 'success' },
     },
     {
-      title: $t('page.admin_login_log.loginTime'),
+      title: $t('page.adminLoginLog.loginTime'),
       field: 'loginTime',
       formatter: 'formatDateTime',
       width: 140,
     },
-    { title: $t('page.admin_login_log.location'), field: 'location' },
+    { title: $t('page.adminLoginLog.location'), field: 'location' },
     {
-      title: $t('page.admin_login_log.clientName'),
+      title: $t('page.adminLoginLog.clientName'),
       field: 'clientName',
       slots: { default: 'platform' },
     },
-    { title: $t('page.admin_login_log.loginIp'), field: 'loginIp', width: 140 },
+    { title: $t('page.adminLoginLog.loginIp'), field: 'loginIp', width: 140 },
   ],
 };
 

@@ -12,7 +12,7 @@ data:
     connection_max_lifetime: 300s
 
   redis:
-    addr: "redis:6379"
+    addr: "localhost:6379"
     password: "*Abcd123456"
     dial_timeout: 10s
     read_timeout: 0.4s

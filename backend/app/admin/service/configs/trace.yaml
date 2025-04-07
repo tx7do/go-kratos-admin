@@ -1,5 +1,5 @@
 trace:
-  endpoint: "localhost:4317"
+  endpoint: "jaeger:4317"
   batcher: "otlp-grpc"
   sampler: 1.0
   env: "dev"

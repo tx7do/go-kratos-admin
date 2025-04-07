@@ -15,4 +15,4 @@ done
 cd ../
 
 # 部署
-docker-compose up -d --force-recreate
+docker-compose -f docker-compose-without-services.yaml up -d --force-recreate

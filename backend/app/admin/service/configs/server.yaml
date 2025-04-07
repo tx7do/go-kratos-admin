@@ -24,7 +24,7 @@ server:
         key: "some_api_key"
 
   asynq:
-    endpoint: "localhost:6379"
+    endpoint: "redis:6379"
     password: "*Abcd123456"
     db: 1
 

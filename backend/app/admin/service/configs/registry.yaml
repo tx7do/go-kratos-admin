@@ -2,7 +2,7 @@ registry:
   type: "consul"
 
   consul:
-    address: "localhost:8500"
+    address: "consul:8500"
     scheme: "http"
     heartbeat: false
     health_check: false
@@ -10,15 +10,15 @@ registry:
 
   etcd:
     endpoints:
-      - "localhost:2379"
+      - "etcd:2379"
 
   zookeeper:
     endpoints:
-      - "localhost:2181"
+      - "zookeeper:2181"
     timeout: 10s
 
   nacos:
-    address: "localhost"
+    address: "nacos"
     port: 8848
     namespace_id: "public"
     log_level: "../../configs/cache"
@@ -34,13 +34,13 @@ registry:
 
   eureka:
     endpoints:
-      - "localhost:18761"
+      - "eureka:18761"
     heartbeat_interval: 10s
     refresh_interval: 10s
     path:
 
   polaris:
-    address:
+    address: polaris
     port:
     instance_count:
     namespace:
@@ -49,4 +49,4 @@ registry:
 
   servicecomb:
     endpoints:
-      - "localhost:30100"
+      - "servicecomb:30100"

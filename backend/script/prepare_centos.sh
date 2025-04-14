@@ -10,7 +10,8 @@ sudo yum update; sudo yum upgrade
 ## 安装工具软件
 ####################################
 
-sudo yum install epel-release htop wget unzip git jq -y
+sudo yum install -y epel-release
+sudo yum install -y htop wget unzip git jq
 
 ####################################
 ## 安装PM2

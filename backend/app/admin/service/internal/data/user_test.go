@@ -1,12 +1,14 @@
 package data
 
 import (
+	"encoding/base64"
 	"fmt"
 	"regexp"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
 
+	"github.com/tx7do/go-utils/crypto"
 	"github.com/tx7do/go-utils/fieldmaskutil"
 	"github.com/tx7do/go-utils/trans"
 
@@ -109,4 +111,33 @@ func TestAuthEnum(t *testing.T) {
 
 	fmt.Println(adminV1.TokenType_bearer.String())
 	fmt.Println(adminV1.TokenType_mac.String())
+}
+
+func TestDecryptAES(t *testing.T) {
+	//key的长度必须是16、24或者32字节，分别用于选择AES-128, AES-192, or AES-256
+	aesKey := crypto.DefaultAESKey
+
+	plainText := []byte("admin")
+	encryptText, err := crypto.AesEncrypt(plainText, aesKey, nil)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	pass64 := base64.StdEncoding.EncodeToString(encryptText)
+	fmt.Printf("加密后:%v\n", pass64)
+
+	bytesPass, err := base64.StdEncoding.DecodeString(pass64)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	decryptText, err := crypto.AesDecrypt(bytesPass, aesKey, nil)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	fmt.Printf("解密后:%s\n", decryptText)
+	assert.Equal(t, plainText, decryptText)
 }

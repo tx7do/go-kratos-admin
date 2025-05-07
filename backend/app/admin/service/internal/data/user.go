@@ -5,6 +5,8 @@ import (
 	"errors"
 	"time"
 
+	"encoding/base64"
+
 	"entgo.io/ent/dialect/sql"
 	"github.com/go-kratos/kratos/v2/log"
 
@@ -12,7 +14,7 @@ import (
 	entgo "github.com/tx7do/go-utils/entgo/query"
 	entgoUpdate "github.com/tx7do/go-utils/entgo/update"
 	"github.com/tx7do/go-utils/fieldmaskutil"
-	timeutil "github.com/tx7do/go-utils/timeutil"
+	"github.com/tx7do/go-utils/timeutil"
 	"github.com/tx7do/go-utils/trans"
 
 	"kratos-admin/app/admin/service/internal/data/ent"
@@ -385,7 +387,12 @@ func (r *UserRepo) VerifyPassword(ctx context.Context, req *userV1.VerifyPasswor
 		}, userV1.ErrorUserNotFound("用户未找到")
 	}
 
-	bMatched := crypto.CheckPasswordHash(req.GetPassword(), *ret.Password)
+	// 解密密码
+	bytesPass, err := base64.StdEncoding.DecodeString(req.GetPassword())
+	plainPassword, _ := crypto.AesDecrypt(bytesPass, crypto.DefaultAESKey, nil)
+
+	// 校验密码
+	bMatched := crypto.VerifyPassword(string(plainPassword), *ret.Password)
 
 	if !bMatched {
 		return &userV1.VerifyPasswordResponse{

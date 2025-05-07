@@ -19,8 +19,8 @@ func TestMenuMetaFieldMask(t *testing.T) {
 	updateMenuReq := &systemV1.UpdateMenuRequest{
 		Data: &systemV1.Menu{
 			Meta: &systemV1.RouteMeta{
-				Title:  trans.Ptr("标题1"),
-				SortId: trans.Ptr(int32(1)),
+				Title: trans.Ptr("标题1"),
+				Order: trans.Ptr(int32(1)),
 			},
 		},
 		UpdateMask: &field_mask.FieldMask{

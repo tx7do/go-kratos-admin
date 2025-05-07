@@ -13,6 +13,10 @@
     "#/*": "./src/*"
   },
   "dependencies": {
+    "@iconify/json": "catalog:",
+    "@iconify/vue": "catalog:",
+    "@vben-core/shadcn-ui": "workspace:*",
+    "@vben-core/shared": "workspace:*",
     "@vben/access": "workspace:*",
     "@vben/common-ui": "workspace:*",
     "@vben/constants": "workspace:*",
@@ -27,15 +31,12 @@
     "@vben/styles": "workspace:*",
     "@vben/types": "workspace:*",
     "@vben/utils": "workspace:*",
-    "@vben-core/shadcn-ui": "workspace:*",
-    "@vben-core/shared": "workspace:*",
     "@vueuse/core": "catalog:",
     "ant-design-vue": "catalog:",
+    "crypto-js": "^4.2.0",
     "dayjs": "catalog:",
     "pinia": "catalog:",
     "vue": "catalog:",
-    "vue-router": "catalog:",
-    "@iconify/vue": "catalog:",
-    "@iconify/json": "catalog:"
+    "vue-router": "catalog:"
   }
 }

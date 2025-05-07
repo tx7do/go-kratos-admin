@@ -8,6 +8,7 @@ import { preferences } from '@vben/preferences';
 import { resetAllStores, useAccessStore, useUserStore } from '@vben/stores';
 
 import { notification } from 'ant-design-vue';
+import CryptoJS from 'crypto-js';
 import { defineStore } from 'pinia';
 
 import { $t } from '#/locales';
@@ -19,6 +20,25 @@ export const useAuthStore = defineStore('auth', () => {
   const router = useRouter();
 
   const loginLoading = ref(false);
+
+  // 加密函数
+  function encryptData(data: string, key: string, iv: string): string {
+    const keyHex = CryptoJS.enc.Utf8.parse(key);
+    const ivHex = CryptoJS.enc.Utf8.parse(iv);
+    const encrypted = CryptoJS.AES.encrypt(data, keyHex, {
+      iv: ivHex,
+      mode: CryptoJS.mode.CBC,
+      padding: CryptoJS.pad.Pkcs7,
+    });
+    return encrypted.toString();
+  }
+
+  // 加密密码
+  function encryptPassword(password: string) {
+    const key = import.meta.env.VITE_AES_KEY;
+    const encrypted = encryptData(password, key, key);
+    return encrypted.toString();
+  }
 
   /**
    * 异步处理登录操作
@@ -37,7 +57,7 @@ export const useAuthStore = defineStore('auth', () => {
 
       const { access_token } = await defAuthnService.Login({
         username: params.username,
-        password: params.password,
+        password: encryptPassword(params.password),
         grant_type: 'password',
       });
 
@@ -71,6 +91,19 @@ export const useAuthStore = defineStore('auth', () => {
             message: $t('authentication.loginSuccess'),
           });
         }
+      }
+    } catch (error) {
+      // 处理登录错误
+      if (error instanceof Error) {
+        notification.error({
+          message: $t('authentication.loginFailed'),
+          description: error.message,
+        });
+      } else {
+        notification.error({
+          message: $t('authentication.loginFailed'),
+          description: $t('authentication.loginFailedDesc'),
+        });
       }
     } finally {
       loginLoading.value = false;
@@ -130,13 +163,16 @@ export const useAuthStore = defineStore('auth', () => {
     const accessStore = useAccessStore();
 
     accessStore.setAccessToken(null);
+
     if (
       preferences.app.loginExpiredMode === 'modal' &&
       accessStore.isAccessChecked
     ) {
       accessStore.setLoginExpired(true);
     } else {
-      await logout();
+      if (accessStore.accessToken !== null) {
+        await logout();
+      }
     }
   }
 

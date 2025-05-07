@@ -4,6 +4,8 @@
   "pageDesc": "高效好用的大数据后台管理系统",
   "loginSuccess": "登录成功",
   "loginSuccessDesc": "欢迎回来",
+  "loginFailed": "登录失败",
+  "loginFailedDesc": "请检查您的用户名和密码",
   "loginSubtitle": "请输入您的帐户信息以开始管理您的系统",
   "selectAccount": "快速选择账号",
   "username": "账号",

@@ -12,7 +12,7 @@ import (
 	"entgo.io/ent/dialect/sql"
 )
 
-// NotificationMessageRecipient is the model entity for the NotificationMessageRecipient schema.
+// 站内信通知消息接收者表
 type NotificationMessageRecipient struct {
 	config `json:"-"`
 	// ID of the ent.

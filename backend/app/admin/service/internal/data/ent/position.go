@@ -12,7 +12,7 @@ import (
 	"entgo.io/ent/dialect/sql"
 )
 
-// Position is the model entity for the Position schema.
+// 职位表
 type Position struct {
 	config `json:"-"`
 	// ID of the ent.

@@ -12,7 +12,7 @@ import (
 	"entgo.io/ent/dialect/sql"
 )
 
-// Tenant is the model entity for the Tenant schema.
+// 租户表
 type Tenant struct {
 	config `json:"-"`
 	// ID of the ent.

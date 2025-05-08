@@ -12,7 +12,7 @@ import (
 	"entgo.io/ent/dialect/sql"
 )
 
-// Department is the model entity for the Department schema.
+// 部门表
 type Department struct {
 	config `json:"-"`
 	// ID of the ent.

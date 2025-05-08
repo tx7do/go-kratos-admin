@@ -13,7 +13,7 @@ import (
 	"entgo.io/ent/dialect/sql"
 )
 
-// Role is the model entity for the Role schema.
+// 角色表
 type Role struct {
 	config `json:"-"`
 	// ID of the ent.

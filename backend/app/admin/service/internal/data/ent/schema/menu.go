@@ -24,6 +24,7 @@ func (Menu) Annotations() []schema.Annotation {
 			Collation: "utf8mb4_bin",
 		},
 		entsql.WithComments(true),
+		schema.Comment("后台目录表"),
 	}
 }
 

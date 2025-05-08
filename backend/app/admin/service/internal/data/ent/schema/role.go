@@ -22,6 +22,7 @@ func (Role) Annotations() []schema.Annotation {
 			Collation: "utf8mb4_bin",
 		},
 		entsql.WithComments(true),
+		schema.Comment("角色表"),
 	}
 }
 

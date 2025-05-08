@@ -12,7 +12,7 @@ import (
 	"entgo.io/ent/dialect/sql"
 )
 
-// AdminOperationLog is the model entity for the AdminOperationLog schema.
+// 后台操作日志表
 type AdminOperationLog struct {
 	config `json:"-"`
 	// ID of the ent.

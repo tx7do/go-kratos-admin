@@ -12,7 +12,7 @@ import (
 	"entgo.io/ent/dialect/sql"
 )
 
-// Dict is the model entity for the Dict schema.
+// 字典表
 type Dict struct {
 	config `json:"-"`
 	// ID of the ent.

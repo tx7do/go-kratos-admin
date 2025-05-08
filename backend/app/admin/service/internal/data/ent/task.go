@@ -12,7 +12,7 @@ import (
 	"entgo.io/ent/dialect/sql"
 )
 
-// Task is the model entity for the Task schema.
+// 任务表
 type Task struct {
 	config `json:"-"`
 	// ID of the ent.

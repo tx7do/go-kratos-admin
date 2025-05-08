@@ -12,7 +12,7 @@ import (
 	"entgo.io/ent/dialect/sql"
 )
 
-// File is the model entity for the File schema.
+// 文件表
 type File struct {
 	config `json:"-"`
 	// ID of the ent.

@@ -12,7 +12,7 @@ import (
 	"entgo.io/ent/dialect/sql"
 )
 
-// Organization is the model entity for the Organization schema.
+// 组织表
 type Organization struct {
 	config `json:"-"`
 	// ID of the ent.

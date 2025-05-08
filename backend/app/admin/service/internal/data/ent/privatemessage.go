@@ -12,7 +12,7 @@ import (
 	"entgo.io/ent/dialect/sql"
 )
 
-// PrivateMessage is the model entity for the PrivateMessage schema.
+// 站内信私信消息表
 type PrivateMessage struct {
 	config `json:"-"`
 	// ID of the ent.

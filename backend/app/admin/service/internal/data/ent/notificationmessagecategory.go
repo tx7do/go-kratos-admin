@@ -12,7 +12,7 @@ import (
 	"entgo.io/ent/dialect/sql"
 )
 
-// NotificationMessageCategory is the model entity for the NotificationMessageCategory schema.
+// 站内信通知消息分类表
 type NotificationMessageCategory struct {
 	config `json:"-"`
 	// ID of the ent.

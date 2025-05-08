@@ -35,6 +35,7 @@ var (
 	// AdminLoginLogsTable holds the schema information for the "admin_login_logs" table.
 	AdminLoginLogsTable = &schema.Table{
 		Name:       "admin_login_logs",
+		Comment:    "后台登录日志表",
 		Columns:    AdminLoginLogsColumns,
 		PrimaryKey: []*schema.Column{AdminLoginLogsColumns[0]},
 		Indexes: []*schema.Index{
@@ -79,6 +80,7 @@ var (
 	// AdminOperationLogsTable holds the schema information for the "admin_operation_logs" table.
 	AdminOperationLogsTable = &schema.Table{
 		Name:       "admin_operation_logs",
+		Comment:    "后台操作日志表",
 		Columns:    AdminOperationLogsColumns,
 		PrimaryKey: []*schema.Column{AdminOperationLogsColumns[0]},
 		Indexes: []*schema.Index{
@@ -107,6 +109,7 @@ var (
 	// DepartmentsTable holds the schema information for the "departments" table.
 	DepartmentsTable = &schema.Table{
 		Name:       "departments",
+		Comment:    "部门表",
 		Columns:    DepartmentsColumns,
 		PrimaryKey: []*schema.Column{DepartmentsColumns[0]},
 		ForeignKeys: []*schema.ForeignKey{
@@ -146,6 +149,7 @@ var (
 	// DictTable holds the schema information for the "dict" table.
 	DictTable = &schema.Table{
 		Name:       "dict",
+		Comment:    "字典表",
 		Columns:    DictColumns,
 		PrimaryKey: []*schema.Column{DictColumns[0]},
 		Indexes: []*schema.Index{
@@ -179,6 +183,7 @@ var (
 	// FilesTable holds the schema information for the "files" table.
 	FilesTable = &schema.Table{
 		Name:       "files",
+		Comment:    "文件表",
 		Columns:    FilesColumns,
 		PrimaryKey: []*schema.Column{FilesColumns[0]},
 		Indexes: []*schema.Index{
@@ -211,6 +216,7 @@ var (
 	// MenusTable holds the schema information for the "menus" table.
 	MenusTable = &schema.Table{
 		Name:       "menus",
+		Comment:    "后台目录表",
 		Columns:    MenusColumns,
 		PrimaryKey: []*schema.Column{MenusColumns[0]},
 		ForeignKeys: []*schema.ForeignKey{
@@ -238,6 +244,7 @@ var (
 	// NotificationMessagesTable holds the schema information for the "notification_messages" table.
 	NotificationMessagesTable = &schema.Table{
 		Name:       "notification_messages",
+		Comment:    "站内信通知消息表",
 		Columns:    NotificationMessagesColumns,
 		PrimaryKey: []*schema.Column{NotificationMessagesColumns[0]},
 		Indexes: []*schema.Index{
@@ -266,6 +273,7 @@ var (
 	// NotificationMessageCategoriesTable holds the schema information for the "notification_message_categories" table.
 	NotificationMessageCategoriesTable = &schema.Table{
 		Name:       "notification_message_categories",
+		Comment:    "站内信通知消息分类表",
 		Columns:    NotificationMessageCategoriesColumns,
 		PrimaryKey: []*schema.Column{NotificationMessageCategoriesColumns[0]},
 		ForeignKeys: []*schema.ForeignKey{
@@ -297,6 +305,7 @@ var (
 	// NotificationMessageRecipientsTable holds the schema information for the "notification_message_recipients" table.
 	NotificationMessageRecipientsTable = &schema.Table{
 		Name:       "notification_message_recipients",
+		Comment:    "站内信通知消息接收者表",
 		Columns:    NotificationMessageRecipientsColumns,
 		PrimaryKey: []*schema.Column{NotificationMessageRecipientsColumns[0]},
 		Indexes: []*schema.Index{
@@ -324,6 +333,7 @@ var (
 	// OrganizationsTable holds the schema information for the "organizations" table.
 	OrganizationsTable = &schema.Table{
 		Name:       "organizations",
+		Comment:    "组织表",
 		Columns:    OrganizationsColumns,
 		PrimaryKey: []*schema.Column{OrganizationsColumns[0]},
 		ForeignKeys: []*schema.ForeignKey{
@@ -360,6 +370,7 @@ var (
 	// PositionsTable holds the schema information for the "positions" table.
 	PositionsTable = &schema.Table{
 		Name:       "positions",
+		Comment:    "职位表",
 		Columns:    PositionsColumns,
 		PrimaryKey: []*schema.Column{PositionsColumns[0]},
 		ForeignKeys: []*schema.ForeignKey{
@@ -393,6 +404,7 @@ var (
 	// PrivateMessagesTable holds the schema information for the "private_messages" table.
 	PrivateMessagesTable = &schema.Table{
 		Name:       "private_messages",
+		Comment:    "站内信私信消息表",
 		Columns:    PrivateMessagesColumns,
 		PrimaryKey: []*schema.Column{PrivateMessagesColumns[0]},
 		Indexes: []*schema.Index{
@@ -422,6 +434,7 @@ var (
 	// RolesTable holds the schema information for the "roles" table.
 	RolesTable = &schema.Table{
 		Name:       "roles",
+		Comment:    "角色表",
 		Columns:    RolesColumns,
 		PrimaryKey: []*schema.Column{RolesColumns[0]},
 		ForeignKeys: []*schema.ForeignKey{
@@ -463,6 +476,7 @@ var (
 	// TasksTable holds the schema information for the "tasks" table.
 	TasksTable = &schema.Table{
 		Name:       "tasks",
+		Comment:    "任务表",
 		Columns:    TasksColumns,
 		PrimaryKey: []*schema.Column{TasksColumns[0]},
 		Indexes: []*schema.Index{
@@ -492,6 +506,7 @@ var (
 	// TenantsTable holds the schema information for the "tenants" table.
 	TenantsTable = &schema.Table{
 		Name:       "tenants",
+		Comment:    "租户表",
 		Columns:    TenantsColumns,
 		PrimaryKey: []*schema.Column{TenantsColumns[0]},
 		Indexes: []*schema.Index{
@@ -536,6 +551,7 @@ var (
 	// UsersTable holds the schema information for the "users" table.
 	UsersTable = &schema.Table{
 		Name:       "users",
+		Comment:    "用户表",
 		Columns:    UsersColumns,
 		PrimaryKey: []*schema.Column{UsersColumns[0]},
 		Indexes: []*schema.Index{

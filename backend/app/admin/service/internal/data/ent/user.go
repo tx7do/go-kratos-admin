@@ -12,7 +12,7 @@ import (
 	"entgo.io/ent/dialect/sql"
 )
 
-// User is the model entity for the User schema.
+// 用户表
 type User struct {
 	config `json:"-"`
 	// ID of the ent.

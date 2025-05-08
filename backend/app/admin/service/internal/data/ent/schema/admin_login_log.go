@@ -21,6 +21,7 @@ func (AdminLoginLog) Annotations() []schema.Annotation {
 			Collation: "utf8mb4_bin",
 		},
 		entsql.WithComments(true),
+		schema.Comment("后台登录日志表"),
 	}
 }
 

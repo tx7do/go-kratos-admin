@@ -14,7 +14,7 @@ import (
 	"entgo.io/ent/dialect/sql"
 )
 
-// Menu is the model entity for the Menu schema.
+// 后台目录表
 type Menu struct {
 	config `json:"-"`
 	// ID of the ent.

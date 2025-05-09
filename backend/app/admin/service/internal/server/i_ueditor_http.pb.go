@@ -6,6 +6,7 @@ import (
 	"strings"
 
 	"github.com/go-kratos/kratos/v2/transport/http"
+	"github.com/tx7do/go-utils/trans"
 
 	"kratos-admin/app/admin/service/internal/service"
 
@@ -27,8 +28,6 @@ func _UEditorService_UploadFile_HTTP_Handler(svc *service.UEditorService) func(c
 		var in fileV1.UEditorUploadRequest
 		var err error
 
-		var fileData *fileV1.FileData
-
 		file, header, err := ctx.Request().FormFile("file")
 		if err == nil {
 			defer file.Close()
@@ -36,11 +35,9 @@ func _UEditorService_UploadFile_HTTP_Handler(svc *service.UEditorService) func(c
 			b := new(strings.Builder)
 			_, err = io.Copy(b, file)
 
-			fileData = &fileV1.FileData{
-				FileName: header.Filename,
-				Mime:     header.Header.Get("Content-Type"),
-				Content:  []byte(b.String()),
-			}
+			in.SourceFileName = trans.Ptr(header.Filename)
+			in.Mime = trans.Ptr(header.Header.Get("Content-Type"))
+			in.File = []byte(b.String())
 		}
 
 		if err = ctx.BindQuery(&in); err != nil {
@@ -48,7 +45,12 @@ func _UEditorService_UploadFile_HTTP_Handler(svc *service.UEditorService) func(c
 		}
 
 		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
-			return svc.UploadFile(ctx, req.(*fileV1.UEditorUploadRequest), fileData)
+			var resp *fileV1.UEditorUploadResponse
+
+			resp, err = svc.UploadFile(ctx, req.(*fileV1.UEditorUploadRequest))
+			in.File = nil
+
+			return resp, err
 		})
 
 		// 逻辑处理，取数据

@@ -7,13 +7,47 @@ import "errors/errors.proto";
 enum FileErrorReason {
     option (errors.default_code) = 500;
 
-    // common error
-    METHOD_NOT_ALLOWED = 0 [(errors.code) = 405]; // 405
+    // 400
+    BAD_REQUEST = 0 [(errors.code) = 400];
 
-    // file upload/download errors
-    FILE_NOT_FOUND = 1 [(errors.code) = 404]; // 404
-    FILE_TOO_LARGE = 2 [(errors.code) = 413]; // 413
-    UNSUPPORTED_FILE_TYPE = 3 [(errors.code) = 415]; // 415
-    UPLOAD_FAILED = 4 [(errors.code) = 500]; // 500
-    DOWNLOAD_FAILED = 5 [(errors.code) = 500]; // 500
+    // 401
+
+    // 403
+    ACCESS_FORBIDDEN = 410 [(errors.code) = 403];
+
+    // 404
+    RESOURCE_NOT_FOUND = 420 [(errors.code) = 404];
+    FILE_NOT_FOUND = 421 [(errors.code) = 404];
+
+    // 405
+    METHOD_NOT_ALLOWED = 430 [(errors.code) = 405];
+
+    // 408
+    REQUEST_TIMEOUT = 440 [(errors.code) = 408];
+
+    // 413
+    FILE_TOO_LARGE = 450 [(errors.code) = 413];
+
+    // 415
+    UNSUPPORTED_FILE_TYPE = 460 [(errors.code) = 415];
+
+    // 500
+    INTERNAL_SERVER_ERROR = 500 [(errors.code) = 500];
+    UPLOAD_FAILED = 501 [(errors.code) = 500];
+    DOWNLOAD_FAILED = 502 [(errors.code) = 500];
+
+    // 501
+    NOT_IMPLEMENTED = 510 [(errors.code) = 501];
+
+    // 502
+    NETWORK_ERROR = 511 [(errors.code) = 502];
+
+    // 503
+    SERVICE_UNAVAILABLE = 512 [(errors.code) = 503];
+
+    // 504
+    NETWORK_TIMEOUT = 513 [(errors.code) = 504];
+
+    // 505
+    REQUEST_NOT_SUPPORT = 514 [(errors.code) = 505];
 }

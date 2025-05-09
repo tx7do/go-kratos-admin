@@ -32,37 +32,37 @@ func (s *OssService) OssUploadUrl(ctx context.Context, req *fileV1.OssUploadUrlR
 	return s.mc.OssUploadUrl(ctx, req)
 }
 
-func (s *OssService) PostUploadFile(ctx context.Context, req *fileV1.UploadOssFileRequest, fileData *fileV1.FileData) (*fileV1.UploadOssFileResponse, error) {
-	if fileData == nil {
+func (s *OssService) PostUploadFile(ctx context.Context, req *fileV1.UploadOssFileRequest) (*fileV1.UploadOssFileResponse, error) {
+	if req.File == nil {
 		return nil, fileV1.ErrorUploadFailed("unknown fileData")
 	}
 
 	if req.BucketName == nil {
-		req.BucketName = trans.Ptr(s.mc.ContentTypeToBucketName(fileData.Mime))
+		req.BucketName = trans.Ptr(s.mc.ContentTypeToBucketName(req.GetMime()))
 	}
 	if req.ObjectName == nil {
-		req.ObjectName = trans.Ptr(fileData.FileName)
+		req.ObjectName = trans.Ptr(req.GetSourceFileName())
 	}
 
-	downloadUrl, err := s.mc.UploadFile(ctx, req.GetBucketName(), req.GetObjectName(), fileData.Content)
+	downloadUrl, err := s.mc.UploadFile(ctx, req.GetBucketName(), req.GetObjectName(), req.GetFile())
 	return &fileV1.UploadOssFileResponse{
 		Url: downloadUrl,
 	}, err
 }
 
-func (s *OssService) PutUploadFile(ctx context.Context, req *fileV1.UploadOssFileRequest, fileData *fileV1.FileData) (*fileV1.UploadOssFileResponse, error) {
-	if fileData == nil {
+func (s *OssService) PutUploadFile(ctx context.Context, req *fileV1.UploadOssFileRequest) (*fileV1.UploadOssFileResponse, error) {
+	if req.File == nil {
 		return nil, fileV1.ErrorUploadFailed("unknown fileData")
 	}
 
 	if req.BucketName == nil {
-		req.BucketName = trans.Ptr(s.mc.ContentTypeToBucketName(fileData.Mime))
+		req.BucketName = trans.Ptr(s.mc.ContentTypeToBucketName(req.GetMime()))
 	}
 	if req.ObjectName == nil {
-		req.ObjectName = trans.Ptr(fileData.FileName)
+		req.ObjectName = trans.Ptr(req.GetSourceFileName())
 	}
 
-	downloadUrl, err := s.mc.UploadFile(ctx, req.GetBucketName(), req.GetObjectName(), fileData.Content)
+	downloadUrl, err := s.mc.UploadFile(ctx, req.GetBucketName(), req.GetObjectName(), req.GetFile())
 	return &fileV1.UploadOssFileResponse{
 		Url: downloadUrl,
 	}, err

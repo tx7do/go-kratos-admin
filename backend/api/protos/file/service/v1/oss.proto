@@ -147,6 +147,16 @@ message UploadOssFileRequest {
     json_name = "file",
     (gnostic.openapi.v3.property) = { description: "文件内容" }
   ]; // 文件内容
+
+  optional string source_file_name = 4 [
+    json_name = "sourceFileName",
+    (gnostic.openapi.v3.property) = { description: "原文件文件名" }
+  ]; // 原文件文件名
+
+  optional string mime = 5 [
+    json_name = "mime",
+    (gnostic.openapi.v3.property) = { description: "文件的MIME类型" }
+  ]; // 文件的MIME类型
 }
 message UploadOssFileResponse {
   string url = 1;

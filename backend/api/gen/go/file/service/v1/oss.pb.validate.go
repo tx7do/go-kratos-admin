@@ -935,6 +935,14 @@ func (m *UploadOssFileRequest) validate(all bool) error {
 		// no validation rules for File
 	}
 
+	if m.SourceFileName != nil {
+		// no validation rules for SourceFileName
+	}
+
+	if m.Mime != nil {
+		// no validation rules for Mime
+	}
+
 	if len(errors) > 0 {
 		return UploadOssFileRequestMultiError(errors)
 	}

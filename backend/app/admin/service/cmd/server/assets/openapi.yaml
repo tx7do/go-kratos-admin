@@ -2796,16 +2796,6 @@ components:
                     description: 删除时间
                     format: date-time
             description: 文件
-        FileData:
-            type: object
-            properties:
-                fileName:
-                    type: string
-                mime:
-                    type: string
-                content:
-                    type: string
-                    format: bytes
         KratosStatus:
             type: object
             properties:
@@ -3959,8 +3949,17 @@ components:
             properties:
                 action:
                     type: string
+                    description: 动作
                 file:
-                    $ref: '#/components/schemas/FileData'
+                    type: string
+                    description: 文件内容
+                    format: bytes
+                sourceFileName:
+                    type: string
+                    description: 原文件文件名
+                mime:
+                    type: string
+                    description: 文件的MIME类型
         UEditorUploadResponse:
             type: object
             properties:
@@ -4282,6 +4281,12 @@ components:
                     type: string
                     description: 文件内容
                     format: bytes
+                sourceFileName:
+                    type: string
+                    description: 原文件文件名
+                mime:
+                    type: string
+                    description: 文件的MIME类型
         UploadOssFileResponse:
             type: object
             properties:

@@ -11,21 +11,48 @@ import (
 // is compatible with the kratos package it is being compiled against.
 const _ = errors.SupportPackageIsVersion1
 
-// common error
-func IsMethodNotAllowed(err error) bool {
+// 400
+func IsBadRequest(err error) bool {
 	if err == nil {
 		return false
 	}
 	e := errors.FromError(err)
-	return e.Reason == FileErrorReason_METHOD_NOT_ALLOWED.String() && e.Code == 405
+	return e.Reason == FileErrorReason_BAD_REQUEST.String() && e.Code == 400
 }
 
-// common error
-func ErrorMethodNotAllowed(format string, args ...interface{}) *errors.Error {
-	return errors.New(405, FileErrorReason_METHOD_NOT_ALLOWED.String(), fmt.Sprintf(format, args...))
+// 400
+func ErrorBadRequest(format string, args ...interface{}) *errors.Error {
+	return errors.New(400, FileErrorReason_BAD_REQUEST.String(), fmt.Sprintf(format, args...))
 }
 
-// file upload/download errors
+// 403
+func IsAccessForbidden(err error) bool {
+	if err == nil {
+		return false
+	}
+	e := errors.FromError(err)
+	return e.Reason == FileErrorReason_ACCESS_FORBIDDEN.String() && e.Code == 403
+}
+
+// 403
+func ErrorAccessForbidden(format string, args ...interface{}) *errors.Error {
+	return errors.New(403, FileErrorReason_ACCESS_FORBIDDEN.String(), fmt.Sprintf(format, args...))
+}
+
+// 404
+func IsResourceNotFound(err error) bool {
+	if err == nil {
+		return false
+	}
+	e := errors.FromError(err)
+	return e.Reason == FileErrorReason_RESOURCE_NOT_FOUND.String() && e.Code == 404
+}
+
+// 404
+func ErrorResourceNotFound(format string, args ...interface{}) *errors.Error {
+	return errors.New(404, FileErrorReason_RESOURCE_NOT_FOUND.String(), fmt.Sprintf(format, args...))
+}
+
 func IsFileNotFound(err error) bool {
 	if err == nil {
 		return false
@@ -34,9 +61,36 @@ func IsFileNotFound(err error) bool {
 	return e.Reason == FileErrorReason_FILE_NOT_FOUND.String() && e.Code == 404
 }
 
-// file upload/download errors
 func ErrorFileNotFound(format string, args ...interface{}) *errors.Error {
 	return errors.New(404, FileErrorReason_FILE_NOT_FOUND.String(), fmt.Sprintf(format, args...))
+}
+
+// 405
+func IsMethodNotAllowed(err error) bool {
+	if err == nil {
+		return false
+	}
+	e := errors.FromError(err)
+	return e.Reason == FileErrorReason_METHOD_NOT_ALLOWED.String() && e.Code == 405
+}
+
+// 405
+func ErrorMethodNotAllowed(format string, args ...interface{}) *errors.Error {
+	return errors.New(405, FileErrorReason_METHOD_NOT_ALLOWED.String(), fmt.Sprintf(format, args...))
+}
+
+// 408
+func IsRequestTimeout(err error) bool {
+	if err == nil {
+		return false
+	}
+	e := errors.FromError(err)
+	return e.Reason == FileErrorReason_REQUEST_TIMEOUT.String() && e.Code == 408
+}
+
+// 408
+func ErrorRequestTimeout(format string, args ...interface{}) *errors.Error {
+	return errors.New(408, FileErrorReason_REQUEST_TIMEOUT.String(), fmt.Sprintf(format, args...))
 }
 
 // 413
@@ -68,6 +122,19 @@ func ErrorUnsupportedFileType(format string, args ...interface{}) *errors.Error 
 }
 
 // 500
+func IsInternalServerError(err error) bool {
+	if err == nil {
+		return false
+	}
+	e := errors.FromError(err)
+	return e.Reason == FileErrorReason_INTERNAL_SERVER_ERROR.String() && e.Code == 500
+}
+
+// 500
+func ErrorInternalServerError(format string, args ...interface{}) *errors.Error {
+	return errors.New(500, FileErrorReason_INTERNAL_SERVER_ERROR.String(), fmt.Sprintf(format, args...))
+}
+
 func IsUploadFailed(err error) bool {
 	if err == nil {
 		return false
@@ -76,12 +143,10 @@ func IsUploadFailed(err error) bool {
 	return e.Reason == FileErrorReason_UPLOAD_FAILED.String() && e.Code == 500
 }
 
-// 500
 func ErrorUploadFailed(format string, args ...interface{}) *errors.Error {
 	return errors.New(500, FileErrorReason_UPLOAD_FAILED.String(), fmt.Sprintf(format, args...))
 }
 
-// 500
 func IsDownloadFailed(err error) bool {
 	if err == nil {
 		return false
@@ -90,7 +155,76 @@ func IsDownloadFailed(err error) bool {
 	return e.Reason == FileErrorReason_DOWNLOAD_FAILED.String() && e.Code == 500
 }
 
-// 500
 func ErrorDownloadFailed(format string, args ...interface{}) *errors.Error {
 	return errors.New(500, FileErrorReason_DOWNLOAD_FAILED.String(), fmt.Sprintf(format, args...))
+}
+
+// 501
+func IsNotImplemented(err error) bool {
+	if err == nil {
+		return false
+	}
+	e := errors.FromError(err)
+	return e.Reason == FileErrorReason_NOT_IMPLEMENTED.String() && e.Code == 501
+}
+
+// 501
+func ErrorNotImplemented(format string, args ...interface{}) *errors.Error {
+	return errors.New(501, FileErrorReason_NOT_IMPLEMENTED.String(), fmt.Sprintf(format, args...))
+}
+
+// 502
+func IsNetworkError(err error) bool {
+	if err == nil {
+		return false
+	}
+	e := errors.FromError(err)
+	return e.Reason == FileErrorReason_NETWORK_ERROR.String() && e.Code == 502
+}
+
+// 502
+func ErrorNetworkError(format string, args ...interface{}) *errors.Error {
+	return errors.New(502, FileErrorReason_NETWORK_ERROR.String(), fmt.Sprintf(format, args...))
+}
+
+// 503
+func IsServiceUnavailable(err error) bool {
+	if err == nil {
+		return false
+	}
+	e := errors.FromError(err)
+	return e.Reason == FileErrorReason_SERVICE_UNAVAILABLE.String() && e.Code == 503
+}
+
+// 503
+func ErrorServiceUnavailable(format string, args ...interface{}) *errors.Error {
+	return errors.New(503, FileErrorReason_SERVICE_UNAVAILABLE.String(), fmt.Sprintf(format, args...))
+}
+
+// 504
+func IsNetworkTimeout(err error) bool {
+	if err == nil {
+		return false
+	}
+	e := errors.FromError(err)
+	return e.Reason == FileErrorReason_NETWORK_TIMEOUT.String() && e.Code == 504
+}
+
+// 504
+func ErrorNetworkTimeout(format string, args ...interface{}) *errors.Error {
+	return errors.New(504, FileErrorReason_NETWORK_TIMEOUT.String(), fmt.Sprintf(format, args...))
+}
+
+// 505
+func IsRequestNotSupport(err error) bool {
+	if err == nil {
+		return false
+	}
+	e := errors.FromError(err)
+	return e.Reason == FileErrorReason_REQUEST_NOT_SUPPORT.String() && e.Code == 505
+}
+
+// 505
+func ErrorRequestNotSupport(format string, args ...interface{}) *errors.Error {
+	return errors.New(505, FileErrorReason_REQUEST_NOT_SUPPORT.String(), fmt.Sprintf(format, args...))
 }

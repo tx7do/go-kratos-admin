@@ -117,10 +117,10 @@ func (s *UEditorService) UEditorAPI(ctx context.Context, req *fileV1.UEditorRequ
 	}
 }
 
-func (s *UEditorService) UploadFile(ctx context.Context, req *fileV1.UEditorUploadRequest, file *fileV1.FileData) (*fileV1.UEditorUploadResponse, error) {
+func (s *UEditorService) UploadFile(ctx context.Context, req *fileV1.UEditorUploadRequest) (*fileV1.UEditorUploadResponse, error) {
 	//s.log.Infof("上传文件： %s", req.GetFile())
 
-	if file == nil {
+	if req.File == nil {
 		return nil, fileV1.ErrorUploadFailed("unknown file")
 	}
 
@@ -136,7 +136,7 @@ func (s *UEditorService) UploadFile(ctx context.Context, req *fileV1.UEditorUplo
 		bucketName = "videos"
 	}
 
-	downloadUrl, err := s.mc.UploadFile(ctx, bucketName, file.FileName, file.Content)
+	downloadUrl, err := s.mc.UploadFile(ctx, bucketName, req.GetSourceFileName(), req.GetFile())
 	if err != nil {
 		return &fileV1.UEditorUploadResponse{
 			State: trans.Ptr(err.Error()),
@@ -145,10 +145,10 @@ func (s *UEditorService) UploadFile(ctx context.Context, req *fileV1.UEditorUplo
 
 	return &fileV1.UEditorUploadResponse{
 		State:    trans.Ptr(StateOK),
-		Original: trans.Ptr(file.GetFileName()),
-		Title:    trans.Ptr(file.GetFileName()),
+		Original: trans.Ptr(req.GetSourceFileName()),
+		Title:    trans.Ptr(req.GetSourceFileName()),
 		Url:      trans.Ptr(downloadUrl),
-		Size:     trans.Ptr(int32(len(file.Content))),
-		Type:     trans.Ptr(path.Ext(file.GetFileName())),
+		Size:     trans.Ptr(int32(len(req.GetFile()))),
+		Type:     trans.Ptr(path.Ext(req.GetSourceFileName())),
 	}, nil
 }

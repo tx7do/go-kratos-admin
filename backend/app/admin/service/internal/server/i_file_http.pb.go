@@ -6,6 +6,7 @@ import (
 	"strings"
 
 	"github.com/go-kratos/kratos/v2/transport/http"
+	"github.com/tx7do/go-utils/trans"
 
 	"kratos-admin/app/admin/service/internal/service"
 
@@ -28,8 +29,6 @@ func _FileService_PostUploadFile_HTTP_Handler(svc *service.OssService) func(ctx 
 		var in fileV1.UploadOssFileRequest
 		var err error
 
-		var aFile *fileV1.FileData
-
 		file, header, err := ctx.Request().FormFile("file")
 		if err == nil {
 			defer file.Close()
@@ -37,11 +36,9 @@ func _FileService_PostUploadFile_HTTP_Handler(svc *service.OssService) func(ctx 
 			b := new(strings.Builder)
 			_, err = io.Copy(b, file)
 
-			aFile = &fileV1.FileData{
-				FileName: header.Filename,
-				Mime:     header.Header.Get("Content-Type"),
-				Content:  []byte(b.String()),
-			}
+			in.SourceFileName = trans.Ptr(header.Filename)
+			in.Mime = trans.Ptr(header.Header.Get("Content-Type"))
+			in.File = []byte(b.String())
 		}
 
 		if err = ctx.BindQuery(&in); err != nil {
@@ -49,7 +46,13 @@ func _FileService_PostUploadFile_HTTP_Handler(svc *service.OssService) func(ctx 
 		}
 
 		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
-			return svc.PostUploadFile(ctx, req.(*fileV1.UploadOssFileRequest), aFile)
+			aReq := req.(*fileV1.UploadOssFileRequest)
+
+			var resp *fileV1.UploadOssFileResponse
+			resp, err = svc.PostUploadFile(ctx, aReq)
+			in.File = nil
+
+			return resp, err
 		})
 
 		// 逻辑处理，取数据
@@ -71,8 +74,6 @@ func _FileService_PutUploadFile_HTTP_Handler(svc *service.OssService) func(ctx h
 		var in fileV1.UploadOssFileRequest
 		var err error
 
-		var aFile *fileV1.FileData
-
 		file, header, err := ctx.Request().FormFile("file")
 		if err == nil {
 			defer file.Close()
@@ -80,11 +81,9 @@ func _FileService_PutUploadFile_HTTP_Handler(svc *service.OssService) func(ctx h
 			b := new(strings.Builder)
 			_, err = io.Copy(b, file)
 
-			aFile = &fileV1.FileData{
-				FileName: header.Filename,
-				Mime:     header.Header.Get("Content-Type"),
-				Content:  []byte(b.String()),
-			}
+			in.SourceFileName = trans.Ptr(header.Filename)
+			in.Mime = trans.Ptr(header.Header.Get("Content-Type"))
+			in.File = []byte(b.String())
 		}
 
 		if err = ctx.BindQuery(&in); err != nil {
@@ -92,7 +91,13 @@ func _FileService_PutUploadFile_HTTP_Handler(svc *service.OssService) func(ctx h
 		}
 
 		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
-			return svc.PutUploadFile(ctx, req.(*fileV1.UploadOssFileRequest), aFile)
+			aReq := req.(*fileV1.UploadOssFileRequest)
+
+			var resp *fileV1.UploadOssFileResponse
+			resp, err = svc.PutUploadFile(ctx, aReq)
+			in.File = nil
+
+			return resp, err
 		})
 
 		// 逻辑处理，取数据

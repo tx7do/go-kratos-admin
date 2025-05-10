@@ -16,7 +16,7 @@ import (
 	"github.com/tx7do/go-utils/geoip/qqwry"
 	authnEngine "github.com/tx7do/kratos-authn/engine"
 
-	"kratos-admin/app/admin/service/internal/data"
+	"kratos-admin/pkg/middleware/auth"
 
 	adminV1 "kratos-admin/api/gen/go/admin/service/v1"
 )
@@ -24,7 +24,7 @@ import (
 var ipClient = qqwry.NewClient()
 
 // extractAuthToken 从JWT Token中提取用户信息
-func extractAuthToken(authToken string, authenticator authnEngine.Authenticator) *data.UserTokenPayload {
+func extractAuthToken(authToken string, authenticator authnEngine.Authenticator) *auth.UserTokenPayload {
 	if len(authToken) == 0 {
 		return nil
 	}
@@ -35,7 +35,7 @@ func extractAuthToken(authToken string, authenticator authnEngine.Authenticator)
 		return nil
 	}
 
-	ut, _ := data.NewUserTokenPayloadWithClaims(authnClaims)
+	ut, _ := auth.NewUserTokenPayloadWithClaims(authnClaims)
 	if ut == nil {
 		return nil
 	}
@@ -136,7 +136,7 @@ func getRequestId(request *http.Request) string {
 }
 
 // getClientID 获取客户端ID
-func getClientID(request *http.Request, userToken *data.UserTokenPayload) string {
+func getClientID(request *http.Request, userToken *auth.UserTokenPayload) string {
 	if request == nil {
 		return ""
 	}

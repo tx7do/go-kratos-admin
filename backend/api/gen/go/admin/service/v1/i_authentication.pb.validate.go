@@ -57,7 +57,9 @@ func (m *LogoutRequest) validate(all bool) error {
 
 	var errors []error
 
-	// no validation rules for Id
+	if m.OperatorId != nil {
+		// no validation rules for OperatorId
+	}
 
 	if len(errors) > 0 {
 		return LogoutRequestMultiError(errors)
@@ -159,7 +161,9 @@ func (m *GetMeRequest) validate(all bool) error {
 
 	var errors []error
 
-	// no validation rules for Id
+	if m.OperatorId != nil {
+		// no validation rules for OperatorId
+	}
 
 	if len(errors) > 0 {
 		return GetMeRequestMultiError(errors)
@@ -505,6 +509,10 @@ func (m *RefreshTokenRequest) validate(all bool) error {
 
 	if m.ClientSecret != nil {
 		// no validation rules for ClientSecret
+	}
+
+	if m.OperatorId != nil {
+		// no validation rules for OperatorId
 	}
 
 	if len(errors) > 0 {

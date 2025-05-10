@@ -11,6 +11,6 @@ var (
 	ErrMissingJwtToken       = errors.Unauthorized(reason, "no jwt token in context")
 	ErrExtractUserInfoFailed = errors.Unauthorized(reason, "extract user info failed")
 	ErrExtractSubjectFailed  = errors.Unauthorized(reason, "extract subject failed")
-	ErrAccessTokenNotExist   = errors.Unauthorized(reason, "access token do not exists")
 	ErrAccessTokenExpired    = errors.Unauthorized(reason, "access token expired")
+	ErrInvalidRequest        = errors.Unauthorized(reason, "invalid request")
 )

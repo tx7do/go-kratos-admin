@@ -7,7 +7,6 @@ import (
 	"google.golang.org/protobuf/types/known/emptypb"
 
 	"kratos-admin/app/admin/service/internal/data"
-	"kratos-admin/app/admin/service/internal/middleware/auth"
 
 	adminV1 "kratos-admin/api/gen/go/admin/service/v1"
 	userV1 "kratos-admin/api/gen/go/user/service/v1"
@@ -79,22 +78,14 @@ func (s *AuthenticationService) Login(ctx context.Context, req *adminV1.LoginReq
 
 // Logout 登出
 func (s *AuthenticationService) Logout(ctx context.Context, req *adminV1.LogoutRequest) (*emptypb.Empty, error) {
-	err := s.userToken.RemoveToken(ctx, req.GetId())
-	if err != nil {
+	if err := s.userToken.RemoveToken(ctx, req.GetOperatorId()); err != nil {
 		return nil, err
 	}
 	return &emptypb.Empty{}, nil
 }
 
 func (s *AuthenticationService) GetMe(ctx context.Context, req *adminV1.GetMeRequest) (*userV1.User, error) {
-	authInfo, err := auth.FromContext(ctx)
-	if err != nil {
-		s.log.Errorf("用户认证失败[%s]", err.Error())
-		return nil, adminV1.ErrorAccessForbidden("用户认证失败")
-	}
-
-	req.Id = authInfo.UserId
-	user, err := s.userRepo.GetUser(ctx, req.GetId())
+	user, err := s.userRepo.GetUser(ctx, req.GetOperatorId())
 	if err != nil {
 		s.log.Errorf("查询用户失败[%s]", err.Error())
 		return nil, adminV1.ErrorAccessForbidden("查询用户失败")
@@ -115,20 +106,20 @@ func (s *AuthenticationService) RefreshToken(ctx context.Context, req *adminV1.R
 		return nil, adminV1.ErrorInvalidGrantType("invalid grant type")
 	}
 
-	authInfo, err := auth.FromContext(ctx)
+	// 获取用户信息
+	user, err := s.userRepo.GetUser(ctx, req.GetOperatorId())
 	if err != nil {
-		s.log.Errorf("用户认证失败[%s]", err.Error())
-		return nil, adminV1.ErrorAccessForbidden("用户认证失败")
+		return &adminV1.LoginResponse{}, err
 	}
 
 	// 校验刷新令牌
-	refreshToken := s.userToken.GetRefreshToken(ctx, authInfo.UserId)
+	refreshToken := s.userToken.GetRefreshToken(ctx, req.GetOperatorId())
 	if refreshToken != req.GetRefreshToken() {
 		return nil, adminV1.ErrorIncorrectRefreshToken("invalid refresh token")
 	}
 
 	// 生成新的访问令牌
-	accessToken, err := s.userToken.GenerateAccessToken(ctx, authInfo.TenantId, authInfo.UserId, authInfo.UserName)
+	accessToken, err := s.userToken.GenerateAccessToken(ctx, user.GetTenantId(), user.GetId(), user.GetUserName(), "")
 	if err != nil {
 		return nil, err
 	}

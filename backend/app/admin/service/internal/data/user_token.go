@@ -6,14 +6,15 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/go-kratos/kratos/v2/log"
 	"github.com/google/uuid"
 	"github.com/redis/go-redis/v9"
-
-	"github.com/go-kratos/kratos/v2/log"
 
 	authnEngine "github.com/tx7do/kratos-authn/engine"
 
 	userV1 "kratos-admin/api/gen/go/user/service/v1"
+
+	"kratos-admin/pkg/middleware/auth"
 )
 
 type UserToken struct {
@@ -49,7 +50,7 @@ func NewUserToken(
 
 // GenerateToken 创建令牌
 func (r *UserToken) GenerateToken(ctx context.Context, user *userV1.User) (accessToken string, refreshToken string, err error) {
-	if accessToken = r.createAccessJwtToken(user.GetTenantId(), user.GetId(), user.GetUserName()); accessToken == "" {
+	if accessToken = r.createAccessJwtToken(user.GetTenantId(), user.GetId(), user.GetUserName(), ""); accessToken == "" {
 		err = errors.New("create access token failed")
 		return
 	}
@@ -71,8 +72,8 @@ func (r *UserToken) GenerateToken(ctx context.Context, user *userV1.User) (acces
 }
 
 // GenerateAccessToken 创建访问令牌
-func (r *UserToken) GenerateAccessToken(ctx context.Context, tenantId uint32, userId uint32, userName string) (accessToken string, err error) {
-	if accessToken = r.createAccessJwtToken(tenantId, userId, userName); accessToken == "" {
+func (r *UserToken) GenerateAccessToken(ctx context.Context, tenantId uint32, userId uint32, userName string, clientId string) (accessToken string, err error) {
+	if accessToken = r.createAccessJwtToken(tenantId, userId, userName, clientId); accessToken == "" {
 		err = errors.New("create access token failed")
 		return
 	}
@@ -195,8 +196,8 @@ func (r *UserToken) deleteRefreshTokenFromRedis(ctx context.Context, userId uint
 }
 
 // createAccessJwtToken 生成JWT访问令牌
-func (r *UserToken) createAccessJwtToken(tenantId uint32, userId uint32, userName string) string {
-	userToken := NewUserTokenPayload(tenantId, userId, userName)
+func (r *UserToken) createAccessJwtToken(tenantId uint32, userId uint32, userName string, clientId string) string {
+	userToken := auth.NewUserTokenPayload(tenantId, userId, userName, clientId)
 
 	signedToken, err := r.authenticator.CreateIdentity(*userToken.MakeAuthClaims())
 	if err != nil {

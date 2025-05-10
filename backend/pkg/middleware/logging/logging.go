@@ -15,8 +15,6 @@ import (
 	"github.com/tx7do/go-utils/trans"
 	authnEngine "github.com/tx7do/kratos-authn/engine"
 
-	"kratos-admin/app/admin/service/internal/data"
-
 	adminV1 "kratos-admin/api/gen/go/admin/service/v1"
 	systemV1 "kratos-admin/api/gen/go/system/service/v1"
 
@@ -24,11 +22,12 @@ import (
 )
 
 // Server is an server logging middleware.
-func Server(
-	operationLogRepo *data.AdminOperationLogRepo,
-	loginLogRepo *data.AdminLoginLogRepo,
-	authenticator authnEngine.Authenticator,
-) middleware.Middleware {
+func Server(opts ...Option) middleware.Middleware {
+	op := options{}
+	for _, o := range opts {
+		o(&op)
+	}
+
 	return func(handler middleware.Handler) middleware.Handler {
 		return func(ctx context.Context, req interface{}) (reply interface{}, err error) {
 			startTime := time.Now()
@@ -45,7 +44,7 @@ func Server(
 				var htr *http.Transport
 				if htr, ok = tr.(*http.Transport); ok {
 					loginLogData = fillLoginLog(htr)
-					operationLogData = fillOperationLog(htr, authenticator)
+					operationLogData = fillOperationLog(htr, op.authenticator)
 				}
 			}
 
@@ -64,34 +63,15 @@ func Server(
 				loginLogData.Success = trans.Ptr(success)
 			}
 
-			// TODO 如果系统的负载比较小，可以同步写入数据库，否则，建议使用异步方式，即投递进队列。
-			WriteOperationLog(ctx, operationLogRepo, operationLogData)
-			WriteLoginLog(ctx, loginLogRepo, loginLogData)
+			if op.writeOperationLogFunc != nil {
+				_ = op.writeOperationLogFunc(ctx, operationLogData)
+			}
+			if op.writeLoginLogFunc != nil {
+				_ = op.writeLoginLogFunc(ctx, loginLogData)
+			}
 
 			return
 		}
-	}
-}
-
-// WriteOperationLog 写入操作日志
-func WriteOperationLog(
-	ctx context.Context,
-	operationLogRepo *data.AdminOperationLogRepo,
-	operationLogData *systemV1.AdminOperationLog,
-) {
-	if operationLogData != nil {
-		_ = operationLogRepo.Create(ctx, &systemV1.CreateAdminOperationLogRequest{Data: operationLogData})
-	}
-}
-
-// WriteLoginLog 写入登录日志
-func WriteLoginLog(
-	ctx context.Context,
-	loginLogRepo *data.AdminLoginLogRepo,
-	loginLogData *systemV1.AdminLoginLog,
-) {
-	if loginLogData != nil {
-		_ = loginLogRepo.Create(ctx, &systemV1.CreateAdminLoginLogRequest{Data: loginLogData})
 	}
 }
 

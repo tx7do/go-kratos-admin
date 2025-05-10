@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
+
 	"github.com/go-kratos/kratos/v2/log"
 	"github.com/hibiken/asynq"
 	"github.com/tx7do/go-utils/trans"
@@ -13,7 +14,6 @@ import (
 	"google.golang.org/protobuf/types/known/emptypb"
 
 	"kratos-admin/app/admin/service/internal/data"
-	"kratos-admin/app/admin/service/internal/middleware/auth"
 
 	adminV1 "kratos-admin/api/gen/go/admin/service/v1"
 	systemV1 "kratos-admin/api/gen/go/system/service/v1"
@@ -58,22 +58,14 @@ func (s *TaskService) GetTaskByTypeName(ctx context.Context, req *systemV1.GetTa
 }
 
 func (s *TaskService) CreateTask(ctx context.Context, req *systemV1.CreateTaskRequest) (*emptypb.Empty, error) {
-	authInfo, err := auth.FromContext(ctx)
-	if err != nil {
-		s.log.Errorf("用户认证失败[%s]", err.Error())
-		return nil, adminV1.ErrorAccessForbidden("用户认证失败")
-	}
 
 	if req.Data == nil {
 		return nil, adminV1.ErrorBadRequest("错误的参数")
 	}
 
-	req.OperatorId = trans.Ptr(authInfo.UserId)
-
 	var t *systemV1.Task
-	t, err = s.taskRepo.Create(ctx, req)
-	if err != nil {
-
+	var err error
+	if t, err = s.taskRepo.Create(ctx, req); err != nil {
 		return nil, err
 	}
 
@@ -85,21 +77,14 @@ func (s *TaskService) CreateTask(ctx context.Context, req *systemV1.CreateTaskRe
 }
 
 func (s *TaskService) UpdateTask(ctx context.Context, req *systemV1.UpdateTaskRequest) (*emptypb.Empty, error) {
-	authInfo, err := auth.FromContext(ctx)
-	if err != nil {
-		s.log.Errorf("用户认证失败[%s]", err.Error())
-		return nil, adminV1.ErrorAccessForbidden("用户认证失败")
-	}
 
 	if req.Data == nil {
 		return nil, adminV1.ErrorBadRequest("错误的参数")
 	}
 
-	req.OperatorId = trans.Ptr(authInfo.UserId)
-
 	var t *systemV1.Task
-	t, err = s.taskRepo.Update(ctx, req)
-	if err != nil {
+	var err error
+	if t, err = s.taskRepo.Update(ctx, req); err != nil {
 
 		return nil, err
 	}
@@ -112,17 +97,9 @@ func (s *TaskService) UpdateTask(ctx context.Context, req *systemV1.UpdateTaskRe
 }
 
 func (s *TaskService) DeleteTask(ctx context.Context, req *systemV1.DeleteTaskRequest) (*emptypb.Empty, error) {
-	authInfo, err := auth.FromContext(ctx)
-	if err != nil {
-		s.log.Errorf("用户认证失败[%s]", err.Error())
-		return nil, adminV1.ErrorAccessForbidden("用户认证失败")
-	}
-
-	req.OperatorId = trans.Ptr(authInfo.UserId)
-
+	var err error
 	var t *systemV1.Task
-	t, err = s.taskRepo.Get(ctx, req.GetId())
-	if err != nil {
+	if t, err = s.taskRepo.Get(ctx, req.GetId()); err != nil {
 		s.log.Error(err)
 	}
 

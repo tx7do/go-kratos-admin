@@ -4,13 +4,11 @@ import (
 	"context"
 
 	"github.com/go-kratos/kratos/v2/log"
-	"github.com/tx7do/go-utils/trans"
+	pagination "github.com/tx7do/kratos-bootstrap/api/gen/go/pagination/v1"
 	"google.golang.org/protobuf/types/known/emptypb"
 
 	"kratos-admin/app/admin/service/internal/data"
-	"kratos-admin/app/admin/service/internal/middleware/auth"
 
-	pagination "github.com/tx7do/kratos-bootstrap/api/gen/go/pagination/v1"
 	adminV1 "kratos-admin/api/gen/go/admin/service/v1"
 	userV1 "kratos-admin/api/gen/go/user/service/v1"
 )
@@ -70,17 +68,10 @@ func (s *UserService) GetUserByUserName(ctx context.Context, req *userV1.GetUser
 }
 
 func (s *UserService) CreateUser(ctx context.Context, req *userV1.CreateUserRequest) (*emptypb.Empty, error) {
-	authInfo, err := auth.FromContext(ctx)
-	if err != nil {
-		s.log.Errorf("用户认证失败[%s]", err.Error())
-		return nil, adminV1.ErrorAccessForbidden("用户认证失败")
-	}
-
 	if req.Data == nil {
 		return nil, adminV1.ErrorBadRequest("错误的参数")
 	}
 
-	req.OperatorId = trans.Ptr(authInfo.UserId)
 	//req.Data.CreateBy = trans.Ptr(authInfo.UserId)
 	if req.Data.Authority == nil {
 		req.Data.Authority = userV1.UserAuthority_CUSTOMER_USER.Enum()
@@ -110,17 +101,9 @@ func (s *UserService) CreateUser(ctx context.Context, req *userV1.CreateUserRequ
 }
 
 func (s *UserService) UpdateUser(ctx context.Context, req *userV1.UpdateUserRequest) (*emptypb.Empty, error) {
-	authInfo, err := auth.FromContext(ctx)
-	if err != nil {
-		s.log.Errorf("用户认证失败[%s]", err.Error())
-		return nil, adminV1.ErrorAccessForbidden("用户认证失败")
-	}
-
 	if req.Data == nil {
 		return nil, adminV1.ErrorBadRequest("错误的参数")
 	}
-
-	req.OperatorId = trans.Ptr(authInfo.UserId)
 
 	// 获取操作者的用户信息
 	operator, err := s.userRepo.GetUser(ctx, req.GetOperatorId())
@@ -146,13 +129,6 @@ func (s *UserService) UpdateUser(ctx context.Context, req *userV1.UpdateUserRequ
 }
 
 func (s *UserService) DeleteUser(ctx context.Context, req *userV1.DeleteUserRequest) (*emptypb.Empty, error) {
-	authInfo, err := auth.FromContext(ctx)
-	if err != nil {
-		s.log.Errorf("用户认证失败[%s]", err.Error())
-		return nil, adminV1.ErrorAccessForbidden("用户认证失败")
-	}
-
-	req.OperatorId = trans.Ptr(authInfo.UserId)
 
 	// 获取操作者的用户信息
 	operator, err := s.userRepo.GetUser(ctx, req.GetOperatorId())

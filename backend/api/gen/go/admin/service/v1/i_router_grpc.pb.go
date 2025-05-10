@@ -11,7 +11,6 @@ import (
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
-	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
 // This is a compile-time assertion to ensure that this generated file
@@ -31,9 +30,9 @@ const (
 // 网站后台动态路由服务
 type RouterServiceClient interface {
 	// 查询路由列表
-	ListRoute(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*ListRouteResponse, error)
+	ListRoute(ctx context.Context, in *ListRouteRequest, opts ...grpc.CallOption) (*ListRouteResponse, error)
 	// 查询权限码列表
-	ListPermissionCode(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*ListPermissionCodeResponse, error)
+	ListPermissionCode(ctx context.Context, in *ListPermissionCodeRequest, opts ...grpc.CallOption) (*ListPermissionCodeResponse, error)
 }
 
 type routerServiceClient struct {
@@ -44,7 +43,7 @@ func NewRouterServiceClient(cc grpc.ClientConnInterface) RouterServiceClient {
 	return &routerServiceClient{cc}
 }
 
-func (c *routerServiceClient) ListRoute(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*ListRouteResponse, error) {
+func (c *routerServiceClient) ListRoute(ctx context.Context, in *ListRouteRequest, opts ...grpc.CallOption) (*ListRouteResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(ListRouteResponse)
 	err := c.cc.Invoke(ctx, RouterService_ListRoute_FullMethodName, in, out, cOpts...)
@@ -54,7 +53,7 @@ func (c *routerServiceClient) ListRoute(ctx context.Context, in *emptypb.Empty, 
 	return out, nil
 }
 
-func (c *routerServiceClient) ListPermissionCode(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*ListPermissionCodeResponse, error) {
+func (c *routerServiceClient) ListPermissionCode(ctx context.Context, in *ListPermissionCodeRequest, opts ...grpc.CallOption) (*ListPermissionCodeResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(ListPermissionCodeResponse)
 	err := c.cc.Invoke(ctx, RouterService_ListPermissionCode_FullMethodName, in, out, cOpts...)
@@ -71,9 +70,9 @@ func (c *routerServiceClient) ListPermissionCode(ctx context.Context, in *emptyp
 // 网站后台动态路由服务
 type RouterServiceServer interface {
 	// 查询路由列表
-	ListRoute(context.Context, *emptypb.Empty) (*ListRouteResponse, error)
+	ListRoute(context.Context, *ListRouteRequest) (*ListRouteResponse, error)
 	// 查询权限码列表
-	ListPermissionCode(context.Context, *emptypb.Empty) (*ListPermissionCodeResponse, error)
+	ListPermissionCode(context.Context, *ListPermissionCodeRequest) (*ListPermissionCodeResponse, error)
 	mustEmbedUnimplementedRouterServiceServer()
 }
 
@@ -84,10 +83,10 @@ type RouterServiceServer interface {
 // pointer dereference when methods are called.
 type UnimplementedRouterServiceServer struct{}
 
-func (UnimplementedRouterServiceServer) ListRoute(context.Context, *emptypb.Empty) (*ListRouteResponse, error) {
+func (UnimplementedRouterServiceServer) ListRoute(context.Context, *ListRouteRequest) (*ListRouteResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListRoute not implemented")
 }
-func (UnimplementedRouterServiceServer) ListPermissionCode(context.Context, *emptypb.Empty) (*ListPermissionCodeResponse, error) {
+func (UnimplementedRouterServiceServer) ListPermissionCode(context.Context, *ListPermissionCodeRequest) (*ListPermissionCodeResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListPermissionCode not implemented")
 }
 func (UnimplementedRouterServiceServer) mustEmbedUnimplementedRouterServiceServer() {}
@@ -112,7 +111,7 @@ func RegisterRouterServiceServer(s grpc.ServiceRegistrar, srv RouterServiceServe
 }
 
 func _RouterService_ListRoute_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(emptypb.Empty)
+	in := new(ListRouteRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -124,13 +123,13 @@ func _RouterService_ListRoute_Handler(srv interface{}, ctx context.Context, dec 
 		FullMethod: RouterService_ListRoute_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(RouterServiceServer).ListRoute(ctx, req.(*emptypb.Empty))
+		return srv.(RouterServiceServer).ListRoute(ctx, req.(*ListRouteRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _RouterService_ListPermissionCode_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(emptypb.Empty)
+	in := new(ListPermissionCodeRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -142,7 +141,7 @@ func _RouterService_ListPermissionCode_Handler(srv interface{}, ctx context.Cont
 		FullMethod: RouterService_ListPermissionCode_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(RouterServiceServer).ListPermissionCode(ctx, req.(*emptypb.Empty))
+		return srv.(RouterServiceServer).ListPermissionCode(ctx, req.(*ListPermissionCodeRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }

@@ -11,25 +11,37 @@ import "system/service/v1/menu.proto";
 // 网站后台动态路由服务
 service RouterService {
   // 查询路由列表
-  rpc ListRoute (google.protobuf.Empty) returns (ListRouteResponse) {
+  rpc ListRoute (ListRouteRequest) returns (ListRouteResponse) {
     option (google.api.http) = {
       get: "/admin/v1/routes"
     };
   }
 
   // 查询权限码列表
-  rpc ListPermissionCode (google.protobuf.Empty) returns (ListPermissionCodeResponse) {
+  rpc ListPermissionCode (ListPermissionCodeRequest) returns (ListPermissionCodeResponse) {
     option (google.api.http) = {
       get: "/admin/v1/perm-codes"
     };
   }
 }
 
+message ListRouteRequest {
+  optional uint32 operator_id = 1 [
+    (gnostic.openapi.v3.property) = {description: "操作用户ID", read_only: true},
+    json_name = "operatorId"
+  ]; // 操作用户ID
+}
 // 查询路由列表 - 回应
 message ListRouteResponse {
   repeated system.service.v1.RouteItem items = 1;
 }
 
+message ListPermissionCodeRequest {
+  optional uint32 operator_id = 1 [
+    (gnostic.openapi.v3.property) = {description: "操作用户ID", read_only: true},
+    json_name = "operatorId"
+  ]; // 操作用户ID
+}
 // 查询权限码列表 - 回应
 message ListPermissionCodeResponse {
   repeated string codes = 1;

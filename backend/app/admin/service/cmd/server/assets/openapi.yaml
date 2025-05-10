@@ -658,7 +658,7 @@ paths:
             description: 后台获取已经登录的用户的数据
             operationId: AuthenticationService_GetMe
             parameters:
-                - name: id
+                - name: operatorId
                   in: query
                   schema:
                     type: integer
@@ -1336,6 +1336,12 @@ paths:
                 - RouterService
             description: 查询权限码列表
             operationId: RouterService_ListPermissionCode
+            parameters:
+                - name: operatorId
+                  in: query
+                  schema:
+                    type: integer
+                    format: uint32
             responses:
                 "200":
                     description: OK
@@ -1764,6 +1770,12 @@ paths:
                 - RouterService
             description: 查询路由列表
             operationId: RouterService_ListRoute
+            parameters:
+                - name: operatorId
+                  in: query
+                  schema:
+                    type: integer
+                    format: uint32
             responses:
                 "200":
                     description: OK
@@ -3055,8 +3067,10 @@ components:
         LogoutRequest:
             type: object
             properties:
-                id:
+                operatorId:
+                    readOnly: true
                     type: integer
+                    description: 操作用户ID
                     format: uint32
             description: 用户后台登出 - 请求
         Menu:
@@ -3492,6 +3506,11 @@ components:
                 client_secret:
                     type: string
                     description: 应用程序的密码
+                operatorId:
+                    readOnly: true
+                    type: integer
+                    description: 操作用户ID
+                    format: uint32
             description: 用户刷新令牌 - 请求
         RestartAllTaskResponse:
             type: object

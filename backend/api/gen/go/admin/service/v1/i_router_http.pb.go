@@ -10,7 +10,6 @@ import (
 	context "context"
 	http "github.com/go-kratos/kratos/v2/transport/http"
 	binding "github.com/go-kratos/kratos/v2/transport/http/binding"
-	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
 // This is a compile-time assertion to ensure that this generated file
@@ -25,9 +24,9 @@ const OperationRouterServiceListRoute = "/admin.service.v1.RouterService/ListRou
 
 type RouterServiceHTTPServer interface {
 	// ListPermissionCode 查询权限码列表
-	ListPermissionCode(context.Context, *emptypb.Empty) (*ListPermissionCodeResponse, error)
+	ListPermissionCode(context.Context, *ListPermissionCodeRequest) (*ListPermissionCodeResponse, error)
 	// ListRoute 查询路由列表
-	ListRoute(context.Context, *emptypb.Empty) (*ListRouteResponse, error)
+	ListRoute(context.Context, *ListRouteRequest) (*ListRouteResponse, error)
 }
 
 func RegisterRouterServiceHTTPServer(s *http.Server, srv RouterServiceHTTPServer) {
@@ -38,13 +37,13 @@ func RegisterRouterServiceHTTPServer(s *http.Server, srv RouterServiceHTTPServer
 
 func _RouterService_ListRoute0_HTTP_Handler(srv RouterServiceHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
-		var in emptypb.Empty
+		var in ListRouteRequest
 		if err := ctx.BindQuery(&in); err != nil {
 			return err
 		}
 		http.SetOperation(ctx, OperationRouterServiceListRoute)
 		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
-			return srv.ListRoute(ctx, req.(*emptypb.Empty))
+			return srv.ListRoute(ctx, req.(*ListRouteRequest))
 		})
 		out, err := h(ctx, &in)
 		if err != nil {
@@ -57,13 +56,13 @@ func _RouterService_ListRoute0_HTTP_Handler(srv RouterServiceHTTPServer) func(ct
 
 func _RouterService_ListPermissionCode0_HTTP_Handler(srv RouterServiceHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
-		var in emptypb.Empty
+		var in ListPermissionCodeRequest
 		if err := ctx.BindQuery(&in); err != nil {
 			return err
 		}
 		http.SetOperation(ctx, OperationRouterServiceListPermissionCode)
 		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
-			return srv.ListPermissionCode(ctx, req.(*emptypb.Empty))
+			return srv.ListPermissionCode(ctx, req.(*ListPermissionCodeRequest))
 		})
 		out, err := h(ctx, &in)
 		if err != nil {
@@ -75,8 +74,8 @@ func _RouterService_ListPermissionCode0_HTTP_Handler(srv RouterServiceHTTPServer
 }
 
 type RouterServiceHTTPClient interface {
-	ListPermissionCode(ctx context.Context, req *emptypb.Empty, opts ...http.CallOption) (rsp *ListPermissionCodeResponse, err error)
-	ListRoute(ctx context.Context, req *emptypb.Empty, opts ...http.CallOption) (rsp *ListRouteResponse, err error)
+	ListPermissionCode(ctx context.Context, req *ListPermissionCodeRequest, opts ...http.CallOption) (rsp *ListPermissionCodeResponse, err error)
+	ListRoute(ctx context.Context, req *ListRouteRequest, opts ...http.CallOption) (rsp *ListRouteResponse, err error)
 }
 
 type RouterServiceHTTPClientImpl struct {
@@ -87,7 +86,7 @@ func NewRouterServiceHTTPClient(client *http.Client) RouterServiceHTTPClient {
 	return &RouterServiceHTTPClientImpl{client}
 }
 
-func (c *RouterServiceHTTPClientImpl) ListPermissionCode(ctx context.Context, in *emptypb.Empty, opts ...http.CallOption) (*ListPermissionCodeResponse, error) {
+func (c *RouterServiceHTTPClientImpl) ListPermissionCode(ctx context.Context, in *ListPermissionCodeRequest, opts ...http.CallOption) (*ListPermissionCodeResponse, error) {
 	var out ListPermissionCodeResponse
 	pattern := "/admin/v1/perm-codes"
 	path := binding.EncodeURL(pattern, in, true)
@@ -100,7 +99,7 @@ func (c *RouterServiceHTTPClientImpl) ListPermissionCode(ctx context.Context, in
 	return &out, nil
 }
 
-func (c *RouterServiceHTTPClientImpl) ListRoute(ctx context.Context, in *emptypb.Empty, opts ...http.CallOption) (*ListRouteResponse, error) {
+func (c *RouterServiceHTTPClientImpl) ListRoute(ctx context.Context, in *ListRouteRequest, opts ...http.CallOption) (*ListRouteResponse, error) {
 	var out ListRouteResponse
 	pattern := "/admin/v1/routes"
 	path := binding.EncodeURL(pattern, in, true)

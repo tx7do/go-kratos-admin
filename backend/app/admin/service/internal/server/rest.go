@@ -23,11 +23,13 @@ import (
 	"kratos-admin/app/admin/service/cmd/server/assets"
 
 	"kratos-admin/app/admin/service/internal/data"
-	"kratos-admin/app/admin/service/internal/middleware/auth"
-	applogging "kratos-admin/app/admin/service/internal/middleware/logging"
 	"kratos-admin/app/admin/service/internal/service"
 
 	adminV1 "kratos-admin/api/gen/go/admin/service/v1"
+	systemV1 "kratos-admin/api/gen/go/system/service/v1"
+
+	"kratos-admin/pkg/middleware/auth"
+	applogging "kratos-admin/pkg/middleware/logging"
 )
 
 // NewWhiteListMatcher 创建jwt白名单
@@ -54,11 +56,24 @@ func newRestMiddleware(
 	var ms []middleware.Middleware
 	ms = append(ms, logging.Server(logger))
 
-	ms = append(ms, applogging.Server(operationLogRepo, loginLogRepo, authenticator))
+	ms = append(ms, applogging.Server(
+		applogging.WithAuthenticator(authenticator),
+		applogging.WithWriteOperationLogFunc(func(ctx context.Context, data *systemV1.AdminOperationLog) error {
+			// TODO 如果系统的负载比较小，可以同步写入数据库，否则，建议使用异步方式，即投递进队列。
+			return operationLogRepo.Create(ctx, &systemV1.CreateAdminOperationLogRequest{Data: data})
+		}),
+		applogging.WithWriteLoginLogFunc(func(ctx context.Context, data *systemV1.AdminLoginLog) error {
+			// TODO 如果系统的负载比较小，可以同步写入数据库，否则，建议使用异步方式，即投递进队列。
+			return loginLogRepo.Create(ctx, &systemV1.CreateAdminLoginLogRequest{Data: data})
+		}),
+	))
 
 	ms = append(ms, selector.Server(
 		authn.Server(authenticator),
-		auth.Server(userToken),
+		auth.Server(
+			auth.WithEnableSetOperatorId(true),
+			//auth.WithIsExistAccessTokenFunc(userToken.IsExistAccessToken),
+		),
 		authz.Server(authorizer),
 	).Match(newRestWhiteListMatcher()).Build())
 

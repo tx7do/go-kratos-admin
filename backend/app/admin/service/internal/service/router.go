@@ -9,13 +9,11 @@ import (
 
 	"github.com/go-kratos/kratos/v2/log"
 	"github.com/tx7do/go-utils/trans"
-	"google.golang.org/protobuf/types/known/emptypb"
+	pagination "github.com/tx7do/kratos-bootstrap/api/gen/go/pagination/v1"
 	"google.golang.org/protobuf/types/known/fieldmaskpb"
 
 	"kratos-admin/app/admin/service/internal/data"
-	"kratos-admin/app/admin/service/internal/middleware/auth"
 
-	pagination "github.com/tx7do/kratos-bootstrap/api/gen/go/pagination/v1"
 	adminV1 "kratos-admin/api/gen/go/admin/service/v1"
 	systemV1 "kratos-admin/api/gen/go/system/service/v1"
 )
@@ -85,14 +83,8 @@ func (s *RouterService) queryRoleMenus(ctx context.Context, userId uint32) ([]ui
 	return role.GetMenus(), nil
 }
 
-func (s *RouterService) ListPermissionCode(ctx context.Context, _ *emptypb.Empty) (*adminV1.ListPermissionCodeResponse, error) {
-	authInfo, err := auth.FromContext(ctx)
-	if err != nil {
-		s.log.Errorf("用户认证失败[%s]", err.Error())
-		return nil, adminV1.ErrorAccessForbidden("用户认证失败")
-	}
-
-	roleMenus, err := s.queryRoleMenus(ctx, authInfo.UserId)
+func (s *RouterService) ListPermissionCode(ctx context.Context, req *adminV1.ListPermissionCodeRequest) (*adminV1.ListPermissionCodeResponse, error) {
+	roleMenus, err := s.queryRoleMenus(ctx, req.GetOperatorId())
 	if err != nil {
 		return nil, err
 	}
@@ -160,14 +152,8 @@ func (s *RouterService) fillRouteItem(menus []*systemV1.Menu) []*systemV1.RouteI
 	return routers
 }
 
-func (s *RouterService) ListRoute(ctx context.Context, _ *emptypb.Empty) (*adminV1.ListRouteResponse, error) {
-	authInfo, err := auth.FromContext(ctx)
-	if err != nil {
-		s.log.Errorf("用户认证失败[%s]", err.Error())
-		return nil, adminV1.ErrorAccessForbidden("用户认证失败")
-	}
-
-	roleMenus, err := s.queryRoleMenus(ctx, authInfo.UserId)
+func (s *RouterService) ListRoute(ctx context.Context, req *adminV1.ListRouteRequest) (*adminV1.ListRouteResponse, error) {
+	roleMenus, err := s.queryRoleMenus(ctx, req.GetOperatorId())
 	if err != nil {
 		return nil, err
 	}

@@ -7,6 +7,7 @@ client:
       enable_tracing: true
       enable_validate: true
       enable_circuit_breaker: true
+      enable_metadata: true
       auth:
         method: ""
         key: "some_api_key"

@@ -66,8 +66,14 @@ message GetMeRequest {
 // 授权类型
 enum GrantType {
   password = 0; // 密码模式（Resource Owner Password Credentials Grant）
+
   client_credentials = 1; // 客户端模式（Client Credentials Grant）
-  refresh_token = 2;  // 更新令牌
+
+  authorization_code = 2; // 授权码模式（Authorization Code Grant）
+
+  refresh_token = 3;  // 刷新令牌 (Refresh Token)
+
+  implicit = 4;  // 简化模式 (Implicit Grant)
 }
 
 // 令牌类型
@@ -78,17 +84,7 @@ enum TokenType {
 
 // 用户后台登录 - 请求
 message LoginRequest {
-  string username = 1 [
-    json_name = "username",
-    (google.api.field_behavior) = REQUIRED
-  ]; // 用户名，必选项。
-
-  string password = 2 [
-    json_name = "password",
-    (google.api.field_behavior) = REQUIRED
-  ]; // 用户的密码，必选项。
-
-  string grant_type = 3 [
+  string grant_type = 1 [
     json_name = "grant_type",
     (google.api.field_behavior) = REQUIRED,
     (gnostic.openapi.v3.property) = {
@@ -97,25 +93,36 @@ message LoginRequest {
     }
   ]; // 授权类型，此处的值固定为"password"，必选项。
 
-  optional string scope = 4 [
-    json_name = "scope",
-    (google.api.field_behavior) = OPTIONAL
-  ]; // 以空格分隔的范围列表。如果未提供，scope则授权任何范围，默认为空列表。
-
-  optional string client_id = 5 [
+  optional string client_id = 2 [
     json_name = "client_id",
     (google.api.field_behavior) = OPTIONAL,
     (gnostic.openapi.v3.property) = {
-      description: "应用程序的识别ID"
+      description: "客户端ID"
     }
   ];
-  optional string client_secret = 6 [
+  optional string client_secret = 3 [
     json_name = "client_secret",
     (google.api.field_behavior) = OPTIONAL,
     (gnostic.openapi.v3.property) = {
-      description: "应用程序的密码"
+      description: "客户端密钥"
     }
   ];
+
+  optional string scope = 4 [
+    json_name = "scope",
+    (google.api.field_behavior) = OPTIONAL,
+    (gnostic.openapi.v3.property) = {
+      description: "以空格分隔的用户授予范围列表。如果未提供，scope则授权任何范围，默认为空列表。"
+    }
+  ]; // 以空格分隔的范围列表。如果未提供，scope则授权任何范围，默认为空列表。
+
+  string username = 10 [
+    json_name = "username"
+  ]; // 用户名，必选项。
+
+  string password = 11 [
+    json_name = "password"
+  ]; // 用户的密码，必选项。
 }
 
 // 用户后台登录 - 回应

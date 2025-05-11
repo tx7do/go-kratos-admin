@@ -3019,27 +3019,26 @@ components:
             description: 获取用户列表 - 答复
         LoginRequest:
             required:
-                - username
-                - password
                 - grant_type
             type: object
             properties:
-                username:
-                    type: string
-                password:
-                    type: string
                 grant_type:
                     type: string
                     default: password
                     description: 授权类型，此处的值固定为"password"，必选项。
-                scope:
-                    type: string
                 client_id:
                     type: string
-                    description: 应用程序的识别ID
+                    description: 客户端ID
                 client_secret:
                     type: string
-                    description: 应用程序的密码
+                    description: 客户端密钥
+                scope:
+                    type: string
+                    description: 以空格分隔的用户授予范围列表。如果未提供，scope则授权任何范围，默认为空列表。
+                username:
+                    type: string
+                password:
+                    type: string
             description: 用户后台登录 - 请求
         LoginResponse:
             required:

@@ -264,15 +264,11 @@ func (m *LoginRequest) validate(all bool) error {
 
 	var errors []error
 
+	// no validation rules for GrantType
+
 	// no validation rules for Username
 
 	// no validation rules for Password
-
-	// no validation rules for GrantType
-
-	if m.Scope != nil {
-		// no validation rules for Scope
-	}
 
 	if m.ClientId != nil {
 		// no validation rules for ClientId
@@ -280,6 +276,10 @@ func (m *LoginRequest) validate(all bool) error {
 
 	if m.ClientSecret != nil {
 		// no validation rules for ClientSecret
+	}
+
+	if m.Scope != nil {
+		// no validation rules for Scope
 	}
 
 	if len(errors) > 0 {

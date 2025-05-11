@@ -18,8 +18,6 @@ import (
 
 	pagination "github.com/tx7do/kratos-bootstrap/api/gen/go/pagination/v1"
 	systemV1 "kratos-admin/api/gen/go/system/service/v1"
-
-	"kratos-admin/pkg/utils"
 )
 
 type AdminOperationLogRepo struct {
@@ -50,7 +48,7 @@ func (r *AdminOperationLogRepo) convertEntToProto(in *ent.AdminOperationLog) *sy
 		RequestBody:    in.RequestBody,
 		RequestHeader:  in.RequestHeader,
 		Response:       in.Response,
-		CostTime:       utils.SecondToDurationpb(in.CostTime),
+		CostTime:       timeutil.SecondToDurationpb(in.CostTime),
 		UserId:         in.UserID,
 		UserName:       in.UserName,
 		ClientIp:       in.ClientIP,
@@ -159,7 +157,7 @@ func (r *AdminOperationLogRepo) Create(ctx context.Context, req *systemV1.Create
 		SetNillableRequestBody(req.Data.RequestBody).
 		SetNillableRequestHeader(req.Data.RequestHeader).
 		SetNillableResponse(req.Data.Response).
-		SetNillableCostTime(utils.DurationpbSecond(req.Data.CostTime)).
+		SetNillableCostTime(timeutil.DurationpbSecond(req.Data.CostTime)).
 		SetNillableUserID(req.Data.UserId).
 		SetNillableUserName(req.Data.UserName).
 		SetNillableClientIP(req.Data.ClientIp).
@@ -224,7 +222,7 @@ func (r *AdminOperationLogRepo) Update(ctx context.Context, req *systemV1.Update
 		SetNillableRequestBody(req.Data.RequestBody).
 		SetNillableRequestHeader(req.Data.RequestHeader).
 		SetNillableResponse(req.Data.Response).
-		SetNillableCostTime(utils.DurationpbSecond(req.Data.CostTime)).
+		SetNillableCostTime(timeutil.DurationpbSecond(req.Data.CostTime)).
 		SetNillableUserID(req.Data.UserId).
 		SetNillableUserName(req.Data.UserName).
 		SetNillableClientIP(req.Data.ClientIp).

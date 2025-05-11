@@ -6,6 +6,7 @@ toolchain go1.24.3
 
 replace (
 	github.com/armon/go-metrics => github.com/hashicorp/go-metrics v0.4.1
+	github.com/bufbuild/protovalidate-go => buf.build/go/protovalidate v0.10.1
 	github.com/imdario/mergo => dario.cat/mergo v0.3.16
 )
 
@@ -24,7 +25,7 @@ require (
 	github.com/minio/minio-go/v7 v7.0.91
 	github.com/redis/go-redis/v9 v9.8.0
 	github.com/stretchr/testify v1.10.0
-	github.com/tx7do/go-utils v1.1.19
+	github.com/tx7do/go-utils v1.1.20
 	github.com/tx7do/go-utils/entgo v1.1.27
 	github.com/tx7do/go-utils/geoip v1.1.5
 	github.com/tx7do/kratos-authn v1.1.5
@@ -32,11 +33,11 @@ require (
 	github.com/tx7do/kratos-authn/middleware v1.1.5
 	github.com/tx7do/kratos-authz v1.0.2
 	github.com/tx7do/kratos-authz/middleware v1.0.2
-	github.com/tx7do/kratos-bootstrap/api v0.0.12
-	github.com/tx7do/kratos-bootstrap/bootstrap v0.0.14
-	github.com/tx7do/kratos-bootstrap/cache/redis v0.0.8
-	github.com/tx7do/kratos-bootstrap/oss/minio v0.0.8
-	github.com/tx7do/kratos-bootstrap/rpc v0.0.9
+	github.com/tx7do/kratos-bootstrap/api v0.0.13
+	github.com/tx7do/kratos-bootstrap/bootstrap v0.0.15
+	github.com/tx7do/kratos-bootstrap/cache/redis v0.0.9
+	github.com/tx7do/kratos-bootstrap/oss/minio v0.0.9
+	github.com/tx7do/kratos-bootstrap/rpc v0.0.11
 	github.com/tx7do/kratos-swagger-ui v0.0.0-20241213153527-eca591f9f8b2
 	github.com/tx7do/kratos-transport v1.1.12
 	github.com/tx7do/kratos-transport/transport/asynq v1.2.19
@@ -49,16 +50,20 @@ require (
 
 require (
 	ariga.io/atlas v0.32.1 // indirect
+	buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go v1.36.6-20250425153114-8976f5be98c1.1 // indirect
+	cel.dev/expr v0.24.0 // indirect
 	dario.cat/mergo v1.0.2 // indirect
 	filippo.io/edwards25519 v1.1.0 // indirect
 	github.com/XSAM/otelsql v0.38.0 // indirect
 	github.com/agext/levenshtein v1.2.3 // indirect
 	github.com/aliyun/alibaba-cloud-sdk-go v1.63.107 // indirect
+	github.com/antlr4-go/antlr/v4 v4.13.1 // indirect
 	github.com/apolloconfig/agollo/v4 v4.4.0 // indirect
 	github.com/apparentlymart/go-textseg/v15 v15.0.0 // indirect
 	github.com/armon/go-metrics v0.5.4 // indirect
 	github.com/bmatcuk/doublestar v1.3.4 // indirect
 	github.com/bufbuild/protocompile v0.14.1 // indirect
+	github.com/bufbuild/protovalidate-go v0.12.0 // indirect
 	github.com/buger/jsonparser v1.1.1 // indirect
 	github.com/cenkalti/backoff/v4 v4.3.0 // indirect
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
@@ -89,6 +94,7 @@ require (
 	github.com/go-kratos/kratos/contrib/log/logrus/v2 v2.0.0-20250429074618-c82f7957223f // indirect
 	github.com/go-kratos/kratos/contrib/log/tencent/v2 v2.0.0-20250429074618-c82f7957223f // indirect
 	github.com/go-kratos/kratos/contrib/log/zap/v2 v2.0.0-20250429074618-c82f7957223f // indirect
+	github.com/go-kratos/kratos/contrib/middleware/validate/v2 v2.0.0-20250429074618-c82f7957223f // indirect
 	github.com/go-kratos/kratos/contrib/registry/consul/v2 v2.0.0-20250429074618-c82f7957223f // indirect
 	github.com/go-kratos/kratos/contrib/registry/etcd/v2 v2.0.0-20250429074618-c82f7957223f // indirect
 	github.com/go-kratos/kratos/contrib/registry/eureka/v2 v2.0.0-20250429074618-c82f7957223f // indirect
@@ -111,6 +117,7 @@ require (
 	github.com/gogo/protobuf v1.3.2 // indirect
 	github.com/golang-jwt/jwt/v5 v5.2.2 // indirect
 	github.com/golang/protobuf v1.5.4 // indirect
+	github.com/google/cel-go v0.25.0 // indirect
 	github.com/google/gnostic-models v0.6.9 // indirect
 	github.com/google/go-cmp v0.7.0 // indirect
 	github.com/google/subcommands v1.2.0 // indirect
@@ -159,7 +166,9 @@ require (
 	github.com/modern-go/reflect2 v1.0.2 // indirect
 	github.com/munnerz/goautoneg v0.0.0-20191010083416-a7dc8b61c822 // indirect
 	github.com/nacos-group/nacos-sdk-go v1.1.5 // indirect
-	github.com/olekukonko/tablewriter v0.0.5 // indirect
+	github.com/olekukonko/errors v1.1.0 // indirect
+	github.com/olekukonko/ll v0.0.6-0.20250511102614-9564773e9d27 // indirect
+	github.com/olekukonko/tablewriter v1.0.1 // indirect
 	github.com/opentracing/opentracing-go v1.2.1-0.20220228012449-10b1cf09e00b // indirect
 	github.com/openzipkin/zipkin-go v0.4.3 // indirect
 	github.com/patrickmn/go-cache v2.1.0+incompatible // indirect
@@ -185,17 +194,18 @@ require (
 	github.com/spf13/cobra v1.9.1 // indirect
 	github.com/spf13/pflag v1.0.6 // indirect
 	github.com/spf13/viper v1.20.1 // indirect
+	github.com/stoewer/go-strcase v1.3.0 // indirect
 	github.com/subosito/gotenv v1.6.0 // indirect
 	github.com/swaggest/swgui v1.8.4 // indirect
 	github.com/tencentcloud/tencentcloud-cls-sdk-go v1.0.11 // indirect
 	github.com/tinylib/msgp v1.2.5 // indirect
 	github.com/tklauser/go-sysconf v0.3.15 // indirect
 	github.com/tklauser/numcpus v0.10.0 // indirect
-	github.com/tx7do/kratos-bootstrap/config v0.0.8 // indirect
-	github.com/tx7do/kratos-bootstrap/logger v0.0.8 // indirect
-	github.com/tx7do/kratos-bootstrap/registry v0.0.8 // indirect
-	github.com/tx7do/kratos-bootstrap/tracer v0.0.8 // indirect
-	github.com/tx7do/kratos-bootstrap/utils v0.1.2 // indirect
+	github.com/tx7do/kratos-bootstrap/config v0.0.9 // indirect
+	github.com/tx7do/kratos-bootstrap/logger v0.0.9 // indirect
+	github.com/tx7do/kratos-bootstrap/registry v0.0.9 // indirect
+	github.com/tx7do/kratos-bootstrap/tracer v0.0.9 // indirect
+	github.com/tx7do/kratos-bootstrap/utils v0.1.3 // indirect
 	github.com/vearutop/statigz v1.5.0 // indirect
 	github.com/x448/float16 v0.8.4 // indirect
 	github.com/yusufpapurcu/wmi v1.2.4 // indirect

@@ -17,8 +17,6 @@ import (
 
 	adminV1 "kratos-admin/api/gen/go/admin/service/v1"
 	systemV1 "kratos-admin/api/gen/go/system/service/v1"
-
-	"kratos-admin/pkg/utils"
 )
 
 // Server is an server logging middleware.
@@ -52,7 +50,7 @@ func Server(opts ...Option) middleware.Middleware {
 			statusCode, reason, success := getStatusCode(err)
 
 			if operationLogData != nil {
-				operationLogData.CostTime = utils.Float64ToDurationpb(latency)
+				operationLogData.CostTime = timeutil.Float64ToDurationpb(latency)
 				operationLogData.StatusCode = trans.Ptr(statusCode)
 				operationLogData.Reason = trans.Ptr(reason)
 				operationLogData.Success = trans.Ptr(success)

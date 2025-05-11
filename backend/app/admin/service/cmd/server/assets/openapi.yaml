@@ -3035,10 +3035,16 @@ components:
                 scope:
                     type: string
                     description: 以空格分隔的用户授予范围列表。如果未提供，scope则授权任何范围，默认为空列表。
+                redirect_uri:
+                    type: string
+                    description: 跳转链接
                 username:
                     type: string
                 password:
                     type: string
+                code:
+                    type: string
+                    description: 授权请求中收到的一次性验证/认证码。(当使用授权码模式时)
             description: 用户后台登录 - 请求
         LoginResponse:
             required:

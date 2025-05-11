@@ -282,6 +282,14 @@ func (m *LoginRequest) validate(all bool) error {
 		// no validation rules for Scope
 	}
 
+	if m.RedirectUri != nil {
+		// no validation rules for RedirectUri
+	}
+
+	if m.Code != nil {
+		// no validation rules for Code
+	}
+
 	if len(errors) > 0 {
 		return LoginRequestMultiError(errors)
 	}

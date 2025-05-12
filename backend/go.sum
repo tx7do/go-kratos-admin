@@ -1306,6 +1306,8 @@ github.com/olekukonko/tablewriter v1.0.1 h1:8Q9cO/98GpqZDPjmOmxFBIvgn4u935JOw2GG
 github.com/olekukonko/tablewriter v1.0.1/go.mod h1:eUa4ArVhHJYomS27xrJB/GyLtnzKKVkZeLM6/MNO+pA=
 github.com/olekukonko/tablewriter v1.0.2 h1:nxz/j28kPYQUuc4veIv3Ymmef7gHKn8rhr42aauENnk=
 github.com/olekukonko/tablewriter v1.0.2/go.mod h1:eUa4ArVhHJYomS27xrJB/GyLtnzKKVkZeLM6/MNO+pA=
+github.com/olekukonko/tablewriter v1.0.3 h1:IjsVzAQxJI1PIz0IFEu0ayN6TchiI+eN2Y0gv9uOYqk=
+github.com/olekukonko/tablewriter v1.0.3/go.mod h1:eUa4ArVhHJYomS27xrJB/GyLtnzKKVkZeLM6/MNO+pA=
 github.com/onsi/ginkgo/v2 v2.21.0 h1:7rg/4f3rB88pb5obDgNZrNHrQ4e6WpjonchcpuBRnZM=
 github.com/onsi/ginkgo/v2 v2.21.0/go.mod h1:7Du3c42kxCUegi0IImZ1wUQzMBVecgIHjR1C+NkhLQo=
 github.com/onsi/gomega v1.35.1 h1:Cwbd75ZBPxFSuZ6T+rN/WCb/gOc6YgFBXLlZLhC7Ds4=
@@ -1516,6 +1518,8 @@ github.com/tx7do/kratos-bootstrap/api v0.0.13 h1:LjGwYKwkFMvTTF41gGx5F+7kq2FhHuI
 github.com/tx7do/kratos-bootstrap/api v0.0.13/go.mod h1:2pJjrcupwdNtfMvpz+aCgskEfrSw8LRSxnms6LLxvmo=
 github.com/tx7do/kratos-bootstrap/api v0.0.15 h1:BvvO0Q0qBex6iFvYP6acBHIRqroF3ip4CcBN1QLnc20=
 github.com/tx7do/kratos-bootstrap/api v0.0.15/go.mod h1:JCchEsHgURjExO++DiupEbEcCBjlrQYONMMKDdkuC9U=
+github.com/tx7do/kratos-bootstrap/api v0.0.16 h1:bmpeaJ7gzt+DPXROhidbjSUwUstlbZ01PQwkcWcNko8=
+github.com/tx7do/kratos-bootstrap/api v0.0.16/go.mod h1:JCchEsHgURjExO++DiupEbEcCBjlrQYONMMKDdkuC9U=
 github.com/tx7do/kratos-bootstrap/bootstrap v0.0.14 h1:Yi4uyqYxwSvaRDs2lNrYKGQHFYrZCQbbKWT4OoX9mPA=
 github.com/tx7do/kratos-bootstrap/bootstrap v0.0.14/go.mod h1:RI+D9OWQYD87DY7ZIjbwIywvBWg6hRSs0PeBK0YPCQI=
 github.com/tx7do/kratos-bootstrap/bootstrap v0.0.15 h1:EfiW+wiofOcfs3EcKT11CZe8LthdzuW/FEPpUrRKlaI=

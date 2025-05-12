@@ -28,6 +28,10 @@ server:
       auth:
         method: "HS256"
         key: "some_api_key"
+        access_token_expires: 0s
+        refresh_token_expires: 0s
+        access_token_key_prefix: "uat_"
+        refresh_token_key_prefix: "urt_"
 
   asynq:
     endpoint: "redis:6379"

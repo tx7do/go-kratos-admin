@@ -33,7 +33,7 @@ require (
 	github.com/tx7do/kratos-authn/middleware v1.1.5
 	github.com/tx7do/kratos-authz v1.0.2
 	github.com/tx7do/kratos-authz/middleware v1.0.2
-	github.com/tx7do/kratos-bootstrap/api v0.0.13
+	github.com/tx7do/kratos-bootstrap/api v0.0.15
 	github.com/tx7do/kratos-bootstrap/bootstrap v0.0.15
 	github.com/tx7do/kratos-bootstrap/cache/redis v0.0.9
 	github.com/tx7do/kratos-bootstrap/oss/minio v0.0.9
@@ -168,7 +168,7 @@ require (
 	github.com/nacos-group/nacos-sdk-go v1.1.5 // indirect
 	github.com/olekukonko/errors v1.1.0 // indirect
 	github.com/olekukonko/ll v0.0.6-0.20250511102614-9564773e9d27 // indirect
-	github.com/olekukonko/tablewriter v1.0.1 // indirect
+	github.com/olekukonko/tablewriter v1.0.2 // indirect
 	github.com/opentracing/opentracing-go v1.2.1-0.20220228012449-10b1cf09e00b // indirect
 	github.com/openzipkin/zipkin-go v0.4.3 // indirect
 	github.com/patrickmn/go-cache v2.1.0+incompatible // indirect

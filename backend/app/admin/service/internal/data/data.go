@@ -82,18 +82,14 @@ func NewAuthorizer() authzEngine.Engine {
 	return noop.State{}
 }
 
-func NewUserTokenRepo(logger log.Logger, rdb *redis.Client, authenticator authnEngine.Authenticator) *UserToken {
-	const (
-		userAccessTokenKeyPrefix  = "uat_"
-		userRefreshTokenKeyPrefix = "urt_"
-		userAccessTokenExpires    = 0
-		userRefreshTokenExpires   = 0
-	)
+func NewUserTokenRepo(logger log.Logger, rdb *redis.Client, authenticator authnEngine.Authenticator, cfg *conf.Bootstrap) *UserToken {
 	return NewUserToken(
 		logger,
 		rdb, authenticator,
-		userAccessTokenKeyPrefix, userRefreshTokenKeyPrefix,
-		userAccessTokenExpires, userRefreshTokenExpires,
+		cfg.GetServer().GetRest().GetMiddleware().GetAuth().GetAccessTokenKeyPrefix(),
+		cfg.GetServer().GetRest().GetMiddleware().GetAuth().GetRefreshTokenKeyPrefix(),
+		cfg.GetServer().GetRest().GetMiddleware().GetAuth().GetAccessTokenExpires().AsDuration(),
+		cfg.GetServer().GetRest().GetMiddleware().GetAuth().GetRefreshTokenExpires().AsDuration(),
 	)
 }
 

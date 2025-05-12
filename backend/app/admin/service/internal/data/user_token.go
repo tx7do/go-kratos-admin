@@ -27,8 +27,8 @@ type UserToken struct {
 	accessTokenKeyPrefix  string // 访问令牌键前缀
 	refreshTokenKeyPrefix string // 刷新令牌键前缀
 
-	accessTokenExpires  int32 // 访问令牌过期时间
-	refreshTokenExpires int32 // 刷新令牌过期时间
+	accessTokenExpires  time.Duration // 访问令牌过期时间
+	refreshTokenExpires time.Duration // 刷新令牌过期时间
 }
 
 func NewUserToken(
@@ -37,8 +37,8 @@ func NewUserToken(
 	authenticator authnEngine.Authenticator,
 	accessTokenKeyPrefix string,
 	refreshTokenKeyPrefix string,
-	accessTokenExpires int32,
-	refreshTokenExpires int32,
+	accessTokenExpires time.Duration,
+	refreshTokenExpires time.Duration,
 ) *UserToken {
 	l := log.NewHelper(log.With(logger, "module", "user-token/cache"))
 	return &UserToken{
@@ -144,19 +144,19 @@ func (r *UserToken) IsExistRefreshToken(ctx context.Context, userId uint32, refr
 }
 
 // setAccessTokenToRedis 设置访问令牌
-func (r *UserToken) setAccessTokenToRedis(ctx context.Context, userId uint32, token string, expires int32) error {
+func (r *UserToken) setAccessTokenToRedis(ctx context.Context, userId uint32, token string, expires time.Duration) error {
 	key := r.makeAccessTokenKey(userId)
 	return r.set(ctx, key, token, expires)
 }
 
-func (r *UserToken) set(ctx context.Context, key string, token string, expires int32) error {
+func (r *UserToken) set(ctx context.Context, key string, token string, expires time.Duration) error {
 	var err error
 	if err = r.rdb.HSet(ctx, key, token, "").Err(); err != nil {
 		return err
 	}
 
 	if expires > 0 {
-		if err = r.rdb.HExpire(ctx, key, time.Duration(expires), token).Err(); err != nil {
+		if err = r.rdb.HExpire(ctx, key, expires, token).Err(); err != nil {
 			return err
 		}
 	}
@@ -187,7 +187,7 @@ func (r *UserToken) deleteAccessTokenFromRedis(ctx context.Context, userId uint3
 }
 
 // setRefreshTokenToRedis 设置刷新令牌
-func (r *UserToken) setRefreshTokenToRedis(ctx context.Context, userId uint32, token string, expires int32) error {
+func (r *UserToken) setRefreshTokenToRedis(ctx context.Context, userId uint32, token string, expires time.Duration) error {
 	key := r.makeRefreshTokenKey(userId)
 	return r.set(ctx, key, token, expires)
 }

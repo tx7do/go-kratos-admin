@@ -23,7 +23,7 @@ func initApp(logger log.Logger, registrar registry.Registrar, bootstrap *v1.Boot
 	authenticator := data.NewAuthenticator(bootstrap)
 	engine := data.NewAuthorizer()
 	client := data.NewRedisClient(bootstrap, logger)
-	userToken := data.NewUserTokenRepo(logger, client, authenticator)
+	userToken := data.NewUserTokenRepo(logger, client, authenticator, bootstrap)
 	entClient := data.NewEntClient(bootstrap, logger)
 	dataData, cleanup, err := data.NewData(logger, entClient, client, authenticator, engine)
 	if err != nil {

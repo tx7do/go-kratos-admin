@@ -35,7 +35,7 @@ type Data struct {
 func NewData(
 	logger log.Logger,
 	entClient *entgo.EntClient[*ent.Client],
-	redisClient *redis.Client,
+	rdb *redis.Client,
 	authenticator authnEngine.Authenticator,
 	authorizer authzEngine.Engine,
 ) (*Data, func(), error) {
@@ -45,7 +45,7 @@ func NewData(
 		log: l,
 
 		db:  entClient,
-		rdb: redisClient,
+		rdb: rdb,
 
 		authenticator: authenticator,
 		authorizer:    authorizer,
@@ -82,12 +82,19 @@ func NewAuthorizer() authzEngine.Engine {
 	return noop.State{}
 }
 
-func NewUserTokenRepo(data *Data, authenticator authnEngine.Authenticator, logger log.Logger) *UserToken {
+func NewUserTokenRepo(logger log.Logger, rdb *redis.Client, authenticator authnEngine.Authenticator) *UserToken {
 	const (
 		userAccessTokenKeyPrefix  = "uat_"
 		userRefreshTokenKeyPrefix = "urt_"
+		userAccessTokenExpires    = 0
+		userRefreshTokenExpires   = 0
 	)
-	return NewUserToken(data.rdb, authenticator, logger, userAccessTokenKeyPrefix, userRefreshTokenKeyPrefix)
+	return NewUserToken(
+		logger,
+		rdb, authenticator,
+		userAccessTokenKeyPrefix, userRefreshTokenKeyPrefix,
+		userAccessTokenExpires, userRefreshTokenExpires,
+	)
 }
 
 func NewMinIoClient(cfg *conf.Bootstrap, logger log.Logger) *oss.MinIOClient {

@@ -1537,6 +1537,8 @@ github.com/tx7do/kratos-bootstrap/rpc v0.0.9 h1:vsarSDFZCVTF9WXz/E4shANadV2Twuid
 github.com/tx7do/kratos-bootstrap/rpc v0.0.9/go.mod h1:rKgu9BY/LHJCtGnPQ30lhFWDDs5aGfCW4m7aJTBq4tw=
 github.com/tx7do/kratos-bootstrap/rpc v0.0.11 h1:4spXtf20zwZfN/Oh2Gu0aEmM1nqHGH5gWpa8OCVHVEg=
 github.com/tx7do/kratos-bootstrap/rpc v0.0.11/go.mod h1:zLzhLfetl8n881anVuZXt+GdUOCKCL3V6H7rInGeljg=
+github.com/tx7do/kratos-bootstrap/rpc v0.0.12 h1:6TWiAgcl384oHoqDSQuqw7e4oPFsqQftrvs2PFtiCBo=
+github.com/tx7do/kratos-bootstrap/rpc v0.0.12/go.mod h1:zLzhLfetl8n881anVuZXt+GdUOCKCL3V6H7rInGeljg=
 github.com/tx7do/kratos-bootstrap/tracer v0.0.8 h1:MZBwLf6JFXjMRVTbsT9LKRXoomOiVoaki+1ppyyIRBc=
 github.com/tx7do/kratos-bootstrap/tracer v0.0.8/go.mod h1:HvvHWhKkVZOfYIFEDszIdfph/otJYZfEDRLRwv/iW6U=
 github.com/tx7do/kratos-bootstrap/tracer v0.0.9 h1:wBfqWVQpyU37CdIjNHHUXYVrV8uX79veDWw6kWAcKl8=

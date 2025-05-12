@@ -37,7 +37,7 @@ require (
 	github.com/tx7do/kratos-bootstrap/bootstrap v0.0.15
 	github.com/tx7do/kratos-bootstrap/cache/redis v0.0.9
 	github.com/tx7do/kratos-bootstrap/oss/minio v0.0.9
-	github.com/tx7do/kratos-bootstrap/rpc v0.0.11
+	github.com/tx7do/kratos-bootstrap/rpc v0.0.12
 	github.com/tx7do/kratos-swagger-ui v0.0.0-20241213153527-eca591f9f8b2
 	github.com/tx7do/kratos-transport v1.1.12
 	github.com/tx7do/kratos-transport/transport/asynq v1.2.19

@@ -22,13 +22,13 @@ import (
 func initApp(logger log.Logger, registrar registry.Registrar, bootstrap *v1.Bootstrap) (*kratos.App, func(), error) {
 	authenticator := data.NewAuthenticator(bootstrap)
 	engine := data.NewAuthorizer()
-	entClient := data.NewEntClient(bootstrap, logger)
 	client := data.NewRedisClient(bootstrap, logger)
+	userToken := data.NewUserTokenRepo(logger, client, authenticator)
+	entClient := data.NewEntClient(bootstrap, logger)
 	dataData, cleanup, err := data.NewData(logger, entClient, client, authenticator, engine)
 	if err != nil {
 		return nil, nil, err
 	}
-	userToken := data.NewUserTokenRepo(dataData, authenticator, logger)
 	adminOperationLogRepo := data.NewAdminOperationLogRepo(dataData, logger)
 	adminLoginLogRepo := data.NewAdminLoginLogRepo(dataData, logger)
 	userRepo := data.NewUserRepo(dataData, logger)

@@ -18,23 +18,27 @@ import (
 )
 
 type UserToken struct {
-	log           *log.Helper
-	rdb           *redis.Client
-	authenticator authnEngine.Authenticator
+	log *log.Helper
 
-	accessTokenKeyPrefix  string
-	refreshTokenKeyPrefix string
+	rdb *redis.Client // redis客户端
 
-	accessTokenExpires  int32
-	refreshTokenExpires int32
+	authenticator authnEngine.Authenticator // 身份验证器
+
+	accessTokenKeyPrefix  string // 访问令牌键前缀
+	refreshTokenKeyPrefix string // 刷新令牌键前缀
+
+	accessTokenExpires  int32 // 访问令牌过期时间
+	refreshTokenExpires int32 // 刷新令牌过期时间
 }
 
 func NewUserToken(
+	logger log.Logger,
 	rdb *redis.Client,
 	authenticator authnEngine.Authenticator,
-	logger log.Logger,
 	accessTokenKeyPrefix string,
 	refreshTokenKeyPrefix string,
+	accessTokenExpires int32,
+	refreshTokenExpires int32,
 ) *UserToken {
 	l := log.NewHelper(log.With(logger, "module", "user-token/cache"))
 	return &UserToken{
@@ -43,13 +47,14 @@ func NewUserToken(
 		authenticator:         authenticator,
 		accessTokenKeyPrefix:  accessTokenKeyPrefix,
 		refreshTokenKeyPrefix: refreshTokenKeyPrefix,
-		accessTokenExpires:    0,
-		refreshTokenExpires:   0,
+		accessTokenExpires:    accessTokenExpires,
+		refreshTokenExpires:   refreshTokenExpires,
 	}
 }
 
 // GenerateToken 创建令牌
 func (r *UserToken) GenerateToken(ctx context.Context, user *userV1.User) (accessToken string, refreshToken string, err error) {
+	// 创建访问令牌
 	if accessToken = r.createAccessJwtToken(user.GetTenantId(), user.GetId(), user.GetUserName(), ""); accessToken == "" {
 		err = errors.New("create access token failed")
 		return
@@ -59,6 +64,7 @@ func (r *UserToken) GenerateToken(ctx context.Context, user *userV1.User) (acces
 		return
 	}
 
+	// 创建刷新令牌
 	if refreshToken = r.createRefreshToken(); refreshToken == "" {
 		err = errors.New("create refresh token failed")
 		return
@@ -113,86 +119,83 @@ func (r *UserToken) RemoveToken(ctx context.Context, userId uint32) error {
 	return err
 }
 
-// GetAccessToken 获取访问令牌
-func (r *UserToken) GetAccessToken(ctx context.Context, userId uint32) string {
-	return r.getAccessTokenFromRedis(ctx, userId)
+// RemoveAccessToken 访问令牌
+func (r *UserToken) RemoveAccessToken(ctx context.Context, userId uint32, accessToken string) error {
+	key := r.makeAccessTokenKey(userId)
+	return r.delField(ctx, key, accessToken)
 }
 
-// GetRefreshToken 获取刷新令牌
-func (r *UserToken) GetRefreshToken(ctx context.Context, userId uint32) string {
-	return r.getRefreshTokenFromRedis(ctx, userId)
+// RemoveRefreshToken 刷新令牌
+func (r *UserToken) RemoveRefreshToken(ctx context.Context, userId uint32, refreshToken string) error {
+	key := r.makeRefreshTokenKey(userId)
+	return r.delField(ctx, key, refreshToken)
 }
 
 // IsExistAccessToken 访问令牌是否存在
-func (r *UserToken) IsExistAccessToken(ctx context.Context, userId uint32) bool {
+func (r *UserToken) IsExistAccessToken(ctx context.Context, userId uint32, accessToken string) bool {
 	key := r.makeAccessTokenKey(userId)
-	n, err := r.rdb.Exists(ctx, key).Result()
-	if err != nil {
-		r.log.Errorf("check redis user access token failed: %s", err.Error())
-		return false
-	}
-	return n > 0
+	return r.exists(ctx, key, accessToken)
 }
 
 // IsExistRefreshToken 刷新令牌是否存在
-func (r *UserToken) IsExistRefreshToken(ctx context.Context, userId uint32) bool {
+func (r *UserToken) IsExistRefreshToken(ctx context.Context, userId uint32, refreshToken string) bool {
 	key := r.makeRefreshTokenKey(userId)
-	n, err := r.rdb.Exists(ctx, key).Result()
-	if err != nil {
-		r.log.Errorf("check redis user refresh token failed: %s", err.Error())
-		return false
-	}
-	return n > 0
+	return r.exists(ctx, key, refreshToken)
 }
 
 // setAccessTokenToRedis 设置访问令牌
 func (r *UserToken) setAccessTokenToRedis(ctx context.Context, userId uint32, token string, expires int32) error {
 	key := r.makeAccessTokenKey(userId)
-	return r.rdb.Set(ctx, key, token, time.Duration(expires)).Err()
+	return r.set(ctx, key, token, expires)
 }
 
-// getAccessTokenFromRedis 获取访问令牌
-func (r *UserToken) getAccessTokenFromRedis(ctx context.Context, userId uint32) string {
-	key := r.makeAccessTokenKey(userId)
-	result, err := r.rdb.Get(ctx, key).Result()
-	if err != nil {
-		if !errors.Is(err, redis.Nil) {
-			r.log.Errorf("get redis user access token failed: %s", err.Error())
-		}
-		return ""
+func (r *UserToken) set(ctx context.Context, key string, token string, expires int32) error {
+	var err error
+	if err = r.rdb.HSet(ctx, key, token, "").Err(); err != nil {
+		return err
 	}
-	return result
+
+	if expires > 0 {
+		if err = r.rdb.HExpire(ctx, key, time.Duration(expires), token).Err(); err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (r *UserToken) exists(ctx context.Context, key string, token string) bool {
+	n, err := r.rdb.HExists(ctx, key, token).Result()
+	if err != nil {
+		return false
+	}
+	return n
+}
+
+func (r *UserToken) del(ctx context.Context, key string) error {
+	return r.rdb.Del(ctx, key).Err()
+}
+
+func (r *UserToken) delField(ctx context.Context, key string, token string) error {
+	return r.rdb.HDel(ctx, key, token).Err()
 }
 
 // deleteAccessTokenFromRedis 删除访问令牌
 func (r *UserToken) deleteAccessTokenFromRedis(ctx context.Context, userId uint32) error {
 	key := r.makeAccessTokenKey(userId)
-	return r.rdb.Del(ctx, key).Err()
+	return r.del(ctx, key)
 }
 
 // setRefreshTokenToRedis 设置刷新令牌
 func (r *UserToken) setRefreshTokenToRedis(ctx context.Context, userId uint32, token string, expires int32) error {
 	key := r.makeRefreshTokenKey(userId)
-	return r.rdb.Set(ctx, key, token, time.Duration(expires)).Err()
-}
-
-// getRefreshTokenFromRedis 获取刷新令牌
-func (r *UserToken) getRefreshTokenFromRedis(ctx context.Context, userId uint32) string {
-	key := r.makeRefreshTokenKey(userId)
-	result, err := r.rdb.Get(ctx, key).Result()
-	if err != nil {
-		if !errors.Is(err, redis.Nil) {
-			r.log.Errorf("get redis user refresh token failed: %s", err.Error())
-		}
-		return ""
-	}
-	return result
+	return r.set(ctx, key, token, expires)
 }
 
 // deleteRefreshTokenFromRedis 删除刷新令牌
 func (r *UserToken) deleteRefreshTokenFromRedis(ctx context.Context, userId uint32) error {
 	key := r.makeRefreshTokenKey(userId)
-	return r.rdb.Del(ctx, key).Err()
+	return r.del(ctx, key)
 }
 
 // createAccessJwtToken 生成JWT访问令牌

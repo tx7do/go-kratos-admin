@@ -63,7 +63,7 @@ func (s *AuthenticationService) Login(ctx context.Context, req *adminV1.LoginReq
 		return &adminV1.LoginResponse{}, adminV1.ErrorAccessForbidden("权限不够")
 	}
 
-	// 生成访问令牌
+	// 生成令牌
 	accessToken, refreshToken, err := s.userToken.GenerateToken(ctx, user)
 	if err != nil {
 		return nil, err
@@ -113,13 +113,16 @@ func (s *AuthenticationService) RefreshToken(ctx context.Context, req *adminV1.R
 	}
 
 	// 校验刷新令牌
-	refreshToken := s.userToken.GetRefreshToken(ctx, req.GetOperatorId())
-	if refreshToken != req.GetRefreshToken() {
+	if !s.userToken.IsExistRefreshToken(ctx, req.GetOperatorId(), req.GetRefreshToken()) {
 		return nil, adminV1.ErrorIncorrectRefreshToken("invalid refresh token")
 	}
 
-	// 生成新的访问令牌
-	accessToken, err := s.userToken.GenerateAccessToken(ctx, user.GetTenantId(), user.GetId(), user.GetUserName(), "")
+	if err = s.userToken.RemoveRefreshToken(ctx, req.GetOperatorId(), req.GetRefreshToken()); err != nil {
+		s.log.Errorf("删除刷新令牌失败[%s]", err.Error())
+	}
+
+	// 生成令牌
+	accessToken, refreshToken, err := s.userToken.GenerateToken(ctx, user)
 	if err != nil {
 		return nil, err
 	}

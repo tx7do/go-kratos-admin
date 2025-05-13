@@ -32,7 +32,7 @@ service AuthenticationService {
   }
 
   // 刷新认证令牌
-  rpc RefreshToken (RefreshTokenRequest) returns (LoginResponse) {
+  rpc RefreshToken (LoginRequest) returns (LoginResponse) {
     option (google.api.http) = {
       post: "/admin/v1/refresh_token"
       body: "*"
@@ -66,13 +66,9 @@ message GetMeRequest {
 // 授权类型
 enum GrantType {
   password = 0; // 密码模式（Resource Owner Password Credentials Grant）
-
   client_credentials = 1; // 客户端模式（Client Credentials Grant）
-
   authorization_code = 2; // 授权码模式（Authorization Code Grant）
-
   refresh_token = 3;  // 刷新令牌 (Refresh Token)
-
   implicit = 4;  // 简化模式 (Implicit Grant)
 }
 
@@ -132,13 +128,24 @@ message LoginRequest {
     json_name = "password"
   ]; // 用户的密码，必选项。
 
-  optional string code = 20 [
+  string refresh_token = 20 [
+    json_name = "refresh_token",
+    (gnostic.openapi.v3.property) = {
+      description: "更新令牌，用来获取下一次的访问令牌，可选项。如果访问令牌将过期，则返回刷新令牌很有用，应用程序可以使用该刷新令牌来获取另一个访问令牌。但是，通过隐式授予颁发的令牌不能颁发刷新令牌。"
+    }
+  ]; // 更新令牌，用来获取下一次的访问令牌，必选项。
+
+  optional string code = 30 [
     json_name = "code",
-    (google.api.field_behavior) = OPTIONAL,
     (gnostic.openapi.v3.property) = {
       description: "授权请求中收到的一次性验证/认证码。(当使用授权码模式时)"
     }
   ]; // 授权请求中收到的一次性验证/认证码。(当使用授权码模式时)
+
+  optional uint32 operator_id = 100 [
+    (gnostic.openapi.v3.property) = {description: "操作用户ID", read_only: true},
+    json_name = "operatorId"
+  ]; // 操作用户ID
 }
 
 // 用户后台登录 - 回应
@@ -182,72 +189,4 @@ message LoginResponse {
       description: "以空格分隔的用户授予范围列表。如果未提供，scope则授权任何范围，默认为空列表。"
     }
   ]; // 以空格分隔的用户授予范围列表。如果未提供，scope则授权任何范围，默认为空列表。
-}
-
-// 用户刷新令牌 - 请求
-message RefreshTokenRequest {
-  string refresh_token = 1 [
-    json_name = "refresh_token",
-    (google.api.field_behavior) = REQUIRED,
-    (gnostic.openapi.v3.property) = {
-      description: "更新令牌，用来获取下一次的访问令牌，可选项。如果访问令牌将过期，则返回刷新令牌很有用，应用程序可以使用该刷新令牌来获取另一个访问令牌。但是，通过隐式授予颁发的令牌不能颁发刷新令牌。"
-    }
-  ]; // 更新令牌，用来获取下一次的访问令牌，必选项。
-
-  string grant_type = 2 [
-    json_name = "grant_type",
-    (google.api.field_behavior) = REQUIRED,
-    (gnostic.openapi.v3.property) = {
-      description: "授权类型，此处的值固定为\"refresh_token\"，必选项。",
-      default: {string: "refresh_token"}
-    }
-  ]; // 授权类型，此处的值固定为"refresh_token"，必选项。
-
-  optional string scope = 3 [
-    json_name = "scope",
-    (google.api.field_behavior) = OPTIONAL,
-    (gnostic.openapi.v3.property) = {
-      description: "以空格分隔的用户授予范围列表。如果未提供，scope则授权任何范围，默认为空列表。"
-    }
-  ]; // 以空格分隔的范围列表。如果未提供，scope则授权任何范围，默认为空列表。
-
-  optional string client_id = 5 [
-    json_name = "client_id",
-    (google.api.field_behavior) = OPTIONAL,
-    (gnostic.openapi.v3.property) = {
-      description: "应用程序的识别ID"
-    }
-  ];
-  optional string client_secret = 6 [
-    json_name = "client_secret",
-    (google.api.field_behavior) = OPTIONAL,
-    (gnostic.openapi.v3.property) = {
-      description: "应用程序的密码"
-    }
-  ];
-
-  optional uint32 operator_id = 7 [
-    (gnostic.openapi.v3.property) = {description: "操作用户ID", read_only: true},
-    json_name = "operatorId"
-  ]; // 操作用户ID
-}
-
-// 用户刷新令牌 - 回应
-message RefreshTokenResponse {
-  string refresh_token = 1 [
-    json_name = "refresh_token",
-    (google.api.field_behavior) = REQUIRED,
-    (gnostic.openapi.v3.property) = {
-      description: "更新令牌，用来获取下一次的访问令牌，可选项。如果访问令牌将过期，则返回刷新令牌很有用，应用程序可以使用该刷新令牌来获取另一个访问令牌。但是，通过隐式授予颁发的令牌不能颁发刷新令牌。"
-    }
-  ]; // 更新令牌，用来获取下一次的访问令牌，可选项。
-
-  string grant_type = 2 [
-    json_name = "grant_type",
-    (google.api.field_behavior) = REQUIRED,
-    (gnostic.openapi.v3.property) = {
-      description: "授权类型，此处的值固定为\"refresh_token\"，必选项。",
-      default: {string: "refresh_token"}
-    }
-  ]; // 授权类型，此处的值固定为"password"，必选项。
 }

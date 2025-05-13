@@ -61,6 +61,11 @@ paths:
                   schema:
                     type: string
                     format: field-mask
+                - name: tenantId
+                  in: query
+                  schema:
+                    type: integer
+                    format: uint32
             responses:
                 "200":
                     description: OK
@@ -135,6 +140,11 @@ paths:
                   schema:
                     type: string
                     format: field-mask
+                - name: tenantId
+                  in: query
+                  schema:
+                    type: integer
+                    format: uint32
             responses:
                 "200":
                     description: OK
@@ -209,6 +219,11 @@ paths:
                   schema:
                     type: string
                     format: field-mask
+                - name: tenantId
+                  in: query
+                  schema:
+                    type: integer
+                    format: uint32
             responses:
                 "200":
                     description: OK
@@ -341,6 +356,11 @@ paths:
                   schema:
                     type: string
                     format: field-mask
+                - name: tenantId
+                  in: query
+                  schema:
+                    type: integer
+                    format: uint32
             responses:
                 "200":
                     description: OK
@@ -529,6 +549,11 @@ paths:
                   schema:
                     type: string
                     format: field-mask
+                - name: tenantId
+                  in: query
+                  schema:
+                    type: integer
+                    format: uint32
             responses:
                 "200":
                     description: OK
@@ -717,6 +742,11 @@ paths:
                   schema:
                     type: string
                     format: field-mask
+                - name: tenantId
+                  in: query
+                  schema:
+                    type: integer
+                    format: uint32
             responses:
                 "200":
                     description: OK
@@ -849,6 +879,11 @@ paths:
                   schema:
                     type: string
                     format: field-mask
+                - name: tenantId
+                  in: query
+                  schema:
+                    type: integer
+                    format: uint32
             responses:
                 "200":
                     description: OK
@@ -981,6 +1016,11 @@ paths:
                   schema:
                     type: string
                     format: field-mask
+                - name: tenantId
+                  in: query
+                  schema:
+                    type: integer
+                    format: uint32
             responses:
                 "200":
                     description: OK
@@ -1113,6 +1153,11 @@ paths:
                   schema:
                     type: string
                     format: field-mask
+                - name: tenantId
+                  in: query
+                  schema:
+                    type: integer
+                    format: uint32
             responses:
                 "200":
                     description: OK
@@ -1245,6 +1290,11 @@ paths:
                   schema:
                     type: string
                     format: field-mask
+                - name: tenantId
+                  in: query
+                  schema:
+                    type: integer
+                    format: uint32
             responses:
                 "200":
                     description: OK
@@ -1396,6 +1446,11 @@ paths:
                   schema:
                     type: string
                     format: field-mask
+                - name: tenantId
+                  in: query
+                  schema:
+                    type: integer
+                    format: uint32
             responses:
                 "200":
                     description: OK
@@ -1528,6 +1583,11 @@ paths:
                   schema:
                     type: string
                     format: field-mask
+                - name: tenantId
+                  in: query
+                  schema:
+                    type: integer
+                    format: uint32
             responses:
                 "200":
                     description: OK
@@ -1623,7 +1683,7 @@ paths:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/RefreshTokenRequest'
+                            $ref: '#/components/schemas/LoginRequest'
                 required: true
             responses:
                 "200":
@@ -1679,6 +1739,11 @@ paths:
                   schema:
                     type: string
                     format: field-mask
+                - name: tenantId
+                  in: query
+                  schema:
+                    type: integer
+                    format: uint32
             responses:
                 "200":
                     description: OK
@@ -1830,6 +1895,11 @@ paths:
                   schema:
                     type: string
                     format: field-mask
+                - name: tenantId
+                  in: query
+                  schema:
+                    type: integer
+                    format: uint32
             responses:
                 "200":
                     description: OK
@@ -2009,6 +2079,11 @@ paths:
                   schema:
                     type: string
                     format: field-mask
+                - name: tenantId
+                  in: query
+                  schema:
+                    type: integer
+                    format: uint32
             responses:
                 "200":
                     description: OK
@@ -2191,6 +2266,11 @@ paths:
                   schema:
                     type: string
                     format: field-mask
+                - name: tenantId
+                  in: query
+                  schema:
+                    type: integer
+                    format: uint32
             responses:
                 "200":
                     description: OK
@@ -3042,9 +3122,17 @@ components:
                     type: string
                 password:
                     type: string
+                refresh_token:
+                    type: string
+                    description: 更新令牌，用来获取下一次的访问令牌，可选项。如果访问令牌将过期，则返回刷新令牌很有用，应用程序可以使用该刷新令牌来获取另一个访问令牌。但是，通过隐式授予颁发的令牌不能颁发刷新令牌。
                 code:
                     type: string
                     description: 授权请求中收到的一次性验证/认证码。(当使用授权码模式时)
+                operatorId:
+                    readOnly: true
+                    type: integer
+                    description: 操作用户ID
+                    format: uint32
             description: 用户后台登录 - 请求
         LoginResponse:
             required:
@@ -3489,34 +3577,6 @@ components:
                     description: 删除时间
                     format: date-time
             description: 私信消息
-        RefreshTokenRequest:
-            required:
-                - refresh_token
-                - grant_type
-            type: object
-            properties:
-                refresh_token:
-                    type: string
-                    description: 更新令牌，用来获取下一次的访问令牌，可选项。如果访问令牌将过期，则返回刷新令牌很有用，应用程序可以使用该刷新令牌来获取另一个访问令牌。但是，通过隐式授予颁发的令牌不能颁发刷新令牌。
-                grant_type:
-                    type: string
-                    default: refresh_token
-                    description: 授权类型，此处的值固定为"refresh_token"，必选项。
-                scope:
-                    type: string
-                    description: 以空格分隔的用户授予范围列表。如果未提供，scope则授权任何范围，默认为空列表。
-                client_id:
-                    type: string
-                    description: 应用程序的识别ID
-                client_secret:
-                    type: string
-                    description: 应用程序的密码
-                operatorId:
-                    readOnly: true
-                    type: integer
-                    description: 操作用户ID
-                    format: uint32
-            description: 用户刷新令牌 - 请求
         RestartAllTaskResponse:
             type: object
             properties:

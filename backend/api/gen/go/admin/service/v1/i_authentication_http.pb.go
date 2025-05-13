@@ -34,7 +34,7 @@ type AuthenticationServiceHTTPServer interface {
 	// Logout 登出
 	Logout(context.Context, *LogoutRequest) (*emptypb.Empty, error)
 	// RefreshToken 刷新认证令牌
-	RefreshToken(context.Context, *RefreshTokenRequest) (*LoginResponse, error)
+	RefreshToken(context.Context, *LoginRequest) (*LoginResponse, error)
 }
 
 func RegisterAuthenticationServiceHTTPServer(s *http.Server, srv AuthenticationServiceHTTPServer) {
@@ -91,7 +91,7 @@ func _AuthenticationService_Logout0_HTTP_Handler(srv AuthenticationServiceHTTPSe
 
 func _AuthenticationService_RefreshToken0_HTTP_Handler(srv AuthenticationServiceHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
-		var in RefreshTokenRequest
+		var in LoginRequest
 		if err := ctx.Bind(&in); err != nil {
 			return err
 		}
@@ -100,7 +100,7 @@ func _AuthenticationService_RefreshToken0_HTTP_Handler(srv AuthenticationService
 		}
 		http.SetOperation(ctx, OperationAuthenticationServiceRefreshToken)
 		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
-			return srv.RefreshToken(ctx, req.(*RefreshTokenRequest))
+			return srv.RefreshToken(ctx, req.(*LoginRequest))
 		})
 		out, err := h(ctx, &in)
 		if err != nil {
@@ -134,7 +134,7 @@ type AuthenticationServiceHTTPClient interface {
 	GetMe(ctx context.Context, req *GetMeRequest, opts ...http.CallOption) (rsp *v1.User, err error)
 	Login(ctx context.Context, req *LoginRequest, opts ...http.CallOption) (rsp *LoginResponse, err error)
 	Logout(ctx context.Context, req *LogoutRequest, opts ...http.CallOption) (rsp *emptypb.Empty, err error)
-	RefreshToken(ctx context.Context, req *RefreshTokenRequest, opts ...http.CallOption) (rsp *LoginResponse, err error)
+	RefreshToken(ctx context.Context, req *LoginRequest, opts ...http.CallOption) (rsp *LoginResponse, err error)
 }
 
 type AuthenticationServiceHTTPClientImpl struct {
@@ -184,7 +184,7 @@ func (c *AuthenticationServiceHTTPClientImpl) Logout(ctx context.Context, in *Lo
 	return &out, nil
 }
 
-func (c *AuthenticationServiceHTTPClientImpl) RefreshToken(ctx context.Context, in *RefreshTokenRequest, opts ...http.CallOption) (*LoginResponse, error) {
+func (c *AuthenticationServiceHTTPClientImpl) RefreshToken(ctx context.Context, in *LoginRequest, opts ...http.CallOption) (*LoginResponse, error) {
 	var out LoginResponse
 	pattern := "/admin/v1/refresh_token"
 	path := binding.EncodeURL(pattern, in, false)

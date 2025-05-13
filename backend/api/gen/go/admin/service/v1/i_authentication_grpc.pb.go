@@ -38,7 +38,7 @@ type AuthenticationServiceClient interface {
 	// 登出
 	Logout(ctx context.Context, in *LogoutRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	// 刷新认证令牌
-	RefreshToken(ctx context.Context, in *RefreshTokenRequest, opts ...grpc.CallOption) (*LoginResponse, error)
+	RefreshToken(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*LoginResponse, error)
 	// 后台获取已经登录的用户的数据
 	GetMe(ctx context.Context, in *GetMeRequest, opts ...grpc.CallOption) (*v1.User, error)
 }
@@ -71,7 +71,7 @@ func (c *authenticationServiceClient) Logout(ctx context.Context, in *LogoutRequ
 	return out, nil
 }
 
-func (c *authenticationServiceClient) RefreshToken(ctx context.Context, in *RefreshTokenRequest, opts ...grpc.CallOption) (*LoginResponse, error) {
+func (c *authenticationServiceClient) RefreshToken(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*LoginResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(LoginResponse)
 	err := c.cc.Invoke(ctx, AuthenticationService_RefreshToken_FullMethodName, in, out, cOpts...)
@@ -102,7 +102,7 @@ type AuthenticationServiceServer interface {
 	// 登出
 	Logout(context.Context, *LogoutRequest) (*emptypb.Empty, error)
 	// 刷新认证令牌
-	RefreshToken(context.Context, *RefreshTokenRequest) (*LoginResponse, error)
+	RefreshToken(context.Context, *LoginRequest) (*LoginResponse, error)
 	// 后台获取已经登录的用户的数据
 	GetMe(context.Context, *GetMeRequest) (*v1.User, error)
 	mustEmbedUnimplementedAuthenticationServiceServer()
@@ -121,7 +121,7 @@ func (UnimplementedAuthenticationServiceServer) Login(context.Context, *LoginReq
 func (UnimplementedAuthenticationServiceServer) Logout(context.Context, *LogoutRequest) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Logout not implemented")
 }
-func (UnimplementedAuthenticationServiceServer) RefreshToken(context.Context, *RefreshTokenRequest) (*LoginResponse, error) {
+func (UnimplementedAuthenticationServiceServer) RefreshToken(context.Context, *LoginRequest) (*LoginResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RefreshToken not implemented")
 }
 func (UnimplementedAuthenticationServiceServer) GetMe(context.Context, *GetMeRequest) (*v1.User, error) {
@@ -185,7 +185,7 @@ func _AuthenticationService_Logout_Handler(srv interface{}, ctx context.Context,
 }
 
 func _AuthenticationService_RefreshToken_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(RefreshTokenRequest)
+	in := new(LoginRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -197,7 +197,7 @@ func _AuthenticationService_RefreshToken_Handler(srv interface{}, ctx context.Co
 		FullMethod: AuthenticationService_RefreshToken_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AuthenticationServiceServer).RefreshToken(ctx, req.(*RefreshTokenRequest))
+		return srv.(AuthenticationServiceServer).RefreshToken(ctx, req.(*LoginRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }

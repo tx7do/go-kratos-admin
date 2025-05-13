@@ -39,10 +39,23 @@ func NewAuthenticationService(
 
 // Login 登录
 func (s *AuthenticationService) Login(ctx context.Context, req *adminV1.LoginRequest) (*adminV1.LoginResponse, error) {
-	if req.GetGrantType() != adminV1.GrantType_password.String() {
+	switch req.GetGrantType() {
+	case adminV1.GrantType_password.String():
+		return s.doGrantTypePassword(ctx, req)
+
+	case adminV1.GrantType_refresh_token.String():
+		return s.doGrantTypeRefreshToken(ctx, req)
+
+	case adminV1.GrantType_client_credentials.String():
+		return s.doGrantTypeClientCredentials(ctx, req)
+
+	default:
 		return nil, adminV1.ErrorInvalidGrantType("invalid grant type")
 	}
+}
 
+// doGrantTypePassword 处理授权类型 - 密码
+func (s *AuthenticationService) doGrantTypePassword(ctx context.Context, req *adminV1.LoginRequest) (*adminV1.LoginResponse, error) {
 	var err error
 	if _, err = s.userRepo.VerifyPassword(ctx, &userV1.VerifyPasswordRequest{
 		UserName: req.GetUsername(),
@@ -76,36 +89,8 @@ func (s *AuthenticationService) Login(ctx context.Context, req *adminV1.LoginReq
 	}, nil
 }
 
-// Logout 登出
-func (s *AuthenticationService) Logout(ctx context.Context, req *adminV1.LogoutRequest) (*emptypb.Empty, error) {
-	if err := s.userToken.RemoveToken(ctx, req.GetOperatorId()); err != nil {
-		return nil, err
-	}
-	return &emptypb.Empty{}, nil
-}
-
-func (s *AuthenticationService) GetMe(ctx context.Context, req *adminV1.GetMeRequest) (*userV1.User, error) {
-	user, err := s.userRepo.GetUser(ctx, req.GetOperatorId())
-	if err != nil {
-		s.log.Errorf("查询用户失败[%s]", err.Error())
-		return nil, adminV1.ErrorAccessForbidden("查询用户失败")
-	}
-
-	role, err := s.roleRepo.GetRole(ctx, user.GetRoleId())
-	if err == nil && role != nil {
-		user.Roles = append(user.Roles, role.GetCode())
-	}
-
-	return user, err
-}
-
-// RefreshToken 刷新令牌
-func (s *AuthenticationService) RefreshToken(ctx context.Context, req *adminV1.RefreshTokenRequest) (*adminV1.LoginResponse, error) {
-	// 校验授权类型
-	if req.GetGrantType() != adminV1.GrantType_refresh_token.String() {
-		return nil, adminV1.ErrorInvalidGrantType("invalid grant type")
-	}
-
+// doGrantTypeAuthorizationCode 处理授权类型 -
+func (s *AuthenticationService) doGrantTypeRefreshToken(ctx context.Context, req *adminV1.LoginRequest) (*adminV1.LoginResponse, error) {
 	// 获取用户信息
 	user, err := s.userRepo.GetUser(ctx, req.GetOperatorId())
 	if err != nil {
@@ -132,4 +117,42 @@ func (s *AuthenticationService) RefreshToken(ctx context.Context, req *adminV1.R
 		AccessToken:  accessToken,
 		RefreshToken: refreshToken,
 	}, nil
+}
+
+// doGrantTypeClientCredentials 处理授权类型 - 客户端凭据
+func (s *AuthenticationService) doGrantTypeClientCredentials(_ context.Context, _ *adminV1.LoginRequest) (*adminV1.LoginResponse, error) {
+	return nil, adminV1.ErrorInvalidGrantType("invalid grant type")
+}
+
+// Logout 登出
+func (s *AuthenticationService) Logout(ctx context.Context, req *adminV1.LogoutRequest) (*emptypb.Empty, error) {
+	if err := s.userToken.RemoveToken(ctx, req.GetOperatorId()); err != nil {
+		return nil, err
+	}
+	return &emptypb.Empty{}, nil
+}
+
+func (s *AuthenticationService) GetMe(ctx context.Context, req *adminV1.GetMeRequest) (*userV1.User, error) {
+	user, err := s.userRepo.GetUser(ctx, req.GetOperatorId())
+	if err != nil {
+		s.log.Errorf("查询用户失败[%s]", err.Error())
+		return nil, adminV1.ErrorAccessForbidden("查询用户失败")
+	}
+
+	role, err := s.roleRepo.GetRole(ctx, user.GetRoleId())
+	if err == nil && role != nil {
+		user.Roles = append(user.Roles, role.GetCode())
+	}
+
+	return user, err
+}
+
+// RefreshToken 刷新令牌
+func (s *AuthenticationService) RefreshToken(ctx context.Context, req *adminV1.LoginRequest) (*adminV1.LoginResponse, error) {
+	// 校验授权类型
+	if req.GetGrantType() != adminV1.GrantType_refresh_token.String() {
+		return nil, adminV1.ErrorInvalidGrantType("invalid grant type")
+	}
+
+	return s.doGrantTypeRefreshToken(ctx, req)
 }

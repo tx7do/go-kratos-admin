@@ -30,15 +30,15 @@ func NewAdminLoginLogService(uc *data.AdminLoginLogRepo, logger log.Logger) *Adm
 	}
 }
 
-func (s *AdminLoginLogService) ListAdminLoginLog(ctx context.Context, req *pagination.PagingRequest) (*systemV1.ListAdminLoginLogResponse, error) {
+func (s *AdminLoginLogService) List(ctx context.Context, req *pagination.PagingRequest) (*systemV1.ListAdminLoginLogResponse, error) {
 	return s.uc.List(ctx, req)
 }
 
-func (s *AdminLoginLogService) GetAdminLoginLog(ctx context.Context, req *systemV1.GetAdminLoginLogRequest) (*systemV1.AdminLoginLog, error) {
+func (s *AdminLoginLogService) Get(ctx context.Context, req *systemV1.GetAdminLoginLogRequest) (*systemV1.AdminLoginLog, error) {
 	return s.uc.Get(ctx, req)
 }
 
-func (s *AdminLoginLogService) CreateAdminLoginLog(ctx context.Context, req *systemV1.CreateAdminLoginLogRequest) (*emptypb.Empty, error) {
+func (s *AdminLoginLogService) Create(ctx context.Context, req *systemV1.CreateAdminLoginLogRequest) (*emptypb.Empty, error) {
 	if req.Data == nil {
 		return nil, adminV1.ErrorBadRequest("错误的参数")
 	}
@@ -50,7 +50,7 @@ func (s *AdminLoginLogService) CreateAdminLoginLog(ctx context.Context, req *sys
 	return &emptypb.Empty{}, nil
 }
 
-func (s *AdminLoginLogService) UpdateAdminLoginLog(ctx context.Context, req *systemV1.UpdateAdminLoginLogRequest) (*emptypb.Empty, error) {
+func (s *AdminLoginLogService) Update(ctx context.Context, req *systemV1.UpdateAdminLoginLogRequest) (*emptypb.Empty, error) {
 	if req.Data == nil {
 		return nil, adminV1.ErrorBadRequest("错误的参数")
 	}
@@ -62,7 +62,7 @@ func (s *AdminLoginLogService) UpdateAdminLoginLog(ctx context.Context, req *sys
 	return &emptypb.Empty{}, nil
 }
 
-func (s *AdminLoginLogService) DeleteAdminLoginLog(ctx context.Context, req *systemV1.DeleteAdminLoginLogRequest) (*emptypb.Empty, error) {
+func (s *AdminLoginLogService) Delete(ctx context.Context, req *systemV1.DeleteAdminLoginLogRequest) (*emptypb.Empty, error) {
 	if _, err := s.uc.Delete(ctx, req); err != nil {
 		return nil, err
 	}

@@ -22,43 +22,43 @@ var _ = binding.EncodeURL
 
 const _ = http.SupportPackageIsVersion1
 
-const OperationFileServiceCreateFile = "/admin.service.v1.FileService/CreateFile"
-const OperationFileServiceDeleteFile = "/admin.service.v1.FileService/DeleteFile"
-const OperationFileServiceGetFile = "/admin.service.v1.FileService/GetFile"
-const OperationFileServiceListFile = "/admin.service.v1.FileService/ListFile"
-const OperationFileServiceUpdateFile = "/admin.service.v1.FileService/UpdateFile"
+const OperationFileServiceCreate = "/admin.service.v1.FileService/Create"
+const OperationFileServiceDelete = "/admin.service.v1.FileService/Delete"
+const OperationFileServiceGet = "/admin.service.v1.FileService/Get"
+const OperationFileServiceList = "/admin.service.v1.FileService/List"
+const OperationFileServiceUpdate = "/admin.service.v1.FileService/Update"
 
 type FileServiceHTTPServer interface {
-	// CreateFile 创建文件
-	CreateFile(context.Context, *v11.CreateFileRequest) (*emptypb.Empty, error)
-	// DeleteFile 删除文件
-	DeleteFile(context.Context, *v11.DeleteFileRequest) (*emptypb.Empty, error)
-	// GetFile 查询文件详情
-	GetFile(context.Context, *v11.GetFileRequest) (*v11.File, error)
-	// ListFile 查询文件列表
-	ListFile(context.Context, *v1.PagingRequest) (*v11.ListFileResponse, error)
-	// UpdateFile 更新文件
-	UpdateFile(context.Context, *v11.UpdateFileRequest) (*emptypb.Empty, error)
+	// Create 创建文件
+	Create(context.Context, *v11.CreateFileRequest) (*emptypb.Empty, error)
+	// Delete 删除文件
+	Delete(context.Context, *v11.DeleteFileRequest) (*emptypb.Empty, error)
+	// Get 查询文件详情
+	Get(context.Context, *v11.GetFileRequest) (*v11.File, error)
+	// List 查询文件列表
+	List(context.Context, *v1.PagingRequest) (*v11.ListFileResponse, error)
+	// Update 更新文件
+	Update(context.Context, *v11.UpdateFileRequest) (*emptypb.Empty, error)
 }
 
 func RegisterFileServiceHTTPServer(s *http.Server, srv FileServiceHTTPServer) {
 	r := s.Route("/")
-	r.GET("/admin/v1/files", _FileService_ListFile0_HTTP_Handler(srv))
-	r.GET("/admin/v1/files/{id}", _FileService_GetFile0_HTTP_Handler(srv))
-	r.POST("/admin/v1/files", _FileService_CreateFile0_HTTP_Handler(srv))
-	r.PUT("/admin/v1/files/{data.id}", _FileService_UpdateFile0_HTTP_Handler(srv))
-	r.DELETE("/admin/v1/files/{id}", _FileService_DeleteFile0_HTTP_Handler(srv))
+	r.GET("/admin/v1/files", _FileService_List4_HTTP_Handler(srv))
+	r.GET("/admin/v1/files/{id}", _FileService_Get4_HTTP_Handler(srv))
+	r.POST("/admin/v1/files", _FileService_Create2_HTTP_Handler(srv))
+	r.PUT("/admin/v1/files/{data.id}", _FileService_Update2_HTTP_Handler(srv))
+	r.DELETE("/admin/v1/files/{id}", _FileService_Delete2_HTTP_Handler(srv))
 }
 
-func _FileService_ListFile0_HTTP_Handler(srv FileServiceHTTPServer) func(ctx http.Context) error {
+func _FileService_List4_HTTP_Handler(srv FileServiceHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
 		var in v1.PagingRequest
 		if err := ctx.BindQuery(&in); err != nil {
 			return err
 		}
-		http.SetOperation(ctx, OperationFileServiceListFile)
+		http.SetOperation(ctx, OperationFileServiceList)
 		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
-			return srv.ListFile(ctx, req.(*v1.PagingRequest))
+			return srv.List(ctx, req.(*v1.PagingRequest))
 		})
 		out, err := h(ctx, &in)
 		if err != nil {
@@ -69,7 +69,7 @@ func _FileService_ListFile0_HTTP_Handler(srv FileServiceHTTPServer) func(ctx htt
 	}
 }
 
-func _FileService_GetFile0_HTTP_Handler(srv FileServiceHTTPServer) func(ctx http.Context) error {
+func _FileService_Get4_HTTP_Handler(srv FileServiceHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
 		var in v11.GetFileRequest
 		if err := ctx.BindQuery(&in); err != nil {
@@ -78,9 +78,9 @@ func _FileService_GetFile0_HTTP_Handler(srv FileServiceHTTPServer) func(ctx http
 		if err := ctx.BindVars(&in); err != nil {
 			return err
 		}
-		http.SetOperation(ctx, OperationFileServiceGetFile)
+		http.SetOperation(ctx, OperationFileServiceGet)
 		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
-			return srv.GetFile(ctx, req.(*v11.GetFileRequest))
+			return srv.Get(ctx, req.(*v11.GetFileRequest))
 		})
 		out, err := h(ctx, &in)
 		if err != nil {
@@ -91,7 +91,7 @@ func _FileService_GetFile0_HTTP_Handler(srv FileServiceHTTPServer) func(ctx http
 	}
 }
 
-func _FileService_CreateFile0_HTTP_Handler(srv FileServiceHTTPServer) func(ctx http.Context) error {
+func _FileService_Create2_HTTP_Handler(srv FileServiceHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
 		var in v11.CreateFileRequest
 		if err := ctx.Bind(&in); err != nil {
@@ -100,9 +100,9 @@ func _FileService_CreateFile0_HTTP_Handler(srv FileServiceHTTPServer) func(ctx h
 		if err := ctx.BindQuery(&in); err != nil {
 			return err
 		}
-		http.SetOperation(ctx, OperationFileServiceCreateFile)
+		http.SetOperation(ctx, OperationFileServiceCreate)
 		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
-			return srv.CreateFile(ctx, req.(*v11.CreateFileRequest))
+			return srv.Create(ctx, req.(*v11.CreateFileRequest))
 		})
 		out, err := h(ctx, &in)
 		if err != nil {
@@ -113,7 +113,7 @@ func _FileService_CreateFile0_HTTP_Handler(srv FileServiceHTTPServer) func(ctx h
 	}
 }
 
-func _FileService_UpdateFile0_HTTP_Handler(srv FileServiceHTTPServer) func(ctx http.Context) error {
+func _FileService_Update2_HTTP_Handler(srv FileServiceHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
 		var in v11.UpdateFileRequest
 		if err := ctx.Bind(&in); err != nil {
@@ -125,9 +125,9 @@ func _FileService_UpdateFile0_HTTP_Handler(srv FileServiceHTTPServer) func(ctx h
 		if err := ctx.BindVars(&in); err != nil {
 			return err
 		}
-		http.SetOperation(ctx, OperationFileServiceUpdateFile)
+		http.SetOperation(ctx, OperationFileServiceUpdate)
 		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
-			return srv.UpdateFile(ctx, req.(*v11.UpdateFileRequest))
+			return srv.Update(ctx, req.(*v11.UpdateFileRequest))
 		})
 		out, err := h(ctx, &in)
 		if err != nil {
@@ -138,7 +138,7 @@ func _FileService_UpdateFile0_HTTP_Handler(srv FileServiceHTTPServer) func(ctx h
 	}
 }
 
-func _FileService_DeleteFile0_HTTP_Handler(srv FileServiceHTTPServer) func(ctx http.Context) error {
+func _FileService_Delete2_HTTP_Handler(srv FileServiceHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
 		var in v11.DeleteFileRequest
 		if err := ctx.BindQuery(&in); err != nil {
@@ -147,9 +147,9 @@ func _FileService_DeleteFile0_HTTP_Handler(srv FileServiceHTTPServer) func(ctx h
 		if err := ctx.BindVars(&in); err != nil {
 			return err
 		}
-		http.SetOperation(ctx, OperationFileServiceDeleteFile)
+		http.SetOperation(ctx, OperationFileServiceDelete)
 		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
-			return srv.DeleteFile(ctx, req.(*v11.DeleteFileRequest))
+			return srv.Delete(ctx, req.(*v11.DeleteFileRequest))
 		})
 		out, err := h(ctx, &in)
 		if err != nil {
@@ -161,11 +161,11 @@ func _FileService_DeleteFile0_HTTP_Handler(srv FileServiceHTTPServer) func(ctx h
 }
 
 type FileServiceHTTPClient interface {
-	CreateFile(ctx context.Context, req *v11.CreateFileRequest, opts ...http.CallOption) (rsp *emptypb.Empty, err error)
-	DeleteFile(ctx context.Context, req *v11.DeleteFileRequest, opts ...http.CallOption) (rsp *emptypb.Empty, err error)
-	GetFile(ctx context.Context, req *v11.GetFileRequest, opts ...http.CallOption) (rsp *v11.File, err error)
-	ListFile(ctx context.Context, req *v1.PagingRequest, opts ...http.CallOption) (rsp *v11.ListFileResponse, err error)
-	UpdateFile(ctx context.Context, req *v11.UpdateFileRequest, opts ...http.CallOption) (rsp *emptypb.Empty, err error)
+	Create(ctx context.Context, req *v11.CreateFileRequest, opts ...http.CallOption) (rsp *emptypb.Empty, err error)
+	Delete(ctx context.Context, req *v11.DeleteFileRequest, opts ...http.CallOption) (rsp *emptypb.Empty, err error)
+	Get(ctx context.Context, req *v11.GetFileRequest, opts ...http.CallOption) (rsp *v11.File, err error)
+	List(ctx context.Context, req *v1.PagingRequest, opts ...http.CallOption) (rsp *v11.ListFileResponse, err error)
+	Update(ctx context.Context, req *v11.UpdateFileRequest, opts ...http.CallOption) (rsp *emptypb.Empty, err error)
 }
 
 type FileServiceHTTPClientImpl struct {
@@ -176,11 +176,11 @@ func NewFileServiceHTTPClient(client *http.Client) FileServiceHTTPClient {
 	return &FileServiceHTTPClientImpl{client}
 }
 
-func (c *FileServiceHTTPClientImpl) CreateFile(ctx context.Context, in *v11.CreateFileRequest, opts ...http.CallOption) (*emptypb.Empty, error) {
+func (c *FileServiceHTTPClientImpl) Create(ctx context.Context, in *v11.CreateFileRequest, opts ...http.CallOption) (*emptypb.Empty, error) {
 	var out emptypb.Empty
 	pattern := "/admin/v1/files"
 	path := binding.EncodeURL(pattern, in, false)
-	opts = append(opts, http.Operation(OperationFileServiceCreateFile))
+	opts = append(opts, http.Operation(OperationFileServiceCreate))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
 	if err != nil {
@@ -189,11 +189,11 @@ func (c *FileServiceHTTPClientImpl) CreateFile(ctx context.Context, in *v11.Crea
 	return &out, nil
 }
 
-func (c *FileServiceHTTPClientImpl) DeleteFile(ctx context.Context, in *v11.DeleteFileRequest, opts ...http.CallOption) (*emptypb.Empty, error) {
+func (c *FileServiceHTTPClientImpl) Delete(ctx context.Context, in *v11.DeleteFileRequest, opts ...http.CallOption) (*emptypb.Empty, error) {
 	var out emptypb.Empty
 	pattern := "/admin/v1/files/{id}"
 	path := binding.EncodeURL(pattern, in, true)
-	opts = append(opts, http.Operation(OperationFileServiceDeleteFile))
+	opts = append(opts, http.Operation(OperationFileServiceDelete))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "DELETE", path, nil, &out, opts...)
 	if err != nil {
@@ -202,11 +202,11 @@ func (c *FileServiceHTTPClientImpl) DeleteFile(ctx context.Context, in *v11.Dele
 	return &out, nil
 }
 
-func (c *FileServiceHTTPClientImpl) GetFile(ctx context.Context, in *v11.GetFileRequest, opts ...http.CallOption) (*v11.File, error) {
+func (c *FileServiceHTTPClientImpl) Get(ctx context.Context, in *v11.GetFileRequest, opts ...http.CallOption) (*v11.File, error) {
 	var out v11.File
 	pattern := "/admin/v1/files/{id}"
 	path := binding.EncodeURL(pattern, in, true)
-	opts = append(opts, http.Operation(OperationFileServiceGetFile))
+	opts = append(opts, http.Operation(OperationFileServiceGet))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
 	if err != nil {
@@ -215,11 +215,11 @@ func (c *FileServiceHTTPClientImpl) GetFile(ctx context.Context, in *v11.GetFile
 	return &out, nil
 }
 
-func (c *FileServiceHTTPClientImpl) ListFile(ctx context.Context, in *v1.PagingRequest, opts ...http.CallOption) (*v11.ListFileResponse, error) {
+func (c *FileServiceHTTPClientImpl) List(ctx context.Context, in *v1.PagingRequest, opts ...http.CallOption) (*v11.ListFileResponse, error) {
 	var out v11.ListFileResponse
 	pattern := "/admin/v1/files"
 	path := binding.EncodeURL(pattern, in, true)
-	opts = append(opts, http.Operation(OperationFileServiceListFile))
+	opts = append(opts, http.Operation(OperationFileServiceList))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
 	if err != nil {
@@ -228,11 +228,11 @@ func (c *FileServiceHTTPClientImpl) ListFile(ctx context.Context, in *v1.PagingR
 	return &out, nil
 }
 
-func (c *FileServiceHTTPClientImpl) UpdateFile(ctx context.Context, in *v11.UpdateFileRequest, opts ...http.CallOption) (*emptypb.Empty, error) {
+func (c *FileServiceHTTPClientImpl) Update(ctx context.Context, in *v11.UpdateFileRequest, opts ...http.CallOption) (*emptypb.Empty, error) {
 	var out emptypb.Empty
 	pattern := "/admin/v1/files/{data.id}"
 	path := binding.EncodeURL(pattern, in, false)
-	opts = append(opts, http.Operation(OperationFileServiceUpdateFile))
+	opts = append(opts, http.Operation(OperationFileServiceUpdate))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "PUT", path, in, &out, opts...)
 	if err != nil {

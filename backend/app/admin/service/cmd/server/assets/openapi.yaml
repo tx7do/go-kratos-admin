@@ -19,7 +19,7 @@ paths:
             tags:
                 - AdminLoginLogService
             description: 查询后台登录日志列表
-            operationId: AdminLoginLogService_ListAdminLoginLog
+            operationId: AdminLoginLogService_List
             parameters:
                 - name: page
                   in: query
@@ -78,7 +78,7 @@ paths:
             tags:
                 - AdminLoginLogService
             description: 查询后台登录日志详情
-            operationId: AdminLoginLogService_GetAdminLoginLog
+            operationId: AdminLoginLogService_Get
             parameters:
                 - name: id
                   in: path
@@ -98,7 +98,7 @@ paths:
             tags:
                 - AdminOperationLogService
             description: 查询后台操作日志列表
-            operationId: AdminOperationLogService_ListAdminOperationLog
+            operationId: AdminOperationLogService_List
             parameters:
                 - name: page
                   in: query
@@ -157,7 +157,7 @@ paths:
             tags:
                 - AdminOperationLogService
             description: 查询后台操作日志详情
-            operationId: AdminOperationLogService_GetAdminOperationLog
+            operationId: AdminOperationLogService_Get
             parameters:
                 - name: id
                   in: path
@@ -177,7 +177,7 @@ paths:
             tags:
                 - DepartmentService
             description: 查询部门列表
-            operationId: DepartmentService_ListDepartment
+            operationId: DepartmentService_List
             parameters:
                 - name: page
                   in: query
@@ -235,7 +235,7 @@ paths:
             tags:
                 - DepartmentService
             description: 创建部门
-            operationId: DepartmentService_CreateDepartment
+            operationId: DepartmentService_Create
             requestBody:
                 content:
                     application/json:
@@ -251,7 +251,7 @@ paths:
             tags:
                 - DepartmentService
             description: 更新部门
-            operationId: DepartmentService_UpdateDepartment
+            operationId: DepartmentService_Update
             parameters:
                 - name: data.id
                   in: path
@@ -273,7 +273,7 @@ paths:
             tags:
                 - DepartmentService
             description: 查询部门详情
-            operationId: DepartmentService_GetDepartment
+            operationId: DepartmentService_Get
             parameters:
                 - name: id
                   in: path
@@ -292,7 +292,7 @@ paths:
             tags:
                 - DepartmentService
             description: 删除部门
-            operationId: DepartmentService_DeleteDepartment
+            operationId: DepartmentService_Delete
             parameters:
                 - name: id
                   in: path
@@ -309,7 +309,7 @@ paths:
             tags:
                 - DictService
             description: 查询字典列表
-            operationId: DictService_ListDict
+            operationId: DictService_List
             parameters:
                 - name: page
                   in: query
@@ -367,7 +367,7 @@ paths:
             tags:
                 - DictService
             description: 创建字典
-            operationId: DictService_CreateDict
+            operationId: DictService_Create
             requestBody:
                 content:
                     application/json:
@@ -383,7 +383,7 @@ paths:
             tags:
                 - DictService
             description: 更新字典
-            operationId: DictService_UpdateDict
+            operationId: DictService_Update
             parameters:
                 - name: data.id
                   in: path
@@ -405,7 +405,7 @@ paths:
             tags:
                 - DictService
             description: 查询字典详情
-            operationId: DictService_GetDict
+            operationId: DictService_Get
             parameters:
                 - name: id
                   in: path
@@ -424,7 +424,7 @@ paths:
             tags:
                 - DictService
             description: 删除字典
-            operationId: DictService_DeleteDict
+            operationId: DictService_Delete
             parameters:
                 - name: id
                   in: path
@@ -497,7 +497,7 @@ paths:
             tags:
                 - FileService
             description: 查询文件列表
-            operationId: FileService_ListFile
+            operationId: FileService_List
             parameters:
                 - name: page
                   in: query
@@ -555,7 +555,7 @@ paths:
             tags:
                 - FileService
             description: 创建文件
-            operationId: FileService_CreateFile
+            operationId: FileService_Create
             requestBody:
                 content:
                     application/json:
@@ -571,7 +571,7 @@ paths:
             tags:
                 - FileService
             description: 更新文件
-            operationId: FileService_UpdateFile
+            operationId: FileService_Update
             parameters:
                 - name: data.id
                   in: path
@@ -593,7 +593,7 @@ paths:
             tags:
                 - FileService
             description: 查询文件详情
-            operationId: FileService_GetFile
+            operationId: FileService_Get
             parameters:
                 - name: id
                   in: path
@@ -612,7 +612,7 @@ paths:
             tags:
                 - FileService
             description: 删除文件
-            operationId: FileService_DeleteFile
+            operationId: FileService_Delete
             parameters:
                 - name: id
                   in: path
@@ -685,7 +685,7 @@ paths:
             tags:
                 - MenuService
             description: 查询菜单列表
-            operationId: MenuService_ListMenu
+            operationId: MenuService_List
             parameters:
                 - name: page
                   in: query
@@ -743,7 +743,7 @@ paths:
             tags:
                 - MenuService
             description: 创建菜单
-            operationId: MenuService_CreateMenu
+            operationId: MenuService_Create
             requestBody:
                 content:
                     application/json:
@@ -759,7 +759,7 @@ paths:
             tags:
                 - MenuService
             description: 更新菜单
-            operationId: MenuService_UpdateMenu
+            operationId: MenuService_Update
             parameters:
                 - name: data.id
                   in: path
@@ -781,7 +781,7 @@ paths:
             tags:
                 - MenuService
             description: 查询菜单详情
-            operationId: MenuService_GetMenu
+            operationId: MenuService_Get
             parameters:
                 - name: id
                   in: path
@@ -800,7 +800,7 @@ paths:
             tags:
                 - MenuService
             description: 删除菜单
-            operationId: MenuService_DeleteMenu
+            operationId: MenuService_Delete
             parameters:
                 - name: id
                   in: path
@@ -817,7 +817,7 @@ paths:
             tags:
                 - NotificationMessageService
             description: 查询通知消息列表
-            operationId: NotificationMessageService_ListNotificationMessage
+            operationId: NotificationMessageService_List
             parameters:
                 - name: page
                   in: query
@@ -875,7 +875,7 @@ paths:
             tags:
                 - NotificationMessageService
             description: 创建通知消息
-            operationId: NotificationMessageService_CreateNotificationMessage
+            operationId: NotificationMessageService_Create
             requestBody:
                 content:
                     application/json:
@@ -891,7 +891,7 @@ paths:
             tags:
                 - NotificationMessageService
             description: 更新通知消息
-            operationId: NotificationMessageService_UpdateNotificationMessage
+            operationId: NotificationMessageService_Update
             parameters:
                 - name: data.id
                   in: path
@@ -913,7 +913,7 @@ paths:
             tags:
                 - NotificationMessageService
             description: 查询通知消息详情
-            operationId: NotificationMessageService_GetNotificationMessage
+            operationId: NotificationMessageService_Get
             parameters:
                 - name: id
                   in: path
@@ -932,7 +932,7 @@ paths:
             tags:
                 - NotificationMessageService
             description: 删除通知消息
-            operationId: NotificationMessageService_DeleteNotificationMessage
+            operationId: NotificationMessageService_Delete
             parameters:
                 - name: id
                   in: path
@@ -949,7 +949,7 @@ paths:
             tags:
                 - NotificationMessageCategoryService
             description: 查询通知消息分类列表
-            operationId: NotificationMessageCategoryService_ListNotificationMessageCategory
+            operationId: NotificationMessageCategoryService_List
             parameters:
                 - name: page
                   in: query
@@ -1007,7 +1007,7 @@ paths:
             tags:
                 - NotificationMessageCategoryService
             description: 创建通知消息分类
-            operationId: NotificationMessageCategoryService_CreateNotificationMessageCategory
+            operationId: NotificationMessageCategoryService_Create
             requestBody:
                 content:
                     application/json:
@@ -1023,7 +1023,7 @@ paths:
             tags:
                 - NotificationMessageCategoryService
             description: 更新通知消息分类
-            operationId: NotificationMessageCategoryService_UpdateNotificationMessageCategory
+            operationId: NotificationMessageCategoryService_Update
             parameters:
                 - name: data.id
                   in: path
@@ -1045,7 +1045,7 @@ paths:
             tags:
                 - NotificationMessageCategoryService
             description: 查询通知消息分类详情
-            operationId: NotificationMessageCategoryService_GetNotificationMessageCategory
+            operationId: NotificationMessageCategoryService_Get
             parameters:
                 - name: id
                   in: path
@@ -1064,7 +1064,7 @@ paths:
             tags:
                 - NotificationMessageCategoryService
             description: 删除通知消息分类
-            operationId: NotificationMessageCategoryService_DeleteNotificationMessageCategory
+            operationId: NotificationMessageCategoryService_Delete
             parameters:
                 - name: id
                   in: path
@@ -1081,7 +1081,7 @@ paths:
             tags:
                 - NotificationMessageRecipientService
             description: 查询通知消息接收者列表
-            operationId: NotificationMessageRecipientService_ListNotificationMessageRecipient
+            operationId: NotificationMessageRecipientService_List
             parameters:
                 - name: page
                   in: query
@@ -1139,7 +1139,7 @@ paths:
             tags:
                 - NotificationMessageRecipientService
             description: 创建通知消息接收者
-            operationId: NotificationMessageRecipientService_CreateNotificationMessageRecipient
+            operationId: NotificationMessageRecipientService_Create
             requestBody:
                 content:
                     application/json:
@@ -1155,7 +1155,7 @@ paths:
             tags:
                 - NotificationMessageRecipientService
             description: 更新通知消息接收者
-            operationId: NotificationMessageRecipientService_UpdateNotificationMessageRecipient
+            operationId: NotificationMessageRecipientService_Update
             parameters:
                 - name: data.id
                   in: path
@@ -1177,7 +1177,7 @@ paths:
             tags:
                 - NotificationMessageRecipientService
             description: 查询通知消息接收者详情
-            operationId: NotificationMessageRecipientService_GetNotificationMessageRecipient
+            operationId: NotificationMessageRecipientService_Get
             parameters:
                 - name: id
                   in: path
@@ -1196,7 +1196,7 @@ paths:
             tags:
                 - NotificationMessageRecipientService
             description: 删除通知消息接收者
-            operationId: NotificationMessageRecipientService_DeleteNotificationMessageRecipient
+            operationId: NotificationMessageRecipientService_Delete
             parameters:
                 - name: id
                   in: path
@@ -1213,7 +1213,7 @@ paths:
             tags:
                 - OrganizationService
             description: 查询组织列表
-            operationId: OrganizationService_ListOrganization
+            operationId: OrganizationService_List
             parameters:
                 - name: page
                   in: query
@@ -1271,7 +1271,7 @@ paths:
             tags:
                 - OrganizationService
             description: 创建组织
-            operationId: OrganizationService_CreateOrganization
+            operationId: OrganizationService_Create
             requestBody:
                 content:
                     application/json:
@@ -1287,7 +1287,7 @@ paths:
             tags:
                 - OrganizationService
             description: 更新组织
-            operationId: OrganizationService_UpdateOrganization
+            operationId: OrganizationService_Update
             parameters:
                 - name: data.id
                   in: path
@@ -1309,7 +1309,7 @@ paths:
             tags:
                 - OrganizationService
             description: 查询组织详情
-            operationId: OrganizationService_GetOrganization
+            operationId: OrganizationService_Get
             parameters:
                 - name: id
                   in: path
@@ -1328,7 +1328,7 @@ paths:
             tags:
                 - OrganizationService
             description: 删除组织
-            operationId: OrganizationService_DeleteOrganization
+            operationId: OrganizationService_Delete
             parameters:
                 - name: id
                   in: path
@@ -1364,7 +1364,7 @@ paths:
             tags:
                 - PositionService
             description: 查询职位列表
-            operationId: PositionService_ListPosition
+            operationId: PositionService_List
             parameters:
                 - name: page
                   in: query
@@ -1422,7 +1422,7 @@ paths:
             tags:
                 - PositionService
             description: 创建职位
-            operationId: PositionService_CreatePosition
+            operationId: PositionService_Create
             requestBody:
                 content:
                     application/json:
@@ -1438,7 +1438,7 @@ paths:
             tags:
                 - PositionService
             description: 更新职位
-            operationId: PositionService_UpdatePosition
+            operationId: PositionService_Update
             parameters:
                 - name: data.id
                   in: path
@@ -1460,7 +1460,7 @@ paths:
             tags:
                 - PositionService
             description: 查询职位详情
-            operationId: PositionService_GetPosition
+            operationId: PositionService_Get
             parameters:
                 - name: id
                   in: path
@@ -1479,7 +1479,7 @@ paths:
             tags:
                 - PositionService
             description: 删除职位
-            operationId: PositionService_DeletePosition
+            operationId: PositionService_Delete
             parameters:
                 - name: id
                   in: path
@@ -1496,7 +1496,7 @@ paths:
             tags:
                 - PrivateMessageService
             description: 查询私信消息列表
-            operationId: PrivateMessageService_ListPrivateMessage
+            operationId: PrivateMessageService_List
             parameters:
                 - name: page
                   in: query
@@ -1554,7 +1554,7 @@ paths:
             tags:
                 - PrivateMessageService
             description: 创建私信消息
-            operationId: PrivateMessageService_CreatePrivateMessage
+            operationId: PrivateMessageService_Create
             requestBody:
                 content:
                     application/json:
@@ -1570,7 +1570,7 @@ paths:
             tags:
                 - PrivateMessageService
             description: 更新私信消息
-            operationId: PrivateMessageService_UpdatePrivateMessage
+            operationId: PrivateMessageService_Update
             parameters:
                 - name: data.id
                   in: path
@@ -1592,7 +1592,7 @@ paths:
             tags:
                 - PrivateMessageService
             description: 查询私信消息详情
-            operationId: PrivateMessageService_GetPrivateMessage
+            operationId: PrivateMessageService_Get
             parameters:
                 - name: id
                   in: path
@@ -1611,7 +1611,7 @@ paths:
             tags:
                 - PrivateMessageService
             description: 删除私信消息
-            operationId: PrivateMessageService_DeletePrivateMessage
+            operationId: PrivateMessageService_Delete
             parameters:
                 - name: id
                   in: path
@@ -1647,7 +1647,7 @@ paths:
             tags:
                 - RoleService
             description: 查询角色列表
-            operationId: RoleService_ListRole
+            operationId: RoleService_List
             parameters:
                 - name: page
                   in: query
@@ -1705,7 +1705,7 @@ paths:
             tags:
                 - RoleService
             description: 创建角色
-            operationId: RoleService_CreateRole
+            operationId: RoleService_Create
             requestBody:
                 content:
                     application/json:
@@ -1721,7 +1721,7 @@ paths:
             tags:
                 - RoleService
             description: 更新角色
-            operationId: RoleService_UpdateRole
+            operationId: RoleService_Update
             parameters:
                 - name: data.id
                   in: path
@@ -1743,7 +1743,7 @@ paths:
             tags:
                 - RoleService
             description: 查询角色详情
-            operationId: RoleService_GetRole
+            operationId: RoleService_Get
             parameters:
                 - name: id
                   in: path
@@ -1762,7 +1762,7 @@ paths:
             tags:
                 - RoleService
             description: 删除角色
-            operationId: RoleService_DeleteRole
+            operationId: RoleService_Delete
             parameters:
                 - name: id
                   in: path
@@ -1798,7 +1798,7 @@ paths:
             tags:
                 - TaskService
             description: 查询调度任务列表
-            operationId: TaskService_ListTask
+            operationId: TaskService_List
             parameters:
                 - name: page
                   in: query
@@ -1856,7 +1856,7 @@ paths:
             tags:
                 - TaskService
             description: 创建调度任务
-            operationId: TaskService_CreateTask
+            operationId: TaskService_Create
             requestBody:
                 content:
                     application/json:
@@ -1872,7 +1872,7 @@ paths:
             tags:
                 - TaskService
             description: 更新调度任务
-            operationId: TaskService_UpdateTask
+            operationId: TaskService_Update
             parameters:
                 - name: data.id
                   in: path
@@ -1894,7 +1894,7 @@ paths:
             tags:
                 - TaskService
             description: 查询调度任务详情
-            operationId: TaskService_GetTask
+            operationId: TaskService_Get
             parameters:
                 - name: id
                   in: path
@@ -1913,7 +1913,7 @@ paths:
             tags:
                 - TaskService
             description: 删除调度任务
-            operationId: TaskService_DeleteTask
+            operationId: TaskService_Delete
             parameters:
                 - name: id
                   in: path
@@ -1977,7 +1977,7 @@ paths:
             tags:
                 - TenantService
             description: 获取租户列表
-            operationId: TenantService_ListTenant
+            operationId: TenantService_List
             parameters:
                 - name: page
                   in: query
@@ -2035,7 +2035,7 @@ paths:
             tags:
                 - TenantService
             description: 创建租户
-            operationId: TenantService_CreateTenant
+            operationId: TenantService_Create
             requestBody:
                 content:
                     application/json:
@@ -2051,7 +2051,7 @@ paths:
             tags:
                 - TenantService
             description: 更新租户
-            operationId: TenantService_UpdateTenant
+            operationId: TenantService_Update
             parameters:
                 - name: data.id
                   in: path
@@ -2073,7 +2073,7 @@ paths:
             tags:
                 - TenantService
             description: 获取租户数据
-            operationId: TenantService_GetTenant
+            operationId: TenantService_Get
             parameters:
                 - name: id
                   in: path
@@ -2092,7 +2092,7 @@ paths:
             tags:
                 - TenantService
             description: 删除租户
-            operationId: TenantService_DeleteTenant
+            operationId: TenantService_Delete
             parameters:
                 - name: id
                   in: path
@@ -2159,7 +2159,7 @@ paths:
             tags:
                 - UserService
             description: 获取用户列表
-            operationId: UserService_ListUser
+            operationId: UserService_List
             parameters:
                 - name: page
                   in: query
@@ -2217,7 +2217,7 @@ paths:
             tags:
                 - UserService
             description: 创建用户
-            operationId: UserService_CreateUser
+            operationId: UserService_Create
             requestBody:
                 content:
                     application/json:
@@ -2233,7 +2233,7 @@ paths:
             tags:
                 - UserService
             description: 更新用户
-            operationId: UserService_UpdateUser
+            operationId: UserService_Update
             parameters:
                 - name: data.id
                   in: path
@@ -2255,7 +2255,7 @@ paths:
             tags:
                 - UserService
             description: 获取用户数据
-            operationId: UserService_GetUser
+            operationId: UserService_Get
             parameters:
                 - name: id
                   in: path
@@ -2274,7 +2274,7 @@ paths:
             tags:
                 - UserService
             description: 删除用户
-            operationId: UserService_DeleteUser
+            operationId: UserService_Delete
             parameters:
                 - name: id
                   in: path

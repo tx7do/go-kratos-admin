@@ -31,15 +31,15 @@ func NewNotificationMessageCategoryService(uc *data.NotificationMessageCategoryR
 	}
 }
 
-func (s *NotificationMessageCategoryService) ListNotificationMessageCategory(ctx context.Context, req *pagination.PagingRequest) (*internalMessageV1.ListNotificationMessageCategoryResponse, error) {
+func (s *NotificationMessageCategoryService) List(ctx context.Context, req *pagination.PagingRequest) (*internalMessageV1.ListNotificationMessageCategoryResponse, error) {
 	return s.uc.List(ctx, req)
 }
 
-func (s *NotificationMessageCategoryService) GetNotificationMessageCategory(ctx context.Context, req *internalMessageV1.GetNotificationMessageCategoryRequest) (*internalMessageV1.NotificationMessageCategory, error) {
+func (s *NotificationMessageCategoryService) Get(ctx context.Context, req *internalMessageV1.GetNotificationMessageCategoryRequest) (*internalMessageV1.NotificationMessageCategory, error) {
 	return s.uc.Get(ctx, req)
 }
 
-func (s *NotificationMessageCategoryService) CreateNotificationMessageCategory(ctx context.Context, req *internalMessageV1.CreateNotificationMessageCategoryRequest) (*emptypb.Empty, error) {
+func (s *NotificationMessageCategoryService) Create(ctx context.Context, req *internalMessageV1.CreateNotificationMessageCategoryRequest) (*emptypb.Empty, error) {
 	if req.Data == nil {
 		return nil, adminV1.ErrorBadRequest("错误的参数")
 	}
@@ -57,7 +57,7 @@ func (s *NotificationMessageCategoryService) CreateNotificationMessageCategory(c
 	return &emptypb.Empty{}, nil
 }
 
-func (s *NotificationMessageCategoryService) UpdateNotificationMessageCategory(ctx context.Context, req *internalMessageV1.UpdateNotificationMessageCategoryRequest) (*emptypb.Empty, error) {
+func (s *NotificationMessageCategoryService) Update(ctx context.Context, req *internalMessageV1.UpdateNotificationMessageCategoryRequest) (*emptypb.Empty, error) {
 	if req.Data == nil {
 		return nil, adminV1.ErrorBadRequest("错误的参数")
 	}
@@ -75,7 +75,7 @@ func (s *NotificationMessageCategoryService) UpdateNotificationMessageCategory(c
 	return &emptypb.Empty{}, nil
 }
 
-func (s *NotificationMessageCategoryService) DeleteNotificationMessageCategory(ctx context.Context, req *internalMessageV1.DeleteNotificationMessageCategoryRequest) (*emptypb.Empty, error) {
+func (s *NotificationMessageCategoryService) Delete(ctx context.Context, req *internalMessageV1.DeleteNotificationMessageCategoryRequest) (*emptypb.Empty, error) {
 	if _, err := s.uc.Delete(ctx, req); err != nil {
 		return nil, err
 	}

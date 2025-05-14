@@ -22,11 +22,11 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	PrivateMessageService_ListPrivateMessage_FullMethodName   = "/admin.service.v1.PrivateMessageService/ListPrivateMessage"
-	PrivateMessageService_GetPrivateMessage_FullMethodName    = "/admin.service.v1.PrivateMessageService/GetPrivateMessage"
-	PrivateMessageService_CreatePrivateMessage_FullMethodName = "/admin.service.v1.PrivateMessageService/CreatePrivateMessage"
-	PrivateMessageService_UpdatePrivateMessage_FullMethodName = "/admin.service.v1.PrivateMessageService/UpdatePrivateMessage"
-	PrivateMessageService_DeletePrivateMessage_FullMethodName = "/admin.service.v1.PrivateMessageService/DeletePrivateMessage"
+	PrivateMessageService_List_FullMethodName   = "/admin.service.v1.PrivateMessageService/List"
+	PrivateMessageService_Get_FullMethodName    = "/admin.service.v1.PrivateMessageService/Get"
+	PrivateMessageService_Create_FullMethodName = "/admin.service.v1.PrivateMessageService/Create"
+	PrivateMessageService_Update_FullMethodName = "/admin.service.v1.PrivateMessageService/Update"
+	PrivateMessageService_Delete_FullMethodName = "/admin.service.v1.PrivateMessageService/Delete"
 )
 
 // PrivateMessageServiceClient is the client API for PrivateMessageService service.
@@ -36,15 +36,15 @@ const (
 // 私信消息管理服务
 type PrivateMessageServiceClient interface {
 	// 查询私信消息列表
-	ListPrivateMessage(ctx context.Context, in *v1.PagingRequest, opts ...grpc.CallOption) (*v11.ListPrivateMessageResponse, error)
+	List(ctx context.Context, in *v1.PagingRequest, opts ...grpc.CallOption) (*v11.ListPrivateMessageResponse, error)
 	// 查询私信消息详情
-	GetPrivateMessage(ctx context.Context, in *v11.GetPrivateMessageRequest, opts ...grpc.CallOption) (*v11.PrivateMessage, error)
+	Get(ctx context.Context, in *v11.GetPrivateMessageRequest, opts ...grpc.CallOption) (*v11.PrivateMessage, error)
 	// 创建私信消息
-	CreatePrivateMessage(ctx context.Context, in *v11.CreatePrivateMessageRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	Create(ctx context.Context, in *v11.CreatePrivateMessageRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	// 更新私信消息
-	UpdatePrivateMessage(ctx context.Context, in *v11.UpdatePrivateMessageRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	Update(ctx context.Context, in *v11.UpdatePrivateMessageRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	// 删除私信消息
-	DeletePrivateMessage(ctx context.Context, in *v11.DeletePrivateMessageRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	Delete(ctx context.Context, in *v11.DeletePrivateMessageRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 }
 
 type privateMessageServiceClient struct {
@@ -55,50 +55,50 @@ func NewPrivateMessageServiceClient(cc grpc.ClientConnInterface) PrivateMessageS
 	return &privateMessageServiceClient{cc}
 }
 
-func (c *privateMessageServiceClient) ListPrivateMessage(ctx context.Context, in *v1.PagingRequest, opts ...grpc.CallOption) (*v11.ListPrivateMessageResponse, error) {
+func (c *privateMessageServiceClient) List(ctx context.Context, in *v1.PagingRequest, opts ...grpc.CallOption) (*v11.ListPrivateMessageResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(v11.ListPrivateMessageResponse)
-	err := c.cc.Invoke(ctx, PrivateMessageService_ListPrivateMessage_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, PrivateMessageService_List_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *privateMessageServiceClient) GetPrivateMessage(ctx context.Context, in *v11.GetPrivateMessageRequest, opts ...grpc.CallOption) (*v11.PrivateMessage, error) {
+func (c *privateMessageServiceClient) Get(ctx context.Context, in *v11.GetPrivateMessageRequest, opts ...grpc.CallOption) (*v11.PrivateMessage, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(v11.PrivateMessage)
-	err := c.cc.Invoke(ctx, PrivateMessageService_GetPrivateMessage_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, PrivateMessageService_Get_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *privateMessageServiceClient) CreatePrivateMessage(ctx context.Context, in *v11.CreatePrivateMessageRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+func (c *privateMessageServiceClient) Create(ctx context.Context, in *v11.CreatePrivateMessageRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(emptypb.Empty)
-	err := c.cc.Invoke(ctx, PrivateMessageService_CreatePrivateMessage_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, PrivateMessageService_Create_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *privateMessageServiceClient) UpdatePrivateMessage(ctx context.Context, in *v11.UpdatePrivateMessageRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+func (c *privateMessageServiceClient) Update(ctx context.Context, in *v11.UpdatePrivateMessageRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(emptypb.Empty)
-	err := c.cc.Invoke(ctx, PrivateMessageService_UpdatePrivateMessage_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, PrivateMessageService_Update_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *privateMessageServiceClient) DeletePrivateMessage(ctx context.Context, in *v11.DeletePrivateMessageRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+func (c *privateMessageServiceClient) Delete(ctx context.Context, in *v11.DeletePrivateMessageRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(emptypb.Empty)
-	err := c.cc.Invoke(ctx, PrivateMessageService_DeletePrivateMessage_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, PrivateMessageService_Delete_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -112,15 +112,15 @@ func (c *privateMessageServiceClient) DeletePrivateMessage(ctx context.Context, 
 // 私信消息管理服务
 type PrivateMessageServiceServer interface {
 	// 查询私信消息列表
-	ListPrivateMessage(context.Context, *v1.PagingRequest) (*v11.ListPrivateMessageResponse, error)
+	List(context.Context, *v1.PagingRequest) (*v11.ListPrivateMessageResponse, error)
 	// 查询私信消息详情
-	GetPrivateMessage(context.Context, *v11.GetPrivateMessageRequest) (*v11.PrivateMessage, error)
+	Get(context.Context, *v11.GetPrivateMessageRequest) (*v11.PrivateMessage, error)
 	// 创建私信消息
-	CreatePrivateMessage(context.Context, *v11.CreatePrivateMessageRequest) (*emptypb.Empty, error)
+	Create(context.Context, *v11.CreatePrivateMessageRequest) (*emptypb.Empty, error)
 	// 更新私信消息
-	UpdatePrivateMessage(context.Context, *v11.UpdatePrivateMessageRequest) (*emptypb.Empty, error)
+	Update(context.Context, *v11.UpdatePrivateMessageRequest) (*emptypb.Empty, error)
 	// 删除私信消息
-	DeletePrivateMessage(context.Context, *v11.DeletePrivateMessageRequest) (*emptypb.Empty, error)
+	Delete(context.Context, *v11.DeletePrivateMessageRequest) (*emptypb.Empty, error)
 	mustEmbedUnimplementedPrivateMessageServiceServer()
 }
 
@@ -131,20 +131,20 @@ type PrivateMessageServiceServer interface {
 // pointer dereference when methods are called.
 type UnimplementedPrivateMessageServiceServer struct{}
 
-func (UnimplementedPrivateMessageServiceServer) ListPrivateMessage(context.Context, *v1.PagingRequest) (*v11.ListPrivateMessageResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ListPrivateMessage not implemented")
+func (UnimplementedPrivateMessageServiceServer) List(context.Context, *v1.PagingRequest) (*v11.ListPrivateMessageResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method List not implemented")
 }
-func (UnimplementedPrivateMessageServiceServer) GetPrivateMessage(context.Context, *v11.GetPrivateMessageRequest) (*v11.PrivateMessage, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetPrivateMessage not implemented")
+func (UnimplementedPrivateMessageServiceServer) Get(context.Context, *v11.GetPrivateMessageRequest) (*v11.PrivateMessage, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Get not implemented")
 }
-func (UnimplementedPrivateMessageServiceServer) CreatePrivateMessage(context.Context, *v11.CreatePrivateMessageRequest) (*emptypb.Empty, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CreatePrivateMessage not implemented")
+func (UnimplementedPrivateMessageServiceServer) Create(context.Context, *v11.CreatePrivateMessageRequest) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Create not implemented")
 }
-func (UnimplementedPrivateMessageServiceServer) UpdatePrivateMessage(context.Context, *v11.UpdatePrivateMessageRequest) (*emptypb.Empty, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UpdatePrivateMessage not implemented")
+func (UnimplementedPrivateMessageServiceServer) Update(context.Context, *v11.UpdatePrivateMessageRequest) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Update not implemented")
 }
-func (UnimplementedPrivateMessageServiceServer) DeletePrivateMessage(context.Context, *v11.DeletePrivateMessageRequest) (*emptypb.Empty, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DeletePrivateMessage not implemented")
+func (UnimplementedPrivateMessageServiceServer) Delete(context.Context, *v11.DeletePrivateMessageRequest) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Delete not implemented")
 }
 func (UnimplementedPrivateMessageServiceServer) mustEmbedUnimplementedPrivateMessageServiceServer() {}
 func (UnimplementedPrivateMessageServiceServer) testEmbeddedByValue()                               {}
@@ -167,92 +167,92 @@ func RegisterPrivateMessageServiceServer(s grpc.ServiceRegistrar, srv PrivateMes
 	s.RegisterService(&PrivateMessageService_ServiceDesc, srv)
 }
 
-func _PrivateMessageService_ListPrivateMessage_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _PrivateMessageService_List_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(v1.PagingRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(PrivateMessageServiceServer).ListPrivateMessage(ctx, in)
+		return srv.(PrivateMessageServiceServer).List(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: PrivateMessageService_ListPrivateMessage_FullMethodName,
+		FullMethod: PrivateMessageService_List_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(PrivateMessageServiceServer).ListPrivateMessage(ctx, req.(*v1.PagingRequest))
+		return srv.(PrivateMessageServiceServer).List(ctx, req.(*v1.PagingRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _PrivateMessageService_GetPrivateMessage_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _PrivateMessageService_Get_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(v11.GetPrivateMessageRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(PrivateMessageServiceServer).GetPrivateMessage(ctx, in)
+		return srv.(PrivateMessageServiceServer).Get(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: PrivateMessageService_GetPrivateMessage_FullMethodName,
+		FullMethod: PrivateMessageService_Get_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(PrivateMessageServiceServer).GetPrivateMessage(ctx, req.(*v11.GetPrivateMessageRequest))
+		return srv.(PrivateMessageServiceServer).Get(ctx, req.(*v11.GetPrivateMessageRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _PrivateMessageService_CreatePrivateMessage_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _PrivateMessageService_Create_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(v11.CreatePrivateMessageRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(PrivateMessageServiceServer).CreatePrivateMessage(ctx, in)
+		return srv.(PrivateMessageServiceServer).Create(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: PrivateMessageService_CreatePrivateMessage_FullMethodName,
+		FullMethod: PrivateMessageService_Create_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(PrivateMessageServiceServer).CreatePrivateMessage(ctx, req.(*v11.CreatePrivateMessageRequest))
+		return srv.(PrivateMessageServiceServer).Create(ctx, req.(*v11.CreatePrivateMessageRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _PrivateMessageService_UpdatePrivateMessage_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _PrivateMessageService_Update_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(v11.UpdatePrivateMessageRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(PrivateMessageServiceServer).UpdatePrivateMessage(ctx, in)
+		return srv.(PrivateMessageServiceServer).Update(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: PrivateMessageService_UpdatePrivateMessage_FullMethodName,
+		FullMethod: PrivateMessageService_Update_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(PrivateMessageServiceServer).UpdatePrivateMessage(ctx, req.(*v11.UpdatePrivateMessageRequest))
+		return srv.(PrivateMessageServiceServer).Update(ctx, req.(*v11.UpdatePrivateMessageRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _PrivateMessageService_DeletePrivateMessage_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _PrivateMessageService_Delete_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(v11.DeletePrivateMessageRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(PrivateMessageServiceServer).DeletePrivateMessage(ctx, in)
+		return srv.(PrivateMessageServiceServer).Delete(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: PrivateMessageService_DeletePrivateMessage_FullMethodName,
+		FullMethod: PrivateMessageService_Delete_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(PrivateMessageServiceServer).DeletePrivateMessage(ctx, req.(*v11.DeletePrivateMessageRequest))
+		return srv.(PrivateMessageServiceServer).Delete(ctx, req.(*v11.DeletePrivateMessageRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -265,24 +265,24 @@ var PrivateMessageService_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*PrivateMessageServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "ListPrivateMessage",
-			Handler:    _PrivateMessageService_ListPrivateMessage_Handler,
+			MethodName: "List",
+			Handler:    _PrivateMessageService_List_Handler,
 		},
 		{
-			MethodName: "GetPrivateMessage",
-			Handler:    _PrivateMessageService_GetPrivateMessage_Handler,
+			MethodName: "Get",
+			Handler:    _PrivateMessageService_Get_Handler,
 		},
 		{
-			MethodName: "CreatePrivateMessage",
-			Handler:    _PrivateMessageService_CreatePrivateMessage_Handler,
+			MethodName: "Create",
+			Handler:    _PrivateMessageService_Create_Handler,
 		},
 		{
-			MethodName: "UpdatePrivateMessage",
-			Handler:    _PrivateMessageService_UpdatePrivateMessage_Handler,
+			MethodName: "Update",
+			Handler:    _PrivateMessageService_Update_Handler,
 		},
 		{
-			MethodName: "DeletePrivateMessage",
-			Handler:    _PrivateMessageService_DeletePrivateMessage_Handler,
+			MethodName: "Delete",
+			Handler:    _PrivateMessageService_Delete_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -12,19 +12,19 @@ import "pagination/v1/pagination.proto";
 // 组织服务
 service OrganizationService {
   // 查询组织列表
-  rpc ListOrganization (pagination.PagingRequest) returns (ListOrganizationResponse) {}
+  rpc List (pagination.PagingRequest) returns (ListOrganizationResponse) {}
 
   // 查询组织详情
-  rpc GetOrganization (GetOrganizationRequest) returns (Organization) {}
+  rpc Get (GetOrganizationRequest) returns (Organization) {}
 
   // 创建组织
-  rpc CreateOrganization (CreateOrganizationRequest) returns (google.protobuf.Empty) {}
+  rpc Create (CreateOrganizationRequest) returns (google.protobuf.Empty) {}
 
   // 更新组织
-  rpc UpdateOrganization (UpdateOrganizationRequest) returns (google.protobuf.Empty) {}
+  rpc Update (UpdateOrganizationRequest) returns (google.protobuf.Empty) {}
 
   // 删除组织
-  rpc DeleteOrganization (DeleteOrganizationRequest) returns (google.protobuf.Empty) {}
+  rpc Delete (DeleteOrganizationRequest) returns (google.protobuf.Empty) {}
 }
 
 // 组织

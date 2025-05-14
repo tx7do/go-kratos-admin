@@ -22,43 +22,43 @@ var _ = binding.EncodeURL
 
 const _ = http.SupportPackageIsVersion1
 
-const OperationNotificationMessageCategoryServiceCreateNotificationMessageCategory = "/admin.service.v1.NotificationMessageCategoryService/CreateNotificationMessageCategory"
-const OperationNotificationMessageCategoryServiceDeleteNotificationMessageCategory = "/admin.service.v1.NotificationMessageCategoryService/DeleteNotificationMessageCategory"
-const OperationNotificationMessageCategoryServiceGetNotificationMessageCategory = "/admin.service.v1.NotificationMessageCategoryService/GetNotificationMessageCategory"
-const OperationNotificationMessageCategoryServiceListNotificationMessageCategory = "/admin.service.v1.NotificationMessageCategoryService/ListNotificationMessageCategory"
-const OperationNotificationMessageCategoryServiceUpdateNotificationMessageCategory = "/admin.service.v1.NotificationMessageCategoryService/UpdateNotificationMessageCategory"
+const OperationNotificationMessageCategoryServiceCreate = "/admin.service.v1.NotificationMessageCategoryService/Create"
+const OperationNotificationMessageCategoryServiceDelete = "/admin.service.v1.NotificationMessageCategoryService/Delete"
+const OperationNotificationMessageCategoryServiceGet = "/admin.service.v1.NotificationMessageCategoryService/Get"
+const OperationNotificationMessageCategoryServiceList = "/admin.service.v1.NotificationMessageCategoryService/List"
+const OperationNotificationMessageCategoryServiceUpdate = "/admin.service.v1.NotificationMessageCategoryService/Update"
 
 type NotificationMessageCategoryServiceHTTPServer interface {
-	// CreateNotificationMessageCategory 创建通知消息分类
-	CreateNotificationMessageCategory(context.Context, *v11.CreateNotificationMessageCategoryRequest) (*emptypb.Empty, error)
-	// DeleteNotificationMessageCategory 删除通知消息分类
-	DeleteNotificationMessageCategory(context.Context, *v11.DeleteNotificationMessageCategoryRequest) (*emptypb.Empty, error)
-	// GetNotificationMessageCategory 查询通知消息分类详情
-	GetNotificationMessageCategory(context.Context, *v11.GetNotificationMessageCategoryRequest) (*v11.NotificationMessageCategory, error)
-	// ListNotificationMessageCategory 查询通知消息分类列表
-	ListNotificationMessageCategory(context.Context, *v1.PagingRequest) (*v11.ListNotificationMessageCategoryResponse, error)
-	// UpdateNotificationMessageCategory 更新通知消息分类
-	UpdateNotificationMessageCategory(context.Context, *v11.UpdateNotificationMessageCategoryRequest) (*emptypb.Empty, error)
+	// Create 创建通知消息分类
+	Create(context.Context, *v11.CreateNotificationMessageCategoryRequest) (*emptypb.Empty, error)
+	// Delete 删除通知消息分类
+	Delete(context.Context, *v11.DeleteNotificationMessageCategoryRequest) (*emptypb.Empty, error)
+	// Get 查询通知消息分类详情
+	Get(context.Context, *v11.GetNotificationMessageCategoryRequest) (*v11.NotificationMessageCategory, error)
+	// List 查询通知消息分类列表
+	List(context.Context, *v1.PagingRequest) (*v11.ListNotificationMessageCategoryResponse, error)
+	// Update 更新通知消息分类
+	Update(context.Context, *v11.UpdateNotificationMessageCategoryRequest) (*emptypb.Empty, error)
 }
 
 func RegisterNotificationMessageCategoryServiceHTTPServer(s *http.Server, srv NotificationMessageCategoryServiceHTTPServer) {
 	r := s.Route("/")
-	r.GET("/admin/v1/notifications:categories", _NotificationMessageCategoryService_ListNotificationMessageCategory0_HTTP_Handler(srv))
-	r.GET("/admin/v1/notifications:categories/{id}", _NotificationMessageCategoryService_GetNotificationMessageCategory0_HTTP_Handler(srv))
-	r.POST("/admin/v1/notifications:categories", _NotificationMessageCategoryService_CreateNotificationMessageCategory0_HTTP_Handler(srv))
-	r.PUT("/admin/v1/notifications:categories/{data.id}", _NotificationMessageCategoryService_UpdateNotificationMessageCategory0_HTTP_Handler(srv))
-	r.DELETE("/admin/v1/notifications:categories/{id}", _NotificationMessageCategoryService_DeleteNotificationMessageCategory0_HTTP_Handler(srv))
+	r.GET("/admin/v1/notifications:categories", _NotificationMessageCategoryService_List7_HTTP_Handler(srv))
+	r.GET("/admin/v1/notifications:categories/{id}", _NotificationMessageCategoryService_Get7_HTTP_Handler(srv))
+	r.POST("/admin/v1/notifications:categories", _NotificationMessageCategoryService_Create5_HTTP_Handler(srv))
+	r.PUT("/admin/v1/notifications:categories/{data.id}", _NotificationMessageCategoryService_Update5_HTTP_Handler(srv))
+	r.DELETE("/admin/v1/notifications:categories/{id}", _NotificationMessageCategoryService_Delete5_HTTP_Handler(srv))
 }
 
-func _NotificationMessageCategoryService_ListNotificationMessageCategory0_HTTP_Handler(srv NotificationMessageCategoryServiceHTTPServer) func(ctx http.Context) error {
+func _NotificationMessageCategoryService_List7_HTTP_Handler(srv NotificationMessageCategoryServiceHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
 		var in v1.PagingRequest
 		if err := ctx.BindQuery(&in); err != nil {
 			return err
 		}
-		http.SetOperation(ctx, OperationNotificationMessageCategoryServiceListNotificationMessageCategory)
+		http.SetOperation(ctx, OperationNotificationMessageCategoryServiceList)
 		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
-			return srv.ListNotificationMessageCategory(ctx, req.(*v1.PagingRequest))
+			return srv.List(ctx, req.(*v1.PagingRequest))
 		})
 		out, err := h(ctx, &in)
 		if err != nil {
@@ -69,7 +69,7 @@ func _NotificationMessageCategoryService_ListNotificationMessageCategory0_HTTP_H
 	}
 }
 
-func _NotificationMessageCategoryService_GetNotificationMessageCategory0_HTTP_Handler(srv NotificationMessageCategoryServiceHTTPServer) func(ctx http.Context) error {
+func _NotificationMessageCategoryService_Get7_HTTP_Handler(srv NotificationMessageCategoryServiceHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
 		var in v11.GetNotificationMessageCategoryRequest
 		if err := ctx.BindQuery(&in); err != nil {
@@ -78,9 +78,9 @@ func _NotificationMessageCategoryService_GetNotificationMessageCategory0_HTTP_Ha
 		if err := ctx.BindVars(&in); err != nil {
 			return err
 		}
-		http.SetOperation(ctx, OperationNotificationMessageCategoryServiceGetNotificationMessageCategory)
+		http.SetOperation(ctx, OperationNotificationMessageCategoryServiceGet)
 		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
-			return srv.GetNotificationMessageCategory(ctx, req.(*v11.GetNotificationMessageCategoryRequest))
+			return srv.Get(ctx, req.(*v11.GetNotificationMessageCategoryRequest))
 		})
 		out, err := h(ctx, &in)
 		if err != nil {
@@ -91,7 +91,7 @@ func _NotificationMessageCategoryService_GetNotificationMessageCategory0_HTTP_Ha
 	}
 }
 
-func _NotificationMessageCategoryService_CreateNotificationMessageCategory0_HTTP_Handler(srv NotificationMessageCategoryServiceHTTPServer) func(ctx http.Context) error {
+func _NotificationMessageCategoryService_Create5_HTTP_Handler(srv NotificationMessageCategoryServiceHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
 		var in v11.CreateNotificationMessageCategoryRequest
 		if err := ctx.Bind(&in); err != nil {
@@ -100,9 +100,9 @@ func _NotificationMessageCategoryService_CreateNotificationMessageCategory0_HTTP
 		if err := ctx.BindQuery(&in); err != nil {
 			return err
 		}
-		http.SetOperation(ctx, OperationNotificationMessageCategoryServiceCreateNotificationMessageCategory)
+		http.SetOperation(ctx, OperationNotificationMessageCategoryServiceCreate)
 		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
-			return srv.CreateNotificationMessageCategory(ctx, req.(*v11.CreateNotificationMessageCategoryRequest))
+			return srv.Create(ctx, req.(*v11.CreateNotificationMessageCategoryRequest))
 		})
 		out, err := h(ctx, &in)
 		if err != nil {
@@ -113,7 +113,7 @@ func _NotificationMessageCategoryService_CreateNotificationMessageCategory0_HTTP
 	}
 }
 
-func _NotificationMessageCategoryService_UpdateNotificationMessageCategory0_HTTP_Handler(srv NotificationMessageCategoryServiceHTTPServer) func(ctx http.Context) error {
+func _NotificationMessageCategoryService_Update5_HTTP_Handler(srv NotificationMessageCategoryServiceHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
 		var in v11.UpdateNotificationMessageCategoryRequest
 		if err := ctx.Bind(&in); err != nil {
@@ -125,9 +125,9 @@ func _NotificationMessageCategoryService_UpdateNotificationMessageCategory0_HTTP
 		if err := ctx.BindVars(&in); err != nil {
 			return err
 		}
-		http.SetOperation(ctx, OperationNotificationMessageCategoryServiceUpdateNotificationMessageCategory)
+		http.SetOperation(ctx, OperationNotificationMessageCategoryServiceUpdate)
 		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
-			return srv.UpdateNotificationMessageCategory(ctx, req.(*v11.UpdateNotificationMessageCategoryRequest))
+			return srv.Update(ctx, req.(*v11.UpdateNotificationMessageCategoryRequest))
 		})
 		out, err := h(ctx, &in)
 		if err != nil {
@@ -138,7 +138,7 @@ func _NotificationMessageCategoryService_UpdateNotificationMessageCategory0_HTTP
 	}
 }
 
-func _NotificationMessageCategoryService_DeleteNotificationMessageCategory0_HTTP_Handler(srv NotificationMessageCategoryServiceHTTPServer) func(ctx http.Context) error {
+func _NotificationMessageCategoryService_Delete5_HTTP_Handler(srv NotificationMessageCategoryServiceHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
 		var in v11.DeleteNotificationMessageCategoryRequest
 		if err := ctx.BindQuery(&in); err != nil {
@@ -147,9 +147,9 @@ func _NotificationMessageCategoryService_DeleteNotificationMessageCategory0_HTTP
 		if err := ctx.BindVars(&in); err != nil {
 			return err
 		}
-		http.SetOperation(ctx, OperationNotificationMessageCategoryServiceDeleteNotificationMessageCategory)
+		http.SetOperation(ctx, OperationNotificationMessageCategoryServiceDelete)
 		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
-			return srv.DeleteNotificationMessageCategory(ctx, req.(*v11.DeleteNotificationMessageCategoryRequest))
+			return srv.Delete(ctx, req.(*v11.DeleteNotificationMessageCategoryRequest))
 		})
 		out, err := h(ctx, &in)
 		if err != nil {
@@ -161,11 +161,11 @@ func _NotificationMessageCategoryService_DeleteNotificationMessageCategory0_HTTP
 }
 
 type NotificationMessageCategoryServiceHTTPClient interface {
-	CreateNotificationMessageCategory(ctx context.Context, req *v11.CreateNotificationMessageCategoryRequest, opts ...http.CallOption) (rsp *emptypb.Empty, err error)
-	DeleteNotificationMessageCategory(ctx context.Context, req *v11.DeleteNotificationMessageCategoryRequest, opts ...http.CallOption) (rsp *emptypb.Empty, err error)
-	GetNotificationMessageCategory(ctx context.Context, req *v11.GetNotificationMessageCategoryRequest, opts ...http.CallOption) (rsp *v11.NotificationMessageCategory, err error)
-	ListNotificationMessageCategory(ctx context.Context, req *v1.PagingRequest, opts ...http.CallOption) (rsp *v11.ListNotificationMessageCategoryResponse, err error)
-	UpdateNotificationMessageCategory(ctx context.Context, req *v11.UpdateNotificationMessageCategoryRequest, opts ...http.CallOption) (rsp *emptypb.Empty, err error)
+	Create(ctx context.Context, req *v11.CreateNotificationMessageCategoryRequest, opts ...http.CallOption) (rsp *emptypb.Empty, err error)
+	Delete(ctx context.Context, req *v11.DeleteNotificationMessageCategoryRequest, opts ...http.CallOption) (rsp *emptypb.Empty, err error)
+	Get(ctx context.Context, req *v11.GetNotificationMessageCategoryRequest, opts ...http.CallOption) (rsp *v11.NotificationMessageCategory, err error)
+	List(ctx context.Context, req *v1.PagingRequest, opts ...http.CallOption) (rsp *v11.ListNotificationMessageCategoryResponse, err error)
+	Update(ctx context.Context, req *v11.UpdateNotificationMessageCategoryRequest, opts ...http.CallOption) (rsp *emptypb.Empty, err error)
 }
 
 type NotificationMessageCategoryServiceHTTPClientImpl struct {
@@ -176,11 +176,11 @@ func NewNotificationMessageCategoryServiceHTTPClient(client *http.Client) Notifi
 	return &NotificationMessageCategoryServiceHTTPClientImpl{client}
 }
 
-func (c *NotificationMessageCategoryServiceHTTPClientImpl) CreateNotificationMessageCategory(ctx context.Context, in *v11.CreateNotificationMessageCategoryRequest, opts ...http.CallOption) (*emptypb.Empty, error) {
+func (c *NotificationMessageCategoryServiceHTTPClientImpl) Create(ctx context.Context, in *v11.CreateNotificationMessageCategoryRequest, opts ...http.CallOption) (*emptypb.Empty, error) {
 	var out emptypb.Empty
 	pattern := "/admin/v1/notifications:categories"
 	path := binding.EncodeURL(pattern, in, false)
-	opts = append(opts, http.Operation(OperationNotificationMessageCategoryServiceCreateNotificationMessageCategory))
+	opts = append(opts, http.Operation(OperationNotificationMessageCategoryServiceCreate))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
 	if err != nil {
@@ -189,11 +189,11 @@ func (c *NotificationMessageCategoryServiceHTTPClientImpl) CreateNotificationMes
 	return &out, nil
 }
 
-func (c *NotificationMessageCategoryServiceHTTPClientImpl) DeleteNotificationMessageCategory(ctx context.Context, in *v11.DeleteNotificationMessageCategoryRequest, opts ...http.CallOption) (*emptypb.Empty, error) {
+func (c *NotificationMessageCategoryServiceHTTPClientImpl) Delete(ctx context.Context, in *v11.DeleteNotificationMessageCategoryRequest, opts ...http.CallOption) (*emptypb.Empty, error) {
 	var out emptypb.Empty
 	pattern := "/admin/v1/notifications:categories/{id}"
 	path := binding.EncodeURL(pattern, in, true)
-	opts = append(opts, http.Operation(OperationNotificationMessageCategoryServiceDeleteNotificationMessageCategory))
+	opts = append(opts, http.Operation(OperationNotificationMessageCategoryServiceDelete))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "DELETE", path, nil, &out, opts...)
 	if err != nil {
@@ -202,11 +202,11 @@ func (c *NotificationMessageCategoryServiceHTTPClientImpl) DeleteNotificationMes
 	return &out, nil
 }
 
-func (c *NotificationMessageCategoryServiceHTTPClientImpl) GetNotificationMessageCategory(ctx context.Context, in *v11.GetNotificationMessageCategoryRequest, opts ...http.CallOption) (*v11.NotificationMessageCategory, error) {
+func (c *NotificationMessageCategoryServiceHTTPClientImpl) Get(ctx context.Context, in *v11.GetNotificationMessageCategoryRequest, opts ...http.CallOption) (*v11.NotificationMessageCategory, error) {
 	var out v11.NotificationMessageCategory
 	pattern := "/admin/v1/notifications:categories/{id}"
 	path := binding.EncodeURL(pattern, in, true)
-	opts = append(opts, http.Operation(OperationNotificationMessageCategoryServiceGetNotificationMessageCategory))
+	opts = append(opts, http.Operation(OperationNotificationMessageCategoryServiceGet))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
 	if err != nil {
@@ -215,11 +215,11 @@ func (c *NotificationMessageCategoryServiceHTTPClientImpl) GetNotificationMessag
 	return &out, nil
 }
 
-func (c *NotificationMessageCategoryServiceHTTPClientImpl) ListNotificationMessageCategory(ctx context.Context, in *v1.PagingRequest, opts ...http.CallOption) (*v11.ListNotificationMessageCategoryResponse, error) {
+func (c *NotificationMessageCategoryServiceHTTPClientImpl) List(ctx context.Context, in *v1.PagingRequest, opts ...http.CallOption) (*v11.ListNotificationMessageCategoryResponse, error) {
 	var out v11.ListNotificationMessageCategoryResponse
 	pattern := "/admin/v1/notifications:categories"
 	path := binding.EncodeURL(pattern, in, true)
-	opts = append(opts, http.Operation(OperationNotificationMessageCategoryServiceListNotificationMessageCategory))
+	opts = append(opts, http.Operation(OperationNotificationMessageCategoryServiceList))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
 	if err != nil {
@@ -228,11 +228,11 @@ func (c *NotificationMessageCategoryServiceHTTPClientImpl) ListNotificationMessa
 	return &out, nil
 }
 
-func (c *NotificationMessageCategoryServiceHTTPClientImpl) UpdateNotificationMessageCategory(ctx context.Context, in *v11.UpdateNotificationMessageCategoryRequest, opts ...http.CallOption) (*emptypb.Empty, error) {
+func (c *NotificationMessageCategoryServiceHTTPClientImpl) Update(ctx context.Context, in *v11.UpdateNotificationMessageCategoryRequest, opts ...http.CallOption) (*emptypb.Empty, error) {
 	var out emptypb.Empty
 	pattern := "/admin/v1/notifications:categories/{data.id}"
 	path := binding.EncodeURL(pattern, in, false)
-	opts = append(opts, http.Operation(OperationNotificationMessageCategoryServiceUpdateNotificationMessageCategory))
+	opts = append(opts, http.Operation(OperationNotificationMessageCategoryServiceUpdate))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "PUT", path, in, &out, opts...)
 	if err != nil {

@@ -31,15 +31,15 @@ func NewDepartmentService(uc *data.DepartmentRepo, logger log.Logger) *Departmen
 	}
 }
 
-func (s *DepartmentService) ListDepartment(ctx context.Context, req *pagination.PagingRequest) (*userV1.ListDepartmentResponse, error) {
+func (s *DepartmentService) List(ctx context.Context, req *pagination.PagingRequest) (*userV1.ListDepartmentResponse, error) {
 	return s.uc.List(ctx, req)
 }
 
-func (s *DepartmentService) GetDepartment(ctx context.Context, req *userV1.GetDepartmentRequest) (*userV1.Department, error) {
+func (s *DepartmentService) Get(ctx context.Context, req *userV1.GetDepartmentRequest) (*userV1.Department, error) {
 	return s.uc.Get(ctx, req)
 }
 
-func (s *DepartmentService) CreateDepartment(ctx context.Context, req *userV1.CreateDepartmentRequest) (*emptypb.Empty, error) {
+func (s *DepartmentService) Create(ctx context.Context, req *userV1.CreateDepartmentRequest) (*emptypb.Empty, error) {
 	if req.Data == nil {
 		return nil, adminV1.ErrorBadRequest("错误的参数")
 	}
@@ -57,7 +57,7 @@ func (s *DepartmentService) CreateDepartment(ctx context.Context, req *userV1.Cr
 	return &emptypb.Empty{}, nil
 }
 
-func (s *DepartmentService) UpdateDepartment(ctx context.Context, req *userV1.UpdateDepartmentRequest) (*emptypb.Empty, error) {
+func (s *DepartmentService) Update(ctx context.Context, req *userV1.UpdateDepartmentRequest) (*emptypb.Empty, error) {
 	if req.Data == nil {
 		return nil, adminV1.ErrorBadRequest("错误的参数")
 	}
@@ -75,7 +75,7 @@ func (s *DepartmentService) UpdateDepartment(ctx context.Context, req *userV1.Up
 	return &emptypb.Empty{}, nil
 }
 
-func (s *DepartmentService) DeleteDepartment(ctx context.Context, req *userV1.DeleteDepartmentRequest) (*emptypb.Empty, error) {
+func (s *DepartmentService) Delete(ctx context.Context, req *userV1.DeleteDepartmentRequest) (*emptypb.Empty, error) {
 	if _, err := s.uc.Delete(ctx, req); err != nil {
 		return nil, err
 	}

@@ -21,11 +21,11 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	FileService_ListFile_FullMethodName   = "/file.service.v1.FileService/ListFile"
-	FileService_GetFile_FullMethodName    = "/file.service.v1.FileService/GetFile"
-	FileService_CreateFile_FullMethodName = "/file.service.v1.FileService/CreateFile"
-	FileService_UpdateFile_FullMethodName = "/file.service.v1.FileService/UpdateFile"
-	FileService_DeleteFile_FullMethodName = "/file.service.v1.FileService/DeleteFile"
+	FileService_List_FullMethodName   = "/file.service.v1.FileService/List"
+	FileService_Get_FullMethodName    = "/file.service.v1.FileService/Get"
+	FileService_Create_FullMethodName = "/file.service.v1.FileService/Create"
+	FileService_Update_FullMethodName = "/file.service.v1.FileService/Update"
+	FileService_Delete_FullMethodName = "/file.service.v1.FileService/Delete"
 )
 
 // FileServiceClient is the client API for FileService service.
@@ -35,15 +35,15 @@ const (
 // 文件服务
 type FileServiceClient interface {
 	// 获取文件列表
-	ListFile(ctx context.Context, in *v1.PagingRequest, opts ...grpc.CallOption) (*ListFileResponse, error)
+	List(ctx context.Context, in *v1.PagingRequest, opts ...grpc.CallOption) (*ListFileResponse, error)
 	// 获取文件数据
-	GetFile(ctx context.Context, in *GetFileRequest, opts ...grpc.CallOption) (*File, error)
+	Get(ctx context.Context, in *GetFileRequest, opts ...grpc.CallOption) (*File, error)
 	// 创建文件
-	CreateFile(ctx context.Context, in *CreateFileRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	Create(ctx context.Context, in *CreateFileRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	// 更新文件
-	UpdateFile(ctx context.Context, in *UpdateFileRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	Update(ctx context.Context, in *UpdateFileRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	// 删除文件
-	DeleteFile(ctx context.Context, in *DeleteFileRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	Delete(ctx context.Context, in *DeleteFileRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 }
 
 type fileServiceClient struct {
@@ -54,50 +54,50 @@ func NewFileServiceClient(cc grpc.ClientConnInterface) FileServiceClient {
 	return &fileServiceClient{cc}
 }
 
-func (c *fileServiceClient) ListFile(ctx context.Context, in *v1.PagingRequest, opts ...grpc.CallOption) (*ListFileResponse, error) {
+func (c *fileServiceClient) List(ctx context.Context, in *v1.PagingRequest, opts ...grpc.CallOption) (*ListFileResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(ListFileResponse)
-	err := c.cc.Invoke(ctx, FileService_ListFile_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, FileService_List_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *fileServiceClient) GetFile(ctx context.Context, in *GetFileRequest, opts ...grpc.CallOption) (*File, error) {
+func (c *fileServiceClient) Get(ctx context.Context, in *GetFileRequest, opts ...grpc.CallOption) (*File, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(File)
-	err := c.cc.Invoke(ctx, FileService_GetFile_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, FileService_Get_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *fileServiceClient) CreateFile(ctx context.Context, in *CreateFileRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+func (c *fileServiceClient) Create(ctx context.Context, in *CreateFileRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(emptypb.Empty)
-	err := c.cc.Invoke(ctx, FileService_CreateFile_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, FileService_Create_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *fileServiceClient) UpdateFile(ctx context.Context, in *UpdateFileRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+func (c *fileServiceClient) Update(ctx context.Context, in *UpdateFileRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(emptypb.Empty)
-	err := c.cc.Invoke(ctx, FileService_UpdateFile_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, FileService_Update_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *fileServiceClient) DeleteFile(ctx context.Context, in *DeleteFileRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+func (c *fileServiceClient) Delete(ctx context.Context, in *DeleteFileRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(emptypb.Empty)
-	err := c.cc.Invoke(ctx, FileService_DeleteFile_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, FileService_Delete_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -111,15 +111,15 @@ func (c *fileServiceClient) DeleteFile(ctx context.Context, in *DeleteFileReques
 // 文件服务
 type FileServiceServer interface {
 	// 获取文件列表
-	ListFile(context.Context, *v1.PagingRequest) (*ListFileResponse, error)
+	List(context.Context, *v1.PagingRequest) (*ListFileResponse, error)
 	// 获取文件数据
-	GetFile(context.Context, *GetFileRequest) (*File, error)
+	Get(context.Context, *GetFileRequest) (*File, error)
 	// 创建文件
-	CreateFile(context.Context, *CreateFileRequest) (*emptypb.Empty, error)
+	Create(context.Context, *CreateFileRequest) (*emptypb.Empty, error)
 	// 更新文件
-	UpdateFile(context.Context, *UpdateFileRequest) (*emptypb.Empty, error)
+	Update(context.Context, *UpdateFileRequest) (*emptypb.Empty, error)
 	// 删除文件
-	DeleteFile(context.Context, *DeleteFileRequest) (*emptypb.Empty, error)
+	Delete(context.Context, *DeleteFileRequest) (*emptypb.Empty, error)
 	mustEmbedUnimplementedFileServiceServer()
 }
 
@@ -130,20 +130,20 @@ type FileServiceServer interface {
 // pointer dereference when methods are called.
 type UnimplementedFileServiceServer struct{}
 
-func (UnimplementedFileServiceServer) ListFile(context.Context, *v1.PagingRequest) (*ListFileResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ListFile not implemented")
+func (UnimplementedFileServiceServer) List(context.Context, *v1.PagingRequest) (*ListFileResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method List not implemented")
 }
-func (UnimplementedFileServiceServer) GetFile(context.Context, *GetFileRequest) (*File, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetFile not implemented")
+func (UnimplementedFileServiceServer) Get(context.Context, *GetFileRequest) (*File, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Get not implemented")
 }
-func (UnimplementedFileServiceServer) CreateFile(context.Context, *CreateFileRequest) (*emptypb.Empty, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CreateFile not implemented")
+func (UnimplementedFileServiceServer) Create(context.Context, *CreateFileRequest) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Create not implemented")
 }
-func (UnimplementedFileServiceServer) UpdateFile(context.Context, *UpdateFileRequest) (*emptypb.Empty, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UpdateFile not implemented")
+func (UnimplementedFileServiceServer) Update(context.Context, *UpdateFileRequest) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Update not implemented")
 }
-func (UnimplementedFileServiceServer) DeleteFile(context.Context, *DeleteFileRequest) (*emptypb.Empty, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DeleteFile not implemented")
+func (UnimplementedFileServiceServer) Delete(context.Context, *DeleteFileRequest) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Delete not implemented")
 }
 func (UnimplementedFileServiceServer) mustEmbedUnimplementedFileServiceServer() {}
 func (UnimplementedFileServiceServer) testEmbeddedByValue()                     {}
@@ -166,92 +166,92 @@ func RegisterFileServiceServer(s grpc.ServiceRegistrar, srv FileServiceServer) {
 	s.RegisterService(&FileService_ServiceDesc, srv)
 }
 
-func _FileService_ListFile_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _FileService_List_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(v1.PagingRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(FileServiceServer).ListFile(ctx, in)
+		return srv.(FileServiceServer).List(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: FileService_ListFile_FullMethodName,
+		FullMethod: FileService_List_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(FileServiceServer).ListFile(ctx, req.(*v1.PagingRequest))
+		return srv.(FileServiceServer).List(ctx, req.(*v1.PagingRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _FileService_GetFile_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _FileService_Get_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetFileRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(FileServiceServer).GetFile(ctx, in)
+		return srv.(FileServiceServer).Get(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: FileService_GetFile_FullMethodName,
+		FullMethod: FileService_Get_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(FileServiceServer).GetFile(ctx, req.(*GetFileRequest))
+		return srv.(FileServiceServer).Get(ctx, req.(*GetFileRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _FileService_CreateFile_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _FileService_Create_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(CreateFileRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(FileServiceServer).CreateFile(ctx, in)
+		return srv.(FileServiceServer).Create(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: FileService_CreateFile_FullMethodName,
+		FullMethod: FileService_Create_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(FileServiceServer).CreateFile(ctx, req.(*CreateFileRequest))
+		return srv.(FileServiceServer).Create(ctx, req.(*CreateFileRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _FileService_UpdateFile_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _FileService_Update_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(UpdateFileRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(FileServiceServer).UpdateFile(ctx, in)
+		return srv.(FileServiceServer).Update(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: FileService_UpdateFile_FullMethodName,
+		FullMethod: FileService_Update_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(FileServiceServer).UpdateFile(ctx, req.(*UpdateFileRequest))
+		return srv.(FileServiceServer).Update(ctx, req.(*UpdateFileRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _FileService_DeleteFile_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _FileService_Delete_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(DeleteFileRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(FileServiceServer).DeleteFile(ctx, in)
+		return srv.(FileServiceServer).Delete(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: FileService_DeleteFile_FullMethodName,
+		FullMethod: FileService_Delete_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(FileServiceServer).DeleteFile(ctx, req.(*DeleteFileRequest))
+		return srv.(FileServiceServer).Delete(ctx, req.(*DeleteFileRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -264,24 +264,24 @@ var FileService_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*FileServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "ListFile",
-			Handler:    _FileService_ListFile_Handler,
+			MethodName: "List",
+			Handler:    _FileService_List_Handler,
 		},
 		{
-			MethodName: "GetFile",
-			Handler:    _FileService_GetFile_Handler,
+			MethodName: "Get",
+			Handler:    _FileService_Get_Handler,
 		},
 		{
-			MethodName: "CreateFile",
-			Handler:    _FileService_CreateFile_Handler,
+			MethodName: "Create",
+			Handler:    _FileService_Create_Handler,
 		},
 		{
-			MethodName: "UpdateFile",
-			Handler:    _FileService_UpdateFile_Handler,
+			MethodName: "Update",
+			Handler:    _FileService_Update_Handler,
 		},
 		{
-			MethodName: "DeleteFile",
-			Handler:    _FileService_DeleteFile_Handler,
+			MethodName: "Delete",
+			Handler:    _FileService_Delete_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

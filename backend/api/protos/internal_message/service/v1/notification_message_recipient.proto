@@ -16,19 +16,19 @@ import "pagination/v1/pagination.proto";
 // 通知消息接收者服务
 service NotificationMessageRecipientService {
   // 查询通知消息接收者列表
-  rpc ListNotificationMessageRecipient (pagination.PagingRequest) returns (ListNotificationMessageRecipientResponse) {}
+  rpc List (pagination.PagingRequest) returns (ListNotificationMessageRecipientResponse) {}
 
   // 查询通知消息接收者详情
-  rpc GetNotificationMessageRecipient (GetNotificationMessageRecipientRequest) returns (NotificationMessageRecipient) {}
+  rpc Get (GetNotificationMessageRecipientRequest) returns (NotificationMessageRecipient) {}
 
   // 创建通知消息接收者
-  rpc CreateNotificationMessageRecipient (CreateNotificationMessageRecipientRequest) returns (google.protobuf.Empty) {}
+  rpc Create (CreateNotificationMessageRecipientRequest) returns (google.protobuf.Empty) {}
 
   // 更新通知消息接收者
-  rpc UpdateNotificationMessageRecipient (UpdateNotificationMessageRecipientRequest) returns (google.protobuf.Empty) {}
+  rpc Update (UpdateNotificationMessageRecipientRequest) returns (google.protobuf.Empty) {}
 
   // 删除通知消息接收者
-  rpc DeleteNotificationMessageRecipient (DeleteNotificationMessageRecipientRequest) returns (google.protobuf.Empty) {}
+  rpc Delete (DeleteNotificationMessageRecipientRequest) returns (google.protobuf.Empty) {}
 }
 
 // 通知消息接收者状态

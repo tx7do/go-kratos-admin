@@ -30,15 +30,15 @@ func NewOrganizationService(uc *data.OrganizationRepo, logger log.Logger) *Organ
 	}
 }
 
-func (s *OrganizationService) ListOrganization(ctx context.Context, req *pagination.PagingRequest) (*userV1.ListOrganizationResponse, error) {
+func (s *OrganizationService) List(ctx context.Context, req *pagination.PagingRequest) (*userV1.ListOrganizationResponse, error) {
 	return s.uc.List(ctx, req)
 }
 
-func (s *OrganizationService) GetOrganization(ctx context.Context, req *userV1.GetOrganizationRequest) (*userV1.Organization, error) {
+func (s *OrganizationService) Get(ctx context.Context, req *userV1.GetOrganizationRequest) (*userV1.Organization, error) {
 	return s.uc.Get(ctx, req)
 }
 
-func (s *OrganizationService) CreateOrganization(ctx context.Context, req *userV1.CreateOrganizationRequest) (*emptypb.Empty, error) {
+func (s *OrganizationService) Create(ctx context.Context, req *userV1.CreateOrganizationRequest) (*emptypb.Empty, error) {
 	if req.Data == nil {
 		return nil, adminV1.ErrorBadRequest("错误的参数")
 	}
@@ -56,7 +56,7 @@ func (s *OrganizationService) CreateOrganization(ctx context.Context, req *userV
 	return &emptypb.Empty{}, nil
 }
 
-func (s *OrganizationService) UpdateOrganization(ctx context.Context, req *userV1.UpdateOrganizationRequest) (*emptypb.Empty, error) {
+func (s *OrganizationService) Update(ctx context.Context, req *userV1.UpdateOrganizationRequest) (*emptypb.Empty, error) {
 	if req.Data == nil {
 		return nil, adminV1.ErrorBadRequest("错误的参数")
 	}
@@ -74,7 +74,7 @@ func (s *OrganizationService) UpdateOrganization(ctx context.Context, req *userV
 	return &emptypb.Empty{}, nil
 }
 
-func (s *OrganizationService) DeleteOrganization(ctx context.Context, req *userV1.DeleteOrganizationRequest) (*emptypb.Empty, error) {
+func (s *OrganizationService) Delete(ctx context.Context, req *userV1.DeleteOrganizationRequest) (*emptypb.Empty, error) {
 	if _, err := s.uc.Delete(ctx, req); err != nil {
 		return nil, err
 	}

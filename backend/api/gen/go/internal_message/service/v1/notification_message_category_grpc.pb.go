@@ -21,11 +21,11 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	NotificationMessageCategoryService_ListNotificationMessageCategory_FullMethodName   = "/internal_message.service.v1.NotificationMessageCategoryService/ListNotificationMessageCategory"
-	NotificationMessageCategoryService_GetNotificationMessageCategory_FullMethodName    = "/internal_message.service.v1.NotificationMessageCategoryService/GetNotificationMessageCategory"
-	NotificationMessageCategoryService_CreateNotificationMessageCategory_FullMethodName = "/internal_message.service.v1.NotificationMessageCategoryService/CreateNotificationMessageCategory"
-	NotificationMessageCategoryService_UpdateNotificationMessageCategory_FullMethodName = "/internal_message.service.v1.NotificationMessageCategoryService/UpdateNotificationMessageCategory"
-	NotificationMessageCategoryService_DeleteNotificationMessageCategory_FullMethodName = "/internal_message.service.v1.NotificationMessageCategoryService/DeleteNotificationMessageCategory"
+	NotificationMessageCategoryService_List_FullMethodName   = "/internal_message.service.v1.NotificationMessageCategoryService/List"
+	NotificationMessageCategoryService_Get_FullMethodName    = "/internal_message.service.v1.NotificationMessageCategoryService/Get"
+	NotificationMessageCategoryService_Create_FullMethodName = "/internal_message.service.v1.NotificationMessageCategoryService/Create"
+	NotificationMessageCategoryService_Update_FullMethodName = "/internal_message.service.v1.NotificationMessageCategoryService/Update"
+	NotificationMessageCategoryService_Delete_FullMethodName = "/internal_message.service.v1.NotificationMessageCategoryService/Delete"
 )
 
 // NotificationMessageCategoryServiceClient is the client API for NotificationMessageCategoryService service.
@@ -35,15 +35,15 @@ const (
 // 通知消息分类服务
 type NotificationMessageCategoryServiceClient interface {
 	// 查询通知消息分类列表
-	ListNotificationMessageCategory(ctx context.Context, in *v1.PagingRequest, opts ...grpc.CallOption) (*ListNotificationMessageCategoryResponse, error)
+	List(ctx context.Context, in *v1.PagingRequest, opts ...grpc.CallOption) (*ListNotificationMessageCategoryResponse, error)
 	// 查询通知消息分类详情
-	GetNotificationMessageCategory(ctx context.Context, in *GetNotificationMessageCategoryRequest, opts ...grpc.CallOption) (*NotificationMessageCategory, error)
+	Get(ctx context.Context, in *GetNotificationMessageCategoryRequest, opts ...grpc.CallOption) (*NotificationMessageCategory, error)
 	// 创建通知消息分类
-	CreateNotificationMessageCategory(ctx context.Context, in *CreateNotificationMessageCategoryRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	Create(ctx context.Context, in *CreateNotificationMessageCategoryRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	// 更新通知消息分类
-	UpdateNotificationMessageCategory(ctx context.Context, in *UpdateNotificationMessageCategoryRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	Update(ctx context.Context, in *UpdateNotificationMessageCategoryRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	// 删除通知消息分类
-	DeleteNotificationMessageCategory(ctx context.Context, in *DeleteNotificationMessageCategoryRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	Delete(ctx context.Context, in *DeleteNotificationMessageCategoryRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 }
 
 type notificationMessageCategoryServiceClient struct {
@@ -54,50 +54,50 @@ func NewNotificationMessageCategoryServiceClient(cc grpc.ClientConnInterface) No
 	return &notificationMessageCategoryServiceClient{cc}
 }
 
-func (c *notificationMessageCategoryServiceClient) ListNotificationMessageCategory(ctx context.Context, in *v1.PagingRequest, opts ...grpc.CallOption) (*ListNotificationMessageCategoryResponse, error) {
+func (c *notificationMessageCategoryServiceClient) List(ctx context.Context, in *v1.PagingRequest, opts ...grpc.CallOption) (*ListNotificationMessageCategoryResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(ListNotificationMessageCategoryResponse)
-	err := c.cc.Invoke(ctx, NotificationMessageCategoryService_ListNotificationMessageCategory_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, NotificationMessageCategoryService_List_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *notificationMessageCategoryServiceClient) GetNotificationMessageCategory(ctx context.Context, in *GetNotificationMessageCategoryRequest, opts ...grpc.CallOption) (*NotificationMessageCategory, error) {
+func (c *notificationMessageCategoryServiceClient) Get(ctx context.Context, in *GetNotificationMessageCategoryRequest, opts ...grpc.CallOption) (*NotificationMessageCategory, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(NotificationMessageCategory)
-	err := c.cc.Invoke(ctx, NotificationMessageCategoryService_GetNotificationMessageCategory_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, NotificationMessageCategoryService_Get_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *notificationMessageCategoryServiceClient) CreateNotificationMessageCategory(ctx context.Context, in *CreateNotificationMessageCategoryRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+func (c *notificationMessageCategoryServiceClient) Create(ctx context.Context, in *CreateNotificationMessageCategoryRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(emptypb.Empty)
-	err := c.cc.Invoke(ctx, NotificationMessageCategoryService_CreateNotificationMessageCategory_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, NotificationMessageCategoryService_Create_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *notificationMessageCategoryServiceClient) UpdateNotificationMessageCategory(ctx context.Context, in *UpdateNotificationMessageCategoryRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+func (c *notificationMessageCategoryServiceClient) Update(ctx context.Context, in *UpdateNotificationMessageCategoryRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(emptypb.Empty)
-	err := c.cc.Invoke(ctx, NotificationMessageCategoryService_UpdateNotificationMessageCategory_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, NotificationMessageCategoryService_Update_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *notificationMessageCategoryServiceClient) DeleteNotificationMessageCategory(ctx context.Context, in *DeleteNotificationMessageCategoryRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+func (c *notificationMessageCategoryServiceClient) Delete(ctx context.Context, in *DeleteNotificationMessageCategoryRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(emptypb.Empty)
-	err := c.cc.Invoke(ctx, NotificationMessageCategoryService_DeleteNotificationMessageCategory_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, NotificationMessageCategoryService_Delete_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -111,15 +111,15 @@ func (c *notificationMessageCategoryServiceClient) DeleteNotificationMessageCate
 // 通知消息分类服务
 type NotificationMessageCategoryServiceServer interface {
 	// 查询通知消息分类列表
-	ListNotificationMessageCategory(context.Context, *v1.PagingRequest) (*ListNotificationMessageCategoryResponse, error)
+	List(context.Context, *v1.PagingRequest) (*ListNotificationMessageCategoryResponse, error)
 	// 查询通知消息分类详情
-	GetNotificationMessageCategory(context.Context, *GetNotificationMessageCategoryRequest) (*NotificationMessageCategory, error)
+	Get(context.Context, *GetNotificationMessageCategoryRequest) (*NotificationMessageCategory, error)
 	// 创建通知消息分类
-	CreateNotificationMessageCategory(context.Context, *CreateNotificationMessageCategoryRequest) (*emptypb.Empty, error)
+	Create(context.Context, *CreateNotificationMessageCategoryRequest) (*emptypb.Empty, error)
 	// 更新通知消息分类
-	UpdateNotificationMessageCategory(context.Context, *UpdateNotificationMessageCategoryRequest) (*emptypb.Empty, error)
+	Update(context.Context, *UpdateNotificationMessageCategoryRequest) (*emptypb.Empty, error)
 	// 删除通知消息分类
-	DeleteNotificationMessageCategory(context.Context, *DeleteNotificationMessageCategoryRequest) (*emptypb.Empty, error)
+	Delete(context.Context, *DeleteNotificationMessageCategoryRequest) (*emptypb.Empty, error)
 	mustEmbedUnimplementedNotificationMessageCategoryServiceServer()
 }
 
@@ -130,20 +130,20 @@ type NotificationMessageCategoryServiceServer interface {
 // pointer dereference when methods are called.
 type UnimplementedNotificationMessageCategoryServiceServer struct{}
 
-func (UnimplementedNotificationMessageCategoryServiceServer) ListNotificationMessageCategory(context.Context, *v1.PagingRequest) (*ListNotificationMessageCategoryResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ListNotificationMessageCategory not implemented")
+func (UnimplementedNotificationMessageCategoryServiceServer) List(context.Context, *v1.PagingRequest) (*ListNotificationMessageCategoryResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method List not implemented")
 }
-func (UnimplementedNotificationMessageCategoryServiceServer) GetNotificationMessageCategory(context.Context, *GetNotificationMessageCategoryRequest) (*NotificationMessageCategory, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetNotificationMessageCategory not implemented")
+func (UnimplementedNotificationMessageCategoryServiceServer) Get(context.Context, *GetNotificationMessageCategoryRequest) (*NotificationMessageCategory, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Get not implemented")
 }
-func (UnimplementedNotificationMessageCategoryServiceServer) CreateNotificationMessageCategory(context.Context, *CreateNotificationMessageCategoryRequest) (*emptypb.Empty, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CreateNotificationMessageCategory not implemented")
+func (UnimplementedNotificationMessageCategoryServiceServer) Create(context.Context, *CreateNotificationMessageCategoryRequest) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Create not implemented")
 }
-func (UnimplementedNotificationMessageCategoryServiceServer) UpdateNotificationMessageCategory(context.Context, *UpdateNotificationMessageCategoryRequest) (*emptypb.Empty, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UpdateNotificationMessageCategory not implemented")
+func (UnimplementedNotificationMessageCategoryServiceServer) Update(context.Context, *UpdateNotificationMessageCategoryRequest) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Update not implemented")
 }
-func (UnimplementedNotificationMessageCategoryServiceServer) DeleteNotificationMessageCategory(context.Context, *DeleteNotificationMessageCategoryRequest) (*emptypb.Empty, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DeleteNotificationMessageCategory not implemented")
+func (UnimplementedNotificationMessageCategoryServiceServer) Delete(context.Context, *DeleteNotificationMessageCategoryRequest) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Delete not implemented")
 }
 func (UnimplementedNotificationMessageCategoryServiceServer) mustEmbedUnimplementedNotificationMessageCategoryServiceServer() {
 }
@@ -167,92 +167,92 @@ func RegisterNotificationMessageCategoryServiceServer(s grpc.ServiceRegistrar, s
 	s.RegisterService(&NotificationMessageCategoryService_ServiceDesc, srv)
 }
 
-func _NotificationMessageCategoryService_ListNotificationMessageCategory_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _NotificationMessageCategoryService_List_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(v1.PagingRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(NotificationMessageCategoryServiceServer).ListNotificationMessageCategory(ctx, in)
+		return srv.(NotificationMessageCategoryServiceServer).List(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: NotificationMessageCategoryService_ListNotificationMessageCategory_FullMethodName,
+		FullMethod: NotificationMessageCategoryService_List_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(NotificationMessageCategoryServiceServer).ListNotificationMessageCategory(ctx, req.(*v1.PagingRequest))
+		return srv.(NotificationMessageCategoryServiceServer).List(ctx, req.(*v1.PagingRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _NotificationMessageCategoryService_GetNotificationMessageCategory_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _NotificationMessageCategoryService_Get_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetNotificationMessageCategoryRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(NotificationMessageCategoryServiceServer).GetNotificationMessageCategory(ctx, in)
+		return srv.(NotificationMessageCategoryServiceServer).Get(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: NotificationMessageCategoryService_GetNotificationMessageCategory_FullMethodName,
+		FullMethod: NotificationMessageCategoryService_Get_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(NotificationMessageCategoryServiceServer).GetNotificationMessageCategory(ctx, req.(*GetNotificationMessageCategoryRequest))
+		return srv.(NotificationMessageCategoryServiceServer).Get(ctx, req.(*GetNotificationMessageCategoryRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _NotificationMessageCategoryService_CreateNotificationMessageCategory_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _NotificationMessageCategoryService_Create_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(CreateNotificationMessageCategoryRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(NotificationMessageCategoryServiceServer).CreateNotificationMessageCategory(ctx, in)
+		return srv.(NotificationMessageCategoryServiceServer).Create(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: NotificationMessageCategoryService_CreateNotificationMessageCategory_FullMethodName,
+		FullMethod: NotificationMessageCategoryService_Create_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(NotificationMessageCategoryServiceServer).CreateNotificationMessageCategory(ctx, req.(*CreateNotificationMessageCategoryRequest))
+		return srv.(NotificationMessageCategoryServiceServer).Create(ctx, req.(*CreateNotificationMessageCategoryRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _NotificationMessageCategoryService_UpdateNotificationMessageCategory_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _NotificationMessageCategoryService_Update_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(UpdateNotificationMessageCategoryRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(NotificationMessageCategoryServiceServer).UpdateNotificationMessageCategory(ctx, in)
+		return srv.(NotificationMessageCategoryServiceServer).Update(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: NotificationMessageCategoryService_UpdateNotificationMessageCategory_FullMethodName,
+		FullMethod: NotificationMessageCategoryService_Update_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(NotificationMessageCategoryServiceServer).UpdateNotificationMessageCategory(ctx, req.(*UpdateNotificationMessageCategoryRequest))
+		return srv.(NotificationMessageCategoryServiceServer).Update(ctx, req.(*UpdateNotificationMessageCategoryRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _NotificationMessageCategoryService_DeleteNotificationMessageCategory_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _NotificationMessageCategoryService_Delete_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(DeleteNotificationMessageCategoryRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(NotificationMessageCategoryServiceServer).DeleteNotificationMessageCategory(ctx, in)
+		return srv.(NotificationMessageCategoryServiceServer).Delete(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: NotificationMessageCategoryService_DeleteNotificationMessageCategory_FullMethodName,
+		FullMethod: NotificationMessageCategoryService_Delete_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(NotificationMessageCategoryServiceServer).DeleteNotificationMessageCategory(ctx, req.(*DeleteNotificationMessageCategoryRequest))
+		return srv.(NotificationMessageCategoryServiceServer).Delete(ctx, req.(*DeleteNotificationMessageCategoryRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -265,24 +265,24 @@ var NotificationMessageCategoryService_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*NotificationMessageCategoryServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "ListNotificationMessageCategory",
-			Handler:    _NotificationMessageCategoryService_ListNotificationMessageCategory_Handler,
+			MethodName: "List",
+			Handler:    _NotificationMessageCategoryService_List_Handler,
 		},
 		{
-			MethodName: "GetNotificationMessageCategory",
-			Handler:    _NotificationMessageCategoryService_GetNotificationMessageCategory_Handler,
+			MethodName: "Get",
+			Handler:    _NotificationMessageCategoryService_Get_Handler,
 		},
 		{
-			MethodName: "CreateNotificationMessageCategory",
-			Handler:    _NotificationMessageCategoryService_CreateNotificationMessageCategory_Handler,
+			MethodName: "Create",
+			Handler:    _NotificationMessageCategoryService_Create_Handler,
 		},
 		{
-			MethodName: "UpdateNotificationMessageCategory",
-			Handler:    _NotificationMessageCategoryService_UpdateNotificationMessageCategory_Handler,
+			MethodName: "Update",
+			Handler:    _NotificationMessageCategoryService_Update_Handler,
 		},
 		{
-			MethodName: "DeleteNotificationMessageCategory",
-			Handler:    _NotificationMessageCategoryService_DeleteNotificationMessageCategory_Handler,
+			MethodName: "Delete",
+			Handler:    _NotificationMessageCategoryService_Delete_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

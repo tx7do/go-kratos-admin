@@ -21,31 +21,31 @@ var _ = binding.EncodeURL
 
 const _ = http.SupportPackageIsVersion1
 
-const OperationAdminLoginLogServiceGetAdminLoginLog = "/admin.service.v1.AdminLoginLogService/GetAdminLoginLog"
-const OperationAdminLoginLogServiceListAdminLoginLog = "/admin.service.v1.AdminLoginLogService/ListAdminLoginLog"
+const OperationAdminLoginLogServiceGet = "/admin.service.v1.AdminLoginLogService/Get"
+const OperationAdminLoginLogServiceList = "/admin.service.v1.AdminLoginLogService/List"
 
 type AdminLoginLogServiceHTTPServer interface {
-	// GetAdminLoginLog 查询后台登录日志详情
-	GetAdminLoginLog(context.Context, *v11.GetAdminLoginLogRequest) (*v11.AdminLoginLog, error)
-	// ListAdminLoginLog 查询后台登录日志列表
-	ListAdminLoginLog(context.Context, *v1.PagingRequest) (*v11.ListAdminLoginLogResponse, error)
+	// Get 查询后台登录日志详情
+	Get(context.Context, *v11.GetAdminLoginLogRequest) (*v11.AdminLoginLog, error)
+	// List 查询后台登录日志列表
+	List(context.Context, *v1.PagingRequest) (*v11.ListAdminLoginLogResponse, error)
 }
 
 func RegisterAdminLoginLogServiceHTTPServer(s *http.Server, srv AdminLoginLogServiceHTTPServer) {
 	r := s.Route("/")
-	r.GET("/admin/v1/admin_login_logs", _AdminLoginLogService_ListAdminLoginLog0_HTTP_Handler(srv))
-	r.GET("/admin/v1/admin_login_logs/{id}", _AdminLoginLogService_GetAdminLoginLog0_HTTP_Handler(srv))
+	r.GET("/admin/v1/admin_login_logs", _AdminLoginLogService_List0_HTTP_Handler(srv))
+	r.GET("/admin/v1/admin_login_logs/{id}", _AdminLoginLogService_Get0_HTTP_Handler(srv))
 }
 
-func _AdminLoginLogService_ListAdminLoginLog0_HTTP_Handler(srv AdminLoginLogServiceHTTPServer) func(ctx http.Context) error {
+func _AdminLoginLogService_List0_HTTP_Handler(srv AdminLoginLogServiceHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
 		var in v1.PagingRequest
 		if err := ctx.BindQuery(&in); err != nil {
 			return err
 		}
-		http.SetOperation(ctx, OperationAdminLoginLogServiceListAdminLoginLog)
+		http.SetOperation(ctx, OperationAdminLoginLogServiceList)
 		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
-			return srv.ListAdminLoginLog(ctx, req.(*v1.PagingRequest))
+			return srv.List(ctx, req.(*v1.PagingRequest))
 		})
 		out, err := h(ctx, &in)
 		if err != nil {
@@ -56,7 +56,7 @@ func _AdminLoginLogService_ListAdminLoginLog0_HTTP_Handler(srv AdminLoginLogServ
 	}
 }
 
-func _AdminLoginLogService_GetAdminLoginLog0_HTTP_Handler(srv AdminLoginLogServiceHTTPServer) func(ctx http.Context) error {
+func _AdminLoginLogService_Get0_HTTP_Handler(srv AdminLoginLogServiceHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
 		var in v11.GetAdminLoginLogRequest
 		if err := ctx.BindQuery(&in); err != nil {
@@ -65,9 +65,9 @@ func _AdminLoginLogService_GetAdminLoginLog0_HTTP_Handler(srv AdminLoginLogServi
 		if err := ctx.BindVars(&in); err != nil {
 			return err
 		}
-		http.SetOperation(ctx, OperationAdminLoginLogServiceGetAdminLoginLog)
+		http.SetOperation(ctx, OperationAdminLoginLogServiceGet)
 		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
-			return srv.GetAdminLoginLog(ctx, req.(*v11.GetAdminLoginLogRequest))
+			return srv.Get(ctx, req.(*v11.GetAdminLoginLogRequest))
 		})
 		out, err := h(ctx, &in)
 		if err != nil {
@@ -79,8 +79,8 @@ func _AdminLoginLogService_GetAdminLoginLog0_HTTP_Handler(srv AdminLoginLogServi
 }
 
 type AdminLoginLogServiceHTTPClient interface {
-	GetAdminLoginLog(ctx context.Context, req *v11.GetAdminLoginLogRequest, opts ...http.CallOption) (rsp *v11.AdminLoginLog, err error)
-	ListAdminLoginLog(ctx context.Context, req *v1.PagingRequest, opts ...http.CallOption) (rsp *v11.ListAdminLoginLogResponse, err error)
+	Get(ctx context.Context, req *v11.GetAdminLoginLogRequest, opts ...http.CallOption) (rsp *v11.AdminLoginLog, err error)
+	List(ctx context.Context, req *v1.PagingRequest, opts ...http.CallOption) (rsp *v11.ListAdminLoginLogResponse, err error)
 }
 
 type AdminLoginLogServiceHTTPClientImpl struct {
@@ -91,11 +91,11 @@ func NewAdminLoginLogServiceHTTPClient(client *http.Client) AdminLoginLogService
 	return &AdminLoginLogServiceHTTPClientImpl{client}
 }
 
-func (c *AdminLoginLogServiceHTTPClientImpl) GetAdminLoginLog(ctx context.Context, in *v11.GetAdminLoginLogRequest, opts ...http.CallOption) (*v11.AdminLoginLog, error) {
+func (c *AdminLoginLogServiceHTTPClientImpl) Get(ctx context.Context, in *v11.GetAdminLoginLogRequest, opts ...http.CallOption) (*v11.AdminLoginLog, error) {
 	var out v11.AdminLoginLog
 	pattern := "/admin/v1/admin_login_logs/{id}"
 	path := binding.EncodeURL(pattern, in, true)
-	opts = append(opts, http.Operation(OperationAdminLoginLogServiceGetAdminLoginLog))
+	opts = append(opts, http.Operation(OperationAdminLoginLogServiceGet))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
 	if err != nil {
@@ -104,11 +104,11 @@ func (c *AdminLoginLogServiceHTTPClientImpl) GetAdminLoginLog(ctx context.Contex
 	return &out, nil
 }
 
-func (c *AdminLoginLogServiceHTTPClientImpl) ListAdminLoginLog(ctx context.Context, in *v1.PagingRequest, opts ...http.CallOption) (*v11.ListAdminLoginLogResponse, error) {
+func (c *AdminLoginLogServiceHTTPClientImpl) List(ctx context.Context, in *v1.PagingRequest, opts ...http.CallOption) (*v11.ListAdminLoginLogResponse, error) {
 	var out v11.ListAdminLoginLogResponse
 	pattern := "/admin/v1/admin_login_logs"
 	path := binding.EncodeURL(pattern, in, true)
-	opts = append(opts, http.Operation(OperationAdminLoginLogServiceListAdminLoginLog))
+	opts = append(opts, http.Operation(OperationAdminLoginLogServiceList))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
 	if err != nil {

@@ -37,11 +37,11 @@ func NewUserService(
 	}
 }
 
-func (s *UserService) ListUser(ctx context.Context, req *pagination.PagingRequest) (*userV1.ListUserResponse, error) {
+func (s *UserService) List(ctx context.Context, req *pagination.PagingRequest) (*userV1.ListUserResponse, error) {
 	return s.userRepo.List(ctx, req)
 }
 
-func (s *UserService) GetUser(ctx context.Context, req *userV1.GetUserRequest) (*userV1.User, error) {
+func (s *UserService) Get(ctx context.Context, req *userV1.GetUserRequest) (*userV1.User, error) {
 	user, err := s.userRepo.Get(ctx, req.GetId())
 	if err != nil {
 		return nil, err
@@ -69,7 +69,7 @@ func (s *UserService) GetUserByUserName(ctx context.Context, req *userV1.GetUser
 	return user, nil
 }
 
-func (s *UserService) CreateUser(ctx context.Context, req *userV1.CreateUserRequest) (*emptypb.Empty, error) {
+func (s *UserService) Create(ctx context.Context, req *userV1.CreateUserRequest) (*emptypb.Empty, error) {
 	if req.Data == nil {
 		return nil, adminV1.ErrorBadRequest("错误的参数")
 	}
@@ -107,7 +107,7 @@ func (s *UserService) CreateUser(ctx context.Context, req *userV1.CreateUserRequ
 	return &emptypb.Empty{}, nil
 }
 
-func (s *UserService) UpdateUser(ctx context.Context, req *userV1.UpdateUserRequest) (*emptypb.Empty, error) {
+func (s *UserService) Update(ctx context.Context, req *userV1.UpdateUserRequest) (*emptypb.Empty, error) {
 	if req.Data == nil {
 		return nil, adminV1.ErrorBadRequest("错误的参数")
 	}
@@ -141,7 +141,7 @@ func (s *UserService) UpdateUser(ctx context.Context, req *userV1.UpdateUserRequ
 	return &emptypb.Empty{}, nil
 }
 
-func (s *UserService) DeleteUser(ctx context.Context, req *userV1.DeleteUserRequest) (*emptypb.Empty, error) {
+func (s *UserService) Delete(ctx context.Context, req *userV1.DeleteUserRequest) (*emptypb.Empty, error) {
 	// 获取操作人信息
 	operator, err := auth.FromContext(ctx)
 	if err != nil {

@@ -13,14 +13,14 @@ import "system/service/v1/admin_operation_log.proto";
 // 后台操作日志管理服务
 service AdminOperationLogService {
   // 查询后台操作日志列表
-  rpc ListAdminOperationLog (pagination.PagingRequest) returns (system.service.v1.ListAdminOperationLogResponse) {
+  rpc List (pagination.PagingRequest) returns (system.service.v1.ListAdminOperationLogResponse) {
     option (google.api.http) = {
       get: "/admin/v1/admin_operation_logs"
     };
   }
 
   // 查询后台操作日志详情
-  rpc GetAdminOperationLog (system.service.v1.GetAdminOperationLogRequest) returns (system.service.v1.AdminOperationLog) {
+  rpc Get (system.service.v1.GetAdminOperationLogRequest) returns (system.service.v1.AdminOperationLog) {
     option (google.api.http) = {
       get: "/admin/v1/admin_operation_logs/{id}"
     };

@@ -16,19 +16,19 @@ import "pagination/v1/pagination.proto";
 // 后台登录日志服务
 service AdminLoginLogService {
   // 查询后台登录日志列表
-  rpc ListAdminLoginLog (pagination.PagingRequest) returns (ListAdminLoginLogResponse) {}
+  rpc List (pagination.PagingRequest) returns (ListAdminLoginLogResponse) {}
 
   // 查询后台登录日志详情
-  rpc GetAdminLoginLog (GetAdminLoginLogRequest) returns (AdminLoginLog) {}
+  rpc Get (GetAdminLoginLogRequest) returns (AdminLoginLog) {}
 
   // 创建后台登录日志
-  rpc CreateAdminLoginLog (CreateAdminLoginLogRequest) returns (google.protobuf.Empty) {}
+  rpc Create (CreateAdminLoginLogRequest) returns (google.protobuf.Empty) {}
 
   // 更新后台登录日志
-  rpc UpdateAdminLoginLog (UpdateAdminLoginLogRequest) returns (google.protobuf.Empty) {}
+  rpc Update (UpdateAdminLoginLogRequest) returns (google.protobuf.Empty) {}
 
   // 删除后台登录日志
-  rpc DeleteAdminLoginLog (DeleteAdminLoginLogRequest) returns (google.protobuf.Empty) {}
+  rpc Delete (DeleteAdminLoginLogRequest) returns (google.protobuf.Empty) {}
 }
 
 // 后台登录日志

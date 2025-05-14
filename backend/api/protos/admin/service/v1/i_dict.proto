@@ -13,21 +13,21 @@ import "system/service/v1/dict.proto";
 // 字典管理服务
 service DictService {
   // 查询字典列表
-  rpc ListDict (pagination.PagingRequest) returns (system.service.v1.ListDictResponse) {
+  rpc List (pagination.PagingRequest) returns (system.service.v1.ListDictResponse) {
     option (google.api.http) = {
       get: "/admin/v1/dict"
     };
   }
 
   // 查询字典详情
-  rpc GetDict (system.service.v1.GetDictRequest) returns (system.service.v1.Dict) {
+  rpc Get (system.service.v1.GetDictRequest) returns (system.service.v1.Dict) {
     option (google.api.http) = {
       get: "/admin/v1/dict/{id}"
     };
   }
 
   // 创建字典
-  rpc CreateDict (system.service.v1.CreateDictRequest) returns (google.protobuf.Empty) {
+  rpc Create (system.service.v1.CreateDictRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
       post: "/admin/v1/dict"
       body: "*"
@@ -35,7 +35,7 @@ service DictService {
   }
 
   // 更新字典
-  rpc UpdateDict (system.service.v1.UpdateDictRequest) returns (google.protobuf.Empty) {
+  rpc Update (system.service.v1.UpdateDictRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
       put: "/admin/v1/dict/{data.id}"
       body: "*"
@@ -43,7 +43,7 @@ service DictService {
   }
 
   // 删除字典
-  rpc DeleteDict (system.service.v1.DeleteDictRequest) returns (google.protobuf.Empty) {
+  rpc Delete (system.service.v1.DeleteDictRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
       delete: "/admin/v1/dict/{id}"
     };

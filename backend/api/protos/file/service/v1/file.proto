@@ -15,19 +15,19 @@ import "pagination/v1/pagination.proto";
 // 文件服务
 service FileService {
   // 获取文件列表
-  rpc ListFile (pagination.PagingRequest) returns (ListFileResponse) {}
+  rpc List (pagination.PagingRequest) returns (ListFileResponse) {}
 
   // 获取文件数据
-  rpc GetFile (GetFileRequest) returns (File) {}
+  rpc Get (GetFileRequest) returns (File) {}
 
   // 创建文件
-  rpc CreateFile (CreateFileRequest) returns (google.protobuf.Empty) {}
+  rpc Create (CreateFileRequest) returns (google.protobuf.Empty) {}
 
   // 更新文件
-  rpc UpdateFile (UpdateFileRequest) returns (google.protobuf.Empty) {}
+  rpc Update (UpdateFileRequest) returns (google.protobuf.Empty) {}
 
   // 删除文件
-  rpc DeleteFile (DeleteFileRequest) returns (google.protobuf.Empty) {}
+  rpc Delete (DeleteFileRequest) returns (google.protobuf.Empty) {}
 }
 
 // OSS供应商

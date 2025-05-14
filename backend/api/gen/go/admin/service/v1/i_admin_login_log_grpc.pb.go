@@ -21,8 +21,8 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	AdminLoginLogService_ListAdminLoginLog_FullMethodName = "/admin.service.v1.AdminLoginLogService/ListAdminLoginLog"
-	AdminLoginLogService_GetAdminLoginLog_FullMethodName  = "/admin.service.v1.AdminLoginLogService/GetAdminLoginLog"
+	AdminLoginLogService_List_FullMethodName = "/admin.service.v1.AdminLoginLogService/List"
+	AdminLoginLogService_Get_FullMethodName  = "/admin.service.v1.AdminLoginLogService/Get"
 )
 
 // AdminLoginLogServiceClient is the client API for AdminLoginLogService service.
@@ -32,9 +32,9 @@ const (
 // 后台登录日志管理服务
 type AdminLoginLogServiceClient interface {
 	// 查询后台登录日志列表
-	ListAdminLoginLog(ctx context.Context, in *v1.PagingRequest, opts ...grpc.CallOption) (*v11.ListAdminLoginLogResponse, error)
+	List(ctx context.Context, in *v1.PagingRequest, opts ...grpc.CallOption) (*v11.ListAdminLoginLogResponse, error)
 	// 查询后台登录日志详情
-	GetAdminLoginLog(ctx context.Context, in *v11.GetAdminLoginLogRequest, opts ...grpc.CallOption) (*v11.AdminLoginLog, error)
+	Get(ctx context.Context, in *v11.GetAdminLoginLogRequest, opts ...grpc.CallOption) (*v11.AdminLoginLog, error)
 }
 
 type adminLoginLogServiceClient struct {
@@ -45,20 +45,20 @@ func NewAdminLoginLogServiceClient(cc grpc.ClientConnInterface) AdminLoginLogSer
 	return &adminLoginLogServiceClient{cc}
 }
 
-func (c *adminLoginLogServiceClient) ListAdminLoginLog(ctx context.Context, in *v1.PagingRequest, opts ...grpc.CallOption) (*v11.ListAdminLoginLogResponse, error) {
+func (c *adminLoginLogServiceClient) List(ctx context.Context, in *v1.PagingRequest, opts ...grpc.CallOption) (*v11.ListAdminLoginLogResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(v11.ListAdminLoginLogResponse)
-	err := c.cc.Invoke(ctx, AdminLoginLogService_ListAdminLoginLog_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, AdminLoginLogService_List_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *adminLoginLogServiceClient) GetAdminLoginLog(ctx context.Context, in *v11.GetAdminLoginLogRequest, opts ...grpc.CallOption) (*v11.AdminLoginLog, error) {
+func (c *adminLoginLogServiceClient) Get(ctx context.Context, in *v11.GetAdminLoginLogRequest, opts ...grpc.CallOption) (*v11.AdminLoginLog, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(v11.AdminLoginLog)
-	err := c.cc.Invoke(ctx, AdminLoginLogService_GetAdminLoginLog_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, AdminLoginLogService_Get_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -72,9 +72,9 @@ func (c *adminLoginLogServiceClient) GetAdminLoginLog(ctx context.Context, in *v
 // 后台登录日志管理服务
 type AdminLoginLogServiceServer interface {
 	// 查询后台登录日志列表
-	ListAdminLoginLog(context.Context, *v1.PagingRequest) (*v11.ListAdminLoginLogResponse, error)
+	List(context.Context, *v1.PagingRequest) (*v11.ListAdminLoginLogResponse, error)
 	// 查询后台登录日志详情
-	GetAdminLoginLog(context.Context, *v11.GetAdminLoginLogRequest) (*v11.AdminLoginLog, error)
+	Get(context.Context, *v11.GetAdminLoginLogRequest) (*v11.AdminLoginLog, error)
 	mustEmbedUnimplementedAdminLoginLogServiceServer()
 }
 
@@ -85,11 +85,11 @@ type AdminLoginLogServiceServer interface {
 // pointer dereference when methods are called.
 type UnimplementedAdminLoginLogServiceServer struct{}
 
-func (UnimplementedAdminLoginLogServiceServer) ListAdminLoginLog(context.Context, *v1.PagingRequest) (*v11.ListAdminLoginLogResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ListAdminLoginLog not implemented")
+func (UnimplementedAdminLoginLogServiceServer) List(context.Context, *v1.PagingRequest) (*v11.ListAdminLoginLogResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method List not implemented")
 }
-func (UnimplementedAdminLoginLogServiceServer) GetAdminLoginLog(context.Context, *v11.GetAdminLoginLogRequest) (*v11.AdminLoginLog, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetAdminLoginLog not implemented")
+func (UnimplementedAdminLoginLogServiceServer) Get(context.Context, *v11.GetAdminLoginLogRequest) (*v11.AdminLoginLog, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Get not implemented")
 }
 func (UnimplementedAdminLoginLogServiceServer) mustEmbedUnimplementedAdminLoginLogServiceServer() {}
 func (UnimplementedAdminLoginLogServiceServer) testEmbeddedByValue()                              {}
@@ -112,38 +112,38 @@ func RegisterAdminLoginLogServiceServer(s grpc.ServiceRegistrar, srv AdminLoginL
 	s.RegisterService(&AdminLoginLogService_ServiceDesc, srv)
 }
 
-func _AdminLoginLogService_ListAdminLoginLog_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _AdminLoginLogService_List_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(v1.PagingRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(AdminLoginLogServiceServer).ListAdminLoginLog(ctx, in)
+		return srv.(AdminLoginLogServiceServer).List(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: AdminLoginLogService_ListAdminLoginLog_FullMethodName,
+		FullMethod: AdminLoginLogService_List_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AdminLoginLogServiceServer).ListAdminLoginLog(ctx, req.(*v1.PagingRequest))
+		return srv.(AdminLoginLogServiceServer).List(ctx, req.(*v1.PagingRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _AdminLoginLogService_GetAdminLoginLog_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _AdminLoginLogService_Get_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(v11.GetAdminLoginLogRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(AdminLoginLogServiceServer).GetAdminLoginLog(ctx, in)
+		return srv.(AdminLoginLogServiceServer).Get(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: AdminLoginLogService_GetAdminLoginLog_FullMethodName,
+		FullMethod: AdminLoginLogService_Get_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AdminLoginLogServiceServer).GetAdminLoginLog(ctx, req.(*v11.GetAdminLoginLogRequest))
+		return srv.(AdminLoginLogServiceServer).Get(ctx, req.(*v11.GetAdminLoginLogRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -156,12 +156,12 @@ var AdminLoginLogService_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*AdminLoginLogServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "ListAdminLoginLog",
-			Handler:    _AdminLoginLogService_ListAdminLoginLog_Handler,
+			MethodName: "List",
+			Handler:    _AdminLoginLogService_List_Handler,
 		},
 		{
-			MethodName: "GetAdminLoginLog",
-			Handler:    _AdminLoginLogService_GetAdminLoginLog_Handler,
+			MethodName: "Get",
+			Handler:    _AdminLoginLogService_Get_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

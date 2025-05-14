@@ -22,43 +22,43 @@ var _ = binding.EncodeURL
 
 const _ = http.SupportPackageIsVersion1
 
-const OperationPrivateMessageServiceCreatePrivateMessage = "/admin.service.v1.PrivateMessageService/CreatePrivateMessage"
-const OperationPrivateMessageServiceDeletePrivateMessage = "/admin.service.v1.PrivateMessageService/DeletePrivateMessage"
-const OperationPrivateMessageServiceGetPrivateMessage = "/admin.service.v1.PrivateMessageService/GetPrivateMessage"
-const OperationPrivateMessageServiceListPrivateMessage = "/admin.service.v1.PrivateMessageService/ListPrivateMessage"
-const OperationPrivateMessageServiceUpdatePrivateMessage = "/admin.service.v1.PrivateMessageService/UpdatePrivateMessage"
+const OperationPrivateMessageServiceCreate = "/admin.service.v1.PrivateMessageService/Create"
+const OperationPrivateMessageServiceDelete = "/admin.service.v1.PrivateMessageService/Delete"
+const OperationPrivateMessageServiceGet = "/admin.service.v1.PrivateMessageService/Get"
+const OperationPrivateMessageServiceList = "/admin.service.v1.PrivateMessageService/List"
+const OperationPrivateMessageServiceUpdate = "/admin.service.v1.PrivateMessageService/Update"
 
 type PrivateMessageServiceHTTPServer interface {
-	// CreatePrivateMessage 创建私信消息
-	CreatePrivateMessage(context.Context, *v11.CreatePrivateMessageRequest) (*emptypb.Empty, error)
-	// DeletePrivateMessage 删除私信消息
-	DeletePrivateMessage(context.Context, *v11.DeletePrivateMessageRequest) (*emptypb.Empty, error)
-	// GetPrivateMessage 查询私信消息详情
-	GetPrivateMessage(context.Context, *v11.GetPrivateMessageRequest) (*v11.PrivateMessage, error)
-	// ListPrivateMessage 查询私信消息列表
-	ListPrivateMessage(context.Context, *v1.PagingRequest) (*v11.ListPrivateMessageResponse, error)
-	// UpdatePrivateMessage 更新私信消息
-	UpdatePrivateMessage(context.Context, *v11.UpdatePrivateMessageRequest) (*emptypb.Empty, error)
+	// Create 创建私信消息
+	Create(context.Context, *v11.CreatePrivateMessageRequest) (*emptypb.Empty, error)
+	// Delete 删除私信消息
+	Delete(context.Context, *v11.DeletePrivateMessageRequest) (*emptypb.Empty, error)
+	// Get 查询私信消息详情
+	Get(context.Context, *v11.GetPrivateMessageRequest) (*v11.PrivateMessage, error)
+	// List 查询私信消息列表
+	List(context.Context, *v1.PagingRequest) (*v11.ListPrivateMessageResponse, error)
+	// Update 更新私信消息
+	Update(context.Context, *v11.UpdatePrivateMessageRequest) (*emptypb.Empty, error)
 }
 
 func RegisterPrivateMessageServiceHTTPServer(s *http.Server, srv PrivateMessageServiceHTTPServer) {
 	r := s.Route("/")
-	r.GET("/admin/v1/private_messages", _PrivateMessageService_ListPrivateMessage0_HTTP_Handler(srv))
-	r.GET("/admin/v1/private_messages/{id}", _PrivateMessageService_GetPrivateMessage0_HTTP_Handler(srv))
-	r.POST("/admin/v1/private_messages", _PrivateMessageService_CreatePrivateMessage0_HTTP_Handler(srv))
-	r.PUT("/admin/v1/private_messages/{data.id}", _PrivateMessageService_UpdatePrivateMessage0_HTTP_Handler(srv))
-	r.DELETE("/admin/v1/private_messages/{id}", _PrivateMessageService_DeletePrivateMessage0_HTTP_Handler(srv))
+	r.GET("/admin/v1/private_messages", _PrivateMessageService_List11_HTTP_Handler(srv))
+	r.GET("/admin/v1/private_messages/{id}", _PrivateMessageService_Get11_HTTP_Handler(srv))
+	r.POST("/admin/v1/private_messages", _PrivateMessageService_Create9_HTTP_Handler(srv))
+	r.PUT("/admin/v1/private_messages/{data.id}", _PrivateMessageService_Update9_HTTP_Handler(srv))
+	r.DELETE("/admin/v1/private_messages/{id}", _PrivateMessageService_Delete9_HTTP_Handler(srv))
 }
 
-func _PrivateMessageService_ListPrivateMessage0_HTTP_Handler(srv PrivateMessageServiceHTTPServer) func(ctx http.Context) error {
+func _PrivateMessageService_List11_HTTP_Handler(srv PrivateMessageServiceHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
 		var in v1.PagingRequest
 		if err := ctx.BindQuery(&in); err != nil {
 			return err
 		}
-		http.SetOperation(ctx, OperationPrivateMessageServiceListPrivateMessage)
+		http.SetOperation(ctx, OperationPrivateMessageServiceList)
 		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
-			return srv.ListPrivateMessage(ctx, req.(*v1.PagingRequest))
+			return srv.List(ctx, req.(*v1.PagingRequest))
 		})
 		out, err := h(ctx, &in)
 		if err != nil {
@@ -69,7 +69,7 @@ func _PrivateMessageService_ListPrivateMessage0_HTTP_Handler(srv PrivateMessageS
 	}
 }
 
-func _PrivateMessageService_GetPrivateMessage0_HTTP_Handler(srv PrivateMessageServiceHTTPServer) func(ctx http.Context) error {
+func _PrivateMessageService_Get11_HTTP_Handler(srv PrivateMessageServiceHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
 		var in v11.GetPrivateMessageRequest
 		if err := ctx.BindQuery(&in); err != nil {
@@ -78,9 +78,9 @@ func _PrivateMessageService_GetPrivateMessage0_HTTP_Handler(srv PrivateMessageSe
 		if err := ctx.BindVars(&in); err != nil {
 			return err
 		}
-		http.SetOperation(ctx, OperationPrivateMessageServiceGetPrivateMessage)
+		http.SetOperation(ctx, OperationPrivateMessageServiceGet)
 		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
-			return srv.GetPrivateMessage(ctx, req.(*v11.GetPrivateMessageRequest))
+			return srv.Get(ctx, req.(*v11.GetPrivateMessageRequest))
 		})
 		out, err := h(ctx, &in)
 		if err != nil {
@@ -91,7 +91,7 @@ func _PrivateMessageService_GetPrivateMessage0_HTTP_Handler(srv PrivateMessageSe
 	}
 }
 
-func _PrivateMessageService_CreatePrivateMessage0_HTTP_Handler(srv PrivateMessageServiceHTTPServer) func(ctx http.Context) error {
+func _PrivateMessageService_Create9_HTTP_Handler(srv PrivateMessageServiceHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
 		var in v11.CreatePrivateMessageRequest
 		if err := ctx.Bind(&in); err != nil {
@@ -100,9 +100,9 @@ func _PrivateMessageService_CreatePrivateMessage0_HTTP_Handler(srv PrivateMessag
 		if err := ctx.BindQuery(&in); err != nil {
 			return err
 		}
-		http.SetOperation(ctx, OperationPrivateMessageServiceCreatePrivateMessage)
+		http.SetOperation(ctx, OperationPrivateMessageServiceCreate)
 		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
-			return srv.CreatePrivateMessage(ctx, req.(*v11.CreatePrivateMessageRequest))
+			return srv.Create(ctx, req.(*v11.CreatePrivateMessageRequest))
 		})
 		out, err := h(ctx, &in)
 		if err != nil {
@@ -113,7 +113,7 @@ func _PrivateMessageService_CreatePrivateMessage0_HTTP_Handler(srv PrivateMessag
 	}
 }
 
-func _PrivateMessageService_UpdatePrivateMessage0_HTTP_Handler(srv PrivateMessageServiceHTTPServer) func(ctx http.Context) error {
+func _PrivateMessageService_Update9_HTTP_Handler(srv PrivateMessageServiceHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
 		var in v11.UpdatePrivateMessageRequest
 		if err := ctx.Bind(&in); err != nil {
@@ -125,9 +125,9 @@ func _PrivateMessageService_UpdatePrivateMessage0_HTTP_Handler(srv PrivateMessag
 		if err := ctx.BindVars(&in); err != nil {
 			return err
 		}
-		http.SetOperation(ctx, OperationPrivateMessageServiceUpdatePrivateMessage)
+		http.SetOperation(ctx, OperationPrivateMessageServiceUpdate)
 		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
-			return srv.UpdatePrivateMessage(ctx, req.(*v11.UpdatePrivateMessageRequest))
+			return srv.Update(ctx, req.(*v11.UpdatePrivateMessageRequest))
 		})
 		out, err := h(ctx, &in)
 		if err != nil {
@@ -138,7 +138,7 @@ func _PrivateMessageService_UpdatePrivateMessage0_HTTP_Handler(srv PrivateMessag
 	}
 }
 
-func _PrivateMessageService_DeletePrivateMessage0_HTTP_Handler(srv PrivateMessageServiceHTTPServer) func(ctx http.Context) error {
+func _PrivateMessageService_Delete9_HTTP_Handler(srv PrivateMessageServiceHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
 		var in v11.DeletePrivateMessageRequest
 		if err := ctx.BindQuery(&in); err != nil {
@@ -147,9 +147,9 @@ func _PrivateMessageService_DeletePrivateMessage0_HTTP_Handler(srv PrivateMessag
 		if err := ctx.BindVars(&in); err != nil {
 			return err
 		}
-		http.SetOperation(ctx, OperationPrivateMessageServiceDeletePrivateMessage)
+		http.SetOperation(ctx, OperationPrivateMessageServiceDelete)
 		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
-			return srv.DeletePrivateMessage(ctx, req.(*v11.DeletePrivateMessageRequest))
+			return srv.Delete(ctx, req.(*v11.DeletePrivateMessageRequest))
 		})
 		out, err := h(ctx, &in)
 		if err != nil {
@@ -161,11 +161,11 @@ func _PrivateMessageService_DeletePrivateMessage0_HTTP_Handler(srv PrivateMessag
 }
 
 type PrivateMessageServiceHTTPClient interface {
-	CreatePrivateMessage(ctx context.Context, req *v11.CreatePrivateMessageRequest, opts ...http.CallOption) (rsp *emptypb.Empty, err error)
-	DeletePrivateMessage(ctx context.Context, req *v11.DeletePrivateMessageRequest, opts ...http.CallOption) (rsp *emptypb.Empty, err error)
-	GetPrivateMessage(ctx context.Context, req *v11.GetPrivateMessageRequest, opts ...http.CallOption) (rsp *v11.PrivateMessage, err error)
-	ListPrivateMessage(ctx context.Context, req *v1.PagingRequest, opts ...http.CallOption) (rsp *v11.ListPrivateMessageResponse, err error)
-	UpdatePrivateMessage(ctx context.Context, req *v11.UpdatePrivateMessageRequest, opts ...http.CallOption) (rsp *emptypb.Empty, err error)
+	Create(ctx context.Context, req *v11.CreatePrivateMessageRequest, opts ...http.CallOption) (rsp *emptypb.Empty, err error)
+	Delete(ctx context.Context, req *v11.DeletePrivateMessageRequest, opts ...http.CallOption) (rsp *emptypb.Empty, err error)
+	Get(ctx context.Context, req *v11.GetPrivateMessageRequest, opts ...http.CallOption) (rsp *v11.PrivateMessage, err error)
+	List(ctx context.Context, req *v1.PagingRequest, opts ...http.CallOption) (rsp *v11.ListPrivateMessageResponse, err error)
+	Update(ctx context.Context, req *v11.UpdatePrivateMessageRequest, opts ...http.CallOption) (rsp *emptypb.Empty, err error)
 }
 
 type PrivateMessageServiceHTTPClientImpl struct {
@@ -176,11 +176,11 @@ func NewPrivateMessageServiceHTTPClient(client *http.Client) PrivateMessageServi
 	return &PrivateMessageServiceHTTPClientImpl{client}
 }
 
-func (c *PrivateMessageServiceHTTPClientImpl) CreatePrivateMessage(ctx context.Context, in *v11.CreatePrivateMessageRequest, opts ...http.CallOption) (*emptypb.Empty, error) {
+func (c *PrivateMessageServiceHTTPClientImpl) Create(ctx context.Context, in *v11.CreatePrivateMessageRequest, opts ...http.CallOption) (*emptypb.Empty, error) {
 	var out emptypb.Empty
 	pattern := "/admin/v1/private_messages"
 	path := binding.EncodeURL(pattern, in, false)
-	opts = append(opts, http.Operation(OperationPrivateMessageServiceCreatePrivateMessage))
+	opts = append(opts, http.Operation(OperationPrivateMessageServiceCreate))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
 	if err != nil {
@@ -189,11 +189,11 @@ func (c *PrivateMessageServiceHTTPClientImpl) CreatePrivateMessage(ctx context.C
 	return &out, nil
 }
 
-func (c *PrivateMessageServiceHTTPClientImpl) DeletePrivateMessage(ctx context.Context, in *v11.DeletePrivateMessageRequest, opts ...http.CallOption) (*emptypb.Empty, error) {
+func (c *PrivateMessageServiceHTTPClientImpl) Delete(ctx context.Context, in *v11.DeletePrivateMessageRequest, opts ...http.CallOption) (*emptypb.Empty, error) {
 	var out emptypb.Empty
 	pattern := "/admin/v1/private_messages/{id}"
 	path := binding.EncodeURL(pattern, in, true)
-	opts = append(opts, http.Operation(OperationPrivateMessageServiceDeletePrivateMessage))
+	opts = append(opts, http.Operation(OperationPrivateMessageServiceDelete))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "DELETE", path, nil, &out, opts...)
 	if err != nil {
@@ -202,11 +202,11 @@ func (c *PrivateMessageServiceHTTPClientImpl) DeletePrivateMessage(ctx context.C
 	return &out, nil
 }
 
-func (c *PrivateMessageServiceHTTPClientImpl) GetPrivateMessage(ctx context.Context, in *v11.GetPrivateMessageRequest, opts ...http.CallOption) (*v11.PrivateMessage, error) {
+func (c *PrivateMessageServiceHTTPClientImpl) Get(ctx context.Context, in *v11.GetPrivateMessageRequest, opts ...http.CallOption) (*v11.PrivateMessage, error) {
 	var out v11.PrivateMessage
 	pattern := "/admin/v1/private_messages/{id}"
 	path := binding.EncodeURL(pattern, in, true)
-	opts = append(opts, http.Operation(OperationPrivateMessageServiceGetPrivateMessage))
+	opts = append(opts, http.Operation(OperationPrivateMessageServiceGet))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
 	if err != nil {
@@ -215,11 +215,11 @@ func (c *PrivateMessageServiceHTTPClientImpl) GetPrivateMessage(ctx context.Cont
 	return &out, nil
 }
 
-func (c *PrivateMessageServiceHTTPClientImpl) ListPrivateMessage(ctx context.Context, in *v1.PagingRequest, opts ...http.CallOption) (*v11.ListPrivateMessageResponse, error) {
+func (c *PrivateMessageServiceHTTPClientImpl) List(ctx context.Context, in *v1.PagingRequest, opts ...http.CallOption) (*v11.ListPrivateMessageResponse, error) {
 	var out v11.ListPrivateMessageResponse
 	pattern := "/admin/v1/private_messages"
 	path := binding.EncodeURL(pattern, in, true)
-	opts = append(opts, http.Operation(OperationPrivateMessageServiceListPrivateMessage))
+	opts = append(opts, http.Operation(OperationPrivateMessageServiceList))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
 	if err != nil {
@@ -228,11 +228,11 @@ func (c *PrivateMessageServiceHTTPClientImpl) ListPrivateMessage(ctx context.Con
 	return &out, nil
 }
 
-func (c *PrivateMessageServiceHTTPClientImpl) UpdatePrivateMessage(ctx context.Context, in *v11.UpdatePrivateMessageRequest, opts ...http.CallOption) (*emptypb.Empty, error) {
+func (c *PrivateMessageServiceHTTPClientImpl) Update(ctx context.Context, in *v11.UpdatePrivateMessageRequest, opts ...http.CallOption) (*emptypb.Empty, error) {
 	var out emptypb.Empty
 	pattern := "/admin/v1/private_messages/{data.id}"
 	path := binding.EncodeURL(pattern, in, false)
-	opts = append(opts, http.Operation(OperationPrivateMessageServiceUpdatePrivateMessage))
+	opts = append(opts, http.Operation(OperationPrivateMessageServiceUpdate))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "PUT", path, in, &out, opts...)
 	if err != nil {

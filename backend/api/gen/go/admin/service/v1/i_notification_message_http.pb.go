@@ -22,43 +22,43 @@ var _ = binding.EncodeURL
 
 const _ = http.SupportPackageIsVersion1
 
-const OperationNotificationMessageServiceCreateNotificationMessage = "/admin.service.v1.NotificationMessageService/CreateNotificationMessage"
-const OperationNotificationMessageServiceDeleteNotificationMessage = "/admin.service.v1.NotificationMessageService/DeleteNotificationMessage"
-const OperationNotificationMessageServiceGetNotificationMessage = "/admin.service.v1.NotificationMessageService/GetNotificationMessage"
-const OperationNotificationMessageServiceListNotificationMessage = "/admin.service.v1.NotificationMessageService/ListNotificationMessage"
-const OperationNotificationMessageServiceUpdateNotificationMessage = "/admin.service.v1.NotificationMessageService/UpdateNotificationMessage"
+const OperationNotificationMessageServiceCreate = "/admin.service.v1.NotificationMessageService/Create"
+const OperationNotificationMessageServiceDelete = "/admin.service.v1.NotificationMessageService/Delete"
+const OperationNotificationMessageServiceGet = "/admin.service.v1.NotificationMessageService/Get"
+const OperationNotificationMessageServiceList = "/admin.service.v1.NotificationMessageService/List"
+const OperationNotificationMessageServiceUpdate = "/admin.service.v1.NotificationMessageService/Update"
 
 type NotificationMessageServiceHTTPServer interface {
-	// CreateNotificationMessage 创建通知消息
-	CreateNotificationMessage(context.Context, *v11.CreateNotificationMessageRequest) (*emptypb.Empty, error)
-	// DeleteNotificationMessage 删除通知消息
-	DeleteNotificationMessage(context.Context, *v11.DeleteNotificationMessageRequest) (*emptypb.Empty, error)
-	// GetNotificationMessage 查询通知消息详情
-	GetNotificationMessage(context.Context, *v11.GetNotificationMessageRequest) (*v11.NotificationMessage, error)
-	// ListNotificationMessage 查询通知消息列表
-	ListNotificationMessage(context.Context, *v1.PagingRequest) (*v11.ListNotificationMessageResponse, error)
-	// UpdateNotificationMessage 更新通知消息
-	UpdateNotificationMessage(context.Context, *v11.UpdateNotificationMessageRequest) (*emptypb.Empty, error)
+	// Create 创建通知消息
+	Create(context.Context, *v11.CreateNotificationMessageRequest) (*emptypb.Empty, error)
+	// Delete 删除通知消息
+	Delete(context.Context, *v11.DeleteNotificationMessageRequest) (*emptypb.Empty, error)
+	// Get 查询通知消息详情
+	Get(context.Context, *v11.GetNotificationMessageRequest) (*v11.NotificationMessage, error)
+	// List 查询通知消息列表
+	List(context.Context, *v1.PagingRequest) (*v11.ListNotificationMessageResponse, error)
+	// Update 更新通知消息
+	Update(context.Context, *v11.UpdateNotificationMessageRequest) (*emptypb.Empty, error)
 }
 
 func RegisterNotificationMessageServiceHTTPServer(s *http.Server, srv NotificationMessageServiceHTTPServer) {
 	r := s.Route("/")
-	r.GET("/admin/v1/notifications", _NotificationMessageService_ListNotificationMessage0_HTTP_Handler(srv))
-	r.GET("/admin/v1/notifications/{id}", _NotificationMessageService_GetNotificationMessage0_HTTP_Handler(srv))
-	r.POST("/admin/v1/notifications", _NotificationMessageService_CreateNotificationMessage0_HTTP_Handler(srv))
-	r.PUT("/admin/v1/notifications/{data.id}", _NotificationMessageService_UpdateNotificationMessage0_HTTP_Handler(srv))
-	r.DELETE("/admin/v1/notifications/{id}", _NotificationMessageService_DeleteNotificationMessage0_HTTP_Handler(srv))
+	r.GET("/admin/v1/notifications", _NotificationMessageService_List6_HTTP_Handler(srv))
+	r.GET("/admin/v1/notifications/{id}", _NotificationMessageService_Get6_HTTP_Handler(srv))
+	r.POST("/admin/v1/notifications", _NotificationMessageService_Create4_HTTP_Handler(srv))
+	r.PUT("/admin/v1/notifications/{data.id}", _NotificationMessageService_Update4_HTTP_Handler(srv))
+	r.DELETE("/admin/v1/notifications/{id}", _NotificationMessageService_Delete4_HTTP_Handler(srv))
 }
 
-func _NotificationMessageService_ListNotificationMessage0_HTTP_Handler(srv NotificationMessageServiceHTTPServer) func(ctx http.Context) error {
+func _NotificationMessageService_List6_HTTP_Handler(srv NotificationMessageServiceHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
 		var in v1.PagingRequest
 		if err := ctx.BindQuery(&in); err != nil {
 			return err
 		}
-		http.SetOperation(ctx, OperationNotificationMessageServiceListNotificationMessage)
+		http.SetOperation(ctx, OperationNotificationMessageServiceList)
 		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
-			return srv.ListNotificationMessage(ctx, req.(*v1.PagingRequest))
+			return srv.List(ctx, req.(*v1.PagingRequest))
 		})
 		out, err := h(ctx, &in)
 		if err != nil {
@@ -69,7 +69,7 @@ func _NotificationMessageService_ListNotificationMessage0_HTTP_Handler(srv Notif
 	}
 }
 
-func _NotificationMessageService_GetNotificationMessage0_HTTP_Handler(srv NotificationMessageServiceHTTPServer) func(ctx http.Context) error {
+func _NotificationMessageService_Get6_HTTP_Handler(srv NotificationMessageServiceHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
 		var in v11.GetNotificationMessageRequest
 		if err := ctx.BindQuery(&in); err != nil {
@@ -78,9 +78,9 @@ func _NotificationMessageService_GetNotificationMessage0_HTTP_Handler(srv Notifi
 		if err := ctx.BindVars(&in); err != nil {
 			return err
 		}
-		http.SetOperation(ctx, OperationNotificationMessageServiceGetNotificationMessage)
+		http.SetOperation(ctx, OperationNotificationMessageServiceGet)
 		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
-			return srv.GetNotificationMessage(ctx, req.(*v11.GetNotificationMessageRequest))
+			return srv.Get(ctx, req.(*v11.GetNotificationMessageRequest))
 		})
 		out, err := h(ctx, &in)
 		if err != nil {
@@ -91,7 +91,7 @@ func _NotificationMessageService_GetNotificationMessage0_HTTP_Handler(srv Notifi
 	}
 }
 
-func _NotificationMessageService_CreateNotificationMessage0_HTTP_Handler(srv NotificationMessageServiceHTTPServer) func(ctx http.Context) error {
+func _NotificationMessageService_Create4_HTTP_Handler(srv NotificationMessageServiceHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
 		var in v11.CreateNotificationMessageRequest
 		if err := ctx.Bind(&in); err != nil {
@@ -100,9 +100,9 @@ func _NotificationMessageService_CreateNotificationMessage0_HTTP_Handler(srv Not
 		if err := ctx.BindQuery(&in); err != nil {
 			return err
 		}
-		http.SetOperation(ctx, OperationNotificationMessageServiceCreateNotificationMessage)
+		http.SetOperation(ctx, OperationNotificationMessageServiceCreate)
 		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
-			return srv.CreateNotificationMessage(ctx, req.(*v11.CreateNotificationMessageRequest))
+			return srv.Create(ctx, req.(*v11.CreateNotificationMessageRequest))
 		})
 		out, err := h(ctx, &in)
 		if err != nil {
@@ -113,7 +113,7 @@ func _NotificationMessageService_CreateNotificationMessage0_HTTP_Handler(srv Not
 	}
 }
 
-func _NotificationMessageService_UpdateNotificationMessage0_HTTP_Handler(srv NotificationMessageServiceHTTPServer) func(ctx http.Context) error {
+func _NotificationMessageService_Update4_HTTP_Handler(srv NotificationMessageServiceHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
 		var in v11.UpdateNotificationMessageRequest
 		if err := ctx.Bind(&in); err != nil {
@@ -125,9 +125,9 @@ func _NotificationMessageService_UpdateNotificationMessage0_HTTP_Handler(srv Not
 		if err := ctx.BindVars(&in); err != nil {
 			return err
 		}
-		http.SetOperation(ctx, OperationNotificationMessageServiceUpdateNotificationMessage)
+		http.SetOperation(ctx, OperationNotificationMessageServiceUpdate)
 		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
-			return srv.UpdateNotificationMessage(ctx, req.(*v11.UpdateNotificationMessageRequest))
+			return srv.Update(ctx, req.(*v11.UpdateNotificationMessageRequest))
 		})
 		out, err := h(ctx, &in)
 		if err != nil {
@@ -138,7 +138,7 @@ func _NotificationMessageService_UpdateNotificationMessage0_HTTP_Handler(srv Not
 	}
 }
 
-func _NotificationMessageService_DeleteNotificationMessage0_HTTP_Handler(srv NotificationMessageServiceHTTPServer) func(ctx http.Context) error {
+func _NotificationMessageService_Delete4_HTTP_Handler(srv NotificationMessageServiceHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
 		var in v11.DeleteNotificationMessageRequest
 		if err := ctx.BindQuery(&in); err != nil {
@@ -147,9 +147,9 @@ func _NotificationMessageService_DeleteNotificationMessage0_HTTP_Handler(srv Not
 		if err := ctx.BindVars(&in); err != nil {
 			return err
 		}
-		http.SetOperation(ctx, OperationNotificationMessageServiceDeleteNotificationMessage)
+		http.SetOperation(ctx, OperationNotificationMessageServiceDelete)
 		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
-			return srv.DeleteNotificationMessage(ctx, req.(*v11.DeleteNotificationMessageRequest))
+			return srv.Delete(ctx, req.(*v11.DeleteNotificationMessageRequest))
 		})
 		out, err := h(ctx, &in)
 		if err != nil {
@@ -161,11 +161,11 @@ func _NotificationMessageService_DeleteNotificationMessage0_HTTP_Handler(srv Not
 }
 
 type NotificationMessageServiceHTTPClient interface {
-	CreateNotificationMessage(ctx context.Context, req *v11.CreateNotificationMessageRequest, opts ...http.CallOption) (rsp *emptypb.Empty, err error)
-	DeleteNotificationMessage(ctx context.Context, req *v11.DeleteNotificationMessageRequest, opts ...http.CallOption) (rsp *emptypb.Empty, err error)
-	GetNotificationMessage(ctx context.Context, req *v11.GetNotificationMessageRequest, opts ...http.CallOption) (rsp *v11.NotificationMessage, err error)
-	ListNotificationMessage(ctx context.Context, req *v1.PagingRequest, opts ...http.CallOption) (rsp *v11.ListNotificationMessageResponse, err error)
-	UpdateNotificationMessage(ctx context.Context, req *v11.UpdateNotificationMessageRequest, opts ...http.CallOption) (rsp *emptypb.Empty, err error)
+	Create(ctx context.Context, req *v11.CreateNotificationMessageRequest, opts ...http.CallOption) (rsp *emptypb.Empty, err error)
+	Delete(ctx context.Context, req *v11.DeleteNotificationMessageRequest, opts ...http.CallOption) (rsp *emptypb.Empty, err error)
+	Get(ctx context.Context, req *v11.GetNotificationMessageRequest, opts ...http.CallOption) (rsp *v11.NotificationMessage, err error)
+	List(ctx context.Context, req *v1.PagingRequest, opts ...http.CallOption) (rsp *v11.ListNotificationMessageResponse, err error)
+	Update(ctx context.Context, req *v11.UpdateNotificationMessageRequest, opts ...http.CallOption) (rsp *emptypb.Empty, err error)
 }
 
 type NotificationMessageServiceHTTPClientImpl struct {
@@ -176,11 +176,11 @@ func NewNotificationMessageServiceHTTPClient(client *http.Client) NotificationMe
 	return &NotificationMessageServiceHTTPClientImpl{client}
 }
 
-func (c *NotificationMessageServiceHTTPClientImpl) CreateNotificationMessage(ctx context.Context, in *v11.CreateNotificationMessageRequest, opts ...http.CallOption) (*emptypb.Empty, error) {
+func (c *NotificationMessageServiceHTTPClientImpl) Create(ctx context.Context, in *v11.CreateNotificationMessageRequest, opts ...http.CallOption) (*emptypb.Empty, error) {
 	var out emptypb.Empty
 	pattern := "/admin/v1/notifications"
 	path := binding.EncodeURL(pattern, in, false)
-	opts = append(opts, http.Operation(OperationNotificationMessageServiceCreateNotificationMessage))
+	opts = append(opts, http.Operation(OperationNotificationMessageServiceCreate))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
 	if err != nil {
@@ -189,11 +189,11 @@ func (c *NotificationMessageServiceHTTPClientImpl) CreateNotificationMessage(ctx
 	return &out, nil
 }
 
-func (c *NotificationMessageServiceHTTPClientImpl) DeleteNotificationMessage(ctx context.Context, in *v11.DeleteNotificationMessageRequest, opts ...http.CallOption) (*emptypb.Empty, error) {
+func (c *NotificationMessageServiceHTTPClientImpl) Delete(ctx context.Context, in *v11.DeleteNotificationMessageRequest, opts ...http.CallOption) (*emptypb.Empty, error) {
 	var out emptypb.Empty
 	pattern := "/admin/v1/notifications/{id}"
 	path := binding.EncodeURL(pattern, in, true)
-	opts = append(opts, http.Operation(OperationNotificationMessageServiceDeleteNotificationMessage))
+	opts = append(opts, http.Operation(OperationNotificationMessageServiceDelete))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "DELETE", path, nil, &out, opts...)
 	if err != nil {
@@ -202,11 +202,11 @@ func (c *NotificationMessageServiceHTTPClientImpl) DeleteNotificationMessage(ctx
 	return &out, nil
 }
 
-func (c *NotificationMessageServiceHTTPClientImpl) GetNotificationMessage(ctx context.Context, in *v11.GetNotificationMessageRequest, opts ...http.CallOption) (*v11.NotificationMessage, error) {
+func (c *NotificationMessageServiceHTTPClientImpl) Get(ctx context.Context, in *v11.GetNotificationMessageRequest, opts ...http.CallOption) (*v11.NotificationMessage, error) {
 	var out v11.NotificationMessage
 	pattern := "/admin/v1/notifications/{id}"
 	path := binding.EncodeURL(pattern, in, true)
-	opts = append(opts, http.Operation(OperationNotificationMessageServiceGetNotificationMessage))
+	opts = append(opts, http.Operation(OperationNotificationMessageServiceGet))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
 	if err != nil {
@@ -215,11 +215,11 @@ func (c *NotificationMessageServiceHTTPClientImpl) GetNotificationMessage(ctx co
 	return &out, nil
 }
 
-func (c *NotificationMessageServiceHTTPClientImpl) ListNotificationMessage(ctx context.Context, in *v1.PagingRequest, opts ...http.CallOption) (*v11.ListNotificationMessageResponse, error) {
+func (c *NotificationMessageServiceHTTPClientImpl) List(ctx context.Context, in *v1.PagingRequest, opts ...http.CallOption) (*v11.ListNotificationMessageResponse, error) {
 	var out v11.ListNotificationMessageResponse
 	pattern := "/admin/v1/notifications"
 	path := binding.EncodeURL(pattern, in, true)
-	opts = append(opts, http.Operation(OperationNotificationMessageServiceListNotificationMessage))
+	opts = append(opts, http.Operation(OperationNotificationMessageServiceList))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
 	if err != nil {
@@ -228,11 +228,11 @@ func (c *NotificationMessageServiceHTTPClientImpl) ListNotificationMessage(ctx c
 	return &out, nil
 }
 
-func (c *NotificationMessageServiceHTTPClientImpl) UpdateNotificationMessage(ctx context.Context, in *v11.UpdateNotificationMessageRequest, opts ...http.CallOption) (*emptypb.Empty, error) {
+func (c *NotificationMessageServiceHTTPClientImpl) Update(ctx context.Context, in *v11.UpdateNotificationMessageRequest, opts ...http.CallOption) (*emptypb.Empty, error) {
 	var out emptypb.Empty
 	pattern := "/admin/v1/notifications/{data.id}"
 	path := binding.EncodeURL(pattern, in, false)
-	opts = append(opts, http.Operation(OperationNotificationMessageServiceUpdateNotificationMessage))
+	opts = append(opts, http.Operation(OperationNotificationMessageServiceUpdate))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "PUT", path, in, &out, opts...)
 	if err != nil {

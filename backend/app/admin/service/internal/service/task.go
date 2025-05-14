@@ -47,11 +47,11 @@ func NewTaskService(
 	}
 }
 
-func (s *TaskService) ListTask(ctx context.Context, req *pagination.PagingRequest) (*systemV1.ListTaskResponse, error) {
+func (s *TaskService) List(ctx context.Context, req *pagination.PagingRequest) (*systemV1.ListTaskResponse, error) {
 	return s.taskRepo.List(ctx, req)
 }
 
-func (s *TaskService) GetTask(ctx context.Context, req *systemV1.GetTaskRequest) (*systemV1.Task, error) {
+func (s *TaskService) Get(ctx context.Context, req *systemV1.GetTaskRequest) (*systemV1.Task, error) {
 	return s.taskRepo.Get(ctx, req.GetId())
 }
 
@@ -59,7 +59,7 @@ func (s *TaskService) GetTaskByTypeName(ctx context.Context, req *systemV1.GetTa
 	return s.taskRepo.GetByTypeName(ctx, req.GetTypeName())
 }
 
-func (s *TaskService) CreateTask(ctx context.Context, req *systemV1.CreateTaskRequest) (*emptypb.Empty, error) {
+func (s *TaskService) Create(ctx context.Context, req *systemV1.CreateTaskRequest) (*emptypb.Empty, error) {
 	if req.Data == nil {
 		return nil, adminV1.ErrorBadRequest("错误的参数")
 	}
@@ -82,7 +82,7 @@ func (s *TaskService) CreateTask(ctx context.Context, req *systemV1.CreateTaskRe
 	return &emptypb.Empty{}, nil
 }
 
-func (s *TaskService) UpdateTask(ctx context.Context, req *systemV1.UpdateTaskRequest) (*emptypb.Empty, error) {
+func (s *TaskService) Update(ctx context.Context, req *systemV1.UpdateTaskRequest) (*emptypb.Empty, error) {
 	if req.Data == nil {
 		return nil, adminV1.ErrorBadRequest("错误的参数")
 	}
@@ -106,7 +106,7 @@ func (s *TaskService) UpdateTask(ctx context.Context, req *systemV1.UpdateTaskRe
 	return &emptypb.Empty{}, nil
 }
 
-func (s *TaskService) DeleteTask(ctx context.Context, req *systemV1.DeleteTaskRequest) (*emptypb.Empty, error) {
+func (s *TaskService) Delete(ctx context.Context, req *systemV1.DeleteTaskRequest) (*emptypb.Empty, error) {
 	var err error
 	var t *systemV1.Task
 	if t, err = s.taskRepo.Get(ctx, req.GetId()); err != nil {
@@ -178,7 +178,7 @@ func (s *TaskService) RestartAllTask(ctx context.Context, _ *emptypb.Empty) (*sy
 func (s *TaskService) StartAllTask(ctx context.Context) (int32, error) {
 	//_, _ = s.Server.NewPeriodicTask("*/1 * * * ?", task.BackupTaskType, task.BackupTaskData{Name: "test"})
 
-	resp, err := s.ListTask(ctx, &pagination.PagingRequest{
+	resp, err := s.List(ctx, &pagination.PagingRequest{
 		NoPaging: trans.Ptr(true),
 		Query:    trans.Ptr(""),
 	})

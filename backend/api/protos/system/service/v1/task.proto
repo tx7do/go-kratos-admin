@@ -17,20 +17,20 @@ import "pagination/v1/pagination.proto";
 // 调度任务服务
 service TaskService {
   // 查询调度任务列表
-  rpc ListTask (pagination.PagingRequest) returns (ListTaskResponse) {}
+  rpc List (pagination.PagingRequest) returns (ListTaskResponse) {}
 
   // 查询调度任务详情
-  rpc GetTask (GetTaskRequest) returns (Task) {}
+  rpc Get (GetTaskRequest) returns (Task) {}
   rpc GetTaskByTypeName (GetTaskByTypeNameRequest) returns (Task) {}
 
   // 创建调度任务
-  rpc CreateTask (CreateTaskRequest) returns (google.protobuf.Empty) {}
+  rpc Create (CreateTaskRequest) returns (google.protobuf.Empty) {}
 
   // 更新调度任务
-  rpc UpdateTask (UpdateTaskRequest) returns (google.protobuf.Empty) {}
+  rpc Update (UpdateTaskRequest) returns (google.protobuf.Empty) {}
 
   // 删除调度任务
-  rpc DeleteTask (DeleteTaskRequest) returns (google.protobuf.Empty) {}
+  rpc Delete (DeleteTaskRequest) returns (google.protobuf.Empty) {}
 
   // 重启所有的调度任务
   rpc RestartAllTask (google.protobuf.Empty) returns (RestartAllTaskResponse) {}

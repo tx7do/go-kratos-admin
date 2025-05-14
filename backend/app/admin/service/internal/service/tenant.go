@@ -31,15 +31,15 @@ func NewTenantService(uc *data.TenantRepo, logger log.Logger) *TenantService {
 	}
 }
 
-func (s *TenantService) ListTenant(ctx context.Context, req *pagination.PagingRequest) (*userV1.ListTenantResponse, error) {
+func (s *TenantService) List(ctx context.Context, req *pagination.PagingRequest) (*userV1.ListTenantResponse, error) {
 	return s.uc.List(ctx, req)
 }
 
-func (s *TenantService) GetTenant(ctx context.Context, req *userV1.GetTenantRequest) (*userV1.Tenant, error) {
+func (s *TenantService) Get(ctx context.Context, req *userV1.GetTenantRequest) (*userV1.Tenant, error) {
 	return s.uc.Get(ctx, req)
 }
 
-func (s *TenantService) CreateTenant(ctx context.Context, req *userV1.CreateTenantRequest) (*emptypb.Empty, error) {
+func (s *TenantService) Create(ctx context.Context, req *userV1.CreateTenantRequest) (*emptypb.Empty, error) {
 	if req.Data == nil {
 		return nil, adminV1.ErrorBadRequest("错误的参数")
 	}
@@ -57,7 +57,7 @@ func (s *TenantService) CreateTenant(ctx context.Context, req *userV1.CreateTena
 	return &emptypb.Empty{}, nil
 }
 
-func (s *TenantService) UpdateTenant(ctx context.Context, req *userV1.UpdateTenantRequest) (*emptypb.Empty, error) {
+func (s *TenantService) Update(ctx context.Context, req *userV1.UpdateTenantRequest) (*emptypb.Empty, error) {
 	if req.Data == nil {
 		return nil, adminV1.ErrorBadRequest("错误的参数")
 	}
@@ -75,7 +75,7 @@ func (s *TenantService) UpdateTenant(ctx context.Context, req *userV1.UpdateTena
 	return &emptypb.Empty{}, nil
 }
 
-func (s *TenantService) DeleteTenant(ctx context.Context, req *userV1.DeleteTenantRequest) (*emptypb.Empty, error) {
+func (s *TenantService) Delete(ctx context.Context, req *userV1.DeleteTenantRequest) (*emptypb.Empty, error) {
 	if _, err := s.uc.Delete(ctx, req); err != nil {
 		return nil, err
 	}

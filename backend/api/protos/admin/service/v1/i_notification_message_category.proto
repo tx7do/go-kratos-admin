@@ -13,21 +13,21 @@ import "internal_message/service/v1/notification_message_category.proto";
 // 通知消息分类管理服务
 service NotificationMessageCategoryService {
   // 查询通知消息分类列表
-  rpc ListNotificationMessageCategory (pagination.PagingRequest) returns (internal_message.service.v1.ListNotificationMessageCategoryResponse) {
+  rpc List (pagination.PagingRequest) returns (internal_message.service.v1.ListNotificationMessageCategoryResponse) {
     option (google.api.http) = {
       get: "/admin/v1/notifications:categories"
     };
   }
 
   // 查询通知消息分类详情
-  rpc GetNotificationMessageCategory (internal_message.service.v1.GetNotificationMessageCategoryRequest) returns (internal_message.service.v1.NotificationMessageCategory) {
+  rpc Get (internal_message.service.v1.GetNotificationMessageCategoryRequest) returns (internal_message.service.v1.NotificationMessageCategory) {
     option (google.api.http) = {
       get: "/admin/v1/notifications:categories/{id}"
     };
   }
 
   // 创建通知消息分类
-  rpc CreateNotificationMessageCategory (internal_message.service.v1.CreateNotificationMessageCategoryRequest) returns (google.protobuf.Empty) {
+  rpc Create (internal_message.service.v1.CreateNotificationMessageCategoryRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
       post: "/admin/v1/notifications:categories"
       body: "*"
@@ -35,7 +35,7 @@ service NotificationMessageCategoryService {
   }
 
   // 更新通知消息分类
-  rpc UpdateNotificationMessageCategory (internal_message.service.v1.UpdateNotificationMessageCategoryRequest) returns (google.protobuf.Empty) {
+  rpc Update (internal_message.service.v1.UpdateNotificationMessageCategoryRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
       put: "/admin/v1/notifications:categories/{data.id}"
       body: "*"
@@ -43,7 +43,7 @@ service NotificationMessageCategoryService {
   }
 
   // 删除通知消息分类
-  rpc DeleteNotificationMessageCategory (internal_message.service.v1.DeleteNotificationMessageCategoryRequest) returns (google.protobuf.Empty) {
+  rpc Delete (internal_message.service.v1.DeleteNotificationMessageCategoryRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
       delete: "/admin/v1/notifications:categories/{id}"
     };

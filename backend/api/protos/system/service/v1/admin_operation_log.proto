@@ -17,19 +17,19 @@ import "pagination/v1/pagination.proto";
 // 后台操作日志服务
 service AdminOperationLogService {
   // 查询后台操作日志列表
-  rpc ListAdminOperationLog (pagination.PagingRequest) returns (ListAdminOperationLogResponse) {}
+  rpc List (pagination.PagingRequest) returns (ListAdminOperationLogResponse) {}
 
   // 查询后台操作日志详情
-  rpc GetAdminOperationLog (GetAdminOperationLogRequest) returns (AdminOperationLog) {}
+  rpc Get (GetAdminOperationLogRequest) returns (AdminOperationLog) {}
 
   // 创建后台操作日志
-  rpc CreateAdminOperationLog (CreateAdminOperationLogRequest) returns (google.protobuf.Empty) {}
+  rpc Create (CreateAdminOperationLogRequest) returns (google.protobuf.Empty) {}
 
   // 更新后台操作日志
-  rpc UpdateAdminOperationLog (UpdateAdminOperationLogRequest) returns (google.protobuf.Empty) {}
+  rpc Update (UpdateAdminOperationLogRequest) returns (google.protobuf.Empty) {}
 
   // 删除后台操作日志
-  rpc DeleteAdminOperationLog (DeleteAdminOperationLogRequest) returns (google.protobuf.Empty) {}
+  rpc Delete (DeleteAdminOperationLogRequest) returns (google.protobuf.Empty) {}
 }
 
 // 后台操作日志

@@ -31,7 +31,7 @@ func NewMenuService(uc *data.MenuRepo, logger log.Logger) *MenuService {
 	}
 }
 
-func (s *MenuService) ListMenu(ctx context.Context, req *pagination.PagingRequest) (*systemV1.ListMenuResponse, error) {
+func (s *MenuService) List(ctx context.Context, req *pagination.PagingRequest) (*systemV1.ListMenuResponse, error) {
 	ret, err := s.uc.List(ctx, req, false)
 	if err != nil {
 
@@ -41,7 +41,7 @@ func (s *MenuService) ListMenu(ctx context.Context, req *pagination.PagingReques
 	return ret, nil
 }
 
-func (s *MenuService) GetMenu(ctx context.Context, req *systemV1.GetMenuRequest) (*systemV1.Menu, error) {
+func (s *MenuService) Get(ctx context.Context, req *systemV1.GetMenuRequest) (*systemV1.Menu, error) {
 	ret, err := s.uc.Get(ctx, req)
 	if err != nil {
 
@@ -51,7 +51,7 @@ func (s *MenuService) GetMenu(ctx context.Context, req *systemV1.GetMenuRequest)
 	return ret, nil
 }
 
-func (s *MenuService) CreateMenu(ctx context.Context, req *systemV1.CreateMenuRequest) (*emptypb.Empty, error) {
+func (s *MenuService) Create(ctx context.Context, req *systemV1.CreateMenuRequest) (*emptypb.Empty, error) {
 	if req.Data == nil {
 		return nil, adminV1.ErrorBadRequest("错误的参数")
 	}
@@ -70,7 +70,7 @@ func (s *MenuService) CreateMenu(ctx context.Context, req *systemV1.CreateMenuRe
 	return &emptypb.Empty{}, nil
 }
 
-func (s *MenuService) UpdateMenu(ctx context.Context, req *systemV1.UpdateMenuRequest) (*emptypb.Empty, error) {
+func (s *MenuService) Update(ctx context.Context, req *systemV1.UpdateMenuRequest) (*emptypb.Empty, error) {
 	if req.Data == nil {
 		return nil, adminV1.ErrorBadRequest("错误的参数")
 	}
@@ -88,7 +88,7 @@ func (s *MenuService) UpdateMenu(ctx context.Context, req *systemV1.UpdateMenuRe
 	return &emptypb.Empty{}, nil
 }
 
-func (s *MenuService) DeleteMenu(ctx context.Context, req *systemV1.DeleteMenuRequest) (*emptypb.Empty, error) {
+func (s *MenuService) Delete(ctx context.Context, req *systemV1.DeleteMenuRequest) (*emptypb.Empty, error) {
 	if _, err := s.uc.Delete(ctx, req); err != nil {
 		return nil, err
 	}

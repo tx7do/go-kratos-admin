@@ -22,43 +22,43 @@ var _ = binding.EncodeURL
 
 const _ = http.SupportPackageIsVersion1
 
-const OperationDepartmentServiceCreateDepartment = "/admin.service.v1.DepartmentService/CreateDepartment"
-const OperationDepartmentServiceDeleteDepartment = "/admin.service.v1.DepartmentService/DeleteDepartment"
-const OperationDepartmentServiceGetDepartment = "/admin.service.v1.DepartmentService/GetDepartment"
-const OperationDepartmentServiceListDepartment = "/admin.service.v1.DepartmentService/ListDepartment"
-const OperationDepartmentServiceUpdateDepartment = "/admin.service.v1.DepartmentService/UpdateDepartment"
+const OperationDepartmentServiceCreate = "/admin.service.v1.DepartmentService/Create"
+const OperationDepartmentServiceDelete = "/admin.service.v1.DepartmentService/Delete"
+const OperationDepartmentServiceGet = "/admin.service.v1.DepartmentService/Get"
+const OperationDepartmentServiceList = "/admin.service.v1.DepartmentService/List"
+const OperationDepartmentServiceUpdate = "/admin.service.v1.DepartmentService/Update"
 
 type DepartmentServiceHTTPServer interface {
-	// CreateDepartment 创建部门
-	CreateDepartment(context.Context, *v11.CreateDepartmentRequest) (*emptypb.Empty, error)
-	// DeleteDepartment 删除部门
-	DeleteDepartment(context.Context, *v11.DeleteDepartmentRequest) (*emptypb.Empty, error)
-	// GetDepartment 查询部门详情
-	GetDepartment(context.Context, *v11.GetDepartmentRequest) (*v11.Department, error)
-	// ListDepartment 查询部门列表
-	ListDepartment(context.Context, *v1.PagingRequest) (*v11.ListDepartmentResponse, error)
-	// UpdateDepartment 更新部门
-	UpdateDepartment(context.Context, *v11.UpdateDepartmentRequest) (*emptypb.Empty, error)
+	// Create 创建部门
+	Create(context.Context, *v11.CreateDepartmentRequest) (*emptypb.Empty, error)
+	// Delete 删除部门
+	Delete(context.Context, *v11.DeleteDepartmentRequest) (*emptypb.Empty, error)
+	// Get 查询部门详情
+	Get(context.Context, *v11.GetDepartmentRequest) (*v11.Department, error)
+	// List 查询部门列表
+	List(context.Context, *v1.PagingRequest) (*v11.ListDepartmentResponse, error)
+	// Update 更新部门
+	Update(context.Context, *v11.UpdateDepartmentRequest) (*emptypb.Empty, error)
 }
 
 func RegisterDepartmentServiceHTTPServer(s *http.Server, srv DepartmentServiceHTTPServer) {
 	r := s.Route("/")
-	r.GET("/admin/v1/departments", _DepartmentService_ListDepartment0_HTTP_Handler(srv))
-	r.GET("/admin/v1/departments/{id}", _DepartmentService_GetDepartment0_HTTP_Handler(srv))
-	r.POST("/admin/v1/departments", _DepartmentService_CreateDepartment0_HTTP_Handler(srv))
-	r.PUT("/admin/v1/departments/{data.id}", _DepartmentService_UpdateDepartment0_HTTP_Handler(srv))
-	r.DELETE("/admin/v1/departments/{id}", _DepartmentService_DeleteDepartment0_HTTP_Handler(srv))
+	r.GET("/admin/v1/departments", _DepartmentService_List2_HTTP_Handler(srv))
+	r.GET("/admin/v1/departments/{id}", _DepartmentService_Get2_HTTP_Handler(srv))
+	r.POST("/admin/v1/departments", _DepartmentService_Create0_HTTP_Handler(srv))
+	r.PUT("/admin/v1/departments/{data.id}", _DepartmentService_Update0_HTTP_Handler(srv))
+	r.DELETE("/admin/v1/departments/{id}", _DepartmentService_Delete0_HTTP_Handler(srv))
 }
 
-func _DepartmentService_ListDepartment0_HTTP_Handler(srv DepartmentServiceHTTPServer) func(ctx http.Context) error {
+func _DepartmentService_List2_HTTP_Handler(srv DepartmentServiceHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
 		var in v1.PagingRequest
 		if err := ctx.BindQuery(&in); err != nil {
 			return err
 		}
-		http.SetOperation(ctx, OperationDepartmentServiceListDepartment)
+		http.SetOperation(ctx, OperationDepartmentServiceList)
 		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
-			return srv.ListDepartment(ctx, req.(*v1.PagingRequest))
+			return srv.List(ctx, req.(*v1.PagingRequest))
 		})
 		out, err := h(ctx, &in)
 		if err != nil {
@@ -69,7 +69,7 @@ func _DepartmentService_ListDepartment0_HTTP_Handler(srv DepartmentServiceHTTPSe
 	}
 }
 
-func _DepartmentService_GetDepartment0_HTTP_Handler(srv DepartmentServiceHTTPServer) func(ctx http.Context) error {
+func _DepartmentService_Get2_HTTP_Handler(srv DepartmentServiceHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
 		var in v11.GetDepartmentRequest
 		if err := ctx.BindQuery(&in); err != nil {
@@ -78,9 +78,9 @@ func _DepartmentService_GetDepartment0_HTTP_Handler(srv DepartmentServiceHTTPSer
 		if err := ctx.BindVars(&in); err != nil {
 			return err
 		}
-		http.SetOperation(ctx, OperationDepartmentServiceGetDepartment)
+		http.SetOperation(ctx, OperationDepartmentServiceGet)
 		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
-			return srv.GetDepartment(ctx, req.(*v11.GetDepartmentRequest))
+			return srv.Get(ctx, req.(*v11.GetDepartmentRequest))
 		})
 		out, err := h(ctx, &in)
 		if err != nil {
@@ -91,7 +91,7 @@ func _DepartmentService_GetDepartment0_HTTP_Handler(srv DepartmentServiceHTTPSer
 	}
 }
 
-func _DepartmentService_CreateDepartment0_HTTP_Handler(srv DepartmentServiceHTTPServer) func(ctx http.Context) error {
+func _DepartmentService_Create0_HTTP_Handler(srv DepartmentServiceHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
 		var in v11.CreateDepartmentRequest
 		if err := ctx.Bind(&in); err != nil {
@@ -100,9 +100,9 @@ func _DepartmentService_CreateDepartment0_HTTP_Handler(srv DepartmentServiceHTTP
 		if err := ctx.BindQuery(&in); err != nil {
 			return err
 		}
-		http.SetOperation(ctx, OperationDepartmentServiceCreateDepartment)
+		http.SetOperation(ctx, OperationDepartmentServiceCreate)
 		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
-			return srv.CreateDepartment(ctx, req.(*v11.CreateDepartmentRequest))
+			return srv.Create(ctx, req.(*v11.CreateDepartmentRequest))
 		})
 		out, err := h(ctx, &in)
 		if err != nil {
@@ -113,7 +113,7 @@ func _DepartmentService_CreateDepartment0_HTTP_Handler(srv DepartmentServiceHTTP
 	}
 }
 
-func _DepartmentService_UpdateDepartment0_HTTP_Handler(srv DepartmentServiceHTTPServer) func(ctx http.Context) error {
+func _DepartmentService_Update0_HTTP_Handler(srv DepartmentServiceHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
 		var in v11.UpdateDepartmentRequest
 		if err := ctx.Bind(&in); err != nil {
@@ -125,9 +125,9 @@ func _DepartmentService_UpdateDepartment0_HTTP_Handler(srv DepartmentServiceHTTP
 		if err := ctx.BindVars(&in); err != nil {
 			return err
 		}
-		http.SetOperation(ctx, OperationDepartmentServiceUpdateDepartment)
+		http.SetOperation(ctx, OperationDepartmentServiceUpdate)
 		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
-			return srv.UpdateDepartment(ctx, req.(*v11.UpdateDepartmentRequest))
+			return srv.Update(ctx, req.(*v11.UpdateDepartmentRequest))
 		})
 		out, err := h(ctx, &in)
 		if err != nil {
@@ -138,7 +138,7 @@ func _DepartmentService_UpdateDepartment0_HTTP_Handler(srv DepartmentServiceHTTP
 	}
 }
 
-func _DepartmentService_DeleteDepartment0_HTTP_Handler(srv DepartmentServiceHTTPServer) func(ctx http.Context) error {
+func _DepartmentService_Delete0_HTTP_Handler(srv DepartmentServiceHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
 		var in v11.DeleteDepartmentRequest
 		if err := ctx.BindQuery(&in); err != nil {
@@ -147,9 +147,9 @@ func _DepartmentService_DeleteDepartment0_HTTP_Handler(srv DepartmentServiceHTTP
 		if err := ctx.BindVars(&in); err != nil {
 			return err
 		}
-		http.SetOperation(ctx, OperationDepartmentServiceDeleteDepartment)
+		http.SetOperation(ctx, OperationDepartmentServiceDelete)
 		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
-			return srv.DeleteDepartment(ctx, req.(*v11.DeleteDepartmentRequest))
+			return srv.Delete(ctx, req.(*v11.DeleteDepartmentRequest))
 		})
 		out, err := h(ctx, &in)
 		if err != nil {
@@ -161,11 +161,11 @@ func _DepartmentService_DeleteDepartment0_HTTP_Handler(srv DepartmentServiceHTTP
 }
 
 type DepartmentServiceHTTPClient interface {
-	CreateDepartment(ctx context.Context, req *v11.CreateDepartmentRequest, opts ...http.CallOption) (rsp *emptypb.Empty, err error)
-	DeleteDepartment(ctx context.Context, req *v11.DeleteDepartmentRequest, opts ...http.CallOption) (rsp *emptypb.Empty, err error)
-	GetDepartment(ctx context.Context, req *v11.GetDepartmentRequest, opts ...http.CallOption) (rsp *v11.Department, err error)
-	ListDepartment(ctx context.Context, req *v1.PagingRequest, opts ...http.CallOption) (rsp *v11.ListDepartmentResponse, err error)
-	UpdateDepartment(ctx context.Context, req *v11.UpdateDepartmentRequest, opts ...http.CallOption) (rsp *emptypb.Empty, err error)
+	Create(ctx context.Context, req *v11.CreateDepartmentRequest, opts ...http.CallOption) (rsp *emptypb.Empty, err error)
+	Delete(ctx context.Context, req *v11.DeleteDepartmentRequest, opts ...http.CallOption) (rsp *emptypb.Empty, err error)
+	Get(ctx context.Context, req *v11.GetDepartmentRequest, opts ...http.CallOption) (rsp *v11.Department, err error)
+	List(ctx context.Context, req *v1.PagingRequest, opts ...http.CallOption) (rsp *v11.ListDepartmentResponse, err error)
+	Update(ctx context.Context, req *v11.UpdateDepartmentRequest, opts ...http.CallOption) (rsp *emptypb.Empty, err error)
 }
 
 type DepartmentServiceHTTPClientImpl struct {
@@ -176,11 +176,11 @@ func NewDepartmentServiceHTTPClient(client *http.Client) DepartmentServiceHTTPCl
 	return &DepartmentServiceHTTPClientImpl{client}
 }
 
-func (c *DepartmentServiceHTTPClientImpl) CreateDepartment(ctx context.Context, in *v11.CreateDepartmentRequest, opts ...http.CallOption) (*emptypb.Empty, error) {
+func (c *DepartmentServiceHTTPClientImpl) Create(ctx context.Context, in *v11.CreateDepartmentRequest, opts ...http.CallOption) (*emptypb.Empty, error) {
 	var out emptypb.Empty
 	pattern := "/admin/v1/departments"
 	path := binding.EncodeURL(pattern, in, false)
-	opts = append(opts, http.Operation(OperationDepartmentServiceCreateDepartment))
+	opts = append(opts, http.Operation(OperationDepartmentServiceCreate))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
 	if err != nil {
@@ -189,11 +189,11 @@ func (c *DepartmentServiceHTTPClientImpl) CreateDepartment(ctx context.Context, 
 	return &out, nil
 }
 
-func (c *DepartmentServiceHTTPClientImpl) DeleteDepartment(ctx context.Context, in *v11.DeleteDepartmentRequest, opts ...http.CallOption) (*emptypb.Empty, error) {
+func (c *DepartmentServiceHTTPClientImpl) Delete(ctx context.Context, in *v11.DeleteDepartmentRequest, opts ...http.CallOption) (*emptypb.Empty, error) {
 	var out emptypb.Empty
 	pattern := "/admin/v1/departments/{id}"
 	path := binding.EncodeURL(pattern, in, true)
-	opts = append(opts, http.Operation(OperationDepartmentServiceDeleteDepartment))
+	opts = append(opts, http.Operation(OperationDepartmentServiceDelete))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "DELETE", path, nil, &out, opts...)
 	if err != nil {
@@ -202,11 +202,11 @@ func (c *DepartmentServiceHTTPClientImpl) DeleteDepartment(ctx context.Context, 
 	return &out, nil
 }
 
-func (c *DepartmentServiceHTTPClientImpl) GetDepartment(ctx context.Context, in *v11.GetDepartmentRequest, opts ...http.CallOption) (*v11.Department, error) {
+func (c *DepartmentServiceHTTPClientImpl) Get(ctx context.Context, in *v11.GetDepartmentRequest, opts ...http.CallOption) (*v11.Department, error) {
 	var out v11.Department
 	pattern := "/admin/v1/departments/{id}"
 	path := binding.EncodeURL(pattern, in, true)
-	opts = append(opts, http.Operation(OperationDepartmentServiceGetDepartment))
+	opts = append(opts, http.Operation(OperationDepartmentServiceGet))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
 	if err != nil {
@@ -215,11 +215,11 @@ func (c *DepartmentServiceHTTPClientImpl) GetDepartment(ctx context.Context, in 
 	return &out, nil
 }
 
-func (c *DepartmentServiceHTTPClientImpl) ListDepartment(ctx context.Context, in *v1.PagingRequest, opts ...http.CallOption) (*v11.ListDepartmentResponse, error) {
+func (c *DepartmentServiceHTTPClientImpl) List(ctx context.Context, in *v1.PagingRequest, opts ...http.CallOption) (*v11.ListDepartmentResponse, error) {
 	var out v11.ListDepartmentResponse
 	pattern := "/admin/v1/departments"
 	path := binding.EncodeURL(pattern, in, true)
-	opts = append(opts, http.Operation(OperationDepartmentServiceListDepartment))
+	opts = append(opts, http.Operation(OperationDepartmentServiceList))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
 	if err != nil {
@@ -228,11 +228,11 @@ func (c *DepartmentServiceHTTPClientImpl) ListDepartment(ctx context.Context, in
 	return &out, nil
 }
 
-func (c *DepartmentServiceHTTPClientImpl) UpdateDepartment(ctx context.Context, in *v11.UpdateDepartmentRequest, opts ...http.CallOption) (*emptypb.Empty, error) {
+func (c *DepartmentServiceHTTPClientImpl) Update(ctx context.Context, in *v11.UpdateDepartmentRequest, opts ...http.CallOption) (*emptypb.Empty, error) {
 	var out emptypb.Empty
 	pattern := "/admin/v1/departments/{data.id}"
 	path := binding.EncodeURL(pattern, in, false)
-	opts = append(opts, http.Operation(OperationDepartmentServiceUpdateDepartment))
+	opts = append(opts, http.Operation(OperationDepartmentServiceUpdate))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "PUT", path, in, &out, opts...)
 	if err != nil {

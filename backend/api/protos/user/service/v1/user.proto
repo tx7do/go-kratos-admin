@@ -13,19 +13,19 @@ import "pagination/v1/pagination.proto";
 // 用户服务
 service UserService {
   // 查询用户列表
-  rpc ListUser (pagination.PagingRequest) returns (ListUserResponse) {}
+  rpc List (pagination.PagingRequest) returns (ListUserResponse) {}
 
   // 查询用户详情
-  rpc GetUser (GetUserRequest) returns (User) {}
+  rpc Get (GetUserRequest) returns (User) {}
 
   // 创建用户
-  rpc CreateUser (CreateUserRequest) returns (google.protobuf.Empty) {}
+  rpc Create (CreateUserRequest) returns (google.protobuf.Empty) {}
 
   // 更新用户
-  rpc UpdateUser (UpdateUserRequest) returns (google.protobuf.Empty) {}
+  rpc Update (UpdateUserRequest) returns (google.protobuf.Empty) {}
 
   // 删除用户
-  rpc DeleteUser (DeleteUserRequest) returns (google.protobuf.Empty) {}
+  rpc Delete (DeleteUserRequest) returns (google.protobuf.Empty) {}
 
   // 查询用户详情
   rpc GetUserByUserName (GetUserByUserNameRequest) returns (User) {}

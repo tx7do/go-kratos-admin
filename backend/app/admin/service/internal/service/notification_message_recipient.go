@@ -31,15 +31,15 @@ func NewNotificationMessageRecipientService(uc *data.NotificationMessageRecipien
 	}
 }
 
-func (s *NotificationMessageRecipientService) ListNotificationMessageRecipient(ctx context.Context, req *pagination.PagingRequest) (*internalMessageV1.ListNotificationMessageRecipientResponse, error) {
+func (s *NotificationMessageRecipientService) List(ctx context.Context, req *pagination.PagingRequest) (*internalMessageV1.ListNotificationMessageRecipientResponse, error) {
 	return s.uc.List(ctx, req)
 }
 
-func (s *NotificationMessageRecipientService) GetNotificationMessageRecipient(ctx context.Context, req *internalMessageV1.GetNotificationMessageRecipientRequest) (*internalMessageV1.NotificationMessageRecipient, error) {
+func (s *NotificationMessageRecipientService) Get(ctx context.Context, req *internalMessageV1.GetNotificationMessageRecipientRequest) (*internalMessageV1.NotificationMessageRecipient, error) {
 	return s.uc.Get(ctx, req)
 }
 
-func (s *NotificationMessageRecipientService) CreateNotificationMessageRecipient(ctx context.Context, req *internalMessageV1.CreateNotificationMessageRecipientRequest) (*emptypb.Empty, error) {
+func (s *NotificationMessageRecipientService) Create(ctx context.Context, req *internalMessageV1.CreateNotificationMessageRecipientRequest) (*emptypb.Empty, error) {
 	if req.Data == nil {
 		return nil, adminV1.ErrorBadRequest("错误的参数")
 	}
@@ -57,7 +57,7 @@ func (s *NotificationMessageRecipientService) CreateNotificationMessageRecipient
 	return &emptypb.Empty{}, nil
 }
 
-func (s *NotificationMessageRecipientService) UpdateNotificationMessageRecipient(ctx context.Context, req *internalMessageV1.UpdateNotificationMessageRecipientRequest) (*emptypb.Empty, error) {
+func (s *NotificationMessageRecipientService) Update(ctx context.Context, req *internalMessageV1.UpdateNotificationMessageRecipientRequest) (*emptypb.Empty, error) {
 	if req.Data == nil {
 		return nil, adminV1.ErrorBadRequest("错误的参数")
 	}
@@ -75,7 +75,7 @@ func (s *NotificationMessageRecipientService) UpdateNotificationMessageRecipient
 	return &emptypb.Empty{}, nil
 }
 
-func (s *NotificationMessageRecipientService) DeleteNotificationMessageRecipient(ctx context.Context, req *internalMessageV1.DeleteNotificationMessageRecipientRequest) (*emptypb.Empty, error) {
+func (s *NotificationMessageRecipientService) Delete(ctx context.Context, req *internalMessageV1.DeleteNotificationMessageRecipientRequest) (*emptypb.Empty, error) {
 	if _, err := s.uc.Delete(ctx, req); err != nil {
 		return nil, err
 	}

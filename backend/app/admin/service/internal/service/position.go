@@ -31,15 +31,15 @@ func NewPositionService(uc *data.PositionRepo, logger log.Logger) *PositionServi
 	}
 }
 
-func (s *PositionService) ListPosition(ctx context.Context, req *pagination.PagingRequest) (*userV1.ListPositionResponse, error) {
+func (s *PositionService) List(ctx context.Context, req *pagination.PagingRequest) (*userV1.ListPositionResponse, error) {
 	return s.uc.List(ctx, req)
 }
 
-func (s *PositionService) GetPosition(ctx context.Context, req *userV1.GetPositionRequest) (*userV1.Position, error) {
+func (s *PositionService) Get(ctx context.Context, req *userV1.GetPositionRequest) (*userV1.Position, error) {
 	return s.uc.Get(ctx, req)
 }
 
-func (s *PositionService) CreatePosition(ctx context.Context, req *userV1.CreatePositionRequest) (*emptypb.Empty, error) {
+func (s *PositionService) Create(ctx context.Context, req *userV1.CreatePositionRequest) (*emptypb.Empty, error) {
 	if req.Data == nil {
 		return nil, adminV1.ErrorBadRequest("错误的参数")
 	}
@@ -57,7 +57,7 @@ func (s *PositionService) CreatePosition(ctx context.Context, req *userV1.Create
 	return &emptypb.Empty{}, nil
 }
 
-func (s *PositionService) UpdatePosition(ctx context.Context, req *userV1.UpdatePositionRequest) (*emptypb.Empty, error) {
+func (s *PositionService) Update(ctx context.Context, req *userV1.UpdatePositionRequest) (*emptypb.Empty, error) {
 	if req.Data == nil {
 		return nil, adminV1.ErrorBadRequest("错误的参数")
 	}
@@ -75,7 +75,7 @@ func (s *PositionService) UpdatePosition(ctx context.Context, req *userV1.Update
 	return &emptypb.Empty{}, nil
 }
 
-func (s *PositionService) DeletePosition(ctx context.Context, req *userV1.DeletePositionRequest) (*emptypb.Empty, error) {
+func (s *PositionService) Delete(ctx context.Context, req *userV1.DeletePositionRequest) (*emptypb.Empty, error) {
 	if _, err := s.uc.Delete(ctx, req); err != nil {
 		return nil, err
 	}

@@ -31,15 +31,15 @@ func NewFileService(uc *data.FileRepo, logger log.Logger) *FileService {
 	}
 }
 
-func (s *FileService) ListFile(ctx context.Context, req *pagination.PagingRequest) (*fileV1.ListFileResponse, error) {
+func (s *FileService) List(ctx context.Context, req *pagination.PagingRequest) (*fileV1.ListFileResponse, error) {
 	return s.uc.List(ctx, req)
 }
 
-func (s *FileService) GetFile(ctx context.Context, req *fileV1.GetFileRequest) (*fileV1.File, error) {
+func (s *FileService) Get(ctx context.Context, req *fileV1.GetFileRequest) (*fileV1.File, error) {
 	return s.uc.Get(ctx, req)
 }
 
-func (s *FileService) CreateFile(ctx context.Context, req *fileV1.CreateFileRequest) (*emptypb.Empty, error) {
+func (s *FileService) Create(ctx context.Context, req *fileV1.CreateFileRequest) (*emptypb.Empty, error) {
 	if req.Data == nil {
 		return nil, adminV1.ErrorBadRequest("错误的参数")
 	}
@@ -57,7 +57,7 @@ func (s *FileService) CreateFile(ctx context.Context, req *fileV1.CreateFileRequ
 	return &emptypb.Empty{}, nil
 }
 
-func (s *FileService) UpdateFile(ctx context.Context, req *fileV1.UpdateFileRequest) (*emptypb.Empty, error) {
+func (s *FileService) Update(ctx context.Context, req *fileV1.UpdateFileRequest) (*emptypb.Empty, error) {
 	if req.Data == nil {
 		return nil, adminV1.ErrorBadRequest("错误的参数")
 	}
@@ -75,7 +75,7 @@ func (s *FileService) UpdateFile(ctx context.Context, req *fileV1.UpdateFileRequ
 	return &emptypb.Empty{}, nil
 }
 
-func (s *FileService) DeleteFile(ctx context.Context, req *fileV1.DeleteFileRequest) (*emptypb.Empty, error) {
+func (s *FileService) Delete(ctx context.Context, req *fileV1.DeleteFileRequest) (*emptypb.Empty, error) {
 	if _, err := s.uc.Delete(ctx, req); err != nil {
 		return nil, err
 	}

@@ -21,31 +21,31 @@ var _ = binding.EncodeURL
 
 const _ = http.SupportPackageIsVersion1
 
-const OperationAdminOperationLogServiceGetAdminOperationLog = "/admin.service.v1.AdminOperationLogService/GetAdminOperationLog"
-const OperationAdminOperationLogServiceListAdminOperationLog = "/admin.service.v1.AdminOperationLogService/ListAdminOperationLog"
+const OperationAdminOperationLogServiceGet = "/admin.service.v1.AdminOperationLogService/Get"
+const OperationAdminOperationLogServiceList = "/admin.service.v1.AdminOperationLogService/List"
 
 type AdminOperationLogServiceHTTPServer interface {
-	// GetAdminOperationLog 查询后台操作日志详情
-	GetAdminOperationLog(context.Context, *v11.GetAdminOperationLogRequest) (*v11.AdminOperationLog, error)
-	// ListAdminOperationLog 查询后台操作日志列表
-	ListAdminOperationLog(context.Context, *v1.PagingRequest) (*v11.ListAdminOperationLogResponse, error)
+	// Get 查询后台操作日志详情
+	Get(context.Context, *v11.GetAdminOperationLogRequest) (*v11.AdminOperationLog, error)
+	// List 查询后台操作日志列表
+	List(context.Context, *v1.PagingRequest) (*v11.ListAdminOperationLogResponse, error)
 }
 
 func RegisterAdminOperationLogServiceHTTPServer(s *http.Server, srv AdminOperationLogServiceHTTPServer) {
 	r := s.Route("/")
-	r.GET("/admin/v1/admin_operation_logs", _AdminOperationLogService_ListAdminOperationLog0_HTTP_Handler(srv))
-	r.GET("/admin/v1/admin_operation_logs/{id}", _AdminOperationLogService_GetAdminOperationLog0_HTTP_Handler(srv))
+	r.GET("/admin/v1/admin_operation_logs", _AdminOperationLogService_List1_HTTP_Handler(srv))
+	r.GET("/admin/v1/admin_operation_logs/{id}", _AdminOperationLogService_Get1_HTTP_Handler(srv))
 }
 
-func _AdminOperationLogService_ListAdminOperationLog0_HTTP_Handler(srv AdminOperationLogServiceHTTPServer) func(ctx http.Context) error {
+func _AdminOperationLogService_List1_HTTP_Handler(srv AdminOperationLogServiceHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
 		var in v1.PagingRequest
 		if err := ctx.BindQuery(&in); err != nil {
 			return err
 		}
-		http.SetOperation(ctx, OperationAdminOperationLogServiceListAdminOperationLog)
+		http.SetOperation(ctx, OperationAdminOperationLogServiceList)
 		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
-			return srv.ListAdminOperationLog(ctx, req.(*v1.PagingRequest))
+			return srv.List(ctx, req.(*v1.PagingRequest))
 		})
 		out, err := h(ctx, &in)
 		if err != nil {
@@ -56,7 +56,7 @@ func _AdminOperationLogService_ListAdminOperationLog0_HTTP_Handler(srv AdminOper
 	}
 }
 
-func _AdminOperationLogService_GetAdminOperationLog0_HTTP_Handler(srv AdminOperationLogServiceHTTPServer) func(ctx http.Context) error {
+func _AdminOperationLogService_Get1_HTTP_Handler(srv AdminOperationLogServiceHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
 		var in v11.GetAdminOperationLogRequest
 		if err := ctx.BindQuery(&in); err != nil {
@@ -65,9 +65,9 @@ func _AdminOperationLogService_GetAdminOperationLog0_HTTP_Handler(srv AdminOpera
 		if err := ctx.BindVars(&in); err != nil {
 			return err
 		}
-		http.SetOperation(ctx, OperationAdminOperationLogServiceGetAdminOperationLog)
+		http.SetOperation(ctx, OperationAdminOperationLogServiceGet)
 		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
-			return srv.GetAdminOperationLog(ctx, req.(*v11.GetAdminOperationLogRequest))
+			return srv.Get(ctx, req.(*v11.GetAdminOperationLogRequest))
 		})
 		out, err := h(ctx, &in)
 		if err != nil {
@@ -79,8 +79,8 @@ func _AdminOperationLogService_GetAdminOperationLog0_HTTP_Handler(srv AdminOpera
 }
 
 type AdminOperationLogServiceHTTPClient interface {
-	GetAdminOperationLog(ctx context.Context, req *v11.GetAdminOperationLogRequest, opts ...http.CallOption) (rsp *v11.AdminOperationLog, err error)
-	ListAdminOperationLog(ctx context.Context, req *v1.PagingRequest, opts ...http.CallOption) (rsp *v11.ListAdminOperationLogResponse, err error)
+	Get(ctx context.Context, req *v11.GetAdminOperationLogRequest, opts ...http.CallOption) (rsp *v11.AdminOperationLog, err error)
+	List(ctx context.Context, req *v1.PagingRequest, opts ...http.CallOption) (rsp *v11.ListAdminOperationLogResponse, err error)
 }
 
 type AdminOperationLogServiceHTTPClientImpl struct {
@@ -91,11 +91,11 @@ func NewAdminOperationLogServiceHTTPClient(client *http.Client) AdminOperationLo
 	return &AdminOperationLogServiceHTTPClientImpl{client}
 }
 
-func (c *AdminOperationLogServiceHTTPClientImpl) GetAdminOperationLog(ctx context.Context, in *v11.GetAdminOperationLogRequest, opts ...http.CallOption) (*v11.AdminOperationLog, error) {
+func (c *AdminOperationLogServiceHTTPClientImpl) Get(ctx context.Context, in *v11.GetAdminOperationLogRequest, opts ...http.CallOption) (*v11.AdminOperationLog, error) {
 	var out v11.AdminOperationLog
 	pattern := "/admin/v1/admin_operation_logs/{id}"
 	path := binding.EncodeURL(pattern, in, true)
-	opts = append(opts, http.Operation(OperationAdminOperationLogServiceGetAdminOperationLog))
+	opts = append(opts, http.Operation(OperationAdminOperationLogServiceGet))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
 	if err != nil {
@@ -104,11 +104,11 @@ func (c *AdminOperationLogServiceHTTPClientImpl) GetAdminOperationLog(ctx contex
 	return &out, nil
 }
 
-func (c *AdminOperationLogServiceHTTPClientImpl) ListAdminOperationLog(ctx context.Context, in *v1.PagingRequest, opts ...http.CallOption) (*v11.ListAdminOperationLogResponse, error) {
+func (c *AdminOperationLogServiceHTTPClientImpl) List(ctx context.Context, in *v1.PagingRequest, opts ...http.CallOption) (*v11.ListAdminOperationLogResponse, error) {
 	var out v11.ListAdminOperationLogResponse
 	pattern := "/admin/v1/admin_operation_logs"
 	path := binding.EncodeURL(pattern, in, true)
-	opts = append(opts, http.Operation(OperationAdminOperationLogServiceListAdminOperationLog))
+	opts = append(opts, http.Operation(OperationAdminOperationLogServiceList))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
 	if err != nil {

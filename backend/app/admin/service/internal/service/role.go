@@ -31,15 +31,15 @@ func NewRoleService(uc *data.RoleRepo, logger log.Logger) *RoleService {
 	}
 }
 
-func (s *RoleService) ListRole(ctx context.Context, req *pagination.PagingRequest) (*userV1.ListRoleResponse, error) {
+func (s *RoleService) List(ctx context.Context, req *pagination.PagingRequest) (*userV1.ListRoleResponse, error) {
 	return s.uc.List(ctx, req)
 }
 
-func (s *RoleService) GetRole(ctx context.Context, req *userV1.GetRoleRequest) (*userV1.Role, error) {
+func (s *RoleService) Get(ctx context.Context, req *userV1.GetRoleRequest) (*userV1.Role, error) {
 	return s.uc.Get(ctx, req.GetId())
 }
 
-func (s *RoleService) CreateRole(ctx context.Context, req *userV1.CreateRoleRequest) (*emptypb.Empty, error) {
+func (s *RoleService) Create(ctx context.Context, req *userV1.CreateRoleRequest) (*emptypb.Empty, error) {
 	if req.Data == nil {
 		return nil, adminV1.ErrorBadRequest("错误的参数")
 	}
@@ -57,7 +57,7 @@ func (s *RoleService) CreateRole(ctx context.Context, req *userV1.CreateRoleRequ
 	return &emptypb.Empty{}, nil
 }
 
-func (s *RoleService) UpdateRole(ctx context.Context, req *userV1.UpdateRoleRequest) (*emptypb.Empty, error) {
+func (s *RoleService) Update(ctx context.Context, req *userV1.UpdateRoleRequest) (*emptypb.Empty, error) {
 	if req.Data == nil {
 		return nil, adminV1.ErrorBadRequest("错误的参数")
 	}
@@ -75,7 +75,7 @@ func (s *RoleService) UpdateRole(ctx context.Context, req *userV1.UpdateRoleRequ
 	return &emptypb.Empty{}, nil
 }
 
-func (s *RoleService) DeleteRole(ctx context.Context, req *userV1.DeleteRoleRequest) (*emptypb.Empty, error) {
+func (s *RoleService) Delete(ctx context.Context, req *userV1.DeleteRoleRequest) (*emptypb.Empty, error) {
 	if _, err := s.uc.Delete(ctx, req); err != nil {
 		return nil, err
 	}

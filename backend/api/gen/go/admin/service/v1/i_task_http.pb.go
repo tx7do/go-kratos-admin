@@ -23,54 +23,54 @@ var _ = binding.EncodeURL
 const _ = http.SupportPackageIsVersion1
 
 const OperationTaskServiceControlTask = "/admin.service.v1.TaskService/ControlTask"
-const OperationTaskServiceCreateTask = "/admin.service.v1.TaskService/CreateTask"
-const OperationTaskServiceDeleteTask = "/admin.service.v1.TaskService/DeleteTask"
-const OperationTaskServiceGetTask = "/admin.service.v1.TaskService/GetTask"
-const OperationTaskServiceListTask = "/admin.service.v1.TaskService/ListTask"
+const OperationTaskServiceCreate = "/admin.service.v1.TaskService/Create"
+const OperationTaskServiceDelete = "/admin.service.v1.TaskService/Delete"
+const OperationTaskServiceGet = "/admin.service.v1.TaskService/Get"
+const OperationTaskServiceList = "/admin.service.v1.TaskService/List"
 const OperationTaskServiceRestartAllTask = "/admin.service.v1.TaskService/RestartAllTask"
 const OperationTaskServiceStopAllTask = "/admin.service.v1.TaskService/StopAllTask"
-const OperationTaskServiceUpdateTask = "/admin.service.v1.TaskService/UpdateTask"
+const OperationTaskServiceUpdate = "/admin.service.v1.TaskService/Update"
 
 type TaskServiceHTTPServer interface {
 	// ControlTask 控制调度任务
 	ControlTask(context.Context, *v11.ControlTaskRequest) (*emptypb.Empty, error)
-	// CreateTask 创建调度任务
-	CreateTask(context.Context, *v11.CreateTaskRequest) (*emptypb.Empty, error)
-	// DeleteTask 删除调度任务
-	DeleteTask(context.Context, *v11.DeleteTaskRequest) (*emptypb.Empty, error)
-	// GetTask 查询调度任务详情
-	GetTask(context.Context, *v11.GetTaskRequest) (*v11.Task, error)
-	// ListTask 查询调度任务列表
-	ListTask(context.Context, *v1.PagingRequest) (*v11.ListTaskResponse, error)
+	// Create 创建调度任务
+	Create(context.Context, *v11.CreateTaskRequest) (*emptypb.Empty, error)
+	// Delete 删除调度任务
+	Delete(context.Context, *v11.DeleteTaskRequest) (*emptypb.Empty, error)
+	// Get 查询调度任务详情
+	Get(context.Context, *v11.GetTaskRequest) (*v11.Task, error)
+	// List 查询调度任务列表
+	List(context.Context, *v1.PagingRequest) (*v11.ListTaskResponse, error)
 	// RestartAllTask 重启所有的调度任务
 	RestartAllTask(context.Context, *emptypb.Empty) (*v11.RestartAllTaskResponse, error)
 	// StopAllTask 停止所有的调度任务
 	StopAllTask(context.Context, *emptypb.Empty) (*emptypb.Empty, error)
-	// UpdateTask 更新调度任务
-	UpdateTask(context.Context, *v11.UpdateTaskRequest) (*emptypb.Empty, error)
+	// Update 更新调度任务
+	Update(context.Context, *v11.UpdateTaskRequest) (*emptypb.Empty, error)
 }
 
 func RegisterTaskServiceHTTPServer(s *http.Server, srv TaskServiceHTTPServer) {
 	r := s.Route("/")
-	r.GET("/admin/v1/tasks", _TaskService_ListTask0_HTTP_Handler(srv))
-	r.GET("/admin/v1/tasks/{id}", _TaskService_GetTask0_HTTP_Handler(srv))
-	r.POST("/admin/v1/tasks", _TaskService_CreateTask0_HTTP_Handler(srv))
-	r.PUT("/admin/v1/tasks/{data.id}", _TaskService_UpdateTask0_HTTP_Handler(srv))
-	r.DELETE("/admin/v1/tasks/{id}", _TaskService_DeleteTask0_HTTP_Handler(srv))
+	r.GET("/admin/v1/tasks", _TaskService_List13_HTTP_Handler(srv))
+	r.GET("/admin/v1/tasks/{id}", _TaskService_Get13_HTTP_Handler(srv))
+	r.POST("/admin/v1/tasks", _TaskService_Create11_HTTP_Handler(srv))
+	r.PUT("/admin/v1/tasks/{data.id}", _TaskService_Update11_HTTP_Handler(srv))
+	r.DELETE("/admin/v1/tasks/{id}", _TaskService_Delete11_HTTP_Handler(srv))
 	r.POST("/admin/v1/tasks:restart", _TaskService_RestartAllTask0_HTTP_Handler(srv))
 	r.POST("/admin/v1/tasks:stop", _TaskService_StopAllTask0_HTTP_Handler(srv))
 	r.POST("/admin/v1/tasks:control", _TaskService_ControlTask0_HTTP_Handler(srv))
 }
 
-func _TaskService_ListTask0_HTTP_Handler(srv TaskServiceHTTPServer) func(ctx http.Context) error {
+func _TaskService_List13_HTTP_Handler(srv TaskServiceHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
 		var in v1.PagingRequest
 		if err := ctx.BindQuery(&in); err != nil {
 			return err
 		}
-		http.SetOperation(ctx, OperationTaskServiceListTask)
+		http.SetOperation(ctx, OperationTaskServiceList)
 		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
-			return srv.ListTask(ctx, req.(*v1.PagingRequest))
+			return srv.List(ctx, req.(*v1.PagingRequest))
 		})
 		out, err := h(ctx, &in)
 		if err != nil {
@@ -81,7 +81,7 @@ func _TaskService_ListTask0_HTTP_Handler(srv TaskServiceHTTPServer) func(ctx htt
 	}
 }
 
-func _TaskService_GetTask0_HTTP_Handler(srv TaskServiceHTTPServer) func(ctx http.Context) error {
+func _TaskService_Get13_HTTP_Handler(srv TaskServiceHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
 		var in v11.GetTaskRequest
 		if err := ctx.BindQuery(&in); err != nil {
@@ -90,9 +90,9 @@ func _TaskService_GetTask0_HTTP_Handler(srv TaskServiceHTTPServer) func(ctx http
 		if err := ctx.BindVars(&in); err != nil {
 			return err
 		}
-		http.SetOperation(ctx, OperationTaskServiceGetTask)
+		http.SetOperation(ctx, OperationTaskServiceGet)
 		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
-			return srv.GetTask(ctx, req.(*v11.GetTaskRequest))
+			return srv.Get(ctx, req.(*v11.GetTaskRequest))
 		})
 		out, err := h(ctx, &in)
 		if err != nil {
@@ -103,7 +103,7 @@ func _TaskService_GetTask0_HTTP_Handler(srv TaskServiceHTTPServer) func(ctx http
 	}
 }
 
-func _TaskService_CreateTask0_HTTP_Handler(srv TaskServiceHTTPServer) func(ctx http.Context) error {
+func _TaskService_Create11_HTTP_Handler(srv TaskServiceHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
 		var in v11.CreateTaskRequest
 		if err := ctx.Bind(&in); err != nil {
@@ -112,9 +112,9 @@ func _TaskService_CreateTask0_HTTP_Handler(srv TaskServiceHTTPServer) func(ctx h
 		if err := ctx.BindQuery(&in); err != nil {
 			return err
 		}
-		http.SetOperation(ctx, OperationTaskServiceCreateTask)
+		http.SetOperation(ctx, OperationTaskServiceCreate)
 		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
-			return srv.CreateTask(ctx, req.(*v11.CreateTaskRequest))
+			return srv.Create(ctx, req.(*v11.CreateTaskRequest))
 		})
 		out, err := h(ctx, &in)
 		if err != nil {
@@ -125,7 +125,7 @@ func _TaskService_CreateTask0_HTTP_Handler(srv TaskServiceHTTPServer) func(ctx h
 	}
 }
 
-func _TaskService_UpdateTask0_HTTP_Handler(srv TaskServiceHTTPServer) func(ctx http.Context) error {
+func _TaskService_Update11_HTTP_Handler(srv TaskServiceHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
 		var in v11.UpdateTaskRequest
 		if err := ctx.Bind(&in); err != nil {
@@ -137,9 +137,9 @@ func _TaskService_UpdateTask0_HTTP_Handler(srv TaskServiceHTTPServer) func(ctx h
 		if err := ctx.BindVars(&in); err != nil {
 			return err
 		}
-		http.SetOperation(ctx, OperationTaskServiceUpdateTask)
+		http.SetOperation(ctx, OperationTaskServiceUpdate)
 		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
-			return srv.UpdateTask(ctx, req.(*v11.UpdateTaskRequest))
+			return srv.Update(ctx, req.(*v11.UpdateTaskRequest))
 		})
 		out, err := h(ctx, &in)
 		if err != nil {
@@ -150,7 +150,7 @@ func _TaskService_UpdateTask0_HTTP_Handler(srv TaskServiceHTTPServer) func(ctx h
 	}
 }
 
-func _TaskService_DeleteTask0_HTTP_Handler(srv TaskServiceHTTPServer) func(ctx http.Context) error {
+func _TaskService_Delete11_HTTP_Handler(srv TaskServiceHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
 		var in v11.DeleteTaskRequest
 		if err := ctx.BindQuery(&in); err != nil {
@@ -159,9 +159,9 @@ func _TaskService_DeleteTask0_HTTP_Handler(srv TaskServiceHTTPServer) func(ctx h
 		if err := ctx.BindVars(&in); err != nil {
 			return err
 		}
-		http.SetOperation(ctx, OperationTaskServiceDeleteTask)
+		http.SetOperation(ctx, OperationTaskServiceDelete)
 		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
-			return srv.DeleteTask(ctx, req.(*v11.DeleteTaskRequest))
+			return srv.Delete(ctx, req.(*v11.DeleteTaskRequest))
 		})
 		out, err := h(ctx, &in)
 		if err != nil {
@@ -240,13 +240,13 @@ func _TaskService_ControlTask0_HTTP_Handler(srv TaskServiceHTTPServer) func(ctx 
 
 type TaskServiceHTTPClient interface {
 	ControlTask(ctx context.Context, req *v11.ControlTaskRequest, opts ...http.CallOption) (rsp *emptypb.Empty, err error)
-	CreateTask(ctx context.Context, req *v11.CreateTaskRequest, opts ...http.CallOption) (rsp *emptypb.Empty, err error)
-	DeleteTask(ctx context.Context, req *v11.DeleteTaskRequest, opts ...http.CallOption) (rsp *emptypb.Empty, err error)
-	GetTask(ctx context.Context, req *v11.GetTaskRequest, opts ...http.CallOption) (rsp *v11.Task, err error)
-	ListTask(ctx context.Context, req *v1.PagingRequest, opts ...http.CallOption) (rsp *v11.ListTaskResponse, err error)
+	Create(ctx context.Context, req *v11.CreateTaskRequest, opts ...http.CallOption) (rsp *emptypb.Empty, err error)
+	Delete(ctx context.Context, req *v11.DeleteTaskRequest, opts ...http.CallOption) (rsp *emptypb.Empty, err error)
+	Get(ctx context.Context, req *v11.GetTaskRequest, opts ...http.CallOption) (rsp *v11.Task, err error)
+	List(ctx context.Context, req *v1.PagingRequest, opts ...http.CallOption) (rsp *v11.ListTaskResponse, err error)
 	RestartAllTask(ctx context.Context, req *emptypb.Empty, opts ...http.CallOption) (rsp *v11.RestartAllTaskResponse, err error)
 	StopAllTask(ctx context.Context, req *emptypb.Empty, opts ...http.CallOption) (rsp *emptypb.Empty, err error)
-	UpdateTask(ctx context.Context, req *v11.UpdateTaskRequest, opts ...http.CallOption) (rsp *emptypb.Empty, err error)
+	Update(ctx context.Context, req *v11.UpdateTaskRequest, opts ...http.CallOption) (rsp *emptypb.Empty, err error)
 }
 
 type TaskServiceHTTPClientImpl struct {
@@ -270,11 +270,11 @@ func (c *TaskServiceHTTPClientImpl) ControlTask(ctx context.Context, in *v11.Con
 	return &out, nil
 }
 
-func (c *TaskServiceHTTPClientImpl) CreateTask(ctx context.Context, in *v11.CreateTaskRequest, opts ...http.CallOption) (*emptypb.Empty, error) {
+func (c *TaskServiceHTTPClientImpl) Create(ctx context.Context, in *v11.CreateTaskRequest, opts ...http.CallOption) (*emptypb.Empty, error) {
 	var out emptypb.Empty
 	pattern := "/admin/v1/tasks"
 	path := binding.EncodeURL(pattern, in, false)
-	opts = append(opts, http.Operation(OperationTaskServiceCreateTask))
+	opts = append(opts, http.Operation(OperationTaskServiceCreate))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
 	if err != nil {
@@ -283,11 +283,11 @@ func (c *TaskServiceHTTPClientImpl) CreateTask(ctx context.Context, in *v11.Crea
 	return &out, nil
 }
 
-func (c *TaskServiceHTTPClientImpl) DeleteTask(ctx context.Context, in *v11.DeleteTaskRequest, opts ...http.CallOption) (*emptypb.Empty, error) {
+func (c *TaskServiceHTTPClientImpl) Delete(ctx context.Context, in *v11.DeleteTaskRequest, opts ...http.CallOption) (*emptypb.Empty, error) {
 	var out emptypb.Empty
 	pattern := "/admin/v1/tasks/{id}"
 	path := binding.EncodeURL(pattern, in, true)
-	opts = append(opts, http.Operation(OperationTaskServiceDeleteTask))
+	opts = append(opts, http.Operation(OperationTaskServiceDelete))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "DELETE", path, nil, &out, opts...)
 	if err != nil {
@@ -296,11 +296,11 @@ func (c *TaskServiceHTTPClientImpl) DeleteTask(ctx context.Context, in *v11.Dele
 	return &out, nil
 }
 
-func (c *TaskServiceHTTPClientImpl) GetTask(ctx context.Context, in *v11.GetTaskRequest, opts ...http.CallOption) (*v11.Task, error) {
+func (c *TaskServiceHTTPClientImpl) Get(ctx context.Context, in *v11.GetTaskRequest, opts ...http.CallOption) (*v11.Task, error) {
 	var out v11.Task
 	pattern := "/admin/v1/tasks/{id}"
 	path := binding.EncodeURL(pattern, in, true)
-	opts = append(opts, http.Operation(OperationTaskServiceGetTask))
+	opts = append(opts, http.Operation(OperationTaskServiceGet))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
 	if err != nil {
@@ -309,11 +309,11 @@ func (c *TaskServiceHTTPClientImpl) GetTask(ctx context.Context, in *v11.GetTask
 	return &out, nil
 }
 
-func (c *TaskServiceHTTPClientImpl) ListTask(ctx context.Context, in *v1.PagingRequest, opts ...http.CallOption) (*v11.ListTaskResponse, error) {
+func (c *TaskServiceHTTPClientImpl) List(ctx context.Context, in *v1.PagingRequest, opts ...http.CallOption) (*v11.ListTaskResponse, error) {
 	var out v11.ListTaskResponse
 	pattern := "/admin/v1/tasks"
 	path := binding.EncodeURL(pattern, in, true)
-	opts = append(opts, http.Operation(OperationTaskServiceListTask))
+	opts = append(opts, http.Operation(OperationTaskServiceList))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
 	if err != nil {
@@ -348,11 +348,11 @@ func (c *TaskServiceHTTPClientImpl) StopAllTask(ctx context.Context, in *emptypb
 	return &out, nil
 }
 
-func (c *TaskServiceHTTPClientImpl) UpdateTask(ctx context.Context, in *v11.UpdateTaskRequest, opts ...http.CallOption) (*emptypb.Empty, error) {
+func (c *TaskServiceHTTPClientImpl) Update(ctx context.Context, in *v11.UpdateTaskRequest, opts ...http.CallOption) (*emptypb.Empty, error) {
 	var out emptypb.Empty
 	pattern := "/admin/v1/tasks/{data.id}"
 	path := binding.EncodeURL(pattern, in, false)
-	opts = append(opts, http.Operation(OperationTaskServiceUpdateTask))
+	opts = append(opts, http.Operation(OperationTaskServiceUpdate))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "PUT", path, in, &out, opts...)
 	if err != nil {

@@ -13,19 +13,19 @@ import "pagination/v1/pagination.proto";
 // 租户服务
 service TenantService {
   // 查询租户列表
-  rpc ListTenant (pagination.PagingRequest) returns (ListTenantResponse) {}
+  rpc List (pagination.PagingRequest) returns (ListTenantResponse) {}
 
   // 查询租户详情
-  rpc GetTenant (GetTenantRequest) returns (Tenant) {}
+  rpc Get (GetTenantRequest) returns (Tenant) {}
 
   // 创建租户
-  rpc CreateTenant (CreateTenantRequest) returns (google.protobuf.Empty) {}
+  rpc Create (CreateTenantRequest) returns (google.protobuf.Empty) {}
 
   // 更新租户
-  rpc UpdateTenant (UpdateTenantRequest) returns (google.protobuf.Empty) {}
+  rpc Update (UpdateTenantRequest) returns (google.protobuf.Empty) {}
 
   // 删除租户
-  rpc DeleteTenant (DeleteTenantRequest) returns (google.protobuf.Empty) {}
+  rpc Delete (DeleteTenantRequest) returns (google.protobuf.Empty) {}
 }
 
 // 租户

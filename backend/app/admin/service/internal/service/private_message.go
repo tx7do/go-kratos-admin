@@ -31,15 +31,15 @@ func NewPrivateMessageService(uc *data.PrivateMessageRepo, logger log.Logger) *P
 	}
 }
 
-func (s *PrivateMessageService) ListPrivateMessage(ctx context.Context, req *pagination.PagingRequest) (*internalMessageV1.ListPrivateMessageResponse, error) {
+func (s *PrivateMessageService) List(ctx context.Context, req *pagination.PagingRequest) (*internalMessageV1.ListPrivateMessageResponse, error) {
 	return s.uc.List(ctx, req)
 }
 
-func (s *PrivateMessageService) GetPrivateMessage(ctx context.Context, req *internalMessageV1.GetPrivateMessageRequest) (*internalMessageV1.PrivateMessage, error) {
+func (s *PrivateMessageService) Get(ctx context.Context, req *internalMessageV1.GetPrivateMessageRequest) (*internalMessageV1.PrivateMessage, error) {
 	return s.uc.Get(ctx, req)
 }
 
-func (s *PrivateMessageService) CreatePrivateMessage(ctx context.Context, req *internalMessageV1.CreatePrivateMessageRequest) (*emptypb.Empty, error) {
+func (s *PrivateMessageService) Create(ctx context.Context, req *internalMessageV1.CreatePrivateMessageRequest) (*emptypb.Empty, error) {
 	if req.Data == nil {
 		return nil, adminV1.ErrorBadRequest("错误的参数")
 	}
@@ -57,7 +57,7 @@ func (s *PrivateMessageService) CreatePrivateMessage(ctx context.Context, req *i
 	return &emptypb.Empty{}, nil
 }
 
-func (s *PrivateMessageService) UpdatePrivateMessage(ctx context.Context, req *internalMessageV1.UpdatePrivateMessageRequest) (*emptypb.Empty, error) {
+func (s *PrivateMessageService) Update(ctx context.Context, req *internalMessageV1.UpdatePrivateMessageRequest) (*emptypb.Empty, error) {
 	if req.Data == nil {
 		return nil, adminV1.ErrorBadRequest("错误的参数")
 	}
@@ -75,7 +75,7 @@ func (s *PrivateMessageService) UpdatePrivateMessage(ctx context.Context, req *i
 	return &emptypb.Empty{}, nil
 }
 
-func (s *PrivateMessageService) DeletePrivateMessage(ctx context.Context, req *internalMessageV1.DeletePrivateMessageRequest) (*emptypb.Empty, error) {
+func (s *PrivateMessageService) Delete(ctx context.Context, req *internalMessageV1.DeletePrivateMessageRequest) (*emptypb.Empty, error) {
 	if _, err := s.uc.Delete(ctx, req); err != nil {
 		return nil, err
 	}

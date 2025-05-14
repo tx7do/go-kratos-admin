@@ -13,14 +13,14 @@ import "system/service/v1/admin_login_log.proto";
 // 后台登录日志管理服务
 service AdminLoginLogService {
   // 查询后台登录日志列表
-  rpc ListAdminLoginLog (pagination.PagingRequest) returns (system.service.v1.ListAdminLoginLogResponse) {
+  rpc List (pagination.PagingRequest) returns (system.service.v1.ListAdminLoginLogResponse) {
     option (google.api.http) = {
       get: "/admin/v1/admin_login_logs"
     };
   }
 
   // 查询后台登录日志详情
-  rpc GetAdminLoginLog (system.service.v1.GetAdminLoginLogRequest) returns (system.service.v1.AdminLoginLog) {
+  rpc Get (system.service.v1.GetAdminLoginLogRequest) returns (system.service.v1.AdminLoginLog) {
     option (google.api.http) = {
       get: "/admin/v1/admin_login_logs/{id}"
     };

@@ -21,8 +21,8 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	AdminOperationLogService_ListAdminOperationLog_FullMethodName = "/admin.service.v1.AdminOperationLogService/ListAdminOperationLog"
-	AdminOperationLogService_GetAdminOperationLog_FullMethodName  = "/admin.service.v1.AdminOperationLogService/GetAdminOperationLog"
+	AdminOperationLogService_List_FullMethodName = "/admin.service.v1.AdminOperationLogService/List"
+	AdminOperationLogService_Get_FullMethodName  = "/admin.service.v1.AdminOperationLogService/Get"
 )
 
 // AdminOperationLogServiceClient is the client API for AdminOperationLogService service.
@@ -32,9 +32,9 @@ const (
 // 后台操作日志管理服务
 type AdminOperationLogServiceClient interface {
 	// 查询后台操作日志列表
-	ListAdminOperationLog(ctx context.Context, in *v1.PagingRequest, opts ...grpc.CallOption) (*v11.ListAdminOperationLogResponse, error)
+	List(ctx context.Context, in *v1.PagingRequest, opts ...grpc.CallOption) (*v11.ListAdminOperationLogResponse, error)
 	// 查询后台操作日志详情
-	GetAdminOperationLog(ctx context.Context, in *v11.GetAdminOperationLogRequest, opts ...grpc.CallOption) (*v11.AdminOperationLog, error)
+	Get(ctx context.Context, in *v11.GetAdminOperationLogRequest, opts ...grpc.CallOption) (*v11.AdminOperationLog, error)
 }
 
 type adminOperationLogServiceClient struct {
@@ -45,20 +45,20 @@ func NewAdminOperationLogServiceClient(cc grpc.ClientConnInterface) AdminOperati
 	return &adminOperationLogServiceClient{cc}
 }
 
-func (c *adminOperationLogServiceClient) ListAdminOperationLog(ctx context.Context, in *v1.PagingRequest, opts ...grpc.CallOption) (*v11.ListAdminOperationLogResponse, error) {
+func (c *adminOperationLogServiceClient) List(ctx context.Context, in *v1.PagingRequest, opts ...grpc.CallOption) (*v11.ListAdminOperationLogResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(v11.ListAdminOperationLogResponse)
-	err := c.cc.Invoke(ctx, AdminOperationLogService_ListAdminOperationLog_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, AdminOperationLogService_List_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *adminOperationLogServiceClient) GetAdminOperationLog(ctx context.Context, in *v11.GetAdminOperationLogRequest, opts ...grpc.CallOption) (*v11.AdminOperationLog, error) {
+func (c *adminOperationLogServiceClient) Get(ctx context.Context, in *v11.GetAdminOperationLogRequest, opts ...grpc.CallOption) (*v11.AdminOperationLog, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(v11.AdminOperationLog)
-	err := c.cc.Invoke(ctx, AdminOperationLogService_GetAdminOperationLog_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, AdminOperationLogService_Get_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -72,9 +72,9 @@ func (c *adminOperationLogServiceClient) GetAdminOperationLog(ctx context.Contex
 // 后台操作日志管理服务
 type AdminOperationLogServiceServer interface {
 	// 查询后台操作日志列表
-	ListAdminOperationLog(context.Context, *v1.PagingRequest) (*v11.ListAdminOperationLogResponse, error)
+	List(context.Context, *v1.PagingRequest) (*v11.ListAdminOperationLogResponse, error)
 	// 查询后台操作日志详情
-	GetAdminOperationLog(context.Context, *v11.GetAdminOperationLogRequest) (*v11.AdminOperationLog, error)
+	Get(context.Context, *v11.GetAdminOperationLogRequest) (*v11.AdminOperationLog, error)
 	mustEmbedUnimplementedAdminOperationLogServiceServer()
 }
 
@@ -85,11 +85,11 @@ type AdminOperationLogServiceServer interface {
 // pointer dereference when methods are called.
 type UnimplementedAdminOperationLogServiceServer struct{}
 
-func (UnimplementedAdminOperationLogServiceServer) ListAdminOperationLog(context.Context, *v1.PagingRequest) (*v11.ListAdminOperationLogResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ListAdminOperationLog not implemented")
+func (UnimplementedAdminOperationLogServiceServer) List(context.Context, *v1.PagingRequest) (*v11.ListAdminOperationLogResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method List not implemented")
 }
-func (UnimplementedAdminOperationLogServiceServer) GetAdminOperationLog(context.Context, *v11.GetAdminOperationLogRequest) (*v11.AdminOperationLog, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetAdminOperationLog not implemented")
+func (UnimplementedAdminOperationLogServiceServer) Get(context.Context, *v11.GetAdminOperationLogRequest) (*v11.AdminOperationLog, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Get not implemented")
 }
 func (UnimplementedAdminOperationLogServiceServer) mustEmbedUnimplementedAdminOperationLogServiceServer() {
 }
@@ -113,38 +113,38 @@ func RegisterAdminOperationLogServiceServer(s grpc.ServiceRegistrar, srv AdminOp
 	s.RegisterService(&AdminOperationLogService_ServiceDesc, srv)
 }
 
-func _AdminOperationLogService_ListAdminOperationLog_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _AdminOperationLogService_List_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(v1.PagingRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(AdminOperationLogServiceServer).ListAdminOperationLog(ctx, in)
+		return srv.(AdminOperationLogServiceServer).List(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: AdminOperationLogService_ListAdminOperationLog_FullMethodName,
+		FullMethod: AdminOperationLogService_List_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AdminOperationLogServiceServer).ListAdminOperationLog(ctx, req.(*v1.PagingRequest))
+		return srv.(AdminOperationLogServiceServer).List(ctx, req.(*v1.PagingRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _AdminOperationLogService_GetAdminOperationLog_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _AdminOperationLogService_Get_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(v11.GetAdminOperationLogRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(AdminOperationLogServiceServer).GetAdminOperationLog(ctx, in)
+		return srv.(AdminOperationLogServiceServer).Get(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: AdminOperationLogService_GetAdminOperationLog_FullMethodName,
+		FullMethod: AdminOperationLogService_Get_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AdminOperationLogServiceServer).GetAdminOperationLog(ctx, req.(*v11.GetAdminOperationLogRequest))
+		return srv.(AdminOperationLogServiceServer).Get(ctx, req.(*v11.GetAdminOperationLogRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -157,12 +157,12 @@ var AdminOperationLogService_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*AdminOperationLogServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "ListAdminOperationLog",
-			Handler:    _AdminOperationLogService_ListAdminOperationLog_Handler,
+			MethodName: "List",
+			Handler:    _AdminOperationLogService_List_Handler,
 		},
 		{
-			MethodName: "GetAdminOperationLog",
-			Handler:    _AdminOperationLogService_GetAdminOperationLog_Handler,
+			MethodName: "Get",
+			Handler:    _AdminOperationLogService_Get_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -13,21 +13,21 @@ import "user/service/v1/department.proto";
 // 部门管理服务
 service DepartmentService {
   // 查询部门列表
-  rpc ListDepartment (pagination.PagingRequest) returns (user.service.v1.ListDepartmentResponse) {
+  rpc List (pagination.PagingRequest) returns (user.service.v1.ListDepartmentResponse) {
     option (google.api.http) = {
       get: "/admin/v1/departments"
     };
   }
 
   // 查询部门详情
-  rpc GetDepartment (user.service.v1.GetDepartmentRequest) returns (user.service.v1.Department) {
+  rpc Get (user.service.v1.GetDepartmentRequest) returns (user.service.v1.Department) {
     option (google.api.http) = {
       get: "/admin/v1/departments/{id}"
     };
   }
 
   // 创建部门
-  rpc CreateDepartment (user.service.v1.CreateDepartmentRequest) returns (google.protobuf.Empty) {
+  rpc Create (user.service.v1.CreateDepartmentRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
       post: "/admin/v1/departments"
       body: "*"
@@ -35,7 +35,7 @@ service DepartmentService {
   }
 
   // 更新部门
-  rpc UpdateDepartment (user.service.v1.UpdateDepartmentRequest) returns (google.protobuf.Empty) {
+  rpc Update (user.service.v1.UpdateDepartmentRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
       put: "/admin/v1/departments/{data.id}"
       body: "*"
@@ -43,7 +43,7 @@ service DepartmentService {
   }
 
   // 删除部门
-  rpc DeleteDepartment (user.service.v1.DeleteDepartmentRequest) returns (google.protobuf.Empty) {
+  rpc Delete (user.service.v1.DeleteDepartmentRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
       delete: "/admin/v1/departments/{id}"
     };

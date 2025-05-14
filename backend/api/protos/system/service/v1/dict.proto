@@ -16,19 +16,19 @@ import "pagination/v1/pagination.proto";
 // 字典服务
 service DictService {
   // 查询字典列表
-  rpc ListDict (pagination.PagingRequest) returns (ListDictResponse) {}
+  rpc List (pagination.PagingRequest) returns (ListDictResponse) {}
 
   // 查询字典详情
-  rpc GetDict (GetDictRequest) returns (Dict) {}
+  rpc Get (GetDictRequest) returns (Dict) {}
 
   // 创建字典
-  rpc CreateDict (CreateDictRequest) returns (google.protobuf.Empty) {}
+  rpc Create (CreateDictRequest) returns (google.protobuf.Empty) {}
 
   // 更新字典
-  rpc UpdateDict (UpdateDictRequest) returns (google.protobuf.Empty) {}
+  rpc Update (UpdateDictRequest) returns (google.protobuf.Empty) {}
 
   // 删除字典
-  rpc DeleteDict (DeleteDictRequest) returns (google.protobuf.Empty) {}
+  rpc Delete (DeleteDictRequest) returns (google.protobuf.Empty) {}
 }
 
 // 字典

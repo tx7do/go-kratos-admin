@@ -30,15 +30,15 @@ func NewAdminOperationLogService(uc *data.AdminOperationLogRepo, logger log.Logg
 	}
 }
 
-func (s *AdminOperationLogService) ListAdminOperationLog(ctx context.Context, req *pagination.PagingRequest) (*systemV1.ListAdminOperationLogResponse, error) {
+func (s *AdminOperationLogService) List(ctx context.Context, req *pagination.PagingRequest) (*systemV1.ListAdminOperationLogResponse, error) {
 	return s.uc.List(ctx, req)
 }
 
-func (s *AdminOperationLogService) GetAdminOperationLog(ctx context.Context, req *systemV1.GetAdminOperationLogRequest) (*systemV1.AdminOperationLog, error) {
+func (s *AdminOperationLogService) Get(ctx context.Context, req *systemV1.GetAdminOperationLogRequest) (*systemV1.AdminOperationLog, error) {
 	return s.uc.Get(ctx, req)
 }
 
-func (s *AdminOperationLogService) CreateAdminOperationLog(ctx context.Context, req *systemV1.CreateAdminOperationLogRequest) (*emptypb.Empty, error) {
+func (s *AdminOperationLogService) Create(ctx context.Context, req *systemV1.CreateAdminOperationLogRequest) (*emptypb.Empty, error) {
 	if req.Data == nil {
 		return nil, adminV1.ErrorBadRequest("错误的参数")
 	}
@@ -50,7 +50,7 @@ func (s *AdminOperationLogService) CreateAdminOperationLog(ctx context.Context, 
 	return &emptypb.Empty{}, nil
 }
 
-func (s *AdminOperationLogService) UpdateAdminOperationLog(ctx context.Context, req *systemV1.UpdateAdminOperationLogRequest) (*emptypb.Empty, error) {
+func (s *AdminOperationLogService) Update(ctx context.Context, req *systemV1.UpdateAdminOperationLogRequest) (*emptypb.Empty, error) {
 	if req.Data == nil {
 		return nil, adminV1.ErrorBadRequest("错误的参数")
 	}
@@ -62,7 +62,7 @@ func (s *AdminOperationLogService) UpdateAdminOperationLog(ctx context.Context, 
 	return &emptypb.Empty{}, nil
 }
 
-func (s *AdminOperationLogService) DeleteAdminOperationLog(ctx context.Context, req *systemV1.DeleteAdminOperationLogRequest) (*emptypb.Empty, error) {
+func (s *AdminOperationLogService) Delete(ctx context.Context, req *systemV1.DeleteAdminOperationLogRequest) (*emptypb.Empty, error) {
 	if _, err := s.uc.Delete(ctx, req); err != nil {
 		return nil, err
 	}

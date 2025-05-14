@@ -16,19 +16,19 @@ import "pagination/v1/pagination.proto";
 // 通知消息服务
 service NotificationMessageService {
   // 查询通知消息列表
-  rpc ListNotificationMessage (pagination.PagingRequest) returns (ListNotificationMessageResponse) {}
+  rpc List (pagination.PagingRequest) returns (ListNotificationMessageResponse) {}
 
   // 查询通知消息详情
-  rpc GetNotificationMessage (GetNotificationMessageRequest) returns (NotificationMessage) {}
+  rpc Get (GetNotificationMessageRequest) returns (NotificationMessage) {}
 
   // 创建通知消息
-  rpc CreateNotificationMessage (CreateNotificationMessageRequest) returns (google.protobuf.Empty) {}
+  rpc Create (CreateNotificationMessageRequest) returns (google.protobuf.Empty) {}
 
   // 更新通知消息
-  rpc UpdateNotificationMessage (UpdateNotificationMessageRequest) returns (google.protobuf.Empty) {}
+  rpc Update (UpdateNotificationMessageRequest) returns (google.protobuf.Empty) {}
 
   // 删除通知消息
-  rpc DeleteNotificationMessage (DeleteNotificationMessageRequest) returns (google.protobuf.Empty) {}
+  rpc Delete (DeleteNotificationMessageRequest) returns (google.protobuf.Empty) {}
 }
 
 // 通知消息状态

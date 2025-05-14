@@ -31,15 +31,15 @@ func NewDictService(uc *data.DictRepo, logger log.Logger) *DictService {
 	}
 }
 
-func (s *DictService) ListDict(ctx context.Context, req *pagination.PagingRequest) (*systemV1.ListDictResponse, error) {
+func (s *DictService) List(ctx context.Context, req *pagination.PagingRequest) (*systemV1.ListDictResponse, error) {
 	return s.uc.List(ctx, req)
 }
 
-func (s *DictService) GetDict(ctx context.Context, req *systemV1.GetDictRequest) (*systemV1.Dict, error) {
+func (s *DictService) Get(ctx context.Context, req *systemV1.GetDictRequest) (*systemV1.Dict, error) {
 	return s.uc.Get(ctx, req)
 }
 
-func (s *DictService) CreateDict(ctx context.Context, req *systemV1.CreateDictRequest) (*emptypb.Empty, error) {
+func (s *DictService) Create(ctx context.Context, req *systemV1.CreateDictRequest) (*emptypb.Empty, error) {
 	if req.Data == nil {
 		return nil, adminV1.ErrorBadRequest("错误的参数")
 	}
@@ -57,7 +57,7 @@ func (s *DictService) CreateDict(ctx context.Context, req *systemV1.CreateDictRe
 	return &emptypb.Empty{}, nil
 }
 
-func (s *DictService) UpdateDict(ctx context.Context, req *systemV1.UpdateDictRequest) (*emptypb.Empty, error) {
+func (s *DictService) Update(ctx context.Context, req *systemV1.UpdateDictRequest) (*emptypb.Empty, error) {
 	if req.Data == nil {
 		return nil, adminV1.ErrorBadRequest("错误的参数")
 	}
@@ -75,7 +75,7 @@ func (s *DictService) UpdateDict(ctx context.Context, req *systemV1.UpdateDictRe
 	return &emptypb.Empty{}, nil
 }
 
-func (s *DictService) DeleteDict(ctx context.Context, req *systemV1.DeleteDictRequest) (*emptypb.Empty, error) {
+func (s *DictService) Delete(ctx context.Context, req *systemV1.DeleteDictRequest) (*emptypb.Empty, error) {
 	if _, err := s.uc.Delete(ctx, req); err != nil {
 		return nil, err
 	}

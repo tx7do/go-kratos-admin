@@ -13,19 +13,19 @@ import "pagination/v1/pagination.proto";
 // 部门服务
 service DepartmentService {
   // 查询部门列表
-  rpc ListDepartment (pagination.PagingRequest) returns (ListDepartmentResponse) {}
+  rpc List (pagination.PagingRequest) returns (ListDepartmentResponse) {}
 
   // 查询部门详情
-  rpc GetDepartment (GetDepartmentRequest) returns (Department) {}
+  rpc Get (GetDepartmentRequest) returns (Department) {}
 
   // 创建部门
-  rpc CreateDepartment (CreateDepartmentRequest) returns (google.protobuf.Empty) {}
+  rpc Create (CreateDepartmentRequest) returns (google.protobuf.Empty) {}
 
   // 更新部门
-  rpc UpdateDepartment (UpdateDepartmentRequest) returns (google.protobuf.Empty) {}
+  rpc Update (UpdateDepartmentRequest) returns (google.protobuf.Empty) {}
 
   // 删除部门
-  rpc DeleteDepartment (DeleteDepartmentRequest) returns (google.protobuf.Empty) {}
+  rpc Delete (DeleteDepartmentRequest) returns (google.protobuf.Empty) {}
 }
 
 // 部门

@@ -21,11 +21,11 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	NotificationMessageRecipientService_ListNotificationMessageRecipient_FullMethodName   = "/internal_message.service.v1.NotificationMessageRecipientService/ListNotificationMessageRecipient"
-	NotificationMessageRecipientService_GetNotificationMessageRecipient_FullMethodName    = "/internal_message.service.v1.NotificationMessageRecipientService/GetNotificationMessageRecipient"
-	NotificationMessageRecipientService_CreateNotificationMessageRecipient_FullMethodName = "/internal_message.service.v1.NotificationMessageRecipientService/CreateNotificationMessageRecipient"
-	NotificationMessageRecipientService_UpdateNotificationMessageRecipient_FullMethodName = "/internal_message.service.v1.NotificationMessageRecipientService/UpdateNotificationMessageRecipient"
-	NotificationMessageRecipientService_DeleteNotificationMessageRecipient_FullMethodName = "/internal_message.service.v1.NotificationMessageRecipientService/DeleteNotificationMessageRecipient"
+	NotificationMessageRecipientService_List_FullMethodName   = "/internal_message.service.v1.NotificationMessageRecipientService/List"
+	NotificationMessageRecipientService_Get_FullMethodName    = "/internal_message.service.v1.NotificationMessageRecipientService/Get"
+	NotificationMessageRecipientService_Create_FullMethodName = "/internal_message.service.v1.NotificationMessageRecipientService/Create"
+	NotificationMessageRecipientService_Update_FullMethodName = "/internal_message.service.v1.NotificationMessageRecipientService/Update"
+	NotificationMessageRecipientService_Delete_FullMethodName = "/internal_message.service.v1.NotificationMessageRecipientService/Delete"
 )
 
 // NotificationMessageRecipientServiceClient is the client API for NotificationMessageRecipientService service.
@@ -35,15 +35,15 @@ const (
 // 通知消息接收者服务
 type NotificationMessageRecipientServiceClient interface {
 	// 查询通知消息接收者列表
-	ListNotificationMessageRecipient(ctx context.Context, in *v1.PagingRequest, opts ...grpc.CallOption) (*ListNotificationMessageRecipientResponse, error)
+	List(ctx context.Context, in *v1.PagingRequest, opts ...grpc.CallOption) (*ListNotificationMessageRecipientResponse, error)
 	// 查询通知消息接收者详情
-	GetNotificationMessageRecipient(ctx context.Context, in *GetNotificationMessageRecipientRequest, opts ...grpc.CallOption) (*NotificationMessageRecipient, error)
+	Get(ctx context.Context, in *GetNotificationMessageRecipientRequest, opts ...grpc.CallOption) (*NotificationMessageRecipient, error)
 	// 创建通知消息接收者
-	CreateNotificationMessageRecipient(ctx context.Context, in *CreateNotificationMessageRecipientRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	Create(ctx context.Context, in *CreateNotificationMessageRecipientRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	// 更新通知消息接收者
-	UpdateNotificationMessageRecipient(ctx context.Context, in *UpdateNotificationMessageRecipientRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	Update(ctx context.Context, in *UpdateNotificationMessageRecipientRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	// 删除通知消息接收者
-	DeleteNotificationMessageRecipient(ctx context.Context, in *DeleteNotificationMessageRecipientRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	Delete(ctx context.Context, in *DeleteNotificationMessageRecipientRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 }
 
 type notificationMessageRecipientServiceClient struct {
@@ -54,50 +54,50 @@ func NewNotificationMessageRecipientServiceClient(cc grpc.ClientConnInterface) N
 	return &notificationMessageRecipientServiceClient{cc}
 }
 
-func (c *notificationMessageRecipientServiceClient) ListNotificationMessageRecipient(ctx context.Context, in *v1.PagingRequest, opts ...grpc.CallOption) (*ListNotificationMessageRecipientResponse, error) {
+func (c *notificationMessageRecipientServiceClient) List(ctx context.Context, in *v1.PagingRequest, opts ...grpc.CallOption) (*ListNotificationMessageRecipientResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(ListNotificationMessageRecipientResponse)
-	err := c.cc.Invoke(ctx, NotificationMessageRecipientService_ListNotificationMessageRecipient_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, NotificationMessageRecipientService_List_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *notificationMessageRecipientServiceClient) GetNotificationMessageRecipient(ctx context.Context, in *GetNotificationMessageRecipientRequest, opts ...grpc.CallOption) (*NotificationMessageRecipient, error) {
+func (c *notificationMessageRecipientServiceClient) Get(ctx context.Context, in *GetNotificationMessageRecipientRequest, opts ...grpc.CallOption) (*NotificationMessageRecipient, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(NotificationMessageRecipient)
-	err := c.cc.Invoke(ctx, NotificationMessageRecipientService_GetNotificationMessageRecipient_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, NotificationMessageRecipientService_Get_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *notificationMessageRecipientServiceClient) CreateNotificationMessageRecipient(ctx context.Context, in *CreateNotificationMessageRecipientRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+func (c *notificationMessageRecipientServiceClient) Create(ctx context.Context, in *CreateNotificationMessageRecipientRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(emptypb.Empty)
-	err := c.cc.Invoke(ctx, NotificationMessageRecipientService_CreateNotificationMessageRecipient_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, NotificationMessageRecipientService_Create_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *notificationMessageRecipientServiceClient) UpdateNotificationMessageRecipient(ctx context.Context, in *UpdateNotificationMessageRecipientRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+func (c *notificationMessageRecipientServiceClient) Update(ctx context.Context, in *UpdateNotificationMessageRecipientRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(emptypb.Empty)
-	err := c.cc.Invoke(ctx, NotificationMessageRecipientService_UpdateNotificationMessageRecipient_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, NotificationMessageRecipientService_Update_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *notificationMessageRecipientServiceClient) DeleteNotificationMessageRecipient(ctx context.Context, in *DeleteNotificationMessageRecipientRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+func (c *notificationMessageRecipientServiceClient) Delete(ctx context.Context, in *DeleteNotificationMessageRecipientRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(emptypb.Empty)
-	err := c.cc.Invoke(ctx, NotificationMessageRecipientService_DeleteNotificationMessageRecipient_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, NotificationMessageRecipientService_Delete_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -111,15 +111,15 @@ func (c *notificationMessageRecipientServiceClient) DeleteNotificationMessageRec
 // 通知消息接收者服务
 type NotificationMessageRecipientServiceServer interface {
 	// 查询通知消息接收者列表
-	ListNotificationMessageRecipient(context.Context, *v1.PagingRequest) (*ListNotificationMessageRecipientResponse, error)
+	List(context.Context, *v1.PagingRequest) (*ListNotificationMessageRecipientResponse, error)
 	// 查询通知消息接收者详情
-	GetNotificationMessageRecipient(context.Context, *GetNotificationMessageRecipientRequest) (*NotificationMessageRecipient, error)
+	Get(context.Context, *GetNotificationMessageRecipientRequest) (*NotificationMessageRecipient, error)
 	// 创建通知消息接收者
-	CreateNotificationMessageRecipient(context.Context, *CreateNotificationMessageRecipientRequest) (*emptypb.Empty, error)
+	Create(context.Context, *CreateNotificationMessageRecipientRequest) (*emptypb.Empty, error)
 	// 更新通知消息接收者
-	UpdateNotificationMessageRecipient(context.Context, *UpdateNotificationMessageRecipientRequest) (*emptypb.Empty, error)
+	Update(context.Context, *UpdateNotificationMessageRecipientRequest) (*emptypb.Empty, error)
 	// 删除通知消息接收者
-	DeleteNotificationMessageRecipient(context.Context, *DeleteNotificationMessageRecipientRequest) (*emptypb.Empty, error)
+	Delete(context.Context, *DeleteNotificationMessageRecipientRequest) (*emptypb.Empty, error)
 	mustEmbedUnimplementedNotificationMessageRecipientServiceServer()
 }
 
@@ -130,20 +130,20 @@ type NotificationMessageRecipientServiceServer interface {
 // pointer dereference when methods are called.
 type UnimplementedNotificationMessageRecipientServiceServer struct{}
 
-func (UnimplementedNotificationMessageRecipientServiceServer) ListNotificationMessageRecipient(context.Context, *v1.PagingRequest) (*ListNotificationMessageRecipientResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ListNotificationMessageRecipient not implemented")
+func (UnimplementedNotificationMessageRecipientServiceServer) List(context.Context, *v1.PagingRequest) (*ListNotificationMessageRecipientResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method List not implemented")
 }
-func (UnimplementedNotificationMessageRecipientServiceServer) GetNotificationMessageRecipient(context.Context, *GetNotificationMessageRecipientRequest) (*NotificationMessageRecipient, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetNotificationMessageRecipient not implemented")
+func (UnimplementedNotificationMessageRecipientServiceServer) Get(context.Context, *GetNotificationMessageRecipientRequest) (*NotificationMessageRecipient, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Get not implemented")
 }
-func (UnimplementedNotificationMessageRecipientServiceServer) CreateNotificationMessageRecipient(context.Context, *CreateNotificationMessageRecipientRequest) (*emptypb.Empty, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CreateNotificationMessageRecipient not implemented")
+func (UnimplementedNotificationMessageRecipientServiceServer) Create(context.Context, *CreateNotificationMessageRecipientRequest) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Create not implemented")
 }
-func (UnimplementedNotificationMessageRecipientServiceServer) UpdateNotificationMessageRecipient(context.Context, *UpdateNotificationMessageRecipientRequest) (*emptypb.Empty, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UpdateNotificationMessageRecipient not implemented")
+func (UnimplementedNotificationMessageRecipientServiceServer) Update(context.Context, *UpdateNotificationMessageRecipientRequest) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Update not implemented")
 }
-func (UnimplementedNotificationMessageRecipientServiceServer) DeleteNotificationMessageRecipient(context.Context, *DeleteNotificationMessageRecipientRequest) (*emptypb.Empty, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DeleteNotificationMessageRecipient not implemented")
+func (UnimplementedNotificationMessageRecipientServiceServer) Delete(context.Context, *DeleteNotificationMessageRecipientRequest) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Delete not implemented")
 }
 func (UnimplementedNotificationMessageRecipientServiceServer) mustEmbedUnimplementedNotificationMessageRecipientServiceServer() {
 }
@@ -167,92 +167,92 @@ func RegisterNotificationMessageRecipientServiceServer(s grpc.ServiceRegistrar, 
 	s.RegisterService(&NotificationMessageRecipientService_ServiceDesc, srv)
 }
 
-func _NotificationMessageRecipientService_ListNotificationMessageRecipient_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _NotificationMessageRecipientService_List_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(v1.PagingRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(NotificationMessageRecipientServiceServer).ListNotificationMessageRecipient(ctx, in)
+		return srv.(NotificationMessageRecipientServiceServer).List(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: NotificationMessageRecipientService_ListNotificationMessageRecipient_FullMethodName,
+		FullMethod: NotificationMessageRecipientService_List_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(NotificationMessageRecipientServiceServer).ListNotificationMessageRecipient(ctx, req.(*v1.PagingRequest))
+		return srv.(NotificationMessageRecipientServiceServer).List(ctx, req.(*v1.PagingRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _NotificationMessageRecipientService_GetNotificationMessageRecipient_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _NotificationMessageRecipientService_Get_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetNotificationMessageRecipientRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(NotificationMessageRecipientServiceServer).GetNotificationMessageRecipient(ctx, in)
+		return srv.(NotificationMessageRecipientServiceServer).Get(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: NotificationMessageRecipientService_GetNotificationMessageRecipient_FullMethodName,
+		FullMethod: NotificationMessageRecipientService_Get_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(NotificationMessageRecipientServiceServer).GetNotificationMessageRecipient(ctx, req.(*GetNotificationMessageRecipientRequest))
+		return srv.(NotificationMessageRecipientServiceServer).Get(ctx, req.(*GetNotificationMessageRecipientRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _NotificationMessageRecipientService_CreateNotificationMessageRecipient_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _NotificationMessageRecipientService_Create_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(CreateNotificationMessageRecipientRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(NotificationMessageRecipientServiceServer).CreateNotificationMessageRecipient(ctx, in)
+		return srv.(NotificationMessageRecipientServiceServer).Create(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: NotificationMessageRecipientService_CreateNotificationMessageRecipient_FullMethodName,
+		FullMethod: NotificationMessageRecipientService_Create_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(NotificationMessageRecipientServiceServer).CreateNotificationMessageRecipient(ctx, req.(*CreateNotificationMessageRecipientRequest))
+		return srv.(NotificationMessageRecipientServiceServer).Create(ctx, req.(*CreateNotificationMessageRecipientRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _NotificationMessageRecipientService_UpdateNotificationMessageRecipient_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _NotificationMessageRecipientService_Update_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(UpdateNotificationMessageRecipientRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(NotificationMessageRecipientServiceServer).UpdateNotificationMessageRecipient(ctx, in)
+		return srv.(NotificationMessageRecipientServiceServer).Update(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: NotificationMessageRecipientService_UpdateNotificationMessageRecipient_FullMethodName,
+		FullMethod: NotificationMessageRecipientService_Update_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(NotificationMessageRecipientServiceServer).UpdateNotificationMessageRecipient(ctx, req.(*UpdateNotificationMessageRecipientRequest))
+		return srv.(NotificationMessageRecipientServiceServer).Update(ctx, req.(*UpdateNotificationMessageRecipientRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _NotificationMessageRecipientService_DeleteNotificationMessageRecipient_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _NotificationMessageRecipientService_Delete_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(DeleteNotificationMessageRecipientRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(NotificationMessageRecipientServiceServer).DeleteNotificationMessageRecipient(ctx, in)
+		return srv.(NotificationMessageRecipientServiceServer).Delete(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: NotificationMessageRecipientService_DeleteNotificationMessageRecipient_FullMethodName,
+		FullMethod: NotificationMessageRecipientService_Delete_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(NotificationMessageRecipientServiceServer).DeleteNotificationMessageRecipient(ctx, req.(*DeleteNotificationMessageRecipientRequest))
+		return srv.(NotificationMessageRecipientServiceServer).Delete(ctx, req.(*DeleteNotificationMessageRecipientRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -265,24 +265,24 @@ var NotificationMessageRecipientService_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*NotificationMessageRecipientServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "ListNotificationMessageRecipient",
-			Handler:    _NotificationMessageRecipientService_ListNotificationMessageRecipient_Handler,
+			MethodName: "List",
+			Handler:    _NotificationMessageRecipientService_List_Handler,
 		},
 		{
-			MethodName: "GetNotificationMessageRecipient",
-			Handler:    _NotificationMessageRecipientService_GetNotificationMessageRecipient_Handler,
+			MethodName: "Get",
+			Handler:    _NotificationMessageRecipientService_Get_Handler,
 		},
 		{
-			MethodName: "CreateNotificationMessageRecipient",
-			Handler:    _NotificationMessageRecipientService_CreateNotificationMessageRecipient_Handler,
+			MethodName: "Create",
+			Handler:    _NotificationMessageRecipientService_Create_Handler,
 		},
 		{
-			MethodName: "UpdateNotificationMessageRecipient",
-			Handler:    _NotificationMessageRecipientService_UpdateNotificationMessageRecipient_Handler,
+			MethodName: "Update",
+			Handler:    _NotificationMessageRecipientService_Update_Handler,
 		},
 		{
-			MethodName: "DeleteNotificationMessageRecipient",
-			Handler:    _NotificationMessageRecipientService_DeleteNotificationMessageRecipient_Handler,
+			MethodName: "Delete",
+			Handler:    _NotificationMessageRecipientService_Delete_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

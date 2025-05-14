@@ -21,11 +21,11 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	PositionService_ListPosition_FullMethodName   = "/user.service.v1.PositionService/ListPosition"
-	PositionService_GetPosition_FullMethodName    = "/user.service.v1.PositionService/GetPosition"
-	PositionService_CreatePosition_FullMethodName = "/user.service.v1.PositionService/CreatePosition"
-	PositionService_UpdatePosition_FullMethodName = "/user.service.v1.PositionService/UpdatePosition"
-	PositionService_DeletePosition_FullMethodName = "/user.service.v1.PositionService/DeletePosition"
+	PositionService_List_FullMethodName   = "/user.service.v1.PositionService/List"
+	PositionService_Get_FullMethodName    = "/user.service.v1.PositionService/Get"
+	PositionService_Create_FullMethodName = "/user.service.v1.PositionService/Create"
+	PositionService_Update_FullMethodName = "/user.service.v1.PositionService/Update"
+	PositionService_Delete_FullMethodName = "/user.service.v1.PositionService/Delete"
 )
 
 // PositionServiceClient is the client API for PositionService service.
@@ -35,15 +35,15 @@ const (
 // 职位服务
 type PositionServiceClient interface {
 	// 查询职位列表
-	ListPosition(ctx context.Context, in *v1.PagingRequest, opts ...grpc.CallOption) (*ListPositionResponse, error)
+	List(ctx context.Context, in *v1.PagingRequest, opts ...grpc.CallOption) (*ListPositionResponse, error)
 	// 查询职位详情
-	GetPosition(ctx context.Context, in *GetPositionRequest, opts ...grpc.CallOption) (*Position, error)
+	Get(ctx context.Context, in *GetPositionRequest, opts ...grpc.CallOption) (*Position, error)
 	// 创建职位
-	CreatePosition(ctx context.Context, in *CreatePositionRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	Create(ctx context.Context, in *CreatePositionRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	// 更新职位
-	UpdatePosition(ctx context.Context, in *UpdatePositionRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	Update(ctx context.Context, in *UpdatePositionRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	// 删除职位
-	DeletePosition(ctx context.Context, in *DeletePositionRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	Delete(ctx context.Context, in *DeletePositionRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 }
 
 type positionServiceClient struct {
@@ -54,50 +54,50 @@ func NewPositionServiceClient(cc grpc.ClientConnInterface) PositionServiceClient
 	return &positionServiceClient{cc}
 }
 
-func (c *positionServiceClient) ListPosition(ctx context.Context, in *v1.PagingRequest, opts ...grpc.CallOption) (*ListPositionResponse, error) {
+func (c *positionServiceClient) List(ctx context.Context, in *v1.PagingRequest, opts ...grpc.CallOption) (*ListPositionResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(ListPositionResponse)
-	err := c.cc.Invoke(ctx, PositionService_ListPosition_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, PositionService_List_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *positionServiceClient) GetPosition(ctx context.Context, in *GetPositionRequest, opts ...grpc.CallOption) (*Position, error) {
+func (c *positionServiceClient) Get(ctx context.Context, in *GetPositionRequest, opts ...grpc.CallOption) (*Position, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(Position)
-	err := c.cc.Invoke(ctx, PositionService_GetPosition_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, PositionService_Get_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *positionServiceClient) CreatePosition(ctx context.Context, in *CreatePositionRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+func (c *positionServiceClient) Create(ctx context.Context, in *CreatePositionRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(emptypb.Empty)
-	err := c.cc.Invoke(ctx, PositionService_CreatePosition_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, PositionService_Create_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *positionServiceClient) UpdatePosition(ctx context.Context, in *UpdatePositionRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+func (c *positionServiceClient) Update(ctx context.Context, in *UpdatePositionRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(emptypb.Empty)
-	err := c.cc.Invoke(ctx, PositionService_UpdatePosition_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, PositionService_Update_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *positionServiceClient) DeletePosition(ctx context.Context, in *DeletePositionRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+func (c *positionServiceClient) Delete(ctx context.Context, in *DeletePositionRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(emptypb.Empty)
-	err := c.cc.Invoke(ctx, PositionService_DeletePosition_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, PositionService_Delete_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -111,15 +111,15 @@ func (c *positionServiceClient) DeletePosition(ctx context.Context, in *DeletePo
 // 职位服务
 type PositionServiceServer interface {
 	// 查询职位列表
-	ListPosition(context.Context, *v1.PagingRequest) (*ListPositionResponse, error)
+	List(context.Context, *v1.PagingRequest) (*ListPositionResponse, error)
 	// 查询职位详情
-	GetPosition(context.Context, *GetPositionRequest) (*Position, error)
+	Get(context.Context, *GetPositionRequest) (*Position, error)
 	// 创建职位
-	CreatePosition(context.Context, *CreatePositionRequest) (*emptypb.Empty, error)
+	Create(context.Context, *CreatePositionRequest) (*emptypb.Empty, error)
 	// 更新职位
-	UpdatePosition(context.Context, *UpdatePositionRequest) (*emptypb.Empty, error)
+	Update(context.Context, *UpdatePositionRequest) (*emptypb.Empty, error)
 	// 删除职位
-	DeletePosition(context.Context, *DeletePositionRequest) (*emptypb.Empty, error)
+	Delete(context.Context, *DeletePositionRequest) (*emptypb.Empty, error)
 	mustEmbedUnimplementedPositionServiceServer()
 }
 
@@ -130,20 +130,20 @@ type PositionServiceServer interface {
 // pointer dereference when methods are called.
 type UnimplementedPositionServiceServer struct{}
 
-func (UnimplementedPositionServiceServer) ListPosition(context.Context, *v1.PagingRequest) (*ListPositionResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ListPosition not implemented")
+func (UnimplementedPositionServiceServer) List(context.Context, *v1.PagingRequest) (*ListPositionResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method List not implemented")
 }
-func (UnimplementedPositionServiceServer) GetPosition(context.Context, *GetPositionRequest) (*Position, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetPosition not implemented")
+func (UnimplementedPositionServiceServer) Get(context.Context, *GetPositionRequest) (*Position, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Get not implemented")
 }
-func (UnimplementedPositionServiceServer) CreatePosition(context.Context, *CreatePositionRequest) (*emptypb.Empty, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CreatePosition not implemented")
+func (UnimplementedPositionServiceServer) Create(context.Context, *CreatePositionRequest) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Create not implemented")
 }
-func (UnimplementedPositionServiceServer) UpdatePosition(context.Context, *UpdatePositionRequest) (*emptypb.Empty, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UpdatePosition not implemented")
+func (UnimplementedPositionServiceServer) Update(context.Context, *UpdatePositionRequest) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Update not implemented")
 }
-func (UnimplementedPositionServiceServer) DeletePosition(context.Context, *DeletePositionRequest) (*emptypb.Empty, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DeletePosition not implemented")
+func (UnimplementedPositionServiceServer) Delete(context.Context, *DeletePositionRequest) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Delete not implemented")
 }
 func (UnimplementedPositionServiceServer) mustEmbedUnimplementedPositionServiceServer() {}
 func (UnimplementedPositionServiceServer) testEmbeddedByValue()                         {}
@@ -166,92 +166,92 @@ func RegisterPositionServiceServer(s grpc.ServiceRegistrar, srv PositionServiceS
 	s.RegisterService(&PositionService_ServiceDesc, srv)
 }
 
-func _PositionService_ListPosition_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _PositionService_List_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(v1.PagingRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(PositionServiceServer).ListPosition(ctx, in)
+		return srv.(PositionServiceServer).List(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: PositionService_ListPosition_FullMethodName,
+		FullMethod: PositionService_List_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(PositionServiceServer).ListPosition(ctx, req.(*v1.PagingRequest))
+		return srv.(PositionServiceServer).List(ctx, req.(*v1.PagingRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _PositionService_GetPosition_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _PositionService_Get_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetPositionRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(PositionServiceServer).GetPosition(ctx, in)
+		return srv.(PositionServiceServer).Get(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: PositionService_GetPosition_FullMethodName,
+		FullMethod: PositionService_Get_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(PositionServiceServer).GetPosition(ctx, req.(*GetPositionRequest))
+		return srv.(PositionServiceServer).Get(ctx, req.(*GetPositionRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _PositionService_CreatePosition_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _PositionService_Create_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(CreatePositionRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(PositionServiceServer).CreatePosition(ctx, in)
+		return srv.(PositionServiceServer).Create(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: PositionService_CreatePosition_FullMethodName,
+		FullMethod: PositionService_Create_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(PositionServiceServer).CreatePosition(ctx, req.(*CreatePositionRequest))
+		return srv.(PositionServiceServer).Create(ctx, req.(*CreatePositionRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _PositionService_UpdatePosition_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _PositionService_Update_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(UpdatePositionRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(PositionServiceServer).UpdatePosition(ctx, in)
+		return srv.(PositionServiceServer).Update(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: PositionService_UpdatePosition_FullMethodName,
+		FullMethod: PositionService_Update_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(PositionServiceServer).UpdatePosition(ctx, req.(*UpdatePositionRequest))
+		return srv.(PositionServiceServer).Update(ctx, req.(*UpdatePositionRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _PositionService_DeletePosition_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _PositionService_Delete_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(DeletePositionRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(PositionServiceServer).DeletePosition(ctx, in)
+		return srv.(PositionServiceServer).Delete(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: PositionService_DeletePosition_FullMethodName,
+		FullMethod: PositionService_Delete_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(PositionServiceServer).DeletePosition(ctx, req.(*DeletePositionRequest))
+		return srv.(PositionServiceServer).Delete(ctx, req.(*DeletePositionRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -264,24 +264,24 @@ var PositionService_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*PositionServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "ListPosition",
-			Handler:    _PositionService_ListPosition_Handler,
+			MethodName: "List",
+			Handler:    _PositionService_List_Handler,
 		},
 		{
-			MethodName: "GetPosition",
-			Handler:    _PositionService_GetPosition_Handler,
+			MethodName: "Get",
+			Handler:    _PositionService_Get_Handler,
 		},
 		{
-			MethodName: "CreatePosition",
-			Handler:    _PositionService_CreatePosition_Handler,
+			MethodName: "Create",
+			Handler:    _PositionService_Create_Handler,
 		},
 		{
-			MethodName: "UpdatePosition",
-			Handler:    _PositionService_UpdatePosition_Handler,
+			MethodName: "Update",
+			Handler:    _PositionService_Update_Handler,
 		},
 		{
-			MethodName: "DeletePosition",
-			Handler:    _PositionService_DeletePosition_Handler,
+			MethodName: "Delete",
+			Handler:    _PositionService_Delete_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

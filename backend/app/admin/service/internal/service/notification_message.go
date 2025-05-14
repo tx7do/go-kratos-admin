@@ -31,15 +31,15 @@ func NewNotificationMessageService(uc *data.NotificationMessageRepo, logger log.
 	}
 }
 
-func (s *NotificationMessageService) ListNotificationMessage(ctx context.Context, req *pagination.PagingRequest) (*internalMessageV1.ListNotificationMessageResponse, error) {
+func (s *NotificationMessageService) List(ctx context.Context, req *pagination.PagingRequest) (*internalMessageV1.ListNotificationMessageResponse, error) {
 	return s.uc.List(ctx, req)
 }
 
-func (s *NotificationMessageService) GetNotificationMessage(ctx context.Context, req *internalMessageV1.GetNotificationMessageRequest) (*internalMessageV1.NotificationMessage, error) {
+func (s *NotificationMessageService) Get(ctx context.Context, req *internalMessageV1.GetNotificationMessageRequest) (*internalMessageV1.NotificationMessage, error) {
 	return s.uc.Get(ctx, req)
 }
 
-func (s *NotificationMessageService) CreateNotificationMessage(ctx context.Context, req *internalMessageV1.CreateNotificationMessageRequest) (*emptypb.Empty, error) {
+func (s *NotificationMessageService) Create(ctx context.Context, req *internalMessageV1.CreateNotificationMessageRequest) (*emptypb.Empty, error) {
 	if req.Data == nil {
 		return nil, adminV1.ErrorBadRequest("错误的参数")
 	}
@@ -57,7 +57,7 @@ func (s *NotificationMessageService) CreateNotificationMessage(ctx context.Conte
 	return &emptypb.Empty{}, nil
 }
 
-func (s *NotificationMessageService) UpdateNotificationMessage(ctx context.Context, req *internalMessageV1.UpdateNotificationMessageRequest) (*emptypb.Empty, error) {
+func (s *NotificationMessageService) Update(ctx context.Context, req *internalMessageV1.UpdateNotificationMessageRequest) (*emptypb.Empty, error) {
 	if req.Data == nil {
 		return nil, adminV1.ErrorBadRequest("错误的参数")
 	}
@@ -75,7 +75,7 @@ func (s *NotificationMessageService) UpdateNotificationMessage(ctx context.Conte
 	return &emptypb.Empty{}, nil
 }
 
-func (s *NotificationMessageService) DeleteNotificationMessage(ctx context.Context, req *internalMessageV1.DeleteNotificationMessageRequest) (*emptypb.Empty, error) {
+func (s *NotificationMessageService) Delete(ctx context.Context, req *internalMessageV1.DeleteNotificationMessageRequest) (*emptypb.Empty, error) {
 	if _, err := s.uc.Delete(ctx, req); err != nil {
 		return nil, err
 	}

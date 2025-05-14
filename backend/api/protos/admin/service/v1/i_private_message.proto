@@ -13,21 +13,21 @@ import "internal_message/service/v1/private_message.proto";
 // 私信消息管理服务
 service PrivateMessageService {
   // 查询私信消息列表
-  rpc ListPrivateMessage (pagination.PagingRequest) returns (internal_message.service.v1.ListPrivateMessageResponse) {
+  rpc List (pagination.PagingRequest) returns (internal_message.service.v1.ListPrivateMessageResponse) {
     option (google.api.http) = {
       get: "/admin/v1/private_messages"
     };
   }
 
   // 查询私信消息详情
-  rpc GetPrivateMessage (internal_message.service.v1.GetPrivateMessageRequest) returns (internal_message.service.v1.PrivateMessage) {
+  rpc Get (internal_message.service.v1.GetPrivateMessageRequest) returns (internal_message.service.v1.PrivateMessage) {
     option (google.api.http) = {
       get: "/admin/v1/private_messages/{id}"
     };
   }
 
   // 创建私信消息
-  rpc CreatePrivateMessage (internal_message.service.v1.CreatePrivateMessageRequest) returns (google.protobuf.Empty) {
+  rpc Create (internal_message.service.v1.CreatePrivateMessageRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
       post: "/admin/v1/private_messages"
       body: "*"
@@ -35,7 +35,7 @@ service PrivateMessageService {
   }
 
   // 更新私信消息
-  rpc UpdatePrivateMessage (internal_message.service.v1.UpdatePrivateMessageRequest) returns (google.protobuf.Empty) {
+  rpc Update (internal_message.service.v1.UpdatePrivateMessageRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
       put: "/admin/v1/private_messages/{data.id}"
       body: "*"
@@ -43,7 +43,7 @@ service PrivateMessageService {
   }
 
   // 删除私信消息
-  rpc DeletePrivateMessage (internal_message.service.v1.DeletePrivateMessageRequest) returns (google.protobuf.Empty) {
+  rpc Delete (internal_message.service.v1.DeletePrivateMessageRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
       delete: "/admin/v1/private_messages/{id}"
     };

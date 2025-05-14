@@ -12,19 +12,19 @@ import "pagination/v1/pagination.proto";
 // 职位服务
 service PositionService {
   // 查询职位列表
-  rpc ListPosition (pagination.PagingRequest) returns (ListPositionResponse) {}
+  rpc List (pagination.PagingRequest) returns (ListPositionResponse) {}
 
   // 查询职位详情
-  rpc GetPosition (GetPositionRequest) returns (Position) {}
+  rpc Get (GetPositionRequest) returns (Position) {}
 
   // 创建职位
-  rpc CreatePosition (CreatePositionRequest) returns (google.protobuf.Empty) {}
+  rpc Create (CreatePositionRequest) returns (google.protobuf.Empty) {}
 
   // 更新职位
-  rpc UpdatePosition (UpdatePositionRequest) returns (google.protobuf.Empty) {}
+  rpc Update (UpdatePositionRequest) returns (google.protobuf.Empty) {}
 
   // 删除职位
-  rpc DeletePosition (DeletePositionRequest) returns (google.protobuf.Empty) {}
+  rpc Delete (DeletePositionRequest) returns (google.protobuf.Empty) {}
 }
 
 // 职位

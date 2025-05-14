@@ -22,43 +22,43 @@ var _ = binding.EncodeURL
 
 const _ = http.SupportPackageIsVersion1
 
-const OperationMenuServiceCreateMenu = "/admin.service.v1.MenuService/CreateMenu"
-const OperationMenuServiceDeleteMenu = "/admin.service.v1.MenuService/DeleteMenu"
-const OperationMenuServiceGetMenu = "/admin.service.v1.MenuService/GetMenu"
-const OperationMenuServiceListMenu = "/admin.service.v1.MenuService/ListMenu"
-const OperationMenuServiceUpdateMenu = "/admin.service.v1.MenuService/UpdateMenu"
+const OperationMenuServiceCreate = "/admin.service.v1.MenuService/Create"
+const OperationMenuServiceDelete = "/admin.service.v1.MenuService/Delete"
+const OperationMenuServiceGet = "/admin.service.v1.MenuService/Get"
+const OperationMenuServiceList = "/admin.service.v1.MenuService/List"
+const OperationMenuServiceUpdate = "/admin.service.v1.MenuService/Update"
 
 type MenuServiceHTTPServer interface {
-	// CreateMenu 创建菜单
-	CreateMenu(context.Context, *v11.CreateMenuRequest) (*emptypb.Empty, error)
-	// DeleteMenu 删除菜单
-	DeleteMenu(context.Context, *v11.DeleteMenuRequest) (*emptypb.Empty, error)
-	// GetMenu 查询菜单详情
-	GetMenu(context.Context, *v11.GetMenuRequest) (*v11.Menu, error)
-	// ListMenu 查询菜单列表
-	ListMenu(context.Context, *v1.PagingRequest) (*v11.ListMenuResponse, error)
-	// UpdateMenu 更新菜单
-	UpdateMenu(context.Context, *v11.UpdateMenuRequest) (*emptypb.Empty, error)
+	// Create 创建菜单
+	Create(context.Context, *v11.CreateMenuRequest) (*emptypb.Empty, error)
+	// Delete 删除菜单
+	Delete(context.Context, *v11.DeleteMenuRequest) (*emptypb.Empty, error)
+	// Get 查询菜单详情
+	Get(context.Context, *v11.GetMenuRequest) (*v11.Menu, error)
+	// List 查询菜单列表
+	List(context.Context, *v1.PagingRequest) (*v11.ListMenuResponse, error)
+	// Update 更新菜单
+	Update(context.Context, *v11.UpdateMenuRequest) (*emptypb.Empty, error)
 }
 
 func RegisterMenuServiceHTTPServer(s *http.Server, srv MenuServiceHTTPServer) {
 	r := s.Route("/")
-	r.GET("/admin/v1/menus", _MenuService_ListMenu0_HTTP_Handler(srv))
-	r.GET("/admin/v1/menus/{id}", _MenuService_GetMenu0_HTTP_Handler(srv))
-	r.POST("/admin/v1/menus", _MenuService_CreateMenu0_HTTP_Handler(srv))
-	r.PUT("/admin/v1/menus/{data.id}", _MenuService_UpdateMenu0_HTTP_Handler(srv))
-	r.DELETE("/admin/v1/menus/{id}", _MenuService_DeleteMenu0_HTTP_Handler(srv))
+	r.GET("/admin/v1/menus", _MenuService_List5_HTTP_Handler(srv))
+	r.GET("/admin/v1/menus/{id}", _MenuService_Get5_HTTP_Handler(srv))
+	r.POST("/admin/v1/menus", _MenuService_Create3_HTTP_Handler(srv))
+	r.PUT("/admin/v1/menus/{data.id}", _MenuService_Update3_HTTP_Handler(srv))
+	r.DELETE("/admin/v1/menus/{id}", _MenuService_Delete3_HTTP_Handler(srv))
 }
 
-func _MenuService_ListMenu0_HTTP_Handler(srv MenuServiceHTTPServer) func(ctx http.Context) error {
+func _MenuService_List5_HTTP_Handler(srv MenuServiceHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
 		var in v1.PagingRequest
 		if err := ctx.BindQuery(&in); err != nil {
 			return err
 		}
-		http.SetOperation(ctx, OperationMenuServiceListMenu)
+		http.SetOperation(ctx, OperationMenuServiceList)
 		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
-			return srv.ListMenu(ctx, req.(*v1.PagingRequest))
+			return srv.List(ctx, req.(*v1.PagingRequest))
 		})
 		out, err := h(ctx, &in)
 		if err != nil {
@@ -69,7 +69,7 @@ func _MenuService_ListMenu0_HTTP_Handler(srv MenuServiceHTTPServer) func(ctx htt
 	}
 }
 
-func _MenuService_GetMenu0_HTTP_Handler(srv MenuServiceHTTPServer) func(ctx http.Context) error {
+func _MenuService_Get5_HTTP_Handler(srv MenuServiceHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
 		var in v11.GetMenuRequest
 		if err := ctx.BindQuery(&in); err != nil {
@@ -78,9 +78,9 @@ func _MenuService_GetMenu0_HTTP_Handler(srv MenuServiceHTTPServer) func(ctx http
 		if err := ctx.BindVars(&in); err != nil {
 			return err
 		}
-		http.SetOperation(ctx, OperationMenuServiceGetMenu)
+		http.SetOperation(ctx, OperationMenuServiceGet)
 		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
-			return srv.GetMenu(ctx, req.(*v11.GetMenuRequest))
+			return srv.Get(ctx, req.(*v11.GetMenuRequest))
 		})
 		out, err := h(ctx, &in)
 		if err != nil {
@@ -91,7 +91,7 @@ func _MenuService_GetMenu0_HTTP_Handler(srv MenuServiceHTTPServer) func(ctx http
 	}
 }
 
-func _MenuService_CreateMenu0_HTTP_Handler(srv MenuServiceHTTPServer) func(ctx http.Context) error {
+func _MenuService_Create3_HTTP_Handler(srv MenuServiceHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
 		var in v11.CreateMenuRequest
 		if err := ctx.Bind(&in); err != nil {
@@ -100,9 +100,9 @@ func _MenuService_CreateMenu0_HTTP_Handler(srv MenuServiceHTTPServer) func(ctx h
 		if err := ctx.BindQuery(&in); err != nil {
 			return err
 		}
-		http.SetOperation(ctx, OperationMenuServiceCreateMenu)
+		http.SetOperation(ctx, OperationMenuServiceCreate)
 		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
-			return srv.CreateMenu(ctx, req.(*v11.CreateMenuRequest))
+			return srv.Create(ctx, req.(*v11.CreateMenuRequest))
 		})
 		out, err := h(ctx, &in)
 		if err != nil {
@@ -113,7 +113,7 @@ func _MenuService_CreateMenu0_HTTP_Handler(srv MenuServiceHTTPServer) func(ctx h
 	}
 }
 
-func _MenuService_UpdateMenu0_HTTP_Handler(srv MenuServiceHTTPServer) func(ctx http.Context) error {
+func _MenuService_Update3_HTTP_Handler(srv MenuServiceHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
 		var in v11.UpdateMenuRequest
 		if err := ctx.Bind(&in); err != nil {
@@ -125,9 +125,9 @@ func _MenuService_UpdateMenu0_HTTP_Handler(srv MenuServiceHTTPServer) func(ctx h
 		if err := ctx.BindVars(&in); err != nil {
 			return err
 		}
-		http.SetOperation(ctx, OperationMenuServiceUpdateMenu)
+		http.SetOperation(ctx, OperationMenuServiceUpdate)
 		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
-			return srv.UpdateMenu(ctx, req.(*v11.UpdateMenuRequest))
+			return srv.Update(ctx, req.(*v11.UpdateMenuRequest))
 		})
 		out, err := h(ctx, &in)
 		if err != nil {
@@ -138,7 +138,7 @@ func _MenuService_UpdateMenu0_HTTP_Handler(srv MenuServiceHTTPServer) func(ctx h
 	}
 }
 
-func _MenuService_DeleteMenu0_HTTP_Handler(srv MenuServiceHTTPServer) func(ctx http.Context) error {
+func _MenuService_Delete3_HTTP_Handler(srv MenuServiceHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
 		var in v11.DeleteMenuRequest
 		if err := ctx.BindQuery(&in); err != nil {
@@ -147,9 +147,9 @@ func _MenuService_DeleteMenu0_HTTP_Handler(srv MenuServiceHTTPServer) func(ctx h
 		if err := ctx.BindVars(&in); err != nil {
 			return err
 		}
-		http.SetOperation(ctx, OperationMenuServiceDeleteMenu)
+		http.SetOperation(ctx, OperationMenuServiceDelete)
 		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
-			return srv.DeleteMenu(ctx, req.(*v11.DeleteMenuRequest))
+			return srv.Delete(ctx, req.(*v11.DeleteMenuRequest))
 		})
 		out, err := h(ctx, &in)
 		if err != nil {
@@ -161,11 +161,11 @@ func _MenuService_DeleteMenu0_HTTP_Handler(srv MenuServiceHTTPServer) func(ctx h
 }
 
 type MenuServiceHTTPClient interface {
-	CreateMenu(ctx context.Context, req *v11.CreateMenuRequest, opts ...http.CallOption) (rsp *emptypb.Empty, err error)
-	DeleteMenu(ctx context.Context, req *v11.DeleteMenuRequest, opts ...http.CallOption) (rsp *emptypb.Empty, err error)
-	GetMenu(ctx context.Context, req *v11.GetMenuRequest, opts ...http.CallOption) (rsp *v11.Menu, err error)
-	ListMenu(ctx context.Context, req *v1.PagingRequest, opts ...http.CallOption) (rsp *v11.ListMenuResponse, err error)
-	UpdateMenu(ctx context.Context, req *v11.UpdateMenuRequest, opts ...http.CallOption) (rsp *emptypb.Empty, err error)
+	Create(ctx context.Context, req *v11.CreateMenuRequest, opts ...http.CallOption) (rsp *emptypb.Empty, err error)
+	Delete(ctx context.Context, req *v11.DeleteMenuRequest, opts ...http.CallOption) (rsp *emptypb.Empty, err error)
+	Get(ctx context.Context, req *v11.GetMenuRequest, opts ...http.CallOption) (rsp *v11.Menu, err error)
+	List(ctx context.Context, req *v1.PagingRequest, opts ...http.CallOption) (rsp *v11.ListMenuResponse, err error)
+	Update(ctx context.Context, req *v11.UpdateMenuRequest, opts ...http.CallOption) (rsp *emptypb.Empty, err error)
 }
 
 type MenuServiceHTTPClientImpl struct {
@@ -176,11 +176,11 @@ func NewMenuServiceHTTPClient(client *http.Client) MenuServiceHTTPClient {
 	return &MenuServiceHTTPClientImpl{client}
 }
 
-func (c *MenuServiceHTTPClientImpl) CreateMenu(ctx context.Context, in *v11.CreateMenuRequest, opts ...http.CallOption) (*emptypb.Empty, error) {
+func (c *MenuServiceHTTPClientImpl) Create(ctx context.Context, in *v11.CreateMenuRequest, opts ...http.CallOption) (*emptypb.Empty, error) {
 	var out emptypb.Empty
 	pattern := "/admin/v1/menus"
 	path := binding.EncodeURL(pattern, in, false)
-	opts = append(opts, http.Operation(OperationMenuServiceCreateMenu))
+	opts = append(opts, http.Operation(OperationMenuServiceCreate))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
 	if err != nil {
@@ -189,11 +189,11 @@ func (c *MenuServiceHTTPClientImpl) CreateMenu(ctx context.Context, in *v11.Crea
 	return &out, nil
 }
 
-func (c *MenuServiceHTTPClientImpl) DeleteMenu(ctx context.Context, in *v11.DeleteMenuRequest, opts ...http.CallOption) (*emptypb.Empty, error) {
+func (c *MenuServiceHTTPClientImpl) Delete(ctx context.Context, in *v11.DeleteMenuRequest, opts ...http.CallOption) (*emptypb.Empty, error) {
 	var out emptypb.Empty
 	pattern := "/admin/v1/menus/{id}"
 	path := binding.EncodeURL(pattern, in, true)
-	opts = append(opts, http.Operation(OperationMenuServiceDeleteMenu))
+	opts = append(opts, http.Operation(OperationMenuServiceDelete))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "DELETE", path, nil, &out, opts...)
 	if err != nil {
@@ -202,11 +202,11 @@ func (c *MenuServiceHTTPClientImpl) DeleteMenu(ctx context.Context, in *v11.Dele
 	return &out, nil
 }
 
-func (c *MenuServiceHTTPClientImpl) GetMenu(ctx context.Context, in *v11.GetMenuRequest, opts ...http.CallOption) (*v11.Menu, error) {
+func (c *MenuServiceHTTPClientImpl) Get(ctx context.Context, in *v11.GetMenuRequest, opts ...http.CallOption) (*v11.Menu, error) {
 	var out v11.Menu
 	pattern := "/admin/v1/menus/{id}"
 	path := binding.EncodeURL(pattern, in, true)
-	opts = append(opts, http.Operation(OperationMenuServiceGetMenu))
+	opts = append(opts, http.Operation(OperationMenuServiceGet))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
 	if err != nil {
@@ -215,11 +215,11 @@ func (c *MenuServiceHTTPClientImpl) GetMenu(ctx context.Context, in *v11.GetMenu
 	return &out, nil
 }
 
-func (c *MenuServiceHTTPClientImpl) ListMenu(ctx context.Context, in *v1.PagingRequest, opts ...http.CallOption) (*v11.ListMenuResponse, error) {
+func (c *MenuServiceHTTPClientImpl) List(ctx context.Context, in *v1.PagingRequest, opts ...http.CallOption) (*v11.ListMenuResponse, error) {
 	var out v11.ListMenuResponse
 	pattern := "/admin/v1/menus"
 	path := binding.EncodeURL(pattern, in, true)
-	opts = append(opts, http.Operation(OperationMenuServiceListMenu))
+	opts = append(opts, http.Operation(OperationMenuServiceList))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
 	if err != nil {
@@ -228,11 +228,11 @@ func (c *MenuServiceHTTPClientImpl) ListMenu(ctx context.Context, in *v1.PagingR
 	return &out, nil
 }
 
-func (c *MenuServiceHTTPClientImpl) UpdateMenu(ctx context.Context, in *v11.UpdateMenuRequest, opts ...http.CallOption) (*emptypb.Empty, error) {
+func (c *MenuServiceHTTPClientImpl) Update(ctx context.Context, in *v11.UpdateMenuRequest, opts ...http.CallOption) (*emptypb.Empty, error) {
 	var out emptypb.Empty
 	pattern := "/admin/v1/menus/{data.id}"
 	path := binding.EncodeURL(pattern, in, false)
-	opts = append(opts, http.Operation(OperationMenuServiceUpdateMenu))
+	opts = append(opts, http.Operation(OperationMenuServiceUpdate))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "PUT", path, in, &out, opts...)
 	if err != nil {

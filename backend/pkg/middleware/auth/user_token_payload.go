@@ -2,30 +2,34 @@ package auth
 
 import (
 	authn "github.com/tx7do/kratos-authn/engine"
+	userV1 "kratos-admin/api/gen/go/user/service/v1"
 )
 
 const (
-	ClaimFieldUserID   = "uid"
-	ClaimFieldTenantID = "tid"
-	ClaimFieldClientID = "cid"
-	ClaimFieldDeviceID = "did"
+	ClaimFieldUserID    = "uid"
+	ClaimFieldTenantID  = "tid"
+	ClaimFieldClientID  = "cid"
+	ClaimFieldDeviceID  = "did"
+	ClaimFieldAuthority = "aut"
 )
 
 // UserTokenPayload 用户JWT令牌载荷
 type UserTokenPayload struct {
-	UserId   uint32
-	TenantId uint32
-	UserName string
-	ClientId string
+	UserId    uint32
+	TenantId  uint32
+	UserName  string
+	ClientId  string
+	Authority string
 }
 
 // NewUserTokenPayload 创建用户令牌
-func NewUserTokenPayload(tenantId uint32, userId uint32, userName string, clientId string) *UserTokenPayload {
+func NewUserTokenPayload(tenantId uint32, userId uint32, userName string, authority userV1.UserAuthority, clientId string) *UserTokenPayload {
 	return &UserTokenPayload{
-		UserId:   userId,
-		TenantId: tenantId,
-		UserName: userName,
-		ClientId: clientId,
+		UserId:    userId,
+		TenantId:  tenantId,
+		UserName:  userName,
+		ClientId:  clientId,
+		Authority: authority.String(),
 	}
 }
 
@@ -46,6 +50,7 @@ func (t *UserTokenPayload) MakeAuthClaims() *authn.AuthClaims {
 		ClaimFieldUserID:        t.UserId,
 		ClaimFieldTenantID:      t.TenantId,
 		ClaimFieldClientID:      t.ClientId,
+		ClaimFieldAuthority:     t.Authority,
 	}
 }
 
@@ -72,4 +77,12 @@ func (t *UserTokenPayload) ExtractAuthClaims(claims *authn.AuthClaims) error {
 	}
 
 	return nil
+}
+
+func (t *UserTokenPayload) GetAuthority() userV1.UserAuthority {
+	authority, ok := userV1.UserAuthority_value[t.Authority]
+	if !ok {
+		return userV1.UserAuthority_GUEST_USER
+	}
+	return userV1.UserAuthority(authority)
 }

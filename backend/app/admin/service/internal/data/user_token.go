@@ -55,7 +55,7 @@ func NewUserToken(
 // GenerateToken 创建令牌
 func (r *UserToken) GenerateToken(ctx context.Context, user *userV1.User) (accessToken string, refreshToken string, err error) {
 	// 创建访问令牌
-	if accessToken = r.createAccessJwtToken(user.GetTenantId(), user.GetId(), user.GetUserName(), ""); accessToken == "" {
+	if accessToken = r.createAccessJwtToken(user.GetTenantId(), user.GetId(), user.GetUserName(), user.GetAuthority(), ""); accessToken == "" {
 		err = errors.New("create access token failed")
 		return
 	}
@@ -78,8 +78,8 @@ func (r *UserToken) GenerateToken(ctx context.Context, user *userV1.User) (acces
 }
 
 // GenerateAccessToken 创建访问令牌
-func (r *UserToken) GenerateAccessToken(ctx context.Context, tenantId uint32, userId uint32, userName string, clientId string) (accessToken string, err error) {
-	if accessToken = r.createAccessJwtToken(tenantId, userId, userName, clientId); accessToken == "" {
+func (r *UserToken) GenerateAccessToken(ctx context.Context, tenantId uint32, userId uint32, userName string, authority userV1.UserAuthority, clientId string) (accessToken string, err error) {
+	if accessToken = r.createAccessJwtToken(tenantId, userId, userName, authority, clientId); accessToken == "" {
 		err = errors.New("create access token failed")
 		return
 	}
@@ -199,8 +199,8 @@ func (r *UserToken) deleteRefreshTokenFromRedis(ctx context.Context, userId uint
 }
 
 // createAccessJwtToken 生成JWT访问令牌
-func (r *UserToken) createAccessJwtToken(tenantId uint32, userId uint32, userName string, clientId string) string {
-	userToken := auth.NewUserTokenPayload(tenantId, userId, userName, clientId)
+func (r *UserToken) createAccessJwtToken(tenantId uint32, userId uint32, userName string, authority userV1.UserAuthority, clientId string) string {
+	userToken := auth.NewUserTokenPayload(tenantId, userId, userName, authority, clientId)
 
 	signedToken, err := r.authenticator.CreateIdentity(*userToken.MakeAuthClaims())
 	if err != nil {

@@ -2,15 +2,18 @@ package auth
 
 import (
 	"context"
-	"reflect"
-
 	"github.com/go-kratos/kratos/v2/middleware"
 	"github.com/go-kratos/kratos/v2/transport"
 
 	authnEngine "github.com/tx7do/kratos-authn/engine"
 	authn "github.com/tx7do/kratos-authn/middleware"
+
 	authzEngine "github.com/tx7do/kratos-authz/engine"
 	authz "github.com/tx7do/kratos-authz/middleware"
+
+	"github.com/tx7do/go-utils/trans"
+
+	"kratos-admin/pkg/entgo/viewer"
 )
 
 var action = authzEngine.Action("ANY")
@@ -49,16 +52,10 @@ func Server(opts ...Option) middleware.Middleware {
 				}
 			}
 
-			if op.setOperatorId {
-				if err = setRequestOperationId(req, tokenPayload); err != nil {
-					return nil, err
-				}
-			}
-			if op.setTenantId {
-				if err = setRequestTenantId(req, tokenPayload); err != nil {
-					return nil, err
-				}
-			}
+			ctx = viewer.NewContext(ctx, viewer.UserViewer{
+				Role:     tokenPayload.GetAuthority(),
+				TenantId: trans.Ptr(tokenPayload.TenantId),
+			})
 
 			sub, err := authnClaims.GetSubject()
 			if err != nil {
@@ -87,32 +84,4 @@ func FromContext(ctx context.Context) (*UserTokenPayload, error) {
 	}
 
 	return NewUserTokenPayloadWithClaims(claims)
-}
-
-func setRequestOperationId(req interface{}, payload *UserTokenPayload) error {
-	if req == nil {
-		return ErrInvalidRequest
-	}
-
-	v := reflect.ValueOf(req).Elem()
-	field := v.FieldByName("OperatorId")
-	if field.IsValid() && field.Kind() == reflect.Ptr {
-		field.Set(reflect.ValueOf(&payload.UserId))
-	}
-
-	return nil
-}
-
-func setRequestTenantId(req interface{}, payload *UserTokenPayload) error {
-	if req == nil {
-		return ErrInvalidRequest
-	}
-
-	v := reflect.ValueOf(req).Elem()
-	field := v.FieldByName("TenantId")
-	if field.IsValid() && field.Kind() == reflect.Ptr {
-		field.Set(reflect.ValueOf(&payload.TenantId))
-	}
-
-	return nil
 }

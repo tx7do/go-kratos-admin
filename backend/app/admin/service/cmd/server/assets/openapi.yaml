@@ -300,11 +300,6 @@ paths:
                   schema:
                     type: integer
                     format: uint32
-                - name: operatorId
-                  in: query
-                  schema:
-                    type: integer
-                    format: uint32
             responses:
                 "200":
                     description: OK
@@ -434,11 +429,6 @@ paths:
                 - name: id
                   in: path
                   required: true
-                  schema:
-                    type: integer
-                    format: uint32
-                - name: operatorId
-                  in: query
                   schema:
                     type: integer
                     format: uint32
@@ -630,11 +620,6 @@ paths:
                   schema:
                     type: integer
                     format: uint32
-                - name: operatorId
-                  in: query
-                  schema:
-                    type: integer
-                    format: uint32
             responses:
                 "200":
                     description: OK
@@ -823,11 +808,6 @@ paths:
                   schema:
                     type: integer
                     format: int32
-                - name: operatorId
-                  in: query
-                  schema:
-                    type: integer
-                    format: uint32
             responses:
                 "200":
                     description: OK
@@ -957,11 +937,6 @@ paths:
                 - name: id
                   in: path
                   required: true
-                  schema:
-                    type: integer
-                    format: uint32
-                - name: operatorId
-                  in: query
                   schema:
                     type: integer
                     format: uint32
@@ -1097,11 +1072,6 @@ paths:
                   schema:
                     type: integer
                     format: uint32
-                - name: operatorId
-                  in: query
-                  schema:
-                    type: integer
-                    format: uint32
             responses:
                 "200":
                     description: OK
@@ -1234,11 +1204,6 @@ paths:
                   schema:
                     type: integer
                     format: uint32
-                - name: operatorId
-                  in: query
-                  schema:
-                    type: integer
-                    format: uint32
             responses:
                 "200":
                     description: OK
@@ -1368,11 +1333,6 @@ paths:
                 - name: id
                   in: path
                   required: true
-                  schema:
-                    type: integer
-                    format: uint32
-                - name: operatorId
-                  in: query
                   schema:
                     type: integer
                     format: uint32
@@ -1527,11 +1487,6 @@ paths:
                   schema:
                     type: integer
                     format: uint32
-                - name: operatorId
-                  in: query
-                  schema:
-                    type: integer
-                    format: uint32
             responses:
                 "200":
                     description: OK
@@ -1661,11 +1616,6 @@ paths:
                 - name: id
                   in: path
                   required: true
-                  schema:
-                    type: integer
-                    format: uint32
-                - name: operatorId
-                  in: query
                   schema:
                     type: integer
                     format: uint32
@@ -1820,11 +1770,6 @@ paths:
                   schema:
                     type: integer
                     format: uint32
-                - name: operatorId
-                  in: query
-                  schema:
-                    type: integer
-                    format: uint32
             responses:
                 "200":
                     description: OK
@@ -1973,11 +1918,6 @@ paths:
                 - name: id
                   in: path
                   required: true
-                  schema:
-                    type: integer
-                    format: uint32
-                - name: operatorId
-                  in: query
                   schema:
                     type: integer
                     format: uint32
@@ -2157,11 +2097,6 @@ paths:
                 - name: id
                   in: path
                   required: true
-                  schema:
-                    type: integer
-                    format: uint32
-                - name: operatorId
-                  in: query
                   schema:
                     type: integer
                     format: uint32
@@ -2347,11 +2282,6 @@ paths:
                   schema:
                     type: integer
                     format: uint32
-                - name: operatorId
-                  in: query
-                  schema:
-                    type: integer
-                    format: uint32
             responses:
                 "200":
                     description: OK
@@ -2527,11 +2457,6 @@ components:
         ControlTaskRequest:
             type: object
             properties:
-                operatorId:
-                    readOnly: true
-                    type: integer
-                    description: 操作用户ID
-                    format: uint32
                 controlType:
                     enum:
                         - ControlType_Start
@@ -2546,22 +2471,12 @@ components:
         CreateDepartmentRequest:
             type: object
             properties:
-                operatorId:
-                    readOnly: true
-                    type: integer
-                    description: 操作用户ID
-                    format: uint32
                 data:
                     $ref: '#/components/schemas/Department'
             description: 创建部门 - 请求
         CreateDictRequest:
             type: object
             properties:
-                operatorId:
-                    readOnly: true
-                    type: integer
-                    description: 操作用户ID
-                    format: uint32
                 data:
                     $ref: '#/components/schemas/Dict'
             description: 创建字典 - 请求
@@ -2570,108 +2485,58 @@ components:
             properties:
                 data:
                     $ref: '#/components/schemas/File'
-                operatorId:
-                    readOnly: true
-                    type: integer
-                    description: 操作用户ID
-                    format: uint32
             description: 创建文件 - 请求
         CreateMenuRequest:
             type: object
             properties:
-                operatorId:
-                    readOnly: true
-                    type: integer
-                    description: 操作用户ID
-                    format: uint32
                 data:
                     $ref: '#/components/schemas/Menu'
             description: 创建菜单 - 请求
         CreateNotificationMessageCategoryRequest:
             type: object
             properties:
-                operatorId:
-                    readOnly: true
-                    type: integer
-                    description: 操作用户ID
-                    format: uint32
                 data:
                     $ref: '#/components/schemas/NotificationMessageCategory'
             description: 创建通知消息分类 - 请求
         CreateNotificationMessageRecipientRequest:
             type: object
             properties:
-                operatorId:
-                    readOnly: true
-                    type: integer
-                    description: 操作用户ID
-                    format: uint32
                 data:
                     $ref: '#/components/schemas/NotificationMessageRecipient'
             description: 创建通知消息接收者 - 请求
         CreateNotificationMessageRequest:
             type: object
             properties:
-                operatorId:
-                    readOnly: true
-                    type: integer
-                    description: 操作用户ID
-                    format: uint32
                 data:
                     $ref: '#/components/schemas/NotificationMessage'
             description: 创建通知消息 - 请求
         CreateOrganizationRequest:
             type: object
             properties:
-                operatorId:
-                    readOnly: true
-                    type: integer
-                    description: 操作用户ID
-                    format: uint32
                 data:
                     $ref: '#/components/schemas/Organization'
             description: 创建组织 - 请求
         CreatePositionRequest:
             type: object
             properties:
-                operatorId:
-                    readOnly: true
-                    type: integer
-                    description: 操作用户ID
-                    format: uint32
                 data:
                     $ref: '#/components/schemas/Position'
             description: 创建职位 - 请求
         CreatePrivateMessageRequest:
             type: object
             properties:
-                operatorId:
-                    readOnly: true
-                    type: integer
-                    description: 操作用户ID
-                    format: uint32
                 data:
                     $ref: '#/components/schemas/PrivateMessage'
             description: 创建私信消息 - 请求
         CreateRoleRequest:
             type: object
             properties:
-                operatorId:
-                    readOnly: true
-                    type: integer
-                    description: 操作用户ID
-                    format: uint32
                 data:
                     $ref: '#/components/schemas/Role'
             description: 创建角色 - 请求
         CreateTaskRequest:
             type: object
             properties:
-                operatorId:
-                    readOnly: true
-                    type: integer
-                    description: 操作用户ID
-                    format: uint32
                 data:
                     $ref: '#/components/schemas/Task'
             description: 创建调度任务 - 请求
@@ -2680,20 +2545,10 @@ components:
             properties:
                 data:
                     $ref: '#/components/schemas/Tenant'
-                operatorId:
-                    readOnly: true
-                    type: integer
-                    description: 操作用户ID
-                    format: uint32
             description: 创建租户 - 请求
         CreateUserRequest:
             type: object
             properties:
-                operatorId:
-                    readOnly: true
-                    type: integer
-                    description: 操作用户ID
-                    format: uint32
                 data:
                     $ref: '#/components/schemas/User'
                 password:
@@ -4080,11 +3935,6 @@ components:
         UpdateDepartmentRequest:
             type: object
             properties:
-                operatorId:
-                    readOnly: true
-                    type: integer
-                    description: 操作用户ID
-                    format: uint32
                 data:
                     $ref: '#/components/schemas/Department'
                 updateMask:
@@ -4099,11 +3949,6 @@ components:
         UpdateDictRequest:
             type: object
             properties:
-                operatorId:
-                    readOnly: true
-                    type: integer
-                    description: 操作用户ID
-                    format: uint32
                 data:
                     $ref: '#/components/schemas/Dict'
                 updateMask:
@@ -4118,11 +3963,6 @@ components:
         UpdateFileRequest:
             type: object
             properties:
-                operatorId:
-                    readOnly: true
-                    type: integer
-                    description: 操作用户ID
-                    format: uint32
                 data:
                     $ref: '#/components/schemas/File'
                 updateMask:
@@ -4137,11 +3977,6 @@ components:
         UpdateMenuRequest:
             type: object
             properties:
-                operatorId:
-                    readOnly: true
-                    type: integer
-                    description: 操作用户ID
-                    format: uint32
                 data:
                     $ref: '#/components/schemas/Menu'
                 updateMask:
@@ -4156,11 +3991,6 @@ components:
         UpdateNotificationMessageCategoryRequest:
             type: object
             properties:
-                operatorId:
-                    readOnly: true
-                    type: integer
-                    description: 操作用户ID
-                    format: uint32
                 data:
                     $ref: '#/components/schemas/NotificationMessageCategory'
                 updateMask:
@@ -4175,11 +4005,6 @@ components:
         UpdateNotificationMessageRecipientRequest:
             type: object
             properties:
-                operatorId:
-                    readOnly: true
-                    type: integer
-                    description: 操作用户ID
-                    format: uint32
                 data:
                     $ref: '#/components/schemas/NotificationMessageRecipient'
                 updateMask:
@@ -4194,11 +4019,6 @@ components:
         UpdateNotificationMessageRequest:
             type: object
             properties:
-                operatorId:
-                    readOnly: true
-                    type: integer
-                    description: 操作用户ID
-                    format: uint32
                 data:
                     $ref: '#/components/schemas/NotificationMessage'
                 updateMask:
@@ -4213,11 +4033,6 @@ components:
         UpdateOrganizationRequest:
             type: object
             properties:
-                operatorId:
-                    readOnly: true
-                    type: integer
-                    description: 操作用户ID
-                    format: uint32
                 data:
                     $ref: '#/components/schemas/Organization'
                 updateMask:
@@ -4232,11 +4047,6 @@ components:
         UpdatePositionRequest:
             type: object
             properties:
-                operatorId:
-                    readOnly: true
-                    type: integer
-                    description: 操作用户ID
-                    format: uint32
                 data:
                     $ref: '#/components/schemas/Position'
                 updateMask:
@@ -4251,11 +4061,6 @@ components:
         UpdatePrivateMessageRequest:
             type: object
             properties:
-                operatorId:
-                    readOnly: true
-                    type: integer
-                    description: 操作用户ID
-                    format: uint32
                 data:
                     $ref: '#/components/schemas/PrivateMessage'
                 updateMask:
@@ -4270,11 +4075,6 @@ components:
         UpdateRoleRequest:
             type: object
             properties:
-                operatorId:
-                    readOnly: true
-                    type: integer
-                    description: 操作用户ID
-                    format: uint32
                 data:
                     $ref: '#/components/schemas/Role'
                 updateMask:
@@ -4289,11 +4089,6 @@ components:
         UpdateTaskRequest:
             type: object
             properties:
-                operatorId:
-                    readOnly: true
-                    type: integer
-                    description: 操作用户ID
-                    format: uint32
                 data:
                     $ref: '#/components/schemas/Task'
                 updateMask:
@@ -4308,11 +4103,6 @@ components:
         UpdateTenantRequest:
             type: object
             properties:
-                operatorId:
-                    readOnly: true
-                    type: integer
-                    description: 操作用户ID
-                    format: uint32
                 data:
                     $ref: '#/components/schemas/Tenant'
                 updateMask:
@@ -4329,11 +4119,6 @@ components:
                 - data
             type: object
             properties:
-                operatorId:
-                    readOnly: true
-                    type: integer
-                    description: 操作用户ID
-                    format: uint32
                 data:
                     $ref: '#/components/schemas/User'
                 password:
@@ -4467,11 +4252,10 @@ components:
                     format: enum
                 authority:
                     enum:
-                        - SYS_ADMIN
-                        - SYS_MANAGER
-                        - CUSTOMER_USER
                         - GUEST_USER
-                        - REFRESH_TOKEN
+                        - CUSTOMER_USER
+                        - TENANT_ADMIN
+                        - SYS_ADMIN
                     type: string
                     default: CUSTOMER_USER
                     description: 权限

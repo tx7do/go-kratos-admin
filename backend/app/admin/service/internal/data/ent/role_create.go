@@ -120,6 +120,20 @@ func (rc *RoleCreate) SetNillableRemark(s *string) *RoleCreate {
 	return rc
 }
 
+// SetTenantID sets the "tenant_id" field.
+func (rc *RoleCreate) SetTenantID(u uint32) *RoleCreate {
+	rc.mutation.SetTenantID(u)
+	return rc
+}
+
+// SetNillableTenantID sets the "tenant_id" field if the given value is not nil.
+func (rc *RoleCreate) SetNillableTenantID(u *uint32) *RoleCreate {
+	if u != nil {
+		rc.SetTenantID(*u)
+	}
+	return rc
+}
+
 // SetName sets the "name" field.
 func (rc *RoleCreate) SetName(s string) *RoleCreate {
 	rc.mutation.SetName(s)
@@ -268,6 +282,11 @@ func (rc *RoleCreate) check() error {
 			return &ValidationError{Name: "status", err: fmt.Errorf(`ent: validator failed for field "Role.status": %w`, err)}
 		}
 	}
+	if v, ok := rc.mutation.TenantID(); ok {
+		if err := role.TenantIDValidator(v); err != nil {
+			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "Role.tenant_id": %w`, err)}
+		}
+	}
 	if v, ok := rc.mutation.Name(); ok {
 		if err := role.NameValidator(v); err != nil {
 			return &ValidationError{Name: "name", err: fmt.Errorf(`ent: validator failed for field "Role.name": %w`, err)}
@@ -343,6 +362,10 @@ func (rc *RoleCreate) createSpec() (*Role, *sqlgraph.CreateSpec) {
 	if value, ok := rc.mutation.Remark(); ok {
 		_spec.SetField(role.FieldRemark, field.TypeString, value)
 		_node.Remark = &value
+	}
+	if value, ok := rc.mutation.TenantID(); ok {
+		_spec.SetField(role.FieldTenantID, field.TypeUint32, value)
+		_node.TenantID = &value
 	}
 	if value, ok := rc.mutation.Name(); ok {
 		_spec.SetField(role.FieldName, field.TypeString, value)
@@ -680,6 +703,9 @@ func (u *RoleUpsertOne) UpdateNewValues() *RoleUpsertOne {
 		}
 		if _, exists := u.create.mutation.CreateTime(); exists {
 			s.SetIgnore(role.FieldCreateTime)
+		}
+		if _, exists := u.create.mutation.TenantID(); exists {
+			s.SetIgnore(role.FieldTenantID)
 		}
 	}))
 	return u
@@ -1148,6 +1174,9 @@ func (u *RoleUpsertBulk) UpdateNewValues() *RoleUpsertBulk {
 			}
 			if _, exists := b.mutation.CreateTime(); exists {
 				s.SetIgnore(role.FieldCreateTime)
+			}
+			if _, exists := b.mutation.TenantID(); exists {
+				s.SetIgnore(role.FieldTenantID)
 			}
 		}
 	}))

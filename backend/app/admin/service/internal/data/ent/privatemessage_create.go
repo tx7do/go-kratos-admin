@@ -64,6 +64,20 @@ func (pmc *PrivateMessageCreate) SetNillableDeleteTime(t *time.Time) *PrivateMes
 	return pmc
 }
 
+// SetTenantID sets the "tenant_id" field.
+func (pmc *PrivateMessageCreate) SetTenantID(u uint32) *PrivateMessageCreate {
+	pmc.mutation.SetTenantID(u)
+	return pmc
+}
+
+// SetNillableTenantID sets the "tenant_id" field if the given value is not nil.
+func (pmc *PrivateMessageCreate) SetNillableTenantID(u *uint32) *PrivateMessageCreate {
+	if u != nil {
+		pmc.SetTenantID(*u)
+	}
+	return pmc
+}
+
 // SetSubject sets the "subject" field.
 func (pmc *PrivateMessageCreate) SetSubject(s string) *PrivateMessageCreate {
 	pmc.mutation.SetSubject(s)
@@ -174,6 +188,11 @@ func (pmc *PrivateMessageCreate) ExecX(ctx context.Context) {
 
 // check runs all checks and user-defined validators on the builder.
 func (pmc *PrivateMessageCreate) check() error {
+	if v, ok := pmc.mutation.TenantID(); ok {
+		if err := privatemessage.TenantIDValidator(v); err != nil {
+			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "PrivateMessage.tenant_id": %w`, err)}
+		}
+	}
 	if v, ok := pmc.mutation.Status(); ok {
 		if err := privatemessage.StatusValidator(v); err != nil {
 			return &ValidationError{Name: "status", err: fmt.Errorf(`ent: validator failed for field "PrivateMessage.status": %w`, err)}
@@ -228,6 +247,10 @@ func (pmc *PrivateMessageCreate) createSpec() (*PrivateMessage, *sqlgraph.Create
 	if value, ok := pmc.mutation.DeleteTime(); ok {
 		_spec.SetField(privatemessage.FieldDeleteTime, field.TypeTime, value)
 		_node.DeleteTime = &value
+	}
+	if value, ok := pmc.mutation.TenantID(); ok {
+		_spec.SetField(privatemessage.FieldTenantID, field.TypeUint32, value)
+		_node.TenantID = &value
 	}
 	if value, ok := pmc.mutation.Subject(); ok {
 		_spec.SetField(privatemessage.FieldSubject, field.TypeString, value)
@@ -458,6 +481,9 @@ func (u *PrivateMessageUpsertOne) UpdateNewValues() *PrivateMessageUpsertOne {
 		}
 		if _, exists := u.create.mutation.CreateTime(); exists {
 			s.SetIgnore(privatemessage.FieldCreateTime)
+		}
+		if _, exists := u.create.mutation.TenantID(); exists {
+			s.SetIgnore(privatemessage.FieldTenantID)
 		}
 	}))
 	return u
@@ -834,6 +860,9 @@ func (u *PrivateMessageUpsertBulk) UpdateNewValues() *PrivateMessageUpsertBulk {
 			}
 			if _, exists := b.mutation.CreateTime(); exists {
 				s.SetIgnore(privatemessage.FieldCreateTime)
+			}
+			if _, exists := b.mutation.TenantID(); exists {
+				s.SetIgnore(privatemessage.FieldTenantID)
 			}
 		}
 	}))

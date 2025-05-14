@@ -13,12 +13,14 @@ import (
 	"github.com/tx7do/go-utils/fieldmaskutil"
 	"github.com/tx7do/go-utils/timeutil"
 	"github.com/tx7do/go-utils/trans"
+	pagination "github.com/tx7do/kratos-bootstrap/api/gen/go/pagination/v1"
 
 	"kratos-admin/app/admin/service/internal/data/ent"
 	"kratos-admin/app/admin/service/internal/data/ent/dict"
 
-	pagination "github.com/tx7do/kratos-bootstrap/api/gen/go/pagination/v1"
 	systemV1 "kratos-admin/api/gen/go/system/service/v1"
+
+	"kratos-admin/pkg/middleware/auth"
 )
 
 type DictRepo struct {
@@ -129,7 +131,7 @@ func (r *DictRepo) Get(ctx context.Context, req *systemV1.GetDictRequest) (*syst
 	return r.convertEntToProto(ret), err
 }
 
-func (r *DictRepo) Create(ctx context.Context, req *systemV1.CreateDictRequest) error {
+func (r *DictRepo) Create(ctx context.Context, req *systemV1.CreateDictRequest, operator *auth.UserTokenPayload) error {
 	if req.Data == nil {
 		return errors.New("invalid request")
 	}
@@ -144,7 +146,7 @@ func (r *DictRepo) Create(ctx context.Context, req *systemV1.CreateDictRequest) 
 		SetNillableSortID(req.Data.SortId).
 		SetNillableStatus((*dict.Status)(req.Data.Status)).
 		SetNillableRemark(req.Data.Remark).
-		SetNillableCreateBy(req.OperatorId).
+		SetNillableCreateBy(trans.Ptr(operator.UserId)).
 		SetNillableCreateTime(timeutil.TimestamppbToTime(req.Data.CreateTime))
 
 	if req.Data.CreateTime == nil {
@@ -160,7 +162,7 @@ func (r *DictRepo) Create(ctx context.Context, req *systemV1.CreateDictRequest) 
 	return err
 }
 
-func (r *DictRepo) Update(ctx context.Context, req *systemV1.UpdateDictRequest) error {
+func (r *DictRepo) Update(ctx context.Context, req *systemV1.UpdateDictRequest, operator *auth.UserTokenPayload) error {
 	if req.Data == nil {
 		return errors.New("invalid request")
 	}
@@ -172,7 +174,7 @@ func (r *DictRepo) Update(ctx context.Context, req *systemV1.UpdateDictRequest) 
 			return err
 		}
 		if !exist {
-			return r.Create(ctx, &systemV1.CreateDictRequest{Data: req.Data, OperatorId: req.OperatorId})
+			return r.Create(ctx, &systemV1.CreateDictRequest{Data: req.Data}, operator)
 		}
 	}
 
@@ -195,7 +197,7 @@ func (r *DictRepo) Update(ctx context.Context, req *systemV1.UpdateDictRequest) 
 		SetNillableSortID(req.Data.SortId).
 		SetNillableStatus((*dict.Status)(req.Data.Status)).
 		SetNillableRemark(req.Data.Remark).
-		SetNillableUpdateBy(req.OperatorId).
+		SetNillableUpdateBy(trans.Ptr(operator.UserId)).
 		SetNillableUpdateTime(timeutil.TimestamppbToTime(req.Data.UpdateTime))
 
 	if req.Data.UpdateTime == nil {

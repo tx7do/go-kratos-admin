@@ -7,17 +7,19 @@ import (
 
 	"github.com/go-kratos/kratos/v2/log"
 	"github.com/hibiken/asynq"
+	"google.golang.org/protobuf/types/known/emptypb"
+
 	"github.com/tx7do/go-utils/trans"
 	pagination "github.com/tx7do/kratos-bootstrap/api/gen/go/pagination/v1"
 	"github.com/tx7do/kratos-transport/broker"
 	asynqServer "github.com/tx7do/kratos-transport/transport/asynq"
-	"google.golang.org/protobuf/types/known/emptypb"
 
 	"kratos-admin/app/admin/service/internal/data"
 
 	adminV1 "kratos-admin/api/gen/go/admin/service/v1"
 	systemV1 "kratos-admin/api/gen/go/system/service/v1"
 
+	"kratos-admin/pkg/middleware/auth"
 	"kratos-admin/pkg/task"
 )
 
@@ -58,14 +60,18 @@ func (s *TaskService) GetTaskByTypeName(ctx context.Context, req *systemV1.GetTa
 }
 
 func (s *TaskService) CreateTask(ctx context.Context, req *systemV1.CreateTaskRequest) (*emptypb.Empty, error) {
-
 	if req.Data == nil {
 		return nil, adminV1.ErrorBadRequest("错误的参数")
 	}
 
+	// 获取操作人信息
+	operator, err := auth.FromContext(ctx)
+	if err != nil {
+		return &emptypb.Empty{}, err
+	}
+
 	var t *systemV1.Task
-	var err error
-	if t, err = s.taskRepo.Create(ctx, req); err != nil {
+	if t, err = s.taskRepo.Create(ctx, req, operator); err != nil {
 		return nil, err
 	}
 
@@ -77,14 +83,18 @@ func (s *TaskService) CreateTask(ctx context.Context, req *systemV1.CreateTaskRe
 }
 
 func (s *TaskService) UpdateTask(ctx context.Context, req *systemV1.UpdateTaskRequest) (*emptypb.Empty, error) {
-
 	if req.Data == nil {
 		return nil, adminV1.ErrorBadRequest("错误的参数")
 	}
 
+	// 获取操作人信息
+	operator, err := auth.FromContext(ctx)
+	if err != nil {
+		return &emptypb.Empty{}, err
+	}
+
 	var t *systemV1.Task
-	var err error
-	if t, err = s.taskRepo.Update(ctx, req); err != nil {
+	if t, err = s.taskRepo.Update(ctx, req, operator); err != nil {
 
 		return nil, err
 	}

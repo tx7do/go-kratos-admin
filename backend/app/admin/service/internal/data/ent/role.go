@@ -33,6 +33,8 @@ type Role struct {
 	UpdateBy *uint32 `json:"update_by,omitempty"`
 	// 备注
 	Remark *string `json:"remark,omitempty"`
+	// 租户ID
+	TenantID *uint32 `json:"tenant_id,omitempty"`
 	// 角色名称
 	Name *string `json:"name,omitempty"`
 	// 角色标识
@@ -87,7 +89,7 @@ func (*Role) scanValues(columns []string) ([]any, error) {
 		switch columns[i] {
 		case role.FieldMenus:
 			values[i] = new([]byte)
-		case role.FieldID, role.FieldCreateBy, role.FieldUpdateBy, role.FieldParentID, role.FieldSortID:
+		case role.FieldID, role.FieldCreateBy, role.FieldUpdateBy, role.FieldTenantID, role.FieldParentID, role.FieldSortID:
 			values[i] = new(sql.NullInt64)
 		case role.FieldStatus, role.FieldRemark, role.FieldName, role.FieldCode:
 			values[i] = new(sql.NullString)
@@ -162,6 +164,13 @@ func (r *Role) assignValues(columns []string, values []any) error {
 			} else if value.Valid {
 				r.Remark = new(string)
 				*r.Remark = value.String
+			}
+		case role.FieldTenantID:
+			if value, ok := values[i].(*sql.NullInt64); !ok {
+				return fmt.Errorf("unexpected type %T for field tenant_id", values[i])
+			} else if value.Valid {
+				r.TenantID = new(uint32)
+				*r.TenantID = uint32(value.Int64)
 			}
 		case role.FieldName:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -278,6 +287,11 @@ func (r *Role) String() string {
 	if v := r.Remark; v != nil {
 		builder.WriteString("remark=")
 		builder.WriteString(*v)
+	}
+	builder.WriteString(", ")
+	if v := r.TenantID; v != nil {
+		builder.WriteString("tenant_id=")
+		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteString(", ")
 	if v := r.Name; v != nil {

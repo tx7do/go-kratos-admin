@@ -11,6 +11,8 @@ import (
 
 	adminV1 "kratos-admin/api/gen/go/admin/service/v1"
 	userV1 "kratos-admin/api/gen/go/user/service/v1"
+
+	"kratos-admin/pkg/middleware/auth"
 )
 
 type UserService struct {
@@ -36,16 +38,16 @@ func NewUserService(
 }
 
 func (s *UserService) ListUser(ctx context.Context, req *pagination.PagingRequest) (*userV1.ListUserResponse, error) {
-	return s.userRepo.ListUser(ctx, req)
+	return s.userRepo.List(ctx, req)
 }
 
 func (s *UserService) GetUser(ctx context.Context, req *userV1.GetUserRequest) (*userV1.User, error) {
-	user, err := s.userRepo.GetUser(ctx, req.GetId())
+	user, err := s.userRepo.Get(ctx, req.GetId())
 	if err != nil {
 		return nil, err
 	}
 
-	role, err := s.roleRepo.GetRole(ctx, user.GetRoleId())
+	role, err := s.roleRepo.Get(ctx, user.GetRoleId())
 	if err == nil && role != nil {
 		user.Roles = append(user.Roles, role.GetCode())
 	}
@@ -59,7 +61,7 @@ func (s *UserService) GetUserByUserName(ctx context.Context, req *userV1.GetUser
 		return nil, err
 	}
 
-	role, err := s.roleRepo.GetRole(ctx, user.GetRoleId())
+	role, err := s.roleRepo.Get(ctx, user.GetRoleId())
 	if err == nil && role != nil {
 		user.Roles = append(user.Roles, role.GetCode())
 	}
@@ -72,30 +74,35 @@ func (s *UserService) CreateUser(ctx context.Context, req *userV1.CreateUserRequ
 		return nil, adminV1.ErrorBadRequest("错误的参数")
 	}
 
-	//req.Data.CreateBy = trans.Ptr(authInfo.UserId)
 	if req.Data.Authority == nil {
 		req.Data.Authority = userV1.UserAuthority_CUSTOMER_USER.Enum()
 	}
 
+	// 获取操作人信息
+	operator, err := auth.FromContext(ctx)
+	if err != nil {
+		return &emptypb.Empty{}, err
+	}
+
 	// 获取操作者的用户信息
-	operator, err := s.userRepo.GetUser(ctx, req.GetOperatorId())
+	operatorUser, err := s.userRepo.Get(ctx, operator.UserId)
 	if err != nil {
 		return nil, err
 	}
 
 	// 校验操作者的权限
-	if operator.GetAuthority() != userV1.UserAuthority_SYS_ADMIN && operator.GetAuthority() != userV1.UserAuthority_SYS_MANAGER {
+	if operatorUser.GetAuthority() != userV1.UserAuthority_SYS_ADMIN {
 		return nil, adminV1.ErrorAccessForbidden("权限不够")
 	}
 
 	if req.Data.Authority != nil {
-		if operator.GetAuthority() >= req.Data.GetAuthority() {
+		if operatorUser.GetAuthority() >= req.Data.GetAuthority() {
 			return nil, adminV1.ErrorAccessForbidden("不能够创建同级用户或者比自己权限高的用户")
 		}
 	}
 
 	// 创建用户
-	err = s.userRepo.CreateUser(ctx, req)
+	err = s.userRepo.Create(ctx, req, operator)
 
 	return &emptypb.Empty{}, nil
 }
@@ -105,44 +112,55 @@ func (s *UserService) UpdateUser(ctx context.Context, req *userV1.UpdateUserRequ
 		return nil, adminV1.ErrorBadRequest("错误的参数")
 	}
 
+	// 获取操作人信息
+	operator, err := auth.FromContext(ctx)
+	if err != nil {
+		return &emptypb.Empty{}, err
+	}
+
 	// 获取操作者的用户信息
-	operator, err := s.userRepo.GetUser(ctx, req.GetOperatorId())
+	operatorUser, err := s.userRepo.Get(ctx, operator.UserId)
 	if err != nil {
 		return nil, err
 	}
 
 	// 校验操作者的权限
-	if operator.GetAuthority() != userV1.UserAuthority_SYS_ADMIN && operator.GetAuthority() != userV1.UserAuthority_SYS_MANAGER {
+	if operatorUser.GetAuthority() != userV1.UserAuthority_SYS_ADMIN {
 		return nil, adminV1.ErrorAccessForbidden("权限不够")
 	}
 
 	if req.Data.Authority != nil {
-		if operator.GetAuthority() >= req.Data.GetAuthority() {
+		if operatorUser.GetAuthority() >= req.Data.GetAuthority() {
 			return nil, adminV1.ErrorAccessForbidden("不能够赋权同级用户或者比自己权限高的用户")
 		}
 	}
 
 	// 更新用户
-	err = s.userRepo.UpdateUser(ctx, req)
+	err = s.userRepo.Update(ctx, req, operator)
 
 	return &emptypb.Empty{}, nil
 }
 
 func (s *UserService) DeleteUser(ctx context.Context, req *userV1.DeleteUserRequest) (*emptypb.Empty, error) {
+	// 获取操作人信息
+	operator, err := auth.FromContext(ctx)
+	if err != nil {
+		return &emptypb.Empty{}, err
+	}
 
 	// 获取操作者的用户信息
-	operator, err := s.userRepo.GetUser(ctx, req.GetOperatorId())
+	operatorUser, err := s.userRepo.Get(ctx, operator.UserId)
 	if err != nil {
 		return nil, err
 	}
 
 	// 校验操作者的权限
-	if operator.GetAuthority() != userV1.UserAuthority_SYS_ADMIN && operator.GetAuthority() != userV1.UserAuthority_SYS_MANAGER {
+	if operatorUser.GetAuthority() != userV1.UserAuthority_SYS_ADMIN {
 		return nil, adminV1.ErrorAccessForbidden("权限不够")
 	}
 
 	// 获取将被删除的用户信息
-	user, err := s.userRepo.GetUser(ctx, req.GetId())
+	user, err := s.userRepo.Get(ctx, req.GetId())
 	if err != nil {
 		return nil, err
 	}
@@ -152,12 +170,12 @@ func (s *UserService) DeleteUser(ctx context.Context, req *userV1.DeleteUserRequ
 		return nil, adminV1.ErrorAccessForbidden("闹哪样？不能删除超级管理员！")
 	}
 
-	if operator.GetAuthority() == user.GetAuthority() {
+	if operatorUser.GetAuthority() == user.GetAuthority() {
 		return nil, adminV1.ErrorAccessForbidden("不能删除同级用户！")
 	}
 
 	// 删除用户
-	_, err = s.userRepo.DeleteUser(ctx, req.GetId())
+	_, err = s.userRepo.Delete(ctx, req.GetId())
 
 	return &emptypb.Empty{}, err
 }

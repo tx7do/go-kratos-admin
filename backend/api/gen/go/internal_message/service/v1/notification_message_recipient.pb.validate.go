@@ -556,10 +556,6 @@ func (m *CreateNotificationMessageRecipientRequest) validate(all bool) error {
 		}
 	}
 
-	if m.OperatorId != nil {
-		// no validation rules for OperatorId
-	}
-
 	if len(errors) > 0 {
 		return CreateNotificationMessageRecipientRequestMultiError(errors)
 	}
@@ -724,10 +720,6 @@ func (m *UpdateNotificationMessageRecipientRequest) validate(all bool) error {
 		}
 	}
 
-	if m.OperatorId != nil {
-		// no validation rules for OperatorId
-	}
-
 	if m.AllowMissing != nil {
 		// no validation rules for AllowMissing
 	}
@@ -839,10 +831,6 @@ func (m *DeleteNotificationMessageRecipientRequest) validate(all bool) error {
 	var errors []error
 
 	// no validation rules for Id
-
-	if m.OperatorId != nil {
-		// no validation rules for OperatorId
-	}
 
 	if len(errors) > 0 {
 		return DeleteNotificationMessageRecipientRequestMultiError(errors)

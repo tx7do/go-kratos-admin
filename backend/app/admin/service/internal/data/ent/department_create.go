@@ -120,6 +120,20 @@ func (dc *DepartmentCreate) SetNillableRemark(s *string) *DepartmentCreate {
 	return dc
 }
 
+// SetTenantID sets the "tenant_id" field.
+func (dc *DepartmentCreate) SetTenantID(u uint32) *DepartmentCreate {
+	dc.mutation.SetTenantID(u)
+	return dc
+}
+
+// SetNillableTenantID sets the "tenant_id" field if the given value is not nil.
+func (dc *DepartmentCreate) SetNillableTenantID(u *uint32) *DepartmentCreate {
+	if u != nil {
+		dc.SetTenantID(*u)
+	}
+	return dc
+}
+
 // SetName sets the "name" field.
 func (dc *DepartmentCreate) SetName(s string) *DepartmentCreate {
 	dc.mutation.SetName(s)
@@ -262,6 +276,11 @@ func (dc *DepartmentCreate) check() error {
 			return &ValidationError{Name: "status", err: fmt.Errorf(`ent: validator failed for field "Department.status": %w`, err)}
 		}
 	}
+	if v, ok := dc.mutation.TenantID(); ok {
+		if err := department.TenantIDValidator(v); err != nil {
+			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "Department.tenant_id": %w`, err)}
+		}
+	}
 	if v, ok := dc.mutation.ID(); ok {
 		if err := department.IDValidator(v); err != nil {
 			return &ValidationError{Name: "id", err: fmt.Errorf(`ent: validator failed for field "Department.id": %w`, err)}
@@ -327,6 +346,10 @@ func (dc *DepartmentCreate) createSpec() (*Department, *sqlgraph.CreateSpec) {
 	if value, ok := dc.mutation.Remark(); ok {
 		_spec.SetField(department.FieldRemark, field.TypeString, value)
 		_node.Remark = &value
+	}
+	if value, ok := dc.mutation.TenantID(); ok {
+		_spec.SetField(department.FieldTenantID, field.TypeUint32, value)
+		_node.TenantID = &value
 	}
 	if value, ok := dc.mutation.Name(); ok {
 		_spec.SetField(department.FieldName, field.TypeString, value)
@@ -648,6 +671,9 @@ func (u *DepartmentUpsertOne) UpdateNewValues() *DepartmentUpsertOne {
 		}
 		if _, exists := u.create.mutation.CreateTime(); exists {
 			s.SetIgnore(department.FieldCreateTime)
+		}
+		if _, exists := u.create.mutation.TenantID(); exists {
+			s.SetIgnore(department.FieldTenantID)
 		}
 	}))
 	return u
@@ -1102,6 +1128,9 @@ func (u *DepartmentUpsertBulk) UpdateNewValues() *DepartmentUpsertBulk {
 			}
 			if _, exists := b.mutation.CreateTime(); exists {
 				s.SetIgnore(department.FieldCreateTime)
+			}
+			if _, exists := b.mutation.TenantID(); exists {
+				s.SetIgnore(department.FieldTenantID)
 			}
 		}
 	}))

@@ -24,6 +24,8 @@ type NotificationMessageRecipient struct {
 	UpdateTime *time.Time `json:"update_time,omitempty"`
 	// 删除时间
 	DeleteTime *time.Time `json:"delete_time,omitempty"`
+	// 租户ID
+	TenantID *uint32 `json:"tenant_id,omitempty"`
 	// 群发消息ID
 	MessageID *uint32 `json:"message_id,omitempty"`
 	// 接收者用户ID
@@ -38,7 +40,7 @@ func (*NotificationMessageRecipient) scanValues(columns []string) ([]any, error)
 	values := make([]any, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case notificationmessagerecipient.FieldID, notificationmessagerecipient.FieldMessageID, notificationmessagerecipient.FieldRecipientID:
+		case notificationmessagerecipient.FieldID, notificationmessagerecipient.FieldTenantID, notificationmessagerecipient.FieldMessageID, notificationmessagerecipient.FieldRecipientID:
 			values[i] = new(sql.NullInt64)
 		case notificationmessagerecipient.FieldStatus:
 			values[i] = new(sql.NullString)
@@ -85,6 +87,13 @@ func (nmr *NotificationMessageRecipient) assignValues(columns []string, values [
 			} else if value.Valid {
 				nmr.DeleteTime = new(time.Time)
 				*nmr.DeleteTime = value.Time
+			}
+		case notificationmessagerecipient.FieldTenantID:
+			if value, ok := values[i].(*sql.NullInt64); !ok {
+				return fmt.Errorf("unexpected type %T for field tenant_id", values[i])
+			} else if value.Valid {
+				nmr.TenantID = new(uint32)
+				*nmr.TenantID = uint32(value.Int64)
 			}
 		case notificationmessagerecipient.FieldMessageID:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
@@ -156,6 +165,11 @@ func (nmr *NotificationMessageRecipient) String() string {
 	if v := nmr.DeleteTime; v != nil {
 		builder.WriteString("delete_time=")
 		builder.WriteString(v.Format(time.ANSIC))
+	}
+	builder.WriteString(", ")
+	if v := nmr.TenantID; v != nil {
+		builder.WriteString("tenant_id=")
+		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteString(", ")
 	if v := nmr.MessageID; v != nil {

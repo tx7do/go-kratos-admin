@@ -11,6 +11,8 @@ import (
 
 	adminV1 "kratos-admin/api/gen/go/admin/service/v1"
 	systemV1 "kratos-admin/api/gen/go/system/service/v1"
+
+	"kratos-admin/pkg/middleware/auth"
 )
 
 type DictService struct {
@@ -42,7 +44,13 @@ func (s *DictService) CreateDict(ctx context.Context, req *systemV1.CreateDictRe
 		return nil, adminV1.ErrorBadRequest("错误的参数")
 	}
 
-	if err := s.uc.Create(ctx, req); err != nil {
+	// 获取操作人信息
+	operator, err := auth.FromContext(ctx)
+	if err != nil {
+		return &emptypb.Empty{}, err
+	}
+
+	if err = s.uc.Create(ctx, req, operator); err != nil {
 		return nil, err
 	}
 
@@ -54,7 +62,13 @@ func (s *DictService) UpdateDict(ctx context.Context, req *systemV1.UpdateDictRe
 		return nil, adminV1.ErrorBadRequest("错误的参数")
 	}
 
-	if err := s.uc.Update(ctx, req); err != nil {
+	// 获取操作人信息
+	operator, err := auth.FromContext(ctx)
+	if err != nil {
+		return &emptypb.Empty{}, err
+	}
+
+	if err = s.uc.Update(ctx, req, operator); err != nil {
 		return nil, err
 	}
 

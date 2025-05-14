@@ -11,6 +11,8 @@ import (
 
 	adminV1 "kratos-admin/api/gen/go/admin/service/v1"
 	systemV1 "kratos-admin/api/gen/go/system/service/v1"
+
+	"kratos-admin/pkg/middleware/auth"
 )
 
 type MenuService struct {
@@ -54,7 +56,13 @@ func (s *MenuService) CreateMenu(ctx context.Context, req *systemV1.CreateMenuRe
 		return nil, adminV1.ErrorBadRequest("错误的参数")
 	}
 
-	if err := s.uc.Create(ctx, req); err != nil {
+	// 获取操作人信息
+	operator, err := auth.FromContext(ctx)
+	if err != nil {
+		return &emptypb.Empty{}, err
+	}
+
+	if err = s.uc.Create(ctx, req, operator); err != nil {
 
 		return nil, err
 	}
@@ -67,7 +75,13 @@ func (s *MenuService) UpdateMenu(ctx context.Context, req *systemV1.UpdateMenuRe
 		return nil, adminV1.ErrorBadRequest("错误的参数")
 	}
 
-	if err := s.uc.Update(ctx, req); err != nil {
+	// 获取操作人信息
+	operator, err := auth.FromContext(ctx)
+	if err != nil {
+		return &emptypb.Empty{}, err
+	}
+
+	if err = s.uc.Update(ctx, req, operator); err != nil {
 		return nil, err
 	}
 

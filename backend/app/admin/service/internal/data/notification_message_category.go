@@ -14,12 +14,14 @@ import (
 	"github.com/tx7do/go-utils/fieldmaskutil"
 	"github.com/tx7do/go-utils/timeutil"
 	"github.com/tx7do/go-utils/trans"
+	pagination "github.com/tx7do/kratos-bootstrap/api/gen/go/pagination/v1"
 
 	"kratos-admin/app/admin/service/internal/data/ent"
 	"kratos-admin/app/admin/service/internal/data/ent/notificationmessagecategory"
 
-	pagination "github.com/tx7do/kratos-bootstrap/api/gen/go/pagination/v1"
 	internalMessageV1 "kratos-admin/api/gen/go/internal_message/service/v1"
+
+	"kratos-admin/pkg/middleware/auth"
 )
 
 type NotificationMessageCategoryRepo struct {
@@ -177,7 +179,7 @@ func (r *NotificationMessageCategoryRepo) Get(ctx context.Context, req *internal
 	return r.convertEntToProto(ret), err
 }
 
-func (r *NotificationMessageCategoryRepo) Create(ctx context.Context, req *internalMessageV1.CreateNotificationMessageCategoryRequest) error {
+func (r *NotificationMessageCategoryRepo) Create(ctx context.Context, req *internalMessageV1.CreateNotificationMessageCategoryRequest, operator *auth.UserTokenPayload) error {
 	if req.Data == nil {
 		return errors.New("invalid request")
 	}
@@ -188,7 +190,7 @@ func (r *NotificationMessageCategoryRepo) Create(ctx context.Context, req *inter
 		SetNillableParentID(req.Data.ParentId).
 		SetNillableSortID(req.Data.SortId).
 		SetNillableEnable(req.Data.Enable).
-		SetNillableCreateBy(req.OperatorId).
+		SetNillableCreateBy(trans.Ptr(operator.UserId)).
 		SetNillableCreateTime(timeutil.TimestamppbToTime(req.Data.CreateTime))
 
 	if req.Data.CreateTime == nil {
@@ -204,7 +206,7 @@ func (r *NotificationMessageCategoryRepo) Create(ctx context.Context, req *inter
 	return err
 }
 
-func (r *NotificationMessageCategoryRepo) Update(ctx context.Context, req *internalMessageV1.UpdateNotificationMessageCategoryRequest) error {
+func (r *NotificationMessageCategoryRepo) Update(ctx context.Context, req *internalMessageV1.UpdateNotificationMessageCategoryRequest, operator *auth.UserTokenPayload) error {
 	if req.Data == nil {
 		return errors.New("invalid request")
 	}
@@ -216,7 +218,7 @@ func (r *NotificationMessageCategoryRepo) Update(ctx context.Context, req *inter
 			return err
 		}
 		if !exist {
-			return r.Create(ctx, &internalMessageV1.CreateNotificationMessageCategoryRequest{Data: req.Data, OperatorId: req.OperatorId})
+			return r.Create(ctx, &internalMessageV1.CreateNotificationMessageCategoryRequest{Data: req.Data}, operator)
 		}
 	}
 
@@ -234,7 +236,7 @@ func (r *NotificationMessageCategoryRepo) Update(ctx context.Context, req *inter
 		SetNillableParentID(req.Data.ParentId).
 		SetNillableSortID(req.Data.SortId).
 		SetNillableEnable(req.Data.Enable).
-		SetNillableUpdateBy(req.OperatorId).
+		SetNillableUpdateBy(trans.Ptr(operator.UserId)).
 		SetNillableUpdateTime(timeutil.TimestamppbToTime(req.Data.UpdateTime))
 
 	if req.Data.UpdateTime == nil {

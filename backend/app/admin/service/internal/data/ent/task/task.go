@@ -25,6 +25,8 @@ const (
 	FieldUpdateBy = "update_by"
 	// FieldRemark holds the string denoting the remark field in the database.
 	FieldRemark = "remark"
+	// FieldTenantID holds the string denoting the tenant_id field in the database.
+	FieldTenantID = "tenant_id"
 	// FieldType holds the string denoting the type field in the database.
 	FieldType = "type"
 	// FieldTypeName holds the string denoting the type_name field in the database.
@@ -58,6 +60,7 @@ var Columns = []string{
 	FieldCreateBy,
 	FieldUpdateBy,
 	FieldRemark,
+	FieldTenantID,
 	FieldType,
 	FieldTypeName,
 	FieldTaskPayload,
@@ -83,6 +86,8 @@ func ValidColumn(column string) bool {
 var (
 	// DefaultRemark holds the default value on creation for the "remark" field.
 	DefaultRemark string
+	// TenantIDValidator is a validator for the "tenant_id" field. It is called by the builders before save.
+	TenantIDValidator func(uint32) error
 	// IDValidator is a validator for the "id" field. It is called by the builders before save.
 	IDValidator func(uint32) error
 )
@@ -147,6 +152,11 @@ func ByUpdateBy(opts ...sql.OrderTermOption) OrderOption {
 // ByRemark orders the results by the remark field.
 func ByRemark(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldRemark, opts...).ToFunc()
+}
+
+// ByTenantID orders the results by the tenant_id field.
+func ByTenantID(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldTenantID, opts...).ToFunc()
 }
 
 // ByType orders the results by the type field.

@@ -8,9 +8,10 @@ import (
 	"strings"
 
 	"github.com/go-kratos/kratos/v2/log"
+	"google.golang.org/protobuf/types/known/fieldmaskpb"
+
 	"github.com/tx7do/go-utils/trans"
 	pagination "github.com/tx7do/kratos-bootstrap/api/gen/go/pagination/v1"
-	"google.golang.org/protobuf/types/known/fieldmaskpb"
 
 	"kratos-admin/app/admin/service/internal/data"
 
@@ -68,13 +69,13 @@ func (s *RouterService) menuListToQueryString(menus []uint32, onlyButton bool) s
 }
 
 func (s *RouterService) queryRoleMenus(ctx context.Context, userId uint32) ([]uint32, error) {
-	user, err := s.userRepo.GetUser(ctx, userId)
+	user, err := s.userRepo.Get(ctx, userId)
 	if err != nil {
 		s.log.Errorf("查询用户失败[%s]", err.Error())
 		return nil, errors.New("查询用户失败")
 	}
 
-	role, err := s.roleRepo.GetRole(ctx, user.GetRoleId())
+	role, err := s.roleRepo.Get(ctx, user.GetRoleId())
 	if err != nil {
 		s.log.Errorf("查询角色失败[%s]", err.Error())
 		return nil, errors.New("查询角色失败")

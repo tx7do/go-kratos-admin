@@ -592,10 +592,6 @@ func (m *CreateOrganizationRequest) validate(all bool) error {
 		}
 	}
 
-	if m.OperatorId != nil {
-		// no validation rules for OperatorId
-	}
-
 	if len(errors) > 0 {
 		return CreateOrganizationRequestMultiError(errors)
 	}
@@ -756,10 +752,6 @@ func (m *UpdateOrganizationRequest) validate(all bool) error {
 		}
 	}
 
-	if m.OperatorId != nil {
-		// no validation rules for OperatorId
-	}
-
 	if m.AllowMissing != nil {
 		// no validation rules for AllowMissing
 	}
@@ -867,10 +859,6 @@ func (m *DeleteOrganizationRequest) validate(all bool) error {
 	var errors []error
 
 	// no validation rules for Id
-
-	if m.OperatorId != nil {
-		// no validation rules for OperatorId
-	}
 
 	if len(errors) > 0 {
 		return DeleteOrganizationRequestMultiError(errors)

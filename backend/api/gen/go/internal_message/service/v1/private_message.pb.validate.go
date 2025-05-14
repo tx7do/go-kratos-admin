@@ -567,10 +567,6 @@ func (m *CreatePrivateMessageRequest) validate(all bool) error {
 		}
 	}
 
-	if m.OperatorId != nil {
-		// no validation rules for OperatorId
-	}
-
 	if len(errors) > 0 {
 		return CreatePrivateMessageRequestMultiError(errors)
 	}
@@ -732,10 +728,6 @@ func (m *UpdatePrivateMessageRequest) validate(all bool) error {
 		}
 	}
 
-	if m.OperatorId != nil {
-		// no validation rules for OperatorId
-	}
-
 	if m.AllowMissing != nil {
 		// no validation rules for AllowMissing
 	}
@@ -844,10 +836,6 @@ func (m *DeletePrivateMessageRequest) validate(all bool) error {
 	var errors []error
 
 	// no validation rules for Id
-
-	if m.OperatorId != nil {
-		// no validation rules for OperatorId
-	}
 
 	if len(errors) > 0 {
 		return DeletePrivateMessageRequestMultiError(errors)

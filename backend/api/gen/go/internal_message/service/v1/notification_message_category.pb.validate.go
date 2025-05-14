@@ -597,10 +597,6 @@ func (m *CreateNotificationMessageCategoryRequest) validate(all bool) error {
 		}
 	}
 
-	if m.OperatorId != nil {
-		// no validation rules for OperatorId
-	}
-
 	if len(errors) > 0 {
 		return CreateNotificationMessageCategoryRequestMultiError(errors)
 	}
@@ -765,10 +761,6 @@ func (m *UpdateNotificationMessageCategoryRequest) validate(all bool) error {
 		}
 	}
 
-	if m.OperatorId != nil {
-		// no validation rules for OperatorId
-	}
-
 	if m.AllowMissing != nil {
 		// no validation rules for AllowMissing
 	}
@@ -880,10 +872,6 @@ func (m *DeleteNotificationMessageCategoryRequest) validate(all bool) error {
 	var errors []error
 
 	// no validation rules for Id
-
-	if m.OperatorId != nil {
-		// no validation rules for OperatorId
-	}
 
 	if len(errors) > 0 {
 		return DeleteNotificationMessageCategoryRequestMultiError(errors)

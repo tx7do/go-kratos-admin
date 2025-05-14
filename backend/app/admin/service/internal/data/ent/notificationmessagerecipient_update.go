@@ -218,6 +218,9 @@ func (nmru *NotificationMessageRecipientUpdate) sqlSave(ctx context.Context) (n 
 	if nmru.mutation.DeleteTimeCleared() {
 		_spec.ClearField(notificationmessagerecipient.FieldDeleteTime, field.TypeTime)
 	}
+	if nmru.mutation.TenantIDCleared() {
+		_spec.ClearField(notificationmessagerecipient.FieldTenantID, field.TypeUint32)
+	}
 	if value, ok := nmru.mutation.MessageID(); ok {
 		_spec.SetField(notificationmessagerecipient.FieldMessageID, field.TypeUint32, value)
 	}
@@ -482,6 +485,9 @@ func (nmruo *NotificationMessageRecipientUpdateOne) sqlSave(ctx context.Context)
 	}
 	if nmruo.mutation.DeleteTimeCleared() {
 		_spec.ClearField(notificationmessagerecipient.FieldDeleteTime, field.TypeTime)
+	}
+	if nmruo.mutation.TenantIDCleared() {
+		_spec.ClearField(notificationmessagerecipient.FieldTenantID, field.TypeUint32)
 	}
 	if value, ok := nmruo.mutation.MessageID(); ok {
 		_spec.SetField(notificationmessagerecipient.FieldMessageID, field.TypeUint32, value)

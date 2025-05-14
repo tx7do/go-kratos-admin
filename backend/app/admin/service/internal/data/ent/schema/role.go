@@ -7,6 +7,7 @@ import (
 	"entgo.io/ent/schema/edge"
 	"entgo.io/ent/schema/field"
 	"github.com/tx7do/go-utils/entgo/mixin"
+	appmixin "kratos-admin/pkg/entgo/mixin"
 )
 
 // Role holds the schema definition for the Role entity.
@@ -69,6 +70,7 @@ func (Role) Mixin() []ent.Mixin {
 		mixin.CreateBy{},
 		mixin.UpdateBy{},
 		mixin.Remark{},
+		appmixin.TenantID{},
 	}
 }
 

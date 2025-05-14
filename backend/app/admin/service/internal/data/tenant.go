@@ -3,6 +3,7 @@ package data
 import (
 	"context"
 	"errors"
+	"kratos-admin/pkg/middleware/auth"
 	"time"
 
 	"entgo.io/ent/dialect/sql"
@@ -130,7 +131,7 @@ func (r *TenantRepo) Get(ctx context.Context, req *userV1.GetTenantRequest) (*us
 	return r.convertEntToProto(ret), err
 }
 
-func (r *TenantRepo) Create(ctx context.Context, req *userV1.CreateTenantRequest) error {
+func (r *TenantRepo) Create(ctx context.Context, req *userV1.CreateTenantRequest, operator *auth.UserTokenPayload) error {
 	if req.Data == nil {
 		return errors.New("invalid request")
 	}
@@ -141,7 +142,7 @@ func (r *TenantRepo) Create(ctx context.Context, req *userV1.CreateTenantRequest
 		SetNillableMemberCount(req.Data.MemberCount).
 		SetNillableRemark(req.Data.Remark).
 		SetNillableStatus((*tenant.Status)(req.Data.Status)).
-		SetNillableCreateBy(req.OperatorId).
+		SetNillableCreateBy(trans.Ptr(operator.UserId)).
 		SetNillableSubscriptionAt(timeutil.TimestamppbToTime(req.Data.SubscriptionAt)).
 		SetNillableUnsubscribeAt(timeutil.TimestamppbToTime(req.Data.UnsubscribeAt)).
 		SetNillableCreateTime(timeutil.TimestamppbToTime(req.Data.CreateTime))
@@ -159,7 +160,7 @@ func (r *TenantRepo) Create(ctx context.Context, req *userV1.CreateTenantRequest
 	return err
 }
 
-func (r *TenantRepo) Update(ctx context.Context, req *userV1.UpdateTenantRequest) error {
+func (r *TenantRepo) Update(ctx context.Context, req *userV1.UpdateTenantRequest, operator *auth.UserTokenPayload) error {
 	if req.Data == nil {
 		return errors.New("invalid request")
 	}
@@ -171,7 +172,7 @@ func (r *TenantRepo) Update(ctx context.Context, req *userV1.UpdateTenantRequest
 			return err
 		}
 		if !exist {
-			return r.Create(ctx, &userV1.CreateTenantRequest{Data: req.Data, OperatorId: req.OperatorId})
+			return r.Create(ctx, &userV1.CreateTenantRequest{Data: req.Data}, operator)
 		}
 	}
 
@@ -189,7 +190,7 @@ func (r *TenantRepo) Update(ctx context.Context, req *userV1.UpdateTenantRequest
 		SetNillableMemberCount(req.Data.MemberCount).
 		SetNillableRemark(req.Data.Remark).
 		SetNillableStatus((*tenant.Status)(req.Data.Status)).
-		SetNillableCreateBy(req.OperatorId).
+		SetNillableCreateBy(trans.Ptr(operator.UserId)).
 		SetNillableSubscriptionAt(timeutil.TimestamppbToTime(req.Data.SubscriptionAt)).
 		SetNillableUnsubscribeAt(timeutil.TimestamppbToTime(req.Data.UnsubscribeAt)).
 		SetNillableUpdateTime(timeutil.TimestamppbToTime(req.Data.UpdateTime))

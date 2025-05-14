@@ -32,6 +32,8 @@ type Organization struct {
 	UpdateBy *uint32 `json:"update_by,omitempty"`
 	// 备注
 	Remark *string `json:"remark,omitempty"`
+	// 租户ID
+	TenantID *uint32 `json:"tenant_id,omitempty"`
 	// 名字
 	Name *string `json:"name,omitempty"`
 	// 上一层组织ID
@@ -80,7 +82,7 @@ func (*Organization) scanValues(columns []string) ([]any, error) {
 	values := make([]any, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case organization.FieldID, organization.FieldCreateBy, organization.FieldUpdateBy, organization.FieldParentID, organization.FieldSortID:
+		case organization.FieldID, organization.FieldCreateBy, organization.FieldUpdateBy, organization.FieldTenantID, organization.FieldParentID, organization.FieldSortID:
 			values[i] = new(sql.NullInt64)
 		case organization.FieldStatus, organization.FieldRemark, organization.FieldName:
 			values[i] = new(sql.NullString)
@@ -155,6 +157,13 @@ func (o *Organization) assignValues(columns []string, values []any) error {
 			} else if value.Valid {
 				o.Remark = new(string)
 				*o.Remark = value.String
+			}
+		case organization.FieldTenantID:
+			if value, ok := values[i].(*sql.NullInt64); !ok {
+				return fmt.Errorf("unexpected type %T for field tenant_id", values[i])
+			} else if value.Valid {
+				o.TenantID = new(uint32)
+				*o.TenantID = uint32(value.Int64)
 			}
 		case organization.FieldName:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -256,6 +265,11 @@ func (o *Organization) String() string {
 	if v := o.Remark; v != nil {
 		builder.WriteString("remark=")
 		builder.WriteString(*v)
+	}
+	builder.WriteString(", ")
+	if v := o.TenantID; v != nil {
+		builder.WriteString("tenant_id=")
+		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteString(", ")
 	if v := o.Name; v != nil {

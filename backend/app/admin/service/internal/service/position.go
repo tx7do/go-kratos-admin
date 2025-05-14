@@ -11,6 +11,8 @@ import (
 
 	adminV1 "kratos-admin/api/gen/go/admin/service/v1"
 	userV1 "kratos-admin/api/gen/go/user/service/v1"
+
+	"kratos-admin/pkg/middleware/auth"
 )
 
 type PositionService struct {
@@ -42,7 +44,13 @@ func (s *PositionService) CreatePosition(ctx context.Context, req *userV1.Create
 		return nil, adminV1.ErrorBadRequest("错误的参数")
 	}
 
-	if err := s.uc.Create(ctx, req); err != nil {
+	// 获取操作人信息
+	operator, err := auth.FromContext(ctx)
+	if err != nil {
+		return &emptypb.Empty{}, err
+	}
+
+	if err = s.uc.Create(ctx, req, operator); err != nil {
 		return nil, err
 	}
 
@@ -54,7 +62,13 @@ func (s *PositionService) UpdatePosition(ctx context.Context, req *userV1.Update
 		return nil, adminV1.ErrorBadRequest("错误的参数")
 	}
 
-	if err := s.uc.Update(ctx, req); err != nil {
+	// 获取操作人信息
+	operator, err := auth.FromContext(ctx)
+	if err != nil {
+		return &emptypb.Empty{}, err
+	}
+
+	if err = s.uc.Update(ctx, req, operator); err != nil {
 		return nil, err
 	}
 

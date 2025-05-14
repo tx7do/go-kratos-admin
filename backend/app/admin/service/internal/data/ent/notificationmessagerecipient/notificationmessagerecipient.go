@@ -19,6 +19,8 @@ const (
 	FieldUpdateTime = "update_time"
 	// FieldDeleteTime holds the string denoting the delete_time field in the database.
 	FieldDeleteTime = "delete_time"
+	// FieldTenantID holds the string denoting the tenant_id field in the database.
+	FieldTenantID = "tenant_id"
 	// FieldMessageID holds the string denoting the message_id field in the database.
 	FieldMessageID = "message_id"
 	// FieldRecipientID holds the string denoting the recipient_id field in the database.
@@ -35,6 +37,7 @@ var Columns = []string{
 	FieldCreateTime,
 	FieldUpdateTime,
 	FieldDeleteTime,
+	FieldTenantID,
 	FieldMessageID,
 	FieldRecipientID,
 	FieldStatus,
@@ -51,6 +54,8 @@ func ValidColumn(column string) bool {
 }
 
 var (
+	// TenantIDValidator is a validator for the "tenant_id" field. It is called by the builders before save.
+	TenantIDValidator func(uint32) error
 	// IDValidator is a validator for the "id" field. It is called by the builders before save.
 	IDValidator func(uint32) error
 )
@@ -102,6 +107,11 @@ func ByUpdateTime(opts ...sql.OrderTermOption) OrderOption {
 // ByDeleteTime orders the results by the delete_time field.
 func ByDeleteTime(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldDeleteTime, opts...).ToFunc()
+}
+
+// ByTenantID orders the results by the tenant_id field.
+func ByTenantID(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldTenantID, opts...).ToFunc()
 }
 
 // ByMessageID orders the results by the message_id field.

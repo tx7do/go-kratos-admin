@@ -303,6 +303,9 @@ func (nmu *NotificationMessageUpdate) sqlSave(ctx context.Context) (n int, err e
 	if nmu.mutation.UpdateByCleared() {
 		_spec.ClearField(notificationmessage.FieldUpdateBy, field.TypeUint32)
 	}
+	if nmu.mutation.TenantIDCleared() {
+		_spec.ClearField(notificationmessage.FieldTenantID, field.TypeUint32)
+	}
 	if value, ok := nmu.mutation.Subject(); ok {
 		_spec.SetField(notificationmessage.FieldSubject, field.TypeString, value)
 	}
@@ -655,6 +658,9 @@ func (nmuo *NotificationMessageUpdateOne) sqlSave(ctx context.Context) (_node *N
 	}
 	if nmuo.mutation.UpdateByCleared() {
 		_spec.ClearField(notificationmessage.FieldUpdateBy, field.TypeUint32)
+	}
+	if nmuo.mutation.TenantIDCleared() {
+		_spec.ClearField(notificationmessage.FieldTenantID, field.TypeUint32)
 	}
 	if value, ok := nmuo.mutation.Subject(); ok {
 		_spec.SetField(notificationmessage.FieldSubject, field.TypeString, value)

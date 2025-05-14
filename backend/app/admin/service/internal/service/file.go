@@ -11,6 +11,8 @@ import (
 	pagination "github.com/tx7do/kratos-bootstrap/api/gen/go/pagination/v1"
 	adminV1 "kratos-admin/api/gen/go/admin/service/v1"
 	fileV1 "kratos-admin/api/gen/go/file/service/v1"
+
+	"kratos-admin/pkg/middleware/auth"
 )
 
 type FileService struct {
@@ -42,7 +44,13 @@ func (s *FileService) CreateFile(ctx context.Context, req *fileV1.CreateFileRequ
 		return nil, adminV1.ErrorBadRequest("错误的参数")
 	}
 
-	if err := s.uc.Create(ctx, req); err != nil {
+	// 获取操作人信息
+	operator, err := auth.FromContext(ctx)
+	if err != nil {
+		return &emptypb.Empty{}, err
+	}
+
+	if err = s.uc.Create(ctx, req, operator); err != nil {
 		return nil, err
 	}
 
@@ -54,7 +62,13 @@ func (s *FileService) UpdateFile(ctx context.Context, req *fileV1.UpdateFileRequ
 		return nil, adminV1.ErrorBadRequest("错误的参数")
 	}
 
-	if err := s.uc.Update(ctx, req); err != nil {
+	// 获取操作人信息
+	operator, err := auth.FromContext(ctx)
+	if err != nil {
+		return &emptypb.Empty{}, err
+	}
+
+	if err = s.uc.Update(ctx, req, operator); err != nil {
 		return nil, err
 	}
 

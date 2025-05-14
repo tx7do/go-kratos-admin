@@ -797,10 +797,6 @@ func (m *CreateTaskRequest) validate(all bool) error {
 		}
 	}
 
-	if m.OperatorId != nil {
-		// no validation rules for OperatorId
-	}
-
 	if len(errors) > 0 {
 		return CreateTaskRequestMultiError(errors)
 	}
@@ -961,10 +957,6 @@ func (m *UpdateTaskRequest) validate(all bool) error {
 		}
 	}
 
-	if m.OperatorId != nil {
-		// no validation rules for OperatorId
-	}
-
 	if m.AllowMissing != nil {
 		// no validation rules for AllowMissing
 	}
@@ -1072,10 +1064,6 @@ func (m *DeleteTaskRequest) validate(all bool) error {
 	var errors []error
 
 	// no validation rules for Id
-
-	if m.OperatorId != nil {
-		// no validation rules for OperatorId
-	}
 
 	if len(errors) > 0 {
 		return DeleteTaskRequestMultiError(errors)
@@ -1286,10 +1274,6 @@ func (m *ControlTaskRequest) validate(all bool) error {
 	// no validation rules for ControlType
 
 	// no validation rules for TypeName
-
-	if m.OperatorId != nil {
-		// no validation rules for OperatorId
-	}
 
 	if len(errors) > 0 {
 		return ControlTaskRequestMultiError(errors)

@@ -8,6 +8,7 @@ import (
 	"entgo.io/ent/schema/edge"
 	"entgo.io/ent/schema/field"
 	"github.com/tx7do/go-utils/entgo/mixin"
+	appmixin "kratos-admin/pkg/entgo/mixin"
 )
 
 // NotificationMessageCategory holds the schema definition for the NotificationMessageCategory entity.
@@ -65,6 +66,7 @@ func (NotificationMessageCategory) Mixin() []ent.Mixin {
 		mixin.CreateBy{},
 		mixin.UpdateBy{},
 		mixin.Remark{},
+		appmixin.TenantID{},
 	}
 }
 

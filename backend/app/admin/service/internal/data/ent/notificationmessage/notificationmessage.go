@@ -23,6 +23,8 @@ const (
 	FieldCreateBy = "create_by"
 	// FieldUpdateBy holds the string denoting the update_by field in the database.
 	FieldUpdateBy = "update_by"
+	// FieldTenantID holds the string denoting the tenant_id field in the database.
+	FieldTenantID = "tenant_id"
 	// FieldSubject holds the string denoting the subject field in the database.
 	FieldSubject = "subject"
 	// FieldContent holds the string denoting the content field in the database.
@@ -43,6 +45,7 @@ var Columns = []string{
 	FieldDeleteTime,
 	FieldCreateBy,
 	FieldUpdateBy,
+	FieldTenantID,
 	FieldSubject,
 	FieldContent,
 	FieldCategoryID,
@@ -60,6 +63,8 @@ func ValidColumn(column string) bool {
 }
 
 var (
+	// TenantIDValidator is a validator for the "tenant_id" field. It is called by the builders before save.
+	TenantIDValidator func(uint32) error
 	// IDValidator is a validator for the "id" field. It is called by the builders before save.
 	IDValidator func(uint32) error
 )
@@ -123,6 +128,11 @@ func ByCreateBy(opts ...sql.OrderTermOption) OrderOption {
 // ByUpdateBy orders the results by the update_by field.
 func ByUpdateBy(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldUpdateBy, opts...).ToFunc()
+}
+
+// ByTenantID orders the results by the tenant_id field.
+func ByTenantID(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldTenantID, opts...).ToFunc()
 }
 
 // BySubject orders the results by the subject field.

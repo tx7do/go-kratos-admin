@@ -16,12 +16,14 @@ import (
 	"github.com/tx7do/go-utils/fieldmaskutil"
 	"github.com/tx7do/go-utils/timeutil"
 	"github.com/tx7do/go-utils/trans"
+	pagination "github.com/tx7do/kratos-bootstrap/api/gen/go/pagination/v1"
 
 	"kratos-admin/app/admin/service/internal/data/ent"
 	"kratos-admin/app/admin/service/internal/data/ent/user"
 
-	pagination "github.com/tx7do/kratos-bootstrap/api/gen/go/pagination/v1"
 	userV1 "kratos-admin/api/gen/go/user/service/v1"
+
+	"kratos-admin/pkg/middleware/auth"
 )
 
 type UserRepo struct {
@@ -37,7 +39,7 @@ func NewUserRepo(data *Data, logger log.Logger) *UserRepo {
 	}
 }
 
-func (r *UserRepo) convertUserAuthorityToEnt(authority *userV1.UserAuthority) *user.Authority {
+func (r *UserRepo) toEntAuthority(authority *userV1.UserAuthority) *user.Authority {
 	if authority == nil {
 		return nil
 	}
@@ -48,7 +50,7 @@ func (r *UserRepo) convertUserAuthorityToEnt(authority *userV1.UserAuthority) *u
 	return (*user.Authority)(trans.Ptr(find))
 }
 
-func (r *UserRepo) convertUserAuthorityToProto(authority *user.Authority) *userV1.UserAuthority {
+func (r *UserRepo) toProtoAuthority(authority *user.Authority) *userV1.UserAuthority {
 	if authority == nil {
 		return nil
 	}
@@ -59,7 +61,7 @@ func (r *UserRepo) convertUserAuthorityToProto(authority *user.Authority) *userV
 	return (*userV1.UserAuthority)(trans.Ptr(find))
 }
 
-func (r *UserRepo) convertUserGenderToEnt(gender *userV1.UserGender) *user.Gender {
+func (r *UserRepo) toEntGender(gender *userV1.UserGender) *user.Gender {
 	if gender == nil {
 		return nil
 	}
@@ -70,7 +72,7 @@ func (r *UserRepo) convertUserGenderToEnt(gender *userV1.UserGender) *user.Gende
 	return (*user.Gender)(trans.Ptr(find))
 }
 
-func (r *UserRepo) convertUserGenderToProto(gender *user.Gender) *userV1.UserGender {
+func (r *UserRepo) toProtoGender(gender *user.Gender) *userV1.UserGender {
 	if gender == nil {
 		return nil
 	}
@@ -81,7 +83,7 @@ func (r *UserRepo) convertUserGenderToProto(gender *user.Gender) *userV1.UserGen
 	return (*userV1.UserGender)(trans.Ptr(find))
 }
 
-func (r *UserRepo) convertUserStatusToEnt(status *userV1.UserStatus) *user.Status {
+func (r *UserRepo) toEntStatus(status *userV1.UserStatus) *user.Status {
 	if status == nil {
 		return nil
 	}
@@ -92,7 +94,7 @@ func (r *UserRepo) convertUserStatusToEnt(status *userV1.UserStatus) *user.Statu
 	return (*user.Status)(trans.Ptr(find))
 }
 
-func (r *UserRepo) convertUserStatusToProto(status *user.Status) *userV1.UserStatus {
+func (r *UserRepo) toProtoStatus(status *user.Status) *userV1.UserStatus {
 	if status == nil {
 		return nil
 	}
@@ -130,9 +132,9 @@ func (r *UserRepo) convertEntToProto(in *ent.User) *userV1.User {
 		LastLoginIp:   in.LastLoginIP,
 		CreateBy:      in.CreateBy,
 		UpdateBy:      in.UpdateBy,
-		Gender:        r.convertUserGenderToProto(in.Gender),
-		Authority:     r.convertUserAuthorityToProto(in.Authority),
-		Status:        r.convertUserStatusToProto(in.Status),
+		Gender:        r.toProtoGender(in.Gender),
+		Authority:     r.toProtoAuthority(in.Authority),
+		Status:        r.toProtoStatus(in.Status),
 		CreateTime:    timeutil.TimeToTimestamppb(in.CreateTime),
 		UpdateTime:    timeutil.TimeToTimestamppb(in.UpdateTime),
 		DeleteTime:    timeutil.TimeToTimestamppb(in.DeleteTime),
@@ -153,7 +155,7 @@ func (r *UserRepo) Count(ctx context.Context, whereCond []func(s *sql.Selector))
 	return count, err
 }
 
-func (r *UserRepo) ListUser(ctx context.Context, req *pagination.PagingRequest) (*userV1.ListUserResponse, error) {
+func (r *UserRepo) List(ctx context.Context, req *pagination.PagingRequest) (*userV1.ListUserResponse, error) {
 	builder := r.data.db.Client().User.Query()
 
 	err, whereSelectors, querySelectors := entgo.BuildQuerySelector(
@@ -200,7 +202,7 @@ func (r *UserRepo) IsExist(ctx context.Context, id uint32) (bool, error) {
 		Exist(ctx)
 }
 
-func (r *UserRepo) GetUser(ctx context.Context, userId uint32) (*userV1.User, error) {
+func (r *UserRepo) Get(ctx context.Context, userId uint32) (*userV1.User, error) {
 	ret, err := r.data.db.Client().User.Get(ctx, userId)
 	if err != nil {
 		r.log.Errorf("query one data failed: %s", err.Error())
@@ -217,7 +219,7 @@ func (r *UserRepo) GetUser(ctx context.Context, userId uint32) (*userV1.User, er
 	return u, err
 }
 
-func (r *UserRepo) CreateUser(ctx context.Context, req *userV1.CreateUserRequest) error {
+func (r *UserRepo) Create(ctx context.Context, req *userV1.CreateUserRequest, operator *auth.UserTokenPayload) error {
 	if req.Data == nil {
 		return errors.New("invalid request")
 	}
@@ -237,15 +239,15 @@ func (r *UserRepo) CreateUser(ctx context.Context, req *userV1.CreateUserRequest
 		SetNillableRemark(req.Data.Remark).
 		SetNillableLastLoginTime(req.Data.LastLoginTime).
 		SetNillableLastLoginIP(req.Data.LastLoginIp).
-		SetNillableStatus(r.convertUserStatusToEnt(req.Data.Status)).
-		SetNillableGender(r.convertUserGenderToEnt(req.Data.Gender)).
-		SetNillableAuthority(r.convertUserAuthorityToEnt(req.Data.Authority)).
+		SetNillableStatus(r.toEntStatus(req.Data.Status)).
+		SetNillableGender(r.toEntGender(req.Data.Gender)).
+		SetNillableAuthority(r.toEntAuthority(req.Data.Authority)).
 		SetNillableOrgID(req.Data.OrgId).
 		SetNillableRoleID(req.Data.RoleId).
 		SetNillableWorkID(req.Data.WorkId).
 		SetNillablePositionID(req.Data.PositionId).
 		SetNillableTenantID(req.Data.TenantId).
-		SetNillableCreateBy(req.OperatorId).
+		SetNillableCreateBy(trans.Ptr(operator.UserId)).
 		SetNillableCreateTime(timeutil.TimestamppbToTime(req.Data.CreateTime))
 
 	if len(req.GetPassword()) > 0 {
@@ -268,7 +270,7 @@ func (r *UserRepo) CreateUser(ctx context.Context, req *userV1.CreateUserRequest
 	return nil
 }
 
-func (r *UserRepo) UpdateUser(ctx context.Context, req *userV1.UpdateUserRequest) error {
+func (r *UserRepo) Update(ctx context.Context, req *userV1.UpdateUserRequest, operator *auth.UserTokenPayload) error {
 	if req.Data == nil {
 		return errors.New("invalid request")
 	}
@@ -280,7 +282,7 @@ func (r *UserRepo) UpdateUser(ctx context.Context, req *userV1.UpdateUserRequest
 			return err
 		}
 		if !exist {
-			return r.CreateUser(ctx, &userV1.CreateUserRequest{Data: req.Data, OperatorId: req.OperatorId})
+			return r.Create(ctx, &userV1.CreateUserRequest{Data: req.Data}, operator)
 		}
 	}
 
@@ -307,15 +309,14 @@ func (r *UserRepo) UpdateUser(ctx context.Context, req *userV1.UpdateUserRequest
 		SetNillableRemark(req.Data.Remark).
 		SetNillableLastLoginTime(req.Data.LastLoginTime).
 		SetNillableLastLoginIP(req.Data.LastLoginIp).
-		SetNillableStatus(r.convertUserStatusToEnt(req.Data.Status)).
-		SetNillableGender(r.convertUserGenderToEnt(req.Data.Gender)).
-		SetNillableAuthority(r.convertUserAuthorityToEnt(req.Data.Authority)).
+		SetNillableStatus(r.toEntStatus(req.Data.Status)).
+		SetNillableGender(r.toEntGender(req.Data.Gender)).
+		SetNillableAuthority(r.toEntAuthority(req.Data.Authority)).
 		SetNillableOrgID(req.Data.OrgId).
 		SetNillableRoleID(req.Data.RoleId).
 		SetNillableWorkID(req.Data.WorkId).
 		SetNillablePositionID(req.Data.PositionId).
-		SetNillableTenantID(req.Data.TenantId).
-		SetNillableUpdateBy(req.OperatorId).
+		SetNillableUpdateBy(trans.Ptr(operator.UserId)).
 		SetNillableUpdateTime(timeutil.TimestamppbToTime(req.Data.UpdateTime))
 
 	if req.Data.UpdateTime == nil {
@@ -346,7 +347,7 @@ func (r *UserRepo) UpdateUser(ctx context.Context, req *userV1.UpdateUserRequest
 	return nil
 }
 
-func (r *UserRepo) DeleteUser(ctx context.Context, userId uint32) (bool, error) {
+func (r *UserRepo) Delete(ctx context.Context, userId uint32) (bool, error) {
 	err := r.data.db.Client().User.
 		DeleteOneID(userId).
 		Exec(ctx)

@@ -13,11 +13,11 @@ import (
 	"github.com/tx7do/go-utils/fieldmaskutil"
 	"github.com/tx7do/go-utils/timeutil"
 	"github.com/tx7do/go-utils/trans"
+	pagination "github.com/tx7do/kratos-bootstrap/api/gen/go/pagination/v1"
 
 	"kratos-admin/app/admin/service/internal/data/ent"
 	"kratos-admin/app/admin/service/internal/data/ent/adminloginlog"
 
-	pagination "github.com/tx7do/kratos-bootstrap/api/gen/go/pagination/v1"
 	systemV1 "kratos-admin/api/gen/go/system/service/v1"
 )
 
@@ -188,7 +188,7 @@ func (r *AdminLoginLogRepo) Update(ctx context.Context, req *systemV1.UpdateAdmi
 			return err
 		}
 		if !exist {
-			return r.Create(ctx, &systemV1.CreateAdminLoginLogRequest{Data: req.Data, OperatorId: req.OperatorId})
+			return r.Create(ctx, &systemV1.CreateAdminLoginLogRequest{Data: req.Data})
 		}
 	}
 

@@ -3,7 +3,6 @@ package data
 import (
 	"encoding/base64"
 	"fmt"
-	authenticationV1 "kratos-admin/api/gen/go/authentication/service/v1"
 	"regexp"
 	"testing"
 
@@ -16,6 +15,7 @@ import (
 	"google.golang.org/genproto/protobuf/field_mask"
 	"google.golang.org/protobuf/proto"
 
+	authenticationV1 "kratos-admin/api/gen/go/authentication/service/v1"
 	userV1 "kratos-admin/api/gen/go/user/service/v1"
 )
 
@@ -63,7 +63,7 @@ func TestFilterReuseMask(t *testing.T) {
 			UserName: trans.String("name 2"),
 		},
 	}
-	// CreateUser a mask only once and reuse it.
+	// Create a mask only once and reuse it.
 	mask := fieldmaskutil.NestedMaskFromPaths([]string{"userName", "realName", "positionId"})
 	for _, user := range users {
 		mask.Filter(user)

@@ -258,6 +258,9 @@ func (pmu *PrivateMessageUpdate) sqlSave(ctx context.Context) (n int, err error)
 	if pmu.mutation.DeleteTimeCleared() {
 		_spec.ClearField(privatemessage.FieldDeleteTime, field.TypeTime)
 	}
+	if pmu.mutation.TenantIDCleared() {
+		_spec.ClearField(privatemessage.FieldTenantID, field.TypeUint32)
+	}
 	if value, ok := pmu.mutation.Subject(); ok {
 		_spec.SetField(privatemessage.FieldSubject, field.TypeString, value)
 	}
@@ -574,6 +577,9 @@ func (pmuo *PrivateMessageUpdateOne) sqlSave(ctx context.Context) (_node *Privat
 	}
 	if pmuo.mutation.DeleteTimeCleared() {
 		_spec.ClearField(privatemessage.FieldDeleteTime, field.TypeTime)
+	}
+	if pmuo.mutation.TenantIDCleared() {
+		_spec.ClearField(privatemessage.FieldTenantID, field.TypeUint32)
 	}
 	if value, ok := pmuo.mutation.Subject(); ok {
 		_spec.SetField(privatemessage.FieldSubject, field.TypeString, value)

@@ -7,6 +7,7 @@ import (
 
 	"entgo.io/ent/dialect/sql"
 	"github.com/go-kratos/kratos/v2/log"
+
 	entgo "github.com/tx7do/go-utils/entgo/query"
 	entgoUpdate "github.com/tx7do/go-utils/entgo/update"
 	"github.com/tx7do/go-utils/fieldmaskutil"
@@ -18,6 +19,8 @@ import (
 	"kratos-admin/app/admin/service/internal/data/ent/privatemessage"
 
 	internalMessageV1 "kratos-admin/api/gen/go/internal_message/service/v1"
+
+	"kratos-admin/pkg/middleware/auth"
 )
 
 type PrivateMessageRepo struct {
@@ -186,7 +189,7 @@ func (r *PrivateMessageRepo) Get(ctx context.Context, req *internalMessageV1.Get
 	return r.convertEntToProto(ret), err
 }
 
-func (r *PrivateMessageRepo) Create(ctx context.Context, req *internalMessageV1.CreatePrivateMessageRequest) error {
+func (r *PrivateMessageRepo) Create(ctx context.Context, req *internalMessageV1.CreatePrivateMessageRequest, operator *auth.UserTokenPayload) error {
 	if req.Data == nil {
 		return errors.New("invalid request")
 	}
@@ -212,7 +215,7 @@ func (r *PrivateMessageRepo) Create(ctx context.Context, req *internalMessageV1.
 	return err
 }
 
-func (r *PrivateMessageRepo) Update(ctx context.Context, req *internalMessageV1.UpdatePrivateMessageRequest) error {
+func (r *PrivateMessageRepo) Update(ctx context.Context, req *internalMessageV1.UpdatePrivateMessageRequest, operator *auth.UserTokenPayload) error {
 	if req.Data == nil {
 		return errors.New("invalid request")
 	}
@@ -224,7 +227,7 @@ func (r *PrivateMessageRepo) Update(ctx context.Context, req *internalMessageV1.
 			return err
 		}
 		if !exist {
-			return r.Create(ctx, &internalMessageV1.CreatePrivateMessageRequest{Data: req.Data, OperatorId: req.OperatorId})
+			return r.Create(ctx, &internalMessageV1.CreatePrivateMessageRequest{Data: req.Data}, operator)
 		}
 	}
 

@@ -73,7 +73,7 @@ func (s *AuthenticationService) doGrantTypePassword(ctx context.Context, req *au
 	}
 
 	// 验证权限
-	if user.GetAuthority() != userV1.UserAuthority_SYS_ADMIN && user.GetAuthority() != userV1.UserAuthority_SYS_MANAGER {
+	if user.GetAuthority() != userV1.UserAuthority_SYS_ADMIN {
 		return &authenticationV1.LoginResponse{}, authenticationV1.ErrorAccessForbidden("权限不够")
 	}
 
@@ -93,7 +93,7 @@ func (s *AuthenticationService) doGrantTypePassword(ctx context.Context, req *au
 // doGrantTypeAuthorizationCode 处理授权类型 -
 func (s *AuthenticationService) doGrantTypeRefreshToken(ctx context.Context, req *authenticationV1.LoginRequest) (*authenticationV1.LoginResponse, error) {
 	// 获取用户信息
-	user, err := s.userRepo.GetUser(ctx, req.GetOperatorId())
+	user, err := s.userRepo.Get(ctx, req.GetOperatorId())
 	if err != nil {
 		return &authenticationV1.LoginResponse{}, err
 	}
@@ -134,13 +134,13 @@ func (s *AuthenticationService) Logout(ctx context.Context, req *authenticationV
 }
 
 func (s *AuthenticationService) GetMe(ctx context.Context, req *authenticationV1.GetMeRequest) (*userV1.User, error) {
-	user, err := s.userRepo.GetUser(ctx, req.GetOperatorId())
+	user, err := s.userRepo.Get(ctx, req.GetOperatorId())
 	if err != nil {
 		s.log.Errorf("查询用户失败[%s]", err.Error())
 		return nil, authenticationV1.ErrorAccessForbidden("查询用户失败")
 	}
 
-	role, err := s.roleRepo.GetRole(ctx, user.GetRoleId())
+	role, err := s.roleRepo.Get(ctx, user.GetRoleId())
 	if err == nil && role != nil {
 		user.Roles = append(user.Roles, role.GetCode())
 	}

@@ -72,24 +72,14 @@ message GetPositionRequest {
 
 // 创建职位 - 请求
 message CreatePositionRequest {
-  optional uint32 operator_id = 1 [
-    (gnostic.openapi.v3.property) = {description: "操作用户ID", read_only: true},
-    json_name = "operatorId"
-  ]; // 操作用户ID
-
-  Position data = 2;
+  Position data = 1;
 }
 
 // 更新职位 - 请求
 message UpdatePositionRequest {
-  optional uint32 operator_id = 1 [
-    (gnostic.openapi.v3.property) = {description: "操作用户ID", read_only: true},
-    json_name = "operatorId"
-  ]; // 操作用户ID
+  Position data = 1;
 
-  Position data = 2;
-
-  google.protobuf.FieldMask update_mask = 3 [
+  google.protobuf.FieldMask update_mask = 2 [
     (gnostic.openapi.v3.property) = {
       description: "要更新的字段列表",
       example: {yaml : "id,realName,userName"}
@@ -97,7 +87,7 @@ message UpdatePositionRequest {
     json_name = "updateMask"
   ]; // 要更新的字段列表
 
-  optional bool allow_missing = 4 [
+  optional bool allow_missing = 3 [
     (gnostic.openapi.v3.property) = {description: "如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。"},
     json_name = "allowMissing"
   ]; // 如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。
@@ -105,10 +95,5 @@ message UpdatePositionRequest {
 
 // 删除职位 - 请求
 message DeletePositionRequest {
-  optional uint32 operator_id = 1 [
-    (gnostic.openapi.v3.property) = {description: "操作用户ID", read_only: true},
-    json_name = "operatorId"
-  ]; // 操作用户ID
-
-  uint32 id = 2;
+  uint32 id = 1;
 }

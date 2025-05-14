@@ -382,6 +382,9 @@ func (ou *OrganizationUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	if ou.mutation.RemarkCleared() {
 		_spec.ClearField(organization.FieldRemark, field.TypeString)
 	}
+	if ou.mutation.TenantIDCleared() {
+		_spec.ClearField(organization.FieldTenantID, field.TypeUint32)
+	}
 	if value, ok := ou.mutation.Name(); ok {
 		_spec.SetField(organization.FieldName, field.TypeString, value)
 	}
@@ -875,6 +878,9 @@ func (ouo *OrganizationUpdateOne) sqlSave(ctx context.Context) (_node *Organizat
 	}
 	if ouo.mutation.RemarkCleared() {
 		_spec.ClearField(organization.FieldRemark, field.TypeString)
+	}
+	if ouo.mutation.TenantIDCleared() {
+		_spec.ClearField(organization.FieldTenantID, field.TypeUint32)
 	}
 	if value, ok := ouo.mutation.Name(); ok {
 		_spec.SetField(organization.FieldName, field.TypeString, value)

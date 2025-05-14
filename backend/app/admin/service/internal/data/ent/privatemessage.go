@@ -24,6 +24,8 @@ type PrivateMessage struct {
 	UpdateTime *time.Time `json:"update_time,omitempty"`
 	// 删除时间
 	DeleteTime *time.Time `json:"delete_time,omitempty"`
+	// 租户ID
+	TenantID *uint32 `json:"tenant_id,omitempty"`
 	// 主题
 	Subject *string `json:"subject,omitempty"`
 	// 内容
@@ -42,7 +44,7 @@ func (*PrivateMessage) scanValues(columns []string) ([]any, error) {
 	values := make([]any, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case privatemessage.FieldID, privatemessage.FieldSenderID, privatemessage.FieldReceiverID:
+		case privatemessage.FieldID, privatemessage.FieldTenantID, privatemessage.FieldSenderID, privatemessage.FieldReceiverID:
 			values[i] = new(sql.NullInt64)
 		case privatemessage.FieldSubject, privatemessage.FieldContent, privatemessage.FieldStatus:
 			values[i] = new(sql.NullString)
@@ -89,6 +91,13 @@ func (pm *PrivateMessage) assignValues(columns []string, values []any) error {
 			} else if value.Valid {
 				pm.DeleteTime = new(time.Time)
 				*pm.DeleteTime = value.Time
+			}
+		case privatemessage.FieldTenantID:
+			if value, ok := values[i].(*sql.NullInt64); !ok {
+				return fmt.Errorf("unexpected type %T for field tenant_id", values[i])
+			} else if value.Valid {
+				pm.TenantID = new(uint32)
+				*pm.TenantID = uint32(value.Int64)
 			}
 		case privatemessage.FieldSubject:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -174,6 +183,11 @@ func (pm *PrivateMessage) String() string {
 	if v := pm.DeleteTime; v != nil {
 		builder.WriteString("delete_time=")
 		builder.WriteString(v.Format(time.ANSIC))
+	}
+	builder.WriteString(", ")
+	if v := pm.TenantID; v != nil {
+		builder.WriteString("tenant_id=")
+		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteString(", ")
 	if v := pm.Subject; v != nil {

@@ -14,12 +14,14 @@ import (
 	"github.com/tx7do/go-utils/fieldmaskutil"
 	"github.com/tx7do/go-utils/timeutil"
 	"github.com/tx7do/go-utils/trans"
+	pagination "github.com/tx7do/kratos-bootstrap/api/gen/go/pagination/v1"
 
 	"kratos-admin/app/admin/service/internal/data/ent"
 	"kratos-admin/app/admin/service/internal/data/ent/department"
 
-	pagination "github.com/tx7do/kratos-bootstrap/api/gen/go/pagination/v1"
 	userV1 "kratos-admin/api/gen/go/user/service/v1"
+
+	"kratos-admin/pkg/middleware/auth"
 )
 
 type DepartmentRepo struct {
@@ -178,7 +180,7 @@ func (r *DepartmentRepo) Get(ctx context.Context, req *userV1.GetDepartmentReque
 	return r.convertEntToProto(ret), err
 }
 
-func (r *DepartmentRepo) Create(ctx context.Context, req *userV1.CreateDepartmentRequest) error {
+func (r *DepartmentRepo) Create(ctx context.Context, req *userV1.CreateDepartmentRequest, operator *auth.UserTokenPayload) error {
 	if req.Data == nil {
 		return errors.New("invalid request")
 	}
@@ -189,23 +191,22 @@ func (r *DepartmentRepo) Create(ctx context.Context, req *userV1.CreateDepartmen
 		SetNillableSortID(req.Data.SortId).
 		SetNillableRemark(req.Data.Remark).
 		SetNillableStatus((*department.Status)(req.Data.Status)).
-		SetNillableCreateBy(req.OperatorId).
+		SetNillableCreateBy(trans.Ptr(operator.UserId)).
 		SetNillableCreateTime(timeutil.TimestamppbToTime(req.Data.CreateTime))
 
 	if req.Data.CreateTime == nil {
 		builder.SetCreateTime(time.Now())
 	}
 
-	err := builder.Exec(ctx)
-	if err != nil {
+	if err := builder.Exec(ctx); err != nil {
 		r.log.Errorf("insert one data failed: %s", err.Error())
 		return err
 	}
 
-	return err
+	return nil
 }
 
-func (r *DepartmentRepo) Update(ctx context.Context, req *userV1.UpdateDepartmentRequest) error {
+func (r *DepartmentRepo) Update(ctx context.Context, req *userV1.UpdateDepartmentRequest, operator *auth.UserTokenPayload) error {
 	if req.Data == nil {
 		return errors.New("invalid request")
 	}
@@ -217,7 +218,7 @@ func (r *DepartmentRepo) Update(ctx context.Context, req *userV1.UpdateDepartmen
 			return err
 		}
 		if !exist {
-			return r.Create(ctx, &userV1.CreateDepartmentRequest{Data: req.Data, OperatorId: req.OperatorId})
+			return r.Create(ctx, &userV1.CreateDepartmentRequest{Data: req.Data}, operator)
 		}
 	}
 
@@ -236,7 +237,7 @@ func (r *DepartmentRepo) Update(ctx context.Context, req *userV1.UpdateDepartmen
 		SetNillableSortID(req.Data.SortId).
 		SetNillableRemark(req.Data.Remark).
 		SetNillableStatus((*department.Status)(req.Data.Status)).
-		SetNillableUpdateBy(req.OperatorId).
+		SetNillableUpdateBy(trans.Ptr(operator.UserId)).
 		SetNillableUpdateTime(timeutil.TimestamppbToTime(req.Data.UpdateTime))
 
 	if req.Data.UpdateTime == nil {
@@ -251,13 +252,12 @@ func (r *DepartmentRepo) Update(ctx context.Context, req *userV1.UpdateDepartmen
 		}
 	}
 
-	err := builder.Exec(ctx)
-	if err != nil {
+	if err := builder.Exec(ctx); err != nil {
 		r.log.Errorf("update one data failed: %s", err.Error())
 		return err
 	}
 
-	return err
+	return nil
 }
 
 func (r *DepartmentRepo) Delete(ctx context.Context, req *userV1.DeleteDepartmentRequest) (bool, error) {

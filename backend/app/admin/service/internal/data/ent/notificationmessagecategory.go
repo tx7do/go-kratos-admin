@@ -30,6 +30,8 @@ type NotificationMessageCategory struct {
 	UpdateBy *uint32 `json:"update_by,omitempty"`
 	// 备注
 	Remark *string `json:"remark,omitempty"`
+	// 租户ID
+	TenantID *uint32 `json:"tenant_id,omitempty"`
 	// 名称
 	Name *string `json:"name,omitempty"`
 	// 编码
@@ -84,7 +86,7 @@ func (*NotificationMessageCategory) scanValues(columns []string) ([]any, error) 
 		switch columns[i] {
 		case notificationmessagecategory.FieldEnable:
 			values[i] = new(sql.NullBool)
-		case notificationmessagecategory.FieldID, notificationmessagecategory.FieldCreateBy, notificationmessagecategory.FieldUpdateBy, notificationmessagecategory.FieldSortID, notificationmessagecategory.FieldParentID:
+		case notificationmessagecategory.FieldID, notificationmessagecategory.FieldCreateBy, notificationmessagecategory.FieldUpdateBy, notificationmessagecategory.FieldTenantID, notificationmessagecategory.FieldSortID, notificationmessagecategory.FieldParentID:
 			values[i] = new(sql.NullInt64)
 		case notificationmessagecategory.FieldRemark, notificationmessagecategory.FieldName, notificationmessagecategory.FieldCode:
 			values[i] = new(sql.NullString)
@@ -152,6 +154,13 @@ func (nmc *NotificationMessageCategory) assignValues(columns []string, values []
 			} else if value.Valid {
 				nmc.Remark = new(string)
 				*nmc.Remark = value.String
+			}
+		case notificationmessagecategory.FieldTenantID:
+			if value, ok := values[i].(*sql.NullInt64); !ok {
+				return fmt.Errorf("unexpected type %T for field tenant_id", values[i])
+			} else if value.Valid {
+				nmc.TenantID = new(uint32)
+				*nmc.TenantID = uint32(value.Int64)
 			}
 		case notificationmessagecategory.FieldName:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -262,6 +271,11 @@ func (nmc *NotificationMessageCategory) String() string {
 	if v := nmc.Remark; v != nil {
 		builder.WriteString("remark=")
 		builder.WriteString(*v)
+	}
+	builder.WriteString(", ")
+	if v := nmc.TenantID; v != nil {
+		builder.WriteString("tenant_id=")
+		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteString(", ")
 	if v := nmc.Name; v != nil {

@@ -32,6 +32,8 @@ type User struct {
 	Remark *string `json:"remark,omitempty"`
 	// 状态
 	Status *user.Status `json:"status,omitempty"`
+	// 租户ID
+	TenantID *uint32 `json:"tenant_id,omitempty"`
 	// 用户名
 	Username *string `json:"username,omitempty"`
 	// 登录密码
@@ -69,9 +71,7 @@ type User struct {
 	// 职位ID
 	PositionID *uint32 `json:"position_id,omitempty"`
 	// 员工工号
-	WorkID *uint32 `json:"work_id,omitempty"`
-	// 租户ID
-	TenantID     *uint32 `json:"tenant_id,omitempty"`
+	WorkID       *uint32 `json:"work_id,omitempty"`
 	selectValues sql.SelectValues
 }
 
@@ -80,7 +80,7 @@ func (*User) scanValues(columns []string) ([]any, error) {
 	values := make([]any, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case user.FieldID, user.FieldCreateBy, user.FieldUpdateBy, user.FieldLastLoginTime, user.FieldRoleID, user.FieldOrgID, user.FieldPositionID, user.FieldWorkID, user.FieldTenantID:
+		case user.FieldID, user.FieldCreateBy, user.FieldUpdateBy, user.FieldTenantID, user.FieldLastLoginTime, user.FieldRoleID, user.FieldOrgID, user.FieldPositionID, user.FieldWorkID:
 			values[i] = new(sql.NullInt64)
 		case user.FieldRemark, user.FieldStatus, user.FieldUsername, user.FieldPassword, user.FieldNickName, user.FieldRealName, user.FieldEmail, user.FieldMobile, user.FieldTelephone, user.FieldAvatar, user.FieldGender, user.FieldAddress, user.FieldRegion, user.FieldDescription, user.FieldAuthority, user.FieldLastLoginIP:
 			values[i] = new(sql.NullString)
@@ -155,6 +155,13 @@ func (u *User) assignValues(columns []string, values []any) error {
 			} else if value.Valid {
 				u.Status = new(user.Status)
 				*u.Status = user.Status(value.String)
+			}
+		case user.FieldTenantID:
+			if value, ok := values[i].(*sql.NullInt64); !ok {
+				return fmt.Errorf("unexpected type %T for field tenant_id", values[i])
+			} else if value.Valid {
+				u.TenantID = new(uint32)
+				*u.TenantID = uint32(value.Int64)
 			}
 		case user.FieldUsername:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -289,13 +296,6 @@ func (u *User) assignValues(columns []string, values []any) error {
 				u.WorkID = new(uint32)
 				*u.WorkID = uint32(value.Int64)
 			}
-		case user.FieldTenantID:
-			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for field tenant_id", values[i])
-			} else if value.Valid {
-				u.TenantID = new(uint32)
-				*u.TenantID = uint32(value.Int64)
-			}
 		default:
 			u.selectValues.Set(columns[i], values[i])
 		}
@@ -364,6 +364,11 @@ func (u *User) String() string {
 	builder.WriteString(", ")
 	if v := u.Status; v != nil {
 		builder.WriteString("status=")
+		builder.WriteString(fmt.Sprintf("%v", *v))
+	}
+	builder.WriteString(", ")
+	if v := u.TenantID; v != nil {
+		builder.WriteString("tenant_id=")
 		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteString(", ")
@@ -459,11 +464,6 @@ func (u *User) String() string {
 	builder.WriteString(", ")
 	if v := u.WorkID; v != nil {
 		builder.WriteString("work_id=")
-		builder.WriteString(fmt.Sprintf("%v", *v))
-	}
-	builder.WriteString(", ")
-	if v := u.TenantID; v != nil {
-		builder.WriteString("tenant_id=")
 		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteByte(')')

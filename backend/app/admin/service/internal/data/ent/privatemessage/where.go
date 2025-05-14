@@ -69,6 +69,11 @@ func DeleteTime(v time.Time) predicate.PrivateMessage {
 	return predicate.PrivateMessage(sql.FieldEQ(FieldDeleteTime, v))
 }
 
+// TenantID applies equality check predicate on the "tenant_id" field. It's identical to TenantIDEQ.
+func TenantID(v uint32) predicate.PrivateMessage {
+	return predicate.PrivateMessage(sql.FieldEQ(FieldTenantID, v))
+}
+
 // Subject applies equality check predicate on the "subject" field. It's identical to SubjectEQ.
 func Subject(v string) predicate.PrivateMessage {
 	return predicate.PrivateMessage(sql.FieldEQ(FieldSubject, v))
@@ -237,6 +242,56 @@ func DeleteTimeIsNil() predicate.PrivateMessage {
 // DeleteTimeNotNil applies the NotNil predicate on the "delete_time" field.
 func DeleteTimeNotNil() predicate.PrivateMessage {
 	return predicate.PrivateMessage(sql.FieldNotNull(FieldDeleteTime))
+}
+
+// TenantIDEQ applies the EQ predicate on the "tenant_id" field.
+func TenantIDEQ(v uint32) predicate.PrivateMessage {
+	return predicate.PrivateMessage(sql.FieldEQ(FieldTenantID, v))
+}
+
+// TenantIDNEQ applies the NEQ predicate on the "tenant_id" field.
+func TenantIDNEQ(v uint32) predicate.PrivateMessage {
+	return predicate.PrivateMessage(sql.FieldNEQ(FieldTenantID, v))
+}
+
+// TenantIDIn applies the In predicate on the "tenant_id" field.
+func TenantIDIn(vs ...uint32) predicate.PrivateMessage {
+	return predicate.PrivateMessage(sql.FieldIn(FieldTenantID, vs...))
+}
+
+// TenantIDNotIn applies the NotIn predicate on the "tenant_id" field.
+func TenantIDNotIn(vs ...uint32) predicate.PrivateMessage {
+	return predicate.PrivateMessage(sql.FieldNotIn(FieldTenantID, vs...))
+}
+
+// TenantIDGT applies the GT predicate on the "tenant_id" field.
+func TenantIDGT(v uint32) predicate.PrivateMessage {
+	return predicate.PrivateMessage(sql.FieldGT(FieldTenantID, v))
+}
+
+// TenantIDGTE applies the GTE predicate on the "tenant_id" field.
+func TenantIDGTE(v uint32) predicate.PrivateMessage {
+	return predicate.PrivateMessage(sql.FieldGTE(FieldTenantID, v))
+}
+
+// TenantIDLT applies the LT predicate on the "tenant_id" field.
+func TenantIDLT(v uint32) predicate.PrivateMessage {
+	return predicate.PrivateMessage(sql.FieldLT(FieldTenantID, v))
+}
+
+// TenantIDLTE applies the LTE predicate on the "tenant_id" field.
+func TenantIDLTE(v uint32) predicate.PrivateMessage {
+	return predicate.PrivateMessage(sql.FieldLTE(FieldTenantID, v))
+}
+
+// TenantIDIsNil applies the IsNil predicate on the "tenant_id" field.
+func TenantIDIsNil() predicate.PrivateMessage {
+	return predicate.PrivateMessage(sql.FieldIsNull(FieldTenantID))
+}
+
+// TenantIDNotNil applies the NotNil predicate on the "tenant_id" field.
+func TenantIDNotNil() predicate.PrivateMessage {
+	return predicate.PrivateMessage(sql.FieldNotNull(FieldTenantID))
 }
 
 // SubjectEQ applies the EQ predicate on the "subject" field.

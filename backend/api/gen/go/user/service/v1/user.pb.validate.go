@@ -721,10 +721,6 @@ func (m *CreateUserRequest) validate(all bool) error {
 		}
 	}
 
-	if m.OperatorId != nil {
-		// no validation rules for OperatorId
-	}
-
 	if m.Password != nil {
 		// no validation rules for Password
 	}
@@ -889,10 +885,6 @@ func (m *UpdateUserRequest) validate(all bool) error {
 		}
 	}
 
-	if m.OperatorId != nil {
-		// no validation rules for OperatorId
-	}
-
 	if m.Password != nil {
 		// no validation rules for Password
 	}
@@ -1004,10 +996,6 @@ func (m *DeleteUserRequest) validate(all bool) error {
 	var errors []error
 
 	// no validation rules for Id
-
-	if m.OperatorId != nil {
-		// no validation rules for OperatorId
-	}
 
 	if len(errors) > 0 {
 		return DeleteUserRequestMultiError(errors)

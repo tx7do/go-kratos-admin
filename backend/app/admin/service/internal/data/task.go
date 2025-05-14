@@ -7,17 +7,20 @@ import (
 
 	"entgo.io/ent/dialect/sql"
 	"github.com/go-kratos/kratos/v2/log"
+
 	"github.com/tx7do/go-utils/entgo/query"
 	entgoUpdate "github.com/tx7do/go-utils/entgo/update"
 	"github.com/tx7do/go-utils/fieldmaskutil"
 	"github.com/tx7do/go-utils/timeutil"
 	"github.com/tx7do/go-utils/trans"
+	pagination "github.com/tx7do/kratos-bootstrap/api/gen/go/pagination/v1"
 
 	"kratos-admin/app/admin/service/internal/data/ent"
 	"kratos-admin/app/admin/service/internal/data/ent/task"
 
-	pagination "github.com/tx7do/kratos-bootstrap/api/gen/go/pagination/v1"
 	systemV1 "kratos-admin/api/gen/go/system/service/v1"
+
+	"kratos-admin/pkg/middleware/auth"
 )
 
 type TaskRepo struct {
@@ -192,7 +195,7 @@ func (r *TaskRepo) GetByTypeName(ctx context.Context, typeName string) (*systemV
 	return r.convertEntToProto(ret), err
 }
 
-func (r *TaskRepo) Create(ctx context.Context, req *systemV1.CreateTaskRequest) (*systemV1.Task, error) {
+func (r *TaskRepo) Create(ctx context.Context, req *systemV1.CreateTaskRequest, operator *auth.UserTokenPayload) (*systemV1.Task, error) {
 	if req.Data == nil {
 		return nil, errors.New("invalid request")
 	}
@@ -209,7 +212,7 @@ func (r *TaskRepo) Create(ctx context.Context, req *systemV1.CreateTaskRequest) 
 		SetNillableProcessAt(timeutil.TimestamppbToTime(req.Data.ProcessAt)).
 		SetNillableEnable(req.Data.Enable).
 		SetNillableRemark(req.Data.Remark).
-		SetNillableCreateBy(req.OperatorId).
+		SetNillableCreateBy(trans.Ptr(operator.UserId)).
 		SetNillableCreateTime(timeutil.TimestamppbToTime(req.Data.CreateTime))
 
 	if req.Data.CreateTime == nil {
@@ -229,7 +232,7 @@ func (r *TaskRepo) Create(ctx context.Context, req *systemV1.CreateTaskRequest) 
 	return r.convertEntToProto(t), nil
 }
 
-func (r *TaskRepo) Update(ctx context.Context, req *systemV1.UpdateTaskRequest) (*systemV1.Task, error) {
+func (r *TaskRepo) Update(ctx context.Context, req *systemV1.UpdateTaskRequest, operator *auth.UserTokenPayload) (*systemV1.Task, error) {
 	if req == nil || req.Data == nil {
 		return nil, errors.New("invalid request")
 	}
@@ -241,7 +244,7 @@ func (r *TaskRepo) Update(ctx context.Context, req *systemV1.UpdateTaskRequest) 
 			return nil, err
 		}
 		if !exist {
-			return r.Create(ctx, &systemV1.CreateTaskRequest{Data: req.Data, OperatorId: req.OperatorId})
+			return r.Create(ctx, &systemV1.CreateTaskRequest{Data: req.Data}, operator)
 		}
 	}
 
@@ -267,7 +270,7 @@ func (r *TaskRepo) Update(ctx context.Context, req *systemV1.UpdateTaskRequest) 
 		SetNillableProcessAt(timeutil.TimestamppbToTime(req.Data.ProcessAt)).
 		SetNillableEnable(req.Data.Enable).
 		SetNillableRemark(req.Data.Remark).
-		SetNillableUpdateBy(req.OperatorId).
+		SetNillableUpdateBy(trans.Ptr(operator.UserId)).
 		SetNillableUpdateTime(timeutil.TimestamppbToTime(req.Data.UpdateTime))
 
 	if req.Data.UpdateTime == nil {

@@ -7,6 +7,7 @@ import (
 
 	"entgo.io/ent/dialect/sql"
 	"github.com/go-kratos/kratos/v2/log"
+
 	entgo "github.com/tx7do/go-utils/entgo/query"
 	entgoUpdate "github.com/tx7do/go-utils/entgo/update"
 	"github.com/tx7do/go-utils/fieldmaskutil"
@@ -18,6 +19,8 @@ import (
 	"kratos-admin/app/admin/service/internal/data/ent/notificationmessage"
 
 	internalMessageV1 "kratos-admin/api/gen/go/internal_message/service/v1"
+
+	"kratos-admin/pkg/middleware/auth"
 )
 
 type NotificationMessageRepo struct {
@@ -185,7 +188,7 @@ func (r *NotificationMessageRepo) Get(ctx context.Context, req *internalMessageV
 	return r.convertEntToProto(ret), err
 }
 
-func (r *NotificationMessageRepo) Create(ctx context.Context, req *internalMessageV1.CreateNotificationMessageRequest) error {
+func (r *NotificationMessageRepo) Create(ctx context.Context, req *internalMessageV1.CreateNotificationMessageRequest, operator *auth.UserTokenPayload) error {
 	if req.Data == nil {
 		return errors.New("invalid request")
 	}
@@ -195,7 +198,7 @@ func (r *NotificationMessageRepo) Create(ctx context.Context, req *internalMessa
 		SetNillableContent(req.Data.Content).
 		SetNillableCategoryID(req.Data.CategoryId).
 		SetNillableStatus(r.toEntStatus(req.Data.Status)).
-		SetNillableCreateBy(req.OperatorId).
+		SetNillableCreateBy(trans.Ptr(operator.UserId)).
 		SetNillableCreateTime(timeutil.TimestamppbToTime(req.Data.CreateTime))
 
 	if req.Data.CreateTime == nil {
@@ -211,7 +214,7 @@ func (r *NotificationMessageRepo) Create(ctx context.Context, req *internalMessa
 	return err
 }
 
-func (r *NotificationMessageRepo) Update(ctx context.Context, req *internalMessageV1.UpdateNotificationMessageRequest) error {
+func (r *NotificationMessageRepo) Update(ctx context.Context, req *internalMessageV1.UpdateNotificationMessageRequest, operator *auth.UserTokenPayload) error {
 	if req.Data == nil {
 		return errors.New("invalid request")
 	}
@@ -223,7 +226,7 @@ func (r *NotificationMessageRepo) Update(ctx context.Context, req *internalMessa
 			return err
 		}
 		if !exist {
-			return r.Create(ctx, &internalMessageV1.CreateNotificationMessageRequest{Data: req.Data, OperatorId: req.OperatorId})
+			return r.Create(ctx, &internalMessageV1.CreateNotificationMessageRequest{Data: req.Data}, operator)
 		}
 	}
 
@@ -240,7 +243,7 @@ func (r *NotificationMessageRepo) Update(ctx context.Context, req *internalMessa
 		SetNillableContent(req.Data.Content).
 		SetNillableCategoryID(req.Data.CategoryId).
 		SetNillableStatus(r.toEntStatus(req.Data.Status)).
-		SetNillableUpdateBy(req.OperatorId).
+		SetNillableUpdateBy(trans.Ptr(operator.UserId)).
 		SetNillableUpdateTime(timeutil.TimestamppbToTime(req.Data.UpdateTime))
 
 	if req.Data.UpdateTime == nil {

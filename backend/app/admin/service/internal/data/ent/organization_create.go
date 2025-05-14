@@ -120,6 +120,20 @@ func (oc *OrganizationCreate) SetNillableRemark(s *string) *OrganizationCreate {
 	return oc
 }
 
+// SetTenantID sets the "tenant_id" field.
+func (oc *OrganizationCreate) SetTenantID(u uint32) *OrganizationCreate {
+	oc.mutation.SetTenantID(u)
+	return oc
+}
+
+// SetNillableTenantID sets the "tenant_id" field if the given value is not nil.
+func (oc *OrganizationCreate) SetNillableTenantID(u *uint32) *OrganizationCreate {
+	if u != nil {
+		oc.SetTenantID(*u)
+	}
+	return oc
+}
+
 // SetName sets the "name" field.
 func (oc *OrganizationCreate) SetName(s string) *OrganizationCreate {
 	oc.mutation.SetName(s)
@@ -248,6 +262,11 @@ func (oc *OrganizationCreate) check() error {
 			return &ValidationError{Name: "status", err: fmt.Errorf(`ent: validator failed for field "Organization.status": %w`, err)}
 		}
 	}
+	if v, ok := oc.mutation.TenantID(); ok {
+		if err := organization.TenantIDValidator(v); err != nil {
+			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "Organization.tenant_id": %w`, err)}
+		}
+	}
 	if v, ok := oc.mutation.ID(); ok {
 		if err := organization.IDValidator(v); err != nil {
 			return &ValidationError{Name: "id", err: fmt.Errorf(`ent: validator failed for field "Organization.id": %w`, err)}
@@ -313,6 +332,10 @@ func (oc *OrganizationCreate) createSpec() (*Organization, *sqlgraph.CreateSpec)
 	if value, ok := oc.mutation.Remark(); ok {
 		_spec.SetField(organization.FieldRemark, field.TypeString, value)
 		_node.Remark = &value
+	}
+	if value, ok := oc.mutation.TenantID(); ok {
+		_spec.SetField(organization.FieldTenantID, field.TypeUint32, value)
+		_node.TenantID = &value
 	}
 	if value, ok := oc.mutation.Name(); ok {
 		_spec.SetField(organization.FieldName, field.TypeString, value)
@@ -606,6 +629,9 @@ func (u *OrganizationUpsertOne) UpdateNewValues() *OrganizationUpsertOne {
 		}
 		if _, exists := u.create.mutation.CreateTime(); exists {
 			s.SetIgnore(organization.FieldCreateTime)
+		}
+		if _, exists := u.create.mutation.TenantID(); exists {
+			s.SetIgnore(organization.FieldTenantID)
 		}
 	}))
 	return u
@@ -1032,6 +1058,9 @@ func (u *OrganizationUpsertBulk) UpdateNewValues() *OrganizationUpsertBulk {
 			}
 			if _, exists := b.mutation.CreateTime(); exists {
 				s.SetIgnore(organization.FieldCreateTime)
+			}
+			if _, exists := b.mutation.TenantID(); exists {
+				s.SetIgnore(organization.FieldTenantID)
 			}
 		}
 	}))

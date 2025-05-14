@@ -6,6 +6,7 @@ import (
 	"entgo.io/ent/schema"
 	"entgo.io/ent/schema/field"
 	"github.com/tx7do/go-utils/entgo/mixin"
+	appmixin "kratos-admin/pkg/entgo/mixin"
 )
 
 // File holds the schema definition for the File entity.
@@ -93,5 +94,6 @@ func (File) Mixin() []ent.Mixin {
 		mixin.Time{},
 		mixin.CreateBy{},
 		mixin.Remark{},
+		appmixin.TenantID{},
 	}
 }

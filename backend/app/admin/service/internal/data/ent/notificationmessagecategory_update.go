@@ -383,6 +383,9 @@ func (nmcu *NotificationMessageCategoryUpdate) sqlSave(ctx context.Context) (n i
 	if nmcu.mutation.RemarkCleared() {
 		_spec.ClearField(notificationmessagecategory.FieldRemark, field.TypeString)
 	}
+	if nmcu.mutation.TenantIDCleared() {
+		_spec.ClearField(notificationmessagecategory.FieldTenantID, field.TypeUint32)
+	}
 	if value, ok := nmcu.mutation.Name(); ok {
 		_spec.SetField(notificationmessagecategory.FieldName, field.TypeString, value)
 	}
@@ -889,6 +892,9 @@ func (nmcuo *NotificationMessageCategoryUpdateOne) sqlSave(ctx context.Context) 
 	}
 	if nmcuo.mutation.RemarkCleared() {
 		_spec.ClearField(notificationmessagecategory.FieldRemark, field.TypeString)
+	}
+	if nmcuo.mutation.TenantIDCleared() {
+		_spec.ClearField(notificationmessagecategory.FieldTenantID, field.TypeUint32)
 	}
 	if value, ok := nmcuo.mutation.Name(); ok {
 		_spec.SetField(notificationmessagecategory.FieldName, field.TypeString, value)

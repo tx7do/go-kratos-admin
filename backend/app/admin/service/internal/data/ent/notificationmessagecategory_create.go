@@ -106,6 +106,20 @@ func (nmcc *NotificationMessageCategoryCreate) SetNillableRemark(s *string) *Not
 	return nmcc
 }
 
+// SetTenantID sets the "tenant_id" field.
+func (nmcc *NotificationMessageCategoryCreate) SetTenantID(u uint32) *NotificationMessageCategoryCreate {
+	nmcc.mutation.SetTenantID(u)
+	return nmcc
+}
+
+// SetNillableTenantID sets the "tenant_id" field if the given value is not nil.
+func (nmcc *NotificationMessageCategoryCreate) SetNillableTenantID(u *uint32) *NotificationMessageCategoryCreate {
+	if u != nil {
+		nmcc.SetTenantID(*u)
+	}
+	return nmcc
+}
+
 // SetName sets the "name" field.
 func (nmcc *NotificationMessageCategoryCreate) SetName(s string) *NotificationMessageCategoryCreate {
 	nmcc.mutation.SetName(s)
@@ -245,6 +259,11 @@ func (nmcc *NotificationMessageCategoryCreate) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (nmcc *NotificationMessageCategoryCreate) check() error {
+	if v, ok := nmcc.mutation.TenantID(); ok {
+		if err := notificationmessagecategory.TenantIDValidator(v); err != nil {
+			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "NotificationMessageCategory.tenant_id": %w`, err)}
+		}
+	}
 	if v, ok := nmcc.mutation.ID(); ok {
 		if err := notificationmessagecategory.IDValidator(v); err != nil {
 			return &ValidationError{Name: "id", err: fmt.Errorf(`ent: validator failed for field "NotificationMessageCategory.id": %w`, err)}
@@ -306,6 +325,10 @@ func (nmcc *NotificationMessageCategoryCreate) createSpec() (*NotificationMessag
 	if value, ok := nmcc.mutation.Remark(); ok {
 		_spec.SetField(notificationmessagecategory.FieldRemark, field.TypeString, value)
 		_node.Remark = &value
+	}
+	if value, ok := nmcc.mutation.TenantID(); ok {
+		_spec.SetField(notificationmessagecategory.FieldTenantID, field.TypeUint32, value)
+		_node.TenantID = &value
 	}
 	if value, ok := nmcc.mutation.Name(); ok {
 		_spec.SetField(notificationmessagecategory.FieldName, field.TypeString, value)
@@ -625,6 +648,9 @@ func (u *NotificationMessageCategoryUpsertOne) UpdateNewValues() *NotificationMe
 		}
 		if _, exists := u.create.mutation.CreateTime(); exists {
 			s.SetIgnore(notificationmessagecategory.FieldCreateTime)
+		}
+		if _, exists := u.create.mutation.TenantID(); exists {
+			s.SetIgnore(notificationmessagecategory.FieldTenantID)
 		}
 	}))
 	return u
@@ -1072,6 +1098,9 @@ func (u *NotificationMessageCategoryUpsertBulk) UpdateNewValues() *NotificationM
 			}
 			if _, exists := b.mutation.CreateTime(); exists {
 				s.SetIgnore(notificationmessagecategory.FieldCreateTime)
+			}
+			if _, exists := b.mutation.TenantID(); exists {
+				s.SetIgnore(notificationmessagecategory.FieldTenantID)
 			}
 		}
 	}))

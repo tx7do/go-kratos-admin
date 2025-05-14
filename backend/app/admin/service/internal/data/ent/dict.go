@@ -32,6 +32,8 @@ type Dict struct {
 	UpdateBy *uint32 `json:"update_by,omitempty"`
 	// 备注
 	Remark *string `json:"remark,omitempty"`
+	// 租户ID
+	TenantID *uint32 `json:"tenant_id,omitempty"`
 	// 字典键
 	Key *string `json:"key,omitempty"`
 	// 字典类型
@@ -54,7 +56,7 @@ func (*Dict) scanValues(columns []string) ([]any, error) {
 	values := make([]any, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case dict.FieldID, dict.FieldCreateBy, dict.FieldUpdateBy, dict.FieldSortID:
+		case dict.FieldID, dict.FieldCreateBy, dict.FieldUpdateBy, dict.FieldTenantID, dict.FieldSortID:
 			values[i] = new(sql.NullInt64)
 		case dict.FieldStatus, dict.FieldRemark, dict.FieldKey, dict.FieldCategory, dict.FieldCategoryDesc, dict.FieldValue, dict.FieldValueDesc, dict.FieldValueDataType:
 			values[i] = new(sql.NullString)
@@ -129,6 +131,13 @@ func (d *Dict) assignValues(columns []string, values []any) error {
 			} else if value.Valid {
 				d.Remark = new(string)
 				*d.Remark = value.String
+			}
+		case dict.FieldTenantID:
+			if value, ok := values[i].(*sql.NullInt64); !ok {
+				return fmt.Errorf("unexpected type %T for field tenant_id", values[i])
+			} else if value.Valid {
+				d.TenantID = new(uint32)
+				*d.TenantID = uint32(value.Int64)
 			}
 		case dict.FieldKey:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -248,6 +257,11 @@ func (d *Dict) String() string {
 	if v := d.Remark; v != nil {
 		builder.WriteString("remark=")
 		builder.WriteString(*v)
+	}
+	builder.WriteString(", ")
+	if v := d.TenantID; v != nil {
+		builder.WriteString("tenant_id=")
+		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteString(", ")
 	if v := d.Key; v != nil {

@@ -660,10 +660,6 @@ func (m *CreateAdminOperationLogRequest) validate(all bool) error {
 		}
 	}
 
-	if m.OperatorId != nil {
-		// no validation rules for OperatorId
-	}
-
 	if len(errors) > 0 {
 		return CreateAdminOperationLogRequestMultiError(errors)
 	}
@@ -825,10 +821,6 @@ func (m *UpdateAdminOperationLogRequest) validate(all bool) error {
 		}
 	}
 
-	if m.OperatorId != nil {
-		// no validation rules for OperatorId
-	}
-
 	if m.AllowMissing != nil {
 		// no validation rules for AllowMissing
 	}
@@ -937,10 +929,6 @@ func (m *DeleteAdminOperationLogRequest) validate(all bool) error {
 	var errors []error
 
 	// no validation rules for Id
-
-	if m.OperatorId != nil {
-		// no validation rules for OperatorId
-	}
 
 	if len(errors) > 0 {
 		return DeleteAdminOperationLogRequestMultiError(errors)

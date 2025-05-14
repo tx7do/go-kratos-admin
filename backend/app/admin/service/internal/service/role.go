@@ -11,6 +11,8 @@ import (
 
 	adminV1 "kratos-admin/api/gen/go/admin/service/v1"
 	userV1 "kratos-admin/api/gen/go/user/service/v1"
+
+	"kratos-admin/pkg/middleware/auth"
 )
 
 type RoleService struct {
@@ -34,7 +36,7 @@ func (s *RoleService) ListRole(ctx context.Context, req *pagination.PagingReques
 }
 
 func (s *RoleService) GetRole(ctx context.Context, req *userV1.GetRoleRequest) (*userV1.Role, error) {
-	return s.uc.GetRole(ctx, req.GetId())
+	return s.uc.Get(ctx, req.GetId())
 }
 
 func (s *RoleService) CreateRole(ctx context.Context, req *userV1.CreateRoleRequest) (*emptypb.Empty, error) {
@@ -42,7 +44,13 @@ func (s *RoleService) CreateRole(ctx context.Context, req *userV1.CreateRoleRequ
 		return nil, adminV1.ErrorBadRequest("错误的参数")
 	}
 
-	if err := s.uc.CreateRole(ctx, req); err != nil {
+	// 获取操作人信息
+	operator, err := auth.FromContext(ctx)
+	if err != nil {
+		return &emptypb.Empty{}, err
+	}
+
+	if err = s.uc.Create(ctx, req, operator); err != nil {
 		return nil, err
 	}
 
@@ -54,7 +62,13 @@ func (s *RoleService) UpdateRole(ctx context.Context, req *userV1.UpdateRoleRequ
 		return nil, adminV1.ErrorBadRequest("错误的参数")
 	}
 
-	if err := s.uc.UpdateRole(ctx, req); err != nil {
+	// 获取操作人信息
+	operator, err := auth.FromContext(ctx)
+	if err != nil {
+		return &emptypb.Empty{}, err
+	}
+
+	if err = s.uc.Update(ctx, req, operator); err != nil {
 		return nil, err
 	}
 
@@ -62,7 +76,7 @@ func (s *RoleService) UpdateRole(ctx context.Context, req *userV1.UpdateRoleRequ
 }
 
 func (s *RoleService) DeleteRole(ctx context.Context, req *userV1.DeleteRoleRequest) (*emptypb.Empty, error) {
-	if _, err := s.uc.DeleteRole(ctx, req); err != nil {
+	if _, err := s.uc.Delete(ctx, req); err != nil {
 		return nil, err
 	}
 	return &emptypb.Empty{}, nil

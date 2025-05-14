@@ -48,12 +48,10 @@ enum VerifyPasswordResult {
 
 // 用户权限
 enum UserAuthority {
-  SYS_ADMIN = 0;  // 系统超级用户
-  SYS_MANAGER = 1;  // 系统管理员
-  CUSTOMER_USER = 2;  // 普通用户
-  GUEST_USER = 3;  // 游客
-
-  REFRESH_TOKEN = 4; // 刷新令牌
+  GUEST_USER = 0;  // 游客
+  CUSTOMER_USER = 1;  // 普通用户
+  TENANT_ADMIN = 2;  // 租户管理员
+  SYS_ADMIN = 3;  // 系统管理员
 }
 
 // 用户性别
@@ -194,14 +192,9 @@ message GetUserByUserNameRequest {
 
 // 创建用户 - 请求
 message CreateUserRequest {
-  optional uint32 operator_id = 1 [
-    (gnostic.openapi.v3.property) = {description: "操作用户ID", read_only: true},
-    json_name = "operatorId"
-  ]; // 操作用户ID
+  User data = 1;
 
-  User data = 2;
-
-  optional string password = 3 [
+  optional string password = 2 [
     (gnostic.openapi.v3.property) = {description: "用户登录密码", read_only: true},
     json_name = "password"
   ]; // 用户登录密码
@@ -209,23 +202,18 @@ message CreateUserRequest {
 
 // 更新用户 - 请求
 message UpdateUserRequest {
-  optional uint32 operator_id = 1 [
-    json_name = "operatorId",
-    (gnostic.openapi.v3.property) = {description: "操作用户ID", read_only: true}
-  ]; // 操作用户ID
-
-  User data = 2 [
+  User data = 1 [
     json_name = "data",
     (google.api.field_behavior) = REQUIRED,
     (gnostic.openapi.v3.property) = {description: "用户的数据"}
   ]; // 用户的数据
 
-  optional string password = 3 [
+  optional string password = 2 [
     (gnostic.openapi.v3.property) = {description: "用户登录密码", read_only: true},
     json_name = "password"
   ]; // 用户登录密码
 
-  google.protobuf.FieldMask update_mask = 4 [
+  google.protobuf.FieldMask update_mask = 3 [
     json_name = "updateMask",
     (gnostic.openapi.v3.property) = {
       description: "要更新的字段列表",
@@ -233,7 +221,7 @@ message UpdateUserRequest {
     }
   ]; // 要更新的字段列表
 
-  optional bool allow_missing = 5 [
+  optional bool allow_missing = 4 [
     json_name = "allowMissing",
     (gnostic.openapi.v3.property) = {description: "如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。"}
   ]; // 如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。
@@ -241,12 +229,7 @@ message UpdateUserRequest {
 
 // 删除用户 - 请求
 message DeleteUserRequest {
-  optional uint32 operator_id = 1 [
-    (gnostic.openapi.v3.property) = {description: "操作用户ID", read_only: true},
-    json_name = "operatorId"
-  ]; // 操作用户ID
-
-  uint32 id = 2;
+  uint32 id = 1;
 }
 
 // 验证密码 - 请求

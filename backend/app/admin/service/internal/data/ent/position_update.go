@@ -394,6 +394,9 @@ func (pu *PositionUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	if pu.mutation.RemarkCleared() {
 		_spec.ClearField(position.FieldRemark, field.TypeString)
 	}
+	if pu.mutation.TenantIDCleared() {
+		_spec.ClearField(position.FieldTenantID, field.TypeUint32)
+	}
 	if value, ok := pu.mutation.Name(); ok {
 		_spec.SetField(position.FieldName, field.TypeString, value)
 	}
@@ -896,6 +899,9 @@ func (puo *PositionUpdateOne) sqlSave(ctx context.Context) (_node *Position, err
 	}
 	if puo.mutation.RemarkCleared() {
 		_spec.ClearField(position.FieldRemark, field.TypeString)
+	}
+	if puo.mutation.TenantIDCleared() {
+		_spec.ClearField(position.FieldTenantID, field.TypeUint32)
 	}
 	if value, ok := puo.mutation.Name(); ok {
 		_spec.SetField(position.FieldName, field.TypeString, value)

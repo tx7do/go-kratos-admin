@@ -120,6 +120,20 @@ func (pc *PositionCreate) SetNillableRemark(s *string) *PositionCreate {
 	return pc
 }
 
+// SetTenantID sets the "tenant_id" field.
+func (pc *PositionCreate) SetTenantID(u uint32) *PositionCreate {
+	pc.mutation.SetTenantID(u)
+	return pc
+}
+
+// SetNillableTenantID sets the "tenant_id" field if the given value is not nil.
+func (pc *PositionCreate) SetNillableTenantID(u *uint32) *PositionCreate {
+	if u != nil {
+		pc.SetTenantID(*u)
+	}
+	return pc
+}
+
 // SetName sets the "name" field.
 func (pc *PositionCreate) SetName(s string) *PositionCreate {
 	pc.mutation.SetName(s)
@@ -270,6 +284,11 @@ func (pc *PositionCreate) check() error {
 			return &ValidationError{Name: "status", err: fmt.Errorf(`ent: validator failed for field "Position.status": %w`, err)}
 		}
 	}
+	if v, ok := pc.mutation.TenantID(); ok {
+		if err := position.TenantIDValidator(v); err != nil {
+			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "Position.tenant_id": %w`, err)}
+		}
+	}
 	if _, ok := pc.mutation.Name(); !ok {
 		return &ValidationError{Name: "name", err: errors.New(`ent: missing required field "Position.name"`)}
 	}
@@ -354,6 +373,10 @@ func (pc *PositionCreate) createSpec() (*Position, *sqlgraph.CreateSpec) {
 	if value, ok := pc.mutation.Remark(); ok {
 		_spec.SetField(position.FieldRemark, field.TypeString, value)
 		_node.Remark = &value
+	}
+	if value, ok := pc.mutation.TenantID(); ok {
+		_spec.SetField(position.FieldTenantID, field.TypeUint32, value)
+		_node.TenantID = &value
 	}
 	if value, ok := pc.mutation.Name(); ok {
 		_spec.SetField(position.FieldName, field.TypeString, value)
@@ -651,6 +674,9 @@ func (u *PositionUpsertOne) UpdateNewValues() *PositionUpsertOne {
 		}
 		if _, exists := u.create.mutation.CreateTime(); exists {
 			s.SetIgnore(position.FieldCreateTime)
+		}
+		if _, exists := u.create.mutation.TenantID(); exists {
+			s.SetIgnore(position.FieldTenantID)
 		}
 	}))
 	return u
@@ -1077,6 +1103,9 @@ func (u *PositionUpsertBulk) UpdateNewValues() *PositionUpsertBulk {
 			}
 			if _, exists := b.mutation.CreateTime(); exists {
 				s.SetIgnore(position.FieldCreateTime)
+			}
+			if _, exists := b.mutation.TenantID(); exists {
+				s.SetIgnore(position.FieldTenantID)
 			}
 		}
 	}))

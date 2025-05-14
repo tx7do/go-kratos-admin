@@ -64,6 +64,20 @@ func (nmrc *NotificationMessageRecipientCreate) SetNillableDeleteTime(t *time.Ti
 	return nmrc
 }
 
+// SetTenantID sets the "tenant_id" field.
+func (nmrc *NotificationMessageRecipientCreate) SetTenantID(u uint32) *NotificationMessageRecipientCreate {
+	nmrc.mutation.SetTenantID(u)
+	return nmrc
+}
+
+// SetNillableTenantID sets the "tenant_id" field if the given value is not nil.
+func (nmrc *NotificationMessageRecipientCreate) SetNillableTenantID(u *uint32) *NotificationMessageRecipientCreate {
+	if u != nil {
+		nmrc.SetTenantID(*u)
+	}
+	return nmrc
+}
+
 // SetMessageID sets the "message_id" field.
 func (nmrc *NotificationMessageRecipientCreate) SetMessageID(u uint32) *NotificationMessageRecipientCreate {
 	nmrc.mutation.SetMessageID(u)
@@ -146,6 +160,11 @@ func (nmrc *NotificationMessageRecipientCreate) ExecX(ctx context.Context) {
 
 // check runs all checks and user-defined validators on the builder.
 func (nmrc *NotificationMessageRecipientCreate) check() error {
+	if v, ok := nmrc.mutation.TenantID(); ok {
+		if err := notificationmessagerecipient.TenantIDValidator(v); err != nil {
+			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "NotificationMessageRecipient.tenant_id": %w`, err)}
+		}
+	}
 	if v, ok := nmrc.mutation.Status(); ok {
 		if err := notificationmessagerecipient.StatusValidator(v); err != nil {
 			return &ValidationError{Name: "status", err: fmt.Errorf(`ent: validator failed for field "NotificationMessageRecipient.status": %w`, err)}
@@ -200,6 +219,10 @@ func (nmrc *NotificationMessageRecipientCreate) createSpec() (*NotificationMessa
 	if value, ok := nmrc.mutation.DeleteTime(); ok {
 		_spec.SetField(notificationmessagerecipient.FieldDeleteTime, field.TypeTime, value)
 		_node.DeleteTime = &value
+	}
+	if value, ok := nmrc.mutation.TenantID(); ok {
+		_spec.SetField(notificationmessagerecipient.FieldTenantID, field.TypeUint32, value)
+		_node.TenantID = &value
 	}
 	if value, ok := nmrc.mutation.MessageID(); ok {
 		_spec.SetField(notificationmessagerecipient.FieldMessageID, field.TypeUint32, value)
@@ -386,6 +409,9 @@ func (u *NotificationMessageRecipientUpsertOne) UpdateNewValues() *NotificationM
 		}
 		if _, exists := u.create.mutation.CreateTime(); exists {
 			s.SetIgnore(notificationmessagerecipient.FieldCreateTime)
+		}
+		if _, exists := u.create.mutation.TenantID(); exists {
+			s.SetIgnore(notificationmessagerecipient.FieldTenantID)
 		}
 	}))
 	return u
@@ -720,6 +746,9 @@ func (u *NotificationMessageRecipientUpsertBulk) UpdateNewValues() *Notification
 			}
 			if _, exists := b.mutation.CreateTime(); exists {
 				s.SetIgnore(notificationmessagerecipient.FieldCreateTime)
+			}
+			if _, exists := b.mutation.TenantID(); exists {
+				s.SetIgnore(notificationmessagerecipient.FieldTenantID)
 			}
 		}
 	}))

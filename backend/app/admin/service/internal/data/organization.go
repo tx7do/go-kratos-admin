@@ -14,12 +14,14 @@ import (
 	"github.com/tx7do/go-utils/fieldmaskutil"
 	"github.com/tx7do/go-utils/timeutil"
 	"github.com/tx7do/go-utils/trans"
+	pagination "github.com/tx7do/kratos-bootstrap/api/gen/go/pagination/v1"
 
 	"kratos-admin/app/admin/service/internal/data/ent"
 	"kratos-admin/app/admin/service/internal/data/ent/organization"
 
-	pagination "github.com/tx7do/kratos-bootstrap/api/gen/go/pagination/v1"
 	userV1 "kratos-admin/api/gen/go/user/service/v1"
+
+	"kratos-admin/pkg/middleware/auth"
 )
 
 type OrganizationRepo struct {
@@ -179,7 +181,7 @@ func (r *OrganizationRepo) Get(ctx context.Context, req *userV1.GetOrganizationR
 	return r.convertEntToProto(ret), err
 }
 
-func (r *OrganizationRepo) Create(ctx context.Context, req *userV1.CreateOrganizationRequest) error {
+func (r *OrganizationRepo) Create(ctx context.Context, req *userV1.CreateOrganizationRequest, operator *auth.UserTokenPayload) error {
 	if req.Data == nil {
 		return errors.New("invalid request")
 	}
@@ -190,7 +192,7 @@ func (r *OrganizationRepo) Create(ctx context.Context, req *userV1.CreateOrganiz
 		SetNillableSortID(req.Data.SortId).
 		SetNillableRemark(req.Data.Remark).
 		SetNillableStatus((*organization.Status)(req.Data.Status)).
-		SetNillableCreateBy(req.OperatorId).
+		SetNillableCreateBy(trans.Ptr(operator.UserId)).
 		SetNillableCreateTime(timeutil.TimestamppbToTime(req.Data.CreateTime))
 
 	if req.Data.CreateTime == nil {
@@ -206,7 +208,7 @@ func (r *OrganizationRepo) Create(ctx context.Context, req *userV1.CreateOrganiz
 	return err
 }
 
-func (r *OrganizationRepo) Update(ctx context.Context, req *userV1.UpdateOrganizationRequest) error {
+func (r *OrganizationRepo) Update(ctx context.Context, req *userV1.UpdateOrganizationRequest, operator *auth.UserTokenPayload) error {
 	if req.Data == nil {
 		return errors.New("invalid request")
 	}
@@ -218,7 +220,7 @@ func (r *OrganizationRepo) Update(ctx context.Context, req *userV1.UpdateOrganiz
 			return err
 		}
 		if !exist {
-			return r.Create(ctx, &userV1.CreateOrganizationRequest{Data: req.Data, OperatorId: req.OperatorId})
+			return r.Create(ctx, &userV1.CreateOrganizationRequest{Data: req.Data}, operator)
 		}
 	}
 
@@ -237,7 +239,7 @@ func (r *OrganizationRepo) Update(ctx context.Context, req *userV1.UpdateOrganiz
 		SetNillableSortID(req.Data.SortId).
 		SetNillableRemark(req.Data.Remark).
 		SetNillableStatus((*organization.Status)(req.Data.Status)).
-		SetNillableUpdateBy(req.OperatorId).
+		SetNillableUpdateBy(trans.Ptr(operator.UserId)).
 		SetNillableUpdateTime(timeutil.TimestamppbToTime(req.Data.UpdateTime))
 
 	if req.Data.UpdateTime == nil {

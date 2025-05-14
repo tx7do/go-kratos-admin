@@ -106,6 +106,20 @@ func (tc *TaskCreate) SetNillableRemark(s *string) *TaskCreate {
 	return tc
 }
 
+// SetTenantID sets the "tenant_id" field.
+func (tc *TaskCreate) SetTenantID(u uint32) *TaskCreate {
+	tc.mutation.SetTenantID(u)
+	return tc
+}
+
+// SetNillableTenantID sets the "tenant_id" field if the given value is not nil.
+func (tc *TaskCreate) SetNillableTenantID(u *uint32) *TaskCreate {
+	if u != nil {
+		tc.SetTenantID(*u)
+	}
+	return tc
+}
+
 // SetType sets the "type" field.
 func (tc *TaskCreate) SetType(t task.Type) *TaskCreate {
 	tc.mutation.SetType(t)
@@ -295,6 +309,11 @@ func (tc *TaskCreate) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (tc *TaskCreate) check() error {
+	if v, ok := tc.mutation.TenantID(); ok {
+		if err := task.TenantIDValidator(v); err != nil {
+			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "Task.tenant_id": %w`, err)}
+		}
+	}
 	if v, ok := tc.mutation.GetType(); ok {
 		if err := task.TypeValidator(v); err != nil {
 			return &ValidationError{Name: "type", err: fmt.Errorf(`ent: validator failed for field "Task.type": %w`, err)}
@@ -361,6 +380,10 @@ func (tc *TaskCreate) createSpec() (*Task, *sqlgraph.CreateSpec) {
 	if value, ok := tc.mutation.Remark(); ok {
 		_spec.SetField(task.FieldRemark, field.TypeString, value)
 		_node.Remark = &value
+	}
+	if value, ok := tc.mutation.TenantID(); ok {
+		_spec.SetField(task.FieldTenantID, field.TypeUint32, value)
+		_node.TenantID = &value
 	}
 	if value, ok := tc.mutation.GetType(); ok {
 		_spec.SetField(task.FieldType, field.TypeEnum, value)
@@ -773,6 +796,9 @@ func (u *TaskUpsertOne) UpdateNewValues() *TaskUpsertOne {
 		}
 		if _, exists := u.create.mutation.CreateTime(); exists {
 			s.SetIgnore(task.FieldCreateTime)
+		}
+		if _, exists := u.create.mutation.TenantID(); exists {
+			s.SetIgnore(task.FieldTenantID)
 		}
 	}))
 	return u
@@ -1339,6 +1365,9 @@ func (u *TaskUpsertBulk) UpdateNewValues() *TaskUpsertBulk {
 			}
 			if _, exists := b.mutation.CreateTime(); exists {
 				s.SetIgnore(task.FieldCreateTime)
+			}
+			if _, exists := b.mutation.TenantID(); exists {
+				s.SetIgnore(task.FieldTenantID)
 			}
 		}
 	}))

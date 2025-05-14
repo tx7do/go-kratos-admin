@@ -92,6 +92,20 @@ func (nmc *NotificationMessageCreate) SetNillableUpdateBy(u *uint32) *Notificati
 	return nmc
 }
 
+// SetTenantID sets the "tenant_id" field.
+func (nmc *NotificationMessageCreate) SetTenantID(u uint32) *NotificationMessageCreate {
+	nmc.mutation.SetTenantID(u)
+	return nmc
+}
+
+// SetNillableTenantID sets the "tenant_id" field if the given value is not nil.
+func (nmc *NotificationMessageCreate) SetNillableTenantID(u *uint32) *NotificationMessageCreate {
+	if u != nil {
+		nmc.SetTenantID(*u)
+	}
+	return nmc
+}
+
 // SetSubject sets the "subject" field.
 func (nmc *NotificationMessageCreate) SetSubject(s string) *NotificationMessageCreate {
 	nmc.mutation.SetSubject(s)
@@ -188,6 +202,11 @@ func (nmc *NotificationMessageCreate) ExecX(ctx context.Context) {
 
 // check runs all checks and user-defined validators on the builder.
 func (nmc *NotificationMessageCreate) check() error {
+	if v, ok := nmc.mutation.TenantID(); ok {
+		if err := notificationmessage.TenantIDValidator(v); err != nil {
+			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "NotificationMessage.tenant_id": %w`, err)}
+		}
+	}
 	if v, ok := nmc.mutation.Status(); ok {
 		if err := notificationmessage.StatusValidator(v); err != nil {
 			return &ValidationError{Name: "status", err: fmt.Errorf(`ent: validator failed for field "NotificationMessage.status": %w`, err)}
@@ -250,6 +269,10 @@ func (nmc *NotificationMessageCreate) createSpec() (*NotificationMessage, *sqlgr
 	if value, ok := nmc.mutation.UpdateBy(); ok {
 		_spec.SetField(notificationmessage.FieldUpdateBy, field.TypeUint32, value)
 		_node.UpdateBy = &value
+	}
+	if value, ok := nmc.mutation.TenantID(); ok {
+		_spec.SetField(notificationmessage.FieldTenantID, field.TypeUint32, value)
+		_node.TenantID = &value
 	}
 	if value, ok := nmc.mutation.Subject(); ok {
 		_spec.SetField(notificationmessage.FieldSubject, field.TypeString, value)
@@ -500,6 +523,9 @@ func (u *NotificationMessageUpsertOne) UpdateNewValues() *NotificationMessageUps
 		}
 		if _, exists := u.create.mutation.CreateTime(); exists {
 			s.SetIgnore(notificationmessage.FieldCreateTime)
+		}
+		if _, exists := u.create.mutation.TenantID(); exists {
+			s.SetIgnore(notificationmessage.FieldTenantID)
 		}
 	}))
 	return u
@@ -904,6 +930,9 @@ func (u *NotificationMessageUpsertBulk) UpdateNewValues() *NotificationMessageUp
 			}
 			if _, exists := b.mutation.CreateTime(); exists {
 				s.SetIgnore(notificationmessage.FieldCreateTime)
+			}
+			if _, exists := b.mutation.TenantID(); exists {
+				s.SetIgnore(notificationmessage.FieldTenantID)
 			}
 		}
 	}))

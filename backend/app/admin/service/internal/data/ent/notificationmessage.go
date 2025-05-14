@@ -28,6 +28,8 @@ type NotificationMessage struct {
 	CreateBy *uint32 `json:"create_by,omitempty"`
 	// 更新者ID
 	UpdateBy *uint32 `json:"update_by,omitempty"`
+	// 租户ID
+	TenantID *uint32 `json:"tenant_id,omitempty"`
 	// 主题
 	Subject *string `json:"subject,omitempty"`
 	// 内容
@@ -44,7 +46,7 @@ func (*NotificationMessage) scanValues(columns []string) ([]any, error) {
 	values := make([]any, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case notificationmessage.FieldID, notificationmessage.FieldCreateBy, notificationmessage.FieldUpdateBy, notificationmessage.FieldCategoryID:
+		case notificationmessage.FieldID, notificationmessage.FieldCreateBy, notificationmessage.FieldUpdateBy, notificationmessage.FieldTenantID, notificationmessage.FieldCategoryID:
 			values[i] = new(sql.NullInt64)
 		case notificationmessage.FieldSubject, notificationmessage.FieldContent, notificationmessage.FieldStatus:
 			values[i] = new(sql.NullString)
@@ -105,6 +107,13 @@ func (nm *NotificationMessage) assignValues(columns []string, values []any) erro
 			} else if value.Valid {
 				nm.UpdateBy = new(uint32)
 				*nm.UpdateBy = uint32(value.Int64)
+			}
+		case notificationmessage.FieldTenantID:
+			if value, ok := values[i].(*sql.NullInt64); !ok {
+				return fmt.Errorf("unexpected type %T for field tenant_id", values[i])
+			} else if value.Valid {
+				nm.TenantID = new(uint32)
+				*nm.TenantID = uint32(value.Int64)
 			}
 		case notificationmessage.FieldSubject:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -192,6 +201,11 @@ func (nm *NotificationMessage) String() string {
 	builder.WriteString(", ")
 	if v := nm.UpdateBy; v != nil {
 		builder.WriteString("update_by=")
+		builder.WriteString(fmt.Sprintf("%v", *v))
+	}
+	builder.WriteString(", ")
+	if v := nm.TenantID; v != nil {
+		builder.WriteString("tenant_id=")
 		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteString(", ")

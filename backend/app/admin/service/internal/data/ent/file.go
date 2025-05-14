@@ -28,6 +28,8 @@ type File struct {
 	CreateBy *uint32 `json:"create_by,omitempty"`
 	// 备注
 	Remark *string `json:"remark,omitempty"`
+	// 租户ID
+	TenantID *uint32 `json:"tenant_id,omitempty"`
 	// OSS供应商
 	Provider *file.Provider `json:"provider,omitempty"`
 	// 存储桶名称
@@ -58,7 +60,7 @@ func (*File) scanValues(columns []string) ([]any, error) {
 	values := make([]any, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case file.FieldID, file.FieldCreateBy, file.FieldSize:
+		case file.FieldID, file.FieldCreateBy, file.FieldTenantID, file.FieldSize:
 			values[i] = new(sql.NullInt64)
 		case file.FieldRemark, file.FieldProvider, file.FieldBucketName, file.FieldFileDirectory, file.FieldFileGUID, file.FieldSaveFileName, file.FieldFileName, file.FieldExtension, file.FieldSizeFormat, file.FieldLinkURL, file.FieldMd5:
 			values[i] = new(sql.NullString)
@@ -119,6 +121,13 @@ func (f *File) assignValues(columns []string, values []any) error {
 			} else if value.Valid {
 				f.Remark = new(string)
 				*f.Remark = value.String
+			}
+		case file.FieldTenantID:
+			if value, ok := values[i].(*sql.NullInt64); !ok {
+				return fmt.Errorf("unexpected type %T for field tenant_id", values[i])
+			} else if value.Valid {
+				f.TenantID = new(uint32)
+				*f.TenantID = uint32(value.Int64)
 			}
 		case file.FieldProvider:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -256,6 +265,11 @@ func (f *File) String() string {
 	if v := f.Remark; v != nil {
 		builder.WriteString("remark=")
 		builder.WriteString(*v)
+	}
+	builder.WriteString(", ")
+	if v := f.TenantID; v != nil {
+		builder.WriteString("tenant_id=")
+		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteString(", ")
 	if v := f.Provider; v != nil {

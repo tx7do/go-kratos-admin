@@ -101,6 +101,7 @@ var (
 		{Name: "create_by", Type: field.TypeUint32, Nullable: true, Comment: "创建者ID"},
 		{Name: "update_by", Type: field.TypeUint32, Nullable: true, Comment: "更新者ID"},
 		{Name: "remark", Type: field.TypeString, Nullable: true, Comment: "备注", Default: ""},
+		{Name: "tenant_id", Type: field.TypeUint32, Nullable: true, Comment: "租户ID"},
 		{Name: "name", Type: field.TypeString, Nullable: true, Comment: "名字", Default: ""},
 		{Name: "organization_id", Type: field.TypeUint32, Nullable: true, Comment: "所属组织ID"},
 		{Name: "sort_id", Type: field.TypeInt32, Nullable: true, Comment: "排序ID", Default: 0},
@@ -115,7 +116,7 @@ var (
 		ForeignKeys: []*schema.ForeignKey{
 			{
 				Symbol:     "departments_departments_children",
-				Columns:    []*schema.Column{DepartmentsColumns[11]},
+				Columns:    []*schema.Column{DepartmentsColumns[12]},
 				RefColumns: []*schema.Column{DepartmentsColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
@@ -125,6 +126,11 @@ var (
 				Name:    "department_id",
 				Unique:  false,
 				Columns: []*schema.Column{DepartmentsColumns[0]},
+			},
+			{
+				Name:    "department_tenant_id",
+				Unique:  false,
+				Columns: []*schema.Column{DepartmentsColumns[8]},
 			},
 		},
 	}
@@ -138,6 +144,7 @@ var (
 		{Name: "create_by", Type: field.TypeUint32, Nullable: true, Comment: "创建者ID"},
 		{Name: "update_by", Type: field.TypeUint32, Nullable: true, Comment: "更新者ID"},
 		{Name: "remark", Type: field.TypeString, Nullable: true, Comment: "备注", Default: ""},
+		{Name: "tenant_id", Type: field.TypeUint32, Nullable: true, Comment: "租户ID"},
 		{Name: "key", Type: field.TypeString, Unique: true, Nullable: true, Comment: "字典键"},
 		{Name: "category", Type: field.TypeString, Nullable: true, Comment: "字典类型"},
 		{Name: "category_desc", Type: field.TypeString, Nullable: true, Comment: "字典类型名称"},
@@ -158,6 +165,11 @@ var (
 				Unique:  false,
 				Columns: []*schema.Column{DictColumns[0]},
 			},
+			{
+				Name:    "dict_tenant_id",
+				Unique:  false,
+				Columns: []*schema.Column{DictColumns[8]},
+			},
 		},
 	}
 	// FilesColumns holds the columns for the "files" table.
@@ -168,6 +180,7 @@ var (
 		{Name: "delete_time", Type: field.TypeTime, Nullable: true, Comment: "删除时间"},
 		{Name: "create_by", Type: field.TypeUint32, Nullable: true, Comment: "创建者ID"},
 		{Name: "remark", Type: field.TypeString, Nullable: true, Comment: "备注", Default: ""},
+		{Name: "tenant_id", Type: field.TypeUint32, Nullable: true, Comment: "租户ID"},
 		{Name: "provider", Type: field.TypeEnum, Nullable: true, Comment: "OSS供应商", Enums: []string{"MinIO", "Aliyun", "Qiniu", "Tencent", "AWS", "Google", "Azure", "Baidu", "Huawei", "QCloud", "Local", "Unknown"}},
 		{Name: "bucket_name", Type: field.TypeString, Nullable: true, Comment: "存储桶名称"},
 		{Name: "file_directory", Type: field.TypeString, Nullable: true, Comment: "文件目录"},
@@ -191,6 +204,11 @@ var (
 				Name:    "file_id",
 				Unique:  false,
 				Columns: []*schema.Column{FilesColumns[0]},
+			},
+			{
+				Name:    "file_tenant_id",
+				Unique:  false,
+				Columns: []*schema.Column{FilesColumns[6]},
 			},
 		},
 	}
@@ -236,6 +254,7 @@ var (
 		{Name: "delete_time", Type: field.TypeTime, Nullable: true, Comment: "删除时间"},
 		{Name: "create_by", Type: field.TypeUint32, Nullable: true, Comment: "创建者ID"},
 		{Name: "update_by", Type: field.TypeUint32, Nullable: true, Comment: "更新者ID"},
+		{Name: "tenant_id", Type: field.TypeUint32, Nullable: true, Comment: "租户ID"},
 		{Name: "subject", Type: field.TypeString, Nullable: true, Comment: "主题"},
 		{Name: "content", Type: field.TypeString, Nullable: true, Comment: "内容"},
 		{Name: "category_id", Type: field.TypeUint32, Nullable: true, Comment: "分类ID"},
@@ -253,6 +272,11 @@ var (
 				Unique:  false,
 				Columns: []*schema.Column{NotificationMessagesColumns[0]},
 			},
+			{
+				Name:    "notificationmessage_tenant_id",
+				Unique:  false,
+				Columns: []*schema.Column{NotificationMessagesColumns[6]},
+			},
 		},
 	}
 	// NotificationMessageCategoriesColumns holds the columns for the "notification_message_categories" table.
@@ -264,6 +288,7 @@ var (
 		{Name: "create_by", Type: field.TypeUint32, Nullable: true, Comment: "创建者ID"},
 		{Name: "update_by", Type: field.TypeUint32, Nullable: true, Comment: "更新者ID"},
 		{Name: "remark", Type: field.TypeString, Nullable: true, Comment: "备注", Default: ""},
+		{Name: "tenant_id", Type: field.TypeUint32, Nullable: true, Comment: "租户ID"},
 		{Name: "name", Type: field.TypeString, Nullable: true, Comment: "名称"},
 		{Name: "code", Type: field.TypeString, Nullable: true, Comment: "编码"},
 		{Name: "sort_id", Type: field.TypeInt32, Nullable: true, Comment: "排序编号"},
@@ -279,7 +304,7 @@ var (
 		ForeignKeys: []*schema.ForeignKey{
 			{
 				Symbol:     "notification_message_categories_notification_message_categories_children",
-				Columns:    []*schema.Column{NotificationMessageCategoriesColumns[11]},
+				Columns:    []*schema.Column{NotificationMessageCategoriesColumns[12]},
 				RefColumns: []*schema.Column{NotificationMessageCategoriesColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
@@ -290,6 +315,11 @@ var (
 				Unique:  false,
 				Columns: []*schema.Column{NotificationMessageCategoriesColumns[0]},
 			},
+			{
+				Name:    "notificationmessagecategory_tenant_id",
+				Unique:  false,
+				Columns: []*schema.Column{NotificationMessageCategoriesColumns[7]},
+			},
 		},
 	}
 	// NotificationMessageRecipientsColumns holds the columns for the "notification_message_recipients" table.
@@ -298,6 +328,7 @@ var (
 		{Name: "create_time", Type: field.TypeTime, Nullable: true, Comment: "创建时间"},
 		{Name: "update_time", Type: field.TypeTime, Nullable: true, Comment: "更新时间"},
 		{Name: "delete_time", Type: field.TypeTime, Nullable: true, Comment: "删除时间"},
+		{Name: "tenant_id", Type: field.TypeUint32, Nullable: true, Comment: "租户ID"},
 		{Name: "message_id", Type: field.TypeUint32, Nullable: true, Comment: "群发消息ID"},
 		{Name: "recipient_id", Type: field.TypeUint32, Nullable: true, Comment: "接收者用户ID"},
 		{Name: "status", Type: field.TypeEnum, Nullable: true, Comment: "消息状态", Enums: []string{"Received", "Read", "Archived", "Unknown", "Deleted"}},
@@ -314,6 +345,11 @@ var (
 				Unique:  false,
 				Columns: []*schema.Column{NotificationMessageRecipientsColumns[0]},
 			},
+			{
+				Name:    "notificationmessagerecipient_tenant_id",
+				Unique:  false,
+				Columns: []*schema.Column{NotificationMessageRecipientsColumns[4]},
+			},
 		},
 	}
 	// OrganizationsColumns holds the columns for the "organizations" table.
@@ -326,6 +362,7 @@ var (
 		{Name: "create_by", Type: field.TypeUint32, Nullable: true, Comment: "创建者ID"},
 		{Name: "update_by", Type: field.TypeUint32, Nullable: true, Comment: "更新者ID"},
 		{Name: "remark", Type: field.TypeString, Nullable: true, Comment: "备注", Default: ""},
+		{Name: "tenant_id", Type: field.TypeUint32, Nullable: true, Comment: "租户ID"},
 		{Name: "name", Type: field.TypeString, Nullable: true, Comment: "名字", Default: ""},
 		{Name: "sort_id", Type: field.TypeInt32, Nullable: true, Comment: "排序ID", Default: 0},
 		{Name: "parent_id", Type: field.TypeUint32, Nullable: true, Comment: "上一层组织ID", SchemaType: map[string]string{"mysql": "int", "postgres": "serial"}},
@@ -339,7 +376,7 @@ var (
 		ForeignKeys: []*schema.ForeignKey{
 			{
 				Symbol:     "organizations_organizations_children",
-				Columns:    []*schema.Column{OrganizationsColumns[10]},
+				Columns:    []*schema.Column{OrganizationsColumns[11]},
 				RefColumns: []*schema.Column{OrganizationsColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
@@ -349,6 +386,11 @@ var (
 				Name:    "organization_id",
 				Unique:  false,
 				Columns: []*schema.Column{OrganizationsColumns[0]},
+			},
+			{
+				Name:    "organization_tenant_id",
+				Unique:  false,
+				Columns: []*schema.Column{OrganizationsColumns[8]},
 			},
 		},
 	}
@@ -362,6 +404,7 @@ var (
 		{Name: "create_by", Type: field.TypeUint32, Nullable: true, Comment: "创建者ID"},
 		{Name: "update_by", Type: field.TypeUint32, Nullable: true, Comment: "更新者ID"},
 		{Name: "remark", Type: field.TypeString, Nullable: true, Comment: "备注", Default: ""},
+		{Name: "tenant_id", Type: field.TypeUint32, Nullable: true, Comment: "租户ID"},
 		{Name: "name", Type: field.TypeString, Size: 128, Comment: "职位名称", Default: ""},
 		{Name: "code", Type: field.TypeString, Size: 128, Comment: "职位标识", Default: ""},
 		{Name: "sort_id", Type: field.TypeInt32, Comment: "排序ID", Default: 0},
@@ -376,7 +419,7 @@ var (
 		ForeignKeys: []*schema.ForeignKey{
 			{
 				Symbol:     "positions_positions_children",
-				Columns:    []*schema.Column{PositionsColumns[11]},
+				Columns:    []*schema.Column{PositionsColumns[12]},
 				RefColumns: []*schema.Column{PositionsColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
@@ -387,6 +430,11 @@ var (
 				Unique:  false,
 				Columns: []*schema.Column{PositionsColumns[0]},
 			},
+			{
+				Name:    "position_tenant_id",
+				Unique:  false,
+				Columns: []*schema.Column{PositionsColumns[8]},
+			},
 		},
 	}
 	// PrivateMessagesColumns holds the columns for the "private_messages" table.
@@ -395,6 +443,7 @@ var (
 		{Name: "create_time", Type: field.TypeTime, Nullable: true, Comment: "创建时间"},
 		{Name: "update_time", Type: field.TypeTime, Nullable: true, Comment: "更新时间"},
 		{Name: "delete_time", Type: field.TypeTime, Nullable: true, Comment: "删除时间"},
+		{Name: "tenant_id", Type: field.TypeUint32, Nullable: true, Comment: "租户ID"},
 		{Name: "subject", Type: field.TypeString, Nullable: true, Comment: "主题"},
 		{Name: "content", Type: field.TypeString, Nullable: true, Comment: "内容"},
 		{Name: "status", Type: field.TypeEnum, Nullable: true, Comment: "消息状态", Enums: []string{"Draft", "Sent", "Received", "Read", "Archived", "Unknown", "Deleted"}},
@@ -413,6 +462,11 @@ var (
 				Unique:  false,
 				Columns: []*schema.Column{PrivateMessagesColumns[0]},
 			},
+			{
+				Name:    "privatemessage_tenant_id",
+				Unique:  false,
+				Columns: []*schema.Column{PrivateMessagesColumns[4]},
+			},
 		},
 	}
 	// RolesColumns holds the columns for the "roles" table.
@@ -425,6 +479,7 @@ var (
 		{Name: "create_by", Type: field.TypeUint32, Nullable: true, Comment: "创建者ID"},
 		{Name: "update_by", Type: field.TypeUint32, Nullable: true, Comment: "更新者ID"},
 		{Name: "remark", Type: field.TypeString, Nullable: true, Comment: "备注", Default: ""},
+		{Name: "tenant_id", Type: field.TypeUint32, Nullable: true, Comment: "租户ID"},
 		{Name: "name", Type: field.TypeString, Unique: true, Nullable: true, Size: 128, Comment: "角色名称"},
 		{Name: "code", Type: field.TypeString, Nullable: true, Size: 128, Comment: "角色标识", Default: ""},
 		{Name: "sort_id", Type: field.TypeInt32, Nullable: true, Comment: "排序ID", Default: 0},
@@ -440,7 +495,7 @@ var (
 		ForeignKeys: []*schema.ForeignKey{
 			{
 				Symbol:     "roles_roles_children",
-				Columns:    []*schema.Column{RolesColumns[12]},
+				Columns:    []*schema.Column{RolesColumns[13]},
 				RefColumns: []*schema.Column{RolesColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
@@ -450,6 +505,11 @@ var (
 				Name:    "role_id",
 				Unique:  false,
 				Columns: []*schema.Column{RolesColumns[0]},
+			},
+			{
+				Name:    "role_tenant_id",
+				Unique:  false,
+				Columns: []*schema.Column{RolesColumns[8]},
 			},
 		},
 	}
@@ -462,6 +522,7 @@ var (
 		{Name: "create_by", Type: field.TypeUint32, Nullable: true, Comment: "创建者ID"},
 		{Name: "update_by", Type: field.TypeUint32, Nullable: true, Comment: "更新者ID"},
 		{Name: "remark", Type: field.TypeString, Nullable: true, Comment: "备注", Default: ""},
+		{Name: "tenant_id", Type: field.TypeUint32, Nullable: true, Comment: "租户ID"},
 		{Name: "type", Type: field.TypeEnum, Nullable: true, Comment: "任务类型", Enums: []string{"Periodic", "Delay", "WaitResult"}},
 		{Name: "type_name", Type: field.TypeString, Unique: true, Nullable: true, Comment: "任务执行类型名"},
 		{Name: "task_payload", Type: field.TypeString, Nullable: true, Comment: "任务的参数，以 JSON 格式存储，方便存储不同类型和数量的参数", SchemaType: map[string]string{"mysql": "json", "postgres": "jsonb"}},
@@ -484,6 +545,11 @@ var (
 				Name:    "task_id",
 				Unique:  false,
 				Columns: []*schema.Column{TasksColumns[0]},
+			},
+			{
+				Name:    "task_tenant_id",
+				Unique:  false,
+				Columns: []*schema.Column{TasksColumns[7]},
 			},
 		},
 	}
@@ -527,6 +593,7 @@ var (
 		{Name: "delete_time", Type: field.TypeTime, Nullable: true, Comment: "删除时间"},
 		{Name: "remark", Type: field.TypeString, Nullable: true, Comment: "备注", Default: ""},
 		{Name: "status", Type: field.TypeEnum, Nullable: true, Comment: "状态", Enums: []string{"OFF", "ON"}, Default: "ON"},
+		{Name: "tenant_id", Type: field.TypeUint32, Nullable: true, Comment: "租户ID"},
 		{Name: "username", Type: field.TypeString, Unique: true, Nullable: true, Comment: "用户名"},
 		{Name: "password", Type: field.TypeString, Nullable: true, Size: 255, Comment: "登录密码"},
 		{Name: "nick_name", Type: field.TypeString, Nullable: true, Size: 255, Comment: "昵称"},
@@ -546,7 +613,6 @@ var (
 		{Name: "org_id", Type: field.TypeUint32, Nullable: true, Comment: "部门ID"},
 		{Name: "position_id", Type: field.TypeUint32, Nullable: true, Comment: "职位ID"},
 		{Name: "work_id", Type: field.TypeUint32, Nullable: true, Comment: "员工工号"},
-		{Name: "tenant_id", Type: field.TypeUint32, Nullable: true, Comment: "租户ID"},
 	}
 	// UsersTable holds the schema information for the "users" table.
 	UsersTable = &schema.Table{
@@ -561,9 +627,14 @@ var (
 				Columns: []*schema.Column{UsersColumns[0]},
 			},
 			{
+				Name:    "user_tenant_id",
+				Unique:  false,
+				Columns: []*schema.Column{UsersColumns[8]},
+			},
+			{
 				Name:    "user_id_username",
 				Unique:  true,
-				Columns: []*schema.Column{UsersColumns[0], UsersColumns[8]},
+				Columns: []*schema.Column{UsersColumns[0], UsersColumns[9]},
 			},
 		},
 	}

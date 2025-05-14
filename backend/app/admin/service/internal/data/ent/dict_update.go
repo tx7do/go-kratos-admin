@@ -415,6 +415,9 @@ func (du *DictUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	if du.mutation.RemarkCleared() {
 		_spec.ClearField(dict.FieldRemark, field.TypeString)
 	}
+	if du.mutation.TenantIDCleared() {
+		_spec.ClearField(dict.FieldTenantID, field.TypeUint32)
+	}
 	if value, ok := du.mutation.Key(); ok {
 		_spec.SetField(dict.FieldKey, field.TypeString, value)
 	}
@@ -897,6 +900,9 @@ func (duo *DictUpdateOne) sqlSave(ctx context.Context) (_node *Dict, err error) 
 	}
 	if duo.mutation.RemarkCleared() {
 		_spec.ClearField(dict.FieldRemark, field.TypeString)
+	}
+	if duo.mutation.TenantIDCleared() {
+		_spec.ClearField(dict.FieldTenantID, field.TypeUint32)
 	}
 	if value, ok := duo.mutation.Key(); ok {
 		_spec.SetField(dict.FieldKey, field.TypeString, value)

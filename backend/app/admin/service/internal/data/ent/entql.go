@@ -120,6 +120,7 @@ var schemaGraph = func() *sqlgraph.Schema {
 			department.FieldCreateBy:       {Type: field.TypeUint32, Column: department.FieldCreateBy},
 			department.FieldUpdateBy:       {Type: field.TypeUint32, Column: department.FieldUpdateBy},
 			department.FieldRemark:         {Type: field.TypeString, Column: department.FieldRemark},
+			department.FieldTenantID:       {Type: field.TypeUint32, Column: department.FieldTenantID},
 			department.FieldName:           {Type: field.TypeString, Column: department.FieldName},
 			department.FieldParentID:       {Type: field.TypeUint32, Column: department.FieldParentID},
 			department.FieldOrganizationID: {Type: field.TypeUint32, Column: department.FieldOrganizationID},
@@ -144,6 +145,7 @@ var schemaGraph = func() *sqlgraph.Schema {
 			dict.FieldCreateBy:      {Type: field.TypeUint32, Column: dict.FieldCreateBy},
 			dict.FieldUpdateBy:      {Type: field.TypeUint32, Column: dict.FieldUpdateBy},
 			dict.FieldRemark:        {Type: field.TypeString, Column: dict.FieldRemark},
+			dict.FieldTenantID:      {Type: field.TypeUint32, Column: dict.FieldTenantID},
 			dict.FieldKey:           {Type: field.TypeString, Column: dict.FieldKey},
 			dict.FieldCategory:      {Type: field.TypeString, Column: dict.FieldCategory},
 			dict.FieldCategoryDesc:  {Type: field.TypeString, Column: dict.FieldCategoryDesc},
@@ -169,6 +171,7 @@ var schemaGraph = func() *sqlgraph.Schema {
 			file.FieldDeleteTime:    {Type: field.TypeTime, Column: file.FieldDeleteTime},
 			file.FieldCreateBy:      {Type: field.TypeUint32, Column: file.FieldCreateBy},
 			file.FieldRemark:        {Type: field.TypeString, Column: file.FieldRemark},
+			file.FieldTenantID:      {Type: field.TypeUint32, Column: file.FieldTenantID},
 			file.FieldProvider:      {Type: field.TypeEnum, Column: file.FieldProvider},
 			file.FieldBucketName:    {Type: field.TypeString, Column: file.FieldBucketName},
 			file.FieldFileDirectory: {Type: field.TypeString, Column: file.FieldFileDirectory},
@@ -226,6 +229,7 @@ var schemaGraph = func() *sqlgraph.Schema {
 			notificationmessage.FieldDeleteTime: {Type: field.TypeTime, Column: notificationmessage.FieldDeleteTime},
 			notificationmessage.FieldCreateBy:   {Type: field.TypeUint32, Column: notificationmessage.FieldCreateBy},
 			notificationmessage.FieldUpdateBy:   {Type: field.TypeUint32, Column: notificationmessage.FieldUpdateBy},
+			notificationmessage.FieldTenantID:   {Type: field.TypeUint32, Column: notificationmessage.FieldTenantID},
 			notificationmessage.FieldSubject:    {Type: field.TypeString, Column: notificationmessage.FieldSubject},
 			notificationmessage.FieldContent:    {Type: field.TypeString, Column: notificationmessage.FieldContent},
 			notificationmessage.FieldCategoryID: {Type: field.TypeUint32, Column: notificationmessage.FieldCategoryID},
@@ -249,6 +253,7 @@ var schemaGraph = func() *sqlgraph.Schema {
 			notificationmessagecategory.FieldCreateBy:   {Type: field.TypeUint32, Column: notificationmessagecategory.FieldCreateBy},
 			notificationmessagecategory.FieldUpdateBy:   {Type: field.TypeUint32, Column: notificationmessagecategory.FieldUpdateBy},
 			notificationmessagecategory.FieldRemark:     {Type: field.TypeString, Column: notificationmessagecategory.FieldRemark},
+			notificationmessagecategory.FieldTenantID:   {Type: field.TypeUint32, Column: notificationmessagecategory.FieldTenantID},
 			notificationmessagecategory.FieldName:       {Type: field.TypeString, Column: notificationmessagecategory.FieldName},
 			notificationmessagecategory.FieldCode:       {Type: field.TypeString, Column: notificationmessagecategory.FieldCode},
 			notificationmessagecategory.FieldSortID:     {Type: field.TypeInt32, Column: notificationmessagecategory.FieldSortID},
@@ -270,6 +275,7 @@ var schemaGraph = func() *sqlgraph.Schema {
 			notificationmessagerecipient.FieldCreateTime:  {Type: field.TypeTime, Column: notificationmessagerecipient.FieldCreateTime},
 			notificationmessagerecipient.FieldUpdateTime:  {Type: field.TypeTime, Column: notificationmessagerecipient.FieldUpdateTime},
 			notificationmessagerecipient.FieldDeleteTime:  {Type: field.TypeTime, Column: notificationmessagerecipient.FieldDeleteTime},
+			notificationmessagerecipient.FieldTenantID:    {Type: field.TypeUint32, Column: notificationmessagerecipient.FieldTenantID},
 			notificationmessagerecipient.FieldMessageID:   {Type: field.TypeUint32, Column: notificationmessagerecipient.FieldMessageID},
 			notificationmessagerecipient.FieldRecipientID: {Type: field.TypeUint32, Column: notificationmessagerecipient.FieldRecipientID},
 			notificationmessagerecipient.FieldStatus:      {Type: field.TypeEnum, Column: notificationmessagerecipient.FieldStatus},
@@ -293,6 +299,7 @@ var schemaGraph = func() *sqlgraph.Schema {
 			organization.FieldCreateBy:   {Type: field.TypeUint32, Column: organization.FieldCreateBy},
 			organization.FieldUpdateBy:   {Type: field.TypeUint32, Column: organization.FieldUpdateBy},
 			organization.FieldRemark:     {Type: field.TypeString, Column: organization.FieldRemark},
+			organization.FieldTenantID:   {Type: field.TypeUint32, Column: organization.FieldTenantID},
 			organization.FieldName:       {Type: field.TypeString, Column: organization.FieldName},
 			organization.FieldParentID:   {Type: field.TypeUint32, Column: organization.FieldParentID},
 			organization.FieldSortID:     {Type: field.TypeInt32, Column: organization.FieldSortID},
@@ -316,6 +323,7 @@ var schemaGraph = func() *sqlgraph.Schema {
 			position.FieldCreateBy:   {Type: field.TypeUint32, Column: position.FieldCreateBy},
 			position.FieldUpdateBy:   {Type: field.TypeUint32, Column: position.FieldUpdateBy},
 			position.FieldRemark:     {Type: field.TypeString, Column: position.FieldRemark},
+			position.FieldTenantID:   {Type: field.TypeUint32, Column: position.FieldTenantID},
 			position.FieldName:       {Type: field.TypeString, Column: position.FieldName},
 			position.FieldCode:       {Type: field.TypeString, Column: position.FieldCode},
 			position.FieldParentID:   {Type: field.TypeUint32, Column: position.FieldParentID},
@@ -336,6 +344,7 @@ var schemaGraph = func() *sqlgraph.Schema {
 			privatemessage.FieldCreateTime: {Type: field.TypeTime, Column: privatemessage.FieldCreateTime},
 			privatemessage.FieldUpdateTime: {Type: field.TypeTime, Column: privatemessage.FieldUpdateTime},
 			privatemessage.FieldDeleteTime: {Type: field.TypeTime, Column: privatemessage.FieldDeleteTime},
+			privatemessage.FieldTenantID:   {Type: field.TypeUint32, Column: privatemessage.FieldTenantID},
 			privatemessage.FieldSubject:    {Type: field.TypeString, Column: privatemessage.FieldSubject},
 			privatemessage.FieldContent:    {Type: field.TypeString, Column: privatemessage.FieldContent},
 			privatemessage.FieldStatus:     {Type: field.TypeEnum, Column: privatemessage.FieldStatus},
@@ -361,6 +370,7 @@ var schemaGraph = func() *sqlgraph.Schema {
 			role.FieldCreateBy:   {Type: field.TypeUint32, Column: role.FieldCreateBy},
 			role.FieldUpdateBy:   {Type: field.TypeUint32, Column: role.FieldUpdateBy},
 			role.FieldRemark:     {Type: field.TypeString, Column: role.FieldRemark},
+			role.FieldTenantID:   {Type: field.TypeUint32, Column: role.FieldTenantID},
 			role.FieldName:       {Type: field.TypeString, Column: role.FieldName},
 			role.FieldCode:       {Type: field.TypeString, Column: role.FieldCode},
 			role.FieldParentID:   {Type: field.TypeUint32, Column: role.FieldParentID},
@@ -385,6 +395,7 @@ var schemaGraph = func() *sqlgraph.Schema {
 			task.FieldCreateBy:    {Type: field.TypeUint32, Column: task.FieldCreateBy},
 			task.FieldUpdateBy:    {Type: field.TypeUint32, Column: task.FieldUpdateBy},
 			task.FieldRemark:      {Type: field.TypeString, Column: task.FieldRemark},
+			task.FieldTenantID:    {Type: field.TypeUint32, Column: task.FieldTenantID},
 			task.FieldType:        {Type: field.TypeEnum, Column: task.FieldType},
 			task.FieldTypeName:    {Type: field.TypeString, Column: task.FieldTypeName},
 			task.FieldTaskPayload: {Type: field.TypeString, Column: task.FieldTaskPayload},
@@ -440,6 +451,7 @@ var schemaGraph = func() *sqlgraph.Schema {
 			user.FieldDeleteTime:    {Type: field.TypeTime, Column: user.FieldDeleteTime},
 			user.FieldRemark:        {Type: field.TypeString, Column: user.FieldRemark},
 			user.FieldStatus:        {Type: field.TypeEnum, Column: user.FieldStatus},
+			user.FieldTenantID:      {Type: field.TypeUint32, Column: user.FieldTenantID},
 			user.FieldUsername:      {Type: field.TypeString, Column: user.FieldUsername},
 			user.FieldPassword:      {Type: field.TypeString, Column: user.FieldPassword},
 			user.FieldNickName:      {Type: field.TypeString, Column: user.FieldNickName},
@@ -459,7 +471,6 @@ var schemaGraph = func() *sqlgraph.Schema {
 			user.FieldOrgID:         {Type: field.TypeUint32, Column: user.FieldOrgID},
 			user.FieldPositionID:    {Type: field.TypeUint32, Column: user.FieldPositionID},
 			user.FieldWorkID:        {Type: field.TypeUint32, Column: user.FieldWorkID},
-			user.FieldTenantID:      {Type: field.TypeUint32, Column: user.FieldTenantID},
 		},
 	}
 	graph.MustAddE(
@@ -1000,6 +1011,11 @@ func (f *DepartmentFilter) WhereRemark(p entql.StringP) {
 	f.Where(p.Field(department.FieldRemark))
 }
 
+// WhereTenantID applies the entql uint32 predicate on the tenant_id field.
+func (f *DepartmentFilter) WhereTenantID(p entql.Uint32P) {
+	f.Where(p.Field(department.FieldTenantID))
+}
+
 // WhereName applies the entql string predicate on the name field.
 func (f *DepartmentFilter) WhereName(p entql.StringP) {
 	f.Where(p.Field(department.FieldName))
@@ -1123,6 +1139,11 @@ func (f *DictFilter) WhereRemark(p entql.StringP) {
 	f.Where(p.Field(dict.FieldRemark))
 }
 
+// WhereTenantID applies the entql uint32 predicate on the tenant_id field.
+func (f *DictFilter) WhereTenantID(p entql.Uint32P) {
+	f.Where(p.Field(dict.FieldTenantID))
+}
+
 // WhereKey applies the entql string predicate on the key field.
 func (f *DictFilter) WhereKey(p entql.StringP) {
 	f.Where(p.Field(dict.FieldKey))
@@ -1221,6 +1242,11 @@ func (f *FileFilter) WhereCreateBy(p entql.Uint32P) {
 // WhereRemark applies the entql string predicate on the remark field.
 func (f *FileFilter) WhereRemark(p entql.StringP) {
 	f.Where(p.Field(file.FieldRemark))
+}
+
+// WhereTenantID applies the entql uint32 predicate on the tenant_id field.
+func (f *FileFilter) WhereTenantID(p entql.Uint32P) {
+	f.Where(p.Field(file.FieldTenantID))
 }
 
 // WhereProvider applies the entql string predicate on the provider field.
@@ -1486,6 +1512,11 @@ func (f *NotificationMessageFilter) WhereUpdateBy(p entql.Uint32P) {
 	f.Where(p.Field(notificationmessage.FieldUpdateBy))
 }
 
+// WhereTenantID applies the entql uint32 predicate on the tenant_id field.
+func (f *NotificationMessageFilter) WhereTenantID(p entql.Uint32P) {
+	f.Where(p.Field(notificationmessage.FieldTenantID))
+}
+
 // WhereSubject applies the entql string predicate on the subject field.
 func (f *NotificationMessageFilter) WhereSubject(p entql.StringP) {
 	f.Where(p.Field(notificationmessage.FieldSubject))
@@ -1574,6 +1605,11 @@ func (f *NotificationMessageCategoryFilter) WhereUpdateBy(p entql.Uint32P) {
 // WhereRemark applies the entql string predicate on the remark field.
 func (f *NotificationMessageCategoryFilter) WhereRemark(p entql.StringP) {
 	f.Where(p.Field(notificationmessagecategory.FieldRemark))
+}
+
+// WhereTenantID applies the entql uint32 predicate on the tenant_id field.
+func (f *NotificationMessageCategoryFilter) WhereTenantID(p entql.Uint32P) {
+	f.Where(p.Field(notificationmessagecategory.FieldTenantID))
 }
 
 // WhereName applies the entql string predicate on the name field.
@@ -1684,6 +1720,11 @@ func (f *NotificationMessageRecipientFilter) WhereDeleteTime(p entql.TimeP) {
 	f.Where(p.Field(notificationmessagerecipient.FieldDeleteTime))
 }
 
+// WhereTenantID applies the entql uint32 predicate on the tenant_id field.
+func (f *NotificationMessageRecipientFilter) WhereTenantID(p entql.Uint32P) {
+	f.Where(p.Field(notificationmessagerecipient.FieldTenantID))
+}
+
 // WhereMessageID applies the entql uint32 predicate on the message_id field.
 func (f *NotificationMessageRecipientFilter) WhereMessageID(p entql.Uint32P) {
 	f.Where(p.Field(notificationmessagerecipient.FieldMessageID))
@@ -1772,6 +1813,11 @@ func (f *OrganizationFilter) WhereUpdateBy(p entql.Uint32P) {
 // WhereRemark applies the entql string predicate on the remark field.
 func (f *OrganizationFilter) WhereRemark(p entql.StringP) {
 	f.Where(p.Field(organization.FieldRemark))
+}
+
+// WhereTenantID applies the entql uint32 predicate on the tenant_id field.
+func (f *OrganizationFilter) WhereTenantID(p entql.Uint32P) {
+	f.Where(p.Field(organization.FieldTenantID))
 }
 
 // WhereName applies the entql string predicate on the name field.
@@ -1892,6 +1938,11 @@ func (f *PositionFilter) WhereRemark(p entql.StringP) {
 	f.Where(p.Field(position.FieldRemark))
 }
 
+// WhereTenantID applies the entql uint32 predicate on the tenant_id field.
+func (f *PositionFilter) WhereTenantID(p entql.Uint32P) {
+	f.Where(p.Field(position.FieldTenantID))
+}
+
 // WhereName applies the entql string predicate on the name field.
 func (f *PositionFilter) WhereName(p entql.StringP) {
 	f.Where(p.Field(position.FieldName))
@@ -1995,6 +2046,11 @@ func (f *PrivateMessageFilter) WhereDeleteTime(p entql.TimeP) {
 	f.Where(p.Field(privatemessage.FieldDeleteTime))
 }
 
+// WhereTenantID applies the entql uint32 predicate on the tenant_id field.
+func (f *PrivateMessageFilter) WhereTenantID(p entql.Uint32P) {
+	f.Where(p.Field(privatemessage.FieldTenantID))
+}
+
 // WhereSubject applies the entql string predicate on the subject field.
 func (f *PrivateMessageFilter) WhereSubject(p entql.StringP) {
 	f.Where(p.Field(privatemessage.FieldSubject))
@@ -2093,6 +2149,11 @@ func (f *RoleFilter) WhereUpdateBy(p entql.Uint32P) {
 // WhereRemark applies the entql string predicate on the remark field.
 func (f *RoleFilter) WhereRemark(p entql.StringP) {
 	f.Where(p.Field(role.FieldRemark))
+}
+
+// WhereTenantID applies the entql uint32 predicate on the tenant_id field.
+func (f *RoleFilter) WhereTenantID(p entql.Uint32P) {
+	f.Where(p.Field(role.FieldTenantID))
 }
 
 // WhereName applies the entql string predicate on the name field.
@@ -2216,6 +2277,11 @@ func (f *TaskFilter) WhereUpdateBy(p entql.Uint32P) {
 // WhereRemark applies the entql string predicate on the remark field.
 func (f *TaskFilter) WhereRemark(p entql.StringP) {
 	f.Where(p.Field(task.FieldRemark))
+}
+
+// WhereTenantID applies the entql uint32 predicate on the tenant_id field.
+func (f *TaskFilter) WhereTenantID(p entql.Uint32P) {
+	f.Where(p.Field(task.FieldTenantID))
 }
 
 // WhereType applies the entql string predicate on the type field.
@@ -2443,6 +2509,11 @@ func (f *UserFilter) WhereStatus(p entql.StringP) {
 	f.Where(p.Field(user.FieldStatus))
 }
 
+// WhereTenantID applies the entql uint32 predicate on the tenant_id field.
+func (f *UserFilter) WhereTenantID(p entql.Uint32P) {
+	f.Where(p.Field(user.FieldTenantID))
+}
+
 // WhereUsername applies the entql string predicate on the username field.
 func (f *UserFilter) WhereUsername(p entql.StringP) {
 	f.Where(p.Field(user.FieldUsername))
@@ -2536,9 +2607,4 @@ func (f *UserFilter) WherePositionID(p entql.Uint32P) {
 // WhereWorkID applies the entql uint32 predicate on the work_id field.
 func (f *UserFilter) WhereWorkID(p entql.Uint32P) {
 	f.Where(p.Field(user.FieldWorkID))
-}
-
-// WhereTenantID applies the entql uint32 predicate on the tenant_id field.
-func (f *UserFilter) WhereTenantID(p entql.Uint32P) {
-	f.Where(p.Field(user.FieldTenantID))
 }

@@ -13,12 +13,14 @@ import (
 	"github.com/tx7do/go-utils/fieldmaskutil"
 	"github.com/tx7do/go-utils/timeutil"
 	"github.com/tx7do/go-utils/trans"
+	pagination "github.com/tx7do/kratos-bootstrap/api/gen/go/pagination/v1"
 
 	"kratos-admin/app/admin/service/internal/data/ent"
 	"kratos-admin/app/admin/service/internal/data/ent/role"
 
-	pagination "github.com/tx7do/kratos-bootstrap/api/gen/go/pagination/v1"
 	userV1 "kratos-admin/api/gen/go/user/service/v1"
+
+	"kratos-admin/pkg/middleware/auth"
 )
 
 type RoleRepo struct {
@@ -115,7 +117,7 @@ func (r *RoleRepo) IsExist(ctx context.Context, id uint32) (bool, error) {
 		Exist(ctx)
 }
 
-func (r *RoleRepo) GetRole(ctx context.Context, id uint32) (*userV1.Role, error) {
+func (r *RoleRepo) Get(ctx context.Context, id uint32) (*userV1.Role, error) {
 	ret, err := r.data.db.Client().Role.Get(ctx, id)
 	if err != nil {
 		if ent.IsNotFound(err) {
@@ -128,7 +130,7 @@ func (r *RoleRepo) GetRole(ctx context.Context, id uint32) (*userV1.Role, error)
 	return r.convertEntToProto(ret), err
 }
 
-func (r *RoleRepo) CreateRole(ctx context.Context, req *userV1.CreateRoleRequest) error {
+func (r *RoleRepo) Create(ctx context.Context, req *userV1.CreateRoleRequest, operator *auth.UserTokenPayload) error {
 	if req.Data == nil {
 		return errors.New("invalid request")
 	}
@@ -140,7 +142,7 @@ func (r *RoleRepo) CreateRole(ctx context.Context, req *userV1.CreateRoleRequest
 		SetNillableCode(req.Data.Code).
 		SetNillableStatus((*role.Status)(req.Data.Status)).
 		SetNillableRemark(req.Data.Remark).
-		SetNillableCreateBy(req.OperatorId).
+		SetNillableCreateBy(trans.Ptr(operator.UserId)).
 		SetNillableCreateTime(timeutil.TimestamppbToTime(req.Data.CreateTime))
 
 	if req.Data.CreateTime == nil {
@@ -160,7 +162,7 @@ func (r *RoleRepo) CreateRole(ctx context.Context, req *userV1.CreateRoleRequest
 	return err
 }
 
-func (r *RoleRepo) UpdateRole(ctx context.Context, req *userV1.UpdateRoleRequest) error {
+func (r *RoleRepo) Update(ctx context.Context, req *userV1.UpdateRoleRequest, operator *auth.UserTokenPayload) error {
 	if req.Data == nil {
 		return errors.New("invalid request")
 	}
@@ -172,7 +174,7 @@ func (r *RoleRepo) UpdateRole(ctx context.Context, req *userV1.UpdateRoleRequest
 			return err
 		}
 		if !exist {
-			return r.CreateRole(ctx, &userV1.CreateRoleRequest{Data: req.Data, OperatorId: req.OperatorId})
+			return r.Create(ctx, &userV1.CreateRoleRequest{Data: req.Data}, operator)
 		}
 	}
 
@@ -191,7 +193,7 @@ func (r *RoleRepo) UpdateRole(ctx context.Context, req *userV1.UpdateRoleRequest
 		SetNillableCode(req.Data.Code).
 		SetNillableRemark(req.Data.Remark).
 		SetNillableStatus((*role.Status)(req.Data.Status)).
-		SetNillableUpdateBy(req.OperatorId).
+		SetNillableUpdateBy(trans.Ptr(operator.UserId)).
 		SetNillableUpdateTime(timeutil.TimestamppbToTime(req.Data.UpdateTime))
 
 	if req.Data.UpdateTime == nil {
@@ -219,7 +221,7 @@ func (r *RoleRepo) UpdateRole(ctx context.Context, req *userV1.UpdateRoleRequest
 	return err
 }
 
-func (r *RoleRepo) DeleteRole(ctx context.Context, req *userV1.DeleteRoleRequest) (bool, error) {
+func (r *RoleRepo) Delete(ctx context.Context, req *userV1.DeleteRoleRequest) (bool, error) {
 	err := r.data.db.Client().Role.
 		DeleteOneID(req.GetId()).
 		Exec(ctx)

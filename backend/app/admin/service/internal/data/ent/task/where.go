@@ -84,6 +84,11 @@ func Remark(v string) predicate.Task {
 	return predicate.Task(sql.FieldEQ(FieldRemark, v))
 }
 
+// TenantID applies equality check predicate on the "tenant_id" field. It's identical to TenantIDEQ.
+func TenantID(v uint32) predicate.Task {
+	return predicate.Task(sql.FieldEQ(FieldTenantID, v))
+}
+
 // TypeName applies equality check predicate on the "type_name" field. It's identical to TypeNameEQ.
 func TypeName(v string) predicate.Task {
 	return predicate.Task(sql.FieldEQ(FieldTypeName, v))
@@ -452,6 +457,56 @@ func RemarkEqualFold(v string) predicate.Task {
 // RemarkContainsFold applies the ContainsFold predicate on the "remark" field.
 func RemarkContainsFold(v string) predicate.Task {
 	return predicate.Task(sql.FieldContainsFold(FieldRemark, v))
+}
+
+// TenantIDEQ applies the EQ predicate on the "tenant_id" field.
+func TenantIDEQ(v uint32) predicate.Task {
+	return predicate.Task(sql.FieldEQ(FieldTenantID, v))
+}
+
+// TenantIDNEQ applies the NEQ predicate on the "tenant_id" field.
+func TenantIDNEQ(v uint32) predicate.Task {
+	return predicate.Task(sql.FieldNEQ(FieldTenantID, v))
+}
+
+// TenantIDIn applies the In predicate on the "tenant_id" field.
+func TenantIDIn(vs ...uint32) predicate.Task {
+	return predicate.Task(sql.FieldIn(FieldTenantID, vs...))
+}
+
+// TenantIDNotIn applies the NotIn predicate on the "tenant_id" field.
+func TenantIDNotIn(vs ...uint32) predicate.Task {
+	return predicate.Task(sql.FieldNotIn(FieldTenantID, vs...))
+}
+
+// TenantIDGT applies the GT predicate on the "tenant_id" field.
+func TenantIDGT(v uint32) predicate.Task {
+	return predicate.Task(sql.FieldGT(FieldTenantID, v))
+}
+
+// TenantIDGTE applies the GTE predicate on the "tenant_id" field.
+func TenantIDGTE(v uint32) predicate.Task {
+	return predicate.Task(sql.FieldGTE(FieldTenantID, v))
+}
+
+// TenantIDLT applies the LT predicate on the "tenant_id" field.
+func TenantIDLT(v uint32) predicate.Task {
+	return predicate.Task(sql.FieldLT(FieldTenantID, v))
+}
+
+// TenantIDLTE applies the LTE predicate on the "tenant_id" field.
+func TenantIDLTE(v uint32) predicate.Task {
+	return predicate.Task(sql.FieldLTE(FieldTenantID, v))
+}
+
+// TenantIDIsNil applies the IsNil predicate on the "tenant_id" field.
+func TenantIDIsNil() predicate.Task {
+	return predicate.Task(sql.FieldIsNull(FieldTenantID))
+}
+
+// TenantIDNotNil applies the NotNil predicate on the "tenant_id" field.
+func TenantIDNotNil() predicate.Task {
+	return predicate.Task(sql.FieldNotNull(FieldTenantID))
 }
 
 // TypeEQ applies the EQ predicate on the "type" field.

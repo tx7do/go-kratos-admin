@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	"kratos-admin/pkg/middleware/auth"
 
 	"github.com/go-kratos/kratos/v2/log"
 	pagination "github.com/tx7do/kratos-bootstrap/api/gen/go/pagination/v1"
@@ -42,7 +43,13 @@ func (s *OrganizationService) CreateOrganization(ctx context.Context, req *userV
 		return nil, adminV1.ErrorBadRequest("错误的参数")
 	}
 
-	if err := s.uc.Create(ctx, req); err != nil {
+	// 获取操作人信息
+	operator, err := auth.FromContext(ctx)
+	if err != nil {
+		return &emptypb.Empty{}, err
+	}
+
+	if err = s.uc.Create(ctx, req, operator); err != nil {
 		return nil, err
 	}
 
@@ -54,7 +61,13 @@ func (s *OrganizationService) UpdateOrganization(ctx context.Context, req *userV
 		return nil, adminV1.ErrorBadRequest("错误的参数")
 	}
 
-	if err := s.uc.Update(ctx, req); err != nil {
+	// 获取操作人信息
+	operator, err := auth.FromContext(ctx)
+	if err != nil {
+		return &emptypb.Empty{}, err
+	}
+
+	if err = s.uc.Update(ctx, req, operator); err != nil {
 		return nil, err
 	}
 

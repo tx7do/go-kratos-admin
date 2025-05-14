@@ -120,6 +120,20 @@ func (dc *DictCreate) SetNillableRemark(s *string) *DictCreate {
 	return dc
 }
 
+// SetTenantID sets the "tenant_id" field.
+func (dc *DictCreate) SetTenantID(u uint32) *DictCreate {
+	dc.mutation.SetTenantID(u)
+	return dc
+}
+
+// SetNillableTenantID sets the "tenant_id" field if the given value is not nil.
+func (dc *DictCreate) SetNillableTenantID(u *uint32) *DictCreate {
+	if u != nil {
+		dc.SetTenantID(*u)
+	}
+	return dc
+}
+
 // SetKey sets the "key" field.
 func (dc *DictCreate) SetKey(s string) *DictCreate {
 	dc.mutation.SetKey(s)
@@ -280,6 +294,11 @@ func (dc *DictCreate) check() error {
 			return &ValidationError{Name: "status", err: fmt.Errorf(`ent: validator failed for field "Dict.status": %w`, err)}
 		}
 	}
+	if v, ok := dc.mutation.TenantID(); ok {
+		if err := dict.TenantIDValidator(v); err != nil {
+			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "Dict.tenant_id": %w`, err)}
+		}
+	}
 	if v, ok := dc.mutation.ID(); ok {
 		if err := dict.IDValidator(v); err != nil {
 			return &ValidationError{Name: "id", err: fmt.Errorf(`ent: validator failed for field "Dict.id": %w`, err)}
@@ -345,6 +364,10 @@ func (dc *DictCreate) createSpec() (*Dict, *sqlgraph.CreateSpec) {
 	if value, ok := dc.mutation.Remark(); ok {
 		_spec.SetField(dict.FieldRemark, field.TypeString, value)
 		_node.Remark = &value
+	}
+	if value, ok := dc.mutation.TenantID(); ok {
+		_spec.SetField(dict.FieldTenantID, field.TypeUint32, value)
+		_node.TenantID = &value
 	}
 	if value, ok := dc.mutation.Key(); ok {
 		_spec.SetField(dict.FieldKey, field.TypeString, value)
@@ -697,6 +720,9 @@ func (u *DictUpsertOne) UpdateNewValues() *DictUpsertOne {
 		}
 		if _, exists := u.create.mutation.CreateTime(); exists {
 			s.SetIgnore(dict.FieldCreateTime)
+		}
+		if _, exists := u.create.mutation.TenantID(); exists {
+			s.SetIgnore(dict.FieldTenantID)
 		}
 	}))
 	return u
@@ -1207,6 +1233,9 @@ func (u *DictUpsertBulk) UpdateNewValues() *DictUpsertBulk {
 			}
 			if _, exists := b.mutation.CreateTime(); exists {
 				s.SetIgnore(dict.FieldCreateTime)
+			}
+			if _, exists := b.mutation.TenantID(); exists {
+				s.SetIgnore(dict.FieldTenantID)
 			}
 		}
 	}))

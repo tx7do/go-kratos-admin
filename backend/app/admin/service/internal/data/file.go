@@ -7,6 +7,7 @@ import (
 
 	"entgo.io/ent/dialect/sql"
 	"github.com/go-kratos/kratos/v2/log"
+
 	entgo "github.com/tx7do/go-utils/entgo/query"
 	entgoUpdate "github.com/tx7do/go-utils/entgo/update"
 	"github.com/tx7do/go-utils/fieldmaskutil"
@@ -18,6 +19,8 @@ import (
 	"kratos-admin/app/admin/service/internal/data/ent/file"
 
 	fileV1 "kratos-admin/api/gen/go/file/service/v1"
+
+	"kratos-admin/pkg/middleware/auth"
 )
 
 type FileRepo struct {
@@ -216,7 +219,7 @@ func (r *FileRepo) Get(ctx context.Context, req *fileV1.GetFileRequest) (*fileV1
 	return r.convertEntToProto(ret), err
 }
 
-func (r *FileRepo) Create(ctx context.Context, req *fileV1.CreateFileRequest) error {
+func (r *FileRepo) Create(ctx context.Context, req *fileV1.CreateFileRequest, operator *auth.UserTokenPayload) error {
 	if req.Data == nil {
 		return errors.New("invalid request")
 	}
@@ -233,7 +236,7 @@ func (r *FileRepo) Create(ctx context.Context, req *fileV1.CreateFileRequest) er
 		SetNillableSizeFormat(req.Data.SizeFormat).
 		SetNillableLinkURL(req.Data.LinkUrl).
 		SetNillableMd5(req.Data.Md5).
-		SetNillableCreateBy(req.OperatorId).
+		SetNillableCreateBy(trans.Ptr(operator.UserId)).
 		SetNillableCreateTime(timeutil.TimestamppbToTime(req.Data.CreateTime))
 
 	if req.Data.CreateTime == nil {
@@ -249,7 +252,7 @@ func (r *FileRepo) Create(ctx context.Context, req *fileV1.CreateFileRequest) er
 	return err
 }
 
-func (r *FileRepo) Update(ctx context.Context, req *fileV1.UpdateFileRequest) error {
+func (r *FileRepo) Update(ctx context.Context, req *fileV1.UpdateFileRequest, operator *auth.UserTokenPayload) error {
 	if req.Data == nil {
 		return errors.New("invalid request")
 	}
@@ -261,7 +264,7 @@ func (r *FileRepo) Update(ctx context.Context, req *fileV1.UpdateFileRequest) er
 			return err
 		}
 		if !exist {
-			return r.Create(ctx, &fileV1.CreateFileRequest{Data: req.Data, OperatorId: req.OperatorId})
+			return r.Create(ctx, &fileV1.CreateFileRequest{Data: req.Data}, operator)
 		}
 	}
 
@@ -285,6 +288,7 @@ func (r *FileRepo) Update(ctx context.Context, req *fileV1.UpdateFileRequest) er
 		SetNillableSizeFormat(req.Data.SizeFormat).
 		SetNillableLinkURL(req.Data.LinkUrl).
 		SetNillableMd5(req.Data.Md5).
+		//SetNillableUpdateBy(trans.Ptr(operator.UserId)).
 		SetNillableUpdateTime(timeutil.TimestamppbToTime(req.Data.UpdateTime))
 
 	if req.Data.UpdateTime == nil {

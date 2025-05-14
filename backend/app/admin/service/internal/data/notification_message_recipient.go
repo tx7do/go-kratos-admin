@@ -7,6 +7,7 @@ import (
 
 	"entgo.io/ent/dialect/sql"
 	"github.com/go-kratos/kratos/v2/log"
+
 	entgo "github.com/tx7do/go-utils/entgo/query"
 	entgoUpdate "github.com/tx7do/go-utils/entgo/update"
 	"github.com/tx7do/go-utils/fieldmaskutil"
@@ -18,6 +19,8 @@ import (
 	"kratos-admin/app/admin/service/internal/data/ent/notificationmessagerecipient"
 
 	internalMessageV1 "kratos-admin/api/gen/go/internal_message/service/v1"
+
+	"kratos-admin/pkg/middleware/auth"
 )
 
 type NotificationMessageRecipientRepo struct {
@@ -172,7 +175,7 @@ func (r *NotificationMessageRecipientRepo) Get(ctx context.Context, req *interna
 	return r.convertEntToProto(ret), err
 }
 
-func (r *NotificationMessageRecipientRepo) Create(ctx context.Context, req *internalMessageV1.CreateNotificationMessageRecipientRequest) error {
+func (r *NotificationMessageRecipientRepo) Create(ctx context.Context, req *internalMessageV1.CreateNotificationMessageRecipientRequest, operator *auth.UserTokenPayload) error {
 	if req.Data == nil {
 		return errors.New("invalid request")
 	}
@@ -196,7 +199,7 @@ func (r *NotificationMessageRecipientRepo) Create(ctx context.Context, req *inte
 	return err
 }
 
-func (r *NotificationMessageRecipientRepo) Update(ctx context.Context, req *internalMessageV1.UpdateNotificationMessageRecipientRequest) error {
+func (r *NotificationMessageRecipientRepo) Update(ctx context.Context, req *internalMessageV1.UpdateNotificationMessageRecipientRequest, operator *auth.UserTokenPayload) error {
 	if req.Data == nil {
 		return errors.New("invalid request")
 	}
@@ -208,7 +211,7 @@ func (r *NotificationMessageRecipientRepo) Update(ctx context.Context, req *inte
 			return err
 		}
 		if !exist {
-			return r.Create(ctx, &internalMessageV1.CreateNotificationMessageRecipientRequest{Data: req.Data, OperatorId: req.OperatorId})
+			return r.Create(ctx, &internalMessageV1.CreateNotificationMessageRecipientRequest{Data: req.Data}, operator)
 		}
 	}
 

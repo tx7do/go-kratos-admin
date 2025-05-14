@@ -409,6 +409,9 @@ func (du *DepartmentUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	if du.mutation.RemarkCleared() {
 		_spec.ClearField(department.FieldRemark, field.TypeString)
 	}
+	if du.mutation.TenantIDCleared() {
+		_spec.ClearField(department.FieldTenantID, field.TypeUint32)
+	}
 	if value, ok := du.mutation.Name(); ok {
 		_spec.SetField(department.FieldName, field.TypeString, value)
 	}
@@ -938,6 +941,9 @@ func (duo *DepartmentUpdateOne) sqlSave(ctx context.Context) (_node *Department,
 	}
 	if duo.mutation.RemarkCleared() {
 		_spec.ClearField(department.FieldRemark, field.TypeString)
+	}
+	if duo.mutation.TenantIDCleared() {
+		_spec.ClearField(department.FieldTenantID, field.TypeUint32)
 	}
 	if value, ok := duo.mutation.Name(); ok {
 		_spec.SetField(department.FieldName, field.TypeString, value)

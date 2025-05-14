@@ -92,6 +92,20 @@ func (fc *FileCreate) SetNillableRemark(s *string) *FileCreate {
 	return fc
 }
 
+// SetTenantID sets the "tenant_id" field.
+func (fc *FileCreate) SetTenantID(u uint32) *FileCreate {
+	fc.mutation.SetTenantID(u)
+	return fc
+}
+
+// SetNillableTenantID sets the "tenant_id" field if the given value is not nil.
+func (fc *FileCreate) SetNillableTenantID(u *uint32) *FileCreate {
+	if u != nil {
+		fc.SetTenantID(*u)
+	}
+	return fc
+}
+
 // SetProvider sets the "provider" field.
 func (fc *FileCreate) SetProvider(f file.Provider) *FileCreate {
 	fc.mutation.SetProvider(f)
@@ -295,6 +309,11 @@ func (fc *FileCreate) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (fc *FileCreate) check() error {
+	if v, ok := fc.mutation.TenantID(); ok {
+		if err := file.TenantIDValidator(v); err != nil {
+			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "File.tenant_id": %w`, err)}
+		}
+	}
 	if v, ok := fc.mutation.Provider(); ok {
 		if err := file.ProviderValidator(v); err != nil {
 			return &ValidationError{Name: "provider", err: fmt.Errorf(`ent: validator failed for field "File.provider": %w`, err)}
@@ -357,6 +376,10 @@ func (fc *FileCreate) createSpec() (*File, *sqlgraph.CreateSpec) {
 	if value, ok := fc.mutation.Remark(); ok {
 		_spec.SetField(file.FieldRemark, field.TypeString, value)
 		_node.Remark = &value
+	}
+	if value, ok := fc.mutation.TenantID(); ok {
+		_spec.SetField(file.FieldTenantID, field.TypeUint32, value)
+		_node.TenantID = &value
 	}
 	if value, ok := fc.mutation.Provider(); ok {
 		_spec.SetField(file.FieldProvider, field.TypeEnum, value)
@@ -755,6 +778,9 @@ func (u *FileUpsertOne) UpdateNewValues() *FileUpsertOne {
 		}
 		if _, exists := u.create.mutation.CreateTime(); exists {
 			s.SetIgnore(file.FieldCreateTime)
+		}
+		if _, exists := u.create.mutation.TenantID(); exists {
+			s.SetIgnore(file.FieldTenantID)
 		}
 	}))
 	return u
@@ -1300,6 +1326,9 @@ func (u *FileUpsertBulk) UpdateNewValues() *FileUpsertBulk {
 			}
 			if _, exists := b.mutation.CreateTime(); exists {
 				s.SetIgnore(file.FieldCreateTime)
+			}
+			if _, exists := b.mutation.TenantID(); exists {
+				s.SetIgnore(file.FieldTenantID)
 			}
 		}
 	}))

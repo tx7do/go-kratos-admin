@@ -27,6 +27,8 @@ const (
 	FieldRemark = "remark"
 	// FieldStatus holds the string denoting the status field in the database.
 	FieldStatus = "status"
+	// FieldTenantID holds the string denoting the tenant_id field in the database.
+	FieldTenantID = "tenant_id"
 	// FieldUsername holds the string denoting the username field in the database.
 	FieldUsername = "username"
 	// FieldPassword holds the string denoting the password field in the database.
@@ -65,8 +67,6 @@ const (
 	FieldPositionID = "position_id"
 	// FieldWorkID holds the string denoting the work_id field in the database.
 	FieldWorkID = "work_id"
-	// FieldTenantID holds the string denoting the tenant_id field in the database.
-	FieldTenantID = "tenant_id"
 	// Table holds the table name of the user in the database.
 	Table = "users"
 )
@@ -81,6 +81,7 @@ var Columns = []string{
 	FieldDeleteTime,
 	FieldRemark,
 	FieldStatus,
+	FieldTenantID,
 	FieldUsername,
 	FieldPassword,
 	FieldNickName,
@@ -100,7 +101,6 @@ var Columns = []string{
 	FieldOrgID,
 	FieldPositionID,
 	FieldWorkID,
-	FieldTenantID,
 }
 
 // ValidColumn reports if the column name is valid (part of the table columns).
@@ -116,6 +116,8 @@ func ValidColumn(column string) bool {
 var (
 	// DefaultRemark holds the default value on creation for the "remark" field.
 	DefaultRemark string
+	// TenantIDValidator is a validator for the "tenant_id" field. It is called by the builders before save.
+	TenantIDValidator func(uint32) error
 	// UsernameValidator is a validator for the "username" field. It is called by the builders before save.
 	UsernameValidator func(string) error
 	// PasswordValidator is a validator for the "password" field. It is called by the builders before save.
@@ -276,6 +278,11 @@ func ByStatus(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldStatus, opts...).ToFunc()
 }
 
+// ByTenantID orders the results by the tenant_id field.
+func ByTenantID(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldTenantID, opts...).ToFunc()
+}
+
 // ByUsername orders the results by the username field.
 func ByUsername(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldUsername, opts...).ToFunc()
@@ -369,9 +376,4 @@ func ByPositionID(opts ...sql.OrderTermOption) OrderOption {
 // ByWorkID orders the results by the work_id field.
 func ByWorkID(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldWorkID, opts...).ToFunc()
-}
-
-// ByTenantID orders the results by the tenant_id field.
-func ByTenantID(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldTenantID, opts...).ToFunc()
 }

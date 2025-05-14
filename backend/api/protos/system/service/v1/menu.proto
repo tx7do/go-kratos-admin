@@ -385,24 +385,14 @@ message GetMenuRequest {
 
 // 创建菜单 - 请求
 message CreateMenuRequest {
-  optional uint32 operator_id = 1 [
-    (gnostic.openapi.v3.property) = {description: "操作用户ID", read_only: true},
-    json_name = "operatorId"
-  ]; // 操作用户ID
-
-  Menu data = 2;
+  Menu data = 1;
 }
 
 // 更新菜单 - 请求
 message UpdateMenuRequest {
-  optional uint32 operator_id = 1 [
-    (gnostic.openapi.v3.property) = {description: "操作用户ID", read_only: true},
-    json_name = "operatorId"
-  ]; // 操作用户ID
+  Menu data = 1;
 
-  Menu data = 2;
-
-  google.protobuf.FieldMask update_mask = 3 [
+  google.protobuf.FieldMask update_mask = 2 [
     (gnostic.openapi.v3.property) = {
       description: "要更新的字段列表",
       example: {yaml : "id,realName,userName"}
@@ -410,7 +400,7 @@ message UpdateMenuRequest {
     json_name = "updateMask"
   ]; // 要更新的字段列表
 
-  optional bool allow_missing = 4 [
+  optional bool allow_missing = 3 [
     (gnostic.openapi.v3.property) = {description: "如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。"},
     json_name = "allowMissing"
   ]; // 如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。
@@ -418,10 +408,5 @@ message UpdateMenuRequest {
 
 // 删除菜单 - 请求
 message DeleteMenuRequest {
-  optional uint32 operator_id = 1 [
-    (gnostic.openapi.v3.property) = {description: "操作用户ID", read_only: true},
-    json_name = "operatorId"
-  ]; // 操作用户ID
-
-  int32 id = 2;
+  int32 id = 1;
 }

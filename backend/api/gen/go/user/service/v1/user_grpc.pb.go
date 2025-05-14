@@ -26,6 +26,7 @@ const (
 	UserService_Create_FullMethodName            = "/user.service.v1.UserService/Create"
 	UserService_Update_FullMethodName            = "/user.service.v1.UserService/Update"
 	UserService_Delete_FullMethodName            = "/user.service.v1.UserService/Delete"
+	UserService_BatchCreate_FullMethodName       = "/user.service.v1.UserService/BatchCreate"
 	UserService_GetUserByUserName_FullMethodName = "/user.service.v1.UserService/GetUserByUserName"
 	UserService_VerifyPassword_FullMethodName    = "/user.service.v1.UserService/VerifyPassword"
 	UserService_UserExists_FullMethodName        = "/user.service.v1.UserService/UserExists"
@@ -47,6 +48,8 @@ type UserServiceClient interface {
 	Update(ctx context.Context, in *UpdateUserRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	// 删除用户
 	Delete(ctx context.Context, in *DeleteUserRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	// 批量创建租户
+	BatchCreate(ctx context.Context, in *BatchCreateUsersRequest, opts ...grpc.CallOption) (*BatchCreateUsersResponse, error)
 	// 查询用户详情
 	GetUserByUserName(ctx context.Context, in *GetUserByUserNameRequest, opts ...grpc.CallOption) (*User, error)
 	// 验证密码
@@ -113,6 +116,16 @@ func (c *userServiceClient) Delete(ctx context.Context, in *DeleteUserRequest, o
 	return out, nil
 }
 
+func (c *userServiceClient) BatchCreate(ctx context.Context, in *BatchCreateUsersRequest, opts ...grpc.CallOption) (*BatchCreateUsersResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(BatchCreateUsersResponse)
+	err := c.cc.Invoke(ctx, UserService_BatchCreate_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *userServiceClient) GetUserByUserName(ctx context.Context, in *GetUserByUserNameRequest, opts ...grpc.CallOption) (*User, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(User)
@@ -159,6 +172,8 @@ type UserServiceServer interface {
 	Update(context.Context, *UpdateUserRequest) (*emptypb.Empty, error)
 	// 删除用户
 	Delete(context.Context, *DeleteUserRequest) (*emptypb.Empty, error)
+	// 批量创建租户
+	BatchCreate(context.Context, *BatchCreateUsersRequest) (*BatchCreateUsersResponse, error)
 	// 查询用户详情
 	GetUserByUserName(context.Context, *GetUserByUserNameRequest) (*User, error)
 	// 验证密码
@@ -189,6 +204,9 @@ func (UnimplementedUserServiceServer) Update(context.Context, *UpdateUserRequest
 }
 func (UnimplementedUserServiceServer) Delete(context.Context, *DeleteUserRequest) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Delete not implemented")
+}
+func (UnimplementedUserServiceServer) BatchCreate(context.Context, *BatchCreateUsersRequest) (*BatchCreateUsersResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method BatchCreate not implemented")
 }
 func (UnimplementedUserServiceServer) GetUserByUserName(context.Context, *GetUserByUserNameRequest) (*User, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetUserByUserName not implemented")
@@ -310,6 +328,24 @@ func _UserService_Delete_Handler(srv interface{}, ctx context.Context, dec func(
 	return interceptor(ctx, in, info, handler)
 }
 
+func _UserService_BatchCreate_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(BatchCreateUsersRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).BatchCreate(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UserService_BatchCreate_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).BatchCreate(ctx, req.(*BatchCreateUsersRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _UserService_GetUserByUserName_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetUserByUserNameRequest)
 	if err := dec(in); err != nil {
@@ -390,6 +426,10 @@ var UserService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Delete",
 			Handler:    _UserService_Delete_Handler,
+		},
+		{
+			MethodName: "BatchCreate",
+			Handler:    _UserService_BatchCreate_Handler,
 		},
 		{
 			MethodName: "GetUserByUserName",

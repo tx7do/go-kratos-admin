@@ -939,3 +939,279 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = DeleteOrganizationRequestValidationError{}
+
+// Validate checks the field values on BatchCreateOrganizationsRequest with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *BatchCreateOrganizationsRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on BatchCreateOrganizationsRequest with
+// the rules defined in the proto definition for this message. If any rules
+// are violated, the result is a list of violation errors wrapped in
+// BatchCreateOrganizationsRequestMultiError, or nil if none found.
+func (m *BatchCreateOrganizationsRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *BatchCreateOrganizationsRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	for idx, item := range m.GetData() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, BatchCreateOrganizationsRequestValidationError{
+						field:  fmt.Sprintf("Data[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, BatchCreateOrganizationsRequestValidationError{
+						field:  fmt.Sprintf("Data[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return BatchCreateOrganizationsRequestValidationError{
+					field:  fmt.Sprintf("Data[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	if len(errors) > 0 {
+		return BatchCreateOrganizationsRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// BatchCreateOrganizationsRequestMultiError is an error wrapping multiple
+// validation errors returned by BatchCreateOrganizationsRequest.ValidateAll()
+// if the designated constraints aren't met.
+type BatchCreateOrganizationsRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m BatchCreateOrganizationsRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m BatchCreateOrganizationsRequestMultiError) AllErrors() []error { return m }
+
+// BatchCreateOrganizationsRequestValidationError is the validation error
+// returned by BatchCreateOrganizationsRequest.Validate if the designated
+// constraints aren't met.
+type BatchCreateOrganizationsRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e BatchCreateOrganizationsRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e BatchCreateOrganizationsRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e BatchCreateOrganizationsRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e BatchCreateOrganizationsRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e BatchCreateOrganizationsRequestValidationError) ErrorName() string {
+	return "BatchCreateOrganizationsRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e BatchCreateOrganizationsRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sBatchCreateOrganizationsRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = BatchCreateOrganizationsRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = BatchCreateOrganizationsRequestValidationError{}
+
+// Validate checks the field values on BatchCreateOrganizationsResponse with
+// the rules defined in the proto definition for this message. If any rules
+// are violated, the first error encountered is returned, or nil if there are
+// no violations.
+func (m *BatchCreateOrganizationsResponse) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on BatchCreateOrganizationsResponse with
+// the rules defined in the proto definition for this message. If any rules
+// are violated, the result is a list of violation errors wrapped in
+// BatchCreateOrganizationsResponseMultiError, or nil if none found.
+func (m *BatchCreateOrganizationsResponse) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *BatchCreateOrganizationsResponse) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	for idx, item := range m.GetData() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, BatchCreateOrganizationsResponseValidationError{
+						field:  fmt.Sprintf("Data[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, BatchCreateOrganizationsResponseValidationError{
+						field:  fmt.Sprintf("Data[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return BatchCreateOrganizationsResponseValidationError{
+					field:  fmt.Sprintf("Data[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	if len(errors) > 0 {
+		return BatchCreateOrganizationsResponseMultiError(errors)
+	}
+
+	return nil
+}
+
+// BatchCreateOrganizationsResponseMultiError is an error wrapping multiple
+// validation errors returned by
+// BatchCreateOrganizationsResponse.ValidateAll() if the designated
+// constraints aren't met.
+type BatchCreateOrganizationsResponseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m BatchCreateOrganizationsResponseMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m BatchCreateOrganizationsResponseMultiError) AllErrors() []error { return m }
+
+// BatchCreateOrganizationsResponseValidationError is the validation error
+// returned by BatchCreateOrganizationsResponse.Validate if the designated
+// constraints aren't met.
+type BatchCreateOrganizationsResponseValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e BatchCreateOrganizationsResponseValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e BatchCreateOrganizationsResponseValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e BatchCreateOrganizationsResponseValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e BatchCreateOrganizationsResponseValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e BatchCreateOrganizationsResponseValidationError) ErrorName() string {
+	return "BatchCreateOrganizationsResponseValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e BatchCreateOrganizationsResponseValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sBatchCreateOrganizationsResponse.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = BatchCreateOrganizationsResponseValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = BatchCreateOrganizationsResponseValidationError{}

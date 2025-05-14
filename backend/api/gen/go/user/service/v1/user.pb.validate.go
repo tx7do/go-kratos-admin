@@ -1494,3 +1494,275 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = UserExistsResponseValidationError{}
+
+// Validate checks the field values on BatchCreateUsersRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *BatchCreateUsersRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on BatchCreateUsersRequest with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// BatchCreateUsersRequestMultiError, or nil if none found.
+func (m *BatchCreateUsersRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *BatchCreateUsersRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	for idx, item := range m.GetData() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, BatchCreateUsersRequestValidationError{
+						field:  fmt.Sprintf("Data[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, BatchCreateUsersRequestValidationError{
+						field:  fmt.Sprintf("Data[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return BatchCreateUsersRequestValidationError{
+					field:  fmt.Sprintf("Data[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	if len(errors) > 0 {
+		return BatchCreateUsersRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// BatchCreateUsersRequestMultiError is an error wrapping multiple validation
+// errors returned by BatchCreateUsersRequest.ValidateAll() if the designated
+// constraints aren't met.
+type BatchCreateUsersRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m BatchCreateUsersRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m BatchCreateUsersRequestMultiError) AllErrors() []error { return m }
+
+// BatchCreateUsersRequestValidationError is the validation error returned by
+// BatchCreateUsersRequest.Validate if the designated constraints aren't met.
+type BatchCreateUsersRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e BatchCreateUsersRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e BatchCreateUsersRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e BatchCreateUsersRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e BatchCreateUsersRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e BatchCreateUsersRequestValidationError) ErrorName() string {
+	return "BatchCreateUsersRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e BatchCreateUsersRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sBatchCreateUsersRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = BatchCreateUsersRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = BatchCreateUsersRequestValidationError{}
+
+// Validate checks the field values on BatchCreateUsersResponse with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *BatchCreateUsersResponse) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on BatchCreateUsersResponse with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// BatchCreateUsersResponseMultiError, or nil if none found.
+func (m *BatchCreateUsersResponse) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *BatchCreateUsersResponse) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	for idx, item := range m.GetData() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, BatchCreateUsersResponseValidationError{
+						field:  fmt.Sprintf("Data[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, BatchCreateUsersResponseValidationError{
+						field:  fmt.Sprintf("Data[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return BatchCreateUsersResponseValidationError{
+					field:  fmt.Sprintf("Data[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	if len(errors) > 0 {
+		return BatchCreateUsersResponseMultiError(errors)
+	}
+
+	return nil
+}
+
+// BatchCreateUsersResponseMultiError is an error wrapping multiple validation
+// errors returned by BatchCreateUsersResponse.ValidateAll() if the designated
+// constraints aren't met.
+type BatchCreateUsersResponseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m BatchCreateUsersResponseMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m BatchCreateUsersResponseMultiError) AllErrors() []error { return m }
+
+// BatchCreateUsersResponseValidationError is the validation error returned by
+// BatchCreateUsersResponse.Validate if the designated constraints aren't met.
+type BatchCreateUsersResponseValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e BatchCreateUsersResponseValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e BatchCreateUsersResponseValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e BatchCreateUsersResponseValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e BatchCreateUsersResponseValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e BatchCreateUsersResponseValidationError) ErrorName() string {
+	return "BatchCreateUsersResponseValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e BatchCreateUsersResponseValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sBatchCreateUsersResponse.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = BatchCreateUsersResponseValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = BatchCreateUsersResponseValidationError{}

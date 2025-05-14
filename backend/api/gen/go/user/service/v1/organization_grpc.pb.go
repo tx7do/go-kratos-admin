@@ -21,11 +21,12 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	OrganizationService_List_FullMethodName   = "/user.service.v1.OrganizationService/List"
-	OrganizationService_Get_FullMethodName    = "/user.service.v1.OrganizationService/Get"
-	OrganizationService_Create_FullMethodName = "/user.service.v1.OrganizationService/Create"
-	OrganizationService_Update_FullMethodName = "/user.service.v1.OrganizationService/Update"
-	OrganizationService_Delete_FullMethodName = "/user.service.v1.OrganizationService/Delete"
+	OrganizationService_List_FullMethodName        = "/user.service.v1.OrganizationService/List"
+	OrganizationService_Get_FullMethodName         = "/user.service.v1.OrganizationService/Get"
+	OrganizationService_Create_FullMethodName      = "/user.service.v1.OrganizationService/Create"
+	OrganizationService_Update_FullMethodName      = "/user.service.v1.OrganizationService/Update"
+	OrganizationService_Delete_FullMethodName      = "/user.service.v1.OrganizationService/Delete"
+	OrganizationService_BatchCreate_FullMethodName = "/user.service.v1.OrganizationService/BatchCreate"
 )
 
 // OrganizationServiceClient is the client API for OrganizationService service.
@@ -44,6 +45,8 @@ type OrganizationServiceClient interface {
 	Update(ctx context.Context, in *UpdateOrganizationRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	// 删除组织
 	Delete(ctx context.Context, in *DeleteOrganizationRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	// 批量创建组织
+	BatchCreate(ctx context.Context, in *BatchCreateOrganizationsRequest, opts ...grpc.CallOption) (*BatchCreateOrganizationsResponse, error)
 }
 
 type organizationServiceClient struct {
@@ -104,6 +107,16 @@ func (c *organizationServiceClient) Delete(ctx context.Context, in *DeleteOrgani
 	return out, nil
 }
 
+func (c *organizationServiceClient) BatchCreate(ctx context.Context, in *BatchCreateOrganizationsRequest, opts ...grpc.CallOption) (*BatchCreateOrganizationsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(BatchCreateOrganizationsResponse)
+	err := c.cc.Invoke(ctx, OrganizationService_BatchCreate_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // OrganizationServiceServer is the server API for OrganizationService service.
 // All implementations must embed UnimplementedOrganizationServiceServer
 // for forward compatibility.
@@ -120,6 +133,8 @@ type OrganizationServiceServer interface {
 	Update(context.Context, *UpdateOrganizationRequest) (*emptypb.Empty, error)
 	// 删除组织
 	Delete(context.Context, *DeleteOrganizationRequest) (*emptypb.Empty, error)
+	// 批量创建组织
+	BatchCreate(context.Context, *BatchCreateOrganizationsRequest) (*BatchCreateOrganizationsResponse, error)
 	mustEmbedUnimplementedOrganizationServiceServer()
 }
 
@@ -144,6 +159,9 @@ func (UnimplementedOrganizationServiceServer) Update(context.Context, *UpdateOrg
 }
 func (UnimplementedOrganizationServiceServer) Delete(context.Context, *DeleteOrganizationRequest) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Delete not implemented")
+}
+func (UnimplementedOrganizationServiceServer) BatchCreate(context.Context, *BatchCreateOrganizationsRequest) (*BatchCreateOrganizationsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method BatchCreate not implemented")
 }
 func (UnimplementedOrganizationServiceServer) mustEmbedUnimplementedOrganizationServiceServer() {}
 func (UnimplementedOrganizationServiceServer) testEmbeddedByValue()                             {}
@@ -256,6 +274,24 @@ func _OrganizationService_Delete_Handler(srv interface{}, ctx context.Context, d
 	return interceptor(ctx, in, info, handler)
 }
 
+func _OrganizationService_BatchCreate_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(BatchCreateOrganizationsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationServiceServer).BatchCreate(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: OrganizationService_BatchCreate_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationServiceServer).BatchCreate(ctx, req.(*BatchCreateOrganizationsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // OrganizationService_ServiceDesc is the grpc.ServiceDesc for OrganizationService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -282,6 +318,10 @@ var OrganizationService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Delete",
 			Handler:    _OrganizationService_Delete_Handler,
+		},
+		{
+			MethodName: "BatchCreate",
+			Handler:    _OrganizationService_BatchCreate_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

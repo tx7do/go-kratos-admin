@@ -21,11 +21,12 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	RoleService_List_FullMethodName   = "/user.service.v1.RoleService/List"
-	RoleService_Get_FullMethodName    = "/user.service.v1.RoleService/Get"
-	RoleService_Create_FullMethodName = "/user.service.v1.RoleService/Create"
-	RoleService_Update_FullMethodName = "/user.service.v1.RoleService/Update"
-	RoleService_Delete_FullMethodName = "/user.service.v1.RoleService/Delete"
+	RoleService_List_FullMethodName        = "/user.service.v1.RoleService/List"
+	RoleService_Get_FullMethodName         = "/user.service.v1.RoleService/Get"
+	RoleService_Create_FullMethodName      = "/user.service.v1.RoleService/Create"
+	RoleService_Update_FullMethodName      = "/user.service.v1.RoleService/Update"
+	RoleService_Delete_FullMethodName      = "/user.service.v1.RoleService/Delete"
+	RoleService_BatchCreate_FullMethodName = "/user.service.v1.RoleService/BatchCreate"
 )
 
 // RoleServiceClient is the client API for RoleService service.
@@ -44,6 +45,8 @@ type RoleServiceClient interface {
 	Update(ctx context.Context, in *UpdateRoleRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	// 删除角色
 	Delete(ctx context.Context, in *DeleteRoleRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	// 批量创建角色
+	BatchCreate(ctx context.Context, in *BatchCreateRolesRequest, opts ...grpc.CallOption) (*BatchCreateRolesResponse, error)
 }
 
 type roleServiceClient struct {
@@ -104,6 +107,16 @@ func (c *roleServiceClient) Delete(ctx context.Context, in *DeleteRoleRequest, o
 	return out, nil
 }
 
+func (c *roleServiceClient) BatchCreate(ctx context.Context, in *BatchCreateRolesRequest, opts ...grpc.CallOption) (*BatchCreateRolesResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(BatchCreateRolesResponse)
+	err := c.cc.Invoke(ctx, RoleService_BatchCreate_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // RoleServiceServer is the server API for RoleService service.
 // All implementations must embed UnimplementedRoleServiceServer
 // for forward compatibility.
@@ -120,6 +133,8 @@ type RoleServiceServer interface {
 	Update(context.Context, *UpdateRoleRequest) (*emptypb.Empty, error)
 	// 删除角色
 	Delete(context.Context, *DeleteRoleRequest) (*emptypb.Empty, error)
+	// 批量创建角色
+	BatchCreate(context.Context, *BatchCreateRolesRequest) (*BatchCreateRolesResponse, error)
 	mustEmbedUnimplementedRoleServiceServer()
 }
 
@@ -144,6 +159,9 @@ func (UnimplementedRoleServiceServer) Update(context.Context, *UpdateRoleRequest
 }
 func (UnimplementedRoleServiceServer) Delete(context.Context, *DeleteRoleRequest) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Delete not implemented")
+}
+func (UnimplementedRoleServiceServer) BatchCreate(context.Context, *BatchCreateRolesRequest) (*BatchCreateRolesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method BatchCreate not implemented")
 }
 func (UnimplementedRoleServiceServer) mustEmbedUnimplementedRoleServiceServer() {}
 func (UnimplementedRoleServiceServer) testEmbeddedByValue()                     {}
@@ -256,6 +274,24 @@ func _RoleService_Delete_Handler(srv interface{}, ctx context.Context, dec func(
 	return interceptor(ctx, in, info, handler)
 }
 
+func _RoleService_BatchCreate_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(BatchCreateRolesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(RoleServiceServer).BatchCreate(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: RoleService_BatchCreate_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(RoleServiceServer).BatchCreate(ctx, req.(*BatchCreateRolesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // RoleService_ServiceDesc is the grpc.ServiceDesc for RoleService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -282,6 +318,10 @@ var RoleService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Delete",
 			Handler:    _RoleService_Delete_Handler,
+		},
+		{
+			MethodName: "BatchCreate",
+			Handler:    _RoleService_BatchCreate_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -938,3 +938,275 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = DeleteRoleRequestValidationError{}
+
+// Validate checks the field values on BatchCreateRolesRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *BatchCreateRolesRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on BatchCreateRolesRequest with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// BatchCreateRolesRequestMultiError, or nil if none found.
+func (m *BatchCreateRolesRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *BatchCreateRolesRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	for idx, item := range m.GetData() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, BatchCreateRolesRequestValidationError{
+						field:  fmt.Sprintf("Data[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, BatchCreateRolesRequestValidationError{
+						field:  fmt.Sprintf("Data[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return BatchCreateRolesRequestValidationError{
+					field:  fmt.Sprintf("Data[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	if len(errors) > 0 {
+		return BatchCreateRolesRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// BatchCreateRolesRequestMultiError is an error wrapping multiple validation
+// errors returned by BatchCreateRolesRequest.ValidateAll() if the designated
+// constraints aren't met.
+type BatchCreateRolesRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m BatchCreateRolesRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m BatchCreateRolesRequestMultiError) AllErrors() []error { return m }
+
+// BatchCreateRolesRequestValidationError is the validation error returned by
+// BatchCreateRolesRequest.Validate if the designated constraints aren't met.
+type BatchCreateRolesRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e BatchCreateRolesRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e BatchCreateRolesRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e BatchCreateRolesRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e BatchCreateRolesRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e BatchCreateRolesRequestValidationError) ErrorName() string {
+	return "BatchCreateRolesRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e BatchCreateRolesRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sBatchCreateRolesRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = BatchCreateRolesRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = BatchCreateRolesRequestValidationError{}
+
+// Validate checks the field values on BatchCreateRolesResponse with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *BatchCreateRolesResponse) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on BatchCreateRolesResponse with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// BatchCreateRolesResponseMultiError, or nil if none found.
+func (m *BatchCreateRolesResponse) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *BatchCreateRolesResponse) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	for idx, item := range m.GetData() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, BatchCreateRolesResponseValidationError{
+						field:  fmt.Sprintf("Data[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, BatchCreateRolesResponseValidationError{
+						field:  fmt.Sprintf("Data[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return BatchCreateRolesResponseValidationError{
+					field:  fmt.Sprintf("Data[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	if len(errors) > 0 {
+		return BatchCreateRolesResponseMultiError(errors)
+	}
+
+	return nil
+}
+
+// BatchCreateRolesResponseMultiError is an error wrapping multiple validation
+// errors returned by BatchCreateRolesResponse.ValidateAll() if the designated
+// constraints aren't met.
+type BatchCreateRolesResponseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m BatchCreateRolesResponseMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m BatchCreateRolesResponseMultiError) AllErrors() []error { return m }
+
+// BatchCreateRolesResponseValidationError is the validation error returned by
+// BatchCreateRolesResponse.Validate if the designated constraints aren't met.
+type BatchCreateRolesResponseValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e BatchCreateRolesResponseValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e BatchCreateRolesResponseValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e BatchCreateRolesResponseValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e BatchCreateRolesResponseValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e BatchCreateRolesResponseValidationError) ErrorName() string {
+	return "BatchCreateRolesResponseValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e BatchCreateRolesResponseValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sBatchCreateRolesResponse.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = BatchCreateRolesResponseValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = BatchCreateRolesResponseValidationError{}

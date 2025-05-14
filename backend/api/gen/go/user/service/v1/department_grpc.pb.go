@@ -21,11 +21,12 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	DepartmentService_List_FullMethodName   = "/user.service.v1.DepartmentService/List"
-	DepartmentService_Get_FullMethodName    = "/user.service.v1.DepartmentService/Get"
-	DepartmentService_Create_FullMethodName = "/user.service.v1.DepartmentService/Create"
-	DepartmentService_Update_FullMethodName = "/user.service.v1.DepartmentService/Update"
-	DepartmentService_Delete_FullMethodName = "/user.service.v1.DepartmentService/Delete"
+	DepartmentService_List_FullMethodName        = "/user.service.v1.DepartmentService/List"
+	DepartmentService_Get_FullMethodName         = "/user.service.v1.DepartmentService/Get"
+	DepartmentService_Create_FullMethodName      = "/user.service.v1.DepartmentService/Create"
+	DepartmentService_Update_FullMethodName      = "/user.service.v1.DepartmentService/Update"
+	DepartmentService_Delete_FullMethodName      = "/user.service.v1.DepartmentService/Delete"
+	DepartmentService_BatchCreate_FullMethodName = "/user.service.v1.DepartmentService/BatchCreate"
 )
 
 // DepartmentServiceClient is the client API for DepartmentService service.
@@ -44,6 +45,8 @@ type DepartmentServiceClient interface {
 	Update(ctx context.Context, in *UpdateDepartmentRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	// 删除部门
 	Delete(ctx context.Context, in *DeleteDepartmentRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	// 批量创建部门
+	BatchCreate(ctx context.Context, in *BatchCreateDepartmentsRequest, opts ...grpc.CallOption) (*BatchCreateDepartmentsResponse, error)
 }
 
 type departmentServiceClient struct {
@@ -104,6 +107,16 @@ func (c *departmentServiceClient) Delete(ctx context.Context, in *DeleteDepartme
 	return out, nil
 }
 
+func (c *departmentServiceClient) BatchCreate(ctx context.Context, in *BatchCreateDepartmentsRequest, opts ...grpc.CallOption) (*BatchCreateDepartmentsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(BatchCreateDepartmentsResponse)
+	err := c.cc.Invoke(ctx, DepartmentService_BatchCreate_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // DepartmentServiceServer is the server API for DepartmentService service.
 // All implementations must embed UnimplementedDepartmentServiceServer
 // for forward compatibility.
@@ -120,6 +133,8 @@ type DepartmentServiceServer interface {
 	Update(context.Context, *UpdateDepartmentRequest) (*emptypb.Empty, error)
 	// 删除部门
 	Delete(context.Context, *DeleteDepartmentRequest) (*emptypb.Empty, error)
+	// 批量创建部门
+	BatchCreate(context.Context, *BatchCreateDepartmentsRequest) (*BatchCreateDepartmentsResponse, error)
 	mustEmbedUnimplementedDepartmentServiceServer()
 }
 
@@ -144,6 +159,9 @@ func (UnimplementedDepartmentServiceServer) Update(context.Context, *UpdateDepar
 }
 func (UnimplementedDepartmentServiceServer) Delete(context.Context, *DeleteDepartmentRequest) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Delete not implemented")
+}
+func (UnimplementedDepartmentServiceServer) BatchCreate(context.Context, *BatchCreateDepartmentsRequest) (*BatchCreateDepartmentsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method BatchCreate not implemented")
 }
 func (UnimplementedDepartmentServiceServer) mustEmbedUnimplementedDepartmentServiceServer() {}
 func (UnimplementedDepartmentServiceServer) testEmbeddedByValue()                           {}
@@ -256,6 +274,24 @@ func _DepartmentService_Delete_Handler(srv interface{}, ctx context.Context, dec
 	return interceptor(ctx, in, info, handler)
 }
 
+func _DepartmentService_BatchCreate_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(BatchCreateDepartmentsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DepartmentServiceServer).BatchCreate(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: DepartmentService_BatchCreate_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DepartmentServiceServer).BatchCreate(ctx, req.(*BatchCreateDepartmentsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // DepartmentService_ServiceDesc is the grpc.ServiceDesc for DepartmentService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -282,6 +318,10 @@ var DepartmentService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Delete",
 			Handler:    _DepartmentService_Delete_Handler,
+		},
+		{
+			MethodName: "BatchCreate",
+			Handler:    _DepartmentService_BatchCreate_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

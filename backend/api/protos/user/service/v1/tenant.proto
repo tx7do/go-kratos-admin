@@ -26,6 +26,9 @@ service TenantService {
 
   // 删除租户
   rpc Delete (DeleteTenantRequest) returns (google.protobuf.Empty) {}
+
+  // 批量创建租户
+  rpc BatchCreate ( BatchCreateTenantsRequest ) returns ( BatchCreateTenantsResponse );
 }
 
 // 租户
@@ -121,4 +124,11 @@ message UpdateTenantRequest {
 // 删除租户 - 请求
 message DeleteTenantRequest {
   uint32 id = 1;
+}
+
+message BatchCreateTenantsRequest {
+  repeated Tenant data = 1;
+}
+message BatchCreateTenantsResponse {
+  repeated Tenant data = 1;
 }

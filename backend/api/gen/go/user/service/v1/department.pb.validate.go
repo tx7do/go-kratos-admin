@@ -947,3 +947,277 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = DeleteDepartmentRequestValidationError{}
+
+// Validate checks the field values on BatchCreateDepartmentsRequest with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *BatchCreateDepartmentsRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on BatchCreateDepartmentsRequest with
+// the rules defined in the proto definition for this message. If any rules
+// are violated, the result is a list of violation errors wrapped in
+// BatchCreateDepartmentsRequestMultiError, or nil if none found.
+func (m *BatchCreateDepartmentsRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *BatchCreateDepartmentsRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	for idx, item := range m.GetData() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, BatchCreateDepartmentsRequestValidationError{
+						field:  fmt.Sprintf("Data[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, BatchCreateDepartmentsRequestValidationError{
+						field:  fmt.Sprintf("Data[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return BatchCreateDepartmentsRequestValidationError{
+					field:  fmt.Sprintf("Data[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	if len(errors) > 0 {
+		return BatchCreateDepartmentsRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// BatchCreateDepartmentsRequestMultiError is an error wrapping multiple
+// validation errors returned by BatchCreateDepartmentsRequest.ValidateAll()
+// if the designated constraints aren't met.
+type BatchCreateDepartmentsRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m BatchCreateDepartmentsRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m BatchCreateDepartmentsRequestMultiError) AllErrors() []error { return m }
+
+// BatchCreateDepartmentsRequestValidationError is the validation error
+// returned by BatchCreateDepartmentsRequest.Validate if the designated
+// constraints aren't met.
+type BatchCreateDepartmentsRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e BatchCreateDepartmentsRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e BatchCreateDepartmentsRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e BatchCreateDepartmentsRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e BatchCreateDepartmentsRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e BatchCreateDepartmentsRequestValidationError) ErrorName() string {
+	return "BatchCreateDepartmentsRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e BatchCreateDepartmentsRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sBatchCreateDepartmentsRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = BatchCreateDepartmentsRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = BatchCreateDepartmentsRequestValidationError{}
+
+// Validate checks the field values on BatchCreateDepartmentsResponse with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *BatchCreateDepartmentsResponse) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on BatchCreateDepartmentsResponse with
+// the rules defined in the proto definition for this message. If any rules
+// are violated, the result is a list of violation errors wrapped in
+// BatchCreateDepartmentsResponseMultiError, or nil if none found.
+func (m *BatchCreateDepartmentsResponse) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *BatchCreateDepartmentsResponse) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	for idx, item := range m.GetData() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, BatchCreateDepartmentsResponseValidationError{
+						field:  fmt.Sprintf("Data[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, BatchCreateDepartmentsResponseValidationError{
+						field:  fmt.Sprintf("Data[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return BatchCreateDepartmentsResponseValidationError{
+					field:  fmt.Sprintf("Data[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	if len(errors) > 0 {
+		return BatchCreateDepartmentsResponseMultiError(errors)
+	}
+
+	return nil
+}
+
+// BatchCreateDepartmentsResponseMultiError is an error wrapping multiple
+// validation errors returned by BatchCreateDepartmentsResponse.ValidateAll()
+// if the designated constraints aren't met.
+type BatchCreateDepartmentsResponseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m BatchCreateDepartmentsResponseMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m BatchCreateDepartmentsResponseMultiError) AllErrors() []error { return m }
+
+// BatchCreateDepartmentsResponseValidationError is the validation error
+// returned by BatchCreateDepartmentsResponse.Validate if the designated
+// constraints aren't met.
+type BatchCreateDepartmentsResponseValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e BatchCreateDepartmentsResponseValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e BatchCreateDepartmentsResponseValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e BatchCreateDepartmentsResponseValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e BatchCreateDepartmentsResponseValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e BatchCreateDepartmentsResponseValidationError) ErrorName() string {
+	return "BatchCreateDepartmentsResponseValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e BatchCreateDepartmentsResponseValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sBatchCreateDepartmentsResponse.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = BatchCreateDepartmentsResponseValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = BatchCreateDepartmentsResponseValidationError{}

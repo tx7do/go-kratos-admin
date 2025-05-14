@@ -3,6 +3,7 @@ package data
 import (
 	"encoding/base64"
 	"fmt"
+	authenticationV1 "kratos-admin/api/gen/go/authentication/service/v1"
 	"regexp"
 	"testing"
 
@@ -15,7 +16,6 @@ import (
 	"google.golang.org/genproto/protobuf/field_mask"
 	"google.golang.org/protobuf/proto"
 
-	adminV1 "kratos-admin/api/gen/go/admin/service/v1"
 	userV1 "kratos-admin/api/gen/go/user/service/v1"
 )
 
@@ -105,12 +105,12 @@ func TestMessageNil(t *testing.T) {
 }
 
 func TestAuthEnum(t *testing.T) {
-	fmt.Println(adminV1.GrantType_password.String())
-	fmt.Println(adminV1.GrantType_client_credentials.String())
-	fmt.Println(adminV1.GrantType_refresh_token.String())
+	fmt.Println(authenticationV1.GrantType_password.String())
+	fmt.Println(authenticationV1.GrantType_client_credentials.String())
+	fmt.Println(authenticationV1.GrantType_refresh_token.String())
 
-	fmt.Println(adminV1.TokenType_bearer.String())
-	fmt.Println(adminV1.TokenType_mac.String())
+	fmt.Println(authenticationV1.TokenType_bearer.String())
+	fmt.Println(authenticationV1.TokenType_mac.String())
 }
 
 func TestDecryptAES(t *testing.T) {

@@ -1,0 +1,44 @@
+syntax = "proto3";
+
+package authentication.service.v1;
+
+import "errors/errors.proto";
+
+// 认证错误定义
+enum AuthenticationErrorReason {
+    option (errors.default_code) = 500;
+
+    // common error
+    METHOD_NOT_ALLOWED = 0 [(errors.code) = 405]; // 405
+    REQUEST_TIMEOUT = 1 [(errors.code) = 408]; // 408
+    INTERNAL_SERVER_ERROR = 2 [(errors.code) = 500]; // 500
+    NOT_IMPLEMENTED = 3 [(errors.code) = 501]; // 501
+    NETWORK_ERROR = 4 [(errors.code) = 502]; // 502
+    SERVICE_UNAVAILABLE = 5 [(errors.code) = 503]; // 503
+    NETWORK_TIMEOUT = 6 [(errors.code) = 504]; // 504
+    REQUEST_NOT_SUPPORT = 7 [(errors.code) = 505]; // 505
+
+    // 400
+    BAD_REQUEST = 100 [(errors.code) = 400];// 400
+    INVALID_GRANT_TYPE = 101 [(errors.code) = 400];// 400
+    INVALID_USERID = 102 [(errors.code) = 400];// 用户ID无效
+    INVALID_TOKEN = 103 [(errors.code) = 400];// token无效
+    INVALID_PASSWORD = 104 [(errors.code) = 400];// 密码无效
+
+    // 404
+    RESOURCE_NOT_FOUND = 200 [(errors.code) = 404]; // 404
+    USER_NOT_FOUND = 201 [(errors.code) = 404]; // 用户不存在
+
+    // 401
+    NOT_LOGGED_IN = 300 [(errors.code) = 401];
+    USER_FREEZE = 301 [(errors.code) = 401]; // 用户被冻结
+    INCORRECT_PASSWORD = 302 [(errors.code) = 401]; // 密码错误
+    INCORRECT_APP_SECRET = 303 [(errors.code) = 401];// 密钥错误
+    INCORRECT_ACCESS_TOKEN = 304 [(errors.code) = 401];// 访问令牌错误
+    INCORRECT_REFRESH_TOKEN = 305 [(errors.code) = 401];// 刷新令牌错误
+    TOKEN_EXPIRED = 306 [(errors.code) = 401];// token过期
+    TOKEN_NOT_EXIST = 307 [(errors.code) = 401];// token不存在
+
+    // 403
+    ACCESS_FORBIDDEN = 400 [(errors.code) = 403];
+}

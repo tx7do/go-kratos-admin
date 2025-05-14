@@ -3,11 +3,13 @@ package data
 import (
 	"context"
 	"testing"
+	"time"
 
 	"github.com/go-kratos/kratos/v2/log"
 	"github.com/stretchr/testify/assert"
-
+	"github.com/tx7do/go-utils/trans"
 	conf "github.com/tx7do/kratos-bootstrap/api/gen/go/conf/v1"
+	"google.golang.org/protobuf/types/known/durationpb"
 )
 
 func TestUserTokenCache(t *testing.T) {
@@ -21,8 +23,12 @@ func TestUserTokenCache(t *testing.T) {
 			Rest: &conf.Server_REST{
 				Middleware: &conf.Middleware{
 					Auth: &conf.Middleware_Auth{
-						Method: "HS256",
-						Key:    "some_api_key",
+						Method:                "HS256",
+						Key:                   "some_api_key",
+						AccessTokenKeyPrefix:  trans.Ptr("aat_"),
+						RefreshTokenKeyPrefix: trans.Ptr("art_"),
+						AccessTokenExpires:    durationpb.New(0 * time.Second),
+						RefreshTokenExpires:   durationpb.New(0 * time.Second),
 					},
 				},
 			},
@@ -41,7 +47,7 @@ func TestUserTokenCache(t *testing.T) {
 	rdb := NewRedisClient(cfg, l)
 	assert.NotNil(t, rdb)
 
-	repo := NewUserTokenRepo(l, rdb, authenticator)
+	repo := NewUserTokenRepo(l, rdb, authenticator, cfg)
 	assert.NotNil(t, repo)
 
 	var userId uint32 = 0

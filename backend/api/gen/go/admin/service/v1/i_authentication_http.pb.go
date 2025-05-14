@@ -11,7 +11,8 @@ import (
 	http "github.com/go-kratos/kratos/v2/transport/http"
 	binding "github.com/go-kratos/kratos/v2/transport/http/binding"
 	emptypb "google.golang.org/protobuf/types/known/emptypb"
-	v1 "kratos-admin/api/gen/go/user/service/v1"
+	v1 "kratos-admin/api/gen/go/authentication/service/v1"
+	v11 "kratos-admin/api/gen/go/user/service/v1"
 )
 
 // This is a compile-time assertion to ensure that this generated file
@@ -28,13 +29,13 @@ const OperationAuthenticationServiceRefreshToken = "/admin.service.v1.Authentica
 
 type AuthenticationServiceHTTPServer interface {
 	// GetMe 后台获取已经登录的用户的数据
-	GetMe(context.Context, *GetMeRequest) (*v1.User, error)
+	GetMe(context.Context, *v1.GetMeRequest) (*v11.User, error)
 	// Login 登录
-	Login(context.Context, *LoginRequest) (*LoginResponse, error)
+	Login(context.Context, *v1.LoginRequest) (*v1.LoginResponse, error)
 	// Logout 登出
-	Logout(context.Context, *LogoutRequest) (*emptypb.Empty, error)
+	Logout(context.Context, *v1.LogoutRequest) (*emptypb.Empty, error)
 	// RefreshToken 刷新认证令牌
-	RefreshToken(context.Context, *LoginRequest) (*LoginResponse, error)
+	RefreshToken(context.Context, *v1.LoginRequest) (*v1.LoginResponse, error)
 }
 
 func RegisterAuthenticationServiceHTTPServer(s *http.Server, srv AuthenticationServiceHTTPServer) {
@@ -47,7 +48,7 @@ func RegisterAuthenticationServiceHTTPServer(s *http.Server, srv AuthenticationS
 
 func _AuthenticationService_Login0_HTTP_Handler(srv AuthenticationServiceHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
-		var in LoginRequest
+		var in v1.LoginRequest
 		if err := ctx.Bind(&in); err != nil {
 			return err
 		}
@@ -56,20 +57,20 @@ func _AuthenticationService_Login0_HTTP_Handler(srv AuthenticationServiceHTTPSer
 		}
 		http.SetOperation(ctx, OperationAuthenticationServiceLogin)
 		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
-			return srv.Login(ctx, req.(*LoginRequest))
+			return srv.Login(ctx, req.(*v1.LoginRequest))
 		})
 		out, err := h(ctx, &in)
 		if err != nil {
 			return err
 		}
-		reply := out.(*LoginResponse)
+		reply := out.(*v1.LoginResponse)
 		return ctx.Result(200, reply)
 	}
 }
 
 func _AuthenticationService_Logout0_HTTP_Handler(srv AuthenticationServiceHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
-		var in LogoutRequest
+		var in v1.LogoutRequest
 		if err := ctx.Bind(&in); err != nil {
 			return err
 		}
@@ -78,7 +79,7 @@ func _AuthenticationService_Logout0_HTTP_Handler(srv AuthenticationServiceHTTPSe
 		}
 		http.SetOperation(ctx, OperationAuthenticationServiceLogout)
 		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
-			return srv.Logout(ctx, req.(*LogoutRequest))
+			return srv.Logout(ctx, req.(*v1.LogoutRequest))
 		})
 		out, err := h(ctx, &in)
 		if err != nil {
@@ -91,7 +92,7 @@ func _AuthenticationService_Logout0_HTTP_Handler(srv AuthenticationServiceHTTPSe
 
 func _AuthenticationService_RefreshToken0_HTTP_Handler(srv AuthenticationServiceHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
-		var in LoginRequest
+		var in v1.LoginRequest
 		if err := ctx.Bind(&in); err != nil {
 			return err
 		}
@@ -100,41 +101,41 @@ func _AuthenticationService_RefreshToken0_HTTP_Handler(srv AuthenticationService
 		}
 		http.SetOperation(ctx, OperationAuthenticationServiceRefreshToken)
 		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
-			return srv.RefreshToken(ctx, req.(*LoginRequest))
+			return srv.RefreshToken(ctx, req.(*v1.LoginRequest))
 		})
 		out, err := h(ctx, &in)
 		if err != nil {
 			return err
 		}
-		reply := out.(*LoginResponse)
+		reply := out.(*v1.LoginResponse)
 		return ctx.Result(200, reply)
 	}
 }
 
 func _AuthenticationService_GetMe0_HTTP_Handler(srv AuthenticationServiceHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
-		var in GetMeRequest
+		var in v1.GetMeRequest
 		if err := ctx.BindQuery(&in); err != nil {
 			return err
 		}
 		http.SetOperation(ctx, OperationAuthenticationServiceGetMe)
 		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
-			return srv.GetMe(ctx, req.(*GetMeRequest))
+			return srv.GetMe(ctx, req.(*v1.GetMeRequest))
 		})
 		out, err := h(ctx, &in)
 		if err != nil {
 			return err
 		}
-		reply := out.(*v1.User)
+		reply := out.(*v11.User)
 		return ctx.Result(200, reply)
 	}
 }
 
 type AuthenticationServiceHTTPClient interface {
-	GetMe(ctx context.Context, req *GetMeRequest, opts ...http.CallOption) (rsp *v1.User, err error)
-	Login(ctx context.Context, req *LoginRequest, opts ...http.CallOption) (rsp *LoginResponse, err error)
-	Logout(ctx context.Context, req *LogoutRequest, opts ...http.CallOption) (rsp *emptypb.Empty, err error)
-	RefreshToken(ctx context.Context, req *LoginRequest, opts ...http.CallOption) (rsp *LoginResponse, err error)
+	GetMe(ctx context.Context, req *v1.GetMeRequest, opts ...http.CallOption) (rsp *v11.User, err error)
+	Login(ctx context.Context, req *v1.LoginRequest, opts ...http.CallOption) (rsp *v1.LoginResponse, err error)
+	Logout(ctx context.Context, req *v1.LogoutRequest, opts ...http.CallOption) (rsp *emptypb.Empty, err error)
+	RefreshToken(ctx context.Context, req *v1.LoginRequest, opts ...http.CallOption) (rsp *v1.LoginResponse, err error)
 }
 
 type AuthenticationServiceHTTPClientImpl struct {
@@ -145,8 +146,8 @@ func NewAuthenticationServiceHTTPClient(client *http.Client) AuthenticationServi
 	return &AuthenticationServiceHTTPClientImpl{client}
 }
 
-func (c *AuthenticationServiceHTTPClientImpl) GetMe(ctx context.Context, in *GetMeRequest, opts ...http.CallOption) (*v1.User, error) {
-	var out v1.User
+func (c *AuthenticationServiceHTTPClientImpl) GetMe(ctx context.Context, in *v1.GetMeRequest, opts ...http.CallOption) (*v11.User, error) {
+	var out v11.User
 	pattern := "/admin/v1/me"
 	path := binding.EncodeURL(pattern, in, true)
 	opts = append(opts, http.Operation(OperationAuthenticationServiceGetMe))
@@ -158,8 +159,8 @@ func (c *AuthenticationServiceHTTPClientImpl) GetMe(ctx context.Context, in *Get
 	return &out, nil
 }
 
-func (c *AuthenticationServiceHTTPClientImpl) Login(ctx context.Context, in *LoginRequest, opts ...http.CallOption) (*LoginResponse, error) {
-	var out LoginResponse
+func (c *AuthenticationServiceHTTPClientImpl) Login(ctx context.Context, in *v1.LoginRequest, opts ...http.CallOption) (*v1.LoginResponse, error) {
+	var out v1.LoginResponse
 	pattern := "/admin/v1/login"
 	path := binding.EncodeURL(pattern, in, false)
 	opts = append(opts, http.Operation(OperationAuthenticationServiceLogin))
@@ -171,7 +172,7 @@ func (c *AuthenticationServiceHTTPClientImpl) Login(ctx context.Context, in *Log
 	return &out, nil
 }
 
-func (c *AuthenticationServiceHTTPClientImpl) Logout(ctx context.Context, in *LogoutRequest, opts ...http.CallOption) (*emptypb.Empty, error) {
+func (c *AuthenticationServiceHTTPClientImpl) Logout(ctx context.Context, in *v1.LogoutRequest, opts ...http.CallOption) (*emptypb.Empty, error) {
 	var out emptypb.Empty
 	pattern := "/admin/v1/logout"
 	path := binding.EncodeURL(pattern, in, false)
@@ -184,8 +185,8 @@ func (c *AuthenticationServiceHTTPClientImpl) Logout(ctx context.Context, in *Lo
 	return &out, nil
 }
 
-func (c *AuthenticationServiceHTTPClientImpl) RefreshToken(ctx context.Context, in *LoginRequest, opts ...http.CallOption) (*LoginResponse, error) {
-	var out LoginResponse
+func (c *AuthenticationServiceHTTPClientImpl) RefreshToken(ctx context.Context, in *v1.LoginRequest, opts ...http.CallOption) (*v1.LoginResponse, error) {
+	var out v1.LoginResponse
 	pattern := "/admin/v1/refresh_token"
 	path := binding.EncodeURL(pattern, in, false)
 	opts = append(opts, http.Operation(OperationAuthenticationServiceRefreshToken))

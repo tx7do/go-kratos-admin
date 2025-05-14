@@ -3,6 +3,7 @@ package logging
 import (
 	"fmt"
 	"io"
+	authenticationV1 "kratos-admin/api/gen/go/authentication/service/v1"
 	"net"
 	"strings"
 
@@ -17,8 +18,6 @@ import (
 	authnEngine "github.com/tx7do/kratos-authn/engine"
 
 	"kratos-admin/pkg/middleware/auth"
-
-	adminV1 "kratos-admin/api/gen/go/admin/service/v1"
 )
 
 var ipClient = qqwry.NewClient()
@@ -204,10 +203,10 @@ func BindLoginRequest(r *http.Request) (string, error) {
 	}
 	defer r.Body.Close()
 
-	var loginRequest adminV1.LoginRequest
+	var loginRequest authenticationV1.LoginRequest
 	if err = json.Unmarshal(body, &loginRequest); err == nil {
 		//fmt.Println("BindLoginRequest Unmarshal JSON failed", err)
-		return loginRequest.Username, nil
+		return loginRequest.GetUsername(), nil
 	}
 
 	if values, err := url.ParseQuery(string(body)); err == nil {

@@ -1,0 +1,163 @@
+syntax = "proto3";
+
+package authentication.service.v1;
+
+import "gnostic/openapi/v3/annotations.proto";
+
+import "google/protobuf/empty.proto";
+
+import "google/api/annotations.proto";
+import "google/api/field_behavior.proto";
+
+import "user/service/v1/user.proto";
+
+// 用户登录认证服务
+service AuthenticationService {
+  // 用户登录
+  rpc Login (LoginRequest) returns (LoginResponse) {}
+
+  // 用户登出
+  rpc Logout (LogoutRequest) returns (google.protobuf.Empty) {}
+
+  // 刷新认证令牌
+  rpc RefreshToken (LoginRequest) returns (LoginResponse) {}
+
+  // 获取已经登录的用户数据
+  rpc GetMe (GetMeRequest) returns (user.service.v1.User) {}
+}
+
+// 授权类型
+enum GrantType {
+  password = 0; // 密码模式（Resource Owner Password Credentials Grant）
+  client_credentials = 1; // 客户端模式（Client Credentials Grant）
+  authorization_code = 2; // 授权码模式（Authorization Code Grant）
+  refresh_token = 3;  // 刷新令牌 (Refresh Token)
+  implicit = 4;  // 简化模式 (Implicit Grant)
+}
+
+// 令牌类型
+enum TokenType {
+  bearer = 0; //
+  mac = 1; //
+}
+
+// 用户后台登录 - 请求
+message LoginRequest {
+  string grant_type = 1 [
+    json_name = "grant_type",
+    (google.api.field_behavior) = REQUIRED,
+    (gnostic.openapi.v3.property) = {
+      description: "授权类型，此处的值固定为\"password\"，必选项。",
+      default: {string: "password"}
+    }
+  ]; // 授权类型，此处的值固定为"password"，必选项。
+
+  optional string client_id = 2 [
+    json_name = "client_id",
+    (gnostic.openapi.v3.property) = {
+      description: "客户端ID"
+    }
+  ];
+  optional string client_secret = 3 [
+    json_name = "client_secret",
+    (gnostic.openapi.v3.property) = {
+      description: "客户端密钥"
+    }
+  ];
+
+  optional string scope = 4 [
+    json_name = "scope",
+    (gnostic.openapi.v3.property) = {
+      description: "以空格分隔的用户授予范围列表。如果未提供，scope则授权任何范围，默认为空列表。"
+    }
+  ]; // 以空格分隔的范围列表。如果未提供，scope则授权任何范围，默认为空列表。
+
+  optional string redirect_uri = 5 [
+    json_name = "redirect_uri",
+    (gnostic.openapi.v3.property) = {
+      description: "跳转链接"
+    }
+  ]; // 跳转链接
+
+  optional string username = 10 [
+    json_name = "username"
+  ]; // 用户名，必选项。
+
+  optional string password = 11 [
+    json_name = "password"
+  ]; // 用户的密码，必选项。
+
+  optional string refresh_token = 20 [
+    json_name = "refresh_token",
+    (gnostic.openapi.v3.property) = {
+      description: "更新令牌，用来获取下一次的访问令牌，可选项。如果访问令牌将过期，则返回刷新令牌很有用，应用程序可以使用该刷新令牌来获取另一个访问令牌。但是，通过隐式授予颁发的令牌不能颁发刷新令牌。"
+    }
+  ]; // 更新令牌，用来获取下一次的访问令牌，必选项。
+
+  optional string code = 30 [
+    json_name = "code",
+    (gnostic.openapi.v3.property) = {
+      description: "授权请求中收到的一次性验证/认证码。(当使用授权码模式时)"
+    }
+  ]; // 授权请求中收到的一次性验证/认证码。(当使用授权码模式时)
+
+  optional uint32 operator_id = 100 [
+    (gnostic.openapi.v3.property) = {description: "操作用户ID", read_only: true},
+    json_name = "operatorId"
+  ]; // 操作用户ID
+}
+
+// 用户后台登录 - 回应
+message LoginResponse {
+  string access_token = 1 [
+    json_name = "access_token",
+    (gnostic.openapi.v3.property) = {
+      description: "访问令牌，必选项。授权服务器颁发的访问令牌字符串。"
+    }
+  ]; // 访问令牌，必选项。
+
+  string refresh_token = 2 [
+    json_name = "refresh_token",
+    (gnostic.openapi.v3.property) = {
+      description: "更新令牌，用来获取下一次的访问令牌，可选项。如果访问令牌将过期，则返回刷新令牌很有用，应用程序可以使用该刷新令牌来获取另一个访问令牌。但是，通过隐式授予颁发的令牌不能颁发刷新令牌。"
+    }
+  ]; // 更新令牌，用来获取下一次的访问令牌，可选项。
+
+  string token_type = 3 [
+    json_name = "token_type",
+    (gnostic.openapi.v3.property) = {
+      description: "令牌的类型，该值大小写不敏感，必选项，可以是bearer类型或mac类型，通常只是字符串“Bearer”。",
+      default: {string: "Bearer"}
+    }
+  ]; // 令牌类型，该值大小写不敏感，必选项，可以是bearer类型或mac类型。
+
+  optional int64 expires_in = 4 [
+    json_name = "expires_in",
+    (gnostic.openapi.v3.property) = {
+      description: "令牌有效时间，单位为秒。如果访问令牌过期，服务器应回复授予访问令牌的持续时间。如果省略该参数，必须其他方式设置过期时间。"
+    }
+  ]; // 令牌有效时间，单位为秒。如果访问令牌过期，服务器应回复授予访问令牌的持续时间。如果省略该参数，必须其他方式设置过期时间。
+
+  optional string scope = 5 [
+    json_name = "scope",
+    (gnostic.openapi.v3.property) = {
+      description: "以空格分隔的用户授予范围列表。如果未提供，scope则授权任何范围，默认为空列表。"
+    }
+  ]; // 以空格分隔的用户授予范围列表。如果未提供，scope则授权任何范围，默认为空列表。
+}
+
+// 用户后台登出 - 请求
+message LogoutRequest {
+  optional uint32 operator_id = 1 [
+    (gnostic.openapi.v3.property) = {description: "操作用户ID", read_only: true},
+    json_name = "operatorId"
+  ]; // 操作用户ID
+}
+
+// 获取当前用户信息 - 请求
+message GetMeRequest {
+  optional uint32 operator_id = 1 [
+    (gnostic.openapi.v3.property) = {description: "操作用户ID", read_only: true},
+    json_name = "operatorId"
+  ]; // 操作用户ID
+}

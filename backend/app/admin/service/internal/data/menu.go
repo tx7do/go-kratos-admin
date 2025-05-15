@@ -241,11 +241,14 @@ func (r *MenuRepo) Create(ctx context.Context, req *systemV1.CreateMenuRequest, 
 		SetNillableName(req.Data.Name).
 		SetNillableComponent(req.Data.Component).
 		SetNillableStatus(r.convertUserStatusToEnt(req.Data.Status)).
-		SetNillableCreateBy(trans.Ptr(operator.UserId)).
 		SetNillableCreateTime(timeutil.TimestamppbToTime(req.Data.CreateTime))
 
 	if req.Data.CreateTime == nil {
 		builder.SetCreateTime(time.Now())
+	}
+
+	if operator != nil {
+		builder.SetCreateBy(operator.UserId)
 	}
 
 	if req.Data.Meta != nil {
@@ -256,8 +259,7 @@ func (r *MenuRepo) Create(ctx context.Context, req *systemV1.CreateMenuRequest, 
 		builder.SetID(req.Data.GetId())
 	}
 
-	err := builder.Exec(ctx)
-	if err != nil {
+	if err := builder.Exec(ctx); err != nil {
 		r.log.Errorf("insert one data failed: %s", err.Error())
 		return err
 	}
@@ -307,11 +309,14 @@ func (r *MenuRepo) Update(ctx context.Context, req *systemV1.UpdateMenuRequest, 
 		SetNillableName(req.Data.Name).
 		SetNillableComponent(req.Data.Component).
 		SetNillableStatus(r.convertUserStatusToEnt(req.Data.Status)).
-		SetNillableUpdateBy(trans.Ptr(operator.UserId)).
 		SetNillableUpdateTime(timeutil.TimestamppbToTime(req.Data.UpdateTime))
 
 	if req.Data.UpdateTime == nil {
 		builder.SetUpdateTime(time.Now())
+	}
+
+	if operator != nil {
+		builder.SetUpdateBy(operator.UserId)
 	}
 
 	if req.Data.Meta != nil {
@@ -326,8 +331,7 @@ func (r *MenuRepo) Update(ctx context.Context, req *systemV1.UpdateMenuRequest, 
 		}
 	}
 
-	err := builder.Exec(ctx)
-	if err != nil {
+	if err := builder.Exec(ctx); err != nil {
 		r.log.Errorf("update one data failed: %s", err.Error())
 		return err
 	}

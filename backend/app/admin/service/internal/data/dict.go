@@ -146,20 +146,26 @@ func (r *DictRepo) Create(ctx context.Context, req *systemV1.CreateDictRequest, 
 		SetNillableSortID(req.Data.SortId).
 		SetNillableStatus((*dict.Status)(req.Data.Status)).
 		SetNillableRemark(req.Data.Remark).
-		SetNillableCreateBy(trans.Ptr(operator.UserId)).
 		SetNillableCreateTime(timeutil.TimestamppbToTime(req.Data.CreateTime))
 
 	if req.Data.CreateTime == nil {
 		builder.SetCreateTime(time.Now())
 	}
 
-	err := builder.Exec(ctx)
-	if err != nil {
+	if operator != nil {
+		builder.SetCreateBy(operator.UserId)
+	}
+
+	if req.Data.Id != nil {
+		builder.SetID(req.Data.GetId())
+	}
+
+	if err := builder.Exec(ctx); err != nil {
 		r.log.Errorf("insert one data failed: %s", err.Error())
 		return err
 	}
 
-	return err
+	return nil
 }
 
 func (r *DictRepo) Update(ctx context.Context, req *systemV1.UpdateDictRequest, operator *auth.UserTokenPayload) error {
@@ -197,11 +203,14 @@ func (r *DictRepo) Update(ctx context.Context, req *systemV1.UpdateDictRequest, 
 		SetNillableSortID(req.Data.SortId).
 		SetNillableStatus((*dict.Status)(req.Data.Status)).
 		SetNillableRemark(req.Data.Remark).
-		SetNillableUpdateBy(trans.Ptr(operator.UserId)).
 		SetNillableUpdateTime(timeutil.TimestamppbToTime(req.Data.UpdateTime))
 
 	if req.Data.UpdateTime == nil {
 		builder.SetUpdateTime(time.Now())
+	}
+
+	if operator != nil {
+		builder.SetUpdateBy(operator.UserId)
 	}
 
 	if req.UpdateMask != nil {
@@ -212,13 +221,12 @@ func (r *DictRepo) Update(ctx context.Context, req *systemV1.UpdateDictRequest, 
 		}
 	}
 
-	err := builder.Exec(ctx)
-	if err != nil {
+	if err := builder.Exec(ctx); err != nil {
 		r.log.Errorf("update one data failed: %s", err.Error())
 		return err
 	}
 
-	return err
+	return nil
 }
 
 func (r *DictRepo) Delete(ctx context.Context, req *systemV1.DeleteDictRequest) (bool, error) {

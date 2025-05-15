@@ -142,7 +142,6 @@ func (r *TenantRepo) Create(ctx context.Context, req *userV1.CreateTenantRequest
 		SetNillableMemberCount(req.Data.MemberCount).
 		SetNillableRemark(req.Data.Remark).
 		SetNillableStatus((*tenant.Status)(req.Data.Status)).
-		SetNillableCreateBy(trans.Ptr(operator.UserId)).
 		SetNillableSubscriptionAt(timeutil.TimestamppbToTime(req.Data.SubscriptionAt)).
 		SetNillableUnsubscribeAt(timeutil.TimestamppbToTime(req.Data.UnsubscribeAt)).
 		SetNillableCreateTime(timeutil.TimestamppbToTime(req.Data.CreateTime))
@@ -151,13 +150,20 @@ func (r *TenantRepo) Create(ctx context.Context, req *userV1.CreateTenantRequest
 		builder.SetCreateTime(time.Now())
 	}
 
-	err := builder.Exec(ctx)
-	if err != nil {
+	if operator != nil {
+		builder.SetCreateBy(operator.UserId)
+	}
+
+	if req.Data.Id != nil {
+		builder.SetID(req.Data.GetId())
+	}
+
+	if err := builder.Exec(ctx); err != nil {
 		r.log.Errorf("insert one data failed: %s", err.Error())
 		return err
 	}
 
-	return err
+	return nil
 }
 
 func (r *TenantRepo) Update(ctx context.Context, req *userV1.UpdateTenantRequest, operator *auth.UserTokenPayload) error {
@@ -190,13 +196,16 @@ func (r *TenantRepo) Update(ctx context.Context, req *userV1.UpdateTenantRequest
 		SetNillableMemberCount(req.Data.MemberCount).
 		SetNillableRemark(req.Data.Remark).
 		SetNillableStatus((*tenant.Status)(req.Data.Status)).
-		SetNillableCreateBy(trans.Ptr(operator.UserId)).
 		SetNillableSubscriptionAt(timeutil.TimestamppbToTime(req.Data.SubscriptionAt)).
 		SetNillableUnsubscribeAt(timeutil.TimestamppbToTime(req.Data.UnsubscribeAt)).
 		SetNillableUpdateTime(timeutil.TimestamppbToTime(req.Data.UpdateTime))
 
 	if req.Data.UpdateTime == nil {
 		builder.SetUpdateTime(time.Now())
+	}
+
+	if operator != nil {
+		builder.SetUpdateBy(operator.UserId)
 	}
 
 	if req.UpdateMask != nil {
@@ -207,13 +216,12 @@ func (r *TenantRepo) Update(ctx context.Context, req *userV1.UpdateTenantRequest
 		}
 	}
 
-	err := builder.Exec(ctx)
-	if err != nil {
+	if err := builder.Exec(ctx); err != nil {
 		r.log.Errorf("update one data failed: %s", err.Error())
 		return err
 	}
 
-	return err
+	return nil
 }
 
 func (r *TenantRepo) Delete(ctx context.Context, req *userV1.DeleteTenantRequest) (bool, error) {

@@ -191,11 +191,18 @@ func (r *DepartmentRepo) Create(ctx context.Context, req *userV1.CreateDepartmen
 		SetNillableSortID(req.Data.SortId).
 		SetNillableRemark(req.Data.Remark).
 		SetNillableStatus((*department.Status)(req.Data.Status)).
-		SetNillableCreateBy(trans.Ptr(operator.UserId)).
 		SetNillableCreateTime(timeutil.TimestamppbToTime(req.Data.CreateTime))
 
 	if req.Data.CreateTime == nil {
 		builder.SetCreateTime(time.Now())
+	}
+
+	if operator != nil {
+		builder.SetCreateBy(operator.UserId)
+	}
+
+	if req.Data.Id != nil {
+		builder.SetID(req.Data.GetId())
 	}
 
 	if err := builder.Exec(ctx); err != nil {
@@ -237,11 +244,14 @@ func (r *DepartmentRepo) Update(ctx context.Context, req *userV1.UpdateDepartmen
 		SetNillableSortID(req.Data.SortId).
 		SetNillableRemark(req.Data.Remark).
 		SetNillableStatus((*department.Status)(req.Data.Status)).
-		SetNillableUpdateBy(trans.Ptr(operator.UserId)).
 		SetNillableUpdateTime(timeutil.TimestamppbToTime(req.Data.UpdateTime))
 
 	if req.Data.UpdateTime == nil {
 		builder.SetUpdateTime(time.Now())
+	}
+
+	if operator != nil {
+		builder.SetUpdateBy(operator.UserId)
 	}
 
 	if req.UpdateMask != nil {

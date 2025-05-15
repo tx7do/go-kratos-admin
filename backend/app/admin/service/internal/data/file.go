@@ -236,20 +236,26 @@ func (r *FileRepo) Create(ctx context.Context, req *fileV1.CreateFileRequest, op
 		SetNillableSizeFormat(req.Data.SizeFormat).
 		SetNillableLinkURL(req.Data.LinkUrl).
 		SetNillableMd5(req.Data.Md5).
-		SetNillableCreateBy(trans.Ptr(operator.UserId)).
 		SetNillableCreateTime(timeutil.TimestamppbToTime(req.Data.CreateTime))
 
 	if req.Data.CreateTime == nil {
 		builder.SetCreateTime(time.Now())
 	}
 
-	err := builder.Exec(ctx)
-	if err != nil {
+	if operator != nil {
+		builder.SetCreateBy(operator.UserId)
+	}
+
+	if req.Data.Id != nil {
+		builder.SetID(req.Data.GetId())
+	}
+
+	if err := builder.Exec(ctx); err != nil {
 		r.log.Errorf("insert one data failed: %s", err.Error())
 		return err
 	}
 
-	return err
+	return nil
 }
 
 func (r *FileRepo) Update(ctx context.Context, req *fileV1.UpdateFileRequest, operator *auth.UserTokenPayload) error {

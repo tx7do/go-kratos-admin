@@ -247,7 +247,6 @@ func (r *UserRepo) Create(ctx context.Context, req *userV1.CreateUserRequest, op
 		SetNillableWorkID(req.Data.WorkId).
 		SetNillablePositionID(req.Data.PositionId).
 		SetNillableTenantID(req.Data.TenantId).
-		SetNillableCreateBy(trans.Ptr(operator.UserId)).
 		SetNillableCreateTime(timeutil.TimestamppbToTime(req.Data.CreateTime))
 
 	if len(req.GetPassword()) > 0 {
@@ -261,8 +260,15 @@ func (r *UserRepo) Create(ctx context.Context, req *userV1.CreateUserRequest, op
 		builder.SetCreateTime(time.Now())
 	}
 
-	err := builder.Exec(ctx)
-	if err != nil {
+	if operator != nil {
+		builder.SetCreateBy(operator.UserId)
+	}
+
+	if req.Data.Id != nil {
+		builder.SetID(req.Data.GetId())
+	}
+
+	if err := builder.Exec(ctx); err != nil {
 		r.log.Errorf("insert one data failed: %s", err.Error())
 		return err
 	}
@@ -316,11 +322,14 @@ func (r *UserRepo) Update(ctx context.Context, req *userV1.UpdateUserRequest, op
 		SetNillableRoleID(req.Data.RoleId).
 		SetNillableWorkID(req.Data.WorkId).
 		SetNillablePositionID(req.Data.PositionId).
-		SetNillableUpdateBy(trans.Ptr(operator.UserId)).
 		SetNillableUpdateTime(timeutil.TimestamppbToTime(req.Data.UpdateTime))
 
 	if req.Data.UpdateTime == nil {
 		builder.SetUpdateTime(time.Now())
+	}
+
+	if operator != nil {
+		builder.SetUpdateBy(operator.UserId)
 	}
 
 	if len(req.GetPassword()) > 0 {
@@ -338,8 +347,7 @@ func (r *UserRepo) Update(ctx context.Context, req *userV1.UpdateUserRequest, op
 		}
 	}
 
-	err := builder.Exec(ctx)
-	if err != nil {
+	if err := builder.Exec(ctx); err != nil {
 		r.log.Errorf("update one data failed: %s", err.Error())
 		return err
 	}

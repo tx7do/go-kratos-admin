@@ -142,24 +142,30 @@ func (r *RoleRepo) Create(ctx context.Context, req *userV1.CreateRoleRequest, op
 		SetNillableCode(req.Data.Code).
 		SetNillableStatus((*role.Status)(req.Data.Status)).
 		SetNillableRemark(req.Data.Remark).
-		SetNillableCreateBy(trans.Ptr(operator.UserId)).
 		SetNillableCreateTime(timeutil.TimestamppbToTime(req.Data.CreateTime))
 
 	if req.Data.CreateTime == nil {
 		builder.SetCreateTime(time.Now())
 	}
 
+	if operator != nil {
+		builder.SetCreateBy(operator.UserId)
+	}
+
 	if req.Data.Menus != nil {
 		builder.SetMenus(req.Data.Menus)
 	}
 
-	err := builder.Exec(ctx)
-	if err != nil {
+	if req.Data.Id != nil {
+		builder.SetID(req.Data.GetId())
+	}
+
+	if err := builder.Exec(ctx); err != nil {
 		r.log.Errorf("insert one data failed: %s", err.Error())
 		return err
 	}
 
-	return err
+	return nil
 }
 
 func (r *RoleRepo) Update(ctx context.Context, req *userV1.UpdateRoleRequest, operator *auth.UserTokenPayload) error {
@@ -193,11 +199,14 @@ func (r *RoleRepo) Update(ctx context.Context, req *userV1.UpdateRoleRequest, op
 		SetNillableCode(req.Data.Code).
 		SetNillableRemark(req.Data.Remark).
 		SetNillableStatus((*role.Status)(req.Data.Status)).
-		SetNillableUpdateBy(trans.Ptr(operator.UserId)).
 		SetNillableUpdateTime(timeutil.TimestamppbToTime(req.Data.UpdateTime))
 
 	if req.Data.UpdateTime == nil {
 		builder.SetUpdateTime(time.Now())
+	}
+
+	if operator != nil {
+		builder.SetUpdateBy(operator.UserId)
 	}
 
 	if req.Data.Menus != nil {
@@ -212,13 +221,12 @@ func (r *RoleRepo) Update(ctx context.Context, req *userV1.UpdateRoleRequest, op
 		}
 	}
 
-	err := builder.Exec(ctx)
-	if err != nil {
+	if err := builder.Exec(ctx); err != nil {
 		r.log.Errorf("update one data failed: %s", err.Error())
 		return err
 	}
 
-	return err
+	return nil
 }
 
 func (r *RoleRepo) Delete(ctx context.Context, req *userV1.DeleteRoleRequest) (bool, error) {

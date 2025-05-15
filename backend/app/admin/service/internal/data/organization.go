@@ -192,20 +192,26 @@ func (r *OrganizationRepo) Create(ctx context.Context, req *userV1.CreateOrganiz
 		SetNillableSortID(req.Data.SortId).
 		SetNillableRemark(req.Data.Remark).
 		SetNillableStatus((*organization.Status)(req.Data.Status)).
-		SetNillableCreateBy(trans.Ptr(operator.UserId)).
 		SetNillableCreateTime(timeutil.TimestamppbToTime(req.Data.CreateTime))
 
 	if req.Data.CreateTime == nil {
 		builder.SetCreateTime(time.Now())
 	}
 
-	err := builder.Exec(ctx)
-	if err != nil {
+	if operator != nil {
+		builder.SetCreateBy(operator.UserId)
+	}
+
+	if req.Data.Id != nil {
+		builder.SetID(req.Data.GetId())
+	}
+
+	if err := builder.Exec(ctx); err != nil {
 		r.log.Errorf("insert one data failed: %s", err.Error())
 		return err
 	}
 
-	return err
+	return nil
 }
 
 func (r *OrganizationRepo) Update(ctx context.Context, req *userV1.UpdateOrganizationRequest, operator *auth.UserTokenPayload) error {
@@ -239,11 +245,14 @@ func (r *OrganizationRepo) Update(ctx context.Context, req *userV1.UpdateOrganiz
 		SetNillableSortID(req.Data.SortId).
 		SetNillableRemark(req.Data.Remark).
 		SetNillableStatus((*organization.Status)(req.Data.Status)).
-		SetNillableUpdateBy(trans.Ptr(operator.UserId)).
 		SetNillableUpdateTime(timeutil.TimestamppbToTime(req.Data.UpdateTime))
 
 	if req.Data.UpdateTime == nil {
 		builder.SetUpdateTime(time.Now())
+	}
+
+	if operator != nil {
+		builder.SetUpdateBy(operator.UserId)
 	}
 
 	if req.UpdateMask != nil {
@@ -254,13 +263,12 @@ func (r *OrganizationRepo) Update(ctx context.Context, req *userV1.UpdateOrganiz
 		}
 	}
 
-	err := builder.Exec(ctx)
-	if err != nil {
+	if err := builder.Exec(ctx); err != nil {
 		r.log.Errorf("update one data failed: %s", err.Error())
 		return err
 	}
 
-	return err
+	return nil
 }
 
 func (r *OrganizationRepo) Delete(ctx context.Context, req *userV1.DeleteOrganizationRequest) (bool, error) {

@@ -198,20 +198,26 @@ func (r *NotificationMessageRepo) Create(ctx context.Context, req *internalMessa
 		SetNillableContent(req.Data.Content).
 		SetNillableCategoryID(req.Data.CategoryId).
 		SetNillableStatus(r.toEntStatus(req.Data.Status)).
-		SetNillableCreateBy(trans.Ptr(operator.UserId)).
 		SetNillableCreateTime(timeutil.TimestamppbToTime(req.Data.CreateTime))
 
 	if req.Data.CreateTime == nil {
 		builder.SetCreateTime(time.Now())
 	}
 
-	err := builder.Exec(ctx)
-	if err != nil {
+	if operator != nil {
+		builder.SetCreateBy(operator.UserId)
+	}
+
+	if req.Data.Id != nil {
+		builder.SetID(req.Data.GetId())
+	}
+
+	if err := builder.Exec(ctx); err != nil {
 		r.log.Errorf("insert one data failed: %s", err.Error())
 		return err
 	}
 
-	return err
+	return nil
 }
 
 func (r *NotificationMessageRepo) Update(ctx context.Context, req *internalMessageV1.UpdateNotificationMessageRequest, operator *auth.UserTokenPayload) error {
@@ -243,11 +249,14 @@ func (r *NotificationMessageRepo) Update(ctx context.Context, req *internalMessa
 		SetNillableContent(req.Data.Content).
 		SetNillableCategoryID(req.Data.CategoryId).
 		SetNillableStatus(r.toEntStatus(req.Data.Status)).
-		SetNillableUpdateBy(trans.Ptr(operator.UserId)).
 		SetNillableUpdateTime(timeutil.TimestamppbToTime(req.Data.UpdateTime))
 
 	if req.Data.UpdateTime == nil {
 		builder.SetUpdateTime(time.Now())
+	}
+
+	if operator != nil {
+		builder.SetUpdateBy(operator.UserId)
 	}
 
 	if req.UpdateMask != nil {
@@ -258,13 +267,12 @@ func (r *NotificationMessageRepo) Update(ctx context.Context, req *internalMessa
 		}
 	}
 
-	err := builder.Exec(ctx)
-	if err != nil {
+	if err := builder.Exec(ctx); err != nil {
 		r.log.Errorf("update one data failed: %s", err.Error())
 		return err
 	}
 
-	return err
+	return nil
 }
 
 func (r *NotificationMessageRepo) Delete(ctx context.Context, req *internalMessageV1.DeleteNotificationMessageRequest) (bool, error) {

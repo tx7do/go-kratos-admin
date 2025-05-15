@@ -212,11 +212,14 @@ func (r *TaskRepo) Create(ctx context.Context, req *systemV1.CreateTaskRequest, 
 		SetNillableProcessAt(timeutil.TimestamppbToTime(req.Data.ProcessAt)).
 		SetNillableEnable(req.Data.Enable).
 		SetNillableRemark(req.Data.Remark).
-		SetNillableCreateBy(trans.Ptr(operator.UserId)).
 		SetNillableCreateTime(timeutil.TimestamppbToTime(req.Data.CreateTime))
 
 	if req.Data.CreateTime == nil {
 		builder.SetCreateTime(time.Now())
+	}
+
+	if operator != nil {
+		builder.SetCreateBy(operator.UserId)
 	}
 
 	if req.Data.Id != nil {
@@ -270,11 +273,14 @@ func (r *TaskRepo) Update(ctx context.Context, req *systemV1.UpdateTaskRequest, 
 		SetNillableProcessAt(timeutil.TimestamppbToTime(req.Data.ProcessAt)).
 		SetNillableEnable(req.Data.Enable).
 		SetNillableRemark(req.Data.Remark).
-		SetNillableUpdateBy(trans.Ptr(operator.UserId)).
 		SetNillableUpdateTime(timeutil.TimestamppbToTime(req.Data.UpdateTime))
 
 	if req.Data.UpdateTime == nil {
 		builder.SetUpdateTime(time.Now())
+	}
+
+	if operator != nil {
+		builder.SetUpdateBy(operator.UserId)
 	}
 
 	if req.UpdateMask != nil {

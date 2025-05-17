@@ -321,9 +321,16 @@ func (r *FileRepo) Update(ctx context.Context, req *fileV1.UpdateFileRequest) er
 	return err
 }
 
-func (r *FileRepo) Delete(ctx context.Context, req *fileV1.DeleteFileRequest) (bool, error) {
-	err := r.data.db.Client().File.
-		DeleteOneID(req.GetId()).
-		Exec(ctx)
-	return err != nil, err
+func (r *FileRepo) Delete(ctx context.Context, req *fileV1.DeleteFileRequest) error {
+	if err := r.data.db.Client().File.DeleteOneID(req.GetId()).Exec(ctx); err != nil {
+		if ent.IsNotFound(err) {
+			return fileV1.ErrorResourceNotFound("file not found")
+		}
+
+		r.log.Errorf("delete one data failed: %s", err.Error())
+
+		return fileV1.ErrorInternalServerError("delete failed")
+	}
+
+	return nil
 }

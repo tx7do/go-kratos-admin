@@ -349,13 +349,16 @@ func (r *MenuRepo) updateMetaField(builder *ent.MenuUpdateOne, meta *systemV1.Ro
 	}
 }
 
-func (r *MenuRepo) Delete(ctx context.Context, req *systemV1.DeleteMenuRequest) (bool, error) {
-	err := r.data.db.Client().Menu.
-		DeleteOneID(req.GetId()).
-		Exec(ctx)
-	if err != nil {
+func (r *MenuRepo) Delete(ctx context.Context, req *systemV1.DeleteMenuRequest) error {
+	if err := r.data.db.Client().Menu.DeleteOneID(req.GetId()).Exec(ctx); err != nil {
+		if ent.IsNotFound(err) {
+			return systemV1.ErrorResourceNotFound("menu not found")
+		}
+
 		r.log.Errorf("delete one data failed: %s", err.Error())
+
+		return systemV1.ErrorInternalServerError("delete failed")
 	}
 
-	return err == nil, err
+	return nil
 }

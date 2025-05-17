@@ -227,9 +227,16 @@ func (r *DictRepo) Update(ctx context.Context, req *systemV1.UpdateDictRequest) 
 	return nil
 }
 
-func (r *DictRepo) Delete(ctx context.Context, req *systemV1.DeleteDictRequest) (bool, error) {
-	err := r.data.db.Client().Dict.
-		DeleteOneID(req.GetId()).
-		Exec(ctx)
-	return err != nil, err
+func (r *DictRepo) Delete(ctx context.Context, req *systemV1.DeleteDictRequest) error {
+	if err := r.data.db.Client().Dict.DeleteOneID(req.GetId()).Exec(ctx); err != nil {
+		if ent.IsNotFound(err) {
+			return systemV1.ErrorResourceNotFound("dict not found")
+		}
+
+		r.log.Errorf("delete one data failed: %s", err.Error())
+
+		return systemV1.ErrorInternalServerError("delete failed")
+	}
+
+	return nil
 }

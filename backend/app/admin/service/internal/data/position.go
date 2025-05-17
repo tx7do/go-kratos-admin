@@ -217,9 +217,16 @@ func (r *PositionRepo) Update(ctx context.Context, req *userV1.UpdatePositionReq
 	return nil
 }
 
-func (r *PositionRepo) Delete(ctx context.Context, req *userV1.DeletePositionRequest) (bool, error) {
-	err := r.data.db.Client().Position.
-		DeleteOneID(req.GetId()).
-		Exec(ctx)
-	return err != nil, err
+func (r *PositionRepo) Delete(ctx context.Context, req *userV1.DeletePositionRequest) error {
+	if err := r.data.db.Client().Position.DeleteOneID(req.GetId()).Exec(ctx); err != nil {
+		if ent.IsNotFound(err) {
+			return userV1.ErrorResourceNotFound("position not found")
+		}
+
+		r.log.Errorf("delete one data failed: %s", err.Error())
+
+		return userV1.ErrorInternalServerError("delete failed")
+	}
+
+	return nil
 }

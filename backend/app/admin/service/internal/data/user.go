@@ -351,15 +351,18 @@ func (r *UserRepo) Update(ctx context.Context, req *userV1.UpdateUserRequest) er
 	return nil
 }
 
-func (r *UserRepo) Delete(ctx context.Context, userId uint32) (bool, error) {
-	err := r.data.db.Client().User.
-		DeleteOneID(userId).
-		Exec(ctx)
-	if err != nil {
+func (r *UserRepo) Delete(ctx context.Context, userId uint32) error {
+	if err := r.data.db.Client().User.DeleteOneID(userId).Exec(ctx); err != nil {
+		if ent.IsNotFound(err) {
+			return userV1.ErrorResourceNotFound("user not found")
+		}
+
 		r.log.Errorf("delete one data failed: %s", err.Error())
+
+		return userV1.ErrorInternalServerError("delete failed")
 	}
 
-	return err == nil, err
+	return nil
 }
 
 func (r *UserRepo) GetUserByUserName(ctx context.Context, userName string) (*userV1.User, error) {

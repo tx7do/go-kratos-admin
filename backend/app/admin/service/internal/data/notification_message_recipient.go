@@ -256,9 +256,16 @@ func (r *NotificationMessageRecipientRepo) Update(ctx context.Context, req *inte
 	return err
 }
 
-func (r *NotificationMessageRecipientRepo) Delete(ctx context.Context, req *internalMessageV1.DeleteNotificationMessageRecipientRequest) (bool, error) {
-	err := r.data.db.Client().NotificationMessageRecipient.
-		DeleteOneID(req.GetId()).
-		Exec(ctx)
-	return err != nil, err
+func (r *NotificationMessageRecipientRepo) Delete(ctx context.Context, req *internalMessageV1.DeleteNotificationMessageRecipientRequest) error {
+	if err := r.data.db.Client().NotificationMessageRecipient.DeleteOneID(req.GetId()).Exec(ctx); err != nil {
+		if ent.IsNotFound(err) {
+			return internalMessageV1.ErrorResourceNotFound("notification message recipient not found")
+		}
+
+		r.log.Errorf("delete one data failed: %s", err.Error())
+
+		return internalMessageV1.ErrorInternalServerError("delete failed")
+	}
+
+	return nil
 }

@@ -263,9 +263,16 @@ func (r *AdminOperationLogRepo) Update(ctx context.Context, req *systemV1.Update
 	return err
 }
 
-func (r *AdminOperationLogRepo) Delete(ctx context.Context, req *systemV1.DeleteAdminOperationLogRequest) (bool, error) {
-	err := r.data.db.Client().AdminOperationLog.
-		DeleteOneID(req.GetId()).
-		Exec(ctx)
-	return err != nil, err
+func (r *AdminOperationLogRepo) Delete(ctx context.Context, req *systemV1.DeleteAdminOperationLogRequest) error {
+	if err := r.data.db.Client().AdminOperationLog.DeleteOneID(req.GetId()).Exec(ctx); err != nil {
+		if ent.IsNotFound(err) {
+			return systemV1.ErrorResourceNotFound("admin operation log not found")
+		}
+
+		r.log.Errorf("delete one data failed: %s", err.Error())
+
+		return systemV1.ErrorInternalServerError("delete failed")
+	}
+
+	return nil
 }

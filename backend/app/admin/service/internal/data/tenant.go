@@ -222,9 +222,16 @@ func (r *TenantRepo) Update(ctx context.Context, req *userV1.UpdateTenantRequest
 	return nil
 }
 
-func (r *TenantRepo) Delete(ctx context.Context, req *userV1.DeleteTenantRequest) (bool, error) {
-	err := r.data.db.Client().Tenant.
-		DeleteOneID(req.GetId()).
-		Exec(ctx)
-	return err != nil, err
+func (r *TenantRepo) Delete(ctx context.Context, req *userV1.DeleteTenantRequest) error {
+	if err := r.data.db.Client().Tenant.DeleteOneID(req.GetId()).Exec(ctx); err != nil {
+		if ent.IsNotFound(err) {
+			return userV1.ErrorResourceNotFound("tenant not found")
+		}
+
+		r.log.Errorf("delete one data failed: %s", err.Error())
+
+		return userV1.ErrorInternalServerError("delete failed")
+	}
+
+	return nil
 }

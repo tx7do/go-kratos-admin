@@ -268,9 +268,16 @@ func (r *OrganizationRepo) Update(ctx context.Context, req *userV1.UpdateOrganiz
 	return nil
 }
 
-func (r *OrganizationRepo) Delete(ctx context.Context, req *userV1.DeleteOrganizationRequest) (bool, error) {
-	err := r.data.db.Client().Organization.
-		DeleteOneID(req.GetId()).
-		Exec(ctx)
-	return err != nil, err
+func (r *OrganizationRepo) Delete(ctx context.Context, req *userV1.DeleteOrganizationRequest) error {
+	if err := r.data.db.Client().Organization.DeleteOneID(req.GetId()).Exec(ctx); err != nil {
+		if ent.IsNotFound(err) {
+			return userV1.ErrorResourceNotFound("organization not found")
+		}
+
+		r.log.Errorf("delete one data failed: %s", err.Error())
+
+		return userV1.ErrorInternalServerError("delete failed")
+	}
+
+	return nil
 }

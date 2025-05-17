@@ -295,13 +295,16 @@ func (r *TaskRepo) Update(ctx context.Context, req *systemV1.UpdateTaskRequest) 
 	return r.convertEntToProto(t), nil
 }
 
-func (r *TaskRepo) Delete(ctx context.Context, req *systemV1.DeleteTaskRequest) (bool, error) {
-	err := r.data.db.Client().Task.
-		DeleteOneID(req.GetId()).
-		Exec(ctx)
-	if err != nil {
+func (r *TaskRepo) Delete(ctx context.Context, req *systemV1.DeleteTaskRequest) error {
+	if err := r.data.db.Client().Task.DeleteOneID(req.GetId()).Exec(ctx); err != nil {
+		if ent.IsNotFound(err) {
+			return systemV1.ErrorResourceNotFound("task not found")
+		}
+
 		r.log.Errorf("delete one data failed: %s", err.Error())
+
+		return systemV1.ErrorInternalServerError("delete failed")
 	}
 
-	return err == nil, err
+	return nil
 }

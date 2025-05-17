@@ -308,13 +308,16 @@ func (r *AdminLoginRestrictionRepo) Update(ctx context.Context, req *adminV1.Upd
 	return nil
 }
 
-func (r *AdminLoginRestrictionRepo) Delete(ctx context.Context, req *adminV1.DeleteAdminLoginRestrictionRequest) (bool, error) {
-	builder := r.data.db.Client().AdminLoginRestriction.Delete()
-	builder.Where(adminloginrestriction.IDEQ(req.GetId()))
-	if affected, err := builder.Exec(ctx); err != nil {
+func (r *AdminLoginRestrictionRepo) Delete(ctx context.Context, req *adminV1.DeleteAdminLoginRestrictionRequest) error {
+	if err := r.data.db.Client().AdminLoginRestriction.DeleteOneID(req.GetId()).Exec(ctx); err != nil {
+		if ent.IsNotFound(err) {
+			return adminV1.ErrorResourceNotFound("admin login restriction not found")
+		}
+
 		r.log.Errorf("delete one data failed: %s", err.Error())
-		return false, err
-	} else {
-		return affected == 1, nil
+
+		return adminV1.ErrorInternalServerError("delete failed")
 	}
+
+	return nil
 }

@@ -110,9 +110,11 @@ func (r *NotificationMessageRepo) convertEntToProto(in *ent.NotificationMessage)
 		Content:    in.Content,
 		CategoryId: in.CategoryID,
 		Status:     r.toProtoStatus(in.Status),
-		CreateTime: timeutil.TimeToTimestamppb(in.CreateTime),
-		UpdateTime: timeutil.TimeToTimestamppb(in.UpdateTime),
-		DeleteTime: timeutil.TimeToTimestamppb(in.DeleteTime),
+		CreateBy:   in.CreateBy,
+		UpdateBy:   in.UpdateBy,
+		CreateTime: timeutil.TimeToTimeString(in.CreateTime),
+		UpdateTime: timeutil.TimeToTimeString(in.UpdateTime),
+		DeleteTime: timeutil.TimeToTimeString(in.DeleteTime),
 	}
 }
 
@@ -198,7 +200,7 @@ func (r *NotificationMessageRepo) Create(ctx context.Context, req *internalMessa
 		SetNillableContent(req.Data.Content).
 		SetNillableCategoryID(req.Data.CategoryId).
 		SetNillableStatus(r.toEntStatus(req.Data.Status)).
-		SetNillableCreateTime(timeutil.TimestamppbToTime(req.Data.CreateTime))
+		SetNillableCreateTime(timeutil.StringTimeToTime(req.Data.CreateTime))
 
 	if req.Data.CreateTime == nil {
 		builder.SetCreateTime(time.Now())
@@ -249,7 +251,7 @@ func (r *NotificationMessageRepo) Update(ctx context.Context, req *internalMessa
 		SetNillableContent(req.Data.Content).
 		SetNillableCategoryID(req.Data.CategoryId).
 		SetNillableStatus(r.toEntStatus(req.Data.Status)).
-		SetNillableUpdateTime(timeutil.TimestamppbToTime(req.Data.UpdateTime))
+		SetNillableUpdateTime(timeutil.StringTimeToTime(req.Data.UpdateTime))
 
 	if req.Data.UpdateTime == nil {
 		builder.SetUpdateTime(time.Now())

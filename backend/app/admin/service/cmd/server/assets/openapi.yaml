@@ -2481,15 +2481,12 @@ components:
                 createTime:
                     type: string
                     description: 创建时间
-                    format: date-time
                 updateTime:
                     type: string
                     description: 更新时间
-                    format: date-time
                 deleteTime:
                     type: string
                     description: 删除时间
-                    format: date-time
             description: 后台登录日志
         AdminLoginRestriction:
             type: object
@@ -2630,15 +2627,12 @@ components:
                 createTime:
                     type: string
                     description: 创建时间
-                    format: date-time
                 updateTime:
                     type: string
                     description: 更新时间
-                    format: date-time
                 deleteTime:
                     type: string
                     description: 删除时间
-                    format: date-time
             description: 后台操作日志
         ControlTaskRequest:
             type: object
@@ -2765,14 +2759,6 @@ components:
                 organizationName:
                     type: string
                     description: 所属组织名称
-                createBy:
-                    type: integer
-                    description: 创建者ID
-                    format: uint32
-                updateBy:
-                    type: integer
-                    description: 更新者ID
-                    format: uint32
                 sortId:
                     type: integer
                     description: 排序编号
@@ -2796,18 +2782,23 @@ components:
                     items:
                         $ref: '#/components/schemas/Department'
                     description: 子节点树
+                createBy:
+                    type: integer
+                    description: 创建者ID
+                    format: uint32
+                updateBy:
+                    type: integer
+                    description: 更新者ID
+                    format: uint32
                 createTime:
                     type: string
                     description: 创建时间
-                    format: date-time
                 updateTime:
                     type: string
                     description: 更新时间
-                    format: date-time
                 deleteTime:
                     type: string
                     description: 删除时间
-                    format: date-time
             description: 部门
         Dict:
             type: object
@@ -2859,15 +2850,12 @@ components:
                 createTime:
                     type: string
                     description: 创建时间
-                    format: date-time
                 updateTime:
                     type: string
                     description: 更新时间
-                    format: date-time
                 deleteTime:
                     type: string
                     description: 删除时间
-                    format: date-time
             description: 字典
         File:
             type: object
@@ -2922,18 +2910,23 @@ components:
                 md5:
                     type: string
                     description: md5码，防止上传重复文件
+                createBy:
+                    type: integer
+                    description: 创建者ID
+                    format: uint32
+                updateBy:
+                    type: integer
+                    description: 更新者ID
+                    format: uint32
                 createTime:
                     type: string
                     description: 创建时间
-                    format: date-time
                 updateTime:
                     type: string
                     description: 更新时间
-                    format: date-time
                 deleteTime:
                     type: string
                     description: 删除时间
-                    format: date-time
             description: 文件
         KratosStatus:
             type: object
@@ -3284,15 +3277,12 @@ components:
                 createTime:
                     type: string
                     description: 创建时间
-                    format: date-time
                 updateTime:
                     type: string
                     description: 更新时间
-                    format: date-time
                 deleteTime:
                     type: string
                     description: 删除时间
-                    format: date-time
             description: 菜单
         NotificationMessage:
             type: object
@@ -3326,18 +3316,23 @@ components:
                 categoryName:
                     type: string
                     description: 分类名称
+                createBy:
+                    type: integer
+                    description: 创建者ID
+                    format: uint32
+                updateBy:
+                    type: integer
+                    description: 更新者ID
+                    format: uint32
                 createTime:
                     type: string
                     description: 创建时间
-                    format: date-time
                 updateTime:
                     type: string
                     description: 更新时间
-                    format: date-time
                 deleteTime:
                     type: string
                     description: 删除时间
-                    format: date-time
             description: 通知消息
         NotificationMessageCategory:
             type: object
@@ -3368,18 +3363,23 @@ components:
                     items:
                         $ref: '#/components/schemas/NotificationMessageCategory'
                     description: 子节点树
+                createBy:
+                    type: integer
+                    description: 创建者ID
+                    format: uint32
+                updateBy:
+                    type: integer
+                    description: 更新者ID
+                    format: uint32
                 createTime:
                     type: string
                     description: 创建时间
-                    format: date-time
                 updateTime:
                     type: string
                     description: 更新时间
-                    format: date-time
                 deleteTime:
                     type: string
                     description: 删除时间
-                    format: date-time
             description: 通知消息分类
         NotificationMessageRecipient:
             type: object
@@ -3406,18 +3406,23 @@ components:
                     type: string
                     description: 消息状态
                     format: enum
+                createBy:
+                    type: integer
+                    description: 创建者ID
+                    format: uint32
+                updateBy:
+                    type: integer
+                    description: 更新者ID
+                    format: uint32
                 createTime:
                     type: string
                     description: 创建时间
-                    format: date-time
                 updateTime:
                     type: string
                     description: 更新时间
-                    format: date-time
                 deleteTime:
                     type: string
                     description: 删除时间
-                    format: date-time
             description: 通知消息接收者
         Organization:
             type: object
@@ -3440,14 +3445,6 @@ components:
                     type: string
                     default: ON
                     description: 状态
-                createBy:
-                    type: integer
-                    description: 创建者ID
-                    format: uint32
-                updateBy:
-                    type: integer
-                    description: 更新者ID
-                    format: uint32
                 remark:
                     type: string
                     description: 备注
@@ -3460,18 +3457,23 @@ components:
                     items:
                         $ref: '#/components/schemas/Organization'
                     description: 子节点树
+                createBy:
+                    type: integer
+                    description: 创建者ID
+                    format: uint32
+                updateBy:
+                    type: integer
+                    description: 更新者ID
+                    format: uint32
                 createTime:
                     type: string
                     description: 创建时间
-                    format: date-time
                 updateTime:
                     type: string
                     description: 更新时间
-                    format: date-time
                 deleteTime:
                     type: string
                     description: 删除时间
-                    format: date-time
             description: 组织
         OssUploadUrlRequest:
             type: object
@@ -3544,14 +3546,6 @@ components:
                 remark:
                     type: string
                     description: 备注
-                createBy:
-                    type: integer
-                    description: 创建者ID
-                    format: uint32
-                updateBy:
-                    type: integer
-                    description: 更新者ID
-                    format: uint32
                 parentId:
                     type: integer
                     description: 父节点ID
@@ -3561,18 +3555,23 @@ components:
                     items:
                         $ref: '#/components/schemas/Position'
                     description: 子节点树
+                createBy:
+                    type: integer
+                    description: 创建者ID
+                    format: uint32
+                updateBy:
+                    type: integer
+                    description: 更新者ID
+                    format: uint32
                 createTime:
                     type: string
                     description: 创建时间
-                    format: date-time
                 updateTime:
                     type: string
                     description: 更新时间
-                    format: date-time
                 deleteTime:
                     type: string
                     description: 删除时间
-                    format: date-time
             description: 职位
         PrivateMessage:
             type: object
@@ -3622,15 +3621,12 @@ components:
                 createTime:
                     type: string
                     description: 创建时间
-                    format: date-time
                 updateTime:
                     type: string
                     description: 更新时间
-                    format: date-time
                 deleteTime:
                     type: string
                     description: 删除时间
-                    format: date-time
             description: 私信消息
         RestartAllTaskResponse:
             type: object
@@ -3672,14 +3668,6 @@ components:
                         type: integer
                         format: uint32
                     description: 分配的菜单列表
-                createBy:
-                    type: integer
-                    description: 创建者ID
-                    format: uint32
-                updateBy:
-                    type: integer
-                    description: 更新者ID
-                    format: uint32
                 parentId:
                     type: integer
                     description: 父节点ID
@@ -3689,18 +3677,23 @@ components:
                     items:
                         $ref: '#/components/schemas/Role'
                     description: 子节点树
+                createBy:
+                    type: integer
+                    description: 创建者ID
+                    format: uint32
+                updateBy:
+                    type: integer
+                    description: 更新者ID
+                    format: uint32
                 createTime:
                     type: string
                     description: 创建时间
-                    format: date-time
                 updateTime:
                     type: string
                     description: 更新时间
-                    format: date-time
                 deleteTime:
                     type: string
                     description: 删除时间
-                    format: date-time
             description: 角色
         RouteItem:
             type: object
@@ -3876,15 +3869,12 @@ components:
                 createTime:
                     type: string
                     description: 创建时间
-                    format: date-time
                 updateTime:
                     type: string
                     description: 更新时间
-                    format: date-time
                 deleteTime:
                     type: string
                     description: 删除时间
-                    format: date-time
             description: 调度任务
         Tenant:
             type: object
@@ -3913,14 +3903,6 @@ components:
                 remark:
                     type: string
                     description: 备注
-                createBy:
-                    type: integer
-                    description: 创建者ID
-                    format: uint32
-                updateBy:
-                    type: integer
-                    description: 更新者ID
-                    format: uint32
                 subscriptionAt:
                     type: string
                     description: 订阅时间
@@ -3929,18 +3911,23 @@ components:
                     type: string
                     description: 退订时间
                     format: date-time
+                createBy:
+                    type: integer
+                    description: 创建者ID
+                    format: uint32
+                updateBy:
+                    type: integer
+                    description: 更新者ID
+                    format: uint32
                 createTime:
                     type: string
                     description: 创建时间
-                    format: date-time
                 updateTime:
                     type: string
                     description: 更新时间
-                    format: date-time
                 deleteTime:
                     type: string
                     description: 删除时间
-                    format: date-time
             description: 租户
         UEditorResponse:
             type: object
@@ -4402,14 +4389,6 @@ components:
                     type: integer
                     description: 租户ID
                     format: uint32
-                createBy:
-                    type: integer
-                    description: 创建者ID
-                    format: uint32
-                updateBy:
-                    type: integer
-                    description: 更新者ID
-                    format: uint32
                 userName:
                     type: string
                     description: 登录名
@@ -4482,18 +4461,23 @@ components:
                     items:
                         type: string
                     description: 角色码
+                createBy:
+                    type: integer
+                    description: 创建者ID
+                    format: uint32
+                updateBy:
+                    type: integer
+                    description: 更新者ID
+                    format: uint32
                 createTime:
                     type: string
                     description: 创建时间
-                    format: date-time
                 updateTime:
                     type: string
                     description: 更新时间
-                    format: date-time
                 deleteTime:
                     type: string
                     description: 删除时间
-                    format: date-time
             description: 用户
     responses:
         default:

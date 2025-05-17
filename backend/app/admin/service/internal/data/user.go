@@ -135,9 +135,9 @@ func (r *UserRepo) convertEntToProto(in *ent.User) *userV1.User {
 		Gender:        r.toProtoGender(in.Gender),
 		Authority:     r.toProtoAuthority(in.Authority),
 		Status:        r.toProtoStatus(in.Status),
-		CreateTime:    timeutil.TimeToTimestamppb(in.CreateTime),
-		UpdateTime:    timeutil.TimeToTimestamppb(in.UpdateTime),
-		DeleteTime:    timeutil.TimeToTimestamppb(in.DeleteTime),
+		CreateTime:    timeutil.TimeToTimeString(in.CreateTime),
+		UpdateTime:    timeutil.TimeToTimeString(in.UpdateTime),
+		DeleteTime:    timeutil.TimeToTimeString(in.DeleteTime),
 	}
 }
 
@@ -247,7 +247,7 @@ func (r *UserRepo) Create(ctx context.Context, req *userV1.CreateUserRequest, op
 		SetNillableWorkID(req.Data.WorkId).
 		SetNillablePositionID(req.Data.PositionId).
 		SetNillableTenantID(req.Data.TenantId).
-		SetNillableCreateTime(timeutil.TimestamppbToTime(req.Data.CreateTime))
+		SetNillableCreateTime(timeutil.StringTimeToTime(req.Data.CreateTime))
 
 	if len(req.GetPassword()) > 0 {
 		cryptoPassword, err := crypto.HashPassword(req.GetPassword())
@@ -322,7 +322,7 @@ func (r *UserRepo) Update(ctx context.Context, req *userV1.UpdateUserRequest, op
 		SetNillableRoleID(req.Data.RoleId).
 		SetNillableWorkID(req.Data.WorkId).
 		SetNillablePositionID(req.Data.PositionId).
-		SetNillableUpdateTime(timeutil.TimestamppbToTime(req.Data.UpdateTime))
+		SetNillableUpdateTime(timeutil.StringTimeToTime(req.Data.UpdateTime))
 
 	if req.Data.UpdateTime == nil {
 		builder.SetUpdateTime(time.Now())

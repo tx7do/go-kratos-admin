@@ -56,9 +56,9 @@ func (r *AdminLoginLogRepo) convertEntToProto(in *ent.AdminLoginLog) *systemV1.A
 		Success:        in.Success,
 		Reason:         in.Reason,
 		Location:       in.Location,
-		CreateTime:     timeutil.TimeToTimestamppb(in.CreateTime),
-		UpdateTime:     timeutil.TimeToTimestamppb(in.UpdateTime),
-		DeleteTime:     timeutil.TimeToTimestamppb(in.DeleteTime),
+		CreateTime:     timeutil.TimeToTimeString(in.CreateTime),
+		UpdateTime:     timeutil.TimeToTimeString(in.UpdateTime),
+		DeleteTime:     timeutil.TimeToTimeString(in.DeleteTime),
 	}
 }
 
@@ -157,7 +157,7 @@ func (r *AdminLoginLogRepo) Create(ctx context.Context, req *systemV1.CreateAdmi
 		SetNillableReason(req.Data.Reason).
 		SetNillableLocation(req.Data.Location).
 		SetNillableLoginTime(timeutil.TimestamppbToTime(req.Data.LoginTime)).
-		SetNillableCreateTime(timeutil.TimestamppbToTime(req.Data.CreateTime))
+		SetNillableCreateTime(timeutil.StringTimeToTime(req.Data.CreateTime))
 
 	if req.Data.LoginTime == nil {
 		builder.SetLoginTime(time.Now())
@@ -218,7 +218,7 @@ func (r *AdminLoginLogRepo) Update(ctx context.Context, req *systemV1.UpdateAdmi
 		SetNillableReason(req.Data.Reason).
 		SetNillableLocation(req.Data.Location).
 		SetNillableLoginTime(timeutil.TimestamppbToTime(req.Data.LoginTime)).
-		SetNillableUpdateTime(timeutil.TimestamppbToTime(req.Data.UpdateTime))
+		SetNillableUpdateTime(timeutil.StringTimeToTime(req.Data.UpdateTime))
 
 	if req.Data.LoginTime == nil {
 		builder.SetLoginTime(time.Now())

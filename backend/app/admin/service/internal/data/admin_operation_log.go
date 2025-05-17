@@ -63,9 +63,9 @@ func (r *AdminOperationLogRepo) convertEntToProto(in *ent.AdminOperationLog) *sy
 		StatusCode:     in.StatusCode,
 		Reason:         in.Reason,
 		Location:       in.Location,
-		CreateTime:     timeutil.TimeToTimestamppb(in.CreateTime),
-		UpdateTime:     timeutil.TimeToTimestamppb(in.UpdateTime),
-		DeleteTime:     timeutil.TimeToTimestamppb(in.DeleteTime),
+		CreateTime:     timeutil.TimeToTimeString(in.CreateTime),
+		UpdateTime:     timeutil.TimeToTimeString(in.UpdateTime),
+		DeleteTime:     timeutil.TimeToTimeString(in.DeleteTime),
 	}
 }
 
@@ -172,7 +172,7 @@ func (r *AdminOperationLogRepo) Create(ctx context.Context, req *systemV1.Create
 		SetNillableSuccess(req.Data.Success).
 		SetNillableReason(req.Data.Reason).
 		SetNillableLocation(req.Data.Location).
-		SetNillableCreateTime(timeutil.TimestamppbToTime(req.Data.CreateTime))
+		SetNillableCreateTime(timeutil.StringTimeToTime(req.Data.CreateTime))
 
 	if req.Data.CreateTime == nil {
 		builder.SetCreateTime(time.Now())
@@ -237,7 +237,7 @@ func (r *AdminOperationLogRepo) Update(ctx context.Context, req *systemV1.Update
 		SetNillableSuccess(req.Data.Success).
 		SetNillableReason(req.Data.Reason).
 		SetNillableLocation(req.Data.Location).
-		SetNillableUpdateTime(timeutil.TimestamppbToTime(req.Data.UpdateTime))
+		SetNillableUpdateTime(timeutil.StringTimeToTime(req.Data.UpdateTime))
 
 	if req.Data.UpdateTime == nil {
 		builder.SetUpdateTime(time.Now())

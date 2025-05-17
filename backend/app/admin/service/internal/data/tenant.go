@@ -50,9 +50,9 @@ func (r *TenantRepo) convertEntToProto(in *ent.Tenant) *userV1.Tenant {
 		SubscriptionAt: timeutil.TimeToTimestamppb(in.SubscriptionAt),
 		UnsubscribeAt:  timeutil.TimeToTimestamppb(in.UnsubscribeAt),
 		Status:         (*string)(in.Status),
-		CreateTime:     timeutil.TimeToTimestamppb(in.CreateTime),
-		UpdateTime:     timeutil.TimeToTimestamppb(in.UpdateTime),
-		DeleteTime:     timeutil.TimeToTimestamppb(in.DeleteTime),
+		CreateTime:     timeutil.TimeToTimeString(in.CreateTime),
+		UpdateTime:     timeutil.TimeToTimeString(in.UpdateTime),
+		DeleteTime:     timeutil.TimeToTimeString(in.DeleteTime),
 	}
 }
 
@@ -144,7 +144,7 @@ func (r *TenantRepo) Create(ctx context.Context, req *userV1.CreateTenantRequest
 		SetNillableStatus((*tenant.Status)(req.Data.Status)).
 		SetNillableSubscriptionAt(timeutil.TimestamppbToTime(req.Data.SubscriptionAt)).
 		SetNillableUnsubscribeAt(timeutil.TimestamppbToTime(req.Data.UnsubscribeAt)).
-		SetNillableCreateTime(timeutil.TimestamppbToTime(req.Data.CreateTime))
+		SetNillableCreateTime(timeutil.StringTimeToTime(req.Data.CreateTime))
 
 	if req.Data.CreateTime == nil {
 		builder.SetCreateTime(time.Now())
@@ -198,7 +198,7 @@ func (r *TenantRepo) Update(ctx context.Context, req *userV1.UpdateTenantRequest
 		SetNillableStatus((*tenant.Status)(req.Data.Status)).
 		SetNillableSubscriptionAt(timeutil.TimestamppbToTime(req.Data.SubscriptionAt)).
 		SetNillableUnsubscribeAt(timeutil.TimestamppbToTime(req.Data.UnsubscribeAt)).
-		SetNillableUpdateTime(timeutil.TimestamppbToTime(req.Data.UpdateTime))
+		SetNillableUpdateTime(timeutil.StringTimeToTime(req.Data.UpdateTime))
 
 	if req.Data.UpdateTime == nil {
 		builder.SetUpdateTime(time.Now())

@@ -141,9 +141,11 @@ func (r *FileRepo) convertEntToProto(in *ent.File) *fileV1.File {
 		SizeFormat:    in.SizeFormat,
 		LinkUrl:       in.LinkURL,
 		Md5:           in.Md5,
-		CreateTime:    timeutil.TimeToTimestamppb(in.CreateTime),
-		UpdateTime:    timeutil.TimeToTimestamppb(in.UpdateTime),
-		DeleteTime:    timeutil.TimeToTimestamppb(in.DeleteTime),
+		CreateBy:      in.CreateBy,
+		//UpdateBy:      in.UpdateBy,
+		CreateTime: timeutil.TimeToTimeString(in.CreateTime),
+		UpdateTime: timeutil.TimeToTimeString(in.UpdateTime),
+		DeleteTime: timeutil.TimeToTimeString(in.DeleteTime),
 	}
 }
 
@@ -236,7 +238,7 @@ func (r *FileRepo) Create(ctx context.Context, req *fileV1.CreateFileRequest, op
 		SetNillableSizeFormat(req.Data.SizeFormat).
 		SetNillableLinkURL(req.Data.LinkUrl).
 		SetNillableMd5(req.Data.Md5).
-		SetNillableCreateTime(timeutil.TimestamppbToTime(req.Data.CreateTime))
+		SetNillableCreateTime(timeutil.StringTimeToTime(req.Data.CreateTime))
 
 	if req.Data.CreateTime == nil {
 		builder.SetCreateTime(time.Now())
@@ -295,7 +297,7 @@ func (r *FileRepo) Update(ctx context.Context, req *fileV1.UpdateFileRequest, op
 		SetNillableLinkURL(req.Data.LinkUrl).
 		SetNillableMd5(req.Data.Md5).
 		//SetNillableUpdateBy(trans.Ptr(operator.UserId)).
-		SetNillableUpdateTime(timeutil.TimestamppbToTime(req.Data.UpdateTime))
+		SetNillableUpdateTime(timeutil.StringTimeToTime(req.Data.UpdateTime))
 
 	if req.Data.UpdateTime == nil {
 		builder.SetUpdateTime(time.Now())

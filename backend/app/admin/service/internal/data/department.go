@@ -50,9 +50,9 @@ func (r *DepartmentRepo) convertEntToProto(in *ent.Department) *userV1.Departmen
 		Status:     (*string)(in.Status),
 		CreateBy:   in.CreateBy,
 		UpdateBy:   in.UpdateBy,
-		CreateTime: timeutil.TimeToTimestamppb(in.CreateTime),
-		UpdateTime: timeutil.TimeToTimestamppb(in.UpdateTime),
-		DeleteTime: timeutil.TimeToTimestamppb(in.DeleteTime),
+		CreateTime: timeutil.TimeToTimeString(in.CreateTime),
+		UpdateTime: timeutil.TimeToTimeString(in.UpdateTime),
+		DeleteTime: timeutil.TimeToTimeString(in.DeleteTime),
 	}
 }
 
@@ -191,7 +191,7 @@ func (r *DepartmentRepo) Create(ctx context.Context, req *userV1.CreateDepartmen
 		SetNillableSortID(req.Data.SortId).
 		SetNillableRemark(req.Data.Remark).
 		SetNillableStatus((*department.Status)(req.Data.Status)).
-		SetNillableCreateTime(timeutil.TimestamppbToTime(req.Data.CreateTime))
+		SetNillableCreateTime(timeutil.StringTimeToTime(req.Data.CreateTime))
 
 	if req.Data.CreateTime == nil {
 		builder.SetCreateTime(time.Now())
@@ -244,7 +244,7 @@ func (r *DepartmentRepo) Update(ctx context.Context, req *userV1.UpdateDepartmen
 		SetNillableSortID(req.Data.SortId).
 		SetNillableRemark(req.Data.Remark).
 		SetNillableStatus((*department.Status)(req.Data.Status)).
-		SetNillableUpdateTime(timeutil.TimestamppbToTime(req.Data.UpdateTime))
+		SetNillableUpdateTime(timeutil.StringTimeToTime(req.Data.UpdateTime))
 
 	if req.Data.UpdateTime == nil {
 		builder.SetUpdateTime(time.Now())

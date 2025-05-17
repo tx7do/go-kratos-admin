@@ -121,6 +121,8 @@ func (r *PositionRepo) Get(ctx context.Context, req *userV1.GetPositionRequest) 
 			return nil, userV1.ErrorPositionNotFound("position not found")
 		}
 
+		r.log.Errorf("query one data failed: %s", err.Error())
+
 		return nil, err
 	}
 

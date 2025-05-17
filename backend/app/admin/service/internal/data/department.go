@@ -172,6 +172,9 @@ func (r *DepartmentRepo) Get(ctx context.Context, req *userV1.GetDepartmentReque
 		if ent.IsNotFound(err) {
 			return nil, userV1.ErrorDepartmentNotFound("department not found")
 		}
+
+		r.log.Errorf("query one data failed: %s", err.Error())
+
 		return nil, err
 	}
 

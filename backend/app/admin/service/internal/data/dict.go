@@ -123,6 +123,9 @@ func (r *DictRepo) Get(ctx context.Context, req *systemV1.GetDictRequest) (*syst
 		if ent.IsNotFound(err) {
 			return nil, systemV1.ErrorResourceNotFound("dict not found")
 		}
+
+		r.log.Errorf("query one data failed: %s", err.Error())
+
 		return nil, err
 	}
 

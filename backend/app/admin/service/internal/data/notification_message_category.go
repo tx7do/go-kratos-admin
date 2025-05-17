@@ -173,6 +173,8 @@ func (r *NotificationMessageCategoryRepo) Get(ctx context.Context, req *internal
 			return nil, internalMessageV1.ErrorResourceNotFound("message category not found")
 		}
 
+		r.log.Errorf("query one data failed: %s", err.Error())
+
 		return nil, err
 	}
 

@@ -135,6 +135,9 @@ func (r *AdminOperationLogRepo) Get(ctx context.Context, req *systemV1.GetAdminO
 		if ent.IsNotFound(err) {
 			return nil, systemV1.ErrorResourceNotFound("admin operation log not found")
 		}
+
+		r.log.Errorf("query one data failed: %s", err.Error())
+
 		return nil, err
 	}
 

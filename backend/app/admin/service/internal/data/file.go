@@ -213,6 +213,9 @@ func (r *FileRepo) Get(ctx context.Context, req *fileV1.GetFileRequest) (*fileV1
 		if ent.IsNotFound(err) {
 			return nil, fileV1.ErrorFileNotFound("file not found")
 		}
+
+		r.log.Errorf("query one data failed: %s", err.Error())
+
 		return nil, err
 	}
 

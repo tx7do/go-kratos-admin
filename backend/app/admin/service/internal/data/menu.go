@@ -213,11 +213,11 @@ func (r *MenuRepo) IsExist(ctx context.Context, id int32) (bool, error) {
 func (r *MenuRepo) Get(ctx context.Context, req *systemV1.GetMenuRequest) (*systemV1.Menu, error) {
 	ret, err := r.data.db.Client().Menu.Get(ctx, req.GetId())
 	if err != nil {
-		r.log.Errorf("query one data failed: %s", err.Error())
-
 		if ent.IsNotFound(err) {
 			return nil, systemV1.ErrorResourceNotFound("menu not found")
 		}
+
+		r.log.Errorf("query one data failed: %s", err.Error())
 
 		return nil, err
 	}

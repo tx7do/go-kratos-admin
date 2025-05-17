@@ -19,6 +19,7 @@ import (
 	pagination "github.com/tx7do/kratos-bootstrap/api/gen/go/pagination/v1"
 
 	"kratos-admin/app/admin/service/internal/data/ent"
+	_ "kratos-admin/app/admin/service/internal/data/ent/runtime"
 	"kratos-admin/app/admin/service/internal/data/ent/user"
 
 	userV1 "kratos-admin/api/gen/go/user/service/v1"
@@ -203,11 +204,11 @@ func (r *UserRepo) IsExist(ctx context.Context, id uint32) (bool, error) {
 func (r *UserRepo) Get(ctx context.Context, userId uint32) (*userV1.User, error) {
 	ret, err := r.data.db.Client().User.Get(ctx, userId)
 	if err != nil {
-		r.log.Errorf("query one data failed: %s", err.Error())
-
 		if ent.IsNotFound(err) {
 			return nil, userV1.ErrorUserNotFound("user not found")
 		}
+
+		r.log.Errorf("query one data failed: %s", err.Error())
 
 		return nil, err
 	}

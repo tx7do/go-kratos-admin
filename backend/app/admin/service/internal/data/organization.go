@@ -173,6 +173,8 @@ func (r *OrganizationRepo) Get(ctx context.Context, req *userV1.GetOrganizationR
 			return nil, userV1.ErrorOrganizationNotFound("organization not found")
 		}
 
+		r.log.Errorf("query one data failed: %s", err.Error())
+
 		return nil, err
 	}
 

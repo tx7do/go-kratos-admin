@@ -213,7 +213,13 @@ func (r *AdminLoginRestrictionRepo) IsExist(ctx context.Context, id uint32) (boo
 
 func (r *AdminLoginRestrictionRepo) Get(ctx context.Context, req *adminV1.GetAdminLoginRestrictionRequest) (*adminV1.AdminLoginRestriction, error) {
 	ret, err := r.data.db.Client().AdminLoginRestriction.Get(ctx, req.GetId())
-	if err != nil && !ent.IsNotFound(err) {
+	if err != nil {
+		if ent.IsNotFound(err) {
+			return nil, adminV1.ErrorResourceNotFound("admin login restriction not found")
+		}
+
+		r.log.Errorf("query one data failed: %s", err.Error())
+
 		return nil, err
 	}
 

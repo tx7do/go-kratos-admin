@@ -122,6 +122,8 @@ func (r *RoleRepo) Get(ctx context.Context, id uint32) (*userV1.Role, error) {
 			return nil, userV1.ErrorRoleNotFound("role not found")
 		}
 
+		r.log.Errorf("query one data failed: %s", err.Error())
+
 		return nil, err
 	}
 

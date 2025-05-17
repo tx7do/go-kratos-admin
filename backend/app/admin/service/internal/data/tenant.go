@@ -124,6 +124,8 @@ func (r *TenantRepo) Get(ctx context.Context, req *userV1.GetTenantRequest) (*us
 			return nil, userV1.ErrorTenantNotFound("tenant not found")
 		}
 
+		r.log.Errorf("query one data failed: %s", err.Error())
+
 		return nil, err
 	}
 

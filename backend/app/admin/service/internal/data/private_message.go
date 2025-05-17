@@ -181,6 +181,9 @@ func (r *PrivateMessageRepo) Get(ctx context.Context, req *internalMessageV1.Get
 		if ent.IsNotFound(err) {
 			return nil, internalMessageV1.ErrorResourceNotFound("message not found")
 		}
+
+		r.log.Errorf("query one data failed: %s", err.Error())
+
 		return nil, err
 	}
 

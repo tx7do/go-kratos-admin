@@ -128,6 +128,9 @@ func (r *AdminLoginLogRepo) Get(ctx context.Context, req *systemV1.GetAdminLogin
 		if ent.IsNotFound(err) {
 			return nil, systemV1.ErrorResourceNotFound("admin login log not found")
 		}
+
+		r.log.Errorf("query one data failed: %s", err.Error())
+
 		return nil, err
 	}
 

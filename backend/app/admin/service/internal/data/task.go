@@ -164,11 +164,11 @@ func (r *TaskRepo) IsExist(ctx context.Context, id uint32) (bool, error) {
 func (r *TaskRepo) Get(ctx context.Context, id uint32) (*systemV1.Task, error) {
 	ret, err := r.data.db.Client().Task.Get(ctx, id)
 	if err != nil {
-		r.log.Errorf("query one data failed: %s", err.Error())
-
 		if ent.IsNotFound(err) {
 			return nil, systemV1.ErrorResourceNotFound("task not found")
 		}
+
+		r.log.Errorf("query one data failed: %s", err.Error())
 
 		return nil, err
 	}

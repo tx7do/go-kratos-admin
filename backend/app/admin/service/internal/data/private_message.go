@@ -19,8 +19,6 @@ import (
 	"kratos-admin/app/admin/service/internal/data/ent/privatemessage"
 
 	internalMessageV1 "kratos-admin/api/gen/go/internal_message/service/v1"
-
-	"kratos-admin/pkg/middleware/auth"
 )
 
 type PrivateMessageRepo struct {
@@ -189,7 +187,7 @@ func (r *PrivateMessageRepo) Get(ctx context.Context, req *internalMessageV1.Get
 	return r.convertEntToProto(ret), err
 }
 
-func (r *PrivateMessageRepo) Create(ctx context.Context, req *internalMessageV1.CreatePrivateMessageRequest, operator *auth.UserTokenPayload) error {
+func (r *PrivateMessageRepo) Create(ctx context.Context, req *internalMessageV1.CreatePrivateMessageRequest) error {
 	if req.Data == nil {
 		return errors.New("invalid request")
 	}
@@ -215,7 +213,7 @@ func (r *PrivateMessageRepo) Create(ctx context.Context, req *internalMessageV1.
 	return err
 }
 
-func (r *PrivateMessageRepo) Update(ctx context.Context, req *internalMessageV1.UpdatePrivateMessageRequest, operator *auth.UserTokenPayload) error {
+func (r *PrivateMessageRepo) Update(ctx context.Context, req *internalMessageV1.UpdatePrivateMessageRequest) error {
 	if req.Data == nil {
 		return errors.New("invalid request")
 	}
@@ -227,7 +225,8 @@ func (r *PrivateMessageRepo) Update(ctx context.Context, req *internalMessageV1.
 			return err
 		}
 		if !exist {
-			return r.Create(ctx, &internalMessageV1.CreatePrivateMessageRequest{Data: req.Data}, operator)
+			createReq := &internalMessageV1.CreatePrivateMessageRequest{Data: req.Data}
+			return r.Create(ctx, createReq)
 		}
 	}
 

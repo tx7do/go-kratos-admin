@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/go-kratos/kratos/v2/log"
+	"github.com/tx7do/go-utils/trans"
 	pagination "github.com/tx7do/kratos-bootstrap/api/gen/go/pagination/v1"
 	"google.golang.org/protobuf/types/known/emptypb"
 
@@ -50,7 +51,9 @@ func (s *NotificationMessageCategoryService) Create(ctx context.Context, req *in
 		return &emptypb.Empty{}, err
 	}
 
-	if err = s.uc.Create(ctx, req, operator); err != nil {
+	req.Data.CreateBy = trans.Ptr(operator.UserId)
+
+	if err = s.uc.Create(ctx, req); err != nil {
 		return nil, err
 	}
 
@@ -68,7 +71,9 @@ func (s *NotificationMessageCategoryService) Update(ctx context.Context, req *in
 		return &emptypb.Empty{}, err
 	}
 
-	if err = s.uc.Update(ctx, req, operator); err != nil {
+	req.Data.UpdateBy = trans.Ptr(operator.UserId)
+
+	if err = s.uc.Update(ctx, req); err != nil {
 		return nil, err
 	}
 

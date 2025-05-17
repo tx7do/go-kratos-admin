@@ -19,8 +19,6 @@ import (
 	"kratos-admin/app/admin/service/internal/data/ent/role"
 
 	userV1 "kratos-admin/api/gen/go/user/service/v1"
-
-	"kratos-admin/pkg/middleware/auth"
 )
 
 type RoleRepo struct {
@@ -130,7 +128,7 @@ func (r *RoleRepo) Get(ctx context.Context, id uint32) (*userV1.Role, error) {
 	return r.convertEntToProto(ret), err
 }
 
-func (r *RoleRepo) Create(ctx context.Context, req *userV1.CreateRoleRequest, operator *auth.UserTokenPayload) error {
+func (r *RoleRepo) Create(ctx context.Context, req *userV1.CreateRoleRequest) error {
 	if req.Data == nil {
 		return errors.New("invalid request")
 	}
@@ -142,14 +140,11 @@ func (r *RoleRepo) Create(ctx context.Context, req *userV1.CreateRoleRequest, op
 		SetNillableCode(req.Data.Code).
 		SetNillableStatus((*role.Status)(req.Data.Status)).
 		SetNillableRemark(req.Data.Remark).
+		SetNillableCreateBy(req.Data.CreateBy).
 		SetNillableCreateTime(timeutil.StringTimeToTime(req.Data.CreateTime))
 
 	if req.Data.CreateTime == nil {
 		builder.SetCreateTime(time.Now())
-	}
-
-	if operator != nil {
-		builder.SetCreateBy(operator.UserId)
 	}
 
 	if req.Data.Menus != nil {
@@ -168,7 +163,7 @@ func (r *RoleRepo) Create(ctx context.Context, req *userV1.CreateRoleRequest, op
 	return nil
 }
 
-func (r *RoleRepo) Update(ctx context.Context, req *userV1.UpdateRoleRequest, operator *auth.UserTokenPayload) error {
+func (r *RoleRepo) Update(ctx context.Context, req *userV1.UpdateRoleRequest) error {
 	if req.Data == nil {
 		return errors.New("invalid request")
 	}
@@ -180,7 +175,10 @@ func (r *RoleRepo) Update(ctx context.Context, req *userV1.UpdateRoleRequest, op
 			return err
 		}
 		if !exist {
-			return r.Create(ctx, &userV1.CreateRoleRequest{Data: req.Data}, operator)
+			createReq := &userV1.CreateRoleRequest{Data: req.Data}
+			createReq.Data.CreateBy = createReq.Data.UpdateBy
+			createReq.Data.UpdateBy = nil
+			return r.Create(ctx, createReq)
 		}
 	}
 
@@ -199,14 +197,11 @@ func (r *RoleRepo) Update(ctx context.Context, req *userV1.UpdateRoleRequest, op
 		SetNillableCode(req.Data.Code).
 		SetNillableRemark(req.Data.Remark).
 		SetNillableStatus((*role.Status)(req.Data.Status)).
+		SetNillableUpdateBy(req.Data.UpdateBy).
 		SetNillableUpdateTime(timeutil.StringTimeToTime(req.Data.UpdateTime))
 
 	if req.Data.UpdateTime == nil {
 		builder.SetUpdateTime(time.Now())
-	}
-
-	if operator != nil {
-		builder.SetUpdateBy(operator.UserId)
 	}
 
 	if req.Data.Menus != nil {

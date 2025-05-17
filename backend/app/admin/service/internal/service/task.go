@@ -70,8 +70,10 @@ func (s *TaskService) Create(ctx context.Context, req *systemV1.CreateTaskReques
 		return &emptypb.Empty{}, err
 	}
 
+	req.Data.CreateBy = trans.Ptr(operator.UserId)
+
 	var t *systemV1.Task
-	if t, err = s.taskRepo.Create(ctx, req, operator); err != nil {
+	if t, err = s.taskRepo.Create(ctx, req); err != nil {
 		return nil, err
 	}
 
@@ -93,8 +95,10 @@ func (s *TaskService) Update(ctx context.Context, req *systemV1.UpdateTaskReques
 		return &emptypb.Empty{}, err
 	}
 
+	req.Data.UpdateBy = trans.Ptr(operator.UserId)
+
 	var t *systemV1.Task
-	if t, err = s.taskRepo.Update(ctx, req, operator); err != nil {
+	if t, err = s.taskRepo.Update(ctx, req); err != nil {
 
 		return nil, err
 	}

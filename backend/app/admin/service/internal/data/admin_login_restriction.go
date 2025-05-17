@@ -19,8 +19,6 @@ import (
 
 	pagination "github.com/tx7do/kratos-bootstrap/api/gen/go/pagination/v1"
 	adminV1 "kratos-admin/api/gen/go/admin/service/v1"
-
-	"kratos-admin/pkg/middleware/auth"
 )
 
 type AdminLoginRestrictionRepo struct {
@@ -222,7 +220,7 @@ func (r *AdminLoginRestrictionRepo) Get(ctx context.Context, req *adminV1.GetAdm
 	return r.convertEntToProto(ret), err
 }
 
-func (r *AdminLoginRestrictionRepo) Create(ctx context.Context, req *adminV1.CreateAdminLoginRestrictionRequest, operator *auth.UserTokenPayload) error {
+func (r *AdminLoginRestrictionRepo) Create(ctx context.Context, req *adminV1.CreateAdminLoginRestrictionRequest) error {
 	if req == nil || req.Data == nil {
 		return adminV1.ErrorBadRequest("invalid request")
 	}
@@ -233,13 +231,11 @@ func (r *AdminLoginRestrictionRepo) Create(ctx context.Context, req *adminV1.Cre
 		SetNillableMethod(r.toEntMethod(req.Data.Method)).
 		SetNillableValue(req.Data.Value).
 		SetNillableReason(req.Data.Reason).
+		SetNillableCreateBy(req.Data.CreateBy).
 		SetNillableCreateTime(timeutil.StringTimeToTime(req.Data.CreateTime))
 
 	if req.Data.CreateTime == nil {
 		builder.SetCreateTime(time.Now())
-	}
-	if operator != nil {
-		builder.SetCreateBy(operator.UserId)
 	}
 
 	if err := builder.Exec(ctx); err != nil {
@@ -250,7 +246,7 @@ func (r *AdminLoginRestrictionRepo) Create(ctx context.Context, req *adminV1.Cre
 	return nil
 }
 
-func (r *AdminLoginRestrictionRepo) Update(ctx context.Context, req *adminV1.UpdateAdminLoginRestrictionRequest, operator *auth.UserTokenPayload) error {
+func (r *AdminLoginRestrictionRepo) Update(ctx context.Context, req *adminV1.UpdateAdminLoginRestrictionRequest) error {
 	if req == nil || req.Data == nil {
 		return adminV1.ErrorBadRequest("invalid request")
 	}
@@ -262,7 +258,10 @@ func (r *AdminLoginRestrictionRepo) Update(ctx context.Context, req *adminV1.Upd
 			return err
 		}
 		if !exist {
-			return r.Create(ctx, &adminV1.CreateAdminLoginRestrictionRequest{Data: req.Data}, operator)
+			createReq := &adminV1.CreateAdminLoginRestrictionRequest{Data: req.Data}
+			createReq.Data.CreateBy = createReq.Data.UpdateBy
+			createReq.Data.UpdateBy = nil
+			return r.Create(ctx, createReq)
 		}
 	}
 
@@ -280,14 +279,11 @@ func (r *AdminLoginRestrictionRepo) Update(ctx context.Context, req *adminV1.Upd
 		SetNillableMethod(r.toEntMethod(req.Data.Method)).
 		SetNillableValue(req.Data.Value).
 		SetNillableReason(req.Data.Reason).
+		SetNillableUpdateBy(req.Data.UpdateBy).
 		SetNillableUpdateTime(timeutil.StringTimeToTime(req.Data.UpdateTime))
 
 	if req.Data.UpdateTime == nil {
 		builder.SetUpdateTime(time.Now())
-	}
-
-	if operator != nil {
-		builder.SetUpdateBy(operator.UserId)
 	}
 
 	if req.UpdateMask != nil {

@@ -11,8 +11,6 @@ import (
 
 	adminV1 "kratos-admin/api/gen/go/admin/service/v1"
 	internalMessageV1 "kratos-admin/api/gen/go/internal_message/service/v1"
-
-	"kratos-admin/pkg/middleware/auth"
 )
 
 type PrivateMessageService struct {
@@ -44,13 +42,9 @@ func (s *PrivateMessageService) Create(ctx context.Context, req *internalMessage
 		return nil, adminV1.ErrorBadRequest("错误的参数")
 	}
 
-	// 获取操作人信息
-	operator, err := auth.FromContext(ctx)
-	if err != nil {
-		return &emptypb.Empty{}, err
-	}
+	var err error
 
-	if err = s.uc.Create(ctx, req, operator); err != nil {
+	if err = s.uc.Create(ctx, req); err != nil {
 		return nil, err
 	}
 
@@ -62,13 +56,9 @@ func (s *PrivateMessageService) Update(ctx context.Context, req *internalMessage
 		return nil, adminV1.ErrorBadRequest("错误的参数")
 	}
 
-	// 获取操作人信息
-	operator, err := auth.FromContext(ctx)
-	if err != nil {
-		return &emptypb.Empty{}, err
-	}
+	var err error
 
-	if err = s.uc.Update(ctx, req, operator); err != nil {
+	if err = s.uc.Update(ctx, req); err != nil {
 		return nil, err
 	}
 

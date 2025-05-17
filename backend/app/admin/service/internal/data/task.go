@@ -19,8 +19,6 @@ import (
 	"kratos-admin/app/admin/service/internal/data/ent/task"
 
 	systemV1 "kratos-admin/api/gen/go/system/service/v1"
-
-	"kratos-admin/pkg/middleware/auth"
 )
 
 type TaskRepo struct {
@@ -195,7 +193,7 @@ func (r *TaskRepo) GetByTypeName(ctx context.Context, typeName string) (*systemV
 	return r.convertEntToProto(ret), err
 }
 
-func (r *TaskRepo) Create(ctx context.Context, req *systemV1.CreateTaskRequest, operator *auth.UserTokenPayload) (*systemV1.Task, error) {
+func (r *TaskRepo) Create(ctx context.Context, req *systemV1.CreateTaskRequest) (*systemV1.Task, error) {
 	if req.Data == nil {
 		return nil, errors.New("invalid request")
 	}
@@ -212,14 +210,11 @@ func (r *TaskRepo) Create(ctx context.Context, req *systemV1.CreateTaskRequest, 
 		SetNillableProcessAt(timeutil.TimestamppbToTime(req.Data.ProcessAt)).
 		SetNillableEnable(req.Data.Enable).
 		SetNillableRemark(req.Data.Remark).
+		SetNillableCreateBy(req.Data.CreateBy).
 		SetNillableCreateTime(timeutil.StringTimeToTime(req.Data.CreateTime))
 
 	if req.Data.CreateTime == nil {
 		builder.SetCreateTime(time.Now())
-	}
-
-	if operator != nil {
-		builder.SetCreateBy(operator.UserId)
 	}
 
 	if req.Data.Id != nil {
@@ -235,7 +230,7 @@ func (r *TaskRepo) Create(ctx context.Context, req *systemV1.CreateTaskRequest, 
 	return r.convertEntToProto(t), nil
 }
 
-func (r *TaskRepo) Update(ctx context.Context, req *systemV1.UpdateTaskRequest, operator *auth.UserTokenPayload) (*systemV1.Task, error) {
+func (r *TaskRepo) Update(ctx context.Context, req *systemV1.UpdateTaskRequest) (*systemV1.Task, error) {
 	if req == nil || req.Data == nil {
 		return nil, errors.New("invalid request")
 	}
@@ -247,7 +242,10 @@ func (r *TaskRepo) Update(ctx context.Context, req *systemV1.UpdateTaskRequest, 
 			return nil, err
 		}
 		if !exist {
-			return r.Create(ctx, &systemV1.CreateTaskRequest{Data: req.Data}, operator)
+			createReq := &systemV1.CreateTaskRequest{Data: req.Data}
+			createReq.Data.CreateBy = createReq.Data.UpdateBy
+			createReq.Data.UpdateBy = nil
+			return r.Create(ctx, createReq)
 		}
 	}
 
@@ -273,14 +271,11 @@ func (r *TaskRepo) Update(ctx context.Context, req *systemV1.UpdateTaskRequest, 
 		SetNillableProcessAt(timeutil.TimestamppbToTime(req.Data.ProcessAt)).
 		SetNillableEnable(req.Data.Enable).
 		SetNillableRemark(req.Data.Remark).
+		SetNillableUpdateBy(req.Data.UpdateBy).
 		SetNillableUpdateTime(timeutil.StringTimeToTime(req.Data.UpdateTime))
 
 	if req.Data.UpdateTime == nil {
 		builder.SetUpdateTime(time.Now())
-	}
-
-	if operator != nil {
-		builder.SetUpdateBy(operator.UserId)
 	}
 
 	if req.UpdateMask != nil {

@@ -4,11 +4,12 @@ import (
 	"context"
 
 	"github.com/go-kratos/kratos/v2/log"
+	"github.com/tx7do/go-utils/trans"
+	pagination "github.com/tx7do/kratos-bootstrap/api/gen/go/pagination/v1"
 	"google.golang.org/protobuf/types/known/emptypb"
 
 	"kratos-admin/app/admin/service/internal/data"
 
-	pagination "github.com/tx7do/kratos-bootstrap/api/gen/go/pagination/v1"
 	adminV1 "kratos-admin/api/gen/go/admin/service/v1"
 	userV1 "kratos-admin/api/gen/go/user/service/v1"
 
@@ -50,7 +51,9 @@ func (s *DepartmentService) Create(ctx context.Context, req *userV1.CreateDepart
 		return &emptypb.Empty{}, err
 	}
 
-	if err = s.uc.Create(ctx, req, operator); err != nil {
+	req.Data.CreateBy = trans.Ptr(operator.UserId)
+
+	if err = s.uc.Create(ctx, req); err != nil {
 		return nil, err
 	}
 
@@ -68,7 +71,9 @@ func (s *DepartmentService) Update(ctx context.Context, req *userV1.UpdateDepart
 		return &emptypb.Empty{}, err
 	}
 
-	if err = s.uc.Update(ctx, req, operator); err != nil {
+	req.Data.UpdateBy = trans.Ptr(operator.UserId)
+
+	if err = s.uc.Update(ctx, req); err != nil {
 		return nil, err
 	}
 

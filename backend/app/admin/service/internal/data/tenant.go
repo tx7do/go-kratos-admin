@@ -3,7 +3,6 @@ package data
 import (
 	"context"
 	"errors"
-	"kratos-admin/pkg/middleware/auth"
 	"time"
 
 	"entgo.io/ent/dialect/sql"
@@ -131,7 +130,7 @@ func (r *TenantRepo) Get(ctx context.Context, req *userV1.GetTenantRequest) (*us
 	return r.convertEntToProto(ret), err
 }
 
-func (r *TenantRepo) Create(ctx context.Context, req *userV1.CreateTenantRequest, operator *auth.UserTokenPayload) error {
+func (r *TenantRepo) Create(ctx context.Context, req *userV1.CreateTenantRequest) error {
 	if req.Data == nil {
 		return errors.New("invalid request")
 	}
@@ -144,14 +143,11 @@ func (r *TenantRepo) Create(ctx context.Context, req *userV1.CreateTenantRequest
 		SetNillableStatus((*tenant.Status)(req.Data.Status)).
 		SetNillableSubscriptionAt(timeutil.TimestamppbToTime(req.Data.SubscriptionAt)).
 		SetNillableUnsubscribeAt(timeutil.TimestamppbToTime(req.Data.UnsubscribeAt)).
+		SetNillableCreateBy(req.Data.CreateBy).
 		SetNillableCreateTime(timeutil.StringTimeToTime(req.Data.CreateTime))
 
 	if req.Data.CreateTime == nil {
 		builder.SetCreateTime(time.Now())
-	}
-
-	if operator != nil {
-		builder.SetCreateBy(operator.UserId)
 	}
 
 	if req.Data.Id != nil {
@@ -166,7 +162,7 @@ func (r *TenantRepo) Create(ctx context.Context, req *userV1.CreateTenantRequest
 	return nil
 }
 
-func (r *TenantRepo) Update(ctx context.Context, req *userV1.UpdateTenantRequest, operator *auth.UserTokenPayload) error {
+func (r *TenantRepo) Update(ctx context.Context, req *userV1.UpdateTenantRequest) error {
 	if req.Data == nil {
 		return errors.New("invalid request")
 	}
@@ -178,7 +174,10 @@ func (r *TenantRepo) Update(ctx context.Context, req *userV1.UpdateTenantRequest
 			return err
 		}
 		if !exist {
-			return r.Create(ctx, &userV1.CreateTenantRequest{Data: req.Data}, operator)
+			createReq := &userV1.CreateTenantRequest{Data: req.Data}
+			createReq.Data.CreateBy = createReq.Data.UpdateBy
+			createReq.Data.UpdateBy = nil
+			return r.Create(ctx, createReq)
 		}
 	}
 
@@ -198,14 +197,11 @@ func (r *TenantRepo) Update(ctx context.Context, req *userV1.UpdateTenantRequest
 		SetNillableStatus((*tenant.Status)(req.Data.Status)).
 		SetNillableSubscriptionAt(timeutil.TimestamppbToTime(req.Data.SubscriptionAt)).
 		SetNillableUnsubscribeAt(timeutil.TimestamppbToTime(req.Data.UnsubscribeAt)).
+		SetNillableUpdateBy(req.Data.UpdateBy).
 		SetNillableUpdateTime(timeutil.StringTimeToTime(req.Data.UpdateTime))
 
 	if req.Data.UpdateTime == nil {
 		builder.SetUpdateTime(time.Now())
-	}
-
-	if operator != nil {
-		builder.SetUpdateBy(operator.UserId)
 	}
 
 	if req.UpdateMask != nil {

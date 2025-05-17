@@ -19,8 +19,6 @@ import (
 	"kratos-admin/app/admin/service/internal/data/ent/file"
 
 	fileV1 "kratos-admin/api/gen/go/file/service/v1"
-
-	"kratos-admin/pkg/middleware/auth"
 )
 
 type FileRepo struct {
@@ -221,7 +219,7 @@ func (r *FileRepo) Get(ctx context.Context, req *fileV1.GetFileRequest) (*fileV1
 	return r.convertEntToProto(ret), err
 }
 
-func (r *FileRepo) Create(ctx context.Context, req *fileV1.CreateFileRequest, operator *auth.UserTokenPayload) error {
+func (r *FileRepo) Create(ctx context.Context, req *fileV1.CreateFileRequest) error {
 	if req.Data == nil {
 		return errors.New("invalid request")
 	}
@@ -238,14 +236,11 @@ func (r *FileRepo) Create(ctx context.Context, req *fileV1.CreateFileRequest, op
 		SetNillableSizeFormat(req.Data.SizeFormat).
 		SetNillableLinkURL(req.Data.LinkUrl).
 		SetNillableMd5(req.Data.Md5).
+		SetNillableCreateBy(req.Data.CreateBy).
 		SetNillableCreateTime(timeutil.StringTimeToTime(req.Data.CreateTime))
 
 	if req.Data.CreateTime == nil {
 		builder.SetCreateTime(time.Now())
-	}
-
-	if operator != nil {
-		builder.SetCreateBy(operator.UserId)
 	}
 
 	if req.Data.Id != nil {
@@ -260,7 +255,7 @@ func (r *FileRepo) Create(ctx context.Context, req *fileV1.CreateFileRequest, op
 	return nil
 }
 
-func (r *FileRepo) Update(ctx context.Context, req *fileV1.UpdateFileRequest, operator *auth.UserTokenPayload) error {
+func (r *FileRepo) Update(ctx context.Context, req *fileV1.UpdateFileRequest) error {
 	if req.Data == nil {
 		return errors.New("invalid request")
 	}
@@ -272,7 +267,10 @@ func (r *FileRepo) Update(ctx context.Context, req *fileV1.UpdateFileRequest, op
 			return err
 		}
 		if !exist {
-			return r.Create(ctx, &fileV1.CreateFileRequest{Data: req.Data}, operator)
+			createReq := &fileV1.CreateFileRequest{Data: req.Data}
+			createReq.Data.CreateBy = createReq.Data.UpdateBy
+			createReq.Data.UpdateBy = nil
+			return r.Create(ctx, createReq)
 		}
 	}
 

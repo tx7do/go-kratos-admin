@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/go-kratos/kratos/v2/log"
+	"github.com/tx7do/go-utils/trans"
 	pagination "github.com/tx7do/kratos-bootstrap/api/gen/go/pagination/v1"
 	"google.golang.org/protobuf/types/known/emptypb"
 
@@ -74,10 +75,6 @@ func (s *UserService) Create(ctx context.Context, req *userV1.CreateUserRequest)
 		return nil, adminV1.ErrorBadRequest("错误的参数")
 	}
 
-	if req.Data.Authority == nil {
-		req.Data.Authority = userV1.UserAuthority_CUSTOMER_USER.Enum()
-	}
-
 	// 获取操作人信息
 	operator, err := auth.FromContext(ctx)
 	if err != nil {
@@ -95,14 +92,20 @@ func (s *UserService) Create(ctx context.Context, req *userV1.CreateUserRequest)
 		return nil, adminV1.ErrorAccessForbidden("权限不够")
 	}
 
+	if req.Data.Authority == nil {
+		req.Data.Authority = userV1.UserAuthority_CUSTOMER_USER.Enum()
+	}
+
 	if req.Data.Authority != nil {
 		if operatorUser.GetAuthority() >= req.Data.GetAuthority() {
 			return nil, adminV1.ErrorAccessForbidden("不能够创建同级用户或者比自己权限高的用户")
 		}
 	}
 
+	req.Data.CreateBy = trans.Ptr(operator.UserId)
+
 	// 创建用户
-	err = s.userRepo.Create(ctx, req, operator)
+	err = s.userRepo.Create(ctx, req)
 
 	return &emptypb.Empty{}, nil
 }
@@ -135,8 +138,10 @@ func (s *UserService) Update(ctx context.Context, req *userV1.UpdateUserRequest)
 		}
 	}
 
+	req.Data.UpdateBy = trans.Ptr(operator.UserId)
+
 	// 更新用户
-	err = s.userRepo.Update(ctx, req, operator)
+	err = s.userRepo.Update(ctx, req)
 
 	return &emptypb.Empty{}, nil
 }

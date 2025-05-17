@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/go-kratos/kratos/v2/log"
+	"github.com/tx7do/go-utils/trans"
 	"google.golang.org/protobuf/types/known/emptypb"
 
 	"kratos-admin/app/admin/service/internal/data"
@@ -50,7 +51,9 @@ func (s *FileService) Create(ctx context.Context, req *fileV1.CreateFileRequest)
 		return &emptypb.Empty{}, err
 	}
 
-	if err = s.uc.Create(ctx, req, operator); err != nil {
+	req.Data.CreateBy = trans.Ptr(operator.UserId)
+
+	if err = s.uc.Create(ctx, req); err != nil {
 		return nil, err
 	}
 
@@ -68,7 +71,9 @@ func (s *FileService) Update(ctx context.Context, req *fileV1.UpdateFileRequest)
 		return &emptypb.Empty{}, err
 	}
 
-	if err = s.uc.Update(ctx, req, operator); err != nil {
+	req.Data.UpdateBy = trans.Ptr(operator.UserId)
+
+	if err = s.uc.Update(ctx, req); err != nil {
 		return nil, err
 	}
 

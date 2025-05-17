@@ -19,8 +19,6 @@ import (
 	"kratos-admin/app/admin/service/internal/data/ent/dict"
 
 	systemV1 "kratos-admin/api/gen/go/system/service/v1"
-
-	"kratos-admin/pkg/middleware/auth"
 )
 
 type DictRepo struct {
@@ -131,7 +129,7 @@ func (r *DictRepo) Get(ctx context.Context, req *systemV1.GetDictRequest) (*syst
 	return r.convertEntToProto(ret), err
 }
 
-func (r *DictRepo) Create(ctx context.Context, req *systemV1.CreateDictRequest, operator *auth.UserTokenPayload) error {
+func (r *DictRepo) Create(ctx context.Context, req *systemV1.CreateDictRequest) error {
 	if req.Data == nil {
 		return errors.New("invalid request")
 	}
@@ -146,14 +144,11 @@ func (r *DictRepo) Create(ctx context.Context, req *systemV1.CreateDictRequest, 
 		SetNillableSortID(req.Data.SortId).
 		SetNillableStatus((*dict.Status)(req.Data.Status)).
 		SetNillableRemark(req.Data.Remark).
+		SetNillableCreateBy(req.Data.CreateBy).
 		SetNillableCreateTime(timeutil.StringTimeToTime(req.Data.CreateTime))
 
 	if req.Data.CreateTime == nil {
 		builder.SetCreateTime(time.Now())
-	}
-
-	if operator != nil {
-		builder.SetCreateBy(operator.UserId)
 	}
 
 	if req.Data.Id != nil {
@@ -168,7 +163,7 @@ func (r *DictRepo) Create(ctx context.Context, req *systemV1.CreateDictRequest, 
 	return nil
 }
 
-func (r *DictRepo) Update(ctx context.Context, req *systemV1.UpdateDictRequest, operator *auth.UserTokenPayload) error {
+func (r *DictRepo) Update(ctx context.Context, req *systemV1.UpdateDictRequest) error {
 	if req.Data == nil {
 		return errors.New("invalid request")
 	}
@@ -180,7 +175,10 @@ func (r *DictRepo) Update(ctx context.Context, req *systemV1.UpdateDictRequest, 
 			return err
 		}
 		if !exist {
-			return r.Create(ctx, &systemV1.CreateDictRequest{Data: req.Data}, operator)
+			createReq := &systemV1.CreateDictRequest{Data: req.Data}
+			createReq.Data.CreateBy = createReq.Data.UpdateBy
+			createReq.Data.UpdateBy = nil
+			return r.Create(ctx, createReq)
 		}
 	}
 
@@ -203,14 +201,11 @@ func (r *DictRepo) Update(ctx context.Context, req *systemV1.UpdateDictRequest, 
 		SetNillableSortID(req.Data.SortId).
 		SetNillableStatus((*dict.Status)(req.Data.Status)).
 		SetNillableRemark(req.Data.Remark).
+		SetNillableUpdateBy(req.Data.UpdateBy).
 		SetNillableUpdateTime(timeutil.StringTimeToTime(req.Data.UpdateTime))
 
 	if req.Data.UpdateTime == nil {
 		builder.SetUpdateTime(time.Now())
-	}
-
-	if operator != nil {
-		builder.SetUpdateBy(operator.UserId)
 	}
 
 	if req.UpdateMask != nil {

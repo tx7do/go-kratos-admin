@@ -22,8 +22,6 @@ import (
 	"kratos-admin/app/admin/service/internal/data/ent/user"
 
 	userV1 "kratos-admin/api/gen/go/user/service/v1"
-
-	"kratos-admin/pkg/middleware/auth"
 )
 
 type UserRepo struct {
@@ -219,7 +217,7 @@ func (r *UserRepo) Get(ctx context.Context, userId uint32) (*userV1.User, error)
 	return u, err
 }
 
-func (r *UserRepo) Create(ctx context.Context, req *userV1.CreateUserRequest, operator *auth.UserTokenPayload) error {
+func (r *UserRepo) Create(ctx context.Context, req *userV1.CreateUserRequest) error {
 	if req.Data == nil {
 		return errors.New("invalid request")
 	}
@@ -247,6 +245,7 @@ func (r *UserRepo) Create(ctx context.Context, req *userV1.CreateUserRequest, op
 		SetNillableWorkID(req.Data.WorkId).
 		SetNillablePositionID(req.Data.PositionId).
 		SetNillableTenantID(req.Data.TenantId).
+		SetNillableCreateBy(req.Data.CreateBy).
 		SetNillableCreateTime(timeutil.StringTimeToTime(req.Data.CreateTime))
 
 	if len(req.GetPassword()) > 0 {
@@ -258,10 +257,6 @@ func (r *UserRepo) Create(ctx context.Context, req *userV1.CreateUserRequest, op
 
 	if req.Data.CreateTime == nil {
 		builder.SetCreateTime(time.Now())
-	}
-
-	if operator != nil {
-		builder.SetCreateBy(operator.UserId)
 	}
 
 	if req.Data.Id != nil {
@@ -276,7 +271,7 @@ func (r *UserRepo) Create(ctx context.Context, req *userV1.CreateUserRequest, op
 	return nil
 }
 
-func (r *UserRepo) Update(ctx context.Context, req *userV1.UpdateUserRequest, operator *auth.UserTokenPayload) error {
+func (r *UserRepo) Update(ctx context.Context, req *userV1.UpdateUserRequest) error {
 	if req.Data == nil {
 		return errors.New("invalid request")
 	}
@@ -288,7 +283,10 @@ func (r *UserRepo) Update(ctx context.Context, req *userV1.UpdateUserRequest, op
 			return err
 		}
 		if !exist {
-			return r.Create(ctx, &userV1.CreateUserRequest{Data: req.Data}, operator)
+			createReq := &userV1.CreateUserRequest{Data: req.Data}
+			createReq.Data.CreateBy = createReq.Data.UpdateBy
+			createReq.Data.UpdateBy = nil
+			return r.Create(ctx, createReq)
 		}
 	}
 
@@ -322,14 +320,11 @@ func (r *UserRepo) Update(ctx context.Context, req *userV1.UpdateUserRequest, op
 		SetNillableRoleID(req.Data.RoleId).
 		SetNillableWorkID(req.Data.WorkId).
 		SetNillablePositionID(req.Data.PositionId).
+		SetNillableUpdateBy(req.Data.UpdateBy).
 		SetNillableUpdateTime(timeutil.StringTimeToTime(req.Data.UpdateTime))
 
 	if req.Data.UpdateTime == nil {
 		builder.SetUpdateTime(time.Now())
-	}
-
-	if operator != nil {
-		builder.SetUpdateBy(operator.UserId)
 	}
 
 	if len(req.GetPassword()) > 0 {

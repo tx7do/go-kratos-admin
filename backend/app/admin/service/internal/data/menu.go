@@ -20,8 +20,6 @@ import (
 	"kratos-admin/app/admin/service/internal/data/ent/menu"
 
 	systemV1 "kratos-admin/api/gen/go/system/service/v1"
-
-	"kratos-admin/pkg/middleware/auth"
 )
 
 type MenuRepo struct {
@@ -227,7 +225,7 @@ func (r *MenuRepo) Get(ctx context.Context, req *systemV1.GetMenuRequest) (*syst
 	return r.convertEntToProto(ret), err
 }
 
-func (r *MenuRepo) Create(ctx context.Context, req *systemV1.CreateMenuRequest, operator *auth.UserTokenPayload) error {
+func (r *MenuRepo) Create(ctx context.Context, req *systemV1.CreateMenuRequest) error {
 	if req.Data == nil {
 		return errors.New("invalid request")
 	}
@@ -241,14 +239,11 @@ func (r *MenuRepo) Create(ctx context.Context, req *systemV1.CreateMenuRequest, 
 		SetNillableName(req.Data.Name).
 		SetNillableComponent(req.Data.Component).
 		SetNillableStatus(r.convertUserStatusToEnt(req.Data.Status)).
+		SetNillableCreateBy(req.Data.CreateBy).
 		SetNillableCreateTime(timeutil.StringTimeToTime(req.Data.CreateTime))
 
 	if req.Data.CreateTime == nil {
 		builder.SetCreateTime(time.Now())
-	}
-
-	if operator != nil {
-		builder.SetCreateBy(operator.UserId)
 	}
 
 	if req.Data.Meta != nil {
@@ -267,7 +262,7 @@ func (r *MenuRepo) Create(ctx context.Context, req *systemV1.CreateMenuRequest, 
 	return nil
 }
 
-func (r *MenuRepo) Update(ctx context.Context, req *systemV1.UpdateMenuRequest, operator *auth.UserTokenPayload) error {
+func (r *MenuRepo) Update(ctx context.Context, req *systemV1.UpdateMenuRequest) error {
 	if req.Data == nil {
 		return errors.New("invalid request")
 	}
@@ -279,7 +274,10 @@ func (r *MenuRepo) Update(ctx context.Context, req *systemV1.UpdateMenuRequest, 
 			return err
 		}
 		if !exist {
-			return r.Create(ctx, &systemV1.CreateMenuRequest{Data: req.Data}, operator)
+			createReq := &systemV1.CreateMenuRequest{Data: req.Data}
+			createReq.Data.CreateBy = createReq.Data.UpdateBy
+			createReq.Data.UpdateBy = nil
+			return r.Create(ctx, createReq)
 		}
 	}
 
@@ -309,14 +307,11 @@ func (r *MenuRepo) Update(ctx context.Context, req *systemV1.UpdateMenuRequest, 
 		SetNillableName(req.Data.Name).
 		SetNillableComponent(req.Data.Component).
 		SetNillableStatus(r.convertUserStatusToEnt(req.Data.Status)).
+		SetNillableUpdateBy(req.Data.UpdateBy).
 		SetNillableUpdateTime(timeutil.StringTimeToTime(req.Data.UpdateTime))
 
 	if req.Data.UpdateTime == nil {
 		builder.SetUpdateTime(time.Now())
-	}
-
-	if operator != nil {
-		builder.SetUpdateBy(operator.UserId)
 	}
 
 	if req.Data.Meta != nil {

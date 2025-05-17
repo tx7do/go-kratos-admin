@@ -19,8 +19,6 @@ import (
 	"kratos-admin/app/admin/service/internal/data/ent/position"
 
 	userV1 "kratos-admin/api/gen/go/user/service/v1"
-
-	"kratos-admin/pkg/middleware/auth"
 )
 
 type PositionRepo struct {
@@ -129,7 +127,7 @@ func (r *PositionRepo) Get(ctx context.Context, req *userV1.GetPositionRequest) 
 	return r.convertEntToProto(ret), err
 }
 
-func (r *PositionRepo) Create(ctx context.Context, req *userV1.CreatePositionRequest, operator *auth.UserTokenPayload) error {
+func (r *PositionRepo) Create(ctx context.Context, req *userV1.CreatePositionRequest) error {
 	if req.Data == nil {
 		return errors.New("invalid request")
 	}
@@ -141,14 +139,11 @@ func (r *PositionRepo) Create(ctx context.Context, req *userV1.CreatePositionReq
 		SetNillableCode(req.Data.Code).
 		SetNillableStatus((*position.Status)(req.Data.Status)).
 		SetNillableRemark(req.Data.Remark).
+		SetNillableCreateBy(req.Data.CreateBy).
 		SetNillableCreateTime(timeutil.StringTimeToTime(req.Data.CreateTime))
 
 	if req.Data.CreateTime == nil {
 		builder.SetCreateTime(time.Now())
-	}
-
-	if operator != nil {
-		builder.SetCreateBy(operator.UserId)
 	}
 
 	if req.Data.Id != nil {
@@ -163,7 +158,7 @@ func (r *PositionRepo) Create(ctx context.Context, req *userV1.CreatePositionReq
 	return nil
 }
 
-func (r *PositionRepo) Update(ctx context.Context, req *userV1.UpdatePositionRequest, operator *auth.UserTokenPayload) error {
+func (r *PositionRepo) Update(ctx context.Context, req *userV1.UpdatePositionRequest) error {
 	if req.Data == nil {
 		return errors.New("invalid request")
 	}
@@ -175,7 +170,10 @@ func (r *PositionRepo) Update(ctx context.Context, req *userV1.UpdatePositionReq
 			return err
 		}
 		if !exist {
-			return r.Create(ctx, &userV1.CreatePositionRequest{Data: req.Data}, operator)
+			createReq := &userV1.CreatePositionRequest{Data: req.Data}
+			createReq.Data.CreateBy = createReq.Data.UpdateBy
+			createReq.Data.UpdateBy = nil
+			return r.Create(ctx, createReq)
 		}
 	}
 
@@ -194,14 +192,11 @@ func (r *PositionRepo) Update(ctx context.Context, req *userV1.UpdatePositionReq
 		SetNillableCode(req.Data.Code).
 		SetNillableRemark(req.Data.Remark).
 		SetNillableStatus((*position.Status)(req.Data.Status)).
+		SetNillableUpdateBy(req.Data.UpdateBy).
 		SetNillableUpdateTime(timeutil.StringTimeToTime(req.Data.UpdateTime))
 
 	if req.Data.UpdateTime == nil {
 		builder.SetUpdateTime(time.Now())
-	}
-
-	if operator != nil {
-		builder.SetUpdateBy(operator.UserId)
 	}
 
 	if req.UpdateMask != nil {

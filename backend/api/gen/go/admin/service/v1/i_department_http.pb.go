@@ -43,14 +43,14 @@ type DepartmentServiceHTTPServer interface {
 
 func RegisterDepartmentServiceHTTPServer(s *http.Server, srv DepartmentServiceHTTPServer) {
 	r := s.Route("/")
-	r.GET("/admin/v1/departments", _DepartmentService_List2_HTTP_Handler(srv))
-	r.GET("/admin/v1/departments/{id}", _DepartmentService_Get2_HTTP_Handler(srv))
-	r.POST("/admin/v1/departments", _DepartmentService_Create0_HTTP_Handler(srv))
-	r.PUT("/admin/v1/departments/{data.id}", _DepartmentService_Update0_HTTP_Handler(srv))
-	r.DELETE("/admin/v1/departments/{id}", _DepartmentService_Delete0_HTTP_Handler(srv))
+	r.GET("/admin/v1/departments", _DepartmentService_List3_HTTP_Handler(srv))
+	r.GET("/admin/v1/departments/{id}", _DepartmentService_Get3_HTTP_Handler(srv))
+	r.POST("/admin/v1/departments", _DepartmentService_Create1_HTTP_Handler(srv))
+	r.PUT("/admin/v1/departments/{data.id}", _DepartmentService_Update1_HTTP_Handler(srv))
+	r.DELETE("/admin/v1/departments/{id}", _DepartmentService_Delete1_HTTP_Handler(srv))
 }
 
-func _DepartmentService_List2_HTTP_Handler(srv DepartmentServiceHTTPServer) func(ctx http.Context) error {
+func _DepartmentService_List3_HTTP_Handler(srv DepartmentServiceHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
 		var in v1.PagingRequest
 		if err := ctx.BindQuery(&in); err != nil {
@@ -69,7 +69,7 @@ func _DepartmentService_List2_HTTP_Handler(srv DepartmentServiceHTTPServer) func
 	}
 }
 
-func _DepartmentService_Get2_HTTP_Handler(srv DepartmentServiceHTTPServer) func(ctx http.Context) error {
+func _DepartmentService_Get3_HTTP_Handler(srv DepartmentServiceHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
 		var in v11.GetDepartmentRequest
 		if err := ctx.BindQuery(&in); err != nil {
@@ -91,7 +91,7 @@ func _DepartmentService_Get2_HTTP_Handler(srv DepartmentServiceHTTPServer) func(
 	}
 }
 
-func _DepartmentService_Create0_HTTP_Handler(srv DepartmentServiceHTTPServer) func(ctx http.Context) error {
+func _DepartmentService_Create1_HTTP_Handler(srv DepartmentServiceHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
 		var in v11.CreateDepartmentRequest
 		if err := ctx.Bind(&in); err != nil {
@@ -113,7 +113,7 @@ func _DepartmentService_Create0_HTTP_Handler(srv DepartmentServiceHTTPServer) fu
 	}
 }
 
-func _DepartmentService_Update0_HTTP_Handler(srv DepartmentServiceHTTPServer) func(ctx http.Context) error {
+func _DepartmentService_Update1_HTTP_Handler(srv DepartmentServiceHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
 		var in v11.UpdateDepartmentRequest
 		if err := ctx.Bind(&in); err != nil {
@@ -138,7 +138,7 @@ func _DepartmentService_Update0_HTTP_Handler(srv DepartmentServiceHTTPServer) fu
 	}
 }
 
-func _DepartmentService_Delete0_HTTP_Handler(srv DepartmentServiceHTTPServer) func(ctx http.Context) error {
+func _DepartmentService_Delete1_HTTP_Handler(srv DepartmentServiceHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
 		var in v11.DeleteDepartmentRequest
 		if err := ctx.BindQuery(&in); err != nil {

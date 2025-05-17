@@ -12,6 +12,7 @@ import (
 	"kratos-admin/app/admin/service/internal/data/ent/migrate"
 
 	"kratos-admin/app/admin/service/internal/data/ent/adminloginlog"
+	"kratos-admin/app/admin/service/internal/data/ent/adminloginrestriction"
 	"kratos-admin/app/admin/service/internal/data/ent/adminoperationlog"
 	"kratos-admin/app/admin/service/internal/data/ent/department"
 	"kratos-admin/app/admin/service/internal/data/ent/dict"
@@ -41,6 +42,8 @@ type Client struct {
 	Schema *migrate.Schema
 	// AdminLoginLog is the client for interacting with the AdminLoginLog builders.
 	AdminLoginLog *AdminLoginLogClient
+	// AdminLoginRestriction is the client for interacting with the AdminLoginRestriction builders.
+	AdminLoginRestriction *AdminLoginRestrictionClient
 	// AdminOperationLog is the client for interacting with the AdminOperationLog builders.
 	AdminOperationLog *AdminOperationLogClient
 	// Department is the client for interacting with the Department builders.
@@ -83,6 +86,7 @@ func NewClient(opts ...Option) *Client {
 func (c *Client) init() {
 	c.Schema = migrate.NewSchema(c.driver)
 	c.AdminLoginLog = NewAdminLoginLogClient(c.config)
+	c.AdminLoginRestriction = NewAdminLoginRestrictionClient(c.config)
 	c.AdminOperationLog = NewAdminOperationLogClient(c.config)
 	c.Department = NewDepartmentClient(c.config)
 	c.Dict = NewDictClient(c.config)
@@ -191,6 +195,7 @@ func (c *Client) Tx(ctx context.Context) (*Tx, error) {
 		ctx:                          ctx,
 		config:                       cfg,
 		AdminLoginLog:                NewAdminLoginLogClient(cfg),
+		AdminLoginRestriction:        NewAdminLoginRestrictionClient(cfg),
 		AdminOperationLog:            NewAdminOperationLogClient(cfg),
 		Department:                   NewDepartmentClient(cfg),
 		Dict:                         NewDictClient(cfg),
@@ -226,6 +231,7 @@ func (c *Client) BeginTx(ctx context.Context, opts *sql.TxOptions) (*Tx, error) 
 		ctx:                          ctx,
 		config:                       cfg,
 		AdminLoginLog:                NewAdminLoginLogClient(cfg),
+		AdminLoginRestriction:        NewAdminLoginRestrictionClient(cfg),
 		AdminOperationLog:            NewAdminOperationLogClient(cfg),
 		Department:                   NewDepartmentClient(cfg),
 		Dict:                         NewDictClient(cfg),
@@ -270,8 +276,8 @@ func (c *Client) Close() error {
 // In order to add hooks to a specific client, call: `client.Node.Use(...)`.
 func (c *Client) Use(hooks ...Hook) {
 	for _, n := range []interface{ Use(...Hook) }{
-		c.AdminLoginLog, c.AdminOperationLog, c.Department, c.Dict, c.File, c.Menu,
-		c.NotificationMessage, c.NotificationMessageCategory,
+		c.AdminLoginLog, c.AdminLoginRestriction, c.AdminOperationLog, c.Department,
+		c.Dict, c.File, c.Menu, c.NotificationMessage, c.NotificationMessageCategory,
 		c.NotificationMessageRecipient, c.Organization, c.Position, c.PrivateMessage,
 		c.Role, c.Task, c.Tenant, c.User,
 	} {
@@ -283,8 +289,8 @@ func (c *Client) Use(hooks ...Hook) {
 // In order to add interceptors to a specific client, call: `client.Node.Intercept(...)`.
 func (c *Client) Intercept(interceptors ...Interceptor) {
 	for _, n := range []interface{ Intercept(...Interceptor) }{
-		c.AdminLoginLog, c.AdminOperationLog, c.Department, c.Dict, c.File, c.Menu,
-		c.NotificationMessage, c.NotificationMessageCategory,
+		c.AdminLoginLog, c.AdminLoginRestriction, c.AdminOperationLog, c.Department,
+		c.Dict, c.File, c.Menu, c.NotificationMessage, c.NotificationMessageCategory,
 		c.NotificationMessageRecipient, c.Organization, c.Position, c.PrivateMessage,
 		c.Role, c.Task, c.Tenant, c.User,
 	} {
@@ -297,6 +303,8 @@ func (c *Client) Mutate(ctx context.Context, m Mutation) (Value, error) {
 	switch m := m.(type) {
 	case *AdminLoginLogMutation:
 		return c.AdminLoginLog.mutate(ctx, m)
+	case *AdminLoginRestrictionMutation:
+		return c.AdminLoginRestriction.mutate(ctx, m)
 	case *AdminOperationLogMutation:
 		return c.AdminOperationLog.mutate(ctx, m)
 	case *DepartmentMutation:
@@ -462,6 +470,139 @@ func (c *AdminLoginLogClient) mutate(ctx context.Context, m *AdminLoginLogMutati
 		return (&AdminLoginLogDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
 	default:
 		return nil, fmt.Errorf("ent: unknown AdminLoginLog mutation op: %q", m.Op())
+	}
+}
+
+// AdminLoginRestrictionClient is a client for the AdminLoginRestriction schema.
+type AdminLoginRestrictionClient struct {
+	config
+}
+
+// NewAdminLoginRestrictionClient returns a client for the AdminLoginRestriction from the given config.
+func NewAdminLoginRestrictionClient(c config) *AdminLoginRestrictionClient {
+	return &AdminLoginRestrictionClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `adminloginrestriction.Hooks(f(g(h())))`.
+func (c *AdminLoginRestrictionClient) Use(hooks ...Hook) {
+	c.hooks.AdminLoginRestriction = append(c.hooks.AdminLoginRestriction, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `adminloginrestriction.Intercept(f(g(h())))`.
+func (c *AdminLoginRestrictionClient) Intercept(interceptors ...Interceptor) {
+	c.inters.AdminLoginRestriction = append(c.inters.AdminLoginRestriction, interceptors...)
+}
+
+// Create returns a builder for creating a AdminLoginRestriction entity.
+func (c *AdminLoginRestrictionClient) Create() *AdminLoginRestrictionCreate {
+	mutation := newAdminLoginRestrictionMutation(c.config, OpCreate)
+	return &AdminLoginRestrictionCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of AdminLoginRestriction entities.
+func (c *AdminLoginRestrictionClient) CreateBulk(builders ...*AdminLoginRestrictionCreate) *AdminLoginRestrictionCreateBulk {
+	return &AdminLoginRestrictionCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *AdminLoginRestrictionClient) MapCreateBulk(slice any, setFunc func(*AdminLoginRestrictionCreate, int)) *AdminLoginRestrictionCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &AdminLoginRestrictionCreateBulk{err: fmt.Errorf("calling to AdminLoginRestrictionClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*AdminLoginRestrictionCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &AdminLoginRestrictionCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for AdminLoginRestriction.
+func (c *AdminLoginRestrictionClient) Update() *AdminLoginRestrictionUpdate {
+	mutation := newAdminLoginRestrictionMutation(c.config, OpUpdate)
+	return &AdminLoginRestrictionUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *AdminLoginRestrictionClient) UpdateOne(alr *AdminLoginRestriction) *AdminLoginRestrictionUpdateOne {
+	mutation := newAdminLoginRestrictionMutation(c.config, OpUpdateOne, withAdminLoginRestriction(alr))
+	return &AdminLoginRestrictionUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *AdminLoginRestrictionClient) UpdateOneID(id uint32) *AdminLoginRestrictionUpdateOne {
+	mutation := newAdminLoginRestrictionMutation(c.config, OpUpdateOne, withAdminLoginRestrictionID(id))
+	return &AdminLoginRestrictionUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for AdminLoginRestriction.
+func (c *AdminLoginRestrictionClient) Delete() *AdminLoginRestrictionDelete {
+	mutation := newAdminLoginRestrictionMutation(c.config, OpDelete)
+	return &AdminLoginRestrictionDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *AdminLoginRestrictionClient) DeleteOne(alr *AdminLoginRestriction) *AdminLoginRestrictionDeleteOne {
+	return c.DeleteOneID(alr.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *AdminLoginRestrictionClient) DeleteOneID(id uint32) *AdminLoginRestrictionDeleteOne {
+	builder := c.Delete().Where(adminloginrestriction.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &AdminLoginRestrictionDeleteOne{builder}
+}
+
+// Query returns a query builder for AdminLoginRestriction.
+func (c *AdminLoginRestrictionClient) Query() *AdminLoginRestrictionQuery {
+	return &AdminLoginRestrictionQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeAdminLoginRestriction},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a AdminLoginRestriction entity by its id.
+func (c *AdminLoginRestrictionClient) Get(ctx context.Context, id uint32) (*AdminLoginRestriction, error) {
+	return c.Query().Where(adminloginrestriction.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *AdminLoginRestrictionClient) GetX(ctx context.Context, id uint32) *AdminLoginRestriction {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *AdminLoginRestrictionClient) Hooks() []Hook {
+	return c.hooks.AdminLoginRestriction
+}
+
+// Interceptors returns the client interceptors.
+func (c *AdminLoginRestrictionClient) Interceptors() []Interceptor {
+	return c.inters.AdminLoginRestriction
+}
+
+func (c *AdminLoginRestrictionClient) mutate(ctx context.Context, m *AdminLoginRestrictionMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&AdminLoginRestrictionCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&AdminLoginRestrictionUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&AdminLoginRestrictionUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&AdminLoginRestrictionDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown AdminLoginRestriction mutation op: %q", m.Op())
 	}
 }
 
@@ -2655,14 +2796,15 @@ func (c *UserClient) mutate(ctx context.Context, m *UserMutation) (Value, error)
 // hooks and interceptors per client, for fast access.
 type (
 	hooks struct {
-		AdminLoginLog, AdminOperationLog, Department, Dict, File, Menu,
-		NotificationMessage, NotificationMessageCategory, NotificationMessageRecipient,
-		Organization, Position, PrivateMessage, Role, Task, Tenant, User []ent.Hook
+		AdminLoginLog, AdminLoginRestriction, AdminOperationLog, Department, Dict, File,
+		Menu, NotificationMessage, NotificationMessageCategory,
+		NotificationMessageRecipient, Organization, Position, PrivateMessage, Role,
+		Task, Tenant, User []ent.Hook
 	}
 	inters struct {
-		AdminLoginLog, AdminOperationLog, Department, Dict, File, Menu,
-		NotificationMessage, NotificationMessageCategory, NotificationMessageRecipient,
-		Organization, Position, PrivateMessage, Role, Task, Tenant,
-		User []ent.Interceptor
+		AdminLoginLog, AdminLoginRestriction, AdminOperationLog, Department, Dict, File,
+		Menu, NotificationMessage, NotificationMessageCategory,
+		NotificationMessageRecipient, Organization, Position, PrivateMessage, Role,
+		Task, Tenant, User []ent.Interceptor
 	}
 )

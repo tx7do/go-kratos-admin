@@ -9,6 +9,9 @@ import (
 // AdminLoginLog is the predicate function for adminloginlog builders.
 type AdminLoginLog func(*sql.Selector)
 
+// AdminLoginRestriction is the predicate function for adminloginrestriction builders.
+type AdminLoginRestriction func(*sql.Selector)
+
 // AdminOperationLog is the predicate function for adminoperationlog builders.
 type AdminOperationLog func(*sql.Selector)
 

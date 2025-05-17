@@ -20,6 +20,18 @@ func (f AdminLoginLogFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Valu
 	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.AdminLoginLogMutation", m)
 }
 
+// The AdminLoginRestrictionFunc type is an adapter to allow the use of ordinary
+// function as AdminLoginRestriction mutator.
+type AdminLoginRestrictionFunc func(context.Context, *ent.AdminLoginRestrictionMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f AdminLoginRestrictionFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.AdminLoginRestrictionMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.AdminLoginRestrictionMutation", m)
+}
+
 // The AdminOperationLogFunc type is an adapter to allow the use of ordinary
 // function as AdminOperationLog mutator.
 type AdminOperationLogFunc func(context.Context, *ent.AdminOperationLogMutation) (ent.Value, error)

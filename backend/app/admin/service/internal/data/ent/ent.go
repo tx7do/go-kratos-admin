@@ -7,6 +7,7 @@ import (
 	"errors"
 	"fmt"
 	"kratos-admin/app/admin/service/internal/data/ent/adminloginlog"
+	"kratos-admin/app/admin/service/internal/data/ent/adminloginrestriction"
 	"kratos-admin/app/admin/service/internal/data/ent/adminoperationlog"
 	"kratos-admin/app/admin/service/internal/data/ent/department"
 	"kratos-admin/app/admin/service/internal/data/ent/dict"
@@ -89,6 +90,7 @@ func checkColumn(table, column string) error {
 	initCheck.Do(func() {
 		columnCheck = sql.NewColumnCheck(map[string]func(string) bool{
 			adminloginlog.Table:                adminloginlog.ValidColumn,
+			adminloginrestriction.Table:        adminloginrestriction.ValidColumn,
 			adminoperationlog.Table:            adminoperationlog.ValidColumn,
 			department.Table:                   department.ValidColumn,
 			dict.Table:                         dict.ValidColumn,

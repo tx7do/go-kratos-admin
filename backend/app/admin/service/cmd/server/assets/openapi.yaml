@@ -645,6 +645,138 @@ paths:
                                 $ref: '#/components/schemas/LoginResponse'
             security:
                 - {}
+    /admin/v1/login-restrictions:
+        get:
+            tags:
+                - AdminLoginRestrictionService
+            description: 查询后台登录限制列表
+            operationId: AdminLoginRestrictionService_List
+            parameters:
+                - name: page
+                  in: query
+                  description: 当前页码
+                  schema:
+                    type: integer
+                    format: int32
+                - name: pageSize
+                  in: query
+                  description: 每一页的行数
+                  schema:
+                    type: integer
+                    format: int32
+                - name: query
+                  in: query
+                  description: AND过滤参数，其语法为json格式的字符串，如：{"key1":"val1","key2":"val2"}，具体请参见：https://github.com/tx7do/go-utils/tree/main/entgo/query/README.md
+                  schema:
+                    type: string
+                - name: or
+                  in: query
+                  description: OR过滤参数，语法同AND过滤参数。
+                  schema:
+                    type: string
+                - name: orderBy
+                  in: query
+                  description: 排序条件，其语法为JSON字符串，例如：{"val1", "-val2"}。字段名前加'-'为降序，否则为升序。
+                  schema:
+                    type: array
+                    items:
+                        type: string
+                - name: noPaging
+                  in: query
+                  description: 是否不分页，如果为true，则page和pageSize参数无效。
+                  schema:
+                    type: boolean
+                - name: fieldMask
+                  in: query
+                  description: 字段掩码，其作用为SELECT中的字段，其语法为使用逗号分隔字段名，例如：id,realName,userName。如果为空则选中所有字段，即SELECT *。
+                  schema:
+                    type: string
+                    format: field-mask
+                - name: tenantId
+                  in: query
+                  schema:
+                    type: integer
+                    format: uint32
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ListAdminLoginRestrictionResponse'
+        post:
+            tags:
+                - AdminLoginRestrictionService
+            description: 创建后台登录限制
+            operationId: AdminLoginRestrictionService_Create
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/CreateAdminLoginRestrictionRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content: {}
+    /admin/v1/login-restrictions/{data.id}:
+        put:
+            tags:
+                - AdminLoginRestrictionService
+            description: 更新后台登录限制
+            operationId: AdminLoginRestrictionService_Update
+            parameters:
+                - name: data.id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/UpdateAdminLoginRestrictionRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content: {}
+    /admin/v1/login-restrictions/{id}:
+        get:
+            tags:
+                - AdminLoginRestrictionService
+            description: 查询后台登录限制详情
+            operationId: AdminLoginRestrictionService_Get
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: uint32
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/AdminLoginRestriction'
+        delete:
+            tags:
+                - AdminLoginRestrictionService
+            description: 删除后台登录限制
+            operationId: AdminLoginRestrictionService_Delete
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: uint32
+            responses:
+                "200":
+                    description: OK
+                    content: {}
     /admin/v1/logout:
         post:
             tags:
@@ -2359,6 +2491,60 @@ components:
                     description: 删除时间
                     format: date-time
             description: 后台登录日志
+        AdminLoginRestriction:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    description: 后台登录限制ID
+                    format: uint32
+                adminId:
+                    type: integer
+                    description: 管理员ID
+                    format: uint32
+                type:
+                    enum:
+                        - LOGIN_RESTRICTION_TYPE_UNSPECIFIED
+                        - LOGIN_RESTRICTION_TYPE_BLACKLIST
+                        - LOGIN_RESTRICTION_TYPE_WHITELIST
+                    type: string
+                    description: 限制类型
+                    format: enum
+                method:
+                    enum:
+                        - LOGIN_RESTRICTION_METHOD_UNSPECIFIED
+                        - LOGIN_RESTRICTION_METHOD_IP
+                        - LOGIN_RESTRICTION_METHOD_MAC
+                        - LOGIN_RESTRICTION_METHOD_REGION
+                        - LOGIN_RESTRICTION_METHOD_TIME
+                        - LOGIN_RESTRICTION_METHOD_DEVICE
+                    type: string
+                    description: 限制方式
+                    format: enum
+                value:
+                    type: string
+                    description: 限制值（如IP地址、MAC地址或地区代码）
+                reason:
+                    type: string
+                    description: 限制原因
+                createBy:
+                    type: integer
+                    description: 创建者ID
+                    format: uint32
+                updateBy:
+                    type: integer
+                    description: 更新者ID
+                    format: uint32
+                createTime:
+                    type: string
+                    description: 创建时间
+                updateTime:
+                    type: string
+                    description: 更新时间
+                deleteTime:
+                    type: string
+                    description: 删除时间
+            description: 后台登录限制
         AdminOperationLog:
             type: object
             properties:
@@ -2468,6 +2654,12 @@ components:
                     type: string
                     description: 任务执行类型名，例如 "send_email"、"generate_report" 等，用于区分不同类型的任务
             description: 控制调度任务 - 请求
+        CreateAdminLoginRestrictionRequest:
+            type: object
+            properties:
+                data:
+                    $ref: '#/components/schemas/AdminLoginRestriction'
+            description: 创建后台登录限制 - 请求
         CreateDepartmentRequest:
             type: object
             properties:
@@ -2771,6 +2963,17 @@ components:
                     type: integer
                     format: uint32
             description: 查询后台登录日志列表 - 回应
+        ListAdminLoginRestrictionResponse:
+            type: object
+            properties:
+                items:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/AdminLoginRestriction'
+                total:
+                    type: integer
+                    format: uint32
+            description: 查询后台登录限制列表 - 回应
         ListAdminOperationLogResponse:
             type: object
             properties:
@@ -3932,6 +4135,20 @@ components:
                 size:
                     type: integer
                     format: int32
+        UpdateAdminLoginRestrictionRequest:
+            type: object
+            properties:
+                data:
+                    $ref: '#/components/schemas/AdminLoginRestriction'
+                updateMask:
+                    example: id,realName,userName
+                    type: string
+                    description: 要更新的字段列表
+                    format: field-mask
+                allowMissing:
+                    type: boolean
+                    description: 如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。
+            description: 更新后台登录限制 - 请求
         UpdateDepartmentRequest:
             type: object
             properties:
@@ -4298,6 +4515,8 @@ security:
 tags:
     - name: AdminLoginLogService
       description: 后台登录日志管理服务
+    - name: AdminLoginRestrictionService
+      description: 后台登录限制管理服务
     - name: AdminOperationLogService
       description: 后台操作日志管理服务
     - name: AuthenticationService

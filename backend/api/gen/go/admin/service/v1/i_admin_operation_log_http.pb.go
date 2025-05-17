@@ -33,11 +33,11 @@ type AdminOperationLogServiceHTTPServer interface {
 
 func RegisterAdminOperationLogServiceHTTPServer(s *http.Server, srv AdminOperationLogServiceHTTPServer) {
 	r := s.Route("/")
-	r.GET("/admin/v1/admin_operation_logs", _AdminOperationLogService_List1_HTTP_Handler(srv))
-	r.GET("/admin/v1/admin_operation_logs/{id}", _AdminOperationLogService_Get1_HTTP_Handler(srv))
+	r.GET("/admin/v1/admin_operation_logs", _AdminOperationLogService_List2_HTTP_Handler(srv))
+	r.GET("/admin/v1/admin_operation_logs/{id}", _AdminOperationLogService_Get2_HTTP_Handler(srv))
 }
 
-func _AdminOperationLogService_List1_HTTP_Handler(srv AdminOperationLogServiceHTTPServer) func(ctx http.Context) error {
+func _AdminOperationLogService_List2_HTTP_Handler(srv AdminOperationLogServiceHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
 		var in v1.PagingRequest
 		if err := ctx.BindQuery(&in); err != nil {
@@ -56,7 +56,7 @@ func _AdminOperationLogService_List1_HTTP_Handler(srv AdminOperationLogServiceHT
 	}
 }
 
-func _AdminOperationLogService_Get1_HTTP_Handler(srv AdminOperationLogServiceHTTPServer) func(ctx http.Context) error {
+func _AdminOperationLogService_Get2_HTTP_Handler(srv AdminOperationLogServiceHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
 		var in v11.GetAdminOperationLogRequest
 		if err := ctx.BindQuery(&in); err != nil {

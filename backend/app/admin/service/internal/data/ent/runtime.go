@@ -4,6 +4,7 @@ package ent
 
 import (
 	"kratos-admin/app/admin/service/internal/data/ent/adminloginlog"
+	"kratos-admin/app/admin/service/internal/data/ent/adminloginrestriction"
 	"kratos-admin/app/admin/service/internal/data/ent/adminoperationlog"
 	"kratos-admin/app/admin/service/internal/data/ent/department"
 	"kratos-admin/app/admin/service/internal/data/ent/dict"
@@ -36,6 +37,15 @@ func init() {
 	adminloginlogDescID := adminloginlogMixinFields0[0].Descriptor()
 	// adminloginlog.IDValidator is a validator for the "id" field. It is called by the builders before save.
 	adminloginlog.IDValidator = adminloginlogDescID.Validators[0].(func(uint32) error)
+	adminloginrestrictionMixin := schema.AdminLoginRestriction{}.Mixin()
+	adminloginrestrictionMixinFields0 := adminloginrestrictionMixin[0].Fields()
+	_ = adminloginrestrictionMixinFields0
+	adminloginrestrictionFields := schema.AdminLoginRestriction{}.Fields()
+	_ = adminloginrestrictionFields
+	// adminloginrestrictionDescID is the schema descriptor for id field.
+	adminloginrestrictionDescID := adminloginrestrictionMixinFields0[0].Descriptor()
+	// adminloginrestriction.IDValidator is a validator for the "id" field. It is called by the builders before save.
+	adminloginrestriction.IDValidator = adminloginrestrictionDescID.Validators[0].(func(uint32) error)
 	adminoperationlogMixin := schema.AdminOperationLog{}.Mixin()
 	adminoperationlogMixinFields0 := adminoperationlogMixin[0].Fields()
 	_ = adminoperationlogMixinFields0

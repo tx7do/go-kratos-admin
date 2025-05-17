@@ -8,6 +8,7 @@ import (
 	"fmt"
 	servicev1 "kratos-admin/api/gen/go/system/service/v1"
 	"kratos-admin/app/admin/service/internal/data/ent/adminloginlog"
+	"kratos-admin/app/admin/service/internal/data/ent/adminloginrestriction"
 	"kratos-admin/app/admin/service/internal/data/ent/adminoperationlog"
 	"kratos-admin/app/admin/service/internal/data/ent/department"
 	"kratos-admin/app/admin/service/internal/data/ent/dict"
@@ -41,6 +42,7 @@ const (
 
 	// Node types.
 	TypeAdminLoginLog                = "AdminLoginLog"
+	TypeAdminLoginRestriction        = "AdminLoginRestriction"
 	TypeAdminOperationLog            = "AdminOperationLog"
 	TypeDepartment                   = "Department"
 	TypeDict                         = "Dict"
@@ -1795,6 +1797,1122 @@ func (m *AdminLoginLogMutation) ClearEdge(name string) error {
 // It returns an error if the edge is not defined in the schema.
 func (m *AdminLoginLogMutation) ResetEdge(name string) error {
 	return fmt.Errorf("unknown AdminLoginLog edge %s", name)
+}
+
+// AdminLoginRestrictionMutation represents an operation that mutates the AdminLoginRestriction nodes in the graph.
+type AdminLoginRestrictionMutation struct {
+	config
+	op            Op
+	typ           string
+	id            *uint32
+	create_time   *time.Time
+	update_time   *time.Time
+	delete_time   *time.Time
+	create_by     *uint32
+	addcreate_by  *int32
+	update_by     *uint32
+	addupdate_by  *int32
+	admin_id      *uint32
+	addadmin_id   *int32
+	value         *string
+	reason        *string
+	_type         *adminloginrestriction.Type
+	method        *adminloginrestriction.Method
+	clearedFields map[string]struct{}
+	done          bool
+	oldValue      func(context.Context) (*AdminLoginRestriction, error)
+	predicates    []predicate.AdminLoginRestriction
+}
+
+var _ ent.Mutation = (*AdminLoginRestrictionMutation)(nil)
+
+// adminloginrestrictionOption allows management of the mutation configuration using functional options.
+type adminloginrestrictionOption func(*AdminLoginRestrictionMutation)
+
+// newAdminLoginRestrictionMutation creates new mutation for the AdminLoginRestriction entity.
+func newAdminLoginRestrictionMutation(c config, op Op, opts ...adminloginrestrictionOption) *AdminLoginRestrictionMutation {
+	m := &AdminLoginRestrictionMutation{
+		config:        c,
+		op:            op,
+		typ:           TypeAdminLoginRestriction,
+		clearedFields: make(map[string]struct{}),
+	}
+	for _, opt := range opts {
+		opt(m)
+	}
+	return m
+}
+
+// withAdminLoginRestrictionID sets the ID field of the mutation.
+func withAdminLoginRestrictionID(id uint32) adminloginrestrictionOption {
+	return func(m *AdminLoginRestrictionMutation) {
+		var (
+			err   error
+			once  sync.Once
+			value *AdminLoginRestriction
+		)
+		m.oldValue = func(ctx context.Context) (*AdminLoginRestriction, error) {
+			once.Do(func() {
+				if m.done {
+					err = errors.New("querying old values post mutation is not allowed")
+				} else {
+					value, err = m.Client().AdminLoginRestriction.Get(ctx, id)
+				}
+			})
+			return value, err
+		}
+		m.id = &id
+	}
+}
+
+// withAdminLoginRestriction sets the old AdminLoginRestriction of the mutation.
+func withAdminLoginRestriction(node *AdminLoginRestriction) adminloginrestrictionOption {
+	return func(m *AdminLoginRestrictionMutation) {
+		m.oldValue = func(context.Context) (*AdminLoginRestriction, error) {
+			return node, nil
+		}
+		m.id = &node.ID
+	}
+}
+
+// Client returns a new `ent.Client` from the mutation. If the mutation was
+// executed in a transaction (ent.Tx), a transactional client is returned.
+func (m AdminLoginRestrictionMutation) Client() *Client {
+	client := &Client{config: m.config}
+	client.init()
+	return client
+}
+
+// Tx returns an `ent.Tx` for mutations that were executed in transactions;
+// it returns an error otherwise.
+func (m AdminLoginRestrictionMutation) Tx() (*Tx, error) {
+	if _, ok := m.driver.(*txDriver); !ok {
+		return nil, errors.New("ent: mutation is not running in a transaction")
+	}
+	tx := &Tx{config: m.config}
+	tx.init()
+	return tx, nil
+}
+
+// SetID sets the value of the id field. Note that this
+// operation is only accepted on creation of AdminLoginRestriction entities.
+func (m *AdminLoginRestrictionMutation) SetID(id uint32) {
+	m.id = &id
+}
+
+// ID returns the ID value in the mutation. Note that the ID is only available
+// if it was provided to the builder or after it was returned from the database.
+func (m *AdminLoginRestrictionMutation) ID() (id uint32, exists bool) {
+	if m.id == nil {
+		return
+	}
+	return *m.id, true
+}
+
+// IDs queries the database and returns the entity ids that match the mutation's predicate.
+// That means, if the mutation is applied within a transaction with an isolation level such
+// as sql.LevelSerializable, the returned ids match the ids of the rows that will be updated
+// or updated by the mutation.
+func (m *AdminLoginRestrictionMutation) IDs(ctx context.Context) ([]uint32, error) {
+	switch {
+	case m.op.Is(OpUpdateOne | OpDeleteOne):
+		id, exists := m.ID()
+		if exists {
+			return []uint32{id}, nil
+		}
+		fallthrough
+	case m.op.Is(OpUpdate | OpDelete):
+		return m.Client().AdminLoginRestriction.Query().Where(m.predicates...).IDs(ctx)
+	default:
+		return nil, fmt.Errorf("IDs is not allowed on %s operations", m.op)
+	}
+}
+
+// SetCreateTime sets the "create_time" field.
+func (m *AdminLoginRestrictionMutation) SetCreateTime(t time.Time) {
+	m.create_time = &t
+}
+
+// CreateTime returns the value of the "create_time" field in the mutation.
+func (m *AdminLoginRestrictionMutation) CreateTime() (r time.Time, exists bool) {
+	v := m.create_time
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldCreateTime returns the old "create_time" field's value of the AdminLoginRestriction entity.
+// If the AdminLoginRestriction object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *AdminLoginRestrictionMutation) OldCreateTime(ctx context.Context) (v *time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldCreateTime is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldCreateTime requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldCreateTime: %w", err)
+	}
+	return oldValue.CreateTime, nil
+}
+
+// ClearCreateTime clears the value of the "create_time" field.
+func (m *AdminLoginRestrictionMutation) ClearCreateTime() {
+	m.create_time = nil
+	m.clearedFields[adminloginrestriction.FieldCreateTime] = struct{}{}
+}
+
+// CreateTimeCleared returns if the "create_time" field was cleared in this mutation.
+func (m *AdminLoginRestrictionMutation) CreateTimeCleared() bool {
+	_, ok := m.clearedFields[adminloginrestriction.FieldCreateTime]
+	return ok
+}
+
+// ResetCreateTime resets all changes to the "create_time" field.
+func (m *AdminLoginRestrictionMutation) ResetCreateTime() {
+	m.create_time = nil
+	delete(m.clearedFields, adminloginrestriction.FieldCreateTime)
+}
+
+// SetUpdateTime sets the "update_time" field.
+func (m *AdminLoginRestrictionMutation) SetUpdateTime(t time.Time) {
+	m.update_time = &t
+}
+
+// UpdateTime returns the value of the "update_time" field in the mutation.
+func (m *AdminLoginRestrictionMutation) UpdateTime() (r time.Time, exists bool) {
+	v := m.update_time
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldUpdateTime returns the old "update_time" field's value of the AdminLoginRestriction entity.
+// If the AdminLoginRestriction object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *AdminLoginRestrictionMutation) OldUpdateTime(ctx context.Context) (v *time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldUpdateTime is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldUpdateTime requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldUpdateTime: %w", err)
+	}
+	return oldValue.UpdateTime, nil
+}
+
+// ClearUpdateTime clears the value of the "update_time" field.
+func (m *AdminLoginRestrictionMutation) ClearUpdateTime() {
+	m.update_time = nil
+	m.clearedFields[adminloginrestriction.FieldUpdateTime] = struct{}{}
+}
+
+// UpdateTimeCleared returns if the "update_time" field was cleared in this mutation.
+func (m *AdminLoginRestrictionMutation) UpdateTimeCleared() bool {
+	_, ok := m.clearedFields[adminloginrestriction.FieldUpdateTime]
+	return ok
+}
+
+// ResetUpdateTime resets all changes to the "update_time" field.
+func (m *AdminLoginRestrictionMutation) ResetUpdateTime() {
+	m.update_time = nil
+	delete(m.clearedFields, adminloginrestriction.FieldUpdateTime)
+}
+
+// SetDeleteTime sets the "delete_time" field.
+func (m *AdminLoginRestrictionMutation) SetDeleteTime(t time.Time) {
+	m.delete_time = &t
+}
+
+// DeleteTime returns the value of the "delete_time" field in the mutation.
+func (m *AdminLoginRestrictionMutation) DeleteTime() (r time.Time, exists bool) {
+	v := m.delete_time
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldDeleteTime returns the old "delete_time" field's value of the AdminLoginRestriction entity.
+// If the AdminLoginRestriction object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *AdminLoginRestrictionMutation) OldDeleteTime(ctx context.Context) (v *time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldDeleteTime is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldDeleteTime requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldDeleteTime: %w", err)
+	}
+	return oldValue.DeleteTime, nil
+}
+
+// ClearDeleteTime clears the value of the "delete_time" field.
+func (m *AdminLoginRestrictionMutation) ClearDeleteTime() {
+	m.delete_time = nil
+	m.clearedFields[adminloginrestriction.FieldDeleteTime] = struct{}{}
+}
+
+// DeleteTimeCleared returns if the "delete_time" field was cleared in this mutation.
+func (m *AdminLoginRestrictionMutation) DeleteTimeCleared() bool {
+	_, ok := m.clearedFields[adminloginrestriction.FieldDeleteTime]
+	return ok
+}
+
+// ResetDeleteTime resets all changes to the "delete_time" field.
+func (m *AdminLoginRestrictionMutation) ResetDeleteTime() {
+	m.delete_time = nil
+	delete(m.clearedFields, adminloginrestriction.FieldDeleteTime)
+}
+
+// SetCreateBy sets the "create_by" field.
+func (m *AdminLoginRestrictionMutation) SetCreateBy(u uint32) {
+	m.create_by = &u
+	m.addcreate_by = nil
+}
+
+// CreateBy returns the value of the "create_by" field in the mutation.
+func (m *AdminLoginRestrictionMutation) CreateBy() (r uint32, exists bool) {
+	v := m.create_by
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldCreateBy returns the old "create_by" field's value of the AdminLoginRestriction entity.
+// If the AdminLoginRestriction object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *AdminLoginRestrictionMutation) OldCreateBy(ctx context.Context) (v *uint32, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldCreateBy is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldCreateBy requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldCreateBy: %w", err)
+	}
+	return oldValue.CreateBy, nil
+}
+
+// AddCreateBy adds u to the "create_by" field.
+func (m *AdminLoginRestrictionMutation) AddCreateBy(u int32) {
+	if m.addcreate_by != nil {
+		*m.addcreate_by += u
+	} else {
+		m.addcreate_by = &u
+	}
+}
+
+// AddedCreateBy returns the value that was added to the "create_by" field in this mutation.
+func (m *AdminLoginRestrictionMutation) AddedCreateBy() (r int32, exists bool) {
+	v := m.addcreate_by
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ClearCreateBy clears the value of the "create_by" field.
+func (m *AdminLoginRestrictionMutation) ClearCreateBy() {
+	m.create_by = nil
+	m.addcreate_by = nil
+	m.clearedFields[adminloginrestriction.FieldCreateBy] = struct{}{}
+}
+
+// CreateByCleared returns if the "create_by" field was cleared in this mutation.
+func (m *AdminLoginRestrictionMutation) CreateByCleared() bool {
+	_, ok := m.clearedFields[adminloginrestriction.FieldCreateBy]
+	return ok
+}
+
+// ResetCreateBy resets all changes to the "create_by" field.
+func (m *AdminLoginRestrictionMutation) ResetCreateBy() {
+	m.create_by = nil
+	m.addcreate_by = nil
+	delete(m.clearedFields, adminloginrestriction.FieldCreateBy)
+}
+
+// SetUpdateBy sets the "update_by" field.
+func (m *AdminLoginRestrictionMutation) SetUpdateBy(u uint32) {
+	m.update_by = &u
+	m.addupdate_by = nil
+}
+
+// UpdateBy returns the value of the "update_by" field in the mutation.
+func (m *AdminLoginRestrictionMutation) UpdateBy() (r uint32, exists bool) {
+	v := m.update_by
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldUpdateBy returns the old "update_by" field's value of the AdminLoginRestriction entity.
+// If the AdminLoginRestriction object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *AdminLoginRestrictionMutation) OldUpdateBy(ctx context.Context) (v *uint32, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldUpdateBy is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldUpdateBy requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldUpdateBy: %w", err)
+	}
+	return oldValue.UpdateBy, nil
+}
+
+// AddUpdateBy adds u to the "update_by" field.
+func (m *AdminLoginRestrictionMutation) AddUpdateBy(u int32) {
+	if m.addupdate_by != nil {
+		*m.addupdate_by += u
+	} else {
+		m.addupdate_by = &u
+	}
+}
+
+// AddedUpdateBy returns the value that was added to the "update_by" field in this mutation.
+func (m *AdminLoginRestrictionMutation) AddedUpdateBy() (r int32, exists bool) {
+	v := m.addupdate_by
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ClearUpdateBy clears the value of the "update_by" field.
+func (m *AdminLoginRestrictionMutation) ClearUpdateBy() {
+	m.update_by = nil
+	m.addupdate_by = nil
+	m.clearedFields[adminloginrestriction.FieldUpdateBy] = struct{}{}
+}
+
+// UpdateByCleared returns if the "update_by" field was cleared in this mutation.
+func (m *AdminLoginRestrictionMutation) UpdateByCleared() bool {
+	_, ok := m.clearedFields[adminloginrestriction.FieldUpdateBy]
+	return ok
+}
+
+// ResetUpdateBy resets all changes to the "update_by" field.
+func (m *AdminLoginRestrictionMutation) ResetUpdateBy() {
+	m.update_by = nil
+	m.addupdate_by = nil
+	delete(m.clearedFields, adminloginrestriction.FieldUpdateBy)
+}
+
+// SetAdminID sets the "admin_id" field.
+func (m *AdminLoginRestrictionMutation) SetAdminID(u uint32) {
+	m.admin_id = &u
+	m.addadmin_id = nil
+}
+
+// AdminID returns the value of the "admin_id" field in the mutation.
+func (m *AdminLoginRestrictionMutation) AdminID() (r uint32, exists bool) {
+	v := m.admin_id
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldAdminID returns the old "admin_id" field's value of the AdminLoginRestriction entity.
+// If the AdminLoginRestriction object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *AdminLoginRestrictionMutation) OldAdminID(ctx context.Context) (v *uint32, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldAdminID is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldAdminID requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldAdminID: %w", err)
+	}
+	return oldValue.AdminID, nil
+}
+
+// AddAdminID adds u to the "admin_id" field.
+func (m *AdminLoginRestrictionMutation) AddAdminID(u int32) {
+	if m.addadmin_id != nil {
+		*m.addadmin_id += u
+	} else {
+		m.addadmin_id = &u
+	}
+}
+
+// AddedAdminID returns the value that was added to the "admin_id" field in this mutation.
+func (m *AdminLoginRestrictionMutation) AddedAdminID() (r int32, exists bool) {
+	v := m.addadmin_id
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ClearAdminID clears the value of the "admin_id" field.
+func (m *AdminLoginRestrictionMutation) ClearAdminID() {
+	m.admin_id = nil
+	m.addadmin_id = nil
+	m.clearedFields[adminloginrestriction.FieldAdminID] = struct{}{}
+}
+
+// AdminIDCleared returns if the "admin_id" field was cleared in this mutation.
+func (m *AdminLoginRestrictionMutation) AdminIDCleared() bool {
+	_, ok := m.clearedFields[adminloginrestriction.FieldAdminID]
+	return ok
+}
+
+// ResetAdminID resets all changes to the "admin_id" field.
+func (m *AdminLoginRestrictionMutation) ResetAdminID() {
+	m.admin_id = nil
+	m.addadmin_id = nil
+	delete(m.clearedFields, adminloginrestriction.FieldAdminID)
+}
+
+// SetValue sets the "value" field.
+func (m *AdminLoginRestrictionMutation) SetValue(s string) {
+	m.value = &s
+}
+
+// Value returns the value of the "value" field in the mutation.
+func (m *AdminLoginRestrictionMutation) Value() (r string, exists bool) {
+	v := m.value
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldValue returns the old "value" field's value of the AdminLoginRestriction entity.
+// If the AdminLoginRestriction object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *AdminLoginRestrictionMutation) OldValue(ctx context.Context) (v *string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldValue is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldValue requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldValue: %w", err)
+	}
+	return oldValue.Value, nil
+}
+
+// ClearValue clears the value of the "value" field.
+func (m *AdminLoginRestrictionMutation) ClearValue() {
+	m.value = nil
+	m.clearedFields[adminloginrestriction.FieldValue] = struct{}{}
+}
+
+// ValueCleared returns if the "value" field was cleared in this mutation.
+func (m *AdminLoginRestrictionMutation) ValueCleared() bool {
+	_, ok := m.clearedFields[adminloginrestriction.FieldValue]
+	return ok
+}
+
+// ResetValue resets all changes to the "value" field.
+func (m *AdminLoginRestrictionMutation) ResetValue() {
+	m.value = nil
+	delete(m.clearedFields, adminloginrestriction.FieldValue)
+}
+
+// SetReason sets the "reason" field.
+func (m *AdminLoginRestrictionMutation) SetReason(s string) {
+	m.reason = &s
+}
+
+// Reason returns the value of the "reason" field in the mutation.
+func (m *AdminLoginRestrictionMutation) Reason() (r string, exists bool) {
+	v := m.reason
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldReason returns the old "reason" field's value of the AdminLoginRestriction entity.
+// If the AdminLoginRestriction object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *AdminLoginRestrictionMutation) OldReason(ctx context.Context) (v *string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldReason is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldReason requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldReason: %w", err)
+	}
+	return oldValue.Reason, nil
+}
+
+// ClearReason clears the value of the "reason" field.
+func (m *AdminLoginRestrictionMutation) ClearReason() {
+	m.reason = nil
+	m.clearedFields[adminloginrestriction.FieldReason] = struct{}{}
+}
+
+// ReasonCleared returns if the "reason" field was cleared in this mutation.
+func (m *AdminLoginRestrictionMutation) ReasonCleared() bool {
+	_, ok := m.clearedFields[adminloginrestriction.FieldReason]
+	return ok
+}
+
+// ResetReason resets all changes to the "reason" field.
+func (m *AdminLoginRestrictionMutation) ResetReason() {
+	m.reason = nil
+	delete(m.clearedFields, adminloginrestriction.FieldReason)
+}
+
+// SetType sets the "type" field.
+func (m *AdminLoginRestrictionMutation) SetType(a adminloginrestriction.Type) {
+	m._type = &a
+}
+
+// GetType returns the value of the "type" field in the mutation.
+func (m *AdminLoginRestrictionMutation) GetType() (r adminloginrestriction.Type, exists bool) {
+	v := m._type
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldType returns the old "type" field's value of the AdminLoginRestriction entity.
+// If the AdminLoginRestriction object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *AdminLoginRestrictionMutation) OldType(ctx context.Context) (v *adminloginrestriction.Type, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldType is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldType requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldType: %w", err)
+	}
+	return oldValue.Type, nil
+}
+
+// ClearType clears the value of the "type" field.
+func (m *AdminLoginRestrictionMutation) ClearType() {
+	m._type = nil
+	m.clearedFields[adminloginrestriction.FieldType] = struct{}{}
+}
+
+// TypeCleared returns if the "type" field was cleared in this mutation.
+func (m *AdminLoginRestrictionMutation) TypeCleared() bool {
+	_, ok := m.clearedFields[adminloginrestriction.FieldType]
+	return ok
+}
+
+// ResetType resets all changes to the "type" field.
+func (m *AdminLoginRestrictionMutation) ResetType() {
+	m._type = nil
+	delete(m.clearedFields, adminloginrestriction.FieldType)
+}
+
+// SetMethod sets the "method" field.
+func (m *AdminLoginRestrictionMutation) SetMethod(a adminloginrestriction.Method) {
+	m.method = &a
+}
+
+// Method returns the value of the "method" field in the mutation.
+func (m *AdminLoginRestrictionMutation) Method() (r adminloginrestriction.Method, exists bool) {
+	v := m.method
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldMethod returns the old "method" field's value of the AdminLoginRestriction entity.
+// If the AdminLoginRestriction object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *AdminLoginRestrictionMutation) OldMethod(ctx context.Context) (v *adminloginrestriction.Method, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldMethod is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldMethod requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldMethod: %w", err)
+	}
+	return oldValue.Method, nil
+}
+
+// ClearMethod clears the value of the "method" field.
+func (m *AdminLoginRestrictionMutation) ClearMethod() {
+	m.method = nil
+	m.clearedFields[adminloginrestriction.FieldMethod] = struct{}{}
+}
+
+// MethodCleared returns if the "method" field was cleared in this mutation.
+func (m *AdminLoginRestrictionMutation) MethodCleared() bool {
+	_, ok := m.clearedFields[adminloginrestriction.FieldMethod]
+	return ok
+}
+
+// ResetMethod resets all changes to the "method" field.
+func (m *AdminLoginRestrictionMutation) ResetMethod() {
+	m.method = nil
+	delete(m.clearedFields, adminloginrestriction.FieldMethod)
+}
+
+// Where appends a list predicates to the AdminLoginRestrictionMutation builder.
+func (m *AdminLoginRestrictionMutation) Where(ps ...predicate.AdminLoginRestriction) {
+	m.predicates = append(m.predicates, ps...)
+}
+
+// WhereP appends storage-level predicates to the AdminLoginRestrictionMutation builder. Using this method,
+// users can use type-assertion to append predicates that do not depend on any generated package.
+func (m *AdminLoginRestrictionMutation) WhereP(ps ...func(*sql.Selector)) {
+	p := make([]predicate.AdminLoginRestriction, len(ps))
+	for i := range ps {
+		p[i] = ps[i]
+	}
+	m.Where(p...)
+}
+
+// Op returns the operation name.
+func (m *AdminLoginRestrictionMutation) Op() Op {
+	return m.op
+}
+
+// SetOp allows setting the mutation operation.
+func (m *AdminLoginRestrictionMutation) SetOp(op Op) {
+	m.op = op
+}
+
+// Type returns the node type of this mutation (AdminLoginRestriction).
+func (m *AdminLoginRestrictionMutation) Type() string {
+	return m.typ
+}
+
+// Fields returns all fields that were changed during this mutation. Note that in
+// order to get all numeric fields that were incremented/decremented, call
+// AddedFields().
+func (m *AdminLoginRestrictionMutation) Fields() []string {
+	fields := make([]string, 0, 10)
+	if m.create_time != nil {
+		fields = append(fields, adminloginrestriction.FieldCreateTime)
+	}
+	if m.update_time != nil {
+		fields = append(fields, adminloginrestriction.FieldUpdateTime)
+	}
+	if m.delete_time != nil {
+		fields = append(fields, adminloginrestriction.FieldDeleteTime)
+	}
+	if m.create_by != nil {
+		fields = append(fields, adminloginrestriction.FieldCreateBy)
+	}
+	if m.update_by != nil {
+		fields = append(fields, adminloginrestriction.FieldUpdateBy)
+	}
+	if m.admin_id != nil {
+		fields = append(fields, adminloginrestriction.FieldAdminID)
+	}
+	if m.value != nil {
+		fields = append(fields, adminloginrestriction.FieldValue)
+	}
+	if m.reason != nil {
+		fields = append(fields, adminloginrestriction.FieldReason)
+	}
+	if m._type != nil {
+		fields = append(fields, adminloginrestriction.FieldType)
+	}
+	if m.method != nil {
+		fields = append(fields, adminloginrestriction.FieldMethod)
+	}
+	return fields
+}
+
+// Field returns the value of a field with the given name. The second boolean
+// return value indicates that this field was not set, or was not defined in the
+// schema.
+func (m *AdminLoginRestrictionMutation) Field(name string) (ent.Value, bool) {
+	switch name {
+	case adminloginrestriction.FieldCreateTime:
+		return m.CreateTime()
+	case adminloginrestriction.FieldUpdateTime:
+		return m.UpdateTime()
+	case adminloginrestriction.FieldDeleteTime:
+		return m.DeleteTime()
+	case adminloginrestriction.FieldCreateBy:
+		return m.CreateBy()
+	case adminloginrestriction.FieldUpdateBy:
+		return m.UpdateBy()
+	case adminloginrestriction.FieldAdminID:
+		return m.AdminID()
+	case adminloginrestriction.FieldValue:
+		return m.Value()
+	case adminloginrestriction.FieldReason:
+		return m.Reason()
+	case adminloginrestriction.FieldType:
+		return m.GetType()
+	case adminloginrestriction.FieldMethod:
+		return m.Method()
+	}
+	return nil, false
+}
+
+// OldField returns the old value of the field from the database. An error is
+// returned if the mutation operation is not UpdateOne, or the query to the
+// database failed.
+func (m *AdminLoginRestrictionMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
+	switch name {
+	case adminloginrestriction.FieldCreateTime:
+		return m.OldCreateTime(ctx)
+	case adminloginrestriction.FieldUpdateTime:
+		return m.OldUpdateTime(ctx)
+	case adminloginrestriction.FieldDeleteTime:
+		return m.OldDeleteTime(ctx)
+	case adminloginrestriction.FieldCreateBy:
+		return m.OldCreateBy(ctx)
+	case adminloginrestriction.FieldUpdateBy:
+		return m.OldUpdateBy(ctx)
+	case adminloginrestriction.FieldAdminID:
+		return m.OldAdminID(ctx)
+	case adminloginrestriction.FieldValue:
+		return m.OldValue(ctx)
+	case adminloginrestriction.FieldReason:
+		return m.OldReason(ctx)
+	case adminloginrestriction.FieldType:
+		return m.OldType(ctx)
+	case adminloginrestriction.FieldMethod:
+		return m.OldMethod(ctx)
+	}
+	return nil, fmt.Errorf("unknown AdminLoginRestriction field %s", name)
+}
+
+// SetField sets the value of a field with the given name. It returns an error if
+// the field is not defined in the schema, or if the type mismatched the field
+// type.
+func (m *AdminLoginRestrictionMutation) SetField(name string, value ent.Value) error {
+	switch name {
+	case adminloginrestriction.FieldCreateTime:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetCreateTime(v)
+		return nil
+	case adminloginrestriction.FieldUpdateTime:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetUpdateTime(v)
+		return nil
+	case adminloginrestriction.FieldDeleteTime:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetDeleteTime(v)
+		return nil
+	case adminloginrestriction.FieldCreateBy:
+		v, ok := value.(uint32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetCreateBy(v)
+		return nil
+	case adminloginrestriction.FieldUpdateBy:
+		v, ok := value.(uint32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetUpdateBy(v)
+		return nil
+	case adminloginrestriction.FieldAdminID:
+		v, ok := value.(uint32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetAdminID(v)
+		return nil
+	case adminloginrestriction.FieldValue:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetValue(v)
+		return nil
+	case adminloginrestriction.FieldReason:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetReason(v)
+		return nil
+	case adminloginrestriction.FieldType:
+		v, ok := value.(adminloginrestriction.Type)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetType(v)
+		return nil
+	case adminloginrestriction.FieldMethod:
+		v, ok := value.(adminloginrestriction.Method)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetMethod(v)
+		return nil
+	}
+	return fmt.Errorf("unknown AdminLoginRestriction field %s", name)
+}
+
+// AddedFields returns all numeric fields that were incremented/decremented during
+// this mutation.
+func (m *AdminLoginRestrictionMutation) AddedFields() []string {
+	var fields []string
+	if m.addcreate_by != nil {
+		fields = append(fields, adminloginrestriction.FieldCreateBy)
+	}
+	if m.addupdate_by != nil {
+		fields = append(fields, adminloginrestriction.FieldUpdateBy)
+	}
+	if m.addadmin_id != nil {
+		fields = append(fields, adminloginrestriction.FieldAdminID)
+	}
+	return fields
+}
+
+// AddedField returns the numeric value that was incremented/decremented on a field
+// with the given name. The second boolean return value indicates that this field
+// was not set, or was not defined in the schema.
+func (m *AdminLoginRestrictionMutation) AddedField(name string) (ent.Value, bool) {
+	switch name {
+	case adminloginrestriction.FieldCreateBy:
+		return m.AddedCreateBy()
+	case adminloginrestriction.FieldUpdateBy:
+		return m.AddedUpdateBy()
+	case adminloginrestriction.FieldAdminID:
+		return m.AddedAdminID()
+	}
+	return nil, false
+}
+
+// AddField adds the value to the field with the given name. It returns an error if
+// the field is not defined in the schema, or if the type mismatched the field
+// type.
+func (m *AdminLoginRestrictionMutation) AddField(name string, value ent.Value) error {
+	switch name {
+	case adminloginrestriction.FieldCreateBy:
+		v, ok := value.(int32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddCreateBy(v)
+		return nil
+	case adminloginrestriction.FieldUpdateBy:
+		v, ok := value.(int32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddUpdateBy(v)
+		return nil
+	case adminloginrestriction.FieldAdminID:
+		v, ok := value.(int32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddAdminID(v)
+		return nil
+	}
+	return fmt.Errorf("unknown AdminLoginRestriction numeric field %s", name)
+}
+
+// ClearedFields returns all nullable fields that were cleared during this
+// mutation.
+func (m *AdminLoginRestrictionMutation) ClearedFields() []string {
+	var fields []string
+	if m.FieldCleared(adminloginrestriction.FieldCreateTime) {
+		fields = append(fields, adminloginrestriction.FieldCreateTime)
+	}
+	if m.FieldCleared(adminloginrestriction.FieldUpdateTime) {
+		fields = append(fields, adminloginrestriction.FieldUpdateTime)
+	}
+	if m.FieldCleared(adminloginrestriction.FieldDeleteTime) {
+		fields = append(fields, adminloginrestriction.FieldDeleteTime)
+	}
+	if m.FieldCleared(adminloginrestriction.FieldCreateBy) {
+		fields = append(fields, adminloginrestriction.FieldCreateBy)
+	}
+	if m.FieldCleared(adminloginrestriction.FieldUpdateBy) {
+		fields = append(fields, adminloginrestriction.FieldUpdateBy)
+	}
+	if m.FieldCleared(adminloginrestriction.FieldAdminID) {
+		fields = append(fields, adminloginrestriction.FieldAdminID)
+	}
+	if m.FieldCleared(adminloginrestriction.FieldValue) {
+		fields = append(fields, adminloginrestriction.FieldValue)
+	}
+	if m.FieldCleared(adminloginrestriction.FieldReason) {
+		fields = append(fields, adminloginrestriction.FieldReason)
+	}
+	if m.FieldCleared(adminloginrestriction.FieldType) {
+		fields = append(fields, adminloginrestriction.FieldType)
+	}
+	if m.FieldCleared(adminloginrestriction.FieldMethod) {
+		fields = append(fields, adminloginrestriction.FieldMethod)
+	}
+	return fields
+}
+
+// FieldCleared returns a boolean indicating if a field with the given name was
+// cleared in this mutation.
+func (m *AdminLoginRestrictionMutation) FieldCleared(name string) bool {
+	_, ok := m.clearedFields[name]
+	return ok
+}
+
+// ClearField clears the value of the field with the given name. It returns an
+// error if the field is not defined in the schema.
+func (m *AdminLoginRestrictionMutation) ClearField(name string) error {
+	switch name {
+	case adminloginrestriction.FieldCreateTime:
+		m.ClearCreateTime()
+		return nil
+	case adminloginrestriction.FieldUpdateTime:
+		m.ClearUpdateTime()
+		return nil
+	case adminloginrestriction.FieldDeleteTime:
+		m.ClearDeleteTime()
+		return nil
+	case adminloginrestriction.FieldCreateBy:
+		m.ClearCreateBy()
+		return nil
+	case adminloginrestriction.FieldUpdateBy:
+		m.ClearUpdateBy()
+		return nil
+	case adminloginrestriction.FieldAdminID:
+		m.ClearAdminID()
+		return nil
+	case adminloginrestriction.FieldValue:
+		m.ClearValue()
+		return nil
+	case adminloginrestriction.FieldReason:
+		m.ClearReason()
+		return nil
+	case adminloginrestriction.FieldType:
+		m.ClearType()
+		return nil
+	case adminloginrestriction.FieldMethod:
+		m.ClearMethod()
+		return nil
+	}
+	return fmt.Errorf("unknown AdminLoginRestriction nullable field %s", name)
+}
+
+// ResetField resets all changes in the mutation for the field with the given name.
+// It returns an error if the field is not defined in the schema.
+func (m *AdminLoginRestrictionMutation) ResetField(name string) error {
+	switch name {
+	case adminloginrestriction.FieldCreateTime:
+		m.ResetCreateTime()
+		return nil
+	case adminloginrestriction.FieldUpdateTime:
+		m.ResetUpdateTime()
+		return nil
+	case adminloginrestriction.FieldDeleteTime:
+		m.ResetDeleteTime()
+		return nil
+	case adminloginrestriction.FieldCreateBy:
+		m.ResetCreateBy()
+		return nil
+	case adminloginrestriction.FieldUpdateBy:
+		m.ResetUpdateBy()
+		return nil
+	case adminloginrestriction.FieldAdminID:
+		m.ResetAdminID()
+		return nil
+	case adminloginrestriction.FieldValue:
+		m.ResetValue()
+		return nil
+	case adminloginrestriction.FieldReason:
+		m.ResetReason()
+		return nil
+	case adminloginrestriction.FieldType:
+		m.ResetType()
+		return nil
+	case adminloginrestriction.FieldMethod:
+		m.ResetMethod()
+		return nil
+	}
+	return fmt.Errorf("unknown AdminLoginRestriction field %s", name)
+}
+
+// AddedEdges returns all edge names that were set/added in this mutation.
+func (m *AdminLoginRestrictionMutation) AddedEdges() []string {
+	edges := make([]string, 0, 0)
+	return edges
+}
+
+// AddedIDs returns all IDs (to other nodes) that were added for the given edge
+// name in this mutation.
+func (m *AdminLoginRestrictionMutation) AddedIDs(name string) []ent.Value {
+	return nil
+}
+
+// RemovedEdges returns all edge names that were removed in this mutation.
+func (m *AdminLoginRestrictionMutation) RemovedEdges() []string {
+	edges := make([]string, 0, 0)
+	return edges
+}
+
+// RemovedIDs returns all IDs (to other nodes) that were removed for the edge with
+// the given name in this mutation.
+func (m *AdminLoginRestrictionMutation) RemovedIDs(name string) []ent.Value {
+	return nil
+}
+
+// ClearedEdges returns all edge names that were cleared in this mutation.
+func (m *AdminLoginRestrictionMutation) ClearedEdges() []string {
+	edges := make([]string, 0, 0)
+	return edges
+}
+
+// EdgeCleared returns a boolean which indicates if the edge with the given name
+// was cleared in this mutation.
+func (m *AdminLoginRestrictionMutation) EdgeCleared(name string) bool {
+	return false
+}
+
+// ClearEdge clears the value of the edge with the given name. It returns an error
+// if that edge is not defined in the schema.
+func (m *AdminLoginRestrictionMutation) ClearEdge(name string) error {
+	return fmt.Errorf("unknown AdminLoginRestriction unique edge %s", name)
+}
+
+// ResetEdge resets all changes to the edge with the given name in this mutation.
+// It returns an error if the edge is not defined in the schema.
+func (m *AdminLoginRestrictionMutation) ResetEdge(name string) error {
+	return fmt.Errorf("unknown AdminLoginRestriction edge %s", name)
 }
 
 // AdminOperationLogMutation represents an operation that mutates the AdminOperationLog nodes in the graph.

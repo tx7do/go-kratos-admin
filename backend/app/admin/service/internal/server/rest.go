@@ -107,6 +107,7 @@ func NewRESTServer(
 	notificationMessageCategoryService *service.NotificationMessageCategoryService,
 	notificationMessageRecipientService *service.NotificationMessageRecipientService,
 	privateMessageService *service.PrivateMessageService,
+	adminLoginRestrictionService *service.AdminLoginRestrictionService,
 ) *http.Server {
 	if cfg == nil || cfg.Server == nil || cfg.Server.Rest == nil {
 		return nil
@@ -122,6 +123,7 @@ func NewRESTServer(
 	adminV1.RegisterRouterServiceHTTPServer(srv, routerSvc)
 	adminV1.RegisterDictServiceHTTPServer(srv, dictSvc)
 	adminV1.RegisterTaskServiceHTTPServer(srv, taskService)
+	adminV1.RegisterAdminLoginRestrictionServiceHTTPServer(srv, adminLoginRestrictionService)
 
 	adminV1.RegisterUserServiceHTTPServer(srv, userSvc)
 	adminV1.RegisterOrganizationServiceHTTPServer(srv, orgSvc)

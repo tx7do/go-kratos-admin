@@ -43,14 +43,14 @@ type NotificationMessageRecipientServiceHTTPServer interface {
 
 func RegisterNotificationMessageRecipientServiceHTTPServer(s *http.Server, srv NotificationMessageRecipientServiceHTTPServer) {
 	r := s.Route("/")
-	r.GET("/admin/v1/notifications:recipients", _NotificationMessageRecipientService_List8_HTTP_Handler(srv))
-	r.GET("/admin/v1/notifications:recipients/{id}", _NotificationMessageRecipientService_Get8_HTTP_Handler(srv))
-	r.POST("/admin/v1/notifications:recipients", _NotificationMessageRecipientService_Create6_HTTP_Handler(srv))
-	r.PUT("/admin/v1/notifications:recipients/{data.id}", _NotificationMessageRecipientService_Update6_HTTP_Handler(srv))
-	r.DELETE("/admin/v1/notifications:recipients/{id}", _NotificationMessageRecipientService_Delete6_HTTP_Handler(srv))
+	r.GET("/admin/v1/notifications:recipients", _NotificationMessageRecipientService_List9_HTTP_Handler(srv))
+	r.GET("/admin/v1/notifications:recipients/{id}", _NotificationMessageRecipientService_Get9_HTTP_Handler(srv))
+	r.POST("/admin/v1/notifications:recipients", _NotificationMessageRecipientService_Create7_HTTP_Handler(srv))
+	r.PUT("/admin/v1/notifications:recipients/{data.id}", _NotificationMessageRecipientService_Update7_HTTP_Handler(srv))
+	r.DELETE("/admin/v1/notifications:recipients/{id}", _NotificationMessageRecipientService_Delete7_HTTP_Handler(srv))
 }
 
-func _NotificationMessageRecipientService_List8_HTTP_Handler(srv NotificationMessageRecipientServiceHTTPServer) func(ctx http.Context) error {
+func _NotificationMessageRecipientService_List9_HTTP_Handler(srv NotificationMessageRecipientServiceHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
 		var in v1.PagingRequest
 		if err := ctx.BindQuery(&in); err != nil {
@@ -69,7 +69,7 @@ func _NotificationMessageRecipientService_List8_HTTP_Handler(srv NotificationMes
 	}
 }
 
-func _NotificationMessageRecipientService_Get8_HTTP_Handler(srv NotificationMessageRecipientServiceHTTPServer) func(ctx http.Context) error {
+func _NotificationMessageRecipientService_Get9_HTTP_Handler(srv NotificationMessageRecipientServiceHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
 		var in v11.GetNotificationMessageRecipientRequest
 		if err := ctx.BindQuery(&in); err != nil {
@@ -91,7 +91,7 @@ func _NotificationMessageRecipientService_Get8_HTTP_Handler(srv NotificationMess
 	}
 }
 
-func _NotificationMessageRecipientService_Create6_HTTP_Handler(srv NotificationMessageRecipientServiceHTTPServer) func(ctx http.Context) error {
+func _NotificationMessageRecipientService_Create7_HTTP_Handler(srv NotificationMessageRecipientServiceHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
 		var in v11.CreateNotificationMessageRecipientRequest
 		if err := ctx.Bind(&in); err != nil {
@@ -113,7 +113,7 @@ func _NotificationMessageRecipientService_Create6_HTTP_Handler(srv NotificationM
 	}
 }
 
-func _NotificationMessageRecipientService_Update6_HTTP_Handler(srv NotificationMessageRecipientServiceHTTPServer) func(ctx http.Context) error {
+func _NotificationMessageRecipientService_Update7_HTTP_Handler(srv NotificationMessageRecipientServiceHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
 		var in v11.UpdateNotificationMessageRecipientRequest
 		if err := ctx.Bind(&in); err != nil {
@@ -138,7 +138,7 @@ func _NotificationMessageRecipientService_Update6_HTTP_Handler(srv NotificationM
 	}
 }
 
-func _NotificationMessageRecipientService_Delete6_HTTP_Handler(srv NotificationMessageRecipientServiceHTTPServer) func(ctx http.Context) error {
+func _NotificationMessageRecipientService_Delete7_HTTP_Handler(srv NotificationMessageRecipientServiceHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
 		var in v11.DeleteNotificationMessageRecipientRequest
 		if err := ctx.BindQuery(&in); err != nil {

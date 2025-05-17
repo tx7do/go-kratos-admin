@@ -46,6 +46,34 @@ var (
 			},
 		},
 	}
+	// AdminLoginRestrictionsColumns holds the columns for the "admin_login_restrictions" table.
+	AdminLoginRestrictionsColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeUint32, Increment: true, Comment: "id", SchemaType: map[string]string{"mysql": "int", "postgres": "serial"}},
+		{Name: "create_time", Type: field.TypeTime, Nullable: true, Comment: "创建时间"},
+		{Name: "update_time", Type: field.TypeTime, Nullable: true, Comment: "更新时间"},
+		{Name: "delete_time", Type: field.TypeTime, Nullable: true, Comment: "删除时间"},
+		{Name: "create_by", Type: field.TypeUint32, Nullable: true, Comment: "创建者ID"},
+		{Name: "update_by", Type: field.TypeUint32, Nullable: true, Comment: "更新者ID"},
+		{Name: "admin_id", Type: field.TypeUint32, Unique: true, Nullable: true, Comment: "管理员ID"},
+		{Name: "value", Type: field.TypeString, Nullable: true, Comment: "限制值（如IP地址、MAC地址或地区代码）"},
+		{Name: "reason", Type: field.TypeString, Nullable: true, Comment: "限制原因"},
+		{Name: "type", Type: field.TypeEnum, Nullable: true, Comment: "限制类型", Enums: []string{"UNSPECIFIED", "BLACKLIST", "WHITELIST"}},
+		{Name: "method", Type: field.TypeEnum, Nullable: true, Comment: "限制方式", Enums: []string{"UNSPECIFIED", "IP", "MAC", "REGION", "TIME", "DEVICE"}},
+	}
+	// AdminLoginRestrictionsTable holds the schema information for the "admin_login_restrictions" table.
+	AdminLoginRestrictionsTable = &schema.Table{
+		Name:       "admin_login_restrictions",
+		Comment:    "后台登录限制表",
+		Columns:    AdminLoginRestrictionsColumns,
+		PrimaryKey: []*schema.Column{AdminLoginRestrictionsColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "adminloginrestriction_id",
+				Unique:  false,
+				Columns: []*schema.Column{AdminLoginRestrictionsColumns[0]},
+			},
+		},
+	}
 	// AdminOperationLogsColumns holds the columns for the "admin_operation_logs" table.
 	AdminOperationLogsColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeUint32, Increment: true, Comment: "id", SchemaType: map[string]string{"mysql": "int", "postgres": "serial"}},
@@ -641,6 +669,7 @@ var (
 	// Tables holds all the tables in the schema.
 	Tables = []*schema.Table{
 		AdminLoginLogsTable,
+		AdminLoginRestrictionsTable,
 		AdminOperationLogsTable,
 		DepartmentsTable,
 		DictTable,
@@ -662,6 +691,11 @@ var (
 func init() {
 	AdminLoginLogsTable.Annotation = &entsql.Annotation{
 		Table:     "admin_login_logs",
+		Charset:   "utf8mb4",
+		Collation: "utf8mb4_bin",
+	}
+	AdminLoginRestrictionsTable.Annotation = &entsql.Annotation{
+		Table:     "admin_login_restrictions",
 		Charset:   "utf8mb4",
 		Collation: "utf8mb4_bin",
 	}

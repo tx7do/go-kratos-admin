@@ -135,6 +135,30 @@ func (f AdminLoginLogMutationRuleFunc) EvalMutation(ctx context.Context, m ent.M
 	return Denyf("ent/privacy: unexpected mutation type %T, expect *ent.AdminLoginLogMutation", m)
 }
 
+// The AdminLoginRestrictionQueryRuleFunc type is an adapter to allow the use of ordinary
+// functions as a query rule.
+type AdminLoginRestrictionQueryRuleFunc func(context.Context, *ent.AdminLoginRestrictionQuery) error
+
+// EvalQuery return f(ctx, q).
+func (f AdminLoginRestrictionQueryRuleFunc) EvalQuery(ctx context.Context, q ent.Query) error {
+	if q, ok := q.(*ent.AdminLoginRestrictionQuery); ok {
+		return f(ctx, q)
+	}
+	return Denyf("ent/privacy: unexpected query type %T, expect *ent.AdminLoginRestrictionQuery", q)
+}
+
+// The AdminLoginRestrictionMutationRuleFunc type is an adapter to allow the use of ordinary
+// functions as a mutation rule.
+type AdminLoginRestrictionMutationRuleFunc func(context.Context, *ent.AdminLoginRestrictionMutation) error
+
+// EvalMutation calls f(ctx, m).
+func (f AdminLoginRestrictionMutationRuleFunc) EvalMutation(ctx context.Context, m ent.Mutation) error {
+	if m, ok := m.(*ent.AdminLoginRestrictionMutation); ok {
+		return f(ctx, m)
+	}
+	return Denyf("ent/privacy: unexpected mutation type %T, expect *ent.AdminLoginRestrictionMutation", m)
+}
+
 // The AdminOperationLogQueryRuleFunc type is an adapter to allow the use of ordinary
 // functions as a query rule.
 type AdminOperationLogQueryRuleFunc func(context.Context, *ent.AdminOperationLogQuery) error
@@ -532,6 +556,8 @@ func queryFilter(q ent.Query) (Filter, error) {
 	switch q := q.(type) {
 	case *ent.AdminLoginLogQuery:
 		return q.Filter(), nil
+	case *ent.AdminLoginRestrictionQuery:
+		return q.Filter(), nil
 	case *ent.AdminOperationLogQuery:
 		return q.Filter(), nil
 	case *ent.DepartmentQuery:
@@ -570,6 +596,8 @@ func queryFilter(q ent.Query) (Filter, error) {
 func mutationFilter(m ent.Mutation) (Filter, error) {
 	switch m := m.(type) {
 	case *ent.AdminLoginLogMutation:
+		return m.Filter(), nil
+	case *ent.AdminLoginRestrictionMutation:
 		return m.Filter(), nil
 	case *ent.AdminOperationLogMutation:
 		return m.Filter(), nil

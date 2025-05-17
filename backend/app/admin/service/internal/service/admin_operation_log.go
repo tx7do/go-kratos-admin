@@ -63,7 +63,7 @@ func (s *AdminOperationLogService) Update(ctx context.Context, req *systemV1.Upd
 }
 
 func (s *AdminOperationLogService) Delete(ctx context.Context, req *systemV1.DeleteAdminOperationLogRequest) (*emptypb.Empty, error) {
-	if _, err := s.uc.Delete(ctx, req); err != nil {
+	if err := s.uc.Delete(ctx, req); err != nil {
 		return nil, err
 	}
 

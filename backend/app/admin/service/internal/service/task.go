@@ -117,8 +117,7 @@ func (s *TaskService) Delete(ctx context.Context, req *systemV1.DeleteTaskReques
 		s.log.Error(err)
 	}
 
-	_, err = s.taskRepo.Delete(ctx, req)
-	if err != nil {
+	if err = s.taskRepo.Delete(ctx, req); err != nil {
 		return nil, err
 	}
 

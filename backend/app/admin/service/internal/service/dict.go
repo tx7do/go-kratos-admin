@@ -81,7 +81,7 @@ func (s *DictService) Update(ctx context.Context, req *systemV1.UpdateDictReques
 }
 
 func (s *DictService) Delete(ctx context.Context, req *systemV1.DeleteDictRequest) (*emptypb.Empty, error) {
-	if _, err := s.uc.Delete(ctx, req); err != nil {
+	if err := s.uc.Delete(ctx, req); err != nil {
 		return nil, err
 	}
 

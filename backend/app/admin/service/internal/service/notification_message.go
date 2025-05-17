@@ -81,7 +81,7 @@ func (s *NotificationMessageService) Update(ctx context.Context, req *internalMe
 }
 
 func (s *NotificationMessageService) Delete(ctx context.Context, req *internalMessageV1.DeleteNotificationMessageRequest) (*emptypb.Empty, error) {
-	if _, err := s.uc.Delete(ctx, req); err != nil {
+	if err := s.uc.Delete(ctx, req); err != nil {
 		return nil, err
 	}
 	return &emptypb.Empty{}, nil

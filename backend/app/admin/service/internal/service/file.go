@@ -81,7 +81,7 @@ func (s *FileService) Update(ctx context.Context, req *fileV1.UpdateFileRequest)
 }
 
 func (s *FileService) Delete(ctx context.Context, req *fileV1.DeleteFileRequest) (*emptypb.Empty, error) {
-	if _, err := s.uc.Delete(ctx, req); err != nil {
+	if err := s.uc.Delete(ctx, req); err != nil {
 		return nil, err
 	}
 	return &emptypb.Empty{}, nil

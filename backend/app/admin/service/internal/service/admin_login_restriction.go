@@ -84,7 +84,7 @@ func (s *AdminLoginRestrictionService) Delete(ctx context.Context, req *adminV1.
 		return nil, adminV1.ErrorBadRequest("invalid request")
 	}
 
-	if _, err := s.uc.Delete(ctx, req); err != nil {
+	if err := s.uc.Delete(ctx, req); err != nil {
 		return nil, err
 	}
 

@@ -81,7 +81,7 @@ func (s *NotificationMessageCategoryService) Update(ctx context.Context, req *in
 }
 
 func (s *NotificationMessageCategoryService) Delete(ctx context.Context, req *internalMessageV1.DeleteNotificationMessageCategoryRequest) (*emptypb.Empty, error) {
-	if _, err := s.uc.Delete(ctx, req); err != nil {
+	if err := s.uc.Delete(ctx, req); err != nil {
 		return nil, err
 	}
 	return &emptypb.Empty{}, nil

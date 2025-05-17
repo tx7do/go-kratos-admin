@@ -94,7 +94,7 @@ func (s *MenuService) Update(ctx context.Context, req *systemV1.UpdateMenuReques
 }
 
 func (s *MenuService) Delete(ctx context.Context, req *systemV1.DeleteMenuRequest) (*emptypb.Empty, error) {
-	if _, err := s.uc.Delete(ctx, req); err != nil {
+	if err := s.uc.Delete(ctx, req); err != nil {
 		return nil, err
 	}
 

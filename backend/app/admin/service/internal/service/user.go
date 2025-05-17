@@ -180,7 +180,7 @@ func (s *UserService) Delete(ctx context.Context, req *userV1.DeleteUserRequest)
 	}
 
 	// 删除用户
-	_, err = s.userRepo.Delete(ctx, req.GetId())
+	err = s.userRepo.Delete(ctx, req.GetId())
 
 	return &emptypb.Empty{}, err
 }

@@ -226,16 +226,16 @@ func (r *RoleRepo) Update(ctx context.Context, req *userV1.UpdateRoleRequest) er
 	return nil
 }
 
-func (r *RoleRepo) Delete(ctx context.Context, req *userV1.DeleteRoleRequest) error {
+func (r *RoleRepo) Delete(ctx context.Context, req *userV1.DeleteRoleRequest) (error, error) {
 	if err := r.data.db.Client().Role.DeleteOneID(req.GetId()).Exec(ctx); err != nil {
 		if ent.IsNotFound(err) {
-			return userV1.ErrorResourceNotFound("role not found")
+			return userV1.ErrorResourceNotFound("role not found"), nil
 		}
 
 		r.log.Errorf("delete one data failed: %s", err.Error())
 
-		return userV1.ErrorInternalServerError("delete failed")
+		return userV1.ErrorInternalServerError("delete failed"), nil
 	}
 
-	return nil
+	return nil, nil
 }

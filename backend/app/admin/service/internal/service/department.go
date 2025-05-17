@@ -81,7 +81,7 @@ func (s *DepartmentService) Update(ctx context.Context, req *userV1.UpdateDepart
 }
 
 func (s *DepartmentService) Delete(ctx context.Context, req *userV1.DeleteDepartmentRequest) (*emptypb.Empty, error) {
-	if _, err := s.uc.Delete(ctx, req); err != nil {
+	if err := s.uc.Delete(ctx, req); err != nil {
 		return nil, err
 	}
 

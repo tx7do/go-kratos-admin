@@ -2,7 +2,6 @@ package service
 
 import (
 	"context"
-	"kratos-admin/pkg/middleware/auth"
 
 	"github.com/go-kratos/kratos/v2/log"
 	pagination "github.com/tx7do/kratos-bootstrap/api/gen/go/pagination/v1"
@@ -12,6 +11,8 @@ import (
 
 	adminV1 "kratos-admin/api/gen/go/admin/service/v1"
 	userV1 "kratos-admin/api/gen/go/user/service/v1"
+
+	"kratos-admin/pkg/middleware/auth"
 )
 
 type OrganizationService struct {

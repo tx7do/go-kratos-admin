@@ -30,15 +30,15 @@ func NewAdminLoginRestrictionService(uc *data.AdminLoginRestrictionRepo, logger 
 	}
 }
 
-func (s *AdminLoginRestrictionService) ListAdminLoginRestriction(ctx context.Context, req *pagination.PagingRequest) (*adminV1.ListAdminLoginRestrictionResponse, error) {
+func (s *AdminLoginRestrictionService) List(ctx context.Context, req *pagination.PagingRequest) (*adminV1.ListAdminLoginRestrictionResponse, error) {
 	return s.uc.List(ctx, req)
 }
 
-func (s *AdminLoginRestrictionService) GetAdminLoginRestriction(ctx context.Context, req *adminV1.GetAdminLoginRestrictionRequest) (*adminV1.AdminLoginRestriction, error) {
+func (s *AdminLoginRestrictionService) Get(ctx context.Context, req *adminV1.GetAdminLoginRestrictionRequest) (*adminV1.AdminLoginRestriction, error) {
 	return s.uc.Get(ctx, req)
 }
 
-func (s *AdminLoginRestrictionService) CreateAdminLoginRestriction(ctx context.Context, req *adminV1.CreateAdminLoginRestrictionRequest) (*emptypb.Empty, error) {
+func (s *AdminLoginRestrictionService) Create(ctx context.Context, req *adminV1.CreateAdminLoginRestrictionRequest) (*emptypb.Empty, error) {
 	if req == nil || req.Data == nil {
 		return nil, adminV1.ErrorBadRequest("invalid request")
 	}
@@ -56,7 +56,7 @@ func (s *AdminLoginRestrictionService) CreateAdminLoginRestriction(ctx context.C
 	return &emptypb.Empty{}, nil
 }
 
-func (s *AdminLoginRestrictionService) UpdateAdminLoginRestriction(ctx context.Context, req *adminV1.UpdateAdminLoginRestrictionRequest) (*emptypb.Empty, error) {
+func (s *AdminLoginRestrictionService) Update(ctx context.Context, req *adminV1.UpdateAdminLoginRestrictionRequest) (*emptypb.Empty, error) {
 	if req == nil || req.Data == nil {
 		return nil, adminV1.ErrorBadRequest("invalid request")
 	}
@@ -74,7 +74,7 @@ func (s *AdminLoginRestrictionService) UpdateAdminLoginRestriction(ctx context.C
 	return &emptypb.Empty{}, nil
 }
 
-func (s *AdminLoginRestrictionService) DeleteAdminLoginRestriction(ctx context.Context, req *adminV1.DeleteAdminLoginRestrictionRequest) (*emptypb.Empty, error) {
+func (s *AdminLoginRestrictionService) Delete(ctx context.Context, req *adminV1.DeleteAdminLoginRestrictionRequest) (*emptypb.Empty, error) {
 	if req == nil {
 		return nil, adminV1.ErrorBadRequest("invalid request")
 	}

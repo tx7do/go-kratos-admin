@@ -8,8 +8,11 @@ type IsExistAccessToken func(ctx context.Context, userId uint32) bool
 
 type options struct {
 	isExistAccessToken IsExistAccessToken
-	setOperatorId      bool
-	setTenantId        bool
+	injectOperatorId   bool
+	injectTenantId     bool
+	enableAuthz        bool
+	injectEnt          bool
+	injectMetadata     bool
 }
 
 type Option func(*options)
@@ -20,14 +23,32 @@ func WithIsExistAccessTokenFunc(fc IsExistAccessToken) Option {
 	}
 }
 
-func WithEnableSetOperatorId(enable bool) Option {
+func WithInjectOperatorId(enable bool) Option {
 	return func(opts *options) {
-		opts.setOperatorId = enable
+		opts.injectOperatorId = enable
 	}
 }
 
-func WithEnableTenantId(enable bool) Option {
+func WithInjectTenantId(enable bool) Option {
 	return func(opts *options) {
-		opts.setTenantId = enable
+		opts.injectTenantId = enable
+	}
+}
+
+func WithInjectEnt(enable bool) Option {
+	return func(opts *options) {
+		opts.injectEnt = enable
+	}
+}
+
+func WithInjectMetadata(enable bool) Option {
+	return func(opts *options) {
+		opts.injectMetadata = enable
+	}
+}
+
+func WithEnableAuthority(enable bool) Option {
+	return func(opts *options) {
+		opts.enableAuthz = enable
 	}
 }

@@ -70,10 +70,7 @@ func newRestMiddleware(
 
 	ms = append(ms, selector.Server(
 		authn.Server(authenticator),
-		auth.Server(
-			auth.WithEnableSetOperatorId(true),
-			//auth.WithIsExistAccessTokenFunc(userToken.IsExistAccessToken),
-		),
+		auth.Server(),
 		authz.Server(authorizer),
 	).Match(newRestWhiteListMatcher()).Build())
 

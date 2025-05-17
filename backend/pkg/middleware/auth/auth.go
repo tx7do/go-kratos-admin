@@ -2,6 +2,9 @@ package auth
 
 import (
 	"context"
+	"reflect"
+	"strconv"
+
 	"github.com/go-kratos/kratos/v2/middleware"
 	"github.com/go-kratos/kratos/v2/transport"
 
@@ -11,9 +14,12 @@ import (
 	authzEngine "github.com/tx7do/kratos-authz/engine"
 	authz "github.com/tx7do/kratos-authz/middleware"
 
+	"github.com/tx7do/go-utils/stringutil"
 	"github.com/tx7do/go-utils/trans"
+	pagination "github.com/tx7do/kratos-bootstrap/api/gen/go/pagination/v1"
 
 	"kratos-admin/pkg/entgo/viewer"
+	"kratos-admin/pkg/metadata"
 )
 
 var action = authzEngine.Action("ANY")
@@ -21,8 +27,11 @@ var action = authzEngine.Action("ANY")
 // Server 衔接认证和权鉴
 func Server(opts ...Option) middleware.Middleware {
 	op := options{
-		setTenantId:   false,
-		setOperatorId: true,
+		injectOperatorId: false,
+		injectTenantId:   false,
+		enableAuthz:      true,
+		injectEnt:        true,
+		injectMetadata:   true,
 	}
 	for _, o := range opts {
 		o(&op)
@@ -52,25 +61,52 @@ func Server(opts ...Option) middleware.Middleware {
 				}
 			}
 
-			ctx = viewer.NewContext(ctx, viewer.UserViewer{
-				Role:     tokenPayload.GetAuthority(),
-				TenantId: trans.Ptr(tokenPayload.TenantId),
-			})
+			if op.injectOperatorId {
+				if err = setRequestOperationId(req, tokenPayload); err != nil {
+					return nil, err
+				}
+			}
+			if op.injectTenantId {
+				if err = setRequestTenantId(req, tokenPayload); err != nil {
+					return nil, err
+				}
 
-			sub, err := authnClaims.GetSubject()
-			if err != nil {
-				return nil, ErrExtractSubjectFailed
+				if err = ensurePagingRequestTenantId(req, tokenPayload); err != nil {
+					return nil, err
+				}
 			}
 
-			path := authzEngine.Resource(tr.Operation())
-
-			authzClaims := authzEngine.AuthClaims{
-				Subject:  (*authzEngine.Subject)(&sub),
-				Action:   &action,
-				Resource: &path,
+			if op.injectEnt {
+				ctx = viewer.NewContext(ctx, viewer.UserViewer{
+					Role:     tokenPayload.GetAuthority(),
+					TenantId: trans.Ptr(tokenPayload.TenantId),
+				})
 			}
 
-			ctx = authz.NewContext(ctx, &authzClaims)
+			if op.injectMetadata {
+				ctx = metadata.NewOperatorMetadataContext(ctx,
+					trans.Ptr(tokenPayload.UserId),
+					trans.Ptr(tokenPayload.TenantId),
+					trans.Ptr(tokenPayload.GetAuthority()),
+				)
+			}
+
+			if op.enableAuthz {
+				sub, err := authnClaims.GetSubject()
+				if err != nil {
+					return nil, ErrExtractSubjectFailed
+				}
+
+				path := authzEngine.Resource(tr.Operation())
+
+				authzClaims := authzEngine.AuthClaims{
+					Subject:  (*authzEngine.Subject)(&sub),
+					Action:   &action,
+					Resource: &path,
+				}
+
+				ctx = authz.NewContext(ctx, &authzClaims)
+			}
 
 			return handler(ctx, req)
 		}
@@ -84,4 +120,46 @@ func FromContext(ctx context.Context) (*UserTokenPayload, error) {
 	}
 
 	return NewUserTokenPayloadWithClaims(claims)
+}
+
+func setRequestOperationId(req interface{}, payload *UserTokenPayload) error {
+	if req == nil {
+		return ErrInvalidRequest
+	}
+
+	v := reflect.ValueOf(req).Elem()
+	field := v.FieldByName("OperatorId")
+	if field.IsValid() && field.Kind() == reflect.Ptr {
+		field.Set(reflect.ValueOf(&payload.UserId))
+	}
+
+	return nil
+}
+
+func setRequestTenantId(req interface{}, payload *UserTokenPayload) error {
+	if req == nil {
+		return ErrInvalidRequest
+	}
+
+	v := reflect.ValueOf(req).Elem()
+	field := v.FieldByName("TenantId")
+	if field.IsValid() && field.Kind() == reflect.Ptr {
+		field.Set(reflect.ValueOf(&payload.TenantId))
+	}
+
+	return nil
+}
+
+func ensurePagingRequestTenantId(req interface{}, payload *UserTokenPayload) error {
+	if paging, ok := req.(*pagination.PagingRequest); ok && payload.TenantId > 0 {
+		if paging.Query != nil {
+			newStr := stringutil.ReplaceJSONField("tenantId|tenant_id", strconv.Itoa(int(payload.TenantId)), paging.GetQuery())
+			paging.Query = trans.Ptr(newStr)
+		}
+		if paging.OrQuery != nil {
+			newStr := stringutil.ReplaceJSONField("tenantId|tenant_id", strconv.Itoa(int(payload.TenantId)), paging.GetOrQuery())
+			paging.OrQuery = trans.Ptr(newStr)
+		}
+	}
+	return nil
 }

@@ -2,7 +2,7 @@ package data
 
 import (
 	"context"
-	"errors"
+	systemV1 "kratos-admin/api/gen/go/system/service/v1"
 	"time"
 
 	"entgo.io/ent/dialect/sql"
@@ -289,7 +289,7 @@ func (r *AdminLoginRestrictionRepo) Update(ctx context.Context, req *adminV1.Upd
 	if req.UpdateMask != nil {
 		req.UpdateMask.Normalize()
 		if !req.UpdateMask.IsValid(req.Data) {
-			return errors.New("invalid field mask")
+			return systemV1.ErrorBadRequest("invalid field mask")
 		}
 		fieldmaskutil.Filter(req.GetData(), req.UpdateMask.GetPaths())
 	}

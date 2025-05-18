@@ -2,7 +2,6 @@ package data
 
 import (
 	"context"
-	"errors"
 	"strings"
 	"time"
 
@@ -305,7 +304,7 @@ func (r *MenuRepo) Update(ctx context.Context, req *systemV1.UpdateMenuRequest) 
 
 		req.UpdateMask.Normalize()
 		if !req.UpdateMask.IsValid(req.Data) {
-			return errors.New("invalid field mask")
+			return systemV1.ErrorBadRequest("invalid field mask")
 		}
 		fieldmaskutil.Filter(req.GetData(), req.UpdateMask.GetPaths())
 	}

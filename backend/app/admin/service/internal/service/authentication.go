@@ -104,13 +104,13 @@ func (s *AuthenticationService) doGrantTypeRefreshToken(ctx context.Context, req
 	}
 
 	if err = s.userToken.RemoveRefreshToken(ctx, req.GetOperatorId(), req.GetRefreshToken()); err != nil {
-		s.log.Errorf("删除刷新令牌失败[%s]", err.Error())
+		s.log.Errorf("remove refresh token failed [%s]", err.Error())
 	}
 
 	// 生成令牌
 	accessToken, refreshToken, err := s.userToken.GenerateToken(ctx, user)
 	if err != nil {
-		return nil, err
+		return nil, authenticationV1.ErrorServiceUnavailable("generate token failed")
 	}
 
 	return &authenticationV1.LoginResponse{
@@ -137,7 +137,7 @@ func (s *AuthenticationService) GetMe(ctx context.Context, req *authenticationV1
 	user, err := s.userRepo.Get(ctx, req.GetOperatorId())
 	if err != nil {
 		s.log.Errorf("查询用户失败[%s]", err.Error())
-		return nil, authenticationV1.ErrorAccessForbidden("查询用户失败")
+		return nil, authenticationV1.ErrorAccessForbidden("user not found")
 	}
 
 	role, err := s.roleRepo.Get(ctx, user.GetRoleId())

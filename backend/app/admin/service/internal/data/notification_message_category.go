@@ -2,7 +2,6 @@ package data
 
 import (
 	"context"
-	"errors"
 	"sort"
 	"time"
 
@@ -248,7 +247,7 @@ func (r *NotificationMessageCategoryRepo) Update(ctx context.Context, req *inter
 	if req.UpdateMask != nil {
 		req.UpdateMask.Normalize()
 		if !req.UpdateMask.IsValid(req.Data) {
-			return errors.New("invalid field mask")
+			return internalMessageV1.ErrorBadRequest("invalid field mask")
 		}
 		fieldmaskutil.Filter(req.GetData(), req.UpdateMask.GetPaths())
 	}

@@ -2,7 +2,6 @@ package data
 
 import (
 	"context"
-	"errors"
 	"time"
 
 	"entgo.io/ent/dialect/sql"
@@ -270,7 +269,7 @@ func (r *TaskRepo) Update(ctx context.Context, req *systemV1.UpdateTaskRequest) 
 	if req.UpdateMask != nil {
 		req.UpdateMask.Normalize()
 		if !req.UpdateMask.IsValid(req.Data) {
-			return nil, errors.New("invalid field mask")
+			return nil, systemV1.ErrorBadRequest("invalid field mask")
 		}
 		fieldmaskutil.Filter(req.GetData(), req.UpdateMask.GetPaths())
 	}

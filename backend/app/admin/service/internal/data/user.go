@@ -226,9 +226,7 @@ func (r *UserRepo) Get(ctx context.Context, userId uint32) (*userV1.User, error)
 		return nil, userV1.ErrorInternalServerError("query data failed")
 	}
 
-	u := r.convertEntToProto(ret)
-
-	return u, nil
+	return r.convertEntToProto(ret), nil
 }
 
 func (r *UserRepo) Create(ctx context.Context, req *userV1.CreateUserRequest) error {
@@ -396,8 +394,7 @@ func (r *UserRepo) GetUserByUserName(ctx context.Context, userName string) (*use
 		return nil, userV1.ErrorInternalServerError("query data failed")
 	}
 
-	u := r.convertEntToProto(ret)
-	return u, nil
+	return r.convertEntToProto(ret), nil
 }
 
 func (r *UserRepo) VerifyPassword(ctx context.Context, req *userV1.VerifyPasswordRequest) (*userV1.VerifyPasswordResponse, error) {

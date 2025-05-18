@@ -39,8 +39,8 @@ func (s *AdminLoginLogService) Get(ctx context.Context, req *systemV1.GetAdminLo
 }
 
 func (s *AdminLoginLogService) Create(ctx context.Context, req *systemV1.CreateAdminLoginLogRequest) (*emptypb.Empty, error) {
-	if req.Data == nil {
-		return nil, adminV1.ErrorBadRequest("错误的参数")
+	if req == nil || req.Data == nil {
+		return nil, adminV1.ErrorBadRequest("invalid parameter")
 	}
 
 	if err := s.uc.Create(ctx, req); err != nil {

@@ -90,12 +90,17 @@ func (r *OrganizationRepo) Count(ctx context.Context, whereCond []func(s *sql.Se
 	count, err := builder.Count(ctx)
 	if err != nil {
 		r.log.Errorf("query count failed: %s", err.Error())
+		return 0, userV1.ErrorInternalServerError("query count failed")
 	}
 
-	return count, err
+	return count, nil
 }
 
 func (r *OrganizationRepo) List(ctx context.Context, req *pagination.PagingRequest) (*userV1.ListOrganizationResponse, error) {
+	if req == nil {
+		return nil, userV1.ErrorBadRequest("invalid parameter")
+	}
+
 	builder := r.data.db.Client().Organization.Query()
 
 	err, whereSelectors, querySelectors := entgo.BuildQuerySelector(
@@ -105,8 +110,8 @@ func (r *OrganizationRepo) List(ctx context.Context, req *pagination.PagingReque
 		req.GetFieldMask().GetPaths(),
 	)
 	if err != nil {
-		r.log.Errorf("解析SELECT条件发生错误[%s]", err.Error())
-		return nil, err
+		r.log.Errorf("parse list param error [%s]", err.Error())
+		return nil, userV1.ErrorBadRequest("invalid query parameter")
 	}
 
 	if querySelectors != nil {
@@ -115,7 +120,8 @@ func (r *OrganizationRepo) List(ctx context.Context, req *pagination.PagingReque
 
 	results, err := builder.All(ctx)
 	if err != nil {
-		return nil, err
+		r.log.Errorf("query list failed: %s", err.Error())
+		return nil, userV1.ErrorInternalServerError("query list failed")
 	}
 
 	sort.SliceStable(results, func(i, j int) bool {
@@ -161,12 +167,21 @@ func (r *OrganizationRepo) List(ctx context.Context, req *pagination.PagingReque
 }
 
 func (r *OrganizationRepo) IsExist(ctx context.Context, id uint32) (bool, error) {
-	return r.data.db.Client().Organization.Query().
+	exist, err := r.data.db.Client().Organization.Query().
 		Where(organization.IDEQ(id)).
 		Exist(ctx)
+	if err != nil {
+		r.log.Errorf("query exist failed: %s", err.Error())
+		return false, userV1.ErrorInternalServerError("query exist failed")
+	}
+	return exist, nil
 }
 
 func (r *OrganizationRepo) Get(ctx context.Context, req *userV1.GetOrganizationRequest) (*userV1.Organization, error) {
+	if req == nil {
+		return nil, userV1.ErrorBadRequest("invalid parameter")
+	}
+
 	ret, err := r.data.db.Client().Organization.Get(ctx, req.GetId())
 	if err != nil {
 		if ent.IsNotFound(err) {
@@ -175,15 +190,15 @@ func (r *OrganizationRepo) Get(ctx context.Context, req *userV1.GetOrganizationR
 
 		r.log.Errorf("query one data failed: %s", err.Error())
 
-		return nil, err
+		return nil, userV1.ErrorInternalServerError("query data failed")
 	}
 
-	return r.convertEntToProto(ret), err
+	return r.convertEntToProto(ret), nil
 }
 
 func (r *OrganizationRepo) Create(ctx context.Context, req *userV1.CreateOrganizationRequest) error {
-	if req.Data == nil {
-		return errors.New("invalid request")
+	if req == nil || req.Data == nil {
+		return userV1.ErrorBadRequest("invalid parameter")
 	}
 
 	builder := r.data.db.Client().Organization.Create().
@@ -205,15 +220,15 @@ func (r *OrganizationRepo) Create(ctx context.Context, req *userV1.CreateOrganiz
 
 	if err := builder.Exec(ctx); err != nil {
 		r.log.Errorf("insert one data failed: %s", err.Error())
-		return err
+		return userV1.ErrorInternalServerError("insert data failed")
 	}
 
 	return nil
 }
 
 func (r *OrganizationRepo) Update(ctx context.Context, req *userV1.UpdateOrganizationRequest) error {
-	if req.Data == nil {
-		return errors.New("invalid request")
+	if req == nil || req.Data == nil {
+		return userV1.ErrorBadRequest("invalid parameter")
 	}
 
 	// 如果不存在则创建
@@ -262,22 +277,26 @@ func (r *OrganizationRepo) Update(ctx context.Context, req *userV1.UpdateOrganiz
 
 	if err := builder.Exec(ctx); err != nil {
 		r.log.Errorf("update one data failed: %s", err.Error())
-		return err
+		return userV1.ErrorInternalServerError("update data failed")
 	}
 
 	return nil
 }
 
-func (r *OrganizationRepo) Delete(ctx context.Context, req *userV1.DeleteOrganizationRequest) (error, error) {
+func (r *OrganizationRepo) Delete(ctx context.Context, req *userV1.DeleteOrganizationRequest) error {
+	if req == nil {
+		return userV1.ErrorBadRequest("invalid parameter")
+	}
+
 	if err := r.data.db.Client().Organization.DeleteOneID(req.GetId()).Exec(ctx); err != nil {
 		if ent.IsNotFound(err) {
-			return userV1.ErrorResourceNotFound("organization not found"), nil
+			return userV1.ErrorResourceNotFound("organization not found")
 		}
 
 		r.log.Errorf("delete one data failed: %s", err.Error())
 
-		return userV1.ErrorInternalServerError("delete failed"), nil
+		return userV1.ErrorInternalServerError("delete failed")
 	}
 
-	return nil, nil
+	return nil
 }

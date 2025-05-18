@@ -78,12 +78,17 @@ func (r *AdminOperationLogRepo) Count(ctx context.Context, whereCond []func(s *s
 	count, err := builder.Count(ctx)
 	if err != nil {
 		r.log.Errorf("query count failed: %s", err.Error())
+		return 0, systemV1.ErrorInternalServerError("query count failed")
 	}
 
-	return count, err
+	return count, nil
 }
 
 func (r *AdminOperationLogRepo) List(ctx context.Context, req *pagination.PagingRequest) (*systemV1.ListAdminOperationLogResponse, error) {
+	if req == nil {
+		return nil, systemV1.ErrorBadRequest("invalid parameter")
+	}
+
 	builder := r.data.db.Client().AdminOperationLog.Query()
 
 	err, whereSelectors, querySelectors := entgo.BuildQuerySelector(
@@ -93,8 +98,8 @@ func (r *AdminOperationLogRepo) List(ctx context.Context, req *pagination.Paging
 		req.GetFieldMask().GetPaths(),
 	)
 	if err != nil {
-		r.log.Errorf("解析条件发生错误[%s]", err.Error())
-		return nil, err
+		r.log.Errorf("parse list param error [%s]", err.Error())
+		return nil, systemV1.ErrorBadRequest("invalid query parameter")
 	}
 
 	if querySelectors != nil {
@@ -103,7 +108,8 @@ func (r *AdminOperationLogRepo) List(ctx context.Context, req *pagination.Paging
 
 	results, err := builder.All(ctx)
 	if err != nil {
-		return nil, err
+		r.log.Errorf("query list failed: %s", err.Error())
+		return nil, systemV1.ErrorInternalServerError("query list failed")
 	}
 
 	items := make([]*systemV1.AdminOperationLog, 0, len(results))
@@ -124,12 +130,21 @@ func (r *AdminOperationLogRepo) List(ctx context.Context, req *pagination.Paging
 }
 
 func (r *AdminOperationLogRepo) IsExist(ctx context.Context, id uint32) (bool, error) {
-	return r.data.db.Client().AdminOperationLog.Query().
+	exist, err := r.data.db.Client().AdminOperationLog.Query().
 		Where(adminoperationlog.IDEQ(id)).
 		Exist(ctx)
+	if err != nil {
+		r.log.Errorf("query exist failed: %s", err.Error())
+		return false, systemV1.ErrorInternalServerError("query exist failed")
+	}
+	return exist, nil
 }
 
 func (r *AdminOperationLogRepo) Get(ctx context.Context, req *systemV1.GetAdminOperationLogRequest) (*systemV1.AdminOperationLog, error) {
+	if req == nil {
+		return nil, systemV1.ErrorBadRequest("invalid parameter")
+	}
+
 	ret, err := r.data.db.Client().AdminOperationLog.Get(ctx, req.GetId())
 	if err != nil {
 		if ent.IsNotFound(err) {
@@ -138,15 +153,15 @@ func (r *AdminOperationLogRepo) Get(ctx context.Context, req *systemV1.GetAdminO
 
 		r.log.Errorf("query one data failed: %s", err.Error())
 
-		return nil, err
+		return nil, systemV1.ErrorInternalServerError("query data failed")
 	}
 
-	return r.convertEntToProto(ret), err
+	return r.convertEntToProto(ret), nil
 }
 
 func (r *AdminOperationLogRepo) Create(ctx context.Context, req *systemV1.CreateAdminOperationLogRequest) error {
-	if req.Data == nil {
-		return errors.New("invalid request")
+	if req == nil || req.Data == nil {
+		return systemV1.ErrorBadRequest("invalid parameter")
 	}
 
 	builder := r.data.db.Client().AdminOperationLog.
@@ -184,15 +199,15 @@ func (r *AdminOperationLogRepo) Create(ctx context.Context, req *systemV1.Create
 	err := builder.Exec(ctx)
 	if err != nil {
 		r.log.Errorf("insert one data failed: %s", err.Error())
-		return err
+		return systemV1.ErrorInternalServerError("insert data failed")
 	}
 
 	return err
 }
 
 func (r *AdminOperationLogRepo) Update(ctx context.Context, req *systemV1.UpdateAdminOperationLogRequest) error {
-	if req.Data == nil {
-		return errors.New("invalid request")
+	if req == nil || req.Data == nil {
+		return systemV1.ErrorBadRequest("invalid parameter")
 	}
 
 	// 如果不存在则创建
@@ -254,16 +269,19 @@ func (r *AdminOperationLogRepo) Update(ctx context.Context, req *systemV1.Update
 		}
 	}
 
-	err := builder.Exec(ctx)
-	if err != nil {
+	if err := builder.Exec(ctx); err != nil {
 		r.log.Errorf("update one data failed: %s", err.Error())
-		return err
+		return systemV1.ErrorInternalServerError("update data failed")
 	}
 
-	return err
+	return nil
 }
 
 func (r *AdminOperationLogRepo) Delete(ctx context.Context, req *systemV1.DeleteAdminOperationLogRequest) error {
+	if req == nil {
+		return systemV1.ErrorBadRequest("invalid parameter")
+	}
+
 	if err := r.data.db.Client().AdminOperationLog.DeleteOneID(req.GetId()).Exec(ctx); err != nil {
 		if ent.IsNotFound(err) {
 			return systemV1.ErrorResourceNotFound("admin operation log not found")

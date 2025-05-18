@@ -112,12 +112,17 @@ func (r *NotificationMessageRecipientRepo) Count(ctx context.Context, whereCond 
 	count, err := builder.Count(ctx)
 	if err != nil {
 		r.log.Errorf("query count failed: %s", err.Error())
+		return 0, internalMessageV1.ErrorInternalServerError("query count failed")
 	}
 
-	return count, err
+	return count, nil
 }
 
 func (r *NotificationMessageRecipientRepo) List(ctx context.Context, req *pagination.PagingRequest) (*internalMessageV1.ListNotificationMessageRecipientResponse, error) {
+	if req == nil {
+		return nil, internalMessageV1.ErrorBadRequest("invalid parameter")
+	}
+
 	builder := r.data.db.Client().NotificationMessageRecipient.Query()
 
 	err, whereSelectors, querySelectors := entgo.BuildQuerySelector(
@@ -127,8 +132,8 @@ func (r *NotificationMessageRecipientRepo) List(ctx context.Context, req *pagina
 		req.GetFieldMask().GetPaths(),
 	)
 	if err != nil {
-		r.log.Errorf("解析条件发生错误[%s]", err.Error())
-		return nil, err
+		r.log.Errorf("parse list param error [%s]", err.Error())
+		return nil, internalMessageV1.ErrorBadRequest("invalid query parameter")
 	}
 
 	if querySelectors != nil {
@@ -137,7 +142,8 @@ func (r *NotificationMessageRecipientRepo) List(ctx context.Context, req *pagina
 
 	results, err := builder.All(ctx)
 	if err != nil {
-		return nil, err
+		r.log.Errorf("query list failed: %s", err.Error())
+		return nil, internalMessageV1.ErrorInternalServerError("query list failed")
 	}
 
 	items := make([]*internalMessageV1.NotificationMessageRecipient, 0, len(results))
@@ -158,12 +164,21 @@ func (r *NotificationMessageRecipientRepo) List(ctx context.Context, req *pagina
 }
 
 func (r *NotificationMessageRecipientRepo) IsExist(ctx context.Context, id uint32) (bool, error) {
-	return r.data.db.Client().NotificationMessageRecipient.Query().
+	exist, err := r.data.db.Client().NotificationMessageRecipient.Query().
 		Where(notificationmessagerecipient.IDEQ(id)).
 		Exist(ctx)
+	if err != nil {
+		r.log.Errorf("query exist failed: %s", err.Error())
+		return false, internalMessageV1.ErrorInternalServerError("query exist failed")
+	}
+	return exist, nil
 }
 
 func (r *NotificationMessageRecipientRepo) Get(ctx context.Context, req *internalMessageV1.GetNotificationMessageRecipientRequest) (*internalMessageV1.NotificationMessageRecipient, error) {
+	if req == nil {
+		return nil, internalMessageV1.ErrorBadRequest("invalid parameter")
+	}
+
 	ret, err := r.data.db.Client().NotificationMessageRecipient.Get(ctx, req.GetId())
 	if err != nil {
 		if ent.IsNotFound(err) {
@@ -172,15 +187,15 @@ func (r *NotificationMessageRecipientRepo) Get(ctx context.Context, req *interna
 
 		r.log.Errorf("query one data failed: %s", err.Error())
 
-		return nil, err
+		return nil, internalMessageV1.ErrorInternalServerError("query data failed")
 	}
 
-	return r.convertEntToProto(ret), err
+	return r.convertEntToProto(ret), nil
 }
 
 func (r *NotificationMessageRecipientRepo) Create(ctx context.Context, req *internalMessageV1.CreateNotificationMessageRecipientRequest) error {
-	if req.Data == nil {
-		return errors.New("invalid request")
+	if req == nil || req.Data == nil {
+		return internalMessageV1.ErrorBadRequest("invalid parameter")
 	}
 
 	builder := r.data.db.Client().NotificationMessageRecipient.Create().
@@ -193,18 +208,17 @@ func (r *NotificationMessageRecipientRepo) Create(ctx context.Context, req *inte
 		builder.SetCreateTime(time.Now())
 	}
 
-	err := builder.Exec(ctx)
-	if err != nil {
+	if err := builder.Exec(ctx); err != nil {
 		r.log.Errorf("insert one data failed: %s", err.Error())
-		return err
+		return internalMessageV1.ErrorInternalServerError("insert data failed")
 	}
 
-	return err
+	return nil
 }
 
 func (r *NotificationMessageRecipientRepo) Update(ctx context.Context, req *internalMessageV1.UpdateNotificationMessageRecipientRequest) error {
-	if req.Data == nil {
-		return errors.New("invalid request")
+	if req == nil || req.Data == nil {
+		return internalMessageV1.ErrorBadRequest("invalid parameter")
 	}
 
 	// 如果不存在则创建
@@ -247,16 +261,19 @@ func (r *NotificationMessageRecipientRepo) Update(ctx context.Context, req *inte
 		}
 	}
 
-	err := builder.Exec(ctx)
-	if err != nil {
+	if err := builder.Exec(ctx); err != nil {
 		r.log.Errorf("update one data failed: %s", err.Error())
-		return err
+		return internalMessageV1.ErrorInternalServerError("update data failed")
 	}
 
-	return err
+	return nil
 }
 
 func (r *NotificationMessageRecipientRepo) Delete(ctx context.Context, req *internalMessageV1.DeleteNotificationMessageRecipientRequest) error {
+	if req == nil {
+		return internalMessageV1.ErrorBadRequest("invalid parameter")
+	}
+
 	if err := r.data.db.Client().NotificationMessageRecipient.DeleteOneID(req.GetId()).Exec(ctx); err != nil {
 		if ent.IsNotFound(err) {
 			return internalMessageV1.ErrorResourceNotFound("notification message recipient not found")

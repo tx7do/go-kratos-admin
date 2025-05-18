@@ -81,7 +81,7 @@ func (s *TenantService) Update(ctx context.Context, req *userV1.UpdateTenantRequ
 }
 
 func (s *TenantService) Delete(ctx context.Context, req *userV1.DeleteTenantRequest) (*emptypb.Empty, error) {
-	if _, err := s.uc.Delete(ctx, req); err != nil {
+	if err := s.uc.Delete(ctx, req); err != nil {
 		return nil, err
 	}
 

@@ -90,12 +90,17 @@ func (r *DepartmentRepo) Count(ctx context.Context, whereCond []func(s *sql.Sele
 	count, err := builder.Count(ctx)
 	if err != nil {
 		r.log.Errorf("query count failed: %s", err.Error())
+		return 0, userV1.ErrorInternalServerError("query count failed")
 	}
 
-	return count, err
+	return count, nil
 }
 
 func (r *DepartmentRepo) List(ctx context.Context, req *pagination.PagingRequest) (*userV1.ListDepartmentResponse, error) {
+	if req == nil {
+		return nil, userV1.ErrorBadRequest("invalid parameter")
+	}
+
 	builder := r.data.db.Client().Department.Query()
 
 	err, whereSelectors, querySelectors := entgo.BuildQuerySelector(
@@ -105,8 +110,8 @@ func (r *DepartmentRepo) List(ctx context.Context, req *pagination.PagingRequest
 		req.GetFieldMask().GetPaths(),
 	)
 	if err != nil {
-		r.log.Errorf("解析SELECT条件发生错误[%s]", err.Error())
-		return nil, err
+		r.log.Errorf("parse list param error [%s]", err.Error())
+		return nil, userV1.ErrorBadRequest("invalid query parameter")
 	}
 
 	if querySelectors != nil {
@@ -115,7 +120,8 @@ func (r *DepartmentRepo) List(ctx context.Context, req *pagination.PagingRequest
 
 	results, err := builder.All(ctx)
 	if err != nil {
-		return nil, err
+		r.log.Errorf("query list failed: %s", err.Error())
+		return nil, userV1.ErrorInternalServerError("query list failed")
 	}
 
 	sort.SliceStable(results, func(i, j int) bool {
@@ -161,12 +167,21 @@ func (r *DepartmentRepo) List(ctx context.Context, req *pagination.PagingRequest
 }
 
 func (r *DepartmentRepo) IsExist(ctx context.Context, id uint32) (bool, error) {
-	return r.data.db.Client().Department.Query().
+	exist, err := r.data.db.Client().Department.Query().
 		Where(department.IDEQ(id)).
 		Exist(ctx)
+	if err != nil {
+		r.log.Errorf("query exist failed: %s", err.Error())
+		return false, userV1.ErrorInternalServerError("query exist failed")
+	}
+	return exist, nil
 }
 
 func (r *DepartmentRepo) Get(ctx context.Context, req *userV1.GetDepartmentRequest) (*userV1.Department, error) {
+	if req == nil {
+		return nil, userV1.ErrorBadRequest("invalid parameter")
+	}
+
 	ret, err := r.data.db.Client().Department.Get(ctx, req.GetId())
 	if err != nil {
 		if ent.IsNotFound(err) {
@@ -175,15 +190,15 @@ func (r *DepartmentRepo) Get(ctx context.Context, req *userV1.GetDepartmentReque
 
 		r.log.Errorf("query one data failed: %s", err.Error())
 
-		return nil, err
+		return nil, userV1.ErrorInternalServerError("query data failed")
 	}
 
-	return r.convertEntToProto(ret), err
+	return r.convertEntToProto(ret), nil
 }
 
 func (r *DepartmentRepo) Create(ctx context.Context, req *userV1.CreateDepartmentRequest) error {
-	if req.Data == nil {
-		return errors.New("invalid request")
+	if req == nil || req.Data == nil {
+		return userV1.ErrorBadRequest("invalid parameter")
 	}
 
 	builder := r.data.db.Client().Department.Create().
@@ -205,15 +220,15 @@ func (r *DepartmentRepo) Create(ctx context.Context, req *userV1.CreateDepartmen
 
 	if err := builder.Exec(ctx); err != nil {
 		r.log.Errorf("insert one data failed: %s", err.Error())
-		return err
+		return userV1.ErrorInternalServerError("insert data failed")
 	}
 
 	return nil
 }
 
 func (r *DepartmentRepo) Update(ctx context.Context, req *userV1.UpdateDepartmentRequest) error {
-	if req.Data == nil {
-		return errors.New("invalid request")
+	if req == nil || req.Data == nil {
+		return userV1.ErrorBadRequest("invalid parameter")
 	}
 
 	// 如果不存在则创建
@@ -262,13 +277,17 @@ func (r *DepartmentRepo) Update(ctx context.Context, req *userV1.UpdateDepartmen
 
 	if err := builder.Exec(ctx); err != nil {
 		r.log.Errorf("update one data failed: %s", err.Error())
-		return err
+		return userV1.ErrorInternalServerError("update data failed")
 	}
 
 	return nil
 }
 
 func (r *DepartmentRepo) Delete(ctx context.Context, req *userV1.DeleteDepartmentRequest) error {
+	if req == nil {
+		return userV1.ErrorBadRequest("invalid parameter")
+	}
+
 	if err := r.data.db.Client().Department.DeleteOneID(req.GetId()).Exec(ctx); err != nil {
 		if ent.IsNotFound(err) {
 			return userV1.ErrorResourceNotFound("department not found")

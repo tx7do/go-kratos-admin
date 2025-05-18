@@ -124,12 +124,17 @@ func (r *PrivateMessageRepo) Count(ctx context.Context, whereCond []func(s *sql.
 	count, err := builder.Count(ctx)
 	if err != nil {
 		r.log.Errorf("query count failed: %s", err.Error())
+		return 0, internalMessageV1.ErrorInternalServerError("query count failed")
 	}
 
-	return count, err
+	return count, nil
 }
 
 func (r *PrivateMessageRepo) List(ctx context.Context, req *pagination.PagingRequest) (*internalMessageV1.ListPrivateMessageResponse, error) {
+	if req == nil {
+		return nil, internalMessageV1.ErrorBadRequest("invalid parameter")
+	}
+
 	builder := r.data.db.Client().PrivateMessage.Query()
 
 	err, whereSelectors, querySelectors := entgo.BuildQuerySelector(
@@ -139,8 +144,8 @@ func (r *PrivateMessageRepo) List(ctx context.Context, req *pagination.PagingReq
 		req.GetFieldMask().GetPaths(),
 	)
 	if err != nil {
-		r.log.Errorf("解析条件发生错误[%s]", err.Error())
-		return nil, err
+		r.log.Errorf("parse list param error [%s]", err.Error())
+		return nil, internalMessageV1.ErrorBadRequest("invalid query parameter")
 	}
 
 	if querySelectors != nil {
@@ -149,7 +154,8 @@ func (r *PrivateMessageRepo) List(ctx context.Context, req *pagination.PagingReq
 
 	results, err := builder.All(ctx)
 	if err != nil {
-		return nil, err
+		r.log.Errorf("query list failed: %s", err.Error())
+		return nil, internalMessageV1.ErrorInternalServerError("query list failed")
 	}
 
 	items := make([]*internalMessageV1.PrivateMessage, 0, len(results))
@@ -170,12 +176,21 @@ func (r *PrivateMessageRepo) List(ctx context.Context, req *pagination.PagingReq
 }
 
 func (r *PrivateMessageRepo) IsExist(ctx context.Context, id uint32) (bool, error) {
-	return r.data.db.Client().PrivateMessage.Query().
+	exist, err := r.data.db.Client().PrivateMessage.Query().
 		Where(privatemessage.IDEQ(id)).
 		Exist(ctx)
+	if err != nil {
+		r.log.Errorf("query exist failed: %s", err.Error())
+		return false, internalMessageV1.ErrorInternalServerError("query exist failed")
+	}
+	return exist, nil
 }
 
 func (r *PrivateMessageRepo) Get(ctx context.Context, req *internalMessageV1.GetPrivateMessageRequest) (*internalMessageV1.PrivateMessage, error) {
+	if req == nil {
+		return nil, internalMessageV1.ErrorBadRequest("invalid parameter")
+	}
+
 	ret, err := r.data.db.Client().PrivateMessage.Get(ctx, req.GetId())
 	if err != nil {
 		if ent.IsNotFound(err) {
@@ -184,15 +199,15 @@ func (r *PrivateMessageRepo) Get(ctx context.Context, req *internalMessageV1.Get
 
 		r.log.Errorf("query one data failed: %s", err.Error())
 
-		return nil, err
+		return nil, internalMessageV1.ErrorInternalServerError("query data failed")
 	}
 
-	return r.convertEntToProto(ret), err
+	return r.convertEntToProto(ret), nil
 }
 
 func (r *PrivateMessageRepo) Create(ctx context.Context, req *internalMessageV1.CreatePrivateMessageRequest) error {
-	if req.Data == nil {
-		return errors.New("invalid request")
+	if req == nil || req.Data == nil {
+		return internalMessageV1.ErrorBadRequest("invalid parameter")
 	}
 
 	builder := r.data.db.Client().PrivateMessage.Create().
@@ -207,18 +222,17 @@ func (r *PrivateMessageRepo) Create(ctx context.Context, req *internalMessageV1.
 		builder.SetCreateTime(time.Now())
 	}
 
-	err := builder.Exec(ctx)
-	if err != nil {
+	if err := builder.Exec(ctx); err != nil {
 		r.log.Errorf("insert one data failed: %s", err.Error())
-		return err
+		return internalMessageV1.ErrorInternalServerError("insert data failed")
 	}
 
-	return err
+	return nil
 }
 
 func (r *PrivateMessageRepo) Update(ctx context.Context, req *internalMessageV1.UpdatePrivateMessageRequest) error {
-	if req.Data == nil {
-		return errors.New("invalid request")
+	if req == nil || req.Data == nil {
+		return internalMessageV1.ErrorBadRequest("invalid parameter")
 	}
 
 	// 如果不存在则创建
@@ -261,25 +275,28 @@ func (r *PrivateMessageRepo) Update(ctx context.Context, req *internalMessageV1.
 		}
 	}
 
-	err := builder.Exec(ctx)
-	if err != nil {
+	if err := builder.Exec(ctx); err != nil {
 		r.log.Errorf("update one data failed: %s", err.Error())
-		return err
+		return internalMessageV1.ErrorInternalServerError("update data failed")
 	}
 
-	return err
+	return nil
 }
 
-func (r *PrivateMessageRepo) Delete(ctx context.Context, req *internalMessageV1.DeletePrivateMessageRequest) (error, error) {
+func (r *PrivateMessageRepo) Delete(ctx context.Context, req *internalMessageV1.DeletePrivateMessageRequest) error {
+	if req == nil {
+		return internalMessageV1.ErrorBadRequest("invalid parameter")
+	}
+
 	if err := r.data.db.Client().PrivateMessage.DeleteOneID(req.GetId()).Exec(ctx); err != nil {
 		if ent.IsNotFound(err) {
-			return internalMessageV1.ErrorResourceNotFound("private message not found"), nil
+			return internalMessageV1.ErrorResourceNotFound("private message not found")
 		}
 
 		r.log.Errorf("delete one data failed: %s", err.Error())
 
-		return internalMessageV1.ErrorInternalServerError("delete failed"), nil
+		return internalMessageV1.ErrorInternalServerError("delete failed")
 	}
 
-	return nil, nil
+	return nil
 }

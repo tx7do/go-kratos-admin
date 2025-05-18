@@ -81,7 +81,7 @@ func (s *PositionService) Update(ctx context.Context, req *userV1.UpdatePosition
 }
 
 func (s *PositionService) Delete(ctx context.Context, req *userV1.DeletePositionRequest) (*emptypb.Empty, error) {
-	if _, err := s.uc.Delete(ctx, req); err != nil {
+	if err := s.uc.Delete(ctx, req); err != nil {
 		return nil, err
 	}
 

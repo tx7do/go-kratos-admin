@@ -138,12 +138,17 @@ func (r *MenuRepo) Count(ctx context.Context, whereCond []func(s *sql.Selector))
 	count, err := builder.Count(ctx)
 	if err != nil {
 		r.log.Errorf("query count failed: %s", err.Error())
+		return 0, systemV1.ErrorInternalServerError("query count failed")
 	}
 
-	return count, err
+	return count, nil
 }
 
 func (r *MenuRepo) List(ctx context.Context, req *pagination.PagingRequest, treeTravel bool) (*systemV1.ListMenuResponse, error) {
+	if req == nil {
+		return nil, systemV1.ErrorBadRequest("invalid parameter")
+	}
+
 	builder := r.data.db.Client().Menu.Query()
 
 	err, whereSelectors, querySelectors := entgo.BuildQuerySelector(
@@ -153,8 +158,8 @@ func (r *MenuRepo) List(ctx context.Context, req *pagination.PagingRequest, tree
 		req.GetFieldMask().GetPaths(),
 	)
 	if err != nil {
-		r.log.Errorf("解析SELECT条件发生错误[%s]", err.Error())
-		return nil, err
+		r.log.Errorf("parse list param error [%s]", err.Error())
+		return nil, systemV1.ErrorBadRequest("invalid query parameter")
 	}
 
 	if querySelectors != nil {
@@ -164,7 +169,7 @@ func (r *MenuRepo) List(ctx context.Context, req *pagination.PagingRequest, tree
 	results, err := builder.All(ctx)
 	if err != nil {
 		r.log.Errorf("query list failed: %s", err.Error())
-		return nil, err
+		return nil, systemV1.ErrorInternalServerError("query list failed")
 	}
 
 	items := make([]*systemV1.Menu, 0, len(results))
@@ -205,12 +210,21 @@ func (r *MenuRepo) List(ctx context.Context, req *pagination.PagingRequest, tree
 }
 
 func (r *MenuRepo) IsExist(ctx context.Context, id int32) (bool, error) {
-	return r.data.db.Client().Menu.Query().
+	exist, err := r.data.db.Client().Menu.Query().
 		Where(menu.IDEQ(id)).
 		Exist(ctx)
+	if err != nil {
+		r.log.Errorf("query exist failed: %s", err.Error())
+		return false, systemV1.ErrorInternalServerError("query exist failed")
+	}
+	return exist, nil
 }
 
 func (r *MenuRepo) Get(ctx context.Context, req *systemV1.GetMenuRequest) (*systemV1.Menu, error) {
+	if req == nil {
+		return nil, systemV1.ErrorBadRequest("invalid parameter")
+	}
+
 	ret, err := r.data.db.Client().Menu.Get(ctx, req.GetId())
 	if err != nil {
 		if ent.IsNotFound(err) {
@@ -219,15 +233,15 @@ func (r *MenuRepo) Get(ctx context.Context, req *systemV1.GetMenuRequest) (*syst
 
 		r.log.Errorf("query one data failed: %s", err.Error())
 
-		return nil, err
+		return nil, systemV1.ErrorInternalServerError("query data failed")
 	}
 
-	return r.convertEntToProto(ret), err
+	return r.convertEntToProto(ret), nil
 }
 
 func (r *MenuRepo) Create(ctx context.Context, req *systemV1.CreateMenuRequest) error {
-	if req.Data == nil {
-		return errors.New("invalid request")
+	if req == nil || req.Data == nil {
+		return systemV1.ErrorBadRequest("invalid parameter")
 	}
 
 	builder := r.data.db.Client().Menu.Create().
@@ -256,15 +270,15 @@ func (r *MenuRepo) Create(ctx context.Context, req *systemV1.CreateMenuRequest) 
 
 	if err := builder.Exec(ctx); err != nil {
 		r.log.Errorf("insert one data failed: %s", err.Error())
-		return err
+		return systemV1.ErrorInternalServerError("insert data failed")
 	}
 
 	return nil
 }
 
 func (r *MenuRepo) Update(ctx context.Context, req *systemV1.UpdateMenuRequest) error {
-	if req.Data == nil {
-		return errors.New("invalid request")
+	if req == nil || req.Data == nil {
+		return systemV1.ErrorBadRequest("invalid parameter")
 	}
 
 	// 如果不存在则创建
@@ -328,7 +342,7 @@ func (r *MenuRepo) Update(ctx context.Context, req *systemV1.UpdateMenuRequest) 
 
 	if err := builder.Exec(ctx); err != nil {
 		r.log.Errorf("update one data failed: %s", err.Error())
-		return err
+		return systemV1.ErrorInternalServerError("update data failed")
 	}
 
 	return nil
@@ -350,6 +364,10 @@ func (r *MenuRepo) updateMetaField(builder *ent.MenuUpdateOne, meta *systemV1.Ro
 }
 
 func (r *MenuRepo) Delete(ctx context.Context, req *systemV1.DeleteMenuRequest) error {
+	if req == nil {
+		return systemV1.ErrorBadRequest("invalid parameter")
+	}
+
 	if err := r.data.db.Client().Menu.DeleteOneID(req.GetId()).Exec(ctx); err != nil {
 		if ent.IsNotFound(err) {
 			return systemV1.ErrorResourceNotFound("menu not found")

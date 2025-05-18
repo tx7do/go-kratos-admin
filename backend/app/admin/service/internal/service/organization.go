@@ -81,7 +81,7 @@ func (s *OrganizationService) Update(ctx context.Context, req *userV1.UpdateOrga
 }
 
 func (s *OrganizationService) Delete(ctx context.Context, req *userV1.DeleteOrganizationRequest) (*emptypb.Empty, error) {
-	if _, err := s.uc.Delete(ctx, req); err != nil {
+	if err := s.uc.Delete(ctx, req); err != nil {
 		return nil, err
 	}
 	return &emptypb.Empty{}, nil

@@ -149,12 +149,17 @@ func (r *UserRepo) Count(ctx context.Context, whereCond []func(s *sql.Selector))
 	count, err := builder.Count(ctx)
 	if err != nil {
 		r.log.Errorf("query count failed: %s", err.Error())
+		return 0, userV1.ErrorInternalServerError("query count failed")
 	}
 
-	return count, err
+	return count, nil
 }
 
 func (r *UserRepo) List(ctx context.Context, req *pagination.PagingRequest) (*userV1.ListUserResponse, error) {
+	if req == nil {
+		return nil, userV1.ErrorBadRequest("invalid parameter")
+	}
+
 	builder := r.data.db.Client().User.Query()
 
 	err, whereSelectors, querySelectors := entgo.BuildQuerySelector(
@@ -164,8 +169,8 @@ func (r *UserRepo) List(ctx context.Context, req *pagination.PagingRequest) (*us
 		req.GetFieldMask().GetPaths(),
 	)
 	if err != nil {
-		r.log.Errorf("解析条件发生错误[%s]", err.Error())
-		return nil, err
+		r.log.Errorf("parse list param error [%s]", err.Error())
+		return nil, userV1.ErrorBadRequest("invalid query parameter")
 	}
 
 	if querySelectors != nil {
@@ -175,7 +180,7 @@ func (r *UserRepo) List(ctx context.Context, req *pagination.PagingRequest) (*us
 	results, err := builder.All(ctx)
 	if err != nil {
 		r.log.Errorf("query list failed: %s", err.Error())
-		return nil, err
+		return nil, userV1.ErrorInternalServerError("query list failed")
 	}
 
 	items := make([]*userV1.User, 0, len(results))
@@ -196,12 +201,21 @@ func (r *UserRepo) List(ctx context.Context, req *pagination.PagingRequest) (*us
 }
 
 func (r *UserRepo) IsExist(ctx context.Context, id uint32) (bool, error) {
-	return r.data.db.Client().User.Query().
+	exist, err := r.data.db.Client().User.Query().
 		Where(user.IDEQ(id)).
 		Exist(ctx)
+	if err != nil {
+		r.log.Errorf("query exist failed: %s", err.Error())
+		return false, userV1.ErrorInternalServerError("query exist failed")
+	}
+	return exist, nil
 }
 
 func (r *UserRepo) Get(ctx context.Context, userId uint32) (*userV1.User, error) {
+	if userId == 0 {
+		return nil, userV1.ErrorBadRequest("invalid parameter")
+	}
+
 	ret, err := r.data.db.Client().User.Get(ctx, userId)
 	if err != nil {
 		if ent.IsNotFound(err) {
@@ -210,17 +224,17 @@ func (r *UserRepo) Get(ctx context.Context, userId uint32) (*userV1.User, error)
 
 		r.log.Errorf("query one data failed: %s", err.Error())
 
-		return nil, err
+		return nil, userV1.ErrorInternalServerError("query data failed")
 	}
 
 	u := r.convertEntToProto(ret)
 
-	return u, err
+	return u, nil
 }
 
 func (r *UserRepo) Create(ctx context.Context, req *userV1.CreateUserRequest) error {
-	if req.Data == nil {
-		return errors.New("invalid request")
+	if req == nil || req.Data == nil {
+		return userV1.ErrorBadRequest("invalid parameter")
 	}
 
 	builder := r.data.db.Client().User.Create().
@@ -266,15 +280,15 @@ func (r *UserRepo) Create(ctx context.Context, req *userV1.CreateUserRequest) er
 
 	if err := builder.Exec(ctx); err != nil {
 		r.log.Errorf("insert one data failed: %s", err.Error())
-		return err
+		return userV1.ErrorInternalServerError("insert data failed")
 	}
 
 	return nil
 }
 
 func (r *UserRepo) Update(ctx context.Context, req *userV1.UpdateUserRequest) error {
-	if req.Data == nil {
-		return errors.New("invalid request")
+	if req == nil || req.Data == nil {
+		return userV1.ErrorBadRequest("invalid parameter")
 	}
 
 	// 如果不存在则创建
@@ -345,7 +359,7 @@ func (r *UserRepo) Update(ctx context.Context, req *userV1.UpdateUserRequest) er
 
 	if err := builder.Exec(ctx); err != nil {
 		r.log.Errorf("update one data failed: %s", err.Error())
-		return err
+		return userV1.ErrorInternalServerError("update data failed")
 	}
 
 	return nil
@@ -366,21 +380,25 @@ func (r *UserRepo) Delete(ctx context.Context, userId uint32) error {
 }
 
 func (r *UserRepo) GetUserByUserName(ctx context.Context, userName string) (*userV1.User, error) {
+	if userName == "" {
+		return nil, userV1.ErrorBadRequest("invalid parameter")
+	}
+
 	ret, err := r.data.db.Client().User.Query().
 		Where(user.UsernameEQ(userName)).
 		Only(ctx)
 	if err != nil {
-		r.log.Errorf("query user data failed: %s", err.Error())
-
 		if ent.IsNotFound(err) {
 			return nil, userV1.ErrorUserNotFound("user not found")
 		}
 
-		return nil, err
+		r.log.Errorf("query user data failed: %s", err.Error())
+
+		return nil, userV1.ErrorInternalServerError("query data failed")
 	}
 
 	u := r.convertEntToProto(ret)
-	return u, err
+	return u, nil
 }
 
 func (r *UserRepo) VerifyPassword(ctx context.Context, req *userV1.VerifyPasswordRequest) (*userV1.VerifyPasswordResponse, error) {
@@ -390,9 +408,13 @@ func (r *UserRepo) VerifyPassword(ctx context.Context, req *userV1.VerifyPasswor
 		Where(user.UsernameEQ(req.GetUserName())).
 		Only(ctx)
 	if err != nil {
-		return &userV1.VerifyPasswordResponse{
-			Result: userV1.VerifyPasswordResult_ACCOUNT_NOT_EXISTS,
-		}, userV1.ErrorUserNotFound("用户未找到")
+		if ent.IsNotFound(err) {
+			return nil, userV1.ErrorUserNotFound("user not found")
+		}
+
+		r.log.Errorf("query user data failed: %s", err.Error())
+
+		return nil, userV1.ErrorInternalServerError("query data failed")
 	}
 
 	// 解密密码
@@ -405,7 +427,7 @@ func (r *UserRepo) VerifyPassword(ctx context.Context, req *userV1.VerifyPasswor
 	if !bMatched {
 		return &userV1.VerifyPasswordResponse{
 			Result: userV1.VerifyPasswordResult_WRONG_PASSWORD,
-		}, userV1.ErrorIncorrectPassword("密码错误")
+		}, userV1.ErrorIncorrectPassword("Incorrect Password")
 	}
 
 	return &userV1.VerifyPasswordResponse{
@@ -414,12 +436,17 @@ func (r *UserRepo) VerifyPassword(ctx context.Context, req *userV1.VerifyPasswor
 }
 
 func (r *UserRepo) UserExists(ctx context.Context, req *userV1.UserExistsRequest) (*userV1.UserExistsResponse, error) {
-	count, _ := r.data.db.Client().User.
-		Query().
-		Select(user.FieldID).
+	exist, err := r.data.db.Client().User.Query().
 		Where(user.UsernameEQ(req.GetUserName())).
-		Count(ctx)
+		Exist(ctx)
+	if err != nil {
+		r.log.Errorf("query exist failed: %s", err.Error())
+		return &userV1.UserExistsResponse{
+			Exist: false,
+		}, userV1.ErrorInternalServerError("query exist failed")
+	}
+
 	return &userV1.UserExistsResponse{
-		Exist: count > 0,
+		Exist: exist,
 	}, nil
 }

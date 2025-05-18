@@ -160,12 +160,17 @@ func (r *AdminLoginRestrictionRepo) Count(ctx context.Context, whereCond []func(
 	count, err := builder.Count(ctx)
 	if err != nil {
 		r.log.Errorf("query count failed: %s", err.Error())
+		return 0, adminV1.ErrorInternalServerError("query count failed")
 	}
 
-	return count, err
+	return count, nil
 }
 
 func (r *AdminLoginRestrictionRepo) List(ctx context.Context, req *pagination.PagingRequest) (*adminV1.ListAdminLoginRestrictionResponse, error) {
+	if req == nil {
+		return nil, adminV1.ErrorBadRequest("invalid parameter")
+	}
+
 	builder := r.data.db.Client().AdminLoginRestriction.Query()
 
 	err, whereSelectors, querySelectors := entgo.BuildQuerySelector(
@@ -175,8 +180,8 @@ func (r *AdminLoginRestrictionRepo) List(ctx context.Context, req *pagination.Pa
 		req.GetFieldMask().GetPaths(),
 	)
 	if err != nil {
-		r.log.Errorf("list query param error [%s]", err.Error())
-		return nil, err
+		r.log.Errorf("parse list param error [%s]", err.Error())
+		return nil, adminV1.ErrorBadRequest("invalid query parameter")
 	}
 
 	if querySelectors != nil {
@@ -185,7 +190,8 @@ func (r *AdminLoginRestrictionRepo) List(ctx context.Context, req *pagination.Pa
 
 	results, err := builder.All(ctx)
 	if err != nil {
-		return nil, err
+		r.log.Errorf("query list failed: %s", err.Error())
+		return nil, adminV1.ErrorInternalServerError("query list failed")
 	}
 
 	items := make([]*adminV1.AdminLoginRestriction, 0, len(results))
@@ -206,12 +212,21 @@ func (r *AdminLoginRestrictionRepo) List(ctx context.Context, req *pagination.Pa
 }
 
 func (r *AdminLoginRestrictionRepo) IsExist(ctx context.Context, id uint32) (bool, error) {
-	return r.data.db.Client().AdminLoginRestriction.Query().
+	exist, err := r.data.db.Client().AdminLoginRestriction.Query().
 		Where(adminloginrestriction.IDEQ(id)).
 		Exist(ctx)
+	if err != nil {
+		r.log.Errorf("query exist failed: %s", err.Error())
+		return false, adminV1.ErrorInternalServerError("query exist failed")
+	}
+	return exist, nil
 }
 
 func (r *AdminLoginRestrictionRepo) Get(ctx context.Context, req *adminV1.GetAdminLoginRestrictionRequest) (*adminV1.AdminLoginRestriction, error) {
+	if req == nil {
+		return nil, adminV1.ErrorBadRequest("invalid parameter")
+	}
+
 	ret, err := r.data.db.Client().AdminLoginRestriction.Get(ctx, req.GetId())
 	if err != nil {
 		if ent.IsNotFound(err) {
@@ -220,10 +235,10 @@ func (r *AdminLoginRestrictionRepo) Get(ctx context.Context, req *adminV1.GetAdm
 
 		r.log.Errorf("query one data failed: %s", err.Error())
 
-		return nil, err
+		return nil, adminV1.ErrorInternalServerError("query data failed")
 	}
 
-	return r.convertEntToProto(ret), err
+	return r.convertEntToProto(ret), nil
 }
 
 func (r *AdminLoginRestrictionRepo) Create(ctx context.Context, req *adminV1.CreateAdminLoginRestrictionRequest) error {
@@ -246,7 +261,7 @@ func (r *AdminLoginRestrictionRepo) Create(ctx context.Context, req *adminV1.Cre
 
 	if err := builder.Exec(ctx); err != nil {
 		r.log.Errorf("insert one data failed: %s", err.Error())
-		return err
+		return adminV1.ErrorInternalServerError("insert data failed")
 	}
 
 	return nil
@@ -302,13 +317,17 @@ func (r *AdminLoginRestrictionRepo) Update(ctx context.Context, req *adminV1.Upd
 
 	if err := builder.Exec(ctx); err != nil {
 		r.log.Errorf("update one data failed: %s", err.Error())
-		return err
+		return adminV1.ErrorInternalServerError("update data failed")
 	}
 
 	return nil
 }
 
 func (r *AdminLoginRestrictionRepo) Delete(ctx context.Context, req *adminV1.DeleteAdminLoginRestrictionRequest) error {
+	if req == nil {
+		return adminV1.ErrorBadRequest("invalid parameter")
+	}
+
 	if err := r.data.db.Client().AdminLoginRestriction.DeleteOneID(req.GetId()).Exec(ctx); err != nil {
 		if ent.IsNotFound(err) {
 			return adminV1.ErrorResourceNotFound("admin login restriction not found")

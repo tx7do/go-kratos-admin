@@ -66,7 +66,7 @@ func (s *PrivateMessageService) Update(ctx context.Context, req *internalMessage
 }
 
 func (s *PrivateMessageService) Delete(ctx context.Context, req *internalMessageV1.DeletePrivateMessageRequest) (*emptypb.Empty, error) {
-	if _, err := s.uc.Delete(ctx, req); err != nil {
+	if err := s.uc.Delete(ctx, req); err != nil {
 		return nil, err
 	}
 	return &emptypb.Empty{}, nil

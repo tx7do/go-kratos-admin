@@ -66,12 +66,17 @@ func (r *DictRepo) Count(ctx context.Context, whereCond []func(s *sql.Selector))
 	count, err := builder.Count(ctx)
 	if err != nil {
 		r.log.Errorf("query count failed: %s", err.Error())
+		return 0, systemV1.ErrorInternalServerError("query count failed")
 	}
 
-	return count, err
+	return count, nil
 }
 
 func (r *DictRepo) List(ctx context.Context, req *pagination.PagingRequest) (*systemV1.ListDictResponse, error) {
+	if req == nil {
+		return nil, systemV1.ErrorBadRequest("invalid parameter")
+	}
+
 	builder := r.data.db.Client().Dict.Query()
 
 	err, whereSelectors, querySelectors := entgo.BuildQuerySelector(
@@ -81,8 +86,8 @@ func (r *DictRepo) List(ctx context.Context, req *pagination.PagingRequest) (*sy
 		req.GetFieldMask().GetPaths(),
 	)
 	if err != nil {
-		r.log.Errorf("解析条件发生错误[%s]", err.Error())
-		return nil, err
+		r.log.Errorf("parse list param error [%s]", err.Error())
+		return nil, systemV1.ErrorBadRequest("invalid query parameter")
 	}
 
 	if querySelectors != nil {
@@ -91,7 +96,8 @@ func (r *DictRepo) List(ctx context.Context, req *pagination.PagingRequest) (*sy
 
 	results, err := builder.All(ctx)
 	if err != nil {
-		return nil, err
+		r.log.Errorf("query list failed: %s", err.Error())
+		return nil, systemV1.ErrorInternalServerError("query list failed")
 	}
 
 	items := make([]*systemV1.Dict, 0, len(results))
@@ -112,12 +118,21 @@ func (r *DictRepo) List(ctx context.Context, req *pagination.PagingRequest) (*sy
 }
 
 func (r *DictRepo) IsExist(ctx context.Context, id uint32) (bool, error) {
-	return r.data.db.Client().Dict.Query().
+	exist, err := r.data.db.Client().Dict.Query().
 		Where(dict.IDEQ(id)).
 		Exist(ctx)
+	if err != nil {
+		r.log.Errorf("query exist failed: %s", err.Error())
+		return false, systemV1.ErrorInternalServerError("query exist failed")
+	}
+	return exist, nil
 }
 
 func (r *DictRepo) Get(ctx context.Context, req *systemV1.GetDictRequest) (*systemV1.Dict, error) {
+	if req == nil {
+		return nil, systemV1.ErrorBadRequest("invalid parameter")
+	}
+
 	ret, err := r.data.db.Client().Dict.Get(ctx, req.GetId())
 	if err != nil {
 		if ent.IsNotFound(err) {
@@ -126,15 +141,15 @@ func (r *DictRepo) Get(ctx context.Context, req *systemV1.GetDictRequest) (*syst
 
 		r.log.Errorf("query one data failed: %s", err.Error())
 
-		return nil, err
+		return nil, systemV1.ErrorInternalServerError("query data failed")
 	}
 
-	return r.convertEntToProto(ret), err
+	return r.convertEntToProto(ret), nil
 }
 
 func (r *DictRepo) Create(ctx context.Context, req *systemV1.CreateDictRequest) error {
-	if req.Data == nil {
-		return errors.New("invalid request")
+	if req == nil || req.Data == nil {
+		return systemV1.ErrorBadRequest("invalid parameter")
 	}
 
 	builder := r.data.db.Client().Dict.Create().
@@ -160,15 +175,15 @@ func (r *DictRepo) Create(ctx context.Context, req *systemV1.CreateDictRequest) 
 
 	if err := builder.Exec(ctx); err != nil {
 		r.log.Errorf("insert one data failed: %s", err.Error())
-		return err
+		return systemV1.ErrorInternalServerError("insert data failed")
 	}
 
 	return nil
 }
 
 func (r *DictRepo) Update(ctx context.Context, req *systemV1.UpdateDictRequest) error {
-	if req.Data == nil {
-		return errors.New("invalid request")
+	if req == nil || req.Data == nil {
+		return systemV1.ErrorBadRequest("invalid parameter")
 	}
 
 	// 如果不存在则创建
@@ -221,13 +236,17 @@ func (r *DictRepo) Update(ctx context.Context, req *systemV1.UpdateDictRequest) 
 
 	if err := builder.Exec(ctx); err != nil {
 		r.log.Errorf("update one data failed: %s", err.Error())
-		return err
+		return systemV1.ErrorInternalServerError("update data failed")
 	}
 
 	return nil
 }
 
 func (r *DictRepo) Delete(ctx context.Context, req *systemV1.DeleteDictRequest) error {
+	if req == nil {
+		return systemV1.ErrorBadRequest("invalid parameter")
+	}
+
 	if err := r.data.db.Client().Dict.DeleteOneID(req.GetId()).Exec(ctx); err != nil {
 		if ent.IsNotFound(err) {
 			return systemV1.ErrorResourceNotFound("dict not found")

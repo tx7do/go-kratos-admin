@@ -81,7 +81,7 @@ func (s *RoleService) Update(ctx context.Context, req *userV1.UpdateRoleRequest)
 }
 
 func (s *RoleService) Delete(ctx context.Context, req *userV1.DeleteRoleRequest) (*emptypb.Empty, error) {
-	if _, err := s.uc.Delete(ctx, req); err != nil {
+	if err := s.uc.Delete(ctx, req); err != nil {
 		return nil, err
 	}
 	return &emptypb.Empty{}, nil

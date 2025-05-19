@@ -89,7 +89,7 @@ func (s *UserService) Create(ctx context.Context, req *userV1.CreateUserRequest)
 
 	// 校验操作者的权限
 	if operatorUser.GetAuthority() != userV1.UserAuthority_SYS_ADMIN {
-		return nil, adminV1.ErrorAccessForbidden("权限不够")
+		return nil, adminV1.ErrorForbidden("权限不够")
 	}
 
 	if req.Data.Authority == nil {
@@ -98,7 +98,7 @@ func (s *UserService) Create(ctx context.Context, req *userV1.CreateUserRequest)
 
 	if req.Data.Authority != nil {
 		if operatorUser.GetAuthority() >= req.Data.GetAuthority() {
-			return nil, adminV1.ErrorAccessForbidden("不能够创建同级用户或者比自己权限高的用户")
+			return nil, adminV1.ErrorForbidden("不能够创建同级用户或者比自己权限高的用户")
 		}
 	}
 
@@ -129,12 +129,12 @@ func (s *UserService) Update(ctx context.Context, req *userV1.UpdateUserRequest)
 
 	// 校验操作者的权限
 	if operatorUser.GetAuthority() != userV1.UserAuthority_SYS_ADMIN {
-		return nil, adminV1.ErrorAccessForbidden("权限不够")
+		return nil, adminV1.ErrorForbidden("权限不够")
 	}
 
 	if req.Data.Authority != nil {
 		if operatorUser.GetAuthority() >= req.Data.GetAuthority() {
-			return nil, adminV1.ErrorAccessForbidden("不能够赋权同级用户或者比自己权限高的用户")
+			return nil, adminV1.ErrorForbidden("不能够赋权同级用户或者比自己权限高的用户")
 		}
 	}
 
@@ -161,7 +161,7 @@ func (s *UserService) Delete(ctx context.Context, req *userV1.DeleteUserRequest)
 
 	// 校验操作者的权限
 	if operatorUser.GetAuthority() != userV1.UserAuthority_SYS_ADMIN {
-		return nil, adminV1.ErrorAccessForbidden("权限不够")
+		return nil, adminV1.ErrorForbidden("权限不够")
 	}
 
 	// 获取将被删除的用户信息
@@ -172,11 +172,11 @@ func (s *UserService) Delete(ctx context.Context, req *userV1.DeleteUserRequest)
 
 	// 不能删除超级管理员
 	if user.GetAuthority() == userV1.UserAuthority_SYS_ADMIN {
-		return nil, adminV1.ErrorAccessForbidden("闹哪样？不能删除超级管理员！")
+		return nil, adminV1.ErrorForbidden("闹哪样？不能删除超级管理员！")
 	}
 
 	if operatorUser.GetAuthority() == user.GetAuthority() {
-		return nil, adminV1.ErrorAccessForbidden("不能删除同级用户！")
+		return nil, adminV1.ErrorForbidden("不能删除同级用户！")
 	}
 
 	// 删除用户

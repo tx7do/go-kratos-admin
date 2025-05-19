@@ -227,7 +227,7 @@ func (r *MenuRepo) Get(ctx context.Context, req *systemV1.GetMenuRequest) (*syst
 	ret, err := r.data.db.Client().Menu.Get(ctx, req.GetId())
 	if err != nil {
 		if ent.IsNotFound(err) {
-			return nil, systemV1.ErrorResourceNotFound("menu not found")
+			return nil, systemV1.ErrorNotFound("menu not found")
 		}
 
 		r.log.Errorf("query one data failed: %s", err.Error())
@@ -369,7 +369,7 @@ func (r *MenuRepo) Delete(ctx context.Context, req *systemV1.DeleteMenuRequest) 
 
 	if err := r.data.db.Client().Menu.DeleteOneID(req.GetId()).Exec(ctx); err != nil {
 		if ent.IsNotFound(err) {
-			return systemV1.ErrorResourceNotFound("menu not found")
+			return systemV1.ErrorNotFound("menu not found")
 		}
 
 		r.log.Errorf("delete one data failed: %s", err.Error())

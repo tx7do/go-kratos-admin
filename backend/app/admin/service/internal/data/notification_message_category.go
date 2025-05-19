@@ -184,7 +184,7 @@ func (r *NotificationMessageCategoryRepo) Get(ctx context.Context, req *internal
 	ret, err := r.data.db.Client().NotificationMessageCategory.Get(ctx, req.GetId())
 	if err != nil {
 		if ent.IsNotFound(err) {
-			return nil, internalMessageV1.ErrorResourceNotFound("message category not found")
+			return nil, internalMessageV1.ErrorNotFound("message category not found")
 		}
 
 		r.log.Errorf("query one data failed: %s", err.Error())
@@ -288,7 +288,7 @@ func (r *NotificationMessageCategoryRepo) Delete(ctx context.Context, req *inter
 
 	if err := r.data.db.Client().NotificationMessageCategory.DeleteOneID(req.GetId()).Exec(ctx); err != nil {
 		if ent.IsNotFound(err) {
-			return internalMessageV1.ErrorResourceNotFound("notification message category not found")
+			return internalMessageV1.ErrorNotFound("notification message category not found")
 		}
 
 		r.log.Errorf("delete one data failed: %s", err.Error())

@@ -74,7 +74,7 @@ func (s *AuthenticationService) doGrantTypePassword(ctx context.Context, req *au
 
 	// 验证权限
 	if user.GetAuthority() != userV1.UserAuthority_SYS_ADMIN {
-		return &authenticationV1.LoginResponse{}, authenticationV1.ErrorAccessForbidden("权限不够")
+		return &authenticationV1.LoginResponse{}, authenticationV1.ErrorForbidden("权限不够")
 	}
 
 	// 生成令牌
@@ -137,7 +137,7 @@ func (s *AuthenticationService) GetMe(ctx context.Context, req *authenticationV1
 	user, err := s.userRepo.Get(ctx, req.GetOperatorId())
 	if err != nil {
 		s.log.Errorf("查询用户失败[%s]", err.Error())
-		return nil, authenticationV1.ErrorAccessForbidden("user not found")
+		return nil, authenticationV1.ErrorForbidden("user not found")
 	}
 
 	role, err := s.roleRepo.Get(ctx, user.GetRoleId())

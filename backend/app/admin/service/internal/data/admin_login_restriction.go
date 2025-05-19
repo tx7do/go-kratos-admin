@@ -230,7 +230,7 @@ func (r *AdminLoginRestrictionRepo) Get(ctx context.Context, req *adminV1.GetAdm
 	ret, err := r.data.db.Client().AdminLoginRestriction.Get(ctx, req.GetId())
 	if err != nil {
 		if ent.IsNotFound(err) {
-			return nil, adminV1.ErrorResourceNotFound("admin login restriction not found")
+			return nil, adminV1.ErrorNotFound("admin login restriction not found")
 		}
 
 		r.log.Errorf("query one data failed: %s", err.Error())
@@ -330,7 +330,7 @@ func (r *AdminLoginRestrictionRepo) Delete(ctx context.Context, req *adminV1.Del
 
 	if err := r.data.db.Client().AdminLoginRestriction.DeleteOneID(req.GetId()).Exec(ctx); err != nil {
 		if ent.IsNotFound(err) {
-			return adminV1.ErrorResourceNotFound("admin login restriction not found")
+			return adminV1.ErrorNotFound("admin login restriction not found")
 		}
 
 		r.log.Errorf("delete one data failed: %s", err.Error())

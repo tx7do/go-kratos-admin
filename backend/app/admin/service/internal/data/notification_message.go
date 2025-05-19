@@ -194,7 +194,7 @@ func (r *NotificationMessageRepo) Get(ctx context.Context, req *internalMessageV
 	ret, err := r.data.db.Client().NotificationMessage.Get(ctx, req.GetId())
 	if err != nil {
 		if ent.IsNotFound(err) {
-			return nil, internalMessageV1.ErrorResourceNotFound("message not found")
+			return nil, internalMessageV1.ErrorNotFound("message not found")
 		}
 
 		r.log.Errorf("query one data failed: %s", err.Error())
@@ -296,7 +296,7 @@ func (r *NotificationMessageRepo) Delete(ctx context.Context, req *internalMessa
 
 	if err := r.data.db.Client().NotificationMessage.DeleteOneID(req.GetId()).Exec(ctx); err != nil {
 		if ent.IsNotFound(err) {
-			return internalMessageV1.ErrorResourceNotFound("notification message not found")
+			return internalMessageV1.ErrorNotFound("notification message not found")
 		}
 
 		r.log.Errorf("delete one data failed: %s", err.Error())

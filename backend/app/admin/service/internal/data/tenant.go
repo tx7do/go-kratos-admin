@@ -243,7 +243,7 @@ func (r *TenantRepo) Delete(ctx context.Context, req *userV1.DeleteTenantRequest
 
 	if err := r.data.db.Client().Tenant.DeleteOneID(req.GetId()).Exec(ctx); err != nil {
 		if ent.IsNotFound(err) {
-			return userV1.ErrorResourceNotFound("tenant not found")
+			return userV1.ErrorNotFound("tenant not found")
 		}
 
 		r.log.Errorf("delete one data failed: %s", err.Error())

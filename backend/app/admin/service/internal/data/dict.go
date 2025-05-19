@@ -135,7 +135,7 @@ func (r *DictRepo) Get(ctx context.Context, req *systemV1.GetDictRequest) (*syst
 	ret, err := r.data.db.Client().Dict.Get(ctx, req.GetId())
 	if err != nil {
 		if ent.IsNotFound(err) {
-			return nil, systemV1.ErrorResourceNotFound("dict not found")
+			return nil, systemV1.ErrorNotFound("dict not found")
 		}
 
 		r.log.Errorf("query one data failed: %s", err.Error())
@@ -248,7 +248,7 @@ func (r *DictRepo) Delete(ctx context.Context, req *systemV1.DeleteDictRequest) 
 
 	if err := r.data.db.Client().Dict.DeleteOneID(req.GetId()).Exec(ctx); err != nil {
 		if ent.IsNotFound(err) {
-			return systemV1.ErrorResourceNotFound("dict not found")
+			return systemV1.ErrorNotFound("dict not found")
 		}
 
 		r.log.Errorf("delete one data failed: %s", err.Error())

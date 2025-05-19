@@ -365,7 +365,7 @@ func (r *UserRepo) Update(ctx context.Context, req *userV1.UpdateUserRequest) er
 func (r *UserRepo) Delete(ctx context.Context, userId uint32) error {
 	if err := r.data.db.Client().User.DeleteOneID(userId).Exec(ctx); err != nil {
 		if ent.IsNotFound(err) {
-			return userV1.ErrorResourceNotFound("user not found")
+			return userV1.ErrorNotFound("user not found")
 		}
 
 		r.log.Errorf("delete one data failed: %s", err.Error())

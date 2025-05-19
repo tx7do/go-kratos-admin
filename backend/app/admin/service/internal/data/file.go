@@ -341,7 +341,7 @@ func (r *FileRepo) Delete(ctx context.Context, req *fileV1.DeleteFileRequest) er
 
 	if err := r.data.db.Client().File.DeleteOneID(req.GetId()).Exec(ctx); err != nil {
 		if ent.IsNotFound(err) {
-			return fileV1.ErrorResourceNotFound("file not found")
+			return fileV1.ErrorNotFound("file not found")
 		}
 
 		r.log.Errorf("delete one data failed: %s", err.Error())

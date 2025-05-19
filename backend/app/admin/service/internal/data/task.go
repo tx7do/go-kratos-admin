@@ -178,7 +178,7 @@ func (r *TaskRepo) Get(ctx context.Context, id uint32) (*systemV1.Task, error) {
 	ret, err := r.data.db.Client().Task.Get(ctx, id)
 	if err != nil {
 		if ent.IsNotFound(err) {
-			return nil, systemV1.ErrorResourceNotFound("task not found")
+			return nil, systemV1.ErrorNotFound("task not found")
 		}
 
 		r.log.Errorf("query one data failed: %s", err.Error())
@@ -201,7 +201,7 @@ func (r *TaskRepo) GetByTypeName(ctx context.Context, typeName string) (*systemV
 		r.log.Errorf("query one data failed: %s", err.Error())
 
 		if ent.IsNotFound(err) {
-			return nil, systemV1.ErrorResourceNotFound("task not found")
+			return nil, systemV1.ErrorNotFound("task not found")
 		}
 
 		return nil, systemV1.ErrorInternalServerError("query data failed")
@@ -319,7 +319,7 @@ func (r *TaskRepo) Delete(ctx context.Context, req *systemV1.DeleteTaskRequest) 
 
 	if err := r.data.db.Client().Task.DeleteOneID(req.GetId()).Exec(ctx); err != nil {
 		if ent.IsNotFound(err) {
-			return systemV1.ErrorResourceNotFound("task not found")
+			return systemV1.ErrorNotFound("task not found")
 		}
 
 		r.log.Errorf("delete one data failed: %s", err.Error())

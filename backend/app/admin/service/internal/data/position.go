@@ -238,7 +238,7 @@ func (r *PositionRepo) Delete(ctx context.Context, req *userV1.DeletePositionReq
 
 	if err := r.data.db.Client().Position.DeleteOneID(req.GetId()).Exec(ctx); err != nil {
 		if ent.IsNotFound(err) {
-			return userV1.ErrorResourceNotFound("position not found")
+			return userV1.ErrorNotFound("position not found")
 		}
 
 		r.log.Errorf("delete one data failed: %s", err.Error())

@@ -11,118 +11,6 @@ import (
 // is compatible with the kratos package it is being compiled against.
 const _ = errors.SupportPackageIsVersion1
 
-// common error
-func IsMethodNotAllowed(err error) bool {
-	if err == nil {
-		return false
-	}
-	e := errors.FromError(err)
-	return e.Reason == AdminErrorReason_METHOD_NOT_ALLOWED.String() && e.Code == 405
-}
-
-// common error
-func ErrorMethodNotAllowed(format string, args ...interface{}) *errors.Error {
-	return errors.New(405, AdminErrorReason_METHOD_NOT_ALLOWED.String(), fmt.Sprintf(format, args...))
-}
-
-// 408
-func IsRequestTimeout(err error) bool {
-	if err == nil {
-		return false
-	}
-	e := errors.FromError(err)
-	return e.Reason == AdminErrorReason_REQUEST_TIMEOUT.String() && e.Code == 408
-}
-
-// 408
-func ErrorRequestTimeout(format string, args ...interface{}) *errors.Error {
-	return errors.New(408, AdminErrorReason_REQUEST_TIMEOUT.String(), fmt.Sprintf(format, args...))
-}
-
-// 500
-func IsInternalServerError(err error) bool {
-	if err == nil {
-		return false
-	}
-	e := errors.FromError(err)
-	return e.Reason == AdminErrorReason_INTERNAL_SERVER_ERROR.String() && e.Code == 500
-}
-
-// 500
-func ErrorInternalServerError(format string, args ...interface{}) *errors.Error {
-	return errors.New(500, AdminErrorReason_INTERNAL_SERVER_ERROR.String(), fmt.Sprintf(format, args...))
-}
-
-// 501
-func IsNotImplemented(err error) bool {
-	if err == nil {
-		return false
-	}
-	e := errors.FromError(err)
-	return e.Reason == AdminErrorReason_NOT_IMPLEMENTED.String() && e.Code == 501
-}
-
-// 501
-func ErrorNotImplemented(format string, args ...interface{}) *errors.Error {
-	return errors.New(501, AdminErrorReason_NOT_IMPLEMENTED.String(), fmt.Sprintf(format, args...))
-}
-
-// 502
-func IsNetworkError(err error) bool {
-	if err == nil {
-		return false
-	}
-	e := errors.FromError(err)
-	return e.Reason == AdminErrorReason_NETWORK_ERROR.String() && e.Code == 502
-}
-
-// 502
-func ErrorNetworkError(format string, args ...interface{}) *errors.Error {
-	return errors.New(502, AdminErrorReason_NETWORK_ERROR.String(), fmt.Sprintf(format, args...))
-}
-
-// 503
-func IsServiceUnavailable(err error) bool {
-	if err == nil {
-		return false
-	}
-	e := errors.FromError(err)
-	return e.Reason == AdminErrorReason_SERVICE_UNAVAILABLE.String() && e.Code == 503
-}
-
-// 503
-func ErrorServiceUnavailable(format string, args ...interface{}) *errors.Error {
-	return errors.New(503, AdminErrorReason_SERVICE_UNAVAILABLE.String(), fmt.Sprintf(format, args...))
-}
-
-// 504
-func IsNetworkTimeout(err error) bool {
-	if err == nil {
-		return false
-	}
-	e := errors.FromError(err)
-	return e.Reason == AdminErrorReason_NETWORK_TIMEOUT.String() && e.Code == 504
-}
-
-// 504
-func ErrorNetworkTimeout(format string, args ...interface{}) *errors.Error {
-	return errors.New(504, AdminErrorReason_NETWORK_TIMEOUT.String(), fmt.Sprintf(format, args...))
-}
-
-// 505
-func IsRequestNotSupport(err error) bool {
-	if err == nil {
-		return false
-	}
-	e := errors.FromError(err)
-	return e.Reason == AdminErrorReason_REQUEST_NOT_SUPPORT.String() && e.Code == 505
-}
-
-// 505
-func ErrorRequestNotSupport(format string, args ...interface{}) *errors.Error {
-	return errors.New(505, AdminErrorReason_REQUEST_NOT_SUPPORT.String(), fmt.Sprintf(format, args...))
-}
-
 // 400
 func IsBadRequest(err error) bool {
 	if err == nil {
@@ -193,46 +81,18 @@ func ErrorInvalidPassword(format string, args ...interface{}) *errors.Error {
 	return errors.New(400, AdminErrorReason_INVALID_PASSWORD.String(), fmt.Sprintf(format, args...))
 }
 
-// 404
-func IsResourceNotFound(err error) bool {
+// 401
+func IsUnauthorized(err error) bool {
 	if err == nil {
 		return false
 	}
 	e := errors.FromError(err)
-	return e.Reason == AdminErrorReason_RESOURCE_NOT_FOUND.String() && e.Code == 404
-}
-
-// 404
-func ErrorResourceNotFound(format string, args ...interface{}) *errors.Error {
-	return errors.New(404, AdminErrorReason_RESOURCE_NOT_FOUND.String(), fmt.Sprintf(format, args...))
-}
-
-// 用户不存在
-func IsUserNotFound(err error) bool {
-	if err == nil {
-		return false
-	}
-	e := errors.FromError(err)
-	return e.Reason == AdminErrorReason_USER_NOT_FOUND.String() && e.Code == 404
-}
-
-// 用户不存在
-func ErrorUserNotFound(format string, args ...interface{}) *errors.Error {
-	return errors.New(404, AdminErrorReason_USER_NOT_FOUND.String(), fmt.Sprintf(format, args...))
+	return e.Reason == AdminErrorReason_UNAUTHORIZED.String() && e.Code == 401
 }
 
 // 401
-func IsNotLoggedIn(err error) bool {
-	if err == nil {
-		return false
-	}
-	e := errors.FromError(err)
-	return e.Reason == AdminErrorReason_NOT_LOGGED_IN.String() && e.Code == 401
-}
-
-// 401
-func ErrorNotLoggedIn(format string, args ...interface{}) *errors.Error {
-	return errors.New(401, AdminErrorReason_NOT_LOGGED_IN.String(), fmt.Sprintf(format, args...))
+func ErrorUnauthorized(format string, args ...interface{}) *errors.Error {
+	return errors.New(401, AdminErrorReason_UNAUTHORIZED.String(), fmt.Sprintf(format, args...))
 }
 
 // 用户被冻结
@@ -333,16 +193,576 @@ func ErrorTokenNotExist(format string, args ...interface{}) *errors.Error {
 	return errors.New(401, AdminErrorReason_TOKEN_NOT_EXIST.String(), fmt.Sprintf(format, args...))
 }
 
-// 403
-func IsAccessForbidden(err error) bool {
+// 402
+func IsPaymentRequired(err error) bool {
 	if err == nil {
 		return false
 	}
 	e := errors.FromError(err)
-	return e.Reason == AdminErrorReason_ACCESS_FORBIDDEN.String() && e.Code == 403
+	return e.Reason == AdminErrorReason_PAYMENT_REQUIRED.String() && e.Code == 402
+}
+
+// 402
+func ErrorPaymentRequired(format string, args ...interface{}) *errors.Error {
+	return errors.New(402, AdminErrorReason_PAYMENT_REQUIRED.String(), fmt.Sprintf(format, args...))
 }
 
 // 403
-func ErrorAccessForbidden(format string, args ...interface{}) *errors.Error {
-	return errors.New(403, AdminErrorReason_ACCESS_FORBIDDEN.String(), fmt.Sprintf(format, args...))
+func IsForbidden(err error) bool {
+	if err == nil {
+		return false
+	}
+	e := errors.FromError(err)
+	return e.Reason == AdminErrorReason_FORBIDDEN.String() && e.Code == 403
+}
+
+// 403
+func ErrorForbidden(format string, args ...interface{}) *errors.Error {
+	return errors.New(403, AdminErrorReason_FORBIDDEN.String(), fmt.Sprintf(format, args...))
+}
+
+// 404
+func IsNotFound(err error) bool {
+	if err == nil {
+		return false
+	}
+	e := errors.FromError(err)
+	return e.Reason == AdminErrorReason_NOT_FOUND.String() && e.Code == 404
+}
+
+// 404
+func ErrorNotFound(format string, args ...interface{}) *errors.Error {
+	return errors.New(404, AdminErrorReason_NOT_FOUND.String(), fmt.Sprintf(format, args...))
+}
+
+// 用户不存在
+func IsUserNotFound(err error) bool {
+	if err == nil {
+		return false
+	}
+	e := errors.FromError(err)
+	return e.Reason == AdminErrorReason_USER_NOT_FOUND.String() && e.Code == 404
+}
+
+// 用户不存在
+func ErrorUserNotFound(format string, args ...interface{}) *errors.Error {
+	return errors.New(404, AdminErrorReason_USER_NOT_FOUND.String(), fmt.Sprintf(format, args...))
+}
+
+// 405
+func IsMethodNotAllowed(err error) bool {
+	if err == nil {
+		return false
+	}
+	e := errors.FromError(err)
+	return e.Reason == AdminErrorReason_METHOD_NOT_ALLOWED.String() && e.Code == 405
+}
+
+// 405
+func ErrorMethodNotAllowed(format string, args ...interface{}) *errors.Error {
+	return errors.New(405, AdminErrorReason_METHOD_NOT_ALLOWED.String(), fmt.Sprintf(format, args...))
+}
+
+// 406
+func IsNotAcceptable(err error) bool {
+	if err == nil {
+		return false
+	}
+	e := errors.FromError(err)
+	return e.Reason == AdminErrorReason_NOT_ACCEPTABLE.String() && e.Code == 406
+}
+
+// 406
+func ErrorNotAcceptable(format string, args ...interface{}) *errors.Error {
+	return errors.New(406, AdminErrorReason_NOT_ACCEPTABLE.String(), fmt.Sprintf(format, args...))
+}
+
+// 407
+func IsProxyAuthenticationRequired(err error) bool {
+	if err == nil {
+		return false
+	}
+	e := errors.FromError(err)
+	return e.Reason == AdminErrorReason_PROXY_AUTHENTICATION_REQUIRED.String() && e.Code == 407
+}
+
+// 407
+func ErrorProxyAuthenticationRequired(format string, args ...interface{}) *errors.Error {
+	return errors.New(407, AdminErrorReason_PROXY_AUTHENTICATION_REQUIRED.String(), fmt.Sprintf(format, args...))
+}
+
+// 408
+func IsRequestTimeout(err error) bool {
+	if err == nil {
+		return false
+	}
+	e := errors.FromError(err)
+	return e.Reason == AdminErrorReason_REQUEST_TIMEOUT.String() && e.Code == 408
+}
+
+// 408
+func ErrorRequestTimeout(format string, args ...interface{}) *errors.Error {
+	return errors.New(408, AdminErrorReason_REQUEST_TIMEOUT.String(), fmt.Sprintf(format, args...))
+}
+
+// 409
+func IsConflict(err error) bool {
+	if err == nil {
+		return false
+	}
+	e := errors.FromError(err)
+	return e.Reason == AdminErrorReason_CONFLICT.String() && e.Code == 409
+}
+
+// 409
+func ErrorConflict(format string, args ...interface{}) *errors.Error {
+	return errors.New(409, AdminErrorReason_CONFLICT.String(), fmt.Sprintf(format, args...))
+}
+
+// 410
+func IsGone(err error) bool {
+	if err == nil {
+		return false
+	}
+	e := errors.FromError(err)
+	return e.Reason == AdminErrorReason_GONE.String() && e.Code == 410
+}
+
+// 410
+func ErrorGone(format string, args ...interface{}) *errors.Error {
+	return errors.New(410, AdminErrorReason_GONE.String(), fmt.Sprintf(format, args...))
+}
+
+// 411
+func IsLengthRequired(err error) bool {
+	if err == nil {
+		return false
+	}
+	e := errors.FromError(err)
+	return e.Reason == AdminErrorReason_LENGTH_REQUIRED.String() && e.Code == 411
+}
+
+// 411
+func ErrorLengthRequired(format string, args ...interface{}) *errors.Error {
+	return errors.New(411, AdminErrorReason_LENGTH_REQUIRED.String(), fmt.Sprintf(format, args...))
+}
+
+// 412
+func IsPreconditionFailed(err error) bool {
+	if err == nil {
+		return false
+	}
+	e := errors.FromError(err)
+	return e.Reason == AdminErrorReason_PRECONDITION_FAILED.String() && e.Code == 412
+}
+
+// 412
+func ErrorPreconditionFailed(format string, args ...interface{}) *errors.Error {
+	return errors.New(412, AdminErrorReason_PRECONDITION_FAILED.String(), fmt.Sprintf(format, args...))
+}
+
+// 413
+func IsPayloadTooLarge(err error) bool {
+	if err == nil {
+		return false
+	}
+	e := errors.FromError(err)
+	return e.Reason == AdminErrorReason_PAYLOAD_TOO_LARGE.String() && e.Code == 413
+}
+
+// 413
+func ErrorPayloadTooLarge(format string, args ...interface{}) *errors.Error {
+	return errors.New(413, AdminErrorReason_PAYLOAD_TOO_LARGE.String(), fmt.Sprintf(format, args...))
+}
+
+// 414
+func IsUriTooLong(err error) bool {
+	if err == nil {
+		return false
+	}
+	e := errors.FromError(err)
+	return e.Reason == AdminErrorReason_URI_TOO_LONG.String() && e.Code == 414
+}
+
+// 414
+func ErrorUriTooLong(format string, args ...interface{}) *errors.Error {
+	return errors.New(414, AdminErrorReason_URI_TOO_LONG.String(), fmt.Sprintf(format, args...))
+}
+
+// 415
+func IsUnsupportedMediaType(err error) bool {
+	if err == nil {
+		return false
+	}
+	e := errors.FromError(err)
+	return e.Reason == AdminErrorReason_UNSUPPORTED_MEDIA_TYPE.String() && e.Code == 415
+}
+
+// 415
+func ErrorUnsupportedMediaType(format string, args ...interface{}) *errors.Error {
+	return errors.New(415, AdminErrorReason_UNSUPPORTED_MEDIA_TYPE.String(), fmt.Sprintf(format, args...))
+}
+
+// 416
+func IsRangeNotSatisfiable(err error) bool {
+	if err == nil {
+		return false
+	}
+	e := errors.FromError(err)
+	return e.Reason == AdminErrorReason_RANGE_NOT_SATISFIABLE.String() && e.Code == 416
+}
+
+// 416
+func ErrorRangeNotSatisfiable(format string, args ...interface{}) *errors.Error {
+	return errors.New(416, AdminErrorReason_RANGE_NOT_SATISFIABLE.String(), fmt.Sprintf(format, args...))
+}
+
+// 417
+func IsExpectationFailed(err error) bool {
+	if err == nil {
+		return false
+	}
+	e := errors.FromError(err)
+	return e.Reason == AdminErrorReason_EXPECTATION_FAILED.String() && e.Code == 417
+}
+
+// 417
+func ErrorExpectationFailed(format string, args ...interface{}) *errors.Error {
+	return errors.New(417, AdminErrorReason_EXPECTATION_FAILED.String(), fmt.Sprintf(format, args...))
+}
+
+// 418
+func IsImATeapot(err error) bool {
+	if err == nil {
+		return false
+	}
+	e := errors.FromError(err)
+	return e.Reason == AdminErrorReason_IM_A_TEAPOT.String() && e.Code == 418
+}
+
+// 418
+func ErrorImATeapot(format string, args ...interface{}) *errors.Error {
+	return errors.New(418, AdminErrorReason_IM_A_TEAPOT.String(), fmt.Sprintf(format, args...))
+}
+
+// 421
+func IsMisdirectedRequest(err error) bool {
+	if err == nil {
+		return false
+	}
+	e := errors.FromError(err)
+	return e.Reason == AdminErrorReason_MISDIRECTED_REQUEST.String() && e.Code == 421
+}
+
+// 421
+func ErrorMisdirectedRequest(format string, args ...interface{}) *errors.Error {
+	return errors.New(421, AdminErrorReason_MISDIRECTED_REQUEST.String(), fmt.Sprintf(format, args...))
+}
+
+// 422
+func IsUnprocessableEntity(err error) bool {
+	if err == nil {
+		return false
+	}
+	e := errors.FromError(err)
+	return e.Reason == AdminErrorReason_UNPROCESSABLE_ENTITY.String() && e.Code == 422
+}
+
+// 422
+func ErrorUnprocessableEntity(format string, args ...interface{}) *errors.Error {
+	return errors.New(422, AdminErrorReason_UNPROCESSABLE_ENTITY.String(), fmt.Sprintf(format, args...))
+}
+
+// 423
+func IsLocked(err error) bool {
+	if err == nil {
+		return false
+	}
+	e := errors.FromError(err)
+	return e.Reason == AdminErrorReason_LOCKED.String() && e.Code == 423
+}
+
+// 423
+func ErrorLocked(format string, args ...interface{}) *errors.Error {
+	return errors.New(423, AdminErrorReason_LOCKED.String(), fmt.Sprintf(format, args...))
+}
+
+// 424
+func IsFailedDependency(err error) bool {
+	if err == nil {
+		return false
+	}
+	e := errors.FromError(err)
+	return e.Reason == AdminErrorReason_FAILED_DEPENDENCY.String() && e.Code == 424
+}
+
+// 424
+func ErrorFailedDependency(format string, args ...interface{}) *errors.Error {
+	return errors.New(424, AdminErrorReason_FAILED_DEPENDENCY.String(), fmt.Sprintf(format, args...))
+}
+
+// 425
+func IsTooEarly(err error) bool {
+	if err == nil {
+		return false
+	}
+	e := errors.FromError(err)
+	return e.Reason == AdminErrorReason_TOO_EARLY.String() && e.Code == 425
+}
+
+// 425
+func ErrorTooEarly(format string, args ...interface{}) *errors.Error {
+	return errors.New(425, AdminErrorReason_TOO_EARLY.String(), fmt.Sprintf(format, args...))
+}
+
+// 426
+func IsUpgradeRequired(err error) bool {
+	if err == nil {
+		return false
+	}
+	e := errors.FromError(err)
+	return e.Reason == AdminErrorReason_UPGRADE_REQUIRED.String() && e.Code == 426
+}
+
+// 426
+func ErrorUpgradeRequired(format string, args ...interface{}) *errors.Error {
+	return errors.New(426, AdminErrorReason_UPGRADE_REQUIRED.String(), fmt.Sprintf(format, args...))
+}
+
+// 428
+func IsPreconditionRequired(err error) bool {
+	if err == nil {
+		return false
+	}
+	e := errors.FromError(err)
+	return e.Reason == AdminErrorReason_PRECONDITION_REQUIRED.String() && e.Code == 428
+}
+
+// 428
+func ErrorPreconditionRequired(format string, args ...interface{}) *errors.Error {
+	return errors.New(428, AdminErrorReason_PRECONDITION_REQUIRED.String(), fmt.Sprintf(format, args...))
+}
+
+// 429
+func IsTooManyRequests(err error) bool {
+	if err == nil {
+		return false
+	}
+	e := errors.FromError(err)
+	return e.Reason == AdminErrorReason_TOO_MANY_REQUESTS.String() && e.Code == 429
+}
+
+// 429
+func ErrorTooManyRequests(format string, args ...interface{}) *errors.Error {
+	return errors.New(429, AdminErrorReason_TOO_MANY_REQUESTS.String(), fmt.Sprintf(format, args...))
+}
+
+// 431
+func IsRequestHeaderFieldsTooLarge(err error) bool {
+	if err == nil {
+		return false
+	}
+	e := errors.FromError(err)
+	return e.Reason == AdminErrorReason_REQUEST_HEADER_FIELDS_TOO_LARGE.String() && e.Code == 431
+}
+
+// 431
+func ErrorRequestHeaderFieldsTooLarge(format string, args ...interface{}) *errors.Error {
+	return errors.New(431, AdminErrorReason_REQUEST_HEADER_FIELDS_TOO_LARGE.String(), fmt.Sprintf(format, args...))
+}
+
+// 451
+func IsUnavailableForLegalReasons(err error) bool {
+	if err == nil {
+		return false
+	}
+	e := errors.FromError(err)
+	return e.Reason == AdminErrorReason_UNAVAILABLE_FOR_LEGAL_REASONS.String() && e.Code == 451
+}
+
+// 451
+func ErrorUnavailableForLegalReasons(format string, args ...interface{}) *errors.Error {
+	return errors.New(451, AdminErrorReason_UNAVAILABLE_FOR_LEGAL_REASONS.String(), fmt.Sprintf(format, args...))
+}
+
+// 500
+func IsInternalServerError(err error) bool {
+	if err == nil {
+		return false
+	}
+	e := errors.FromError(err)
+	return e.Reason == AdminErrorReason_INTERNAL_SERVER_ERROR.String() && e.Code == 500
+}
+
+// 500
+func ErrorInternalServerError(format string, args ...interface{}) *errors.Error {
+	return errors.New(500, AdminErrorReason_INTERNAL_SERVER_ERROR.String(), fmt.Sprintf(format, args...))
+}
+
+// 501
+func IsNotImplemented(err error) bool {
+	if err == nil {
+		return false
+	}
+	e := errors.FromError(err)
+	return e.Reason == AdminErrorReason_NOT_IMPLEMENTED.String() && e.Code == 501
+}
+
+// 501
+func ErrorNotImplemented(format string, args ...interface{}) *errors.Error {
+	return errors.New(501, AdminErrorReason_NOT_IMPLEMENTED.String(), fmt.Sprintf(format, args...))
+}
+
+// 502
+func IsBadGateway(err error) bool {
+	if err == nil {
+		return false
+	}
+	e := errors.FromError(err)
+	return e.Reason == AdminErrorReason_BAD_GATEWAY.String() && e.Code == 502
+}
+
+// 502
+func ErrorBadGateway(format string, args ...interface{}) *errors.Error {
+	return errors.New(502, AdminErrorReason_BAD_GATEWAY.String(), fmt.Sprintf(format, args...))
+}
+
+// 503
+func IsServiceUnavailable(err error) bool {
+	if err == nil {
+		return false
+	}
+	e := errors.FromError(err)
+	return e.Reason == AdminErrorReason_SERVICE_UNAVAILABLE.String() && e.Code == 503
+}
+
+// 503
+func ErrorServiceUnavailable(format string, args ...interface{}) *errors.Error {
+	return errors.New(503, AdminErrorReason_SERVICE_UNAVAILABLE.String(), fmt.Sprintf(format, args...))
+}
+
+// 504
+func IsGatewayTimeout(err error) bool {
+	if err == nil {
+		return false
+	}
+	e := errors.FromError(err)
+	return e.Reason == AdminErrorReason_GATEWAY_TIMEOUT.String() && e.Code == 504
+}
+
+// 504
+func ErrorGatewayTimeout(format string, args ...interface{}) *errors.Error {
+	return errors.New(504, AdminErrorReason_GATEWAY_TIMEOUT.String(), fmt.Sprintf(format, args...))
+}
+
+// 505
+func IsHttpVersionNotSupported(err error) bool {
+	if err == nil {
+		return false
+	}
+	e := errors.FromError(err)
+	return e.Reason == AdminErrorReason_HTTP_VERSION_NOT_SUPPORTED.String() && e.Code == 505
+}
+
+// 505
+func ErrorHttpVersionNotSupported(format string, args ...interface{}) *errors.Error {
+	return errors.New(505, AdminErrorReason_HTTP_VERSION_NOT_SUPPORTED.String(), fmt.Sprintf(format, args...))
+}
+
+// 506
+func IsVariantAlsoNegotiates(err error) bool {
+	if err == nil {
+		return false
+	}
+	e := errors.FromError(err)
+	return e.Reason == AdminErrorReason_VARIANT_ALSO_NEGOTIATES.String() && e.Code == 506
+}
+
+// 506
+func ErrorVariantAlsoNegotiates(format string, args ...interface{}) *errors.Error {
+	return errors.New(506, AdminErrorReason_VARIANT_ALSO_NEGOTIATES.String(), fmt.Sprintf(format, args...))
+}
+
+// 507
+func IsInsufficientStorage(err error) bool {
+	if err == nil {
+		return false
+	}
+	e := errors.FromError(err)
+	return e.Reason == AdminErrorReason_INSUFFICIENT_STORAGE.String() && e.Code == 507
+}
+
+// 507
+func ErrorInsufficientStorage(format string, args ...interface{}) *errors.Error {
+	return errors.New(507, AdminErrorReason_INSUFFICIENT_STORAGE.String(), fmt.Sprintf(format, args...))
+}
+
+// 508
+func IsLoopDetected(err error) bool {
+	if err == nil {
+		return false
+	}
+	e := errors.FromError(err)
+	return e.Reason == AdminErrorReason_LOOP_DETECTED.String() && e.Code == 508
+}
+
+// 508
+func ErrorLoopDetected(format string, args ...interface{}) *errors.Error {
+	return errors.New(508, AdminErrorReason_LOOP_DETECTED.String(), fmt.Sprintf(format, args...))
+}
+
+// 510
+func IsNotExtended(err error) bool {
+	if err == nil {
+		return false
+	}
+	e := errors.FromError(err)
+	return e.Reason == AdminErrorReason_NOT_EXTENDED.String() && e.Code == 510
+}
+
+// 510
+func ErrorNotExtended(format string, args ...interface{}) *errors.Error {
+	return errors.New(510, AdminErrorReason_NOT_EXTENDED.String(), fmt.Sprintf(format, args...))
+}
+
+// 511
+func IsNetworkAuthenticationRequired(err error) bool {
+	if err == nil {
+		return false
+	}
+	e := errors.FromError(err)
+	return e.Reason == AdminErrorReason_NETWORK_AUTHENTICATION_REQUIRED.String() && e.Code == 511
+}
+
+// 511
+func ErrorNetworkAuthenticationRequired(format string, args ...interface{}) *errors.Error {
+	return errors.New(511, AdminErrorReason_NETWORK_AUTHENTICATION_REQUIRED.String(), fmt.Sprintf(format, args...))
+}
+
+// 598
+func IsNetworkReadTimeoutError(err error) bool {
+	if err == nil {
+		return false
+	}
+	e := errors.FromError(err)
+	return e.Reason == AdminErrorReason_NETWORK_READ_TIMEOUT_ERROR.String() && e.Code == 598
+}
+
+// 598
+func ErrorNetworkReadTimeoutError(format string, args ...interface{}) *errors.Error {
+	return errors.New(598, AdminErrorReason_NETWORK_READ_TIMEOUT_ERROR.String(), fmt.Sprintf(format, args...))
+}
+
+// 599
+func IsNetworkConnectTimeoutError(err error) bool {
+	if err == nil {
+		return false
+	}
+	e := errors.FromError(err)
+	return e.Reason == AdminErrorReason_NETWORK_CONNECT_TIMEOUT_ERROR.String() && e.Code == 599
+}
+
+// 599
+func ErrorNetworkConnectTimeoutError(format string, args ...interface{}) *errors.Error {
+	return errors.New(599, AdminErrorReason_NETWORK_CONNECT_TIMEOUT_ERROR.String(), fmt.Sprintf(format, args...))
 }

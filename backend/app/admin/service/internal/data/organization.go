@@ -289,7 +289,7 @@ func (r *OrganizationRepo) Delete(ctx context.Context, req *userV1.DeleteOrganiz
 
 	if err := r.data.db.Client().Organization.DeleteOneID(req.GetId()).Exec(ctx); err != nil {
 		if ent.IsNotFound(err) {
-			return userV1.ErrorResourceNotFound("organization not found")
+			return userV1.ErrorNotFound("organization not found")
 		}
 
 		r.log.Errorf("delete one data failed: %s", err.Error())

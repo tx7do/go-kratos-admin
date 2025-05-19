@@ -289,7 +289,7 @@ func (r *DepartmentRepo) Delete(ctx context.Context, req *userV1.DeleteDepartmen
 
 	if err := r.data.db.Client().Department.DeleteOneID(req.GetId()).Exec(ctx); err != nil {
 		if ent.IsNotFound(err) {
-			return userV1.ErrorResourceNotFound("department not found")
+			return userV1.ErrorNotFound("department not found")
 		}
 
 		r.log.Errorf("delete one data failed: %s", err.Error())

@@ -193,7 +193,7 @@ func (r *PrivateMessageRepo) Get(ctx context.Context, req *internalMessageV1.Get
 	ret, err := r.data.db.Client().PrivateMessage.Get(ctx, req.GetId())
 	if err != nil {
 		if ent.IsNotFound(err) {
-			return nil, internalMessageV1.ErrorResourceNotFound("message not found")
+			return nil, internalMessageV1.ErrorNotFound("message not found")
 		}
 
 		r.log.Errorf("query one data failed: %s", err.Error())
@@ -289,7 +289,7 @@ func (r *PrivateMessageRepo) Delete(ctx context.Context, req *internalMessageV1.
 
 	if err := r.data.db.Client().PrivateMessage.DeleteOneID(req.GetId()).Exec(ctx); err != nil {
 		if ent.IsNotFound(err) {
-			return internalMessageV1.ErrorResourceNotFound("private message not found")
+			return internalMessageV1.ErrorNotFound("private message not found")
 		}
 
 		r.log.Errorf("delete one data failed: %s", err.Error())

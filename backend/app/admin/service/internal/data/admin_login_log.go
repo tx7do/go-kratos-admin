@@ -140,7 +140,7 @@ func (r *AdminLoginLogRepo) Get(ctx context.Context, req *systemV1.GetAdminLogin
 	ret, err := r.data.db.Client().AdminLoginLog.Get(ctx, req.GetId())
 	if err != nil {
 		if ent.IsNotFound(err) {
-			return nil, systemV1.ErrorResourceNotFound("admin login log not found")
+			return nil, systemV1.ErrorNotFound("admin login log not found")
 		}
 
 		r.log.Errorf("query one data failed: %s", err.Error())
@@ -267,7 +267,7 @@ func (r *AdminLoginLogRepo) Delete(ctx context.Context, req *systemV1.DeleteAdmi
 
 	if err := r.data.db.Client().AdminLoginLog.DeleteOneID(req.GetId()).Exec(ctx); err != nil {
 		if ent.IsNotFound(err) {
-			return systemV1.ErrorResourceNotFound("admin login log not found")
+			return systemV1.ErrorNotFound("admin login log not found")
 		}
 
 		r.log.Errorf("delete one data failed: %s", err.Error())

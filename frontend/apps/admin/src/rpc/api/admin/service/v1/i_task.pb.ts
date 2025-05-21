@@ -5,18 +5,178 @@
 // source: admin/service/v1/i_task.proto
 
 /* eslint-disable */
+import { type Duration } from "../../../google/protobuf/duration.pb";
 import { type Empty } from "../../../google/protobuf/empty.pb";
+import { type Timestamp } from "../../../google/protobuf/timestamp.pb";
 import { type PagingRequest } from "../../../pagination/v1/pagination.pb";
-import {
-  type ControlTaskRequest,
-  type CreateTaskRequest,
-  type DeleteTaskRequest,
-  type GetTaskRequest,
-  type ListTaskResponse,
-  type RestartAllTaskResponse,
-  type Task,
-  type UpdateTaskRequest,
-} from "../../../system/service/v1/task.pb";
+
+/** 调度任务类型 */
+export enum TaskType {
+  /** PERIODIC - 周期性任务 */
+  PERIODIC = "PERIODIC",
+  /** DELAY - 延时任务 */
+  DELAY = "DELAY",
+  /** WAIT_RESULT - 等待结果 */
+  WAIT_RESULT = "WAIT_RESULT",
+}
+
+/** 调度任务控制类型 */
+export enum TaskControlType {
+  /** ControlType_Start - 启动 */
+  ControlType_Start = "ControlType_Start",
+  /** ControlType_Stop - 停止 */
+  ControlType_Stop = "ControlType_Stop",
+  /** ControlType_Restart - 重启 */
+  ControlType_Restart = "ControlType_Restart",
+}
+
+/** 任务选项 */
+export interface TaskOption {
+  /** 任务最多可以重试的次数 */
+  retryCount?:
+    | number
+    | null
+    | undefined;
+  /** 任务超时时间 */
+  timeout?:
+    | Duration
+    | null
+    | undefined;
+  /** 任务截止时间 */
+  deadline?:
+    | Timestamp
+    | null
+    | undefined;
+  /** 任务延迟处理时间 */
+  processIn?:
+    | Duration
+    | null
+    | undefined;
+  /** 任务执行时间点 */
+  processAt?: Timestamp | null | undefined;
+}
+
+/** 调度任务 */
+export interface Task {
+  /** 任务ID */
+  id?:
+    | number
+    | null
+    | undefined;
+  /** 任务类型 */
+  type?:
+    | TaskType
+    | null
+    | undefined;
+  /** 任务执行类型名 */
+  typeName?:
+    | string
+    | null
+    | undefined;
+  /** 任务ID */
+  taskId?:
+    | string
+    | null
+    | undefined;
+  /** 任务数据，以 JSON 格式存储，方便存储不同类型和数量的参数 */
+  taskPayload?:
+    | string
+    | null
+    | undefined;
+  /** cron表达式 */
+  cronSpec?:
+    | string
+    | null
+    | undefined;
+  /** 任务选项 */
+  taskOptions?:
+    | TaskOption
+    | null
+    | undefined;
+  /** 启用/禁用任务 */
+  enable?:
+    | boolean
+    | null
+    | undefined;
+  /** 备注 */
+  remark?:
+    | string
+    | null
+    | undefined;
+  /** 创建者ID */
+  createBy?:
+    | number
+    | null
+    | undefined;
+  /** 更新者ID */
+  updateBy?:
+    | number
+    | null
+    | undefined;
+  /** 创建时间 */
+  createTime?:
+    | string
+    | null
+    | undefined;
+  /** 更新时间 */
+  updateTime?:
+    | string
+    | null
+    | undefined;
+  /** 删除时间 */
+  deleteTime?: string | null | undefined;
+}
+
+/** 查询调度任务列表 - 回应 */
+export interface ListTaskResponse {
+  items: Task[];
+  total: number;
+}
+
+/** 查询调度任务详情 - 请求 */
+export interface GetTaskRequest {
+  id: number;
+}
+
+export interface GetTaskByTypeNameRequest {
+  /** 任务执行类型名 */
+  typeName: string;
+}
+
+/** 创建调度任务 - 请求 */
+export interface CreateTaskRequest {
+  data: Task | null;
+}
+
+/** 更新调度任务 - 请求 */
+export interface UpdateTaskRequest {
+  data:
+    | Task
+    | null;
+  /** 要更新的字段列表 */
+  updateMask:
+    | string[]
+    | null;
+  /** 如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。 */
+  allowMissing?: boolean | null | undefined;
+}
+
+/** 删除调度任务 - 请求 */
+export interface DeleteTaskRequest {
+  id: number;
+}
+
+/** 重启调度任务 - 回应 */
+export interface RestartAllTaskResponse {
+  count: number;
+}
+
+/** 控制调度任务 - 请求 */
+export interface ControlTaskRequest {
+  controlType: TaskControlType;
+  /** 任务执行类型名 */
+  typeName: string;
+}
 
 /** 调度任务管理服务 */
 export interface TaskService {
@@ -30,6 +190,7 @@ export interface TaskService {
   Update(request: UpdateTaskRequest): Promise<Empty>;
   /** 删除调度任务 */
   Delete(request: DeleteTaskRequest): Promise<Empty>;
+  GetTaskByTypeName(request: GetTaskByTypeNameRequest): Promise<Task>;
   /** 重启所有的调度任务 */
   RestartAllTask(request: Empty): Promise<RestartAllTaskResponse>;
   /** 停止所有的调度任务 */

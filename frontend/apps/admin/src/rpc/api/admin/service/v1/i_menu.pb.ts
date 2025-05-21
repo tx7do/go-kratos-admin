@@ -7,14 +7,135 @@
 /* eslint-disable */
 import { type Empty } from "../../../google/protobuf/empty.pb";
 import { type PagingRequest } from "../../../pagination/v1/pagination.pb";
-import {
-  type CreateMenuRequest,
-  type DeleteMenuRequest,
-  type GetMenuRequest,
-  type ListMenuResponse,
-  type Menu,
-  type UpdateMenuRequest,
-} from "../../../system/service/v1/menu.pb";
+import { type RouteMeta } from "./i_router.pb";
+
+/** 菜单类型 */
+export enum MenuType {
+  /** FOLDER - 菜单夹 */
+  FOLDER = "FOLDER",
+  /** MENU - 菜单项 */
+  MENU = "MENU",
+  /** BUTTON - 按钮 */
+  BUTTON = "BUTTON",
+}
+
+/** 菜单状态 */
+export enum MenuStatus {
+  OFF = "OFF",
+  ON = "ON",
+}
+
+/** 菜单 */
+export interface Menu {
+  /** 菜单ID */
+  id?:
+    | number
+    | null
+    | undefined;
+  /** 菜单状态 */
+  status?:
+    | MenuStatus
+    | null
+    | undefined;
+  /** 菜单类型 */
+  type?:
+    | MenuType
+    | null
+    | undefined;
+  /** 路由路径 */
+  path?:
+    | string
+    | null
+    | undefined;
+  /** 重定向地址 */
+  redirect?:
+    | string
+    | null
+    | undefined;
+  /** 路由别名 */
+  alias?:
+    | string
+    | null
+    | undefined;
+  /** 路由命名，然后我们可以使用 name 而不是 path 来传递 to 属性给 <router-link>。 */
+  name?:
+    | string
+    | null
+    | undefined;
+  /** 指向的组件 */
+  component?:
+    | string
+    | null
+    | undefined;
+  /** 路由元信息 */
+  meta?:
+    | RouteMeta
+    | null
+    | undefined;
+  /** 父节点ID */
+  parentId?:
+    | number
+    | null
+    | undefined;
+  /** 子节点树 */
+  children: Menu[];
+  /** 创建者ID */
+  createBy?:
+    | number
+    | null
+    | undefined;
+  /** 更新者ID */
+  updateBy?:
+    | number
+    | null
+    | undefined;
+  /** 创建时间 */
+  createTime?:
+    | string
+    | null
+    | undefined;
+  /** 更新时间 */
+  updateTime?:
+    | string
+    | null
+    | undefined;
+  /** 删除时间 */
+  deleteTime?: string | null | undefined;
+}
+
+/** 查询菜单列表 - 回应 */
+export interface ListMenuResponse {
+  items: Menu[];
+  total: number;
+}
+
+/** 查询菜单详情 - 请求 */
+export interface GetMenuRequest {
+  id: number;
+}
+
+/** 创建菜单 - 请求 */
+export interface CreateMenuRequest {
+  data: Menu | null;
+}
+
+/** 更新菜单 - 请求 */
+export interface UpdateMenuRequest {
+  data:
+    | Menu
+    | null;
+  /** 要更新的字段列表 */
+  updateMask:
+    | string[]
+    | null;
+  /** 如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。 */
+  allowMissing?: boolean | null | undefined;
+}
+
+/** 删除菜单 - 请求 */
+export interface DeleteMenuRequest {
+  id: number;
+}
 
 /** 后台菜单管理服务 */
 export interface MenuService {

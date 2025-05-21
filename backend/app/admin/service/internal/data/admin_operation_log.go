@@ -8,6 +8,7 @@ import (
 	"github.com/go-kratos/kratos/v2/log"
 	"github.com/jinzhu/copier"
 
+	"github.com/tx7do/go-utils/copierutil"
 	entgo "github.com/tx7do/go-utils/entgo/query"
 	"github.com/tx7do/go-utils/timeutil"
 	pagination "github.com/tx7do/kratos-bootstrap/api/gen/go/pagination/v1"
@@ -19,8 +20,9 @@ import (
 )
 
 type AdminOperationLogRepo struct {
-	data *Data
-	log  *log.Helper
+	data         *Data
+	log          *log.Helper
+	copierOption copier.Option
 }
 
 func NewAdminOperationLogRepo(data *Data, logger log.Logger) *AdminOperationLogRepo {
@@ -28,6 +30,14 @@ func NewAdminOperationLogRepo(data *Data, logger log.Logger) *AdminOperationLogR
 	return &AdminOperationLogRepo{
 		data: data,
 		log:  l,
+		copierOption: copier.Option{
+			Converters: []copier.TypeConverter{
+				copierutil.TimeToStringConverter,
+				copierutil.StringToTimeConverter,
+				copierutil.TimeToTimestamppbConverter,
+				copierutil.TimestamppbToTimeConverter,
+			},
+		},
 	}
 }
 
@@ -40,7 +50,7 @@ func (r *AdminOperationLogRepo) toProto(in *ent.AdminOperationLog) *adminV1.Admi
 	_ = copier.Copy(&out, in)
 
 	out.CostTime = timeutil.SecondToDurationpb(in.CostTime)
-	out.CreateTime = timeutil.TimeToTimeString(in.CreateTime)
+	//out.CreateTime = timeutil.TimeToTimeString(in.CreateTime)
 
 	return &out
 }

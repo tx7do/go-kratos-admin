@@ -1471,6 +1471,8 @@ github.com/tklauser/numcpus v0.10.0/go.mod h1:BiTKazU708GQTYF4mB+cmlpT2Is1gLk7XV
 github.com/tv42/httpunix v0.0.0-20150427012821-b75d8614f926/go.mod h1:9ESjWnEqriFuLhtthL60Sar/7RFoluCcXsuvEwTV5KM=
 github.com/tx7do/go-utils v1.1.22 h1:dGo740LBKBBUKKP9x/1koBdA9Cn9EUx+1jwDbjeLNWQ=
 github.com/tx7do/go-utils v1.1.22/go.mod h1:ONLfiOZFYT62s3hdQHgEifAm4BwnwFSrCcTGN1wVWHg=
+github.com/tx7do/go-utils/copierutil v0.0.1 h1:V0DToOnAWQFsl/KAuVDOuMxzc6zNy4k+/dOR9sw6KI8=
+github.com/tx7do/go-utils/copierutil v0.0.1/go.mod h1:Je6nAu/DiyHjXXYGkIRnt/xaO4I1Ef02Vv4pUFoSxkg=
 github.com/tx7do/go-utils/entgo v1.1.27 h1:DHYs5mjVjvjjhNEJzk6l6sStKgFeUxINWIrefeJ5w4k=
 github.com/tx7do/go-utils/entgo v1.1.27/go.mod h1:pnCF9z1npe8e0kg4qPFAfMKMMubqXVBMSMbaOvUBzKg=
 github.com/tx7do/go-utils/geoip v1.1.5 h1:Cj0hSiRPfn0ovJs9lV6R2D27fFSfUU5guZstXW/tqS8=

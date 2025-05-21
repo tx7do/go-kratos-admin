@@ -8,6 +8,7 @@ import (
 	"github.com/go-kratos/kratos/v2/log"
 	"github.com/jinzhu/copier"
 
+	"github.com/tx7do/go-utils/copierutil"
 	entgo "github.com/tx7do/go-utils/entgo/query"
 	entgoUpdate "github.com/tx7do/go-utils/entgo/update"
 	"github.com/tx7do/go-utils/fieldmaskutil"
@@ -22,8 +23,9 @@ import (
 )
 
 type AdminLoginRestrictionRepo struct {
-	data *Data
-	log  *log.Helper
+	data         *Data
+	log          *log.Helper
+	copierOption copier.Option
 }
 
 func NewAdminLoginRestrictionRepo(data *Data, logger log.Logger) *AdminLoginRestrictionRepo {
@@ -31,6 +33,14 @@ func NewAdminLoginRestrictionRepo(data *Data, logger log.Logger) *AdminLoginRest
 	return &AdminLoginRestrictionRepo{
 		data: data,
 		log:  l,
+		copierOption: copier.Option{
+			Converters: []copier.TypeConverter{
+				copierutil.TimeToStringConverter,
+				copierutil.StringToTimeConverter,
+				copierutil.TimeToTimestamppbConverter,
+				copierutil.TimestamppbToTimeConverter,
+			},
+		},
 	}
 }
 
@@ -96,9 +106,9 @@ func (r *AdminLoginRestrictionRepo) toProto(in *ent.AdminLoginRestriction) *admi
 
 	out.Type = r.toProtoType(in.Type)
 	out.Method = r.toProtoMethod(in.Method)
-	out.CreateTime = timeutil.TimeToTimeString(in.CreateTime)
-	out.UpdateTime = timeutil.TimeToTimeString(in.UpdateTime)
-	out.DeleteTime = timeutil.TimeToTimeString(in.DeleteTime)
+	//out.CreateTime = timeutil.TimeToTimeString(in.CreateTime)
+	//out.UpdateTime = timeutil.TimeToTimeString(in.UpdateTime)
+	//out.DeleteTime = timeutil.TimeToTimeString(in.DeleteTime)
 
 	return &out
 }

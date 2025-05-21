@@ -8,6 +8,7 @@ import (
 	"github.com/go-kratos/kratos/v2/log"
 	"github.com/jinzhu/copier"
 
+	"github.com/tx7do/go-utils/copierutil"
 	entgo "github.com/tx7do/go-utils/entgo/query"
 	entgoUpdate "github.com/tx7do/go-utils/entgo/update"
 	"github.com/tx7do/go-utils/fieldmaskutil"
@@ -21,8 +22,9 @@ import (
 )
 
 type PositionRepo struct {
-	data *Data
-	log  *log.Helper
+	data         *Data
+	log          *log.Helper
+	copierOption copier.Option
 }
 
 func NewPositionRepo(data *Data, logger log.Logger) *PositionRepo {
@@ -30,6 +32,14 @@ func NewPositionRepo(data *Data, logger log.Logger) *PositionRepo {
 	return &PositionRepo{
 		data: data,
 		log:  l,
+		copierOption: copier.Option{
+			Converters: []copier.TypeConverter{
+				copierutil.TimeToStringConverter,
+				copierutil.StringToTimeConverter,
+				copierutil.TimeToTimestamppbConverter,
+				copierutil.TimestamppbToTimeConverter,
+			},
+		},
 	}
 }
 
@@ -41,9 +51,9 @@ func (r *PositionRepo) toProto(in *ent.Position) *userV1.Position {
 	var out userV1.Position
 	_ = copier.Copy(&out, in)
 
-	out.CreateTime = timeutil.TimeToTimeString(in.CreateTime)
-	out.UpdateTime = timeutil.TimeToTimeString(in.UpdateTime)
-	out.DeleteTime = timeutil.TimeToTimeString(in.DeleteTime)
+	//out.CreateTime = timeutil.TimeToTimeString(in.CreateTime)
+	//out.UpdateTime = timeutil.TimeToTimeString(in.UpdateTime)
+	//out.DeleteTime = timeutil.TimeToTimeString(in.DeleteTime)
 
 	return &out
 }

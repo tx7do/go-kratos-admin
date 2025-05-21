@@ -5,12 +5,14 @@ import (
 	"fmt"
 	"regexp"
 	"testing"
+	"time"
 
 	"github.com/jinzhu/copier"
 	"github.com/stretchr/testify/assert"
 
 	"github.com/tx7do/go-utils/crypto"
 	"github.com/tx7do/go-utils/fieldmaskutil"
+	"github.com/tx7do/go-utils/timeutil"
 	"github.com/tx7do/go-utils/trans"
 
 	"google.golang.org/genproto/protobuf/field_mask"
@@ -184,5 +186,37 @@ func TestCopier(t *testing.T) {
 		_ = copier.Copy(&out, &in)
 
 		fmt.Println(out.GetStatus())
+	}
+
+	{
+		var entMsg ent.User
+		var protoMsg userV1.User
+
+		entMsg.ID = 1
+		entMsg.Username = trans.Ptr("Username")
+		entMsg.NickName = trans.Ptr("NickName")
+		entMsg.RealName = trans.Ptr("RealName")
+		entMsg.Email = trans.Ptr("test@gmail.com")
+		entMsg.CreateTime = trans.Ptr(time.Now())
+
+		converter := copier.TypeConverter{
+			SrcType: &time.Time{},  // 源类型
+			DstType: trans.Ptr(""), // 目标类型
+			Fn: func(src interface{}) (interface{}, error) {
+				return timeutil.TimeToTimeString(src.(*time.Time)), nil
+			},
+		}
+
+		option := copier.Option{
+			Converters: []copier.TypeConverter{converter},
+		}
+
+		err := copier.CopyWithOption(&protoMsg, &entMsg, option)
+		if err != nil {
+			fmt.Println("Error:", err)
+			return
+		}
+
+		fmt.Println(protoMsg.GetUserName(), protoMsg.GetCreateTime())
 	}
 }

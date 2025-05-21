@@ -9,6 +9,7 @@ import (
 	"github.com/go-kratos/kratos/v2/log"
 	"github.com/jinzhu/copier"
 
+	"github.com/tx7do/go-utils/copierutil"
 	"github.com/tx7do/go-utils/crypto"
 	entgo "github.com/tx7do/go-utils/entgo/query"
 	entgoUpdate "github.com/tx7do/go-utils/entgo/update"
@@ -25,8 +26,9 @@ import (
 )
 
 type UserRepo struct {
-	data *Data
-	log  *log.Helper
+	data         *Data
+	log          *log.Helper
+	copierOption copier.Option
 }
 
 func NewUserRepo(data *Data, logger log.Logger) *UserRepo {
@@ -34,6 +36,14 @@ func NewUserRepo(data *Data, logger log.Logger) *UserRepo {
 	return &UserRepo{
 		data: data,
 		log:  l,
+		copierOption: copier.Option{
+			Converters: []copier.TypeConverter{
+				copierutil.TimeToStringConverter,
+				copierutil.StringToTimeConverter,
+				copierutil.TimeToTimestamppbConverter,
+				copierutil.TimestamppbToTimeConverter,
+			},
+		},
 	}
 }
 
@@ -123,9 +133,9 @@ func (r *UserRepo) toEnt(in *userV1.User) *ent.User {
 	out.Gender = r.toEntGender(in.Gender)
 	out.Authority = r.toEntAuthority(in.Authority)
 	out.Status = r.toEntStatus(in.Status)
-	out.CreateTime = timeutil.StringTimeToTime(in.CreateTime)
-	out.UpdateTime = timeutil.StringTimeToTime(in.UpdateTime)
-	out.DeleteTime = timeutil.StringTimeToTime(in.DeleteTime)
+	//out.CreateTime = timeutil.StringTimeToTime(in.CreateTime)
+	//out.UpdateTime = timeutil.StringTimeToTime(in.UpdateTime)
+	//out.DeleteTime = timeutil.StringTimeToTime(in.DeleteTime)
 
 	return &out
 }
@@ -141,9 +151,9 @@ func (r *UserRepo) toProto(in *ent.User) *userV1.User {
 	out.Gender = r.toProtoGender(in.Gender)
 	out.Authority = r.toProtoAuthority(in.Authority)
 	out.Status = r.toProtoStatus(in.Status)
-	out.CreateTime = timeutil.TimeToTimeString(in.CreateTime)
-	out.UpdateTime = timeutil.TimeToTimeString(in.UpdateTime)
-	out.DeleteTime = timeutil.TimeToTimeString(in.DeleteTime)
+	//out.CreateTime = timeutil.TimeToTimeString(in.CreateTime)
+	//out.UpdateTime = timeutil.TimeToTimeString(in.UpdateTime)
+	//out.DeleteTime = timeutil.TimeToTimeString(in.DeleteTime)
 
 	return &out
 }

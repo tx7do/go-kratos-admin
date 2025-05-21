@@ -8,10 +8,12 @@ import (
 	"github.com/go-kratos/kratos/v2/log"
 	"github.com/jinzhu/copier"
 
+	"github.com/tx7do/go-utils/copierutil"
 	entgo "github.com/tx7do/go-utils/entgo/query"
 	entgoUpdate "github.com/tx7do/go-utils/entgo/update"
 	"github.com/tx7do/go-utils/fieldmaskutil"
 	"github.com/tx7do/go-utils/timeutil"
+
 	"kratos-admin/app/admin/service/internal/data/ent"
 	"kratos-admin/app/admin/service/internal/data/ent/tenant"
 
@@ -20,8 +22,9 @@ import (
 )
 
 type TenantRepo struct {
-	data *Data
-	log  *log.Helper
+	data         *Data
+	log          *log.Helper
+	copierOption copier.Option
 }
 
 func NewTenantRepo(data *Data, logger log.Logger) *TenantRepo {
@@ -29,6 +32,14 @@ func NewTenantRepo(data *Data, logger log.Logger) *TenantRepo {
 	return &TenantRepo{
 		data: data,
 		log:  l,
+		copierOption: copier.Option{
+			Converters: []copier.TypeConverter{
+				copierutil.TimeToStringConverter,
+				copierutil.StringToTimeConverter,
+				copierutil.TimeToTimestamppbConverter,
+				copierutil.TimestamppbToTimeConverter,
+			},
+		},
 	}
 }
 
@@ -40,11 +51,11 @@ func (r *TenantRepo) toProto(in *ent.Tenant) *userV1.Tenant {
 	var out userV1.Tenant
 	_ = copier.Copy(&out, in)
 
-	out.SubscriptionAt = timeutil.TimeToTimestamppb(in.CreateTime)
-	out.UnsubscribeAt = timeutil.TimeToTimestamppb(in.UnsubscribeAt)
-	out.CreateTime = timeutil.TimeToTimeString(in.CreateTime)
-	out.UpdateTime = timeutil.TimeToTimeString(in.UpdateTime)
-	out.DeleteTime = timeutil.TimeToTimeString(in.DeleteTime)
+	//out.SubscriptionAt = timeutil.TimeToTimestamppb(in.CreateTime)
+	//out.UnsubscribeAt = timeutil.TimeToTimestamppb(in.UnsubscribeAt)
+	//out.CreateTime = timeutil.TimeToTimeString(in.CreateTime)
+	//out.UpdateTime = timeutil.TimeToTimeString(in.UpdateTime)
+	//out.DeleteTime = timeutil.TimeToTimeString(in.DeleteTime)
 
 	return &out
 }

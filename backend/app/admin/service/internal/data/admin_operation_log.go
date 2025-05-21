@@ -26,17 +26,23 @@ type AdminOperationLogRepo struct {
 }
 
 func NewAdminOperationLogRepo(data *Data, logger log.Logger) *AdminOperationLogRepo {
-	l := log.NewHelper(log.With(logger, "module", "admin-operation-log/repo/admin-service"))
-	return &AdminOperationLogRepo{
+	repo := &AdminOperationLogRepo{
+		log:  log.NewHelper(log.With(logger, "module", "admin-operation-log/repo/admin-service")),
 		data: data,
-		log:  l,
-		copierOption: copier.Option{
-			Converters: []copier.TypeConverter{
-				copierutil.TimeToStringConverter,
-				copierutil.StringToTimeConverter,
-				copierutil.TimeToTimestamppbConverter,
-				copierutil.TimestamppbToTimeConverter,
-			},
+	}
+
+	repo.init()
+
+	return repo
+}
+
+func (r *AdminOperationLogRepo) init() {
+	r.copierOption = copier.Option{
+		Converters: []copier.TypeConverter{
+			copierutil.TimeToStringConverter,
+			copierutil.StringToTimeConverter,
+			copierutil.TimeToTimestamppbConverter,
+			copierutil.TimestamppbToTimeConverter,
 		},
 	}
 }

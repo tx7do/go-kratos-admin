@@ -28,17 +28,23 @@ type DictRepo struct {
 }
 
 func NewDictRepo(data *Data, logger log.Logger) *DictRepo {
-	l := log.NewHelper(log.With(logger, "module", "dict/repo/admin-service"))
-	return &DictRepo{
+	repo := &DictRepo{
+		log:  log.NewHelper(log.With(logger, "module", "dict/repo/admin-service")),
 		data: data,
-		log:  l,
-		copierOption: copier.Option{
-			Converters: []copier.TypeConverter{
-				copierutil.TimeToStringConverter,
-				copierutil.StringToTimeConverter,
-				copierutil.TimeToTimestamppbConverter,
-				copierutil.TimestamppbToTimeConverter,
-			},
+	}
+
+	repo.init()
+
+	return repo
+}
+
+func (r *DictRepo) init() {
+	r.copierOption = copier.Option{
+		Converters: []copier.TypeConverter{
+			copierutil.TimeToStringConverter,
+			copierutil.StringToTimeConverter,
+			copierutil.TimeToTimestamppbConverter,
+			copierutil.TimestamppbToTimeConverter,
 		},
 	}
 }

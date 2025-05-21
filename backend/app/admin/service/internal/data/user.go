@@ -32,17 +32,23 @@ type UserRepo struct {
 }
 
 func NewUserRepo(data *Data, logger log.Logger) *UserRepo {
-	l := log.NewHelper(log.With(logger, "module", "user/repo/admin-service"))
-	return &UserRepo{
+	repo := &UserRepo{
+		log:  log.NewHelper(log.With(logger, "module", "user/repo/admin-service")),
 		data: data,
-		log:  l,
-		copierOption: copier.Option{
-			Converters: []copier.TypeConverter{
-				copierutil.TimeToStringConverter,
-				copierutil.StringToTimeConverter,
-				copierutil.TimeToTimestamppbConverter,
-				copierutil.TimestamppbToTimeConverter,
-			},
+	}
+
+	repo.init()
+
+	return repo
+}
+
+func (r *UserRepo) init() {
+	r.copierOption = copier.Option{
+		Converters: []copier.TypeConverter{
+			copierutil.TimeToStringConverter,
+			copierutil.StringToTimeConverter,
+			copierutil.TimeToTimestamppbConverter,
+			copierutil.TimestamppbToTimeConverter,
 		},
 	}
 }

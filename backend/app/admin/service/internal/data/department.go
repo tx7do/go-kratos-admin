@@ -29,17 +29,23 @@ type DepartmentRepo struct {
 }
 
 func NewDepartmentRepo(data *Data, logger log.Logger) *DepartmentRepo {
-	l := log.NewHelper(log.With(logger, "module", "department/repo/admin-service"))
-	return &DepartmentRepo{
+	repo := &DepartmentRepo{
+		log:  log.NewHelper(log.With(logger, "module", "department/repo/admin-service")),
 		data: data,
-		log:  l,
-		copierOption: copier.Option{
-			Converters: []copier.TypeConverter{
-				copierutil.TimeToStringConverter,
-				copierutil.StringToTimeConverter,
-				copierutil.TimeToTimestamppbConverter,
-				copierutil.TimestamppbToTimeConverter,
-			},
+	}
+
+	repo.init()
+
+	return repo
+}
+
+func (r *DepartmentRepo) init() {
+	r.copierOption = copier.Option{
+		Converters: []copier.TypeConverter{
+			copierutil.TimeToStringConverter,
+			copierutil.StringToTimeConverter,
+			copierutil.TimeToTimestamppbConverter,
+			copierutil.TimestamppbToTimeConverter,
 		},
 	}
 }

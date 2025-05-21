@@ -28,17 +28,23 @@ type PositionRepo struct {
 }
 
 func NewPositionRepo(data *Data, logger log.Logger) *PositionRepo {
-	l := log.NewHelper(log.With(logger, "module", "position/repo/admin-service"))
-	return &PositionRepo{
+	repo := &PositionRepo{
+		log:  log.NewHelper(log.With(logger, "module", "position/repo/admin-service")),
 		data: data,
-		log:  l,
-		copierOption: copier.Option{
-			Converters: []copier.TypeConverter{
-				copierutil.TimeToStringConverter,
-				copierutil.StringToTimeConverter,
-				copierutil.TimeToTimestamppbConverter,
-				copierutil.TimestamppbToTimeConverter,
-			},
+	}
+
+	repo.init()
+
+	return repo
+}
+
+func (r *PositionRepo) init() {
+	r.copierOption = copier.Option{
+		Converters: []copier.TypeConverter{
+			copierutil.TimeToStringConverter,
+			copierutil.StringToTimeConverter,
+			copierutil.TimeToTimestamppbConverter,
+			copierutil.TimestamppbToTimeConverter,
 		},
 	}
 }

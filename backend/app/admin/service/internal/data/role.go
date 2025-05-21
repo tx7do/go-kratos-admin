@@ -28,17 +28,23 @@ type RoleRepo struct {
 }
 
 func NewRoleRepo(data *Data, logger log.Logger) *RoleRepo {
-	l := log.NewHelper(log.With(logger, "module", "role/repo/admin-service"))
-	return &RoleRepo{
+	repo := &RoleRepo{
+		log:  log.NewHelper(log.With(logger, "module", "role/repo/admin-service")),
 		data: data,
-		log:  l,
-		copierOption: copier.Option{
-			Converters: []copier.TypeConverter{
-				copierutil.TimeToStringConverter,
-				copierutil.StringToTimeConverter,
-				copierutil.TimeToTimestamppbConverter,
-				copierutil.TimestamppbToTimeConverter,
-			},
+	}
+
+	repo.init()
+
+	return repo
+}
+
+func (r *RoleRepo) init() {
+	r.copierOption = copier.Option{
+		Converters: []copier.TypeConverter{
+			copierutil.TimeToStringConverter,
+			copierutil.StringToTimeConverter,
+			copierutil.TimeToTimestamppbConverter,
+			copierutil.TimestamppbToTimeConverter,
 		},
 	}
 }

@@ -30,17 +30,23 @@ type MenuRepo struct {
 }
 
 func NewMenuRepo(data *Data, logger log.Logger) *MenuRepo {
-	l := log.NewHelper(log.With(logger, "module", "menu/repo/admin-service"))
-	return &MenuRepo{
+	repo := &MenuRepo{
+		log:  log.NewHelper(log.With(logger, "module", "menu/repo/admin-service")),
 		data: data,
-		log:  l,
-		copierOption: copier.Option{
-			Converters: []copier.TypeConverter{
-				copierutil.TimeToStringConverter,
-				copierutil.StringToTimeConverter,
-				copierutil.TimeToTimestamppbConverter,
-				copierutil.TimestamppbToTimeConverter,
-			},
+	}
+
+	repo.init()
+
+	return repo
+}
+
+func (r *MenuRepo) init() {
+	r.copierOption = copier.Option{
+		Converters: []copier.TypeConverter{
+			copierutil.TimeToStringConverter,
+			copierutil.StringToTimeConverter,
+			copierutil.TimeToTimestamppbConverter,
+			copierutil.TimestamppbToTimeConverter,
 		},
 	}
 }

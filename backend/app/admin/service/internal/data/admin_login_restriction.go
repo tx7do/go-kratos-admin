@@ -29,17 +29,23 @@ type AdminLoginRestrictionRepo struct {
 }
 
 func NewAdminLoginRestrictionRepo(data *Data, logger log.Logger) *AdminLoginRestrictionRepo {
-	l := log.NewHelper(log.With(logger, "module", "admin-login-restriction/repo/admin-service"))
-	return &AdminLoginRestrictionRepo{
+	repo := &AdminLoginRestrictionRepo{
+		log:  log.NewHelper(log.With(logger, "module", "admin-login-restriction/repo/admin-service")),
 		data: data,
-		log:  l,
-		copierOption: copier.Option{
-			Converters: []copier.TypeConverter{
-				copierutil.TimeToStringConverter,
-				copierutil.StringToTimeConverter,
-				copierutil.TimeToTimestamppbConverter,
-				copierutil.TimestamppbToTimeConverter,
-			},
+	}
+
+	repo.init()
+
+	return repo
+}
+
+func (r *AdminLoginRestrictionRepo) init() {
+	r.copierOption = copier.Option{
+		Converters: []copier.TypeConverter{
+			copierutil.TimeToStringConverter,
+			copierutil.StringToTimeConverter,
+			copierutil.TimeToTimestamppbConverter,
+			copierutil.TimestamppbToTimeConverter,
 		},
 	}
 }

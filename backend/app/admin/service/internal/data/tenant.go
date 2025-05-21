@@ -28,17 +28,23 @@ type TenantRepo struct {
 }
 
 func NewTenantRepo(data *Data, logger log.Logger) *TenantRepo {
-	l := log.NewHelper(log.With(logger, "module", "tenant/repo/admin-service"))
-	return &TenantRepo{
+	repo := &TenantRepo{
+		log:  log.NewHelper(log.With(logger, "module", "tenant/repo/admin-service")),
 		data: data,
-		log:  l,
-		copierOption: copier.Option{
-			Converters: []copier.TypeConverter{
-				copierutil.TimeToStringConverter,
-				copierutil.StringToTimeConverter,
-				copierutil.TimeToTimestamppbConverter,
-				copierutil.TimestamppbToTimeConverter,
-			},
+	}
+
+	repo.init()
+
+	return repo
+}
+
+func (r *TenantRepo) init() {
+	r.copierOption = copier.Option{
+		Converters: []copier.TypeConverter{
+			copierutil.TimeToStringConverter,
+			copierutil.StringToTimeConverter,
+			copierutil.TimeToTimestamppbConverter,
+			copierutil.TimestamppbToTimeConverter,
 		},
 	}
 }

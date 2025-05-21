@@ -29,17 +29,23 @@ type TaskRepo struct {
 }
 
 func NewTaskRepo(data *Data, logger log.Logger) *TaskRepo {
-	l := log.NewHelper(log.With(logger, "module", "task/repo/admin-service"))
-	return &TaskRepo{
+	repo := &TaskRepo{
+		log:  log.NewHelper(log.With(logger, "module", "task/repo/admin-service")),
 		data: data,
-		log:  l,
-		copierOption: copier.Option{
-			Converters: []copier.TypeConverter{
-				copierutil.TimeToStringConverter,
-				copierutil.StringToTimeConverter,
-				copierutil.TimeToTimestamppbConverter,
-				copierutil.TimestamppbToTimeConverter,
-			},
+	}
+
+	repo.init()
+
+	return repo
+}
+
+func (r *TaskRepo) init() {
+	r.copierOption = copier.Option{
+		Converters: []copier.TypeConverter{
+			copierutil.TimeToStringConverter,
+			copierutil.StringToTimeConverter,
+			copierutil.TimeToTimestamppbConverter,
+			copierutil.TimestamppbToTimeConverter,
 		},
 	}
 }

@@ -29,17 +29,23 @@ type FileRepo struct {
 }
 
 func NewFileRepo(data *Data, logger log.Logger) *FileRepo {
-	l := log.NewHelper(log.With(logger, "module", "file/repo/admin-service"))
-	return &FileRepo{
+	repo := &FileRepo{
+		log:  log.NewHelper(log.With(logger, "module", "file/repo/admin-service")),
 		data: data,
-		log:  l,
-		copierOption: copier.Option{
-			Converters: []copier.TypeConverter{
-				copierutil.TimeToStringConverter,
-				copierutil.StringToTimeConverter,
-				copierutil.TimeToTimestamppbConverter,
-				copierutil.TimestamppbToTimeConverter,
-			},
+	}
+
+	repo.init()
+
+	return repo
+}
+
+func (r *FileRepo) init() {
+	r.copierOption = copier.Option{
+		Converters: []copier.TypeConverter{
+			copierutil.TimeToStringConverter,
+			copierutil.StringToTimeConverter,
+			copierutil.TimeToTimestamppbConverter,
+			copierutil.TimestamppbToTimeConverter,
 		},
 	}
 }

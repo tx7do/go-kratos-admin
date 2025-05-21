@@ -29,17 +29,23 @@ type OrganizationRepo struct {
 }
 
 func NewOrganizationRepo(data *Data, logger log.Logger) *OrganizationRepo {
-	l := log.NewHelper(log.With(logger, "module", "organization/repo/admin-service"))
-	return &OrganizationRepo{
+	repo := &OrganizationRepo{
+		log:  log.NewHelper(log.With(logger, "module", "organization/repo/admin-service")),
 		data: data,
-		log:  l,
-		copierOption: copier.Option{
-			Converters: []copier.TypeConverter{
-				copierutil.TimeToStringConverter,
-				copierutil.StringToTimeConverter,
-				copierutil.TimeToTimestamppbConverter,
-				copierutil.TimestamppbToTimeConverter,
-			},
+	}
+
+	repo.init()
+
+	return repo
+}
+
+func (r *OrganizationRepo) init() {
+	r.copierOption = copier.Option{
+		Converters: []copier.TypeConverter{
+			copierutil.TimeToStringConverter,
+			copierutil.StringToTimeConverter,
+			copierutil.TimeToTimestamppbConverter,
+			copierutil.TimestamppbToTimeConverter,
 		},
 	}
 }

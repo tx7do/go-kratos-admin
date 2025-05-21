@@ -29,17 +29,23 @@ type NotificationMessageRepo struct {
 }
 
 func NewNotificationMessageRepo(data *Data, logger log.Logger) *NotificationMessageRepo {
-	l := log.NewHelper(log.With(logger, "module", "notification-message/repo/admin-service"))
-	return &NotificationMessageRepo{
+	repo := &NotificationMessageRepo{
+		log:  log.NewHelper(log.With(logger, "module", "notification-message/repo/admin-service")),
 		data: data,
-		log:  l,
-		copierOption: copier.Option{
-			Converters: []copier.TypeConverter{
-				copierutil.TimeToStringConverter,
-				copierutil.StringToTimeConverter,
-				copierutil.TimeToTimestamppbConverter,
-				copierutil.TimestamppbToTimeConverter,
-			},
+	}
+
+	repo.init()
+
+	return repo
+}
+
+func (r *NotificationMessageRepo) init() {
+	r.copierOption = copier.Option{
+		Converters: []copier.TypeConverter{
+			copierutil.TimeToStringConverter,
+			copierutil.StringToTimeConverter,
+			copierutil.TimeToTimestamppbConverter,
+			copierutil.TimestamppbToTimeConverter,
 		},
 	}
 }

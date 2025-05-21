@@ -29,17 +29,23 @@ type PrivateMessageRepo struct {
 }
 
 func NewPrivateMessageRepo(data *Data, logger log.Logger) *PrivateMessageRepo {
-	l := log.NewHelper(log.With(logger, "module", "private-message/repo/admin-service"))
-	return &PrivateMessageRepo{
+	repo := &PrivateMessageRepo{
+		log:  log.NewHelper(log.With(logger, "module", "private-message/repo/admin-service")),
 		data: data,
-		log:  l,
-		copierOption: copier.Option{
-			Converters: []copier.TypeConverter{
-				copierutil.TimeToStringConverter,
-				copierutil.StringToTimeConverter,
-				copierutil.TimeToTimestamppbConverter,
-				copierutil.TimestamppbToTimeConverter,
-			},
+	}
+
+	repo.init()
+
+	return repo
+}
+
+func (r *PrivateMessageRepo) init() {
+	r.copierOption = copier.Option{
+		Converters: []copier.TypeConverter{
+			copierutil.TimeToStringConverter,
+			copierutil.StringToTimeConverter,
+			copierutil.TimeToTimestamppbConverter,
+			copierutil.TimestamppbToTimeConverter,
 		},
 	}
 }

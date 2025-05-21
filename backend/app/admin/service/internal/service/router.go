@@ -8,6 +8,7 @@ import (
 	"strings"
 
 	"github.com/go-kratos/kratos/v2/log"
+	"google.golang.org/protobuf/types/known/emptypb"
 	"google.golang.org/protobuf/types/known/fieldmaskpb"
 
 	"github.com/tx7do/go-utils/trans"
@@ -16,6 +17,8 @@ import (
 	"kratos-admin/app/admin/service/internal/data"
 
 	adminV1 "kratos-admin/api/gen/go/admin/service/v1"
+
+	"kratos-admin/pkg/middleware/auth"
 )
 
 type RouterService struct {
@@ -83,8 +86,14 @@ func (s *RouterService) queryRoleMenus(ctx context.Context, userId uint32) ([]ui
 	return role.GetMenus(), nil
 }
 
-func (s *RouterService) ListPermissionCode(ctx context.Context, req *adminV1.ListPermissionCodeRequest) (*adminV1.ListPermissionCodeResponse, error) {
-	roleMenus, err := s.queryRoleMenus(ctx, req.GetOperatorId())
+func (s *RouterService) ListPermissionCode(ctx context.Context, _ *emptypb.Empty) (*adminV1.ListPermissionCodeResponse, error) {
+	// 获取操作人信息
+	operator, err := auth.FromContext(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	roleMenus, err := s.queryRoleMenus(ctx, operator.UserId)
 	if err != nil {
 		return nil, err
 	}
@@ -152,8 +161,14 @@ func (s *RouterService) fillRouteItem(menus []*adminV1.Menu) []*adminV1.RouteIte
 	return routers
 }
 
-func (s *RouterService) ListRoute(ctx context.Context, req *adminV1.ListRouteRequest) (*adminV1.ListRouteResponse, error) {
-	roleMenus, err := s.queryRoleMenus(ctx, req.GetOperatorId())
+func (s *RouterService) ListRoute(ctx context.Context, _ *emptypb.Empty) (*adminV1.ListRouteResponse, error) {
+	// 获取操作人信息
+	operator, err := auth.FromContext(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	roleMenus, err := s.queryRoleMenus(ctx, operator.UserId)
 	if err != nil {
 		return nil, err
 	}

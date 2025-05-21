@@ -16,7 +16,7 @@ import { requestClient } from '#/rpc/request';
 class NotificationMessageCategoryServiceImpl
   implements NotificationMessageCategoryService
 {
-  async CreateNotificationMessageCategory(
+  async Create(
     request: CreateNotificationMessageCategoryRequest,
   ): Promise<Empty> {
     return await requestClient.post<Empty>(
@@ -25,7 +25,7 @@ class NotificationMessageCategoryServiceImpl
     );
   }
 
-  async DeleteNotificationMessageCategory(
+  async Delete(
     request: DeleteNotificationMessageCategoryRequest,
   ): Promise<Empty> {
     return await requestClient.delete<Empty>(
@@ -33,7 +33,7 @@ class NotificationMessageCategoryServiceImpl
     );
   }
 
-  async GetNotificationMessageCategory(
+  async Get(
     request: GetNotificationMessageCategoryRequest,
   ): Promise<NotificationMessageCategory> {
     return await requestClient.get<NotificationMessageCategory>(
@@ -41,7 +41,7 @@ class NotificationMessageCategoryServiceImpl
     );
   }
 
-  async ListNotificationMessageCategory(
+  async List(
     request: PagingRequest,
   ): Promise<ListNotificationMessageCategoryResponse> {
     return await requestClient.get<ListNotificationMessageCategoryResponse>(
@@ -52,7 +52,7 @@ class NotificationMessageCategoryServiceImpl
     );
   }
 
-  async UpdateNotificationMessageCategory(
+  async Update(
     request: UpdateNotificationMessageCategoryRequest,
   ): Promise<Empty> {
     const id = request.data?.id;

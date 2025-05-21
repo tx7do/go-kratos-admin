@@ -18,7 +18,7 @@ export const usePrivateMessageStore = defineStore('private_message', () => {
     fieldMask?: null | string,
     orderBy?: null | string[],
   ) {
-    return await defPrivateMessageService.ListPrivateMessage({
+    return await defPrivateMessageService.List({
       // @ts-ignore proto generated code is error.
       fieldMask,
       orderBy: orderBy ?? [],
@@ -33,14 +33,14 @@ export const usePrivateMessageStore = defineStore('private_message', () => {
    * 获取私信消息
    */
   async function getPrivateMessage(id: number) {
-    return await defPrivateMessageService.GetPrivateMessage({ id });
+    return await defPrivateMessageService.Get({ id });
   }
 
   /**
    * 创建私信消息
    */
   async function createPrivateMessage(values: object) {
-    return await defPrivateMessageService.CreatePrivateMessage({
+    return await defPrivateMessageService.Create({
       data: {
         ...values,
       },
@@ -51,7 +51,7 @@ export const usePrivateMessageStore = defineStore('private_message', () => {
    * 更新私信消息
    */
   async function updatePrivateMessage(id: number, values: object) {
-    return await defPrivateMessageService.UpdatePrivateMessage({
+    return await defPrivateMessageService.Update({
       data: {
         id,
         ...values,
@@ -65,7 +65,7 @@ export const usePrivateMessageStore = defineStore('private_message', () => {
    * 删除私信消息
    */
   async function deletePrivateMessage(id: number) {
-    return await defPrivateMessageService.DeletePrivateMessage({ id });
+    return await defPrivateMessageService.Delete({ id });
   }
 
   function $reset() {}

@@ -14,25 +14,25 @@ import { requestClient } from '#/rpc/request';
 
 /** 租户管理服务 */
 class TenantServiceImpl implements TenantService {
-  async CreateTenant(request: CreateTenantRequest): Promise<Empty> {
+  async Create(request: CreateTenantRequest): Promise<Empty> {
     return await requestClient.post<Empty>('/tenants', request);
   }
 
-  async DeleteTenant(request: DeleteTenantRequest): Promise<Empty> {
+  async Delete(request: DeleteTenantRequest): Promise<Empty> {
     return await requestClient.delete<Empty>(`/tenants/${request.id}`);
   }
 
-  async GetTenant(request: GetTenantRequest): Promise<Tenant> {
+  async Get(request: GetTenantRequest): Promise<Tenant> {
     return await requestClient.get<Tenant>(`/tenants/${request.id}`);
   }
 
-  async ListTenant(request: PagingRequest): Promise<ListTenantResponse> {
+  async List(request: PagingRequest): Promise<ListTenantResponse> {
     return await requestClient.get<ListTenantResponse>('/tenants', {
       params: request,
     });
   }
 
-  async UpdateTenant(request: UpdateTenantRequest): Promise<Empty> {
+  async Update(request: UpdateTenantRequest): Promise<Empty> {
     const id = request.data?.id;
 
     console.log('UpdateTenant', request.data);

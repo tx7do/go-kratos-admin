@@ -1,28 +1,26 @@
+import type { AuthenticationService } from '#/rpc/api/admin/service/v1/i_authentication.pb';
 import type {
-  AuthenticationService,
   GetMeRequest,
   LoginRequest,
   LoginResponse,
   LogoutRequest,
-  RefreshTokenRequest,
-} from '#/rpc/api/admin/service/v1/i_authentication.pb';
+} from '#/rpc/api/authentication/service/v1/authentication.pb';
 import type { Empty } from '#/rpc/api/google/protobuf/empty.pb';
 import type { User } from '#/rpc/api/user/service/v1/user.pb';
 
 import { requestClient } from '#/rpc/request';
 
+export type { AuthenticationService } from '#/rpc/api/admin/service/v1/i_authentication.pb';
 export type {
-  AuthenticationService,
   GetMeRequest,
   LoginRequest,
   LoginResponse,
   LogoutRequest,
-  RefreshTokenRequest,
-} from '#/rpc/api/admin/service/v1/i_authentication.pb';
+} from '#/rpc/api/authentication/service/v1/authentication.pb';
 
 /** 用户后台登录认证服务 */
 export class AuthenticationServiceImpl implements AuthenticationService {
-  async GetMe(_request: GetMeRequest): Promise<User> {
+  async GetMe(_request: Empty): Promise<User> {
     return await requestClient.get<User>('/me');
   }
 
@@ -30,11 +28,11 @@ export class AuthenticationServiceImpl implements AuthenticationService {
     return await requestClient.post<LoginResponse>('/login', request);
   }
 
-  async Logout(request: LogoutRequest): Promise<Empty> {
-    return await requestClient.post('/logout', request);
+  async Logout(_request: Empty): Promise<Empty> {
+    return await requestClient.post('/logout');
   }
 
-  async RefreshToken(request: RefreshTokenRequest): Promise<LoginResponse> {
+  async RefreshToken(request: LoginRequest): Promise<LoginResponse> {
     return requestClient.post<LoginResponse>('/refresh_token', request);
   }
 }

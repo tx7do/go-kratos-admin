@@ -16,7 +16,7 @@ import { requestClient } from '#/rpc/request';
 class NotificationMessageRecipientServiceImpl
   implements NotificationMessageRecipientService
 {
-  async CreateNotificationMessageRecipient(
+  async Create(
     request: CreateNotificationMessageRecipientRequest,
   ): Promise<Empty> {
     return await requestClient.post<Empty>(
@@ -25,7 +25,7 @@ class NotificationMessageRecipientServiceImpl
     );
   }
 
-  async DeleteNotificationMessageRecipient(
+  async Delete(
     request: DeleteNotificationMessageRecipientRequest,
   ): Promise<Empty> {
     return await requestClient.delete<Empty>(
@@ -33,7 +33,7 @@ class NotificationMessageRecipientServiceImpl
     );
   }
 
-  async GetNotificationMessageRecipient(
+  async Get(
     request: GetNotificationMessageRecipientRequest,
   ): Promise<NotificationMessageRecipient> {
     return await requestClient.get<NotificationMessageRecipient>(
@@ -41,7 +41,7 @@ class NotificationMessageRecipientServiceImpl
     );
   }
 
-  async ListNotificationMessageRecipient(
+  async List(
     request: PagingRequest,
   ): Promise<ListNotificationMessageRecipientResponse> {
     return await requestClient.get<ListNotificationMessageRecipientResponse>(
@@ -52,7 +52,7 @@ class NotificationMessageRecipientServiceImpl
     );
   }
 
-  async UpdateNotificationMessageRecipient(
+  async Update(
     request: UpdateNotificationMessageRecipientRequest,
   ): Promise<Empty> {
     const id = request.data?.id;

@@ -14,27 +14,25 @@ import { requestClient } from '#/rpc/request';
 
 /** 部门管理服务 */
 class DepartmentServiceImpl implements DepartmentService {
-  async CreateDepartment(request: CreateDepartmentRequest): Promise<Empty> {
+  async Create(request: CreateDepartmentRequest): Promise<Empty> {
     return await requestClient.post<Empty>('/departments', request);
   }
 
-  async DeleteDepartment(request: DeleteDepartmentRequest): Promise<Empty> {
+  async Delete(request: DeleteDepartmentRequest): Promise<Empty> {
     return await requestClient.delete<Empty>(`/departments/${request.id}`);
   }
 
-  async GetDepartment(request: GetDepartmentRequest): Promise<Department> {
+  async Get(request: GetDepartmentRequest): Promise<Department> {
     return await requestClient.get<Department>(`/departments/${request.id}`);
   }
 
-  async ListDepartment(
-    request: PagingRequest,
-  ): Promise<ListDepartmentResponse> {
+  async List(request: PagingRequest): Promise<ListDepartmentResponse> {
     return await requestClient.get<ListDepartmentResponse>('/departments', {
       params: request,
     });
   }
 
-  async UpdateDepartment(request: UpdateDepartmentRequest): Promise<Empty> {
+  async Update(request: UpdateDepartmentRequest): Promise<Empty> {
     const id = request.data?.id;
     if (request.data !== null && request.data !== undefined) {
       request.data.id = undefined;

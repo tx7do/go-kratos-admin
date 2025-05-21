@@ -14,29 +14,21 @@ import { requestClient } from '#/rpc/request';
 
 /** 私信消息管理服务 */
 class PrivateMessageServiceImpl implements PrivateMessageService {
-  async CreatePrivateMessage(
-    request: CreatePrivateMessageRequest,
-  ): Promise<Empty> {
+  async Create(request: CreatePrivateMessageRequest): Promise<Empty> {
     return await requestClient.post<Empty>('/private_messages', request);
   }
 
-  async DeletePrivateMessage(
-    request: DeletePrivateMessageRequest,
-  ): Promise<Empty> {
+  async Delete(request: DeletePrivateMessageRequest): Promise<Empty> {
     return await requestClient.delete<Empty>(`/private_messages/${request.id}`);
   }
 
-  async GetPrivateMessage(
-    request: GetPrivateMessageRequest,
-  ): Promise<PrivateMessage> {
+  async Get(request: GetPrivateMessageRequest): Promise<PrivateMessage> {
     return await requestClient.get<PrivateMessage>(
       `/private_messages/${request.id}`,
     );
   }
 
-  async ListPrivateMessage(
-    request: PagingRequest,
-  ): Promise<ListPrivateMessageResponse> {
+  async List(request: PagingRequest): Promise<ListPrivateMessageResponse> {
     return await requestClient.get<ListPrivateMessageResponse>(
       '/private_messages',
       {
@@ -45,9 +37,7 @@ class PrivateMessageServiceImpl implements PrivateMessageService {
     );
   }
 
-  async UpdatePrivateMessage(
-    request: UpdatePrivateMessageRequest,
-  ): Promise<Empty> {
+  async Update(request: UpdatePrivateMessageRequest): Promise<Empty> {
     const id = request.data?.id;
 
     console.log('UpdatePrivateMessage', request.data);

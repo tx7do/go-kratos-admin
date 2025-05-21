@@ -16,7 +16,7 @@ export const useAdminLoginLogStore = defineStore('admin_login_log', () => {
     fieldMask?: null | string,
     orderBy?: null | string[],
   ) {
-    return await defAdminLoginLogService.ListAdminLoginLog({
+    return await defAdminLoginLogService.List({
       // @ts-ignore proto generated code is error.
       fieldMask,
       orderBy: orderBy ?? [],
@@ -31,7 +31,7 @@ export const useAdminLoginLogStore = defineStore('admin_login_log', () => {
    * 查询登录日志
    */
   async function getAdminLoginLog(id: number) {
-    return await defAdminLoginLogService.GetAdminLoginLog({ id });
+    return await defAdminLoginLogService.Get({ id });
   }
 
   function $reset() {}

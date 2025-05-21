@@ -785,9 +785,7 @@ paths:
             operationId: AuthenticationService_Logout
             requestBody:
                 content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/LogoutRequest'
+                    application/json: {}
                 required: true
             responses:
                 "200":
@@ -799,12 +797,6 @@ paths:
                 - AuthenticationService
             description: 后台获取已经登录的用户的数据
             operationId: AuthenticationService_GetMe
-            parameters:
-                - name: operatorId
-                  in: query
-                  schema:
-                    type: integer
-                    format: uint32
             responses:
                 "200":
                     description: OK
@@ -1478,12 +1470,6 @@ paths:
                 - RouterService
             description: 查询权限码列表
             operationId: RouterService_ListPermissionCode
-            parameters:
-                - name: operatorId
-                  in: query
-                  schema:
-                    type: integer
-                    format: uint32
             responses:
                 "200":
                     description: OK
@@ -1912,12 +1898,6 @@ paths:
                 - RouterService
             description: 查询路由列表
             operationId: RouterService_ListRoute
-            parameters:
-                - name: operatorId
-                  in: query
-                  schema:
-                    type: integer
-                    format: uint32
             responses:
                 "200":
                     description: OK
@@ -3193,15 +3173,6 @@ components:
                     type: string
                     description: 以空格分隔的用户授予范围列表。如果未提供，scope则授权任何范围，默认为空列表。
             description: 用户后台登录 - 回应
-        LogoutRequest:
-            type: object
-            properties:
-                operatorId:
-                    readOnly: true
-                    type: integer
-                    description: 操作用户ID
-                    format: uint32
-            description: 用户后台登出 - 请求
         Menu:
             type: object
             properties:

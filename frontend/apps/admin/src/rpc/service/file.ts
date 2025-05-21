@@ -14,25 +14,25 @@ import { requestClient } from '#/rpc/request';
 
 /** 文件管理服务 */
 class FileServiceImpl implements FileService {
-  async CreateFile(request: CreateFileRequest): Promise<Empty> {
+  async Create(request: CreateFileRequest): Promise<Empty> {
     return await requestClient.post<Empty>('/files', request);
   }
 
-  async DeleteFile(request: DeleteFileRequest): Promise<Empty> {
+  async Delete(request: DeleteFileRequest): Promise<Empty> {
     return await requestClient.delete<Empty>(`/files/${request.id}`);
   }
 
-  async GetFile(request: GetFileRequest): Promise<File> {
+  async Get(request: GetFileRequest): Promise<File> {
     return await requestClient.get<File>(`/files/${request.id}`);
   }
 
-  async ListFile(request: PagingRequest): Promise<ListFileResponse> {
+  async List(request: PagingRequest): Promise<ListFileResponse> {
     return await requestClient.get<ListFileResponse>('/files', {
       params: request,
     });
   }
 
-  async UpdateFile(request: UpdateFileRequest): Promise<Empty> {
+  async Update(request: UpdateFileRequest): Promise<Empty> {
     const id = request.data?.id;
 
     console.log('UpdateFile', request.data);

@@ -29,11 +29,11 @@ const OperationAuthenticationServiceRefreshToken = "/admin.service.v1.Authentica
 
 type AuthenticationServiceHTTPServer interface {
 	// GetMe 后台获取已经登录的用户的数据
-	GetMe(context.Context, *v1.GetMeRequest) (*v11.User, error)
+	GetMe(context.Context, *emptypb.Empty) (*v11.User, error)
 	// Login 登录
 	Login(context.Context, *v1.LoginRequest) (*v1.LoginResponse, error)
 	// Logout 登出
-	Logout(context.Context, *v1.LogoutRequest) (*emptypb.Empty, error)
+	Logout(context.Context, *emptypb.Empty) (*emptypb.Empty, error)
 	// RefreshToken 刷新认证令牌
 	RefreshToken(context.Context, *v1.LoginRequest) (*v1.LoginResponse, error)
 }
@@ -70,7 +70,7 @@ func _AuthenticationService_Login0_HTTP_Handler(srv AuthenticationServiceHTTPSer
 
 func _AuthenticationService_Logout0_HTTP_Handler(srv AuthenticationServiceHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
-		var in v1.LogoutRequest
+		var in emptypb.Empty
 		if err := ctx.Bind(&in); err != nil {
 			return err
 		}
@@ -79,7 +79,7 @@ func _AuthenticationService_Logout0_HTTP_Handler(srv AuthenticationServiceHTTPSe
 		}
 		http.SetOperation(ctx, OperationAuthenticationServiceLogout)
 		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
-			return srv.Logout(ctx, req.(*v1.LogoutRequest))
+			return srv.Logout(ctx, req.(*emptypb.Empty))
 		})
 		out, err := h(ctx, &in)
 		if err != nil {
@@ -114,13 +114,13 @@ func _AuthenticationService_RefreshToken0_HTTP_Handler(srv AuthenticationService
 
 func _AuthenticationService_GetMe0_HTTP_Handler(srv AuthenticationServiceHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
-		var in v1.GetMeRequest
+		var in emptypb.Empty
 		if err := ctx.BindQuery(&in); err != nil {
 			return err
 		}
 		http.SetOperation(ctx, OperationAuthenticationServiceGetMe)
 		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
-			return srv.GetMe(ctx, req.(*v1.GetMeRequest))
+			return srv.GetMe(ctx, req.(*emptypb.Empty))
 		})
 		out, err := h(ctx, &in)
 		if err != nil {
@@ -132,9 +132,9 @@ func _AuthenticationService_GetMe0_HTTP_Handler(srv AuthenticationServiceHTTPSer
 }
 
 type AuthenticationServiceHTTPClient interface {
-	GetMe(ctx context.Context, req *v1.GetMeRequest, opts ...http.CallOption) (rsp *v11.User, err error)
+	GetMe(ctx context.Context, req *emptypb.Empty, opts ...http.CallOption) (rsp *v11.User, err error)
 	Login(ctx context.Context, req *v1.LoginRequest, opts ...http.CallOption) (rsp *v1.LoginResponse, err error)
-	Logout(ctx context.Context, req *v1.LogoutRequest, opts ...http.CallOption) (rsp *emptypb.Empty, err error)
+	Logout(ctx context.Context, req *emptypb.Empty, opts ...http.CallOption) (rsp *emptypb.Empty, err error)
 	RefreshToken(ctx context.Context, req *v1.LoginRequest, opts ...http.CallOption) (rsp *v1.LoginResponse, err error)
 }
 
@@ -146,7 +146,7 @@ func NewAuthenticationServiceHTTPClient(client *http.Client) AuthenticationServi
 	return &AuthenticationServiceHTTPClientImpl{client}
 }
 
-func (c *AuthenticationServiceHTTPClientImpl) GetMe(ctx context.Context, in *v1.GetMeRequest, opts ...http.CallOption) (*v11.User, error) {
+func (c *AuthenticationServiceHTTPClientImpl) GetMe(ctx context.Context, in *emptypb.Empty, opts ...http.CallOption) (*v11.User, error) {
 	var out v11.User
 	pattern := "/admin/v1/me"
 	path := binding.EncodeURL(pattern, in, true)
@@ -172,7 +172,7 @@ func (c *AuthenticationServiceHTTPClientImpl) Login(ctx context.Context, in *v1.
 	return &out, nil
 }
 
-func (c *AuthenticationServiceHTTPClientImpl) Logout(ctx context.Context, in *v1.LogoutRequest, opts ...http.CallOption) (*emptypb.Empty, error) {
+func (c *AuthenticationServiceHTTPClientImpl) Logout(ctx context.Context, in *emptypb.Empty, opts ...http.CallOption) (*emptypb.Empty, error) {
 	var out emptypb.Empty
 	pattern := "/admin/v1/logout"
 	path := binding.EncodeURL(pattern, in, false)

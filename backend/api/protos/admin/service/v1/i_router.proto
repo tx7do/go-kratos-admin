@@ -14,14 +14,14 @@ import "google/protobuf/field_mask.proto";
 // 网站后台动态路由服务
 service RouterService {
   // 查询路由列表
-  rpc ListRoute (ListRouteRequest) returns (ListRouteResponse) {
+  rpc ListRoute (google.protobuf.Empty) returns (ListRouteResponse) {
     option (google.api.http) = {
       get: "/admin/v1/routes"
     };
   }
 
   // 查询权限码列表
-  rpc ListPermissionCode (ListPermissionCodeRequest) returns (ListPermissionCodeResponse) {
+  rpc ListPermissionCode (google.protobuf.Empty) returns (ListPermissionCodeResponse) {
     option (google.api.http) = {
       get: "/admin/v1/perm-codes"
     };
@@ -271,10 +271,6 @@ message RouteMeta {
 }
 
 message ListRouteRequest {
-  optional uint32 operator_id = 1 [
-    (gnostic.openapi.v3.property) = {description: "操作用户ID", read_only: true},
-    json_name = "operatorId"
-  ]; // 操作用户ID
 }
 // 查询路由列表 - 回应
 message ListRouteResponse {
@@ -282,10 +278,6 @@ message ListRouteResponse {
 }
 
 message ListPermissionCodeRequest {
-  optional uint32 operator_id = 1 [
-    (gnostic.openapi.v3.property) = {description: "操作用户ID", read_only: true},
-    json_name = "operatorId"
-  ]; // 操作用户ID
 }
 // 查询权限码列表 - 回应
 message ListPermissionCodeResponse {

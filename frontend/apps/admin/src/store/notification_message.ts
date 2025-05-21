@@ -20,7 +20,7 @@ export const useNotificationMessageStore = defineStore(
       fieldMask?: null | string,
       orderBy?: null | string[],
     ) {
-      return await defNotificationMessageService.ListNotificationMessage({
+      return await defNotificationMessageService.List({
         // @ts-ignore proto generated code is error.
         fieldMask,
         orderBy: orderBy ?? [],
@@ -35,14 +35,14 @@ export const useNotificationMessageStore = defineStore(
      * 获取通知消息
      */
     async function getNotificationMessage(id: number) {
-      return await defNotificationMessageService.GetNotificationMessage({ id });
+      return await defNotificationMessageService.Get({ id });
     }
 
     /**
      * 创建通知消息
      */
     async function createNotificationMessage(values: object) {
-      return await defNotificationMessageService.CreateNotificationMessage({
+      return await defNotificationMessageService.Create({
         data: {
           ...values,
         },
@@ -53,7 +53,7 @@ export const useNotificationMessageStore = defineStore(
      * 更新通知消息
      */
     async function updateNotificationMessage(id: number, values: object) {
-      return await defNotificationMessageService.UpdateNotificationMessage({
+      return await defNotificationMessageService.Update({
         data: {
           id,
           ...values,
@@ -67,7 +67,7 @@ export const useNotificationMessageStore = defineStore(
      * 删除通知消息
      */
     async function deleteNotificationMessage(id: number) {
-      return await defNotificationMessageService.DeleteNotificationMessage({
+      return await defNotificationMessageService.Delete({
         id,
       });
     }

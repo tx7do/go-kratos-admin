@@ -37,11 +37,11 @@ type AuthenticationServiceClient interface {
 	// 登录
 	Login(ctx context.Context, in *v1.LoginRequest, opts ...grpc.CallOption) (*v1.LoginResponse, error)
 	// 登出
-	Logout(ctx context.Context, in *v1.LogoutRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	Logout(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	// 刷新认证令牌
 	RefreshToken(ctx context.Context, in *v1.LoginRequest, opts ...grpc.CallOption) (*v1.LoginResponse, error)
 	// 后台获取已经登录的用户的数据
-	GetMe(ctx context.Context, in *v1.GetMeRequest, opts ...grpc.CallOption) (*v11.User, error)
+	GetMe(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*v11.User, error)
 }
 
 type authenticationServiceClient struct {
@@ -62,7 +62,7 @@ func (c *authenticationServiceClient) Login(ctx context.Context, in *v1.LoginReq
 	return out, nil
 }
 
-func (c *authenticationServiceClient) Logout(ctx context.Context, in *v1.LogoutRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+func (c *authenticationServiceClient) Logout(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*emptypb.Empty, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, AuthenticationService_Logout_FullMethodName, in, out, cOpts...)
@@ -82,7 +82,7 @@ func (c *authenticationServiceClient) RefreshToken(ctx context.Context, in *v1.L
 	return out, nil
 }
 
-func (c *authenticationServiceClient) GetMe(ctx context.Context, in *v1.GetMeRequest, opts ...grpc.CallOption) (*v11.User, error) {
+func (c *authenticationServiceClient) GetMe(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*v11.User, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(v11.User)
 	err := c.cc.Invoke(ctx, AuthenticationService_GetMe_FullMethodName, in, out, cOpts...)
@@ -101,11 +101,11 @@ type AuthenticationServiceServer interface {
 	// 登录
 	Login(context.Context, *v1.LoginRequest) (*v1.LoginResponse, error)
 	// 登出
-	Logout(context.Context, *v1.LogoutRequest) (*emptypb.Empty, error)
+	Logout(context.Context, *emptypb.Empty) (*emptypb.Empty, error)
 	// 刷新认证令牌
 	RefreshToken(context.Context, *v1.LoginRequest) (*v1.LoginResponse, error)
 	// 后台获取已经登录的用户的数据
-	GetMe(context.Context, *v1.GetMeRequest) (*v11.User, error)
+	GetMe(context.Context, *emptypb.Empty) (*v11.User, error)
 	mustEmbedUnimplementedAuthenticationServiceServer()
 }
 
@@ -119,13 +119,13 @@ type UnimplementedAuthenticationServiceServer struct{}
 func (UnimplementedAuthenticationServiceServer) Login(context.Context, *v1.LoginRequest) (*v1.LoginResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Login not implemented")
 }
-func (UnimplementedAuthenticationServiceServer) Logout(context.Context, *v1.LogoutRequest) (*emptypb.Empty, error) {
+func (UnimplementedAuthenticationServiceServer) Logout(context.Context, *emptypb.Empty) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Logout not implemented")
 }
 func (UnimplementedAuthenticationServiceServer) RefreshToken(context.Context, *v1.LoginRequest) (*v1.LoginResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RefreshToken not implemented")
 }
-func (UnimplementedAuthenticationServiceServer) GetMe(context.Context, *v1.GetMeRequest) (*v11.User, error) {
+func (UnimplementedAuthenticationServiceServer) GetMe(context.Context, *emptypb.Empty) (*v11.User, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetMe not implemented")
 }
 func (UnimplementedAuthenticationServiceServer) mustEmbedUnimplementedAuthenticationServiceServer() {}
@@ -168,7 +168,7 @@ func _AuthenticationService_Login_Handler(srv interface{}, ctx context.Context, 
 }
 
 func _AuthenticationService_Logout_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(v1.LogoutRequest)
+	in := new(emptypb.Empty)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -180,7 +180,7 @@ func _AuthenticationService_Logout_Handler(srv interface{}, ctx context.Context,
 		FullMethod: AuthenticationService_Logout_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AuthenticationServiceServer).Logout(ctx, req.(*v1.LogoutRequest))
+		return srv.(AuthenticationServiceServer).Logout(ctx, req.(*emptypb.Empty))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -204,7 +204,7 @@ func _AuthenticationService_RefreshToken_Handler(srv interface{}, ctx context.Co
 }
 
 func _AuthenticationService_GetMe_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(v1.GetMeRequest)
+	in := new(emptypb.Empty)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -216,7 +216,7 @@ func _AuthenticationService_GetMe_Handler(srv interface{}, ctx context.Context, 
 		FullMethod: AuthenticationService_GetMe_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AuthenticationServiceServer).GetMe(ctx, req.(*v1.GetMeRequest))
+		return srv.(AuthenticationServiceServer).GetMe(ctx, req.(*emptypb.Empty))
 	}
 	return interceptor(ctx, in, info, handler)
 }

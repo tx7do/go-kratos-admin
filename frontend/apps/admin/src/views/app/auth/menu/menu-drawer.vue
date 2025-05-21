@@ -9,7 +9,7 @@ import { addCollection } from '@iconify/vue';
 import { notification } from 'ant-design-vue';
 
 import { useVbenForm } from '#/adapter/form';
-import { MenuType } from '#/rpc/api/system/service/v1/menu.pb';
+import { MenuType } from '#/rpc/api/admin/service/v1/i_menu.pb';
 import {
   buildMenuTree,
   isButton,

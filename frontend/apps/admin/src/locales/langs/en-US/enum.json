@@ -8,10 +8,10 @@
     "false": "Disable"
   },
   "authority": {
+    "GUEST": "Guest",
     "CUSTOMER_USER": "Customer",
-    "GUEST_USER": "Guest",
-    "SYS_ADMIN": "Admin",
-    "SYS_MANAGER": "Manager"
+    "TENANT_ADMIN": "Tenant Admin",
+    "SYS_ADMIN": "Admin"
   },
   "menuType": {
     "FOLDER": "Folder",

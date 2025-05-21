@@ -5,7 +5,7 @@ import { $t } from '@vben/locales';
 import { defineStore } from 'pinia';
 
 import { defTaskService, makeQueryString, makeUpdateMask } from '#/rpc';
-import { TaskType } from '#/rpc/api/system/service/v1/task.pb';
+import { TaskType } from '#/rpc/api/admin/service/v1/i_task.pb';
 
 export const useTaskStore = defineStore('task', () => {
   /**
@@ -19,7 +19,7 @@ export const useTaskStore = defineStore('task', () => {
     fieldMask?: null | string,
     orderBy?: null | string[],
   ) {
-    return await defTaskService.ListTask({
+    return await defTaskService.List({
       // @ts-ignore proto generated code is error.
       fieldMask,
       orderBy: orderBy ?? [],
@@ -34,14 +34,14 @@ export const useTaskStore = defineStore('task', () => {
    * 获取任务
    */
   async function getTask(id: number) {
-    return await defTaskService.GetTask({ id });
+    return await defTaskService.Get({ id });
   }
 
   /**
    * 创建任务
    */
   async function createTask(values: object) {
-    return await defTaskService.CreateTask({
+    return await defTaskService.Create({
       data: {
         ...values,
       },
@@ -52,7 +52,7 @@ export const useTaskStore = defineStore('task', () => {
    * 更新任务
    */
   async function updateTask(id: number, values: object) {
-    return await defTaskService.UpdateTask({
+    return await defTaskService.Update({
       data: {
         id,
         ...values,
@@ -66,7 +66,7 @@ export const useTaskStore = defineStore('task', () => {
    * 删除任务
    */
   async function deleteTask(id: number) {
-    return await defTaskService.DeleteTask({ id });
+    return await defTaskService.Delete({ id });
   }
 
   function $reset() {}
@@ -93,30 +93,30 @@ export const enableBoolList = computed(() => [
 
 export const taskTypeList = computed(() => [
   {
-    value: TaskType.TaskType_Periodic,
+    value: TaskType.PERIODIC,
     label: $t('enum.taskType.Periodic'),
   },
   {
-    value: TaskType.TaskType_Delay,
+    value: TaskType.DELAY,
     label: $t('enum.taskType.Delay'),
   },
   {
-    value: TaskType.TaskType_WaitResult,
+    value: TaskType.WAIT_RESULT,
     label: $t('enum.taskType.WaitResult'),
   },
 ]);
 
 export function taskTypeToName(taskType: any) {
   switch (taskType) {
-    case TaskType.TaskType_Delay: {
+    case TaskType.DELAY: {
       return $t('enum.taskType.Delay');
     }
 
-    case TaskType.TaskType_Periodic: {
+    case TaskType.PERIODIC: {
       return $t('enum.taskType.Periodic');
     }
 
-    case TaskType.TaskType_WaitResult: {
+    case TaskType.WAIT_RESULT: {
       return $t('enum.taskType.WaitResult');
     }
   }
@@ -124,15 +124,15 @@ export function taskTypeToName(taskType: any) {
 
 export function taskTypeToColor(taskType: any) {
   switch (taskType) {
-    case TaskType.TaskType_Delay: {
+    case TaskType.DELAY: {
       return 'green';
     }
 
-    case TaskType.TaskType_Periodic: {
+    case TaskType.PERIODIC: {
       return 'orange';
     }
 
-    case TaskType.TaskType_WaitResult: {
+    case TaskType.WAIT_RESULT: {
       return 'red';
     }
   }

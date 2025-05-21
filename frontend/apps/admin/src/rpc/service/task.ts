@@ -1,16 +1,19 @@
-import type { TaskService } from '#/rpc/api/admin/service/v1/i_task.pb';
-import type { Empty } from '#/rpc/api/google/protobuf/empty.pb';
-import type { PagingRequest } from '#/rpc/api/pagination/v1/pagination.pb';
 import type {
   ControlTaskRequest,
   CreateTaskRequest,
   DeleteTaskRequest,
+  GetTaskByTypeNameRequest,
   GetTaskRequest,
   ListTaskResponse,
   RestartAllTaskResponse,
   Task,
+  TaskService,
   UpdateTaskRequest,
-} from '#/rpc/api/system/service/v1/task.pb';
+} from '#/rpc/api/admin/service/v1/i_task.pb';
+import type { Empty } from '#/rpc/api/google/protobuf/empty.pb';
+import type { PagingRequest } from '#/rpc/api/pagination/v1/pagination.pb';
+
+import * as console from 'node:console';
 
 import { requestClient } from '#/rpc/request';
 
@@ -20,19 +23,23 @@ class TaskServiceImpl implements TaskService {
     return await requestClient.post<Empty>('/tasks:control', request);
   }
 
-  async CreateTask(request: CreateTaskRequest): Promise<Empty> {
+  async Create(request: CreateTaskRequest): Promise<Empty> {
     return await requestClient.post<Empty>('/tasks', request);
   }
 
-  async DeleteTask(request: DeleteTaskRequest): Promise<Empty> {
+  async Delete(request: DeleteTaskRequest): Promise<Empty> {
     return await requestClient.delete<Empty>(`/tasks/${request.id}`);
   }
 
-  async GetTask(request: GetTaskRequest): Promise<Task> {
+  async Get(request: GetTaskRequest): Promise<Task> {
     return await requestClient.get<Task>(`/tasks/${request.id}`);
   }
 
-  async ListTask(request: PagingRequest): Promise<ListTaskResponse> {
+  GetTaskByTypeName(_request: GetTaskByTypeNameRequest): Promise<Task> {
+    return Promise.resolve({} as Task);
+  }
+
+  async List(request: PagingRequest): Promise<ListTaskResponse> {
     return await requestClient.get<ListTaskResponse>('/tasks', {
       params: request,
     });
@@ -49,7 +56,7 @@ class TaskServiceImpl implements TaskService {
     return await requestClient.post<Empty>('/tasks:stop', _request);
   }
 
-  async UpdateTask(request: UpdateTaskRequest): Promise<Empty> {
+  async Update(request: UpdateTaskRequest): Promise<Empty> {
     const id = request.data?.id;
 
     console.log('UpdateTask', request.data);

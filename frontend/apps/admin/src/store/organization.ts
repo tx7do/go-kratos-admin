@@ -14,7 +14,7 @@ export const useOrganizationStore = defineStore('organization', () => {
     fieldMask?: null | string,
     orderBy?: null | string[],
   ) {
-    return await defOrganizationService.ListOrganization({
+    return await defOrganizationService.List({
       // @ts-ignore proto generated code is error.
       fieldMask,
       orderBy: orderBy ?? [],
@@ -29,14 +29,14 @@ export const useOrganizationStore = defineStore('organization', () => {
    * 获取组织
    */
   async function getOrganization(id: number) {
-    return await defOrganizationService.GetOrganization({ id });
+    return await defOrganizationService.Get({ id });
   }
 
   /**
    * 创建组织
    */
   async function createOrganization(values: object) {
-    return await defOrganizationService.CreateOrganization({
+    return await defOrganizationService.Create({
       data: {
         ...values,
         children: [],
@@ -48,7 +48,7 @@ export const useOrganizationStore = defineStore('organization', () => {
    * 更新组织
    */
   async function updateOrganization(id: number, values: object) {
-    return await defOrganizationService.UpdateOrganization({
+    return await defOrganizationService.Update({
       data: {
         id,
         ...values,
@@ -63,7 +63,7 @@ export const useOrganizationStore = defineStore('organization', () => {
    * 删除组织
    */
   async function deleteOrganization(id: number) {
-    return await defOrganizationService.DeleteOrganization({ id });
+    return await defOrganizationService.Delete({ id });
   }
 
   function $reset() {}

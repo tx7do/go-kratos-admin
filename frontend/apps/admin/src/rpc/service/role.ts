@@ -14,25 +14,25 @@ import { requestClient } from '#/rpc/request';
 
 /** 角色管理服务 */
 class RoleServiceImpl implements RoleService {
-  async CreateRole(request: CreateRoleRequest): Promise<Empty> {
+  async Create(request: CreateRoleRequest): Promise<Empty> {
     return await requestClient.post<Empty>('/roles', request);
   }
 
-  async DeleteRole(request: DeleteRoleRequest): Promise<Empty> {
+  async Delete(request: DeleteRoleRequest): Promise<Empty> {
     return await requestClient.delete<Empty>(`/roles/${request.id}`);
   }
 
-  async GetRole(request: GetRoleRequest): Promise<Role> {
+  async Get(request: GetRoleRequest): Promise<Role> {
     return await requestClient.get<Role>(`/roles/${request.id}`);
   }
 
-  async ListRole(request: PagingRequest): Promise<ListRoleResponse> {
+  async List(request: PagingRequest): Promise<ListRoleResponse> {
     return await requestClient.get<ListRoleResponse>('/roles', {
       params: request,
     });
   }
 
-  async UpdateRole(request: UpdateRoleRequest): Promise<Empty> {
+  async Update(request: UpdateRoleRequest): Promise<Empty> {
     const id = request.data?.id;
 
     console.log('UpdateRole', request.data);

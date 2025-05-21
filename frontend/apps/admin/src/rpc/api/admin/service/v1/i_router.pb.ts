@@ -5,6 +5,7 @@
 // source: admin/service/v1/i_router.proto
 
 /* eslint-disable */
+import { type Empty } from "../../../google/protobuf/empty.pb";
 
 /** 路由项 */
 export interface RouteItem {
@@ -153,8 +154,6 @@ export interface RouteMeta {
 }
 
 export interface ListRouteRequest {
-  /** 操作用户ID */
-  operatorId?: number | null | undefined;
 }
 
 /** 查询路由列表 - 回应 */
@@ -163,8 +162,6 @@ export interface ListRouteResponse {
 }
 
 export interface ListPermissionCodeRequest {
-  /** 操作用户ID */
-  operatorId?: number | null | undefined;
 }
 
 /** 查询权限码列表 - 回应 */
@@ -175,7 +172,7 @@ export interface ListPermissionCodeResponse {
 /** 网站后台动态路由服务 */
 export interface RouterService {
   /** 查询路由列表 */
-  ListRoute(request: ListRouteRequest): Promise<ListRouteResponse>;
+  ListRoute(request: Empty): Promise<ListRouteResponse>;
   /** 查询权限码列表 */
-  ListPermissionCode(request: ListPermissionCodeRequest): Promise<ListPermissionCodeResponse>;
+  ListPermissionCode(request: Empty): Promise<ListPermissionCodeResponse>;
 }

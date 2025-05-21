@@ -14,7 +14,7 @@ export const usePositionStore = defineStore('position', () => {
     fieldMask?: null | string,
     orderBy?: null | string[],
   ) {
-    return await defPositionService.ListPosition({
+    return await defPositionService.List({
       // @ts-ignore proto generated code is error.
       fieldMask,
       orderBy: orderBy ?? [],
@@ -29,14 +29,14 @@ export const usePositionStore = defineStore('position', () => {
    * 获取职位
    */
   async function getPosition(id: number) {
-    return await defPositionService.GetPosition({ id });
+    return await defPositionService.Get({ id });
   }
 
   /**
    * 创建职位
    */
   async function createPosition(values: object) {
-    return await defPositionService.CreatePosition({
+    return await defPositionService.Create({
       data: {
         ...values,
         children: [],
@@ -48,7 +48,7 @@ export const usePositionStore = defineStore('position', () => {
    * 更新职位
    */
   async function updatePosition(id: number, values: object) {
-    return await defPositionService.UpdatePosition({
+    return await defPositionService.Update({
       data: {
         id,
         ...values,
@@ -63,7 +63,7 @@ export const usePositionStore = defineStore('position', () => {
    * 删除职位
    */
   async function deletePosition(id: number) {
-    return await defPositionService.DeletePosition({ id });
+    return await defPositionService.Delete({ id });
   }
 
   function $reset() {}

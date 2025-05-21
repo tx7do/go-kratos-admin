@@ -93,6 +93,8 @@ export const useAuthStore = defineStore('auth', () => {
         }
       }
     } catch (error) {
+      await doLogout();
+
       // 处理登录错误
       if (error instanceof Error) {
         notification.error({
@@ -105,6 +107,7 @@ export const useAuthStore = defineStore('auth', () => {
           description: $t('authentication.loginFailedDesc'),
         });
       }
+      return null;
     } finally {
       loginLoading.value = false;
     }
@@ -120,12 +123,22 @@ export const useAuthStore = defineStore('auth', () => {
    */
   async function logout(redirect: boolean = true) {
     try {
-      await defAuthnService.Logout({ id: 0 });
+      await defAuthnService.Logout({});
     } catch {
       // 不做任何处理
     }
+
+    await doLogout(redirect);
+  }
+
+  async function doLogout(redirect: boolean = true) {
+    console.log('doLogout');
+
     resetAllStores();
+
     accessStore.setLoginExpired(false);
+
+    loginLoading.value = false;
 
     // 回登录页带上当前路由地址
     await router.replace({
@@ -180,7 +193,12 @@ export const useAuthStore = defineStore('auth', () => {
    * 拉取用户信息
    */
   async function fetchUserInfo() {
-    return (await defAuthnService.GetMe({ id: 0 })) as UserInfo;
+    try {
+      return (await defAuthnService.GetMe({})) as UserInfo;
+    } catch (error) {
+      console.error(error);
+      await doLogout();
+    }
   }
 
   /**

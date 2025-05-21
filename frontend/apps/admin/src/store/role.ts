@@ -14,7 +14,7 @@ export const useRoleStore = defineStore('role', () => {
     fieldMask?: null | string,
     orderBy?: null | string[],
   ) {
-    return await defRoleService.ListRole({
+    return await defRoleService.List({
       // @ts-ignore proto generated code is error.
       fieldMask,
       orderBy: orderBy ?? [],
@@ -29,14 +29,14 @@ export const useRoleStore = defineStore('role', () => {
    * 获取角色
    */
   async function getRole(id: number) {
-    return await defRoleService.GetRole({ id });
+    return await defRoleService.Get({ id });
   }
 
   /**
    * 创建角色
    */
   async function createRole(values: object) {
-    return await defRoleService.CreateRole({
+    return await defRoleService.Create({
       data: {
         ...values,
         children: [],
@@ -48,7 +48,7 @@ export const useRoleStore = defineStore('role', () => {
    * 更新角色
    */
   async function updateRole(id: number, values: object) {
-    return await defRoleService.UpdateRole({
+    return await defRoleService.Update({
       data: {
         id,
         ...values,
@@ -63,7 +63,7 @@ export const useRoleStore = defineStore('role', () => {
    * 删除角色
    */
   async function deleteRole(id: number) {
-    return await defRoleService.DeleteRole({ id });
+    return await defRoleService.Delete({ id });
   }
 
   function $reset() {}

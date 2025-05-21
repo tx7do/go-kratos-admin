@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { VxeGridProps } from '#/adapter/vxe-table';
-import type { Menu } from '#/rpc/api/system/service/v1/menu.pb';
+import type { Menu } from '#/rpc/api/admin/service/v1/i_menu.pb';
 
 import { h } from 'vue';
 

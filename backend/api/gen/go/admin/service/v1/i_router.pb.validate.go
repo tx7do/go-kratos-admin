@@ -430,10 +430,6 @@ func (m *ListRouteRequest) validate(all bool) error {
 
 	var errors []error
 
-	if m.OperatorId != nil {
-		// no validation rules for OperatorId
-	}
-
 	if len(errors) > 0 {
 		return ListRouteRequestMultiError(errors)
 	}
@@ -669,10 +665,6 @@ func (m *ListPermissionCodeRequest) validate(all bool) error {
 	}
 
 	var errors []error
-
-	if m.OperatorId != nil {
-		// no validation rules for OperatorId
-	}
 
 	if len(errors) > 0 {
 		return ListPermissionCodeRequestMultiError(errors)

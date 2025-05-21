@@ -14,7 +14,7 @@ export const useDepartmentStore = defineStore('department', () => {
     fieldMask?: null | string,
     orderBy?: null | string[],
   ) {
-    return await defDepartmentService.ListDepartment({
+    return await defDepartmentService.List({
       // @ts-ignore proto generated code is error.
       fieldMask,
       orderBy: orderBy ?? [],
@@ -29,14 +29,14 @@ export const useDepartmentStore = defineStore('department', () => {
    * 获取部门
    */
   async function getDepartment(id: number) {
-    return await defDepartmentService.GetDepartment({ id });
+    return await defDepartmentService.Get({ id });
   }
 
   /**
    * 创建部门
    */
   async function createDepartment(values: object) {
-    return await defDepartmentService.CreateDepartment({
+    return await defDepartmentService.Create({
       data: {
         ...values,
         children: [],
@@ -48,7 +48,7 @@ export const useDepartmentStore = defineStore('department', () => {
    * 更新部门
    */
   async function updateDepartment(id: number, values: object) {
-    return await defDepartmentService.UpdateDepartment({
+    return await defDepartmentService.Update({
       data: {
         id,
         ...values,
@@ -63,7 +63,7 @@ export const useDepartmentStore = defineStore('department', () => {
    * 删除部门
    */
   async function deleteDepartment(id: number) {
-    return await defDepartmentService.DeleteDepartment({ id });
+    return await defDepartmentService.Delete({ id });
   }
 
   function $reset() {}

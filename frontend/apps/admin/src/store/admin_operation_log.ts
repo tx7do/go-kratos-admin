@@ -16,7 +16,7 @@ export const useAdminOperationLogStore = defineStore(
       fieldMask?: null | string,
       orderBy?: null | string[],
     ) {
-      return await defAdminOperationLogService.ListAdminOperationLog({
+      return await defAdminOperationLogService.List({
         // @ts-ignore proto generated code is error.
         fieldMask,
         orderBy: orderBy ?? [],
@@ -31,7 +31,7 @@ export const useAdminOperationLogStore = defineStore(
      * 查询操作日志
      */
     async function getAdminOperationLog(id: number) {
-      return await defAdminOperationLogService.GetAdminOperationLog({ id });
+      return await defAdminOperationLogService.Get({ id });
     }
 
     function $reset() {}

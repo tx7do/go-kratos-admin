@@ -92,14 +92,10 @@ export interface LoginResponse {
 
 /** 用户后台登出 - 请求 */
 export interface LogoutRequest {
-  /** 操作用户ID */
-  operatorId?: number | null | undefined;
 }
 
 /** 获取当前用户信息 - 请求 */
 export interface GetMeRequest {
-  /** 操作用户ID */
-  operatorId?: number | null | undefined;
 }
 
 /** 用户登录认证服务 */
@@ -107,9 +103,9 @@ export interface AuthenticationService {
   /** 用户登录 */
   Login(request: LoginRequest): Promise<LoginResponse>;
   /** 用户登出 */
-  Logout(request: LogoutRequest): Promise<Empty>;
+  Logout(request: Empty): Promise<Empty>;
   /** 刷新认证令牌 */
   RefreshToken(request: LoginRequest): Promise<LoginResponse>;
   /** 获取已经登录的用户数据 */
-  GetMe(request: GetMeRequest): Promise<User>;
+  GetMe(request: Empty): Promise<User>;
 }

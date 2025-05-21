@@ -308,10 +308,6 @@ func (m *LogoutRequest) validate(all bool) error {
 
 	var errors []error
 
-	if m.OperatorId != nil {
-		// no validation rules for OperatorId
-	}
-
 	if len(errors) > 0 {
 		return LogoutRequestMultiError(errors)
 	}
@@ -411,10 +407,6 @@ func (m *GetMeRequest) validate(all bool) error {
 	}
 
 	var errors []error
-
-	if m.OperatorId != nil {
-		// no validation rules for OperatorId
-	}
 
 	if len(errors) > 0 {
 		return GetMeRequestMultiError(errors)

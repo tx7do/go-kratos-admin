@@ -14,7 +14,7 @@ export const useTenantStore = defineStore('tenant', () => {
     fieldMask?: null | string,
     orderBy?: null | string[],
   ) {
-    return await defTenantService.ListTenant({
+    return await defTenantService.List({
       // @ts-ignore proto generated code is error.
       fieldMask,
       orderBy: orderBy ?? [],
@@ -29,14 +29,14 @@ export const useTenantStore = defineStore('tenant', () => {
    * 获取租户
    */
   async function getTenant(id: number) {
-    return await defTenantService.GetTenant({ id });
+    return await defTenantService.Get({ id });
   }
 
   /**
    * 创建租户
    */
   async function createTenant(values: object) {
-    return await defTenantService.CreateTenant({
+    return await defTenantService.Create({
       data: {
         ...values,
       },
@@ -47,7 +47,7 @@ export const useTenantStore = defineStore('tenant', () => {
    * 更新租户
    */
   async function updateTenant(id: number, values: object) {
-    return await defTenantService.UpdateTenant({
+    return await defTenantService.Update({
       data: {
         id,
         ...values,
@@ -61,7 +61,7 @@ export const useTenantStore = defineStore('tenant', () => {
    * 删除租户
    */
   async function deleteTenant(id: number) {
-    return await defTenantService.DeleteTenant({ id });
+    return await defTenantService.Delete({ id });
   }
 
   function $reset() {}

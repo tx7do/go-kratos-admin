@@ -5,12 +5,7 @@
 // source: admin/service/v1/i_authentication.proto
 
 /* eslint-disable */
-import {
-  type GetMeRequest,
-  type LoginRequest,
-  type LoginResponse,
-  type LogoutRequest,
-} from "../../../authentication/service/v1/authentication.pb";
+import { type LoginRequest, type LoginResponse } from "../../../authentication/service/v1/authentication.pb";
 import { type Empty } from "../../../google/protobuf/empty.pb";
 import { type User } from "../../../user/service/v1/user.pb";
 
@@ -19,9 +14,9 @@ export interface AuthenticationService {
   /** 登录 */
   Login(request: LoginRequest): Promise<LoginResponse>;
   /** 登出 */
-  Logout(request: LogoutRequest): Promise<Empty>;
+  Logout(request: Empty): Promise<Empty>;
   /** 刷新认证令牌 */
   RefreshToken(request: LoginRequest): Promise<LoginResponse>;
   /** 后台获取已经登录的用户的数据 */
-  GetMe(request: GetMeRequest): Promise<User>;
+  GetMe(request: Empty): Promise<User>;
 }

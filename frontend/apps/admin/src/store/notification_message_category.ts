@@ -20,40 +20,34 @@ export const useNotificationMessageCategoryStore = defineStore(
       fieldMask?: null | string,
       orderBy?: null | string[],
     ) {
-      return await defNotificationMessageCategoryService.ListNotificationMessageCategory(
-        {
-          // @ts-ignore proto generated code is error.
-          fieldMask,
-          orderBy: orderBy ?? [],
-          query: makeQueryString(formValues ?? null),
-          page,
-          pageSize,
-          noPaging,
-        },
-      );
+      return await defNotificationMessageCategoryService.List({
+        // @ts-ignore proto generated code is error.
+        fieldMask,
+        orderBy: orderBy ?? [],
+        query: makeQueryString(formValues ?? null),
+        page,
+        pageSize,
+        noPaging,
+      });
     }
 
     /**
      * 获取通知消息
      */
     async function getNotificationMessageCategory(id: number) {
-      return await defNotificationMessageCategoryService.GetNotificationMessageCategory(
-        { id },
-      );
+      return await defNotificationMessageCategoryService.Get({ id });
     }
 
     /**
      * 创建通知消息
      */
     async function createNotificationMessageCategory(values: object) {
-      return await defNotificationMessageCategoryService.CreateNotificationMessageCategory(
-        {
-          // @ts-ignore proto generated code is error.
-          data: {
-            ...values,
-          },
+      return await defNotificationMessageCategoryService.Create({
+        // @ts-ignore proto generated code is error.
+        data: {
+          ...values,
         },
-      );
+      });
     }
 
     /**
@@ -63,28 +57,24 @@ export const useNotificationMessageCategoryStore = defineStore(
       id: number,
       values: object,
     ) {
-      return await defNotificationMessageCategoryService.UpdateNotificationMessageCategory(
-        {
-          // @ts-ignore proto generated code is error.
-          data: {
-            id,
-            ...values,
-          },
-          // @ts-ignore proto generated code is error.
-          updateMask: makeUpdateMask(Object.keys(values ?? [])),
+      return await defNotificationMessageCategoryService.Update({
+        // @ts-ignore proto generated code is error.
+        data: {
+          id,
+          ...values,
         },
-      );
+        // @ts-ignore proto generated code is error.
+        updateMask: makeUpdateMask(Object.keys(values ?? [])),
+      });
     }
 
     /**
      * 删除通知消息
      */
     async function deleteNotificationMessageCategory(id: number) {
-      return await defNotificationMessageCategoryService.DeleteNotificationMessageCategory(
-        {
-          id,
-        },
-      );
+      return await defNotificationMessageCategoryService.Delete({
+        id,
+      });
     }
 
     function $reset() {}

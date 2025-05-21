@@ -14,19 +14,15 @@ import { requestClient } from '#/rpc/request';
 
 /** 通知消息管理服务 */
 class NotificationMessageServiceImpl implements NotificationMessageService {
-  async CreateNotificationMessage(
-    request: CreateNotificationMessageRequest,
-  ): Promise<Empty> {
+  async Create(request: CreateNotificationMessageRequest): Promise<Empty> {
     return await requestClient.post<Empty>('/notifications', request);
   }
 
-  async DeleteNotificationMessage(
-    request: DeleteNotificationMessageRequest,
-  ): Promise<Empty> {
+  async Delete(request: DeleteNotificationMessageRequest): Promise<Empty> {
     return await requestClient.delete<Empty>(`/notifications/${request.id}`);
   }
 
-  async GetNotificationMessage(
+  async Get(
     request: GetNotificationMessageRequest,
   ): Promise<NotificationMessage> {
     return await requestClient.get<NotificationMessage>(
@@ -34,9 +30,7 @@ class NotificationMessageServiceImpl implements NotificationMessageService {
     );
   }
 
-  async ListNotificationMessage(
-    request: PagingRequest,
-  ): Promise<ListNotificationMessageResponse> {
+  async List(request: PagingRequest): Promise<ListNotificationMessageResponse> {
     return await requestClient.get<ListNotificationMessageResponse>(
       '/notifications',
       {
@@ -45,9 +39,7 @@ class NotificationMessageServiceImpl implements NotificationMessageService {
     );
   }
 
-  async UpdateNotificationMessage(
-    request: UpdateNotificationMessageRequest,
-  ): Promise<Empty> {
+  async Update(request: UpdateNotificationMessageRequest): Promise<Empty> {
     const id = request.data?.id;
 
     console.log('UpdateNotificationMessage', request.data);

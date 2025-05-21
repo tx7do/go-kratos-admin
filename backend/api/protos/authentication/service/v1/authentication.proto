@@ -17,13 +17,13 @@ service AuthenticationService {
   rpc Login (LoginRequest) returns (LoginResponse) {}
 
   // 用户登出
-  rpc Logout (LogoutRequest) returns (google.protobuf.Empty) {}
+  rpc Logout (google.protobuf.Empty) returns (google.protobuf.Empty) {}
 
   // 刷新认证令牌
   rpc RefreshToken (LoginRequest) returns (LoginResponse) {}
 
   // 获取已经登录的用户数据
-  rpc GetMe (GetMeRequest) returns (user.service.v1.User) {}
+  rpc GetMe (google.protobuf.Empty) returns (user.service.v1.User) {}
 }
 
 // 授权类型
@@ -148,16 +148,8 @@ message LoginResponse {
 
 // 用户后台登出 - 请求
 message LogoutRequest {
-  optional uint32 operator_id = 1 [
-    (gnostic.openapi.v3.property) = {description: "操作用户ID", read_only: true},
-    json_name = "operatorId"
-  ]; // 操作用户ID
 }
 
 // 获取当前用户信息 - 请求
 message GetMeRequest {
-  optional uint32 operator_id = 1 [
-    (gnostic.openapi.v3.property) = {description: "操作用户ID", read_only: true},
-    json_name = "operatorId"
-  ]; // 操作用户ID
 }

@@ -5,7 +5,7 @@ import { $t } from '@vben/locales';
 import { defineStore } from 'pinia';
 
 import { defMenuService, makeQueryString, makeUpdateMask } from '#/rpc';
-import { type Menu, MenuType } from '#/rpc/api/system/service/v1/menu.pb';
+import { type Menu, MenuType } from '#/rpc/api/admin/service/v1/i_menu.pb';
 
 export const useMenuStore = defineStore('menu', () => {
   /**
@@ -19,7 +19,7 @@ export const useMenuStore = defineStore('menu', () => {
     fieldMask?: null | string,
     orderBy?: null | string[],
   ) {
-    return await defMenuService.ListMenu({
+    return await defMenuService.List({
       // @ts-ignore proto generated code is error.
       fieldMask,
       orderBy: orderBy ?? [],
@@ -34,14 +34,14 @@ export const useMenuStore = defineStore('menu', () => {
    * 获取菜单
    */
   async function getMenu(id: number) {
-    return await defMenuService.GetMenu({ id });
+    return await defMenuService.Get({ id });
   }
 
   /**
    * 创建菜单
    */
   async function createMenu(values: object) {
-    return await defMenuService.CreateMenu({
+    return await defMenuService.Create({
       data: {
         ...values,
         children: [],
@@ -53,7 +53,7 @@ export const useMenuStore = defineStore('menu', () => {
    * 更新菜单
    */
   async function updateMenu(id: number, values: object) {
-    return await defMenuService.UpdateMenu({
+    return await defMenuService.Update({
       data: {
         id,
         ...values,
@@ -68,7 +68,7 @@ export const useMenuStore = defineStore('menu', () => {
    * 删除菜单
    */
   async function deleteMenu(id: number) {
-    return await defMenuService.DeleteMenu({ id });
+    return await defMenuService.Delete({ id });
   }
 
   function $reset() {}

@@ -20,39 +20,33 @@ export const useNotificationMessageRecipientStore = defineStore(
       fieldMask?: null | string,
       orderBy?: null | string[],
     ) {
-      return await defNotificationMessageRecipientService.ListNotificationMessageRecipient(
-        {
-          // @ts-ignore proto generated code is error.
-          fieldMask,
-          orderBy: orderBy ?? [],
-          query: makeQueryString(formValues ?? null),
-          page,
-          pageSize,
-          noPaging,
-        },
-      );
+      return await defNotificationMessageRecipientService.List({
+        // @ts-ignore proto generated code is error.
+        fieldMask,
+        orderBy: orderBy ?? [],
+        query: makeQueryString(formValues ?? null),
+        page,
+        pageSize,
+        noPaging,
+      });
     }
 
     /**
      * 获取通知消息类型
      */
     async function getNotificationMessageRecipient(id: number) {
-      return await defNotificationMessageRecipientService.GetNotificationMessageRecipient(
-        { id },
-      );
+      return await defNotificationMessageRecipientService.Get({ id });
     }
 
     /**
      * 创建通知消息类型
      */
     async function createNotificationMessageRecipient(values: object) {
-      return await defNotificationMessageRecipientService.CreateNotificationMessageRecipient(
-        {
-          data: {
-            ...values,
-          },
+      return await defNotificationMessageRecipientService.Create({
+        data: {
+          ...values,
         },
-      );
+      });
     }
 
     /**
@@ -62,27 +56,23 @@ export const useNotificationMessageRecipientStore = defineStore(
       id: number,
       values: object,
     ) {
-      return await defNotificationMessageRecipientService.UpdateNotificationMessageRecipient(
-        {
-          data: {
-            id,
-            ...values,
-          },
-          // @ts-ignore proto generated code is error.
-          updateMask: makeUpdateMask(Object.keys(values ?? [])),
+      return await defNotificationMessageRecipientService.Update({
+        data: {
+          id,
+          ...values,
         },
-      );
+        // @ts-ignore proto generated code is error.
+        updateMask: makeUpdateMask(Object.keys(values ?? [])),
+      });
     }
 
     /**
      * 删除通知消息类型
      */
     async function deleteNotificationMessageRecipient(id: number) {
-      return await defNotificationMessageRecipientService.DeleteNotificationMessageRecipient(
-        {
-          id,
-        },
-      );
+      return await defNotificationMessageRecipientService.Delete({
+        id,
+      });
     }
 
     function $reset() {}

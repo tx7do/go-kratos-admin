@@ -19,7 +19,7 @@ export const useUserStore = defineStore('user', () => {
     fieldMask?: null | string,
     orderBy?: null | string[],
   ) {
-    return await defUserService.ListUser({
+    return await defUserService.List({
       // @ts-ignore proto generated code is error.
       fieldMask,
       orderBy: orderBy ?? [],
@@ -34,14 +34,14 @@ export const useUserStore = defineStore('user', () => {
    * 获取用户
    */
   async function getUser(id: number) {
-    return await defUserService.GetUser({ id });
+    return await defUserService.Get({ id });
   }
 
   /**
    * 创建用户
    */
   async function createUser(values: object) {
-    return await defUserService.CreateUser({
+    return await defUserService.Create({
       // @ts-ignore proto generated code is error.
       data: {
         ...values,
@@ -53,7 +53,7 @@ export const useUserStore = defineStore('user', () => {
    * 更新用户
    */
   async function updateUser(id: number, values: object) {
-    return await defUserService.UpdateUser({
+    return await defUserService.Update({
       // @ts-ignore proto generated code is error.
       data: {
         id,
@@ -68,7 +68,7 @@ export const useUserStore = defineStore('user', () => {
    * 删除用户
    */
   async function deleteUser(id: number) {
-    return await defUserService.DeleteUser({ id });
+    return await defUserService.Delete({ id });
   }
 
   function $reset() {}
@@ -85,16 +85,16 @@ export const useUserStore = defineStore('user', () => {
 
 export const authorityList = computed(() => [
   {
-    value: UserAuthority.GUEST_USER,
-    label: $t('enum.authority.GUEST_USER'),
+    value: UserAuthority.GUEST,
+    label: $t('enum.authority.GUEST'),
   },
   {
     value: UserAuthority.CUSTOMER_USER,
     label: $t('enum.authority.CUSTOMER_USER'),
   },
   {
-    value: UserAuthority.SYS_MANAGER,
-    label: $t('enum.authority.SYS_MANAGER'),
+    value: UserAuthority.TENANT_ADMIN,
+    label: $t('enum.authority.TENANT_ADMIN'),
   },
   {
     value: UserAuthority.SYS_ADMIN,
@@ -111,14 +111,14 @@ export function authorityToName(authority: any) {
     case UserAuthority.CUSTOMER_USER: {
       return $t('enum.authority.CUSTOMER_USER');
     }
-    case UserAuthority.GUEST_USER: {
-      return $t('enum.authority.GUEST_USER');
+    case UserAuthority.GUEST: {
+      return $t('enum.authority.GUEST');
     }
     case UserAuthority.SYS_ADMIN: {
       return $t('enum.authority.SYS_ADMIN');
     }
-    case UserAuthority.SYS_MANAGER: {
-      return $t('enum.authority.SYS_MANAGER');
+    case UserAuthority.TENANT_ADMIN: {
+      return $t('enum.authority.TENANT_ADMIN');
     }
     default: {
       return '';
@@ -135,13 +135,13 @@ export function authorityToColor(authority: any) {
     case UserAuthority.CUSTOMER_USER: {
       return 'green';
     }
-    case UserAuthority.GUEST_USER: {
+    case UserAuthority.GUEST: {
       return 'green';
     }
     case UserAuthority.SYS_ADMIN: {
       return 'orange';
     }
-    case UserAuthority.SYS_MANAGER: {
+    case UserAuthority.TENANT_ADMIN: {
       return 'red';
     }
     default: {

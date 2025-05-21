@@ -8,10 +8,10 @@
     "false": "禁用"
   },
   "authority": {
+    "GUEST": "游客",
     "CUSTOMER_USER": "普通用户",
-    "GUEST_USER": "游客",
-    "SYS_ADMIN": "超级管理",
-    "SYS_MANAGER": "普通管理"
+    "TENANT_ADMIN": "租户管理",
+    "SYS_ADMIN": "超级管理"
   },
   "menuType": {
     "FOLDER": "目录",

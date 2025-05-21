@@ -14,7 +14,7 @@ export const useFileStore = defineStore('file', () => {
     fieldMask?: null | string,
     orderBy?: null | string[],
   ) {
-    return await defFileService.ListFile({
+    return await defFileService.List({
       // @ts-ignore proto generated code is error.
       fieldMask,
       orderBy: orderBy ?? [],
@@ -29,14 +29,14 @@ export const useFileStore = defineStore('file', () => {
    * 获取文件
    */
   async function getFile(id: number) {
-    return await defFileService.GetFile({ id });
+    return await defFileService.Get({ id });
   }
 
   /**
    * 创建文件
    */
   async function createFile(values: object) {
-    return await defFileService.CreateFile({
+    return await defFileService.Create({
       data: {
         ...values,
       },
@@ -47,7 +47,7 @@ export const useFileStore = defineStore('file', () => {
    * 更新文件
    */
   async function updateFile(id: number, values: object) {
-    return await defFileService.UpdateFile({
+    return await defFileService.Update({
       data: {
         id,
         ...values,
@@ -61,7 +61,7 @@ export const useFileStore = defineStore('file', () => {
    * 删除文件
    */
   async function deleteFile(id: number) {
-    return await defFileService.DeleteFile({ id });
+    return await defFileService.Delete({ id });
   }
 
   function $reset() {}

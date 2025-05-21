@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { VxeGridProps } from '#/adapter/vxe-table';
-import type { AdminOperationLog } from '#/rpc/api/system/service/v1/admin_operation_log.pb';
+import type { AdminOperationLog } from '#/rpc/api/admin/service/v1/i_admin_operation_log.pb';
 
 import { Page, type VbenFormProps } from '@vben/common-ui';
 

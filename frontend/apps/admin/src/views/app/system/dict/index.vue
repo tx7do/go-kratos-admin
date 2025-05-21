@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { VxeGridProps } from '#/adapter/vxe-table';
-import type { Dict } from '#/rpc/api/system/service/v1/dict.pb';
+import type { Dict } from '#/rpc/api/admin/service/v1/i_dict.pb';
 
 import { h } from 'vue';
 

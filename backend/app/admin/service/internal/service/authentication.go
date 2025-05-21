@@ -11,6 +11,8 @@ import (
 	adminV1 "kratos-admin/api/gen/go/admin/service/v1"
 	authenticationV1 "kratos-admin/api/gen/go/authentication/service/v1"
 	userV1 "kratos-admin/api/gen/go/user/service/v1"
+
+	"kratos-admin/pkg/middleware/auth"
 )
 
 type AuthenticationService struct {
@@ -126,18 +128,31 @@ func (s *AuthenticationService) doGrantTypeClientCredentials(_ context.Context, 
 }
 
 // Logout 登出
-func (s *AuthenticationService) Logout(ctx context.Context, req *authenticationV1.LogoutRequest) (*emptypb.Empty, error) {
-	if err := s.userToken.RemoveToken(ctx, req.GetOperatorId()); err != nil {
+func (s *AuthenticationService) Logout(ctx context.Context, _ *emptypb.Empty) (*emptypb.Empty, error) {
+	// 获取操作人信息
+	operator, err := auth.FromContext(ctx)
+	if err != nil {
 		return nil, err
 	}
+
+	if err = s.userToken.RemoveToken(ctx, operator.UserId); err != nil {
+		return nil, err
+	}
+
 	return &emptypb.Empty{}, nil
 }
 
-func (s *AuthenticationService) GetMe(ctx context.Context, req *authenticationV1.GetMeRequest) (*userV1.User, error) {
-	user, err := s.userRepo.Get(ctx, req.GetOperatorId())
+func (s *AuthenticationService) GetMe(ctx context.Context, _ *emptypb.Empty) (*userV1.User, error) {
+	// 获取操作人信息
+	operator, err := auth.FromContext(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	user, err := s.userRepo.Get(ctx, operator.UserId)
 	if err != nil {
 		s.log.Errorf("查询用户失败[%s]", err.Error())
-		return nil, authenticationV1.ErrorForbidden("user not found")
+		return nil, authenticationV1.ErrorNotFound("user not found")
 	}
 
 	role, err := s.roleRepo.Get(ctx, user.GetRoleId())

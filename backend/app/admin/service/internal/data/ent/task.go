@@ -5,7 +5,7 @@ package ent
 import (
 	"encoding/json"
 	"fmt"
-	servicev1 "kratos-admin/api/gen/go/system/service/v1"
+	servicev1 "kratos-admin/api/gen/go/admin/service/v1"
 	"kratos-admin/app/admin/service/internal/data/ent/task"
 	"strings"
 	"time"

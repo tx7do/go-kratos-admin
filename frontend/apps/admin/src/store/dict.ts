@@ -14,7 +14,7 @@ export const useDictStore = defineStore('dict', () => {
     fieldMask?: null | string,
     orderBy?: null | string[],
   ) {
-    return await defDictService.ListDict({
+    return await defDictService.List({
       // @ts-ignore proto generated code is error.
       fieldMask,
       orderBy: orderBy ?? [],
@@ -29,14 +29,14 @@ export const useDictStore = defineStore('dict', () => {
    * 获取字典
    */
   async function getDict(id: number) {
-    return await defDictService.GetDict({ id });
+    return await defDictService.Get({ id });
   }
 
   /**
    * 创建字典
    */
   async function createDict(values: object) {
-    return await defDictService.CreateDict({
+    return await defDictService.Create({
       data: {
         ...values,
       },
@@ -47,7 +47,7 @@ export const useDictStore = defineStore('dict', () => {
    * 更新字典
    */
   async function updateDict(id: number, values: object) {
-    return await defDictService.UpdateDict({
+    return await defDictService.Update({
       data: {
         id,
         ...values,
@@ -61,7 +61,7 @@ export const useDictStore = defineStore('dict', () => {
    * 删除字典
    */
   async function deleteDict(id: number) {
-    return await defDictService.DeleteDict({ id });
+    return await defDictService.Delete({ id });
   }
 
   function $reset() {}

@@ -46,6 +46,21 @@ func (r *PrivateMessageRepo) init() {
 			copierutil.StringToTimeConverter,
 			copierutil.TimeToTimestamppbConverter,
 			copierutil.TimestamppbToTimeConverter,
+
+			{
+				SrcType: trans.Ptr(internalMessageV1.MessageStatus(0)),
+				DstType: trans.Ptr(privatemessage.Status("")),
+				Fn: func(src interface{}) (interface{}, error) {
+					return r.toEntStatus(src.(*internalMessageV1.MessageStatus)), nil
+				},
+			},
+			{
+				SrcType: trans.Ptr(privatemessage.Status("")),
+				DstType: trans.Ptr(internalMessageV1.MessageStatus(0)),
+				Fn: func(src interface{}) (interface{}, error) {
+					return r.toProtoStatus(src.(*privatemessage.Status)), nil
+				},
+			},
 		},
 	}
 }
@@ -84,7 +99,7 @@ func (r *PrivateMessageRepo) toProto(in *ent.PrivateMessage) *internalMessageV1.
 	var out internalMessageV1.PrivateMessage
 	_ = copier.Copy(&out, in)
 
-	out.Status = r.toProtoStatus(in.Status)
+	//out.Status = r.toProtoStatus(in.Status)
 	//out.CreateTime = timeutil.TimeToTimeString(in.CreateTime)
 	//out.UpdateTime = timeutil.TimeToTimeString(in.UpdateTime)
 	//out.DeleteTime = timeutil.TimeToTimeString(in.DeleteTime)

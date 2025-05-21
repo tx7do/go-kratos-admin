@@ -7,10 +7,12 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"github.com/go-kratos/kratos/v2/log"
 	"github.com/jinzhu/copier"
+	"google.golang.org/protobuf/types/known/durationpb"
 
 	"github.com/tx7do/go-utils/copierutil"
 	entgo "github.com/tx7do/go-utils/entgo/query"
 	"github.com/tx7do/go-utils/timeutil"
+	"github.com/tx7do/go-utils/trans"
 	pagination "github.com/tx7do/kratos-bootstrap/api/gen/go/pagination/v1"
 
 	"kratos-admin/app/admin/service/internal/data/ent"
@@ -43,6 +45,20 @@ func (r *AdminOperationLogRepo) init() {
 			copierutil.StringToTimeConverter,
 			copierutil.TimeToTimestamppbConverter,
 			copierutil.TimestamppbToTimeConverter,
+			{
+				SrcType: durationpb.New(0),
+				DstType: trans.Ptr(float64(0)),
+				Fn: func(src interface{}) (interface{}, error) {
+					return timeutil.DurationpbSecond(src.(*durationpb.Duration)), nil
+				},
+			},
+			{
+				SrcType: trans.Ptr(float64(0)),
+				DstType: durationpb.New(0),
+				Fn: func(src interface{}) (interface{}, error) {
+					return timeutil.SecondToDurationpb(src.(*float64)), nil
+				},
+			},
 		},
 	}
 }
@@ -55,7 +71,7 @@ func (r *AdminOperationLogRepo) toProto(in *ent.AdminOperationLog) *adminV1.Admi
 	var out adminV1.AdminOperationLog
 	_ = copier.Copy(&out, in)
 
-	out.CostTime = timeutil.SecondToDurationpb(in.CostTime)
+	//out.CostTime = timeutil.SecondToDurationpb(in.CostTime)
 	//out.CreateTime = timeutil.TimeToTimeString(in.CreateTime)
 
 	return &out

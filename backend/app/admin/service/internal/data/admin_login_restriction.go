@@ -46,6 +46,35 @@ func (r *AdminLoginRestrictionRepo) init() {
 			copierutil.StringToTimeConverter,
 			copierutil.TimeToTimestamppbConverter,
 			copierutil.TimestamppbToTimeConverter,
+			{
+				SrcType: trans.Ptr(adminV1.AdminLoginRestrictionType(0)),
+				DstType: trans.Ptr(adminloginrestriction.Type("")),
+				Fn: func(src interface{}) (interface{}, error) {
+					return r.toEntType(src.(*adminV1.AdminLoginRestrictionType)), nil
+				},
+			},
+			{
+				SrcType: trans.Ptr(adminloginrestriction.Type("")),
+				DstType: trans.Ptr(adminV1.AdminLoginRestrictionType(0)),
+				Fn: func(src interface{}) (interface{}, error) {
+					return r.toProtoType(src.(*adminloginrestriction.Type)), nil
+				},
+			},
+
+			{
+				SrcType: trans.Ptr(adminV1.AdminLoginRestrictionMethod(0)),
+				DstType: trans.Ptr(adminloginrestriction.Method("")),
+				Fn: func(src interface{}) (interface{}, error) {
+					return r.toEntMethod(src.(*adminV1.AdminLoginRestrictionMethod)), nil
+				},
+			},
+			{
+				SrcType: trans.Ptr(adminloginrestriction.Method("")),
+				DstType: trans.Ptr(adminV1.AdminLoginRestrictionMethod(0)),
+				Fn: func(src interface{}) (interface{}, error) {
+					return r.toProtoMethod(src.(*adminloginrestriction.Method)), nil
+				},
+			},
 		},
 	}
 }
@@ -110,8 +139,8 @@ func (r *AdminLoginRestrictionRepo) toProto(in *ent.AdminLoginRestriction) *admi
 	var out adminV1.AdminLoginRestriction
 	_ = copier.Copy(&out, in)
 
-	out.Type = r.toProtoType(in.Type)
-	out.Method = r.toProtoMethod(in.Method)
+	//out.Type = r.toProtoType(in.Type)
+	//out.Method = r.toProtoMethod(in.Method)
 	//out.CreateTime = timeutil.TimeToTimeString(in.CreateTime)
 	//out.UpdateTime = timeutil.TimeToTimeString(in.UpdateTime)
 	//out.DeleteTime = timeutil.TimeToTimeString(in.DeleteTime)

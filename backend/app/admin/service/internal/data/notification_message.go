@@ -46,6 +46,21 @@ func (r *NotificationMessageRepo) init() {
 			copierutil.StringToTimeConverter,
 			copierutil.TimeToTimestamppbConverter,
 			copierutil.TimestamppbToTimeConverter,
+
+			{
+				SrcType: trans.Ptr(internalMessageV1.MessageStatus(0)),
+				DstType: trans.Ptr(notificationmessage.Status("")),
+				Fn: func(src interface{}) (interface{}, error) {
+					return r.toEntStatus(src.(*internalMessageV1.MessageStatus)), nil
+				},
+			},
+			{
+				SrcType: trans.Ptr(notificationmessage.Status("")),
+				DstType: trans.Ptr(internalMessageV1.MessageStatus(0)),
+				Fn: func(src interface{}) (interface{}, error) {
+					return r.toProtoStatus(src.(*notificationmessage.Status)), nil
+				},
+			},
 		},
 	}
 }
@@ -84,7 +99,7 @@ func (r *NotificationMessageRepo) toProto(in *ent.NotificationMessage) *internal
 	var out internalMessageV1.NotificationMessage
 	_ = copier.Copy(&out, in)
 
-	out.Status = r.toProtoStatus(in.Status)
+	//out.Status = r.toProtoStatus(in.Status)
 	//out.CreateTime = timeutil.TimeToTimeString(in.CreateTime)
 	//out.UpdateTime = timeutil.TimeToTimeString(in.UpdateTime)
 	//out.DeleteTime = timeutil.TimeToTimeString(in.DeleteTime)

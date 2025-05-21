@@ -47,6 +47,36 @@ func (r *MenuRepo) init() {
 			copierutil.StringToTimeConverter,
 			copierutil.TimeToTimestamppbConverter,
 			copierutil.TimestamppbToTimeConverter,
+
+			{
+				SrcType: trans.Ptr(adminV1.MenuType(0)),
+				DstType: trans.Ptr(menu.Type("")),
+				Fn: func(src interface{}) (interface{}, error) {
+					return r.toEntType(src.(*adminV1.MenuType)), nil
+				},
+			},
+			{
+				SrcType: trans.Ptr(menu.Type("")),
+				DstType: trans.Ptr(adminV1.MenuType(0)),
+				Fn: func(src interface{}) (interface{}, error) {
+					return r.toProtoType(src.(*menu.Type)), nil
+				},
+			},
+
+			{
+				SrcType: trans.Ptr(adminV1.MenuStatus(0)),
+				DstType: trans.Ptr(menu.Status("")),
+				Fn: func(src interface{}) (interface{}, error) {
+					return r.toEntStatus(src.(*adminV1.MenuStatus)), nil
+				},
+			},
+			{
+				SrcType: trans.Ptr(menu.Status("")),
+				DstType: trans.Ptr(adminV1.MenuStatus(0)),
+				Fn: func(src interface{}) (interface{}, error) {
+					return r.toProtoStatus(src.(*menu.Status)), nil
+				},
+			},
 		},
 	}
 }
@@ -102,8 +132,8 @@ func (r *MenuRepo) toProto(in *ent.Menu) *adminV1.Menu {
 	var out adminV1.Menu
 	_ = copier.Copy(&out, in)
 
-	out.Type = r.toProtoType(in.Type)
-	out.Status = r.toProtoStatus(in.Status)
+	//out.Type = r.toProtoType(in.Type)
+	//out.Status = r.toProtoStatus(in.Status)
 	//out.CreateTime = timeutil.TimeToTimeString(in.CreateTime)
 	//out.UpdateTime = timeutil.TimeToTimeString(in.UpdateTime)
 	//out.DeleteTime = timeutil.TimeToTimeString(in.DeleteTime)

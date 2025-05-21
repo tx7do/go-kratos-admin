@@ -46,6 +46,20 @@ func (r *TaskRepo) init() {
 			copierutil.StringToTimeConverter,
 			copierutil.TimeToTimestamppbConverter,
 			copierutil.TimestamppbToTimeConverter,
+			{
+				SrcType: trans.Ptr(adminV1.TaskType(0)),
+				DstType: trans.Ptr(task.Type("")),
+				Fn: func(src interface{}) (interface{}, error) {
+					return r.toEntType(src.(*adminV1.TaskType)), nil
+				},
+			},
+			{
+				SrcType: trans.Ptr(task.Type("")),
+				DstType: trans.Ptr(adminV1.TaskType(0)),
+				Fn: func(src interface{}) (interface{}, error) {
+					return r.toProtoType(src.(*task.Type)), nil
+				},
+			},
 		},
 	}
 }
@@ -84,7 +98,7 @@ func (r *TaskRepo) toProto(in *ent.Task) *adminV1.Task {
 	var out adminV1.Task
 	_ = copier.Copy(&out, in)
 
-	out.Type = r.toProtoType(in.Type)
+	//out.Type = r.toProtoType(in.Type)
 	//out.CreateTime = timeutil.TimeToTimeString(in.CreateTime)
 	//out.UpdateTime = timeutil.TimeToTimeString(in.UpdateTime)
 	//out.DeleteTime = timeutil.TimeToTimeString(in.DeleteTime)

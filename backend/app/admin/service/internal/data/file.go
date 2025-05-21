@@ -46,6 +46,21 @@ func (r *FileRepo) init() {
 			copierutil.StringToTimeConverter,
 			copierutil.TimeToTimestamppbConverter,
 			copierutil.TimestamppbToTimeConverter,
+
+			{
+				SrcType: trans.Ptr(fileV1.OSSProvider(0)),
+				DstType: trans.Ptr(file.Provider("")),
+				Fn: func(src interface{}) (interface{}, error) {
+					return r.toEntProvider(src.(*fileV1.OSSProvider)), nil
+				},
+			},
+			{
+				SrcType: trans.Ptr(file.Provider("")),
+				DstType: trans.Ptr(fileV1.OSSProvider(0)),
+				Fn: func(src interface{}) (interface{}, error) {
+					return r.toProtoProvider(src.(*file.Provider)), nil
+				},
+			},
 		},
 	}
 }
@@ -84,7 +99,7 @@ func (r *FileRepo) toProto(in *ent.File) *fileV1.File {
 	var out fileV1.File
 	_ = copier.Copy(&out, in)
 
-	out.Provider = r.toProtoProvider(in.Provider)
+	//out.Provider = r.toProtoProvider(in.Provider)
 	//out.CreateTime = timeutil.TimeToTimeString(in.CreateTime)
 	//out.UpdateTime = timeutil.TimeToTimeString(in.UpdateTime)
 	//out.DeleteTime = timeutil.TimeToTimeString(in.DeleteTime)

@@ -49,6 +49,51 @@ func (r *UserRepo) init() {
 			copierutil.StringToTimeConverter,
 			copierutil.TimeToTimestamppbConverter,
 			copierutil.TimestamppbToTimeConverter,
+
+			{
+				SrcType: trans.Ptr(userV1.UserStatus(0)),
+				DstType: trans.Ptr(user.Status("")),
+				Fn: func(src interface{}) (interface{}, error) {
+					return r.toEntStatus(src.(*userV1.UserStatus)), nil
+				},
+			},
+			{
+				SrcType: trans.Ptr(user.Status("")),
+				DstType: trans.Ptr(userV1.UserStatus(0)),
+				Fn: func(src interface{}) (interface{}, error) {
+					return r.toProtoStatus(src.(*user.Status)), nil
+				},
+			},
+
+			{
+				SrcType: trans.Ptr(userV1.UserAuthority(0)),
+				DstType: trans.Ptr(user.Authority("")),
+				Fn: func(src interface{}) (interface{}, error) {
+					return r.toEntAuthority(src.(*userV1.UserAuthority)), nil
+				},
+			},
+			{
+				SrcType: trans.Ptr(user.Authority("")),
+				DstType: trans.Ptr(userV1.UserAuthority(0)),
+				Fn: func(src interface{}) (interface{}, error) {
+					return r.toProtoAuthority(src.(*user.Authority)), nil
+				},
+			},
+
+			{
+				SrcType: trans.Ptr(userV1.UserGender(0)),
+				DstType: trans.Ptr(user.Gender("")),
+				Fn: func(src interface{}) (interface{}, error) {
+					return r.toEntGender(src.(*userV1.UserGender)), nil
+				},
+			},
+			{
+				SrcType: trans.Ptr(user.Gender("")),
+				DstType: trans.Ptr(userV1.UserGender(0)),
+				Fn: func(src interface{}) (interface{}, error) {
+					return r.toProtoGender(src.(*user.Gender)), nil
+				},
+			},
 		},
 	}
 }
@@ -136,9 +181,9 @@ func (r *UserRepo) toEnt(in *userV1.User) *ent.User {
 	var out ent.User
 	_ = copier.Copy(&out, in)
 
-	out.Gender = r.toEntGender(in.Gender)
-	out.Authority = r.toEntAuthority(in.Authority)
-	out.Status = r.toEntStatus(in.Status)
+	//out.Gender = r.toEntGender(in.Gender)
+	//out.Authority = r.toEntAuthority(in.Authority)
+	//out.Status = r.toEntStatus(in.Status)
 	//out.CreateTime = timeutil.StringTimeToTime(in.CreateTime)
 	//out.UpdateTime = timeutil.StringTimeToTime(in.UpdateTime)
 	//out.DeleteTime = timeutil.StringTimeToTime(in.DeleteTime)
@@ -154,9 +199,9 @@ func (r *UserRepo) toProto(in *ent.User) *userV1.User {
 	var out userV1.User
 	_ = copier.Copy(&out, in)
 
-	out.Gender = r.toProtoGender(in.Gender)
-	out.Authority = r.toProtoAuthority(in.Authority)
-	out.Status = r.toProtoStatus(in.Status)
+	//out.Gender = r.toProtoGender(in.Gender)
+	//out.Authority = r.toProtoAuthority(in.Authority)
+	//out.Status = r.toProtoStatus(in.Status)
 	//out.CreateTime = timeutil.TimeToTimeString(in.CreateTime)
 	//out.UpdateTime = timeutil.TimeToTimeString(in.UpdateTime)
 	//out.DeleteTime = timeutil.TimeToTimeString(in.DeleteTime)

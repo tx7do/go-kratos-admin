@@ -1,9 +1,7 @@
 import type { AuthenticationService } from '#/rpc/api/admin/service/v1/i_authentication.pb';
 import type {
-  GetMeRequest,
   LoginRequest,
   LoginResponse,
-  LogoutRequest,
 } from '#/rpc/api/authentication/service/v1/authentication.pb';
 import type { Empty } from '#/rpc/api/google/protobuf/empty.pb';
 import type { User } from '#/rpc/api/user/service/v1/user.pb';

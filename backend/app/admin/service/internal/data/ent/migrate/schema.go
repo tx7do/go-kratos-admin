@@ -13,8 +13,6 @@ var (
 	AdminLoginLogsColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeUint32, Increment: true, Comment: "id", SchemaType: map[string]string{"mysql": "int", "postgres": "serial"}},
 		{Name: "create_time", Type: field.TypeTime, Nullable: true, Comment: "创建时间"},
-		{Name: "update_time", Type: field.TypeTime, Nullable: true, Comment: "更新时间"},
-		{Name: "delete_time", Type: field.TypeTime, Nullable: true, Comment: "删除时间"},
 		{Name: "login_ip", Type: field.TypeString, Nullable: true, Comment: "登录IP地址"},
 		{Name: "login_mac", Type: field.TypeString, Nullable: true, Comment: "登录MAC地址"},
 		{Name: "login_time", Type: field.TypeTime, Nullable: true, Comment: "登录时间"},
@@ -78,8 +76,6 @@ var (
 	AdminOperationLogsColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeUint32, Increment: true, Comment: "id", SchemaType: map[string]string{"mysql": "int", "postgres": "serial"}},
 		{Name: "create_time", Type: field.TypeTime, Nullable: true, Comment: "创建时间"},
-		{Name: "update_time", Type: field.TypeTime, Nullable: true, Comment: "更新时间"},
-		{Name: "delete_time", Type: field.TypeTime, Nullable: true, Comment: "删除时间"},
 		{Name: "request_id", Type: field.TypeString, Nullable: true, Comment: "请求ID"},
 		{Name: "method", Type: field.TypeString, Nullable: true, Comment: "请求方法"},
 		{Name: "operation", Type: field.TypeString, Nullable: true, Comment: "操作方法"},

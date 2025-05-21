@@ -17,6 +17,7 @@ import (
 	"google.golang.org/protobuf/proto"
 
 	"kratos-admin/app/admin/service/internal/data/ent"
+	"kratos-admin/app/admin/service/internal/data/ent/department"
 	"kratos-admin/app/admin/service/internal/data/ent/user"
 
 	authenticationV1 "kratos-admin/api/gen/go/authentication/service/v1"
@@ -173,5 +174,15 @@ func TestCopier(t *testing.T) {
 		var protoMsg userV1.User
 
 		_ = copier.Copy(&entMsg, &protoMsg)
+	}
+
+	{
+		var in ent.Department
+		var out userV1.Department
+		in.Status = trans.Ptr(department.StatusON)
+
+		_ = copier.Copy(&out, &in)
+
+		fmt.Println(out.GetStatus())
 	}
 }

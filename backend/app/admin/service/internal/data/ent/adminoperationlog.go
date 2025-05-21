@@ -20,10 +20,6 @@ type AdminOperationLog struct {
 	ID uint32 `json:"id,omitempty"`
 	// 创建时间
 	CreateTime *time.Time `json:"create_time,omitempty"`
-	// 更新时间
-	UpdateTime *time.Time `json:"update_time,omitempty"`
-	// 删除时间
-	DeleteTime *time.Time `json:"delete_time,omitempty"`
 	// 请求ID
 	RequestID *string `json:"request_id,omitempty"`
 	// 请求方法
@@ -88,7 +84,7 @@ func (*AdminOperationLog) scanValues(columns []string) ([]any, error) {
 			values[i] = new(sql.NullInt64)
 		case adminoperationlog.FieldRequestID, adminoperationlog.FieldMethod, adminoperationlog.FieldOperation, adminoperationlog.FieldPath, adminoperationlog.FieldReferer, adminoperationlog.FieldRequestURI, adminoperationlog.FieldRequestBody, adminoperationlog.FieldRequestHeader, adminoperationlog.FieldResponse, adminoperationlog.FieldUserName, adminoperationlog.FieldClientIP, adminoperationlog.FieldReason, adminoperationlog.FieldLocation, adminoperationlog.FieldUserAgent, adminoperationlog.FieldBrowserName, adminoperationlog.FieldBrowserVersion, adminoperationlog.FieldClientID, adminoperationlog.FieldClientName, adminoperationlog.FieldOsName, adminoperationlog.FieldOsVersion:
 			values[i] = new(sql.NullString)
-		case adminoperationlog.FieldCreateTime, adminoperationlog.FieldUpdateTime, adminoperationlog.FieldDeleteTime:
+		case adminoperationlog.FieldCreateTime:
 			values[i] = new(sql.NullTime)
 		default:
 			values[i] = new(sql.UnknownType)
@@ -117,20 +113,6 @@ func (aol *AdminOperationLog) assignValues(columns []string, values []any) error
 			} else if value.Valid {
 				aol.CreateTime = new(time.Time)
 				*aol.CreateTime = value.Time
-			}
-		case adminoperationlog.FieldUpdateTime:
-			if value, ok := values[i].(*sql.NullTime); !ok {
-				return fmt.Errorf("unexpected type %T for field update_time", values[i])
-			} else if value.Valid {
-				aol.UpdateTime = new(time.Time)
-				*aol.UpdateTime = value.Time
-			}
-		case adminoperationlog.FieldDeleteTime:
-			if value, ok := values[i].(*sql.NullTime); !ok {
-				return fmt.Errorf("unexpected type %T for field delete_time", values[i])
-			} else if value.Valid {
-				aol.DeleteTime = new(time.Time)
-				*aol.DeleteTime = value.Time
 			}
 		case adminoperationlog.FieldRequestID:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -338,16 +320,6 @@ func (aol *AdminOperationLog) String() string {
 	builder.WriteString(fmt.Sprintf("id=%v, ", aol.ID))
 	if v := aol.CreateTime; v != nil {
 		builder.WriteString("create_time=")
-		builder.WriteString(v.Format(time.ANSIC))
-	}
-	builder.WriteString(", ")
-	if v := aol.UpdateTime; v != nil {
-		builder.WriteString("update_time=")
-		builder.WriteString(v.Format(time.ANSIC))
-	}
-	builder.WriteString(", ")
-	if v := aol.DeleteTime; v != nil {
-		builder.WriteString("delete_time=")
 		builder.WriteString(v.Format(time.ANSIC))
 	}
 	builder.WriteString(", ")

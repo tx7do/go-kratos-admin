@@ -6,6 +6,7 @@ import (
 
 	"entgo.io/ent/dialect/sql"
 	"github.com/go-kratos/kratos/v2/log"
+	"github.com/jinzhu/copier"
 
 	entgo "github.com/tx7do/go-utils/entgo/query"
 	entgoUpdate "github.com/tx7do/go-utils/entgo/update"
@@ -59,21 +60,20 @@ func (r *PrivateMessageRepo) toEntStatus(in *internalMessageV1.MessageStatus) *p
 	return (*privatemessage.Status)(trans.Ptr(find))
 }
 
-func (r *PrivateMessageRepo) convertEntToProto(in *ent.PrivateMessage) *internalMessageV1.PrivateMessage {
+func (r *PrivateMessageRepo) toProto(in *ent.PrivateMessage) *internalMessageV1.PrivateMessage {
 	if in == nil {
 		return nil
 	}
-	return &internalMessageV1.PrivateMessage{
-		Id:         trans.Ptr(in.ID),
-		Subject:    in.Subject,
-		Content:    in.Content,
-		SenderId:   in.SenderID,
-		ReceiverId: in.ReceiverID,
-		Status:     r.toProtoStatus(in.Status),
-		CreateTime: timeutil.TimeToTimeString(in.CreateTime),
-		UpdateTime: timeutil.TimeToTimeString(in.UpdateTime),
-		DeleteTime: timeutil.TimeToTimeString(in.DeleteTime),
-	}
+
+	var out internalMessageV1.PrivateMessage
+	_ = copier.Copy(&out, in)
+
+	out.Status = r.toProtoStatus(in.Status)
+	out.CreateTime = timeutil.TimeToTimeString(in.CreateTime)
+	out.UpdateTime = timeutil.TimeToTimeString(in.UpdateTime)
+	out.DeleteTime = timeutil.TimeToTimeString(in.DeleteTime)
+
+	return &out
 }
 
 func (r *PrivateMessageRepo) Count(ctx context.Context, whereCond []func(s *sql.Selector)) (int, error) {
@@ -121,7 +121,7 @@ func (r *PrivateMessageRepo) List(ctx context.Context, req *pagination.PagingReq
 
 	items := make([]*internalMessageV1.PrivateMessage, 0, len(results))
 	for _, res := range results {
-		item := r.convertEntToProto(res)
+		item := r.toProto(res)
 		items = append(items, item)
 	}
 
@@ -163,7 +163,7 @@ func (r *PrivateMessageRepo) Get(ctx context.Context, req *internalMessageV1.Get
 		return nil, internalMessageV1.ErrorInternalServerError("query data failed")
 	}
 
-	return r.convertEntToProto(ret), nil
+	return r.toProto(ret), nil
 }
 
 func (r *PrivateMessageRepo) Create(ctx context.Context, req *internalMessageV1.CreatePrivateMessageRequest) error {

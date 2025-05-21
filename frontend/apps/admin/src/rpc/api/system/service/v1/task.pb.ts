@@ -12,12 +12,12 @@ import { type PagingRequest } from "../../../pagination/v1/pagination.pb";
 
 /** 调度任务类型 */
 export enum TaskType {
-  /** TaskType_Periodic - 周期性任务 */
-  TaskType_Periodic = "TaskType_Periodic",
-  /** TaskType_Delay - 延时任务 */
-  TaskType_Delay = "TaskType_Delay",
-  /** TaskType_WaitResult - 等待结果 */
-  TaskType_WaitResult = "TaskType_WaitResult",
+  /** PERIODIC - 周期性任务 */
+  PERIODIC = "PERIODIC",
+  /** DELAY - 延时任务 */
+  DELAY = "DELAY",
+  /** WAIT_RESULT - 等待结果 */
+  WAIT_RESULT = "WAIT_RESULT",
 }
 
 /** 调度任务控制类型 */

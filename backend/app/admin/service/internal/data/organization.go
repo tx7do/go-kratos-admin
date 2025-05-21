@@ -7,12 +7,12 @@ import (
 
 	"entgo.io/ent/dialect/sql"
 	"github.com/go-kratos/kratos/v2/log"
+	"github.com/jinzhu/copier"
 
 	entgo "github.com/tx7do/go-utils/entgo/query"
 	entgoUpdate "github.com/tx7do/go-utils/entgo/update"
 	"github.com/tx7do/go-utils/fieldmaskutil"
 	"github.com/tx7do/go-utils/timeutil"
-	"github.com/tx7do/go-utils/trans"
 	pagination "github.com/tx7do/kratos-bootstrap/api/gen/go/pagination/v1"
 
 	"kratos-admin/app/admin/service/internal/data/ent"
@@ -34,23 +34,19 @@ func NewOrganizationRepo(data *Data, logger log.Logger) *OrganizationRepo {
 	}
 }
 
-func (r *OrganizationRepo) convertEntToProto(in *ent.Organization) *userV1.Organization {
+func (r *OrganizationRepo) toProto(in *ent.Organization) *userV1.Organization {
 	if in == nil {
 		return nil
 	}
-	return &userV1.Organization{
-		Id:         trans.Ptr(in.ID),
-		Name:       in.Name,
-		Remark:     in.Remark,
-		SortId:     in.SortID,
-		ParentId:   in.ParentID,
-		CreateBy:   in.CreateBy,
-		UpdateBy:   in.UpdateBy,
-		Status:     (*string)(in.Status),
-		CreateTime: timeutil.TimeToTimeString(in.CreateTime),
-		UpdateTime: timeutil.TimeToTimeString(in.UpdateTime),
-		DeleteTime: timeutil.TimeToTimeString(in.DeleteTime),
-	}
+
+	var out userV1.Organization
+	_ = copier.Copy(&out, in)
+
+	out.CreateTime = timeutil.TimeToTimeString(in.CreateTime)
+	out.UpdateTime = timeutil.TimeToTimeString(in.UpdateTime)
+	out.DeleteTime = timeutil.TimeToTimeString(in.DeleteTime)
+
+	return &out
 }
 
 func (r *OrganizationRepo) travelChild(nodes []*userV1.Organization, node *userV1.Organization) bool {
@@ -136,13 +132,13 @@ func (r *OrganizationRepo) List(ctx context.Context, req *pagination.PagingReque
 	items := make([]*userV1.Organization, 0, len(results))
 	for _, m := range results {
 		if m.ParentID == nil {
-			item := r.convertEntToProto(m)
+			item := r.toProto(m)
 			items = append(items, item)
 		}
 	}
 	for _, m := range results {
 		if m.ParentID != nil {
-			item := r.convertEntToProto(m)
+			item := r.toProto(m)
 
 			if r.travelChild(items, item) {
 				continue
@@ -192,7 +188,7 @@ func (r *OrganizationRepo) Get(ctx context.Context, req *userV1.GetOrganizationR
 		return nil, userV1.ErrorInternalServerError("query data failed")
 	}
 
-	return r.convertEntToProto(ret), nil
+	return r.toProto(ret), nil
 }
 
 func (r *OrganizationRepo) Create(ctx context.Context, req *userV1.CreateOrganizationRequest) error {

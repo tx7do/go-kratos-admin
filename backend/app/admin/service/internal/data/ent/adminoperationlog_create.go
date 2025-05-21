@@ -36,34 +36,6 @@ func (aolc *AdminOperationLogCreate) SetNillableCreateTime(t *time.Time) *AdminO
 	return aolc
 }
 
-// SetUpdateTime sets the "update_time" field.
-func (aolc *AdminOperationLogCreate) SetUpdateTime(t time.Time) *AdminOperationLogCreate {
-	aolc.mutation.SetUpdateTime(t)
-	return aolc
-}
-
-// SetNillableUpdateTime sets the "update_time" field if the given value is not nil.
-func (aolc *AdminOperationLogCreate) SetNillableUpdateTime(t *time.Time) *AdminOperationLogCreate {
-	if t != nil {
-		aolc.SetUpdateTime(*t)
-	}
-	return aolc
-}
-
-// SetDeleteTime sets the "delete_time" field.
-func (aolc *AdminOperationLogCreate) SetDeleteTime(t time.Time) *AdminOperationLogCreate {
-	aolc.mutation.SetDeleteTime(t)
-	return aolc
-}
-
-// SetNillableDeleteTime sets the "delete_time" field if the given value is not nil.
-func (aolc *AdminOperationLogCreate) SetNillableDeleteTime(t *time.Time) *AdminOperationLogCreate {
-	if t != nil {
-		aolc.SetDeleteTime(*t)
-	}
-	return aolc
-}
-
 // SetRequestID sets the "request_id" field.
 func (aolc *AdminOperationLogCreate) SetRequestID(s string) *AdminOperationLogCreate {
 	aolc.mutation.SetRequestID(s)
@@ -482,14 +454,6 @@ func (aolc *AdminOperationLogCreate) createSpec() (*AdminOperationLog, *sqlgraph
 		_spec.SetField(adminoperationlog.FieldCreateTime, field.TypeTime, value)
 		_node.CreateTime = &value
 	}
-	if value, ok := aolc.mutation.UpdateTime(); ok {
-		_spec.SetField(adminoperationlog.FieldUpdateTime, field.TypeTime, value)
-		_node.UpdateTime = &value
-	}
-	if value, ok := aolc.mutation.DeleteTime(); ok {
-		_spec.SetField(adminoperationlog.FieldDeleteTime, field.TypeTime, value)
-		_node.DeleteTime = &value
-	}
 	if value, ok := aolc.mutation.RequestID(); ok {
 		_spec.SetField(adminoperationlog.FieldRequestID, field.TypeString, value)
 		_node.RequestID = &value
@@ -637,42 +601,6 @@ type (
 		*sql.UpdateSet
 	}
 )
-
-// SetUpdateTime sets the "update_time" field.
-func (u *AdminOperationLogUpsert) SetUpdateTime(v time.Time) *AdminOperationLogUpsert {
-	u.Set(adminoperationlog.FieldUpdateTime, v)
-	return u
-}
-
-// UpdateUpdateTime sets the "update_time" field to the value that was provided on create.
-func (u *AdminOperationLogUpsert) UpdateUpdateTime() *AdminOperationLogUpsert {
-	u.SetExcluded(adminoperationlog.FieldUpdateTime)
-	return u
-}
-
-// ClearUpdateTime clears the value of the "update_time" field.
-func (u *AdminOperationLogUpsert) ClearUpdateTime() *AdminOperationLogUpsert {
-	u.SetNull(adminoperationlog.FieldUpdateTime)
-	return u
-}
-
-// SetDeleteTime sets the "delete_time" field.
-func (u *AdminOperationLogUpsert) SetDeleteTime(v time.Time) *AdminOperationLogUpsert {
-	u.Set(adminoperationlog.FieldDeleteTime, v)
-	return u
-}
-
-// UpdateDeleteTime sets the "delete_time" field to the value that was provided on create.
-func (u *AdminOperationLogUpsert) UpdateDeleteTime() *AdminOperationLogUpsert {
-	u.SetExcluded(adminoperationlog.FieldDeleteTime)
-	return u
-}
-
-// ClearDeleteTime clears the value of the "delete_time" field.
-func (u *AdminOperationLogUpsert) ClearDeleteTime() *AdminOperationLogUpsert {
-	u.SetNull(adminoperationlog.FieldDeleteTime)
-	return u
-}
 
 // SetRequestID sets the "request_id" field.
 func (u *AdminOperationLogUpsert) SetRequestID(v string) *AdminOperationLogUpsert {
@@ -1173,48 +1101,6 @@ func (u *AdminOperationLogUpsertOne) Update(set func(*AdminOperationLogUpsert)) 
 		set(&AdminOperationLogUpsert{UpdateSet: update})
 	}))
 	return u
-}
-
-// SetUpdateTime sets the "update_time" field.
-func (u *AdminOperationLogUpsertOne) SetUpdateTime(v time.Time) *AdminOperationLogUpsertOne {
-	return u.Update(func(s *AdminOperationLogUpsert) {
-		s.SetUpdateTime(v)
-	})
-}
-
-// UpdateUpdateTime sets the "update_time" field to the value that was provided on create.
-func (u *AdminOperationLogUpsertOne) UpdateUpdateTime() *AdminOperationLogUpsertOne {
-	return u.Update(func(s *AdminOperationLogUpsert) {
-		s.UpdateUpdateTime()
-	})
-}
-
-// ClearUpdateTime clears the value of the "update_time" field.
-func (u *AdminOperationLogUpsertOne) ClearUpdateTime() *AdminOperationLogUpsertOne {
-	return u.Update(func(s *AdminOperationLogUpsert) {
-		s.ClearUpdateTime()
-	})
-}
-
-// SetDeleteTime sets the "delete_time" field.
-func (u *AdminOperationLogUpsertOne) SetDeleteTime(v time.Time) *AdminOperationLogUpsertOne {
-	return u.Update(func(s *AdminOperationLogUpsert) {
-		s.SetDeleteTime(v)
-	})
-}
-
-// UpdateDeleteTime sets the "delete_time" field to the value that was provided on create.
-func (u *AdminOperationLogUpsertOne) UpdateDeleteTime() *AdminOperationLogUpsertOne {
-	return u.Update(func(s *AdminOperationLogUpsert) {
-		s.UpdateDeleteTime()
-	})
-}
-
-// ClearDeleteTime clears the value of the "delete_time" field.
-func (u *AdminOperationLogUpsertOne) ClearDeleteTime() *AdminOperationLogUpsertOne {
-	return u.Update(func(s *AdminOperationLogUpsert) {
-		s.ClearDeleteTime()
-	})
 }
 
 // SetRequestID sets the "request_id" field.
@@ -1956,48 +1842,6 @@ func (u *AdminOperationLogUpsertBulk) Update(set func(*AdminOperationLogUpsert))
 		set(&AdminOperationLogUpsert{UpdateSet: update})
 	}))
 	return u
-}
-
-// SetUpdateTime sets the "update_time" field.
-func (u *AdminOperationLogUpsertBulk) SetUpdateTime(v time.Time) *AdminOperationLogUpsertBulk {
-	return u.Update(func(s *AdminOperationLogUpsert) {
-		s.SetUpdateTime(v)
-	})
-}
-
-// UpdateUpdateTime sets the "update_time" field to the value that was provided on create.
-func (u *AdminOperationLogUpsertBulk) UpdateUpdateTime() *AdminOperationLogUpsertBulk {
-	return u.Update(func(s *AdminOperationLogUpsert) {
-		s.UpdateUpdateTime()
-	})
-}
-
-// ClearUpdateTime clears the value of the "update_time" field.
-func (u *AdminOperationLogUpsertBulk) ClearUpdateTime() *AdminOperationLogUpsertBulk {
-	return u.Update(func(s *AdminOperationLogUpsert) {
-		s.ClearUpdateTime()
-	})
-}
-
-// SetDeleteTime sets the "delete_time" field.
-func (u *AdminOperationLogUpsertBulk) SetDeleteTime(v time.Time) *AdminOperationLogUpsertBulk {
-	return u.Update(func(s *AdminOperationLogUpsert) {
-		s.SetDeleteTime(v)
-	})
-}
-
-// UpdateDeleteTime sets the "delete_time" field to the value that was provided on create.
-func (u *AdminOperationLogUpsertBulk) UpdateDeleteTime() *AdminOperationLogUpsertBulk {
-	return u.Update(func(s *AdminOperationLogUpsert) {
-		s.UpdateDeleteTime()
-	})
-}
-
-// ClearDeleteTime clears the value of the "delete_time" field.
-func (u *AdminOperationLogUpsertBulk) ClearDeleteTime() *AdminOperationLogUpsertBulk {
-	return u.Update(func(s *AdminOperationLogUpsert) {
-		s.ClearDeleteTime()
-	})
 }
 
 // SetRequestID sets the "request_id" field.

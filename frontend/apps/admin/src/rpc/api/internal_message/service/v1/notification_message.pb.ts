@@ -7,24 +7,7 @@
 /* eslint-disable */
 import { type Empty } from "../../../google/protobuf/empty.pb";
 import { type PagingRequest } from "../../../pagination/v1/pagination.pb";
-
-/** 通知消息状态 */
-export enum NotificationMessageStatus {
-  /** NotificationMessageStatus_Unknown - 未知状态 */
-  NotificationMessageStatus_Unknown = "NotificationMessageStatus_Unknown",
-  /** NotificationMessageStatus_Draft - 草稿 */
-  NotificationMessageStatus_Draft = "NotificationMessageStatus_Draft",
-  /** NotificationMessageStatus_Published - 已发布 */
-  NotificationMessageStatus_Published = "NotificationMessageStatus_Published",
-  /** NotificationMessageStatus_Scheduled - 定时发布 */
-  NotificationMessageStatus_Scheduled = "NotificationMessageStatus_Scheduled",
-  /** NotificationMessageStatus_Revoked - 已撤销 */
-  NotificationMessageStatus_Revoked = "NotificationMessageStatus_Revoked",
-  /** NotificationMessageStatus_Archived - 已归档 */
-  NotificationMessageStatus_Archived = "NotificationMessageStatus_Archived",
-  /** NotificationMessageStatus_Deleted - 已删除 */
-  NotificationMessageStatus_Deleted = "NotificationMessageStatus_Deleted",
-}
+import { type MessageStatus } from "./message.pb";
 
 /** 通知消息 */
 export interface NotificationMessage {
@@ -45,7 +28,7 @@ export interface NotificationMessage {
     | undefined;
   /** 消息状态 */
   status?:
-    | NotificationMessageStatus
+    | MessageStatus
     | null
     | undefined;
   /** 分类ID */

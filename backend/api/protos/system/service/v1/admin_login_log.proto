@@ -154,8 +154,6 @@ message AdminLoginLog {
   ]; // 操作者账号名
 
   optional string create_time = 400 [json_name = "createTime", (gnostic.openapi.v3.property) = {description: "创建时间"}];// 创建时间
-  optional string update_time = 401 [json_name = "updateTime", (gnostic.openapi.v3.property) = {description: "更新时间"}];// 更新时间
-  optional string delete_time = 402 [json_name = "deleteTime", (gnostic.openapi.v3.property) = {description: "删除时间"}];// 删除时间
 }
 
 // 查询后台登录日志列表 - 回应

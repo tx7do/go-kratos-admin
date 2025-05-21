@@ -59,16 +59,6 @@ func CreateTime(v time.Time) predicate.AdminLoginLog {
 	return predicate.AdminLoginLog(sql.FieldEQ(FieldCreateTime, v))
 }
 
-// UpdateTime applies equality check predicate on the "update_time" field. It's identical to UpdateTimeEQ.
-func UpdateTime(v time.Time) predicate.AdminLoginLog {
-	return predicate.AdminLoginLog(sql.FieldEQ(FieldUpdateTime, v))
-}
-
-// DeleteTime applies equality check predicate on the "delete_time" field. It's identical to DeleteTimeEQ.
-func DeleteTime(v time.Time) predicate.AdminLoginLog {
-	return predicate.AdminLoginLog(sql.FieldEQ(FieldDeleteTime, v))
-}
-
 // LoginIP applies equality check predicate on the "login_ip" field. It's identical to LoginIPEQ.
 func LoginIP(v string) predicate.AdminLoginLog {
 	return predicate.AdminLoginLog(sql.FieldEQ(FieldLoginIP, v))
@@ -197,106 +187,6 @@ func CreateTimeIsNil() predicate.AdminLoginLog {
 // CreateTimeNotNil applies the NotNil predicate on the "create_time" field.
 func CreateTimeNotNil() predicate.AdminLoginLog {
 	return predicate.AdminLoginLog(sql.FieldNotNull(FieldCreateTime))
-}
-
-// UpdateTimeEQ applies the EQ predicate on the "update_time" field.
-func UpdateTimeEQ(v time.Time) predicate.AdminLoginLog {
-	return predicate.AdminLoginLog(sql.FieldEQ(FieldUpdateTime, v))
-}
-
-// UpdateTimeNEQ applies the NEQ predicate on the "update_time" field.
-func UpdateTimeNEQ(v time.Time) predicate.AdminLoginLog {
-	return predicate.AdminLoginLog(sql.FieldNEQ(FieldUpdateTime, v))
-}
-
-// UpdateTimeIn applies the In predicate on the "update_time" field.
-func UpdateTimeIn(vs ...time.Time) predicate.AdminLoginLog {
-	return predicate.AdminLoginLog(sql.FieldIn(FieldUpdateTime, vs...))
-}
-
-// UpdateTimeNotIn applies the NotIn predicate on the "update_time" field.
-func UpdateTimeNotIn(vs ...time.Time) predicate.AdminLoginLog {
-	return predicate.AdminLoginLog(sql.FieldNotIn(FieldUpdateTime, vs...))
-}
-
-// UpdateTimeGT applies the GT predicate on the "update_time" field.
-func UpdateTimeGT(v time.Time) predicate.AdminLoginLog {
-	return predicate.AdminLoginLog(sql.FieldGT(FieldUpdateTime, v))
-}
-
-// UpdateTimeGTE applies the GTE predicate on the "update_time" field.
-func UpdateTimeGTE(v time.Time) predicate.AdminLoginLog {
-	return predicate.AdminLoginLog(sql.FieldGTE(FieldUpdateTime, v))
-}
-
-// UpdateTimeLT applies the LT predicate on the "update_time" field.
-func UpdateTimeLT(v time.Time) predicate.AdminLoginLog {
-	return predicate.AdminLoginLog(sql.FieldLT(FieldUpdateTime, v))
-}
-
-// UpdateTimeLTE applies the LTE predicate on the "update_time" field.
-func UpdateTimeLTE(v time.Time) predicate.AdminLoginLog {
-	return predicate.AdminLoginLog(sql.FieldLTE(FieldUpdateTime, v))
-}
-
-// UpdateTimeIsNil applies the IsNil predicate on the "update_time" field.
-func UpdateTimeIsNil() predicate.AdminLoginLog {
-	return predicate.AdminLoginLog(sql.FieldIsNull(FieldUpdateTime))
-}
-
-// UpdateTimeNotNil applies the NotNil predicate on the "update_time" field.
-func UpdateTimeNotNil() predicate.AdminLoginLog {
-	return predicate.AdminLoginLog(sql.FieldNotNull(FieldUpdateTime))
-}
-
-// DeleteTimeEQ applies the EQ predicate on the "delete_time" field.
-func DeleteTimeEQ(v time.Time) predicate.AdminLoginLog {
-	return predicate.AdminLoginLog(sql.FieldEQ(FieldDeleteTime, v))
-}
-
-// DeleteTimeNEQ applies the NEQ predicate on the "delete_time" field.
-func DeleteTimeNEQ(v time.Time) predicate.AdminLoginLog {
-	return predicate.AdminLoginLog(sql.FieldNEQ(FieldDeleteTime, v))
-}
-
-// DeleteTimeIn applies the In predicate on the "delete_time" field.
-func DeleteTimeIn(vs ...time.Time) predicate.AdminLoginLog {
-	return predicate.AdminLoginLog(sql.FieldIn(FieldDeleteTime, vs...))
-}
-
-// DeleteTimeNotIn applies the NotIn predicate on the "delete_time" field.
-func DeleteTimeNotIn(vs ...time.Time) predicate.AdminLoginLog {
-	return predicate.AdminLoginLog(sql.FieldNotIn(FieldDeleteTime, vs...))
-}
-
-// DeleteTimeGT applies the GT predicate on the "delete_time" field.
-func DeleteTimeGT(v time.Time) predicate.AdminLoginLog {
-	return predicate.AdminLoginLog(sql.FieldGT(FieldDeleteTime, v))
-}
-
-// DeleteTimeGTE applies the GTE predicate on the "delete_time" field.
-func DeleteTimeGTE(v time.Time) predicate.AdminLoginLog {
-	return predicate.AdminLoginLog(sql.FieldGTE(FieldDeleteTime, v))
-}
-
-// DeleteTimeLT applies the LT predicate on the "delete_time" field.
-func DeleteTimeLT(v time.Time) predicate.AdminLoginLog {
-	return predicate.AdminLoginLog(sql.FieldLT(FieldDeleteTime, v))
-}
-
-// DeleteTimeLTE applies the LTE predicate on the "delete_time" field.
-func DeleteTimeLTE(v time.Time) predicate.AdminLoginLog {
-	return predicate.AdminLoginLog(sql.FieldLTE(FieldDeleteTime, v))
-}
-
-// DeleteTimeIsNil applies the IsNil predicate on the "delete_time" field.
-func DeleteTimeIsNil() predicate.AdminLoginLog {
-	return predicate.AdminLoginLog(sql.FieldIsNull(FieldDeleteTime))
-}
-
-// DeleteTimeNotNil applies the NotNil predicate on the "delete_time" field.
-func DeleteTimeNotNil() predicate.AdminLoginLog {
-	return predicate.AdminLoginLog(sql.FieldNotNull(FieldDeleteTime))
 }
 
 // LoginIPEQ applies the EQ predicate on the "login_ip" field.

@@ -67,8 +67,6 @@ type AdminLoginLogMutation struct {
 	typ             string
 	id              *uint32
 	create_time     *time.Time
-	update_time     *time.Time
-	delete_time     *time.Time
 	login_ip        *string
 	login_mac       *string
 	login_time      *time.Time
@@ -244,104 +242,6 @@ func (m *AdminLoginLogMutation) CreateTimeCleared() bool {
 func (m *AdminLoginLogMutation) ResetCreateTime() {
 	m.create_time = nil
 	delete(m.clearedFields, adminloginlog.FieldCreateTime)
-}
-
-// SetUpdateTime sets the "update_time" field.
-func (m *AdminLoginLogMutation) SetUpdateTime(t time.Time) {
-	m.update_time = &t
-}
-
-// UpdateTime returns the value of the "update_time" field in the mutation.
-func (m *AdminLoginLogMutation) UpdateTime() (r time.Time, exists bool) {
-	v := m.update_time
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldUpdateTime returns the old "update_time" field's value of the AdminLoginLog entity.
-// If the AdminLoginLog object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *AdminLoginLogMutation) OldUpdateTime(ctx context.Context) (v *time.Time, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldUpdateTime is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldUpdateTime requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldUpdateTime: %w", err)
-	}
-	return oldValue.UpdateTime, nil
-}
-
-// ClearUpdateTime clears the value of the "update_time" field.
-func (m *AdminLoginLogMutation) ClearUpdateTime() {
-	m.update_time = nil
-	m.clearedFields[adminloginlog.FieldUpdateTime] = struct{}{}
-}
-
-// UpdateTimeCleared returns if the "update_time" field was cleared in this mutation.
-func (m *AdminLoginLogMutation) UpdateTimeCleared() bool {
-	_, ok := m.clearedFields[adminloginlog.FieldUpdateTime]
-	return ok
-}
-
-// ResetUpdateTime resets all changes to the "update_time" field.
-func (m *AdminLoginLogMutation) ResetUpdateTime() {
-	m.update_time = nil
-	delete(m.clearedFields, adminloginlog.FieldUpdateTime)
-}
-
-// SetDeleteTime sets the "delete_time" field.
-func (m *AdminLoginLogMutation) SetDeleteTime(t time.Time) {
-	m.delete_time = &t
-}
-
-// DeleteTime returns the value of the "delete_time" field in the mutation.
-func (m *AdminLoginLogMutation) DeleteTime() (r time.Time, exists bool) {
-	v := m.delete_time
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldDeleteTime returns the old "delete_time" field's value of the AdminLoginLog entity.
-// If the AdminLoginLog object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *AdminLoginLogMutation) OldDeleteTime(ctx context.Context) (v *time.Time, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldDeleteTime is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldDeleteTime requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldDeleteTime: %w", err)
-	}
-	return oldValue.DeleteTime, nil
-}
-
-// ClearDeleteTime clears the value of the "delete_time" field.
-func (m *AdminLoginLogMutation) ClearDeleteTime() {
-	m.delete_time = nil
-	m.clearedFields[adminloginlog.FieldDeleteTime] = struct{}{}
-}
-
-// DeleteTimeCleared returns if the "delete_time" field was cleared in this mutation.
-func (m *AdminLoginLogMutation) DeleteTimeCleared() bool {
-	_, ok := m.clearedFields[adminloginlog.FieldDeleteTime]
-	return ok
-}
-
-// ResetDeleteTime resets all changes to the "delete_time" field.
-func (m *AdminLoginLogMutation) ResetDeleteTime() {
-	m.delete_time = nil
-	delete(m.clearedFields, adminloginlog.FieldDeleteTime)
 }
 
 // SetLoginIP sets the "login_ip" field.
@@ -1204,15 +1104,9 @@ func (m *AdminLoginLogMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *AdminLoginLogMutation) Fields() []string {
-	fields := make([]string, 0, 19)
+	fields := make([]string, 0, 17)
 	if m.create_time != nil {
 		fields = append(fields, adminloginlog.FieldCreateTime)
-	}
-	if m.update_time != nil {
-		fields = append(fields, adminloginlog.FieldUpdateTime)
-	}
-	if m.delete_time != nil {
-		fields = append(fields, adminloginlog.FieldDeleteTime)
 	}
 	if m.login_ip != nil {
 		fields = append(fields, adminloginlog.FieldLoginIP)
@@ -1272,10 +1166,6 @@ func (m *AdminLoginLogMutation) Field(name string) (ent.Value, bool) {
 	switch name {
 	case adminloginlog.FieldCreateTime:
 		return m.CreateTime()
-	case adminloginlog.FieldUpdateTime:
-		return m.UpdateTime()
-	case adminloginlog.FieldDeleteTime:
-		return m.DeleteTime()
 	case adminloginlog.FieldLoginIP:
 		return m.LoginIP()
 	case adminloginlog.FieldLoginMAC:
@@ -1319,10 +1209,6 @@ func (m *AdminLoginLogMutation) OldField(ctx context.Context, name string) (ent.
 	switch name {
 	case adminloginlog.FieldCreateTime:
 		return m.OldCreateTime(ctx)
-	case adminloginlog.FieldUpdateTime:
-		return m.OldUpdateTime(ctx)
-	case adminloginlog.FieldDeleteTime:
-		return m.OldDeleteTime(ctx)
 	case adminloginlog.FieldLoginIP:
 		return m.OldLoginIP(ctx)
 	case adminloginlog.FieldLoginMAC:
@@ -1370,20 +1256,6 @@ func (m *AdminLoginLogMutation) SetField(name string, value ent.Value) error {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetCreateTime(v)
-		return nil
-	case adminloginlog.FieldUpdateTime:
-		v, ok := value.(time.Time)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetUpdateTime(v)
-		return nil
-	case adminloginlog.FieldDeleteTime:
-		v, ok := value.(time.Time)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetDeleteTime(v)
 		return nil
 	case adminloginlog.FieldLoginIP:
 		v, ok := value.(string)
@@ -1557,12 +1429,6 @@ func (m *AdminLoginLogMutation) ClearedFields() []string {
 	if m.FieldCleared(adminloginlog.FieldCreateTime) {
 		fields = append(fields, adminloginlog.FieldCreateTime)
 	}
-	if m.FieldCleared(adminloginlog.FieldUpdateTime) {
-		fields = append(fields, adminloginlog.FieldUpdateTime)
-	}
-	if m.FieldCleared(adminloginlog.FieldDeleteTime) {
-		fields = append(fields, adminloginlog.FieldDeleteTime)
-	}
 	if m.FieldCleared(adminloginlog.FieldLoginIP) {
 		fields = append(fields, adminloginlog.FieldLoginIP)
 	}
@@ -1628,12 +1494,6 @@ func (m *AdminLoginLogMutation) ClearField(name string) error {
 	case adminloginlog.FieldCreateTime:
 		m.ClearCreateTime()
 		return nil
-	case adminloginlog.FieldUpdateTime:
-		m.ClearUpdateTime()
-		return nil
-	case adminloginlog.FieldDeleteTime:
-		m.ClearDeleteTime()
-		return nil
 	case adminloginlog.FieldLoginIP:
 		m.ClearLoginIP()
 		return nil
@@ -1692,12 +1552,6 @@ func (m *AdminLoginLogMutation) ResetField(name string) error {
 	switch name {
 	case adminloginlog.FieldCreateTime:
 		m.ResetCreateTime()
-		return nil
-	case adminloginlog.FieldUpdateTime:
-		m.ResetUpdateTime()
-		return nil
-	case adminloginlog.FieldDeleteTime:
-		m.ResetDeleteTime()
 		return nil
 	case adminloginlog.FieldLoginIP:
 		m.ResetLoginIP()
@@ -2922,8 +2776,6 @@ type AdminOperationLogMutation struct {
 	typ             string
 	id              *uint32
 	create_time     *time.Time
-	update_time     *time.Time
-	delete_time     *time.Time
 	request_id      *string
 	method          *string
 	operation       *string
@@ -3108,104 +2960,6 @@ func (m *AdminOperationLogMutation) CreateTimeCleared() bool {
 func (m *AdminOperationLogMutation) ResetCreateTime() {
 	m.create_time = nil
 	delete(m.clearedFields, adminoperationlog.FieldCreateTime)
-}
-
-// SetUpdateTime sets the "update_time" field.
-func (m *AdminOperationLogMutation) SetUpdateTime(t time.Time) {
-	m.update_time = &t
-}
-
-// UpdateTime returns the value of the "update_time" field in the mutation.
-func (m *AdminOperationLogMutation) UpdateTime() (r time.Time, exists bool) {
-	v := m.update_time
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldUpdateTime returns the old "update_time" field's value of the AdminOperationLog entity.
-// If the AdminOperationLog object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *AdminOperationLogMutation) OldUpdateTime(ctx context.Context) (v *time.Time, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldUpdateTime is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldUpdateTime requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldUpdateTime: %w", err)
-	}
-	return oldValue.UpdateTime, nil
-}
-
-// ClearUpdateTime clears the value of the "update_time" field.
-func (m *AdminOperationLogMutation) ClearUpdateTime() {
-	m.update_time = nil
-	m.clearedFields[adminoperationlog.FieldUpdateTime] = struct{}{}
-}
-
-// UpdateTimeCleared returns if the "update_time" field was cleared in this mutation.
-func (m *AdminOperationLogMutation) UpdateTimeCleared() bool {
-	_, ok := m.clearedFields[adminoperationlog.FieldUpdateTime]
-	return ok
-}
-
-// ResetUpdateTime resets all changes to the "update_time" field.
-func (m *AdminOperationLogMutation) ResetUpdateTime() {
-	m.update_time = nil
-	delete(m.clearedFields, adminoperationlog.FieldUpdateTime)
-}
-
-// SetDeleteTime sets the "delete_time" field.
-func (m *AdminOperationLogMutation) SetDeleteTime(t time.Time) {
-	m.delete_time = &t
-}
-
-// DeleteTime returns the value of the "delete_time" field in the mutation.
-func (m *AdminOperationLogMutation) DeleteTime() (r time.Time, exists bool) {
-	v := m.delete_time
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldDeleteTime returns the old "delete_time" field's value of the AdminOperationLog entity.
-// If the AdminOperationLog object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *AdminOperationLogMutation) OldDeleteTime(ctx context.Context) (v *time.Time, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldDeleteTime is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldDeleteTime requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldDeleteTime: %w", err)
-	}
-	return oldValue.DeleteTime, nil
-}
-
-// ClearDeleteTime clears the value of the "delete_time" field.
-func (m *AdminOperationLogMutation) ClearDeleteTime() {
-	m.delete_time = nil
-	m.clearedFields[adminoperationlog.FieldDeleteTime] = struct{}{}
-}
-
-// DeleteTimeCleared returns if the "delete_time" field was cleared in this mutation.
-func (m *AdminOperationLogMutation) DeleteTimeCleared() bool {
-	_, ok := m.clearedFields[adminoperationlog.FieldDeleteTime]
-	return ok
-}
-
-// ResetDeleteTime resets all changes to the "delete_time" field.
-func (m *AdminOperationLogMutation) ResetDeleteTime() {
-	m.delete_time = nil
-	delete(m.clearedFields, adminoperationlog.FieldDeleteTime)
 }
 
 // SetRequestID sets the "request_id" field.
@@ -4481,15 +4235,9 @@ func (m *AdminOperationLogMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *AdminOperationLogMutation) Fields() []string {
-	fields := make([]string, 0, 27)
+	fields := make([]string, 0, 25)
 	if m.create_time != nil {
 		fields = append(fields, adminoperationlog.FieldCreateTime)
-	}
-	if m.update_time != nil {
-		fields = append(fields, adminoperationlog.FieldUpdateTime)
-	}
-	if m.delete_time != nil {
-		fields = append(fields, adminoperationlog.FieldDeleteTime)
 	}
 	if m.request_id != nil {
 		fields = append(fields, adminoperationlog.FieldRequestID)
@@ -4573,10 +4321,6 @@ func (m *AdminOperationLogMutation) Field(name string) (ent.Value, bool) {
 	switch name {
 	case adminoperationlog.FieldCreateTime:
 		return m.CreateTime()
-	case adminoperationlog.FieldUpdateTime:
-		return m.UpdateTime()
-	case adminoperationlog.FieldDeleteTime:
-		return m.DeleteTime()
 	case adminoperationlog.FieldRequestID:
 		return m.RequestID()
 	case adminoperationlog.FieldMethod:
@@ -4636,10 +4380,6 @@ func (m *AdminOperationLogMutation) OldField(ctx context.Context, name string) (
 	switch name {
 	case adminoperationlog.FieldCreateTime:
 		return m.OldCreateTime(ctx)
-	case adminoperationlog.FieldUpdateTime:
-		return m.OldUpdateTime(ctx)
-	case adminoperationlog.FieldDeleteTime:
-		return m.OldDeleteTime(ctx)
 	case adminoperationlog.FieldRequestID:
 		return m.OldRequestID(ctx)
 	case adminoperationlog.FieldMethod:
@@ -4703,20 +4443,6 @@ func (m *AdminOperationLogMutation) SetField(name string, value ent.Value) error
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetCreateTime(v)
-		return nil
-	case adminoperationlog.FieldUpdateTime:
-		v, ok := value.(time.Time)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetUpdateTime(v)
-		return nil
-	case adminoperationlog.FieldDeleteTime:
-		v, ok := value.(time.Time)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetDeleteTime(v)
 		return nil
 	case adminoperationlog.FieldRequestID:
 		v, ok := value.(string)
@@ -4958,12 +4684,6 @@ func (m *AdminOperationLogMutation) ClearedFields() []string {
 	if m.FieldCleared(adminoperationlog.FieldCreateTime) {
 		fields = append(fields, adminoperationlog.FieldCreateTime)
 	}
-	if m.FieldCleared(adminoperationlog.FieldUpdateTime) {
-		fields = append(fields, adminoperationlog.FieldUpdateTime)
-	}
-	if m.FieldCleared(adminoperationlog.FieldDeleteTime) {
-		fields = append(fields, adminoperationlog.FieldDeleteTime)
-	}
 	if m.FieldCleared(adminoperationlog.FieldRequestID) {
 		fields = append(fields, adminoperationlog.FieldRequestID)
 	}
@@ -5053,12 +4773,6 @@ func (m *AdminOperationLogMutation) ClearField(name string) error {
 	case adminoperationlog.FieldCreateTime:
 		m.ClearCreateTime()
 		return nil
-	case adminoperationlog.FieldUpdateTime:
-		m.ClearUpdateTime()
-		return nil
-	case adminoperationlog.FieldDeleteTime:
-		m.ClearDeleteTime()
-		return nil
 	case adminoperationlog.FieldRequestID:
 		m.ClearRequestID()
 		return nil
@@ -5141,12 +4855,6 @@ func (m *AdminOperationLogMutation) ResetField(name string) error {
 	switch name {
 	case adminoperationlog.FieldCreateTime:
 		m.ResetCreateTime()
-		return nil
-	case adminoperationlog.FieldUpdateTime:
-		m.ResetUpdateTime()
-		return nil
-	case adminoperationlog.FieldDeleteTime:
-		m.ResetDeleteTime()
 		return nil
 	case adminoperationlog.FieldRequestID:
 		m.ResetRequestID()

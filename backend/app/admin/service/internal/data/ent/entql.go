@@ -43,8 +43,6 @@ var schemaGraph = func() *sqlgraph.Schema {
 		Type: "AdminLoginLog",
 		Fields: map[string]*sqlgraph.FieldSpec{
 			adminloginlog.FieldCreateTime:     {Type: field.TypeTime, Column: adminloginlog.FieldCreateTime},
-			adminloginlog.FieldUpdateTime:     {Type: field.TypeTime, Column: adminloginlog.FieldUpdateTime},
-			adminloginlog.FieldDeleteTime:     {Type: field.TypeTime, Column: adminloginlog.FieldDeleteTime},
 			adminloginlog.FieldLoginIP:        {Type: field.TypeString, Column: adminloginlog.FieldLoginIP},
 			adminloginlog.FieldLoginMAC:       {Type: field.TypeString, Column: adminloginlog.FieldLoginMAC},
 			adminloginlog.FieldLoginTime:      {Type: field.TypeTime, Column: adminloginlog.FieldLoginTime},
@@ -98,8 +96,6 @@ var schemaGraph = func() *sqlgraph.Schema {
 		Type: "AdminOperationLog",
 		Fields: map[string]*sqlgraph.FieldSpec{
 			adminoperationlog.FieldCreateTime:     {Type: field.TypeTime, Column: adminoperationlog.FieldCreateTime},
-			adminoperationlog.FieldUpdateTime:     {Type: field.TypeTime, Column: adminoperationlog.FieldUpdateTime},
-			adminoperationlog.FieldDeleteTime:     {Type: field.TypeTime, Column: adminoperationlog.FieldDeleteTime},
 			adminoperationlog.FieldRequestID:      {Type: field.TypeString, Column: adminoperationlog.FieldRequestID},
 			adminoperationlog.FieldMethod:         {Type: field.TypeString, Column: adminoperationlog.FieldMethod},
 			adminoperationlog.FieldOperation:      {Type: field.TypeString, Column: adminoperationlog.FieldOperation},
@@ -692,16 +688,6 @@ func (f *AdminLoginLogFilter) WhereCreateTime(p entql.TimeP) {
 	f.Where(p.Field(adminloginlog.FieldCreateTime))
 }
 
-// WhereUpdateTime applies the entql time.Time predicate on the update_time field.
-func (f *AdminLoginLogFilter) WhereUpdateTime(p entql.TimeP) {
-	f.Where(p.Field(adminloginlog.FieldUpdateTime))
-}
-
-// WhereDeleteTime applies the entql time.Time predicate on the delete_time field.
-func (f *AdminLoginLogFilter) WhereDeleteTime(p entql.TimeP) {
-	f.Where(p.Field(adminloginlog.FieldDeleteTime))
-}
-
 // WhereLoginIP applies the entql string predicate on the login_ip field.
 func (f *AdminLoginLogFilter) WhereLoginIP(p entql.StringP) {
 	f.Where(p.Field(adminloginlog.FieldLoginIP))
@@ -915,16 +901,6 @@ func (f *AdminOperationLogFilter) WhereID(p entql.Uint32P) {
 // WhereCreateTime applies the entql time.Time predicate on the create_time field.
 func (f *AdminOperationLogFilter) WhereCreateTime(p entql.TimeP) {
 	f.Where(p.Field(adminoperationlog.FieldCreateTime))
-}
-
-// WhereUpdateTime applies the entql time.Time predicate on the update_time field.
-func (f *AdminOperationLogFilter) WhereUpdateTime(p entql.TimeP) {
-	f.Where(p.Field(adminoperationlog.FieldUpdateTime))
-}
-
-// WhereDeleteTime applies the entql time.Time predicate on the delete_time field.
-func (f *AdminOperationLogFilter) WhereDeleteTime(p entql.TimeP) {
-	f.Where(p.Field(adminoperationlog.FieldDeleteTime))
 }
 
 // WhereRequestID applies the entql string predicate on the request_id field.

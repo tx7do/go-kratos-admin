@@ -97,17 +97,7 @@ export interface AdminLoginLog {
     | null
     | undefined;
   /** 创建时间 */
-  createTime?:
-    | string
-    | null
-    | undefined;
-  /** 更新时间 */
-  updateTime?:
-    | string
-    | null
-    | undefined;
-  /** 删除时间 */
-  deleteTime?: string | null | undefined;
+  createTime?: string | null | undefined;
 }
 
 /** 查询后台登录日志列表 - 回应 */

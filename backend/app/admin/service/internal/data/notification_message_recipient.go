@@ -6,6 +6,7 @@ import (
 
 	"entgo.io/ent/dialect/sql"
 	"github.com/go-kratos/kratos/v2/log"
+	"github.com/jinzhu/copier"
 
 	entgo "github.com/tx7do/go-utils/entgo/query"
 	entgoUpdate "github.com/tx7do/go-utils/entgo/update"
@@ -59,21 +60,20 @@ func (r *NotificationMessageRecipientRepo) toEntStatus(in *internalMessageV1.Mes
 	return (*notificationmessagerecipient.Status)(trans.Ptr(find))
 }
 
-func (r *NotificationMessageRecipientRepo) convertEntToProto(in *ent.NotificationMessageRecipient) *internalMessageV1.NotificationMessageRecipient {
+func (r *NotificationMessageRecipientRepo) toProto(in *ent.NotificationMessageRecipient) *internalMessageV1.NotificationMessageRecipient {
 	if in == nil {
 		return nil
 	}
-	return &internalMessageV1.NotificationMessageRecipient{
-		Id:          trans.Ptr(in.ID),
-		MessageId:   in.MessageID,
-		RecipientId: in.RecipientID,
-		Status:      r.toProtoStatus(in.Status),
-		//CreateBy:   in.CreateBy,
-		//UpdateBy:   in.UpdateBy,
-		CreateTime: timeutil.TimeToTimeString(in.CreateTime),
-		UpdateTime: timeutil.TimeToTimeString(in.UpdateTime),
-		DeleteTime: timeutil.TimeToTimeString(in.DeleteTime),
-	}
+
+	var out internalMessageV1.NotificationMessageRecipient
+	_ = copier.Copy(&out, in)
+
+	out.Status = r.toProtoStatus(in.Status)
+	out.CreateTime = timeutil.TimeToTimeString(in.CreateTime)
+	out.UpdateTime = timeutil.TimeToTimeString(in.UpdateTime)
+	out.DeleteTime = timeutil.TimeToTimeString(in.DeleteTime)
+
+	return &out
 }
 
 func (r *NotificationMessageRecipientRepo) Count(ctx context.Context, whereCond []func(s *sql.Selector)) (int, error) {
@@ -121,7 +121,7 @@ func (r *NotificationMessageRecipientRepo) List(ctx context.Context, req *pagina
 
 	items := make([]*internalMessageV1.NotificationMessageRecipient, 0, len(results))
 	for _, res := range results {
-		item := r.convertEntToProto(res)
+		item := r.toProto(res)
 		items = append(items, item)
 	}
 
@@ -163,7 +163,7 @@ func (r *NotificationMessageRecipientRepo) Get(ctx context.Context, req *interna
 		return nil, internalMessageV1.ErrorInternalServerError("query data failed")
 	}
 
-	return r.convertEntToProto(ret), nil
+	return r.toProto(ret), nil
 }
 
 func (r *NotificationMessageRecipientRepo) Create(ctx context.Context, req *internalMessageV1.CreateNotificationMessageRecipientRequest) error {

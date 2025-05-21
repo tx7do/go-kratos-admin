@@ -6,6 +6,7 @@ import (
 
 	"entgo.io/ent/dialect/sql"
 	"github.com/go-kratos/kratos/v2/log"
+	"github.com/jinzhu/copier"
 
 	entgo "github.com/tx7do/go-utils/entgo/query"
 	entgoUpdate "github.com/tx7do/go-utils/entgo/update"
@@ -86,23 +87,21 @@ func (r *AdminLoginRestrictionRepo) toProtoMethod(in *adminloginrestriction.Meth
 	return (*adminV1.AdminLoginRestrictionMethod)(trans.Ptr(find))
 }
 
-func (r *AdminLoginRestrictionRepo) convertEntToProto(in *ent.AdminLoginRestriction) *adminV1.AdminLoginRestriction {
+func (r *AdminLoginRestrictionRepo) toProto(in *ent.AdminLoginRestriction) *adminV1.AdminLoginRestriction {
 	if in == nil {
 		return nil
 	}
-	return &adminV1.AdminLoginRestriction{
-		Id:         trans.Ptr(in.ID),
-		AdminId:    in.AdminID,
-		Type:       r.toProtoType(in.Type),
-		Method:     r.toProtoMethod(in.Method),
-		Value:      in.Value,
-		Reason:     in.Reason,
-		CreateBy:   in.CreateBy,
-		UpdateBy:   in.UpdateBy,
-		CreateTime: timeutil.TimeToTimeString(in.CreateTime),
-		UpdateTime: timeutil.TimeToTimeString(in.UpdateTime),
-		DeleteTime: timeutil.TimeToTimeString(in.DeleteTime),
-	}
+
+	var out adminV1.AdminLoginRestriction
+	_ = copier.Copy(&out, in)
+
+	out.Type = r.toProtoType(in.Type)
+	out.Method = r.toProtoMethod(in.Method)
+	out.CreateTime = timeutil.TimeToTimeString(in.CreateTime)
+	out.UpdateTime = timeutil.TimeToTimeString(in.UpdateTime)
+	out.DeleteTime = timeutil.TimeToTimeString(in.DeleteTime)
+
+	return &out
 }
 
 func (r *AdminLoginRestrictionRepo) Count(ctx context.Context, whereCond []func(s *sql.Selector)) (int, error) {
@@ -150,7 +149,7 @@ func (r *AdminLoginRestrictionRepo) List(ctx context.Context, req *pagination.Pa
 
 	items := make([]*adminV1.AdminLoginRestriction, 0, len(results))
 	for _, res := range results {
-		item := r.convertEntToProto(res)
+		item := r.toProto(res)
 		items = append(items, item)
 	}
 
@@ -192,7 +191,7 @@ func (r *AdminLoginRestrictionRepo) Get(ctx context.Context, req *adminV1.GetAdm
 		return nil, adminV1.ErrorInternalServerError("query data failed")
 	}
 
-	return r.convertEntToProto(ret), nil
+	return r.toProto(ret), nil
 }
 
 func (r *AdminLoginRestrictionRepo) Create(ctx context.Context, req *adminV1.CreateAdminLoginRestrictionRequest) error {

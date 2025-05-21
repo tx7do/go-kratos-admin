@@ -6,12 +6,10 @@ import (
 
 	"entgo.io/ent/dialect/sql"
 	"github.com/go-kratos/kratos/v2/log"
+	"github.com/jinzhu/copier"
 
 	entgo "github.com/tx7do/go-utils/entgo/query"
-	entgoUpdate "github.com/tx7do/go-utils/entgo/update"
-	"github.com/tx7do/go-utils/fieldmaskutil"
 	"github.com/tx7do/go-utils/timeutil"
-	"github.com/tx7do/go-utils/trans"
 	pagination "github.com/tx7do/kratos-bootstrap/api/gen/go/pagination/v1"
 
 	"kratos-admin/app/admin/service/internal/data/ent"
@@ -33,32 +31,18 @@ func NewAdminLoginLogRepo(data *Data, logger log.Logger) *AdminLoginLogRepo {
 	}
 }
 
-func (r *AdminLoginLogRepo) convertEntToProto(in *ent.AdminLoginLog) *systemV1.AdminLoginLog {
+func (r *AdminLoginLogRepo) toProto(in *ent.AdminLoginLog) *systemV1.AdminLoginLog {
 	if in == nil {
 		return nil
 	}
-	return &systemV1.AdminLoginLog{
-		Id:             trans.Ptr(in.ID),
-		LoginIp:        in.LoginIP,
-		LoginMac:       in.LoginMAC,
-		LoginTime:      timeutil.TimeToTimestamppb(in.LoginTime),
-		UserAgent:      in.UserAgent,
-		BrowserName:    in.BrowserName,
-		BrowserVersion: in.BrowserVersion,
-		ClientId:       in.ClientID,
-		ClientName:     in.ClientName,
-		OsName:         in.OsName,
-		OsVersion:      in.OsVersion,
-		UserId:         in.UserID,
-		UserName:       in.UserName,
-		StatusCode:     in.StatusCode,
-		Success:        in.Success,
-		Reason:         in.Reason,
-		Location:       in.Location,
-		CreateTime:     timeutil.TimeToTimeString(in.CreateTime),
-		UpdateTime:     timeutil.TimeToTimeString(in.UpdateTime),
-		DeleteTime:     timeutil.TimeToTimeString(in.DeleteTime),
-	}
+
+	var out systemV1.AdminLoginLog
+	_ = copier.Copy(&out, in)
+
+	out.CreateTime = timeutil.TimeToTimeString(in.CreateTime)
+	out.LoginTime = timeutil.TimeToTimestamppb(in.LoginTime)
+
+	return &out
 }
 
 func (r *AdminLoginLogRepo) Count(ctx context.Context, whereCond []func(s *sql.Selector)) (int, error) {
@@ -106,7 +90,7 @@ func (r *AdminLoginLogRepo) List(ctx context.Context, req *pagination.PagingRequ
 
 	items := make([]*systemV1.AdminLoginLog, 0, len(results))
 	for _, res := range results {
-		item := r.convertEntToProto(res)
+		item := r.toProto(res)
 		items = append(items, item)
 	}
 
@@ -148,7 +132,7 @@ func (r *AdminLoginLogRepo) Get(ctx context.Context, req *systemV1.GetAdminLogin
 		return nil, systemV1.ErrorInternalServerError("query data failed")
 	}
 
-	return r.convertEntToProto(ret), nil
+	return r.toProto(ret), nil
 }
 
 func (r *AdminLoginLogRepo) Create(ctx context.Context, req *systemV1.CreateAdminLoginLogRequest) error {
@@ -187,92 +171,6 @@ func (r *AdminLoginLogRepo) Create(ctx context.Context, req *systemV1.CreateAdmi
 	if err := builder.Exec(ctx); err != nil {
 		r.log.Errorf("insert one data failed: %s", err.Error())
 		return systemV1.ErrorInternalServerError("insert data failed")
-	}
-
-	return nil
-}
-
-func (r *AdminLoginLogRepo) Update(ctx context.Context, req *systemV1.UpdateAdminLoginLogRequest) error {
-	if req == nil || req.Data == nil {
-		return systemV1.ErrorBadRequest("invalid parameter")
-	}
-
-	// 如果不存在则创建
-	if req.GetAllowMissing() {
-		exist, err := r.IsExist(ctx, req.GetData().GetId())
-		if err != nil {
-			return err
-		}
-		if !exist {
-			return r.Create(ctx, &systemV1.CreateAdminLoginLogRequest{Data: req.Data})
-		}
-	}
-
-	if req.UpdateMask != nil {
-		req.UpdateMask.Normalize()
-		if !req.UpdateMask.IsValid(req.Data) {
-			return systemV1.ErrorBadRequest("invalid field mask")
-		}
-		fieldmaskutil.Filter(req.GetData(), req.UpdateMask.GetPaths())
-	}
-
-	builder := r.data.db.Client().AdminLoginLog.
-		UpdateOneID(req.Data.GetId()).
-		SetNillableLoginIP(req.Data.LoginIp).
-		SetNillableLoginMAC(req.Data.LoginMac).
-		SetNillableUserAgent(req.Data.UserAgent).
-		SetNillableBrowserName(req.Data.BrowserName).
-		SetNillableBrowserVersion(req.Data.BrowserVersion).
-		SetNillableClientID(req.Data.ClientId).
-		SetNillableClientName(req.Data.ClientName).
-		SetNillableOsName(req.Data.OsName).
-		SetNillableOsVersion(req.Data.OsVersion).
-		SetNillableUserID(req.Data.UserId).
-		SetNillableUserName(req.Data.UserName).
-		SetNillableStatusCode(req.Data.StatusCode).
-		SetNillableSuccess(req.Data.Success).
-		SetNillableReason(req.Data.Reason).
-		SetNillableLocation(req.Data.Location).
-		SetNillableLoginTime(timeutil.TimestamppbToTime(req.Data.LoginTime)).
-		SetNillableUpdateTime(timeutil.StringTimeToTime(req.Data.UpdateTime))
-
-	if req.Data.LoginTime == nil {
-		builder.SetLoginTime(time.Now())
-	}
-
-	if req.Data.UpdateTime == nil {
-		builder.SetUpdateTime(time.Now())
-	}
-
-	if req.UpdateMask != nil {
-		nilPaths := fieldmaskutil.NilValuePaths(req.Data, req.GetUpdateMask().GetPaths())
-		nilUpdater := entgoUpdate.BuildSetNullUpdater(nilPaths)
-		if nilUpdater != nil {
-			builder.Modify(nilUpdater)
-		}
-	}
-
-	if err := builder.Exec(ctx); err != nil {
-		r.log.Errorf("update one data failed: %s", err.Error())
-		return systemV1.ErrorInternalServerError("update data failed")
-	}
-
-	return nil
-}
-
-func (r *AdminLoginLogRepo) Delete(ctx context.Context, req *systemV1.DeleteAdminLoginLogRequest) error {
-	if req == nil {
-		return systemV1.ErrorBadRequest("invalid parameter")
-	}
-
-	if err := r.data.db.Client().AdminLoginLog.DeleteOneID(req.GetId()).Exec(ctx); err != nil {
-		if ent.IsNotFound(err) {
-			return systemV1.ErrorNotFound("admin login log not found")
-		}
-
-		r.log.Errorf("delete one data failed: %s", err.Error())
-
-		return systemV1.ErrorInternalServerError("delete failed")
 	}
 
 	return nil

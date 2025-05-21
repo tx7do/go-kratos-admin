@@ -20,10 +20,6 @@ type AdminLoginLog struct {
 	ID uint32 `json:"id,omitempty"`
 	// 创建时间
 	CreateTime *time.Time `json:"create_time,omitempty"`
-	// 更新时间
-	UpdateTime *time.Time `json:"update_time,omitempty"`
-	// 删除时间
-	DeleteTime *time.Time `json:"delete_time,omitempty"`
 	// 登录IP地址
 	LoginIP *string `json:"login_ip,omitempty"`
 	// 登录MAC地址
@@ -70,7 +66,7 @@ func (*AdminLoginLog) scanValues(columns []string) ([]any, error) {
 			values[i] = new(sql.NullInt64)
 		case adminloginlog.FieldLoginIP, adminloginlog.FieldLoginMAC, adminloginlog.FieldUserAgent, adminloginlog.FieldBrowserName, adminloginlog.FieldBrowserVersion, adminloginlog.FieldClientID, adminloginlog.FieldClientName, adminloginlog.FieldOsName, adminloginlog.FieldOsVersion, adminloginlog.FieldUserName, adminloginlog.FieldReason, adminloginlog.FieldLocation:
 			values[i] = new(sql.NullString)
-		case adminloginlog.FieldCreateTime, adminloginlog.FieldUpdateTime, adminloginlog.FieldDeleteTime, adminloginlog.FieldLoginTime:
+		case adminloginlog.FieldCreateTime, adminloginlog.FieldLoginTime:
 			values[i] = new(sql.NullTime)
 		default:
 			values[i] = new(sql.UnknownType)
@@ -99,20 +95,6 @@ func (all *AdminLoginLog) assignValues(columns []string, values []any) error {
 			} else if value.Valid {
 				all.CreateTime = new(time.Time)
 				*all.CreateTime = value.Time
-			}
-		case adminloginlog.FieldUpdateTime:
-			if value, ok := values[i].(*sql.NullTime); !ok {
-				return fmt.Errorf("unexpected type %T for field update_time", values[i])
-			} else if value.Valid {
-				all.UpdateTime = new(time.Time)
-				*all.UpdateTime = value.Time
-			}
-		case adminloginlog.FieldDeleteTime:
-			if value, ok := values[i].(*sql.NullTime); !ok {
-				return fmt.Errorf("unexpected type %T for field delete_time", values[i])
-			} else if value.Valid {
-				all.DeleteTime = new(time.Time)
-				*all.DeleteTime = value.Time
 			}
 		case adminloginlog.FieldLoginIP:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -264,16 +246,6 @@ func (all *AdminLoginLog) String() string {
 	builder.WriteString(fmt.Sprintf("id=%v, ", all.ID))
 	if v := all.CreateTime; v != nil {
 		builder.WriteString("create_time=")
-		builder.WriteString(v.Format(time.ANSIC))
-	}
-	builder.WriteString(", ")
-	if v := all.UpdateTime; v != nil {
-		builder.WriteString("update_time=")
-		builder.WriteString(v.Format(time.ANSIC))
-	}
-	builder.WriteString(", ")
-	if v := all.DeleteTime; v != nil {
-		builder.WriteString("delete_time=")
 		builder.WriteString(v.Format(time.ANSIC))
 	}
 	builder.WriteString(", ")

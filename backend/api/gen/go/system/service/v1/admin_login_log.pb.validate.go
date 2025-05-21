@@ -158,14 +158,6 @@ func (m *AdminLoginLog) validate(all bool) error {
 		// no validation rules for CreateTime
 	}
 
-	if m.UpdateTime != nil {
-		// no validation rules for UpdateTime
-	}
-
-	if m.DeleteTime != nil {
-		// no validation rules for DeleteTime
-	}
-
 	if len(errors) > 0 {
 		return AdminLoginLogMultiError(errors)
 	}

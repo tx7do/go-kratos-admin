@@ -6,6 +6,7 @@ import (
 
 	"entgo.io/ent/dialect/sql"
 	"github.com/go-kratos/kratos/v2/log"
+	"github.com/jinzhu/copier"
 
 	"github.com/tx7do/go-utils/entgo/query"
 	entgoUpdate "github.com/tx7do/go-utils/entgo/update"
@@ -59,27 +60,20 @@ func (r *TaskRepo) toProtoType(in *task.Type) *systemV1.TaskType {
 	return (*systemV1.TaskType)(trans.Ptr(find))
 }
 
-func (r *TaskRepo) convertEntToProto(in *ent.Task) *systemV1.Task {
+func (r *TaskRepo) toProto(in *ent.Task) *systemV1.Task {
 	if in == nil {
 		return nil
 	}
 
-	return &systemV1.Task{
-		Id:          trans.Ptr(in.ID),
-		Type:        r.toProtoType(in.Type),
-		TypeName:    in.TypeName,
-		TaskPayload: in.TaskPayload,
-		TaskId:      in.TaskID,
-		TaskOptions: in.TaskOptions,
-		CronSpec:    in.CronSpec,
-		Enable:      in.Enable,
-		Remark:      in.Remark,
-		CreateBy:    in.CreateBy,
-		UpdateBy:    in.UpdateBy,
-		CreateTime:  timeutil.TimeToTimeString(in.CreateTime),
-		UpdateTime:  timeutil.TimeToTimeString(in.UpdateTime),
-		DeleteTime:  timeutil.TimeToTimeString(in.DeleteTime),
-	}
+	var out systemV1.Task
+	_ = copier.Copy(&out, in)
+
+	out.Type = r.toProtoType(in.Type)
+	out.CreateTime = timeutil.TimeToTimeString(in.CreateTime)
+	out.UpdateTime = timeutil.TimeToTimeString(in.UpdateTime)
+	out.DeleteTime = timeutil.TimeToTimeString(in.DeleteTime)
+
+	return &out
 }
 
 func (r *TaskRepo) Count(ctx context.Context, whereCond []func(s *sql.Selector)) (int, error) {
@@ -127,7 +121,7 @@ func (r *TaskRepo) List(ctx context.Context, req *pagination.PagingRequest) (*sy
 
 	items := make([]*systemV1.Task, 0, len(results))
 	for _, res := range results {
-		item := r.convertEntToProto(res)
+		item := r.toProto(res)
 		items = append(items, item)
 	}
 
@@ -169,7 +163,7 @@ func (r *TaskRepo) Get(ctx context.Context, id uint32) (*systemV1.Task, error) {
 		return nil, systemV1.ErrorInternalServerError("query data failed")
 	}
 
-	return r.convertEntToProto(ret), nil
+	return r.toProto(ret), nil
 }
 
 func (r *TaskRepo) GetByTypeName(ctx context.Context, typeName string) (*systemV1.Task, error) {
@@ -190,7 +184,7 @@ func (r *TaskRepo) GetByTypeName(ctx context.Context, typeName string) (*systemV
 		return nil, systemV1.ErrorInternalServerError("query data failed")
 	}
 
-	return r.convertEntToProto(ret), nil
+	return r.toProto(ret), nil
 }
 
 func (r *TaskRepo) Create(ctx context.Context, req *systemV1.CreateTaskRequest) (*systemV1.Task, error) {
@@ -227,7 +221,7 @@ func (r *TaskRepo) Create(ctx context.Context, req *systemV1.CreateTaskRequest) 
 		return nil, systemV1.ErrorInternalServerError("insert data failed")
 	}
 
-	return r.convertEntToProto(t), nil
+	return r.toProto(t), nil
 }
 
 func (r *TaskRepo) Update(ctx context.Context, req *systemV1.UpdateTaskRequest) (*systemV1.Task, error) {
@@ -292,7 +286,7 @@ func (r *TaskRepo) Update(ctx context.Context, req *systemV1.UpdateTaskRequest) 
 		return nil, systemV1.ErrorInternalServerError("update data failed")
 	}
 
-	return r.convertEntToProto(t), nil
+	return r.toProto(t), nil
 }
 
 func (r *TaskRepo) Delete(ctx context.Context, req *systemV1.DeleteTaskRequest) error {

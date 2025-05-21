@@ -6,6 +6,7 @@ import (
 
 	"entgo.io/ent/dialect/sql"
 	"github.com/go-kratos/kratos/v2/log"
+	"github.com/jinzhu/copier"
 
 	entgo "github.com/tx7do/go-utils/entgo/query"
 	entgoUpdate "github.com/tx7do/go-utils/entgo/update"
@@ -59,29 +60,20 @@ func (r *FileRepo) toEntProvider(in *fileV1.OSSProvider) *file.Provider {
 	return (*file.Provider)(trans.Ptr(find))
 }
 
-func (r *FileRepo) convertEntToProto(in *ent.File) *fileV1.File {
+func (r *FileRepo) toProto(in *ent.File) *fileV1.File {
 	if in == nil {
 		return nil
 	}
-	return &fileV1.File{
-		Id:            trans.Ptr(in.ID),
-		Provider:      r.toProtoProvider(in.Provider),
-		BucketName:    in.BucketName,
-		FileDirectory: in.FileDirectory,
-		FileGuid:      in.FileGUID,
-		SaveFileName:  in.SaveFileName,
-		FileName:      in.FileName,
-		Extension:     in.Extension,
-		Size:          in.Size,
-		SizeFormat:    in.SizeFormat,
-		LinkUrl:       in.LinkURL,
-		Md5:           in.Md5,
-		CreateBy:      in.CreateBy,
-		//UpdateBy:      in.UpdateBy,
-		CreateTime: timeutil.TimeToTimeString(in.CreateTime),
-		UpdateTime: timeutil.TimeToTimeString(in.UpdateTime),
-		DeleteTime: timeutil.TimeToTimeString(in.DeleteTime),
-	}
+
+	var out fileV1.File
+	_ = copier.Copy(&out, in)
+
+	out.Provider = r.toProtoProvider(in.Provider)
+	out.CreateTime = timeutil.TimeToTimeString(in.CreateTime)
+	out.UpdateTime = timeutil.TimeToTimeString(in.UpdateTime)
+	out.DeleteTime = timeutil.TimeToTimeString(in.DeleteTime)
+
+	return &out
 }
 
 func (r *FileRepo) Count(ctx context.Context, whereCond []func(s *sql.Selector)) (int, error) {
@@ -129,7 +121,7 @@ func (r *FileRepo) List(ctx context.Context, req *pagination.PagingRequest) (*fi
 
 	items := make([]*fileV1.File, 0, len(results))
 	for _, res := range results {
-		item := r.convertEntToProto(res)
+		item := r.toProto(res)
 		items = append(items, item)
 	}
 
@@ -171,7 +163,7 @@ func (r *FileRepo) Get(ctx context.Context, req *fileV1.GetFileRequest) (*fileV1
 		return nil, fileV1.ErrorInternalServerError("query data failed")
 	}
 
-	return r.convertEntToProto(ret), nil
+	return r.toProto(ret), nil
 }
 
 func (r *FileRepo) Create(ctx context.Context, req *fileV1.CreateFileRequest) error {

@@ -2,12 +2,12 @@ package data
 
 import (
 	"context"
-	"time"
-
 	"encoding/base64"
+	"time"
 
 	"entgo.io/ent/dialect/sql"
 	"github.com/go-kratos/kratos/v2/log"
+	"github.com/jinzhu/copier"
 
 	"github.com/tx7do/go-utils/crypto"
 	entgo "github.com/tx7do/go-utils/entgo/query"
@@ -112,40 +112,40 @@ func (r *UserRepo) toProtoStatus(in *user.Status) *userV1.UserStatus {
 	return (*userV1.UserStatus)(trans.Ptr(find))
 }
 
-func (r *UserRepo) convertEntToProto(in *ent.User) *userV1.User {
+func (r *UserRepo) toEnt(in *userV1.User) *ent.User {
 	if in == nil {
 		return nil
 	}
 
-	return &userV1.User{
-		Id:            trans.Ptr(in.ID),
-		RoleId:        in.RoleID,
-		WorkId:        in.WorkID,
-		OrgId:         in.OrgID,
-		PositionId:    in.PositionID,
-		TenantId:      in.TenantID,
-		UserName:      in.Username,
-		NickName:      in.NickName,
-		RealName:      in.RealName,
-		Email:         in.Email,
-		Avatar:        in.Avatar,
-		Telephone:     in.Telephone,
-		Mobile:        in.Mobile,
-		Address:       in.Address,
-		Region:        in.Region,
-		Description:   in.Description,
-		Remark:        in.Remark,
-		LastLoginTime: in.LastLoginTime,
-		LastLoginIp:   in.LastLoginIP,
-		CreateBy:      in.CreateBy,
-		UpdateBy:      in.UpdateBy,
-		Gender:        r.toProtoGender(in.Gender),
-		Authority:     r.toProtoAuthority(in.Authority),
-		Status:        r.toProtoStatus(in.Status),
-		CreateTime:    timeutil.TimeToTimeString(in.CreateTime),
-		UpdateTime:    timeutil.TimeToTimeString(in.UpdateTime),
-		DeleteTime:    timeutil.TimeToTimeString(in.DeleteTime),
+	var out ent.User
+	_ = copier.Copy(&out, in)
+
+	out.Gender = r.toEntGender(in.Gender)
+	out.Authority = r.toEntAuthority(in.Authority)
+	out.Status = r.toEntStatus(in.Status)
+	out.CreateTime = timeutil.StringTimeToTime(in.CreateTime)
+	out.UpdateTime = timeutil.StringTimeToTime(in.UpdateTime)
+	out.DeleteTime = timeutil.StringTimeToTime(in.DeleteTime)
+
+	return &out
+}
+
+func (r *UserRepo) toProto(in *ent.User) *userV1.User {
+	if in == nil {
+		return nil
 	}
+
+	var out userV1.User
+	_ = copier.Copy(&out, in)
+
+	out.Gender = r.toProtoGender(in.Gender)
+	out.Authority = r.toProtoAuthority(in.Authority)
+	out.Status = r.toProtoStatus(in.Status)
+	out.CreateTime = timeutil.TimeToTimeString(in.CreateTime)
+	out.UpdateTime = timeutil.TimeToTimeString(in.UpdateTime)
+	out.DeleteTime = timeutil.TimeToTimeString(in.DeleteTime)
+
+	return &out
 }
 
 func (r *UserRepo) Count(ctx context.Context, whereCond []func(s *sql.Selector)) (int, error) {
@@ -193,7 +193,7 @@ func (r *UserRepo) List(ctx context.Context, req *pagination.PagingRequest) (*us
 
 	items := make([]*userV1.User, 0, len(results))
 	for _, res := range results {
-		item := r.convertEntToProto(res)
+		item := r.toProto(res)
 		items = append(items, item)
 	}
 
@@ -235,7 +235,7 @@ func (r *UserRepo) Get(ctx context.Context, userId uint32) (*userV1.User, error)
 		return nil, userV1.ErrorInternalServerError("query data failed")
 	}
 
-	return r.convertEntToProto(ret), nil
+	return r.toProto(ret), nil
 }
 
 func (r *UserRepo) Create(ctx context.Context, req *userV1.CreateUserRequest) error {
@@ -403,7 +403,7 @@ func (r *UserRepo) GetUserByUserName(ctx context.Context, userName string) (*use
 		return nil, userV1.ErrorInternalServerError("query data failed")
 	}
 
-	return r.convertEntToProto(ret), nil
+	return r.toProto(ret), nil
 }
 
 func (r *UserRepo) VerifyPassword(ctx context.Context, req *userV1.VerifyPasswordRequest) (*userV1.VerifyPasswordResponse, error) {

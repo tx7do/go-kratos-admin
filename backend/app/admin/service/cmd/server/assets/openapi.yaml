@@ -2481,12 +2481,6 @@ components:
                 createTime:
                     type: string
                     description: 创建时间
-                updateTime:
-                    type: string
-                    description: 更新时间
-                deleteTime:
-                    type: string
-                    description: 删除时间
             description: 后台登录日志
         AdminLoginRestriction:
             type: object
@@ -2627,12 +2621,6 @@ components:
                 createTime:
                     type: string
                     description: 创建时间
-                updateTime:
-                    type: string
-                    description: 更新时间
-                deleteTime:
-                    type: string
-                    description: 删除时间
             description: 后台操作日志
         ControlTaskRequest:
             type: object

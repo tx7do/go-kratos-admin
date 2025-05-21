@@ -7,12 +7,12 @@ import (
 
 	"entgo.io/ent/dialect/sql"
 	"github.com/go-kratos/kratos/v2/log"
+	"github.com/jinzhu/copier"
 
 	entgo "github.com/tx7do/go-utils/entgo/query"
 	entgoUpdate "github.com/tx7do/go-utils/entgo/update"
 	"github.com/tx7do/go-utils/fieldmaskutil"
 	"github.com/tx7do/go-utils/timeutil"
-	"github.com/tx7do/go-utils/trans"
 	pagination "github.com/tx7do/kratos-bootstrap/api/gen/go/pagination/v1"
 
 	"kratos-admin/app/admin/service/internal/data/ent"
@@ -34,23 +34,19 @@ func NewNotificationMessageCategoryRepo(data *Data, logger log.Logger) *Notifica
 	}
 }
 
-func (r *NotificationMessageCategoryRepo) convertEntToProto(in *ent.NotificationMessageCategory) *internalMessageV1.NotificationMessageCategory {
+func (r *NotificationMessageCategoryRepo) toProto(in *ent.NotificationMessageCategory) *internalMessageV1.NotificationMessageCategory {
 	if in == nil {
 		return nil
 	}
-	return &internalMessageV1.NotificationMessageCategory{
-		Id:         trans.Ptr(in.ID),
-		Name:       in.Name,
-		Code:       in.Code,
-		SortId:     in.SortID,
-		Enable:     in.Enable,
-		ParentId:   in.ParentID,
-		CreateBy:   in.CreateBy,
-		UpdateBy:   in.UpdateBy,
-		CreateTime: timeutil.TimeToTimeString(in.CreateTime),
-		UpdateTime: timeutil.TimeToTimeString(in.UpdateTime),
-		DeleteTime: timeutil.TimeToTimeString(in.DeleteTime),
-	}
+
+	var out internalMessageV1.NotificationMessageCategory
+	_ = copier.Copy(&out, in)
+
+	out.CreateTime = timeutil.TimeToTimeString(in.CreateTime)
+	out.UpdateTime = timeutil.TimeToTimeString(in.UpdateTime)
+	out.DeleteTime = timeutil.TimeToTimeString(in.DeleteTime)
+
+	return &out
 }
 
 func (r *NotificationMessageCategoryRepo) travelChild(nodes []*internalMessageV1.NotificationMessageCategory, node *internalMessageV1.NotificationMessageCategory) bool {
@@ -136,13 +132,13 @@ func (r *NotificationMessageCategoryRepo) List(ctx context.Context, req *paginat
 	items := make([]*internalMessageV1.NotificationMessageCategory, 0, len(results))
 	for _, m := range results {
 		if m.ParentID == nil {
-			item := r.convertEntToProto(m)
+			item := r.toProto(m)
 			items = append(items, item)
 		}
 	}
 	for _, m := range results {
 		if m.ParentID != nil {
-			item := r.convertEntToProto(m)
+			item := r.toProto(m)
 
 			if r.travelChild(items, item) {
 				continue
@@ -192,7 +188,7 @@ func (r *NotificationMessageCategoryRepo) Get(ctx context.Context, req *internal
 		return nil, internalMessageV1.ErrorInternalServerError("query data failed")
 	}
 
-	return r.convertEntToProto(ret), nil
+	return r.toProto(ret), nil
 }
 
 func (r *NotificationMessageCategoryRepo) Create(ctx context.Context, req *internalMessageV1.CreateNotificationMessageCategoryRequest) error {

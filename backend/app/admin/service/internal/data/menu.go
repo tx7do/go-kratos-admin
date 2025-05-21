@@ -7,6 +7,7 @@ import (
 
 	"entgo.io/ent/dialect/sql"
 	"github.com/go-kratos/kratos/v2/log"
+	"github.com/jinzhu/copier"
 
 	"github.com/tx7do/go-utils/entgo/query"
 	entgoUpdate "github.com/tx7do/go-utils/entgo/update"
@@ -34,7 +35,7 @@ func NewMenuRepo(data *Data, logger log.Logger) *MenuRepo {
 	}
 }
 
-func (r *MenuRepo) convertMenuTypeToProto(in *menu.Type) *systemV1.MenuType {
+func (r *MenuRepo) toProtoType(in *menu.Type) *systemV1.MenuType {
 	if in == nil {
 		return nil
 	}
@@ -44,7 +45,7 @@ func (r *MenuRepo) convertMenuTypeToProto(in *menu.Type) *systemV1.MenuType {
 	}
 	return (*systemV1.MenuType)(trans.Ptr(find))
 }
-func (r *MenuRepo) convertMenuTypeToEnt(in *systemV1.MenuType) *menu.Type {
+func (r *MenuRepo) toEntType(in *systemV1.MenuType) *menu.Type {
 	if in == nil {
 		return nil
 	}
@@ -55,7 +56,7 @@ func (r *MenuRepo) convertMenuTypeToEnt(in *systemV1.MenuType) *menu.Type {
 	return (*menu.Type)(trans.Ptr(find))
 }
 
-func (r *MenuRepo) convertUserStatusToEnt(status *systemV1.MenuStatus) *menu.Status {
+func (r *MenuRepo) toEntStatus(status *systemV1.MenuStatus) *menu.Status {
 	if status == nil {
 		return nil
 	}
@@ -66,7 +67,7 @@ func (r *MenuRepo) convertUserStatusToEnt(status *systemV1.MenuStatus) *menu.Sta
 	return (*menu.Status)(trans.Ptr(find))
 }
 
-func (r *MenuRepo) convertUserStatusToProto(status *menu.Status) *systemV1.MenuStatus {
+func (r *MenuRepo) toProtoStatus(status *menu.Status) *systemV1.MenuStatus {
 	if status == nil {
 		return nil
 	}
@@ -77,28 +78,21 @@ func (r *MenuRepo) convertUserStatusToProto(status *menu.Status) *systemV1.MenuS
 	return (*systemV1.MenuStatus)(trans.Ptr(find))
 }
 
-func (r *MenuRepo) convertEntToProto(in *ent.Menu) *systemV1.Menu {
+func (r *MenuRepo) toProto(in *ent.Menu) *systemV1.Menu {
 	if in == nil {
 		return nil
 	}
 
-	return &systemV1.Menu{
-		Id:         trans.Ptr(in.ID),
-		ParentId:   in.ParentID,
-		Path:       in.Path,
-		Redirect:   in.Redirect,
-		Alias:      in.Alias,
-		Name:       in.Name,
-		Component:  in.Component,
-		Meta:       in.Meta,
-		Type:       r.convertMenuTypeToProto(in.Type),
-		Status:     r.convertUserStatusToProto(in.Status),
-		CreateBy:   in.CreateBy,
-		UpdateBy:   in.UpdateBy,
-		CreateTime: timeutil.TimeToTimeString(in.CreateTime),
-		UpdateTime: timeutil.TimeToTimeString(in.UpdateTime),
-		DeleteTime: timeutil.TimeToTimeString(in.DeleteTime),
-	}
+	var out systemV1.Menu
+	_ = copier.Copy(&out, in)
+
+	out.Type = r.toProtoType(in.Type)
+	out.Status = r.toProtoStatus(in.Status)
+	out.CreateTime = timeutil.TimeToTimeString(in.CreateTime)
+	out.UpdateTime = timeutil.TimeToTimeString(in.UpdateTime)
+	out.DeleteTime = timeutil.TimeToTimeString(in.DeleteTime)
+
+	return &out
 }
 
 func (r *MenuRepo) travelChild(nodes []*systemV1.Menu, node *systemV1.Menu) bool {
@@ -175,13 +169,13 @@ func (r *MenuRepo) List(ctx context.Context, req *pagination.PagingRequest, tree
 	if treeTravel {
 		for _, m := range results {
 			if m.ParentID == nil {
-				item := r.convertEntToProto(m)
+				item := r.toProto(m)
 				items = append(items, item)
 			}
 		}
 		for _, m := range results {
 			if m.ParentID != nil {
-				item := r.convertEntToProto(m)
+				item := r.toProto(m)
 
 				if r.travelChild(items, item) {
 					continue
@@ -192,7 +186,7 @@ func (r *MenuRepo) List(ctx context.Context, req *pagination.PagingRequest, tree
 		}
 	} else {
 		for _, res := range results {
-			item := r.convertEntToProto(res)
+			item := r.toProto(res)
 			items = append(items, item)
 		}
 	}
@@ -235,7 +229,7 @@ func (r *MenuRepo) Get(ctx context.Context, req *systemV1.GetMenuRequest) (*syst
 		return nil, systemV1.ErrorInternalServerError("query data failed")
 	}
 
-	return r.convertEntToProto(ret), nil
+	return r.toProto(ret), nil
 }
 
 func (r *MenuRepo) Create(ctx context.Context, req *systemV1.CreateMenuRequest) error {
@@ -245,13 +239,13 @@ func (r *MenuRepo) Create(ctx context.Context, req *systemV1.CreateMenuRequest) 
 
 	builder := r.data.db.Client().Menu.Create().
 		SetNillableParentID(req.Data.ParentId).
-		SetNillableType(r.convertMenuTypeToEnt(req.Data.Type)).
+		SetNillableType(r.toEntType(req.Data.Type)).
 		SetNillablePath(req.Data.Path).
 		SetNillableRedirect(req.Data.Redirect).
 		SetNillableAlias(req.Data.Alias).
 		SetNillableName(req.Data.Name).
 		SetNillableComponent(req.Data.Component).
-		SetNillableStatus(r.convertUserStatusToEnt(req.Data.Status)).
+		SetNillableStatus(r.toEntStatus(req.Data.Status)).
 		SetNillableCreateBy(req.Data.CreateBy).
 		SetNillableCreateTime(timeutil.StringTimeToTime(req.Data.CreateTime))
 
@@ -313,13 +307,13 @@ func (r *MenuRepo) Update(ctx context.Context, req *systemV1.UpdateMenuRequest) 
 		//Debug().
 		Menu.UpdateOneID(req.Data.GetId()).
 		SetNillableParentID(req.Data.ParentId).
-		SetNillableType(r.convertMenuTypeToEnt(req.Data.Type)).
+		SetNillableType(r.toEntType(req.Data.Type)).
 		SetNillablePath(req.Data.Path).
 		SetNillableRedirect(req.Data.Redirect).
 		SetNillableAlias(req.Data.Alias).
 		SetNillableName(req.Data.Name).
 		SetNillableComponent(req.Data.Component).
-		SetNillableStatus(r.convertUserStatusToEnt(req.Data.Status)).
+		SetNillableStatus(r.toEntStatus(req.Data.Status)).
 		SetNillableUpdateBy(req.Data.UpdateBy).
 		SetNillableUpdateTime(timeutil.StringTimeToTime(req.Data.UpdateTime))
 

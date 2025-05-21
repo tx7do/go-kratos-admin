@@ -29,46 +29,6 @@ func (allu *AdminLoginLogUpdate) Where(ps ...predicate.AdminLoginLog) *AdminLogi
 	return allu
 }
 
-// SetUpdateTime sets the "update_time" field.
-func (allu *AdminLoginLogUpdate) SetUpdateTime(t time.Time) *AdminLoginLogUpdate {
-	allu.mutation.SetUpdateTime(t)
-	return allu
-}
-
-// SetNillableUpdateTime sets the "update_time" field if the given value is not nil.
-func (allu *AdminLoginLogUpdate) SetNillableUpdateTime(t *time.Time) *AdminLoginLogUpdate {
-	if t != nil {
-		allu.SetUpdateTime(*t)
-	}
-	return allu
-}
-
-// ClearUpdateTime clears the value of the "update_time" field.
-func (allu *AdminLoginLogUpdate) ClearUpdateTime() *AdminLoginLogUpdate {
-	allu.mutation.ClearUpdateTime()
-	return allu
-}
-
-// SetDeleteTime sets the "delete_time" field.
-func (allu *AdminLoginLogUpdate) SetDeleteTime(t time.Time) *AdminLoginLogUpdate {
-	allu.mutation.SetDeleteTime(t)
-	return allu
-}
-
-// SetNillableDeleteTime sets the "delete_time" field if the given value is not nil.
-func (allu *AdminLoginLogUpdate) SetNillableDeleteTime(t *time.Time) *AdminLoginLogUpdate {
-	if t != nil {
-		allu.SetDeleteTime(*t)
-	}
-	return allu
-}
-
-// ClearDeleteTime clears the value of the "delete_time" field.
-func (allu *AdminLoginLogUpdate) ClearDeleteTime() *AdminLoginLogUpdate {
-	allu.mutation.ClearDeleteTime()
-	return allu
-}
-
 // SetLoginIP sets the "login_ip" field.
 func (allu *AdminLoginLogUpdate) SetLoginIP(s string) *AdminLoginLogUpdate {
 	allu.mutation.SetLoginIP(s)
@@ -453,18 +413,6 @@ func (allu *AdminLoginLogUpdate) sqlSave(ctx context.Context) (n int, err error)
 	if allu.mutation.CreateTimeCleared() {
 		_spec.ClearField(adminloginlog.FieldCreateTime, field.TypeTime)
 	}
-	if value, ok := allu.mutation.UpdateTime(); ok {
-		_spec.SetField(adminloginlog.FieldUpdateTime, field.TypeTime, value)
-	}
-	if allu.mutation.UpdateTimeCleared() {
-		_spec.ClearField(adminloginlog.FieldUpdateTime, field.TypeTime)
-	}
-	if value, ok := allu.mutation.DeleteTime(); ok {
-		_spec.SetField(adminloginlog.FieldDeleteTime, field.TypeTime, value)
-	}
-	if allu.mutation.DeleteTimeCleared() {
-		_spec.ClearField(adminloginlog.FieldDeleteTime, field.TypeTime)
-	}
 	if value, ok := allu.mutation.LoginIP(); ok {
 		_spec.SetField(adminloginlog.FieldLoginIP, field.TypeString, value)
 	}
@@ -587,46 +535,6 @@ type AdminLoginLogUpdateOne struct {
 	hooks     []Hook
 	mutation  *AdminLoginLogMutation
 	modifiers []func(*sql.UpdateBuilder)
-}
-
-// SetUpdateTime sets the "update_time" field.
-func (alluo *AdminLoginLogUpdateOne) SetUpdateTime(t time.Time) *AdminLoginLogUpdateOne {
-	alluo.mutation.SetUpdateTime(t)
-	return alluo
-}
-
-// SetNillableUpdateTime sets the "update_time" field if the given value is not nil.
-func (alluo *AdminLoginLogUpdateOne) SetNillableUpdateTime(t *time.Time) *AdminLoginLogUpdateOne {
-	if t != nil {
-		alluo.SetUpdateTime(*t)
-	}
-	return alluo
-}
-
-// ClearUpdateTime clears the value of the "update_time" field.
-func (alluo *AdminLoginLogUpdateOne) ClearUpdateTime() *AdminLoginLogUpdateOne {
-	alluo.mutation.ClearUpdateTime()
-	return alluo
-}
-
-// SetDeleteTime sets the "delete_time" field.
-func (alluo *AdminLoginLogUpdateOne) SetDeleteTime(t time.Time) *AdminLoginLogUpdateOne {
-	alluo.mutation.SetDeleteTime(t)
-	return alluo
-}
-
-// SetNillableDeleteTime sets the "delete_time" field if the given value is not nil.
-func (alluo *AdminLoginLogUpdateOne) SetNillableDeleteTime(t *time.Time) *AdminLoginLogUpdateOne {
-	if t != nil {
-		alluo.SetDeleteTime(*t)
-	}
-	return alluo
-}
-
-// ClearDeleteTime clears the value of the "delete_time" field.
-func (alluo *AdminLoginLogUpdateOne) ClearDeleteTime() *AdminLoginLogUpdateOne {
-	alluo.mutation.ClearDeleteTime()
-	return alluo
 }
 
 // SetLoginIP sets the "login_ip" field.
@@ -1042,18 +950,6 @@ func (alluo *AdminLoginLogUpdateOne) sqlSave(ctx context.Context) (_node *AdminL
 	}
 	if alluo.mutation.CreateTimeCleared() {
 		_spec.ClearField(adminloginlog.FieldCreateTime, field.TypeTime)
-	}
-	if value, ok := alluo.mutation.UpdateTime(); ok {
-		_spec.SetField(adminloginlog.FieldUpdateTime, field.TypeTime, value)
-	}
-	if alluo.mutation.UpdateTimeCleared() {
-		_spec.ClearField(adminloginlog.FieldUpdateTime, field.TypeTime)
-	}
-	if value, ok := alluo.mutation.DeleteTime(); ok {
-		_spec.SetField(adminloginlog.FieldDeleteTime, field.TypeTime, value)
-	}
-	if alluo.mutation.DeleteTimeCleared() {
-		_spec.ClearField(adminloginlog.FieldDeleteTime, field.TypeTime)
 	}
 	if value, ok := alluo.mutation.LoginIP(); ok {
 		_spec.SetField(adminloginlog.FieldLoginIP, field.TypeString, value)

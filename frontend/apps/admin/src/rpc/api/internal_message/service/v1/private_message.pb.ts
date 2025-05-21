@@ -7,24 +7,7 @@
 /* eslint-disable */
 import { type Empty } from "../../../google/protobuf/empty.pb";
 import { type PagingRequest } from "../../../pagination/v1/pagination.pb";
-
-/** 私信消息状态 */
-export enum PrivateMessageStatus {
-  /** PrivateMessageStatus_Unknown - 未知状态 */
-  PrivateMessageStatus_Unknown = "PrivateMessageStatus_Unknown",
-  /** PrivateMessageStatus_Draft - 草稿 */
-  PrivateMessageStatus_Draft = "PrivateMessageStatus_Draft",
-  /** PrivateMessageStatus_Sent - 已发送 */
-  PrivateMessageStatus_Sent = "PrivateMessageStatus_Sent",
-  /** PrivateMessageStatus_Received - 已接收 */
-  PrivateMessageStatus_Received = "PrivateMessageStatus_Received",
-  /** PrivateMessageStatus_Read - 已读 */
-  PrivateMessageStatus_Read = "PrivateMessageStatus_Read",
-  /** PrivateMessageStatus_Archived - 已归档 */
-  PrivateMessageStatus_Archived = "PrivateMessageStatus_Archived",
-  /** PrivateMessageStatus_Deleted - 已删除 */
-  PrivateMessageStatus_Deleted = "PrivateMessageStatus_Deleted",
-}
+import { type MessageStatus } from "./message.pb";
 
 /** 私信消息 */
 export interface PrivateMessage {
@@ -45,7 +28,7 @@ export interface PrivateMessage {
     | undefined;
   /** 消息状态 */
   status?:
-    | PrivateMessageStatus
+    | MessageStatus
     | null
     | undefined;
   /** 发送者用户ID */

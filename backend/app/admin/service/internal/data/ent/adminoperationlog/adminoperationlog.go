@@ -13,10 +13,6 @@ const (
 	FieldID = "id"
 	// FieldCreateTime holds the string denoting the create_time field in the database.
 	FieldCreateTime = "create_time"
-	// FieldUpdateTime holds the string denoting the update_time field in the database.
-	FieldUpdateTime = "update_time"
-	// FieldDeleteTime holds the string denoting the delete_time field in the database.
-	FieldDeleteTime = "delete_time"
 	// FieldRequestID holds the string denoting the request_id field in the database.
 	FieldRequestID = "request_id"
 	// FieldMethod holds the string denoting the method field in the database.
@@ -73,8 +69,6 @@ const (
 var Columns = []string{
 	FieldID,
 	FieldCreateTime,
-	FieldUpdateTime,
-	FieldDeleteTime,
 	FieldRequestID,
 	FieldMethod,
 	FieldOperation,
@@ -127,16 +121,6 @@ func ByID(opts ...sql.OrderTermOption) OrderOption {
 // ByCreateTime orders the results by the create_time field.
 func ByCreateTime(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldCreateTime, opts...).ToFunc()
-}
-
-// ByUpdateTime orders the results by the update_time field.
-func ByUpdateTime(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldUpdateTime, opts...).ToFunc()
-}
-
-// ByDeleteTime orders the results by the delete_time field.
-func ByDeleteTime(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldDeleteTime, opts...).ToFunc()
 }
 
 // ByRequestID orders the results by the request_id field.

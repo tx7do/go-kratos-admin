@@ -10,17 +10,17 @@ import { type PagingRequest } from "../../../pagination/v1/pagination.pb";
 
 /** OSS供应商 */
 export enum OSSProvider {
-  MinIO = "MinIO",
-  Aliyun = "Aliyun",
+  MINIO = "MINIO",
+  ALIYUN = "ALIYUN",
   AWS = "AWS",
-  Azure = "Azure",
-  Baidu = "Baidu",
-  Qiniu = "Qiniu",
-  Tencent = "Tencent",
-  Google = "Google",
-  Huawei = "Huawei",
-  QCloud = "QCloud",
-  Local = "Local",
+  AZURE = "AZURE",
+  BAIDU = "BAIDU",
+  QINIU = "QINIU",
+  TENCENT = "TENCENT",
+  GOOGLE = "GOOGLE",
+  HUAWEI = "HUAWEI",
+  QCLOUD = "QCLOUD",
+  LOCAL = "LOCAL",
 }
 
 /** 文件 */

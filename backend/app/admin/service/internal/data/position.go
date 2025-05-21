@@ -6,12 +6,12 @@ import (
 
 	"entgo.io/ent/dialect/sql"
 	"github.com/go-kratos/kratos/v2/log"
+	"github.com/jinzhu/copier"
 
 	entgo "github.com/tx7do/go-utils/entgo/query"
 	entgoUpdate "github.com/tx7do/go-utils/entgo/update"
 	"github.com/tx7do/go-utils/fieldmaskutil"
 	"github.com/tx7do/go-utils/timeutil"
-	"github.com/tx7do/go-utils/trans"
 	pagination "github.com/tx7do/kratos-bootstrap/api/gen/go/pagination/v1"
 
 	"kratos-admin/app/admin/service/internal/data/ent"
@@ -33,24 +33,19 @@ func NewPositionRepo(data *Data, logger log.Logger) *PositionRepo {
 	}
 }
 
-func (r *PositionRepo) convertEntToProto(in *ent.Position) *userV1.Position {
+func (r *PositionRepo) toProto(in *ent.Position) *userV1.Position {
 	if in == nil {
 		return nil
 	}
-	return &userV1.Position{
-		Id:         trans.Ptr(in.ID),
-		Name:       &in.Name,
-		Code:       &in.Code,
-		Remark:     in.Remark,
-		SortId:     &in.SortID,
-		ParentId:   &in.ParentID,
-		Status:     (*string)(in.Status),
-		CreateBy:   in.CreateBy,
-		UpdateBy:   in.UpdateBy,
-		CreateTime: timeutil.TimeToTimeString(in.CreateTime),
-		UpdateTime: timeutil.TimeToTimeString(in.UpdateTime),
-		DeleteTime: timeutil.TimeToTimeString(in.DeleteTime),
-	}
+
+	var out userV1.Position
+	_ = copier.Copy(&out, in)
+
+	out.CreateTime = timeutil.TimeToTimeString(in.CreateTime)
+	out.UpdateTime = timeutil.TimeToTimeString(in.UpdateTime)
+	out.DeleteTime = timeutil.TimeToTimeString(in.DeleteTime)
+
+	return &out
 }
 
 func (r *PositionRepo) Count(ctx context.Context, whereCond []func(s *sql.Selector)) (int, error) {
@@ -98,7 +93,7 @@ func (r *PositionRepo) List(ctx context.Context, req *pagination.PagingRequest) 
 
 	items := make([]*userV1.Position, 0, len(results))
 	for _, res := range results {
-		item := r.convertEntToProto(res)
+		item := r.toProto(res)
 		items = append(items, item)
 	}
 
@@ -140,7 +135,7 @@ func (r *PositionRepo) Get(ctx context.Context, req *userV1.GetPositionRequest) 
 		return nil, userV1.ErrorInternalServerError("query data failed")
 	}
 
-	return r.convertEntToProto(ret), nil
+	return r.toProto(ret), nil
 }
 
 func (r *PositionRepo) Create(ctx context.Context, req *userV1.CreatePositionRequest) error {

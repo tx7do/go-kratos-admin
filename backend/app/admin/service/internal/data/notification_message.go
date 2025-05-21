@@ -6,6 +6,7 @@ import (
 
 	"entgo.io/ent/dialect/sql"
 	"github.com/go-kratos/kratos/v2/log"
+	"github.com/jinzhu/copier"
 
 	entgo "github.com/tx7do/go-utils/entgo/query"
 	entgoUpdate "github.com/tx7do/go-utils/entgo/update"
@@ -59,22 +60,20 @@ func (r *NotificationMessageRepo) toEntStatus(in *internalMessageV1.MessageStatu
 	return (*notificationmessage.Status)(trans.Ptr(find))
 }
 
-func (r *NotificationMessageRepo) convertEntToProto(in *ent.NotificationMessage) *internalMessageV1.NotificationMessage {
+func (r *NotificationMessageRepo) toProto(in *ent.NotificationMessage) *internalMessageV1.NotificationMessage {
 	if in == nil {
 		return nil
 	}
-	return &internalMessageV1.NotificationMessage{
-		Id:         trans.Ptr(in.ID),
-		Subject:    in.Subject,
-		Content:    in.Content,
-		CategoryId: in.CategoryID,
-		Status:     r.toProtoStatus(in.Status),
-		CreateBy:   in.CreateBy,
-		UpdateBy:   in.UpdateBy,
-		CreateTime: timeutil.TimeToTimeString(in.CreateTime),
-		UpdateTime: timeutil.TimeToTimeString(in.UpdateTime),
-		DeleteTime: timeutil.TimeToTimeString(in.DeleteTime),
-	}
+
+	var out internalMessageV1.NotificationMessage
+	_ = copier.Copy(&out, in)
+
+	out.Status = r.toProtoStatus(in.Status)
+	out.CreateTime = timeutil.TimeToTimeString(in.CreateTime)
+	out.UpdateTime = timeutil.TimeToTimeString(in.UpdateTime)
+	out.DeleteTime = timeutil.TimeToTimeString(in.DeleteTime)
+
+	return &out
 }
 
 func (r *NotificationMessageRepo) Count(ctx context.Context, whereCond []func(s *sql.Selector)) (int, error) {
@@ -122,7 +121,7 @@ func (r *NotificationMessageRepo) List(ctx context.Context, req *pagination.Pagi
 
 	items := make([]*internalMessageV1.NotificationMessage, 0, len(results))
 	for _, res := range results {
-		item := r.convertEntToProto(res)
+		item := r.toProto(res)
 		items = append(items, item)
 	}
 
@@ -164,7 +163,7 @@ func (r *NotificationMessageRepo) Get(ctx context.Context, req *internalMessageV
 		return nil, internalMessageV1.ErrorInternalServerError("query data failed")
 	}
 
-	return r.convertEntToProto(ret), nil
+	return r.toProto(ret), nil
 }
 
 func (r *NotificationMessageRepo) Create(ctx context.Context, req *internalMessageV1.CreateNotificationMessageRequest) error {

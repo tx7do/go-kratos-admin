@@ -7,20 +7,7 @@
 /* eslint-disable */
 import { type Empty } from "../../../google/protobuf/empty.pb";
 import { type PagingRequest } from "../../../pagination/v1/pagination.pb";
-
-/** 通知消息接收者状态 */
-export enum NotificationMessageRecipientStatus {
-  /** NotificationMessageRecipientStatus_Unknown - 未知状态 */
-  NotificationMessageRecipientStatus_Unknown = "NotificationMessageRecipientStatus_Unknown",
-  /** NotificationMessageRecipientStatus_Received - 已接收 */
-  NotificationMessageRecipientStatus_Received = "NotificationMessageRecipientStatus_Received",
-  /** NotificationMessageRecipientStatus_Read - 已读 */
-  NotificationMessageRecipientStatus_Read = "NotificationMessageRecipientStatus_Read",
-  /** NotificationMessageRecipientStatus_Archived - 已归档 */
-  NotificationMessageRecipientStatus_Archived = "NotificationMessageRecipientStatus_Archived",
-  /** NotificationMessageRecipientStatus_Deleted - 已删除 */
-  NotificationMessageRecipientStatus_Deleted = "NotificationMessageRecipientStatus_Deleted",
-}
+import { type MessageStatus } from "./message.pb";
 
 /** 通知消息接收者 */
 export interface NotificationMessageRecipient {
@@ -41,7 +28,7 @@ export interface NotificationMessageRecipient {
     | undefined;
   /** 消息状态 */
   status?:
-    | NotificationMessageRecipientStatus
+    | MessageStatus
     | null
     | undefined;
   /** 创建者ID */

@@ -36,34 +36,6 @@ func (allc *AdminLoginLogCreate) SetNillableCreateTime(t *time.Time) *AdminLogin
 	return allc
 }
 
-// SetUpdateTime sets the "update_time" field.
-func (allc *AdminLoginLogCreate) SetUpdateTime(t time.Time) *AdminLoginLogCreate {
-	allc.mutation.SetUpdateTime(t)
-	return allc
-}
-
-// SetNillableUpdateTime sets the "update_time" field if the given value is not nil.
-func (allc *AdminLoginLogCreate) SetNillableUpdateTime(t *time.Time) *AdminLoginLogCreate {
-	if t != nil {
-		allc.SetUpdateTime(*t)
-	}
-	return allc
-}
-
-// SetDeleteTime sets the "delete_time" field.
-func (allc *AdminLoginLogCreate) SetDeleteTime(t time.Time) *AdminLoginLogCreate {
-	allc.mutation.SetDeleteTime(t)
-	return allc
-}
-
-// SetNillableDeleteTime sets the "delete_time" field if the given value is not nil.
-func (allc *AdminLoginLogCreate) SetNillableDeleteTime(t *time.Time) *AdminLoginLogCreate {
-	if t != nil {
-		allc.SetDeleteTime(*t)
-	}
-	return allc
-}
-
 // SetLoginIP sets the "login_ip" field.
 func (allc *AdminLoginLogCreate) SetLoginIP(s string) *AdminLoginLogCreate {
 	allc.mutation.SetLoginIP(s)
@@ -370,14 +342,6 @@ func (allc *AdminLoginLogCreate) createSpec() (*AdminLoginLog, *sqlgraph.CreateS
 		_spec.SetField(adminloginlog.FieldCreateTime, field.TypeTime, value)
 		_node.CreateTime = &value
 	}
-	if value, ok := allc.mutation.UpdateTime(); ok {
-		_spec.SetField(adminloginlog.FieldUpdateTime, field.TypeTime, value)
-		_node.UpdateTime = &value
-	}
-	if value, ok := allc.mutation.DeleteTime(); ok {
-		_spec.SetField(adminloginlog.FieldDeleteTime, field.TypeTime, value)
-		_node.DeleteTime = &value
-	}
 	if value, ok := allc.mutation.LoginIP(); ok {
 		_spec.SetField(adminloginlog.FieldLoginIP, field.TypeString, value)
 		_node.LoginIP = &value
@@ -493,42 +457,6 @@ type (
 		*sql.UpdateSet
 	}
 )
-
-// SetUpdateTime sets the "update_time" field.
-func (u *AdminLoginLogUpsert) SetUpdateTime(v time.Time) *AdminLoginLogUpsert {
-	u.Set(adminloginlog.FieldUpdateTime, v)
-	return u
-}
-
-// UpdateUpdateTime sets the "update_time" field to the value that was provided on create.
-func (u *AdminLoginLogUpsert) UpdateUpdateTime() *AdminLoginLogUpsert {
-	u.SetExcluded(adminloginlog.FieldUpdateTime)
-	return u
-}
-
-// ClearUpdateTime clears the value of the "update_time" field.
-func (u *AdminLoginLogUpsert) ClearUpdateTime() *AdminLoginLogUpsert {
-	u.SetNull(adminloginlog.FieldUpdateTime)
-	return u
-}
-
-// SetDeleteTime sets the "delete_time" field.
-func (u *AdminLoginLogUpsert) SetDeleteTime(v time.Time) *AdminLoginLogUpsert {
-	u.Set(adminloginlog.FieldDeleteTime, v)
-	return u
-}
-
-// UpdateDeleteTime sets the "delete_time" field to the value that was provided on create.
-func (u *AdminLoginLogUpsert) UpdateDeleteTime() *AdminLoginLogUpsert {
-	u.SetExcluded(adminloginlog.FieldDeleteTime)
-	return u
-}
-
-// ClearDeleteTime clears the value of the "delete_time" field.
-func (u *AdminLoginLogUpsert) ClearDeleteTime() *AdminLoginLogUpsert {
-	u.SetNull(adminloginlog.FieldDeleteTime)
-	return u
-}
 
 // SetLoginIP sets the "login_ip" field.
 func (u *AdminLoginLogUpsert) SetLoginIP(v string) *AdminLoginLogUpsert {
@@ -879,48 +807,6 @@ func (u *AdminLoginLogUpsertOne) Update(set func(*AdminLoginLogUpsert)) *AdminLo
 		set(&AdminLoginLogUpsert{UpdateSet: update})
 	}))
 	return u
-}
-
-// SetUpdateTime sets the "update_time" field.
-func (u *AdminLoginLogUpsertOne) SetUpdateTime(v time.Time) *AdminLoginLogUpsertOne {
-	return u.Update(func(s *AdminLoginLogUpsert) {
-		s.SetUpdateTime(v)
-	})
-}
-
-// UpdateUpdateTime sets the "update_time" field to the value that was provided on create.
-func (u *AdminLoginLogUpsertOne) UpdateUpdateTime() *AdminLoginLogUpsertOne {
-	return u.Update(func(s *AdminLoginLogUpsert) {
-		s.UpdateUpdateTime()
-	})
-}
-
-// ClearUpdateTime clears the value of the "update_time" field.
-func (u *AdminLoginLogUpsertOne) ClearUpdateTime() *AdminLoginLogUpsertOne {
-	return u.Update(func(s *AdminLoginLogUpsert) {
-		s.ClearUpdateTime()
-	})
-}
-
-// SetDeleteTime sets the "delete_time" field.
-func (u *AdminLoginLogUpsertOne) SetDeleteTime(v time.Time) *AdminLoginLogUpsertOne {
-	return u.Update(func(s *AdminLoginLogUpsert) {
-		s.SetDeleteTime(v)
-	})
-}
-
-// UpdateDeleteTime sets the "delete_time" field to the value that was provided on create.
-func (u *AdminLoginLogUpsertOne) UpdateDeleteTime() *AdminLoginLogUpsertOne {
-	return u.Update(func(s *AdminLoginLogUpsert) {
-		s.UpdateDeleteTime()
-	})
-}
-
-// ClearDeleteTime clears the value of the "delete_time" field.
-func (u *AdminLoginLogUpsertOne) ClearDeleteTime() *AdminLoginLogUpsertOne {
-	return u.Update(func(s *AdminLoginLogUpsert) {
-		s.ClearDeleteTime()
-	})
 }
 
 // SetLoginIP sets the "login_ip" field.
@@ -1487,48 +1373,6 @@ func (u *AdminLoginLogUpsertBulk) Update(set func(*AdminLoginLogUpsert)) *AdminL
 		set(&AdminLoginLogUpsert{UpdateSet: update})
 	}))
 	return u
-}
-
-// SetUpdateTime sets the "update_time" field.
-func (u *AdminLoginLogUpsertBulk) SetUpdateTime(v time.Time) *AdminLoginLogUpsertBulk {
-	return u.Update(func(s *AdminLoginLogUpsert) {
-		s.SetUpdateTime(v)
-	})
-}
-
-// UpdateUpdateTime sets the "update_time" field to the value that was provided on create.
-func (u *AdminLoginLogUpsertBulk) UpdateUpdateTime() *AdminLoginLogUpsertBulk {
-	return u.Update(func(s *AdminLoginLogUpsert) {
-		s.UpdateUpdateTime()
-	})
-}
-
-// ClearUpdateTime clears the value of the "update_time" field.
-func (u *AdminLoginLogUpsertBulk) ClearUpdateTime() *AdminLoginLogUpsertBulk {
-	return u.Update(func(s *AdminLoginLogUpsert) {
-		s.ClearUpdateTime()
-	})
-}
-
-// SetDeleteTime sets the "delete_time" field.
-func (u *AdminLoginLogUpsertBulk) SetDeleteTime(v time.Time) *AdminLoginLogUpsertBulk {
-	return u.Update(func(s *AdminLoginLogUpsert) {
-		s.SetDeleteTime(v)
-	})
-}
-
-// UpdateDeleteTime sets the "delete_time" field to the value that was provided on create.
-func (u *AdminLoginLogUpsertBulk) UpdateDeleteTime() *AdminLoginLogUpsertBulk {
-	return u.Update(func(s *AdminLoginLogUpsert) {
-		s.UpdateDeleteTime()
-	})
-}
-
-// ClearDeleteTime clears the value of the "delete_time" field.
-func (u *AdminLoginLogUpsertBulk) ClearDeleteTime() *AdminLoginLogUpsertBulk {
-	return u.Update(func(s *AdminLoginLogUpsert) {
-		s.ClearDeleteTime()
-	})
 }
 
 // SetLoginIP sets the "login_ip" field.

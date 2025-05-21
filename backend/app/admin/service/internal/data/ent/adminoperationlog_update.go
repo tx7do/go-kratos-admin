@@ -8,7 +8,6 @@ import (
 	"fmt"
 	"kratos-admin/app/admin/service/internal/data/ent/adminoperationlog"
 	"kratos-admin/app/admin/service/internal/data/ent/predicate"
-	"time"
 
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
@@ -26,46 +25,6 @@ type AdminOperationLogUpdate struct {
 // Where appends a list predicates to the AdminOperationLogUpdate builder.
 func (aolu *AdminOperationLogUpdate) Where(ps ...predicate.AdminOperationLog) *AdminOperationLogUpdate {
 	aolu.mutation.Where(ps...)
-	return aolu
-}
-
-// SetUpdateTime sets the "update_time" field.
-func (aolu *AdminOperationLogUpdate) SetUpdateTime(t time.Time) *AdminOperationLogUpdate {
-	aolu.mutation.SetUpdateTime(t)
-	return aolu
-}
-
-// SetNillableUpdateTime sets the "update_time" field if the given value is not nil.
-func (aolu *AdminOperationLogUpdate) SetNillableUpdateTime(t *time.Time) *AdminOperationLogUpdate {
-	if t != nil {
-		aolu.SetUpdateTime(*t)
-	}
-	return aolu
-}
-
-// ClearUpdateTime clears the value of the "update_time" field.
-func (aolu *AdminOperationLogUpdate) ClearUpdateTime() *AdminOperationLogUpdate {
-	aolu.mutation.ClearUpdateTime()
-	return aolu
-}
-
-// SetDeleteTime sets the "delete_time" field.
-func (aolu *AdminOperationLogUpdate) SetDeleteTime(t time.Time) *AdminOperationLogUpdate {
-	aolu.mutation.SetDeleteTime(t)
-	return aolu
-}
-
-// SetNillableDeleteTime sets the "delete_time" field if the given value is not nil.
-func (aolu *AdminOperationLogUpdate) SetNillableDeleteTime(t *time.Time) *AdminOperationLogUpdate {
-	if t != nil {
-		aolu.SetDeleteTime(*t)
-	}
-	return aolu
-}
-
-// ClearDeleteTime clears the value of the "delete_time" field.
-func (aolu *AdminOperationLogUpdate) ClearDeleteTime() *AdminOperationLogUpdate {
-	aolu.mutation.ClearDeleteTime()
 	return aolu
 }
 
@@ -620,18 +579,6 @@ func (aolu *AdminOperationLogUpdate) sqlSave(ctx context.Context) (n int, err er
 	if aolu.mutation.CreateTimeCleared() {
 		_spec.ClearField(adminoperationlog.FieldCreateTime, field.TypeTime)
 	}
-	if value, ok := aolu.mutation.UpdateTime(); ok {
-		_spec.SetField(adminoperationlog.FieldUpdateTime, field.TypeTime, value)
-	}
-	if aolu.mutation.UpdateTimeCleared() {
-		_spec.ClearField(adminoperationlog.FieldUpdateTime, field.TypeTime)
-	}
-	if value, ok := aolu.mutation.DeleteTime(); ok {
-		_spec.SetField(adminoperationlog.FieldDeleteTime, field.TypeTime, value)
-	}
-	if aolu.mutation.DeleteTimeCleared() {
-		_spec.ClearField(adminoperationlog.FieldDeleteTime, field.TypeTime)
-	}
 	if value, ok := aolu.mutation.RequestID(); ok {
 		_spec.SetField(adminoperationlog.FieldRequestID, field.TypeString, value)
 	}
@@ -805,46 +752,6 @@ type AdminOperationLogUpdateOne struct {
 	hooks     []Hook
 	mutation  *AdminOperationLogMutation
 	modifiers []func(*sql.UpdateBuilder)
-}
-
-// SetUpdateTime sets the "update_time" field.
-func (aoluo *AdminOperationLogUpdateOne) SetUpdateTime(t time.Time) *AdminOperationLogUpdateOne {
-	aoluo.mutation.SetUpdateTime(t)
-	return aoluo
-}
-
-// SetNillableUpdateTime sets the "update_time" field if the given value is not nil.
-func (aoluo *AdminOperationLogUpdateOne) SetNillableUpdateTime(t *time.Time) *AdminOperationLogUpdateOne {
-	if t != nil {
-		aoluo.SetUpdateTime(*t)
-	}
-	return aoluo
-}
-
-// ClearUpdateTime clears the value of the "update_time" field.
-func (aoluo *AdminOperationLogUpdateOne) ClearUpdateTime() *AdminOperationLogUpdateOne {
-	aoluo.mutation.ClearUpdateTime()
-	return aoluo
-}
-
-// SetDeleteTime sets the "delete_time" field.
-func (aoluo *AdminOperationLogUpdateOne) SetDeleteTime(t time.Time) *AdminOperationLogUpdateOne {
-	aoluo.mutation.SetDeleteTime(t)
-	return aoluo
-}
-
-// SetNillableDeleteTime sets the "delete_time" field if the given value is not nil.
-func (aoluo *AdminOperationLogUpdateOne) SetNillableDeleteTime(t *time.Time) *AdminOperationLogUpdateOne {
-	if t != nil {
-		aoluo.SetDeleteTime(*t)
-	}
-	return aoluo
-}
-
-// ClearDeleteTime clears the value of the "delete_time" field.
-func (aoluo *AdminOperationLogUpdateOne) ClearDeleteTime() *AdminOperationLogUpdateOne {
-	aoluo.mutation.ClearDeleteTime()
-	return aoluo
 }
 
 // SetRequestID sets the "request_id" field.
@@ -1427,18 +1334,6 @@ func (aoluo *AdminOperationLogUpdateOne) sqlSave(ctx context.Context) (_node *Ad
 	}
 	if aoluo.mutation.CreateTimeCleared() {
 		_spec.ClearField(adminoperationlog.FieldCreateTime, field.TypeTime)
-	}
-	if value, ok := aoluo.mutation.UpdateTime(); ok {
-		_spec.SetField(adminoperationlog.FieldUpdateTime, field.TypeTime, value)
-	}
-	if aoluo.mutation.UpdateTimeCleared() {
-		_spec.ClearField(adminoperationlog.FieldUpdateTime, field.TypeTime)
-	}
-	if value, ok := aoluo.mutation.DeleteTime(); ok {
-		_spec.SetField(adminoperationlog.FieldDeleteTime, field.TypeTime, value)
-	}
-	if aoluo.mutation.DeleteTimeCleared() {
-		_spec.ClearField(adminoperationlog.FieldDeleteTime, field.TypeTime)
 	}
 	if value, ok := aoluo.mutation.RequestID(); ok {
 		_spec.SetField(adminoperationlog.FieldRequestID, field.TypeString, value)

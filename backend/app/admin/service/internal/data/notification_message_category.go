@@ -65,6 +65,17 @@ func (r *NotificationMessageCategoryRepo) toProto(in *ent.NotificationMessageCat
 	return &out
 }
 
+func (r *NotificationMessageCategoryRepo) toEnt(in *internalMessageV1.NotificationMessageCategory) *ent.NotificationMessageCategory {
+	if in == nil {
+		return nil
+	}
+
+	var out ent.NotificationMessageCategory
+	_ = copier.Copy(&out, in)
+
+	return &out
+}
+
 func (r *NotificationMessageCategoryRepo) travelChild(nodes []*internalMessageV1.NotificationMessageCategory, node *internalMessageV1.NotificationMessageCategory) bool {
 	if nodes == nil {
 		return false

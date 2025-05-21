@@ -107,6 +107,17 @@ func (r *FileRepo) toProto(in *ent.File) *fileV1.File {
 	return &out
 }
 
+func (r *FileRepo) toEnt(in *fileV1.File) *ent.File {
+	if in == nil {
+		return nil
+	}
+
+	var out ent.File
+	_ = copier.Copy(&out, in)
+
+	return &out
+}
+
 func (r *FileRepo) Count(ctx context.Context, whereCond []func(s *sql.Selector)) (int, error) {
 	builder := r.data.db.Client().File.Query()
 	if len(whereCond) != 0 {

@@ -141,6 +141,17 @@ func (r *MenuRepo) toProto(in *ent.Menu) *adminV1.Menu {
 	return &out
 }
 
+func (r *MenuRepo) toEnt(in *adminV1.Menu) *ent.Menu {
+	if in == nil {
+		return nil
+	}
+
+	var out ent.Menu
+	_ = copier.Copy(&out, in)
+
+	return &out
+}
+
 func (r *MenuRepo) travelChild(nodes []*adminV1.Menu, node *adminV1.Menu) bool {
 	if nodes == nil {
 		return false

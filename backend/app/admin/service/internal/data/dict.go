@@ -64,6 +64,17 @@ func (r *DictRepo) toProto(in *ent.Dict) *adminV1.Dict {
 	return &out
 }
 
+func (r *DictRepo) toEnt(in *adminV1.Dict) *ent.Dict {
+	if in == nil {
+		return nil
+	}
+
+	var out ent.Dict
+	_ = copier.Copy(&out, in)
+
+	return &out
+}
+
 func (r *DictRepo) Count(ctx context.Context, whereCond []func(s *sql.Selector)) (int, error) {
 	builder := r.data.db.Client().Dict.Query()
 	if len(whereCond) != 0 {

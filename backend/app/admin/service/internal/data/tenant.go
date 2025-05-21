@@ -66,6 +66,17 @@ func (r *TenantRepo) toProto(in *ent.Tenant) *userV1.Tenant {
 	return &out
 }
 
+func (r *TenantRepo) toEnt(in *userV1.Tenant) *ent.Tenant {
+	if in == nil {
+		return nil
+	}
+
+	var out ent.Tenant
+	_ = copier.Copy(&out, in)
+
+	return &out
+}
+
 func (r *TenantRepo) Count(ctx context.Context, whereCond []func(s *sql.Selector)) (int, error) {
 	builder := r.data.db.Client().Tenant.Query()
 	if len(whereCond) != 0 {

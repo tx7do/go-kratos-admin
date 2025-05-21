@@ -61,6 +61,17 @@ func (r *AdminLoginLogRepo) toProto(in *ent.AdminLoginLog) *adminV1.AdminLoginLo
 	return &out
 }
 
+func (r *AdminLoginLogRepo) toEnt(in *adminV1.AdminLoginLog) *ent.AdminLoginLog {
+	if in == nil {
+		return nil
+	}
+
+	var out ent.AdminLoginLog
+	_ = copier.Copy(&out, in)
+
+	return &out
+}
+
 func (r *AdminLoginLogRepo) Count(ctx context.Context, whereCond []func(s *sql.Selector)) (int, error) {
 	builder := r.data.db.Client().AdminLoginLog.Query()
 	if len(whereCond) != 0 {

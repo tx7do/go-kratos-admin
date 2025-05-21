@@ -107,6 +107,17 @@ func (r *PrivateMessageRepo) toProto(in *ent.PrivateMessage) *internalMessageV1.
 	return &out
 }
 
+func (r *PrivateMessageRepo) toEnt(in *internalMessageV1.PrivateMessage) *ent.PrivateMessage {
+	if in == nil {
+		return nil
+	}
+
+	var out ent.PrivateMessage
+	_ = copier.Copy(&out, in)
+
+	return &out
+}
+
 func (r *PrivateMessageRepo) Count(ctx context.Context, whereCond []func(s *sql.Selector)) (int, error) {
 	builder := r.data.db.Client().PrivateMessage.Query()
 	if len(whereCond) != 0 {

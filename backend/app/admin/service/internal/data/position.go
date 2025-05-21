@@ -64,6 +64,17 @@ func (r *PositionRepo) toProto(in *ent.Position) *userV1.Position {
 	return &out
 }
 
+func (r *PositionRepo) toEnt(in *userV1.Position) *ent.Position {
+	if in == nil {
+		return nil
+	}
+
+	var out ent.Position
+	_ = copier.Copy(&out, in)
+
+	return &out
+}
+
 func (r *PositionRepo) Count(ctx context.Context, whereCond []func(s *sql.Selector)) (int, error) {
 	builder := r.data.db.Client().Position.Query()
 	if len(whereCond) != 0 {

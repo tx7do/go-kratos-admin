@@ -64,6 +64,17 @@ func (r *RoleRepo) toProto(in *ent.Role) *userV1.Role {
 	return &out
 }
 
+func (r *RoleRepo) toEnt(in *userV1.Role) *ent.Role {
+	if in == nil {
+		return nil
+	}
+
+	var out ent.Role
+	_ = copier.Copy(&out, in)
+
+	return &out
+}
+
 func (r *RoleRepo) Count(ctx context.Context, whereCond []func(s *sql.Selector)) (int, error) {
 	builder := r.data.db.Client().Role.Query()
 	if len(whereCond) != 0 {

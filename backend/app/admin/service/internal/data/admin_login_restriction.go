@@ -148,6 +148,17 @@ func (r *AdminLoginRestrictionRepo) toProto(in *ent.AdminLoginRestriction) *admi
 	return &out
 }
 
+func (r *AdminLoginRestrictionRepo) toEnt(in *adminV1.AdminLoginRestriction) *ent.AdminLoginRestriction {
+	if in == nil {
+		return nil
+	}
+
+	var out ent.AdminLoginRestriction
+	_ = copier.Copy(&out, in)
+
+	return &out
+}
+
 func (r *AdminLoginRestrictionRepo) Count(ctx context.Context, whereCond []func(s *sql.Selector)) (int, error) {
 	builder := r.data.db.Client().AdminLoginRestriction.Query()
 	if len(whereCond) != 0 {

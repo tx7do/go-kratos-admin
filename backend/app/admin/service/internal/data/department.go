@@ -65,6 +65,17 @@ func (r *DepartmentRepo) toProto(in *ent.Department) *userV1.Department {
 	return &out
 }
 
+func (r *DepartmentRepo) toEnt(in *userV1.Department) *ent.Department {
+	if in == nil {
+		return nil
+	}
+
+	var out ent.Department
+	_ = copier.Copy(&out, in)
+
+	return &out
+}
+
 func (r *DepartmentRepo) travelChild(nodes []*userV1.Department, node *userV1.Department) bool {
 	if nodes == nil {
 		return false

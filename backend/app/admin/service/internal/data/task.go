@@ -106,6 +106,17 @@ func (r *TaskRepo) toProto(in *ent.Task) *adminV1.Task {
 	return &out
 }
 
+func (r *TaskRepo) toEnt(in *adminV1.Task) *ent.Task {
+	if in == nil {
+		return nil
+	}
+
+	var out ent.Task
+	_ = copier.Copy(&out, in)
+
+	return &out
+}
+
 func (r *TaskRepo) Count(ctx context.Context, whereCond []func(s *sql.Selector)) (int, error) {
 	builder := r.data.db.Client().Task.Query()
 	if len(whereCond) != 0 {

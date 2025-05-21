@@ -107,6 +107,17 @@ func (r *NotificationMessageRepo) toProto(in *ent.NotificationMessage) *internal
 	return &out
 }
 
+func (r *NotificationMessageRepo) toEnt(in *internalMessageV1.NotificationMessage) *ent.NotificationMessage {
+	if in == nil {
+		return nil
+	}
+
+	var out ent.NotificationMessage
+	_ = copier.Copy(&out, in)
+
+	return &out
+}
+
 func (r *NotificationMessageRepo) Count(ctx context.Context, whereCond []func(s *sql.Selector)) (int, error) {
 	builder := r.data.db.Client().NotificationMessage.Query()
 	if len(whereCond) != 0 {

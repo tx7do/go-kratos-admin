@@ -49,23 +49,3 @@ func (s *AdminOperationLogService) Create(ctx context.Context, req *systemV1.Cre
 
 	return &emptypb.Empty{}, nil
 }
-
-func (s *AdminOperationLogService) Update(ctx context.Context, req *systemV1.UpdateAdminOperationLogRequest) (*emptypb.Empty, error) {
-	if req.Data == nil {
-		return nil, adminV1.ErrorBadRequest("错误的参数")
-	}
-
-	if err := s.uc.Update(ctx, req); err != nil {
-		return nil, err
-	}
-
-	return &emptypb.Empty{}, nil
-}
-
-func (s *AdminOperationLogService) Delete(ctx context.Context, req *systemV1.DeleteAdminOperationLogRequest) (*emptypb.Empty, error) {
-	if err := s.uc.Delete(ctx, req); err != nil {
-		return nil, err
-	}
-
-	return &emptypb.Empty{}, nil
-}

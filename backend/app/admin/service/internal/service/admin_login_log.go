@@ -49,23 +49,3 @@ func (s *AdminLoginLogService) Create(ctx context.Context, req *systemV1.CreateA
 
 	return &emptypb.Empty{}, nil
 }
-
-func (s *AdminLoginLogService) Update(ctx context.Context, req *systemV1.UpdateAdminLoginLogRequest) (*emptypb.Empty, error) {
-	if req.Data == nil {
-		return nil, adminV1.ErrorBadRequest("错误的参数")
-	}
-
-	if err := s.uc.Update(ctx, req); err != nil {
-		return nil, err
-	}
-
-	return &emptypb.Empty{}, nil
-}
-
-func (s *AdminLoginLogService) Delete(ctx context.Context, req *systemV1.DeleteAdminLoginLogRequest) (*emptypb.Empty, error) {
-	if err := s.uc.Delete(ctx, req); err != nil {
-		return nil, err
-	}
-
-	return &emptypb.Empty{}, nil
-}

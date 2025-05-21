@@ -33,25 +33,25 @@ func NewNotificationMessageRepo(data *Data, logger log.Logger) *NotificationMess
 	}
 }
 
-func (r *NotificationMessageRepo) toProtoStatus(in *notificationmessage.Status) *internalMessageV1.NotificationMessageStatus {
+func (r *NotificationMessageRepo) toProtoStatus(in *notificationmessage.Status) *internalMessageV1.MessageStatus {
 	if in == nil {
 		return nil
 	}
 
-	find, ok := internalMessageV1.NotificationMessageStatus_value[string(*in)]
+	find, ok := internalMessageV1.MessageStatus_value[string(*in)]
 	if !ok {
 		return nil
 	}
 
-	return (*internalMessageV1.NotificationMessageStatus)(trans.Ptr(find))
+	return (*internalMessageV1.MessageStatus)(trans.Ptr(find))
 }
 
-func (r *NotificationMessageRepo) toEntStatus(in *internalMessageV1.NotificationMessageStatus) *notificationmessage.Status {
+func (r *NotificationMessageRepo) toEntStatus(in *internalMessageV1.MessageStatus) *notificationmessage.Status {
 	if in == nil {
 		return nil
 	}
 
-	find, ok := internalMessageV1.NotificationMessageStatus_name[int32(*in)]
+	find, ok := internalMessageV1.MessageStatus_name[int32(*in)]
 	if !ok {
 		return nil
 	}

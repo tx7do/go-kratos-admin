@@ -33,25 +33,25 @@ func NewPrivateMessageRepo(data *Data, logger log.Logger) *PrivateMessageRepo {
 	}
 }
 
-func (r *PrivateMessageRepo) toProtoStatus(in *privatemessage.Status) *internalMessageV1.PrivateMessageStatus {
+func (r *PrivateMessageRepo) toProtoStatus(in *privatemessage.Status) *internalMessageV1.MessageStatus {
 	if in == nil {
 		return nil
 	}
 
-	find, ok := internalMessageV1.PrivateMessageStatus_value[string(*in)]
+	find, ok := internalMessageV1.MessageStatus_value[string(*in)]
 	if !ok {
 		return nil
 	}
 
-	return (*internalMessageV1.PrivateMessageStatus)(trans.Ptr(find))
+	return (*internalMessageV1.MessageStatus)(trans.Ptr(find))
 }
 
-func (r *PrivateMessageRepo) toEntStatus(in *internalMessageV1.PrivateMessageStatus) *privatemessage.Status {
+func (r *PrivateMessageRepo) toEntStatus(in *internalMessageV1.MessageStatus) *privatemessage.Status {
 	if in == nil {
 		return nil
 	}
 
-	find, ok := internalMessageV1.PrivateMessageStatus_name[int32(*in)]
+	find, ok := internalMessageV1.MessageStatus_name[int32(*in)]
 	if !ok {
 		return nil
 	}

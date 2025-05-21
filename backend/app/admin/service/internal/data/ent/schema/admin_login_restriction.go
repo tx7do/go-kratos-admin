@@ -47,23 +47,23 @@ func (AdminLoginRestriction) Fields() []ent.Field {
 		field.Enum("type").
 			Comment("限制类型").
 			NamedValues(
-				"Unspecified", "UNSPECIFIED",
 				"Blacklist", "BLACKLIST",
 				"Whitelist", "WHITELIST",
 			).
+			Default("BLACKLIST").
 			Optional().
 			Nillable(),
 
 		field.Enum("method").
 			Comment("限制方式").
 			NamedValues(
-				"Unspecified", "UNSPECIFIED",
 				"Ip", "IP",
 				"Mac", "MAC",
 				"Region", "REGION",
 				"Time", "TIME",
 				"Device", "DEVICE",
 			).
+			Default("IP").
 			Optional().
 			Nillable(),
 	}

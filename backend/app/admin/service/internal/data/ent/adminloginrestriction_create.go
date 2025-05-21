@@ -175,6 +175,7 @@ func (alrc *AdminLoginRestrictionCreate) Mutation() *AdminLoginRestrictionMutati
 
 // Save creates the AdminLoginRestriction in the database.
 func (alrc *AdminLoginRestrictionCreate) Save(ctx context.Context) (*AdminLoginRestriction, error) {
+	alrc.defaults()
 	return withHooks(ctx, alrc.sqlSave, alrc.mutation, alrc.hooks)
 }
 
@@ -197,6 +198,18 @@ func (alrc *AdminLoginRestrictionCreate) Exec(ctx context.Context) error {
 func (alrc *AdminLoginRestrictionCreate) ExecX(ctx context.Context) {
 	if err := alrc.Exec(ctx); err != nil {
 		panic(err)
+	}
+}
+
+// defaults sets the default values of the builder before save.
+func (alrc *AdminLoginRestrictionCreate) defaults() {
+	if _, ok := alrc.mutation.GetType(); !ok {
+		v := adminloginrestriction.DefaultType
+		alrc.mutation.SetType(v)
+	}
+	if _, ok := alrc.mutation.Method(); !ok {
+		v := adminloginrestriction.DefaultMethod
+		alrc.mutation.SetMethod(v)
 	}
 }
 
@@ -835,6 +848,7 @@ func (alrcb *AdminLoginRestrictionCreateBulk) Save(ctx context.Context) ([]*Admi
 	for i := range alrcb.builders {
 		func(i int, root context.Context) {
 			builder := alrcb.builders[i]
+			builder.defaults()
 			var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 				mutation, ok := m.(*AdminLoginRestrictionMutation)
 				if !ok {

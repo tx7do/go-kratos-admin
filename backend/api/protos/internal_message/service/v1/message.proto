@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package internal_message.service.v1;
+
+// 消息状态
+enum MessageStatus {
+  MessageStatus_Unknown = 0; // 未知状态
+
+  DRAFT = 1; // 草稿
+  PUBLISHED = 2; // 已发布
+  SCHEDULED = 3; // 定时发布
+  REVOKED = 4; // 已撤销
+  ARCHIVED = 5; // 已归档
+  DELETED = 6; // 已删除
+  SENT = 7; // 已发送
+  RECEIVED = 8; // 已接收
+  READ = 9; // 已接收
+}

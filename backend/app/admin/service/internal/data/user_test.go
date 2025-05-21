@@ -6,6 +6,7 @@ import (
 	"regexp"
 	"testing"
 
+	"github.com/jinzhu/copier"
 	"github.com/stretchr/testify/assert"
 
 	"github.com/tx7do/go-utils/crypto"
@@ -14,6 +15,9 @@ import (
 
 	"google.golang.org/genproto/protobuf/field_mask"
 	"google.golang.org/protobuf/proto"
+
+	"kratos-admin/app/admin/service/internal/data/ent"
+	"kratos-admin/app/admin/service/internal/data/ent/user"
 
 	authenticationV1 "kratos-admin/api/gen/go/authentication/service/v1"
 	userV1 "kratos-admin/api/gen/go/user/service/v1"
@@ -65,8 +69,8 @@ func TestFilterReuseMask(t *testing.T) {
 	}
 	// Create a mask only once and reuse it.
 	mask := fieldmaskutil.NestedMaskFromPaths([]string{"userName", "realName", "positionId"})
-	for _, user := range users {
-		mask.Filter(user)
+	for _, u := range users {
+		mask.Filter(u)
 	}
 	fmt.Println(users)
 	assert.Equal(t, len(users), 2)
@@ -140,4 +144,34 @@ func TestDecryptAES(t *testing.T) {
 	}
 	fmt.Printf("解密后:%s\n", decryptText)
 	assert.Equal(t, plainText, decryptText)
+}
+
+func TestCopier(t *testing.T) {
+	{
+		var entMsg ent.User
+		var protoMsg userV1.User
+
+		entMsg.ID = 1
+		entMsg.Username = trans.Ptr("Username")
+		entMsg.NickName = trans.Ptr("NickName")
+		entMsg.RealName = trans.Ptr("RealName")
+		entMsg.Email = trans.Ptr("test@gmail.com")
+		entMsg.TenantID = trans.Ptr(uint32(2))
+		entMsg.Status = trans.Ptr(user.StatusON)
+
+		_ = copier.Copy(&protoMsg, entMsg)
+		assert.Equal(t, protoMsg.GetUserName(), *entMsg.Username)
+		assert.Equal(t, protoMsg.GetNickName(), *entMsg.NickName)
+		assert.Equal(t, protoMsg.GetRealName(), *entMsg.RealName)
+		assert.Equal(t, protoMsg.GetEmail(), *entMsg.Email)
+		assert.Equal(t, protoMsg.GetTenantId(), *entMsg.TenantID)
+		assert.Equal(t, protoMsg.GetId(), entMsg.ID)
+	}
+
+	{
+		var entMsg ent.User
+		var protoMsg userV1.User
+
+		_ = copier.Copy(&entMsg, &protoMsg)
+	}
 }

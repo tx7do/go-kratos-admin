@@ -13,6 +13,8 @@ import "google/protobuf/field_mask.proto";
 
 import "pagination/v1/pagination.proto";
 
+import "internal_message/service/v1/message.proto";
+
 // 通知消息服务
 service NotificationMessageService {
   // 查询通知消息列表
@@ -29,18 +31,6 @@ service NotificationMessageService {
 
   // 删除通知消息
   rpc Delete (DeleteNotificationMessageRequest) returns (google.protobuf.Empty) {}
-}
-
-// 通知消息状态
-enum NotificationMessageStatus {
-  NotificationMessageStatus_Unknown = 0; // 未知状态
-
-  NotificationMessageStatus_Draft = 1; // 草稿
-  NotificationMessageStatus_Published = 2; // 已发布
-  NotificationMessageStatus_Scheduled = 3; // 定时发布
-  NotificationMessageStatus_Revoked = 4; // 已撤销
-  NotificationMessageStatus_Archived = 5; // 已归档
-  NotificationMessageStatus_Deleted = 6; // 已删除
 }
 
 // 通知消息
@@ -61,7 +51,7 @@ message NotificationMessage {
     (gnostic.openapi.v3.property) = { description: "内容" }
   ]; // 内容
 
-  optional NotificationMessageStatus status = 4 [
+  optional MessageStatus status = 4 [
     json_name = "status",
     (gnostic.openapi.v3.property) = {
       description: "消息状态"

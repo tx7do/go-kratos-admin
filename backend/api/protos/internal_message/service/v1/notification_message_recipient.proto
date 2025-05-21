@@ -13,6 +13,8 @@ import "google/protobuf/field_mask.proto";
 
 import "pagination/v1/pagination.proto";
 
+import "internal_message/service/v1/message.proto";
+
 // 通知消息接收者服务
 service NotificationMessageRecipientService {
   // 查询通知消息接收者列表
@@ -29,16 +31,6 @@ service NotificationMessageRecipientService {
 
   // 删除通知消息接收者
   rpc Delete (DeleteNotificationMessageRecipientRequest) returns (google.protobuf.Empty) {}
-}
-
-// 通知消息接收者状态
-enum NotificationMessageRecipientStatus {
-  NotificationMessageRecipientStatus_Unknown = 0; // 未知状态
-
-  NotificationMessageRecipientStatus_Received = 1; // 已接收
-  NotificationMessageRecipientStatus_Read = 2; // 已读
-  NotificationMessageRecipientStatus_Archived = 3; // 已归档
-  NotificationMessageRecipientStatus_Deleted = 4; // 已删除
 }
 
 // 通知消息接收者
@@ -61,7 +53,7 @@ message NotificationMessageRecipient {
     (gnostic.openapi.v3.property) = { description: "接收者用户ID" }
   ]; // 接收者用户ID
 
-  optional NotificationMessageRecipientStatus status = 4 [
+  optional MessageStatus status = 4 [
     json_name = "status",
     (gnostic.openapi.v3.property) = {
       description: "消息状态"

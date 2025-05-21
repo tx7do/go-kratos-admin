@@ -57,8 +57,8 @@ var (
 		{Name: "admin_id", Type: field.TypeUint32, Unique: true, Nullable: true, Comment: "管理员ID"},
 		{Name: "value", Type: field.TypeString, Nullable: true, Comment: "限制值（如IP地址、MAC地址或地区代码）"},
 		{Name: "reason", Type: field.TypeString, Nullable: true, Comment: "限制原因"},
-		{Name: "type", Type: field.TypeEnum, Nullable: true, Comment: "限制类型", Enums: []string{"UNSPECIFIED", "BLACKLIST", "WHITELIST"}},
-		{Name: "method", Type: field.TypeEnum, Nullable: true, Comment: "限制方式", Enums: []string{"UNSPECIFIED", "IP", "MAC", "REGION", "TIME", "DEVICE"}},
+		{Name: "type", Type: field.TypeEnum, Nullable: true, Comment: "限制类型", Enums: []string{"BLACKLIST", "WHITELIST"}, Default: "BLACKLIST"},
+		{Name: "method", Type: field.TypeEnum, Nullable: true, Comment: "限制方式", Enums: []string{"IP", "MAC", "REGION", "TIME", "DEVICE"}, Default: "IP"},
 	}
 	// AdminLoginRestrictionsTable holds the schema information for the "admin_login_restrictions" table.
 	AdminLoginRestrictionsTable = &schema.Table{

@@ -32,17 +32,17 @@ service FileService {
 
 // OSS供应商
 enum OSSProvider {
-  MinIO = 0;
-  Aliyun = 1;
+  MINIO = 0;
+  ALIYUN = 1;
   AWS = 2;
-  Azure = 3;
-  Baidu = 4;
-  Qiniu = 5;
-  Tencent = 6;
-  Google = 7;
-  Huawei = 8;
-  QCloud = 9;
-  Local = 10;
+  AZURE = 3;
+  BAIDU = 4;
+  QINIU = 5;
+  TENCENT = 6;
+  GOOGLE = 7;
+  HUAWEI = 8;
+  QCLOUD = 9;
+  LOCAL = 10;
 }
 
 // 文件

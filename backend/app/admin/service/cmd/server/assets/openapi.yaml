@@ -2502,19 +2502,19 @@ components:
                 type:
                     enum:
                         - LOGIN_RESTRICTION_TYPE_UNSPECIFIED
-                        - LOGIN_RESTRICTION_TYPE_BLACKLIST
-                        - LOGIN_RESTRICTION_TYPE_WHITELIST
+                        - BLACKLIST
+                        - WHITELIST
                     type: string
                     description: 限制类型
                     format: enum
                 method:
                     enum:
                         - LOGIN_RESTRICTION_METHOD_UNSPECIFIED
-                        - LOGIN_RESTRICTION_METHOD_IP
-                        - LOGIN_RESTRICTION_METHOD_MAC
-                        - LOGIN_RESTRICTION_METHOD_REGION
-                        - LOGIN_RESTRICTION_METHOD_TIME
-                        - LOGIN_RESTRICTION_METHOD_DEVICE
+                        - IP
+                        - MAC
+                        - REGION
+                        - TIME
+                        - DEVICE
                     type: string
                     description: 限制方式
                     format: enum
@@ -2866,17 +2866,17 @@ components:
                     format: uint32
                 provider:
                     enum:
-                        - MinIO
-                        - Aliyun
+                        - MINIO
+                        - ALIYUN
                         - AWS
-                        - Azure
-                        - Baidu
-                        - Qiniu
-                        - Tencent
-                        - Google
-                        - Huawei
-                        - QCloud
-                        - Local
+                        - AZURE
+                        - BAIDU
+                        - QINIU
+                        - TENCENT
+                        - GOOGLE
+                        - HUAWEI
+                        - QCLOUD
+                        - LOCAL
                     type: string
                     description: OSS供应商
                     format: enum
@@ -3299,13 +3299,16 @@ components:
                     description: 内容
                 status:
                     enum:
-                        - NotificationMessageStatus_Unknown
-                        - NotificationMessageStatus_Draft
-                        - NotificationMessageStatus_Published
-                        - NotificationMessageStatus_Scheduled
-                        - NotificationMessageStatus_Revoked
-                        - NotificationMessageStatus_Archived
-                        - NotificationMessageStatus_Deleted
+                        - MessageStatus_Unknown
+                        - DRAFT
+                        - PUBLISHED
+                        - SCHEDULED
+                        - REVOKED
+                        - ARCHIVED
+                        - DELETED
+                        - SENT
+                        - RECEIVED
+                        - READ
                     type: string
                     description: 消息状态
                     format: enum
@@ -3398,11 +3401,16 @@ components:
                     format: uint32
                 status:
                     enum:
-                        - NotificationMessageRecipientStatus_Unknown
-                        - NotificationMessageRecipientStatus_Received
-                        - NotificationMessageRecipientStatus_Read
-                        - NotificationMessageRecipientStatus_Archived
-                        - NotificationMessageRecipientStatus_Deleted
+                        - MessageStatus_Unknown
+                        - DRAFT
+                        - PUBLISHED
+                        - SCHEDULED
+                        - REVOKED
+                        - ARCHIVED
+                        - DELETED
+                        - SENT
+                        - RECEIVED
+                        - READ
                     type: string
                     description: 消息状态
                     format: enum
@@ -3588,13 +3596,16 @@ components:
                     description: 内容
                 status:
                     enum:
-                        - PrivateMessageStatus_Unknown
-                        - PrivateMessageStatus_Draft
-                        - PrivateMessageStatus_Sent
-                        - PrivateMessageStatus_Received
-                        - PrivateMessageStatus_Read
-                        - PrivateMessageStatus_Archived
-                        - PrivateMessageStatus_Deleted
+                        - MessageStatus_Unknown
+                        - DRAFT
+                        - PUBLISHED
+                        - SCHEDULED
+                        - REVOKED
+                        - ARCHIVED
+                        - DELETED
+                        - SENT
+                        - RECEIVED
+                        - READ
                     type: string
                     description: 消息状态
                     format: enum
@@ -3817,9 +3828,9 @@ components:
                     format: uint32
                 type:
                     enum:
-                        - TaskType_Periodic
-                        - TaskType_Delay
-                        - TaskType_WaitResult
+                        - PERIODIC
+                        - DELAY
+                        - WAIT_RESULT
                     type: string
                     description: 任务类型
                     format: enum

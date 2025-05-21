@@ -56,18 +56,18 @@ service AdminLoginRestrictionService {
 // 后台登录限制类型
 enum AdminLoginRestrictionType {
   LOGIN_RESTRICTION_TYPE_UNSPECIFIED = 0; // 未知
-  LOGIN_RESTRICTION_TYPE_BLACKLIST = 1; // 黑名单
-  LOGIN_RESTRICTION_TYPE_WHITELIST = 2; // 白名单
+  BLACKLIST = 1; // 黑名单
+  WHITELIST = 2; // 白名单
 }
 
 // 后台登录限制方式
 enum AdminLoginRestrictionMethod {
   LOGIN_RESTRICTION_METHOD_UNSPECIFIED = 0; // 未知
-  LOGIN_RESTRICTION_METHOD_IP = 1; // IP地址限制
-  LOGIN_RESTRICTION_METHOD_MAC = 2; // MAC地址限制，绑定设备的MAC地址。
-  LOGIN_RESTRICTION_METHOD_REGION = 3; // 地区限制，根据地理位置（如国家、城市）限制登录。
-  LOGIN_RESTRICTION_METHOD_TIME = 4; // 时间限制，限制登录的时间段，例如只允许工作时间登录。
-  LOGIN_RESTRICTION_METHOD_DEVICE = 5; // 设备限制，限制登录设备的类型（如PC、手机）或特定设备ID。
+  IP = 1; // IP地址限制
+  MAC = 2; // MAC地址限制，绑定设备的MAC地址。
+  REGION = 3; // 地区限制，根据地理位置（如国家、城市）限制登录。
+  TIME = 4; // 时间限制，限制登录的时间段，例如只允许工作时间登录。
+  DEVICE = 5; // 设备限制，限制登录设备的类型（如PC、手机）或特定设备ID。
 }
 
 // 后台登录限制

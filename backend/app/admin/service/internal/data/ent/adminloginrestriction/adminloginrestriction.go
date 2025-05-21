@@ -70,11 +70,13 @@ var (
 // Type defines the type for the "type" enum field.
 type Type string
 
+// TypeBlacklist is the default value of the Type enum.
+const DefaultType = TypeBlacklist
+
 // Type values.
 const (
-	TypeUnspecified Type = "UNSPECIFIED"
-	TypeBlacklist   Type = "BLACKLIST"
-	TypeWhitelist   Type = "WHITELIST"
+	TypeBlacklist Type = "BLACKLIST"
+	TypeWhitelist Type = "WHITELIST"
 )
 
 func (_type Type) String() string {
@@ -84,7 +86,7 @@ func (_type Type) String() string {
 // TypeValidator is a validator for the "type" field enum values. It is called by the builders before save.
 func TypeValidator(_type Type) error {
 	switch _type {
-	case TypeUnspecified, TypeBlacklist, TypeWhitelist:
+	case TypeBlacklist, TypeWhitelist:
 		return nil
 	default:
 		return fmt.Errorf("adminloginrestriction: invalid enum value for type field: %q", _type)
@@ -94,14 +96,16 @@ func TypeValidator(_type Type) error {
 // Method defines the type for the "method" enum field.
 type Method string
 
+// MethodIp is the default value of the Method enum.
+const DefaultMethod = MethodIp
+
 // Method values.
 const (
-	MethodUnspecified Method = "UNSPECIFIED"
-	MethodIp          Method = "IP"
-	MethodMac         Method = "MAC"
-	MethodRegion      Method = "REGION"
-	MethodTime        Method = "TIME"
-	MethodDevice      Method = "DEVICE"
+	MethodIp     Method = "IP"
+	MethodMac    Method = "MAC"
+	MethodRegion Method = "REGION"
+	MethodTime   Method = "TIME"
+	MethodDevice Method = "DEVICE"
 )
 
 func (m Method) String() string {
@@ -111,7 +115,7 @@ func (m Method) String() string {
 // MethodValidator is a validator for the "method" field enum values. It is called by the builders before save.
 func MethodValidator(m Method) error {
 	switch m {
-	case MethodUnspecified, MethodIp, MethodMac, MethodRegion, MethodTime, MethodDevice:
+	case MethodIp, MethodMac, MethodRegion, MethodTime, MethodDevice:
 		return nil
 	default:
 		return fmt.Errorf("adminloginrestriction: invalid enum value for method field: %q", m)

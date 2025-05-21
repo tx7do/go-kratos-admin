@@ -228,12 +228,12 @@ func (s *TaskService) stopTask(t *systemV1.Task) error {
 	}
 
 	switch t.GetType() {
-	case systemV1.TaskType_TaskType_Periodic:
+	case systemV1.TaskType_PERIODIC:
 		return s.Server.RemovePeriodicTask(t.GetTypeName())
 
-	case systemV1.TaskType_TaskType_Delay:
+	case systemV1.TaskType_DELAY:
 
-	case systemV1.TaskType_TaskType_WaitResult:
+	case systemV1.TaskType_WAIT_RESULT:
 	}
 
 	return nil
@@ -285,21 +285,21 @@ func (s *TaskService) startTask(t *systemV1.Task) error {
 	var err error
 
 	switch t.GetType() {
-	case systemV1.TaskType_TaskType_Periodic:
+	case systemV1.TaskType_PERIODIC:
 		opts, payload = s.convertTaskOption(t)
 		if _, err = s.Server.NewPeriodicTask(t.GetCronSpec(), t.GetTypeName(), payload, opts...); err != nil {
 			s.log.Errorf("[%s] 创建定时任务失败[%s]", t.GetTypeName(), err.Error())
 			return err
 		}
 
-	case systemV1.TaskType_TaskType_Delay:
+	case systemV1.TaskType_DELAY:
 		opts, payload = s.convertTaskOption(t)
 		if err = s.Server.NewTask(t.GetTypeName(), payload, opts...); err != nil {
 			s.log.Errorf("[%s] 创建延迟任务失败[%s]", t.GetTypeName(), err.Error())
 			return err
 		}
 
-	case systemV1.TaskType_TaskType_WaitResult:
+	case systemV1.TaskType_WAIT_RESULT:
 		opts, payload = s.convertTaskOption(t)
 		if err = s.Server.NewWaitResultTask(t.GetTypeName(), payload, opts...); err != nil {
 			s.log.Errorf("[%s] 创建等待结果任务失败[%s]", t.GetTypeName(), err.Error())

@@ -13,6 +13,8 @@ import "google/protobuf/field_mask.proto";
 
 import "pagination/v1/pagination.proto";
 
+import "internal_message/service/v1/message.proto";
+
 // 私信消息服务
 service PrivateMessageService {
   // 查询私信消息列表
@@ -29,18 +31,6 @@ service PrivateMessageService {
 
   // 删除私信消息
   rpc Delete (DeletePrivateMessageRequest) returns (google.protobuf.Empty) {}
-}
-
-// 私信消息状态
-enum PrivateMessageStatus {
-  PrivateMessageStatus_Unknown = 0; // 未知状态
-
-  PrivateMessageStatus_Draft = 1; // 草稿
-  PrivateMessageStatus_Sent = 2; // 已发送
-  PrivateMessageStatus_Received = 3; // 已接收
-  PrivateMessageStatus_Read = 4; // 已读
-  PrivateMessageStatus_Archived = 5; // 已归档
-  PrivateMessageStatus_Deleted = 6; // 已删除
 }
 
 // 私信消息
@@ -61,7 +51,7 @@ message PrivateMessage {
     (gnostic.openapi.v3.property) = { description: "内容" }
   ]; // 内容
 
-  optional PrivateMessageStatus status = 4 [
+  optional MessageStatus status = 4 [
     json_name = "status",
     (gnostic.openapi.v3.property) = {
       description: "消息状态"

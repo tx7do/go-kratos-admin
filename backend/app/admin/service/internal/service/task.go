@@ -17,7 +17,6 @@ import (
 	"kratos-admin/app/admin/service/internal/data"
 
 	adminV1 "kratos-admin/api/gen/go/admin/service/v1"
-	systemV1 "kratos-admin/api/gen/go/system/service/v1"
 
 	"kratos-admin/pkg/middleware/auth"
 	"kratos-admin/pkg/task"
@@ -47,19 +46,19 @@ func NewTaskService(
 	}
 }
 
-func (s *TaskService) List(ctx context.Context, req *pagination.PagingRequest) (*systemV1.ListTaskResponse, error) {
+func (s *TaskService) List(ctx context.Context, req *pagination.PagingRequest) (*adminV1.ListTaskResponse, error) {
 	return s.taskRepo.List(ctx, req)
 }
 
-func (s *TaskService) Get(ctx context.Context, req *systemV1.GetTaskRequest) (*systemV1.Task, error) {
+func (s *TaskService) Get(ctx context.Context, req *adminV1.GetTaskRequest) (*adminV1.Task, error) {
 	return s.taskRepo.Get(ctx, req.GetId())
 }
 
-func (s *TaskService) GetTaskByTypeName(ctx context.Context, req *systemV1.GetTaskByTypeNameRequest) (*systemV1.Task, error) {
+func (s *TaskService) GetTaskByTypeName(ctx context.Context, req *adminV1.GetTaskByTypeNameRequest) (*adminV1.Task, error) {
 	return s.taskRepo.GetByTypeName(ctx, req.GetTypeName())
 }
 
-func (s *TaskService) Create(ctx context.Context, req *systemV1.CreateTaskRequest) (*emptypb.Empty, error) {
+func (s *TaskService) Create(ctx context.Context, req *adminV1.CreateTaskRequest) (*emptypb.Empty, error) {
 	if req.Data == nil {
 		return nil, adminV1.ErrorBadRequest("错误的参数")
 	}
@@ -72,7 +71,7 @@ func (s *TaskService) Create(ctx context.Context, req *systemV1.CreateTaskReques
 
 	req.Data.CreateBy = trans.Ptr(operator.UserId)
 
-	var t *systemV1.Task
+	var t *adminV1.Task
 	if t, err = s.taskRepo.Create(ctx, req); err != nil {
 		return nil, err
 	}
@@ -84,7 +83,7 @@ func (s *TaskService) Create(ctx context.Context, req *systemV1.CreateTaskReques
 	return &emptypb.Empty{}, nil
 }
 
-func (s *TaskService) Update(ctx context.Context, req *systemV1.UpdateTaskRequest) (*emptypb.Empty, error) {
+func (s *TaskService) Update(ctx context.Context, req *adminV1.UpdateTaskRequest) (*emptypb.Empty, error) {
 	if req.Data == nil {
 		return nil, adminV1.ErrorBadRequest("错误的参数")
 	}
@@ -97,7 +96,7 @@ func (s *TaskService) Update(ctx context.Context, req *systemV1.UpdateTaskReques
 
 	req.Data.UpdateBy = trans.Ptr(operator.UserId)
 
-	var t *systemV1.Task
+	var t *adminV1.Task
 	if t, err = s.taskRepo.Update(ctx, req); err != nil {
 
 		return nil, err
@@ -110,9 +109,9 @@ func (s *TaskService) Update(ctx context.Context, req *systemV1.UpdateTaskReques
 	return &emptypb.Empty{}, nil
 }
 
-func (s *TaskService) Delete(ctx context.Context, req *systemV1.DeleteTaskRequest) (*emptypb.Empty, error) {
+func (s *TaskService) Delete(ctx context.Context, req *adminV1.DeleteTaskRequest) (*emptypb.Empty, error) {
 	var err error
-	var t *systemV1.Task
+	var t *adminV1.Task
 	if t, err = s.taskRepo.Get(ctx, req.GetId()); err != nil {
 		s.log.Error(err)
 	}
@@ -129,7 +128,7 @@ func (s *TaskService) Delete(ctx context.Context, req *systemV1.DeleteTaskReques
 }
 
 // ControlTask 控制调度任务
-func (s *TaskService) ControlTask(ctx context.Context, req *systemV1.ControlTaskRequest) (*emptypb.Empty, error) {
+func (s *TaskService) ControlTask(ctx context.Context, req *adminV1.ControlTaskRequest) (*emptypb.Empty, error) {
 	t, err := s.taskRepo.GetByTypeName(ctx, req.GetTypeName())
 	if err != nil {
 		s.log.Errorf("获取任务失败[%s]", err.Error())
@@ -137,7 +136,7 @@ func (s *TaskService) ControlTask(ctx context.Context, req *systemV1.ControlTask
 	}
 
 	switch req.GetControlType() {
-	case systemV1.TaskControlType_ControlType_Restart:
+	case adminV1.TaskControlType_ControlType_Restart:
 		if err = s.stopTask(t); err != nil {
 			return nil, err
 		}
@@ -146,11 +145,11 @@ func (s *TaskService) ControlTask(ctx context.Context, req *systemV1.ControlTask
 			return nil, err
 		}
 
-	case systemV1.TaskControlType_ControlType_Stop:
+	case adminV1.TaskControlType_ControlType_Stop:
 		err = s.stopTask(t)
 		return nil, err
 
-	case systemV1.TaskControlType_ControlType_Start:
+	case adminV1.TaskControlType_ControlType_Start:
 		err = s.startTask(t)
 		return nil, err
 	}
@@ -165,14 +164,14 @@ func (s *TaskService) StopAllTask(_ context.Context, _ *emptypb.Empty) (*emptypb
 }
 
 // RestartAllTask 重启所有的调度任务
-func (s *TaskService) RestartAllTask(ctx context.Context, _ *emptypb.Empty) (*systemV1.RestartAllTaskResponse, error) {
+func (s *TaskService) RestartAllTask(ctx context.Context, _ *emptypb.Empty) (*adminV1.RestartAllTaskResponse, error) {
 	// 停止所有的任务
 	s.stopAllTask()
 
 	// 重新启动所有的任务
 	count, err := s.StartAllTask(ctx)
 
-	return &systemV1.RestartAllTaskResponse{
+	return &adminV1.RestartAllTaskResponse{
 		Count: count,
 	}, err
 }
@@ -218,7 +217,7 @@ func (s *TaskService) stopAllTask() {
 }
 
 // stopTask 停止一个任务
-func (s *TaskService) stopTask(t *systemV1.Task) error {
+func (s *TaskService) stopTask(t *adminV1.Task) error {
 	if t == nil {
 		return errors.New("task is nil")
 	}
@@ -228,19 +227,19 @@ func (s *TaskService) stopTask(t *systemV1.Task) error {
 	}
 
 	switch t.GetType() {
-	case systemV1.TaskType_PERIODIC:
+	case adminV1.TaskType_PERIODIC:
 		return s.Server.RemovePeriodicTask(t.GetTypeName())
 
-	case systemV1.TaskType_DELAY:
+	case adminV1.TaskType_DELAY:
 
-	case systemV1.TaskType_WAIT_RESULT:
+	case adminV1.TaskType_WAIT_RESULT:
 	}
 
 	return nil
 }
 
 // convertTaskOption 转换任务选项
-func (s *TaskService) convertTaskOption(t *systemV1.Task) (opts []asynq.Option, payload broker.Any) {
+func (s *TaskService) convertTaskOption(t *adminV1.Task) (opts []asynq.Option, payload broker.Any) {
 	if t == nil {
 		return
 	}
@@ -271,7 +270,7 @@ func (s *TaskService) convertTaskOption(t *systemV1.Task) (opts []asynq.Option, 
 }
 
 // startTask 启动一个任务
-func (s *TaskService) startTask(t *systemV1.Task) error {
+func (s *TaskService) startTask(t *adminV1.Task) error {
 	if t == nil {
 		return errors.New("task is nil")
 	}
@@ -285,21 +284,21 @@ func (s *TaskService) startTask(t *systemV1.Task) error {
 	var err error
 
 	switch t.GetType() {
-	case systemV1.TaskType_PERIODIC:
+	case adminV1.TaskType_PERIODIC:
 		opts, payload = s.convertTaskOption(t)
 		if _, err = s.Server.NewPeriodicTask(t.GetCronSpec(), t.GetTypeName(), payload, opts...); err != nil {
 			s.log.Errorf("[%s] 创建定时任务失败[%s]", t.GetTypeName(), err.Error())
 			return err
 		}
 
-	case systemV1.TaskType_DELAY:
+	case adminV1.TaskType_DELAY:
 		opts, payload = s.convertTaskOption(t)
 		if err = s.Server.NewTask(t.GetTypeName(), payload, opts...); err != nil {
 			s.log.Errorf("[%s] 创建延迟任务失败[%s]", t.GetTypeName(), err.Error())
 			return err
 		}
 
-	case systemV1.TaskType_WAIT_RESULT:
+	case adminV1.TaskType_WAIT_RESULT:
 		opts, payload = s.convertTaskOption(t)
 		if err = s.Server.NewWaitResultTask(t.GetTypeName(), payload, opts...); err != nil {
 			s.log.Errorf("[%s] 创建等待结果任务失败[%s]", t.GetTypeName(), err.Error())

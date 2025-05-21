@@ -11,7 +11,6 @@ import (
 	"kratos-admin/app/admin/service/internal/data"
 
 	adminV1 "kratos-admin/api/gen/go/admin/service/v1"
-	systemV1 "kratos-admin/api/gen/go/system/service/v1"
 
 	"kratos-admin/pkg/middleware/auth"
 )
@@ -32,15 +31,15 @@ func NewDictService(uc *data.DictRepo, logger log.Logger) *DictService {
 	}
 }
 
-func (s *DictService) List(ctx context.Context, req *pagination.PagingRequest) (*systemV1.ListDictResponse, error) {
+func (s *DictService) List(ctx context.Context, req *pagination.PagingRequest) (*adminV1.ListDictResponse, error) {
 	return s.uc.List(ctx, req)
 }
 
-func (s *DictService) Get(ctx context.Context, req *systemV1.GetDictRequest) (*systemV1.Dict, error) {
+func (s *DictService) Get(ctx context.Context, req *adminV1.GetDictRequest) (*adminV1.Dict, error) {
 	return s.uc.Get(ctx, req)
 }
 
-func (s *DictService) Create(ctx context.Context, req *systemV1.CreateDictRequest) (*emptypb.Empty, error) {
+func (s *DictService) Create(ctx context.Context, req *adminV1.CreateDictRequest) (*emptypb.Empty, error) {
 	if req.Data == nil {
 		return nil, adminV1.ErrorBadRequest("错误的参数")
 	}
@@ -60,7 +59,7 @@ func (s *DictService) Create(ctx context.Context, req *systemV1.CreateDictReques
 	return &emptypb.Empty{}, nil
 }
 
-func (s *DictService) Update(ctx context.Context, req *systemV1.UpdateDictRequest) (*emptypb.Empty, error) {
+func (s *DictService) Update(ctx context.Context, req *adminV1.UpdateDictRequest) (*emptypb.Empty, error) {
 	if req.Data == nil {
 		return nil, adminV1.ErrorBadRequest("错误的参数")
 	}
@@ -80,7 +79,7 @@ func (s *DictService) Update(ctx context.Context, req *systemV1.UpdateDictReques
 	return &emptypb.Empty{}, nil
 }
 
-func (s *DictService) Delete(ctx context.Context, req *systemV1.DeleteDictRequest) (*emptypb.Empty, error) {
+func (s *DictService) Delete(ctx context.Context, req *adminV1.DeleteDictRequest) (*emptypb.Empty, error) {
 	if err := s.uc.Delete(ctx, req); err != nil {
 		return nil, err
 	}

@@ -16,7 +16,6 @@ import (
 	authnEngine "github.com/tx7do/kratos-authn/engine"
 
 	adminV1 "kratos-admin/api/gen/go/admin/service/v1"
-	systemV1 "kratos-admin/api/gen/go/system/service/v1"
 )
 
 // Server is an server logging middleware.
@@ -35,8 +34,8 @@ func Server(opts ...Option) middleware.Middleware {
 			// 统计耗时
 			latency := time.Since(startTime).Seconds()
 
-			var operationLogData *systemV1.AdminOperationLog
-			var loginLogData *systemV1.AdminLoginLog
+			var operationLogData *adminV1.AdminOperationLog
+			var loginLogData *adminV1.AdminLoginLog
 
 			if tr, ok := transport.FromServerContext(ctx); ok {
 				var htr *http.Transport
@@ -74,12 +73,12 @@ func Server(opts ...Option) middleware.Middleware {
 }
 
 // fillLoginLog 填充登录日志
-func fillLoginLog(htr *http.Transport) *systemV1.AdminLoginLog {
+func fillLoginLog(htr *http.Transport) *adminV1.AdminLoginLog {
 	if htr.Operation() != adminV1.OperationAuthenticationServiceLogin {
 		return nil
 	}
 
-	loginLogData := &systemV1.AdminLoginLog{}
+	loginLogData := &adminV1.AdminLoginLog{}
 
 	clientIp := getClientRealIP(htr.Request())
 
@@ -119,12 +118,12 @@ func fillLoginLog(htr *http.Transport) *systemV1.AdminLoginLog {
 }
 
 // fillOperationLog 填充操作日志
-func fillOperationLog(htr *http.Transport, authenticator authnEngine.Authenticator) *systemV1.AdminOperationLog {
+func fillOperationLog(htr *http.Transport, authenticator authnEngine.Authenticator) *adminV1.AdminOperationLog {
 	if htr.Operation() == adminV1.OperationAuthenticationServiceLogin {
 		return nil
 	}
 
-	operationLogData := &systemV1.AdminOperationLog{}
+	operationLogData := &adminV1.AdminOperationLog{}
 
 	clientIp := getClientRealIP(htr.Request())
 	referer, _ := url.QueryUnescape(htr.RequestHeader().Get(HeaderKeyReferer))

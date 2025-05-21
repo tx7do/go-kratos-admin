@@ -11,7 +11,6 @@ import (
 	http "github.com/go-kratos/kratos/v2/transport/http"
 	binding "github.com/go-kratos/kratos/v2/transport/http/binding"
 	v1 "github.com/tx7do/kratos-bootstrap/api/gen/go/pagination/v1"
-	v11 "kratos-admin/api/gen/go/system/service/v1"
 )
 
 // This is a compile-time assertion to ensure that this generated file
@@ -26,9 +25,9 @@ const OperationAdminOperationLogServiceList = "/admin.service.v1.AdminOperationL
 
 type AdminOperationLogServiceHTTPServer interface {
 	// Get 查询后台操作日志详情
-	Get(context.Context, *v11.GetAdminOperationLogRequest) (*v11.AdminOperationLog, error)
+	Get(context.Context, *GetAdminOperationLogRequest) (*AdminOperationLog, error)
 	// List 查询后台操作日志列表
-	List(context.Context, *v1.PagingRequest) (*v11.ListAdminOperationLogResponse, error)
+	List(context.Context, *v1.PagingRequest) (*ListAdminOperationLogResponse, error)
 }
 
 func RegisterAdminOperationLogServiceHTTPServer(s *http.Server, srv AdminOperationLogServiceHTTPServer) {
@@ -51,14 +50,14 @@ func _AdminOperationLogService_List2_HTTP_Handler(srv AdminOperationLogServiceHT
 		if err != nil {
 			return err
 		}
-		reply := out.(*v11.ListAdminOperationLogResponse)
+		reply := out.(*ListAdminOperationLogResponse)
 		return ctx.Result(200, reply)
 	}
 }
 
 func _AdminOperationLogService_Get2_HTTP_Handler(srv AdminOperationLogServiceHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
-		var in v11.GetAdminOperationLogRequest
+		var in GetAdminOperationLogRequest
 		if err := ctx.BindQuery(&in); err != nil {
 			return err
 		}
@@ -67,20 +66,20 @@ func _AdminOperationLogService_Get2_HTTP_Handler(srv AdminOperationLogServiceHTT
 		}
 		http.SetOperation(ctx, OperationAdminOperationLogServiceGet)
 		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
-			return srv.Get(ctx, req.(*v11.GetAdminOperationLogRequest))
+			return srv.Get(ctx, req.(*GetAdminOperationLogRequest))
 		})
 		out, err := h(ctx, &in)
 		if err != nil {
 			return err
 		}
-		reply := out.(*v11.AdminOperationLog)
+		reply := out.(*AdminOperationLog)
 		return ctx.Result(200, reply)
 	}
 }
 
 type AdminOperationLogServiceHTTPClient interface {
-	Get(ctx context.Context, req *v11.GetAdminOperationLogRequest, opts ...http.CallOption) (rsp *v11.AdminOperationLog, err error)
-	List(ctx context.Context, req *v1.PagingRequest, opts ...http.CallOption) (rsp *v11.ListAdminOperationLogResponse, err error)
+	Get(ctx context.Context, req *GetAdminOperationLogRequest, opts ...http.CallOption) (rsp *AdminOperationLog, err error)
+	List(ctx context.Context, req *v1.PagingRequest, opts ...http.CallOption) (rsp *ListAdminOperationLogResponse, err error)
 }
 
 type AdminOperationLogServiceHTTPClientImpl struct {
@@ -91,8 +90,8 @@ func NewAdminOperationLogServiceHTTPClient(client *http.Client) AdminOperationLo
 	return &AdminOperationLogServiceHTTPClientImpl{client}
 }
 
-func (c *AdminOperationLogServiceHTTPClientImpl) Get(ctx context.Context, in *v11.GetAdminOperationLogRequest, opts ...http.CallOption) (*v11.AdminOperationLog, error) {
-	var out v11.AdminOperationLog
+func (c *AdminOperationLogServiceHTTPClientImpl) Get(ctx context.Context, in *GetAdminOperationLogRequest, opts ...http.CallOption) (*AdminOperationLog, error) {
+	var out AdminOperationLog
 	pattern := "/admin/v1/admin_operation_logs/{id}"
 	path := binding.EncodeURL(pattern, in, true)
 	opts = append(opts, http.Operation(OperationAdminOperationLogServiceGet))
@@ -104,8 +103,8 @@ func (c *AdminOperationLogServiceHTTPClientImpl) Get(ctx context.Context, in *v1
 	return &out, nil
 }
 
-func (c *AdminOperationLogServiceHTTPClientImpl) List(ctx context.Context, in *v1.PagingRequest, opts ...http.CallOption) (*v11.ListAdminOperationLogResponse, error) {
-	var out v11.ListAdminOperationLogResponse
+func (c *AdminOperationLogServiceHTTPClientImpl) List(ctx context.Context, in *v1.PagingRequest, opts ...http.CallOption) (*ListAdminOperationLogResponse, error) {
+	var out ListAdminOperationLogResponse
 	pattern := "/admin/v1/admin_operation_logs"
 	path := binding.EncodeURL(pattern, in, true)
 	opts = append(opts, http.Operation(OperationAdminOperationLogServiceList))

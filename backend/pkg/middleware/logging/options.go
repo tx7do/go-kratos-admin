@@ -5,11 +5,11 @@ import (
 
 	authnEngine "github.com/tx7do/kratos-authn/engine"
 
-	systemV1 "kratos-admin/api/gen/go/system/service/v1"
+	adminV1 "kratos-admin/api/gen/go/admin/service/v1"
 )
 
-type WriteOperationLogFunc func(ctx context.Context, data *systemV1.AdminOperationLog) error
-type WriteLoginLogFunc func(ctx context.Context, data *systemV1.AdminLoginLog) error
+type WriteOperationLogFunc func(ctx context.Context, data *adminV1.AdminOperationLog) error
+type WriteLoginLogFunc func(ctx context.Context, data *adminV1.AdminLoginLog) error
 
 type options struct {
 	authenticator authnEngine.Authenticator

@@ -26,7 +26,6 @@ import (
 	"kratos-admin/app/admin/service/internal/service"
 
 	adminV1 "kratos-admin/api/gen/go/admin/service/v1"
-	systemV1 "kratos-admin/api/gen/go/system/service/v1"
 
 	"kratos-admin/pkg/middleware/auth"
 	applogging "kratos-admin/pkg/middleware/logging"
@@ -58,13 +57,13 @@ func newRestMiddleware(
 
 	ms = append(ms, applogging.Server(
 		applogging.WithAuthenticator(authenticator),
-		applogging.WithWriteOperationLogFunc(func(ctx context.Context, data *systemV1.AdminOperationLog) error {
+		applogging.WithWriteOperationLogFunc(func(ctx context.Context, data *adminV1.AdminOperationLog) error {
 			// TODO 如果系统的负载比较小，可以同步写入数据库，否则，建议使用异步方式，即投递进队列。
-			return operationLogRepo.Create(ctx, &systemV1.CreateAdminOperationLogRequest{Data: data})
+			return operationLogRepo.Create(ctx, &adminV1.CreateAdminOperationLogRequest{Data: data})
 		}),
-		applogging.WithWriteLoginLogFunc(func(ctx context.Context, data *systemV1.AdminLoginLog) error {
+		applogging.WithWriteLoginLogFunc(func(ctx context.Context, data *adminV1.AdminLoginLog) error {
 			// TODO 如果系统的负载比较小，可以同步写入数据库，否则，建议使用异步方式，即投递进队列。
-			return loginLogRepo.Create(ctx, &systemV1.CreateAdminLoginLogRequest{Data: data})
+			return loginLogRepo.Create(ctx, &adminV1.CreateAdminLoginLogRequest{Data: data})
 		}),
 	))
 

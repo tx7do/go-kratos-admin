@@ -15,7 +15,7 @@ import (
 	"kratos-admin/app/admin/service/internal/data/ent"
 	"kratos-admin/app/admin/service/internal/data/ent/adminloginlog"
 
-	systemV1 "kratos-admin/api/gen/go/system/service/v1"
+	adminV1 "kratos-admin/api/gen/go/admin/service/v1"
 )
 
 type AdminLoginLogRepo struct {
@@ -31,12 +31,12 @@ func NewAdminLoginLogRepo(data *Data, logger log.Logger) *AdminLoginLogRepo {
 	}
 }
 
-func (r *AdminLoginLogRepo) toProto(in *ent.AdminLoginLog) *systemV1.AdminLoginLog {
+func (r *AdminLoginLogRepo) toProto(in *ent.AdminLoginLog) *adminV1.AdminLoginLog {
 	if in == nil {
 		return nil
 	}
 
-	var out systemV1.AdminLoginLog
+	var out adminV1.AdminLoginLog
 	_ = copier.Copy(&out, in)
 
 	out.CreateTime = timeutil.TimeToTimeString(in.CreateTime)
@@ -54,15 +54,15 @@ func (r *AdminLoginLogRepo) Count(ctx context.Context, whereCond []func(s *sql.S
 	count, err := builder.Count(ctx)
 	if err != nil {
 		r.log.Errorf("query count failed: %s", err.Error())
-		return 0, systemV1.ErrorInternalServerError("query count failed")
+		return 0, adminV1.ErrorInternalServerError("query count failed")
 	}
 
 	return count, nil
 }
 
-func (r *AdminLoginLogRepo) List(ctx context.Context, req *pagination.PagingRequest) (*systemV1.ListAdminLoginLogResponse, error) {
+func (r *AdminLoginLogRepo) List(ctx context.Context, req *pagination.PagingRequest) (*adminV1.ListAdminLoginLogResponse, error) {
 	if req == nil {
-		return nil, systemV1.ErrorBadRequest("invalid parameter")
+		return nil, adminV1.ErrorBadRequest("invalid parameter")
 	}
 
 	builder := r.data.db.Client().AdminLoginLog.Query()
@@ -75,7 +75,7 @@ func (r *AdminLoginLogRepo) List(ctx context.Context, req *pagination.PagingRequ
 	)
 	if err != nil {
 		r.log.Errorf("parse list param error [%s]", err.Error())
-		return nil, systemV1.ErrorBadRequest("invalid query parameter")
+		return nil, adminV1.ErrorBadRequest("invalid query parameter")
 	}
 
 	if querySelectors != nil {
@@ -85,10 +85,10 @@ func (r *AdminLoginLogRepo) List(ctx context.Context, req *pagination.PagingRequ
 	results, err := builder.All(ctx)
 	if err != nil {
 		r.log.Errorf("query list failed: %s", err.Error())
-		return nil, systemV1.ErrorInternalServerError("query list failed")
+		return nil, adminV1.ErrorInternalServerError("query list failed")
 	}
 
-	items := make([]*systemV1.AdminLoginLog, 0, len(results))
+	items := make([]*adminV1.AdminLoginLog, 0, len(results))
 	for _, res := range results {
 		item := r.toProto(res)
 		items = append(items, item)
@@ -99,7 +99,7 @@ func (r *AdminLoginLogRepo) List(ctx context.Context, req *pagination.PagingRequ
 		return nil, err
 	}
 
-	return &systemV1.ListAdminLoginLogResponse{
+	return &adminV1.ListAdminLoginLogResponse{
 		Total: uint32(count),
 		Items: items,
 	}, err
@@ -111,33 +111,33 @@ func (r *AdminLoginLogRepo) IsExist(ctx context.Context, id uint32) (bool, error
 		Exist(ctx)
 	if err != nil {
 		r.log.Errorf("query exist failed: %s", err.Error())
-		return false, systemV1.ErrorInternalServerError("query exist failed")
+		return false, adminV1.ErrorInternalServerError("query exist failed")
 	}
 	return exist, nil
 }
 
-func (r *AdminLoginLogRepo) Get(ctx context.Context, req *systemV1.GetAdminLoginLogRequest) (*systemV1.AdminLoginLog, error) {
+func (r *AdminLoginLogRepo) Get(ctx context.Context, req *adminV1.GetAdminLoginLogRequest) (*adminV1.AdminLoginLog, error) {
 	if req == nil {
-		return nil, systemV1.ErrorBadRequest("invalid parameter")
+		return nil, adminV1.ErrorBadRequest("invalid parameter")
 	}
 
 	ret, err := r.data.db.Client().AdminLoginLog.Get(ctx, req.GetId())
 	if err != nil {
 		if ent.IsNotFound(err) {
-			return nil, systemV1.ErrorNotFound("admin login log not found")
+			return nil, adminV1.ErrorNotFound("admin login log not found")
 		}
 
 		r.log.Errorf("query one data failed: %s", err.Error())
 
-		return nil, systemV1.ErrorInternalServerError("query data failed")
+		return nil, adminV1.ErrorInternalServerError("query data failed")
 	}
 
 	return r.toProto(ret), nil
 }
 
-func (r *AdminLoginLogRepo) Create(ctx context.Context, req *systemV1.CreateAdminLoginLogRequest) error {
+func (r *AdminLoginLogRepo) Create(ctx context.Context, req *adminV1.CreateAdminLoginLogRequest) error {
 	if req == nil || req.Data == nil {
-		return systemV1.ErrorBadRequest("invalid parameter")
+		return adminV1.ErrorBadRequest("invalid parameter")
 	}
 
 	builder := r.data.db.Client().AdminLoginLog.
@@ -170,7 +170,7 @@ func (r *AdminLoginLogRepo) Create(ctx context.Context, req *systemV1.CreateAdmi
 
 	if err := builder.Exec(ctx); err != nil {
 		r.log.Errorf("insert one data failed: %s", err.Error())
-		return systemV1.ErrorInternalServerError("insert data failed")
+		return adminV1.ErrorInternalServerError("insert data failed")
 	}
 
 	return nil

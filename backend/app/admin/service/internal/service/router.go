@@ -16,7 +16,6 @@ import (
 	"kratos-admin/app/admin/service/internal/data"
 
 	adminV1 "kratos-admin/api/gen/go/admin/service/v1"
-	systemV1 "kratos-admin/api/gen/go/system/service/v1"
 )
 
 type RouterService struct {
@@ -53,9 +52,9 @@ func (s *RouterService) menuListToQueryString(menus []uint32, onlyButton bool) s
 	query := map[string]string{"id__in": idsStr}
 
 	if onlyButton {
-		query["type"] = systemV1.MenuType_BUTTON.String()
+		query["type"] = adminV1.MenuType_BUTTON.String()
 	} else {
-		query["type__not"] = systemV1.MenuType_BUTTON.String()
+		query["type__not"] = adminV1.MenuType_BUTTON.String()
 	}
 
 	query["status"] = "ON"
@@ -119,22 +118,22 @@ func (s *RouterService) ListPermissionCode(ctx context.Context, req *adminV1.Lis
 	}, nil
 }
 
-func (s *RouterService) fillRouteItem(menus []*systemV1.Menu) []*systemV1.RouteItem {
+func (s *RouterService) fillRouteItem(menus []*adminV1.Menu) []*adminV1.RouteItem {
 	if len(menus) == 0 {
 		return nil
 	}
 
-	var routers []*systemV1.RouteItem
+	var routers []*adminV1.RouteItem
 
 	for _, v := range menus {
-		if v.GetStatus() != systemV1.MenuStatus_ON {
+		if v.GetStatus() != adminV1.MenuStatus_ON {
 			continue
 		}
-		if v.GetType() == systemV1.MenuType_BUTTON {
+		if v.GetType() == adminV1.MenuType_BUTTON {
 			continue
 		}
 
-		item := &systemV1.RouteItem{
+		item := &adminV1.RouteItem{
 			Path:      v.Path,
 			Component: v.Component,
 			Name:      v.Name,

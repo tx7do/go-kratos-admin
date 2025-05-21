@@ -11,7 +11,6 @@ import (
 	"kratos-admin/app/admin/service/internal/data"
 
 	adminV1 "kratos-admin/api/gen/go/admin/service/v1"
-	systemV1 "kratos-admin/api/gen/go/system/service/v1"
 
 	"kratos-admin/pkg/middleware/auth"
 )
@@ -32,7 +31,7 @@ func NewMenuService(uc *data.MenuRepo, logger log.Logger) *MenuService {
 	}
 }
 
-func (s *MenuService) List(ctx context.Context, req *pagination.PagingRequest) (*systemV1.ListMenuResponse, error) {
+func (s *MenuService) List(ctx context.Context, req *pagination.PagingRequest) (*adminV1.ListMenuResponse, error) {
 	ret, err := s.uc.List(ctx, req, false)
 	if err != nil {
 
@@ -42,7 +41,7 @@ func (s *MenuService) List(ctx context.Context, req *pagination.PagingRequest) (
 	return ret, nil
 }
 
-func (s *MenuService) Get(ctx context.Context, req *systemV1.GetMenuRequest) (*systemV1.Menu, error) {
+func (s *MenuService) Get(ctx context.Context, req *adminV1.GetMenuRequest) (*adminV1.Menu, error) {
 	ret, err := s.uc.Get(ctx, req)
 	if err != nil {
 
@@ -52,7 +51,7 @@ func (s *MenuService) Get(ctx context.Context, req *systemV1.GetMenuRequest) (*s
 	return ret, nil
 }
 
-func (s *MenuService) Create(ctx context.Context, req *systemV1.CreateMenuRequest) (*emptypb.Empty, error) {
+func (s *MenuService) Create(ctx context.Context, req *adminV1.CreateMenuRequest) (*emptypb.Empty, error) {
 	if req.Data == nil {
 		return nil, adminV1.ErrorBadRequest("错误的参数")
 	}
@@ -73,7 +72,7 @@ func (s *MenuService) Create(ctx context.Context, req *systemV1.CreateMenuReques
 	return &emptypb.Empty{}, nil
 }
 
-func (s *MenuService) Update(ctx context.Context, req *systemV1.UpdateMenuRequest) (*emptypb.Empty, error) {
+func (s *MenuService) Update(ctx context.Context, req *adminV1.UpdateMenuRequest) (*emptypb.Empty, error) {
 	if req.Data == nil {
 		return nil, adminV1.ErrorBadRequest("错误的参数")
 	}
@@ -93,7 +92,7 @@ func (s *MenuService) Update(ctx context.Context, req *systemV1.UpdateMenuReques
 	return &emptypb.Empty{}, nil
 }
 
-func (s *MenuService) Delete(ctx context.Context, req *systemV1.DeleteMenuRequest) (*emptypb.Empty, error) {
+func (s *MenuService) Delete(ctx context.Context, req *adminV1.DeleteMenuRequest) (*emptypb.Empty, error) {
 	if err := s.uc.Delete(ctx, req); err != nil {
 		return nil, err
 	}

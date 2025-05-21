@@ -19,7 +19,7 @@ import (
 	"kratos-admin/app/admin/service/internal/data/ent"
 	"kratos-admin/app/admin/service/internal/data/ent/menu"
 
-	systemV1 "kratos-admin/api/gen/go/system/service/v1"
+	adminV1 "kratos-admin/api/gen/go/admin/service/v1"
 )
 
 type MenuRepo struct {
@@ -35,55 +35,55 @@ func NewMenuRepo(data *Data, logger log.Logger) *MenuRepo {
 	}
 }
 
-func (r *MenuRepo) toProtoType(in *menu.Type) *systemV1.MenuType {
+func (r *MenuRepo) toProtoType(in *menu.Type) *adminV1.MenuType {
 	if in == nil {
 		return nil
 	}
-	find, ok := systemV1.MenuType_value[string(*in)]
+	find, ok := adminV1.MenuType_value[string(*in)]
 	if !ok {
 		return nil
 	}
-	return (*systemV1.MenuType)(trans.Ptr(find))
+	return (*adminV1.MenuType)(trans.Ptr(find))
 }
-func (r *MenuRepo) toEntType(in *systemV1.MenuType) *menu.Type {
+func (r *MenuRepo) toEntType(in *adminV1.MenuType) *menu.Type {
 	if in == nil {
 		return nil
 	}
-	find, ok := systemV1.MenuType_name[int32(*in)]
+	find, ok := adminV1.MenuType_name[int32(*in)]
 	if !ok {
 		return nil
 	}
 	return (*menu.Type)(trans.Ptr(find))
 }
 
-func (r *MenuRepo) toEntStatus(status *systemV1.MenuStatus) *menu.Status {
+func (r *MenuRepo) toEntStatus(status *adminV1.MenuStatus) *menu.Status {
 	if status == nil {
 		return nil
 	}
-	find, ok := systemV1.MenuStatus_name[int32(*status)]
+	find, ok := adminV1.MenuStatus_name[int32(*status)]
 	if !ok {
 		return nil
 	}
 	return (*menu.Status)(trans.Ptr(find))
 }
 
-func (r *MenuRepo) toProtoStatus(status *menu.Status) *systemV1.MenuStatus {
+func (r *MenuRepo) toProtoStatus(status *menu.Status) *adminV1.MenuStatus {
 	if status == nil {
 		return nil
 	}
-	find, ok := systemV1.MenuStatus_value[string(*status)]
+	find, ok := adminV1.MenuStatus_value[string(*status)]
 	if !ok {
 		return nil
 	}
-	return (*systemV1.MenuStatus)(trans.Ptr(find))
+	return (*adminV1.MenuStatus)(trans.Ptr(find))
 }
 
-func (r *MenuRepo) toProto(in *ent.Menu) *systemV1.Menu {
+func (r *MenuRepo) toProto(in *ent.Menu) *adminV1.Menu {
 	if in == nil {
 		return nil
 	}
 
-	var out systemV1.Menu
+	var out adminV1.Menu
 	_ = copier.Copy(&out, in)
 
 	out.Type = r.toProtoType(in.Type)
@@ -95,7 +95,7 @@ func (r *MenuRepo) toProto(in *ent.Menu) *systemV1.Menu {
 	return &out
 }
 
-func (r *MenuRepo) travelChild(nodes []*systemV1.Menu, node *systemV1.Menu) bool {
+func (r *MenuRepo) travelChild(nodes []*adminV1.Menu, node *adminV1.Menu) bool {
 	if nodes == nil {
 		return false
 	}
@@ -131,15 +131,15 @@ func (r *MenuRepo) Count(ctx context.Context, whereCond []func(s *sql.Selector))
 	count, err := builder.Count(ctx)
 	if err != nil {
 		r.log.Errorf("query count failed: %s", err.Error())
-		return 0, systemV1.ErrorInternalServerError("query count failed")
+		return 0, adminV1.ErrorInternalServerError("query count failed")
 	}
 
 	return count, nil
 }
 
-func (r *MenuRepo) List(ctx context.Context, req *pagination.PagingRequest, treeTravel bool) (*systemV1.ListMenuResponse, error) {
+func (r *MenuRepo) List(ctx context.Context, req *pagination.PagingRequest, treeTravel bool) (*adminV1.ListMenuResponse, error) {
 	if req == nil {
-		return nil, systemV1.ErrorBadRequest("invalid parameter")
+		return nil, adminV1.ErrorBadRequest("invalid parameter")
 	}
 
 	builder := r.data.db.Client().Menu.Query()
@@ -152,7 +152,7 @@ func (r *MenuRepo) List(ctx context.Context, req *pagination.PagingRequest, tree
 	)
 	if err != nil {
 		r.log.Errorf("parse list param error [%s]", err.Error())
-		return nil, systemV1.ErrorBadRequest("invalid query parameter")
+		return nil, adminV1.ErrorBadRequest("invalid query parameter")
 	}
 
 	if querySelectors != nil {
@@ -162,10 +162,10 @@ func (r *MenuRepo) List(ctx context.Context, req *pagination.PagingRequest, tree
 	results, err := builder.All(ctx)
 	if err != nil {
 		r.log.Errorf("query list failed: %s", err.Error())
-		return nil, systemV1.ErrorInternalServerError("query list failed")
+		return nil, adminV1.ErrorInternalServerError("query list failed")
 	}
 
-	items := make([]*systemV1.Menu, 0, len(results))
+	items := make([]*adminV1.Menu, 0, len(results))
 	if treeTravel {
 		for _, m := range results {
 			if m.ParentID == nil {
@@ -196,7 +196,7 @@ func (r *MenuRepo) List(ctx context.Context, req *pagination.PagingRequest, tree
 		return nil, err
 	}
 
-	return &systemV1.ListMenuResponse{
+	return &adminV1.ListMenuResponse{
 		Total: uint32(count),
 		Items: items,
 	}, nil
@@ -208,33 +208,33 @@ func (r *MenuRepo) IsExist(ctx context.Context, id int32) (bool, error) {
 		Exist(ctx)
 	if err != nil {
 		r.log.Errorf("query exist failed: %s", err.Error())
-		return false, systemV1.ErrorInternalServerError("query exist failed")
+		return false, adminV1.ErrorInternalServerError("query exist failed")
 	}
 	return exist, nil
 }
 
-func (r *MenuRepo) Get(ctx context.Context, req *systemV1.GetMenuRequest) (*systemV1.Menu, error) {
+func (r *MenuRepo) Get(ctx context.Context, req *adminV1.GetMenuRequest) (*adminV1.Menu, error) {
 	if req == nil {
-		return nil, systemV1.ErrorBadRequest("invalid parameter")
+		return nil, adminV1.ErrorBadRequest("invalid parameter")
 	}
 
 	ret, err := r.data.db.Client().Menu.Get(ctx, req.GetId())
 	if err != nil {
 		if ent.IsNotFound(err) {
-			return nil, systemV1.ErrorNotFound("menu not found")
+			return nil, adminV1.ErrorNotFound("menu not found")
 		}
 
 		r.log.Errorf("query one data failed: %s", err.Error())
 
-		return nil, systemV1.ErrorInternalServerError("query data failed")
+		return nil, adminV1.ErrorInternalServerError("query data failed")
 	}
 
 	return r.toProto(ret), nil
 }
 
-func (r *MenuRepo) Create(ctx context.Context, req *systemV1.CreateMenuRequest) error {
+func (r *MenuRepo) Create(ctx context.Context, req *adminV1.CreateMenuRequest) error {
 	if req == nil || req.Data == nil {
-		return systemV1.ErrorBadRequest("invalid parameter")
+		return adminV1.ErrorBadRequest("invalid parameter")
 	}
 
 	builder := r.data.db.Client().Menu.Create().
@@ -263,15 +263,15 @@ func (r *MenuRepo) Create(ctx context.Context, req *systemV1.CreateMenuRequest) 
 
 	if err := builder.Exec(ctx); err != nil {
 		r.log.Errorf("insert one data failed: %s", err.Error())
-		return systemV1.ErrorInternalServerError("insert data failed")
+		return adminV1.ErrorInternalServerError("insert data failed")
 	}
 
 	return nil
 }
 
-func (r *MenuRepo) Update(ctx context.Context, req *systemV1.UpdateMenuRequest) error {
+func (r *MenuRepo) Update(ctx context.Context, req *adminV1.UpdateMenuRequest) error {
 	if req == nil || req.Data == nil {
-		return systemV1.ErrorBadRequest("invalid parameter")
+		return adminV1.ErrorBadRequest("invalid parameter")
 	}
 
 	// 如果不存在则创建
@@ -281,7 +281,7 @@ func (r *MenuRepo) Update(ctx context.Context, req *systemV1.UpdateMenuRequest) 
 			return err
 		}
 		if !exist {
-			createReq := &systemV1.CreateMenuRequest{Data: req.Data}
+			createReq := &adminV1.CreateMenuRequest{Data: req.Data}
 			createReq.Data.CreateBy = createReq.Data.UpdateBy
 			createReq.Data.UpdateBy = nil
 			return r.Create(ctx, createReq)
@@ -298,7 +298,7 @@ func (r *MenuRepo) Update(ctx context.Context, req *systemV1.UpdateMenuRequest) 
 
 		req.UpdateMask.Normalize()
 		if !req.UpdateMask.IsValid(req.Data) {
-			return systemV1.ErrorBadRequest("invalid field mask")
+			return adminV1.ErrorBadRequest("invalid field mask")
 		}
 		fieldmaskutil.Filter(req.GetData(), req.UpdateMask.GetPaths())
 	}
@@ -335,13 +335,13 @@ func (r *MenuRepo) Update(ctx context.Context, req *systemV1.UpdateMenuRequest) 
 
 	if err := builder.Exec(ctx); err != nil {
 		r.log.Errorf("update one data failed: %s", err.Error())
-		return systemV1.ErrorInternalServerError("update data failed")
+		return adminV1.ErrorInternalServerError("update data failed")
 	}
 
 	return nil
 }
 
-func (r *MenuRepo) updateMetaField(builder *ent.MenuUpdateOne, meta *systemV1.RouteMeta, metaPaths []string) {
+func (r *MenuRepo) updateMetaField(builder *ent.MenuUpdateOne, meta *adminV1.RouteMeta, metaPaths []string) {
 	//builder.SetMeta(meta)
 
 	// 删除空值
@@ -356,19 +356,19 @@ func (r *MenuRepo) updateMetaField(builder *ent.MenuUpdateOne, meta *systemV1.Ro
 	}
 }
 
-func (r *MenuRepo) Delete(ctx context.Context, req *systemV1.DeleteMenuRequest) error {
+func (r *MenuRepo) Delete(ctx context.Context, req *adminV1.DeleteMenuRequest) error {
 	if req == nil {
-		return systemV1.ErrorBadRequest("invalid parameter")
+		return adminV1.ErrorBadRequest("invalid parameter")
 	}
 
 	if err := r.data.db.Client().Menu.DeleteOneID(req.GetId()).Exec(ctx); err != nil {
 		if ent.IsNotFound(err) {
-			return systemV1.ErrorNotFound("menu not found")
+			return adminV1.ErrorNotFound("menu not found")
 		}
 
 		r.log.Errorf("delete one data failed: %s", err.Error())
 
-		return systemV1.ErrorInternalServerError("delete failed")
+		return adminV1.ErrorInternalServerError("delete failed")
 	}
 
 	return nil

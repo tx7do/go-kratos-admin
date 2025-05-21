@@ -13,7 +13,6 @@ import (
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
 	emptypb "google.golang.org/protobuf/types/known/emptypb"
-	v11 "kratos-admin/api/gen/go/system/service/v1"
 )
 
 // This is a compile-time assertion to ensure that this generated file
@@ -36,15 +35,15 @@ const (
 // 后台菜单管理服务
 type MenuServiceClient interface {
 	// 查询菜单列表
-	List(ctx context.Context, in *v1.PagingRequest, opts ...grpc.CallOption) (*v11.ListMenuResponse, error)
+	List(ctx context.Context, in *v1.PagingRequest, opts ...grpc.CallOption) (*ListMenuResponse, error)
 	// 查询菜单详情
-	Get(ctx context.Context, in *v11.GetMenuRequest, opts ...grpc.CallOption) (*v11.Menu, error)
+	Get(ctx context.Context, in *GetMenuRequest, opts ...grpc.CallOption) (*Menu, error)
 	// 创建菜单
-	Create(ctx context.Context, in *v11.CreateMenuRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	Create(ctx context.Context, in *CreateMenuRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	// 更新菜单
-	Update(ctx context.Context, in *v11.UpdateMenuRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	Update(ctx context.Context, in *UpdateMenuRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	// 删除菜单
-	Delete(ctx context.Context, in *v11.DeleteMenuRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	Delete(ctx context.Context, in *DeleteMenuRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 }
 
 type menuServiceClient struct {
@@ -55,9 +54,9 @@ func NewMenuServiceClient(cc grpc.ClientConnInterface) MenuServiceClient {
 	return &menuServiceClient{cc}
 }
 
-func (c *menuServiceClient) List(ctx context.Context, in *v1.PagingRequest, opts ...grpc.CallOption) (*v11.ListMenuResponse, error) {
+func (c *menuServiceClient) List(ctx context.Context, in *v1.PagingRequest, opts ...grpc.CallOption) (*ListMenuResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(v11.ListMenuResponse)
+	out := new(ListMenuResponse)
 	err := c.cc.Invoke(ctx, MenuService_List_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -65,9 +64,9 @@ func (c *menuServiceClient) List(ctx context.Context, in *v1.PagingRequest, opts
 	return out, nil
 }
 
-func (c *menuServiceClient) Get(ctx context.Context, in *v11.GetMenuRequest, opts ...grpc.CallOption) (*v11.Menu, error) {
+func (c *menuServiceClient) Get(ctx context.Context, in *GetMenuRequest, opts ...grpc.CallOption) (*Menu, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(v11.Menu)
+	out := new(Menu)
 	err := c.cc.Invoke(ctx, MenuService_Get_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -75,7 +74,7 @@ func (c *menuServiceClient) Get(ctx context.Context, in *v11.GetMenuRequest, opt
 	return out, nil
 }
 
-func (c *menuServiceClient) Create(ctx context.Context, in *v11.CreateMenuRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+func (c *menuServiceClient) Create(ctx context.Context, in *CreateMenuRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, MenuService_Create_FullMethodName, in, out, cOpts...)
@@ -85,7 +84,7 @@ func (c *menuServiceClient) Create(ctx context.Context, in *v11.CreateMenuReques
 	return out, nil
 }
 
-func (c *menuServiceClient) Update(ctx context.Context, in *v11.UpdateMenuRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+func (c *menuServiceClient) Update(ctx context.Context, in *UpdateMenuRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, MenuService_Update_FullMethodName, in, out, cOpts...)
@@ -95,7 +94,7 @@ func (c *menuServiceClient) Update(ctx context.Context, in *v11.UpdateMenuReques
 	return out, nil
 }
 
-func (c *menuServiceClient) Delete(ctx context.Context, in *v11.DeleteMenuRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+func (c *menuServiceClient) Delete(ctx context.Context, in *DeleteMenuRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, MenuService_Delete_FullMethodName, in, out, cOpts...)
@@ -112,15 +111,15 @@ func (c *menuServiceClient) Delete(ctx context.Context, in *v11.DeleteMenuReques
 // 后台菜单管理服务
 type MenuServiceServer interface {
 	// 查询菜单列表
-	List(context.Context, *v1.PagingRequest) (*v11.ListMenuResponse, error)
+	List(context.Context, *v1.PagingRequest) (*ListMenuResponse, error)
 	// 查询菜单详情
-	Get(context.Context, *v11.GetMenuRequest) (*v11.Menu, error)
+	Get(context.Context, *GetMenuRequest) (*Menu, error)
 	// 创建菜单
-	Create(context.Context, *v11.CreateMenuRequest) (*emptypb.Empty, error)
+	Create(context.Context, *CreateMenuRequest) (*emptypb.Empty, error)
 	// 更新菜单
-	Update(context.Context, *v11.UpdateMenuRequest) (*emptypb.Empty, error)
+	Update(context.Context, *UpdateMenuRequest) (*emptypb.Empty, error)
 	// 删除菜单
-	Delete(context.Context, *v11.DeleteMenuRequest) (*emptypb.Empty, error)
+	Delete(context.Context, *DeleteMenuRequest) (*emptypb.Empty, error)
 	mustEmbedUnimplementedMenuServiceServer()
 }
 
@@ -131,19 +130,19 @@ type MenuServiceServer interface {
 // pointer dereference when methods are called.
 type UnimplementedMenuServiceServer struct{}
 
-func (UnimplementedMenuServiceServer) List(context.Context, *v1.PagingRequest) (*v11.ListMenuResponse, error) {
+func (UnimplementedMenuServiceServer) List(context.Context, *v1.PagingRequest) (*ListMenuResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method List not implemented")
 }
-func (UnimplementedMenuServiceServer) Get(context.Context, *v11.GetMenuRequest) (*v11.Menu, error) {
+func (UnimplementedMenuServiceServer) Get(context.Context, *GetMenuRequest) (*Menu, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Get not implemented")
 }
-func (UnimplementedMenuServiceServer) Create(context.Context, *v11.CreateMenuRequest) (*emptypb.Empty, error) {
+func (UnimplementedMenuServiceServer) Create(context.Context, *CreateMenuRequest) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Create not implemented")
 }
-func (UnimplementedMenuServiceServer) Update(context.Context, *v11.UpdateMenuRequest) (*emptypb.Empty, error) {
+func (UnimplementedMenuServiceServer) Update(context.Context, *UpdateMenuRequest) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Update not implemented")
 }
-func (UnimplementedMenuServiceServer) Delete(context.Context, *v11.DeleteMenuRequest) (*emptypb.Empty, error) {
+func (UnimplementedMenuServiceServer) Delete(context.Context, *DeleteMenuRequest) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Delete not implemented")
 }
 func (UnimplementedMenuServiceServer) mustEmbedUnimplementedMenuServiceServer() {}
@@ -186,7 +185,7 @@ func _MenuService_List_Handler(srv interface{}, ctx context.Context, dec func(in
 }
 
 func _MenuService_Get_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(v11.GetMenuRequest)
+	in := new(GetMenuRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -198,13 +197,13 @@ func _MenuService_Get_Handler(srv interface{}, ctx context.Context, dec func(int
 		FullMethod: MenuService_Get_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(MenuServiceServer).Get(ctx, req.(*v11.GetMenuRequest))
+		return srv.(MenuServiceServer).Get(ctx, req.(*GetMenuRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _MenuService_Create_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(v11.CreateMenuRequest)
+	in := new(CreateMenuRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -216,13 +215,13 @@ func _MenuService_Create_Handler(srv interface{}, ctx context.Context, dec func(
 		FullMethod: MenuService_Create_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(MenuServiceServer).Create(ctx, req.(*v11.CreateMenuRequest))
+		return srv.(MenuServiceServer).Create(ctx, req.(*CreateMenuRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _MenuService_Update_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(v11.UpdateMenuRequest)
+	in := new(UpdateMenuRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -234,13 +233,13 @@ func _MenuService_Update_Handler(srv interface{}, ctx context.Context, dec func(
 		FullMethod: MenuService_Update_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(MenuServiceServer).Update(ctx, req.(*v11.UpdateMenuRequest))
+		return srv.(MenuServiceServer).Update(ctx, req.(*UpdateMenuRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _MenuService_Delete_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(v11.DeleteMenuRequest)
+	in := new(DeleteMenuRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -252,7 +251,7 @@ func _MenuService_Delete_Handler(srv interface{}, ctx context.Context, dec func(
 		FullMethod: MenuService_Delete_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(MenuServiceServer).Delete(ctx, req.(*v11.DeleteMenuRequest))
+		return srv.(MenuServiceServer).Delete(ctx, req.(*DeleteMenuRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }

@@ -18,7 +18,7 @@ import (
 	"kratos-admin/app/admin/service/internal/data/ent"
 	"kratos-admin/app/admin/service/internal/data/ent/task"
 
-	systemV1 "kratos-admin/api/gen/go/system/service/v1"
+	adminV1 "kratos-admin/api/gen/go/admin/service/v1"
 )
 
 type TaskRepo struct {
@@ -34,12 +34,12 @@ func NewTaskRepo(data *Data, logger log.Logger) *TaskRepo {
 	}
 }
 
-func (r *TaskRepo) toEntType(in *systemV1.TaskType) *task.Type {
+func (r *TaskRepo) toEntType(in *adminV1.TaskType) *task.Type {
 	if in == nil {
 		return nil
 	}
 
-	find, ok := systemV1.TaskType_name[int32(*in)]
+	find, ok := adminV1.TaskType_name[int32(*in)]
 	if !ok {
 		return nil
 	}
@@ -47,25 +47,25 @@ func (r *TaskRepo) toEntType(in *systemV1.TaskType) *task.Type {
 	return (*task.Type)(trans.Ptr(find))
 }
 
-func (r *TaskRepo) toProtoType(in *task.Type) *systemV1.TaskType {
+func (r *TaskRepo) toProtoType(in *task.Type) *adminV1.TaskType {
 	if in == nil {
 		return nil
 	}
 
-	find, ok := systemV1.TaskType_value[string(*in)]
+	find, ok := adminV1.TaskType_value[string(*in)]
 	if !ok {
 		return nil
 	}
 
-	return (*systemV1.TaskType)(trans.Ptr(find))
+	return (*adminV1.TaskType)(trans.Ptr(find))
 }
 
-func (r *TaskRepo) toProto(in *ent.Task) *systemV1.Task {
+func (r *TaskRepo) toProto(in *ent.Task) *adminV1.Task {
 	if in == nil {
 		return nil
 	}
 
-	var out systemV1.Task
+	var out adminV1.Task
 	_ = copier.Copy(&out, in)
 
 	out.Type = r.toProtoType(in.Type)
@@ -85,15 +85,15 @@ func (r *TaskRepo) Count(ctx context.Context, whereCond []func(s *sql.Selector))
 	count, err := builder.Count(ctx)
 	if err != nil {
 		r.log.Errorf("query count failed: %s", err.Error())
-		return 0, systemV1.ErrorInternalServerError("query count failed")
+		return 0, adminV1.ErrorInternalServerError("query count failed")
 	}
 
 	return count, nil
 }
 
-func (r *TaskRepo) List(ctx context.Context, req *pagination.PagingRequest) (*systemV1.ListTaskResponse, error) {
+func (r *TaskRepo) List(ctx context.Context, req *pagination.PagingRequest) (*adminV1.ListTaskResponse, error) {
 	if req == nil {
-		return nil, systemV1.ErrorBadRequest("invalid parameter")
+		return nil, adminV1.ErrorBadRequest("invalid parameter")
 	}
 
 	builder := r.data.db.Client().Task.Query()
@@ -106,7 +106,7 @@ func (r *TaskRepo) List(ctx context.Context, req *pagination.PagingRequest) (*sy
 	)
 	if err != nil {
 		r.log.Errorf("parse list param error [%s]", err.Error())
-		return nil, systemV1.ErrorBadRequest("invalid query parameter")
+		return nil, adminV1.ErrorBadRequest("invalid query parameter")
 	}
 
 	if querySelectors != nil {
@@ -116,10 +116,10 @@ func (r *TaskRepo) List(ctx context.Context, req *pagination.PagingRequest) (*sy
 	results, err := builder.All(ctx)
 	if err != nil {
 		r.log.Errorf("query list failed: %s", err.Error())
-		return nil, systemV1.ErrorInternalServerError("query list failed")
+		return nil, adminV1.ErrorInternalServerError("query list failed")
 	}
 
-	items := make([]*systemV1.Task, 0, len(results))
+	items := make([]*adminV1.Task, 0, len(results))
 	for _, res := range results {
 		item := r.toProto(res)
 		items = append(items, item)
@@ -130,7 +130,7 @@ func (r *TaskRepo) List(ctx context.Context, req *pagination.PagingRequest) (*sy
 		return nil, err
 	}
 
-	return &systemV1.ListTaskResponse{
+	return &adminV1.ListTaskResponse{
 		Total: uint32(count),
 		Items: items,
 	}, nil
@@ -142,33 +142,33 @@ func (r *TaskRepo) IsExist(ctx context.Context, id uint32) (bool, error) {
 		Exist(ctx)
 	if err != nil {
 		r.log.Errorf("query exist failed: %s", err.Error())
-		return false, systemV1.ErrorInternalServerError("query exist failed")
+		return false, adminV1.ErrorInternalServerError("query exist failed")
 	}
 	return exist, nil
 }
 
-func (r *TaskRepo) Get(ctx context.Context, id uint32) (*systemV1.Task, error) {
+func (r *TaskRepo) Get(ctx context.Context, id uint32) (*adminV1.Task, error) {
 	if id == 0 {
-		return nil, systemV1.ErrorBadRequest("invalid parameter")
+		return nil, adminV1.ErrorBadRequest("invalid parameter")
 	}
 
 	ret, err := r.data.db.Client().Task.Get(ctx, id)
 	if err != nil {
 		if ent.IsNotFound(err) {
-			return nil, systemV1.ErrorNotFound("task not found")
+			return nil, adminV1.ErrorNotFound("task not found")
 		}
 
 		r.log.Errorf("query one data failed: %s", err.Error())
 
-		return nil, systemV1.ErrorInternalServerError("query data failed")
+		return nil, adminV1.ErrorInternalServerError("query data failed")
 	}
 
 	return r.toProto(ret), nil
 }
 
-func (r *TaskRepo) GetByTypeName(ctx context.Context, typeName string) (*systemV1.Task, error) {
+func (r *TaskRepo) GetByTypeName(ctx context.Context, typeName string) (*adminV1.Task, error) {
 	if typeName == "" {
-		return nil, systemV1.ErrorBadRequest("invalid parameter")
+		return nil, adminV1.ErrorBadRequest("invalid parameter")
 	}
 
 	ret, err := r.data.db.Client().Task.Query().
@@ -178,18 +178,18 @@ func (r *TaskRepo) GetByTypeName(ctx context.Context, typeName string) (*systemV
 		r.log.Errorf("query one data failed: %s", err.Error())
 
 		if ent.IsNotFound(err) {
-			return nil, systemV1.ErrorNotFound("task not found")
+			return nil, adminV1.ErrorNotFound("task not found")
 		}
 
-		return nil, systemV1.ErrorInternalServerError("query data failed")
+		return nil, adminV1.ErrorInternalServerError("query data failed")
 	}
 
 	return r.toProto(ret), nil
 }
 
-func (r *TaskRepo) Create(ctx context.Context, req *systemV1.CreateTaskRequest) (*systemV1.Task, error) {
+func (r *TaskRepo) Create(ctx context.Context, req *adminV1.CreateTaskRequest) (*adminV1.Task, error) {
 	if req == nil || req.Data == nil {
-		return nil, systemV1.ErrorBadRequest("invalid parameter")
+		return nil, adminV1.ErrorBadRequest("invalid parameter")
 	}
 
 	builder := r.data.db.Client().Task.Create().
@@ -218,15 +218,15 @@ func (r *TaskRepo) Create(ctx context.Context, req *systemV1.CreateTaskRequest) 
 	t, err := builder.Save(ctx)
 	if err != nil {
 		r.log.Errorf("insert one data failed: %s", err.Error())
-		return nil, systemV1.ErrorInternalServerError("insert data failed")
+		return nil, adminV1.ErrorInternalServerError("insert data failed")
 	}
 
 	return r.toProto(t), nil
 }
 
-func (r *TaskRepo) Update(ctx context.Context, req *systemV1.UpdateTaskRequest) (*systemV1.Task, error) {
+func (r *TaskRepo) Update(ctx context.Context, req *adminV1.UpdateTaskRequest) (*adminV1.Task, error) {
 	if req == nil || req.Data == nil {
-		return nil, systemV1.ErrorBadRequest("invalid parameter")
+		return nil, adminV1.ErrorBadRequest("invalid parameter")
 	}
 
 	// 如果不存在则创建
@@ -236,7 +236,7 @@ func (r *TaskRepo) Update(ctx context.Context, req *systemV1.UpdateTaskRequest) 
 			return nil, err
 		}
 		if !exist {
-			createReq := &systemV1.CreateTaskRequest{Data: req.Data}
+			createReq := &adminV1.CreateTaskRequest{Data: req.Data}
 			createReq.Data.CreateBy = createReq.Data.UpdateBy
 			createReq.Data.UpdateBy = nil
 			return r.Create(ctx, createReq)
@@ -246,7 +246,7 @@ func (r *TaskRepo) Update(ctx context.Context, req *systemV1.UpdateTaskRequest) 
 	if req.UpdateMask != nil {
 		req.UpdateMask.Normalize()
 		if !req.UpdateMask.IsValid(req.Data) {
-			return nil, systemV1.ErrorBadRequest("invalid field mask")
+			return nil, adminV1.ErrorBadRequest("invalid field mask")
 		}
 		fieldmaskutil.Filter(req.GetData(), req.UpdateMask.GetPaths())
 	}
@@ -283,25 +283,25 @@ func (r *TaskRepo) Update(ctx context.Context, req *systemV1.UpdateTaskRequest) 
 	t, err := builder.Save(ctx)
 	if err != nil {
 		r.log.Errorf("update one data failed: %s", err.Error())
-		return nil, systemV1.ErrorInternalServerError("update data failed")
+		return nil, adminV1.ErrorInternalServerError("update data failed")
 	}
 
 	return r.toProto(t), nil
 }
 
-func (r *TaskRepo) Delete(ctx context.Context, req *systemV1.DeleteTaskRequest) error {
+func (r *TaskRepo) Delete(ctx context.Context, req *adminV1.DeleteTaskRequest) error {
 	if req == nil {
-		return systemV1.ErrorBadRequest("invalid parameter")
+		return adminV1.ErrorBadRequest("invalid parameter")
 	}
 
 	if err := r.data.db.Client().Task.DeleteOneID(req.GetId()).Exec(ctx); err != nil {
 		if ent.IsNotFound(err) {
-			return systemV1.ErrorNotFound("task not found")
+			return adminV1.ErrorNotFound("task not found")
 		}
 
 		r.log.Errorf("delete one data failed: %s", err.Error())
 
-		return systemV1.ErrorInternalServerError("delete failed")
+		return adminV1.ErrorInternalServerError("delete failed")
 	}
 
 	return nil

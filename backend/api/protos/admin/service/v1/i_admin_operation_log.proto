@@ -3,26 +3,251 @@ syntax = "proto3";
 package admin.service.v1;
 
 import "gnostic/openapi/v3/annotations.proto";
+
 import "google/api/annotations.proto";
+import "google/api/field_behavior.proto";
+
 import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/duration.proto";
 
 import "pagination/v1/pagination.proto";
 
-import "system/service/v1/admin_operation_log.proto";
 
 // 后台操作日志管理服务
 service AdminOperationLogService {
   // 查询后台操作日志列表
-  rpc List (pagination.PagingRequest) returns (system.service.v1.ListAdminOperationLogResponse) {
+  rpc List (pagination.PagingRequest) returns (ListAdminOperationLogResponse) {
     option (google.api.http) = {
       get: "/admin/v1/admin_operation_logs"
     };
   }
 
   // 查询后台操作日志详情
-  rpc Get (system.service.v1.GetAdminOperationLogRequest) returns (system.service.v1.AdminOperationLog) {
+  rpc Get (GetAdminOperationLogRequest) returns (AdminOperationLog) {
     option (google.api.http) = {
       get: "/admin/v1/admin_operation_logs/{id}"
     };
   }
+}
+
+// 后台操作日志
+message AdminOperationLog {
+  optional uint32 id = 1 [
+    json_name = "id",
+    (google.api.field_behavior) = OPTIONAL,
+    (gnostic.openapi.v3.property) = {
+      description: "后台操作日志ID"
+    }
+  ]; // 后台操作日志ID
+
+  optional google.protobuf.Duration cost_time = 2 [
+    json_name = "costTime",
+    (gnostic.openapi.v3.property) = {
+      description: "操作耗时"
+    }
+  ]; // 操作耗时
+
+  optional bool success = 3 [
+    json_name = "success",
+    (gnostic.openapi.v3.property) = {
+      description: "操作是否成功"
+    }
+  ]; // 操作是否成功
+
+  optional string request_id = 4 [
+    json_name = "requestId",
+    (gnostic.openapi.v3.property) = {
+      description: "请求ID"
+    }
+  ]; // 请求ID
+
+  optional int32 status_code = 5 [
+    json_name = "statusCode",
+    (gnostic.openapi.v3.property) = {
+      description: "状态码"
+    }
+  ]; // 状态码
+
+  optional string method = 6 [
+    json_name = "method",
+    (gnostic.openapi.v3.property) = {
+      description: "请求方法"
+    }
+  ]; // 请求方法
+
+  optional string operation = 7 [
+    json_name = "operation",
+    (gnostic.openapi.v3.property) = {
+      description: "操作方法"
+    }
+  ]; // 操作方法
+
+  optional string path = 8 [
+    json_name = "path",
+    (gnostic.openapi.v3.property) = {
+      description: "请求路径"
+    }
+  ]; // 请求路径
+
+  optional string referer = 9 [
+    json_name = "referer",
+    (gnostic.openapi.v3.property) = {
+      description: "请求源"
+    }
+  ]; // 请求源
+
+  optional string request_uri = 10 [
+    json_name = "requestUri",
+    (gnostic.openapi.v3.property) = {
+      description: "请求URI"
+    }
+  ]; // 请求URI
+
+  optional string reason = 11 [
+    json_name = "reason",
+    (gnostic.openapi.v3.property) = {
+      description: "操作失败原因"
+    }
+  ]; // 操作失败原因
+
+  optional string location = 12 [
+    json_name = "location",
+    (gnostic.openapi.v3.property) = {
+      description: "操作地理位置"
+    }
+  ]; // 操作地理位置
+
+  optional string request_header = 50 [
+    json_name = "requestHeader",
+    (gnostic.openapi.v3.property) = {
+      description: "请求头"
+    }
+  ]; // 请求头
+
+  optional string request_body = 51 [
+    json_name = "requestBody",
+    (gnostic.openapi.v3.property) = {
+      description: "请求体"
+    }
+  ]; // 请求体
+
+  optional string response = 52 [
+    json_name = "response",
+    (gnostic.openapi.v3.property) = {
+      description: "响应信息"
+    }
+  ]; // 响应信息
+
+  optional uint32 user_id = 100 [
+    json_name = "userId",
+    (gnostic.openapi.v3.property) = {
+      description: "操作者用户ID"
+    }
+  ]; // 操作者用户ID
+
+  optional string user_name = 101 [
+    json_name = "userName",
+    (gnostic.openapi.v3.property) = {
+      description: "操作者账号名"
+    }
+  ]; // 操作者账号名
+
+  optional string client_ip = 102 [
+    json_name = "clientIp",
+    (gnostic.openapi.v3.property) = {
+      description: "操作者IP"
+    }
+  ]; // 操作者IP
+
+  optional string user_agent = 200 [
+    json_name = "userAgent",
+    (gnostic.openapi.v3.property) = {
+      description: "浏览器的用户代理信息"
+    }
+  ]; // 浏览器的用户代理信息
+
+  optional string browser_name = 201 [
+    json_name = "browserName",
+    (gnostic.openapi.v3.property) = {
+      description: "浏览器名称"
+    }
+  ]; // 浏览器名称
+
+  optional string browser_version = 202 [
+    json_name = "browserVersion",
+    (gnostic.openapi.v3.property) = {
+      description: "浏览器版本"
+    }
+  ]; // 浏览器版本
+
+  optional string client_id = 300 [
+    json_name = "clientId",
+    (gnostic.openapi.v3.property) = {
+      description: "客户端ID"
+    }
+  ]; // 客户端ID
+
+  optional string client_name = 301 [
+    json_name = "clientName",
+    (gnostic.openapi.v3.property) = {
+      description: "客户端名称"
+    }
+  ]; // 客户端名称
+
+  optional string os_name = 302 [
+    json_name = "osName",
+    (gnostic.openapi.v3.property) = {
+      description: "操作系统名称"
+    }
+  ]; // 操作系统名称
+
+  optional string os_version = 303 [
+    json_name = "osVersion",
+    (gnostic.openapi.v3.property) = {
+      description: "操作系统版本"
+    }
+  ]; // 操作系统版本
+
+  optional string create_time = 500 [json_name = "createTime", (gnostic.openapi.v3.property) = {description: "创建时间"}];// 创建时间
+}
+
+// 查询后台操作日志列表 - 回应
+message ListAdminOperationLogResponse {
+  repeated AdminOperationLog items = 1;
+  uint32 total = 2;
+}
+
+// 查询后台操作日志详情 - 请求
+message GetAdminOperationLogRequest {
+  uint32 id = 1;
+}
+
+// 创建后台操作日志 - 请求
+message CreateAdminOperationLogRequest {
+  AdminOperationLog data = 1;
+}
+
+// 更新后台操作日志 - 请求
+message UpdateAdminOperationLogRequest {
+  AdminOperationLog data = 1;
+
+  google.protobuf.FieldMask update_mask = 2 [
+    (gnostic.openapi.v3.property) = {
+      description: "要更新的字段列表",
+      example: {yaml : "id,realName,userName"}
+    },
+    json_name = "updateMask"
+  ]; // 要更新的字段列表
+
+  optional bool allow_missing = 3 [
+    (gnostic.openapi.v3.property) = {description: "如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。"},
+    json_name = "allowMissing"
+  ]; // 如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。
+}
+
+// 删除后台操作日志 - 请求
+message DeleteAdminOperationLogRequest {
+  uint32 id = 1;
 }

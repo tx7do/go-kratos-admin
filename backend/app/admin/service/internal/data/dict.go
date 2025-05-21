@@ -17,7 +17,7 @@ import (
 	"kratos-admin/app/admin/service/internal/data/ent"
 	"kratos-admin/app/admin/service/internal/data/ent/dict"
 
-	systemV1 "kratos-admin/api/gen/go/system/service/v1"
+	adminV1 "kratos-admin/api/gen/go/admin/service/v1"
 )
 
 type DictRepo struct {
@@ -33,12 +33,12 @@ func NewDictRepo(data *Data, logger log.Logger) *DictRepo {
 	}
 }
 
-func (r *DictRepo) toProto(in *ent.Dict) *systemV1.Dict {
+func (r *DictRepo) toProto(in *ent.Dict) *adminV1.Dict {
 	if in == nil {
 		return nil
 	}
 
-	var out systemV1.Dict
+	var out adminV1.Dict
 	_ = copier.Copy(&out, in)
 
 	out.CreateTime = timeutil.TimeToTimeString(in.CreateTime)
@@ -57,15 +57,15 @@ func (r *DictRepo) Count(ctx context.Context, whereCond []func(s *sql.Selector))
 	count, err := builder.Count(ctx)
 	if err != nil {
 		r.log.Errorf("query count failed: %s", err.Error())
-		return 0, systemV1.ErrorInternalServerError("query count failed")
+		return 0, adminV1.ErrorInternalServerError("query count failed")
 	}
 
 	return count, nil
 }
 
-func (r *DictRepo) List(ctx context.Context, req *pagination.PagingRequest) (*systemV1.ListDictResponse, error) {
+func (r *DictRepo) List(ctx context.Context, req *pagination.PagingRequest) (*adminV1.ListDictResponse, error) {
 	if req == nil {
-		return nil, systemV1.ErrorBadRequest("invalid parameter")
+		return nil, adminV1.ErrorBadRequest("invalid parameter")
 	}
 
 	builder := r.data.db.Client().Dict.Query()
@@ -78,7 +78,7 @@ func (r *DictRepo) List(ctx context.Context, req *pagination.PagingRequest) (*sy
 	)
 	if err != nil {
 		r.log.Errorf("parse list param error [%s]", err.Error())
-		return nil, systemV1.ErrorBadRequest("invalid query parameter")
+		return nil, adminV1.ErrorBadRequest("invalid query parameter")
 	}
 
 	if querySelectors != nil {
@@ -88,10 +88,10 @@ func (r *DictRepo) List(ctx context.Context, req *pagination.PagingRequest) (*sy
 	results, err := builder.All(ctx)
 	if err != nil {
 		r.log.Errorf("query list failed: %s", err.Error())
-		return nil, systemV1.ErrorInternalServerError("query list failed")
+		return nil, adminV1.ErrorInternalServerError("query list failed")
 	}
 
-	items := make([]*systemV1.Dict, 0, len(results))
+	items := make([]*adminV1.Dict, 0, len(results))
 	for _, res := range results {
 		item := r.toProto(res)
 		items = append(items, item)
@@ -102,7 +102,7 @@ func (r *DictRepo) List(ctx context.Context, req *pagination.PagingRequest) (*sy
 		return nil, err
 	}
 
-	return &systemV1.ListDictResponse{
+	return &adminV1.ListDictResponse{
 		Total: uint32(count),
 		Items: items,
 	}, err
@@ -114,33 +114,33 @@ func (r *DictRepo) IsExist(ctx context.Context, id uint32) (bool, error) {
 		Exist(ctx)
 	if err != nil {
 		r.log.Errorf("query exist failed: %s", err.Error())
-		return false, systemV1.ErrorInternalServerError("query exist failed")
+		return false, adminV1.ErrorInternalServerError("query exist failed")
 	}
 	return exist, nil
 }
 
-func (r *DictRepo) Get(ctx context.Context, req *systemV1.GetDictRequest) (*systemV1.Dict, error) {
+func (r *DictRepo) Get(ctx context.Context, req *adminV1.GetDictRequest) (*adminV1.Dict, error) {
 	if req == nil {
-		return nil, systemV1.ErrorBadRequest("invalid parameter")
+		return nil, adminV1.ErrorBadRequest("invalid parameter")
 	}
 
 	ret, err := r.data.db.Client().Dict.Get(ctx, req.GetId())
 	if err != nil {
 		if ent.IsNotFound(err) {
-			return nil, systemV1.ErrorNotFound("dict not found")
+			return nil, adminV1.ErrorNotFound("dict not found")
 		}
 
 		r.log.Errorf("query one data failed: %s", err.Error())
 
-		return nil, systemV1.ErrorInternalServerError("query data failed")
+		return nil, adminV1.ErrorInternalServerError("query data failed")
 	}
 
 	return r.toProto(ret), nil
 }
 
-func (r *DictRepo) Create(ctx context.Context, req *systemV1.CreateDictRequest) error {
+func (r *DictRepo) Create(ctx context.Context, req *adminV1.CreateDictRequest) error {
 	if req == nil || req.Data == nil {
-		return systemV1.ErrorBadRequest("invalid parameter")
+		return adminV1.ErrorBadRequest("invalid parameter")
 	}
 
 	builder := r.data.db.Client().Dict.Create().
@@ -166,15 +166,15 @@ func (r *DictRepo) Create(ctx context.Context, req *systemV1.CreateDictRequest) 
 
 	if err := builder.Exec(ctx); err != nil {
 		r.log.Errorf("insert one data failed: %s", err.Error())
-		return systemV1.ErrorInternalServerError("insert data failed")
+		return adminV1.ErrorInternalServerError("insert data failed")
 	}
 
 	return nil
 }
 
-func (r *DictRepo) Update(ctx context.Context, req *systemV1.UpdateDictRequest) error {
+func (r *DictRepo) Update(ctx context.Context, req *adminV1.UpdateDictRequest) error {
 	if req == nil || req.Data == nil {
-		return systemV1.ErrorBadRequest("invalid parameter")
+		return adminV1.ErrorBadRequest("invalid parameter")
 	}
 
 	// 如果不存在则创建
@@ -184,7 +184,7 @@ func (r *DictRepo) Update(ctx context.Context, req *systemV1.UpdateDictRequest) 
 			return err
 		}
 		if !exist {
-			createReq := &systemV1.CreateDictRequest{Data: req.Data}
+			createReq := &adminV1.CreateDictRequest{Data: req.Data}
 			createReq.Data.CreateBy = createReq.Data.UpdateBy
 			createReq.Data.UpdateBy = nil
 			return r.Create(ctx, createReq)
@@ -194,7 +194,7 @@ func (r *DictRepo) Update(ctx context.Context, req *systemV1.UpdateDictRequest) 
 	if req.UpdateMask != nil {
 		req.UpdateMask.Normalize()
 		if !req.UpdateMask.IsValid(req.Data) {
-			return systemV1.ErrorBadRequest("invalid field mask")
+			return adminV1.ErrorBadRequest("invalid field mask")
 		}
 		fieldmaskutil.Filter(req.GetData(), req.UpdateMask.GetPaths())
 	}
@@ -227,25 +227,25 @@ func (r *DictRepo) Update(ctx context.Context, req *systemV1.UpdateDictRequest) 
 
 	if err := builder.Exec(ctx); err != nil {
 		r.log.Errorf("update one data failed: %s", err.Error())
-		return systemV1.ErrorInternalServerError("update data failed")
+		return adminV1.ErrorInternalServerError("update data failed")
 	}
 
 	return nil
 }
 
-func (r *DictRepo) Delete(ctx context.Context, req *systemV1.DeleteDictRequest) error {
+func (r *DictRepo) Delete(ctx context.Context, req *adminV1.DeleteDictRequest) error {
 	if req == nil {
-		return systemV1.ErrorBadRequest("invalid parameter")
+		return adminV1.ErrorBadRequest("invalid parameter")
 	}
 
 	if err := r.data.db.Client().Dict.DeleteOneID(req.GetId()).Exec(ctx); err != nil {
 		if ent.IsNotFound(err) {
-			return systemV1.ErrorNotFound("dict not found")
+			return adminV1.ErrorNotFound("dict not found")
 		}
 
 		r.log.Errorf("delete one data failed: %s", err.Error())
 
-		return systemV1.ErrorInternalServerError("delete failed")
+		return adminV1.ErrorInternalServerError("delete failed")
 	}
 
 	return nil

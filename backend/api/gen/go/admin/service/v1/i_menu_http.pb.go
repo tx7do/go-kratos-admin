@@ -12,7 +12,6 @@ import (
 	binding "github.com/go-kratos/kratos/v2/transport/http/binding"
 	v1 "github.com/tx7do/kratos-bootstrap/api/gen/go/pagination/v1"
 	emptypb "google.golang.org/protobuf/types/known/emptypb"
-	v11 "kratos-admin/api/gen/go/system/service/v1"
 )
 
 // This is a compile-time assertion to ensure that this generated file
@@ -30,15 +29,15 @@ const OperationMenuServiceUpdate = "/admin.service.v1.MenuService/Update"
 
 type MenuServiceHTTPServer interface {
 	// Create 创建菜单
-	Create(context.Context, *v11.CreateMenuRequest) (*emptypb.Empty, error)
+	Create(context.Context, *CreateMenuRequest) (*emptypb.Empty, error)
 	// Delete 删除菜单
-	Delete(context.Context, *v11.DeleteMenuRequest) (*emptypb.Empty, error)
+	Delete(context.Context, *DeleteMenuRequest) (*emptypb.Empty, error)
 	// Get 查询菜单详情
-	Get(context.Context, *v11.GetMenuRequest) (*v11.Menu, error)
+	Get(context.Context, *GetMenuRequest) (*Menu, error)
 	// List 查询菜单列表
-	List(context.Context, *v1.PagingRequest) (*v11.ListMenuResponse, error)
+	List(context.Context, *v1.PagingRequest) (*ListMenuResponse, error)
 	// Update 更新菜单
-	Update(context.Context, *v11.UpdateMenuRequest) (*emptypb.Empty, error)
+	Update(context.Context, *UpdateMenuRequest) (*emptypb.Empty, error)
 }
 
 func RegisterMenuServiceHTTPServer(s *http.Server, srv MenuServiceHTTPServer) {
@@ -64,14 +63,14 @@ func _MenuService_List6_HTTP_Handler(srv MenuServiceHTTPServer) func(ctx http.Co
 		if err != nil {
 			return err
 		}
-		reply := out.(*v11.ListMenuResponse)
+		reply := out.(*ListMenuResponse)
 		return ctx.Result(200, reply)
 	}
 }
 
 func _MenuService_Get6_HTTP_Handler(srv MenuServiceHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
-		var in v11.GetMenuRequest
+		var in GetMenuRequest
 		if err := ctx.BindQuery(&in); err != nil {
 			return err
 		}
@@ -80,20 +79,20 @@ func _MenuService_Get6_HTTP_Handler(srv MenuServiceHTTPServer) func(ctx http.Con
 		}
 		http.SetOperation(ctx, OperationMenuServiceGet)
 		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
-			return srv.Get(ctx, req.(*v11.GetMenuRequest))
+			return srv.Get(ctx, req.(*GetMenuRequest))
 		})
 		out, err := h(ctx, &in)
 		if err != nil {
 			return err
 		}
-		reply := out.(*v11.Menu)
+		reply := out.(*Menu)
 		return ctx.Result(200, reply)
 	}
 }
 
 func _MenuService_Create4_HTTP_Handler(srv MenuServiceHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
-		var in v11.CreateMenuRequest
+		var in CreateMenuRequest
 		if err := ctx.Bind(&in); err != nil {
 			return err
 		}
@@ -102,7 +101,7 @@ func _MenuService_Create4_HTTP_Handler(srv MenuServiceHTTPServer) func(ctx http.
 		}
 		http.SetOperation(ctx, OperationMenuServiceCreate)
 		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
-			return srv.Create(ctx, req.(*v11.CreateMenuRequest))
+			return srv.Create(ctx, req.(*CreateMenuRequest))
 		})
 		out, err := h(ctx, &in)
 		if err != nil {
@@ -115,7 +114,7 @@ func _MenuService_Create4_HTTP_Handler(srv MenuServiceHTTPServer) func(ctx http.
 
 func _MenuService_Update4_HTTP_Handler(srv MenuServiceHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
-		var in v11.UpdateMenuRequest
+		var in UpdateMenuRequest
 		if err := ctx.Bind(&in); err != nil {
 			return err
 		}
@@ -127,7 +126,7 @@ func _MenuService_Update4_HTTP_Handler(srv MenuServiceHTTPServer) func(ctx http.
 		}
 		http.SetOperation(ctx, OperationMenuServiceUpdate)
 		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
-			return srv.Update(ctx, req.(*v11.UpdateMenuRequest))
+			return srv.Update(ctx, req.(*UpdateMenuRequest))
 		})
 		out, err := h(ctx, &in)
 		if err != nil {
@@ -140,7 +139,7 @@ func _MenuService_Update4_HTTP_Handler(srv MenuServiceHTTPServer) func(ctx http.
 
 func _MenuService_Delete4_HTTP_Handler(srv MenuServiceHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
-		var in v11.DeleteMenuRequest
+		var in DeleteMenuRequest
 		if err := ctx.BindQuery(&in); err != nil {
 			return err
 		}
@@ -149,7 +148,7 @@ func _MenuService_Delete4_HTTP_Handler(srv MenuServiceHTTPServer) func(ctx http.
 		}
 		http.SetOperation(ctx, OperationMenuServiceDelete)
 		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
-			return srv.Delete(ctx, req.(*v11.DeleteMenuRequest))
+			return srv.Delete(ctx, req.(*DeleteMenuRequest))
 		})
 		out, err := h(ctx, &in)
 		if err != nil {
@@ -161,11 +160,11 @@ func _MenuService_Delete4_HTTP_Handler(srv MenuServiceHTTPServer) func(ctx http.
 }
 
 type MenuServiceHTTPClient interface {
-	Create(ctx context.Context, req *v11.CreateMenuRequest, opts ...http.CallOption) (rsp *emptypb.Empty, err error)
-	Delete(ctx context.Context, req *v11.DeleteMenuRequest, opts ...http.CallOption) (rsp *emptypb.Empty, err error)
-	Get(ctx context.Context, req *v11.GetMenuRequest, opts ...http.CallOption) (rsp *v11.Menu, err error)
-	List(ctx context.Context, req *v1.PagingRequest, opts ...http.CallOption) (rsp *v11.ListMenuResponse, err error)
-	Update(ctx context.Context, req *v11.UpdateMenuRequest, opts ...http.CallOption) (rsp *emptypb.Empty, err error)
+	Create(ctx context.Context, req *CreateMenuRequest, opts ...http.CallOption) (rsp *emptypb.Empty, err error)
+	Delete(ctx context.Context, req *DeleteMenuRequest, opts ...http.CallOption) (rsp *emptypb.Empty, err error)
+	Get(ctx context.Context, req *GetMenuRequest, opts ...http.CallOption) (rsp *Menu, err error)
+	List(ctx context.Context, req *v1.PagingRequest, opts ...http.CallOption) (rsp *ListMenuResponse, err error)
+	Update(ctx context.Context, req *UpdateMenuRequest, opts ...http.CallOption) (rsp *emptypb.Empty, err error)
 }
 
 type MenuServiceHTTPClientImpl struct {
@@ -176,7 +175,7 @@ func NewMenuServiceHTTPClient(client *http.Client) MenuServiceHTTPClient {
 	return &MenuServiceHTTPClientImpl{client}
 }
 
-func (c *MenuServiceHTTPClientImpl) Create(ctx context.Context, in *v11.CreateMenuRequest, opts ...http.CallOption) (*emptypb.Empty, error) {
+func (c *MenuServiceHTTPClientImpl) Create(ctx context.Context, in *CreateMenuRequest, opts ...http.CallOption) (*emptypb.Empty, error) {
 	var out emptypb.Empty
 	pattern := "/admin/v1/menus"
 	path := binding.EncodeURL(pattern, in, false)
@@ -189,7 +188,7 @@ func (c *MenuServiceHTTPClientImpl) Create(ctx context.Context, in *v11.CreateMe
 	return &out, nil
 }
 
-func (c *MenuServiceHTTPClientImpl) Delete(ctx context.Context, in *v11.DeleteMenuRequest, opts ...http.CallOption) (*emptypb.Empty, error) {
+func (c *MenuServiceHTTPClientImpl) Delete(ctx context.Context, in *DeleteMenuRequest, opts ...http.CallOption) (*emptypb.Empty, error) {
 	var out emptypb.Empty
 	pattern := "/admin/v1/menus/{id}"
 	path := binding.EncodeURL(pattern, in, true)
@@ -202,8 +201,8 @@ func (c *MenuServiceHTTPClientImpl) Delete(ctx context.Context, in *v11.DeleteMe
 	return &out, nil
 }
 
-func (c *MenuServiceHTTPClientImpl) Get(ctx context.Context, in *v11.GetMenuRequest, opts ...http.CallOption) (*v11.Menu, error) {
-	var out v11.Menu
+func (c *MenuServiceHTTPClientImpl) Get(ctx context.Context, in *GetMenuRequest, opts ...http.CallOption) (*Menu, error) {
+	var out Menu
 	pattern := "/admin/v1/menus/{id}"
 	path := binding.EncodeURL(pattern, in, true)
 	opts = append(opts, http.Operation(OperationMenuServiceGet))
@@ -215,8 +214,8 @@ func (c *MenuServiceHTTPClientImpl) Get(ctx context.Context, in *v11.GetMenuRequ
 	return &out, nil
 }
 
-func (c *MenuServiceHTTPClientImpl) List(ctx context.Context, in *v1.PagingRequest, opts ...http.CallOption) (*v11.ListMenuResponse, error) {
-	var out v11.ListMenuResponse
+func (c *MenuServiceHTTPClientImpl) List(ctx context.Context, in *v1.PagingRequest, opts ...http.CallOption) (*ListMenuResponse, error) {
+	var out ListMenuResponse
 	pattern := "/admin/v1/menus"
 	path := binding.EncodeURL(pattern, in, true)
 	opts = append(opts, http.Operation(OperationMenuServiceList))
@@ -228,7 +227,7 @@ func (c *MenuServiceHTTPClientImpl) List(ctx context.Context, in *v1.PagingReque
 	return &out, nil
 }
 
-func (c *MenuServiceHTTPClientImpl) Update(ctx context.Context, in *v11.UpdateMenuRequest, opts ...http.CallOption) (*emptypb.Empty, error) {
+func (c *MenuServiceHTTPClientImpl) Update(ctx context.Context, in *UpdateMenuRequest, opts ...http.CallOption) (*emptypb.Empty, error) {
 	var out emptypb.Empty
 	pattern := "/admin/v1/menus/{data.id}"
 	path := binding.EncodeURL(pattern, in, false)

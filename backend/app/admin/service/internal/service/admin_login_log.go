@@ -11,7 +11,6 @@ import (
 	"kratos-admin/app/admin/service/internal/data"
 
 	adminV1 "kratos-admin/api/gen/go/admin/service/v1"
-	systemV1 "kratos-admin/api/gen/go/system/service/v1"
 )
 
 type AdminLoginLogService struct {
@@ -30,15 +29,15 @@ func NewAdminLoginLogService(uc *data.AdminLoginLogRepo, logger log.Logger) *Adm
 	}
 }
 
-func (s *AdminLoginLogService) List(ctx context.Context, req *pagination.PagingRequest) (*systemV1.ListAdminLoginLogResponse, error) {
+func (s *AdminLoginLogService) List(ctx context.Context, req *pagination.PagingRequest) (*adminV1.ListAdminLoginLogResponse, error) {
 	return s.uc.List(ctx, req)
 }
 
-func (s *AdminLoginLogService) Get(ctx context.Context, req *systemV1.GetAdminLoginLogRequest) (*systemV1.AdminLoginLog, error) {
+func (s *AdminLoginLogService) Get(ctx context.Context, req *adminV1.GetAdminLoginLogRequest) (*adminV1.AdminLoginLog, error) {
 	return s.uc.Get(ctx, req)
 }
 
-func (s *AdminLoginLogService) Create(ctx context.Context, req *systemV1.CreateAdminLoginLogRequest) (*emptypb.Empty, error) {
+func (s *AdminLoginLogService) Create(ctx context.Context, req *adminV1.CreateAdminLoginLogRequest) (*emptypb.Empty, error) {
 	if req == nil || req.Data == nil {
 		return nil, adminV1.ErrorBadRequest("invalid parameter")
 	}

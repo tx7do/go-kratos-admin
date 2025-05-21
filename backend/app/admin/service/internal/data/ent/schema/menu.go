@@ -8,7 +8,8 @@ import (
 	"entgo.io/ent/schema/edge"
 	"entgo.io/ent/schema/field"
 	"github.com/tx7do/go-utils/entgo/mixin"
-	systemV1 "kratos-admin/api/gen/go/system/service/v1"
+
+	adminV1 "kratos-admin/api/gen/go/admin/service/v1"
 )
 
 // Menu holds the schema definition for the Menu entity.
@@ -81,7 +82,7 @@ func (Menu) Fields() []ent.Field {
 			Optional().
 			Nillable(),
 
-		field.JSON("meta", &systemV1.RouteMeta{}).
+		field.JSON("meta", &adminV1.RouteMeta{}).
 			Comment("前端页面组件").
 			Optional(),
 	}

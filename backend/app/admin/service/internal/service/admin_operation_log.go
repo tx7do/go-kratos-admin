@@ -11,7 +11,6 @@ import (
 	"kratos-admin/app/admin/service/internal/data"
 
 	adminV1 "kratos-admin/api/gen/go/admin/service/v1"
-	systemV1 "kratos-admin/api/gen/go/system/service/v1"
 )
 
 type AdminOperationLogService struct {
@@ -30,15 +29,15 @@ func NewAdminOperationLogService(uc *data.AdminOperationLogRepo, logger log.Logg
 	}
 }
 
-func (s *AdminOperationLogService) List(ctx context.Context, req *pagination.PagingRequest) (*systemV1.ListAdminOperationLogResponse, error) {
+func (s *AdminOperationLogService) List(ctx context.Context, req *pagination.PagingRequest) (*adminV1.ListAdminOperationLogResponse, error) {
 	return s.uc.List(ctx, req)
 }
 
-func (s *AdminOperationLogService) Get(ctx context.Context, req *systemV1.GetAdminOperationLogRequest) (*systemV1.AdminOperationLog, error) {
+func (s *AdminOperationLogService) Get(ctx context.Context, req *adminV1.GetAdminOperationLogRequest) (*adminV1.AdminOperationLog, error) {
 	return s.uc.Get(ctx, req)
 }
 
-func (s *AdminOperationLogService) Create(ctx context.Context, req *systemV1.CreateAdminOperationLogRequest) (*emptypb.Empty, error) {
+func (s *AdminOperationLogService) Create(ctx context.Context, req *adminV1.CreateAdminOperationLogRequest) (*emptypb.Empty, error) {
 	if req.Data == nil {
 		return nil, adminV1.ErrorBadRequest("错误的参数")
 	}

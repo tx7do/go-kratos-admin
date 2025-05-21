@@ -7,9 +7,9 @@ import (
 	"entgo.io/ent/schema"
 	"entgo.io/ent/schema/field"
 	"github.com/tx7do/go-utils/entgo/mixin"
-	appmixin "kratos-admin/pkg/entgo/mixin"
 
-	systemV1 "kratos-admin/api/gen/go/system/service/v1"
+	adminV1 "kratos-admin/api/gen/go/admin/service/v1"
+	appmixin "kratos-admin/pkg/entgo/mixin"
 )
 
 // Task holds the schema definition for the Task entity.
@@ -68,7 +68,7 @@ func (Task) Fields() []ent.Field {
 			Optional().
 			Nillable(),
 
-		field.JSON("task_options", &systemV1.TaskOption{}).
+		field.JSON("task_options", &adminV1.TaskOption{}).
 			Comment("任务选项").
 			Optional(),
 

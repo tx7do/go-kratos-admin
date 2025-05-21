@@ -12,13 +12,13 @@ import (
 
 	"google.golang.org/genproto/protobuf/field_mask"
 
-	systemV1 "kratos-admin/api/gen/go/system/service/v1"
+	adminV1 "kratos-admin/api/gen/go/admin/service/v1"
 )
 
 func TestMenuMetaFieldMask(t *testing.T) {
-	updateMenuReq := &systemV1.UpdateMenuRequest{
-		Data: &systemV1.Menu{
-			Meta: &systemV1.RouteMeta{
+	updateMenuReq := &adminV1.UpdateMenuRequest{
+		Data: &adminV1.Menu{
+			Meta: &adminV1.RouteMeta{
 				Title: trans.Ptr("标题1"),
 				Order: trans.Ptr(int32(1)),
 			},

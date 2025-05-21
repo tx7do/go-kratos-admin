@@ -6,7 +6,6 @@
 
 /* eslint-disable */
 import { type Empty } from "../../../google/protobuf/empty.pb";
-import { type Timestamp } from "../../../google/protobuf/timestamp.pb";
 import { type PagingRequest } from "../../../pagination/v1/pagination.pb";
 
 /** 字典 */
@@ -73,16 +72,16 @@ export interface Dict {
     | undefined;
   /** 创建时间 */
   createTime?:
-    | Timestamp
+    | string
     | null
     | undefined;
   /** 更新时间 */
   updateTime?:
-    | Timestamp
+    | string
     | null
     | undefined;
   /** 删除时间 */
-  deleteTime?: Timestamp | null | undefined;
+  deleteTime?: string | null | undefined;
 }
 
 /** 查询字典列表 - 回应 */
@@ -98,15 +97,11 @@ export interface GetDictRequest {
 
 /** 创建字典 - 请求 */
 export interface CreateDictRequest {
-  /** 操作用户ID */
-  operatorId?: number | null | undefined;
   data: Dict | null;
 }
 
 /** 更新字典 - 请求 */
 export interface UpdateDictRequest {
-  /** 操作用户ID */
-  operatorId?: number | null | undefined;
   data:
     | Dict
     | null;
@@ -120,21 +115,19 @@ export interface UpdateDictRequest {
 
 /** 删除字典 - 请求 */
 export interface DeleteDictRequest {
-  /** 操作用户ID */
-  operatorId?: number | null | undefined;
   id: number;
 }
 
 /** 字典服务 */
 export interface DictService {
   /** 查询字典列表 */
-  ListDict(request: PagingRequest): Promise<ListDictResponse>;
+  List(request: PagingRequest): Promise<ListDictResponse>;
   /** 查询字典详情 */
-  GetDict(request: GetDictRequest): Promise<Dict>;
+  Get(request: GetDictRequest): Promise<Dict>;
   /** 创建字典 */
-  CreateDict(request: CreateDictRequest): Promise<Empty>;
+  Create(request: CreateDictRequest): Promise<Empty>;
   /** 更新字典 */
-  UpdateDict(request: UpdateDictRequest): Promise<Empty>;
+  Update(request: UpdateDictRequest): Promise<Empty>;
   /** 删除字典 */
-  DeleteDict(request: DeleteDictRequest): Promise<Empty>;
+  Delete(request: DeleteDictRequest): Promise<Empty>;
 }

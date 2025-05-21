@@ -6,7 +6,6 @@
 
 /* eslint-disable */
 import { type Empty } from "../../../google/protobuf/empty.pb";
-import { type Timestamp } from "../../../google/protobuf/timestamp.pb";
 import { type PagingRequest } from "../../../pagination/v1/pagination.pb";
 
 /** 菜单类型 */
@@ -91,16 +90,16 @@ export interface Menu {
     | undefined;
   /** 创建时间 */
   createTime?:
-    | Timestamp
+    | string
     | null
     | undefined;
   /** 更新时间 */
   updateTime?:
-    | Timestamp
+    | string
     | null
     | undefined;
   /** 删除时间 */
-  deleteTime?: Timestamp | null | undefined;
+  deleteTime?: string | null | undefined;
 }
 
 /** 路由项 */
@@ -262,15 +261,11 @@ export interface GetMenuRequest {
 
 /** 创建菜单 - 请求 */
 export interface CreateMenuRequest {
-  /** 操作用户ID */
-  operatorId?: number | null | undefined;
   data: Menu | null;
 }
 
 /** 更新菜单 - 请求 */
 export interface UpdateMenuRequest {
-  /** 操作用户ID */
-  operatorId?: number | null | undefined;
   data:
     | Menu
     | null;
@@ -284,21 +279,19 @@ export interface UpdateMenuRequest {
 
 /** 删除菜单 - 请求 */
 export interface DeleteMenuRequest {
-  /** 操作用户ID */
-  operatorId?: number | null | undefined;
   id: number;
 }
 
 /** 后台菜单服务 */
 export interface MenuService {
   /** 查询菜单列表 */
-  ListMenu(request: PagingRequest): Promise<ListMenuResponse>;
+  List(request: PagingRequest): Promise<ListMenuResponse>;
   /** 查询菜单详情 */
-  GetMenu(request: GetMenuRequest): Promise<Menu>;
+  Get(request: GetMenuRequest): Promise<Menu>;
   /** 创建菜单 */
-  CreateMenu(request: CreateMenuRequest): Promise<Empty>;
+  Create(request: CreateMenuRequest): Promise<Empty>;
   /** 更新菜单 */
-  UpdateMenu(request: UpdateMenuRequest): Promise<Empty>;
+  Update(request: UpdateMenuRequest): Promise<Empty>;
   /** 删除菜单 */
-  DeleteMenu(request: DeleteMenuRequest): Promise<Empty>;
+  Delete(request: DeleteMenuRequest): Promise<Empty>;
 }

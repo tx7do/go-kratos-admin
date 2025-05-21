@@ -6,7 +6,6 @@
 
 /* eslint-disable */
 import { type Empty } from "../../../google/protobuf/empty.pb";
-import { type Timestamp } from "../../../google/protobuf/timestamp.pb";
 import { type PagingRequest } from "../../../pagination/v1/pagination.pb";
 
 /** 部门 */
@@ -31,16 +30,6 @@ export interface Department {
     | string
     | null
     | undefined;
-  /** 创建者ID */
-  createBy?:
-    | number
-    | null
-    | undefined;
-  /** 更新者ID */
-  updateBy?:
-    | number
-    | null
-    | undefined;
   /** 排序编号 */
   sortId?:
     | number
@@ -63,18 +52,28 @@ export interface Department {
     | undefined;
   /** 子节点树 */
   children: Department[];
+  /** 创建者ID */
+  createBy?:
+    | number
+    | null
+    | undefined;
+  /** 更新者ID */
+  updateBy?:
+    | number
+    | null
+    | undefined;
   /** 创建时间 */
   createTime?:
-    | Timestamp
+    | string
     | null
     | undefined;
   /** 更新时间 */
   updateTime?:
-    | Timestamp
+    | string
     | null
     | undefined;
   /** 删除时间 */
-  deleteTime?: Timestamp | null | undefined;
+  deleteTime?: string | null | undefined;
 }
 
 /** 部门列表 - 答复 */
@@ -90,15 +89,11 @@ export interface GetDepartmentRequest {
 
 /** 创建部门 - 请求 */
 export interface CreateDepartmentRequest {
-  /** 操作用户ID */
-  operatorId?: number | null | undefined;
   data: Department | null;
 }
 
 /** 更新部门 - 请求 */
 export interface UpdateDepartmentRequest {
-  /** 操作用户ID */
-  operatorId?: number | null | undefined;
   data:
     | Department
     | null;
@@ -112,21 +107,29 @@ export interface UpdateDepartmentRequest {
 
 /** 删除部门 - 请求 */
 export interface DeleteDepartmentRequest {
-  /** 操作用户ID */
-  operatorId?: number | null | undefined;
   id: number;
+}
+
+export interface BatchCreateDepartmentsRequest {
+  data: Department[];
+}
+
+export interface BatchCreateDepartmentsResponse {
+  data: Department[];
 }
 
 /** 部门服务 */
 export interface DepartmentService {
   /** 查询部门列表 */
-  ListDepartment(request: PagingRequest): Promise<ListDepartmentResponse>;
+  List(request: PagingRequest): Promise<ListDepartmentResponse>;
   /** 查询部门详情 */
-  GetDepartment(request: GetDepartmentRequest): Promise<Department>;
+  Get(request: GetDepartmentRequest): Promise<Department>;
   /** 创建部门 */
-  CreateDepartment(request: CreateDepartmentRequest): Promise<Empty>;
+  Create(request: CreateDepartmentRequest): Promise<Empty>;
   /** 更新部门 */
-  UpdateDepartment(request: UpdateDepartmentRequest): Promise<Empty>;
+  Update(request: UpdateDepartmentRequest): Promise<Empty>;
   /** 删除部门 */
-  DeleteDepartment(request: DeleteDepartmentRequest): Promise<Empty>;
+  Delete(request: DeleteDepartmentRequest): Promise<Empty>;
+  /** 批量创建部门 */
+  BatchCreate(request: BatchCreateDepartmentsRequest): Promise<BatchCreateDepartmentsResponse>;
 }

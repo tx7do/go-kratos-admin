@@ -33,8 +33,10 @@ export interface Tenant {
     | null
     | undefined;
   /** 备注 */
-  remark?:
-    | string
+  remark?: string | null | undefined;
+  subscriptionAt?: Timestamp | null | undefined;
+  unsubscribeAt?:
+    | Timestamp
     | null
     | undefined;
   /** 创建者ID */
@@ -43,24 +45,22 @@ export interface Tenant {
     | null
     | undefined;
   /** 更新者ID */
-  updateBy?: number | null | undefined;
-  subscriptionAt?: Timestamp | null | undefined;
-  unsubscribeAt?:
-    | Timestamp
+  updateBy?:
+    | number
     | null
     | undefined;
   /** 创建时间 */
   createTime?:
-    | Timestamp
+    | string
     | null
     | undefined;
   /** 更新时间 */
   updateTime?:
-    | Timestamp
+    | string
     | null
     | undefined;
   /** 删除时间 */
-  deleteTime?: Timestamp | null | undefined;
+  deleteTime?: string | null | undefined;
 }
 
 /** 租户列表 - 答复 */
@@ -76,17 +76,11 @@ export interface GetTenantRequest {
 
 /** 创建租户 - 请求 */
 export interface CreateTenantRequest {
-  data:
-    | Tenant
-    | null;
-  /** 操作用户ID */
-  operatorId?: number | null | undefined;
+  data: Tenant | null;
 }
 
 /** 更新租户 -请求 */
 export interface UpdateTenantRequest {
-  /** 操作用户ID */
-  operatorId?: number | null | undefined;
   data:
     | Tenant
     | null;
@@ -101,20 +95,28 @@ export interface UpdateTenantRequest {
 /** 删除租户 - 请求 */
 export interface DeleteTenantRequest {
   id: number;
-  /** 操作用户ID */
-  operatorId?: number | null | undefined;
+}
+
+export interface BatchCreateTenantsRequest {
+  data: Tenant[];
+}
+
+export interface BatchCreateTenantsResponse {
+  data: Tenant[];
 }
 
 /** 租户服务 */
 export interface TenantService {
   /** 查询租户列表 */
-  ListTenant(request: PagingRequest): Promise<ListTenantResponse>;
+  List(request: PagingRequest): Promise<ListTenantResponse>;
   /** 查询租户详情 */
-  GetTenant(request: GetTenantRequest): Promise<Tenant>;
+  Get(request: GetTenantRequest): Promise<Tenant>;
   /** 创建租户 */
-  CreateTenant(request: CreateTenantRequest): Promise<Empty>;
+  Create(request: CreateTenantRequest): Promise<Empty>;
   /** 更新租户 */
-  UpdateTenant(request: UpdateTenantRequest): Promise<Empty>;
+  Update(request: UpdateTenantRequest): Promise<Empty>;
   /** 删除租户 */
-  DeleteTenant(request: DeleteTenantRequest): Promise<Empty>;
+  Delete(request: DeleteTenantRequest): Promise<Empty>;
+  /** 批量创建租户 */
+  BatchCreate(request: BatchCreateTenantsRequest): Promise<BatchCreateTenantsResponse>;
 }

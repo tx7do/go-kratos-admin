@@ -19,13 +19,13 @@ import { type PagingRequest } from "../../../pagination/v1/pagination.pb";
 /** 通知消息管理服务 */
 export interface NotificationMessageService {
   /** 查询通知消息列表 */
-  ListNotificationMessage(request: PagingRequest): Promise<ListNotificationMessageResponse>;
+  List(request: PagingRequest): Promise<ListNotificationMessageResponse>;
   /** 查询通知消息详情 */
-  GetNotificationMessage(request: GetNotificationMessageRequest): Promise<NotificationMessage>;
+  Get(request: GetNotificationMessageRequest): Promise<NotificationMessage>;
   /** 创建通知消息 */
-  CreateNotificationMessage(request: CreateNotificationMessageRequest): Promise<Empty>;
+  Create(request: CreateNotificationMessageRequest): Promise<Empty>;
   /** 更新通知消息 */
-  UpdateNotificationMessage(request: UpdateNotificationMessageRequest): Promise<Empty>;
+  Update(request: UpdateNotificationMessageRequest): Promise<Empty>;
   /** 删除通知消息 */
-  DeleteNotificationMessage(request: DeleteNotificationMessageRequest): Promise<Empty>;
+  Delete(request: DeleteNotificationMessageRequest): Promise<Empty>;
 }

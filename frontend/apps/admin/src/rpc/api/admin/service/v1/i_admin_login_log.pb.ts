@@ -15,7 +15,7 @@ import {
 /** 后台登录日志管理服务 */
 export interface AdminLoginLogService {
   /** 查询后台登录日志列表 */
-  ListAdminLoginLog(request: PagingRequest): Promise<ListAdminLoginLogResponse>;
+  List(request: PagingRequest): Promise<ListAdminLoginLogResponse>;
   /** 查询后台登录日志详情 */
-  GetAdminLoginLog(request: GetAdminLoginLogRequest): Promise<AdminLoginLog>;
+  Get(request: GetAdminLoginLogRequest): Promise<AdminLoginLog>;
 }

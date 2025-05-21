@@ -6,7 +6,6 @@
 
 /* eslint-disable */
 import { type Empty } from "../../../google/protobuf/empty.pb";
-import { type Timestamp } from "../../../google/protobuf/timestamp.pb";
 import { type PagingRequest } from "../../../pagination/v1/pagination.pb";
 
 /** OSS供应商 */
@@ -86,18 +85,28 @@ export interface File {
     | string
     | null
     | undefined;
+  /** 创建者ID */
+  createBy?:
+    | number
+    | null
+    | undefined;
+  /** 更新者ID */
+  updateBy?:
+    | number
+    | null
+    | undefined;
   /** 创建时间 */
   createTime?:
-    | Timestamp
+    | string
     | null
     | undefined;
   /** 更新时间 */
   updateTime?:
-    | Timestamp
+    | string
     | null
     | undefined;
   /** 删除时间 */
-  deleteTime?: Timestamp | null | undefined;
+  deleteTime?: string | null | undefined;
 }
 
 /** 文件列表 - 回应 */
@@ -113,17 +122,11 @@ export interface GetFileRequest {
 
 /** 创建文件 - 请求 */
 export interface CreateFileRequest {
-  data:
-    | File
-    | null;
-  /** 操作用户ID */
-  operatorId?: number | null | undefined;
+  data: File | null;
 }
 
 /** 更新文件 - 请求 */
 export interface UpdateFileRequest {
-  /** 操作用户ID */
-  operatorId?: number | null | undefined;
   data:
     | File
     | null;
@@ -138,20 +141,18 @@ export interface UpdateFileRequest {
 /** 删除文件 - 请求 */
 export interface DeleteFileRequest {
   id: number;
-  /** 操作用户ID */
-  operatorId?: number | null | undefined;
 }
 
 /** 文件服务 */
 export interface FileService {
   /** 获取文件列表 */
-  ListFile(request: PagingRequest): Promise<ListFileResponse>;
+  List(request: PagingRequest): Promise<ListFileResponse>;
   /** 获取文件数据 */
-  GetFile(request: GetFileRequest): Promise<File>;
+  Get(request: GetFileRequest): Promise<File>;
   /** 创建文件 */
-  CreateFile(request: CreateFileRequest): Promise<Empty>;
+  Create(request: CreateFileRequest): Promise<Empty>;
   /** 更新文件 */
-  UpdateFile(request: UpdateFileRequest): Promise<Empty>;
+  Update(request: UpdateFileRequest): Promise<Empty>;
   /** 删除文件 */
-  DeleteFile(request: DeleteFileRequest): Promise<Empty>;
+  Delete(request: DeleteFileRequest): Promise<Empty>;
 }

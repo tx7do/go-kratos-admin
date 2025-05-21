@@ -19,13 +19,13 @@ import { type PagingRequest } from "../../../pagination/v1/pagination.pb";
 /** 私信消息管理服务 */
 export interface PrivateMessageService {
   /** 查询私信消息列表 */
-  ListPrivateMessage(request: PagingRequest): Promise<ListPrivateMessageResponse>;
+  List(request: PagingRequest): Promise<ListPrivateMessageResponse>;
   /** 查询私信消息详情 */
-  GetPrivateMessage(request: GetPrivateMessageRequest): Promise<PrivateMessage>;
+  Get(request: GetPrivateMessageRequest): Promise<PrivateMessage>;
   /** 创建私信消息 */
-  CreatePrivateMessage(request: CreatePrivateMessageRequest): Promise<Empty>;
+  Create(request: CreatePrivateMessageRequest): Promise<Empty>;
   /** 更新私信消息 */
-  UpdatePrivateMessage(request: UpdatePrivateMessageRequest): Promise<Empty>;
+  Update(request: UpdatePrivateMessageRequest): Promise<Empty>;
   /** 删除私信消息 */
-  DeletePrivateMessage(request: DeletePrivateMessageRequest): Promise<Empty>;
+  Delete(request: DeletePrivateMessageRequest): Promise<Empty>;
 }

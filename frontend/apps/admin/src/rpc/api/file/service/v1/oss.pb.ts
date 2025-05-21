@@ -106,7 +106,17 @@ export interface UploadOssFileRequest {
     | null
     | undefined;
   /** 文件内容 */
-  file?: Uint8Array | null | undefined;
+  file?:
+    | Uint8Array
+    | null
+    | undefined;
+  /** 原文件文件名 */
+  sourceFileName?:
+    | string
+    | null
+    | undefined;
+  /** 文件的MIME类型 */
+  mime?: string | null | undefined;
 }
 
 export interface UploadOssFileResponse {

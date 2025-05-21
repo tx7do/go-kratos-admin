@@ -36,7 +36,11 @@ export interface PagingRequest {
     | null
     | undefined;
   /** 字段掩码，其作用为SELECT中的字段，其语法为使用逗号分隔字段名，例如：id,realName,userName。如果为空则选中所有字段，即SELECT *。 */
-  fieldMask?: string[] | null;
+  fieldMask?:
+    | string[]
+    | null;
+  /** 租户ID */
+  tenantId?: number | null | undefined;
 }
 
 /** 分页通用结果 */

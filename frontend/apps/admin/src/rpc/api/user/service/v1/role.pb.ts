@@ -6,7 +6,6 @@
 
 /* eslint-disable */
 import { type Empty } from "../../../google/protobuf/empty.pb";
-import { type Timestamp } from "../../../google/protobuf/timestamp.pb";
 import { type PagingRequest } from "../../../pagination/v1/pagination.pb";
 
 /** 角色 */
@@ -39,6 +38,13 @@ export interface Role {
     | undefined;
   /** 分配的菜单列表 */
   menus: number[];
+  /** 父节点ID */
+  parentId?:
+    | number
+    | null
+    | undefined;
+  /** 子节点树 */
+  children: Role[];
   /** 创建者ID */
   createBy?:
     | number
@@ -49,25 +55,18 @@ export interface Role {
     | number
     | null
     | undefined;
-  /** 父节点ID */
-  parentId?:
-    | number
-    | null
-    | undefined;
-  /** 子节点树 */
-  children: Role[];
   /** 创建时间 */
   createTime?:
-    | Timestamp
+    | string
     | null
     | undefined;
   /** 更新时间 */
   updateTime?:
-    | Timestamp
+    | string
     | null
     | undefined;
   /** 删除时间 */
-  deleteTime?: Timestamp | null | undefined;
+  deleteTime?: string | null | undefined;
 }
 
 /** 角色列表 - 答复 */
@@ -83,15 +82,11 @@ export interface GetRoleRequest {
 
 /** 创建角色 - 请求 */
 export interface CreateRoleRequest {
-  /** 操作用户ID */
-  operatorId?: number | null | undefined;
   data: Role | null;
 }
 
 /** 更新角色 - 请求 */
 export interface UpdateRoleRequest {
-  /** 操作用户ID */
-  operatorId?: number | null | undefined;
   data:
     | Role
     | null;
@@ -105,21 +100,29 @@ export interface UpdateRoleRequest {
 
 /** 删除角色 - 请求 */
 export interface DeleteRoleRequest {
-  /** 操作用户ID */
-  operatorId?: number | null | undefined;
   id: number;
+}
+
+export interface BatchCreateRolesRequest {
+  data: Role[];
+}
+
+export interface BatchCreateRolesResponse {
+  data: Role[];
 }
 
 /** 角色服务 */
 export interface RoleService {
   /** 查询角色列表 */
-  ListRole(request: PagingRequest): Promise<ListRoleResponse>;
+  List(request: PagingRequest): Promise<ListRoleResponse>;
   /** 查询角色详情 */
-  GetRole(request: GetRoleRequest): Promise<Role>;
+  Get(request: GetRoleRequest): Promise<Role>;
   /** 创建角色 */
-  CreateRole(request: CreateRoleRequest): Promise<Empty>;
+  Create(request: CreateRoleRequest): Promise<Empty>;
   /** 更新角色 */
-  UpdateRole(request: UpdateRoleRequest): Promise<Empty>;
+  Update(request: UpdateRoleRequest): Promise<Empty>;
   /** 删除角色 */
-  DeleteRole(request: DeleteRoleRequest): Promise<Empty>;
+  Delete(request: DeleteRoleRequest): Promise<Empty>;
+  /** 批量创建角色 */
+  BatchCreate(request: BatchCreateRolesRequest): Promise<BatchCreateRolesResponse>;
 }

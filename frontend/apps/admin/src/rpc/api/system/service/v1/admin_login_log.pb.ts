@@ -98,16 +98,16 @@ export interface AdminLoginLog {
     | undefined;
   /** 创建时间 */
   createTime?:
-    | Timestamp
+    | string
     | null
     | undefined;
   /** 更新时间 */
   updateTime?:
-    | Timestamp
+    | string
     | null
     | undefined;
   /** 删除时间 */
-  deleteTime?: Timestamp | null | undefined;
+  deleteTime?: string | null | undefined;
 }
 
 /** 查询后台登录日志列表 - 回应 */
@@ -123,15 +123,11 @@ export interface GetAdminLoginLogRequest {
 
 /** 创建后台登录日志 - 请求 */
 export interface CreateAdminLoginLogRequest {
-  /** 操作用户ID */
-  operatorId?: number | null | undefined;
   data: AdminLoginLog | null;
 }
 
 /** 更新后台登录日志 - 请求 */
 export interface UpdateAdminLoginLogRequest {
-  /** 操作用户ID */
-  operatorId?: number | null | undefined;
   data:
     | AdminLoginLog
     | null;
@@ -145,21 +141,19 @@ export interface UpdateAdminLoginLogRequest {
 
 /** 删除后台登录日志 - 请求 */
 export interface DeleteAdminLoginLogRequest {
-  /** 操作用户ID */
-  operatorId?: number | null | undefined;
   id: number;
 }
 
 /** 后台登录日志服务 */
 export interface AdminLoginLogService {
   /** 查询后台登录日志列表 */
-  ListAdminLoginLog(request: PagingRequest): Promise<ListAdminLoginLogResponse>;
+  List(request: PagingRequest): Promise<ListAdminLoginLogResponse>;
   /** 查询后台登录日志详情 */
-  GetAdminLoginLog(request: GetAdminLoginLogRequest): Promise<AdminLoginLog>;
+  Get(request: GetAdminLoginLogRequest): Promise<AdminLoginLog>;
   /** 创建后台登录日志 */
-  CreateAdminLoginLog(request: CreateAdminLoginLogRequest): Promise<Empty>;
+  Create(request: CreateAdminLoginLogRequest): Promise<Empty>;
   /** 更新后台登录日志 */
-  UpdateAdminLoginLog(request: UpdateAdminLoginLogRequest): Promise<Empty>;
+  Update(request: UpdateAdminLoginLogRequest): Promise<Empty>;
   /** 删除后台登录日志 */
-  DeleteAdminLoginLog(request: DeleteAdminLoginLogRequest): Promise<Empty>;
+  Delete(request: DeleteAdminLoginLogRequest): Promise<Empty>;
 }

@@ -7,7 +7,6 @@
 /* eslint-disable */
 import { type Duration } from "../../../google/protobuf/duration.pb";
 import { type Empty } from "../../../google/protobuf/empty.pb";
-import { type Timestamp } from "../../../google/protobuf/timestamp.pb";
 import { type PagingRequest } from "../../../pagination/v1/pagination.pb";
 
 /** 后台操作日志 */
@@ -139,16 +138,16 @@ export interface AdminOperationLog {
     | undefined;
   /** 创建时间 */
   createTime?:
-    | Timestamp
+    | string
     | null
     | undefined;
   /** 更新时间 */
   updateTime?:
-    | Timestamp
+    | string
     | null
     | undefined;
   /** 删除时间 */
-  deleteTime?: Timestamp | null | undefined;
+  deleteTime?: string | null | undefined;
 }
 
 /** 查询后台操作日志列表 - 回应 */
@@ -164,15 +163,11 @@ export interface GetAdminOperationLogRequest {
 
 /** 创建后台操作日志 - 请求 */
 export interface CreateAdminOperationLogRequest {
-  /** 操作用户ID */
-  operatorId?: number | null | undefined;
   data: AdminOperationLog | null;
 }
 
 /** 更新后台操作日志 - 请求 */
 export interface UpdateAdminOperationLogRequest {
-  /** 操作用户ID */
-  operatorId?: number | null | undefined;
   data:
     | AdminOperationLog
     | null;
@@ -186,21 +181,19 @@ export interface UpdateAdminOperationLogRequest {
 
 /** 删除后台操作日志 - 请求 */
 export interface DeleteAdminOperationLogRequest {
-  /** 操作用户ID */
-  operatorId?: number | null | undefined;
   id: number;
 }
 
 /** 后台操作日志服务 */
 export interface AdminOperationLogService {
   /** 查询后台操作日志列表 */
-  ListAdminOperationLog(request: PagingRequest): Promise<ListAdminOperationLogResponse>;
+  List(request: PagingRequest): Promise<ListAdminOperationLogResponse>;
   /** 查询后台操作日志详情 */
-  GetAdminOperationLog(request: GetAdminOperationLogRequest): Promise<AdminOperationLog>;
+  Get(request: GetAdminOperationLogRequest): Promise<AdminOperationLog>;
   /** 创建后台操作日志 */
-  CreateAdminOperationLog(request: CreateAdminOperationLogRequest): Promise<Empty>;
+  Create(request: CreateAdminOperationLogRequest): Promise<Empty>;
   /** 更新后台操作日志 */
-  UpdateAdminOperationLog(request: UpdateAdminOperationLogRequest): Promise<Empty>;
+  Update(request: UpdateAdminOperationLogRequest): Promise<Empty>;
   /** 删除后台操作日志 */
-  DeleteAdminOperationLog(request: DeleteAdminOperationLogRequest): Promise<Empty>;
+  Delete(request: DeleteAdminOperationLogRequest): Promise<Empty>;
 }

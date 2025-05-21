@@ -96,11 +96,19 @@ export interface FileDescriptorProto {
    * The supported values are "proto2", "proto3", and "editions".
    *
    * If `edition` is present, this value must be "editions".
+   * WARNING: This field should only be used by protobuf plugins or special
+   * cases like the proto compiler. Other uses are discouraged and
+   * developers should rely on the protoreflect APIs for their client language.
    */
   syntax?:
     | string
     | null;
-  /** The edition of the proto file. */
+  /**
+   * The edition of the proto file.
+   * WARNING: This field should only be used by protobuf plugins or special
+   * cases like the proto compiler. Other uses are discouraged and
+   * developers should rely on the protoreflect APIs for their client language.
+   */
   edition?: Edition | null;
 }
 
@@ -576,7 +584,12 @@ export interface FileOptions {
   rubyPackage?:
     | string
     | null;
-  /** Any features defined in the specific edition. */
+  /**
+   * Any features defined in the specific edition.
+   * WARNING: This field should only be used by protobuf plugins or special
+   * cases like the proto compiler. Other uses are discouraged and
+   * developers should rely on the protoreflect APIs for their client language.
+   */
   features?:
     | FeatureSet
     | null;
@@ -681,7 +694,12 @@ export interface MessageOptions {
   deprecatedLegacyJsonFieldConflicts?:
     | boolean
     | null;
-  /** Any features defined in the specific edition. */
+  /**
+   * Any features defined in the specific edition.
+   * WARNING: This field should only be used by protobuf plugins or special
+   * cases like the proto compiler. Other uses are discouraged and
+   * developers should rely on the protoreflect APIs for their client language.
+   */
   features?:
     | FeatureSet
     | null;
@@ -786,7 +804,12 @@ export interface FieldOptions {
   retention?: FieldOptions_OptionRetention | null;
   targets: FieldOptions_OptionTargetType[];
   editionDefaults: FieldOptions_EditionDefault[];
-  /** Any features defined in the specific edition. */
+  /**
+   * Any features defined in the specific edition.
+   * WARNING: This field should only be used by protobuf plugins or special
+   * cases like the proto compiler. Other uses are discouraged and
+   * developers should rely on the protoreflect APIs for their client language.
+   */
   features?: FeatureSet | null;
   featureSupport?:
     | FieldOptions_FeatureSupport
@@ -885,7 +908,12 @@ export interface FieldOptions_FeatureSupport {
 }
 
 export interface OneofOptions {
-  /** Any features defined in the specific edition. */
+  /**
+   * Any features defined in the specific edition.
+   * WARNING: This field should only be used by protobuf plugins or special
+   * cases like the proto compiler. Other uses are discouraged and
+   * developers should rely on the protoreflect APIs for their client language.
+   */
   features?:
     | FeatureSet
     | null;
@@ -923,7 +951,12 @@ export interface EnumOptions {
   deprecatedLegacyJsonFieldConflicts?:
     | boolean
     | null;
-  /** Any features defined in the specific edition. */
+  /**
+   * Any features defined in the specific edition.
+   * WARNING: This field should only be used by protobuf plugins or special
+   * cases like the proto compiler. Other uses are discouraged and
+   * developers should rely on the protoreflect APIs for their client language.
+   */
   features?:
     | FeatureSet
     | null;
@@ -941,7 +974,12 @@ export interface EnumValueOptions {
   deprecated?:
     | boolean
     | null;
-  /** Any features defined in the specific edition. */
+  /**
+   * Any features defined in the specific edition.
+   * WARNING: This field should only be used by protobuf plugins or special
+   * cases like the proto compiler. Other uses are discouraged and
+   * developers should rely on the protoreflect APIs for their client language.
+   */
   features?:
     | FeatureSet
     | null;
@@ -962,7 +1000,12 @@ export interface EnumValueOptions {
 }
 
 export interface ServiceOptions {
-  /** Any features defined in the specific edition. */
+  /**
+   * Any features defined in the specific edition.
+   * WARNING: This field should only be used by protobuf plugins or special
+   * cases like the proto compiler. Other uses are discouraged and
+   * developers should rely on the protoreflect APIs for their client language.
+   */
   features?:
     | FeatureSet
     | null;
@@ -990,7 +1033,12 @@ export interface MethodOptions {
   idempotencyLevel?:
     | MethodOptions_IdempotencyLevel
     | null;
-  /** Any features defined in the specific edition. */
+  /**
+   * Any features defined in the specific edition.
+   * WARNING: This field should only be used by protobuf plugins or special
+   * cases like the proto compiler. Other uses are discouraged and
+   * developers should rely on the protoreflect APIs for their client language.
+   */
   features?:
     | FeatureSet
     | null;
@@ -1060,6 +1108,7 @@ export interface FeatureSet {
   utf8Validation?: FeatureSet_Utf8Validation | null;
   messageEncoding?: FeatureSet_MessageEncoding | null;
   jsonFormat?: FeatureSet_JsonFormat | null;
+  enforceNamingStyle?: FeatureSet_EnforceNamingStyle | null;
 }
 
 export enum FeatureSet_FieldPresence {
@@ -1097,6 +1146,12 @@ export enum FeatureSet_JsonFormat {
   JSON_FORMAT_UNKNOWN = "JSON_FORMAT_UNKNOWN",
   ALLOW = "ALLOW",
   LEGACY_BEST_EFFORT = "LEGACY_BEST_EFFORT",
+}
+
+export enum FeatureSet_EnforceNamingStyle {
+  ENFORCE_NAMING_STYLE_UNKNOWN = "ENFORCE_NAMING_STYLE_UNKNOWN",
+  STYLE2024 = "STYLE2024",
+  STYLE_LEGACY = "STYLE_LEGACY",
 }
 
 /**

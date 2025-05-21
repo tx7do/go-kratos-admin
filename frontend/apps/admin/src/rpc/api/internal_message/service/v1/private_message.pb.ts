@@ -6,7 +6,6 @@
 
 /* eslint-disable */
 import { type Empty } from "../../../google/protobuf/empty.pb";
-import { type Timestamp } from "../../../google/protobuf/timestamp.pb";
 import { type PagingRequest } from "../../../pagination/v1/pagination.pb";
 
 /** 私信消息状态 */
@@ -81,16 +80,16 @@ export interface PrivateMessage {
     | undefined;
   /** 创建时间 */
   createTime?:
-    | Timestamp
+    | string
     | null
     | undefined;
   /** 更新时间 */
   updateTime?:
-    | Timestamp
+    | string
     | null
     | undefined;
   /** 删除时间 */
-  deleteTime?: Timestamp | null | undefined;
+  deleteTime?: string | null | undefined;
 }
 
 /** 查询私信消息列表 - 回应 */
@@ -106,15 +105,11 @@ export interface GetPrivateMessageRequest {
 
 /** 创建私信消息 - 请求 */
 export interface CreatePrivateMessageRequest {
-  /** 操作用户ID */
-  operatorId?: number | null | undefined;
   data: PrivateMessage | null;
 }
 
 /** 更新私信消息 - 请求 */
 export interface UpdatePrivateMessageRequest {
-  /** 操作用户ID */
-  operatorId?: number | null | undefined;
   data:
     | PrivateMessage
     | null;
@@ -128,21 +123,19 @@ export interface UpdatePrivateMessageRequest {
 
 /** 删除私信消息 - 请求 */
 export interface DeletePrivateMessageRequest {
-  /** 操作用户ID */
-  operatorId?: number | null | undefined;
   id: number;
 }
 
 /** 私信消息服务 */
 export interface PrivateMessageService {
   /** 查询私信消息列表 */
-  ListPrivateMessage(request: PagingRequest): Promise<ListPrivateMessageResponse>;
+  List(request: PagingRequest): Promise<ListPrivateMessageResponse>;
   /** 查询私信消息详情 */
-  GetPrivateMessage(request: GetPrivateMessageRequest): Promise<PrivateMessage>;
+  Get(request: GetPrivateMessageRequest): Promise<PrivateMessage>;
   /** 创建私信消息 */
-  CreatePrivateMessage(request: CreatePrivateMessageRequest): Promise<Empty>;
+  Create(request: CreatePrivateMessageRequest): Promise<Empty>;
   /** 更新私信消息 */
-  UpdatePrivateMessage(request: UpdatePrivateMessageRequest): Promise<Empty>;
+  Update(request: UpdatePrivateMessageRequest): Promise<Empty>;
   /** 删除私信消息 */
-  DeletePrivateMessage(request: DeletePrivateMessageRequest): Promise<Empty>;
+  Delete(request: DeletePrivateMessageRequest): Promise<Empty>;
 }

@@ -30,33 +30,8 @@ export enum TaskControlType {
   ControlType_Restart = "ControlType_Restart",
 }
 
-/** 调度任务 */
-export interface Task {
-  /** 任务ID */
-  id?:
-    | number
-    | null
-    | undefined;
-  /** 任务类型 */
-  type?:
-    | TaskType
-    | null
-    | undefined;
-  /** 任务执行类型名 */
-  typeName?:
-    | string
-    | null
-    | undefined;
-  /** 任务的参数，以 JSON 格式存储，方便存储不同类型和数量的参数 */
-  taskPayload?:
-    | string
-    | null
-    | undefined;
-  /** cron表达式 */
-  cronSpec?:
-    | string
-    | null
-    | undefined;
+/** 任务选项 */
+export interface TaskOption {
   /** 任务最多可以重试的次数 */
   retryCount?:
     | number
@@ -78,8 +53,44 @@ export interface Task {
     | null
     | undefined;
   /** 任务执行时间点 */
-  processAt?:
-    | Timestamp
+  processAt?: Timestamp | null | undefined;
+}
+
+/** 调度任务 */
+export interface Task {
+  /** 任务ID */
+  id?:
+    | number
+    | null
+    | undefined;
+  /** 任务类型 */
+  type?:
+    | TaskType
+    | null
+    | undefined;
+  /** 任务执行类型名 */
+  typeName?:
+    | string
+    | null
+    | undefined;
+  /** 任务ID */
+  taskId?:
+    | string
+    | null
+    | undefined;
+  /** 任务数据，以 JSON 格式存储，方便存储不同类型和数量的参数 */
+  taskPayload?:
+    | string
+    | null
+    | undefined;
+  /** cron表达式 */
+  cronSpec?:
+    | string
+    | null
+    | undefined;
+  /** 任务选项 */
+  taskOptions?:
+    | TaskOption
     | null
     | undefined;
   /** 启用/禁用任务 */
@@ -104,16 +115,16 @@ export interface Task {
     | undefined;
   /** 创建时间 */
   createTime?:
-    | Timestamp
+    | string
     | null
     | undefined;
   /** 更新时间 */
   updateTime?:
-    | Timestamp
+    | string
     | null
     | undefined;
   /** 删除时间 */
-  deleteTime?: Timestamp | null | undefined;
+  deleteTime?: string | null | undefined;
 }
 
 /** 查询调度任务列表 - 回应 */
@@ -134,15 +145,11 @@ export interface GetTaskByTypeNameRequest {
 
 /** 创建调度任务 - 请求 */
 export interface CreateTaskRequest {
-  /** 操作用户ID */
-  operatorId?: number | null | undefined;
   data: Task | null;
 }
 
 /** 更新调度任务 - 请求 */
 export interface UpdateTaskRequest {
-  /** 操作用户ID */
-  operatorId?: number | null | undefined;
   data:
     | Task
     | null;
@@ -156,8 +163,6 @@ export interface UpdateTaskRequest {
 
 /** 删除调度任务 - 请求 */
 export interface DeleteTaskRequest {
-  /** 操作用户ID */
-  operatorId?: number | null | undefined;
   id: number;
 }
 
@@ -168,8 +173,6 @@ export interface RestartAllTaskResponse {
 
 /** 控制调度任务 - 请求 */
 export interface ControlTaskRequest {
-  /** 操作用户ID */
-  operatorId?: number | null | undefined;
   controlType: TaskControlType;
   /** 任务执行类型名 */
   typeName: string;
@@ -178,16 +181,16 @@ export interface ControlTaskRequest {
 /** 调度任务服务 */
 export interface TaskService {
   /** 查询调度任务列表 */
-  ListTask(request: PagingRequest): Promise<ListTaskResponse>;
+  List(request: PagingRequest): Promise<ListTaskResponse>;
   /** 查询调度任务详情 */
-  GetTask(request: GetTaskRequest): Promise<Task>;
+  Get(request: GetTaskRequest): Promise<Task>;
   GetTaskByTypeName(request: GetTaskByTypeNameRequest): Promise<Task>;
   /** 创建调度任务 */
-  CreateTask(request: CreateTaskRequest): Promise<Empty>;
+  Create(request: CreateTaskRequest): Promise<Empty>;
   /** 更新调度任务 */
-  UpdateTask(request: UpdateTaskRequest): Promise<Empty>;
+  Update(request: UpdateTaskRequest): Promise<Empty>;
   /** 删除调度任务 */
-  DeleteTask(request: DeleteTaskRequest): Promise<Empty>;
+  Delete(request: DeleteTaskRequest): Promise<Empty>;
   /** 重启所有的调度任务 */
   RestartAllTask(request: Empty): Promise<RestartAllTaskResponse>;
   /** 停止所有的调度任务 */

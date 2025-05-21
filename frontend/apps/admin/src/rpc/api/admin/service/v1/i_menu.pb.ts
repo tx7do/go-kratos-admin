@@ -19,13 +19,13 @@ import {
 /** 后台菜单管理服务 */
 export interface MenuService {
   /** 查询菜单列表 */
-  ListMenu(request: PagingRequest): Promise<ListMenuResponse>;
+  List(request: PagingRequest): Promise<ListMenuResponse>;
   /** 查询菜单详情 */
-  GetMenu(request: GetMenuRequest): Promise<Menu>;
+  Get(request: GetMenuRequest): Promise<Menu>;
   /** 创建菜单 */
-  CreateMenu(request: CreateMenuRequest): Promise<Empty>;
+  Create(request: CreateMenuRequest): Promise<Empty>;
   /** 更新菜单 */
-  UpdateMenu(request: UpdateMenuRequest): Promise<Empty>;
+  Update(request: UpdateMenuRequest): Promise<Empty>;
   /** 删除菜单 */
-  DeleteMenu(request: DeleteMenuRequest): Promise<Empty>;
+  Delete(request: DeleteMenuRequest): Promise<Empty>;
 }

@@ -6,7 +6,6 @@
 
 /* eslint-disable */
 import { type Empty } from "../../../google/protobuf/empty.pb";
-import { type Timestamp } from "../../../google/protobuf/timestamp.pb";
 import { type PagingRequest } from "../../../pagination/v1/pagination.pb";
 
 /** 通知消息分类 */
@@ -43,18 +42,28 @@ export interface NotificationMessageCategory {
     | undefined;
   /** 子节点树 */
   children: NotificationMessageCategory[];
+  /** 创建者ID */
+  createBy?:
+    | number
+    | null
+    | undefined;
+  /** 更新者ID */
+  updateBy?:
+    | number
+    | null
+    | undefined;
   /** 创建时间 */
   createTime?:
-    | Timestamp
+    | string
     | null
     | undefined;
   /** 更新时间 */
   updateTime?:
-    | Timestamp
+    | string
     | null
     | undefined;
   /** 删除时间 */
-  deleteTime?: Timestamp | null | undefined;
+  deleteTime?: string | null | undefined;
 }
 
 /** 查询通知消息分类列表 - 回应 */
@@ -70,15 +79,11 @@ export interface GetNotificationMessageCategoryRequest {
 
 /** 创建通知消息分类 - 请求 */
 export interface CreateNotificationMessageCategoryRequest {
-  /** 操作用户ID */
-  operatorId?: number | null | undefined;
   data: NotificationMessageCategory | null;
 }
 
 /** 更新通知消息分类 - 请求 */
 export interface UpdateNotificationMessageCategoryRequest {
-  /** 操作用户ID */
-  operatorId?: number | null | undefined;
   data:
     | NotificationMessageCategory
     | null;
@@ -92,21 +97,19 @@ export interface UpdateNotificationMessageCategoryRequest {
 
 /** 删除通知消息分类 - 请求 */
 export interface DeleteNotificationMessageCategoryRequest {
-  /** 操作用户ID */
-  operatorId?: number | null | undefined;
   id: number;
 }
 
 /** 通知消息分类服务 */
 export interface NotificationMessageCategoryService {
   /** 查询通知消息分类列表 */
-  ListNotificationMessageCategory(request: PagingRequest): Promise<ListNotificationMessageCategoryResponse>;
+  List(request: PagingRequest): Promise<ListNotificationMessageCategoryResponse>;
   /** 查询通知消息分类详情 */
-  GetNotificationMessageCategory(request: GetNotificationMessageCategoryRequest): Promise<NotificationMessageCategory>;
+  Get(request: GetNotificationMessageCategoryRequest): Promise<NotificationMessageCategory>;
   /** 创建通知消息分类 */
-  CreateNotificationMessageCategory(request: CreateNotificationMessageCategoryRequest): Promise<Empty>;
+  Create(request: CreateNotificationMessageCategoryRequest): Promise<Empty>;
   /** 更新通知消息分类 */
-  UpdateNotificationMessageCategory(request: UpdateNotificationMessageCategoryRequest): Promise<Empty>;
+  Update(request: UpdateNotificationMessageCategoryRequest): Promise<Empty>;
   /** 删除通知消息分类 */
-  DeleteNotificationMessageCategory(request: DeleteNotificationMessageCategoryRequest): Promise<Empty>;
+  Delete(request: DeleteNotificationMessageCategoryRequest): Promise<Empty>;
 }

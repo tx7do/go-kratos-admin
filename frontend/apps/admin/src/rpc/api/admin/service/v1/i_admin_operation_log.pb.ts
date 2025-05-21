@@ -15,7 +15,7 @@ import {
 /** 后台操作日志管理服务 */
 export interface AdminOperationLogService {
   /** 查询后台操作日志列表 */
-  ListAdminOperationLog(request: PagingRequest): Promise<ListAdminOperationLogResponse>;
+  List(request: PagingRequest): Promise<ListAdminOperationLogResponse>;
   /** 查询后台操作日志详情 */
-  GetAdminOperationLog(request: GetAdminOperationLogRequest): Promise<AdminOperationLog>;
+  Get(request: GetAdminOperationLogRequest): Promise<AdminOperationLog>;
 }

@@ -6,7 +6,6 @@
 
 /* eslint-disable */
 import { type Empty } from "../../../google/protobuf/empty.pb";
-import { type Timestamp } from "../../../google/protobuf/timestamp.pb";
 import { type PagingRequest } from "../../../pagination/v1/pagination.pb";
 
 /** 通知消息接收者状态 */
@@ -45,18 +44,28 @@ export interface NotificationMessageRecipient {
     | NotificationMessageRecipientStatus
     | null
     | undefined;
+  /** 创建者ID */
+  createBy?:
+    | number
+    | null
+    | undefined;
+  /** 更新者ID */
+  updateBy?:
+    | number
+    | null
+    | undefined;
   /** 创建时间 */
   createTime?:
-    | Timestamp
+    | string
     | null
     | undefined;
   /** 更新时间 */
   updateTime?:
-    | Timestamp
+    | string
     | null
     | undefined;
   /** 删除时间 */
-  deleteTime?: Timestamp | null | undefined;
+  deleteTime?: string | null | undefined;
 }
 
 /** 查询通知消息接收者列表 - 回应 */
@@ -72,15 +81,11 @@ export interface GetNotificationMessageRecipientRequest {
 
 /** 创建通知消息接收者 - 请求 */
 export interface CreateNotificationMessageRecipientRequest {
-  /** 操作用户ID */
-  operatorId?: number | null | undefined;
   data: NotificationMessageRecipient | null;
 }
 
 /** 更新通知消息接收者 - 请求 */
 export interface UpdateNotificationMessageRecipientRequest {
-  /** 操作用户ID */
-  operatorId?: number | null | undefined;
   data:
     | NotificationMessageRecipient
     | null;
@@ -94,23 +99,19 @@ export interface UpdateNotificationMessageRecipientRequest {
 
 /** 删除通知消息接收者 - 请求 */
 export interface DeleteNotificationMessageRecipientRequest {
-  /** 操作用户ID */
-  operatorId?: number | null | undefined;
   id: number;
 }
 
 /** 通知消息接收者服务 */
 export interface NotificationMessageRecipientService {
   /** 查询通知消息接收者列表 */
-  ListNotificationMessageRecipient(request: PagingRequest): Promise<ListNotificationMessageRecipientResponse>;
+  List(request: PagingRequest): Promise<ListNotificationMessageRecipientResponse>;
   /** 查询通知消息接收者详情 */
-  GetNotificationMessageRecipient(
-    request: GetNotificationMessageRecipientRequest,
-  ): Promise<NotificationMessageRecipient>;
+  Get(request: GetNotificationMessageRecipientRequest): Promise<NotificationMessageRecipient>;
   /** 创建通知消息接收者 */
-  CreateNotificationMessageRecipient(request: CreateNotificationMessageRecipientRequest): Promise<Empty>;
+  Create(request: CreateNotificationMessageRecipientRequest): Promise<Empty>;
   /** 更新通知消息接收者 */
-  UpdateNotificationMessageRecipient(request: UpdateNotificationMessageRecipientRequest): Promise<Empty>;
+  Update(request: UpdateNotificationMessageRecipientRequest): Promise<Empty>;
   /** 删除通知消息接收者 */
-  DeleteNotificationMessageRecipient(request: DeleteNotificationMessageRecipientRequest): Promise<Empty>;
+  Delete(request: DeleteNotificationMessageRecipientRequest): Promise<Empty>;
 }

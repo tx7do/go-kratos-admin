@@ -19,13 +19,13 @@ import {
 /** 租户管理服务 */
 export interface TenantService {
   /** 获取租户列表 */
-  ListTenant(request: PagingRequest): Promise<ListTenantResponse>;
+  List(request: PagingRequest): Promise<ListTenantResponse>;
   /** 获取租户数据 */
-  GetTenant(request: GetTenantRequest): Promise<Tenant>;
+  Get(request: GetTenantRequest): Promise<Tenant>;
   /** 创建租户 */
-  CreateTenant(request: CreateTenantRequest): Promise<Empty>;
+  Create(request: CreateTenantRequest): Promise<Empty>;
   /** 更新租户 */
-  UpdateTenant(request: UpdateTenantRequest): Promise<Empty>;
+  Update(request: UpdateTenantRequest): Promise<Empty>;
   /** 删除租户 */
-  DeleteTenant(request: DeleteTenantRequest): Promise<Empty>;
+  Delete(request: DeleteTenantRequest): Promise<Empty>;
 }

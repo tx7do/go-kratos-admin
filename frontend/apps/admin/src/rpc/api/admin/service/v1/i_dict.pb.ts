@@ -19,13 +19,13 @@ import {
 /** 字典管理服务 */
 export interface DictService {
   /** 查询字典列表 */
-  ListDict(request: PagingRequest): Promise<ListDictResponse>;
+  List(request: PagingRequest): Promise<ListDictResponse>;
   /** 查询字典详情 */
-  GetDict(request: GetDictRequest): Promise<Dict>;
+  Get(request: GetDictRequest): Promise<Dict>;
   /** 创建字典 */
-  CreateDict(request: CreateDictRequest): Promise<Empty>;
+  Create(request: CreateDictRequest): Promise<Empty>;
   /** 更新字典 */
-  UpdateDict(request: UpdateDictRequest): Promise<Empty>;
+  Update(request: UpdateDictRequest): Promise<Empty>;
   /** 删除字典 */
-  DeleteDict(request: DeleteDictRequest): Promise<Empty>;
+  Delete(request: DeleteDictRequest): Promise<Empty>;
 }

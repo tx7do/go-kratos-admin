@@ -19,13 +19,13 @@ import {
 /** 职位管理服务 */
 export interface PositionService {
   /** 查询职位列表 */
-  ListPosition(request: PagingRequest): Promise<ListPositionResponse>;
+  List(request: PagingRequest): Promise<ListPositionResponse>;
   /** 查询职位详情 */
-  GetPosition(request: GetPositionRequest): Promise<Position>;
+  Get(request: GetPositionRequest): Promise<Position>;
   /** 创建职位 */
-  CreatePosition(request: CreatePositionRequest): Promise<Empty>;
+  Create(request: CreatePositionRequest): Promise<Empty>;
   /** 更新职位 */
-  UpdatePosition(request: UpdatePositionRequest): Promise<Empty>;
+  Update(request: UpdatePositionRequest): Promise<Empty>;
   /** 删除职位 */
-  DeletePosition(request: DeletePositionRequest): Promise<Empty>;
+  Delete(request: DeletePositionRequest): Promise<Empty>;
 }

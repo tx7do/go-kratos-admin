@@ -19,13 +19,13 @@ import {
 /** 用户管理服务 */
 export interface UserService {
   /** 获取用户列表 */
-  ListUser(request: PagingRequest): Promise<ListUserResponse>;
+  List(request: PagingRequest): Promise<ListUserResponse>;
   /** 获取用户数据 */
-  GetUser(request: GetUserRequest): Promise<User>;
+  Get(request: GetUserRequest): Promise<User>;
   /** 创建用户 */
-  CreateUser(request: CreateUserRequest): Promise<Empty>;
+  Create(request: CreateUserRequest): Promise<Empty>;
   /** 更新用户 */
-  UpdateUser(request: UpdateUserRequest): Promise<Empty>;
+  Update(request: UpdateUserRequest): Promise<Empty>;
   /** 删除用户 */
-  DeleteUser(request: DeleteUserRequest): Promise<Empty>;
+  Delete(request: DeleteUserRequest): Promise<Empty>;
 }

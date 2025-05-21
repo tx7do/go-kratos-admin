@@ -19,13 +19,13 @@ import {
 /** 组织管理服务 */
 export interface OrganizationService {
   /** 查询组织列表 */
-  ListOrganization(request: PagingRequest): Promise<ListOrganizationResponse>;
+  List(request: PagingRequest): Promise<ListOrganizationResponse>;
   /** 查询组织详情 */
-  GetOrganization(request: GetOrganizationRequest): Promise<Organization>;
+  Get(request: GetOrganizationRequest): Promise<Organization>;
   /** 创建组织 */
-  CreateOrganization(request: CreateOrganizationRequest): Promise<Empty>;
+  Create(request: CreateOrganizationRequest): Promise<Empty>;
   /** 更新组织 */
-  UpdateOrganization(request: UpdateOrganizationRequest): Promise<Empty>;
+  Update(request: UpdateOrganizationRequest): Promise<Empty>;
   /** 删除组织 */
-  DeleteOrganization(request: DeleteOrganizationRequest): Promise<Empty>;
+  Delete(request: DeleteOrganizationRequest): Promise<Empty>;
 }

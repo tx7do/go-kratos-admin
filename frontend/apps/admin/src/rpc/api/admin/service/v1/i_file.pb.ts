@@ -19,13 +19,13 @@ import { type PagingRequest } from "../../../pagination/v1/pagination.pb";
 /** 文件管理服务 */
 export interface FileService {
   /** 查询文件列表 */
-  ListFile(request: PagingRequest): Promise<ListFileResponse>;
+  List(request: PagingRequest): Promise<ListFileResponse>;
   /** 查询文件详情 */
-  GetFile(request: GetFileRequest): Promise<File>;
+  Get(request: GetFileRequest): Promise<File>;
   /** 创建文件 */
-  CreateFile(request: CreateFileRequest): Promise<Empty>;
+  Create(request: CreateFileRequest): Promise<Empty>;
   /** 更新文件 */
-  UpdateFile(request: UpdateFileRequest): Promise<Empty>;
+  Update(request: UpdateFileRequest): Promise<Empty>;
   /** 删除文件 */
-  DeleteFile(request: DeleteFileRequest): Promise<Empty>;
+  Delete(request: DeleteFileRequest): Promise<Empty>;
 }

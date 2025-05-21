@@ -21,15 +21,15 @@ import {
 /** 调度任务管理服务 */
 export interface TaskService {
   /** 查询调度任务列表 */
-  ListTask(request: PagingRequest): Promise<ListTaskResponse>;
+  List(request: PagingRequest): Promise<ListTaskResponse>;
   /** 查询调度任务详情 */
-  GetTask(request: GetTaskRequest): Promise<Task>;
+  Get(request: GetTaskRequest): Promise<Task>;
   /** 创建调度任务 */
-  CreateTask(request: CreateTaskRequest): Promise<Empty>;
+  Create(request: CreateTaskRequest): Promise<Empty>;
   /** 更新调度任务 */
-  UpdateTask(request: UpdateTaskRequest): Promise<Empty>;
+  Update(request: UpdateTaskRequest): Promise<Empty>;
   /** 删除调度任务 */
-  DeleteTask(request: DeleteTaskRequest): Promise<Empty>;
+  Delete(request: DeleteTaskRequest): Promise<Empty>;
   /** 重启所有的调度任务 */
   RestartAllTask(request: Empty): Promise<RestartAllTaskResponse>;
   /** 停止所有的调度任务 */

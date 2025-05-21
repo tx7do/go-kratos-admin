@@ -19,13 +19,13 @@ import {
 /** 部门管理服务 */
 export interface DepartmentService {
   /** 查询部门列表 */
-  ListDepartment(request: PagingRequest): Promise<ListDepartmentResponse>;
+  List(request: PagingRequest): Promise<ListDepartmentResponse>;
   /** 查询部门详情 */
-  GetDepartment(request: GetDepartmentRequest): Promise<Department>;
+  Get(request: GetDepartmentRequest): Promise<Department>;
   /** 创建部门 */
-  CreateDepartment(request: CreateDepartmentRequest): Promise<Empty>;
+  Create(request: CreateDepartmentRequest): Promise<Empty>;
   /** 更新部门 */
-  UpdateDepartment(request: UpdateDepartmentRequest): Promise<Empty>;
+  Update(request: UpdateDepartmentRequest): Promise<Empty>;
   /** 删除部门 */
-  DeleteDepartment(request: DeleteDepartmentRequest): Promise<Empty>;
+  Delete(request: DeleteDepartmentRequest): Promise<Empty>;
 }

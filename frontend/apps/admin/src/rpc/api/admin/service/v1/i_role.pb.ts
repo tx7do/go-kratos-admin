@@ -19,13 +19,13 @@ import {
 /** 角色管理服务 */
 export interface RoleService {
   /** 查询角色列表 */
-  ListRole(request: PagingRequest): Promise<ListRoleResponse>;
+  List(request: PagingRequest): Promise<ListRoleResponse>;
   /** 查询角色详情 */
-  GetRole(request: GetRoleRequest): Promise<Role>;
+  Get(request: GetRoleRequest): Promise<Role>;
   /** 创建角色 */
-  CreateRole(request: CreateRoleRequest): Promise<Empty>;
+  Create(request: CreateRoleRequest): Promise<Empty>;
   /** 更新角色 */
-  UpdateRole(request: UpdateRoleRequest): Promise<Empty>;
+  Update(request: UpdateRoleRequest): Promise<Empty>;
   /** 删除角色 */
-  DeleteRole(request: DeleteRoleRequest): Promise<Empty>;
+  Delete(request: DeleteRoleRequest): Promise<Empty>;
 }

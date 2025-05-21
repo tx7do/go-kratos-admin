@@ -6,7 +6,6 @@
 
 /* eslint-disable */
 import { type Empty } from "../../../google/protobuf/empty.pb";
-import { type Timestamp } from "../../../google/protobuf/timestamp.pb";
 import { type PagingRequest } from "../../../pagination/v1/pagination.pb";
 
 /** 职位 */
@@ -41,6 +40,13 @@ export interface Position {
     | string
     | null
     | undefined;
+  /** 父节点ID */
+  parentId?:
+    | number
+    | null
+    | undefined;
+  /** 子节点树 */
+  children: Position[];
   /** 创建者ID */
   createBy?:
     | number
@@ -51,25 +57,18 @@ export interface Position {
     | number
     | null
     | undefined;
-  /** 父节点ID */
-  parentId?:
-    | number
-    | null
-    | undefined;
-  /** 子节点树 */
-  children: Position[];
   /** 创建时间 */
   createTime?:
-    | Timestamp
+    | string
     | null
     | undefined;
   /** 更新时间 */
   updateTime?:
-    | Timestamp
+    | string
     | null
     | undefined;
   /** 删除时间 */
-  deleteTime?: Timestamp | null | undefined;
+  deleteTime?: string | null | undefined;
 }
 
 /** 获取职位列表 - 答复 */
@@ -85,15 +84,11 @@ export interface GetPositionRequest {
 
 /** 创建职位 - 请求 */
 export interface CreatePositionRequest {
-  /** 操作用户ID */
-  operatorId?: number | null | undefined;
   data: Position | null;
 }
 
 /** 更新职位 - 请求 */
 export interface UpdatePositionRequest {
-  /** 操作用户ID */
-  operatorId?: number | null | undefined;
   data:
     | Position
     | null;
@@ -107,21 +102,29 @@ export interface UpdatePositionRequest {
 
 /** 删除职位 - 请求 */
 export interface DeletePositionRequest {
-  /** 操作用户ID */
-  operatorId?: number | null | undefined;
   id: number;
+}
+
+export interface BatchCreatePositionsRequest {
+  data: Position[];
+}
+
+export interface BatchCreatePositionsResponse {
+  data: Position[];
 }
 
 /** 职位服务 */
 export interface PositionService {
   /** 查询职位列表 */
-  ListPosition(request: PagingRequest): Promise<ListPositionResponse>;
+  List(request: PagingRequest): Promise<ListPositionResponse>;
   /** 查询职位详情 */
-  GetPosition(request: GetPositionRequest): Promise<Position>;
+  Get(request: GetPositionRequest): Promise<Position>;
   /** 创建职位 */
-  CreatePosition(request: CreatePositionRequest): Promise<Empty>;
+  Create(request: CreatePositionRequest): Promise<Empty>;
   /** 更新职位 */
-  UpdatePosition(request: UpdatePositionRequest): Promise<Empty>;
+  Update(request: UpdatePositionRequest): Promise<Empty>;
   /** 删除职位 */
-  DeletePosition(request: DeletePositionRequest): Promise<Empty>;
+  Delete(request: DeletePositionRequest): Promise<Empty>;
+  /** 批量创建职位 */
+  BatchCreate(request: BatchCreatePositionsRequest): Promise<BatchCreatePositionsResponse>;
 }

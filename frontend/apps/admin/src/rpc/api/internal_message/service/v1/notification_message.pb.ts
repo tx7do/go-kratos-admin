@@ -6,7 +6,6 @@
 
 /* eslint-disable */
 import { type Empty } from "../../../google/protobuf/empty.pb";
-import { type Timestamp } from "../../../google/protobuf/timestamp.pb";
 import { type PagingRequest } from "../../../pagination/v1/pagination.pb";
 
 /** 通知消息状态 */
@@ -59,18 +58,28 @@ export interface NotificationMessage {
     | string
     | null
     | undefined;
+  /** 创建者ID */
+  createBy?:
+    | number
+    | null
+    | undefined;
+  /** 更新者ID */
+  updateBy?:
+    | number
+    | null
+    | undefined;
   /** 创建时间 */
   createTime?:
-    | Timestamp
+    | string
     | null
     | undefined;
   /** 更新时间 */
   updateTime?:
-    | Timestamp
+    | string
     | null
     | undefined;
   /** 删除时间 */
-  deleteTime?: Timestamp | null | undefined;
+  deleteTime?: string | null | undefined;
 }
 
 /** 查询通知消息列表 - 回应 */
@@ -86,15 +95,11 @@ export interface GetNotificationMessageRequest {
 
 /** 创建通知消息 - 请求 */
 export interface CreateNotificationMessageRequest {
-  /** 操作用户ID */
-  operatorId?: number | null | undefined;
   data: NotificationMessage | null;
 }
 
 /** 更新通知消息 - 请求 */
 export interface UpdateNotificationMessageRequest {
-  /** 操作用户ID */
-  operatorId?: number | null | undefined;
   data:
     | NotificationMessage
     | null;
@@ -108,21 +113,19 @@ export interface UpdateNotificationMessageRequest {
 
 /** 删除通知消息 - 请求 */
 export interface DeleteNotificationMessageRequest {
-  /** 操作用户ID */
-  operatorId?: number | null | undefined;
   id: number;
 }
 
 /** 通知消息服务 */
 export interface NotificationMessageService {
   /** 查询通知消息列表 */
-  ListNotificationMessage(request: PagingRequest): Promise<ListNotificationMessageResponse>;
+  List(request: PagingRequest): Promise<ListNotificationMessageResponse>;
   /** 查询通知消息详情 */
-  GetNotificationMessage(request: GetNotificationMessageRequest): Promise<NotificationMessage>;
+  Get(request: GetNotificationMessageRequest): Promise<NotificationMessage>;
   /** 创建通知消息 */
-  CreateNotificationMessage(request: CreateNotificationMessageRequest): Promise<Empty>;
+  Create(request: CreateNotificationMessageRequest): Promise<Empty>;
   /** 更新通知消息 */
-  UpdateNotificationMessage(request: UpdateNotificationMessageRequest): Promise<Empty>;
+  Update(request: UpdateNotificationMessageRequest): Promise<Empty>;
   /** 删除通知消息 */
-  DeleteNotificationMessage(request: DeleteNotificationMessageRequest): Promise<Empty>;
+  Delete(request: DeleteNotificationMessageRequest): Promise<Empty>;
 }

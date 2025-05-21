@@ -6,7 +6,6 @@
 
 /* eslint-disable */
 import { type Empty } from "../../../google/protobuf/empty.pb";
-import { type Timestamp } from "../../../google/protobuf/timestamp.pb";
 import { type PagingRequest } from "../../../pagination/v1/pagination.pb";
 
 /** 验证密码结果码 */
@@ -25,16 +24,14 @@ export enum VerifyPasswordResult {
 
 /** 用户权限 */
 export enum UserAuthority {
-  /** SYS_ADMIN - 系统超级用户 */
-  SYS_ADMIN = "SYS_ADMIN",
-  /** SYS_MANAGER - 系统管理员 */
-  SYS_MANAGER = "SYS_MANAGER",
+  /** GUEST - 游客 */
+  GUEST = "GUEST",
   /** CUSTOMER_USER - 普通用户 */
   CUSTOMER_USER = "CUSTOMER_USER",
-  /** GUEST_USER - 游客 */
-  GUEST_USER = "GUEST_USER",
-  /** REFRESH_TOKEN - 刷新令牌 */
-  REFRESH_TOKEN = "REFRESH_TOKEN",
+  /** TENANT_ADMIN - 租户管理 */
+  TENANT_ADMIN = "TENANT_ADMIN",
+  /** SYS_ADMIN - 系统管理员 */
+  SYS_ADMIN = "SYS_ADMIN",
 }
 
 /** 用户性别 */
@@ -82,16 +79,6 @@ export interface User {
     | undefined;
   /** 租户ID */
   tenantId?:
-    | number
-    | null
-    | undefined;
-  /** 创建者ID */
-  createBy?:
-    | number
-    | null
-    | undefined;
-  /** 更新者ID */
-  updateBy?:
     | number
     | null
     | undefined;
@@ -177,18 +164,28 @@ export interface User {
     | undefined;
   /** 角色码 */
   roles: string[];
+  /** 创建者ID */
+  createBy?:
+    | number
+    | null
+    | undefined;
+  /** 更新者ID */
+  updateBy?:
+    | number
+    | null
+    | undefined;
   /** 创建时间 */
   createTime?:
-    | Timestamp
+    | string
     | null
     | undefined;
   /** 更新时间 */
   updateTime?:
-    | Timestamp
+    | string
     | null
     | undefined;
   /** 删除时间 */
-  deleteTime?: Timestamp | null | undefined;
+  deleteTime?: string | null | undefined;
 }
 
 /** 获取用户列表 - 答复 */
@@ -209,8 +206,6 @@ export interface GetUserByUserNameRequest {
 
 /** 创建用户 - 请求 */
 export interface CreateUserRequest {
-  /** 操作用户ID */
-  operatorId?: number | null | undefined;
   data:
     | User
     | null;
@@ -220,11 +215,6 @@ export interface CreateUserRequest {
 
 /** 更新用户 - 请求 */
 export interface UpdateUserRequest {
-  /** 操作用户ID */
-  operatorId?:
-    | number
-    | null
-    | undefined;
   /** 用户的数据 */
   data:
     | User
@@ -244,8 +234,6 @@ export interface UpdateUserRequest {
 
 /** 删除用户 - 请求 */
 export interface DeleteUserRequest {
-  /** 操作用户ID */
-  operatorId?: number | null | undefined;
   id: number;
 }
 
@@ -273,18 +261,28 @@ export interface UserExistsResponse {
   exist: boolean;
 }
 
+export interface BatchCreateUsersRequest {
+  data: User[];
+}
+
+export interface BatchCreateUsersResponse {
+  data: User[];
+}
+
 /** 用户服务 */
 export interface UserService {
   /** 查询用户列表 */
-  ListUser(request: PagingRequest): Promise<ListUserResponse>;
+  List(request: PagingRequest): Promise<ListUserResponse>;
   /** 查询用户详情 */
-  GetUser(request: GetUserRequest): Promise<User>;
+  Get(request: GetUserRequest): Promise<User>;
   /** 创建用户 */
-  CreateUser(request: CreateUserRequest): Promise<Empty>;
+  Create(request: CreateUserRequest): Promise<Empty>;
   /** 更新用户 */
-  UpdateUser(request: UpdateUserRequest): Promise<Empty>;
+  Update(request: UpdateUserRequest): Promise<Empty>;
   /** 删除用户 */
-  DeleteUser(request: DeleteUserRequest): Promise<Empty>;
+  Delete(request: DeleteUserRequest): Promise<Empty>;
+  /** 批量创建租户 */
+  BatchCreate(request: BatchCreateUsersRequest): Promise<BatchCreateUsersResponse>;
   /** 查询用户详情 */
   GetUserByUserName(request: GetUserByUserNameRequest): Promise<User>;
   /** 验证密码 */

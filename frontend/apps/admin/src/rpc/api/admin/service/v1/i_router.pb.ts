@@ -5,12 +5,21 @@
 // source: admin/service/v1/i_router.proto
 
 /* eslint-disable */
-import { type Empty } from "../../../google/protobuf/empty.pb";
 import { type RouteItem } from "../../../system/service/v1/menu.pb";
+
+export interface ListRouteRequest {
+  /** 操作用户ID */
+  operatorId?: number | null | undefined;
+}
 
 /** 查询路由列表 - 回应 */
 export interface ListRouteResponse {
   items: RouteItem[];
+}
+
+export interface ListPermissionCodeRequest {
+  /** 操作用户ID */
+  operatorId?: number | null | undefined;
 }
 
 /** 查询权限码列表 - 回应 */
@@ -21,7 +30,7 @@ export interface ListPermissionCodeResponse {
 /** 网站后台动态路由服务 */
 export interface RouterService {
   /** 查询路由列表 */
-  ListRoute(request: Empty): Promise<ListRouteResponse>;
+  ListRoute(request: ListRouteRequest): Promise<ListRouteResponse>;
   /** 查询权限码列表 */
-  ListPermissionCode(request: Empty): Promise<ListPermissionCodeResponse>;
+  ListPermissionCode(request: ListPermissionCodeRequest): Promise<ListPermissionCodeResponse>;
 }

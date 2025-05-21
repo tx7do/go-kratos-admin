@@ -6,7 +6,6 @@
 
 /* eslint-disable */
 import { type Empty } from "../../../google/protobuf/empty.pb";
-import { type Timestamp } from "../../../google/protobuf/timestamp.pb";
 import { type PagingRequest } from "../../../pagination/v1/pagination.pb";
 
 /** 组织 */
@@ -31,16 +30,6 @@ export interface Organization {
     | string
     | null
     | undefined;
-  /** 创建者ID */
-  createBy?:
-    | number
-    | null
-    | undefined;
-  /** 更新者ID */
-  updateBy?:
-    | number
-    | null
-    | undefined;
   /** 备注 */
   remark?:
     | string
@@ -53,18 +42,28 @@ export interface Organization {
     | undefined;
   /** 子节点树 */
   children: Organization[];
+  /** 创建者ID */
+  createBy?:
+    | number
+    | null
+    | undefined;
+  /** 更新者ID */
+  updateBy?:
+    | number
+    | null
+    | undefined;
   /** 创建时间 */
   createTime?:
-    | Timestamp
+    | string
     | null
     | undefined;
   /** 更新时间 */
   updateTime?:
-    | Timestamp
+    | string
     | null
     | undefined;
   /** 删除时间 */
-  deleteTime?: Timestamp | null | undefined;
+  deleteTime?: string | null | undefined;
 }
 
 /** 组织列表 - 答复 */
@@ -80,15 +79,11 @@ export interface GetOrganizationRequest {
 
 /** 创建组织 - 请求 */
 export interface CreateOrganizationRequest {
-  /** 操作用户ID */
-  operatorId?: number | null | undefined;
   data: Organization | null;
 }
 
 /** 更新组织 - 请求 */
 export interface UpdateOrganizationRequest {
-  /** 操作用户ID */
-  operatorId?: number | null | undefined;
   data:
     | Organization
     | null;
@@ -102,21 +97,29 @@ export interface UpdateOrganizationRequest {
 
 /** 删除组织 - 请求 */
 export interface DeleteOrganizationRequest {
-  /** 操作用户ID */
-  operatorId?: number | null | undefined;
   id: number;
+}
+
+export interface BatchCreateOrganizationsRequest {
+  data: Organization[];
+}
+
+export interface BatchCreateOrganizationsResponse {
+  data: Organization[];
 }
 
 /** 组织服务 */
 export interface OrganizationService {
   /** 查询组织列表 */
-  ListOrganization(request: PagingRequest): Promise<ListOrganizationResponse>;
+  List(request: PagingRequest): Promise<ListOrganizationResponse>;
   /** 查询组织详情 */
-  GetOrganization(request: GetOrganizationRequest): Promise<Organization>;
+  Get(request: GetOrganizationRequest): Promise<Organization>;
   /** 创建组织 */
-  CreateOrganization(request: CreateOrganizationRequest): Promise<Empty>;
+  Create(request: CreateOrganizationRequest): Promise<Empty>;
   /** 更新组织 */
-  UpdateOrganization(request: UpdateOrganizationRequest): Promise<Empty>;
+  Update(request: UpdateOrganizationRequest): Promise<Empty>;
   /** 删除组织 */
-  DeleteOrganization(request: DeleteOrganizationRequest): Promise<Empty>;
+  Delete(request: DeleteOrganizationRequest): Promise<Empty>;
+  /** 批量创建组织 */
+  BatchCreate(request: BatchCreateOrganizationsRequest): Promise<BatchCreateOrganizationsResponse>;
 }

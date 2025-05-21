@@ -26,12 +26,6 @@ export enum UEditorAction {
   catchImage = "catchImage",
 }
 
-export interface FileData {
-  fileName: string;
-  mime: string;
-  content: Uint8Array;
-}
-
 export interface UEditorRequest {
   action: string;
   encode: string;
@@ -287,8 +281,23 @@ export interface UEditorResponse_Item {
 }
 
 export interface UEditorUploadRequest {
-  action: string;
-  file?: FileData | null | undefined;
+  /** 动作 */
+  action?:
+    | string
+    | null
+    | undefined;
+  /** 文件内容 */
+  file?:
+    | Uint8Array
+    | null
+    | undefined;
+  /** 原文件文件名 */
+  sourceFileName?:
+    | string
+    | null
+    | undefined;
+  /** 文件的MIME类型 */
+  mime?: string | null | undefined;
 }
 
 export interface UEditorUploadResponse {

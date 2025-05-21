@@ -6,6 +6,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	servicev1 "kratos-admin/api/gen/go/system/service/v1"
 	"kratos-admin/app/admin/service/internal/data/ent/task"
 	"time"
 
@@ -148,6 +149,20 @@ func (tc *TaskCreate) SetNillableTypeName(s *string) *TaskCreate {
 	return tc
 }
 
+// SetTaskID sets the "task_id" field.
+func (tc *TaskCreate) SetTaskID(s string) *TaskCreate {
+	tc.mutation.SetTaskID(s)
+	return tc
+}
+
+// SetNillableTaskID sets the "task_id" field if the given value is not nil.
+func (tc *TaskCreate) SetNillableTaskID(s *string) *TaskCreate {
+	if s != nil {
+		tc.SetTaskID(*s)
+	}
+	return tc
+}
+
 // SetTaskPayload sets the "task_payload" field.
 func (tc *TaskCreate) SetTaskPayload(s string) *TaskCreate {
 	tc.mutation.SetTaskPayload(s)
@@ -176,73 +191,9 @@ func (tc *TaskCreate) SetNillableCronSpec(s *string) *TaskCreate {
 	return tc
 }
 
-// SetRetryCount sets the "retry_count" field.
-func (tc *TaskCreate) SetRetryCount(u uint32) *TaskCreate {
-	tc.mutation.SetRetryCount(u)
-	return tc
-}
-
-// SetNillableRetryCount sets the "retry_count" field if the given value is not nil.
-func (tc *TaskCreate) SetNillableRetryCount(u *uint32) *TaskCreate {
-	if u != nil {
-		tc.SetRetryCount(*u)
-	}
-	return tc
-}
-
-// SetTimeout sets the "timeout" field.
-func (tc *TaskCreate) SetTimeout(u uint64) *TaskCreate {
-	tc.mutation.SetTimeout(u)
-	return tc
-}
-
-// SetNillableTimeout sets the "timeout" field if the given value is not nil.
-func (tc *TaskCreate) SetNillableTimeout(u *uint64) *TaskCreate {
-	if u != nil {
-		tc.SetTimeout(*u)
-	}
-	return tc
-}
-
-// SetDeadline sets the "deadline" field.
-func (tc *TaskCreate) SetDeadline(t time.Time) *TaskCreate {
-	tc.mutation.SetDeadline(t)
-	return tc
-}
-
-// SetNillableDeadline sets the "deadline" field if the given value is not nil.
-func (tc *TaskCreate) SetNillableDeadline(t *time.Time) *TaskCreate {
-	if t != nil {
-		tc.SetDeadline(*t)
-	}
-	return tc
-}
-
-// SetProcessIn sets the "process_in" field.
-func (tc *TaskCreate) SetProcessIn(u uint64) *TaskCreate {
-	tc.mutation.SetProcessIn(u)
-	return tc
-}
-
-// SetNillableProcessIn sets the "process_in" field if the given value is not nil.
-func (tc *TaskCreate) SetNillableProcessIn(u *uint64) *TaskCreate {
-	if u != nil {
-		tc.SetProcessIn(*u)
-	}
-	return tc
-}
-
-// SetProcessAt sets the "process_at" field.
-func (tc *TaskCreate) SetProcessAt(t time.Time) *TaskCreate {
-	tc.mutation.SetProcessAt(t)
-	return tc
-}
-
-// SetNillableProcessAt sets the "process_at" field if the given value is not nil.
-func (tc *TaskCreate) SetNillableProcessAt(t *time.Time) *TaskCreate {
-	if t != nil {
-		tc.SetProcessAt(*t)
-	}
+// SetTaskOptions sets the "task_options" field.
+func (tc *TaskCreate) SetTaskOptions(so *servicev1.TaskOption) *TaskCreate {
+	tc.mutation.SetTaskOptions(so)
 	return tc
 }
 
@@ -319,6 +270,11 @@ func (tc *TaskCreate) check() error {
 			return &ValidationError{Name: "type", err: fmt.Errorf(`ent: validator failed for field "Task.type": %w`, err)}
 		}
 	}
+	if v, ok := tc.mutation.TaskOptions(); ok {
+		if err := v.Validate(); err != nil {
+			return &ValidationError{Name: "task_options", err: fmt.Errorf(`ent: validator failed for field "Task.task_options": %w`, err)}
+		}
+	}
 	if v, ok := tc.mutation.ID(); ok {
 		if err := task.IDValidator(v); err != nil {
 			return &ValidationError{Name: "id", err: fmt.Errorf(`ent: validator failed for field "Task.id": %w`, err)}
@@ -393,6 +349,10 @@ func (tc *TaskCreate) createSpec() (*Task, *sqlgraph.CreateSpec) {
 		_spec.SetField(task.FieldTypeName, field.TypeString, value)
 		_node.TypeName = &value
 	}
+	if value, ok := tc.mutation.TaskID(); ok {
+		_spec.SetField(task.FieldTaskID, field.TypeString, value)
+		_node.TaskID = &value
+	}
 	if value, ok := tc.mutation.TaskPayload(); ok {
 		_spec.SetField(task.FieldTaskPayload, field.TypeString, value)
 		_node.TaskPayload = &value
@@ -401,25 +361,9 @@ func (tc *TaskCreate) createSpec() (*Task, *sqlgraph.CreateSpec) {
 		_spec.SetField(task.FieldCronSpec, field.TypeString, value)
 		_node.CronSpec = &value
 	}
-	if value, ok := tc.mutation.RetryCount(); ok {
-		_spec.SetField(task.FieldRetryCount, field.TypeUint32, value)
-		_node.RetryCount = &value
-	}
-	if value, ok := tc.mutation.Timeout(); ok {
-		_spec.SetField(task.FieldTimeout, field.TypeUint64, value)
-		_node.Timeout = &value
-	}
-	if value, ok := tc.mutation.Deadline(); ok {
-		_spec.SetField(task.FieldDeadline, field.TypeTime, value)
-		_node.Deadline = &value
-	}
-	if value, ok := tc.mutation.ProcessIn(); ok {
-		_spec.SetField(task.FieldProcessIn, field.TypeUint64, value)
-		_node.ProcessIn = &value
-	}
-	if value, ok := tc.mutation.ProcessAt(); ok {
-		_spec.SetField(task.FieldProcessAt, field.TypeTime, value)
-		_node.ProcessAt = &value
+	if value, ok := tc.mutation.TaskOptions(); ok {
+		_spec.SetField(task.FieldTaskOptions, field.TypeJSON, value)
+		_node.TaskOptions = value
 	}
 	if value, ok := tc.mutation.Enable(); ok {
 		_spec.SetField(task.FieldEnable, field.TypeBool, value)
@@ -615,6 +559,24 @@ func (u *TaskUpsert) ClearTypeName() *TaskUpsert {
 	return u
 }
 
+// SetTaskID sets the "task_id" field.
+func (u *TaskUpsert) SetTaskID(v string) *TaskUpsert {
+	u.Set(task.FieldTaskID, v)
+	return u
+}
+
+// UpdateTaskID sets the "task_id" field to the value that was provided on create.
+func (u *TaskUpsert) UpdateTaskID() *TaskUpsert {
+	u.SetExcluded(task.FieldTaskID)
+	return u
+}
+
+// ClearTaskID clears the value of the "task_id" field.
+func (u *TaskUpsert) ClearTaskID() *TaskUpsert {
+	u.SetNull(task.FieldTaskID)
+	return u
+}
+
 // SetTaskPayload sets the "task_payload" field.
 func (u *TaskUpsert) SetTaskPayload(v string) *TaskUpsert {
 	u.Set(task.FieldTaskPayload, v)
@@ -651,111 +613,21 @@ func (u *TaskUpsert) ClearCronSpec() *TaskUpsert {
 	return u
 }
 
-// SetRetryCount sets the "retry_count" field.
-func (u *TaskUpsert) SetRetryCount(v uint32) *TaskUpsert {
-	u.Set(task.FieldRetryCount, v)
+// SetTaskOptions sets the "task_options" field.
+func (u *TaskUpsert) SetTaskOptions(v *servicev1.TaskOption) *TaskUpsert {
+	u.Set(task.FieldTaskOptions, v)
 	return u
 }
 
-// UpdateRetryCount sets the "retry_count" field to the value that was provided on create.
-func (u *TaskUpsert) UpdateRetryCount() *TaskUpsert {
-	u.SetExcluded(task.FieldRetryCount)
+// UpdateTaskOptions sets the "task_options" field to the value that was provided on create.
+func (u *TaskUpsert) UpdateTaskOptions() *TaskUpsert {
+	u.SetExcluded(task.FieldTaskOptions)
 	return u
 }
 
-// AddRetryCount adds v to the "retry_count" field.
-func (u *TaskUpsert) AddRetryCount(v uint32) *TaskUpsert {
-	u.Add(task.FieldRetryCount, v)
-	return u
-}
-
-// ClearRetryCount clears the value of the "retry_count" field.
-func (u *TaskUpsert) ClearRetryCount() *TaskUpsert {
-	u.SetNull(task.FieldRetryCount)
-	return u
-}
-
-// SetTimeout sets the "timeout" field.
-func (u *TaskUpsert) SetTimeout(v uint64) *TaskUpsert {
-	u.Set(task.FieldTimeout, v)
-	return u
-}
-
-// UpdateTimeout sets the "timeout" field to the value that was provided on create.
-func (u *TaskUpsert) UpdateTimeout() *TaskUpsert {
-	u.SetExcluded(task.FieldTimeout)
-	return u
-}
-
-// AddTimeout adds v to the "timeout" field.
-func (u *TaskUpsert) AddTimeout(v uint64) *TaskUpsert {
-	u.Add(task.FieldTimeout, v)
-	return u
-}
-
-// ClearTimeout clears the value of the "timeout" field.
-func (u *TaskUpsert) ClearTimeout() *TaskUpsert {
-	u.SetNull(task.FieldTimeout)
-	return u
-}
-
-// SetDeadline sets the "deadline" field.
-func (u *TaskUpsert) SetDeadline(v time.Time) *TaskUpsert {
-	u.Set(task.FieldDeadline, v)
-	return u
-}
-
-// UpdateDeadline sets the "deadline" field to the value that was provided on create.
-func (u *TaskUpsert) UpdateDeadline() *TaskUpsert {
-	u.SetExcluded(task.FieldDeadline)
-	return u
-}
-
-// ClearDeadline clears the value of the "deadline" field.
-func (u *TaskUpsert) ClearDeadline() *TaskUpsert {
-	u.SetNull(task.FieldDeadline)
-	return u
-}
-
-// SetProcessIn sets the "process_in" field.
-func (u *TaskUpsert) SetProcessIn(v uint64) *TaskUpsert {
-	u.Set(task.FieldProcessIn, v)
-	return u
-}
-
-// UpdateProcessIn sets the "process_in" field to the value that was provided on create.
-func (u *TaskUpsert) UpdateProcessIn() *TaskUpsert {
-	u.SetExcluded(task.FieldProcessIn)
-	return u
-}
-
-// AddProcessIn adds v to the "process_in" field.
-func (u *TaskUpsert) AddProcessIn(v uint64) *TaskUpsert {
-	u.Add(task.FieldProcessIn, v)
-	return u
-}
-
-// ClearProcessIn clears the value of the "process_in" field.
-func (u *TaskUpsert) ClearProcessIn() *TaskUpsert {
-	u.SetNull(task.FieldProcessIn)
-	return u
-}
-
-// SetProcessAt sets the "process_at" field.
-func (u *TaskUpsert) SetProcessAt(v time.Time) *TaskUpsert {
-	u.Set(task.FieldProcessAt, v)
-	return u
-}
-
-// UpdateProcessAt sets the "process_at" field to the value that was provided on create.
-func (u *TaskUpsert) UpdateProcessAt() *TaskUpsert {
-	u.SetExcluded(task.FieldProcessAt)
-	return u
-}
-
-// ClearProcessAt clears the value of the "process_at" field.
-func (u *TaskUpsert) ClearProcessAt() *TaskUpsert {
-	u.SetNull(task.FieldProcessAt)
+// ClearTaskOptions clears the value of the "task_options" field.
+func (u *TaskUpsert) ClearTaskOptions() *TaskUpsert {
+	u.SetNull(task.FieldTaskOptions)
 	return u
 }
 
@@ -992,6 +864,27 @@ func (u *TaskUpsertOne) ClearTypeName() *TaskUpsertOne {
 	})
 }
 
+// SetTaskID sets the "task_id" field.
+func (u *TaskUpsertOne) SetTaskID(v string) *TaskUpsertOne {
+	return u.Update(func(s *TaskUpsert) {
+		s.SetTaskID(v)
+	})
+}
+
+// UpdateTaskID sets the "task_id" field to the value that was provided on create.
+func (u *TaskUpsertOne) UpdateTaskID() *TaskUpsertOne {
+	return u.Update(func(s *TaskUpsert) {
+		s.UpdateTaskID()
+	})
+}
+
+// ClearTaskID clears the value of the "task_id" field.
+func (u *TaskUpsertOne) ClearTaskID() *TaskUpsertOne {
+	return u.Update(func(s *TaskUpsert) {
+		s.ClearTaskID()
+	})
+}
+
 // SetTaskPayload sets the "task_payload" field.
 func (u *TaskUpsertOne) SetTaskPayload(v string) *TaskUpsertOne {
 	return u.Update(func(s *TaskUpsert) {
@@ -1034,129 +927,24 @@ func (u *TaskUpsertOne) ClearCronSpec() *TaskUpsertOne {
 	})
 }
 
-// SetRetryCount sets the "retry_count" field.
-func (u *TaskUpsertOne) SetRetryCount(v uint32) *TaskUpsertOne {
+// SetTaskOptions sets the "task_options" field.
+func (u *TaskUpsertOne) SetTaskOptions(v *servicev1.TaskOption) *TaskUpsertOne {
 	return u.Update(func(s *TaskUpsert) {
-		s.SetRetryCount(v)
+		s.SetTaskOptions(v)
 	})
 }
 
-// AddRetryCount adds v to the "retry_count" field.
-func (u *TaskUpsertOne) AddRetryCount(v uint32) *TaskUpsertOne {
+// UpdateTaskOptions sets the "task_options" field to the value that was provided on create.
+func (u *TaskUpsertOne) UpdateTaskOptions() *TaskUpsertOne {
 	return u.Update(func(s *TaskUpsert) {
-		s.AddRetryCount(v)
+		s.UpdateTaskOptions()
 	})
 }
 
-// UpdateRetryCount sets the "retry_count" field to the value that was provided on create.
-func (u *TaskUpsertOne) UpdateRetryCount() *TaskUpsertOne {
+// ClearTaskOptions clears the value of the "task_options" field.
+func (u *TaskUpsertOne) ClearTaskOptions() *TaskUpsertOne {
 	return u.Update(func(s *TaskUpsert) {
-		s.UpdateRetryCount()
-	})
-}
-
-// ClearRetryCount clears the value of the "retry_count" field.
-func (u *TaskUpsertOne) ClearRetryCount() *TaskUpsertOne {
-	return u.Update(func(s *TaskUpsert) {
-		s.ClearRetryCount()
-	})
-}
-
-// SetTimeout sets the "timeout" field.
-func (u *TaskUpsertOne) SetTimeout(v uint64) *TaskUpsertOne {
-	return u.Update(func(s *TaskUpsert) {
-		s.SetTimeout(v)
-	})
-}
-
-// AddTimeout adds v to the "timeout" field.
-func (u *TaskUpsertOne) AddTimeout(v uint64) *TaskUpsertOne {
-	return u.Update(func(s *TaskUpsert) {
-		s.AddTimeout(v)
-	})
-}
-
-// UpdateTimeout sets the "timeout" field to the value that was provided on create.
-func (u *TaskUpsertOne) UpdateTimeout() *TaskUpsertOne {
-	return u.Update(func(s *TaskUpsert) {
-		s.UpdateTimeout()
-	})
-}
-
-// ClearTimeout clears the value of the "timeout" field.
-func (u *TaskUpsertOne) ClearTimeout() *TaskUpsertOne {
-	return u.Update(func(s *TaskUpsert) {
-		s.ClearTimeout()
-	})
-}
-
-// SetDeadline sets the "deadline" field.
-func (u *TaskUpsertOne) SetDeadline(v time.Time) *TaskUpsertOne {
-	return u.Update(func(s *TaskUpsert) {
-		s.SetDeadline(v)
-	})
-}
-
-// UpdateDeadline sets the "deadline" field to the value that was provided on create.
-func (u *TaskUpsertOne) UpdateDeadline() *TaskUpsertOne {
-	return u.Update(func(s *TaskUpsert) {
-		s.UpdateDeadline()
-	})
-}
-
-// ClearDeadline clears the value of the "deadline" field.
-func (u *TaskUpsertOne) ClearDeadline() *TaskUpsertOne {
-	return u.Update(func(s *TaskUpsert) {
-		s.ClearDeadline()
-	})
-}
-
-// SetProcessIn sets the "process_in" field.
-func (u *TaskUpsertOne) SetProcessIn(v uint64) *TaskUpsertOne {
-	return u.Update(func(s *TaskUpsert) {
-		s.SetProcessIn(v)
-	})
-}
-
-// AddProcessIn adds v to the "process_in" field.
-func (u *TaskUpsertOne) AddProcessIn(v uint64) *TaskUpsertOne {
-	return u.Update(func(s *TaskUpsert) {
-		s.AddProcessIn(v)
-	})
-}
-
-// UpdateProcessIn sets the "process_in" field to the value that was provided on create.
-func (u *TaskUpsertOne) UpdateProcessIn() *TaskUpsertOne {
-	return u.Update(func(s *TaskUpsert) {
-		s.UpdateProcessIn()
-	})
-}
-
-// ClearProcessIn clears the value of the "process_in" field.
-func (u *TaskUpsertOne) ClearProcessIn() *TaskUpsertOne {
-	return u.Update(func(s *TaskUpsert) {
-		s.ClearProcessIn()
-	})
-}
-
-// SetProcessAt sets the "process_at" field.
-func (u *TaskUpsertOne) SetProcessAt(v time.Time) *TaskUpsertOne {
-	return u.Update(func(s *TaskUpsert) {
-		s.SetProcessAt(v)
-	})
-}
-
-// UpdateProcessAt sets the "process_at" field to the value that was provided on create.
-func (u *TaskUpsertOne) UpdateProcessAt() *TaskUpsertOne {
-	return u.Update(func(s *TaskUpsert) {
-		s.UpdateProcessAt()
-	})
-}
-
-// ClearProcessAt clears the value of the "process_at" field.
-func (u *TaskUpsertOne) ClearProcessAt() *TaskUpsertOne {
-	return u.Update(func(s *TaskUpsert) {
-		s.ClearProcessAt()
+		s.ClearTaskOptions()
 	})
 }
 
@@ -1562,6 +1350,27 @@ func (u *TaskUpsertBulk) ClearTypeName() *TaskUpsertBulk {
 	})
 }
 
+// SetTaskID sets the "task_id" field.
+func (u *TaskUpsertBulk) SetTaskID(v string) *TaskUpsertBulk {
+	return u.Update(func(s *TaskUpsert) {
+		s.SetTaskID(v)
+	})
+}
+
+// UpdateTaskID sets the "task_id" field to the value that was provided on create.
+func (u *TaskUpsertBulk) UpdateTaskID() *TaskUpsertBulk {
+	return u.Update(func(s *TaskUpsert) {
+		s.UpdateTaskID()
+	})
+}
+
+// ClearTaskID clears the value of the "task_id" field.
+func (u *TaskUpsertBulk) ClearTaskID() *TaskUpsertBulk {
+	return u.Update(func(s *TaskUpsert) {
+		s.ClearTaskID()
+	})
+}
+
 // SetTaskPayload sets the "task_payload" field.
 func (u *TaskUpsertBulk) SetTaskPayload(v string) *TaskUpsertBulk {
 	return u.Update(func(s *TaskUpsert) {
@@ -1604,129 +1413,24 @@ func (u *TaskUpsertBulk) ClearCronSpec() *TaskUpsertBulk {
 	})
 }
 
-// SetRetryCount sets the "retry_count" field.
-func (u *TaskUpsertBulk) SetRetryCount(v uint32) *TaskUpsertBulk {
+// SetTaskOptions sets the "task_options" field.
+func (u *TaskUpsertBulk) SetTaskOptions(v *servicev1.TaskOption) *TaskUpsertBulk {
 	return u.Update(func(s *TaskUpsert) {
-		s.SetRetryCount(v)
+		s.SetTaskOptions(v)
 	})
 }
 
-// AddRetryCount adds v to the "retry_count" field.
-func (u *TaskUpsertBulk) AddRetryCount(v uint32) *TaskUpsertBulk {
+// UpdateTaskOptions sets the "task_options" field to the value that was provided on create.
+func (u *TaskUpsertBulk) UpdateTaskOptions() *TaskUpsertBulk {
 	return u.Update(func(s *TaskUpsert) {
-		s.AddRetryCount(v)
+		s.UpdateTaskOptions()
 	})
 }
 
-// UpdateRetryCount sets the "retry_count" field to the value that was provided on create.
-func (u *TaskUpsertBulk) UpdateRetryCount() *TaskUpsertBulk {
+// ClearTaskOptions clears the value of the "task_options" field.
+func (u *TaskUpsertBulk) ClearTaskOptions() *TaskUpsertBulk {
 	return u.Update(func(s *TaskUpsert) {
-		s.UpdateRetryCount()
-	})
-}
-
-// ClearRetryCount clears the value of the "retry_count" field.
-func (u *TaskUpsertBulk) ClearRetryCount() *TaskUpsertBulk {
-	return u.Update(func(s *TaskUpsert) {
-		s.ClearRetryCount()
-	})
-}
-
-// SetTimeout sets the "timeout" field.
-func (u *TaskUpsertBulk) SetTimeout(v uint64) *TaskUpsertBulk {
-	return u.Update(func(s *TaskUpsert) {
-		s.SetTimeout(v)
-	})
-}
-
-// AddTimeout adds v to the "timeout" field.
-func (u *TaskUpsertBulk) AddTimeout(v uint64) *TaskUpsertBulk {
-	return u.Update(func(s *TaskUpsert) {
-		s.AddTimeout(v)
-	})
-}
-
-// UpdateTimeout sets the "timeout" field to the value that was provided on create.
-func (u *TaskUpsertBulk) UpdateTimeout() *TaskUpsertBulk {
-	return u.Update(func(s *TaskUpsert) {
-		s.UpdateTimeout()
-	})
-}
-
-// ClearTimeout clears the value of the "timeout" field.
-func (u *TaskUpsertBulk) ClearTimeout() *TaskUpsertBulk {
-	return u.Update(func(s *TaskUpsert) {
-		s.ClearTimeout()
-	})
-}
-
-// SetDeadline sets the "deadline" field.
-func (u *TaskUpsertBulk) SetDeadline(v time.Time) *TaskUpsertBulk {
-	return u.Update(func(s *TaskUpsert) {
-		s.SetDeadline(v)
-	})
-}
-
-// UpdateDeadline sets the "deadline" field to the value that was provided on create.
-func (u *TaskUpsertBulk) UpdateDeadline() *TaskUpsertBulk {
-	return u.Update(func(s *TaskUpsert) {
-		s.UpdateDeadline()
-	})
-}
-
-// ClearDeadline clears the value of the "deadline" field.
-func (u *TaskUpsertBulk) ClearDeadline() *TaskUpsertBulk {
-	return u.Update(func(s *TaskUpsert) {
-		s.ClearDeadline()
-	})
-}
-
-// SetProcessIn sets the "process_in" field.
-func (u *TaskUpsertBulk) SetProcessIn(v uint64) *TaskUpsertBulk {
-	return u.Update(func(s *TaskUpsert) {
-		s.SetProcessIn(v)
-	})
-}
-
-// AddProcessIn adds v to the "process_in" field.
-func (u *TaskUpsertBulk) AddProcessIn(v uint64) *TaskUpsertBulk {
-	return u.Update(func(s *TaskUpsert) {
-		s.AddProcessIn(v)
-	})
-}
-
-// UpdateProcessIn sets the "process_in" field to the value that was provided on create.
-func (u *TaskUpsertBulk) UpdateProcessIn() *TaskUpsertBulk {
-	return u.Update(func(s *TaskUpsert) {
-		s.UpdateProcessIn()
-	})
-}
-
-// ClearProcessIn clears the value of the "process_in" field.
-func (u *TaskUpsertBulk) ClearProcessIn() *TaskUpsertBulk {
-	return u.Update(func(s *TaskUpsert) {
-		s.ClearProcessIn()
-	})
-}
-
-// SetProcessAt sets the "process_at" field.
-func (u *TaskUpsertBulk) SetProcessAt(v time.Time) *TaskUpsertBulk {
-	return u.Update(func(s *TaskUpsert) {
-		s.SetProcessAt(v)
-	})
-}
-
-// UpdateProcessAt sets the "process_at" field to the value that was provided on create.
-func (u *TaskUpsertBulk) UpdateProcessAt() *TaskUpsertBulk {
-	return u.Update(func(s *TaskUpsert) {
-		s.UpdateProcessAt()
-	})
-}
-
-// ClearProcessAt clears the value of the "process_at" field.
-func (u *TaskUpsertBulk) ClearProcessAt() *TaskUpsertBulk {
-	return u.Update(func(s *TaskUpsert) {
-		s.ClearProcessAt()
+		s.ClearTaskOptions()
 	})
 }
 

@@ -45,10 +45,10 @@ func (Menu) Fields() []ent.Field {
 
 		field.Enum("type").
 			Comment("菜单类型 FOLDER: 目录 MENU: 菜单 BUTTON: 按钮").
-			Values(
-				"FOLDER",
-				"MENU",
-				"BUTTON",
+			NamedValues(
+				"Folder", "FOLDER",
+				"Menu", "MENU",
+				"Button", "BUTTON",
 			).
 			Default("MENU").
 			Optional().

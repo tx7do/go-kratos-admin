@@ -38,6 +38,6 @@ VALUES (1, null, 1, '华东分部', 'ON', now()),
 
 -- 调度任务
 TRUNCATE TABLE kratos_admin.public.tasks;
-INSERT INTO kratos_admin.public.tasks(id, type, type_name, task_payload, cron_spec, enable, create_time)
-VALUES (1, 'Periodic', 'backup', '{ "name": "test"}', '*/1 * * * ?', true,now())
+INSERT INTO kratos_admin.public.tasks(id, type, type_name, task_payload, task_id, cron_spec, enable, create_time)
+VALUES (1, 'Periodic', 'backup', '{ "name": "test"}', 'backup', '*/1 * * * ?', true, now())
 ;

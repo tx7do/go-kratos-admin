@@ -97,18 +97,18 @@ type Provider string
 
 // Provider values.
 const (
-	ProviderMinIO   Provider = "MinIO"
-	ProviderAliyun  Provider = "Aliyun"
-	ProviderQiniu   Provider = "Qiniu"
-	ProviderTencent Provider = "Tencent"
+	ProviderUnknown Provider = "UNKNOWN"
+	ProviderMinIO   Provider = "MINIO"
+	ProviderAliyun  Provider = "ALIYUN"
+	ProviderQiniu   Provider = "QINIU"
+	ProviderTencent Provider = "TENCENT"
 	ProviderAWS     Provider = "AWS"
-	ProviderGoogle  Provider = "Google"
-	ProviderAzure   Provider = "Azure"
-	ProviderBaidu   Provider = "Baidu"
-	ProviderHuawei  Provider = "Huawei"
-	ProviderQCloud  Provider = "QCloud"
-	ProviderLocal   Provider = "Local"
-	ProviderUnknown Provider = "Unknown"
+	ProviderGoogle  Provider = "GOOGLE"
+	ProviderAzure   Provider = "AZURE"
+	ProviderBaidu   Provider = "BAIDU"
+	ProviderHuawei  Provider = "HUAWEI"
+	ProviderQCloud  Provider = "QCLOUD"
+	ProviderLocal   Provider = "LOCAL"
 )
 
 func (pr Provider) String() string {
@@ -118,7 +118,7 @@ func (pr Provider) String() string {
 // ProviderValidator is a validator for the "provider" field enum values. It is called by the builders before save.
 func ProviderValidator(pr Provider) error {
 	switch pr {
-	case ProviderMinIO, ProviderAliyun, ProviderQiniu, ProviderTencent, ProviderAWS, ProviderGoogle, ProviderAzure, ProviderBaidu, ProviderHuawei, ProviderQCloud, ProviderLocal, ProviderUnknown:
+	case ProviderUnknown, ProviderMinIO, ProviderAliyun, ProviderQiniu, ProviderTencent, ProviderAWS, ProviderGoogle, ProviderAzure, ProviderBaidu, ProviderHuawei, ProviderQCloud, ProviderLocal:
 		return nil
 	default:
 		return fmt.Errorf("file: invalid enum value for provider field: %q", pr)

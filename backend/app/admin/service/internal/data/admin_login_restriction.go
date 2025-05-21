@@ -2,7 +2,6 @@ package data
 
 import (
 	"context"
-	systemV1 "kratos-admin/api/gen/go/system/service/v1"
 	"time"
 
 	"entgo.io/ent/dialect/sql"
@@ -19,6 +18,7 @@ import (
 
 	pagination "github.com/tx7do/kratos-bootstrap/api/gen/go/pagination/v1"
 	adminV1 "kratos-admin/api/gen/go/admin/service/v1"
+	systemV1 "kratos-admin/api/gen/go/system/service/v1"
 )
 
 type AdminLoginRestrictionRepo struct {
@@ -39,19 +39,12 @@ func (r *AdminLoginRestrictionRepo) toEntType(in *adminV1.AdminLoginRestrictionT
 		return nil
 	}
 
-	switch *in {
-	case adminV1.AdminLoginRestrictionType_LOGIN_RESTRICTION_TYPE_UNSPECIFIED:
-		return trans.Ptr(adminloginrestriction.TypeUnspecified)
-
-	case adminV1.AdminLoginRestrictionType_LOGIN_RESTRICTION_TYPE_BLACKLIST:
-		return trans.Ptr(adminloginrestriction.TypeBlacklist)
-
-	case adminV1.AdminLoginRestrictionType_LOGIN_RESTRICTION_TYPE_WHITELIST:
-		return trans.Ptr(adminloginrestriction.TypeWhitelist)
-
-	default:
+	find, ok := adminV1.AdminLoginRestrictionType_name[int32(*in)]
+	if !ok {
 		return nil
 	}
+
+	return (*adminloginrestriction.Type)(trans.Ptr(find))
 }
 
 func (r *AdminLoginRestrictionRepo) toProtoType(in *adminloginrestriction.Type) *adminV1.AdminLoginRestrictionType {
@@ -59,19 +52,12 @@ func (r *AdminLoginRestrictionRepo) toProtoType(in *adminloginrestriction.Type) 
 		return nil
 	}
 
-	switch *in {
-	case adminloginrestriction.TypeUnspecified:
-		return trans.Ptr(adminV1.AdminLoginRestrictionType_LOGIN_RESTRICTION_TYPE_UNSPECIFIED)
-
-	case adminloginrestriction.TypeBlacklist:
-		return trans.Ptr(adminV1.AdminLoginRestrictionType_LOGIN_RESTRICTION_TYPE_BLACKLIST)
-
-	case adminloginrestriction.TypeWhitelist:
-		return trans.Ptr(adminV1.AdminLoginRestrictionType_LOGIN_RESTRICTION_TYPE_WHITELIST)
-
-	default:
+	find, ok := adminV1.AdminLoginRestrictionType_value[string(*in)]
+	if !ok {
 		return nil
 	}
+
+	return (*adminV1.AdminLoginRestrictionType)(trans.Ptr(find))
 }
 
 func (r *AdminLoginRestrictionRepo) toEntMethod(in *adminV1.AdminLoginRestrictionMethod) *adminloginrestriction.Method {
@@ -79,28 +65,12 @@ func (r *AdminLoginRestrictionRepo) toEntMethod(in *adminV1.AdminLoginRestrictio
 		return nil
 	}
 
-	switch *in {
-	case adminV1.AdminLoginRestrictionMethod_LOGIN_RESTRICTION_METHOD_UNSPECIFIED:
-		return trans.Ptr(adminloginrestriction.MethodUnspecified)
-
-	case adminV1.AdminLoginRestrictionMethod_LOGIN_RESTRICTION_METHOD_IP:
-		return trans.Ptr(adminloginrestriction.MethodIp)
-
-	case adminV1.AdminLoginRestrictionMethod_LOGIN_RESTRICTION_METHOD_MAC:
-		return trans.Ptr(adminloginrestriction.MethodMac)
-
-	case adminV1.AdminLoginRestrictionMethod_LOGIN_RESTRICTION_METHOD_REGION:
-		return trans.Ptr(adminloginrestriction.MethodRegion)
-
-	case adminV1.AdminLoginRestrictionMethod_LOGIN_RESTRICTION_METHOD_TIME:
-		return trans.Ptr(adminloginrestriction.MethodTime)
-
-	case adminV1.AdminLoginRestrictionMethod_LOGIN_RESTRICTION_METHOD_DEVICE:
-		return trans.Ptr(adminloginrestriction.MethodDevice)
-
-	default:
+	find, ok := adminV1.AdminLoginRestrictionMethod_name[int32(*in)]
+	if !ok {
 		return nil
 	}
+
+	return (*adminloginrestriction.Method)(trans.Ptr(find))
 }
 
 func (r *AdminLoginRestrictionRepo) toProtoMethod(in *adminloginrestriction.Method) *adminV1.AdminLoginRestrictionMethod {
@@ -108,28 +78,12 @@ func (r *AdminLoginRestrictionRepo) toProtoMethod(in *adminloginrestriction.Meth
 		return nil
 	}
 
-	switch *in {
-	case adminloginrestriction.MethodUnspecified:
-		return trans.Ptr(adminV1.AdminLoginRestrictionMethod_LOGIN_RESTRICTION_METHOD_UNSPECIFIED)
-
-	case adminloginrestriction.MethodIp:
-		return trans.Ptr(adminV1.AdminLoginRestrictionMethod_LOGIN_RESTRICTION_METHOD_IP)
-
-	case adminloginrestriction.MethodMac:
-		return trans.Ptr(adminV1.AdminLoginRestrictionMethod_LOGIN_RESTRICTION_METHOD_MAC)
-
-	case adminloginrestriction.MethodRegion:
-		return trans.Ptr(adminV1.AdminLoginRestrictionMethod_LOGIN_RESTRICTION_METHOD_REGION)
-
-	case adminloginrestriction.MethodTime:
-		return trans.Ptr(adminV1.AdminLoginRestrictionMethod_LOGIN_RESTRICTION_METHOD_TIME)
-
-	case adminloginrestriction.MethodDevice:
-		return trans.Ptr(adminV1.AdminLoginRestrictionMethod_LOGIN_RESTRICTION_METHOD_DEVICE)
-
-	default:
+	find, ok := adminV1.AdminLoginRestrictionMethod_value[string(*in)]
+	if !ok {
 		return nil
 	}
+
+	return (*adminV1.AdminLoginRestrictionMethod)(trans.Ptr(find))
 }
 
 func (r *AdminLoginRestrictionRepo) convertEntToProto(in *ent.AdminLoginRestriction) *adminV1.AdminLoginRestriction {

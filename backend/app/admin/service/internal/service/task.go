@@ -249,20 +249,22 @@ func (s *TaskService) convertTaskOption(t *systemV1.Task) (opts []asynq.Option, 
 		_ = json.Unmarshal([]byte(t.GetTaskPayload()), &payload)
 	}
 
-	if t.GetRetryCount() > 0 {
-		opts = append(opts, asynq.MaxRetry(int(t.GetRetryCount())))
-	}
-	if t.GetTimeout() != nil {
-		opts = append(opts, asynq.Timeout(t.Timeout.AsDuration()))
-	}
-	if t.GetDeadline() != nil {
-		opts = append(opts, asynq.Deadline(t.GetDeadline().AsTime()))
-	}
-	if t.GetProcessIn() != nil {
-		opts = append(opts, asynq.ProcessIn(t.GetProcessIn().AsDuration()))
-	}
-	if t.GetProcessAt() != nil {
-		opts = append(opts, asynq.ProcessAt(t.GetProcessAt().AsTime()))
+	if t.TaskOptions != nil {
+		if t.GetTaskOptions().GetRetryCount() > 0 {
+			opts = append(opts, asynq.MaxRetry(int(t.GetTaskOptions().GetRetryCount())))
+		}
+		if t.GetTaskOptions().Timeout != nil {
+			opts = append(opts, asynq.Timeout(t.GetTaskOptions().GetTimeout().AsDuration()))
+		}
+		if t.GetTaskOptions().Deadline != nil {
+			opts = append(opts, asynq.Deadline(t.GetTaskOptions().GetDeadline().AsTime()))
+		}
+		if t.GetTaskOptions().ProcessIn != nil {
+			opts = append(opts, asynq.ProcessIn(t.GetTaskOptions().GetProcessIn().AsDuration()))
+		}
+		if t.GetTaskOptions().ProcessAt != nil {
+			opts = append(opts, asynq.ProcessAt(t.GetTaskOptions().GetProcessAt().AsTime()))
+		}
 	}
 
 	return

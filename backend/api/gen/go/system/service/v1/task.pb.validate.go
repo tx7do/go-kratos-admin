@@ -35,6 +35,241 @@ var (
 	_ = sort.Sort
 )
 
+// Validate checks the field values on TaskOption with the rules defined in the
+// proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *TaskOption) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on TaskOption with the rules defined in
+// the proto definition for this message. If any rules are violated, the
+// result is a list of violation errors wrapped in TaskOptionMultiError, or
+// nil if none found.
+func (m *TaskOption) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *TaskOption) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if m.RetryCount != nil {
+		// no validation rules for RetryCount
+	}
+
+	if m.Timeout != nil {
+
+		if all {
+			switch v := interface{}(m.GetTimeout()).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, TaskOptionValidationError{
+						field:  "Timeout",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, TaskOptionValidationError{
+						field:  "Timeout",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(m.GetTimeout()).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return TaskOptionValidationError{
+					field:  "Timeout",
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	if m.Deadline != nil {
+
+		if all {
+			switch v := interface{}(m.GetDeadline()).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, TaskOptionValidationError{
+						field:  "Deadline",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, TaskOptionValidationError{
+						field:  "Deadline",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(m.GetDeadline()).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return TaskOptionValidationError{
+					field:  "Deadline",
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	if m.ProcessIn != nil {
+
+		if all {
+			switch v := interface{}(m.GetProcessIn()).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, TaskOptionValidationError{
+						field:  "ProcessIn",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, TaskOptionValidationError{
+						field:  "ProcessIn",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(m.GetProcessIn()).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return TaskOptionValidationError{
+					field:  "ProcessIn",
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	if m.ProcessAt != nil {
+
+		if all {
+			switch v := interface{}(m.GetProcessAt()).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, TaskOptionValidationError{
+						field:  "ProcessAt",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, TaskOptionValidationError{
+						field:  "ProcessAt",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(m.GetProcessAt()).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return TaskOptionValidationError{
+					field:  "ProcessAt",
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	if len(errors) > 0 {
+		return TaskOptionMultiError(errors)
+	}
+
+	return nil
+}
+
+// TaskOptionMultiError is an error wrapping multiple validation errors
+// returned by TaskOption.ValidateAll() if the designated constraints aren't met.
+type TaskOptionMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m TaskOptionMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m TaskOptionMultiError) AllErrors() []error { return m }
+
+// TaskOptionValidationError is the validation error returned by
+// TaskOption.Validate if the designated constraints aren't met.
+type TaskOptionValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e TaskOptionValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e TaskOptionValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e TaskOptionValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e TaskOptionValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e TaskOptionValidationError) ErrorName() string { return "TaskOptionValidationError" }
+
+// Error satisfies the builtin error interface
+func (e TaskOptionValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sTaskOption.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = TaskOptionValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = TaskOptionValidationError{}
+
 // Validate checks the field values on Task with the rules defined in the proto
 // definition for this message. If any rules are violated, the first error
 // encountered is returned, or nil if there are no violations.
@@ -68,6 +303,10 @@ func (m *Task) validate(all bool) error {
 		// no validation rules for TypeName
 	}
 
+	if m.TaskId != nil {
+		// no validation rules for TaskId
+	}
+
 	if m.TaskPayload != nil {
 		// no validation rules for TaskPayload
 	}
@@ -76,18 +315,14 @@ func (m *Task) validate(all bool) error {
 		// no validation rules for CronSpec
 	}
 
-	if m.RetryCount != nil {
-		// no validation rules for RetryCount
-	}
-
-	if m.Timeout != nil {
+	if m.TaskOptions != nil {
 
 		if all {
-			switch v := interface{}(m.GetTimeout()).(type) {
+			switch v := interface{}(m.GetTaskOptions()).(type) {
 			case interface{ ValidateAll() error }:
 				if err := v.ValidateAll(); err != nil {
 					errors = append(errors, TaskValidationError{
-						field:  "Timeout",
+						field:  "TaskOptions",
 						reason: "embedded message failed validation",
 						cause:  err,
 					})
@@ -95,115 +330,16 @@ func (m *Task) validate(all bool) error {
 			case interface{ Validate() error }:
 				if err := v.Validate(); err != nil {
 					errors = append(errors, TaskValidationError{
-						field:  "Timeout",
+						field:  "TaskOptions",
 						reason: "embedded message failed validation",
 						cause:  err,
 					})
 				}
 			}
-		} else if v, ok := interface{}(m.GetTimeout()).(interface{ Validate() error }); ok {
+		} else if v, ok := interface{}(m.GetTaskOptions()).(interface{ Validate() error }); ok {
 			if err := v.Validate(); err != nil {
 				return TaskValidationError{
-					field:  "Timeout",
-					reason: "embedded message failed validation",
-					cause:  err,
-				}
-			}
-		}
-
-	}
-
-	if m.Deadline != nil {
-
-		if all {
-			switch v := interface{}(m.GetDeadline()).(type) {
-			case interface{ ValidateAll() error }:
-				if err := v.ValidateAll(); err != nil {
-					errors = append(errors, TaskValidationError{
-						field:  "Deadline",
-						reason: "embedded message failed validation",
-						cause:  err,
-					})
-				}
-			case interface{ Validate() error }:
-				if err := v.Validate(); err != nil {
-					errors = append(errors, TaskValidationError{
-						field:  "Deadline",
-						reason: "embedded message failed validation",
-						cause:  err,
-					})
-				}
-			}
-		} else if v, ok := interface{}(m.GetDeadline()).(interface{ Validate() error }); ok {
-			if err := v.Validate(); err != nil {
-				return TaskValidationError{
-					field:  "Deadline",
-					reason: "embedded message failed validation",
-					cause:  err,
-				}
-			}
-		}
-
-	}
-
-	if m.ProcessIn != nil {
-
-		if all {
-			switch v := interface{}(m.GetProcessIn()).(type) {
-			case interface{ ValidateAll() error }:
-				if err := v.ValidateAll(); err != nil {
-					errors = append(errors, TaskValidationError{
-						field:  "ProcessIn",
-						reason: "embedded message failed validation",
-						cause:  err,
-					})
-				}
-			case interface{ Validate() error }:
-				if err := v.Validate(); err != nil {
-					errors = append(errors, TaskValidationError{
-						field:  "ProcessIn",
-						reason: "embedded message failed validation",
-						cause:  err,
-					})
-				}
-			}
-		} else if v, ok := interface{}(m.GetProcessIn()).(interface{ Validate() error }); ok {
-			if err := v.Validate(); err != nil {
-				return TaskValidationError{
-					field:  "ProcessIn",
-					reason: "embedded message failed validation",
-					cause:  err,
-				}
-			}
-		}
-
-	}
-
-	if m.ProcessAt != nil {
-
-		if all {
-			switch v := interface{}(m.GetProcessAt()).(type) {
-			case interface{ ValidateAll() error }:
-				if err := v.ValidateAll(); err != nil {
-					errors = append(errors, TaskValidationError{
-						field:  "ProcessAt",
-						reason: "embedded message failed validation",
-						cause:  err,
-					})
-				}
-			case interface{ Validate() error }:
-				if err := v.Validate(); err != nil {
-					errors = append(errors, TaskValidationError{
-						field:  "ProcessAt",
-						reason: "embedded message failed validation",
-						cause:  err,
-					})
-				}
-			}
-		} else if v, ok := interface{}(m.GetProcessAt()).(interface{ Validate() error }); ok {
-			if err := v.Validate(); err != nil {
-				return TaskValidationError{
-					field:  "ProcessAt",
+					field:  "TaskOptions",
 					reason: "embedded message failed validation",
 					cause:  err,
 				}

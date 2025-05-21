@@ -82,7 +82,7 @@ func (t *UserTokenPayload) ExtractAuthClaims(claims *authn.AuthClaims) error {
 func (t *UserTokenPayload) GetAuthority() userV1.UserAuthority {
 	authority, ok := userV1.UserAuthority_value[t.Authority]
 	if !ok {
-		return userV1.UserAuthority_GUEST_USER
+		return userV1.UserAuthority_GUEST
 	}
 	return userV1.UserAuthority(authority)
 }

@@ -22,34 +22,34 @@ require (
 	github.com/jackc/pgx/v4 v4.18.3
 	github.com/lib/pq v1.10.9
 	github.com/mileusna/useragent v1.3.5
-	github.com/minio/minio-go/v7 v7.0.91
+	github.com/minio/minio-go/v7 v7.0.92
 	github.com/redis/go-redis/v9 v9.8.0
 	github.com/stretchr/testify v1.10.0
-	github.com/tx7do/go-utils v1.1.21
+	github.com/tx7do/go-utils v1.1.22
 	github.com/tx7do/go-utils/entgo v1.1.27
 	github.com/tx7do/go-utils/geoip v1.1.5
-	github.com/tx7do/kratos-authn v1.1.6
-	github.com/tx7do/kratos-authn/engine/jwt v1.1.6
-	github.com/tx7do/kratos-authn/middleware v1.1.6
+	github.com/tx7do/kratos-authn v1.1.7
+	github.com/tx7do/kratos-authn/engine/jwt v1.1.7
+	github.com/tx7do/kratos-authn/middleware v1.1.7
 	github.com/tx7do/kratos-authz v1.0.3
 	github.com/tx7do/kratos-authz/middleware v1.0.3
-	github.com/tx7do/kratos-bootstrap/api v0.0.16
+	github.com/tx7do/kratos-bootstrap/api v0.0.17
 	github.com/tx7do/kratos-bootstrap/bootstrap v0.0.15
 	github.com/tx7do/kratos-bootstrap/cache/redis v0.0.9
 	github.com/tx7do/kratos-bootstrap/oss/minio v0.0.9
-	github.com/tx7do/kratos-bootstrap/rpc v0.0.12
+	github.com/tx7do/kratos-bootstrap/rpc v0.0.13
 	github.com/tx7do/kratos-swagger-ui v0.0.0-20241213153527-eca591f9f8b2
 	github.com/tx7do/kratos-transport v1.1.12
 	github.com/tx7do/kratos-transport/transport/asynq v1.2.19
 	github.com/tx7do/kratos-transport/transport/sse v1.2.19
-	google.golang.org/genproto v0.0.0-20250512202823-5a2f75b736a9
-	google.golang.org/genproto/googleapis/api v0.0.0-20250512202823-5a2f75b736a9
-	google.golang.org/grpc v1.72.0
+	google.golang.org/genproto v0.0.0-20250519155744-55703ea1f237
+	google.golang.org/genproto/googleapis/api v0.0.0-20250519155744-55703ea1f237
+	google.golang.org/grpc v1.72.1
 	google.golang.org/protobuf v1.36.6
 )
 
 require (
-	ariga.io/atlas v0.33.0 // indirect
+	ariga.io/atlas v0.33.1 // indirect
 	buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go v1.36.6-20250425153114-8976f5be98c1.1 // indirect
 	cel.dev/expr v0.24.0 // indirect
 	dario.cat/mergo v1.0.2 // indirect
@@ -76,7 +76,7 @@ require (
 	github.com/emicklei/go-restful/v3 v3.12.2 // indirect
 	github.com/fatih/color v1.18.0 // indirect
 	github.com/felixge/httpsnoop v1.0.4 // indirect
-	github.com/fluent/fluent-logger-golang v1.9.0 // indirect
+	github.com/fluent/fluent-logger-golang v1.10.0 // indirect
 	github.com/fsnotify/fsnotify v1.9.0 // indirect
 	github.com/fxamacker/cbor/v2 v2.8.0 // indirect
 	github.com/go-chassis/cari v0.9.0 // indirect
@@ -196,7 +196,7 @@ require (
 	github.com/subosito/gotenv v1.6.0 // indirect
 	github.com/swaggest/swgui v1.8.4 // indirect
 	github.com/tencentcloud/tencentcloud-cls-sdk-go v1.0.11 // indirect
-	github.com/tinylib/msgp v1.2.5 // indirect
+	github.com/tinylib/msgp v1.3.0 // indirect
 	github.com/tklauser/go-sysconf v0.3.15 // indirect
 	github.com/tklauser/numcpus v0.10.0 // indirect
 	github.com/tx7do/kratos-bootstrap/config v0.0.9 // indirect
@@ -207,11 +207,11 @@ require (
 	github.com/vearutop/statigz v1.5.0 // indirect
 	github.com/x448/float16 v0.8.4 // indirect
 	github.com/yusufpapurcu/wmi v1.2.4 // indirect
-	github.com/zclconf/go-cty v1.16.2 // indirect
+	github.com/zclconf/go-cty v1.16.3 // indirect
 	github.com/zclconf/go-cty-yaml v1.1.0 // indirect
-	go.etcd.io/etcd/api/v3 v3.5.21 // indirect
-	go.etcd.io/etcd/client/pkg/v3 v3.5.21 // indirect
-	go.etcd.io/etcd/client/v3 v3.5.21 // indirect
+	go.etcd.io/etcd/api/v3 v3.6.0 // indirect
+	go.etcd.io/etcd/client/pkg/v3 v3.6.0 // indirect
+	go.etcd.io/etcd/client/v3 v3.6.0 // indirect
 	go.opentelemetry.io/auto/sdk v1.1.0 // indirect
 	go.opentelemetry.io/otel v1.35.0 // indirect
 	go.opentelemetry.io/otel/exporters/otlp/otlptrace v1.35.0 // indirect
@@ -237,16 +237,16 @@ require (
 	golang.org/x/text v0.25.0 // indirect
 	golang.org/x/time v0.11.0 // indirect
 	golang.org/x/tools v0.33.0 // indirect
-	google.golang.org/genproto/googleapis/rpc v0.0.0-20250512202823-5a2f75b736a9 // indirect
+	google.golang.org/genproto/googleapis/rpc v0.0.0-20250519155744-55703ea1f237 // indirect
 	gopkg.in/cenkalti/backoff.v1 v1.1.0 // indirect
 	gopkg.in/evanphx/json-patch.v4 v4.12.0 // indirect
 	gopkg.in/inf.v0 v0.9.1 // indirect
 	gopkg.in/ini.v1 v1.67.0 // indirect
 	gopkg.in/natefinch/lumberjack.v2 v2.2.1 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
-	k8s.io/api v0.33.0 // indirect
-	k8s.io/apimachinery v0.33.0 // indirect
-	k8s.io/client-go v0.33.0 // indirect
+	k8s.io/api v0.33.1 // indirect
+	k8s.io/apimachinery v0.33.1 // indirect
+	k8s.io/client-go v0.33.1 // indirect
 	k8s.io/klog/v2 v2.130.1 // indirect
 	k8s.io/kube-openapi v0.0.0-20250318190949-c8a335a9a2ff // indirect
 	k8s.io/utils v0.0.0-20250502105355-0f33e8f1c979 // indirect

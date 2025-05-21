@@ -41,7 +41,13 @@ func (NotificationMessageRecipient) Fields() []ent.Field {
 
 		field.Enum("status").
 			Comment("消息状态").
-			Values("Received", "Read", "Archived", "Unknown", "Deleted").
+			NamedValues(
+				"Unknown", "UNKNOWN",
+				"Received", "RECEIVED",
+				"Read", "READ",
+				"Archived", "ARCHIVED",
+				"Deleted", "DELETED",
+			).
 			Optional().
 			Nillable(),
 	}

@@ -37,66 +37,75 @@ func NewUserRepo(data *Data, logger log.Logger) *UserRepo {
 	}
 }
 
-func (r *UserRepo) toEntAuthority(authority *userV1.UserAuthority) *user.Authority {
-	if authority == nil {
+func (r *UserRepo) toEntAuthority(in *userV1.UserAuthority) *user.Authority {
+	if in == nil {
 		return nil
 	}
-	find, ok := userV1.UserAuthority_name[int32(*authority)]
+
+	find, ok := userV1.UserAuthority_name[int32(*in)]
 	if !ok {
 		return nil
 	}
+
 	return (*user.Authority)(trans.Ptr(find))
 }
 
-func (r *UserRepo) toProtoAuthority(authority *user.Authority) *userV1.UserAuthority {
-	if authority == nil {
+func (r *UserRepo) toProtoAuthority(in *user.Authority) *userV1.UserAuthority {
+	if in == nil {
 		return nil
 	}
-	find, ok := userV1.UserAuthority_value[string(*authority)]
+
+	find, ok := userV1.UserAuthority_value[string(*in)]
 	if !ok {
 		return nil
 	}
+
 	return (*userV1.UserAuthority)(trans.Ptr(find))
 }
 
-func (r *UserRepo) toEntGender(gender *userV1.UserGender) *user.Gender {
-	if gender == nil {
+func (r *UserRepo) toEntGender(in *userV1.UserGender) *user.Gender {
+	if in == nil {
 		return nil
 	}
-	find, ok := userV1.UserGender_name[int32(*gender)]
+
+	find, ok := userV1.UserGender_name[int32(*in)]
 	if !ok {
 		return nil
 	}
 	return (*user.Gender)(trans.Ptr(find))
 }
 
-func (r *UserRepo) toProtoGender(gender *user.Gender) *userV1.UserGender {
-	if gender == nil {
+func (r *UserRepo) toProtoGender(in *user.Gender) *userV1.UserGender {
+	if in == nil {
 		return nil
 	}
-	find, ok := userV1.UserGender_value[string(*gender)]
+
+	find, ok := userV1.UserGender_value[string(*in)]
 	if !ok {
 		return nil
 	}
 	return (*userV1.UserGender)(trans.Ptr(find))
 }
 
-func (r *UserRepo) toEntStatus(status *userV1.UserStatus) *user.Status {
-	if status == nil {
+func (r *UserRepo) toEntStatus(in *userV1.UserStatus) *user.Status {
+	if in == nil {
 		return nil
 	}
-	find, ok := userV1.UserStatus_name[int32(*status)]
+
+	find, ok := userV1.UserStatus_name[int32(*in)]
 	if !ok {
 		return nil
 	}
+
 	return (*user.Status)(trans.Ptr(find))
 }
 
-func (r *UserRepo) toProtoStatus(status *user.Status) *userV1.UserStatus {
-	if status == nil {
+func (r *UserRepo) toProtoStatus(in *user.Status) *userV1.UserStatus {
+	if in == nil {
 		return nil
 	}
-	find, ok := userV1.UserStatus_value[string(*status)]
+
+	find, ok := userV1.UserStatus_value[string(*in)]
 	if !ok {
 		return nil
 	}

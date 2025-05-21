@@ -38,31 +38,12 @@ func (r *NotificationMessageRepo) toProtoStatus(in *notificationmessage.Status) 
 		return nil
 	}
 
-	switch *in {
-	case notificationmessage.StatusUnknown:
-		return trans.Ptr(internalMessageV1.NotificationMessageStatus_NotificationMessageStatus_Unknown)
-
-	case notificationmessage.StatusDraft:
-		return trans.Ptr(internalMessageV1.NotificationMessageStatus_NotificationMessageStatus_Draft)
-
-	case notificationmessage.StatusPublished:
-		return trans.Ptr(internalMessageV1.NotificationMessageStatus_NotificationMessageStatus_Published)
-
-	case notificationmessage.StatusScheduled:
-		return trans.Ptr(internalMessageV1.NotificationMessageStatus_NotificationMessageStatus_Scheduled)
-
-	case notificationmessage.StatusRevoked:
-		return trans.Ptr(internalMessageV1.NotificationMessageStatus_NotificationMessageStatus_Revoked)
-
-	case notificationmessage.StatusArchived:
-		return trans.Ptr(internalMessageV1.NotificationMessageStatus_NotificationMessageStatus_Archived)
-
-	case notificationmessage.StatusDeleted:
-		return trans.Ptr(internalMessageV1.NotificationMessageStatus_NotificationMessageStatus_Deleted)
-
-	default:
+	find, ok := internalMessageV1.NotificationMessageStatus_value[string(*in)]
+	if !ok {
 		return nil
 	}
+
+	return (*internalMessageV1.NotificationMessageStatus)(trans.Ptr(find))
 }
 
 func (r *NotificationMessageRepo) toEntStatus(in *internalMessageV1.NotificationMessageStatus) *notificationmessage.Status {
@@ -70,31 +51,12 @@ func (r *NotificationMessageRepo) toEntStatus(in *internalMessageV1.Notification
 		return nil
 	}
 
-	switch *in {
-	case internalMessageV1.NotificationMessageStatus_NotificationMessageStatus_Unknown:
-		return trans.Ptr(notificationmessage.StatusUnknown)
-
-	case internalMessageV1.NotificationMessageStatus_NotificationMessageStatus_Draft:
-		return trans.Ptr(notificationmessage.StatusDraft)
-
-	case internalMessageV1.NotificationMessageStatus_NotificationMessageStatus_Published:
-		return trans.Ptr(notificationmessage.StatusPublished)
-
-	case internalMessageV1.NotificationMessageStatus_NotificationMessageStatus_Scheduled:
-		return trans.Ptr(notificationmessage.StatusScheduled)
-
-	case internalMessageV1.NotificationMessageStatus_NotificationMessageStatus_Revoked:
-		return trans.Ptr(notificationmessage.StatusRevoked)
-
-	case internalMessageV1.NotificationMessageStatus_NotificationMessageStatus_Archived:
-		return trans.Ptr(notificationmessage.StatusArchived)
-
-	case internalMessageV1.NotificationMessageStatus_NotificationMessageStatus_Deleted:
-		return trans.Ptr(notificationmessage.StatusDeleted)
-
-	default:
+	find, ok := internalMessageV1.NotificationMessageStatus_name[int32(*in)]
+	if !ok {
 		return nil
 	}
+
+	return (*notificationmessage.Status)(trans.Ptr(find))
 }
 
 func (r *NotificationMessageRepo) convertEntToProto(in *ent.NotificationMessage) *internalMessageV1.NotificationMessage {

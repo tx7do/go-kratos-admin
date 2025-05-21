@@ -38,43 +38,12 @@ func (r *FileRepo) toProtoProvider(in *file.Provider) *fileV1.OSSProvider {
 		return nil
 	}
 
-	switch *in {
-	case file.ProviderMinIO:
-		return trans.Ptr(fileV1.OSSProvider_MinIO)
-
-	case file.ProviderAliyun:
-		return trans.Ptr(fileV1.OSSProvider_Aliyun)
-
-	case file.ProviderAWS:
-		return trans.Ptr(fileV1.OSSProvider_AWS)
-
-	case file.ProviderAzure:
-		return trans.Ptr(fileV1.OSSProvider_Azure)
-
-	case file.ProviderBaidu:
-		return trans.Ptr(fileV1.OSSProvider_Baidu)
-
-	case file.ProviderQiniu:
-		return trans.Ptr(fileV1.OSSProvider_Qiniu)
-
-	case file.ProviderTencent:
-		return trans.Ptr(fileV1.OSSProvider_Tencent)
-
-	case file.ProviderGoogle:
-		return trans.Ptr(fileV1.OSSProvider_Google)
-
-	case file.ProviderHuawei:
-		return trans.Ptr(fileV1.OSSProvider_Huawei)
-
-	case file.ProviderQCloud:
-		return trans.Ptr(fileV1.OSSProvider_QCloud)
-
-	case file.ProviderLocal:
-		return trans.Ptr(fileV1.OSSProvider_Local)
-
-	default:
+	find, ok := fileV1.OSSProvider_value[string(*in)]
+	if !ok {
 		return nil
 	}
+
+	return (*fileV1.OSSProvider)(trans.Ptr(find))
 }
 
 func (r *FileRepo) toEntProvider(in *fileV1.OSSProvider) *file.Provider {
@@ -82,43 +51,12 @@ func (r *FileRepo) toEntProvider(in *fileV1.OSSProvider) *file.Provider {
 		return nil
 	}
 
-	switch *in {
-	case fileV1.OSSProvider_MinIO:
-		return trans.Ptr(file.ProviderMinIO)
-
-	case fileV1.OSSProvider_Aliyun:
-		return trans.Ptr(file.ProviderAliyun)
-
-	case fileV1.OSSProvider_AWS:
-		return trans.Ptr(file.ProviderAWS)
-
-	case fileV1.OSSProvider_Azure:
-		return trans.Ptr(file.ProviderAzure)
-
-	case fileV1.OSSProvider_Baidu:
-		return trans.Ptr(file.ProviderBaidu)
-
-	case fileV1.OSSProvider_Qiniu:
-		return trans.Ptr(file.ProviderQiniu)
-
-	case fileV1.OSSProvider_Tencent:
-		return trans.Ptr(file.ProviderTencent)
-
-	case fileV1.OSSProvider_Google:
-		return trans.Ptr(file.ProviderGoogle)
-
-	case fileV1.OSSProvider_Huawei:
-		return trans.Ptr(file.ProviderHuawei)
-
-	case fileV1.OSSProvider_QCloud:
-		return trans.Ptr(file.ProviderQCloud)
-
-	case fileV1.OSSProvider_Local:
-		return trans.Ptr(file.ProviderLocal)
-
-	default:
+	find, ok := fileV1.OSSProvider_name[int32(*in)]
+	if !ok {
 		return nil
 	}
+
+	return (*file.Provider)(trans.Ptr(find))
 }
 
 func (r *FileRepo) convertEntToProto(in *ent.File) *fileV1.File {

@@ -46,7 +46,15 @@ func (NotificationMessage) Fields() []ent.Field {
 
 		field.Enum("status").
 			Comment("消息状态").
-			Values("Draft", "Published", "Scheduled", "Revoked", "Archived", "Unknown", "Deleted").
+			NamedValues(
+				"Unknown", "UNKNOWN",
+				"Draft", "DRAFT",
+				"Published", "PUBLISHED",
+				"Scheduled", "SCHEDULED",
+				"Revoked", "REVOKED",
+				"Archived", "ARCHIVED",
+				"Deleted", "DELETED",
+			).
 			Optional().
 			Nillable(),
 	}

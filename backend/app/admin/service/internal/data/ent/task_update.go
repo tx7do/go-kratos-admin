@@ -6,6 +6,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	servicev1 "kratos-admin/api/gen/go/system/service/v1"
 	"kratos-admin/app/admin/service/internal/data/ent/predicate"
 	"kratos-admin/app/admin/service/internal/data/ent/task"
 	"time"
@@ -183,6 +184,26 @@ func (tu *TaskUpdate) ClearTypeName() *TaskUpdate {
 	return tu
 }
 
+// SetTaskID sets the "task_id" field.
+func (tu *TaskUpdate) SetTaskID(s string) *TaskUpdate {
+	tu.mutation.SetTaskID(s)
+	return tu
+}
+
+// SetNillableTaskID sets the "task_id" field if the given value is not nil.
+func (tu *TaskUpdate) SetNillableTaskID(s *string) *TaskUpdate {
+	if s != nil {
+		tu.SetTaskID(*s)
+	}
+	return tu
+}
+
+// ClearTaskID clears the value of the "task_id" field.
+func (tu *TaskUpdate) ClearTaskID() *TaskUpdate {
+	tu.mutation.ClearTaskID()
+	return tu
+}
+
 // SetTaskPayload sets the "task_payload" field.
 func (tu *TaskUpdate) SetTaskPayload(s string) *TaskUpdate {
 	tu.mutation.SetTaskPayload(s)
@@ -223,124 +244,15 @@ func (tu *TaskUpdate) ClearCronSpec() *TaskUpdate {
 	return tu
 }
 
-// SetRetryCount sets the "retry_count" field.
-func (tu *TaskUpdate) SetRetryCount(u uint32) *TaskUpdate {
-	tu.mutation.ResetRetryCount()
-	tu.mutation.SetRetryCount(u)
+// SetTaskOptions sets the "task_options" field.
+func (tu *TaskUpdate) SetTaskOptions(so *servicev1.TaskOption) *TaskUpdate {
+	tu.mutation.SetTaskOptions(so)
 	return tu
 }
 
-// SetNillableRetryCount sets the "retry_count" field if the given value is not nil.
-func (tu *TaskUpdate) SetNillableRetryCount(u *uint32) *TaskUpdate {
-	if u != nil {
-		tu.SetRetryCount(*u)
-	}
-	return tu
-}
-
-// AddRetryCount adds u to the "retry_count" field.
-func (tu *TaskUpdate) AddRetryCount(u int32) *TaskUpdate {
-	tu.mutation.AddRetryCount(u)
-	return tu
-}
-
-// ClearRetryCount clears the value of the "retry_count" field.
-func (tu *TaskUpdate) ClearRetryCount() *TaskUpdate {
-	tu.mutation.ClearRetryCount()
-	return tu
-}
-
-// SetTimeout sets the "timeout" field.
-func (tu *TaskUpdate) SetTimeout(u uint64) *TaskUpdate {
-	tu.mutation.ResetTimeout()
-	tu.mutation.SetTimeout(u)
-	return tu
-}
-
-// SetNillableTimeout sets the "timeout" field if the given value is not nil.
-func (tu *TaskUpdate) SetNillableTimeout(u *uint64) *TaskUpdate {
-	if u != nil {
-		tu.SetTimeout(*u)
-	}
-	return tu
-}
-
-// AddTimeout adds u to the "timeout" field.
-func (tu *TaskUpdate) AddTimeout(u int64) *TaskUpdate {
-	tu.mutation.AddTimeout(u)
-	return tu
-}
-
-// ClearTimeout clears the value of the "timeout" field.
-func (tu *TaskUpdate) ClearTimeout() *TaskUpdate {
-	tu.mutation.ClearTimeout()
-	return tu
-}
-
-// SetDeadline sets the "deadline" field.
-func (tu *TaskUpdate) SetDeadline(t time.Time) *TaskUpdate {
-	tu.mutation.SetDeadline(t)
-	return tu
-}
-
-// SetNillableDeadline sets the "deadline" field if the given value is not nil.
-func (tu *TaskUpdate) SetNillableDeadline(t *time.Time) *TaskUpdate {
-	if t != nil {
-		tu.SetDeadline(*t)
-	}
-	return tu
-}
-
-// ClearDeadline clears the value of the "deadline" field.
-func (tu *TaskUpdate) ClearDeadline() *TaskUpdate {
-	tu.mutation.ClearDeadline()
-	return tu
-}
-
-// SetProcessIn sets the "process_in" field.
-func (tu *TaskUpdate) SetProcessIn(u uint64) *TaskUpdate {
-	tu.mutation.ResetProcessIn()
-	tu.mutation.SetProcessIn(u)
-	return tu
-}
-
-// SetNillableProcessIn sets the "process_in" field if the given value is not nil.
-func (tu *TaskUpdate) SetNillableProcessIn(u *uint64) *TaskUpdate {
-	if u != nil {
-		tu.SetProcessIn(*u)
-	}
-	return tu
-}
-
-// AddProcessIn adds u to the "process_in" field.
-func (tu *TaskUpdate) AddProcessIn(u int64) *TaskUpdate {
-	tu.mutation.AddProcessIn(u)
-	return tu
-}
-
-// ClearProcessIn clears the value of the "process_in" field.
-func (tu *TaskUpdate) ClearProcessIn() *TaskUpdate {
-	tu.mutation.ClearProcessIn()
-	return tu
-}
-
-// SetProcessAt sets the "process_at" field.
-func (tu *TaskUpdate) SetProcessAt(t time.Time) *TaskUpdate {
-	tu.mutation.SetProcessAt(t)
-	return tu
-}
-
-// SetNillableProcessAt sets the "process_at" field if the given value is not nil.
-func (tu *TaskUpdate) SetNillableProcessAt(t *time.Time) *TaskUpdate {
-	if t != nil {
-		tu.SetProcessAt(*t)
-	}
-	return tu
-}
-
-// ClearProcessAt clears the value of the "process_at" field.
-func (tu *TaskUpdate) ClearProcessAt() *TaskUpdate {
-	tu.mutation.ClearProcessAt()
+// ClearTaskOptions clears the value of the "task_options" field.
+func (tu *TaskUpdate) ClearTaskOptions() *TaskUpdate {
+	tu.mutation.ClearTaskOptions()
 	return tu
 }
 
@@ -401,6 +313,11 @@ func (tu *TaskUpdate) check() error {
 	if v, ok := tu.mutation.GetType(); ok {
 		if err := task.TypeValidator(v); err != nil {
 			return &ValidationError{Name: "type", err: fmt.Errorf(`ent: validator failed for field "Task.type": %w`, err)}
+		}
+	}
+	if v, ok := tu.mutation.TaskOptions(); ok {
+		if err := v.Validate(); err != nil {
+			return &ValidationError{Name: "task_options", err: fmt.Errorf(`ent: validator failed for field "Task.task_options": %w`, err)}
 		}
 	}
 	return nil
@@ -478,6 +395,12 @@ func (tu *TaskUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	if tu.mutation.TypeNameCleared() {
 		_spec.ClearField(task.FieldTypeName, field.TypeString)
 	}
+	if value, ok := tu.mutation.TaskID(); ok {
+		_spec.SetField(task.FieldTaskID, field.TypeString, value)
+	}
+	if tu.mutation.TaskIDCleared() {
+		_spec.ClearField(task.FieldTaskID, field.TypeString)
+	}
 	if value, ok := tu.mutation.TaskPayload(); ok {
 		_spec.SetField(task.FieldTaskPayload, field.TypeString, value)
 	}
@@ -490,44 +413,11 @@ func (tu *TaskUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	if tu.mutation.CronSpecCleared() {
 		_spec.ClearField(task.FieldCronSpec, field.TypeString)
 	}
-	if value, ok := tu.mutation.RetryCount(); ok {
-		_spec.SetField(task.FieldRetryCount, field.TypeUint32, value)
+	if value, ok := tu.mutation.TaskOptions(); ok {
+		_spec.SetField(task.FieldTaskOptions, field.TypeJSON, value)
 	}
-	if value, ok := tu.mutation.AddedRetryCount(); ok {
-		_spec.AddField(task.FieldRetryCount, field.TypeUint32, value)
-	}
-	if tu.mutation.RetryCountCleared() {
-		_spec.ClearField(task.FieldRetryCount, field.TypeUint32)
-	}
-	if value, ok := tu.mutation.Timeout(); ok {
-		_spec.SetField(task.FieldTimeout, field.TypeUint64, value)
-	}
-	if value, ok := tu.mutation.AddedTimeout(); ok {
-		_spec.AddField(task.FieldTimeout, field.TypeUint64, value)
-	}
-	if tu.mutation.TimeoutCleared() {
-		_spec.ClearField(task.FieldTimeout, field.TypeUint64)
-	}
-	if value, ok := tu.mutation.Deadline(); ok {
-		_spec.SetField(task.FieldDeadline, field.TypeTime, value)
-	}
-	if tu.mutation.DeadlineCleared() {
-		_spec.ClearField(task.FieldDeadline, field.TypeTime)
-	}
-	if value, ok := tu.mutation.ProcessIn(); ok {
-		_spec.SetField(task.FieldProcessIn, field.TypeUint64, value)
-	}
-	if value, ok := tu.mutation.AddedProcessIn(); ok {
-		_spec.AddField(task.FieldProcessIn, field.TypeUint64, value)
-	}
-	if tu.mutation.ProcessInCleared() {
-		_spec.ClearField(task.FieldProcessIn, field.TypeUint64)
-	}
-	if value, ok := tu.mutation.ProcessAt(); ok {
-		_spec.SetField(task.FieldProcessAt, field.TypeTime, value)
-	}
-	if tu.mutation.ProcessAtCleared() {
-		_spec.ClearField(task.FieldProcessAt, field.TypeTime)
+	if tu.mutation.TaskOptionsCleared() {
+		_spec.ClearField(task.FieldTaskOptions, field.TypeJSON)
 	}
 	if value, ok := tu.mutation.Enable(); ok {
 		_spec.SetField(task.FieldEnable, field.TypeBool, value)
@@ -711,6 +601,26 @@ func (tuo *TaskUpdateOne) ClearTypeName() *TaskUpdateOne {
 	return tuo
 }
 
+// SetTaskID sets the "task_id" field.
+func (tuo *TaskUpdateOne) SetTaskID(s string) *TaskUpdateOne {
+	tuo.mutation.SetTaskID(s)
+	return tuo
+}
+
+// SetNillableTaskID sets the "task_id" field if the given value is not nil.
+func (tuo *TaskUpdateOne) SetNillableTaskID(s *string) *TaskUpdateOne {
+	if s != nil {
+		tuo.SetTaskID(*s)
+	}
+	return tuo
+}
+
+// ClearTaskID clears the value of the "task_id" field.
+func (tuo *TaskUpdateOne) ClearTaskID() *TaskUpdateOne {
+	tuo.mutation.ClearTaskID()
+	return tuo
+}
+
 // SetTaskPayload sets the "task_payload" field.
 func (tuo *TaskUpdateOne) SetTaskPayload(s string) *TaskUpdateOne {
 	tuo.mutation.SetTaskPayload(s)
@@ -751,124 +661,15 @@ func (tuo *TaskUpdateOne) ClearCronSpec() *TaskUpdateOne {
 	return tuo
 }
 
-// SetRetryCount sets the "retry_count" field.
-func (tuo *TaskUpdateOne) SetRetryCount(u uint32) *TaskUpdateOne {
-	tuo.mutation.ResetRetryCount()
-	tuo.mutation.SetRetryCount(u)
+// SetTaskOptions sets the "task_options" field.
+func (tuo *TaskUpdateOne) SetTaskOptions(so *servicev1.TaskOption) *TaskUpdateOne {
+	tuo.mutation.SetTaskOptions(so)
 	return tuo
 }
 
-// SetNillableRetryCount sets the "retry_count" field if the given value is not nil.
-func (tuo *TaskUpdateOne) SetNillableRetryCount(u *uint32) *TaskUpdateOne {
-	if u != nil {
-		tuo.SetRetryCount(*u)
-	}
-	return tuo
-}
-
-// AddRetryCount adds u to the "retry_count" field.
-func (tuo *TaskUpdateOne) AddRetryCount(u int32) *TaskUpdateOne {
-	tuo.mutation.AddRetryCount(u)
-	return tuo
-}
-
-// ClearRetryCount clears the value of the "retry_count" field.
-func (tuo *TaskUpdateOne) ClearRetryCount() *TaskUpdateOne {
-	tuo.mutation.ClearRetryCount()
-	return tuo
-}
-
-// SetTimeout sets the "timeout" field.
-func (tuo *TaskUpdateOne) SetTimeout(u uint64) *TaskUpdateOne {
-	tuo.mutation.ResetTimeout()
-	tuo.mutation.SetTimeout(u)
-	return tuo
-}
-
-// SetNillableTimeout sets the "timeout" field if the given value is not nil.
-func (tuo *TaskUpdateOne) SetNillableTimeout(u *uint64) *TaskUpdateOne {
-	if u != nil {
-		tuo.SetTimeout(*u)
-	}
-	return tuo
-}
-
-// AddTimeout adds u to the "timeout" field.
-func (tuo *TaskUpdateOne) AddTimeout(u int64) *TaskUpdateOne {
-	tuo.mutation.AddTimeout(u)
-	return tuo
-}
-
-// ClearTimeout clears the value of the "timeout" field.
-func (tuo *TaskUpdateOne) ClearTimeout() *TaskUpdateOne {
-	tuo.mutation.ClearTimeout()
-	return tuo
-}
-
-// SetDeadline sets the "deadline" field.
-func (tuo *TaskUpdateOne) SetDeadline(t time.Time) *TaskUpdateOne {
-	tuo.mutation.SetDeadline(t)
-	return tuo
-}
-
-// SetNillableDeadline sets the "deadline" field if the given value is not nil.
-func (tuo *TaskUpdateOne) SetNillableDeadline(t *time.Time) *TaskUpdateOne {
-	if t != nil {
-		tuo.SetDeadline(*t)
-	}
-	return tuo
-}
-
-// ClearDeadline clears the value of the "deadline" field.
-func (tuo *TaskUpdateOne) ClearDeadline() *TaskUpdateOne {
-	tuo.mutation.ClearDeadline()
-	return tuo
-}
-
-// SetProcessIn sets the "process_in" field.
-func (tuo *TaskUpdateOne) SetProcessIn(u uint64) *TaskUpdateOne {
-	tuo.mutation.ResetProcessIn()
-	tuo.mutation.SetProcessIn(u)
-	return tuo
-}
-
-// SetNillableProcessIn sets the "process_in" field if the given value is not nil.
-func (tuo *TaskUpdateOne) SetNillableProcessIn(u *uint64) *TaskUpdateOne {
-	if u != nil {
-		tuo.SetProcessIn(*u)
-	}
-	return tuo
-}
-
-// AddProcessIn adds u to the "process_in" field.
-func (tuo *TaskUpdateOne) AddProcessIn(u int64) *TaskUpdateOne {
-	tuo.mutation.AddProcessIn(u)
-	return tuo
-}
-
-// ClearProcessIn clears the value of the "process_in" field.
-func (tuo *TaskUpdateOne) ClearProcessIn() *TaskUpdateOne {
-	tuo.mutation.ClearProcessIn()
-	return tuo
-}
-
-// SetProcessAt sets the "process_at" field.
-func (tuo *TaskUpdateOne) SetProcessAt(t time.Time) *TaskUpdateOne {
-	tuo.mutation.SetProcessAt(t)
-	return tuo
-}
-
-// SetNillableProcessAt sets the "process_at" field if the given value is not nil.
-func (tuo *TaskUpdateOne) SetNillableProcessAt(t *time.Time) *TaskUpdateOne {
-	if t != nil {
-		tuo.SetProcessAt(*t)
-	}
-	return tuo
-}
-
-// ClearProcessAt clears the value of the "process_at" field.
-func (tuo *TaskUpdateOne) ClearProcessAt() *TaskUpdateOne {
-	tuo.mutation.ClearProcessAt()
+// ClearTaskOptions clears the value of the "task_options" field.
+func (tuo *TaskUpdateOne) ClearTaskOptions() *TaskUpdateOne {
+	tuo.mutation.ClearTaskOptions()
 	return tuo
 }
 
@@ -942,6 +743,11 @@ func (tuo *TaskUpdateOne) check() error {
 	if v, ok := tuo.mutation.GetType(); ok {
 		if err := task.TypeValidator(v); err != nil {
 			return &ValidationError{Name: "type", err: fmt.Errorf(`ent: validator failed for field "Task.type": %w`, err)}
+		}
+	}
+	if v, ok := tuo.mutation.TaskOptions(); ok {
+		if err := v.Validate(); err != nil {
+			return &ValidationError{Name: "task_options", err: fmt.Errorf(`ent: validator failed for field "Task.task_options": %w`, err)}
 		}
 	}
 	return nil
@@ -1036,6 +842,12 @@ func (tuo *TaskUpdateOne) sqlSave(ctx context.Context) (_node *Task, err error) 
 	if tuo.mutation.TypeNameCleared() {
 		_spec.ClearField(task.FieldTypeName, field.TypeString)
 	}
+	if value, ok := tuo.mutation.TaskID(); ok {
+		_spec.SetField(task.FieldTaskID, field.TypeString, value)
+	}
+	if tuo.mutation.TaskIDCleared() {
+		_spec.ClearField(task.FieldTaskID, field.TypeString)
+	}
 	if value, ok := tuo.mutation.TaskPayload(); ok {
 		_spec.SetField(task.FieldTaskPayload, field.TypeString, value)
 	}
@@ -1048,44 +860,11 @@ func (tuo *TaskUpdateOne) sqlSave(ctx context.Context) (_node *Task, err error) 
 	if tuo.mutation.CronSpecCleared() {
 		_spec.ClearField(task.FieldCronSpec, field.TypeString)
 	}
-	if value, ok := tuo.mutation.RetryCount(); ok {
-		_spec.SetField(task.FieldRetryCount, field.TypeUint32, value)
+	if value, ok := tuo.mutation.TaskOptions(); ok {
+		_spec.SetField(task.FieldTaskOptions, field.TypeJSON, value)
 	}
-	if value, ok := tuo.mutation.AddedRetryCount(); ok {
-		_spec.AddField(task.FieldRetryCount, field.TypeUint32, value)
-	}
-	if tuo.mutation.RetryCountCleared() {
-		_spec.ClearField(task.FieldRetryCount, field.TypeUint32)
-	}
-	if value, ok := tuo.mutation.Timeout(); ok {
-		_spec.SetField(task.FieldTimeout, field.TypeUint64, value)
-	}
-	if value, ok := tuo.mutation.AddedTimeout(); ok {
-		_spec.AddField(task.FieldTimeout, field.TypeUint64, value)
-	}
-	if tuo.mutation.TimeoutCleared() {
-		_spec.ClearField(task.FieldTimeout, field.TypeUint64)
-	}
-	if value, ok := tuo.mutation.Deadline(); ok {
-		_spec.SetField(task.FieldDeadline, field.TypeTime, value)
-	}
-	if tuo.mutation.DeadlineCleared() {
-		_spec.ClearField(task.FieldDeadline, field.TypeTime)
-	}
-	if value, ok := tuo.mutation.ProcessIn(); ok {
-		_spec.SetField(task.FieldProcessIn, field.TypeUint64, value)
-	}
-	if value, ok := tuo.mutation.AddedProcessIn(); ok {
-		_spec.AddField(task.FieldProcessIn, field.TypeUint64, value)
-	}
-	if tuo.mutation.ProcessInCleared() {
-		_spec.ClearField(task.FieldProcessIn, field.TypeUint64)
-	}
-	if value, ok := tuo.mutation.ProcessAt(); ok {
-		_spec.SetField(task.FieldProcessAt, field.TypeTime, value)
-	}
-	if tuo.mutation.ProcessAtCleared() {
-		_spec.ClearField(task.FieldProcessAt, field.TypeTime)
+	if tuo.mutation.TaskOptionsCleared() {
+		_spec.ClearField(task.FieldTaskOptions, field.TypeJSON)
 	}
 	if value, ok := tuo.mutation.Enable(); ok {
 		_spec.SetField(task.FieldEnable, field.TypeBool, value)

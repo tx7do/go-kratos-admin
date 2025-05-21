@@ -51,9 +51,9 @@ enum VerifyPasswordResult {
 
 // 用户权限
 enum UserAuthority {
-  GUEST_USER = 0;  // 游客
+  GUEST = 0;  // 游客
   CUSTOMER_USER = 1;  // 普通用户
-  TENANT_ADMIN = 2;  // 租户管理员
+  TENANT_ADMIN = 2;  // 租户管理
   SYS_ADMIN = 3;  // 系统管理员
 }
 

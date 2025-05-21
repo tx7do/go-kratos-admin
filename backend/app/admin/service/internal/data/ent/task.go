@@ -3,7 +3,9 @@
 package ent
 
 import (
+	"encoding/json"
 	"fmt"
+	servicev1 "kratos-admin/api/gen/go/system/service/v1"
 	"kratos-admin/app/admin/service/internal/data/ent/task"
 	"strings"
 	"time"
@@ -36,20 +38,14 @@ type Task struct {
 	Type *task.Type `json:"type,omitempty"`
 	// 任务执行类型名
 	TypeName *string `json:"type_name,omitempty"`
-	// 任务的参数，以 JSON 格式存储，方便存储不同类型和数量的参数
+	// 任务ID
+	TaskID *string `json:"task_id,omitempty"`
+	// 任务数据
 	TaskPayload *string `json:"task_payload,omitempty"`
-	// cron表达式，用于定义任务的调度时间
+	// cron表达式
 	CronSpec *string `json:"cron_spec,omitempty"`
-	// 任务最多可以重试的次数
-	RetryCount *uint32 `json:"retry_count,omitempty"`
-	// 任务超时时间
-	Timeout *uint64 `json:"timeout,omitempty"`
-	// 任务超时时间
-	Deadline *time.Time `json:"deadline,omitempty"`
-	// 任务延迟处理时间
-	ProcessIn *uint64 `json:"process_in,omitempty"`
-	// 任务执行时间点
-	ProcessAt *time.Time `json:"process_at,omitempty"`
+	// 任务选项
+	TaskOptions *servicev1.TaskOption `json:"task_options,omitempty"`
 	// 启用/禁用任务
 	Enable       *bool `json:"enable,omitempty"`
 	selectValues sql.SelectValues
@@ -60,13 +56,15 @@ func (*Task) scanValues(columns []string) ([]any, error) {
 	values := make([]any, len(columns))
 	for i := range columns {
 		switch columns[i] {
+		case task.FieldTaskOptions:
+			values[i] = new([]byte)
 		case task.FieldEnable:
 			values[i] = new(sql.NullBool)
-		case task.FieldID, task.FieldCreateBy, task.FieldUpdateBy, task.FieldTenantID, task.FieldRetryCount, task.FieldTimeout, task.FieldProcessIn:
+		case task.FieldID, task.FieldCreateBy, task.FieldUpdateBy, task.FieldTenantID:
 			values[i] = new(sql.NullInt64)
-		case task.FieldRemark, task.FieldType, task.FieldTypeName, task.FieldTaskPayload, task.FieldCronSpec:
+		case task.FieldRemark, task.FieldType, task.FieldTypeName, task.FieldTaskID, task.FieldTaskPayload, task.FieldCronSpec:
 			values[i] = new(sql.NullString)
-		case task.FieldCreateTime, task.FieldUpdateTime, task.FieldDeleteTime, task.FieldDeadline, task.FieldProcessAt:
+		case task.FieldCreateTime, task.FieldUpdateTime, task.FieldDeleteTime:
 			values[i] = new(sql.NullTime)
 		default:
 			values[i] = new(sql.UnknownType)
@@ -152,6 +150,13 @@ func (t *Task) assignValues(columns []string, values []any) error {
 				t.TypeName = new(string)
 				*t.TypeName = value.String
 			}
+		case task.FieldTaskID:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field task_id", values[i])
+			} else if value.Valid {
+				t.TaskID = new(string)
+				*t.TaskID = value.String
+			}
 		case task.FieldTaskPayload:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field task_payload", values[i])
@@ -166,40 +171,13 @@ func (t *Task) assignValues(columns []string, values []any) error {
 				t.CronSpec = new(string)
 				*t.CronSpec = value.String
 			}
-		case task.FieldRetryCount:
-			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for field retry_count", values[i])
-			} else if value.Valid {
-				t.RetryCount = new(uint32)
-				*t.RetryCount = uint32(value.Int64)
-			}
-		case task.FieldTimeout:
-			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for field timeout", values[i])
-			} else if value.Valid {
-				t.Timeout = new(uint64)
-				*t.Timeout = uint64(value.Int64)
-			}
-		case task.FieldDeadline:
-			if value, ok := values[i].(*sql.NullTime); !ok {
-				return fmt.Errorf("unexpected type %T for field deadline", values[i])
-			} else if value.Valid {
-				t.Deadline = new(time.Time)
-				*t.Deadline = value.Time
-			}
-		case task.FieldProcessIn:
-			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for field process_in", values[i])
-			} else if value.Valid {
-				t.ProcessIn = new(uint64)
-				*t.ProcessIn = uint64(value.Int64)
-			}
-		case task.FieldProcessAt:
-			if value, ok := values[i].(*sql.NullTime); !ok {
-				return fmt.Errorf("unexpected type %T for field process_at", values[i])
-			} else if value.Valid {
-				t.ProcessAt = new(time.Time)
-				*t.ProcessAt = value.Time
+		case task.FieldTaskOptions:
+			if value, ok := values[i].(*[]byte); !ok {
+				return fmt.Errorf("unexpected type %T for field task_options", values[i])
+			} else if value != nil && len(*value) > 0 {
+				if err := json.Unmarshal(*value, &t.TaskOptions); err != nil {
+					return fmt.Errorf("unmarshal field task_options: %w", err)
+				}
 			}
 		case task.FieldEnable:
 			if value, ok := values[i].(*sql.NullBool); !ok {
@@ -289,6 +267,11 @@ func (t *Task) String() string {
 		builder.WriteString(*v)
 	}
 	builder.WriteString(", ")
+	if v := t.TaskID; v != nil {
+		builder.WriteString("task_id=")
+		builder.WriteString(*v)
+	}
+	builder.WriteString(", ")
 	if v := t.TaskPayload; v != nil {
 		builder.WriteString("task_payload=")
 		builder.WriteString(*v)
@@ -299,30 +282,8 @@ func (t *Task) String() string {
 		builder.WriteString(*v)
 	}
 	builder.WriteString(", ")
-	if v := t.RetryCount; v != nil {
-		builder.WriteString("retry_count=")
-		builder.WriteString(fmt.Sprintf("%v", *v))
-	}
-	builder.WriteString(", ")
-	if v := t.Timeout; v != nil {
-		builder.WriteString("timeout=")
-		builder.WriteString(fmt.Sprintf("%v", *v))
-	}
-	builder.WriteString(", ")
-	if v := t.Deadline; v != nil {
-		builder.WriteString("deadline=")
-		builder.WriteString(v.Format(time.ANSIC))
-	}
-	builder.WriteString(", ")
-	if v := t.ProcessIn; v != nil {
-		builder.WriteString("process_in=")
-		builder.WriteString(fmt.Sprintf("%v", *v))
-	}
-	builder.WriteString(", ")
-	if v := t.ProcessAt; v != nil {
-		builder.WriteString("process_at=")
-		builder.WriteString(v.Format(time.ANSIC))
-	}
+	builder.WriteString("task_options=")
+	builder.WriteString(fmt.Sprintf("%v", t.TaskOptions))
 	builder.WriteString(", ")
 	if v := t.Enable; v != nil {
 		builder.WriteString("enable=")

@@ -3826,32 +3826,17 @@ components:
                 typeName:
                     type: string
                     description: 任务执行类型名，例如 "send_email"、"generate_report" 等，用于区分不同类型的任务
+                taskId:
+                    type: string
+                    description: 任务ID，用于唯一标识一个任务
                 taskPayload:
                     type: string
-                    description: 任务的参数，以 JSON 格式存储，方便存储不同类型和数量的参数
+                    description: 任务数据，以 JSON 格式存储，方便存储不同类型和数量的参数
                 cronSpec:
                     type: string
                     description: cron表达式，用于定义任务的调度时间
-                retryCount:
-                    type: integer
-                    description: 任务最多可以重试的次数
-                    format: uint32
-                timeout:
-                    pattern: ^-?(?:0|[1-9][0-9]{0,11})(?:\.[0-9]{1,9})?s$
-                    type: string
-                    description: 任务超时时间
-                deadline:
-                    type: string
-                    description: 任务截止时间
-                    format: date-time
-                processIn:
-                    pattern: ^-?(?:0|[1-9][0-9]{0,11})(?:\.[0-9]{1,9})?s$
-                    type: string
-                    description: 任务延迟处理时间
-                processAt:
-                    type: string
-                    description: 任务执行时间点
-                    format: date-time
+                taskOptions:
+                    $ref: '#/components/schemas/TaskOption'
                 enable:
                     type: boolean
                     description: 启用/禁用任务
@@ -3876,6 +3861,30 @@ components:
                     type: string
                     description: 删除时间
             description: 调度任务
+        TaskOption:
+            type: object
+            properties:
+                retryCount:
+                    type: integer
+                    description: 任务最多可以重试的次数
+                    format: uint32
+                timeout:
+                    pattern: ^-?(?:0|[1-9][0-9]{0,11})(?:\.[0-9]{1,9})?s$
+                    type: string
+                    description: 任务超时时间
+                deadline:
+                    type: string
+                    description: 任务截止时间
+                    format: date-time
+                processIn:
+                    pattern: ^-?(?:0|[1-9][0-9]{0,11})(?:\.[0-9]{1,9})?s$
+                    type: string
+                    description: 任务延迟处理时间
+                processAt:
+                    type: string
+                    description: 任务执行时间点
+                    format: date-time
+            description: 任务选项
         Tenant:
             type: object
             properties:
@@ -4448,7 +4457,7 @@ components:
                     format: enum
                 authority:
                     enum:
-                        - GUEST_USER
+                        - GUEST
                         - CUSTOMER_USER
                         - TENANT_ADMIN
                         - SYS_ADMIN

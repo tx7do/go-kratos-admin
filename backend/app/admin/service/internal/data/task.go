@@ -38,19 +38,12 @@ func (r *TaskRepo) toEntType(in *systemV1.TaskType) *task.Type {
 		return nil
 	}
 
-	switch *in {
-	case systemV1.TaskType_TaskType_Periodic:
-		return trans.Ptr(task.TypePeriodic)
-
-	case systemV1.TaskType_TaskType_Delay:
-		return trans.Ptr(task.TypeDelay)
-
-	case systemV1.TaskType_TaskType_WaitResult:
-		return trans.Ptr(task.TypeWaitResult)
-
-	default:
+	find, ok := systemV1.TaskType_name[int32(*in)]
+	if !ok {
 		return nil
 	}
+
+	return (*task.Type)(trans.Ptr(find))
 }
 
 func (r *TaskRepo) toProtoType(in *task.Type) *systemV1.TaskType {
@@ -58,19 +51,12 @@ func (r *TaskRepo) toProtoType(in *task.Type) *systemV1.TaskType {
 		return nil
 	}
 
-	switch *in {
-	case task.TypePeriodic:
-		return trans.Ptr(systemV1.TaskType_TaskType_Periodic)
-
-	case task.TypeDelay:
-		return trans.Ptr(systemV1.TaskType_TaskType_Delay)
-
-	case task.TypeWaitResult:
-		return trans.Ptr(systemV1.TaskType_TaskType_WaitResult)
-
-	default:
+	find, ok := systemV1.TaskType_value[string(*in)]
+	if !ok {
 		return nil
 	}
+
+	return (*systemV1.TaskType)(trans.Ptr(find))
 }
 
 func (r *TaskRepo) convertEntToProto(in *ent.Task) *systemV1.Task {
@@ -83,12 +69,9 @@ func (r *TaskRepo) convertEntToProto(in *ent.Task) *systemV1.Task {
 		Type:        r.toProtoType(in.Type),
 		TypeName:    in.TypeName,
 		TaskPayload: in.TaskPayload,
+		TaskId:      in.TaskID,
+		TaskOptions: in.TaskOptions,
 		CronSpec:    in.CronSpec,
-		RetryCount:  in.RetryCount,
-		Timeout:     timeutil.NumberToDurationpb(in.Timeout, time.Second),
-		Deadline:    timeutil.TimeToTimestamppb(in.Deadline),
-		ProcessIn:   timeutil.NumberToDurationpb(in.ProcessIn, time.Second),
-		ProcessAt:   timeutil.TimeToTimestamppb(in.ProcessAt),
 		Enable:      in.Enable,
 		Remark:      in.Remark,
 		CreateBy:    in.CreateBy,
@@ -219,12 +202,8 @@ func (r *TaskRepo) Create(ctx context.Context, req *systemV1.CreateTaskRequest) 
 		SetNillableType(r.toEntType(req.Data.Type)).
 		SetNillableTypeName(req.Data.TypeName).
 		SetNillableTaskPayload(req.Data.TaskPayload).
+		SetNillableTaskID(req.Data.TaskId).
 		SetNillableCronSpec(req.Data.CronSpec).
-		SetNillableRetryCount(req.Data.RetryCount).
-		SetNillableTimeout(timeutil.DurationpbToNumber[uint64](req.Data.Timeout, time.Second)).
-		SetNillableDeadline(timeutil.TimestamppbToTime(req.Data.Deadline)).
-		SetNillableProcessIn(timeutil.DurationpbToNumber[uint64](req.Data.ProcessIn, time.Second)).
-		SetNillableProcessAt(timeutil.TimestamppbToTime(req.Data.ProcessAt)).
 		SetNillableEnable(req.Data.Enable).
 		SetNillableRemark(req.Data.Remark).
 		SetNillableCreateBy(req.Data.CreateBy).
@@ -232,6 +211,10 @@ func (r *TaskRepo) Create(ctx context.Context, req *systemV1.CreateTaskRequest) 
 
 	if req.Data.CreateTime == nil {
 		builder.SetCreateTime(time.Now())
+	}
+
+	if req.Data.TaskOptions != nil {
+		builder.SetTaskOptions(req.Data.TaskOptions)
 	}
 
 	if req.Data.Id != nil {
@@ -280,16 +263,16 @@ func (r *TaskRepo) Update(ctx context.Context, req *systemV1.UpdateTaskRequest) 
 		SetNillableType(r.toEntType(req.Data.Type)).
 		SetNillableTypeName(req.Data.TypeName).
 		SetNillableTaskPayload(req.Data.TaskPayload).
+		SetNillableTaskID(req.Data.TaskId).
 		SetNillableCronSpec(req.Data.CronSpec).
-		SetNillableRetryCount(req.Data.RetryCount).
-		SetNillableTimeout(timeutil.DurationpbToNumber[uint64](req.Data.Timeout, time.Second)).
-		SetNillableDeadline(timeutil.TimestamppbToTime(req.Data.Deadline)).
-		SetNillableProcessIn(timeutil.DurationpbToNumber[uint64](req.Data.ProcessIn, time.Second)).
-		SetNillableProcessAt(timeutil.TimestamppbToTime(req.Data.ProcessAt)).
 		SetNillableEnable(req.Data.Enable).
 		SetNillableRemark(req.Data.Remark).
 		SetNillableUpdateBy(req.Data.UpdateBy).
 		SetNillableUpdateTime(timeutil.StringTimeToTime(req.Data.UpdateTime))
+
+	if req.Data.TaskOptions != nil {
+		builder.SetTaskOptions(req.Data.TaskOptions)
+	}
 
 	if req.Data.UpdateTime == nil {
 		builder.SetUpdateTime(time.Now())

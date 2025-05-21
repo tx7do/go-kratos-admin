@@ -130,14 +130,14 @@ func StatusValidator(s Status) error {
 // Type defines the type for the "type" enum field.
 type Type string
 
-// TypeMENU is the default value of the Type enum.
-const DefaultType = TypeMENU
+// TypeMenu is the default value of the Type enum.
+const DefaultType = TypeMenu
 
 // Type values.
 const (
-	TypeFOLDER Type = "FOLDER"
-	TypeMENU   Type = "MENU"
-	TypeBUTTON Type = "BUTTON"
+	TypeFolder Type = "FOLDER"
+	TypeMenu   Type = "MENU"
+	TypeButton Type = "BUTTON"
 )
 
 func (_type Type) String() string {
@@ -147,7 +147,7 @@ func (_type Type) String() string {
 // TypeValidator is a validator for the "type" field enum values. It is called by the builders before save.
 func TypeValidator(_type Type) error {
 	switch _type {
-	case TypeFOLDER, TypeMENU, TypeBUTTON:
+	case TypeFolder, TypeMenu, TypeButton:
 		return nil
 	default:
 		return fmt.Errorf("menu: invalid enum value for type field: %q", _type)

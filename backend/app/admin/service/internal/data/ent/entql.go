@@ -422,13 +422,10 @@ var schemaGraph = func() *sqlgraph.Schema {
 			task.FieldTenantID:    {Type: field.TypeUint32, Column: task.FieldTenantID},
 			task.FieldType:        {Type: field.TypeEnum, Column: task.FieldType},
 			task.FieldTypeName:    {Type: field.TypeString, Column: task.FieldTypeName},
+			task.FieldTaskID:      {Type: field.TypeString, Column: task.FieldTaskID},
 			task.FieldTaskPayload: {Type: field.TypeString, Column: task.FieldTaskPayload},
 			task.FieldCronSpec:    {Type: field.TypeString, Column: task.FieldCronSpec},
-			task.FieldRetryCount:  {Type: field.TypeUint32, Column: task.FieldRetryCount},
-			task.FieldTimeout:     {Type: field.TypeUint64, Column: task.FieldTimeout},
-			task.FieldDeadline:    {Type: field.TypeTime, Column: task.FieldDeadline},
-			task.FieldProcessIn:   {Type: field.TypeUint64, Column: task.FieldProcessIn},
-			task.FieldProcessAt:   {Type: field.TypeTime, Column: task.FieldProcessAt},
+			task.FieldTaskOptions: {Type: field.TypeJSON, Column: task.FieldTaskOptions},
 			task.FieldEnable:      {Type: field.TypeBool, Column: task.FieldEnable},
 		},
 	}
@@ -2408,6 +2405,11 @@ func (f *TaskFilter) WhereTypeName(p entql.StringP) {
 	f.Where(p.Field(task.FieldTypeName))
 }
 
+// WhereTaskID applies the entql string predicate on the task_id field.
+func (f *TaskFilter) WhereTaskID(p entql.StringP) {
+	f.Where(p.Field(task.FieldTaskID))
+}
+
 // WhereTaskPayload applies the entql string predicate on the task_payload field.
 func (f *TaskFilter) WhereTaskPayload(p entql.StringP) {
 	f.Where(p.Field(task.FieldTaskPayload))
@@ -2418,29 +2420,9 @@ func (f *TaskFilter) WhereCronSpec(p entql.StringP) {
 	f.Where(p.Field(task.FieldCronSpec))
 }
 
-// WhereRetryCount applies the entql uint32 predicate on the retry_count field.
-func (f *TaskFilter) WhereRetryCount(p entql.Uint32P) {
-	f.Where(p.Field(task.FieldRetryCount))
-}
-
-// WhereTimeout applies the entql uint64 predicate on the timeout field.
-func (f *TaskFilter) WhereTimeout(p entql.Uint64P) {
-	f.Where(p.Field(task.FieldTimeout))
-}
-
-// WhereDeadline applies the entql time.Time predicate on the deadline field.
-func (f *TaskFilter) WhereDeadline(p entql.TimeP) {
-	f.Where(p.Field(task.FieldDeadline))
-}
-
-// WhereProcessIn applies the entql uint64 predicate on the process_in field.
-func (f *TaskFilter) WhereProcessIn(p entql.Uint64P) {
-	f.Where(p.Field(task.FieldProcessIn))
-}
-
-// WhereProcessAt applies the entql time.Time predicate on the process_at field.
-func (f *TaskFilter) WhereProcessAt(p entql.TimeP) {
-	f.Where(p.Field(task.FieldProcessAt))
+// WhereTaskOptions applies the entql json.RawMessage predicate on the task_options field.
+func (f *TaskFilter) WhereTaskOptions(p entql.BytesP) {
+	f.Where(p.Field(task.FieldTaskOptions))
 }
 
 // WhereEnable applies the entql bool predicate on the enable field.

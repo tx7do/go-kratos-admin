@@ -209,7 +209,7 @@ var (
 		{Name: "create_by", Type: field.TypeUint32, Nullable: true, Comment: "创建者ID"},
 		{Name: "remark", Type: field.TypeString, Nullable: true, Comment: "备注", Default: ""},
 		{Name: "tenant_id", Type: field.TypeUint32, Nullable: true, Comment: "租户ID"},
-		{Name: "provider", Type: field.TypeEnum, Nullable: true, Comment: "OSS供应商", Enums: []string{"MinIO", "Aliyun", "Qiniu", "Tencent", "AWS", "Google", "Azure", "Baidu", "Huawei", "QCloud", "Local", "Unknown"}},
+		{Name: "provider", Type: field.TypeEnum, Nullable: true, Comment: "OSS供应商", Enums: []string{"UNKNOWN", "MINIO", "ALIYUN", "QINIU", "TENCENT", "AWS", "GOOGLE", "AZURE", "BAIDU", "HUAWEI", "QCLOUD", "LOCAL"}},
 		{Name: "bucket_name", Type: field.TypeString, Nullable: true, Comment: "存储桶名称"},
 		{Name: "file_directory", Type: field.TypeString, Nullable: true, Comment: "文件目录"},
 		{Name: "file_guid", Type: field.TypeString, Nullable: true, Comment: "文件Guid"},
@@ -286,7 +286,7 @@ var (
 		{Name: "subject", Type: field.TypeString, Nullable: true, Comment: "主题"},
 		{Name: "content", Type: field.TypeString, Nullable: true, Comment: "内容"},
 		{Name: "category_id", Type: field.TypeUint32, Nullable: true, Comment: "分类ID"},
-		{Name: "status", Type: field.TypeEnum, Nullable: true, Comment: "消息状态", Enums: []string{"Draft", "Published", "Scheduled", "Revoked", "Archived", "Unknown", "Deleted"}},
+		{Name: "status", Type: field.TypeEnum, Nullable: true, Comment: "消息状态", Enums: []string{"UNKNOWN", "DRAFT", "PUBLISHED", "SCHEDULED", "REVOKED", "ARCHIVED", "DELETED"}},
 	}
 	// NotificationMessagesTable holds the schema information for the "notification_messages" table.
 	NotificationMessagesTable = &schema.Table{
@@ -359,7 +359,7 @@ var (
 		{Name: "tenant_id", Type: field.TypeUint32, Nullable: true, Comment: "租户ID"},
 		{Name: "message_id", Type: field.TypeUint32, Nullable: true, Comment: "群发消息ID"},
 		{Name: "recipient_id", Type: field.TypeUint32, Nullable: true, Comment: "接收者用户ID"},
-		{Name: "status", Type: field.TypeEnum, Nullable: true, Comment: "消息状态", Enums: []string{"Received", "Read", "Archived", "Unknown", "Deleted"}},
+		{Name: "status", Type: field.TypeEnum, Nullable: true, Comment: "消息状态", Enums: []string{"UNKNOWN", "RECEIVED", "READ", "ARCHIVED", "DELETED"}},
 	}
 	// NotificationMessageRecipientsTable holds the schema information for the "notification_message_recipients" table.
 	NotificationMessageRecipientsTable = &schema.Table{
@@ -474,7 +474,7 @@ var (
 		{Name: "tenant_id", Type: field.TypeUint32, Nullable: true, Comment: "租户ID"},
 		{Name: "subject", Type: field.TypeString, Nullable: true, Comment: "主题"},
 		{Name: "content", Type: field.TypeString, Nullable: true, Comment: "内容"},
-		{Name: "status", Type: field.TypeEnum, Nullable: true, Comment: "消息状态", Enums: []string{"Draft", "Sent", "Received", "Read", "Archived", "Unknown", "Deleted"}},
+		{Name: "status", Type: field.TypeEnum, Nullable: true, Comment: "消息状态", Enums: []string{"UNKNOWN", "DRAFT", "SENT", "RECEIVED", "READ", "ARCHIVED", "DELETED"}},
 		{Name: "sender_id", Type: field.TypeUint32, Nullable: true, Comment: "发送者用户ID"},
 		{Name: "receiver_id", Type: field.TypeUint32, Nullable: true, Comment: "接收者用户ID"},
 	}
@@ -551,15 +551,12 @@ var (
 		{Name: "update_by", Type: field.TypeUint32, Nullable: true, Comment: "更新者ID"},
 		{Name: "remark", Type: field.TypeString, Nullable: true, Comment: "备注", Default: ""},
 		{Name: "tenant_id", Type: field.TypeUint32, Nullable: true, Comment: "租户ID"},
-		{Name: "type", Type: field.TypeEnum, Nullable: true, Comment: "任务类型", Enums: []string{"Periodic", "Delay", "WaitResult"}},
+		{Name: "type", Type: field.TypeEnum, Nullable: true, Comment: "任务类型", Enums: []string{"PERIODIC", "DELAY", "WAIT_RESULT"}},
 		{Name: "type_name", Type: field.TypeString, Unique: true, Nullable: true, Comment: "任务执行类型名"},
-		{Name: "task_payload", Type: field.TypeString, Nullable: true, Comment: "任务的参数，以 JSON 格式存储，方便存储不同类型和数量的参数", SchemaType: map[string]string{"mysql": "json", "postgres": "jsonb"}},
-		{Name: "cron_spec", Type: field.TypeString, Nullable: true, Comment: "cron表达式，用于定义任务的调度时间"},
-		{Name: "retry_count", Type: field.TypeUint32, Nullable: true, Comment: "任务最多可以重试的次数"},
-		{Name: "timeout", Type: field.TypeUint64, Nullable: true, Comment: "任务超时时间"},
-		{Name: "deadline", Type: field.TypeTime, Nullable: true, Comment: "任务超时时间"},
-		{Name: "process_in", Type: field.TypeUint64, Nullable: true, Comment: "任务延迟处理时间"},
-		{Name: "process_at", Type: field.TypeTime, Nullable: true, Comment: "任务执行时间点"},
+		{Name: "task_id", Type: field.TypeString, Unique: true, Nullable: true, Comment: "任务ID"},
+		{Name: "task_payload", Type: field.TypeString, Nullable: true, Comment: "任务数据", SchemaType: map[string]string{"mysql": "json", "postgres": "jsonb"}},
+		{Name: "cron_spec", Type: field.TypeString, Nullable: true, Comment: "cron表达式"},
+		{Name: "task_options", Type: field.TypeJSON, Nullable: true, Comment: "任务选项"},
 		{Name: "enable", Type: field.TypeBool, Nullable: true, Comment: "启用/禁用任务"},
 	}
 	// TasksTable holds the schema information for the "tasks" table.
@@ -630,11 +627,11 @@ var (
 		{Name: "mobile", Type: field.TypeString, Nullable: true, Size: 255, Comment: "手机号码", Default: ""},
 		{Name: "telephone", Type: field.TypeString, Nullable: true, Size: 255, Comment: "座机号码", Default: ""},
 		{Name: "avatar", Type: field.TypeString, Nullable: true, Size: 1023, Comment: "头像"},
-		{Name: "gender", Type: field.TypeEnum, Nullable: true, Comment: "性别", Enums: []string{"UNKNOWN", "MALE", "FEMALE"}},
+		{Name: "gender", Type: field.TypeEnum, Nullable: true, Comment: "性别", Enums: []string{"SECRET", "MALE", "FEMALE"}},
 		{Name: "address", Type: field.TypeString, Nullable: true, Size: 2048, Comment: "地址", Default: ""},
 		{Name: "region", Type: field.TypeString, Nullable: true, Size: 255, Comment: "国家地区", Default: ""},
 		{Name: "description", Type: field.TypeString, Nullable: true, Size: 1023, Comment: "个人说明"},
-		{Name: "authority", Type: field.TypeEnum, Nullable: true, Comment: "授权", Enums: []string{"SYS_ADMIN", "SYS_MANAGER", "CUSTOMER_USER", "GUEST_USER", "REFRESH_TOKEN"}, Default: "CUSTOMER_USER"},
+		{Name: "authority", Type: field.TypeEnum, Nullable: true, Comment: "授权", Enums: []string{"SYS_ADMIN", "TENANT_ADMIN", "CUSTOMER_USER", "GUEST"}, Default: "CUSTOMER_USER"},
 		{Name: "last_login_time", Type: field.TypeInt64, Nullable: true, Comment: "最后一次登录的时间"},
 		{Name: "last_login_ip", Type: field.TypeString, Nullable: true, Size: 64, Comment: "最后一次登录的IP", Default: ""},
 		{Name: "role_id", Type: field.TypeUint32, Nullable: true, Comment: "角色ID"},

@@ -38,25 +38,12 @@ func (r *NotificationMessageRecipientRepo) toProtoStatus(in *notificationmessage
 		return nil
 	}
 
-	switch *in {
-	case notificationmessagerecipient.StatusUnknown:
-		return trans.Ptr(internalMessageV1.NotificationMessageRecipientStatus_NotificationMessageRecipientStatus_Unknown)
-
-	case notificationmessagerecipient.StatusReceived:
-		return trans.Ptr(internalMessageV1.NotificationMessageRecipientStatus_NotificationMessageRecipientStatus_Received)
-
-	case notificationmessagerecipient.StatusRead:
-		return trans.Ptr(internalMessageV1.NotificationMessageRecipientStatus_NotificationMessageRecipientStatus_Read)
-
-	case notificationmessagerecipient.StatusDeleted:
-		return trans.Ptr(internalMessageV1.NotificationMessageRecipientStatus_NotificationMessageRecipientStatus_Deleted)
-
-	case notificationmessagerecipient.StatusArchived:
-		return trans.Ptr(internalMessageV1.NotificationMessageRecipientStatus_NotificationMessageRecipientStatus_Archived)
-
-	default:
+	find, ok := internalMessageV1.NotificationMessageRecipientStatus_value[string(*in)]
+	if !ok {
 		return nil
 	}
+
+	return (*internalMessageV1.NotificationMessageRecipientStatus)(trans.Ptr(find))
 }
 
 func (r *NotificationMessageRecipientRepo) toEntStatus(in *internalMessageV1.NotificationMessageRecipientStatus) *notificationmessagerecipient.Status {
@@ -64,25 +51,12 @@ func (r *NotificationMessageRecipientRepo) toEntStatus(in *internalMessageV1.Not
 		return nil
 	}
 
-	switch *in {
-	case internalMessageV1.NotificationMessageRecipientStatus_NotificationMessageRecipientStatus_Unknown:
-		return trans.Ptr(notificationmessagerecipient.StatusUnknown)
-
-	case internalMessageV1.NotificationMessageRecipientStatus_NotificationMessageRecipientStatus_Received:
-		return trans.Ptr(notificationmessagerecipient.StatusReceived)
-
-	case internalMessageV1.NotificationMessageRecipientStatus_NotificationMessageRecipientStatus_Read:
-		return trans.Ptr(notificationmessagerecipient.StatusRead)
-
-	case internalMessageV1.NotificationMessageRecipientStatus_NotificationMessageRecipientStatus_Deleted:
-		return trans.Ptr(notificationmessagerecipient.StatusDeleted)
-
-	case internalMessageV1.NotificationMessageRecipientStatus_NotificationMessageRecipientStatus_Archived:
-		return trans.Ptr(notificationmessagerecipient.StatusArchived)
-
-	default:
+	find, ok := internalMessageV1.NotificationMessageRecipientStatus_name[int32(*in)]
+	if !ok {
 		return nil
 	}
+
+	return (*notificationmessagerecipient.Status)(trans.Ptr(find))
 }
 
 func (r *NotificationMessageRecipientRepo) convertEntToProto(in *ent.NotificationMessageRecipient) *internalMessageV1.NotificationMessageRecipient {

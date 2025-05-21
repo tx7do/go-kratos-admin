@@ -20261,36 +20261,30 @@ func (m *RoleMutation) ResetEdge(name string) error {
 // TaskMutation represents an operation that mutates the Task nodes in the graph.
 type TaskMutation struct {
 	config
-	op             Op
-	typ            string
-	id             *uint32
-	create_time    *time.Time
-	update_time    *time.Time
-	delete_time    *time.Time
-	create_by      *uint32
-	addcreate_by   *int32
-	update_by      *uint32
-	addupdate_by   *int32
-	remark         *string
-	tenant_id      *uint32
-	addtenant_id   *int32
-	_type          *task.Type
-	type_name      *string
-	task_payload   *string
-	cron_spec      *string
-	retry_count    *uint32
-	addretry_count *int32
-	timeout        *uint64
-	addtimeout     *int64
-	deadline       *time.Time
-	process_in     *uint64
-	addprocess_in  *int64
-	process_at     *time.Time
-	enable         *bool
-	clearedFields  map[string]struct{}
-	done           bool
-	oldValue       func(context.Context) (*Task, error)
-	predicates     []predicate.Task
+	op            Op
+	typ           string
+	id            *uint32
+	create_time   *time.Time
+	update_time   *time.Time
+	delete_time   *time.Time
+	create_by     *uint32
+	addcreate_by  *int32
+	update_by     *uint32
+	addupdate_by  *int32
+	remark        *string
+	tenant_id     *uint32
+	addtenant_id  *int32
+	_type         *task.Type
+	type_name     *string
+	task_id       *string
+	task_payload  *string
+	cron_spec     *string
+	task_options  **servicev1.TaskOption
+	enable        *bool
+	clearedFields map[string]struct{}
+	done          bool
+	oldValue      func(context.Context) (*Task, error)
+	predicates    []predicate.Task
 }
 
 var _ ent.Mutation = (*TaskMutation)(nil)
@@ -20901,6 +20895,55 @@ func (m *TaskMutation) ResetTypeName() {
 	delete(m.clearedFields, task.FieldTypeName)
 }
 
+// SetTaskID sets the "task_id" field.
+func (m *TaskMutation) SetTaskID(s string) {
+	m.task_id = &s
+}
+
+// TaskID returns the value of the "task_id" field in the mutation.
+func (m *TaskMutation) TaskID() (r string, exists bool) {
+	v := m.task_id
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldTaskID returns the old "task_id" field's value of the Task entity.
+// If the Task object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *TaskMutation) OldTaskID(ctx context.Context) (v *string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldTaskID is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldTaskID requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldTaskID: %w", err)
+	}
+	return oldValue.TaskID, nil
+}
+
+// ClearTaskID clears the value of the "task_id" field.
+func (m *TaskMutation) ClearTaskID() {
+	m.task_id = nil
+	m.clearedFields[task.FieldTaskID] = struct{}{}
+}
+
+// TaskIDCleared returns if the "task_id" field was cleared in this mutation.
+func (m *TaskMutation) TaskIDCleared() bool {
+	_, ok := m.clearedFields[task.FieldTaskID]
+	return ok
+}
+
+// ResetTaskID resets all changes to the "task_id" field.
+func (m *TaskMutation) ResetTaskID() {
+	m.task_id = nil
+	delete(m.clearedFields, task.FieldTaskID)
+}
+
 // SetTaskPayload sets the "task_payload" field.
 func (m *TaskMutation) SetTaskPayload(s string) {
 	m.task_payload = &s
@@ -20999,312 +21042,53 @@ func (m *TaskMutation) ResetCronSpec() {
 	delete(m.clearedFields, task.FieldCronSpec)
 }
 
-// SetRetryCount sets the "retry_count" field.
-func (m *TaskMutation) SetRetryCount(u uint32) {
-	m.retry_count = &u
-	m.addretry_count = nil
+// SetTaskOptions sets the "task_options" field.
+func (m *TaskMutation) SetTaskOptions(so *servicev1.TaskOption) {
+	m.task_options = &so
 }
 
-// RetryCount returns the value of the "retry_count" field in the mutation.
-func (m *TaskMutation) RetryCount() (r uint32, exists bool) {
-	v := m.retry_count
+// TaskOptions returns the value of the "task_options" field in the mutation.
+func (m *TaskMutation) TaskOptions() (r *servicev1.TaskOption, exists bool) {
+	v := m.task_options
 	if v == nil {
 		return
 	}
 	return *v, true
 }
 
-// OldRetryCount returns the old "retry_count" field's value of the Task entity.
+// OldTaskOptions returns the old "task_options" field's value of the Task entity.
 // If the Task object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *TaskMutation) OldRetryCount(ctx context.Context) (v *uint32, err error) {
+func (m *TaskMutation) OldTaskOptions(ctx context.Context) (v *servicev1.TaskOption, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldRetryCount is only allowed on UpdateOne operations")
+		return v, errors.New("OldTaskOptions is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldRetryCount requires an ID field in the mutation")
+		return v, errors.New("OldTaskOptions requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
-		return v, fmt.Errorf("querying old value for OldRetryCount: %w", err)
+		return v, fmt.Errorf("querying old value for OldTaskOptions: %w", err)
 	}
-	return oldValue.RetryCount, nil
+	return oldValue.TaskOptions, nil
 }
 
-// AddRetryCount adds u to the "retry_count" field.
-func (m *TaskMutation) AddRetryCount(u int32) {
-	if m.addretry_count != nil {
-		*m.addretry_count += u
-	} else {
-		m.addretry_count = &u
-	}
+// ClearTaskOptions clears the value of the "task_options" field.
+func (m *TaskMutation) ClearTaskOptions() {
+	m.task_options = nil
+	m.clearedFields[task.FieldTaskOptions] = struct{}{}
 }
 
-// AddedRetryCount returns the value that was added to the "retry_count" field in this mutation.
-func (m *TaskMutation) AddedRetryCount() (r int32, exists bool) {
-	v := m.addretry_count
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// ClearRetryCount clears the value of the "retry_count" field.
-func (m *TaskMutation) ClearRetryCount() {
-	m.retry_count = nil
-	m.addretry_count = nil
-	m.clearedFields[task.FieldRetryCount] = struct{}{}
-}
-
-// RetryCountCleared returns if the "retry_count" field was cleared in this mutation.
-func (m *TaskMutation) RetryCountCleared() bool {
-	_, ok := m.clearedFields[task.FieldRetryCount]
+// TaskOptionsCleared returns if the "task_options" field was cleared in this mutation.
+func (m *TaskMutation) TaskOptionsCleared() bool {
+	_, ok := m.clearedFields[task.FieldTaskOptions]
 	return ok
 }
 
-// ResetRetryCount resets all changes to the "retry_count" field.
-func (m *TaskMutation) ResetRetryCount() {
-	m.retry_count = nil
-	m.addretry_count = nil
-	delete(m.clearedFields, task.FieldRetryCount)
-}
-
-// SetTimeout sets the "timeout" field.
-func (m *TaskMutation) SetTimeout(u uint64) {
-	m.timeout = &u
-	m.addtimeout = nil
-}
-
-// Timeout returns the value of the "timeout" field in the mutation.
-func (m *TaskMutation) Timeout() (r uint64, exists bool) {
-	v := m.timeout
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldTimeout returns the old "timeout" field's value of the Task entity.
-// If the Task object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *TaskMutation) OldTimeout(ctx context.Context) (v *uint64, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldTimeout is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldTimeout requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldTimeout: %w", err)
-	}
-	return oldValue.Timeout, nil
-}
-
-// AddTimeout adds u to the "timeout" field.
-func (m *TaskMutation) AddTimeout(u int64) {
-	if m.addtimeout != nil {
-		*m.addtimeout += u
-	} else {
-		m.addtimeout = &u
-	}
-}
-
-// AddedTimeout returns the value that was added to the "timeout" field in this mutation.
-func (m *TaskMutation) AddedTimeout() (r int64, exists bool) {
-	v := m.addtimeout
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// ClearTimeout clears the value of the "timeout" field.
-func (m *TaskMutation) ClearTimeout() {
-	m.timeout = nil
-	m.addtimeout = nil
-	m.clearedFields[task.FieldTimeout] = struct{}{}
-}
-
-// TimeoutCleared returns if the "timeout" field was cleared in this mutation.
-func (m *TaskMutation) TimeoutCleared() bool {
-	_, ok := m.clearedFields[task.FieldTimeout]
-	return ok
-}
-
-// ResetTimeout resets all changes to the "timeout" field.
-func (m *TaskMutation) ResetTimeout() {
-	m.timeout = nil
-	m.addtimeout = nil
-	delete(m.clearedFields, task.FieldTimeout)
-}
-
-// SetDeadline sets the "deadline" field.
-func (m *TaskMutation) SetDeadline(t time.Time) {
-	m.deadline = &t
-}
-
-// Deadline returns the value of the "deadline" field in the mutation.
-func (m *TaskMutation) Deadline() (r time.Time, exists bool) {
-	v := m.deadline
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldDeadline returns the old "deadline" field's value of the Task entity.
-// If the Task object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *TaskMutation) OldDeadline(ctx context.Context) (v *time.Time, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldDeadline is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldDeadline requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldDeadline: %w", err)
-	}
-	return oldValue.Deadline, nil
-}
-
-// ClearDeadline clears the value of the "deadline" field.
-func (m *TaskMutation) ClearDeadline() {
-	m.deadline = nil
-	m.clearedFields[task.FieldDeadline] = struct{}{}
-}
-
-// DeadlineCleared returns if the "deadline" field was cleared in this mutation.
-func (m *TaskMutation) DeadlineCleared() bool {
-	_, ok := m.clearedFields[task.FieldDeadline]
-	return ok
-}
-
-// ResetDeadline resets all changes to the "deadline" field.
-func (m *TaskMutation) ResetDeadline() {
-	m.deadline = nil
-	delete(m.clearedFields, task.FieldDeadline)
-}
-
-// SetProcessIn sets the "process_in" field.
-func (m *TaskMutation) SetProcessIn(u uint64) {
-	m.process_in = &u
-	m.addprocess_in = nil
-}
-
-// ProcessIn returns the value of the "process_in" field in the mutation.
-func (m *TaskMutation) ProcessIn() (r uint64, exists bool) {
-	v := m.process_in
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldProcessIn returns the old "process_in" field's value of the Task entity.
-// If the Task object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *TaskMutation) OldProcessIn(ctx context.Context) (v *uint64, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldProcessIn is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldProcessIn requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldProcessIn: %w", err)
-	}
-	return oldValue.ProcessIn, nil
-}
-
-// AddProcessIn adds u to the "process_in" field.
-func (m *TaskMutation) AddProcessIn(u int64) {
-	if m.addprocess_in != nil {
-		*m.addprocess_in += u
-	} else {
-		m.addprocess_in = &u
-	}
-}
-
-// AddedProcessIn returns the value that was added to the "process_in" field in this mutation.
-func (m *TaskMutation) AddedProcessIn() (r int64, exists bool) {
-	v := m.addprocess_in
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// ClearProcessIn clears the value of the "process_in" field.
-func (m *TaskMutation) ClearProcessIn() {
-	m.process_in = nil
-	m.addprocess_in = nil
-	m.clearedFields[task.FieldProcessIn] = struct{}{}
-}
-
-// ProcessInCleared returns if the "process_in" field was cleared in this mutation.
-func (m *TaskMutation) ProcessInCleared() bool {
-	_, ok := m.clearedFields[task.FieldProcessIn]
-	return ok
-}
-
-// ResetProcessIn resets all changes to the "process_in" field.
-func (m *TaskMutation) ResetProcessIn() {
-	m.process_in = nil
-	m.addprocess_in = nil
-	delete(m.clearedFields, task.FieldProcessIn)
-}
-
-// SetProcessAt sets the "process_at" field.
-func (m *TaskMutation) SetProcessAt(t time.Time) {
-	m.process_at = &t
-}
-
-// ProcessAt returns the value of the "process_at" field in the mutation.
-func (m *TaskMutation) ProcessAt() (r time.Time, exists bool) {
-	v := m.process_at
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldProcessAt returns the old "process_at" field's value of the Task entity.
-// If the Task object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *TaskMutation) OldProcessAt(ctx context.Context) (v *time.Time, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldProcessAt is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldProcessAt requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldProcessAt: %w", err)
-	}
-	return oldValue.ProcessAt, nil
-}
-
-// ClearProcessAt clears the value of the "process_at" field.
-func (m *TaskMutation) ClearProcessAt() {
-	m.process_at = nil
-	m.clearedFields[task.FieldProcessAt] = struct{}{}
-}
-
-// ProcessAtCleared returns if the "process_at" field was cleared in this mutation.
-func (m *TaskMutation) ProcessAtCleared() bool {
-	_, ok := m.clearedFields[task.FieldProcessAt]
-	return ok
-}
-
-// ResetProcessAt resets all changes to the "process_at" field.
-func (m *TaskMutation) ResetProcessAt() {
-	m.process_at = nil
-	delete(m.clearedFields, task.FieldProcessAt)
+// ResetTaskOptions resets all changes to the "task_options" field.
+func (m *TaskMutation) ResetTaskOptions() {
+	m.task_options = nil
+	delete(m.clearedFields, task.FieldTaskOptions)
 }
 
 // SetEnable sets the "enable" field.
@@ -21390,7 +21174,7 @@ func (m *TaskMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *TaskMutation) Fields() []string {
-	fields := make([]string, 0, 17)
+	fields := make([]string, 0, 14)
 	if m.create_time != nil {
 		fields = append(fields, task.FieldCreateTime)
 	}
@@ -21418,26 +21202,17 @@ func (m *TaskMutation) Fields() []string {
 	if m.type_name != nil {
 		fields = append(fields, task.FieldTypeName)
 	}
+	if m.task_id != nil {
+		fields = append(fields, task.FieldTaskID)
+	}
 	if m.task_payload != nil {
 		fields = append(fields, task.FieldTaskPayload)
 	}
 	if m.cron_spec != nil {
 		fields = append(fields, task.FieldCronSpec)
 	}
-	if m.retry_count != nil {
-		fields = append(fields, task.FieldRetryCount)
-	}
-	if m.timeout != nil {
-		fields = append(fields, task.FieldTimeout)
-	}
-	if m.deadline != nil {
-		fields = append(fields, task.FieldDeadline)
-	}
-	if m.process_in != nil {
-		fields = append(fields, task.FieldProcessIn)
-	}
-	if m.process_at != nil {
-		fields = append(fields, task.FieldProcessAt)
+	if m.task_options != nil {
+		fields = append(fields, task.FieldTaskOptions)
 	}
 	if m.enable != nil {
 		fields = append(fields, task.FieldEnable)
@@ -21468,20 +21243,14 @@ func (m *TaskMutation) Field(name string) (ent.Value, bool) {
 		return m.GetType()
 	case task.FieldTypeName:
 		return m.TypeName()
+	case task.FieldTaskID:
+		return m.TaskID()
 	case task.FieldTaskPayload:
 		return m.TaskPayload()
 	case task.FieldCronSpec:
 		return m.CronSpec()
-	case task.FieldRetryCount:
-		return m.RetryCount()
-	case task.FieldTimeout:
-		return m.Timeout()
-	case task.FieldDeadline:
-		return m.Deadline()
-	case task.FieldProcessIn:
-		return m.ProcessIn()
-	case task.FieldProcessAt:
-		return m.ProcessAt()
+	case task.FieldTaskOptions:
+		return m.TaskOptions()
 	case task.FieldEnable:
 		return m.Enable()
 	}
@@ -21511,20 +21280,14 @@ func (m *TaskMutation) OldField(ctx context.Context, name string) (ent.Value, er
 		return m.OldType(ctx)
 	case task.FieldTypeName:
 		return m.OldTypeName(ctx)
+	case task.FieldTaskID:
+		return m.OldTaskID(ctx)
 	case task.FieldTaskPayload:
 		return m.OldTaskPayload(ctx)
 	case task.FieldCronSpec:
 		return m.OldCronSpec(ctx)
-	case task.FieldRetryCount:
-		return m.OldRetryCount(ctx)
-	case task.FieldTimeout:
-		return m.OldTimeout(ctx)
-	case task.FieldDeadline:
-		return m.OldDeadline(ctx)
-	case task.FieldProcessIn:
-		return m.OldProcessIn(ctx)
-	case task.FieldProcessAt:
-		return m.OldProcessAt(ctx)
+	case task.FieldTaskOptions:
+		return m.OldTaskOptions(ctx)
 	case task.FieldEnable:
 		return m.OldEnable(ctx)
 	}
@@ -21599,6 +21362,13 @@ func (m *TaskMutation) SetField(name string, value ent.Value) error {
 		}
 		m.SetTypeName(v)
 		return nil
+	case task.FieldTaskID:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetTaskID(v)
+		return nil
 	case task.FieldTaskPayload:
 		v, ok := value.(string)
 		if !ok {
@@ -21613,40 +21383,12 @@ func (m *TaskMutation) SetField(name string, value ent.Value) error {
 		}
 		m.SetCronSpec(v)
 		return nil
-	case task.FieldRetryCount:
-		v, ok := value.(uint32)
+	case task.FieldTaskOptions:
+		v, ok := value.(*servicev1.TaskOption)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
-		m.SetRetryCount(v)
-		return nil
-	case task.FieldTimeout:
-		v, ok := value.(uint64)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetTimeout(v)
-		return nil
-	case task.FieldDeadline:
-		v, ok := value.(time.Time)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetDeadline(v)
-		return nil
-	case task.FieldProcessIn:
-		v, ok := value.(uint64)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetProcessIn(v)
-		return nil
-	case task.FieldProcessAt:
-		v, ok := value.(time.Time)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetProcessAt(v)
+		m.SetTaskOptions(v)
 		return nil
 	case task.FieldEnable:
 		v, ok := value.(bool)
@@ -21672,15 +21414,6 @@ func (m *TaskMutation) AddedFields() []string {
 	if m.addtenant_id != nil {
 		fields = append(fields, task.FieldTenantID)
 	}
-	if m.addretry_count != nil {
-		fields = append(fields, task.FieldRetryCount)
-	}
-	if m.addtimeout != nil {
-		fields = append(fields, task.FieldTimeout)
-	}
-	if m.addprocess_in != nil {
-		fields = append(fields, task.FieldProcessIn)
-	}
 	return fields
 }
 
@@ -21695,12 +21428,6 @@ func (m *TaskMutation) AddedField(name string) (ent.Value, bool) {
 		return m.AddedUpdateBy()
 	case task.FieldTenantID:
 		return m.AddedTenantID()
-	case task.FieldRetryCount:
-		return m.AddedRetryCount()
-	case task.FieldTimeout:
-		return m.AddedTimeout()
-	case task.FieldProcessIn:
-		return m.AddedProcessIn()
 	}
 	return nil, false
 }
@@ -21730,27 +21457,6 @@ func (m *TaskMutation) AddField(name string, value ent.Value) error {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.AddTenantID(v)
-		return nil
-	case task.FieldRetryCount:
-		v, ok := value.(int32)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.AddRetryCount(v)
-		return nil
-	case task.FieldTimeout:
-		v, ok := value.(int64)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.AddTimeout(v)
-		return nil
-	case task.FieldProcessIn:
-		v, ok := value.(int64)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.AddProcessIn(v)
 		return nil
 	}
 	return fmt.Errorf("unknown Task numeric field %s", name)
@@ -21787,26 +21493,17 @@ func (m *TaskMutation) ClearedFields() []string {
 	if m.FieldCleared(task.FieldTypeName) {
 		fields = append(fields, task.FieldTypeName)
 	}
+	if m.FieldCleared(task.FieldTaskID) {
+		fields = append(fields, task.FieldTaskID)
+	}
 	if m.FieldCleared(task.FieldTaskPayload) {
 		fields = append(fields, task.FieldTaskPayload)
 	}
 	if m.FieldCleared(task.FieldCronSpec) {
 		fields = append(fields, task.FieldCronSpec)
 	}
-	if m.FieldCleared(task.FieldRetryCount) {
-		fields = append(fields, task.FieldRetryCount)
-	}
-	if m.FieldCleared(task.FieldTimeout) {
-		fields = append(fields, task.FieldTimeout)
-	}
-	if m.FieldCleared(task.FieldDeadline) {
-		fields = append(fields, task.FieldDeadline)
-	}
-	if m.FieldCleared(task.FieldProcessIn) {
-		fields = append(fields, task.FieldProcessIn)
-	}
-	if m.FieldCleared(task.FieldProcessAt) {
-		fields = append(fields, task.FieldProcessAt)
+	if m.FieldCleared(task.FieldTaskOptions) {
+		fields = append(fields, task.FieldTaskOptions)
 	}
 	if m.FieldCleared(task.FieldEnable) {
 		fields = append(fields, task.FieldEnable)
@@ -21852,26 +21549,17 @@ func (m *TaskMutation) ClearField(name string) error {
 	case task.FieldTypeName:
 		m.ClearTypeName()
 		return nil
+	case task.FieldTaskID:
+		m.ClearTaskID()
+		return nil
 	case task.FieldTaskPayload:
 		m.ClearTaskPayload()
 		return nil
 	case task.FieldCronSpec:
 		m.ClearCronSpec()
 		return nil
-	case task.FieldRetryCount:
-		m.ClearRetryCount()
-		return nil
-	case task.FieldTimeout:
-		m.ClearTimeout()
-		return nil
-	case task.FieldDeadline:
-		m.ClearDeadline()
-		return nil
-	case task.FieldProcessIn:
-		m.ClearProcessIn()
-		return nil
-	case task.FieldProcessAt:
-		m.ClearProcessAt()
+	case task.FieldTaskOptions:
+		m.ClearTaskOptions()
 		return nil
 	case task.FieldEnable:
 		m.ClearEnable()
@@ -21911,26 +21599,17 @@ func (m *TaskMutation) ResetField(name string) error {
 	case task.FieldTypeName:
 		m.ResetTypeName()
 		return nil
+	case task.FieldTaskID:
+		m.ResetTaskID()
+		return nil
 	case task.FieldTaskPayload:
 		m.ResetTaskPayload()
 		return nil
 	case task.FieldCronSpec:
 		m.ResetCronSpec()
 		return nil
-	case task.FieldRetryCount:
-		m.ResetRetryCount()
-		return nil
-	case task.FieldTimeout:
-		m.ResetTimeout()
-		return nil
-	case task.FieldDeadline:
-		m.ResetDeadline()
-		return nil
-	case task.FieldProcessIn:
-		m.ResetProcessIn()
-		return nil
-	case task.FieldProcessAt:
-		m.ResetProcessAt()
+	case task.FieldTaskOptions:
+		m.ResetTaskOptions()
 		return nil
 	case task.FieldEnable:
 		m.ResetEnable()

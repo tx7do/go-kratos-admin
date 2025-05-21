@@ -8,6 +8,8 @@ import (
 	"entgo.io/ent/schema/field"
 	"github.com/tx7do/go-utils/entgo/mixin"
 	appmixin "kratos-admin/pkg/entgo/mixin"
+
+	systemV1 "kratos-admin/api/gen/go/system/service/v1"
 )
 
 // Task holds the schema definition for the Task entity.
@@ -32,7 +34,11 @@ func (Task) Fields() []ent.Field {
 	return []ent.Field{
 		field.Enum("type").
 			Comment("任务类型").
-			Values("Periodic", "Delay", "WaitResult").
+			NamedValues(
+				"Periodic", "PERIODIC",
+				"Delay", "DELAY",
+				"WaitResult", "WAIT_RESULT",
+			).
 			Optional().
 			Nillable(),
 
@@ -42,8 +48,14 @@ func (Task) Fields() []ent.Field {
 			Optional().
 			Nillable(),
 
+		field.String("task_id").
+			Comment("任务ID").
+			Unique().
+			Optional().
+			Nillable(),
+
 		field.String("task_payload").
-			Comment("任务的参数，以 JSON 格式存储，方便存储不同类型和数量的参数").
+			Comment("任务数据").
 			SchemaType(map[string]string{
 				dialect.MySQL:    "json",
 				dialect.Postgres: "jsonb",
@@ -52,34 +64,13 @@ func (Task) Fields() []ent.Field {
 			Nillable(),
 
 		field.String("cron_spec").
-			Comment("cron表达式，用于定义任务的调度时间").
+			Comment("cron表达式").
 			Optional().
 			Nillable(),
 
-		field.Uint32("retry_count").
-			Comment("任务最多可以重试的次数").
-			Optional().
-			Nillable(),
-
-		field.Uint64("timeout").
-			Comment("任务超时时间").
-			Optional().
-			Nillable(),
-
-		field.Time("deadline").
-			Comment("任务超时时间").
-			Optional().
-			Nillable(),
-
-		field.Uint64("process_in").
-			Comment("任务延迟处理时间").
-			Optional().
-			Nillable(),
-
-		field.Time("process_at").
-			Comment("任务执行时间点").
-			Optional().
-			Nillable(),
+		field.JSON("task_options", &systemV1.TaskOption{}).
+			Comment("任务选项").
+			Optional(),
 
 		field.Bool("enable").
 			Comment("启用/禁用任务").

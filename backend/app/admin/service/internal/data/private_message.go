@@ -38,31 +38,12 @@ func (r *PrivateMessageRepo) toProtoStatus(in *privatemessage.Status) *internalM
 		return nil
 	}
 
-	switch *in {
-	case privatemessage.StatusUnknown:
-		return trans.Ptr(internalMessageV1.PrivateMessageStatus_PrivateMessageStatus_Unknown)
-
-	case privatemessage.StatusDraft:
-		return trans.Ptr(internalMessageV1.PrivateMessageStatus_PrivateMessageStatus_Draft)
-
-	case privatemessage.StatusSent:
-		return trans.Ptr(internalMessageV1.PrivateMessageStatus_PrivateMessageStatus_Sent)
-
-	case privatemessage.StatusReceived:
-		return trans.Ptr(internalMessageV1.PrivateMessageStatus_PrivateMessageStatus_Received)
-
-	case privatemessage.StatusRead:
-		return trans.Ptr(internalMessageV1.PrivateMessageStatus_PrivateMessageStatus_Read)
-
-	case privatemessage.StatusArchived:
-		return trans.Ptr(internalMessageV1.PrivateMessageStatus_PrivateMessageStatus_Archived)
-
-	case privatemessage.StatusDeleted:
-		return trans.Ptr(internalMessageV1.PrivateMessageStatus_PrivateMessageStatus_Deleted)
-
-	default:
+	find, ok := internalMessageV1.PrivateMessageStatus_value[string(*in)]
+	if !ok {
 		return nil
 	}
+
+	return (*internalMessageV1.PrivateMessageStatus)(trans.Ptr(find))
 }
 
 func (r *PrivateMessageRepo) toEntStatus(in *internalMessageV1.PrivateMessageStatus) *privatemessage.Status {
@@ -70,31 +51,12 @@ func (r *PrivateMessageRepo) toEntStatus(in *internalMessageV1.PrivateMessageSta
 		return nil
 	}
 
-	switch *in {
-	case internalMessageV1.PrivateMessageStatus_PrivateMessageStatus_Unknown:
-		return trans.Ptr(privatemessage.StatusUnknown)
-
-	case internalMessageV1.PrivateMessageStatus_PrivateMessageStatus_Draft:
-		return trans.Ptr(privatemessage.StatusDraft)
-
-	case internalMessageV1.PrivateMessageStatus_PrivateMessageStatus_Sent:
-		return trans.Ptr(privatemessage.StatusSent)
-
-	case internalMessageV1.PrivateMessageStatus_PrivateMessageStatus_Received:
-		return trans.Ptr(privatemessage.StatusReceived)
-
-	case internalMessageV1.PrivateMessageStatus_PrivateMessageStatus_Read:
-		return trans.Ptr(privatemessage.StatusRead)
-
-	case internalMessageV1.PrivateMessageStatus_PrivateMessageStatus_Archived:
-		return trans.Ptr(privatemessage.StatusArchived)
-
-	case internalMessageV1.PrivateMessageStatus_PrivateMessageStatus_Deleted:
-		return trans.Ptr(privatemessage.StatusDeleted)
-
-	default:
+	find, ok := internalMessageV1.PrivateMessageStatus_name[int32(*in)]
+	if !ok {
 		return nil
 	}
+
+	return (*privatemessage.Status)(trans.Ptr(find))
 }
 
 func (r *PrivateMessageRepo) convertEntToProto(in *ent.PrivateMessage) *internalMessageV1.PrivateMessage {

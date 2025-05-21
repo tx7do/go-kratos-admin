@@ -187,9 +187,9 @@ type Gender string
 
 // Gender values.
 const (
-	GenderUNKNOWN Gender = "UNKNOWN"
-	GenderMALE    Gender = "MALE"
-	GenderFEMALE  Gender = "FEMALE"
+	GenderSecret Gender = "SECRET"
+	GenderMale   Gender = "MALE"
+	GenderFemale Gender = "FEMALE"
 )
 
 func (ge Gender) String() string {
@@ -199,7 +199,7 @@ func (ge Gender) String() string {
 // GenderValidator is a validator for the "gender" field enum values. It is called by the builders before save.
 func GenderValidator(ge Gender) error {
 	switch ge {
-	case GenderUNKNOWN, GenderMALE, GenderFEMALE:
+	case GenderSecret, GenderMale, GenderFemale:
 		return nil
 	default:
 		return fmt.Errorf("user: invalid enum value for gender field: %q", ge)
@@ -209,16 +209,15 @@ func GenderValidator(ge Gender) error {
 // Authority defines the type for the "authority" enum field.
 type Authority string
 
-// AuthorityCUSTOMER_USER is the default value of the Authority enum.
-const DefaultAuthority = AuthorityCUSTOMER_USER
+// AuthorityCustomerUser is the default value of the Authority enum.
+const DefaultAuthority = AuthorityCustomerUser
 
 // Authority values.
 const (
-	AuthoritySYS_ADMIN     Authority = "SYS_ADMIN"
-	AuthoritySYS_MANAGER   Authority = "SYS_MANAGER"
-	AuthorityCUSTOMER_USER Authority = "CUSTOMER_USER"
-	AuthorityGUEST_USER    Authority = "GUEST_USER"
-	AuthorityREFRESH_TOKEN Authority = "REFRESH_TOKEN"
+	AuthoritySysAdmin     Authority = "SYS_ADMIN"
+	AuthorityTenantAdmin  Authority = "TENANT_ADMIN"
+	AuthorityCustomerUser Authority = "CUSTOMER_USER"
+	AuthorityGuest        Authority = "GUEST"
 )
 
 func (a Authority) String() string {
@@ -228,7 +227,7 @@ func (a Authority) String() string {
 // AuthorityValidator is a validator for the "authority" field enum values. It is called by the builders before save.
 func AuthorityValidator(a Authority) error {
 	switch a {
-	case AuthoritySYS_ADMIN, AuthoritySYS_MANAGER, AuthorityCUSTOMER_USER, AuthorityGUEST_USER, AuthorityREFRESH_TOKEN:
+	case AuthoritySysAdmin, AuthorityTenantAdmin, AuthorityCustomerUser, AuthorityGuest:
 		return nil
 	default:
 		return fmt.Errorf("user: invalid enum value for authority field: %q", a)

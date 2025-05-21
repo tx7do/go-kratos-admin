@@ -65,11 +65,11 @@ type Status string
 
 // Status values.
 const (
-	StatusReceived Status = "Received"
-	StatusRead     Status = "Read"
-	StatusArchived Status = "Archived"
-	StatusUnknown  Status = "Unknown"
-	StatusDeleted  Status = "Deleted"
+	StatusUnknown  Status = "UNKNOWN"
+	StatusReceived Status = "RECEIVED"
+	StatusRead     Status = "READ"
+	StatusArchived Status = "ARCHIVED"
+	StatusDeleted  Status = "DELETED"
 )
 
 func (s Status) String() string {
@@ -79,7 +79,7 @@ func (s Status) String() string {
 // StatusValidator is a validator for the "status" field enum values. It is called by the builders before save.
 func StatusValidator(s Status) error {
 	switch s {
-	case StatusReceived, StatusRead, StatusArchived, StatusUnknown, StatusDeleted:
+	case StatusUnknown, StatusReceived, StatusRead, StatusArchived, StatusDeleted:
 		return nil
 	default:
 		return fmt.Errorf("notificationmessagerecipient: invalid enum value for status field: %q", s)

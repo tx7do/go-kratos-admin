@@ -31,20 +31,14 @@ const (
 	FieldType = "type"
 	// FieldTypeName holds the string denoting the type_name field in the database.
 	FieldTypeName = "type_name"
+	// FieldTaskID holds the string denoting the task_id field in the database.
+	FieldTaskID = "task_id"
 	// FieldTaskPayload holds the string denoting the task_payload field in the database.
 	FieldTaskPayload = "task_payload"
 	// FieldCronSpec holds the string denoting the cron_spec field in the database.
 	FieldCronSpec = "cron_spec"
-	// FieldRetryCount holds the string denoting the retry_count field in the database.
-	FieldRetryCount = "retry_count"
-	// FieldTimeout holds the string denoting the timeout field in the database.
-	FieldTimeout = "timeout"
-	// FieldDeadline holds the string denoting the deadline field in the database.
-	FieldDeadline = "deadline"
-	// FieldProcessIn holds the string denoting the process_in field in the database.
-	FieldProcessIn = "process_in"
-	// FieldProcessAt holds the string denoting the process_at field in the database.
-	FieldProcessAt = "process_at"
+	// FieldTaskOptions holds the string denoting the task_options field in the database.
+	FieldTaskOptions = "task_options"
 	// FieldEnable holds the string denoting the enable field in the database.
 	FieldEnable = "enable"
 	// Table holds the table name of the task in the database.
@@ -63,13 +57,10 @@ var Columns = []string{
 	FieldTenantID,
 	FieldType,
 	FieldTypeName,
+	FieldTaskID,
 	FieldTaskPayload,
 	FieldCronSpec,
-	FieldRetryCount,
-	FieldTimeout,
-	FieldDeadline,
-	FieldProcessIn,
-	FieldProcessAt,
+	FieldTaskOptions,
 	FieldEnable,
 }
 
@@ -97,9 +88,9 @@ type Type string
 
 // Type values.
 const (
-	TypePeriodic   Type = "Periodic"
-	TypeDelay      Type = "Delay"
-	TypeWaitResult Type = "WaitResult"
+	TypePeriodic   Type = "PERIODIC"
+	TypeDelay      Type = "DELAY"
+	TypeWaitResult Type = "WAIT_RESULT"
 )
 
 func (_type Type) String() string {
@@ -169,6 +160,11 @@ func ByTypeName(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldTypeName, opts...).ToFunc()
 }
 
+// ByTaskID orders the results by the task_id field.
+func ByTaskID(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldTaskID, opts...).ToFunc()
+}
+
 // ByTaskPayload orders the results by the task_payload field.
 func ByTaskPayload(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldTaskPayload, opts...).ToFunc()
@@ -177,31 +173,6 @@ func ByTaskPayload(opts ...sql.OrderTermOption) OrderOption {
 // ByCronSpec orders the results by the cron_spec field.
 func ByCronSpec(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldCronSpec, opts...).ToFunc()
-}
-
-// ByRetryCount orders the results by the retry_count field.
-func ByRetryCount(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldRetryCount, opts...).ToFunc()
-}
-
-// ByTimeout orders the results by the timeout field.
-func ByTimeout(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldTimeout, opts...).ToFunc()
-}
-
-// ByDeadline orders the results by the deadline field.
-func ByDeadline(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldDeadline, opts...).ToFunc()
-}
-
-// ByProcessIn orders the results by the process_in field.
-func ByProcessIn(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldProcessIn, opts...).ToFunc()
-}
-
-// ByProcessAt orders the results by the process_at field.
-func ByProcessAt(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldProcessAt, opts...).ToFunc()
 }
 
 // ByEnable orders the results by the enable field.

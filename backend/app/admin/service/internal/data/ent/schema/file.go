@@ -31,7 +31,20 @@ func (File) Fields() []ent.Field {
 	return []ent.Field{
 		field.Enum("provider").
 			Comment("OSS供应商").
-			Values("MinIO", "Aliyun", "Qiniu", "Tencent", "AWS", "Google", "Azure", "Baidu", "Huawei", "QCloud", "Local", "Unknown").
+			NamedValues(
+				"Unknown", "UNKNOWN",
+				"MinIO", "MINIO",
+				"Aliyun", "ALIYUN",
+				"Qiniu", "QINIU",
+				"Tencent", "TENCENT",
+				"AWS", "AWS",
+				"Google", "GOOGLE",
+				"Azure", "AZURE",
+				"Baidu", "BAIDU",
+				"Huawei", "HUAWEI",
+				"QCloud", "QCLOUD",
+				"Local", "LOCAL",
+			).
 			Optional().
 			Nillable(),
 

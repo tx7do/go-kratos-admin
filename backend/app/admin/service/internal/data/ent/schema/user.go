@@ -86,10 +86,10 @@ func (User) Fields() []ent.Field {
 
 		field.Enum("gender").
 			Comment("性别").
-			Values(
-				"UNKNOWN",
-				"MALE",
-				"FEMALE",
+			NamedValues(
+				"Secret", "SECRET",
+				"Male", "MALE",
+				"Female", "FEMALE",
 			).
 			Optional().
 			Nillable(),
@@ -118,12 +118,11 @@ func (User) Fields() []ent.Field {
 			Comment("授权").
 			Optional().
 			Nillable().
-			Values(
-				"SYS_ADMIN",
-				"SYS_MANAGER",
-				"CUSTOMER_USER",
-				"GUEST_USER",
-				"REFRESH_TOKEN",
+			NamedValues(
+				"SysAdmin", "SYS_ADMIN",
+				"TenantAdmin", "TENANT_ADMIN",
+				"CustomerUser", "CUSTOMER_USER",
+				"Guest", "GUEST",
 			).
 			Default("CUSTOMER_USER"),
 

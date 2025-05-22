@@ -206,6 +206,23 @@ func TestCopier(t *testing.T) {
 	}
 
 	{
+		var in struct {
+			Int *int32
+		}
+		var out struct {
+			Int int32
+		}
+
+		in.Int = trans.Ptr(int32(1))
+		_ = copier.Copy(&out, &in)
+		fmt.Println("Int32: ", out.Int)
+
+		out.Int = 3
+		_ = copier.Copy(&in, &out)
+		fmt.Println("Int32: ", *in.Int)
+	}
+
+	{
 		var entMsg ent.User
 		var protoMsg userV1.User
 

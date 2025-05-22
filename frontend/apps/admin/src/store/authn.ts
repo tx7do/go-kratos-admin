@@ -201,6 +201,7 @@ export const useAuthStore = defineStore('auth', () => {
     } catch (error) {
       console.error(error);
       await doLogout();
+      return null;
     }
   }
 

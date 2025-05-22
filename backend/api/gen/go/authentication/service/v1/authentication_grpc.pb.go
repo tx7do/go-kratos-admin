@@ -20,9 +20,10 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	AuthenticationService_Login_FullMethodName        = "/authentication.service.v1.AuthenticationService/Login"
-	AuthenticationService_Logout_FullMethodName       = "/authentication.service.v1.AuthenticationService/Logout"
-	AuthenticationService_RefreshToken_FullMethodName = "/authentication.service.v1.AuthenticationService/RefreshToken"
+	AuthenticationService_Login_FullMethodName         = "/authentication.service.v1.AuthenticationService/Login"
+	AuthenticationService_Logout_FullMethodName        = "/authentication.service.v1.AuthenticationService/Logout"
+	AuthenticationService_RefreshToken_FullMethodName  = "/authentication.service.v1.AuthenticationService/RefreshToken"
+	AuthenticationService_ValidateToken_FullMethodName = "/authentication.service.v1.AuthenticationService/ValidateToken"
 )
 
 // AuthenticationServiceClient is the client API for AuthenticationService service.
@@ -37,6 +38,8 @@ type AuthenticationServiceClient interface {
 	Logout(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	// 刷新认证令牌
 	RefreshToken(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*LoginResponse, error)
+	// 验证令牌
+	ValidateToken(ctx context.Context, in *ValidateTokenRequest, opts ...grpc.CallOption) (*ValidateTokenResponse, error)
 }
 
 type authenticationServiceClient struct {
@@ -77,6 +80,16 @@ func (c *authenticationServiceClient) RefreshToken(ctx context.Context, in *Logi
 	return out, nil
 }
 
+func (c *authenticationServiceClient) ValidateToken(ctx context.Context, in *ValidateTokenRequest, opts ...grpc.CallOption) (*ValidateTokenResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ValidateTokenResponse)
+	err := c.cc.Invoke(ctx, AuthenticationService_ValidateToken_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // AuthenticationServiceServer is the server API for AuthenticationService service.
 // All implementations must embed UnimplementedAuthenticationServiceServer
 // for forward compatibility.
@@ -89,6 +102,8 @@ type AuthenticationServiceServer interface {
 	Logout(context.Context, *emptypb.Empty) (*emptypb.Empty, error)
 	// 刷新认证令牌
 	RefreshToken(context.Context, *LoginRequest) (*LoginResponse, error)
+	// 验证令牌
+	ValidateToken(context.Context, *ValidateTokenRequest) (*ValidateTokenResponse, error)
 	mustEmbedUnimplementedAuthenticationServiceServer()
 }
 
@@ -107,6 +122,9 @@ func (UnimplementedAuthenticationServiceServer) Logout(context.Context, *emptypb
 }
 func (UnimplementedAuthenticationServiceServer) RefreshToken(context.Context, *LoginRequest) (*LoginResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RefreshToken not implemented")
+}
+func (UnimplementedAuthenticationServiceServer) ValidateToken(context.Context, *ValidateTokenRequest) (*ValidateTokenResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ValidateToken not implemented")
 }
 func (UnimplementedAuthenticationServiceServer) mustEmbedUnimplementedAuthenticationServiceServer() {}
 func (UnimplementedAuthenticationServiceServer) testEmbeddedByValue()                               {}
@@ -183,6 +201,24 @@ func _AuthenticationService_RefreshToken_Handler(srv interface{}, ctx context.Co
 	return interceptor(ctx, in, info, handler)
 }
 
+func _AuthenticationService_ValidateToken_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ValidateTokenRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AuthenticationServiceServer).ValidateToken(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AuthenticationService_ValidateToken_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AuthenticationServiceServer).ValidateToken(ctx, req.(*ValidateTokenRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // AuthenticationService_ServiceDesc is the grpc.ServiceDesc for AuthenticationService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -201,6 +237,10 @@ var AuthenticationService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "RefreshToken",
 			Handler:    _AuthenticationService_RefreshToken_Handler,
+		},
+		{
+			MethodName: "ValidateToken",
+			Handler:    _AuthenticationService_ValidateToken_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

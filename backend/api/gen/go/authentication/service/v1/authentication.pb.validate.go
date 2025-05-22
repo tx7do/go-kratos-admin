@@ -282,42 +282,44 @@ var _ interface {
 	ErrorName() string
 } = LoginResponseValidationError{}
 
-// Validate checks the field values on LogoutRequest with the rules defined in
-// the proto definition for this message. If any rules are violated, the first
-// error encountered is returned, or nil if there are no violations.
-func (m *LogoutRequest) Validate() error {
+// Validate checks the field values on ValidateTokenRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *ValidateTokenRequest) Validate() error {
 	return m.validate(false)
 }
 
-// ValidateAll checks the field values on LogoutRequest with the rules defined
-// in the proto definition for this message. If any rules are violated, the
-// result is a list of violation errors wrapped in LogoutRequestMultiError, or
-// nil if none found.
-func (m *LogoutRequest) ValidateAll() error {
+// ValidateAll checks the field values on ValidateTokenRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// ValidateTokenRequestMultiError, or nil if none found.
+func (m *ValidateTokenRequest) ValidateAll() error {
 	return m.validate(true)
 }
 
-func (m *LogoutRequest) validate(all bool) error {
+func (m *ValidateTokenRequest) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
 
 	var errors []error
 
+	// no validation rules for Token
+
 	if len(errors) > 0 {
-		return LogoutRequestMultiError(errors)
+		return ValidateTokenRequestMultiError(errors)
 	}
 
 	return nil
 }
 
-// LogoutRequestMultiError is an error wrapping multiple validation errors
-// returned by LogoutRequest.ValidateAll() if the designated constraints
-// aren't met.
-type LogoutRequestMultiError []error
+// ValidateTokenRequestMultiError is an error wrapping multiple validation
+// errors returned by ValidateTokenRequest.ValidateAll() if the designated
+// constraints aren't met.
+type ValidateTokenRequestMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
-func (m LogoutRequestMultiError) Error() string {
+func (m ValidateTokenRequestMultiError) Error() string {
 	var msgs []string
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
@@ -326,11 +328,11 @@ func (m LogoutRequestMultiError) Error() string {
 }
 
 // AllErrors returns a list of validation violation errors.
-func (m LogoutRequestMultiError) AllErrors() []error { return m }
+func (m ValidateTokenRequestMultiError) AllErrors() []error { return m }
 
-// LogoutRequestValidationError is the validation error returned by
-// LogoutRequest.Validate if the designated constraints aren't met.
-type LogoutRequestValidationError struct {
+// ValidateTokenRequestValidationError is the validation error returned by
+// ValidateTokenRequest.Validate if the designated constraints aren't met.
+type ValidateTokenRequestValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -338,22 +340,24 @@ type LogoutRequestValidationError struct {
 }
 
 // Field function returns field value.
-func (e LogoutRequestValidationError) Field() string { return e.field }
+func (e ValidateTokenRequestValidationError) Field() string { return e.field }
 
 // Reason function returns reason value.
-func (e LogoutRequestValidationError) Reason() string { return e.reason }
+func (e ValidateTokenRequestValidationError) Reason() string { return e.reason }
 
 // Cause function returns cause value.
-func (e LogoutRequestValidationError) Cause() error { return e.cause }
+func (e ValidateTokenRequestValidationError) Cause() error { return e.cause }
 
 // Key function returns key value.
-func (e LogoutRequestValidationError) Key() bool { return e.key }
+func (e ValidateTokenRequestValidationError) Key() bool { return e.key }
 
 // ErrorName returns error name.
-func (e LogoutRequestValidationError) ErrorName() string { return "LogoutRequestValidationError" }
+func (e ValidateTokenRequestValidationError) ErrorName() string {
+	return "ValidateTokenRequestValidationError"
+}
 
 // Error satisfies the builtin error interface
-func (e LogoutRequestValidationError) Error() string {
+func (e ValidateTokenRequestValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -365,14 +369,14 @@ func (e LogoutRequestValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sLogoutRequest.%s: %s%s",
+		"invalid %sValidateTokenRequest.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = LogoutRequestValidationError{}
+var _ error = ValidateTokenRequestValidationError{}
 
 var _ interface {
 	Field() string
@@ -380,43 +384,46 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = LogoutRequestValidationError{}
+} = ValidateTokenRequestValidationError{}
 
-// Validate checks the field values on GetMeRequest with the rules defined in
-// the proto definition for this message. If any rules are violated, the first
-// error encountered is returned, or nil if there are no violations.
-func (m *GetMeRequest) Validate() error {
+// Validate checks the field values on ValidateTokenResponse with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *ValidateTokenResponse) Validate() error {
 	return m.validate(false)
 }
 
-// ValidateAll checks the field values on GetMeRequest with the rules defined
-// in the proto definition for this message. If any rules are violated, the
-// result is a list of violation errors wrapped in GetMeRequestMultiError, or
-// nil if none found.
-func (m *GetMeRequest) ValidateAll() error {
+// ValidateAll checks the field values on ValidateTokenResponse with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// ValidateTokenResponseMultiError, or nil if none found.
+func (m *ValidateTokenResponse) ValidateAll() error {
 	return m.validate(true)
 }
 
-func (m *GetMeRequest) validate(all bool) error {
+func (m *ValidateTokenResponse) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
 
 	var errors []error
 
+	// no validation rules for IsValid
+
 	if len(errors) > 0 {
-		return GetMeRequestMultiError(errors)
+		return ValidateTokenResponseMultiError(errors)
 	}
 
 	return nil
 }
 
-// GetMeRequestMultiError is an error wrapping multiple validation errors
-// returned by GetMeRequest.ValidateAll() if the designated constraints aren't met.
-type GetMeRequestMultiError []error
+// ValidateTokenResponseMultiError is an error wrapping multiple validation
+// errors returned by ValidateTokenResponse.ValidateAll() if the designated
+// constraints aren't met.
+type ValidateTokenResponseMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
-func (m GetMeRequestMultiError) Error() string {
+func (m ValidateTokenResponseMultiError) Error() string {
 	var msgs []string
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
@@ -425,11 +432,11 @@ func (m GetMeRequestMultiError) Error() string {
 }
 
 // AllErrors returns a list of validation violation errors.
-func (m GetMeRequestMultiError) AllErrors() []error { return m }
+func (m ValidateTokenResponseMultiError) AllErrors() []error { return m }
 
-// GetMeRequestValidationError is the validation error returned by
-// GetMeRequest.Validate if the designated constraints aren't met.
-type GetMeRequestValidationError struct {
+// ValidateTokenResponseValidationError is the validation error returned by
+// ValidateTokenResponse.Validate if the designated constraints aren't met.
+type ValidateTokenResponseValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -437,22 +444,24 @@ type GetMeRequestValidationError struct {
 }
 
 // Field function returns field value.
-func (e GetMeRequestValidationError) Field() string { return e.field }
+func (e ValidateTokenResponseValidationError) Field() string { return e.field }
 
 // Reason function returns reason value.
-func (e GetMeRequestValidationError) Reason() string { return e.reason }
+func (e ValidateTokenResponseValidationError) Reason() string { return e.reason }
 
 // Cause function returns cause value.
-func (e GetMeRequestValidationError) Cause() error { return e.cause }
+func (e ValidateTokenResponseValidationError) Cause() error { return e.cause }
 
 // Key function returns key value.
-func (e GetMeRequestValidationError) Key() bool { return e.key }
+func (e ValidateTokenResponseValidationError) Key() bool { return e.key }
 
 // ErrorName returns error name.
-func (e GetMeRequestValidationError) ErrorName() string { return "GetMeRequestValidationError" }
+func (e ValidateTokenResponseValidationError) ErrorName() string {
+	return "ValidateTokenResponseValidationError"
+}
 
 // Error satisfies the builtin error interface
-func (e GetMeRequestValidationError) Error() string {
+func (e ValidateTokenResponseValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -464,14 +473,14 @@ func (e GetMeRequestValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sGetMeRequest.%s: %s%s",
+		"invalid %sValidateTokenResponse.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = GetMeRequestValidationError{}
+var _ error = ValidateTokenResponseValidationError{}
 
 var _ interface {
 	Field() string
@@ -479,4 +488,4 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = GetMeRequestValidationError{}
+} = ValidateTokenResponseValidationError{}

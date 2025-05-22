@@ -21,6 +21,9 @@ service AuthenticationService {
 
   // 刷新认证令牌
   rpc RefreshToken (LoginRequest) returns (LoginResponse) {}
+
+  // 验证令牌
+  rpc ValidateToken(ValidateTokenRequest) returns (ValidateTokenResponse);
 }
 
 // 授权类型
@@ -138,10 +141,12 @@ message LoginResponse {
   ]; // 以空格分隔的用户授予范围列表。如果未提供，scope则授权任何范围，默认为空列表。
 }
 
-// 用户后台登出 - 请求
-message LogoutRequest {
+// 验证令牌 - 请求
+message ValidateTokenRequest {
+  string token = 1; // 令牌
 }
 
-// 获取当前用户信息 - 请求
-message GetMeRequest {
+// 验证令牌 - 回应
+message ValidateTokenResponse {
+  bool is_valid = 1; // 令牌是否有效
 }

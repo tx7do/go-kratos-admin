@@ -84,12 +84,16 @@ export interface LoginResponse {
   scope?: string | null | undefined;
 }
 
-/** 用户后台登出 - 请求 */
-export interface LogoutRequest {
+/** 验证令牌 - 请求 */
+export interface ValidateTokenRequest {
+  /** 令牌 */
+  token: string;
 }
 
-/** 获取当前用户信息 - 请求 */
-export interface GetMeRequest {
+/** 验证令牌 - 回应 */
+export interface ValidateTokenResponse {
+  /** 令牌是否有效 */
+  isValid: boolean;
 }
 
 /** 用户登录认证服务 */
@@ -100,4 +104,6 @@ export interface AuthenticationService {
   Logout(request: Empty): Promise<Empty>;
   /** 刷新认证令牌 */
   RefreshToken(request: LoginRequest): Promise<LoginResponse>;
+  /** 验证令牌 */
+  ValidateToken(request: ValidateTokenRequest): Promise<ValidateTokenResponse>;
 }

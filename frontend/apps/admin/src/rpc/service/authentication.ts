@@ -9,10 +9,8 @@ import { requestClient } from '#/rpc/request';
 
 export type { AuthenticationService } from '#/rpc/api/admin/service/v1/i_authentication.pb';
 export type {
-  GetMeRequest,
   LoginRequest,
   LoginResponse,
-  LogoutRequest,
 } from '#/rpc/api/authentication/service/v1/authentication.pb';
 
 /** 用户后台登录认证服务 */

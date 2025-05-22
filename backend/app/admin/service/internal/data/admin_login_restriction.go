@@ -41,42 +41,33 @@ func NewAdminLoginRestrictionRepo(data *Data, logger log.Logger) *AdminLoginRest
 
 func (r *AdminLoginRestrictionRepo) init() {
 	r.copierOption = copier.Option{
-		Converters: []copier.TypeConverter{
-			copierutil.TimeToStringConverter,
-			copierutil.StringToTimeConverter,
-			copierutil.TimeToTimestamppbConverter,
-			copierutil.TimestamppbToTimeConverter,
-			{
-				SrcType: trans.Ptr(adminV1.AdminLoginRestrictionType(0)),
-				DstType: trans.Ptr(adminloginrestriction.Type("")),
-				Fn: func(src interface{}) (interface{}, error) {
-					return r.toEntType(src.(*adminV1.AdminLoginRestrictionType)), nil
-				},
-			},
-			{
-				SrcType: trans.Ptr(adminloginrestriction.Type("")),
-				DstType: trans.Ptr(adminV1.AdminLoginRestrictionType(0)),
-				Fn: func(src interface{}) (interface{}, error) {
-					return r.toProtoType(src.(*adminloginrestriction.Type)), nil
-				},
-			},
-
-			{
-				SrcType: trans.Ptr(adminV1.AdminLoginRestrictionMethod(0)),
-				DstType: trans.Ptr(adminloginrestriction.Method("")),
-				Fn: func(src interface{}) (interface{}, error) {
-					return r.toEntMethod(src.(*adminV1.AdminLoginRestrictionMethod)), nil
-				},
-			},
-			{
-				SrcType: trans.Ptr(adminloginrestriction.Method("")),
-				DstType: trans.Ptr(adminV1.AdminLoginRestrictionMethod(0)),
-				Fn: func(src interface{}) (interface{}, error) {
-					return r.toProtoMethod(src.(*adminloginrestriction.Method)), nil
-				},
-			},
-		},
+		Converters: []copier.TypeConverter{},
 	}
+
+	r.copierOption.Converters = append(r.copierOption.Converters, copierutil.NewTimeStringConverterPair()...)
+	r.copierOption.Converters = append(r.copierOption.Converters, copierutil.NewTimeTimestamppbConverterPair()...)
+	r.copierOption.Converters = append(r.copierOption.Converters, r.NewTypeConverterPair()...)
+	r.copierOption.Converters = append(r.copierOption.Converters, r.NewMethodConverterPair()...)
+}
+
+func (r *AdminLoginRestrictionRepo) NewTypeConverterPair() []copier.TypeConverter {
+	srcType := trans.Ptr(adminV1.AdminLoginRestrictionType(0))
+	dstType := trans.Ptr(adminloginrestriction.Type(""))
+
+	fromFn := r.toEntType
+	toFn := r.toProtoType
+
+	return copierutil.NewGenericTypeConverterPair(srcType, dstType, fromFn, toFn)
+}
+
+func (r *AdminLoginRestrictionRepo) NewMethodConverterPair() []copier.TypeConverter {
+	srcType := trans.Ptr(adminV1.AdminLoginRestrictionMethod(0))
+	dstType := trans.Ptr(adminloginrestriction.Method(""))
+
+	fromFn := r.toEntMethod
+	toFn := r.toProtoMethod
+
+	return copierutil.NewGenericTypeConverterPair(srcType, dstType, fromFn, toFn)
 }
 
 func (r *AdminLoginRestrictionRepo) toEntType(in *adminV1.AdminLoginRestrictionType) *adminloginrestriction.Type {

@@ -40,13 +40,11 @@ func NewRoleRepo(data *Data, logger log.Logger) *RoleRepo {
 
 func (r *RoleRepo) init() {
 	r.copierOption = copier.Option{
-		Converters: []copier.TypeConverter{
-			copierutil.TimeToStringConverter,
-			copierutil.StringToTimeConverter,
-			copierutil.TimeToTimestamppbConverter,
-			copierutil.TimestamppbToTimeConverter,
-		},
+		Converters: []copier.TypeConverter{},
 	}
+
+	r.copierOption.Converters = append(r.copierOption.Converters, copierutil.NewTimeStringConverterPair()...)
+	r.copierOption.Converters = append(r.copierOption.Converters, copierutil.NewTimeTimestamppbConverterPair()...)
 }
 
 func (r *RoleRepo) toProto(in *ent.Role) *userV1.Role {

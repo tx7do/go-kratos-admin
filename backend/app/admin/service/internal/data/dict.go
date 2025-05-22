@@ -40,13 +40,11 @@ func NewDictRepo(data *Data, logger log.Logger) *DictRepo {
 
 func (r *DictRepo) init() {
 	r.copierOption = copier.Option{
-		Converters: []copier.TypeConverter{
-			copierutil.TimeToStringConverter,
-			copierutil.StringToTimeConverter,
-			copierutil.TimeToTimestamppbConverter,
-			copierutil.TimestamppbToTimeConverter,
-		},
+		Converters: []copier.TypeConverter{},
 	}
+
+	r.copierOption.Converters = append(r.copierOption.Converters, copierutil.NewTimeStringConverterPair()...)
+	r.copierOption.Converters = append(r.copierOption.Converters, copierutil.NewTimeTimestamppbConverterPair()...)
 }
 
 func (r *DictRepo) toProto(in *ent.Dict) *adminV1.Dict {

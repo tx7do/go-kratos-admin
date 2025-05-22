@@ -38,13 +38,11 @@ func NewAdminLoginLogRepo(data *Data, logger log.Logger) *AdminLoginLogRepo {
 
 func (r *AdminLoginLogRepo) init() {
 	r.copierOption = copier.Option{
-		Converters: []copier.TypeConverter{
-			copierutil.TimeToStringConverter,
-			copierutil.StringToTimeConverter,
-			copierutil.TimeToTimestamppbConverter,
-			copierutil.TimestamppbToTimeConverter,
-		},
+		Converters: []copier.TypeConverter{},
 	}
+
+	r.copierOption.Converters = append(r.copierOption.Converters, copierutil.NewTimeStringConverterPair()...)
+	r.copierOption.Converters = append(r.copierOption.Converters, copierutil.NewTimeTimestamppbConverterPair()...)
 }
 
 func (r *AdminLoginLogRepo) toProto(in *ent.AdminLoginLog) *adminV1.AdminLoginLog {

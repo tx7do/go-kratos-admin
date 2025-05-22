@@ -42,43 +42,33 @@ func NewMenuRepo(data *Data, logger log.Logger) *MenuRepo {
 
 func (r *MenuRepo) init() {
 	r.copierOption = copier.Option{
-		Converters: []copier.TypeConverter{
-			copierutil.TimeToStringConverter,
-			copierutil.StringToTimeConverter,
-			copierutil.TimeToTimestamppbConverter,
-			copierutil.TimestamppbToTimeConverter,
-
-			{
-				SrcType: trans.Ptr(adminV1.MenuType(0)),
-				DstType: trans.Ptr(menu.Type("")),
-				Fn: func(src interface{}) (interface{}, error) {
-					return r.toEntType(src.(*adminV1.MenuType)), nil
-				},
-			},
-			{
-				SrcType: trans.Ptr(menu.Type("")),
-				DstType: trans.Ptr(adminV1.MenuType(0)),
-				Fn: func(src interface{}) (interface{}, error) {
-					return r.toProtoType(src.(*menu.Type)), nil
-				},
-			},
-
-			{
-				SrcType: trans.Ptr(adminV1.MenuStatus(0)),
-				DstType: trans.Ptr(menu.Status("")),
-				Fn: func(src interface{}) (interface{}, error) {
-					return r.toEntStatus(src.(*adminV1.MenuStatus)), nil
-				},
-			},
-			{
-				SrcType: trans.Ptr(menu.Status("")),
-				DstType: trans.Ptr(adminV1.MenuStatus(0)),
-				Fn: func(src interface{}) (interface{}, error) {
-					return r.toProtoStatus(src.(*menu.Status)), nil
-				},
-			},
-		},
+		Converters: []copier.TypeConverter{},
 	}
+
+	r.copierOption.Converters = append(r.copierOption.Converters, copierutil.NewTimeStringConverterPair()...)
+	r.copierOption.Converters = append(r.copierOption.Converters, copierutil.NewTimeTimestamppbConverterPair()...)
+	r.copierOption.Converters = append(r.copierOption.Converters, r.NewMenuTypeConverterPair()...)
+	r.copierOption.Converters = append(r.copierOption.Converters, r.NewStatusConverterPair()...)
+}
+
+func (r *MenuRepo) NewMenuTypeConverterPair() []copier.TypeConverter {
+	srcType := trans.Ptr(adminV1.MenuType(0))
+	dstType := trans.Ptr(menu.Type(""))
+
+	fromFn := r.toEntType
+	toFn := r.toProtoType
+
+	return copierutil.NewGenericTypeConverterPair(srcType, dstType, fromFn, toFn)
+}
+
+func (r *MenuRepo) NewStatusConverterPair() []copier.TypeConverter {
+	srcType := trans.Ptr(adminV1.MenuStatus(0))
+	dstType := trans.Ptr(menu.Status(""))
+
+	fromFn := r.toEntStatus
+	toFn := r.toProtoStatus
+
+	return copierutil.NewGenericTypeConverterPair(srcType, dstType, fromFn, toFn)
 }
 
 func (r *MenuRepo) toProtoType(in *menu.Type) *adminV1.MenuType {

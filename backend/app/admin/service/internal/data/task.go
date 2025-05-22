@@ -41,27 +41,22 @@ func NewTaskRepo(data *Data, logger log.Logger) *TaskRepo {
 
 func (r *TaskRepo) init() {
 	r.copierOption = copier.Option{
-		Converters: []copier.TypeConverter{
-			copierutil.TimeToStringConverter,
-			copierutil.StringToTimeConverter,
-			copierutil.TimeToTimestamppbConverter,
-			copierutil.TimestamppbToTimeConverter,
-			{
-				SrcType: trans.Ptr(adminV1.TaskType(0)),
-				DstType: trans.Ptr(task.Type("")),
-				Fn: func(src interface{}) (interface{}, error) {
-					return r.toEntType(src.(*adminV1.TaskType)), nil
-				},
-			},
-			{
-				SrcType: trans.Ptr(task.Type("")),
-				DstType: trans.Ptr(adminV1.TaskType(0)),
-				Fn: func(src interface{}) (interface{}, error) {
-					return r.toProtoType(src.(*task.Type)), nil
-				},
-			},
-		},
+		Converters: []copier.TypeConverter{},
 	}
+
+	r.copierOption.Converters = append(r.copierOption.Converters, copierutil.NewTimeStringConverterPair()...)
+	r.copierOption.Converters = append(r.copierOption.Converters, copierutil.NewTimeTimestamppbConverterPair()...)
+	r.copierOption.Converters = append(r.copierOption.Converters, r.NewTaskTypeConverterPair()...)
+}
+
+func (r *TaskRepo) NewTaskTypeConverterPair() []copier.TypeConverter {
+	srcType := trans.Ptr(adminV1.TaskType(0))
+	dstType := trans.Ptr(task.Type(""))
+
+	fromFn := r.toEntType
+	toFn := r.toProtoType
+
+	return copierutil.NewGenericTypeConverterPair(srcType, dstType, fromFn, toFn)
 }
 
 func (r *TaskRepo) toEntType(in *adminV1.TaskType) *task.Type {

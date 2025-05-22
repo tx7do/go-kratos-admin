@@ -41,28 +41,22 @@ func NewFileRepo(data *Data, logger log.Logger) *FileRepo {
 
 func (r *FileRepo) init() {
 	r.copierOption = copier.Option{
-		Converters: []copier.TypeConverter{
-			copierutil.TimeToStringConverter,
-			copierutil.StringToTimeConverter,
-			copierutil.TimeToTimestamppbConverter,
-			copierutil.TimestamppbToTimeConverter,
-
-			{
-				SrcType: trans.Ptr(fileV1.OSSProvider(0)),
-				DstType: trans.Ptr(file.Provider("")),
-				Fn: func(src interface{}) (interface{}, error) {
-					return r.toEntProvider(src.(*fileV1.OSSProvider)), nil
-				},
-			},
-			{
-				SrcType: trans.Ptr(file.Provider("")),
-				DstType: trans.Ptr(fileV1.OSSProvider(0)),
-				Fn: func(src interface{}) (interface{}, error) {
-					return r.toProtoProvider(src.(*file.Provider)), nil
-				},
-			},
-		},
+		Converters: []copier.TypeConverter{},
 	}
+
+	r.copierOption.Converters = append(r.copierOption.Converters, copierutil.NewTimeStringConverterPair()...)
+	r.copierOption.Converters = append(r.copierOption.Converters, copierutil.NewTimeTimestamppbConverterPair()...)
+	r.copierOption.Converters = append(r.copierOption.Converters, r.NewProviderConverterPair()...)
+}
+
+func (r *FileRepo) NewProviderConverterPair() []copier.TypeConverter {
+	srcType := trans.Ptr(fileV1.OSSProvider(0))
+	dstType := trans.Ptr(file.Provider(""))
+
+	fromFn := r.toEntProvider
+	toFn := r.toProtoProvider
+
+	return copierutil.NewGenericTypeConverterPair(srcType, dstType, fromFn, toFn)
 }
 
 func (r *FileRepo) toProtoProvider(in *file.Provider) *fileV1.OSSProvider {

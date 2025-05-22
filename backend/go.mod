@@ -20,13 +20,15 @@ require (
 	github.com/google/wire v0.6.0
 	github.com/hibiken/asynq v0.25.1
 	github.com/jackc/pgx/v4 v4.18.3
+	github.com/jinzhu/copier v0.4.0
 	github.com/lib/pq v1.10.9
 	github.com/mileusna/useragent v1.3.5
 	github.com/minio/minio-go/v7 v7.0.92
 	github.com/redis/go-redis/v9 v9.8.0
 	github.com/stretchr/testify v1.10.0
 	github.com/tx7do/go-utils v1.1.22
-	github.com/tx7do/go-utils/entgo v1.1.27
+	github.com/tx7do/go-utils/copierutil v0.0.3
+	github.com/tx7do/go-utils/entgo v1.1.28
 	github.com/tx7do/go-utils/geoip v1.1.5
 	github.com/tx7do/kratos-authn v1.1.7
 	github.com/tx7do/kratos-authn/engine/jwt v1.1.7
@@ -146,7 +148,6 @@ require (
 	github.com/jackc/pgservicefile v0.0.0-20240606120523-5a60cdf6a761 // indirect
 	github.com/jackc/pgtype v1.14.4 // indirect
 	github.com/jhump/protoreflect v1.17.0 // indirect
-	github.com/jinzhu/copier v0.4.0 // indirect
 	github.com/jmespath/go-jmespath v0.4.0 // indirect
 	github.com/josharian/intern v1.0.0 // indirect
 	github.com/json-iterator/go v1.1.12 // indirect
@@ -200,7 +201,6 @@ require (
 	github.com/tinylib/msgp v1.3.0 // indirect
 	github.com/tklauser/go-sysconf v0.3.15 // indirect
 	github.com/tklauser/numcpus v0.10.0 // indirect
-	github.com/tx7do/go-utils/copierutil v0.0.1 // indirect
 	github.com/tx7do/kratos-bootstrap/config v0.0.9 // indirect
 	github.com/tx7do/kratos-bootstrap/logger v0.0.9 // indirect
 	github.com/tx7do/kratos-bootstrap/registry v0.0.9 // indirect
@@ -215,15 +215,15 @@ require (
 	go.etcd.io/etcd/client/pkg/v3 v3.6.0 // indirect
 	go.etcd.io/etcd/client/v3 v3.6.0 // indirect
 	go.opentelemetry.io/auto/sdk v1.1.0 // indirect
-	go.opentelemetry.io/otel v1.35.0 // indirect
+	go.opentelemetry.io/otel v1.36.0 // indirect
 	go.opentelemetry.io/otel/exporters/otlp/otlptrace v1.35.0 // indirect
 	go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracegrpc v1.35.0 // indirect
 	go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracehttp v1.35.0 // indirect
 	go.opentelemetry.io/otel/exporters/stdout/stdouttrace v1.35.0 // indirect
 	go.opentelemetry.io/otel/exporters/zipkin v1.35.0 // indirect
-	go.opentelemetry.io/otel/metric v1.35.0 // indirect
+	go.opentelemetry.io/otel/metric v1.36.0 // indirect
 	go.opentelemetry.io/otel/sdk v1.35.0 // indirect
-	go.opentelemetry.io/otel/trace v1.35.0 // indirect
+	go.opentelemetry.io/otel/trace v1.36.0 // indirect
 	go.opentelemetry.io/proto/otlp v1.6.0 // indirect
 	go.uber.org/atomic v1.11.0 // indirect
 	go.uber.org/multierr v1.11.0 // indirect

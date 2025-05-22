@@ -41,28 +41,22 @@ func NewNotificationMessageRecipientRepo(data *Data, logger log.Logger) *Notific
 
 func (r *NotificationMessageRecipientRepo) init() {
 	r.copierOption = copier.Option{
-		Converters: []copier.TypeConverter{
-			copierutil.TimeToStringConverter,
-			copierutil.StringToTimeConverter,
-			copierutil.TimeToTimestamppbConverter,
-			copierutil.TimestamppbToTimeConverter,
-
-			{
-				SrcType: trans.Ptr(internalMessageV1.MessageStatus(0)),
-				DstType: trans.Ptr(notificationmessagerecipient.Status("")),
-				Fn: func(src interface{}) (interface{}, error) {
-					return r.toEntStatus(src.(*internalMessageV1.MessageStatus)), nil
-				},
-			},
-			{
-				SrcType: trans.Ptr(notificationmessagerecipient.Status("")),
-				DstType: trans.Ptr(internalMessageV1.MessageStatus(0)),
-				Fn: func(src interface{}) (interface{}, error) {
-					return r.toProtoStatus(src.(*notificationmessagerecipient.Status)), nil
-				},
-			},
-		},
+		Converters: []copier.TypeConverter{},
 	}
+
+	r.copierOption.Converters = append(r.copierOption.Converters, copierutil.NewTimeStringConverterPair()...)
+	r.copierOption.Converters = append(r.copierOption.Converters, copierutil.NewTimeTimestamppbConverterPair()...)
+	r.copierOption.Converters = append(r.copierOption.Converters, r.NewStatusConverterPair()...)
+}
+
+func (r *NotificationMessageRecipientRepo) NewStatusConverterPair() []copier.TypeConverter {
+	srcType := trans.Ptr(internalMessageV1.MessageStatus(0))
+	dstType := trans.Ptr(notificationmessagerecipient.Status(""))
+
+	fromFn := r.toEntStatus
+	toFn := r.toProtoStatus
+
+	return copierutil.NewGenericTypeConverterPair(srcType, dstType, fromFn, toFn)
 }
 
 func (r *NotificationMessageRecipientRepo) toProtoStatus(in *notificationmessagerecipient.Status) *internalMessageV1.MessageStatus {

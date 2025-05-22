@@ -44,58 +44,44 @@ func NewUserRepo(data *Data, logger log.Logger) *UserRepo {
 
 func (r *UserRepo) init() {
 	r.copierOption = copier.Option{
-		Converters: []copier.TypeConverter{
-			copierutil.TimeToStringConverter,
-			copierutil.StringToTimeConverter,
-			copierutil.TimeToTimestamppbConverter,
-			copierutil.TimestamppbToTimeConverter,
-
-			{
-				SrcType: trans.Ptr(userV1.UserStatus(0)),
-				DstType: trans.Ptr(user.Status("")),
-				Fn: func(src interface{}) (interface{}, error) {
-					return r.toEntStatus(src.(*userV1.UserStatus)), nil
-				},
-			},
-			{
-				SrcType: trans.Ptr(user.Status("")),
-				DstType: trans.Ptr(userV1.UserStatus(0)),
-				Fn: func(src interface{}) (interface{}, error) {
-					return r.toProtoStatus(src.(*user.Status)), nil
-				},
-			},
-
-			{
-				SrcType: trans.Ptr(userV1.UserAuthority(0)),
-				DstType: trans.Ptr(user.Authority("")),
-				Fn: func(src interface{}) (interface{}, error) {
-					return r.toEntAuthority(src.(*userV1.UserAuthority)), nil
-				},
-			},
-			{
-				SrcType: trans.Ptr(user.Authority("")),
-				DstType: trans.Ptr(userV1.UserAuthority(0)),
-				Fn: func(src interface{}) (interface{}, error) {
-					return r.toProtoAuthority(src.(*user.Authority)), nil
-				},
-			},
-
-			{
-				SrcType: trans.Ptr(userV1.UserGender(0)),
-				DstType: trans.Ptr(user.Gender("")),
-				Fn: func(src interface{}) (interface{}, error) {
-					return r.toEntGender(src.(*userV1.UserGender)), nil
-				},
-			},
-			{
-				SrcType: trans.Ptr(user.Gender("")),
-				DstType: trans.Ptr(userV1.UserGender(0)),
-				Fn: func(src interface{}) (interface{}, error) {
-					return r.toProtoGender(src.(*user.Gender)), nil
-				},
-			},
-		},
+		Converters: []copier.TypeConverter{},
 	}
+
+	r.copierOption.Converters = append(r.copierOption.Converters, copierutil.NewTimeStringConverterPair()...)
+	r.copierOption.Converters = append(r.copierOption.Converters, copierutil.NewTimeTimestamppbConverterPair()...)
+	r.copierOption.Converters = append(r.copierOption.Converters, r.NewStatusConverterPair()...)
+	r.copierOption.Converters = append(r.copierOption.Converters, r.NewAuthorityConverterPair()...)
+	r.copierOption.Converters = append(r.copierOption.Converters, r.NewGenderConverterPair()...)
+}
+
+func (r *UserRepo) NewStatusConverterPair() []copier.TypeConverter {
+	srcType := trans.Ptr(userV1.UserStatus(0))
+	dstType := trans.Ptr(user.Status(""))
+
+	fromFn := r.toEntStatus
+	toFn := r.toProtoStatus
+
+	return copierutil.NewGenericTypeConverterPair(srcType, dstType, fromFn, toFn)
+}
+
+func (r *UserRepo) NewAuthorityConverterPair() []copier.TypeConverter {
+	srcType := trans.Ptr(userV1.UserAuthority(0))
+	dstType := trans.Ptr(user.Authority(""))
+
+	fromFn := r.toEntAuthority
+	toFn := r.toProtoAuthority
+
+	return copierutil.NewGenericTypeConverterPair(srcType, dstType, fromFn, toFn)
+}
+
+func (r *UserRepo) NewGenderConverterPair() []copier.TypeConverter {
+	srcType := trans.Ptr(userV1.UserGender(0))
+	dstType := trans.Ptr(user.Gender(""))
+
+	fromFn := r.toEntGender
+	toFn := r.toProtoGender
+
+	return copierutil.NewGenericTypeConverterPair(srcType, dstType, fromFn, toFn)
 }
 
 func (r *UserRepo) toEntAuthority(in *userV1.UserAuthority) *user.Authority {

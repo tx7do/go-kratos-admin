@@ -41,13 +41,11 @@ func NewNotificationMessageCategoryRepo(data *Data, logger log.Logger) *Notifica
 
 func (r *NotificationMessageCategoryRepo) init() {
 	r.copierOption = copier.Option{
-		Converters: []copier.TypeConverter{
-			copierutil.TimeToStringConverter,
-			copierutil.StringToTimeConverter,
-			copierutil.TimeToTimestamppbConverter,
-			copierutil.TimestamppbToTimeConverter,
-		},
+		Converters: []copier.TypeConverter{},
 	}
+
+	r.copierOption.Converters = append(r.copierOption.Converters, copierutil.NewTimeStringConverterPair()...)
+	r.copierOption.Converters = append(r.copierOption.Converters, copierutil.NewTimeTimestamppbConverterPair()...)
 }
 
 func (r *NotificationMessageCategoryRepo) toProto(in *ent.NotificationMessageCategory) *internalMessageV1.NotificationMessageCategory {

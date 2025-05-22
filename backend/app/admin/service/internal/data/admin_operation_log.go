@@ -40,27 +40,22 @@ func NewAdminOperationLogRepo(data *Data, logger log.Logger) *AdminOperationLogR
 
 func (r *AdminOperationLogRepo) init() {
 	r.copierOption = copier.Option{
-		Converters: []copier.TypeConverter{
-			copierutil.TimeToStringConverter,
-			copierutil.StringToTimeConverter,
-			copierutil.TimeToTimestamppbConverter,
-			copierutil.TimestamppbToTimeConverter,
-			{
-				SrcType: durationpb.New(0),
-				DstType: trans.Ptr(float64(0)),
-				Fn: func(src interface{}) (interface{}, error) {
-					return timeutil.DurationpbSecond(src.(*durationpb.Duration)), nil
-				},
-			},
-			{
-				SrcType: trans.Ptr(float64(0)),
-				DstType: durationpb.New(0),
-				Fn: func(src interface{}) (interface{}, error) {
-					return timeutil.SecondToDurationpb(src.(*float64)), nil
-				},
-			},
-		},
+		Converters: []copier.TypeConverter{},
 	}
+
+	r.copierOption.Converters = append(r.copierOption.Converters, copierutil.NewTimeStringConverterPair()...)
+	r.copierOption.Converters = append(r.copierOption.Converters, copierutil.NewTimeTimestamppbConverterPair()...)
+	r.copierOption.Converters = append(r.copierOption.Converters, r.NewFloatSecondConverterPair()...)
+}
+
+func (r *AdminOperationLogRepo) NewFloatSecondConverterPair() []copier.TypeConverter {
+	srcType := durationpb.New(0)
+	dstType := trans.Ptr(float64(0))
+
+	fromFn := timeutil.DurationpbSecond
+	toFn := timeutil.SecondToDurationpb
+
+	return copierutil.NewGenericTypeConverterPair(srcType, dstType, fromFn, toFn)
 }
 
 func (r *AdminOperationLogRepo) toProto(in *ent.AdminOperationLog) *adminV1.AdminOperationLog {

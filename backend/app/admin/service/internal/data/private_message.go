@@ -41,28 +41,22 @@ func NewPrivateMessageRepo(data *Data, logger log.Logger) *PrivateMessageRepo {
 
 func (r *PrivateMessageRepo) init() {
 	r.copierOption = copier.Option{
-		Converters: []copier.TypeConverter{
-			copierutil.TimeToStringConverter,
-			copierutil.StringToTimeConverter,
-			copierutil.TimeToTimestamppbConverter,
-			copierutil.TimestamppbToTimeConverter,
-
-			{
-				SrcType: trans.Ptr(internalMessageV1.MessageStatus(0)),
-				DstType: trans.Ptr(privatemessage.Status("")),
-				Fn: func(src interface{}) (interface{}, error) {
-					return r.toEntStatus(src.(*internalMessageV1.MessageStatus)), nil
-				},
-			},
-			{
-				SrcType: trans.Ptr(privatemessage.Status("")),
-				DstType: trans.Ptr(internalMessageV1.MessageStatus(0)),
-				Fn: func(src interface{}) (interface{}, error) {
-					return r.toProtoStatus(src.(*privatemessage.Status)), nil
-				},
-			},
-		},
+		Converters: []copier.TypeConverter{},
 	}
+
+	r.copierOption.Converters = append(r.copierOption.Converters, copierutil.NewTimeStringConverterPair()...)
+	r.copierOption.Converters = append(r.copierOption.Converters, copierutil.NewTimeTimestamppbConverterPair()...)
+	r.copierOption.Converters = append(r.copierOption.Converters, r.NewStatusConverterPair()...)
+}
+
+func (r *PrivateMessageRepo) NewStatusConverterPair() []copier.TypeConverter {
+	srcType := trans.Ptr(internalMessageV1.MessageStatus(0))
+	dstType := trans.Ptr(privatemessage.Status(""))
+
+	fromFn := r.toEntStatus
+	toFn := r.toProtoStatus
+
+	return copierutil.NewGenericTypeConverterPair(srcType, dstType, fromFn, toFn)
 }
 
 func (r *PrivateMessageRepo) toProtoStatus(in *privatemessage.Status) *internalMessageV1.MessageStatus {

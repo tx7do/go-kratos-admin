@@ -53,7 +53,7 @@ func (r *RoleRepo) toProto(in *ent.Role) *userV1.Role {
 	}
 
 	var out userV1.Role
-	_ = copier.Copy(&out, in)
+	_ = copier.CopyWithOption(&out, in, r.copierOption)
 
 	//out.CreateTime = timeutil.TimeToTimeString(in.CreateTime)
 	//out.UpdateTime = timeutil.TimeToTimeString(in.UpdateTime)
@@ -68,7 +68,7 @@ func (r *RoleRepo) toEnt(in *userV1.Role) *ent.Role {
 	}
 
 	var out ent.Role
-	_ = copier.Copy(&out, in)
+	_ = copier.CopyWithOption(&out, in, r.copierOption)
 
 	return &out
 }

@@ -53,7 +53,7 @@ func (r *TenantRepo) toProto(in *ent.Tenant) *userV1.Tenant {
 	}
 
 	var out userV1.Tenant
-	_ = copier.Copy(&out, in)
+	_ = copier.CopyWithOption(&out, in, r.copierOption)
 
 	//out.SubscriptionAt = timeutil.TimeToTimestamppb(in.CreateTime)
 	//out.UnsubscribeAt = timeutil.TimeToTimestamppb(in.UnsubscribeAt)
@@ -70,7 +70,7 @@ func (r *TenantRepo) toEnt(in *userV1.Tenant) *ent.Tenant {
 	}
 
 	var out ent.Tenant
-	_ = copier.Copy(&out, in)
+	_ = copier.CopyWithOption(&out, in, r.copierOption)
 
 	return &out
 }

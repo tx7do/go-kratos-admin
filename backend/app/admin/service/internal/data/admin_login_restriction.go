@@ -128,7 +128,7 @@ func (r *AdminLoginRestrictionRepo) toProto(in *ent.AdminLoginRestriction) *admi
 	}
 
 	var out adminV1.AdminLoginRestriction
-	_ = copier.Copy(&out, in)
+	_ = copier.CopyWithOption(&out, in, r.copierOption)
 
 	//out.Type = r.toProtoType(in.Type)
 	//out.Method = r.toProtoMethod(in.Method)
@@ -145,7 +145,7 @@ func (r *AdminLoginRestrictionRepo) toEnt(in *adminV1.AdminLoginRestriction) *en
 	}
 
 	var out ent.AdminLoginRestriction
-	_ = copier.Copy(&out, in)
+	_ = copier.CopyWithOption(&out, in, r.copierOption)
 
 	return &out
 }

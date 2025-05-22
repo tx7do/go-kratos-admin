@@ -54,7 +54,7 @@ func (r *DepartmentRepo) toProto(in *ent.Department) *userV1.Department {
 	}
 
 	var out userV1.Department
-	_ = copier.Copy(&out, in)
+	_ = copier.CopyWithOption(&out, in, r.copierOption)
 
 	//out.CreateTime = timeutil.TimeToTimeString(in.CreateTime)
 	//out.UpdateTime = timeutil.TimeToTimeString(in.UpdateTime)
@@ -69,7 +69,7 @@ func (r *DepartmentRepo) toEnt(in *userV1.Department) *ent.Department {
 	}
 
 	var out ent.Department
-	_ = copier.Copy(&out, in)
+	_ = copier.CopyWithOption(&out, in, r.copierOption)
 
 	return &out
 }

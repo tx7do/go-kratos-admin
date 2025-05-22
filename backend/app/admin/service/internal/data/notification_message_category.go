@@ -54,7 +54,7 @@ func (r *NotificationMessageCategoryRepo) toProto(in *ent.NotificationMessageCat
 	}
 
 	var out internalMessageV1.NotificationMessageCategory
-	_ = copier.Copy(&out, in)
+	_ = copier.CopyWithOption(&out, in, r.copierOption)
 
 	//out.CreateTime = timeutil.TimeToTimeString(in.CreateTime)
 	//out.UpdateTime = timeutil.TimeToTimeString(in.UpdateTime)
@@ -69,7 +69,7 @@ func (r *NotificationMessageCategoryRepo) toEnt(in *internalMessageV1.Notificati
 	}
 
 	var out ent.NotificationMessageCategory
-	_ = copier.Copy(&out, in)
+	_ = copier.CopyWithOption(&out, in, r.copierOption)
 
 	return &out
 }

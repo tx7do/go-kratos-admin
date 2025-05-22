@@ -91,7 +91,7 @@ func (r *TaskRepo) toProto(in *ent.Task) *adminV1.Task {
 	}
 
 	var out adminV1.Task
-	_ = copier.Copy(&out, in)
+	_ = copier.CopyWithOption(&out, in, r.copierOption)
 
 	//out.Type = r.toProtoType(in.Type)
 	//out.CreateTime = timeutil.TimeToTimeString(in.CreateTime)
@@ -107,7 +107,7 @@ func (r *TaskRepo) toEnt(in *adminV1.Task) *ent.Task {
 	}
 
 	var out ent.Task
-	_ = copier.Copy(&out, in)
+	_ = copier.CopyWithOption(&out, in, r.copierOption)
 
 	return &out
 }

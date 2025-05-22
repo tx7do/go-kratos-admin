@@ -91,7 +91,7 @@ func (r *PrivateMessageRepo) toProto(in *ent.PrivateMessage) *internalMessageV1.
 	}
 
 	var out internalMessageV1.PrivateMessage
-	_ = copier.Copy(&out, in)
+	_ = copier.CopyWithOption(&out, in, r.copierOption)
 
 	//out.Status = r.toProtoStatus(in.Status)
 	//out.CreateTime = timeutil.TimeToTimeString(in.CreateTime)
@@ -107,7 +107,7 @@ func (r *PrivateMessageRepo) toEnt(in *internalMessageV1.PrivateMessage) *ent.Pr
 	}
 
 	var out ent.PrivateMessage
-	_ = copier.Copy(&out, in)
+	_ = copier.CopyWithOption(&out, in, r.copierOption)
 
 	return &out
 }

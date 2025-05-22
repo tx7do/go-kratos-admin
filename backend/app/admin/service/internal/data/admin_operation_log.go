@@ -64,7 +64,7 @@ func (r *AdminOperationLogRepo) toProto(in *ent.AdminOperationLog) *adminV1.Admi
 	}
 
 	var out adminV1.AdminOperationLog
-	_ = copier.Copy(&out, in)
+	_ = copier.CopyWithOption(&out, in, r.copierOption)
 
 	//out.CostTime = timeutil.SecondToDurationpb(in.CostTime)
 	//out.CreateTime = timeutil.TimeToTimeString(in.CreateTime)
@@ -78,7 +78,7 @@ func (r *AdminOperationLogRepo) toEnt(in *adminV1.AdminOperationLog) *ent.AdminO
 	}
 
 	var out ent.AdminOperationLog
-	_ = copier.Copy(&out, in)
+	_ = copier.CopyWithOption(&out, in, r.copierOption)
 
 	return &out
 }

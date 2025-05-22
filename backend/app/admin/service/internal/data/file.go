@@ -91,7 +91,7 @@ func (r *FileRepo) toProto(in *ent.File) *fileV1.File {
 	}
 
 	var out fileV1.File
-	_ = copier.Copy(&out, in)
+	_ = copier.CopyWithOption(&out, in, r.copierOption)
 
 	//out.Provider = r.toProtoProvider(in.Provider)
 	//out.CreateTime = timeutil.TimeToTimeString(in.CreateTime)
@@ -107,7 +107,7 @@ func (r *FileRepo) toEnt(in *fileV1.File) *ent.File {
 	}
 
 	var out ent.File
-	_ = copier.Copy(&out, in)
+	_ = copier.CopyWithOption(&out, in, r.copierOption)
 
 	return &out
 }

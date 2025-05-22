@@ -91,7 +91,7 @@ func (r *NotificationMessageRecipientRepo) toProto(in *ent.NotificationMessageRe
 	}
 
 	var out internalMessageV1.NotificationMessageRecipient
-	_ = copier.Copy(&out, in)
+	_ = copier.CopyWithOption(&out, in, r.copierOption)
 
 	//out.Status = r.toProtoStatus(in.Status)
 	//out.CreateTime = timeutil.TimeToTimeString(in.CreateTime)
@@ -107,7 +107,7 @@ func (r *NotificationMessageRecipientRepo) toEnt(in *internalMessageV1.Notificat
 	}
 
 	var out ent.NotificationMessageRecipient
-	_ = copier.Copy(&out, in)
+	_ = copier.CopyWithOption(&out, in, r.copierOption)
 
 	return &out
 }

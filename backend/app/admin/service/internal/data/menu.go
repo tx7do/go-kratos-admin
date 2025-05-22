@@ -120,7 +120,7 @@ func (r *MenuRepo) toProto(in *ent.Menu) *adminV1.Menu {
 	}
 
 	var out adminV1.Menu
-	_ = copier.Copy(&out, in)
+	_ = copier.CopyWithOption(&out, in, r.copierOption)
 
 	//out.Type = r.toProtoType(in.Type)
 	//out.Status = r.toProtoStatus(in.Status)
@@ -137,7 +137,7 @@ func (r *MenuRepo) toEnt(in *adminV1.Menu) *ent.Menu {
 	}
 
 	var out ent.Menu
-	_ = copier.Copy(&out, in)
+	_ = copier.CopyWithOption(&out, in, r.copierOption)
 
 	return &out
 }

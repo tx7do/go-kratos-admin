@@ -165,7 +165,7 @@ func (r *UserRepo) toEnt(in *userV1.User) *ent.User {
 	}
 
 	var out ent.User
-	_ = copier.Copy(&out, in)
+	_ = copier.CopyWithOption(&out, in, r.copierOption)
 
 	//out.Gender = r.toEntGender(in.Gender)
 	//out.Authority = r.toEntAuthority(in.Authority)
@@ -183,7 +183,7 @@ func (r *UserRepo) toProto(in *ent.User) *userV1.User {
 	}
 
 	var out userV1.User
-	_ = copier.Copy(&out, in)
+	_ = copier.CopyWithOption(&out, in, r.copierOption)
 
 	//out.Gender = r.toProtoGender(in.Gender)
 	//out.Authority = r.toProtoAuthority(in.Authority)

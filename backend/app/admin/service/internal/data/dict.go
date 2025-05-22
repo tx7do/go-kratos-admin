@@ -53,7 +53,7 @@ func (r *DictRepo) toProto(in *ent.Dict) *adminV1.Dict {
 	}
 
 	var out adminV1.Dict
-	_ = copier.Copy(&out, in)
+	_ = copier.CopyWithOption(&out, in, r.copierOption)
 
 	//out.CreateTime = timeutil.TimeToTimeString(in.CreateTime)
 	//out.UpdateTime = timeutil.TimeToTimeString(in.UpdateTime)
@@ -68,7 +68,7 @@ func (r *DictRepo) toEnt(in *adminV1.Dict) *ent.Dict {
 	}
 
 	var out ent.Dict
-	_ = copier.Copy(&out, in)
+	_ = copier.CopyWithOption(&out, in, r.copierOption)
 
 	return &out
 }

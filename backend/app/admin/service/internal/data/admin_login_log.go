@@ -51,7 +51,7 @@ func (r *AdminLoginLogRepo) toProto(in *ent.AdminLoginLog) *adminV1.AdminLoginLo
 	}
 
 	var out adminV1.AdminLoginLog
-	_ = copier.Copy(&out, in)
+	_ = copier.CopyWithOption(&out, in, r.copierOption)
 
 	//out.CreateTime = timeutil.TimeToTimeString(in.CreateTime)
 	//out.LoginTime = timeutil.TimeToTimestamppb(in.LoginTime)
@@ -65,7 +65,7 @@ func (r *AdminLoginLogRepo) toEnt(in *adminV1.AdminLoginLog) *ent.AdminLoginLog 
 	}
 
 	var out ent.AdminLoginLog
-	_ = copier.Copy(&out, in)
+	_ = copier.CopyWithOption(&out, in, r.copierOption)
 
 	return &out
 }

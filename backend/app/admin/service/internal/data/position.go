@@ -53,7 +53,7 @@ func (r *PositionRepo) toProto(in *ent.Position) *userV1.Position {
 	}
 
 	var out userV1.Position
-	_ = copier.Copy(&out, in)
+	_ = copier.CopyWithOption(&out, in, r.copierOption)
 
 	//out.CreateTime = timeutil.TimeToTimeString(in.CreateTime)
 	//out.UpdateTime = timeutil.TimeToTimeString(in.UpdateTime)
@@ -68,7 +68,7 @@ func (r *PositionRepo) toEnt(in *userV1.Position) *ent.Position {
 	}
 
 	var out ent.Position
-	_ = copier.Copy(&out, in)
+	_ = copier.CopyWithOption(&out, in, r.copierOption)
 
 	return &out
 }

@@ -52,7 +52,7 @@ func (r *AdminOperationLogRepo) NewFloatSecondConverterPair() []copier.TypeConve
 	srcType := durationpb.New(0)
 	dstType := trans.Ptr(float64(0))
 
-	fromFn := timeutil.DurationpbSecond
+	fromFn := timeutil.DurationpbToSecond
 	toFn := timeutil.SecondToDurationpb
 
 	return copierutil.NewGenericTypeConverterPair(srcType, dstType, fromFn, toFn)
@@ -189,7 +189,7 @@ func (r *AdminOperationLogRepo) Create(ctx context.Context, req *adminV1.CreateA
 		SetNillableRequestBody(req.Data.RequestBody).
 		SetNillableRequestHeader(req.Data.RequestHeader).
 		SetNillableResponse(req.Data.Response).
-		SetNillableCostTime(timeutil.DurationpbSecond(req.Data.CostTime)).
+		SetNillableCostTime(timeutil.DurationpbToSecond(req.Data.CostTime)).
 		SetNillableUserID(req.Data.UserId).
 		SetNillableUserName(req.Data.UserName).
 		SetNillableClientIP(req.Data.ClientIp).

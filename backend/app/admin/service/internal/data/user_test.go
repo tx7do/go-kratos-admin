@@ -189,6 +189,23 @@ func TestCopier(t *testing.T) {
 	}
 
 	{
+		var in struct {
+			IntArray []int32
+		}
+		var out struct {
+			IntArray []int
+		}
+
+		in.IntArray = []int32{1}
+		_ = copier.Copy(&out, &in)
+		fmt.Println("IntArray: ", out.IntArray)
+
+		out.IntArray = []int{3}
+		_ = copier.Copy(&in, &out)
+		fmt.Println("IntArray: ", in.IntArray)
+	}
+
+	{
 		var entMsg ent.User
 		var protoMsg userV1.User
 

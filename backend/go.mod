@@ -26,7 +26,7 @@ require (
 	github.com/minio/minio-go/v7 v7.0.92
 	github.com/redis/go-redis/v9 v9.8.0
 	github.com/stretchr/testify v1.10.0
-	github.com/tx7do/go-utils v1.1.22
+	github.com/tx7do/go-utils v1.1.23
 	github.com/tx7do/go-utils/copierutil v0.0.3
 	github.com/tx7do/go-utils/entgo v1.1.28
 	github.com/tx7do/go-utils/geoip v1.1.5

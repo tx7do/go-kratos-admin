@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+package admin.service.v1;
+
+import "gnostic/openapi/v3/annotations.proto";
+import "google/api/annotations.proto";
+import "google/protobuf/empty.proto";
+
+import "user/service/v1/user.proto";
+
+// 用户个人资料服务
+service UserProfileService {
+  // 获取用户资料
+  rpc GetUser (google.protobuf.Empty) returns (user.service.v1.User) {
+    option (google.api.http) = {
+      get: "/admin/v1/me"
+    };
+  }
+
+  // 更新用户资料
+  rpc UpdateUser (user.service.v1.UpdateUserRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      put: "/admin/v1/me"
+      body: "*"
+    };
+  }
+}

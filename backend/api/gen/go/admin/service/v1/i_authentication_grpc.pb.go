@@ -13,7 +13,6 @@ import (
 	status "google.golang.org/grpc/status"
 	emptypb "google.golang.org/protobuf/types/known/emptypb"
 	v1 "kratos-admin/api/gen/go/authentication/service/v1"
-	v11 "kratos-admin/api/gen/go/user/service/v1"
 )
 
 // This is a compile-time assertion to ensure that this generated file
@@ -25,7 +24,6 @@ const (
 	AuthenticationService_Login_FullMethodName        = "/admin.service.v1.AuthenticationService/Login"
 	AuthenticationService_Logout_FullMethodName       = "/admin.service.v1.AuthenticationService/Logout"
 	AuthenticationService_RefreshToken_FullMethodName = "/admin.service.v1.AuthenticationService/RefreshToken"
-	AuthenticationService_GetMe_FullMethodName        = "/admin.service.v1.AuthenticationService/GetMe"
 )
 
 // AuthenticationServiceClient is the client API for AuthenticationService service.
@@ -40,8 +38,6 @@ type AuthenticationServiceClient interface {
 	Logout(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	// 刷新认证令牌
 	RefreshToken(ctx context.Context, in *v1.LoginRequest, opts ...grpc.CallOption) (*v1.LoginResponse, error)
-	// 后台获取已经登录的用户的数据
-	GetMe(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*v11.User, error)
 }
 
 type authenticationServiceClient struct {
@@ -82,16 +78,6 @@ func (c *authenticationServiceClient) RefreshToken(ctx context.Context, in *v1.L
 	return out, nil
 }
 
-func (c *authenticationServiceClient) GetMe(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*v11.User, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(v11.User)
-	err := c.cc.Invoke(ctx, AuthenticationService_GetMe_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 // AuthenticationServiceServer is the server API for AuthenticationService service.
 // All implementations must embed UnimplementedAuthenticationServiceServer
 // for forward compatibility.
@@ -104,8 +90,6 @@ type AuthenticationServiceServer interface {
 	Logout(context.Context, *emptypb.Empty) (*emptypb.Empty, error)
 	// 刷新认证令牌
 	RefreshToken(context.Context, *v1.LoginRequest) (*v1.LoginResponse, error)
-	// 后台获取已经登录的用户的数据
-	GetMe(context.Context, *emptypb.Empty) (*v11.User, error)
 	mustEmbedUnimplementedAuthenticationServiceServer()
 }
 
@@ -124,9 +108,6 @@ func (UnimplementedAuthenticationServiceServer) Logout(context.Context, *emptypb
 }
 func (UnimplementedAuthenticationServiceServer) RefreshToken(context.Context, *v1.LoginRequest) (*v1.LoginResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RefreshToken not implemented")
-}
-func (UnimplementedAuthenticationServiceServer) GetMe(context.Context, *emptypb.Empty) (*v11.User, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetMe not implemented")
 }
 func (UnimplementedAuthenticationServiceServer) mustEmbedUnimplementedAuthenticationServiceServer() {}
 func (UnimplementedAuthenticationServiceServer) testEmbeddedByValue()                               {}
@@ -203,24 +184,6 @@ func _AuthenticationService_RefreshToken_Handler(srv interface{}, ctx context.Co
 	return interceptor(ctx, in, info, handler)
 }
 
-func _AuthenticationService_GetMe_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(emptypb.Empty)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(AuthenticationServiceServer).GetMe(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: AuthenticationService_GetMe_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AuthenticationServiceServer).GetMe(ctx, req.(*emptypb.Empty))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 // AuthenticationService_ServiceDesc is the grpc.ServiceDesc for AuthenticationService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -239,10 +202,6 @@ var AuthenticationService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "RefreshToken",
 			Handler:    _AuthenticationService_RefreshToken_Handler,
-		},
-		{
-			MethodName: "GetMe",
-			Handler:    _AuthenticationService_GetMe_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

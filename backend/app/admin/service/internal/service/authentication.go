@@ -94,18 +94,24 @@ func (s *AuthenticationService) doGrantTypePassword(ctx context.Context, req *au
 
 // doGrantTypeAuthorizationCode 处理授权类型 -
 func (s *AuthenticationService) doGrantTypeRefreshToken(ctx context.Context, req *authenticationV1.LoginRequest) (*authenticationV1.LoginResponse, error) {
+	// 获取操作人信息
+	operator, err := auth.FromContext(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	// 获取用户信息
-	user, err := s.userRepo.Get(ctx, req.GetOperatorId())
+	user, err := s.userRepo.Get(ctx, operator.UserId)
 	if err != nil {
 		return &authenticationV1.LoginResponse{}, err
 	}
 
 	// 校验刷新令牌
-	if !s.userToken.IsExistRefreshToken(ctx, req.GetOperatorId(), req.GetRefreshToken()) {
+	if !s.userToken.IsExistRefreshToken(ctx, operator.UserId, req.GetRefreshToken()) {
 		return nil, authenticationV1.ErrorIncorrectRefreshToken("invalid refresh token")
 	}
 
-	if err = s.userToken.RemoveRefreshToken(ctx, req.GetOperatorId(), req.GetRefreshToken()); err != nil {
+	if err = s.userToken.RemoveRefreshToken(ctx, operator.UserId, req.GetRefreshToken()); err != nil {
 		s.log.Errorf("remove refresh token failed [%s]", err.Error())
 	}
 
@@ -140,27 +146,6 @@ func (s *AuthenticationService) Logout(ctx context.Context, _ *emptypb.Empty) (*
 	}
 
 	return &emptypb.Empty{}, nil
-}
-
-func (s *AuthenticationService) GetMe(ctx context.Context, _ *emptypb.Empty) (*userV1.User, error) {
-	// 获取操作人信息
-	operator, err := auth.FromContext(ctx)
-	if err != nil {
-		return nil, err
-	}
-
-	user, err := s.userRepo.Get(ctx, operator.UserId)
-	if err != nil {
-		s.log.Errorf("查询用户失败[%s]", err.Error())
-		return nil, authenticationV1.ErrorNotFound("user not found")
-	}
-
-	role, err := s.roleRepo.Get(ctx, user.GetRoleId())
-	if err == nil && role != nil {
-		user.Roles = append(user.Roles, role.GetCode())
-	}
-
-	return user, err
 }
 
 // RefreshToken 刷新令牌

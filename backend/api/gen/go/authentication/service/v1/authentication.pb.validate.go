@@ -91,10 +91,6 @@ func (m *LoginRequest) validate(all bool) error {
 		// no validation rules for Code
 	}
 
-	if m.OperatorId != nil {
-		// no validation rules for OperatorId
-	}
-
 	if len(errors) > 0 {
 		return LoginRequestMultiError(errors)
 	}

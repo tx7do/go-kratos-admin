@@ -38,11 +38,4 @@ service AuthenticationService {
       body: "*"
     };
   }
-
-  // 后台获取已经登录的用户的数据
-  rpc GetMe (google.protobuf.Empty) returns (user.service.v1.User) {
-    option (google.api.http) = {
-      get: "/admin/v1/me"
-    };
-  }
 }

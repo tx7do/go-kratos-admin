@@ -21,9 +21,6 @@ service AuthenticationService {
 
   // 刷新认证令牌
   rpc RefreshToken (LoginRequest) returns (LoginResponse) {}
-
-  // 获取已经登录的用户数据
-  rpc GetMe (google.protobuf.Empty) returns (user.service.v1.User) {}
 }
 
 // 授权类型
@@ -100,11 +97,6 @@ message LoginRequest {
       description: "授权请求中收到的一次性验证/认证码。(当使用授权码模式时)"
     }
   ]; // 授权请求中收到的一次性验证/认证码。(当使用授权码模式时)
-
-  optional uint32 operator_id = 100 [
-    (gnostic.openapi.v3.property) = {description: "操作用户ID", read_only: true},
-    json_name = "operatorId"
-  ]; // 操作用户ID
 }
 
 // 用户后台登录 - 回应

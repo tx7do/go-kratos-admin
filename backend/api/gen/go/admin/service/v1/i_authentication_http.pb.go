@@ -12,7 +12,6 @@ import (
 	binding "github.com/go-kratos/kratos/v2/transport/http/binding"
 	emptypb "google.golang.org/protobuf/types/known/emptypb"
 	v1 "kratos-admin/api/gen/go/authentication/service/v1"
-	v11 "kratos-admin/api/gen/go/user/service/v1"
 )
 
 // This is a compile-time assertion to ensure that this generated file
@@ -22,14 +21,11 @@ var _ = binding.EncodeURL
 
 const _ = http.SupportPackageIsVersion1
 
-const OperationAuthenticationServiceGetMe = "/admin.service.v1.AuthenticationService/GetMe"
 const OperationAuthenticationServiceLogin = "/admin.service.v1.AuthenticationService/Login"
 const OperationAuthenticationServiceLogout = "/admin.service.v1.AuthenticationService/Logout"
 const OperationAuthenticationServiceRefreshToken = "/admin.service.v1.AuthenticationService/RefreshToken"
 
 type AuthenticationServiceHTTPServer interface {
-	// GetMe 后台获取已经登录的用户的数据
-	GetMe(context.Context, *emptypb.Empty) (*v11.User, error)
 	// Login 登录
 	Login(context.Context, *v1.LoginRequest) (*v1.LoginResponse, error)
 	// Logout 登出
@@ -43,7 +39,6 @@ func RegisterAuthenticationServiceHTTPServer(s *http.Server, srv AuthenticationS
 	r.POST("/admin/v1/login", _AuthenticationService_Login0_HTTP_Handler(srv))
 	r.POST("/admin/v1/logout", _AuthenticationService_Logout0_HTTP_Handler(srv))
 	r.POST("/admin/v1/refresh_token", _AuthenticationService_RefreshToken0_HTTP_Handler(srv))
-	r.GET("/admin/v1/me", _AuthenticationService_GetMe0_HTTP_Handler(srv))
 }
 
 func _AuthenticationService_Login0_HTTP_Handler(srv AuthenticationServiceHTTPServer) func(ctx http.Context) error {
@@ -112,27 +107,7 @@ func _AuthenticationService_RefreshToken0_HTTP_Handler(srv AuthenticationService
 	}
 }
 
-func _AuthenticationService_GetMe0_HTTP_Handler(srv AuthenticationServiceHTTPServer) func(ctx http.Context) error {
-	return func(ctx http.Context) error {
-		var in emptypb.Empty
-		if err := ctx.BindQuery(&in); err != nil {
-			return err
-		}
-		http.SetOperation(ctx, OperationAuthenticationServiceGetMe)
-		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
-			return srv.GetMe(ctx, req.(*emptypb.Empty))
-		})
-		out, err := h(ctx, &in)
-		if err != nil {
-			return err
-		}
-		reply := out.(*v11.User)
-		return ctx.Result(200, reply)
-	}
-}
-
 type AuthenticationServiceHTTPClient interface {
-	GetMe(ctx context.Context, req *emptypb.Empty, opts ...http.CallOption) (rsp *v11.User, err error)
 	Login(ctx context.Context, req *v1.LoginRequest, opts ...http.CallOption) (rsp *v1.LoginResponse, err error)
 	Logout(ctx context.Context, req *emptypb.Empty, opts ...http.CallOption) (rsp *emptypb.Empty, err error)
 	RefreshToken(ctx context.Context, req *v1.LoginRequest, opts ...http.CallOption) (rsp *v1.LoginResponse, err error)
@@ -144,19 +119,6 @@ type AuthenticationServiceHTTPClientImpl struct {
 
 func NewAuthenticationServiceHTTPClient(client *http.Client) AuthenticationServiceHTTPClient {
 	return &AuthenticationServiceHTTPClientImpl{client}
-}
-
-func (c *AuthenticationServiceHTTPClientImpl) GetMe(ctx context.Context, in *emptypb.Empty, opts ...http.CallOption) (*v11.User, error) {
-	var out v11.User
-	pattern := "/admin/v1/me"
-	path := binding.EncodeURL(pattern, in, true)
-	opts = append(opts, http.Operation(OperationAuthenticationServiceGetMe))
-	opts = append(opts, http.PathTemplate(pattern))
-	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return &out, nil
 }
 
 func (c *AuthenticationServiceHTTPClientImpl) Login(ctx context.Context, in *v1.LoginRequest, opts ...http.CallOption) (*v1.LoginResponse, error) {

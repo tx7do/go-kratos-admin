@@ -794,9 +794,9 @@ paths:
     /admin/v1/me:
         get:
             tags:
-                - AuthenticationService
-            description: 后台获取已经登录的用户的数据
-            operationId: AuthenticationService_GetMe
+                - UserProfileService
+            description: 获取用户资料
+            operationId: UserProfileService_GetUser
             responses:
                 "200":
                     description: OK
@@ -804,6 +804,21 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/User'
+        put:
+            tags:
+                - UserProfileService
+            description: 更新用户资料
+            operationId: UserProfileService_UpdateUser
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/UpdateUserRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content: {}
     /admin/v1/menus:
         get:
             tags:
@@ -3147,11 +3162,6 @@ components:
                 code:
                     type: string
                     description: 授权请求中收到的一次性验证/认证码。(当使用授权码模式时)
-                operatorId:
-                    readOnly: true
-                    type: integer
-                    description: 操作用户ID
-                    format: uint32
             description: 用户后台登录 - 请求
         LoginResponse:
             type: object
@@ -4516,5 +4526,7 @@ tags:
       description: 租户管理服务
     - name: UEditorService
       description: UEditor后端服务
+    - name: UserProfileService
+      description: 用户个人资料服务
     - name: UserService
       description: 用户管理服务

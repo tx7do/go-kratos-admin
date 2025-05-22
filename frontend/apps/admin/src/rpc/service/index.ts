@@ -1,6 +1,6 @@
 export * from './admin_login_log';
 export * from './admin_operation_log';
-export * from './authn';
+export * from './authentication';
 export * from './department';
 export * from './dict';
 export * from './file';
@@ -16,3 +16,4 @@ export * from './router';
 export * from './task';
 export * from './tenant';
 export * from './user';
+export * from './user_profile';

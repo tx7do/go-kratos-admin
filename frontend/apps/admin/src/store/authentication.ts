@@ -12,7 +12,11 @@ import CryptoJS from 'crypto-js';
 import { defineStore } from 'pinia';
 
 import { $t } from '#/locales';
-import { defAuthnService, defRouterService } from '#/rpc';
+import {
+  defAuthnService,
+  defRouterService,
+  defUserProfileService,
+} from '#/rpc';
 
 export const useAuthStore = defineStore('auth', () => {
   const accessStore = useAccessStore();
@@ -197,7 +201,7 @@ export const useAuthStore = defineStore('auth', () => {
    */
   async function fetchUserInfo() {
     try {
-      return (await defAuthnService.GetMe({})) as UserInfo;
+      return (await defUserProfileService.GetUser({})) as UserInfo;
     } catch (error) {
       console.error(error);
       await doLogout();

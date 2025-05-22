@@ -6,7 +6,6 @@
 
 /* eslint-disable */
 import { type Empty } from "../../../google/protobuf/empty.pb";
-import { type User } from "../../../user/service/v1/user.pb";
 
 /** 授权类型 */
 export enum GrantType {
@@ -65,12 +64,7 @@ export interface LoginRequest {
     | null
     | undefined;
   /** 授权请求中收到的一次性验证/认证码。(当使用授权码模式时) */
-  code?:
-    | string
-    | null
-    | undefined;
-  /** 操作用户ID */
-  operatorId?: number | null | undefined;
+  code?: string | null | undefined;
 }
 
 /** 用户后台登录 - 回应 */
@@ -106,6 +100,4 @@ export interface AuthenticationService {
   Logout(request: Empty): Promise<Empty>;
   /** 刷新认证令牌 */
   RefreshToken(request: LoginRequest): Promise<LoginResponse>;
-  /** 获取已经登录的用户数据 */
-  GetMe(request: Empty): Promise<User>;
 }

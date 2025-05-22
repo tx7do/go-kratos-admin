@@ -4,7 +4,6 @@ import type {
   LoginResponse,
 } from '#/rpc/api/authentication/service/v1/authentication.pb';
 import type { Empty } from '#/rpc/api/google/protobuf/empty.pb';
-import type { User } from '#/rpc/api/user/service/v1/user.pb';
 
 import { requestClient } from '#/rpc/request';
 
@@ -18,10 +17,6 @@ export type {
 
 /** 用户后台登录认证服务 */
 export class AuthenticationServiceImpl implements AuthenticationService {
-  async GetMe(_request: Empty): Promise<User> {
-    return await requestClient.get<User>('/me');
-  }
-
   async Login(request: LoginRequest): Promise<LoginResponse> {
     return await requestClient.post<LoginResponse>('/login', request);
   }

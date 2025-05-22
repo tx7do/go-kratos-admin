@@ -7,7 +7,6 @@
 /* eslint-disable */
 import { type LoginRequest, type LoginResponse } from "../../../authentication/service/v1/authentication.pb";
 import { type Empty } from "../../../google/protobuf/empty.pb";
-import { type User } from "../../../user/service/v1/user.pb";
 
 /** 用户后台登录认证服务 */
 export interface AuthenticationService {
@@ -17,6 +16,4 @@ export interface AuthenticationService {
   Logout(request: Empty): Promise<Empty>;
   /** 刷新认证令牌 */
   RefreshToken(request: LoginRequest): Promise<LoginResponse>;
-  /** 后台获取已经登录的用户的数据 */
-  GetMe(request: Empty): Promise<User>;
 }

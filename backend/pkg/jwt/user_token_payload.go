@@ -1,6 +1,8 @@
-package auth
+package jwt
 
 import (
+	"github.com/golang-jwt/jwt/v5"
+
 	authn "github.com/tx7do/kratos-authn/engine"
 
 	authenticationV1 "kratos-admin/api/gen/go/authentication/service/v1"
@@ -62,6 +64,40 @@ func NewUserTokenPayloadWithClaims(claims *authn.AuthClaims) (*authenticationV1.
 	authority, _ := claims.GetString(ClaimFieldAuthority)
 	if authority != "" {
 		v, ok := userV1.UserAuthority_value[authority]
+		if ok {
+			payload.Authority = userV1.UserAuthority(v)
+		}
+	}
+
+	return payload, nil
+}
+
+func NewUserTokenPayloadWithJwtMapClaims(claims jwt.MapClaims) (*authenticationV1.UserTokenPayload, error) {
+	payload := &authenticationV1.UserTokenPayload{}
+
+	sub, _ := claims.GetSubject()
+	if sub != "" {
+		payload.Username = sub
+	}
+
+	userId, _ := claims[ClaimFieldUserID]
+	if userId != nil {
+		payload.UserId = uint32(userId.(float64))
+	}
+
+	tenantId, _ := claims[ClaimFieldTenantID]
+	if userId != nil {
+		payload.TenantId = uint32(tenantId.(float64))
+	}
+
+	clientId, _ := claims[ClaimFieldClientID]
+	if clientId != nil {
+		payload.ClientId = clientId.(string)
+	}
+
+	authority, _ := claims[ClaimFieldAuthority]
+	if authority != nil {
+		v, ok := userV1.UserAuthority_value[authority.(string)]
 		if ok {
 			payload.Authority = userV1.UserAuthority(v)
 		}

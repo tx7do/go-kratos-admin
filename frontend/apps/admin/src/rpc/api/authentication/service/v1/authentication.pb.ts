@@ -112,15 +112,15 @@ export interface ValidateTokenResponse {
 /** 用户令牌载体 */
 export interface UserTokenPayload {
   /** 用户ID */
-  userId: number;
+  uid: number;
   /** 租户ID */
-  tenantId: number;
+  tid: number;
   /** 用户名 */
-  username: string;
+  sub: string;
   /** 客户端ID */
-  clientId: string;
+  cid: string;
   /** 用户权限 */
-  authority: UserAuthority;
+  aut: UserAuthority;
 }
 
 /** 用户登录认证服务 */

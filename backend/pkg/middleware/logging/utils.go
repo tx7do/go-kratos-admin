@@ -17,6 +17,8 @@ import (
 	"github.com/tx7do/go-utils/jwtutil"
 
 	authenticationV1 "kratos-admin/api/gen/go/authentication/service/v1"
+
+	"kratos-admin/pkg/jwt"
 )
 
 var ipClient = qqwry.NewClient()
@@ -30,7 +32,15 @@ func extractAuthToken(htr *http.Transport) *authenticationV1.UserTokenPayload {
 
 	jwtToken := strings.TrimPrefix(authToken, "Bearer ")
 
-	ut, _ := jwtutil.ParseJWTClaimsToStruct[authenticationV1.UserTokenPayload](jwtToken)
+	claims, err := jwtutil.ParseJWTPayload(jwtToken)
+	if err != nil {
+		return nil
+	}
+
+	ut, err := jwt.NewUserTokenPayloadWithJwtMapClaims(claims)
+	if err != nil {
+		return nil
+	}
 
 	return ut
 }

@@ -2,7 +2,6 @@ package auth
 
 import (
 	"context"
-	authenticationV1 "kratos-admin/api/gen/go/authentication/service/v1"
 	"reflect"
 	"strconv"
 
@@ -19,7 +18,10 @@ import (
 	"github.com/tx7do/go-utils/trans"
 	pagination "github.com/tx7do/kratos-bootstrap/api/gen/go/pagination/v1"
 
+	authenticationV1 "kratos-admin/api/gen/go/authentication/service/v1"
+
 	"kratos-admin/pkg/entgo/viewer"
+	"kratos-admin/pkg/jwt"
 	"kratos-admin/pkg/metadata"
 )
 
@@ -50,7 +52,7 @@ func Server(opts ...Option) middleware.Middleware {
 				return nil, ErrWrongContext
 			}
 
-			tokenPayload, err := NewUserTokenPayloadWithClaims(authnClaims)
+			tokenPayload, err := jwt.NewUserTokenPayloadWithClaims(authnClaims)
 			if err != nil {
 				return nil, ErrExtractUserInfoFailed
 			}
@@ -120,7 +122,7 @@ func FromContext(ctx context.Context) (*authenticationV1.UserTokenPayload, error
 		return nil, ErrMissingJwtToken
 	}
 
-	return NewUserTokenPayloadWithClaims(claims)
+	return jwt.NewUserTokenPayloadWithClaims(claims)
 }
 
 func setRequestOperationId(req interface{}, payload *authenticationV1.UserTokenPayload) error {

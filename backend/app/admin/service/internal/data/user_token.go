@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"kratos-admin/pkg/jwt"
 	"time"
 
 	"github.com/go-kratos/kratos/v2/log"
@@ -13,8 +14,6 @@ import (
 	authnEngine "github.com/tx7do/kratos-authn/engine"
 
 	userV1 "kratos-admin/api/gen/go/user/service/v1"
-
-	"kratos-admin/pkg/middleware/auth"
 )
 
 type UserToken struct {
@@ -192,7 +191,7 @@ func (r *UserToken) deleteRefreshTokenFromRedis(ctx context.Context, userId uint
 
 // createAccessJwtToken 生成JWT访问令牌
 func (r *UserToken) createAccessJwtToken(user *userV1.User, clientId string) string {
-	authClaims := auth.NewUserTokenAuthClaims(user, clientId)
+	authClaims := jwt.NewUserTokenAuthClaims(user, clientId)
 
 	signedToken, err := r.authenticator.CreateIdentity(*authClaims)
 	if err != nil {

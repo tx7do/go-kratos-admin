@@ -11,9 +11,9 @@ import (
 	"github.com/go-kratos/kratos/v2/transport/http"
 
 	"github.com/mileusna/useragent"
+
 	"github.com/tx7do/go-utils/timeutil"
 	"github.com/tx7do/go-utils/trans"
-	authnEngine "github.com/tx7do/kratos-authn/engine"
 
 	adminV1 "kratos-admin/api/gen/go/admin/service/v1"
 )
@@ -41,7 +41,7 @@ func Server(opts ...Option) middleware.Middleware {
 				var htr *http.Transport
 				if htr, ok = tr.(*http.Transport); ok {
 					loginLogData = fillLoginLog(htr)
-					operationLogData = fillOperationLog(htr, op.authenticator)
+					operationLogData = fillOperationLog(htr)
 				}
 			}
 
@@ -118,7 +118,7 @@ func fillLoginLog(htr *http.Transport) *adminV1.AdminLoginLog {
 }
 
 // fillOperationLog 填充操作日志
-func fillOperationLog(htr *http.Transport, authenticator authnEngine.Authenticator) *adminV1.AdminOperationLog {
+func fillOperationLog(htr *http.Transport) *adminV1.AdminOperationLog {
 	if htr.Operation() == adminV1.OperationAuthenticationServiceLogin {
 		return nil
 	}
@@ -140,11 +140,10 @@ func fillOperationLog(htr *http.Transport, authenticator authnEngine.Authenticat
 	operationLogData.RequestBody = trans.Ptr(string(bodyBytes))
 	operationLogData.Location = trans.Ptr(clientIpToLocation(clientIp))
 
-	authToken := htr.RequestHeader().Get(HeaderKeyAuthorization)
-	ut := extractAuthToken(authToken, authenticator)
+	ut := extractAuthToken(htr)
 	if ut != nil {
 		operationLogData.UserId = trans.Ptr(ut.UserId)
-		operationLogData.UserName = trans.Ptr(ut.UserName)
+		operationLogData.UserName = trans.Ptr(ut.Username)
 	}
 
 	// 获取客户端ID

@@ -17,6 +17,8 @@ import (
 	"unicode/utf8"
 
 	"google.golang.org/protobuf/types/known/anypb"
+
+	servicev1 "kratos-admin/api/gen/go/user/service/v1"
 )
 
 // ensure the imports are used
@@ -33,6 +35,8 @@ var (
 	_ = (*mail.Address)(nil)
 	_ = anypb.Any{}
 	_ = sort.Sort
+
+	_ = servicev1.UserAuthority(0)
 )
 
 // Validate checks the field values on LoginRequest with the rules defined in
@@ -306,6 +310,8 @@ func (m *ValidateTokenRequest) validate(all bool) error {
 
 	// no validation rules for Token
 
+	// no validation rules for ClientType
+
 	if len(errors) > 0 {
 		return ValidateTokenRequestMultiError(errors)
 	}
@@ -410,6 +416,39 @@ func (m *ValidateTokenResponse) validate(all bool) error {
 
 	// no validation rules for IsValid
 
+	if m.Claim != nil {
+
+		if all {
+			switch v := interface{}(m.GetClaim()).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, ValidateTokenResponseValidationError{
+						field:  "Claim",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, ValidateTokenResponseValidationError{
+						field:  "Claim",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(m.GetClaim()).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return ValidateTokenResponseValidationError{
+					field:  "Claim",
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
 	if len(errors) > 0 {
 		return ValidateTokenResponseMultiError(errors)
 	}
@@ -489,3 +528,113 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = ValidateTokenResponseValidationError{}
+
+// Validate checks the field values on UserTokenPayload with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// first error encountered is returned, or nil if there are no violations.
+func (m *UserTokenPayload) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on UserTokenPayload with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// UserTokenPayloadMultiError, or nil if none found.
+func (m *UserTokenPayload) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *UserTokenPayload) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for UserId
+
+	// no validation rules for TenantId
+
+	// no validation rules for Username
+
+	// no validation rules for ClientId
+
+	// no validation rules for Authority
+
+	if len(errors) > 0 {
+		return UserTokenPayloadMultiError(errors)
+	}
+
+	return nil
+}
+
+// UserTokenPayloadMultiError is an error wrapping multiple validation errors
+// returned by UserTokenPayload.ValidateAll() if the designated constraints
+// aren't met.
+type UserTokenPayloadMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m UserTokenPayloadMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m UserTokenPayloadMultiError) AllErrors() []error { return m }
+
+// UserTokenPayloadValidationError is the validation error returned by
+// UserTokenPayload.Validate if the designated constraints aren't met.
+type UserTokenPayloadValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e UserTokenPayloadValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e UserTokenPayloadValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e UserTokenPayloadValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e UserTokenPayloadValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e UserTokenPayloadValidationError) ErrorName() string { return "UserTokenPayloadValidationError" }
+
+// Error satisfies the builtin error interface
+func (e UserTokenPayloadValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sUserTokenPayload.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = UserTokenPayloadValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = UserTokenPayloadValidationError{}

@@ -2,6 +2,7 @@ package auth
 
 import (
 	"context"
+	authenticationV1 "kratos-admin/api/gen/go/authentication/service/v1"
 	"reflect"
 	"strconv"
 
@@ -113,7 +114,7 @@ func Server(opts ...Option) middleware.Middleware {
 	}
 }
 
-func FromContext(ctx context.Context) (*UserTokenPayload, error) {
+func FromContext(ctx context.Context) (*authenticationV1.UserTokenPayload, error) {
 	claims, ok := authnEngine.AuthClaimsFromContext(ctx)
 	if !ok {
 		return nil, ErrMissingJwtToken
@@ -122,7 +123,7 @@ func FromContext(ctx context.Context) (*UserTokenPayload, error) {
 	return NewUserTokenPayloadWithClaims(claims)
 }
 
-func setRequestOperationId(req interface{}, payload *UserTokenPayload) error {
+func setRequestOperationId(req interface{}, payload *authenticationV1.UserTokenPayload) error {
 	if req == nil {
 		return ErrInvalidRequest
 	}
@@ -136,7 +137,7 @@ func setRequestOperationId(req interface{}, payload *UserTokenPayload) error {
 	return nil
 }
 
-func setRequestTenantId(req interface{}, payload *UserTokenPayload) error {
+func setRequestTenantId(req interface{}, payload *authenticationV1.UserTokenPayload) error {
 	if req == nil {
 		return ErrInvalidRequest
 	}
@@ -150,7 +151,7 @@ func setRequestTenantId(req interface{}, payload *UserTokenPayload) error {
 	return nil
 }
 
-func ensurePagingRequestTenantId(req interface{}, payload *UserTokenPayload) error {
+func ensurePagingRequestTenantId(req interface{}, payload *authenticationV1.UserTokenPayload) error {
 	if paging, ok := req.(*pagination.PagingRequest); ok && payload.TenantId > 0 {
 		if paging.Query != nil {
 			newStr := stringutil.ReplaceJSONField("tenantId|tenant_id", strconv.Itoa(int(payload.TenantId)), paging.GetQuery())

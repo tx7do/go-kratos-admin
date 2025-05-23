@@ -48,7 +48,6 @@ func newRestMiddleware(
 	logger log.Logger,
 	authenticator authnEngine.Authenticator,
 	authorizer authzEngine.Engine,
-	userToken *data.UserToken,
 	operationLogRepo *data.AdminOperationLogRepo,
 	loginLogRepo *data.AdminLoginLogRepo,
 ) []middleware.Middleware {
@@ -56,7 +55,6 @@ func newRestMiddleware(
 	ms = append(ms, logging.Server(logger))
 
 	ms = append(ms, applogging.Server(
-		applogging.WithAuthenticator(authenticator),
 		applogging.WithWriteOperationLogFunc(func(ctx context.Context, data *adminV1.AdminOperationLog) error {
 			// TODO 如果系统的负载比较小，可以同步写入数据库，否则，建议使用异步方式，即投递进队列。
 			return operationLogRepo.Create(ctx, &adminV1.CreateAdminOperationLogRequest{Data: data})
@@ -80,7 +78,6 @@ func newRestMiddleware(
 func NewRESTServer(
 	cfg *conf.Bootstrap, logger log.Logger,
 	authenticator authnEngine.Authenticator, authorizer authzEngine.Engine,
-	userToken *data.UserToken,
 	operationLogRepo *data.AdminOperationLogRepo,
 	loginLogRepo *data.AdminLoginLogRepo,
 	authnSvc *service.AuthenticationService,
@@ -111,7 +108,7 @@ func NewRESTServer(
 	}
 
 	srv := rpc.CreateRestServer(cfg,
-		newRestMiddleware(logger, authenticator, authorizer, userToken, operationLogRepo, loginLogRepo)...,
+		newRestMiddleware(logger, authenticator, authorizer, operationLogRepo, loginLogRepo)...,
 	)
 
 	adminV1.RegisterAuthenticationServiceHTTPServer(srv, authnSvc)

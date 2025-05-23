@@ -1469,8 +1469,6 @@ github.com/tklauser/go-sysconf v0.3.15/go.mod h1:Dmjwr6tYFIseJw7a3dRLJfsHAMXZ3nE
 github.com/tklauser/numcpus v0.10.0 h1:18njr6LDBk1zuna922MgdjQuJFjrdppsZG60sHGfjso=
 github.com/tklauser/numcpus v0.10.0/go.mod h1:BiTKazU708GQTYF4mB+cmlpT2Is1gLk7XVuEeem8LsQ=
 github.com/tv42/httpunix v0.0.0-20150427012821-b75d8614f926/go.mod h1:9ESjWnEqriFuLhtthL60Sar/7RFoluCcXsuvEwTV5KM=
-github.com/tx7do/go-utils v1.1.22 h1:dGo740LBKBBUKKP9x/1koBdA9Cn9EUx+1jwDbjeLNWQ=
-github.com/tx7do/go-utils v1.1.22/go.mod h1:ONLfiOZFYT62s3hdQHgEifAm4BwnwFSrCcTGN1wVWHg=
 github.com/tx7do/go-utils v1.1.23 h1:4eqkKw3tauqhM2sihVYsOeqf0A1sTWDx6jj+iN+CU+c=
 github.com/tx7do/go-utils v1.1.23/go.mod h1:ONLfiOZFYT62s3hdQHgEifAm4BwnwFSrCcTGN1wVWHg=
 github.com/tx7do/go-utils/copierutil v0.0.3 h1:iSJWxsuxKko/Cy9Me2uFrO1XPDjlAM2wfSPe7ck0SAk=
@@ -1479,6 +1477,8 @@ github.com/tx7do/go-utils/entgo v1.1.28 h1:vrj60q7jJsj5sVXCYkSYH+e74WTKO78Ti8Brl
 github.com/tx7do/go-utils/entgo v1.1.28/go.mod h1:/hyPSLtCIa3HIJOnofakJxOQ6Mci6aQZe+xwf/PM++0=
 github.com/tx7do/go-utils/geoip v1.1.5 h1:Cj0hSiRPfn0ovJs9lV6R2D27fFSfUU5guZstXW/tqS8=
 github.com/tx7do/go-utils/geoip v1.1.5/go.mod h1:kGrTEW430Nq+7z17PY0OOSBZCTss2y6jj+SlD7qVZWI=
+github.com/tx7do/go-utils/jwtutil v0.0.1 h1:brKC728vmAbzezsl2yxIs3+5eT/sNW8UKmAMsovt4rY=
+github.com/tx7do/go-utils/jwtutil v0.0.1/go.mod h1:dCQCEidbIr+oQywSzeHWB5hEbF94lL2NIxgnI0aAPgg=
 github.com/tx7do/kratos-authn v1.1.7 h1:iPWd4Srt9VCcBWYYeM0qnZFJIIi++G2WU7/1KeucHNk=
 github.com/tx7do/kratos-authn v1.1.7/go.mod h1:5772phf9gJmz3JkktkR1B2zygqqWn1lJcCORXa310aQ=
 github.com/tx7do/kratos-authn/engine/jwt v1.1.7 h1:i37vaCL52GT06arFipyWiOGYig+ulsN4gPsCAZ0xUjs=

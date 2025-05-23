@@ -20,7 +20,7 @@ export class AuthenticationServiceImpl implements AuthenticationService {
   }
 
   async Logout(_request: Empty): Promise<Empty> {
-    return await requestClient.post('/logout');
+    return await requestClient.post<Empty>('/logout', {});
   }
 
   async RefreshToken(request: LoginRequest): Promise<LoginResponse> {

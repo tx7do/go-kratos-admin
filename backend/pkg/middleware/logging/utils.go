@@ -3,7 +3,6 @@ package logging
 import (
 	"fmt"
 	"io"
-	authenticationV1 "kratos-admin/api/gen/go/authentication/service/v1"
 	"net"
 	"strings"
 
@@ -15,29 +14,23 @@ import (
 
 	"github.com/mileusna/useragent"
 	"github.com/tx7do/go-utils/geoip/qqwry"
-	authnEngine "github.com/tx7do/kratos-authn/engine"
+	"github.com/tx7do/go-utils/jwtutil"
 
-	"kratos-admin/pkg/middleware/auth"
+	authenticationV1 "kratos-admin/api/gen/go/authentication/service/v1"
 )
 
 var ipClient = qqwry.NewClient()
 
 // extractAuthToken 从JWT Token中提取用户信息
-func extractAuthToken(authToken string, authenticator authnEngine.Authenticator) *auth.UserTokenPayload {
+func extractAuthToken(htr *http.Transport) *authenticationV1.UserTokenPayload {
+	authToken := htr.RequestHeader().Get(HeaderKeyAuthorization)
 	if len(authToken) == 0 {
 		return nil
 	}
 
 	jwtToken := strings.TrimPrefix(authToken, "Bearer ")
-	authnClaims, _ := authenticator.AuthenticateToken(jwtToken)
-	if authnClaims == nil {
-		return nil
-	}
 
-	ut, _ := auth.NewUserTokenPayloadWithClaims(authnClaims)
-	if ut == nil {
-		return nil
-	}
+	ut, _ := jwtutil.ParseJWTClaimsToStruct[authenticationV1.UserTokenPayload](jwtToken)
 
 	return ut
 }
@@ -50,7 +43,7 @@ func getClientRealIP(request *http.Request) string {
 
 	// 先检查 X-Forwarded-For 头
 	// 由于它可以记录整个代理链中的IP地址，因此适用于多级代理的情况。
-	// 当请求经过多个代理服务器时，X-Forwarded-For字段可以完整地记录原始请求的客户端IP地址和所有代理服务器的IP地址。
+	// 当请求经过多个代理服務器时，X-Forwarded-For字段可以完整地记录原始请求的客户端IP地址和所有代理服務器的IP地址。
 	// 需要注意：
 	// 最外层Nginx配置为：proxy_set_header X-Forwarded-For $remote_addr; 如此做可以覆写掉ip。以防止ip伪造。
 	// 里层Nginx配置为：proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
@@ -71,8 +64,8 @@ func getClientRealIP(request *http.Request) string {
 	}
 
 	// 接着检查反向代理的 X-Real-IP 头
-	// 通常只在反向代理服务器中使用，并且只记录原始请求的客户端IP地址。
-	// 它不适用于多级代理的情况，因为每经过一个代理服务器，X-Real-IP字段的值都会被覆盖为最新的客户端IP地址。
+	// 通常只在反向代理服務器中使用，并且只记录原始请求的客户端IP地址。
+	// 它不适用于多级代理的情况，因为每经过一个代理服務器，X-Real-IP字段的值都会被覆盖为最新的客户端IP地址。
 	xri := request.Header.Get(HeaderKeyXRealIP)
 	if xri != "" {
 		if net.ParseIP(xri) != nil {
@@ -110,8 +103,8 @@ func getRequestId(request *http.Request) string {
 
 	// 先检查 X-Request-ID 头
 	// 这是比较常见的用于标识请求的自定义头部字段。
-	// 例如，在一个微服务架构的系统中，当一个请求从前端应用发送到后端的多个微服务时，
-	// 每个微服务都可以在 X-Request-ID 字段中获取到相同的请求标识，从而方便追踪请求在各个服务节点中的处理情况。
+	// 例如，在一个微服務架构的系统中，当一个请求从前端应用发送到后端的多个微服務时，
+	// 每个微服務都可以在 X-Request-ID 字段中获取到相同的请求标识，从而方便追踪请求在各个服務节点中的处理情况。
 	xri := request.Header.Get(HeaderKeyXRequestID)
 	if xri != "" {
 		return xri
@@ -135,7 +128,7 @@ func getRequestId(request *http.Request) string {
 }
 
 // getClientID 获取客户端ID
-func getClientID(request *http.Request, userToken *auth.UserTokenPayload) string {
+func getClientID(request *http.Request, userToken *authenticationV1.UserTokenPayload) string {
 	if request == nil {
 		return ""
 	}
@@ -160,7 +153,7 @@ func getStatusCode(err error) (int32, string, bool) {
 	// 2. 成功响应 (200–299)
 	// 3. 重定向消息 (300–399)
 	// 4. 客户端错误响应 (400–499)
-	// 5. 服务端错误响应 (500–599)
+	// 5. 服務端错误响应 (500–599)
 	if se := errors.FromError(err); se != nil {
 		return se.Code, se.Reason, se.Code < 400
 	} else {
@@ -178,6 +171,7 @@ func PrintUserAgent(strUserAgent string) {
 	fmt.Println("Name:", ua.Name, "v", ua.Version)
 	fmt.Println("OS:", ua.OS, "v", ua.OSVersion)
 	fmt.Println("Device:", ua.Device)
+
 	if ua.Mobile {
 		fmt.Println("(Mobile)")
 	}

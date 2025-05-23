@@ -53,24 +53,16 @@ func NewUserToken(
 }
 
 // GenerateToken 创建令牌
-func (r *UserToken) GenerateToken(ctx context.Context, user *userV1.User) (accessToken string, refreshToken string, err error) {
+func (r *UserToken) GenerateToken(ctx context.Context, user *userV1.User, clientId string) (accessToken string, refreshToken string, err error) {
 	// 创建访问令牌
-	if accessToken = r.createAccessJwtToken(user.GetTenantId(), user.GetId(), user.GetUserName(), user.GetAuthority(), ""); accessToken == "" {
+	if accessToken, err = r.GenerateAccessToken(ctx, user, clientId); accessToken == "" {
 		err = errors.New("create access token failed")
 		return
 	}
 
-	if err = r.setAccessTokenToRedis(ctx, user.GetId(), accessToken, r.accessTokenExpires); err != nil {
-		return
-	}
-
 	// 创建刷新令牌
-	if refreshToken = r.createRefreshToken(); refreshToken == "" {
+	if refreshToken, err = r.GenerateRefreshToken(ctx, user); refreshToken == "" {
 		err = errors.New("create refresh token failed")
-		return
-	}
-
-	if err = r.setRefreshTokenToRedis(ctx, user.GetId(), refreshToken, r.refreshTokenExpires); err != nil {
 		return
 	}
 
@@ -78,13 +70,13 @@ func (r *UserToken) GenerateToken(ctx context.Context, user *userV1.User) (acces
 }
 
 // GenerateAccessToken 创建访问令牌
-func (r *UserToken) GenerateAccessToken(ctx context.Context, tenantId uint32, userId uint32, userName string, authority userV1.UserAuthority, clientId string) (accessToken string, err error) {
-	if accessToken = r.createAccessJwtToken(tenantId, userId, userName, authority, clientId); accessToken == "" {
+func (r *UserToken) GenerateAccessToken(ctx context.Context, user *userV1.User, clientId string) (accessToken string, err error) {
+	if accessToken = r.createAccessJwtToken(user, clientId); accessToken == "" {
 		err = errors.New("create access token failed")
 		return
 	}
 
-	if err = r.setAccessTokenToRedis(ctx, userId, accessToken, r.accessTokenExpires); err != nil {
+	if err = r.setAccessTokenToRedis(ctx, user.GetId(), accessToken, r.accessTokenExpires); err != nil {
 		return
 	}
 
@@ -199,10 +191,10 @@ func (r *UserToken) deleteRefreshTokenFromRedis(ctx context.Context, userId uint
 }
 
 // createAccessJwtToken 生成JWT访问令牌
-func (r *UserToken) createAccessJwtToken(tenantId uint32, userId uint32, userName string, authority userV1.UserAuthority, clientId string) string {
-	userToken := auth.NewUserTokenPayload(tenantId, userId, userName, authority, clientId)
+func (r *UserToken) createAccessJwtToken(user *userV1.User, clientId string) string {
+	authClaims := auth.NewUserTokenAuthClaims(user, clientId)
 
-	signedToken, err := r.authenticator.CreateIdentity(*userToken.MakeAuthClaims())
+	signedToken, err := r.authenticator.CreateIdentity(*authClaims)
 	if err != nil {
 		r.log.Error("create access token failed: [%v]", err)
 	}

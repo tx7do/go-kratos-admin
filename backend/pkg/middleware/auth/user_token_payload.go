@@ -2,6 +2,8 @@ package auth
 
 import (
 	authn "github.com/tx7do/kratos-authn/engine"
+
+	authenticationV1 "kratos-admin/api/gen/go/authentication/service/v1"
 	userV1 "kratos-admin/api/gen/go/user/service/v1"
 )
 
@@ -13,76 +15,57 @@ const (
 	ClaimFieldAuthority = "aut"
 )
 
-// UserTokenPayload 用户JWT令牌载荷
-type UserTokenPayload struct {
-	UserId    uint32
-	TenantId  uint32
-	UserName  string
-	ClientId  string
-	Authority string
-}
-
 // NewUserTokenPayload 创建用户令牌
-func NewUserTokenPayload(tenantId uint32, userId uint32, userName string, authority userV1.UserAuthority, clientId string) *UserTokenPayload {
-	return &UserTokenPayload{
-		UserId:    userId,
-		TenantId:  tenantId,
-		UserName:  userName,
+func NewUserTokenPayload(user *userV1.User, clientId string) *authenticationV1.UserTokenPayload {
+	return &authenticationV1.UserTokenPayload{
+		UserId:    user.GetId(),
+		TenantId:  user.GetTenantId(),
+		Username:  user.GetUserName(),
 		ClientId:  clientId,
-		Authority: authority.String(),
+		Authority: user.GetAuthority(),
 	}
 }
 
-func NewUserTokenPayloadWithClaims(claims *authn.AuthClaims) (*UserTokenPayload, error) {
-	payload := &UserTokenPayload{}
-
-	if err := payload.ExtractAuthClaims(claims); err != nil {
-		return nil, err
-	}
-
-	return payload, nil
-}
-
-// MakeAuthClaims 构建认证声明
-func (t *UserTokenPayload) MakeAuthClaims() *authn.AuthClaims {
+func NewUserTokenAuthClaims(user *userV1.User, clientId string) *authn.AuthClaims {
 	return &authn.AuthClaims{
-		authn.ClaimFieldSubject: t.UserName,
-		ClaimFieldUserID:        t.UserId,
-		ClaimFieldTenantID:      t.TenantId,
-		ClaimFieldClientID:      t.ClientId,
-		ClaimFieldAuthority:     t.Authority,
+		authn.ClaimFieldSubject: user.GetUserName(),
+		ClaimFieldUserID:        user.GetId(),
+		ClaimFieldTenantID:      user.GetTenantId(),
+		ClaimFieldClientID:      clientId,
+		ClaimFieldAuthority:     user.Authority.String(),
 	}
 }
 
-// ExtractAuthClaims 解析认证声明
-func (t *UserTokenPayload) ExtractAuthClaims(claims *authn.AuthClaims) error {
+func NewUserTokenPayloadWithClaims(claims *authn.AuthClaims) (*authenticationV1.UserTokenPayload, error) {
+	payload := &authenticationV1.UserTokenPayload{}
+
 	sub, _ := claims.GetSubject()
 	if sub != "" {
-		t.UserName = sub
+		payload.Username = sub
 	}
 
 	userId, _ := claims.GetUint32(ClaimFieldUserID)
 	if userId != 0 {
-		t.UserId = userId
+		payload.UserId = userId
 	}
 
 	tenantId, _ := claims.GetUint32(ClaimFieldTenantID)
 	if userId != 0 {
-		t.TenantId = tenantId
+		payload.TenantId = tenantId
 	}
 
 	clientId, _ := claims.GetString(ClaimFieldClientID)
 	if clientId != "" {
-		t.ClientId = clientId
+		payload.ClientId = clientId
 	}
 
-	return nil
-}
-
-func (t *UserTokenPayload) GetAuthority() userV1.UserAuthority {
-	authority, ok := userV1.UserAuthority_value[t.Authority]
-	if !ok {
-		return userV1.UserAuthority_GUEST
+	authority, _ := claims.GetString(ClaimFieldAuthority)
+	if authority != "" {
+		v, ok := userV1.UserAuthority_value[authority]
+		if ok {
+			payload.Authority = userV1.UserAuthority(v)
+		}
 	}
-	return userV1.UserAuthority(authority)
+
+	return payload, nil
 }

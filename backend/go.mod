@@ -30,6 +30,7 @@ require (
 	github.com/tx7do/go-utils/copierutil v0.0.3
 	github.com/tx7do/go-utils/entgo v1.1.28
 	github.com/tx7do/go-utils/geoip v1.1.5
+	github.com/tx7do/go-utils/jwtutil v0.0.1
 	github.com/tx7do/kratos-authn v1.1.7
 	github.com/tx7do/kratos-authn/engine/jwt v1.1.7
 	github.com/tx7do/kratos-authn/middleware v1.1.7

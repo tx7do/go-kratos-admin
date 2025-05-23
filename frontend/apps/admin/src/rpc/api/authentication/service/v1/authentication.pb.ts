@@ -6,6 +6,7 @@
 
 /* eslint-disable */
 import { type Empty } from "../../../google/protobuf/empty.pb";
+import { type UserAuthority } from "../../../user/service/v1/user.pb";
 
 /** 授权类型 */
 export enum GrantType {
@@ -27,6 +28,14 @@ export enum TokenType {
   bearer = "bearer",
   /** mac -  */
   mac = "mac",
+}
+
+/** 客户端类型 */
+export enum ClientType {
+  /** admin - 管理端 */
+  admin = "admin",
+  /** app - APP */
+  app = "app",
 }
 
 /** 用户后台登录 - 请求 */
@@ -87,13 +96,31 @@ export interface LoginResponse {
 /** 验证令牌 - 请求 */
 export interface ValidateTokenRequest {
   /** 令牌 */
-  token: string;
+  isValid: string;
+  /** 客戶端類型 */
+  clientType: ClientType;
 }
 
 /** 验证令牌 - 回应 */
 export interface ValidateTokenResponse {
   /** 令牌是否有效 */
   isValid: boolean;
+  /** 用戶令牌载体 */
+  claim?: UserTokenPayload | null | undefined;
+}
+
+/** 用户令牌载体 */
+export interface UserTokenPayload {
+  /** 用户ID */
+  userId: number;
+  /** 租户ID */
+  tenantId: number;
+  /** 用户名 */
+  username: string;
+  /** 客户端ID */
+  clientId: string;
+  /** 用户权限 */
+  authority: UserAuthority;
 }
 
 /** 用户登录认证服务 */

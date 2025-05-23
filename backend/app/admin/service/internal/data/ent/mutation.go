@@ -19984,7 +19984,6 @@ type TaskMutation struct {
 	addtenant_id  *int32
 	_type         *task.Type
 	type_name     *string
-	task_id       *string
 	task_payload  *string
 	cron_spec     *string
 	task_options  **servicev1.TaskOption
@@ -20603,55 +20602,6 @@ func (m *TaskMutation) ResetTypeName() {
 	delete(m.clearedFields, task.FieldTypeName)
 }
 
-// SetTaskID sets the "task_id" field.
-func (m *TaskMutation) SetTaskID(s string) {
-	m.task_id = &s
-}
-
-// TaskID returns the value of the "task_id" field in the mutation.
-func (m *TaskMutation) TaskID() (r string, exists bool) {
-	v := m.task_id
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldTaskID returns the old "task_id" field's value of the Task entity.
-// If the Task object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *TaskMutation) OldTaskID(ctx context.Context) (v *string, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldTaskID is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldTaskID requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldTaskID: %w", err)
-	}
-	return oldValue.TaskID, nil
-}
-
-// ClearTaskID clears the value of the "task_id" field.
-func (m *TaskMutation) ClearTaskID() {
-	m.task_id = nil
-	m.clearedFields[task.FieldTaskID] = struct{}{}
-}
-
-// TaskIDCleared returns if the "task_id" field was cleared in this mutation.
-func (m *TaskMutation) TaskIDCleared() bool {
-	_, ok := m.clearedFields[task.FieldTaskID]
-	return ok
-}
-
-// ResetTaskID resets all changes to the "task_id" field.
-func (m *TaskMutation) ResetTaskID() {
-	m.task_id = nil
-	delete(m.clearedFields, task.FieldTaskID)
-}
-
 // SetTaskPayload sets the "task_payload" field.
 func (m *TaskMutation) SetTaskPayload(s string) {
 	m.task_payload = &s
@@ -20882,7 +20832,7 @@ func (m *TaskMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *TaskMutation) Fields() []string {
-	fields := make([]string, 0, 14)
+	fields := make([]string, 0, 13)
 	if m.create_time != nil {
 		fields = append(fields, task.FieldCreateTime)
 	}
@@ -20909,9 +20859,6 @@ func (m *TaskMutation) Fields() []string {
 	}
 	if m.type_name != nil {
 		fields = append(fields, task.FieldTypeName)
-	}
-	if m.task_id != nil {
-		fields = append(fields, task.FieldTaskID)
 	}
 	if m.task_payload != nil {
 		fields = append(fields, task.FieldTaskPayload)
@@ -20951,8 +20898,6 @@ func (m *TaskMutation) Field(name string) (ent.Value, bool) {
 		return m.GetType()
 	case task.FieldTypeName:
 		return m.TypeName()
-	case task.FieldTaskID:
-		return m.TaskID()
 	case task.FieldTaskPayload:
 		return m.TaskPayload()
 	case task.FieldCronSpec:
@@ -20988,8 +20933,6 @@ func (m *TaskMutation) OldField(ctx context.Context, name string) (ent.Value, er
 		return m.OldType(ctx)
 	case task.FieldTypeName:
 		return m.OldTypeName(ctx)
-	case task.FieldTaskID:
-		return m.OldTaskID(ctx)
 	case task.FieldTaskPayload:
 		return m.OldTaskPayload(ctx)
 	case task.FieldCronSpec:
@@ -21069,13 +21012,6 @@ func (m *TaskMutation) SetField(name string, value ent.Value) error {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetTypeName(v)
-		return nil
-	case task.FieldTaskID:
-		v, ok := value.(string)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetTaskID(v)
 		return nil
 	case task.FieldTaskPayload:
 		v, ok := value.(string)
@@ -21201,9 +21137,6 @@ func (m *TaskMutation) ClearedFields() []string {
 	if m.FieldCleared(task.FieldTypeName) {
 		fields = append(fields, task.FieldTypeName)
 	}
-	if m.FieldCleared(task.FieldTaskID) {
-		fields = append(fields, task.FieldTaskID)
-	}
 	if m.FieldCleared(task.FieldTaskPayload) {
 		fields = append(fields, task.FieldTaskPayload)
 	}
@@ -21257,9 +21190,6 @@ func (m *TaskMutation) ClearField(name string) error {
 	case task.FieldTypeName:
 		m.ClearTypeName()
 		return nil
-	case task.FieldTaskID:
-		m.ClearTaskID()
-		return nil
 	case task.FieldTaskPayload:
 		m.ClearTaskPayload()
 		return nil
@@ -21306,9 +21236,6 @@ func (m *TaskMutation) ResetField(name string) error {
 		return nil
 	case task.FieldTypeName:
 		m.ResetTypeName()
-		return nil
-	case task.FieldTaskID:
-		m.ResetTaskID()
 		return nil
 	case task.FieldTaskPayload:
 		m.ResetTaskPayload()

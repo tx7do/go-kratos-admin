@@ -303,10 +303,6 @@ func (m *Task) validate(all bool) error {
 		// no validation rules for TypeName
 	}
 
-	if m.TaskId != nil {
-		// no validation rules for TaskId
-	}
-
 	if m.TaskPayload != nil {
 		// no validation rules for TaskPayload
 	}

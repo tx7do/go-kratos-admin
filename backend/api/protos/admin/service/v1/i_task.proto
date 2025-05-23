@@ -156,15 +156,7 @@ message Task {
     }
   ]; // 任务执行类型名
 
-  optional string task_id = 4 [
-    json_name = "taskId",
-    (google.api.field_behavior) = OPTIONAL,
-    (gnostic.openapi.v3.property) = {
-      description: "任务ID，用于唯一标识一个任务"
-    }
-  ]; // 任务ID
-
-  optional string task_payload = 5 [
+  optional string task_payload = 4 [
     json_name = "taskPayload",
     (google.api.field_behavior) = OPTIONAL,
     (gnostic.openapi.v3.property) = {
@@ -172,7 +164,7 @@ message Task {
     }
   ]; // 任务数据，以 JSON 格式存储，方便存储不同类型和数量的参数
 
-  optional string cron_spec = 6 [
+  optional string cron_spec = 5 [
     json_name = "cronSpec",
     (google.api.field_behavior) = OPTIONAL,
     (gnostic.openapi.v3.property) = {
@@ -180,7 +172,7 @@ message Task {
     }
   ]; // cron表达式
 
-  optional TaskOption task_options = 7 [
+  optional TaskOption task_options = 6 [
     json_name = "taskOptions",
     (google.api.field_behavior) = OPTIONAL,
     (gnostic.openapi.v3.property) = {

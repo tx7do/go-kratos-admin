@@ -3806,9 +3806,6 @@ components:
                 typeName:
                     type: string
                     description: 任务执行类型名，例如 "send_email"、"generate_report" 等，用于区分不同类型的任务
-                taskId:
-                    type: string
-                    description: 任务ID，用于唯一标识一个任务
                 taskPayload:
                     type: string
                     description: 任务数据，以 JSON 格式存储，方便存储不同类型和数量的参数

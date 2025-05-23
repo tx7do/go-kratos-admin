@@ -184,26 +184,6 @@ func (tu *TaskUpdate) ClearTypeName() *TaskUpdate {
 	return tu
 }
 
-// SetTaskID sets the "task_id" field.
-func (tu *TaskUpdate) SetTaskID(s string) *TaskUpdate {
-	tu.mutation.SetTaskID(s)
-	return tu
-}
-
-// SetNillableTaskID sets the "task_id" field if the given value is not nil.
-func (tu *TaskUpdate) SetNillableTaskID(s *string) *TaskUpdate {
-	if s != nil {
-		tu.SetTaskID(*s)
-	}
-	return tu
-}
-
-// ClearTaskID clears the value of the "task_id" field.
-func (tu *TaskUpdate) ClearTaskID() *TaskUpdate {
-	tu.mutation.ClearTaskID()
-	return tu
-}
-
 // SetTaskPayload sets the "task_payload" field.
 func (tu *TaskUpdate) SetTaskPayload(s string) *TaskUpdate {
 	tu.mutation.SetTaskPayload(s)
@@ -394,12 +374,6 @@ func (tu *TaskUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	}
 	if tu.mutation.TypeNameCleared() {
 		_spec.ClearField(task.FieldTypeName, field.TypeString)
-	}
-	if value, ok := tu.mutation.TaskID(); ok {
-		_spec.SetField(task.FieldTaskID, field.TypeString, value)
-	}
-	if tu.mutation.TaskIDCleared() {
-		_spec.ClearField(task.FieldTaskID, field.TypeString)
 	}
 	if value, ok := tu.mutation.TaskPayload(); ok {
 		_spec.SetField(task.FieldTaskPayload, field.TypeString, value)
@@ -598,26 +572,6 @@ func (tuo *TaskUpdateOne) SetNillableTypeName(s *string) *TaskUpdateOne {
 // ClearTypeName clears the value of the "type_name" field.
 func (tuo *TaskUpdateOne) ClearTypeName() *TaskUpdateOne {
 	tuo.mutation.ClearTypeName()
-	return tuo
-}
-
-// SetTaskID sets the "task_id" field.
-func (tuo *TaskUpdateOne) SetTaskID(s string) *TaskUpdateOne {
-	tuo.mutation.SetTaskID(s)
-	return tuo
-}
-
-// SetNillableTaskID sets the "task_id" field if the given value is not nil.
-func (tuo *TaskUpdateOne) SetNillableTaskID(s *string) *TaskUpdateOne {
-	if s != nil {
-		tuo.SetTaskID(*s)
-	}
-	return tuo
-}
-
-// ClearTaskID clears the value of the "task_id" field.
-func (tuo *TaskUpdateOne) ClearTaskID() *TaskUpdateOne {
-	tuo.mutation.ClearTaskID()
 	return tuo
 }
 
@@ -841,12 +795,6 @@ func (tuo *TaskUpdateOne) sqlSave(ctx context.Context) (_node *Task, err error) 
 	}
 	if tuo.mutation.TypeNameCleared() {
 		_spec.ClearField(task.FieldTypeName, field.TypeString)
-	}
-	if value, ok := tuo.mutation.TaskID(); ok {
-		_spec.SetField(task.FieldTaskID, field.TypeString, value)
-	}
-	if tuo.mutation.TaskIDCleared() {
-		_spec.ClearField(task.FieldTaskID, field.TypeString)
 	}
 	if value, ok := tuo.mutation.TaskPayload(); ok {
 		_spec.SetField(task.FieldTaskPayload, field.TypeString, value)

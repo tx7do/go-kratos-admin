@@ -38,8 +38,6 @@ type Task struct {
 	Type *task.Type `json:"type,omitempty"`
 	// 任务执行类型名
 	TypeName *string `json:"type_name,omitempty"`
-	// 任务ID
-	TaskID *string `json:"task_id,omitempty"`
 	// 任务数据
 	TaskPayload *string `json:"task_payload,omitempty"`
 	// cron表达式
@@ -62,7 +60,7 @@ func (*Task) scanValues(columns []string) ([]any, error) {
 			values[i] = new(sql.NullBool)
 		case task.FieldID, task.FieldCreateBy, task.FieldUpdateBy, task.FieldTenantID:
 			values[i] = new(sql.NullInt64)
-		case task.FieldRemark, task.FieldType, task.FieldTypeName, task.FieldTaskID, task.FieldTaskPayload, task.FieldCronSpec:
+		case task.FieldRemark, task.FieldType, task.FieldTypeName, task.FieldTaskPayload, task.FieldCronSpec:
 			values[i] = new(sql.NullString)
 		case task.FieldCreateTime, task.FieldUpdateTime, task.FieldDeleteTime:
 			values[i] = new(sql.NullTime)
@@ -149,13 +147,6 @@ func (t *Task) assignValues(columns []string, values []any) error {
 			} else if value.Valid {
 				t.TypeName = new(string)
 				*t.TypeName = value.String
-			}
-		case task.FieldTaskID:
-			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field task_id", values[i])
-			} else if value.Valid {
-				t.TaskID = new(string)
-				*t.TaskID = value.String
 			}
 		case task.FieldTaskPayload:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -264,11 +255,6 @@ func (t *Task) String() string {
 	builder.WriteString(", ")
 	if v := t.TypeName; v != nil {
 		builder.WriteString("type_name=")
-		builder.WriteString(*v)
-	}
-	builder.WriteString(", ")
-	if v := t.TaskID; v != nil {
-		builder.WriteString("task_id=")
 		builder.WriteString(*v)
 	}
 	builder.WriteString(", ")

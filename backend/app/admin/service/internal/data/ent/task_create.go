@@ -149,20 +149,6 @@ func (tc *TaskCreate) SetNillableTypeName(s *string) *TaskCreate {
 	return tc
 }
 
-// SetTaskID sets the "task_id" field.
-func (tc *TaskCreate) SetTaskID(s string) *TaskCreate {
-	tc.mutation.SetTaskID(s)
-	return tc
-}
-
-// SetNillableTaskID sets the "task_id" field if the given value is not nil.
-func (tc *TaskCreate) SetNillableTaskID(s *string) *TaskCreate {
-	if s != nil {
-		tc.SetTaskID(*s)
-	}
-	return tc
-}
-
 // SetTaskPayload sets the "task_payload" field.
 func (tc *TaskCreate) SetTaskPayload(s string) *TaskCreate {
 	tc.mutation.SetTaskPayload(s)
@@ -348,10 +334,6 @@ func (tc *TaskCreate) createSpec() (*Task, *sqlgraph.CreateSpec) {
 	if value, ok := tc.mutation.TypeName(); ok {
 		_spec.SetField(task.FieldTypeName, field.TypeString, value)
 		_node.TypeName = &value
-	}
-	if value, ok := tc.mutation.TaskID(); ok {
-		_spec.SetField(task.FieldTaskID, field.TypeString, value)
-		_node.TaskID = &value
 	}
 	if value, ok := tc.mutation.TaskPayload(); ok {
 		_spec.SetField(task.FieldTaskPayload, field.TypeString, value)
@@ -556,24 +538,6 @@ func (u *TaskUpsert) UpdateTypeName() *TaskUpsert {
 // ClearTypeName clears the value of the "type_name" field.
 func (u *TaskUpsert) ClearTypeName() *TaskUpsert {
 	u.SetNull(task.FieldTypeName)
-	return u
-}
-
-// SetTaskID sets the "task_id" field.
-func (u *TaskUpsert) SetTaskID(v string) *TaskUpsert {
-	u.Set(task.FieldTaskID, v)
-	return u
-}
-
-// UpdateTaskID sets the "task_id" field to the value that was provided on create.
-func (u *TaskUpsert) UpdateTaskID() *TaskUpsert {
-	u.SetExcluded(task.FieldTaskID)
-	return u
-}
-
-// ClearTaskID clears the value of the "task_id" field.
-func (u *TaskUpsert) ClearTaskID() *TaskUpsert {
-	u.SetNull(task.FieldTaskID)
 	return u
 }
 
@@ -861,27 +825,6 @@ func (u *TaskUpsertOne) UpdateTypeName() *TaskUpsertOne {
 func (u *TaskUpsertOne) ClearTypeName() *TaskUpsertOne {
 	return u.Update(func(s *TaskUpsert) {
 		s.ClearTypeName()
-	})
-}
-
-// SetTaskID sets the "task_id" field.
-func (u *TaskUpsertOne) SetTaskID(v string) *TaskUpsertOne {
-	return u.Update(func(s *TaskUpsert) {
-		s.SetTaskID(v)
-	})
-}
-
-// UpdateTaskID sets the "task_id" field to the value that was provided on create.
-func (u *TaskUpsertOne) UpdateTaskID() *TaskUpsertOne {
-	return u.Update(func(s *TaskUpsert) {
-		s.UpdateTaskID()
-	})
-}
-
-// ClearTaskID clears the value of the "task_id" field.
-func (u *TaskUpsertOne) ClearTaskID() *TaskUpsertOne {
-	return u.Update(func(s *TaskUpsert) {
-		s.ClearTaskID()
 	})
 }
 
@@ -1347,27 +1290,6 @@ func (u *TaskUpsertBulk) UpdateTypeName() *TaskUpsertBulk {
 func (u *TaskUpsertBulk) ClearTypeName() *TaskUpsertBulk {
 	return u.Update(func(s *TaskUpsert) {
 		s.ClearTypeName()
-	})
-}
-
-// SetTaskID sets the "task_id" field.
-func (u *TaskUpsertBulk) SetTaskID(v string) *TaskUpsertBulk {
-	return u.Update(func(s *TaskUpsert) {
-		s.SetTaskID(v)
-	})
-}
-
-// UpdateTaskID sets the "task_id" field to the value that was provided on create.
-func (u *TaskUpsertBulk) UpdateTaskID() *TaskUpsertBulk {
-	return u.Update(func(s *TaskUpsert) {
-		s.UpdateTaskID()
-	})
-}
-
-// ClearTaskID clears the value of the "task_id" field.
-func (u *TaskUpsertBulk) ClearTaskID() *TaskUpsertBulk {
-	return u.Update(func(s *TaskUpsert) {
-		s.ClearTaskID()
 	})
 }
 

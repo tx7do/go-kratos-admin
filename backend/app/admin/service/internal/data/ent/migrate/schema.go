@@ -549,7 +549,6 @@ var (
 		{Name: "tenant_id", Type: field.TypeUint32, Nullable: true, Comment: "租户ID"},
 		{Name: "type", Type: field.TypeEnum, Nullable: true, Comment: "任务类型", Enums: []string{"PERIODIC", "DELAY", "WAIT_RESULT"}},
 		{Name: "type_name", Type: field.TypeString, Unique: true, Nullable: true, Comment: "任务执行类型名"},
-		{Name: "task_id", Type: field.TypeString, Unique: true, Nullable: true, Comment: "任务ID"},
 		{Name: "task_payload", Type: field.TypeString, Nullable: true, Comment: "任务数据", SchemaType: map[string]string{"mysql": "json", "postgres": "jsonb"}},
 		{Name: "cron_spec", Type: field.TypeString, Nullable: true, Comment: "cron表达式"},
 		{Name: "task_options", Type: field.TypeJSON, Nullable: true, Comment: "任务选项"},

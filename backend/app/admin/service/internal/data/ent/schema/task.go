@@ -48,12 +48,6 @@ func (Task) Fields() []ent.Field {
 			Optional().
 			Nillable(),
 
-		field.String("task_id").
-			Comment("任务ID").
-			Unique().
-			Optional().
-			Nillable(),
-
 		field.String("task_payload").
 			Comment("任务数据").
 			SchemaType(map[string]string{

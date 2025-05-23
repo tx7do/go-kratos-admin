@@ -94,11 +94,6 @@ func TypeName(v string) predicate.Task {
 	return predicate.Task(sql.FieldEQ(FieldTypeName, v))
 }
 
-// TaskID applies equality check predicate on the "task_id" field. It's identical to TaskIDEQ.
-func TaskID(v string) predicate.Task {
-	return predicate.Task(sql.FieldEQ(FieldTaskID, v))
-}
-
 // TaskPayload applies equality check predicate on the "task_payload" field. It's identical to TaskPayloadEQ.
 func TaskPayload(v string) predicate.Task {
 	return predicate.Task(sql.FieldEQ(FieldTaskPayload, v))
@@ -592,81 +587,6 @@ func TypeNameEqualFold(v string) predicate.Task {
 // TypeNameContainsFold applies the ContainsFold predicate on the "type_name" field.
 func TypeNameContainsFold(v string) predicate.Task {
 	return predicate.Task(sql.FieldContainsFold(FieldTypeName, v))
-}
-
-// TaskIDEQ applies the EQ predicate on the "task_id" field.
-func TaskIDEQ(v string) predicate.Task {
-	return predicate.Task(sql.FieldEQ(FieldTaskID, v))
-}
-
-// TaskIDNEQ applies the NEQ predicate on the "task_id" field.
-func TaskIDNEQ(v string) predicate.Task {
-	return predicate.Task(sql.FieldNEQ(FieldTaskID, v))
-}
-
-// TaskIDIn applies the In predicate on the "task_id" field.
-func TaskIDIn(vs ...string) predicate.Task {
-	return predicate.Task(sql.FieldIn(FieldTaskID, vs...))
-}
-
-// TaskIDNotIn applies the NotIn predicate on the "task_id" field.
-func TaskIDNotIn(vs ...string) predicate.Task {
-	return predicate.Task(sql.FieldNotIn(FieldTaskID, vs...))
-}
-
-// TaskIDGT applies the GT predicate on the "task_id" field.
-func TaskIDGT(v string) predicate.Task {
-	return predicate.Task(sql.FieldGT(FieldTaskID, v))
-}
-
-// TaskIDGTE applies the GTE predicate on the "task_id" field.
-func TaskIDGTE(v string) predicate.Task {
-	return predicate.Task(sql.FieldGTE(FieldTaskID, v))
-}
-
-// TaskIDLT applies the LT predicate on the "task_id" field.
-func TaskIDLT(v string) predicate.Task {
-	return predicate.Task(sql.FieldLT(FieldTaskID, v))
-}
-
-// TaskIDLTE applies the LTE predicate on the "task_id" field.
-func TaskIDLTE(v string) predicate.Task {
-	return predicate.Task(sql.FieldLTE(FieldTaskID, v))
-}
-
-// TaskIDContains applies the Contains predicate on the "task_id" field.
-func TaskIDContains(v string) predicate.Task {
-	return predicate.Task(sql.FieldContains(FieldTaskID, v))
-}
-
-// TaskIDHasPrefix applies the HasPrefix predicate on the "task_id" field.
-func TaskIDHasPrefix(v string) predicate.Task {
-	return predicate.Task(sql.FieldHasPrefix(FieldTaskID, v))
-}
-
-// TaskIDHasSuffix applies the HasSuffix predicate on the "task_id" field.
-func TaskIDHasSuffix(v string) predicate.Task {
-	return predicate.Task(sql.FieldHasSuffix(FieldTaskID, v))
-}
-
-// TaskIDIsNil applies the IsNil predicate on the "task_id" field.
-func TaskIDIsNil() predicate.Task {
-	return predicate.Task(sql.FieldIsNull(FieldTaskID))
-}
-
-// TaskIDNotNil applies the NotNil predicate on the "task_id" field.
-func TaskIDNotNil() predicate.Task {
-	return predicate.Task(sql.FieldNotNull(FieldTaskID))
-}
-
-// TaskIDEqualFold applies the EqualFold predicate on the "task_id" field.
-func TaskIDEqualFold(v string) predicate.Task {
-	return predicate.Task(sql.FieldEqualFold(FieldTaskID, v))
-}
-
-// TaskIDContainsFold applies the ContainsFold predicate on the "task_id" field.
-func TaskIDContainsFold(v string) predicate.Task {
-	return predicate.Task(sql.FieldContainsFold(FieldTaskID, v))
 }
 
 // TaskPayloadEQ applies the EQ predicate on the "task_payload" field.

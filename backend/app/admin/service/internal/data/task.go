@@ -232,7 +232,6 @@ func (r *TaskRepo) Create(ctx context.Context, req *adminV1.CreateTaskRequest) (
 		SetNillableType(r.toEntType(req.Data.Type)).
 		SetNillableTypeName(req.Data.TypeName).
 		SetNillableTaskPayload(req.Data.TaskPayload).
-		SetNillableTaskID(req.Data.TaskId).
 		SetNillableCronSpec(req.Data.CronSpec).
 		SetNillableEnable(req.Data.Enable).
 		SetNillableRemark(req.Data.Remark).
@@ -293,7 +292,6 @@ func (r *TaskRepo) Update(ctx context.Context, req *adminV1.UpdateTaskRequest) (
 		SetNillableType(r.toEntType(req.Data.Type)).
 		SetNillableTypeName(req.Data.TypeName).
 		SetNillableTaskPayload(req.Data.TaskPayload).
-		SetNillableTaskID(req.Data.TaskId).
 		SetNillableCronSpec(req.Data.CronSpec).
 		SetNillableEnable(req.Data.Enable).
 		SetNillableRemark(req.Data.Remark).

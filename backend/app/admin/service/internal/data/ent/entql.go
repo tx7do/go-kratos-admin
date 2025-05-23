@@ -418,7 +418,6 @@ var schemaGraph = func() *sqlgraph.Schema {
 			task.FieldTenantID:    {Type: field.TypeUint32, Column: task.FieldTenantID},
 			task.FieldType:        {Type: field.TypeEnum, Column: task.FieldType},
 			task.FieldTypeName:    {Type: field.TypeString, Column: task.FieldTypeName},
-			task.FieldTaskID:      {Type: field.TypeString, Column: task.FieldTaskID},
 			task.FieldTaskPayload: {Type: field.TypeString, Column: task.FieldTaskPayload},
 			task.FieldCronSpec:    {Type: field.TypeString, Column: task.FieldCronSpec},
 			task.FieldTaskOptions: {Type: field.TypeJSON, Column: task.FieldTaskOptions},
@@ -2379,11 +2378,6 @@ func (f *TaskFilter) WhereType(p entql.StringP) {
 // WhereTypeName applies the entql string predicate on the type_name field.
 func (f *TaskFilter) WhereTypeName(p entql.StringP) {
 	f.Where(p.Field(task.FieldTypeName))
-}
-
-// WhereTaskID applies the entql string predicate on the task_id field.
-func (f *TaskFilter) WhereTaskID(p entql.StringP) {
-	f.Where(p.Field(task.FieldTaskID))
 }
 
 // WhereTaskPayload applies the entql string predicate on the task_payload field.

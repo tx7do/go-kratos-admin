@@ -31,8 +31,6 @@ const (
 	FieldType = "type"
 	// FieldTypeName holds the string denoting the type_name field in the database.
 	FieldTypeName = "type_name"
-	// FieldTaskID holds the string denoting the task_id field in the database.
-	FieldTaskID = "task_id"
 	// FieldTaskPayload holds the string denoting the task_payload field in the database.
 	FieldTaskPayload = "task_payload"
 	// FieldCronSpec holds the string denoting the cron_spec field in the database.
@@ -57,7 +55,6 @@ var Columns = []string{
 	FieldTenantID,
 	FieldType,
 	FieldTypeName,
-	FieldTaskID,
 	FieldTaskPayload,
 	FieldCronSpec,
 	FieldTaskOptions,
@@ -158,11 +155,6 @@ func ByType(opts ...sql.OrderTermOption) OrderOption {
 // ByTypeName orders the results by the type_name field.
 func ByTypeName(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldTypeName, opts...).ToFunc()
-}
-
-// ByTaskID orders the results by the task_id field.
-func ByTaskID(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldTaskID, opts...).ToFunc()
 }
 
 // ByTaskPayload orders the results by the task_payload field.

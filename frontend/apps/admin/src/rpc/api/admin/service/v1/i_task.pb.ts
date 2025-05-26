@@ -73,11 +73,6 @@ export interface Task {
     | string
     | null
     | undefined;
-  /** 任务ID */
-  taskId?:
-    | string
-    | null
-    | undefined;
   /** 任务数据，以 JSON 格式存储，方便存储不同类型和数量的参数 */
   taskPayload?:
     | string

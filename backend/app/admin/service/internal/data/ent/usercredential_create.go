@@ -259,9 +259,21 @@ func (ucc *UserCredentialCreate) ExecX(ctx context.Context) {
 
 // defaults sets the default values of the builder before save.
 func (ucc *UserCredentialCreate) defaults() {
+	if _, ok := ucc.mutation.IdentityType(); !ok {
+		v := usercredential.DefaultIdentityType
+		ucc.mutation.SetIdentityType(v)
+	}
+	if _, ok := ucc.mutation.CredentialType(); !ok {
+		v := usercredential.DefaultCredentialType
+		ucc.mutation.SetCredentialType(v)
+	}
 	if _, ok := ucc.mutation.IsPrimary(); !ok {
 		v := usercredential.DefaultIsPrimary
 		ucc.mutation.SetIsPrimary(v)
+	}
+	if _, ok := ucc.mutation.Status(); !ok {
+		v := usercredential.DefaultStatus
+		ucc.mutation.SetStatus(v)
 	}
 }
 

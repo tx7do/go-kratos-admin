@@ -77,6 +77,7 @@ func (s *UserCredentialService) ChangeCredential(ctx context.Context, req *authe
 	return &emptypb.Empty{}, err
 }
 
-func (s *UserCredentialService) ResetCredential(_ context.Context, _ *authenticationV1.ResetCredentialRequest) (*emptypb.Empty, error) {
-	return &emptypb.Empty{}, nil
+func (s *UserCredentialService) ResetCredential(ctx context.Context, req *authenticationV1.ResetCredentialRequest) (*emptypb.Empty, error) {
+	err := s.userCredentialsRepo.ResetCredential(ctx, req)
+	return &emptypb.Empty{}, err
 }

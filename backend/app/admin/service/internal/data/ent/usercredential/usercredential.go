@@ -94,6 +94,9 @@ var (
 // IdentityType defines the type for the "identity_type" enum field.
 type IdentityType string
 
+// IdentityTypePassword is the default value of the IdentityType enum.
+const DefaultIdentityType = IdentityTypePassword
+
 // IdentityType values.
 const (
 	IdentityTypePassword IdentityType = "PASSWORD"
@@ -124,6 +127,9 @@ func IdentityTypeValidator(it IdentityType) error {
 // CredentialType defines the type for the "credential_type" enum field.
 type CredentialType string
 
+// CredentialTypePasswordHash is the default value of the CredentialType enum.
+const DefaultCredentialType = CredentialTypePasswordHash
+
 // CredentialType values.
 const (
 	CredentialTypePasswordHash CredentialType = "PASSWORD_HASH"
@@ -147,6 +153,9 @@ func CredentialTypeValidator(ct CredentialType) error {
 
 // Status defines the type for the "status" enum field.
 type Status string
+
+// StatusEnabled is the default value of the Status enum.
+const DefaultStatus = StatusEnabled
 
 // Status values.
 const (

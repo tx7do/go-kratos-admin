@@ -5,10 +5,9 @@ import (
 	"time"
 
 	"entgo.io/ent/dialect/sql"
-	pagination "github.com/tx7do/kratos-bootstrap/api/gen/go/pagination/v1"
-
 	"github.com/go-kratos/kratos/v2/log"
 	"github.com/jinzhu/copier"
+	pagination "github.com/tx7do/kratos-bootstrap/api/gen/go/pagination/v1"
 
 	"github.com/tx7do/go-utils/copierutil"
 	"github.com/tx7do/go-utils/crypto"
@@ -251,6 +250,43 @@ func (r *UserCredentialRepo) List(ctx context.Context, req *pagination.PagingReq
 	}, nil
 }
 
+func (r *UserCredentialRepo) Create(ctx context.Context, req *authenticationV1.CreateUserCredentialRequest) error {
+	if req == nil || req.Data == nil {
+		return authenticationV1.ErrorBadRequest("invalid request")
+	}
+
+	var err error
+
+	if req.Data.Credential != nil {
+		var newCredential string
+		newCredential, err = r.prepareCredential(r.toEntCredentialType(req.Data.CredentialType), req.Data.GetCredential())
+		if err != nil {
+			r.log.Errorf("prepare new credential failed: %s", err.Error())
+			return authenticationV1.ErrorBadRequest("prepare new credential failed")
+		}
+		req.Data.Credential = trans.Ptr(newCredential)
+	}
+
+	builder := r.data.db.Client().UserCredential.Create()
+	builder.
+		SetUserID(req.Data.GetUserId()).
+		SetNillableTenantID(req.Data.TenantId).
+		SetNillableIdentityType(r.toEntIdentityType(req.Data.IdentityType)).
+		SetNillableIdentifier(req.Data.Identifier).
+		SetNillableCredentialType(r.toEntCredentialType(req.Data.CredentialType)).
+		SetNillableCredential(req.Data.Credential).
+		SetNillableIsPrimary(req.Data.IsPrimary).
+		SetNillableStatus(r.toEntStatus(req.Data.Status)).
+		SetNillableExtraInfo(req.Data.ExtraInfo).
+		SetNillableCreateTime(timeutil.StringTimeToTime(req.Data.CreateTime))
+	if err = builder.Exec(ctx); err != nil {
+		r.log.Errorf("insert one data failed: %s", err.Error())
+		return authenticationV1.ErrorInternalServerError("insert data failed")
+	}
+
+	return nil
+}
+
 func (r *UserCredentialRepo) Update(ctx context.Context, req *authenticationV1.UpdateUserCredentialRequest) error {
 	if req == nil || req.Data == nil {
 		return authenticationV1.ErrorBadRequest("invalid request")
@@ -283,6 +319,18 @@ func (r *UserCredentialRepo) Update(ctx context.Context, req *authenticationV1.U
 		builder.SetUpdateTime(time.Now())
 	}
 
+	var err error
+
+	if req.Data.Credential != nil {
+		var newCredential string
+		newCredential, err = r.prepareCredential(r.toEntCredentialType(req.Data.CredentialType), req.Data.GetCredential())
+		if err != nil {
+			r.log.Errorf("prepare new credential failed: %s", err.Error())
+			return authenticationV1.ErrorBadRequest("prepare new credential failed")
+		}
+		req.Data.Credential = trans.Ptr(newCredential)
+	}
+
 	if req.UpdateMask != nil {
 		nilPaths := fieldmaskutil.NilValuePaths(req.Data, req.GetUpdateMask().GetPaths())
 		nilUpdater := entgoUpdate.BuildSetNullUpdater(nilPaths)
@@ -294,39 +342,6 @@ func (r *UserCredentialRepo) Update(ctx context.Context, req *authenticationV1.U
 	if err := builder.Exec(ctx); err != nil {
 		r.log.Errorf("update one data failed: %s", err.Error())
 		return authenticationV1.ErrorInternalServerError("update data failed")
-	}
-
-	return nil
-}
-
-func (r *UserCredentialRepo) Create(ctx context.Context, req *authenticationV1.CreateUserCredentialRequest) error {
-	if req == nil || req.Data == nil {
-		return authenticationV1.ErrorBadRequest("invalid request")
-	}
-
-	if req.Data.GetCredentialType() == authenticationV1.CredentialType_PASSWORD_HASH {
-		ph, err := crypto.HashPassword(req.Data.GetCredential())
-		if err != nil {
-			return authenticationV1.ErrorBadRequest("hash password failed")
-		}
-		req.Data.Credential = &ph
-	}
-
-	builder := r.data.db.Client().UserCredential.Create()
-	builder.
-		SetUserID(req.Data.GetUserId()).
-		SetNillableTenantID(req.Data.TenantId).
-		SetNillableIdentityType(r.toEntIdentityType(req.Data.IdentityType)).
-		SetNillableIdentifier(req.Data.Identifier).
-		SetNillableCredentialType(r.toEntCredentialType(req.Data.CredentialType)).
-		SetNillableCredential(req.Data.Credential).
-		SetNillableIsPrimary(req.Data.IsPrimary).
-		SetNillableStatus(r.toEntStatus(req.Data.Status)).
-		SetNillableExtraInfo(req.Data.ExtraInfo).
-		SetNillableCreateTime(timeutil.StringTimeToTime(req.Data.CreateTime))
-	if err := builder.Exec(ctx); err != nil {
-		r.log.Errorf("insert one data failed: %s", err.Error())
-		return authenticationV1.ErrorInternalServerError("insert data failed")
 	}
 
 	return nil
@@ -438,73 +453,6 @@ func (r *UserCredentialRepo) GetByIdentifier(ctx context.Context, req *authentic
 	return r.toProto(ret), nil
 }
 
-func (r *UserCredentialRepo) ChangeCredential(ctx context.Context, req *authenticationV1.ChangeCredentialRequest) error {
-	ret, err := r.data.db.Client().UserCredential.
-		Query().
-		Select(
-			usercredential.FieldCredentialType,
-			usercredential.FieldCredential,
-		).
-		Where(
-			usercredential.IdentityTypeEQ(*r.toEntIdentityType(trans.Ptr(req.GetIdentityType()))),
-			usercredential.IdentifierEQ(req.GetIdentifier()),
-		).
-		Only(ctx)
-	if err != nil {
-		r.log.Errorf("query one data failed: %s", err.Error())
-		return authenticationV1.ErrorInternalServerError("query one data failed")
-	}
-
-	if ret.CredentialType == nil {
-		return authenticationV1.ErrorNotFound("user credential not found")
-	}
-
-	var newCredential string
-	switch *ret.CredentialType {
-	case usercredential.CredentialTypePasswordHash:
-		// 校验旧密码
-		bMatched := crypto.VerifyPassword(req.GetOldCredential(), *ret.Credential)
-		if !bMatched {
-			return authenticationV1.ErrorBadRequest("invalid old password")
-		}
-
-		// 加密明文密码
-		newCredential, err = crypto.HashPassword(req.GetNewCredential())
-		if err != nil {
-			r.log.Errorf("hash new password failed: %s", err.Error())
-			return authenticationV1.ErrorBadRequest("hash new password failed")
-		}
-
-	default:
-		if ret.Credential == nil {
-			return authenticationV1.ErrorBadRequest("invalid old credential")
-		}
-
-		if *ret.Credential != req.GetOldCredential() {
-			return authenticationV1.ErrorBadRequest("invalid old credential")
-		}
-
-		newCredential = req.GetNewCredential()
-	}
-
-	if newCredential == "" {
-		return authenticationV1.ErrorBadRequest("new credential cannot be empty")
-	}
-
-	builder := r.data.db.Client().UserCredential.Update()
-	builder.Where(
-		usercredential.IdentityTypeEQ(*r.toEntIdentityType(trans.Ptr(req.GetIdentityType()))),
-		usercredential.IdentifierEQ(req.GetIdentifier()),
-	)
-	builder.SetCredential(newCredential)
-	if err = builder.Exec(ctx); err != nil {
-		r.log.Errorf("update one data failed: %s", err.Error())
-		return authenticationV1.ErrorInternalServerError("update data failed")
-	}
-
-	return nil
-}
-
 func (r *UserCredentialRepo) VerifyCredential(ctx context.Context, req *authenticationV1.VerifyCredentialRequest) (*authenticationV1.VerifyCredentialResponse, error) {
 	ret, err := r.data.db.Client().UserCredential.Query().
 		Select(usercredential.FieldCredentialType, usercredential.FieldCredential, usercredential.FieldStatus).
@@ -533,8 +481,7 @@ func (r *UserCredentialRepo) VerifyCredential(ctx context.Context, req *authenti
 		}, authenticationV1.ErrorUserFreeze("account has freeze")
 	}
 
-	bMatched := r.verifyCredential(ret.CredentialType, req.GetCredential(), *ret.Credential)
-	if !bMatched {
+	if !r.verifyCredential(ret.CredentialType, req.GetCredential(), *ret.Credential) {
 		return &authenticationV1.VerifyCredentialResponse{
 			Success: false,
 		}, authenticationV1.ErrorIncorrectPassword("incorrect password")
@@ -556,4 +503,119 @@ func (r *UserCredentialRepo) verifyCredential(credentialType *usercredential.Cre
 	default:
 		return plainCredential == targetCredential
 	}
+}
+
+func (r *UserCredentialRepo) prepareCredential(credentialType *usercredential.CredentialType, plainCredential string) (string, error) {
+	var newCredential string
+	switch *credentialType {
+	case usercredential.CredentialTypePasswordHash:
+		var err error
+		// 加密明文密码
+		newCredential, err = crypto.HashPassword(plainCredential)
+		if err != nil {
+			r.log.Errorf("hash new password failed: %s", err.Error())
+			return "", authenticationV1.ErrorBadRequest("hash new password failed")
+		}
+
+	default:
+		newCredential = plainCredential
+	}
+
+	return newCredential, nil
+}
+
+func (r *UserCredentialRepo) ChangeCredential(ctx context.Context, req *authenticationV1.ChangeCredentialRequest) error {
+	ret, err := r.data.db.Client().UserCredential.
+		Query().
+		Select(
+			usercredential.FieldCredentialType,
+			usercredential.FieldCredential,
+		).
+		Where(
+			usercredential.IdentityTypeEQ(*r.toEntIdentityType(trans.Ptr(req.GetIdentityType()))),
+			usercredential.IdentifierEQ(req.GetIdentifier()),
+		).
+		Only(ctx)
+	if err != nil {
+		r.log.Errorf("query one data failed: %s", err.Error())
+		return authenticationV1.ErrorInternalServerError("query one data failed")
+	}
+
+	if ret.CredentialType == nil {
+		return authenticationV1.ErrorNotFound("user credential not found")
+	}
+
+	// 验证旧认证信息
+	if !r.verifyCredential(ret.CredentialType, req.GetOldCredential(), *ret.Credential) {
+		return authenticationV1.ErrorBadRequest("invalid old password")
+	}
+
+	var newCredential string
+	newCredential, err = r.prepareCredential(ret.CredentialType, req.GetOldCredential())
+	if err != nil {
+		r.log.Errorf("prepare new credential failed: %s", err.Error())
+		return authenticationV1.ErrorBadRequest("prepare new credential failed")
+	}
+
+	if newCredential == "" {
+		return authenticationV1.ErrorBadRequest("new credential cannot be empty")
+	}
+
+	builder := r.data.db.Client().UserCredential.Update()
+	builder.Where(
+		usercredential.IdentityTypeEQ(*r.toEntIdentityType(trans.Ptr(req.GetIdentityType()))),
+		usercredential.IdentifierEQ(req.GetIdentifier()),
+	)
+	builder.SetCredential(newCredential)
+	if err = builder.Exec(ctx); err != nil {
+		r.log.Errorf("update one data failed: %s", err.Error())
+		return authenticationV1.ErrorInternalServerError("update data failed")
+	}
+
+	return nil
+}
+
+func (r *UserCredentialRepo) ResetCredential(ctx context.Context, req *authenticationV1.ResetCredentialRequest) error {
+	ret, err := r.data.db.Client().UserCredential.
+		Query().
+		Select(
+			usercredential.FieldCredentialType,
+		).
+		Where(
+			usercredential.IdentityTypeEQ(*r.toEntIdentityType(trans.Ptr(req.GetIdentityType()))),
+			usercredential.IdentifierEQ(req.GetIdentifier()),
+		).
+		Only(ctx)
+	if err != nil {
+		r.log.Errorf("query one data failed: %s", err.Error())
+		return authenticationV1.ErrorInternalServerError("query one data failed")
+	}
+
+	if ret.CredentialType == nil {
+		return authenticationV1.ErrorNotFound("user credential not found")
+	}
+
+	var newCredential string
+	newCredential, err = r.prepareCredential(ret.CredentialType, req.GetNewCredential())
+	if err != nil {
+		r.log.Errorf("prepare new credential failed: %s", err.Error())
+		return authenticationV1.ErrorBadRequest("prepare new credential failed")
+	}
+
+	if newCredential == "" {
+		return authenticationV1.ErrorBadRequest("new credential cannot be empty")
+	}
+
+	builder := r.data.db.Client().UserCredential.Update()
+	builder.Where(
+		usercredential.IdentityTypeEQ(*r.toEntIdentityType(trans.Ptr(req.GetIdentityType()))),
+		usercredential.IdentifierEQ(req.GetIdentifier()),
+	)
+	builder.SetCredential(newCredential)
+	if err := builder.Exec(ctx); err != nil {
+		r.log.Errorf("update one data failed: %s", err.Error())
+		return authenticationV1.ErrorInternalServerError("update data failed")
+	}
+
+	return nil
 }

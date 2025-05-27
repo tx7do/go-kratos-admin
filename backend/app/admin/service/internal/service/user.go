@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	authenticationV1 "kratos-admin/api/gen/go/authentication/service/v1"
 
 	"github.com/go-kratos/kratos/v2/log"
 	"github.com/tx7do/go-utils/trans"
@@ -21,20 +22,23 @@ type UserService struct {
 
 	log *log.Helper
 
-	userRepo *data.UserRepo
-	roleRepo *data.RoleRepo
+	userRepo            *data.UserRepo
+	roleRepo            *data.RoleRepo
+	userCredentialsRepo *data.UserCredentialRepo
 }
 
 func NewUserService(
 	logger log.Logger,
 	userRepo *data.UserRepo,
 	roleRepo *data.RoleRepo,
+	userCredentialsRepo *data.UserCredentialRepo,
 ) *UserService {
 	l := log.NewHelper(log.With(logger, "module", "user/service/admin-service"))
 	return &UserService{
-		log:      l,
-		userRepo: userRepo,
-		roleRepo: roleRepo,
+		log:                 l,
+		userRepo:            userRepo,
+		roleRepo:            roleRepo,
+		userCredentialsRepo: userCredentialsRepo,
 	}
 }
 
@@ -105,7 +109,31 @@ func (s *UserService) Create(ctx context.Context, req *userV1.CreateUserRequest)
 	req.Data.CreateBy = trans.Ptr(operator.UserId)
 
 	// 创建用户
-	_, err = s.userRepo.Create(ctx, req)
+	var user *userV1.User
+	if user, err = s.userRepo.Create(ctx, req); err != nil {
+		s.log.Error(err)
+		return nil, err
+	}
+
+	if req.Password != nil && len(req.GetPassword()) > 0 {
+		if err = s.userCredentialsRepo.Create(ctx, &authenticationV1.CreateUserCredentialRequest{
+			Data: &authenticationV1.UserCredential{
+				UserId:   user.Id,
+				TenantId: user.TenantId,
+
+				IdentityType: authenticationV1.IdentityType_PASSWORD.Enum(),
+				Identifier:   req.Data.Username,
+
+				CredentialType: authenticationV1.CredentialType_PASSWORD_HASH.Enum(),
+				Credential:     req.Password,
+
+				IsPrimary: trans.Ptr(true),
+				Status:    authenticationV1.UserCredentialStatus_ENABLED.Enum(),
+			},
+		}); err != nil {
+			return nil, err
+		}
+	}
 
 	return &emptypb.Empty{}, nil
 }
@@ -141,7 +169,20 @@ func (s *UserService) Update(ctx context.Context, req *userV1.UpdateUserRequest)
 	req.Data.UpdateBy = trans.Ptr(operator.UserId)
 
 	// 更新用户
-	err = s.userRepo.Update(ctx, req)
+	if err = s.userRepo.Update(ctx, req); err != nil {
+		s.log.Error(err)
+		return nil, err
+	}
+
+	if req.Password != nil && len(req.GetPassword()) > 0 {
+		if err = s.userCredentialsRepo.ResetCredential(ctx, &authenticationV1.ResetCredentialRequest{
+			IdentityType:  authenticationV1.IdentityType_PASSWORD,
+			Identifier:    req.Data.GetUsername(),
+			NewCredential: req.GetPassword(),
+		}); err != nil {
+			return nil, err
+		}
+	}
 
 	return &emptypb.Empty{}, nil
 }

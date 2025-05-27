@@ -36,7 +36,7 @@ func initApp(logger log.Logger, registrar registry.Registrar, bootstrap *v1.Boot
 	roleRepo := data.NewRoleRepo(dataData, logger)
 	userToken := data.NewUserTokenRepo(logger, client, authenticator, bootstrap)
 	authenticationService := service.NewAuthenticationService(logger, userRepo, userCredentialRepo, tenantRepo, roleRepo, userToken, authenticator)
-	userService := service.NewUserService(logger, userRepo, roleRepo)
+	userService := service.NewUserService(logger, userRepo, roleRepo, userCredentialRepo)
 	menuRepo := data.NewMenuRepo(dataData, logger)
 	menuService := service.NewMenuService(menuRepo, logger)
 	routerService := service.NewRouterService(logger, menuRepo, roleRepo, userRepo)

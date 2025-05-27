@@ -222,14 +222,14 @@ func (s *AuthenticationService) RegisterUser(ctx context.Context, req *authentic
 			UserId:   user.Id,
 			TenantId: user.TenantId,
 
-			IdentityType: trans.Ptr(authenticationV1.IdentityType_PASSWORD),
+			IdentityType: authenticationV1.IdentityType_PASSWORD.Enum(),
 			Identifier:   trans.Ptr(req.GetUsername()),
 
-			CredentialType: trans.Ptr(authenticationV1.CredentialType_PASSWORD_HASH),
+			CredentialType: authenticationV1.CredentialType_PASSWORD_HASH.Enum(),
 			Credential:     trans.Ptr(req.GetPassword()),
 
 			IsPrimary: trans.Ptr(true),
-			Status:    trans.Ptr(authenticationV1.UserCredentialStatus_ENABLED),
+			Status:    authenticationV1.UserCredentialStatus_ENABLED.Enum(),
 		},
 	}); err != nil {
 		s.log.Errorf("create user credentials error: %v", err)

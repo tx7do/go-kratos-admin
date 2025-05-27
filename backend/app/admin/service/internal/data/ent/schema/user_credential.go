@@ -51,6 +51,7 @@ func (UserCredential) Fields() []ent.Field {
 				"Apple", "APPLE",
 				"Telegram", "TELEGRAM",
 			).
+			Default("PASSWORD").
 			Nillable().
 			Optional(),
 
@@ -67,6 +68,7 @@ func (UserCredential) Fields() []ent.Field {
 				"AccessToken", "ACCESS_TOKEN",
 				"RefreshToken", "REFRESH_TOKEN",
 			).
+			Default("PASSWORD_HASH").
 			Nillable().
 			Optional(),
 
@@ -93,6 +95,7 @@ func (UserCredential) Fields() []ent.Field {
 				"Blocked", "BLOCKED",
 				"Temporary", "TEMPORARY",
 			).
+			Default("ENABLED").
 			Nillable().
 			Optional(),
 

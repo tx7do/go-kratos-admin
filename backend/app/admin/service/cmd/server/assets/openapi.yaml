@@ -4114,7 +4114,7 @@ components:
                 data:
                     $ref: '#/components/schemas/AdminLoginRestriction'
                 updateMask:
-                    example: id,realName,userName
+                    example: id,realname,username
                     type: string
                     description: 要更新的字段列表
                     format: field-mask
@@ -4128,7 +4128,7 @@ components:
                 data:
                     $ref: '#/components/schemas/Department'
                 updateMask:
-                    example: id,realName,userName
+                    example: id,realname,username
                     type: string
                     description: 要更新的字段列表
                     format: field-mask
@@ -4142,7 +4142,7 @@ components:
                 data:
                     $ref: '#/components/schemas/Dict'
                 updateMask:
-                    example: id,realName,userName
+                    example: id,realname,username
                     type: string
                     description: 要更新的字段列表
                     format: field-mask
@@ -4156,7 +4156,7 @@ components:
                 data:
                     $ref: '#/components/schemas/File'
                 updateMask:
-                    example: id,realName,userName
+                    example: id,realname,username
                     type: string
                     description: 要更新的字段列表
                     format: field-mask
@@ -4170,7 +4170,7 @@ components:
                 data:
                     $ref: '#/components/schemas/Menu'
                 updateMask:
-                    example: id,realName,userName
+                    example: id,realname,username
                     type: string
                     description: 要更新的字段列表
                     format: field-mask
@@ -4184,7 +4184,7 @@ components:
                 data:
                     $ref: '#/components/schemas/NotificationMessageCategory'
                 updateMask:
-                    example: id,realName,userName
+                    example: id,realname,username
                     type: string
                     description: 要更新的字段列表
                     format: field-mask
@@ -4198,7 +4198,7 @@ components:
                 data:
                     $ref: '#/components/schemas/NotificationMessageRecipient'
                 updateMask:
-                    example: id,realName,userName
+                    example: id,realname,username
                     type: string
                     description: 要更新的字段列表
                     format: field-mask
@@ -4212,7 +4212,7 @@ components:
                 data:
                     $ref: '#/components/schemas/NotificationMessage'
                 updateMask:
-                    example: id,realName,userName
+                    example: id,realname,username
                     type: string
                     description: 要更新的字段列表
                     format: field-mask
@@ -4226,7 +4226,7 @@ components:
                 data:
                     $ref: '#/components/schemas/Organization'
                 updateMask:
-                    example: id,realName,userName
+                    example: id,realname,username
                     type: string
                     description: 要更新的字段列表
                     format: field-mask
@@ -4240,7 +4240,7 @@ components:
                 data:
                     $ref: '#/components/schemas/Position'
                 updateMask:
-                    example: id,realName,userName
+                    example: id,realname,username
                     type: string
                     description: 要更新的字段列表
                     format: field-mask
@@ -4254,7 +4254,7 @@ components:
                 data:
                     $ref: '#/components/schemas/PrivateMessage'
                 updateMask:
-                    example: id,realName,userName
+                    example: id,realname,username
                     type: string
                     description: 要更新的字段列表
                     format: field-mask
@@ -4268,7 +4268,7 @@ components:
                 data:
                     $ref: '#/components/schemas/Role'
                 updateMask:
-                    example: id,realName,userName
+                    example: id,realname,username
                     type: string
                     description: 要更新的字段列表
                     format: field-mask
@@ -4282,7 +4282,7 @@ components:
                 data:
                     $ref: '#/components/schemas/Task'
                 updateMask:
-                    example: id,realName,userName
+                    example: id,realname,username
                     type: string
                     description: 要更新的字段列表
                     format: field-mask
@@ -4296,7 +4296,7 @@ components:
                 data:
                     $ref: '#/components/schemas/Tenant'
                 updateMask:
-                    example: id,realName,userName
+                    example: id,realname,username
                     type: string
                     description: 要更新的字段列表
                     format: field-mask
@@ -4316,7 +4316,7 @@ components:
                     type: string
                     description: 用户登录密码
                 updateMask:
-                    example: id,realName,userName
+                    example: id,realname,username
                     type: string
                     description: 要更新的字段列表
                     format: field-mask

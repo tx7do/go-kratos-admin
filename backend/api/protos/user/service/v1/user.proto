@@ -208,7 +208,7 @@ message UpdateUserRequest {
     json_name = "updateMask",
     (gnostic.openapi.v3.property) = {
       description: "要更新的字段列表",
-      example: {yaml : "id,realName,userName"}
+      example: {yaml : "id,realname,username"}
     }
   ]; // 要更新的字段列表
 

@@ -87,7 +87,7 @@ message UpdateRoleRequest {
   google.protobuf.FieldMask update_mask = 2 [
     (gnostic.openapi.v3.property) = {
       description: "要更新的字段列表",
-      example: {yaml : "id,realName,userName"}
+      example: {yaml : "id,realname,username"}
     },
     json_name = "updateMask"
   ]; // 要更新的字段列表

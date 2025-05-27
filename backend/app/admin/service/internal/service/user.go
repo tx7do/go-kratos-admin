@@ -121,7 +121,7 @@ func (s *UserService) Create(ctx context.Context, req *userV1.CreateUserRequest)
 				UserId:   user.Id,
 				TenantId: user.TenantId,
 
-				IdentityType: authenticationV1.IdentityType_PASSWORD.Enum(),
+				IdentityType: authenticationV1.IdentityType_USERNAME.Enum(),
 				Identifier:   req.Data.Username,
 
 				CredentialType: authenticationV1.CredentialType_PASSWORD_HASH.Enum(),
@@ -176,7 +176,7 @@ func (s *UserService) Update(ctx context.Context, req *userV1.UpdateUserRequest)
 
 	if req.Password != nil && len(req.GetPassword()) > 0 {
 		if err = s.userCredentialsRepo.ResetCredential(ctx, &authenticationV1.ResetCredentialRequest{
-			IdentityType:  authenticationV1.IdentityType_PASSWORD,
+			IdentityType:  authenticationV1.IdentityType_USERNAME,
 			Identifier:    req.Data.GetUsername(),
 			NewCredential: req.GetPassword(),
 		}); err != nil {

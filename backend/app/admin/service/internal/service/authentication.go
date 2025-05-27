@@ -75,7 +75,7 @@ func (s *AuthenticationService) Login(ctx context.Context, req *authenticationV1
 func (s *AuthenticationService) doGrantTypePassword(ctx context.Context, req *authenticationV1.LoginRequest) (*authenticationV1.LoginResponse, error) {
 	var err error
 	if _, err = s.userCredentialRepo.VerifyCredential(ctx, &authenticationV1.VerifyCredentialRequest{
-		IdentityType: authenticationV1.IdentityType_PASSWORD,
+		IdentityType: authenticationV1.IdentityType_USERNAME,
 		Identifier:   req.GetUsername(),
 		Credential:   req.GetPassword(),
 	}); err != nil {
@@ -222,7 +222,7 @@ func (s *AuthenticationService) RegisterUser(ctx context.Context, req *authentic
 			UserId:   user.Id,
 			TenantId: user.TenantId,
 
-			IdentityType: authenticationV1.IdentityType_PASSWORD.Enum(),
+			IdentityType: authenticationV1.IdentityType_USERNAME.Enum(),
 			Identifier:   trans.Ptr(req.GetUsername()),
 
 			CredentialType: authenticationV1.CredentialType_PASSWORD_HASH.Enum(),
@@ -243,7 +243,7 @@ func (s *AuthenticationService) RegisterUser(ctx context.Context, req *authentic
 
 func (s *AuthenticationService) ChangePassword(ctx context.Context, req *authenticationV1.ChangePasswordRequest) (*emptypb.Empty, error) {
 	err := s.userCredentialRepo.ChangeCredential(ctx, &authenticationV1.ChangeCredentialRequest{
-		IdentityType:  authenticationV1.IdentityType_PASSWORD,
+		IdentityType:  authenticationV1.IdentityType_USERNAME,
 		Identifier:    req.GetUsername(),
 		OldCredential: req.GetOldPassword(),
 		NewCredential: req.GetNewPassword(),

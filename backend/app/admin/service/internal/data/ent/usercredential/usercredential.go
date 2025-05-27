@@ -94,20 +94,49 @@ var (
 // IdentityType defines the type for the "identity_type" enum field.
 type IdentityType string
 
-// IdentityTypePassword is the default value of the IdentityType enum.
-const DefaultIdentityType = IdentityTypePassword
+// IdentityTypeUsername is the default value of the IdentityType enum.
+const DefaultIdentityType = IdentityTypeUsername
 
 // IdentityType values.
 const (
-	IdentityTypePassword IdentityType = "PASSWORD"
-	IdentityTypeEmail    IdentityType = "EMAIL"
-	IdentityTypePhone    IdentityType = "PHONE"
-	IdentityTypeWechat   IdentityType = "WECHAT"
-	IdentityTypeQQ       IdentityType = "QQ"
-	IdentityTypeGoogle   IdentityType = "GOOGLE"
-	IdentityTypeFacebook IdentityType = "FACEBOOK"
-	IdentityTypeApple    IdentityType = "APPLE"
-	IdentityTypeTelegram IdentityType = "TELEGRAM"
+	IdentityTypeUsername    IdentityType = "USERNAME"
+	IdentityTypeUserId      IdentityType = "USERID"
+	IdentityTypeEmail       IdentityType = "EMAIL"
+	IdentityTypePhone       IdentityType = "PHONE"
+	IdentityTypeWechat      IdentityType = "WECHAT"
+	IdentityTypeQQ          IdentityType = "QQ"
+	IdentityTypeWeibo       IdentityType = "WEIBO"
+	IdentityTypeDouYin      IdentityType = "DOUYIN"
+	IdentityTypeKuaiShou    IdentityType = "KUAISHOU"
+	IdentityTypeBaidu       IdentityType = "BAIDU"
+	IdentityTypeAlipay      IdentityType = "ALIPAY"
+	IdentityTypeTaoBao      IdentityType = "TAOBAO"
+	IdentityTypeJD          IdentityType = "JD"
+	IdentityTypeMeiTuan     IdentityType = "MEITUAN"
+	IdentityTypeDingTalk    IdentityType = "DINGTALK"
+	IdentityTypeBiliBili    IdentityType = "BILIBILI"
+	IdentityTypeXiaohongshu IdentityType = "XIAOHONGSHU"
+	IdentityTypeGoogle      IdentityType = "GOOGLE"
+	IdentityTypeFacebook    IdentityType = "FACEBOOK"
+	IdentityTypeApple       IdentityType = "APPLE"
+	IdentityTypeTelegram    IdentityType = "TELEGRAM"
+	IdentityTypeTwitter     IdentityType = "TWITTER"
+	IdentityTypeLinkedIn    IdentityType = "LINKEDIN"
+	IdentityTypeGitHub      IdentityType = "GITHUB"
+	IdentityTypeMicrosoft   IdentityType = "MICROSOFT"
+	IdentityTypeDiscord     IdentityType = "DISCORD"
+	IdentityTypeSlack       IdentityType = "SLACK"
+	IdentityTypeInstagram   IdentityType = "INSTAGRAM"
+	IdentityTypeTikTok      IdentityType = "TIKTOK"
+	IdentityTypeReddit      IdentityType = "REDDIT"
+	IdentityTypeYouTube     IdentityType = "YOUTUBE"
+	IdentityTypeSpotify     IdentityType = "SPOTIFY"
+	IdentityTypePinterest   IdentityType = "PINTEREST"
+	IdentityTypeSnapchat    IdentityType = "SNAPCHAT"
+	IdentityTypeTumblr      IdentityType = "TUMBLR"
+	IdentityTypeYahoo       IdentityType = "YAHOO"
+	IdentityTypeWhatsApp    IdentityType = "WHATSAPP"
+	IdentityTypeLINE        IdentityType = "LINE"
 )
 
 func (it IdentityType) String() string {
@@ -117,7 +146,7 @@ func (it IdentityType) String() string {
 // IdentityTypeValidator is a validator for the "identity_type" field enum values. It is called by the builders before save.
 func IdentityTypeValidator(it IdentityType) error {
 	switch it {
-	case IdentityTypePassword, IdentityTypeEmail, IdentityTypePhone, IdentityTypeWechat, IdentityTypeQQ, IdentityTypeGoogle, IdentityTypeFacebook, IdentityTypeApple, IdentityTypeTelegram:
+	case IdentityTypeUsername, IdentityTypeUserId, IdentityTypeEmail, IdentityTypePhone, IdentityTypeWechat, IdentityTypeQQ, IdentityTypeWeibo, IdentityTypeDouYin, IdentityTypeKuaiShou, IdentityTypeBaidu, IdentityTypeAlipay, IdentityTypeTaoBao, IdentityTypeJD, IdentityTypeMeiTuan, IdentityTypeDingTalk, IdentityTypeBiliBili, IdentityTypeXiaohongshu, IdentityTypeGoogle, IdentityTypeFacebook, IdentityTypeApple, IdentityTypeTelegram, IdentityTypeTwitter, IdentityTypeLinkedIn, IdentityTypeGitHub, IdentityTypeMicrosoft, IdentityTypeDiscord, IdentityTypeSlack, IdentityTypeInstagram, IdentityTypeTikTok, IdentityTypeReddit, IdentityTypeYouTube, IdentityTypeSpotify, IdentityTypePinterest, IdentityTypeSnapchat, IdentityTypeTumblr, IdentityTypeYahoo, IdentityTypeWhatsApp, IdentityTypeLINE:
 		return nil
 	default:
 		return fmt.Errorf("usercredential: invalid enum value for identity_type field: %q", it)
@@ -132,9 +161,43 @@ const DefaultCredentialType = CredentialTypePasswordHash
 
 // CredentialType values.
 const (
-	CredentialTypePasswordHash CredentialType = "PASSWORD_HASH"
-	CredentialTypeAccessToken  CredentialType = "ACCESS_TOKEN"
-	CredentialTypeRefreshToken CredentialType = "REFRESH_TOKEN"
+	CredentialTypePasswordHash               CredentialType = "PASSWORD_HASH"
+	CredentialTypeAccessToken                CredentialType = "ACCESS_TOKEN"
+	CredentialTypeRefreshToken               CredentialType = "REFRESH_TOKEN"
+	CredentialTypeEmailVerificationCode      CredentialType = "EMAIL_VERIFICATION_CODE"
+	CredentialTypePhoneVerificationCode      CredentialType = "PHONE_VERIFICATION_CODE"
+	CredentialTypeOauthToken                 CredentialType = "OAUTH_TOKEN"
+	CredentialTypeApiKey                     CredentialType = "API_KEY"
+	CredentialTypeSsoToken                   CredentialType = "SSO_TOKEN"
+	CredentialTypeJWT                        CredentialType = "JWT"
+	CredentialTypeSamlAssertion              CredentialType = "SAML_ASSERTION"
+	CredentialTypeOpenidConnectIdToken       CredentialType = "OPENID_CONNECT_ID_TOKEN"
+	CredentialTypeSessionCookie              CredentialType = "SESSION_COOKIE"
+	CredentialTypeTemporaryCredential        CredentialType = "TEMPORARY_CREDENTIAL"
+	CredentialTypeCustomCredential           CredentialType = "CUSTOM_CREDENTIAL"
+	CredentialTypeBiometricData              CredentialType = "BIOMETRIC_DATA"
+	CredentialTypeSecurityKey                CredentialType = "SECURITY_KEY"
+	CredentialTypeOTP                        CredentialType = "OTP"
+	CredentialTypeSmartCard                  CredentialType = "SMART_CARD"
+	CredentialTypeCryptographicCertificate   CredentialType = "CRYPTOGRAPHIC_CERTIFICATE"
+	CredentialTypeBiometricToken             CredentialType = "BIOMETRIC_TOKEN"
+	CredentialTypeDeviceFingerprint          CredentialType = "DEVICE_FINGERPRINT"
+	CredentialTypeHardwareToken              CredentialType = "HARDWARE_TOKEN"
+	CredentialTypeSoftwareToken              CredentialType = "SOFTWARE_TOKEN"
+	CredentialTypeSecurityQuestion           CredentialType = "SECURITY_QUESTION"
+	CredentialTypeSecurityPin                CredentialType = "SECURITY_PIN"
+	CredentialTypeTwoFactorAuthentication    CredentialType = "TWO_FACTOR_AUTHENTICATION"
+	CredentialTypeMultiFactorAuthentication  CredentialType = "MULTI_FACTOR_AUTHENTICATION"
+	CredentialTypePasswordlessAuthentication CredentialType = "PASSWORDLESS_AUTHENTICATION"
+	CredentialTypeSocialLoginToken           CredentialType = "SOCIAL_LOGIN_TOKEN"
+	CredentialTypeSsoSession                 CredentialType = "SSO_SESSION"
+	CredentialTypeApiSecret                  CredentialType = "API_SECRET"
+	CredentialTypeCustomToken                CredentialType = "CUSTOM_TOKEN"
+	CredentialTypeOauth2ClientCredentials    CredentialType = "OAUTH2_CLIENT_CREDENTIALS"
+	CredentialTypeOauth2AuthorizationCode    CredentialType = "OAUTH2_AUTHORIZATION_CODE"
+	CredentialTypeOauth2ImplicitGrant        CredentialType = "OAUTH2_IMPLICIT_GRANT"
+	CredentialTypeOauth2PasswordGrant        CredentialType = "OAUTH2_PASSWORD_GRANT"
+	CredentialTypeOauth2RefreshGrant         CredentialType = "OAUTH2_REFRESH_GRANT"
 )
 
 func (ct CredentialType) String() string {
@@ -144,7 +207,7 @@ func (ct CredentialType) String() string {
 // CredentialTypeValidator is a validator for the "credential_type" field enum values. It is called by the builders before save.
 func CredentialTypeValidator(ct CredentialType) error {
 	switch ct {
-	case CredentialTypePasswordHash, CredentialTypeAccessToken, CredentialTypeRefreshToken:
+	case CredentialTypePasswordHash, CredentialTypeAccessToken, CredentialTypeRefreshToken, CredentialTypeEmailVerificationCode, CredentialTypePhoneVerificationCode, CredentialTypeOauthToken, CredentialTypeApiKey, CredentialTypeSsoToken, CredentialTypeJWT, CredentialTypeSamlAssertion, CredentialTypeOpenidConnectIdToken, CredentialTypeSessionCookie, CredentialTypeTemporaryCredential, CredentialTypeCustomCredential, CredentialTypeBiometricData, CredentialTypeSecurityKey, CredentialTypeOTP, CredentialTypeSmartCard, CredentialTypeCryptographicCertificate, CredentialTypeBiometricToken, CredentialTypeDeviceFingerprint, CredentialTypeHardwareToken, CredentialTypeSoftwareToken, CredentialTypeSecurityQuestion, CredentialTypeSecurityPin, CredentialTypeTwoFactorAuthentication, CredentialTypeMultiFactorAuthentication, CredentialTypePasswordlessAuthentication, CredentialTypeSocialLoginToken, CredentialTypeSsoSession, CredentialTypeApiSecret, CredentialTypeCustomToken, CredentialTypeOauth2ClientCredentials, CredentialTypeOauth2AuthorizationCode, CredentialTypeOauth2ImplicitGrant, CredentialTypeOauth2PasswordGrant, CredentialTypeOauth2RefreshGrant:
 		return nil
 	default:
 		return fmt.Errorf("usercredential: invalid enum value for credential_type field: %q", ct)

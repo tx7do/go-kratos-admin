@@ -109,6 +109,21 @@ export interface ValidateTokenResponse {
   claim?: UserTokenPayload | null | undefined;
 }
 
+export interface RegisterUserRequest {
+  /** 用户名 */
+  username: string;
+  /** 登入密码 */
+  password: string;
+  /** 租户代码 */
+  tenantCode: string;
+  /** 电子邮件地址 */
+  email?: string | null | undefined;
+}
+
+export interface RegisterUserResponse {
+  userId: number;
+}
+
 /** 用户令牌载体 */
 export interface UserTokenPayload {
   /** 用户ID */
@@ -123,14 +138,40 @@ export interface UserTokenPayload {
   aut: UserAuthority;
 }
 
+/** 获取当前用户身份信息 - 响应 */
+export interface WhoAmIResponse {
+  /** 用户ID */
+  uid: number;
+  /** 当前用户的用户名 */
+  username: string;
+  /** 用户权限 */
+  authority: UserAuthority;
+}
+
+/** 修改用户密码 - 请求 */
+export interface ChangePasswordRequest {
+  /** 用户名 */
+  username: string;
+  /** 旧密码 */
+  oldPassword: string;
+  /** 新密码 */
+  newPassword: string;
+}
+
 /** 用户登录认证服务 */
 export interface AuthenticationService {
   /** 用户登录 */
   Login(request: LoginRequest): Promise<LoginResponse>;
   /** 用户登出 */
   Logout(request: Empty): Promise<Empty>;
+  /** 注册用户 */
+  RegisterUser(request: RegisterUserRequest): Promise<RegisterUserResponse>;
   /** 刷新认证令牌 */
   RefreshToken(request: LoginRequest): Promise<LoginResponse>;
   /** 验证令牌 */
   ValidateToken(request: ValidateTokenRequest): Promise<ValidateTokenResponse>;
+  /** 修改用户密码 */
+  ChangePassword(request: ChangePasswordRequest): Promise<Empty>;
+  /** 获取当前用户身份信息 */
+  WhoAmI(request: Empty): Promise<WhoAmIResponse>;
 }

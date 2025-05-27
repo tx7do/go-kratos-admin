@@ -8,20 +8,6 @@
 import { type Empty } from "../../../google/protobuf/empty.pb";
 import { type PagingRequest } from "../../../pagination/v1/pagination.pb";
 
-/** 验证密码结果码 */
-export enum VerifyPasswordResult {
-  /** SUCCESS - 验证成功 */
-  SUCCESS = "SUCCESS",
-  /** ACCOUNT_NOT_EXISTS - 账号不存在 */
-  ACCOUNT_NOT_EXISTS = "ACCOUNT_NOT_EXISTS",
-  /** WRONG_PASSWORD - 密码错误 */
-  WRONG_PASSWORD = "WRONG_PASSWORD",
-  /** FREEZE - 已冻结 */
-  FREEZE = "FREEZE",
-  /** DELETED - 已删除 */
-  DELETED = "DELETED",
-}
-
 /** 用户权限 */
 export enum UserAuthority {
   /** GUEST - 游客 */
@@ -83,17 +69,17 @@ export interface User {
     | null
     | undefined;
   /** 登录名 */
-  userName?:
+  username?:
     | string
     | null
     | undefined;
   /** 昵称 */
-  nickName?:
+  nickname?:
     | string
     | null
     | undefined;
   /** 真实姓名 */
-  realName?:
+  realname?:
     | string
     | null
     | undefined;
@@ -201,7 +187,7 @@ export interface GetUserRequest {
 
 export interface GetUserByUserNameRequest {
   /** 用户登录名 */
-  userName: string;
+  username: string;
 }
 
 /** 创建用户 - 请求 */
@@ -237,23 +223,10 @@ export interface DeleteUserRequest {
   id: number;
 }
 
-/** 验证密码 - 请求 */
-export interface VerifyPasswordRequest {
-  /** 用户登录名 */
-  userName: string;
-  /** 用户登录密码 */
-  password: string;
-}
-
-/** 验证密码 - 答复 */
-export interface VerifyPasswordResponse {
-  result: VerifyPasswordResult;
-}
-
 /** 用户是否存在 - 请求 */
 export interface UserExistsRequest {
   /** 用户登录名 */
-  userName: string;
+  username: string;
 }
 
 /** 用户是否存在 - 答复 */
@@ -285,8 +258,6 @@ export interface UserService {
   BatchCreate(request: BatchCreateUsersRequest): Promise<BatchCreateUsersResponse>;
   /** 查询用户详情 */
   GetUserByUserName(request: GetUserByUserNameRequest): Promise<User>;
-  /** 验证密码 */
-  VerifyPassword(request: VerifyPasswordRequest): Promise<VerifyPasswordResponse>;
   /** 用户是否存在 */
   UserExists(request: UserExistsRequest): Promise<UserExistsResponse>;
 }

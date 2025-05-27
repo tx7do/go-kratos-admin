@@ -172,6 +172,22 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/AdminOperationLog'
+    /admin/v1/change_password:
+        post:
+            tags:
+                - AuthenticationService
+            description: 修改用户密码
+            operationId: AuthenticationService_ChangePassword
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/ChangePasswordRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content: {}
     /admin/v1/departments:
         get:
             tags:
@@ -2617,6 +2633,19 @@ components:
                     type: string
                     description: 创建时间
             description: 后台操作日志
+        ChangePasswordRequest:
+            type: object
+            properties:
+                username:
+                    type: string
+                    description: 用户名
+                oldPassword:
+                    type: string
+                    description: 旧密码
+                newPassword:
+                    type: string
+                    description: 新密码
+            description: 修改用户密码 - 请求
         ControlTaskRequest:
             type: object
             properties:

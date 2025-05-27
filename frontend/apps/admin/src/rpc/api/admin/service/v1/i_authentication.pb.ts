@@ -5,7 +5,11 @@
 // source: admin/service/v1/i_authentication.proto
 
 /* eslint-disable */
-import { type LoginRequest, type LoginResponse } from "../../../authentication/service/v1/authentication.pb";
+import {
+  type ChangePasswordRequest,
+  type LoginRequest,
+  type LoginResponse,
+} from "../../../authentication/service/v1/authentication.pb";
 import { type Empty } from "../../../google/protobuf/empty.pb";
 
 /** 用户后台登录认证服务 */
@@ -16,4 +20,6 @@ export interface AuthenticationService {
   Logout(request: Empty): Promise<Empty>;
   /** 刷新认证令牌 */
   RefreshToken(request: LoginRequest): Promise<LoginResponse>;
+  /** 修改用户密码 */
+  ChangePassword(request: ChangePasswordRequest): Promise<Empty>;
 }

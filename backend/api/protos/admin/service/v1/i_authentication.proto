@@ -38,4 +38,12 @@ service AuthenticationService {
       body: "*"
     };
   }
+
+  // 修改用户密码
+  rpc ChangePassword(authentication.service.v1.ChangePasswordRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      post: "/admin/v1/change_password"
+      body: "*"
+    };
+  }
 }

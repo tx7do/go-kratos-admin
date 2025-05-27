@@ -11,6 +11,9 @@ type Viewer interface {
 	// Admin 是否是管理员
 	Admin() bool
 
+	// SystemAdmin 系统管理员
+	SystemAdmin() bool
+
 	// TenantAdmin 租户管理员
 	TenantAdmin() bool
 

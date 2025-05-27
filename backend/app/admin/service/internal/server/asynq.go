@@ -20,9 +20,7 @@ func NewAsynqServer(cfg *conf.Bootstrap, _ log.Logger, svc *service.TaskService)
 	}
 
 	srv := asynq.NewServer(
-		asynq.WithAddress(cfg.Server.Asynq.GetEndpoint()),
-		asynq.WithRedisPassword(cfg.Server.Asynq.GetPassword()),
-		asynq.WithRedisDatabase(int(cfg.Server.Asynq.GetDb())),
+		asynq.WithRedisURI(cfg.Server.Asynq.GetUri()),
 		asynq.WithLocation(cfg.Server.Asynq.GetLocation()),
 		asynq.WithEnableKeepAlive(false),
 		asynq.WithGracefullyShutdown(true),

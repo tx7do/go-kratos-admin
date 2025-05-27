@@ -1498,8 +1498,12 @@ github.com/tx7do/kratos-authz/engine/opa v1.1.2 h1:XpPuiCWsm05zhBua68+Jm+od+iaOM
 github.com/tx7do/kratos-authz/engine/opa v1.1.2/go.mod h1:Oiqh6LfvH3aFrVLwPtm82kGgxm9QLqQrG2Zr8WZ9ICI=
 github.com/tx7do/kratos-authz/middleware v1.0.3 h1:HC7dkXDspO5BlHmAoIFVrHBkeaViv5VEbhjriyH7k6o=
 github.com/tx7do/kratos-authz/middleware v1.0.3/go.mod h1:liecg26CZGe8TOwFwdvYVBD/fDAJj7iDE2g7k1bEGCM=
+github.com/tx7do/kratos-bootstrap v0.6.0 h1:2LKebrYLRA0mz0cTBp1HGe1zDvSW1HqrPPpDVXhBQH4=
+github.com/tx7do/kratos-bootstrap v0.6.0/go.mod h1:x8IzH9WzFOnc4PQhkISuqVTAQRyM4SL1fQ8Ond2axwU=
 github.com/tx7do/kratos-bootstrap/api v0.0.17 h1:jG9m7VVn99r2WdysdMoQoXK6eUtWIaih65qQ2pmlL1Y=
 github.com/tx7do/kratos-bootstrap/api v0.0.17/go.mod h1:JCchEsHgURjExO++DiupEbEcCBjlrQYONMMKDdkuC9U=
+github.com/tx7do/kratos-bootstrap/api v0.0.18 h1:5kCKvW226ZolUPju63jK7zZELmvI/p3aby/j96KfkpM=
+github.com/tx7do/kratos-bootstrap/api v0.0.18/go.mod h1:JCchEsHgURjExO++DiupEbEcCBjlrQYONMMKDdkuC9U=
 github.com/tx7do/kratos-bootstrap/bootstrap v0.0.15 h1:EfiW+wiofOcfs3EcKT11CZe8LthdzuW/FEPpUrRKlaI=
 github.com/tx7do/kratos-bootstrap/bootstrap v0.0.15/go.mod h1:BiAHbdmqKsj4g92joKPhQ2on1n5oYAzhxRONyQdXugA=
 github.com/tx7do/kratos-bootstrap/cache/redis v0.0.9 h1:xXtegDtbq9oNYwEhG0dTiJ40XHXkjfJeoLUTIp63eiA=
@@ -1526,6 +1530,8 @@ github.com/tx7do/kratos-transport/transport/asynq v1.2.19 h1:CfWQrFUEQfNcUIQVW15
 github.com/tx7do/kratos-transport/transport/asynq v1.2.19/go.mod h1:38tBGba3ziLplpMnjkKd8yDINzwuimYAiVgwSfTETII=
 github.com/tx7do/kratos-transport/transport/asynq v1.2.20 h1:UklQNR8Ck53a0YVk9c4g/gnLo9lH6q14oo5f2rffd1U=
 github.com/tx7do/kratos-transport/transport/asynq v1.2.20/go.mod h1:1woo3D+/7NKtfYMLdYQUvIiHTkEDS6D1PFIc0q/w/aA=
+github.com/tx7do/kratos-transport/transport/asynq v1.2.21 h1:zO+B7krVfsrrAblqzCzsCT4qtzVuD5ZNMT2r8sR0iTw=
+github.com/tx7do/kratos-transport/transport/asynq v1.2.21/go.mod h1:1woo3D+/7NKtfYMLdYQUvIiHTkEDS6D1PFIc0q/w/aA=
 github.com/tx7do/kratos-transport/transport/sse v1.2.19 h1:XuAhbS6ynz8/+f6nxISqm1Q8WdOcteMitAlx289Z/es=
 github.com/tx7do/kratos-transport/transport/sse v1.2.19/go.mod h1:YzdIKCdMiyHQPweFM4CgmSm7sJN2Z2ngS7S1goRzfb0=
 github.com/uber/jaeger-client-go v2.30.0+incompatible h1:D6wyKGCecFaSRUpo8lCVbaOOb6ThwMmTEbhRwtKR97o=

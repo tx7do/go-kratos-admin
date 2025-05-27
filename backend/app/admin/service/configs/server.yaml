@@ -34,9 +34,7 @@ server:
         refresh_token_key_prefix: "urt_"
 
   asynq:
-    endpoint: "redis:6379"
-    password: "*Abcd123456"
-    db: 1
+    uri: "redis://:*Abcd123456@redis:6379/1"
 
   sse:
     addr: ":7789"

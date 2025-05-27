@@ -286,7 +286,7 @@ func (s *TaskService) startTask(t *adminV1.Task) error {
 	switch t.GetType() {
 	case adminV1.TaskType_PERIODIC:
 		opts, payload = s.convertTaskOption(t)
-		if _, err = s.Server.NewPeriodicTask(t.GetCronSpec(), t.GetTypeName(), payload, opts...); err != nil {
+		if _, err = s.Server.NewPeriodicTask(t.GetCronSpec(), task.CreateBackupTaskID(t.GetId()), t.GetTypeName(), payload, opts...); err != nil {
 			s.log.Errorf("[%s] 创建定时任务失败[%s]", t.GetTypeName(), err.Error())
 			return err
 		}

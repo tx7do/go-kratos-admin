@@ -37,14 +37,14 @@ require (
 	github.com/tx7do/kratos-authn/middleware v1.1.7
 	github.com/tx7do/kratos-authz v1.0.3
 	github.com/tx7do/kratos-authz/middleware v1.0.3
-	github.com/tx7do/kratos-bootstrap/api v0.0.17
+	github.com/tx7do/kratos-bootstrap/api v0.0.18
 	github.com/tx7do/kratos-bootstrap/bootstrap v0.0.15
 	github.com/tx7do/kratos-bootstrap/cache/redis v0.0.9
 	github.com/tx7do/kratos-bootstrap/oss/minio v0.0.9
 	github.com/tx7do/kratos-bootstrap/rpc v0.0.13
 	github.com/tx7do/kratos-swagger-ui v0.0.0-20241213153527-eca591f9f8b2
 	github.com/tx7do/kratos-transport v1.1.12
-	github.com/tx7do/kratos-transport/transport/asynq v1.2.20
+	github.com/tx7do/kratos-transport/transport/asynq v1.2.21
 	github.com/tx7do/kratos-transport/transport/sse v1.2.19
 	google.golang.org/genproto v0.0.0-20250519155744-55703ea1f237
 	google.golang.org/genproto/googleapis/api v0.0.0-20250519155744-55703ea1f237
@@ -203,6 +203,7 @@ require (
 	github.com/tinylib/msgp v1.3.0 // indirect
 	github.com/tklauser/go-sysconf v0.3.15 // indirect
 	github.com/tklauser/numcpus v0.10.0 // indirect
+	github.com/tx7do/kratos-bootstrap v0.6.0 // indirect
 	github.com/tx7do/kratos-bootstrap/config v0.0.9 // indirect
 	github.com/tx7do/kratos-bootstrap/logger v0.0.9 // indirect
 	github.com/tx7do/kratos-bootstrap/registry v0.0.9 // indirect

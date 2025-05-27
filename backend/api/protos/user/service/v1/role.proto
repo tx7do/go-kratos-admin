@@ -27,7 +27,7 @@ service RoleService {
   rpc Delete (DeleteRoleRequest) returns (google.protobuf.Empty) {}
 
   // 批量创建角色
-  rpc BatchCreate ( BatchCreateRolesRequest ) returns ( BatchCreateRolesResponse );
+  rpc BatchCreate ( BatchCreateRolesRequest ) returns ( BatchCreateRolesResponse ) {}
 }
 
 // 角色

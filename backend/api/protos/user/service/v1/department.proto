@@ -28,7 +28,7 @@ service DepartmentService {
   rpc Delete (DeleteDepartmentRequest) returns (google.protobuf.Empty) {}
 
   // 批量创建部门
-  rpc BatchCreate ( BatchCreateDepartmentsRequest ) returns ( BatchCreateDepartmentsResponse );
+  rpc BatchCreate ( BatchCreateDepartmentsRequest ) returns ( BatchCreateDepartmentsResponse ) {}
 }
 
 // 部门

@@ -27,7 +27,7 @@ service OrganizationService {
   rpc Delete (DeleteOrganizationRequest) returns (google.protobuf.Empty) {}
 
   // 批量创建组织
-  rpc BatchCreate ( BatchCreateOrganizationsRequest ) returns ( BatchCreateOrganizationsResponse );
+  rpc BatchCreate ( BatchCreateOrganizationsRequest ) returns ( BatchCreateOrganizationsResponse ) {}
 }
 
 // 组织

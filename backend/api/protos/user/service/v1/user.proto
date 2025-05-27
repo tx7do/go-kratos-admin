@@ -28,7 +28,7 @@ service UserService {
   rpc Delete (DeleteUserRequest) returns (google.protobuf.Empty) {}
 
   // 批量创建租户
-  rpc BatchCreate ( BatchCreateUsersRequest ) returns ( BatchCreateUsersResponse );
+  rpc BatchCreate ( BatchCreateUsersRequest ) returns ( BatchCreateUsersResponse ) {}
 
   // 查询用户详情
   rpc GetUserByUserName (GetUserByUserNameRequest) returns (User) {}

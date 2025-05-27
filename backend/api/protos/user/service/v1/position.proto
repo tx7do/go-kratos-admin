@@ -27,7 +27,7 @@ service PositionService {
   rpc Delete (DeletePositionRequest) returns (google.protobuf.Empty) {}
 
   // 批量创建职位
-  rpc BatchCreate ( BatchCreatePositionsRequest ) returns ( BatchCreatePositionsResponse );
+  rpc BatchCreate ( BatchCreatePositionsRequest ) returns ( BatchCreatePositionsResponse ) {}
 }
 
 // 职位

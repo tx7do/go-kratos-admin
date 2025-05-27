@@ -20,18 +20,18 @@ service AuthenticationService {
   rpc Logout (google.protobuf.Empty) returns (google.protobuf.Empty) {}
 
   // 注册用户
-  rpc RegisterUser (RegisterUserRequest) returns (RegisterUserResponse);
+  rpc RegisterUser (RegisterUserRequest) returns (RegisterUserResponse) {}
 
 
   // 刷新认证令牌
   rpc RefreshToken (LoginRequest) returns (LoginResponse) {}
 
   // 验证令牌
-  rpc ValidateToken(ValidateTokenRequest) returns (ValidateTokenResponse);
+  rpc ValidateToken(ValidateTokenRequest) returns (ValidateTokenResponse) {}
 
 
   // 获取当前用户身份信息
-  rpc WhoAmI(google.protobuf.Empty) returns (WhoAmIResponse);
+  rpc WhoAmI(google.protobuf.Empty) returns (WhoAmIResponse) {}
 }
 
 // 授权类型

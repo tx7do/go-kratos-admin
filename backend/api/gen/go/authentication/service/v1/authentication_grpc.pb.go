@@ -45,7 +45,7 @@ type AuthenticationServiceClient interface {
 	// 验证令牌
 	ValidateToken(ctx context.Context, in *ValidateTokenRequest, opts ...grpc.CallOption) (*ValidateTokenResponse, error)
 	// 获取当前用户身份信息
-	WhoAmI(ctx context.Context, in *WhoAmIRequest, opts ...grpc.CallOption) (*WhoAmIResponse, error)
+	WhoAmI(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*WhoAmIResponse, error)
 }
 
 type authenticationServiceClient struct {
@@ -106,7 +106,7 @@ func (c *authenticationServiceClient) ValidateToken(ctx context.Context, in *Val
 	return out, nil
 }
 
-func (c *authenticationServiceClient) WhoAmI(ctx context.Context, in *WhoAmIRequest, opts ...grpc.CallOption) (*WhoAmIResponse, error) {
+func (c *authenticationServiceClient) WhoAmI(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*WhoAmIResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(WhoAmIResponse)
 	err := c.cc.Invoke(ctx, AuthenticationService_WhoAmI_FullMethodName, in, out, cOpts...)
@@ -133,7 +133,7 @@ type AuthenticationServiceServer interface {
 	// 验证令牌
 	ValidateToken(context.Context, *ValidateTokenRequest) (*ValidateTokenResponse, error)
 	// 获取当前用户身份信息
-	WhoAmI(context.Context, *WhoAmIRequest) (*WhoAmIResponse, error)
+	WhoAmI(context.Context, *emptypb.Empty) (*WhoAmIResponse, error)
 	mustEmbedUnimplementedAuthenticationServiceServer()
 }
 
@@ -159,7 +159,7 @@ func (UnimplementedAuthenticationServiceServer) RefreshToken(context.Context, *L
 func (UnimplementedAuthenticationServiceServer) ValidateToken(context.Context, *ValidateTokenRequest) (*ValidateTokenResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ValidateToken not implemented")
 }
-func (UnimplementedAuthenticationServiceServer) WhoAmI(context.Context, *WhoAmIRequest) (*WhoAmIResponse, error) {
+func (UnimplementedAuthenticationServiceServer) WhoAmI(context.Context, *emptypb.Empty) (*WhoAmIResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method WhoAmI not implemented")
 }
 func (UnimplementedAuthenticationServiceServer) mustEmbedUnimplementedAuthenticationServiceServer() {}
@@ -274,7 +274,7 @@ func _AuthenticationService_ValidateToken_Handler(srv interface{}, ctx context.C
 }
 
 func _AuthenticationService_WhoAmI_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(WhoAmIRequest)
+	in := new(emptypb.Empty)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -286,7 +286,7 @@ func _AuthenticationService_WhoAmI_Handler(srv interface{}, ctx context.Context,
 		FullMethod: AuthenticationService_WhoAmI_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AuthenticationServiceServer).WhoAmI(ctx, req.(*WhoAmIRequest))
+		return srv.(AuthenticationServiceServer).WhoAmI(ctx, req.(*emptypb.Empty))
 	}
 	return interceptor(ctx, in, info, handler)
 }

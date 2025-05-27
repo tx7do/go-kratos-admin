@@ -28,7 +28,7 @@ service TenantService {
   rpc Delete (DeleteTenantRequest) returns (google.protobuf.Empty) {}
 
   // 批量创建租户
-  rpc BatchCreate ( BatchCreateTenantsRequest ) returns ( BatchCreateTenantsResponse );
+  rpc BatchCreate ( BatchCreateTenantsRequest ) returns ( BatchCreateTenantsResponse ) {}
 }
 
 // 租户

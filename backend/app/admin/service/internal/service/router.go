@@ -3,7 +3,6 @@ package service
 import (
 	"context"
 	"encoding/json"
-	"errors"
 	"fmt"
 	"strings"
 
@@ -73,14 +72,14 @@ func (s *RouterService) menuListToQueryString(menus []uint32, onlyButton bool) s
 func (s *RouterService) queryRoleMenus(ctx context.Context, userId uint32) ([]uint32, error) {
 	user, err := s.userRepo.Get(ctx, userId)
 	if err != nil {
-		s.log.Errorf("查询用户失败[%s]", err.Error())
-		return nil, errors.New("查询用户失败")
+		s.log.Errorf("query user failed[%s]", err.Error())
+		return nil, adminV1.ErrorInternalServerError("query user failed")
 	}
 
 	role, err := s.roleRepo.Get(ctx, user.GetRoleId())
 	if err != nil {
-		s.log.Errorf("查询角色失败[%s]", err.Error())
-		return nil, errors.New("查询角色失败")
+		s.log.Errorf("query role failed[%s]", err.Error())
+		return nil, adminV1.ErrorInternalServerError("query role failed")
 	}
 
 	return role.GetMenus(), nil
@@ -106,8 +105,8 @@ func (s *RouterService) ListPermissionCode(ctx context.Context, _ *emptypb.Empty
 		},
 	}, false)
 	if err != nil {
-		s.log.Errorf("查询列表发生错误[%s]", err.Error())
-		return nil, errors.New("读取列表发生错误")
+		s.log.Errorf("list permission code failed [%s]", err.Error())
+		return nil, adminV1.ErrorInternalServerError("list permission code failed")
 	}
 
 	var codes []string
@@ -178,8 +177,8 @@ func (s *RouterService) ListRoute(ctx context.Context, _ *emptypb.Empty) (*admin
 		Query:    trans.Ptr(s.menuListToQueryString(roleMenus, false)),
 	}, true)
 	if err != nil {
-		s.log.Errorf("查询列表发生错误[%s]", err.Error())
-		return nil, errors.New("读取列表发生错误")
+		s.log.Errorf("list route failed [%s]", err.Error())
+		return nil, adminV1.ErrorInternalServerError("list route failed")
 	}
 
 	resp := &adminV1.ListRouteResponse{Items: s.fillRouteItem(menuList.Items)}

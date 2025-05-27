@@ -1180,6 +1180,14 @@ func (m *ChangeCredentialRequest) validate(all bool) error {
 
 	var errors []error
 
+	// no validation rules for IdentityType
+
+	// no validation rules for Identifier
+
+	// no validation rules for OldCredential
+
+	// no validation rules for NewCredential
+
 	if len(errors) > 0 {
 		return ChangeCredentialRequestMultiError(errors)
 	}
@@ -1281,6 +1289,12 @@ func (m *ResetCredentialRequest) validate(all bool) error {
 	}
 
 	var errors []error
+
+	// no validation rules for IdentityType
+
+	// no validation rules for Identifier
+
+	// no validation rules for NewCredential
 
 	if len(errors) > 0 {
 		return ResetCredentialRequestMultiError(errors)

@@ -299,63 +299,6 @@ func (r *UserCredentialRepo) Update(ctx context.Context, req *authenticationV1.U
 	return nil
 }
 
-func (r *UserCredentialRepo) ChangeCredential(ctx context.Context, req *authenticationV1.ChangeCredentialRequest) error {
-	return nil
-}
-
-func (r *UserCredentialRepo) VerifyCredential(ctx context.Context, req *authenticationV1.VerifyCredentialRequest) (*authenticationV1.VerifyCredentialResponse, error) {
-	ret, err := r.data.db.Client().UserCredential.Query().
-		Select(usercredential.FieldCredentialType, usercredential.FieldCredential, usercredential.FieldStatus).
-		Where(
-			usercredential.IdentityTypeEQ(*r.toEntIdentityType(trans.Ptr(req.GetIdentityType()))),
-			usercredential.IdentifierEQ(req.GetIdentifier()),
-		).
-		Only(ctx)
-	if err != nil {
-		if ent.IsNotFound(err) {
-			return &authenticationV1.VerifyCredentialResponse{
-				Success: false,
-			}, authenticationV1.ErrorUserNotFound("user not found")
-		}
-
-		r.log.Errorf("query one data failed: %s", err.Error())
-
-		return &authenticationV1.VerifyCredentialResponse{
-			Success: false,
-		}, authenticationV1.ErrorServiceUnavailable("db error")
-	}
-
-	if *ret.Status != usercredential.StatusEnabled {
-		return &authenticationV1.VerifyCredentialResponse{
-			Success: false,
-		}, authenticationV1.ErrorUserFreeze("account has freeze")
-	}
-
-	bMatched := r.verifyCredential(ret.CredentialType, req.GetCredential(), *ret.Credential)
-	if !bMatched {
-		return &authenticationV1.VerifyCredentialResponse{
-			Success: false,
-		}, authenticationV1.ErrorIncorrectPassword("incorrect password")
-	}
-
-	return &authenticationV1.VerifyCredentialResponse{
-		Success: true,
-	}, nil
-}
-
-func (r *UserCredentialRepo) verifyCredential(credentialType *usercredential.CredentialType, plainCredential, targetCredential string) bool {
-	if credentialType == nil || plainCredential == "" {
-		return false
-	}
-
-	switch *credentialType {
-	case usercredential.CredentialTypePasswordHash:
-		return crypto.VerifyPassword(plainCredential, targetCredential)
-	default:
-		return plainCredential == targetCredential
-	}
-}
-
 func (r *UserCredentialRepo) Create(ctx context.Context, req *authenticationV1.CreateUserCredentialRequest) error {
 	if req == nil || req.Data == nil {
 		return authenticationV1.ErrorBadRequest("invalid request")
@@ -493,4 +436,124 @@ func (r *UserCredentialRepo) GetByIdentifier(ctx context.Context, req *authentic
 	}
 
 	return r.toProto(ret), nil
+}
+
+func (r *UserCredentialRepo) ChangeCredential(ctx context.Context, req *authenticationV1.ChangeCredentialRequest) error {
+	ret, err := r.data.db.Client().UserCredential.
+		Query().
+		Select(
+			usercredential.FieldCredentialType,
+			usercredential.FieldCredential,
+		).
+		Where(
+			usercredential.IdentityTypeEQ(*r.toEntIdentityType(trans.Ptr(req.GetIdentityType()))),
+			usercredential.IdentifierEQ(req.GetIdentifier()),
+		).
+		Only(ctx)
+	if err != nil {
+		r.log.Errorf("query one data failed: %s", err.Error())
+		return authenticationV1.ErrorInternalServerError("query one data failed")
+	}
+
+	if ret.CredentialType == nil {
+		return authenticationV1.ErrorNotFound("user credential not found")
+	}
+
+	var newCredential string
+	switch *ret.CredentialType {
+	case usercredential.CredentialTypePasswordHash:
+		// 校验旧密码
+		bMatched := crypto.VerifyPassword(req.GetOldCredential(), *ret.Credential)
+		if !bMatched {
+			return authenticationV1.ErrorBadRequest("invalid old password")
+		}
+
+		// 加密明文密码
+		newCredential, err = crypto.HashPassword(req.GetNewCredential())
+		if err != nil {
+			r.log.Errorf("hash new password failed: %s", err.Error())
+			return authenticationV1.ErrorBadRequest("hash new password failed")
+		}
+
+	default:
+		if ret.Credential == nil {
+			return authenticationV1.ErrorBadRequest("invalid old credential")
+		}
+
+		if *ret.Credential != req.GetOldCredential() {
+			return authenticationV1.ErrorBadRequest("invalid old credential")
+		}
+
+		newCredential = req.GetNewCredential()
+	}
+
+	if newCredential == "" {
+		return authenticationV1.ErrorBadRequest("new credential cannot be empty")
+	}
+
+	builder := r.data.db.Client().UserCredential.Update()
+	builder.Where(
+		usercredential.IdentityTypeEQ(*r.toEntIdentityType(trans.Ptr(req.GetIdentityType()))),
+		usercredential.IdentifierEQ(req.GetIdentifier()),
+	)
+	builder.SetCredential(newCredential)
+	if err = builder.Exec(ctx); err != nil {
+		r.log.Errorf("update one data failed: %s", err.Error())
+		return authenticationV1.ErrorInternalServerError("update data failed")
+	}
+
+	return nil
+}
+
+func (r *UserCredentialRepo) VerifyCredential(ctx context.Context, req *authenticationV1.VerifyCredentialRequest) (*authenticationV1.VerifyCredentialResponse, error) {
+	ret, err := r.data.db.Client().UserCredential.Query().
+		Select(usercredential.FieldCredentialType, usercredential.FieldCredential, usercredential.FieldStatus).
+		Where(
+			usercredential.IdentityTypeEQ(*r.toEntIdentityType(trans.Ptr(req.GetIdentityType()))),
+			usercredential.IdentifierEQ(req.GetIdentifier()),
+		).
+		Only(ctx)
+	if err != nil {
+		if ent.IsNotFound(err) {
+			return &authenticationV1.VerifyCredentialResponse{
+				Success: false,
+			}, authenticationV1.ErrorUserNotFound("user not found")
+		}
+
+		r.log.Errorf("query one data failed: %s", err.Error())
+
+		return &authenticationV1.VerifyCredentialResponse{
+			Success: false,
+		}, authenticationV1.ErrorServiceUnavailable("db error")
+	}
+
+	if *ret.Status != usercredential.StatusEnabled {
+		return &authenticationV1.VerifyCredentialResponse{
+			Success: false,
+		}, authenticationV1.ErrorUserFreeze("account has freeze")
+	}
+
+	bMatched := r.verifyCredential(ret.CredentialType, req.GetCredential(), *ret.Credential)
+	if !bMatched {
+		return &authenticationV1.VerifyCredentialResponse{
+			Success: false,
+		}, authenticationV1.ErrorIncorrectPassword("incorrect password")
+	}
+
+	return &authenticationV1.VerifyCredentialResponse{
+		Success: true,
+	}, nil
+}
+
+func (r *UserCredentialRepo) verifyCredential(credentialType *usercredential.CredentialType, plainCredential, targetCredential string) bool {
+	if credentialType == nil || plainCredential == "" {
+		return false
+	}
+
+	switch *credentialType {
+	case usercredential.CredentialTypePasswordHash:
+		return crypto.VerifyPassword(plainCredential, targetCredential)
+	default:
+		return plainCredential == targetCredential
+	}
 }

@@ -240,3 +240,17 @@ func (s *AuthenticationService) RegisterUser(ctx context.Context, req *authentic
 		UserId: user.GetId(),
 	}, nil
 }
+
+func (s *AuthenticationService) WhoAmI(ctx context.Context, _ *emptypb.Empty) (*authenticationV1.WhoAmIResponse, error) {
+	// 获取操作人信息
+	operator, err := auth.FromContext(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	return &authenticationV1.WhoAmIResponse{
+		UserId:    operator.UserId,
+		Username:  operator.Username,
+		Authority: operator.Authority,
+	}, nil
+}

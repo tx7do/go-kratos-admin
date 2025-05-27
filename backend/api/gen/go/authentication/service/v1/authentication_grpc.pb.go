@@ -25,6 +25,7 @@ const (
 	AuthenticationService_RegisterUser_FullMethodName  = "/authentication.service.v1.AuthenticationService/RegisterUser"
 	AuthenticationService_RefreshToken_FullMethodName  = "/authentication.service.v1.AuthenticationService/RefreshToken"
 	AuthenticationService_ValidateToken_FullMethodName = "/authentication.service.v1.AuthenticationService/ValidateToken"
+	AuthenticationService_WhoAmI_FullMethodName        = "/authentication.service.v1.AuthenticationService/WhoAmI"
 )
 
 // AuthenticationServiceClient is the client API for AuthenticationService service.
@@ -43,6 +44,8 @@ type AuthenticationServiceClient interface {
 	RefreshToken(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*LoginResponse, error)
 	// 验证令牌
 	ValidateToken(ctx context.Context, in *ValidateTokenRequest, opts ...grpc.CallOption) (*ValidateTokenResponse, error)
+	// 获取当前用户身份信息
+	WhoAmI(ctx context.Context, in *WhoAmIRequest, opts ...grpc.CallOption) (*WhoAmIResponse, error)
 }
 
 type authenticationServiceClient struct {
@@ -103,6 +106,16 @@ func (c *authenticationServiceClient) ValidateToken(ctx context.Context, in *Val
 	return out, nil
 }
 
+func (c *authenticationServiceClient) WhoAmI(ctx context.Context, in *WhoAmIRequest, opts ...grpc.CallOption) (*WhoAmIResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(WhoAmIResponse)
+	err := c.cc.Invoke(ctx, AuthenticationService_WhoAmI_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // AuthenticationServiceServer is the server API for AuthenticationService service.
 // All implementations must embed UnimplementedAuthenticationServiceServer
 // for forward compatibility.
@@ -119,6 +132,8 @@ type AuthenticationServiceServer interface {
 	RefreshToken(context.Context, *LoginRequest) (*LoginResponse, error)
 	// 验证令牌
 	ValidateToken(context.Context, *ValidateTokenRequest) (*ValidateTokenResponse, error)
+	// 获取当前用户身份信息
+	WhoAmI(context.Context, *WhoAmIRequest) (*WhoAmIResponse, error)
 	mustEmbedUnimplementedAuthenticationServiceServer()
 }
 
@@ -143,6 +158,9 @@ func (UnimplementedAuthenticationServiceServer) RefreshToken(context.Context, *L
 }
 func (UnimplementedAuthenticationServiceServer) ValidateToken(context.Context, *ValidateTokenRequest) (*ValidateTokenResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ValidateToken not implemented")
+}
+func (UnimplementedAuthenticationServiceServer) WhoAmI(context.Context, *WhoAmIRequest) (*WhoAmIResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method WhoAmI not implemented")
 }
 func (UnimplementedAuthenticationServiceServer) mustEmbedUnimplementedAuthenticationServiceServer() {}
 func (UnimplementedAuthenticationServiceServer) testEmbeddedByValue()                               {}
@@ -255,6 +273,24 @@ func _AuthenticationService_ValidateToken_Handler(srv interface{}, ctx context.C
 	return interceptor(ctx, in, info, handler)
 }
 
+func _AuthenticationService_WhoAmI_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(WhoAmIRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AuthenticationServiceServer).WhoAmI(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AuthenticationService_WhoAmI_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AuthenticationServiceServer).WhoAmI(ctx, req.(*WhoAmIRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // AuthenticationService_ServiceDesc is the grpc.ServiceDesc for AuthenticationService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -281,6 +317,10 @@ var AuthenticationService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ValidateToken",
 			Handler:    _AuthenticationService_ValidateToken_Handler,
+		},
+		{
+			MethodName: "WhoAmI",
+			Handler:    _AuthenticationService_WhoAmI_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

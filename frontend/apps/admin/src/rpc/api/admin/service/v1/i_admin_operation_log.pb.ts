@@ -91,7 +91,7 @@ export interface AdminOperationLog {
     | null
     | undefined;
   /** 操作者账号名 */
-  userName?:
+  username?:
     | string
     | null
     | undefined;

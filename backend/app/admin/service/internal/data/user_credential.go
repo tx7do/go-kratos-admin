@@ -304,21 +304,6 @@ func (r *UserCredentialRepo) Update(ctx context.Context, req *authenticationV1.U
 		}
 	}
 
-	if req.UpdateMask != nil {
-		req.UpdateMask.Normalize()
-		if !req.UpdateMask.IsValid(req.Data) {
-			return authenticationV1.ErrorBadRequest("invalid field mask")
-		}
-		fieldmaskutil.Filter(req.GetData(), req.UpdateMask.GetPaths())
-	}
-
-	builder := r.data.db.Client().UserCredential.UpdateOneID(req.Data.Id).
-		SetNillableUpdateTime(timeutil.StringTimeToTime(req.Data.UpdateTime))
-
-	if req.Data.UpdateTime == nil {
-		builder.SetUpdateTime(time.Now())
-	}
-
 	var err error
 
 	if req.Data.Credential != nil {
@@ -332,6 +317,28 @@ func (r *UserCredentialRepo) Update(ctx context.Context, req *authenticationV1.U
 	}
 
 	if req.UpdateMask != nil {
+		req.UpdateMask.Normalize()
+		if !req.UpdateMask.IsValid(req.Data) {
+			return authenticationV1.ErrorBadRequest("invalid field mask")
+		}
+		fieldmaskutil.Filter(req.GetData(), req.UpdateMask.GetPaths())
+	}
+
+	builder := r.data.db.Client().UserCredential.UpdateOneID(req.Data.Id).
+		SetNillableIdentityType(r.toEntIdentityType(req.Data.IdentityType)).
+		SetNillableIdentifier(req.Data.Identifier).
+		SetNillableCredentialType(r.toEntCredentialType(req.Data.CredentialType)).
+		SetNillableCredential(req.Data.Credential).
+		SetNillableIsPrimary(req.Data.IsPrimary).
+		SetNillableStatus(r.toEntStatus(req.Data.Status)).
+		SetNillableExtraInfo(req.Data.ExtraInfo).
+		SetNillableUpdateTime(timeutil.StringTimeToTime(req.Data.UpdateTime))
+
+	if req.Data.UpdateTime == nil {
+		builder.SetUpdateTime(time.Now())
+	}
+
+	if req.UpdateMask != nil {
 		nilPaths := fieldmaskutil.NilValuePaths(req.Data, req.GetUpdateMask().GetPaths())
 		nilUpdater := entgoUpdate.BuildSetNullUpdater(nilPaths)
 		if nilUpdater != nil {
@@ -339,7 +346,7 @@ func (r *UserCredentialRepo) Update(ctx context.Context, req *authenticationV1.U
 		}
 	}
 
-	if err := builder.Exec(ctx); err != nil {
+	if err = builder.Exec(ctx); err != nil {
 		r.log.Errorf("update one data failed: %s", err.Error())
 		return authenticationV1.ErrorInternalServerError("update data failed")
 	}

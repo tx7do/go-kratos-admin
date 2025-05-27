@@ -105,7 +105,7 @@ func (s *UserService) Create(ctx context.Context, req *userV1.CreateUserRequest)
 	req.Data.CreateBy = trans.Ptr(operator.UserId)
 
 	// 创建用户
-	err = s.userRepo.Create(ctx, req)
+	_, err = s.userRepo.Create(ctx, req)
 
 	return &emptypb.Empty{}, nil
 }
@@ -187,8 +187,4 @@ func (s *UserService) Delete(ctx context.Context, req *userV1.DeleteUserRequest)
 
 func (s *UserService) UserExists(ctx context.Context, req *userV1.UserExistsRequest) (*userV1.UserExistsResponse, error) {
 	return s.userRepo.UserExists(ctx, req)
-}
-
-func (s *UserService) VerifyPassword(ctx context.Context, req *userV1.VerifyPasswordRequest) (*userV1.VerifyPasswordResponse, error) {
-	return s.userRepo.VerifyPassword(ctx, req)
 }

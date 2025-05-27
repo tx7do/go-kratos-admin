@@ -31,8 +31,6 @@ const (
 	FieldTenantID = "tenant_id"
 	// FieldUsername holds the string denoting the username field in the database.
 	FieldUsername = "username"
-	// FieldPassword holds the string denoting the password field in the database.
-	FieldPassword = "password"
 	// FieldNickName holds the string denoting the nick_name field in the database.
 	FieldNickName = "nick_name"
 	// FieldRealName holds the string denoting the real_name field in the database.
@@ -45,14 +43,14 @@ const (
 	FieldTelephone = "telephone"
 	// FieldAvatar holds the string denoting the avatar field in the database.
 	FieldAvatar = "avatar"
-	// FieldGender holds the string denoting the gender field in the database.
-	FieldGender = "gender"
 	// FieldAddress holds the string denoting the address field in the database.
 	FieldAddress = "address"
 	// FieldRegion holds the string denoting the region field in the database.
 	FieldRegion = "region"
 	// FieldDescription holds the string denoting the description field in the database.
 	FieldDescription = "description"
+	// FieldGender holds the string denoting the gender field in the database.
+	FieldGender = "gender"
 	// FieldAuthority holds the string denoting the authority field in the database.
 	FieldAuthority = "authority"
 	// FieldLastLoginTime holds the string denoting the last_login_time field in the database.
@@ -83,17 +81,16 @@ var Columns = []string{
 	FieldStatus,
 	FieldTenantID,
 	FieldUsername,
-	FieldPassword,
 	FieldNickName,
 	FieldRealName,
 	FieldEmail,
 	FieldMobile,
 	FieldTelephone,
 	FieldAvatar,
-	FieldGender,
 	FieldAddress,
 	FieldRegion,
 	FieldDescription,
+	FieldGender,
 	FieldAuthority,
 	FieldLastLoginTime,
 	FieldLastLoginIP,
@@ -120,8 +117,6 @@ var (
 	TenantIDValidator func(uint32) error
 	// UsernameValidator is a validator for the "username" field. It is called by the builders before save.
 	UsernameValidator func(string) error
-	// PasswordValidator is a validator for the "password" field. It is called by the builders before save.
-	PasswordValidator func(string) error
 	// NickNameValidator is a validator for the "nick_name" field. It is called by the builders before save.
 	NickNameValidator func(string) error
 	// RealNameValidator is a validator for the "real_name" field. It is called by the builders before save.
@@ -287,11 +282,6 @@ func ByUsername(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldUsername, opts...).ToFunc()
 }
 
-// ByPassword orders the results by the password field.
-func ByPassword(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldPassword, opts...).ToFunc()
-}
-
 // ByNickName orders the results by the nick_name field.
 func ByNickName(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldNickName, opts...).ToFunc()
@@ -322,11 +312,6 @@ func ByAvatar(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldAvatar, opts...).ToFunc()
 }
 
-// ByGender orders the results by the gender field.
-func ByGender(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldGender, opts...).ToFunc()
-}
-
 // ByAddress orders the results by the address field.
 func ByAddress(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldAddress, opts...).ToFunc()
@@ -340,6 +325,11 @@ func ByRegion(opts ...sql.OrderTermOption) OrderOption {
 // ByDescription orders the results by the description field.
 func ByDescription(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldDescription, opts...).ToFunc()
+}
+
+// ByGender orders the results by the gender field.
+func ByGender(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldGender, opts...).ToFunc()
 }
 
 // ByAuthority orders the results by the authority field.

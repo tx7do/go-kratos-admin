@@ -2,7 +2,6 @@ package data
 
 import (
 	"context"
-	"encoding/base64"
 	"time"
 
 	"entgo.io/ent/dialect/sql"
@@ -10,7 +9,6 @@ import (
 	"github.com/jinzhu/copier"
 
 	"github.com/tx7do/go-utils/copierutil"
-	"github.com/tx7do/go-utils/crypto"
 	entgo "github.com/tx7do/go-utils/entgo/query"
 	entgoUpdate "github.com/tx7do/go-utils/entgo/update"
 	"github.com/tx7do/go-utils/fieldmaskutil"
@@ -285,9 +283,9 @@ func (r *UserRepo) Get(ctx context.Context, userId uint32) (*userV1.User, error)
 	return r.toProto(ret), nil
 }
 
-func (r *UserRepo) Create(ctx context.Context, req *userV1.CreateUserRequest) error {
+func (r *UserRepo) Create(ctx context.Context, req *userV1.CreateUserRequest) (*userV1.User, error) {
 	if req == nil || req.Data == nil {
-		return userV1.ErrorBadRequest("invalid parameter")
+		return nil, userV1.ErrorBadRequest("invalid parameter")
 	}
 
 	builder := r.data.db.Client().User.Create().
@@ -316,13 +314,6 @@ func (r *UserRepo) Create(ctx context.Context, req *userV1.CreateUserRequest) er
 		SetNillableCreateBy(req.Data.CreateBy).
 		SetNillableCreateTime(timeutil.StringTimeToTime(req.Data.CreateTime))
 
-	if len(req.GetPassword()) > 0 {
-		cryptoPassword, err := crypto.HashPassword(req.GetPassword())
-		if err == nil {
-			builder.SetPassword(cryptoPassword)
-		}
-	}
-
 	if req.Data.CreateTime == nil {
 		builder.SetCreateTime(time.Now())
 	}
@@ -331,12 +322,12 @@ func (r *UserRepo) Create(ctx context.Context, req *userV1.CreateUserRequest) er
 		builder.SetID(req.Data.GetId())
 	}
 
-	if err := builder.Exec(ctx); err != nil {
+	if ret, err := builder.Save(ctx); err != nil {
 		r.log.Errorf("insert one data failed: %s", err.Error())
-		return userV1.ErrorInternalServerError("insert data failed")
+		return nil, userV1.ErrorInternalServerError("insert data failed")
+	} else {
+		return r.toProto(ret), nil
 	}
-
-	return nil
 }
 
 func (r *UserRepo) Update(ctx context.Context, req *userV1.UpdateUserRequest) error {
@@ -354,7 +345,8 @@ func (r *UserRepo) Update(ctx context.Context, req *userV1.UpdateUserRequest) er
 			createReq := &userV1.CreateUserRequest{Data: req.Data}
 			createReq.Data.CreateBy = createReq.Data.UpdateBy
 			createReq.Data.UpdateBy = nil
-			return r.Create(ctx, createReq)
+			_, err = r.Create(ctx, createReq)
+			return err
 		}
 	}
 
@@ -393,13 +385,6 @@ func (r *UserRepo) Update(ctx context.Context, req *userV1.UpdateUserRequest) er
 
 	if req.Data.UpdateTime == nil {
 		builder.SetUpdateTime(time.Now())
-	}
-
-	if len(req.GetPassword()) > 0 {
-		cryptoPassword, err := crypto.HashPassword(req.GetPassword())
-		if err == nil {
-			builder.SetPassword(cryptoPassword)
-		}
 	}
 
 	if req.UpdateMask != nil {
@@ -451,40 +436,6 @@ func (r *UserRepo) GetUserByUserName(ctx context.Context, userName string) (*use
 	}
 
 	return r.toProto(ret), nil
-}
-
-func (r *UserRepo) VerifyPassword(ctx context.Context, req *userV1.VerifyPasswordRequest) (*userV1.VerifyPasswordResponse, error) {
-	ret, err := r.data.db.Client().User.
-		Query().
-		Select(user.FieldID, user.FieldPassword).
-		Where(user.UsernameEQ(req.GetUserName())).
-		Only(ctx)
-	if err != nil {
-		if ent.IsNotFound(err) {
-			return nil, userV1.ErrorUserNotFound("user not found")
-		}
-
-		r.log.Errorf("query user data failed: %s", err.Error())
-
-		return nil, userV1.ErrorInternalServerError("query data failed")
-	}
-
-	// 解密密码
-	bytesPass, err := base64.StdEncoding.DecodeString(req.GetPassword())
-	plainPassword, _ := crypto.AesDecrypt(bytesPass, crypto.DefaultAESKey, nil)
-
-	// 校验密码
-	bMatched := crypto.VerifyPassword(string(plainPassword), *ret.Password)
-
-	if !bMatched {
-		return &userV1.VerifyPasswordResponse{
-			Result: userV1.VerifyPasswordResult_WRONG_PASSWORD,
-		}, userV1.ErrorIncorrectPassword("Incorrect Password")
-	}
-
-	return &userV1.VerifyPasswordResponse{
-		Result: userV1.VerifyPasswordResult_SUCCESS,
-	}, nil
 }
 
 func (r *UserRepo) UserExists(ctx context.Context, req *userV1.UserExistsRequest) (*userV1.UserExistsResponse, error) {

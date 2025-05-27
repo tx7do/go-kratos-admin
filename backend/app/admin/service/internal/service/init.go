@@ -31,4 +31,5 @@ var ProviderSet = wire.NewSet(
 	NewPrivateMessageService,
 	NewAdminLoginRestrictionService,
 	NewUserProfileService,
+	NewUserCredentialService,
 )

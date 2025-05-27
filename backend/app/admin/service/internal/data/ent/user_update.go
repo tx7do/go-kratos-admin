@@ -163,26 +163,6 @@ func (uu *UserUpdate) ClearStatus() *UserUpdate {
 	return uu
 }
 
-// SetPassword sets the "password" field.
-func (uu *UserUpdate) SetPassword(s string) *UserUpdate {
-	uu.mutation.SetPassword(s)
-	return uu
-}
-
-// SetNillablePassword sets the "password" field if the given value is not nil.
-func (uu *UserUpdate) SetNillablePassword(s *string) *UserUpdate {
-	if s != nil {
-		uu.SetPassword(*s)
-	}
-	return uu
-}
-
-// ClearPassword clears the value of the "password" field.
-func (uu *UserUpdate) ClearPassword() *UserUpdate {
-	uu.mutation.ClearPassword()
-	return uu
-}
-
 // SetNickName sets the "nick_name" field.
 func (uu *UserUpdate) SetNickName(s string) *UserUpdate {
 	uu.mutation.SetNickName(s)
@@ -303,26 +283,6 @@ func (uu *UserUpdate) ClearAvatar() *UserUpdate {
 	return uu
 }
 
-// SetGender sets the "gender" field.
-func (uu *UserUpdate) SetGender(u user.Gender) *UserUpdate {
-	uu.mutation.SetGender(u)
-	return uu
-}
-
-// SetNillableGender sets the "gender" field if the given value is not nil.
-func (uu *UserUpdate) SetNillableGender(u *user.Gender) *UserUpdate {
-	if u != nil {
-		uu.SetGender(*u)
-	}
-	return uu
-}
-
-// ClearGender clears the value of the "gender" field.
-func (uu *UserUpdate) ClearGender() *UserUpdate {
-	uu.mutation.ClearGender()
-	return uu
-}
-
 // SetAddress sets the "address" field.
 func (uu *UserUpdate) SetAddress(s string) *UserUpdate {
 	uu.mutation.SetAddress(s)
@@ -380,6 +340,26 @@ func (uu *UserUpdate) SetNillableDescription(s *string) *UserUpdate {
 // ClearDescription clears the value of the "description" field.
 func (uu *UserUpdate) ClearDescription() *UserUpdate {
 	uu.mutation.ClearDescription()
+	return uu
+}
+
+// SetGender sets the "gender" field.
+func (uu *UserUpdate) SetGender(u user.Gender) *UserUpdate {
+	uu.mutation.SetGender(u)
+	return uu
+}
+
+// SetNillableGender sets the "gender" field if the given value is not nil.
+func (uu *UserUpdate) SetNillableGender(u *user.Gender) *UserUpdate {
+	if u != nil {
+		uu.SetGender(*u)
+	}
+	return uu
+}
+
+// ClearGender clears the value of the "gender" field.
+func (uu *UserUpdate) ClearGender() *UserUpdate {
+	uu.mutation.ClearGender()
 	return uu
 }
 
@@ -597,11 +577,6 @@ func (uu *UserUpdate) check() error {
 			return &ValidationError{Name: "status", err: fmt.Errorf(`ent: validator failed for field "User.status": %w`, err)}
 		}
 	}
-	if v, ok := uu.mutation.Password(); ok {
-		if err := user.PasswordValidator(v); err != nil {
-			return &ValidationError{Name: "password", err: fmt.Errorf(`ent: validator failed for field "User.password": %w`, err)}
-		}
-	}
 	if v, ok := uu.mutation.NickName(); ok {
 		if err := user.NickNameValidator(v); err != nil {
 			return &ValidationError{Name: "nick_name", err: fmt.Errorf(`ent: validator failed for field "User.nick_name": %w`, err)}
@@ -632,11 +607,6 @@ func (uu *UserUpdate) check() error {
 			return &ValidationError{Name: "avatar", err: fmt.Errorf(`ent: validator failed for field "User.avatar": %w`, err)}
 		}
 	}
-	if v, ok := uu.mutation.Gender(); ok {
-		if err := user.GenderValidator(v); err != nil {
-			return &ValidationError{Name: "gender", err: fmt.Errorf(`ent: validator failed for field "User.gender": %w`, err)}
-		}
-	}
 	if v, ok := uu.mutation.Address(); ok {
 		if err := user.AddressValidator(v); err != nil {
 			return &ValidationError{Name: "address", err: fmt.Errorf(`ent: validator failed for field "User.address": %w`, err)}
@@ -650,6 +620,11 @@ func (uu *UserUpdate) check() error {
 	if v, ok := uu.mutation.Description(); ok {
 		if err := user.DescriptionValidator(v); err != nil {
 			return &ValidationError{Name: "description", err: fmt.Errorf(`ent: validator failed for field "User.description": %w`, err)}
+		}
+	}
+	if v, ok := uu.mutation.Gender(); ok {
+		if err := user.GenderValidator(v); err != nil {
+			return &ValidationError{Name: "gender", err: fmt.Errorf(`ent: validator failed for field "User.gender": %w`, err)}
 		}
 	}
 	if v, ok := uu.mutation.Authority(); ok {
@@ -734,12 +709,6 @@ func (uu *UserUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	if uu.mutation.UsernameCleared() {
 		_spec.ClearField(user.FieldUsername, field.TypeString)
 	}
-	if value, ok := uu.mutation.Password(); ok {
-		_spec.SetField(user.FieldPassword, field.TypeString, value)
-	}
-	if uu.mutation.PasswordCleared() {
-		_spec.ClearField(user.FieldPassword, field.TypeString)
-	}
 	if value, ok := uu.mutation.NickName(); ok {
 		_spec.SetField(user.FieldNickName, field.TypeString, value)
 	}
@@ -776,12 +745,6 @@ func (uu *UserUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	if uu.mutation.AvatarCleared() {
 		_spec.ClearField(user.FieldAvatar, field.TypeString)
 	}
-	if value, ok := uu.mutation.Gender(); ok {
-		_spec.SetField(user.FieldGender, field.TypeEnum, value)
-	}
-	if uu.mutation.GenderCleared() {
-		_spec.ClearField(user.FieldGender, field.TypeEnum)
-	}
 	if value, ok := uu.mutation.Address(); ok {
 		_spec.SetField(user.FieldAddress, field.TypeString, value)
 	}
@@ -799,6 +762,12 @@ func (uu *UserUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	}
 	if uu.mutation.DescriptionCleared() {
 		_spec.ClearField(user.FieldDescription, field.TypeString)
+	}
+	if value, ok := uu.mutation.Gender(); ok {
+		_spec.SetField(user.FieldGender, field.TypeEnum, value)
+	}
+	if uu.mutation.GenderCleared() {
+		_spec.ClearField(user.FieldGender, field.TypeEnum)
 	}
 	if value, ok := uu.mutation.Authority(); ok {
 		_spec.SetField(user.FieldAuthority, field.TypeEnum, value)
@@ -1013,26 +982,6 @@ func (uuo *UserUpdateOne) ClearStatus() *UserUpdateOne {
 	return uuo
 }
 
-// SetPassword sets the "password" field.
-func (uuo *UserUpdateOne) SetPassword(s string) *UserUpdateOne {
-	uuo.mutation.SetPassword(s)
-	return uuo
-}
-
-// SetNillablePassword sets the "password" field if the given value is not nil.
-func (uuo *UserUpdateOne) SetNillablePassword(s *string) *UserUpdateOne {
-	if s != nil {
-		uuo.SetPassword(*s)
-	}
-	return uuo
-}
-
-// ClearPassword clears the value of the "password" field.
-func (uuo *UserUpdateOne) ClearPassword() *UserUpdateOne {
-	uuo.mutation.ClearPassword()
-	return uuo
-}
-
 // SetNickName sets the "nick_name" field.
 func (uuo *UserUpdateOne) SetNickName(s string) *UserUpdateOne {
 	uuo.mutation.SetNickName(s)
@@ -1153,26 +1102,6 @@ func (uuo *UserUpdateOne) ClearAvatar() *UserUpdateOne {
 	return uuo
 }
 
-// SetGender sets the "gender" field.
-func (uuo *UserUpdateOne) SetGender(u user.Gender) *UserUpdateOne {
-	uuo.mutation.SetGender(u)
-	return uuo
-}
-
-// SetNillableGender sets the "gender" field if the given value is not nil.
-func (uuo *UserUpdateOne) SetNillableGender(u *user.Gender) *UserUpdateOne {
-	if u != nil {
-		uuo.SetGender(*u)
-	}
-	return uuo
-}
-
-// ClearGender clears the value of the "gender" field.
-func (uuo *UserUpdateOne) ClearGender() *UserUpdateOne {
-	uuo.mutation.ClearGender()
-	return uuo
-}
-
 // SetAddress sets the "address" field.
 func (uuo *UserUpdateOne) SetAddress(s string) *UserUpdateOne {
 	uuo.mutation.SetAddress(s)
@@ -1230,6 +1159,26 @@ func (uuo *UserUpdateOne) SetNillableDescription(s *string) *UserUpdateOne {
 // ClearDescription clears the value of the "description" field.
 func (uuo *UserUpdateOne) ClearDescription() *UserUpdateOne {
 	uuo.mutation.ClearDescription()
+	return uuo
+}
+
+// SetGender sets the "gender" field.
+func (uuo *UserUpdateOne) SetGender(u user.Gender) *UserUpdateOne {
+	uuo.mutation.SetGender(u)
+	return uuo
+}
+
+// SetNillableGender sets the "gender" field if the given value is not nil.
+func (uuo *UserUpdateOne) SetNillableGender(u *user.Gender) *UserUpdateOne {
+	if u != nil {
+		uuo.SetGender(*u)
+	}
+	return uuo
+}
+
+// ClearGender clears the value of the "gender" field.
+func (uuo *UserUpdateOne) ClearGender() *UserUpdateOne {
+	uuo.mutation.ClearGender()
 	return uuo
 }
 
@@ -1460,11 +1409,6 @@ func (uuo *UserUpdateOne) check() error {
 			return &ValidationError{Name: "status", err: fmt.Errorf(`ent: validator failed for field "User.status": %w`, err)}
 		}
 	}
-	if v, ok := uuo.mutation.Password(); ok {
-		if err := user.PasswordValidator(v); err != nil {
-			return &ValidationError{Name: "password", err: fmt.Errorf(`ent: validator failed for field "User.password": %w`, err)}
-		}
-	}
 	if v, ok := uuo.mutation.NickName(); ok {
 		if err := user.NickNameValidator(v); err != nil {
 			return &ValidationError{Name: "nick_name", err: fmt.Errorf(`ent: validator failed for field "User.nick_name": %w`, err)}
@@ -1495,11 +1439,6 @@ func (uuo *UserUpdateOne) check() error {
 			return &ValidationError{Name: "avatar", err: fmt.Errorf(`ent: validator failed for field "User.avatar": %w`, err)}
 		}
 	}
-	if v, ok := uuo.mutation.Gender(); ok {
-		if err := user.GenderValidator(v); err != nil {
-			return &ValidationError{Name: "gender", err: fmt.Errorf(`ent: validator failed for field "User.gender": %w`, err)}
-		}
-	}
 	if v, ok := uuo.mutation.Address(); ok {
 		if err := user.AddressValidator(v); err != nil {
 			return &ValidationError{Name: "address", err: fmt.Errorf(`ent: validator failed for field "User.address": %w`, err)}
@@ -1513,6 +1452,11 @@ func (uuo *UserUpdateOne) check() error {
 	if v, ok := uuo.mutation.Description(); ok {
 		if err := user.DescriptionValidator(v); err != nil {
 			return &ValidationError{Name: "description", err: fmt.Errorf(`ent: validator failed for field "User.description": %w`, err)}
+		}
+	}
+	if v, ok := uuo.mutation.Gender(); ok {
+		if err := user.GenderValidator(v); err != nil {
+			return &ValidationError{Name: "gender", err: fmt.Errorf(`ent: validator failed for field "User.gender": %w`, err)}
 		}
 	}
 	if v, ok := uuo.mutation.Authority(); ok {
@@ -1614,12 +1558,6 @@ func (uuo *UserUpdateOne) sqlSave(ctx context.Context) (_node *User, err error) 
 	if uuo.mutation.UsernameCleared() {
 		_spec.ClearField(user.FieldUsername, field.TypeString)
 	}
-	if value, ok := uuo.mutation.Password(); ok {
-		_spec.SetField(user.FieldPassword, field.TypeString, value)
-	}
-	if uuo.mutation.PasswordCleared() {
-		_spec.ClearField(user.FieldPassword, field.TypeString)
-	}
 	if value, ok := uuo.mutation.NickName(); ok {
 		_spec.SetField(user.FieldNickName, field.TypeString, value)
 	}
@@ -1656,12 +1594,6 @@ func (uuo *UserUpdateOne) sqlSave(ctx context.Context) (_node *User, err error) 
 	if uuo.mutation.AvatarCleared() {
 		_spec.ClearField(user.FieldAvatar, field.TypeString)
 	}
-	if value, ok := uuo.mutation.Gender(); ok {
-		_spec.SetField(user.FieldGender, field.TypeEnum, value)
-	}
-	if uuo.mutation.GenderCleared() {
-		_spec.ClearField(user.FieldGender, field.TypeEnum)
-	}
 	if value, ok := uuo.mutation.Address(); ok {
 		_spec.SetField(user.FieldAddress, field.TypeString, value)
 	}
@@ -1679,6 +1611,12 @@ func (uuo *UserUpdateOne) sqlSave(ctx context.Context) (_node *User, err error) 
 	}
 	if uuo.mutation.DescriptionCleared() {
 		_spec.ClearField(user.FieldDescription, field.TypeString)
+	}
+	if value, ok := uuo.mutation.Gender(); ok {
+		_spec.SetField(user.FieldGender, field.TypeEnum, value)
+	}
+	if uuo.mutation.GenderCleared() {
+		_spec.ClearField(user.FieldGender, field.TypeEnum)
 	}
 	if value, ok := uuo.mutation.Authority(); ok {
 		_spec.SetField(user.FieldAuthority, field.TypeEnum, value)

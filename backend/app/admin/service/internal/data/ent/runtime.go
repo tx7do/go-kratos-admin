@@ -430,70 +430,52 @@ func init() {
 	userDescUsername := userFields[0].Descriptor()
 	// user.UsernameValidator is a validator for the "username" field. It is called by the builders before save.
 	user.UsernameValidator = userDescUsername.Validators[0].(func(string) error)
-	// userDescPassword is the schema descriptor for password field.
-	userDescPassword := userFields[1].Descriptor()
-	// user.PasswordValidator is a validator for the "password" field. It is called by the builders before save.
-	user.PasswordValidator = func() func(string) error {
-		validators := userDescPassword.Validators
-		fns := [...]func(string) error{
-			validators[0].(func(string) error),
-			validators[1].(func(string) error),
-		}
-		return func(password string) error {
-			for _, fn := range fns {
-				if err := fn(password); err != nil {
-					return err
-				}
-			}
-			return nil
-		}
-	}()
 	// userDescNickName is the schema descriptor for nick_name field.
-	userDescNickName := userFields[2].Descriptor()
+	userDescNickName := userFields[1].Descriptor()
 	// user.NickNameValidator is a validator for the "nick_name" field. It is called by the builders before save.
 	user.NickNameValidator = userDescNickName.Validators[0].(func(string) error)
 	// userDescRealName is the schema descriptor for real_name field.
-	userDescRealName := userFields[3].Descriptor()
+	userDescRealName := userFields[2].Descriptor()
 	// user.RealNameValidator is a validator for the "real_name" field. It is called by the builders before save.
 	user.RealNameValidator = userDescRealName.Validators[0].(func(string) error)
 	// userDescEmail is the schema descriptor for email field.
-	userDescEmail := userFields[4].Descriptor()
+	userDescEmail := userFields[3].Descriptor()
 	// user.EmailValidator is a validator for the "email" field. It is called by the builders before save.
 	user.EmailValidator = userDescEmail.Validators[0].(func(string) error)
 	// userDescMobile is the schema descriptor for mobile field.
-	userDescMobile := userFields[5].Descriptor()
+	userDescMobile := userFields[4].Descriptor()
 	// user.DefaultMobile holds the default value on creation for the mobile field.
 	user.DefaultMobile = userDescMobile.Default.(string)
 	// user.MobileValidator is a validator for the "mobile" field. It is called by the builders before save.
 	user.MobileValidator = userDescMobile.Validators[0].(func(string) error)
 	// userDescTelephone is the schema descriptor for telephone field.
-	userDescTelephone := userFields[6].Descriptor()
+	userDescTelephone := userFields[5].Descriptor()
 	// user.DefaultTelephone holds the default value on creation for the telephone field.
 	user.DefaultTelephone = userDescTelephone.Default.(string)
 	// user.TelephoneValidator is a validator for the "telephone" field. It is called by the builders before save.
 	user.TelephoneValidator = userDescTelephone.Validators[0].(func(string) error)
 	// userDescAvatar is the schema descriptor for avatar field.
-	userDescAvatar := userFields[7].Descriptor()
+	userDescAvatar := userFields[6].Descriptor()
 	// user.AvatarValidator is a validator for the "avatar" field. It is called by the builders before save.
 	user.AvatarValidator = userDescAvatar.Validators[0].(func(string) error)
 	// userDescAddress is the schema descriptor for address field.
-	userDescAddress := userFields[9].Descriptor()
+	userDescAddress := userFields[7].Descriptor()
 	// user.DefaultAddress holds the default value on creation for the address field.
 	user.DefaultAddress = userDescAddress.Default.(string)
 	// user.AddressValidator is a validator for the "address" field. It is called by the builders before save.
 	user.AddressValidator = userDescAddress.Validators[0].(func(string) error)
 	// userDescRegion is the schema descriptor for region field.
-	userDescRegion := userFields[10].Descriptor()
+	userDescRegion := userFields[8].Descriptor()
 	// user.DefaultRegion holds the default value on creation for the region field.
 	user.DefaultRegion = userDescRegion.Default.(string)
 	// user.RegionValidator is a validator for the "region" field. It is called by the builders before save.
 	user.RegionValidator = userDescRegion.Validators[0].(func(string) error)
 	// userDescDescription is the schema descriptor for description field.
-	userDescDescription := userFields[11].Descriptor()
+	userDescDescription := userFields[9].Descriptor()
 	// user.DescriptionValidator is a validator for the "description" field. It is called by the builders before save.
 	user.DescriptionValidator = userDescDescription.Validators[0].(func(string) error)
 	// userDescLastLoginIP is the schema descriptor for last_login_ip field.
-	userDescLastLoginIP := userFields[14].Descriptor()
+	userDescLastLoginIP := userFields[13].Descriptor()
 	// user.DefaultLastLoginIP holds the default value on creation for the last_login_ip field.
 	user.DefaultLastLoginIP = userDescLastLoginIP.Default.(string)
 	// user.LastLoginIPValidator is a validator for the "last_login_ip" field. It is called by the builders before save.

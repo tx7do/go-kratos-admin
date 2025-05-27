@@ -4,6 +4,8 @@ import (
 	"context"
 
 	"github.com/go-kratos/kratos/v2/log"
+	"github.com/tx7do/go-utils/trans"
+	authnEngine "github.com/tx7do/kratos-authn/engine"
 	"google.golang.org/protobuf/types/known/emptypb"
 
 	"kratos-admin/app/admin/service/internal/data"
@@ -12,15 +14,21 @@ import (
 	authenticationV1 "kratos-admin/api/gen/go/authentication/service/v1"
 	userV1 "kratos-admin/api/gen/go/user/service/v1"
 
+	"kratos-admin/pkg/jwt"
 	"kratos-admin/pkg/middleware/auth"
 )
 
 type AuthenticationService struct {
 	adminV1.AuthenticationServiceHTTPServer
 
-	userRepo  *data.UserRepo
+	userRepo           *data.UserRepo
+	userCredentialRepo *data.UserCredentialRepo
+	roleRepo           *data.RoleRepo
+	tenantRepo         *data.TenantRepo
+
 	userToken *data.UserToken
-	roleRepo  *data.RoleRepo
+
+	authenticator authnEngine.Authenticator
 
 	log *log.Helper
 }
@@ -28,15 +36,21 @@ type AuthenticationService struct {
 func NewAuthenticationService(
 	logger log.Logger,
 	userRepo *data.UserRepo,
-	userToken *data.UserToken,
+	userCredentialRepo *data.UserCredentialRepo,
+	tenantRepo *data.TenantRepo,
 	roleRepo *data.RoleRepo,
+	userToken *data.UserToken,
+	authenticator authnEngine.Authenticator,
 ) *AuthenticationService {
 	l := log.NewHelper(log.With(logger, "module", "authn/service/admin-service"))
 	return &AuthenticationService{
-		log:       l,
-		userRepo:  userRepo,
-		userToken: userToken,
-		roleRepo:  roleRepo,
+		log:                l,
+		userRepo:           userRepo,
+		userCredentialRepo: userCredentialRepo,
+		tenantRepo:         tenantRepo,
+		roleRepo:           roleRepo,
+		userToken:          userToken,
+		authenticator:      authenticator,
 	}
 }
 
@@ -60,9 +74,10 @@ func (s *AuthenticationService) Login(ctx context.Context, req *authenticationV1
 // doGrantTypePassword 处理授权类型 - 密码
 func (s *AuthenticationService) doGrantTypePassword(ctx context.Context, req *authenticationV1.LoginRequest) (*authenticationV1.LoginResponse, error) {
 	var err error
-	if _, err = s.userRepo.VerifyPassword(ctx, &userV1.VerifyPasswordRequest{
-		UserName: req.GetUsername(),
-		Password: req.GetPassword(),
+	if _, err = s.userCredentialRepo.VerifyCredential(ctx, &authenticationV1.VerifyCredentialRequest{
+		IdentityType: authenticationV1.IdentityType_PASSWORD,
+		Identifier:   req.GetUsername(),
+		Credential:   req.GetPassword(),
 	}); err != nil {
 		return nil, err
 	}
@@ -156,4 +171,72 @@ func (s *AuthenticationService) RefreshToken(ctx context.Context, req *authentic
 	}
 
 	return s.doGrantTypeRefreshToken(ctx, req)
+}
+
+func (s *AuthenticationService) ValidateToken(_ context.Context, req *authenticationV1.ValidateTokenRequest) (*authenticationV1.ValidateTokenResponse, error) {
+	ret, err := s.authenticator.AuthenticateToken(req.GetToken())
+	if err != nil {
+		return &authenticationV1.ValidateTokenResponse{
+			IsValid: false,
+		}, err
+	}
+
+	claims, err := jwt.NewUserTokenPayloadWithClaims(ret)
+	if err != nil {
+		return &authenticationV1.ValidateTokenResponse{
+			IsValid: false,
+		}, err
+	}
+
+	return &authenticationV1.ValidateTokenResponse{
+		IsValid: true,
+		Claim:   claims,
+	}, nil
+}
+
+func (s *AuthenticationService) RegisterUser(ctx context.Context, req *authenticationV1.RegisterUserRequest) (*authenticationV1.RegisterUserResponse, error) {
+	var err error
+
+	var tenantId *uint32
+	tenant, err := s.tenantRepo.GetTenantByTenantCode(ctx, req.GetTenantCode())
+	if tenant != nil {
+		tenantId = tenant.Id
+	}
+
+	user, err := s.userRepo.Create(ctx, &userV1.CreateUserRequest{
+		Data: &userV1.User{
+			TenantId:  tenantId,
+			UserName:  trans.Ptr(req.Username),
+			Email:     req.Email,
+			Authority: trans.Ptr(userV1.UserAuthority_CUSTOMER_USER),
+			Status:    trans.Ptr(userV1.UserStatus_ON),
+		},
+	})
+	if err != nil {
+		s.log.Errorf("create user error: %v", err)
+		return nil, err
+	}
+
+	if err = s.userCredentialRepo.Create(ctx, &authenticationV1.CreateUserCredentialRequest{
+		Data: &authenticationV1.UserCredential{
+			UserId:   user.Id,
+			TenantId: user.TenantId,
+
+			IdentityType: trans.Ptr(authenticationV1.IdentityType_PASSWORD),
+			Identifier:   trans.Ptr(req.GetUsername()),
+
+			CredentialType: trans.Ptr(authenticationV1.CredentialType_PASSWORD_HASH),
+			Credential:     trans.Ptr(req.GetPassword()),
+
+			IsPrimary: trans.Ptr(true),
+			Status:    trans.Ptr(authenticationV1.UserCredentialStatus_ENABLED),
+		},
+	}); err != nil {
+		s.log.Errorf("create user credentials error: %v", err)
+		return nil, err
+	}
+
+	return &authenticationV1.RegisterUserResponse{
+		UserId: user.GetId(),
+	}, nil
 }

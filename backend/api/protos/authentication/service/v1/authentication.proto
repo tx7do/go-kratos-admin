@@ -19,6 +19,10 @@ service AuthenticationService {
   // 用户登出
   rpc Logout (google.protobuf.Empty) returns (google.protobuf.Empty) {}
 
+  // 注册用户
+  rpc RegisterUser (RegisterUserRequest) returns (RegisterUserResponse);
+
+
   // 刷新认证令牌
   rpc RefreshToken (LoginRequest) returns (LoginResponse) {}
 
@@ -217,4 +221,37 @@ message UserTokenPayload {
       description: "用户权限"
     }
   ]; // 用户权限
+}
+
+message RegisterUserRequest {
+  string username = 1 [
+    json_name = "username",
+    (gnostic.openapi.v3.property) = {
+      description: "用户名"
+    }
+  ]; // 用户名
+
+  string password = 2 [
+    json_name = "password",
+    (gnostic.openapi.v3.property) = {
+      description: "登入密码"
+    }
+  ]; // 登入密码
+
+  string tenant_code = 3 [
+    json_name = "tenantCode",
+    (gnostic.openapi.v3.property) = {
+      description: "租户代码"
+    }
+  ]; // 租户代码
+
+  optional string email = 4 [
+    json_name = "email",
+    (gnostic.openapi.v3.property) = {
+      description: "电子邮件地址"
+    }
+  ]; // 电子邮件地址
+}
+message RegisterUserResponse {
+  uint32 user_id = 1;
 }

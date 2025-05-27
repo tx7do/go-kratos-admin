@@ -1,7 +1,11 @@
 -- 默认的超级管理员，默认账号：admin，密码：admin
 TRUNCATE TABLE kratos_admin.public.users;
-INSERT INTO kratos_admin.public.users (id, username, nick_name, email, password, authority, role_id)
-VALUES (1, 'admin', 'admin', 'admin@gmail.com', '$2a$10$yajZDX20Y40FkG0Bu4N19eXNqRizez/S9fK63.JxGkfLq.RoNKR/a', 'SYS_ADMIN', 1);
+INSERT INTO kratos_admin.public.users (id, username, nick_name, email, authority, role_id)
+VALUES (1, 'admin', 'admin', 'admin@gmail.com', 'SYS_ADMIN', 1);
+
+TRUNCATE TABLE user_credentials;
+INSERT INTO user_credentials (id, create_time, user_id, identity_type, identifier, credential_type, credential, status, is_primary)
+VALUES (1, now(), 1, 'PASSWORD', 'admin', 'PASSWORD_HASH', '$2a$10$yajZDX20Y40FkG0Bu4N19eXNqRizez/S9fK63.JxGkfLq.RoNKR/a', 'ENABLED', true);
 
 -- 默认的角色
 TRUNCATE TABLE kratos_admin.public.roles;

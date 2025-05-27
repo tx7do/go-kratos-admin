@@ -638,3 +638,219 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = UserTokenPayloadValidationError{}
+
+// Validate checks the field values on RegisterUserRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *RegisterUserRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on RegisterUserRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// RegisterUserRequestMultiError, or nil if none found.
+func (m *RegisterUserRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *RegisterUserRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Username
+
+	// no validation rules for Password
+
+	// no validation rules for TenantCode
+
+	if m.Email != nil {
+		// no validation rules for Email
+	}
+
+	if len(errors) > 0 {
+		return RegisterUserRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// RegisterUserRequestMultiError is an error wrapping multiple validation
+// errors returned by RegisterUserRequest.ValidateAll() if the designated
+// constraints aren't met.
+type RegisterUserRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m RegisterUserRequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m RegisterUserRequestMultiError) AllErrors() []error { return m }
+
+// RegisterUserRequestValidationError is the validation error returned by
+// RegisterUserRequest.Validate if the designated constraints aren't met.
+type RegisterUserRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e RegisterUserRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e RegisterUserRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e RegisterUserRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e RegisterUserRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e RegisterUserRequestValidationError) ErrorName() string {
+	return "RegisterUserRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e RegisterUserRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sRegisterUserRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = RegisterUserRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = RegisterUserRequestValidationError{}
+
+// Validate checks the field values on RegisterUserResponse with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *RegisterUserResponse) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on RegisterUserResponse with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// RegisterUserResponseMultiError, or nil if none found.
+func (m *RegisterUserResponse) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *RegisterUserResponse) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for UserId
+
+	if len(errors) > 0 {
+		return RegisterUserResponseMultiError(errors)
+	}
+
+	return nil
+}
+
+// RegisterUserResponseMultiError is an error wrapping multiple validation
+// errors returned by RegisterUserResponse.ValidateAll() if the designated
+// constraints aren't met.
+type RegisterUserResponseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m RegisterUserResponseMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m RegisterUserResponseMultiError) AllErrors() []error { return m }
+
+// RegisterUserResponseValidationError is the validation error returned by
+// RegisterUserResponse.Validate if the designated constraints aren't met.
+type RegisterUserResponseValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e RegisterUserResponseValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e RegisterUserResponseValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e RegisterUserResponseValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e RegisterUserResponseValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e RegisterUserResponseValidationError) ErrorName() string {
+	return "RegisterUserResponseValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e RegisterUserResponseValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sRegisterUserResponse.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = RegisterUserResponseValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = RegisterUserResponseValidationError{}

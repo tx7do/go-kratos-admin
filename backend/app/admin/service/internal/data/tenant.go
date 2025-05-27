@@ -274,3 +274,37 @@ func (r *TenantRepo) Delete(ctx context.Context, req *userV1.DeleteTenantRequest
 
 	return nil
 }
+
+func (r *TenantRepo) GetTenantByTenantName(ctx context.Context, userName string) (*userV1.Tenant, error) {
+	ret, err := r.data.db.Client().Tenant.Query().
+		Where(tenant.NameEQ(userName)).
+		Only(ctx)
+	if err != nil {
+		if ent.IsNotFound(err) {
+			return nil, userV1.ErrorNotFound("tenant not found")
+		}
+
+		r.log.Errorf("query user data failed: %s", err.Error())
+
+		return nil, userV1.ErrorInternalServerError("query data failed")
+	}
+
+	return r.toProto(ret), nil
+}
+
+func (r *TenantRepo) GetTenantByTenantCode(ctx context.Context, code string) (*userV1.Tenant, error) {
+	ret, err := r.data.db.Client().Tenant.Query().
+		Where(tenant.CodeEQ(code)).
+		Only(ctx)
+	if err != nil {
+		if ent.IsNotFound(err) {
+			return nil, userV1.ErrorNotFound("tenant not found")
+		}
+
+		r.log.Errorf("query user data failed: %s", err.Error())
+
+		return nil, userV1.ErrorInternalServerError("query data failed")
+	}
+
+	return r.toProto(ret), nil
+}

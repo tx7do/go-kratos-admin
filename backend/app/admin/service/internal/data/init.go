@@ -28,6 +28,7 @@ var ProviderSet = wire.NewSet(
 	NewRoleRepo,
 	NewUserRepo,
 	NewTenantRepo,
+	NewUserCredentialRepo,
 
 	NewAdminLoginLogRepo,
 	NewAdminOperationLogRepo,

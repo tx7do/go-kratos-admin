@@ -36,8 +36,6 @@ type User struct {
 	TenantID *uint32 `json:"tenant_id,omitempty"`
 	// 用户名
 	Username *string `json:"username,omitempty"`
-	// 登录密码
-	Password *string `json:"password,omitempty"`
 	// 昵称
 	NickName *string `json:"nick_name,omitempty"`
 	// 真实名字
@@ -50,14 +48,14 @@ type User struct {
 	Telephone *string `json:"telephone,omitempty"`
 	// 头像
 	Avatar *string `json:"avatar,omitempty"`
-	// 性别
-	Gender *user.Gender `json:"gender,omitempty"`
 	// 地址
 	Address *string `json:"address,omitempty"`
 	// 国家地区
 	Region *string `json:"region,omitempty"`
 	// 个人说明
 	Description *string `json:"description,omitempty"`
+	// 性别
+	Gender *user.Gender `json:"gender,omitempty"`
 	// 授权
 	Authority *user.Authority `json:"authority,omitempty"`
 	// 最后一次登录的时间
@@ -82,7 +80,7 @@ func (*User) scanValues(columns []string) ([]any, error) {
 		switch columns[i] {
 		case user.FieldID, user.FieldCreateBy, user.FieldUpdateBy, user.FieldTenantID, user.FieldLastLoginTime, user.FieldRoleID, user.FieldOrgID, user.FieldPositionID, user.FieldWorkID:
 			values[i] = new(sql.NullInt64)
-		case user.FieldRemark, user.FieldStatus, user.FieldUsername, user.FieldPassword, user.FieldNickName, user.FieldRealName, user.FieldEmail, user.FieldMobile, user.FieldTelephone, user.FieldAvatar, user.FieldGender, user.FieldAddress, user.FieldRegion, user.FieldDescription, user.FieldAuthority, user.FieldLastLoginIP:
+		case user.FieldRemark, user.FieldStatus, user.FieldUsername, user.FieldNickName, user.FieldRealName, user.FieldEmail, user.FieldMobile, user.FieldTelephone, user.FieldAvatar, user.FieldAddress, user.FieldRegion, user.FieldDescription, user.FieldGender, user.FieldAuthority, user.FieldLastLoginIP:
 			values[i] = new(sql.NullString)
 		case user.FieldCreateTime, user.FieldUpdateTime, user.FieldDeleteTime:
 			values[i] = new(sql.NullTime)
@@ -170,13 +168,6 @@ func (u *User) assignValues(columns []string, values []any) error {
 				u.Username = new(string)
 				*u.Username = value.String
 			}
-		case user.FieldPassword:
-			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field password", values[i])
-			} else if value.Valid {
-				u.Password = new(string)
-				*u.Password = value.String
-			}
 		case user.FieldNickName:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field nick_name", values[i])
@@ -219,13 +210,6 @@ func (u *User) assignValues(columns []string, values []any) error {
 				u.Avatar = new(string)
 				*u.Avatar = value.String
 			}
-		case user.FieldGender:
-			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field gender", values[i])
-			} else if value.Valid {
-				u.Gender = new(user.Gender)
-				*u.Gender = user.Gender(value.String)
-			}
 		case user.FieldAddress:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field address", values[i])
@@ -246,6 +230,13 @@ func (u *User) assignValues(columns []string, values []any) error {
 			} else if value.Valid {
 				u.Description = new(string)
 				*u.Description = value.String
+			}
+		case user.FieldGender:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field gender", values[i])
+			} else if value.Valid {
+				u.Gender = new(user.Gender)
+				*u.Gender = user.Gender(value.String)
 			}
 		case user.FieldAuthority:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -377,11 +368,6 @@ func (u *User) String() string {
 		builder.WriteString(*v)
 	}
 	builder.WriteString(", ")
-	if v := u.Password; v != nil {
-		builder.WriteString("password=")
-		builder.WriteString(*v)
-	}
-	builder.WriteString(", ")
 	if v := u.NickName; v != nil {
 		builder.WriteString("nick_name=")
 		builder.WriteString(*v)
@@ -412,11 +398,6 @@ func (u *User) String() string {
 		builder.WriteString(*v)
 	}
 	builder.WriteString(", ")
-	if v := u.Gender; v != nil {
-		builder.WriteString("gender=")
-		builder.WriteString(fmt.Sprintf("%v", *v))
-	}
-	builder.WriteString(", ")
 	if v := u.Address; v != nil {
 		builder.WriteString("address=")
 		builder.WriteString(*v)
@@ -430,6 +411,11 @@ func (u *User) String() string {
 	if v := u.Description; v != nil {
 		builder.WriteString("description=")
 		builder.WriteString(*v)
+	}
+	builder.WriteString(", ")
+	if v := u.Gender; v != nil {
+		builder.WriteString("gender=")
+		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteString(", ")
 	if v := u.Authority; v != nil {

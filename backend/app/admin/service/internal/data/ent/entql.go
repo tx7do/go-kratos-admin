@@ -470,17 +470,16 @@ var schemaGraph = func() *sqlgraph.Schema {
 			user.FieldStatus:        {Type: field.TypeEnum, Column: user.FieldStatus},
 			user.FieldTenantID:      {Type: field.TypeUint32, Column: user.FieldTenantID},
 			user.FieldUsername:      {Type: field.TypeString, Column: user.FieldUsername},
-			user.FieldPassword:      {Type: field.TypeString, Column: user.FieldPassword},
 			user.FieldNickName:      {Type: field.TypeString, Column: user.FieldNickName},
 			user.FieldRealName:      {Type: field.TypeString, Column: user.FieldRealName},
 			user.FieldEmail:         {Type: field.TypeString, Column: user.FieldEmail},
 			user.FieldMobile:        {Type: field.TypeString, Column: user.FieldMobile},
 			user.FieldTelephone:     {Type: field.TypeString, Column: user.FieldTelephone},
 			user.FieldAvatar:        {Type: field.TypeString, Column: user.FieldAvatar},
-			user.FieldGender:        {Type: field.TypeEnum, Column: user.FieldGender},
 			user.FieldAddress:       {Type: field.TypeString, Column: user.FieldAddress},
 			user.FieldRegion:        {Type: field.TypeString, Column: user.FieldRegion},
 			user.FieldDescription:   {Type: field.TypeString, Column: user.FieldDescription},
+			user.FieldGender:        {Type: field.TypeEnum, Column: user.FieldGender},
 			user.FieldAuthority:     {Type: field.TypeEnum, Column: user.FieldAuthority},
 			user.FieldLastLoginTime: {Type: field.TypeInt64, Column: user.FieldLastLoginTime},
 			user.FieldLastLoginIP:   {Type: field.TypeString, Column: user.FieldLastLoginIP},
@@ -2613,11 +2612,6 @@ func (f *UserFilter) WhereUsername(p entql.StringP) {
 	f.Where(p.Field(user.FieldUsername))
 }
 
-// WherePassword applies the entql string predicate on the password field.
-func (f *UserFilter) WherePassword(p entql.StringP) {
-	f.Where(p.Field(user.FieldPassword))
-}
-
 // WhereNickName applies the entql string predicate on the nick_name field.
 func (f *UserFilter) WhereNickName(p entql.StringP) {
 	f.Where(p.Field(user.FieldNickName))
@@ -2648,11 +2642,6 @@ func (f *UserFilter) WhereAvatar(p entql.StringP) {
 	f.Where(p.Field(user.FieldAvatar))
 }
 
-// WhereGender applies the entql string predicate on the gender field.
-func (f *UserFilter) WhereGender(p entql.StringP) {
-	f.Where(p.Field(user.FieldGender))
-}
-
 // WhereAddress applies the entql string predicate on the address field.
 func (f *UserFilter) WhereAddress(p entql.StringP) {
 	f.Where(p.Field(user.FieldAddress))
@@ -2666,6 +2655,11 @@ func (f *UserFilter) WhereRegion(p entql.StringP) {
 // WhereDescription applies the entql string predicate on the description field.
 func (f *UserFilter) WhereDescription(p entql.StringP) {
 	f.Where(p.Field(user.FieldDescription))
+}
+
+// WhereGender applies the entql string predicate on the gender field.
+func (f *UserFilter) WhereGender(p entql.StringP) {
+	f.Where(p.Field(user.FieldGender))
 }
 
 // WhereAuthority applies the entql string predicate on the authority field.

@@ -39,13 +39,6 @@ func (User) Fields() []ent.Field {
 			Optional().
 			Nillable(),
 
-		field.String("password").
-			Comment("登录密码").
-			MaxLen(255).
-			Optional().
-			Nillable().
-			NotEmpty(),
-
 		field.String("nick_name").
 			Comment("昵称").
 			MaxLen(255).
@@ -84,16 +77,6 @@ func (User) Fields() []ent.Field {
 			Optional().
 			Nillable(),
 
-		field.Enum("gender").
-			Comment("性别").
-			NamedValues(
-				"Secret", "SECRET",
-				"Male", "MALE",
-				"Female", "FEMALE",
-			).
-			Optional().
-			Nillable(),
-
 		field.String("address").
 			Comment("地址").
 			Default("").
@@ -111,6 +94,16 @@ func (User) Fields() []ent.Field {
 		field.String("description").
 			Comment("个人说明").
 			MaxLen(1023).
+			Optional().
+			Nillable(),
+
+		field.Enum("gender").
+			Comment("性别").
+			NamedValues(
+				"Secret", "SECRET",
+				"Male", "MALE",
+				"Female", "FEMALE",
+			).
 			Optional().
 			Nillable(),
 

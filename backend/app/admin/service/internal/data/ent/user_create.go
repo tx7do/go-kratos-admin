@@ -148,20 +148,6 @@ func (uc *UserCreate) SetNillableUsername(s *string) *UserCreate {
 	return uc
 }
 
-// SetPassword sets the "password" field.
-func (uc *UserCreate) SetPassword(s string) *UserCreate {
-	uc.mutation.SetPassword(s)
-	return uc
-}
-
-// SetNillablePassword sets the "password" field if the given value is not nil.
-func (uc *UserCreate) SetNillablePassword(s *string) *UserCreate {
-	if s != nil {
-		uc.SetPassword(*s)
-	}
-	return uc
-}
-
 // SetNickName sets the "nick_name" field.
 func (uc *UserCreate) SetNickName(s string) *UserCreate {
 	uc.mutation.SetNickName(s)
@@ -246,20 +232,6 @@ func (uc *UserCreate) SetNillableAvatar(s *string) *UserCreate {
 	return uc
 }
 
-// SetGender sets the "gender" field.
-func (uc *UserCreate) SetGender(u user.Gender) *UserCreate {
-	uc.mutation.SetGender(u)
-	return uc
-}
-
-// SetNillableGender sets the "gender" field if the given value is not nil.
-func (uc *UserCreate) SetNillableGender(u *user.Gender) *UserCreate {
-	if u != nil {
-		uc.SetGender(*u)
-	}
-	return uc
-}
-
 // SetAddress sets the "address" field.
 func (uc *UserCreate) SetAddress(s string) *UserCreate {
 	uc.mutation.SetAddress(s)
@@ -298,6 +270,20 @@ func (uc *UserCreate) SetDescription(s string) *UserCreate {
 func (uc *UserCreate) SetNillableDescription(s *string) *UserCreate {
 	if s != nil {
 		uc.SetDescription(*s)
+	}
+	return uc
+}
+
+// SetGender sets the "gender" field.
+func (uc *UserCreate) SetGender(u user.Gender) *UserCreate {
+	uc.mutation.SetGender(u)
+	return uc
+}
+
+// SetNillableGender sets the "gender" field if the given value is not nil.
+func (uc *UserCreate) SetNillableGender(u *user.Gender) *UserCreate {
+	if u != nil {
+		uc.SetGender(*u)
 	}
 	return uc
 }
@@ -492,11 +478,6 @@ func (uc *UserCreate) check() error {
 			return &ValidationError{Name: "username", err: fmt.Errorf(`ent: validator failed for field "User.username": %w`, err)}
 		}
 	}
-	if v, ok := uc.mutation.Password(); ok {
-		if err := user.PasswordValidator(v); err != nil {
-			return &ValidationError{Name: "password", err: fmt.Errorf(`ent: validator failed for field "User.password": %w`, err)}
-		}
-	}
 	if v, ok := uc.mutation.NickName(); ok {
 		if err := user.NickNameValidator(v); err != nil {
 			return &ValidationError{Name: "nick_name", err: fmt.Errorf(`ent: validator failed for field "User.nick_name": %w`, err)}
@@ -527,11 +508,6 @@ func (uc *UserCreate) check() error {
 			return &ValidationError{Name: "avatar", err: fmt.Errorf(`ent: validator failed for field "User.avatar": %w`, err)}
 		}
 	}
-	if v, ok := uc.mutation.Gender(); ok {
-		if err := user.GenderValidator(v); err != nil {
-			return &ValidationError{Name: "gender", err: fmt.Errorf(`ent: validator failed for field "User.gender": %w`, err)}
-		}
-	}
 	if v, ok := uc.mutation.Address(); ok {
 		if err := user.AddressValidator(v); err != nil {
 			return &ValidationError{Name: "address", err: fmt.Errorf(`ent: validator failed for field "User.address": %w`, err)}
@@ -545,6 +521,11 @@ func (uc *UserCreate) check() error {
 	if v, ok := uc.mutation.Description(); ok {
 		if err := user.DescriptionValidator(v); err != nil {
 			return &ValidationError{Name: "description", err: fmt.Errorf(`ent: validator failed for field "User.description": %w`, err)}
+		}
+	}
+	if v, ok := uc.mutation.Gender(); ok {
+		if err := user.GenderValidator(v); err != nil {
+			return &ValidationError{Name: "gender", err: fmt.Errorf(`ent: validator failed for field "User.gender": %w`, err)}
 		}
 	}
 	if v, ok := uc.mutation.Authority(); ok {
@@ -631,10 +612,6 @@ func (uc *UserCreate) createSpec() (*User, *sqlgraph.CreateSpec) {
 		_spec.SetField(user.FieldUsername, field.TypeString, value)
 		_node.Username = &value
 	}
-	if value, ok := uc.mutation.Password(); ok {
-		_spec.SetField(user.FieldPassword, field.TypeString, value)
-		_node.Password = &value
-	}
 	if value, ok := uc.mutation.NickName(); ok {
 		_spec.SetField(user.FieldNickName, field.TypeString, value)
 		_node.NickName = &value
@@ -659,10 +636,6 @@ func (uc *UserCreate) createSpec() (*User, *sqlgraph.CreateSpec) {
 		_spec.SetField(user.FieldAvatar, field.TypeString, value)
 		_node.Avatar = &value
 	}
-	if value, ok := uc.mutation.Gender(); ok {
-		_spec.SetField(user.FieldGender, field.TypeEnum, value)
-		_node.Gender = &value
-	}
 	if value, ok := uc.mutation.Address(); ok {
 		_spec.SetField(user.FieldAddress, field.TypeString, value)
 		_node.Address = &value
@@ -674,6 +647,10 @@ func (uc *UserCreate) createSpec() (*User, *sqlgraph.CreateSpec) {
 	if value, ok := uc.mutation.Description(); ok {
 		_spec.SetField(user.FieldDescription, field.TypeString, value)
 		_node.Description = &value
+	}
+	if value, ok := uc.mutation.Gender(); ok {
+		_spec.SetField(user.FieldGender, field.TypeEnum, value)
+		_node.Gender = &value
 	}
 	if value, ok := uc.mutation.Authority(); ok {
 		_spec.SetField(user.FieldAuthority, field.TypeEnum, value)
@@ -875,24 +852,6 @@ func (u *UserUpsert) ClearStatus() *UserUpsert {
 	return u
 }
 
-// SetPassword sets the "password" field.
-func (u *UserUpsert) SetPassword(v string) *UserUpsert {
-	u.Set(user.FieldPassword, v)
-	return u
-}
-
-// UpdatePassword sets the "password" field to the value that was provided on create.
-func (u *UserUpsert) UpdatePassword() *UserUpsert {
-	u.SetExcluded(user.FieldPassword)
-	return u
-}
-
-// ClearPassword clears the value of the "password" field.
-func (u *UserUpsert) ClearPassword() *UserUpsert {
-	u.SetNull(user.FieldPassword)
-	return u
-}
-
 // SetNickName sets the "nick_name" field.
 func (u *UserUpsert) SetNickName(v string) *UserUpsert {
 	u.Set(user.FieldNickName, v)
@@ -1001,24 +960,6 @@ func (u *UserUpsert) ClearAvatar() *UserUpsert {
 	return u
 }
 
-// SetGender sets the "gender" field.
-func (u *UserUpsert) SetGender(v user.Gender) *UserUpsert {
-	u.Set(user.FieldGender, v)
-	return u
-}
-
-// UpdateGender sets the "gender" field to the value that was provided on create.
-func (u *UserUpsert) UpdateGender() *UserUpsert {
-	u.SetExcluded(user.FieldGender)
-	return u
-}
-
-// ClearGender clears the value of the "gender" field.
-func (u *UserUpsert) ClearGender() *UserUpsert {
-	u.SetNull(user.FieldGender)
-	return u
-}
-
 // SetAddress sets the "address" field.
 func (u *UserUpsert) SetAddress(v string) *UserUpsert {
 	u.Set(user.FieldAddress, v)
@@ -1070,6 +1011,24 @@ func (u *UserUpsert) UpdateDescription() *UserUpsert {
 // ClearDescription clears the value of the "description" field.
 func (u *UserUpsert) ClearDescription() *UserUpsert {
 	u.SetNull(user.FieldDescription)
+	return u
+}
+
+// SetGender sets the "gender" field.
+func (u *UserUpsert) SetGender(v user.Gender) *UserUpsert {
+	u.Set(user.FieldGender, v)
+	return u
+}
+
+// UpdateGender sets the "gender" field to the value that was provided on create.
+func (u *UserUpsert) UpdateGender() *UserUpsert {
+	u.SetExcluded(user.FieldGender)
+	return u
+}
+
+// ClearGender clears the value of the "gender" field.
+func (u *UserUpsert) ClearGender() *UserUpsert {
+	u.SetNull(user.FieldGender)
 	return u
 }
 
@@ -1426,27 +1385,6 @@ func (u *UserUpsertOne) ClearStatus() *UserUpsertOne {
 	})
 }
 
-// SetPassword sets the "password" field.
-func (u *UserUpsertOne) SetPassword(v string) *UserUpsertOne {
-	return u.Update(func(s *UserUpsert) {
-		s.SetPassword(v)
-	})
-}
-
-// UpdatePassword sets the "password" field to the value that was provided on create.
-func (u *UserUpsertOne) UpdatePassword() *UserUpsertOne {
-	return u.Update(func(s *UserUpsert) {
-		s.UpdatePassword()
-	})
-}
-
-// ClearPassword clears the value of the "password" field.
-func (u *UserUpsertOne) ClearPassword() *UserUpsertOne {
-	return u.Update(func(s *UserUpsert) {
-		s.ClearPassword()
-	})
-}
-
 // SetNickName sets the "nick_name" field.
 func (u *UserUpsertOne) SetNickName(v string) *UserUpsertOne {
 	return u.Update(func(s *UserUpsert) {
@@ -1573,27 +1511,6 @@ func (u *UserUpsertOne) ClearAvatar() *UserUpsertOne {
 	})
 }
 
-// SetGender sets the "gender" field.
-func (u *UserUpsertOne) SetGender(v user.Gender) *UserUpsertOne {
-	return u.Update(func(s *UserUpsert) {
-		s.SetGender(v)
-	})
-}
-
-// UpdateGender sets the "gender" field to the value that was provided on create.
-func (u *UserUpsertOne) UpdateGender() *UserUpsertOne {
-	return u.Update(func(s *UserUpsert) {
-		s.UpdateGender()
-	})
-}
-
-// ClearGender clears the value of the "gender" field.
-func (u *UserUpsertOne) ClearGender() *UserUpsertOne {
-	return u.Update(func(s *UserUpsert) {
-		s.ClearGender()
-	})
-}
-
 // SetAddress sets the "address" field.
 func (u *UserUpsertOne) SetAddress(v string) *UserUpsertOne {
 	return u.Update(func(s *UserUpsert) {
@@ -1654,6 +1571,27 @@ func (u *UserUpsertOne) UpdateDescription() *UserUpsertOne {
 func (u *UserUpsertOne) ClearDescription() *UserUpsertOne {
 	return u.Update(func(s *UserUpsert) {
 		s.ClearDescription()
+	})
+}
+
+// SetGender sets the "gender" field.
+func (u *UserUpsertOne) SetGender(v user.Gender) *UserUpsertOne {
+	return u.Update(func(s *UserUpsert) {
+		s.SetGender(v)
+	})
+}
+
+// UpdateGender sets the "gender" field to the value that was provided on create.
+func (u *UserUpsertOne) UpdateGender() *UserUpsertOne {
+	return u.Update(func(s *UserUpsert) {
+		s.UpdateGender()
+	})
+}
+
+// ClearGender clears the value of the "gender" field.
+func (u *UserUpsertOne) ClearGender() *UserUpsertOne {
+	return u.Update(func(s *UserUpsert) {
+		s.ClearGender()
 	})
 }
 
@@ -2202,27 +2140,6 @@ func (u *UserUpsertBulk) ClearStatus() *UserUpsertBulk {
 	})
 }
 
-// SetPassword sets the "password" field.
-func (u *UserUpsertBulk) SetPassword(v string) *UserUpsertBulk {
-	return u.Update(func(s *UserUpsert) {
-		s.SetPassword(v)
-	})
-}
-
-// UpdatePassword sets the "password" field to the value that was provided on create.
-func (u *UserUpsertBulk) UpdatePassword() *UserUpsertBulk {
-	return u.Update(func(s *UserUpsert) {
-		s.UpdatePassword()
-	})
-}
-
-// ClearPassword clears the value of the "password" field.
-func (u *UserUpsertBulk) ClearPassword() *UserUpsertBulk {
-	return u.Update(func(s *UserUpsert) {
-		s.ClearPassword()
-	})
-}
-
 // SetNickName sets the "nick_name" field.
 func (u *UserUpsertBulk) SetNickName(v string) *UserUpsertBulk {
 	return u.Update(func(s *UserUpsert) {
@@ -2349,27 +2266,6 @@ func (u *UserUpsertBulk) ClearAvatar() *UserUpsertBulk {
 	})
 }
 
-// SetGender sets the "gender" field.
-func (u *UserUpsertBulk) SetGender(v user.Gender) *UserUpsertBulk {
-	return u.Update(func(s *UserUpsert) {
-		s.SetGender(v)
-	})
-}
-
-// UpdateGender sets the "gender" field to the value that was provided on create.
-func (u *UserUpsertBulk) UpdateGender() *UserUpsertBulk {
-	return u.Update(func(s *UserUpsert) {
-		s.UpdateGender()
-	})
-}
-
-// ClearGender clears the value of the "gender" field.
-func (u *UserUpsertBulk) ClearGender() *UserUpsertBulk {
-	return u.Update(func(s *UserUpsert) {
-		s.ClearGender()
-	})
-}
-
 // SetAddress sets the "address" field.
 func (u *UserUpsertBulk) SetAddress(v string) *UserUpsertBulk {
 	return u.Update(func(s *UserUpsert) {
@@ -2430,6 +2326,27 @@ func (u *UserUpsertBulk) UpdateDescription() *UserUpsertBulk {
 func (u *UserUpsertBulk) ClearDescription() *UserUpsertBulk {
 	return u.Update(func(s *UserUpsert) {
 		s.ClearDescription()
+	})
+}
+
+// SetGender sets the "gender" field.
+func (u *UserUpsertBulk) SetGender(v user.Gender) *UserUpsertBulk {
+	return u.Update(func(s *UserUpsert) {
+		s.SetGender(v)
+	})
+}
+
+// UpdateGender sets the "gender" field to the value that was provided on create.
+func (u *UserUpsertBulk) UpdateGender() *UserUpsertBulk {
+	return u.Update(func(s *UserUpsert) {
+		s.UpdateGender()
+	})
+}
+
+// ClearGender clears the value of the "gender" field.
+func (u *UserUpsertBulk) ClearGender() *UserUpsertBulk {
+	return u.Update(func(s *UserUpsert) {
+		s.ClearGender()
 	})
 }
 

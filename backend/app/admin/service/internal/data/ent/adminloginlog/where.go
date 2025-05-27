@@ -114,9 +114,9 @@ func UserID(v uint32) predicate.AdminLoginLog {
 	return predicate.AdminLoginLog(sql.FieldEQ(FieldUserID, v))
 }
 
-// UserName applies equality check predicate on the "user_name" field. It's identical to UserNameEQ.
-func UserName(v string) predicate.AdminLoginLog {
-	return predicate.AdminLoginLog(sql.FieldEQ(FieldUserName, v))
+// Username applies equality check predicate on the "username" field. It's identical to UsernameEQ.
+func Username(v string) predicate.AdminLoginLog {
+	return predicate.AdminLoginLog(sql.FieldEQ(FieldUsername, v))
 }
 
 // StatusCode applies equality check predicate on the "status_code" field. It's identical to StatusCodeEQ.
@@ -964,79 +964,79 @@ func UserIDNotNil() predicate.AdminLoginLog {
 	return predicate.AdminLoginLog(sql.FieldNotNull(FieldUserID))
 }
 
-// UserNameEQ applies the EQ predicate on the "user_name" field.
-func UserNameEQ(v string) predicate.AdminLoginLog {
-	return predicate.AdminLoginLog(sql.FieldEQ(FieldUserName, v))
+// UsernameEQ applies the EQ predicate on the "username" field.
+func UsernameEQ(v string) predicate.AdminLoginLog {
+	return predicate.AdminLoginLog(sql.FieldEQ(FieldUsername, v))
 }
 
-// UserNameNEQ applies the NEQ predicate on the "user_name" field.
-func UserNameNEQ(v string) predicate.AdminLoginLog {
-	return predicate.AdminLoginLog(sql.FieldNEQ(FieldUserName, v))
+// UsernameNEQ applies the NEQ predicate on the "username" field.
+func UsernameNEQ(v string) predicate.AdminLoginLog {
+	return predicate.AdminLoginLog(sql.FieldNEQ(FieldUsername, v))
 }
 
-// UserNameIn applies the In predicate on the "user_name" field.
-func UserNameIn(vs ...string) predicate.AdminLoginLog {
-	return predicate.AdminLoginLog(sql.FieldIn(FieldUserName, vs...))
+// UsernameIn applies the In predicate on the "username" field.
+func UsernameIn(vs ...string) predicate.AdminLoginLog {
+	return predicate.AdminLoginLog(sql.FieldIn(FieldUsername, vs...))
 }
 
-// UserNameNotIn applies the NotIn predicate on the "user_name" field.
-func UserNameNotIn(vs ...string) predicate.AdminLoginLog {
-	return predicate.AdminLoginLog(sql.FieldNotIn(FieldUserName, vs...))
+// UsernameNotIn applies the NotIn predicate on the "username" field.
+func UsernameNotIn(vs ...string) predicate.AdminLoginLog {
+	return predicate.AdminLoginLog(sql.FieldNotIn(FieldUsername, vs...))
 }
 
-// UserNameGT applies the GT predicate on the "user_name" field.
-func UserNameGT(v string) predicate.AdminLoginLog {
-	return predicate.AdminLoginLog(sql.FieldGT(FieldUserName, v))
+// UsernameGT applies the GT predicate on the "username" field.
+func UsernameGT(v string) predicate.AdminLoginLog {
+	return predicate.AdminLoginLog(sql.FieldGT(FieldUsername, v))
 }
 
-// UserNameGTE applies the GTE predicate on the "user_name" field.
-func UserNameGTE(v string) predicate.AdminLoginLog {
-	return predicate.AdminLoginLog(sql.FieldGTE(FieldUserName, v))
+// UsernameGTE applies the GTE predicate on the "username" field.
+func UsernameGTE(v string) predicate.AdminLoginLog {
+	return predicate.AdminLoginLog(sql.FieldGTE(FieldUsername, v))
 }
 
-// UserNameLT applies the LT predicate on the "user_name" field.
-func UserNameLT(v string) predicate.AdminLoginLog {
-	return predicate.AdminLoginLog(sql.FieldLT(FieldUserName, v))
+// UsernameLT applies the LT predicate on the "username" field.
+func UsernameLT(v string) predicate.AdminLoginLog {
+	return predicate.AdminLoginLog(sql.FieldLT(FieldUsername, v))
 }
 
-// UserNameLTE applies the LTE predicate on the "user_name" field.
-func UserNameLTE(v string) predicate.AdminLoginLog {
-	return predicate.AdminLoginLog(sql.FieldLTE(FieldUserName, v))
+// UsernameLTE applies the LTE predicate on the "username" field.
+func UsernameLTE(v string) predicate.AdminLoginLog {
+	return predicate.AdminLoginLog(sql.FieldLTE(FieldUsername, v))
 }
 
-// UserNameContains applies the Contains predicate on the "user_name" field.
-func UserNameContains(v string) predicate.AdminLoginLog {
-	return predicate.AdminLoginLog(sql.FieldContains(FieldUserName, v))
+// UsernameContains applies the Contains predicate on the "username" field.
+func UsernameContains(v string) predicate.AdminLoginLog {
+	return predicate.AdminLoginLog(sql.FieldContains(FieldUsername, v))
 }
 
-// UserNameHasPrefix applies the HasPrefix predicate on the "user_name" field.
-func UserNameHasPrefix(v string) predicate.AdminLoginLog {
-	return predicate.AdminLoginLog(sql.FieldHasPrefix(FieldUserName, v))
+// UsernameHasPrefix applies the HasPrefix predicate on the "username" field.
+func UsernameHasPrefix(v string) predicate.AdminLoginLog {
+	return predicate.AdminLoginLog(sql.FieldHasPrefix(FieldUsername, v))
 }
 
-// UserNameHasSuffix applies the HasSuffix predicate on the "user_name" field.
-func UserNameHasSuffix(v string) predicate.AdminLoginLog {
-	return predicate.AdminLoginLog(sql.FieldHasSuffix(FieldUserName, v))
+// UsernameHasSuffix applies the HasSuffix predicate on the "username" field.
+func UsernameHasSuffix(v string) predicate.AdminLoginLog {
+	return predicate.AdminLoginLog(sql.FieldHasSuffix(FieldUsername, v))
 }
 
-// UserNameIsNil applies the IsNil predicate on the "user_name" field.
-func UserNameIsNil() predicate.AdminLoginLog {
-	return predicate.AdminLoginLog(sql.FieldIsNull(FieldUserName))
+// UsernameIsNil applies the IsNil predicate on the "username" field.
+func UsernameIsNil() predicate.AdminLoginLog {
+	return predicate.AdminLoginLog(sql.FieldIsNull(FieldUsername))
 }
 
-// UserNameNotNil applies the NotNil predicate on the "user_name" field.
-func UserNameNotNil() predicate.AdminLoginLog {
-	return predicate.AdminLoginLog(sql.FieldNotNull(FieldUserName))
+// UsernameNotNil applies the NotNil predicate on the "username" field.
+func UsernameNotNil() predicate.AdminLoginLog {
+	return predicate.AdminLoginLog(sql.FieldNotNull(FieldUsername))
 }
 
-// UserNameEqualFold applies the EqualFold predicate on the "user_name" field.
-func UserNameEqualFold(v string) predicate.AdminLoginLog {
-	return predicate.AdminLoginLog(sql.FieldEqualFold(FieldUserName, v))
+// UsernameEqualFold applies the EqualFold predicate on the "username" field.
+func UsernameEqualFold(v string) predicate.AdminLoginLog {
+	return predicate.AdminLoginLog(sql.FieldEqualFold(FieldUsername, v))
 }
 
-// UserNameContainsFold applies the ContainsFold predicate on the "user_name" field.
-func UserNameContainsFold(v string) predicate.AdminLoginLog {
-	return predicate.AdminLoginLog(sql.FieldContainsFold(FieldUserName, v))
+// UsernameContainsFold applies the ContainsFold predicate on the "username" field.
+func UsernameContainsFold(v string) predicate.AdminLoginLog {
+	return predicate.AdminLoginLog(sql.FieldContainsFold(FieldUsername, v))
 }
 
 // StatusCodeEQ applies the EQ predicate on the "status_code" field.

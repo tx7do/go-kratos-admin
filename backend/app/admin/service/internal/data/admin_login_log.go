@@ -177,7 +177,7 @@ func (r *AdminLoginLogRepo) Create(ctx context.Context, req *adminV1.CreateAdmin
 		SetNillableOsName(req.Data.OsName).
 		SetNillableOsVersion(req.Data.OsVersion).
 		SetNillableUserID(req.Data.UserId).
-		SetNillableUserName(req.Data.UserName).
+		SetNillableUsername(req.Data.Username).
 		SetNillableStatusCode(req.Data.StatusCode).
 		SetNillableSuccess(req.Data.Success).
 		SetNillableReason(req.Data.Reason).

@@ -80,8 +80,8 @@ func (m *User) validate(all bool) error {
 		// no validation rules for TenantId
 	}
 
-	if m.UserName != nil {
-		// no validation rules for UserName
+	if m.Username != nil {
+		// no validation rules for Username
 	}
 
 	if m.NickName != nil {
@@ -501,7 +501,7 @@ func (m *GetUserByUserNameRequest) validate(all bool) error {
 
 	var errors []error
 
-	// no validation rules for UserName
+	// no validation rules for Username
 
 	if len(errors) > 0 {
 		return GetUserByUserNameRequestMultiError(errors)
@@ -1012,7 +1012,7 @@ func (m *UserExistsRequest) validate(all bool) error {
 
 	var errors []error
 
-	// no validation rules for UserName
+	// no validation rules for Username
 
 	if len(errors) > 0 {
 		return UserExistsRequestMultiError(errors)

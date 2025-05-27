@@ -43,7 +43,7 @@ type AdminOperationLog struct {
 	// 操作者用户ID
 	UserID *uint32 `json:"user_id,omitempty"`
 	// 操作者账号名
-	UserName *string `json:"user_name,omitempty"`
+	Username *string `json:"username,omitempty"`
 	// 操作者IP
 	ClientIP *string `json:"client_ip,omitempty"`
 	// 状态码
@@ -82,7 +82,7 @@ func (*AdminOperationLog) scanValues(columns []string) ([]any, error) {
 			values[i] = new(sql.NullFloat64)
 		case adminoperationlog.FieldID, adminoperationlog.FieldUserID, adminoperationlog.FieldStatusCode:
 			values[i] = new(sql.NullInt64)
-		case adminoperationlog.FieldRequestID, adminoperationlog.FieldMethod, adminoperationlog.FieldOperation, adminoperationlog.FieldPath, adminoperationlog.FieldReferer, adminoperationlog.FieldRequestURI, adminoperationlog.FieldRequestBody, adminoperationlog.FieldRequestHeader, adminoperationlog.FieldResponse, adminoperationlog.FieldUserName, adminoperationlog.FieldClientIP, adminoperationlog.FieldReason, adminoperationlog.FieldLocation, adminoperationlog.FieldUserAgent, adminoperationlog.FieldBrowserName, adminoperationlog.FieldBrowserVersion, adminoperationlog.FieldClientID, adminoperationlog.FieldClientName, adminoperationlog.FieldOsName, adminoperationlog.FieldOsVersion:
+		case adminoperationlog.FieldRequestID, adminoperationlog.FieldMethod, adminoperationlog.FieldOperation, adminoperationlog.FieldPath, adminoperationlog.FieldReferer, adminoperationlog.FieldRequestURI, adminoperationlog.FieldRequestBody, adminoperationlog.FieldRequestHeader, adminoperationlog.FieldResponse, adminoperationlog.FieldUsername, adminoperationlog.FieldClientIP, adminoperationlog.FieldReason, adminoperationlog.FieldLocation, adminoperationlog.FieldUserAgent, adminoperationlog.FieldBrowserName, adminoperationlog.FieldBrowserVersion, adminoperationlog.FieldClientID, adminoperationlog.FieldClientName, adminoperationlog.FieldOsName, adminoperationlog.FieldOsVersion:
 			values[i] = new(sql.NullString)
 		case adminoperationlog.FieldCreateTime:
 			values[i] = new(sql.NullTime)
@@ -191,12 +191,12 @@ func (aol *AdminOperationLog) assignValues(columns []string, values []any) error
 				aol.UserID = new(uint32)
 				*aol.UserID = uint32(value.Int64)
 			}
-		case adminoperationlog.FieldUserName:
+		case adminoperationlog.FieldUsername:
 			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field user_name", values[i])
+				return fmt.Errorf("unexpected type %T for field username", values[i])
 			} else if value.Valid {
-				aol.UserName = new(string)
-				*aol.UserName = value.String
+				aol.Username = new(string)
+				*aol.Username = value.String
 			}
 		case adminoperationlog.FieldClientIP:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -378,8 +378,8 @@ func (aol *AdminOperationLog) String() string {
 		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteString(", ")
-	if v := aol.UserName; v != nil {
-		builder.WriteString("user_name=")
+	if v := aol.Username; v != nil {
+		builder.WriteString("username=")
 		builder.WriteString(*v)
 	}
 	builder.WriteString(", ")

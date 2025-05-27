@@ -71,8 +71,8 @@ message User {
   optional uint32 position_id = 5 [json_name = "positionId", (gnostic.openapi.v3.property) = {description: "岗位ID"}];  // 岗位ID
   optional uint32 tenant_id = 6 [json_name = "tenantId", (gnostic.openapi.v3.property) = {description: "租户ID"}];  // 租户ID
 
-  optional string user_name = 10 [
-    json_name = "userName",
+  optional string username = 10 [
+    json_name = "username",
     (gnostic.openapi.v3.property) = {description: "登录名"}
   ]; // 登录名
 
@@ -175,9 +175,9 @@ message GetUserRequest {
   uint32 id = 1;
 }
 message GetUserByUserNameRequest {
-  string user_name = 1 [
+  string username = 1 [
     (gnostic.openapi.v3.property) = {description: "用户登录名", read_only: true},
-    json_name = "userName"
+    json_name = "username"
   ]; // 用户登录名
 }
 
@@ -225,9 +225,9 @@ message DeleteUserRequest {
 
 // 用户是否存在 - 请求
 message UserExistsRequest {
-  string user_name = 1 [
+  string username = 1 [
     (gnostic.openapi.v3.property) = {description: "用户登录名", read_only: true},
-    json_name = "userName"
+    json_name = "username"
   ]; // 用户登录名
 }
 // 用户是否存在 - 答复

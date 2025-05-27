@@ -2470,7 +2470,7 @@ components:
                     type: integer
                     description: 操作者用户ID
                     format: uint32
-                userName:
+                username:
                     type: string
                     description: 操作者账号名
                 createTime:
@@ -2586,7 +2586,7 @@ components:
                     type: integer
                     description: 操作者用户ID
                     format: uint32
-                userName:
+                username:
                     type: string
                     description: 操作者账号名
                 clientIp:
@@ -4375,7 +4375,7 @@ components:
                     type: integer
                     description: 租户ID
                     format: uint32
-                userName:
+                username:
                     type: string
                     description: 登录名
                 nickName:

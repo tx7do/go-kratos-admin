@@ -55,7 +55,7 @@ var schemaGraph = func() *sqlgraph.Schema {
 			adminloginlog.FieldOsName:         {Type: field.TypeString, Column: adminloginlog.FieldOsName},
 			adminloginlog.FieldOsVersion:      {Type: field.TypeString, Column: adminloginlog.FieldOsVersion},
 			adminloginlog.FieldUserID:         {Type: field.TypeUint32, Column: adminloginlog.FieldUserID},
-			adminloginlog.FieldUserName:       {Type: field.TypeString, Column: adminloginlog.FieldUserName},
+			adminloginlog.FieldUsername:       {Type: field.TypeString, Column: adminloginlog.FieldUsername},
 			adminloginlog.FieldStatusCode:     {Type: field.TypeInt32, Column: adminloginlog.FieldStatusCode},
 			adminloginlog.FieldSuccess:        {Type: field.TypeBool, Column: adminloginlog.FieldSuccess},
 			adminloginlog.FieldReason:         {Type: field.TypeString, Column: adminloginlog.FieldReason},
@@ -108,7 +108,7 @@ var schemaGraph = func() *sqlgraph.Schema {
 			adminoperationlog.FieldResponse:       {Type: field.TypeString, Column: adminoperationlog.FieldResponse},
 			adminoperationlog.FieldCostTime:       {Type: field.TypeFloat64, Column: adminoperationlog.FieldCostTime},
 			adminoperationlog.FieldUserID:         {Type: field.TypeUint32, Column: adminoperationlog.FieldUserID},
-			adminoperationlog.FieldUserName:       {Type: field.TypeString, Column: adminoperationlog.FieldUserName},
+			adminoperationlog.FieldUsername:       {Type: field.TypeString, Column: adminoperationlog.FieldUsername},
 			adminoperationlog.FieldClientIP:       {Type: field.TypeString, Column: adminoperationlog.FieldClientIP},
 			adminoperationlog.FieldStatusCode:     {Type: field.TypeInt32, Column: adminoperationlog.FieldStatusCode},
 			adminoperationlog.FieldReason:         {Type: field.TypeString, Column: adminoperationlog.FieldReason},
@@ -769,9 +769,9 @@ func (f *AdminLoginLogFilter) WhereUserID(p entql.Uint32P) {
 	f.Where(p.Field(adminloginlog.FieldUserID))
 }
 
-// WhereUserName applies the entql string predicate on the user_name field.
-func (f *AdminLoginLogFilter) WhereUserName(p entql.StringP) {
-	f.Where(p.Field(adminloginlog.FieldUserName))
+// WhereUsername applies the entql string predicate on the username field.
+func (f *AdminLoginLogFilter) WhereUsername(p entql.StringP) {
+	f.Where(p.Field(adminloginlog.FieldUsername))
 }
 
 // WhereStatusCode applies the entql int32 predicate on the status_code field.
@@ -984,9 +984,9 @@ func (f *AdminOperationLogFilter) WhereUserID(p entql.Uint32P) {
 	f.Where(p.Field(adminoperationlog.FieldUserID))
 }
 
-// WhereUserName applies the entql string predicate on the user_name field.
-func (f *AdminOperationLogFilter) WhereUserName(p entql.StringP) {
-	f.Where(p.Field(adminoperationlog.FieldUserName))
+// WhereUsername applies the entql string predicate on the username field.
+func (f *AdminOperationLogFilter) WhereUsername(p entql.StringP) {
+	f.Where(p.Field(adminoperationlog.FieldUsername))
 }
 
 // WhereClientIP applies the entql string predicate on the client_ip field.

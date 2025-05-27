@@ -22,7 +22,7 @@ func NewUserTokenPayload(user *userV1.User, clientId string) *authenticationV1.U
 	return &authenticationV1.UserTokenPayload{
 		UserId:    user.GetId(),
 		TenantId:  user.GetTenantId(),
-		Username:  user.GetUserName(),
+		Username:  user.GetUsername(),
 		ClientId:  clientId,
 		Authority: user.GetAuthority(),
 	}
@@ -30,7 +30,7 @@ func NewUserTokenPayload(user *userV1.User, clientId string) *authenticationV1.U
 
 func NewUserTokenAuthClaims(user *userV1.User, clientId string) *authn.AuthClaims {
 	return &authn.AuthClaims{
-		authn.ClaimFieldSubject: user.GetUserName(),
+		authn.ClaimFieldSubject: user.GetUsername(),
 		ClaimFieldUserID:        user.GetId(),
 		ClaimFieldTenantID:      user.GetTenantId(),
 		ClaimFieldClientID:      clientId,

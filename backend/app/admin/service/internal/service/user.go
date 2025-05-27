@@ -57,7 +57,7 @@ func (s *UserService) Get(ctx context.Context, req *userV1.GetUserRequest) (*use
 }
 
 func (s *UserService) GetUserByUserName(ctx context.Context, req *userV1.GetUserByUserNameRequest) (*userV1.User, error) {
-	user, err := s.userRepo.GetUserByUserName(ctx, req.GetUserName())
+	user, err := s.userRepo.GetUserByUserName(ctx, req.GetUsername())
 	if err != nil {
 		return nil, err
 	}

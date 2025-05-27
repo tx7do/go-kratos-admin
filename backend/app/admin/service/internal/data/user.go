@@ -289,7 +289,7 @@ func (r *UserRepo) Create(ctx context.Context, req *userV1.CreateUserRequest) (*
 	}
 
 	builder := r.data.db.Client().User.Create().
-		SetNillableUsername(req.Data.UserName).
+		SetNillableUsername(req.Data.Username).
 		SetNillableNickName(req.Data.NickName).
 		SetNillableEmail(req.Data.Email).
 		SetNillableRealName(req.Data.RealName).
@@ -440,7 +440,7 @@ func (r *UserRepo) GetUserByUserName(ctx context.Context, userName string) (*use
 
 func (r *UserRepo) UserExists(ctx context.Context, req *userV1.UserExistsRequest) (*userV1.UserExistsResponse, error) {
 	exist, err := r.data.db.Client().User.Query().
-		Where(user.UsernameEQ(req.GetUserName())).
+		Where(user.UsernameEQ(req.GetUsername())).
 		Exist(ctx)
 	if err != nil {
 		r.log.Errorf("query exist failed: %s", err.Error())

@@ -150,8 +150,8 @@ func (m *AdminOperationLog) validate(all bool) error {
 		// no validation rules for UserId
 	}
 
-	if m.UserName != nil {
-		// no validation rules for UserName
+	if m.Username != nil {
+		// no validation rules for Username
 	}
 
 	if m.ClientIp != nil {

@@ -190,16 +190,16 @@ func (aolc *AdminOperationLogCreate) SetNillableUserID(u *uint32) *AdminOperatio
 	return aolc
 }
 
-// SetUserName sets the "user_name" field.
-func (aolc *AdminOperationLogCreate) SetUserName(s string) *AdminOperationLogCreate {
-	aolc.mutation.SetUserName(s)
+// SetUsername sets the "username" field.
+func (aolc *AdminOperationLogCreate) SetUsername(s string) *AdminOperationLogCreate {
+	aolc.mutation.SetUsername(s)
 	return aolc
 }
 
-// SetNillableUserName sets the "user_name" field if the given value is not nil.
-func (aolc *AdminOperationLogCreate) SetNillableUserName(s *string) *AdminOperationLogCreate {
+// SetNillableUsername sets the "username" field if the given value is not nil.
+func (aolc *AdminOperationLogCreate) SetNillableUsername(s *string) *AdminOperationLogCreate {
 	if s != nil {
-		aolc.SetUserName(*s)
+		aolc.SetUsername(*s)
 	}
 	return aolc
 }
@@ -498,9 +498,9 @@ func (aolc *AdminOperationLogCreate) createSpec() (*AdminOperationLog, *sqlgraph
 		_spec.SetField(adminoperationlog.FieldUserID, field.TypeUint32, value)
 		_node.UserID = &value
 	}
-	if value, ok := aolc.mutation.UserName(); ok {
-		_spec.SetField(adminoperationlog.FieldUserName, field.TypeString, value)
-		_node.UserName = &value
+	if value, ok := aolc.mutation.Username(); ok {
+		_spec.SetField(adminoperationlog.FieldUsername, field.TypeString, value)
+		_node.Username = &value
 	}
 	if value, ok := aolc.mutation.ClientIP(); ok {
 		_spec.SetField(adminoperationlog.FieldClientIP, field.TypeString, value)
@@ -812,21 +812,21 @@ func (u *AdminOperationLogUpsert) ClearUserID() *AdminOperationLogUpsert {
 	return u
 }
 
-// SetUserName sets the "user_name" field.
-func (u *AdminOperationLogUpsert) SetUserName(v string) *AdminOperationLogUpsert {
-	u.Set(adminoperationlog.FieldUserName, v)
+// SetUsername sets the "username" field.
+func (u *AdminOperationLogUpsert) SetUsername(v string) *AdminOperationLogUpsert {
+	u.Set(adminoperationlog.FieldUsername, v)
 	return u
 }
 
-// UpdateUserName sets the "user_name" field to the value that was provided on create.
-func (u *AdminOperationLogUpsert) UpdateUserName() *AdminOperationLogUpsert {
-	u.SetExcluded(adminoperationlog.FieldUserName)
+// UpdateUsername sets the "username" field to the value that was provided on create.
+func (u *AdminOperationLogUpsert) UpdateUsername() *AdminOperationLogUpsert {
+	u.SetExcluded(adminoperationlog.FieldUsername)
 	return u
 }
 
-// ClearUserName clears the value of the "user_name" field.
-func (u *AdminOperationLogUpsert) ClearUserName() *AdminOperationLogUpsert {
-	u.SetNull(adminoperationlog.FieldUserName)
+// ClearUsername clears the value of the "username" field.
+func (u *AdminOperationLogUpsert) ClearUsername() *AdminOperationLogUpsert {
+	u.SetNull(adminoperationlog.FieldUsername)
 	return u
 }
 
@@ -1348,24 +1348,24 @@ func (u *AdminOperationLogUpsertOne) ClearUserID() *AdminOperationLogUpsertOne {
 	})
 }
 
-// SetUserName sets the "user_name" field.
-func (u *AdminOperationLogUpsertOne) SetUserName(v string) *AdminOperationLogUpsertOne {
+// SetUsername sets the "username" field.
+func (u *AdminOperationLogUpsertOne) SetUsername(v string) *AdminOperationLogUpsertOne {
 	return u.Update(func(s *AdminOperationLogUpsert) {
-		s.SetUserName(v)
+		s.SetUsername(v)
 	})
 }
 
-// UpdateUserName sets the "user_name" field to the value that was provided on create.
-func (u *AdminOperationLogUpsertOne) UpdateUserName() *AdminOperationLogUpsertOne {
+// UpdateUsername sets the "username" field to the value that was provided on create.
+func (u *AdminOperationLogUpsertOne) UpdateUsername() *AdminOperationLogUpsertOne {
 	return u.Update(func(s *AdminOperationLogUpsert) {
-		s.UpdateUserName()
+		s.UpdateUsername()
 	})
 }
 
-// ClearUserName clears the value of the "user_name" field.
-func (u *AdminOperationLogUpsertOne) ClearUserName() *AdminOperationLogUpsertOne {
+// ClearUsername clears the value of the "username" field.
+func (u *AdminOperationLogUpsertOne) ClearUsername() *AdminOperationLogUpsertOne {
 	return u.Update(func(s *AdminOperationLogUpsert) {
-		s.ClearUserName()
+		s.ClearUsername()
 	})
 }
 
@@ -2089,24 +2089,24 @@ func (u *AdminOperationLogUpsertBulk) ClearUserID() *AdminOperationLogUpsertBulk
 	})
 }
 
-// SetUserName sets the "user_name" field.
-func (u *AdminOperationLogUpsertBulk) SetUserName(v string) *AdminOperationLogUpsertBulk {
+// SetUsername sets the "username" field.
+func (u *AdminOperationLogUpsertBulk) SetUsername(v string) *AdminOperationLogUpsertBulk {
 	return u.Update(func(s *AdminOperationLogUpsert) {
-		s.SetUserName(v)
+		s.SetUsername(v)
 	})
 }
 
-// UpdateUserName sets the "user_name" field to the value that was provided on create.
-func (u *AdminOperationLogUpsertBulk) UpdateUserName() *AdminOperationLogUpsertBulk {
+// UpdateUsername sets the "username" field to the value that was provided on create.
+func (u *AdminOperationLogUpsertBulk) UpdateUsername() *AdminOperationLogUpsertBulk {
 	return u.Update(func(s *AdminOperationLogUpsert) {
-		s.UpdateUserName()
+		s.UpdateUsername()
 	})
 }
 
-// ClearUserName clears the value of the "user_name" field.
-func (u *AdminOperationLogUpsertBulk) ClearUserName() *AdminOperationLogUpsertBulk {
+// ClearUsername clears the value of the "username" field.
+func (u *AdminOperationLogUpsertBulk) ClearUsername() *AdminOperationLogUpsertBulk {
 	return u.Update(func(s *AdminOperationLogUpsert) {
-		s.ClearUserName()
+		s.ClearUsername()
 	})
 }
 

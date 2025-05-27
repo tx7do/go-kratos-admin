@@ -81,7 +81,7 @@ type AdminLoginLogMutation struct {
 	os_version      *string
 	user_id         *uint32
 	adduser_id      *int32
-	user_name       *string
+	username        *string
 	status_code     *int32
 	addstatus_code  *int32
 	success         *bool
@@ -806,53 +806,53 @@ func (m *AdminLoginLogMutation) ResetUserID() {
 	delete(m.clearedFields, adminloginlog.FieldUserID)
 }
 
-// SetUserName sets the "user_name" field.
-func (m *AdminLoginLogMutation) SetUserName(s string) {
-	m.user_name = &s
+// SetUsername sets the "username" field.
+func (m *AdminLoginLogMutation) SetUsername(s string) {
+	m.username = &s
 }
 
-// UserName returns the value of the "user_name" field in the mutation.
-func (m *AdminLoginLogMutation) UserName() (r string, exists bool) {
-	v := m.user_name
+// Username returns the value of the "username" field in the mutation.
+func (m *AdminLoginLogMutation) Username() (r string, exists bool) {
+	v := m.username
 	if v == nil {
 		return
 	}
 	return *v, true
 }
 
-// OldUserName returns the old "user_name" field's value of the AdminLoginLog entity.
+// OldUsername returns the old "username" field's value of the AdminLoginLog entity.
 // If the AdminLoginLog object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *AdminLoginLogMutation) OldUserName(ctx context.Context) (v *string, err error) {
+func (m *AdminLoginLogMutation) OldUsername(ctx context.Context) (v *string, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldUserName is only allowed on UpdateOne operations")
+		return v, errors.New("OldUsername is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldUserName requires an ID field in the mutation")
+		return v, errors.New("OldUsername requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
-		return v, fmt.Errorf("querying old value for OldUserName: %w", err)
+		return v, fmt.Errorf("querying old value for OldUsername: %w", err)
 	}
-	return oldValue.UserName, nil
+	return oldValue.Username, nil
 }
 
-// ClearUserName clears the value of the "user_name" field.
-func (m *AdminLoginLogMutation) ClearUserName() {
-	m.user_name = nil
-	m.clearedFields[adminloginlog.FieldUserName] = struct{}{}
+// ClearUsername clears the value of the "username" field.
+func (m *AdminLoginLogMutation) ClearUsername() {
+	m.username = nil
+	m.clearedFields[adminloginlog.FieldUsername] = struct{}{}
 }
 
-// UserNameCleared returns if the "user_name" field was cleared in this mutation.
-func (m *AdminLoginLogMutation) UserNameCleared() bool {
-	_, ok := m.clearedFields[adminloginlog.FieldUserName]
+// UsernameCleared returns if the "username" field was cleared in this mutation.
+func (m *AdminLoginLogMutation) UsernameCleared() bool {
+	_, ok := m.clearedFields[adminloginlog.FieldUsername]
 	return ok
 }
 
-// ResetUserName resets all changes to the "user_name" field.
-func (m *AdminLoginLogMutation) ResetUserName() {
-	m.user_name = nil
-	delete(m.clearedFields, adminloginlog.FieldUserName)
+// ResetUsername resets all changes to the "username" field.
+func (m *AdminLoginLogMutation) ResetUsername() {
+	m.username = nil
+	delete(m.clearedFields, adminloginlog.FieldUsername)
 }
 
 // SetStatusCode sets the "status_code" field.
@@ -1143,8 +1143,8 @@ func (m *AdminLoginLogMutation) Fields() []string {
 	if m.user_id != nil {
 		fields = append(fields, adminloginlog.FieldUserID)
 	}
-	if m.user_name != nil {
-		fields = append(fields, adminloginlog.FieldUserName)
+	if m.username != nil {
+		fields = append(fields, adminloginlog.FieldUsername)
 	}
 	if m.status_code != nil {
 		fields = append(fields, adminloginlog.FieldStatusCode)
@@ -1190,8 +1190,8 @@ func (m *AdminLoginLogMutation) Field(name string) (ent.Value, bool) {
 		return m.OsVersion()
 	case adminloginlog.FieldUserID:
 		return m.UserID()
-	case adminloginlog.FieldUserName:
-		return m.UserName()
+	case adminloginlog.FieldUsername:
+		return m.Username()
 	case adminloginlog.FieldStatusCode:
 		return m.StatusCode()
 	case adminloginlog.FieldSuccess:
@@ -1233,8 +1233,8 @@ func (m *AdminLoginLogMutation) OldField(ctx context.Context, name string) (ent.
 		return m.OldOsVersion(ctx)
 	case adminloginlog.FieldUserID:
 		return m.OldUserID(ctx)
-	case adminloginlog.FieldUserName:
-		return m.OldUserName(ctx)
+	case adminloginlog.FieldUsername:
+		return m.OldUsername(ctx)
 	case adminloginlog.FieldStatusCode:
 		return m.OldStatusCode(ctx)
 	case adminloginlog.FieldSuccess:
@@ -1336,12 +1336,12 @@ func (m *AdminLoginLogMutation) SetField(name string, value ent.Value) error {
 		}
 		m.SetUserID(v)
 		return nil
-	case adminloginlog.FieldUserName:
+	case adminloginlog.FieldUsername:
 		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
-		m.SetUserName(v)
+		m.SetUsername(v)
 		return nil
 	case adminloginlog.FieldStatusCode:
 		v, ok := value.(int32)
@@ -1464,8 +1464,8 @@ func (m *AdminLoginLogMutation) ClearedFields() []string {
 	if m.FieldCleared(adminloginlog.FieldUserID) {
 		fields = append(fields, adminloginlog.FieldUserID)
 	}
-	if m.FieldCleared(adminloginlog.FieldUserName) {
-		fields = append(fields, adminloginlog.FieldUserName)
+	if m.FieldCleared(adminloginlog.FieldUsername) {
+		fields = append(fields, adminloginlog.FieldUsername)
 	}
 	if m.FieldCleared(adminloginlog.FieldStatusCode) {
 		fields = append(fields, adminloginlog.FieldStatusCode)
@@ -1529,8 +1529,8 @@ func (m *AdminLoginLogMutation) ClearField(name string) error {
 	case adminloginlog.FieldUserID:
 		m.ClearUserID()
 		return nil
-	case adminloginlog.FieldUserName:
-		m.ClearUserName()
+	case adminloginlog.FieldUsername:
+		m.ClearUsername()
 		return nil
 	case adminloginlog.FieldStatusCode:
 		m.ClearStatusCode()
@@ -1588,8 +1588,8 @@ func (m *AdminLoginLogMutation) ResetField(name string) error {
 	case adminloginlog.FieldUserID:
 		m.ResetUserID()
 		return nil
-	case adminloginlog.FieldUserName:
-		m.ResetUserName()
+	case adminloginlog.FieldUsername:
+		m.ResetUsername()
 		return nil
 	case adminloginlog.FieldStatusCode:
 		m.ResetStatusCode()
@@ -2791,7 +2791,7 @@ type AdminOperationLogMutation struct {
 	addcost_time    *float64
 	user_id         *uint32
 	adduser_id      *int32
-	user_name       *string
+	username        *string
 	client_ip       *string
 	status_code     *int32
 	addstatus_code  *int32
@@ -3545,53 +3545,53 @@ func (m *AdminOperationLogMutation) ResetUserID() {
 	delete(m.clearedFields, adminoperationlog.FieldUserID)
 }
 
-// SetUserName sets the "user_name" field.
-func (m *AdminOperationLogMutation) SetUserName(s string) {
-	m.user_name = &s
+// SetUsername sets the "username" field.
+func (m *AdminOperationLogMutation) SetUsername(s string) {
+	m.username = &s
 }
 
-// UserName returns the value of the "user_name" field in the mutation.
-func (m *AdminOperationLogMutation) UserName() (r string, exists bool) {
-	v := m.user_name
+// Username returns the value of the "username" field in the mutation.
+func (m *AdminOperationLogMutation) Username() (r string, exists bool) {
+	v := m.username
 	if v == nil {
 		return
 	}
 	return *v, true
 }
 
-// OldUserName returns the old "user_name" field's value of the AdminOperationLog entity.
+// OldUsername returns the old "username" field's value of the AdminOperationLog entity.
 // If the AdminOperationLog object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *AdminOperationLogMutation) OldUserName(ctx context.Context) (v *string, err error) {
+func (m *AdminOperationLogMutation) OldUsername(ctx context.Context) (v *string, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldUserName is only allowed on UpdateOne operations")
+		return v, errors.New("OldUsername is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldUserName requires an ID field in the mutation")
+		return v, errors.New("OldUsername requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
-		return v, fmt.Errorf("querying old value for OldUserName: %w", err)
+		return v, fmt.Errorf("querying old value for OldUsername: %w", err)
 	}
-	return oldValue.UserName, nil
+	return oldValue.Username, nil
 }
 
-// ClearUserName clears the value of the "user_name" field.
-func (m *AdminOperationLogMutation) ClearUserName() {
-	m.user_name = nil
-	m.clearedFields[adminoperationlog.FieldUserName] = struct{}{}
+// ClearUsername clears the value of the "username" field.
+func (m *AdminOperationLogMutation) ClearUsername() {
+	m.username = nil
+	m.clearedFields[adminoperationlog.FieldUsername] = struct{}{}
 }
 
-// UserNameCleared returns if the "user_name" field was cleared in this mutation.
-func (m *AdminOperationLogMutation) UserNameCleared() bool {
-	_, ok := m.clearedFields[adminoperationlog.FieldUserName]
+// UsernameCleared returns if the "username" field was cleared in this mutation.
+func (m *AdminOperationLogMutation) UsernameCleared() bool {
+	_, ok := m.clearedFields[adminoperationlog.FieldUsername]
 	return ok
 }
 
-// ResetUserName resets all changes to the "user_name" field.
-func (m *AdminOperationLogMutation) ResetUserName() {
-	m.user_name = nil
-	delete(m.clearedFields, adminoperationlog.FieldUserName)
+// ResetUsername resets all changes to the "username" field.
+func (m *AdminOperationLogMutation) ResetUsername() {
+	m.username = nil
+	delete(m.clearedFields, adminoperationlog.FieldUsername)
 }
 
 // SetClientIP sets the "client_ip" field.
@@ -4274,8 +4274,8 @@ func (m *AdminOperationLogMutation) Fields() []string {
 	if m.user_id != nil {
 		fields = append(fields, adminoperationlog.FieldUserID)
 	}
-	if m.user_name != nil {
-		fields = append(fields, adminoperationlog.FieldUserName)
+	if m.username != nil {
+		fields = append(fields, adminoperationlog.FieldUsername)
 	}
 	if m.client_ip != nil {
 		fields = append(fields, adminoperationlog.FieldClientIP)
@@ -4345,8 +4345,8 @@ func (m *AdminOperationLogMutation) Field(name string) (ent.Value, bool) {
 		return m.CostTime()
 	case adminoperationlog.FieldUserID:
 		return m.UserID()
-	case adminoperationlog.FieldUserName:
-		return m.UserName()
+	case adminoperationlog.FieldUsername:
+		return m.Username()
 	case adminoperationlog.FieldClientIP:
 		return m.ClientIP()
 	case adminoperationlog.FieldStatusCode:
@@ -4404,8 +4404,8 @@ func (m *AdminOperationLogMutation) OldField(ctx context.Context, name string) (
 		return m.OldCostTime(ctx)
 	case adminoperationlog.FieldUserID:
 		return m.OldUserID(ctx)
-	case adminoperationlog.FieldUserName:
-		return m.OldUserName(ctx)
+	case adminoperationlog.FieldUsername:
+		return m.OldUsername(ctx)
 	case adminoperationlog.FieldClientIP:
 		return m.OldClientIP(ctx)
 	case adminoperationlog.FieldStatusCode:
@@ -4523,12 +4523,12 @@ func (m *AdminOperationLogMutation) SetField(name string, value ent.Value) error
 		}
 		m.SetUserID(v)
 		return nil
-	case adminoperationlog.FieldUserName:
+	case adminoperationlog.FieldUsername:
 		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
-		m.SetUserName(v)
+		m.SetUsername(v)
 		return nil
 	case adminoperationlog.FieldClientIP:
 		v, ok := value.(string)
@@ -4719,8 +4719,8 @@ func (m *AdminOperationLogMutation) ClearedFields() []string {
 	if m.FieldCleared(adminoperationlog.FieldUserID) {
 		fields = append(fields, adminoperationlog.FieldUserID)
 	}
-	if m.FieldCleared(adminoperationlog.FieldUserName) {
-		fields = append(fields, adminoperationlog.FieldUserName)
+	if m.FieldCleared(adminoperationlog.FieldUsername) {
+		fields = append(fields, adminoperationlog.FieldUsername)
 	}
 	if m.FieldCleared(adminoperationlog.FieldClientIP) {
 		fields = append(fields, adminoperationlog.FieldClientIP)
@@ -4808,8 +4808,8 @@ func (m *AdminOperationLogMutation) ClearField(name string) error {
 	case adminoperationlog.FieldUserID:
 		m.ClearUserID()
 		return nil
-	case adminoperationlog.FieldUserName:
-		m.ClearUserName()
+	case adminoperationlog.FieldUsername:
+		m.ClearUsername()
 		return nil
 	case adminoperationlog.FieldClientIP:
 		m.ClearClientIP()
@@ -4891,8 +4891,8 @@ func (m *AdminOperationLogMutation) ResetField(name string) error {
 	case adminoperationlog.FieldUserID:
 		m.ResetUserID()
 		return nil
-	case adminoperationlog.FieldUserName:
-		m.ResetUserName()
+	case adminoperationlog.FieldUsername:
+		m.ResetUsername()
 		return nil
 	case adminoperationlog.FieldClientIP:
 		m.ResetClientIP()

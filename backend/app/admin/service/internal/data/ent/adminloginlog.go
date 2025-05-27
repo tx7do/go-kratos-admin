@@ -43,7 +43,7 @@ type AdminLoginLog struct {
 	// 操作者用户ID
 	UserID *uint32 `json:"user_id,omitempty"`
 	// 操作者账号名
-	UserName *string `json:"user_name,omitempty"`
+	Username *string `json:"username,omitempty"`
 	// 状态码
 	StatusCode *int32 `json:"status_code,omitempty"`
 	// 操作成功
@@ -64,7 +64,7 @@ func (*AdminLoginLog) scanValues(columns []string) ([]any, error) {
 			values[i] = new(sql.NullBool)
 		case adminloginlog.FieldID, adminloginlog.FieldUserID, adminloginlog.FieldStatusCode:
 			values[i] = new(sql.NullInt64)
-		case adminloginlog.FieldLoginIP, adminloginlog.FieldLoginMAC, adminloginlog.FieldUserAgent, adminloginlog.FieldBrowserName, adminloginlog.FieldBrowserVersion, adminloginlog.FieldClientID, adminloginlog.FieldClientName, adminloginlog.FieldOsName, adminloginlog.FieldOsVersion, adminloginlog.FieldUserName, adminloginlog.FieldReason, adminloginlog.FieldLocation:
+		case adminloginlog.FieldLoginIP, adminloginlog.FieldLoginMAC, adminloginlog.FieldUserAgent, adminloginlog.FieldBrowserName, adminloginlog.FieldBrowserVersion, adminloginlog.FieldClientID, adminloginlog.FieldClientName, adminloginlog.FieldOsName, adminloginlog.FieldOsVersion, adminloginlog.FieldUsername, adminloginlog.FieldReason, adminloginlog.FieldLocation:
 			values[i] = new(sql.NullString)
 		case adminloginlog.FieldCreateTime, adminloginlog.FieldLoginTime:
 			values[i] = new(sql.NullTime)
@@ -173,12 +173,12 @@ func (all *AdminLoginLog) assignValues(columns []string, values []any) error {
 				all.UserID = new(uint32)
 				*all.UserID = uint32(value.Int64)
 			}
-		case adminloginlog.FieldUserName:
+		case adminloginlog.FieldUsername:
 			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field user_name", values[i])
+				return fmt.Errorf("unexpected type %T for field username", values[i])
 			} else if value.Valid {
-				all.UserName = new(string)
-				*all.UserName = value.String
+				all.Username = new(string)
+				*all.Username = value.String
 			}
 		case adminloginlog.FieldStatusCode:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
@@ -304,8 +304,8 @@ func (all *AdminLoginLog) String() string {
 		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteString(", ")
-	if v := all.UserName; v != nil {
-		builder.WriteString("user_name=")
+	if v := all.Username; v != nil {
+		builder.WriteString("username=")
 		builder.WriteString(*v)
 	}
 	builder.WriteString(", ")

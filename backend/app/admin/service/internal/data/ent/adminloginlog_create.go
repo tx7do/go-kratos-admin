@@ -190,16 +190,16 @@ func (allc *AdminLoginLogCreate) SetNillableUserID(u *uint32) *AdminLoginLogCrea
 	return allc
 }
 
-// SetUserName sets the "user_name" field.
-func (allc *AdminLoginLogCreate) SetUserName(s string) *AdminLoginLogCreate {
-	allc.mutation.SetUserName(s)
+// SetUsername sets the "username" field.
+func (allc *AdminLoginLogCreate) SetUsername(s string) *AdminLoginLogCreate {
+	allc.mutation.SetUsername(s)
 	return allc
 }
 
-// SetNillableUserName sets the "user_name" field if the given value is not nil.
-func (allc *AdminLoginLogCreate) SetNillableUserName(s *string) *AdminLoginLogCreate {
+// SetNillableUsername sets the "username" field if the given value is not nil.
+func (allc *AdminLoginLogCreate) SetNillableUsername(s *string) *AdminLoginLogCreate {
 	if s != nil {
-		allc.SetUserName(*s)
+		allc.SetUsername(*s)
 	}
 	return allc
 }
@@ -386,9 +386,9 @@ func (allc *AdminLoginLogCreate) createSpec() (*AdminLoginLog, *sqlgraph.CreateS
 		_spec.SetField(adminloginlog.FieldUserID, field.TypeUint32, value)
 		_node.UserID = &value
 	}
-	if value, ok := allc.mutation.UserName(); ok {
-		_spec.SetField(adminloginlog.FieldUserName, field.TypeString, value)
-		_node.UserName = &value
+	if value, ok := allc.mutation.Username(); ok {
+		_spec.SetField(adminloginlog.FieldUsername, field.TypeString, value)
+		_node.Username = &value
 	}
 	if value, ok := allc.mutation.StatusCode(); ok {
 		_spec.SetField(adminloginlog.FieldStatusCode, field.TypeInt32, value)
@@ -662,21 +662,21 @@ func (u *AdminLoginLogUpsert) ClearUserID() *AdminLoginLogUpsert {
 	return u
 }
 
-// SetUserName sets the "user_name" field.
-func (u *AdminLoginLogUpsert) SetUserName(v string) *AdminLoginLogUpsert {
-	u.Set(adminloginlog.FieldUserName, v)
+// SetUsername sets the "username" field.
+func (u *AdminLoginLogUpsert) SetUsername(v string) *AdminLoginLogUpsert {
+	u.Set(adminloginlog.FieldUsername, v)
 	return u
 }
 
-// UpdateUserName sets the "user_name" field to the value that was provided on create.
-func (u *AdminLoginLogUpsert) UpdateUserName() *AdminLoginLogUpsert {
-	u.SetExcluded(adminloginlog.FieldUserName)
+// UpdateUsername sets the "username" field to the value that was provided on create.
+func (u *AdminLoginLogUpsert) UpdateUsername() *AdminLoginLogUpsert {
+	u.SetExcluded(adminloginlog.FieldUsername)
 	return u
 }
 
-// ClearUserName clears the value of the "user_name" field.
-func (u *AdminLoginLogUpsert) ClearUserName() *AdminLoginLogUpsert {
-	u.SetNull(adminloginlog.FieldUserName)
+// ClearUsername clears the value of the "username" field.
+func (u *AdminLoginLogUpsert) ClearUsername() *AdminLoginLogUpsert {
+	u.SetNull(adminloginlog.FieldUsername)
 	return u
 }
 
@@ -1047,24 +1047,24 @@ func (u *AdminLoginLogUpsertOne) ClearUserID() *AdminLoginLogUpsertOne {
 	})
 }
 
-// SetUserName sets the "user_name" field.
-func (u *AdminLoginLogUpsertOne) SetUserName(v string) *AdminLoginLogUpsertOne {
+// SetUsername sets the "username" field.
+func (u *AdminLoginLogUpsertOne) SetUsername(v string) *AdminLoginLogUpsertOne {
 	return u.Update(func(s *AdminLoginLogUpsert) {
-		s.SetUserName(v)
+		s.SetUsername(v)
 	})
 }
 
-// UpdateUserName sets the "user_name" field to the value that was provided on create.
-func (u *AdminLoginLogUpsertOne) UpdateUserName() *AdminLoginLogUpsertOne {
+// UpdateUsername sets the "username" field to the value that was provided on create.
+func (u *AdminLoginLogUpsertOne) UpdateUsername() *AdminLoginLogUpsertOne {
 	return u.Update(func(s *AdminLoginLogUpsert) {
-		s.UpdateUserName()
+		s.UpdateUsername()
 	})
 }
 
-// ClearUserName clears the value of the "user_name" field.
-func (u *AdminLoginLogUpsertOne) ClearUserName() *AdminLoginLogUpsertOne {
+// ClearUsername clears the value of the "username" field.
+func (u *AdminLoginLogUpsertOne) ClearUsername() *AdminLoginLogUpsertOne {
 	return u.Update(func(s *AdminLoginLogUpsert) {
-		s.ClearUserName()
+		s.ClearUsername()
 	})
 }
 
@@ -1613,24 +1613,24 @@ func (u *AdminLoginLogUpsertBulk) ClearUserID() *AdminLoginLogUpsertBulk {
 	})
 }
 
-// SetUserName sets the "user_name" field.
-func (u *AdminLoginLogUpsertBulk) SetUserName(v string) *AdminLoginLogUpsertBulk {
+// SetUsername sets the "username" field.
+func (u *AdminLoginLogUpsertBulk) SetUsername(v string) *AdminLoginLogUpsertBulk {
 	return u.Update(func(s *AdminLoginLogUpsert) {
-		s.SetUserName(v)
+		s.SetUsername(v)
 	})
 }
 
-// UpdateUserName sets the "user_name" field to the value that was provided on create.
-func (u *AdminLoginLogUpsertBulk) UpdateUserName() *AdminLoginLogUpsertBulk {
+// UpdateUsername sets the "username" field to the value that was provided on create.
+func (u *AdminLoginLogUpsertBulk) UpdateUsername() *AdminLoginLogUpsertBulk {
 	return u.Update(func(s *AdminLoginLogUpsert) {
-		s.UpdateUserName()
+		s.UpdateUsername()
 	})
 }
 
-// ClearUserName clears the value of the "user_name" field.
-func (u *AdminLoginLogUpsertBulk) ClearUserName() *AdminLoginLogUpsertBulk {
+// ClearUsername clears the value of the "username" field.
+func (u *AdminLoginLogUpsertBulk) ClearUsername() *AdminLoginLogUpsertBulk {
 	return u.Update(func(s *AdminLoginLogUpsert) {
-		s.ClearUserName()
+		s.ClearUsername()
 	})
 }
 

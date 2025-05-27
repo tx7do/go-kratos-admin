@@ -88,7 +88,7 @@ func fillLoginLog(htr *http.Transport) *adminV1.AdminLoginLog {
 	loginLogData.Location = trans.Ptr(clientIpToLocation(clientIp))
 
 	if username, err := BindLoginRequest(htr.Request()); err == nil {
-		loginLogData.UserName = trans.Ptr(username)
+		loginLogData.Username = trans.Ptr(username)
 	}
 
 	// 获取客户端ID
@@ -143,7 +143,7 @@ func fillOperationLog(htr *http.Transport) *adminV1.AdminOperationLog {
 	ut := extractAuthToken(htr)
 	if ut != nil {
 		operationLogData.UserId = trans.Ptr(ut.UserId)
-		operationLogData.UserName = trans.Ptr(ut.Username)
+		operationLogData.Username = trans.Ptr(ut.Username)
 	}
 
 	// 获取客户端ID

@@ -35,8 +35,8 @@ const (
 	FieldOsVersion = "os_version"
 	// FieldUserID holds the string denoting the user_id field in the database.
 	FieldUserID = "user_id"
-	// FieldUserName holds the string denoting the user_name field in the database.
-	FieldUserName = "user_name"
+	// FieldUsername holds the string denoting the username field in the database.
+	FieldUsername = "username"
 	// FieldStatusCode holds the string denoting the status_code field in the database.
 	FieldStatusCode = "status_code"
 	// FieldSuccess holds the string denoting the success field in the database.
@@ -64,7 +64,7 @@ var Columns = []string{
 	FieldOsName,
 	FieldOsVersion,
 	FieldUserID,
-	FieldUserName,
+	FieldUsername,
 	FieldStatusCode,
 	FieldSuccess,
 	FieldReason,
@@ -154,9 +154,9 @@ func ByUserID(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldUserID, opts...).ToFunc()
 }
 
-// ByUserName orders the results by the user_name field.
-func ByUserName(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldUserName, opts...).ToFunc()
+// ByUsername orders the results by the username field.
+func ByUsername(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldUsername, opts...).ToFunc()
 }
 
 // ByStatusCode orders the results by the status_code field.

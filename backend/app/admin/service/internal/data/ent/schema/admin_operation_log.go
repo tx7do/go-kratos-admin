@@ -83,7 +83,7 @@ func (AdminOperationLog) Fields() []ent.Field {
 			Optional().
 			Nillable(),
 
-		field.String("user_name").
+		field.String("username").
 			Comment("操作者账号名").
 			Optional().
 			Nillable(),

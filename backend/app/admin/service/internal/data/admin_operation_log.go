@@ -191,7 +191,7 @@ func (r *AdminOperationLogRepo) Create(ctx context.Context, req *adminV1.CreateA
 		SetNillableResponse(req.Data.Response).
 		SetNillableCostTime(timeutil.DurationpbToSecond(req.Data.CostTime)).
 		SetNillableUserID(req.Data.UserId).
-		SetNillableUserName(req.Data.UserName).
+		SetNillableUsername(req.Data.Username).
 		SetNillableClientIP(req.Data.ClientIp).
 		SetNillableUserAgent(req.Data.UserAgent).
 		SetNillableBrowserName(req.Data.BrowserName).

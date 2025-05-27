@@ -15,7 +15,7 @@ func TestNewUserTokenPayload(t *testing.T) {
 	user := userV1.User{
 		Id:        trans.Ptr(uint32(1)),
 		TenantId:  trans.Ptr(uint32(2)),
-		UserName:  trans.Ptr("test_user"),
+		Username:  trans.Ptr("test_user"),
 		Authority: trans.Ptr(userV1.UserAuthority_TENANT_ADMIN),
 	}
 
@@ -23,7 +23,7 @@ func TestNewUserTokenPayload(t *testing.T) {
 
 	assert.Equal(t, user.GetTenantId(), payload.GetTenantId())
 	assert.Equal(t, user.GetId(), payload.GetUserId())
-	assert.Equal(t, user.GetUserName(), payload.GetUsername())
+	assert.Equal(t, user.GetUsername(), payload.GetUsername())
 	assert.Equal(t, user.GetAuthority(), payload.GetAuthority())
 	assert.Equal(t, clientId, payload.ClientId)
 }
@@ -33,13 +33,13 @@ func TestMakeAuthClaims(t *testing.T) {
 	user := userV1.User{
 		Id:        trans.Ptr(uint32(1)),
 		TenantId:  trans.Ptr(uint32(2)),
-		UserName:  trans.Ptr("test_user"),
+		Username:  trans.Ptr("test_user"),
 		Authority: trans.Ptr(userV1.UserAuthority_TENANT_ADMIN),
 	}
 
 	claims := NewUserTokenAuthClaims(&user, clientId)
 
-	assert.Equal(t, user.GetUserName(), (*claims)[authn.ClaimFieldSubject])
+	assert.Equal(t, user.GetUsername(), (*claims)[authn.ClaimFieldSubject])
 	assert.Equal(t, user.GetId(), (*claims)[ClaimFieldUserID])
 	assert.Equal(t, user.GetTenantId(), (*claims)[ClaimFieldTenantID])
 	assert.Equal(t, clientId, (*claims)[ClaimFieldClientID])
@@ -51,12 +51,12 @@ func TestExtractAuthClaims(t *testing.T) {
 	user := userV1.User{
 		Id:        trans.Ptr(uint32(1)),
 		TenantId:  trans.Ptr(uint32(2)),
-		UserName:  trans.Ptr("test_user"),
+		Username:  trans.Ptr("test_user"),
 		Authority: trans.Ptr(userV1.UserAuthority_TENANT_ADMIN),
 	}
 
 	claims := &authn.AuthClaims{
-		authn.ClaimFieldSubject: user.GetUserName(),
+		authn.ClaimFieldSubject: user.GetUsername(),
 		ClaimFieldUserID:        user.GetId(),
 		ClaimFieldTenantID:      user.GetTenantId(),
 		ClaimFieldClientID:      clientId,
@@ -65,7 +65,7 @@ func TestExtractAuthClaims(t *testing.T) {
 
 	payload, err := NewUserTokenPayloadWithClaims(claims)
 	assert.NoError(t, err)
-	assert.Equal(t, user.GetUserName(), payload.GetUsername())
+	assert.Equal(t, user.GetUsername(), payload.GetUsername())
 	assert.Equal(t, user.GetId(), payload.GetUserId())
 	assert.Equal(t, user.GetTenantId(), payload.GetTenantId())
 	assert.Equal(t, clientId, payload.GetClientId())

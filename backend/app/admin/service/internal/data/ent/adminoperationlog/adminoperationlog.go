@@ -35,8 +35,8 @@ const (
 	FieldCostTime = "cost_time"
 	// FieldUserID holds the string denoting the user_id field in the database.
 	FieldUserID = "user_id"
-	// FieldUserName holds the string denoting the user_name field in the database.
-	FieldUserName = "user_name"
+	// FieldUsername holds the string denoting the username field in the database.
+	FieldUsername = "username"
 	// FieldClientIP holds the string denoting the client_ip field in the database.
 	FieldClientIP = "client_ip"
 	// FieldStatusCode holds the string denoting the status_code field in the database.
@@ -80,7 +80,7 @@ var Columns = []string{
 	FieldResponse,
 	FieldCostTime,
 	FieldUserID,
-	FieldUserName,
+	FieldUsername,
 	FieldClientIP,
 	FieldStatusCode,
 	FieldReason,
@@ -178,9 +178,9 @@ func ByUserID(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldUserID, opts...).ToFunc()
 }
 
-// ByUserName orders the results by the user_name field.
-func ByUserName(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldUserName, opts...).ToFunc()
+// ByUsername orders the results by the username field.
+func ByUsername(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldUsername, opts...).ToFunc()
 }
 
 // ByClientIP orders the results by the client_ip field.

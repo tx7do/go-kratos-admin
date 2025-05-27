@@ -256,23 +256,23 @@ func (allu *AdminLoginLogUpdate) ClearUserID() *AdminLoginLogUpdate {
 	return allu
 }
 
-// SetUserName sets the "user_name" field.
-func (allu *AdminLoginLogUpdate) SetUserName(s string) *AdminLoginLogUpdate {
-	allu.mutation.SetUserName(s)
+// SetUsername sets the "username" field.
+func (allu *AdminLoginLogUpdate) SetUsername(s string) *AdminLoginLogUpdate {
+	allu.mutation.SetUsername(s)
 	return allu
 }
 
-// SetNillableUserName sets the "user_name" field if the given value is not nil.
-func (allu *AdminLoginLogUpdate) SetNillableUserName(s *string) *AdminLoginLogUpdate {
+// SetNillableUsername sets the "username" field if the given value is not nil.
+func (allu *AdminLoginLogUpdate) SetNillableUsername(s *string) *AdminLoginLogUpdate {
 	if s != nil {
-		allu.SetUserName(*s)
+		allu.SetUsername(*s)
 	}
 	return allu
 }
 
-// ClearUserName clears the value of the "user_name" field.
-func (allu *AdminLoginLogUpdate) ClearUserName() *AdminLoginLogUpdate {
-	allu.mutation.ClearUserName()
+// ClearUsername clears the value of the "username" field.
+func (allu *AdminLoginLogUpdate) ClearUsername() *AdminLoginLogUpdate {
+	allu.mutation.ClearUsername()
 	return allu
 }
 
@@ -482,11 +482,11 @@ func (allu *AdminLoginLogUpdate) sqlSave(ctx context.Context) (n int, err error)
 	if allu.mutation.UserIDCleared() {
 		_spec.ClearField(adminloginlog.FieldUserID, field.TypeUint32)
 	}
-	if value, ok := allu.mutation.UserName(); ok {
-		_spec.SetField(adminloginlog.FieldUserName, field.TypeString, value)
+	if value, ok := allu.mutation.Username(); ok {
+		_spec.SetField(adminloginlog.FieldUsername, field.TypeString, value)
 	}
-	if allu.mutation.UserNameCleared() {
-		_spec.ClearField(adminloginlog.FieldUserName, field.TypeString)
+	if allu.mutation.UsernameCleared() {
+		_spec.ClearField(adminloginlog.FieldUsername, field.TypeString)
 	}
 	if value, ok := allu.mutation.StatusCode(); ok {
 		_spec.SetField(adminloginlog.FieldStatusCode, field.TypeInt32, value)
@@ -764,23 +764,23 @@ func (alluo *AdminLoginLogUpdateOne) ClearUserID() *AdminLoginLogUpdateOne {
 	return alluo
 }
 
-// SetUserName sets the "user_name" field.
-func (alluo *AdminLoginLogUpdateOne) SetUserName(s string) *AdminLoginLogUpdateOne {
-	alluo.mutation.SetUserName(s)
+// SetUsername sets the "username" field.
+func (alluo *AdminLoginLogUpdateOne) SetUsername(s string) *AdminLoginLogUpdateOne {
+	alluo.mutation.SetUsername(s)
 	return alluo
 }
 
-// SetNillableUserName sets the "user_name" field if the given value is not nil.
-func (alluo *AdminLoginLogUpdateOne) SetNillableUserName(s *string) *AdminLoginLogUpdateOne {
+// SetNillableUsername sets the "username" field if the given value is not nil.
+func (alluo *AdminLoginLogUpdateOne) SetNillableUsername(s *string) *AdminLoginLogUpdateOne {
 	if s != nil {
-		alluo.SetUserName(*s)
+		alluo.SetUsername(*s)
 	}
 	return alluo
 }
 
-// ClearUserName clears the value of the "user_name" field.
-func (alluo *AdminLoginLogUpdateOne) ClearUserName() *AdminLoginLogUpdateOne {
-	alluo.mutation.ClearUserName()
+// ClearUsername clears the value of the "username" field.
+func (alluo *AdminLoginLogUpdateOne) ClearUsername() *AdminLoginLogUpdateOne {
+	alluo.mutation.ClearUsername()
 	return alluo
 }
 
@@ -1020,11 +1020,11 @@ func (alluo *AdminLoginLogUpdateOne) sqlSave(ctx context.Context) (_node *AdminL
 	if alluo.mutation.UserIDCleared() {
 		_spec.ClearField(adminloginlog.FieldUserID, field.TypeUint32)
 	}
-	if value, ok := alluo.mutation.UserName(); ok {
-		_spec.SetField(adminloginlog.FieldUserName, field.TypeString, value)
+	if value, ok := alluo.mutation.Username(); ok {
+		_spec.SetField(adminloginlog.FieldUsername, field.TypeString, value)
 	}
-	if alluo.mutation.UserNameCleared() {
-		_spec.ClearField(adminloginlog.FieldUserName, field.TypeString)
+	if alluo.mutation.UsernameCleared() {
+		_spec.ClearField(adminloginlog.FieldUsername, field.TypeString)
 	}
 	if value, ok := alluo.mutation.StatusCode(); ok {
 		_spec.SetField(adminloginlog.FieldStatusCode, field.TypeInt32, value)

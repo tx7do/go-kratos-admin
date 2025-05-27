@@ -30,7 +30,7 @@ var reSpaces = regexp.MustCompile(`\s+`)
 
 func TestUserFieldMask(t *testing.T) {
 	u := &userV1.User{
-		UserName: trans.String("UserName"),
+		Username: trans.String("UserName"),
 		RealName: trans.String("RealName"),
 		//Avatar:   trans.String("Avatar"),
 		Address: trans.String("Address"),
@@ -38,7 +38,7 @@ func TestUserFieldMask(t *testing.T) {
 
 	updateUserReq := &userV1.UpdateUserRequest{
 		Data: &userV1.User{
-			UserName: trans.String("UserName1"),
+			Username: trans.String("UserName1"),
 			RealName: trans.String("RealName1"),
 			//Avatar:   trans.String("Avatar1"),
 			Address: trans.String("Address1"),
@@ -63,11 +63,11 @@ func TestFilterReuseMask(t *testing.T) {
 	users := []*userV1.User{
 		{
 			Id:       trans.Ptr(uint32(1)),
-			UserName: trans.String("name 1"),
+			Username: trans.String("name 1"),
 		},
 		{
 			Id:       trans.Ptr(uint32(2)),
-			UserName: trans.String("name 2"),
+			Username: trans.String("name 2"),
 		},
 	}
 	// Create a mask only once and reuse it.
@@ -83,7 +83,7 @@ func TestFilterReuseMask(t *testing.T) {
 func TestNilValuePaths(t *testing.T) {
 	u := &userV1.User{
 		Id:       trans.Ptr(uint32(2)),
-		UserName: trans.String("name 2"),
+		Username: trans.String("name 2"),
 		//RealName: trans.String(""),
 	}
 	paths := []string{"userName", "realName", "positionId"}
@@ -95,7 +95,7 @@ func TestNilValuePaths(t *testing.T) {
 func TestMessageNil(t *testing.T) {
 	u := &userV1.User{
 		Id:       trans.Ptr(uint32(2)),
-		UserName: trans.String("name 2"),
+		Username: trans.String("name 2"),
 	}
 
 	pr := u.ProtoReflect()
@@ -163,7 +163,7 @@ func TestCopier(t *testing.T) {
 		entMsg.Status = trans.Ptr(user.StatusON)
 
 		_ = copier.Copy(&protoMsg, entMsg)
-		assert.Equal(t, protoMsg.GetUserName(), *entMsg.Username)
+		assert.Equal(t, protoMsg.GetUsername(), *entMsg.Username)
 		assert.Equal(t, protoMsg.GetNickName(), *entMsg.NickName)
 		assert.Equal(t, protoMsg.GetRealName(), *entMsg.RealName)
 		assert.Equal(t, protoMsg.GetEmail(), *entMsg.Email)
@@ -251,6 +251,6 @@ func TestCopier(t *testing.T) {
 			return
 		}
 
-		fmt.Println(protoMsg.GetUserName(), protoMsg.GetCreateTime())
+		fmt.Println(protoMsg.GetUsername(), protoMsg.GetCreateTime())
 	}
 }

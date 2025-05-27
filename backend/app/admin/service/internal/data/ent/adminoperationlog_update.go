@@ -262,23 +262,23 @@ func (aolu *AdminOperationLogUpdate) ClearUserID() *AdminOperationLogUpdate {
 	return aolu
 }
 
-// SetUserName sets the "user_name" field.
-func (aolu *AdminOperationLogUpdate) SetUserName(s string) *AdminOperationLogUpdate {
-	aolu.mutation.SetUserName(s)
+// SetUsername sets the "username" field.
+func (aolu *AdminOperationLogUpdate) SetUsername(s string) *AdminOperationLogUpdate {
+	aolu.mutation.SetUsername(s)
 	return aolu
 }
 
-// SetNillableUserName sets the "user_name" field if the given value is not nil.
-func (aolu *AdminOperationLogUpdate) SetNillableUserName(s *string) *AdminOperationLogUpdate {
+// SetNillableUsername sets the "username" field if the given value is not nil.
+func (aolu *AdminOperationLogUpdate) SetNillableUsername(s *string) *AdminOperationLogUpdate {
 	if s != nil {
-		aolu.SetUserName(*s)
+		aolu.SetUsername(*s)
 	}
 	return aolu
 }
 
-// ClearUserName clears the value of the "user_name" field.
-func (aolu *AdminOperationLogUpdate) ClearUserName() *AdminOperationLogUpdate {
-	aolu.mutation.ClearUserName()
+// ClearUsername clears the value of the "username" field.
+func (aolu *AdminOperationLogUpdate) ClearUsername() *AdminOperationLogUpdate {
+	aolu.mutation.ClearUsername()
 	return aolu
 }
 
@@ -651,11 +651,11 @@ func (aolu *AdminOperationLogUpdate) sqlSave(ctx context.Context) (n int, err er
 	if aolu.mutation.UserIDCleared() {
 		_spec.ClearField(adminoperationlog.FieldUserID, field.TypeUint32)
 	}
-	if value, ok := aolu.mutation.UserName(); ok {
-		_spec.SetField(adminoperationlog.FieldUserName, field.TypeString, value)
+	if value, ok := aolu.mutation.Username(); ok {
+		_spec.SetField(adminoperationlog.FieldUsername, field.TypeString, value)
 	}
-	if aolu.mutation.UserNameCleared() {
-		_spec.ClearField(adminoperationlog.FieldUserName, field.TypeString)
+	if aolu.mutation.UsernameCleared() {
+		_spec.ClearField(adminoperationlog.FieldUsername, field.TypeString)
 	}
 	if value, ok := aolu.mutation.ClientIP(); ok {
 		_spec.SetField(adminoperationlog.FieldClientIP, field.TypeString, value)
@@ -988,23 +988,23 @@ func (aoluo *AdminOperationLogUpdateOne) ClearUserID() *AdminOperationLogUpdateO
 	return aoluo
 }
 
-// SetUserName sets the "user_name" field.
-func (aoluo *AdminOperationLogUpdateOne) SetUserName(s string) *AdminOperationLogUpdateOne {
-	aoluo.mutation.SetUserName(s)
+// SetUsername sets the "username" field.
+func (aoluo *AdminOperationLogUpdateOne) SetUsername(s string) *AdminOperationLogUpdateOne {
+	aoluo.mutation.SetUsername(s)
 	return aoluo
 }
 
-// SetNillableUserName sets the "user_name" field if the given value is not nil.
-func (aoluo *AdminOperationLogUpdateOne) SetNillableUserName(s *string) *AdminOperationLogUpdateOne {
+// SetNillableUsername sets the "username" field if the given value is not nil.
+func (aoluo *AdminOperationLogUpdateOne) SetNillableUsername(s *string) *AdminOperationLogUpdateOne {
 	if s != nil {
-		aoluo.SetUserName(*s)
+		aoluo.SetUsername(*s)
 	}
 	return aoluo
 }
 
-// ClearUserName clears the value of the "user_name" field.
-func (aoluo *AdminOperationLogUpdateOne) ClearUserName() *AdminOperationLogUpdateOne {
-	aoluo.mutation.ClearUserName()
+// ClearUsername clears the value of the "username" field.
+func (aoluo *AdminOperationLogUpdateOne) ClearUsername() *AdminOperationLogUpdateOne {
+	aoluo.mutation.ClearUsername()
 	return aoluo
 }
 
@@ -1407,11 +1407,11 @@ func (aoluo *AdminOperationLogUpdateOne) sqlSave(ctx context.Context) (_node *Ad
 	if aoluo.mutation.UserIDCleared() {
 		_spec.ClearField(adminoperationlog.FieldUserID, field.TypeUint32)
 	}
-	if value, ok := aoluo.mutation.UserName(); ok {
-		_spec.SetField(adminoperationlog.FieldUserName, field.TypeString, value)
+	if value, ok := aoluo.mutation.Username(); ok {
+		_spec.SetField(adminoperationlog.FieldUsername, field.TypeString, value)
 	}
-	if aoluo.mutation.UserNameCleared() {
-		_spec.ClearField(adminoperationlog.FieldUserName, field.TypeString)
+	if aoluo.mutation.UsernameCleared() {
+		_spec.ClearField(adminoperationlog.FieldUsername, field.TypeString)
 	}
 	if value, ok := aoluo.mutation.ClientIP(); ok {
 		_spec.SetField(adminoperationlog.FieldClientIP, field.TypeString, value)

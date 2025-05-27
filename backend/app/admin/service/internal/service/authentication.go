@@ -206,7 +206,7 @@ func (s *AuthenticationService) RegisterUser(ctx context.Context, req *authentic
 	user, err := s.userRepo.Create(ctx, &userV1.CreateUserRequest{
 		Data: &userV1.User{
 			TenantId:  tenantId,
-			UserName:  trans.Ptr(req.Username),
+			Username:  trans.Ptr(req.Username),
 			Email:     req.Email,
 			Authority: trans.Ptr(userV1.UserAuthority_CUSTOMER_USER),
 			Status:    trans.Ptr(userV1.UserStatus_ON),

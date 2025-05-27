@@ -147,8 +147,8 @@ message AdminOperationLog {
     }
   ]; // 操作者用户ID
 
-  optional string user_name = 101 [
-    json_name = "userName",
+  optional string username = 101 [
+    json_name = "username",
     (gnostic.openapi.v3.property) = {
       description: "操作者账号名"
     }

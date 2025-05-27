@@ -163,43 +163,43 @@ func (uu *UserUpdate) ClearStatus() *UserUpdate {
 	return uu
 }
 
-// SetNickName sets the "nick_name" field.
-func (uu *UserUpdate) SetNickName(s string) *UserUpdate {
-	uu.mutation.SetNickName(s)
+// SetNickname sets the "nickname" field.
+func (uu *UserUpdate) SetNickname(s string) *UserUpdate {
+	uu.mutation.SetNickname(s)
 	return uu
 }
 
-// SetNillableNickName sets the "nick_name" field if the given value is not nil.
-func (uu *UserUpdate) SetNillableNickName(s *string) *UserUpdate {
+// SetNillableNickname sets the "nickname" field if the given value is not nil.
+func (uu *UserUpdate) SetNillableNickname(s *string) *UserUpdate {
 	if s != nil {
-		uu.SetNickName(*s)
+		uu.SetNickname(*s)
 	}
 	return uu
 }
 
-// ClearNickName clears the value of the "nick_name" field.
-func (uu *UserUpdate) ClearNickName() *UserUpdate {
-	uu.mutation.ClearNickName()
+// ClearNickname clears the value of the "nickname" field.
+func (uu *UserUpdate) ClearNickname() *UserUpdate {
+	uu.mutation.ClearNickname()
 	return uu
 }
 
-// SetRealName sets the "real_name" field.
-func (uu *UserUpdate) SetRealName(s string) *UserUpdate {
-	uu.mutation.SetRealName(s)
+// SetRealname sets the "realname" field.
+func (uu *UserUpdate) SetRealname(s string) *UserUpdate {
+	uu.mutation.SetRealname(s)
 	return uu
 }
 
-// SetNillableRealName sets the "real_name" field if the given value is not nil.
-func (uu *UserUpdate) SetNillableRealName(s *string) *UserUpdate {
+// SetNillableRealname sets the "realname" field if the given value is not nil.
+func (uu *UserUpdate) SetNillableRealname(s *string) *UserUpdate {
 	if s != nil {
-		uu.SetRealName(*s)
+		uu.SetRealname(*s)
 	}
 	return uu
 }
 
-// ClearRealName clears the value of the "real_name" field.
-func (uu *UserUpdate) ClearRealName() *UserUpdate {
-	uu.mutation.ClearRealName()
+// ClearRealname clears the value of the "realname" field.
+func (uu *UserUpdate) ClearRealname() *UserUpdate {
+	uu.mutation.ClearRealname()
 	return uu
 }
 
@@ -577,14 +577,14 @@ func (uu *UserUpdate) check() error {
 			return &ValidationError{Name: "status", err: fmt.Errorf(`ent: validator failed for field "User.status": %w`, err)}
 		}
 	}
-	if v, ok := uu.mutation.NickName(); ok {
-		if err := user.NickNameValidator(v); err != nil {
-			return &ValidationError{Name: "nick_name", err: fmt.Errorf(`ent: validator failed for field "User.nick_name": %w`, err)}
+	if v, ok := uu.mutation.Nickname(); ok {
+		if err := user.NicknameValidator(v); err != nil {
+			return &ValidationError{Name: "nickname", err: fmt.Errorf(`ent: validator failed for field "User.nickname": %w`, err)}
 		}
 	}
-	if v, ok := uu.mutation.RealName(); ok {
-		if err := user.RealNameValidator(v); err != nil {
-			return &ValidationError{Name: "real_name", err: fmt.Errorf(`ent: validator failed for field "User.real_name": %w`, err)}
+	if v, ok := uu.mutation.Realname(); ok {
+		if err := user.RealnameValidator(v); err != nil {
+			return &ValidationError{Name: "realname", err: fmt.Errorf(`ent: validator failed for field "User.realname": %w`, err)}
 		}
 	}
 	if v, ok := uu.mutation.Email(); ok {
@@ -709,17 +709,17 @@ func (uu *UserUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	if uu.mutation.UsernameCleared() {
 		_spec.ClearField(user.FieldUsername, field.TypeString)
 	}
-	if value, ok := uu.mutation.NickName(); ok {
-		_spec.SetField(user.FieldNickName, field.TypeString, value)
+	if value, ok := uu.mutation.Nickname(); ok {
+		_spec.SetField(user.FieldNickname, field.TypeString, value)
 	}
-	if uu.mutation.NickNameCleared() {
-		_spec.ClearField(user.FieldNickName, field.TypeString)
+	if uu.mutation.NicknameCleared() {
+		_spec.ClearField(user.FieldNickname, field.TypeString)
 	}
-	if value, ok := uu.mutation.RealName(); ok {
-		_spec.SetField(user.FieldRealName, field.TypeString, value)
+	if value, ok := uu.mutation.Realname(); ok {
+		_spec.SetField(user.FieldRealname, field.TypeString, value)
 	}
-	if uu.mutation.RealNameCleared() {
-		_spec.ClearField(user.FieldRealName, field.TypeString)
+	if uu.mutation.RealnameCleared() {
+		_spec.ClearField(user.FieldRealname, field.TypeString)
 	}
 	if value, ok := uu.mutation.Email(); ok {
 		_spec.SetField(user.FieldEmail, field.TypeString, value)
@@ -982,43 +982,43 @@ func (uuo *UserUpdateOne) ClearStatus() *UserUpdateOne {
 	return uuo
 }
 
-// SetNickName sets the "nick_name" field.
-func (uuo *UserUpdateOne) SetNickName(s string) *UserUpdateOne {
-	uuo.mutation.SetNickName(s)
+// SetNickname sets the "nickname" field.
+func (uuo *UserUpdateOne) SetNickname(s string) *UserUpdateOne {
+	uuo.mutation.SetNickname(s)
 	return uuo
 }
 
-// SetNillableNickName sets the "nick_name" field if the given value is not nil.
-func (uuo *UserUpdateOne) SetNillableNickName(s *string) *UserUpdateOne {
+// SetNillableNickname sets the "nickname" field if the given value is not nil.
+func (uuo *UserUpdateOne) SetNillableNickname(s *string) *UserUpdateOne {
 	if s != nil {
-		uuo.SetNickName(*s)
+		uuo.SetNickname(*s)
 	}
 	return uuo
 }
 
-// ClearNickName clears the value of the "nick_name" field.
-func (uuo *UserUpdateOne) ClearNickName() *UserUpdateOne {
-	uuo.mutation.ClearNickName()
+// ClearNickname clears the value of the "nickname" field.
+func (uuo *UserUpdateOne) ClearNickname() *UserUpdateOne {
+	uuo.mutation.ClearNickname()
 	return uuo
 }
 
-// SetRealName sets the "real_name" field.
-func (uuo *UserUpdateOne) SetRealName(s string) *UserUpdateOne {
-	uuo.mutation.SetRealName(s)
+// SetRealname sets the "realname" field.
+func (uuo *UserUpdateOne) SetRealname(s string) *UserUpdateOne {
+	uuo.mutation.SetRealname(s)
 	return uuo
 }
 
-// SetNillableRealName sets the "real_name" field if the given value is not nil.
-func (uuo *UserUpdateOne) SetNillableRealName(s *string) *UserUpdateOne {
+// SetNillableRealname sets the "realname" field if the given value is not nil.
+func (uuo *UserUpdateOne) SetNillableRealname(s *string) *UserUpdateOne {
 	if s != nil {
-		uuo.SetRealName(*s)
+		uuo.SetRealname(*s)
 	}
 	return uuo
 }
 
-// ClearRealName clears the value of the "real_name" field.
-func (uuo *UserUpdateOne) ClearRealName() *UserUpdateOne {
-	uuo.mutation.ClearRealName()
+// ClearRealname clears the value of the "realname" field.
+func (uuo *UserUpdateOne) ClearRealname() *UserUpdateOne {
+	uuo.mutation.ClearRealname()
 	return uuo
 }
 
@@ -1409,14 +1409,14 @@ func (uuo *UserUpdateOne) check() error {
 			return &ValidationError{Name: "status", err: fmt.Errorf(`ent: validator failed for field "User.status": %w`, err)}
 		}
 	}
-	if v, ok := uuo.mutation.NickName(); ok {
-		if err := user.NickNameValidator(v); err != nil {
-			return &ValidationError{Name: "nick_name", err: fmt.Errorf(`ent: validator failed for field "User.nick_name": %w`, err)}
+	if v, ok := uuo.mutation.Nickname(); ok {
+		if err := user.NicknameValidator(v); err != nil {
+			return &ValidationError{Name: "nickname", err: fmt.Errorf(`ent: validator failed for field "User.nickname": %w`, err)}
 		}
 	}
-	if v, ok := uuo.mutation.RealName(); ok {
-		if err := user.RealNameValidator(v); err != nil {
-			return &ValidationError{Name: "real_name", err: fmt.Errorf(`ent: validator failed for field "User.real_name": %w`, err)}
+	if v, ok := uuo.mutation.Realname(); ok {
+		if err := user.RealnameValidator(v); err != nil {
+			return &ValidationError{Name: "realname", err: fmt.Errorf(`ent: validator failed for field "User.realname": %w`, err)}
 		}
 	}
 	if v, ok := uuo.mutation.Email(); ok {
@@ -1558,17 +1558,17 @@ func (uuo *UserUpdateOne) sqlSave(ctx context.Context) (_node *User, err error) 
 	if uuo.mutation.UsernameCleared() {
 		_spec.ClearField(user.FieldUsername, field.TypeString)
 	}
-	if value, ok := uuo.mutation.NickName(); ok {
-		_spec.SetField(user.FieldNickName, field.TypeString, value)
+	if value, ok := uuo.mutation.Nickname(); ok {
+		_spec.SetField(user.FieldNickname, field.TypeString, value)
 	}
-	if uuo.mutation.NickNameCleared() {
-		_spec.ClearField(user.FieldNickName, field.TypeString)
+	if uuo.mutation.NicknameCleared() {
+		_spec.ClearField(user.FieldNickname, field.TypeString)
 	}
-	if value, ok := uuo.mutation.RealName(); ok {
-		_spec.SetField(user.FieldRealName, field.TypeString, value)
+	if value, ok := uuo.mutation.Realname(); ok {
+		_spec.SetField(user.FieldRealname, field.TypeString, value)
 	}
-	if uuo.mutation.RealNameCleared() {
-		_spec.ClearField(user.FieldRealName, field.TypeString)
+	if uuo.mutation.RealnameCleared() {
+		_spec.ClearField(user.FieldRealname, field.TypeString)
 	}
 	if value, ok := uuo.mutation.Email(); ok {
 		_spec.SetField(user.FieldEmail, field.TypeString, value)

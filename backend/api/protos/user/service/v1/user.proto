@@ -76,13 +76,13 @@ message User {
     (gnostic.openapi.v3.property) = {description: "登录名"}
   ]; // 登录名
 
-  optional string nick_name = 11 [
-    json_name = "nickName",
+  optional string nickname = 11 [
+    json_name = "nickname",
     (gnostic.openapi.v3.property) = {description: "昵称"}
   ]; // 昵称
 
-  optional string real_name = 12 [
-    json_name = "realName",
+  optional string realname = 12 [
+    json_name = "realname",
     (gnostic.openapi.v3.property) = {description: "真实姓名"}
   ]; // 真实姓名
 

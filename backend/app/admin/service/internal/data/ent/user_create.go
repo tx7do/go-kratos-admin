@@ -148,30 +148,30 @@ func (uc *UserCreate) SetNillableUsername(s *string) *UserCreate {
 	return uc
 }
 
-// SetNickName sets the "nick_name" field.
-func (uc *UserCreate) SetNickName(s string) *UserCreate {
-	uc.mutation.SetNickName(s)
+// SetNickname sets the "nickname" field.
+func (uc *UserCreate) SetNickname(s string) *UserCreate {
+	uc.mutation.SetNickname(s)
 	return uc
 }
 
-// SetNillableNickName sets the "nick_name" field if the given value is not nil.
-func (uc *UserCreate) SetNillableNickName(s *string) *UserCreate {
+// SetNillableNickname sets the "nickname" field if the given value is not nil.
+func (uc *UserCreate) SetNillableNickname(s *string) *UserCreate {
 	if s != nil {
-		uc.SetNickName(*s)
+		uc.SetNickname(*s)
 	}
 	return uc
 }
 
-// SetRealName sets the "real_name" field.
-func (uc *UserCreate) SetRealName(s string) *UserCreate {
-	uc.mutation.SetRealName(s)
+// SetRealname sets the "realname" field.
+func (uc *UserCreate) SetRealname(s string) *UserCreate {
+	uc.mutation.SetRealname(s)
 	return uc
 }
 
-// SetNillableRealName sets the "real_name" field if the given value is not nil.
-func (uc *UserCreate) SetNillableRealName(s *string) *UserCreate {
+// SetNillableRealname sets the "realname" field if the given value is not nil.
+func (uc *UserCreate) SetNillableRealname(s *string) *UserCreate {
 	if s != nil {
-		uc.SetRealName(*s)
+		uc.SetRealname(*s)
 	}
 	return uc
 }
@@ -478,14 +478,14 @@ func (uc *UserCreate) check() error {
 			return &ValidationError{Name: "username", err: fmt.Errorf(`ent: validator failed for field "User.username": %w`, err)}
 		}
 	}
-	if v, ok := uc.mutation.NickName(); ok {
-		if err := user.NickNameValidator(v); err != nil {
-			return &ValidationError{Name: "nick_name", err: fmt.Errorf(`ent: validator failed for field "User.nick_name": %w`, err)}
+	if v, ok := uc.mutation.Nickname(); ok {
+		if err := user.NicknameValidator(v); err != nil {
+			return &ValidationError{Name: "nickname", err: fmt.Errorf(`ent: validator failed for field "User.nickname": %w`, err)}
 		}
 	}
-	if v, ok := uc.mutation.RealName(); ok {
-		if err := user.RealNameValidator(v); err != nil {
-			return &ValidationError{Name: "real_name", err: fmt.Errorf(`ent: validator failed for field "User.real_name": %w`, err)}
+	if v, ok := uc.mutation.Realname(); ok {
+		if err := user.RealnameValidator(v); err != nil {
+			return &ValidationError{Name: "realname", err: fmt.Errorf(`ent: validator failed for field "User.realname": %w`, err)}
 		}
 	}
 	if v, ok := uc.mutation.Email(); ok {
@@ -612,13 +612,13 @@ func (uc *UserCreate) createSpec() (*User, *sqlgraph.CreateSpec) {
 		_spec.SetField(user.FieldUsername, field.TypeString, value)
 		_node.Username = &value
 	}
-	if value, ok := uc.mutation.NickName(); ok {
-		_spec.SetField(user.FieldNickName, field.TypeString, value)
-		_node.NickName = &value
+	if value, ok := uc.mutation.Nickname(); ok {
+		_spec.SetField(user.FieldNickname, field.TypeString, value)
+		_node.Nickname = &value
 	}
-	if value, ok := uc.mutation.RealName(); ok {
-		_spec.SetField(user.FieldRealName, field.TypeString, value)
-		_node.RealName = &value
+	if value, ok := uc.mutation.Realname(); ok {
+		_spec.SetField(user.FieldRealname, field.TypeString, value)
+		_node.Realname = &value
 	}
 	if value, ok := uc.mutation.Email(); ok {
 		_spec.SetField(user.FieldEmail, field.TypeString, value)
@@ -852,39 +852,39 @@ func (u *UserUpsert) ClearStatus() *UserUpsert {
 	return u
 }
 
-// SetNickName sets the "nick_name" field.
-func (u *UserUpsert) SetNickName(v string) *UserUpsert {
-	u.Set(user.FieldNickName, v)
+// SetNickname sets the "nickname" field.
+func (u *UserUpsert) SetNickname(v string) *UserUpsert {
+	u.Set(user.FieldNickname, v)
 	return u
 }
 
-// UpdateNickName sets the "nick_name" field to the value that was provided on create.
-func (u *UserUpsert) UpdateNickName() *UserUpsert {
-	u.SetExcluded(user.FieldNickName)
+// UpdateNickname sets the "nickname" field to the value that was provided on create.
+func (u *UserUpsert) UpdateNickname() *UserUpsert {
+	u.SetExcluded(user.FieldNickname)
 	return u
 }
 
-// ClearNickName clears the value of the "nick_name" field.
-func (u *UserUpsert) ClearNickName() *UserUpsert {
-	u.SetNull(user.FieldNickName)
+// ClearNickname clears the value of the "nickname" field.
+func (u *UserUpsert) ClearNickname() *UserUpsert {
+	u.SetNull(user.FieldNickname)
 	return u
 }
 
-// SetRealName sets the "real_name" field.
-func (u *UserUpsert) SetRealName(v string) *UserUpsert {
-	u.Set(user.FieldRealName, v)
+// SetRealname sets the "realname" field.
+func (u *UserUpsert) SetRealname(v string) *UserUpsert {
+	u.Set(user.FieldRealname, v)
 	return u
 }
 
-// UpdateRealName sets the "real_name" field to the value that was provided on create.
-func (u *UserUpsert) UpdateRealName() *UserUpsert {
-	u.SetExcluded(user.FieldRealName)
+// UpdateRealname sets the "realname" field to the value that was provided on create.
+func (u *UserUpsert) UpdateRealname() *UserUpsert {
+	u.SetExcluded(user.FieldRealname)
 	return u
 }
 
-// ClearRealName clears the value of the "real_name" field.
-func (u *UserUpsert) ClearRealName() *UserUpsert {
-	u.SetNull(user.FieldRealName)
+// ClearRealname clears the value of the "realname" field.
+func (u *UserUpsert) ClearRealname() *UserUpsert {
+	u.SetNull(user.FieldRealname)
 	return u
 }
 
@@ -1385,45 +1385,45 @@ func (u *UserUpsertOne) ClearStatus() *UserUpsertOne {
 	})
 }
 
-// SetNickName sets the "nick_name" field.
-func (u *UserUpsertOne) SetNickName(v string) *UserUpsertOne {
+// SetNickname sets the "nickname" field.
+func (u *UserUpsertOne) SetNickname(v string) *UserUpsertOne {
 	return u.Update(func(s *UserUpsert) {
-		s.SetNickName(v)
+		s.SetNickname(v)
 	})
 }
 
-// UpdateNickName sets the "nick_name" field to the value that was provided on create.
-func (u *UserUpsertOne) UpdateNickName() *UserUpsertOne {
+// UpdateNickname sets the "nickname" field to the value that was provided on create.
+func (u *UserUpsertOne) UpdateNickname() *UserUpsertOne {
 	return u.Update(func(s *UserUpsert) {
-		s.UpdateNickName()
+		s.UpdateNickname()
 	})
 }
 
-// ClearNickName clears the value of the "nick_name" field.
-func (u *UserUpsertOne) ClearNickName() *UserUpsertOne {
+// ClearNickname clears the value of the "nickname" field.
+func (u *UserUpsertOne) ClearNickname() *UserUpsertOne {
 	return u.Update(func(s *UserUpsert) {
-		s.ClearNickName()
+		s.ClearNickname()
 	})
 }
 
-// SetRealName sets the "real_name" field.
-func (u *UserUpsertOne) SetRealName(v string) *UserUpsertOne {
+// SetRealname sets the "realname" field.
+func (u *UserUpsertOne) SetRealname(v string) *UserUpsertOne {
 	return u.Update(func(s *UserUpsert) {
-		s.SetRealName(v)
+		s.SetRealname(v)
 	})
 }
 
-// UpdateRealName sets the "real_name" field to the value that was provided on create.
-func (u *UserUpsertOne) UpdateRealName() *UserUpsertOne {
+// UpdateRealname sets the "realname" field to the value that was provided on create.
+func (u *UserUpsertOne) UpdateRealname() *UserUpsertOne {
 	return u.Update(func(s *UserUpsert) {
-		s.UpdateRealName()
+		s.UpdateRealname()
 	})
 }
 
-// ClearRealName clears the value of the "real_name" field.
-func (u *UserUpsertOne) ClearRealName() *UserUpsertOne {
+// ClearRealname clears the value of the "realname" field.
+func (u *UserUpsertOne) ClearRealname() *UserUpsertOne {
 	return u.Update(func(s *UserUpsert) {
-		s.ClearRealName()
+		s.ClearRealname()
 	})
 }
 
@@ -2140,45 +2140,45 @@ func (u *UserUpsertBulk) ClearStatus() *UserUpsertBulk {
 	})
 }
 
-// SetNickName sets the "nick_name" field.
-func (u *UserUpsertBulk) SetNickName(v string) *UserUpsertBulk {
+// SetNickname sets the "nickname" field.
+func (u *UserUpsertBulk) SetNickname(v string) *UserUpsertBulk {
 	return u.Update(func(s *UserUpsert) {
-		s.SetNickName(v)
+		s.SetNickname(v)
 	})
 }
 
-// UpdateNickName sets the "nick_name" field to the value that was provided on create.
-func (u *UserUpsertBulk) UpdateNickName() *UserUpsertBulk {
+// UpdateNickname sets the "nickname" field to the value that was provided on create.
+func (u *UserUpsertBulk) UpdateNickname() *UserUpsertBulk {
 	return u.Update(func(s *UserUpsert) {
-		s.UpdateNickName()
+		s.UpdateNickname()
 	})
 }
 
-// ClearNickName clears the value of the "nick_name" field.
-func (u *UserUpsertBulk) ClearNickName() *UserUpsertBulk {
+// ClearNickname clears the value of the "nickname" field.
+func (u *UserUpsertBulk) ClearNickname() *UserUpsertBulk {
 	return u.Update(func(s *UserUpsert) {
-		s.ClearNickName()
+		s.ClearNickname()
 	})
 }
 
-// SetRealName sets the "real_name" field.
-func (u *UserUpsertBulk) SetRealName(v string) *UserUpsertBulk {
+// SetRealname sets the "realname" field.
+func (u *UserUpsertBulk) SetRealname(v string) *UserUpsertBulk {
 	return u.Update(func(s *UserUpsert) {
-		s.SetRealName(v)
+		s.SetRealname(v)
 	})
 }
 
-// UpdateRealName sets the "real_name" field to the value that was provided on create.
-func (u *UserUpsertBulk) UpdateRealName() *UserUpsertBulk {
+// UpdateRealname sets the "realname" field to the value that was provided on create.
+func (u *UserUpsertBulk) UpdateRealname() *UserUpsertBulk {
 	return u.Update(func(s *UserUpsert) {
-		s.UpdateRealName()
+		s.UpdateRealname()
 	})
 }
 
-// ClearRealName clears the value of the "real_name" field.
-func (u *UserUpsertBulk) ClearRealName() *UserUpsertBulk {
+// ClearRealname clears the value of the "realname" field.
+func (u *UserUpsertBulk) ClearRealname() *UserUpsertBulk {
 	return u.Update(func(s *UserUpsert) {
-		s.ClearRealName()
+		s.ClearRealname()
 	})
 }
 

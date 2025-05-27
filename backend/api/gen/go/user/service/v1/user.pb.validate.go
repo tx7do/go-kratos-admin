@@ -84,12 +84,12 @@ func (m *User) validate(all bool) error {
 		// no validation rules for Username
 	}
 
-	if m.NickName != nil {
-		// no validation rules for NickName
+	if m.Nickname != nil {
+		// no validation rules for Nickname
 	}
 
-	if m.RealName != nil {
-		// no validation rules for RealName
+	if m.Realname != nil {
+		// no validation rules for Realname
 	}
 
 	if m.Avatar != nil {

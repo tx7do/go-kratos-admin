@@ -31,10 +31,10 @@ const (
 	FieldTenantID = "tenant_id"
 	// FieldUsername holds the string denoting the username field in the database.
 	FieldUsername = "username"
-	// FieldNickName holds the string denoting the nick_name field in the database.
-	FieldNickName = "nick_name"
-	// FieldRealName holds the string denoting the real_name field in the database.
-	FieldRealName = "real_name"
+	// FieldNickname holds the string denoting the nickname field in the database.
+	FieldNickname = "nickname"
+	// FieldRealname holds the string denoting the realname field in the database.
+	FieldRealname = "realname"
 	// FieldEmail holds the string denoting the email field in the database.
 	FieldEmail = "email"
 	// FieldMobile holds the string denoting the mobile field in the database.
@@ -81,8 +81,8 @@ var Columns = []string{
 	FieldStatus,
 	FieldTenantID,
 	FieldUsername,
-	FieldNickName,
-	FieldRealName,
+	FieldNickname,
+	FieldRealname,
 	FieldEmail,
 	FieldMobile,
 	FieldTelephone,
@@ -117,10 +117,10 @@ var (
 	TenantIDValidator func(uint32) error
 	// UsernameValidator is a validator for the "username" field. It is called by the builders before save.
 	UsernameValidator func(string) error
-	// NickNameValidator is a validator for the "nick_name" field. It is called by the builders before save.
-	NickNameValidator func(string) error
-	// RealNameValidator is a validator for the "real_name" field. It is called by the builders before save.
-	RealNameValidator func(string) error
+	// NicknameValidator is a validator for the "nickname" field. It is called by the builders before save.
+	NicknameValidator func(string) error
+	// RealnameValidator is a validator for the "realname" field. It is called by the builders before save.
+	RealnameValidator func(string) error
 	// EmailValidator is a validator for the "email" field. It is called by the builders before save.
 	EmailValidator func(string) error
 	// DefaultMobile holds the default value on creation for the "mobile" field.
@@ -282,14 +282,14 @@ func ByUsername(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldUsername, opts...).ToFunc()
 }
 
-// ByNickName orders the results by the nick_name field.
-func ByNickName(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldNickName, opts...).ToFunc()
+// ByNickname orders the results by the nickname field.
+func ByNickname(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldNickname, opts...).ToFunc()
 }
 
-// ByRealName orders the results by the real_name field.
-func ByRealName(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldRealName, opts...).ToFunc()
+// ByRealname orders the results by the realname field.
+func ByRealname(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldRealname, opts...).ToFunc()
 }
 
 // ByEmail orders the results by the email field.

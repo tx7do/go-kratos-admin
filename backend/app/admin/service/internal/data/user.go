@@ -290,13 +290,12 @@ func (r *UserRepo) Create(ctx context.Context, req *userV1.CreateUserRequest) (*
 
 	builder := r.data.db.Client().User.Create().
 		SetNillableUsername(req.Data.Username).
-		SetNillableNickName(req.Data.NickName).
-		SetNillableEmail(req.Data.Email).
-		SetNillableRealName(req.Data.RealName).
-		SetNillableEmail(req.Data.Email).
-		SetNillableTelephone(req.Data.Telephone).
-		SetNillableMobile(req.Data.Mobile).
+		SetNillableNickname(req.Data.Nickname).
+		SetNillableRealname(req.Data.Realname).
 		SetNillableAvatar(req.Data.Avatar).
+		SetNillableEmail(req.Data.Email).
+		SetNillableMobile(req.Data.Mobile).
+		SetNillableTelephone(req.Data.Telephone).
 		SetNillableRegion(req.Data.Region).
 		SetNillableAddress(req.Data.Address).
 		SetNillableDescription(req.Data.Description).
@@ -360,13 +359,12 @@ func (r *UserRepo) Update(ctx context.Context, req *userV1.UpdateUserRequest) er
 
 	builder := r.data.db.Client().User.
 		UpdateOneID(req.Data.GetId()).
-		SetNillableNickName(req.Data.NickName).
-		SetNillableEmail(req.Data.Email).
-		SetNillableRealName(req.Data.RealName).
-		SetNillableEmail(req.Data.Email).
-		SetNillableTelephone(req.Data.Telephone).
-		SetNillableMobile(req.Data.Mobile).
+		SetNillableNickname(req.Data.Nickname).
+		SetNillableRealname(req.Data.Realname).
 		SetNillableAvatar(req.Data.Avatar).
+		SetNillableEmail(req.Data.Email).
+		SetNillableMobile(req.Data.Mobile).
+		SetNillableTelephone(req.Data.Telephone).
 		SetNillableRegion(req.Data.Region).
 		SetNillableAddress(req.Data.Address).
 		SetNillableDescription(req.Data.Description).

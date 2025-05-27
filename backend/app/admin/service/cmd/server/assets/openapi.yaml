@@ -4378,10 +4378,10 @@ components:
                 username:
                     type: string
                     description: 登录名
-                nickName:
+                nickname:
                     type: string
                     description: 昵称
-                realName:
+                realname:
                     type: string
                     description: 真实姓名
                 avatar:

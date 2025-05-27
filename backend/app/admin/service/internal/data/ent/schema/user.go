@@ -39,13 +39,13 @@ func (User) Fields() []ent.Field {
 			Optional().
 			Nillable(),
 
-		field.String("nick_name").
+		field.String("nickname").
 			Comment("昵称").
 			MaxLen(255).
 			Optional().
 			Nillable(),
 
-		field.String("real_name").
+		field.String("realname").
 			Comment("真实名字").
 			MaxLen(255).
 			Optional().

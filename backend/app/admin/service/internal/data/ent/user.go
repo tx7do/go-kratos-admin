@@ -37,9 +37,9 @@ type User struct {
 	// 用户名
 	Username *string `json:"username,omitempty"`
 	// 昵称
-	NickName *string `json:"nick_name,omitempty"`
+	Nickname *string `json:"nickname,omitempty"`
 	// 真实名字
-	RealName *string `json:"real_name,omitempty"`
+	Realname *string `json:"realname,omitempty"`
 	// 电子邮箱
 	Email *string `json:"email,omitempty"`
 	// 手机号码
@@ -80,7 +80,7 @@ func (*User) scanValues(columns []string) ([]any, error) {
 		switch columns[i] {
 		case user.FieldID, user.FieldCreateBy, user.FieldUpdateBy, user.FieldTenantID, user.FieldLastLoginTime, user.FieldRoleID, user.FieldOrgID, user.FieldPositionID, user.FieldWorkID:
 			values[i] = new(sql.NullInt64)
-		case user.FieldRemark, user.FieldStatus, user.FieldUsername, user.FieldNickName, user.FieldRealName, user.FieldEmail, user.FieldMobile, user.FieldTelephone, user.FieldAvatar, user.FieldAddress, user.FieldRegion, user.FieldDescription, user.FieldGender, user.FieldAuthority, user.FieldLastLoginIP:
+		case user.FieldRemark, user.FieldStatus, user.FieldUsername, user.FieldNickname, user.FieldRealname, user.FieldEmail, user.FieldMobile, user.FieldTelephone, user.FieldAvatar, user.FieldAddress, user.FieldRegion, user.FieldDescription, user.FieldGender, user.FieldAuthority, user.FieldLastLoginIP:
 			values[i] = new(sql.NullString)
 		case user.FieldCreateTime, user.FieldUpdateTime, user.FieldDeleteTime:
 			values[i] = new(sql.NullTime)
@@ -168,19 +168,19 @@ func (u *User) assignValues(columns []string, values []any) error {
 				u.Username = new(string)
 				*u.Username = value.String
 			}
-		case user.FieldNickName:
+		case user.FieldNickname:
 			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field nick_name", values[i])
+				return fmt.Errorf("unexpected type %T for field nickname", values[i])
 			} else if value.Valid {
-				u.NickName = new(string)
-				*u.NickName = value.String
+				u.Nickname = new(string)
+				*u.Nickname = value.String
 			}
-		case user.FieldRealName:
+		case user.FieldRealname:
 			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field real_name", values[i])
+				return fmt.Errorf("unexpected type %T for field realname", values[i])
 			} else if value.Valid {
-				u.RealName = new(string)
-				*u.RealName = value.String
+				u.Realname = new(string)
+				*u.Realname = value.String
 			}
 		case user.FieldEmail:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -368,13 +368,13 @@ func (u *User) String() string {
 		builder.WriteString(*v)
 	}
 	builder.WriteString(", ")
-	if v := u.NickName; v != nil {
-		builder.WriteString("nick_name=")
+	if v := u.Nickname; v != nil {
+		builder.WriteString("nickname=")
 		builder.WriteString(*v)
 	}
 	builder.WriteString(", ")
-	if v := u.RealName; v != nil {
-		builder.WriteString("real_name=")
+	if v := u.Realname; v != nil {
+		builder.WriteString("realname=")
 		builder.WriteString(*v)
 	}
 	builder.WriteString(", ")

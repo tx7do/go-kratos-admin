@@ -31,7 +31,7 @@ var reSpaces = regexp.MustCompile(`\s+`)
 func TestUserFieldMask(t *testing.T) {
 	u := &userV1.User{
 		Username: trans.String("UserName"),
-		RealName: trans.String("RealName"),
+		Realname: trans.String("RealName"),
 		//Avatar:   trans.String("Avatar"),
 		Address: trans.String("Address"),
 	}
@@ -39,7 +39,7 @@ func TestUserFieldMask(t *testing.T) {
 	updateUserReq := &userV1.UpdateUserRequest{
 		Data: &userV1.User{
 			Username: trans.String("UserName1"),
-			RealName: trans.String("RealName1"),
+			Realname: trans.String("RealName1"),
 			//Avatar:   trans.String("Avatar1"),
 			Address: trans.String("Address1"),
 		},
@@ -156,16 +156,16 @@ func TestCopier(t *testing.T) {
 
 		entMsg.ID = 1
 		entMsg.Username = trans.Ptr("Username")
-		entMsg.NickName = trans.Ptr("NickName")
-		entMsg.RealName = trans.Ptr("RealName")
+		entMsg.Nickname = trans.Ptr("NickName")
+		entMsg.Realname = trans.Ptr("RealName")
 		entMsg.Email = trans.Ptr("test@gmail.com")
 		entMsg.TenantID = trans.Ptr(uint32(2))
 		entMsg.Status = trans.Ptr(user.StatusON)
 
 		_ = copier.Copy(&protoMsg, entMsg)
 		assert.Equal(t, protoMsg.GetUsername(), *entMsg.Username)
-		assert.Equal(t, protoMsg.GetNickName(), *entMsg.NickName)
-		assert.Equal(t, protoMsg.GetRealName(), *entMsg.RealName)
+		assert.Equal(t, protoMsg.GetNickname(), *entMsg.Nickname)
+		assert.Equal(t, protoMsg.GetRealname(), *entMsg.Realname)
 		assert.Equal(t, protoMsg.GetEmail(), *entMsg.Email)
 		assert.Equal(t, protoMsg.GetTenantId(), *entMsg.TenantID)
 		assert.Equal(t, protoMsg.GetId(), entMsg.ID)
@@ -228,8 +228,8 @@ func TestCopier(t *testing.T) {
 
 		entMsg.ID = 1
 		entMsg.Username = trans.Ptr("Username")
-		entMsg.NickName = trans.Ptr("NickName")
-		entMsg.RealName = trans.Ptr("RealName")
+		entMsg.Nickname = trans.Ptr("NickName")
+		entMsg.Realname = trans.Ptr("RealName")
 		entMsg.Email = trans.Ptr("test@gmail.com")
 		entMsg.CreateTime = trans.Ptr(time.Now())
 

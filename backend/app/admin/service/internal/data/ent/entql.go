@@ -470,8 +470,8 @@ var schemaGraph = func() *sqlgraph.Schema {
 			user.FieldStatus:        {Type: field.TypeEnum, Column: user.FieldStatus},
 			user.FieldTenantID:      {Type: field.TypeUint32, Column: user.FieldTenantID},
 			user.FieldUsername:      {Type: field.TypeString, Column: user.FieldUsername},
-			user.FieldNickName:      {Type: field.TypeString, Column: user.FieldNickName},
-			user.FieldRealName:      {Type: field.TypeString, Column: user.FieldRealName},
+			user.FieldNickname:      {Type: field.TypeString, Column: user.FieldNickname},
+			user.FieldRealname:      {Type: field.TypeString, Column: user.FieldRealname},
 			user.FieldEmail:         {Type: field.TypeString, Column: user.FieldEmail},
 			user.FieldMobile:        {Type: field.TypeString, Column: user.FieldMobile},
 			user.FieldTelephone:     {Type: field.TypeString, Column: user.FieldTelephone},
@@ -2612,14 +2612,14 @@ func (f *UserFilter) WhereUsername(p entql.StringP) {
 	f.Where(p.Field(user.FieldUsername))
 }
 
-// WhereNickName applies the entql string predicate on the nick_name field.
-func (f *UserFilter) WhereNickName(p entql.StringP) {
-	f.Where(p.Field(user.FieldNickName))
+// WhereNickname applies the entql string predicate on the nickname field.
+func (f *UserFilter) WhereNickname(p entql.StringP) {
+	f.Where(p.Field(user.FieldNickname))
 }
 
-// WhereRealName applies the entql string predicate on the real_name field.
-func (f *UserFilter) WhereRealName(p entql.StringP) {
-	f.Where(p.Field(user.FieldRealName))
+// WhereRealname applies the entql string predicate on the realname field.
+func (f *UserFilter) WhereRealname(p entql.StringP) {
+	f.Where(p.Field(user.FieldRealname))
 }
 
 // WhereEmail applies the entql string predicate on the email field.

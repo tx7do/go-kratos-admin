@@ -22583,8 +22583,8 @@ type UserMutation struct {
 	tenant_id          *uint32
 	addtenant_id       *int32
 	username           *string
-	nick_name          *string
-	real_name          *string
+	nickname           *string
+	realname           *string
 	email              *string
 	mobile             *string
 	telephone          *string
@@ -23219,102 +23219,102 @@ func (m *UserMutation) ResetUsername() {
 	delete(m.clearedFields, user.FieldUsername)
 }
 
-// SetNickName sets the "nick_name" field.
-func (m *UserMutation) SetNickName(s string) {
-	m.nick_name = &s
+// SetNickname sets the "nickname" field.
+func (m *UserMutation) SetNickname(s string) {
+	m.nickname = &s
 }
 
-// NickName returns the value of the "nick_name" field in the mutation.
-func (m *UserMutation) NickName() (r string, exists bool) {
-	v := m.nick_name
+// Nickname returns the value of the "nickname" field in the mutation.
+func (m *UserMutation) Nickname() (r string, exists bool) {
+	v := m.nickname
 	if v == nil {
 		return
 	}
 	return *v, true
 }
 
-// OldNickName returns the old "nick_name" field's value of the User entity.
+// OldNickname returns the old "nickname" field's value of the User entity.
 // If the User object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *UserMutation) OldNickName(ctx context.Context) (v *string, err error) {
+func (m *UserMutation) OldNickname(ctx context.Context) (v *string, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldNickName is only allowed on UpdateOne operations")
+		return v, errors.New("OldNickname is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldNickName requires an ID field in the mutation")
+		return v, errors.New("OldNickname requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
-		return v, fmt.Errorf("querying old value for OldNickName: %w", err)
+		return v, fmt.Errorf("querying old value for OldNickname: %w", err)
 	}
-	return oldValue.NickName, nil
+	return oldValue.Nickname, nil
 }
 
-// ClearNickName clears the value of the "nick_name" field.
-func (m *UserMutation) ClearNickName() {
-	m.nick_name = nil
-	m.clearedFields[user.FieldNickName] = struct{}{}
+// ClearNickname clears the value of the "nickname" field.
+func (m *UserMutation) ClearNickname() {
+	m.nickname = nil
+	m.clearedFields[user.FieldNickname] = struct{}{}
 }
 
-// NickNameCleared returns if the "nick_name" field was cleared in this mutation.
-func (m *UserMutation) NickNameCleared() bool {
-	_, ok := m.clearedFields[user.FieldNickName]
+// NicknameCleared returns if the "nickname" field was cleared in this mutation.
+func (m *UserMutation) NicknameCleared() bool {
+	_, ok := m.clearedFields[user.FieldNickname]
 	return ok
 }
 
-// ResetNickName resets all changes to the "nick_name" field.
-func (m *UserMutation) ResetNickName() {
-	m.nick_name = nil
-	delete(m.clearedFields, user.FieldNickName)
+// ResetNickname resets all changes to the "nickname" field.
+func (m *UserMutation) ResetNickname() {
+	m.nickname = nil
+	delete(m.clearedFields, user.FieldNickname)
 }
 
-// SetRealName sets the "real_name" field.
-func (m *UserMutation) SetRealName(s string) {
-	m.real_name = &s
+// SetRealname sets the "realname" field.
+func (m *UserMutation) SetRealname(s string) {
+	m.realname = &s
 }
 
-// RealName returns the value of the "real_name" field in the mutation.
-func (m *UserMutation) RealName() (r string, exists bool) {
-	v := m.real_name
+// Realname returns the value of the "realname" field in the mutation.
+func (m *UserMutation) Realname() (r string, exists bool) {
+	v := m.realname
 	if v == nil {
 		return
 	}
 	return *v, true
 }
 
-// OldRealName returns the old "real_name" field's value of the User entity.
+// OldRealname returns the old "realname" field's value of the User entity.
 // If the User object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *UserMutation) OldRealName(ctx context.Context) (v *string, err error) {
+func (m *UserMutation) OldRealname(ctx context.Context) (v *string, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldRealName is only allowed on UpdateOne operations")
+		return v, errors.New("OldRealname is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldRealName requires an ID field in the mutation")
+		return v, errors.New("OldRealname requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
-		return v, fmt.Errorf("querying old value for OldRealName: %w", err)
+		return v, fmt.Errorf("querying old value for OldRealname: %w", err)
 	}
-	return oldValue.RealName, nil
+	return oldValue.Realname, nil
 }
 
-// ClearRealName clears the value of the "real_name" field.
-func (m *UserMutation) ClearRealName() {
-	m.real_name = nil
-	m.clearedFields[user.FieldRealName] = struct{}{}
+// ClearRealname clears the value of the "realname" field.
+func (m *UserMutation) ClearRealname() {
+	m.realname = nil
+	m.clearedFields[user.FieldRealname] = struct{}{}
 }
 
-// RealNameCleared returns if the "real_name" field was cleared in this mutation.
-func (m *UserMutation) RealNameCleared() bool {
-	_, ok := m.clearedFields[user.FieldRealName]
+// RealnameCleared returns if the "realname" field was cleared in this mutation.
+func (m *UserMutation) RealnameCleared() bool {
+	_, ok := m.clearedFields[user.FieldRealname]
 	return ok
 }
 
-// ResetRealName resets all changes to the "real_name" field.
-func (m *UserMutation) ResetRealName() {
-	m.real_name = nil
-	delete(m.clearedFields, user.FieldRealName)
+// ResetRealname resets all changes to the "realname" field.
+func (m *UserMutation) ResetRealname() {
+	m.realname = nil
+	delete(m.clearedFields, user.FieldRealname)
 }
 
 // SetEmail sets the "email" field.
@@ -24219,11 +24219,11 @@ func (m *UserMutation) Fields() []string {
 	if m.username != nil {
 		fields = append(fields, user.FieldUsername)
 	}
-	if m.nick_name != nil {
-		fields = append(fields, user.FieldNickName)
+	if m.nickname != nil {
+		fields = append(fields, user.FieldNickname)
 	}
-	if m.real_name != nil {
-		fields = append(fields, user.FieldRealName)
+	if m.realname != nil {
+		fields = append(fields, user.FieldRealname)
 	}
 	if m.email != nil {
 		fields = append(fields, user.FieldEmail)
@@ -24296,10 +24296,10 @@ func (m *UserMutation) Field(name string) (ent.Value, bool) {
 		return m.TenantID()
 	case user.FieldUsername:
 		return m.Username()
-	case user.FieldNickName:
-		return m.NickName()
-	case user.FieldRealName:
-		return m.RealName()
+	case user.FieldNickname:
+		return m.Nickname()
+	case user.FieldRealname:
+		return m.Realname()
 	case user.FieldEmail:
 		return m.Email()
 	case user.FieldMobile:
@@ -24357,10 +24357,10 @@ func (m *UserMutation) OldField(ctx context.Context, name string) (ent.Value, er
 		return m.OldTenantID(ctx)
 	case user.FieldUsername:
 		return m.OldUsername(ctx)
-	case user.FieldNickName:
-		return m.OldNickName(ctx)
-	case user.FieldRealName:
-		return m.OldRealName(ctx)
+	case user.FieldNickname:
+		return m.OldNickname(ctx)
+	case user.FieldRealname:
+		return m.OldRealname(ctx)
 	case user.FieldEmail:
 		return m.OldEmail(ctx)
 	case user.FieldMobile:
@@ -24463,19 +24463,19 @@ func (m *UserMutation) SetField(name string, value ent.Value) error {
 		}
 		m.SetUsername(v)
 		return nil
-	case user.FieldNickName:
+	case user.FieldNickname:
 		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
-		m.SetNickName(v)
+		m.SetNickname(v)
 		return nil
-	case user.FieldRealName:
+	case user.FieldRealname:
 		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
-		m.SetRealName(v)
+		m.SetRealname(v)
 		return nil
 	case user.FieldEmail:
 		v, ok := value.(string)
@@ -24738,11 +24738,11 @@ func (m *UserMutation) ClearedFields() []string {
 	if m.FieldCleared(user.FieldUsername) {
 		fields = append(fields, user.FieldUsername)
 	}
-	if m.FieldCleared(user.FieldNickName) {
-		fields = append(fields, user.FieldNickName)
+	if m.FieldCleared(user.FieldNickname) {
+		fields = append(fields, user.FieldNickname)
 	}
-	if m.FieldCleared(user.FieldRealName) {
-		fields = append(fields, user.FieldRealName)
+	if m.FieldCleared(user.FieldRealname) {
+		fields = append(fields, user.FieldRealname)
 	}
 	if m.FieldCleared(user.FieldEmail) {
 		fields = append(fields, user.FieldEmail)
@@ -24830,11 +24830,11 @@ func (m *UserMutation) ClearField(name string) error {
 	case user.FieldUsername:
 		m.ClearUsername()
 		return nil
-	case user.FieldNickName:
-		m.ClearNickName()
+	case user.FieldNickname:
+		m.ClearNickname()
 		return nil
-	case user.FieldRealName:
-		m.ClearRealName()
+	case user.FieldRealname:
+		m.ClearRealname()
 		return nil
 	case user.FieldEmail:
 		m.ClearEmail()
@@ -24916,11 +24916,11 @@ func (m *UserMutation) ResetField(name string) error {
 	case user.FieldUsername:
 		m.ResetUsername()
 		return nil
-	case user.FieldNickName:
-		m.ResetNickName()
+	case user.FieldNickname:
+		m.ResetNickname()
 		return nil
-	case user.FieldRealName:
-		m.ResetRealName()
+	case user.FieldRealname:
+		m.ResetRealname()
 		return nil
 	case user.FieldEmail:
 		m.ResetEmail()

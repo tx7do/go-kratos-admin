@@ -56,3 +56,6 @@ type Tenant func(*sql.Selector)
 
 // User is the predicate function for user builders.
 type User func(*sql.Selector)
+
+// UserCredential is the predicate function for usercredential builders.
+type UserCredential func(*sql.Selector)

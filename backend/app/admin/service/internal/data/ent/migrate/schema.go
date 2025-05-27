@@ -658,6 +658,58 @@ var (
 			},
 		},
 	}
+	// UserCredentialsColumns holds the columns for the "user_credentials" table.
+	UserCredentialsColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeUint32, Increment: true, Comment: "id", SchemaType: map[string]string{"mysql": "int", "postgres": "serial"}},
+		{Name: "create_time", Type: field.TypeTime, Nullable: true, Comment: "创建时间"},
+		{Name: "update_time", Type: field.TypeTime, Nullable: true, Comment: "更新时间"},
+		{Name: "delete_time", Type: field.TypeTime, Nullable: true, Comment: "删除时间"},
+		{Name: "tenant_id", Type: field.TypeUint32, Nullable: true, Comment: "租户ID"},
+		{Name: "user_id", Type: field.TypeUint32, Nullable: true, Comment: "关联主表的用户ID"},
+		{Name: "identity_type", Type: field.TypeEnum, Nullable: true, Comment: "认证方式类型", Enums: []string{"PASSWORD", "EMAIL", "PHONE", "WECHAT", "QQ", "GOOGLE", "FACEBOOK", "APPLE", "TELEGRAM"}},
+		{Name: "identifier", Type: field.TypeString, Nullable: true, Comment: "身份唯一标识符"},
+		{Name: "credential_type", Type: field.TypeEnum, Nullable: true, Comment: "凭证类型", Enums: []string{"PASSWORD_HASH", "ACCESS_TOKEN", "REFRESH_TOKEN"}},
+		{Name: "credential", Type: field.TypeString, Nullable: true, Comment: "凭证"},
+		{Name: "is_primary", Type: field.TypeBool, Nullable: true, Comment: "是否主认证方式", Default: false},
+		{Name: "status", Type: field.TypeEnum, Nullable: true, Comment: "凭证状态", Enums: []string{"DISABLED", "ENABLED", "EXPIRED", "UNVERIFIED", "REMOVED", "BLOCKED", "TEMPORARY"}},
+		{Name: "extra_info", Type: field.TypeString, Nullable: true, Comment: "扩展信息", SchemaType: map[string]string{"mysql": "json", "postgres": "jsonb"}},
+		{Name: "activate_token", Type: field.TypeString, Unique: true, Nullable: true, Size: 255, Comment: "激活账号用的令牌"},
+		{Name: "reset_token", Type: field.TypeString, Unique: true, Nullable: true, Size: 255, Comment: "重置密码用的令牌"},
+	}
+	// UserCredentialsTable holds the schema information for the "user_credentials" table.
+	UserCredentialsTable = &schema.Table{
+		Name:       "user_credentials",
+		Comment:    "用户认证信息表",
+		Columns:    UserCredentialsColumns,
+		PrimaryKey: []*schema.Column{UserCredentialsColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "usercredential_id",
+				Unique:  false,
+				Columns: []*schema.Column{UserCredentialsColumns[0]},
+			},
+			{
+				Name:    "usercredential_tenant_id",
+				Unique:  false,
+				Columns: []*schema.Column{UserCredentialsColumns[4]},
+			},
+			{
+				Name:    "usercredential_user_id_identity_type_identifier",
+				Unique:  true,
+				Columns: []*schema.Column{UserCredentialsColumns[5], UserCredentialsColumns[6], UserCredentialsColumns[7]},
+			},
+			{
+				Name:    "usercredential_identifier",
+				Unique:  false,
+				Columns: []*schema.Column{UserCredentialsColumns[7]},
+			},
+			{
+				Name:    "usercredential_user_id",
+				Unique:  false,
+				Columns: []*schema.Column{UserCredentialsColumns[5]},
+			},
+		},
+	}
 	// Tables holds all the tables in the schema.
 	Tables = []*schema.Table{
 		AdminLoginLogsTable,
@@ -677,6 +729,7 @@ var (
 		TasksTable,
 		TenantsTable,
 		UsersTable,
+		UserCredentialsTable,
 	}
 )
 
@@ -769,6 +822,11 @@ func init() {
 	}
 	UsersTable.Annotation = &entsql.Annotation{
 		Table:     "users",
+		Charset:   "utf8mb4",
+		Collation: "utf8mb4_bin",
+	}
+	UserCredentialsTable.Annotation = &entsql.Annotation{
+		Table:     "user_credentials",
 		Charset:   "utf8mb4",
 		Collation: "utf8mb4_bin",
 	}

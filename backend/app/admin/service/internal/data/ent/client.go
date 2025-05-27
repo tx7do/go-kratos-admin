@@ -28,6 +28,7 @@ import (
 	"kratos-admin/app/admin/service/internal/data/ent/task"
 	"kratos-admin/app/admin/service/internal/data/ent/tenant"
 	"kratos-admin/app/admin/service/internal/data/ent/user"
+	"kratos-admin/app/admin/service/internal/data/ent/usercredential"
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect"
@@ -74,6 +75,8 @@ type Client struct {
 	Tenant *TenantClient
 	// User is the client for interacting with the User builders.
 	User *UserClient
+	// UserCredential is the client for interacting with the UserCredential builders.
+	UserCredential *UserCredentialClient
 }
 
 // NewClient creates a new client configured with the given options.
@@ -102,6 +105,7 @@ func (c *Client) init() {
 	c.Task = NewTaskClient(c.config)
 	c.Tenant = NewTenantClient(c.config)
 	c.User = NewUserClient(c.config)
+	c.UserCredential = NewUserCredentialClient(c.config)
 }
 
 type (
@@ -211,6 +215,7 @@ func (c *Client) Tx(ctx context.Context) (*Tx, error) {
 		Task:                         NewTaskClient(cfg),
 		Tenant:                       NewTenantClient(cfg),
 		User:                         NewUserClient(cfg),
+		UserCredential:               NewUserCredentialClient(cfg),
 	}, nil
 }
 
@@ -247,6 +252,7 @@ func (c *Client) BeginTx(ctx context.Context, opts *sql.TxOptions) (*Tx, error) 
 		Task:                         NewTaskClient(cfg),
 		Tenant:                       NewTenantClient(cfg),
 		User:                         NewUserClient(cfg),
+		UserCredential:               NewUserCredentialClient(cfg),
 	}, nil
 }
 
@@ -279,7 +285,7 @@ func (c *Client) Use(hooks ...Hook) {
 		c.AdminLoginLog, c.AdminLoginRestriction, c.AdminOperationLog, c.Department,
 		c.Dict, c.File, c.Menu, c.NotificationMessage, c.NotificationMessageCategory,
 		c.NotificationMessageRecipient, c.Organization, c.Position, c.PrivateMessage,
-		c.Role, c.Task, c.Tenant, c.User,
+		c.Role, c.Task, c.Tenant, c.User, c.UserCredential,
 	} {
 		n.Use(hooks...)
 	}
@@ -292,7 +298,7 @@ func (c *Client) Intercept(interceptors ...Interceptor) {
 		c.AdminLoginLog, c.AdminLoginRestriction, c.AdminOperationLog, c.Department,
 		c.Dict, c.File, c.Menu, c.NotificationMessage, c.NotificationMessageCategory,
 		c.NotificationMessageRecipient, c.Organization, c.Position, c.PrivateMessage,
-		c.Role, c.Task, c.Tenant, c.User,
+		c.Role, c.Task, c.Tenant, c.User, c.UserCredential,
 	} {
 		n.Intercept(interceptors...)
 	}
@@ -335,6 +341,8 @@ func (c *Client) Mutate(ctx context.Context, m Mutation) (Value, error) {
 		return c.Tenant.mutate(ctx, m)
 	case *UserMutation:
 		return c.User.mutate(ctx, m)
+	case *UserCredentialMutation:
+		return c.UserCredential.mutate(ctx, m)
 	default:
 		return nil, fmt.Errorf("ent: unknown mutation type %T", m)
 	}
@@ -2793,18 +2801,151 @@ func (c *UserClient) mutate(ctx context.Context, m *UserMutation) (Value, error)
 	}
 }
 
+// UserCredentialClient is a client for the UserCredential schema.
+type UserCredentialClient struct {
+	config
+}
+
+// NewUserCredentialClient returns a client for the UserCredential from the given config.
+func NewUserCredentialClient(c config) *UserCredentialClient {
+	return &UserCredentialClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `usercredential.Hooks(f(g(h())))`.
+func (c *UserCredentialClient) Use(hooks ...Hook) {
+	c.hooks.UserCredential = append(c.hooks.UserCredential, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `usercredential.Intercept(f(g(h())))`.
+func (c *UserCredentialClient) Intercept(interceptors ...Interceptor) {
+	c.inters.UserCredential = append(c.inters.UserCredential, interceptors...)
+}
+
+// Create returns a builder for creating a UserCredential entity.
+func (c *UserCredentialClient) Create() *UserCredentialCreate {
+	mutation := newUserCredentialMutation(c.config, OpCreate)
+	return &UserCredentialCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of UserCredential entities.
+func (c *UserCredentialClient) CreateBulk(builders ...*UserCredentialCreate) *UserCredentialCreateBulk {
+	return &UserCredentialCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *UserCredentialClient) MapCreateBulk(slice any, setFunc func(*UserCredentialCreate, int)) *UserCredentialCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &UserCredentialCreateBulk{err: fmt.Errorf("calling to UserCredentialClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*UserCredentialCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &UserCredentialCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for UserCredential.
+func (c *UserCredentialClient) Update() *UserCredentialUpdate {
+	mutation := newUserCredentialMutation(c.config, OpUpdate)
+	return &UserCredentialUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *UserCredentialClient) UpdateOne(uc *UserCredential) *UserCredentialUpdateOne {
+	mutation := newUserCredentialMutation(c.config, OpUpdateOne, withUserCredential(uc))
+	return &UserCredentialUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *UserCredentialClient) UpdateOneID(id uint32) *UserCredentialUpdateOne {
+	mutation := newUserCredentialMutation(c.config, OpUpdateOne, withUserCredentialID(id))
+	return &UserCredentialUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for UserCredential.
+func (c *UserCredentialClient) Delete() *UserCredentialDelete {
+	mutation := newUserCredentialMutation(c.config, OpDelete)
+	return &UserCredentialDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *UserCredentialClient) DeleteOne(uc *UserCredential) *UserCredentialDeleteOne {
+	return c.DeleteOneID(uc.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *UserCredentialClient) DeleteOneID(id uint32) *UserCredentialDeleteOne {
+	builder := c.Delete().Where(usercredential.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &UserCredentialDeleteOne{builder}
+}
+
+// Query returns a query builder for UserCredential.
+func (c *UserCredentialClient) Query() *UserCredentialQuery {
+	return &UserCredentialQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeUserCredential},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a UserCredential entity by its id.
+func (c *UserCredentialClient) Get(ctx context.Context, id uint32) (*UserCredential, error) {
+	return c.Query().Where(usercredential.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *UserCredentialClient) GetX(ctx context.Context, id uint32) *UserCredential {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *UserCredentialClient) Hooks() []Hook {
+	return c.hooks.UserCredential
+}
+
+// Interceptors returns the client interceptors.
+func (c *UserCredentialClient) Interceptors() []Interceptor {
+	return c.inters.UserCredential
+}
+
+func (c *UserCredentialClient) mutate(ctx context.Context, m *UserCredentialMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&UserCredentialCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&UserCredentialUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&UserCredentialUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&UserCredentialDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown UserCredential mutation op: %q", m.Op())
+	}
+}
+
 // hooks and interceptors per client, for fast access.
 type (
 	hooks struct {
 		AdminLoginLog, AdminLoginRestriction, AdminOperationLog, Department, Dict, File,
 		Menu, NotificationMessage, NotificationMessageCategory,
 		NotificationMessageRecipient, Organization, Position, PrivateMessage, Role,
-		Task, Tenant, User []ent.Hook
+		Task, Tenant, User, UserCredential []ent.Hook
 	}
 	inters struct {
 		AdminLoginLog, AdminLoginRestriction, AdminOperationLog, Department, Dict, File,
 		Menu, NotificationMessage, NotificationMessageCategory,
 		NotificationMessageRecipient, Organization, Position, PrivateMessage, Role,
-		Task, Tenant, User []ent.Interceptor
+		Task, Tenant, User, UserCredential []ent.Interceptor
 	}
 )

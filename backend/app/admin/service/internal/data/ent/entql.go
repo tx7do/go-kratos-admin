@@ -21,6 +21,7 @@ import (
 	"kratos-admin/app/admin/service/internal/data/ent/task"
 	"kratos-admin/app/admin/service/internal/data/ent/tenant"
 	"kratos-admin/app/admin/service/internal/data/ent/user"
+	"kratos-admin/app/admin/service/internal/data/ent/usercredential"
 
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
@@ -30,7 +31,7 @@ import (
 
 // schemaGraph holds a representation of ent/schema at runtime.
 var schemaGraph = func() *sqlgraph.Schema {
-	graph := &sqlgraph.Schema{Nodes: make([]*sqlgraph.Node, 17)}
+	graph := &sqlgraph.Schema{Nodes: make([]*sqlgraph.Node, 18)}
 	graph.Nodes[0] = &sqlgraph.Node{
 		NodeSpec: sqlgraph.NodeSpec{
 			Table:   adminloginlog.Table,
@@ -487,6 +488,33 @@ var schemaGraph = func() *sqlgraph.Schema {
 			user.FieldOrgID:         {Type: field.TypeUint32, Column: user.FieldOrgID},
 			user.FieldPositionID:    {Type: field.TypeUint32, Column: user.FieldPositionID},
 			user.FieldWorkID:        {Type: field.TypeUint32, Column: user.FieldWorkID},
+		},
+	}
+	graph.Nodes[17] = &sqlgraph.Node{
+		NodeSpec: sqlgraph.NodeSpec{
+			Table:   usercredential.Table,
+			Columns: usercredential.Columns,
+			ID: &sqlgraph.FieldSpec{
+				Type:   field.TypeUint32,
+				Column: usercredential.FieldID,
+			},
+		},
+		Type: "UserCredential",
+		Fields: map[string]*sqlgraph.FieldSpec{
+			usercredential.FieldCreateTime:     {Type: field.TypeTime, Column: usercredential.FieldCreateTime},
+			usercredential.FieldUpdateTime:     {Type: field.TypeTime, Column: usercredential.FieldUpdateTime},
+			usercredential.FieldDeleteTime:     {Type: field.TypeTime, Column: usercredential.FieldDeleteTime},
+			usercredential.FieldTenantID:       {Type: field.TypeUint32, Column: usercredential.FieldTenantID},
+			usercredential.FieldUserID:         {Type: field.TypeUint32, Column: usercredential.FieldUserID},
+			usercredential.FieldIdentityType:   {Type: field.TypeEnum, Column: usercredential.FieldIdentityType},
+			usercredential.FieldIdentifier:     {Type: field.TypeString, Column: usercredential.FieldIdentifier},
+			usercredential.FieldCredentialType: {Type: field.TypeEnum, Column: usercredential.FieldCredentialType},
+			usercredential.FieldCredential:     {Type: field.TypeString, Column: usercredential.FieldCredential},
+			usercredential.FieldIsPrimary:      {Type: field.TypeBool, Column: usercredential.FieldIsPrimary},
+			usercredential.FieldStatus:         {Type: field.TypeEnum, Column: usercredential.FieldStatus},
+			usercredential.FieldExtraInfo:      {Type: field.TypeString, Column: usercredential.FieldExtraInfo},
+			usercredential.FieldActivateToken:  {Type: field.TypeString, Column: usercredential.FieldActivateToken},
+			usercredential.FieldResetToken:     {Type: field.TypeString, Column: usercredential.FieldResetToken},
 		},
 	}
 	graph.MustAddE(
@@ -2673,4 +2701,114 @@ func (f *UserFilter) WherePositionID(p entql.Uint32P) {
 // WhereWorkID applies the entql uint32 predicate on the work_id field.
 func (f *UserFilter) WhereWorkID(p entql.Uint32P) {
 	f.Where(p.Field(user.FieldWorkID))
+}
+
+// addPredicate implements the predicateAdder interface.
+func (ucq *UserCredentialQuery) addPredicate(pred func(s *sql.Selector)) {
+	ucq.predicates = append(ucq.predicates, pred)
+}
+
+// Filter returns a Filter implementation to apply filters on the UserCredentialQuery builder.
+func (ucq *UserCredentialQuery) Filter() *UserCredentialFilter {
+	return &UserCredentialFilter{config: ucq.config, predicateAdder: ucq}
+}
+
+// addPredicate implements the predicateAdder interface.
+func (m *UserCredentialMutation) addPredicate(pred func(s *sql.Selector)) {
+	m.predicates = append(m.predicates, pred)
+}
+
+// Filter returns an entql.Where implementation to apply filters on the UserCredentialMutation builder.
+func (m *UserCredentialMutation) Filter() *UserCredentialFilter {
+	return &UserCredentialFilter{config: m.config, predicateAdder: m}
+}
+
+// UserCredentialFilter provides a generic filtering capability at runtime for UserCredentialQuery.
+type UserCredentialFilter struct {
+	predicateAdder
+	config
+}
+
+// Where applies the entql predicate on the query filter.
+func (f *UserCredentialFilter) Where(p entql.P) {
+	f.addPredicate(func(s *sql.Selector) {
+		if err := schemaGraph.EvalP(schemaGraph.Nodes[17].Type, p, s); err != nil {
+			s.AddError(err)
+		}
+	})
+}
+
+// WhereID applies the entql uint32 predicate on the id field.
+func (f *UserCredentialFilter) WhereID(p entql.Uint32P) {
+	f.Where(p.Field(usercredential.FieldID))
+}
+
+// WhereCreateTime applies the entql time.Time predicate on the create_time field.
+func (f *UserCredentialFilter) WhereCreateTime(p entql.TimeP) {
+	f.Where(p.Field(usercredential.FieldCreateTime))
+}
+
+// WhereUpdateTime applies the entql time.Time predicate on the update_time field.
+func (f *UserCredentialFilter) WhereUpdateTime(p entql.TimeP) {
+	f.Where(p.Field(usercredential.FieldUpdateTime))
+}
+
+// WhereDeleteTime applies the entql time.Time predicate on the delete_time field.
+func (f *UserCredentialFilter) WhereDeleteTime(p entql.TimeP) {
+	f.Where(p.Field(usercredential.FieldDeleteTime))
+}
+
+// WhereTenantID applies the entql uint32 predicate on the tenant_id field.
+func (f *UserCredentialFilter) WhereTenantID(p entql.Uint32P) {
+	f.Where(p.Field(usercredential.FieldTenantID))
+}
+
+// WhereUserID applies the entql uint32 predicate on the user_id field.
+func (f *UserCredentialFilter) WhereUserID(p entql.Uint32P) {
+	f.Where(p.Field(usercredential.FieldUserID))
+}
+
+// WhereIdentityType applies the entql string predicate on the identity_type field.
+func (f *UserCredentialFilter) WhereIdentityType(p entql.StringP) {
+	f.Where(p.Field(usercredential.FieldIdentityType))
+}
+
+// WhereIdentifier applies the entql string predicate on the identifier field.
+func (f *UserCredentialFilter) WhereIdentifier(p entql.StringP) {
+	f.Where(p.Field(usercredential.FieldIdentifier))
+}
+
+// WhereCredentialType applies the entql string predicate on the credential_type field.
+func (f *UserCredentialFilter) WhereCredentialType(p entql.StringP) {
+	f.Where(p.Field(usercredential.FieldCredentialType))
+}
+
+// WhereCredential applies the entql string predicate on the credential field.
+func (f *UserCredentialFilter) WhereCredential(p entql.StringP) {
+	f.Where(p.Field(usercredential.FieldCredential))
+}
+
+// WhereIsPrimary applies the entql bool predicate on the is_primary field.
+func (f *UserCredentialFilter) WhereIsPrimary(p entql.BoolP) {
+	f.Where(p.Field(usercredential.FieldIsPrimary))
+}
+
+// WhereStatus applies the entql string predicate on the status field.
+func (f *UserCredentialFilter) WhereStatus(p entql.StringP) {
+	f.Where(p.Field(usercredential.FieldStatus))
+}
+
+// WhereExtraInfo applies the entql string predicate on the extra_info field.
+func (f *UserCredentialFilter) WhereExtraInfo(p entql.StringP) {
+	f.Where(p.Field(usercredential.FieldExtraInfo))
+}
+
+// WhereActivateToken applies the entql string predicate on the activate_token field.
+func (f *UserCredentialFilter) WhereActivateToken(p entql.StringP) {
+	f.Where(p.Field(usercredential.FieldActivateToken))
+}
+
+// WhereResetToken applies the entql string predicate on the reset_token field.
+func (f *UserCredentialFilter) WhereResetToken(p entql.StringP) {
+	f.Where(p.Field(usercredential.FieldResetToken))
 }

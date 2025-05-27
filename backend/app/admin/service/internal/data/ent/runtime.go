@@ -21,6 +21,7 @@ import (
 	"kratos-admin/app/admin/service/internal/data/ent/task"
 	"kratos-admin/app/admin/service/internal/data/ent/tenant"
 	"kratos-admin/app/admin/service/internal/data/ent/user"
+	"kratos-admin/app/admin/service/internal/data/ent/usercredential"
 	"time"
 )
 
@@ -501,4 +502,39 @@ func init() {
 	userDescID := userMixinFields0[0].Descriptor()
 	// user.IDValidator is a validator for the "id" field. It is called by the builders before save.
 	user.IDValidator = userDescID.Validators[0].(func(uint32) error)
+	usercredentialMixin := schema.UserCredential{}.Mixin()
+	usercredentialMixinFields1 := usercredentialMixin[1].Fields()
+	_ = usercredentialMixinFields1
+	usercredentialMixinFields2 := usercredentialMixin[2].Fields()
+	_ = usercredentialMixinFields2
+	usercredentialFields := schema.UserCredential{}.Fields()
+	_ = usercredentialFields
+	// usercredentialDescTenantID is the schema descriptor for tenant_id field.
+	usercredentialDescTenantID := usercredentialMixinFields2[0].Descriptor()
+	// usercredential.TenantIDValidator is a validator for the "tenant_id" field. It is called by the builders before save.
+	usercredential.TenantIDValidator = usercredentialDescTenantID.Validators[0].(func(uint32) error)
+	// usercredentialDescIdentifier is the schema descriptor for identifier field.
+	usercredentialDescIdentifier := usercredentialFields[2].Descriptor()
+	// usercredential.IdentifierValidator is a validator for the "identifier" field. It is called by the builders before save.
+	usercredential.IdentifierValidator = usercredentialDescIdentifier.Validators[0].(func(string) error)
+	// usercredentialDescCredential is the schema descriptor for credential field.
+	usercredentialDescCredential := usercredentialFields[4].Descriptor()
+	// usercredential.CredentialValidator is a validator for the "credential" field. It is called by the builders before save.
+	usercredential.CredentialValidator = usercredentialDescCredential.Validators[0].(func(string) error)
+	// usercredentialDescIsPrimary is the schema descriptor for is_primary field.
+	usercredentialDescIsPrimary := usercredentialFields[5].Descriptor()
+	// usercredential.DefaultIsPrimary holds the default value on creation for the is_primary field.
+	usercredential.DefaultIsPrimary = usercredentialDescIsPrimary.Default.(bool)
+	// usercredentialDescActivateToken is the schema descriptor for activate_token field.
+	usercredentialDescActivateToken := usercredentialFields[8].Descriptor()
+	// usercredential.ActivateTokenValidator is a validator for the "activate_token" field. It is called by the builders before save.
+	usercredential.ActivateTokenValidator = usercredentialDescActivateToken.Validators[0].(func(string) error)
+	// usercredentialDescResetToken is the schema descriptor for reset_token field.
+	usercredentialDescResetToken := usercredentialFields[9].Descriptor()
+	// usercredential.ResetTokenValidator is a validator for the "reset_token" field. It is called by the builders before save.
+	usercredential.ResetTokenValidator = usercredentialDescResetToken.Validators[0].(func(string) error)
+	// usercredentialDescID is the schema descriptor for id field.
+	usercredentialDescID := usercredentialMixinFields1[0].Descriptor()
+	// usercredential.IDValidator is a validator for the "id" field. It is called by the builders before save.
+	usercredential.IDValidator = usercredentialDescID.Validators[0].(func(uint32) error)
 }

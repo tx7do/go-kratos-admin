@@ -23,6 +23,7 @@ import (
 	"kratos-admin/app/admin/service/internal/data/ent/task"
 	"kratos-admin/app/admin/service/internal/data/ent/tenant"
 	"kratos-admin/app/admin/service/internal/data/ent/user"
+	"kratos-admin/app/admin/service/internal/data/ent/usercredential"
 	"reflect"
 	"sync"
 
@@ -106,6 +107,7 @@ func checkColumn(table, column string) error {
 			task.Table:                         task.ValidColumn,
 			tenant.Table:                       tenant.ValidColumn,
 			user.Table:                         user.ValidColumn,
+			usercredential.Table:               usercredential.ValidColumn,
 		})
 	})
 	return columnCheck(table, column)

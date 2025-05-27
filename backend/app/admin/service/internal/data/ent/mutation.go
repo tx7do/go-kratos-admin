@@ -25,6 +25,7 @@ import (
 	"kratos-admin/app/admin/service/internal/data/ent/task"
 	"kratos-admin/app/admin/service/internal/data/ent/tenant"
 	"kratos-admin/app/admin/service/internal/data/ent/user"
+	"kratos-admin/app/admin/service/internal/data/ent/usercredential"
 	"sync"
 	"time"
 
@@ -58,6 +59,7 @@ const (
 	TypeTask                         = "Task"
 	TypeTenant                       = "Tenant"
 	TypeUser                         = "User"
+	TypeUserCredential               = "UserCredential"
 )
 
 // AdminLoginLogMutation represents an operation that mutates the AdminLoginLog nodes in the graph.
@@ -25088,4 +25090,1378 @@ func (m *UserMutation) ClearEdge(name string) error {
 // It returns an error if the edge is not defined in the schema.
 func (m *UserMutation) ResetEdge(name string) error {
 	return fmt.Errorf("unknown User edge %s", name)
+}
+
+// UserCredentialMutation represents an operation that mutates the UserCredential nodes in the graph.
+type UserCredentialMutation struct {
+	config
+	op              Op
+	typ             string
+	id              *uint32
+	create_time     *time.Time
+	update_time     *time.Time
+	delete_time     *time.Time
+	tenant_id       *uint32
+	addtenant_id    *int32
+	user_id         *uint32
+	adduser_id      *int32
+	identity_type   *usercredential.IdentityType
+	identifier      *string
+	credential_type *usercredential.CredentialType
+	credential      *string
+	is_primary      *bool
+	status          *usercredential.Status
+	extra_info      *string
+	activate_token  *string
+	reset_token     *string
+	clearedFields   map[string]struct{}
+	done            bool
+	oldValue        func(context.Context) (*UserCredential, error)
+	predicates      []predicate.UserCredential
+}
+
+var _ ent.Mutation = (*UserCredentialMutation)(nil)
+
+// usercredentialOption allows management of the mutation configuration using functional options.
+type usercredentialOption func(*UserCredentialMutation)
+
+// newUserCredentialMutation creates new mutation for the UserCredential entity.
+func newUserCredentialMutation(c config, op Op, opts ...usercredentialOption) *UserCredentialMutation {
+	m := &UserCredentialMutation{
+		config:        c,
+		op:            op,
+		typ:           TypeUserCredential,
+		clearedFields: make(map[string]struct{}),
+	}
+	for _, opt := range opts {
+		opt(m)
+	}
+	return m
+}
+
+// withUserCredentialID sets the ID field of the mutation.
+func withUserCredentialID(id uint32) usercredentialOption {
+	return func(m *UserCredentialMutation) {
+		var (
+			err   error
+			once  sync.Once
+			value *UserCredential
+		)
+		m.oldValue = func(ctx context.Context) (*UserCredential, error) {
+			once.Do(func() {
+				if m.done {
+					err = errors.New("querying old values post mutation is not allowed")
+				} else {
+					value, err = m.Client().UserCredential.Get(ctx, id)
+				}
+			})
+			return value, err
+		}
+		m.id = &id
+	}
+}
+
+// withUserCredential sets the old UserCredential of the mutation.
+func withUserCredential(node *UserCredential) usercredentialOption {
+	return func(m *UserCredentialMutation) {
+		m.oldValue = func(context.Context) (*UserCredential, error) {
+			return node, nil
+		}
+		m.id = &node.ID
+	}
+}
+
+// Client returns a new `ent.Client` from the mutation. If the mutation was
+// executed in a transaction (ent.Tx), a transactional client is returned.
+func (m UserCredentialMutation) Client() *Client {
+	client := &Client{config: m.config}
+	client.init()
+	return client
+}
+
+// Tx returns an `ent.Tx` for mutations that were executed in transactions;
+// it returns an error otherwise.
+func (m UserCredentialMutation) Tx() (*Tx, error) {
+	if _, ok := m.driver.(*txDriver); !ok {
+		return nil, errors.New("ent: mutation is not running in a transaction")
+	}
+	tx := &Tx{config: m.config}
+	tx.init()
+	return tx, nil
+}
+
+// SetID sets the value of the id field. Note that this
+// operation is only accepted on creation of UserCredential entities.
+func (m *UserCredentialMutation) SetID(id uint32) {
+	m.id = &id
+}
+
+// ID returns the ID value in the mutation. Note that the ID is only available
+// if it was provided to the builder or after it was returned from the database.
+func (m *UserCredentialMutation) ID() (id uint32, exists bool) {
+	if m.id == nil {
+		return
+	}
+	return *m.id, true
+}
+
+// IDs queries the database and returns the entity ids that match the mutation's predicate.
+// That means, if the mutation is applied within a transaction with an isolation level such
+// as sql.LevelSerializable, the returned ids match the ids of the rows that will be updated
+// or updated by the mutation.
+func (m *UserCredentialMutation) IDs(ctx context.Context) ([]uint32, error) {
+	switch {
+	case m.op.Is(OpUpdateOne | OpDeleteOne):
+		id, exists := m.ID()
+		if exists {
+			return []uint32{id}, nil
+		}
+		fallthrough
+	case m.op.Is(OpUpdate | OpDelete):
+		return m.Client().UserCredential.Query().Where(m.predicates...).IDs(ctx)
+	default:
+		return nil, fmt.Errorf("IDs is not allowed on %s operations", m.op)
+	}
+}
+
+// SetCreateTime sets the "create_time" field.
+func (m *UserCredentialMutation) SetCreateTime(t time.Time) {
+	m.create_time = &t
+}
+
+// CreateTime returns the value of the "create_time" field in the mutation.
+func (m *UserCredentialMutation) CreateTime() (r time.Time, exists bool) {
+	v := m.create_time
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldCreateTime returns the old "create_time" field's value of the UserCredential entity.
+// If the UserCredential object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *UserCredentialMutation) OldCreateTime(ctx context.Context) (v *time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldCreateTime is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldCreateTime requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldCreateTime: %w", err)
+	}
+	return oldValue.CreateTime, nil
+}
+
+// ClearCreateTime clears the value of the "create_time" field.
+func (m *UserCredentialMutation) ClearCreateTime() {
+	m.create_time = nil
+	m.clearedFields[usercredential.FieldCreateTime] = struct{}{}
+}
+
+// CreateTimeCleared returns if the "create_time" field was cleared in this mutation.
+func (m *UserCredentialMutation) CreateTimeCleared() bool {
+	_, ok := m.clearedFields[usercredential.FieldCreateTime]
+	return ok
+}
+
+// ResetCreateTime resets all changes to the "create_time" field.
+func (m *UserCredentialMutation) ResetCreateTime() {
+	m.create_time = nil
+	delete(m.clearedFields, usercredential.FieldCreateTime)
+}
+
+// SetUpdateTime sets the "update_time" field.
+func (m *UserCredentialMutation) SetUpdateTime(t time.Time) {
+	m.update_time = &t
+}
+
+// UpdateTime returns the value of the "update_time" field in the mutation.
+func (m *UserCredentialMutation) UpdateTime() (r time.Time, exists bool) {
+	v := m.update_time
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldUpdateTime returns the old "update_time" field's value of the UserCredential entity.
+// If the UserCredential object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *UserCredentialMutation) OldUpdateTime(ctx context.Context) (v *time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldUpdateTime is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldUpdateTime requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldUpdateTime: %w", err)
+	}
+	return oldValue.UpdateTime, nil
+}
+
+// ClearUpdateTime clears the value of the "update_time" field.
+func (m *UserCredentialMutation) ClearUpdateTime() {
+	m.update_time = nil
+	m.clearedFields[usercredential.FieldUpdateTime] = struct{}{}
+}
+
+// UpdateTimeCleared returns if the "update_time" field was cleared in this mutation.
+func (m *UserCredentialMutation) UpdateTimeCleared() bool {
+	_, ok := m.clearedFields[usercredential.FieldUpdateTime]
+	return ok
+}
+
+// ResetUpdateTime resets all changes to the "update_time" field.
+func (m *UserCredentialMutation) ResetUpdateTime() {
+	m.update_time = nil
+	delete(m.clearedFields, usercredential.FieldUpdateTime)
+}
+
+// SetDeleteTime sets the "delete_time" field.
+func (m *UserCredentialMutation) SetDeleteTime(t time.Time) {
+	m.delete_time = &t
+}
+
+// DeleteTime returns the value of the "delete_time" field in the mutation.
+func (m *UserCredentialMutation) DeleteTime() (r time.Time, exists bool) {
+	v := m.delete_time
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldDeleteTime returns the old "delete_time" field's value of the UserCredential entity.
+// If the UserCredential object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *UserCredentialMutation) OldDeleteTime(ctx context.Context) (v *time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldDeleteTime is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldDeleteTime requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldDeleteTime: %w", err)
+	}
+	return oldValue.DeleteTime, nil
+}
+
+// ClearDeleteTime clears the value of the "delete_time" field.
+func (m *UserCredentialMutation) ClearDeleteTime() {
+	m.delete_time = nil
+	m.clearedFields[usercredential.FieldDeleteTime] = struct{}{}
+}
+
+// DeleteTimeCleared returns if the "delete_time" field was cleared in this mutation.
+func (m *UserCredentialMutation) DeleteTimeCleared() bool {
+	_, ok := m.clearedFields[usercredential.FieldDeleteTime]
+	return ok
+}
+
+// ResetDeleteTime resets all changes to the "delete_time" field.
+func (m *UserCredentialMutation) ResetDeleteTime() {
+	m.delete_time = nil
+	delete(m.clearedFields, usercredential.FieldDeleteTime)
+}
+
+// SetTenantID sets the "tenant_id" field.
+func (m *UserCredentialMutation) SetTenantID(u uint32) {
+	m.tenant_id = &u
+	m.addtenant_id = nil
+}
+
+// TenantID returns the value of the "tenant_id" field in the mutation.
+func (m *UserCredentialMutation) TenantID() (r uint32, exists bool) {
+	v := m.tenant_id
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldTenantID returns the old "tenant_id" field's value of the UserCredential entity.
+// If the UserCredential object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *UserCredentialMutation) OldTenantID(ctx context.Context) (v *uint32, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldTenantID is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldTenantID requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldTenantID: %w", err)
+	}
+	return oldValue.TenantID, nil
+}
+
+// AddTenantID adds u to the "tenant_id" field.
+func (m *UserCredentialMutation) AddTenantID(u int32) {
+	if m.addtenant_id != nil {
+		*m.addtenant_id += u
+	} else {
+		m.addtenant_id = &u
+	}
+}
+
+// AddedTenantID returns the value that was added to the "tenant_id" field in this mutation.
+func (m *UserCredentialMutation) AddedTenantID() (r int32, exists bool) {
+	v := m.addtenant_id
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ClearTenantID clears the value of the "tenant_id" field.
+func (m *UserCredentialMutation) ClearTenantID() {
+	m.tenant_id = nil
+	m.addtenant_id = nil
+	m.clearedFields[usercredential.FieldTenantID] = struct{}{}
+}
+
+// TenantIDCleared returns if the "tenant_id" field was cleared in this mutation.
+func (m *UserCredentialMutation) TenantIDCleared() bool {
+	_, ok := m.clearedFields[usercredential.FieldTenantID]
+	return ok
+}
+
+// ResetTenantID resets all changes to the "tenant_id" field.
+func (m *UserCredentialMutation) ResetTenantID() {
+	m.tenant_id = nil
+	m.addtenant_id = nil
+	delete(m.clearedFields, usercredential.FieldTenantID)
+}
+
+// SetUserID sets the "user_id" field.
+func (m *UserCredentialMutation) SetUserID(u uint32) {
+	m.user_id = &u
+	m.adduser_id = nil
+}
+
+// UserID returns the value of the "user_id" field in the mutation.
+func (m *UserCredentialMutation) UserID() (r uint32, exists bool) {
+	v := m.user_id
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldUserID returns the old "user_id" field's value of the UserCredential entity.
+// If the UserCredential object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *UserCredentialMutation) OldUserID(ctx context.Context) (v *uint32, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldUserID is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldUserID requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldUserID: %w", err)
+	}
+	return oldValue.UserID, nil
+}
+
+// AddUserID adds u to the "user_id" field.
+func (m *UserCredentialMutation) AddUserID(u int32) {
+	if m.adduser_id != nil {
+		*m.adduser_id += u
+	} else {
+		m.adduser_id = &u
+	}
+}
+
+// AddedUserID returns the value that was added to the "user_id" field in this mutation.
+func (m *UserCredentialMutation) AddedUserID() (r int32, exists bool) {
+	v := m.adduser_id
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ClearUserID clears the value of the "user_id" field.
+func (m *UserCredentialMutation) ClearUserID() {
+	m.user_id = nil
+	m.adduser_id = nil
+	m.clearedFields[usercredential.FieldUserID] = struct{}{}
+}
+
+// UserIDCleared returns if the "user_id" field was cleared in this mutation.
+func (m *UserCredentialMutation) UserIDCleared() bool {
+	_, ok := m.clearedFields[usercredential.FieldUserID]
+	return ok
+}
+
+// ResetUserID resets all changes to the "user_id" field.
+func (m *UserCredentialMutation) ResetUserID() {
+	m.user_id = nil
+	m.adduser_id = nil
+	delete(m.clearedFields, usercredential.FieldUserID)
+}
+
+// SetIdentityType sets the "identity_type" field.
+func (m *UserCredentialMutation) SetIdentityType(ut usercredential.IdentityType) {
+	m.identity_type = &ut
+}
+
+// IdentityType returns the value of the "identity_type" field in the mutation.
+func (m *UserCredentialMutation) IdentityType() (r usercredential.IdentityType, exists bool) {
+	v := m.identity_type
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldIdentityType returns the old "identity_type" field's value of the UserCredential entity.
+// If the UserCredential object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *UserCredentialMutation) OldIdentityType(ctx context.Context) (v *usercredential.IdentityType, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldIdentityType is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldIdentityType requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldIdentityType: %w", err)
+	}
+	return oldValue.IdentityType, nil
+}
+
+// ClearIdentityType clears the value of the "identity_type" field.
+func (m *UserCredentialMutation) ClearIdentityType() {
+	m.identity_type = nil
+	m.clearedFields[usercredential.FieldIdentityType] = struct{}{}
+}
+
+// IdentityTypeCleared returns if the "identity_type" field was cleared in this mutation.
+func (m *UserCredentialMutation) IdentityTypeCleared() bool {
+	_, ok := m.clearedFields[usercredential.FieldIdentityType]
+	return ok
+}
+
+// ResetIdentityType resets all changes to the "identity_type" field.
+func (m *UserCredentialMutation) ResetIdentityType() {
+	m.identity_type = nil
+	delete(m.clearedFields, usercredential.FieldIdentityType)
+}
+
+// SetIdentifier sets the "identifier" field.
+func (m *UserCredentialMutation) SetIdentifier(s string) {
+	m.identifier = &s
+}
+
+// Identifier returns the value of the "identifier" field in the mutation.
+func (m *UserCredentialMutation) Identifier() (r string, exists bool) {
+	v := m.identifier
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldIdentifier returns the old "identifier" field's value of the UserCredential entity.
+// If the UserCredential object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *UserCredentialMutation) OldIdentifier(ctx context.Context) (v *string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldIdentifier is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldIdentifier requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldIdentifier: %w", err)
+	}
+	return oldValue.Identifier, nil
+}
+
+// ClearIdentifier clears the value of the "identifier" field.
+func (m *UserCredentialMutation) ClearIdentifier() {
+	m.identifier = nil
+	m.clearedFields[usercredential.FieldIdentifier] = struct{}{}
+}
+
+// IdentifierCleared returns if the "identifier" field was cleared in this mutation.
+func (m *UserCredentialMutation) IdentifierCleared() bool {
+	_, ok := m.clearedFields[usercredential.FieldIdentifier]
+	return ok
+}
+
+// ResetIdentifier resets all changes to the "identifier" field.
+func (m *UserCredentialMutation) ResetIdentifier() {
+	m.identifier = nil
+	delete(m.clearedFields, usercredential.FieldIdentifier)
+}
+
+// SetCredentialType sets the "credential_type" field.
+func (m *UserCredentialMutation) SetCredentialType(ut usercredential.CredentialType) {
+	m.credential_type = &ut
+}
+
+// CredentialType returns the value of the "credential_type" field in the mutation.
+func (m *UserCredentialMutation) CredentialType() (r usercredential.CredentialType, exists bool) {
+	v := m.credential_type
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldCredentialType returns the old "credential_type" field's value of the UserCredential entity.
+// If the UserCredential object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *UserCredentialMutation) OldCredentialType(ctx context.Context) (v *usercredential.CredentialType, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldCredentialType is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldCredentialType requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldCredentialType: %w", err)
+	}
+	return oldValue.CredentialType, nil
+}
+
+// ClearCredentialType clears the value of the "credential_type" field.
+func (m *UserCredentialMutation) ClearCredentialType() {
+	m.credential_type = nil
+	m.clearedFields[usercredential.FieldCredentialType] = struct{}{}
+}
+
+// CredentialTypeCleared returns if the "credential_type" field was cleared in this mutation.
+func (m *UserCredentialMutation) CredentialTypeCleared() bool {
+	_, ok := m.clearedFields[usercredential.FieldCredentialType]
+	return ok
+}
+
+// ResetCredentialType resets all changes to the "credential_type" field.
+func (m *UserCredentialMutation) ResetCredentialType() {
+	m.credential_type = nil
+	delete(m.clearedFields, usercredential.FieldCredentialType)
+}
+
+// SetCredential sets the "credential" field.
+func (m *UserCredentialMutation) SetCredential(s string) {
+	m.credential = &s
+}
+
+// Credential returns the value of the "credential" field in the mutation.
+func (m *UserCredentialMutation) Credential() (r string, exists bool) {
+	v := m.credential
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldCredential returns the old "credential" field's value of the UserCredential entity.
+// If the UserCredential object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *UserCredentialMutation) OldCredential(ctx context.Context) (v *string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldCredential is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldCredential requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldCredential: %w", err)
+	}
+	return oldValue.Credential, nil
+}
+
+// ClearCredential clears the value of the "credential" field.
+func (m *UserCredentialMutation) ClearCredential() {
+	m.credential = nil
+	m.clearedFields[usercredential.FieldCredential] = struct{}{}
+}
+
+// CredentialCleared returns if the "credential" field was cleared in this mutation.
+func (m *UserCredentialMutation) CredentialCleared() bool {
+	_, ok := m.clearedFields[usercredential.FieldCredential]
+	return ok
+}
+
+// ResetCredential resets all changes to the "credential" field.
+func (m *UserCredentialMutation) ResetCredential() {
+	m.credential = nil
+	delete(m.clearedFields, usercredential.FieldCredential)
+}
+
+// SetIsPrimary sets the "is_primary" field.
+func (m *UserCredentialMutation) SetIsPrimary(b bool) {
+	m.is_primary = &b
+}
+
+// IsPrimary returns the value of the "is_primary" field in the mutation.
+func (m *UserCredentialMutation) IsPrimary() (r bool, exists bool) {
+	v := m.is_primary
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldIsPrimary returns the old "is_primary" field's value of the UserCredential entity.
+// If the UserCredential object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *UserCredentialMutation) OldIsPrimary(ctx context.Context) (v *bool, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldIsPrimary is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldIsPrimary requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldIsPrimary: %w", err)
+	}
+	return oldValue.IsPrimary, nil
+}
+
+// ClearIsPrimary clears the value of the "is_primary" field.
+func (m *UserCredentialMutation) ClearIsPrimary() {
+	m.is_primary = nil
+	m.clearedFields[usercredential.FieldIsPrimary] = struct{}{}
+}
+
+// IsPrimaryCleared returns if the "is_primary" field was cleared in this mutation.
+func (m *UserCredentialMutation) IsPrimaryCleared() bool {
+	_, ok := m.clearedFields[usercredential.FieldIsPrimary]
+	return ok
+}
+
+// ResetIsPrimary resets all changes to the "is_primary" field.
+func (m *UserCredentialMutation) ResetIsPrimary() {
+	m.is_primary = nil
+	delete(m.clearedFields, usercredential.FieldIsPrimary)
+}
+
+// SetStatus sets the "status" field.
+func (m *UserCredentialMutation) SetStatus(u usercredential.Status) {
+	m.status = &u
+}
+
+// Status returns the value of the "status" field in the mutation.
+func (m *UserCredentialMutation) Status() (r usercredential.Status, exists bool) {
+	v := m.status
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldStatus returns the old "status" field's value of the UserCredential entity.
+// If the UserCredential object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *UserCredentialMutation) OldStatus(ctx context.Context) (v *usercredential.Status, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldStatus is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldStatus requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldStatus: %w", err)
+	}
+	return oldValue.Status, nil
+}
+
+// ClearStatus clears the value of the "status" field.
+func (m *UserCredentialMutation) ClearStatus() {
+	m.status = nil
+	m.clearedFields[usercredential.FieldStatus] = struct{}{}
+}
+
+// StatusCleared returns if the "status" field was cleared in this mutation.
+func (m *UserCredentialMutation) StatusCleared() bool {
+	_, ok := m.clearedFields[usercredential.FieldStatus]
+	return ok
+}
+
+// ResetStatus resets all changes to the "status" field.
+func (m *UserCredentialMutation) ResetStatus() {
+	m.status = nil
+	delete(m.clearedFields, usercredential.FieldStatus)
+}
+
+// SetExtraInfo sets the "extra_info" field.
+func (m *UserCredentialMutation) SetExtraInfo(s string) {
+	m.extra_info = &s
+}
+
+// ExtraInfo returns the value of the "extra_info" field in the mutation.
+func (m *UserCredentialMutation) ExtraInfo() (r string, exists bool) {
+	v := m.extra_info
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldExtraInfo returns the old "extra_info" field's value of the UserCredential entity.
+// If the UserCredential object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *UserCredentialMutation) OldExtraInfo(ctx context.Context) (v *string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldExtraInfo is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldExtraInfo requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldExtraInfo: %w", err)
+	}
+	return oldValue.ExtraInfo, nil
+}
+
+// ClearExtraInfo clears the value of the "extra_info" field.
+func (m *UserCredentialMutation) ClearExtraInfo() {
+	m.extra_info = nil
+	m.clearedFields[usercredential.FieldExtraInfo] = struct{}{}
+}
+
+// ExtraInfoCleared returns if the "extra_info" field was cleared in this mutation.
+func (m *UserCredentialMutation) ExtraInfoCleared() bool {
+	_, ok := m.clearedFields[usercredential.FieldExtraInfo]
+	return ok
+}
+
+// ResetExtraInfo resets all changes to the "extra_info" field.
+func (m *UserCredentialMutation) ResetExtraInfo() {
+	m.extra_info = nil
+	delete(m.clearedFields, usercredential.FieldExtraInfo)
+}
+
+// SetActivateToken sets the "activate_token" field.
+func (m *UserCredentialMutation) SetActivateToken(s string) {
+	m.activate_token = &s
+}
+
+// ActivateToken returns the value of the "activate_token" field in the mutation.
+func (m *UserCredentialMutation) ActivateToken() (r string, exists bool) {
+	v := m.activate_token
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldActivateToken returns the old "activate_token" field's value of the UserCredential entity.
+// If the UserCredential object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *UserCredentialMutation) OldActivateToken(ctx context.Context) (v *string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldActivateToken is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldActivateToken requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldActivateToken: %w", err)
+	}
+	return oldValue.ActivateToken, nil
+}
+
+// ClearActivateToken clears the value of the "activate_token" field.
+func (m *UserCredentialMutation) ClearActivateToken() {
+	m.activate_token = nil
+	m.clearedFields[usercredential.FieldActivateToken] = struct{}{}
+}
+
+// ActivateTokenCleared returns if the "activate_token" field was cleared in this mutation.
+func (m *UserCredentialMutation) ActivateTokenCleared() bool {
+	_, ok := m.clearedFields[usercredential.FieldActivateToken]
+	return ok
+}
+
+// ResetActivateToken resets all changes to the "activate_token" field.
+func (m *UserCredentialMutation) ResetActivateToken() {
+	m.activate_token = nil
+	delete(m.clearedFields, usercredential.FieldActivateToken)
+}
+
+// SetResetToken sets the "reset_token" field.
+func (m *UserCredentialMutation) SetResetToken(s string) {
+	m.reset_token = &s
+}
+
+// ResetToken returns the value of the "reset_token" field in the mutation.
+func (m *UserCredentialMutation) ResetToken() (r string, exists bool) {
+	v := m.reset_token
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldResetToken returns the old "reset_token" field's value of the UserCredential entity.
+// If the UserCredential object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *UserCredentialMutation) OldResetToken(ctx context.Context) (v *string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldResetToken is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldResetToken requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldResetToken: %w", err)
+	}
+	return oldValue.ResetToken, nil
+}
+
+// ClearResetToken clears the value of the "reset_token" field.
+func (m *UserCredentialMutation) ClearResetToken() {
+	m.reset_token = nil
+	m.clearedFields[usercredential.FieldResetToken] = struct{}{}
+}
+
+// ResetTokenCleared returns if the "reset_token" field was cleared in this mutation.
+func (m *UserCredentialMutation) ResetTokenCleared() bool {
+	_, ok := m.clearedFields[usercredential.FieldResetToken]
+	return ok
+}
+
+// ResetResetToken resets all changes to the "reset_token" field.
+func (m *UserCredentialMutation) ResetResetToken() {
+	m.reset_token = nil
+	delete(m.clearedFields, usercredential.FieldResetToken)
+}
+
+// Where appends a list predicates to the UserCredentialMutation builder.
+func (m *UserCredentialMutation) Where(ps ...predicate.UserCredential) {
+	m.predicates = append(m.predicates, ps...)
+}
+
+// WhereP appends storage-level predicates to the UserCredentialMutation builder. Using this method,
+// users can use type-assertion to append predicates that do not depend on any generated package.
+func (m *UserCredentialMutation) WhereP(ps ...func(*sql.Selector)) {
+	p := make([]predicate.UserCredential, len(ps))
+	for i := range ps {
+		p[i] = ps[i]
+	}
+	m.Where(p...)
+}
+
+// Op returns the operation name.
+func (m *UserCredentialMutation) Op() Op {
+	return m.op
+}
+
+// SetOp allows setting the mutation operation.
+func (m *UserCredentialMutation) SetOp(op Op) {
+	m.op = op
+}
+
+// Type returns the node type of this mutation (UserCredential).
+func (m *UserCredentialMutation) Type() string {
+	return m.typ
+}
+
+// Fields returns all fields that were changed during this mutation. Note that in
+// order to get all numeric fields that were incremented/decremented, call
+// AddedFields().
+func (m *UserCredentialMutation) Fields() []string {
+	fields := make([]string, 0, 14)
+	if m.create_time != nil {
+		fields = append(fields, usercredential.FieldCreateTime)
+	}
+	if m.update_time != nil {
+		fields = append(fields, usercredential.FieldUpdateTime)
+	}
+	if m.delete_time != nil {
+		fields = append(fields, usercredential.FieldDeleteTime)
+	}
+	if m.tenant_id != nil {
+		fields = append(fields, usercredential.FieldTenantID)
+	}
+	if m.user_id != nil {
+		fields = append(fields, usercredential.FieldUserID)
+	}
+	if m.identity_type != nil {
+		fields = append(fields, usercredential.FieldIdentityType)
+	}
+	if m.identifier != nil {
+		fields = append(fields, usercredential.FieldIdentifier)
+	}
+	if m.credential_type != nil {
+		fields = append(fields, usercredential.FieldCredentialType)
+	}
+	if m.credential != nil {
+		fields = append(fields, usercredential.FieldCredential)
+	}
+	if m.is_primary != nil {
+		fields = append(fields, usercredential.FieldIsPrimary)
+	}
+	if m.status != nil {
+		fields = append(fields, usercredential.FieldStatus)
+	}
+	if m.extra_info != nil {
+		fields = append(fields, usercredential.FieldExtraInfo)
+	}
+	if m.activate_token != nil {
+		fields = append(fields, usercredential.FieldActivateToken)
+	}
+	if m.reset_token != nil {
+		fields = append(fields, usercredential.FieldResetToken)
+	}
+	return fields
+}
+
+// Field returns the value of a field with the given name. The second boolean
+// return value indicates that this field was not set, or was not defined in the
+// schema.
+func (m *UserCredentialMutation) Field(name string) (ent.Value, bool) {
+	switch name {
+	case usercredential.FieldCreateTime:
+		return m.CreateTime()
+	case usercredential.FieldUpdateTime:
+		return m.UpdateTime()
+	case usercredential.FieldDeleteTime:
+		return m.DeleteTime()
+	case usercredential.FieldTenantID:
+		return m.TenantID()
+	case usercredential.FieldUserID:
+		return m.UserID()
+	case usercredential.FieldIdentityType:
+		return m.IdentityType()
+	case usercredential.FieldIdentifier:
+		return m.Identifier()
+	case usercredential.FieldCredentialType:
+		return m.CredentialType()
+	case usercredential.FieldCredential:
+		return m.Credential()
+	case usercredential.FieldIsPrimary:
+		return m.IsPrimary()
+	case usercredential.FieldStatus:
+		return m.Status()
+	case usercredential.FieldExtraInfo:
+		return m.ExtraInfo()
+	case usercredential.FieldActivateToken:
+		return m.ActivateToken()
+	case usercredential.FieldResetToken:
+		return m.ResetToken()
+	}
+	return nil, false
+}
+
+// OldField returns the old value of the field from the database. An error is
+// returned if the mutation operation is not UpdateOne, or the query to the
+// database failed.
+func (m *UserCredentialMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
+	switch name {
+	case usercredential.FieldCreateTime:
+		return m.OldCreateTime(ctx)
+	case usercredential.FieldUpdateTime:
+		return m.OldUpdateTime(ctx)
+	case usercredential.FieldDeleteTime:
+		return m.OldDeleteTime(ctx)
+	case usercredential.FieldTenantID:
+		return m.OldTenantID(ctx)
+	case usercredential.FieldUserID:
+		return m.OldUserID(ctx)
+	case usercredential.FieldIdentityType:
+		return m.OldIdentityType(ctx)
+	case usercredential.FieldIdentifier:
+		return m.OldIdentifier(ctx)
+	case usercredential.FieldCredentialType:
+		return m.OldCredentialType(ctx)
+	case usercredential.FieldCredential:
+		return m.OldCredential(ctx)
+	case usercredential.FieldIsPrimary:
+		return m.OldIsPrimary(ctx)
+	case usercredential.FieldStatus:
+		return m.OldStatus(ctx)
+	case usercredential.FieldExtraInfo:
+		return m.OldExtraInfo(ctx)
+	case usercredential.FieldActivateToken:
+		return m.OldActivateToken(ctx)
+	case usercredential.FieldResetToken:
+		return m.OldResetToken(ctx)
+	}
+	return nil, fmt.Errorf("unknown UserCredential field %s", name)
+}
+
+// SetField sets the value of a field with the given name. It returns an error if
+// the field is not defined in the schema, or if the type mismatched the field
+// type.
+func (m *UserCredentialMutation) SetField(name string, value ent.Value) error {
+	switch name {
+	case usercredential.FieldCreateTime:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetCreateTime(v)
+		return nil
+	case usercredential.FieldUpdateTime:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetUpdateTime(v)
+		return nil
+	case usercredential.FieldDeleteTime:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetDeleteTime(v)
+		return nil
+	case usercredential.FieldTenantID:
+		v, ok := value.(uint32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetTenantID(v)
+		return nil
+	case usercredential.FieldUserID:
+		v, ok := value.(uint32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetUserID(v)
+		return nil
+	case usercredential.FieldIdentityType:
+		v, ok := value.(usercredential.IdentityType)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetIdentityType(v)
+		return nil
+	case usercredential.FieldIdentifier:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetIdentifier(v)
+		return nil
+	case usercredential.FieldCredentialType:
+		v, ok := value.(usercredential.CredentialType)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetCredentialType(v)
+		return nil
+	case usercredential.FieldCredential:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetCredential(v)
+		return nil
+	case usercredential.FieldIsPrimary:
+		v, ok := value.(bool)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetIsPrimary(v)
+		return nil
+	case usercredential.FieldStatus:
+		v, ok := value.(usercredential.Status)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetStatus(v)
+		return nil
+	case usercredential.FieldExtraInfo:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetExtraInfo(v)
+		return nil
+	case usercredential.FieldActivateToken:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetActivateToken(v)
+		return nil
+	case usercredential.FieldResetToken:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetResetToken(v)
+		return nil
+	}
+	return fmt.Errorf("unknown UserCredential field %s", name)
+}
+
+// AddedFields returns all numeric fields that were incremented/decremented during
+// this mutation.
+func (m *UserCredentialMutation) AddedFields() []string {
+	var fields []string
+	if m.addtenant_id != nil {
+		fields = append(fields, usercredential.FieldTenantID)
+	}
+	if m.adduser_id != nil {
+		fields = append(fields, usercredential.FieldUserID)
+	}
+	return fields
+}
+
+// AddedField returns the numeric value that was incremented/decremented on a field
+// with the given name. The second boolean return value indicates that this field
+// was not set, or was not defined in the schema.
+func (m *UserCredentialMutation) AddedField(name string) (ent.Value, bool) {
+	switch name {
+	case usercredential.FieldTenantID:
+		return m.AddedTenantID()
+	case usercredential.FieldUserID:
+		return m.AddedUserID()
+	}
+	return nil, false
+}
+
+// AddField adds the value to the field with the given name. It returns an error if
+// the field is not defined in the schema, or if the type mismatched the field
+// type.
+func (m *UserCredentialMutation) AddField(name string, value ent.Value) error {
+	switch name {
+	case usercredential.FieldTenantID:
+		v, ok := value.(int32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddTenantID(v)
+		return nil
+	case usercredential.FieldUserID:
+		v, ok := value.(int32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddUserID(v)
+		return nil
+	}
+	return fmt.Errorf("unknown UserCredential numeric field %s", name)
+}
+
+// ClearedFields returns all nullable fields that were cleared during this
+// mutation.
+func (m *UserCredentialMutation) ClearedFields() []string {
+	var fields []string
+	if m.FieldCleared(usercredential.FieldCreateTime) {
+		fields = append(fields, usercredential.FieldCreateTime)
+	}
+	if m.FieldCleared(usercredential.FieldUpdateTime) {
+		fields = append(fields, usercredential.FieldUpdateTime)
+	}
+	if m.FieldCleared(usercredential.FieldDeleteTime) {
+		fields = append(fields, usercredential.FieldDeleteTime)
+	}
+	if m.FieldCleared(usercredential.FieldTenantID) {
+		fields = append(fields, usercredential.FieldTenantID)
+	}
+	if m.FieldCleared(usercredential.FieldUserID) {
+		fields = append(fields, usercredential.FieldUserID)
+	}
+	if m.FieldCleared(usercredential.FieldIdentityType) {
+		fields = append(fields, usercredential.FieldIdentityType)
+	}
+	if m.FieldCleared(usercredential.FieldIdentifier) {
+		fields = append(fields, usercredential.FieldIdentifier)
+	}
+	if m.FieldCleared(usercredential.FieldCredentialType) {
+		fields = append(fields, usercredential.FieldCredentialType)
+	}
+	if m.FieldCleared(usercredential.FieldCredential) {
+		fields = append(fields, usercredential.FieldCredential)
+	}
+	if m.FieldCleared(usercredential.FieldIsPrimary) {
+		fields = append(fields, usercredential.FieldIsPrimary)
+	}
+	if m.FieldCleared(usercredential.FieldStatus) {
+		fields = append(fields, usercredential.FieldStatus)
+	}
+	if m.FieldCleared(usercredential.FieldExtraInfo) {
+		fields = append(fields, usercredential.FieldExtraInfo)
+	}
+	if m.FieldCleared(usercredential.FieldActivateToken) {
+		fields = append(fields, usercredential.FieldActivateToken)
+	}
+	if m.FieldCleared(usercredential.FieldResetToken) {
+		fields = append(fields, usercredential.FieldResetToken)
+	}
+	return fields
+}
+
+// FieldCleared returns a boolean indicating if a field with the given name was
+// cleared in this mutation.
+func (m *UserCredentialMutation) FieldCleared(name string) bool {
+	_, ok := m.clearedFields[name]
+	return ok
+}
+
+// ClearField clears the value of the field with the given name. It returns an
+// error if the field is not defined in the schema.
+func (m *UserCredentialMutation) ClearField(name string) error {
+	switch name {
+	case usercredential.FieldCreateTime:
+		m.ClearCreateTime()
+		return nil
+	case usercredential.FieldUpdateTime:
+		m.ClearUpdateTime()
+		return nil
+	case usercredential.FieldDeleteTime:
+		m.ClearDeleteTime()
+		return nil
+	case usercredential.FieldTenantID:
+		m.ClearTenantID()
+		return nil
+	case usercredential.FieldUserID:
+		m.ClearUserID()
+		return nil
+	case usercredential.FieldIdentityType:
+		m.ClearIdentityType()
+		return nil
+	case usercredential.FieldIdentifier:
+		m.ClearIdentifier()
+		return nil
+	case usercredential.FieldCredentialType:
+		m.ClearCredentialType()
+		return nil
+	case usercredential.FieldCredential:
+		m.ClearCredential()
+		return nil
+	case usercredential.FieldIsPrimary:
+		m.ClearIsPrimary()
+		return nil
+	case usercredential.FieldStatus:
+		m.ClearStatus()
+		return nil
+	case usercredential.FieldExtraInfo:
+		m.ClearExtraInfo()
+		return nil
+	case usercredential.FieldActivateToken:
+		m.ClearActivateToken()
+		return nil
+	case usercredential.FieldResetToken:
+		m.ClearResetToken()
+		return nil
+	}
+	return fmt.Errorf("unknown UserCredential nullable field %s", name)
+}
+
+// ResetField resets all changes in the mutation for the field with the given name.
+// It returns an error if the field is not defined in the schema.
+func (m *UserCredentialMutation) ResetField(name string) error {
+	switch name {
+	case usercredential.FieldCreateTime:
+		m.ResetCreateTime()
+		return nil
+	case usercredential.FieldUpdateTime:
+		m.ResetUpdateTime()
+		return nil
+	case usercredential.FieldDeleteTime:
+		m.ResetDeleteTime()
+		return nil
+	case usercredential.FieldTenantID:
+		m.ResetTenantID()
+		return nil
+	case usercredential.FieldUserID:
+		m.ResetUserID()
+		return nil
+	case usercredential.FieldIdentityType:
+		m.ResetIdentityType()
+		return nil
+	case usercredential.FieldIdentifier:
+		m.ResetIdentifier()
+		return nil
+	case usercredential.FieldCredentialType:
+		m.ResetCredentialType()
+		return nil
+	case usercredential.FieldCredential:
+		m.ResetCredential()
+		return nil
+	case usercredential.FieldIsPrimary:
+		m.ResetIsPrimary()
+		return nil
+	case usercredential.FieldStatus:
+		m.ResetStatus()
+		return nil
+	case usercredential.FieldExtraInfo:
+		m.ResetExtraInfo()
+		return nil
+	case usercredential.FieldActivateToken:
+		m.ResetActivateToken()
+		return nil
+	case usercredential.FieldResetToken:
+		m.ResetResetToken()
+		return nil
+	}
+	return fmt.Errorf("unknown UserCredential field %s", name)
+}
+
+// AddedEdges returns all edge names that were set/added in this mutation.
+func (m *UserCredentialMutation) AddedEdges() []string {
+	edges := make([]string, 0, 0)
+	return edges
+}
+
+// AddedIDs returns all IDs (to other nodes) that were added for the given edge
+// name in this mutation.
+func (m *UserCredentialMutation) AddedIDs(name string) []ent.Value {
+	return nil
+}
+
+// RemovedEdges returns all edge names that were removed in this mutation.
+func (m *UserCredentialMutation) RemovedEdges() []string {
+	edges := make([]string, 0, 0)
+	return edges
+}
+
+// RemovedIDs returns all IDs (to other nodes) that were removed for the edge with
+// the given name in this mutation.
+func (m *UserCredentialMutation) RemovedIDs(name string) []ent.Value {
+	return nil
+}
+
+// ClearedEdges returns all edge names that were cleared in this mutation.
+func (m *UserCredentialMutation) ClearedEdges() []string {
+	edges := make([]string, 0, 0)
+	return edges
+}
+
+// EdgeCleared returns a boolean which indicates if the edge with the given name
+// was cleared in this mutation.
+func (m *UserCredentialMutation) EdgeCleared(name string) bool {
+	return false
+}
+
+// ClearEdge clears the value of the edge with the given name. It returns an error
+// if that edge is not defined in the schema.
+func (m *UserCredentialMutation) ClearEdge(name string) error {
+	return fmt.Errorf("unknown UserCredential unique edge %s", name)
+}
+
+// ResetEdge resets all changes to the edge with the given name in this mutation.
+// It returns an error if the edge is not defined in the schema.
+func (m *UserCredentialMutation) ResetEdge(name string) error {
+	return fmt.Errorf("unknown UserCredential edge %s", name)
 }

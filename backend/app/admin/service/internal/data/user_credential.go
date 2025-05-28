@@ -2,6 +2,7 @@ package data
 
 import (
 	"context"
+	"encoding/base64"
 	"time"
 
 	"entgo.io/ent/dialect/sql"
@@ -461,6 +462,13 @@ func (r *UserCredentialRepo) GetByIdentifier(ctx context.Context, req *authentic
 }
 
 func (r *UserCredentialRepo) VerifyCredential(ctx context.Context, req *authenticationV1.VerifyCredentialRequest) (*authenticationV1.VerifyCredentialResponse, error) {
+	if req.GetNeedDecrypt() {
+		// 解密密码
+		bytesPass, _ := base64.StdEncoding.DecodeString(req.GetCredential())
+		plainPassword, _ := crypto.AesDecrypt(bytesPass, crypto.DefaultAESKey, nil)
+		req.Credential = string(plainPassword)
+	}
+
 	ret, err := r.data.db.Client().UserCredential.Query().
 		Select(usercredential.FieldCredentialType, usercredential.FieldCredential, usercredential.FieldStatus).
 		Where(

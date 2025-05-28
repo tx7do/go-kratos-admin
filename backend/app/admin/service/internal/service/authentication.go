@@ -2,7 +2,6 @@ package service
 
 import (
 	"context"
-
 	"github.com/go-kratos/kratos/v2/log"
 	"github.com/tx7do/go-utils/trans"
 	authnEngine "github.com/tx7do/kratos-authn/engine"
@@ -78,6 +77,7 @@ func (s *AuthenticationService) doGrantTypePassword(ctx context.Context, req *au
 		IdentityType: authenticationV1.IdentityType_USERNAME,
 		Identifier:   req.GetUsername(),
 		Credential:   req.GetPassword(),
+		NeedDecrypt:  true,
 	}); err != nil {
 		return nil, err
 	}

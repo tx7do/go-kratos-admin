@@ -974,6 +974,8 @@ func (m *VerifyCredentialRequest) validate(all bool) error {
 
 	// no validation rules for Credential
 
+	// no validation rules for NeedDecrypt
+
 	if len(errors) > 0 {
 		return VerifyCredentialRequestMultiError(errors)
 	}

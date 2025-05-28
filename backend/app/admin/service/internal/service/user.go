@@ -115,6 +115,11 @@ func (s *UserService) Create(ctx context.Context, req *userV1.CreateUserRequest)
 		return nil, err
 	}
 
+	if len(req.GetPassword()) == 0 {
+		// 如果没有设置密码，则默认设置为 666666
+		req.Password = trans.Ptr("666666")
+	}
+
 	if len(req.GetPassword()) > 0 {
 		if err = s.userCredentialsRepo.Create(ctx, &authenticationV1.CreateUserCredentialRequest{
 			Data: &authenticationV1.UserCredential{

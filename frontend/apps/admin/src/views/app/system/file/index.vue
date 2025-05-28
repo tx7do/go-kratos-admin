@@ -28,7 +28,7 @@ const formOptions: VbenFormProps = {
     {
       component: 'Input',
       fieldName: 'saveFileName',
-      label: $t('page.file.name'),
+      label: $t('page.file.saveFileName'),
       componentProps: {
         placeholder: $t('ui.placeholder.input'),
         allowClear: true,

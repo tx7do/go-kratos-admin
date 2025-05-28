@@ -123,6 +123,7 @@
   "file": {
     "moduleName": "文件",
     "fileName": "文件名",
+    "saveFileName": "保存文件名",
     "bucketName": "存储桶",
     "fileDirectory": "目录",
     "provider": "供应商",

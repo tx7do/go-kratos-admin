@@ -32,8 +32,8 @@ const [BaseForm, baseFormApi] = useVbenForm({
   schema: [
     {
       component: 'Input',
-      fieldName: 'name',
-      label: $t('page.file.name'),
+      fieldName: 'fileName',
+      label: $t('page.file.fileName'),
       componentProps: {
         placeholder: $t('ui.placeholder.input'),
         allowClear: true,

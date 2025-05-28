@@ -123,6 +123,7 @@
   "file": {
     "moduleName": "File",
     "fileName": "File Name",
+    "saveFileName": "Save File Name",
     "bucketName": "Bucket Name",
     "fileDirectory": "Directory",
     "provider": "Provider",

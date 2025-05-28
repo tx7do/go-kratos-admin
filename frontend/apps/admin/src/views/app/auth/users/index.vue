@@ -43,8 +43,8 @@ const formOptions: VbenFormProps = {
     },
     {
       component: 'Input',
-      fieldName: 'phone',
-      label: $t('page.user.form.phone'),
+      fieldName: 'mobile',
+      label: $t('page.user.form.mobile'),
       componentProps: {
         placeholder: $t('ui.placeholder.input'),
         allowClear: true,
@@ -109,7 +109,7 @@ const gridOptions: VxeGridProps<User> = {
     { title: $t('page.user.table.nickname'), field: 'nickname' },
     { title: $t('page.user.table.realname'), field: 'realname' },
     { title: $t('page.user.table.email'), field: 'email' },
-    { title: $t('page.user.table.phone'), field: 'phone' },
+    { title: $t('page.user.table.mobile'), field: 'mobile' },
     {
       title: $t('ui.table.createTime'),
       field: 'createTime',

@@ -350,10 +350,20 @@ func (r *UserRepo) Update(ctx context.Context, req *userV1.UpdateUserRequest) er
 	}
 
 	if req.UpdateMask != nil {
+		for i := 0; i < len(req.UpdateMask.GetPaths()); i++ {
+			if req.UpdateMask.Paths[i] == "password" {
+				req.UpdateMask.Paths = append(req.UpdateMask.Paths[:i], req.UpdateMask.Paths[i+1:]...)
+				i = i - 1
+				continue
+			}
+		}
+
 		req.UpdateMask.Normalize()
 		if !req.UpdateMask.IsValid(req.Data) {
+			r.log.Errorf("invalid field mask [%v]", req.UpdateMask)
 			return userV1.ErrorBadRequest("invalid field mask")
 		}
+
 		fieldmaskutil.Filter(req.GetData(), req.UpdateMask.GetPaths())
 	}
 

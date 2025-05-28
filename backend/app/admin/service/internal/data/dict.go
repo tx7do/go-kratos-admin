@@ -219,6 +219,7 @@ func (r *DictRepo) Update(ctx context.Context, req *adminV1.UpdateDictRequest) e
 	if req.UpdateMask != nil {
 		req.UpdateMask.Normalize()
 		if !req.UpdateMask.IsValid(req.Data) {
+			r.log.Errorf("invalid field mask [%v]", req.UpdateMask)
 			return adminV1.ErrorBadRequest("invalid field mask")
 		}
 		fieldmaskutil.Filter(req.GetData(), req.UpdateMask.GetPaths())

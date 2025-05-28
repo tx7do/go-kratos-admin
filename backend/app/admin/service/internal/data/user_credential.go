@@ -325,6 +325,7 @@ func (r *UserCredentialRepo) Update(ctx context.Context, req *authenticationV1.U
 	if req.UpdateMask != nil {
 		req.UpdateMask.Normalize()
 		if !req.UpdateMask.IsValid(req.Data) {
+			r.log.Errorf("invalid field mask [%v]", req.UpdateMask)
 			return authenticationV1.ErrorBadRequest("invalid field mask")
 		}
 		fieldmaskutil.Filter(req.GetData(), req.UpdateMask.GetPaths())
@@ -597,7 +598,9 @@ func (r *UserCredentialRepo) ChangeCredential(ctx context.Context, req *authenti
 		usercredential.IdentityTypeEQ(*r.toEntIdentityType(trans.Ptr(req.GetIdentityType()))),
 		usercredential.IdentifierEQ(req.GetIdentifier()),
 	)
-	builder.SetCredential(newCredential)
+	builder.
+		SetCredential(newCredential).
+		SetUpdateTime(time.Now())
 	if err = builder.Exec(ctx); err != nil {
 		r.log.Errorf("update one data failed: %s", err.Error())
 		return authenticationV1.ErrorInternalServerError("update data failed")
@@ -649,8 +652,10 @@ func (r *UserCredentialRepo) ResetCredential(ctx context.Context, req *authentic
 		usercredential.IdentityTypeEQ(*r.toEntIdentityType(trans.Ptr(req.GetIdentityType()))),
 		usercredential.IdentifierEQ(req.GetIdentifier()),
 	)
-	builder.SetCredential(newCredential)
-	if err := builder.Exec(ctx); err != nil {
+	builder.
+		SetCredential(newCredential).
+		SetUpdateTime(time.Now())
+	if err = builder.Exec(ctx); err != nil {
 		r.log.Errorf("update one data failed: %s", err.Error())
 		return authenticationV1.ErrorInternalServerError("update data failed")
 	}

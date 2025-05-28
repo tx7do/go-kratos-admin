@@ -113,8 +113,8 @@ const [BaseForm, baseFormApi] = useVbenForm({
     },
     {
       component: 'Input',
-      fieldName: 'phone',
-      label: $t('page.user.table.phone'),
+      fieldName: 'mobile',
+      label: $t('page.user.table.mobile'),
       componentProps: {
         placeholder: $t('ui.placeholder.input'),
         allowClear: true,

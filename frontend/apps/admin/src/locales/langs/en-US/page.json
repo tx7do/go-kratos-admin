@@ -15,7 +15,7 @@
     "moduleName": "User",
     "form": {
       "real_name": "UserName",
-      "phone": "Phone",
+      "mobile": "Phone",
       "roleId": "Role",
       "oldPassword": "Old Password",
       "newPassword": "New Password",
@@ -28,7 +28,7 @@
       "realname": "Real Name",
       "avatar": "Avatar",
       "email": "Email",
-      "phone": "Phone",
+      "mobile": "Phone",
       "telephone": "Telephone",
       "gender": "Gender",
       "address": "Address",

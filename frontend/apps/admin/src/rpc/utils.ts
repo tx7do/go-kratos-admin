@@ -35,4 +35,3 @@ export function makeUpdateMask(keys: string[]): string {
   }
   return keys.join(',');
 }
-

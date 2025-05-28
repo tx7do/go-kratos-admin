@@ -115,7 +115,7 @@ func (s *UserService) Create(ctx context.Context, req *userV1.CreateUserRequest)
 		return nil, err
 	}
 
-	if req.Password != nil && len(req.GetPassword()) > 0 {
+	if len(req.GetPassword()) > 0 {
 		if err = s.userCredentialsRepo.Create(ctx, &authenticationV1.CreateUserCredentialRequest{
 			Data: &authenticationV1.UserCredential{
 				UserId:   user.Id,
@@ -174,7 +174,7 @@ func (s *UserService) Update(ctx context.Context, req *userV1.UpdateUserRequest)
 		return nil, err
 	}
 
-	if req.Password != nil && len(req.GetPassword()) > 0 {
+	if len(req.GetPassword()) > 0 {
 		if err = s.userCredentialsRepo.ResetCredential(ctx, &authenticationV1.ResetCredentialRequest{
 			IdentityType:  authenticationV1.IdentityType_USERNAME,
 			Identifier:    req.Data.GetUsername(),

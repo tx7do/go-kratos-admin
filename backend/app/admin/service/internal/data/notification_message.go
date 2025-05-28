@@ -253,6 +253,7 @@ func (r *NotificationMessageRepo) Update(ctx context.Context, req *internalMessa
 	if req.UpdateMask != nil {
 		req.UpdateMask.Normalize()
 		if !req.UpdateMask.IsValid(req.Data) {
+			r.log.Errorf("invalid field mask [%v]", req.UpdateMask)
 			return internalMessageV1.ErrorBadRequest("invalid field mask")
 		}
 		fieldmaskutil.Filter(req.GetData(), req.UpdateMask.GetPaths())

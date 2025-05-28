@@ -36,6 +36,14 @@ VALUES (1, null, 1, '华东分部', 'ON', now()),
        (33, 3, 4, '财务部', 'ON', now())
 ;
 
+-- 职位
+INSERT INTO kratos_admin.public.positions (id, name, code, parent_id, status, sort_id, create_time)
+VALUES (1, '开发工程师', 'dev_engineer', null, 'ON', 1, now()),
+       (2, '测试工程师', 'test_engineer', null, 'ON', 2, now()),
+       (3, '产品经理', 'product_manager', null, 'ON', 3, now()),
+       (4, '项目经理', 'project_manager', null, 'ON', 4, now())
+;
+
 -- 调度任务
 TRUNCATE TABLE kratos_admin.public.tasks;
 INSERT INTO kratos_admin.public.tasks(id, type, type_name, task_payload, task_id, cron_spec, enable, create_time)

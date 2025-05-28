@@ -41,6 +41,16 @@ const [BaseForm, baseFormApi] = useVbenForm({
       rules: 'required',
     },
     {
+      component: 'InputNumber',
+      fieldName: 'sortId',
+      label: $t('ui.table.sortId'),
+      componentProps: {
+        placeholder: $t('ui.placeholder.input'),
+        allowClear: true,
+      },
+      rules: 'required',
+    },
+    {
       component: 'RadioGroup',
       fieldName: 'status',
       label: $t('ui.table.status'),

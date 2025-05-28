@@ -26,5 +26,10 @@
     "Periodic": "Periodic",
     "Delay": "Delay",
     "WaitResult": "Wait Result"
+  },
+  "gender": {
+    "SECRET": "Secret",
+    "MALE": "Male",
+    "FEMALE": "Female"
   }
 }

@@ -7,7 +7,12 @@ import { $t } from '@vben/locales';
 import { notification } from 'ant-design-vue';
 
 import { useVbenForm, z } from '#/adapter/form';
-import { authorityList, useOrganizationStore, useUserStore } from '#/store';
+import {
+  authorityList,
+  genderList,
+  useOrganizationStore,
+  useUserStore,
+} from '#/store';
 
 const userStore = useUserStore();
 const orgStore = useOrganizationStore();
@@ -41,16 +46,16 @@ const [BaseForm, baseFormApi] = useVbenForm({
       },
       rules: z.string().min(1, { message: $t('ui.formRules.required') }),
     },
-    // {
-    //   component: 'VbenInputPassword',
-    //   fieldName: 'password',
-    //   label: '密码',
-    //   componentProps: {
-    //     passwordStrength: true,
-    //     placeholder: $t('ui.placeholder.input'),
-    //   },
-    //   rules: 'required',
-    // },
+    {
+      component: 'VbenInputPassword',
+      fieldName: 'password',
+      label: '密码',
+      componentProps: {
+        passwordStrength: true,
+        placeholder: $t('ui.placeholder.input'),
+      },
+      // rules: 'required',
+    },
     {
       component: 'Select',
       fieldName: 'authority',
@@ -84,7 +89,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
         //   }));
         // },
       },
-      rules: 'selectRequired',
+      // rules: 'selectRequired',
     },
     {
       component: 'Input',
@@ -105,6 +110,27 @@ const [BaseForm, baseFormApi] = useVbenForm({
         allowClear: true,
       },
       rules: 'required',
+    },
+    {
+      component: 'Input',
+      fieldName: 'phone',
+      label: $t('page.user.table.phone'),
+      componentProps: {
+        placeholder: $t('ui.placeholder.input'),
+        allowClear: true,
+      },
+      // rules: 'required',
+    },
+
+    {
+      component: 'Select',
+      fieldName: 'gender',
+      label: $t('page.user.table.gender'),
+      componentProps: {
+        options: genderList,
+        placeholder: $t('ui.placeholder.select'),
+        allowClear: true,
+      },
     },
 
     {
@@ -171,7 +197,9 @@ const [Drawer, drawerApi] = useVbenDrawer({
 
       // 为表单赋值
       if (data.value.row !== undefined) {
-        data.value.row.orgId = data.value?.row?.orgId.toString();
+        if (data.value?.row?.orgId !== undefined) {
+          data.value.row.orgId = data.value?.row?.orgId.toString();
+        }
         baseFormApi.setValues(data.value?.row);
       }
 

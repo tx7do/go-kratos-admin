@@ -26,5 +26,10 @@
     "Periodic": "周期性",
     "Delay": "延时任务",
     "WaitResult": "等待结果"
+  },
+  "gender": {
+    "SECRET": "未知",
+    "MALE": "男性",
+    "FEMALE": "女性"
   }
 }

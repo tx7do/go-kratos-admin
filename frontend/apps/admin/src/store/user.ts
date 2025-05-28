@@ -46,6 +46,8 @@ export const useUserStore = defineStore('user', () => {
       data: {
         ...values,
       },
+      // @ts-ignore proto generated code is error.
+      password: values.password ?? null,
     });
   }
 
@@ -59,6 +61,8 @@ export const useUserStore = defineStore('user', () => {
         id,
         ...values,
       },
+      // @ts-ignore proto generated code is error.
+      password: values.password ?? null,
       // @ts-ignore proto generated code is error.
       updateMask: makeUpdateMask(Object.keys(values ?? [])),
     });
@@ -153,4 +157,10 @@ export function authorityToColor(authority: any) {
 export const statusList = computed(() => [
   { value: 'ON', label: $t('enum.status.ON') },
   { value: 'OFF', label: $t('enum.status.OFF') },
+]);
+
+export const genderList = computed(() => [
+  { value: 'SECRET', label: $t('enum.gender.SECRET') },
+  { value: 'MALE', label: $t('enum.gender.MALE') },
+  { value: 'FEMALE', label: $t('enum.gender.FEMALE') },
 ]);

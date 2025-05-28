@@ -98,7 +98,7 @@ export interface User {
     | string
     | null
     | undefined;
-  /** 手机号 */
+  /** 座机号 */
   telephone?:
     | string
     | null

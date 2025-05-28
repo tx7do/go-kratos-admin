@@ -855,6 +855,8 @@ github.com/go-logfmt/logfmt v0.5.0/go.mod h1:wCYkCAKZfumFQihp8CzCvQ3paCTfi41vtzG
 github.com/go-logr/logr v1.2.2/go.mod h1:jdQByPbusPIv2/zmleS9BjJVeZ6kBagPoEUsqbVz/1A=
 github.com/go-logr/logr v1.4.2 h1:6pFjapn8bFcIbiKo3XT4j/BhANplGihG6tvd+8rYgrY=
 github.com/go-logr/logr v1.4.2/go.mod h1:9T104GzyrTigFIr8wt5mBrctHMim0Nb2HLGrmQ40KvY=
+github.com/go-logr/logr v1.4.3 h1:CjnDlHq8ikf6E492q6eKboGOC0T8CDaOvkHCIg8idEI=
+github.com/go-logr/logr v1.4.3/go.mod h1:9T104GzyrTigFIr8wt5mBrctHMim0Nb2HLGrmQ40KvY=
 github.com/go-logr/stdr v1.2.2 h1:hSWxHoqTgW2S2qGc0LTAI563KZ5YKYRhT3MFKZMbjag=
 github.com/go-logr/stdr v1.2.2/go.mod h1:mMo/vtBO5dYbehREoey6XUKy/eSumjCCveDpRre4VKE=
 github.com/go-ole/go-ole v1.2.6/go.mod h1:pprOEPIfldk/42T2oK7lQ4v4JSDwmV0As9GaiUsvbm0=
@@ -1368,6 +1370,8 @@ github.com/redis/go-redis/extra/redisotel/v9 v9.8.0 h1:mnKrl8WqyGJK4pletf2itS+Te
 github.com/redis/go-redis/extra/redisotel/v9 v9.8.0/go.mod h1:iObamxrrXt4hGWiCWv5BAs68xPYc/MfrLd34H9TaKyk=
 github.com/redis/go-redis/v9 v9.8.0 h1:q3nRvjrlge/6UD7eTu/DSg2uYiU2mCL0G/uzBWqhicI=
 github.com/redis/go-redis/v9 v9.8.0/go.mod h1:huWgSWd8mW6+m0VPhJjSSQ+d6Nh1VICQ6Q5lHuCH/Iw=
+github.com/redis/go-redis/v9 v9.9.0 h1:URbPQ4xVQSQhZ27WMQVmZSo3uT3pL+4IdHVcYq2nVfM=
+github.com/redis/go-redis/v9 v9.9.0/go.mod h1:huWgSWd8mW6+m0VPhJjSSQ+d6Nh1VICQ6Q5lHuCH/Iw=
 github.com/remyoudompheng/bigfft v0.0.0-20200410134404-eec4a21b6bb0/go.mod h1:qqbHyh8v60DhA7CoWK5oRCqLrMHRGoxYCSS9EjAz6Eo=
 github.com/rivo/uniseg v0.2.0/go.mod h1:J6wj4VEh+S6ZtnVlnTBMWIodfgj8LQOQFoIToxlJtxc=
 github.com/rivo/uniseg v0.4.7 h1:WUdvkW8uEhrYfLC4ZzdpI2ztxP1I582+49Oc5Mq64VQ=
@@ -1476,10 +1480,16 @@ github.com/tklauser/numcpus v0.10.0/go.mod h1:BiTKazU708GQTYF4mB+cmlpT2Is1gLk7XV
 github.com/tv42/httpunix v0.0.0-20150427012821-b75d8614f926/go.mod h1:9ESjWnEqriFuLhtthL60Sar/7RFoluCcXsuvEwTV5KM=
 github.com/tx7do/go-utils v1.1.23 h1:4eqkKw3tauqhM2sihVYsOeqf0A1sTWDx6jj+iN+CU+c=
 github.com/tx7do/go-utils v1.1.23/go.mod h1:ONLfiOZFYT62s3hdQHgEifAm4BwnwFSrCcTGN1wVWHg=
+github.com/tx7do/go-utils v1.1.24 h1:uHfbgHnzar5Ad/Ml5MkzkfBofHvycRDGLzhT47Bx3UA=
+github.com/tx7do/go-utils v1.1.24/go.mod h1:ONLfiOZFYT62s3hdQHgEifAm4BwnwFSrCcTGN1wVWHg=
 github.com/tx7do/go-utils/copierutil v0.0.3 h1:iSJWxsuxKko/Cy9Me2uFrO1XPDjlAM2wfSPe7ck0SAk=
 github.com/tx7do/go-utils/copierutil v0.0.3/go.mod h1:OoOTedAaS4F77+HrIYgr0yn0ofhMPyWJXiKvr7x7jyo=
+github.com/tx7do/go-utils/copierutil v0.0.4 h1:QEhivYgqSHRpzLisBVxuF9h/TvZG7qMNGXSnjJNVbLQ=
+github.com/tx7do/go-utils/copierutil v0.0.4/go.mod h1:f5PFqTacyquXKmnNBzG1URgHk0zJhEXvTZslWEcAiGY=
 github.com/tx7do/go-utils/entgo v1.1.28 h1:vrj60q7jJsj5sVXCYkSYH+e74WTKO78Ti8Brlux0jz8=
 github.com/tx7do/go-utils/entgo v1.1.28/go.mod h1:/hyPSLtCIa3HIJOnofakJxOQ6Mci6aQZe+xwf/PM++0=
+github.com/tx7do/go-utils/entgo v1.1.29 h1:rdNCNu6sZcG2cSDt1XBlMBYgqWWWmuuUL8PiHupO9TY=
+github.com/tx7do/go-utils/entgo v1.1.29/go.mod h1:ZF3jXtklgf595q1aLIpN87aXDf3kMLw4cZ7MIYHqEqI=
 github.com/tx7do/go-utils/geoip v1.1.5 h1:Cj0hSiRPfn0ovJs9lV6R2D27fFSfUU5guZstXW/tqS8=
 github.com/tx7do/go-utils/geoip v1.1.5/go.mod h1:kGrTEW430Nq+7z17PY0OOSBZCTss2y6jj+SlD7qVZWI=
 github.com/tx7do/go-utils/jwtutil v0.0.2 h1:Vn6UGvZ3i+MKqHVFOpDNrnJC+kYWO+WgEinyBY7tiFg=
@@ -1524,6 +1534,8 @@ github.com/tx7do/kratos-bootstrap/utils v0.1.3 h1:1Ja6UTzWsfQWNLbaSCo9Of7yiJ+zQK
 github.com/tx7do/kratos-bootstrap/utils v0.1.3/go.mod h1:CXisY/y1eZIxesxuzLQs4z5AgXrYIijAmlAXf8dKZCo=
 github.com/tx7do/kratos-swagger-ui v0.0.0-20241213153527-eca591f9f8b2 h1:SkNYd0fqLJRXCBC8zYy8LGIRlzzlL7kkgUp57iLC9ug=
 github.com/tx7do/kratos-swagger-ui v0.0.0-20241213153527-eca591f9f8b2/go.mod h1:ecj+mybWzcxvIJlXFnuML0xogYuS1k+CSNhT7iQjGTI=
+github.com/tx7do/kratos-swagger-ui v0.0.0-20250528131001-09c0dbdb208d h1:sZoFFHYbdHBdkVLVaRlEMuRnkN5uW90ryMXXqhvyxKM=
+github.com/tx7do/kratos-swagger-ui v0.0.0-20250528131001-09c0dbdb208d/go.mod h1:/GXM8BOf/IoYJnBUfgrKjcM8a8TCvnp+L5igGxK+uqM=
 github.com/tx7do/kratos-transport v1.1.12 h1:fVWdL2kZeBNNSfxLDgaGxMSKyY3g4SnERMGgdi4RCAk=
 github.com/tx7do/kratos-transport v1.1.12/go.mod h1:4Qjq9MtwVyN7ITbDtZ5LUHUSxvEd0BjuxxlVv8R9wXo=
 github.com/tx7do/kratos-transport/transport/asynq v1.2.19 h1:CfWQrFUEQfNcUIQVW15XAGELXrjDo5SGL6ThWSMeak0=

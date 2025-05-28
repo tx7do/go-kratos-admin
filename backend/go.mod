@@ -25,11 +25,11 @@ require (
 	github.com/lib/pq v1.10.9
 	github.com/mileusna/useragent v1.3.5
 	github.com/minio/minio-go/v7 v7.0.92
-	github.com/redis/go-redis/v9 v9.8.0
+	github.com/redis/go-redis/v9 v9.9.0
 	github.com/stretchr/testify v1.10.0
-	github.com/tx7do/go-utils v1.1.23
-	github.com/tx7do/go-utils/copierutil v0.0.3
-	github.com/tx7do/go-utils/entgo v1.1.28
+	github.com/tx7do/go-utils v1.1.24
+	github.com/tx7do/go-utils/copierutil v0.0.4
+	github.com/tx7do/go-utils/entgo v1.1.29
 	github.com/tx7do/go-utils/geoip v1.1.5
 	github.com/tx7do/go-utils/jwtutil v0.0.2
 	github.com/tx7do/kratos-authn v1.1.7
@@ -42,7 +42,7 @@ require (
 	github.com/tx7do/kratos-bootstrap/cache/redis v0.0.9
 	github.com/tx7do/kratos-bootstrap/oss/minio v0.0.9
 	github.com/tx7do/kratos-bootstrap/rpc v0.0.13
-	github.com/tx7do/kratos-swagger-ui v0.0.0-20241213153527-eca591f9f8b2
+	github.com/tx7do/kratos-swagger-ui v0.0.0-20250528131001-09c0dbdb208d
 	github.com/tx7do/kratos-transport v1.1.12
 	github.com/tx7do/kratos-transport/transport/asynq v1.2.21
 	github.com/tx7do/kratos-transport/transport/sse v1.2.19
@@ -107,7 +107,7 @@ require (
 	github.com/go-kratos/kratos/contrib/registry/nacos/v2 v2.0.0-20250429074618-c82f7957223f // indirect
 	github.com/go-kratos/kratos/contrib/registry/servicecomb/v2 v2.0.0-20250429074618-c82f7957223f // indirect
 	github.com/go-kratos/kratos/contrib/registry/zookeeper/v2 v2.0.0-20250429074618-c82f7957223f // indirect
-	github.com/go-logr/logr v1.4.2 // indirect
+	github.com/go-logr/logr v1.4.3 // indirect
 	github.com/go-logr/stdr v1.2.2 // indirect
 	github.com/go-ole/go-ole v1.3.0 // indirect
 	github.com/go-openapi/inflect v0.21.2 // indirect

@@ -51,7 +51,7 @@ SELECT setval('positions_id_seq', (SELECT MAX(id) FROM positions));
 
 -- 调度任务
 TRUNCATE TABLE kratos_admin.public.tasks RESTART IDENTITY;
-INSERT INTO kratos_admin.public.tasks(type, type_name, task_payload, task_id, cron_spec, enable, create_time)
-VALUES ('Periodic', 'backup', '{ "name": "test"}', 'backup', '*/1 * * * ?', true, now())
+INSERT INTO kratos_admin.public.tasks(type, type_name, task_payload, cron_spec, enable, create_time)
+VALUES ('Periodic', 'backup', '{ "name": "test"}', '*/1 * * * ?', true, now())
 ;
 SELECT setval('tasks_id_seq', (SELECT MAX(id) FROM tasks));

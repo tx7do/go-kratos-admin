@@ -540,6 +540,17 @@ func (r *UserCredentialRepo) prepareCredential(credentialType *usercredential.Cr
 }
 
 func (r *UserCredentialRepo) ChangeCredential(ctx context.Context, req *authenticationV1.ChangeCredentialRequest) error {
+	if req.GetNeedDecrypt() {
+		// 解密密码
+		bytesPass, _ := base64.StdEncoding.DecodeString(req.GetOldCredential())
+		plainPassword, _ := crypto.AesDecrypt(bytesPass, crypto.DefaultAESKey, nil)
+		req.OldCredential = string(plainPassword)
+
+		bytesPass, _ = base64.StdEncoding.DecodeString(req.GetNewCredential())
+		plainPassword, _ = crypto.AesDecrypt(bytesPass, crypto.DefaultAESKey, nil)
+		req.NewCredential = string(plainPassword)
+	}
+
 	ret, err := r.data.db.Client().UserCredential.
 		Query().
 		Select(
@@ -591,6 +602,13 @@ func (r *UserCredentialRepo) ChangeCredential(ctx context.Context, req *authenti
 }
 
 func (r *UserCredentialRepo) ResetCredential(ctx context.Context, req *authenticationV1.ResetCredentialRequest) error {
+	if req.GetNeedDecrypt() {
+		// 解密密码
+		bytesPass, _ := base64.StdEncoding.DecodeString(req.GetNewCredential())
+		plainPassword, _ := crypto.AesDecrypt(bytesPass, crypto.DefaultAESKey, nil)
+		req.NewCredential = string(plainPassword)
+	}
+
 	ret, err := r.data.db.Client().UserCredential.
 		Query().
 		Select(

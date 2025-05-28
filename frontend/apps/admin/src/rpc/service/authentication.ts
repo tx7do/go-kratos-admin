@@ -1,5 +1,6 @@
 import type { AuthenticationService } from '#/rpc/api/admin/service/v1/i_authentication.pb';
 import type {
+  ChangePasswordRequest,
   LoginRequest,
   LoginResponse,
 } from '#/rpc/api/authentication/service/v1/authentication.pb';
@@ -15,6 +16,10 @@ export type {
 
 /** 用户后台登录认证服务 */
 export class AuthenticationServiceImpl implements AuthenticationService {
+  async ChangePassword(request: ChangePasswordRequest): Promise<Empty> {
+    return requestClient.post<Empty>('/change_password', request);
+  }
+
   async Login(request: LoginRequest): Promise<LoginResponse> {
     return await requestClient.post<LoginResponse>('/login', request);
   }

@@ -1190,6 +1190,8 @@ func (m *ChangeCredentialRequest) validate(all bool) error {
 
 	// no validation rules for NewCredential
 
+	// no validation rules for NeedDecrypt
+
 	if len(errors) > 0 {
 		return ChangeCredentialRequestMultiError(errors)
 	}
@@ -1297,6 +1299,8 @@ func (m *ResetCredentialRequest) validate(all bool) error {
 	// no validation rules for Identifier
 
 	// no validation rules for NewCredential
+
+	// no validation rules for NeedDecrypt
 
 	if len(errors) > 0 {
 		return ResetCredentialRequestMultiError(errors)

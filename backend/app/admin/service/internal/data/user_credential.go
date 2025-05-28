@@ -280,8 +280,13 @@ func (r *UserCredentialRepo) Create(ctx context.Context, req *authenticationV1.C
 		SetNillableStatus(r.toEntStatus(req.Data.Status)).
 		SetNillableExtraInfo(req.Data.ExtraInfo).
 		SetNillableCreateTime(timeutil.StringTimeToTime(req.Data.CreateTime))
+
+	if req.Data.CreateTime == nil {
+		builder.SetCreateTime(time.Now())
+	}
+
 	if err = builder.Exec(ctx); err != nil {
-		r.log.Errorf("insert one data failed: %s", err.Error())
+		r.log.Errorf("insert one data failed: %s [%v]", err.Error(), req.Data)
 		return authenticationV1.ErrorInternalServerError("insert data failed")
 	}
 

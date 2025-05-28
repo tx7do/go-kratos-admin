@@ -101,7 +101,7 @@ func (s *UserService) Create(ctx context.Context, req *userV1.CreateUserRequest)
 	}
 
 	if req.Data.Authority != nil {
-		if operatorUser.GetAuthority() >= req.Data.GetAuthority() {
+		if operatorUser.GetAuthority() < req.Data.GetAuthority() {
 			return nil, adminV1.ErrorForbidden("不能够创建同级用户或者比自己权限高的用户")
 		}
 	}
@@ -161,7 +161,7 @@ func (s *UserService) Update(ctx context.Context, req *userV1.UpdateUserRequest)
 	}
 
 	if req.Data.Authority != nil {
-		if operatorUser.GetAuthority() >= req.Data.GetAuthority() {
+		if operatorUser.GetAuthority() < req.Data.GetAuthority() {
 			return nil, adminV1.ErrorForbidden("不能够赋权同级用户或者比自己权限高的用户")
 		}
 	}

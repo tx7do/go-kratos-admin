@@ -188,11 +188,6 @@ func (UserCredential) Fields() []ent.Field {
 	}
 }
 
-// Edges of the UserCredential.
-func (UserCredential) Edges() []ent.Edge {
-	return nil
-}
-
 // Mixin of the UserCredential.
 func (UserCredential) Mixin() []ent.Mixin {
 	return []ent.Mixin{
@@ -200,6 +195,11 @@ func (UserCredential) Mixin() []ent.Mixin {
 		mixin.AutoIncrementId{},
 		appmixin.TenantID{},
 	}
+}
+
+// Edges of the UserCredential.
+func (UserCredential) Edges() []ent.Edge {
+	return nil
 }
 
 // Indexes of the UserCredential.

@@ -104,7 +104,7 @@ message User {
   optional string telephone = 16 [
     json_name = "telephone",
     (gnostic.openapi.v3.property) = {description: "座机号"}
-  ]; // 手机号
+  ]; // 座机号
 
   optional UserGender gender = 17 [
     json_name = "gender",

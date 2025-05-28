@@ -192,7 +192,7 @@ type User struct {
 	Avatar        *string                `protobuf:"bytes,13,opt,name=avatar,proto3,oneof" json:"avatar,omitempty"`                                           // 头像
 	Email         *string                `protobuf:"bytes,14,opt,name=email,proto3,oneof" json:"email,omitempty"`                                             // 邮箱
 	Mobile        *string                `protobuf:"bytes,15,opt,name=mobile,proto3,oneof" json:"mobile,omitempty"`                                           // 手机号
-	Telephone     *string                `protobuf:"bytes,16,opt,name=telephone,proto3,oneof" json:"telephone,omitempty"`                                     // 手机号
+	Telephone     *string                `protobuf:"bytes,16,opt,name=telephone,proto3,oneof" json:"telephone,omitempty"`                                     // 座机号
 	Gender        *UserGender            `protobuf:"varint,17,opt,name=gender,proto3,enum=user.service.v1.UserGender,oneof" json:"gender,omitempty"`          // 性别
 	Address       *string                `protobuf:"bytes,18,opt,name=address,proto3,oneof" json:"address,omitempty"`                                         // 住址
 	Region        *string                `protobuf:"bytes,19,opt,name=region,proto3,oneof" json:"region,omitempty"`                                           // 国家地区

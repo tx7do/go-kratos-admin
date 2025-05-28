@@ -650,11 +650,6 @@ var (
 				Unique:  false,
 				Columns: []*schema.Column{UsersColumns[8]},
 			},
-			{
-				Name:    "user_id_username",
-				Unique:  true,
-				Columns: []*schema.Column{UsersColumns[0], UsersColumns[9]},
-			},
 		},
 	}
 	// UserCredentialsColumns holds the columns for the "user_credentials" table.

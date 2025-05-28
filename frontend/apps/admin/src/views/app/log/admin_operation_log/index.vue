@@ -26,8 +26,8 @@ const formOptions: VbenFormProps = {
   schema: [
     {
       component: 'Input',
-      fieldName: 'userName',
-      label: $t('page.adminOperationLog.userName'),
+      fieldName: 'username',
+      label: $t('page.adminOperationLog.username'),
       componentProps: {
         placeholder: $t('ui.placeholder.input'),
         allowClear: true,
@@ -86,7 +86,7 @@ const gridOptions: VxeGridProps<AdminOperationLog> = {
           page.currentPage,
           page.pageSize,
           {
-            userName: formValues.userName,
+            username: formValues.username,
             create_time__gte: startTime,
             create_time__lte: endTime,
           },
@@ -97,7 +97,7 @@ const gridOptions: VxeGridProps<AdminOperationLog> = {
 
   columns: [
     { title: $t('ui.table.seq'), type: 'seq', width: 50 },
-    { title: $t('page.adminOperationLog.userName'), field: 'userName' },
+    { title: $t('page.adminOperationLog.username'), field: 'username' },
     {
       title: $t('page.adminOperationLog.success'),
       field: 'success',

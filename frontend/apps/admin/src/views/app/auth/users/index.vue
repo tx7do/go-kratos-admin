@@ -34,7 +34,7 @@ const formOptions: VbenFormProps = {
   schema: [
     {
       component: 'Input',
-      fieldName: 'realName',
+      fieldName: 'realname',
       label: $t('page.user.form.real_name'),
       componentProps: {
         placeholder: $t('ui.placeholder.input'),
@@ -105,9 +105,9 @@ const gridOptions: VxeGridProps<User> = {
 
   columns: [
     { title: $t('ui.table.seq'), type: 'seq', width: 50 },
-    { title: $t('page.user.table.userName'), field: 'userName' },
-    { title: $t('page.user.table.nickName'), field: 'nickName' },
-    { title: $t('page.user.table.realName'), field: 'realName' },
+    { title: $t('page.user.table.username'), field: 'username' },
+    { title: $t('page.user.table.nickname'), field: 'nickname' },
+    { title: $t('page.user.table.realname'), field: 'realname' },
     { title: $t('page.user.table.email'), field: 'email' },
     { title: $t('page.user.table.phone'), field: 'phone' },
     {
@@ -188,7 +188,7 @@ async function handleDelete(row: any) {
 
 /* 详情 */
 function handleDetail(row: any) {
-  router.push(`/system/users/detail/${row.userName}`);
+  router.push(`/system/users/detail/${row.username}`);
 }
 
 /* 修改用户状态 */

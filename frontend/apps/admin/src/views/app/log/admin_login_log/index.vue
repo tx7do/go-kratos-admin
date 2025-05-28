@@ -22,8 +22,8 @@ const formOptions: VbenFormProps = {
   schema: [
     {
       component: 'Input',
-      fieldName: 'userName',
-      label: $t('page.adminLoginLog.userName'),
+      fieldName: 'username',
+      label: $t('page.adminLoginLog.username'),
       componentProps: {
         placeholder: $t('ui.placeholder.input'),
         allowClear: true,
@@ -82,7 +82,7 @@ const gridOptions: VxeGridProps<AdminLoginLog> = {
           page.currentPage,
           page.pageSize,
           {
-            userName: formValues.userName,
+            username: formValues.username,
             login_time__gte: startTime,
             login_time__lte: endTime,
           },
@@ -93,7 +93,7 @@ const gridOptions: VxeGridProps<AdminLoginLog> = {
 
   columns: [
     { title: $t('ui.table.seq'), type: 'seq', width: 50 },
-    { title: $t('page.adminLoginLog.userName'), field: 'userName' },
+    { title: $t('page.adminLoginLog.username'), field: 'username' },
     {
       title: $t('page.adminLoginLog.success'),
       field: 'success',

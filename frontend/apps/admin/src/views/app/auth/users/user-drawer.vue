@@ -33,8 +33,8 @@ const [BaseForm, baseFormApi] = useVbenForm({
   schema: [
     {
       component: 'Input',
-      fieldName: 'userName',
-      label: $t('page.user.table.userName'),
+      fieldName: 'username',
+      label: $t('page.user.table.username'),
       componentProps: {
         placeholder: $t('ui.placeholder.input'),
         allowClear: true,
@@ -88,8 +88,8 @@ const [BaseForm, baseFormApi] = useVbenForm({
     },
     {
       component: 'Input',
-      fieldName: 'nickName',
-      label: $t('page.user.table.nickName'),
+      fieldName: 'nickname',
+      label: $t('page.user.table.nickname'),
       componentProps: {
         placeholder: $t('ui.placeholder.input'),
         allowClear: true,

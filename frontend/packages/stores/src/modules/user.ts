@@ -13,11 +13,11 @@ interface BasicUserInfo {
   /**
    * 用户昵称
    */
-  nickName: string;
+  nickname: string;
   /**
    * 用户实名
    */
-  realName: string;
+  realname: string;
   /**
    * 用户角色
    */
@@ -25,7 +25,7 @@ interface BasicUserInfo {
   /**
    * 用户名
    */
-  userName: string;
+  username: string;
 }
 
 interface AccessState {

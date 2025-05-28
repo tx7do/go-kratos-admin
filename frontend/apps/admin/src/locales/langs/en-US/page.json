@@ -23,9 +23,9 @@
     },
     "table": {
       "seq": "Seq",
-      "userName": "User Name",
-      "nickName": "Nick Name",
-      "realName": "Real Name",
+      "username": "User Name",
+      "nickname": "Nick Name",
+      "realname": "Real Name",
       "email": "Email",
       "phone": "Phone",
       "authority": "Authority",
@@ -156,7 +156,7 @@
   },
   "adminLoginLog": {
     "moduleName": "Login Log",
-    "userName": "User Name",
+    "username": "User Name",
     "success": "Success",
     "loginTime": "Login Time",
     "location": "Location",
@@ -165,7 +165,7 @@
   },
   "adminOperationLog": {
     "moduleName": "Operation Log",
-    "userName": "User Name",
+    "username": "User Name",
     "success": "Success",
     "location": "Location",
     "clientName": "Platform",

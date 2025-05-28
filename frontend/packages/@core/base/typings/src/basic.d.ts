@@ -19,11 +19,11 @@ interface BasicUserInfo {
   /**
    * 用户昵称
    */
-  nickName: string;
+  nickname: string;
   /**
    * 用户真名
    */
-  realName: string;
+  realname: string;
   /**
    * 用户角色
    */
@@ -31,7 +31,7 @@ interface BasicUserInfo {
   /**
    * 用户名
    */
-  userName: string;
+  username: string;
 }
 
 type ClassType = Array<object | string> | object | string;

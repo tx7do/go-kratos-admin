@@ -9,7 +9,7 @@ import { notification } from 'ant-design-vue';
 import { useVbenForm, z } from '#/adapter/form';
 import {
   authorityList,
-  genderList,
+  genderList, isButton,
   useOrganizationStore,
   useUserStore,
 } from '#/store';
@@ -45,6 +45,10 @@ const [BaseForm, baseFormApi] = useVbenForm({
         allowClear: true,
       },
       rules: z.string().min(1, { message: $t('ui.formRules.required') }),
+      dependencies: {
+        disabled: () => !data.value?.create,
+        triggerFields: ['username'],
+      },
     },
     {
       component: 'VbenInputPassword',
@@ -66,6 +70,10 @@ const [BaseForm, baseFormApi] = useVbenForm({
         allowClear: true,
       },
       rules: 'selectRequired',
+      dependencies: {
+        disabled: () => !data.value?.create,
+        triggerFields: ['authority'],
+      },
     },
     {
       component: 'ApiTreeSelect',

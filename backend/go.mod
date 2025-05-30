@@ -203,7 +203,6 @@ require (
 	github.com/tinylib/msgp v1.3.0 // indirect
 	github.com/tklauser/go-sysconf v0.3.15 // indirect
 	github.com/tklauser/numcpus v0.10.0 // indirect
-	github.com/tx7do/kratos-bootstrap v0.6.0 // indirect
 	github.com/tx7do/kratos-bootstrap/config v0.0.9 // indirect
 	github.com/tx7do/kratos-bootstrap/logger v0.0.9 // indirect
 	github.com/tx7do/kratos-bootstrap/registry v0.0.9 // indirect

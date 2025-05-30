@@ -46,8 +46,8 @@ require (
 	github.com/tx7do/kratos-transport v1.1.12
 	github.com/tx7do/kratos-transport/transport/asynq v1.2.21
 	github.com/tx7do/kratos-transport/transport/sse v1.2.19
-	google.golang.org/genproto v0.0.0-20250519155744-55703ea1f237
-	google.golang.org/genproto/googleapis/api v0.0.0-20250519155744-55703ea1f237
+	google.golang.org/genproto v0.0.0-20250528174236-200df99c418a
+	google.golang.org/genproto/googleapis/api v0.0.0-20250528174236-200df99c418a
 	google.golang.org/grpc v1.72.2
 	google.golang.org/protobuf v1.36.6
 )
@@ -208,6 +208,7 @@ require (
 	github.com/tx7do/kratos-bootstrap/registry v0.0.9 // indirect
 	github.com/tx7do/kratos-bootstrap/tracer v0.0.9 // indirect
 	github.com/tx7do/kratos-bootstrap/utils v0.1.3 // indirect
+	github.com/tx7do/kratos-cli/config-importer v0.0.0-20250530014041-d601e89946b5 // indirect
 	github.com/vearutop/statigz v1.5.0 // indirect
 	github.com/x448/float16 v0.8.4 // indirect
 	github.com/yusufpapurcu/wmi v1.2.4 // indirect
@@ -241,7 +242,7 @@ require (
 	golang.org/x/text v0.25.0 // indirect
 	golang.org/x/time v0.11.0 // indirect
 	golang.org/x/tools v0.33.0 // indirect
-	google.golang.org/genproto/googleapis/rpc v0.0.0-20250519155744-55703ea1f237 // indirect
+	google.golang.org/genproto/googleapis/rpc v0.0.0-20250528174236-200df99c418a // indirect
 	gopkg.in/cenkalti/backoff.v1 v1.1.0 // indirect
 	gopkg.in/evanphx/json-patch.v4 v4.12.0 // indirect
 	gopkg.in/inf.v0 v0.9.1 // indirect

@@ -114,6 +114,13 @@ docker:
       make docker;\
     )
 
+# export configuration to etcd
+export:
+	@go run -mod=mod github.com/tx7do/kratos-cli/config-exporter \
+		--type=etcd \
+		--addr=localhost:2379 \
+		--proj=kratos_admin
+
 # generate & build all service applications
 all:
 	$(foreach dir, $(dir $(realpath $(SRCS_MK))),\

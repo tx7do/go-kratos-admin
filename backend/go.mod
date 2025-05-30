@@ -208,7 +208,7 @@ require (
 	github.com/tx7do/kratos-bootstrap/registry v0.0.9 // indirect
 	github.com/tx7do/kratos-bootstrap/tracer v0.0.9 // indirect
 	github.com/tx7do/kratos-bootstrap/utils v0.1.3 // indirect
-	github.com/tx7do/kratos-cli/config-importer v0.0.0-20250530014041-d601e89946b5 // indirect
+	github.com/tx7do/kratos-cli v0.0.0-20250530032729-c1b6aafd2177 // indirect
 	github.com/vearutop/statigz v1.5.0 // indirect
 	github.com/x448/float16 v0.8.4 // indirect
 	github.com/yusufpapurcu/wmi v1.2.4 // indirect

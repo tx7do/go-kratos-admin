@@ -96,7 +96,7 @@ export interface AdminLoginLog {
     | null
     | undefined;
   /** 创建时间 */
-  createTime?: string | null | undefined;
+  createTime?: Timestamp | null | undefined;
 }
 
 /** 查询后台登录日志列表 - 回应 */

@@ -6,6 +6,7 @@
 
 /* eslint-disable */
 import { type Empty } from "../../../google/protobuf/empty.pb";
+import { type Timestamp } from "../../../google/protobuf/timestamp.pb";
 import { type PagingRequest } from "../../../pagination/v1/pagination.pb";
 
 /** 部门 */
@@ -64,16 +65,16 @@ export interface Department {
     | undefined;
   /** 创建时间 */
   createTime?:
-    | string
+    | Timestamp
     | null
     | undefined;
   /** 更新时间 */
   updateTime?:
-    | string
+    | Timestamp
     | null
     | undefined;
   /** 删除时间 */
-  deleteTime?: string | null | undefined;
+  deleteTime?: Timestamp | null | undefined;
 }
 
 /** 部门列表 - 答复 */

@@ -51,16 +51,16 @@ export interface Tenant {
     | undefined;
   /** 创建时间 */
   createTime?:
-    | string
+    | Timestamp
     | null
     | undefined;
   /** 更新时间 */
   updateTime?:
-    | string
+    | Timestamp
     | null
     | undefined;
   /** 删除时间 */
-  deleteTime?: string | null | undefined;
+  deleteTime?: Timestamp | null | undefined;
 }
 
 /** 租户列表 - 答复 */

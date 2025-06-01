@@ -6,6 +6,7 @@
 
 /* eslint-disable */
 import { type Duration } from "../../../google/protobuf/duration.pb";
+import { type Timestamp } from "../../../google/protobuf/timestamp.pb";
 import { type PagingRequest } from "../../../pagination/v1/pagination.pb";
 
 /** 后台操作日志 */
@@ -136,7 +137,7 @@ export interface AdminOperationLog {
     | null
     | undefined;
   /** 创建时间 */
-  createTime?: string | null | undefined;
+  createTime?: Timestamp | null | undefined;
 }
 
 /** 查询后台操作日志列表 - 回应 */

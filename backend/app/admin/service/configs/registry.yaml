@@ -2,7 +2,7 @@ registry:
   type: "etcd"
 
   consul:
-    address: "localhost:8500"
+    address: "consul:8500"
     scheme: "http"
     heartbeat: false
     health_check: false

@@ -252,7 +252,7 @@ func (r *AdminLoginRestrictionRepo) Create(ctx context.Context, req *adminV1.Cre
 		SetNillableValue(req.Data.Value).
 		SetNillableReason(req.Data.Reason).
 		SetNillableCreateBy(req.Data.CreateBy).
-		SetNillableCreateTime(timeutil.StringTimeToTime(req.Data.CreateTime))
+		SetNillableCreateTime(timeutil.TimestamppbToTime(req.Data.CreateTime))
 
 	if req.Data.CreateTime == nil {
 		builder.SetCreateTime(time.Now())
@@ -301,7 +301,7 @@ func (r *AdminLoginRestrictionRepo) Update(ctx context.Context, req *adminV1.Upd
 		SetNillableValue(req.Data.Value).
 		SetNillableReason(req.Data.Reason).
 		SetNillableUpdateBy(req.Data.UpdateBy).
-		SetNillableUpdateTime(timeutil.StringTimeToTime(req.Data.UpdateTime))
+		SetNillableUpdateTime(timeutil.TimestamppbToTime(req.Data.UpdateTime))
 
 	if req.Data.UpdateTime == nil {
 		builder.SetUpdateTime(time.Now())

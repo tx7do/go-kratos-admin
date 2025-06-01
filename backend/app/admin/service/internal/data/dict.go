@@ -179,7 +179,7 @@ func (r *DictRepo) Create(ctx context.Context, req *adminV1.CreateDictRequest) e
 		SetNillableStatus((*dict.Status)(req.Data.Status)).
 		SetNillableRemark(req.Data.Remark).
 		SetNillableCreateBy(req.Data.CreateBy).
-		SetNillableCreateTime(timeutil.StringTimeToTime(req.Data.CreateTime))
+		SetNillableCreateTime(timeutil.TimestamppbToTime(req.Data.CreateTime))
 
 	if req.Data.CreateTime == nil {
 		builder.SetCreateTime(time.Now())
@@ -237,7 +237,7 @@ func (r *DictRepo) Update(ctx context.Context, req *adminV1.UpdateDictRequest) e
 		SetNillableStatus((*dict.Status)(req.Data.Status)).
 		SetNillableRemark(req.Data.Remark).
 		SetNillableUpdateBy(req.Data.UpdateBy).
-		SetNillableUpdateTime(timeutil.StringTimeToTime(req.Data.UpdateTime))
+		SetNillableUpdateTime(timeutil.TimestamppbToTime(req.Data.UpdateTime))
 
 	if req.Data.UpdateTime == nil {
 		builder.SetUpdateTime(time.Now())

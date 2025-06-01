@@ -2492,6 +2492,7 @@ components:
                 createTime:
                     type: string
                     description: 创建时间
+                    format: date-time
             description: 后台登录日志
         AdminLoginRestriction:
             type: object
@@ -2540,12 +2541,15 @@ components:
                 createTime:
                     type: string
                     description: 创建时间
+                    format: date-time
                 updateTime:
                     type: string
                     description: 更新时间
+                    format: date-time
                 deleteTime:
                     type: string
                     description: 删除时间
+                    format: date-time
             description: 后台登录限制
         AdminOperationLog:
             type: object
@@ -2632,6 +2636,7 @@ components:
                 createTime:
                     type: string
                     description: 创建时间
+                    format: date-time
             description: 后台操作日志
         ChangePasswordRequest:
             type: object
@@ -2805,12 +2810,15 @@ components:
                 createTime:
                     type: string
                     description: 创建时间
+                    format: date-time
                 updateTime:
                     type: string
                     description: 更新时间
+                    format: date-time
                 deleteTime:
                     type: string
                     description: 删除时间
+                    format: date-time
             description: 部门
         Dict:
             type: object
@@ -2862,12 +2870,15 @@ components:
                 createTime:
                     type: string
                     description: 创建时间
+                    format: date-time
                 updateTime:
                     type: string
                     description: 更新时间
+                    format: date-time
                 deleteTime:
                     type: string
                     description: 删除时间
+                    format: date-time
             description: 字典
         File:
             type: object
@@ -2933,12 +2944,15 @@ components:
                 createTime:
                     type: string
                     description: 创建时间
+                    format: date-time
                 updateTime:
                     type: string
                     description: 更新时间
+                    format: date-time
                 deleteTime:
                     type: string
                     description: 删除时间
+                    format: date-time
             description: 文件
         KratosStatus:
             type: object
@@ -3275,12 +3289,15 @@ components:
                 createTime:
                     type: string
                     description: 创建时间
+                    format: date-time
                 updateTime:
                     type: string
                     description: 更新时间
+                    format: date-time
                 deleteTime:
                     type: string
                     description: 删除时间
+                    format: date-time
             description: 菜单
         NotificationMessage:
             type: object
@@ -3328,12 +3345,15 @@ components:
                 createTime:
                     type: string
                     description: 创建时间
+                    format: date-time
                 updateTime:
                     type: string
                     description: 更新时间
+                    format: date-time
                 deleteTime:
                     type: string
                     description: 删除时间
+                    format: date-time
             description: 通知消息
         NotificationMessageCategory:
             type: object
@@ -3375,12 +3395,15 @@ components:
                 createTime:
                     type: string
                     description: 创建时间
+                    format: date-time
                 updateTime:
                     type: string
                     description: 更新时间
+                    format: date-time
                 deleteTime:
                     type: string
                     description: 删除时间
+                    format: date-time
             description: 通知消息分类
         NotificationMessageRecipient:
             type: object
@@ -3423,12 +3446,15 @@ components:
                 createTime:
                     type: string
                     description: 创建时间
+                    format: date-time
                 updateTime:
                     type: string
                     description: 更新时间
+                    format: date-time
                 deleteTime:
                     type: string
                     description: 删除时间
+                    format: date-time
             description: 通知消息接收者
         Organization:
             type: object
@@ -3474,12 +3500,15 @@ components:
                 createTime:
                     type: string
                     description: 创建时间
+                    format: date-time
                 updateTime:
                     type: string
                     description: 更新时间
+                    format: date-time
                 deleteTime:
                     type: string
                     description: 删除时间
+                    format: date-time
             description: 组织
         OssUploadUrlRequest:
             type: object
@@ -3572,12 +3601,15 @@ components:
                 createTime:
                     type: string
                     description: 创建时间
+                    format: date-time
                 updateTime:
                     type: string
                     description: 更新时间
+                    format: date-time
                 deleteTime:
                     type: string
                     description: 删除时间
+                    format: date-time
             description: 职位
         PrivateMessage:
             type: object
@@ -3630,12 +3662,15 @@ components:
                 createTime:
                     type: string
                     description: 创建时间
+                    format: date-time
                 updateTime:
                     type: string
                     description: 更新时间
+                    format: date-time
                 deleteTime:
                     type: string
                     description: 删除时间
+                    format: date-time
             description: 私信消息
         RestartAllTaskResponse:
             type: object
@@ -3697,12 +3732,15 @@ components:
                 createTime:
                     type: string
                     description: 创建时间
+                    format: date-time
                 updateTime:
                     type: string
                     description: 更新时间
+                    format: date-time
                 deleteTime:
                     type: string
                     description: 删除时间
+                    format: date-time
             description: 角色
         RouteItem:
             type: object
@@ -3860,12 +3898,15 @@ components:
                 createTime:
                     type: string
                     description: 创建时间
+                    format: date-time
                 updateTime:
                     type: string
                     description: 更新时间
+                    format: date-time
                 deleteTime:
                     type: string
                     description: 删除时间
+                    format: date-time
             description: 调度任务
         TaskOption:
             type: object
@@ -3937,12 +3978,15 @@ components:
                 createTime:
                     type: string
                     description: 创建时间
+                    format: date-time
                 updateTime:
                     type: string
                     description: 更新时间
+                    format: date-time
                 deleteTime:
                     type: string
                     description: 删除时间
+                    format: date-time
             description: 租户
         UEditorResponse:
             type: object
@@ -4448,6 +4492,7 @@ components:
                 lastLoginTime:
                     type: string
                     description: 最后登录时间
+                    format: date-time
                 lastLoginIp:
                     type: string
                     description: 最后登录IP
@@ -4487,12 +4532,15 @@ components:
                 createTime:
                     type: string
                     description: 创建时间
+                    format: date-time
                 updateTime:
                     type: string
                     description: 更新时间
+                    format: date-time
                 deleteTime:
                     type: string
                     description: 删除时间
+                    format: date-time
             description: 用户
     responses:
         default:

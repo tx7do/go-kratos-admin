@@ -384,23 +384,16 @@ func (uu *UserUpdate) ClearAuthority() *UserUpdate {
 }
 
 // SetLastLoginTime sets the "last_login_time" field.
-func (uu *UserUpdate) SetLastLoginTime(i int64) *UserUpdate {
-	uu.mutation.ResetLastLoginTime()
-	uu.mutation.SetLastLoginTime(i)
+func (uu *UserUpdate) SetLastLoginTime(t time.Time) *UserUpdate {
+	uu.mutation.SetLastLoginTime(t)
 	return uu
 }
 
 // SetNillableLastLoginTime sets the "last_login_time" field if the given value is not nil.
-func (uu *UserUpdate) SetNillableLastLoginTime(i *int64) *UserUpdate {
-	if i != nil {
-		uu.SetLastLoginTime(*i)
+func (uu *UserUpdate) SetNillableLastLoginTime(t *time.Time) *UserUpdate {
+	if t != nil {
+		uu.SetLastLoginTime(*t)
 	}
-	return uu
-}
-
-// AddLastLoginTime adds i to the "last_login_time" field.
-func (uu *UserUpdate) AddLastLoginTime(i int64) *UserUpdate {
-	uu.mutation.AddLastLoginTime(i)
 	return uu
 }
 
@@ -776,13 +769,10 @@ func (uu *UserUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		_spec.ClearField(user.FieldAuthority, field.TypeEnum)
 	}
 	if value, ok := uu.mutation.LastLoginTime(); ok {
-		_spec.SetField(user.FieldLastLoginTime, field.TypeInt64, value)
-	}
-	if value, ok := uu.mutation.AddedLastLoginTime(); ok {
-		_spec.AddField(user.FieldLastLoginTime, field.TypeInt64, value)
+		_spec.SetField(user.FieldLastLoginTime, field.TypeTime, value)
 	}
 	if uu.mutation.LastLoginTimeCleared() {
-		_spec.ClearField(user.FieldLastLoginTime, field.TypeInt64)
+		_spec.ClearField(user.FieldLastLoginTime, field.TypeTime)
 	}
 	if value, ok := uu.mutation.LastLoginIP(); ok {
 		_spec.SetField(user.FieldLastLoginIP, field.TypeString, value)
@@ -1203,23 +1193,16 @@ func (uuo *UserUpdateOne) ClearAuthority() *UserUpdateOne {
 }
 
 // SetLastLoginTime sets the "last_login_time" field.
-func (uuo *UserUpdateOne) SetLastLoginTime(i int64) *UserUpdateOne {
-	uuo.mutation.ResetLastLoginTime()
-	uuo.mutation.SetLastLoginTime(i)
+func (uuo *UserUpdateOne) SetLastLoginTime(t time.Time) *UserUpdateOne {
+	uuo.mutation.SetLastLoginTime(t)
 	return uuo
 }
 
 // SetNillableLastLoginTime sets the "last_login_time" field if the given value is not nil.
-func (uuo *UserUpdateOne) SetNillableLastLoginTime(i *int64) *UserUpdateOne {
-	if i != nil {
-		uuo.SetLastLoginTime(*i)
+func (uuo *UserUpdateOne) SetNillableLastLoginTime(t *time.Time) *UserUpdateOne {
+	if t != nil {
+		uuo.SetLastLoginTime(*t)
 	}
-	return uuo
-}
-
-// AddLastLoginTime adds i to the "last_login_time" field.
-func (uuo *UserUpdateOne) AddLastLoginTime(i int64) *UserUpdateOne {
-	uuo.mutation.AddLastLoginTime(i)
 	return uuo
 }
 
@@ -1625,13 +1608,10 @@ func (uuo *UserUpdateOne) sqlSave(ctx context.Context) (_node *User, err error) 
 		_spec.ClearField(user.FieldAuthority, field.TypeEnum)
 	}
 	if value, ok := uuo.mutation.LastLoginTime(); ok {
-		_spec.SetField(user.FieldLastLoginTime, field.TypeInt64, value)
-	}
-	if value, ok := uuo.mutation.AddedLastLoginTime(); ok {
-		_spec.AddField(user.FieldLastLoginTime, field.TypeInt64, value)
+		_spec.SetField(user.FieldLastLoginTime, field.TypeTime, value)
 	}
 	if uuo.mutation.LastLoginTimeCleared() {
-		_spec.ClearField(user.FieldLastLoginTime, field.TypeInt64)
+		_spec.ClearField(user.FieldLastLoginTime, field.TypeTime)
 	}
 	if value, ok := uuo.mutation.LastLoginIP(); ok {
 		_spec.SetField(user.FieldLastLoginIP, field.TypeString, value)

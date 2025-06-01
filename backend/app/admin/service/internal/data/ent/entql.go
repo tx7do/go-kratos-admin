@@ -481,7 +481,7 @@ var schemaGraph = func() *sqlgraph.Schema {
 			user.FieldDescription:   {Type: field.TypeString, Column: user.FieldDescription},
 			user.FieldGender:        {Type: field.TypeEnum, Column: user.FieldGender},
 			user.FieldAuthority:     {Type: field.TypeEnum, Column: user.FieldAuthority},
-			user.FieldLastLoginTime: {Type: field.TypeInt64, Column: user.FieldLastLoginTime},
+			user.FieldLastLoginTime: {Type: field.TypeTime, Column: user.FieldLastLoginTime},
 			user.FieldLastLoginIP:   {Type: field.TypeString, Column: user.FieldLastLoginIP},
 			user.FieldRoleID:        {Type: field.TypeUint32, Column: user.FieldRoleID},
 			user.FieldOrgID:         {Type: field.TypeUint32, Column: user.FieldOrgID},
@@ -2667,8 +2667,8 @@ func (f *UserFilter) WhereAuthority(p entql.StringP) {
 	f.Where(p.Field(user.FieldAuthority))
 }
 
-// WhereLastLoginTime applies the entql int64 predicate on the last_login_time field.
-func (f *UserFilter) WhereLastLoginTime(p entql.Int64P) {
+// WhereLastLoginTime applies the entql time.Time predicate on the last_login_time field.
+func (f *UserFilter) WhereLastLoginTime(p entql.TimeP) {
 	f.Where(p.Field(user.FieldLastLoginTime))
 }
 

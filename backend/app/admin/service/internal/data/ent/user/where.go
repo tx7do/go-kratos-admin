@@ -140,7 +140,7 @@ func Description(v string) predicate.User {
 }
 
 // LastLoginTime applies equality check predicate on the "last_login_time" field. It's identical to LastLoginTimeEQ.
-func LastLoginTime(v int64) predicate.User {
+func LastLoginTime(v time.Time) predicate.User {
 	return predicate.User(sql.FieldEQ(FieldLastLoginTime, v))
 }
 
@@ -1385,42 +1385,42 @@ func AuthorityNotNil() predicate.User {
 }
 
 // LastLoginTimeEQ applies the EQ predicate on the "last_login_time" field.
-func LastLoginTimeEQ(v int64) predicate.User {
+func LastLoginTimeEQ(v time.Time) predicate.User {
 	return predicate.User(sql.FieldEQ(FieldLastLoginTime, v))
 }
 
 // LastLoginTimeNEQ applies the NEQ predicate on the "last_login_time" field.
-func LastLoginTimeNEQ(v int64) predicate.User {
+func LastLoginTimeNEQ(v time.Time) predicate.User {
 	return predicate.User(sql.FieldNEQ(FieldLastLoginTime, v))
 }
 
 // LastLoginTimeIn applies the In predicate on the "last_login_time" field.
-func LastLoginTimeIn(vs ...int64) predicate.User {
+func LastLoginTimeIn(vs ...time.Time) predicate.User {
 	return predicate.User(sql.FieldIn(FieldLastLoginTime, vs...))
 }
 
 // LastLoginTimeNotIn applies the NotIn predicate on the "last_login_time" field.
-func LastLoginTimeNotIn(vs ...int64) predicate.User {
+func LastLoginTimeNotIn(vs ...time.Time) predicate.User {
 	return predicate.User(sql.FieldNotIn(FieldLastLoginTime, vs...))
 }
 
 // LastLoginTimeGT applies the GT predicate on the "last_login_time" field.
-func LastLoginTimeGT(v int64) predicate.User {
+func LastLoginTimeGT(v time.Time) predicate.User {
 	return predicate.User(sql.FieldGT(FieldLastLoginTime, v))
 }
 
 // LastLoginTimeGTE applies the GTE predicate on the "last_login_time" field.
-func LastLoginTimeGTE(v int64) predicate.User {
+func LastLoginTimeGTE(v time.Time) predicate.User {
 	return predicate.User(sql.FieldGTE(FieldLastLoginTime, v))
 }
 
 // LastLoginTimeLT applies the LT predicate on the "last_login_time" field.
-func LastLoginTimeLT(v int64) predicate.User {
+func LastLoginTimeLT(v time.Time) predicate.User {
 	return predicate.User(sql.FieldLT(FieldLastLoginTime, v))
 }
 
 // LastLoginTimeLTE applies the LTE predicate on the "last_login_time" field.
-func LastLoginTimeLTE(v int64) predicate.User {
+func LastLoginTimeLTE(v time.Time) predicate.User {
 	return predicate.User(sql.FieldLTE(FieldLastLoginTime, v))
 }
 

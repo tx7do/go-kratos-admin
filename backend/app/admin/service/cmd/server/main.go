@@ -26,7 +26,13 @@ func newApp(
 	as *asynq.Server,
 	ss *sse.Server,
 ) *kratos.App {
-	return bootstrap.NewApp(lg, re, hs, as, ss)
+	return bootstrap.NewApp(
+		lg,
+		re,
+		hs,
+		as,
+		ss,
+	)
 }
 
 func main() {

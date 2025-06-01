@@ -204,7 +204,7 @@ func (r *AdminOperationLogRepo) Create(ctx context.Context, req *adminV1.CreateA
 		SetNillableSuccess(req.Data.Success).
 		SetNillableReason(req.Data.Reason).
 		SetNillableLocation(req.Data.Location).
-		SetNillableCreateTime(timeutil.StringTimeToTime(req.Data.CreateTime))
+		SetNillableCreateTime(timeutil.TimestamppbToTime(req.Data.CreateTime))
 
 	if req.Data.CreateTime == nil {
 		builder.SetCreateTime(time.Now())

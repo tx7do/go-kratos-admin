@@ -220,7 +220,7 @@ func (r *FileRepo) Create(ctx context.Context, req *fileV1.CreateFileRequest) er
 		SetNillableLinkURL(req.Data.LinkUrl).
 		SetNillableMd5(req.Data.Md5).
 		SetNillableCreateBy(req.Data.CreateBy).
-		SetNillableCreateTime(timeutil.StringTimeToTime(req.Data.CreateTime))
+		SetNillableCreateTime(timeutil.TimestamppbToTime(req.Data.CreateTime))
 
 	if req.Data.CreateTime == nil {
 		builder.SetCreateTime(time.Now())
@@ -279,7 +279,7 @@ func (r *FileRepo) Update(ctx context.Context, req *fileV1.UpdateFileRequest) er
 		SetNillableLinkURL(req.Data.LinkUrl).
 		SetNillableMd5(req.Data.Md5).
 		//SetNillableUpdateBy(trans.Ptr(operator.UserId)).
-		SetNillableUpdateTime(timeutil.StringTimeToTime(req.Data.UpdateTime))
+		SetNillableUpdateTime(timeutil.TimestamppbToTime(req.Data.UpdateTime))
 
 	if req.Data.UpdateTime == nil {
 		builder.SetUpdateTime(time.Now())

@@ -22568,47 +22568,46 @@ func (m *TenantMutation) ResetEdge(name string) error {
 // UserMutation represents an operation that mutates the User nodes in the graph.
 type UserMutation struct {
 	config
-	op                 Op
-	typ                string
-	id                 *uint32
-	create_by          *uint32
-	addcreate_by       *int32
-	update_by          *uint32
-	addupdate_by       *int32
-	create_time        *time.Time
-	update_time        *time.Time
-	delete_time        *time.Time
-	remark             *string
-	status             *user.Status
-	tenant_id          *uint32
-	addtenant_id       *int32
-	username           *string
-	nickname           *string
-	realname           *string
-	email              *string
-	mobile             *string
-	telephone          *string
-	avatar             *string
-	address            *string
-	region             *string
-	description        *string
-	gender             *user.Gender
-	authority          *user.Authority
-	last_login_time    *int64
-	addlast_login_time *int64
-	last_login_ip      *string
-	role_id            *uint32
-	addrole_id         *int32
-	org_id             *uint32
-	addorg_id          *int32
-	position_id        *uint32
-	addposition_id     *int32
-	work_id            *uint32
-	addwork_id         *int32
-	clearedFields      map[string]struct{}
-	done               bool
-	oldValue           func(context.Context) (*User, error)
-	predicates         []predicate.User
+	op              Op
+	typ             string
+	id              *uint32
+	create_by       *uint32
+	addcreate_by    *int32
+	update_by       *uint32
+	addupdate_by    *int32
+	create_time     *time.Time
+	update_time     *time.Time
+	delete_time     *time.Time
+	remark          *string
+	status          *user.Status
+	tenant_id       *uint32
+	addtenant_id    *int32
+	username        *string
+	nickname        *string
+	realname        *string
+	email           *string
+	mobile          *string
+	telephone       *string
+	avatar          *string
+	address         *string
+	region          *string
+	description     *string
+	gender          *user.Gender
+	authority       *user.Authority
+	last_login_time *time.Time
+	last_login_ip   *string
+	role_id         *uint32
+	addrole_id      *int32
+	org_id          *uint32
+	addorg_id       *int32
+	position_id     *uint32
+	addposition_id  *int32
+	work_id         *uint32
+	addwork_id      *int32
+	clearedFields   map[string]struct{}
+	done            bool
+	oldValue        func(context.Context) (*User, error)
+	predicates      []predicate.User
 }
 
 var _ ent.Mutation = (*UserMutation)(nil)
@@ -23759,13 +23758,12 @@ func (m *UserMutation) ResetAuthority() {
 }
 
 // SetLastLoginTime sets the "last_login_time" field.
-func (m *UserMutation) SetLastLoginTime(i int64) {
-	m.last_login_time = &i
-	m.addlast_login_time = nil
+func (m *UserMutation) SetLastLoginTime(t time.Time) {
+	m.last_login_time = &t
 }
 
 // LastLoginTime returns the value of the "last_login_time" field in the mutation.
-func (m *UserMutation) LastLoginTime() (r int64, exists bool) {
+func (m *UserMutation) LastLoginTime() (r time.Time, exists bool) {
 	v := m.last_login_time
 	if v == nil {
 		return
@@ -23776,7 +23774,7 @@ func (m *UserMutation) LastLoginTime() (r int64, exists bool) {
 // OldLastLoginTime returns the old "last_login_time" field's value of the User entity.
 // If the User object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *UserMutation) OldLastLoginTime(ctx context.Context) (v *int64, err error) {
+func (m *UserMutation) OldLastLoginTime(ctx context.Context) (v *time.Time, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldLastLoginTime is only allowed on UpdateOne operations")
 	}
@@ -23790,28 +23788,9 @@ func (m *UserMutation) OldLastLoginTime(ctx context.Context) (v *int64, err erro
 	return oldValue.LastLoginTime, nil
 }
 
-// AddLastLoginTime adds i to the "last_login_time" field.
-func (m *UserMutation) AddLastLoginTime(i int64) {
-	if m.addlast_login_time != nil {
-		*m.addlast_login_time += i
-	} else {
-		m.addlast_login_time = &i
-	}
-}
-
-// AddedLastLoginTime returns the value that was added to the "last_login_time" field in this mutation.
-func (m *UserMutation) AddedLastLoginTime() (r int64, exists bool) {
-	v := m.addlast_login_time
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
 // ClearLastLoginTime clears the value of the "last_login_time" field.
 func (m *UserMutation) ClearLastLoginTime() {
 	m.last_login_time = nil
-	m.addlast_login_time = nil
 	m.clearedFields[user.FieldLastLoginTime] = struct{}{}
 }
 
@@ -23824,7 +23803,6 @@ func (m *UserMutation) LastLoginTimeCleared() bool {
 // ResetLastLoginTime resets all changes to the "last_login_time" field.
 func (m *UserMutation) ResetLastLoginTime() {
 	m.last_login_time = nil
-	m.addlast_login_time = nil
 	delete(m.clearedFields, user.FieldLastLoginTime)
 }
 
@@ -24541,7 +24519,7 @@ func (m *UserMutation) SetField(name string, value ent.Value) error {
 		m.SetAuthority(v)
 		return nil
 	case user.FieldLastLoginTime:
-		v, ok := value.(int64)
+		v, ok := value.(time.Time)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
@@ -24599,9 +24577,6 @@ func (m *UserMutation) AddedFields() []string {
 	if m.addtenant_id != nil {
 		fields = append(fields, user.FieldTenantID)
 	}
-	if m.addlast_login_time != nil {
-		fields = append(fields, user.FieldLastLoginTime)
-	}
 	if m.addrole_id != nil {
 		fields = append(fields, user.FieldRoleID)
 	}
@@ -24628,8 +24603,6 @@ func (m *UserMutation) AddedField(name string) (ent.Value, bool) {
 		return m.AddedUpdateBy()
 	case user.FieldTenantID:
 		return m.AddedTenantID()
-	case user.FieldLastLoginTime:
-		return m.AddedLastLoginTime()
 	case user.FieldRoleID:
 		return m.AddedRoleID()
 	case user.FieldOrgID:
@@ -24667,13 +24640,6 @@ func (m *UserMutation) AddField(name string, value ent.Value) error {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.AddTenantID(v)
-		return nil
-	case user.FieldLastLoginTime:
-		v, ok := value.(int64)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.AddLastLoginTime(v)
 		return nil
 	case user.FieldRoleID:
 		v, ok := value.(int32)

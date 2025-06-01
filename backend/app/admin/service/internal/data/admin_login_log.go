@@ -183,7 +183,7 @@ func (r *AdminLoginLogRepo) Create(ctx context.Context, req *adminV1.CreateAdmin
 		SetNillableReason(req.Data.Reason).
 		SetNillableLocation(req.Data.Location).
 		SetNillableLoginTime(timeutil.TimestamppbToTime(req.Data.LoginTime)).
-		SetNillableCreateTime(timeutil.StringTimeToTime(req.Data.CreateTime))
+		SetNillableCreateTime(timeutil.TimestamppbToTime(req.Data.CreateTime))
 
 	if req.Data.LoginTime == nil {
 		builder.SetLoginTime(time.Now())

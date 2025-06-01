@@ -59,7 +59,7 @@ type User struct {
 	// 授权
 	Authority *user.Authority `json:"authority,omitempty"`
 	// 最后一次登录的时间
-	LastLoginTime *int64 `json:"last_login_time,omitempty"`
+	LastLoginTime *time.Time `json:"last_login_time,omitempty"`
 	// 最后一次登录的IP
 	LastLoginIP *string `json:"last_login_ip,omitempty"`
 	// 角色ID
@@ -78,11 +78,11 @@ func (*User) scanValues(columns []string) ([]any, error) {
 	values := make([]any, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case user.FieldID, user.FieldCreateBy, user.FieldUpdateBy, user.FieldTenantID, user.FieldLastLoginTime, user.FieldRoleID, user.FieldOrgID, user.FieldPositionID, user.FieldWorkID:
+		case user.FieldID, user.FieldCreateBy, user.FieldUpdateBy, user.FieldTenantID, user.FieldRoleID, user.FieldOrgID, user.FieldPositionID, user.FieldWorkID:
 			values[i] = new(sql.NullInt64)
 		case user.FieldRemark, user.FieldStatus, user.FieldUsername, user.FieldNickname, user.FieldRealname, user.FieldEmail, user.FieldMobile, user.FieldTelephone, user.FieldAvatar, user.FieldAddress, user.FieldRegion, user.FieldDescription, user.FieldGender, user.FieldAuthority, user.FieldLastLoginIP:
 			values[i] = new(sql.NullString)
-		case user.FieldCreateTime, user.FieldUpdateTime, user.FieldDeleteTime:
+		case user.FieldCreateTime, user.FieldUpdateTime, user.FieldDeleteTime, user.FieldLastLoginTime:
 			values[i] = new(sql.NullTime)
 		default:
 			values[i] = new(sql.UnknownType)
@@ -246,11 +246,11 @@ func (u *User) assignValues(columns []string, values []any) error {
 				*u.Authority = user.Authority(value.String)
 			}
 		case user.FieldLastLoginTime:
-			if value, ok := values[i].(*sql.NullInt64); !ok {
+			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field last_login_time", values[i])
 			} else if value.Valid {
-				u.LastLoginTime = new(int64)
-				*u.LastLoginTime = value.Int64
+				u.LastLoginTime = new(time.Time)
+				*u.LastLoginTime = value.Time
 			}
 		case user.FieldLastLoginIP:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -425,7 +425,7 @@ func (u *User) String() string {
 	builder.WriteString(", ")
 	if v := u.LastLoginTime; v != nil {
 		builder.WriteString("last_login_time=")
-		builder.WriteString(fmt.Sprintf("%v", *v))
+		builder.WriteString(v.Format(time.ANSIC))
 	}
 	builder.WriteString(", ")
 	if v := u.LastLoginIP; v != nil {

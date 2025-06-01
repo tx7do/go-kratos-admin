@@ -279,7 +279,7 @@ func (r *UserCredentialRepo) Create(ctx context.Context, req *authenticationV1.C
 		SetNillableIsPrimary(req.Data.IsPrimary).
 		SetNillableStatus(r.toEntStatus(req.Data.Status)).
 		SetNillableExtraInfo(req.Data.ExtraInfo).
-		SetNillableCreateTime(timeutil.StringTimeToTime(req.Data.CreateTime))
+		SetNillableCreateTime(timeutil.TimestamppbToTime(req.Data.CreateTime))
 
 	if req.Data.CreateTime == nil {
 		builder.SetCreateTime(time.Now())
@@ -339,7 +339,7 @@ func (r *UserCredentialRepo) Update(ctx context.Context, req *authenticationV1.U
 		SetNillableIsPrimary(req.Data.IsPrimary).
 		SetNillableStatus(r.toEntStatus(req.Data.Status)).
 		SetNillableExtraInfo(req.Data.ExtraInfo).
-		SetNillableUpdateTime(timeutil.StringTimeToTime(req.Data.UpdateTime))
+		SetNillableUpdateTime(timeutil.TimestamppbToTime(req.Data.UpdateTime))
 
 	if req.Data.UpdateTime == nil {
 		builder.SetUpdateTime(time.Now())

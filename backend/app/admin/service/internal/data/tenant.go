@@ -179,12 +179,14 @@ func (r *TenantRepo) Create(ctx context.Context, req *userV1.CreateTenantRequest
 		SetNillableRemark(req.Data.Remark).
 		SetNillableStatus((*tenant.Status)(req.Data.Status)).
 		SetNillableSubscriptionAt(timeutil.TimestamppbToTime(req.Data.SubscriptionAt)).
-		SetNillableUnsubscribeAt(timeutil.TimestamppbToTime(req.Data.UnsubscribeAt)).
-		SetNillableCreateBy(req.Data.CreateBy).
-		SetNillableCreateTime(timeutil.StringTimeToTime(req.Data.CreateTime))
+		SetNillableUnsubscribeAt(timeutil.TimestamppbToTime(req.Data.UnsubscribeAt))
+
+	builder.SetNillableCreateBy(req.Data.CreateBy)
 
 	if req.Data.CreateTime == nil {
 		builder.SetCreateTime(time.Now())
+	} else {
+		builder.SetNillableCreateTime(timeutil.TimestamppbToTime(req.Data.CreateTime))
 	}
 
 	if req.Data.Id != nil {
@@ -234,12 +236,14 @@ func (r *TenantRepo) Update(ctx context.Context, req *userV1.UpdateTenantRequest
 		SetNillableRemark(req.Data.Remark).
 		SetNillableStatus((*tenant.Status)(req.Data.Status)).
 		SetNillableSubscriptionAt(timeutil.TimestamppbToTime(req.Data.SubscriptionAt)).
-		SetNillableUnsubscribeAt(timeutil.TimestamppbToTime(req.Data.UnsubscribeAt)).
-		SetNillableUpdateBy(req.Data.UpdateBy).
-		SetNillableUpdateTime(timeutil.StringTimeToTime(req.Data.UpdateTime))
+		SetNillableUnsubscribeAt(timeutil.TimestamppbToTime(req.Data.UnsubscribeAt))
+
+	builder.SetNillableUpdateBy(req.Data.UpdateBy)
 
 	if req.Data.UpdateTime == nil {
 		builder.SetUpdateTime(time.Now())
+	} else {
+		builder.SetNillableUpdateTime(timeutil.TimestamppbToTime(req.Data.UpdateTime))
 	}
 
 	if req.UpdateMask != nil {

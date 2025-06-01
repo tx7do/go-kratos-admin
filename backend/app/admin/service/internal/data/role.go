@@ -176,7 +176,7 @@ func (r *RoleRepo) Create(ctx context.Context, req *userV1.CreateRoleRequest) er
 		SetNillableStatus((*role.Status)(req.Data.Status)).
 		SetNillableRemark(req.Data.Remark).
 		SetNillableCreateBy(req.Data.CreateBy).
-		SetNillableCreateTime(timeutil.StringTimeToTime(req.Data.CreateTime))
+		SetNillableCreateTime(timeutil.TimestamppbToTime(req.Data.CreateTime))
 
 	if req.Data.CreateTime == nil {
 		builder.SetCreateTime(time.Now())
@@ -234,7 +234,7 @@ func (r *RoleRepo) Update(ctx context.Context, req *userV1.UpdateRoleRequest) er
 		SetNillableRemark(req.Data.Remark).
 		SetNillableStatus((*role.Status)(req.Data.Status)).
 		SetNillableUpdateBy(req.Data.UpdateBy).
-		SetNillableUpdateTime(timeutil.StringTimeToTime(req.Data.UpdateTime))
+		SetNillableUpdateTime(timeutil.TimestamppbToTime(req.Data.UpdateTime))
 
 	if req.Data.UpdateTime == nil {
 		builder.SetUpdateTime(time.Now())

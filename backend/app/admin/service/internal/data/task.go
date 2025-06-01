@@ -236,7 +236,7 @@ func (r *TaskRepo) Create(ctx context.Context, req *adminV1.CreateTaskRequest) (
 		SetNillableEnable(req.Data.Enable).
 		SetNillableRemark(req.Data.Remark).
 		SetNillableCreateBy(req.Data.CreateBy).
-		SetNillableCreateTime(timeutil.StringTimeToTime(req.Data.CreateTime))
+		SetNillableCreateTime(timeutil.TimestamppbToTime(req.Data.CreateTime))
 
 	if req.Data.CreateTime == nil {
 		builder.SetCreateTime(time.Now())
@@ -297,7 +297,7 @@ func (r *TaskRepo) Update(ctx context.Context, req *adminV1.UpdateTaskRequest) (
 		SetNillableEnable(req.Data.Enable).
 		SetNillableRemark(req.Data.Remark).
 		SetNillableUpdateBy(req.Data.UpdateBy).
-		SetNillableUpdateTime(timeutil.StringTimeToTime(req.Data.UpdateTime))
+		SetNillableUpdateTime(timeutil.TimestamppbToTime(req.Data.UpdateTime))
 
 	if req.Data.TaskOptions != nil {
 		builder.SetTaskOptions(req.Data.TaskOptions)

@@ -228,7 +228,7 @@ func (r *NotificationMessageCategoryRepo) Create(ctx context.Context, req *inter
 		SetNillableSortID(req.Data.SortId).
 		SetNillableEnable(req.Data.Enable).
 		SetNillableCreateBy(req.Data.CreateBy).
-		SetNillableCreateTime(timeutil.StringTimeToTime(req.Data.CreateTime))
+		SetNillableCreateTime(timeutil.TimestamppbToTime(req.Data.CreateTime))
 
 	if req.Data.CreateTime == nil {
 		builder.SetCreateTime(time.Now())
@@ -281,7 +281,7 @@ func (r *NotificationMessageCategoryRepo) Update(ctx context.Context, req *inter
 		SetNillableSortID(req.Data.SortId).
 		SetNillableEnable(req.Data.Enable).
 		SetNillableUpdateBy(req.Data.UpdateBy).
-		SetNillableUpdateTime(timeutil.StringTimeToTime(req.Data.UpdateTime))
+		SetNillableUpdateTime(timeutil.TimestamppbToTime(req.Data.UpdateTime))
 
 	if req.Data.UpdateTime == nil {
 		builder.SetUpdateTime(time.Now())

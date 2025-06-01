@@ -626,7 +626,7 @@ var (
 		{Name: "description", Type: field.TypeString, Nullable: true, Size: 1023, Comment: "个人说明"},
 		{Name: "gender", Type: field.TypeEnum, Nullable: true, Comment: "性别", Enums: []string{"SECRET", "MALE", "FEMALE"}},
 		{Name: "authority", Type: field.TypeEnum, Nullable: true, Comment: "授权", Enums: []string{"SYS_ADMIN", "TENANT_ADMIN", "CUSTOMER_USER", "GUEST"}, Default: "CUSTOMER_USER"},
-		{Name: "last_login_time", Type: field.TypeInt64, Nullable: true, Comment: "最后一次登录的时间"},
+		{Name: "last_login_time", Type: field.TypeTime, Nullable: true, Comment: "最后一次登录的时间"},
 		{Name: "last_login_ip", Type: field.TypeString, Nullable: true, Size: 64, Comment: "最后一次登录的IP", Default: ""},
 		{Name: "role_id", Type: field.TypeUint32, Nullable: true, Comment: "角色ID"},
 		{Name: "org_id", Type: field.TypeUint32, Nullable: true, Comment: "部门ID"},

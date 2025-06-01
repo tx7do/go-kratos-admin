@@ -213,7 +213,7 @@ func (r *PrivateMessageRepo) Create(ctx context.Context, req *internalMessageV1.
 		SetNillableSenderID(req.Data.SenderId).
 		SetNillableReceiverID(req.Data.ReceiverId).
 		SetNillableStatus(r.toEntStatus(req.Data.Status)).
-		SetNillableCreateTime(timeutil.StringTimeToTime(req.Data.CreateTime))
+		SetNillableCreateTime(timeutil.TimestamppbToTime(req.Data.CreateTime))
 
 	if req.Data.CreateTime == nil {
 		builder.SetCreateTime(time.Now())
@@ -259,7 +259,7 @@ func (r *PrivateMessageRepo) Update(ctx context.Context, req *internalMessageV1.
 		SetNillableSenderID(req.Data.SenderId).
 		SetNillableReceiverID(req.Data.ReceiverId).
 		SetNillableStatus(r.toEntStatus(req.Data.Status)).
-		SetNillableUpdateTime(timeutil.StringTimeToTime(req.Data.UpdateTime))
+		SetNillableUpdateTime(timeutil.TimestamppbToTime(req.Data.UpdateTime))
 
 	if req.Data.UpdateTime == nil {
 		builder.SetUpdateTime(time.Now())

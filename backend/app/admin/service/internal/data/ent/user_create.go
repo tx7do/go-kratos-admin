@@ -303,15 +303,15 @@ func (uc *UserCreate) SetNillableAuthority(u *user.Authority) *UserCreate {
 }
 
 // SetLastLoginTime sets the "last_login_time" field.
-func (uc *UserCreate) SetLastLoginTime(i int64) *UserCreate {
-	uc.mutation.SetLastLoginTime(i)
+func (uc *UserCreate) SetLastLoginTime(t time.Time) *UserCreate {
+	uc.mutation.SetLastLoginTime(t)
 	return uc
 }
 
 // SetNillableLastLoginTime sets the "last_login_time" field if the given value is not nil.
-func (uc *UserCreate) SetNillableLastLoginTime(i *int64) *UserCreate {
-	if i != nil {
-		uc.SetLastLoginTime(*i)
+func (uc *UserCreate) SetNillableLastLoginTime(t *time.Time) *UserCreate {
+	if t != nil {
+		uc.SetLastLoginTime(*t)
 	}
 	return uc
 }
@@ -657,7 +657,7 @@ func (uc *UserCreate) createSpec() (*User, *sqlgraph.CreateSpec) {
 		_node.Authority = &value
 	}
 	if value, ok := uc.mutation.LastLoginTime(); ok {
-		_spec.SetField(user.FieldLastLoginTime, field.TypeInt64, value)
+		_spec.SetField(user.FieldLastLoginTime, field.TypeTime, value)
 		_node.LastLoginTime = &value
 	}
 	if value, ok := uc.mutation.LastLoginIP(); ok {
@@ -1051,7 +1051,7 @@ func (u *UserUpsert) ClearAuthority() *UserUpsert {
 }
 
 // SetLastLoginTime sets the "last_login_time" field.
-func (u *UserUpsert) SetLastLoginTime(v int64) *UserUpsert {
+func (u *UserUpsert) SetLastLoginTime(v time.Time) *UserUpsert {
 	u.Set(user.FieldLastLoginTime, v)
 	return u
 }
@@ -1059,12 +1059,6 @@ func (u *UserUpsert) SetLastLoginTime(v int64) *UserUpsert {
 // UpdateLastLoginTime sets the "last_login_time" field to the value that was provided on create.
 func (u *UserUpsert) UpdateLastLoginTime() *UserUpsert {
 	u.SetExcluded(user.FieldLastLoginTime)
-	return u
-}
-
-// AddLastLoginTime adds v to the "last_login_time" field.
-func (u *UserUpsert) AddLastLoginTime(v int64) *UserUpsert {
-	u.Add(user.FieldLastLoginTime, v)
 	return u
 }
 
@@ -1617,16 +1611,9 @@ func (u *UserUpsertOne) ClearAuthority() *UserUpsertOne {
 }
 
 // SetLastLoginTime sets the "last_login_time" field.
-func (u *UserUpsertOne) SetLastLoginTime(v int64) *UserUpsertOne {
+func (u *UserUpsertOne) SetLastLoginTime(v time.Time) *UserUpsertOne {
 	return u.Update(func(s *UserUpsert) {
 		s.SetLastLoginTime(v)
-	})
-}
-
-// AddLastLoginTime adds v to the "last_login_time" field.
-func (u *UserUpsertOne) AddLastLoginTime(v int64) *UserUpsertOne {
-	return u.Update(func(s *UserUpsert) {
-		s.AddLastLoginTime(v)
 	})
 }
 
@@ -2372,16 +2359,9 @@ func (u *UserUpsertBulk) ClearAuthority() *UserUpsertBulk {
 }
 
 // SetLastLoginTime sets the "last_login_time" field.
-func (u *UserUpsertBulk) SetLastLoginTime(v int64) *UserUpsertBulk {
+func (u *UserUpsertBulk) SetLastLoginTime(v time.Time) *UserUpsertBulk {
 	return u.Update(func(s *UserUpsert) {
 		s.SetLastLoginTime(v)
-	})
-}
-
-// AddLastLoginTime adds v to the "last_login_time" field.
-func (u *UserUpsertBulk) AddLastLoginTime(v int64) *UserUpsertBulk {
-	return u.Update(func(s *UserUpsert) {
-		s.AddLastLoginTime(v)
 	})
 }
 

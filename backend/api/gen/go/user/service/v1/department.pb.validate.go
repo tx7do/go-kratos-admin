@@ -132,15 +132,102 @@ func (m *Department) validate(all bool) error {
 	}
 
 	if m.CreateTime != nil {
-		// no validation rules for CreateTime
+
+		if all {
+			switch v := interface{}(m.GetCreateTime()).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, DepartmentValidationError{
+						field:  "CreateTime",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, DepartmentValidationError{
+						field:  "CreateTime",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(m.GetCreateTime()).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return DepartmentValidationError{
+					field:  "CreateTime",
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
 	}
 
 	if m.UpdateTime != nil {
-		// no validation rules for UpdateTime
+
+		if all {
+			switch v := interface{}(m.GetUpdateTime()).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, DepartmentValidationError{
+						field:  "UpdateTime",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, DepartmentValidationError{
+						field:  "UpdateTime",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(m.GetUpdateTime()).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return DepartmentValidationError{
+					field:  "UpdateTime",
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
 	}
 
 	if m.DeleteTime != nil {
-		// no validation rules for DeleteTime
+
+		if all {
+			switch v := interface{}(m.GetDeleteTime()).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, DepartmentValidationError{
+						field:  "DeleteTime",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, DepartmentValidationError{
+						field:  "DeleteTime",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(m.GetDeleteTime()).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return DepartmentValidationError{
+					field:  "DeleteTime",
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
 	}
 
 	if len(errors) > 0 {

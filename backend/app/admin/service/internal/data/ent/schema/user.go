@@ -118,7 +118,7 @@ func (User) Fields() []ent.Field {
 			).
 			Default("CUSTOMER_USER"),
 
-		field.Int64("last_login_time").
+		field.Time("last_login_time").
 			Comment("最后一次登录的时间").
 			Optional().
 			Nillable(),

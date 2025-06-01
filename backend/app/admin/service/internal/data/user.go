@@ -300,7 +300,7 @@ func (r *UserRepo) Create(ctx context.Context, req *userV1.CreateUserRequest) (*
 		SetNillableAddress(req.Data.Address).
 		SetNillableDescription(req.Data.Description).
 		SetNillableRemark(req.Data.Remark).
-		SetNillableLastLoginTime(req.Data.LastLoginTime).
+		SetNillableLastLoginTime(timeutil.TimestamppbToTime(req.Data.LastLoginTime)).
 		SetNillableLastLoginIP(req.Data.LastLoginIp).
 		SetNillableStatus(r.toEntStatus(req.Data.Status)).
 		SetNillableGender(r.toEntGender(req.Data.Gender)).
@@ -311,7 +311,7 @@ func (r *UserRepo) Create(ctx context.Context, req *userV1.CreateUserRequest) (*
 		SetNillablePositionID(req.Data.PositionId).
 		SetNillableTenantID(req.Data.TenantId).
 		SetNillableCreateBy(req.Data.CreateBy).
-		SetNillableCreateTime(timeutil.StringTimeToTime(req.Data.CreateTime))
+		SetNillableCreateTime(timeutil.TimestamppbToTime(req.Data.CreateTime))
 
 	if req.Data.CreateTime == nil {
 		builder.SetCreateTime(time.Now())
@@ -379,7 +379,7 @@ func (r *UserRepo) Update(ctx context.Context, req *userV1.UpdateUserRequest) er
 		SetNillableAddress(req.Data.Address).
 		SetNillableDescription(req.Data.Description).
 		SetNillableRemark(req.Data.Remark).
-		SetNillableLastLoginTime(req.Data.LastLoginTime).
+		SetNillableLastLoginTime(timeutil.TimestamppbToTime(req.Data.LastLoginTime)).
 		SetNillableLastLoginIP(req.Data.LastLoginIp).
 		SetNillableStatus(r.toEntStatus(req.Data.Status)).
 		SetNillableGender(r.toEntGender(req.Data.Gender)).
@@ -389,7 +389,7 @@ func (r *UserRepo) Update(ctx context.Context, req *userV1.UpdateUserRequest) er
 		SetNillableWorkID(req.Data.WorkId).
 		SetNillablePositionID(req.Data.PositionId).
 		SetNillableUpdateBy(req.Data.UpdateBy).
-		SetNillableUpdateTime(timeutil.StringTimeToTime(req.Data.UpdateTime))
+		SetNillableUpdateTime(timeutil.TimestamppbToTime(req.Data.UpdateTime))
 
 	if req.Data.UpdateTime == nil {
 		builder.SetUpdateTime(time.Now())

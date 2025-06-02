@@ -35,6 +35,7 @@ cli:
 	@go install github.com/bufbuild/buf/cmd/buf@latest
 	@go install entgo.io/ent/cmd/ent@latest
 	@go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
+	go install github.com/tx7do/kratos-cli/config-exporter/cmd/cfgexp@latest
 
 # use docker compose install middleware.
 docker-compose:
@@ -116,7 +117,7 @@ docker:
 
 # export configuration to etcd
 export:
-	@go run -mod=mod github.com/tx7do/kratos-cli/config-exporter \
+	@cfgexp \
 		--type=etcd \
 		--addr=localhost:2379 \
 		--proj=kratos_admin

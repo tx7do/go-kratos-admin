@@ -1,8 +1,8 @@
 registry:
-  type: "etcd"
+  type: "nacos"
 
   consul:
-    address: "consul:8500"
+    address: "127.0.0.1:8500"
     scheme: "http"
     heartbeat: false
     health_check: false
@@ -10,7 +10,7 @@ registry:
 
   etcd:
     endpoints:
-      - "etcd:2379"
+      - "127.0.0.1:2379"
 
   zookeeper:
     endpoints:
@@ -18,7 +18,7 @@ registry:
     timeout: 10s
 
   nacos:
-    address: "nacos"
+    address: "127.0.0.1"
     port: 8848
     namespace_id: "public"
     log_level: "../../configs/cache"

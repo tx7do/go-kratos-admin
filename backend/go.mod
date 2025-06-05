@@ -27,9 +27,9 @@ require (
 	github.com/minio/minio-go/v7 v7.0.92
 	github.com/redis/go-redis/v9 v9.9.0
 	github.com/stretchr/testify v1.10.0
-	github.com/tx7do/go-utils v1.1.27
+	github.com/tx7do/go-utils v1.1.28
 	github.com/tx7do/go-utils/copierutil v0.0.5
-	github.com/tx7do/go-utils/entgo v1.1.30
+	github.com/tx7do/go-utils/entgo v1.1.31
 	github.com/tx7do/go-utils/geoip v1.1.5
 	github.com/tx7do/go-utils/jwtutil v0.0.2
 	github.com/tx7do/kratos-authn v1.1.7
@@ -43,18 +43,18 @@ require (
 	github.com/tx7do/kratos-bootstrap/oss/minio v0.0.10
 	github.com/tx7do/kratos-bootstrap/rpc v0.0.14
 	github.com/tx7do/kratos-swagger-ui v0.0.0-20250528131001-09c0dbdb208d
-	github.com/tx7do/kratos-transport v1.1.12
-	github.com/tx7do/kratos-transport/transport/asynq v1.2.21
-	github.com/tx7do/kratos-transport/transport/sse v1.2.19
-	google.golang.org/genproto v0.0.0-20250528174236-200df99c418a
-	google.golang.org/genproto/googleapis/api v0.0.0-20250528174236-200df99c418a
+	github.com/tx7do/kratos-transport v1.1.15
+	github.com/tx7do/kratos-transport/transport/asynq v1.2.25
+	github.com/tx7do/kratos-transport/transport/sse v1.2.21
+	google.golang.org/genproto v0.0.0-20250603155806-513f23925822
+	google.golang.org/genproto/googleapis/api v0.0.0-20250603155806-513f23925822
 	google.golang.org/grpc v1.72.2
 	google.golang.org/protobuf v1.36.6
 )
 
 require (
 	ariga.io/atlas v0.34.0 // indirect
-	buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go v1.36.6-20250425153114-8976f5be98c1.1 // indirect
+	buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go v1.36.6-20250603165357-b52ab10f4468.1 // indirect
 	cel.dev/expr v0.24.0 // indirect
 	dario.cat/mergo v1.0.2 // indirect
 	filippo.io/edwards25519 v1.1.0 // indirect
@@ -88,6 +88,7 @@ require (
 	github.com/bufbuild/protocompile v0.14.1 // indirect
 	github.com/bufbuild/protovalidate-go v0.12.0 // indirect
 	github.com/buger/jsonparser v1.1.1 // indirect
+	github.com/bwmarrin/snowflake v0.3.0 // indirect
 	github.com/cenkalti/backoff/v4 v4.3.0 // indirect
 	github.com/cenkalti/backoff/v5 v5.0.2 // indirect
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
@@ -108,25 +109,13 @@ require (
 	github.com/go-chassis/foundation v0.4.0 // indirect
 	github.com/go-chassis/openlog v1.1.3 // indirect
 	github.com/go-chassis/sc-client v0.7.0 // indirect
-	github.com/go-errors/errors v1.5.1 // indirect
 	github.com/go-ini/ini v1.67.0 // indirect
 	github.com/go-kratos/aegis v0.2.0 // indirect
-	github.com/go-kratos/kratos/contrib/config/apollo/v2 v2.0.0-20250527152916-d6f5f00cf562 // indirect
-	github.com/go-kratos/kratos/contrib/config/etcd/v2 v2.0.0-20250527152916-d6f5f00cf562 // indirect
-	github.com/go-kratos/kratos/contrib/config/kubernetes/v2 v2.0.0-20250527152916-d6f5f00cf562 // indirect
-	github.com/go-kratos/kratos/contrib/config/nacos/v2 v2.0.0-20250527152916-d6f5f00cf562 // indirect
 	github.com/go-kratos/kratos/contrib/log/fluent/v2 v2.0.0-20250527152916-d6f5f00cf562 // indirect
 	github.com/go-kratos/kratos/contrib/log/logrus/v2 v2.0.0-20250527152916-d6f5f00cf562 // indirect
 	github.com/go-kratos/kratos/contrib/log/tencent/v2 v2.0.0-20250527152916-d6f5f00cf562 // indirect
 	github.com/go-kratos/kratos/contrib/log/zap/v2 v2.0.0-20250527152916-d6f5f00cf562 // indirect
 	github.com/go-kratos/kratos/contrib/middleware/validate/v2 v2.0.0-20250527152916-d6f5f00cf562 // indirect
-	github.com/go-kratos/kratos/contrib/registry/consul/v2 v2.0.0-20250527152916-d6f5f00cf562 // indirect
-	github.com/go-kratos/kratos/contrib/registry/etcd/v2 v2.0.0-20250527152916-d6f5f00cf562 // indirect
-	github.com/go-kratos/kratos/contrib/registry/eureka/v2 v2.0.0-20250527152916-d6f5f00cf562 // indirect
-	github.com/go-kratos/kratos/contrib/registry/kubernetes/v2 v2.0.0-20250527152916-d6f5f00cf562 // indirect
-	github.com/go-kratos/kratos/contrib/registry/nacos/v2 v2.0.0-20250527152916-d6f5f00cf562 // indirect
-	github.com/go-kratos/kratos/contrib/registry/servicecomb/v2 v2.0.0-20250527152916-d6f5f00cf562 // indirect
-	github.com/go-kratos/kratos/contrib/registry/zookeeper/v2 v2.0.0-20250527152916-d6f5f00cf562 // indirect
 	github.com/go-logr/logr v1.4.3 // indirect
 	github.com/go-logr/stdr v1.2.2 // indirect
 	github.com/go-ole/go-ole v1.3.0 // indirect
@@ -177,6 +166,7 @@ require (
 	github.com/karlseguin/ccache/v2 v2.0.8 // indirect
 	github.com/klauspost/compress v1.18.0 // indirect
 	github.com/klauspost/cpuid/v2 v2.2.10 // indirect
+	github.com/lithammer/shortuuid/v4 v4.2.0 // indirect
 	github.com/lufia/plan9stats v0.0.0-20250317134145-8bc96cf8fc35 // indirect
 	github.com/mailru/easyjson v0.9.0 // indirect
 	github.com/mattn/go-colorable v0.1.14 // indirect
@@ -190,10 +180,9 @@ require (
 	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
 	github.com/modern-go/reflect2 v1.0.2 // indirect
 	github.com/munnerz/goautoneg v0.0.0-20191010083416-a7dc8b61c822 // indirect
-	github.com/nacos-group/nacos-sdk-go v1.1.5 // indirect
 	github.com/nacos-group/nacos-sdk-go/v2 v2.3.2 // indirect
 	github.com/olekukonko/errors v1.1.0 // indirect
-	github.com/olekukonko/ll v0.0.8 // indirect
+	github.com/olekukonko/ll v0.0.9 // indirect
 	github.com/olekukonko/tablewriter v1.0.7 // indirect
 	github.com/opentracing/opentracing-go v1.2.1-0.20220228012449-10b1cf09e00b // indirect
 	github.com/openzipkin/zipkin-go v0.4.3 // indirect
@@ -215,13 +204,14 @@ require (
 	github.com/robfig/cron/v3 v3.0.1 // indirect
 	github.com/rs/xid v1.6.0 // indirect
 	github.com/sagikazarmark/locafero v0.9.0 // indirect
+	github.com/segmentio/ksuid v1.0.4 // indirect
 	github.com/shirou/gopsutil/v3 v3.24.5 // indirect
 	github.com/shoenig/go-m1cpu v0.1.6 // indirect
 	github.com/sirupsen/logrus v1.9.3 // indirect
 	github.com/sony/sonyflake v1.2.1 // indirect
 	github.com/sourcegraph/conc v0.3.0 // indirect
 	github.com/spf13/afero v1.14.0 // indirect
-	github.com/spf13/cast v1.9.1 // indirect
+	github.com/spf13/cast v1.9.2 // indirect
 	github.com/spf13/cobra v1.9.1 // indirect
 	github.com/spf13/pflag v1.0.6 // indirect
 	github.com/spf13/viper v1.20.1 // indirect
@@ -233,13 +223,7 @@ require (
 	github.com/tjfoc/gmsm v1.4.1 // indirect
 	github.com/tklauser/go-sysconf v0.3.15 // indirect
 	github.com/tklauser/numcpus v0.10.0 // indirect
-	github.com/tx7do/kratos-bootstrap/config v0.0.10 // indirect
-	github.com/tx7do/kratos-bootstrap/config/apollo v0.0.5 // indirect
-	github.com/tx7do/kratos-bootstrap/config/consul v0.0.5 // indirect
-	github.com/tx7do/kratos-bootstrap/config/etcd v0.0.5 // indirect
-	github.com/tx7do/kratos-bootstrap/config/kubernetes v0.0.5 // indirect
-	github.com/tx7do/kratos-bootstrap/config/nacos v0.0.5 // indirect
-	github.com/tx7do/kratos-bootstrap/config/polaris v0.0.1 // indirect
+	github.com/tx7do/go-utils/id v0.0.2 // indirect
 	github.com/tx7do/kratos-bootstrap/logger v0.0.10 // indirect
 	github.com/tx7do/kratos-bootstrap/registry v0.1.0 // indirect
 	github.com/tx7do/kratos-bootstrap/registry/consul v0.1.0 // indirect
@@ -265,6 +249,7 @@ require (
 	go.etcd.io/etcd/api/v3 v3.6.0 // indirect
 	go.etcd.io/etcd/client/pkg/v3 v3.6.0 // indirect
 	go.etcd.io/etcd/client/v3 v3.6.0 // indirect
+	go.mongodb.org/mongo-driver v1.17.3 // indirect
 	go.opentelemetry.io/auto/sdk v1.1.0 // indirect
 	go.opentelemetry.io/otel v1.36.0 // indirect
 	go.opentelemetry.io/otel/exporters/otlp/otlptrace v1.36.0 // indirect
@@ -290,7 +275,7 @@ require (
 	golang.org/x/text v0.25.0 // indirect
 	golang.org/x/time v0.11.0 // indirect
 	golang.org/x/tools v0.33.0 // indirect
-	google.golang.org/genproto/googleapis/rpc v0.0.0-20250528174236-200df99c418a // indirect
+	google.golang.org/genproto/googleapis/rpc v0.0.0-20250603155806-513f23925822 // indirect
 	gopkg.in/cenkalti/backoff.v1 v1.1.0 // indirect
 	gopkg.in/evanphx/json-patch.v4 v4.12.0 // indirect
 	gopkg.in/inf.v0 v0.9.1 // indirect
@@ -302,7 +287,7 @@ require (
 	k8s.io/client-go v0.33.1 // indirect
 	k8s.io/klog/v2 v2.130.1 // indirect
 	k8s.io/kube-openapi v0.0.0-20250318190949-c8a335a9a2ff // indirect
-	k8s.io/utils v0.0.0-20250502105355-0f33e8f1c979 // indirect
+	k8s.io/utils v0.0.0-20250604170112-4c0f3b243397 // indirect
 	sigs.k8s.io/json v0.0.0-20241014173422-cfa47c3a1cc8 // indirect
 	sigs.k8s.io/randfill v1.0.0 // indirect
 	sigs.k8s.io/structured-merge-diff/v4 v4.7.0 // indirect

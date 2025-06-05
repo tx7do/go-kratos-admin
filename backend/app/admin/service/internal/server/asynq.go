@@ -2,7 +2,6 @@ package server
 
 import (
 	"context"
-	"time"
 
 	"github.com/go-kratos/kratos/v2/log"
 	conf "github.com/tx7do/kratos-bootstrap/api/gen/go/conf/v1"
@@ -20,11 +19,11 @@ func NewAsynqServer(cfg *conf.Bootstrap, _ log.Logger, svc *service.TaskService)
 	}
 
 	srv := asynq.NewServer(
+		asynq.WithCodec(cfg.Server.Asynq.GetCodec()),
 		asynq.WithRedisURI(cfg.Server.Asynq.GetUri()),
 		asynq.WithLocation(cfg.Server.Asynq.GetLocation()),
-		asynq.WithEnableKeepAlive(false),
-		asynq.WithGracefullyShutdown(true),
-		asynq.WithShutdownTimeout(3*time.Second),
+		asynq.WithGracefullyShutdown(cfg.Server.Asynq.GetEnableGracefullyShutdown()),
+		asynq.WithShutdownTimeout(cfg.Server.Asynq.GetShutdownTimeout().AsDuration()),
 	)
 
 	svc.Server = srv

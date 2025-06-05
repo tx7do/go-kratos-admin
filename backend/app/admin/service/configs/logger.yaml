@@ -1,5 +1,5 @@
 logger:
-  type: std
+  type: std # Options: std, file, fluent, zap, logrus, aliyun, tencent
 
   fluent:
     endpoint: "tcp://localhost:24224"

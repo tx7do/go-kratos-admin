@@ -107,7 +107,7 @@ openapi:
 
 # run application
 run: api openapi
-	@go run ./cmd/server -conf ./configs
+	-@go run ./cmd/server -conf ./configs
 
 # build service app
 app: api openapi wire ent build

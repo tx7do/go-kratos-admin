@@ -37,15 +37,15 @@ require (
 	github.com/tx7do/kratos-authn/middleware v1.1.7
 	github.com/tx7do/kratos-authz v1.0.3
 	github.com/tx7do/kratos-authz/middleware v1.0.3
-	github.com/tx7do/kratos-bootstrap/api v0.0.21
+	github.com/tx7do/kratos-bootstrap/api v0.0.22
 	github.com/tx7do/kratos-bootstrap/bootstrap v0.0.17
 	github.com/tx7do/kratos-bootstrap/cache/redis v0.0.10
 	github.com/tx7do/kratos-bootstrap/oss/minio v0.0.10
 	github.com/tx7do/kratos-bootstrap/rpc v0.0.14
 	github.com/tx7do/kratos-swagger-ui v0.0.0-20250528131001-09c0dbdb208d
-	github.com/tx7do/kratos-transport v1.1.15
-	github.com/tx7do/kratos-transport/transport/asynq v1.2.25
-	github.com/tx7do/kratos-transport/transport/sse v1.2.21
+	github.com/tx7do/kratos-transport v1.1.16
+	github.com/tx7do/kratos-transport/transport/asynq v1.2.26
+	github.com/tx7do/kratos-transport/transport/sse v1.2.22
 	google.golang.org/genproto v0.0.0-20250603155806-513f23925822
 	google.golang.org/genproto/googleapis/api v0.0.0-20250603155806-513f23925822
 	google.golang.org/grpc v1.72.2

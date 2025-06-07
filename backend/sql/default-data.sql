@@ -15,17 +15,17 @@ VALUES (1, 'USERNAME', 'admin', 'PASSWORD_HASH', '$2a$10$yajZDX20Y40FkG0Bu4N19eX
 SELECT setval('user_credentials_id_seq', (SELECT MAX(id) FROM user_credentials));
 
 -- 默认的角色
-TRUNCATE TABLE kratos_admin.public.roles RESTART IDENTITY;
-INSERT INTO kratos_admin.public.roles(id, parent_id, create_by, sort_id, name, code, status, remark, menus, create_time)
+TRUNCATE TABLE kratos_admin.public.sys_roles RESTART IDENTITY;
+INSERT INTO kratos_admin.public.sys_roles(id, parent_id, create_by, sort_id, name, code, status, remark, menus, create_time)
 VALUES (1, null, 0, 1, '超级管理员', 'super', 'ON', '超级管理员拥有对系统的最高权限', '[1, 2, 6, 7, 8, 9, 10, 11, 12, 13, 14, 20, 21, 22]', now()),
        (2, null, 0, 2, '管理员', 'admin', 'ON', '系统管理员拥有对整个系统的管理权限', '[1, 2, 6, 7, 8, 9, 10, 11, 12, 13, 14]', now()),
        (3, null, 0, 3, '普通用户', 'user', 'ON', '普通用户没有管理权限，只有设备和APP的使用权限', '[]', now()),
        (4, null, 0, 4, '游客', 'guest', 'ON', '游客只有非常有限的数据读取权限', '[]', now());
-SELECT setval('roles_id_seq', (SELECT MAX(id) FROM roles));
+SELECT setval('sys_roles_id_seq', (SELECT MAX(id) FROM sys_roles));
 
 -- 后台目录
-TRUNCATE TABLE kratos_admin.public.menus RESTART IDENTITY;
-INSERT INTO kratos_admin.public.menus(id, parent_id, type, name, path, redirect, component, status, create_time, meta)
+TRUNCATE TABLE kratos_admin.public.sys_menus RESTART IDENTITY;
+INSERT INTO kratos_admin.public.sys_menus(id, parent_id, type, name, path, redirect, component, status, create_time, meta)
 VALUES (1, null, 'FOLDER', 'Dashboard', '/', null, 'BasicLayout', 'ON', now(), '{"order":-1, "title":"page.dashboard.title", "icon":"lucide:layout-dashboard", "keepAlive":false, "hideInBreadcrumb":false, "hideInMenu":false, "hideInTab":false}'),
        (2, 1, 'MENU', 'Analytics', '/analytics', null, 'dashboard/analytics/index.vue', 'ON', now(), '{"order":-1, "title":"page.dashboard.analytics", "icon":"lucide:area-chart", "affixTab": true, "keepAlive":false, "hideInBreadcrumb":false, "hideInMenu":false, "hideInTab":false}'),
 
@@ -50,4 +50,4 @@ VALUES (1, null, 'FOLDER', 'Dashboard', '/', null, 'BasicLayout', 'ON', now(), '
        (30, null, 'FOLDER', 'Log', '/log', null, 'BasicLayout', 'ON', now(), '{"order":2002, "title":"menu.log.moduleName", "icon":"lucide:logs", "keepAlive":true, "hideInBreadcrumb":false, "hideInMenu":false, "hideInTab":false}'),
        (31, 30, 'MENU', 'AdminLoginLog', 'login', null, 'app/log/admin_login_log/index.vue', 'ON', now(), '{"order":1, "title":"menu.log.adminLoginLog", "icon":"lucide:log-in", "keepAlive":false, "hideInBreadcrumb":false, "hideInMenu":false, "hideInTab":false}'),
        (32, 30, 'MENU', 'AdminOperationLog', 'operation', null, 'app/log/admin_operation_log/index.vue', 'ON', now(), '{"order":2, "title":"menu.log.adminOperationLog", "icon":"lucide:arrow-up-down", "keepAlive":false, "hideInBreadcrumb":false, "hideInMenu":false, "hideInTab":false}');
-SELECT setval('menus_id_seq', (SELECT MAX(id) FROM menus));
+SELECT setval('sys_menus_id_seq', (SELECT MAX(id) FROM sys_menus));

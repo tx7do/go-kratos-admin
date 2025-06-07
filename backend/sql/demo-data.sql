@@ -50,8 +50,8 @@ VALUES (1, '开发工程师', 'dev_engineer', null, 'ON', 1, now()),
 SELECT setval('positions_id_seq', (SELECT MAX(id) FROM positions));
 
 -- 调度任务
-TRUNCATE TABLE kratos_admin.public.tasks RESTART IDENTITY;
-INSERT INTO kratos_admin.public.tasks(type, type_name, task_payload, cron_spec, enable, create_time)
+TRUNCATE TABLE kratos_admin.public.sys_tasks RESTART IDENTITY;
+INSERT INTO kratos_admin.public.sys_tasks(type, type_name, task_payload, cron_spec, enable, create_time)
 VALUES ('Periodic', 'backup', '{ "name": "test"}', '*/1 * * * ?', true, now())
 ;
-SELECT setval('tasks_id_seq', (SELECT MAX(id) FROM tasks));
+SELECT setval('sys_tasks_id_seq', (SELECT MAX(id) FROM sys_tasks));

@@ -40,7 +40,7 @@ const (
 	// FieldEnable holds the string denoting the enable field in the database.
 	FieldEnable = "enable"
 	// Table holds the table name of the task in the database.
-	Table = "tasks"
+	Table = "sys_tasks"
 )
 
 // Columns holds all SQL columns for task fields.

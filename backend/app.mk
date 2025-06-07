@@ -82,7 +82,7 @@ gen: ent wire api openapi
 # generate ent code
 ent:
 ifneq ("$(wildcard ./internal/data/ent)","")
-	@go run -mod=mod entgo.io/ent/cmd/ent generate \
+	@ent generate \
 				--feature privacy \
 				--feature entql \
 				--feature sql/modifier \

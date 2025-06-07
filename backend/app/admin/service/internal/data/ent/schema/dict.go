@@ -17,7 +17,7 @@ type Dict struct {
 func (Dict) Annotations() []schema.Annotation {
 	return []schema.Annotation{
 		entsql.Annotation{
-			Table:     "dict",
+			Table:     "sys_dicts",
 			Charset:   "utf8mb4",
 			Collation: "utf8mb4_bin",
 		},

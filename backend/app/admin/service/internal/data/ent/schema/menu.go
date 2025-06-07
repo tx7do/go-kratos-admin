@@ -20,7 +20,7 @@ type Menu struct {
 func (Menu) Annotations() []schema.Annotation {
 	return []schema.Annotation{
 		entsql.Annotation{
-			Table:     "menus",
+			Table:     "sys_menus",
 			Charset:   "utf8mb4",
 			Collation: "utf8mb4_bin",
 		},

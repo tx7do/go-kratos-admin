@@ -44,7 +44,7 @@ const (
 	// FieldSortID holds the string denoting the sort_id field in the database.
 	FieldSortID = "sort_id"
 	// Table holds the table name of the dict in the database.
-	Table = "dict"
+	Table = "sys_dicts"
 )
 
 // Columns holds all SQL columns for dict fields.

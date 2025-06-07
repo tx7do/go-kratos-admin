@@ -158,8 +158,8 @@ var (
 			},
 		},
 	}
-	// DictColumns holds the columns for the "dict" table.
-	DictColumns = []*schema.Column{
+	// SysDictsColumns holds the columns for the "sys_dicts" table.
+	SysDictsColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeUint32, Increment: true, Comment: "id", SchemaType: map[string]string{"mysql": "int", "postgres": "serial"}},
 		{Name: "create_time", Type: field.TypeTime, Nullable: true, Comment: "创建时间"},
 		{Name: "update_time", Type: field.TypeTime, Nullable: true, Comment: "更新时间"},
@@ -177,22 +177,22 @@ var (
 		{Name: "value_data_type", Type: field.TypeString, Nullable: true, Comment: "字典值数据类型"},
 		{Name: "sort_id", Type: field.TypeInt32, Nullable: true, Comment: "排序ID", Default: 0},
 	}
-	// DictTable holds the schema information for the "dict" table.
-	DictTable = &schema.Table{
-		Name:       "dict",
+	// SysDictsTable holds the schema information for the "sys_dicts" table.
+	SysDictsTable = &schema.Table{
+		Name:       "sys_dicts",
 		Comment:    "字典表",
-		Columns:    DictColumns,
-		PrimaryKey: []*schema.Column{DictColumns[0]},
+		Columns:    SysDictsColumns,
+		PrimaryKey: []*schema.Column{SysDictsColumns[0]},
 		Indexes: []*schema.Index{
 			{
 				Name:    "dict_id",
 				Unique:  false,
-				Columns: []*schema.Column{DictColumns[0]},
+				Columns: []*schema.Column{SysDictsColumns[0]},
 			},
 			{
 				Name:    "dict_tenant_id",
 				Unique:  false,
-				Columns: []*schema.Column{DictColumns[8]},
+				Columns: []*schema.Column{SysDictsColumns[8]},
 			},
 		},
 	}
@@ -236,8 +236,8 @@ var (
 			},
 		},
 	}
-	// MenusColumns holds the columns for the "menus" table.
-	MenusColumns = []*schema.Column{
+	// SysMenusColumns holds the columns for the "sys_menus" table.
+	SysMenusColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt32, Increment: true, Comment: "id"},
 		{Name: "status", Type: field.TypeEnum, Nullable: true, Comment: "状态", Enums: []string{"OFF", "ON"}, Default: "ON"},
 		{Name: "create_time", Type: field.TypeTime, Nullable: true, Comment: "创建时间"},
@@ -255,17 +255,17 @@ var (
 		{Name: "meta", Type: field.TypeJSON, Nullable: true, Comment: "前端页面组件"},
 		{Name: "parent_id", Type: field.TypeInt32, Nullable: true, Comment: "上一层菜单ID"},
 	}
-	// MenusTable holds the schema information for the "menus" table.
-	MenusTable = &schema.Table{
-		Name:       "menus",
+	// SysMenusTable holds the schema information for the "sys_menus" table.
+	SysMenusTable = &schema.Table{
+		Name:       "sys_menus",
 		Comment:    "后台目录表",
-		Columns:    MenusColumns,
-		PrimaryKey: []*schema.Column{MenusColumns[0]},
+		Columns:    SysMenusColumns,
+		PrimaryKey: []*schema.Column{SysMenusColumns[0]},
 		ForeignKeys: []*schema.ForeignKey{
 			{
-				Symbol:     "menus_menus_children",
-				Columns:    []*schema.Column{MenusColumns[15]},
-				RefColumns: []*schema.Column{MenusColumns[0]},
+				Symbol:     "sys_menus_sys_menus_children",
+				Columns:    []*schema.Column{SysMenusColumns[15]},
+				RefColumns: []*schema.Column{SysMenusColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
 		},
@@ -493,8 +493,8 @@ var (
 			},
 		},
 	}
-	// RolesColumns holds the columns for the "roles" table.
-	RolesColumns = []*schema.Column{
+	// SysRolesColumns holds the columns for the "sys_roles" table.
+	SysRolesColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeUint32, Increment: true, Comment: "id", SchemaType: map[string]string{"mysql": "int", "postgres": "serial"}},
 		{Name: "create_time", Type: field.TypeTime, Nullable: true, Comment: "创建时间"},
 		{Name: "update_time", Type: field.TypeTime, Nullable: true, Comment: "更新时间"},
@@ -510,17 +510,17 @@ var (
 		{Name: "menus", Type: field.TypeJSON, Nullable: true, Comment: "分配的菜单列表"},
 		{Name: "parent_id", Type: field.TypeUint32, Nullable: true, Comment: "上一层角色ID", SchemaType: map[string]string{"mysql": "int", "postgres": "serial"}},
 	}
-	// RolesTable holds the schema information for the "roles" table.
-	RolesTable = &schema.Table{
-		Name:       "roles",
+	// SysRolesTable holds the schema information for the "sys_roles" table.
+	SysRolesTable = &schema.Table{
+		Name:       "sys_roles",
 		Comment:    "角色表",
-		Columns:    RolesColumns,
-		PrimaryKey: []*schema.Column{RolesColumns[0]},
+		Columns:    SysRolesColumns,
+		PrimaryKey: []*schema.Column{SysRolesColumns[0]},
 		ForeignKeys: []*schema.ForeignKey{
 			{
-				Symbol:     "roles_roles_children",
-				Columns:    []*schema.Column{RolesColumns[13]},
-				RefColumns: []*schema.Column{RolesColumns[0]},
+				Symbol:     "sys_roles_sys_roles_children",
+				Columns:    []*schema.Column{SysRolesColumns[13]},
+				RefColumns: []*schema.Column{SysRolesColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
 		},
@@ -528,17 +528,17 @@ var (
 			{
 				Name:    "role_id",
 				Unique:  false,
-				Columns: []*schema.Column{RolesColumns[0]},
+				Columns: []*schema.Column{SysRolesColumns[0]},
 			},
 			{
 				Name:    "role_tenant_id",
 				Unique:  false,
-				Columns: []*schema.Column{RolesColumns[8]},
+				Columns: []*schema.Column{SysRolesColumns[8]},
 			},
 		},
 	}
-	// TasksColumns holds the columns for the "tasks" table.
-	TasksColumns = []*schema.Column{
+	// SysTasksColumns holds the columns for the "sys_tasks" table.
+	SysTasksColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeUint32, Increment: true, Comment: "id", SchemaType: map[string]string{"mysql": "int", "postgres": "serial"}},
 		{Name: "create_time", Type: field.TypeTime, Nullable: true, Comment: "创建时间"},
 		{Name: "update_time", Type: field.TypeTime, Nullable: true, Comment: "更新时间"},
@@ -554,22 +554,22 @@ var (
 		{Name: "task_options", Type: field.TypeJSON, Nullable: true, Comment: "任务选项"},
 		{Name: "enable", Type: field.TypeBool, Nullable: true, Comment: "启用/禁用任务"},
 	}
-	// TasksTable holds the schema information for the "tasks" table.
-	TasksTable = &schema.Table{
-		Name:       "tasks",
+	// SysTasksTable holds the schema information for the "sys_tasks" table.
+	SysTasksTable = &schema.Table{
+		Name:       "sys_tasks",
 		Comment:    "任务表",
-		Columns:    TasksColumns,
-		PrimaryKey: []*schema.Column{TasksColumns[0]},
+		Columns:    SysTasksColumns,
+		PrimaryKey: []*schema.Column{SysTasksColumns[0]},
 		Indexes: []*schema.Index{
 			{
 				Name:    "task_id",
 				Unique:  false,
-				Columns: []*schema.Column{TasksColumns[0]},
+				Columns: []*schema.Column{SysTasksColumns[0]},
 			},
 			{
 				Name:    "task_tenant_id",
 				Unique:  false,
-				Columns: []*schema.Column{TasksColumns[7]},
+				Columns: []*schema.Column{SysTasksColumns[7]},
 			},
 		},
 	}
@@ -710,17 +710,17 @@ var (
 		AdminLoginRestrictionsTable,
 		AdminOperationLogsTable,
 		DepartmentsTable,
-		DictTable,
+		SysDictsTable,
 		FilesTable,
-		MenusTable,
+		SysMenusTable,
 		NotificationMessagesTable,
 		NotificationMessageCategoriesTable,
 		NotificationMessageRecipientsTable,
 		OrganizationsTable,
 		PositionsTable,
 		PrivateMessagesTable,
-		RolesTable,
-		TasksTable,
+		SysRolesTable,
+		SysTasksTable,
 		TenantsTable,
 		UsersTable,
 		UserCredentialsTable,
@@ -749,8 +749,8 @@ func init() {
 		Charset:   "utf8mb4",
 		Collation: "utf8mb4_bin",
 	}
-	DictTable.Annotation = &entsql.Annotation{
-		Table:     "dict",
+	SysDictsTable.Annotation = &entsql.Annotation{
+		Table:     "sys_dicts",
 		Charset:   "utf8mb4",
 		Collation: "utf8mb4_bin",
 	}
@@ -759,9 +759,9 @@ func init() {
 		Charset:   "utf8mb4",
 		Collation: "utf8mb4_bin",
 	}
-	MenusTable.ForeignKeys[0].RefTable = MenusTable
-	MenusTable.Annotation = &entsql.Annotation{
-		Table:     "menus",
+	SysMenusTable.ForeignKeys[0].RefTable = SysMenusTable
+	SysMenusTable.Annotation = &entsql.Annotation{
+		Table:     "sys_menus",
 		Charset:   "utf8mb4",
 		Collation: "utf8mb4_bin",
 	}
@@ -798,14 +798,14 @@ func init() {
 		Charset:   "utf8mb4",
 		Collation: "utf8mb4_bin",
 	}
-	RolesTable.ForeignKeys[0].RefTable = RolesTable
-	RolesTable.Annotation = &entsql.Annotation{
-		Table:     "roles",
+	SysRolesTable.ForeignKeys[0].RefTable = SysRolesTable
+	SysRolesTable.Annotation = &entsql.Annotation{
+		Table:     "sys_roles",
 		Charset:   "utf8mb4",
 		Collation: "utf8mb4_bin",
 	}
-	TasksTable.Annotation = &entsql.Annotation{
-		Table:     "tasks",
+	SysTasksTable.Annotation = &entsql.Annotation{
+		Table:     "sys_tasks",
 		Charset:   "utf8mb4",
 		Collation: "utf8mb4_bin",
 	}

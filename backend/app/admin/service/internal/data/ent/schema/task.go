@@ -20,7 +20,7 @@ type Task struct {
 func (Task) Annotations() []schema.Annotation {
 	return []schema.Annotation{
 		entsql.Annotation{
-			Table:     "tasks",
+			Table:     "sys_tasks",
 			Charset:   "utf8mb4",
 			Collation: "utf8mb4_bin",
 		},

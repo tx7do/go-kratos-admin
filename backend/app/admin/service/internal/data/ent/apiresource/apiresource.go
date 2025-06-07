@@ -21,12 +21,16 @@ const (
 	FieldCreateBy = "create_by"
 	// FieldUpdateBy holds the string denoting the update_by field in the database.
 	FieldUpdateBy = "update_by"
-	// FieldOperation holds the string denoting the operation field in the database.
-	FieldOperation = "operation"
 	// FieldDescription holds the string denoting the description field in the database.
 	FieldDescription = "description"
 	// FieldModule holds the string denoting the module field in the database.
 	FieldModule = "module"
+	// FieldOperation holds the string denoting the operation field in the database.
+	FieldOperation = "operation"
+	// FieldPath holds the string denoting the path field in the database.
+	FieldPath = "path"
+	// FieldMethod holds the string denoting the method field in the database.
+	FieldMethod = "method"
 	// Table holds the table name of the apiresource in the database.
 	Table = "sys_api_resources"
 )
@@ -39,9 +43,11 @@ var Columns = []string{
 	FieldDeleteTime,
 	FieldCreateBy,
 	FieldUpdateBy,
-	FieldOperation,
 	FieldDescription,
 	FieldModule,
+	FieldOperation,
+	FieldPath,
+	FieldMethod,
 }
 
 // ValidColumn reports if the column name is valid (part of the table columns).
@@ -92,11 +98,6 @@ func ByUpdateBy(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldUpdateBy, opts...).ToFunc()
 }
 
-// ByOperation orders the results by the operation field.
-func ByOperation(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldOperation, opts...).ToFunc()
-}
-
 // ByDescription orders the results by the description field.
 func ByDescription(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldDescription, opts...).ToFunc()
@@ -105,4 +106,19 @@ func ByDescription(opts ...sql.OrderTermOption) OrderOption {
 // ByModule orders the results by the module field.
 func ByModule(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldModule, opts...).ToFunc()
+}
+
+// ByOperation orders the results by the operation field.
+func ByOperation(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldOperation, opts...).ToFunc()
+}
+
+// ByPath orders the results by the path field.
+func ByPath(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldPath, opts...).ToFunc()
+}
+
+// ByMethod orders the results by the method field.
+func ByMethod(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldMethod, opts...).ToFunc()
 }

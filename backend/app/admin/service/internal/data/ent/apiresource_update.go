@@ -123,26 +123,6 @@ func (aru *ApiResourceUpdate) ClearUpdateBy() *ApiResourceUpdate {
 	return aru
 }
 
-// SetOperation sets the "operation" field.
-func (aru *ApiResourceUpdate) SetOperation(s string) *ApiResourceUpdate {
-	aru.mutation.SetOperation(s)
-	return aru
-}
-
-// SetNillableOperation sets the "operation" field if the given value is not nil.
-func (aru *ApiResourceUpdate) SetNillableOperation(s *string) *ApiResourceUpdate {
-	if s != nil {
-		aru.SetOperation(*s)
-	}
-	return aru
-}
-
-// ClearOperation clears the value of the "operation" field.
-func (aru *ApiResourceUpdate) ClearOperation() *ApiResourceUpdate {
-	aru.mutation.ClearOperation()
-	return aru
-}
-
 // SetDescription sets the "description" field.
 func (aru *ApiResourceUpdate) SetDescription(s string) *ApiResourceUpdate {
 	aru.mutation.SetDescription(s)
@@ -180,6 +160,66 @@ func (aru *ApiResourceUpdate) SetNillableModule(s *string) *ApiResourceUpdate {
 // ClearModule clears the value of the "module" field.
 func (aru *ApiResourceUpdate) ClearModule() *ApiResourceUpdate {
 	aru.mutation.ClearModule()
+	return aru
+}
+
+// SetOperation sets the "operation" field.
+func (aru *ApiResourceUpdate) SetOperation(s string) *ApiResourceUpdate {
+	aru.mutation.SetOperation(s)
+	return aru
+}
+
+// SetNillableOperation sets the "operation" field if the given value is not nil.
+func (aru *ApiResourceUpdate) SetNillableOperation(s *string) *ApiResourceUpdate {
+	if s != nil {
+		aru.SetOperation(*s)
+	}
+	return aru
+}
+
+// ClearOperation clears the value of the "operation" field.
+func (aru *ApiResourceUpdate) ClearOperation() *ApiResourceUpdate {
+	aru.mutation.ClearOperation()
+	return aru
+}
+
+// SetPath sets the "path" field.
+func (aru *ApiResourceUpdate) SetPath(s string) *ApiResourceUpdate {
+	aru.mutation.SetPath(s)
+	return aru
+}
+
+// SetNillablePath sets the "path" field if the given value is not nil.
+func (aru *ApiResourceUpdate) SetNillablePath(s *string) *ApiResourceUpdate {
+	if s != nil {
+		aru.SetPath(*s)
+	}
+	return aru
+}
+
+// ClearPath clears the value of the "path" field.
+func (aru *ApiResourceUpdate) ClearPath() *ApiResourceUpdate {
+	aru.mutation.ClearPath()
+	return aru
+}
+
+// SetMethod sets the "method" field.
+func (aru *ApiResourceUpdate) SetMethod(s string) *ApiResourceUpdate {
+	aru.mutation.SetMethod(s)
+	return aru
+}
+
+// SetNillableMethod sets the "method" field if the given value is not nil.
+func (aru *ApiResourceUpdate) SetNillableMethod(s *string) *ApiResourceUpdate {
+	if s != nil {
+		aru.SetMethod(*s)
+	}
+	return aru
+}
+
+// ClearMethod clears the value of the "method" field.
+func (aru *ApiResourceUpdate) ClearMethod() *ApiResourceUpdate {
+	aru.mutation.ClearMethod()
 	return aru
 }
 
@@ -263,12 +303,6 @@ func (aru *ApiResourceUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	if aru.mutation.UpdateByCleared() {
 		_spec.ClearField(apiresource.FieldUpdateBy, field.TypeUint32)
 	}
-	if value, ok := aru.mutation.Operation(); ok {
-		_spec.SetField(apiresource.FieldOperation, field.TypeString, value)
-	}
-	if aru.mutation.OperationCleared() {
-		_spec.ClearField(apiresource.FieldOperation, field.TypeString)
-	}
 	if value, ok := aru.mutation.Description(); ok {
 		_spec.SetField(apiresource.FieldDescription, field.TypeString, value)
 	}
@@ -280,6 +314,24 @@ func (aru *ApiResourceUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	}
 	if aru.mutation.ModuleCleared() {
 		_spec.ClearField(apiresource.FieldModule, field.TypeString)
+	}
+	if value, ok := aru.mutation.Operation(); ok {
+		_spec.SetField(apiresource.FieldOperation, field.TypeString, value)
+	}
+	if aru.mutation.OperationCleared() {
+		_spec.ClearField(apiresource.FieldOperation, field.TypeString)
+	}
+	if value, ok := aru.mutation.Path(); ok {
+		_spec.SetField(apiresource.FieldPath, field.TypeString, value)
+	}
+	if aru.mutation.PathCleared() {
+		_spec.ClearField(apiresource.FieldPath, field.TypeString)
+	}
+	if value, ok := aru.mutation.Method(); ok {
+		_spec.SetField(apiresource.FieldMethod, field.TypeString, value)
+	}
+	if aru.mutation.MethodCleared() {
+		_spec.ClearField(apiresource.FieldMethod, field.TypeString)
 	}
 	_spec.AddModifiers(aru.modifiers...)
 	if n, err = sqlgraph.UpdateNodes(ctx, aru.driver, _spec); err != nil {
@@ -397,26 +449,6 @@ func (aruo *ApiResourceUpdateOne) ClearUpdateBy() *ApiResourceUpdateOne {
 	return aruo
 }
 
-// SetOperation sets the "operation" field.
-func (aruo *ApiResourceUpdateOne) SetOperation(s string) *ApiResourceUpdateOne {
-	aruo.mutation.SetOperation(s)
-	return aruo
-}
-
-// SetNillableOperation sets the "operation" field if the given value is not nil.
-func (aruo *ApiResourceUpdateOne) SetNillableOperation(s *string) *ApiResourceUpdateOne {
-	if s != nil {
-		aruo.SetOperation(*s)
-	}
-	return aruo
-}
-
-// ClearOperation clears the value of the "operation" field.
-func (aruo *ApiResourceUpdateOne) ClearOperation() *ApiResourceUpdateOne {
-	aruo.mutation.ClearOperation()
-	return aruo
-}
-
 // SetDescription sets the "description" field.
 func (aruo *ApiResourceUpdateOne) SetDescription(s string) *ApiResourceUpdateOne {
 	aruo.mutation.SetDescription(s)
@@ -454,6 +486,66 @@ func (aruo *ApiResourceUpdateOne) SetNillableModule(s *string) *ApiResourceUpdat
 // ClearModule clears the value of the "module" field.
 func (aruo *ApiResourceUpdateOne) ClearModule() *ApiResourceUpdateOne {
 	aruo.mutation.ClearModule()
+	return aruo
+}
+
+// SetOperation sets the "operation" field.
+func (aruo *ApiResourceUpdateOne) SetOperation(s string) *ApiResourceUpdateOne {
+	aruo.mutation.SetOperation(s)
+	return aruo
+}
+
+// SetNillableOperation sets the "operation" field if the given value is not nil.
+func (aruo *ApiResourceUpdateOne) SetNillableOperation(s *string) *ApiResourceUpdateOne {
+	if s != nil {
+		aruo.SetOperation(*s)
+	}
+	return aruo
+}
+
+// ClearOperation clears the value of the "operation" field.
+func (aruo *ApiResourceUpdateOne) ClearOperation() *ApiResourceUpdateOne {
+	aruo.mutation.ClearOperation()
+	return aruo
+}
+
+// SetPath sets the "path" field.
+func (aruo *ApiResourceUpdateOne) SetPath(s string) *ApiResourceUpdateOne {
+	aruo.mutation.SetPath(s)
+	return aruo
+}
+
+// SetNillablePath sets the "path" field if the given value is not nil.
+func (aruo *ApiResourceUpdateOne) SetNillablePath(s *string) *ApiResourceUpdateOne {
+	if s != nil {
+		aruo.SetPath(*s)
+	}
+	return aruo
+}
+
+// ClearPath clears the value of the "path" field.
+func (aruo *ApiResourceUpdateOne) ClearPath() *ApiResourceUpdateOne {
+	aruo.mutation.ClearPath()
+	return aruo
+}
+
+// SetMethod sets the "method" field.
+func (aruo *ApiResourceUpdateOne) SetMethod(s string) *ApiResourceUpdateOne {
+	aruo.mutation.SetMethod(s)
+	return aruo
+}
+
+// SetNillableMethod sets the "method" field if the given value is not nil.
+func (aruo *ApiResourceUpdateOne) SetNillableMethod(s *string) *ApiResourceUpdateOne {
+	if s != nil {
+		aruo.SetMethod(*s)
+	}
+	return aruo
+}
+
+// ClearMethod clears the value of the "method" field.
+func (aruo *ApiResourceUpdateOne) ClearMethod() *ApiResourceUpdateOne {
+	aruo.mutation.ClearMethod()
 	return aruo
 }
 
@@ -567,12 +659,6 @@ func (aruo *ApiResourceUpdateOne) sqlSave(ctx context.Context) (_node *ApiResour
 	if aruo.mutation.UpdateByCleared() {
 		_spec.ClearField(apiresource.FieldUpdateBy, field.TypeUint32)
 	}
-	if value, ok := aruo.mutation.Operation(); ok {
-		_spec.SetField(apiresource.FieldOperation, field.TypeString, value)
-	}
-	if aruo.mutation.OperationCleared() {
-		_spec.ClearField(apiresource.FieldOperation, field.TypeString)
-	}
 	if value, ok := aruo.mutation.Description(); ok {
 		_spec.SetField(apiresource.FieldDescription, field.TypeString, value)
 	}
@@ -584,6 +670,24 @@ func (aruo *ApiResourceUpdateOne) sqlSave(ctx context.Context) (_node *ApiResour
 	}
 	if aruo.mutation.ModuleCleared() {
 		_spec.ClearField(apiresource.FieldModule, field.TypeString)
+	}
+	if value, ok := aruo.mutation.Operation(); ok {
+		_spec.SetField(apiresource.FieldOperation, field.TypeString, value)
+	}
+	if aruo.mutation.OperationCleared() {
+		_spec.ClearField(apiresource.FieldOperation, field.TypeString)
+	}
+	if value, ok := aruo.mutation.Path(); ok {
+		_spec.SetField(apiresource.FieldPath, field.TypeString, value)
+	}
+	if aruo.mutation.PathCleared() {
+		_spec.ClearField(apiresource.FieldPath, field.TypeString)
+	}
+	if value, ok := aruo.mutation.Method(); ok {
+		_spec.SetField(apiresource.FieldMethod, field.TypeString, value)
+	}
+	if aruo.mutation.MethodCleared() {
+		_spec.ClearField(apiresource.FieldMethod, field.TypeString)
 	}
 	_spec.AddModifiers(aruo.modifiers...)
 	_node = &ApiResource{config: aruo.config}

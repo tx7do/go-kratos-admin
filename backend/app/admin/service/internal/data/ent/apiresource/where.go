@@ -79,11 +79,6 @@ func UpdateBy(v uint32) predicate.ApiResource {
 	return predicate.ApiResource(sql.FieldEQ(FieldUpdateBy, v))
 }
 
-// Operation applies equality check predicate on the "operation" field. It's identical to OperationEQ.
-func Operation(v string) predicate.ApiResource {
-	return predicate.ApiResource(sql.FieldEQ(FieldOperation, v))
-}
-
 // Description applies equality check predicate on the "description" field. It's identical to DescriptionEQ.
 func Description(v string) predicate.ApiResource {
 	return predicate.ApiResource(sql.FieldEQ(FieldDescription, v))
@@ -92,6 +87,21 @@ func Description(v string) predicate.ApiResource {
 // Module applies equality check predicate on the "module" field. It's identical to ModuleEQ.
 func Module(v string) predicate.ApiResource {
 	return predicate.ApiResource(sql.FieldEQ(FieldModule, v))
+}
+
+// Operation applies equality check predicate on the "operation" field. It's identical to OperationEQ.
+func Operation(v string) predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldEQ(FieldOperation, v))
+}
+
+// Path applies equality check predicate on the "path" field. It's identical to PathEQ.
+func Path(v string) predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldEQ(FieldPath, v))
+}
+
+// Method applies equality check predicate on the "method" field. It's identical to MethodEQ.
+func Method(v string) predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldEQ(FieldMethod, v))
 }
 
 // CreateTimeEQ applies the EQ predicate on the "create_time" field.
@@ -344,81 +354,6 @@ func UpdateByNotNil() predicate.ApiResource {
 	return predicate.ApiResource(sql.FieldNotNull(FieldUpdateBy))
 }
 
-// OperationEQ applies the EQ predicate on the "operation" field.
-func OperationEQ(v string) predicate.ApiResource {
-	return predicate.ApiResource(sql.FieldEQ(FieldOperation, v))
-}
-
-// OperationNEQ applies the NEQ predicate on the "operation" field.
-func OperationNEQ(v string) predicate.ApiResource {
-	return predicate.ApiResource(sql.FieldNEQ(FieldOperation, v))
-}
-
-// OperationIn applies the In predicate on the "operation" field.
-func OperationIn(vs ...string) predicate.ApiResource {
-	return predicate.ApiResource(sql.FieldIn(FieldOperation, vs...))
-}
-
-// OperationNotIn applies the NotIn predicate on the "operation" field.
-func OperationNotIn(vs ...string) predicate.ApiResource {
-	return predicate.ApiResource(sql.FieldNotIn(FieldOperation, vs...))
-}
-
-// OperationGT applies the GT predicate on the "operation" field.
-func OperationGT(v string) predicate.ApiResource {
-	return predicate.ApiResource(sql.FieldGT(FieldOperation, v))
-}
-
-// OperationGTE applies the GTE predicate on the "operation" field.
-func OperationGTE(v string) predicate.ApiResource {
-	return predicate.ApiResource(sql.FieldGTE(FieldOperation, v))
-}
-
-// OperationLT applies the LT predicate on the "operation" field.
-func OperationLT(v string) predicate.ApiResource {
-	return predicate.ApiResource(sql.FieldLT(FieldOperation, v))
-}
-
-// OperationLTE applies the LTE predicate on the "operation" field.
-func OperationLTE(v string) predicate.ApiResource {
-	return predicate.ApiResource(sql.FieldLTE(FieldOperation, v))
-}
-
-// OperationContains applies the Contains predicate on the "operation" field.
-func OperationContains(v string) predicate.ApiResource {
-	return predicate.ApiResource(sql.FieldContains(FieldOperation, v))
-}
-
-// OperationHasPrefix applies the HasPrefix predicate on the "operation" field.
-func OperationHasPrefix(v string) predicate.ApiResource {
-	return predicate.ApiResource(sql.FieldHasPrefix(FieldOperation, v))
-}
-
-// OperationHasSuffix applies the HasSuffix predicate on the "operation" field.
-func OperationHasSuffix(v string) predicate.ApiResource {
-	return predicate.ApiResource(sql.FieldHasSuffix(FieldOperation, v))
-}
-
-// OperationIsNil applies the IsNil predicate on the "operation" field.
-func OperationIsNil() predicate.ApiResource {
-	return predicate.ApiResource(sql.FieldIsNull(FieldOperation))
-}
-
-// OperationNotNil applies the NotNil predicate on the "operation" field.
-func OperationNotNil() predicate.ApiResource {
-	return predicate.ApiResource(sql.FieldNotNull(FieldOperation))
-}
-
-// OperationEqualFold applies the EqualFold predicate on the "operation" field.
-func OperationEqualFold(v string) predicate.ApiResource {
-	return predicate.ApiResource(sql.FieldEqualFold(FieldOperation, v))
-}
-
-// OperationContainsFold applies the ContainsFold predicate on the "operation" field.
-func OperationContainsFold(v string) predicate.ApiResource {
-	return predicate.ApiResource(sql.FieldContainsFold(FieldOperation, v))
-}
-
 // DescriptionEQ applies the EQ predicate on the "description" field.
 func DescriptionEQ(v string) predicate.ApiResource {
 	return predicate.ApiResource(sql.FieldEQ(FieldDescription, v))
@@ -567,6 +502,231 @@ func ModuleEqualFold(v string) predicate.ApiResource {
 // ModuleContainsFold applies the ContainsFold predicate on the "module" field.
 func ModuleContainsFold(v string) predicate.ApiResource {
 	return predicate.ApiResource(sql.FieldContainsFold(FieldModule, v))
+}
+
+// OperationEQ applies the EQ predicate on the "operation" field.
+func OperationEQ(v string) predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldEQ(FieldOperation, v))
+}
+
+// OperationNEQ applies the NEQ predicate on the "operation" field.
+func OperationNEQ(v string) predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldNEQ(FieldOperation, v))
+}
+
+// OperationIn applies the In predicate on the "operation" field.
+func OperationIn(vs ...string) predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldIn(FieldOperation, vs...))
+}
+
+// OperationNotIn applies the NotIn predicate on the "operation" field.
+func OperationNotIn(vs ...string) predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldNotIn(FieldOperation, vs...))
+}
+
+// OperationGT applies the GT predicate on the "operation" field.
+func OperationGT(v string) predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldGT(FieldOperation, v))
+}
+
+// OperationGTE applies the GTE predicate on the "operation" field.
+func OperationGTE(v string) predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldGTE(FieldOperation, v))
+}
+
+// OperationLT applies the LT predicate on the "operation" field.
+func OperationLT(v string) predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldLT(FieldOperation, v))
+}
+
+// OperationLTE applies the LTE predicate on the "operation" field.
+func OperationLTE(v string) predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldLTE(FieldOperation, v))
+}
+
+// OperationContains applies the Contains predicate on the "operation" field.
+func OperationContains(v string) predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldContains(FieldOperation, v))
+}
+
+// OperationHasPrefix applies the HasPrefix predicate on the "operation" field.
+func OperationHasPrefix(v string) predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldHasPrefix(FieldOperation, v))
+}
+
+// OperationHasSuffix applies the HasSuffix predicate on the "operation" field.
+func OperationHasSuffix(v string) predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldHasSuffix(FieldOperation, v))
+}
+
+// OperationIsNil applies the IsNil predicate on the "operation" field.
+func OperationIsNil() predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldIsNull(FieldOperation))
+}
+
+// OperationNotNil applies the NotNil predicate on the "operation" field.
+func OperationNotNil() predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldNotNull(FieldOperation))
+}
+
+// OperationEqualFold applies the EqualFold predicate on the "operation" field.
+func OperationEqualFold(v string) predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldEqualFold(FieldOperation, v))
+}
+
+// OperationContainsFold applies the ContainsFold predicate on the "operation" field.
+func OperationContainsFold(v string) predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldContainsFold(FieldOperation, v))
+}
+
+// PathEQ applies the EQ predicate on the "path" field.
+func PathEQ(v string) predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldEQ(FieldPath, v))
+}
+
+// PathNEQ applies the NEQ predicate on the "path" field.
+func PathNEQ(v string) predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldNEQ(FieldPath, v))
+}
+
+// PathIn applies the In predicate on the "path" field.
+func PathIn(vs ...string) predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldIn(FieldPath, vs...))
+}
+
+// PathNotIn applies the NotIn predicate on the "path" field.
+func PathNotIn(vs ...string) predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldNotIn(FieldPath, vs...))
+}
+
+// PathGT applies the GT predicate on the "path" field.
+func PathGT(v string) predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldGT(FieldPath, v))
+}
+
+// PathGTE applies the GTE predicate on the "path" field.
+func PathGTE(v string) predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldGTE(FieldPath, v))
+}
+
+// PathLT applies the LT predicate on the "path" field.
+func PathLT(v string) predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldLT(FieldPath, v))
+}
+
+// PathLTE applies the LTE predicate on the "path" field.
+func PathLTE(v string) predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldLTE(FieldPath, v))
+}
+
+// PathContains applies the Contains predicate on the "path" field.
+func PathContains(v string) predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldContains(FieldPath, v))
+}
+
+// PathHasPrefix applies the HasPrefix predicate on the "path" field.
+func PathHasPrefix(v string) predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldHasPrefix(FieldPath, v))
+}
+
+// PathHasSuffix applies the HasSuffix predicate on the "path" field.
+func PathHasSuffix(v string) predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldHasSuffix(FieldPath, v))
+}
+
+// PathIsNil applies the IsNil predicate on the "path" field.
+func PathIsNil() predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldIsNull(FieldPath))
+}
+
+// PathNotNil applies the NotNil predicate on the "path" field.
+func PathNotNil() predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldNotNull(FieldPath))
+}
+
+// PathEqualFold applies the EqualFold predicate on the "path" field.
+func PathEqualFold(v string) predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldEqualFold(FieldPath, v))
+}
+
+// PathContainsFold applies the ContainsFold predicate on the "path" field.
+func PathContainsFold(v string) predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldContainsFold(FieldPath, v))
+}
+
+// MethodEQ applies the EQ predicate on the "method" field.
+func MethodEQ(v string) predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldEQ(FieldMethod, v))
+}
+
+// MethodNEQ applies the NEQ predicate on the "method" field.
+func MethodNEQ(v string) predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldNEQ(FieldMethod, v))
+}
+
+// MethodIn applies the In predicate on the "method" field.
+func MethodIn(vs ...string) predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldIn(FieldMethod, vs...))
+}
+
+// MethodNotIn applies the NotIn predicate on the "method" field.
+func MethodNotIn(vs ...string) predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldNotIn(FieldMethod, vs...))
+}
+
+// MethodGT applies the GT predicate on the "method" field.
+func MethodGT(v string) predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldGT(FieldMethod, v))
+}
+
+// MethodGTE applies the GTE predicate on the "method" field.
+func MethodGTE(v string) predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldGTE(FieldMethod, v))
+}
+
+// MethodLT applies the LT predicate on the "method" field.
+func MethodLT(v string) predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldLT(FieldMethod, v))
+}
+
+// MethodLTE applies the LTE predicate on the "method" field.
+func MethodLTE(v string) predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldLTE(FieldMethod, v))
+}
+
+// MethodContains applies the Contains predicate on the "method" field.
+func MethodContains(v string) predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldContains(FieldMethod, v))
+}
+
+// MethodHasPrefix applies the HasPrefix predicate on the "method" field.
+func MethodHasPrefix(v string) predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldHasPrefix(FieldMethod, v))
+}
+
+// MethodHasSuffix applies the HasSuffix predicate on the "method" field.
+func MethodHasSuffix(v string) predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldHasSuffix(FieldMethod, v))
+}
+
+// MethodIsNil applies the IsNil predicate on the "method" field.
+func MethodIsNil() predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldIsNull(FieldMethod))
+}
+
+// MethodNotNil applies the NotNil predicate on the "method" field.
+func MethodNotNil() predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldNotNull(FieldMethod))
+}
+
+// MethodEqualFold applies the EqualFold predicate on the "method" field.
+func MethodEqualFold(v string) predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldEqualFold(FieldMethod, v))
+}
+
+// MethodContainsFold applies the ContainsFold predicate on the "method" field.
+func MethodContainsFold(v string) predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldContainsFold(FieldMethod, v))
 }
 
 // And groups predicates with the AND operator between them.

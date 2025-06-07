@@ -140,9 +140,11 @@ var schemaGraph = func() *sqlgraph.Schema {
 			apiresource.FieldDeleteTime:  {Type: field.TypeTime, Column: apiresource.FieldDeleteTime},
 			apiresource.FieldCreateBy:    {Type: field.TypeUint32, Column: apiresource.FieldCreateBy},
 			apiresource.FieldUpdateBy:    {Type: field.TypeUint32, Column: apiresource.FieldUpdateBy},
-			apiresource.FieldOperation:   {Type: field.TypeString, Column: apiresource.FieldOperation},
 			apiresource.FieldDescription: {Type: field.TypeString, Column: apiresource.FieldDescription},
 			apiresource.FieldModule:      {Type: field.TypeString, Column: apiresource.FieldModule},
+			apiresource.FieldOperation:   {Type: field.TypeString, Column: apiresource.FieldOperation},
+			apiresource.FieldPath:        {Type: field.TypeString, Column: apiresource.FieldPath},
+			apiresource.FieldMethod:      {Type: field.TypeString, Column: apiresource.FieldMethod},
 		},
 	}
 	graph.Nodes[4] = &sqlgraph.Node{
@@ -1136,11 +1138,6 @@ func (f *ApiResourceFilter) WhereUpdateBy(p entql.Uint32P) {
 	f.Where(p.Field(apiresource.FieldUpdateBy))
 }
 
-// WhereOperation applies the entql string predicate on the operation field.
-func (f *ApiResourceFilter) WhereOperation(p entql.StringP) {
-	f.Where(p.Field(apiresource.FieldOperation))
-}
-
 // WhereDescription applies the entql string predicate on the description field.
 func (f *ApiResourceFilter) WhereDescription(p entql.StringP) {
 	f.Where(p.Field(apiresource.FieldDescription))
@@ -1149,6 +1146,21 @@ func (f *ApiResourceFilter) WhereDescription(p entql.StringP) {
 // WhereModule applies the entql string predicate on the module field.
 func (f *ApiResourceFilter) WhereModule(p entql.StringP) {
 	f.Where(p.Field(apiresource.FieldModule))
+}
+
+// WhereOperation applies the entql string predicate on the operation field.
+func (f *ApiResourceFilter) WhereOperation(p entql.StringP) {
+	f.Where(p.Field(apiresource.FieldOperation))
+}
+
+// WherePath applies the entql string predicate on the path field.
+func (f *ApiResourceFilter) WherePath(p entql.StringP) {
+	f.Where(p.Field(apiresource.FieldPath))
+}
+
+// WhereMethod applies the entql string predicate on the method field.
+func (f *ApiResourceFilter) WhereMethod(p entql.StringP) {
+	f.Where(p.Field(apiresource.FieldMethod))
 }
 
 // addPredicate implements the predicateAdder interface.

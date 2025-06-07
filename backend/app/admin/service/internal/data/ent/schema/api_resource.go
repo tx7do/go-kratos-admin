@@ -28,12 +28,6 @@ func (ApiResource) Annotations() []schema.Annotation {
 // Fields of the ApiResource.
 func (ApiResource) Fields() []ent.Field {
 	return []ent.Field{
-		field.String("operation").
-			Comment("操作路径").
-			Unique().
-			Optional().
-			Nillable(),
-
 		field.String("description").
 			Comment("描述").
 			Optional().
@@ -41,6 +35,21 @@ func (ApiResource) Fields() []ent.Field {
 
 		field.String("module").
 			Comment("所属业务模块").
+			Optional().
+			Nillable(),
+
+		field.String("operation").
+			Comment("接口操作名").
+			Optional().
+			Nillable(),
+
+		field.String("path").
+			Comment("接口路径").
+			Optional().
+			Nillable(),
+
+		field.String("method").
+			Comment("请求方法").
 			Optional().
 			Nillable(),
 	}

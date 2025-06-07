@@ -1,5 +1,5 @@
 registry:
-  type: "nacos"  # Options: etcd, consul, zookeeper, nacos, kubernetes, eureka, polaris, servicecomb
+  type: "etcd"  # Options: etcd, consul, zookeeper, nacos, kubernetes, eureka, polaris, servicecomb
 
   consul:
     address: "127.0.0.1:8500"

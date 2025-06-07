@@ -146,6 +146,11 @@ func NewRESTServer(
 	registerFileUploadHandler(srv, ossSvc)
 	registerUEditorUploadHandler(srv, ueditorSvc)
 
+	_ = srv.WalkRoute(func(info http.RouteInfo) error {
+		log.Infof("Path[%s] Method[%s]", info.Path, info.Method)
+		return nil
+	})
+
 	if cfg.GetServer().GetRest().GetEnableSwagger() {
 		swaggerUI.RegisterSwaggerUIServerWithOption(
 			srv,

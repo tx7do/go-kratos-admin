@@ -28,12 +28,16 @@ type ApiResource struct {
 	CreateBy *uint32 `json:"create_by,omitempty"`
 	// 更新者ID
 	UpdateBy *uint32 `json:"update_by,omitempty"`
-	// 操作路径
-	Operation *string `json:"operation,omitempty"`
 	// 描述
 	Description *string `json:"description,omitempty"`
 	// 所属业务模块
-	Module       *string `json:"module,omitempty"`
+	Module *string `json:"module,omitempty"`
+	// 接口操作名
+	Operation *string `json:"operation,omitempty"`
+	// 接口路径
+	Path *string `json:"path,omitempty"`
+	// 请求方法
+	Method       *string `json:"method,omitempty"`
 	selectValues sql.SelectValues
 }
 
@@ -44,7 +48,7 @@ func (*ApiResource) scanValues(columns []string) ([]any, error) {
 		switch columns[i] {
 		case apiresource.FieldID, apiresource.FieldCreateBy, apiresource.FieldUpdateBy:
 			values[i] = new(sql.NullInt64)
-		case apiresource.FieldOperation, apiresource.FieldDescription, apiresource.FieldModule:
+		case apiresource.FieldDescription, apiresource.FieldModule, apiresource.FieldOperation, apiresource.FieldPath, apiresource.FieldMethod:
 			values[i] = new(sql.NullString)
 		case apiresource.FieldCreateTime, apiresource.FieldUpdateTime, apiresource.FieldDeleteTime:
 			values[i] = new(sql.NullTime)
@@ -104,13 +108,6 @@ func (ar *ApiResource) assignValues(columns []string, values []any) error {
 				ar.UpdateBy = new(uint32)
 				*ar.UpdateBy = uint32(value.Int64)
 			}
-		case apiresource.FieldOperation:
-			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field operation", values[i])
-			} else if value.Valid {
-				ar.Operation = new(string)
-				*ar.Operation = value.String
-			}
 		case apiresource.FieldDescription:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field description", values[i])
@@ -124,6 +121,27 @@ func (ar *ApiResource) assignValues(columns []string, values []any) error {
 			} else if value.Valid {
 				ar.Module = new(string)
 				*ar.Module = value.String
+			}
+		case apiresource.FieldOperation:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field operation", values[i])
+			} else if value.Valid {
+				ar.Operation = new(string)
+				*ar.Operation = value.String
+			}
+		case apiresource.FieldPath:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field path", values[i])
+			} else if value.Valid {
+				ar.Path = new(string)
+				*ar.Path = value.String
+			}
+		case apiresource.FieldMethod:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field method", values[i])
+			} else if value.Valid {
+				ar.Method = new(string)
+				*ar.Method = value.String
 			}
 		default:
 			ar.selectValues.Set(columns[i], values[i])
@@ -186,11 +204,6 @@ func (ar *ApiResource) String() string {
 		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteString(", ")
-	if v := ar.Operation; v != nil {
-		builder.WriteString("operation=")
-		builder.WriteString(*v)
-	}
-	builder.WriteString(", ")
 	if v := ar.Description; v != nil {
 		builder.WriteString("description=")
 		builder.WriteString(*v)
@@ -198,6 +211,21 @@ func (ar *ApiResource) String() string {
 	builder.WriteString(", ")
 	if v := ar.Module; v != nil {
 		builder.WriteString("module=")
+		builder.WriteString(*v)
+	}
+	builder.WriteString(", ")
+	if v := ar.Operation; v != nil {
+		builder.WriteString("operation=")
+		builder.WriteString(*v)
+	}
+	builder.WriteString(", ")
+	if v := ar.Path; v != nil {
+		builder.WriteString("path=")
+		builder.WriteString(*v)
+	}
+	builder.WriteString(", ")
+	if v := ar.Method; v != nil {
+		builder.WriteString("method=")
 		builder.WriteString(*v)
 	}
 	builder.WriteByte(')')

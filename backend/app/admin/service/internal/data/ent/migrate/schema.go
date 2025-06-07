@@ -123,9 +123,11 @@ var (
 		{Name: "delete_time", Type: field.TypeTime, Nullable: true, Comment: "删除时间"},
 		{Name: "create_by", Type: field.TypeUint32, Nullable: true, Comment: "创建者ID"},
 		{Name: "update_by", Type: field.TypeUint32, Nullable: true, Comment: "更新者ID"},
-		{Name: "operation", Type: field.TypeString, Unique: true, Nullable: true, Comment: "操作路径"},
 		{Name: "description", Type: field.TypeString, Nullable: true, Comment: "描述"},
 		{Name: "module", Type: field.TypeString, Nullable: true, Comment: "所属业务模块"},
+		{Name: "operation", Type: field.TypeString, Nullable: true, Comment: "接口操作名"},
+		{Name: "path", Type: field.TypeString, Nullable: true, Comment: "接口路径"},
+		{Name: "method", Type: field.TypeString, Nullable: true, Comment: "请求方法"},
 	}
 	// SysAPIResourcesTable holds the schema information for the "sys_api_resources" table.
 	SysAPIResourcesTable = &schema.Table{

@@ -4997,9 +4997,11 @@ type ApiResourceMutation struct {
 	addcreate_by  *int32
 	update_by     *uint32
 	addupdate_by  *int32
-	operation     *string
 	description   *string
 	module        *string
+	operation     *string
+	_path         *string
+	method        *string
 	clearedFields map[string]struct{}
 	done          bool
 	oldValue      func(context.Context) (*ApiResource, error)
@@ -5397,55 +5399,6 @@ func (m *ApiResourceMutation) ResetUpdateBy() {
 	delete(m.clearedFields, apiresource.FieldUpdateBy)
 }
 
-// SetOperation sets the "operation" field.
-func (m *ApiResourceMutation) SetOperation(s string) {
-	m.operation = &s
-}
-
-// Operation returns the value of the "operation" field in the mutation.
-func (m *ApiResourceMutation) Operation() (r string, exists bool) {
-	v := m.operation
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldOperation returns the old "operation" field's value of the ApiResource entity.
-// If the ApiResource object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *ApiResourceMutation) OldOperation(ctx context.Context) (v *string, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldOperation is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldOperation requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldOperation: %w", err)
-	}
-	return oldValue.Operation, nil
-}
-
-// ClearOperation clears the value of the "operation" field.
-func (m *ApiResourceMutation) ClearOperation() {
-	m.operation = nil
-	m.clearedFields[apiresource.FieldOperation] = struct{}{}
-}
-
-// OperationCleared returns if the "operation" field was cleared in this mutation.
-func (m *ApiResourceMutation) OperationCleared() bool {
-	_, ok := m.clearedFields[apiresource.FieldOperation]
-	return ok
-}
-
-// ResetOperation resets all changes to the "operation" field.
-func (m *ApiResourceMutation) ResetOperation() {
-	m.operation = nil
-	delete(m.clearedFields, apiresource.FieldOperation)
-}
-
 // SetDescription sets the "description" field.
 func (m *ApiResourceMutation) SetDescription(s string) {
 	m.description = &s
@@ -5544,6 +5497,153 @@ func (m *ApiResourceMutation) ResetModule() {
 	delete(m.clearedFields, apiresource.FieldModule)
 }
 
+// SetOperation sets the "operation" field.
+func (m *ApiResourceMutation) SetOperation(s string) {
+	m.operation = &s
+}
+
+// Operation returns the value of the "operation" field in the mutation.
+func (m *ApiResourceMutation) Operation() (r string, exists bool) {
+	v := m.operation
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldOperation returns the old "operation" field's value of the ApiResource entity.
+// If the ApiResource object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *ApiResourceMutation) OldOperation(ctx context.Context) (v *string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldOperation is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldOperation requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldOperation: %w", err)
+	}
+	return oldValue.Operation, nil
+}
+
+// ClearOperation clears the value of the "operation" field.
+func (m *ApiResourceMutation) ClearOperation() {
+	m.operation = nil
+	m.clearedFields[apiresource.FieldOperation] = struct{}{}
+}
+
+// OperationCleared returns if the "operation" field was cleared in this mutation.
+func (m *ApiResourceMutation) OperationCleared() bool {
+	_, ok := m.clearedFields[apiresource.FieldOperation]
+	return ok
+}
+
+// ResetOperation resets all changes to the "operation" field.
+func (m *ApiResourceMutation) ResetOperation() {
+	m.operation = nil
+	delete(m.clearedFields, apiresource.FieldOperation)
+}
+
+// SetPath sets the "path" field.
+func (m *ApiResourceMutation) SetPath(s string) {
+	m._path = &s
+}
+
+// Path returns the value of the "path" field in the mutation.
+func (m *ApiResourceMutation) Path() (r string, exists bool) {
+	v := m._path
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldPath returns the old "path" field's value of the ApiResource entity.
+// If the ApiResource object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *ApiResourceMutation) OldPath(ctx context.Context) (v *string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldPath is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldPath requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldPath: %w", err)
+	}
+	return oldValue.Path, nil
+}
+
+// ClearPath clears the value of the "path" field.
+func (m *ApiResourceMutation) ClearPath() {
+	m._path = nil
+	m.clearedFields[apiresource.FieldPath] = struct{}{}
+}
+
+// PathCleared returns if the "path" field was cleared in this mutation.
+func (m *ApiResourceMutation) PathCleared() bool {
+	_, ok := m.clearedFields[apiresource.FieldPath]
+	return ok
+}
+
+// ResetPath resets all changes to the "path" field.
+func (m *ApiResourceMutation) ResetPath() {
+	m._path = nil
+	delete(m.clearedFields, apiresource.FieldPath)
+}
+
+// SetMethod sets the "method" field.
+func (m *ApiResourceMutation) SetMethod(s string) {
+	m.method = &s
+}
+
+// Method returns the value of the "method" field in the mutation.
+func (m *ApiResourceMutation) Method() (r string, exists bool) {
+	v := m.method
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldMethod returns the old "method" field's value of the ApiResource entity.
+// If the ApiResource object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *ApiResourceMutation) OldMethod(ctx context.Context) (v *string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldMethod is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldMethod requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldMethod: %w", err)
+	}
+	return oldValue.Method, nil
+}
+
+// ClearMethod clears the value of the "method" field.
+func (m *ApiResourceMutation) ClearMethod() {
+	m.method = nil
+	m.clearedFields[apiresource.FieldMethod] = struct{}{}
+}
+
+// MethodCleared returns if the "method" field was cleared in this mutation.
+func (m *ApiResourceMutation) MethodCleared() bool {
+	_, ok := m.clearedFields[apiresource.FieldMethod]
+	return ok
+}
+
+// ResetMethod resets all changes to the "method" field.
+func (m *ApiResourceMutation) ResetMethod() {
+	m.method = nil
+	delete(m.clearedFields, apiresource.FieldMethod)
+}
+
 // Where appends a list predicates to the ApiResourceMutation builder.
 func (m *ApiResourceMutation) Where(ps ...predicate.ApiResource) {
 	m.predicates = append(m.predicates, ps...)
@@ -5578,7 +5678,7 @@ func (m *ApiResourceMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *ApiResourceMutation) Fields() []string {
-	fields := make([]string, 0, 8)
+	fields := make([]string, 0, 10)
 	if m.create_time != nil {
 		fields = append(fields, apiresource.FieldCreateTime)
 	}
@@ -5594,14 +5694,20 @@ func (m *ApiResourceMutation) Fields() []string {
 	if m.update_by != nil {
 		fields = append(fields, apiresource.FieldUpdateBy)
 	}
-	if m.operation != nil {
-		fields = append(fields, apiresource.FieldOperation)
-	}
 	if m.description != nil {
 		fields = append(fields, apiresource.FieldDescription)
 	}
 	if m.module != nil {
 		fields = append(fields, apiresource.FieldModule)
+	}
+	if m.operation != nil {
+		fields = append(fields, apiresource.FieldOperation)
+	}
+	if m._path != nil {
+		fields = append(fields, apiresource.FieldPath)
+	}
+	if m.method != nil {
+		fields = append(fields, apiresource.FieldMethod)
 	}
 	return fields
 }
@@ -5621,12 +5727,16 @@ func (m *ApiResourceMutation) Field(name string) (ent.Value, bool) {
 		return m.CreateBy()
 	case apiresource.FieldUpdateBy:
 		return m.UpdateBy()
-	case apiresource.FieldOperation:
-		return m.Operation()
 	case apiresource.FieldDescription:
 		return m.Description()
 	case apiresource.FieldModule:
 		return m.Module()
+	case apiresource.FieldOperation:
+		return m.Operation()
+	case apiresource.FieldPath:
+		return m.Path()
+	case apiresource.FieldMethod:
+		return m.Method()
 	}
 	return nil, false
 }
@@ -5646,12 +5756,16 @@ func (m *ApiResourceMutation) OldField(ctx context.Context, name string) (ent.Va
 		return m.OldCreateBy(ctx)
 	case apiresource.FieldUpdateBy:
 		return m.OldUpdateBy(ctx)
-	case apiresource.FieldOperation:
-		return m.OldOperation(ctx)
 	case apiresource.FieldDescription:
 		return m.OldDescription(ctx)
 	case apiresource.FieldModule:
 		return m.OldModule(ctx)
+	case apiresource.FieldOperation:
+		return m.OldOperation(ctx)
+	case apiresource.FieldPath:
+		return m.OldPath(ctx)
+	case apiresource.FieldMethod:
+		return m.OldMethod(ctx)
 	}
 	return nil, fmt.Errorf("unknown ApiResource field %s", name)
 }
@@ -5696,13 +5810,6 @@ func (m *ApiResourceMutation) SetField(name string, value ent.Value) error {
 		}
 		m.SetUpdateBy(v)
 		return nil
-	case apiresource.FieldOperation:
-		v, ok := value.(string)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetOperation(v)
-		return nil
 	case apiresource.FieldDescription:
 		v, ok := value.(string)
 		if !ok {
@@ -5716,6 +5823,27 @@ func (m *ApiResourceMutation) SetField(name string, value ent.Value) error {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetModule(v)
+		return nil
+	case apiresource.FieldOperation:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetOperation(v)
+		return nil
+	case apiresource.FieldPath:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetPath(v)
+		return nil
+	case apiresource.FieldMethod:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetMethod(v)
 		return nil
 	}
 	return fmt.Errorf("unknown ApiResource field %s", name)
@@ -5789,14 +5917,20 @@ func (m *ApiResourceMutation) ClearedFields() []string {
 	if m.FieldCleared(apiresource.FieldUpdateBy) {
 		fields = append(fields, apiresource.FieldUpdateBy)
 	}
-	if m.FieldCleared(apiresource.FieldOperation) {
-		fields = append(fields, apiresource.FieldOperation)
-	}
 	if m.FieldCleared(apiresource.FieldDescription) {
 		fields = append(fields, apiresource.FieldDescription)
 	}
 	if m.FieldCleared(apiresource.FieldModule) {
 		fields = append(fields, apiresource.FieldModule)
+	}
+	if m.FieldCleared(apiresource.FieldOperation) {
+		fields = append(fields, apiresource.FieldOperation)
+	}
+	if m.FieldCleared(apiresource.FieldPath) {
+		fields = append(fields, apiresource.FieldPath)
+	}
+	if m.FieldCleared(apiresource.FieldMethod) {
+		fields = append(fields, apiresource.FieldMethod)
 	}
 	return fields
 }
@@ -5827,14 +5961,20 @@ func (m *ApiResourceMutation) ClearField(name string) error {
 	case apiresource.FieldUpdateBy:
 		m.ClearUpdateBy()
 		return nil
-	case apiresource.FieldOperation:
-		m.ClearOperation()
-		return nil
 	case apiresource.FieldDescription:
 		m.ClearDescription()
 		return nil
 	case apiresource.FieldModule:
 		m.ClearModule()
+		return nil
+	case apiresource.FieldOperation:
+		m.ClearOperation()
+		return nil
+	case apiresource.FieldPath:
+		m.ClearPath()
+		return nil
+	case apiresource.FieldMethod:
+		m.ClearMethod()
 		return nil
 	}
 	return fmt.Errorf("unknown ApiResource nullable field %s", name)
@@ -5859,14 +5999,20 @@ func (m *ApiResourceMutation) ResetField(name string) error {
 	case apiresource.FieldUpdateBy:
 		m.ResetUpdateBy()
 		return nil
-	case apiresource.FieldOperation:
-		m.ResetOperation()
-		return nil
 	case apiresource.FieldDescription:
 		m.ResetDescription()
 		return nil
 	case apiresource.FieldModule:
 		m.ResetModule()
+		return nil
+	case apiresource.FieldOperation:
+		m.ResetOperation()
+		return nil
+	case apiresource.FieldPath:
+		m.ResetPath()
+		return nil
+	case apiresource.FieldMethod:
+		m.ResetMethod()
 		return nil
 	}
 	return fmt.Errorf("unknown ApiResource field %s", name)

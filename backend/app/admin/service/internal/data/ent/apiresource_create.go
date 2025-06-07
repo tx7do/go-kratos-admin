@@ -92,20 +92,6 @@ func (arc *ApiResourceCreate) SetNillableUpdateBy(u *uint32) *ApiResourceCreate 
 	return arc
 }
 
-// SetOperation sets the "operation" field.
-func (arc *ApiResourceCreate) SetOperation(s string) *ApiResourceCreate {
-	arc.mutation.SetOperation(s)
-	return arc
-}
-
-// SetNillableOperation sets the "operation" field if the given value is not nil.
-func (arc *ApiResourceCreate) SetNillableOperation(s *string) *ApiResourceCreate {
-	if s != nil {
-		arc.SetOperation(*s)
-	}
-	return arc
-}
-
 // SetDescription sets the "description" field.
 func (arc *ApiResourceCreate) SetDescription(s string) *ApiResourceCreate {
 	arc.mutation.SetDescription(s)
@@ -130,6 +116,48 @@ func (arc *ApiResourceCreate) SetModule(s string) *ApiResourceCreate {
 func (arc *ApiResourceCreate) SetNillableModule(s *string) *ApiResourceCreate {
 	if s != nil {
 		arc.SetModule(*s)
+	}
+	return arc
+}
+
+// SetOperation sets the "operation" field.
+func (arc *ApiResourceCreate) SetOperation(s string) *ApiResourceCreate {
+	arc.mutation.SetOperation(s)
+	return arc
+}
+
+// SetNillableOperation sets the "operation" field if the given value is not nil.
+func (arc *ApiResourceCreate) SetNillableOperation(s *string) *ApiResourceCreate {
+	if s != nil {
+		arc.SetOperation(*s)
+	}
+	return arc
+}
+
+// SetPath sets the "path" field.
+func (arc *ApiResourceCreate) SetPath(s string) *ApiResourceCreate {
+	arc.mutation.SetPath(s)
+	return arc
+}
+
+// SetNillablePath sets the "path" field if the given value is not nil.
+func (arc *ApiResourceCreate) SetNillablePath(s *string) *ApiResourceCreate {
+	if s != nil {
+		arc.SetPath(*s)
+	}
+	return arc
+}
+
+// SetMethod sets the "method" field.
+func (arc *ApiResourceCreate) SetMethod(s string) *ApiResourceCreate {
+	arc.mutation.SetMethod(s)
+	return arc
+}
+
+// SetNillableMethod sets the "method" field if the given value is not nil.
+func (arc *ApiResourceCreate) SetNillableMethod(s *string) *ApiResourceCreate {
+	if s != nil {
+		arc.SetMethod(*s)
 	}
 	return arc
 }
@@ -232,10 +260,6 @@ func (arc *ApiResourceCreate) createSpec() (*ApiResource, *sqlgraph.CreateSpec) 
 		_spec.SetField(apiresource.FieldUpdateBy, field.TypeUint32, value)
 		_node.UpdateBy = &value
 	}
-	if value, ok := arc.mutation.Operation(); ok {
-		_spec.SetField(apiresource.FieldOperation, field.TypeString, value)
-		_node.Operation = &value
-	}
 	if value, ok := arc.mutation.Description(); ok {
 		_spec.SetField(apiresource.FieldDescription, field.TypeString, value)
 		_node.Description = &value
@@ -243,6 +267,18 @@ func (arc *ApiResourceCreate) createSpec() (*ApiResource, *sqlgraph.CreateSpec) 
 	if value, ok := arc.mutation.Module(); ok {
 		_spec.SetField(apiresource.FieldModule, field.TypeString, value)
 		_node.Module = &value
+	}
+	if value, ok := arc.mutation.Operation(); ok {
+		_spec.SetField(apiresource.FieldOperation, field.TypeString, value)
+		_node.Operation = &value
+	}
+	if value, ok := arc.mutation.Path(); ok {
+		_spec.SetField(apiresource.FieldPath, field.TypeString, value)
+		_node.Path = &value
+	}
+	if value, ok := arc.mutation.Method(); ok {
+		_spec.SetField(apiresource.FieldMethod, field.TypeString, value)
+		_node.Method = &value
 	}
 	return _node, _spec
 }
@@ -380,24 +416,6 @@ func (u *ApiResourceUpsert) ClearUpdateBy() *ApiResourceUpsert {
 	return u
 }
 
-// SetOperation sets the "operation" field.
-func (u *ApiResourceUpsert) SetOperation(v string) *ApiResourceUpsert {
-	u.Set(apiresource.FieldOperation, v)
-	return u
-}
-
-// UpdateOperation sets the "operation" field to the value that was provided on create.
-func (u *ApiResourceUpsert) UpdateOperation() *ApiResourceUpsert {
-	u.SetExcluded(apiresource.FieldOperation)
-	return u
-}
-
-// ClearOperation clears the value of the "operation" field.
-func (u *ApiResourceUpsert) ClearOperation() *ApiResourceUpsert {
-	u.SetNull(apiresource.FieldOperation)
-	return u
-}
-
 // SetDescription sets the "description" field.
 func (u *ApiResourceUpsert) SetDescription(v string) *ApiResourceUpsert {
 	u.Set(apiresource.FieldDescription, v)
@@ -431,6 +449,60 @@ func (u *ApiResourceUpsert) UpdateModule() *ApiResourceUpsert {
 // ClearModule clears the value of the "module" field.
 func (u *ApiResourceUpsert) ClearModule() *ApiResourceUpsert {
 	u.SetNull(apiresource.FieldModule)
+	return u
+}
+
+// SetOperation sets the "operation" field.
+func (u *ApiResourceUpsert) SetOperation(v string) *ApiResourceUpsert {
+	u.Set(apiresource.FieldOperation, v)
+	return u
+}
+
+// UpdateOperation sets the "operation" field to the value that was provided on create.
+func (u *ApiResourceUpsert) UpdateOperation() *ApiResourceUpsert {
+	u.SetExcluded(apiresource.FieldOperation)
+	return u
+}
+
+// ClearOperation clears the value of the "operation" field.
+func (u *ApiResourceUpsert) ClearOperation() *ApiResourceUpsert {
+	u.SetNull(apiresource.FieldOperation)
+	return u
+}
+
+// SetPath sets the "path" field.
+func (u *ApiResourceUpsert) SetPath(v string) *ApiResourceUpsert {
+	u.Set(apiresource.FieldPath, v)
+	return u
+}
+
+// UpdatePath sets the "path" field to the value that was provided on create.
+func (u *ApiResourceUpsert) UpdatePath() *ApiResourceUpsert {
+	u.SetExcluded(apiresource.FieldPath)
+	return u
+}
+
+// ClearPath clears the value of the "path" field.
+func (u *ApiResourceUpsert) ClearPath() *ApiResourceUpsert {
+	u.SetNull(apiresource.FieldPath)
+	return u
+}
+
+// SetMethod sets the "method" field.
+func (u *ApiResourceUpsert) SetMethod(v string) *ApiResourceUpsert {
+	u.Set(apiresource.FieldMethod, v)
+	return u
+}
+
+// UpdateMethod sets the "method" field to the value that was provided on create.
+func (u *ApiResourceUpsert) UpdateMethod() *ApiResourceUpsert {
+	u.SetExcluded(apiresource.FieldMethod)
+	return u
+}
+
+// ClearMethod clears the value of the "method" field.
+func (u *ApiResourceUpsert) ClearMethod() *ApiResourceUpsert {
+	u.SetNull(apiresource.FieldMethod)
 	return u
 }
 
@@ -583,27 +655,6 @@ func (u *ApiResourceUpsertOne) ClearUpdateBy() *ApiResourceUpsertOne {
 	})
 }
 
-// SetOperation sets the "operation" field.
-func (u *ApiResourceUpsertOne) SetOperation(v string) *ApiResourceUpsertOne {
-	return u.Update(func(s *ApiResourceUpsert) {
-		s.SetOperation(v)
-	})
-}
-
-// UpdateOperation sets the "operation" field to the value that was provided on create.
-func (u *ApiResourceUpsertOne) UpdateOperation() *ApiResourceUpsertOne {
-	return u.Update(func(s *ApiResourceUpsert) {
-		s.UpdateOperation()
-	})
-}
-
-// ClearOperation clears the value of the "operation" field.
-func (u *ApiResourceUpsertOne) ClearOperation() *ApiResourceUpsertOne {
-	return u.Update(func(s *ApiResourceUpsert) {
-		s.ClearOperation()
-	})
-}
-
 // SetDescription sets the "description" field.
 func (u *ApiResourceUpsertOne) SetDescription(v string) *ApiResourceUpsertOne {
 	return u.Update(func(s *ApiResourceUpsert) {
@@ -643,6 +694,69 @@ func (u *ApiResourceUpsertOne) UpdateModule() *ApiResourceUpsertOne {
 func (u *ApiResourceUpsertOne) ClearModule() *ApiResourceUpsertOne {
 	return u.Update(func(s *ApiResourceUpsert) {
 		s.ClearModule()
+	})
+}
+
+// SetOperation sets the "operation" field.
+func (u *ApiResourceUpsertOne) SetOperation(v string) *ApiResourceUpsertOne {
+	return u.Update(func(s *ApiResourceUpsert) {
+		s.SetOperation(v)
+	})
+}
+
+// UpdateOperation sets the "operation" field to the value that was provided on create.
+func (u *ApiResourceUpsertOne) UpdateOperation() *ApiResourceUpsertOne {
+	return u.Update(func(s *ApiResourceUpsert) {
+		s.UpdateOperation()
+	})
+}
+
+// ClearOperation clears the value of the "operation" field.
+func (u *ApiResourceUpsertOne) ClearOperation() *ApiResourceUpsertOne {
+	return u.Update(func(s *ApiResourceUpsert) {
+		s.ClearOperation()
+	})
+}
+
+// SetPath sets the "path" field.
+func (u *ApiResourceUpsertOne) SetPath(v string) *ApiResourceUpsertOne {
+	return u.Update(func(s *ApiResourceUpsert) {
+		s.SetPath(v)
+	})
+}
+
+// UpdatePath sets the "path" field to the value that was provided on create.
+func (u *ApiResourceUpsertOne) UpdatePath() *ApiResourceUpsertOne {
+	return u.Update(func(s *ApiResourceUpsert) {
+		s.UpdatePath()
+	})
+}
+
+// ClearPath clears the value of the "path" field.
+func (u *ApiResourceUpsertOne) ClearPath() *ApiResourceUpsertOne {
+	return u.Update(func(s *ApiResourceUpsert) {
+		s.ClearPath()
+	})
+}
+
+// SetMethod sets the "method" field.
+func (u *ApiResourceUpsertOne) SetMethod(v string) *ApiResourceUpsertOne {
+	return u.Update(func(s *ApiResourceUpsert) {
+		s.SetMethod(v)
+	})
+}
+
+// UpdateMethod sets the "method" field to the value that was provided on create.
+func (u *ApiResourceUpsertOne) UpdateMethod() *ApiResourceUpsertOne {
+	return u.Update(func(s *ApiResourceUpsert) {
+		s.UpdateMethod()
+	})
+}
+
+// ClearMethod clears the value of the "method" field.
+func (u *ApiResourceUpsertOne) ClearMethod() *ApiResourceUpsertOne {
+	return u.Update(func(s *ApiResourceUpsert) {
+		s.ClearMethod()
 	})
 }
 
@@ -960,27 +1074,6 @@ func (u *ApiResourceUpsertBulk) ClearUpdateBy() *ApiResourceUpsertBulk {
 	})
 }
 
-// SetOperation sets the "operation" field.
-func (u *ApiResourceUpsertBulk) SetOperation(v string) *ApiResourceUpsertBulk {
-	return u.Update(func(s *ApiResourceUpsert) {
-		s.SetOperation(v)
-	})
-}
-
-// UpdateOperation sets the "operation" field to the value that was provided on create.
-func (u *ApiResourceUpsertBulk) UpdateOperation() *ApiResourceUpsertBulk {
-	return u.Update(func(s *ApiResourceUpsert) {
-		s.UpdateOperation()
-	})
-}
-
-// ClearOperation clears the value of the "operation" field.
-func (u *ApiResourceUpsertBulk) ClearOperation() *ApiResourceUpsertBulk {
-	return u.Update(func(s *ApiResourceUpsert) {
-		s.ClearOperation()
-	})
-}
-
 // SetDescription sets the "description" field.
 func (u *ApiResourceUpsertBulk) SetDescription(v string) *ApiResourceUpsertBulk {
 	return u.Update(func(s *ApiResourceUpsert) {
@@ -1020,6 +1113,69 @@ func (u *ApiResourceUpsertBulk) UpdateModule() *ApiResourceUpsertBulk {
 func (u *ApiResourceUpsertBulk) ClearModule() *ApiResourceUpsertBulk {
 	return u.Update(func(s *ApiResourceUpsert) {
 		s.ClearModule()
+	})
+}
+
+// SetOperation sets the "operation" field.
+func (u *ApiResourceUpsertBulk) SetOperation(v string) *ApiResourceUpsertBulk {
+	return u.Update(func(s *ApiResourceUpsert) {
+		s.SetOperation(v)
+	})
+}
+
+// UpdateOperation sets the "operation" field to the value that was provided on create.
+func (u *ApiResourceUpsertBulk) UpdateOperation() *ApiResourceUpsertBulk {
+	return u.Update(func(s *ApiResourceUpsert) {
+		s.UpdateOperation()
+	})
+}
+
+// ClearOperation clears the value of the "operation" field.
+func (u *ApiResourceUpsertBulk) ClearOperation() *ApiResourceUpsertBulk {
+	return u.Update(func(s *ApiResourceUpsert) {
+		s.ClearOperation()
+	})
+}
+
+// SetPath sets the "path" field.
+func (u *ApiResourceUpsertBulk) SetPath(v string) *ApiResourceUpsertBulk {
+	return u.Update(func(s *ApiResourceUpsert) {
+		s.SetPath(v)
+	})
+}
+
+// UpdatePath sets the "path" field to the value that was provided on create.
+func (u *ApiResourceUpsertBulk) UpdatePath() *ApiResourceUpsertBulk {
+	return u.Update(func(s *ApiResourceUpsert) {
+		s.UpdatePath()
+	})
+}
+
+// ClearPath clears the value of the "path" field.
+func (u *ApiResourceUpsertBulk) ClearPath() *ApiResourceUpsertBulk {
+	return u.Update(func(s *ApiResourceUpsert) {
+		s.ClearPath()
+	})
+}
+
+// SetMethod sets the "method" field.
+func (u *ApiResourceUpsertBulk) SetMethod(v string) *ApiResourceUpsertBulk {
+	return u.Update(func(s *ApiResourceUpsert) {
+		s.SetMethod(v)
+	})
+}
+
+// UpdateMethod sets the "method" field to the value that was provided on create.
+func (u *ApiResourceUpsertBulk) UpdateMethod() *ApiResourceUpsertBulk {
+	return u.Update(func(s *ApiResourceUpsert) {
+		s.UpdateMethod()
+	})
+}
+
+// ClearMethod clears the value of the "method" field.
+func (u *ApiResourceUpsertBulk) ClearMethod() *ApiResourceUpsertBulk {
+	return u.Update(func(s *ApiResourceUpsert) {
+		s.ClearMethod()
 	})
 }
 

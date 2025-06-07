@@ -123,6 +123,8 @@ func NewRESTServer(
 	adminV1.RegisterAdminLoginRestrictionServiceHTTPServer(srv, adminLoginRestrictionService)
 	adminV1.RegisterApiResourceServiceHTTPServer(srv, apiResourceService)
 
+	apiResourceService.RestServer = srv
+
 	adminV1.RegisterUserServiceHTTPServer(srv, userSvc)
 	adminV1.RegisterOrganizationServiceHTTPServer(srv, orgSvc)
 	adminV1.RegisterRoleServiceHTTPServer(srv, roleSvc)
@@ -145,11 +147,6 @@ func NewRESTServer(
 
 	registerFileUploadHandler(srv, ossSvc)
 	registerUEditorUploadHandler(srv, ueditorSvc)
-
-	_ = srv.WalkRoute(func(info http.RouteInfo) error {
-		log.Infof("Path[%s] Method[%s]", info.Path, info.Method)
-		return nil
-	})
 
 	if cfg.GetServer().GetRest().GetEnableSwagger() {
 		swaggerUI.RegisterSwaggerUIServerWithOption(

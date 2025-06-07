@@ -25,6 +25,7 @@ const OperationApiResourceServiceCreate = "/admin.service.v1.ApiResourceService/
 const OperationApiResourceServiceDelete = "/admin.service.v1.ApiResourceService/Delete"
 const OperationApiResourceServiceGet = "/admin.service.v1.ApiResourceService/Get"
 const OperationApiResourceServiceList = "/admin.service.v1.ApiResourceService/List"
+const OperationApiResourceServiceSyncApiResources = "/admin.service.v1.ApiResourceService/SyncApiResources"
 const OperationApiResourceServiceUpdate = "/admin.service.v1.ApiResourceService/Update"
 
 type ApiResourceServiceHTTPServer interface {
@@ -36,6 +37,8 @@ type ApiResourceServiceHTTPServer interface {
 	Get(context.Context, *GetApiResourceRequest) (*ApiResource, error)
 	// List 查询列表
 	List(context.Context, *v1.PagingRequest) (*ListApiResourceResponse, error)
+	// SyncApiResources 同步API资源
+	SyncApiResources(context.Context, *emptypb.Empty) (*emptypb.Empty, error)
 	// Update 更新
 	Update(context.Context, *UpdateApiResourceRequest) (*emptypb.Empty, error)
 }
@@ -47,6 +50,7 @@ func RegisterApiResourceServiceHTTPServer(s *http.Server, srv ApiResourceService
 	r.POST("/admin/v1/api-resources", _ApiResourceService_Create1_HTTP_Handler(srv))
 	r.PUT("/admin/v1/api-resources/{data.id}", _ApiResourceService_Update1_HTTP_Handler(srv))
 	r.DELETE("/admin/v1/api-resources/{id}", _ApiResourceService_Delete1_HTTP_Handler(srv))
+	r.POST("/admin/v1/api-resources/sync", _ApiResourceService_SyncApiResources0_HTTP_Handler(srv))
 }
 
 func _ApiResourceService_List3_HTTP_Handler(srv ApiResourceServiceHTTPServer) func(ctx http.Context) error {
@@ -159,11 +163,34 @@ func _ApiResourceService_Delete1_HTTP_Handler(srv ApiResourceServiceHTTPServer) 
 	}
 }
 
+func _ApiResourceService_SyncApiResources0_HTTP_Handler(srv ApiResourceServiceHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in emptypb.Empty
+		if err := ctx.Bind(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationApiResourceServiceSyncApiResources)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.SyncApiResources(ctx, req.(*emptypb.Empty))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*emptypb.Empty)
+		return ctx.Result(200, reply)
+	}
+}
+
 type ApiResourceServiceHTTPClient interface {
 	Create(ctx context.Context, req *CreateApiResourceRequest, opts ...http.CallOption) (rsp *emptypb.Empty, err error)
 	Delete(ctx context.Context, req *DeleteApiResourceRequest, opts ...http.CallOption) (rsp *emptypb.Empty, err error)
 	Get(ctx context.Context, req *GetApiResourceRequest, opts ...http.CallOption) (rsp *ApiResource, err error)
 	List(ctx context.Context, req *v1.PagingRequest, opts ...http.CallOption) (rsp *ListApiResourceResponse, err error)
+	SyncApiResources(ctx context.Context, req *emptypb.Empty, opts ...http.CallOption) (rsp *emptypb.Empty, err error)
 	Update(ctx context.Context, req *UpdateApiResourceRequest, opts ...http.CallOption) (rsp *emptypb.Empty, err error)
 }
 
@@ -221,6 +248,19 @@ func (c *ApiResourceServiceHTTPClientImpl) List(ctx context.Context, in *v1.Pagi
 	opts = append(opts, http.Operation(OperationApiResourceServiceList))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
+func (c *ApiResourceServiceHTTPClientImpl) SyncApiResources(ctx context.Context, in *emptypb.Empty, opts ...http.CallOption) (*emptypb.Empty, error) {
+	var out emptypb.Empty
+	pattern := "/admin/v1/api-resources/sync"
+	path := binding.EncodeURL(pattern, in, false)
+	opts = append(opts, http.Operation(OperationApiResourceServiceSyncApiResources))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
 	if err != nil {
 		return nil, err
 	}

@@ -7,6 +7,7 @@ import (
 
 	"github.com/go-kratos/kratos/v2/middleware"
 	"github.com/go-kratos/kratos/v2/transport"
+	"github.com/go-kratos/kratos/v2/transport/http"
 
 	authnEngine "github.com/tx7do/kratos-authn/engine"
 	authn "github.com/tx7do/kratos-authn/middleware"
@@ -25,7 +26,7 @@ import (
 	"kratos-admin/pkg/metadata"
 )
 
-var action = authzEngine.Action("ANY")
+var defaultAction = authzEngine.Action("ANY")
 
 // Server 衔接认证和权鉴
 func Server(opts ...Option) middleware.Middleware {
@@ -95,12 +96,21 @@ func Server(opts ...Option) middleware.Middleware {
 			}
 
 			if op.enableAuthz {
-				sub, err := authnClaims.GetSubject()
-				if err != nil {
+				var sub string
+				if sub, err = authnClaims.GetSubject(); err != nil {
 					return nil, ErrExtractSubjectFailed
 				}
 
 				path := authzEngine.Resource(tr.Operation())
+				action := defaultAction
+
+				var htr *http.Transport
+				if htr, ok = tr.(*http.Transport); ok {
+					path = authzEngine.Resource(htr.PathTemplate())
+					action = authzEngine.Action(htr.Request().Method)
+				}
+
+				//log.Infof("**************** PATH[%s] ACTION[%s]", path, action)
 
 				authzClaims := authzEngine.AuthClaims{
 					Subject:  (*authzEngine.Subject)(&sub),

@@ -4,6 +4,8 @@ import (
 	"context"
 
 	"github.com/go-kratos/kratos/v2/log"
+	"github.com/go-kratos/kratos/v2/transport/http"
+
 	"github.com/tx7do/go-utils/trans"
 	pagination "github.com/tx7do/kratos-bootstrap/api/gen/go/pagination/v1"
 	"google.golang.org/protobuf/types/known/emptypb"
@@ -17,6 +19,8 @@ import (
 
 type ApiResourceService struct {
 	adminV1.ApiResourceServiceHTTPServer
+
+	RestServer *http.Server
 
 	log *log.Helper
 
@@ -82,6 +86,23 @@ func (s *ApiResourceService) Update(ctx context.Context, req *adminV1.UpdateApiR
 func (s *ApiResourceService) Delete(ctx context.Context, req *adminV1.DeleteApiResourceRequest) (*emptypb.Empty, error) {
 	if err := s.uc.Delete(ctx, req); err != nil {
 		return nil, err
+	}
+
+	return &emptypb.Empty{}, nil
+}
+
+func (s *ApiResourceService) SyncApiResources(ctx context.Context, _ *emptypb.Empty) (*emptypb.Empty, error) {
+	var routes []http.RouteInfo
+	if s.RestServer != nil {
+		_ = s.RestServer.WalkRoute(func(info http.RouteInfo) error {
+			//log.Infof("Path[%s] Method[%s]", info.Path, info.Method)
+			routes = append(routes, info)
+			return nil
+		})
+	}
+
+	if len(routes) == 0 {
+		return &emptypb.Empty{}, nil
 	}
 
 	return &emptypb.Empty{}, nil

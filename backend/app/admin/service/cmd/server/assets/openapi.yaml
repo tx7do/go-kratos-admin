@@ -246,6 +246,20 @@ paths:
                 "200":
                     description: OK
                     content: {}
+    /admin/v1/api-resources/sync:
+        post:
+            tags:
+                - ApiResourceService
+            description: 同步API资源
+            operationId: ApiResourceService_SyncApiResources
+            requestBody:
+                content:
+                    application/json: {}
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content: {}
     /admin/v1/api-resources/{data.id}:
         put:
             tags:

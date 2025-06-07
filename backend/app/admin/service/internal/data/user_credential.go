@@ -470,8 +470,21 @@ func (r *UserCredentialRepo) GetByIdentifier(ctx context.Context, req *authentic
 func (r *UserCredentialRepo) VerifyCredential(ctx context.Context, req *authenticationV1.VerifyCredentialRequest) (*authenticationV1.VerifyCredentialResponse, error) {
 	if req.GetNeedDecrypt() {
 		// 解密密码
-		bytesPass, _ := base64.StdEncoding.DecodeString(req.GetCredential())
-		plainPassword, _ := crypto.AesDecrypt(bytesPass, crypto.DefaultAESKey, nil)
+		bytesPass, err := base64.StdEncoding.DecodeString(req.GetCredential())
+		if err != nil {
+			r.log.Errorf("decode base64 credential failed: %s", err.Error())
+			return &authenticationV1.VerifyCredentialResponse{
+				Success: false,
+			}, authenticationV1.ErrorBadRequest("invalid credential format")
+		}
+		plainPassword, err := crypto.AesDecrypt(bytesPass, crypto.DefaultAESKey, nil)
+		if err != nil {
+			r.log.Errorf("decrypt credential failed: %s", err.Error())
+			return &authenticationV1.VerifyCredentialResponse{
+				Success: false,
+			}, authenticationV1.ErrorBadRequest("decrypt credential failed")
+		}
+
 		req.Credential = string(plainPassword)
 	}
 

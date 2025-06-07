@@ -51,6 +51,14 @@ service ApiResourceService {
       delete: "/admin/v1/api-resources/{id}"
     };
   }
+
+  // 同步API资源
+  rpc SyncApiResources (google.protobuf.Empty) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      post: "/admin/v1/api-resources/sync"
+      body: "*"
+    };
+  }
 }
 
 

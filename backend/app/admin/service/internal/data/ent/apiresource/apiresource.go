@@ -25,6 +25,8 @@ const (
 	FieldOperation = "operation"
 	// FieldDescription holds the string denoting the description field in the database.
 	FieldDescription = "description"
+	// FieldModule holds the string denoting the module field in the database.
+	FieldModule = "module"
 	// Table holds the table name of the apiresource in the database.
 	Table = "sys_api_resources"
 )
@@ -39,6 +41,7 @@ var Columns = []string{
 	FieldUpdateBy,
 	FieldOperation,
 	FieldDescription,
+	FieldModule,
 }
 
 // ValidColumn reports if the column name is valid (part of the table columns).
@@ -97,4 +100,9 @@ func ByOperation(opts ...sql.OrderTermOption) OrderOption {
 // ByDescription orders the results by the description field.
 func ByDescription(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldDescription, opts...).ToFunc()
+}
+
+// ByModule orders the results by the module field.
+func ByModule(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldModule, opts...).ToFunc()
 }

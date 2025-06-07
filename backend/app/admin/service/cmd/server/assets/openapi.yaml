@@ -2783,6 +2783,9 @@ components:
                 description:
                     type: string
                     description: 描述
+                module:
+                    type: string
+                    description: 所属业务模块（如 “用户管理”“支付系统”）
                 createBy:
                     type: integer
                     description: 创建者ID

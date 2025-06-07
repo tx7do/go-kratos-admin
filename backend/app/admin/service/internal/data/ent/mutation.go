@@ -4999,6 +4999,7 @@ type ApiResourceMutation struct {
 	addupdate_by  *int32
 	operation     *string
 	description   *string
+	module        *string
 	clearedFields map[string]struct{}
 	done          bool
 	oldValue      func(context.Context) (*ApiResource, error)
@@ -5494,6 +5495,55 @@ func (m *ApiResourceMutation) ResetDescription() {
 	delete(m.clearedFields, apiresource.FieldDescription)
 }
 
+// SetModule sets the "module" field.
+func (m *ApiResourceMutation) SetModule(s string) {
+	m.module = &s
+}
+
+// Module returns the value of the "module" field in the mutation.
+func (m *ApiResourceMutation) Module() (r string, exists bool) {
+	v := m.module
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldModule returns the old "module" field's value of the ApiResource entity.
+// If the ApiResource object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *ApiResourceMutation) OldModule(ctx context.Context) (v *string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldModule is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldModule requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldModule: %w", err)
+	}
+	return oldValue.Module, nil
+}
+
+// ClearModule clears the value of the "module" field.
+func (m *ApiResourceMutation) ClearModule() {
+	m.module = nil
+	m.clearedFields[apiresource.FieldModule] = struct{}{}
+}
+
+// ModuleCleared returns if the "module" field was cleared in this mutation.
+func (m *ApiResourceMutation) ModuleCleared() bool {
+	_, ok := m.clearedFields[apiresource.FieldModule]
+	return ok
+}
+
+// ResetModule resets all changes to the "module" field.
+func (m *ApiResourceMutation) ResetModule() {
+	m.module = nil
+	delete(m.clearedFields, apiresource.FieldModule)
+}
+
 // Where appends a list predicates to the ApiResourceMutation builder.
 func (m *ApiResourceMutation) Where(ps ...predicate.ApiResource) {
 	m.predicates = append(m.predicates, ps...)
@@ -5528,7 +5578,7 @@ func (m *ApiResourceMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *ApiResourceMutation) Fields() []string {
-	fields := make([]string, 0, 7)
+	fields := make([]string, 0, 8)
 	if m.create_time != nil {
 		fields = append(fields, apiresource.FieldCreateTime)
 	}
@@ -5549,6 +5599,9 @@ func (m *ApiResourceMutation) Fields() []string {
 	}
 	if m.description != nil {
 		fields = append(fields, apiresource.FieldDescription)
+	}
+	if m.module != nil {
+		fields = append(fields, apiresource.FieldModule)
 	}
 	return fields
 }
@@ -5572,6 +5625,8 @@ func (m *ApiResourceMutation) Field(name string) (ent.Value, bool) {
 		return m.Operation()
 	case apiresource.FieldDescription:
 		return m.Description()
+	case apiresource.FieldModule:
+		return m.Module()
 	}
 	return nil, false
 }
@@ -5595,6 +5650,8 @@ func (m *ApiResourceMutation) OldField(ctx context.Context, name string) (ent.Va
 		return m.OldOperation(ctx)
 	case apiresource.FieldDescription:
 		return m.OldDescription(ctx)
+	case apiresource.FieldModule:
+		return m.OldModule(ctx)
 	}
 	return nil, fmt.Errorf("unknown ApiResource field %s", name)
 }
@@ -5652,6 +5709,13 @@ func (m *ApiResourceMutation) SetField(name string, value ent.Value) error {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetDescription(v)
+		return nil
+	case apiresource.FieldModule:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetModule(v)
 		return nil
 	}
 	return fmt.Errorf("unknown ApiResource field %s", name)
@@ -5731,6 +5795,9 @@ func (m *ApiResourceMutation) ClearedFields() []string {
 	if m.FieldCleared(apiresource.FieldDescription) {
 		fields = append(fields, apiresource.FieldDescription)
 	}
+	if m.FieldCleared(apiresource.FieldModule) {
+		fields = append(fields, apiresource.FieldModule)
+	}
 	return fields
 }
 
@@ -5766,6 +5833,9 @@ func (m *ApiResourceMutation) ClearField(name string) error {
 	case apiresource.FieldDescription:
 		m.ClearDescription()
 		return nil
+	case apiresource.FieldModule:
+		m.ClearModule()
+		return nil
 	}
 	return fmt.Errorf("unknown ApiResource nullable field %s", name)
 }
@@ -5794,6 +5864,9 @@ func (m *ApiResourceMutation) ResetField(name string) error {
 		return nil
 	case apiresource.FieldDescription:
 		m.ResetDescription()
+		return nil
+	case apiresource.FieldModule:
+		m.ResetModule()
 		return nil
 	}
 	return fmt.Errorf("unknown ApiResource field %s", name)

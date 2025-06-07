@@ -71,6 +71,11 @@ message ApiResource {
     (gnostic.openapi.v3.property) = { description: "描述" }
   ]; // 描述
 
+  optional string module = 4 [
+    json_name = "module",
+    (gnostic.openapi.v3.property) = { description: "所属业务模块（如 “用户管理”“支付系统”）" }
+  ]; // 所属业务模块
+
   optional uint32 create_by = 100 [json_name = "createBy", (gnostic.openapi.v3.property) = {description: "创建者ID"}]; // 创建者ID
   optional uint32 update_by = 101 [json_name = "updateBy", (gnostic.openapi.v3.property) = {description: "更新者ID"}]; // 更新者ID
 

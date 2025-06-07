@@ -69,6 +69,10 @@ func (m *ApiResource) validate(all bool) error {
 		// no validation rules for Description
 	}
 
+	if m.Module != nil {
+		// no validation rules for Module
+	}
+
 	if m.CreateBy != nil {
 		// no validation rules for CreateBy
 	}

@@ -120,6 +120,20 @@ func (arc *ApiResourceCreate) SetNillableDescription(s *string) *ApiResourceCrea
 	return arc
 }
 
+// SetModule sets the "module" field.
+func (arc *ApiResourceCreate) SetModule(s string) *ApiResourceCreate {
+	arc.mutation.SetModule(s)
+	return arc
+}
+
+// SetNillableModule sets the "module" field if the given value is not nil.
+func (arc *ApiResourceCreate) SetNillableModule(s *string) *ApiResourceCreate {
+	if s != nil {
+		arc.SetModule(*s)
+	}
+	return arc
+}
+
 // SetID sets the "id" field.
 func (arc *ApiResourceCreate) SetID(u uint32) *ApiResourceCreate {
 	arc.mutation.SetID(u)
@@ -225,6 +239,10 @@ func (arc *ApiResourceCreate) createSpec() (*ApiResource, *sqlgraph.CreateSpec) 
 	if value, ok := arc.mutation.Description(); ok {
 		_spec.SetField(apiresource.FieldDescription, field.TypeString, value)
 		_node.Description = &value
+	}
+	if value, ok := arc.mutation.Module(); ok {
+		_spec.SetField(apiresource.FieldModule, field.TypeString, value)
+		_node.Module = &value
 	}
 	return _node, _spec
 }
@@ -395,6 +413,24 @@ func (u *ApiResourceUpsert) UpdateDescription() *ApiResourceUpsert {
 // ClearDescription clears the value of the "description" field.
 func (u *ApiResourceUpsert) ClearDescription() *ApiResourceUpsert {
 	u.SetNull(apiresource.FieldDescription)
+	return u
+}
+
+// SetModule sets the "module" field.
+func (u *ApiResourceUpsert) SetModule(v string) *ApiResourceUpsert {
+	u.Set(apiresource.FieldModule, v)
+	return u
+}
+
+// UpdateModule sets the "module" field to the value that was provided on create.
+func (u *ApiResourceUpsert) UpdateModule() *ApiResourceUpsert {
+	u.SetExcluded(apiresource.FieldModule)
+	return u
+}
+
+// ClearModule clears the value of the "module" field.
+func (u *ApiResourceUpsert) ClearModule() *ApiResourceUpsert {
+	u.SetNull(apiresource.FieldModule)
 	return u
 }
 
@@ -586,6 +622,27 @@ func (u *ApiResourceUpsertOne) UpdateDescription() *ApiResourceUpsertOne {
 func (u *ApiResourceUpsertOne) ClearDescription() *ApiResourceUpsertOne {
 	return u.Update(func(s *ApiResourceUpsert) {
 		s.ClearDescription()
+	})
+}
+
+// SetModule sets the "module" field.
+func (u *ApiResourceUpsertOne) SetModule(v string) *ApiResourceUpsertOne {
+	return u.Update(func(s *ApiResourceUpsert) {
+		s.SetModule(v)
+	})
+}
+
+// UpdateModule sets the "module" field to the value that was provided on create.
+func (u *ApiResourceUpsertOne) UpdateModule() *ApiResourceUpsertOne {
+	return u.Update(func(s *ApiResourceUpsert) {
+		s.UpdateModule()
+	})
+}
+
+// ClearModule clears the value of the "module" field.
+func (u *ApiResourceUpsertOne) ClearModule() *ApiResourceUpsertOne {
+	return u.Update(func(s *ApiResourceUpsert) {
+		s.ClearModule()
 	})
 }
 
@@ -942,6 +999,27 @@ func (u *ApiResourceUpsertBulk) UpdateDescription() *ApiResourceUpsertBulk {
 func (u *ApiResourceUpsertBulk) ClearDescription() *ApiResourceUpsertBulk {
 	return u.Update(func(s *ApiResourceUpsert) {
 		s.ClearDescription()
+	})
+}
+
+// SetModule sets the "module" field.
+func (u *ApiResourceUpsertBulk) SetModule(v string) *ApiResourceUpsertBulk {
+	return u.Update(func(s *ApiResourceUpsert) {
+		s.SetModule(v)
+	})
+}
+
+// UpdateModule sets the "module" field to the value that was provided on create.
+func (u *ApiResourceUpsertBulk) UpdateModule() *ApiResourceUpsertBulk {
+	return u.Update(func(s *ApiResourceUpsert) {
+		s.UpdateModule()
+	})
+}
+
+// ClearModule clears the value of the "module" field.
+func (u *ApiResourceUpsertBulk) ClearModule() *ApiResourceUpsertBulk {
+	return u.Update(func(s *ApiResourceUpsert) {
+		s.ClearModule()
 	})
 }
 

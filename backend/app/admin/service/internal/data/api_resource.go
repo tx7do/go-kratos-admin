@@ -171,6 +171,7 @@ func (r *ApiResourceRepo) Create(ctx context.Context, req *adminV1.CreateApiReso
 	builder := r.data.db.Client().ApiResource.Create().
 		SetNillableOperation(req.Data.Operation).
 		SetNillableDescription(req.Data.Description).
+		SetNillableModule(req.Data.Module).
 		SetNillableCreateBy(req.Data.CreateBy).
 		SetNillableCreateTime(timeutil.TimestamppbToTime(req.Data.CreateTime))
 
@@ -222,6 +223,7 @@ func (r *ApiResourceRepo) Update(ctx context.Context, req *adminV1.UpdateApiReso
 		UpdateOneID(req.Data.GetId()).
 		SetNillableOperation(req.Data.Operation).
 		SetNillableDescription(req.Data.Description).
+		SetNillableModule(req.Data.Module).
 		SetNillableUpdateBy(req.Data.UpdateBy).
 		SetNillableUpdateTime(timeutil.TimestamppbToTime(req.Data.UpdateTime))
 

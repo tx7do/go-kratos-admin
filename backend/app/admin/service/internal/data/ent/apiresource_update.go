@@ -163,6 +163,26 @@ func (aru *ApiResourceUpdate) ClearDescription() *ApiResourceUpdate {
 	return aru
 }
 
+// SetModule sets the "module" field.
+func (aru *ApiResourceUpdate) SetModule(s string) *ApiResourceUpdate {
+	aru.mutation.SetModule(s)
+	return aru
+}
+
+// SetNillableModule sets the "module" field if the given value is not nil.
+func (aru *ApiResourceUpdate) SetNillableModule(s *string) *ApiResourceUpdate {
+	if s != nil {
+		aru.SetModule(*s)
+	}
+	return aru
+}
+
+// ClearModule clears the value of the "module" field.
+func (aru *ApiResourceUpdate) ClearModule() *ApiResourceUpdate {
+	aru.mutation.ClearModule()
+	return aru
+}
+
 // Mutation returns the ApiResourceMutation object of the builder.
 func (aru *ApiResourceUpdate) Mutation() *ApiResourceMutation {
 	return aru.mutation
@@ -254,6 +274,12 @@ func (aru *ApiResourceUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	}
 	if aru.mutation.DescriptionCleared() {
 		_spec.ClearField(apiresource.FieldDescription, field.TypeString)
+	}
+	if value, ok := aru.mutation.Module(); ok {
+		_spec.SetField(apiresource.FieldModule, field.TypeString, value)
+	}
+	if aru.mutation.ModuleCleared() {
+		_spec.ClearField(apiresource.FieldModule, field.TypeString)
 	}
 	_spec.AddModifiers(aru.modifiers...)
 	if n, err = sqlgraph.UpdateNodes(ctx, aru.driver, _spec); err != nil {
@@ -411,6 +437,26 @@ func (aruo *ApiResourceUpdateOne) ClearDescription() *ApiResourceUpdateOne {
 	return aruo
 }
 
+// SetModule sets the "module" field.
+func (aruo *ApiResourceUpdateOne) SetModule(s string) *ApiResourceUpdateOne {
+	aruo.mutation.SetModule(s)
+	return aruo
+}
+
+// SetNillableModule sets the "module" field if the given value is not nil.
+func (aruo *ApiResourceUpdateOne) SetNillableModule(s *string) *ApiResourceUpdateOne {
+	if s != nil {
+		aruo.SetModule(*s)
+	}
+	return aruo
+}
+
+// ClearModule clears the value of the "module" field.
+func (aruo *ApiResourceUpdateOne) ClearModule() *ApiResourceUpdateOne {
+	aruo.mutation.ClearModule()
+	return aruo
+}
+
 // Mutation returns the ApiResourceMutation object of the builder.
 func (aruo *ApiResourceUpdateOne) Mutation() *ApiResourceMutation {
 	return aruo.mutation
@@ -532,6 +578,12 @@ func (aruo *ApiResourceUpdateOne) sqlSave(ctx context.Context) (_node *ApiResour
 	}
 	if aruo.mutation.DescriptionCleared() {
 		_spec.ClearField(apiresource.FieldDescription, field.TypeString)
+	}
+	if value, ok := aruo.mutation.Module(); ok {
+		_spec.SetField(apiresource.FieldModule, field.TypeString, value)
+	}
+	if aruo.mutation.ModuleCleared() {
+		_spec.ClearField(apiresource.FieldModule, field.TypeString)
 	}
 	_spec.AddModifiers(aruo.modifiers...)
 	_node = &ApiResource{config: aruo.config}

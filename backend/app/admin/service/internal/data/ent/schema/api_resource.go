@@ -38,6 +38,11 @@ func (ApiResource) Fields() []ent.Field {
 			Comment("描述").
 			Optional().
 			Nillable(),
+
+		field.String("module").
+			Comment("所属业务模块").
+			Optional().
+			Nillable(),
 	}
 }
 

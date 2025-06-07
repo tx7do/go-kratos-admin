@@ -125,6 +125,7 @@ var (
 		{Name: "update_by", Type: field.TypeUint32, Nullable: true, Comment: "更新者ID"},
 		{Name: "operation", Type: field.TypeString, Unique: true, Nullable: true, Comment: "操作路径"},
 		{Name: "description", Type: field.TypeString, Nullable: true, Comment: "描述"},
+		{Name: "module", Type: field.TypeString, Nullable: true, Comment: "所属业务模块"},
 	}
 	// SysAPIResourcesTable holds the schema information for the "sys_api_resources" table.
 	SysAPIResourcesTable = &schema.Table{

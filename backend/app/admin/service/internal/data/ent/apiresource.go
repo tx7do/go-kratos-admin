@@ -31,7 +31,9 @@ type ApiResource struct {
 	// 操作路径
 	Operation *string `json:"operation,omitempty"`
 	// 描述
-	Description  *string `json:"description,omitempty"`
+	Description *string `json:"description,omitempty"`
+	// 所属业务模块
+	Module       *string `json:"module,omitempty"`
 	selectValues sql.SelectValues
 }
 
@@ -42,7 +44,7 @@ func (*ApiResource) scanValues(columns []string) ([]any, error) {
 		switch columns[i] {
 		case apiresource.FieldID, apiresource.FieldCreateBy, apiresource.FieldUpdateBy:
 			values[i] = new(sql.NullInt64)
-		case apiresource.FieldOperation, apiresource.FieldDescription:
+		case apiresource.FieldOperation, apiresource.FieldDescription, apiresource.FieldModule:
 			values[i] = new(sql.NullString)
 		case apiresource.FieldCreateTime, apiresource.FieldUpdateTime, apiresource.FieldDeleteTime:
 			values[i] = new(sql.NullTime)
@@ -116,6 +118,13 @@ func (ar *ApiResource) assignValues(columns []string, values []any) error {
 				ar.Description = new(string)
 				*ar.Description = value.String
 			}
+		case apiresource.FieldModule:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field module", values[i])
+			} else if value.Valid {
+				ar.Module = new(string)
+				*ar.Module = value.String
+			}
 		default:
 			ar.selectValues.Set(columns[i], values[i])
 		}
@@ -184,6 +193,11 @@ func (ar *ApiResource) String() string {
 	builder.WriteString(", ")
 	if v := ar.Description; v != nil {
 		builder.WriteString("description=")
+		builder.WriteString(*v)
+	}
+	builder.WriteString(", ")
+	if v := ar.Module; v != nil {
+		builder.WriteString("module=")
 		builder.WriteString(*v)
 	}
 	builder.WriteByte(')')

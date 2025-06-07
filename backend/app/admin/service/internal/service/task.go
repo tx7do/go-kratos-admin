@@ -60,7 +60,7 @@ func (s *TaskService) GetTaskByTypeName(ctx context.Context, req *adminV1.GetTas
 
 func (s *TaskService) Create(ctx context.Context, req *adminV1.CreateTaskRequest) (*emptypb.Empty, error) {
 	if req.Data == nil {
-		return nil, adminV1.ErrorBadRequest("错误的参数")
+		return nil, adminV1.ErrorBadRequest("invalid parameter")
 	}
 
 	// 获取操作人信息
@@ -85,7 +85,7 @@ func (s *TaskService) Create(ctx context.Context, req *adminV1.CreateTaskRequest
 
 func (s *TaskService) Update(ctx context.Context, req *adminV1.UpdateTaskRequest) (*emptypb.Empty, error) {
 	if req.Data == nil {
-		return nil, adminV1.ErrorBadRequest("错误的参数")
+		return nil, adminV1.ErrorBadRequest("invalid parameter")
 	}
 
 	// 获取操作人信息

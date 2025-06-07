@@ -42,7 +42,7 @@ func (s *OrganizationService) Get(ctx context.Context, req *userV1.GetOrganizati
 
 func (s *OrganizationService) Create(ctx context.Context, req *userV1.CreateOrganizationRequest) (*emptypb.Empty, error) {
 	if req.Data == nil {
-		return nil, adminV1.ErrorBadRequest("错误的参数")
+		return nil, adminV1.ErrorBadRequest("invalid parameter")
 	}
 
 	// 获取操作人信息
@@ -62,7 +62,7 @@ func (s *OrganizationService) Create(ctx context.Context, req *userV1.CreateOrga
 
 func (s *OrganizationService) Update(ctx context.Context, req *userV1.UpdateOrganizationRequest) (*emptypb.Empty, error) {
 	if req.Data == nil {
-		return nil, adminV1.ErrorBadRequest("错误的参数")
+		return nil, adminV1.ErrorBadRequest("invalid parameter")
 	}
 
 	// 获取操作人信息

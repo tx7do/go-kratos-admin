@@ -39,7 +39,7 @@ func (s *AdminOperationLogService) Get(ctx context.Context, req *adminV1.GetAdmi
 
 func (s *AdminOperationLogService) Create(ctx context.Context, req *adminV1.CreateAdminOperationLogRequest) (*emptypb.Empty, error) {
 	if req.Data == nil {
-		return nil, adminV1.ErrorBadRequest("错误的参数")
+		return nil, adminV1.ErrorBadRequest("invalid parameter")
 	}
 
 	if err := s.uc.Create(ctx, req); err != nil {

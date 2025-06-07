@@ -172,6 +172,138 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/AdminOperationLog'
+    /admin/v1/api-resources:
+        get:
+            tags:
+                - ApiResourceService
+            description: 查询列表
+            operationId: ApiResourceService_List
+            parameters:
+                - name: page
+                  in: query
+                  description: 当前页码
+                  schema:
+                    type: integer
+                    format: int32
+                - name: pageSize
+                  in: query
+                  description: 每一页的行数
+                  schema:
+                    type: integer
+                    format: int32
+                - name: query
+                  in: query
+                  description: AND过滤参数，其语法为json格式的字符串，如：{"key1":"val1","key2":"val2"}，具体请参见：https://github.com/tx7do/go-utils/tree/main/entgo/query/README.md
+                  schema:
+                    type: string
+                - name: or
+                  in: query
+                  description: OR过滤参数，语法同AND过滤参数。
+                  schema:
+                    type: string
+                - name: orderBy
+                  in: query
+                  description: 排序条件，其语法为JSON字符串，例如：{"val1", "-val2"}。字段名前加'-'为降序，否则为升序。
+                  schema:
+                    type: array
+                    items:
+                        type: string
+                - name: noPaging
+                  in: query
+                  description: 是否不分页，如果为true，则page和pageSize参数无效。
+                  schema:
+                    type: boolean
+                - name: fieldMask
+                  in: query
+                  description: 字段掩码，其作用为SELECT中的字段，其语法为使用逗号分隔字段名，例如：id,realName,userName。如果为空则选中所有字段，即SELECT *。
+                  schema:
+                    type: string
+                    format: field-mask
+                - name: tenantId
+                  in: query
+                  schema:
+                    type: integer
+                    format: uint32
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ListApiResourceResponse'
+        post:
+            tags:
+                - ApiResourceService
+            description: 创建
+            operationId: ApiResourceService_Create
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/CreateApiResourceRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content: {}
+    /admin/v1/api-resources/{data.id}:
+        put:
+            tags:
+                - ApiResourceService
+            description: 更新
+            operationId: ApiResourceService_Update
+            parameters:
+                - name: data.id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/UpdateApiResourceRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content: {}
+    /admin/v1/api-resources/{id}:
+        get:
+            tags:
+                - ApiResourceService
+            description: 查询详情
+            operationId: ApiResourceService_Get
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: uint32
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ApiResource'
+        delete:
+            tags:
+                - ApiResourceService
+            description: 删除
+            operationId: ApiResourceService_Delete
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: uint32
+            responses:
+                "200":
+                    description: OK
+                    content: {}
     /admin/v1/change_password:
         post:
             tags:
@@ -2638,6 +2770,40 @@ components:
                     description: 创建时间
                     format: date-time
             description: 后台操作日志
+        ApiResource:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    description: 资源ID
+                    format: uint32
+                operation:
+                    type: string
+                    description: 操作路径
+                description:
+                    type: string
+                    description: 描述
+                createBy:
+                    type: integer
+                    description: 创建者ID
+                    format: uint32
+                updateBy:
+                    type: integer
+                    description: 更新者ID
+                    format: uint32
+                createTime:
+                    type: string
+                    description: 创建时间
+                    format: date-time
+                updateTime:
+                    type: string
+                    description: 更新时间
+                    format: date-time
+                deleteTime:
+                    type: string
+                    description: 删除时间
+                    format: date-time
+            description: API资源
         ChangePasswordRequest:
             type: object
             properties:
@@ -2671,6 +2837,12 @@ components:
                 data:
                     $ref: '#/components/schemas/AdminLoginRestriction'
             description: 创建后台登录限制 - 请求
+        CreateApiResourceRequest:
+            type: object
+            properties:
+                data:
+                    $ref: '#/components/schemas/ApiResource'
+            description: 创建 - 请求
         CreateDepartmentRequest:
             type: object
             properties:
@@ -2688,7 +2860,7 @@ components:
             properties:
                 data:
                     $ref: '#/components/schemas/File'
-            description: 创建文件 - 请求
+            description: 创建 - 请求
         CreateMenuRequest:
             type: object
             properties:
@@ -2885,7 +3057,7 @@ components:
             properties:
                 id:
                     type: integer
-                    description: 消息ID
+                    description: 文件ID
                     format: uint32
                 provider:
                     enum:
@@ -3004,6 +3176,17 @@ components:
                     type: integer
                     format: uint32
             description: 查询后台操作日志列表 - 回应
+        ListApiResourceResponse:
+            type: object
+            properties:
+                items:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/ApiResource'
+                total:
+                    type: integer
+                    format: uint32
+            description: 查询列表 - 回应
         ListDepartmentResponse:
             type: object
             properties:
@@ -3036,7 +3219,7 @@ components:
                 total:
                     type: integer
                     format: uint32
-            description: 文件列表 - 回应
+            description: 查询列表 - 回应
         ListMenuResponse:
             type: object
             properties:
@@ -4195,6 +4378,20 @@ components:
                     type: boolean
                     description: 如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。
             description: 更新后台登录限制 - 请求
+        UpdateApiResourceRequest:
+            type: object
+            properties:
+                data:
+                    $ref: '#/components/schemas/ApiResource'
+                updateMask:
+                    example: id,realname,username
+                    type: string
+                    description: 要更新的字段列表
+                    format: field-mask
+                allowMissing:
+                    type: boolean
+                    description: 如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。
+            description: 更新 - 请求
         UpdateDepartmentRequest:
             type: object
             properties:
@@ -4236,7 +4433,7 @@ components:
                 allowMissing:
                     type: boolean
                     description: 如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。
-            description: 更新文件 - 请求
+            description: 更新 - 请求
         UpdateMenuRequest:
             type: object
             properties:
@@ -4566,6 +4763,8 @@ tags:
       description: 后台登录限制管理服务
     - name: AdminOperationLogService
       description: 后台操作日志管理服务
+    - name: ApiResourceService
+      description: API资源管理服务
     - name: AuthenticationService
       description: 用户后台登录认证服务
     - name: DepartmentService

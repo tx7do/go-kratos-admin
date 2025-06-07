@@ -50,7 +50,7 @@ message File {
   optional uint32 id = 1 [
     json_name = "id",
     (google.api.field_behavior) = OPTIONAL,
-    (gnostic.openapi.v3.property) = { description: "消息ID" }
+    (gnostic.openapi.v3.property) = { description: "文件ID" }
   ]; // 文件ID
 
   optional OSSProvider provider = 2 [
@@ -116,23 +116,23 @@ message File {
   optional google.protobuf.Timestamp delete_time = 202 [json_name = "deleteTime", (gnostic.openapi.v3.property) = {description: "删除时间"}];// 删除时间
 }
 
-// 文件列表 - 回应
+// 查询列表 - 回应
 message ListFileResponse {
   repeated File items = 1;
   uint32 total = 2;
 }
 
-// 文件数据 - 请求
+// 查询 - 请求
 message GetFileRequest {
   uint32 id = 1;
 }
 
-// 创建文件 - 请求
+// 创建 - 请求
 message CreateFileRequest {
   File data = 1;
 }
 
-// 更新文件 - 请求
+// 更新 - 请求
 message UpdateFileRequest {
   File data = 1;
 
@@ -150,7 +150,7 @@ message UpdateFileRequest {
   ]; // 如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。
 }
 
-// 删除文件 - 请求
+// 删除 - 请求
 message DeleteFileRequest {
   uint32 id = 1;
 }

@@ -42,7 +42,7 @@ func (s *RoleService) Get(ctx context.Context, req *userV1.GetRoleRequest) (*use
 
 func (s *RoleService) Create(ctx context.Context, req *userV1.CreateRoleRequest) (*emptypb.Empty, error) {
 	if req.Data == nil {
-		return nil, adminV1.ErrorBadRequest("错误的参数")
+		return nil, adminV1.ErrorBadRequest("invalid parameter")
 	}
 
 	// 获取操作人信息
@@ -62,7 +62,7 @@ func (s *RoleService) Create(ctx context.Context, req *userV1.CreateRoleRequest)
 
 func (s *RoleService) Update(ctx context.Context, req *userV1.UpdateRoleRequest) (*emptypb.Empty, error) {
 	if req.Data == nil {
-		return nil, adminV1.ErrorBadRequest("错误的参数")
+		return nil, adminV1.ErrorBadRequest("invalid parameter")
 	}
 
 	// 获取操作人信息

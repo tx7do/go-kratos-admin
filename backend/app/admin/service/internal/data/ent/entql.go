@@ -6,6 +6,7 @@ import (
 	"kratos-admin/app/admin/service/internal/data/ent/adminloginlog"
 	"kratos-admin/app/admin/service/internal/data/ent/adminloginrestriction"
 	"kratos-admin/app/admin/service/internal/data/ent/adminoperationlog"
+	"kratos-admin/app/admin/service/internal/data/ent/apiresource"
 	"kratos-admin/app/admin/service/internal/data/ent/department"
 	"kratos-admin/app/admin/service/internal/data/ent/dict"
 	"kratos-admin/app/admin/service/internal/data/ent/file"
@@ -31,7 +32,7 @@ import (
 
 // schemaGraph holds a representation of ent/schema at runtime.
 var schemaGraph = func() *sqlgraph.Schema {
-	graph := &sqlgraph.Schema{Nodes: make([]*sqlgraph.Node, 18)}
+	graph := &sqlgraph.Schema{Nodes: make([]*sqlgraph.Node, 19)}
 	graph.Nodes[0] = &sqlgraph.Node{
 		NodeSpec: sqlgraph.NodeSpec{
 			Table:   adminloginlog.Table,
@@ -125,6 +126,26 @@ var schemaGraph = func() *sqlgraph.Schema {
 	}
 	graph.Nodes[3] = &sqlgraph.Node{
 		NodeSpec: sqlgraph.NodeSpec{
+			Table:   apiresource.Table,
+			Columns: apiresource.Columns,
+			ID: &sqlgraph.FieldSpec{
+				Type:   field.TypeUint32,
+				Column: apiresource.FieldID,
+			},
+		},
+		Type: "ApiResource",
+		Fields: map[string]*sqlgraph.FieldSpec{
+			apiresource.FieldCreateTime:  {Type: field.TypeTime, Column: apiresource.FieldCreateTime},
+			apiresource.FieldUpdateTime:  {Type: field.TypeTime, Column: apiresource.FieldUpdateTime},
+			apiresource.FieldDeleteTime:  {Type: field.TypeTime, Column: apiresource.FieldDeleteTime},
+			apiresource.FieldCreateBy:    {Type: field.TypeUint32, Column: apiresource.FieldCreateBy},
+			apiresource.FieldUpdateBy:    {Type: field.TypeUint32, Column: apiresource.FieldUpdateBy},
+			apiresource.FieldOperation:   {Type: field.TypeString, Column: apiresource.FieldOperation},
+			apiresource.FieldDescription: {Type: field.TypeString, Column: apiresource.FieldDescription},
+		},
+	}
+	graph.Nodes[4] = &sqlgraph.Node{
+		NodeSpec: sqlgraph.NodeSpec{
 			Table:   department.Table,
 			Columns: department.Columns,
 			ID: &sqlgraph.FieldSpec{
@@ -148,7 +169,7 @@ var schemaGraph = func() *sqlgraph.Schema {
 			department.FieldSortID:         {Type: field.TypeInt32, Column: department.FieldSortID},
 		},
 	}
-	graph.Nodes[4] = &sqlgraph.Node{
+	graph.Nodes[5] = &sqlgraph.Node{
 		NodeSpec: sqlgraph.NodeSpec{
 			Table:   dict.Table,
 			Columns: dict.Columns,
@@ -176,7 +197,7 @@ var schemaGraph = func() *sqlgraph.Schema {
 			dict.FieldSortID:        {Type: field.TypeInt32, Column: dict.FieldSortID},
 		},
 	}
-	graph.Nodes[5] = &sqlgraph.Node{
+	graph.Nodes[6] = &sqlgraph.Node{
 		NodeSpec: sqlgraph.NodeSpec{
 			Table:   file.Table,
 			Columns: file.Columns,
@@ -206,7 +227,7 @@ var schemaGraph = func() *sqlgraph.Schema {
 			file.FieldMd5:           {Type: field.TypeString, Column: file.FieldMd5},
 		},
 	}
-	graph.Nodes[6] = &sqlgraph.Node{
+	graph.Nodes[7] = &sqlgraph.Node{
 		NodeSpec: sqlgraph.NodeSpec{
 			Table:   menu.Table,
 			Columns: menu.Columns,
@@ -234,7 +255,7 @@ var schemaGraph = func() *sqlgraph.Schema {
 			menu.FieldMeta:       {Type: field.TypeJSON, Column: menu.FieldMeta},
 		},
 	}
-	graph.Nodes[7] = &sqlgraph.Node{
+	graph.Nodes[8] = &sqlgraph.Node{
 		NodeSpec: sqlgraph.NodeSpec{
 			Table:   notificationmessage.Table,
 			Columns: notificationmessage.Columns,
@@ -257,7 +278,7 @@ var schemaGraph = func() *sqlgraph.Schema {
 			notificationmessage.FieldStatus:     {Type: field.TypeEnum, Column: notificationmessage.FieldStatus},
 		},
 	}
-	graph.Nodes[8] = &sqlgraph.Node{
+	graph.Nodes[9] = &sqlgraph.Node{
 		NodeSpec: sqlgraph.NodeSpec{
 			Table:   notificationmessagecategory.Table,
 			Columns: notificationmessagecategory.Columns,
@@ -282,7 +303,7 @@ var schemaGraph = func() *sqlgraph.Schema {
 			notificationmessagecategory.FieldParentID:   {Type: field.TypeUint32, Column: notificationmessagecategory.FieldParentID},
 		},
 	}
-	graph.Nodes[9] = &sqlgraph.Node{
+	graph.Nodes[10] = &sqlgraph.Node{
 		NodeSpec: sqlgraph.NodeSpec{
 			Table:   notificationmessagerecipient.Table,
 			Columns: notificationmessagerecipient.Columns,
@@ -302,7 +323,7 @@ var schemaGraph = func() *sqlgraph.Schema {
 			notificationmessagerecipient.FieldStatus:      {Type: field.TypeEnum, Column: notificationmessagerecipient.FieldStatus},
 		},
 	}
-	graph.Nodes[10] = &sqlgraph.Node{
+	graph.Nodes[11] = &sqlgraph.Node{
 		NodeSpec: sqlgraph.NodeSpec{
 			Table:   organization.Table,
 			Columns: organization.Columns,
@@ -326,7 +347,7 @@ var schemaGraph = func() *sqlgraph.Schema {
 			organization.FieldSortID:     {Type: field.TypeInt32, Column: organization.FieldSortID},
 		},
 	}
-	graph.Nodes[11] = &sqlgraph.Node{
+	graph.Nodes[12] = &sqlgraph.Node{
 		NodeSpec: sqlgraph.NodeSpec{
 			Table:   position.Table,
 			Columns: position.Columns,
@@ -351,7 +372,7 @@ var schemaGraph = func() *sqlgraph.Schema {
 			position.FieldSortID:     {Type: field.TypeInt32, Column: position.FieldSortID},
 		},
 	}
-	graph.Nodes[12] = &sqlgraph.Node{
+	graph.Nodes[13] = &sqlgraph.Node{
 		NodeSpec: sqlgraph.NodeSpec{
 			Table:   privatemessage.Table,
 			Columns: privatemessage.Columns,
@@ -373,7 +394,7 @@ var schemaGraph = func() *sqlgraph.Schema {
 			privatemessage.FieldReceiverID: {Type: field.TypeUint32, Column: privatemessage.FieldReceiverID},
 		},
 	}
-	graph.Nodes[13] = &sqlgraph.Node{
+	graph.Nodes[14] = &sqlgraph.Node{
 		NodeSpec: sqlgraph.NodeSpec{
 			Table:   role.Table,
 			Columns: role.Columns,
@@ -399,7 +420,7 @@ var schemaGraph = func() *sqlgraph.Schema {
 			role.FieldMenus:      {Type: field.TypeJSON, Column: role.FieldMenus},
 		},
 	}
-	graph.Nodes[14] = &sqlgraph.Node{
+	graph.Nodes[15] = &sqlgraph.Node{
 		NodeSpec: sqlgraph.NodeSpec{
 			Table:   task.Table,
 			Columns: task.Columns,
@@ -425,7 +446,7 @@ var schemaGraph = func() *sqlgraph.Schema {
 			task.FieldEnable:      {Type: field.TypeBool, Column: task.FieldEnable},
 		},
 	}
-	graph.Nodes[15] = &sqlgraph.Node{
+	graph.Nodes[16] = &sqlgraph.Node{
 		NodeSpec: sqlgraph.NodeSpec{
 			Table:   tenant.Table,
 			Columns: tenant.Columns,
@@ -450,7 +471,7 @@ var schemaGraph = func() *sqlgraph.Schema {
 			tenant.FieldUnsubscribeAt:  {Type: field.TypeTime, Column: tenant.FieldUnsubscribeAt},
 		},
 	}
-	graph.Nodes[16] = &sqlgraph.Node{
+	graph.Nodes[17] = &sqlgraph.Node{
 		NodeSpec: sqlgraph.NodeSpec{
 			Table:   user.Table,
 			Columns: user.Columns,
@@ -489,7 +510,7 @@ var schemaGraph = func() *sqlgraph.Schema {
 			user.FieldWorkID:        {Type: field.TypeUint32, Column: user.FieldWorkID},
 		},
 	}
-	graph.Nodes[17] = &sqlgraph.Node{
+	graph.Nodes[18] = &sqlgraph.Node{
 		NodeSpec: sqlgraph.NodeSpec{
 			Table:   usercredential.Table,
 			Columns: usercredential.Columns,
@@ -1050,6 +1071,81 @@ func (f *AdminOperationLogFilter) WhereOsVersion(p entql.StringP) {
 }
 
 // addPredicate implements the predicateAdder interface.
+func (arq *ApiResourceQuery) addPredicate(pred func(s *sql.Selector)) {
+	arq.predicates = append(arq.predicates, pred)
+}
+
+// Filter returns a Filter implementation to apply filters on the ApiResourceQuery builder.
+func (arq *ApiResourceQuery) Filter() *ApiResourceFilter {
+	return &ApiResourceFilter{config: arq.config, predicateAdder: arq}
+}
+
+// addPredicate implements the predicateAdder interface.
+func (m *ApiResourceMutation) addPredicate(pred func(s *sql.Selector)) {
+	m.predicates = append(m.predicates, pred)
+}
+
+// Filter returns an entql.Where implementation to apply filters on the ApiResourceMutation builder.
+func (m *ApiResourceMutation) Filter() *ApiResourceFilter {
+	return &ApiResourceFilter{config: m.config, predicateAdder: m}
+}
+
+// ApiResourceFilter provides a generic filtering capability at runtime for ApiResourceQuery.
+type ApiResourceFilter struct {
+	predicateAdder
+	config
+}
+
+// Where applies the entql predicate on the query filter.
+func (f *ApiResourceFilter) Where(p entql.P) {
+	f.addPredicate(func(s *sql.Selector) {
+		if err := schemaGraph.EvalP(schemaGraph.Nodes[3].Type, p, s); err != nil {
+			s.AddError(err)
+		}
+	})
+}
+
+// WhereID applies the entql uint32 predicate on the id field.
+func (f *ApiResourceFilter) WhereID(p entql.Uint32P) {
+	f.Where(p.Field(apiresource.FieldID))
+}
+
+// WhereCreateTime applies the entql time.Time predicate on the create_time field.
+func (f *ApiResourceFilter) WhereCreateTime(p entql.TimeP) {
+	f.Where(p.Field(apiresource.FieldCreateTime))
+}
+
+// WhereUpdateTime applies the entql time.Time predicate on the update_time field.
+func (f *ApiResourceFilter) WhereUpdateTime(p entql.TimeP) {
+	f.Where(p.Field(apiresource.FieldUpdateTime))
+}
+
+// WhereDeleteTime applies the entql time.Time predicate on the delete_time field.
+func (f *ApiResourceFilter) WhereDeleteTime(p entql.TimeP) {
+	f.Where(p.Field(apiresource.FieldDeleteTime))
+}
+
+// WhereCreateBy applies the entql uint32 predicate on the create_by field.
+func (f *ApiResourceFilter) WhereCreateBy(p entql.Uint32P) {
+	f.Where(p.Field(apiresource.FieldCreateBy))
+}
+
+// WhereUpdateBy applies the entql uint32 predicate on the update_by field.
+func (f *ApiResourceFilter) WhereUpdateBy(p entql.Uint32P) {
+	f.Where(p.Field(apiresource.FieldUpdateBy))
+}
+
+// WhereOperation applies the entql string predicate on the operation field.
+func (f *ApiResourceFilter) WhereOperation(p entql.StringP) {
+	f.Where(p.Field(apiresource.FieldOperation))
+}
+
+// WhereDescription applies the entql string predicate on the description field.
+func (f *ApiResourceFilter) WhereDescription(p entql.StringP) {
+	f.Where(p.Field(apiresource.FieldDescription))
+}
+
+// addPredicate implements the predicateAdder interface.
 func (dq *DepartmentQuery) addPredicate(pred func(s *sql.Selector)) {
 	dq.predicates = append(dq.predicates, pred)
 }
@@ -1078,7 +1174,7 @@ type DepartmentFilter struct {
 // Where applies the entql predicate on the query filter.
 func (f *DepartmentFilter) Where(p entql.P) {
 	f.addPredicate(func(s *sql.Selector) {
-		if err := schemaGraph.EvalP(schemaGraph.Nodes[3].Type, p, s); err != nil {
+		if err := schemaGraph.EvalP(schemaGraph.Nodes[4].Type, p, s); err != nil {
 			s.AddError(err)
 		}
 	})
@@ -1206,7 +1302,7 @@ type DictFilter struct {
 // Where applies the entql predicate on the query filter.
 func (f *DictFilter) Where(p entql.P) {
 	f.addPredicate(func(s *sql.Selector) {
-		if err := schemaGraph.EvalP(schemaGraph.Nodes[4].Type, p, s); err != nil {
+		if err := schemaGraph.EvalP(schemaGraph.Nodes[5].Type, p, s); err != nil {
 			s.AddError(err)
 		}
 	})
@@ -1321,7 +1417,7 @@ type FileFilter struct {
 // Where applies the entql predicate on the query filter.
 func (f *FileFilter) Where(p entql.P) {
 	f.addPredicate(func(s *sql.Selector) {
-		if err := schemaGraph.EvalP(schemaGraph.Nodes[5].Type, p, s); err != nil {
+		if err := schemaGraph.EvalP(schemaGraph.Nodes[6].Type, p, s); err != nil {
 			s.AddError(err)
 		}
 	})
@@ -1446,7 +1542,7 @@ type MenuFilter struct {
 // Where applies the entql predicate on the query filter.
 func (f *MenuFilter) Where(p entql.P) {
 	f.addPredicate(func(s *sql.Selector) {
-		if err := schemaGraph.EvalP(schemaGraph.Nodes[6].Type, p, s); err != nil {
+		if err := schemaGraph.EvalP(schemaGraph.Nodes[7].Type, p, s); err != nil {
 			s.AddError(err)
 		}
 	})
@@ -1589,7 +1685,7 @@ type NotificationMessageFilter struct {
 // Where applies the entql predicate on the query filter.
 func (f *NotificationMessageFilter) Where(p entql.P) {
 	f.addPredicate(func(s *sql.Selector) {
-		if err := schemaGraph.EvalP(schemaGraph.Nodes[7].Type, p, s); err != nil {
+		if err := schemaGraph.EvalP(schemaGraph.Nodes[8].Type, p, s); err != nil {
 			s.AddError(err)
 		}
 	})
@@ -1679,7 +1775,7 @@ type NotificationMessageCategoryFilter struct {
 // Where applies the entql predicate on the query filter.
 func (f *NotificationMessageCategoryFilter) Where(p entql.P) {
 	f.addPredicate(func(s *sql.Selector) {
-		if err := schemaGraph.EvalP(schemaGraph.Nodes[8].Type, p, s); err != nil {
+		if err := schemaGraph.EvalP(schemaGraph.Nodes[9].Type, p, s); err != nil {
 			s.AddError(err)
 		}
 	})
@@ -1807,7 +1903,7 @@ type NotificationMessageRecipientFilter struct {
 // Where applies the entql predicate on the query filter.
 func (f *NotificationMessageRecipientFilter) Where(p entql.P) {
 	f.addPredicate(func(s *sql.Selector) {
-		if err := schemaGraph.EvalP(schemaGraph.Nodes[9].Type, p, s); err != nil {
+		if err := schemaGraph.EvalP(schemaGraph.Nodes[10].Type, p, s); err != nil {
 			s.AddError(err)
 		}
 	})
@@ -1882,7 +1978,7 @@ type OrganizationFilter struct {
 // Where applies the entql predicate on the query filter.
 func (f *OrganizationFilter) Where(p entql.P) {
 	f.addPredicate(func(s *sql.Selector) {
-		if err := schemaGraph.EvalP(schemaGraph.Nodes[10].Type, p, s); err != nil {
+		if err := schemaGraph.EvalP(schemaGraph.Nodes[11].Type, p, s); err != nil {
 			s.AddError(err)
 		}
 	})
@@ -2005,7 +2101,7 @@ type PositionFilter struct {
 // Where applies the entql predicate on the query filter.
 func (f *PositionFilter) Where(p entql.P) {
 	f.addPredicate(func(s *sql.Selector) {
-		if err := schemaGraph.EvalP(schemaGraph.Nodes[11].Type, p, s); err != nil {
+		if err := schemaGraph.EvalP(schemaGraph.Nodes[12].Type, p, s); err != nil {
 			s.AddError(err)
 		}
 	})
@@ -2133,7 +2229,7 @@ type PrivateMessageFilter struct {
 // Where applies the entql predicate on the query filter.
 func (f *PrivateMessageFilter) Where(p entql.P) {
 	f.addPredicate(func(s *sql.Selector) {
-		if err := schemaGraph.EvalP(schemaGraph.Nodes[12].Type, p, s); err != nil {
+		if err := schemaGraph.EvalP(schemaGraph.Nodes[13].Type, p, s); err != nil {
 			s.AddError(err)
 		}
 	})
@@ -2218,7 +2314,7 @@ type RoleFilter struct {
 // Where applies the entql predicate on the query filter.
 func (f *RoleFilter) Where(p entql.P) {
 	f.addPredicate(func(s *sql.Selector) {
-		if err := schemaGraph.EvalP(schemaGraph.Nodes[13].Type, p, s); err != nil {
+		if err := schemaGraph.EvalP(schemaGraph.Nodes[14].Type, p, s); err != nil {
 			s.AddError(err)
 		}
 	})
@@ -2351,7 +2447,7 @@ type TaskFilter struct {
 // Where applies the entql predicate on the query filter.
 func (f *TaskFilter) Where(p entql.P) {
 	f.addPredicate(func(s *sql.Selector) {
-		if err := schemaGraph.EvalP(schemaGraph.Nodes[14].Type, p, s); err != nil {
+		if err := schemaGraph.EvalP(schemaGraph.Nodes[15].Type, p, s); err != nil {
 			s.AddError(err)
 		}
 	})
@@ -2456,7 +2552,7 @@ type TenantFilter struct {
 // Where applies the entql predicate on the query filter.
 func (f *TenantFilter) Where(p entql.P) {
 	f.addPredicate(func(s *sql.Selector) {
-		if err := schemaGraph.EvalP(schemaGraph.Nodes[15].Type, p, s); err != nil {
+		if err := schemaGraph.EvalP(schemaGraph.Nodes[16].Type, p, s); err != nil {
 			s.AddError(err)
 		}
 	})
@@ -2556,7 +2652,7 @@ type UserFilter struct {
 // Where applies the entql predicate on the query filter.
 func (f *UserFilter) Where(p entql.P) {
 	f.addPredicate(func(s *sql.Selector) {
-		if err := schemaGraph.EvalP(schemaGraph.Nodes[16].Type, p, s); err != nil {
+		if err := schemaGraph.EvalP(schemaGraph.Nodes[17].Type, p, s); err != nil {
 			s.AddError(err)
 		}
 	})
@@ -2726,7 +2822,7 @@ type UserCredentialFilter struct {
 // Where applies the entql predicate on the query filter.
 func (f *UserCredentialFilter) Where(p entql.P) {
 	f.addPredicate(func(s *sql.Selector) {
-		if err := schemaGraph.EvalP(schemaGraph.Nodes[17].Type, p, s); err != nil {
+		if err := schemaGraph.EvalP(schemaGraph.Nodes[18].Type, p, s); err != nil {
 			s.AddError(err)
 		}
 	})

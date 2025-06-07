@@ -14,6 +14,7 @@ import (
 	"kratos-admin/app/admin/service/internal/data/ent/adminloginlog"
 	"kratos-admin/app/admin/service/internal/data/ent/adminloginrestriction"
 	"kratos-admin/app/admin/service/internal/data/ent/adminoperationlog"
+	"kratos-admin/app/admin/service/internal/data/ent/apiresource"
 	"kratos-admin/app/admin/service/internal/data/ent/department"
 	"kratos-admin/app/admin/service/internal/data/ent/dict"
 	"kratos-admin/app/admin/service/internal/data/ent/file"
@@ -47,6 +48,8 @@ type Client struct {
 	AdminLoginRestriction *AdminLoginRestrictionClient
 	// AdminOperationLog is the client for interacting with the AdminOperationLog builders.
 	AdminOperationLog *AdminOperationLogClient
+	// ApiResource is the client for interacting with the ApiResource builders.
+	ApiResource *ApiResourceClient
 	// Department is the client for interacting with the Department builders.
 	Department *DepartmentClient
 	// Dict is the client for interacting with the Dict builders.
@@ -91,6 +94,7 @@ func (c *Client) init() {
 	c.AdminLoginLog = NewAdminLoginLogClient(c.config)
 	c.AdminLoginRestriction = NewAdminLoginRestrictionClient(c.config)
 	c.AdminOperationLog = NewAdminOperationLogClient(c.config)
+	c.ApiResource = NewApiResourceClient(c.config)
 	c.Department = NewDepartmentClient(c.config)
 	c.Dict = NewDictClient(c.config)
 	c.File = NewFileClient(c.config)
@@ -201,6 +205,7 @@ func (c *Client) Tx(ctx context.Context) (*Tx, error) {
 		AdminLoginLog:                NewAdminLoginLogClient(cfg),
 		AdminLoginRestriction:        NewAdminLoginRestrictionClient(cfg),
 		AdminOperationLog:            NewAdminOperationLogClient(cfg),
+		ApiResource:                  NewApiResourceClient(cfg),
 		Department:                   NewDepartmentClient(cfg),
 		Dict:                         NewDictClient(cfg),
 		File:                         NewFileClient(cfg),
@@ -238,6 +243,7 @@ func (c *Client) BeginTx(ctx context.Context, opts *sql.TxOptions) (*Tx, error) 
 		AdminLoginLog:                NewAdminLoginLogClient(cfg),
 		AdminLoginRestriction:        NewAdminLoginRestrictionClient(cfg),
 		AdminOperationLog:            NewAdminOperationLogClient(cfg),
+		ApiResource:                  NewApiResourceClient(cfg),
 		Department:                   NewDepartmentClient(cfg),
 		Dict:                         NewDictClient(cfg),
 		File:                         NewFileClient(cfg),
@@ -282,10 +288,11 @@ func (c *Client) Close() error {
 // In order to add hooks to a specific client, call: `client.Node.Use(...)`.
 func (c *Client) Use(hooks ...Hook) {
 	for _, n := range []interface{ Use(...Hook) }{
-		c.AdminLoginLog, c.AdminLoginRestriction, c.AdminOperationLog, c.Department,
-		c.Dict, c.File, c.Menu, c.NotificationMessage, c.NotificationMessageCategory,
-		c.NotificationMessageRecipient, c.Organization, c.Position, c.PrivateMessage,
-		c.Role, c.Task, c.Tenant, c.User, c.UserCredential,
+		c.AdminLoginLog, c.AdminLoginRestriction, c.AdminOperationLog, c.ApiResource,
+		c.Department, c.Dict, c.File, c.Menu, c.NotificationMessage,
+		c.NotificationMessageCategory, c.NotificationMessageRecipient, c.Organization,
+		c.Position, c.PrivateMessage, c.Role, c.Task, c.Tenant, c.User,
+		c.UserCredential,
 	} {
 		n.Use(hooks...)
 	}
@@ -295,10 +302,11 @@ func (c *Client) Use(hooks ...Hook) {
 // In order to add interceptors to a specific client, call: `client.Node.Intercept(...)`.
 func (c *Client) Intercept(interceptors ...Interceptor) {
 	for _, n := range []interface{ Intercept(...Interceptor) }{
-		c.AdminLoginLog, c.AdminLoginRestriction, c.AdminOperationLog, c.Department,
-		c.Dict, c.File, c.Menu, c.NotificationMessage, c.NotificationMessageCategory,
-		c.NotificationMessageRecipient, c.Organization, c.Position, c.PrivateMessage,
-		c.Role, c.Task, c.Tenant, c.User, c.UserCredential,
+		c.AdminLoginLog, c.AdminLoginRestriction, c.AdminOperationLog, c.ApiResource,
+		c.Department, c.Dict, c.File, c.Menu, c.NotificationMessage,
+		c.NotificationMessageCategory, c.NotificationMessageRecipient, c.Organization,
+		c.Position, c.PrivateMessage, c.Role, c.Task, c.Tenant, c.User,
+		c.UserCredential,
 	} {
 		n.Intercept(interceptors...)
 	}
@@ -313,6 +321,8 @@ func (c *Client) Mutate(ctx context.Context, m Mutation) (Value, error) {
 		return c.AdminLoginRestriction.mutate(ctx, m)
 	case *AdminOperationLogMutation:
 		return c.AdminOperationLog.mutate(ctx, m)
+	case *ApiResourceMutation:
+		return c.ApiResource.mutate(ctx, m)
 	case *DepartmentMutation:
 		return c.Department.mutate(ctx, m)
 	case *DictMutation:
@@ -744,6 +754,139 @@ func (c *AdminOperationLogClient) mutate(ctx context.Context, m *AdminOperationL
 		return (&AdminOperationLogDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
 	default:
 		return nil, fmt.Errorf("ent: unknown AdminOperationLog mutation op: %q", m.Op())
+	}
+}
+
+// ApiResourceClient is a client for the ApiResource schema.
+type ApiResourceClient struct {
+	config
+}
+
+// NewApiResourceClient returns a client for the ApiResource from the given config.
+func NewApiResourceClient(c config) *ApiResourceClient {
+	return &ApiResourceClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `apiresource.Hooks(f(g(h())))`.
+func (c *ApiResourceClient) Use(hooks ...Hook) {
+	c.hooks.ApiResource = append(c.hooks.ApiResource, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `apiresource.Intercept(f(g(h())))`.
+func (c *ApiResourceClient) Intercept(interceptors ...Interceptor) {
+	c.inters.ApiResource = append(c.inters.ApiResource, interceptors...)
+}
+
+// Create returns a builder for creating a ApiResource entity.
+func (c *ApiResourceClient) Create() *ApiResourceCreate {
+	mutation := newApiResourceMutation(c.config, OpCreate)
+	return &ApiResourceCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of ApiResource entities.
+func (c *ApiResourceClient) CreateBulk(builders ...*ApiResourceCreate) *ApiResourceCreateBulk {
+	return &ApiResourceCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *ApiResourceClient) MapCreateBulk(slice any, setFunc func(*ApiResourceCreate, int)) *ApiResourceCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &ApiResourceCreateBulk{err: fmt.Errorf("calling to ApiResourceClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*ApiResourceCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &ApiResourceCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for ApiResource.
+func (c *ApiResourceClient) Update() *ApiResourceUpdate {
+	mutation := newApiResourceMutation(c.config, OpUpdate)
+	return &ApiResourceUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *ApiResourceClient) UpdateOne(ar *ApiResource) *ApiResourceUpdateOne {
+	mutation := newApiResourceMutation(c.config, OpUpdateOne, withApiResource(ar))
+	return &ApiResourceUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *ApiResourceClient) UpdateOneID(id uint32) *ApiResourceUpdateOne {
+	mutation := newApiResourceMutation(c.config, OpUpdateOne, withApiResourceID(id))
+	return &ApiResourceUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for ApiResource.
+func (c *ApiResourceClient) Delete() *ApiResourceDelete {
+	mutation := newApiResourceMutation(c.config, OpDelete)
+	return &ApiResourceDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *ApiResourceClient) DeleteOne(ar *ApiResource) *ApiResourceDeleteOne {
+	return c.DeleteOneID(ar.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *ApiResourceClient) DeleteOneID(id uint32) *ApiResourceDeleteOne {
+	builder := c.Delete().Where(apiresource.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &ApiResourceDeleteOne{builder}
+}
+
+// Query returns a query builder for ApiResource.
+func (c *ApiResourceClient) Query() *ApiResourceQuery {
+	return &ApiResourceQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeApiResource},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a ApiResource entity by its id.
+func (c *ApiResourceClient) Get(ctx context.Context, id uint32) (*ApiResource, error) {
+	return c.Query().Where(apiresource.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *ApiResourceClient) GetX(ctx context.Context, id uint32) *ApiResource {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *ApiResourceClient) Hooks() []Hook {
+	return c.hooks.ApiResource
+}
+
+// Interceptors returns the client interceptors.
+func (c *ApiResourceClient) Interceptors() []Interceptor {
+	return c.inters.ApiResource
+}
+
+func (c *ApiResourceClient) mutate(ctx context.Context, m *ApiResourceMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&ApiResourceCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&ApiResourceUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&ApiResourceUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&ApiResourceDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown ApiResource mutation op: %q", m.Op())
 	}
 }
 
@@ -2937,14 +3080,14 @@ func (c *UserCredentialClient) mutate(ctx context.Context, m *UserCredentialMuta
 // hooks and interceptors per client, for fast access.
 type (
 	hooks struct {
-		AdminLoginLog, AdminLoginRestriction, AdminOperationLog, Department, Dict, File,
-		Menu, NotificationMessage, NotificationMessageCategory,
+		AdminLoginLog, AdminLoginRestriction, AdminOperationLog, ApiResource,
+		Department, Dict, File, Menu, NotificationMessage, NotificationMessageCategory,
 		NotificationMessageRecipient, Organization, Position, PrivateMessage, Role,
 		Task, Tenant, User, UserCredential []ent.Hook
 	}
 	inters struct {
-		AdminLoginLog, AdminLoginRestriction, AdminOperationLog, Department, Dict, File,
-		Menu, NotificationMessage, NotificationMessageCategory,
+		AdminLoginLog, AdminLoginRestriction, AdminOperationLog, ApiResource,
+		Department, Dict, File, Menu, NotificationMessage, NotificationMessageCategory,
 		NotificationMessageRecipient, Organization, Position, PrivateMessage, Role,
 		Task, Tenant, User, UserCredential []ent.Interceptor
 	}

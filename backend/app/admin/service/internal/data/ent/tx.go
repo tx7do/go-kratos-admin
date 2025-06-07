@@ -18,6 +18,8 @@ type Tx struct {
 	AdminLoginRestriction *AdminLoginRestrictionClient
 	// AdminOperationLog is the client for interacting with the AdminOperationLog builders.
 	AdminOperationLog *AdminOperationLogClient
+	// ApiResource is the client for interacting with the ApiResource builders.
+	ApiResource *ApiResourceClient
 	// Department is the client for interacting with the Department builders.
 	Department *DepartmentClient
 	// Dict is the client for interacting with the Dict builders.
@@ -182,6 +184,7 @@ func (tx *Tx) init() {
 	tx.AdminLoginLog = NewAdminLoginLogClient(tx.config)
 	tx.AdminLoginRestriction = NewAdminLoginRestrictionClient(tx.config)
 	tx.AdminOperationLog = NewAdminOperationLogClient(tx.config)
+	tx.ApiResource = NewApiResourceClient(tx.config)
 	tx.Department = NewDepartmentClient(tx.config)
 	tx.Dict = NewDictClient(tx.config)
 	tx.File = NewFileClient(tx.config)

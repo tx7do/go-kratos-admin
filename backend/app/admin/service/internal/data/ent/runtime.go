@@ -6,6 +6,7 @@ import (
 	"kratos-admin/app/admin/service/internal/data/ent/adminloginlog"
 	"kratos-admin/app/admin/service/internal/data/ent/adminloginrestriction"
 	"kratos-admin/app/admin/service/internal/data/ent/adminoperationlog"
+	"kratos-admin/app/admin/service/internal/data/ent/apiresource"
 	"kratos-admin/app/admin/service/internal/data/ent/department"
 	"kratos-admin/app/admin/service/internal/data/ent/dict"
 	"kratos-admin/app/admin/service/internal/data/ent/file"
@@ -56,6 +57,15 @@ func init() {
 	adminoperationlogDescID := adminoperationlogMixinFields0[0].Descriptor()
 	// adminoperationlog.IDValidator is a validator for the "id" field. It is called by the builders before save.
 	adminoperationlog.IDValidator = adminoperationlogDescID.Validators[0].(func(uint32) error)
+	apiresourceMixin := schema.ApiResource{}.Mixin()
+	apiresourceMixinFields0 := apiresourceMixin[0].Fields()
+	_ = apiresourceMixinFields0
+	apiresourceFields := schema.ApiResource{}.Fields()
+	_ = apiresourceFields
+	// apiresourceDescID is the schema descriptor for id field.
+	apiresourceDescID := apiresourceMixinFields0[0].Descriptor()
+	// apiresource.IDValidator is a validator for the "id" field. It is called by the builders before save.
+	apiresource.IDValidator = apiresourceDescID.Validators[0].(func(uint32) error)
 	departmentMixin := schema.Department{}.Mixin()
 	departmentMixinFields0 := departmentMixin[0].Fields()
 	_ = departmentMixinFields0

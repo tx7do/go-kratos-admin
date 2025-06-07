@@ -5,42 +5,41 @@ import (
 
 	"github.com/go-kratos/kratos/v2/log"
 	"github.com/tx7do/go-utils/trans"
+	pagination "github.com/tx7do/kratos-bootstrap/api/gen/go/pagination/v1"
 	"google.golang.org/protobuf/types/known/emptypb"
 
 	"kratos-admin/app/admin/service/internal/data"
 
-	pagination "github.com/tx7do/kratos-bootstrap/api/gen/go/pagination/v1"
 	adminV1 "kratos-admin/api/gen/go/admin/service/v1"
-	fileV1 "kratos-admin/api/gen/go/file/service/v1"
 
 	"kratos-admin/pkg/middleware/auth"
 )
 
-type FileService struct {
-	adminV1.FileServiceHTTPServer
+type ApiResourceService struct {
+	adminV1.ApiResourceServiceHTTPServer
 
 	log *log.Helper
 
-	uc *data.FileRepo
+	uc *data.ApiResourceRepo
 }
 
-func NewFileService(uc *data.FileRepo, logger log.Logger) *FileService {
-	l := log.NewHelper(log.With(logger, "module", "file/service/admin-service"))
-	return &FileService{
+func NewApiResourceService(uc *data.ApiResourceRepo, logger log.Logger) *ApiResourceService {
+	l := log.NewHelper(log.With(logger, "module", "api-resource/service/admin-service"))
+	return &ApiResourceService{
 		log: l,
 		uc:  uc,
 	}
 }
 
-func (s *FileService) List(ctx context.Context, req *pagination.PagingRequest) (*fileV1.ListFileResponse, error) {
+func (s *ApiResourceService) List(ctx context.Context, req *pagination.PagingRequest) (*adminV1.ListApiResourceResponse, error) {
 	return s.uc.List(ctx, req)
 }
 
-func (s *FileService) Get(ctx context.Context, req *fileV1.GetFileRequest) (*fileV1.File, error) {
+func (s *ApiResourceService) Get(ctx context.Context, req *adminV1.GetApiResourceRequest) (*adminV1.ApiResource, error) {
 	return s.uc.Get(ctx, req)
 }
 
-func (s *FileService) Create(ctx context.Context, req *fileV1.CreateFileRequest) (*emptypb.Empty, error) {
+func (s *ApiResourceService) Create(ctx context.Context, req *adminV1.CreateApiResourceRequest) (*emptypb.Empty, error) {
 	if req.Data == nil {
 		return nil, adminV1.ErrorBadRequest("invalid parameter")
 	}
@@ -60,7 +59,7 @@ func (s *FileService) Create(ctx context.Context, req *fileV1.CreateFileRequest)
 	return &emptypb.Empty{}, nil
 }
 
-func (s *FileService) Update(ctx context.Context, req *fileV1.UpdateFileRequest) (*emptypb.Empty, error) {
+func (s *ApiResourceService) Update(ctx context.Context, req *adminV1.UpdateApiResourceRequest) (*emptypb.Empty, error) {
 	if req.Data == nil {
 		return nil, adminV1.ErrorBadRequest("invalid parameter")
 	}
@@ -80,9 +79,10 @@ func (s *FileService) Update(ctx context.Context, req *fileV1.UpdateFileRequest)
 	return &emptypb.Empty{}, nil
 }
 
-func (s *FileService) Delete(ctx context.Context, req *fileV1.DeleteFileRequest) (*emptypb.Empty, error) {
+func (s *ApiResourceService) Delete(ctx context.Context, req *adminV1.DeleteApiResourceRequest) (*emptypb.Empty, error) {
 	if err := s.uc.Delete(ctx, req); err != nil {
 		return nil, err
 	}
+
 	return &emptypb.Empty{}, nil
 }

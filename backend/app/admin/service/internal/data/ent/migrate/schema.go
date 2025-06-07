@@ -115,6 +115,31 @@ var (
 			},
 		},
 	}
+	// SysAPIResourcesColumns holds the columns for the "sys_api_resources" table.
+	SysAPIResourcesColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeUint32, Increment: true, Comment: "id", SchemaType: map[string]string{"mysql": "int", "postgres": "serial"}},
+		{Name: "create_time", Type: field.TypeTime, Nullable: true, Comment: "创建时间"},
+		{Name: "update_time", Type: field.TypeTime, Nullable: true, Comment: "更新时间"},
+		{Name: "delete_time", Type: field.TypeTime, Nullable: true, Comment: "删除时间"},
+		{Name: "create_by", Type: field.TypeUint32, Nullable: true, Comment: "创建者ID"},
+		{Name: "update_by", Type: field.TypeUint32, Nullable: true, Comment: "更新者ID"},
+		{Name: "operation", Type: field.TypeString, Unique: true, Nullable: true, Comment: "操作路径"},
+		{Name: "description", Type: field.TypeString, Nullable: true, Comment: "描述"},
+	}
+	// SysAPIResourcesTable holds the schema information for the "sys_api_resources" table.
+	SysAPIResourcesTable = &schema.Table{
+		Name:       "sys_api_resources",
+		Comment:    "API资源表",
+		Columns:    SysAPIResourcesColumns,
+		PrimaryKey: []*schema.Column{SysAPIResourcesColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "apiresource_id",
+				Unique:  false,
+				Columns: []*schema.Column{SysAPIResourcesColumns[0]},
+			},
+		},
+	}
 	// DepartmentsColumns holds the columns for the "departments" table.
 	DepartmentsColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeUint32, Increment: true, Comment: "id", SchemaType: map[string]string{"mysql": "int", "postgres": "serial"}},
@@ -709,6 +734,7 @@ var (
 		AdminLoginLogsTable,
 		AdminLoginRestrictionsTable,
 		AdminOperationLogsTable,
+		SysAPIResourcesTable,
 		DepartmentsTable,
 		SysDictsTable,
 		FilesTable,
@@ -740,6 +766,11 @@ func init() {
 	}
 	AdminOperationLogsTable.Annotation = &entsql.Annotation{
 		Table:     "admin_operation_logs",
+		Charset:   "utf8mb4",
+		Collation: "utf8mb4_bin",
+	}
+	SysAPIResourcesTable.Annotation = &entsql.Annotation{
+		Table:     "sys_api_resources",
 		Charset:   "utf8mb4",
 		Collation: "utf8mb4_bin",
 	}

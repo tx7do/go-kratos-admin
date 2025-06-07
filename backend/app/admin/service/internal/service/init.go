@@ -32,4 +32,5 @@ var ProviderSet = wire.NewSet(
 	NewAdminLoginRestrictionService,
 	NewUserProfileService,
 	NewUserCredentialService,
+	NewApiResourceService,
 )

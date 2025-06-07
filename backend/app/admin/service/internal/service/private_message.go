@@ -39,7 +39,7 @@ func (s *PrivateMessageService) Get(ctx context.Context, req *internalMessageV1.
 
 func (s *PrivateMessageService) Create(ctx context.Context, req *internalMessageV1.CreatePrivateMessageRequest) (*emptypb.Empty, error) {
 	if req.Data == nil {
-		return nil, adminV1.ErrorBadRequest("错误的参数")
+		return nil, adminV1.ErrorBadRequest("invalid parameter")
 	}
 
 	var err error
@@ -53,7 +53,7 @@ func (s *PrivateMessageService) Create(ctx context.Context, req *internalMessage
 
 func (s *PrivateMessageService) Update(ctx context.Context, req *internalMessageV1.UpdatePrivateMessageRequest) (*emptypb.Empty, error) {
 	if req.Data == nil {
-		return nil, adminV1.ErrorBadRequest("错误的参数")
+		return nil, adminV1.ErrorBadRequest("invalid parameter")
 	}
 
 	var err error

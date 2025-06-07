@@ -42,7 +42,7 @@ func (s *NotificationMessageCategoryService) Get(ctx context.Context, req *inter
 
 func (s *NotificationMessageCategoryService) Create(ctx context.Context, req *internalMessageV1.CreateNotificationMessageCategoryRequest) (*emptypb.Empty, error) {
 	if req.Data == nil {
-		return nil, adminV1.ErrorBadRequest("错误的参数")
+		return nil, adminV1.ErrorBadRequest("invalid parameter")
 	}
 
 	// 获取操作人信息
@@ -62,7 +62,7 @@ func (s *NotificationMessageCategoryService) Create(ctx context.Context, req *in
 
 func (s *NotificationMessageCategoryService) Update(ctx context.Context, req *internalMessageV1.UpdateNotificationMessageCategoryRequest) (*emptypb.Empty, error) {
 	if req.Data == nil {
-		return nil, adminV1.ErrorBadRequest("错误的参数")
+		return nil, adminV1.ErrorBadRequest("invalid parameter")
 	}
 
 	// 获取操作人信息

@@ -9,6 +9,7 @@ import (
 	"kratos-admin/app/admin/service/internal/data/ent/adminloginlog"
 	"kratos-admin/app/admin/service/internal/data/ent/adminloginrestriction"
 	"kratos-admin/app/admin/service/internal/data/ent/adminoperationlog"
+	"kratos-admin/app/admin/service/internal/data/ent/apiresource"
 	"kratos-admin/app/admin/service/internal/data/ent/department"
 	"kratos-admin/app/admin/service/internal/data/ent/dict"
 	"kratos-admin/app/admin/service/internal/data/ent/file"
@@ -93,6 +94,7 @@ func checkColumn(table, column string) error {
 			adminloginlog.Table:                adminloginlog.ValidColumn,
 			adminloginrestriction.Table:        adminloginrestriction.ValidColumn,
 			adminoperationlog.Table:            adminoperationlog.ValidColumn,
+			apiresource.Table:                  apiresource.ValidColumn,
 			department.Table:                   department.ValidColumn,
 			dict.Table:                         dict.ValidColumn,
 			file.Table:                         file.ValidColumn,

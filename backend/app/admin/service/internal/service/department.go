@@ -42,7 +42,7 @@ func (s *DepartmentService) Get(ctx context.Context, req *userV1.GetDepartmentRe
 
 func (s *DepartmentService) Create(ctx context.Context, req *userV1.CreateDepartmentRequest) (*emptypb.Empty, error) {
 	if req.Data == nil {
-		return nil, adminV1.ErrorBadRequest("错误的参数")
+		return nil, adminV1.ErrorBadRequest("invalid parameter")
 	}
 
 	// 获取操作人信息
@@ -62,7 +62,7 @@ func (s *DepartmentService) Create(ctx context.Context, req *userV1.CreateDepart
 
 func (s *DepartmentService) Update(ctx context.Context, req *userV1.UpdateDepartmentRequest) (*emptypb.Empty, error) {
 	if req.Data == nil {
-		return nil, adminV1.ErrorBadRequest("错误的参数")
+		return nil, adminV1.ErrorBadRequest("invalid parameter")
 	}
 
 	// 获取操作人信息

@@ -41,7 +41,7 @@ func (s *DictService) Get(ctx context.Context, req *adminV1.GetDictRequest) (*ad
 
 func (s *DictService) Create(ctx context.Context, req *adminV1.CreateDictRequest) (*emptypb.Empty, error) {
 	if req.Data == nil {
-		return nil, adminV1.ErrorBadRequest("错误的参数")
+		return nil, adminV1.ErrorBadRequest("invalid parameter")
 	}
 
 	// 获取操作人信息
@@ -61,7 +61,7 @@ func (s *DictService) Create(ctx context.Context, req *adminV1.CreateDictRequest
 
 func (s *DictService) Update(ctx context.Context, req *adminV1.UpdateDictRequest) (*emptypb.Empty, error) {
 	if req.Data == nil {
-		return nil, adminV1.ErrorBadRequest("错误的参数")
+		return nil, adminV1.ErrorBadRequest("invalid parameter")
 	}
 
 	// 获取操作人信息

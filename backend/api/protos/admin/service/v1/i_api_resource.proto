@@ -1,0 +1,119 @@
+syntax = "proto3";
+
+package admin.service.v1;
+
+import "gnostic/openapi/v3/annotations.proto";
+
+import "google/api/annotations.proto";
+
+import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/field_mask.proto";
+
+import "pagination/v1/pagination.proto";
+
+
+// API资源管理服务
+service ApiResourceService {
+  // 查询列表
+  rpc List (pagination.PagingRequest) returns (ListApiResourceResponse) {
+    option (google.api.http) = {
+      get: "/admin/v1/api-resources"
+    };
+  }
+
+  // 查询详情
+  rpc Get (GetApiResourceRequest) returns (ApiResource) {
+    option (google.api.http) = {
+      get: "/admin/v1/api-resources/{id}"
+    };
+  }
+
+  // 创建
+  rpc Create (CreateApiResourceRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      post: "/admin/v1/api-resources"
+      body: "*"
+    };
+  }
+
+  // 更新
+  rpc Update (UpdateApiResourceRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      put: "/admin/v1/api-resources/{data.id}"
+      body: "*"
+    };
+  }
+
+  // 删除
+  rpc Delete (DeleteApiResourceRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      delete: "/admin/v1/api-resources/{id}"
+    };
+  }
+}
+
+
+// API资源
+message ApiResource {
+  optional uint32 id = 1 [
+    json_name = "id",
+    (gnostic.openapi.v3.property) = { description: "资源ID" }
+  ]; // 资源ID
+
+  optional string operation = 2 [
+    json_name = "operation",
+    (gnostic.openapi.v3.property) = { description: "操作路径" }
+  ]; // 操作路径
+
+  optional string description = 3 [
+    json_name = "description",
+    (gnostic.openapi.v3.property) = { description: "描述" }
+  ]; // 描述
+
+  optional uint32 create_by = 100 [json_name = "createBy", (gnostic.openapi.v3.property) = {description: "创建者ID"}]; // 创建者ID
+  optional uint32 update_by = 101 [json_name = "updateBy", (gnostic.openapi.v3.property) = {description: "更新者ID"}]; // 更新者ID
+
+  optional google.protobuf.Timestamp create_time = 200 [json_name = "createTime", (gnostic.openapi.v3.property) = {description: "创建时间"}];// 创建时间
+  optional google.protobuf.Timestamp update_time = 201 [json_name = "updateTime", (gnostic.openapi.v3.property) = {description: "更新时间"}];// 更新时间
+  optional google.protobuf.Timestamp delete_time = 202 [json_name = "deleteTime", (gnostic.openapi.v3.property) = {description: "删除时间"}];// 删除时间
+}
+
+// 查询列表 - 回应
+message ListApiResourceResponse {
+  repeated ApiResource items = 1;
+  uint32 total = 2;
+}
+
+// 查询 - 请求
+message GetApiResourceRequest {
+  uint32 id = 1;
+}
+
+// 创建 - 请求
+message CreateApiResourceRequest {
+  ApiResource data = 1;
+}
+
+// 更新 - 请求
+message UpdateApiResourceRequest {
+  ApiResource data = 1;
+
+  google.protobuf.FieldMask update_mask = 2 [
+    (gnostic.openapi.v3.property) = {
+      description: "要更新的字段列表",
+      example: {yaml : "id,realname,username"}
+    },
+    json_name = "updateMask"
+  ]; // 要更新的字段列表
+
+  optional bool allow_missing = 3 [
+    (gnostic.openapi.v3.property) = {description: "如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。"},
+    json_name = "allowMissing"
+  ]; // 如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。
+}
+
+// 删除 - 请求
+message DeleteApiResourceRequest {
+  uint32 id = 1;
+}

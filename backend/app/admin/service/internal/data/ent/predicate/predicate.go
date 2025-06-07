@@ -15,6 +15,9 @@ type AdminLoginRestriction func(*sql.Selector)
 // AdminOperationLog is the predicate function for adminoperationlog builders.
 type AdminOperationLog func(*sql.Selector)
 
+// ApiResource is the predicate function for apiresource builders.
+type ApiResource func(*sql.Selector)
+
 // Department is the predicate function for department builders.
 type Department func(*sql.Selector)
 

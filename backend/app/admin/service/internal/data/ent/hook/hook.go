@@ -44,6 +44,18 @@ func (f AdminOperationLogFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.
 	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.AdminOperationLogMutation", m)
 }
 
+// The ApiResourceFunc type is an adapter to allow the use of ordinary
+// function as ApiResource mutator.
+type ApiResourceFunc func(context.Context, *ent.ApiResourceMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f ApiResourceFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.ApiResourceMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.ApiResourceMutation", m)
+}
+
 // The DepartmentFunc type is an adapter to allow the use of ordinary
 // function as Department mutator.
 type DepartmentFunc func(context.Context, *ent.DepartmentMutation) (ent.Value, error)

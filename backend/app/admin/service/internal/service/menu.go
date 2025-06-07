@@ -53,7 +53,7 @@ func (s *MenuService) Get(ctx context.Context, req *adminV1.GetMenuRequest) (*ad
 
 func (s *MenuService) Create(ctx context.Context, req *adminV1.CreateMenuRequest) (*emptypb.Empty, error) {
 	if req.Data == nil {
-		return nil, adminV1.ErrorBadRequest("错误的参数")
+		return nil, adminV1.ErrorBadRequest("invalid parameter")
 	}
 
 	// 获取操作人信息
@@ -74,7 +74,7 @@ func (s *MenuService) Create(ctx context.Context, req *adminV1.CreateMenuRequest
 
 func (s *MenuService) Update(ctx context.Context, req *adminV1.UpdateMenuRequest) (*emptypb.Empty, error) {
 	if req.Data == nil {
-		return nil, adminV1.ErrorBadRequest("错误的参数")
+		return nil, adminV1.ErrorBadRequest("invalid parameter")
 	}
 
 	// 获取操作人信息

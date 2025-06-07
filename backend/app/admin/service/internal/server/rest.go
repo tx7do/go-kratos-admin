@@ -102,6 +102,7 @@ func NewRESTServer(
 	privateMessageService *service.PrivateMessageService,
 	adminLoginRestrictionService *service.AdminLoginRestrictionService,
 	userProfileService *service.UserProfileService,
+	apiResourceService *service.ApiResourceService,
 ) *http.Server {
 	if cfg == nil || cfg.Server == nil || cfg.Server.Rest == nil {
 		return nil
@@ -120,6 +121,7 @@ func NewRESTServer(
 	adminV1.RegisterDictServiceHTTPServer(srv, dictSvc)
 	adminV1.RegisterTaskServiceHTTPServer(srv, taskService)
 	adminV1.RegisterAdminLoginRestrictionServiceHTTPServer(srv, adminLoginRestrictionService)
+	adminV1.RegisterApiResourceServiceHTTPServer(srv, apiResourceService)
 
 	adminV1.RegisterUserServiceHTTPServer(srv, userSvc)
 	adminV1.RegisterOrganizationServiceHTTPServer(srv, orgSvc)

@@ -269,6 +269,24 @@ func (ru *RoleUpdate) ClearMenus() *RoleUpdate {
 	return ru
 }
 
+// SetApis sets the "apis" field.
+func (ru *RoleUpdate) SetApis(u []uint32) *RoleUpdate {
+	ru.mutation.SetApis(u)
+	return ru
+}
+
+// AppendApis appends u to the "apis" field.
+func (ru *RoleUpdate) AppendApis(u []uint32) *RoleUpdate {
+	ru.mutation.AppendApis(u)
+	return ru
+}
+
+// ClearApis clears the value of the "apis" field.
+func (ru *RoleUpdate) ClearApis() *RoleUpdate {
+	ru.mutation.ClearApis()
+	return ru
+}
+
 // SetParent sets the "parent" edge to the Role entity.
 func (ru *RoleUpdate) SetParent(r *Role) *RoleUpdate {
 	return ru.SetParentID(r.ID)
@@ -465,6 +483,17 @@ func (ru *RoleUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	}
 	if ru.mutation.MenusCleared() {
 		_spec.ClearField(role.FieldMenus, field.TypeJSON)
+	}
+	if value, ok := ru.mutation.Apis(); ok {
+		_spec.SetField(role.FieldApis, field.TypeJSON, value)
+	}
+	if value, ok := ru.mutation.AppendedApis(); ok {
+		_spec.AddModifier(func(u *sql.UpdateBuilder) {
+			sqljson.Append(u, role.FieldApis, value)
+		})
+	}
+	if ru.mutation.ApisCleared() {
+		_spec.ClearField(role.FieldApis, field.TypeJSON)
 	}
 	if ru.mutation.ParentCleared() {
 		edge := &sqlgraph.EdgeSpec{
@@ -801,6 +830,24 @@ func (ruo *RoleUpdateOne) ClearMenus() *RoleUpdateOne {
 	return ruo
 }
 
+// SetApis sets the "apis" field.
+func (ruo *RoleUpdateOne) SetApis(u []uint32) *RoleUpdateOne {
+	ruo.mutation.SetApis(u)
+	return ruo
+}
+
+// AppendApis appends u to the "apis" field.
+func (ruo *RoleUpdateOne) AppendApis(u []uint32) *RoleUpdateOne {
+	ruo.mutation.AppendApis(u)
+	return ruo
+}
+
+// ClearApis clears the value of the "apis" field.
+func (ruo *RoleUpdateOne) ClearApis() *RoleUpdateOne {
+	ruo.mutation.ClearApis()
+	return ruo
+}
+
 // SetParent sets the "parent" edge to the Role entity.
 func (ruo *RoleUpdateOne) SetParent(r *Role) *RoleUpdateOne {
 	return ruo.SetParentID(r.ID)
@@ -1027,6 +1074,17 @@ func (ruo *RoleUpdateOne) sqlSave(ctx context.Context) (_node *Role, err error) 
 	}
 	if ruo.mutation.MenusCleared() {
 		_spec.ClearField(role.FieldMenus, field.TypeJSON)
+	}
+	if value, ok := ruo.mutation.Apis(); ok {
+		_spec.SetField(role.FieldApis, field.TypeJSON, value)
+	}
+	if value, ok := ruo.mutation.AppendedApis(); ok {
+		_spec.AddModifier(func(u *sql.UpdateBuilder) {
+			sqljson.Append(u, role.FieldApis, value)
+		})
+	}
+	if ruo.mutation.ApisCleared() {
+		_spec.ClearField(role.FieldApis, field.TypeJSON)
 	}
 	if ruo.mutation.ParentCleared() {
 		edge := &sqlgraph.EdgeSpec{

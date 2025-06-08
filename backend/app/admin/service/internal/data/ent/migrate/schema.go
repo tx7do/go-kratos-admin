@@ -536,6 +536,7 @@ var (
 		{Name: "code", Type: field.TypeString, Nullable: true, Size: 128, Comment: "角色标识", Default: ""},
 		{Name: "sort_id", Type: field.TypeInt32, Nullable: true, Comment: "排序ID", Default: 0},
 		{Name: "menus", Type: field.TypeJSON, Nullable: true, Comment: "分配的菜单列表"},
+		{Name: "apis", Type: field.TypeJSON, Nullable: true, Comment: "分配的API列表"},
 		{Name: "parent_id", Type: field.TypeUint32, Nullable: true, Comment: "上一层角色ID", SchemaType: map[string]string{"mysql": "int", "postgres": "serial"}},
 	}
 	// SysRolesTable holds the schema information for the "sys_roles" table.
@@ -547,7 +548,7 @@ var (
 		ForeignKeys: []*schema.ForeignKey{
 			{
 				Symbol:     "sys_roles_sys_roles_children",
-				Columns:    []*schema.Column{SysRolesColumns[13]},
+				Columns:    []*schema.Column{SysRolesColumns[14]},
 				RefColumns: []*schema.Column{SysRolesColumns[0]},
 				OnDelete:   schema.SetNull,
 			},

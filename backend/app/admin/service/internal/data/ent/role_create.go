@@ -196,6 +196,12 @@ func (rc *RoleCreate) SetMenus(u []uint32) *RoleCreate {
 	return rc
 }
 
+// SetApis sets the "apis" field.
+func (rc *RoleCreate) SetApis(u []uint32) *RoleCreate {
+	rc.mutation.SetApis(u)
+	return rc
+}
+
 // SetID sets the "id" field.
 func (rc *RoleCreate) SetID(u uint32) *RoleCreate {
 	rc.mutation.SetID(u)
@@ -382,6 +388,10 @@ func (rc *RoleCreate) createSpec() (*Role, *sqlgraph.CreateSpec) {
 	if value, ok := rc.mutation.Menus(); ok {
 		_spec.SetField(role.FieldMenus, field.TypeJSON, value)
 		_node.Menus = value
+	}
+	if value, ok := rc.mutation.Apis(); ok {
+		_spec.SetField(role.FieldApis, field.TypeJSON, value)
+		_node.Apis = value
 	}
 	if nodes := rc.mutation.ParentIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
@@ -681,6 +691,24 @@ func (u *RoleUpsert) UpdateMenus() *RoleUpsert {
 // ClearMenus clears the value of the "menus" field.
 func (u *RoleUpsert) ClearMenus() *RoleUpsert {
 	u.SetNull(role.FieldMenus)
+	return u
+}
+
+// SetApis sets the "apis" field.
+func (u *RoleUpsert) SetApis(v []uint32) *RoleUpsert {
+	u.Set(role.FieldApis, v)
+	return u
+}
+
+// UpdateApis sets the "apis" field to the value that was provided on create.
+func (u *RoleUpsert) UpdateApis() *RoleUpsert {
+	u.SetExcluded(role.FieldApis)
+	return u
+}
+
+// ClearApis clears the value of the "apis" field.
+func (u *RoleUpsert) ClearApis() *RoleUpsert {
+	u.SetNull(role.FieldApis)
 	return u
 }
 
@@ -987,6 +1015,27 @@ func (u *RoleUpsertOne) UpdateMenus() *RoleUpsertOne {
 func (u *RoleUpsertOne) ClearMenus() *RoleUpsertOne {
 	return u.Update(func(s *RoleUpsert) {
 		s.ClearMenus()
+	})
+}
+
+// SetApis sets the "apis" field.
+func (u *RoleUpsertOne) SetApis(v []uint32) *RoleUpsertOne {
+	return u.Update(func(s *RoleUpsert) {
+		s.SetApis(v)
+	})
+}
+
+// UpdateApis sets the "apis" field to the value that was provided on create.
+func (u *RoleUpsertOne) UpdateApis() *RoleUpsertOne {
+	return u.Update(func(s *RoleUpsert) {
+		s.UpdateApis()
+	})
+}
+
+// ClearApis clears the value of the "apis" field.
+func (u *RoleUpsertOne) ClearApis() *RoleUpsertOne {
+	return u.Update(func(s *RoleUpsert) {
+		s.ClearApis()
 	})
 }
 
@@ -1459,6 +1508,27 @@ func (u *RoleUpsertBulk) UpdateMenus() *RoleUpsertBulk {
 func (u *RoleUpsertBulk) ClearMenus() *RoleUpsertBulk {
 	return u.Update(func(s *RoleUpsert) {
 		s.ClearMenus()
+	})
+}
+
+// SetApis sets the "apis" field.
+func (u *RoleUpsertBulk) SetApis(v []uint32) *RoleUpsertBulk {
+	return u.Update(func(s *RoleUpsert) {
+		s.SetApis(v)
+	})
+}
+
+// UpdateApis sets the "apis" field to the value that was provided on create.
+func (u *RoleUpsertBulk) UpdateApis() *RoleUpsertBulk {
+	return u.Update(func(s *RoleUpsert) {
+		s.UpdateApis()
+	})
+}
+
+// ClearApis clears the value of the "apis" field.
+func (u *RoleUpsertBulk) ClearApis() *RoleUpsertBulk {
+	return u.Update(func(s *RoleUpsert) {
+		s.ClearApis()
 	})
 }
 

@@ -19550,6 +19550,8 @@ type RoleMutation struct {
 	addsort_id      *int32
 	menus           *[]uint32
 	appendmenus     []uint32
+	apis            *[]uint32
+	appendapis      []uint32
 	clearedFields   map[string]struct{}
 	parent          *uint32
 	clearedparent   bool
@@ -20402,6 +20404,71 @@ func (m *RoleMutation) ResetMenus() {
 	delete(m.clearedFields, role.FieldMenus)
 }
 
+// SetApis sets the "apis" field.
+func (m *RoleMutation) SetApis(u []uint32) {
+	m.apis = &u
+	m.appendapis = nil
+}
+
+// Apis returns the value of the "apis" field in the mutation.
+func (m *RoleMutation) Apis() (r []uint32, exists bool) {
+	v := m.apis
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldApis returns the old "apis" field's value of the Role entity.
+// If the Role object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *RoleMutation) OldApis(ctx context.Context) (v []uint32, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldApis is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldApis requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldApis: %w", err)
+	}
+	return oldValue.Apis, nil
+}
+
+// AppendApis adds u to the "apis" field.
+func (m *RoleMutation) AppendApis(u []uint32) {
+	m.appendapis = append(m.appendapis, u...)
+}
+
+// AppendedApis returns the list of values that were appended to the "apis" field in this mutation.
+func (m *RoleMutation) AppendedApis() ([]uint32, bool) {
+	if len(m.appendapis) == 0 {
+		return nil, false
+	}
+	return m.appendapis, true
+}
+
+// ClearApis clears the value of the "apis" field.
+func (m *RoleMutation) ClearApis() {
+	m.apis = nil
+	m.appendapis = nil
+	m.clearedFields[role.FieldApis] = struct{}{}
+}
+
+// ApisCleared returns if the "apis" field was cleared in this mutation.
+func (m *RoleMutation) ApisCleared() bool {
+	_, ok := m.clearedFields[role.FieldApis]
+	return ok
+}
+
+// ResetApis resets all changes to the "apis" field.
+func (m *RoleMutation) ResetApis() {
+	m.apis = nil
+	m.appendapis = nil
+	delete(m.clearedFields, role.FieldApis)
+}
+
 // ClearParent clears the "parent" edge to the Role entity.
 func (m *RoleMutation) ClearParent() {
 	m.clearedparent = true
@@ -20517,7 +20584,7 @@ func (m *RoleMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *RoleMutation) Fields() []string {
-	fields := make([]string, 0, 13)
+	fields := make([]string, 0, 14)
 	if m.create_time != nil {
 		fields = append(fields, role.FieldCreateTime)
 	}
@@ -20557,6 +20624,9 @@ func (m *RoleMutation) Fields() []string {
 	if m.menus != nil {
 		fields = append(fields, role.FieldMenus)
 	}
+	if m.apis != nil {
+		fields = append(fields, role.FieldApis)
+	}
 	return fields
 }
 
@@ -20591,6 +20661,8 @@ func (m *RoleMutation) Field(name string) (ent.Value, bool) {
 		return m.SortID()
 	case role.FieldMenus:
 		return m.Menus()
+	case role.FieldApis:
+		return m.Apis()
 	}
 	return nil, false
 }
@@ -20626,6 +20698,8 @@ func (m *RoleMutation) OldField(ctx context.Context, name string) (ent.Value, er
 		return m.OldSortID(ctx)
 	case role.FieldMenus:
 		return m.OldMenus(ctx)
+	case role.FieldApis:
+		return m.OldApis(ctx)
 	}
 	return nil, fmt.Errorf("unknown Role field %s", name)
 }
@@ -20725,6 +20799,13 @@ func (m *RoleMutation) SetField(name string, value ent.Value) error {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetMenus(v)
+		return nil
+	case role.FieldApis:
+		v, ok := value.([]uint32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetApis(v)
 		return nil
 	}
 	return fmt.Errorf("unknown Role field %s", name)
@@ -20846,6 +20927,9 @@ func (m *RoleMutation) ClearedFields() []string {
 	if m.FieldCleared(role.FieldMenus) {
 		fields = append(fields, role.FieldMenus)
 	}
+	if m.FieldCleared(role.FieldApis) {
+		fields = append(fields, role.FieldApis)
+	}
 	return fields
 }
 
@@ -20899,6 +20983,9 @@ func (m *RoleMutation) ClearField(name string) error {
 	case role.FieldMenus:
 		m.ClearMenus()
 		return nil
+	case role.FieldApis:
+		m.ClearApis()
+		return nil
 	}
 	return fmt.Errorf("unknown Role nullable field %s", name)
 }
@@ -20945,6 +21032,9 @@ func (m *RoleMutation) ResetField(name string) error {
 		return nil
 	case role.FieldMenus:
 		m.ResetMenus()
+		return nil
+	case role.FieldApis:
+		m.ResetApis()
 		return nil
 	}
 	return fmt.Errorf("unknown Role field %s", name)

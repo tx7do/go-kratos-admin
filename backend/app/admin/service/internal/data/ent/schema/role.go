@@ -58,6 +58,10 @@ func (Role) Fields() []ent.Field {
 		field.JSON("menus", []uint32{}).
 			Comment("分配的菜单列表").
 			Optional(),
+
+		field.JSON("apis", []uint32{}).
+			Comment("分配的API列表").
+			Optional(),
 	}
 }
 

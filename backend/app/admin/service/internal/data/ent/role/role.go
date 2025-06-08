@@ -40,6 +40,8 @@ const (
 	FieldSortID = "sort_id"
 	// FieldMenus holds the string denoting the menus field in the database.
 	FieldMenus = "menus"
+	// FieldApis holds the string denoting the apis field in the database.
+	FieldApis = "apis"
 	// EdgeParent holds the string denoting the parent edge name in mutations.
 	EdgeParent = "parent"
 	// EdgeChildren holds the string denoting the children edge name in mutations.
@@ -72,6 +74,7 @@ var Columns = []string{
 	FieldParentID,
 	FieldSortID,
 	FieldMenus,
+	FieldApis,
 }
 
 // ValidColumn reports if the column name is valid (part of the table columns).

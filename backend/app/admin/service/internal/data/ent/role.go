@@ -45,6 +45,8 @@ type Role struct {
 	SortID *int32 `json:"sort_id,omitempty"`
 	// 分配的菜单列表
 	Menus []uint32 `json:"menus,omitempty"`
+	// 分配的API列表
+	Apis []uint32 `json:"apis,omitempty"`
 	// Edges holds the relations/edges for other nodes in the graph.
 	// The values are being populated by the RoleQuery when eager-loading is set.
 	Edges        RoleEdges `json:"edges"`
@@ -87,7 +89,7 @@ func (*Role) scanValues(columns []string) ([]any, error) {
 	values := make([]any, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case role.FieldMenus:
+		case role.FieldMenus, role.FieldApis:
 			values[i] = new([]byte)
 		case role.FieldID, role.FieldCreateBy, role.FieldUpdateBy, role.FieldTenantID, role.FieldParentID, role.FieldSortID:
 			values[i] = new(sql.NullInt64)
@@ -208,6 +210,14 @@ func (r *Role) assignValues(columns []string, values []any) error {
 					return fmt.Errorf("unmarshal field menus: %w", err)
 				}
 			}
+		case role.FieldApis:
+			if value, ok := values[i].(*[]byte); !ok {
+				return fmt.Errorf("unexpected type %T for field apis", values[i])
+			} else if value != nil && len(*value) > 0 {
+				if err := json.Unmarshal(*value, &r.Apis); err != nil {
+					return fmt.Errorf("unmarshal field apis: %w", err)
+				}
+			}
 		default:
 			r.selectValues.Set(columns[i], values[i])
 		}
@@ -316,6 +326,9 @@ func (r *Role) String() string {
 	builder.WriteString(", ")
 	builder.WriteString("menus=")
 	builder.WriteString(fmt.Sprintf("%v", r.Menus))
+	builder.WriteString(", ")
+	builder.WriteString("apis=")
+	builder.WriteString(fmt.Sprintf("%v", r.Apis))
 	builder.WriteByte(')')
 	return builder.String()
 }

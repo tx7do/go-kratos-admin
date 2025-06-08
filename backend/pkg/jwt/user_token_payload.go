@@ -1,6 +1,8 @@
 package jwt
 
 import (
+	"errors"
+
 	"github.com/golang-jwt/jwt/v5"
 	"github.com/tx7do/go-utils/trans"
 
@@ -116,12 +118,20 @@ func NewUserTokenPayloadWithJwtMapClaims(claims jwt.MapClaims) (*authenticationV
 
 	roles, _ := claims[ClaimFieldRoleCodes]
 	if roles != nil {
-		payload.Roles = make([]string, 0, len(roles.([]interface{})))
-		itf := roles.([]interface{})
-		for _, v := range itf {
-			if str, ok := v.(string); ok {
-				payload.Roles = append(payload.Roles, str)
+		switch itf := roles.(type) {
+		case []interface{}:
+			payload.Roles = make([]string, 0, len(itf))
+			for _, v := range itf {
+				if str, ok := v.(string); ok {
+					payload.Roles = append(payload.Roles, str)
+				}
 			}
+
+		case []string:
+			payload.Roles = itf
+
+		default:
+			return nil, errors.New("invalid roles type")
 		}
 	}
 

@@ -96,34 +96,49 @@ func Server(opts ...Option) middleware.Middleware {
 			}
 
 			if op.enableAuthz {
-				var sub string
-				if sub, err = authnClaims.GetSubject(); err != nil {
-					return nil, ErrExtractSubjectFailed
+				ctx, err = processAuthz(ctx, tr, tokenPayload)
+				if err != nil {
+					return nil, err
 				}
-
-				path := authzEngine.Resource(tr.Operation())
-				action := defaultAction
-
-				var htr *http.Transport
-				if htr, ok = tr.(*http.Transport); ok {
-					path = authzEngine.Resource(htr.PathTemplate())
-					action = authzEngine.Action(htr.Request().Method)
-				}
-
-				//log.Infof("**************** PATH[%s] ACTION[%s]", path, action)
-
-				authzClaims := authzEngine.AuthClaims{
-					Subject:  (*authzEngine.Subject)(&sub),
-					Action:   &action,
-					Resource: &path,
-				}
-
-				ctx = authz.NewContext(ctx, &authzClaims)
 			}
 
 			return handler(ctx, req)
 		}
 	}
+}
+
+func processAuthz(
+	ctx context.Context,
+	tr transport.Transporter,
+	tokenPayload *authenticationV1.UserTokenPayload,
+) (context.Context, error) {
+	//var sub string
+	//if sub, err = tokenPayload.GetSubject(); err != nil {
+	//	return nil, ErrExtractSubjectFailed
+	//}
+
+	path := authzEngine.Resource(tr.Operation())
+	action := defaultAction
+
+	var htr *http.Transport
+	var ok bool
+	if htr, ok = tr.(*http.Transport); ok {
+		path = authzEngine.Resource(htr.PathTemplate())
+		action = authzEngine.Action(htr.Request().Method)
+	}
+
+	//log.Infof("**************** PATH[%s] ACTION[%s]", path, action)
+
+	authzClaims := authzEngine.AuthClaims{
+		//Subject:  (*authzEngine.Subject)(&sub),
+		Subjects: trans.Ptr(tokenPayload.GetRoles()),
+		Action:   trans.Ptr(action),
+		Resource: trans.Ptr(path),
+	}
+
+	ctx = authz.NewContext(ctx, &authzClaims)
+
+	return ctx, nil
 }
 
 func FromContext(ctx context.Context) (*authenticationV1.UserTokenPayload, error) {

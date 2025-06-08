@@ -24,23 +24,23 @@ type ApiResourceService struct {
 
 	log *log.Helper
 
-	uc *data.ApiResourceRepo
+	repo *data.ApiResourceRepo
 }
 
-func NewApiResourceService(uc *data.ApiResourceRepo, logger log.Logger) *ApiResourceService {
+func NewApiResourceService(repo *data.ApiResourceRepo, logger log.Logger) *ApiResourceService {
 	l := log.NewHelper(log.With(logger, "module", "api-resource/service/admin-service"))
 	return &ApiResourceService{
-		log: l,
-		uc:  uc,
+		log:  l,
+		repo: repo,
 	}
 }
 
 func (s *ApiResourceService) List(ctx context.Context, req *pagination.PagingRequest) (*adminV1.ListApiResourceResponse, error) {
-	return s.uc.List(ctx, req)
+	return s.repo.List(ctx, req)
 }
 
 func (s *ApiResourceService) Get(ctx context.Context, req *adminV1.GetApiResourceRequest) (*adminV1.ApiResource, error) {
-	return s.uc.Get(ctx, req)
+	return s.repo.Get(ctx, req)
 }
 
 func (s *ApiResourceService) Create(ctx context.Context, req *adminV1.CreateApiResourceRequest) (*emptypb.Empty, error) {
@@ -56,7 +56,7 @@ func (s *ApiResourceService) Create(ctx context.Context, req *adminV1.CreateApiR
 
 	req.Data.CreateBy = trans.Ptr(operator.UserId)
 
-	if err = s.uc.Create(ctx, req); err != nil {
+	if err = s.repo.Create(ctx, req); err != nil {
 		return nil, err
 	}
 
@@ -76,7 +76,7 @@ func (s *ApiResourceService) Update(ctx context.Context, req *adminV1.UpdateApiR
 
 	req.Data.UpdateBy = trans.Ptr(operator.UserId)
 
-	if err = s.uc.Update(ctx, req); err != nil {
+	if err = s.repo.Update(ctx, req); err != nil {
 		return nil, err
 	}
 
@@ -84,7 +84,7 @@ func (s *ApiResourceService) Update(ctx context.Context, req *adminV1.UpdateApiR
 }
 
 func (s *ApiResourceService) Delete(ctx context.Context, req *adminV1.DeleteApiResourceRequest) (*emptypb.Empty, error) {
-	if err := s.uc.Delete(ctx, req); err != nil {
+	if err := s.repo.Delete(ctx, req); err != nil {
 		return nil, err
 	}
 
@@ -92,18 +92,45 @@ func (s *ApiResourceService) Delete(ctx context.Context, req *adminV1.DeleteApiR
 }
 
 func (s *ApiResourceService) SyncApiResources(ctx context.Context, _ *emptypb.Empty) (*emptypb.Empty, error) {
-	var routes []http.RouteInfo
 	if s.RestServer != nil {
+		var count uint32 = 0
 		_ = s.RestServer.WalkRoute(func(info http.RouteInfo) error {
 			//log.Infof("Path[%s] Method[%s]", info.Path, info.Method)
-			routes = append(routes, info)
+			count++
+			_ = s.repo.Update(ctx, &adminV1.UpdateApiResourceRequest{
+				AllowMissing: trans.Ptr(true),
+				Data: &adminV1.ApiResource{
+					Id:     trans.Ptr(count),
+					Path:   trans.Ptr(info.Path),
+					Method: trans.Ptr(info.Method),
+				},
+			})
+
 			return nil
 		})
 	}
 
-	if len(routes) == 0 {
-		return &emptypb.Empty{}, nil
-	}
-
 	return &emptypb.Empty{}, nil
+}
+
+func (s *ApiResourceService) GetWalkRouteData(_ context.Context, _ *emptypb.Empty) (*adminV1.ListApiResourceResponse, error) {
+	resp := &adminV1.ListApiResourceResponse{
+		Items: []*adminV1.ApiResource{},
+	}
+	var count uint32 = 0
+	if s.RestServer != nil {
+		_ = s.RestServer.WalkRoute(func(info http.RouteInfo) error {
+			//log.Infof("Path[%s] Method[%s]", info.Path, info.Method)
+			count++
+			resp.Items = append(resp.Items, &adminV1.ApiResource{
+				Id:     trans.Ptr(count),
+				Path:   trans.Ptr(info.Path),
+				Method: trans.Ptr(info.Method),
+			})
+			return nil
+		})
+	}
+	resp.Total = count
+
+	return resp, nil
 }

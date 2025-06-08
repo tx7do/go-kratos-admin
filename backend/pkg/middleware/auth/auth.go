@@ -83,14 +83,14 @@ func Server(opts ...Option) middleware.Middleware {
 			if op.injectEnt {
 				ctx = viewer.NewContext(ctx, viewer.UserViewer{
 					Role:     tokenPayload.GetAuthority(),
-					TenantId: trans.Ptr(tokenPayload.TenantId),
+					TenantId: tokenPayload.TenantId,
 				})
 			}
 
 			if op.injectMetadata {
 				ctx = metadata.NewOperatorMetadataContext(ctx,
 					trans.Ptr(tokenPayload.UserId),
-					trans.Ptr(tokenPayload.TenantId),
+					tokenPayload.TenantId,
 					trans.Ptr(tokenPayload.GetAuthority()),
 				)
 			}
@@ -164,13 +164,13 @@ func setRequestTenantId(req interface{}, payload *authenticationV1.UserTokenPayl
 }
 
 func ensurePagingRequestTenantId(req interface{}, payload *authenticationV1.UserTokenPayload) error {
-	if paging, ok := req.(*pagination.PagingRequest); ok && payload.TenantId > 0 {
+	if paging, ok := req.(*pagination.PagingRequest); ok && payload.GetTenantId() > 0 {
 		if paging.Query != nil {
-			newStr := stringutil.ReplaceJSONField("tenantId|tenant_id", strconv.Itoa(int(payload.TenantId)), paging.GetQuery())
+			newStr := stringutil.ReplaceJSONField("tenantId|tenant_id", strconv.Itoa(int(payload.GetTenantId())), paging.GetQuery())
 			paging.Query = trans.Ptr(newStr)
 		}
 		if paging.OrQuery != nil {
-			newStr := stringutil.ReplaceJSONField("tenantId|tenant_id", strconv.Itoa(int(payload.TenantId)), paging.GetOrQuery())
+			newStr := stringutil.ReplaceJSONField("tenantId|tenant_id", strconv.Itoa(int(payload.GetTenantId())), paging.GetOrQuery())
 			paging.OrQuery = trans.Ptr(newStr)
 		}
 	}

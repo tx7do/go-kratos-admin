@@ -4,6 +4,8 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	userV1 "kratos-admin/api/gen/go/user/service/v1"
+	"kratos-admin/pkg/utils/slice"
 	"strings"
 
 	"github.com/go-kratos/kratos/v2/log"
@@ -69,20 +71,30 @@ func (s *RouterService) menuListToQueryString(menus []uint32, onlyButton bool) s
 	return string(queryStr)
 }
 
-func (s *RouterService) queryRoleMenus(ctx context.Context, userId uint32) ([]uint32, error) {
-	user, err := s.userRepo.Get(ctx, userId)
-	if err != nil {
-		s.log.Errorf("query user failed[%s]", err.Error())
-		return nil, adminV1.ErrorInternalServerError("query user failed")
-	}
-
-	role, err := s.roleRepo.Get(ctx, user.GetRoleId())
+// queryRoleMenus 使用RoleID查询菜单，即单个角色的菜单
+func (s *RouterService) queryRoleMenus(ctx context.Context, roleId uint32) ([]uint32, error) {
+	role, err := s.roleRepo.Get(ctx, roleId)
 	if err != nil {
 		s.log.Errorf("query role failed[%s]", err.Error())
 		return nil, adminV1.ErrorInternalServerError("query role failed")
 	}
-
 	return role.GetMenus(), nil
+}
+
+// queryRolesMenus 使用Roles查询菜单，即多个角色的菜单
+func (s *RouterService) queryRolesMenus(ctx context.Context, roles []string) ([]uint32, error) {
+	var err error
+	var menus []uint32
+	var role *userV1.Role
+	for _, code := range roles {
+		if role, err = s.roleRepo.GetRoleByCode(ctx, code); err != nil {
+			s.log.Errorf("query role failed [%s] [%s]", code, err.Error())
+			continue
+		}
+		menus = slice.MergeAndDeduplicate(menus, role.GetMenus())
+	}
+
+	return menus, nil
 }
 
 func (s *RouterService) ListPermissionCode(ctx context.Context, _ *emptypb.Empty) (*adminV1.ListPermissionCodeResponse, error) {
@@ -92,7 +104,20 @@ func (s *RouterService) ListPermissionCode(ctx context.Context, _ *emptypb.Empty
 		return nil, err
 	}
 
-	roleMenus, err := s.queryRoleMenus(ctx, operator.UserId)
+	user, err := s.userRepo.Get(ctx, operator.UserId)
+	if err != nil {
+		s.log.Errorf("query user failed[%s]", err.Error())
+		return nil, adminV1.ErrorInternalServerError("query user failed")
+	}
+
+	// 单角色的菜单
+	//roleMenus, err := s.queryRoleMenus(ctx, user.GetRoleId())
+	//if err != nil {
+	//	return nil, err
+	//}
+
+	// 多角色的菜单
+	roleMenus, err := s.queryRolesMenus(ctx, user.GetRoles())
 	if err != nil {
 		return nil, err
 	}
@@ -167,7 +192,20 @@ func (s *RouterService) ListRoute(ctx context.Context, _ *emptypb.Empty) (*admin
 		return nil, err
 	}
 
-	roleMenus, err := s.queryRoleMenus(ctx, operator.UserId)
+	user, err := s.userRepo.Get(ctx, operator.UserId)
+	if err != nil {
+		s.log.Errorf("query user failed[%s]", err.Error())
+		return nil, adminV1.ErrorInternalServerError("query user failed")
+	}
+
+	// 单角色的菜单
+	//roleMenus, err := s.queryRoleMenus(ctx, user.GetRoleId())
+	//if err != nil {
+	//	return nil, err
+	//}
+
+	// 多角色的菜单
+	roleMenus, err := s.queryRolesMenus(ctx, user.GetRoles())
 	if err != nil {
 		return nil, err
 	}

@@ -24,6 +24,7 @@ const _ = http.SupportPackageIsVersion1
 const OperationApiResourceServiceCreate = "/admin.service.v1.ApiResourceService/Create"
 const OperationApiResourceServiceDelete = "/admin.service.v1.ApiResourceService/Delete"
 const OperationApiResourceServiceGet = "/admin.service.v1.ApiResourceService/Get"
+const OperationApiResourceServiceGetWalkRouteData = "/admin.service.v1.ApiResourceService/GetWalkRouteData"
 const OperationApiResourceServiceList = "/admin.service.v1.ApiResourceService/List"
 const OperationApiResourceServiceSyncApiResources = "/admin.service.v1.ApiResourceService/SyncApiResources"
 const OperationApiResourceServiceUpdate = "/admin.service.v1.ApiResourceService/Update"
@@ -35,6 +36,7 @@ type ApiResourceServiceHTTPServer interface {
 	Delete(context.Context, *DeleteApiResourceRequest) (*emptypb.Empty, error)
 	// Get 查询详情
 	Get(context.Context, *GetApiResourceRequest) (*ApiResource, error)
+	GetWalkRouteData(context.Context, *emptypb.Empty) (*ListApiResourceResponse, error)
 	// List 查询列表
 	List(context.Context, *v1.PagingRequest) (*ListApiResourceResponse, error)
 	// SyncApiResources 同步API资源
@@ -51,6 +53,7 @@ func RegisterApiResourceServiceHTTPServer(s *http.Server, srv ApiResourceService
 	r.PUT("/admin/v1/api-resources/{data.id}", _ApiResourceService_Update1_HTTP_Handler(srv))
 	r.DELETE("/admin/v1/api-resources/{id}", _ApiResourceService_Delete1_HTTP_Handler(srv))
 	r.POST("/admin/v1/api-resources/sync", _ApiResourceService_SyncApiResources0_HTTP_Handler(srv))
+	r.GET("/admin/v1/api-resources/walk-route", _ApiResourceService_GetWalkRouteData0_HTTP_Handler(srv))
 }
 
 func _ApiResourceService_List3_HTTP_Handler(srv ApiResourceServiceHTTPServer) func(ctx http.Context) error {
@@ -185,10 +188,30 @@ func _ApiResourceService_SyncApiResources0_HTTP_Handler(srv ApiResourceServiceHT
 	}
 }
 
+func _ApiResourceService_GetWalkRouteData0_HTTP_Handler(srv ApiResourceServiceHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in emptypb.Empty
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationApiResourceServiceGetWalkRouteData)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.GetWalkRouteData(ctx, req.(*emptypb.Empty))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*ListApiResourceResponse)
+		return ctx.Result(200, reply)
+	}
+}
+
 type ApiResourceServiceHTTPClient interface {
 	Create(ctx context.Context, req *CreateApiResourceRequest, opts ...http.CallOption) (rsp *emptypb.Empty, err error)
 	Delete(ctx context.Context, req *DeleteApiResourceRequest, opts ...http.CallOption) (rsp *emptypb.Empty, err error)
 	Get(ctx context.Context, req *GetApiResourceRequest, opts ...http.CallOption) (rsp *ApiResource, err error)
+	GetWalkRouteData(ctx context.Context, req *emptypb.Empty, opts ...http.CallOption) (rsp *ListApiResourceResponse, err error)
 	List(ctx context.Context, req *v1.PagingRequest, opts ...http.CallOption) (rsp *ListApiResourceResponse, err error)
 	SyncApiResources(ctx context.Context, req *emptypb.Empty, opts ...http.CallOption) (rsp *emptypb.Empty, err error)
 	Update(ctx context.Context, req *UpdateApiResourceRequest, opts ...http.CallOption) (rsp *emptypb.Empty, err error)
@@ -233,6 +256,19 @@ func (c *ApiResourceServiceHTTPClientImpl) Get(ctx context.Context, in *GetApiRe
 	pattern := "/admin/v1/api-resources/{id}"
 	path := binding.EncodeURL(pattern, in, true)
 	opts = append(opts, http.Operation(OperationApiResourceServiceGet))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
+func (c *ApiResourceServiceHTTPClientImpl) GetWalkRouteData(ctx context.Context, in *emptypb.Empty, opts ...http.CallOption) (*ListApiResourceResponse, error) {
+	var out ListApiResourceResponse
+	pattern := "/admin/v1/api-resources/walk-route"
+	path := binding.EncodeURL(pattern, in, true)
+	opts = append(opts, http.Operation(OperationApiResourceServiceGetWalkRouteData))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
 	if err != nil {

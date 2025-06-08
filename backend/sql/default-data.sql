@@ -1,7 +1,7 @@
 -- 默认的超级管理员，默认账号：admin，密码：admin
 TRUNCATE TABLE kratos_admin.public.users RESTART IDENTITY;
-INSERT INTO kratos_admin.public.users (username, nickname, email, authority, role_id)
-VALUES ('admin', 'admin', 'admin@gmail.com', 'SYS_ADMIN', 1);
+INSERT INTO kratos_admin.public.users (username, nickname, email, authority, roles)
+VALUES ('admin', 'admin', 'admin@gmail.com', 'SYS_ADMIN', '["super"]');
 SELECT setval('users_id_seq', (SELECT MAX(id) FROM users));
 
 TRUNCATE TABLE user_credentials RESTART IDENTITY;

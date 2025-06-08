@@ -27,6 +27,7 @@ const (
 	ApiResourceService_Update_FullMethodName           = "/admin.service.v1.ApiResourceService/Update"
 	ApiResourceService_Delete_FullMethodName           = "/admin.service.v1.ApiResourceService/Delete"
 	ApiResourceService_SyncApiResources_FullMethodName = "/admin.service.v1.ApiResourceService/SyncApiResources"
+	ApiResourceService_GetWalkRouteData_FullMethodName = "/admin.service.v1.ApiResourceService/GetWalkRouteData"
 )
 
 // ApiResourceServiceClient is the client API for ApiResourceService service.
@@ -47,6 +48,7 @@ type ApiResourceServiceClient interface {
 	Delete(ctx context.Context, in *DeleteApiResourceRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	// 同步API资源
 	SyncApiResources(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	GetWalkRouteData(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*ListApiResourceResponse, error)
 }
 
 type apiResourceServiceClient struct {
@@ -117,6 +119,16 @@ func (c *apiResourceServiceClient) SyncApiResources(ctx context.Context, in *emp
 	return out, nil
 }
 
+func (c *apiResourceServiceClient) GetWalkRouteData(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*ListApiResourceResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListApiResourceResponse)
+	err := c.cc.Invoke(ctx, ApiResourceService_GetWalkRouteData_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ApiResourceServiceServer is the server API for ApiResourceService service.
 // All implementations must embed UnimplementedApiResourceServiceServer
 // for forward compatibility.
@@ -135,6 +147,7 @@ type ApiResourceServiceServer interface {
 	Delete(context.Context, *DeleteApiResourceRequest) (*emptypb.Empty, error)
 	// 同步API资源
 	SyncApiResources(context.Context, *emptypb.Empty) (*emptypb.Empty, error)
+	GetWalkRouteData(context.Context, *emptypb.Empty) (*ListApiResourceResponse, error)
 	mustEmbedUnimplementedApiResourceServiceServer()
 }
 
@@ -162,6 +175,9 @@ func (UnimplementedApiResourceServiceServer) Delete(context.Context, *DeleteApiR
 }
 func (UnimplementedApiResourceServiceServer) SyncApiResources(context.Context, *emptypb.Empty) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SyncApiResources not implemented")
+}
+func (UnimplementedApiResourceServiceServer) GetWalkRouteData(context.Context, *emptypb.Empty) (*ListApiResourceResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetWalkRouteData not implemented")
 }
 func (UnimplementedApiResourceServiceServer) mustEmbedUnimplementedApiResourceServiceServer() {}
 func (UnimplementedApiResourceServiceServer) testEmbeddedByValue()                            {}
@@ -292,6 +308,24 @@ func _ApiResourceService_SyncApiResources_Handler(srv interface{}, ctx context.C
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ApiResourceService_GetWalkRouteData_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(emptypb.Empty)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ApiResourceServiceServer).GetWalkRouteData(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ApiResourceService_GetWalkRouteData_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ApiResourceServiceServer).GetWalkRouteData(ctx, req.(*emptypb.Empty))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // ApiResourceService_ServiceDesc is the grpc.ServiceDesc for ApiResourceService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -322,6 +356,10 @@ var ApiResourceService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "SyncApiResources",
 			Handler:    _ApiResourceService_SyncApiResources_Handler,
+		},
+		{
+			MethodName: "GetWalkRouteData",
+			Handler:    _ApiResourceService_GetWalkRouteData_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

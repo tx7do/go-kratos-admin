@@ -60,10 +60,6 @@ func (m *User) validate(all bool) error {
 		// no validation rules for Id
 	}
 
-	if m.RoleId != nil {
-		// no validation rules for RoleId
-	}
-
 	if m.WorkId != nil {
 		// no validation rules for WorkId
 	}

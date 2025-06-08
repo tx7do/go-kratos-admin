@@ -149,11 +149,6 @@ func LastLoginIP(v string) predicate.User {
 	return predicate.User(sql.FieldEQ(FieldLastLoginIP, v))
 }
 
-// RoleID applies equality check predicate on the "role_id" field. It's identical to RoleIDEQ.
-func RoleID(v uint32) predicate.User {
-	return predicate.User(sql.FieldEQ(FieldRoleID, v))
-}
-
 // OrgID applies equality check predicate on the "org_id" field. It's identical to OrgIDEQ.
 func OrgID(v uint32) predicate.User {
 	return predicate.User(sql.FieldEQ(FieldOrgID, v))
@@ -1509,56 +1504,6 @@ func LastLoginIPContainsFold(v string) predicate.User {
 	return predicate.User(sql.FieldContainsFold(FieldLastLoginIP, v))
 }
 
-// RoleIDEQ applies the EQ predicate on the "role_id" field.
-func RoleIDEQ(v uint32) predicate.User {
-	return predicate.User(sql.FieldEQ(FieldRoleID, v))
-}
-
-// RoleIDNEQ applies the NEQ predicate on the "role_id" field.
-func RoleIDNEQ(v uint32) predicate.User {
-	return predicate.User(sql.FieldNEQ(FieldRoleID, v))
-}
-
-// RoleIDIn applies the In predicate on the "role_id" field.
-func RoleIDIn(vs ...uint32) predicate.User {
-	return predicate.User(sql.FieldIn(FieldRoleID, vs...))
-}
-
-// RoleIDNotIn applies the NotIn predicate on the "role_id" field.
-func RoleIDNotIn(vs ...uint32) predicate.User {
-	return predicate.User(sql.FieldNotIn(FieldRoleID, vs...))
-}
-
-// RoleIDGT applies the GT predicate on the "role_id" field.
-func RoleIDGT(v uint32) predicate.User {
-	return predicate.User(sql.FieldGT(FieldRoleID, v))
-}
-
-// RoleIDGTE applies the GTE predicate on the "role_id" field.
-func RoleIDGTE(v uint32) predicate.User {
-	return predicate.User(sql.FieldGTE(FieldRoleID, v))
-}
-
-// RoleIDLT applies the LT predicate on the "role_id" field.
-func RoleIDLT(v uint32) predicate.User {
-	return predicate.User(sql.FieldLT(FieldRoleID, v))
-}
-
-// RoleIDLTE applies the LTE predicate on the "role_id" field.
-func RoleIDLTE(v uint32) predicate.User {
-	return predicate.User(sql.FieldLTE(FieldRoleID, v))
-}
-
-// RoleIDIsNil applies the IsNil predicate on the "role_id" field.
-func RoleIDIsNil() predicate.User {
-	return predicate.User(sql.FieldIsNull(FieldRoleID))
-}
-
-// RoleIDNotNil applies the NotNil predicate on the "role_id" field.
-func RoleIDNotNil() predicate.User {
-	return predicate.User(sql.FieldNotNull(FieldRoleID))
-}
-
 // OrgIDEQ applies the EQ predicate on the "org_id" field.
 func OrgIDEQ(v uint32) predicate.User {
 	return predicate.User(sql.FieldEQ(FieldOrgID, v))
@@ -1707,6 +1652,16 @@ func WorkIDIsNil() predicate.User {
 // WorkIDNotNil applies the NotNil predicate on the "work_id" field.
 func WorkIDNotNil() predicate.User {
 	return predicate.User(sql.FieldNotNull(FieldWorkID))
+}
+
+// RolesIsNil applies the IsNil predicate on the "roles" field.
+func RolesIsNil() predicate.User {
+	return predicate.User(sql.FieldIsNull(FieldRoles))
+}
+
+// RolesNotNil applies the NotNil predicate on the "roles" field.
+func RolesNotNil() predicate.User {
+	return predicate.User(sql.FieldNotNull(FieldRoles))
 }
 
 // And groups predicates with the AND operator between them.

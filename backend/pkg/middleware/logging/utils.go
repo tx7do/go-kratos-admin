@@ -151,7 +151,7 @@ func getClientID(request *http.Request, userToken *authenticationV1.UserTokenPay
 
 	// 从JWT Token中获取ClientID也是可行的。
 	if userToken != nil {
-		return userToken.ClientId
+		return userToken.GetClientId()
 	}
 
 	return ""

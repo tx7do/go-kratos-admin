@@ -130,11 +130,6 @@ func (User) Fields() []ent.Field {
 			Optional().
 			Nillable(),
 
-		field.Uint32("role_id").
-			Comment("角色ID").
-			Optional().
-			Nillable(),
-
 		field.Uint32("org_id").
 			Comment("部门ID").
 			Optional().
@@ -149,6 +144,15 @@ func (User) Fields() []ent.Field {
 			Comment("员工工号").
 			Optional().
 			Nillable(),
+
+		//field.Uint32("role_id").
+		//	Comment("角色ID").
+		//	Optional().
+		//	Nillable(),
+
+		field.Strings("roles").
+			Comment("多角色角色码列表").
+			Optional(),
 	}
 }
 

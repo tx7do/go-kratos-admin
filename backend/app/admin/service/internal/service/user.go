@@ -2,7 +2,6 @@ package service
 
 import (
 	"context"
-	authenticationV1 "kratos-admin/api/gen/go/authentication/service/v1"
 
 	"github.com/go-kratos/kratos/v2/log"
 	"github.com/tx7do/go-utils/trans"
@@ -12,6 +11,7 @@ import (
 	"kratos-admin/app/admin/service/internal/data"
 
 	adminV1 "kratos-admin/api/gen/go/admin/service/v1"
+	authenticationV1 "kratos-admin/api/gen/go/authentication/service/v1"
 	userV1 "kratos-admin/api/gen/go/user/service/v1"
 
 	"kratos-admin/pkg/middleware/auth"
@@ -52,10 +52,10 @@ func (s *UserService) Get(ctx context.Context, req *userV1.GetUserRequest) (*use
 		return nil, err
 	}
 
-	role, err := s.roleRepo.Get(ctx, user.GetRoleId())
-	if err == nil && role != nil {
-		user.Roles = append(user.Roles, role.GetCode())
-	}
+	//role, err := s.roleRepo.Get(ctx, user.GetRoleId())
+	//if err == nil && role != nil {
+	//	user.Roles = append(user.Roles, role.GetCode())
+	//}
 
 	return user, nil
 }
@@ -66,10 +66,10 @@ func (s *UserService) GetUserByUserName(ctx context.Context, req *userV1.GetUser
 		return nil, err
 	}
 
-	role, err := s.roleRepo.Get(ctx, user.GetRoleId())
-	if err == nil && role != nil {
-		user.Roles = append(user.Roles, role.GetCode())
-	}
+	//role, err := s.roleRepo.Get(ctx, user.GetRoleId())
+	//if err == nil && role != nil {
+	//	user.Roles = append(user.Roles, role.GetCode())
+	//}
 
 	return user, nil
 }

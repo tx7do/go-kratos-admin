@@ -143,7 +143,7 @@ func fillOperationLog(htr *http.Transport) *adminV1.AdminOperationLog {
 	ut := extractAuthToken(htr)
 	if ut != nil {
 		operationLogData.UserId = trans.Ptr(ut.UserId)
-		operationLogData.Username = trans.Ptr(ut.Username)
+		operationLogData.Username = ut.Username
 	}
 
 	// 获取客户端ID

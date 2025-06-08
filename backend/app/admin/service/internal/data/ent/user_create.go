@@ -330,20 +330,6 @@ func (uc *UserCreate) SetNillableLastLoginIP(s *string) *UserCreate {
 	return uc
 }
 
-// SetRoleID sets the "role_id" field.
-func (uc *UserCreate) SetRoleID(u uint32) *UserCreate {
-	uc.mutation.SetRoleID(u)
-	return uc
-}
-
-// SetNillableRoleID sets the "role_id" field if the given value is not nil.
-func (uc *UserCreate) SetNillableRoleID(u *uint32) *UserCreate {
-	if u != nil {
-		uc.SetRoleID(*u)
-	}
-	return uc
-}
-
 // SetOrgID sets the "org_id" field.
 func (uc *UserCreate) SetOrgID(u uint32) *UserCreate {
 	uc.mutation.SetOrgID(u)
@@ -383,6 +369,12 @@ func (uc *UserCreate) SetNillableWorkID(u *uint32) *UserCreate {
 	if u != nil {
 		uc.SetWorkID(*u)
 	}
+	return uc
+}
+
+// SetRoles sets the "roles" field.
+func (uc *UserCreate) SetRoles(s []string) *UserCreate {
+	uc.mutation.SetRoles(s)
 	return uc
 }
 
@@ -664,10 +656,6 @@ func (uc *UserCreate) createSpec() (*User, *sqlgraph.CreateSpec) {
 		_spec.SetField(user.FieldLastLoginIP, field.TypeString, value)
 		_node.LastLoginIP = &value
 	}
-	if value, ok := uc.mutation.RoleID(); ok {
-		_spec.SetField(user.FieldRoleID, field.TypeUint32, value)
-		_node.RoleID = &value
-	}
 	if value, ok := uc.mutation.OrgID(); ok {
 		_spec.SetField(user.FieldOrgID, field.TypeUint32, value)
 		_node.OrgID = &value
@@ -679,6 +667,10 @@ func (uc *UserCreate) createSpec() (*User, *sqlgraph.CreateSpec) {
 	if value, ok := uc.mutation.WorkID(); ok {
 		_spec.SetField(user.FieldWorkID, field.TypeUint32, value)
 		_node.WorkID = &value
+	}
+	if value, ok := uc.mutation.Roles(); ok {
+		_spec.SetField(user.FieldRoles, field.TypeJSON, value)
+		_node.Roles = value
 	}
 	return _node, _spec
 }
@@ -1086,30 +1078,6 @@ func (u *UserUpsert) ClearLastLoginIP() *UserUpsert {
 	return u
 }
 
-// SetRoleID sets the "role_id" field.
-func (u *UserUpsert) SetRoleID(v uint32) *UserUpsert {
-	u.Set(user.FieldRoleID, v)
-	return u
-}
-
-// UpdateRoleID sets the "role_id" field to the value that was provided on create.
-func (u *UserUpsert) UpdateRoleID() *UserUpsert {
-	u.SetExcluded(user.FieldRoleID)
-	return u
-}
-
-// AddRoleID adds v to the "role_id" field.
-func (u *UserUpsert) AddRoleID(v uint32) *UserUpsert {
-	u.Add(user.FieldRoleID, v)
-	return u
-}
-
-// ClearRoleID clears the value of the "role_id" field.
-func (u *UserUpsert) ClearRoleID() *UserUpsert {
-	u.SetNull(user.FieldRoleID)
-	return u
-}
-
 // SetOrgID sets the "org_id" field.
 func (u *UserUpsert) SetOrgID(v uint32) *UserUpsert {
 	u.Set(user.FieldOrgID, v)
@@ -1179,6 +1147,24 @@ func (u *UserUpsert) AddWorkID(v uint32) *UserUpsert {
 // ClearWorkID clears the value of the "work_id" field.
 func (u *UserUpsert) ClearWorkID() *UserUpsert {
 	u.SetNull(user.FieldWorkID)
+	return u
+}
+
+// SetRoles sets the "roles" field.
+func (u *UserUpsert) SetRoles(v []string) *UserUpsert {
+	u.Set(user.FieldRoles, v)
+	return u
+}
+
+// UpdateRoles sets the "roles" field to the value that was provided on create.
+func (u *UserUpsert) UpdateRoles() *UserUpsert {
+	u.SetExcluded(user.FieldRoles)
+	return u
+}
+
+// ClearRoles clears the value of the "roles" field.
+func (u *UserUpsert) ClearRoles() *UserUpsert {
+	u.SetNull(user.FieldRoles)
 	return u
 }
 
@@ -1652,34 +1638,6 @@ func (u *UserUpsertOne) ClearLastLoginIP() *UserUpsertOne {
 	})
 }
 
-// SetRoleID sets the "role_id" field.
-func (u *UserUpsertOne) SetRoleID(v uint32) *UserUpsertOne {
-	return u.Update(func(s *UserUpsert) {
-		s.SetRoleID(v)
-	})
-}
-
-// AddRoleID adds v to the "role_id" field.
-func (u *UserUpsertOne) AddRoleID(v uint32) *UserUpsertOne {
-	return u.Update(func(s *UserUpsert) {
-		s.AddRoleID(v)
-	})
-}
-
-// UpdateRoleID sets the "role_id" field to the value that was provided on create.
-func (u *UserUpsertOne) UpdateRoleID() *UserUpsertOne {
-	return u.Update(func(s *UserUpsert) {
-		s.UpdateRoleID()
-	})
-}
-
-// ClearRoleID clears the value of the "role_id" field.
-func (u *UserUpsertOne) ClearRoleID() *UserUpsertOne {
-	return u.Update(func(s *UserUpsert) {
-		s.ClearRoleID()
-	})
-}
-
 // SetOrgID sets the "org_id" field.
 func (u *UserUpsertOne) SetOrgID(v uint32) *UserUpsertOne {
 	return u.Update(func(s *UserUpsert) {
@@ -1761,6 +1719,27 @@ func (u *UserUpsertOne) UpdateWorkID() *UserUpsertOne {
 func (u *UserUpsertOne) ClearWorkID() *UserUpsertOne {
 	return u.Update(func(s *UserUpsert) {
 		s.ClearWorkID()
+	})
+}
+
+// SetRoles sets the "roles" field.
+func (u *UserUpsertOne) SetRoles(v []string) *UserUpsertOne {
+	return u.Update(func(s *UserUpsert) {
+		s.SetRoles(v)
+	})
+}
+
+// UpdateRoles sets the "roles" field to the value that was provided on create.
+func (u *UserUpsertOne) UpdateRoles() *UserUpsertOne {
+	return u.Update(func(s *UserUpsert) {
+		s.UpdateRoles()
+	})
+}
+
+// ClearRoles clears the value of the "roles" field.
+func (u *UserUpsertOne) ClearRoles() *UserUpsertOne {
+	return u.Update(func(s *UserUpsert) {
+		s.ClearRoles()
 	})
 }
 
@@ -2400,34 +2379,6 @@ func (u *UserUpsertBulk) ClearLastLoginIP() *UserUpsertBulk {
 	})
 }
 
-// SetRoleID sets the "role_id" field.
-func (u *UserUpsertBulk) SetRoleID(v uint32) *UserUpsertBulk {
-	return u.Update(func(s *UserUpsert) {
-		s.SetRoleID(v)
-	})
-}
-
-// AddRoleID adds v to the "role_id" field.
-func (u *UserUpsertBulk) AddRoleID(v uint32) *UserUpsertBulk {
-	return u.Update(func(s *UserUpsert) {
-		s.AddRoleID(v)
-	})
-}
-
-// UpdateRoleID sets the "role_id" field to the value that was provided on create.
-func (u *UserUpsertBulk) UpdateRoleID() *UserUpsertBulk {
-	return u.Update(func(s *UserUpsert) {
-		s.UpdateRoleID()
-	})
-}
-
-// ClearRoleID clears the value of the "role_id" field.
-func (u *UserUpsertBulk) ClearRoleID() *UserUpsertBulk {
-	return u.Update(func(s *UserUpsert) {
-		s.ClearRoleID()
-	})
-}
-
 // SetOrgID sets the "org_id" field.
 func (u *UserUpsertBulk) SetOrgID(v uint32) *UserUpsertBulk {
 	return u.Update(func(s *UserUpsert) {
@@ -2509,6 +2460,27 @@ func (u *UserUpsertBulk) UpdateWorkID() *UserUpsertBulk {
 func (u *UserUpsertBulk) ClearWorkID() *UserUpsertBulk {
 	return u.Update(func(s *UserUpsert) {
 		s.ClearWorkID()
+	})
+}
+
+// SetRoles sets the "roles" field.
+func (u *UserUpsertBulk) SetRoles(v []string) *UserUpsertBulk {
+	return u.Update(func(s *UserUpsert) {
+		s.SetRoles(v)
+	})
+}
+
+// UpdateRoles sets the "roles" field to the value that was provided on create.
+func (u *UserUpsertBulk) UpdateRoles() *UserUpsertBulk {
+	return u.Update(func(s *UserUpsert) {
+		s.UpdateRoles()
+	})
+}
+
+// ClearRoles clears the value of the "roles" field.
+func (u *UserUpsertBulk) ClearRoles() *UserUpsertBulk {
+	return u.Update(func(s *UserUpsert) {
+		s.ClearRoles()
 	})
 }
 

@@ -769,13 +769,27 @@ func (m *UserTokenPayload) validate(all bool) error {
 
 	// no validation rules for UserId
 
-	// no validation rules for TenantId
-
-	// no validation rules for Username
-
-	// no validation rules for ClientId
-
 	// no validation rules for Authority
+
+	if m.TenantId != nil {
+		// no validation rules for TenantId
+	}
+
+	if m.Username != nil {
+		// no validation rules for Username
+	}
+
+	if m.ClientId != nil {
+		// no validation rules for ClientId
+	}
+
+	if m.RoleId != nil {
+		// no validation rules for RoleId
+	}
+
+	if m.DeviceId != nil {
+		// no validation rules for DeviceId
+	}
 
 	if len(errors) > 0 {
 		return UserTokenPayloadMultiError(errors)

@@ -12,6 +12,7 @@ import (
 
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
+	"entgo.io/ent/dialect/sql/sqljson"
 	"entgo.io/ent/schema/field"
 )
 
@@ -423,33 +424,6 @@ func (uu *UserUpdate) ClearLastLoginIP() *UserUpdate {
 	return uu
 }
 
-// SetRoleID sets the "role_id" field.
-func (uu *UserUpdate) SetRoleID(u uint32) *UserUpdate {
-	uu.mutation.ResetRoleID()
-	uu.mutation.SetRoleID(u)
-	return uu
-}
-
-// SetNillableRoleID sets the "role_id" field if the given value is not nil.
-func (uu *UserUpdate) SetNillableRoleID(u *uint32) *UserUpdate {
-	if u != nil {
-		uu.SetRoleID(*u)
-	}
-	return uu
-}
-
-// AddRoleID adds u to the "role_id" field.
-func (uu *UserUpdate) AddRoleID(u int32) *UserUpdate {
-	uu.mutation.AddRoleID(u)
-	return uu
-}
-
-// ClearRoleID clears the value of the "role_id" field.
-func (uu *UserUpdate) ClearRoleID() *UserUpdate {
-	uu.mutation.ClearRoleID()
-	return uu
-}
-
 // SetOrgID sets the "org_id" field.
 func (uu *UserUpdate) SetOrgID(u uint32) *UserUpdate {
 	uu.mutation.ResetOrgID()
@@ -528,6 +502,24 @@ func (uu *UserUpdate) AddWorkID(u int32) *UserUpdate {
 // ClearWorkID clears the value of the "work_id" field.
 func (uu *UserUpdate) ClearWorkID() *UserUpdate {
 	uu.mutation.ClearWorkID()
+	return uu
+}
+
+// SetRoles sets the "roles" field.
+func (uu *UserUpdate) SetRoles(s []string) *UserUpdate {
+	uu.mutation.SetRoles(s)
+	return uu
+}
+
+// AppendRoles appends s to the "roles" field.
+func (uu *UserUpdate) AppendRoles(s []string) *UserUpdate {
+	uu.mutation.AppendRoles(s)
+	return uu
+}
+
+// ClearRoles clears the value of the "roles" field.
+func (uu *UserUpdate) ClearRoles() *UserUpdate {
+	uu.mutation.ClearRoles()
 	return uu
 }
 
@@ -780,15 +772,6 @@ func (uu *UserUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	if uu.mutation.LastLoginIPCleared() {
 		_spec.ClearField(user.FieldLastLoginIP, field.TypeString)
 	}
-	if value, ok := uu.mutation.RoleID(); ok {
-		_spec.SetField(user.FieldRoleID, field.TypeUint32, value)
-	}
-	if value, ok := uu.mutation.AddedRoleID(); ok {
-		_spec.AddField(user.FieldRoleID, field.TypeUint32, value)
-	}
-	if uu.mutation.RoleIDCleared() {
-		_spec.ClearField(user.FieldRoleID, field.TypeUint32)
-	}
 	if value, ok := uu.mutation.OrgID(); ok {
 		_spec.SetField(user.FieldOrgID, field.TypeUint32, value)
 	}
@@ -815,6 +798,17 @@ func (uu *UserUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	}
 	if uu.mutation.WorkIDCleared() {
 		_spec.ClearField(user.FieldWorkID, field.TypeUint32)
+	}
+	if value, ok := uu.mutation.Roles(); ok {
+		_spec.SetField(user.FieldRoles, field.TypeJSON, value)
+	}
+	if value, ok := uu.mutation.AppendedRoles(); ok {
+		_spec.AddModifier(func(u *sql.UpdateBuilder) {
+			sqljson.Append(u, user.FieldRoles, value)
+		})
+	}
+	if uu.mutation.RolesCleared() {
+		_spec.ClearField(user.FieldRoles, field.TypeJSON)
 	}
 	_spec.AddModifiers(uu.modifiers...)
 	if n, err = sqlgraph.UpdateNodes(ctx, uu.driver, _spec); err != nil {
@@ -1232,33 +1226,6 @@ func (uuo *UserUpdateOne) ClearLastLoginIP() *UserUpdateOne {
 	return uuo
 }
 
-// SetRoleID sets the "role_id" field.
-func (uuo *UserUpdateOne) SetRoleID(u uint32) *UserUpdateOne {
-	uuo.mutation.ResetRoleID()
-	uuo.mutation.SetRoleID(u)
-	return uuo
-}
-
-// SetNillableRoleID sets the "role_id" field if the given value is not nil.
-func (uuo *UserUpdateOne) SetNillableRoleID(u *uint32) *UserUpdateOne {
-	if u != nil {
-		uuo.SetRoleID(*u)
-	}
-	return uuo
-}
-
-// AddRoleID adds u to the "role_id" field.
-func (uuo *UserUpdateOne) AddRoleID(u int32) *UserUpdateOne {
-	uuo.mutation.AddRoleID(u)
-	return uuo
-}
-
-// ClearRoleID clears the value of the "role_id" field.
-func (uuo *UserUpdateOne) ClearRoleID() *UserUpdateOne {
-	uuo.mutation.ClearRoleID()
-	return uuo
-}
-
 // SetOrgID sets the "org_id" field.
 func (uuo *UserUpdateOne) SetOrgID(u uint32) *UserUpdateOne {
 	uuo.mutation.ResetOrgID()
@@ -1337,6 +1304,24 @@ func (uuo *UserUpdateOne) AddWorkID(u int32) *UserUpdateOne {
 // ClearWorkID clears the value of the "work_id" field.
 func (uuo *UserUpdateOne) ClearWorkID() *UserUpdateOne {
 	uuo.mutation.ClearWorkID()
+	return uuo
+}
+
+// SetRoles sets the "roles" field.
+func (uuo *UserUpdateOne) SetRoles(s []string) *UserUpdateOne {
+	uuo.mutation.SetRoles(s)
+	return uuo
+}
+
+// AppendRoles appends s to the "roles" field.
+func (uuo *UserUpdateOne) AppendRoles(s []string) *UserUpdateOne {
+	uuo.mutation.AppendRoles(s)
+	return uuo
+}
+
+// ClearRoles clears the value of the "roles" field.
+func (uuo *UserUpdateOne) ClearRoles() *UserUpdateOne {
+	uuo.mutation.ClearRoles()
 	return uuo
 }
 
@@ -1619,15 +1604,6 @@ func (uuo *UserUpdateOne) sqlSave(ctx context.Context) (_node *User, err error) 
 	if uuo.mutation.LastLoginIPCleared() {
 		_spec.ClearField(user.FieldLastLoginIP, field.TypeString)
 	}
-	if value, ok := uuo.mutation.RoleID(); ok {
-		_spec.SetField(user.FieldRoleID, field.TypeUint32, value)
-	}
-	if value, ok := uuo.mutation.AddedRoleID(); ok {
-		_spec.AddField(user.FieldRoleID, field.TypeUint32, value)
-	}
-	if uuo.mutation.RoleIDCleared() {
-		_spec.ClearField(user.FieldRoleID, field.TypeUint32)
-	}
 	if value, ok := uuo.mutation.OrgID(); ok {
 		_spec.SetField(user.FieldOrgID, field.TypeUint32, value)
 	}
@@ -1654,6 +1630,17 @@ func (uuo *UserUpdateOne) sqlSave(ctx context.Context) (_node *User, err error) 
 	}
 	if uuo.mutation.WorkIDCleared() {
 		_spec.ClearField(user.FieldWorkID, field.TypeUint32)
+	}
+	if value, ok := uuo.mutation.Roles(); ok {
+		_spec.SetField(user.FieldRoles, field.TypeJSON, value)
+	}
+	if value, ok := uuo.mutation.AppendedRoles(); ok {
+		_spec.AddModifier(func(u *sql.UpdateBuilder) {
+			sqljson.Append(u, user.FieldRoles, value)
+		})
+	}
+	if uuo.mutation.RolesCleared() {
+		_spec.ClearField(user.FieldRoles, field.TypeJSON)
 	}
 	_spec.AddModifiers(uuo.modifiers...)
 	_node = &User{config: uuo.config}

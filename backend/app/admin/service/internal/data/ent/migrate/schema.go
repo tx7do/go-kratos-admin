@@ -564,6 +564,11 @@ var (
 				Unique:  false,
 				Columns: []*schema.Column{SysRolesColumns[8]},
 			},
+			{
+				Name:    "role_code",
+				Unique:  false,
+				Columns: []*schema.Column{SysRolesColumns[10]},
+			},
 		},
 	}
 	// SysTasksColumns holds the columns for the "sys_tasks" table.
@@ -657,10 +662,10 @@ var (
 		{Name: "authority", Type: field.TypeEnum, Nullable: true, Comment: "授权", Enums: []string{"SYS_ADMIN", "TENANT_ADMIN", "CUSTOMER_USER", "GUEST"}, Default: "CUSTOMER_USER"},
 		{Name: "last_login_time", Type: field.TypeTime, Nullable: true, Comment: "最后一次登录的时间"},
 		{Name: "last_login_ip", Type: field.TypeString, Nullable: true, Size: 64, Comment: "最后一次登录的IP", Default: ""},
-		{Name: "role_id", Type: field.TypeUint32, Nullable: true, Comment: "角色ID"},
 		{Name: "org_id", Type: field.TypeUint32, Nullable: true, Comment: "部门ID"},
 		{Name: "position_id", Type: field.TypeUint32, Nullable: true, Comment: "职位ID"},
 		{Name: "work_id", Type: field.TypeUint32, Nullable: true, Comment: "员工工号"},
+		{Name: "roles", Type: field.TypeJSON, Nullable: true, Comment: "多角色角色码列表"},
 	}
 	// UsersTable holds the schema information for the "users" table.
 	UsersTable = &schema.Table{

@@ -508,10 +508,10 @@ var schemaGraph = func() *sqlgraph.Schema {
 			user.FieldAuthority:     {Type: field.TypeEnum, Column: user.FieldAuthority},
 			user.FieldLastLoginTime: {Type: field.TypeTime, Column: user.FieldLastLoginTime},
 			user.FieldLastLoginIP:   {Type: field.TypeString, Column: user.FieldLastLoginIP},
-			user.FieldRoleID:        {Type: field.TypeUint32, Column: user.FieldRoleID},
 			user.FieldOrgID:         {Type: field.TypeUint32, Column: user.FieldOrgID},
 			user.FieldPositionID:    {Type: field.TypeUint32, Column: user.FieldPositionID},
 			user.FieldWorkID:        {Type: field.TypeUint32, Column: user.FieldWorkID},
+			user.FieldRoles:         {Type: field.TypeJSON, Column: user.FieldRoles},
 		},
 	}
 	graph.Nodes[18] = &sqlgraph.Node{
@@ -2797,11 +2797,6 @@ func (f *UserFilter) WhereLastLoginIP(p entql.StringP) {
 	f.Where(p.Field(user.FieldLastLoginIP))
 }
 
-// WhereRoleID applies the entql uint32 predicate on the role_id field.
-func (f *UserFilter) WhereRoleID(p entql.Uint32P) {
-	f.Where(p.Field(user.FieldRoleID))
-}
-
 // WhereOrgID applies the entql uint32 predicate on the org_id field.
 func (f *UserFilter) WhereOrgID(p entql.Uint32P) {
 	f.Where(p.Field(user.FieldOrgID))
@@ -2815,6 +2810,11 @@ func (f *UserFilter) WherePositionID(p entql.Uint32P) {
 // WhereWorkID applies the entql uint32 predicate on the work_id field.
 func (f *UserFilter) WhereWorkID(p entql.Uint32P) {
 	f.Where(p.Field(user.FieldWorkID))
+}
+
+// WhereRoles applies the entql json.RawMessage predicate on the roles field.
+func (f *UserFilter) WhereRoles(p entql.BytesP) {
+	f.Where(p.Field(user.FieldRoles))
 }
 
 // addPredicate implements the predicateAdder interface.

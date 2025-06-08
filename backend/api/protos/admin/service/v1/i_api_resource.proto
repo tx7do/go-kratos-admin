@@ -59,6 +59,12 @@ service ApiResourceService {
       body: "*"
     };
   }
+
+  rpc GetWalkRouteData (google.protobuf.Empty) returns (ListApiResourceResponse) {
+    option (google.api.http) = {
+      get: "/admin/v1/api-resources/walk-route"
+    };
+  }
 }
 
 

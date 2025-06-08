@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+
 	"github.com/go-kratos/kratos/v2/log"
 	"github.com/tx7do/go-utils/trans"
 	authnEngine "github.com/tx7do/kratos-authn/engine"
@@ -259,8 +260,8 @@ func (s *AuthenticationService) WhoAmI(ctx context.Context, _ *emptypb.Empty) (*
 	}
 
 	return &authenticationV1.WhoAmIResponse{
-		UserId:    operator.UserId,
-		Username:  operator.Username,
-		Authority: operator.Authority,
+		UserId:    operator.GetUserId(),
+		Username:  operator.GetUsername(),
+		Authority: operator.GetAuthority(),
 	}, nil
 }

@@ -163,6 +163,27 @@ func (r *RoleRepo) Get(ctx context.Context, id uint32) (*userV1.Role, error) {
 	return r.toProto(ret), nil
 }
 
+func (r *RoleRepo) GetRoleByCode(ctx context.Context, code string) (*userV1.Role, error) {
+	if code == "" {
+		return nil, userV1.ErrorBadRequest("invalid parameter")
+	}
+
+	ret, err := r.data.db.Client().Role.Query().
+		Where(role.CodeEQ(code)).
+		Only(ctx)
+	if err != nil {
+		if ent.IsNotFound(err) {
+			return nil, userV1.ErrorRoleNotFound("role not found")
+		}
+
+		r.log.Errorf("query one data failed: %s", err.Error())
+
+		return nil, userV1.ErrorInternalServerError("query data failed")
+	}
+
+	return r.toProto(ret), nil
+}
+
 func (r *RoleRepo) Create(ctx context.Context, req *userV1.CreateRoleRequest) error {
 	if req == nil || req.Data == nil {
 		return userV1.ErrorBadRequest("invalid parameter")
@@ -184,6 +205,9 @@ func (r *RoleRepo) Create(ctx context.Context, req *userV1.CreateRoleRequest) er
 
 	if req.Data.Menus != nil {
 		builder.SetMenus(req.Data.Menus)
+	}
+	if req.Data.Apis != nil {
+		builder.SetApis(req.Data.Apis)
 	}
 
 	if req.Data.Id != nil {
@@ -242,6 +266,9 @@ func (r *RoleRepo) Update(ctx context.Context, req *userV1.UpdateRoleRequest) er
 
 	if req.Data.Menus != nil {
 		builder.SetMenus(req.Data.Menus)
+	}
+	if req.Data.Apis != nil {
+		builder.SetApis(req.Data.Apis)
 	}
 
 	if req.UpdateMask != nil {

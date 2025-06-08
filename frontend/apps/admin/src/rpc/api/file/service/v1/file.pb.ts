@@ -110,23 +110,23 @@ export interface File {
   deleteTime?: Timestamp | null | undefined;
 }
 
-/** 文件列表 - 回应 */
+/** 查询列表 - 回应 */
 export interface ListFileResponse {
   items: File[];
   total: number;
 }
 
-/** 文件数据 - 请求 */
+/** 查询 - 请求 */
 export interface GetFileRequest {
   id: number;
 }
 
-/** 创建文件 - 请求 */
+/** 创建 - 请求 */
 export interface CreateFileRequest {
   data: File | null;
 }
 
-/** 更新文件 - 请求 */
+/** 更新 - 请求 */
 export interface UpdateFileRequest {
   data:
     | File
@@ -139,7 +139,7 @@ export interface UpdateFileRequest {
   allowMissing?: boolean | null | undefined;
 }
 
-/** 删除文件 - 请求 */
+/** 删除 - 请求 */
 export interface DeleteFileRequest {
   id: number;
 }

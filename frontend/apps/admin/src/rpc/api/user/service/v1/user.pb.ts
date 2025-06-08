@@ -44,12 +44,7 @@ export interface User {
     | number
     | null
     | undefined;
-  /** 角色ID */
-  roleId?:
-    | number
-    | null
-    | undefined;
-  /** 工号 */
+  /** optional uint32 role_id = 2 [json_name = "roleId", (gnostic.openapi.v3.property) = {description: "角色ID"}];  // 角色ID */
   workId?:
     | number
     | null
@@ -149,7 +144,7 @@ export interface User {
     | UserAuthority
     | null
     | undefined;
-  /** 角色码 */
+  /** 角色码列表 */
   roles: string[];
   /** 创建者ID */
   createBy?:

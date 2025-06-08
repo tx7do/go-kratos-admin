@@ -54,10 +54,10 @@ func (s *UserProfileService) GetUser(ctx context.Context, _ *emptypb.Empty) (*us
 		return nil, authenticationV1.ErrorNotFound("user not found")
 	}
 
-	role, err := s.roleRepo.Get(ctx, user.GetRoleId())
-	if err == nil && role != nil {
-		user.Roles = append(user.Roles, role.GetCode())
-	}
+	//role, err := s.roleRepo.Get(ctx, user.GetRoleId())
+	//if err == nil && role != nil {
+	//	user.Roles = append(user.Roles, role.GetCode())
+	//}
 
 	return user, err
 }

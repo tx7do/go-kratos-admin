@@ -39,6 +39,8 @@ export interface Role {
     | undefined;
   /** 分配的菜单列表 */
   menus: number[];
+  /** 分配的API列表 */
+  apis: number[];
   /** 父节点ID */
   parentId?:
     | number

@@ -306,10 +306,10 @@ func (r *UserRepo) Create(ctx context.Context, req *userV1.CreateUserRequest) (*
 		SetNillableGender(r.toEntGender(req.Data.Gender)).
 		SetNillableAuthority(r.toEntAuthority(req.Data.Authority)).
 		SetNillableOrgID(req.Data.OrgId).
-		SetNillableRoleID(req.Data.RoleId).
 		SetNillableWorkID(req.Data.WorkId).
 		SetNillablePositionID(req.Data.PositionId).
 		SetNillableTenantID(req.Data.TenantId).
+		//SetNillableRoleID(req.Data.RoleId).
 		SetNillableCreateBy(req.Data.CreateBy).
 		SetNillableCreateTime(timeutil.TimestamppbToTime(req.Data.CreateTime))
 
@@ -319,6 +319,9 @@ func (r *UserRepo) Create(ctx context.Context, req *userV1.CreateUserRequest) (*
 
 	if req.Data.Id != nil {
 		builder.SetID(req.Data.GetId())
+	}
+	if req.Data.Roles != nil {
+		builder.SetRoles(req.Data.GetRoles())
 	}
 
 	if ret, err := builder.Save(ctx); err != nil {
@@ -385,14 +388,18 @@ func (r *UserRepo) Update(ctx context.Context, req *userV1.UpdateUserRequest) er
 		SetNillableGender(r.toEntGender(req.Data.Gender)).
 		SetNillableAuthority(r.toEntAuthority(req.Data.Authority)).
 		SetNillableOrgID(req.Data.OrgId).
-		SetNillableRoleID(req.Data.RoleId).
 		SetNillableWorkID(req.Data.WorkId).
 		SetNillablePositionID(req.Data.PositionId).
+		//SetNillableRoleID(req.Data.RoleId).
 		SetNillableUpdateBy(req.Data.UpdateBy).
 		SetNillableUpdateTime(timeutil.TimestamppbToTime(req.Data.UpdateTime))
 
 	if req.Data.UpdateTime == nil {
 		builder.SetUpdateTime(time.Now())
+	}
+
+	if req.Data.Roles != nil {
+		builder.SetRoles(req.Data.GetRoles())
 	}
 
 	if req.UpdateMask != nil {

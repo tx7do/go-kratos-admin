@@ -260,6 +260,18 @@ paths:
                 "200":
                     description: OK
                     content: {}
+    /admin/v1/api-resources/walk-route:
+        get:
+            tags:
+                - ApiResourceService
+            operationId: ApiResourceService_GetWalkRouteData
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ListApiResourceResponse'
     /admin/v1/api-resources/{data.id}:
         put:
             tags:
@@ -3918,6 +3930,12 @@ components:
                         type: integer
                         format: uint32
                     description: 分配的菜单列表
+                apis:
+                    type: array
+                    items:
+                        type: integer
+                        format: uint32
+                    description: 分配的API列表
                 parentId:
                     type: integer
                     description: 父节点ID
@@ -4648,10 +4666,6 @@ components:
                     type: integer
                     description: 用户ID
                     format: uint32
-                roleId:
-                    type: integer
-                    description: 角色ID
-                    format: uint32
                 workId:
                     type: integer
                     description: 工号
@@ -4740,7 +4754,7 @@ components:
                     type: array
                     items:
                         type: string
-                    description: 角色码
+                    description: 角色码列表
                 createBy:
                     type: integer
                     description: 创建者ID

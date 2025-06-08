@@ -3,6 +3,7 @@
 package ent
 
 import (
+	"encoding/json"
 	"fmt"
 	"kratos-admin/app/admin/service/internal/data/ent/user"
 	"strings"
@@ -62,14 +63,14 @@ type User struct {
 	LastLoginTime *time.Time `json:"last_login_time,omitempty"`
 	// 最后一次登录的IP
 	LastLoginIP *string `json:"last_login_ip,omitempty"`
-	// 角色ID
-	RoleID *uint32 `json:"role_id,omitempty"`
 	// 部门ID
 	OrgID *uint32 `json:"org_id,omitempty"`
 	// 职位ID
 	PositionID *uint32 `json:"position_id,omitempty"`
 	// 员工工号
-	WorkID       *uint32 `json:"work_id,omitempty"`
+	WorkID *uint32 `json:"work_id,omitempty"`
+	// 多角色角色码列表
+	Roles        []string `json:"roles,omitempty"`
 	selectValues sql.SelectValues
 }
 
@@ -78,7 +79,9 @@ func (*User) scanValues(columns []string) ([]any, error) {
 	values := make([]any, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case user.FieldID, user.FieldCreateBy, user.FieldUpdateBy, user.FieldTenantID, user.FieldRoleID, user.FieldOrgID, user.FieldPositionID, user.FieldWorkID:
+		case user.FieldRoles:
+			values[i] = new([]byte)
+		case user.FieldID, user.FieldCreateBy, user.FieldUpdateBy, user.FieldTenantID, user.FieldOrgID, user.FieldPositionID, user.FieldWorkID:
 			values[i] = new(sql.NullInt64)
 		case user.FieldRemark, user.FieldStatus, user.FieldUsername, user.FieldNickname, user.FieldRealname, user.FieldEmail, user.FieldMobile, user.FieldTelephone, user.FieldAvatar, user.FieldAddress, user.FieldRegion, user.FieldDescription, user.FieldGender, user.FieldAuthority, user.FieldLastLoginIP:
 			values[i] = new(sql.NullString)
@@ -259,13 +262,6 @@ func (u *User) assignValues(columns []string, values []any) error {
 				u.LastLoginIP = new(string)
 				*u.LastLoginIP = value.String
 			}
-		case user.FieldRoleID:
-			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for field role_id", values[i])
-			} else if value.Valid {
-				u.RoleID = new(uint32)
-				*u.RoleID = uint32(value.Int64)
-			}
 		case user.FieldOrgID:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field org_id", values[i])
@@ -286,6 +282,14 @@ func (u *User) assignValues(columns []string, values []any) error {
 			} else if value.Valid {
 				u.WorkID = new(uint32)
 				*u.WorkID = uint32(value.Int64)
+			}
+		case user.FieldRoles:
+			if value, ok := values[i].(*[]byte); !ok {
+				return fmt.Errorf("unexpected type %T for field roles", values[i])
+			} else if value != nil && len(*value) > 0 {
+				if err := json.Unmarshal(*value, &u.Roles); err != nil {
+					return fmt.Errorf("unmarshal field roles: %w", err)
+				}
 			}
 		default:
 			u.selectValues.Set(columns[i], values[i])
@@ -433,11 +437,6 @@ func (u *User) String() string {
 		builder.WriteString(*v)
 	}
 	builder.WriteString(", ")
-	if v := u.RoleID; v != nil {
-		builder.WriteString("role_id=")
-		builder.WriteString(fmt.Sprintf("%v", *v))
-	}
-	builder.WriteString(", ")
 	if v := u.OrgID; v != nil {
 		builder.WriteString("org_id=")
 		builder.WriteString(fmt.Sprintf("%v", *v))
@@ -452,6 +451,9 @@ func (u *User) String() string {
 		builder.WriteString("work_id=")
 		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
+	builder.WriteString(", ")
+	builder.WriteString("roles=")
+	builder.WriteString(fmt.Sprintf("%v", u.Roles))
 	builder.WriteByte(')')
 	return builder.String()
 }

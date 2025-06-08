@@ -57,14 +57,14 @@ const (
 	FieldLastLoginTime = "last_login_time"
 	// FieldLastLoginIP holds the string denoting the last_login_ip field in the database.
 	FieldLastLoginIP = "last_login_ip"
-	// FieldRoleID holds the string denoting the role_id field in the database.
-	FieldRoleID = "role_id"
 	// FieldOrgID holds the string denoting the org_id field in the database.
 	FieldOrgID = "org_id"
 	// FieldPositionID holds the string denoting the position_id field in the database.
 	FieldPositionID = "position_id"
 	// FieldWorkID holds the string denoting the work_id field in the database.
 	FieldWorkID = "work_id"
+	// FieldRoles holds the string denoting the roles field in the database.
+	FieldRoles = "roles"
 	// Table holds the table name of the user in the database.
 	Table = "users"
 )
@@ -94,10 +94,10 @@ var Columns = []string{
 	FieldAuthority,
 	FieldLastLoginTime,
 	FieldLastLoginIP,
-	FieldRoleID,
 	FieldOrgID,
 	FieldPositionID,
 	FieldWorkID,
+	FieldRoles,
 }
 
 // ValidColumn reports if the column name is valid (part of the table columns).
@@ -345,11 +345,6 @@ func ByLastLoginTime(opts ...sql.OrderTermOption) OrderOption {
 // ByLastLoginIP orders the results by the last_login_ip field.
 func ByLastLoginIP(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldLastLoginIP, opts...).ToFunc()
-}
-
-// ByRoleID orders the results by the role_id field.
-func ByRoleID(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldRoleID, opts...).ToFunc()
 }
 
 // ByOrgID orders the results by the org_id field.

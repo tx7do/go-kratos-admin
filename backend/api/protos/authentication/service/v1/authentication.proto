@@ -235,21 +235,21 @@ message UserTokenPayload {
     }
   ]; // 用户ID
 
-  uint32 tenant_id = 2 [
+  optional uint32 tenant_id = 2 [
     json_name = "tid",
     (gnostic.openapi.v3.property) = {
       description: "租户ID"
     }
   ]; // 租户ID
 
-  string username = 3 [
+  optional string username = 3 [
     json_name = "sub",
     (gnostic.openapi.v3.property) = {
       description: "用户名"
     }
   ]; // 用户名
 
-  string client_id = 4 [
+  optional string client_id = 4 [
     json_name = "cid",
     (gnostic.openapi.v3.property) = {
       description: "客户端ID"
@@ -262,6 +262,27 @@ message UserTokenPayload {
       description: "用户权限"
     }
   ]; // 用户权限
+
+  repeated string roles = 6 [
+    json_name = "roc",
+    (gnostic.openapi.v3.property) = {
+      description: "用户角色列表，以逗号分隔"
+    }
+  ]; // 用户角色列表，以逗号分隔
+
+  optional uint32 role_id = 7 [
+    json_name = "rid",
+    (gnostic.openapi.v3.property) = {
+      description: "角色ID"
+    }
+  ]; // 角色ID
+
+  optional string device_id = 8 [
+    json_name = "did",
+    (gnostic.openapi.v3.property) = {
+      description: "设备ID"
+    }
+  ]; // 设备ID
 }
 
 // 获取当前用户身份信息 - 响应

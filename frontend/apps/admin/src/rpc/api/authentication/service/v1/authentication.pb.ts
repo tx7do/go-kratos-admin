@@ -129,13 +129,31 @@ export interface UserTokenPayload {
   /** 用户ID */
   uid: number;
   /** 租户ID */
-  tid: number;
+  tid?:
+    | number
+    | null
+    | undefined;
   /** 用户名 */
-  sub: string;
+  sub?:
+    | string
+    | null
+    | undefined;
   /** 客户端ID */
-  cid: string;
+  cid?:
+    | string
+    | null
+    | undefined;
   /** 用户权限 */
   aut: UserAuthority;
+  /** 用户角色列表，以逗号分隔 */
+  roc: string[];
+  /** 角色ID */
+  rid?:
+    | number
+    | null
+    | undefined;
+  /** 设备ID */
+  did?: string | null | undefined;
 }
 
 /** 获取当前用户身份信息 - 响应 */

@@ -29,7 +29,7 @@ import (
 
 var defaultAction = authzEngine.Action("ANY")
 
-// Server 衔接认证和权鉴
+// Server 衔接认证和鉴权
 func Server(opts ...Option) middleware.Middleware {
 	op := options{
 		log: log.NewHelper(log.With(log.DefaultLogger, "module", "auth.middleware")),

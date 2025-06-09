@@ -1,14 +1,18 @@
 package data
 
 import (
+	"context"
+
+	"github.com/go-kratos/kratos/v2/log"
+	"github.com/redis/go-redis/v9"
+
 	authnEngine "github.com/tx7do/kratos-authn/engine"
 	"github.com/tx7do/kratos-authn/engine/jwt"
 
 	authzEngine "github.com/tx7do/kratos-authz/engine"
+	"github.com/tx7do/kratos-authz/engine/casbin"
 	"github.com/tx7do/kratos-authz/engine/noop"
-
-	"github.com/go-kratos/kratos/v2/log"
-	"github.com/redis/go-redis/v9"
+	"github.com/tx7do/kratos-authz/engine/opa"
 
 	"github.com/tx7do/go-utils/entgo"
 
@@ -63,23 +67,78 @@ func NewData(
 }
 
 // NewRedisClient 创建Redis客户端
-func NewRedisClient(cfg *conf.Bootstrap, _ log.Logger) *redis.Client {
-	//l := log.NewHelper(log.With(logger, "module", "redis/data/admin-service"))
-	return redisClient.NewClient(cfg.Data)
+func NewRedisClient(cfg *conf.Bootstrap, logger log.Logger) *redis.Client {
+	l := log.NewHelper(log.With(logger, "module", "redis/data/admin-service"))
+	return redisClient.NewClient(cfg.Data, l)
 }
 
 // NewAuthenticator 创建认证器
 func NewAuthenticator(cfg *conf.Bootstrap) authnEngine.Authenticator {
-	authenticator, _ := jwt.NewAuthenticator(
-		jwt.WithKey([]byte(cfg.Server.Rest.Middleware.Auth.Key)),
-		jwt.WithSigningMethod(cfg.Server.Rest.Middleware.Auth.Method),
-	)
-	return authenticator
+	if cfg.Authn == nil {
+		return nil
+	}
+
+	switch cfg.GetAuthn().GetType() {
+	default:
+		return nil
+
+	case "jwt":
+		authenticator, err := jwt.NewAuthenticator(
+			jwt.WithKey([]byte(cfg.Authn.GetJwt().GetKey())),
+			jwt.WithSigningMethod(cfg.Authn.GetJwt().GetMethod()),
+		)
+		if err != nil {
+			return nil
+		}
+		return authenticator
+
+	case "oidc":
+		return nil
+
+	case "preshared_key":
+		return nil
+	}
 }
 
-// NewAuthorizer 创建权鉴器
-func NewAuthorizer() authzEngine.Engine {
-	return noop.State{}
+// NewAuthorizer 创建鉴权器
+func NewAuthorizer(cfg *conf.Bootstrap) authzEngine.Engine {
+	if cfg.Authz == nil {
+		return nil
+	}
+
+	ctx := context.Background()
+
+	switch cfg.GetAuthz().GetType() {
+	default:
+		fallthrough
+	case "noop":
+		state, err := noop.NewEngine(ctx)
+		if err != nil {
+			return nil
+		}
+		return state
+
+	case "casbin":
+		state, err := casbin.NewEngine(ctx)
+		if err != nil {
+			return nil
+		}
+		return state
+
+	case "opa":
+		state, err := opa.NewEngine(ctx)
+		if err != nil {
+			return nil
+		}
+		return state
+
+		//case "zanzibar":
+		//	state, err := zanzibar.NewEngine(ctx)
+		//	if err != nil {
+		//		return nil
+		//	}
+		//	return state
+	}
 }
 
 func NewUserTokenRepo(logger log.Logger, rdb *redis.Client, authenticator authnEngine.Authenticator, cfg *conf.Bootstrap) *UserToken {

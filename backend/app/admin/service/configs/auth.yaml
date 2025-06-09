@@ -1,0 +1,38 @@
+authn:
+  type: "jwt" # jwt, oidc, preshared_key
+
+  jwt:
+    method: "HS256" # HS256, HS384, HS512, RS256, RS384, RS512, ES256, ES384, ES512, Ed25519
+    key: "some_api_key"
+
+  oidc:
+    issuer_url: "https://example.com"
+    audience: "your_audience"
+    method: "HS256"
+
+  preshared_key:
+    valid_keys:
+      - "key1"
+      - "key2"
+
+authz:
+  type: "noop" # casbin, opa, zanzibar, noop
+
+  casbin:
+    model_path: "./configs/casbin_model.conf"
+    policy_path: "./configs/casbin_policy.csv"
+
+  opa:
+
+  zanzibar:
+    type: "keto" # keto, open_fga
+
+    keto:
+      write_url: "http://keto:4466"
+      read_url: "http://keto:4466"
+      use_grpc: true
+
+    open_fga:
+      api_url: "http://openfga:8080"
+      store_id: "your_store_id"
+      token: "your_token"

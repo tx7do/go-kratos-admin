@@ -21,7 +21,7 @@ import (
 // initApp init kratos application.
 func initApp(logger log.Logger, registrar registry.Registrar, bootstrap *v1.Bootstrap) (*kratos.App, func(), error) {
 	authenticator := data.NewAuthenticator(bootstrap)
-	engine := data.NewAuthorizer()
+	engine := data.NewAuthorizer(bootstrap)
 	entClient := data.NewEntClient(bootstrap, logger)
 	client := data.NewRedisClient(bootstrap, logger)
 	dataData, cleanup, err := data.NewData(logger, entClient, client, authenticator, engine)

@@ -2,11 +2,15 @@ package auth
 
 import (
 	"context"
+
+	"github.com/go-kratos/kratos/v2/log"
 )
 
 type IsExistAccessToken func(ctx context.Context, userId uint32) bool
 
 type options struct {
+	log *log.Helper
+
 	isExistAccessToken IsExistAccessToken
 	injectOperatorId   bool
 	injectTenantId     bool
@@ -50,5 +54,11 @@ func WithInjectMetadata(enable bool) Option {
 func WithEnableAuthority(enable bool) Option {
 	return func(opts *options) {
 		opts.enableAuthz = enable
+	}
+}
+
+func WithLogger(logger log.Logger) Option {
+	return func(o *options) {
+		o.log = log.NewHelper(log.With(logger, "module", "auth.middleware"))
 	}
 }

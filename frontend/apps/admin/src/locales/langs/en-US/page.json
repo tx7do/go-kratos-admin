@@ -186,5 +186,16 @@
     "createTime": "Operation Time",
     "path": "Path",
     "method": "Method"
+  },
+  "apiResource": {
+    "moduleName": "API Resource",
+    "path": "Path",
+    "method": "Method",
+    "module": "Module",
+    "operation": "Operation",
+    "button": {
+      "create": "Create API",
+      "sync": "Sync API"
+    }
   }
 }

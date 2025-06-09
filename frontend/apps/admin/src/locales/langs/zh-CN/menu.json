@@ -23,6 +23,7 @@
     "dict": "字典管理",
     "task": "任务管理",
     "file": "文件管理",
+    "apiResource": "API资源",
     "notificationMessage": "通知消息",
     "notificationMessageCategory": "通知类型",
     "privateMessage": "私聊消息"

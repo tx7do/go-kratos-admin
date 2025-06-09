@@ -49,9 +49,12 @@
     "delete_success": "删除成功",
     "delete_failed": "删除失败",
     "update_status_success": "更新状态成功",
-    "update_status_failed": "更新状态失败"
+    "update_status_failed": "更新状态失败",
+    "sync_success": "同步成功",
+    "sync_failed": "同步失败"
   },
   "text": {
-    "do_you_want_delete": "你是否要删除掉该{moduleName}？"
+    "do_you_want_delete": "你是否要删除掉该{moduleName}？",
+    "do_you_want_sync_api": "你是否确定要同步API？它将会更新数据库中的数据。如果API资源较多，可能需要花费一些时间，请耐心等待。"
   }
 }

@@ -186,5 +186,16 @@
     "createTime": "操作时间",
     "path": "路径",
     "method": "方法"
+  },
+  "apiResource": {
+    "moduleName": "API资源",
+    "path": "路径",
+    "method": "方法",
+    "module": "模块",
+    "operation": "操作",
+    "button": {
+      "create": "创建API",
+      "sync": "同步API"
+    }
   }
 }

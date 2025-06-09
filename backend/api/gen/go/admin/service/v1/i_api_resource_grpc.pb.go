@@ -36,18 +36,19 @@ const (
 //
 // API资源管理服务
 type ApiResourceServiceClient interface {
-	// 查询列表
+	// 查询API资源列表
 	List(ctx context.Context, in *v1.PagingRequest, opts ...grpc.CallOption) (*ListApiResourceResponse, error)
-	// 查询详情
+	// 查询API资源详情
 	Get(ctx context.Context, in *GetApiResourceRequest, opts ...grpc.CallOption) (*ApiResource, error)
-	// 创建
+	// 创建API资源
 	Create(ctx context.Context, in *CreateApiResourceRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
-	// 更新
+	// 更新API资源
 	Update(ctx context.Context, in *UpdateApiResourceRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
-	// 删除
+	// 删除API资源
 	Delete(ctx context.Context, in *DeleteApiResourceRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	// 同步API资源
 	SyncApiResources(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	// 查询路由数据
 	GetWalkRouteData(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*ListApiResourceResponse, error)
 }
 
@@ -135,18 +136,19 @@ func (c *apiResourceServiceClient) GetWalkRouteData(ctx context.Context, in *emp
 //
 // API资源管理服务
 type ApiResourceServiceServer interface {
-	// 查询列表
+	// 查询API资源列表
 	List(context.Context, *v1.PagingRequest) (*ListApiResourceResponse, error)
-	// 查询详情
+	// 查询API资源详情
 	Get(context.Context, *GetApiResourceRequest) (*ApiResource, error)
-	// 创建
+	// 创建API资源
 	Create(context.Context, *CreateApiResourceRequest) (*emptypb.Empty, error)
-	// 更新
+	// 更新API资源
 	Update(context.Context, *UpdateApiResourceRequest) (*emptypb.Empty, error)
-	// 删除
+	// 删除API资源
 	Delete(context.Context, *DeleteApiResourceRequest) (*emptypb.Empty, error)
 	// 同步API资源
 	SyncApiResources(context.Context, *emptypb.Empty) (*emptypb.Empty, error)
+	// 查询路由数据
 	GetWalkRouteData(context.Context, *emptypb.Empty) (*ListApiResourceResponse, error)
 	mustEmbedUnimplementedApiResourceServiceServer()
 }

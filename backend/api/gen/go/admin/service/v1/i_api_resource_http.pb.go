@@ -30,18 +30,19 @@ const OperationApiResourceServiceSyncApiResources = "/admin.service.v1.ApiResour
 const OperationApiResourceServiceUpdate = "/admin.service.v1.ApiResourceService/Update"
 
 type ApiResourceServiceHTTPServer interface {
-	// Create 创建
+	// Create 创建API资源
 	Create(context.Context, *CreateApiResourceRequest) (*emptypb.Empty, error)
-	// Delete 删除
+	// Delete 删除API资源
 	Delete(context.Context, *DeleteApiResourceRequest) (*emptypb.Empty, error)
-	// Get 查询详情
+	// Get 查询API资源详情
 	Get(context.Context, *GetApiResourceRequest) (*ApiResource, error)
+	// GetWalkRouteData 查询路由数据
 	GetWalkRouteData(context.Context, *emptypb.Empty) (*ListApiResourceResponse, error)
-	// List 查询列表
+	// List 查询API资源列表
 	List(context.Context, *v1.PagingRequest) (*ListApiResourceResponse, error)
 	// SyncApiResources 同步API资源
 	SyncApiResources(context.Context, *emptypb.Empty) (*emptypb.Empty, error)
-	// Update 更新
+	// Update 更新API资源
 	Update(context.Context, *UpdateApiResourceRequest) (*emptypb.Empty, error)
 }
 

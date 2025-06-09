@@ -106,17 +106,18 @@ export interface DeleteApiResourceRequest {
 
 /** API资源管理服务 */
 export interface ApiResourceService {
-  /** 查询列表 */
+  /** 查询API资源列表 */
   List(request: PagingRequest): Promise<ListApiResourceResponse>;
-  /** 查询详情 */
+  /** 查询API资源详情 */
   Get(request: GetApiResourceRequest): Promise<ApiResource>;
-  /** 创建 */
+  /** 创建API资源 */
   Create(request: CreateApiResourceRequest): Promise<Empty>;
-  /** 更新 */
+  /** 更新API资源 */
   Update(request: UpdateApiResourceRequest): Promise<Empty>;
-  /** 删除 */
+  /** 删除API资源 */
   Delete(request: DeleteApiResourceRequest): Promise<Empty>;
   /** 同步API资源 */
   SyncApiResources(request: Empty): Promise<Empty>;
+  /** 查询路由数据 */
   GetWalkRouteData(request: Empty): Promise<ListApiResourceResponse>;
 }

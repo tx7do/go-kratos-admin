@@ -15,21 +15,21 @@ import "pagination/v1/pagination.proto";
 
 // API资源管理服务
 service ApiResourceService {
-  // 查询列表
+  // 查询API资源列表
   rpc List (pagination.PagingRequest) returns (ListApiResourceResponse) {
     option (google.api.http) = {
       get: "/admin/v1/api-resources"
     };
   }
 
-  // 查询详情
+  // 查询API资源详情
   rpc Get (GetApiResourceRequest) returns (ApiResource) {
     option (google.api.http) = {
       get: "/admin/v1/api-resources/{id}"
     };
   }
 
-  // 创建
+  // 创建API资源
   rpc Create (CreateApiResourceRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
       post: "/admin/v1/api-resources"
@@ -37,7 +37,7 @@ service ApiResourceService {
     };
   }
 
-  // 更新
+  // 更新API资源
   rpc Update (UpdateApiResourceRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
       put: "/admin/v1/api-resources/{data.id}"
@@ -45,7 +45,7 @@ service ApiResourceService {
     };
   }
 
-  // 删除
+  // 删除API资源
   rpc Delete (DeleteApiResourceRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
       delete: "/admin/v1/api-resources/{id}"
@@ -60,6 +60,7 @@ service ApiResourceService {
     };
   }
 
+  // 查询路由数据
   rpc GetWalkRouteData (google.protobuf.Empty) returns (ListApiResourceResponse) {
     option (google.api.http) = {
       get: "/admin/v1/api-resources/walk-route"

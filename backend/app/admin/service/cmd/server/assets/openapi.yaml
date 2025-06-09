@@ -176,7 +176,7 @@ paths:
         get:
             tags:
                 - ApiResourceService
-            description: 查询列表
+            description: 查询API资源列表
             operationId: ApiResourceService_List
             parameters:
                 - name: page
@@ -234,7 +234,7 @@ paths:
         post:
             tags:
                 - ApiResourceService
-            description: 创建
+            description: 创建API资源
             operationId: ApiResourceService_Create
             requestBody:
                 content:
@@ -264,6 +264,7 @@ paths:
         get:
             tags:
                 - ApiResourceService
+            description: 查询路由数据
             operationId: ApiResourceService_GetWalkRouteData
             responses:
                 "200":
@@ -276,7 +277,7 @@ paths:
         put:
             tags:
                 - ApiResourceService
-            description: 更新
+            description: 更新API资源
             operationId: ApiResourceService_Update
             parameters:
                 - name: data.id
@@ -298,7 +299,7 @@ paths:
         get:
             tags:
                 - ApiResourceService
-            description: 查询详情
+            description: 查询API资源详情
             operationId: ApiResourceService_Get
             parameters:
                 - name: id
@@ -317,7 +318,7 @@ paths:
         delete:
             tags:
                 - ApiResourceService
-            description: 删除
+            description: 删除API资源
             operationId: ApiResourceService_Delete
             parameters:
                 - name: id

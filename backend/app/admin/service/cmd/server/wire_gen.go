@@ -21,19 +21,20 @@ import (
 // initApp init kratos application.
 func initApp(logger log.Logger, registrar registry.Registrar, bootstrap *v1.Bootstrap) (*kratos.App, func(), error) {
 	authenticator := data.NewAuthenticator(bootstrap)
-	engine := data.NewAuthorizer(bootstrap)
 	entClient := data.NewEntClient(bootstrap, logger)
 	client := data.NewRedisClient(bootstrap, logger)
-	dataData, cleanup, err := data.NewData(logger, entClient, client, authenticator, engine)
+	dataData, cleanup, err := data.NewData(logger, entClient, client)
 	if err != nil {
 		return nil, nil, err
 	}
+	roleRepo := data.NewRoleRepo(dataData, logger)
+	apiResourceRepo := data.NewApiResourceRepo(dataData, logger)
+	authorizer := data.NewAuthorizer(logger, bootstrap, roleRepo, apiResourceRepo)
 	adminOperationLogRepo := data.NewAdminOperationLogRepo(dataData, logger)
 	adminLoginLogRepo := data.NewAdminLoginLogRepo(dataData, logger)
 	userRepo := data.NewUserRepo(dataData, logger)
 	userCredentialRepo := data.NewUserCredentialRepo(dataData, logger)
 	tenantRepo := data.NewTenantRepo(dataData, logger)
-	roleRepo := data.NewRoleRepo(dataData, logger)
 	userToken := data.NewUserTokenRepo(logger, client, authenticator, bootstrap)
 	authenticationService := service.NewAuthenticationService(logger, userRepo, userCredentialRepo, tenantRepo, roleRepo, userToken, authenticator)
 	userService := service.NewUserService(logger, userRepo, roleRepo, userCredentialRepo)
@@ -70,9 +71,8 @@ func initApp(logger log.Logger, registrar registry.Registrar, bootstrap *v1.Boot
 	adminLoginRestrictionRepo := data.NewAdminLoginRestrictionRepo(dataData, logger)
 	adminLoginRestrictionService := service.NewAdminLoginRestrictionService(adminLoginRestrictionRepo, logger)
 	userProfileService := service.NewUserProfileService(logger, userRepo, userToken, roleRepo)
-	apiResourceRepo := data.NewApiResourceRepo(dataData, logger)
 	apiResourceService := service.NewApiResourceService(apiResourceRepo, logger)
-	httpServer := server.NewRESTServer(bootstrap, logger, authenticator, engine, adminOperationLogRepo, adminLoginLogRepo, authenticationService, userService, menuService, routerService, organizationService, roleService, positionService, dictService, departmentService, adminLoginLogService, adminOperationLogService, ossService, uEditorService, fileService, tenantService, taskService, notificationMessageService, notificationMessageCategoryService, notificationMessageRecipientService, privateMessageService, adminLoginRestrictionService, userProfileService, apiResourceService)
+	httpServer := server.NewRESTServer(bootstrap, logger, authenticator, authorizer, adminOperationLogRepo, adminLoginLogRepo, authenticationService, userService, menuService, routerService, organizationService, roleService, positionService, dictService, departmentService, adminLoginLogService, adminOperationLogService, ossService, uEditorService, fileService, tenantService, taskService, notificationMessageService, notificationMessageCategoryService, notificationMessageRecipientService, privateMessageService, adminLoginRestrictionService, userProfileService, apiResourceService)
 	asynqServer := server.NewAsynqServer(bootstrap, logger, taskService)
 	sseServer := server.NewSseServer(bootstrap, logger)
 	app := newApp(logger, registrar, httpServer, asynqServer, sseServer)

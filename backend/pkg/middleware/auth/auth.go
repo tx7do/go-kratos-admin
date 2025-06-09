@@ -145,6 +145,7 @@ func processAuthz(
 		Subjects: trans.Ptr(tokenPayload.GetRoles()),
 		Action:   trans.Ptr(action),
 		Resource: trans.Ptr(path),
+		//Project:  trans.Ptr(authzEngine.Project("api")),
 	}
 
 	ctx = authz.NewContext(ctx, &authzClaims)

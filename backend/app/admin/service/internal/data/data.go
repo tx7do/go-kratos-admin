@@ -1,21 +1,13 @@
 package data
 
 import (
-	"context"
-
 	"github.com/go-kratos/kratos/v2/log"
 	"github.com/redis/go-redis/v9"
 
 	authnEngine "github.com/tx7do/kratos-authn/engine"
 	"github.com/tx7do/kratos-authn/engine/jwt"
 
-	authzEngine "github.com/tx7do/kratos-authz/engine"
-	"github.com/tx7do/kratos-authz/engine/casbin"
-	"github.com/tx7do/kratos-authz/engine/noop"
-	"github.com/tx7do/kratos-authz/engine/opa"
-
 	"github.com/tx7do/go-utils/entgo"
-
 	conf "github.com/tx7do/kratos-bootstrap/api/gen/go/conf/v1"
 	redisClient "github.com/tx7do/kratos-bootstrap/cache/redis"
 
@@ -32,36 +24,37 @@ type Data struct {
 	db  *entgo.EntClient[*ent.Client]
 
 	authenticator authnEngine.Authenticator
-	authorizer    authzEngine.Engine
+	authorizer    *Authorizer
 }
 
 // NewData .
 func NewData(
 	logger log.Logger,
-	entClient *entgo.EntClient[*ent.Client],
+	db *entgo.EntClient[*ent.Client],
 	rdb *redis.Client,
-	authenticator authnEngine.Authenticator,
-	authorizer authzEngine.Engine,
 ) (*Data, func(), error) {
 	l := log.NewHelper(log.With(logger, "module", "data/admin-service"))
 
 	d := &Data{
 		log: l,
 
-		db:  entClient,
+		db:  db,
 		rdb: rdb,
-
-		authenticator: authenticator,
-		authorizer:    authorizer,
 	}
 
 	return d, func() {
 		l.Info("closing the data resources")
 
-		_ = d.db.Close()
+		if d.db != nil {
+			if err := d.db.Close(); err != nil {
+				l.Error(err)
+			}
+		}
 
-		if err := d.rdb.Close(); err != nil {
-			l.Error(err)
+		if d.rdb != nil {
+			if err := d.rdb.Close(); err != nil {
+				l.Error(err)
+			}
 		}
 	}, nil
 }
@@ -97,47 +90,6 @@ func NewAuthenticator(cfg *conf.Bootstrap) authnEngine.Authenticator {
 
 	case "preshared_key":
 		return nil
-	}
-}
-
-// NewAuthorizer 创建鉴权器
-func NewAuthorizer(cfg *conf.Bootstrap) authzEngine.Engine {
-	if cfg.Authz == nil {
-		return nil
-	}
-
-	ctx := context.Background()
-
-	switch cfg.GetAuthz().GetType() {
-	default:
-		fallthrough
-	case "noop":
-		state, err := noop.NewEngine(ctx)
-		if err != nil {
-			return nil
-		}
-		return state
-
-	case "casbin":
-		state, err := casbin.NewEngine(ctx)
-		if err != nil {
-			return nil
-		}
-		return state
-
-	case "opa":
-		state, err := opa.NewEngine(ctx)
-		if err != nil {
-			return nil
-		}
-		return state
-
-		//case "zanzibar":
-		//	state, err := zanzibar.NewEngine(ctx)
-		//	if err != nil {
-		//		return nil
-		//	}
-		//	return state
 	}
 }
 

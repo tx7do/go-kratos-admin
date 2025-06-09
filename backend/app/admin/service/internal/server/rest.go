@@ -12,7 +12,6 @@ import (
 	authnEngine "github.com/tx7do/kratos-authn/engine"
 	authn "github.com/tx7do/kratos-authn/middleware"
 
-	authzEngine "github.com/tx7do/kratos-authz/engine"
 	authz "github.com/tx7do/kratos-authz/middleware"
 
 	swaggerUI "github.com/tx7do/kratos-swagger-ui"
@@ -47,7 +46,7 @@ func newRestWhiteListMatcher() selector.MatchFunc {
 func newRestMiddleware(
 	logger log.Logger,
 	authenticator authnEngine.Authenticator,
-	authorizer authzEngine.Engine,
+	authorizer *data.Authorizer,
 	operationLogRepo *data.AdminOperationLogRepo,
 	loginLogRepo *data.AdminLoginLogRepo,
 ) []middleware.Middleware {
@@ -68,7 +67,7 @@ func newRestMiddleware(
 	ms = append(ms, selector.Server(
 		authn.Server(authenticator),
 		auth.Server(),
-		authz.Server(authorizer),
+		authz.Server(authorizer.Engine()),
 	).Match(newRestWhiteListMatcher()).Build())
 
 	return ms
@@ -77,7 +76,7 @@ func newRestMiddleware(
 // NewRESTServer new an HTTP server.
 func NewRESTServer(
 	cfg *conf.Bootstrap, logger log.Logger,
-	authenticator authnEngine.Authenticator, authorizer authzEngine.Engine,
+	authenticator authnEngine.Authenticator, authorizer *data.Authorizer,
 	operationLogRepo *data.AdminOperationLogRepo,
 	loginLogRepo *data.AdminLoginLogRepo,
 	authnSvc *service.AuthenticationService,

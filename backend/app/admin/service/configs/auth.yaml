@@ -16,11 +16,9 @@ authn:
       - "key2"
 
 authz:
-  type: "noop" # casbin, opa, zanzibar, noop
+  type: "opa" # casbin, opa, zanzibar, noop
 
   casbin:
-    model_path: "./configs/casbin_model.conf"
-    policy_path: "./configs/casbin_policy.csv"
 
   opa:
 

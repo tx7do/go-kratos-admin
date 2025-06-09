@@ -50,6 +50,15 @@ const [BaseForm, baseFormApi] = useVbenForm({
     },
     {
       component: 'Input',
+      fieldName: 'moduleDescription',
+      label: $t('page.apiResource.moduleDescription'),
+      componentProps: {
+        placeholder: $t('ui.placeholder.input'),
+        allowClear: true,
+      },
+    },
+    {
+      component: 'Input',
       fieldName: 'path',
       label: $t('page.apiResource.path'),
       componentProps: {

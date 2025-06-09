@@ -25,6 +25,8 @@ const (
 	FieldDescription = "description"
 	// FieldModule holds the string denoting the module field in the database.
 	FieldModule = "module"
+	// FieldModuleDescription holds the string denoting the module_description field in the database.
+	FieldModuleDescription = "module_description"
 	// FieldOperation holds the string denoting the operation field in the database.
 	FieldOperation = "operation"
 	// FieldPath holds the string denoting the path field in the database.
@@ -45,6 +47,7 @@ var Columns = []string{
 	FieldUpdateBy,
 	FieldDescription,
 	FieldModule,
+	FieldModuleDescription,
 	FieldOperation,
 	FieldPath,
 	FieldMethod,
@@ -106,6 +109,11 @@ func ByDescription(opts ...sql.OrderTermOption) OrderOption {
 // ByModule orders the results by the module field.
 func ByModule(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldModule, opts...).ToFunc()
+}
+
+// ByModuleDescription orders the results by the module_description field.
+func ByModuleDescription(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldModuleDescription, opts...).ToFunc()
 }
 
 // ByOperation orders the results by the operation field.

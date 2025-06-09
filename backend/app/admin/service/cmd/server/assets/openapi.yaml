@@ -2803,12 +2803,6 @@ components:
                     type: integer
                     description: 资源ID
                     format: uint32
-                module:
-                    type: string
-                    description: 所属业务模块（如 “用户管理”“支付系统”）
-                description:
-                    type: string
-                    description: 描述
                 operation:
                     type: string
                     description: 接口操作名
@@ -2818,6 +2812,15 @@ components:
                 method:
                     type: string
                     description: 请求方法（GET/POST/PUT/DELETE）
+                module:
+                    type: string
+                    description: 所属业务模块（如 “用户管理”“支付系统”）
+                moduleDescription:
+                    type: string
+                    description: 模块描述
+                description:
+                    type: string
+                    description: 描述
                 createBy:
                     type: integer
                     description: 创建者ID

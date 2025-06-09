@@ -89,6 +89,11 @@ func Module(v string) predicate.ApiResource {
 	return predicate.ApiResource(sql.FieldEQ(FieldModule, v))
 }
 
+// ModuleDescription applies equality check predicate on the "module_description" field. It's identical to ModuleDescriptionEQ.
+func ModuleDescription(v string) predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldEQ(FieldModuleDescription, v))
+}
+
 // Operation applies equality check predicate on the "operation" field. It's identical to OperationEQ.
 func Operation(v string) predicate.ApiResource {
 	return predicate.ApiResource(sql.FieldEQ(FieldOperation, v))
@@ -502,6 +507,81 @@ func ModuleEqualFold(v string) predicate.ApiResource {
 // ModuleContainsFold applies the ContainsFold predicate on the "module" field.
 func ModuleContainsFold(v string) predicate.ApiResource {
 	return predicate.ApiResource(sql.FieldContainsFold(FieldModule, v))
+}
+
+// ModuleDescriptionEQ applies the EQ predicate on the "module_description" field.
+func ModuleDescriptionEQ(v string) predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldEQ(FieldModuleDescription, v))
+}
+
+// ModuleDescriptionNEQ applies the NEQ predicate on the "module_description" field.
+func ModuleDescriptionNEQ(v string) predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldNEQ(FieldModuleDescription, v))
+}
+
+// ModuleDescriptionIn applies the In predicate on the "module_description" field.
+func ModuleDescriptionIn(vs ...string) predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldIn(FieldModuleDescription, vs...))
+}
+
+// ModuleDescriptionNotIn applies the NotIn predicate on the "module_description" field.
+func ModuleDescriptionNotIn(vs ...string) predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldNotIn(FieldModuleDescription, vs...))
+}
+
+// ModuleDescriptionGT applies the GT predicate on the "module_description" field.
+func ModuleDescriptionGT(v string) predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldGT(FieldModuleDescription, v))
+}
+
+// ModuleDescriptionGTE applies the GTE predicate on the "module_description" field.
+func ModuleDescriptionGTE(v string) predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldGTE(FieldModuleDescription, v))
+}
+
+// ModuleDescriptionLT applies the LT predicate on the "module_description" field.
+func ModuleDescriptionLT(v string) predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldLT(FieldModuleDescription, v))
+}
+
+// ModuleDescriptionLTE applies the LTE predicate on the "module_description" field.
+func ModuleDescriptionLTE(v string) predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldLTE(FieldModuleDescription, v))
+}
+
+// ModuleDescriptionContains applies the Contains predicate on the "module_description" field.
+func ModuleDescriptionContains(v string) predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldContains(FieldModuleDescription, v))
+}
+
+// ModuleDescriptionHasPrefix applies the HasPrefix predicate on the "module_description" field.
+func ModuleDescriptionHasPrefix(v string) predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldHasPrefix(FieldModuleDescription, v))
+}
+
+// ModuleDescriptionHasSuffix applies the HasSuffix predicate on the "module_description" field.
+func ModuleDescriptionHasSuffix(v string) predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldHasSuffix(FieldModuleDescription, v))
+}
+
+// ModuleDescriptionIsNil applies the IsNil predicate on the "module_description" field.
+func ModuleDescriptionIsNil() predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldIsNull(FieldModuleDescription))
+}
+
+// ModuleDescriptionNotNil applies the NotNil predicate on the "module_description" field.
+func ModuleDescriptionNotNil() predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldNotNull(FieldModuleDescription))
+}
+
+// ModuleDescriptionEqualFold applies the EqualFold predicate on the "module_description" field.
+func ModuleDescriptionEqualFold(v string) predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldEqualFold(FieldModuleDescription, v))
+}
+
+// ModuleDescriptionContainsFold applies the ContainsFold predicate on the "module_description" field.
+func ModuleDescriptionContainsFold(v string) predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldContainsFold(FieldModuleDescription, v))
 }
 
 // OperationEQ applies the EQ predicate on the "operation" field.

@@ -125,6 +125,7 @@ var (
 		{Name: "update_by", Type: field.TypeUint32, Nullable: true, Comment: "更新者ID"},
 		{Name: "description", Type: field.TypeString, Nullable: true, Comment: "描述"},
 		{Name: "module", Type: field.TypeString, Nullable: true, Comment: "所属业务模块"},
+		{Name: "module_description", Type: field.TypeString, Nullable: true, Comment: "业务模块描述"},
 		{Name: "operation", Type: field.TypeString, Nullable: true, Comment: "接口操作名"},
 		{Name: "path", Type: field.TypeString, Nullable: true, Comment: "接口路径"},
 		{Name: "method", Type: field.TypeString, Nullable: true, Comment: "请求方法"},

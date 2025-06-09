@@ -171,6 +171,7 @@ func (r *ApiResourceRepo) Create(ctx context.Context, req *adminV1.CreateApiReso
 	builder := r.data.db.Client().ApiResource.Create().
 		SetNillableDescription(req.Data.Description).
 		SetNillableModule(req.Data.Module).
+		SetNillableModuleDescription(req.Data.ModuleDescription).
 		SetNillableOperation(req.Data.Operation).
 		SetNillablePath(req.Data.Path).
 		SetNillableMethod(req.Data.Method).
@@ -225,6 +226,7 @@ func (r *ApiResourceRepo) Update(ctx context.Context, req *adminV1.UpdateApiReso
 		UpdateOneID(req.Data.GetId()).
 		SetNillableDescription(req.Data.Description).
 		SetNillableModule(req.Data.Module).
+		SetNillableModuleDescription(req.Data.ModuleDescription).
 		SetNillableOperation(req.Data.Operation).
 		SetNillablePath(req.Data.Path).
 		SetNillableMethod(req.Data.Method).
@@ -266,5 +268,13 @@ func (r *ApiResourceRepo) Delete(ctx context.Context, req *adminV1.DeleteApiReso
 		return adminV1.ErrorInternalServerError("delete failed")
 	}
 
+	return nil
+}
+
+func (r *ApiResourceRepo) Truncate(ctx context.Context) error {
+	if _, err := r.data.db.Client().ApiResource.Delete().Exec(ctx); err != nil {
+		r.log.Errorf("failed to truncate api_resources table: %s", err.Error())
+		return adminV1.ErrorInternalServerError("truncate failed")
+	}
 	return nil
 }

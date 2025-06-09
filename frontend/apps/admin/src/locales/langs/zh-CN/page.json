@@ -192,6 +192,7 @@
     "path": "路径",
     "method": "方法",
     "module": "模块",
+    "moduleDescription": "模块描述",
     "operation": "操作",
     "button": {
       "create": "创建API",

@@ -91,6 +91,10 @@ const gridOptions: VxeGridProps<ApiResource> = {
     { title: $t('ui.table.seq'), type: 'seq', width: 50 },
     { title: $t('ui.table.description'), field: 'description' },
     { title: $t('page.apiResource.module'), field: 'module' },
+    {
+      title: $t('page.apiResource.moduleDescription'),
+      field: 'moduleDescription',
+    },
     { title: $t('page.apiResource.path'), field: 'path', align: 'left' },
     { title: $t('page.apiResource.method'), field: 'method', width: 80 },
     {

@@ -16,16 +16,6 @@ export interface ApiResource {
     | number
     | null
     | undefined;
-  /** 所属业务模块 */
-  module?:
-    | string
-    | null
-    | undefined;
-  /** 描述 */
-  description?:
-    | string
-    | null
-    | undefined;
   /** 接口操作名 */
   operation?:
     | string
@@ -38,6 +28,21 @@ export interface ApiResource {
     | undefined;
   /** 请求方法 */
   method?:
+    | string
+    | null
+    | undefined;
+  /** 所属业务模块 */
+  module?:
+    | string
+    | null
+    | undefined;
+  /** 模块描述 */
+  moduleDescription?:
+    | string
+    | null
+    | undefined;
+  /** 描述 */
+  description?:
     | string
     | null
     | undefined;

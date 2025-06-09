@@ -15,16 +15,16 @@ import (
 
 func registerFileUploadHandler(srv *http.Server, svc *service.OssService) {
 	r := srv.Route("/")
-	r.POST("admin/v1/file:upload", _FileService_PostUploadFile_HTTP_Handler(svc))
-	r.PUT("admin/v1/file:upload", _FileService_PutUploadFile_HTTP_Handler(svc))
+	r.POST("admin/v1/file:upload", _OssService_PostUploadFile_HTTP_Handler(svc))
+	r.PUT("admin/v1/file:upload", _OssService_PutUploadFile_HTTP_Handler(svc))
 }
 
-const OperationFileServicePostUploadFile = "/admin.service.v1.FileService/PostUploadFile"
-const OperationFileServicePutUploadFile = "/admin.service.v1.FileService/PutUploadFile"
+const OperationOssServicePostUploadFile = "/admin.service.v1.OssService/PostUploadFile"
+const OperationOssServicePutUploadFile = "/admin.service.v1.OssService/PutUploadFile"
 
-func _FileService_PostUploadFile_HTTP_Handler(svc *service.OssService) func(ctx http.Context) error {
+func _OssService_PostUploadFile_HTTP_Handler(svc *service.OssService) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
-		http.SetOperation(ctx, OperationFileServicePostUploadFile)
+		http.SetOperation(ctx, OperationOssServicePostUploadFile)
 
 		var in fileV1.UploadOssFileRequest
 		var err error
@@ -67,9 +67,9 @@ func _FileService_PostUploadFile_HTTP_Handler(svc *service.OssService) func(ctx 
 	}
 }
 
-func _FileService_PutUploadFile_HTTP_Handler(svc *service.OssService) func(ctx http.Context) error {
+func _OssService_PutUploadFile_HTTP_Handler(svc *service.OssService) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
-		http.SetOperation(ctx, OperationFileServicePutUploadFile)
+		http.SetOperation(ctx, OperationOssServicePutUploadFile)
 
 		var in fileV1.UploadOssFileRequest
 		var err error

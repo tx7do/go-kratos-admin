@@ -4987,25 +4987,26 @@ func (m *AdminOperationLogMutation) ResetEdge(name string) error {
 // ApiResourceMutation represents an operation that mutates the ApiResource nodes in the graph.
 type ApiResourceMutation struct {
 	config
-	op            Op
-	typ           string
-	id            *uint32
-	create_time   *time.Time
-	update_time   *time.Time
-	delete_time   *time.Time
-	create_by     *uint32
-	addcreate_by  *int32
-	update_by     *uint32
-	addupdate_by  *int32
-	description   *string
-	module        *string
-	operation     *string
-	_path         *string
-	method        *string
-	clearedFields map[string]struct{}
-	done          bool
-	oldValue      func(context.Context) (*ApiResource, error)
-	predicates    []predicate.ApiResource
+	op                 Op
+	typ                string
+	id                 *uint32
+	create_time        *time.Time
+	update_time        *time.Time
+	delete_time        *time.Time
+	create_by          *uint32
+	addcreate_by       *int32
+	update_by          *uint32
+	addupdate_by       *int32
+	description        *string
+	module             *string
+	module_description *string
+	operation          *string
+	_path              *string
+	method             *string
+	clearedFields      map[string]struct{}
+	done               bool
+	oldValue           func(context.Context) (*ApiResource, error)
+	predicates         []predicate.ApiResource
 }
 
 var _ ent.Mutation = (*ApiResourceMutation)(nil)
@@ -5497,6 +5498,55 @@ func (m *ApiResourceMutation) ResetModule() {
 	delete(m.clearedFields, apiresource.FieldModule)
 }
 
+// SetModuleDescription sets the "module_description" field.
+func (m *ApiResourceMutation) SetModuleDescription(s string) {
+	m.module_description = &s
+}
+
+// ModuleDescription returns the value of the "module_description" field in the mutation.
+func (m *ApiResourceMutation) ModuleDescription() (r string, exists bool) {
+	v := m.module_description
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldModuleDescription returns the old "module_description" field's value of the ApiResource entity.
+// If the ApiResource object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *ApiResourceMutation) OldModuleDescription(ctx context.Context) (v *string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldModuleDescription is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldModuleDescription requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldModuleDescription: %w", err)
+	}
+	return oldValue.ModuleDescription, nil
+}
+
+// ClearModuleDescription clears the value of the "module_description" field.
+func (m *ApiResourceMutation) ClearModuleDescription() {
+	m.module_description = nil
+	m.clearedFields[apiresource.FieldModuleDescription] = struct{}{}
+}
+
+// ModuleDescriptionCleared returns if the "module_description" field was cleared in this mutation.
+func (m *ApiResourceMutation) ModuleDescriptionCleared() bool {
+	_, ok := m.clearedFields[apiresource.FieldModuleDescription]
+	return ok
+}
+
+// ResetModuleDescription resets all changes to the "module_description" field.
+func (m *ApiResourceMutation) ResetModuleDescription() {
+	m.module_description = nil
+	delete(m.clearedFields, apiresource.FieldModuleDescription)
+}
+
 // SetOperation sets the "operation" field.
 func (m *ApiResourceMutation) SetOperation(s string) {
 	m.operation = &s
@@ -5678,7 +5728,7 @@ func (m *ApiResourceMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *ApiResourceMutation) Fields() []string {
-	fields := make([]string, 0, 10)
+	fields := make([]string, 0, 11)
 	if m.create_time != nil {
 		fields = append(fields, apiresource.FieldCreateTime)
 	}
@@ -5699,6 +5749,9 @@ func (m *ApiResourceMutation) Fields() []string {
 	}
 	if m.module != nil {
 		fields = append(fields, apiresource.FieldModule)
+	}
+	if m.module_description != nil {
+		fields = append(fields, apiresource.FieldModuleDescription)
 	}
 	if m.operation != nil {
 		fields = append(fields, apiresource.FieldOperation)
@@ -5731,6 +5784,8 @@ func (m *ApiResourceMutation) Field(name string) (ent.Value, bool) {
 		return m.Description()
 	case apiresource.FieldModule:
 		return m.Module()
+	case apiresource.FieldModuleDescription:
+		return m.ModuleDescription()
 	case apiresource.FieldOperation:
 		return m.Operation()
 	case apiresource.FieldPath:
@@ -5760,6 +5815,8 @@ func (m *ApiResourceMutation) OldField(ctx context.Context, name string) (ent.Va
 		return m.OldDescription(ctx)
 	case apiresource.FieldModule:
 		return m.OldModule(ctx)
+	case apiresource.FieldModuleDescription:
+		return m.OldModuleDescription(ctx)
 	case apiresource.FieldOperation:
 		return m.OldOperation(ctx)
 	case apiresource.FieldPath:
@@ -5823,6 +5880,13 @@ func (m *ApiResourceMutation) SetField(name string, value ent.Value) error {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetModule(v)
+		return nil
+	case apiresource.FieldModuleDescription:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetModuleDescription(v)
 		return nil
 	case apiresource.FieldOperation:
 		v, ok := value.(string)
@@ -5923,6 +5987,9 @@ func (m *ApiResourceMutation) ClearedFields() []string {
 	if m.FieldCleared(apiresource.FieldModule) {
 		fields = append(fields, apiresource.FieldModule)
 	}
+	if m.FieldCleared(apiresource.FieldModuleDescription) {
+		fields = append(fields, apiresource.FieldModuleDescription)
+	}
 	if m.FieldCleared(apiresource.FieldOperation) {
 		fields = append(fields, apiresource.FieldOperation)
 	}
@@ -5967,6 +6034,9 @@ func (m *ApiResourceMutation) ClearField(name string) error {
 	case apiresource.FieldModule:
 		m.ClearModule()
 		return nil
+	case apiresource.FieldModuleDescription:
+		m.ClearModuleDescription()
+		return nil
 	case apiresource.FieldOperation:
 		m.ClearOperation()
 		return nil
@@ -6004,6 +6074,9 @@ func (m *ApiResourceMutation) ResetField(name string) error {
 		return nil
 	case apiresource.FieldModule:
 		m.ResetModule()
+		return nil
+	case apiresource.FieldModuleDescription:
+		m.ResetModuleDescription()
 		return nil
 	case apiresource.FieldOperation:
 		m.ResetOperation()

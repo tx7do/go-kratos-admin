@@ -135,16 +135,17 @@ var schemaGraph = func() *sqlgraph.Schema {
 		},
 		Type: "ApiResource",
 		Fields: map[string]*sqlgraph.FieldSpec{
-			apiresource.FieldCreateTime:  {Type: field.TypeTime, Column: apiresource.FieldCreateTime},
-			apiresource.FieldUpdateTime:  {Type: field.TypeTime, Column: apiresource.FieldUpdateTime},
-			apiresource.FieldDeleteTime:  {Type: field.TypeTime, Column: apiresource.FieldDeleteTime},
-			apiresource.FieldCreateBy:    {Type: field.TypeUint32, Column: apiresource.FieldCreateBy},
-			apiresource.FieldUpdateBy:    {Type: field.TypeUint32, Column: apiresource.FieldUpdateBy},
-			apiresource.FieldDescription: {Type: field.TypeString, Column: apiresource.FieldDescription},
-			apiresource.FieldModule:      {Type: field.TypeString, Column: apiresource.FieldModule},
-			apiresource.FieldOperation:   {Type: field.TypeString, Column: apiresource.FieldOperation},
-			apiresource.FieldPath:        {Type: field.TypeString, Column: apiresource.FieldPath},
-			apiresource.FieldMethod:      {Type: field.TypeString, Column: apiresource.FieldMethod},
+			apiresource.FieldCreateTime:        {Type: field.TypeTime, Column: apiresource.FieldCreateTime},
+			apiresource.FieldUpdateTime:        {Type: field.TypeTime, Column: apiresource.FieldUpdateTime},
+			apiresource.FieldDeleteTime:        {Type: field.TypeTime, Column: apiresource.FieldDeleteTime},
+			apiresource.FieldCreateBy:          {Type: field.TypeUint32, Column: apiresource.FieldCreateBy},
+			apiresource.FieldUpdateBy:          {Type: field.TypeUint32, Column: apiresource.FieldUpdateBy},
+			apiresource.FieldDescription:       {Type: field.TypeString, Column: apiresource.FieldDescription},
+			apiresource.FieldModule:            {Type: field.TypeString, Column: apiresource.FieldModule},
+			apiresource.FieldModuleDescription: {Type: field.TypeString, Column: apiresource.FieldModuleDescription},
+			apiresource.FieldOperation:         {Type: field.TypeString, Column: apiresource.FieldOperation},
+			apiresource.FieldPath:              {Type: field.TypeString, Column: apiresource.FieldPath},
+			apiresource.FieldMethod:            {Type: field.TypeString, Column: apiresource.FieldMethod},
 		},
 	}
 	graph.Nodes[4] = &sqlgraph.Node{
@@ -1147,6 +1148,11 @@ func (f *ApiResourceFilter) WhereDescription(p entql.StringP) {
 // WhereModule applies the entql string predicate on the module field.
 func (f *ApiResourceFilter) WhereModule(p entql.StringP) {
 	f.Where(p.Field(apiresource.FieldModule))
+}
+
+// WhereModuleDescription applies the entql string predicate on the module_description field.
+func (f *ApiResourceFilter) WhereModuleDescription(p entql.StringP) {
+	f.Where(p.Field(apiresource.FieldModuleDescription))
 }
 
 // WhereOperation applies the entql string predicate on the operation field.

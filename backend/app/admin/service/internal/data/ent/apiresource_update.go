@@ -163,6 +163,26 @@ func (aru *ApiResourceUpdate) ClearModule() *ApiResourceUpdate {
 	return aru
 }
 
+// SetModuleDescription sets the "module_description" field.
+func (aru *ApiResourceUpdate) SetModuleDescription(s string) *ApiResourceUpdate {
+	aru.mutation.SetModuleDescription(s)
+	return aru
+}
+
+// SetNillableModuleDescription sets the "module_description" field if the given value is not nil.
+func (aru *ApiResourceUpdate) SetNillableModuleDescription(s *string) *ApiResourceUpdate {
+	if s != nil {
+		aru.SetModuleDescription(*s)
+	}
+	return aru
+}
+
+// ClearModuleDescription clears the value of the "module_description" field.
+func (aru *ApiResourceUpdate) ClearModuleDescription() *ApiResourceUpdate {
+	aru.mutation.ClearModuleDescription()
+	return aru
+}
+
 // SetOperation sets the "operation" field.
 func (aru *ApiResourceUpdate) SetOperation(s string) *ApiResourceUpdate {
 	aru.mutation.SetOperation(s)
@@ -314,6 +334,12 @@ func (aru *ApiResourceUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	}
 	if aru.mutation.ModuleCleared() {
 		_spec.ClearField(apiresource.FieldModule, field.TypeString)
+	}
+	if value, ok := aru.mutation.ModuleDescription(); ok {
+		_spec.SetField(apiresource.FieldModuleDescription, field.TypeString, value)
+	}
+	if aru.mutation.ModuleDescriptionCleared() {
+		_spec.ClearField(apiresource.FieldModuleDescription, field.TypeString)
 	}
 	if value, ok := aru.mutation.Operation(); ok {
 		_spec.SetField(apiresource.FieldOperation, field.TypeString, value)
@@ -486,6 +512,26 @@ func (aruo *ApiResourceUpdateOne) SetNillableModule(s *string) *ApiResourceUpdat
 // ClearModule clears the value of the "module" field.
 func (aruo *ApiResourceUpdateOne) ClearModule() *ApiResourceUpdateOne {
 	aruo.mutation.ClearModule()
+	return aruo
+}
+
+// SetModuleDescription sets the "module_description" field.
+func (aruo *ApiResourceUpdateOne) SetModuleDescription(s string) *ApiResourceUpdateOne {
+	aruo.mutation.SetModuleDescription(s)
+	return aruo
+}
+
+// SetNillableModuleDescription sets the "module_description" field if the given value is not nil.
+func (aruo *ApiResourceUpdateOne) SetNillableModuleDescription(s *string) *ApiResourceUpdateOne {
+	if s != nil {
+		aruo.SetModuleDescription(*s)
+	}
+	return aruo
+}
+
+// ClearModuleDescription clears the value of the "module_description" field.
+func (aruo *ApiResourceUpdateOne) ClearModuleDescription() *ApiResourceUpdateOne {
+	aruo.mutation.ClearModuleDescription()
 	return aruo
 }
 
@@ -670,6 +716,12 @@ func (aruo *ApiResourceUpdateOne) sqlSave(ctx context.Context) (_node *ApiResour
 	}
 	if aruo.mutation.ModuleCleared() {
 		_spec.ClearField(apiresource.FieldModule, field.TypeString)
+	}
+	if value, ok := aruo.mutation.ModuleDescription(); ok {
+		_spec.SetField(apiresource.FieldModuleDescription, field.TypeString, value)
+	}
+	if aruo.mutation.ModuleDescriptionCleared() {
+		_spec.ClearField(apiresource.FieldModuleDescription, field.TypeString)
 	}
 	if value, ok := aruo.mutation.Operation(); ok {
 		_spec.SetField(apiresource.FieldOperation, field.TypeString, value)

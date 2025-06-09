@@ -1,5 +1,6 @@
 export * from './admin_login_log';
 export * from './admin_operation_log';
+export * from './api_resource';
 export * from './authentication';
 export * from './department';
 export * from './dict';

@@ -92,16 +92,16 @@ func (alrc *AdminLoginRestrictionCreate) SetNillableUpdateBy(u *uint32) *AdminLo
 	return alrc
 }
 
-// SetAdminID sets the "admin_id" field.
-func (alrc *AdminLoginRestrictionCreate) SetAdminID(u uint32) *AdminLoginRestrictionCreate {
-	alrc.mutation.SetAdminID(u)
+// SetTargetID sets the "target_id" field.
+func (alrc *AdminLoginRestrictionCreate) SetTargetID(u uint32) *AdminLoginRestrictionCreate {
+	alrc.mutation.SetTargetID(u)
 	return alrc
 }
 
-// SetNillableAdminID sets the "admin_id" field if the given value is not nil.
-func (alrc *AdminLoginRestrictionCreate) SetNillableAdminID(u *uint32) *AdminLoginRestrictionCreate {
+// SetNillableTargetID sets the "target_id" field if the given value is not nil.
+func (alrc *AdminLoginRestrictionCreate) SetNillableTargetID(u *uint32) *AdminLoginRestrictionCreate {
 	if u != nil {
-		alrc.SetAdminID(*u)
+		alrc.SetTargetID(*u)
 	}
 	return alrc
 }
@@ -283,9 +283,9 @@ func (alrc *AdminLoginRestrictionCreate) createSpec() (*AdminLoginRestriction, *
 		_spec.SetField(adminloginrestriction.FieldUpdateBy, field.TypeUint32, value)
 		_node.UpdateBy = &value
 	}
-	if value, ok := alrc.mutation.AdminID(); ok {
-		_spec.SetField(adminloginrestriction.FieldAdminID, field.TypeUint32, value)
-		_node.AdminID = &value
+	if value, ok := alrc.mutation.TargetID(); ok {
+		_spec.SetField(adminloginrestriction.FieldTargetID, field.TypeUint32, value)
+		_node.TargetID = &value
 	}
 	if value, ok := alrc.mutation.Value(); ok {
 		_spec.SetField(adminloginrestriction.FieldValue, field.TypeString, value)
@@ -439,27 +439,27 @@ func (u *AdminLoginRestrictionUpsert) ClearUpdateBy() *AdminLoginRestrictionUpse
 	return u
 }
 
-// SetAdminID sets the "admin_id" field.
-func (u *AdminLoginRestrictionUpsert) SetAdminID(v uint32) *AdminLoginRestrictionUpsert {
-	u.Set(adminloginrestriction.FieldAdminID, v)
+// SetTargetID sets the "target_id" field.
+func (u *AdminLoginRestrictionUpsert) SetTargetID(v uint32) *AdminLoginRestrictionUpsert {
+	u.Set(adminloginrestriction.FieldTargetID, v)
 	return u
 }
 
-// UpdateAdminID sets the "admin_id" field to the value that was provided on create.
-func (u *AdminLoginRestrictionUpsert) UpdateAdminID() *AdminLoginRestrictionUpsert {
-	u.SetExcluded(adminloginrestriction.FieldAdminID)
+// UpdateTargetID sets the "target_id" field to the value that was provided on create.
+func (u *AdminLoginRestrictionUpsert) UpdateTargetID() *AdminLoginRestrictionUpsert {
+	u.SetExcluded(adminloginrestriction.FieldTargetID)
 	return u
 }
 
-// AddAdminID adds v to the "admin_id" field.
-func (u *AdminLoginRestrictionUpsert) AddAdminID(v uint32) *AdminLoginRestrictionUpsert {
-	u.Add(adminloginrestriction.FieldAdminID, v)
+// AddTargetID adds v to the "target_id" field.
+func (u *AdminLoginRestrictionUpsert) AddTargetID(v uint32) *AdminLoginRestrictionUpsert {
+	u.Add(adminloginrestriction.FieldTargetID, v)
 	return u
 }
 
-// ClearAdminID clears the value of the "admin_id" field.
-func (u *AdminLoginRestrictionUpsert) ClearAdminID() *AdminLoginRestrictionUpsert {
-	u.SetNull(adminloginrestriction.FieldAdminID)
+// ClearTargetID clears the value of the "target_id" field.
+func (u *AdminLoginRestrictionUpsert) ClearTargetID() *AdminLoginRestrictionUpsert {
+	u.SetNull(adminloginrestriction.FieldTargetID)
 	return u
 }
 
@@ -684,31 +684,31 @@ func (u *AdminLoginRestrictionUpsertOne) ClearUpdateBy() *AdminLoginRestrictionU
 	})
 }
 
-// SetAdminID sets the "admin_id" field.
-func (u *AdminLoginRestrictionUpsertOne) SetAdminID(v uint32) *AdminLoginRestrictionUpsertOne {
+// SetTargetID sets the "target_id" field.
+func (u *AdminLoginRestrictionUpsertOne) SetTargetID(v uint32) *AdminLoginRestrictionUpsertOne {
 	return u.Update(func(s *AdminLoginRestrictionUpsert) {
-		s.SetAdminID(v)
+		s.SetTargetID(v)
 	})
 }
 
-// AddAdminID adds v to the "admin_id" field.
-func (u *AdminLoginRestrictionUpsertOne) AddAdminID(v uint32) *AdminLoginRestrictionUpsertOne {
+// AddTargetID adds v to the "target_id" field.
+func (u *AdminLoginRestrictionUpsertOne) AddTargetID(v uint32) *AdminLoginRestrictionUpsertOne {
 	return u.Update(func(s *AdminLoginRestrictionUpsert) {
-		s.AddAdminID(v)
+		s.AddTargetID(v)
 	})
 }
 
-// UpdateAdminID sets the "admin_id" field to the value that was provided on create.
-func (u *AdminLoginRestrictionUpsertOne) UpdateAdminID() *AdminLoginRestrictionUpsertOne {
+// UpdateTargetID sets the "target_id" field to the value that was provided on create.
+func (u *AdminLoginRestrictionUpsertOne) UpdateTargetID() *AdminLoginRestrictionUpsertOne {
 	return u.Update(func(s *AdminLoginRestrictionUpsert) {
-		s.UpdateAdminID()
+		s.UpdateTargetID()
 	})
 }
 
-// ClearAdminID clears the value of the "admin_id" field.
-func (u *AdminLoginRestrictionUpsertOne) ClearAdminID() *AdminLoginRestrictionUpsertOne {
+// ClearTargetID clears the value of the "target_id" field.
+func (u *AdminLoginRestrictionUpsertOne) ClearTargetID() *AdminLoginRestrictionUpsertOne {
 	return u.Update(func(s *AdminLoginRestrictionUpsert) {
-		s.ClearAdminID()
+		s.ClearTargetID()
 	})
 }
 
@@ -1111,31 +1111,31 @@ func (u *AdminLoginRestrictionUpsertBulk) ClearUpdateBy() *AdminLoginRestriction
 	})
 }
 
-// SetAdminID sets the "admin_id" field.
-func (u *AdminLoginRestrictionUpsertBulk) SetAdminID(v uint32) *AdminLoginRestrictionUpsertBulk {
+// SetTargetID sets the "target_id" field.
+func (u *AdminLoginRestrictionUpsertBulk) SetTargetID(v uint32) *AdminLoginRestrictionUpsertBulk {
 	return u.Update(func(s *AdminLoginRestrictionUpsert) {
-		s.SetAdminID(v)
+		s.SetTargetID(v)
 	})
 }
 
-// AddAdminID adds v to the "admin_id" field.
-func (u *AdminLoginRestrictionUpsertBulk) AddAdminID(v uint32) *AdminLoginRestrictionUpsertBulk {
+// AddTargetID adds v to the "target_id" field.
+func (u *AdminLoginRestrictionUpsertBulk) AddTargetID(v uint32) *AdminLoginRestrictionUpsertBulk {
 	return u.Update(func(s *AdminLoginRestrictionUpsert) {
-		s.AddAdminID(v)
+		s.AddTargetID(v)
 	})
 }
 
-// UpdateAdminID sets the "admin_id" field to the value that was provided on create.
-func (u *AdminLoginRestrictionUpsertBulk) UpdateAdminID() *AdminLoginRestrictionUpsertBulk {
+// UpdateTargetID sets the "target_id" field to the value that was provided on create.
+func (u *AdminLoginRestrictionUpsertBulk) UpdateTargetID() *AdminLoginRestrictionUpsertBulk {
 	return u.Update(func(s *AdminLoginRestrictionUpsert) {
-		s.UpdateAdminID()
+		s.UpdateTargetID()
 	})
 }
 
-// ClearAdminID clears the value of the "admin_id" field.
-func (u *AdminLoginRestrictionUpsertBulk) ClearAdminID() *AdminLoginRestrictionUpsertBulk {
+// ClearTargetID clears the value of the "target_id" field.
+func (u *AdminLoginRestrictionUpsertBulk) ClearTargetID() *AdminLoginRestrictionUpsertBulk {
 	return u.Update(func(s *AdminLoginRestrictionUpsert) {
-		s.ClearAdminID()
+		s.ClearTargetID()
 	})
 }
 

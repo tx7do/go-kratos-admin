@@ -23,8 +23,8 @@ const (
 	FieldCreateBy = "create_by"
 	// FieldUpdateBy holds the string denoting the update_by field in the database.
 	FieldUpdateBy = "update_by"
-	// FieldAdminID holds the string denoting the admin_id field in the database.
-	FieldAdminID = "admin_id"
+	// FieldTargetID holds the string denoting the target_id field in the database.
+	FieldTargetID = "target_id"
 	// FieldValue holds the string denoting the value field in the database.
 	FieldValue = "value"
 	// FieldReason holds the string denoting the reason field in the database.
@@ -45,7 +45,7 @@ var Columns = []string{
 	FieldDeleteTime,
 	FieldCreateBy,
 	FieldUpdateBy,
-	FieldAdminID,
+	FieldTargetID,
 	FieldValue,
 	FieldReason,
 	FieldType,
@@ -155,9 +155,9 @@ func ByUpdateBy(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldUpdateBy, opts...).ToFunc()
 }
 
-// ByAdminID orders the results by the admin_id field.
-func ByAdminID(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldAdminID, opts...).ToFunc()
+// ByTargetID orders the results by the target_id field.
+func ByTargetID(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldTargetID, opts...).ToFunc()
 }
 
 // ByValue orders the results by the value field.

@@ -140,7 +140,7 @@ func (AdminLoginRestrictionMethod) EnumDescriptor() ([]byte, []int) {
 type AdminLoginRestriction struct {
 	state         protoimpl.MessageState       `protogen:"open.v1"`
 	Id            *uint32                      `protobuf:"varint,1,opt,name=id,proto3,oneof" json:"id,omitempty"`                                                           // 后台登录限制ID
-	AdminId       *uint32                      `protobuf:"varint,2,opt,name=admin_id,json=adminId,proto3,oneof" json:"admin_id,omitempty"`                                  // 管理员ID
+	TargetId      *uint32                      `protobuf:"varint,2,opt,name=target_id,json=targetId,proto3,oneof" json:"target_id,omitempty"`                               // 目标用户ID
 	Type          *AdminLoginRestrictionType   `protobuf:"varint,3,opt,name=type,proto3,enum=admin.service.v1.AdminLoginRestrictionType,oneof" json:"type,omitempty"`       // 限制类型
 	Method        *AdminLoginRestrictionMethod `protobuf:"varint,4,opt,name=method,proto3,enum=admin.service.v1.AdminLoginRestrictionMethod,oneof" json:"method,omitempty"` // 限制方式
 	Value         *string                      `protobuf:"bytes,5,opt,name=value,proto3,oneof" json:"value,omitempty"`                                                      // 限制值（如IP地址、MAC地址或地区代码）
@@ -191,9 +191,9 @@ func (x *AdminLoginRestriction) GetId() uint32 {
 	return 0
 }
 
-func (x *AdminLoginRestriction) GetAdminId() uint32 {
-	if x != nil && x.AdminId != nil {
-		return *x.AdminId
+func (x *AdminLoginRestriction) GetTargetId() uint32 {
+	if x != nil && x.TargetId != nil {
+		return *x.TargetId
 	}
 	return 0
 }
@@ -514,10 +514,10 @@ var File_admin_service_v1_i_admin_login_restriction_proto protoreflect.FileDescr
 
 const file_admin_service_v1_i_admin_login_restriction_proto_rawDesc = "" +
 	"\n" +
-	"0admin/service/v1/i_admin_login_restriction.proto\x12\x10admin.service.v1\x1a$gnostic/openapi/v3/annotations.proto\x1a\x1cgoogle/api/annotations.proto\x1a\x1fgoogle/api/field_behavior.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a google/protobuf/field_mask.proto\x1a\x1epagination/v1/pagination.proto\"\xb9\a\n" +
+	"0admin/service/v1/i_admin_login_restriction.proto\x12\x10admin.service.v1\x1a$gnostic/openapi/v3/annotations.proto\x1a\x1cgoogle/api/annotations.proto\x1a\x1fgoogle/api/field_behavior.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a google/protobuf/field_mask.proto\x1a\x1epagination/v1/pagination.proto\"\xbf\a\n" +
 	"\x15AdminLoginRestriction\x122\n" +
-	"\x02id\x18\x01 \x01(\rB\x1d\xe0A\x01\xbaG\x17\x92\x02\x14后台登录限制IDH\x00R\x02id\x88\x01\x01\x121\n" +
-	"\badmin_id\x18\x02 \x01(\rB\x11\xbaG\x0e\x92\x02\v管理员IDH\x01R\aadminId\x88\x01\x01\x12X\n" +
+	"\x02id\x18\x01 \x01(\rB\x1d\xe0A\x01\xbaG\x17\x92\x02\x14后台登录限制IDH\x00R\x02id\x88\x01\x01\x126\n" +
+	"\ttarget_id\x18\x02 \x01(\rB\x14\xbaG\x11\x92\x02\x0e目标用户IDH\x01R\btargetId\x88\x01\x01\x12X\n" +
 	"\x04type\x18\x03 \x01(\x0e2+.admin.service.v1.AdminLoginRestrictionTypeB\x12\xbaG\x0f\x92\x02\f限制类型H\x02R\x04type\x88\x01\x01\x12^\n" +
 	"\x06method\x18\x04 \x01(\x0e2-.admin.service.v1.AdminLoginRestrictionMethodB\x12\xbaG\x0f\x92\x02\f限制方式H\x03R\x06method\x88\x01\x01\x12V\n" +
 	"\x05value\x18\x05 \x01(\tB;\xbaG8\x92\x025限制值（如IP地址、MAC地址或地区代码）H\x04R\x05value\x88\x01\x01\x12/\n" +
@@ -531,8 +531,9 @@ const file_admin_service_v1_i_admin_login_restriction_proto_rawDesc = "" +
 	"\vdelete_time\x18\xca\x01 \x01(\v2\x1a.google.protobuf.TimestampB\x12\xbaG\x0f\x92\x02\f删除时间H\n" +
 	"R\n" +
 	"deleteTime\x88\x01\x01B\x05\n" +
-	"\x03_idB\v\n" +
-	"\t_admin_idB\a\n" +
+	"\x03_idB\f\n" +
+	"\n" +
+	"_target_idB\a\n" +
 	"\x05_typeB\t\n" +
 	"\a_methodB\b\n" +
 	"\x06_valueB\t\n" +

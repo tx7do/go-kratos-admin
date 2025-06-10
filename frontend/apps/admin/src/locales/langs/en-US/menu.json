@@ -32,7 +32,8 @@
     "apiResource": "API Resource",
     "notificationMessage": "Notification Message",
     "notificationMessageCategory": "Notification Type",
-    "privateMessage": "Private Message"
+    "privateMessage": "Private Message",
+    "adminLoginRestriction": "Admin Login Restriction"
   },
   "log": {
     "moduleName": "Log Audit",

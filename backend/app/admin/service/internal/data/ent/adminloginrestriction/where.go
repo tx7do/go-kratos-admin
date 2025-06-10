@@ -79,9 +79,9 @@ func UpdateBy(v uint32) predicate.AdminLoginRestriction {
 	return predicate.AdminLoginRestriction(sql.FieldEQ(FieldUpdateBy, v))
 }
 
-// AdminID applies equality check predicate on the "admin_id" field. It's identical to AdminIDEQ.
-func AdminID(v uint32) predicate.AdminLoginRestriction {
-	return predicate.AdminLoginRestriction(sql.FieldEQ(FieldAdminID, v))
+// TargetID applies equality check predicate on the "target_id" field. It's identical to TargetIDEQ.
+func TargetID(v uint32) predicate.AdminLoginRestriction {
+	return predicate.AdminLoginRestriction(sql.FieldEQ(FieldTargetID, v))
 }
 
 // Value applies equality check predicate on the "value" field. It's identical to ValueEQ.
@@ -344,54 +344,54 @@ func UpdateByNotNil() predicate.AdminLoginRestriction {
 	return predicate.AdminLoginRestriction(sql.FieldNotNull(FieldUpdateBy))
 }
 
-// AdminIDEQ applies the EQ predicate on the "admin_id" field.
-func AdminIDEQ(v uint32) predicate.AdminLoginRestriction {
-	return predicate.AdminLoginRestriction(sql.FieldEQ(FieldAdminID, v))
+// TargetIDEQ applies the EQ predicate on the "target_id" field.
+func TargetIDEQ(v uint32) predicate.AdminLoginRestriction {
+	return predicate.AdminLoginRestriction(sql.FieldEQ(FieldTargetID, v))
 }
 
-// AdminIDNEQ applies the NEQ predicate on the "admin_id" field.
-func AdminIDNEQ(v uint32) predicate.AdminLoginRestriction {
-	return predicate.AdminLoginRestriction(sql.FieldNEQ(FieldAdminID, v))
+// TargetIDNEQ applies the NEQ predicate on the "target_id" field.
+func TargetIDNEQ(v uint32) predicate.AdminLoginRestriction {
+	return predicate.AdminLoginRestriction(sql.FieldNEQ(FieldTargetID, v))
 }
 
-// AdminIDIn applies the In predicate on the "admin_id" field.
-func AdminIDIn(vs ...uint32) predicate.AdminLoginRestriction {
-	return predicate.AdminLoginRestriction(sql.FieldIn(FieldAdminID, vs...))
+// TargetIDIn applies the In predicate on the "target_id" field.
+func TargetIDIn(vs ...uint32) predicate.AdminLoginRestriction {
+	return predicate.AdminLoginRestriction(sql.FieldIn(FieldTargetID, vs...))
 }
 
-// AdminIDNotIn applies the NotIn predicate on the "admin_id" field.
-func AdminIDNotIn(vs ...uint32) predicate.AdminLoginRestriction {
-	return predicate.AdminLoginRestriction(sql.FieldNotIn(FieldAdminID, vs...))
+// TargetIDNotIn applies the NotIn predicate on the "target_id" field.
+func TargetIDNotIn(vs ...uint32) predicate.AdminLoginRestriction {
+	return predicate.AdminLoginRestriction(sql.FieldNotIn(FieldTargetID, vs...))
 }
 
-// AdminIDGT applies the GT predicate on the "admin_id" field.
-func AdminIDGT(v uint32) predicate.AdminLoginRestriction {
-	return predicate.AdminLoginRestriction(sql.FieldGT(FieldAdminID, v))
+// TargetIDGT applies the GT predicate on the "target_id" field.
+func TargetIDGT(v uint32) predicate.AdminLoginRestriction {
+	return predicate.AdminLoginRestriction(sql.FieldGT(FieldTargetID, v))
 }
 
-// AdminIDGTE applies the GTE predicate on the "admin_id" field.
-func AdminIDGTE(v uint32) predicate.AdminLoginRestriction {
-	return predicate.AdminLoginRestriction(sql.FieldGTE(FieldAdminID, v))
+// TargetIDGTE applies the GTE predicate on the "target_id" field.
+func TargetIDGTE(v uint32) predicate.AdminLoginRestriction {
+	return predicate.AdminLoginRestriction(sql.FieldGTE(FieldTargetID, v))
 }
 
-// AdminIDLT applies the LT predicate on the "admin_id" field.
-func AdminIDLT(v uint32) predicate.AdminLoginRestriction {
-	return predicate.AdminLoginRestriction(sql.FieldLT(FieldAdminID, v))
+// TargetIDLT applies the LT predicate on the "target_id" field.
+func TargetIDLT(v uint32) predicate.AdminLoginRestriction {
+	return predicate.AdminLoginRestriction(sql.FieldLT(FieldTargetID, v))
 }
 
-// AdminIDLTE applies the LTE predicate on the "admin_id" field.
-func AdminIDLTE(v uint32) predicate.AdminLoginRestriction {
-	return predicate.AdminLoginRestriction(sql.FieldLTE(FieldAdminID, v))
+// TargetIDLTE applies the LTE predicate on the "target_id" field.
+func TargetIDLTE(v uint32) predicate.AdminLoginRestriction {
+	return predicate.AdminLoginRestriction(sql.FieldLTE(FieldTargetID, v))
 }
 
-// AdminIDIsNil applies the IsNil predicate on the "admin_id" field.
-func AdminIDIsNil() predicate.AdminLoginRestriction {
-	return predicate.AdminLoginRestriction(sql.FieldIsNull(FieldAdminID))
+// TargetIDIsNil applies the IsNil predicate on the "target_id" field.
+func TargetIDIsNil() predicate.AdminLoginRestriction {
+	return predicate.AdminLoginRestriction(sql.FieldIsNull(FieldTargetID))
 }
 
-// AdminIDNotNil applies the NotNil predicate on the "admin_id" field.
-func AdminIDNotNil() predicate.AdminLoginRestriction {
-	return predicate.AdminLoginRestriction(sql.FieldNotNull(FieldAdminID))
+// TargetIDNotNil applies the NotNil predicate on the "target_id" field.
+func TargetIDNotNil() predicate.AdminLoginRestriction {
+	return predicate.AdminLoginRestriction(sql.FieldNotNull(FieldTargetID))
 }
 
 // ValueEQ applies the EQ predicate on the "value" field.

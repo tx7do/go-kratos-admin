@@ -31,5 +31,16 @@
     "SECRET": "未知",
     "MALE": "男性",
     "FEMALE": "女性"
+  },
+  "adminLoginRestrictionType": {
+    "BLACKLIST": "黑名单",
+    "WHITELIST": "白名单"
+  },
+  "adminLoginRestrictionMethod": {
+    "IP": "IP地址限制",
+    "MAC": "MAC地址限制",
+    "REGION": "地区限制",
+    "TIME": "时间限制",
+    "DEVICE": "设备限制"
   }
 }

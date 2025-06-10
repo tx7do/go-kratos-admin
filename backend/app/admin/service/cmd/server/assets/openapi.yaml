@@ -2660,9 +2660,9 @@ components:
                     type: integer
                     description: 后台登录限制ID
                     format: uint32
-                adminId:
+                targetId:
                     type: integer
-                    description: 管理员ID
+                    description: 目标用户ID
                     format: uint32
                 type:
                     enum:

@@ -285,27 +285,27 @@ func (rc *RoleCreate) defaults() {
 func (rc *RoleCreate) check() error {
 	if v, ok := rc.mutation.Status(); ok {
 		if err := role.StatusValidator(v); err != nil {
-			return &ValidationError{Name: "status", err: fmt.Errorf(`ent: validator failed for field "Authority.status": %w`, err)}
+			return &ValidationError{Name: "status", err: fmt.Errorf(`ent: validator failed for field "Role.status": %w`, err)}
 		}
 	}
 	if v, ok := rc.mutation.TenantID(); ok {
 		if err := role.TenantIDValidator(v); err != nil {
-			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "Authority.tenant_id": %w`, err)}
+			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "Role.tenant_id": %w`, err)}
 		}
 	}
 	if v, ok := rc.mutation.Name(); ok {
 		if err := role.NameValidator(v); err != nil {
-			return &ValidationError{Name: "name", err: fmt.Errorf(`ent: validator failed for field "Authority.name": %w`, err)}
+			return &ValidationError{Name: "name", err: fmt.Errorf(`ent: validator failed for field "Role.name": %w`, err)}
 		}
 	}
 	if v, ok := rc.mutation.Code(); ok {
 		if err := role.CodeValidator(v); err != nil {
-			return &ValidationError{Name: "code", err: fmt.Errorf(`ent: validator failed for field "Authority.code": %w`, err)}
+			return &ValidationError{Name: "code", err: fmt.Errorf(`ent: validator failed for field "Role.code": %w`, err)}
 		}
 	}
 	if v, ok := rc.mutation.ID(); ok {
 		if err := role.IDValidator(v); err != nil {
-			return &ValidationError{Name: "id", err: fmt.Errorf(`ent: validator failed for field "Authority.id": %w`, err)}
+			return &ValidationError{Name: "id", err: fmt.Errorf(`ent: validator failed for field "Role.id": %w`, err)}
 		}
 	}
 	return nil
@@ -432,7 +432,7 @@ func (rc *RoleCreate) createSpec() (*Role, *sqlgraph.CreateSpec) {
 // OnConflict allows configuring the `ON CONFLICT` / `ON DUPLICATE KEY` clause
 // of the `INSERT` statement. For example:
 //
-//	client.Authority.Create().
+//	client.Role.Create().
 //		SetCreateTime(v).
 //		OnConflict(
 //			// Update the row with the new values
@@ -455,7 +455,7 @@ func (rc *RoleCreate) OnConflict(opts ...sql.ConflictOption) *RoleUpsertOne {
 // OnConflictColumns calls `OnConflict` and configures the columns
 // as conflict target. Using this option is equivalent to using:
 //
-//	client.Authority.Create().
+//	client.Role.Create().
 //		OnConflict(sql.ConflictColumns(columns...)).
 //		Exec(ctx)
 func (rc *RoleCreate) OnConflictColumns(columns ...string) *RoleUpsertOne {
@@ -467,7 +467,7 @@ func (rc *RoleCreate) OnConflictColumns(columns ...string) *RoleUpsertOne {
 
 type (
 	// RoleUpsertOne is the builder for "upsert"-ing
-	//  one Authority node.
+	//  one Role node.
 	RoleUpsertOne struct {
 		create *RoleCreate
 	}
@@ -715,7 +715,7 @@ func (u *RoleUpsert) ClearApis() *RoleUpsert {
 // UpdateNewValues updates the mutable fields using the new values that were set on create except the ID field.
 // Using this option is equivalent to using:
 //
-//	client.Authority.Create().
+//	client.Role.Create().
 //		OnConflict(
 //			sql.ResolveWithNewValues(),
 //			sql.ResolveWith(func(u *sql.UpdateSet) {
@@ -742,7 +742,7 @@ func (u *RoleUpsertOne) UpdateNewValues() *RoleUpsertOne {
 // Ignore sets each column to itself in case of conflict.
 // Using this option is equivalent to using:
 //
-//	client.Authority.Create().
+//	client.Role.Create().
 //	    OnConflict(sql.ResolveWithIgnore()).
 //	    Exec(ctx)
 func (u *RoleUpsertOne) Ignore() *RoleUpsertOne {
@@ -1165,7 +1165,7 @@ func (rcb *RoleCreateBulk) ExecX(ctx context.Context) {
 // OnConflict allows configuring the `ON CONFLICT` / `ON DUPLICATE KEY` clause
 // of the `INSERT` statement. For example:
 //
-//	client.Authority.CreateBulk(builders...).
+//	client.Role.CreateBulk(builders...).
 //		OnConflict(
 //			// Update the row with the new values
 //			// the was proposed for insertion.
@@ -1187,7 +1187,7 @@ func (rcb *RoleCreateBulk) OnConflict(opts ...sql.ConflictOption) *RoleUpsertBul
 // OnConflictColumns calls `OnConflict` and configures the columns
 // as conflict target. Using this option is equivalent to using:
 //
-//	client.Authority.Create().
+//	client.Role.Create().
 //		OnConflict(sql.ConflictColumns(columns...)).
 //		Exec(ctx)
 func (rcb *RoleCreateBulk) OnConflictColumns(columns ...string) *RoleUpsertBulk {
@@ -1206,7 +1206,7 @@ type RoleUpsertBulk struct {
 // UpdateNewValues updates the mutable fields using the new values that
 // were set on create. Using this option is equivalent to using:
 //
-//	client.Authority.Create().
+//	client.Role.Create().
 //		OnConflict(
 //			sql.ResolveWithNewValues(),
 //			sql.ResolveWith(func(u *sql.UpdateSet) {
@@ -1235,7 +1235,7 @@ func (u *RoleUpsertBulk) UpdateNewValues() *RoleUpsertBulk {
 // Ignore sets each column to itself in case of conflict.
 // Using this option is equivalent to using:
 //
-//	client.Authority.Create().
+//	client.Role.Create().
 //		OnConflict(sql.ResolveWithIgnore()).
 //		Exec(ctx)
 func (u *RoleUpsertBulk) Ignore() *RoleUpsertBulk {

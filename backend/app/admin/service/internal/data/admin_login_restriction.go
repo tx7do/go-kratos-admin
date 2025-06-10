@@ -246,7 +246,7 @@ func (r *AdminLoginRestrictionRepo) Create(ctx context.Context, req *adminV1.Cre
 	}
 
 	builder := r.data.db.Client().AdminLoginRestriction.Create().
-		SetNillableAdminID(req.Data.AdminId).
+		SetNillableTargetID(req.Data.TargetId).
 		SetNillableType(r.toEntType(req.Data.Type)).
 		SetNillableMethod(r.toEntMethod(req.Data.Method)).
 		SetNillableValue(req.Data.Value).
@@ -295,7 +295,7 @@ func (r *AdminLoginRestrictionRepo) Update(ctx context.Context, req *adminV1.Upd
 	}
 
 	builder := r.data.db.Client().AdminLoginRestriction.UpdateOneID(req.Data.GetId()).
-		SetNillableAdminID(req.Data.AdminId).
+		SetNillableTargetID(req.Data.TargetId).
 		SetNillableType(r.toEntType(req.Data.Type)).
 		SetNillableMethod(r.toEntMethod(req.Data.Method)).
 		SetNillableValue(req.Data.Value).

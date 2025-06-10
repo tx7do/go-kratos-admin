@@ -79,7 +79,7 @@ var schemaGraph = func() *sqlgraph.Schema {
 			adminloginrestriction.FieldDeleteTime: {Type: field.TypeTime, Column: adminloginrestriction.FieldDeleteTime},
 			adminloginrestriction.FieldCreateBy:   {Type: field.TypeUint32, Column: adminloginrestriction.FieldCreateBy},
 			adminloginrestriction.FieldUpdateBy:   {Type: field.TypeUint32, Column: adminloginrestriction.FieldUpdateBy},
-			adminloginrestriction.FieldAdminID:    {Type: field.TypeUint32, Column: adminloginrestriction.FieldAdminID},
+			adminloginrestriction.FieldTargetID:   {Type: field.TypeUint32, Column: adminloginrestriction.FieldTargetID},
 			adminloginrestriction.FieldValue:      {Type: field.TypeString, Column: adminloginrestriction.FieldValue},
 			adminloginrestriction.FieldReason:     {Type: field.TypeString, Column: adminloginrestriction.FieldReason},
 			adminloginrestriction.FieldType:       {Type: field.TypeEnum, Column: adminloginrestriction.FieldType},
@@ -407,7 +407,7 @@ var schemaGraph = func() *sqlgraph.Schema {
 				Column: role.FieldID,
 			},
 		},
-		Type: "Authority",
+		Type: "Role",
 		Fields: map[string]*sqlgraph.FieldSpec{
 			role.FieldCreateTime: {Type: field.TypeTime, Column: role.FieldCreateTime},
 			role.FieldUpdateTime: {Type: field.TypeTime, Column: role.FieldUpdateTime},
@@ -671,8 +671,8 @@ var schemaGraph = func() *sqlgraph.Schema {
 			Columns: []string{role.ParentColumn},
 			Bidi:    false,
 		},
-		"Authority",
-		"Authority",
+		"Role",
+		"Role",
 	)
 	graph.MustAddE(
 		"children",
@@ -683,8 +683,8 @@ var schemaGraph = func() *sqlgraph.Schema {
 			Columns: []string{role.ChildrenColumn},
 			Bidi:    false,
 		},
-		"Authority",
-		"Authority",
+		"Role",
+		"Role",
 	)
 	return graph
 }()
@@ -885,9 +885,9 @@ func (f *AdminLoginRestrictionFilter) WhereUpdateBy(p entql.Uint32P) {
 	f.Where(p.Field(adminloginrestriction.FieldUpdateBy))
 }
 
-// WhereAdminID applies the entql uint32 predicate on the admin_id field.
-func (f *AdminLoginRestrictionFilter) WhereAdminID(p entql.Uint32P) {
-	f.Where(p.Field(adminloginrestriction.FieldAdminID))
+// WhereTargetID applies the entql uint32 predicate on the target_id field.
+func (f *AdminLoginRestrictionFilter) WhereTargetID(p entql.Uint32P) {
+	f.Where(p.Field(adminloginrestriction.FieldTargetID))
 }
 
 // WhereValue applies the entql string predicate on the value field.

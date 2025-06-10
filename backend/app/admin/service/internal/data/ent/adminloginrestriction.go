@@ -28,8 +28,8 @@ type AdminLoginRestriction struct {
 	CreateBy *uint32 `json:"create_by,omitempty"`
 	// 更新者ID
 	UpdateBy *uint32 `json:"update_by,omitempty"`
-	// 管理员ID
-	AdminID *uint32 `json:"admin_id,omitempty"`
+	// 目标用户ID
+	TargetID *uint32 `json:"target_id,omitempty"`
 	// 限制值（如IP地址、MAC地址或地区代码）
 	Value *string `json:"value,omitempty"`
 	// 限制原因
@@ -46,7 +46,7 @@ func (*AdminLoginRestriction) scanValues(columns []string) ([]any, error) {
 	values := make([]any, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case adminloginrestriction.FieldID, adminloginrestriction.FieldCreateBy, adminloginrestriction.FieldUpdateBy, adminloginrestriction.FieldAdminID:
+		case adminloginrestriction.FieldID, adminloginrestriction.FieldCreateBy, adminloginrestriction.FieldUpdateBy, adminloginrestriction.FieldTargetID:
 			values[i] = new(sql.NullInt64)
 		case adminloginrestriction.FieldValue, adminloginrestriction.FieldReason, adminloginrestriction.FieldType, adminloginrestriction.FieldMethod:
 			values[i] = new(sql.NullString)
@@ -108,12 +108,12 @@ func (alr *AdminLoginRestriction) assignValues(columns []string, values []any) e
 				alr.UpdateBy = new(uint32)
 				*alr.UpdateBy = uint32(value.Int64)
 			}
-		case adminloginrestriction.FieldAdminID:
+		case adminloginrestriction.FieldTargetID:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for field admin_id", values[i])
+				return fmt.Errorf("unexpected type %T for field target_id", values[i])
 			} else if value.Valid {
-				alr.AdminID = new(uint32)
-				*alr.AdminID = uint32(value.Int64)
+				alr.TargetID = new(uint32)
+				*alr.TargetID = uint32(value.Int64)
 			}
 		case adminloginrestriction.FieldValue:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -204,8 +204,8 @@ func (alr *AdminLoginRestriction) String() string {
 		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteString(", ")
-	if v := alr.AdminID; v != nil {
-		builder.WriteString("admin_id=")
+	if v := alr.TargetID; v != nil {
+		builder.WriteString("target_id=")
 		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteString(", ")

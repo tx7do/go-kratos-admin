@@ -31,5 +31,16 @@
     "SECRET": "Secret",
     "MALE": "Male",
     "FEMALE": "Female"
+  },
+  "adminLoginRestrictionType": {
+    "BLACKLIST": "Blacklist",
+    "WHITELIST": "Whitelist"
+  },
+  "adminLoginRestrictionMethod": {
+    "IP": "IP Address",
+    "MAC": "MAC Address",
+    "REGION": "Region",
+    "TIME": "Time",
+    "DEVICE": "Device"
   }
 }

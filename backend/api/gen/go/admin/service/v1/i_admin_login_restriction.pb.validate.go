@@ -61,8 +61,8 @@ func (m *AdminLoginRestriction) validate(all bool) error {
 		// no validation rules for Id
 	}
 
-	if m.AdminId != nil {
-		// no validation rules for AdminId
+	if m.TargetId != nil {
+		// no validation rules for TargetId
 	}
 
 	if m.Type != nil {

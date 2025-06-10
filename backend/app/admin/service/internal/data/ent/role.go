@@ -253,7 +253,7 @@ func (r *Role) Update() *RoleUpdateOne {
 func (r *Role) Unwrap() *Role {
 	_tx, ok := r.config.driver.(*txDriver)
 	if !ok {
-		panic("ent: Authority is not a transactional entity")
+		panic("ent: Role is not a transactional entity")
 	}
 	r.config.driver = _tx.drv
 	return r
@@ -262,7 +262,7 @@ func (r *Role) Unwrap() *Role {
 // String implements the fmt.Stringer.
 func (r *Role) String() string {
 	var builder strings.Builder
-	builder.WriteString("Authority(")
+	builder.WriteString("Role(")
 	builder.WriteString(fmt.Sprintf("id=%v, ", r.ID))
 	if v := r.CreateTime; v != nil {
 		builder.WriteString("create_time=")

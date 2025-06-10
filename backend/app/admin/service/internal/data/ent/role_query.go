@@ -340,7 +340,7 @@ func (rq *RoleQuery) WithChildren(opts ...func(*RoleQuery)) *RoleQuery {
 //		Count int `json:"count,omitempty"`
 //	}
 //
-//	client.Authority.Query().
+//	client.Role.Query().
 //		GroupBy(role.FieldCreateTime).
 //		Aggregate(ent.Count()).
 //		Scan(ctx, &v)
@@ -362,7 +362,7 @@ func (rq *RoleQuery) GroupBy(field string, fields ...string) *RoleGroupBy {
 //		CreateTime time.Time `json:"create_time,omitempty"`
 //	}
 //
-//	client.Authority.Query().
+//	client.Role.Query().
 //		Select(role.FieldCreateTime).
 //		Scan(ctx, &v)
 func (rq *RoleQuery) Select(fields ...string) *RoleSelect {

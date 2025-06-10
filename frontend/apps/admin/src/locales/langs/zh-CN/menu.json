@@ -33,7 +33,8 @@
     "apiResource": "API资源",
     "notificationMessage": "通知消息",
     "notificationMessageCategory": "通知类型",
-    "privateMessage": "私聊消息"
+    "privateMessage": "私聊消息",
+    "adminLoginRestriction": "登录限制"
   },
   "log": {
     "moduleName": "日志审计",

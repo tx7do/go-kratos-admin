@@ -5,6 +5,7 @@ import (
 	"entgo.io/ent/dialect/entsql"
 	"entgo.io/ent/schema"
 	"entgo.io/ent/schema/field"
+	"entgo.io/ent/schema/index"
 	"github.com/tx7do/go-utils/entgo/mixin"
 )
 
@@ -28,9 +29,8 @@ func (AdminLoginRestriction) Annotations() []schema.Annotation {
 // Fields of the AdminLoginRestriction.
 func (AdminLoginRestriction) Fields() []ent.Field {
 	return []ent.Field{
-		field.Uint32("admin_id").
-			Comment("管理员ID").
-			Unique().
+		field.Uint32("target_id").
+			Comment("目标用户ID").
 			Optional().
 			Nillable(),
 
@@ -66,6 +66,13 @@ func (AdminLoginRestriction) Fields() []ent.Field {
 			Default("IP").
 			Optional().
 			Nillable(),
+	}
+}
+
+// Indexes of the AdminLoginRestriction.
+func (AdminLoginRestriction) Indexes() []ent.Index {
+	return []ent.Index{
+		index.Fields("target_id", "type", "method").Unique(),
 	}
 }
 

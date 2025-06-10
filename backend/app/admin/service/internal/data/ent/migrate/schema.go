@@ -52,7 +52,7 @@ var (
 		{Name: "delete_time", Type: field.TypeTime, Nullable: true, Comment: "删除时间"},
 		{Name: "create_by", Type: field.TypeUint32, Nullable: true, Comment: "创建者ID"},
 		{Name: "update_by", Type: field.TypeUint32, Nullable: true, Comment: "更新者ID"},
-		{Name: "admin_id", Type: field.TypeUint32, Unique: true, Nullable: true, Comment: "管理员ID"},
+		{Name: "target_id", Type: field.TypeUint32, Nullable: true, Comment: "目标用户ID"},
 		{Name: "value", Type: field.TypeString, Nullable: true, Comment: "限制值（如IP地址、MAC地址或地区代码）"},
 		{Name: "reason", Type: field.TypeString, Nullable: true, Comment: "限制原因"},
 		{Name: "type", Type: field.TypeEnum, Nullable: true, Comment: "限制类型", Enums: []string{"BLACKLIST", "WHITELIST"}, Default: "BLACKLIST"},
@@ -69,6 +69,11 @@ var (
 				Name:    "adminloginrestriction_id",
 				Unique:  false,
 				Columns: []*schema.Column{AdminLoginRestrictionsColumns[0]},
+			},
+			{
+				Name:    "adminloginrestriction_target_id_type_method",
+				Unique:  true,
+				Columns: []*schema.Column{AdminLoginRestrictionsColumns[6], AdminLoginRestrictionsColumns[9], AdminLoginRestrictionsColumns[10]},
 			},
 		},
 	}

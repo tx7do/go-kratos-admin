@@ -197,5 +197,16 @@
       "create": "Create API",
       "sync": "Sync API"
     }
+  },
+  "adminLoginRestriction": {
+    "moduleName": "Login Restriction",
+    "targetId": "Target User ID",
+    "type": "Restriction Type",
+    "method": "Restriction Method",
+    "value": "Restriction Value",
+    "reason": "Restriction Reason",
+    "button": {
+      "create": "Create"
+    }
   }
 }

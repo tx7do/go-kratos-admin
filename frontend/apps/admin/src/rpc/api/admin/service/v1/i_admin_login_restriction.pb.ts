@@ -42,8 +42,8 @@ export interface AdminLoginRestriction {
     | number
     | null
     | undefined;
-  /** 管理员ID */
-  adminId?:
+  /** 目标用户ID */
+  targetId?:
     | number
     | null
     | undefined;

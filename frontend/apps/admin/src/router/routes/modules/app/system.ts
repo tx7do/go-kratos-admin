@@ -94,6 +94,18 @@ const system: RouteRecordRaw[] = [
         },
         component: () => import('#/views/app/system/private_message/index.vue'),
       },
+
+      {
+        path: 'admin_login_restriction',
+        name: 'AdminLoginRestrictionManagement',
+        meta: {
+          icon: 'lucide:door-open',
+          title: $t('menu.system.adminLoginRestriction'),
+          authority: ['super', 'admin'],
+        },
+        component: () =>
+          import('#/views/app/system/admin_login_restriction/index.vue'),
+      },
     ],
   },
 ];

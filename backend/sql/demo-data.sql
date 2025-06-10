@@ -55,3 +55,11 @@ INSERT INTO kratos_admin.public.sys_tasks(type, type_name, task_payload, cron_sp
 VALUES ('Periodic', 'backup', '{ "name": "test"}', '*/1 * * * ?', true, now())
 ;
 SELECT setval('sys_tasks_id_seq', (SELECT MAX(id) FROM sys_tasks));
+
+-- 后台登录限制
+TRUNCATE TABLE kratos_admin.public.admin_login_restrictions RESTART IDENTITY;
+INSERT INTO kratos_admin.public.admin_login_restrictions(id, target_id, type, method, value, reason, create_time)
+VALUES (1, 1, 'BLACKLIST', 'IP', '127.0.0.1', '无理由', now()),
+       (2, 1, 'WHITELIST', 'MAC', '00:1B:44:11:3A:B7 ', '无理由', now())
+;
+SELECT setval('admin_login_restrictions_id_seq', (SELECT MAX(id) FROM admin_login_restrictions));

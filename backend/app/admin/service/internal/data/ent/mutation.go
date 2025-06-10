@@ -57,7 +57,7 @@ const (
 	TypeOrganization                 = "Organization"
 	TypePosition                     = "Position"
 	TypePrivateMessage               = "PrivateMessage"
-	TypeRole                         = "Authority"
+	TypeRole                         = "Role"
 	TypeTask                         = "Task"
 	TypeTenant                       = "Tenant"
 	TypeUser                         = "User"
@@ -1670,8 +1670,8 @@ type AdminLoginRestrictionMutation struct {
 	addcreate_by  *int32
 	update_by     *uint32
 	addupdate_by  *int32
-	admin_id      *uint32
-	addadmin_id   *int32
+	target_id     *uint32
+	addtarget_id  *int32
 	value         *string
 	reason        *string
 	_type         *adminloginrestriction.Type
@@ -2073,74 +2073,74 @@ func (m *AdminLoginRestrictionMutation) ResetUpdateBy() {
 	delete(m.clearedFields, adminloginrestriction.FieldUpdateBy)
 }
 
-// SetAdminID sets the "admin_id" field.
-func (m *AdminLoginRestrictionMutation) SetAdminID(u uint32) {
-	m.admin_id = &u
-	m.addadmin_id = nil
+// SetTargetID sets the "target_id" field.
+func (m *AdminLoginRestrictionMutation) SetTargetID(u uint32) {
+	m.target_id = &u
+	m.addtarget_id = nil
 }
 
-// AdminID returns the value of the "admin_id" field in the mutation.
-func (m *AdminLoginRestrictionMutation) AdminID() (r uint32, exists bool) {
-	v := m.admin_id
+// TargetID returns the value of the "target_id" field in the mutation.
+func (m *AdminLoginRestrictionMutation) TargetID() (r uint32, exists bool) {
+	v := m.target_id
 	if v == nil {
 		return
 	}
 	return *v, true
 }
 
-// OldAdminID returns the old "admin_id" field's value of the AdminLoginRestriction entity.
+// OldTargetID returns the old "target_id" field's value of the AdminLoginRestriction entity.
 // If the AdminLoginRestriction object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *AdminLoginRestrictionMutation) OldAdminID(ctx context.Context) (v *uint32, err error) {
+func (m *AdminLoginRestrictionMutation) OldTargetID(ctx context.Context) (v *uint32, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldAdminID is only allowed on UpdateOne operations")
+		return v, errors.New("OldTargetID is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldAdminID requires an ID field in the mutation")
+		return v, errors.New("OldTargetID requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
-		return v, fmt.Errorf("querying old value for OldAdminID: %w", err)
+		return v, fmt.Errorf("querying old value for OldTargetID: %w", err)
 	}
-	return oldValue.AdminID, nil
+	return oldValue.TargetID, nil
 }
 
-// AddAdminID adds u to the "admin_id" field.
-func (m *AdminLoginRestrictionMutation) AddAdminID(u int32) {
-	if m.addadmin_id != nil {
-		*m.addadmin_id += u
+// AddTargetID adds u to the "target_id" field.
+func (m *AdminLoginRestrictionMutation) AddTargetID(u int32) {
+	if m.addtarget_id != nil {
+		*m.addtarget_id += u
 	} else {
-		m.addadmin_id = &u
+		m.addtarget_id = &u
 	}
 }
 
-// AddedAdminID returns the value that was added to the "admin_id" field in this mutation.
-func (m *AdminLoginRestrictionMutation) AddedAdminID() (r int32, exists bool) {
-	v := m.addadmin_id
+// AddedTargetID returns the value that was added to the "target_id" field in this mutation.
+func (m *AdminLoginRestrictionMutation) AddedTargetID() (r int32, exists bool) {
+	v := m.addtarget_id
 	if v == nil {
 		return
 	}
 	return *v, true
 }
 
-// ClearAdminID clears the value of the "admin_id" field.
-func (m *AdminLoginRestrictionMutation) ClearAdminID() {
-	m.admin_id = nil
-	m.addadmin_id = nil
-	m.clearedFields[adminloginrestriction.FieldAdminID] = struct{}{}
+// ClearTargetID clears the value of the "target_id" field.
+func (m *AdminLoginRestrictionMutation) ClearTargetID() {
+	m.target_id = nil
+	m.addtarget_id = nil
+	m.clearedFields[adminloginrestriction.FieldTargetID] = struct{}{}
 }
 
-// AdminIDCleared returns if the "admin_id" field was cleared in this mutation.
-func (m *AdminLoginRestrictionMutation) AdminIDCleared() bool {
-	_, ok := m.clearedFields[adminloginrestriction.FieldAdminID]
+// TargetIDCleared returns if the "target_id" field was cleared in this mutation.
+func (m *AdminLoginRestrictionMutation) TargetIDCleared() bool {
+	_, ok := m.clearedFields[adminloginrestriction.FieldTargetID]
 	return ok
 }
 
-// ResetAdminID resets all changes to the "admin_id" field.
-func (m *AdminLoginRestrictionMutation) ResetAdminID() {
-	m.admin_id = nil
-	m.addadmin_id = nil
-	delete(m.clearedFields, adminloginrestriction.FieldAdminID)
+// ResetTargetID resets all changes to the "target_id" field.
+func (m *AdminLoginRestrictionMutation) ResetTargetID() {
+	m.target_id = nil
+	m.addtarget_id = nil
+	delete(m.clearedFields, adminloginrestriction.FieldTargetID)
 }
 
 // SetValue sets the "value" field.
@@ -2389,8 +2389,8 @@ func (m *AdminLoginRestrictionMutation) Fields() []string {
 	if m.update_by != nil {
 		fields = append(fields, adminloginrestriction.FieldUpdateBy)
 	}
-	if m.admin_id != nil {
-		fields = append(fields, adminloginrestriction.FieldAdminID)
+	if m.target_id != nil {
+		fields = append(fields, adminloginrestriction.FieldTargetID)
 	}
 	if m.value != nil {
 		fields = append(fields, adminloginrestriction.FieldValue)
@@ -2422,8 +2422,8 @@ func (m *AdminLoginRestrictionMutation) Field(name string) (ent.Value, bool) {
 		return m.CreateBy()
 	case adminloginrestriction.FieldUpdateBy:
 		return m.UpdateBy()
-	case adminloginrestriction.FieldAdminID:
-		return m.AdminID()
+	case adminloginrestriction.FieldTargetID:
+		return m.TargetID()
 	case adminloginrestriction.FieldValue:
 		return m.Value()
 	case adminloginrestriction.FieldReason:
@@ -2451,8 +2451,8 @@ func (m *AdminLoginRestrictionMutation) OldField(ctx context.Context, name strin
 		return m.OldCreateBy(ctx)
 	case adminloginrestriction.FieldUpdateBy:
 		return m.OldUpdateBy(ctx)
-	case adminloginrestriction.FieldAdminID:
-		return m.OldAdminID(ctx)
+	case adminloginrestriction.FieldTargetID:
+		return m.OldTargetID(ctx)
 	case adminloginrestriction.FieldValue:
 		return m.OldValue(ctx)
 	case adminloginrestriction.FieldReason:
@@ -2505,12 +2505,12 @@ func (m *AdminLoginRestrictionMutation) SetField(name string, value ent.Value) e
 		}
 		m.SetUpdateBy(v)
 		return nil
-	case adminloginrestriction.FieldAdminID:
+	case adminloginrestriction.FieldTargetID:
 		v, ok := value.(uint32)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
-		m.SetAdminID(v)
+		m.SetTargetID(v)
 		return nil
 	case adminloginrestriction.FieldValue:
 		v, ok := value.(string)
@@ -2554,8 +2554,8 @@ func (m *AdminLoginRestrictionMutation) AddedFields() []string {
 	if m.addupdate_by != nil {
 		fields = append(fields, adminloginrestriction.FieldUpdateBy)
 	}
-	if m.addadmin_id != nil {
-		fields = append(fields, adminloginrestriction.FieldAdminID)
+	if m.addtarget_id != nil {
+		fields = append(fields, adminloginrestriction.FieldTargetID)
 	}
 	return fields
 }
@@ -2569,8 +2569,8 @@ func (m *AdminLoginRestrictionMutation) AddedField(name string) (ent.Value, bool
 		return m.AddedCreateBy()
 	case adminloginrestriction.FieldUpdateBy:
 		return m.AddedUpdateBy()
-	case adminloginrestriction.FieldAdminID:
-		return m.AddedAdminID()
+	case adminloginrestriction.FieldTargetID:
+		return m.AddedTargetID()
 	}
 	return nil, false
 }
@@ -2594,12 +2594,12 @@ func (m *AdminLoginRestrictionMutation) AddField(name string, value ent.Value) e
 		}
 		m.AddUpdateBy(v)
 		return nil
-	case adminloginrestriction.FieldAdminID:
+	case adminloginrestriction.FieldTargetID:
 		v, ok := value.(int32)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
-		m.AddAdminID(v)
+		m.AddTargetID(v)
 		return nil
 	}
 	return fmt.Errorf("unknown AdminLoginRestriction numeric field %s", name)
@@ -2624,8 +2624,8 @@ func (m *AdminLoginRestrictionMutation) ClearedFields() []string {
 	if m.FieldCleared(adminloginrestriction.FieldUpdateBy) {
 		fields = append(fields, adminloginrestriction.FieldUpdateBy)
 	}
-	if m.FieldCleared(adminloginrestriction.FieldAdminID) {
-		fields = append(fields, adminloginrestriction.FieldAdminID)
+	if m.FieldCleared(adminloginrestriction.FieldTargetID) {
+		fields = append(fields, adminloginrestriction.FieldTargetID)
 	}
 	if m.FieldCleared(adminloginrestriction.FieldValue) {
 		fields = append(fields, adminloginrestriction.FieldValue)
@@ -2668,8 +2668,8 @@ func (m *AdminLoginRestrictionMutation) ClearField(name string) error {
 	case adminloginrestriction.FieldUpdateBy:
 		m.ClearUpdateBy()
 		return nil
-	case adminloginrestriction.FieldAdminID:
-		m.ClearAdminID()
+	case adminloginrestriction.FieldTargetID:
+		m.ClearTargetID()
 		return nil
 	case adminloginrestriction.FieldValue:
 		m.ClearValue()
@@ -2706,8 +2706,8 @@ func (m *AdminLoginRestrictionMutation) ResetField(name string) error {
 	case adminloginrestriction.FieldUpdateBy:
 		m.ResetUpdateBy()
 		return nil
-	case adminloginrestriction.FieldAdminID:
-		m.ResetAdminID()
+	case adminloginrestriction.FieldTargetID:
+		m.ResetTargetID()
 		return nil
 	case adminloginrestriction.FieldValue:
 		m.ResetValue()
@@ -20774,7 +20774,7 @@ func (m *RoleMutation) OldField(ctx context.Context, name string) (ent.Value, er
 	case role.FieldApis:
 		return m.OldApis(ctx)
 	}
-	return nil, fmt.Errorf("unknown Authority field %s", name)
+	return nil, fmt.Errorf("unknown Role field %s", name)
 }
 
 // SetField sets the value of a field with the given name. It returns an error if
@@ -20881,7 +20881,7 @@ func (m *RoleMutation) SetField(name string, value ent.Value) error {
 		m.SetApis(v)
 		return nil
 	}
-	return fmt.Errorf("unknown Authority field %s", name)
+	return fmt.Errorf("unknown Role field %s", name)
 }
 
 // AddedFields returns all numeric fields that were incremented/decremented during
@@ -20954,7 +20954,7 @@ func (m *RoleMutation) AddField(name string, value ent.Value) error {
 		m.AddSortID(v)
 		return nil
 	}
-	return fmt.Errorf("unknown Authority numeric field %s", name)
+	return fmt.Errorf("unknown Role numeric field %s", name)
 }
 
 // ClearedFields returns all nullable fields that were cleared during this
@@ -21060,7 +21060,7 @@ func (m *RoleMutation) ClearField(name string) error {
 		m.ClearApis()
 		return nil
 	}
-	return fmt.Errorf("unknown Authority nullable field %s", name)
+	return fmt.Errorf("unknown Role nullable field %s", name)
 }
 
 // ResetField resets all changes in the mutation for the field with the given name.
@@ -21110,7 +21110,7 @@ func (m *RoleMutation) ResetField(name string) error {
 		m.ResetApis()
 		return nil
 	}
-	return fmt.Errorf("unknown Authority field %s", name)
+	return fmt.Errorf("unknown Role field %s", name)
 }
 
 // AddedEdges returns all edge names that were set/added in this mutation.
@@ -21198,7 +21198,7 @@ func (m *RoleMutation) ClearEdge(name string) error {
 		m.ClearParent()
 		return nil
 	}
-	return fmt.Errorf("unknown Authority unique edge %s", name)
+	return fmt.Errorf("unknown Role unique edge %s", name)
 }
 
 // ResetEdge resets all changes to the edge with the given name in this mutation.
@@ -21212,7 +21212,7 @@ func (m *RoleMutation) ResetEdge(name string) error {
 		m.ResetChildren()
 		return nil
 	}
-	return fmt.Errorf("unknown Authority edge %s", name)
+	return fmt.Errorf("unknown Role edge %s", name)
 }
 
 // TaskMutation represents an operation that mutates the Task nodes in the graph.

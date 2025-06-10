@@ -123,30 +123,30 @@ func (alru *AdminLoginRestrictionUpdate) ClearUpdateBy() *AdminLoginRestrictionU
 	return alru
 }
 
-// SetAdminID sets the "admin_id" field.
-func (alru *AdminLoginRestrictionUpdate) SetAdminID(u uint32) *AdminLoginRestrictionUpdate {
-	alru.mutation.ResetAdminID()
-	alru.mutation.SetAdminID(u)
+// SetTargetID sets the "target_id" field.
+func (alru *AdminLoginRestrictionUpdate) SetTargetID(u uint32) *AdminLoginRestrictionUpdate {
+	alru.mutation.ResetTargetID()
+	alru.mutation.SetTargetID(u)
 	return alru
 }
 
-// SetNillableAdminID sets the "admin_id" field if the given value is not nil.
-func (alru *AdminLoginRestrictionUpdate) SetNillableAdminID(u *uint32) *AdminLoginRestrictionUpdate {
+// SetNillableTargetID sets the "target_id" field if the given value is not nil.
+func (alru *AdminLoginRestrictionUpdate) SetNillableTargetID(u *uint32) *AdminLoginRestrictionUpdate {
 	if u != nil {
-		alru.SetAdminID(*u)
+		alru.SetTargetID(*u)
 	}
 	return alru
 }
 
-// AddAdminID adds u to the "admin_id" field.
-func (alru *AdminLoginRestrictionUpdate) AddAdminID(u int32) *AdminLoginRestrictionUpdate {
-	alru.mutation.AddAdminID(u)
+// AddTargetID adds u to the "target_id" field.
+func (alru *AdminLoginRestrictionUpdate) AddTargetID(u int32) *AdminLoginRestrictionUpdate {
+	alru.mutation.AddTargetID(u)
 	return alru
 }
 
-// ClearAdminID clears the value of the "admin_id" field.
-func (alru *AdminLoginRestrictionUpdate) ClearAdminID() *AdminLoginRestrictionUpdate {
-	alru.mutation.ClearAdminID()
+// ClearTargetID clears the value of the "target_id" field.
+func (alru *AdminLoginRestrictionUpdate) ClearTargetID() *AdminLoginRestrictionUpdate {
+	alru.mutation.ClearTargetID()
 	return alru
 }
 
@@ -328,14 +328,14 @@ func (alru *AdminLoginRestrictionUpdate) sqlSave(ctx context.Context) (n int, er
 	if alru.mutation.UpdateByCleared() {
 		_spec.ClearField(adminloginrestriction.FieldUpdateBy, field.TypeUint32)
 	}
-	if value, ok := alru.mutation.AdminID(); ok {
-		_spec.SetField(adminloginrestriction.FieldAdminID, field.TypeUint32, value)
+	if value, ok := alru.mutation.TargetID(); ok {
+		_spec.SetField(adminloginrestriction.FieldTargetID, field.TypeUint32, value)
 	}
-	if value, ok := alru.mutation.AddedAdminID(); ok {
-		_spec.AddField(adminloginrestriction.FieldAdminID, field.TypeUint32, value)
+	if value, ok := alru.mutation.AddedTargetID(); ok {
+		_spec.AddField(adminloginrestriction.FieldTargetID, field.TypeUint32, value)
 	}
-	if alru.mutation.AdminIDCleared() {
-		_spec.ClearField(adminloginrestriction.FieldAdminID, field.TypeUint32)
+	if alru.mutation.TargetIDCleared() {
+		_spec.ClearField(adminloginrestriction.FieldTargetID, field.TypeUint32)
 	}
 	if value, ok := alru.mutation.Value(); ok {
 		_spec.SetField(adminloginrestriction.FieldValue, field.TypeString, value)
@@ -477,30 +477,30 @@ func (alruo *AdminLoginRestrictionUpdateOne) ClearUpdateBy() *AdminLoginRestrict
 	return alruo
 }
 
-// SetAdminID sets the "admin_id" field.
-func (alruo *AdminLoginRestrictionUpdateOne) SetAdminID(u uint32) *AdminLoginRestrictionUpdateOne {
-	alruo.mutation.ResetAdminID()
-	alruo.mutation.SetAdminID(u)
+// SetTargetID sets the "target_id" field.
+func (alruo *AdminLoginRestrictionUpdateOne) SetTargetID(u uint32) *AdminLoginRestrictionUpdateOne {
+	alruo.mutation.ResetTargetID()
+	alruo.mutation.SetTargetID(u)
 	return alruo
 }
 
-// SetNillableAdminID sets the "admin_id" field if the given value is not nil.
-func (alruo *AdminLoginRestrictionUpdateOne) SetNillableAdminID(u *uint32) *AdminLoginRestrictionUpdateOne {
+// SetNillableTargetID sets the "target_id" field if the given value is not nil.
+func (alruo *AdminLoginRestrictionUpdateOne) SetNillableTargetID(u *uint32) *AdminLoginRestrictionUpdateOne {
 	if u != nil {
-		alruo.SetAdminID(*u)
+		alruo.SetTargetID(*u)
 	}
 	return alruo
 }
 
-// AddAdminID adds u to the "admin_id" field.
-func (alruo *AdminLoginRestrictionUpdateOne) AddAdminID(u int32) *AdminLoginRestrictionUpdateOne {
-	alruo.mutation.AddAdminID(u)
+// AddTargetID adds u to the "target_id" field.
+func (alruo *AdminLoginRestrictionUpdateOne) AddTargetID(u int32) *AdminLoginRestrictionUpdateOne {
+	alruo.mutation.AddTargetID(u)
 	return alruo
 }
 
-// ClearAdminID clears the value of the "admin_id" field.
-func (alruo *AdminLoginRestrictionUpdateOne) ClearAdminID() *AdminLoginRestrictionUpdateOne {
-	alruo.mutation.ClearAdminID()
+// ClearTargetID clears the value of the "target_id" field.
+func (alruo *AdminLoginRestrictionUpdateOne) ClearTargetID() *AdminLoginRestrictionUpdateOne {
+	alruo.mutation.ClearTargetID()
 	return alruo
 }
 
@@ -712,14 +712,14 @@ func (alruo *AdminLoginRestrictionUpdateOne) sqlSave(ctx context.Context) (_node
 	if alruo.mutation.UpdateByCleared() {
 		_spec.ClearField(adminloginrestriction.FieldUpdateBy, field.TypeUint32)
 	}
-	if value, ok := alruo.mutation.AdminID(); ok {
-		_spec.SetField(adminloginrestriction.FieldAdminID, field.TypeUint32, value)
+	if value, ok := alruo.mutation.TargetID(); ok {
+		_spec.SetField(adminloginrestriction.FieldTargetID, field.TypeUint32, value)
 	}
-	if value, ok := alruo.mutation.AddedAdminID(); ok {
-		_spec.AddField(adminloginrestriction.FieldAdminID, field.TypeUint32, value)
+	if value, ok := alruo.mutation.AddedTargetID(); ok {
+		_spec.AddField(adminloginrestriction.FieldTargetID, field.TypeUint32, value)
 	}
-	if alruo.mutation.AdminIDCleared() {
-		_spec.ClearField(adminloginrestriction.FieldAdminID, field.TypeUint32)
+	if alruo.mutation.TargetIDCleared() {
+		_spec.ClearField(adminloginrestriction.FieldTargetID, field.TypeUint32)
 	}
 	if value, ok := alruo.mutation.Value(); ok {
 		_spec.SetField(adminloginrestriction.FieldValue, field.TypeString, value)

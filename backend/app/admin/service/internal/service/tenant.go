@@ -21,23 +21,23 @@ type TenantService struct {
 
 	log *log.Helper
 
-	uc *data.TenantRepo
+	repo *data.TenantRepo
 }
 
-func NewTenantService(uc *data.TenantRepo, logger log.Logger) *TenantService {
+func NewTenantService(logger log.Logger, repo *data.TenantRepo) *TenantService {
 	l := log.NewHelper(log.With(logger, "module", "tenant/service/admin-service"))
 	return &TenantService{
-		log: l,
-		uc:  uc,
+		log:  l,
+		repo: repo,
 	}
 }
 
 func (s *TenantService) List(ctx context.Context, req *pagination.PagingRequest) (*userV1.ListTenantResponse, error) {
-	return s.uc.List(ctx, req)
+	return s.repo.List(ctx, req)
 }
 
 func (s *TenantService) Get(ctx context.Context, req *userV1.GetTenantRequest) (*userV1.Tenant, error) {
-	return s.uc.Get(ctx, req)
+	return s.repo.Get(ctx, req)
 }
 
 func (s *TenantService) Create(ctx context.Context, req *userV1.CreateTenantRequest) (*emptypb.Empty, error) {
@@ -53,7 +53,7 @@ func (s *TenantService) Create(ctx context.Context, req *userV1.CreateTenantRequ
 
 	req.Data.CreateBy = trans.Ptr(operator.UserId)
 
-	if err = s.uc.Create(ctx, req); err != nil {
+	if err = s.repo.Create(ctx, req); err != nil {
 		return nil, err
 	}
 
@@ -73,7 +73,7 @@ func (s *TenantService) Update(ctx context.Context, req *userV1.UpdateTenantRequ
 
 	req.Data.UpdateBy = trans.Ptr(operator.UserId)
 
-	if err = s.uc.Update(ctx, req); err != nil {
+	if err = s.repo.Update(ctx, req); err != nil {
 		return nil, err
 	}
 
@@ -81,7 +81,7 @@ func (s *TenantService) Update(ctx context.Context, req *userV1.UpdateTenantRequ
 }
 
 func (s *TenantService) Delete(ctx context.Context, req *userV1.DeleteTenantRequest) (*emptypb.Empty, error) {
-	if err := s.uc.Delete(ctx, req); err != nil {
+	if err := s.repo.Delete(ctx, req); err != nil {
 		return nil, err
 	}
 

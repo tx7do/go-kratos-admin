@@ -21,23 +21,23 @@ type FileService struct {
 
 	log *log.Helper
 
-	uc *data.FileRepo
+	fileRepo *data.FileRepo
 }
 
-func NewFileService(uc *data.FileRepo, logger log.Logger) *FileService {
+func NewFileService(logger log.Logger, repo *data.FileRepo) *FileService {
 	l := log.NewHelper(log.With(logger, "module", "file/service/admin-service"))
 	return &FileService{
-		log: l,
-		uc:  uc,
+		log:      l,
+		fileRepo: repo,
 	}
 }
 
 func (s *FileService) List(ctx context.Context, req *pagination.PagingRequest) (*fileV1.ListFileResponse, error) {
-	return s.uc.List(ctx, req)
+	return s.fileRepo.List(ctx, req)
 }
 
 func (s *FileService) Get(ctx context.Context, req *fileV1.GetFileRequest) (*fileV1.File, error) {
-	return s.uc.Get(ctx, req)
+	return s.fileRepo.Get(ctx, req)
 }
 
 func (s *FileService) Create(ctx context.Context, req *fileV1.CreateFileRequest) (*emptypb.Empty, error) {
@@ -53,7 +53,7 @@ func (s *FileService) Create(ctx context.Context, req *fileV1.CreateFileRequest)
 
 	req.Data.CreateBy = trans.Ptr(operator.UserId)
 
-	if err = s.uc.Create(ctx, req); err != nil {
+	if err = s.fileRepo.Create(ctx, req); err != nil {
 		return nil, err
 	}
 
@@ -73,7 +73,7 @@ func (s *FileService) Update(ctx context.Context, req *fileV1.UpdateFileRequest)
 
 	req.Data.UpdateBy = trans.Ptr(operator.UserId)
 
-	if err = s.uc.Update(ctx, req); err != nil {
+	if err = s.fileRepo.Update(ctx, req); err != nil {
 		return nil, err
 	}
 
@@ -81,7 +81,7 @@ func (s *FileService) Update(ctx context.Context, req *fileV1.UpdateFileRequest)
 }
 
 func (s *FileService) Delete(ctx context.Context, req *fileV1.DeleteFileRequest) (*emptypb.Empty, error) {
-	if err := s.uc.Delete(ctx, req); err != nil {
+	if err := s.fileRepo.Delete(ctx, req); err != nil {
 		return nil, err
 	}
 	return &emptypb.Empty{}, nil

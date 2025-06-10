@@ -21,23 +21,23 @@ type OrganizationService struct {
 
 	log *log.Helper
 
-	uc *data.OrganizationRepo
+	repo *data.OrganizationRepo
 }
 
-func NewOrganizationService(uc *data.OrganizationRepo, logger log.Logger) *OrganizationService {
+func NewOrganizationService(logger log.Logger, repo *data.OrganizationRepo) *OrganizationService {
 	l := log.NewHelper(log.With(logger, "module", "organization/service/admin-service"))
 	return &OrganizationService{
-		log: l,
-		uc:  uc,
+		log:  l,
+		repo: repo,
 	}
 }
 
 func (s *OrganizationService) List(ctx context.Context, req *pagination.PagingRequest) (*userV1.ListOrganizationResponse, error) {
-	return s.uc.List(ctx, req)
+	return s.repo.List(ctx, req)
 }
 
 func (s *OrganizationService) Get(ctx context.Context, req *userV1.GetOrganizationRequest) (*userV1.Organization, error) {
-	return s.uc.Get(ctx, req)
+	return s.repo.Get(ctx, req)
 }
 
 func (s *OrganizationService) Create(ctx context.Context, req *userV1.CreateOrganizationRequest) (*emptypb.Empty, error) {
@@ -53,7 +53,7 @@ func (s *OrganizationService) Create(ctx context.Context, req *userV1.CreateOrga
 
 	req.Data.CreateBy = trans.Ptr(operator.UserId)
 
-	if err = s.uc.Create(ctx, req); err != nil {
+	if err = s.repo.Create(ctx, req); err != nil {
 		return nil, err
 	}
 
@@ -73,7 +73,7 @@ func (s *OrganizationService) Update(ctx context.Context, req *userV1.UpdateOrga
 
 	req.Data.UpdateBy = trans.Ptr(operator.UserId)
 
-	if err = s.uc.Update(ctx, req); err != nil {
+	if err = s.repo.Update(ctx, req); err != nil {
 		return nil, err
 	}
 
@@ -81,7 +81,7 @@ func (s *OrganizationService) Update(ctx context.Context, req *userV1.UpdateOrga
 }
 
 func (s *OrganizationService) Delete(ctx context.Context, req *userV1.DeleteOrganizationRequest) (*emptypb.Empty, error) {
-	if err := s.uc.Delete(ctx, req); err != nil {
+	if err := s.repo.Delete(ctx, req); err != nil {
 		return nil, err
 	}
 	return &emptypb.Empty{}, nil

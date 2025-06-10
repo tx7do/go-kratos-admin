@@ -20,23 +20,23 @@ type AdminLoginRestrictionService struct {
 
 	log *log.Helper
 
-	uc *data.AdminLoginRestrictionRepo
+	repo *data.AdminLoginRestrictionRepo
 }
 
-func NewAdminLoginRestrictionService(uc *data.AdminLoginRestrictionRepo, logger log.Logger) *AdminLoginRestrictionService {
+func NewAdminLoginRestrictionService(logger log.Logger, repo *data.AdminLoginRestrictionRepo) *AdminLoginRestrictionService {
 	l := log.NewHelper(log.With(logger, "module", "admin-login-restriction/service/admin-service"))
 	return &AdminLoginRestrictionService{
-		log: l,
-		uc:  uc,
+		log:  l,
+		repo: repo,
 	}
 }
 
 func (s *AdminLoginRestrictionService) List(ctx context.Context, req *pagination.PagingRequest) (*adminV1.ListAdminLoginRestrictionResponse, error) {
-	return s.uc.List(ctx, req)
+	return s.repo.List(ctx, req)
 }
 
 func (s *AdminLoginRestrictionService) Get(ctx context.Context, req *adminV1.GetAdminLoginRestrictionRequest) (*adminV1.AdminLoginRestriction, error) {
-	return s.uc.Get(ctx, req)
+	return s.repo.Get(ctx, req)
 }
 
 func (s *AdminLoginRestrictionService) Create(ctx context.Context, req *adminV1.CreateAdminLoginRestrictionRequest) (*emptypb.Empty, error) {
@@ -52,7 +52,7 @@ func (s *AdminLoginRestrictionService) Create(ctx context.Context, req *adminV1.
 
 	req.Data.CreateBy = trans.Ptr(operator.UserId)
 
-	if err = s.uc.Create(ctx, req); err != nil {
+	if err = s.repo.Create(ctx, req); err != nil {
 		return nil, err
 	}
 
@@ -72,7 +72,7 @@ func (s *AdminLoginRestrictionService) Update(ctx context.Context, req *adminV1.
 
 	req.Data.UpdateBy = trans.Ptr(operator.UserId)
 
-	if err = s.uc.Update(ctx, req); err != nil {
+	if err = s.repo.Update(ctx, req); err != nil {
 		return nil, err
 	}
 
@@ -84,7 +84,7 @@ func (s *AdminLoginRestrictionService) Delete(ctx context.Context, req *adminV1.
 		return nil, adminV1.ErrorBadRequest("invalid request")
 	}
 
-	if err := s.uc.Delete(ctx, req); err != nil {
+	if err := s.repo.Delete(ctx, req); err != nil {
 		return nil, err
 	}
 

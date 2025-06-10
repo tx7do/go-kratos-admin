@@ -20,19 +20,19 @@ type MenuService struct {
 
 	log *log.Helper
 
-	uc *data.MenuRepo
+	repo *data.MenuRepo
 }
 
-func NewMenuService(uc *data.MenuRepo, logger log.Logger) *MenuService {
+func NewMenuService(logger log.Logger, repo *data.MenuRepo) *MenuService {
 	l := log.NewHelper(log.With(logger, "module", "menu/service/admin-service"))
 	return &MenuService{
-		log: l,
-		uc:  uc,
+		log:  l,
+		repo: repo,
 	}
 }
 
 func (s *MenuService) List(ctx context.Context, req *pagination.PagingRequest) (*adminV1.ListMenuResponse, error) {
-	ret, err := s.uc.List(ctx, req, false)
+	ret, err := s.repo.List(ctx, req, false)
 	if err != nil {
 
 		return nil, err
@@ -42,7 +42,7 @@ func (s *MenuService) List(ctx context.Context, req *pagination.PagingRequest) (
 }
 
 func (s *MenuService) Get(ctx context.Context, req *adminV1.GetMenuRequest) (*adminV1.Menu, error) {
-	ret, err := s.uc.Get(ctx, req)
+	ret, err := s.repo.Get(ctx, req)
 	if err != nil {
 
 		return nil, err
@@ -64,7 +64,7 @@ func (s *MenuService) Create(ctx context.Context, req *adminV1.CreateMenuRequest
 
 	req.Data.CreateBy = trans.Ptr(operator.UserId)
 
-	if err = s.uc.Create(ctx, req); err != nil {
+	if err = s.repo.Create(ctx, req); err != nil {
 
 		return nil, err
 	}
@@ -85,7 +85,7 @@ func (s *MenuService) Update(ctx context.Context, req *adminV1.UpdateMenuRequest
 
 	req.Data.UpdateBy = trans.Ptr(operator.UserId)
 
-	if err = s.uc.Update(ctx, req); err != nil {
+	if err = s.repo.Update(ctx, req); err != nil {
 		return nil, err
 	}
 
@@ -93,7 +93,7 @@ func (s *MenuService) Update(ctx context.Context, req *adminV1.UpdateMenuRequest
 }
 
 func (s *MenuService) Delete(ctx context.Context, req *adminV1.DeleteMenuRequest) (*emptypb.Empty, error) {
-	if err := s.uc.Delete(ctx, req); err != nil {
+	if err := s.repo.Delete(ctx, req); err != nil {
 		return nil, err
 	}
 

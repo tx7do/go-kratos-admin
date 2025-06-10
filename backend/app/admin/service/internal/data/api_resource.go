@@ -163,6 +163,30 @@ func (r *ApiResourceRepo) Get(ctx context.Context, req *adminV1.GetApiResourceRe
 	return r.toProto(ret), nil
 }
 
+func (r *ApiResourceRepo) GetApiResourceByEndpoint(ctx context.Context, path, method string) (*adminV1.ApiResource, error) {
+	if path == "" || method == "" {
+		return nil, adminV1.ErrorBadRequest("invalid parameter")
+	}
+
+	ret, err := r.data.db.Client().ApiResource.Query().
+		Where(
+			apiresource.PathEQ(path),
+			apiresource.MethodEQ(method),
+		).
+		Only(ctx)
+	if err != nil {
+		if ent.IsNotFound(err) {
+			return nil, adminV1.ErrorNotFound("api resource not found")
+		}
+
+		r.log.Errorf("query one data failed: %s", err.Error())
+
+		return nil, adminV1.ErrorInternalServerError("query data failed")
+	}
+
+	return r.toProto(ret), nil
+}
+
 func (r *ApiResourceRepo) Create(ctx context.Context, req *adminV1.CreateApiResourceRequest) error {
 	if req == nil || req.Data == nil {
 		return adminV1.ErrorBadRequest("invalid parameter")

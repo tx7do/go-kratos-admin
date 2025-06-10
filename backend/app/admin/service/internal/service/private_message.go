@@ -18,23 +18,23 @@ type PrivateMessageService struct {
 
 	log *log.Helper
 
-	uc *data.PrivateMessageRepo
+	repo *data.PrivateMessageRepo
 }
 
-func NewPrivateMessageService(uc *data.PrivateMessageRepo, logger log.Logger) *PrivateMessageService {
+func NewPrivateMessageService(logger log.Logger, repo *data.PrivateMessageRepo) *PrivateMessageService {
 	l := log.NewHelper(log.With(logger, "module", "private-message/service/admin-service"))
 	return &PrivateMessageService{
-		log: l,
-		uc:  uc,
+		log:  l,
+		repo: repo,
 	}
 }
 
 func (s *PrivateMessageService) List(ctx context.Context, req *pagination.PagingRequest) (*internalMessageV1.ListPrivateMessageResponse, error) {
-	return s.uc.List(ctx, req)
+	return s.repo.List(ctx, req)
 }
 
 func (s *PrivateMessageService) Get(ctx context.Context, req *internalMessageV1.GetPrivateMessageRequest) (*internalMessageV1.PrivateMessage, error) {
-	return s.uc.Get(ctx, req)
+	return s.repo.Get(ctx, req)
 }
 
 func (s *PrivateMessageService) Create(ctx context.Context, req *internalMessageV1.CreatePrivateMessageRequest) (*emptypb.Empty, error) {
@@ -44,7 +44,7 @@ func (s *PrivateMessageService) Create(ctx context.Context, req *internalMessage
 
 	var err error
 
-	if err = s.uc.Create(ctx, req); err != nil {
+	if err = s.repo.Create(ctx, req); err != nil {
 		return nil, err
 	}
 
@@ -58,7 +58,7 @@ func (s *PrivateMessageService) Update(ctx context.Context, req *internalMessage
 
 	var err error
 
-	if err = s.uc.Update(ctx, req); err != nil {
+	if err = s.repo.Update(ctx, req); err != nil {
 		return nil, err
 	}
 
@@ -66,7 +66,7 @@ func (s *PrivateMessageService) Update(ctx context.Context, req *internalMessage
 }
 
 func (s *PrivateMessageService) Delete(ctx context.Context, req *internalMessageV1.DeletePrivateMessageRequest) (*emptypb.Empty, error) {
-	if err := s.uc.Delete(ctx, req); err != nil {
+	if err := s.repo.Delete(ctx, req); err != nil {
 		return nil, err
 	}
 	return &emptypb.Empty{}, nil

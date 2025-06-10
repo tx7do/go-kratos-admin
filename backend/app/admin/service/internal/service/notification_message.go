@@ -21,23 +21,23 @@ type NotificationMessageService struct {
 
 	log *log.Helper
 
-	uc *data.NotificationMessageRepo
+	repo *data.NotificationMessageRepo
 }
 
-func NewNotificationMessageService(uc *data.NotificationMessageRepo, logger log.Logger) *NotificationMessageService {
+func NewNotificationMessageService(logger log.Logger, repo *data.NotificationMessageRepo) *NotificationMessageService {
 	l := log.NewHelper(log.With(logger, "module", "notification-message/service/admin-service"))
 	return &NotificationMessageService{
-		log: l,
-		uc:  uc,
+		log:  l,
+		repo: repo,
 	}
 }
 
 func (s *NotificationMessageService) List(ctx context.Context, req *pagination.PagingRequest) (*internalMessageV1.ListNotificationMessageResponse, error) {
-	return s.uc.List(ctx, req)
+	return s.repo.List(ctx, req)
 }
 
 func (s *NotificationMessageService) Get(ctx context.Context, req *internalMessageV1.GetNotificationMessageRequest) (*internalMessageV1.NotificationMessage, error) {
-	return s.uc.Get(ctx, req)
+	return s.repo.Get(ctx, req)
 }
 
 func (s *NotificationMessageService) Create(ctx context.Context, req *internalMessageV1.CreateNotificationMessageRequest) (*emptypb.Empty, error) {
@@ -53,7 +53,7 @@ func (s *NotificationMessageService) Create(ctx context.Context, req *internalMe
 
 	req.Data.CreateBy = trans.Ptr(operator.UserId)
 
-	if err = s.uc.Create(ctx, req); err != nil {
+	if err = s.repo.Create(ctx, req); err != nil {
 		return nil, err
 	}
 
@@ -73,7 +73,7 @@ func (s *NotificationMessageService) Update(ctx context.Context, req *internalMe
 
 	req.Data.UpdateBy = trans.Ptr(operator.UserId)
 
-	if err = s.uc.Update(ctx, req); err != nil {
+	if err = s.repo.Update(ctx, req); err != nil {
 		return nil, err
 	}
 
@@ -81,7 +81,7 @@ func (s *NotificationMessageService) Update(ctx context.Context, req *internalMe
 }
 
 func (s *NotificationMessageService) Delete(ctx context.Context, req *internalMessageV1.DeleteNotificationMessageRequest) (*emptypb.Empty, error) {
-	if err := s.uc.Delete(ctx, req); err != nil {
+	if err := s.repo.Delete(ctx, req); err != nil {
 		return nil, err
 	}
 	return &emptypb.Empty{}, nil

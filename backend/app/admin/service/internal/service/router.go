@@ -4,8 +4,6 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	userV1 "kratos-admin/api/gen/go/user/service/v1"
-	"kratos-admin/pkg/utils/slice"
 	"strings"
 
 	"github.com/go-kratos/kratos/v2/log"
@@ -18,8 +16,10 @@ import (
 	"kratos-admin/app/admin/service/internal/data"
 
 	adminV1 "kratos-admin/api/gen/go/admin/service/v1"
+	userV1 "kratos-admin/api/gen/go/user/service/v1"
 
 	"kratos-admin/pkg/middleware/auth"
+	"kratos-admin/pkg/utils/slice"
 )
 
 type RouterService struct {

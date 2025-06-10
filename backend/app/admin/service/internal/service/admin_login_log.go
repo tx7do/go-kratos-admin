@@ -18,23 +18,23 @@ type AdminLoginLogService struct {
 
 	log *log.Helper
 
-	uc *data.AdminLoginLogRepo
+	repo *data.AdminLoginLogRepo
 }
 
-func NewAdminLoginLogService(uc *data.AdminLoginLogRepo, logger log.Logger) *AdminLoginLogService {
+func NewAdminLoginLogService(logger log.Logger, repo *data.AdminLoginLogRepo) *AdminLoginLogService {
 	l := log.NewHelper(log.With(logger, "module", "admin-login-log/service/admin-service"))
 	return &AdminLoginLogService{
-		log: l,
-		uc:  uc,
+		log:  l,
+		repo: repo,
 	}
 }
 
 func (s *AdminLoginLogService) List(ctx context.Context, req *pagination.PagingRequest) (*adminV1.ListAdminLoginLogResponse, error) {
-	return s.uc.List(ctx, req)
+	return s.repo.List(ctx, req)
 }
 
 func (s *AdminLoginLogService) Get(ctx context.Context, req *adminV1.GetAdminLoginLogRequest) (*adminV1.AdminLoginLog, error) {
-	return s.uc.Get(ctx, req)
+	return s.repo.Get(ctx, req)
 }
 
 func (s *AdminLoginLogService) Create(ctx context.Context, req *adminV1.CreateAdminLoginLogRequest) (*emptypb.Empty, error) {
@@ -42,7 +42,7 @@ func (s *AdminLoginLogService) Create(ctx context.Context, req *adminV1.CreateAd
 		return nil, adminV1.ErrorBadRequest("invalid parameter")
 	}
 
-	if err := s.uc.Create(ctx, req); err != nil {
+	if err := s.repo.Create(ctx, req); err != nil {
 		return nil, err
 	}
 

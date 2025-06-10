@@ -21,23 +21,23 @@ type DepartmentService struct {
 
 	log *log.Helper
 
-	uc *data.DepartmentRepo
+	repo *data.DepartmentRepo
 }
 
-func NewDepartmentService(uc *data.DepartmentRepo, logger log.Logger) *DepartmentService {
+func NewDepartmentService(logger log.Logger, repo *data.DepartmentRepo) *DepartmentService {
 	l := log.NewHelper(log.With(logger, "module", "department/service/admin-service"))
 	return &DepartmentService{
-		log: l,
-		uc:  uc,
+		log:  l,
+		repo: repo,
 	}
 }
 
 func (s *DepartmentService) List(ctx context.Context, req *pagination.PagingRequest) (*userV1.ListDepartmentResponse, error) {
-	return s.uc.List(ctx, req)
+	return s.repo.List(ctx, req)
 }
 
 func (s *DepartmentService) Get(ctx context.Context, req *userV1.GetDepartmentRequest) (*userV1.Department, error) {
-	return s.uc.Get(ctx, req)
+	return s.repo.Get(ctx, req)
 }
 
 func (s *DepartmentService) Create(ctx context.Context, req *userV1.CreateDepartmentRequest) (*emptypb.Empty, error) {
@@ -53,7 +53,7 @@ func (s *DepartmentService) Create(ctx context.Context, req *userV1.CreateDepart
 
 	req.Data.CreateBy = trans.Ptr(operator.UserId)
 
-	if err = s.uc.Create(ctx, req); err != nil {
+	if err = s.repo.Create(ctx, req); err != nil {
 		return nil, err
 	}
 
@@ -73,7 +73,7 @@ func (s *DepartmentService) Update(ctx context.Context, req *userV1.UpdateDepart
 
 	req.Data.UpdateBy = trans.Ptr(operator.UserId)
 
-	if err = s.uc.Update(ctx, req); err != nil {
+	if err = s.repo.Update(ctx, req); err != nil {
 		return nil, err
 	}
 
@@ -81,7 +81,7 @@ func (s *DepartmentService) Update(ctx context.Context, req *userV1.UpdateDepart
 }
 
 func (s *DepartmentService) Delete(ctx context.Context, req *userV1.DeleteDepartmentRequest) (*emptypb.Empty, error) {
-	if err := s.uc.Delete(ctx, req); err != nil {
+	if err := s.repo.Delete(ctx, req); err != nil {
 		return nil, err
 	}
 

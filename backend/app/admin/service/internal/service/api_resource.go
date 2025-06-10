@@ -29,7 +29,7 @@ type ApiResourceService struct {
 	repo *data.ApiResourceRepo
 }
 
-func NewApiResourceService(repo *data.ApiResourceRepo, logger log.Logger) *ApiResourceService {
+func NewApiResourceService(logger log.Logger, repo *data.ApiResourceRepo) *ApiResourceService {
 	l := log.NewHelper(log.With(logger, "module", "api-resource/service/admin-service"))
 	return &ApiResourceService{
 		log:  l,

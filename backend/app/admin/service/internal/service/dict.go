@@ -20,23 +20,23 @@ type DictService struct {
 
 	log *log.Helper
 
-	uc *data.DictRepo
+	repo *data.DictRepo
 }
 
-func NewDictService(uc *data.DictRepo, logger log.Logger) *DictService {
+func NewDictService(logger log.Logger, repo *data.DictRepo) *DictService {
 	l := log.NewHelper(log.With(logger, "module", "dict/service/admin-service"))
 	return &DictService{
-		log: l,
-		uc:  uc,
+		log:  l,
+		repo: repo,
 	}
 }
 
 func (s *DictService) List(ctx context.Context, req *pagination.PagingRequest) (*adminV1.ListDictResponse, error) {
-	return s.uc.List(ctx, req)
+	return s.repo.List(ctx, req)
 }
 
 func (s *DictService) Get(ctx context.Context, req *adminV1.GetDictRequest) (*adminV1.Dict, error) {
-	return s.uc.Get(ctx, req)
+	return s.repo.Get(ctx, req)
 }
 
 func (s *DictService) Create(ctx context.Context, req *adminV1.CreateDictRequest) (*emptypb.Empty, error) {
@@ -52,7 +52,7 @@ func (s *DictService) Create(ctx context.Context, req *adminV1.CreateDictRequest
 
 	req.Data.CreateBy = trans.Ptr(operator.UserId)
 
-	if err = s.uc.Create(ctx, req); err != nil {
+	if err = s.repo.Create(ctx, req); err != nil {
 		return nil, err
 	}
 
@@ -72,7 +72,7 @@ func (s *DictService) Update(ctx context.Context, req *adminV1.UpdateDictRequest
 
 	req.Data.UpdateBy = trans.Ptr(operator.UserId)
 
-	if err = s.uc.Update(ctx, req); err != nil {
+	if err = s.repo.Update(ctx, req); err != nil {
 		return nil, err
 	}
 
@@ -80,7 +80,7 @@ func (s *DictService) Update(ctx context.Context, req *adminV1.UpdateDictRequest
 }
 
 func (s *DictService) Delete(ctx context.Context, req *adminV1.DeleteDictRequest) (*emptypb.Empty, error) {
-	if err := s.uc.Delete(ctx, req); err != nil {
+	if err := s.repo.Delete(ctx, req); err != nil {
 		return nil, err
 	}
 

@@ -21,23 +21,23 @@ type PositionService struct {
 
 	log *log.Helper
 
-	uc *data.PositionRepo
+	repo *data.PositionRepo
 }
 
-func NewPositionService(uc *data.PositionRepo, logger log.Logger) *PositionService {
+func NewPositionService(logger log.Logger, repo *data.PositionRepo) *PositionService {
 	l := log.NewHelper(log.With(logger, "module", "position/service/admin-service"))
 	return &PositionService{
-		log: l,
-		uc:  uc,
+		log:  l,
+		repo: repo,
 	}
 }
 
 func (s *PositionService) List(ctx context.Context, req *pagination.PagingRequest) (*userV1.ListPositionResponse, error) {
-	return s.uc.List(ctx, req)
+	return s.repo.List(ctx, req)
 }
 
 func (s *PositionService) Get(ctx context.Context, req *userV1.GetPositionRequest) (*userV1.Position, error) {
-	return s.uc.Get(ctx, req)
+	return s.repo.Get(ctx, req)
 }
 
 func (s *PositionService) Create(ctx context.Context, req *userV1.CreatePositionRequest) (*emptypb.Empty, error) {
@@ -53,7 +53,7 @@ func (s *PositionService) Create(ctx context.Context, req *userV1.CreatePosition
 
 	req.Data.CreateBy = trans.Ptr(operator.UserId)
 
-	if err = s.uc.Create(ctx, req); err != nil {
+	if err = s.repo.Create(ctx, req); err != nil {
 		return nil, err
 	}
 
@@ -73,7 +73,7 @@ func (s *PositionService) Update(ctx context.Context, req *userV1.UpdatePosition
 
 	req.Data.UpdateBy = trans.Ptr(operator.UserId)
 
-	if err = s.uc.Update(ctx, req); err != nil {
+	if err = s.repo.Update(ctx, req); err != nil {
 		return nil, err
 	}
 
@@ -81,7 +81,7 @@ func (s *PositionService) Update(ctx context.Context, req *userV1.UpdatePosition
 }
 
 func (s *PositionService) Delete(ctx context.Context, req *userV1.DeletePositionRequest) (*emptypb.Empty, error) {
-	if err := s.uc.Delete(ctx, req); err != nil {
+	if err := s.repo.Delete(ctx, req); err != nil {
 		return nil, err
 	}
 

@@ -21,23 +21,23 @@ type NotificationMessageCategoryService struct {
 
 	log *log.Helper
 
-	uc *data.NotificationMessageCategoryRepo
+	repo *data.NotificationMessageCategoryRepo
 }
 
-func NewNotificationMessageCategoryService(uc *data.NotificationMessageCategoryRepo, logger log.Logger) *NotificationMessageCategoryService {
+func NewNotificationMessageCategoryService(logger log.Logger, repo *data.NotificationMessageCategoryRepo) *NotificationMessageCategoryService {
 	l := log.NewHelper(log.With(logger, "module", "notification-message-category/service/admin-service"))
 	return &NotificationMessageCategoryService{
-		log: l,
-		uc:  uc,
+		log:  l,
+		repo: repo,
 	}
 }
 
 func (s *NotificationMessageCategoryService) List(ctx context.Context, req *pagination.PagingRequest) (*internalMessageV1.ListNotificationMessageCategoryResponse, error) {
-	return s.uc.List(ctx, req)
+	return s.repo.List(ctx, req)
 }
 
 func (s *NotificationMessageCategoryService) Get(ctx context.Context, req *internalMessageV1.GetNotificationMessageCategoryRequest) (*internalMessageV1.NotificationMessageCategory, error) {
-	return s.uc.Get(ctx, req)
+	return s.repo.Get(ctx, req)
 }
 
 func (s *NotificationMessageCategoryService) Create(ctx context.Context, req *internalMessageV1.CreateNotificationMessageCategoryRequest) (*emptypb.Empty, error) {
@@ -53,7 +53,7 @@ func (s *NotificationMessageCategoryService) Create(ctx context.Context, req *in
 
 	req.Data.CreateBy = trans.Ptr(operator.UserId)
 
-	if err = s.uc.Create(ctx, req); err != nil {
+	if err = s.repo.Create(ctx, req); err != nil {
 		return nil, err
 	}
 
@@ -73,7 +73,7 @@ func (s *NotificationMessageCategoryService) Update(ctx context.Context, req *in
 
 	req.Data.UpdateBy = trans.Ptr(operator.UserId)
 
-	if err = s.uc.Update(ctx, req); err != nil {
+	if err = s.repo.Update(ctx, req); err != nil {
 		return nil, err
 	}
 
@@ -81,7 +81,7 @@ func (s *NotificationMessageCategoryService) Update(ctx context.Context, req *in
 }
 
 func (s *NotificationMessageCategoryService) Delete(ctx context.Context, req *internalMessageV1.DeleteNotificationMessageCategoryRequest) (*emptypb.Empty, error) {
-	if err := s.uc.Delete(ctx, req); err != nil {
+	if err := s.repo.Delete(ctx, req); err != nil {
 		return nil, err
 	}
 	return &emptypb.Empty{}, nil

@@ -21,23 +21,23 @@ type RoleService struct {
 
 	log *log.Helper
 
-	uc *data.RoleRepo
+	repo *data.RoleRepo
 }
 
-func NewRoleService(uc *data.RoleRepo, logger log.Logger) *RoleService {
+func NewRoleService(logger log.Logger, repo *data.RoleRepo) *RoleService {
 	l := log.NewHelper(log.With(logger, "module", "role/service/admin-service"))
 	return &RoleService{
-		log: l,
-		uc:  uc,
+		log:  l,
+		repo: repo,
 	}
 }
 
 func (s *RoleService) List(ctx context.Context, req *pagination.PagingRequest) (*userV1.ListRoleResponse, error) {
-	return s.uc.List(ctx, req)
+	return s.repo.List(ctx, req)
 }
 
 func (s *RoleService) Get(ctx context.Context, req *userV1.GetRoleRequest) (*userV1.Role, error) {
-	return s.uc.Get(ctx, req.GetId())
+	return s.repo.Get(ctx, req.GetId())
 }
 
 func (s *RoleService) Create(ctx context.Context, req *userV1.CreateRoleRequest) (*emptypb.Empty, error) {
@@ -53,7 +53,7 @@ func (s *RoleService) Create(ctx context.Context, req *userV1.CreateRoleRequest)
 
 	req.Data.CreateBy = trans.Ptr(operator.UserId)
 
-	if err = s.uc.Create(ctx, req); err != nil {
+	if err = s.repo.Create(ctx, req); err != nil {
 		return nil, err
 	}
 
@@ -73,7 +73,7 @@ func (s *RoleService) Update(ctx context.Context, req *userV1.UpdateRoleRequest)
 
 	req.Data.UpdateBy = trans.Ptr(operator.UserId)
 
-	if err = s.uc.Update(ctx, req); err != nil {
+	if err = s.repo.Update(ctx, req); err != nil {
 		return nil, err
 	}
 
@@ -81,7 +81,7 @@ func (s *RoleService) Update(ctx context.Context, req *userV1.UpdateRoleRequest)
 }
 
 func (s *RoleService) Delete(ctx context.Context, req *userV1.DeleteRoleRequest) (*emptypb.Empty, error) {
-	if err := s.uc.Delete(ctx, req); err != nil {
+	if err := s.repo.Delete(ctx, req); err != nil {
 		return nil, err
 	}
 	return &emptypb.Empty{}, nil

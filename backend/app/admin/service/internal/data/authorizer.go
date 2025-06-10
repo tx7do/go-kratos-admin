@@ -3,7 +3,6 @@ package data
 import (
 	"context"
 	"errors"
-	"kratos-admin/app/admin/service/cmd/server/assets"
 
 	"github.com/go-kratos/kratos/v2/log"
 	"github.com/tx7do/go-utils/trans"
@@ -15,6 +14,8 @@ import (
 
 	conf "github.com/tx7do/kratos-bootstrap/api/gen/go/conf/v1"
 	pagination "github.com/tx7do/kratos-bootstrap/api/gen/go/pagination/v1"
+
+	"kratos-admin/app/admin/service/cmd/server/assets"
 
 	adminV1 "kratos-admin/api/gen/go/admin/service/v1"
 	userV1 "kratos-admin/api/gen/go/user/service/v1"

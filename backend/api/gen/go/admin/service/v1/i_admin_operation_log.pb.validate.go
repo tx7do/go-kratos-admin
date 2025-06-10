@@ -106,16 +106,32 @@ func (m *AdminOperationLog) validate(all bool) error {
 		// no validation rules for StatusCode
 	}
 
-	if m.Method != nil {
-		// no validation rules for Method
+	if m.Reason != nil {
+		// no validation rules for Reason
+	}
+
+	if m.Location != nil {
+		// no validation rules for Location
 	}
 
 	if m.Operation != nil {
 		// no validation rules for Operation
 	}
 
+	if m.Method != nil {
+		// no validation rules for Method
+	}
+
 	if m.Path != nil {
 		// no validation rules for Path
+	}
+
+	if m.ApiModule != nil {
+		// no validation rules for ApiModule
+	}
+
+	if m.ApiDescription != nil {
+		// no validation rules for ApiDescription
 	}
 
 	if m.Referer != nil {
@@ -124,14 +140,6 @@ func (m *AdminOperationLog) validate(all bool) error {
 
 	if m.RequestUri != nil {
 		// no validation rules for RequestUri
-	}
-
-	if m.Reason != nil {
-		// no validation rules for Reason
-	}
-
-	if m.Location != nil {
-		// no validation rules for Location
 	}
 
 	if m.RequestHeader != nil {
@@ -233,7 +241,7 @@ type AdminOperationLogMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m AdminOperationLogMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -371,7 +379,7 @@ type ListAdminOperationLogResponseMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m ListAdminOperationLogResponseMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -476,7 +484,7 @@ type GetAdminOperationLogRequestMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m GetAdminOperationLogRequestMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -608,7 +616,7 @@ type CreateAdminOperationLogRequestMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m CreateAdminOperationLogRequestMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -773,7 +781,7 @@ type UpdateAdminOperationLogRequestMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m UpdateAdminOperationLogRequestMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -878,7 +886,7 @@ type DeleteAdminOperationLogRequestMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m DeleteAdminOperationLogRequestMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}

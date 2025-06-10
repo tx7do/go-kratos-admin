@@ -202,7 +202,7 @@ type NotificationMessageMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m NotificationMessageMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -340,7 +340,7 @@ type ListNotificationMessageResponseMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m ListNotificationMessageResponseMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -445,7 +445,7 @@ type GetNotificationMessageRequestMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m GetNotificationMessageRequestMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -579,7 +579,7 @@ type CreateNotificationMessageRequestMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m CreateNotificationMessageRequestMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -746,7 +746,7 @@ type UpdateNotificationMessageRequestMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m UpdateNotificationMessageRequestMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -853,7 +853,7 @@ type DeleteNotificationMessageRequestMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m DeleteNotificationMessageRequestMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}

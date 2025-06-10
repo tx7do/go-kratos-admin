@@ -210,7 +210,7 @@ type PrivateMessageMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m PrivateMessageMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -346,7 +346,7 @@ type ListPrivateMessageResponseMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m ListPrivateMessageResponseMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -450,7 +450,7 @@ type GetPrivateMessageRequestMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m GetPrivateMessageRequestMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -581,7 +581,7 @@ type CreatePrivateMessageRequestMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m CreatePrivateMessageRequestMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -746,7 +746,7 @@ type UpdatePrivateMessageRequestMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m UpdatePrivateMessageRequestMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -851,7 +851,7 @@ type DeletePrivateMessageRequestMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m DeletePrivateMessageRequestMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}

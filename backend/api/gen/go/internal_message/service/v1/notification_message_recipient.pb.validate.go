@@ -194,7 +194,7 @@ type NotificationMessageRecipientMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m NotificationMessageRecipientMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -336,7 +336,7 @@ type ListNotificationMessageRecipientResponseMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m ListNotificationMessageRecipientResponseMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -444,7 +444,7 @@ type GetNotificationMessageRecipientRequestMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m GetNotificationMessageRecipientRequestMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -579,7 +579,7 @@ type CreateNotificationMessageRecipientRequestMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m CreateNotificationMessageRecipientRequestMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -747,7 +747,7 @@ type UpdateNotificationMessageRecipientRequestMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m UpdateNotificationMessageRecipientRequestMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -855,7 +855,7 @@ type DeleteNotificationMessageRecipientRequestMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m DeleteNotificationMessageRecipientRequestMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}

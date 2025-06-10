@@ -2731,27 +2731,33 @@ components:
                     type: integer
                     description: 状态码
                     format: int32
-                method:
-                    type: string
-                    description: 请求方法
-                operation:
-                    type: string
-                    description: 操作方法
-                path:
-                    type: string
-                    description: 请求路径
-                referer:
-                    type: string
-                    description: 请求源
-                requestUri:
-                    type: string
-                    description: 请求URI
                 reason:
                     type: string
                     description: 操作失败原因
                 location:
                     type: string
                     description: 操作地理位置
+                operation:
+                    type: string
+                    description: 操作方法
+                method:
+                    type: string
+                    description: 请求方法
+                path:
+                    type: string
+                    description: 请求路径
+                apiModule:
+                    type: string
+                    description: API所属模块
+                apiDescription:
+                    type: string
+                    description: API操作描述
+                referer:
+                    type: string
+                    description: 请求源
+                requestUri:
+                    type: string
+                    description: 请求URI
                 requestHeader:
                     type: string
                     description: 请求头

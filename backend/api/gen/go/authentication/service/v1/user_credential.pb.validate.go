@@ -216,7 +216,7 @@ type UserCredentialMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m UserCredentialMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -352,7 +352,7 @@ type ListUserCredentialResponseMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m ListUserCredentialResponseMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -516,7 +516,7 @@ type UpdateUserCredentialRequestMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m UpdateUserCredentialRequestMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -648,7 +648,7 @@ type CreateUserCredentialRequestMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m CreateUserCredentialRequestMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -753,7 +753,7 @@ type DeleteUserCredentialRequestMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m DeleteUserCredentialRequestMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -858,7 +858,7 @@ type GetUserCredentialRequestMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m GetUserCredentialRequestMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -966,7 +966,7 @@ type GetUserCredentialByIdentifierRequestMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m GetUserCredentialByIdentifierRequestMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -1077,7 +1077,7 @@ type VerifyCredentialRequestMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m VerifyCredentialRequestMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -1181,7 +1181,7 @@ type VerifyCredentialResponseMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m VerifyCredentialResponseMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -1293,7 +1293,7 @@ type ChangeCredentialRequestMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m ChangeCredentialRequestMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -1403,7 +1403,7 @@ type ResetCredentialRequestMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m ResetCredentialRequestMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}

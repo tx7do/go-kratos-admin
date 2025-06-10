@@ -370,17 +370,17 @@ func (ru *RoleUpdate) ExecX(ctx context.Context) {
 func (ru *RoleUpdate) check() error {
 	if v, ok := ru.mutation.Status(); ok {
 		if err := role.StatusValidator(v); err != nil {
-			return &ValidationError{Name: "status", err: fmt.Errorf(`ent: validator failed for field "Role.status": %w`, err)}
+			return &ValidationError{Name: "status", err: fmt.Errorf(`ent: validator failed for field "Authority.status": %w`, err)}
 		}
 	}
 	if v, ok := ru.mutation.Name(); ok {
 		if err := role.NameValidator(v); err != nil {
-			return &ValidationError{Name: "name", err: fmt.Errorf(`ent: validator failed for field "Role.name": %w`, err)}
+			return &ValidationError{Name: "name", err: fmt.Errorf(`ent: validator failed for field "Authority.name": %w`, err)}
 		}
 	}
 	if v, ok := ru.mutation.Code(); ok {
 		if err := role.CodeValidator(v); err != nil {
-			return &ValidationError{Name: "code", err: fmt.Errorf(`ent: validator failed for field "Role.code": %w`, err)}
+			return &ValidationError{Name: "code", err: fmt.Errorf(`ent: validator failed for field "Authority.code": %w`, err)}
 		}
 	}
 	return nil
@@ -944,17 +944,17 @@ func (ruo *RoleUpdateOne) ExecX(ctx context.Context) {
 func (ruo *RoleUpdateOne) check() error {
 	if v, ok := ruo.mutation.Status(); ok {
 		if err := role.StatusValidator(v); err != nil {
-			return &ValidationError{Name: "status", err: fmt.Errorf(`ent: validator failed for field "Role.status": %w`, err)}
+			return &ValidationError{Name: "status", err: fmt.Errorf(`ent: validator failed for field "Authority.status": %w`, err)}
 		}
 	}
 	if v, ok := ruo.mutation.Name(); ok {
 		if err := role.NameValidator(v); err != nil {
-			return &ValidationError{Name: "name", err: fmt.Errorf(`ent: validator failed for field "Role.name": %w`, err)}
+			return &ValidationError{Name: "name", err: fmt.Errorf(`ent: validator failed for field "Authority.name": %w`, err)}
 		}
 	}
 	if v, ok := ruo.mutation.Code(); ok {
 		if err := role.CodeValidator(v); err != nil {
-			return &ValidationError{Name: "code", err: fmt.Errorf(`ent: validator failed for field "Role.code": %w`, err)}
+			return &ValidationError{Name: "code", err: fmt.Errorf(`ent: validator failed for field "Authority.code": %w`, err)}
 		}
 	}
 	return nil
@@ -973,7 +973,7 @@ func (ruo *RoleUpdateOne) sqlSave(ctx context.Context) (_node *Role, err error) 
 	_spec := sqlgraph.NewUpdateSpec(role.Table, role.Columns, sqlgraph.NewFieldSpec(role.FieldID, field.TypeUint32))
 	id, ok := ruo.mutation.ID()
 	if !ok {
-		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "Role.id" for update`)}
+		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "Authority.id" for update`)}
 	}
 	_spec.Node.ID.Value = id
 	if fields := ruo.fields; len(fields) > 0 {

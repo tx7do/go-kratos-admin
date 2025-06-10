@@ -79,7 +79,7 @@ type UEditorRequestMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m UEditorRequestMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -426,7 +426,7 @@ type UEditorResponseMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m UEditorResponseMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -542,7 +542,7 @@ type UEditorUploadRequestMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m UEditorUploadRequestMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -702,7 +702,7 @@ type UEditorUploadResponseMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m UEditorUploadResponseMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -844,7 +844,7 @@ type UEditorListResponseMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m UEditorListResponseMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -948,7 +948,7 @@ type UEditorResponse_FormulaConfigMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m UEditorResponse_FormulaConfigMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -1055,7 +1055,7 @@ type UEditorResponse_ItemMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m UEditorResponse_ItemMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -1179,7 +1179,7 @@ type UEditorUploadResponse_ItemMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m UEditorUploadResponse_ItemMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -1285,7 +1285,7 @@ type UEditorListResponse_ItemMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m UEditorListResponse_ItemMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}

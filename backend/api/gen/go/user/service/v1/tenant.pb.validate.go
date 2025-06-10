@@ -266,7 +266,7 @@ type TenantMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m TenantMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -402,7 +402,7 @@ type ListTenantResponseMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m ListTenantResponseMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -506,7 +506,7 @@ type GetTenantRequestMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m GetTenantRequestMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -635,7 +635,7 @@ type CreateTenantRequestMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m CreateTenantRequestMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -799,7 +799,7 @@ type UpdateTenantRequestMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m UpdateTenantRequestMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -903,7 +903,7 @@ type DeleteTenantRequestMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m DeleteTenantRequestMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -1039,7 +1039,7 @@ type BatchCreateTenantsRequestMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m BatchCreateTenantsRequestMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -1175,7 +1175,7 @@ type BatchCreateTenantsResponseMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m BatchCreateTenantsResponseMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}

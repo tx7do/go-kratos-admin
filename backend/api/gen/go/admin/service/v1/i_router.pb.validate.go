@@ -157,7 +157,7 @@ type RouteItemMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m RouteItemMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -344,7 +344,7 @@ type RouteMetaMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m RouteMetaMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -444,7 +444,7 @@ type ListRouteRequestMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m ListRouteRequestMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -578,7 +578,7 @@ type ListRouteResponseMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m ListRouteResponseMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -680,7 +680,7 @@ type ListPermissionCodeRequestMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m ListPermissionCodeRequestMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -782,7 +782,7 @@ type ListPermissionCodeResponseMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m ListPermissionCodeResponseMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}

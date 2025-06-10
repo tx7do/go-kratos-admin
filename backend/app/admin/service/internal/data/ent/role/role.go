@@ -130,7 +130,7 @@ func StatusValidator(s Status) error {
 	}
 }
 
-// OrderOption defines the ordering options for the Role queries.
+// OrderOption defines the ordering options for the Authority queries.
 type OrderOption func(*sql.Selector)
 
 // ByID orders the results by the id field.

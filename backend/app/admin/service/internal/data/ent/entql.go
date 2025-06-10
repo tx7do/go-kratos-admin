@@ -407,7 +407,7 @@ var schemaGraph = func() *sqlgraph.Schema {
 				Column: role.FieldID,
 			},
 		},
-		Type: "Role",
+		Type: "Authority",
 		Fields: map[string]*sqlgraph.FieldSpec{
 			role.FieldCreateTime: {Type: field.TypeTime, Column: role.FieldCreateTime},
 			role.FieldUpdateTime: {Type: field.TypeTime, Column: role.FieldUpdateTime},
@@ -671,8 +671,8 @@ var schemaGraph = func() *sqlgraph.Schema {
 			Columns: []string{role.ParentColumn},
 			Bidi:    false,
 		},
-		"Role",
-		"Role",
+		"Authority",
+		"Authority",
 	)
 	graph.MustAddE(
 		"children",
@@ -683,8 +683,8 @@ var schemaGraph = func() *sqlgraph.Schema {
 			Columns: []string{role.ChildrenColumn},
 			Bidi:    false,
 		},
-		"Role",
-		"Role",
+		"Authority",
+		"Authority",
 	)
 	return graph
 }()

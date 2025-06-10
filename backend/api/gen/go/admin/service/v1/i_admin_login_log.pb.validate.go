@@ -201,7 +201,7 @@ type AdminLoginLogMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m AdminLoginLogMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -337,7 +337,7 @@ type ListAdminLoginLogResponseMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m ListAdminLoginLogResponseMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -441,7 +441,7 @@ type GetAdminLoginLogRequestMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m GetAdminLoginLogRequestMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -572,7 +572,7 @@ type CreateAdminLoginLogRequestMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m CreateAdminLoginLogRequestMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -736,7 +736,7 @@ type UpdateAdminLoginLogRequestMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m UpdateAdminLoginLogRequestMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -840,7 +840,7 @@ type DeleteAdminLoginLogRequestMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m DeleteAdminLoginLogRequestMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}

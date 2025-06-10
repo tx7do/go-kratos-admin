@@ -2541,7 +2541,7 @@ func (c *RoleClient) mutate(ctx context.Context, m *RoleMutation) (Value, error)
 	case OpDelete, OpDeleteOne:
 		return (&RoleDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
 	default:
-		return nil, fmt.Errorf("ent: unknown Role mutation op: %q", m.Op())
+		return nil, fmt.Errorf("ent: unknown Authority mutation op: %q", m.Op())
 	}
 }
 

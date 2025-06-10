@@ -236,7 +236,7 @@ type NotificationMessageCategoryMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m NotificationMessageCategoryMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -378,7 +378,7 @@ type ListNotificationMessageCategoryResponseMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m ListNotificationMessageCategoryResponseMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -485,7 +485,7 @@ type GetNotificationMessageCategoryRequestMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m GetNotificationMessageCategoryRequestMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -620,7 +620,7 @@ type CreateNotificationMessageCategoryRequestMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m CreateNotificationMessageCategoryRequestMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -788,7 +788,7 @@ type UpdateNotificationMessageCategoryRequestMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m UpdateNotificationMessageCategoryRequestMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -896,7 +896,7 @@ type DeleteNotificationMessageCategoryRequestMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m DeleteNotificationMessageCategoryRequestMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}

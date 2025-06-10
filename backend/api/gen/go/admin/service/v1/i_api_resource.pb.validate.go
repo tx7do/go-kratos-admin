@@ -205,7 +205,7 @@ type ApiResourceMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m ApiResourceMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -341,7 +341,7 @@ type ListApiResourceResponseMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m ListApiResourceResponseMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -445,7 +445,7 @@ type GetApiResourceRequestMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m GetApiResourceRequestMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -576,7 +576,7 @@ type CreateApiResourceRequestMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m CreateApiResourceRequestMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -740,7 +740,7 @@ type UpdateApiResourceRequestMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m UpdateApiResourceRequestMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -844,7 +844,7 @@ type DeleteApiResourceRequestMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m DeleteApiResourceRequestMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}

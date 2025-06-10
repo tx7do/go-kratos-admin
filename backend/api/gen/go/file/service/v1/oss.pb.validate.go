@@ -89,7 +89,7 @@ type OssUploadUrlRequestMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m OssUploadUrlRequestMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -203,7 +203,7 @@ type OssUploadUrlResponseMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m OssUploadUrlResponseMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -305,7 +305,7 @@ type GetDownloadUrlRequestMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m GetDownloadUrlRequestMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -407,7 +407,7 @@ type GetDownloadUrlResponseMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m GetDownloadUrlResponseMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -521,7 +521,7 @@ type ListOssFileRequestMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m ListOssFileRequestMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -623,7 +623,7 @@ type ListOssFileResponseMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m ListOssFileResponseMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -733,7 +733,7 @@ type DeleteOssFileRequestMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m DeleteOssFileRequestMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -835,7 +835,7 @@ type DeleteOssFileResponseMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m DeleteOssFileResponseMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -957,7 +957,7 @@ type UploadOssFileRequestMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m UploadOssFileRequestMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -1061,7 +1061,7 @@ type UploadOssFileResponseMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m UploadOssFileResponseMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}

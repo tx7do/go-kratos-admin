@@ -17,8 +17,8 @@ func Server() middleware.Middleware {
 
 			if tTenantId != nil && tAuthority != nil {
 				ctx = viewer.NewContext(ctx, viewer.UserViewer{
-					Role:     *tAuthority,
-					TenantId: tTenantId,
+					Authority: *tAuthority,
+					TenantId:  tTenantId,
 				})
 			}
 

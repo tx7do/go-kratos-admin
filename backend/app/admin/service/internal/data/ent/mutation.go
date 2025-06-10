@@ -57,7 +57,7 @@ const (
 	TypeOrganization                 = "Organization"
 	TypePosition                     = "Position"
 	TypePrivateMessage               = "PrivateMessage"
-	TypeRole                         = "Role"
+	TypeRole                         = "Authority"
 	TypeTask                         = "Task"
 	TypeTenant                       = "Tenant"
 	TypeUser                         = "User"
@@ -20774,7 +20774,7 @@ func (m *RoleMutation) OldField(ctx context.Context, name string) (ent.Value, er
 	case role.FieldApis:
 		return m.OldApis(ctx)
 	}
-	return nil, fmt.Errorf("unknown Role field %s", name)
+	return nil, fmt.Errorf("unknown Authority field %s", name)
 }
 
 // SetField sets the value of a field with the given name. It returns an error if
@@ -20881,7 +20881,7 @@ func (m *RoleMutation) SetField(name string, value ent.Value) error {
 		m.SetApis(v)
 		return nil
 	}
-	return fmt.Errorf("unknown Role field %s", name)
+	return fmt.Errorf("unknown Authority field %s", name)
 }
 
 // AddedFields returns all numeric fields that were incremented/decremented during
@@ -20954,7 +20954,7 @@ func (m *RoleMutation) AddField(name string, value ent.Value) error {
 		m.AddSortID(v)
 		return nil
 	}
-	return fmt.Errorf("unknown Role numeric field %s", name)
+	return fmt.Errorf("unknown Authority numeric field %s", name)
 }
 
 // ClearedFields returns all nullable fields that were cleared during this
@@ -21060,7 +21060,7 @@ func (m *RoleMutation) ClearField(name string) error {
 		m.ClearApis()
 		return nil
 	}
-	return fmt.Errorf("unknown Role nullable field %s", name)
+	return fmt.Errorf("unknown Authority nullable field %s", name)
 }
 
 // ResetField resets all changes in the mutation for the field with the given name.
@@ -21110,7 +21110,7 @@ func (m *RoleMutation) ResetField(name string) error {
 		m.ResetApis()
 		return nil
 	}
-	return fmt.Errorf("unknown Role field %s", name)
+	return fmt.Errorf("unknown Authority field %s", name)
 }
 
 // AddedEdges returns all edge names that were set/added in this mutation.
@@ -21198,7 +21198,7 @@ func (m *RoleMutation) ClearEdge(name string) error {
 		m.ClearParent()
 		return nil
 	}
-	return fmt.Errorf("unknown Role unique edge %s", name)
+	return fmt.Errorf("unknown Authority unique edge %s", name)
 }
 
 // ResetEdge resets all changes to the edge with the given name in this mutation.
@@ -21212,7 +21212,7 @@ func (m *RoleMutation) ResetEdge(name string) error {
 		m.ResetChildren()
 		return nil
 	}
-	return fmt.Errorf("unknown Role edge %s", name)
+	return fmt.Errorf("unknown Authority edge %s", name)
 }
 
 // TaskMutation represents an operation that mutates the Task nodes in the graph.

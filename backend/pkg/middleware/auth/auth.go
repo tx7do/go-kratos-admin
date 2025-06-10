@@ -92,8 +92,8 @@ func Server(opts ...Option) middleware.Middleware {
 
 			if op.injectEnt {
 				ctx = viewer.NewContext(ctx, viewer.UserViewer{
-					Role:     tokenPayload.GetAuthority(),
-					TenantId: tokenPayload.TenantId,
+					Authority: tokenPayload.GetAuthority(),
+					TenantId:  tokenPayload.TenantId,
 				})
 			}
 

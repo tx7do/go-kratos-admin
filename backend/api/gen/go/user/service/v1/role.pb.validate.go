@@ -238,7 +238,7 @@ type RoleMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m RoleMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -374,7 +374,7 @@ type ListRoleResponseMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m ListRoleResponseMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -476,7 +476,7 @@ type GetRoleRequestMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m GetRoleRequestMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -605,7 +605,7 @@ type CreateRoleRequestMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m CreateRoleRequestMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -769,7 +769,7 @@ type UpdateRoleRequestMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m UpdateRoleRequestMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -873,7 +873,7 @@ type DeleteRoleRequestMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m DeleteRoleRequestMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -1009,7 +1009,7 @@ type BatchCreateRolesRequestMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m BatchCreateRolesRequestMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}
@@ -1145,7 +1145,7 @@ type BatchCreateRolesResponseMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
 func (m BatchCreateRolesResponseMultiError) Error() string {
-	var msgs []string
+	msgs := make([]string, 0, len(m))
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
 	}

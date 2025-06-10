@@ -177,7 +177,7 @@ func (f PrivateMessageFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Val
 }
 
 // The RoleFunc type is an adapter to allow the use of ordinary
-// function as Role mutator.
+// function as Authority mutator.
 type RoleFunc func(context.Context, *ent.RoleMutation) (ent.Value, error)
 
 // Mutate calls f(ctx, m).

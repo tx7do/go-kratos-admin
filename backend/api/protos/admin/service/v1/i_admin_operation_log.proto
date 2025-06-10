@@ -70,54 +70,68 @@ message AdminOperationLog {
     }
   ]; // 状态码
 
-  optional string method = 6 [
-    json_name = "method",
-    (gnostic.openapi.v3.property) = {
-      description: "请求方法"
-    }
-  ]; // 请求方法
-
-  optional string operation = 7 [
-    json_name = "operation",
-    (gnostic.openapi.v3.property) = {
-      description: "操作方法"
-    }
-  ]; // 操作方法
-
-  optional string path = 8 [
-    json_name = "path",
-    (gnostic.openapi.v3.property) = {
-      description: "请求路径"
-    }
-  ]; // 请求路径
-
-  optional string referer = 9 [
-    json_name = "referer",
-    (gnostic.openapi.v3.property) = {
-      description: "请求源"
-    }
-  ]; // 请求源
-
-  optional string request_uri = 10 [
-    json_name = "requestUri",
-    (gnostic.openapi.v3.property) = {
-      description: "请求URI"
-    }
-  ]; // 请求URI
-
-  optional string reason = 11 [
+  optional string reason = 6 [
     json_name = "reason",
     (gnostic.openapi.v3.property) = {
       description: "操作失败原因"
     }
   ]; // 操作失败原因
 
-  optional string location = 12 [
+  optional string location = 7 [
     json_name = "location",
     (gnostic.openapi.v3.property) = {
       description: "操作地理位置"
     }
   ]; // 操作地理位置
+
+  optional string operation = 8 [
+    json_name = "operation",
+    (gnostic.openapi.v3.property) = {
+      description: "操作方法"
+    }
+  ]; // 操作方法
+
+  optional string method = 9 [
+    json_name = "method",
+    (gnostic.openapi.v3.property) = {
+      description: "请求方法"
+    }
+  ]; // 请求方法
+
+  optional string path = 10 [
+    json_name = "path",
+    (gnostic.openapi.v3.property) = {
+      description: "请求路径"
+    }
+  ]; // 请求路径
+
+  optional string api_module = 11 [
+    json_name = "apiModule",
+    (gnostic.openapi.v3.property) = {
+      description: "API所属模块"
+    }
+  ]; // API所属模块
+
+  optional string api_description = 12 [
+    json_name = "apiDescription",
+    (gnostic.openapi.v3.property) = {
+      description: "API操作描述"
+    }
+  ]; // API操作描述
+
+  optional string referer = 20 [
+    json_name = "referer",
+    (gnostic.openapi.v3.property) = {
+      description: "请求源"
+    }
+  ]; // 请求源
+
+  optional string request_uri = 21 [
+    json_name = "requestUri",
+    (gnostic.openapi.v3.property) = {
+      description: "请求URI"
+    }
+  ]; // 请求URI
 
   optional string request_header = 50 [
     json_name = "requestHeader",

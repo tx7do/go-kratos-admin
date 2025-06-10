@@ -6,17 +6,23 @@
     "workbench": "workbench",
     "about": "About"
   },
-  "auth": {
-    "moduleName": "Auth Management",
+  "permission": {
+    "moduleName": "Permission Management",
     "role": "Role Management",
+    "permission": "Permission Management",
+    "menu": "Menu Management"
+  },
+  "opm": {
+    "moduleName": "Organizational Personnel Management",
     "position": "Position Management",
     "user": "User Management",
     "userDetail": "User Detail",
     "org": "Organization Management",
-    "dept": "Department Management",
-    "tenant": "Tenant Management",
-    "permission": "Permission Management",
-    "menu": "Menu Management"
+    "dept": "Department Management"
+  },
+  "tenant": {
+    "moduleName": "Tenant Management",
+    "member": "Tenant List"
   },
   "system": {
     "moduleName": "System Management",

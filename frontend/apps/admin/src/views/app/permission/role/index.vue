@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { VxeGridProps } from '#/adapter/vxe-table';
-import type { Position } from '#/rpc/api/user/service/v1/position.pb';
+import type { Role } from '#/rpc/api/user/service/v1/role.pb';
 
 import { h } from 'vue';
 
@@ -11,11 +11,11 @@ import { notification } from 'ant-design-vue';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
 import { $t } from '#/locales';
-import { statusList, usePositionStore } from '#/store';
+import { statusList, useRoleStore } from '#/store';
 
-import PositionDrawer from './position-drawer.vue';
+import RoleDrawer from './role-drawer.vue';
 
-const positionStore = usePositionStore();
+const roleStore = useRoleStore();
 
 const formOptions: VbenFormProps = {
   // 默认展开
@@ -28,7 +28,7 @@ const formOptions: VbenFormProps = {
     {
       component: 'Input',
       fieldName: 'name',
-      label: $t('page.position.name'),
+      label: $t('page.role.name'),
       componentProps: {
         placeholder: $t('ui.placeholder.input'),
         allowClear: true,
@@ -47,7 +47,7 @@ const formOptions: VbenFormProps = {
   ],
 };
 
-const gridOptions: VxeGridProps<Position> = {
+const gridOptions: VxeGridProps<Role> = {
   toolbarConfig: {
     custom: true,
     export: true,
@@ -75,8 +75,8 @@ const gridOptions: VxeGridProps<Position> = {
       query: async ({ page }, formValues) => {
         console.log('query:', formValues);
 
-        return await positionStore.listPosition(
-          true,
+        return await roleStore.listRole(
+          false,
           page.currentPage,
           page.pageSize,
           formValues,
@@ -87,7 +87,8 @@ const gridOptions: VxeGridProps<Position> = {
 
   columns: [
     { title: $t('ui.table.seq'), type: 'seq', width: 50 },
-    { title: $t('page.position.name'), field: 'name', treeNode: true },
+    { title: $t('page.role.name'), field: 'name', treeNode: true },
+    { title: $t('page.role.code'), field: 'code', width: 140 },
     { title: $t('ui.table.sortId'), field: 'sortId', width: 70 },
     {
       title: $t('ui.table.status'),
@@ -95,13 +96,13 @@ const gridOptions: VxeGridProps<Position> = {
       slots: { default: 'status' },
       width: 95,
     },
+    { title: $t('ui.table.remark'), field: 'remark' },
     {
       title: $t('ui.table.createTime'),
       field: 'createTime',
       formatter: 'formatDateTime',
       width: 140,
     },
-    { title: $t('ui.table.remark'), field: 'remark' },
     {
       title: $t('ui.table.action'),
       field: 'action',
@@ -116,7 +117,7 @@ const [Grid, gridApi] = useVbenVxeGrid({ gridOptions, formOptions });
 
 const [Drawer, drawerApi] = useVbenDrawer({
   // 连接抽离的组件
-  connectedComponent: PositionDrawer,
+  connectedComponent: RoleDrawer,
 });
 
 function openDrawer(create: boolean, row?: any) {
@@ -145,7 +146,7 @@ async function handleDelete(row: any) {
   console.log('删除', row);
 
   try {
-    await positionStore.deletePosition(row.id);
+    await roleStore.deleteRole(row.id);
 
     notification.success({
       message: $t('ui.notification.delete_success'),
@@ -159,7 +160,7 @@ async function handleDelete(row: any) {
   }
 }
 
-/* 修改职位状态 */
+/* 修改角色状态 */
 async function handleStatusChanged(row: any, checked: boolean) {
   console.log('handleStatusChanged', row.status, checked);
 
@@ -167,7 +168,7 @@ async function handleStatusChanged(row: any, checked: boolean) {
   row.status = checked ? 'ON' : 'OFF';
 
   try {
-    await positionStore.updatePosition(row.id, { status: row.status });
+    await roleStore.updateRole(row.id, { status: row.status });
 
     notification.success({
       message: $t('ui.notification.update_status_success'),
@@ -180,28 +181,14 @@ async function handleStatusChanged(row: any, checked: boolean) {
     row.pending = false;
   }
 }
-
-const expandAll = () => {
-  gridApi.grid?.setAllTreeExpand(true);
-};
-
-const collapseAll = () => {
-  gridApi.grid?.setAllTreeExpand(false);
-};
 </script>
 
 <template>
   <Page auto-content-height>
-    <Grid :table-title="$t('menu.auth.position')">
+    <Grid :table-title="$t('menu.permission.role')">
       <template #toolbar-tools>
         <a-button class="mr-2" type="primary" @click="handleCreate">
-          {{ $t('page.position.button.create') }}
-        </a-button>
-        <a-button type="default" class="mr-2" @click="expandAll">
-          {{ $t('ui.tree.expand_all') }}
-        </a-button>
-        <a-button type="default" class="mr-2" @click="collapseAll">
-          {{ $t('ui.tree.collapse_all') }}
+          {{ $t('page.role.button.create') }}
         </a-button>
       </template>
       <template #status="{ row }">
@@ -226,7 +213,7 @@ const collapseAll = () => {
           :ok-text="$t('ui.button.ok')"
           :title="
             $t('ui.text.do_you_want_delete', {
-              moduleName: $t('page.position.moduleName'),
+              moduleName: $t('page.role.moduleName'),
             })
           "
           @confirm="() => handleDelete(row)"

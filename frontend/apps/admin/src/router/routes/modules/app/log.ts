@@ -6,10 +6,10 @@ import { $t } from '#/locales';
 const log: RouteRecordRaw[] = [
   {
     path: '/log',
-    name: 'Log',
+    name: 'LogAuditManagement',
     component: BasicLayout,
     meta: {
-      order: 2002,
+      order: 2003,
       icon: 'lucide:logs',
       title: $t('menu.log.moduleName'),
       keepAlive: true,
@@ -20,7 +20,7 @@ const log: RouteRecordRaw[] = [
         path: 'login',
         name: 'AdminLoginLog',
         meta: {
-          icon: 'lucide:log-in',
+          icon: 'lucide:file-symlink',
           title: $t('menu.log.adminLoginLog'),
           authority: ['super'],
         },
@@ -31,7 +31,7 @@ const log: RouteRecordRaw[] = [
         path: 'operation',
         name: 'AdminOperationLog',
         meta: {
-          icon: 'lucide:arrow-up-down',
+          icon: 'lucide:file-sliders',
           title: $t('menu.log.adminOperationLog'),
           authority: ['super'],
         },

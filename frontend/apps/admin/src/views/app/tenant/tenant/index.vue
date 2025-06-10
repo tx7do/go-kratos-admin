@@ -1,28 +1,21 @@
 <script lang="ts" setup>
 import type { VxeGridProps } from '#/adapter/vxe-table';
-import type { User } from '#/rpc/api/user/service/v1/user.pb';
+import type { Tenant } from '#/rpc/api/user/service/v1/tenant.pb';
 
 import { h } from 'vue';
 
 import { Page, useVbenDrawer, type VbenFormProps } from '@vben/common-ui';
-import { LucideFilePenLine, LucideInfo, LucideTrash2 } from '@vben/icons';
+import { LucideFilePenLine, LucideTrash2 } from '@vben/icons';
 
 import { notification } from 'ant-design-vue';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
 import { $t } from '#/locales';
-import { router } from '#/router';
-import {
-  authorityToColor,
-  authorityToName,
-  useRoleStore,
-  useUserStore,
-} from '#/store';
+import { statusList, useTenantStore } from '#/store';
 
-import UserDrawer from './user-drawer.vue';
+import TenantDrawer from './tenant-drawer.vue';
 
-const userStore = useUserStore();
-const roleStore = useRoleStore();
+const tenantStore = useTenantStore();
 
 const formOptions: VbenFormProps = {
   // 默认展开
@@ -34,8 +27,8 @@ const formOptions: VbenFormProps = {
   schema: [
     {
       component: 'Input',
-      fieldName: 'realname',
-      label: $t('page.user.form.real_name'),
+      fieldName: 'name',
+      label: $t('page.tenant.name'),
       componentProps: {
         placeholder: $t('ui.placeholder.input'),
         allowClear: true,
@@ -43,36 +36,27 @@ const formOptions: VbenFormProps = {
     },
     {
       component: 'Input',
-      fieldName: 'mobile',
-      label: $t('page.user.form.mobile'),
+      fieldName: 'code',
+      label: $t('page.tenant.code'),
       componentProps: {
         placeholder: $t('ui.placeholder.input'),
         allowClear: true,
       },
     },
     {
-      component: 'ApiSelect',
-      fieldName: 'roleId',
-      label: $t('page.user.form.roleId'),
+      component: 'Select',
+      fieldName: 'status',
+      label: $t('ui.table.status'),
       componentProps: {
+        options: statusList,
         placeholder: $t('ui.placeholder.select'),
         allowClear: true,
-        afterFetch: (data: { name: string; path: string }[]) => {
-          return data.map((item: any) => ({
-            label: item.name,
-            value: item.id.toString(),
-          }));
-        },
-        api: async () => {
-          const result = await roleStore.listRole(true);
-          return result.items;
-        },
       },
     },
   ],
 };
 
-const gridOptions: VxeGridProps<User> = {
+const gridOptions: VxeGridProps<Tenant> = {
   toolbarConfig: {
     custom: true,
     export: true,
@@ -82,19 +66,26 @@ const gridOptions: VxeGridProps<User> = {
   },
   height: 'auto',
   exportConfig: {},
-  pagerConfig: {},
+  pagerConfig: {
+    enabled: false,
+  },
   rowConfig: {
     isHover: true,
   },
-  stripe: true,
+
+  treeConfig: {
+    childrenField: 'children',
+    rowField: 'id',
+    // transform: true,
+  },
 
   proxyConfig: {
     ajax: {
       query: async ({ page }, formValues) => {
-        // console.log('query:', filters, form, formValues);
+        console.log('query:', formValues);
 
-        return await userStore.listUser(
-          false,
+        return await tenantStore.listTenant(
+          true,
           page.currentPage,
           page.pageSize,
           formValues,
@@ -105,23 +96,8 @@ const gridOptions: VxeGridProps<User> = {
 
   columns: [
     { title: $t('ui.table.seq'), type: 'seq', width: 50 },
-    { title: $t('page.user.table.username'), field: 'username' },
-    { title: $t('page.user.table.nickname'), field: 'nickname' },
-    { title: $t('page.user.table.realname'), field: 'realname' },
-    { title: $t('page.user.table.email'), field: 'email' },
-    { title: $t('page.user.table.mobile'), field: 'mobile' },
-    {
-      title: $t('ui.table.createTime'),
-      field: 'createTime',
-      formatter: 'formatDateTime',
-      width: 140,
-    },
-    {
-      title: $t('page.user.table.authority'),
-      field: 'authority',
-      slots: { default: 'authority' },
-      width: 80,
-    },
+    { title: $t('page.tenant.name'), field: 'name' },
+    { title: $t('page.tenant.code'), field: 'code' },
     {
       title: $t('ui.table.status'),
       field: 'status',
@@ -129,11 +105,18 @@ const gridOptions: VxeGridProps<User> = {
       width: 95,
     },
     {
+      title: $t('ui.table.createTime'),
+      field: 'createTime',
+      formatter: 'formatDateTime',
+      width: 140,
+    },
+    { title: $t('ui.table.remark'), field: 'remark' },
+    {
       title: $t('ui.table.action'),
       field: 'action',
       fixed: 'right',
       slots: { default: 'action' },
-      width: 120,
+      width: 90,
     },
   ],
 };
@@ -142,11 +125,11 @@ const [Grid, gridApi] = useVbenVxeGrid({ gridOptions, formOptions });
 
 const [Drawer, drawerApi] = useVbenDrawer({
   // 连接抽离的组件
-  connectedComponent: UserDrawer,
+  connectedComponent: TenantDrawer,
 });
 
 /* 打开模态窗口 */
-function openDrawer(create: boolean, row?: any) {
+function openModal(create: boolean, row?: any) {
   drawerApi.setData({
     create,
     row,
@@ -158,13 +141,14 @@ function openDrawer(create: boolean, row?: any) {
 /* 创建 */
 function handleCreate() {
   console.log('创建');
-  openDrawer(true);
+
+  openModal(true);
 }
 
 /* 编辑 */
 function handleEdit(row: any) {
   console.log('编辑', row);
-  openDrawer(false, row);
+  openModal(false, row);
 }
 
 /* 删除 */
@@ -172,7 +156,7 @@ async function handleDelete(row: any) {
   console.log('删除', row);
 
   try {
-    await userStore.deleteUser(row.id);
+    await tenantStore.deleteTenant(row.id);
 
     notification.success({
       message: $t('ui.notification.delete_success'),
@@ -186,12 +170,7 @@ async function handleDelete(row: any) {
   }
 }
 
-/* 详情 */
-function handleDetail(row: any) {
-  router.push(`/system/users/detail/${row.username}`);
-}
-
-/* 修改用户状态 */
+/* 修改状态 */
 async function handleStatusChanged(row: any, checked: boolean) {
   console.log('handleStatusChanged', row.status, checked);
 
@@ -199,7 +178,7 @@ async function handleStatusChanged(row: any, checked: boolean) {
   row.status = checked ? 'ON' : 'OFF';
 
   try {
-    await userStore.updateUser(row.id, { status: row.status });
+    await tenantStore.updateTenant(row.id, { status: row.status });
 
     notification.success({
       message: $t('ui.notification.update_status_success'),
@@ -216,10 +195,10 @@ async function handleStatusChanged(row: any, checked: boolean) {
 
 <template>
   <Page auto-content-height>
-    <Grid :table-title="$t('menu.auth.user')">
+    <Grid :table-title="$t('menu.opm.tenant')">
       <template #toolbar-tools>
-        <a-button type="primary" @click="handleCreate">
-          {{ $t('page.user.button.create') }}
+        <a-button class="mr-2" type="primary" @click="handleCreate">
+          {{ $t('page.tenant.button.create') }}
         </a-button>
       </template>
       <template #status="{ row }">
@@ -229,22 +208,11 @@ async function handleStatusChanged(row: any, checked: boolean) {
           :checked-children="$t('ui.switch.active')"
           :un-checked-children="$t('ui.switch.inactive')"
           @change="
-            (checked: boolean) => handleStatusChanged(row, checked as boolean)
+            (checked: any) => handleStatusChanged(row, checked as boolean)
           "
         />
       </template>
-      <template #authority="{ row }">
-        <a-tag :color="authorityToColor(row.authority)">
-          {{ authorityToName(row.authority) }}
-        </a-tag>
-      </template>
       <template #action="{ row }">
-        <a-button
-          type="link"
-          :icon="h(LucideInfo)"
-          @click="() => handleDetail(row)"
-        />
-
         <a-button
           type="link"
           :icon="h(LucideFilePenLine)"
@@ -255,7 +223,7 @@ async function handleStatusChanged(row: any, checked: boolean) {
           :ok-text="$t('ui.button.ok')"
           :title="
             $t('ui.text.do_you_want_delete', {
-              moduleName: $t('page.user.moduleName'),
+              moduleName: $t('page.tenant.moduleName'),
             })
           "
           @confirm="() => handleDelete(row)"

@@ -1,22 +1,21 @@
 <script lang="ts" setup>
 import type { VxeGridProps } from '#/adapter/vxe-table';
-import type { Menu } from '#/rpc/api/admin/service/v1/i_menu.pb';
+import type { Organization } from '#/rpc/api/user/service/v1/organization.pb';
 
 import { h } from 'vue';
 
 import { Page, useVbenDrawer, type VbenFormProps } from '@vben/common-ui';
 import { LucideFilePenLine, LucideTrash2 } from '@vben/icons';
 
-import { Icon } from '@iconify/vue';
 import { notification } from 'ant-design-vue';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
 import { $t } from '#/locales';
-import { statusList, useMenuStore } from '#/store';
+import { statusList, useOrganizationStore } from '#/store';
 
-import MenuDrawer from './menu-drawer.vue';
+import OrgDrawer from './org-drawer.vue';
 
-const menuStore = useMenuStore();
+const orgStore = useOrganizationStore();
 
 const formOptions: VbenFormProps = {
   // 默认展开
@@ -29,7 +28,7 @@ const formOptions: VbenFormProps = {
     {
       component: 'Input',
       fieldName: 'name',
-      label: $t('page.menu.name'),
+      label: $t('page.org.name'),
       componentProps: {
         placeholder: $t('ui.placeholder.input'),
         allowClear: true,
@@ -48,7 +47,7 @@ const formOptions: VbenFormProps = {
   ],
 };
 
-const gridOptions: VxeGridProps<Menu> = {
+const gridOptions: VxeGridProps<Organization> = {
   toolbarConfig: {
     custom: true,
     export: true,
@@ -57,7 +56,6 @@ const gridOptions: VxeGridProps<Menu> = {
     zoom: true,
   },
   height: 'auto',
-
   exportConfig: {},
   pagerConfig: {
     enabled: false,
@@ -66,13 +64,10 @@ const gridOptions: VxeGridProps<Menu> = {
     isHover: true,
   },
 
-  stripe: true,
-
   treeConfig: {
-    parentField: 'parentId',
-    // childrenField: 'children',
+    childrenField: 'children',
     rowField: 'id',
-    transform: true,
+    // transform: true,
   },
 
   proxyConfig: {
@@ -80,33 +75,20 @@ const gridOptions: VxeGridProps<Menu> = {
       query: async ({ page }, formValues) => {
         console.log('query:', formValues);
 
-        return await menuStore.listMenu(true, page.currentPage, page.pageSize, {
-          'meta.title': formValues.name,
-          status: formValues.status,
-        });
+        return await orgStore.listOrganization(
+          true,
+          page.currentPage,
+          page.pageSize,
+          formValues,
+        );
       },
     },
   },
 
   columns: [
     { title: $t('ui.table.seq'), type: 'seq', width: 50 },
-    {
-      title: $t('page.menu.name'),
-      field: 'meta.title',
-      slots: { default: 'title' },
-      width: 200,
-      treeNode: true,
-    },
-    {
-      title: $t('page.menu.icon'),
-      field: 'meta.icon',
-      slots: { default: 'icon' },
-      width: 50,
-    },
-    { title: $t('ui.table.sortId'), field: 'meta.order', width: 70 },
-    // { title: '权限标识', field: 'permissionCode', width: 50 },
-    { title: $t('page.menu.path'), field: 'path' },
-    { title: $t('page.menu.component'), field: 'component' },
+    { title: $t('page.org.name'), field: 'name', treeNode: true },
+    { title: $t('ui.table.sortId'), field: 'sortId', width: 70 },
     {
       title: $t('ui.table.status'),
       field: 'status',
@@ -114,11 +96,12 @@ const gridOptions: VxeGridProps<Menu> = {
       width: 95,
     },
     {
-      title: $t('ui.table.updateTime'),
-      field: 'updateTime',
+      title: $t('ui.table.createTime'),
+      field: 'createTime',
       formatter: 'formatDateTime',
       width: 140,
     },
+    { title: $t('ui.table.remark'), field: 'remark' },
     {
       title: $t('ui.table.action'),
       field: 'action',
@@ -133,14 +116,16 @@ const [Grid, gridApi] = useVbenVxeGrid({ gridOptions, formOptions });
 
 const [Drawer, drawerApi] = useVbenDrawer({
   // 连接抽离的组件
-  connectedComponent: MenuDrawer,
+  connectedComponent: OrgDrawer,
 });
 
+/* 打开模态窗口 */
 function openDrawer(create: boolean, row?: any) {
   drawerApi.setData({
     create,
     row,
   });
+
   drawerApi.open();
 }
 
@@ -162,7 +147,7 @@ async function handleDelete(row: any) {
   console.log('删除', row);
 
   try {
-    await menuStore.deleteMenu(row.id);
+    await orgStore.deleteOrganization(row.id);
 
     notification.success({
       message: $t('ui.notification.delete_success'),
@@ -176,7 +161,7 @@ async function handleDelete(row: any) {
   }
 }
 
-/* 修改菜单状态 */
+/* 修改组织状态 */
 async function handleStatusChanged(row: any, checked: boolean) {
   console.log('handleStatusChanged', row.status, checked);
 
@@ -184,7 +169,7 @@ async function handleStatusChanged(row: any, checked: boolean) {
   row.status = checked ? 'ON' : 'OFF';
 
   try {
-    await menuStore.updateMenu(row.id, { status: row.status });
+    await orgStore.updateOrganization(row.id, { status: row.status });
 
     notification.success({
       message: $t('ui.notification.update_status_success'),
@@ -209,10 +194,10 @@ const collapseAll = () => {
 
 <template>
   <Page auto-content-height>
-    <Grid :table-title="$t('menu.auth.menu')">
+    <Grid :table-title="$t('menu.opm.org')">
       <template #toolbar-tools>
         <a-button class="mr-2" type="primary" @click="handleCreate">
-          {{ $t('page.menu.button.create') }}
+          {{ $t('page.org.button.create') }}
         </a-button>
         <a-button class="mr-2" @click="expandAll">
           {{ $t('ui.tree.expand_all') }}
@@ -220,16 +205,6 @@ const collapseAll = () => {
         <a-button class="mr-2" @click="collapseAll">
           {{ $t('ui.tree.collapse_all') }}
         </a-button>
-      </template>
-      <template #title="{ row }">
-        <span :style="{ marginRight: '15px' }">{{ $t(row.meta.title) }}</span>
-      </template>
-      <template #icon="{ row }">
-        <Icon
-          v-if="row.meta.icon !== undefined"
-          :icon="row.meta.icon"
-          class="mr-1 size-4 flex-shrink-0"
-        />
       </template>
       <template #status="{ row }">
         <a-switch
@@ -253,7 +228,7 @@ const collapseAll = () => {
           :ok-text="$t('ui.button.ok')"
           :title="
             $t('ui.text.do_you_want_delete', {
-              moduleName: $t('page.menu.moduleName'),
+              moduleName: $t('page.org.moduleName'),
             })
           "
           @confirm="() => handleDelete(row)"

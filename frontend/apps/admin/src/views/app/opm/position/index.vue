@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { VxeGridProps } from '#/adapter/vxe-table';
-import type { Organization } from '#/rpc/api/user/service/v1/organization.pb';
+import type { Position } from '#/rpc/api/user/service/v1/position.pb';
 
 import { h } from 'vue';
 
@@ -11,11 +11,11 @@ import { notification } from 'ant-design-vue';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
 import { $t } from '#/locales';
-import { statusList, useOrganizationStore } from '#/store';
+import { statusList, usePositionStore } from '#/store';
 
-import OrgDrawer from './org-drawer.vue';
+import PositionDrawer from './position-drawer.vue';
 
-const orgStore = useOrganizationStore();
+const positionStore = usePositionStore();
 
 const formOptions: VbenFormProps = {
   // 默认展开
@@ -28,7 +28,7 @@ const formOptions: VbenFormProps = {
     {
       component: 'Input',
       fieldName: 'name',
-      label: $t('page.org.name'),
+      label: $t('page.position.name'),
       componentProps: {
         placeholder: $t('ui.placeholder.input'),
         allowClear: true,
@@ -47,7 +47,7 @@ const formOptions: VbenFormProps = {
   ],
 };
 
-const gridOptions: VxeGridProps<Organization> = {
+const gridOptions: VxeGridProps<Position> = {
   toolbarConfig: {
     custom: true,
     export: true,
@@ -57,12 +57,12 @@ const gridOptions: VxeGridProps<Organization> = {
   },
   height: 'auto',
   exportConfig: {},
-  pagerConfig: {
-    enabled: false,
-  },
+  pagerConfig: {},
   rowConfig: {
     isHover: true,
   },
+
+  // stripe: true,
 
   treeConfig: {
     childrenField: 'children',
@@ -75,7 +75,7 @@ const gridOptions: VxeGridProps<Organization> = {
       query: async ({ page }, formValues) => {
         console.log('query:', formValues);
 
-        return await orgStore.listOrganization(
+        return await positionStore.listPosition(
           true,
           page.currentPage,
           page.pageSize,
@@ -87,7 +87,7 @@ const gridOptions: VxeGridProps<Organization> = {
 
   columns: [
     { title: $t('ui.table.seq'), type: 'seq', width: 50 },
-    { title: $t('page.org.name'), field: 'name', treeNode: true },
+    { title: $t('page.position.name'), field: 'name', treeNode: true },
     { title: $t('ui.table.sortId'), field: 'sortId', width: 70 },
     {
       title: $t('ui.table.status'),
@@ -116,16 +116,14 @@ const [Grid, gridApi] = useVbenVxeGrid({ gridOptions, formOptions });
 
 const [Drawer, drawerApi] = useVbenDrawer({
   // 连接抽离的组件
-  connectedComponent: OrgDrawer,
+  connectedComponent: PositionDrawer,
 });
 
-/* 打开模态窗口 */
 function openDrawer(create: boolean, row?: any) {
   drawerApi.setData({
     create,
     row,
   });
-
   drawerApi.open();
 }
 
@@ -147,7 +145,7 @@ async function handleDelete(row: any) {
   console.log('删除', row);
 
   try {
-    await orgStore.deleteOrganization(row.id);
+    await positionStore.deletePosition(row.id);
 
     notification.success({
       message: $t('ui.notification.delete_success'),
@@ -161,7 +159,7 @@ async function handleDelete(row: any) {
   }
 }
 
-/* 修改组织状态 */
+/* 修改职位状态 */
 async function handleStatusChanged(row: any, checked: boolean) {
   console.log('handleStatusChanged', row.status, checked);
 
@@ -169,7 +167,7 @@ async function handleStatusChanged(row: any, checked: boolean) {
   row.status = checked ? 'ON' : 'OFF';
 
   try {
-    await orgStore.updateOrganization(row.id, { status: row.status });
+    await positionStore.updatePosition(row.id, { status: row.status });
 
     notification.success({
       message: $t('ui.notification.update_status_success'),
@@ -194,15 +192,15 @@ const collapseAll = () => {
 
 <template>
   <Page auto-content-height>
-    <Grid :table-title="$t('menu.auth.org')">
+    <Grid :table-title="$t('menu.opm.position')">
       <template #toolbar-tools>
         <a-button class="mr-2" type="primary" @click="handleCreate">
-          {{ $t('page.org.button.create') }}
+          {{ $t('page.position.button.create') }}
         </a-button>
-        <a-button class="mr-2" @click="expandAll">
+        <a-button type="default" class="mr-2" @click="expandAll">
           {{ $t('ui.tree.expand_all') }}
         </a-button>
-        <a-button class="mr-2" @click="collapseAll">
+        <a-button type="default" class="mr-2" @click="collapseAll">
           {{ $t('ui.tree.collapse_all') }}
         </a-button>
       </template>
@@ -228,7 +226,7 @@ const collapseAll = () => {
           :ok-text="$t('ui.button.ok')"
           :title="
             $t('ui.text.do_you_want_delete', {
-              moduleName: $t('page.org.moduleName'),
+              moduleName: $t('page.position.moduleName'),
             })
           "
           @confirm="() => handleDelete(row)"

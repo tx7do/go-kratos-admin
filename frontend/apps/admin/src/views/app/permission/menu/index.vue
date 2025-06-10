@@ -1,21 +1,22 @@
 <script lang="ts" setup>
 import type { VxeGridProps } from '#/adapter/vxe-table';
-import type { Tenant } from '#/rpc/api/user/service/v1/tenant.pb';
+import type { Menu } from '#/rpc/api/admin/service/v1/i_menu.pb';
 
 import { h } from 'vue';
 
 import { Page, useVbenDrawer, type VbenFormProps } from '@vben/common-ui';
 import { LucideFilePenLine, LucideTrash2 } from '@vben/icons';
 
+import { Icon } from '@iconify/vue';
 import { notification } from 'ant-design-vue';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
 import { $t } from '#/locales';
-import { statusList, useTenantStore } from '#/store';
+import { statusList, useMenuStore } from '#/store';
 
-import TenantDrawer from './tenant-drawer.vue';
+import MenuDrawer from './menu-drawer.vue';
 
-const tenantStore = useTenantStore();
+const menuStore = useMenuStore();
 
 const formOptions: VbenFormProps = {
   // 默认展开
@@ -28,16 +29,7 @@ const formOptions: VbenFormProps = {
     {
       component: 'Input',
       fieldName: 'name',
-      label: $t('page.tenant.name'),
-      componentProps: {
-        placeholder: $t('ui.placeholder.input'),
-        allowClear: true,
-      },
-    },
-    {
-      component: 'Input',
-      fieldName: 'code',
-      label: $t('page.tenant.code'),
+      label: $t('page.menu.name'),
       componentProps: {
         placeholder: $t('ui.placeholder.input'),
         allowClear: true,
@@ -56,7 +48,7 @@ const formOptions: VbenFormProps = {
   ],
 };
 
-const gridOptions: VxeGridProps<Tenant> = {
+const gridOptions: VxeGridProps<Menu> = {
   toolbarConfig: {
     custom: true,
     export: true,
@@ -65,6 +57,7 @@ const gridOptions: VxeGridProps<Tenant> = {
     zoom: true,
   },
   height: 'auto',
+
   exportConfig: {},
   pagerConfig: {
     enabled: false,
@@ -73,10 +66,13 @@ const gridOptions: VxeGridProps<Tenant> = {
     isHover: true,
   },
 
+  stripe: true,
+
   treeConfig: {
-    childrenField: 'children',
+    parentField: 'parentId',
+    // childrenField: 'children',
     rowField: 'id',
-    // transform: true,
+    transform: true,
   },
 
   proxyConfig: {
@@ -84,20 +80,33 @@ const gridOptions: VxeGridProps<Tenant> = {
       query: async ({ page }, formValues) => {
         console.log('query:', formValues);
 
-        return await tenantStore.listTenant(
-          true,
-          page.currentPage,
-          page.pageSize,
-          formValues,
-        );
+        return await menuStore.listMenu(true, page.currentPage, page.pageSize, {
+          'meta.title': formValues.name,
+          status: formValues.status,
+        });
       },
     },
   },
 
   columns: [
     { title: $t('ui.table.seq'), type: 'seq', width: 50 },
-    { title: $t('page.tenant.name'), field: 'name' },
-    { title: $t('page.tenant.code'), field: 'code' },
+    {
+      title: $t('page.menu.name'),
+      field: 'meta.title',
+      slots: { default: 'title' },
+      width: 200,
+      treeNode: true,
+    },
+    {
+      title: $t('page.menu.icon'),
+      field: 'meta.icon',
+      slots: { default: 'icon' },
+      width: 50,
+    },
+    { title: $t('ui.table.sortId'), field: 'meta.order', width: 70 },
+    // { title: '权限标识', field: 'permissionCode', width: 50 },
+    { title: $t('page.menu.path'), field: 'path' },
+    { title: $t('page.menu.component'), field: 'component' },
     {
       title: $t('ui.table.status'),
       field: 'status',
@@ -105,12 +114,11 @@ const gridOptions: VxeGridProps<Tenant> = {
       width: 95,
     },
     {
-      title: $t('ui.table.createTime'),
-      field: 'createTime',
+      title: $t('ui.table.updateTime'),
+      field: 'updateTime',
       formatter: 'formatDateTime',
       width: 140,
     },
-    { title: $t('ui.table.remark'), field: 'remark' },
     {
       title: $t('ui.table.action'),
       field: 'action',
@@ -125,16 +133,14 @@ const [Grid, gridApi] = useVbenVxeGrid({ gridOptions, formOptions });
 
 const [Drawer, drawerApi] = useVbenDrawer({
   // 连接抽离的组件
-  connectedComponent: TenantDrawer,
+  connectedComponent: MenuDrawer,
 });
 
-/* 打开模态窗口 */
-function openModal(create: boolean, row?: any) {
+function openDrawer(create: boolean, row?: any) {
   drawerApi.setData({
     create,
     row,
   });
-
   drawerApi.open();
 }
 
@@ -142,13 +148,13 @@ function openModal(create: boolean, row?: any) {
 function handleCreate() {
   console.log('创建');
 
-  openModal(true);
+  openDrawer(true);
 }
 
 /* 编辑 */
 function handleEdit(row: any) {
   console.log('编辑', row);
-  openModal(false, row);
+  openDrawer(false, row);
 }
 
 /* 删除 */
@@ -156,7 +162,7 @@ async function handleDelete(row: any) {
   console.log('删除', row);
 
   try {
-    await tenantStore.deleteTenant(row.id);
+    await menuStore.deleteMenu(row.id);
 
     notification.success({
       message: $t('ui.notification.delete_success'),
@@ -170,7 +176,7 @@ async function handleDelete(row: any) {
   }
 }
 
-/* 修改状态 */
+/* 修改菜单状态 */
 async function handleStatusChanged(row: any, checked: boolean) {
   console.log('handleStatusChanged', row.status, checked);
 
@@ -178,7 +184,7 @@ async function handleStatusChanged(row: any, checked: boolean) {
   row.status = checked ? 'ON' : 'OFF';
 
   try {
-    await tenantStore.updateTenant(row.id, { status: row.status });
+    await menuStore.updateMenu(row.id, { status: row.status });
 
     notification.success({
       message: $t('ui.notification.update_status_success'),
@@ -191,15 +197,39 @@ async function handleStatusChanged(row: any, checked: boolean) {
     row.pending = false;
   }
 }
+
+const expandAll = () => {
+  gridApi.grid?.setAllTreeExpand(true);
+};
+
+const collapseAll = () => {
+  gridApi.grid?.setAllTreeExpand(false);
+};
 </script>
 
 <template>
   <Page auto-content-height>
-    <Grid :table-title="$t('menu.auth.tenant')">
+    <Grid :table-title="$t('menu.permission.menu')">
       <template #toolbar-tools>
         <a-button class="mr-2" type="primary" @click="handleCreate">
-          {{ $t('page.tenant.button.create') }}
+          {{ $t('page.menu.button.create') }}
         </a-button>
+        <a-button class="mr-2" @click="expandAll">
+          {{ $t('ui.tree.expand_all') }}
+        </a-button>
+        <a-button class="mr-2" @click="collapseAll">
+          {{ $t('ui.tree.collapse_all') }}
+        </a-button>
+      </template>
+      <template #title="{ row }">
+        <span :style="{ marginRight: '15px' }">{{ $t(row.meta.title) }}</span>
+      </template>
+      <template #icon="{ row }">
+        <Icon
+          v-if="row.meta.icon !== undefined"
+          :icon="row.meta.icon"
+          class="mr-1 size-4 flex-shrink-0"
+        />
       </template>
       <template #status="{ row }">
         <a-switch
@@ -223,7 +253,7 @@ async function handleStatusChanged(row: any, checked: boolean) {
           :ok-text="$t('ui.button.ok')"
           :title="
             $t('ui.text.do_you_want_delete', {
-              moduleName: $t('page.tenant.moduleName'),
+              moduleName: $t('page.menu.moduleName'),
             })
           "
           @confirm="() => handleDelete(row)"

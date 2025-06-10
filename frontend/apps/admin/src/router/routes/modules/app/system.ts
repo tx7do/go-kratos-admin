@@ -9,7 +9,7 @@ const system: RouteRecordRaw[] = [
     name: 'System',
     component: BasicLayout,
     meta: {
-      order: 2001,
+      order: 2004,
       icon: 'lucide:settings',
       title: $t('menu.system.moduleName'),
       keepAlive: true,
@@ -31,7 +31,7 @@ const system: RouteRecordRaw[] = [
         path: 'files',
         name: 'FileManagement',
         meta: {
-          icon: 'lucide:file',
+          icon: 'lucide:file-stack',
           title: $t('menu.system.file'),
           authority: ['super', 'admin'],
         },

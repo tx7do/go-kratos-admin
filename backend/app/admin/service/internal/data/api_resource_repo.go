@@ -6,31 +6,33 @@ import (
 
 	"entgo.io/ent/dialect/sql"
 	"github.com/go-kratos/kratos/v2/log"
-	"github.com/jinzhu/copier"
 
 	"github.com/tx7do/go-utils/copierutil"
 	entgo "github.com/tx7do/go-utils/entgo/query"
 	entgoUpdate "github.com/tx7do/go-utils/entgo/update"
 	"github.com/tx7do/go-utils/fieldmaskutil"
+	"github.com/tx7do/go-utils/mapper"
 	"github.com/tx7do/go-utils/timeutil"
 	pagination "github.com/tx7do/kratos-bootstrap/api/gen/go/pagination/v1"
 
 	"kratos-admin/app/admin/service/internal/data/ent"
-	"kratos-admin/app/admin/service/internal/data/ent/dict"
+	"kratos-admin/app/admin/service/internal/data/ent/apiresource"
 
 	adminV1 "kratos-admin/api/gen/go/admin/service/v1"
 )
 
-type DictRepo struct {
-	data         *Data
-	log          *log.Helper
-	copierOption copier.Option
+type ApiResourceRepo struct {
+	data *Data
+	log  *log.Helper
+
+	mapper *mapper.CopierMapper[ent.ApiResource, adminV1.ApiResource]
 }
 
-func NewDictRepo(data *Data, logger log.Logger) *DictRepo {
-	repo := &DictRepo{
-		log:  log.NewHelper(log.With(logger, "module", "dict/repo/admin-service")),
-		data: data,
+func NewApiResourceRepo(data *Data, logger log.Logger) *ApiResourceRepo {
+	repo := &ApiResourceRepo{
+		log:    log.NewHelper(log.With(logger, "module", "api-resource/repo/admin-service")),
+		data:   data,
+		mapper: mapper.NewCopierMapper[ent.ApiResource, adminV1.ApiResource](),
 	}
 
 	repo.init()
@@ -38,43 +40,13 @@ func NewDictRepo(data *Data, logger log.Logger) *DictRepo {
 	return repo
 }
 
-func (r *DictRepo) init() {
-	r.copierOption = copier.Option{
-		Converters: []copier.TypeConverter{},
-	}
-
-	r.copierOption.Converters = append(r.copierOption.Converters, copierutil.NewTimeStringConverterPair()...)
-	r.copierOption.Converters = append(r.copierOption.Converters, copierutil.NewTimeTimestamppbConverterPair()...)
+func (r *ApiResourceRepo) init() {
+	r.mapper.AppendConverters(copierutil.NewTimeStringConverterPair())
+	r.mapper.AppendConverters(copierutil.NewTimeTimestamppbConverterPair())
 }
 
-func (r *DictRepo) toProto(in *ent.Dict) *adminV1.Dict {
-	if in == nil {
-		return nil
-	}
-
-	var out adminV1.Dict
-	_ = copier.CopyWithOption(&out, in, r.copierOption)
-
-	//out.CreateTime = timeutil.TimeToTimeString(in.CreateTime)
-	//out.UpdateTime = timeutil.TimeToTimeString(in.UpdateTime)
-	//out.DeleteTime = timeutil.TimeToTimeString(in.DeleteTime)
-
-	return &out
-}
-
-func (r *DictRepo) toEnt(in *adminV1.Dict) *ent.Dict {
-	if in == nil {
-		return nil
-	}
-
-	var out ent.Dict
-	_ = copier.CopyWithOption(&out, in, r.copierOption)
-
-	return &out
-}
-
-func (r *DictRepo) Count(ctx context.Context, whereCond []func(s *sql.Selector)) (int, error) {
-	builder := r.data.db.Client().Dict.Query()
+func (r *ApiResourceRepo) Count(ctx context.Context, whereCond []func(s *sql.Selector)) (int, error) {
+	builder := r.data.db.Client().ApiResource.Query()
 	if len(whereCond) != 0 {
 		builder.Modify(whereCond...)
 	}
@@ -88,17 +60,17 @@ func (r *DictRepo) Count(ctx context.Context, whereCond []func(s *sql.Selector))
 	return count, nil
 }
 
-func (r *DictRepo) List(ctx context.Context, req *pagination.PagingRequest) (*adminV1.ListDictResponse, error) {
+func (r *ApiResourceRepo) List(ctx context.Context, req *pagination.PagingRequest) (*adminV1.ListApiResourceResponse, error) {
 	if req == nil {
 		return nil, adminV1.ErrorBadRequest("invalid parameter")
 	}
 
-	builder := r.data.db.Client().Dict.Query()
+	builder := r.data.db.Client().ApiResource.Query()
 
 	err, whereSelectors, querySelectors := entgo.BuildQuerySelector(
 		req.GetQuery(), req.GetOrQuery(),
 		req.GetPage(), req.GetPageSize(), req.GetNoPaging(),
-		req.GetOrderBy(), dict.FieldCreateTime,
+		req.GetOrderBy(), apiresource.FieldCreateTime,
 		req.GetFieldMask().GetPaths(),
 	)
 	if err != nil {
@@ -116,9 +88,9 @@ func (r *DictRepo) List(ctx context.Context, req *pagination.PagingRequest) (*ad
 		return nil, adminV1.ErrorInternalServerError("query list failed")
 	}
 
-	items := make([]*adminV1.Dict, 0, len(results))
+	items := make([]*adminV1.ApiResource, 0, len(results))
 	for _, res := range results {
-		item := r.toProto(res)
+		item := r.mapper.ToModel(res)
 		items = append(items, item)
 	}
 
@@ -127,15 +99,15 @@ func (r *DictRepo) List(ctx context.Context, req *pagination.PagingRequest) (*ad
 		return nil, err
 	}
 
-	return &adminV1.ListDictResponse{
+	return &adminV1.ListApiResourceResponse{
 		Total: uint32(count),
 		Items: items,
 	}, err
 }
 
-func (r *DictRepo) IsExist(ctx context.Context, id uint32) (bool, error) {
-	exist, err := r.data.db.Client().Dict.Query().
-		Where(dict.IDEQ(id)).
+func (r *ApiResourceRepo) IsExist(ctx context.Context, id uint32) (bool, error) {
+	exist, err := r.data.db.Client().ApiResource.Query().
+		Where(apiresource.IDEQ(id)).
 		Exist(ctx)
 	if err != nil {
 		r.log.Errorf("query exist failed: %s", err.Error())
@@ -144,15 +116,15 @@ func (r *DictRepo) IsExist(ctx context.Context, id uint32) (bool, error) {
 	return exist, nil
 }
 
-func (r *DictRepo) Get(ctx context.Context, req *adminV1.GetDictRequest) (*adminV1.Dict, error) {
+func (r *ApiResourceRepo) Get(ctx context.Context, req *adminV1.GetApiResourceRequest) (*adminV1.ApiResource, error) {
 	if req == nil {
 		return nil, adminV1.ErrorBadRequest("invalid parameter")
 	}
 
-	ret, err := r.data.db.Client().Dict.Get(ctx, req.GetId())
+	ret, err := r.data.db.Client().ApiResource.Get(ctx, req.GetId())
 	if err != nil {
 		if ent.IsNotFound(err) {
-			return nil, adminV1.ErrorNotFound("dict not found")
+			return nil, adminV1.ErrorNotFound("api resource not found")
 		}
 
 		r.log.Errorf("query one data failed: %s", err.Error())
@@ -160,24 +132,45 @@ func (r *DictRepo) Get(ctx context.Context, req *adminV1.GetDictRequest) (*admin
 		return nil, adminV1.ErrorInternalServerError("query data failed")
 	}
 
-	return r.toProto(ret), nil
+	return r.mapper.ToModel(ret), nil
 }
 
-func (r *DictRepo) Create(ctx context.Context, req *adminV1.CreateDictRequest) error {
+func (r *ApiResourceRepo) GetApiResourceByEndpoint(ctx context.Context, path, method string) (*adminV1.ApiResource, error) {
+	if path == "" || method == "" {
+		return nil, adminV1.ErrorBadRequest("invalid parameter")
+	}
+
+	ret, err := r.data.db.Client().ApiResource.Query().
+		Where(
+			apiresource.PathEQ(path),
+			apiresource.MethodEQ(method),
+		).
+		Only(ctx)
+	if err != nil {
+		if ent.IsNotFound(err) {
+			return nil, adminV1.ErrorNotFound("api resource not found")
+		}
+
+		r.log.Errorf("query one data failed: %s", err.Error())
+
+		return nil, adminV1.ErrorInternalServerError("query data failed")
+	}
+
+	return r.mapper.ToModel(ret), nil
+}
+
+func (r *ApiResourceRepo) Create(ctx context.Context, req *adminV1.CreateApiResourceRequest) error {
 	if req == nil || req.Data == nil {
 		return adminV1.ErrorBadRequest("invalid parameter")
 	}
 
-	builder := r.data.db.Client().Dict.Create().
-		SetNillableKey(req.Data.Key).
-		SetNillableCategory(req.Data.Category).
-		SetNillableCategoryDesc(req.Data.CategoryDesc).
-		SetNillableValue(req.Data.Value).
-		SetNillableValueDesc(req.Data.ValueDesc).
-		SetNillableValueDataType(req.Data.ValueDataType).
-		SetNillableSortID(req.Data.SortId).
-		SetNillableStatus((*dict.Status)(req.Data.Status)).
-		SetNillableRemark(req.Data.Remark).
+	builder := r.data.db.Client().ApiResource.Create().
+		SetNillableDescription(req.Data.Description).
+		SetNillableModule(req.Data.Module).
+		SetNillableModuleDescription(req.Data.ModuleDescription).
+		SetNillableOperation(req.Data.Operation).
+		SetNillablePath(req.Data.Path).
+		SetNillableMethod(req.Data.Method).
 		SetNillableCreateBy(req.Data.CreateBy).
 		SetNillableCreateTime(timeutil.TimestamppbToTime(req.Data.CreateTime))
 
@@ -197,7 +190,7 @@ func (r *DictRepo) Create(ctx context.Context, req *adminV1.CreateDictRequest) e
 	return nil
 }
 
-func (r *DictRepo) Update(ctx context.Context, req *adminV1.UpdateDictRequest) error {
+func (r *ApiResourceRepo) Update(ctx context.Context, req *adminV1.UpdateApiResourceRequest) error {
 	if req == nil || req.Data == nil {
 		return adminV1.ErrorBadRequest("invalid parameter")
 	}
@@ -209,7 +202,7 @@ func (r *DictRepo) Update(ctx context.Context, req *adminV1.UpdateDictRequest) e
 			return err
 		}
 		if !exist {
-			createReq := &adminV1.CreateDictRequest{Data: req.Data}
+			createReq := &adminV1.CreateApiResourceRequest{Data: req.Data}
 			createReq.Data.CreateBy = createReq.Data.UpdateBy
 			createReq.Data.UpdateBy = nil
 			return r.Create(ctx, createReq)
@@ -225,17 +218,14 @@ func (r *DictRepo) Update(ctx context.Context, req *adminV1.UpdateDictRequest) e
 		fieldmaskutil.Filter(req.GetData(), req.UpdateMask.GetPaths())
 	}
 
-	builder := r.data.db.Client().Dict.
+	builder := r.data.db.Client().ApiResource.
 		UpdateOneID(req.Data.GetId()).
-		SetNillableKey(req.Data.Key).
-		SetNillableCategory(req.Data.Category).
-		SetNillableCategoryDesc(req.Data.CategoryDesc).
-		SetNillableValue(req.Data.Value).
-		SetNillableValueDesc(req.Data.ValueDesc).
-		SetNillableValueDataType(req.Data.ValueDataType).
-		SetNillableSortID(req.Data.SortId).
-		SetNillableStatus((*dict.Status)(req.Data.Status)).
-		SetNillableRemark(req.Data.Remark).
+		SetNillableDescription(req.Data.Description).
+		SetNillableModule(req.Data.Module).
+		SetNillableModuleDescription(req.Data.ModuleDescription).
+		SetNillableOperation(req.Data.Operation).
+		SetNillablePath(req.Data.Path).
+		SetNillableMethod(req.Data.Method).
 		SetNillableUpdateBy(req.Data.UpdateBy).
 		SetNillableUpdateTime(timeutil.TimestamppbToTime(req.Data.UpdateTime))
 
@@ -259,14 +249,14 @@ func (r *DictRepo) Update(ctx context.Context, req *adminV1.UpdateDictRequest) e
 	return nil
 }
 
-func (r *DictRepo) Delete(ctx context.Context, req *adminV1.DeleteDictRequest) error {
+func (r *ApiResourceRepo) Delete(ctx context.Context, req *adminV1.DeleteApiResourceRequest) error {
 	if req == nil {
 		return adminV1.ErrorBadRequest("invalid parameter")
 	}
 
-	if err := r.data.db.Client().Dict.DeleteOneID(req.GetId()).Exec(ctx); err != nil {
+	if err := r.data.db.Client().ApiResource.DeleteOneID(req.GetId()).Exec(ctx); err != nil {
 		if ent.IsNotFound(err) {
-			return adminV1.ErrorNotFound("dict not found")
+			return adminV1.ErrorNotFound("api resource not found")
 		}
 
 		r.log.Errorf("delete one data failed: %s", err.Error())
@@ -274,5 +264,13 @@ func (r *DictRepo) Delete(ctx context.Context, req *adminV1.DeleteDictRequest) e
 		return adminV1.ErrorInternalServerError("delete failed")
 	}
 
+	return nil
+}
+
+func (r *ApiResourceRepo) Truncate(ctx context.Context) error {
+	if _, err := r.data.db.Client().ApiResource.Delete().Exec(ctx); err != nil {
+		r.log.Errorf("failed to truncate api_resources table: %s", err.Error())
+		return adminV1.ErrorInternalServerError("truncate failed")
+	}
 	return nil
 }

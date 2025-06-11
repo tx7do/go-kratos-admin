@@ -11,6 +11,7 @@ import (
 
 	"github.com/tx7do/go-utils/copierutil"
 	entgo "github.com/tx7do/go-utils/entgo/query"
+	"github.com/tx7do/go-utils/mapper"
 	"github.com/tx7do/go-utils/timeutil"
 	"github.com/tx7do/go-utils/trans"
 	pagination "github.com/tx7do/kratos-bootstrap/api/gen/go/pagination/v1"
@@ -22,15 +23,17 @@ import (
 )
 
 type AdminOperationLogRepo struct {
-	data         *Data
-	log          *log.Helper
-	copierOption copier.Option
+	data *Data
+	log  *log.Helper
+
+	mapper *mapper.CopierMapper[ent.AdminOperationLog, adminV1.AdminOperationLog]
 }
 
 func NewAdminOperationLogRepo(data *Data, logger log.Logger) *AdminOperationLogRepo {
 	repo := &AdminOperationLogRepo{
-		log:  log.NewHelper(log.With(logger, "module", "admin-operation-log/repo/admin-service")),
-		data: data,
+		log:    log.NewHelper(log.With(logger, "module", "admin-operation-log/repo/admin-service")),
+		data:   data,
+		mapper: mapper.NewCopierMapper[ent.AdminOperationLog, adminV1.AdminOperationLog](),
 	}
 
 	repo.init()
@@ -39,13 +42,9 @@ func NewAdminOperationLogRepo(data *Data, logger log.Logger) *AdminOperationLogR
 }
 
 func (r *AdminOperationLogRepo) init() {
-	r.copierOption = copier.Option{
-		Converters: []copier.TypeConverter{},
-	}
-
-	r.copierOption.Converters = append(r.copierOption.Converters, copierutil.NewTimeStringConverterPair()...)
-	r.copierOption.Converters = append(r.copierOption.Converters, copierutil.NewTimeTimestamppbConverterPair()...)
-	r.copierOption.Converters = append(r.copierOption.Converters, r.NewFloatSecondConverterPair()...)
+	r.mapper.AppendConverters(copierutil.NewTimeStringConverterPair())
+	r.mapper.AppendConverters(copierutil.NewTimeTimestamppbConverterPair())
+	r.mapper.AppendConverters(r.NewFloatSecondConverterPair())
 }
 
 func (r *AdminOperationLogRepo) NewFloatSecondConverterPair() []copier.TypeConverter {
@@ -56,31 +55,6 @@ func (r *AdminOperationLogRepo) NewFloatSecondConverterPair() []copier.TypeConve
 	toFn := timeutil.SecondToDurationpb
 
 	return copierutil.NewGenericTypeConverterPair(srcType, dstType, fromFn, toFn)
-}
-
-func (r *AdminOperationLogRepo) toProto(in *ent.AdminOperationLog) *adminV1.AdminOperationLog {
-	if in == nil {
-		return nil
-	}
-
-	var out adminV1.AdminOperationLog
-	_ = copier.CopyWithOption(&out, in, r.copierOption)
-
-	//out.CostTime = timeutil.SecondToDurationpb(in.CostTime)
-	//out.CreateTime = timeutil.TimeToTimeString(in.CreateTime)
-
-	return &out
-}
-
-func (r *AdminOperationLogRepo) toEnt(in *adminV1.AdminOperationLog) *ent.AdminOperationLog {
-	if in == nil {
-		return nil
-	}
-
-	var out ent.AdminOperationLog
-	_ = copier.CopyWithOption(&out, in, r.copierOption)
-
-	return &out
 }
 
 func (r *AdminOperationLogRepo) Count(ctx context.Context, whereCond []func(s *sql.Selector)) (int, error) {
@@ -128,7 +102,7 @@ func (r *AdminOperationLogRepo) List(ctx context.Context, req *pagination.Paging
 
 	items := make([]*adminV1.AdminOperationLog, 0, len(results))
 	for _, res := range results {
-		item := r.toProto(res)
+		item := r.mapper.ToModel(res)
 		items = append(items, item)
 	}
 
@@ -170,7 +144,7 @@ func (r *AdminOperationLogRepo) Get(ctx context.Context, req *adminV1.GetAdminOp
 		return nil, adminV1.ErrorInternalServerError("query data failed")
 	}
 
-	return r.toProto(ret), nil
+	return r.mapper.ToModel(ret), nil
 }
 
 func (r *AdminOperationLogRepo) Create(ctx context.Context, req *adminV1.CreateAdminOperationLogRequest) error {

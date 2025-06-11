@@ -6,14 +6,13 @@ import (
 
 	"entgo.io/ent/dialect/sql"
 	"github.com/go-kratos/kratos/v2/log"
-	"github.com/jinzhu/copier"
 
 	"github.com/tx7do/go-utils/copierutil"
 	entgo "github.com/tx7do/go-utils/entgo/query"
 	entgoUpdate "github.com/tx7do/go-utils/entgo/update"
 	"github.com/tx7do/go-utils/fieldmaskutil"
+	"github.com/tx7do/go-utils/mapper"
 	"github.com/tx7do/go-utils/timeutil"
-	"github.com/tx7do/go-utils/trans"
 
 	"kratos-admin/app/admin/service/internal/data/ent"
 	"kratos-admin/app/admin/service/internal/data/ent/adminloginrestriction"
@@ -23,15 +22,21 @@ import (
 )
 
 type AdminLoginRestrictionRepo struct {
-	data         *Data
-	log          *log.Helper
-	copierOption copier.Option
+	data *Data
+	log  *log.Helper
+
+	mapper          *mapper.CopierMapper[ent.AdminLoginRestriction, adminV1.AdminLoginRestriction]
+	typeConverter   *mapper.EnumTypeConverter[adminloginrestriction.Type, adminV1.AdminLoginRestrictionType]
+	methodConverter *mapper.EnumTypeConverter[adminloginrestriction.Method, adminV1.AdminLoginRestrictionMethod]
 }
 
 func NewAdminLoginRestrictionRepo(data *Data, logger log.Logger) *AdminLoginRestrictionRepo {
 	repo := &AdminLoginRestrictionRepo{
-		log:  log.NewHelper(log.With(logger, "module", "admin-login-restriction/repo/admin-service")),
-		data: data,
+		log:             log.NewHelper(log.With(logger, "module", "admin-login-restriction/repo/admin-service")),
+		data:            data,
+		mapper:          mapper.NewCopierMapper[ent.AdminLoginRestriction, adminV1.AdminLoginRestriction](),
+		typeConverter:   mapper.NewEnumTypeConverter[adminloginrestriction.Type, adminV1.AdminLoginRestrictionType](adminV1.AdminLoginRestrictionType_name, adminV1.AdminLoginRestrictionType_value),
+		methodConverter: mapper.NewEnumTypeConverter[adminloginrestriction.Method, adminV1.AdminLoginRestrictionMethod](adminV1.AdminLoginRestrictionMethod_name, adminV1.AdminLoginRestrictionMethod_value),
 	}
 
 	repo.init()
@@ -40,114 +45,10 @@ func NewAdminLoginRestrictionRepo(data *Data, logger log.Logger) *AdminLoginRest
 }
 
 func (r *AdminLoginRestrictionRepo) init() {
-	r.copierOption = copier.Option{
-		Converters: []copier.TypeConverter{},
-	}
-
-	r.copierOption.Converters = append(r.copierOption.Converters, copierutil.NewTimeStringConverterPair()...)
-	r.copierOption.Converters = append(r.copierOption.Converters, copierutil.NewTimeTimestamppbConverterPair()...)
-	r.copierOption.Converters = append(r.copierOption.Converters, r.NewTypeConverterPair()...)
-	r.copierOption.Converters = append(r.copierOption.Converters, r.NewMethodConverterPair()...)
-}
-
-func (r *AdminLoginRestrictionRepo) NewTypeConverterPair() []copier.TypeConverter {
-	srcType := trans.Ptr(adminV1.AdminLoginRestrictionType(0))
-	dstType := trans.Ptr(adminloginrestriction.Type(""))
-
-	fromFn := r.toEntType
-	toFn := r.toProtoType
-
-	return copierutil.NewGenericTypeConverterPair(srcType, dstType, fromFn, toFn)
-}
-
-func (r *AdminLoginRestrictionRepo) NewMethodConverterPair() []copier.TypeConverter {
-	srcType := trans.Ptr(adminV1.AdminLoginRestrictionMethod(0))
-	dstType := trans.Ptr(adminloginrestriction.Method(""))
-
-	fromFn := r.toEntMethod
-	toFn := r.toProtoMethod
-
-	return copierutil.NewGenericTypeConverterPair(srcType, dstType, fromFn, toFn)
-}
-
-func (r *AdminLoginRestrictionRepo) toEntType(in *adminV1.AdminLoginRestrictionType) *adminloginrestriction.Type {
-	if in == nil {
-		return nil
-	}
-
-	find, ok := adminV1.AdminLoginRestrictionType_name[int32(*in)]
-	if !ok {
-		return nil
-	}
-
-	return (*adminloginrestriction.Type)(trans.Ptr(find))
-}
-
-func (r *AdminLoginRestrictionRepo) toProtoType(in *adminloginrestriction.Type) *adminV1.AdminLoginRestrictionType {
-	if in == nil {
-		return nil
-	}
-
-	find, ok := adminV1.AdminLoginRestrictionType_value[string(*in)]
-	if !ok {
-		return nil
-	}
-
-	return (*adminV1.AdminLoginRestrictionType)(trans.Ptr(find))
-}
-
-func (r *AdminLoginRestrictionRepo) toEntMethod(in *adminV1.AdminLoginRestrictionMethod) *adminloginrestriction.Method {
-	if in == nil {
-		return nil
-	}
-
-	find, ok := adminV1.AdminLoginRestrictionMethod_name[int32(*in)]
-	if !ok {
-		return nil
-	}
-
-	return (*adminloginrestriction.Method)(trans.Ptr(find))
-}
-
-func (r *AdminLoginRestrictionRepo) toProtoMethod(in *adminloginrestriction.Method) *adminV1.AdminLoginRestrictionMethod {
-	if in == nil {
-		return nil
-	}
-
-	find, ok := adminV1.AdminLoginRestrictionMethod_value[string(*in)]
-	if !ok {
-		return nil
-	}
-
-	return (*adminV1.AdminLoginRestrictionMethod)(trans.Ptr(find))
-}
-
-func (r *AdminLoginRestrictionRepo) toProto(in *ent.AdminLoginRestriction) *adminV1.AdminLoginRestriction {
-	if in == nil {
-		return nil
-	}
-
-	var out adminV1.AdminLoginRestriction
-	_ = copier.CopyWithOption(&out, in, r.copierOption)
-
-	//out.Type = r.toProtoType(in.Type)
-	//out.Method = r.toProtoMethod(in.Method)
-	//out.CreateTime = timeutil.TimeToTimeString(in.CreateTime)
-	//out.UpdateTime = timeutil.TimeToTimeString(in.UpdateTime)
-	//out.DeleteTime = timeutil.TimeToTimeString(in.DeleteTime)
-
-	return &out
-}
-
-func (r *AdminLoginRestrictionRepo) toEnt(in *adminV1.AdminLoginRestriction) *ent.AdminLoginRestriction {
-	if in == nil {
-		return nil
-	}
-
-	var out ent.AdminLoginRestriction
-	_ = copier.CopyWithOption(&out, in, r.copierOption)
-
-	return &out
+	r.mapper.AppendConverters(copierutil.NewTimeStringConverterPair())
+	r.mapper.AppendConverters(copierutil.NewTimeTimestamppbConverterPair())
+	r.mapper.AppendConverters(r.typeConverter.NewConverterPair())
+	r.mapper.AppendConverters(r.methodConverter.NewConverterPair())
 }
 
 func (r *AdminLoginRestrictionRepo) Count(ctx context.Context, whereCond []func(s *sql.Selector)) (int, error) {
@@ -195,7 +96,7 @@ func (r *AdminLoginRestrictionRepo) List(ctx context.Context, req *pagination.Pa
 
 	items := make([]*adminV1.AdminLoginRestriction, 0, len(results))
 	for _, res := range results {
-		item := r.toProto(res)
+		item := r.mapper.ToModel(res)
 		items = append(items, item)
 	}
 
@@ -237,7 +138,7 @@ func (r *AdminLoginRestrictionRepo) Get(ctx context.Context, req *adminV1.GetAdm
 		return nil, adminV1.ErrorInternalServerError("query data failed")
 	}
 
-	return r.toProto(ret), nil
+	return r.mapper.ToModel(ret), nil
 }
 
 func (r *AdminLoginRestrictionRepo) Create(ctx context.Context, req *adminV1.CreateAdminLoginRestrictionRequest) error {
@@ -247,8 +148,8 @@ func (r *AdminLoginRestrictionRepo) Create(ctx context.Context, req *adminV1.Cre
 
 	builder := r.data.db.Client().AdminLoginRestriction.Create().
 		SetNillableTargetID(req.Data.TargetId).
-		SetNillableType(r.toEntType(req.Data.Type)).
-		SetNillableMethod(r.toEntMethod(req.Data.Method)).
+		SetNillableType(r.typeConverter.ToDto(req.Data.Type)).
+		SetNillableMethod(r.methodConverter.ToDto(req.Data.Method)).
 		SetNillableValue(req.Data.Value).
 		SetNillableReason(req.Data.Reason).
 		SetNillableCreateBy(req.Data.CreateBy).
@@ -296,8 +197,8 @@ func (r *AdminLoginRestrictionRepo) Update(ctx context.Context, req *adminV1.Upd
 
 	builder := r.data.db.Client().AdminLoginRestriction.UpdateOneID(req.Data.GetId()).
 		SetNillableTargetID(req.Data.TargetId).
-		SetNillableType(r.toEntType(req.Data.Type)).
-		SetNillableMethod(r.toEntMethod(req.Data.Method)).
+		SetNillableType(r.typeConverter.ToDto(req.Data.Type)).
+		SetNillableMethod(r.methodConverter.ToDto(req.Data.Method)).
 		SetNillableValue(req.Data.Value).
 		SetNillableReason(req.Data.Reason).
 		SetNillableUpdateBy(req.Data.UpdateBy).

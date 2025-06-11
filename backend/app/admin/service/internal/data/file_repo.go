@@ -6,14 +6,13 @@ import (
 
 	"entgo.io/ent/dialect/sql"
 	"github.com/go-kratos/kratos/v2/log"
-	"github.com/jinzhu/copier"
 
 	"github.com/tx7do/go-utils/copierutil"
 	entgo "github.com/tx7do/go-utils/entgo/query"
 	entgoUpdate "github.com/tx7do/go-utils/entgo/update"
 	"github.com/tx7do/go-utils/fieldmaskutil"
+	"github.com/tx7do/go-utils/mapper"
 	"github.com/tx7do/go-utils/timeutil"
-	"github.com/tx7do/go-utils/trans"
 	pagination "github.com/tx7do/kratos-bootstrap/api/gen/go/pagination/v1"
 
 	"kratos-admin/app/admin/service/internal/data/ent"
@@ -23,15 +22,19 @@ import (
 )
 
 type FileRepo struct {
-	data         *Data
-	log          *log.Helper
-	copierOption copier.Option
+	data *Data
+	log  *log.Helper
+
+	mapper            *mapper.CopierMapper[ent.File, fileV1.File]
+	providerConverter *mapper.EnumTypeConverter[file.Provider, fileV1.OSSProvider]
 }
 
 func NewFileRepo(data *Data, logger log.Logger) *FileRepo {
 	repo := &FileRepo{
-		log:  log.NewHelper(log.With(logger, "module", "file/repo/admin-service")),
-		data: data,
+		log:               log.NewHelper(log.With(logger, "module", "file/repo/admin-service")),
+		data:              data,
+		mapper:            mapper.NewCopierMapper[ent.File, fileV1.File](),
+		providerConverter: mapper.NewEnumTypeConverter[file.Provider, fileV1.OSSProvider](fileV1.OSSProvider_name, fileV1.OSSProvider_value),
 	}
 
 	repo.init()
@@ -40,76 +43,9 @@ func NewFileRepo(data *Data, logger log.Logger) *FileRepo {
 }
 
 func (r *FileRepo) init() {
-	r.copierOption = copier.Option{
-		Converters: []copier.TypeConverter{},
-	}
-
-	r.copierOption.Converters = append(r.copierOption.Converters, copierutil.NewTimeStringConverterPair()...)
-	r.copierOption.Converters = append(r.copierOption.Converters, copierutil.NewTimeTimestamppbConverterPair()...)
-	r.copierOption.Converters = append(r.copierOption.Converters, r.NewProviderConverterPair()...)
-}
-
-func (r *FileRepo) NewProviderConverterPair() []copier.TypeConverter {
-	srcType := trans.Ptr(fileV1.OSSProvider(0))
-	dstType := trans.Ptr(file.Provider(""))
-
-	fromFn := r.toEntProvider
-	toFn := r.toProtoProvider
-
-	return copierutil.NewGenericTypeConverterPair(srcType, dstType, fromFn, toFn)
-}
-
-func (r *FileRepo) toProtoProvider(in *file.Provider) *fileV1.OSSProvider {
-	if in == nil {
-		return nil
-	}
-
-	find, ok := fileV1.OSSProvider_value[string(*in)]
-	if !ok {
-		return nil
-	}
-
-	return (*fileV1.OSSProvider)(trans.Ptr(find))
-}
-
-func (r *FileRepo) toEntProvider(in *fileV1.OSSProvider) *file.Provider {
-	if in == nil {
-		return nil
-	}
-
-	find, ok := fileV1.OSSProvider_name[int32(*in)]
-	if !ok {
-		return nil
-	}
-
-	return (*file.Provider)(trans.Ptr(find))
-}
-
-func (r *FileRepo) toProto(in *ent.File) *fileV1.File {
-	if in == nil {
-		return nil
-	}
-
-	var out fileV1.File
-	_ = copier.CopyWithOption(&out, in, r.copierOption)
-
-	//out.Provider = r.toProtoProvider(in.Provider)
-	//out.CreateTime = timeutil.TimeToTimeString(in.CreateTime)
-	//out.UpdateTime = timeutil.TimeToTimeString(in.UpdateTime)
-	//out.DeleteTime = timeutil.TimeToTimeString(in.DeleteTime)
-
-	return &out
-}
-
-func (r *FileRepo) toEnt(in *fileV1.File) *ent.File {
-	if in == nil {
-		return nil
-	}
-
-	var out ent.File
-	_ = copier.CopyWithOption(&out, in, r.copierOption)
-
-	return &out
+	r.mapper.AppendConverters(copierutil.NewTimeStringConverterPair())
+	r.mapper.AppendConverters(copierutil.NewTimeTimestamppbConverterPair())
+	r.mapper.AppendConverters(r.providerConverter.NewConverterPair())
 }
 
 func (r *FileRepo) Count(ctx context.Context, whereCond []func(s *sql.Selector)) (int, error) {
@@ -157,7 +93,7 @@ func (r *FileRepo) List(ctx context.Context, req *pagination.PagingRequest) (*fi
 
 	items := make([]*fileV1.File, 0, len(results))
 	for _, res := range results {
-		item := r.toProto(res)
+		item := r.mapper.ToModel(res)
 		items = append(items, item)
 	}
 
@@ -199,7 +135,7 @@ func (r *FileRepo) Get(ctx context.Context, req *fileV1.GetFileRequest) (*fileV1
 		return nil, fileV1.ErrorInternalServerError("query data failed")
 	}
 
-	return r.toProto(ret), nil
+	return r.mapper.ToModel(ret), nil
 }
 
 func (r *FileRepo) Create(ctx context.Context, req *fileV1.CreateFileRequest) error {
@@ -208,7 +144,7 @@ func (r *FileRepo) Create(ctx context.Context, req *fileV1.CreateFileRequest) er
 	}
 
 	builder := r.data.db.Client().File.Create().
-		SetNillableProvider(r.toEntProvider(req.Data.Provider)).
+		SetNillableProvider(r.providerConverter.ToDto(req.Data.Provider)).
 		SetNillableBucketName(req.Data.BucketName).
 		SetNillableFileDirectory(req.Data.FileDirectory).
 		SetNillableFileGUID(req.Data.FileGuid).
@@ -267,7 +203,7 @@ func (r *FileRepo) Update(ctx context.Context, req *fileV1.UpdateFileRequest) er
 	}
 
 	builder := r.data.db.Client().File.UpdateOneID(req.Data.GetId()).
-		SetNillableProvider(r.toEntProvider(req.Data.Provider)).
+		SetNillableProvider(r.providerConverter.ToDto(req.Data.Provider)).
 		SetNillableBucketName(req.Data.BucketName).
 		SetNillableFileDirectory(req.Data.FileDirectory).
 		SetNillableFileGUID(req.Data.FileGuid).

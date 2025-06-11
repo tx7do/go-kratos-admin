@@ -20,7 +20,7 @@ type UserProfileService struct {
 	adminV1.UserProfileServiceHTTPServer
 
 	userRepo  *data.UserRepo
-	userToken *data.UserToken
+	userToken *data.UserTokenCacheRepo
 	roleRepo  *data.RoleRepo
 
 	log *log.Helper
@@ -29,7 +29,7 @@ type UserProfileService struct {
 func NewUserProfileService(
 	logger log.Logger,
 	userRepo *data.UserRepo,
-	userToken *data.UserToken,
+	userToken *data.UserTokenCacheRepo,
 	roleRepo *data.RoleRepo,
 ) *UserProfileService {
 	l := log.NewHelper(log.With(logger, "module", "user-profile/service/admin-service"))

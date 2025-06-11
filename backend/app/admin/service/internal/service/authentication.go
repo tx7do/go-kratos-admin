@@ -26,7 +26,7 @@ type AuthenticationService struct {
 	roleRepo           *data.RoleRepo
 	tenantRepo         *data.TenantRepo
 
-	userToken *data.UserToken
+	userToken *data.UserTokenCacheRepo
 
 	authenticator authnEngine.Authenticator
 
@@ -39,7 +39,7 @@ func NewAuthenticationService(
 	userCredentialRepo *data.UserCredentialRepo,
 	tenantRepo *data.TenantRepo,
 	roleRepo *data.RoleRepo,
-	userToken *data.UserToken,
+	userToken *data.UserTokenCacheRepo,
 	authenticator authnEngine.Authenticator,
 ) *AuthenticationService {
 	l := log.NewHelper(log.With(logger, "module", "authn/service/admin-service"))

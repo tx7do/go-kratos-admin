@@ -6,31 +6,33 @@ import (
 
 	"entgo.io/ent/dialect/sql"
 	"github.com/go-kratos/kratos/v2/log"
-	"github.com/jinzhu/copier"
 
 	"github.com/tx7do/go-utils/copierutil"
 	entgo "github.com/tx7do/go-utils/entgo/query"
 	entgoUpdate "github.com/tx7do/go-utils/entgo/update"
 	"github.com/tx7do/go-utils/fieldmaskutil"
+	"github.com/tx7do/go-utils/mapper"
 	"github.com/tx7do/go-utils/timeutil"
 	pagination "github.com/tx7do/kratos-bootstrap/api/gen/go/pagination/v1"
 
 	"kratos-admin/app/admin/service/internal/data/ent"
-	"kratos-admin/app/admin/service/internal/data/ent/role"
+	"kratos-admin/app/admin/service/internal/data/ent/position"
 
 	userV1 "kratos-admin/api/gen/go/user/service/v1"
 )
 
-type RoleRepo struct {
-	data         *Data
-	log          *log.Helper
-	copierOption copier.Option
+type PositionRepo struct {
+	data *Data
+	log  *log.Helper
+
+	mapper *mapper.CopierMapper[ent.Position, userV1.Position]
 }
 
-func NewRoleRepo(data *Data, logger log.Logger) *RoleRepo {
-	repo := &RoleRepo{
-		log:  log.NewHelper(log.With(logger, "module", "role/repo/admin-service")),
-		data: data,
+func NewPositionRepo(data *Data, logger log.Logger) *PositionRepo {
+	repo := &PositionRepo{
+		log:    log.NewHelper(log.With(logger, "module", "position/repo/admin-service")),
+		data:   data,
+		mapper: mapper.NewCopierMapper[ent.Position, userV1.Position](),
 	}
 
 	repo.init()
@@ -38,43 +40,13 @@ func NewRoleRepo(data *Data, logger log.Logger) *RoleRepo {
 	return repo
 }
 
-func (r *RoleRepo) init() {
-	r.copierOption = copier.Option{
-		Converters: []copier.TypeConverter{},
-	}
-
-	r.copierOption.Converters = append(r.copierOption.Converters, copierutil.NewTimeStringConverterPair()...)
-	r.copierOption.Converters = append(r.copierOption.Converters, copierutil.NewTimeTimestamppbConverterPair()...)
+func (r *PositionRepo) init() {
+	r.mapper.AppendConverters(copierutil.NewTimeStringConverterPair())
+	r.mapper.AppendConverters(copierutil.NewTimeTimestamppbConverterPair())
 }
 
-func (r *RoleRepo) toProto(in *ent.Role) *userV1.Role {
-	if in == nil {
-		return nil
-	}
-
-	var out userV1.Role
-	_ = copier.CopyWithOption(&out, in, r.copierOption)
-
-	//out.CreateTime = timeutil.TimeToTimeString(in.CreateTime)
-	//out.UpdateTime = timeutil.TimeToTimeString(in.UpdateTime)
-	//out.DeleteTime = timeutil.TimeToTimeString(in.DeleteTime)
-
-	return &out
-}
-
-func (r *RoleRepo) toEnt(in *userV1.Role) *ent.Role {
-	if in == nil {
-		return nil
-	}
-
-	var out ent.Role
-	_ = copier.CopyWithOption(&out, in, r.copierOption)
-
-	return &out
-}
-
-func (r *RoleRepo) Count(ctx context.Context, whereCond []func(s *sql.Selector)) (int, error) {
-	builder := r.data.db.Client().Role.Query()
+func (r *PositionRepo) Count(ctx context.Context, whereCond []func(s *sql.Selector)) (int, error) {
+	builder := r.data.db.Client().Position.Query()
 	if len(whereCond) != 0 {
 		builder.Modify(whereCond...)
 	}
@@ -88,17 +60,17 @@ func (r *RoleRepo) Count(ctx context.Context, whereCond []func(s *sql.Selector))
 	return count, nil
 }
 
-func (r *RoleRepo) List(ctx context.Context, req *pagination.PagingRequest) (*userV1.ListRoleResponse, error) {
+func (r *PositionRepo) List(ctx context.Context, req *pagination.PagingRequest) (*userV1.ListPositionResponse, error) {
 	if req == nil {
 		return nil, userV1.ErrorBadRequest("invalid parameter")
 	}
 
-	builder := r.data.db.Client().Role.Query()
+	builder := r.data.db.Client().Position.Query()
 
 	err, whereSelectors, querySelectors := entgo.BuildQuerySelector(
 		req.GetQuery(), req.GetOrQuery(),
 		req.GetPage(), req.GetPageSize(), req.GetNoPaging(),
-		req.GetOrderBy(), role.FieldCreateTime,
+		req.GetOrderBy(), position.FieldCreateTime,
 		req.GetFieldMask().GetPaths(),
 	)
 	if err != nil {
@@ -116,9 +88,9 @@ func (r *RoleRepo) List(ctx context.Context, req *pagination.PagingRequest) (*us
 		return nil, userV1.ErrorInternalServerError("query list failed")
 	}
 
-	items := make([]*userV1.Role, 0, len(results))
+	items := make([]*userV1.Position, 0, len(results))
 	for _, res := range results {
-		item := r.toProto(res)
+		item := r.mapper.ToModel(res)
 		items = append(items, item)
 	}
 
@@ -127,15 +99,15 @@ func (r *RoleRepo) List(ctx context.Context, req *pagination.PagingRequest) (*us
 		return nil, err
 	}
 
-	return &userV1.ListRoleResponse{
+	return &userV1.ListPositionResponse{
 		Total: uint32(count),
 		Items: items,
 	}, err
 }
 
-func (r *RoleRepo) IsExist(ctx context.Context, id uint32) (bool, error) {
-	exist, err := r.data.db.Client().Role.Query().
-		Where(role.IDEQ(id)).
+func (r *PositionRepo) IsExist(ctx context.Context, id uint32) (bool, error) {
+	exist, err := r.data.db.Client().Position.Query().
+		Where(position.IDEQ(id)).
 		Exist(ctx)
 	if err != nil {
 		r.log.Errorf("query exist failed: %s", err.Error())
@@ -144,15 +116,15 @@ func (r *RoleRepo) IsExist(ctx context.Context, id uint32) (bool, error) {
 	return exist, nil
 }
 
-func (r *RoleRepo) Get(ctx context.Context, id uint32) (*userV1.Role, error) {
-	if id == 0 {
+func (r *PositionRepo) Get(ctx context.Context, req *userV1.GetPositionRequest) (*userV1.Position, error) {
+	if req == nil {
 		return nil, userV1.ErrorBadRequest("invalid parameter")
 	}
 
-	ret, err := r.data.db.Client().Role.Get(ctx, id)
+	ret, err := r.data.db.Client().Position.Get(ctx, req.GetId())
 	if err != nil {
 		if ent.IsNotFound(err) {
-			return nil, userV1.ErrorRoleNotFound("role not found")
+			return nil, userV1.ErrorPositionNotFound("position not found")
 		}
 
 		r.log.Errorf("query one data failed: %s", err.Error())
@@ -160,54 +132,26 @@ func (r *RoleRepo) Get(ctx context.Context, id uint32) (*userV1.Role, error) {
 		return nil, userV1.ErrorInternalServerError("query data failed")
 	}
 
-	return r.toProto(ret), nil
+	return r.mapper.ToModel(ret), nil
 }
 
-func (r *RoleRepo) GetRoleByCode(ctx context.Context, code string) (*userV1.Role, error) {
-	if code == "" {
-		return nil, userV1.ErrorBadRequest("invalid parameter")
-	}
-
-	ret, err := r.data.db.Client().Role.Query().
-		Where(role.CodeEQ(code)).
-		Only(ctx)
-	if err != nil {
-		if ent.IsNotFound(err) {
-			return nil, userV1.ErrorRoleNotFound("role not found")
-		}
-
-		r.log.Errorf("query one data failed: %s", err.Error())
-
-		return nil, userV1.ErrorInternalServerError("query data failed")
-	}
-
-	return r.toProto(ret), nil
-}
-
-func (r *RoleRepo) Create(ctx context.Context, req *userV1.CreateRoleRequest) error {
+func (r *PositionRepo) Create(ctx context.Context, req *userV1.CreatePositionRequest) error {
 	if req == nil || req.Data == nil {
 		return userV1.ErrorBadRequest("invalid parameter")
 	}
 
-	builder := r.data.db.Client().Role.Create().
+	builder := r.data.db.Client().Position.Create().
 		SetNillableName(req.Data.Name).
 		SetNillableParentID(req.Data.ParentId).
 		SetNillableSortID(req.Data.SortId).
 		SetNillableCode(req.Data.Code).
-		SetNillableStatus((*role.Status)(req.Data.Status)).
+		SetNillableStatus((*position.Status)(req.Data.Status)).
 		SetNillableRemark(req.Data.Remark).
 		SetNillableCreateBy(req.Data.CreateBy).
 		SetNillableCreateTime(timeutil.TimestamppbToTime(req.Data.CreateTime))
 
 	if req.Data.CreateTime == nil {
 		builder.SetCreateTime(time.Now())
-	}
-
-	if req.Data.Menus != nil {
-		builder.SetMenus(req.Data.Menus)
-	}
-	if req.Data.Apis != nil {
-		builder.SetApis(req.Data.Apis)
 	}
 
 	if req.Data.Id != nil {
@@ -222,7 +166,7 @@ func (r *RoleRepo) Create(ctx context.Context, req *userV1.CreateRoleRequest) er
 	return nil
 }
 
-func (r *RoleRepo) Update(ctx context.Context, req *userV1.UpdateRoleRequest) error {
+func (r *PositionRepo) Update(ctx context.Context, req *userV1.UpdatePositionRequest) error {
 	if req == nil || req.Data == nil {
 		return userV1.ErrorBadRequest("invalid parameter")
 	}
@@ -234,7 +178,7 @@ func (r *RoleRepo) Update(ctx context.Context, req *userV1.UpdateRoleRequest) er
 			return err
 		}
 		if !exist {
-			createReq := &userV1.CreateRoleRequest{Data: req.Data}
+			createReq := &userV1.CreatePositionRequest{Data: req.Data}
 			createReq.Data.CreateBy = createReq.Data.UpdateBy
 			createReq.Data.UpdateBy = nil
 			return r.Create(ctx, createReq)
@@ -250,25 +194,18 @@ func (r *RoleRepo) Update(ctx context.Context, req *userV1.UpdateRoleRequest) er
 		fieldmaskutil.Filter(req.GetData(), req.UpdateMask.GetPaths())
 	}
 
-	builder := r.data.db.Client().Role.UpdateOneID(req.Data.GetId()).
+	builder := r.data.db.Client().Position.UpdateOneID(req.Data.GetId()).
 		SetNillableName(req.Data.Name).
 		SetNillableParentID(req.Data.ParentId).
 		SetNillableSortID(req.Data.SortId).
 		SetNillableCode(req.Data.Code).
 		SetNillableRemark(req.Data.Remark).
-		SetNillableStatus((*role.Status)(req.Data.Status)).
+		SetNillableStatus((*position.Status)(req.Data.Status)).
 		SetNillableUpdateBy(req.Data.UpdateBy).
 		SetNillableUpdateTime(timeutil.TimestamppbToTime(req.Data.UpdateTime))
 
 	if req.Data.UpdateTime == nil {
 		builder.SetUpdateTime(time.Now())
-	}
-
-	if req.Data.Menus != nil {
-		builder.SetMenus(req.Data.Menus)
-	}
-	if req.Data.Apis != nil {
-		builder.SetApis(req.Data.Apis)
 	}
 
 	if req.UpdateMask != nil {
@@ -287,14 +224,14 @@ func (r *RoleRepo) Update(ctx context.Context, req *userV1.UpdateRoleRequest) er
 	return nil
 }
 
-func (r *RoleRepo) Delete(ctx context.Context, req *userV1.DeleteRoleRequest) error {
+func (r *PositionRepo) Delete(ctx context.Context, req *userV1.DeletePositionRequest) error {
 	if req == nil {
 		return userV1.ErrorBadRequest("invalid parameter")
 	}
 
-	if err := r.data.db.Client().Role.DeleteOneID(req.GetId()).Exec(ctx); err != nil {
+	if err := r.data.db.Client().Position.DeleteOneID(req.GetId()).Exec(ctx); err != nil {
 		if ent.IsNotFound(err) {
-			return userV1.ErrorNotFound("role not found")
+			return userV1.ErrorNotFound("position not found")
 		}
 
 		r.log.Errorf("delete one data failed: %s", err.Error())

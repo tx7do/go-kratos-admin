@@ -6,14 +6,13 @@ import (
 
 	"entgo.io/ent/dialect/sql"
 	"github.com/go-kratos/kratos/v2/log"
-	"github.com/jinzhu/copier"
 
 	"github.com/tx7do/go-utils/copierutil"
 	entgo "github.com/tx7do/go-utils/entgo/query"
 	entgoUpdate "github.com/tx7do/go-utils/entgo/update"
 	"github.com/tx7do/go-utils/fieldmaskutil"
+	"github.com/tx7do/go-utils/mapper"
 	"github.com/tx7do/go-utils/timeutil"
-	"github.com/tx7do/go-utils/trans"
 	pagination "github.com/tx7do/kratos-bootstrap/api/gen/go/pagination/v1"
 
 	"kratos-admin/app/admin/service/internal/data/ent"
@@ -24,15 +23,23 @@ import (
 )
 
 type UserRepo struct {
-	data         *Data
-	log          *log.Helper
-	copierOption copier.Option
+	data *Data
+	log  *log.Helper
+
+	mapper             *mapper.CopierMapper[ent.User, userV1.User]
+	statusConverter    *mapper.EnumTypeConverter[user.Status, userV1.UserStatus]
+	genderConverter    *mapper.EnumTypeConverter[user.Gender, userV1.UserGender]
+	authorityConverter *mapper.EnumTypeConverter[user.Authority, userV1.UserAuthority]
 }
 
 func NewUserRepo(data *Data, logger log.Logger) *UserRepo {
 	repo := &UserRepo{
-		log:  log.NewHelper(log.With(logger, "module", "user/repo/admin-service")),
-		data: data,
+		log:                log.NewHelper(log.With(logger, "module", "user/repo/admin-service")),
+		data:               data,
+		mapper:             mapper.NewCopierMapper[ent.User, userV1.User](),
+		statusConverter:    mapper.NewEnumTypeConverter[user.Status, userV1.UserStatus](userV1.UserStatus_name, userV1.UserStatus_value),
+		genderConverter:    mapper.NewEnumTypeConverter[user.Gender, userV1.UserGender](userV1.UserGender_name, userV1.UserGender_value),
+		authorityConverter: mapper.NewEnumTypeConverter[user.Authority, userV1.UserAuthority](userV1.UserAuthority_name, userV1.UserAuthority_value),
 	}
 
 	repo.init()
@@ -41,156 +48,11 @@ func NewUserRepo(data *Data, logger log.Logger) *UserRepo {
 }
 
 func (r *UserRepo) init() {
-	r.copierOption = copier.Option{
-		Converters: []copier.TypeConverter{},
-	}
-
-	r.copierOption.Converters = append(r.copierOption.Converters, copierutil.NewTimeStringConverterPair()...)
-	r.copierOption.Converters = append(r.copierOption.Converters, copierutil.NewTimeTimestamppbConverterPair()...)
-	r.copierOption.Converters = append(r.copierOption.Converters, r.NewStatusConverterPair()...)
-	r.copierOption.Converters = append(r.copierOption.Converters, r.NewAuthorityConverterPair()...)
-	r.copierOption.Converters = append(r.copierOption.Converters, r.NewGenderConverterPair()...)
-}
-
-func (r *UserRepo) NewStatusConverterPair() []copier.TypeConverter {
-	srcType := trans.Ptr(userV1.UserStatus(0))
-	dstType := trans.Ptr(user.Status(""))
-
-	fromFn := r.toEntStatus
-	toFn := r.toProtoStatus
-
-	return copierutil.NewGenericTypeConverterPair(srcType, dstType, fromFn, toFn)
-}
-
-func (r *UserRepo) NewAuthorityConverterPair() []copier.TypeConverter {
-	srcType := trans.Ptr(userV1.UserAuthority(0))
-	dstType := trans.Ptr(user.Authority(""))
-
-	fromFn := r.toEntAuthority
-	toFn := r.toProtoAuthority
-
-	return copierutil.NewGenericTypeConverterPair(srcType, dstType, fromFn, toFn)
-}
-
-func (r *UserRepo) NewGenderConverterPair() []copier.TypeConverter {
-	srcType := trans.Ptr(userV1.UserGender(0))
-	dstType := trans.Ptr(user.Gender(""))
-
-	fromFn := r.toEntGender
-	toFn := r.toProtoGender
-
-	return copierutil.NewGenericTypeConverterPair(srcType, dstType, fromFn, toFn)
-}
-
-func (r *UserRepo) toEntAuthority(in *userV1.UserAuthority) *user.Authority {
-	if in == nil {
-		return nil
-	}
-
-	find, ok := userV1.UserAuthority_name[int32(*in)]
-	if !ok {
-		return nil
-	}
-
-	return (*user.Authority)(trans.Ptr(find))
-}
-
-func (r *UserRepo) toProtoAuthority(in *user.Authority) *userV1.UserAuthority {
-	if in == nil {
-		return nil
-	}
-
-	find, ok := userV1.UserAuthority_value[string(*in)]
-	if !ok {
-		return nil
-	}
-
-	return (*userV1.UserAuthority)(trans.Ptr(find))
-}
-
-func (r *UserRepo) toEntGender(in *userV1.UserGender) *user.Gender {
-	if in == nil {
-		return nil
-	}
-
-	find, ok := userV1.UserGender_name[int32(*in)]
-	if !ok {
-		return nil
-	}
-	return (*user.Gender)(trans.Ptr(find))
-}
-
-func (r *UserRepo) toProtoGender(in *user.Gender) *userV1.UserGender {
-	if in == nil {
-		return nil
-	}
-
-	find, ok := userV1.UserGender_value[string(*in)]
-	if !ok {
-		return nil
-	}
-	return (*userV1.UserGender)(trans.Ptr(find))
-}
-
-func (r *UserRepo) toEntStatus(in *userV1.UserStatus) *user.Status {
-	if in == nil {
-		return nil
-	}
-
-	find, ok := userV1.UserStatus_name[int32(*in)]
-	if !ok {
-		return nil
-	}
-
-	return (*user.Status)(trans.Ptr(find))
-}
-
-func (r *UserRepo) toProtoStatus(in *user.Status) *userV1.UserStatus {
-	if in == nil {
-		return nil
-	}
-
-	find, ok := userV1.UserStatus_value[string(*in)]
-	if !ok {
-		return nil
-	}
-	return (*userV1.UserStatus)(trans.Ptr(find))
-}
-
-func (r *UserRepo) toEnt(in *userV1.User) *ent.User {
-	if in == nil {
-		return nil
-	}
-
-	var out ent.User
-	_ = copier.CopyWithOption(&out, in, r.copierOption)
-
-	//out.Gender = r.toEntGender(in.Gender)
-	//out.Authority = r.toEntAuthority(in.Authority)
-	//out.Status = r.toEntStatus(in.Status)
-	//out.CreateTime = timeutil.StringTimeToTime(in.CreateTime)
-	//out.UpdateTime = timeutil.StringTimeToTime(in.UpdateTime)
-	//out.DeleteTime = timeutil.StringTimeToTime(in.DeleteTime)
-
-	return &out
-}
-
-func (r *UserRepo) toProto(in *ent.User) *userV1.User {
-	if in == nil {
-		return nil
-	}
-
-	var out userV1.User
-	_ = copier.CopyWithOption(&out, in, r.copierOption)
-
-	//out.Gender = r.toProtoGender(in.Gender)
-	//out.Authority = r.toProtoAuthority(in.Authority)
-	//out.Status = r.toProtoStatus(in.Status)
-	//out.CreateTime = timeutil.TimeToTimeString(in.CreateTime)
-	//out.UpdateTime = timeutil.TimeToTimeString(in.UpdateTime)
-	//out.DeleteTime = timeutil.TimeToTimeString(in.DeleteTime)
-
-	return &out
+	r.mapper.AppendConverters(copierutil.NewTimeStringConverterPair())
+	r.mapper.AppendConverters(copierutil.NewTimeTimestamppbConverterPair())
+	r.mapper.AppendConverters(r.statusConverter.NewConverterPair())
+	r.mapper.AppendConverters(r.genderConverter.NewConverterPair())
+	r.mapper.AppendConverters(r.authorityConverter.NewConverterPair())
 }
 
 func (r *UserRepo) Count(ctx context.Context, whereCond []func(s *sql.Selector)) (int, error) {
@@ -238,7 +100,7 @@ func (r *UserRepo) List(ctx context.Context, req *pagination.PagingRequest) (*us
 
 	items := make([]*userV1.User, 0, len(results))
 	for _, res := range results {
-		item := r.toProto(res)
+		item := r.mapper.ToModel(res)
 		items = append(items, item)
 	}
 
@@ -280,7 +142,7 @@ func (r *UserRepo) Get(ctx context.Context, userId uint32) (*userV1.User, error)
 		return nil, userV1.ErrorInternalServerError("query data failed")
 	}
 
-	return r.toProto(ret), nil
+	return r.mapper.ToModel(ret), nil
 }
 
 func (r *UserRepo) Create(ctx context.Context, req *userV1.CreateUserRequest) (*userV1.User, error) {
@@ -302,9 +164,9 @@ func (r *UserRepo) Create(ctx context.Context, req *userV1.CreateUserRequest) (*
 		SetNillableRemark(req.Data.Remark).
 		SetNillableLastLoginTime(timeutil.TimestamppbToTime(req.Data.LastLoginTime)).
 		SetNillableLastLoginIP(req.Data.LastLoginIp).
-		SetNillableStatus(r.toEntStatus(req.Data.Status)).
-		SetNillableGender(r.toEntGender(req.Data.Gender)).
-		SetNillableAuthority(r.toEntAuthority(req.Data.Authority)).
+		SetNillableStatus(r.statusConverter.ToDto(req.Data.Status)).
+		SetNillableGender(r.genderConverter.ToDto(req.Data.Gender)).
+		SetNillableAuthority(r.authorityConverter.ToDto(req.Data.Authority)).
 		SetNillableOrgID(req.Data.OrgId).
 		SetNillableWorkID(req.Data.WorkId).
 		SetNillablePositionID(req.Data.PositionId).
@@ -328,7 +190,7 @@ func (r *UserRepo) Create(ctx context.Context, req *userV1.CreateUserRequest) (*
 		r.log.Errorf("insert one data failed: %s", err.Error())
 		return nil, userV1.ErrorInternalServerError("insert data failed")
 	} else {
-		return r.toProto(ret), nil
+		return r.mapper.ToModel(ret), nil
 	}
 }
 
@@ -384,9 +246,9 @@ func (r *UserRepo) Update(ctx context.Context, req *userV1.UpdateUserRequest) er
 		SetNillableRemark(req.Data.Remark).
 		SetNillableLastLoginTime(timeutil.TimestamppbToTime(req.Data.LastLoginTime)).
 		SetNillableLastLoginIP(req.Data.LastLoginIp).
-		SetNillableStatus(r.toEntStatus(req.Data.Status)).
-		SetNillableGender(r.toEntGender(req.Data.Gender)).
-		SetNillableAuthority(r.toEntAuthority(req.Data.Authority)).
+		SetNillableStatus(r.statusConverter.ToDto(req.Data.Status)).
+		SetNillableGender(r.genderConverter.ToDto(req.Data.Gender)).
+		SetNillableAuthority(r.authorityConverter.ToDto(req.Data.Authority)).
 		SetNillableOrgID(req.Data.OrgId).
 		SetNillableWorkID(req.Data.WorkId).
 		SetNillablePositionID(req.Data.PositionId).
@@ -450,7 +312,7 @@ func (r *UserRepo) GetUserByUserName(ctx context.Context, userName string) (*use
 		return nil, userV1.ErrorInternalServerError("query data failed")
 	}
 
-	return r.toProto(ret), nil
+	return r.mapper.ToModel(ret), nil
 }
 
 func (r *UserRepo) UserExists(ctx context.Context, req *userV1.UserExistsRequest) (*userV1.UserExistsResponse, error) {

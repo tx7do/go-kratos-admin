@@ -6,14 +6,13 @@ import (
 
 	"entgo.io/ent/dialect/sql"
 	"github.com/go-kratos/kratos/v2/log"
-	"github.com/jinzhu/copier"
 
 	"github.com/tx7do/go-utils/copierutil"
 	"github.com/tx7do/go-utils/entgo/query"
 	entgoUpdate "github.com/tx7do/go-utils/entgo/update"
 	"github.com/tx7do/go-utils/fieldmaskutil"
+	"github.com/tx7do/go-utils/mapper"
 	"github.com/tx7do/go-utils/timeutil"
-	"github.com/tx7do/go-utils/trans"
 	pagination "github.com/tx7do/kratos-bootstrap/api/gen/go/pagination/v1"
 
 	"kratos-admin/app/admin/service/internal/data/ent"
@@ -23,15 +22,19 @@ import (
 )
 
 type TaskRepo struct {
-	data         *Data
-	log          *log.Helper
-	copierOption copier.Option
+	data *Data
+	log  *log.Helper
+
+	mapper        *mapper.CopierMapper[ent.Task, adminV1.Task]
+	typeConverter *mapper.EnumTypeConverter[task.Type, adminV1.TaskType]
 }
 
 func NewTaskRepo(data *Data, logger log.Logger) *TaskRepo {
 	repo := &TaskRepo{
-		log:  log.NewHelper(log.With(logger, "module", "task/repo/admin-service")),
-		data: data,
+		log:           log.NewHelper(log.With(logger, "module", "task/repo/admin-service")),
+		data:          data,
+		mapper:        mapper.NewCopierMapper[ent.Task, adminV1.Task](),
+		typeConverter: mapper.NewEnumTypeConverter[task.Type, adminV1.TaskType](adminV1.TaskType_name, adminV1.TaskType_value),
 	}
 
 	repo.init()
@@ -40,76 +43,9 @@ func NewTaskRepo(data *Data, logger log.Logger) *TaskRepo {
 }
 
 func (r *TaskRepo) init() {
-	r.copierOption = copier.Option{
-		Converters: []copier.TypeConverter{},
-	}
-
-	r.copierOption.Converters = append(r.copierOption.Converters, copierutil.NewTimeStringConverterPair()...)
-	r.copierOption.Converters = append(r.copierOption.Converters, copierutil.NewTimeTimestamppbConverterPair()...)
-	r.copierOption.Converters = append(r.copierOption.Converters, r.NewTaskTypeConverterPair()...)
-}
-
-func (r *TaskRepo) NewTaskTypeConverterPair() []copier.TypeConverter {
-	srcType := trans.Ptr(adminV1.TaskType(0))
-	dstType := trans.Ptr(task.Type(""))
-
-	fromFn := r.toEntType
-	toFn := r.toProtoType
-
-	return copierutil.NewGenericTypeConverterPair(srcType, dstType, fromFn, toFn)
-}
-
-func (r *TaskRepo) toEntType(in *adminV1.TaskType) *task.Type {
-	if in == nil {
-		return nil
-	}
-
-	find, ok := adminV1.TaskType_name[int32(*in)]
-	if !ok {
-		return nil
-	}
-
-	return (*task.Type)(trans.Ptr(find))
-}
-
-func (r *TaskRepo) toProtoType(in *task.Type) *adminV1.TaskType {
-	if in == nil {
-		return nil
-	}
-
-	find, ok := adminV1.TaskType_value[string(*in)]
-	if !ok {
-		return nil
-	}
-
-	return (*adminV1.TaskType)(trans.Ptr(find))
-}
-
-func (r *TaskRepo) toProto(in *ent.Task) *adminV1.Task {
-	if in == nil {
-		return nil
-	}
-
-	var out adminV1.Task
-	_ = copier.CopyWithOption(&out, in, r.copierOption)
-
-	//out.Type = r.toProtoType(in.Type)
-	//out.CreateTime = timeutil.TimeToTimeString(in.CreateTime)
-	//out.UpdateTime = timeutil.TimeToTimeString(in.UpdateTime)
-	//out.DeleteTime = timeutil.TimeToTimeString(in.DeleteTime)
-
-	return &out
-}
-
-func (r *TaskRepo) toEnt(in *adminV1.Task) *ent.Task {
-	if in == nil {
-		return nil
-	}
-
-	var out ent.Task
-	_ = copier.CopyWithOption(&out, in, r.copierOption)
-
-	return &out
+	r.mapper.AppendConverters(copierutil.NewTimeStringConverterPair())
+	r.mapper.AppendConverters(copierutil.NewTimeTimestamppbConverterPair())
+	r.mapper.AppendConverters(r.typeConverter.NewConverterPair())
 }
 
 func (r *TaskRepo) Count(ctx context.Context, whereCond []func(s *sql.Selector)) (int, error) {
@@ -157,7 +93,7 @@ func (r *TaskRepo) List(ctx context.Context, req *pagination.PagingRequest) (*ad
 
 	items := make([]*adminV1.Task, 0, len(results))
 	for _, res := range results {
-		item := r.toProto(res)
+		item := r.mapper.ToModel(res)
 		items = append(items, item)
 	}
 
@@ -199,7 +135,7 @@ func (r *TaskRepo) Get(ctx context.Context, id uint32) (*adminV1.Task, error) {
 		return nil, adminV1.ErrorInternalServerError("query data failed")
 	}
 
-	return r.toProto(ret), nil
+	return r.mapper.ToModel(ret), nil
 }
 
 func (r *TaskRepo) GetByTypeName(ctx context.Context, typeName string) (*adminV1.Task, error) {
@@ -220,7 +156,7 @@ func (r *TaskRepo) GetByTypeName(ctx context.Context, typeName string) (*adminV1
 		return nil, adminV1.ErrorInternalServerError("query data failed")
 	}
 
-	return r.toProto(ret), nil
+	return r.mapper.ToModel(ret), nil
 }
 
 func (r *TaskRepo) Create(ctx context.Context, req *adminV1.CreateTaskRequest) (*adminV1.Task, error) {
@@ -229,7 +165,7 @@ func (r *TaskRepo) Create(ctx context.Context, req *adminV1.CreateTaskRequest) (
 	}
 
 	builder := r.data.db.Client().Task.Create().
-		SetNillableType(r.toEntType(req.Data.Type)).
+		SetNillableType(r.typeConverter.ToDto(req.Data.Type)).
 		SetNillableTypeName(req.Data.TypeName).
 		SetNillableTaskPayload(req.Data.TaskPayload).
 		SetNillableCronSpec(req.Data.CronSpec).
@@ -256,7 +192,7 @@ func (r *TaskRepo) Create(ctx context.Context, req *adminV1.CreateTaskRequest) (
 		return nil, adminV1.ErrorInternalServerError("insert data failed")
 	}
 
-	return r.toProto(t), nil
+	return r.mapper.ToModel(t), nil
 }
 
 func (r *TaskRepo) Update(ctx context.Context, req *adminV1.UpdateTaskRequest) (*adminV1.Task, error) {
@@ -290,7 +226,7 @@ func (r *TaskRepo) Update(ctx context.Context, req *adminV1.UpdateTaskRequest) (
 	builder := r.data.db.Client().
 		//Debug().
 		Task.UpdateOneID(req.Data.GetId()).
-		SetNillableType(r.toEntType(req.Data.Type)).
+		SetNillableType(r.typeConverter.ToDto(req.Data.Type)).
 		SetNillableTypeName(req.Data.TypeName).
 		SetNillableTaskPayload(req.Data.TaskPayload).
 		SetNillableCronSpec(req.Data.CronSpec).
@@ -321,7 +257,7 @@ func (r *TaskRepo) Update(ctx context.Context, req *adminV1.UpdateTaskRequest) (
 		return nil, adminV1.ErrorInternalServerError("update data failed")
 	}
 
-	return r.toProto(t), nil
+	return r.mapper.ToModel(t), nil
 }
 
 func (r *TaskRepo) Delete(ctx context.Context, req *adminV1.DeleteTaskRequest) error {

@@ -6,14 +6,13 @@ import (
 
 	"entgo.io/ent/dialect/sql"
 	"github.com/go-kratos/kratos/v2/log"
-	"github.com/jinzhu/copier"
 
 	"github.com/tx7do/go-utils/copierutil"
 	entgo "github.com/tx7do/go-utils/entgo/query"
 	entgoUpdate "github.com/tx7do/go-utils/entgo/update"
 	"github.com/tx7do/go-utils/fieldmaskutil"
+	"github.com/tx7do/go-utils/mapper"
 	"github.com/tx7do/go-utils/timeutil"
-	"github.com/tx7do/go-utils/trans"
 	pagination "github.com/tx7do/kratos-bootstrap/api/gen/go/pagination/v1"
 
 	"kratos-admin/app/admin/service/internal/data/ent"
@@ -23,15 +22,19 @@ import (
 )
 
 type PrivateMessageRepo struct {
-	data         *Data
-	log          *log.Helper
-	copierOption copier.Option
+	data *Data
+	log  *log.Helper
+
+	mapper          *mapper.CopierMapper[ent.PrivateMessage, internalMessageV1.PrivateMessage]
+	statusConverter *mapper.EnumTypeConverter[privatemessage.Status, internalMessageV1.MessageStatus]
 }
 
 func NewPrivateMessageRepo(data *Data, logger log.Logger) *PrivateMessageRepo {
 	repo := &PrivateMessageRepo{
-		log:  log.NewHelper(log.With(logger, "module", "private-message/repo/admin-service")),
-		data: data,
+		log:             log.NewHelper(log.With(logger, "module", "private-message/repo/admin-service")),
+		data:            data,
+		mapper:          mapper.NewCopierMapper[ent.PrivateMessage, internalMessageV1.PrivateMessage](),
+		statusConverter: mapper.NewEnumTypeConverter[privatemessage.Status, internalMessageV1.MessageStatus](internalMessageV1.MessageStatus_name, internalMessageV1.MessageStatus_value),
 	}
 
 	repo.init()
@@ -40,76 +43,9 @@ func NewPrivateMessageRepo(data *Data, logger log.Logger) *PrivateMessageRepo {
 }
 
 func (r *PrivateMessageRepo) init() {
-	r.copierOption = copier.Option{
-		Converters: []copier.TypeConverter{},
-	}
-
-	r.copierOption.Converters = append(r.copierOption.Converters, copierutil.NewTimeStringConverterPair()...)
-	r.copierOption.Converters = append(r.copierOption.Converters, copierutil.NewTimeTimestamppbConverterPair()...)
-	r.copierOption.Converters = append(r.copierOption.Converters, r.NewStatusConverterPair()...)
-}
-
-func (r *PrivateMessageRepo) NewStatusConverterPair() []copier.TypeConverter {
-	srcType := trans.Ptr(internalMessageV1.MessageStatus(0))
-	dstType := trans.Ptr(privatemessage.Status(""))
-
-	fromFn := r.toEntStatus
-	toFn := r.toProtoStatus
-
-	return copierutil.NewGenericTypeConverterPair(srcType, dstType, fromFn, toFn)
-}
-
-func (r *PrivateMessageRepo) toProtoStatus(in *privatemessage.Status) *internalMessageV1.MessageStatus {
-	if in == nil {
-		return nil
-	}
-
-	find, ok := internalMessageV1.MessageStatus_value[string(*in)]
-	if !ok {
-		return nil
-	}
-
-	return (*internalMessageV1.MessageStatus)(trans.Ptr(find))
-}
-
-func (r *PrivateMessageRepo) toEntStatus(in *internalMessageV1.MessageStatus) *privatemessage.Status {
-	if in == nil {
-		return nil
-	}
-
-	find, ok := internalMessageV1.MessageStatus_name[int32(*in)]
-	if !ok {
-		return nil
-	}
-
-	return (*privatemessage.Status)(trans.Ptr(find))
-}
-
-func (r *PrivateMessageRepo) toProto(in *ent.PrivateMessage) *internalMessageV1.PrivateMessage {
-	if in == nil {
-		return nil
-	}
-
-	var out internalMessageV1.PrivateMessage
-	_ = copier.CopyWithOption(&out, in, r.copierOption)
-
-	//out.Status = r.toProtoStatus(in.Status)
-	//out.CreateTime = timeutil.TimeToTimeString(in.CreateTime)
-	//out.UpdateTime = timeutil.TimeToTimeString(in.UpdateTime)
-	//out.DeleteTime = timeutil.TimeToTimeString(in.DeleteTime)
-
-	return &out
-}
-
-func (r *PrivateMessageRepo) toEnt(in *internalMessageV1.PrivateMessage) *ent.PrivateMessage {
-	if in == nil {
-		return nil
-	}
-
-	var out ent.PrivateMessage
-	_ = copier.CopyWithOption(&out, in, r.copierOption)
-
-	return &out
+	r.mapper.AppendConverters(copierutil.NewTimeStringConverterPair())
+	r.mapper.AppendConverters(copierutil.NewTimeTimestamppbConverterPair())
+	r.mapper.AppendConverters(r.statusConverter.NewConverterPair())
 }
 
 func (r *PrivateMessageRepo) Count(ctx context.Context, whereCond []func(s *sql.Selector)) (int, error) {
@@ -157,7 +93,7 @@ func (r *PrivateMessageRepo) List(ctx context.Context, req *pagination.PagingReq
 
 	items := make([]*internalMessageV1.PrivateMessage, 0, len(results))
 	for _, res := range results {
-		item := r.toProto(res)
+		item := r.mapper.ToModel(res)
 		items = append(items, item)
 	}
 
@@ -199,7 +135,7 @@ func (r *PrivateMessageRepo) Get(ctx context.Context, req *internalMessageV1.Get
 		return nil, internalMessageV1.ErrorInternalServerError("query data failed")
 	}
 
-	return r.toProto(ret), nil
+	return r.mapper.ToModel(ret), nil
 }
 
 func (r *PrivateMessageRepo) Create(ctx context.Context, req *internalMessageV1.CreatePrivateMessageRequest) error {
@@ -212,7 +148,7 @@ func (r *PrivateMessageRepo) Create(ctx context.Context, req *internalMessageV1.
 		SetNillableContent(req.Data.Content).
 		SetNillableSenderID(req.Data.SenderId).
 		SetNillableReceiverID(req.Data.ReceiverId).
-		SetNillableStatus(r.toEntStatus(req.Data.Status)).
+		SetNillableStatus(r.statusConverter.ToDto(req.Data.Status)).
 		SetNillableCreateTime(timeutil.TimestamppbToTime(req.Data.CreateTime))
 
 	if req.Data.CreateTime == nil {
@@ -258,7 +194,7 @@ func (r *PrivateMessageRepo) Update(ctx context.Context, req *internalMessageV1.
 		SetNillableContent(req.Data.Content).
 		SetNillableSenderID(req.Data.SenderId).
 		SetNillableReceiverID(req.Data.ReceiverId).
-		SetNillableStatus(r.toEntStatus(req.Data.Status)).
+		SetNillableStatus(r.statusConverter.ToDto(req.Data.Status)).
 		SetNillableUpdateTime(timeutil.TimestamppbToTime(req.Data.UpdateTime))
 
 	if req.Data.UpdateTime == nil {

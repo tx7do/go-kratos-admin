@@ -6,31 +6,33 @@ import (
 
 	"entgo.io/ent/dialect/sql"
 	"github.com/go-kratos/kratos/v2/log"
-	"github.com/jinzhu/copier"
 
 	"github.com/tx7do/go-utils/copierutil"
 	entgo "github.com/tx7do/go-utils/entgo/query"
 	entgoUpdate "github.com/tx7do/go-utils/entgo/update"
 	"github.com/tx7do/go-utils/fieldmaskutil"
+	"github.com/tx7do/go-utils/mapper"
 	"github.com/tx7do/go-utils/timeutil"
-	pagination "github.com/tx7do/kratos-bootstrap/api/gen/go/pagination/v1"
 
 	"kratos-admin/app/admin/service/internal/data/ent"
-	"kratos-admin/app/admin/service/internal/data/ent/position"
+	"kratos-admin/app/admin/service/internal/data/ent/tenant"
 
+	pagination "github.com/tx7do/kratos-bootstrap/api/gen/go/pagination/v1"
 	userV1 "kratos-admin/api/gen/go/user/service/v1"
 )
 
-type PositionRepo struct {
-	data         *Data
-	log          *log.Helper
-	copierOption copier.Option
+type TenantRepo struct {
+	data *Data
+	log  *log.Helper
+
+	mapper *mapper.CopierMapper[ent.Tenant, userV1.Tenant]
 }
 
-func NewPositionRepo(data *Data, logger log.Logger) *PositionRepo {
-	repo := &PositionRepo{
-		log:  log.NewHelper(log.With(logger, "module", "position/repo/admin-service")),
-		data: data,
+func NewTenantRepo(data *Data, logger log.Logger) *TenantRepo {
+	repo := &TenantRepo{
+		log:    log.NewHelper(log.With(logger, "module", "tenant/repo/admin-service")),
+		data:   data,
+		mapper: mapper.NewCopierMapper[ent.Tenant, userV1.Tenant](),
 	}
 
 	repo.init()
@@ -38,43 +40,13 @@ func NewPositionRepo(data *Data, logger log.Logger) *PositionRepo {
 	return repo
 }
 
-func (r *PositionRepo) init() {
-	r.copierOption = copier.Option{
-		Converters: []copier.TypeConverter{},
-	}
-
-	r.copierOption.Converters = append(r.copierOption.Converters, copierutil.NewTimeStringConverterPair()...)
-	r.copierOption.Converters = append(r.copierOption.Converters, copierutil.NewTimeTimestamppbConverterPair()...)
+func (r *TenantRepo) init() {
+	r.mapper.AppendConverters(copierutil.NewTimeStringConverterPair())
+	r.mapper.AppendConverters(copierutil.NewTimeTimestamppbConverterPair())
 }
 
-func (r *PositionRepo) toProto(in *ent.Position) *userV1.Position {
-	if in == nil {
-		return nil
-	}
-
-	var out userV1.Position
-	_ = copier.CopyWithOption(&out, in, r.copierOption)
-
-	//out.CreateTime = timeutil.TimeToTimeString(in.CreateTime)
-	//out.UpdateTime = timeutil.TimeToTimeString(in.UpdateTime)
-	//out.DeleteTime = timeutil.TimeToTimeString(in.DeleteTime)
-
-	return &out
-}
-
-func (r *PositionRepo) toEnt(in *userV1.Position) *ent.Position {
-	if in == nil {
-		return nil
-	}
-
-	var out ent.Position
-	_ = copier.CopyWithOption(&out, in, r.copierOption)
-
-	return &out
-}
-
-func (r *PositionRepo) Count(ctx context.Context, whereCond []func(s *sql.Selector)) (int, error) {
-	builder := r.data.db.Client().Position.Query()
+func (r *TenantRepo) Count(ctx context.Context, whereCond []func(s *sql.Selector)) (int, error) {
+	builder := r.data.db.Client().Tenant.Query()
 	if len(whereCond) != 0 {
 		builder.Modify(whereCond...)
 	}
@@ -88,17 +60,17 @@ func (r *PositionRepo) Count(ctx context.Context, whereCond []func(s *sql.Select
 	return count, nil
 }
 
-func (r *PositionRepo) List(ctx context.Context, req *pagination.PagingRequest) (*userV1.ListPositionResponse, error) {
+func (r *TenantRepo) List(ctx context.Context, req *pagination.PagingRequest) (*userV1.ListTenantResponse, error) {
 	if req == nil {
 		return nil, userV1.ErrorBadRequest("invalid parameter")
 	}
 
-	builder := r.data.db.Client().Position.Query()
+	builder := r.data.db.Client().Tenant.Query()
 
 	err, whereSelectors, querySelectors := entgo.BuildQuerySelector(
 		req.GetQuery(), req.GetOrQuery(),
 		req.GetPage(), req.GetPageSize(), req.GetNoPaging(),
-		req.GetOrderBy(), position.FieldCreateTime,
+		req.GetOrderBy(), tenant.FieldCreateTime,
 		req.GetFieldMask().GetPaths(),
 	)
 	if err != nil {
@@ -116,9 +88,9 @@ func (r *PositionRepo) List(ctx context.Context, req *pagination.PagingRequest) 
 		return nil, userV1.ErrorInternalServerError("query list failed")
 	}
 
-	items := make([]*userV1.Position, 0, len(results))
+	items := make([]*userV1.Tenant, 0, len(results))
 	for _, res := range results {
-		item := r.toProto(res)
+		item := r.mapper.ToModel(res)
 		items = append(items, item)
 	}
 
@@ -127,15 +99,17 @@ func (r *PositionRepo) List(ctx context.Context, req *pagination.PagingRequest) 
 		return nil, err
 	}
 
-	return &userV1.ListPositionResponse{
+	ret := userV1.ListTenantResponse{
 		Total: uint32(count),
 		Items: items,
-	}, err
+	}
+
+	return &ret, err
 }
 
-func (r *PositionRepo) IsExist(ctx context.Context, id uint32) (bool, error) {
-	exist, err := r.data.db.Client().Position.Query().
-		Where(position.IDEQ(id)).
+func (r *TenantRepo) IsExist(ctx context.Context, id uint32) (bool, error) {
+	exist, err := r.data.db.Client().Tenant.Query().
+		Where(tenant.IDEQ(id)).
 		Exist(ctx)
 	if err != nil {
 		r.log.Errorf("query exist failed: %s", err.Error())
@@ -144,15 +118,15 @@ func (r *PositionRepo) IsExist(ctx context.Context, id uint32) (bool, error) {
 	return exist, nil
 }
 
-func (r *PositionRepo) Get(ctx context.Context, req *userV1.GetPositionRequest) (*userV1.Position, error) {
+func (r *TenantRepo) Get(ctx context.Context, req *userV1.GetTenantRequest) (*userV1.Tenant, error) {
 	if req == nil {
 		return nil, userV1.ErrorBadRequest("invalid parameter")
 	}
 
-	ret, err := r.data.db.Client().Position.Get(ctx, req.GetId())
+	ret, err := r.data.db.Client().Tenant.Get(ctx, req.GetId())
 	if err != nil {
 		if ent.IsNotFound(err) {
-			return nil, userV1.ErrorPositionNotFound("position not found")
+			return nil, userV1.ErrorTenantNotFound("tenant not found")
 		}
 
 		r.log.Errorf("query one data failed: %s", err.Error())
@@ -160,26 +134,29 @@ func (r *PositionRepo) Get(ctx context.Context, req *userV1.GetPositionRequest) 
 		return nil, userV1.ErrorInternalServerError("query data failed")
 	}
 
-	return r.toProto(ret), nil
+	return r.mapper.ToModel(ret), nil
 }
 
-func (r *PositionRepo) Create(ctx context.Context, req *userV1.CreatePositionRequest) error {
+func (r *TenantRepo) Create(ctx context.Context, req *userV1.CreateTenantRequest) error {
 	if req == nil || req.Data == nil {
 		return userV1.ErrorBadRequest("invalid parameter")
 	}
 
-	builder := r.data.db.Client().Position.Create().
+	builder := r.data.db.Client().Tenant.Create().
 		SetNillableName(req.Data.Name).
-		SetNillableParentID(req.Data.ParentId).
-		SetNillableSortID(req.Data.SortId).
 		SetNillableCode(req.Data.Code).
-		SetNillableStatus((*position.Status)(req.Data.Status)).
+		SetNillableMemberCount(req.Data.MemberCount).
 		SetNillableRemark(req.Data.Remark).
-		SetNillableCreateBy(req.Data.CreateBy).
-		SetNillableCreateTime(timeutil.TimestamppbToTime(req.Data.CreateTime))
+		SetNillableStatus((*tenant.Status)(req.Data.Status)).
+		SetNillableSubscriptionAt(timeutil.TimestamppbToTime(req.Data.SubscriptionAt)).
+		SetNillableUnsubscribeAt(timeutil.TimestamppbToTime(req.Data.UnsubscribeAt))
+
+	builder.SetNillableCreateBy(req.Data.CreateBy)
 
 	if req.Data.CreateTime == nil {
 		builder.SetCreateTime(time.Now())
+	} else {
+		builder.SetNillableCreateTime(timeutil.TimestamppbToTime(req.Data.CreateTime))
 	}
 
 	if req.Data.Id != nil {
@@ -194,7 +171,7 @@ func (r *PositionRepo) Create(ctx context.Context, req *userV1.CreatePositionReq
 	return nil
 }
 
-func (r *PositionRepo) Update(ctx context.Context, req *userV1.UpdatePositionRequest) error {
+func (r *TenantRepo) Update(ctx context.Context, req *userV1.UpdateTenantRequest) error {
 	if req == nil || req.Data == nil {
 		return userV1.ErrorBadRequest("invalid parameter")
 	}
@@ -206,7 +183,7 @@ func (r *PositionRepo) Update(ctx context.Context, req *userV1.UpdatePositionReq
 			return err
 		}
 		if !exist {
-			createReq := &userV1.CreatePositionRequest{Data: req.Data}
+			createReq := &userV1.CreateTenantRequest{Data: req.Data}
 			createReq.Data.CreateBy = createReq.Data.UpdateBy
 			createReq.Data.UpdateBy = nil
 			return r.Create(ctx, createReq)
@@ -222,18 +199,21 @@ func (r *PositionRepo) Update(ctx context.Context, req *userV1.UpdatePositionReq
 		fieldmaskutil.Filter(req.GetData(), req.UpdateMask.GetPaths())
 	}
 
-	builder := r.data.db.Client().Position.UpdateOneID(req.Data.GetId()).
+	builder := r.data.db.Client().Tenant.UpdateOneID(req.Data.GetId()).
 		SetNillableName(req.Data.Name).
-		SetNillableParentID(req.Data.ParentId).
-		SetNillableSortID(req.Data.SortId).
 		SetNillableCode(req.Data.Code).
+		SetNillableMemberCount(req.Data.MemberCount).
 		SetNillableRemark(req.Data.Remark).
-		SetNillableStatus((*position.Status)(req.Data.Status)).
-		SetNillableUpdateBy(req.Data.UpdateBy).
-		SetNillableUpdateTime(timeutil.TimestamppbToTime(req.Data.UpdateTime))
+		SetNillableStatus((*tenant.Status)(req.Data.Status)).
+		SetNillableSubscriptionAt(timeutil.TimestamppbToTime(req.Data.SubscriptionAt)).
+		SetNillableUnsubscribeAt(timeutil.TimestamppbToTime(req.Data.UnsubscribeAt))
+
+	builder.SetNillableUpdateBy(req.Data.UpdateBy)
 
 	if req.Data.UpdateTime == nil {
 		builder.SetUpdateTime(time.Now())
+	} else {
+		builder.SetNillableUpdateTime(timeutil.TimestamppbToTime(req.Data.UpdateTime))
 	}
 
 	if req.UpdateMask != nil {
@@ -252,14 +232,14 @@ func (r *PositionRepo) Update(ctx context.Context, req *userV1.UpdatePositionReq
 	return nil
 }
 
-func (r *PositionRepo) Delete(ctx context.Context, req *userV1.DeletePositionRequest) error {
+func (r *TenantRepo) Delete(ctx context.Context, req *userV1.DeleteTenantRequest) error {
 	if req == nil {
 		return userV1.ErrorBadRequest("invalid parameter")
 	}
 
-	if err := r.data.db.Client().Position.DeleteOneID(req.GetId()).Exec(ctx); err != nil {
+	if err := r.data.db.Client().Tenant.DeleteOneID(req.GetId()).Exec(ctx); err != nil {
 		if ent.IsNotFound(err) {
-			return userV1.ErrorNotFound("position not found")
+			return userV1.ErrorNotFound("tenant not found")
 		}
 
 		r.log.Errorf("delete one data failed: %s", err.Error())
@@ -268,4 +248,38 @@ func (r *PositionRepo) Delete(ctx context.Context, req *userV1.DeletePositionReq
 	}
 
 	return nil
+}
+
+func (r *TenantRepo) GetTenantByTenantName(ctx context.Context, userName string) (*userV1.Tenant, error) {
+	ret, err := r.data.db.Client().Tenant.Query().
+		Where(tenant.NameEQ(userName)).
+		Only(ctx)
+	if err != nil {
+		if ent.IsNotFound(err) {
+			return nil, userV1.ErrorNotFound("tenant not found")
+		}
+
+		r.log.Errorf("query user data failed: %s", err.Error())
+
+		return nil, userV1.ErrorInternalServerError("query data failed")
+	}
+
+	return r.mapper.ToModel(ret), nil
+}
+
+func (r *TenantRepo) GetTenantByTenantCode(ctx context.Context, code string) (*userV1.Tenant, error) {
+	ret, err := r.data.db.Client().Tenant.Query().
+		Where(tenant.CodeEQ(code)).
+		Only(ctx)
+	if err != nil {
+		if ent.IsNotFound(err) {
+			return nil, userV1.ErrorNotFound("tenant not found")
+		}
+
+		r.log.Errorf("query user data failed: %s", err.Error())
+
+		return nil, userV1.ErrorInternalServerError("query data failed")
+	}
+
+	return r.mapper.ToModel(ret), nil
 }

@@ -6,14 +6,13 @@ import (
 
 	"entgo.io/ent/dialect/sql"
 	"github.com/go-kratos/kratos/v2/log"
-	"github.com/jinzhu/copier"
 
 	"github.com/tx7do/go-utils/copierutil"
 	entgo "github.com/tx7do/go-utils/entgo/query"
 	entgoUpdate "github.com/tx7do/go-utils/entgo/update"
 	"github.com/tx7do/go-utils/fieldmaskutil"
+	"github.com/tx7do/go-utils/mapper"
 	"github.com/tx7do/go-utils/timeutil"
-	"github.com/tx7do/go-utils/trans"
 	pagination "github.com/tx7do/kratos-bootstrap/api/gen/go/pagination/v1"
 
 	"kratos-admin/app/admin/service/internal/data/ent"
@@ -23,15 +22,19 @@ import (
 )
 
 type NotificationMessageRecipientRepo struct {
-	data         *Data
-	log          *log.Helper
-	copierOption copier.Option
+	data *Data
+	log  *log.Helper
+
+	mapper          *mapper.CopierMapper[ent.NotificationMessageRecipient, internalMessageV1.NotificationMessageRecipient]
+	statusConverter *mapper.EnumTypeConverter[notificationmessagerecipient.Status, internalMessageV1.MessageStatus]
 }
 
 func NewNotificationMessageRecipientRepo(data *Data, logger log.Logger) *NotificationMessageRecipientRepo {
 	repo := &NotificationMessageRecipientRepo{
-		log:  log.NewHelper(log.With(logger, "module", "notification-message-recipient/repo/admin-service")),
-		data: data,
+		log:             log.NewHelper(log.With(logger, "module", "notification-message-recipient/repo/admin-service")),
+		data:            data,
+		mapper:          mapper.NewCopierMapper[ent.NotificationMessageRecipient, internalMessageV1.NotificationMessageRecipient](),
+		statusConverter: mapper.NewEnumTypeConverter[notificationmessagerecipient.Status, internalMessageV1.MessageStatus](internalMessageV1.MessageStatus_name, internalMessageV1.MessageStatus_value),
 	}
 
 	repo.init()
@@ -40,76 +43,9 @@ func NewNotificationMessageRecipientRepo(data *Data, logger log.Logger) *Notific
 }
 
 func (r *NotificationMessageRecipientRepo) init() {
-	r.copierOption = copier.Option{
-		Converters: []copier.TypeConverter{},
-	}
-
-	r.copierOption.Converters = append(r.copierOption.Converters, copierutil.NewTimeStringConverterPair()...)
-	r.copierOption.Converters = append(r.copierOption.Converters, copierutil.NewTimeTimestamppbConverterPair()...)
-	r.copierOption.Converters = append(r.copierOption.Converters, r.NewStatusConverterPair()...)
-}
-
-func (r *NotificationMessageRecipientRepo) NewStatusConverterPair() []copier.TypeConverter {
-	srcType := trans.Ptr(internalMessageV1.MessageStatus(0))
-	dstType := trans.Ptr(notificationmessagerecipient.Status(""))
-
-	fromFn := r.toEntStatus
-	toFn := r.toProtoStatus
-
-	return copierutil.NewGenericTypeConverterPair(srcType, dstType, fromFn, toFn)
-}
-
-func (r *NotificationMessageRecipientRepo) toProtoStatus(in *notificationmessagerecipient.Status) *internalMessageV1.MessageStatus {
-	if in == nil {
-		return nil
-	}
-
-	find, ok := internalMessageV1.MessageStatus_value[string(*in)]
-	if !ok {
-		return nil
-	}
-
-	return (*internalMessageV1.MessageStatus)(trans.Ptr(find))
-}
-
-func (r *NotificationMessageRecipientRepo) toEntStatus(in *internalMessageV1.MessageStatus) *notificationmessagerecipient.Status {
-	if in == nil {
-		return nil
-	}
-
-	find, ok := internalMessageV1.MessageStatus_name[int32(*in)]
-	if !ok {
-		return nil
-	}
-
-	return (*notificationmessagerecipient.Status)(trans.Ptr(find))
-}
-
-func (r *NotificationMessageRecipientRepo) toProto(in *ent.NotificationMessageRecipient) *internalMessageV1.NotificationMessageRecipient {
-	if in == nil {
-		return nil
-	}
-
-	var out internalMessageV1.NotificationMessageRecipient
-	_ = copier.CopyWithOption(&out, in, r.copierOption)
-
-	//out.Status = r.toProtoStatus(in.Status)
-	//out.CreateTime = timeutil.TimeToTimeString(in.CreateTime)
-	//out.UpdateTime = timeutil.TimeToTimeString(in.UpdateTime)
-	//out.DeleteTime = timeutil.TimeToTimeString(in.DeleteTime)
-
-	return &out
-}
-
-func (r *NotificationMessageRecipientRepo) toEnt(in *internalMessageV1.NotificationMessageRecipient) *ent.NotificationMessageRecipient {
-	if in == nil {
-		return nil
-	}
-
-	var out ent.NotificationMessageRecipient
-	_ = copier.CopyWithOption(&out, in, r.copierOption)
-
-	return &out
+	r.mapper.AppendConverters(copierutil.NewTimeStringConverterPair())
+	r.mapper.AppendConverters(copierutil.NewTimeTimestamppbConverterPair())
+	r.mapper.AppendConverters(r.statusConverter.NewConverterPair())
 }
 
 func (r *NotificationMessageRecipientRepo) Count(ctx context.Context, whereCond []func(s *sql.Selector)) (int, error) {
@@ -157,7 +93,7 @@ func (r *NotificationMessageRecipientRepo) List(ctx context.Context, req *pagina
 
 	items := make([]*internalMessageV1.NotificationMessageRecipient, 0, len(results))
 	for _, res := range results {
-		item := r.toProto(res)
+		item := r.mapper.ToModel(res)
 		items = append(items, item)
 	}
 
@@ -199,7 +135,7 @@ func (r *NotificationMessageRecipientRepo) Get(ctx context.Context, req *interna
 		return nil, internalMessageV1.ErrorInternalServerError("query data failed")
 	}
 
-	return r.toProto(ret), nil
+	return r.mapper.ToModel(ret), nil
 }
 
 func (r *NotificationMessageRecipientRepo) Create(ctx context.Context, req *internalMessageV1.CreateNotificationMessageRecipientRequest) error {
@@ -210,7 +146,7 @@ func (r *NotificationMessageRecipientRepo) Create(ctx context.Context, req *inte
 	builder := r.data.db.Client().NotificationMessageRecipient.Create().
 		SetNillableMessageID(req.Data.MessageId).
 		SetNillableRecipientID(req.Data.RecipientId).
-		SetNillableStatus(r.toEntStatus(req.Data.Status)).
+		SetNillableStatus(r.statusConverter.ToDto(req.Data.Status)).
 		SetNillableCreateTime(timeutil.TimestamppbToTime(req.Data.CreateTime))
 
 	if req.Data.CreateTime == nil {
@@ -256,7 +192,7 @@ func (r *NotificationMessageRecipientRepo) Update(ctx context.Context, req *inte
 	builder := r.data.db.Client().NotificationMessageRecipient.UpdateOneID(req.Data.GetId()).
 		SetNillableMessageID(req.Data.MessageId).
 		SetNillableRecipientID(req.Data.RecipientId).
-		SetNillableStatus(r.toEntStatus(req.Data.Status)).
+		SetNillableStatus(r.statusConverter.ToDto(req.Data.Status)).
 		SetNillableUpdateTime(timeutil.TimestamppbToTime(req.Data.UpdateTime))
 
 	if req.Data.UpdateTime == nil {

@@ -93,8 +93,8 @@ func NewAuthenticator(cfg *conf.Bootstrap) authnEngine.Authenticator {
 	}
 }
 
-func NewUserTokenRepo(logger log.Logger, rdb *redis.Client, authenticator authnEngine.Authenticator, cfg *conf.Bootstrap) *UserToken {
-	return NewUserToken(
+func NewUserTokenRepo(logger log.Logger, rdb *redis.Client, authenticator authnEngine.Authenticator, cfg *conf.Bootstrap) *UserTokenCacheRepo {
+	return NewUserTokenCacheRepo(
 		logger,
 		rdb, authenticator,
 		cfg.GetServer().GetRest().GetMiddleware().GetAuth().GetAccessTokenKeyPrefix(),

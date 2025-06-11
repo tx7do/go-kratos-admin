@@ -7,14 +7,13 @@ import (
 
 	"entgo.io/ent/dialect/sql"
 	"github.com/go-kratos/kratos/v2/log"
-	"github.com/jinzhu/copier"
 
 	"github.com/tx7do/go-utils/copierutil"
 	"github.com/tx7do/go-utils/entgo/query"
 	entgoUpdate "github.com/tx7do/go-utils/entgo/update"
 	"github.com/tx7do/go-utils/fieldmaskutil"
+	"github.com/tx7do/go-utils/mapper"
 	"github.com/tx7do/go-utils/timeutil"
-	"github.com/tx7do/go-utils/trans"
 	pagination "github.com/tx7do/kratos-bootstrap/api/gen/go/pagination/v1"
 
 	"kratos-admin/app/admin/service/internal/data/ent"
@@ -24,15 +23,21 @@ import (
 )
 
 type MenuRepo struct {
-	data         *Data
-	log          *log.Helper
-	copierOption copier.Option
+	data *Data
+	log  *log.Helper
+
+	mapper          *mapper.CopierMapper[ent.Menu, adminV1.Menu]
+	statusConverter *mapper.EnumTypeConverter[menu.Status, adminV1.MenuStatus]
+	typeConverter   *mapper.EnumTypeConverter[menu.Type, adminV1.MenuType]
 }
 
 func NewMenuRepo(data *Data, logger log.Logger) *MenuRepo {
 	repo := &MenuRepo{
-		log:  log.NewHelper(log.With(logger, "module", "menu/repo/admin-service")),
-		data: data,
+		log:             log.NewHelper(log.With(logger, "module", "menu/repo/admin-service")),
+		data:            data,
+		mapper:          mapper.NewCopierMapper[ent.Menu, adminV1.Menu](),
+		statusConverter: mapper.NewEnumTypeConverter[menu.Status, adminV1.MenuStatus](adminV1.MenuStatus_name, adminV1.MenuStatus_value),
+		typeConverter:   mapper.NewEnumTypeConverter[menu.Type, adminV1.MenuType](adminV1.MenuType_name, adminV1.MenuType_value),
 	}
 
 	repo.init()
@@ -41,105 +46,10 @@ func NewMenuRepo(data *Data, logger log.Logger) *MenuRepo {
 }
 
 func (r *MenuRepo) init() {
-	r.copierOption = copier.Option{
-		Converters: []copier.TypeConverter{},
-	}
-
-	r.copierOption.Converters = append(r.copierOption.Converters, copierutil.NewTimeStringConverterPair()...)
-	r.copierOption.Converters = append(r.copierOption.Converters, copierutil.NewTimeTimestamppbConverterPair()...)
-	r.copierOption.Converters = append(r.copierOption.Converters, r.NewMenuTypeConverterPair()...)
-	r.copierOption.Converters = append(r.copierOption.Converters, r.NewStatusConverterPair()...)
-}
-
-func (r *MenuRepo) NewMenuTypeConverterPair() []copier.TypeConverter {
-	srcType := trans.Ptr(adminV1.MenuType(0))
-	dstType := trans.Ptr(menu.Type(""))
-
-	fromFn := r.toEntType
-	toFn := r.toProtoType
-
-	return copierutil.NewGenericTypeConverterPair(srcType, dstType, fromFn, toFn)
-}
-
-func (r *MenuRepo) NewStatusConverterPair() []copier.TypeConverter {
-	srcType := trans.Ptr(adminV1.MenuStatus(0))
-	dstType := trans.Ptr(menu.Status(""))
-
-	fromFn := r.toEntStatus
-	toFn := r.toProtoStatus
-
-	return copierutil.NewGenericTypeConverterPair(srcType, dstType, fromFn, toFn)
-}
-
-func (r *MenuRepo) toProtoType(in *menu.Type) *adminV1.MenuType {
-	if in == nil {
-		return nil
-	}
-	find, ok := adminV1.MenuType_value[string(*in)]
-	if !ok {
-		return nil
-	}
-	return (*adminV1.MenuType)(trans.Ptr(find))
-}
-func (r *MenuRepo) toEntType(in *adminV1.MenuType) *menu.Type {
-	if in == nil {
-		return nil
-	}
-	find, ok := adminV1.MenuType_name[int32(*in)]
-	if !ok {
-		return nil
-	}
-	return (*menu.Type)(trans.Ptr(find))
-}
-
-func (r *MenuRepo) toEntStatus(status *adminV1.MenuStatus) *menu.Status {
-	if status == nil {
-		return nil
-	}
-	find, ok := adminV1.MenuStatus_name[int32(*status)]
-	if !ok {
-		return nil
-	}
-	return (*menu.Status)(trans.Ptr(find))
-}
-
-func (r *MenuRepo) toProtoStatus(status *menu.Status) *adminV1.MenuStatus {
-	if status == nil {
-		return nil
-	}
-	find, ok := adminV1.MenuStatus_value[string(*status)]
-	if !ok {
-		return nil
-	}
-	return (*adminV1.MenuStatus)(trans.Ptr(find))
-}
-
-func (r *MenuRepo) toProto(in *ent.Menu) *adminV1.Menu {
-	if in == nil {
-		return nil
-	}
-
-	var out adminV1.Menu
-	_ = copier.CopyWithOption(&out, in, r.copierOption)
-
-	//out.Type = r.toProtoType(in.Type)
-	//out.Status = r.toProtoStatus(in.Status)
-	//out.CreateTime = timeutil.TimeToTimeString(in.CreateTime)
-	//out.UpdateTime = timeutil.TimeToTimeString(in.UpdateTime)
-	//out.DeleteTime = timeutil.TimeToTimeString(in.DeleteTime)
-
-	return &out
-}
-
-func (r *MenuRepo) toEnt(in *adminV1.Menu) *ent.Menu {
-	if in == nil {
-		return nil
-	}
-
-	var out ent.Menu
-	_ = copier.CopyWithOption(&out, in, r.copierOption)
-
-	return &out
+	r.mapper.AppendConverters(copierutil.NewTimeStringConverterPair())
+	r.mapper.AppendConverters(copierutil.NewTimeTimestamppbConverterPair())
+	r.mapper.AppendConverters(r.statusConverter.NewConverterPair())
+	r.mapper.AppendConverters(r.typeConverter.NewConverterPair())
 }
 
 func (r *MenuRepo) travelChild(nodes []*adminV1.Menu, node *adminV1.Menu) bool {
@@ -216,13 +126,13 @@ func (r *MenuRepo) List(ctx context.Context, req *pagination.PagingRequest, tree
 	if treeTravel {
 		for _, m := range results {
 			if m.ParentID == nil {
-				item := r.toProto(m)
+				item := r.mapper.ToModel(m)
 				items = append(items, item)
 			}
 		}
 		for _, m := range results {
 			if m.ParentID != nil {
-				item := r.toProto(m)
+				item := r.mapper.ToModel(m)
 
 				if r.travelChild(items, item) {
 					continue
@@ -233,7 +143,7 @@ func (r *MenuRepo) List(ctx context.Context, req *pagination.PagingRequest, tree
 		}
 	} else {
 		for _, res := range results {
-			item := r.toProto(res)
+			item := r.mapper.ToModel(res)
 			items = append(items, item)
 		}
 	}
@@ -276,7 +186,7 @@ func (r *MenuRepo) Get(ctx context.Context, req *adminV1.GetMenuRequest) (*admin
 		return nil, adminV1.ErrorInternalServerError("query data failed")
 	}
 
-	return r.toProto(ret), nil
+	return r.mapper.ToModel(ret), nil
 }
 
 func (r *MenuRepo) Create(ctx context.Context, req *adminV1.CreateMenuRequest) error {
@@ -286,13 +196,13 @@ func (r *MenuRepo) Create(ctx context.Context, req *adminV1.CreateMenuRequest) e
 
 	builder := r.data.db.Client().Menu.Create().
 		SetNillableParentID(req.Data.ParentId).
-		SetNillableType(r.toEntType(req.Data.Type)).
+		SetNillableType(r.typeConverter.ToDto(req.Data.Type)).
 		SetNillablePath(req.Data.Path).
 		SetNillableRedirect(req.Data.Redirect).
 		SetNillableAlias(req.Data.Alias).
 		SetNillableName(req.Data.Name).
 		SetNillableComponent(req.Data.Component).
-		SetNillableStatus(r.toEntStatus(req.Data.Status)).
+		SetNillableStatus(r.statusConverter.ToDto(req.Data.Status)).
 		SetNillableCreateBy(req.Data.CreateBy).
 		SetNillableCreateTime(timeutil.TimestamppbToTime(req.Data.CreateTime))
 
@@ -355,13 +265,13 @@ func (r *MenuRepo) Update(ctx context.Context, req *adminV1.UpdateMenuRequest) e
 		//Debug().
 		Menu.UpdateOneID(req.Data.GetId()).
 		SetNillableParentID(req.Data.ParentId).
-		SetNillableType(r.toEntType(req.Data.Type)).
+		SetNillableType(r.typeConverter.ToDto(req.Data.Type)).
 		SetNillablePath(req.Data.Path).
 		SetNillableRedirect(req.Data.Redirect).
 		SetNillableAlias(req.Data.Alias).
 		SetNillableName(req.Data.Name).
 		SetNillableComponent(req.Data.Component).
-		SetNillableStatus(r.toEntStatus(req.Data.Status)).
+		SetNillableStatus(r.statusConverter.ToDto(req.Data.Status)).
 		SetNillableUpdateBy(req.Data.UpdateBy).
 		SetNillableUpdateTime(timeutil.TimestamppbToTime(req.Data.UpdateTime))
 

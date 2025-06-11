@@ -6,14 +6,12 @@ import (
 
 	"entgo.io/ent/dialect/sql"
 	"github.com/go-kratos/kratos/v2/log"
-	"github.com/jinzhu/copier"
-
 	"github.com/tx7do/go-utils/copierutil"
 	entgo "github.com/tx7do/go-utils/entgo/query"
 	entgoUpdate "github.com/tx7do/go-utils/entgo/update"
 	"github.com/tx7do/go-utils/fieldmaskutil"
+	"github.com/tx7do/go-utils/mapper"
 	"github.com/tx7do/go-utils/timeutil"
-	"github.com/tx7do/go-utils/trans"
 	pagination "github.com/tx7do/kratos-bootstrap/api/gen/go/pagination/v1"
 
 	"kratos-admin/app/admin/service/internal/data/ent"
@@ -23,15 +21,19 @@ import (
 )
 
 type NotificationMessageRepo struct {
-	data         *Data
-	log          *log.Helper
-	copierOption copier.Option
+	data *Data
+	log  *log.Helper
+
+	mapper          *mapper.CopierMapper[ent.NotificationMessage, internalMessageV1.NotificationMessage]
+	statusConverter *mapper.EnumTypeConverter[notificationmessage.Status, internalMessageV1.MessageStatus]
 }
 
 func NewNotificationMessageRepo(data *Data, logger log.Logger) *NotificationMessageRepo {
 	repo := &NotificationMessageRepo{
-		log:  log.NewHelper(log.With(logger, "module", "notification-message/repo/admin-service")),
-		data: data,
+		log:             log.NewHelper(log.With(logger, "module", "notification-message/repo/admin-service")),
+		data:            data,
+		mapper:          mapper.NewCopierMapper[ent.NotificationMessage, internalMessageV1.NotificationMessage](),
+		statusConverter: mapper.NewEnumTypeConverter[notificationmessage.Status, internalMessageV1.MessageStatus](internalMessageV1.MessageStatus_name, internalMessageV1.MessageStatus_value),
 	}
 
 	repo.init()
@@ -40,76 +42,9 @@ func NewNotificationMessageRepo(data *Data, logger log.Logger) *NotificationMess
 }
 
 func (r *NotificationMessageRepo) init() {
-	r.copierOption = copier.Option{
-		Converters: []copier.TypeConverter{},
-	}
-
-	r.copierOption.Converters = append(r.copierOption.Converters, copierutil.NewTimeStringConverterPair()...)
-	r.copierOption.Converters = append(r.copierOption.Converters, copierutil.NewTimeTimestamppbConverterPair()...)
-	r.copierOption.Converters = append(r.copierOption.Converters, r.NewStatusConverterPair()...)
-}
-
-func (r *NotificationMessageRepo) NewStatusConverterPair() []copier.TypeConverter {
-	srcType := trans.Ptr(internalMessageV1.MessageStatus(0))
-	dstType := trans.Ptr(notificationmessage.Status(""))
-
-	fromFn := r.toEntStatus
-	toFn := r.toProtoStatus
-
-	return copierutil.NewGenericTypeConverterPair(srcType, dstType, fromFn, toFn)
-}
-
-func (r *NotificationMessageRepo) toProtoStatus(in *notificationmessage.Status) *internalMessageV1.MessageStatus {
-	if in == nil {
-		return nil
-	}
-
-	find, ok := internalMessageV1.MessageStatus_value[string(*in)]
-	if !ok {
-		return nil
-	}
-
-	return (*internalMessageV1.MessageStatus)(trans.Ptr(find))
-}
-
-func (r *NotificationMessageRepo) toEntStatus(in *internalMessageV1.MessageStatus) *notificationmessage.Status {
-	if in == nil {
-		return nil
-	}
-
-	find, ok := internalMessageV1.MessageStatus_name[int32(*in)]
-	if !ok {
-		return nil
-	}
-
-	return (*notificationmessage.Status)(trans.Ptr(find))
-}
-
-func (r *NotificationMessageRepo) toProto(in *ent.NotificationMessage) *internalMessageV1.NotificationMessage {
-	if in == nil {
-		return nil
-	}
-
-	var out internalMessageV1.NotificationMessage
-	_ = copier.CopyWithOption(&out, in, r.copierOption)
-
-	//out.Status = r.toProtoStatus(in.Status)
-	//out.CreateTime = timeutil.TimeToTimeString(in.CreateTime)
-	//out.UpdateTime = timeutil.TimeToTimeString(in.UpdateTime)
-	//out.DeleteTime = timeutil.TimeToTimeString(in.DeleteTime)
-
-	return &out
-}
-
-func (r *NotificationMessageRepo) toEnt(in *internalMessageV1.NotificationMessage) *ent.NotificationMessage {
-	if in == nil {
-		return nil
-	}
-
-	var out ent.NotificationMessage
-	_ = copier.CopyWithOption(&out, in, r.copierOption)
-
-	return &out
+	r.mapper.AppendConverters(copierutil.NewTimeStringConverterPair())
+	r.mapper.AppendConverters(copierutil.NewTimeTimestamppbConverterPair())
+	r.mapper.AppendConverters(r.statusConverter.NewConverterPair())
 }
 
 func (r *NotificationMessageRepo) Count(ctx context.Context, whereCond []func(s *sql.Selector)) (int, error) {
@@ -157,7 +92,7 @@ func (r *NotificationMessageRepo) List(ctx context.Context, req *pagination.Pagi
 
 	items := make([]*internalMessageV1.NotificationMessage, 0, len(results))
 	for _, res := range results {
-		item := r.toProto(res)
+		item := r.mapper.ToModel(res)
 		items = append(items, item)
 	}
 
@@ -199,7 +134,7 @@ func (r *NotificationMessageRepo) Get(ctx context.Context, req *internalMessageV
 		return nil, internalMessageV1.ErrorInternalServerError("query data failed")
 	}
 
-	return r.toProto(ret), nil
+	return r.mapper.ToModel(ret), nil
 }
 
 func (r *NotificationMessageRepo) Create(ctx context.Context, req *internalMessageV1.CreateNotificationMessageRequest) error {
@@ -211,7 +146,7 @@ func (r *NotificationMessageRepo) Create(ctx context.Context, req *internalMessa
 		SetNillableSubject(req.Data.Subject).
 		SetNillableContent(req.Data.Content).
 		SetNillableCategoryID(req.Data.CategoryId).
-		SetNillableStatus(r.toEntStatus(req.Data.Status)).
+		SetNillableStatus(r.statusConverter.ToDto(req.Data.Status)).
 		SetNillableCreateBy(req.Data.CreateBy).
 		SetNillableCreateTime(timeutil.TimestamppbToTime(req.Data.CreateTime))
 
@@ -263,7 +198,7 @@ func (r *NotificationMessageRepo) Update(ctx context.Context, req *internalMessa
 		SetNillableSubject(req.Data.Subject).
 		SetNillableContent(req.Data.Content).
 		SetNillableCategoryID(req.Data.CategoryId).
-		SetNillableStatus(r.toEntStatus(req.Data.Status)).
+		SetNillableStatus(r.statusConverter.ToDto(req.Data.Status)).
 		SetNillableUpdateBy(req.Data.UpdateBy).
 		SetNillableUpdateTime(timeutil.TimestamppbToTime(req.Data.UpdateTime))
 

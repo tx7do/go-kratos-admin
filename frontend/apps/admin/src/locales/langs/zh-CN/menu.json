@@ -14,12 +14,11 @@
   },
   "opm": {
     "moduleName": "组织人员",
-    "position": "职位管理",
-    "user": "用户管理",
-    "userDetail": "用户详情",
-    "org": "组织管理",
+    "org": "组织架构",
     "dept": "部门管理",
-    "tenant": "租户管理"
+    "position": "职位体系",
+    "user": "用户管理",
+    "userDetail": "用户详情"
   },
   "tenant": {
     "moduleName": "租户管理",

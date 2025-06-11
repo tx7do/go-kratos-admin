@@ -195,7 +195,7 @@ async function handleStatusChanged(row: any, checked: boolean) {
 
 <template>
   <Page auto-content-height>
-    <Grid :table-title="$t('menu.opm.tenant')">
+    <Grid :table-title="$t('menu.tenant.member')">
       <template #toolbar-tools>
         <a-button class="mr-2" type="primary" @click="handleCreate">
           {{ $t('page.tenant.button.create') }}

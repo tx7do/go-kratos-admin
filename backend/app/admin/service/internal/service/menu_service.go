@@ -93,6 +93,14 @@ func (s *MenuService) Update(ctx context.Context, req *adminV1.UpdateMenuRequest
 }
 
 func (s *MenuService) Delete(ctx context.Context, req *adminV1.DeleteMenuRequest) (*emptypb.Empty, error) {
+	// 获取操作人信息
+	operator, err := auth.FromContext(ctx)
+	if err != nil {
+		return &emptypb.Empty{}, err
+	}
+
+	req.OperatorId = trans.Ptr(operator.UserId)
+
 	if err := s.repo.Delete(ctx, req); err != nil {
 		return nil, err
 	}

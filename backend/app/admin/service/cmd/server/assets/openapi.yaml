@@ -1122,6 +1122,11 @@ paths:
                   schema:
                     type: integer
                     format: int32
+                - name: operatorId
+                  in: query
+                  schema:
+                    type: integer
+                    format: uint32
             responses:
                 "200":
                     description: OK

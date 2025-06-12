@@ -496,7 +496,8 @@ func (x *UpdateMenuRequest) GetAllowMissing() bool {
 // 删除菜单 - 请求
 type DeleteMenuRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            int32                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	OperatorId    *uint32                `protobuf:"varint,1,opt,name=operator_id,json=operatorId,proto3,oneof" json:"operator_id,omitempty"` // 操作用户ID
+	Id            int32                  `protobuf:"varint,2,opt,name=id,proto3" json:"id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -529,6 +530,13 @@ func (x *DeleteMenuRequest) ProtoReflect() protoreflect.Message {
 // Deprecated: Use DeleteMenuRequest.ProtoReflect.Descriptor instead.
 func (*DeleteMenuRequest) Descriptor() ([]byte, []int) {
 	return file_admin_service_v1_i_menu_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *DeleteMenuRequest) GetOperatorId() uint32 {
+	if x != nil && x.OperatorId != nil {
+		return *x.OperatorId
+	}
+	return 0
 }
 
 func (x *DeleteMenuRequest) GetId() int32 {
@@ -597,9 +605,12 @@ const file_admin_service_v1_i_menu_proto_rawDesc = "" +
 	"\vupdate_mask\x18\x02 \x01(\v2\x1a.google.protobuf.FieldMaskB6\xbaG3:\x16\x12\x14id,realname,username\x92\x02\x18要更新的字段列表R\n" +
 	"updateMask\x12\xb4\x01\n" +
 	"\rallow_missing\x18\x03 \x01(\bB\x89\x01\xbaG\x85\x01\x92\x02\x81\x01如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。H\x00R\fallowMissing\x88\x01\x01B\x10\n" +
-	"\x0e_allow_missing\"#\n" +
-	"\x11DeleteMenuRequest\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\x05R\x02id*,\n" +
+	"\x0e_allow_missing\"q\n" +
+	"\x11DeleteMenuRequest\x12<\n" +
+	"\voperator_id\x18\x01 \x01(\rB\x16\xbaG\x13\x18\x01\x92\x02\x0e操作用户IDH\x00R\n" +
+	"operatorId\x88\x01\x01\x12\x0e\n" +
+	"\x02id\x18\x02 \x01(\x05R\x02idB\x0e\n" +
+	"\f_operator_id*,\n" +
 	"\bMenuType\x12\n" +
 	"\n" +
 	"\x06FOLDER\x10\x00\x12\b\n" +
@@ -685,6 +696,7 @@ func file_admin_service_v1_i_menu_proto_init() {
 	file_admin_service_v1_i_router_proto_init()
 	file_admin_service_v1_i_menu_proto_msgTypes[0].OneofWrappers = []any{}
 	file_admin_service_v1_i_menu_proto_msgTypes[4].OneofWrappers = []any{}
+	file_admin_service_v1_i_menu_proto_msgTypes[5].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{

@@ -192,5 +192,10 @@ message UpdateMenuRequest {
 
 // 删除菜单 - 请求
 message DeleteMenuRequest {
-  int32 id = 1;
+  optional uint32 operator_id = 1 [
+    (gnostic.openapi.v3.property) = {description: "操作用户ID", read_only: true},
+    json_name = "operatorId"
+  ]; // 操作用户ID
+
+  int32 id = 2;
 }

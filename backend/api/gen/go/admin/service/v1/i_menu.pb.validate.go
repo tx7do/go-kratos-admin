@@ -900,6 +900,10 @@ func (m *DeleteMenuRequest) validate(all bool) error {
 
 	// no validation rules for Id
 
+	if m.OperatorId != nil {
+		// no validation rules for OperatorId
+	}
+
 	if len(errors) > 0 {
 		return DeleteMenuRequestMultiError(errors)
 	}

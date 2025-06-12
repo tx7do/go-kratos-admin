@@ -91,10 +91,10 @@ func (r *FileRepo) List(ctx context.Context, req *pagination.PagingRequest) (*fi
 		return nil, fileV1.ErrorInternalServerError("query list failed")
 	}
 
-	items := make([]*fileV1.File, 0, len(results))
-	for _, res := range results {
-		item := r.mapper.ToModel(res)
-		items = append(items, item)
+	models := make([]*fileV1.File, 0, len(results))
+	for _, dto := range results {
+		model := r.mapper.ToModel(dto)
+		models = append(models, model)
 	}
 
 	count, err := r.Count(ctx, whereSelectors)
@@ -104,7 +104,7 @@ func (r *FileRepo) List(ctx context.Context, req *pagination.PagingRequest) (*fi
 
 	return &fileV1.ListFileResponse{
 		Total: uint32(count),
-		Items: items,
+		Items: models,
 	}, err
 }
 
@@ -124,7 +124,7 @@ func (r *FileRepo) Get(ctx context.Context, req *fileV1.GetFileRequest) (*fileV1
 		return nil, fileV1.ErrorBadRequest("invalid parameter")
 	}
 
-	ret, err := r.data.db.Client().File.Get(ctx, req.GetId())
+	dto, err := r.data.db.Client().File.Get(ctx, req.GetId())
 	if err != nil {
 		if ent.IsNotFound(err) {
 			return nil, fileV1.ErrorFileNotFound("file not found")
@@ -135,7 +135,7 @@ func (r *FileRepo) Get(ctx context.Context, req *fileV1.GetFileRequest) (*fileV1
 		return nil, fileV1.ErrorInternalServerError("query data failed")
 	}
 
-	return r.mapper.ToModel(ret), nil
+	return r.mapper.ToModel(dto), nil
 }
 
 func (r *FileRepo) Create(ctx context.Context, req *fileV1.CreateFileRequest) error {

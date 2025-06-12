@@ -94,10 +94,10 @@ func (r *AdminLoginRestrictionRepo) List(ctx context.Context, req *pagination.Pa
 		return nil, adminV1.ErrorInternalServerError("query list failed")
 	}
 
-	items := make([]*adminV1.AdminLoginRestriction, 0, len(results))
-	for _, res := range results {
-		item := r.mapper.ToModel(res)
-		items = append(items, item)
+	models := make([]*adminV1.AdminLoginRestriction, 0, len(results))
+	for _, dto := range results {
+		model := r.mapper.ToModel(dto)
+		models = append(models, model)
 	}
 
 	count, err := r.Count(ctx, whereSelectors)
@@ -107,7 +107,7 @@ func (r *AdminLoginRestrictionRepo) List(ctx context.Context, req *pagination.Pa
 
 	return &adminV1.ListAdminLoginRestrictionResponse{
 		Total: uint32(count),
-		Items: items,
+		Items: models,
 	}, err
 }
 
@@ -127,7 +127,7 @@ func (r *AdminLoginRestrictionRepo) Get(ctx context.Context, req *adminV1.GetAdm
 		return nil, adminV1.ErrorBadRequest("invalid parameter")
 	}
 
-	ret, err := r.data.db.Client().AdminLoginRestriction.Get(ctx, req.GetId())
+	dto, err := r.data.db.Client().AdminLoginRestriction.Get(ctx, req.GetId())
 	if err != nil {
 		if ent.IsNotFound(err) {
 			return nil, adminV1.ErrorNotFound("admin login restriction not found")
@@ -138,7 +138,7 @@ func (r *AdminLoginRestrictionRepo) Get(ctx context.Context, req *adminV1.GetAdm
 		return nil, adminV1.ErrorInternalServerError("query data failed")
 	}
 
-	return r.mapper.ToModel(ret), nil
+	return r.mapper.ToModel(dto), nil
 }
 
 func (r *AdminLoginRestrictionRepo) Create(ctx context.Context, req *adminV1.CreateAdminLoginRestrictionRequest) error {

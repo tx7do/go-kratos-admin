@@ -91,10 +91,10 @@ func (r *TaskRepo) List(ctx context.Context, req *pagination.PagingRequest) (*ad
 		return nil, adminV1.ErrorInternalServerError("query list failed")
 	}
 
-	items := make([]*adminV1.Task, 0, len(results))
-	for _, res := range results {
-		item := r.mapper.ToModel(res)
-		items = append(items, item)
+	models := make([]*adminV1.Task, 0, len(results))
+	for _, dto := range results {
+		model := r.mapper.ToModel(dto)
+		models = append(models, model)
 	}
 
 	count, err := r.Count(ctx, whereSelectors)
@@ -104,7 +104,7 @@ func (r *TaskRepo) List(ctx context.Context, req *pagination.PagingRequest) (*ad
 
 	return &adminV1.ListTaskResponse{
 		Total: uint32(count),
-		Items: items,
+		Items: models,
 	}, nil
 }
 
@@ -124,7 +124,7 @@ func (r *TaskRepo) Get(ctx context.Context, id uint32) (*adminV1.Task, error) {
 		return nil, adminV1.ErrorBadRequest("invalid parameter")
 	}
 
-	ret, err := r.data.db.Client().Task.Get(ctx, id)
+	dto, err := r.data.db.Client().Task.Get(ctx, id)
 	if err != nil {
 		if ent.IsNotFound(err) {
 			return nil, adminV1.ErrorNotFound("task not found")
@@ -135,7 +135,7 @@ func (r *TaskRepo) Get(ctx context.Context, id uint32) (*adminV1.Task, error) {
 		return nil, adminV1.ErrorInternalServerError("query data failed")
 	}
 
-	return r.mapper.ToModel(ret), nil
+	return r.mapper.ToModel(dto), nil
 }
 
 func (r *TaskRepo) GetByTypeName(ctx context.Context, typeName string) (*adminV1.Task, error) {

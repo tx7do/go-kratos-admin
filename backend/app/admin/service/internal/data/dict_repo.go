@@ -88,10 +88,10 @@ func (r *DictRepo) List(ctx context.Context, req *pagination.PagingRequest) (*ad
 		return nil, adminV1.ErrorInternalServerError("query list failed")
 	}
 
-	items := make([]*adminV1.Dict, 0, len(results))
-	for _, res := range results {
-		item := r.mapper.ToModel(res)
-		items = append(items, item)
+	models := make([]*adminV1.Dict, 0, len(results))
+	for _, dto := range results {
+		model := r.mapper.ToModel(dto)
+		models = append(models, model)
 	}
 
 	count, err := r.Count(ctx, whereSelectors)
@@ -101,7 +101,7 @@ func (r *DictRepo) List(ctx context.Context, req *pagination.PagingRequest) (*ad
 
 	return &adminV1.ListDictResponse{
 		Total: uint32(count),
-		Items: items,
+		Items: models,
 	}, err
 }
 
@@ -121,7 +121,7 @@ func (r *DictRepo) Get(ctx context.Context, req *adminV1.GetDictRequest) (*admin
 		return nil, adminV1.ErrorBadRequest("invalid parameter")
 	}
 
-	ret, err := r.data.db.Client().Dict.Get(ctx, req.GetId())
+	dto, err := r.data.db.Client().Dict.Get(ctx, req.GetId())
 	if err != nil {
 		if ent.IsNotFound(err) {
 			return nil, adminV1.ErrorNotFound("dict not found")
@@ -132,7 +132,7 @@ func (r *DictRepo) Get(ctx context.Context, req *adminV1.GetDictRequest) (*admin
 		return nil, adminV1.ErrorInternalServerError("query data failed")
 	}
 
-	return r.mapper.ToModel(ret), nil
+	return r.mapper.ToModel(dto), nil
 }
 
 func (r *DictRepo) Create(ctx context.Context, req *adminV1.CreateDictRequest) error {

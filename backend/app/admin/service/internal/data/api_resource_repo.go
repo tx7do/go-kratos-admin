@@ -88,10 +88,10 @@ func (r *ApiResourceRepo) List(ctx context.Context, req *pagination.PagingReques
 		return nil, adminV1.ErrorInternalServerError("query list failed")
 	}
 
-	items := make([]*adminV1.ApiResource, 0, len(results))
-	for _, res := range results {
-		item := r.mapper.ToModel(res)
-		items = append(items, item)
+	models := make([]*adminV1.ApiResource, 0, len(results))
+	for _, dto := range results {
+		model := r.mapper.ToModel(dto)
+		models = append(models, model)
 	}
 
 	count, err := r.Count(ctx, whereSelectors)
@@ -101,7 +101,7 @@ func (r *ApiResourceRepo) List(ctx context.Context, req *pagination.PagingReques
 
 	return &adminV1.ListApiResourceResponse{
 		Total: uint32(count),
-		Items: items,
+		Items: models,
 	}, err
 }
 
@@ -121,7 +121,7 @@ func (r *ApiResourceRepo) Get(ctx context.Context, req *adminV1.GetApiResourceRe
 		return nil, adminV1.ErrorBadRequest("invalid parameter")
 	}
 
-	ret, err := r.data.db.Client().ApiResource.Get(ctx, req.GetId())
+	dto, err := r.data.db.Client().ApiResource.Get(ctx, req.GetId())
 	if err != nil {
 		if ent.IsNotFound(err) {
 			return nil, adminV1.ErrorNotFound("api resource not found")
@@ -132,7 +132,7 @@ func (r *ApiResourceRepo) Get(ctx context.Context, req *adminV1.GetApiResourceRe
 		return nil, adminV1.ErrorInternalServerError("query data failed")
 	}
 
-	return r.mapper.ToModel(ret), nil
+	return r.mapper.ToModel(dto), nil
 }
 
 func (r *ApiResourceRepo) GetApiResourceByEndpoint(ctx context.Context, path, method string) (*adminV1.ApiResource, error) {
@@ -140,7 +140,7 @@ func (r *ApiResourceRepo) GetApiResourceByEndpoint(ctx context.Context, path, me
 		return nil, adminV1.ErrorBadRequest("invalid parameter")
 	}
 
-	ret, err := r.data.db.Client().ApiResource.Query().
+	dto, err := r.data.db.Client().ApiResource.Query().
 		Where(
 			apiresource.PathEQ(path),
 			apiresource.MethodEQ(method),
@@ -156,7 +156,7 @@ func (r *ApiResourceRepo) GetApiResourceByEndpoint(ctx context.Context, path, me
 		return nil, adminV1.ErrorInternalServerError("query data failed")
 	}
 
-	return r.mapper.ToModel(ret), nil
+	return r.mapper.ToModel(dto), nil
 }
 
 func (r *ApiResourceRepo) Create(ctx context.Context, req *adminV1.CreateApiResourceRequest) error {

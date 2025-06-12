@@ -111,10 +111,10 @@ func (r *UserCredentialRepo) List(ctx context.Context, req *pagination.PagingReq
 		return nil, authenticationV1.ErrorInternalServerError("query list failed")
 	}
 
-	items := make([]*authenticationV1.UserCredential, 0, len(results))
-	for _, res := range results {
-		item := r.mapper.ToModel(res)
-		items = append(items, item)
+	models := make([]*authenticationV1.UserCredential, 0, len(results))
+	for _, dto := range results {
+		model := r.mapper.ToModel(dto)
+		models = append(models, model)
 	}
 
 	count, err := r.Count(ctx, whereSelectors)
@@ -124,7 +124,7 @@ func (r *UserCredentialRepo) List(ctx context.Context, req *pagination.PagingReq
 
 	return &authenticationV1.ListUserCredentialResponse{
 		Total: uint32(count),
-		Items: items,
+		Items: models,
 	}, nil
 }
 

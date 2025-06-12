@@ -126,22 +126,22 @@ func (r *OrganizationRepo) List(ctx context.Context, req *pagination.PagingReque
 		return *results[i].ParentID < *results[j].ParentID
 	})
 
-	items := make([]*userV1.Organization, 0, len(results))
-	for _, m := range results {
-		if m.ParentID == nil {
-			item := r.mapper.ToModel(m)
-			items = append(items, item)
+	models := make([]*userV1.Organization, 0, len(results))
+	for _, dto := range results {
+		if dto.ParentID == nil {
+			model := r.mapper.ToModel(dto)
+			models = append(models, model)
 		}
 	}
-	for _, m := range results {
-		if m.ParentID != nil {
-			item := r.mapper.ToModel(m)
+	for _, dto := range results {
+		if dto.ParentID != nil {
+			model := r.mapper.ToModel(dto)
 
-			if r.travelChild(items, item) {
+			if r.travelChild(models, model) {
 				continue
 			}
 
-			items = append(items, item)
+			models = append(models, model)
 		}
 	}
 
@@ -150,12 +150,10 @@ func (r *OrganizationRepo) List(ctx context.Context, req *pagination.PagingReque
 		return nil, err
 	}
 
-	ret := userV1.ListOrganizationResponse{
+	return &userV1.ListOrganizationResponse{
 		Total: uint32(count),
-		Items: items,
-	}
-
-	return &ret, err
+		Items: models,
+	}, err
 }
 
 func (r *OrganizationRepo) IsExist(ctx context.Context, id uint32) (bool, error) {
@@ -174,7 +172,7 @@ func (r *OrganizationRepo) Get(ctx context.Context, req *userV1.GetOrganizationR
 		return nil, userV1.ErrorBadRequest("invalid parameter")
 	}
 
-	ret, err := r.data.db.Client().Organization.Get(ctx, req.GetId())
+	dto, err := r.data.db.Client().Organization.Get(ctx, req.GetId())
 	if err != nil {
 		if ent.IsNotFound(err) {
 			return nil, userV1.ErrorOrganizationNotFound("organization not found")
@@ -185,7 +183,7 @@ func (r *OrganizationRepo) Get(ctx context.Context, req *userV1.GetOrganizationR
 		return nil, userV1.ErrorInternalServerError("query data failed")
 	}
 
-	return r.mapper.ToModel(ret), nil
+	return r.mapper.ToModel(dto), nil
 }
 
 func (r *OrganizationRepo) Create(ctx context.Context, req *userV1.CreateOrganizationRequest) error {

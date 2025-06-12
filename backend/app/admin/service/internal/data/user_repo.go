@@ -98,10 +98,10 @@ func (r *UserRepo) List(ctx context.Context, req *pagination.PagingRequest) (*us
 		return nil, userV1.ErrorInternalServerError("query list failed")
 	}
 
-	items := make([]*userV1.User, 0, len(results))
-	for _, res := range results {
-		item := r.mapper.ToModel(res)
-		items = append(items, item)
+	models := make([]*userV1.User, 0, len(results))
+	for _, dto := range results {
+		model := r.mapper.ToModel(dto)
+		models = append(models, model)
 	}
 
 	count, err := r.Count(ctx, whereSelectors)
@@ -111,7 +111,7 @@ func (r *UserRepo) List(ctx context.Context, req *pagination.PagingRequest) (*us
 
 	return &userV1.ListUserResponse{
 		Total: uint32(count),
-		Items: items,
+		Items: models,
 	}, nil
 }
 
@@ -131,7 +131,7 @@ func (r *UserRepo) Get(ctx context.Context, userId uint32) (*userV1.User, error)
 		return nil, userV1.ErrorBadRequest("invalid parameter")
 	}
 
-	ret, err := r.data.db.Client().User.Get(ctx, userId)
+	dto, err := r.data.db.Client().User.Get(ctx, userId)
 	if err != nil {
 		if ent.IsNotFound(err) {
 			return nil, userV1.ErrorUserNotFound("user not found")
@@ -142,7 +142,7 @@ func (r *UserRepo) Get(ctx context.Context, userId uint32) (*userV1.User, error)
 		return nil, userV1.ErrorInternalServerError("query data failed")
 	}
 
-	return r.mapper.ToModel(ret), nil
+	return r.mapper.ToModel(dto), nil
 }
 
 func (r *UserRepo) Create(ctx context.Context, req *userV1.CreateUserRequest) (*userV1.User, error) {

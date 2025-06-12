@@ -88,10 +88,10 @@ func (r *RoleRepo) List(ctx context.Context, req *pagination.PagingRequest) (*us
 		return nil, userV1.ErrorInternalServerError("query list failed")
 	}
 
-	items := make([]*userV1.Role, 0, len(results))
-	for _, res := range results {
-		item := r.mapper.ToModel(res)
-		items = append(items, item)
+	models := make([]*userV1.Role, 0, len(results))
+	for _, dto := range results {
+		model := r.mapper.ToModel(dto)
+		models = append(models, model)
 	}
 
 	count, err := r.Count(ctx, whereSelectors)
@@ -101,7 +101,7 @@ func (r *RoleRepo) List(ctx context.Context, req *pagination.PagingRequest) (*us
 
 	return &userV1.ListRoleResponse{
 		Total: uint32(count),
-		Items: items,
+		Items: models,
 	}, err
 }
 
@@ -121,7 +121,7 @@ func (r *RoleRepo) Get(ctx context.Context, id uint32) (*userV1.Role, error) {
 		return nil, userV1.ErrorBadRequest("invalid parameter")
 	}
 
-	ret, err := r.data.db.Client().Role.Get(ctx, id)
+	dto, err := r.data.db.Client().Role.Get(ctx, id)
 	if err != nil {
 		if ent.IsNotFound(err) {
 			return nil, userV1.ErrorRoleNotFound("role not found")
@@ -132,7 +132,7 @@ func (r *RoleRepo) Get(ctx context.Context, id uint32) (*userV1.Role, error) {
 		return nil, userV1.ErrorInternalServerError("query data failed")
 	}
 
-	return r.mapper.ToModel(ret), nil
+	return r.mapper.ToModel(dto), nil
 }
 
 func (r *RoleRepo) GetRoleByCode(ctx context.Context, code string) (*userV1.Role, error) {

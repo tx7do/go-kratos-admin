@@ -86,10 +86,10 @@ func (r *AdminLoginLogRepo) List(ctx context.Context, req *pagination.PagingRequ
 		return nil, adminV1.ErrorInternalServerError("query list failed")
 	}
 
-	items := make([]*adminV1.AdminLoginLog, 0, len(results))
-	for _, res := range results {
-		item := r.mapper.ToModel(res)
-		items = append(items, item)
+	models := make([]*adminV1.AdminLoginLog, 0, len(results))
+	for _, dto := range results {
+		model := r.mapper.ToModel(dto)
+		models = append(models, model)
 	}
 
 	count, err := r.Count(ctx, whereSelectors)
@@ -99,7 +99,7 @@ func (r *AdminLoginLogRepo) List(ctx context.Context, req *pagination.PagingRequ
 
 	return &adminV1.ListAdminLoginLogResponse{
 		Total: uint32(count),
-		Items: items,
+		Items: models,
 	}, err
 }
 
@@ -119,7 +119,7 @@ func (r *AdminLoginLogRepo) Get(ctx context.Context, req *adminV1.GetAdminLoginL
 		return nil, adminV1.ErrorBadRequest("invalid parameter")
 	}
 
-	ret, err := r.data.db.Client().AdminLoginLog.Get(ctx, req.GetId())
+	dto, err := r.data.db.Client().AdminLoginLog.Get(ctx, req.GetId())
 	if err != nil {
 		if ent.IsNotFound(err) {
 			return nil, adminV1.ErrorNotFound("admin login log not found")
@@ -130,7 +130,7 @@ func (r *AdminLoginLogRepo) Get(ctx context.Context, req *adminV1.GetAdminLoginL
 		return nil, adminV1.ErrorInternalServerError("query data failed")
 	}
 
-	return r.mapper.ToModel(ret), nil
+	return r.mapper.ToModel(dto), nil
 }
 
 func (r *AdminLoginLogRepo) Create(ctx context.Context, req *adminV1.CreateAdminLoginLogRequest) error {

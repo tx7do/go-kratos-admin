@@ -88,10 +88,10 @@ func (r *TenantRepo) List(ctx context.Context, req *pagination.PagingRequest) (*
 		return nil, userV1.ErrorInternalServerError("query list failed")
 	}
 
-	items := make([]*userV1.Tenant, 0, len(results))
-	for _, res := range results {
-		item := r.mapper.ToModel(res)
-		items = append(items, item)
+	models := make([]*userV1.Tenant, 0, len(results))
+	for _, dto := range results {
+		model := r.mapper.ToModel(dto)
+		models = append(models, model)
 	}
 
 	count, err := r.Count(ctx, whereSelectors)
@@ -99,12 +99,10 @@ func (r *TenantRepo) List(ctx context.Context, req *pagination.PagingRequest) (*
 		return nil, err
 	}
 
-	ret := userV1.ListTenantResponse{
+	return &userV1.ListTenantResponse{
 		Total: uint32(count),
-		Items: items,
-	}
-
-	return &ret, err
+		Items: models,
+	}, err
 }
 
 func (r *TenantRepo) IsExist(ctx context.Context, id uint32) (bool, error) {
@@ -123,7 +121,7 @@ func (r *TenantRepo) Get(ctx context.Context, req *userV1.GetTenantRequest) (*us
 		return nil, userV1.ErrorBadRequest("invalid parameter")
 	}
 
-	ret, err := r.data.db.Client().Tenant.Get(ctx, req.GetId())
+	dto, err := r.data.db.Client().Tenant.Get(ctx, req.GetId())
 	if err != nil {
 		if ent.IsNotFound(err) {
 			return nil, userV1.ErrorTenantNotFound("tenant not found")
@@ -134,7 +132,7 @@ func (r *TenantRepo) Get(ctx context.Context, req *userV1.GetTenantRequest) (*us
 		return nil, userV1.ErrorInternalServerError("query data failed")
 	}
 
-	return r.mapper.ToModel(ret), nil
+	return r.mapper.ToModel(dto), nil
 }
 
 func (r *TenantRepo) Create(ctx context.Context, req *userV1.CreateTenantRequest) error {

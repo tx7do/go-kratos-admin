@@ -6,6 +6,7 @@ import (
 
 	"entgo.io/ent/dialect/sql"
 	"github.com/go-kratos/kratos/v2/log"
+
 	"github.com/tx7do/go-utils/copierutil"
 	entgo "github.com/tx7do/go-utils/entgo/query"
 	entgoUpdate "github.com/tx7do/go-utils/entgo/update"
@@ -90,10 +91,10 @@ func (r *NotificationMessageRepo) List(ctx context.Context, req *pagination.Pagi
 		return nil, internalMessageV1.ErrorInternalServerError("query list failed")
 	}
 
-	items := make([]*internalMessageV1.NotificationMessage, 0, len(results))
-	for _, res := range results {
-		item := r.mapper.ToModel(res)
-		items = append(items, item)
+	models := make([]*internalMessageV1.NotificationMessage, 0, len(results))
+	for _, dto := range results {
+		model := r.mapper.ToModel(dto)
+		models = append(models, model)
 	}
 
 	count, err := r.Count(ctx, whereSelectors)
@@ -103,7 +104,7 @@ func (r *NotificationMessageRepo) List(ctx context.Context, req *pagination.Pagi
 
 	return &internalMessageV1.ListNotificationMessageResponse{
 		Total: uint32(count),
-		Items: items,
+		Items: models,
 	}, err
 }
 
@@ -123,7 +124,7 @@ func (r *NotificationMessageRepo) Get(ctx context.Context, req *internalMessageV
 		return nil, internalMessageV1.ErrorBadRequest("invalid parameter")
 	}
 
-	ret, err := r.data.db.Client().NotificationMessage.Get(ctx, req.GetId())
+	dto, err := r.data.db.Client().NotificationMessage.Get(ctx, req.GetId())
 	if err != nil {
 		if ent.IsNotFound(err) {
 			return nil, internalMessageV1.ErrorNotFound("message not found")
@@ -134,7 +135,7 @@ func (r *NotificationMessageRepo) Get(ctx context.Context, req *internalMessageV
 		return nil, internalMessageV1.ErrorInternalServerError("query data failed")
 	}
 
-	return r.mapper.ToModel(ret), nil
+	return r.mapper.ToModel(dto), nil
 }
 
 func (r *NotificationMessageRepo) Create(ctx context.Context, req *internalMessageV1.CreateNotificationMessageRequest) error {

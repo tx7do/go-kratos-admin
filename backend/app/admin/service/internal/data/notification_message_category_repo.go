@@ -126,22 +126,22 @@ func (r *NotificationMessageCategoryRepo) List(ctx context.Context, req *paginat
 		return *results[i].ParentID < *results[j].ParentID
 	})
 
-	items := make([]*internalMessageV1.NotificationMessageCategory, 0, len(results))
-	for _, m := range results {
-		if m.ParentID == nil {
-			item := r.mapper.ToModel(m)
-			items = append(items, item)
+	models := make([]*internalMessageV1.NotificationMessageCategory, 0, len(results))
+	for _, dto := range results {
+		if dto.ParentID == nil {
+			model := r.mapper.ToModel(dto)
+			models = append(models, model)
 		}
 	}
-	for _, m := range results {
-		if m.ParentID != nil {
-			item := r.mapper.ToModel(m)
+	for _, dto := range results {
+		if dto.ParentID != nil {
+			model := r.mapper.ToModel(dto)
 
-			if r.travelChild(items, item) {
+			if r.travelChild(models, model) {
 				continue
 			}
 
-			items = append(items, item)
+			models = append(models, model)
 		}
 	}
 
@@ -150,12 +150,10 @@ func (r *NotificationMessageCategoryRepo) List(ctx context.Context, req *paginat
 		return nil, err
 	}
 
-	ret := internalMessageV1.ListNotificationMessageCategoryResponse{
+	return &internalMessageV1.ListNotificationMessageCategoryResponse{
 		Total: uint32(count),
-		Items: items,
-	}
-
-	return &ret, err
+		Items: models,
+	}, err
 }
 
 func (r *NotificationMessageCategoryRepo) IsExist(ctx context.Context, id uint32) (bool, error) {
@@ -174,7 +172,7 @@ func (r *NotificationMessageCategoryRepo) Get(ctx context.Context, req *internal
 		return nil, internalMessageV1.ErrorBadRequest("invalid parameter")
 	}
 
-	ret, err := r.data.db.Client().NotificationMessageCategory.Get(ctx, req.GetId())
+	dto, err := r.data.db.Client().NotificationMessageCategory.Get(ctx, req.GetId())
 	if err != nil {
 		if ent.IsNotFound(err) {
 			return nil, internalMessageV1.ErrorNotFound("message category not found")
@@ -185,7 +183,7 @@ func (r *NotificationMessageCategoryRepo) Get(ctx context.Context, req *internal
 		return nil, internalMessageV1.ErrorInternalServerError("query data failed")
 	}
 
-	return r.mapper.ToModel(ret), nil
+	return r.mapper.ToModel(dto), nil
 }
 
 func (r *NotificationMessageCategoryRepo) Create(ctx context.Context, req *internalMessageV1.CreateNotificationMessageCategoryRequest) error {

@@ -122,29 +122,29 @@ func (r *MenuRepo) List(ctx context.Context, req *pagination.PagingRequest, tree
 		return nil, adminV1.ErrorInternalServerError("query list failed")
 	}
 
-	items := make([]*adminV1.Menu, 0, len(results))
+	models := make([]*adminV1.Menu, 0, len(results))
 	if treeTravel {
-		for _, m := range results {
-			if m.ParentID == nil {
-				item := r.mapper.ToModel(m)
-				items = append(items, item)
+		for _, dto := range results {
+			if dto.ParentID == nil {
+				model := r.mapper.ToModel(dto)
+				models = append(models, model)
 			}
 		}
-		for _, m := range results {
-			if m.ParentID != nil {
-				item := r.mapper.ToModel(m)
+		for _, dto := range results {
+			if dto.ParentID != nil {
+				model := r.mapper.ToModel(dto)
 
-				if r.travelChild(items, item) {
+				if r.travelChild(models, model) {
 					continue
 				}
 
-				items = append(items, item)
+				models = append(models, model)
 			}
 		}
 	} else {
-		for _, res := range results {
-			item := r.mapper.ToModel(res)
-			items = append(items, item)
+		for _, dto := range results {
+			model := r.mapper.ToModel(dto)
+			models = append(models, model)
 		}
 	}
 
@@ -155,7 +155,7 @@ func (r *MenuRepo) List(ctx context.Context, req *pagination.PagingRequest, tree
 
 	return &adminV1.ListMenuResponse{
 		Total: uint32(count),
-		Items: items,
+		Items: models,
 	}, nil
 }
 
@@ -175,7 +175,7 @@ func (r *MenuRepo) Get(ctx context.Context, req *adminV1.GetMenuRequest) (*admin
 		return nil, adminV1.ErrorBadRequest("invalid parameter")
 	}
 
-	ret, err := r.data.db.Client().Menu.Get(ctx, req.GetId())
+	dto, err := r.data.db.Client().Menu.Get(ctx, req.GetId())
 	if err != nil {
 		if ent.IsNotFound(err) {
 			return nil, adminV1.ErrorNotFound("menu not found")
@@ -186,7 +186,7 @@ func (r *MenuRepo) Get(ctx context.Context, req *adminV1.GetMenuRequest) (*admin
 		return nil, adminV1.ErrorInternalServerError("query data failed")
 	}
 
-	return r.mapper.ToModel(ret), nil
+	return r.mapper.ToModel(dto), nil
 }
 
 func (r *MenuRepo) Create(ctx context.Context, req *adminV1.CreateMenuRequest) error {

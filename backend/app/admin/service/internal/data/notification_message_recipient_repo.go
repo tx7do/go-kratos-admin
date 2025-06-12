@@ -91,10 +91,10 @@ func (r *NotificationMessageRecipientRepo) List(ctx context.Context, req *pagina
 		return nil, internalMessageV1.ErrorInternalServerError("query list failed")
 	}
 
-	items := make([]*internalMessageV1.NotificationMessageRecipient, 0, len(results))
-	for _, res := range results {
-		item := r.mapper.ToModel(res)
-		items = append(items, item)
+	models := make([]*internalMessageV1.NotificationMessageRecipient, 0, len(results))
+	for _, dto := range results {
+		model := r.mapper.ToModel(dto)
+		models = append(models, model)
 	}
 
 	count, err := r.Count(ctx, whereSelectors)
@@ -104,7 +104,7 @@ func (r *NotificationMessageRecipientRepo) List(ctx context.Context, req *pagina
 
 	return &internalMessageV1.ListNotificationMessageRecipientResponse{
 		Total: uint32(count),
-		Items: items,
+		Items: models,
 	}, err
 }
 
@@ -124,7 +124,7 @@ func (r *NotificationMessageRecipientRepo) Get(ctx context.Context, req *interna
 		return nil, internalMessageV1.ErrorBadRequest("invalid parameter")
 	}
 
-	ret, err := r.data.db.Client().NotificationMessageRecipient.Get(ctx, req.GetId())
+	dto, err := r.data.db.Client().NotificationMessageRecipient.Get(ctx, req.GetId())
 	if err != nil {
 		if ent.IsNotFound(err) {
 			return nil, internalMessageV1.ErrorNotFound("message not found")
@@ -135,7 +135,7 @@ func (r *NotificationMessageRecipientRepo) Get(ctx context.Context, req *interna
 		return nil, internalMessageV1.ErrorInternalServerError("query data failed")
 	}
 
-	return r.mapper.ToModel(ret), nil
+	return r.mapper.ToModel(dto), nil
 }
 
 func (r *NotificationMessageRecipientRepo) Create(ctx context.Context, req *internalMessageV1.CreateNotificationMessageRecipientRequest) error {

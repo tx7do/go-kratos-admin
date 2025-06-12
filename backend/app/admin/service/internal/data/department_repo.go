@@ -126,22 +126,22 @@ func (r *DepartmentRepo) List(ctx context.Context, req *pagination.PagingRequest
 		return *results[i].ParentID < *results[j].ParentID
 	})
 
-	items := make([]*userV1.Department, 0, len(results))
-	for _, m := range results {
-		if m.ParentID == nil {
-			item := r.mapper.ToModel(m)
-			items = append(items, item)
+	models := make([]*userV1.Department, 0, len(results))
+	for _, dto := range results {
+		if dto.ParentID == nil {
+			model := r.mapper.ToModel(dto)
+			models = append(models, model)
 		}
 	}
-	for _, m := range results {
-		if m.ParentID != nil {
-			item := r.mapper.ToModel(m)
+	for _, dto := range results {
+		if dto.ParentID != nil {
+			model := r.mapper.ToModel(dto)
 
-			if r.travelChild(items, item) {
+			if r.travelChild(models, model) {
 				continue
 			}
 
-			items = append(items, item)
+			models = append(models, model)
 		}
 	}
 
@@ -152,7 +152,7 @@ func (r *DepartmentRepo) List(ctx context.Context, req *pagination.PagingRequest
 
 	ret := userV1.ListDepartmentResponse{
 		Total: uint32(count),
-		Items: items,
+		Items: models,
 	}
 
 	return &ret, err
@@ -174,7 +174,7 @@ func (r *DepartmentRepo) Get(ctx context.Context, req *userV1.GetDepartmentReque
 		return nil, userV1.ErrorBadRequest("invalid parameter")
 	}
 
-	ret, err := r.data.db.Client().Department.Get(ctx, req.GetId())
+	dto, err := r.data.db.Client().Department.Get(ctx, req.GetId())
 	if err != nil {
 		if ent.IsNotFound(err) {
 			return nil, userV1.ErrorDepartmentNotFound("department not found")
@@ -185,7 +185,7 @@ func (r *DepartmentRepo) Get(ctx context.Context, req *userV1.GetDepartmentReque
 		return nil, userV1.ErrorInternalServerError("query data failed")
 	}
 
-	return r.mapper.ToModel(ret), nil
+	return r.mapper.ToModel(dto), nil
 }
 
 func (r *DepartmentRepo) Create(ctx context.Context, req *userV1.CreateDepartmentRequest) error {

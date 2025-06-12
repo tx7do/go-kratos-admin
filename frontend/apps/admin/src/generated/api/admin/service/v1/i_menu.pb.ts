@@ -135,6 +135,8 @@ export interface UpdateMenuRequest {
 
 /** 删除菜单 - 请求 */
 export interface DeleteMenuRequest {
+  /** 操作用户ID */
+  operatorId?: number | null | undefined;
   id: number;
 }
 

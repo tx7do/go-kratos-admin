@@ -7,7 +7,7 @@ import { $t } from '@vben/locales';
 import { notification } from 'ant-design-vue';
 
 import { useVbenForm, z } from '#/adapter/form';
-import { useDictStore } from '#/store';
+import { useDictStore } from '#/stores';
 
 const dictStore = useDictStore();
 

@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { VxeGridProps } from '#/adapter/vxe-table';
-import type { Role } from '#/rpc/api/user/service/v1/role.pb';
+import type { Role } from '#/generated/api/user/service/v1/role.pb';
 
 import { h } from 'vue';
 
@@ -11,7 +11,7 @@ import { notification } from 'ant-design-vue';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
 import { $t } from '#/locales';
-import { statusList, useRoleStore } from '#/store';
+import { statusList, useRoleStore } from '#/stores';
 
 import RoleDrawer from './role-drawer.vue';
 

@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { VxeGridProps } from '#/adapter/vxe-table';
-import type { User } from '#/rpc/api/user/service/v1/user.pb';
+import type { User } from '#/generated/api/user/service/v1/user.pb';
 
 import { h } from 'vue';
 
@@ -17,7 +17,7 @@ import {
   authorityToName,
   useRoleStore,
   useUserStore,
-} from '#/store';
+} from '#/stores';
 
 import UserDrawer from './user-drawer.vue';
 

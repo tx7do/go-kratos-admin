@@ -41,9 +41,9 @@ const customConfig: Linter.Config[] = [
         {
           patterns: [
             {
-              group: ['#/rpc/*'],
+              group: ['#/rpc/service/*'],
               message:
-                'The #/rpc package cannot be imported, please use the @core package itself',
+                'The #/rpc/service package cannot be imported, please use the @core package itself',
             },
             {
               group: ['#/layouts/*'],
@@ -56,9 +56,9 @@ const customConfig: Linter.Config[] = [
                 'The #/locales package cannot be imported, please use the @core package itself',
             },
             {
-              group: ['#/stores/*'],
+              group: ['#/storess/*'],
               message:
-                'The #/stores package cannot be imported, please use the @core package itself',
+                'The #/storess package cannot be imported, please use the @core package itself',
             },
           ],
         },

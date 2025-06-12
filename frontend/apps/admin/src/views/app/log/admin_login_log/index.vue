@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { VxeGridProps } from '#/adapter/vxe-table';
-import type { AdminLoginLog } from '#/rpc/api/admin/service/v1/i_admin_login_log.pb';
+import type { AdminLoginLog } from '#/generated/api/admin/service/v1/i_admin_login_log.pb';
 
 import { Page, type VbenFormProps } from '@vben/common-ui';
 
@@ -8,7 +8,7 @@ import dayjs from 'dayjs';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
 import { $t } from '#/locales';
-import { successToColor, successToName, useAdminLoginLogStore } from '#/store';
+import { successToColor, successToName, useAdminLoginLogStore } from '#/stores';
 
 const adminLoginLogStore = useAdminLoginLogStore();
 

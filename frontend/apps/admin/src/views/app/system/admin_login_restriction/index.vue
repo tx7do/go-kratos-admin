@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { VxeGridProps } from '#/adapter/vxe-table';
-import type { AdminLoginRestriction } from '#/rpc/api/admin/service/v1/i_admin_login_restriction.pb';
+import type { AdminLoginRestriction } from '#/generated/api/admin/service/v1/i_admin_login_restriction.pb';
 
 import { h } from 'vue';
 
@@ -18,7 +18,7 @@ import {
   adminLoginRestrictionTypeToColor,
   adminLoginRestrictionTypeToName,
   useAdminLoginRestrictionStore,
-} from '#/store';
+} from '#/stores';
 
 import AdminLoginRestrictionDrawer from './admin-login-restriction-drawer.vue';
 

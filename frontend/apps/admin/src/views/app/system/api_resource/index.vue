@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { VxeGridProps } from '#/adapter/vxe-table';
-import type { ApiResource } from '#/rpc/api/admin/service/v1/i_api_resource.pb';
+import type { ApiResource } from '#/generated/api/admin/service/v1/i_api_resource.pb';
 
 import { h } from 'vue';
 
@@ -11,7 +11,7 @@ import { notification } from 'ant-design-vue';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
 import { $t } from '#/locales';
-import { methodList, useApiResourceStore } from '#/store';
+import { methodList, useApiResourceStore } from '#/stores';
 
 import ApiResourceDrawer from './api-resource-drawer.vue';
 

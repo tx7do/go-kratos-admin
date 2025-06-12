@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { VxeGridProps } from '#/adapter/vxe-table';
-import type { PrivateMessage } from '#/rpc/api/internal_message/service/v1/private_message.pb';
+import type { PrivateMessage } from '#/generated/api/internal_message/service/v1/private_message.pb';
 
 import { h } from 'vue';
 
@@ -11,7 +11,7 @@ import { notification } from 'ant-design-vue';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
 import { $t } from '#/locales';
-import { usePrivateMessageStore } from '#/store';
+import { usePrivateMessageStore } from '#/stores';
 
 import PrivateMessageDrawer from './private-message-drawer.vue';
 

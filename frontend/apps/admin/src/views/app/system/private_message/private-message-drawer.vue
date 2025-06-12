@@ -7,7 +7,7 @@ import { $t } from '@vben/locales';
 import { notification } from 'ant-design-vue';
 
 import { useVbenForm } from '#/adapter/form';
-import { statusList, usePrivateMessageStore } from '#/store';
+import { statusList, usePrivateMessageStore } from '#/stores';
 
 const privateMessageStore = usePrivateMessageStore();
 

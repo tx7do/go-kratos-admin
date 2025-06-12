@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { VxeGridProps } from '#/adapter/vxe-table';
-import type { Organization } from '#/rpc/api/user/service/v1/organization.pb';
+import type { Organization } from '#/generated/api/user/service/v1/organization.pb';
 
 import { h } from 'vue';
 
@@ -11,7 +11,7 @@ import { notification } from 'ant-design-vue';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
 import { $t } from '#/locales';
-import { statusList, useOrganizationStore } from '#/store';
+import { statusList, useOrganizationStore } from '#/stores';
 
 import OrgDrawer from './org-drawer.vue';
 

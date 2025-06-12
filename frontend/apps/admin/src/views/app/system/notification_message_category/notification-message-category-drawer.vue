@@ -7,7 +7,7 @@ import { $t } from '@vben/locales';
 import { notification } from 'ant-design-vue';
 
 import { useVbenForm } from '#/adapter/form';
-import { statusList, useNotificationMessageCategoryStore } from '#/store';
+import { statusList, useNotificationMessageCategoryStore } from '#/stores';
 
 const notificationMessageCategoryStore = useNotificationMessageCategoryStore();
 

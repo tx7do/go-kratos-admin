@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { VxeGridProps } from '#/adapter/vxe-table';
-import type { File } from '#/rpc/api/file/service/v1/file.pb';
+import type { File } from '#/generated/api/file/service/v1/file.pb';
 
 import { h } from 'vue';
 
@@ -11,7 +11,7 @@ import { notification } from 'ant-design-vue';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
 import { $t } from '#/locales';
-import { useFileStore } from '#/store';
+import { useFileStore } from '#/stores';
 
 import FileDrawer from './file-drawer.vue';
 

@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { VxeGridProps } from '#/adapter/vxe-table';
-import type { Tenant } from '#/rpc/api/user/service/v1/tenant.pb';
+import type { Tenant } from '#/generated/api/user/service/v1/tenant.pb';
 
 import { h } from 'vue';
 
@@ -11,7 +11,7 @@ import { notification } from 'ant-design-vue';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
 import { $t } from '#/locales';
-import { statusList, useTenantStore } from '#/store';
+import { statusList, useTenantStore } from '#/stores';
 
 import TenantDrawer from './tenant-drawer.vue';
 

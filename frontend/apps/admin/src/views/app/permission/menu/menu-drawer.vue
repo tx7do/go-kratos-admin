@@ -4,12 +4,12 @@ import { computed, ref } from 'vue';
 import { useVbenDrawer } from '@vben/common-ui';
 import { $t } from '@vben/locales';
 
+import { MenuType } from '#/generated/api/admin/service/v1/i_menu.pb';
 import lucide from '@iconify/json/json/lucide.json';
 import { addCollection } from '@iconify/vue';
 import { notification } from 'ant-design-vue';
 
 import { useVbenForm } from '#/adapter/form';
-import { MenuType } from '#/rpc/api/admin/service/v1/i_menu.pb';
 import {
   buildMenuTree,
   isButton,
@@ -18,7 +18,7 @@ import {
   menuTypeList,
   statusList,
   useMenuStore,
-} from '#/store';
+} from '#/stores';
 
 const menuStore = useMenuStore();
 

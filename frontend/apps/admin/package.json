@@ -10,7 +10,8 @@
     "typecheck": "vue-tsc --noEmit --skipLibCheck"
   },
   "imports": {
-    "#/*": "./src/*"
+    "#/*": "./src/*",
+    "$/*": "./generated/*"
   },
   "dependencies": {
     "@iconify/json": "catalog:",

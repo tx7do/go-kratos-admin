@@ -18,7 +18,7 @@ import { useAccessStore, useUserStore } from '@vben/stores';
 import { openWindow } from '@vben/utils';
 
 import { $t } from '#/locales';
-import { useAuthStore } from '#/store';
+import { useAuthStore } from '#/stores';
 import LoginForm from '#/views/_core/authentication/login.vue';
 
 const notifications = ref<NotificationItem[]>([

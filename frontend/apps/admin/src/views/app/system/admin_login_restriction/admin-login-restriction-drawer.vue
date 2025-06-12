@@ -11,7 +11,7 @@ import {
   adminLoginRestrictionMethodList,
   adminLoginRestrictionTypeList,
   useAdminLoginRestrictionStore,
-} from '#/store';
+} from '#/stores';
 
 const adminLoginRestrictionStore = useAdminLoginRestrictionStore();
 

@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { VxeGridProps } from '#/adapter/vxe-table';
-import type { NotificationMessageCategory } from '#/rpc/api/internal_message/service/v1/notification_message_category.pb';
+import type { NotificationMessageCategory } from '#/generated/api/internal_message/service/v1/notification_message_category.pb';
 
 import { h } from 'vue';
 
@@ -11,7 +11,7 @@ import { notification } from 'ant-design-vue';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
 import { $t } from '#/locales';
-import { useNotificationMessageCategoryStore } from '#/store';
+import { useNotificationMessageCategoryStore } from '#/stores';
 
 import NotificationMessageCategoryCategoryDrawer from './notification-message-category-drawer.vue';
 

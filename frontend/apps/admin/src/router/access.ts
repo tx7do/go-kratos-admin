@@ -10,7 +10,7 @@ import { message } from 'ant-design-vue';
 
 import { BasicLayout, IFrameView } from '#/layouts';
 import { $t } from '#/locales';
-import { defRouterService } from '#/rpc';
+import { defRouterService } from '#/services';
 
 const forbiddenComponent = () => import('#/views/_core/fallback/forbidden.vue');
 

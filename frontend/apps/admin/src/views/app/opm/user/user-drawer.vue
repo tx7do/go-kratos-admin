@@ -12,7 +12,7 @@ import {
   genderList, isButton,
   useOrganizationStore,
   useUserStore,
-} from '#/store';
+} from '#/stores';
 
 const userStore = useUserStore();
 const orgStore = useOrganizationStore();

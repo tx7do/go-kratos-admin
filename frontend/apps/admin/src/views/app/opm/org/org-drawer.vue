@@ -7,7 +7,7 @@ import { $t } from '@vben/locales';
 import { notification } from 'ant-design-vue';
 
 import { useVbenForm } from '#/adapter/form';
-import { statusList, useOrganizationStore } from '#/store';
+import { statusList, useOrganizationStore } from '#/stores';
 
 const orgStore = useOrganizationStore();
 

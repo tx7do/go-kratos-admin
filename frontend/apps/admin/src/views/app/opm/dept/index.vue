@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { VxeGridProps } from '#/adapter/vxe-table';
-import type { Department } from '#/rpc/api/user/service/v1/department.pb';
+import type { Department } from '#/generated/api/user/service/v1/department.pb';
 
 import { h } from 'vue';
 
@@ -11,7 +11,7 @@ import { notification } from 'ant-design-vue';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
 import { $t } from '#/locales';
-import { statusList, useDepartmentStore } from '#/store';
+import { statusList, useDepartmentStore } from '#/stores';
 
 import DeptDrawer from './dept-drawer.vue';
 

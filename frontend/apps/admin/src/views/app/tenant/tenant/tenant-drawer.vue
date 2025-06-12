@@ -7,7 +7,7 @@ import { $t } from '@vben/locales';
 import { notification } from 'ant-design-vue';
 
 import { useVbenForm } from '#/adapter/form';
-import { statusList, useTenantStore } from '#/store';
+import { statusList, useTenantStore } from '#/stores';
 
 const tenantStore = useTenantStore();
 

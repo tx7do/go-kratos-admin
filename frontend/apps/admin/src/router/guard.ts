@@ -6,7 +6,7 @@ import { useAccessStore, useUserStore } from '@vben/stores';
 import { startProgress, stopProgress } from '@vben/utils';
 
 import { accessRoutes, coreRouteNames } from '#/router/routes';
-import { useAuthStore } from '#/store';
+import { useAuthStore } from '#/stores';
 
 import { generateAccess } from './access';
 

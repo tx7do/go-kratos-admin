@@ -7,7 +7,7 @@ import { $t } from '@vben/locales';
 import { notification } from 'ant-design-vue';
 
 import { useVbenForm } from '#/adapter/form';
-import { methodList, useApiResourceStore } from '#/store';
+import { methodList, useApiResourceStore } from '#/stores';
 
 const apiResourceStore = useApiResourceStore();
 

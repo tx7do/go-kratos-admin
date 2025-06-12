@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { VxeGridProps } from '#/adapter/vxe-table';
-import type { Dict } from '#/rpc/api/admin/service/v1/i_dict.pb';
+import type { Dict } from '#/generated/api/admin/service/v1/i_dict.pb';
 
 import { h } from 'vue';
 
@@ -11,7 +11,7 @@ import { notification } from 'ant-design-vue';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
 import { $t } from '#/locales';
-import { useDictStore } from '#/store';
+import { useDictStore } from '#/stores';
 
 import DictDrawer from './dict-drawer.vue';
 

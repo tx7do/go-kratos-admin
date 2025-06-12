@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { VxeGridProps } from '#/adapter/vxe-table';
-import type { Position } from '#/rpc/api/user/service/v1/position.pb';
+import type { Position } from '#/generated/api/user/service/v1/position.pb';
 
 import { h } from 'vue';
 
@@ -11,7 +11,7 @@ import { notification } from 'ant-design-vue';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
 import { $t } from '#/locales';
-import { statusList, usePositionStore } from '#/store';
+import { statusList, usePositionStore } from '#/stores';
 
 import PositionDrawer from './position-drawer.vue';
 

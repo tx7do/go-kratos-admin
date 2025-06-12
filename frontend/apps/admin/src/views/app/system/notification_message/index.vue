@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { VxeGridProps } from '#/adapter/vxe-table';
-import type { NotificationMessage } from '#/rpc/api/internal_message/service/v1/notification_message.pb';
+import type { NotificationMessage } from '#/generated/api/internal_message/service/v1/notification_message.pb';
 
 import { h } from 'vue';
 
@@ -11,7 +11,7 @@ import { notification } from 'ant-design-vue';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
 import { $t } from '#/locales';
-import { useNotificationMessageStore } from '#/store';
+import { useNotificationMessageStore } from '#/stores';
 
 import NotificationMessageDrawer from './notification-message-drawer.vue';
 

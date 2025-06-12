@@ -7,7 +7,7 @@ import { $t } from '@vben/locales';
 import { notification } from 'ant-design-vue';
 
 import { useVbenForm } from '#/adapter/form';
-import { buildMenuTree, statusList, useMenuStore, useRoleStore } from '#/store';
+import { buildMenuTree, statusList, useMenuStore, useRoleStore } from '#/stores';
 
 const roleStore = useRoleStore();
 

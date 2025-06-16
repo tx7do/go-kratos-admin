@@ -26,8 +26,8 @@ type AdminLoginRestrictionRepo struct {
 	log  *log.Helper
 
 	mapper          *mapper.CopierMapper[ent.AdminLoginRestriction, adminV1.AdminLoginRestriction]
-	typeConverter   *mapper.EnumTypeConverter[adminloginrestriction.Type, adminV1.AdminLoginRestrictionType]
-	methodConverter *mapper.EnumTypeConverter[adminloginrestriction.Method, adminV1.AdminLoginRestrictionMethod]
+	typeConverter   *mapper.EnumTypeConverter[adminV1.AdminLoginRestrictionType, adminloginrestriction.Type]
+	methodConverter *mapper.EnumTypeConverter[adminV1.AdminLoginRestrictionMethod, adminloginrestriction.Method]
 }
 
 func NewAdminLoginRestrictionRepo(data *Data, logger log.Logger) *AdminLoginRestrictionRepo {
@@ -35,8 +35,8 @@ func NewAdminLoginRestrictionRepo(data *Data, logger log.Logger) *AdminLoginRest
 		log:             log.NewHelper(log.With(logger, "module", "admin-login-restriction/repo/admin-service")),
 		data:            data,
 		mapper:          mapper.NewCopierMapper[ent.AdminLoginRestriction, adminV1.AdminLoginRestriction](),
-		typeConverter:   mapper.NewEnumTypeConverter[adminloginrestriction.Type, adminV1.AdminLoginRestrictionType](adminV1.AdminLoginRestrictionType_name, adminV1.AdminLoginRestrictionType_value),
-		methodConverter: mapper.NewEnumTypeConverter[adminloginrestriction.Method, adminV1.AdminLoginRestrictionMethod](adminV1.AdminLoginRestrictionMethod_name, adminV1.AdminLoginRestrictionMethod_value),
+		typeConverter:   mapper.NewEnumTypeConverter[adminV1.AdminLoginRestrictionType, adminloginrestriction.Type](adminV1.AdminLoginRestrictionType_name, adminV1.AdminLoginRestrictionType_value),
+		methodConverter: mapper.NewEnumTypeConverter[adminV1.AdminLoginRestrictionMethod, adminloginrestriction.Method](adminV1.AdminLoginRestrictionMethod_name, adminV1.AdminLoginRestrictionMethod_value),
 	}
 
 	repo.init()
@@ -148,8 +148,8 @@ func (r *AdminLoginRestrictionRepo) Create(ctx context.Context, req *adminV1.Cre
 
 	builder := r.data.db.Client().AdminLoginRestriction.Create().
 		SetNillableTargetID(req.Data.TargetId).
-		SetNillableType(r.typeConverter.ToDto(req.Data.Type)).
-		SetNillableMethod(r.methodConverter.ToDto(req.Data.Method)).
+		SetNillableType(r.typeConverter.ToModel(req.Data.Type)).
+		SetNillableMethod(r.methodConverter.ToModel(req.Data.Method)).
 		SetNillableValue(req.Data.Value).
 		SetNillableReason(req.Data.Reason).
 		SetNillableCreateBy(req.Data.CreateBy).
@@ -197,8 +197,8 @@ func (r *AdminLoginRestrictionRepo) Update(ctx context.Context, req *adminV1.Upd
 
 	builder := r.data.db.Client().AdminLoginRestriction.UpdateOneID(req.Data.GetId()).
 		SetNillableTargetID(req.Data.TargetId).
-		SetNillableType(r.typeConverter.ToDto(req.Data.Type)).
-		SetNillableMethod(r.methodConverter.ToDto(req.Data.Method)).
+		SetNillableType(r.typeConverter.ToModel(req.Data.Type)).
+		SetNillableMethod(r.methodConverter.ToModel(req.Data.Method)).
 		SetNillableValue(req.Data.Value).
 		SetNillableReason(req.Data.Reason).
 		SetNillableUpdateBy(req.Data.UpdateBy).

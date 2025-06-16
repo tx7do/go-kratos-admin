@@ -26,7 +26,7 @@ type FileRepo struct {
 	log  *log.Helper
 
 	mapper            *mapper.CopierMapper[ent.File, fileV1.File]
-	providerConverter *mapper.EnumTypeConverter[file.Provider, fileV1.OSSProvider]
+	providerConverter *mapper.EnumTypeConverter[fileV1.OSSProvider, file.Provider]
 }
 
 func NewFileRepo(data *Data, logger log.Logger) *FileRepo {
@@ -34,7 +34,7 @@ func NewFileRepo(data *Data, logger log.Logger) *FileRepo {
 		log:               log.NewHelper(log.With(logger, "module", "file/repo/admin-service")),
 		data:              data,
 		mapper:            mapper.NewCopierMapper[ent.File, fileV1.File](),
-		providerConverter: mapper.NewEnumTypeConverter[file.Provider, fileV1.OSSProvider](fileV1.OSSProvider_name, fileV1.OSSProvider_value),
+		providerConverter: mapper.NewEnumTypeConverter[fileV1.OSSProvider, file.Provider](fileV1.OSSProvider_name, fileV1.OSSProvider_value),
 	}
 
 	repo.init()
@@ -144,7 +144,7 @@ func (r *FileRepo) Create(ctx context.Context, req *fileV1.CreateFileRequest) er
 	}
 
 	builder := r.data.db.Client().File.Create().
-		SetNillableProvider(r.providerConverter.ToDto(req.Data.Provider)).
+		SetNillableProvider(r.providerConverter.ToModel(req.Data.Provider)).
 		SetNillableBucketName(req.Data.BucketName).
 		SetNillableFileDirectory(req.Data.FileDirectory).
 		SetNillableFileGUID(req.Data.FileGuid).
@@ -203,7 +203,7 @@ func (r *FileRepo) Update(ctx context.Context, req *fileV1.UpdateFileRequest) er
 	}
 
 	builder := r.data.db.Client().File.UpdateOneID(req.Data.GetId()).
-		SetNillableProvider(r.providerConverter.ToDto(req.Data.Provider)).
+		SetNillableProvider(r.providerConverter.ToModel(req.Data.Provider)).
 		SetNillableBucketName(req.Data.BucketName).
 		SetNillableFileDirectory(req.Data.FileDirectory).
 		SetNillableFileGUID(req.Data.FileGuid).

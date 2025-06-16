@@ -27,8 +27,8 @@ type MenuRepo struct {
 	log  *log.Helper
 
 	mapper          *mapper.CopierMapper[ent.Menu, adminV1.Menu]
-	statusConverter *mapper.EnumTypeConverter[menu.Status, adminV1.MenuStatus]
-	typeConverter   *mapper.EnumTypeConverter[menu.Type, adminV1.MenuType]
+	statusConverter *mapper.EnumTypeConverter[adminV1.MenuStatus, menu.Status]
+	typeConverter   *mapper.EnumTypeConverter[adminV1.MenuType, menu.Type]
 }
 
 func NewMenuRepo(data *Data, logger log.Logger) *MenuRepo {
@@ -36,8 +36,8 @@ func NewMenuRepo(data *Data, logger log.Logger) *MenuRepo {
 		log:             log.NewHelper(log.With(logger, "module", "menu/repo/admin-service")),
 		data:            data,
 		mapper:          mapper.NewCopierMapper[ent.Menu, adminV1.Menu](),
-		statusConverter: mapper.NewEnumTypeConverter[menu.Status, adminV1.MenuStatus](adminV1.MenuStatus_name, adminV1.MenuStatus_value),
-		typeConverter:   mapper.NewEnumTypeConverter[menu.Type, adminV1.MenuType](adminV1.MenuType_name, adminV1.MenuType_value),
+		statusConverter: mapper.NewEnumTypeConverter[adminV1.MenuStatus, menu.Status](adminV1.MenuStatus_name, adminV1.MenuStatus_value),
+		typeConverter:   mapper.NewEnumTypeConverter[adminV1.MenuType, menu.Type](adminV1.MenuType_name, adminV1.MenuType_value),
 	}
 
 	repo.init()
@@ -196,13 +196,13 @@ func (r *MenuRepo) Create(ctx context.Context, req *adminV1.CreateMenuRequest) e
 
 	builder := r.data.db.Client().Menu.Create().
 		SetNillableParentID(req.Data.ParentId).
-		SetNillableType(r.typeConverter.ToDto(req.Data.Type)).
+		SetNillableType(r.typeConverter.ToModel(req.Data.Type)).
 		SetNillablePath(req.Data.Path).
 		SetNillableRedirect(req.Data.Redirect).
 		SetNillableAlias(req.Data.Alias).
 		SetNillableName(req.Data.Name).
 		SetNillableComponent(req.Data.Component).
-		SetNillableStatus(r.statusConverter.ToDto(req.Data.Status)).
+		SetNillableStatus(r.statusConverter.ToModel(req.Data.Status)).
 		SetNillableCreateBy(req.Data.CreateBy).
 		SetNillableCreateTime(timeutil.TimestamppbToTime(req.Data.CreateTime))
 
@@ -265,13 +265,13 @@ func (r *MenuRepo) Update(ctx context.Context, req *adminV1.UpdateMenuRequest) e
 		//Debug().
 		Menu.UpdateOneID(req.Data.GetId()).
 		SetNillableParentID(req.Data.ParentId).
-		SetNillableType(r.typeConverter.ToDto(req.Data.Type)).
+		SetNillableType(r.typeConverter.ToModel(req.Data.Type)).
 		SetNillablePath(req.Data.Path).
 		SetNillableRedirect(req.Data.Redirect).
 		SetNillableAlias(req.Data.Alias).
 		SetNillableName(req.Data.Name).
 		SetNillableComponent(req.Data.Component).
-		SetNillableStatus(r.statusConverter.ToDto(req.Data.Status)).
+		SetNillableStatus(r.statusConverter.ToModel(req.Data.Status)).
 		SetNillableUpdateBy(req.Data.UpdateBy).
 		SetNillableUpdateTime(timeutil.TimestamppbToTime(req.Data.UpdateTime))
 

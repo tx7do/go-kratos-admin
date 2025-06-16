@@ -26,7 +26,7 @@ type NotificationMessageRepo struct {
 	log  *log.Helper
 
 	mapper          *mapper.CopierMapper[ent.NotificationMessage, internalMessageV1.NotificationMessage]
-	statusConverter *mapper.EnumTypeConverter[notificationmessage.Status, internalMessageV1.MessageStatus]
+	statusConverter *mapper.EnumTypeConverter[internalMessageV1.MessageStatus, notificationmessage.Status]
 }
 
 func NewNotificationMessageRepo(data *Data, logger log.Logger) *NotificationMessageRepo {
@@ -34,7 +34,7 @@ func NewNotificationMessageRepo(data *Data, logger log.Logger) *NotificationMess
 		log:             log.NewHelper(log.With(logger, "module", "notification-message/repo/admin-service")),
 		data:            data,
 		mapper:          mapper.NewCopierMapper[ent.NotificationMessage, internalMessageV1.NotificationMessage](),
-		statusConverter: mapper.NewEnumTypeConverter[notificationmessage.Status, internalMessageV1.MessageStatus](internalMessageV1.MessageStatus_name, internalMessageV1.MessageStatus_value),
+		statusConverter: mapper.NewEnumTypeConverter[internalMessageV1.MessageStatus, notificationmessage.Status](internalMessageV1.MessageStatus_name, internalMessageV1.MessageStatus_value),
 	}
 
 	repo.init()
@@ -147,7 +147,7 @@ func (r *NotificationMessageRepo) Create(ctx context.Context, req *internalMessa
 		SetNillableSubject(req.Data.Subject).
 		SetNillableContent(req.Data.Content).
 		SetNillableCategoryID(req.Data.CategoryId).
-		SetNillableStatus(r.statusConverter.ToDto(req.Data.Status)).
+		SetNillableStatus(r.statusConverter.ToModel(req.Data.Status)).
 		SetNillableCreateBy(req.Data.CreateBy).
 		SetNillableCreateTime(timeutil.TimestamppbToTime(req.Data.CreateTime))
 
@@ -199,7 +199,7 @@ func (r *NotificationMessageRepo) Update(ctx context.Context, req *internalMessa
 		SetNillableSubject(req.Data.Subject).
 		SetNillableContent(req.Data.Content).
 		SetNillableCategoryID(req.Data.CategoryId).
-		SetNillableStatus(r.statusConverter.ToDto(req.Data.Status)).
+		SetNillableStatus(r.statusConverter.ToModel(req.Data.Status)).
 		SetNillableUpdateBy(req.Data.UpdateBy).
 		SetNillableUpdateTime(timeutil.TimestamppbToTime(req.Data.UpdateTime))
 

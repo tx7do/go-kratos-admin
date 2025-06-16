@@ -15,7 +15,7 @@ require (
 	entgo.io/ent v0.14.4
 	github.com/getkin/kin-openapi v0.132.0
 	github.com/go-kratos/kratos/v2 v2.8.4
-	github.com/go-sql-driver/mysql v1.9.2
+	github.com/go-sql-driver/mysql v1.9.3
 	github.com/golang-jwt/jwt/v5 v5.2.2
 	github.com/google/gnostic v0.7.0
 	github.com/google/uuid v1.6.0
@@ -25,7 +25,7 @@ require (
 	github.com/jinzhu/copier v0.4.0
 	github.com/lib/pq v1.10.9
 	github.com/mileusna/useragent v1.3.5
-	github.com/minio/minio-go/v7 v7.0.92
+	github.com/minio/minio-go/v7 v7.0.93
 	github.com/redis/go-redis/v9 v9.10.0
 	github.com/stretchr/testify v1.10.0
 	github.com/tx7do/go-utils v1.1.28
@@ -33,14 +33,14 @@ require (
 	github.com/tx7do/go-utils/entgo v1.1.31
 	github.com/tx7do/go-utils/geoip v1.1.5
 	github.com/tx7do/go-utils/jwtutil v0.0.2
-	github.com/tx7do/go-utils/mapper v0.0.1
+	github.com/tx7do/go-utils/mapper v0.0.2
 	github.com/tx7do/kratos-authn v1.1.8
 	github.com/tx7do/kratos-authn/engine/jwt v1.1.8
 	github.com/tx7do/kratos-authn/middleware v1.1.9
 	github.com/tx7do/kratos-authz v1.1.5
 	github.com/tx7do/kratos-authz/engine/casbin v1.1.8
 	github.com/tx7do/kratos-authz/engine/opa v1.1.10
-	github.com/tx7do/kratos-authz/middleware v1.1.6
+	github.com/tx7do/kratos-authz/middleware v1.1.7
 	github.com/tx7do/kratos-bootstrap/api v0.0.23
 	github.com/tx7do/kratos-bootstrap/bootstrap v0.0.17
 	github.com/tx7do/kratos-bootstrap/cache/redis v0.0.11
@@ -57,8 +57,8 @@ require (
 )
 
 require (
-	ariga.io/atlas v0.34.0 // indirect
-	buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go v1.36.6-20250603165357-b52ab10f4468.1 // indirect
+	ariga.io/atlas v0.35.0 // indirect
+	buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go v1.36.6-20250613105001-9f2d3c737feb.1 // indirect
 	cel.dev/expr v0.24.0 // indirect
 	dario.cat/mergo v1.0.2 // indirect
 	filippo.io/edwards25519 v1.1.0 // indirect
@@ -93,7 +93,7 @@ require (
 	github.com/bmatcuk/doublestar v1.3.4 // indirect
 	github.com/bmatcuk/doublestar/v4 v4.8.1 // indirect
 	github.com/bufbuild/protocompile v0.14.1 // indirect
-	github.com/bufbuild/protovalidate-go v0.12.0 // indirect
+	github.com/bufbuild/protovalidate-go v0.13.1 // indirect
 	github.com/buger/jsonparser v1.1.1 // indirect
 	github.com/bwmarrin/snowflake v0.3.0 // indirect
 	github.com/casbin/casbin/v2 v2.107.0 // indirect
@@ -261,7 +261,7 @@ require (
 	github.com/tx7do/kratos-bootstrap/utils v0.1.3 // indirect
 	github.com/tx7do/kratos-transport/transport/keepalive v1.0.6 // indirect
 	github.com/vearutop/statigz v1.5.0 // indirect
-	github.com/vektah/gqlparser/v2 v2.5.27 // indirect
+	github.com/vektah/gqlparser/v2 v2.5.28 // indirect
 	github.com/x448/float16 v0.8.4 // indirect
 	github.com/xeipuuv/gojsonpointer v0.0.0-20190905194746-02993c407bfb // indirect
 	github.com/xeipuuv/gojsonreference v0.0.0-20180127040603-bd5ef7bd5415 // indirect
@@ -309,7 +309,7 @@ require (
 	k8s.io/apimachinery v0.33.1 // indirect
 	k8s.io/client-go v0.33.1 // indirect
 	k8s.io/klog/v2 v2.130.1 // indirect
-	k8s.io/kube-openapi v0.0.0-20250318190949-c8a335a9a2ff // indirect
+	k8s.io/kube-openapi v0.0.0-20250610211856-8b98d1ed966a // indirect
 	k8s.io/utils v0.0.0-20250604170112-4c0f3b243397 // indirect
 	sigs.k8s.io/json v0.0.0-20241014173422-cfa47c3a1cc8 // indirect
 	sigs.k8s.io/randfill v1.0.0 // indirect

@@ -26,7 +26,7 @@ type PrivateMessageRepo struct {
 	log  *log.Helper
 
 	mapper          *mapper.CopierMapper[ent.PrivateMessage, internalMessageV1.PrivateMessage]
-	statusConverter *mapper.EnumTypeConverter[privatemessage.Status, internalMessageV1.MessageStatus]
+	statusConverter *mapper.EnumTypeConverter[internalMessageV1.MessageStatus, privatemessage.Status]
 }
 
 func NewPrivateMessageRepo(data *Data, logger log.Logger) *PrivateMessageRepo {
@@ -34,7 +34,7 @@ func NewPrivateMessageRepo(data *Data, logger log.Logger) *PrivateMessageRepo {
 		log:             log.NewHelper(log.With(logger, "module", "private-message/repo/admin-service")),
 		data:            data,
 		mapper:          mapper.NewCopierMapper[ent.PrivateMessage, internalMessageV1.PrivateMessage](),
-		statusConverter: mapper.NewEnumTypeConverter[privatemessage.Status, internalMessageV1.MessageStatus](internalMessageV1.MessageStatus_name, internalMessageV1.MessageStatus_value),
+		statusConverter: mapper.NewEnumTypeConverter[internalMessageV1.MessageStatus, privatemessage.Status](internalMessageV1.MessageStatus_name, internalMessageV1.MessageStatus_value),
 	}
 
 	repo.init()
@@ -148,7 +148,7 @@ func (r *PrivateMessageRepo) Create(ctx context.Context, req *internalMessageV1.
 		SetNillableContent(req.Data.Content).
 		SetNillableSenderID(req.Data.SenderId).
 		SetNillableReceiverID(req.Data.ReceiverId).
-		SetNillableStatus(r.statusConverter.ToDto(req.Data.Status)).
+		SetNillableStatus(r.statusConverter.ToModel(req.Data.Status)).
 		SetNillableCreateTime(timeutil.TimestamppbToTime(req.Data.CreateTime))
 
 	if req.Data.CreateTime == nil {
@@ -194,7 +194,7 @@ func (r *PrivateMessageRepo) Update(ctx context.Context, req *internalMessageV1.
 		SetNillableContent(req.Data.Content).
 		SetNillableSenderID(req.Data.SenderId).
 		SetNillableReceiverID(req.Data.ReceiverId).
-		SetNillableStatus(r.statusConverter.ToDto(req.Data.Status)).
+		SetNillableStatus(r.statusConverter.ToModel(req.Data.Status)).
 		SetNillableUpdateTime(timeutil.TimestamppbToTime(req.Data.UpdateTime))
 
 	if req.Data.UpdateTime == nil {

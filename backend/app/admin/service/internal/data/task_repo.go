@@ -26,7 +26,7 @@ type TaskRepo struct {
 	log  *log.Helper
 
 	mapper        *mapper.CopierMapper[ent.Task, adminV1.Task]
-	typeConverter *mapper.EnumTypeConverter[task.Type, adminV1.TaskType]
+	typeConverter *mapper.EnumTypeConverter[adminV1.TaskType, task.Type]
 }
 
 func NewTaskRepo(data *Data, logger log.Logger) *TaskRepo {
@@ -34,7 +34,7 @@ func NewTaskRepo(data *Data, logger log.Logger) *TaskRepo {
 		log:           log.NewHelper(log.With(logger, "module", "task/repo/admin-service")),
 		data:          data,
 		mapper:        mapper.NewCopierMapper[ent.Task, adminV1.Task](),
-		typeConverter: mapper.NewEnumTypeConverter[task.Type, adminV1.TaskType](adminV1.TaskType_name, adminV1.TaskType_value),
+		typeConverter: mapper.NewEnumTypeConverter[adminV1.TaskType, task.Type](adminV1.TaskType_name, adminV1.TaskType_value),
 	}
 
 	repo.init()
@@ -165,7 +165,7 @@ func (r *TaskRepo) Create(ctx context.Context, req *adminV1.CreateTaskRequest) (
 	}
 
 	builder := r.data.db.Client().Task.Create().
-		SetNillableType(r.typeConverter.ToDto(req.Data.Type)).
+		SetNillableType(r.typeConverter.ToModel(req.Data.Type)).
 		SetNillableTypeName(req.Data.TypeName).
 		SetNillableTaskPayload(req.Data.TaskPayload).
 		SetNillableCronSpec(req.Data.CronSpec).
@@ -226,7 +226,7 @@ func (r *TaskRepo) Update(ctx context.Context, req *adminV1.UpdateTaskRequest) (
 	builder := r.data.db.Client().
 		//Debug().
 		Task.UpdateOneID(req.Data.GetId()).
-		SetNillableType(r.typeConverter.ToDto(req.Data.Type)).
+		SetNillableType(r.typeConverter.ToModel(req.Data.Type)).
 		SetNillableTypeName(req.Data.TypeName).
 		SetNillableTaskPayload(req.Data.TaskPayload).
 		SetNillableCronSpec(req.Data.CronSpec).

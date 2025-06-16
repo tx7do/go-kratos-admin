@@ -27,9 +27,9 @@ type UserRepo struct {
 	log  *log.Helper
 
 	mapper             *mapper.CopierMapper[ent.User, userV1.User]
-	statusConverter    *mapper.EnumTypeConverter[user.Status, userV1.UserStatus]
-	genderConverter    *mapper.EnumTypeConverter[user.Gender, userV1.UserGender]
-	authorityConverter *mapper.EnumTypeConverter[user.Authority, userV1.UserAuthority]
+	statusConverter    *mapper.EnumTypeConverter[userV1.UserStatus, user.Status]
+	genderConverter    *mapper.EnumTypeConverter[userV1.UserGender, user.Gender]
+	authorityConverter *mapper.EnumTypeConverter[userV1.UserAuthority, user.Authority]
 }
 
 func NewUserRepo(data *Data, logger log.Logger) *UserRepo {
@@ -37,9 +37,9 @@ func NewUserRepo(data *Data, logger log.Logger) *UserRepo {
 		log:                log.NewHelper(log.With(logger, "module", "user/repo/admin-service")),
 		data:               data,
 		mapper:             mapper.NewCopierMapper[ent.User, userV1.User](),
-		statusConverter:    mapper.NewEnumTypeConverter[user.Status, userV1.UserStatus](userV1.UserStatus_name, userV1.UserStatus_value),
-		genderConverter:    mapper.NewEnumTypeConverter[user.Gender, userV1.UserGender](userV1.UserGender_name, userV1.UserGender_value),
-		authorityConverter: mapper.NewEnumTypeConverter[user.Authority, userV1.UserAuthority](userV1.UserAuthority_name, userV1.UserAuthority_value),
+		statusConverter:    mapper.NewEnumTypeConverter[userV1.UserStatus, user.Status](userV1.UserStatus_name, userV1.UserStatus_value),
+		genderConverter:    mapper.NewEnumTypeConverter[userV1.UserGender, user.Gender](userV1.UserGender_name, userV1.UserGender_value),
+		authorityConverter: mapper.NewEnumTypeConverter[userV1.UserAuthority, user.Authority](userV1.UserAuthority_name, userV1.UserAuthority_value),
 	}
 
 	repo.init()
@@ -164,9 +164,9 @@ func (r *UserRepo) Create(ctx context.Context, req *userV1.CreateUserRequest) (*
 		SetNillableRemark(req.Data.Remark).
 		SetNillableLastLoginTime(timeutil.TimestamppbToTime(req.Data.LastLoginTime)).
 		SetNillableLastLoginIP(req.Data.LastLoginIp).
-		SetNillableStatus(r.statusConverter.ToDto(req.Data.Status)).
-		SetNillableGender(r.genderConverter.ToDto(req.Data.Gender)).
-		SetNillableAuthority(r.authorityConverter.ToDto(req.Data.Authority)).
+		SetNillableStatus(r.statusConverter.ToModel(req.Data.Status)).
+		SetNillableGender(r.genderConverter.ToModel(req.Data.Gender)).
+		SetNillableAuthority(r.authorityConverter.ToModel(req.Data.Authority)).
 		SetNillableOrgID(req.Data.OrgId).
 		SetNillableWorkID(req.Data.WorkId).
 		SetNillablePositionID(req.Data.PositionId).
@@ -246,9 +246,9 @@ func (r *UserRepo) Update(ctx context.Context, req *userV1.UpdateUserRequest) er
 		SetNillableRemark(req.Data.Remark).
 		SetNillableLastLoginTime(timeutil.TimestamppbToTime(req.Data.LastLoginTime)).
 		SetNillableLastLoginIP(req.Data.LastLoginIp).
-		SetNillableStatus(r.statusConverter.ToDto(req.Data.Status)).
-		SetNillableGender(r.genderConverter.ToDto(req.Data.Gender)).
-		SetNillableAuthority(r.authorityConverter.ToDto(req.Data.Authority)).
+		SetNillableStatus(r.statusConverter.ToModel(req.Data.Status)).
+		SetNillableGender(r.genderConverter.ToModel(req.Data.Gender)).
+		SetNillableAuthority(r.authorityConverter.ToModel(req.Data.Authority)).
 		SetNillableOrgID(req.Data.OrgId).
 		SetNillableWorkID(req.Data.WorkId).
 		SetNillablePositionID(req.Data.PositionId).

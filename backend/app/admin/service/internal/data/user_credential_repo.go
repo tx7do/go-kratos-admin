@@ -29,9 +29,9 @@ type UserCredentialRepo struct {
 	log  *log.Helper
 
 	mapper                  *mapper.CopierMapper[ent.UserCredential, authenticationV1.UserCredential]
-	statusConverter         *mapper.EnumTypeConverter[usercredential.Status, authenticationV1.UserCredentialStatus]
-	identityTypeConverter   *mapper.EnumTypeConverter[usercredential.IdentityType, authenticationV1.IdentityType]
-	credentialTypeConverter *mapper.EnumTypeConverter[usercredential.CredentialType, authenticationV1.CredentialType]
+	statusConverter         *mapper.EnumTypeConverter[authenticationV1.UserCredentialStatus, usercredential.Status]
+	identityTypeConverter   *mapper.EnumTypeConverter[authenticationV1.IdentityType, usercredential.IdentityType]
+	credentialTypeConverter *mapper.EnumTypeConverter[authenticationV1.CredentialType, usercredential.CredentialType]
 }
 
 func NewUserCredentialRepo(data *Data, logger log.Logger) *UserCredentialRepo {
@@ -39,9 +39,9 @@ func NewUserCredentialRepo(data *Data, logger log.Logger) *UserCredentialRepo {
 		log:                     log.NewHelper(log.With(logger, "module", "user-credentials/repo/admin-service")),
 		data:                    data,
 		mapper:                  mapper.NewCopierMapper[ent.UserCredential, authenticationV1.UserCredential](),
-		statusConverter:         mapper.NewEnumTypeConverter[usercredential.Status, authenticationV1.UserCredentialStatus](authenticationV1.UserCredentialStatus_name, authenticationV1.UserCredentialStatus_value),
-		identityTypeConverter:   mapper.NewEnumTypeConverter[usercredential.IdentityType, authenticationV1.IdentityType](authenticationV1.IdentityType_name, authenticationV1.IdentityType_value),
-		credentialTypeConverter: mapper.NewEnumTypeConverter[usercredential.CredentialType, authenticationV1.CredentialType](authenticationV1.CredentialType_name, authenticationV1.CredentialType_value),
+		statusConverter:         mapper.NewEnumTypeConverter[authenticationV1.UserCredentialStatus, usercredential.Status](authenticationV1.UserCredentialStatus_name, authenticationV1.UserCredentialStatus_value),
+		identityTypeConverter:   mapper.NewEnumTypeConverter[authenticationV1.IdentityType, usercredential.IdentityType](authenticationV1.IdentityType_name, authenticationV1.IdentityType_value),
+		credentialTypeConverter: mapper.NewEnumTypeConverter[authenticationV1.CredentialType, usercredential.CredentialType](authenticationV1.CredentialType_name, authenticationV1.CredentialType_value),
 	}
 
 	repo.init()
@@ -137,7 +137,7 @@ func (r *UserCredentialRepo) Create(ctx context.Context, req *authenticationV1.C
 
 	if req.Data.Credential != nil {
 		var newCredential string
-		newCredential, err = r.prepareCredential(r.credentialTypeConverter.ToDto(req.Data.CredentialType), req.Data.GetCredential())
+		newCredential, err = r.prepareCredential(r.credentialTypeConverter.ToModel(req.Data.CredentialType), req.Data.GetCredential())
 		if err != nil {
 			r.log.Errorf("prepare new credential failed: %s", err.Error())
 			return authenticationV1.ErrorBadRequest("prepare new credential failed")
@@ -149,12 +149,12 @@ func (r *UserCredentialRepo) Create(ctx context.Context, req *authenticationV1.C
 	builder.
 		SetUserID(req.Data.GetUserId()).
 		SetNillableTenantID(req.Data.TenantId).
-		SetNillableIdentityType(r.identityTypeConverter.ToDto(req.Data.IdentityType)).
+		SetNillableIdentityType(r.identityTypeConverter.ToModel(req.Data.IdentityType)).
 		SetNillableIdentifier(req.Data.Identifier).
-		SetNillableCredentialType(r.credentialTypeConverter.ToDto(req.Data.CredentialType)).
+		SetNillableCredentialType(r.credentialTypeConverter.ToModel(req.Data.CredentialType)).
 		SetNillableCredential(req.Data.Credential).
 		SetNillableIsPrimary(req.Data.IsPrimary).
-		SetNillableStatus(r.statusConverter.ToDto(req.Data.Status)).
+		SetNillableStatus(r.statusConverter.ToModel(req.Data.Status)).
 		SetNillableExtraInfo(req.Data.ExtraInfo).
 		SetNillableCreateTime(timeutil.TimestamppbToTime(req.Data.CreateTime))
 
@@ -191,7 +191,7 @@ func (r *UserCredentialRepo) Update(ctx context.Context, req *authenticationV1.U
 
 	if req.Data.Credential != nil {
 		var newCredential string
-		newCredential, err = r.prepareCredential(r.credentialTypeConverter.ToDto(req.Data.CredentialType), req.Data.GetCredential())
+		newCredential, err = r.prepareCredential(r.credentialTypeConverter.ToModel(req.Data.CredentialType), req.Data.GetCredential())
 		if err != nil {
 			r.log.Errorf("prepare new credential failed: %s", err.Error())
 			return authenticationV1.ErrorBadRequest("prepare new credential failed")
@@ -209,12 +209,12 @@ func (r *UserCredentialRepo) Update(ctx context.Context, req *authenticationV1.U
 	}
 
 	builder := r.data.db.Client().UserCredential.UpdateOneID(req.Data.Id).
-		SetNillableIdentityType(r.identityTypeConverter.ToDto(req.Data.IdentityType)).
+		SetNillableIdentityType(r.identityTypeConverter.ToModel(req.Data.IdentityType)).
 		SetNillableIdentifier(req.Data.Identifier).
-		SetNillableCredentialType(r.credentialTypeConverter.ToDto(req.Data.CredentialType)).
+		SetNillableCredentialType(r.credentialTypeConverter.ToModel(req.Data.CredentialType)).
 		SetNillableCredential(req.Data.Credential).
 		SetNillableIsPrimary(req.Data.IsPrimary).
-		SetNillableStatus(r.statusConverter.ToDto(req.Data.Status)).
+		SetNillableStatus(r.statusConverter.ToModel(req.Data.Status)).
 		SetNillableExtraInfo(req.Data.ExtraInfo).
 		SetNillableUpdateTime(timeutil.TimestamppbToTime(req.Data.UpdateTime))
 
@@ -281,7 +281,7 @@ func (r *UserCredentialRepo) DeleteByUserId(ctx context.Context, userId uint32) 
 func (r *UserCredentialRepo) DeleteByIdentifier(ctx context.Context, identityType authenticationV1.IdentityType, identifier string) error {
 	builder := r.data.db.Client().UserCredential.Delete()
 	builder.Where(
-		usercredential.IdentityTypeEQ(*r.identityTypeConverter.ToDto(&identityType)),
+		usercredential.IdentityTypeEQ(*r.identityTypeConverter.ToModel(&identityType)),
 		usercredential.IdentifierEQ(identifier),
 	)
 	if affected, err := builder.Exec(ctx); err != nil {
@@ -326,7 +326,7 @@ func (r *UserCredentialRepo) GetByIdentifier(ctx context.Context, req *authentic
 	builder := r.data.db.Client().UserCredential.Query()
 
 	builder.Where(
-		usercredential.IdentityTypeEQ(*r.identityTypeConverter.ToDto(trans.Ptr(req.GetIdentityType()))),
+		usercredential.IdentityTypeEQ(*r.identityTypeConverter.ToModel(trans.Ptr(req.GetIdentityType()))),
 		usercredential.IdentifierEQ(req.GetIdentifier()),
 	)
 
@@ -368,7 +368,7 @@ func (r *UserCredentialRepo) VerifyCredential(ctx context.Context, req *authenti
 	ret, err := r.data.db.Client().UserCredential.Query().
 		Select(usercredential.FieldCredentialType, usercredential.FieldCredential, usercredential.FieldStatus).
 		Where(
-			usercredential.IdentityTypeEQ(*r.identityTypeConverter.ToDto(trans.Ptr(req.GetIdentityType()))),
+			usercredential.IdentityTypeEQ(*r.identityTypeConverter.ToModel(trans.Ptr(req.GetIdentityType()))),
 			usercredential.IdentifierEQ(req.GetIdentifier()),
 		).
 		Only(ctx)
@@ -454,7 +454,7 @@ func (r *UserCredentialRepo) ChangeCredential(ctx context.Context, req *authenti
 			usercredential.FieldCredential,
 		).
 		Where(
-			usercredential.IdentityTypeEQ(*r.identityTypeConverter.ToDto(trans.Ptr(req.GetIdentityType()))),
+			usercredential.IdentityTypeEQ(*r.identityTypeConverter.ToModel(trans.Ptr(req.GetIdentityType()))),
 			usercredential.IdentifierEQ(req.GetIdentifier()),
 		).
 		Only(ctx)
@@ -485,7 +485,7 @@ func (r *UserCredentialRepo) ChangeCredential(ctx context.Context, req *authenti
 
 	builder := r.data.db.Client().UserCredential.Update()
 	builder.Where(
-		usercredential.IdentityTypeEQ(*r.identityTypeConverter.ToDto(trans.Ptr(req.GetIdentityType()))),
+		usercredential.IdentityTypeEQ(*r.identityTypeConverter.ToModel(trans.Ptr(req.GetIdentityType()))),
 		usercredential.IdentifierEQ(req.GetIdentifier()),
 	)
 	builder.
@@ -513,7 +513,7 @@ func (r *UserCredentialRepo) ResetCredential(ctx context.Context, req *authentic
 			usercredential.FieldCredentialType,
 		).
 		Where(
-			usercredential.IdentityTypeEQ(*r.identityTypeConverter.ToDto(trans.Ptr(req.GetIdentityType()))),
+			usercredential.IdentityTypeEQ(*r.identityTypeConverter.ToModel(trans.Ptr(req.GetIdentityType()))),
 			usercredential.IdentifierEQ(req.GetIdentifier()),
 		).
 		Only(ctx)
@@ -539,7 +539,7 @@ func (r *UserCredentialRepo) ResetCredential(ctx context.Context, req *authentic
 
 	builder := r.data.db.Client().UserCredential.Update()
 	builder.Where(
-		usercredential.IdentityTypeEQ(*r.identityTypeConverter.ToDto(trans.Ptr(req.GetIdentityType()))),
+		usercredential.IdentityTypeEQ(*r.identityTypeConverter.ToModel(trans.Ptr(req.GetIdentityType()))),
 		usercredential.IdentifierEQ(req.GetIdentifier()),
 	)
 	builder.

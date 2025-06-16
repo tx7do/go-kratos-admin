@@ -26,7 +26,7 @@ type NotificationMessageRecipientRepo struct {
 	log  *log.Helper
 
 	mapper          *mapper.CopierMapper[ent.NotificationMessageRecipient, internalMessageV1.NotificationMessageRecipient]
-	statusConverter *mapper.EnumTypeConverter[notificationmessagerecipient.Status, internalMessageV1.MessageStatus]
+	statusConverter *mapper.EnumTypeConverter[internalMessageV1.MessageStatus, notificationmessagerecipient.Status]
 }
 
 func NewNotificationMessageRecipientRepo(data *Data, logger log.Logger) *NotificationMessageRecipientRepo {
@@ -34,7 +34,7 @@ func NewNotificationMessageRecipientRepo(data *Data, logger log.Logger) *Notific
 		log:             log.NewHelper(log.With(logger, "module", "notification-message-recipient/repo/admin-service")),
 		data:            data,
 		mapper:          mapper.NewCopierMapper[ent.NotificationMessageRecipient, internalMessageV1.NotificationMessageRecipient](),
-		statusConverter: mapper.NewEnumTypeConverter[notificationmessagerecipient.Status, internalMessageV1.MessageStatus](internalMessageV1.MessageStatus_name, internalMessageV1.MessageStatus_value),
+		statusConverter: mapper.NewEnumTypeConverter[internalMessageV1.MessageStatus, notificationmessagerecipient.Status](internalMessageV1.MessageStatus_name, internalMessageV1.MessageStatus_value),
 	}
 
 	repo.init()
@@ -146,7 +146,7 @@ func (r *NotificationMessageRecipientRepo) Create(ctx context.Context, req *inte
 	builder := r.data.db.Client().NotificationMessageRecipient.Create().
 		SetNillableMessageID(req.Data.MessageId).
 		SetNillableRecipientID(req.Data.RecipientId).
-		SetNillableStatus(r.statusConverter.ToDto(req.Data.Status)).
+		SetNillableStatus(r.statusConverter.ToModel(req.Data.Status)).
 		SetNillableCreateTime(timeutil.TimestamppbToTime(req.Data.CreateTime))
 
 	if req.Data.CreateTime == nil {
@@ -192,7 +192,7 @@ func (r *NotificationMessageRecipientRepo) Update(ctx context.Context, req *inte
 	builder := r.data.db.Client().NotificationMessageRecipient.UpdateOneID(req.Data.GetId()).
 		SetNillableMessageID(req.Data.MessageId).
 		SetNillableRecipientID(req.Data.RecipientId).
-		SetNillableStatus(r.statusConverter.ToDto(req.Data.Status)).
+		SetNillableStatus(r.statusConverter.ToModel(req.Data.Status)).
 		SetNillableUpdateTime(timeutil.TimestamppbToTime(req.Data.UpdateTime))
 
 	if req.Data.UpdateTime == nil {

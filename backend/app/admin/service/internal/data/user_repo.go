@@ -26,7 +26,7 @@ type UserRepo struct {
 	data *Data
 	log  *log.Helper
 
-	mapper             *mapper.CopierMapper[ent.User, userV1.User]
+	mapper             *mapper.CopierMapper[userV1.User, ent.User]
 	statusConverter    *mapper.EnumTypeConverter[userV1.UserStatus, user.Status]
 	genderConverter    *mapper.EnumTypeConverter[userV1.UserGender, user.Gender]
 	authorityConverter *mapper.EnumTypeConverter[userV1.UserAuthority, user.Authority]
@@ -36,7 +36,7 @@ func NewUserRepo(data *Data, logger log.Logger) *UserRepo {
 	repo := &UserRepo{
 		log:                log.NewHelper(log.With(logger, "module", "user/repo/admin-service")),
 		data:               data,
-		mapper:             mapper.NewCopierMapper[ent.User, userV1.User](),
+		mapper:             mapper.NewCopierMapper[userV1.User, ent.User](),
 		statusConverter:    mapper.NewEnumTypeConverter[userV1.UserStatus, user.Status](userV1.UserStatus_name, userV1.UserStatus_value),
 		genderConverter:    mapper.NewEnumTypeConverter[userV1.UserGender, user.Gender](userV1.UserGender_name, userV1.UserGender_value),
 		authorityConverter: mapper.NewEnumTypeConverter[userV1.UserAuthority, user.Authority](userV1.UserAuthority_name, userV1.UserAuthority_value),
@@ -92,16 +92,16 @@ func (r *UserRepo) List(ctx context.Context, req *pagination.PagingRequest) (*us
 		builder.Modify(querySelectors...)
 	}
 
-	results, err := builder.All(ctx)
+	entities, err := builder.All(ctx)
 	if err != nil {
 		r.log.Errorf("query list failed: %s", err.Error())
 		return nil, userV1.ErrorInternalServerError("query list failed")
 	}
 
-	models := make([]*userV1.User, 0, len(results))
-	for _, dto := range results {
-		model := r.mapper.ToModel(dto)
-		models = append(models, model)
+	dtos := make([]*userV1.User, 0, len(entities))
+	for _, entity := range entities {
+		dto := r.mapper.ToDTO(entity)
+		dtos = append(dtos, dto)
 	}
 
 	count, err := r.Count(ctx, whereSelectors)
@@ -111,7 +111,7 @@ func (r *UserRepo) List(ctx context.Context, req *pagination.PagingRequest) (*us
 
 	return &userV1.ListUserResponse{
 		Total: uint32(count),
-		Items: models,
+		Items: dtos,
 	}, nil
 }
 
@@ -131,7 +131,7 @@ func (r *UserRepo) Get(ctx context.Context, userId uint32) (*userV1.User, error)
 		return nil, userV1.ErrorBadRequest("invalid parameter")
 	}
 
-	dto, err := r.data.db.Client().User.Get(ctx, userId)
+	entity, err := r.data.db.Client().User.Get(ctx, userId)
 	if err != nil {
 		if ent.IsNotFound(err) {
 			return nil, userV1.ErrorUserNotFound("user not found")
@@ -142,7 +142,7 @@ func (r *UserRepo) Get(ctx context.Context, userId uint32) (*userV1.User, error)
 		return nil, userV1.ErrorInternalServerError("query data failed")
 	}
 
-	return r.mapper.ToModel(dto), nil
+	return r.mapper.ToDTO(entity), nil
 }
 
 func (r *UserRepo) Create(ctx context.Context, req *userV1.CreateUserRequest) (*userV1.User, error) {
@@ -164,9 +164,9 @@ func (r *UserRepo) Create(ctx context.Context, req *userV1.CreateUserRequest) (*
 		SetNillableRemark(req.Data.Remark).
 		SetNillableLastLoginTime(timeutil.TimestamppbToTime(req.Data.LastLoginTime)).
 		SetNillableLastLoginIP(req.Data.LastLoginIp).
-		SetNillableStatus(r.statusConverter.ToModel(req.Data.Status)).
-		SetNillableGender(r.genderConverter.ToModel(req.Data.Gender)).
-		SetNillableAuthority(r.authorityConverter.ToModel(req.Data.Authority)).
+		SetNillableStatus(r.statusConverter.ToEntity(req.Data.Status)).
+		SetNillableGender(r.genderConverter.ToEntity(req.Data.Gender)).
+		SetNillableAuthority(r.authorityConverter.ToEntity(req.Data.Authority)).
 		SetNillableOrgID(req.Data.OrgId).
 		SetNillableWorkID(req.Data.WorkId).
 		SetNillablePositionID(req.Data.PositionId).
@@ -190,7 +190,7 @@ func (r *UserRepo) Create(ctx context.Context, req *userV1.CreateUserRequest) (*
 		r.log.Errorf("insert one data failed: %s", err.Error())
 		return nil, userV1.ErrorInternalServerError("insert data failed")
 	} else {
-		return r.mapper.ToModel(ret), nil
+		return r.mapper.ToDTO(ret), nil
 	}
 }
 
@@ -246,9 +246,9 @@ func (r *UserRepo) Update(ctx context.Context, req *userV1.UpdateUserRequest) er
 		SetNillableRemark(req.Data.Remark).
 		SetNillableLastLoginTime(timeutil.TimestamppbToTime(req.Data.LastLoginTime)).
 		SetNillableLastLoginIP(req.Data.LastLoginIp).
-		SetNillableStatus(r.statusConverter.ToModel(req.Data.Status)).
-		SetNillableGender(r.genderConverter.ToModel(req.Data.Gender)).
-		SetNillableAuthority(r.authorityConverter.ToModel(req.Data.Authority)).
+		SetNillableStatus(r.statusConverter.ToEntity(req.Data.Status)).
+		SetNillableGender(r.genderConverter.ToEntity(req.Data.Gender)).
+		SetNillableAuthority(r.authorityConverter.ToEntity(req.Data.Authority)).
 		SetNillableOrgID(req.Data.OrgId).
 		SetNillableWorkID(req.Data.WorkId).
 		SetNillablePositionID(req.Data.PositionId).
@@ -299,7 +299,7 @@ func (r *UserRepo) GetUserByUserName(ctx context.Context, userName string) (*use
 		return nil, userV1.ErrorBadRequest("invalid parameter")
 	}
 
-	ret, err := r.data.db.Client().User.Query().
+	entity, err := r.data.db.Client().User.Query().
 		Where(user.UsernameEQ(userName)).
 		Only(ctx)
 	if err != nil {
@@ -312,7 +312,7 @@ func (r *UserRepo) GetUserByUserName(ctx context.Context, userName string) (*use
 		return nil, userV1.ErrorInternalServerError("query data failed")
 	}
 
-	return r.mapper.ToModel(ret), nil
+	return r.mapper.ToDTO(entity), nil
 }
 
 func (r *UserRepo) UserExists(ctx context.Context, req *userV1.UserExistsRequest) (*userV1.UserExistsResponse, error) {

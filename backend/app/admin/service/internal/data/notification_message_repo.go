@@ -25,7 +25,7 @@ type NotificationMessageRepo struct {
 	data *Data
 	log  *log.Helper
 
-	mapper          *mapper.CopierMapper[ent.NotificationMessage, internalMessageV1.NotificationMessage]
+	mapper          *mapper.CopierMapper[internalMessageV1.NotificationMessage, ent.NotificationMessage]
 	statusConverter *mapper.EnumTypeConverter[internalMessageV1.MessageStatus, notificationmessage.Status]
 }
 
@@ -33,7 +33,7 @@ func NewNotificationMessageRepo(data *Data, logger log.Logger) *NotificationMess
 	repo := &NotificationMessageRepo{
 		log:             log.NewHelper(log.With(logger, "module", "notification-message/repo/admin-service")),
 		data:            data,
-		mapper:          mapper.NewCopierMapper[ent.NotificationMessage, internalMessageV1.NotificationMessage](),
+		mapper:          mapper.NewCopierMapper[internalMessageV1.NotificationMessage, ent.NotificationMessage](),
 		statusConverter: mapper.NewEnumTypeConverter[internalMessageV1.MessageStatus, notificationmessage.Status](internalMessageV1.MessageStatus_name, internalMessageV1.MessageStatus_value),
 	}
 
@@ -85,16 +85,16 @@ func (r *NotificationMessageRepo) List(ctx context.Context, req *pagination.Pagi
 		builder.Modify(querySelectors...)
 	}
 
-	results, err := builder.All(ctx)
+	entities, err := builder.All(ctx)
 	if err != nil {
 		r.log.Errorf("query list failed: %s", err.Error())
 		return nil, internalMessageV1.ErrorInternalServerError("query list failed")
 	}
 
-	models := make([]*internalMessageV1.NotificationMessage, 0, len(results))
-	for _, dto := range results {
-		model := r.mapper.ToModel(dto)
-		models = append(models, model)
+	dtos := make([]*internalMessageV1.NotificationMessage, 0, len(entities))
+	for _, entity := range entities {
+		dto := r.mapper.ToDTO(entity)
+		dtos = append(dtos, dto)
 	}
 
 	count, err := r.Count(ctx, whereSelectors)
@@ -104,7 +104,7 @@ func (r *NotificationMessageRepo) List(ctx context.Context, req *pagination.Pagi
 
 	return &internalMessageV1.ListNotificationMessageResponse{
 		Total: uint32(count),
-		Items: models,
+		Items: dtos,
 	}, err
 }
 
@@ -124,7 +124,7 @@ func (r *NotificationMessageRepo) Get(ctx context.Context, req *internalMessageV
 		return nil, internalMessageV1.ErrorBadRequest("invalid parameter")
 	}
 
-	dto, err := r.data.db.Client().NotificationMessage.Get(ctx, req.GetId())
+	entity, err := r.data.db.Client().NotificationMessage.Get(ctx, req.GetId())
 	if err != nil {
 		if ent.IsNotFound(err) {
 			return nil, internalMessageV1.ErrorNotFound("message not found")
@@ -135,7 +135,7 @@ func (r *NotificationMessageRepo) Get(ctx context.Context, req *internalMessageV
 		return nil, internalMessageV1.ErrorInternalServerError("query data failed")
 	}
 
-	return r.mapper.ToModel(dto), nil
+	return r.mapper.ToDTO(entity), nil
 }
 
 func (r *NotificationMessageRepo) Create(ctx context.Context, req *internalMessageV1.CreateNotificationMessageRequest) error {
@@ -147,7 +147,7 @@ func (r *NotificationMessageRepo) Create(ctx context.Context, req *internalMessa
 		SetNillableSubject(req.Data.Subject).
 		SetNillableContent(req.Data.Content).
 		SetNillableCategoryID(req.Data.CategoryId).
-		SetNillableStatus(r.statusConverter.ToModel(req.Data.Status)).
+		SetNillableStatus(r.statusConverter.ToEntity(req.Data.Status)).
 		SetNillableCreateBy(req.Data.CreateBy).
 		SetNillableCreateTime(timeutil.TimestamppbToTime(req.Data.CreateTime))
 
@@ -199,7 +199,7 @@ func (r *NotificationMessageRepo) Update(ctx context.Context, req *internalMessa
 		SetNillableSubject(req.Data.Subject).
 		SetNillableContent(req.Data.Content).
 		SetNillableCategoryID(req.Data.CategoryId).
-		SetNillableStatus(r.statusConverter.ToModel(req.Data.Status)).
+		SetNillableStatus(r.statusConverter.ToEntity(req.Data.Status)).
 		SetNillableUpdateBy(req.Data.UpdateBy).
 		SetNillableUpdateTime(timeutil.TimestamppbToTime(req.Data.UpdateTime))
 

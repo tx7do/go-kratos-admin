@@ -25,14 +25,14 @@ type RoleRepo struct {
 	data *Data
 	log  *log.Helper
 
-	mapper *mapper.CopierMapper[ent.Role, userV1.Role]
+	mapper *mapper.CopierMapper[userV1.Role, ent.Role]
 }
 
 func NewRoleRepo(data *Data, logger log.Logger) *RoleRepo {
 	repo := &RoleRepo{
 		log:    log.NewHelper(log.With(logger, "module", "role/repo/admin-service")),
 		data:   data,
-		mapper: mapper.NewCopierMapper[ent.Role, userV1.Role](),
+		mapper: mapper.NewCopierMapper[userV1.Role, ent.Role](),
 	}
 
 	repo.init()
@@ -82,16 +82,16 @@ func (r *RoleRepo) List(ctx context.Context, req *pagination.PagingRequest) (*us
 		builder.Modify(querySelectors...)
 	}
 
-	results, err := builder.All(ctx)
+	entities, err := builder.All(ctx)
 	if err != nil {
 		r.log.Errorf("query list failed: %s", err.Error())
 		return nil, userV1.ErrorInternalServerError("query list failed")
 	}
 
-	models := make([]*userV1.Role, 0, len(results))
-	for _, dto := range results {
-		model := r.mapper.ToModel(dto)
-		models = append(models, model)
+	dtos := make([]*userV1.Role, 0, len(entities))
+	for _, entity := range entities {
+		dto := r.mapper.ToDTO(entity)
+		dtos = append(dtos, dto)
 	}
 
 	count, err := r.Count(ctx, whereSelectors)
@@ -101,7 +101,7 @@ func (r *RoleRepo) List(ctx context.Context, req *pagination.PagingRequest) (*us
 
 	return &userV1.ListRoleResponse{
 		Total: uint32(count),
-		Items: models,
+		Items: dtos,
 	}, err
 }
 
@@ -121,7 +121,7 @@ func (r *RoleRepo) Get(ctx context.Context, id uint32) (*userV1.Role, error) {
 		return nil, userV1.ErrorBadRequest("invalid parameter")
 	}
 
-	dto, err := r.data.db.Client().Role.Get(ctx, id)
+	entity, err := r.data.db.Client().Role.Get(ctx, id)
 	if err != nil {
 		if ent.IsNotFound(err) {
 			return nil, userV1.ErrorRoleNotFound("role not found")
@@ -132,7 +132,7 @@ func (r *RoleRepo) Get(ctx context.Context, id uint32) (*userV1.Role, error) {
 		return nil, userV1.ErrorInternalServerError("query data failed")
 	}
 
-	return r.mapper.ToModel(dto), nil
+	return r.mapper.ToDTO(entity), nil
 }
 
 func (r *RoleRepo) GetRoleByCode(ctx context.Context, code string) (*userV1.Role, error) {
@@ -140,7 +140,7 @@ func (r *RoleRepo) GetRoleByCode(ctx context.Context, code string) (*userV1.Role
 		return nil, userV1.ErrorBadRequest("invalid parameter")
 	}
 
-	ret, err := r.data.db.Client().Role.Query().
+	entity, err := r.data.db.Client().Role.Query().
 		Where(role.CodeEQ(code)).
 		Only(ctx)
 	if err != nil {
@@ -153,7 +153,7 @@ func (r *RoleRepo) GetRoleByCode(ctx context.Context, code string) (*userV1.Role
 		return nil, userV1.ErrorInternalServerError("query data failed")
 	}
 
-	return r.mapper.ToModel(ret), nil
+	return r.mapper.ToDTO(entity), nil
 }
 
 func (r *RoleRepo) Create(ctx context.Context, req *userV1.CreateRoleRequest) error {

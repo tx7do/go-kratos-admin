@@ -25,7 +25,7 @@ type NotificationMessageRecipientRepo struct {
 	data *Data
 	log  *log.Helper
 
-	mapper          *mapper.CopierMapper[ent.NotificationMessageRecipient, internalMessageV1.NotificationMessageRecipient]
+	mapper          *mapper.CopierMapper[internalMessageV1.NotificationMessageRecipient, ent.NotificationMessageRecipient]
 	statusConverter *mapper.EnumTypeConverter[internalMessageV1.MessageStatus, notificationmessagerecipient.Status]
 }
 
@@ -33,7 +33,7 @@ func NewNotificationMessageRecipientRepo(data *Data, logger log.Logger) *Notific
 	repo := &NotificationMessageRecipientRepo{
 		log:             log.NewHelper(log.With(logger, "module", "notification-message-recipient/repo/admin-service")),
 		data:            data,
-		mapper:          mapper.NewCopierMapper[ent.NotificationMessageRecipient, internalMessageV1.NotificationMessageRecipient](),
+		mapper:          mapper.NewCopierMapper[internalMessageV1.NotificationMessageRecipient, ent.NotificationMessageRecipient](),
 		statusConverter: mapper.NewEnumTypeConverter[internalMessageV1.MessageStatus, notificationmessagerecipient.Status](internalMessageV1.MessageStatus_name, internalMessageV1.MessageStatus_value),
 	}
 
@@ -85,16 +85,16 @@ func (r *NotificationMessageRecipientRepo) List(ctx context.Context, req *pagina
 		builder.Modify(querySelectors...)
 	}
 
-	results, err := builder.All(ctx)
+	entities, err := builder.All(ctx)
 	if err != nil {
 		r.log.Errorf("query list failed: %s", err.Error())
 		return nil, internalMessageV1.ErrorInternalServerError("query list failed")
 	}
 
-	models := make([]*internalMessageV1.NotificationMessageRecipient, 0, len(results))
-	for _, dto := range results {
-		model := r.mapper.ToModel(dto)
-		models = append(models, model)
+	dtos := make([]*internalMessageV1.NotificationMessageRecipient, 0, len(entities))
+	for _, entity := range entities {
+		dto := r.mapper.ToDTO(entity)
+		dtos = append(dtos, dto)
 	}
 
 	count, err := r.Count(ctx, whereSelectors)
@@ -104,7 +104,7 @@ func (r *NotificationMessageRecipientRepo) List(ctx context.Context, req *pagina
 
 	return &internalMessageV1.ListNotificationMessageRecipientResponse{
 		Total: uint32(count),
-		Items: models,
+		Items: dtos,
 	}, err
 }
 
@@ -124,7 +124,7 @@ func (r *NotificationMessageRecipientRepo) Get(ctx context.Context, req *interna
 		return nil, internalMessageV1.ErrorBadRequest("invalid parameter")
 	}
 
-	dto, err := r.data.db.Client().NotificationMessageRecipient.Get(ctx, req.GetId())
+	entity, err := r.data.db.Client().NotificationMessageRecipient.Get(ctx, req.GetId())
 	if err != nil {
 		if ent.IsNotFound(err) {
 			return nil, internalMessageV1.ErrorNotFound("message not found")
@@ -135,7 +135,7 @@ func (r *NotificationMessageRecipientRepo) Get(ctx context.Context, req *interna
 		return nil, internalMessageV1.ErrorInternalServerError("query data failed")
 	}
 
-	return r.mapper.ToModel(dto), nil
+	return r.mapper.ToDTO(entity), nil
 }
 
 func (r *NotificationMessageRecipientRepo) Create(ctx context.Context, req *internalMessageV1.CreateNotificationMessageRecipientRequest) error {
@@ -146,7 +146,7 @@ func (r *NotificationMessageRecipientRepo) Create(ctx context.Context, req *inte
 	builder := r.data.db.Client().NotificationMessageRecipient.Create().
 		SetNillableMessageID(req.Data.MessageId).
 		SetNillableRecipientID(req.Data.RecipientId).
-		SetNillableStatus(r.statusConverter.ToModel(req.Data.Status)).
+		SetNillableStatus(r.statusConverter.ToEntity(req.Data.Status)).
 		SetNillableCreateTime(timeutil.TimestamppbToTime(req.Data.CreateTime))
 
 	if req.Data.CreateTime == nil {
@@ -192,7 +192,7 @@ func (r *NotificationMessageRecipientRepo) Update(ctx context.Context, req *inte
 	builder := r.data.db.Client().NotificationMessageRecipient.UpdateOneID(req.Data.GetId()).
 		SetNillableMessageID(req.Data.MessageId).
 		SetNillableRecipientID(req.Data.RecipientId).
-		SetNillableStatus(r.statusConverter.ToModel(req.Data.Status)).
+		SetNillableStatus(r.statusConverter.ToEntity(req.Data.Status)).
 		SetNillableUpdateTime(timeutil.TimestamppbToTime(req.Data.UpdateTime))
 
 	if req.Data.UpdateTime == nil {

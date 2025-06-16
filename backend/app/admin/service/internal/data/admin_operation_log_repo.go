@@ -26,14 +26,14 @@ type AdminOperationLogRepo struct {
 	data *Data
 	log  *log.Helper
 
-	mapper *mapper.CopierMapper[ent.AdminOperationLog, adminV1.AdminOperationLog]
+	mapper *mapper.CopierMapper[adminV1.AdminOperationLog, ent.AdminOperationLog]
 }
 
 func NewAdminOperationLogRepo(data *Data, logger log.Logger) *AdminOperationLogRepo {
 	repo := &AdminOperationLogRepo{
 		log:    log.NewHelper(log.With(logger, "module", "admin-operation-log/repo/admin-service")),
 		data:   data,
-		mapper: mapper.NewCopierMapper[ent.AdminOperationLog, adminV1.AdminOperationLog](),
+		mapper: mapper.NewCopierMapper[adminV1.AdminOperationLog, ent.AdminOperationLog](),
 	}
 
 	repo.init()
@@ -94,16 +94,16 @@ func (r *AdminOperationLogRepo) List(ctx context.Context, req *pagination.Paging
 		builder.Modify(querySelectors...)
 	}
 
-	results, err := builder.All(ctx)
+	entities, err := builder.All(ctx)
 	if err != nil {
 		r.log.Errorf("query list failed: %s", err.Error())
 		return nil, adminV1.ErrorInternalServerError("query list failed")
 	}
 
-	models := make([]*adminV1.AdminOperationLog, 0, len(results))
-	for _, dto := range results {
-		model := r.mapper.ToModel(dto)
-		models = append(models, model)
+	dtos := make([]*adminV1.AdminOperationLog, 0, len(entities))
+	for _, entity := range entities {
+		dto := r.mapper.ToDTO(entity)
+		dtos = append(dtos, dto)
 	}
 
 	count, err := r.Count(ctx, whereSelectors)
@@ -113,7 +113,7 @@ func (r *AdminOperationLogRepo) List(ctx context.Context, req *pagination.Paging
 
 	return &adminV1.ListAdminOperationLogResponse{
 		Total: uint32(count),
-		Items: models,
+		Items: dtos,
 	}, err
 }
 
@@ -133,7 +133,7 @@ func (r *AdminOperationLogRepo) Get(ctx context.Context, req *adminV1.GetAdminOp
 		return nil, adminV1.ErrorBadRequest("invalid parameter")
 	}
 
-	dto, err := r.data.db.Client().AdminOperationLog.Get(ctx, req.GetId())
+	entity, err := r.data.db.Client().AdminOperationLog.Get(ctx, req.GetId())
 	if err != nil {
 		if ent.IsNotFound(err) {
 			return nil, adminV1.ErrorNotFound("admin operation log not found")
@@ -144,7 +144,7 @@ func (r *AdminOperationLogRepo) Get(ctx context.Context, req *adminV1.GetAdminOp
 		return nil, adminV1.ErrorInternalServerError("query data failed")
 	}
 
-	return r.mapper.ToModel(dto), nil
+	return r.mapper.ToDTO(entity), nil
 }
 
 func (r *AdminOperationLogRepo) Create(ctx context.Context, req *adminV1.CreateAdminOperationLogRequest) error {

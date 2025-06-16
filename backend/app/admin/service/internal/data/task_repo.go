@@ -25,7 +25,7 @@ type TaskRepo struct {
 	data *Data
 	log  *log.Helper
 
-	mapper        *mapper.CopierMapper[ent.Task, adminV1.Task]
+	mapper        *mapper.CopierMapper[adminV1.Task, ent.Task]
 	typeConverter *mapper.EnumTypeConverter[adminV1.TaskType, task.Type]
 }
 
@@ -33,7 +33,7 @@ func NewTaskRepo(data *Data, logger log.Logger) *TaskRepo {
 	repo := &TaskRepo{
 		log:           log.NewHelper(log.With(logger, "module", "task/repo/admin-service")),
 		data:          data,
-		mapper:        mapper.NewCopierMapper[ent.Task, adminV1.Task](),
+		mapper:        mapper.NewCopierMapper[adminV1.Task, ent.Task](),
 		typeConverter: mapper.NewEnumTypeConverter[adminV1.TaskType, task.Type](adminV1.TaskType_name, adminV1.TaskType_value),
 	}
 
@@ -85,16 +85,16 @@ func (r *TaskRepo) List(ctx context.Context, req *pagination.PagingRequest) (*ad
 		builder.Modify(querySelectors...)
 	}
 
-	results, err := builder.All(ctx)
+	entities, err := builder.All(ctx)
 	if err != nil {
 		r.log.Errorf("query list failed: %s", err.Error())
 		return nil, adminV1.ErrorInternalServerError("query list failed")
 	}
 
-	models := make([]*adminV1.Task, 0, len(results))
-	for _, dto := range results {
-		model := r.mapper.ToModel(dto)
-		models = append(models, model)
+	dtos := make([]*adminV1.Task, 0, len(entities))
+	for _, entity := range entities {
+		dto := r.mapper.ToDTO(entity)
+		dtos = append(dtos, dto)
 	}
 
 	count, err := r.Count(ctx, whereSelectors)
@@ -104,7 +104,7 @@ func (r *TaskRepo) List(ctx context.Context, req *pagination.PagingRequest) (*ad
 
 	return &adminV1.ListTaskResponse{
 		Total: uint32(count),
-		Items: models,
+		Items: dtos,
 	}, nil
 }
 
@@ -124,7 +124,7 @@ func (r *TaskRepo) Get(ctx context.Context, id uint32) (*adminV1.Task, error) {
 		return nil, adminV1.ErrorBadRequest("invalid parameter")
 	}
 
-	dto, err := r.data.db.Client().Task.Get(ctx, id)
+	entity, err := r.data.db.Client().Task.Get(ctx, id)
 	if err != nil {
 		if ent.IsNotFound(err) {
 			return nil, adminV1.ErrorNotFound("task not found")
@@ -135,7 +135,7 @@ func (r *TaskRepo) Get(ctx context.Context, id uint32) (*adminV1.Task, error) {
 		return nil, adminV1.ErrorInternalServerError("query data failed")
 	}
 
-	return r.mapper.ToModel(dto), nil
+	return r.mapper.ToDTO(entity), nil
 }
 
 func (r *TaskRepo) GetByTypeName(ctx context.Context, typeName string) (*adminV1.Task, error) {
@@ -143,7 +143,7 @@ func (r *TaskRepo) GetByTypeName(ctx context.Context, typeName string) (*adminV1
 		return nil, adminV1.ErrorBadRequest("invalid parameter")
 	}
 
-	ret, err := r.data.db.Client().Task.Query().
+	entity, err := r.data.db.Client().Task.Query().
 		Where(task.TypeNameEQ(typeName)).
 		First(ctx)
 	if err != nil {
@@ -156,7 +156,7 @@ func (r *TaskRepo) GetByTypeName(ctx context.Context, typeName string) (*adminV1
 		return nil, adminV1.ErrorInternalServerError("query data failed")
 	}
 
-	return r.mapper.ToModel(ret), nil
+	return r.mapper.ToDTO(entity), nil
 }
 
 func (r *TaskRepo) Create(ctx context.Context, req *adminV1.CreateTaskRequest) (*adminV1.Task, error) {
@@ -165,7 +165,7 @@ func (r *TaskRepo) Create(ctx context.Context, req *adminV1.CreateTaskRequest) (
 	}
 
 	builder := r.data.db.Client().Task.Create().
-		SetNillableType(r.typeConverter.ToModel(req.Data.Type)).
+		SetNillableType(r.typeConverter.ToEntity(req.Data.Type)).
 		SetNillableTypeName(req.Data.TypeName).
 		SetNillableTaskPayload(req.Data.TaskPayload).
 		SetNillableCronSpec(req.Data.CronSpec).
@@ -192,7 +192,7 @@ func (r *TaskRepo) Create(ctx context.Context, req *adminV1.CreateTaskRequest) (
 		return nil, adminV1.ErrorInternalServerError("insert data failed")
 	}
 
-	return r.mapper.ToModel(t), nil
+	return r.mapper.ToDTO(t), nil
 }
 
 func (r *TaskRepo) Update(ctx context.Context, req *adminV1.UpdateTaskRequest) (*adminV1.Task, error) {
@@ -226,7 +226,7 @@ func (r *TaskRepo) Update(ctx context.Context, req *adminV1.UpdateTaskRequest) (
 	builder := r.data.db.Client().
 		//Debug().
 		Task.UpdateOneID(req.Data.GetId()).
-		SetNillableType(r.typeConverter.ToModel(req.Data.Type)).
+		SetNillableType(r.typeConverter.ToEntity(req.Data.Type)).
 		SetNillableTypeName(req.Data.TypeName).
 		SetNillableTaskPayload(req.Data.TaskPayload).
 		SetNillableCronSpec(req.Data.CronSpec).
@@ -257,7 +257,7 @@ func (r *TaskRepo) Update(ctx context.Context, req *adminV1.UpdateTaskRequest) (
 		return nil, adminV1.ErrorInternalServerError("update data failed")
 	}
 
-	return r.mapper.ToModel(t), nil
+	return r.mapper.ToDTO(t), nil
 }
 
 func (r *TaskRepo) Delete(ctx context.Context, req *adminV1.DeleteTaskRequest) error {

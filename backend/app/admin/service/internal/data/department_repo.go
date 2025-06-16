@@ -26,14 +26,14 @@ type DepartmentRepo struct {
 	data *Data
 	log  *log.Helper
 
-	mapper *mapper.CopierMapper[ent.Department, userV1.Department]
+	mapper *mapper.CopierMapper[userV1.Department, ent.Department]
 }
 
 func NewDepartmentRepo(data *Data, logger log.Logger) *DepartmentRepo {
 	repo := &DepartmentRepo{
 		log:    log.NewHelper(log.With(logger, "module", "department/repo/admin-service")),
 		data:   data,
-		mapper: mapper.NewCopierMapper[ent.Department, userV1.Department](),
+		mapper: mapper.NewCopierMapper[userV1.Department, ent.Department](),
 	}
 
 	repo.init()
@@ -110,38 +110,38 @@ func (r *DepartmentRepo) List(ctx context.Context, req *pagination.PagingRequest
 		builder.Modify(querySelectors...)
 	}
 
-	results, err := builder.All(ctx)
+	entities, err := builder.All(ctx)
 	if err != nil {
 		r.log.Errorf("query list failed: %s", err.Error())
 		return nil, userV1.ErrorInternalServerError("query list failed")
 	}
 
-	sort.SliceStable(results, func(i, j int) bool {
-		if results[j].ParentID == nil {
+	sort.SliceStable(entities, func(i, j int) bool {
+		if entities[j].ParentID == nil {
 			return true
 		}
-		if results[i].ParentID == nil {
+		if entities[i].ParentID == nil {
 			return true
 		}
-		return *results[i].ParentID < *results[j].ParentID
+		return *entities[i].ParentID < *entities[j].ParentID
 	})
 
-	models := make([]*userV1.Department, 0, len(results))
-	for _, dto := range results {
-		if dto.ParentID == nil {
-			model := r.mapper.ToModel(dto)
-			models = append(models, model)
+	dtos := make([]*userV1.Department, 0, len(entities))
+	for _, entity := range entities {
+		if entity.ParentID == nil {
+			dto := r.mapper.ToDTO(entity)
+			dtos = append(dtos, dto)
 		}
 	}
-	for _, dto := range results {
-		if dto.ParentID != nil {
-			model := r.mapper.ToModel(dto)
+	for _, entity := range entities {
+		if entity.ParentID != nil {
+			dto := r.mapper.ToDTO(entity)
 
-			if r.travelChild(models, model) {
+			if r.travelChild(dtos, dto) {
 				continue
 			}
 
-			models = append(models, model)
+			dtos = append(dtos, dto)
 		}
 	}
 
@@ -152,7 +152,7 @@ func (r *DepartmentRepo) List(ctx context.Context, req *pagination.PagingRequest
 
 	ret := userV1.ListDepartmentResponse{
 		Total: uint32(count),
-		Items: models,
+		Items: dtos,
 	}
 
 	return &ret, err
@@ -174,7 +174,7 @@ func (r *DepartmentRepo) Get(ctx context.Context, req *userV1.GetDepartmentReque
 		return nil, userV1.ErrorBadRequest("invalid parameter")
 	}
 
-	dto, err := r.data.db.Client().Department.Get(ctx, req.GetId())
+	entity, err := r.data.db.Client().Department.Get(ctx, req.GetId())
 	if err != nil {
 		if ent.IsNotFound(err) {
 			return nil, userV1.ErrorDepartmentNotFound("department not found")
@@ -185,7 +185,7 @@ func (r *DepartmentRepo) Get(ctx context.Context, req *userV1.GetDepartmentReque
 		return nil, userV1.ErrorInternalServerError("query data failed")
 	}
 
-	return r.mapper.ToModel(dto), nil
+	return r.mapper.ToDTO(entity), nil
 }
 
 func (r *DepartmentRepo) Create(ctx context.Context, req *userV1.CreateDepartmentRequest) error {

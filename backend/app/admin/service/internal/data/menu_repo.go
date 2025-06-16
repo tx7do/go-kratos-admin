@@ -26,7 +26,7 @@ type MenuRepo struct {
 	data *Data
 	log  *log.Helper
 
-	mapper          *mapper.CopierMapper[ent.Menu, adminV1.Menu]
+	mapper          *mapper.CopierMapper[adminV1.Menu, ent.Menu]
 	statusConverter *mapper.EnumTypeConverter[adminV1.MenuStatus, menu.Status]
 	typeConverter   *mapper.EnumTypeConverter[adminV1.MenuType, menu.Type]
 }
@@ -35,7 +35,7 @@ func NewMenuRepo(data *Data, logger log.Logger) *MenuRepo {
 	repo := &MenuRepo{
 		log:             log.NewHelper(log.With(logger, "module", "menu/repo/admin-service")),
 		data:            data,
-		mapper:          mapper.NewCopierMapper[ent.Menu, adminV1.Menu](),
+		mapper:          mapper.NewCopierMapper[adminV1.Menu, ent.Menu](),
 		statusConverter: mapper.NewEnumTypeConverter[adminV1.MenuStatus, menu.Status](adminV1.MenuStatus_name, adminV1.MenuStatus_value),
 		typeConverter:   mapper.NewEnumTypeConverter[adminV1.MenuType, menu.Type](adminV1.MenuType_name, adminV1.MenuType_value),
 	}
@@ -116,35 +116,35 @@ func (r *MenuRepo) List(ctx context.Context, req *pagination.PagingRequest, tree
 		builder.Modify(querySelectors...)
 	}
 
-	results, err := builder.All(ctx)
+	entities, err := builder.All(ctx)
 	if err != nil {
 		r.log.Errorf("query list failed: %s", err.Error())
 		return nil, adminV1.ErrorInternalServerError("query list failed")
 	}
 
-	models := make([]*adminV1.Menu, 0, len(results))
+	dtos := make([]*adminV1.Menu, 0, len(entities))
 	if treeTravel {
-		for _, dto := range results {
-			if dto.ParentID == nil {
-				model := r.mapper.ToModel(dto)
-				models = append(models, model)
+		for _, entity := range entities {
+			if entity.ParentID == nil {
+				dto := r.mapper.ToDTO(entity)
+				dtos = append(dtos, dto)
 			}
 		}
-		for _, dto := range results {
-			if dto.ParentID != nil {
-				model := r.mapper.ToModel(dto)
+		for _, entity := range entities {
+			if entity.ParentID != nil {
+				dto := r.mapper.ToDTO(entity)
 
-				if r.travelChild(models, model) {
+				if r.travelChild(dtos, dto) {
 					continue
 				}
 
-				models = append(models, model)
+				dtos = append(dtos, dto)
 			}
 		}
 	} else {
-		for _, dto := range results {
-			model := r.mapper.ToModel(dto)
-			models = append(models, model)
+		for _, entity := range entities {
+			dto := r.mapper.ToDTO(entity)
+			dtos = append(dtos, dto)
 		}
 	}
 
@@ -155,7 +155,7 @@ func (r *MenuRepo) List(ctx context.Context, req *pagination.PagingRequest, tree
 
 	return &adminV1.ListMenuResponse{
 		Total: uint32(count),
-		Items: models,
+		Items: dtos,
 	}, nil
 }
 
@@ -175,7 +175,7 @@ func (r *MenuRepo) Get(ctx context.Context, req *adminV1.GetMenuRequest) (*admin
 		return nil, adminV1.ErrorBadRequest("invalid parameter")
 	}
 
-	dto, err := r.data.db.Client().Menu.Get(ctx, req.GetId())
+	entity, err := r.data.db.Client().Menu.Get(ctx, req.GetId())
 	if err != nil {
 		if ent.IsNotFound(err) {
 			return nil, adminV1.ErrorNotFound("menu not found")
@@ -186,7 +186,7 @@ func (r *MenuRepo) Get(ctx context.Context, req *adminV1.GetMenuRequest) (*admin
 		return nil, adminV1.ErrorInternalServerError("query data failed")
 	}
 
-	return r.mapper.ToModel(dto), nil
+	return r.mapper.ToDTO(entity), nil
 }
 
 func (r *MenuRepo) Create(ctx context.Context, req *adminV1.CreateMenuRequest) error {
@@ -196,13 +196,13 @@ func (r *MenuRepo) Create(ctx context.Context, req *adminV1.CreateMenuRequest) e
 
 	builder := r.data.db.Client().Menu.Create().
 		SetNillableParentID(req.Data.ParentId).
-		SetNillableType(r.typeConverter.ToModel(req.Data.Type)).
+		SetNillableType(r.typeConverter.ToEntity(req.Data.Type)).
 		SetNillablePath(req.Data.Path).
 		SetNillableRedirect(req.Data.Redirect).
 		SetNillableAlias(req.Data.Alias).
 		SetNillableName(req.Data.Name).
 		SetNillableComponent(req.Data.Component).
-		SetNillableStatus(r.statusConverter.ToModel(req.Data.Status)).
+		SetNillableStatus(r.statusConverter.ToEntity(req.Data.Status)).
 		SetNillableCreateBy(req.Data.CreateBy).
 		SetNillableCreateTime(timeutil.TimestamppbToTime(req.Data.CreateTime))
 
@@ -265,13 +265,13 @@ func (r *MenuRepo) Update(ctx context.Context, req *adminV1.UpdateMenuRequest) e
 		//Debug().
 		Menu.UpdateOneID(req.Data.GetId()).
 		SetNillableParentID(req.Data.ParentId).
-		SetNillableType(r.typeConverter.ToModel(req.Data.Type)).
+		SetNillableType(r.typeConverter.ToEntity(req.Data.Type)).
 		SetNillablePath(req.Data.Path).
 		SetNillableRedirect(req.Data.Redirect).
 		SetNillableAlias(req.Data.Alias).
 		SetNillableName(req.Data.Name).
 		SetNillableComponent(req.Data.Component).
-		SetNillableStatus(r.statusConverter.ToModel(req.Data.Status)).
+		SetNillableStatus(r.statusConverter.ToEntity(req.Data.Status)).
 		SetNillableUpdateBy(req.Data.UpdateBy).
 		SetNillableUpdateTime(timeutil.TimestamppbToTime(req.Data.UpdateTime))
 

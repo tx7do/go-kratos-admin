@@ -26,14 +26,14 @@ type NotificationMessageCategoryRepo struct {
 	data *Data
 	log  *log.Helper
 
-	mapper *mapper.CopierMapper[ent.NotificationMessageCategory, internalMessageV1.NotificationMessageCategory]
+	mapper *mapper.CopierMapper[internalMessageV1.NotificationMessageCategory, ent.NotificationMessageCategory]
 }
 
 func NewNotificationMessageCategoryRepo(data *Data, logger log.Logger) *NotificationMessageCategoryRepo {
 	repo := &NotificationMessageCategoryRepo{
 		log:    log.NewHelper(log.With(logger, "module", "notification-message-category/repo/admin-service")),
 		data:   data,
-		mapper: mapper.NewCopierMapper[ent.NotificationMessageCategory, internalMessageV1.NotificationMessageCategory](),
+		mapper: mapper.NewCopierMapper[internalMessageV1.NotificationMessageCategory, ent.NotificationMessageCategory](),
 	}
 
 	repo.init()
@@ -110,38 +110,38 @@ func (r *NotificationMessageCategoryRepo) List(ctx context.Context, req *paginat
 		builder.Modify(querySelectors...)
 	}
 
-	results, err := builder.All(ctx)
+	entities, err := builder.All(ctx)
 	if err != nil {
 		r.log.Errorf("query list failed: %s", err.Error())
 		return nil, internalMessageV1.ErrorInternalServerError("query list failed")
 	}
 
-	sort.SliceStable(results, func(i, j int) bool {
-		if results[j].ParentID == nil {
+	sort.SliceStable(entities, func(i, j int) bool {
+		if entities[j].ParentID == nil {
 			return true
 		}
-		if results[i].ParentID == nil {
+		if entities[i].ParentID == nil {
 			return true
 		}
-		return *results[i].ParentID < *results[j].ParentID
+		return *entities[i].ParentID < *entities[j].ParentID
 	})
 
-	models := make([]*internalMessageV1.NotificationMessageCategory, 0, len(results))
-	for _, dto := range results {
-		if dto.ParentID == nil {
-			model := r.mapper.ToModel(dto)
-			models = append(models, model)
+	dtos := make([]*internalMessageV1.NotificationMessageCategory, 0, len(entities))
+	for _, entity := range entities {
+		if entity.ParentID == nil {
+			dto := r.mapper.ToDTO(entity)
+			dtos = append(dtos, dto)
 		}
 	}
-	for _, dto := range results {
-		if dto.ParentID != nil {
-			model := r.mapper.ToModel(dto)
+	for _, entity := range entities {
+		if entity.ParentID != nil {
+			dto := r.mapper.ToDTO(entity)
 
-			if r.travelChild(models, model) {
+			if r.travelChild(dtos, dto) {
 				continue
 			}
 
-			models = append(models, model)
+			dtos = append(dtos, dto)
 		}
 	}
 
@@ -152,7 +152,7 @@ func (r *NotificationMessageCategoryRepo) List(ctx context.Context, req *paginat
 
 	return &internalMessageV1.ListNotificationMessageCategoryResponse{
 		Total: uint32(count),
-		Items: models,
+		Items: dtos,
 	}, err
 }
 
@@ -172,7 +172,7 @@ func (r *NotificationMessageCategoryRepo) Get(ctx context.Context, req *internal
 		return nil, internalMessageV1.ErrorBadRequest("invalid parameter")
 	}
 
-	dto, err := r.data.db.Client().NotificationMessageCategory.Get(ctx, req.GetId())
+	entity, err := r.data.db.Client().NotificationMessageCategory.Get(ctx, req.GetId())
 	if err != nil {
 		if ent.IsNotFound(err) {
 			return nil, internalMessageV1.ErrorNotFound("message category not found")
@@ -183,7 +183,7 @@ func (r *NotificationMessageCategoryRepo) Get(ctx context.Context, req *internal
 		return nil, internalMessageV1.ErrorInternalServerError("query data failed")
 	}
 
-	return r.mapper.ToModel(dto), nil
+	return r.mapper.ToDTO(entity), nil
 }
 
 func (r *NotificationMessageCategoryRepo) Create(ctx context.Context, req *internalMessageV1.CreateNotificationMessageCategoryRequest) error {

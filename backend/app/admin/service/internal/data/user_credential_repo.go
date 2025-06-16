@@ -28,7 +28,7 @@ type UserCredentialRepo struct {
 	data *Data
 	log  *log.Helper
 
-	mapper                  *mapper.CopierMapper[ent.UserCredential, authenticationV1.UserCredential]
+	mapper                  *mapper.CopierMapper[authenticationV1.UserCredential, ent.UserCredential]
 	statusConverter         *mapper.EnumTypeConverter[authenticationV1.UserCredentialStatus, usercredential.Status]
 	identityTypeConverter   *mapper.EnumTypeConverter[authenticationV1.IdentityType, usercredential.IdentityType]
 	credentialTypeConverter *mapper.EnumTypeConverter[authenticationV1.CredentialType, usercredential.CredentialType]
@@ -38,7 +38,7 @@ func NewUserCredentialRepo(data *Data, logger log.Logger) *UserCredentialRepo {
 	repo := &UserCredentialRepo{
 		log:                     log.NewHelper(log.With(logger, "module", "user-credentials/repo/admin-service")),
 		data:                    data,
-		mapper:                  mapper.NewCopierMapper[ent.UserCredential, authenticationV1.UserCredential](),
+		mapper:                  mapper.NewCopierMapper[authenticationV1.UserCredential, ent.UserCredential](),
 		statusConverter:         mapper.NewEnumTypeConverter[authenticationV1.UserCredentialStatus, usercredential.Status](authenticationV1.UserCredentialStatus_name, authenticationV1.UserCredentialStatus_value),
 		identityTypeConverter:   mapper.NewEnumTypeConverter[authenticationV1.IdentityType, usercredential.IdentityType](authenticationV1.IdentityType_name, authenticationV1.IdentityType_value),
 		credentialTypeConverter: mapper.NewEnumTypeConverter[authenticationV1.CredentialType, usercredential.CredentialType](authenticationV1.CredentialType_name, authenticationV1.CredentialType_value),
@@ -105,16 +105,16 @@ func (r *UserCredentialRepo) List(ctx context.Context, req *pagination.PagingReq
 		builder.Modify(querySelectors...)
 	}
 
-	results, err := builder.All(ctx)
+	entities, err := builder.All(ctx)
 	if err != nil {
 		r.log.Errorf("query list failed: %s", err.Error())
 		return nil, authenticationV1.ErrorInternalServerError("query list failed")
 	}
 
-	models := make([]*authenticationV1.UserCredential, 0, len(results))
-	for _, dto := range results {
-		model := r.mapper.ToModel(dto)
-		models = append(models, model)
+	dtos := make([]*authenticationV1.UserCredential, 0, len(entities))
+	for _, entity := range entities {
+		dto := r.mapper.ToDTO(entity)
+		dtos = append(dtos, dto)
 	}
 
 	count, err := r.Count(ctx, whereSelectors)
@@ -124,7 +124,7 @@ func (r *UserCredentialRepo) List(ctx context.Context, req *pagination.PagingReq
 
 	return &authenticationV1.ListUserCredentialResponse{
 		Total: uint32(count),
-		Items: models,
+		Items: dtos,
 	}, nil
 }
 
@@ -137,7 +137,7 @@ func (r *UserCredentialRepo) Create(ctx context.Context, req *authenticationV1.C
 
 	if req.Data.Credential != nil {
 		var newCredential string
-		newCredential, err = r.prepareCredential(r.credentialTypeConverter.ToModel(req.Data.CredentialType), req.Data.GetCredential())
+		newCredential, err = r.prepareCredential(r.credentialTypeConverter.ToEntity(req.Data.CredentialType), req.Data.GetCredential())
 		if err != nil {
 			r.log.Errorf("prepare new credential failed: %s", err.Error())
 			return authenticationV1.ErrorBadRequest("prepare new credential failed")
@@ -149,12 +149,12 @@ func (r *UserCredentialRepo) Create(ctx context.Context, req *authenticationV1.C
 	builder.
 		SetUserID(req.Data.GetUserId()).
 		SetNillableTenantID(req.Data.TenantId).
-		SetNillableIdentityType(r.identityTypeConverter.ToModel(req.Data.IdentityType)).
+		SetNillableIdentityType(r.identityTypeConverter.ToEntity(req.Data.IdentityType)).
 		SetNillableIdentifier(req.Data.Identifier).
-		SetNillableCredentialType(r.credentialTypeConverter.ToModel(req.Data.CredentialType)).
+		SetNillableCredentialType(r.credentialTypeConverter.ToEntity(req.Data.CredentialType)).
 		SetNillableCredential(req.Data.Credential).
 		SetNillableIsPrimary(req.Data.IsPrimary).
-		SetNillableStatus(r.statusConverter.ToModel(req.Data.Status)).
+		SetNillableStatus(r.statusConverter.ToEntity(req.Data.Status)).
 		SetNillableExtraInfo(req.Data.ExtraInfo).
 		SetNillableCreateTime(timeutil.TimestamppbToTime(req.Data.CreateTime))
 
@@ -191,7 +191,7 @@ func (r *UserCredentialRepo) Update(ctx context.Context, req *authenticationV1.U
 
 	if req.Data.Credential != nil {
 		var newCredential string
-		newCredential, err = r.prepareCredential(r.credentialTypeConverter.ToModel(req.Data.CredentialType), req.Data.GetCredential())
+		newCredential, err = r.prepareCredential(r.credentialTypeConverter.ToEntity(req.Data.CredentialType), req.Data.GetCredential())
 		if err != nil {
 			r.log.Errorf("prepare new credential failed: %s", err.Error())
 			return authenticationV1.ErrorBadRequest("prepare new credential failed")
@@ -209,12 +209,12 @@ func (r *UserCredentialRepo) Update(ctx context.Context, req *authenticationV1.U
 	}
 
 	builder := r.data.db.Client().UserCredential.UpdateOneID(req.Data.Id).
-		SetNillableIdentityType(r.identityTypeConverter.ToModel(req.Data.IdentityType)).
+		SetNillableIdentityType(r.identityTypeConverter.ToEntity(req.Data.IdentityType)).
 		SetNillableIdentifier(req.Data.Identifier).
-		SetNillableCredentialType(r.credentialTypeConverter.ToModel(req.Data.CredentialType)).
+		SetNillableCredentialType(r.credentialTypeConverter.ToEntity(req.Data.CredentialType)).
 		SetNillableCredential(req.Data.Credential).
 		SetNillableIsPrimary(req.Data.IsPrimary).
-		SetNillableStatus(r.statusConverter.ToModel(req.Data.Status)).
+		SetNillableStatus(r.statusConverter.ToEntity(req.Data.Status)).
 		SetNillableExtraInfo(req.Data.ExtraInfo).
 		SetNillableUpdateTime(timeutil.TimestamppbToTime(req.Data.UpdateTime))
 
@@ -281,7 +281,7 @@ func (r *UserCredentialRepo) DeleteByUserId(ctx context.Context, userId uint32) 
 func (r *UserCredentialRepo) DeleteByIdentifier(ctx context.Context, identityType authenticationV1.IdentityType, identifier string) error {
 	builder := r.data.db.Client().UserCredential.Delete()
 	builder.Where(
-		usercredential.IdentityTypeEQ(*r.identityTypeConverter.ToModel(&identityType)),
+		usercredential.IdentityTypeEQ(*r.identityTypeConverter.ToEntity(&identityType)),
 		usercredential.IdentifierEQ(identifier),
 	)
 	if affected, err := builder.Exec(ctx); err != nil {
@@ -308,7 +308,7 @@ func (r *UserCredentialRepo) Get(ctx context.Context, req *authenticationV1.GetU
 		usercredential.IDEQ(req.GetId()),
 	)
 
-	ret, err := builder.Only(ctx)
+	entity, err := builder.Only(ctx)
 	if err != nil {
 		if ent.IsNotFound(err) {
 			return nil, authenticationV1.ErrorNotFound("user credential not found")
@@ -319,18 +319,18 @@ func (r *UserCredentialRepo) Get(ctx context.Context, req *authenticationV1.GetU
 		return nil, authenticationV1.ErrorInternalServerError("query data failed")
 	}
 
-	return r.mapper.ToModel(ret), nil
+	return r.mapper.ToDTO(entity), nil
 }
 
 func (r *UserCredentialRepo) GetByIdentifier(ctx context.Context, req *authenticationV1.GetUserCredentialByIdentifierRequest) (*authenticationV1.UserCredential, error) {
 	builder := r.data.db.Client().UserCredential.Query()
 
 	builder.Where(
-		usercredential.IdentityTypeEQ(*r.identityTypeConverter.ToModel(trans.Ptr(req.GetIdentityType()))),
+		usercredential.IdentityTypeEQ(*r.identityTypeConverter.ToEntity(trans.Ptr(req.GetIdentityType()))),
 		usercredential.IdentifierEQ(req.GetIdentifier()),
 	)
 
-	ret, err := builder.Only(ctx)
+	entity, err := builder.Only(ctx)
 	if err != nil {
 		if ent.IsNotFound(err) {
 			return nil, authenticationV1.ErrorNotFound("user credential not found")
@@ -341,7 +341,7 @@ func (r *UserCredentialRepo) GetByIdentifier(ctx context.Context, req *authentic
 		return nil, authenticationV1.ErrorInternalServerError("query data failed")
 	}
 
-	return r.mapper.ToModel(ret), nil
+	return r.mapper.ToDTO(entity), nil
 }
 
 func (r *UserCredentialRepo) VerifyCredential(ctx context.Context, req *authenticationV1.VerifyCredentialRequest) (*authenticationV1.VerifyCredentialResponse, error) {
@@ -365,10 +365,10 @@ func (r *UserCredentialRepo) VerifyCredential(ctx context.Context, req *authenti
 		req.Credential = string(plainPassword)
 	}
 
-	ret, err := r.data.db.Client().UserCredential.Query().
+	entity, err := r.data.db.Client().UserCredential.Query().
 		Select(usercredential.FieldCredentialType, usercredential.FieldCredential, usercredential.FieldStatus).
 		Where(
-			usercredential.IdentityTypeEQ(*r.identityTypeConverter.ToModel(trans.Ptr(req.GetIdentityType()))),
+			usercredential.IdentityTypeEQ(*r.identityTypeConverter.ToEntity(trans.Ptr(req.GetIdentityType()))),
 			usercredential.IdentifierEQ(req.GetIdentifier()),
 		).
 		Only(ctx)
@@ -386,13 +386,13 @@ func (r *UserCredentialRepo) VerifyCredential(ctx context.Context, req *authenti
 		}, authenticationV1.ErrorServiceUnavailable("db error")
 	}
 
-	if *ret.Status != usercredential.StatusEnabled {
+	if *entity.Status != usercredential.StatusEnabled {
 		return &authenticationV1.VerifyCredentialResponse{
 			Success: false,
 		}, authenticationV1.ErrorUserFreeze("account has freeze")
 	}
 
-	if !r.verifyCredential(ret.CredentialType, req.GetCredential(), *ret.Credential) {
+	if !r.verifyCredential(entity.CredentialType, req.GetCredential(), *entity.Credential) {
 		return &authenticationV1.VerifyCredentialResponse{
 			Success: false,
 		}, authenticationV1.ErrorIncorrectPassword("incorrect password")
@@ -447,14 +447,14 @@ func (r *UserCredentialRepo) ChangeCredential(ctx context.Context, req *authenti
 		req.NewCredential = string(plainPassword)
 	}
 
-	ret, err := r.data.db.Client().UserCredential.
+	entity, err := r.data.db.Client().UserCredential.
 		Query().
 		Select(
 			usercredential.FieldCredentialType,
 			usercredential.FieldCredential,
 		).
 		Where(
-			usercredential.IdentityTypeEQ(*r.identityTypeConverter.ToModel(trans.Ptr(req.GetIdentityType()))),
+			usercredential.IdentityTypeEQ(*r.identityTypeConverter.ToEntity(trans.Ptr(req.GetIdentityType()))),
 			usercredential.IdentifierEQ(req.GetIdentifier()),
 		).
 		Only(ctx)
@@ -463,17 +463,17 @@ func (r *UserCredentialRepo) ChangeCredential(ctx context.Context, req *authenti
 		return authenticationV1.ErrorInternalServerError("query one data failed")
 	}
 
-	if ret.CredentialType == nil {
+	if entity.CredentialType == nil {
 		return authenticationV1.ErrorNotFound("user credential not found")
 	}
 
 	// 验证旧认证信息
-	if !r.verifyCredential(ret.CredentialType, req.GetOldCredential(), *ret.Credential) {
+	if !r.verifyCredential(entity.CredentialType, req.GetOldCredential(), *entity.Credential) {
 		return authenticationV1.ErrorBadRequest("invalid old password")
 	}
 
 	var newCredential string
-	newCredential, err = r.prepareCredential(ret.CredentialType, req.GetOldCredential())
+	newCredential, err = r.prepareCredential(entity.CredentialType, req.GetOldCredential())
 	if err != nil {
 		r.log.Errorf("prepare new credential failed: %s", err.Error())
 		return authenticationV1.ErrorBadRequest("prepare new credential failed")
@@ -485,7 +485,7 @@ func (r *UserCredentialRepo) ChangeCredential(ctx context.Context, req *authenti
 
 	builder := r.data.db.Client().UserCredential.Update()
 	builder.Where(
-		usercredential.IdentityTypeEQ(*r.identityTypeConverter.ToModel(trans.Ptr(req.GetIdentityType()))),
+		usercredential.IdentityTypeEQ(*r.identityTypeConverter.ToEntity(trans.Ptr(req.GetIdentityType()))),
 		usercredential.IdentifierEQ(req.GetIdentifier()),
 	)
 	builder.
@@ -507,13 +507,13 @@ func (r *UserCredentialRepo) ResetCredential(ctx context.Context, req *authentic
 		req.NewCredential = string(plainPassword)
 	}
 
-	ret, err := r.data.db.Client().UserCredential.
+	entity, err := r.data.db.Client().UserCredential.
 		Query().
 		Select(
 			usercredential.FieldCredentialType,
 		).
 		Where(
-			usercredential.IdentityTypeEQ(*r.identityTypeConverter.ToModel(trans.Ptr(req.GetIdentityType()))),
+			usercredential.IdentityTypeEQ(*r.identityTypeConverter.ToEntity(trans.Ptr(req.GetIdentityType()))),
 			usercredential.IdentifierEQ(req.GetIdentifier()),
 		).
 		Only(ctx)
@@ -522,12 +522,12 @@ func (r *UserCredentialRepo) ResetCredential(ctx context.Context, req *authentic
 		return authenticationV1.ErrorInternalServerError("query one data failed")
 	}
 
-	if ret.CredentialType == nil {
+	if entity.CredentialType == nil {
 		return authenticationV1.ErrorNotFound("user credential not found")
 	}
 
 	var newCredential string
-	newCredential, err = r.prepareCredential(ret.CredentialType, req.GetNewCredential())
+	newCredential, err = r.prepareCredential(entity.CredentialType, req.GetNewCredential())
 	if err != nil {
 		r.log.Errorf("prepare new credential failed: %s", err.Error())
 		return authenticationV1.ErrorBadRequest("prepare new credential failed")
@@ -539,7 +539,7 @@ func (r *UserCredentialRepo) ResetCredential(ctx context.Context, req *authentic
 
 	builder := r.data.db.Client().UserCredential.Update()
 	builder.Where(
-		usercredential.IdentityTypeEQ(*r.identityTypeConverter.ToModel(trans.Ptr(req.GetIdentityType()))),
+		usercredential.IdentityTypeEQ(*r.identityTypeConverter.ToEntity(trans.Ptr(req.GetIdentityType()))),
 		usercredential.IdentifierEQ(req.GetIdentifier()),
 	)
 	builder.

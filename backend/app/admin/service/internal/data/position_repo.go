@@ -25,14 +25,14 @@ type PositionRepo struct {
 	data *Data
 	log  *log.Helper
 
-	mapper *mapper.CopierMapper[ent.Position, userV1.Position]
+	mapper *mapper.CopierMapper[userV1.Position, ent.Position]
 }
 
 func NewPositionRepo(data *Data, logger log.Logger) *PositionRepo {
 	repo := &PositionRepo{
 		log:    log.NewHelper(log.With(logger, "module", "position/repo/admin-service")),
 		data:   data,
-		mapper: mapper.NewCopierMapper[ent.Position, userV1.Position](),
+		mapper: mapper.NewCopierMapper[userV1.Position, ent.Position](),
 	}
 
 	repo.init()
@@ -82,16 +82,16 @@ func (r *PositionRepo) List(ctx context.Context, req *pagination.PagingRequest) 
 		builder.Modify(querySelectors...)
 	}
 
-	results, err := builder.All(ctx)
+	entities, err := builder.All(ctx)
 	if err != nil {
 		r.log.Errorf("query list failed: %s", err.Error())
 		return nil, userV1.ErrorInternalServerError("query list failed")
 	}
 
-	models := make([]*userV1.Position, 0, len(results))
-	for _, dto := range results {
-		model := r.mapper.ToModel(dto)
-		models = append(models, model)
+	dtos := make([]*userV1.Position, 0, len(entities))
+	for _, entity := range entities {
+		dto := r.mapper.ToDTO(entity)
+		dtos = append(dtos, dto)
 	}
 
 	count, err := r.Count(ctx, whereSelectors)
@@ -101,7 +101,7 @@ func (r *PositionRepo) List(ctx context.Context, req *pagination.PagingRequest) 
 
 	return &userV1.ListPositionResponse{
 		Total: uint32(count),
-		Items: models,
+		Items: dtos,
 	}, err
 }
 
@@ -121,7 +121,7 @@ func (r *PositionRepo) Get(ctx context.Context, req *userV1.GetPositionRequest) 
 		return nil, userV1.ErrorBadRequest("invalid parameter")
 	}
 
-	dto, err := r.data.db.Client().Position.Get(ctx, req.GetId())
+	entity, err := r.data.db.Client().Position.Get(ctx, req.GetId())
 	if err != nil {
 		if ent.IsNotFound(err) {
 			return nil, userV1.ErrorPositionNotFound("position not found")
@@ -132,7 +132,7 @@ func (r *PositionRepo) Get(ctx context.Context, req *userV1.GetPositionRequest) 
 		return nil, userV1.ErrorInternalServerError("query data failed")
 	}
 
-	return r.mapper.ToModel(dto), nil
+	return r.mapper.ToDTO(entity), nil
 }
 
 func (r *PositionRepo) Create(ctx context.Context, req *userV1.CreatePositionRequest) error {

@@ -6,6 +6,7 @@ import (
 	"github.com/go-kratos/kratos/v2/log"
 	"github.com/go-kratos/kratos/v2/transport/http"
 
+	"entgo.io/ent/dialect/sql"
 	"github.com/getkin/kin-openapi/openapi3"
 	"github.com/tx7do/go-utils/trans"
 	pagination "github.com/tx7do/kratos-bootstrap/api/gen/go/pagination/v1"
@@ -31,10 +32,17 @@ type ApiResourceService struct {
 
 func NewApiResourceService(logger log.Logger, repo *data.ApiResourceRepo) *ApiResourceService {
 	l := log.NewHelper(log.With(logger, "module", "api-resource/service/admin-service"))
-	return &ApiResourceService{
+	svc := &ApiResourceService{
 		log:  l,
 		repo: repo,
 	}
+
+	ctx := context.Background()
+	if count, _ := repo.Count(ctx, []func(s *sql.Selector){}); count == 0 {
+		_, _ = svc.SyncApiResources(ctx, &emptypb.Empty{})
+	}
+
+	return svc
 }
 
 func (s *ApiResourceService) List(ctx context.Context, req *pagination.PagingRequest) (*adminV1.ListApiResourceResponse, error) {

@@ -3,6 +3,7 @@ package service
 import (
 	"context"
 
+	"entgo.io/ent/dialect/sql"
 	"github.com/go-kratos/kratos/v2/log"
 	"github.com/tx7do/go-utils/trans"
 	pagination "github.com/tx7do/kratos-bootstrap/api/gen/go/pagination/v1"
@@ -34,12 +35,19 @@ func NewUserService(
 	userCredentialsRepo *data.UserCredentialRepo,
 ) *UserService {
 	l := log.NewHelper(log.With(logger, "module", "user/service/admin-service"))
-	return &UserService{
+	svc := &UserService{
 		log:                 l,
 		userRepo:            userRepo,
 		roleRepo:            roleRepo,
 		userCredentialsRepo: userCredentialsRepo,
 	}
+
+	ctx := context.Background()
+	if count, _ := svc.userRepo.Count(ctx, []func(s *sql.Selector){}); count == 0 {
+		_ = svc.CreateDefaultUser(ctx)
+	}
+
+	return svc
 }
 
 func (s *UserService) List(ctx context.Context, req *pagination.PagingRequest) (*userV1.ListUserResponse, error) {
@@ -233,4 +241,43 @@ func (s *UserService) Delete(ctx context.Context, req *userV1.DeleteUserRequest)
 
 func (s *UserService) UserExists(ctx context.Context, req *userV1.UserExistsRequest) (*userV1.UserExistsResponse, error) {
 	return s.userRepo.UserExists(ctx, req)
+}
+
+// CreateDefaultUser 创建默认用户，即超级用户
+func (s *UserService) CreateDefaultUser(ctx context.Context) error {
+	var err error
+
+	if _, err = s.userRepo.Create(ctx, &userV1.CreateUserRequest{
+		Data: &userV1.User{
+			Id:        trans.Ptr(uint32(1)),
+			Username:  trans.Ptr("admin"),
+			Realname:  trans.Ptr("大灰狼"),
+			Nickname:  trans.Ptr("鹳狸猿"),
+			Region:    trans.Ptr("中国"),
+			Email:     trans.Ptr("admin@gmail.com"),
+			Authority: userV1.UserAuthority_SYS_ADMIN.Enum(),
+			Roles:     []string{"super"},
+		},
+	}); err != nil {
+		s.log.Errorf("create default user err: %v", err)
+		return err
+	}
+
+	err = s.userCredentialsRepo.Create(ctx, &authenticationV1.CreateUserCredentialRequest{
+		Data: &authenticationV1.UserCredential{
+			UserId:         trans.Ptr(uint32(1)),
+			IdentityType:   authenticationV1.IdentityType_USERNAME.Enum(),
+			Identifier:     trans.Ptr("admin"),
+			CredentialType: authenticationV1.CredentialType_PASSWORD_HASH.Enum(),
+			Credential:     trans.Ptr("admin"),
+			IsPrimary:      trans.Ptr(true),
+			Status:         authenticationV1.UserCredentialStatus_ENABLED.Enum(),
+		},
+	})
+	if err != nil {
+		s.log.Errorf("create default user credential err: %v", err)
+		return err
+	}
+
+	return err
 }

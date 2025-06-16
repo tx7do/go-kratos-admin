@@ -34,6 +34,7 @@ require (
 	github.com/tx7do/go-utils/geoip v1.1.5
 	github.com/tx7do/go-utils/jwtutil v0.0.2
 	github.com/tx7do/go-utils/mapper v0.0.3
+	github.com/tx7do/go-utils/password v0.0.1
 	github.com/tx7do/kratos-authn v1.1.8
 	github.com/tx7do/kratos-authn/engine/jwt v1.1.8
 	github.com/tx7do/kratos-authn/middleware v1.1.9
@@ -41,7 +42,7 @@ require (
 	github.com/tx7do/kratos-authz/engine/casbin v1.1.8
 	github.com/tx7do/kratos-authz/engine/opa v1.1.10
 	github.com/tx7do/kratos-authz/middleware v1.1.7
-	github.com/tx7do/kratos-bootstrap/api v0.0.23
+	github.com/tx7do/kratos-bootstrap/api v0.0.24
 	github.com/tx7do/kratos-bootstrap/bootstrap v0.0.17
 	github.com/tx7do/kratos-bootstrap/cache/redis v0.0.11
 	github.com/tx7do/kratos-bootstrap/oss/minio v0.0.10
@@ -133,7 +134,7 @@ require (
 	github.com/go-openapi/jsonreference v0.21.0 // indirect
 	github.com/go-openapi/swag v0.23.1 // indirect
 	github.com/go-playground/form/v4 v4.2.1 // indirect
-	github.com/go-viper/mapstructure/v2 v2.2.1 // indirect
+	github.com/go-viper/mapstructure/v2 v2.3.0 // indirect
 	github.com/go-zookeeper/zk v1.0.4 // indirect
 	github.com/gobwas/glob v0.2.3 // indirect
 	github.com/goccy/go-json v0.10.5 // indirect

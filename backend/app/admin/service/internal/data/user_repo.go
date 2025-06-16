@@ -32,7 +32,7 @@ type UserRepo struct {
 	authorityConverter *mapper.EnumTypeConverter[userV1.UserAuthority, user.Authority]
 }
 
-func NewUserRepo(data *Data, logger log.Logger) *UserRepo {
+func NewUserRepo(logger log.Logger, data *Data) *UserRepo {
 	repo := &UserRepo{
 		log:                log.NewHelper(log.With(logger, "module", "user/repo/admin-service")),
 		data:               data,

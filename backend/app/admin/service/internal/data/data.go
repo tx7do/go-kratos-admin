@@ -8,6 +8,8 @@ import (
 	"github.com/tx7do/kratos-authn/engine/jwt"
 
 	"github.com/tx7do/go-utils/entgo"
+	"github.com/tx7do/go-utils/password"
+
 	conf "github.com/tx7do/kratos-bootstrap/api/gen/go/conf/v1"
 	redisClient "github.com/tx7do/kratos-bootstrap/cache/redis"
 
@@ -106,4 +108,13 @@ func NewUserTokenRepo(logger log.Logger, rdb *redis.Client, authenticator authnE
 
 func NewMinIoClient(cfg *conf.Bootstrap, logger log.Logger) *oss.MinIOClient {
 	return oss.NewMinIoClient(cfg, logger)
+}
+
+func NewPasswordCrypto() password.Crypto {
+	crypto, err := password.CreateCrypto("bcrypt")
+	if err != nil {
+		panic(err)
+		return nil
+	}
+	return crypto
 }

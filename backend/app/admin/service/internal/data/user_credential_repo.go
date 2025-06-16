@@ -15,6 +15,7 @@ import (
 	entgoUpdate "github.com/tx7do/go-utils/entgo/update"
 	"github.com/tx7do/go-utils/fieldmaskutil"
 	"github.com/tx7do/go-utils/mapper"
+	"github.com/tx7do/go-utils/password"
 	"github.com/tx7do/go-utils/timeutil"
 	"github.com/tx7do/go-utils/trans"
 
@@ -32,12 +33,15 @@ type UserCredentialRepo struct {
 	statusConverter         *mapper.EnumTypeConverter[authenticationV1.UserCredentialStatus, usercredential.Status]
 	identityTypeConverter   *mapper.EnumTypeConverter[authenticationV1.IdentityType, usercredential.IdentityType]
 	credentialTypeConverter *mapper.EnumTypeConverter[authenticationV1.CredentialType, usercredential.CredentialType]
+
+	passwordCrypto password.Crypto
 }
 
-func NewUserCredentialRepo(data *Data, logger log.Logger) *UserCredentialRepo {
+func NewUserCredentialRepo(logger log.Logger, data *Data, passwordCrypto password.Crypto) *UserCredentialRepo {
 	repo := &UserCredentialRepo{
 		log:                     log.NewHelper(log.With(logger, "module", "user-credentials/repo/admin-service")),
 		data:                    data,
+		passwordCrypto:          passwordCrypto,
 		mapper:                  mapper.NewCopierMapper[authenticationV1.UserCredential, ent.UserCredential](),
 		statusConverter:         mapper.NewEnumTypeConverter[authenticationV1.UserCredentialStatus, usercredential.Status](authenticationV1.UserCredentialStatus_name, authenticationV1.UserCredentialStatus_value),
 		identityTypeConverter:   mapper.NewEnumTypeConverter[authenticationV1.IdentityType, usercredential.IdentityType](authenticationV1.IdentityType_name, authenticationV1.IdentityType_value),
@@ -410,7 +414,12 @@ func (r *UserCredentialRepo) verifyCredential(credentialType *usercredential.Cre
 
 	switch *credentialType {
 	case usercredential.CredentialTypePasswordHash:
-		return crypto.VerifyPassword(plainCredential, targetCredential)
+		ok, err := r.passwordCrypto.Verify(plainCredential, targetCredential)
+		if err != nil {
+			r.log.Errorf("verify password failed: %s", err.Error())
+			return false
+		}
+		return ok
 	default:
 		return plainCredential == targetCredential
 	}
@@ -422,7 +431,7 @@ func (r *UserCredentialRepo) prepareCredential(credentialType *usercredential.Cr
 	case usercredential.CredentialTypePasswordHash:
 		var err error
 		// 加密明文密码
-		newCredential, err = crypto.HashPassword(plainCredential)
+		newCredential, err = r.passwordCrypto.Encrypt(plainCredential)
 		if err != nil {
 			r.log.Errorf("hash new password failed: %s", err.Error())
 			return "", authenticationV1.ErrorBadRequest("hash new password failed")

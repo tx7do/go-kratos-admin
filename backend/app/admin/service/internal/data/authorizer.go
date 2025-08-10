@@ -167,6 +167,7 @@ func (a *Authorizer) ResetPolicies(ctx context.Context) error {
 		a.log.Errorf("set policies error: %v", err)
 		return err
 	}
+	a.log.Infof("Reloaded policy rules")
 
 	return nil
 }

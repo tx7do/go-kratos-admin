@@ -10,7 +10,7 @@ registry:
 
   etcd:
     endpoints:
-      - "127.0.0.1:2379"
+      - "etcd:2379"
 
   zookeeper:
     endpoints:

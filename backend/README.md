@@ -97,7 +97,13 @@ make plugin
 #### 使用docker-compose部署整套服务（包含三方中间件）
 
 ```bash
-make docker-compose
+make compose-up
+```
+
+#### 停止docker-compose部署的整套服务（包含三方中间件）
+
+```bash
+make compose-down
 ```
 
 ### 在`app/{服务名}/service`下执行：

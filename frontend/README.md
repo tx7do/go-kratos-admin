@@ -29,7 +29,7 @@ pnpm build
 - 查看ESlint
 
 ```bash
-eslint --inspect-config
+npx eslint --inspect-config
 ```
 
 ## API文档

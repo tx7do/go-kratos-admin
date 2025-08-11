@@ -7,7 +7,6 @@ toolchain go1.24.3
 replace (
 	github.com/armon/go-metrics => github.com/hashicorp/go-metrics v0.4.1
 	github.com/bufbuild/protovalidate-go => buf.build/go/protovalidate v0.10.1
-	github.com/imdario/mergo => dario.cat/mergo v0.3.16
 )
 
 require (

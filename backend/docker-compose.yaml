@@ -113,7 +113,7 @@ services:
       - postgres
       - redis
       - minio
-      - consul
+      - etcd
       - jaeger
     build:
       context: ./  # 指定 Dockerfile 所在的上下文路径

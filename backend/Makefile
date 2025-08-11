@@ -40,9 +40,12 @@ cli:
 	@go install github.com/tx7do/kratos-cli/sql-proto/cmd/sql2proto@latest
 	@go install github.com/tx7do/kratos-cli/sql-kratos/cmd/sql2kratos@latest
 
-# use docker compose install middleware.
-docker-compose:
+# use docker compose to run backend services and all its dependency services like redis, mysql, etc.
+compose-up:
 	@docker compose up -d --force-recreate
+
+compose-down:
+	@docker compose down
 
 # download dependencies of module
 dep:

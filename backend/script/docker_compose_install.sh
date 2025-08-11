@@ -1,5 +1,9 @@
+#!/bin/bash
+
+set -e
+
 app_root=/root/app
-deps=["postgres", "redis", "consul", "minio", "jaeger"]
+deps=("postgres" "redis" "consul" "minio" "jaeger")
 
 # 为三方服务创建文件夹，并赋权。
 for dep in ${deps[@]}

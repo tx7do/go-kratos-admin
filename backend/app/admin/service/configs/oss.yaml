@@ -1,8 +1,8 @@
 oss:
   minio:
-    endpoint: "localhost:9000"
-    upload_host: "localhost:9000"
-    download_host: "http://localhost:9000"
+    endpoint: "minio:9000"
+    upload_host: "minio:9000"
+    download_host: "http://minio:9000"
     access_key: "root"
     secret_key: "*Abcd123456"
     token: ""

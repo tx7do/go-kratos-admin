@@ -114,7 +114,6 @@ func NewPasswordCrypto() password.Crypto {
 	crypto, err := password.CreateCrypto("bcrypt")
 	if err != nil {
 		panic(err)
-		return nil
 	}
 	return crypto
 }

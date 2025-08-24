@@ -19,11 +19,20 @@
 
 ## 技术栈
 
-* 后端基于 [Golang](https://go.dev/) + [go-kratos](https://go-kratos.dev/) + [wire](https://github.com/google/wire) + [ent](https://entgo.io/docs/getting-started/)
-* 前端基于 [Vue](https://vuejs.org/) + [TypeScript](https://www.typescriptlang.org/) + [Ant Design Vue](https://antdv.com/) + [Vben Admin](https://doc.vben.pro/)
+*
+
+后端基于 [Golang](https://go.dev/) + [go-kratos](https://go-kratos.dev/) + [wire](https://github.com/google/wire) + [ent](https://entgo.io/docs/getting-started/)
+
+*
+
+前端基于 [Vue](https://vuejs.org/) + [TypeScript](https://www.typescriptlang.org/) + [Ant Design Vue](https://antdv.com/) + [Vben Admin](https://doc.vben.pro/)
 
 ## 快速上手指南
-1. 安装完成docker和golang（参考backend/script/prepare_ubuntu.sh、backend/script/prepare_centos.sh、backend/script/prepare_rocky.sh）
+
+1.
+
+安装完成docker和golang（参考backend/script/prepare_ubuntu.sh、backend/script/prepare_centos.sh、backend/script/prepare_rocky.sh）
+
 2. 进入backend目录，执行以下命令，完成后端服务kratos-admin编译和docker镜像构建并启动，同时启动依赖的docker镜像服务
     ```bash
     make init
@@ -37,6 +46,7 @@
     pnpm dev
     ```
 5. 访问测试
+
 - 前端：http://localhost:5666， 登录账号：admin，密码：admin
 - 后端：http://localhost:7788/docs/openapi.yaml
 
@@ -64,62 +74,45 @@
 
 ## 后台截图
 
-- 后台用户登录界面
+<table>
+    <tr>
+        <td><img src="./docs/images/admin_login_page.png" alt="后台用户登录界面"/></td>
+        <td><img src="./docs/images/admin_dashboard.png" alt="后台分析界面"/></td>
+    </tr>
+    <tr>
+        <td><img src="./docs/images/admin_user_management.png" alt="后台用户管理界面"/></td>
+        <td><img src="./docs/images/admin_create_user.png" alt="后台创建用户界面"/></td>
+    </tr>
+    <tr>
+        <td><img src="./docs/images/admin_menu_management.png" alt="后台目录管理界面"/></td>
+        <td><img src="./docs/images/admin_organization_management.png" alt="组织管理界面"/></td>
+    </tr>
+    <tr>
+        <td><img src="./docs/images/admin_department_management.png" alt="部门管理界面"/></td>
+        <td><img src="./docs/images/admin_role_management.png" alt="用户角色管理界面"/></td>
+    </tr>
+    <tr>
+        <td><img src="./docs/images/admin_position_management.png" alt="用户职位管理界面"/></td>
+        <td><img src="./docs/images/admin_tenant_management.png" alt="租户管理界面"/></td>
+    </tr>
+    <tr>
+        <td><img src="./docs/images/admin_task_management.png" alt="调度任务管理界面"/></td>
+        <td><img src="./docs/images/admin_dict_management.png" alt="字典管理界面"/></td>
+    </tr>
+    <tr>
+        <td><img src="./docs/images/admin_operation_log.png" alt="后台登录日志界面"/></td>
+        <td><img src="./docs/images/admin_login_log.png" alt="后台操作日志界面"/></td>
+    </tr>
+    <tr>
+        <td><img src="./docs/images/api_swagger_ui.png" alt="后端内置Swagger UI界面"/></td>
+    </tr>
+</table>
 
-![后台用户登录界面](./docs/images/admin_login_page.png)
+## 联系我们
 
-- 后台分析界面
+- 微信个人号：`yang_lin_bo`（备注：go-kratos-admin）
+- 掘金专栏：[go-kratos-admin](https://juejin.cn/column/7541283508041826367)
 
-![后台分析界面](./docs/images/admin_dashboard.png)
+## [感谢JetBrains提供的免费GoLand](https://jb.gg/OpenSource)
 
-- 用户管理界面
-
-![后台用户管理界面](./docs/images/admin_user_management.png)
-
-- 后台创建用户界面
-
-![后台创建用户界面](./docs/images/admin_create_user.png)
-
-- 后台目录管理界面
-
-![后台目录管理界面](./docs/images/admin_menu_management.png)
-
-- 组织管理界面
-
-![组织管理界面](./docs/images/admin_organization_management.png)
-
-- 部门管理界面
-
-![部门管理界面](./docs/images/admin_department_management.png)
-
-- 用户角色管理界面
-
-![用户角色管理界面](./docs/images/admin_role_management.png)
-
-- 用户职位管理界面
-
-![用户职位管理界面](./docs/images/admin_position_management.png)
-
-- 租户管理界面
-
-![租户管理界面](./docs/images/admin_tenant_management.png)
-
-- 调度任务管理界面
-
-![调度任务管理界面](./docs/images/admin_task_management.png)
-
-- 字典管理界面
-
-![字典管理界面](./docs/images/admin_dict_management.png)
-
-- 后台登录日志界面
-
-![后台登录日志界面](./docs/images/admin_operation_log.png)
-
-- 后台操作日志界面
-
-![后台操作日志界面](./docs/images/admin_login_log.png)
-
-- 后端内置Swagger UI界面
-
-![后端内置Swagger UI界面](./docs/images/api_swagger_ui.png)
+[![avatar](https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.svg)](https://jb.gg/OpenSource)

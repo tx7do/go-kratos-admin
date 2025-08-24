@@ -246,12 +246,3 @@ chmod +x ./script/*.sh
 > consul:
 > address: "localhost:8500"
 > ```
-
-## 联系我们
-
-- 微信个人号：`yang_lin_bo`（备注：go-kratos-admin）
-- 掘金专栏：[go-kratos-admin](https://juejin.cn/column/7541283508041826367)
-
-## [感谢JetBrains提供的免费GoLand](https://jb.gg/OpenSource)
-
-[![avatar](https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.svg)](https://jb.gg/OpenSource)

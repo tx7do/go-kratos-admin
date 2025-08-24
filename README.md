@@ -19,20 +19,12 @@
 
 ## 技术栈
 
-*
-
-后端基于 [Golang](https://go.dev/) + [go-kratos](https://go-kratos.dev/) + [wire](https://github.com/google/wire) + [ent](https://entgo.io/docs/getting-started/)
-
-*
-
-前端基于 [Vue](https://vuejs.org/) + [TypeScript](https://www.typescriptlang.org/) + [Ant Design Vue](https://antdv.com/) + [Vben Admin](https://doc.vben.pro/)
+- 后端基于 [Golang](https://go.dev/) + [go-kratos](https://go-kratos.dev/) + [wire](https://github.com/google/wire) + [ent](https://entgo.io/docs/getting-started/)
+- 前端基于 [Vue](https://vuejs.org/) + [TypeScript](https://www.typescriptlang.org/) + [Ant Design Vue](https://antdv.com/) + [Vben Admin](https://doc.vben.pro/)
 
 ## 快速上手指南
 
-1.
-
-安装完成docker和golang（参考backend/script/prepare_ubuntu.sh、backend/script/prepare_centos.sh、backend/script/prepare_rocky.sh）
-
+1. 安装完成docker和golang（参考backend/script/prepare_ubuntu.sh、backend/script/prepare_centos.sh、backend/script/prepare_rocky.sh）
 2. 进入backend目录，执行以下命令，完成后端服务kratos-admin编译和docker镜像构建并启动，同时启动依赖的docker镜像服务
     ```bash
     make init

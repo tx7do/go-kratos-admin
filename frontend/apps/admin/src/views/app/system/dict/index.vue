@@ -113,6 +113,11 @@ const [Grid, gridApi] = useVbenVxeGrid({ gridOptions, formOptions });
 const [Drawer, drawerApi] = useVbenDrawer({
   // 连接抽离的组件
   connectedComponent: DictDrawer,
+
+  onConfirm: () => {
+    // 关闭时，重载表格数据
+    gridApi.reload();
+  },
 });
 
 /* 打开模态窗口 */

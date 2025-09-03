@@ -114,9 +114,11 @@ const [Drawer, drawerApi] = useVbenDrawer({
   // 连接抽离的组件
   connectedComponent: DictDrawer,
 
-  onConfirm: () => {
-    // 关闭时，重载表格数据
-    gridApi.reload();
+  onOpenChange(isOpen: boolean) {
+    if (!isOpen) {
+      // 关闭时，重载表格数据
+      gridApi.reload();
+    }
   },
 });
 

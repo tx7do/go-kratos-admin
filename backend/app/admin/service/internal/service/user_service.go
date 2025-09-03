@@ -245,12 +245,17 @@ func (s *UserService) UserExists(ctx context.Context, req *userV1.UserExistsRequ
 
 // CreateDefaultUser 创建默认用户，即超级用户
 func (s *UserService) CreateDefaultUser(ctx context.Context) error {
+	const (
+		defaultUsername = "admin"
+		defaultPassword = "admin"
+	)
+
 	var err error
 
 	if _, err = s.userRepo.Create(ctx, &userV1.CreateUserRequest{
 		Data: &userV1.User{
 			Id:        trans.Ptr(uint32(1)),
-			Username:  trans.Ptr("admin"),
+			Username:  trans.Ptr(defaultUsername),
 			Realname:  trans.Ptr("大灰狼"),
 			Nickname:  trans.Ptr("鹳狸猿"),
 			Region:    trans.Ptr("中国"),
@@ -267,9 +272,9 @@ func (s *UserService) CreateDefaultUser(ctx context.Context) error {
 		Data: &authenticationV1.UserCredential{
 			UserId:         trans.Ptr(uint32(1)),
 			IdentityType:   authenticationV1.IdentityType_USERNAME.Enum(),
-			Identifier:     trans.Ptr("admin"),
+			Identifier:     trans.Ptr(defaultUsername),
 			CredentialType: authenticationV1.CredentialType_PASSWORD_HASH.Enum(),
-			Credential:     trans.Ptr("admin"),
+			Credential:     trans.Ptr(defaultPassword),
 			IsPrimary:      trans.Ptr(true),
 			Status:         authenticationV1.UserCredentialStatus_ENABLED.Enum(),
 		},

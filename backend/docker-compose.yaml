@@ -71,18 +71,18 @@ services:
 #      - CONSUL_DISABLE_KEYRING_FILE=true
 #      - CONSUL_NODE_NAME=consul
 
-  etcd:
-    image: docker.io/bitnami/etcd:latest
-    restart: always
-    ports:
-      - "2379:2379"
-      - "2380:2380"
-    networks:
-      - app-tier
-    environment:
-      - ETCDCTL_API=3
-      - ALLOW_NONE_AUTHENTICATION=yes
-      - ETCD_ADVERTISE_CLIENT_URLS=http://0.0.0.0:2379
+#  etcd:
+#    image: docker.io/bitnami/etcd:latest
+#    restart: always
+#    ports:
+#      - "2379:2379"
+#      - "2380:2380"
+#    networks:
+#      - app-tier
+#    environment:
+#      - ETCDCTL_API=3
+#      - ALLOW_NONE_AUTHENTICATION=yes
+#      - ETCD_ADVERTISE_CLIENT_URLS=http://0.0.0.0:2379
 
   jaeger:
     image: docker.io/jaegertracing/all-in-one:latest

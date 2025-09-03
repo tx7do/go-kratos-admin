@@ -20,56 +20,56 @@ type AdminOperationLogDelete struct {
 }
 
 // Where appends a list predicates to the AdminOperationLogDelete builder.
-func (aold *AdminOperationLogDelete) Where(ps ...predicate.AdminOperationLog) *AdminOperationLogDelete {
-	aold.mutation.Where(ps...)
-	return aold
+func (_d *AdminOperationLogDelete) Where(ps ...predicate.AdminOperationLog) *AdminOperationLogDelete {
+	_d.mutation.Where(ps...)
+	return _d
 }
 
 // Exec executes the deletion query and returns how many vertices were deleted.
-func (aold *AdminOperationLogDelete) Exec(ctx context.Context) (int, error) {
-	return withHooks(ctx, aold.sqlExec, aold.mutation, aold.hooks)
+func (_d *AdminOperationLogDelete) Exec(ctx context.Context) (int, error) {
+	return withHooks(ctx, _d.sqlExec, _d.mutation, _d.hooks)
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (aold *AdminOperationLogDelete) ExecX(ctx context.Context) int {
-	n, err := aold.Exec(ctx)
+func (_d *AdminOperationLogDelete) ExecX(ctx context.Context) int {
+	n, err := _d.Exec(ctx)
 	if err != nil {
 		panic(err)
 	}
 	return n
 }
 
-func (aold *AdminOperationLogDelete) sqlExec(ctx context.Context) (int, error) {
+func (_d *AdminOperationLogDelete) sqlExec(ctx context.Context) (int, error) {
 	_spec := sqlgraph.NewDeleteSpec(adminoperationlog.Table, sqlgraph.NewFieldSpec(adminoperationlog.FieldID, field.TypeUint32))
-	if ps := aold.mutation.predicates; len(ps) > 0 {
+	if ps := _d.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	affected, err := sqlgraph.DeleteNodes(ctx, aold.driver, _spec)
+	affected, err := sqlgraph.DeleteNodes(ctx, _d.driver, _spec)
 	if err != nil && sqlgraph.IsConstraintError(err) {
 		err = &ConstraintError{msg: err.Error(), wrap: err}
 	}
-	aold.mutation.done = true
+	_d.mutation.done = true
 	return affected, err
 }
 
 // AdminOperationLogDeleteOne is the builder for deleting a single AdminOperationLog entity.
 type AdminOperationLogDeleteOne struct {
-	aold *AdminOperationLogDelete
+	_d *AdminOperationLogDelete
 }
 
 // Where appends a list predicates to the AdminOperationLogDelete builder.
-func (aoldo *AdminOperationLogDeleteOne) Where(ps ...predicate.AdminOperationLog) *AdminOperationLogDeleteOne {
-	aoldo.aold.mutation.Where(ps...)
-	return aoldo
+func (_d *AdminOperationLogDeleteOne) Where(ps ...predicate.AdminOperationLog) *AdminOperationLogDeleteOne {
+	_d._d.mutation.Where(ps...)
+	return _d
 }
 
 // Exec executes the deletion query.
-func (aoldo *AdminOperationLogDeleteOne) Exec(ctx context.Context) error {
-	n, err := aoldo.aold.Exec(ctx)
+func (_d *AdminOperationLogDeleteOne) Exec(ctx context.Context) error {
+	n, err := _d._d.Exec(ctx)
 	switch {
 	case err != nil:
 		return err
@@ -81,8 +81,8 @@ func (aoldo *AdminOperationLogDeleteOne) Exec(ctx context.Context) error {
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (aoldo *AdminOperationLogDeleteOne) ExecX(ctx context.Context) {
-	if err := aoldo.Exec(ctx); err != nil {
+func (_d *AdminOperationLogDeleteOne) ExecX(ctx context.Context) {
+	if err := _d.Exec(ctx); err != nil {
 		panic(err)
 	}
 }

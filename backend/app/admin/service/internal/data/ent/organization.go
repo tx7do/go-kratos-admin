@@ -97,7 +97,7 @@ func (*Organization) scanValues(columns []string) ([]any, error) {
 
 // assignValues assigns the values that were returned from sql.Rows (after scanning)
 // to the Organization fields.
-func (o *Organization) assignValues(columns []string, values []any) error {
+func (_m *Organization) assignValues(columns []string, values []any) error {
 	if m, n := len(values), len(columns); m < n {
 		return fmt.Errorf("mismatch number of scan values: %d != %d", m, n)
 	}
@@ -108,86 +108,86 @@ func (o *Organization) assignValues(columns []string, values []any) error {
 			if !ok {
 				return fmt.Errorf("unexpected type %T for field id", value)
 			}
-			o.ID = uint32(value.Int64)
+			_m.ID = uint32(value.Int64)
 		case organization.FieldCreateTime:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field create_time", values[i])
 			} else if value.Valid {
-				o.CreateTime = new(time.Time)
-				*o.CreateTime = value.Time
+				_m.CreateTime = new(time.Time)
+				*_m.CreateTime = value.Time
 			}
 		case organization.FieldUpdateTime:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field update_time", values[i])
 			} else if value.Valid {
-				o.UpdateTime = new(time.Time)
-				*o.UpdateTime = value.Time
+				_m.UpdateTime = new(time.Time)
+				*_m.UpdateTime = value.Time
 			}
 		case organization.FieldDeleteTime:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field delete_time", values[i])
 			} else if value.Valid {
-				o.DeleteTime = new(time.Time)
-				*o.DeleteTime = value.Time
+				_m.DeleteTime = new(time.Time)
+				*_m.DeleteTime = value.Time
 			}
 		case organization.FieldStatus:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field status", values[i])
 			} else if value.Valid {
-				o.Status = new(organization.Status)
-				*o.Status = organization.Status(value.String)
+				_m.Status = new(organization.Status)
+				*_m.Status = organization.Status(value.String)
 			}
 		case organization.FieldCreateBy:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field create_by", values[i])
 			} else if value.Valid {
-				o.CreateBy = new(uint32)
-				*o.CreateBy = uint32(value.Int64)
+				_m.CreateBy = new(uint32)
+				*_m.CreateBy = uint32(value.Int64)
 			}
 		case organization.FieldUpdateBy:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field update_by", values[i])
 			} else if value.Valid {
-				o.UpdateBy = new(uint32)
-				*o.UpdateBy = uint32(value.Int64)
+				_m.UpdateBy = new(uint32)
+				*_m.UpdateBy = uint32(value.Int64)
 			}
 		case organization.FieldRemark:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field remark", values[i])
 			} else if value.Valid {
-				o.Remark = new(string)
-				*o.Remark = value.String
+				_m.Remark = new(string)
+				*_m.Remark = value.String
 			}
 		case organization.FieldTenantID:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field tenant_id", values[i])
 			} else if value.Valid {
-				o.TenantID = new(uint32)
-				*o.TenantID = uint32(value.Int64)
+				_m.TenantID = new(uint32)
+				*_m.TenantID = uint32(value.Int64)
 			}
 		case organization.FieldName:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field name", values[i])
 			} else if value.Valid {
-				o.Name = new(string)
-				*o.Name = value.String
+				_m.Name = new(string)
+				*_m.Name = value.String
 			}
 		case organization.FieldParentID:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field parent_id", values[i])
 			} else if value.Valid {
-				o.ParentID = new(uint32)
-				*o.ParentID = uint32(value.Int64)
+				_m.ParentID = new(uint32)
+				*_m.ParentID = uint32(value.Int64)
 			}
 		case organization.FieldSortID:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field sort_id", values[i])
 			} else if value.Valid {
-				o.SortID = new(int32)
-				*o.SortID = int32(value.Int64)
+				_m.SortID = new(int32)
+				*_m.SortID = int32(value.Int64)
 			}
 		default:
-			o.selectValues.Set(columns[i], values[i])
+			_m.selectValues.Set(columns[i], values[i])
 		}
 	}
 	return nil
@@ -195,94 +195,94 @@ func (o *Organization) assignValues(columns []string, values []any) error {
 
 // Value returns the ent.Value that was dynamically selected and assigned to the Organization.
 // This includes values selected through modifiers, order, etc.
-func (o *Organization) Value(name string) (ent.Value, error) {
-	return o.selectValues.Get(name)
+func (_m *Organization) Value(name string) (ent.Value, error) {
+	return _m.selectValues.Get(name)
 }
 
 // QueryParent queries the "parent" edge of the Organization entity.
-func (o *Organization) QueryParent() *OrganizationQuery {
-	return NewOrganizationClient(o.config).QueryParent(o)
+func (_m *Organization) QueryParent() *OrganizationQuery {
+	return NewOrganizationClient(_m.config).QueryParent(_m)
 }
 
 // QueryChildren queries the "children" edge of the Organization entity.
-func (o *Organization) QueryChildren() *OrganizationQuery {
-	return NewOrganizationClient(o.config).QueryChildren(o)
+func (_m *Organization) QueryChildren() *OrganizationQuery {
+	return NewOrganizationClient(_m.config).QueryChildren(_m)
 }
 
 // Update returns a builder for updating this Organization.
 // Note that you need to call Organization.Unwrap() before calling this method if this Organization
 // was returned from a transaction, and the transaction was committed or rolled back.
-func (o *Organization) Update() *OrganizationUpdateOne {
-	return NewOrganizationClient(o.config).UpdateOne(o)
+func (_m *Organization) Update() *OrganizationUpdateOne {
+	return NewOrganizationClient(_m.config).UpdateOne(_m)
 }
 
 // Unwrap unwraps the Organization entity that was returned from a transaction after it was closed,
 // so that all future queries will be executed through the driver which created the transaction.
-func (o *Organization) Unwrap() *Organization {
-	_tx, ok := o.config.driver.(*txDriver)
+func (_m *Organization) Unwrap() *Organization {
+	_tx, ok := _m.config.driver.(*txDriver)
 	if !ok {
 		panic("ent: Organization is not a transactional entity")
 	}
-	o.config.driver = _tx.drv
-	return o
+	_m.config.driver = _tx.drv
+	return _m
 }
 
 // String implements the fmt.Stringer.
-func (o *Organization) String() string {
+func (_m *Organization) String() string {
 	var builder strings.Builder
 	builder.WriteString("Organization(")
-	builder.WriteString(fmt.Sprintf("id=%v, ", o.ID))
-	if v := o.CreateTime; v != nil {
+	builder.WriteString(fmt.Sprintf("id=%v, ", _m.ID))
+	if v := _m.CreateTime; v != nil {
 		builder.WriteString("create_time=")
 		builder.WriteString(v.Format(time.ANSIC))
 	}
 	builder.WriteString(", ")
-	if v := o.UpdateTime; v != nil {
+	if v := _m.UpdateTime; v != nil {
 		builder.WriteString("update_time=")
 		builder.WriteString(v.Format(time.ANSIC))
 	}
 	builder.WriteString(", ")
-	if v := o.DeleteTime; v != nil {
+	if v := _m.DeleteTime; v != nil {
 		builder.WriteString("delete_time=")
 		builder.WriteString(v.Format(time.ANSIC))
 	}
 	builder.WriteString(", ")
-	if v := o.Status; v != nil {
+	if v := _m.Status; v != nil {
 		builder.WriteString("status=")
 		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteString(", ")
-	if v := o.CreateBy; v != nil {
+	if v := _m.CreateBy; v != nil {
 		builder.WriteString("create_by=")
 		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteString(", ")
-	if v := o.UpdateBy; v != nil {
+	if v := _m.UpdateBy; v != nil {
 		builder.WriteString("update_by=")
 		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteString(", ")
-	if v := o.Remark; v != nil {
+	if v := _m.Remark; v != nil {
 		builder.WriteString("remark=")
 		builder.WriteString(*v)
 	}
 	builder.WriteString(", ")
-	if v := o.TenantID; v != nil {
+	if v := _m.TenantID; v != nil {
 		builder.WriteString("tenant_id=")
 		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteString(", ")
-	if v := o.Name; v != nil {
+	if v := _m.Name; v != nil {
 		builder.WriteString("name=")
 		builder.WriteString(*v)
 	}
 	builder.WriteString(", ")
-	if v := o.ParentID; v != nil {
+	if v := _m.ParentID; v != nil {
 		builder.WriteString("parent_id=")
 		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteString(", ")
-	if v := o.SortID; v != nil {
+	if v := _m.SortID; v != nil {
 		builder.WriteString("sort_id=")
 		builder.WriteString(fmt.Sprintf("%v", *v))
 	}

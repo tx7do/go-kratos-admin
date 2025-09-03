@@ -20,56 +20,56 @@ type PrivateMessageDelete struct {
 }
 
 // Where appends a list predicates to the PrivateMessageDelete builder.
-func (pmd *PrivateMessageDelete) Where(ps ...predicate.PrivateMessage) *PrivateMessageDelete {
-	pmd.mutation.Where(ps...)
-	return pmd
+func (_d *PrivateMessageDelete) Where(ps ...predicate.PrivateMessage) *PrivateMessageDelete {
+	_d.mutation.Where(ps...)
+	return _d
 }
 
 // Exec executes the deletion query and returns how many vertices were deleted.
-func (pmd *PrivateMessageDelete) Exec(ctx context.Context) (int, error) {
-	return withHooks(ctx, pmd.sqlExec, pmd.mutation, pmd.hooks)
+func (_d *PrivateMessageDelete) Exec(ctx context.Context) (int, error) {
+	return withHooks(ctx, _d.sqlExec, _d.mutation, _d.hooks)
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (pmd *PrivateMessageDelete) ExecX(ctx context.Context) int {
-	n, err := pmd.Exec(ctx)
+func (_d *PrivateMessageDelete) ExecX(ctx context.Context) int {
+	n, err := _d.Exec(ctx)
 	if err != nil {
 		panic(err)
 	}
 	return n
 }
 
-func (pmd *PrivateMessageDelete) sqlExec(ctx context.Context) (int, error) {
+func (_d *PrivateMessageDelete) sqlExec(ctx context.Context) (int, error) {
 	_spec := sqlgraph.NewDeleteSpec(privatemessage.Table, sqlgraph.NewFieldSpec(privatemessage.FieldID, field.TypeUint32))
-	if ps := pmd.mutation.predicates; len(ps) > 0 {
+	if ps := _d.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	affected, err := sqlgraph.DeleteNodes(ctx, pmd.driver, _spec)
+	affected, err := sqlgraph.DeleteNodes(ctx, _d.driver, _spec)
 	if err != nil && sqlgraph.IsConstraintError(err) {
 		err = &ConstraintError{msg: err.Error(), wrap: err}
 	}
-	pmd.mutation.done = true
+	_d.mutation.done = true
 	return affected, err
 }
 
 // PrivateMessageDeleteOne is the builder for deleting a single PrivateMessage entity.
 type PrivateMessageDeleteOne struct {
-	pmd *PrivateMessageDelete
+	_d *PrivateMessageDelete
 }
 
 // Where appends a list predicates to the PrivateMessageDelete builder.
-func (pmdo *PrivateMessageDeleteOne) Where(ps ...predicate.PrivateMessage) *PrivateMessageDeleteOne {
-	pmdo.pmd.mutation.Where(ps...)
-	return pmdo
+func (_d *PrivateMessageDeleteOne) Where(ps ...predicate.PrivateMessage) *PrivateMessageDeleteOne {
+	_d._d.mutation.Where(ps...)
+	return _d
 }
 
 // Exec executes the deletion query.
-func (pmdo *PrivateMessageDeleteOne) Exec(ctx context.Context) error {
-	n, err := pmdo.pmd.Exec(ctx)
+func (_d *PrivateMessageDeleteOne) Exec(ctx context.Context) error {
+	n, err := _d._d.Exec(ctx)
 	switch {
 	case err != nil:
 		return err
@@ -81,8 +81,8 @@ func (pmdo *PrivateMessageDeleteOne) Exec(ctx context.Context) error {
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (pmdo *PrivateMessageDeleteOne) ExecX(ctx context.Context) {
-	if err := pmdo.Exec(ctx); err != nil {
+func (_d *PrivateMessageDeleteOne) ExecX(ctx context.Context) {
+	if err := _d.Exec(ctx); err != nil {
 		panic(err)
 	}
 }

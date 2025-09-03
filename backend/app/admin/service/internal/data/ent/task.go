@@ -73,7 +73,7 @@ func (*Task) scanValues(columns []string) ([]any, error) {
 
 // assignValues assigns the values that were returned from sql.Rows (after scanning)
 // to the Task fields.
-func (t *Task) assignValues(columns []string, values []any) error {
+func (_m *Task) assignValues(columns []string, values []any) error {
 	if m, n := len(values), len(columns); m < n {
 		return fmt.Errorf("mismatch number of scan values: %d != %d", m, n)
 	}
@@ -84,89 +84,89 @@ func (t *Task) assignValues(columns []string, values []any) error {
 			if !ok {
 				return fmt.Errorf("unexpected type %T for field id", value)
 			}
-			t.ID = uint32(value.Int64)
+			_m.ID = uint32(value.Int64)
 		case task.FieldCreateTime:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field create_time", values[i])
 			} else if value.Valid {
-				t.CreateTime = new(time.Time)
-				*t.CreateTime = value.Time
+				_m.CreateTime = new(time.Time)
+				*_m.CreateTime = value.Time
 			}
 		case task.FieldUpdateTime:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field update_time", values[i])
 			} else if value.Valid {
-				t.UpdateTime = new(time.Time)
-				*t.UpdateTime = value.Time
+				_m.UpdateTime = new(time.Time)
+				*_m.UpdateTime = value.Time
 			}
 		case task.FieldDeleteTime:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field delete_time", values[i])
 			} else if value.Valid {
-				t.DeleteTime = new(time.Time)
-				*t.DeleteTime = value.Time
+				_m.DeleteTime = new(time.Time)
+				*_m.DeleteTime = value.Time
 			}
 		case task.FieldCreateBy:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field create_by", values[i])
 			} else if value.Valid {
-				t.CreateBy = new(uint32)
-				*t.CreateBy = uint32(value.Int64)
+				_m.CreateBy = new(uint32)
+				*_m.CreateBy = uint32(value.Int64)
 			}
 		case task.FieldUpdateBy:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field update_by", values[i])
 			} else if value.Valid {
-				t.UpdateBy = new(uint32)
-				*t.UpdateBy = uint32(value.Int64)
+				_m.UpdateBy = new(uint32)
+				*_m.UpdateBy = uint32(value.Int64)
 			}
 		case task.FieldRemark:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field remark", values[i])
 			} else if value.Valid {
-				t.Remark = new(string)
-				*t.Remark = value.String
+				_m.Remark = new(string)
+				*_m.Remark = value.String
 			}
 		case task.FieldTenantID:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field tenant_id", values[i])
 			} else if value.Valid {
-				t.TenantID = new(uint32)
-				*t.TenantID = uint32(value.Int64)
+				_m.TenantID = new(uint32)
+				*_m.TenantID = uint32(value.Int64)
 			}
 		case task.FieldType:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field type", values[i])
 			} else if value.Valid {
-				t.Type = new(task.Type)
-				*t.Type = task.Type(value.String)
+				_m.Type = new(task.Type)
+				*_m.Type = task.Type(value.String)
 			}
 		case task.FieldTypeName:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field type_name", values[i])
 			} else if value.Valid {
-				t.TypeName = new(string)
-				*t.TypeName = value.String
+				_m.TypeName = new(string)
+				*_m.TypeName = value.String
 			}
 		case task.FieldTaskPayload:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field task_payload", values[i])
 			} else if value.Valid {
-				t.TaskPayload = new(string)
-				*t.TaskPayload = value.String
+				_m.TaskPayload = new(string)
+				*_m.TaskPayload = value.String
 			}
 		case task.FieldCronSpec:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field cron_spec", values[i])
 			} else if value.Valid {
-				t.CronSpec = new(string)
-				*t.CronSpec = value.String
+				_m.CronSpec = new(string)
+				*_m.CronSpec = value.String
 			}
 		case task.FieldTaskOptions:
 			if value, ok := values[i].(*[]byte); !ok {
 				return fmt.Errorf("unexpected type %T for field task_options", values[i])
 			} else if value != nil && len(*value) > 0 {
-				if err := json.Unmarshal(*value, &t.TaskOptions); err != nil {
+				if err := json.Unmarshal(*value, &_m.TaskOptions); err != nil {
 					return fmt.Errorf("unmarshal field task_options: %w", err)
 				}
 			}
@@ -174,11 +174,11 @@ func (t *Task) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*sql.NullBool); !ok {
 				return fmt.Errorf("unexpected type %T for field enable", values[i])
 			} else if value.Valid {
-				t.Enable = new(bool)
-				*t.Enable = value.Bool
+				_m.Enable = new(bool)
+				*_m.Enable = value.Bool
 			}
 		default:
-			t.selectValues.Set(columns[i], values[i])
+			_m.selectValues.Set(columns[i], values[i])
 		}
 	}
 	return nil
@@ -186,92 +186,92 @@ func (t *Task) assignValues(columns []string, values []any) error {
 
 // Value returns the ent.Value that was dynamically selected and assigned to the Task.
 // This includes values selected through modifiers, order, etc.
-func (t *Task) Value(name string) (ent.Value, error) {
-	return t.selectValues.Get(name)
+func (_m *Task) Value(name string) (ent.Value, error) {
+	return _m.selectValues.Get(name)
 }
 
 // Update returns a builder for updating this Task.
 // Note that you need to call Task.Unwrap() before calling this method if this Task
 // was returned from a transaction, and the transaction was committed or rolled back.
-func (t *Task) Update() *TaskUpdateOne {
-	return NewTaskClient(t.config).UpdateOne(t)
+func (_m *Task) Update() *TaskUpdateOne {
+	return NewTaskClient(_m.config).UpdateOne(_m)
 }
 
 // Unwrap unwraps the Task entity that was returned from a transaction after it was closed,
 // so that all future queries will be executed through the driver which created the transaction.
-func (t *Task) Unwrap() *Task {
-	_tx, ok := t.config.driver.(*txDriver)
+func (_m *Task) Unwrap() *Task {
+	_tx, ok := _m.config.driver.(*txDriver)
 	if !ok {
 		panic("ent: Task is not a transactional entity")
 	}
-	t.config.driver = _tx.drv
-	return t
+	_m.config.driver = _tx.drv
+	return _m
 }
 
 // String implements the fmt.Stringer.
-func (t *Task) String() string {
+func (_m *Task) String() string {
 	var builder strings.Builder
 	builder.WriteString("Task(")
-	builder.WriteString(fmt.Sprintf("id=%v, ", t.ID))
-	if v := t.CreateTime; v != nil {
+	builder.WriteString(fmt.Sprintf("id=%v, ", _m.ID))
+	if v := _m.CreateTime; v != nil {
 		builder.WriteString("create_time=")
 		builder.WriteString(v.Format(time.ANSIC))
 	}
 	builder.WriteString(", ")
-	if v := t.UpdateTime; v != nil {
+	if v := _m.UpdateTime; v != nil {
 		builder.WriteString("update_time=")
 		builder.WriteString(v.Format(time.ANSIC))
 	}
 	builder.WriteString(", ")
-	if v := t.DeleteTime; v != nil {
+	if v := _m.DeleteTime; v != nil {
 		builder.WriteString("delete_time=")
 		builder.WriteString(v.Format(time.ANSIC))
 	}
 	builder.WriteString(", ")
-	if v := t.CreateBy; v != nil {
+	if v := _m.CreateBy; v != nil {
 		builder.WriteString("create_by=")
 		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteString(", ")
-	if v := t.UpdateBy; v != nil {
+	if v := _m.UpdateBy; v != nil {
 		builder.WriteString("update_by=")
 		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteString(", ")
-	if v := t.Remark; v != nil {
+	if v := _m.Remark; v != nil {
 		builder.WriteString("remark=")
 		builder.WriteString(*v)
 	}
 	builder.WriteString(", ")
-	if v := t.TenantID; v != nil {
+	if v := _m.TenantID; v != nil {
 		builder.WriteString("tenant_id=")
 		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteString(", ")
-	if v := t.Type; v != nil {
+	if v := _m.Type; v != nil {
 		builder.WriteString("type=")
 		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteString(", ")
-	if v := t.TypeName; v != nil {
+	if v := _m.TypeName; v != nil {
 		builder.WriteString("type_name=")
 		builder.WriteString(*v)
 	}
 	builder.WriteString(", ")
-	if v := t.TaskPayload; v != nil {
+	if v := _m.TaskPayload; v != nil {
 		builder.WriteString("task_payload=")
 		builder.WriteString(*v)
 	}
 	builder.WriteString(", ")
-	if v := t.CronSpec; v != nil {
+	if v := _m.CronSpec; v != nil {
 		builder.WriteString("cron_spec=")
 		builder.WriteString(*v)
 	}
 	builder.WriteString(", ")
 	builder.WriteString("task_options=")
-	builder.WriteString(fmt.Sprintf("%v", t.TaskOptions))
+	builder.WriteString(fmt.Sprintf("%v", _m.TaskOptions))
 	builder.WriteString(", ")
-	if v := t.Enable; v != nil {
+	if v := _m.Enable; v != nil {
 		builder.WriteString("enable=")
 		builder.WriteString(fmt.Sprintf("%v", *v))
 	}

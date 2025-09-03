@@ -23,221 +23,221 @@ type UserCredentialCreate struct {
 }
 
 // SetCreateTime sets the "create_time" field.
-func (ucc *UserCredentialCreate) SetCreateTime(t time.Time) *UserCredentialCreate {
-	ucc.mutation.SetCreateTime(t)
-	return ucc
+func (_c *UserCredentialCreate) SetCreateTime(v time.Time) *UserCredentialCreate {
+	_c.mutation.SetCreateTime(v)
+	return _c
 }
 
 // SetNillableCreateTime sets the "create_time" field if the given value is not nil.
-func (ucc *UserCredentialCreate) SetNillableCreateTime(t *time.Time) *UserCredentialCreate {
-	if t != nil {
-		ucc.SetCreateTime(*t)
+func (_c *UserCredentialCreate) SetNillableCreateTime(v *time.Time) *UserCredentialCreate {
+	if v != nil {
+		_c.SetCreateTime(*v)
 	}
-	return ucc
+	return _c
 }
 
 // SetUpdateTime sets the "update_time" field.
-func (ucc *UserCredentialCreate) SetUpdateTime(t time.Time) *UserCredentialCreate {
-	ucc.mutation.SetUpdateTime(t)
-	return ucc
+func (_c *UserCredentialCreate) SetUpdateTime(v time.Time) *UserCredentialCreate {
+	_c.mutation.SetUpdateTime(v)
+	return _c
 }
 
 // SetNillableUpdateTime sets the "update_time" field if the given value is not nil.
-func (ucc *UserCredentialCreate) SetNillableUpdateTime(t *time.Time) *UserCredentialCreate {
-	if t != nil {
-		ucc.SetUpdateTime(*t)
+func (_c *UserCredentialCreate) SetNillableUpdateTime(v *time.Time) *UserCredentialCreate {
+	if v != nil {
+		_c.SetUpdateTime(*v)
 	}
-	return ucc
+	return _c
 }
 
 // SetDeleteTime sets the "delete_time" field.
-func (ucc *UserCredentialCreate) SetDeleteTime(t time.Time) *UserCredentialCreate {
-	ucc.mutation.SetDeleteTime(t)
-	return ucc
+func (_c *UserCredentialCreate) SetDeleteTime(v time.Time) *UserCredentialCreate {
+	_c.mutation.SetDeleteTime(v)
+	return _c
 }
 
 // SetNillableDeleteTime sets the "delete_time" field if the given value is not nil.
-func (ucc *UserCredentialCreate) SetNillableDeleteTime(t *time.Time) *UserCredentialCreate {
-	if t != nil {
-		ucc.SetDeleteTime(*t)
+func (_c *UserCredentialCreate) SetNillableDeleteTime(v *time.Time) *UserCredentialCreate {
+	if v != nil {
+		_c.SetDeleteTime(*v)
 	}
-	return ucc
+	return _c
 }
 
 // SetTenantID sets the "tenant_id" field.
-func (ucc *UserCredentialCreate) SetTenantID(u uint32) *UserCredentialCreate {
-	ucc.mutation.SetTenantID(u)
-	return ucc
+func (_c *UserCredentialCreate) SetTenantID(v uint32) *UserCredentialCreate {
+	_c.mutation.SetTenantID(v)
+	return _c
 }
 
 // SetNillableTenantID sets the "tenant_id" field if the given value is not nil.
-func (ucc *UserCredentialCreate) SetNillableTenantID(u *uint32) *UserCredentialCreate {
-	if u != nil {
-		ucc.SetTenantID(*u)
+func (_c *UserCredentialCreate) SetNillableTenantID(v *uint32) *UserCredentialCreate {
+	if v != nil {
+		_c.SetTenantID(*v)
 	}
-	return ucc
+	return _c
 }
 
 // SetUserID sets the "user_id" field.
-func (ucc *UserCredentialCreate) SetUserID(u uint32) *UserCredentialCreate {
-	ucc.mutation.SetUserID(u)
-	return ucc
+func (_c *UserCredentialCreate) SetUserID(v uint32) *UserCredentialCreate {
+	_c.mutation.SetUserID(v)
+	return _c
 }
 
 // SetNillableUserID sets the "user_id" field if the given value is not nil.
-func (ucc *UserCredentialCreate) SetNillableUserID(u *uint32) *UserCredentialCreate {
-	if u != nil {
-		ucc.SetUserID(*u)
+func (_c *UserCredentialCreate) SetNillableUserID(v *uint32) *UserCredentialCreate {
+	if v != nil {
+		_c.SetUserID(*v)
 	}
-	return ucc
+	return _c
 }
 
 // SetIdentityType sets the "identity_type" field.
-func (ucc *UserCredentialCreate) SetIdentityType(ut usercredential.IdentityType) *UserCredentialCreate {
-	ucc.mutation.SetIdentityType(ut)
-	return ucc
+func (_c *UserCredentialCreate) SetIdentityType(v usercredential.IdentityType) *UserCredentialCreate {
+	_c.mutation.SetIdentityType(v)
+	return _c
 }
 
 // SetNillableIdentityType sets the "identity_type" field if the given value is not nil.
-func (ucc *UserCredentialCreate) SetNillableIdentityType(ut *usercredential.IdentityType) *UserCredentialCreate {
-	if ut != nil {
-		ucc.SetIdentityType(*ut)
+func (_c *UserCredentialCreate) SetNillableIdentityType(v *usercredential.IdentityType) *UserCredentialCreate {
+	if v != nil {
+		_c.SetIdentityType(*v)
 	}
-	return ucc
+	return _c
 }
 
 // SetIdentifier sets the "identifier" field.
-func (ucc *UserCredentialCreate) SetIdentifier(s string) *UserCredentialCreate {
-	ucc.mutation.SetIdentifier(s)
-	return ucc
+func (_c *UserCredentialCreate) SetIdentifier(v string) *UserCredentialCreate {
+	_c.mutation.SetIdentifier(v)
+	return _c
 }
 
 // SetNillableIdentifier sets the "identifier" field if the given value is not nil.
-func (ucc *UserCredentialCreate) SetNillableIdentifier(s *string) *UserCredentialCreate {
-	if s != nil {
-		ucc.SetIdentifier(*s)
+func (_c *UserCredentialCreate) SetNillableIdentifier(v *string) *UserCredentialCreate {
+	if v != nil {
+		_c.SetIdentifier(*v)
 	}
-	return ucc
+	return _c
 }
 
 // SetCredentialType sets the "credential_type" field.
-func (ucc *UserCredentialCreate) SetCredentialType(ut usercredential.CredentialType) *UserCredentialCreate {
-	ucc.mutation.SetCredentialType(ut)
-	return ucc
+func (_c *UserCredentialCreate) SetCredentialType(v usercredential.CredentialType) *UserCredentialCreate {
+	_c.mutation.SetCredentialType(v)
+	return _c
 }
 
 // SetNillableCredentialType sets the "credential_type" field if the given value is not nil.
-func (ucc *UserCredentialCreate) SetNillableCredentialType(ut *usercredential.CredentialType) *UserCredentialCreate {
-	if ut != nil {
-		ucc.SetCredentialType(*ut)
+func (_c *UserCredentialCreate) SetNillableCredentialType(v *usercredential.CredentialType) *UserCredentialCreate {
+	if v != nil {
+		_c.SetCredentialType(*v)
 	}
-	return ucc
+	return _c
 }
 
 // SetCredential sets the "credential" field.
-func (ucc *UserCredentialCreate) SetCredential(s string) *UserCredentialCreate {
-	ucc.mutation.SetCredential(s)
-	return ucc
+func (_c *UserCredentialCreate) SetCredential(v string) *UserCredentialCreate {
+	_c.mutation.SetCredential(v)
+	return _c
 }
 
 // SetNillableCredential sets the "credential" field if the given value is not nil.
-func (ucc *UserCredentialCreate) SetNillableCredential(s *string) *UserCredentialCreate {
-	if s != nil {
-		ucc.SetCredential(*s)
+func (_c *UserCredentialCreate) SetNillableCredential(v *string) *UserCredentialCreate {
+	if v != nil {
+		_c.SetCredential(*v)
 	}
-	return ucc
+	return _c
 }
 
 // SetIsPrimary sets the "is_primary" field.
-func (ucc *UserCredentialCreate) SetIsPrimary(b bool) *UserCredentialCreate {
-	ucc.mutation.SetIsPrimary(b)
-	return ucc
+func (_c *UserCredentialCreate) SetIsPrimary(v bool) *UserCredentialCreate {
+	_c.mutation.SetIsPrimary(v)
+	return _c
 }
 
 // SetNillableIsPrimary sets the "is_primary" field if the given value is not nil.
-func (ucc *UserCredentialCreate) SetNillableIsPrimary(b *bool) *UserCredentialCreate {
-	if b != nil {
-		ucc.SetIsPrimary(*b)
+func (_c *UserCredentialCreate) SetNillableIsPrimary(v *bool) *UserCredentialCreate {
+	if v != nil {
+		_c.SetIsPrimary(*v)
 	}
-	return ucc
+	return _c
 }
 
 // SetStatus sets the "status" field.
-func (ucc *UserCredentialCreate) SetStatus(u usercredential.Status) *UserCredentialCreate {
-	ucc.mutation.SetStatus(u)
-	return ucc
+func (_c *UserCredentialCreate) SetStatus(v usercredential.Status) *UserCredentialCreate {
+	_c.mutation.SetStatus(v)
+	return _c
 }
 
 // SetNillableStatus sets the "status" field if the given value is not nil.
-func (ucc *UserCredentialCreate) SetNillableStatus(u *usercredential.Status) *UserCredentialCreate {
-	if u != nil {
-		ucc.SetStatus(*u)
+func (_c *UserCredentialCreate) SetNillableStatus(v *usercredential.Status) *UserCredentialCreate {
+	if v != nil {
+		_c.SetStatus(*v)
 	}
-	return ucc
+	return _c
 }
 
 // SetExtraInfo sets the "extra_info" field.
-func (ucc *UserCredentialCreate) SetExtraInfo(s string) *UserCredentialCreate {
-	ucc.mutation.SetExtraInfo(s)
-	return ucc
+func (_c *UserCredentialCreate) SetExtraInfo(v string) *UserCredentialCreate {
+	_c.mutation.SetExtraInfo(v)
+	return _c
 }
 
 // SetNillableExtraInfo sets the "extra_info" field if the given value is not nil.
-func (ucc *UserCredentialCreate) SetNillableExtraInfo(s *string) *UserCredentialCreate {
-	if s != nil {
-		ucc.SetExtraInfo(*s)
+func (_c *UserCredentialCreate) SetNillableExtraInfo(v *string) *UserCredentialCreate {
+	if v != nil {
+		_c.SetExtraInfo(*v)
 	}
-	return ucc
+	return _c
 }
 
 // SetActivateToken sets the "activate_token" field.
-func (ucc *UserCredentialCreate) SetActivateToken(s string) *UserCredentialCreate {
-	ucc.mutation.SetActivateToken(s)
-	return ucc
+func (_c *UserCredentialCreate) SetActivateToken(v string) *UserCredentialCreate {
+	_c.mutation.SetActivateToken(v)
+	return _c
 }
 
 // SetNillableActivateToken sets the "activate_token" field if the given value is not nil.
-func (ucc *UserCredentialCreate) SetNillableActivateToken(s *string) *UserCredentialCreate {
-	if s != nil {
-		ucc.SetActivateToken(*s)
+func (_c *UserCredentialCreate) SetNillableActivateToken(v *string) *UserCredentialCreate {
+	if v != nil {
+		_c.SetActivateToken(*v)
 	}
-	return ucc
+	return _c
 }
 
 // SetResetToken sets the "reset_token" field.
-func (ucc *UserCredentialCreate) SetResetToken(s string) *UserCredentialCreate {
-	ucc.mutation.SetResetToken(s)
-	return ucc
+func (_c *UserCredentialCreate) SetResetToken(v string) *UserCredentialCreate {
+	_c.mutation.SetResetToken(v)
+	return _c
 }
 
 // SetNillableResetToken sets the "reset_token" field if the given value is not nil.
-func (ucc *UserCredentialCreate) SetNillableResetToken(s *string) *UserCredentialCreate {
-	if s != nil {
-		ucc.SetResetToken(*s)
+func (_c *UserCredentialCreate) SetNillableResetToken(v *string) *UserCredentialCreate {
+	if v != nil {
+		_c.SetResetToken(*v)
 	}
-	return ucc
+	return _c
 }
 
 // SetID sets the "id" field.
-func (ucc *UserCredentialCreate) SetID(u uint32) *UserCredentialCreate {
-	ucc.mutation.SetID(u)
-	return ucc
+func (_c *UserCredentialCreate) SetID(v uint32) *UserCredentialCreate {
+	_c.mutation.SetID(v)
+	return _c
 }
 
 // Mutation returns the UserCredentialMutation object of the builder.
-func (ucc *UserCredentialCreate) Mutation() *UserCredentialMutation {
-	return ucc.mutation
+func (_c *UserCredentialCreate) Mutation() *UserCredentialMutation {
+	return _c.mutation
 }
 
 // Save creates the UserCredential in the database.
-func (ucc *UserCredentialCreate) Save(ctx context.Context) (*UserCredential, error) {
-	ucc.defaults()
-	return withHooks(ctx, ucc.sqlSave, ucc.mutation, ucc.hooks)
+func (_c *UserCredentialCreate) Save(ctx context.Context) (*UserCredential, error) {
+	_c.defaults()
+	return withHooks(ctx, _c.sqlSave, _c.mutation, _c.hooks)
 }
 
 // SaveX calls Save and panics if Save returns an error.
-func (ucc *UserCredentialCreate) SaveX(ctx context.Context) *UserCredential {
-	v, err := ucc.Save(ctx)
+func (_c *UserCredentialCreate) SaveX(ctx context.Context) *UserCredential {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -245,81 +245,81 @@ func (ucc *UserCredentialCreate) SaveX(ctx context.Context) *UserCredential {
 }
 
 // Exec executes the query.
-func (ucc *UserCredentialCreate) Exec(ctx context.Context) error {
-	_, err := ucc.Save(ctx)
+func (_c *UserCredentialCreate) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (ucc *UserCredentialCreate) ExecX(ctx context.Context) {
-	if err := ucc.Exec(ctx); err != nil {
+func (_c *UserCredentialCreate) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (ucc *UserCredentialCreate) defaults() {
-	if _, ok := ucc.mutation.IdentityType(); !ok {
+func (_c *UserCredentialCreate) defaults() {
+	if _, ok := _c.mutation.IdentityType(); !ok {
 		v := usercredential.DefaultIdentityType
-		ucc.mutation.SetIdentityType(v)
+		_c.mutation.SetIdentityType(v)
 	}
-	if _, ok := ucc.mutation.CredentialType(); !ok {
+	if _, ok := _c.mutation.CredentialType(); !ok {
 		v := usercredential.DefaultCredentialType
-		ucc.mutation.SetCredentialType(v)
+		_c.mutation.SetCredentialType(v)
 	}
-	if _, ok := ucc.mutation.IsPrimary(); !ok {
+	if _, ok := _c.mutation.IsPrimary(); !ok {
 		v := usercredential.DefaultIsPrimary
-		ucc.mutation.SetIsPrimary(v)
+		_c.mutation.SetIsPrimary(v)
 	}
-	if _, ok := ucc.mutation.Status(); !ok {
+	if _, ok := _c.mutation.Status(); !ok {
 		v := usercredential.DefaultStatus
-		ucc.mutation.SetStatus(v)
+		_c.mutation.SetStatus(v)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
-func (ucc *UserCredentialCreate) check() error {
-	if v, ok := ucc.mutation.TenantID(); ok {
+func (_c *UserCredentialCreate) check() error {
+	if v, ok := _c.mutation.TenantID(); ok {
 		if err := usercredential.TenantIDValidator(v); err != nil {
 			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "UserCredential.tenant_id": %w`, err)}
 		}
 	}
-	if v, ok := ucc.mutation.IdentityType(); ok {
+	if v, ok := _c.mutation.IdentityType(); ok {
 		if err := usercredential.IdentityTypeValidator(v); err != nil {
 			return &ValidationError{Name: "identity_type", err: fmt.Errorf(`ent: validator failed for field "UserCredential.identity_type": %w`, err)}
 		}
 	}
-	if v, ok := ucc.mutation.Identifier(); ok {
+	if v, ok := _c.mutation.Identifier(); ok {
 		if err := usercredential.IdentifierValidator(v); err != nil {
 			return &ValidationError{Name: "identifier", err: fmt.Errorf(`ent: validator failed for field "UserCredential.identifier": %w`, err)}
 		}
 	}
-	if v, ok := ucc.mutation.CredentialType(); ok {
+	if v, ok := _c.mutation.CredentialType(); ok {
 		if err := usercredential.CredentialTypeValidator(v); err != nil {
 			return &ValidationError{Name: "credential_type", err: fmt.Errorf(`ent: validator failed for field "UserCredential.credential_type": %w`, err)}
 		}
 	}
-	if v, ok := ucc.mutation.Credential(); ok {
+	if v, ok := _c.mutation.Credential(); ok {
 		if err := usercredential.CredentialValidator(v); err != nil {
 			return &ValidationError{Name: "credential", err: fmt.Errorf(`ent: validator failed for field "UserCredential.credential": %w`, err)}
 		}
 	}
-	if v, ok := ucc.mutation.Status(); ok {
+	if v, ok := _c.mutation.Status(); ok {
 		if err := usercredential.StatusValidator(v); err != nil {
 			return &ValidationError{Name: "status", err: fmt.Errorf(`ent: validator failed for field "UserCredential.status": %w`, err)}
 		}
 	}
-	if v, ok := ucc.mutation.ActivateToken(); ok {
+	if v, ok := _c.mutation.ActivateToken(); ok {
 		if err := usercredential.ActivateTokenValidator(v); err != nil {
 			return &ValidationError{Name: "activate_token", err: fmt.Errorf(`ent: validator failed for field "UserCredential.activate_token": %w`, err)}
 		}
 	}
-	if v, ok := ucc.mutation.ResetToken(); ok {
+	if v, ok := _c.mutation.ResetToken(); ok {
 		if err := usercredential.ResetTokenValidator(v); err != nil {
 			return &ValidationError{Name: "reset_token", err: fmt.Errorf(`ent: validator failed for field "UserCredential.reset_token": %w`, err)}
 		}
 	}
-	if v, ok := ucc.mutation.ID(); ok {
+	if v, ok := _c.mutation.ID(); ok {
 		if err := usercredential.IDValidator(v); err != nil {
 			return &ValidationError{Name: "id", err: fmt.Errorf(`ent: validator failed for field "UserCredential.id": %w`, err)}
 		}
@@ -327,12 +327,12 @@ func (ucc *UserCredentialCreate) check() error {
 	return nil
 }
 
-func (ucc *UserCredentialCreate) sqlSave(ctx context.Context) (*UserCredential, error) {
-	if err := ucc.check(); err != nil {
+func (_c *UserCredentialCreate) sqlSave(ctx context.Context) (*UserCredential, error) {
+	if err := _c.check(); err != nil {
 		return nil, err
 	}
-	_node, _spec := ucc.createSpec()
-	if err := sqlgraph.CreateNode(ctx, ucc.driver, _spec); err != nil {
+	_node, _spec := _c.createSpec()
+	if err := sqlgraph.CreateNode(ctx, _c.driver, _spec); err != nil {
 		if sqlgraph.IsConstraintError(err) {
 			err = &ConstraintError{msg: err.Error(), wrap: err}
 		}
@@ -342,74 +342,74 @@ func (ucc *UserCredentialCreate) sqlSave(ctx context.Context) (*UserCredential, 
 		id := _spec.ID.Value.(int64)
 		_node.ID = uint32(id)
 	}
-	ucc.mutation.id = &_node.ID
-	ucc.mutation.done = true
+	_c.mutation.id = &_node.ID
+	_c.mutation.done = true
 	return _node, nil
 }
 
-func (ucc *UserCredentialCreate) createSpec() (*UserCredential, *sqlgraph.CreateSpec) {
+func (_c *UserCredentialCreate) createSpec() (*UserCredential, *sqlgraph.CreateSpec) {
 	var (
-		_node = &UserCredential{config: ucc.config}
+		_node = &UserCredential{config: _c.config}
 		_spec = sqlgraph.NewCreateSpec(usercredential.Table, sqlgraph.NewFieldSpec(usercredential.FieldID, field.TypeUint32))
 	)
-	_spec.OnConflict = ucc.conflict
-	if id, ok := ucc.mutation.ID(); ok {
+	_spec.OnConflict = _c.conflict
+	if id, ok := _c.mutation.ID(); ok {
 		_node.ID = id
 		_spec.ID.Value = id
 	}
-	if value, ok := ucc.mutation.CreateTime(); ok {
+	if value, ok := _c.mutation.CreateTime(); ok {
 		_spec.SetField(usercredential.FieldCreateTime, field.TypeTime, value)
 		_node.CreateTime = &value
 	}
-	if value, ok := ucc.mutation.UpdateTime(); ok {
+	if value, ok := _c.mutation.UpdateTime(); ok {
 		_spec.SetField(usercredential.FieldUpdateTime, field.TypeTime, value)
 		_node.UpdateTime = &value
 	}
-	if value, ok := ucc.mutation.DeleteTime(); ok {
+	if value, ok := _c.mutation.DeleteTime(); ok {
 		_spec.SetField(usercredential.FieldDeleteTime, field.TypeTime, value)
 		_node.DeleteTime = &value
 	}
-	if value, ok := ucc.mutation.TenantID(); ok {
+	if value, ok := _c.mutation.TenantID(); ok {
 		_spec.SetField(usercredential.FieldTenantID, field.TypeUint32, value)
 		_node.TenantID = &value
 	}
-	if value, ok := ucc.mutation.UserID(); ok {
+	if value, ok := _c.mutation.UserID(); ok {
 		_spec.SetField(usercredential.FieldUserID, field.TypeUint32, value)
 		_node.UserID = &value
 	}
-	if value, ok := ucc.mutation.IdentityType(); ok {
+	if value, ok := _c.mutation.IdentityType(); ok {
 		_spec.SetField(usercredential.FieldIdentityType, field.TypeEnum, value)
 		_node.IdentityType = &value
 	}
-	if value, ok := ucc.mutation.Identifier(); ok {
+	if value, ok := _c.mutation.Identifier(); ok {
 		_spec.SetField(usercredential.FieldIdentifier, field.TypeString, value)
 		_node.Identifier = &value
 	}
-	if value, ok := ucc.mutation.CredentialType(); ok {
+	if value, ok := _c.mutation.CredentialType(); ok {
 		_spec.SetField(usercredential.FieldCredentialType, field.TypeEnum, value)
 		_node.CredentialType = &value
 	}
-	if value, ok := ucc.mutation.Credential(); ok {
+	if value, ok := _c.mutation.Credential(); ok {
 		_spec.SetField(usercredential.FieldCredential, field.TypeString, value)
 		_node.Credential = &value
 	}
-	if value, ok := ucc.mutation.IsPrimary(); ok {
+	if value, ok := _c.mutation.IsPrimary(); ok {
 		_spec.SetField(usercredential.FieldIsPrimary, field.TypeBool, value)
 		_node.IsPrimary = &value
 	}
-	if value, ok := ucc.mutation.Status(); ok {
+	if value, ok := _c.mutation.Status(); ok {
 		_spec.SetField(usercredential.FieldStatus, field.TypeEnum, value)
 		_node.Status = &value
 	}
-	if value, ok := ucc.mutation.ExtraInfo(); ok {
+	if value, ok := _c.mutation.ExtraInfo(); ok {
 		_spec.SetField(usercredential.FieldExtraInfo, field.TypeString, value)
 		_node.ExtraInfo = &value
 	}
-	if value, ok := ucc.mutation.ActivateToken(); ok {
+	if value, ok := _c.mutation.ActivateToken(); ok {
 		_spec.SetField(usercredential.FieldActivateToken, field.TypeString, value)
 		_node.ActivateToken = &value
 	}
-	if value, ok := ucc.mutation.ResetToken(); ok {
+	if value, ok := _c.mutation.ResetToken(); ok {
 		_spec.SetField(usercredential.FieldResetToken, field.TypeString, value)
 		_node.ResetToken = &value
 	}
@@ -432,10 +432,10 @@ func (ucc *UserCredentialCreate) createSpec() (*UserCredential, *sqlgraph.Create
 //			SetCreateTime(v+v).
 //		}).
 //		Exec(ctx)
-func (ucc *UserCredentialCreate) OnConflict(opts ...sql.ConflictOption) *UserCredentialUpsertOne {
-	ucc.conflict = opts
+func (_c *UserCredentialCreate) OnConflict(opts ...sql.ConflictOption) *UserCredentialUpsertOne {
+	_c.conflict = opts
 	return &UserCredentialUpsertOne{
-		create: ucc,
+		create: _c,
 	}
 }
 
@@ -445,10 +445,10 @@ func (ucc *UserCredentialCreate) OnConflict(opts ...sql.ConflictOption) *UserCre
 //	client.UserCredential.Create().
 //		OnConflict(sql.ConflictColumns(columns...)).
 //		Exec(ctx)
-func (ucc *UserCredentialCreate) OnConflictColumns(columns ...string) *UserCredentialUpsertOne {
-	ucc.conflict = append(ucc.conflict, sql.ConflictColumns(columns...))
+func (_c *UserCredentialCreate) OnConflictColumns(columns ...string) *UserCredentialUpsertOne {
+	_c.conflict = append(_c.conflict, sql.ConflictColumns(columns...))
 	return &UserCredentialUpsertOne{
-		create: ucc,
+		create: _c,
 	}
 }
 
@@ -1042,16 +1042,16 @@ type UserCredentialCreateBulk struct {
 }
 
 // Save creates the UserCredential entities in the database.
-func (uccb *UserCredentialCreateBulk) Save(ctx context.Context) ([]*UserCredential, error) {
-	if uccb.err != nil {
-		return nil, uccb.err
+func (_c *UserCredentialCreateBulk) Save(ctx context.Context) ([]*UserCredential, error) {
+	if _c.err != nil {
+		return nil, _c.err
 	}
-	specs := make([]*sqlgraph.CreateSpec, len(uccb.builders))
-	nodes := make([]*UserCredential, len(uccb.builders))
-	mutators := make([]Mutator, len(uccb.builders))
-	for i := range uccb.builders {
+	specs := make([]*sqlgraph.CreateSpec, len(_c.builders))
+	nodes := make([]*UserCredential, len(_c.builders))
+	mutators := make([]Mutator, len(_c.builders))
+	for i := range _c.builders {
 		func(i int, root context.Context) {
-			builder := uccb.builders[i]
+			builder := _c.builders[i]
 			builder.defaults()
 			var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 				mutation, ok := m.(*UserCredentialMutation)
@@ -1065,12 +1065,12 @@ func (uccb *UserCredentialCreateBulk) Save(ctx context.Context) ([]*UserCredenti
 				var err error
 				nodes[i], specs[i] = builder.createSpec()
 				if i < len(mutators)-1 {
-					_, err = mutators[i+1].Mutate(root, uccb.builders[i+1].mutation)
+					_, err = mutators[i+1].Mutate(root, _c.builders[i+1].mutation)
 				} else {
 					spec := &sqlgraph.BatchCreateSpec{Nodes: specs}
-					spec.OnConflict = uccb.conflict
+					spec.OnConflict = _c.conflict
 					// Invoke the actual operation on the latest mutation in the chain.
-					if err = sqlgraph.BatchCreate(ctx, uccb.driver, spec); err != nil {
+					if err = sqlgraph.BatchCreate(ctx, _c.driver, spec); err != nil {
 						if sqlgraph.IsConstraintError(err) {
 							err = &ConstraintError{msg: err.Error(), wrap: err}
 						}
@@ -1094,7 +1094,7 @@ func (uccb *UserCredentialCreateBulk) Save(ctx context.Context) ([]*UserCredenti
 		}(i, ctx)
 	}
 	if len(mutators) > 0 {
-		if _, err := mutators[0].Mutate(ctx, uccb.builders[0].mutation); err != nil {
+		if _, err := mutators[0].Mutate(ctx, _c.builders[0].mutation); err != nil {
 			return nil, err
 		}
 	}
@@ -1102,8 +1102,8 @@ func (uccb *UserCredentialCreateBulk) Save(ctx context.Context) ([]*UserCredenti
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (uccb *UserCredentialCreateBulk) SaveX(ctx context.Context) []*UserCredential {
-	v, err := uccb.Save(ctx)
+func (_c *UserCredentialCreateBulk) SaveX(ctx context.Context) []*UserCredential {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -1111,14 +1111,14 @@ func (uccb *UserCredentialCreateBulk) SaveX(ctx context.Context) []*UserCredenti
 }
 
 // Exec executes the query.
-func (uccb *UserCredentialCreateBulk) Exec(ctx context.Context) error {
-	_, err := uccb.Save(ctx)
+func (_c *UserCredentialCreateBulk) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (uccb *UserCredentialCreateBulk) ExecX(ctx context.Context) {
-	if err := uccb.Exec(ctx); err != nil {
+func (_c *UserCredentialCreateBulk) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
@@ -1138,10 +1138,10 @@ func (uccb *UserCredentialCreateBulk) ExecX(ctx context.Context) {
 //			SetCreateTime(v+v).
 //		}).
 //		Exec(ctx)
-func (uccb *UserCredentialCreateBulk) OnConflict(opts ...sql.ConflictOption) *UserCredentialUpsertBulk {
-	uccb.conflict = opts
+func (_c *UserCredentialCreateBulk) OnConflict(opts ...sql.ConflictOption) *UserCredentialUpsertBulk {
+	_c.conflict = opts
 	return &UserCredentialUpsertBulk{
-		create: uccb,
+		create: _c,
 	}
 }
 
@@ -1151,10 +1151,10 @@ func (uccb *UserCredentialCreateBulk) OnConflict(opts ...sql.ConflictOption) *Us
 //	client.UserCredential.Create().
 //		OnConflict(sql.ConflictColumns(columns...)).
 //		Exec(ctx)
-func (uccb *UserCredentialCreateBulk) OnConflictColumns(columns ...string) *UserCredentialUpsertBulk {
-	uccb.conflict = append(uccb.conflict, sql.ConflictColumns(columns...))
+func (_c *UserCredentialCreateBulk) OnConflictColumns(columns ...string) *UserCredentialUpsertBulk {
+	_c.conflict = append(_c.conflict, sql.ConflictColumns(columns...))
 	return &UserCredentialUpsertBulk{
-		create: uccb,
+		create: _c,
 	}
 }
 

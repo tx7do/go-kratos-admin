@@ -71,7 +71,7 @@ func (*UserCredential) scanValues(columns []string) ([]any, error) {
 
 // assignValues assigns the values that were returned from sql.Rows (after scanning)
 // to the UserCredential fields.
-func (uc *UserCredential) assignValues(columns []string, values []any) error {
+func (_m *UserCredential) assignValues(columns []string, values []any) error {
 	if m, n := len(values), len(columns); m < n {
 		return fmt.Errorf("mismatch number of scan values: %d != %d", m, n)
 	}
@@ -82,107 +82,107 @@ func (uc *UserCredential) assignValues(columns []string, values []any) error {
 			if !ok {
 				return fmt.Errorf("unexpected type %T for field id", value)
 			}
-			uc.ID = uint32(value.Int64)
+			_m.ID = uint32(value.Int64)
 		case usercredential.FieldCreateTime:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field create_time", values[i])
 			} else if value.Valid {
-				uc.CreateTime = new(time.Time)
-				*uc.CreateTime = value.Time
+				_m.CreateTime = new(time.Time)
+				*_m.CreateTime = value.Time
 			}
 		case usercredential.FieldUpdateTime:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field update_time", values[i])
 			} else if value.Valid {
-				uc.UpdateTime = new(time.Time)
-				*uc.UpdateTime = value.Time
+				_m.UpdateTime = new(time.Time)
+				*_m.UpdateTime = value.Time
 			}
 		case usercredential.FieldDeleteTime:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field delete_time", values[i])
 			} else if value.Valid {
-				uc.DeleteTime = new(time.Time)
-				*uc.DeleteTime = value.Time
+				_m.DeleteTime = new(time.Time)
+				*_m.DeleteTime = value.Time
 			}
 		case usercredential.FieldTenantID:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field tenant_id", values[i])
 			} else if value.Valid {
-				uc.TenantID = new(uint32)
-				*uc.TenantID = uint32(value.Int64)
+				_m.TenantID = new(uint32)
+				*_m.TenantID = uint32(value.Int64)
 			}
 		case usercredential.FieldUserID:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field user_id", values[i])
 			} else if value.Valid {
-				uc.UserID = new(uint32)
-				*uc.UserID = uint32(value.Int64)
+				_m.UserID = new(uint32)
+				*_m.UserID = uint32(value.Int64)
 			}
 		case usercredential.FieldIdentityType:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field identity_type", values[i])
 			} else if value.Valid {
-				uc.IdentityType = new(usercredential.IdentityType)
-				*uc.IdentityType = usercredential.IdentityType(value.String)
+				_m.IdentityType = new(usercredential.IdentityType)
+				*_m.IdentityType = usercredential.IdentityType(value.String)
 			}
 		case usercredential.FieldIdentifier:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field identifier", values[i])
 			} else if value.Valid {
-				uc.Identifier = new(string)
-				*uc.Identifier = value.String
+				_m.Identifier = new(string)
+				*_m.Identifier = value.String
 			}
 		case usercredential.FieldCredentialType:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field credential_type", values[i])
 			} else if value.Valid {
-				uc.CredentialType = new(usercredential.CredentialType)
-				*uc.CredentialType = usercredential.CredentialType(value.String)
+				_m.CredentialType = new(usercredential.CredentialType)
+				*_m.CredentialType = usercredential.CredentialType(value.String)
 			}
 		case usercredential.FieldCredential:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field credential", values[i])
 			} else if value.Valid {
-				uc.Credential = new(string)
-				*uc.Credential = value.String
+				_m.Credential = new(string)
+				*_m.Credential = value.String
 			}
 		case usercredential.FieldIsPrimary:
 			if value, ok := values[i].(*sql.NullBool); !ok {
 				return fmt.Errorf("unexpected type %T for field is_primary", values[i])
 			} else if value.Valid {
-				uc.IsPrimary = new(bool)
-				*uc.IsPrimary = value.Bool
+				_m.IsPrimary = new(bool)
+				*_m.IsPrimary = value.Bool
 			}
 		case usercredential.FieldStatus:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field status", values[i])
 			} else if value.Valid {
-				uc.Status = new(usercredential.Status)
-				*uc.Status = usercredential.Status(value.String)
+				_m.Status = new(usercredential.Status)
+				*_m.Status = usercredential.Status(value.String)
 			}
 		case usercredential.FieldExtraInfo:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field extra_info", values[i])
 			} else if value.Valid {
-				uc.ExtraInfo = new(string)
-				*uc.ExtraInfo = value.String
+				_m.ExtraInfo = new(string)
+				*_m.ExtraInfo = value.String
 			}
 		case usercredential.FieldActivateToken:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field activate_token", values[i])
 			} else if value.Valid {
-				uc.ActivateToken = new(string)
-				*uc.ActivateToken = value.String
+				_m.ActivateToken = new(string)
+				*_m.ActivateToken = value.String
 			}
 		case usercredential.FieldResetToken:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field reset_token", values[i])
 			} else if value.Valid {
-				uc.ResetToken = new(string)
-				*uc.ResetToken = value.String
+				_m.ResetToken = new(string)
+				*_m.ResetToken = value.String
 			}
 		default:
-			uc.selectValues.Set(columns[i], values[i])
+			_m.selectValues.Set(columns[i], values[i])
 		}
 	}
 	return nil
@@ -190,99 +190,99 @@ func (uc *UserCredential) assignValues(columns []string, values []any) error {
 
 // Value returns the ent.Value that was dynamically selected and assigned to the UserCredential.
 // This includes values selected through modifiers, order, etc.
-func (uc *UserCredential) Value(name string) (ent.Value, error) {
-	return uc.selectValues.Get(name)
+func (_m *UserCredential) Value(name string) (ent.Value, error) {
+	return _m.selectValues.Get(name)
 }
 
 // Update returns a builder for updating this UserCredential.
 // Note that you need to call UserCredential.Unwrap() before calling this method if this UserCredential
 // was returned from a transaction, and the transaction was committed or rolled back.
-func (uc *UserCredential) Update() *UserCredentialUpdateOne {
-	return NewUserCredentialClient(uc.config).UpdateOne(uc)
+func (_m *UserCredential) Update() *UserCredentialUpdateOne {
+	return NewUserCredentialClient(_m.config).UpdateOne(_m)
 }
 
 // Unwrap unwraps the UserCredential entity that was returned from a transaction after it was closed,
 // so that all future queries will be executed through the driver which created the transaction.
-func (uc *UserCredential) Unwrap() *UserCredential {
-	_tx, ok := uc.config.driver.(*txDriver)
+func (_m *UserCredential) Unwrap() *UserCredential {
+	_tx, ok := _m.config.driver.(*txDriver)
 	if !ok {
 		panic("ent: UserCredential is not a transactional entity")
 	}
-	uc.config.driver = _tx.drv
-	return uc
+	_m.config.driver = _tx.drv
+	return _m
 }
 
 // String implements the fmt.Stringer.
-func (uc *UserCredential) String() string {
+func (_m *UserCredential) String() string {
 	var builder strings.Builder
 	builder.WriteString("UserCredential(")
-	builder.WriteString(fmt.Sprintf("id=%v, ", uc.ID))
-	if v := uc.CreateTime; v != nil {
+	builder.WriteString(fmt.Sprintf("id=%v, ", _m.ID))
+	if v := _m.CreateTime; v != nil {
 		builder.WriteString("create_time=")
 		builder.WriteString(v.Format(time.ANSIC))
 	}
 	builder.WriteString(", ")
-	if v := uc.UpdateTime; v != nil {
+	if v := _m.UpdateTime; v != nil {
 		builder.WriteString("update_time=")
 		builder.WriteString(v.Format(time.ANSIC))
 	}
 	builder.WriteString(", ")
-	if v := uc.DeleteTime; v != nil {
+	if v := _m.DeleteTime; v != nil {
 		builder.WriteString("delete_time=")
 		builder.WriteString(v.Format(time.ANSIC))
 	}
 	builder.WriteString(", ")
-	if v := uc.TenantID; v != nil {
+	if v := _m.TenantID; v != nil {
 		builder.WriteString("tenant_id=")
 		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteString(", ")
-	if v := uc.UserID; v != nil {
+	if v := _m.UserID; v != nil {
 		builder.WriteString("user_id=")
 		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteString(", ")
-	if v := uc.IdentityType; v != nil {
+	if v := _m.IdentityType; v != nil {
 		builder.WriteString("identity_type=")
 		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteString(", ")
-	if v := uc.Identifier; v != nil {
+	if v := _m.Identifier; v != nil {
 		builder.WriteString("identifier=")
 		builder.WriteString(*v)
 	}
 	builder.WriteString(", ")
-	if v := uc.CredentialType; v != nil {
+	if v := _m.CredentialType; v != nil {
 		builder.WriteString("credential_type=")
 		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteString(", ")
-	if v := uc.Credential; v != nil {
+	if v := _m.Credential; v != nil {
 		builder.WriteString("credential=")
 		builder.WriteString(*v)
 	}
 	builder.WriteString(", ")
-	if v := uc.IsPrimary; v != nil {
+	if v := _m.IsPrimary; v != nil {
 		builder.WriteString("is_primary=")
 		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteString(", ")
-	if v := uc.Status; v != nil {
+	if v := _m.Status; v != nil {
 		builder.WriteString("status=")
 		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteString(", ")
-	if v := uc.ExtraInfo; v != nil {
+	if v := _m.ExtraInfo; v != nil {
 		builder.WriteString("extra_info=")
 		builder.WriteString(*v)
 	}
 	builder.WriteString(", ")
-	if v := uc.ActivateToken; v != nil {
+	if v := _m.ActivateToken; v != nil {
 		builder.WriteString("activate_token=")
 		builder.WriteString(*v)
 	}
 	builder.WriteString(", ")
-	if v := uc.ResetToken; v != nil {
+	if v := _m.ResetToken; v != nil {
 		builder.WriteString("reset_token=")
 		builder.WriteString(*v)
 	}

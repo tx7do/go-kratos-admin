@@ -23,213 +23,213 @@ type PositionCreate struct {
 }
 
 // SetCreateTime sets the "create_time" field.
-func (pc *PositionCreate) SetCreateTime(t time.Time) *PositionCreate {
-	pc.mutation.SetCreateTime(t)
-	return pc
+func (_c *PositionCreate) SetCreateTime(v time.Time) *PositionCreate {
+	_c.mutation.SetCreateTime(v)
+	return _c
 }
 
 // SetNillableCreateTime sets the "create_time" field if the given value is not nil.
-func (pc *PositionCreate) SetNillableCreateTime(t *time.Time) *PositionCreate {
-	if t != nil {
-		pc.SetCreateTime(*t)
+func (_c *PositionCreate) SetNillableCreateTime(v *time.Time) *PositionCreate {
+	if v != nil {
+		_c.SetCreateTime(*v)
 	}
-	return pc
+	return _c
 }
 
 // SetUpdateTime sets the "update_time" field.
-func (pc *PositionCreate) SetUpdateTime(t time.Time) *PositionCreate {
-	pc.mutation.SetUpdateTime(t)
-	return pc
+func (_c *PositionCreate) SetUpdateTime(v time.Time) *PositionCreate {
+	_c.mutation.SetUpdateTime(v)
+	return _c
 }
 
 // SetNillableUpdateTime sets the "update_time" field if the given value is not nil.
-func (pc *PositionCreate) SetNillableUpdateTime(t *time.Time) *PositionCreate {
-	if t != nil {
-		pc.SetUpdateTime(*t)
+func (_c *PositionCreate) SetNillableUpdateTime(v *time.Time) *PositionCreate {
+	if v != nil {
+		_c.SetUpdateTime(*v)
 	}
-	return pc
+	return _c
 }
 
 // SetDeleteTime sets the "delete_time" field.
-func (pc *PositionCreate) SetDeleteTime(t time.Time) *PositionCreate {
-	pc.mutation.SetDeleteTime(t)
-	return pc
+func (_c *PositionCreate) SetDeleteTime(v time.Time) *PositionCreate {
+	_c.mutation.SetDeleteTime(v)
+	return _c
 }
 
 // SetNillableDeleteTime sets the "delete_time" field if the given value is not nil.
-func (pc *PositionCreate) SetNillableDeleteTime(t *time.Time) *PositionCreate {
-	if t != nil {
-		pc.SetDeleteTime(*t)
+func (_c *PositionCreate) SetNillableDeleteTime(v *time.Time) *PositionCreate {
+	if v != nil {
+		_c.SetDeleteTime(*v)
 	}
-	return pc
+	return _c
 }
 
 // SetStatus sets the "status" field.
-func (pc *PositionCreate) SetStatus(po position.Status) *PositionCreate {
-	pc.mutation.SetStatus(po)
-	return pc
+func (_c *PositionCreate) SetStatus(v position.Status) *PositionCreate {
+	_c.mutation.SetStatus(v)
+	return _c
 }
 
 // SetNillableStatus sets the "status" field if the given value is not nil.
-func (pc *PositionCreate) SetNillableStatus(po *position.Status) *PositionCreate {
-	if po != nil {
-		pc.SetStatus(*po)
+func (_c *PositionCreate) SetNillableStatus(v *position.Status) *PositionCreate {
+	if v != nil {
+		_c.SetStatus(*v)
 	}
-	return pc
+	return _c
 }
 
 // SetCreateBy sets the "create_by" field.
-func (pc *PositionCreate) SetCreateBy(u uint32) *PositionCreate {
-	pc.mutation.SetCreateBy(u)
-	return pc
+func (_c *PositionCreate) SetCreateBy(v uint32) *PositionCreate {
+	_c.mutation.SetCreateBy(v)
+	return _c
 }
 
 // SetNillableCreateBy sets the "create_by" field if the given value is not nil.
-func (pc *PositionCreate) SetNillableCreateBy(u *uint32) *PositionCreate {
-	if u != nil {
-		pc.SetCreateBy(*u)
+func (_c *PositionCreate) SetNillableCreateBy(v *uint32) *PositionCreate {
+	if v != nil {
+		_c.SetCreateBy(*v)
 	}
-	return pc
+	return _c
 }
 
 // SetUpdateBy sets the "update_by" field.
-func (pc *PositionCreate) SetUpdateBy(u uint32) *PositionCreate {
-	pc.mutation.SetUpdateBy(u)
-	return pc
+func (_c *PositionCreate) SetUpdateBy(v uint32) *PositionCreate {
+	_c.mutation.SetUpdateBy(v)
+	return _c
 }
 
 // SetNillableUpdateBy sets the "update_by" field if the given value is not nil.
-func (pc *PositionCreate) SetNillableUpdateBy(u *uint32) *PositionCreate {
-	if u != nil {
-		pc.SetUpdateBy(*u)
+func (_c *PositionCreate) SetNillableUpdateBy(v *uint32) *PositionCreate {
+	if v != nil {
+		_c.SetUpdateBy(*v)
 	}
-	return pc
+	return _c
 }
 
 // SetRemark sets the "remark" field.
-func (pc *PositionCreate) SetRemark(s string) *PositionCreate {
-	pc.mutation.SetRemark(s)
-	return pc
+func (_c *PositionCreate) SetRemark(v string) *PositionCreate {
+	_c.mutation.SetRemark(v)
+	return _c
 }
 
 // SetNillableRemark sets the "remark" field if the given value is not nil.
-func (pc *PositionCreate) SetNillableRemark(s *string) *PositionCreate {
-	if s != nil {
-		pc.SetRemark(*s)
+func (_c *PositionCreate) SetNillableRemark(v *string) *PositionCreate {
+	if v != nil {
+		_c.SetRemark(*v)
 	}
-	return pc
+	return _c
 }
 
 // SetTenantID sets the "tenant_id" field.
-func (pc *PositionCreate) SetTenantID(u uint32) *PositionCreate {
-	pc.mutation.SetTenantID(u)
-	return pc
+func (_c *PositionCreate) SetTenantID(v uint32) *PositionCreate {
+	_c.mutation.SetTenantID(v)
+	return _c
 }
 
 // SetNillableTenantID sets the "tenant_id" field if the given value is not nil.
-func (pc *PositionCreate) SetNillableTenantID(u *uint32) *PositionCreate {
-	if u != nil {
-		pc.SetTenantID(*u)
+func (_c *PositionCreate) SetNillableTenantID(v *uint32) *PositionCreate {
+	if v != nil {
+		_c.SetTenantID(*v)
 	}
-	return pc
+	return _c
 }
 
 // SetName sets the "name" field.
-func (pc *PositionCreate) SetName(s string) *PositionCreate {
-	pc.mutation.SetName(s)
-	return pc
+func (_c *PositionCreate) SetName(v string) *PositionCreate {
+	_c.mutation.SetName(v)
+	return _c
 }
 
 // SetNillableName sets the "name" field if the given value is not nil.
-func (pc *PositionCreate) SetNillableName(s *string) *PositionCreate {
-	if s != nil {
-		pc.SetName(*s)
+func (_c *PositionCreate) SetNillableName(v *string) *PositionCreate {
+	if v != nil {
+		_c.SetName(*v)
 	}
-	return pc
+	return _c
 }
 
 // SetCode sets the "code" field.
-func (pc *PositionCreate) SetCode(s string) *PositionCreate {
-	pc.mutation.SetCode(s)
-	return pc
+func (_c *PositionCreate) SetCode(v string) *PositionCreate {
+	_c.mutation.SetCode(v)
+	return _c
 }
 
 // SetNillableCode sets the "code" field if the given value is not nil.
-func (pc *PositionCreate) SetNillableCode(s *string) *PositionCreate {
-	if s != nil {
-		pc.SetCode(*s)
+func (_c *PositionCreate) SetNillableCode(v *string) *PositionCreate {
+	if v != nil {
+		_c.SetCode(*v)
 	}
-	return pc
+	return _c
 }
 
 // SetParentID sets the "parent_id" field.
-func (pc *PositionCreate) SetParentID(u uint32) *PositionCreate {
-	pc.mutation.SetParentID(u)
-	return pc
+func (_c *PositionCreate) SetParentID(v uint32) *PositionCreate {
+	_c.mutation.SetParentID(v)
+	return _c
 }
 
 // SetNillableParentID sets the "parent_id" field if the given value is not nil.
-func (pc *PositionCreate) SetNillableParentID(u *uint32) *PositionCreate {
-	if u != nil {
-		pc.SetParentID(*u)
+func (_c *PositionCreate) SetNillableParentID(v *uint32) *PositionCreate {
+	if v != nil {
+		_c.SetParentID(*v)
 	}
-	return pc
+	return _c
 }
 
 // SetSortID sets the "sort_id" field.
-func (pc *PositionCreate) SetSortID(i int32) *PositionCreate {
-	pc.mutation.SetSortID(i)
-	return pc
+func (_c *PositionCreate) SetSortID(v int32) *PositionCreate {
+	_c.mutation.SetSortID(v)
+	return _c
 }
 
 // SetNillableSortID sets the "sort_id" field if the given value is not nil.
-func (pc *PositionCreate) SetNillableSortID(i *int32) *PositionCreate {
-	if i != nil {
-		pc.SetSortID(*i)
+func (_c *PositionCreate) SetNillableSortID(v *int32) *PositionCreate {
+	if v != nil {
+		_c.SetSortID(*v)
 	}
-	return pc
+	return _c
 }
 
 // SetID sets the "id" field.
-func (pc *PositionCreate) SetID(u uint32) *PositionCreate {
-	pc.mutation.SetID(u)
-	return pc
+func (_c *PositionCreate) SetID(v uint32) *PositionCreate {
+	_c.mutation.SetID(v)
+	return _c
 }
 
 // SetParent sets the "parent" edge to the Position entity.
-func (pc *PositionCreate) SetParent(p *Position) *PositionCreate {
-	return pc.SetParentID(p.ID)
+func (_c *PositionCreate) SetParent(v *Position) *PositionCreate {
+	return _c.SetParentID(v.ID)
 }
 
 // AddChildIDs adds the "children" edge to the Position entity by IDs.
-func (pc *PositionCreate) AddChildIDs(ids ...uint32) *PositionCreate {
-	pc.mutation.AddChildIDs(ids...)
-	return pc
+func (_c *PositionCreate) AddChildIDs(ids ...uint32) *PositionCreate {
+	_c.mutation.AddChildIDs(ids...)
+	return _c
 }
 
 // AddChildren adds the "children" edges to the Position entity.
-func (pc *PositionCreate) AddChildren(p ...*Position) *PositionCreate {
-	ids := make([]uint32, len(p))
-	for i := range p {
-		ids[i] = p[i].ID
+func (_c *PositionCreate) AddChildren(v ...*Position) *PositionCreate {
+	ids := make([]uint32, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
 	}
-	return pc.AddChildIDs(ids...)
+	return _c.AddChildIDs(ids...)
 }
 
 // Mutation returns the PositionMutation object of the builder.
-func (pc *PositionCreate) Mutation() *PositionMutation {
-	return pc.mutation
+func (_c *PositionCreate) Mutation() *PositionMutation {
+	return _c.mutation
 }
 
 // Save creates the Position in the database.
-func (pc *PositionCreate) Save(ctx context.Context) (*Position, error) {
-	pc.defaults()
-	return withHooks(ctx, pc.sqlSave, pc.mutation, pc.hooks)
+func (_c *PositionCreate) Save(ctx context.Context) (*Position, error) {
+	_c.defaults()
+	return withHooks(ctx, _c.sqlSave, _c.mutation, _c.hooks)
 }
 
 // SaveX calls Save and panics if Save returns an error.
-func (pc *PositionCreate) SaveX(ctx context.Context) *Position {
-	v, err := pc.Save(ctx)
+func (_c *PositionCreate) SaveX(ctx context.Context) *Position {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -237,78 +237,78 @@ func (pc *PositionCreate) SaveX(ctx context.Context) *Position {
 }
 
 // Exec executes the query.
-func (pc *PositionCreate) Exec(ctx context.Context) error {
-	_, err := pc.Save(ctx)
+func (_c *PositionCreate) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (pc *PositionCreate) ExecX(ctx context.Context) {
-	if err := pc.Exec(ctx); err != nil {
+func (_c *PositionCreate) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (pc *PositionCreate) defaults() {
-	if _, ok := pc.mutation.Status(); !ok {
+func (_c *PositionCreate) defaults() {
+	if _, ok := _c.mutation.Status(); !ok {
 		v := position.DefaultStatus
-		pc.mutation.SetStatus(v)
+		_c.mutation.SetStatus(v)
 	}
-	if _, ok := pc.mutation.Remark(); !ok {
+	if _, ok := _c.mutation.Remark(); !ok {
 		v := position.DefaultRemark
-		pc.mutation.SetRemark(v)
+		_c.mutation.SetRemark(v)
 	}
-	if _, ok := pc.mutation.Name(); !ok {
+	if _, ok := _c.mutation.Name(); !ok {
 		v := position.DefaultName
-		pc.mutation.SetName(v)
+		_c.mutation.SetName(v)
 	}
-	if _, ok := pc.mutation.Code(); !ok {
+	if _, ok := _c.mutation.Code(); !ok {
 		v := position.DefaultCode
-		pc.mutation.SetCode(v)
+		_c.mutation.SetCode(v)
 	}
-	if _, ok := pc.mutation.ParentID(); !ok {
+	if _, ok := _c.mutation.ParentID(); !ok {
 		v := position.DefaultParentID
-		pc.mutation.SetParentID(v)
+		_c.mutation.SetParentID(v)
 	}
-	if _, ok := pc.mutation.SortID(); !ok {
+	if _, ok := _c.mutation.SortID(); !ok {
 		v := position.DefaultSortID
-		pc.mutation.SetSortID(v)
+		_c.mutation.SetSortID(v)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
-func (pc *PositionCreate) check() error {
-	if v, ok := pc.mutation.Status(); ok {
+func (_c *PositionCreate) check() error {
+	if v, ok := _c.mutation.Status(); ok {
 		if err := position.StatusValidator(v); err != nil {
 			return &ValidationError{Name: "status", err: fmt.Errorf(`ent: validator failed for field "Position.status": %w`, err)}
 		}
 	}
-	if v, ok := pc.mutation.TenantID(); ok {
+	if v, ok := _c.mutation.TenantID(); ok {
 		if err := position.TenantIDValidator(v); err != nil {
 			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "Position.tenant_id": %w`, err)}
 		}
 	}
-	if _, ok := pc.mutation.Name(); !ok {
+	if _, ok := _c.mutation.Name(); !ok {
 		return &ValidationError{Name: "name", err: errors.New(`ent: missing required field "Position.name"`)}
 	}
-	if v, ok := pc.mutation.Name(); ok {
+	if v, ok := _c.mutation.Name(); ok {
 		if err := position.NameValidator(v); err != nil {
 			return &ValidationError{Name: "name", err: fmt.Errorf(`ent: validator failed for field "Position.name": %w`, err)}
 		}
 	}
-	if _, ok := pc.mutation.Code(); !ok {
+	if _, ok := _c.mutation.Code(); !ok {
 		return &ValidationError{Name: "code", err: errors.New(`ent: missing required field "Position.code"`)}
 	}
-	if v, ok := pc.mutation.Code(); ok {
+	if v, ok := _c.mutation.Code(); ok {
 		if err := position.CodeValidator(v); err != nil {
 			return &ValidationError{Name: "code", err: fmt.Errorf(`ent: validator failed for field "Position.code": %w`, err)}
 		}
 	}
-	if _, ok := pc.mutation.SortID(); !ok {
+	if _, ok := _c.mutation.SortID(); !ok {
 		return &ValidationError{Name: "sort_id", err: errors.New(`ent: missing required field "Position.sort_id"`)}
 	}
-	if v, ok := pc.mutation.ID(); ok {
+	if v, ok := _c.mutation.ID(); ok {
 		if err := position.IDValidator(v); err != nil {
 			return &ValidationError{Name: "id", err: fmt.Errorf(`ent: validator failed for field "Position.id": %w`, err)}
 		}
@@ -316,12 +316,12 @@ func (pc *PositionCreate) check() error {
 	return nil
 }
 
-func (pc *PositionCreate) sqlSave(ctx context.Context) (*Position, error) {
-	if err := pc.check(); err != nil {
+func (_c *PositionCreate) sqlSave(ctx context.Context) (*Position, error) {
+	if err := _c.check(); err != nil {
 		return nil, err
 	}
-	_node, _spec := pc.createSpec()
-	if err := sqlgraph.CreateNode(ctx, pc.driver, _spec); err != nil {
+	_node, _spec := _c.createSpec()
+	if err := sqlgraph.CreateNode(ctx, _c.driver, _spec); err != nil {
 		if sqlgraph.IsConstraintError(err) {
 			err = &ConstraintError{msg: err.Error(), wrap: err}
 		}
@@ -331,66 +331,66 @@ func (pc *PositionCreate) sqlSave(ctx context.Context) (*Position, error) {
 		id := _spec.ID.Value.(int64)
 		_node.ID = uint32(id)
 	}
-	pc.mutation.id = &_node.ID
-	pc.mutation.done = true
+	_c.mutation.id = &_node.ID
+	_c.mutation.done = true
 	return _node, nil
 }
 
-func (pc *PositionCreate) createSpec() (*Position, *sqlgraph.CreateSpec) {
+func (_c *PositionCreate) createSpec() (*Position, *sqlgraph.CreateSpec) {
 	var (
-		_node = &Position{config: pc.config}
+		_node = &Position{config: _c.config}
 		_spec = sqlgraph.NewCreateSpec(position.Table, sqlgraph.NewFieldSpec(position.FieldID, field.TypeUint32))
 	)
-	_spec.OnConflict = pc.conflict
-	if id, ok := pc.mutation.ID(); ok {
+	_spec.OnConflict = _c.conflict
+	if id, ok := _c.mutation.ID(); ok {
 		_node.ID = id
 		_spec.ID.Value = id
 	}
-	if value, ok := pc.mutation.CreateTime(); ok {
+	if value, ok := _c.mutation.CreateTime(); ok {
 		_spec.SetField(position.FieldCreateTime, field.TypeTime, value)
 		_node.CreateTime = &value
 	}
-	if value, ok := pc.mutation.UpdateTime(); ok {
+	if value, ok := _c.mutation.UpdateTime(); ok {
 		_spec.SetField(position.FieldUpdateTime, field.TypeTime, value)
 		_node.UpdateTime = &value
 	}
-	if value, ok := pc.mutation.DeleteTime(); ok {
+	if value, ok := _c.mutation.DeleteTime(); ok {
 		_spec.SetField(position.FieldDeleteTime, field.TypeTime, value)
 		_node.DeleteTime = &value
 	}
-	if value, ok := pc.mutation.Status(); ok {
+	if value, ok := _c.mutation.Status(); ok {
 		_spec.SetField(position.FieldStatus, field.TypeEnum, value)
 		_node.Status = &value
 	}
-	if value, ok := pc.mutation.CreateBy(); ok {
+	if value, ok := _c.mutation.CreateBy(); ok {
 		_spec.SetField(position.FieldCreateBy, field.TypeUint32, value)
 		_node.CreateBy = &value
 	}
-	if value, ok := pc.mutation.UpdateBy(); ok {
+	if value, ok := _c.mutation.UpdateBy(); ok {
 		_spec.SetField(position.FieldUpdateBy, field.TypeUint32, value)
 		_node.UpdateBy = &value
 	}
-	if value, ok := pc.mutation.Remark(); ok {
+	if value, ok := _c.mutation.Remark(); ok {
 		_spec.SetField(position.FieldRemark, field.TypeString, value)
 		_node.Remark = &value
 	}
-	if value, ok := pc.mutation.TenantID(); ok {
+	if value, ok := _c.mutation.TenantID(); ok {
 		_spec.SetField(position.FieldTenantID, field.TypeUint32, value)
 		_node.TenantID = &value
 	}
-	if value, ok := pc.mutation.Name(); ok {
+	if value, ok := _c.mutation.Name(); ok {
 		_spec.SetField(position.FieldName, field.TypeString, value)
 		_node.Name = value
 	}
-	if value, ok := pc.mutation.Code(); ok {
+	if value, ok := _c.mutation.Code(); ok {
 		_spec.SetField(position.FieldCode, field.TypeString, value)
 		_node.Code = value
 	}
-	if value, ok := pc.mutation.SortID(); ok {
+	if value, ok := _c.mutation.SortID(); ok {
 		_spec.SetField(position.FieldSortID, field.TypeInt32, value)
 		_node.SortID = value
 	}
-	if nodes := pc.mutation.ParentIDs(); len(nodes) > 0 {
+	if nodes := _c.mutation.ParentIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
@@ -407,7 +407,7 @@ func (pc *PositionCreate) createSpec() (*Position, *sqlgraph.CreateSpec) {
 		_node.ParentID = nodes[0]
 		_spec.Edges = append(_spec.Edges, edge)
 	}
-	if nodes := pc.mutation.ChildrenIDs(); len(nodes) > 0 {
+	if nodes := _c.mutation.ChildrenIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
@@ -442,10 +442,10 @@ func (pc *PositionCreate) createSpec() (*Position, *sqlgraph.CreateSpec) {
 //			SetCreateTime(v+v).
 //		}).
 //		Exec(ctx)
-func (pc *PositionCreate) OnConflict(opts ...sql.ConflictOption) *PositionUpsertOne {
-	pc.conflict = opts
+func (_c *PositionCreate) OnConflict(opts ...sql.ConflictOption) *PositionUpsertOne {
+	_c.conflict = opts
 	return &PositionUpsertOne{
-		create: pc,
+		create: _c,
 	}
 }
 
@@ -455,10 +455,10 @@ func (pc *PositionCreate) OnConflict(opts ...sql.ConflictOption) *PositionUpsert
 //	client.Position.Create().
 //		OnConflict(sql.ConflictColumns(columns...)).
 //		Exec(ctx)
-func (pc *PositionCreate) OnConflictColumns(columns ...string) *PositionUpsertOne {
-	pc.conflict = append(pc.conflict, sql.ConflictColumns(columns...))
+func (_c *PositionCreate) OnConflictColumns(columns ...string) *PositionUpsertOne {
+	_c.conflict = append(_c.conflict, sql.ConflictColumns(columns...))
 	return &PositionUpsertOne{
-		create: pc,
+		create: _c,
 	}
 }
 
@@ -961,16 +961,16 @@ type PositionCreateBulk struct {
 }
 
 // Save creates the Position entities in the database.
-func (pcb *PositionCreateBulk) Save(ctx context.Context) ([]*Position, error) {
-	if pcb.err != nil {
-		return nil, pcb.err
+func (_c *PositionCreateBulk) Save(ctx context.Context) ([]*Position, error) {
+	if _c.err != nil {
+		return nil, _c.err
 	}
-	specs := make([]*sqlgraph.CreateSpec, len(pcb.builders))
-	nodes := make([]*Position, len(pcb.builders))
-	mutators := make([]Mutator, len(pcb.builders))
-	for i := range pcb.builders {
+	specs := make([]*sqlgraph.CreateSpec, len(_c.builders))
+	nodes := make([]*Position, len(_c.builders))
+	mutators := make([]Mutator, len(_c.builders))
+	for i := range _c.builders {
 		func(i int, root context.Context) {
-			builder := pcb.builders[i]
+			builder := _c.builders[i]
 			builder.defaults()
 			var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 				mutation, ok := m.(*PositionMutation)
@@ -984,12 +984,12 @@ func (pcb *PositionCreateBulk) Save(ctx context.Context) ([]*Position, error) {
 				var err error
 				nodes[i], specs[i] = builder.createSpec()
 				if i < len(mutators)-1 {
-					_, err = mutators[i+1].Mutate(root, pcb.builders[i+1].mutation)
+					_, err = mutators[i+1].Mutate(root, _c.builders[i+1].mutation)
 				} else {
 					spec := &sqlgraph.BatchCreateSpec{Nodes: specs}
-					spec.OnConflict = pcb.conflict
+					spec.OnConflict = _c.conflict
 					// Invoke the actual operation on the latest mutation in the chain.
-					if err = sqlgraph.BatchCreate(ctx, pcb.driver, spec); err != nil {
+					if err = sqlgraph.BatchCreate(ctx, _c.driver, spec); err != nil {
 						if sqlgraph.IsConstraintError(err) {
 							err = &ConstraintError{msg: err.Error(), wrap: err}
 						}
@@ -1013,7 +1013,7 @@ func (pcb *PositionCreateBulk) Save(ctx context.Context) ([]*Position, error) {
 		}(i, ctx)
 	}
 	if len(mutators) > 0 {
-		if _, err := mutators[0].Mutate(ctx, pcb.builders[0].mutation); err != nil {
+		if _, err := mutators[0].Mutate(ctx, _c.builders[0].mutation); err != nil {
 			return nil, err
 		}
 	}
@@ -1021,8 +1021,8 @@ func (pcb *PositionCreateBulk) Save(ctx context.Context) ([]*Position, error) {
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (pcb *PositionCreateBulk) SaveX(ctx context.Context) []*Position {
-	v, err := pcb.Save(ctx)
+func (_c *PositionCreateBulk) SaveX(ctx context.Context) []*Position {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -1030,14 +1030,14 @@ func (pcb *PositionCreateBulk) SaveX(ctx context.Context) []*Position {
 }
 
 // Exec executes the query.
-func (pcb *PositionCreateBulk) Exec(ctx context.Context) error {
-	_, err := pcb.Save(ctx)
+func (_c *PositionCreateBulk) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (pcb *PositionCreateBulk) ExecX(ctx context.Context) {
-	if err := pcb.Exec(ctx); err != nil {
+func (_c *PositionCreateBulk) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
@@ -1057,10 +1057,10 @@ func (pcb *PositionCreateBulk) ExecX(ctx context.Context) {
 //			SetCreateTime(v+v).
 //		}).
 //		Exec(ctx)
-func (pcb *PositionCreateBulk) OnConflict(opts ...sql.ConflictOption) *PositionUpsertBulk {
-	pcb.conflict = opts
+func (_c *PositionCreateBulk) OnConflict(opts ...sql.ConflictOption) *PositionUpsertBulk {
+	_c.conflict = opts
 	return &PositionUpsertBulk{
-		create: pcb,
+		create: _c,
 	}
 }
 
@@ -1070,10 +1070,10 @@ func (pcb *PositionCreateBulk) OnConflict(opts ...sql.ConflictOption) *PositionU
 //	client.Position.Create().
 //		OnConflict(sql.ConflictColumns(columns...)).
 //		Exec(ctx)
-func (pcb *PositionCreateBulk) OnConflictColumns(columns ...string) *PositionUpsertBulk {
-	pcb.conflict = append(pcb.conflict, sql.ConflictColumns(columns...))
+func (_c *PositionCreateBulk) OnConflictColumns(columns ...string) *PositionUpsertBulk {
+	_c.conflict = append(_c.conflict, sql.ConflictColumns(columns...))
 	return &PositionUpsertBulk{
-		create: pcb,
+		create: _c,
 	}
 }
 

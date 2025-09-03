@@ -95,7 +95,7 @@ func (*AdminOperationLog) scanValues(columns []string) ([]any, error) {
 
 // assignValues assigns the values that were returned from sql.Rows (after scanning)
 // to the AdminOperationLog fields.
-func (aol *AdminOperationLog) assignValues(columns []string, values []any) error {
+func (_m *AdminOperationLog) assignValues(columns []string, values []any) error {
 	if m, n := len(values), len(columns); m < n {
 		return fmt.Errorf("mismatch number of scan values: %d != %d", m, n)
 	}
@@ -106,184 +106,184 @@ func (aol *AdminOperationLog) assignValues(columns []string, values []any) error
 			if !ok {
 				return fmt.Errorf("unexpected type %T for field id", value)
 			}
-			aol.ID = uint32(value.Int64)
+			_m.ID = uint32(value.Int64)
 		case adminoperationlog.FieldCreateTime:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field create_time", values[i])
 			} else if value.Valid {
-				aol.CreateTime = new(time.Time)
-				*aol.CreateTime = value.Time
+				_m.CreateTime = new(time.Time)
+				*_m.CreateTime = value.Time
 			}
 		case adminoperationlog.FieldRequestID:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field request_id", values[i])
 			} else if value.Valid {
-				aol.RequestID = new(string)
-				*aol.RequestID = value.String
+				_m.RequestID = new(string)
+				*_m.RequestID = value.String
 			}
 		case adminoperationlog.FieldMethod:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field method", values[i])
 			} else if value.Valid {
-				aol.Method = new(string)
-				*aol.Method = value.String
+				_m.Method = new(string)
+				*_m.Method = value.String
 			}
 		case adminoperationlog.FieldOperation:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field operation", values[i])
 			} else if value.Valid {
-				aol.Operation = new(string)
-				*aol.Operation = value.String
+				_m.Operation = new(string)
+				*_m.Operation = value.String
 			}
 		case adminoperationlog.FieldPath:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field path", values[i])
 			} else if value.Valid {
-				aol.Path = new(string)
-				*aol.Path = value.String
+				_m.Path = new(string)
+				*_m.Path = value.String
 			}
 		case adminoperationlog.FieldReferer:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field referer", values[i])
 			} else if value.Valid {
-				aol.Referer = new(string)
-				*aol.Referer = value.String
+				_m.Referer = new(string)
+				*_m.Referer = value.String
 			}
 		case adminoperationlog.FieldRequestURI:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field request_uri", values[i])
 			} else if value.Valid {
-				aol.RequestURI = new(string)
-				*aol.RequestURI = value.String
+				_m.RequestURI = new(string)
+				*_m.RequestURI = value.String
 			}
 		case adminoperationlog.FieldRequestBody:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field request_body", values[i])
 			} else if value.Valid {
-				aol.RequestBody = new(string)
-				*aol.RequestBody = value.String
+				_m.RequestBody = new(string)
+				*_m.RequestBody = value.String
 			}
 		case adminoperationlog.FieldRequestHeader:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field request_header", values[i])
 			} else if value.Valid {
-				aol.RequestHeader = new(string)
-				*aol.RequestHeader = value.String
+				_m.RequestHeader = new(string)
+				*_m.RequestHeader = value.String
 			}
 		case adminoperationlog.FieldResponse:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field response", values[i])
 			} else if value.Valid {
-				aol.Response = new(string)
-				*aol.Response = value.String
+				_m.Response = new(string)
+				*_m.Response = value.String
 			}
 		case adminoperationlog.FieldCostTime:
 			if value, ok := values[i].(*sql.NullFloat64); !ok {
 				return fmt.Errorf("unexpected type %T for field cost_time", values[i])
 			} else if value.Valid {
-				aol.CostTime = new(float64)
-				*aol.CostTime = value.Float64
+				_m.CostTime = new(float64)
+				*_m.CostTime = value.Float64
 			}
 		case adminoperationlog.FieldUserID:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field user_id", values[i])
 			} else if value.Valid {
-				aol.UserID = new(uint32)
-				*aol.UserID = uint32(value.Int64)
+				_m.UserID = new(uint32)
+				*_m.UserID = uint32(value.Int64)
 			}
 		case adminoperationlog.FieldUsername:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field username", values[i])
 			} else if value.Valid {
-				aol.Username = new(string)
-				*aol.Username = value.String
+				_m.Username = new(string)
+				*_m.Username = value.String
 			}
 		case adminoperationlog.FieldClientIP:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field client_ip", values[i])
 			} else if value.Valid {
-				aol.ClientIP = new(string)
-				*aol.ClientIP = value.String
+				_m.ClientIP = new(string)
+				*_m.ClientIP = value.String
 			}
 		case adminoperationlog.FieldStatusCode:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field status_code", values[i])
 			} else if value.Valid {
-				aol.StatusCode = new(int32)
-				*aol.StatusCode = int32(value.Int64)
+				_m.StatusCode = new(int32)
+				*_m.StatusCode = int32(value.Int64)
 			}
 		case adminoperationlog.FieldReason:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field reason", values[i])
 			} else if value.Valid {
-				aol.Reason = new(string)
-				*aol.Reason = value.String
+				_m.Reason = new(string)
+				*_m.Reason = value.String
 			}
 		case adminoperationlog.FieldSuccess:
 			if value, ok := values[i].(*sql.NullBool); !ok {
 				return fmt.Errorf("unexpected type %T for field success", values[i])
 			} else if value.Valid {
-				aol.Success = new(bool)
-				*aol.Success = value.Bool
+				_m.Success = new(bool)
+				*_m.Success = value.Bool
 			}
 		case adminoperationlog.FieldLocation:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field location", values[i])
 			} else if value.Valid {
-				aol.Location = new(string)
-				*aol.Location = value.String
+				_m.Location = new(string)
+				*_m.Location = value.String
 			}
 		case adminoperationlog.FieldUserAgent:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field user_agent", values[i])
 			} else if value.Valid {
-				aol.UserAgent = new(string)
-				*aol.UserAgent = value.String
+				_m.UserAgent = new(string)
+				*_m.UserAgent = value.String
 			}
 		case adminoperationlog.FieldBrowserName:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field browser_name", values[i])
 			} else if value.Valid {
-				aol.BrowserName = new(string)
-				*aol.BrowserName = value.String
+				_m.BrowserName = new(string)
+				*_m.BrowserName = value.String
 			}
 		case adminoperationlog.FieldBrowserVersion:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field browser_version", values[i])
 			} else if value.Valid {
-				aol.BrowserVersion = new(string)
-				*aol.BrowserVersion = value.String
+				_m.BrowserVersion = new(string)
+				*_m.BrowserVersion = value.String
 			}
 		case adminoperationlog.FieldClientID:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field client_id", values[i])
 			} else if value.Valid {
-				aol.ClientID = new(string)
-				*aol.ClientID = value.String
+				_m.ClientID = new(string)
+				*_m.ClientID = value.String
 			}
 		case adminoperationlog.FieldClientName:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field client_name", values[i])
 			} else if value.Valid {
-				aol.ClientName = new(string)
-				*aol.ClientName = value.String
+				_m.ClientName = new(string)
+				*_m.ClientName = value.String
 			}
 		case adminoperationlog.FieldOsName:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field os_name", values[i])
 			} else if value.Valid {
-				aol.OsName = new(string)
-				*aol.OsName = value.String
+				_m.OsName = new(string)
+				*_m.OsName = value.String
 			}
 		case adminoperationlog.FieldOsVersion:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field os_version", values[i])
 			} else if value.Valid {
-				aol.OsVersion = new(string)
-				*aol.OsVersion = value.String
+				_m.OsVersion = new(string)
+				*_m.OsVersion = value.String
 			}
 		default:
-			aol.selectValues.Set(columns[i], values[i])
+			_m.selectValues.Set(columns[i], values[i])
 		}
 	}
 	return nil
@@ -291,154 +291,154 @@ func (aol *AdminOperationLog) assignValues(columns []string, values []any) error
 
 // Value returns the ent.Value that was dynamically selected and assigned to the AdminOperationLog.
 // This includes values selected through modifiers, order, etc.
-func (aol *AdminOperationLog) Value(name string) (ent.Value, error) {
-	return aol.selectValues.Get(name)
+func (_m *AdminOperationLog) Value(name string) (ent.Value, error) {
+	return _m.selectValues.Get(name)
 }
 
 // Update returns a builder for updating this AdminOperationLog.
 // Note that you need to call AdminOperationLog.Unwrap() before calling this method if this AdminOperationLog
 // was returned from a transaction, and the transaction was committed or rolled back.
-func (aol *AdminOperationLog) Update() *AdminOperationLogUpdateOne {
-	return NewAdminOperationLogClient(aol.config).UpdateOne(aol)
+func (_m *AdminOperationLog) Update() *AdminOperationLogUpdateOne {
+	return NewAdminOperationLogClient(_m.config).UpdateOne(_m)
 }
 
 // Unwrap unwraps the AdminOperationLog entity that was returned from a transaction after it was closed,
 // so that all future queries will be executed through the driver which created the transaction.
-func (aol *AdminOperationLog) Unwrap() *AdminOperationLog {
-	_tx, ok := aol.config.driver.(*txDriver)
+func (_m *AdminOperationLog) Unwrap() *AdminOperationLog {
+	_tx, ok := _m.config.driver.(*txDriver)
 	if !ok {
 		panic("ent: AdminOperationLog is not a transactional entity")
 	}
-	aol.config.driver = _tx.drv
-	return aol
+	_m.config.driver = _tx.drv
+	return _m
 }
 
 // String implements the fmt.Stringer.
-func (aol *AdminOperationLog) String() string {
+func (_m *AdminOperationLog) String() string {
 	var builder strings.Builder
 	builder.WriteString("AdminOperationLog(")
-	builder.WriteString(fmt.Sprintf("id=%v, ", aol.ID))
-	if v := aol.CreateTime; v != nil {
+	builder.WriteString(fmt.Sprintf("id=%v, ", _m.ID))
+	if v := _m.CreateTime; v != nil {
 		builder.WriteString("create_time=")
 		builder.WriteString(v.Format(time.ANSIC))
 	}
 	builder.WriteString(", ")
-	if v := aol.RequestID; v != nil {
+	if v := _m.RequestID; v != nil {
 		builder.WriteString("request_id=")
 		builder.WriteString(*v)
 	}
 	builder.WriteString(", ")
-	if v := aol.Method; v != nil {
+	if v := _m.Method; v != nil {
 		builder.WriteString("method=")
 		builder.WriteString(*v)
 	}
 	builder.WriteString(", ")
-	if v := aol.Operation; v != nil {
+	if v := _m.Operation; v != nil {
 		builder.WriteString("operation=")
 		builder.WriteString(*v)
 	}
 	builder.WriteString(", ")
-	if v := aol.Path; v != nil {
+	if v := _m.Path; v != nil {
 		builder.WriteString("path=")
 		builder.WriteString(*v)
 	}
 	builder.WriteString(", ")
-	if v := aol.Referer; v != nil {
+	if v := _m.Referer; v != nil {
 		builder.WriteString("referer=")
 		builder.WriteString(*v)
 	}
 	builder.WriteString(", ")
-	if v := aol.RequestURI; v != nil {
+	if v := _m.RequestURI; v != nil {
 		builder.WriteString("request_uri=")
 		builder.WriteString(*v)
 	}
 	builder.WriteString(", ")
-	if v := aol.RequestBody; v != nil {
+	if v := _m.RequestBody; v != nil {
 		builder.WriteString("request_body=")
 		builder.WriteString(*v)
 	}
 	builder.WriteString(", ")
-	if v := aol.RequestHeader; v != nil {
+	if v := _m.RequestHeader; v != nil {
 		builder.WriteString("request_header=")
 		builder.WriteString(*v)
 	}
 	builder.WriteString(", ")
-	if v := aol.Response; v != nil {
+	if v := _m.Response; v != nil {
 		builder.WriteString("response=")
 		builder.WriteString(*v)
 	}
 	builder.WriteString(", ")
-	if v := aol.CostTime; v != nil {
+	if v := _m.CostTime; v != nil {
 		builder.WriteString("cost_time=")
 		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteString(", ")
-	if v := aol.UserID; v != nil {
+	if v := _m.UserID; v != nil {
 		builder.WriteString("user_id=")
 		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteString(", ")
-	if v := aol.Username; v != nil {
+	if v := _m.Username; v != nil {
 		builder.WriteString("username=")
 		builder.WriteString(*v)
 	}
 	builder.WriteString(", ")
-	if v := aol.ClientIP; v != nil {
+	if v := _m.ClientIP; v != nil {
 		builder.WriteString("client_ip=")
 		builder.WriteString(*v)
 	}
 	builder.WriteString(", ")
-	if v := aol.StatusCode; v != nil {
+	if v := _m.StatusCode; v != nil {
 		builder.WriteString("status_code=")
 		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteString(", ")
-	if v := aol.Reason; v != nil {
+	if v := _m.Reason; v != nil {
 		builder.WriteString("reason=")
 		builder.WriteString(*v)
 	}
 	builder.WriteString(", ")
-	if v := aol.Success; v != nil {
+	if v := _m.Success; v != nil {
 		builder.WriteString("success=")
 		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteString(", ")
-	if v := aol.Location; v != nil {
+	if v := _m.Location; v != nil {
 		builder.WriteString("location=")
 		builder.WriteString(*v)
 	}
 	builder.WriteString(", ")
-	if v := aol.UserAgent; v != nil {
+	if v := _m.UserAgent; v != nil {
 		builder.WriteString("user_agent=")
 		builder.WriteString(*v)
 	}
 	builder.WriteString(", ")
-	if v := aol.BrowserName; v != nil {
+	if v := _m.BrowserName; v != nil {
 		builder.WriteString("browser_name=")
 		builder.WriteString(*v)
 	}
 	builder.WriteString(", ")
-	if v := aol.BrowserVersion; v != nil {
+	if v := _m.BrowserVersion; v != nil {
 		builder.WriteString("browser_version=")
 		builder.WriteString(*v)
 	}
 	builder.WriteString(", ")
-	if v := aol.ClientID; v != nil {
+	if v := _m.ClientID; v != nil {
 		builder.WriteString("client_id=")
 		builder.WriteString(*v)
 	}
 	builder.WriteString(", ")
-	if v := aol.ClientName; v != nil {
+	if v := _m.ClientName; v != nil {
 		builder.WriteString("client_name=")
 		builder.WriteString(*v)
 	}
 	builder.WriteString(", ")
-	if v := aol.OsName; v != nil {
+	if v := _m.OsName; v != nil {
 		builder.WriteString("os_name=")
 		builder.WriteString(*v)
 	}
 	builder.WriteString(", ")
-	if v := aol.OsVersion; v != nil {
+	if v := _m.OsVersion; v != nil {
 		builder.WriteString("os_version=")
 		builder.WriteString(*v)
 	}

@@ -23,150 +23,150 @@ type PrivateMessageCreate struct {
 }
 
 // SetCreateTime sets the "create_time" field.
-func (pmc *PrivateMessageCreate) SetCreateTime(t time.Time) *PrivateMessageCreate {
-	pmc.mutation.SetCreateTime(t)
-	return pmc
+func (_c *PrivateMessageCreate) SetCreateTime(v time.Time) *PrivateMessageCreate {
+	_c.mutation.SetCreateTime(v)
+	return _c
 }
 
 // SetNillableCreateTime sets the "create_time" field if the given value is not nil.
-func (pmc *PrivateMessageCreate) SetNillableCreateTime(t *time.Time) *PrivateMessageCreate {
-	if t != nil {
-		pmc.SetCreateTime(*t)
+func (_c *PrivateMessageCreate) SetNillableCreateTime(v *time.Time) *PrivateMessageCreate {
+	if v != nil {
+		_c.SetCreateTime(*v)
 	}
-	return pmc
+	return _c
 }
 
 // SetUpdateTime sets the "update_time" field.
-func (pmc *PrivateMessageCreate) SetUpdateTime(t time.Time) *PrivateMessageCreate {
-	pmc.mutation.SetUpdateTime(t)
-	return pmc
+func (_c *PrivateMessageCreate) SetUpdateTime(v time.Time) *PrivateMessageCreate {
+	_c.mutation.SetUpdateTime(v)
+	return _c
 }
 
 // SetNillableUpdateTime sets the "update_time" field if the given value is not nil.
-func (pmc *PrivateMessageCreate) SetNillableUpdateTime(t *time.Time) *PrivateMessageCreate {
-	if t != nil {
-		pmc.SetUpdateTime(*t)
+func (_c *PrivateMessageCreate) SetNillableUpdateTime(v *time.Time) *PrivateMessageCreate {
+	if v != nil {
+		_c.SetUpdateTime(*v)
 	}
-	return pmc
+	return _c
 }
 
 // SetDeleteTime sets the "delete_time" field.
-func (pmc *PrivateMessageCreate) SetDeleteTime(t time.Time) *PrivateMessageCreate {
-	pmc.mutation.SetDeleteTime(t)
-	return pmc
+func (_c *PrivateMessageCreate) SetDeleteTime(v time.Time) *PrivateMessageCreate {
+	_c.mutation.SetDeleteTime(v)
+	return _c
 }
 
 // SetNillableDeleteTime sets the "delete_time" field if the given value is not nil.
-func (pmc *PrivateMessageCreate) SetNillableDeleteTime(t *time.Time) *PrivateMessageCreate {
-	if t != nil {
-		pmc.SetDeleteTime(*t)
+func (_c *PrivateMessageCreate) SetNillableDeleteTime(v *time.Time) *PrivateMessageCreate {
+	if v != nil {
+		_c.SetDeleteTime(*v)
 	}
-	return pmc
+	return _c
 }
 
 // SetTenantID sets the "tenant_id" field.
-func (pmc *PrivateMessageCreate) SetTenantID(u uint32) *PrivateMessageCreate {
-	pmc.mutation.SetTenantID(u)
-	return pmc
+func (_c *PrivateMessageCreate) SetTenantID(v uint32) *PrivateMessageCreate {
+	_c.mutation.SetTenantID(v)
+	return _c
 }
 
 // SetNillableTenantID sets the "tenant_id" field if the given value is not nil.
-func (pmc *PrivateMessageCreate) SetNillableTenantID(u *uint32) *PrivateMessageCreate {
-	if u != nil {
-		pmc.SetTenantID(*u)
+func (_c *PrivateMessageCreate) SetNillableTenantID(v *uint32) *PrivateMessageCreate {
+	if v != nil {
+		_c.SetTenantID(*v)
 	}
-	return pmc
+	return _c
 }
 
 // SetSubject sets the "subject" field.
-func (pmc *PrivateMessageCreate) SetSubject(s string) *PrivateMessageCreate {
-	pmc.mutation.SetSubject(s)
-	return pmc
+func (_c *PrivateMessageCreate) SetSubject(v string) *PrivateMessageCreate {
+	_c.mutation.SetSubject(v)
+	return _c
 }
 
 // SetNillableSubject sets the "subject" field if the given value is not nil.
-func (pmc *PrivateMessageCreate) SetNillableSubject(s *string) *PrivateMessageCreate {
-	if s != nil {
-		pmc.SetSubject(*s)
+func (_c *PrivateMessageCreate) SetNillableSubject(v *string) *PrivateMessageCreate {
+	if v != nil {
+		_c.SetSubject(*v)
 	}
-	return pmc
+	return _c
 }
 
 // SetContent sets the "content" field.
-func (pmc *PrivateMessageCreate) SetContent(s string) *PrivateMessageCreate {
-	pmc.mutation.SetContent(s)
-	return pmc
+func (_c *PrivateMessageCreate) SetContent(v string) *PrivateMessageCreate {
+	_c.mutation.SetContent(v)
+	return _c
 }
 
 // SetNillableContent sets the "content" field if the given value is not nil.
-func (pmc *PrivateMessageCreate) SetNillableContent(s *string) *PrivateMessageCreate {
-	if s != nil {
-		pmc.SetContent(*s)
+func (_c *PrivateMessageCreate) SetNillableContent(v *string) *PrivateMessageCreate {
+	if v != nil {
+		_c.SetContent(*v)
 	}
-	return pmc
+	return _c
 }
 
 // SetStatus sets the "status" field.
-func (pmc *PrivateMessageCreate) SetStatus(pr privatemessage.Status) *PrivateMessageCreate {
-	pmc.mutation.SetStatus(pr)
-	return pmc
+func (_c *PrivateMessageCreate) SetStatus(v privatemessage.Status) *PrivateMessageCreate {
+	_c.mutation.SetStatus(v)
+	return _c
 }
 
 // SetNillableStatus sets the "status" field if the given value is not nil.
-func (pmc *PrivateMessageCreate) SetNillableStatus(pr *privatemessage.Status) *PrivateMessageCreate {
-	if pr != nil {
-		pmc.SetStatus(*pr)
+func (_c *PrivateMessageCreate) SetNillableStatus(v *privatemessage.Status) *PrivateMessageCreate {
+	if v != nil {
+		_c.SetStatus(*v)
 	}
-	return pmc
+	return _c
 }
 
 // SetSenderID sets the "sender_id" field.
-func (pmc *PrivateMessageCreate) SetSenderID(u uint32) *PrivateMessageCreate {
-	pmc.mutation.SetSenderID(u)
-	return pmc
+func (_c *PrivateMessageCreate) SetSenderID(v uint32) *PrivateMessageCreate {
+	_c.mutation.SetSenderID(v)
+	return _c
 }
 
 // SetNillableSenderID sets the "sender_id" field if the given value is not nil.
-func (pmc *PrivateMessageCreate) SetNillableSenderID(u *uint32) *PrivateMessageCreate {
-	if u != nil {
-		pmc.SetSenderID(*u)
+func (_c *PrivateMessageCreate) SetNillableSenderID(v *uint32) *PrivateMessageCreate {
+	if v != nil {
+		_c.SetSenderID(*v)
 	}
-	return pmc
+	return _c
 }
 
 // SetReceiverID sets the "receiver_id" field.
-func (pmc *PrivateMessageCreate) SetReceiverID(u uint32) *PrivateMessageCreate {
-	pmc.mutation.SetReceiverID(u)
-	return pmc
+func (_c *PrivateMessageCreate) SetReceiverID(v uint32) *PrivateMessageCreate {
+	_c.mutation.SetReceiverID(v)
+	return _c
 }
 
 // SetNillableReceiverID sets the "receiver_id" field if the given value is not nil.
-func (pmc *PrivateMessageCreate) SetNillableReceiverID(u *uint32) *PrivateMessageCreate {
-	if u != nil {
-		pmc.SetReceiverID(*u)
+func (_c *PrivateMessageCreate) SetNillableReceiverID(v *uint32) *PrivateMessageCreate {
+	if v != nil {
+		_c.SetReceiverID(*v)
 	}
-	return pmc
+	return _c
 }
 
 // SetID sets the "id" field.
-func (pmc *PrivateMessageCreate) SetID(u uint32) *PrivateMessageCreate {
-	pmc.mutation.SetID(u)
-	return pmc
+func (_c *PrivateMessageCreate) SetID(v uint32) *PrivateMessageCreate {
+	_c.mutation.SetID(v)
+	return _c
 }
 
 // Mutation returns the PrivateMessageMutation object of the builder.
-func (pmc *PrivateMessageCreate) Mutation() *PrivateMessageMutation {
-	return pmc.mutation
+func (_c *PrivateMessageCreate) Mutation() *PrivateMessageMutation {
+	return _c.mutation
 }
 
 // Save creates the PrivateMessage in the database.
-func (pmc *PrivateMessageCreate) Save(ctx context.Context) (*PrivateMessage, error) {
-	return withHooks(ctx, pmc.sqlSave, pmc.mutation, pmc.hooks)
+func (_c *PrivateMessageCreate) Save(ctx context.Context) (*PrivateMessage, error) {
+	return withHooks(ctx, _c.sqlSave, _c.mutation, _c.hooks)
 }
 
 // SaveX calls Save and panics if Save returns an error.
-func (pmc *PrivateMessageCreate) SaveX(ctx context.Context) *PrivateMessage {
-	v, err := pmc.Save(ctx)
+func (_c *PrivateMessageCreate) SaveX(ctx context.Context) *PrivateMessage {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -174,31 +174,31 @@ func (pmc *PrivateMessageCreate) SaveX(ctx context.Context) *PrivateMessage {
 }
 
 // Exec executes the query.
-func (pmc *PrivateMessageCreate) Exec(ctx context.Context) error {
-	_, err := pmc.Save(ctx)
+func (_c *PrivateMessageCreate) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (pmc *PrivateMessageCreate) ExecX(ctx context.Context) {
-	if err := pmc.Exec(ctx); err != nil {
+func (_c *PrivateMessageCreate) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
-func (pmc *PrivateMessageCreate) check() error {
-	if v, ok := pmc.mutation.TenantID(); ok {
+func (_c *PrivateMessageCreate) check() error {
+	if v, ok := _c.mutation.TenantID(); ok {
 		if err := privatemessage.TenantIDValidator(v); err != nil {
 			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "PrivateMessage.tenant_id": %w`, err)}
 		}
 	}
-	if v, ok := pmc.mutation.Status(); ok {
+	if v, ok := _c.mutation.Status(); ok {
 		if err := privatemessage.StatusValidator(v); err != nil {
 			return &ValidationError{Name: "status", err: fmt.Errorf(`ent: validator failed for field "PrivateMessage.status": %w`, err)}
 		}
 	}
-	if v, ok := pmc.mutation.ID(); ok {
+	if v, ok := _c.mutation.ID(); ok {
 		if err := privatemessage.IDValidator(v); err != nil {
 			return &ValidationError{Name: "id", err: fmt.Errorf(`ent: validator failed for field "PrivateMessage.id": %w`, err)}
 		}
@@ -206,12 +206,12 @@ func (pmc *PrivateMessageCreate) check() error {
 	return nil
 }
 
-func (pmc *PrivateMessageCreate) sqlSave(ctx context.Context) (*PrivateMessage, error) {
-	if err := pmc.check(); err != nil {
+func (_c *PrivateMessageCreate) sqlSave(ctx context.Context) (*PrivateMessage, error) {
+	if err := _c.check(); err != nil {
 		return nil, err
 	}
-	_node, _spec := pmc.createSpec()
-	if err := sqlgraph.CreateNode(ctx, pmc.driver, _spec); err != nil {
+	_node, _spec := _c.createSpec()
+	if err := sqlgraph.CreateNode(ctx, _c.driver, _spec); err != nil {
 		if sqlgraph.IsConstraintError(err) {
 			err = &ConstraintError{msg: err.Error(), wrap: err}
 		}
@@ -221,54 +221,54 @@ func (pmc *PrivateMessageCreate) sqlSave(ctx context.Context) (*PrivateMessage, 
 		id := _spec.ID.Value.(int64)
 		_node.ID = uint32(id)
 	}
-	pmc.mutation.id = &_node.ID
-	pmc.mutation.done = true
+	_c.mutation.id = &_node.ID
+	_c.mutation.done = true
 	return _node, nil
 }
 
-func (pmc *PrivateMessageCreate) createSpec() (*PrivateMessage, *sqlgraph.CreateSpec) {
+func (_c *PrivateMessageCreate) createSpec() (*PrivateMessage, *sqlgraph.CreateSpec) {
 	var (
-		_node = &PrivateMessage{config: pmc.config}
+		_node = &PrivateMessage{config: _c.config}
 		_spec = sqlgraph.NewCreateSpec(privatemessage.Table, sqlgraph.NewFieldSpec(privatemessage.FieldID, field.TypeUint32))
 	)
-	_spec.OnConflict = pmc.conflict
-	if id, ok := pmc.mutation.ID(); ok {
+	_spec.OnConflict = _c.conflict
+	if id, ok := _c.mutation.ID(); ok {
 		_node.ID = id
 		_spec.ID.Value = id
 	}
-	if value, ok := pmc.mutation.CreateTime(); ok {
+	if value, ok := _c.mutation.CreateTime(); ok {
 		_spec.SetField(privatemessage.FieldCreateTime, field.TypeTime, value)
 		_node.CreateTime = &value
 	}
-	if value, ok := pmc.mutation.UpdateTime(); ok {
+	if value, ok := _c.mutation.UpdateTime(); ok {
 		_spec.SetField(privatemessage.FieldUpdateTime, field.TypeTime, value)
 		_node.UpdateTime = &value
 	}
-	if value, ok := pmc.mutation.DeleteTime(); ok {
+	if value, ok := _c.mutation.DeleteTime(); ok {
 		_spec.SetField(privatemessage.FieldDeleteTime, field.TypeTime, value)
 		_node.DeleteTime = &value
 	}
-	if value, ok := pmc.mutation.TenantID(); ok {
+	if value, ok := _c.mutation.TenantID(); ok {
 		_spec.SetField(privatemessage.FieldTenantID, field.TypeUint32, value)
 		_node.TenantID = &value
 	}
-	if value, ok := pmc.mutation.Subject(); ok {
+	if value, ok := _c.mutation.Subject(); ok {
 		_spec.SetField(privatemessage.FieldSubject, field.TypeString, value)
 		_node.Subject = &value
 	}
-	if value, ok := pmc.mutation.Content(); ok {
+	if value, ok := _c.mutation.Content(); ok {
 		_spec.SetField(privatemessage.FieldContent, field.TypeString, value)
 		_node.Content = &value
 	}
-	if value, ok := pmc.mutation.Status(); ok {
+	if value, ok := _c.mutation.Status(); ok {
 		_spec.SetField(privatemessage.FieldStatus, field.TypeEnum, value)
 		_node.Status = &value
 	}
-	if value, ok := pmc.mutation.SenderID(); ok {
+	if value, ok := _c.mutation.SenderID(); ok {
 		_spec.SetField(privatemessage.FieldSenderID, field.TypeUint32, value)
 		_node.SenderID = &value
 	}
-	if value, ok := pmc.mutation.ReceiverID(); ok {
+	if value, ok := _c.mutation.ReceiverID(); ok {
 		_spec.SetField(privatemessage.FieldReceiverID, field.TypeUint32, value)
 		_node.ReceiverID = &value
 	}
@@ -291,10 +291,10 @@ func (pmc *PrivateMessageCreate) createSpec() (*PrivateMessage, *sqlgraph.Create
 //			SetCreateTime(v+v).
 //		}).
 //		Exec(ctx)
-func (pmc *PrivateMessageCreate) OnConflict(opts ...sql.ConflictOption) *PrivateMessageUpsertOne {
-	pmc.conflict = opts
+func (_c *PrivateMessageCreate) OnConflict(opts ...sql.ConflictOption) *PrivateMessageUpsertOne {
+	_c.conflict = opts
 	return &PrivateMessageUpsertOne{
-		create: pmc,
+		create: _c,
 	}
 }
 
@@ -304,10 +304,10 @@ func (pmc *PrivateMessageCreate) OnConflict(opts ...sql.ConflictOption) *Private
 //	client.PrivateMessage.Create().
 //		OnConflict(sql.ConflictColumns(columns...)).
 //		Exec(ctx)
-func (pmc *PrivateMessageCreate) OnConflictColumns(columns ...string) *PrivateMessageUpsertOne {
-	pmc.conflict = append(pmc.conflict, sql.ConflictColumns(columns...))
+func (_c *PrivateMessageCreate) OnConflictColumns(columns ...string) *PrivateMessageUpsertOne {
+	_c.conflict = append(_c.conflict, sql.ConflictColumns(columns...))
 	return &PrivateMessageUpsertOne{
-		create: pmc,
+		create: _c,
 	}
 }
 
@@ -719,16 +719,16 @@ type PrivateMessageCreateBulk struct {
 }
 
 // Save creates the PrivateMessage entities in the database.
-func (pmcb *PrivateMessageCreateBulk) Save(ctx context.Context) ([]*PrivateMessage, error) {
-	if pmcb.err != nil {
-		return nil, pmcb.err
+func (_c *PrivateMessageCreateBulk) Save(ctx context.Context) ([]*PrivateMessage, error) {
+	if _c.err != nil {
+		return nil, _c.err
 	}
-	specs := make([]*sqlgraph.CreateSpec, len(pmcb.builders))
-	nodes := make([]*PrivateMessage, len(pmcb.builders))
-	mutators := make([]Mutator, len(pmcb.builders))
-	for i := range pmcb.builders {
+	specs := make([]*sqlgraph.CreateSpec, len(_c.builders))
+	nodes := make([]*PrivateMessage, len(_c.builders))
+	mutators := make([]Mutator, len(_c.builders))
+	for i := range _c.builders {
 		func(i int, root context.Context) {
-			builder := pmcb.builders[i]
+			builder := _c.builders[i]
 			var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 				mutation, ok := m.(*PrivateMessageMutation)
 				if !ok {
@@ -741,12 +741,12 @@ func (pmcb *PrivateMessageCreateBulk) Save(ctx context.Context) ([]*PrivateMessa
 				var err error
 				nodes[i], specs[i] = builder.createSpec()
 				if i < len(mutators)-1 {
-					_, err = mutators[i+1].Mutate(root, pmcb.builders[i+1].mutation)
+					_, err = mutators[i+1].Mutate(root, _c.builders[i+1].mutation)
 				} else {
 					spec := &sqlgraph.BatchCreateSpec{Nodes: specs}
-					spec.OnConflict = pmcb.conflict
+					spec.OnConflict = _c.conflict
 					// Invoke the actual operation on the latest mutation in the chain.
-					if err = sqlgraph.BatchCreate(ctx, pmcb.driver, spec); err != nil {
+					if err = sqlgraph.BatchCreate(ctx, _c.driver, spec); err != nil {
 						if sqlgraph.IsConstraintError(err) {
 							err = &ConstraintError{msg: err.Error(), wrap: err}
 						}
@@ -770,7 +770,7 @@ func (pmcb *PrivateMessageCreateBulk) Save(ctx context.Context) ([]*PrivateMessa
 		}(i, ctx)
 	}
 	if len(mutators) > 0 {
-		if _, err := mutators[0].Mutate(ctx, pmcb.builders[0].mutation); err != nil {
+		if _, err := mutators[0].Mutate(ctx, _c.builders[0].mutation); err != nil {
 			return nil, err
 		}
 	}
@@ -778,8 +778,8 @@ func (pmcb *PrivateMessageCreateBulk) Save(ctx context.Context) ([]*PrivateMessa
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (pmcb *PrivateMessageCreateBulk) SaveX(ctx context.Context) []*PrivateMessage {
-	v, err := pmcb.Save(ctx)
+func (_c *PrivateMessageCreateBulk) SaveX(ctx context.Context) []*PrivateMessage {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -787,14 +787,14 @@ func (pmcb *PrivateMessageCreateBulk) SaveX(ctx context.Context) []*PrivateMessa
 }
 
 // Exec executes the query.
-func (pmcb *PrivateMessageCreateBulk) Exec(ctx context.Context) error {
-	_, err := pmcb.Save(ctx)
+func (_c *PrivateMessageCreateBulk) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (pmcb *PrivateMessageCreateBulk) ExecX(ctx context.Context) {
-	if err := pmcb.Exec(ctx); err != nil {
+func (_c *PrivateMessageCreateBulk) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
@@ -814,10 +814,10 @@ func (pmcb *PrivateMessageCreateBulk) ExecX(ctx context.Context) {
 //			SetCreateTime(v+v).
 //		}).
 //		Exec(ctx)
-func (pmcb *PrivateMessageCreateBulk) OnConflict(opts ...sql.ConflictOption) *PrivateMessageUpsertBulk {
-	pmcb.conflict = opts
+func (_c *PrivateMessageCreateBulk) OnConflict(opts ...sql.ConflictOption) *PrivateMessageUpsertBulk {
+	_c.conflict = opts
 	return &PrivateMessageUpsertBulk{
-		create: pmcb,
+		create: _c,
 	}
 }
 
@@ -827,10 +827,10 @@ func (pmcb *PrivateMessageCreateBulk) OnConflict(opts ...sql.ConflictOption) *Pr
 //	client.PrivateMessage.Create().
 //		OnConflict(sql.ConflictColumns(columns...)).
 //		Exec(ctx)
-func (pmcb *PrivateMessageCreateBulk) OnConflictColumns(columns ...string) *PrivateMessageUpsertBulk {
-	pmcb.conflict = append(pmcb.conflict, sql.ConflictColumns(columns...))
+func (_c *PrivateMessageCreateBulk) OnConflictColumns(columns ...string) *PrivateMessageUpsertBulk {
+	_c.conflict = append(_c.conflict, sql.ConflictColumns(columns...))
 	return &PrivateMessageUpsertBulk{
-		create: pmcb,
+		create: _c,
 	}
 }
 

@@ -75,7 +75,7 @@ func (*File) scanValues(columns []string) ([]any, error) {
 
 // assignValues assigns the values that were returned from sql.Rows (after scanning)
 // to the File fields.
-func (f *File) assignValues(columns []string, values []any) error {
+func (_m *File) assignValues(columns []string, values []any) error {
 	if m, n := len(values), len(columns); m < n {
 		return fmt.Errorf("mismatch number of scan values: %d != %d", m, n)
 	}
@@ -86,128 +86,128 @@ func (f *File) assignValues(columns []string, values []any) error {
 			if !ok {
 				return fmt.Errorf("unexpected type %T for field id", value)
 			}
-			f.ID = uint32(value.Int64)
+			_m.ID = uint32(value.Int64)
 		case file.FieldCreateTime:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field create_time", values[i])
 			} else if value.Valid {
-				f.CreateTime = new(time.Time)
-				*f.CreateTime = value.Time
+				_m.CreateTime = new(time.Time)
+				*_m.CreateTime = value.Time
 			}
 		case file.FieldUpdateTime:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field update_time", values[i])
 			} else if value.Valid {
-				f.UpdateTime = new(time.Time)
-				*f.UpdateTime = value.Time
+				_m.UpdateTime = new(time.Time)
+				*_m.UpdateTime = value.Time
 			}
 		case file.FieldDeleteTime:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field delete_time", values[i])
 			} else if value.Valid {
-				f.DeleteTime = new(time.Time)
-				*f.DeleteTime = value.Time
+				_m.DeleteTime = new(time.Time)
+				*_m.DeleteTime = value.Time
 			}
 		case file.FieldCreateBy:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field create_by", values[i])
 			} else if value.Valid {
-				f.CreateBy = new(uint32)
-				*f.CreateBy = uint32(value.Int64)
+				_m.CreateBy = new(uint32)
+				*_m.CreateBy = uint32(value.Int64)
 			}
 		case file.FieldRemark:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field remark", values[i])
 			} else if value.Valid {
-				f.Remark = new(string)
-				*f.Remark = value.String
+				_m.Remark = new(string)
+				*_m.Remark = value.String
 			}
 		case file.FieldTenantID:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field tenant_id", values[i])
 			} else if value.Valid {
-				f.TenantID = new(uint32)
-				*f.TenantID = uint32(value.Int64)
+				_m.TenantID = new(uint32)
+				*_m.TenantID = uint32(value.Int64)
 			}
 		case file.FieldProvider:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field provider", values[i])
 			} else if value.Valid {
-				f.Provider = new(file.Provider)
-				*f.Provider = file.Provider(value.String)
+				_m.Provider = new(file.Provider)
+				*_m.Provider = file.Provider(value.String)
 			}
 		case file.FieldBucketName:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field bucket_name", values[i])
 			} else if value.Valid {
-				f.BucketName = new(string)
-				*f.BucketName = value.String
+				_m.BucketName = new(string)
+				*_m.BucketName = value.String
 			}
 		case file.FieldFileDirectory:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field file_directory", values[i])
 			} else if value.Valid {
-				f.FileDirectory = new(string)
-				*f.FileDirectory = value.String
+				_m.FileDirectory = new(string)
+				*_m.FileDirectory = value.String
 			}
 		case file.FieldFileGUID:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field file_guid", values[i])
 			} else if value.Valid {
-				f.FileGUID = new(string)
-				*f.FileGUID = value.String
+				_m.FileGUID = new(string)
+				*_m.FileGUID = value.String
 			}
 		case file.FieldSaveFileName:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field save_file_name", values[i])
 			} else if value.Valid {
-				f.SaveFileName = new(string)
-				*f.SaveFileName = value.String
+				_m.SaveFileName = new(string)
+				*_m.SaveFileName = value.String
 			}
 		case file.FieldFileName:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field file_name", values[i])
 			} else if value.Valid {
-				f.FileName = new(string)
-				*f.FileName = value.String
+				_m.FileName = new(string)
+				*_m.FileName = value.String
 			}
 		case file.FieldExtension:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field extension", values[i])
 			} else if value.Valid {
-				f.Extension = new(string)
-				*f.Extension = value.String
+				_m.Extension = new(string)
+				*_m.Extension = value.String
 			}
 		case file.FieldSize:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field size", values[i])
 			} else if value.Valid {
-				f.Size = new(uint64)
-				*f.Size = uint64(value.Int64)
+				_m.Size = new(uint64)
+				*_m.Size = uint64(value.Int64)
 			}
 		case file.FieldSizeFormat:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field size_format", values[i])
 			} else if value.Valid {
-				f.SizeFormat = new(string)
-				*f.SizeFormat = value.String
+				_m.SizeFormat = new(string)
+				*_m.SizeFormat = value.String
 			}
 		case file.FieldLinkURL:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field link_url", values[i])
 			} else if value.Valid {
-				f.LinkURL = new(string)
-				*f.LinkURL = value.String
+				_m.LinkURL = new(string)
+				*_m.LinkURL = value.String
 			}
 		case file.FieldMd5:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field md5", values[i])
 			} else if value.Valid {
-				f.Md5 = new(string)
-				*f.Md5 = value.String
+				_m.Md5 = new(string)
+				*_m.Md5 = value.String
 			}
 		default:
-			f.selectValues.Set(columns[i], values[i])
+			_m.selectValues.Set(columns[i], values[i])
 		}
 	}
 	return nil
@@ -215,114 +215,114 @@ func (f *File) assignValues(columns []string, values []any) error {
 
 // Value returns the ent.Value that was dynamically selected and assigned to the File.
 // This includes values selected through modifiers, order, etc.
-func (f *File) Value(name string) (ent.Value, error) {
-	return f.selectValues.Get(name)
+func (_m *File) Value(name string) (ent.Value, error) {
+	return _m.selectValues.Get(name)
 }
 
 // Update returns a builder for updating this File.
 // Note that you need to call File.Unwrap() before calling this method if this File
 // was returned from a transaction, and the transaction was committed or rolled back.
-func (f *File) Update() *FileUpdateOne {
-	return NewFileClient(f.config).UpdateOne(f)
+func (_m *File) Update() *FileUpdateOne {
+	return NewFileClient(_m.config).UpdateOne(_m)
 }
 
 // Unwrap unwraps the File entity that was returned from a transaction after it was closed,
 // so that all future queries will be executed through the driver which created the transaction.
-func (f *File) Unwrap() *File {
-	_tx, ok := f.config.driver.(*txDriver)
+func (_m *File) Unwrap() *File {
+	_tx, ok := _m.config.driver.(*txDriver)
 	if !ok {
 		panic("ent: File is not a transactional entity")
 	}
-	f.config.driver = _tx.drv
-	return f
+	_m.config.driver = _tx.drv
+	return _m
 }
 
 // String implements the fmt.Stringer.
-func (f *File) String() string {
+func (_m *File) String() string {
 	var builder strings.Builder
 	builder.WriteString("File(")
-	builder.WriteString(fmt.Sprintf("id=%v, ", f.ID))
-	if v := f.CreateTime; v != nil {
+	builder.WriteString(fmt.Sprintf("id=%v, ", _m.ID))
+	if v := _m.CreateTime; v != nil {
 		builder.WriteString("create_time=")
 		builder.WriteString(v.Format(time.ANSIC))
 	}
 	builder.WriteString(", ")
-	if v := f.UpdateTime; v != nil {
+	if v := _m.UpdateTime; v != nil {
 		builder.WriteString("update_time=")
 		builder.WriteString(v.Format(time.ANSIC))
 	}
 	builder.WriteString(", ")
-	if v := f.DeleteTime; v != nil {
+	if v := _m.DeleteTime; v != nil {
 		builder.WriteString("delete_time=")
 		builder.WriteString(v.Format(time.ANSIC))
 	}
 	builder.WriteString(", ")
-	if v := f.CreateBy; v != nil {
+	if v := _m.CreateBy; v != nil {
 		builder.WriteString("create_by=")
 		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteString(", ")
-	if v := f.Remark; v != nil {
+	if v := _m.Remark; v != nil {
 		builder.WriteString("remark=")
 		builder.WriteString(*v)
 	}
 	builder.WriteString(", ")
-	if v := f.TenantID; v != nil {
+	if v := _m.TenantID; v != nil {
 		builder.WriteString("tenant_id=")
 		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteString(", ")
-	if v := f.Provider; v != nil {
+	if v := _m.Provider; v != nil {
 		builder.WriteString("provider=")
 		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteString(", ")
-	if v := f.BucketName; v != nil {
+	if v := _m.BucketName; v != nil {
 		builder.WriteString("bucket_name=")
 		builder.WriteString(*v)
 	}
 	builder.WriteString(", ")
-	if v := f.FileDirectory; v != nil {
+	if v := _m.FileDirectory; v != nil {
 		builder.WriteString("file_directory=")
 		builder.WriteString(*v)
 	}
 	builder.WriteString(", ")
-	if v := f.FileGUID; v != nil {
+	if v := _m.FileGUID; v != nil {
 		builder.WriteString("file_guid=")
 		builder.WriteString(*v)
 	}
 	builder.WriteString(", ")
-	if v := f.SaveFileName; v != nil {
+	if v := _m.SaveFileName; v != nil {
 		builder.WriteString("save_file_name=")
 		builder.WriteString(*v)
 	}
 	builder.WriteString(", ")
-	if v := f.FileName; v != nil {
+	if v := _m.FileName; v != nil {
 		builder.WriteString("file_name=")
 		builder.WriteString(*v)
 	}
 	builder.WriteString(", ")
-	if v := f.Extension; v != nil {
+	if v := _m.Extension; v != nil {
 		builder.WriteString("extension=")
 		builder.WriteString(*v)
 	}
 	builder.WriteString(", ")
-	if v := f.Size; v != nil {
+	if v := _m.Size; v != nil {
 		builder.WriteString("size=")
 		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteString(", ")
-	if v := f.SizeFormat; v != nil {
+	if v := _m.SizeFormat; v != nil {
 		builder.WriteString("size_format=")
 		builder.WriteString(*v)
 	}
 	builder.WriteString(", ")
-	if v := f.LinkURL; v != nil {
+	if v := _m.LinkURL; v != nil {
 		builder.WriteString("link_url=")
 		builder.WriteString(*v)
 	}
 	builder.WriteString(", ")
-	if v := f.Md5; v != nil {
+	if v := _m.Md5; v != nil {
 		builder.WriteString("md5=")
 		builder.WriteString(*v)
 	}

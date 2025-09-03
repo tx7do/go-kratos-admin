@@ -30,40 +30,40 @@ type AdminLoginRestrictionQuery struct {
 }
 
 // Where adds a new predicate for the AdminLoginRestrictionQuery builder.
-func (alrq *AdminLoginRestrictionQuery) Where(ps ...predicate.AdminLoginRestriction) *AdminLoginRestrictionQuery {
-	alrq.predicates = append(alrq.predicates, ps...)
-	return alrq
+func (_q *AdminLoginRestrictionQuery) Where(ps ...predicate.AdminLoginRestriction) *AdminLoginRestrictionQuery {
+	_q.predicates = append(_q.predicates, ps...)
+	return _q
 }
 
 // Limit the number of records to be returned by this query.
-func (alrq *AdminLoginRestrictionQuery) Limit(limit int) *AdminLoginRestrictionQuery {
-	alrq.ctx.Limit = &limit
-	return alrq
+func (_q *AdminLoginRestrictionQuery) Limit(limit int) *AdminLoginRestrictionQuery {
+	_q.ctx.Limit = &limit
+	return _q
 }
 
 // Offset to start from.
-func (alrq *AdminLoginRestrictionQuery) Offset(offset int) *AdminLoginRestrictionQuery {
-	alrq.ctx.Offset = &offset
-	return alrq
+func (_q *AdminLoginRestrictionQuery) Offset(offset int) *AdminLoginRestrictionQuery {
+	_q.ctx.Offset = &offset
+	return _q
 }
 
 // Unique configures the query builder to filter duplicate records on query.
 // By default, unique is set to true, and can be disabled using this method.
-func (alrq *AdminLoginRestrictionQuery) Unique(unique bool) *AdminLoginRestrictionQuery {
-	alrq.ctx.Unique = &unique
-	return alrq
+func (_q *AdminLoginRestrictionQuery) Unique(unique bool) *AdminLoginRestrictionQuery {
+	_q.ctx.Unique = &unique
+	return _q
 }
 
 // Order specifies how the records should be ordered.
-func (alrq *AdminLoginRestrictionQuery) Order(o ...adminloginrestriction.OrderOption) *AdminLoginRestrictionQuery {
-	alrq.order = append(alrq.order, o...)
-	return alrq
+func (_q *AdminLoginRestrictionQuery) Order(o ...adminloginrestriction.OrderOption) *AdminLoginRestrictionQuery {
+	_q.order = append(_q.order, o...)
+	return _q
 }
 
 // First returns the first AdminLoginRestriction entity from the query.
 // Returns a *NotFoundError when no AdminLoginRestriction was found.
-func (alrq *AdminLoginRestrictionQuery) First(ctx context.Context) (*AdminLoginRestriction, error) {
-	nodes, err := alrq.Limit(1).All(setContextOp(ctx, alrq.ctx, ent.OpQueryFirst))
+func (_q *AdminLoginRestrictionQuery) First(ctx context.Context) (*AdminLoginRestriction, error) {
+	nodes, err := _q.Limit(1).All(setContextOp(ctx, _q.ctx, ent.OpQueryFirst))
 	if err != nil {
 		return nil, err
 	}
@@ -74,8 +74,8 @@ func (alrq *AdminLoginRestrictionQuery) First(ctx context.Context) (*AdminLoginR
 }
 
 // FirstX is like First, but panics if an error occurs.
-func (alrq *AdminLoginRestrictionQuery) FirstX(ctx context.Context) *AdminLoginRestriction {
-	node, err := alrq.First(ctx)
+func (_q *AdminLoginRestrictionQuery) FirstX(ctx context.Context) *AdminLoginRestriction {
+	node, err := _q.First(ctx)
 	if err != nil && !IsNotFound(err) {
 		panic(err)
 	}
@@ -84,9 +84,9 @@ func (alrq *AdminLoginRestrictionQuery) FirstX(ctx context.Context) *AdminLoginR
 
 // FirstID returns the first AdminLoginRestriction ID from the query.
 // Returns a *NotFoundError when no AdminLoginRestriction ID was found.
-func (alrq *AdminLoginRestrictionQuery) FirstID(ctx context.Context) (id uint32, err error) {
+func (_q *AdminLoginRestrictionQuery) FirstID(ctx context.Context) (id uint32, err error) {
 	var ids []uint32
-	if ids, err = alrq.Limit(1).IDs(setContextOp(ctx, alrq.ctx, ent.OpQueryFirstID)); err != nil {
+	if ids, err = _q.Limit(1).IDs(setContextOp(ctx, _q.ctx, ent.OpQueryFirstID)); err != nil {
 		return
 	}
 	if len(ids) == 0 {
@@ -97,8 +97,8 @@ func (alrq *AdminLoginRestrictionQuery) FirstID(ctx context.Context) (id uint32,
 }
 
 // FirstIDX is like FirstID, but panics if an error occurs.
-func (alrq *AdminLoginRestrictionQuery) FirstIDX(ctx context.Context) uint32 {
-	id, err := alrq.FirstID(ctx)
+func (_q *AdminLoginRestrictionQuery) FirstIDX(ctx context.Context) uint32 {
+	id, err := _q.FirstID(ctx)
 	if err != nil && !IsNotFound(err) {
 		panic(err)
 	}
@@ -108,8 +108,8 @@ func (alrq *AdminLoginRestrictionQuery) FirstIDX(ctx context.Context) uint32 {
 // Only returns a single AdminLoginRestriction entity found by the query, ensuring it only returns one.
 // Returns a *NotSingularError when more than one AdminLoginRestriction entity is found.
 // Returns a *NotFoundError when no AdminLoginRestriction entities are found.
-func (alrq *AdminLoginRestrictionQuery) Only(ctx context.Context) (*AdminLoginRestriction, error) {
-	nodes, err := alrq.Limit(2).All(setContextOp(ctx, alrq.ctx, ent.OpQueryOnly))
+func (_q *AdminLoginRestrictionQuery) Only(ctx context.Context) (*AdminLoginRestriction, error) {
+	nodes, err := _q.Limit(2).All(setContextOp(ctx, _q.ctx, ent.OpQueryOnly))
 	if err != nil {
 		return nil, err
 	}
@@ -124,8 +124,8 @@ func (alrq *AdminLoginRestrictionQuery) Only(ctx context.Context) (*AdminLoginRe
 }
 
 // OnlyX is like Only, but panics if an error occurs.
-func (alrq *AdminLoginRestrictionQuery) OnlyX(ctx context.Context) *AdminLoginRestriction {
-	node, err := alrq.Only(ctx)
+func (_q *AdminLoginRestrictionQuery) OnlyX(ctx context.Context) *AdminLoginRestriction {
+	node, err := _q.Only(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -135,9 +135,9 @@ func (alrq *AdminLoginRestrictionQuery) OnlyX(ctx context.Context) *AdminLoginRe
 // OnlyID is like Only, but returns the only AdminLoginRestriction ID in the query.
 // Returns a *NotSingularError when more than one AdminLoginRestriction ID is found.
 // Returns a *NotFoundError when no entities are found.
-func (alrq *AdminLoginRestrictionQuery) OnlyID(ctx context.Context) (id uint32, err error) {
+func (_q *AdminLoginRestrictionQuery) OnlyID(ctx context.Context) (id uint32, err error) {
 	var ids []uint32
-	if ids, err = alrq.Limit(2).IDs(setContextOp(ctx, alrq.ctx, ent.OpQueryOnlyID)); err != nil {
+	if ids, err = _q.Limit(2).IDs(setContextOp(ctx, _q.ctx, ent.OpQueryOnlyID)); err != nil {
 		return
 	}
 	switch len(ids) {
@@ -152,8 +152,8 @@ func (alrq *AdminLoginRestrictionQuery) OnlyID(ctx context.Context) (id uint32, 
 }
 
 // OnlyIDX is like OnlyID, but panics if an error occurs.
-func (alrq *AdminLoginRestrictionQuery) OnlyIDX(ctx context.Context) uint32 {
-	id, err := alrq.OnlyID(ctx)
+func (_q *AdminLoginRestrictionQuery) OnlyIDX(ctx context.Context) uint32 {
+	id, err := _q.OnlyID(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -161,18 +161,18 @@ func (alrq *AdminLoginRestrictionQuery) OnlyIDX(ctx context.Context) uint32 {
 }
 
 // All executes the query and returns a list of AdminLoginRestrictions.
-func (alrq *AdminLoginRestrictionQuery) All(ctx context.Context) ([]*AdminLoginRestriction, error) {
-	ctx = setContextOp(ctx, alrq.ctx, ent.OpQueryAll)
-	if err := alrq.prepareQuery(ctx); err != nil {
+func (_q *AdminLoginRestrictionQuery) All(ctx context.Context) ([]*AdminLoginRestriction, error) {
+	ctx = setContextOp(ctx, _q.ctx, ent.OpQueryAll)
+	if err := _q.prepareQuery(ctx); err != nil {
 		return nil, err
 	}
 	qr := querierAll[[]*AdminLoginRestriction, *AdminLoginRestrictionQuery]()
-	return withInterceptors[[]*AdminLoginRestriction](ctx, alrq, qr, alrq.inters)
+	return withInterceptors[[]*AdminLoginRestriction](ctx, _q, qr, _q.inters)
 }
 
 // AllX is like All, but panics if an error occurs.
-func (alrq *AdminLoginRestrictionQuery) AllX(ctx context.Context) []*AdminLoginRestriction {
-	nodes, err := alrq.All(ctx)
+func (_q *AdminLoginRestrictionQuery) AllX(ctx context.Context) []*AdminLoginRestriction {
+	nodes, err := _q.All(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -180,20 +180,20 @@ func (alrq *AdminLoginRestrictionQuery) AllX(ctx context.Context) []*AdminLoginR
 }
 
 // IDs executes the query and returns a list of AdminLoginRestriction IDs.
-func (alrq *AdminLoginRestrictionQuery) IDs(ctx context.Context) (ids []uint32, err error) {
-	if alrq.ctx.Unique == nil && alrq.path != nil {
-		alrq.Unique(true)
+func (_q *AdminLoginRestrictionQuery) IDs(ctx context.Context) (ids []uint32, err error) {
+	if _q.ctx.Unique == nil && _q.path != nil {
+		_q.Unique(true)
 	}
-	ctx = setContextOp(ctx, alrq.ctx, ent.OpQueryIDs)
-	if err = alrq.Select(adminloginrestriction.FieldID).Scan(ctx, &ids); err != nil {
+	ctx = setContextOp(ctx, _q.ctx, ent.OpQueryIDs)
+	if err = _q.Select(adminloginrestriction.FieldID).Scan(ctx, &ids); err != nil {
 		return nil, err
 	}
 	return ids, nil
 }
 
 // IDsX is like IDs, but panics if an error occurs.
-func (alrq *AdminLoginRestrictionQuery) IDsX(ctx context.Context) []uint32 {
-	ids, err := alrq.IDs(ctx)
+func (_q *AdminLoginRestrictionQuery) IDsX(ctx context.Context) []uint32 {
+	ids, err := _q.IDs(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -201,17 +201,17 @@ func (alrq *AdminLoginRestrictionQuery) IDsX(ctx context.Context) []uint32 {
 }
 
 // Count returns the count of the given query.
-func (alrq *AdminLoginRestrictionQuery) Count(ctx context.Context) (int, error) {
-	ctx = setContextOp(ctx, alrq.ctx, ent.OpQueryCount)
-	if err := alrq.prepareQuery(ctx); err != nil {
+func (_q *AdminLoginRestrictionQuery) Count(ctx context.Context) (int, error) {
+	ctx = setContextOp(ctx, _q.ctx, ent.OpQueryCount)
+	if err := _q.prepareQuery(ctx); err != nil {
 		return 0, err
 	}
-	return withInterceptors[int](ctx, alrq, querierCount[*AdminLoginRestrictionQuery](), alrq.inters)
+	return withInterceptors[int](ctx, _q, querierCount[*AdminLoginRestrictionQuery](), _q.inters)
 }
 
 // CountX is like Count, but panics if an error occurs.
-func (alrq *AdminLoginRestrictionQuery) CountX(ctx context.Context) int {
-	count, err := alrq.Count(ctx)
+func (_q *AdminLoginRestrictionQuery) CountX(ctx context.Context) int {
+	count, err := _q.Count(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -219,9 +219,9 @@ func (alrq *AdminLoginRestrictionQuery) CountX(ctx context.Context) int {
 }
 
 // Exist returns true if the query has elements in the graph.
-func (alrq *AdminLoginRestrictionQuery) Exist(ctx context.Context) (bool, error) {
-	ctx = setContextOp(ctx, alrq.ctx, ent.OpQueryExist)
-	switch _, err := alrq.FirstID(ctx); {
+func (_q *AdminLoginRestrictionQuery) Exist(ctx context.Context) (bool, error) {
+	ctx = setContextOp(ctx, _q.ctx, ent.OpQueryExist)
+	switch _, err := _q.FirstID(ctx); {
 	case IsNotFound(err):
 		return false, nil
 	case err != nil:
@@ -232,8 +232,8 @@ func (alrq *AdminLoginRestrictionQuery) Exist(ctx context.Context) (bool, error)
 }
 
 // ExistX is like Exist, but panics if an error occurs.
-func (alrq *AdminLoginRestrictionQuery) ExistX(ctx context.Context) bool {
-	exist, err := alrq.Exist(ctx)
+func (_q *AdminLoginRestrictionQuery) ExistX(ctx context.Context) bool {
+	exist, err := _q.Exist(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -242,20 +242,20 @@ func (alrq *AdminLoginRestrictionQuery) ExistX(ctx context.Context) bool {
 
 // Clone returns a duplicate of the AdminLoginRestrictionQuery builder, including all associated steps. It can be
 // used to prepare common query builders and use them differently after the clone is made.
-func (alrq *AdminLoginRestrictionQuery) Clone() *AdminLoginRestrictionQuery {
-	if alrq == nil {
+func (_q *AdminLoginRestrictionQuery) Clone() *AdminLoginRestrictionQuery {
+	if _q == nil {
 		return nil
 	}
 	return &AdminLoginRestrictionQuery{
-		config:     alrq.config,
-		ctx:        alrq.ctx.Clone(),
-		order:      append([]adminloginrestriction.OrderOption{}, alrq.order...),
-		inters:     append([]Interceptor{}, alrq.inters...),
-		predicates: append([]predicate.AdminLoginRestriction{}, alrq.predicates...),
+		config:     _q.config,
+		ctx:        _q.ctx.Clone(),
+		order:      append([]adminloginrestriction.OrderOption{}, _q.order...),
+		inters:     append([]Interceptor{}, _q.inters...),
+		predicates: append([]predicate.AdminLoginRestriction{}, _q.predicates...),
 		// clone intermediate query.
-		sql:       alrq.sql.Clone(),
-		path:      alrq.path,
-		modifiers: append([]func(*sql.Selector){}, alrq.modifiers...),
+		sql:       _q.sql.Clone(),
+		path:      _q.path,
+		modifiers: append([]func(*sql.Selector){}, _q.modifiers...),
 	}
 }
 
@@ -273,10 +273,10 @@ func (alrq *AdminLoginRestrictionQuery) Clone() *AdminLoginRestrictionQuery {
 //		GroupBy(adminloginrestriction.FieldCreateTime).
 //		Aggregate(ent.Count()).
 //		Scan(ctx, &v)
-func (alrq *AdminLoginRestrictionQuery) GroupBy(field string, fields ...string) *AdminLoginRestrictionGroupBy {
-	alrq.ctx.Fields = append([]string{field}, fields...)
-	grbuild := &AdminLoginRestrictionGroupBy{build: alrq}
-	grbuild.flds = &alrq.ctx.Fields
+func (_q *AdminLoginRestrictionQuery) GroupBy(field string, fields ...string) *AdminLoginRestrictionGroupBy {
+	_q.ctx.Fields = append([]string{field}, fields...)
+	grbuild := &AdminLoginRestrictionGroupBy{build: _q}
+	grbuild.flds = &_q.ctx.Fields
 	grbuild.label = adminloginrestriction.Label
 	grbuild.scan = grbuild.Scan
 	return grbuild
@@ -294,65 +294,65 @@ func (alrq *AdminLoginRestrictionQuery) GroupBy(field string, fields ...string) 
 //	client.AdminLoginRestriction.Query().
 //		Select(adminloginrestriction.FieldCreateTime).
 //		Scan(ctx, &v)
-func (alrq *AdminLoginRestrictionQuery) Select(fields ...string) *AdminLoginRestrictionSelect {
-	alrq.ctx.Fields = append(alrq.ctx.Fields, fields...)
-	sbuild := &AdminLoginRestrictionSelect{AdminLoginRestrictionQuery: alrq}
+func (_q *AdminLoginRestrictionQuery) Select(fields ...string) *AdminLoginRestrictionSelect {
+	_q.ctx.Fields = append(_q.ctx.Fields, fields...)
+	sbuild := &AdminLoginRestrictionSelect{AdminLoginRestrictionQuery: _q}
 	sbuild.label = adminloginrestriction.Label
-	sbuild.flds, sbuild.scan = &alrq.ctx.Fields, sbuild.Scan
+	sbuild.flds, sbuild.scan = &_q.ctx.Fields, sbuild.Scan
 	return sbuild
 }
 
 // Aggregate returns a AdminLoginRestrictionSelect configured with the given aggregations.
-func (alrq *AdminLoginRestrictionQuery) Aggregate(fns ...AggregateFunc) *AdminLoginRestrictionSelect {
-	return alrq.Select().Aggregate(fns...)
+func (_q *AdminLoginRestrictionQuery) Aggregate(fns ...AggregateFunc) *AdminLoginRestrictionSelect {
+	return _q.Select().Aggregate(fns...)
 }
 
-func (alrq *AdminLoginRestrictionQuery) prepareQuery(ctx context.Context) error {
-	for _, inter := range alrq.inters {
+func (_q *AdminLoginRestrictionQuery) prepareQuery(ctx context.Context) error {
+	for _, inter := range _q.inters {
 		if inter == nil {
 			return fmt.Errorf("ent: uninitialized interceptor (forgotten import ent/runtime?)")
 		}
 		if trv, ok := inter.(Traverser); ok {
-			if err := trv.Traverse(ctx, alrq); err != nil {
+			if err := trv.Traverse(ctx, _q); err != nil {
 				return err
 			}
 		}
 	}
-	for _, f := range alrq.ctx.Fields {
+	for _, f := range _q.ctx.Fields {
 		if !adminloginrestriction.ValidColumn(f) {
 			return &ValidationError{Name: f, err: fmt.Errorf("ent: invalid field %q for query", f)}
 		}
 	}
-	if alrq.path != nil {
-		prev, err := alrq.path(ctx)
+	if _q.path != nil {
+		prev, err := _q.path(ctx)
 		if err != nil {
 			return err
 		}
-		alrq.sql = prev
+		_q.sql = prev
 	}
 	return nil
 }
 
-func (alrq *AdminLoginRestrictionQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*AdminLoginRestriction, error) {
+func (_q *AdminLoginRestrictionQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*AdminLoginRestriction, error) {
 	var (
 		nodes = []*AdminLoginRestriction{}
-		_spec = alrq.querySpec()
+		_spec = _q.querySpec()
 	)
 	_spec.ScanValues = func(columns []string) ([]any, error) {
 		return (*AdminLoginRestriction).scanValues(nil, columns)
 	}
 	_spec.Assign = func(columns []string, values []any) error {
-		node := &AdminLoginRestriction{config: alrq.config}
+		node := &AdminLoginRestriction{config: _q.config}
 		nodes = append(nodes, node)
 		return node.assignValues(columns, values)
 	}
-	if len(alrq.modifiers) > 0 {
-		_spec.Modifiers = alrq.modifiers
+	if len(_q.modifiers) > 0 {
+		_spec.Modifiers = _q.modifiers
 	}
 	for i := range hooks {
 		hooks[i](ctx, _spec)
 	}
-	if err := sqlgraph.QueryNodes(ctx, alrq.driver, _spec); err != nil {
+	if err := sqlgraph.QueryNodes(ctx, _q.driver, _spec); err != nil {
 		return nil, err
 	}
 	if len(nodes) == 0 {
@@ -361,27 +361,27 @@ func (alrq *AdminLoginRestrictionQuery) sqlAll(ctx context.Context, hooks ...que
 	return nodes, nil
 }
 
-func (alrq *AdminLoginRestrictionQuery) sqlCount(ctx context.Context) (int, error) {
-	_spec := alrq.querySpec()
-	if len(alrq.modifiers) > 0 {
-		_spec.Modifiers = alrq.modifiers
+func (_q *AdminLoginRestrictionQuery) sqlCount(ctx context.Context) (int, error) {
+	_spec := _q.querySpec()
+	if len(_q.modifiers) > 0 {
+		_spec.Modifiers = _q.modifiers
 	}
-	_spec.Node.Columns = alrq.ctx.Fields
-	if len(alrq.ctx.Fields) > 0 {
-		_spec.Unique = alrq.ctx.Unique != nil && *alrq.ctx.Unique
+	_spec.Node.Columns = _q.ctx.Fields
+	if len(_q.ctx.Fields) > 0 {
+		_spec.Unique = _q.ctx.Unique != nil && *_q.ctx.Unique
 	}
-	return sqlgraph.CountNodes(ctx, alrq.driver, _spec)
+	return sqlgraph.CountNodes(ctx, _q.driver, _spec)
 }
 
-func (alrq *AdminLoginRestrictionQuery) querySpec() *sqlgraph.QuerySpec {
+func (_q *AdminLoginRestrictionQuery) querySpec() *sqlgraph.QuerySpec {
 	_spec := sqlgraph.NewQuerySpec(adminloginrestriction.Table, adminloginrestriction.Columns, sqlgraph.NewFieldSpec(adminloginrestriction.FieldID, field.TypeUint32))
-	_spec.From = alrq.sql
-	if unique := alrq.ctx.Unique; unique != nil {
+	_spec.From = _q.sql
+	if unique := _q.ctx.Unique; unique != nil {
 		_spec.Unique = *unique
-	} else if alrq.path != nil {
+	} else if _q.path != nil {
 		_spec.Unique = true
 	}
-	if fields := alrq.ctx.Fields; len(fields) > 0 {
+	if fields := _q.ctx.Fields; len(fields) > 0 {
 		_spec.Node.Columns = make([]string, 0, len(fields))
 		_spec.Node.Columns = append(_spec.Node.Columns, adminloginrestriction.FieldID)
 		for i := range fields {
@@ -390,20 +390,20 @@ func (alrq *AdminLoginRestrictionQuery) querySpec() *sqlgraph.QuerySpec {
 			}
 		}
 	}
-	if ps := alrq.predicates; len(ps) > 0 {
+	if ps := _q.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if limit := alrq.ctx.Limit; limit != nil {
+	if limit := _q.ctx.Limit; limit != nil {
 		_spec.Limit = *limit
 	}
-	if offset := alrq.ctx.Offset; offset != nil {
+	if offset := _q.ctx.Offset; offset != nil {
 		_spec.Offset = *offset
 	}
-	if ps := alrq.order; len(ps) > 0 {
+	if ps := _q.order; len(ps) > 0 {
 		_spec.Order = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
@@ -413,36 +413,36 @@ func (alrq *AdminLoginRestrictionQuery) querySpec() *sqlgraph.QuerySpec {
 	return _spec
 }
 
-func (alrq *AdminLoginRestrictionQuery) sqlQuery(ctx context.Context) *sql.Selector {
-	builder := sql.Dialect(alrq.driver.Dialect())
+func (_q *AdminLoginRestrictionQuery) sqlQuery(ctx context.Context) *sql.Selector {
+	builder := sql.Dialect(_q.driver.Dialect())
 	t1 := builder.Table(adminloginrestriction.Table)
-	columns := alrq.ctx.Fields
+	columns := _q.ctx.Fields
 	if len(columns) == 0 {
 		columns = adminloginrestriction.Columns
 	}
 	selector := builder.Select(t1.Columns(columns...)...).From(t1)
-	if alrq.sql != nil {
-		selector = alrq.sql
+	if _q.sql != nil {
+		selector = _q.sql
 		selector.Select(selector.Columns(columns...)...)
 	}
-	if alrq.ctx.Unique != nil && *alrq.ctx.Unique {
+	if _q.ctx.Unique != nil && *_q.ctx.Unique {
 		selector.Distinct()
 	}
-	for _, m := range alrq.modifiers {
+	for _, m := range _q.modifiers {
 		m(selector)
 	}
-	for _, p := range alrq.predicates {
+	for _, p := range _q.predicates {
 		p(selector)
 	}
-	for _, p := range alrq.order {
+	for _, p := range _q.order {
 		p(selector)
 	}
-	if offset := alrq.ctx.Offset; offset != nil {
+	if offset := _q.ctx.Offset; offset != nil {
 		// limit is mandatory for offset clause. We start
 		// with default value, and override it below if needed.
 		selector.Offset(*offset).Limit(math.MaxInt32)
 	}
-	if limit := alrq.ctx.Limit; limit != nil {
+	if limit := _q.ctx.Limit; limit != nil {
 		selector.Limit(*limit)
 	}
 	return selector
@@ -451,33 +451,33 @@ func (alrq *AdminLoginRestrictionQuery) sqlQuery(ctx context.Context) *sql.Selec
 // ForUpdate locks the selected rows against concurrent updates, and prevent them from being
 // updated, deleted or "selected ... for update" by other sessions, until the transaction is
 // either committed or rolled-back.
-func (alrq *AdminLoginRestrictionQuery) ForUpdate(opts ...sql.LockOption) *AdminLoginRestrictionQuery {
-	if alrq.driver.Dialect() == dialect.Postgres {
-		alrq.Unique(false)
+func (_q *AdminLoginRestrictionQuery) ForUpdate(opts ...sql.LockOption) *AdminLoginRestrictionQuery {
+	if _q.driver.Dialect() == dialect.Postgres {
+		_q.Unique(false)
 	}
-	alrq.modifiers = append(alrq.modifiers, func(s *sql.Selector) {
+	_q.modifiers = append(_q.modifiers, func(s *sql.Selector) {
 		s.ForUpdate(opts...)
 	})
-	return alrq
+	return _q
 }
 
 // ForShare behaves similarly to ForUpdate, except that it acquires a shared mode lock
 // on any rows that are read. Other sessions can read the rows, but cannot modify them
 // until your transaction commits.
-func (alrq *AdminLoginRestrictionQuery) ForShare(opts ...sql.LockOption) *AdminLoginRestrictionQuery {
-	if alrq.driver.Dialect() == dialect.Postgres {
-		alrq.Unique(false)
+func (_q *AdminLoginRestrictionQuery) ForShare(opts ...sql.LockOption) *AdminLoginRestrictionQuery {
+	if _q.driver.Dialect() == dialect.Postgres {
+		_q.Unique(false)
 	}
-	alrq.modifiers = append(alrq.modifiers, func(s *sql.Selector) {
+	_q.modifiers = append(_q.modifiers, func(s *sql.Selector) {
 		s.ForShare(opts...)
 	})
-	return alrq
+	return _q
 }
 
 // Modify adds a query modifier for attaching custom logic to queries.
-func (alrq *AdminLoginRestrictionQuery) Modify(modifiers ...func(s *sql.Selector)) *AdminLoginRestrictionSelect {
-	alrq.modifiers = append(alrq.modifiers, modifiers...)
-	return alrq.Select()
+func (_q *AdminLoginRestrictionQuery) Modify(modifiers ...func(s *sql.Selector)) *AdminLoginRestrictionSelect {
+	_q.modifiers = append(_q.modifiers, modifiers...)
+	return _q.Select()
 }
 
 // AdminLoginRestrictionGroupBy is the group-by builder for AdminLoginRestriction entities.
@@ -487,41 +487,41 @@ type AdminLoginRestrictionGroupBy struct {
 }
 
 // Aggregate adds the given aggregation functions to the group-by query.
-func (alrgb *AdminLoginRestrictionGroupBy) Aggregate(fns ...AggregateFunc) *AdminLoginRestrictionGroupBy {
-	alrgb.fns = append(alrgb.fns, fns...)
-	return alrgb
+func (_g *AdminLoginRestrictionGroupBy) Aggregate(fns ...AggregateFunc) *AdminLoginRestrictionGroupBy {
+	_g.fns = append(_g.fns, fns...)
+	return _g
 }
 
 // Scan applies the selector query and scans the result into the given value.
-func (alrgb *AdminLoginRestrictionGroupBy) Scan(ctx context.Context, v any) error {
-	ctx = setContextOp(ctx, alrgb.build.ctx, ent.OpQueryGroupBy)
-	if err := alrgb.build.prepareQuery(ctx); err != nil {
+func (_g *AdminLoginRestrictionGroupBy) Scan(ctx context.Context, v any) error {
+	ctx = setContextOp(ctx, _g.build.ctx, ent.OpQueryGroupBy)
+	if err := _g.build.prepareQuery(ctx); err != nil {
 		return err
 	}
-	return scanWithInterceptors[*AdminLoginRestrictionQuery, *AdminLoginRestrictionGroupBy](ctx, alrgb.build, alrgb, alrgb.build.inters, v)
+	return scanWithInterceptors[*AdminLoginRestrictionQuery, *AdminLoginRestrictionGroupBy](ctx, _g.build, _g, _g.build.inters, v)
 }
 
-func (alrgb *AdminLoginRestrictionGroupBy) sqlScan(ctx context.Context, root *AdminLoginRestrictionQuery, v any) error {
+func (_g *AdminLoginRestrictionGroupBy) sqlScan(ctx context.Context, root *AdminLoginRestrictionQuery, v any) error {
 	selector := root.sqlQuery(ctx).Select()
-	aggregation := make([]string, 0, len(alrgb.fns))
-	for _, fn := range alrgb.fns {
+	aggregation := make([]string, 0, len(_g.fns))
+	for _, fn := range _g.fns {
 		aggregation = append(aggregation, fn(selector))
 	}
 	if len(selector.SelectedColumns()) == 0 {
-		columns := make([]string, 0, len(*alrgb.flds)+len(alrgb.fns))
-		for _, f := range *alrgb.flds {
+		columns := make([]string, 0, len(*_g.flds)+len(_g.fns))
+		for _, f := range *_g.flds {
 			columns = append(columns, selector.C(f))
 		}
 		columns = append(columns, aggregation...)
 		selector.Select(columns...)
 	}
-	selector.GroupBy(selector.Columns(*alrgb.flds...)...)
+	selector.GroupBy(selector.Columns(*_g.flds...)...)
 	if err := selector.Err(); err != nil {
 		return err
 	}
 	rows := &sql.Rows{}
 	query, args := selector.Query()
-	if err := alrgb.build.driver.Query(ctx, query, args, rows); err != nil {
+	if err := _g.build.driver.Query(ctx, query, args, rows); err != nil {
 		return err
 	}
 	defer rows.Close()
@@ -535,27 +535,27 @@ type AdminLoginRestrictionSelect struct {
 }
 
 // Aggregate adds the given aggregation functions to the selector query.
-func (alrs *AdminLoginRestrictionSelect) Aggregate(fns ...AggregateFunc) *AdminLoginRestrictionSelect {
-	alrs.fns = append(alrs.fns, fns...)
-	return alrs
+func (_s *AdminLoginRestrictionSelect) Aggregate(fns ...AggregateFunc) *AdminLoginRestrictionSelect {
+	_s.fns = append(_s.fns, fns...)
+	return _s
 }
 
 // Scan applies the selector query and scans the result into the given value.
-func (alrs *AdminLoginRestrictionSelect) Scan(ctx context.Context, v any) error {
-	ctx = setContextOp(ctx, alrs.ctx, ent.OpQuerySelect)
-	if err := alrs.prepareQuery(ctx); err != nil {
+func (_s *AdminLoginRestrictionSelect) Scan(ctx context.Context, v any) error {
+	ctx = setContextOp(ctx, _s.ctx, ent.OpQuerySelect)
+	if err := _s.prepareQuery(ctx); err != nil {
 		return err
 	}
-	return scanWithInterceptors[*AdminLoginRestrictionQuery, *AdminLoginRestrictionSelect](ctx, alrs.AdminLoginRestrictionQuery, alrs, alrs.inters, v)
+	return scanWithInterceptors[*AdminLoginRestrictionQuery, *AdminLoginRestrictionSelect](ctx, _s.AdminLoginRestrictionQuery, _s, _s.inters, v)
 }
 
-func (alrs *AdminLoginRestrictionSelect) sqlScan(ctx context.Context, root *AdminLoginRestrictionQuery, v any) error {
+func (_s *AdminLoginRestrictionSelect) sqlScan(ctx context.Context, root *AdminLoginRestrictionQuery, v any) error {
 	selector := root.sqlQuery(ctx)
-	aggregation := make([]string, 0, len(alrs.fns))
-	for _, fn := range alrs.fns {
+	aggregation := make([]string, 0, len(_s.fns))
+	for _, fn := range _s.fns {
 		aggregation = append(aggregation, fn(selector))
 	}
-	switch n := len(*alrs.selector.flds); {
+	switch n := len(*_s.selector.flds); {
 	case n == 0 && len(aggregation) > 0:
 		selector.Select(aggregation...)
 	case n != 0 && len(aggregation) > 0:
@@ -563,7 +563,7 @@ func (alrs *AdminLoginRestrictionSelect) sqlScan(ctx context.Context, root *Admi
 	}
 	rows := &sql.Rows{}
 	query, args := selector.Query()
-	if err := alrs.driver.Query(ctx, query, args, rows); err != nil {
+	if err := _s.driver.Query(ctx, query, args, rows); err != nil {
 		return err
 	}
 	defer rows.Close()
@@ -571,7 +571,7 @@ func (alrs *AdminLoginRestrictionSelect) sqlScan(ctx context.Context, root *Admi
 }
 
 // Modify adds a query modifier for attaching custom logic to queries.
-func (alrs *AdminLoginRestrictionSelect) Modify(modifiers ...func(s *sql.Selector)) *AdminLoginRestrictionSelect {
-	alrs.modifiers = append(alrs.modifiers, modifiers...)
-	return alrs
+func (_s *AdminLoginRestrictionSelect) Modify(modifiers ...func(s *sql.Selector)) *AdminLoginRestrictionSelect {
+	_s.modifiers = append(_s.modifiers, modifiers...)
+	return _s
 }

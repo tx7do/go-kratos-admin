@@ -23,374 +23,374 @@ type AdminOperationLogCreate struct {
 }
 
 // SetCreateTime sets the "create_time" field.
-func (aolc *AdminOperationLogCreate) SetCreateTime(t time.Time) *AdminOperationLogCreate {
-	aolc.mutation.SetCreateTime(t)
-	return aolc
+func (_c *AdminOperationLogCreate) SetCreateTime(v time.Time) *AdminOperationLogCreate {
+	_c.mutation.SetCreateTime(v)
+	return _c
 }
 
 // SetNillableCreateTime sets the "create_time" field if the given value is not nil.
-func (aolc *AdminOperationLogCreate) SetNillableCreateTime(t *time.Time) *AdminOperationLogCreate {
-	if t != nil {
-		aolc.SetCreateTime(*t)
+func (_c *AdminOperationLogCreate) SetNillableCreateTime(v *time.Time) *AdminOperationLogCreate {
+	if v != nil {
+		_c.SetCreateTime(*v)
 	}
-	return aolc
+	return _c
 }
 
 // SetRequestID sets the "request_id" field.
-func (aolc *AdminOperationLogCreate) SetRequestID(s string) *AdminOperationLogCreate {
-	aolc.mutation.SetRequestID(s)
-	return aolc
+func (_c *AdminOperationLogCreate) SetRequestID(v string) *AdminOperationLogCreate {
+	_c.mutation.SetRequestID(v)
+	return _c
 }
 
 // SetNillableRequestID sets the "request_id" field if the given value is not nil.
-func (aolc *AdminOperationLogCreate) SetNillableRequestID(s *string) *AdminOperationLogCreate {
-	if s != nil {
-		aolc.SetRequestID(*s)
+func (_c *AdminOperationLogCreate) SetNillableRequestID(v *string) *AdminOperationLogCreate {
+	if v != nil {
+		_c.SetRequestID(*v)
 	}
-	return aolc
+	return _c
 }
 
 // SetMethod sets the "method" field.
-func (aolc *AdminOperationLogCreate) SetMethod(s string) *AdminOperationLogCreate {
-	aolc.mutation.SetMethod(s)
-	return aolc
+func (_c *AdminOperationLogCreate) SetMethod(v string) *AdminOperationLogCreate {
+	_c.mutation.SetMethod(v)
+	return _c
 }
 
 // SetNillableMethod sets the "method" field if the given value is not nil.
-func (aolc *AdminOperationLogCreate) SetNillableMethod(s *string) *AdminOperationLogCreate {
-	if s != nil {
-		aolc.SetMethod(*s)
+func (_c *AdminOperationLogCreate) SetNillableMethod(v *string) *AdminOperationLogCreate {
+	if v != nil {
+		_c.SetMethod(*v)
 	}
-	return aolc
+	return _c
 }
 
 // SetOperation sets the "operation" field.
-func (aolc *AdminOperationLogCreate) SetOperation(s string) *AdminOperationLogCreate {
-	aolc.mutation.SetOperation(s)
-	return aolc
+func (_c *AdminOperationLogCreate) SetOperation(v string) *AdminOperationLogCreate {
+	_c.mutation.SetOperation(v)
+	return _c
 }
 
 // SetNillableOperation sets the "operation" field if the given value is not nil.
-func (aolc *AdminOperationLogCreate) SetNillableOperation(s *string) *AdminOperationLogCreate {
-	if s != nil {
-		aolc.SetOperation(*s)
+func (_c *AdminOperationLogCreate) SetNillableOperation(v *string) *AdminOperationLogCreate {
+	if v != nil {
+		_c.SetOperation(*v)
 	}
-	return aolc
+	return _c
 }
 
 // SetPath sets the "path" field.
-func (aolc *AdminOperationLogCreate) SetPath(s string) *AdminOperationLogCreate {
-	aolc.mutation.SetPath(s)
-	return aolc
+func (_c *AdminOperationLogCreate) SetPath(v string) *AdminOperationLogCreate {
+	_c.mutation.SetPath(v)
+	return _c
 }
 
 // SetNillablePath sets the "path" field if the given value is not nil.
-func (aolc *AdminOperationLogCreate) SetNillablePath(s *string) *AdminOperationLogCreate {
-	if s != nil {
-		aolc.SetPath(*s)
+func (_c *AdminOperationLogCreate) SetNillablePath(v *string) *AdminOperationLogCreate {
+	if v != nil {
+		_c.SetPath(*v)
 	}
-	return aolc
+	return _c
 }
 
 // SetReferer sets the "referer" field.
-func (aolc *AdminOperationLogCreate) SetReferer(s string) *AdminOperationLogCreate {
-	aolc.mutation.SetReferer(s)
-	return aolc
+func (_c *AdminOperationLogCreate) SetReferer(v string) *AdminOperationLogCreate {
+	_c.mutation.SetReferer(v)
+	return _c
 }
 
 // SetNillableReferer sets the "referer" field if the given value is not nil.
-func (aolc *AdminOperationLogCreate) SetNillableReferer(s *string) *AdminOperationLogCreate {
-	if s != nil {
-		aolc.SetReferer(*s)
+func (_c *AdminOperationLogCreate) SetNillableReferer(v *string) *AdminOperationLogCreate {
+	if v != nil {
+		_c.SetReferer(*v)
 	}
-	return aolc
+	return _c
 }
 
 // SetRequestURI sets the "request_uri" field.
-func (aolc *AdminOperationLogCreate) SetRequestURI(s string) *AdminOperationLogCreate {
-	aolc.mutation.SetRequestURI(s)
-	return aolc
+func (_c *AdminOperationLogCreate) SetRequestURI(v string) *AdminOperationLogCreate {
+	_c.mutation.SetRequestURI(v)
+	return _c
 }
 
 // SetNillableRequestURI sets the "request_uri" field if the given value is not nil.
-func (aolc *AdminOperationLogCreate) SetNillableRequestURI(s *string) *AdminOperationLogCreate {
-	if s != nil {
-		aolc.SetRequestURI(*s)
+func (_c *AdminOperationLogCreate) SetNillableRequestURI(v *string) *AdminOperationLogCreate {
+	if v != nil {
+		_c.SetRequestURI(*v)
 	}
-	return aolc
+	return _c
 }
 
 // SetRequestBody sets the "request_body" field.
-func (aolc *AdminOperationLogCreate) SetRequestBody(s string) *AdminOperationLogCreate {
-	aolc.mutation.SetRequestBody(s)
-	return aolc
+func (_c *AdminOperationLogCreate) SetRequestBody(v string) *AdminOperationLogCreate {
+	_c.mutation.SetRequestBody(v)
+	return _c
 }
 
 // SetNillableRequestBody sets the "request_body" field if the given value is not nil.
-func (aolc *AdminOperationLogCreate) SetNillableRequestBody(s *string) *AdminOperationLogCreate {
-	if s != nil {
-		aolc.SetRequestBody(*s)
+func (_c *AdminOperationLogCreate) SetNillableRequestBody(v *string) *AdminOperationLogCreate {
+	if v != nil {
+		_c.SetRequestBody(*v)
 	}
-	return aolc
+	return _c
 }
 
 // SetRequestHeader sets the "request_header" field.
-func (aolc *AdminOperationLogCreate) SetRequestHeader(s string) *AdminOperationLogCreate {
-	aolc.mutation.SetRequestHeader(s)
-	return aolc
+func (_c *AdminOperationLogCreate) SetRequestHeader(v string) *AdminOperationLogCreate {
+	_c.mutation.SetRequestHeader(v)
+	return _c
 }
 
 // SetNillableRequestHeader sets the "request_header" field if the given value is not nil.
-func (aolc *AdminOperationLogCreate) SetNillableRequestHeader(s *string) *AdminOperationLogCreate {
-	if s != nil {
-		aolc.SetRequestHeader(*s)
+func (_c *AdminOperationLogCreate) SetNillableRequestHeader(v *string) *AdminOperationLogCreate {
+	if v != nil {
+		_c.SetRequestHeader(*v)
 	}
-	return aolc
+	return _c
 }
 
 // SetResponse sets the "response" field.
-func (aolc *AdminOperationLogCreate) SetResponse(s string) *AdminOperationLogCreate {
-	aolc.mutation.SetResponse(s)
-	return aolc
+func (_c *AdminOperationLogCreate) SetResponse(v string) *AdminOperationLogCreate {
+	_c.mutation.SetResponse(v)
+	return _c
 }
 
 // SetNillableResponse sets the "response" field if the given value is not nil.
-func (aolc *AdminOperationLogCreate) SetNillableResponse(s *string) *AdminOperationLogCreate {
-	if s != nil {
-		aolc.SetResponse(*s)
+func (_c *AdminOperationLogCreate) SetNillableResponse(v *string) *AdminOperationLogCreate {
+	if v != nil {
+		_c.SetResponse(*v)
 	}
-	return aolc
+	return _c
 }
 
 // SetCostTime sets the "cost_time" field.
-func (aolc *AdminOperationLogCreate) SetCostTime(f float64) *AdminOperationLogCreate {
-	aolc.mutation.SetCostTime(f)
-	return aolc
+func (_c *AdminOperationLogCreate) SetCostTime(v float64) *AdminOperationLogCreate {
+	_c.mutation.SetCostTime(v)
+	return _c
 }
 
 // SetNillableCostTime sets the "cost_time" field if the given value is not nil.
-func (aolc *AdminOperationLogCreate) SetNillableCostTime(f *float64) *AdminOperationLogCreate {
-	if f != nil {
-		aolc.SetCostTime(*f)
+func (_c *AdminOperationLogCreate) SetNillableCostTime(v *float64) *AdminOperationLogCreate {
+	if v != nil {
+		_c.SetCostTime(*v)
 	}
-	return aolc
+	return _c
 }
 
 // SetUserID sets the "user_id" field.
-func (aolc *AdminOperationLogCreate) SetUserID(u uint32) *AdminOperationLogCreate {
-	aolc.mutation.SetUserID(u)
-	return aolc
+func (_c *AdminOperationLogCreate) SetUserID(v uint32) *AdminOperationLogCreate {
+	_c.mutation.SetUserID(v)
+	return _c
 }
 
 // SetNillableUserID sets the "user_id" field if the given value is not nil.
-func (aolc *AdminOperationLogCreate) SetNillableUserID(u *uint32) *AdminOperationLogCreate {
-	if u != nil {
-		aolc.SetUserID(*u)
+func (_c *AdminOperationLogCreate) SetNillableUserID(v *uint32) *AdminOperationLogCreate {
+	if v != nil {
+		_c.SetUserID(*v)
 	}
-	return aolc
+	return _c
 }
 
 // SetUsername sets the "username" field.
-func (aolc *AdminOperationLogCreate) SetUsername(s string) *AdminOperationLogCreate {
-	aolc.mutation.SetUsername(s)
-	return aolc
+func (_c *AdminOperationLogCreate) SetUsername(v string) *AdminOperationLogCreate {
+	_c.mutation.SetUsername(v)
+	return _c
 }
 
 // SetNillableUsername sets the "username" field if the given value is not nil.
-func (aolc *AdminOperationLogCreate) SetNillableUsername(s *string) *AdminOperationLogCreate {
-	if s != nil {
-		aolc.SetUsername(*s)
+func (_c *AdminOperationLogCreate) SetNillableUsername(v *string) *AdminOperationLogCreate {
+	if v != nil {
+		_c.SetUsername(*v)
 	}
-	return aolc
+	return _c
 }
 
 // SetClientIP sets the "client_ip" field.
-func (aolc *AdminOperationLogCreate) SetClientIP(s string) *AdminOperationLogCreate {
-	aolc.mutation.SetClientIP(s)
-	return aolc
+func (_c *AdminOperationLogCreate) SetClientIP(v string) *AdminOperationLogCreate {
+	_c.mutation.SetClientIP(v)
+	return _c
 }
 
 // SetNillableClientIP sets the "client_ip" field if the given value is not nil.
-func (aolc *AdminOperationLogCreate) SetNillableClientIP(s *string) *AdminOperationLogCreate {
-	if s != nil {
-		aolc.SetClientIP(*s)
+func (_c *AdminOperationLogCreate) SetNillableClientIP(v *string) *AdminOperationLogCreate {
+	if v != nil {
+		_c.SetClientIP(*v)
 	}
-	return aolc
+	return _c
 }
 
 // SetStatusCode sets the "status_code" field.
-func (aolc *AdminOperationLogCreate) SetStatusCode(i int32) *AdminOperationLogCreate {
-	aolc.mutation.SetStatusCode(i)
-	return aolc
+func (_c *AdminOperationLogCreate) SetStatusCode(v int32) *AdminOperationLogCreate {
+	_c.mutation.SetStatusCode(v)
+	return _c
 }
 
 // SetNillableStatusCode sets the "status_code" field if the given value is not nil.
-func (aolc *AdminOperationLogCreate) SetNillableStatusCode(i *int32) *AdminOperationLogCreate {
-	if i != nil {
-		aolc.SetStatusCode(*i)
+func (_c *AdminOperationLogCreate) SetNillableStatusCode(v *int32) *AdminOperationLogCreate {
+	if v != nil {
+		_c.SetStatusCode(*v)
 	}
-	return aolc
+	return _c
 }
 
 // SetReason sets the "reason" field.
-func (aolc *AdminOperationLogCreate) SetReason(s string) *AdminOperationLogCreate {
-	aolc.mutation.SetReason(s)
-	return aolc
+func (_c *AdminOperationLogCreate) SetReason(v string) *AdminOperationLogCreate {
+	_c.mutation.SetReason(v)
+	return _c
 }
 
 // SetNillableReason sets the "reason" field if the given value is not nil.
-func (aolc *AdminOperationLogCreate) SetNillableReason(s *string) *AdminOperationLogCreate {
-	if s != nil {
-		aolc.SetReason(*s)
+func (_c *AdminOperationLogCreate) SetNillableReason(v *string) *AdminOperationLogCreate {
+	if v != nil {
+		_c.SetReason(*v)
 	}
-	return aolc
+	return _c
 }
 
 // SetSuccess sets the "success" field.
-func (aolc *AdminOperationLogCreate) SetSuccess(b bool) *AdminOperationLogCreate {
-	aolc.mutation.SetSuccess(b)
-	return aolc
+func (_c *AdminOperationLogCreate) SetSuccess(v bool) *AdminOperationLogCreate {
+	_c.mutation.SetSuccess(v)
+	return _c
 }
 
 // SetNillableSuccess sets the "success" field if the given value is not nil.
-func (aolc *AdminOperationLogCreate) SetNillableSuccess(b *bool) *AdminOperationLogCreate {
-	if b != nil {
-		aolc.SetSuccess(*b)
+func (_c *AdminOperationLogCreate) SetNillableSuccess(v *bool) *AdminOperationLogCreate {
+	if v != nil {
+		_c.SetSuccess(*v)
 	}
-	return aolc
+	return _c
 }
 
 // SetLocation sets the "location" field.
-func (aolc *AdminOperationLogCreate) SetLocation(s string) *AdminOperationLogCreate {
-	aolc.mutation.SetLocation(s)
-	return aolc
+func (_c *AdminOperationLogCreate) SetLocation(v string) *AdminOperationLogCreate {
+	_c.mutation.SetLocation(v)
+	return _c
 }
 
 // SetNillableLocation sets the "location" field if the given value is not nil.
-func (aolc *AdminOperationLogCreate) SetNillableLocation(s *string) *AdminOperationLogCreate {
-	if s != nil {
-		aolc.SetLocation(*s)
+func (_c *AdminOperationLogCreate) SetNillableLocation(v *string) *AdminOperationLogCreate {
+	if v != nil {
+		_c.SetLocation(*v)
 	}
-	return aolc
+	return _c
 }
 
 // SetUserAgent sets the "user_agent" field.
-func (aolc *AdminOperationLogCreate) SetUserAgent(s string) *AdminOperationLogCreate {
-	aolc.mutation.SetUserAgent(s)
-	return aolc
+func (_c *AdminOperationLogCreate) SetUserAgent(v string) *AdminOperationLogCreate {
+	_c.mutation.SetUserAgent(v)
+	return _c
 }
 
 // SetNillableUserAgent sets the "user_agent" field if the given value is not nil.
-func (aolc *AdminOperationLogCreate) SetNillableUserAgent(s *string) *AdminOperationLogCreate {
-	if s != nil {
-		aolc.SetUserAgent(*s)
+func (_c *AdminOperationLogCreate) SetNillableUserAgent(v *string) *AdminOperationLogCreate {
+	if v != nil {
+		_c.SetUserAgent(*v)
 	}
-	return aolc
+	return _c
 }
 
 // SetBrowserName sets the "browser_name" field.
-func (aolc *AdminOperationLogCreate) SetBrowserName(s string) *AdminOperationLogCreate {
-	aolc.mutation.SetBrowserName(s)
-	return aolc
+func (_c *AdminOperationLogCreate) SetBrowserName(v string) *AdminOperationLogCreate {
+	_c.mutation.SetBrowserName(v)
+	return _c
 }
 
 // SetNillableBrowserName sets the "browser_name" field if the given value is not nil.
-func (aolc *AdminOperationLogCreate) SetNillableBrowserName(s *string) *AdminOperationLogCreate {
-	if s != nil {
-		aolc.SetBrowserName(*s)
+func (_c *AdminOperationLogCreate) SetNillableBrowserName(v *string) *AdminOperationLogCreate {
+	if v != nil {
+		_c.SetBrowserName(*v)
 	}
-	return aolc
+	return _c
 }
 
 // SetBrowserVersion sets the "browser_version" field.
-func (aolc *AdminOperationLogCreate) SetBrowserVersion(s string) *AdminOperationLogCreate {
-	aolc.mutation.SetBrowserVersion(s)
-	return aolc
+func (_c *AdminOperationLogCreate) SetBrowserVersion(v string) *AdminOperationLogCreate {
+	_c.mutation.SetBrowserVersion(v)
+	return _c
 }
 
 // SetNillableBrowserVersion sets the "browser_version" field if the given value is not nil.
-func (aolc *AdminOperationLogCreate) SetNillableBrowserVersion(s *string) *AdminOperationLogCreate {
-	if s != nil {
-		aolc.SetBrowserVersion(*s)
+func (_c *AdminOperationLogCreate) SetNillableBrowserVersion(v *string) *AdminOperationLogCreate {
+	if v != nil {
+		_c.SetBrowserVersion(*v)
 	}
-	return aolc
+	return _c
 }
 
 // SetClientID sets the "client_id" field.
-func (aolc *AdminOperationLogCreate) SetClientID(s string) *AdminOperationLogCreate {
-	aolc.mutation.SetClientID(s)
-	return aolc
+func (_c *AdminOperationLogCreate) SetClientID(v string) *AdminOperationLogCreate {
+	_c.mutation.SetClientID(v)
+	return _c
 }
 
 // SetNillableClientID sets the "client_id" field if the given value is not nil.
-func (aolc *AdminOperationLogCreate) SetNillableClientID(s *string) *AdminOperationLogCreate {
-	if s != nil {
-		aolc.SetClientID(*s)
+func (_c *AdminOperationLogCreate) SetNillableClientID(v *string) *AdminOperationLogCreate {
+	if v != nil {
+		_c.SetClientID(*v)
 	}
-	return aolc
+	return _c
 }
 
 // SetClientName sets the "client_name" field.
-func (aolc *AdminOperationLogCreate) SetClientName(s string) *AdminOperationLogCreate {
-	aolc.mutation.SetClientName(s)
-	return aolc
+func (_c *AdminOperationLogCreate) SetClientName(v string) *AdminOperationLogCreate {
+	_c.mutation.SetClientName(v)
+	return _c
 }
 
 // SetNillableClientName sets the "client_name" field if the given value is not nil.
-func (aolc *AdminOperationLogCreate) SetNillableClientName(s *string) *AdminOperationLogCreate {
-	if s != nil {
-		aolc.SetClientName(*s)
+func (_c *AdminOperationLogCreate) SetNillableClientName(v *string) *AdminOperationLogCreate {
+	if v != nil {
+		_c.SetClientName(*v)
 	}
-	return aolc
+	return _c
 }
 
 // SetOsName sets the "os_name" field.
-func (aolc *AdminOperationLogCreate) SetOsName(s string) *AdminOperationLogCreate {
-	aolc.mutation.SetOsName(s)
-	return aolc
+func (_c *AdminOperationLogCreate) SetOsName(v string) *AdminOperationLogCreate {
+	_c.mutation.SetOsName(v)
+	return _c
 }
 
 // SetNillableOsName sets the "os_name" field if the given value is not nil.
-func (aolc *AdminOperationLogCreate) SetNillableOsName(s *string) *AdminOperationLogCreate {
-	if s != nil {
-		aolc.SetOsName(*s)
+func (_c *AdminOperationLogCreate) SetNillableOsName(v *string) *AdminOperationLogCreate {
+	if v != nil {
+		_c.SetOsName(*v)
 	}
-	return aolc
+	return _c
 }
 
 // SetOsVersion sets the "os_version" field.
-func (aolc *AdminOperationLogCreate) SetOsVersion(s string) *AdminOperationLogCreate {
-	aolc.mutation.SetOsVersion(s)
-	return aolc
+func (_c *AdminOperationLogCreate) SetOsVersion(v string) *AdminOperationLogCreate {
+	_c.mutation.SetOsVersion(v)
+	return _c
 }
 
 // SetNillableOsVersion sets the "os_version" field if the given value is not nil.
-func (aolc *AdminOperationLogCreate) SetNillableOsVersion(s *string) *AdminOperationLogCreate {
-	if s != nil {
-		aolc.SetOsVersion(*s)
+func (_c *AdminOperationLogCreate) SetNillableOsVersion(v *string) *AdminOperationLogCreate {
+	if v != nil {
+		_c.SetOsVersion(*v)
 	}
-	return aolc
+	return _c
 }
 
 // SetID sets the "id" field.
-func (aolc *AdminOperationLogCreate) SetID(u uint32) *AdminOperationLogCreate {
-	aolc.mutation.SetID(u)
-	return aolc
+func (_c *AdminOperationLogCreate) SetID(v uint32) *AdminOperationLogCreate {
+	_c.mutation.SetID(v)
+	return _c
 }
 
 // Mutation returns the AdminOperationLogMutation object of the builder.
-func (aolc *AdminOperationLogCreate) Mutation() *AdminOperationLogMutation {
-	return aolc.mutation
+func (_c *AdminOperationLogCreate) Mutation() *AdminOperationLogMutation {
+	return _c.mutation
 }
 
 // Save creates the AdminOperationLog in the database.
-func (aolc *AdminOperationLogCreate) Save(ctx context.Context) (*AdminOperationLog, error) {
-	return withHooks(ctx, aolc.sqlSave, aolc.mutation, aolc.hooks)
+func (_c *AdminOperationLogCreate) Save(ctx context.Context) (*AdminOperationLog, error) {
+	return withHooks(ctx, _c.sqlSave, _c.mutation, _c.hooks)
 }
 
 // SaveX calls Save and panics if Save returns an error.
-func (aolc *AdminOperationLogCreate) SaveX(ctx context.Context) *AdminOperationLog {
-	v, err := aolc.Save(ctx)
+func (_c *AdminOperationLogCreate) SaveX(ctx context.Context) *AdminOperationLog {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -398,21 +398,21 @@ func (aolc *AdminOperationLogCreate) SaveX(ctx context.Context) *AdminOperationL
 }
 
 // Exec executes the query.
-func (aolc *AdminOperationLogCreate) Exec(ctx context.Context) error {
-	_, err := aolc.Save(ctx)
+func (_c *AdminOperationLogCreate) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (aolc *AdminOperationLogCreate) ExecX(ctx context.Context) {
-	if err := aolc.Exec(ctx); err != nil {
+func (_c *AdminOperationLogCreate) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
-func (aolc *AdminOperationLogCreate) check() error {
-	if v, ok := aolc.mutation.ID(); ok {
+func (_c *AdminOperationLogCreate) check() error {
+	if v, ok := _c.mutation.ID(); ok {
 		if err := adminoperationlog.IDValidator(v); err != nil {
 			return &ValidationError{Name: "id", err: fmt.Errorf(`ent: validator failed for field "AdminOperationLog.id": %w`, err)}
 		}
@@ -420,12 +420,12 @@ func (aolc *AdminOperationLogCreate) check() error {
 	return nil
 }
 
-func (aolc *AdminOperationLogCreate) sqlSave(ctx context.Context) (*AdminOperationLog, error) {
-	if err := aolc.check(); err != nil {
+func (_c *AdminOperationLogCreate) sqlSave(ctx context.Context) (*AdminOperationLog, error) {
+	if err := _c.check(); err != nil {
 		return nil, err
 	}
-	_node, _spec := aolc.createSpec()
-	if err := sqlgraph.CreateNode(ctx, aolc.driver, _spec); err != nil {
+	_node, _spec := _c.createSpec()
+	if err := sqlgraph.CreateNode(ctx, _c.driver, _spec); err != nil {
 		if sqlgraph.IsConstraintError(err) {
 			err = &ConstraintError{msg: err.Error(), wrap: err}
 		}
@@ -435,118 +435,118 @@ func (aolc *AdminOperationLogCreate) sqlSave(ctx context.Context) (*AdminOperati
 		id := _spec.ID.Value.(int64)
 		_node.ID = uint32(id)
 	}
-	aolc.mutation.id = &_node.ID
-	aolc.mutation.done = true
+	_c.mutation.id = &_node.ID
+	_c.mutation.done = true
 	return _node, nil
 }
 
-func (aolc *AdminOperationLogCreate) createSpec() (*AdminOperationLog, *sqlgraph.CreateSpec) {
+func (_c *AdminOperationLogCreate) createSpec() (*AdminOperationLog, *sqlgraph.CreateSpec) {
 	var (
-		_node = &AdminOperationLog{config: aolc.config}
+		_node = &AdminOperationLog{config: _c.config}
 		_spec = sqlgraph.NewCreateSpec(adminoperationlog.Table, sqlgraph.NewFieldSpec(adminoperationlog.FieldID, field.TypeUint32))
 	)
-	_spec.OnConflict = aolc.conflict
-	if id, ok := aolc.mutation.ID(); ok {
+	_spec.OnConflict = _c.conflict
+	if id, ok := _c.mutation.ID(); ok {
 		_node.ID = id
 		_spec.ID.Value = id
 	}
-	if value, ok := aolc.mutation.CreateTime(); ok {
+	if value, ok := _c.mutation.CreateTime(); ok {
 		_spec.SetField(adminoperationlog.FieldCreateTime, field.TypeTime, value)
 		_node.CreateTime = &value
 	}
-	if value, ok := aolc.mutation.RequestID(); ok {
+	if value, ok := _c.mutation.RequestID(); ok {
 		_spec.SetField(adminoperationlog.FieldRequestID, field.TypeString, value)
 		_node.RequestID = &value
 	}
-	if value, ok := aolc.mutation.Method(); ok {
+	if value, ok := _c.mutation.Method(); ok {
 		_spec.SetField(adminoperationlog.FieldMethod, field.TypeString, value)
 		_node.Method = &value
 	}
-	if value, ok := aolc.mutation.Operation(); ok {
+	if value, ok := _c.mutation.Operation(); ok {
 		_spec.SetField(adminoperationlog.FieldOperation, field.TypeString, value)
 		_node.Operation = &value
 	}
-	if value, ok := aolc.mutation.Path(); ok {
+	if value, ok := _c.mutation.Path(); ok {
 		_spec.SetField(adminoperationlog.FieldPath, field.TypeString, value)
 		_node.Path = &value
 	}
-	if value, ok := aolc.mutation.Referer(); ok {
+	if value, ok := _c.mutation.Referer(); ok {
 		_spec.SetField(adminoperationlog.FieldReferer, field.TypeString, value)
 		_node.Referer = &value
 	}
-	if value, ok := aolc.mutation.RequestURI(); ok {
+	if value, ok := _c.mutation.RequestURI(); ok {
 		_spec.SetField(adminoperationlog.FieldRequestURI, field.TypeString, value)
 		_node.RequestURI = &value
 	}
-	if value, ok := aolc.mutation.RequestBody(); ok {
+	if value, ok := _c.mutation.RequestBody(); ok {
 		_spec.SetField(adminoperationlog.FieldRequestBody, field.TypeString, value)
 		_node.RequestBody = &value
 	}
-	if value, ok := aolc.mutation.RequestHeader(); ok {
+	if value, ok := _c.mutation.RequestHeader(); ok {
 		_spec.SetField(adminoperationlog.FieldRequestHeader, field.TypeString, value)
 		_node.RequestHeader = &value
 	}
-	if value, ok := aolc.mutation.Response(); ok {
+	if value, ok := _c.mutation.Response(); ok {
 		_spec.SetField(adminoperationlog.FieldResponse, field.TypeString, value)
 		_node.Response = &value
 	}
-	if value, ok := aolc.mutation.CostTime(); ok {
+	if value, ok := _c.mutation.CostTime(); ok {
 		_spec.SetField(adminoperationlog.FieldCostTime, field.TypeFloat64, value)
 		_node.CostTime = &value
 	}
-	if value, ok := aolc.mutation.UserID(); ok {
+	if value, ok := _c.mutation.UserID(); ok {
 		_spec.SetField(adminoperationlog.FieldUserID, field.TypeUint32, value)
 		_node.UserID = &value
 	}
-	if value, ok := aolc.mutation.Username(); ok {
+	if value, ok := _c.mutation.Username(); ok {
 		_spec.SetField(adminoperationlog.FieldUsername, field.TypeString, value)
 		_node.Username = &value
 	}
-	if value, ok := aolc.mutation.ClientIP(); ok {
+	if value, ok := _c.mutation.ClientIP(); ok {
 		_spec.SetField(adminoperationlog.FieldClientIP, field.TypeString, value)
 		_node.ClientIP = &value
 	}
-	if value, ok := aolc.mutation.StatusCode(); ok {
+	if value, ok := _c.mutation.StatusCode(); ok {
 		_spec.SetField(adminoperationlog.FieldStatusCode, field.TypeInt32, value)
 		_node.StatusCode = &value
 	}
-	if value, ok := aolc.mutation.Reason(); ok {
+	if value, ok := _c.mutation.Reason(); ok {
 		_spec.SetField(adminoperationlog.FieldReason, field.TypeString, value)
 		_node.Reason = &value
 	}
-	if value, ok := aolc.mutation.Success(); ok {
+	if value, ok := _c.mutation.Success(); ok {
 		_spec.SetField(adminoperationlog.FieldSuccess, field.TypeBool, value)
 		_node.Success = &value
 	}
-	if value, ok := aolc.mutation.Location(); ok {
+	if value, ok := _c.mutation.Location(); ok {
 		_spec.SetField(adminoperationlog.FieldLocation, field.TypeString, value)
 		_node.Location = &value
 	}
-	if value, ok := aolc.mutation.UserAgent(); ok {
+	if value, ok := _c.mutation.UserAgent(); ok {
 		_spec.SetField(adminoperationlog.FieldUserAgent, field.TypeString, value)
 		_node.UserAgent = &value
 	}
-	if value, ok := aolc.mutation.BrowserName(); ok {
+	if value, ok := _c.mutation.BrowserName(); ok {
 		_spec.SetField(adminoperationlog.FieldBrowserName, field.TypeString, value)
 		_node.BrowserName = &value
 	}
-	if value, ok := aolc.mutation.BrowserVersion(); ok {
+	if value, ok := _c.mutation.BrowserVersion(); ok {
 		_spec.SetField(adminoperationlog.FieldBrowserVersion, field.TypeString, value)
 		_node.BrowserVersion = &value
 	}
-	if value, ok := aolc.mutation.ClientID(); ok {
+	if value, ok := _c.mutation.ClientID(); ok {
 		_spec.SetField(adminoperationlog.FieldClientID, field.TypeString, value)
 		_node.ClientID = &value
 	}
-	if value, ok := aolc.mutation.ClientName(); ok {
+	if value, ok := _c.mutation.ClientName(); ok {
 		_spec.SetField(adminoperationlog.FieldClientName, field.TypeString, value)
 		_node.ClientName = &value
 	}
-	if value, ok := aolc.mutation.OsName(); ok {
+	if value, ok := _c.mutation.OsName(); ok {
 		_spec.SetField(adminoperationlog.FieldOsName, field.TypeString, value)
 		_node.OsName = &value
 	}
-	if value, ok := aolc.mutation.OsVersion(); ok {
+	if value, ok := _c.mutation.OsVersion(); ok {
 		_spec.SetField(adminoperationlog.FieldOsVersion, field.TypeString, value)
 		_node.OsVersion = &value
 	}
@@ -569,10 +569,10 @@ func (aolc *AdminOperationLogCreate) createSpec() (*AdminOperationLog, *sqlgraph
 //			SetCreateTime(v+v).
 //		}).
 //		Exec(ctx)
-func (aolc *AdminOperationLogCreate) OnConflict(opts ...sql.ConflictOption) *AdminOperationLogUpsertOne {
-	aolc.conflict = opts
+func (_c *AdminOperationLogCreate) OnConflict(opts ...sql.ConflictOption) *AdminOperationLogUpsertOne {
+	_c.conflict = opts
 	return &AdminOperationLogUpsertOne{
-		create: aolc,
+		create: _c,
 	}
 }
 
@@ -582,10 +582,10 @@ func (aolc *AdminOperationLogCreate) OnConflict(opts ...sql.ConflictOption) *Adm
 //	client.AdminOperationLog.Create().
 //		OnConflict(sql.ConflictColumns(columns...)).
 //		Exec(ctx)
-func (aolc *AdminOperationLogCreate) OnConflictColumns(columns ...string) *AdminOperationLogUpsertOne {
-	aolc.conflict = append(aolc.conflict, sql.ConflictColumns(columns...))
+func (_c *AdminOperationLogCreate) OnConflictColumns(columns ...string) *AdminOperationLogUpsertOne {
+	_c.conflict = append(_c.conflict, sql.ConflictColumns(columns...))
 	return &AdminOperationLogUpsertOne{
-		create: aolc,
+		create: _c,
 	}
 }
 
@@ -1670,16 +1670,16 @@ type AdminOperationLogCreateBulk struct {
 }
 
 // Save creates the AdminOperationLog entities in the database.
-func (aolcb *AdminOperationLogCreateBulk) Save(ctx context.Context) ([]*AdminOperationLog, error) {
-	if aolcb.err != nil {
-		return nil, aolcb.err
+func (_c *AdminOperationLogCreateBulk) Save(ctx context.Context) ([]*AdminOperationLog, error) {
+	if _c.err != nil {
+		return nil, _c.err
 	}
-	specs := make([]*sqlgraph.CreateSpec, len(aolcb.builders))
-	nodes := make([]*AdminOperationLog, len(aolcb.builders))
-	mutators := make([]Mutator, len(aolcb.builders))
-	for i := range aolcb.builders {
+	specs := make([]*sqlgraph.CreateSpec, len(_c.builders))
+	nodes := make([]*AdminOperationLog, len(_c.builders))
+	mutators := make([]Mutator, len(_c.builders))
+	for i := range _c.builders {
 		func(i int, root context.Context) {
-			builder := aolcb.builders[i]
+			builder := _c.builders[i]
 			var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 				mutation, ok := m.(*AdminOperationLogMutation)
 				if !ok {
@@ -1692,12 +1692,12 @@ func (aolcb *AdminOperationLogCreateBulk) Save(ctx context.Context) ([]*AdminOpe
 				var err error
 				nodes[i], specs[i] = builder.createSpec()
 				if i < len(mutators)-1 {
-					_, err = mutators[i+1].Mutate(root, aolcb.builders[i+1].mutation)
+					_, err = mutators[i+1].Mutate(root, _c.builders[i+1].mutation)
 				} else {
 					spec := &sqlgraph.BatchCreateSpec{Nodes: specs}
-					spec.OnConflict = aolcb.conflict
+					spec.OnConflict = _c.conflict
 					// Invoke the actual operation on the latest mutation in the chain.
-					if err = sqlgraph.BatchCreate(ctx, aolcb.driver, spec); err != nil {
+					if err = sqlgraph.BatchCreate(ctx, _c.driver, spec); err != nil {
 						if sqlgraph.IsConstraintError(err) {
 							err = &ConstraintError{msg: err.Error(), wrap: err}
 						}
@@ -1721,7 +1721,7 @@ func (aolcb *AdminOperationLogCreateBulk) Save(ctx context.Context) ([]*AdminOpe
 		}(i, ctx)
 	}
 	if len(mutators) > 0 {
-		if _, err := mutators[0].Mutate(ctx, aolcb.builders[0].mutation); err != nil {
+		if _, err := mutators[0].Mutate(ctx, _c.builders[0].mutation); err != nil {
 			return nil, err
 		}
 	}
@@ -1729,8 +1729,8 @@ func (aolcb *AdminOperationLogCreateBulk) Save(ctx context.Context) ([]*AdminOpe
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (aolcb *AdminOperationLogCreateBulk) SaveX(ctx context.Context) []*AdminOperationLog {
-	v, err := aolcb.Save(ctx)
+func (_c *AdminOperationLogCreateBulk) SaveX(ctx context.Context) []*AdminOperationLog {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -1738,14 +1738,14 @@ func (aolcb *AdminOperationLogCreateBulk) SaveX(ctx context.Context) []*AdminOpe
 }
 
 // Exec executes the query.
-func (aolcb *AdminOperationLogCreateBulk) Exec(ctx context.Context) error {
-	_, err := aolcb.Save(ctx)
+func (_c *AdminOperationLogCreateBulk) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (aolcb *AdminOperationLogCreateBulk) ExecX(ctx context.Context) {
-	if err := aolcb.Exec(ctx); err != nil {
+func (_c *AdminOperationLogCreateBulk) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
@@ -1765,10 +1765,10 @@ func (aolcb *AdminOperationLogCreateBulk) ExecX(ctx context.Context) {
 //			SetCreateTime(v+v).
 //		}).
 //		Exec(ctx)
-func (aolcb *AdminOperationLogCreateBulk) OnConflict(opts ...sql.ConflictOption) *AdminOperationLogUpsertBulk {
-	aolcb.conflict = opts
+func (_c *AdminOperationLogCreateBulk) OnConflict(opts ...sql.ConflictOption) *AdminOperationLogUpsertBulk {
+	_c.conflict = opts
 	return &AdminOperationLogUpsertBulk{
-		create: aolcb,
+		create: _c,
 	}
 }
 
@@ -1778,10 +1778,10 @@ func (aolcb *AdminOperationLogCreateBulk) OnConflict(opts ...sql.ConflictOption)
 //	client.AdminOperationLog.Create().
 //		OnConflict(sql.ConflictColumns(columns...)).
 //		Exec(ctx)
-func (aolcb *AdminOperationLogCreateBulk) OnConflictColumns(columns ...string) *AdminOperationLogUpsertBulk {
-	aolcb.conflict = append(aolcb.conflict, sql.ConflictColumns(columns...))
+func (_c *AdminOperationLogCreateBulk) OnConflictColumns(columns ...string) *AdminOperationLogUpsertBulk {
+	_c.conflict = append(_c.conflict, sql.ConflictColumns(columns...))
 	return &AdminOperationLogUpsertBulk{
-		create: aolcb,
+		create: _c,
 	}
 }
 

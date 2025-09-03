@@ -99,7 +99,7 @@ func (*Position) scanValues(columns []string) ([]any, error) {
 
 // assignValues assigns the values that were returned from sql.Rows (after scanning)
 // to the Position fields.
-func (po *Position) assignValues(columns []string, values []any) error {
+func (_m *Position) assignValues(columns []string, values []any) error {
 	if m, n := len(values), len(columns); m < n {
 		return fmt.Errorf("mismatch number of scan values: %d != %d", m, n)
 	}
@@ -110,89 +110,89 @@ func (po *Position) assignValues(columns []string, values []any) error {
 			if !ok {
 				return fmt.Errorf("unexpected type %T for field id", value)
 			}
-			po.ID = uint32(value.Int64)
+			_m.ID = uint32(value.Int64)
 		case position.FieldCreateTime:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field create_time", values[i])
 			} else if value.Valid {
-				po.CreateTime = new(time.Time)
-				*po.CreateTime = value.Time
+				_m.CreateTime = new(time.Time)
+				*_m.CreateTime = value.Time
 			}
 		case position.FieldUpdateTime:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field update_time", values[i])
 			} else if value.Valid {
-				po.UpdateTime = new(time.Time)
-				*po.UpdateTime = value.Time
+				_m.UpdateTime = new(time.Time)
+				*_m.UpdateTime = value.Time
 			}
 		case position.FieldDeleteTime:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field delete_time", values[i])
 			} else if value.Valid {
-				po.DeleteTime = new(time.Time)
-				*po.DeleteTime = value.Time
+				_m.DeleteTime = new(time.Time)
+				*_m.DeleteTime = value.Time
 			}
 		case position.FieldStatus:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field status", values[i])
 			} else if value.Valid {
-				po.Status = new(position.Status)
-				*po.Status = position.Status(value.String)
+				_m.Status = new(position.Status)
+				*_m.Status = position.Status(value.String)
 			}
 		case position.FieldCreateBy:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field create_by", values[i])
 			} else if value.Valid {
-				po.CreateBy = new(uint32)
-				*po.CreateBy = uint32(value.Int64)
+				_m.CreateBy = new(uint32)
+				*_m.CreateBy = uint32(value.Int64)
 			}
 		case position.FieldUpdateBy:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field update_by", values[i])
 			} else if value.Valid {
-				po.UpdateBy = new(uint32)
-				*po.UpdateBy = uint32(value.Int64)
+				_m.UpdateBy = new(uint32)
+				*_m.UpdateBy = uint32(value.Int64)
 			}
 		case position.FieldRemark:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field remark", values[i])
 			} else if value.Valid {
-				po.Remark = new(string)
-				*po.Remark = value.String
+				_m.Remark = new(string)
+				*_m.Remark = value.String
 			}
 		case position.FieldTenantID:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field tenant_id", values[i])
 			} else if value.Valid {
-				po.TenantID = new(uint32)
-				*po.TenantID = uint32(value.Int64)
+				_m.TenantID = new(uint32)
+				*_m.TenantID = uint32(value.Int64)
 			}
 		case position.FieldName:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field name", values[i])
 			} else if value.Valid {
-				po.Name = value.String
+				_m.Name = value.String
 			}
 		case position.FieldCode:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field code", values[i])
 			} else if value.Valid {
-				po.Code = value.String
+				_m.Code = value.String
 			}
 		case position.FieldParentID:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field parent_id", values[i])
 			} else if value.Valid {
-				po.ParentID = uint32(value.Int64)
+				_m.ParentID = uint32(value.Int64)
 			}
 		case position.FieldSortID:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field sort_id", values[i])
 			} else if value.Valid {
-				po.SortID = int32(value.Int64)
+				_m.SortID = int32(value.Int64)
 			}
 		default:
-			po.selectValues.Set(columns[i], values[i])
+			_m.selectValues.Set(columns[i], values[i])
 		}
 	}
 	return nil
@@ -200,94 +200,94 @@ func (po *Position) assignValues(columns []string, values []any) error {
 
 // Value returns the ent.Value that was dynamically selected and assigned to the Position.
 // This includes values selected through modifiers, order, etc.
-func (po *Position) Value(name string) (ent.Value, error) {
-	return po.selectValues.Get(name)
+func (_m *Position) Value(name string) (ent.Value, error) {
+	return _m.selectValues.Get(name)
 }
 
 // QueryParent queries the "parent" edge of the Position entity.
-func (po *Position) QueryParent() *PositionQuery {
-	return NewPositionClient(po.config).QueryParent(po)
+func (_m *Position) QueryParent() *PositionQuery {
+	return NewPositionClient(_m.config).QueryParent(_m)
 }
 
 // QueryChildren queries the "children" edge of the Position entity.
-func (po *Position) QueryChildren() *PositionQuery {
-	return NewPositionClient(po.config).QueryChildren(po)
+func (_m *Position) QueryChildren() *PositionQuery {
+	return NewPositionClient(_m.config).QueryChildren(_m)
 }
 
 // Update returns a builder for updating this Position.
 // Note that you need to call Position.Unwrap() before calling this method if this Position
 // was returned from a transaction, and the transaction was committed or rolled back.
-func (po *Position) Update() *PositionUpdateOne {
-	return NewPositionClient(po.config).UpdateOne(po)
+func (_m *Position) Update() *PositionUpdateOne {
+	return NewPositionClient(_m.config).UpdateOne(_m)
 }
 
 // Unwrap unwraps the Position entity that was returned from a transaction after it was closed,
 // so that all future queries will be executed through the driver which created the transaction.
-func (po *Position) Unwrap() *Position {
-	_tx, ok := po.config.driver.(*txDriver)
+func (_m *Position) Unwrap() *Position {
+	_tx, ok := _m.config.driver.(*txDriver)
 	if !ok {
 		panic("ent: Position is not a transactional entity")
 	}
-	po.config.driver = _tx.drv
-	return po
+	_m.config.driver = _tx.drv
+	return _m
 }
 
 // String implements the fmt.Stringer.
-func (po *Position) String() string {
+func (_m *Position) String() string {
 	var builder strings.Builder
 	builder.WriteString("Position(")
-	builder.WriteString(fmt.Sprintf("id=%v, ", po.ID))
-	if v := po.CreateTime; v != nil {
+	builder.WriteString(fmt.Sprintf("id=%v, ", _m.ID))
+	if v := _m.CreateTime; v != nil {
 		builder.WriteString("create_time=")
 		builder.WriteString(v.Format(time.ANSIC))
 	}
 	builder.WriteString(", ")
-	if v := po.UpdateTime; v != nil {
+	if v := _m.UpdateTime; v != nil {
 		builder.WriteString("update_time=")
 		builder.WriteString(v.Format(time.ANSIC))
 	}
 	builder.WriteString(", ")
-	if v := po.DeleteTime; v != nil {
+	if v := _m.DeleteTime; v != nil {
 		builder.WriteString("delete_time=")
 		builder.WriteString(v.Format(time.ANSIC))
 	}
 	builder.WriteString(", ")
-	if v := po.Status; v != nil {
+	if v := _m.Status; v != nil {
 		builder.WriteString("status=")
 		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteString(", ")
-	if v := po.CreateBy; v != nil {
+	if v := _m.CreateBy; v != nil {
 		builder.WriteString("create_by=")
 		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteString(", ")
-	if v := po.UpdateBy; v != nil {
+	if v := _m.UpdateBy; v != nil {
 		builder.WriteString("update_by=")
 		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteString(", ")
-	if v := po.Remark; v != nil {
+	if v := _m.Remark; v != nil {
 		builder.WriteString("remark=")
 		builder.WriteString(*v)
 	}
 	builder.WriteString(", ")
-	if v := po.TenantID; v != nil {
+	if v := _m.TenantID; v != nil {
 		builder.WriteString("tenant_id=")
 		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteString(", ")
 	builder.WriteString("name=")
-	builder.WriteString(po.Name)
+	builder.WriteString(_m.Name)
 	builder.WriteString(", ")
 	builder.WriteString("code=")
-	builder.WriteString(po.Code)
+	builder.WriteString(_m.Code)
 	builder.WriteString(", ")
 	builder.WriteString("parent_id=")
-	builder.WriteString(fmt.Sprintf("%v", po.ParentID))
+	builder.WriteString(fmt.Sprintf("%v", _m.ParentID))
 	builder.WriteString(", ")
 	builder.WriteString("sort_id=")
-	builder.WriteString(fmt.Sprintf("%v", po.SortID))
+	builder.WriteString(fmt.Sprintf("%v", _m.SortID))
 	builder.WriteByte(')')
 	return builder.String()
 }

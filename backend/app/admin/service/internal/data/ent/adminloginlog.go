@@ -77,7 +77,7 @@ func (*AdminLoginLog) scanValues(columns []string) ([]any, error) {
 
 // assignValues assigns the values that were returned from sql.Rows (after scanning)
 // to the AdminLoginLog fields.
-func (all *AdminLoginLog) assignValues(columns []string, values []any) error {
+func (_m *AdminLoginLog) assignValues(columns []string, values []any) error {
 	if m, n := len(values), len(columns); m < n {
 		return fmt.Errorf("mismatch number of scan values: %d != %d", m, n)
 	}
@@ -88,128 +88,128 @@ func (all *AdminLoginLog) assignValues(columns []string, values []any) error {
 			if !ok {
 				return fmt.Errorf("unexpected type %T for field id", value)
 			}
-			all.ID = uint32(value.Int64)
+			_m.ID = uint32(value.Int64)
 		case adminloginlog.FieldCreateTime:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field create_time", values[i])
 			} else if value.Valid {
-				all.CreateTime = new(time.Time)
-				*all.CreateTime = value.Time
+				_m.CreateTime = new(time.Time)
+				*_m.CreateTime = value.Time
 			}
 		case adminloginlog.FieldLoginIP:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field login_ip", values[i])
 			} else if value.Valid {
-				all.LoginIP = new(string)
-				*all.LoginIP = value.String
+				_m.LoginIP = new(string)
+				*_m.LoginIP = value.String
 			}
 		case adminloginlog.FieldLoginMAC:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field login_mac", values[i])
 			} else if value.Valid {
-				all.LoginMAC = new(string)
-				*all.LoginMAC = value.String
+				_m.LoginMAC = new(string)
+				*_m.LoginMAC = value.String
 			}
 		case adminloginlog.FieldLoginTime:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field login_time", values[i])
 			} else if value.Valid {
-				all.LoginTime = new(time.Time)
-				*all.LoginTime = value.Time
+				_m.LoginTime = new(time.Time)
+				*_m.LoginTime = value.Time
 			}
 		case adminloginlog.FieldUserAgent:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field user_agent", values[i])
 			} else if value.Valid {
-				all.UserAgent = new(string)
-				*all.UserAgent = value.String
+				_m.UserAgent = new(string)
+				*_m.UserAgent = value.String
 			}
 		case adminloginlog.FieldBrowserName:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field browser_name", values[i])
 			} else if value.Valid {
-				all.BrowserName = new(string)
-				*all.BrowserName = value.String
+				_m.BrowserName = new(string)
+				*_m.BrowserName = value.String
 			}
 		case adminloginlog.FieldBrowserVersion:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field browser_version", values[i])
 			} else if value.Valid {
-				all.BrowserVersion = new(string)
-				*all.BrowserVersion = value.String
+				_m.BrowserVersion = new(string)
+				*_m.BrowserVersion = value.String
 			}
 		case adminloginlog.FieldClientID:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field client_id", values[i])
 			} else if value.Valid {
-				all.ClientID = new(string)
-				*all.ClientID = value.String
+				_m.ClientID = new(string)
+				*_m.ClientID = value.String
 			}
 		case adminloginlog.FieldClientName:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field client_name", values[i])
 			} else if value.Valid {
-				all.ClientName = new(string)
-				*all.ClientName = value.String
+				_m.ClientName = new(string)
+				*_m.ClientName = value.String
 			}
 		case adminloginlog.FieldOsName:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field os_name", values[i])
 			} else if value.Valid {
-				all.OsName = new(string)
-				*all.OsName = value.String
+				_m.OsName = new(string)
+				*_m.OsName = value.String
 			}
 		case adminloginlog.FieldOsVersion:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field os_version", values[i])
 			} else if value.Valid {
-				all.OsVersion = new(string)
-				*all.OsVersion = value.String
+				_m.OsVersion = new(string)
+				*_m.OsVersion = value.String
 			}
 		case adminloginlog.FieldUserID:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field user_id", values[i])
 			} else if value.Valid {
-				all.UserID = new(uint32)
-				*all.UserID = uint32(value.Int64)
+				_m.UserID = new(uint32)
+				*_m.UserID = uint32(value.Int64)
 			}
 		case adminloginlog.FieldUsername:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field username", values[i])
 			} else if value.Valid {
-				all.Username = new(string)
-				*all.Username = value.String
+				_m.Username = new(string)
+				*_m.Username = value.String
 			}
 		case adminloginlog.FieldStatusCode:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field status_code", values[i])
 			} else if value.Valid {
-				all.StatusCode = new(int32)
-				*all.StatusCode = int32(value.Int64)
+				_m.StatusCode = new(int32)
+				*_m.StatusCode = int32(value.Int64)
 			}
 		case adminloginlog.FieldSuccess:
 			if value, ok := values[i].(*sql.NullBool); !ok {
 				return fmt.Errorf("unexpected type %T for field success", values[i])
 			} else if value.Valid {
-				all.Success = new(bool)
-				*all.Success = value.Bool
+				_m.Success = new(bool)
+				*_m.Success = value.Bool
 			}
 		case adminloginlog.FieldReason:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field reason", values[i])
 			} else if value.Valid {
-				all.Reason = new(string)
-				*all.Reason = value.String
+				_m.Reason = new(string)
+				*_m.Reason = value.String
 			}
 		case adminloginlog.FieldLocation:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field location", values[i])
 			} else if value.Valid {
-				all.Location = new(string)
-				*all.Location = value.String
+				_m.Location = new(string)
+				*_m.Location = value.String
 			}
 		default:
-			all.selectValues.Set(columns[i], values[i])
+			_m.selectValues.Set(columns[i], values[i])
 		}
 	}
 	return nil
@@ -217,114 +217,114 @@ func (all *AdminLoginLog) assignValues(columns []string, values []any) error {
 
 // Value returns the ent.Value that was dynamically selected and assigned to the AdminLoginLog.
 // This includes values selected through modifiers, order, etc.
-func (all *AdminLoginLog) Value(name string) (ent.Value, error) {
-	return all.selectValues.Get(name)
+func (_m *AdminLoginLog) Value(name string) (ent.Value, error) {
+	return _m.selectValues.Get(name)
 }
 
 // Update returns a builder for updating this AdminLoginLog.
 // Note that you need to call AdminLoginLog.Unwrap() before calling this method if this AdminLoginLog
 // was returned from a transaction, and the transaction was committed or rolled back.
-func (all *AdminLoginLog) Update() *AdminLoginLogUpdateOne {
-	return NewAdminLoginLogClient(all.config).UpdateOne(all)
+func (_m *AdminLoginLog) Update() *AdminLoginLogUpdateOne {
+	return NewAdminLoginLogClient(_m.config).UpdateOne(_m)
 }
 
 // Unwrap unwraps the AdminLoginLog entity that was returned from a transaction after it was closed,
 // so that all future queries will be executed through the driver which created the transaction.
-func (all *AdminLoginLog) Unwrap() *AdminLoginLog {
-	_tx, ok := all.config.driver.(*txDriver)
+func (_m *AdminLoginLog) Unwrap() *AdminLoginLog {
+	_tx, ok := _m.config.driver.(*txDriver)
 	if !ok {
 		panic("ent: AdminLoginLog is not a transactional entity")
 	}
-	all.config.driver = _tx.drv
-	return all
+	_m.config.driver = _tx.drv
+	return _m
 }
 
 // String implements the fmt.Stringer.
-func (all *AdminLoginLog) String() string {
+func (_m *AdminLoginLog) String() string {
 	var builder strings.Builder
 	builder.WriteString("AdminLoginLog(")
-	builder.WriteString(fmt.Sprintf("id=%v, ", all.ID))
-	if v := all.CreateTime; v != nil {
+	builder.WriteString(fmt.Sprintf("id=%v, ", _m.ID))
+	if v := _m.CreateTime; v != nil {
 		builder.WriteString("create_time=")
 		builder.WriteString(v.Format(time.ANSIC))
 	}
 	builder.WriteString(", ")
-	if v := all.LoginIP; v != nil {
+	if v := _m.LoginIP; v != nil {
 		builder.WriteString("login_ip=")
 		builder.WriteString(*v)
 	}
 	builder.WriteString(", ")
-	if v := all.LoginMAC; v != nil {
+	if v := _m.LoginMAC; v != nil {
 		builder.WriteString("login_mac=")
 		builder.WriteString(*v)
 	}
 	builder.WriteString(", ")
-	if v := all.LoginTime; v != nil {
+	if v := _m.LoginTime; v != nil {
 		builder.WriteString("login_time=")
 		builder.WriteString(v.Format(time.ANSIC))
 	}
 	builder.WriteString(", ")
-	if v := all.UserAgent; v != nil {
+	if v := _m.UserAgent; v != nil {
 		builder.WriteString("user_agent=")
 		builder.WriteString(*v)
 	}
 	builder.WriteString(", ")
-	if v := all.BrowserName; v != nil {
+	if v := _m.BrowserName; v != nil {
 		builder.WriteString("browser_name=")
 		builder.WriteString(*v)
 	}
 	builder.WriteString(", ")
-	if v := all.BrowserVersion; v != nil {
+	if v := _m.BrowserVersion; v != nil {
 		builder.WriteString("browser_version=")
 		builder.WriteString(*v)
 	}
 	builder.WriteString(", ")
-	if v := all.ClientID; v != nil {
+	if v := _m.ClientID; v != nil {
 		builder.WriteString("client_id=")
 		builder.WriteString(*v)
 	}
 	builder.WriteString(", ")
-	if v := all.ClientName; v != nil {
+	if v := _m.ClientName; v != nil {
 		builder.WriteString("client_name=")
 		builder.WriteString(*v)
 	}
 	builder.WriteString(", ")
-	if v := all.OsName; v != nil {
+	if v := _m.OsName; v != nil {
 		builder.WriteString("os_name=")
 		builder.WriteString(*v)
 	}
 	builder.WriteString(", ")
-	if v := all.OsVersion; v != nil {
+	if v := _m.OsVersion; v != nil {
 		builder.WriteString("os_version=")
 		builder.WriteString(*v)
 	}
 	builder.WriteString(", ")
-	if v := all.UserID; v != nil {
+	if v := _m.UserID; v != nil {
 		builder.WriteString("user_id=")
 		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteString(", ")
-	if v := all.Username; v != nil {
+	if v := _m.Username; v != nil {
 		builder.WriteString("username=")
 		builder.WriteString(*v)
 	}
 	builder.WriteString(", ")
-	if v := all.StatusCode; v != nil {
+	if v := _m.StatusCode; v != nil {
 		builder.WriteString("status_code=")
 		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteString(", ")
-	if v := all.Success; v != nil {
+	if v := _m.Success; v != nil {
 		builder.WriteString("success=")
 		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteString(", ")
-	if v := all.Reason; v != nil {
+	if v := _m.Reason; v != nil {
 		builder.WriteString("reason=")
 		builder.WriteString(*v)
 	}
 	builder.WriteString(", ")
-	if v := all.Location; v != nil {
+	if v := _m.Location; v != nil {
 		builder.WriteString("location=")
 		builder.WriteString(*v)
 	}

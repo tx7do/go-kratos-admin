@@ -23,262 +23,262 @@ type AdminLoginLogCreate struct {
 }
 
 // SetCreateTime sets the "create_time" field.
-func (allc *AdminLoginLogCreate) SetCreateTime(t time.Time) *AdminLoginLogCreate {
-	allc.mutation.SetCreateTime(t)
-	return allc
+func (_c *AdminLoginLogCreate) SetCreateTime(v time.Time) *AdminLoginLogCreate {
+	_c.mutation.SetCreateTime(v)
+	return _c
 }
 
 // SetNillableCreateTime sets the "create_time" field if the given value is not nil.
-func (allc *AdminLoginLogCreate) SetNillableCreateTime(t *time.Time) *AdminLoginLogCreate {
-	if t != nil {
-		allc.SetCreateTime(*t)
+func (_c *AdminLoginLogCreate) SetNillableCreateTime(v *time.Time) *AdminLoginLogCreate {
+	if v != nil {
+		_c.SetCreateTime(*v)
 	}
-	return allc
+	return _c
 }
 
 // SetLoginIP sets the "login_ip" field.
-func (allc *AdminLoginLogCreate) SetLoginIP(s string) *AdminLoginLogCreate {
-	allc.mutation.SetLoginIP(s)
-	return allc
+func (_c *AdminLoginLogCreate) SetLoginIP(v string) *AdminLoginLogCreate {
+	_c.mutation.SetLoginIP(v)
+	return _c
 }
 
 // SetNillableLoginIP sets the "login_ip" field if the given value is not nil.
-func (allc *AdminLoginLogCreate) SetNillableLoginIP(s *string) *AdminLoginLogCreate {
-	if s != nil {
-		allc.SetLoginIP(*s)
+func (_c *AdminLoginLogCreate) SetNillableLoginIP(v *string) *AdminLoginLogCreate {
+	if v != nil {
+		_c.SetLoginIP(*v)
 	}
-	return allc
+	return _c
 }
 
 // SetLoginMAC sets the "login_mac" field.
-func (allc *AdminLoginLogCreate) SetLoginMAC(s string) *AdminLoginLogCreate {
-	allc.mutation.SetLoginMAC(s)
-	return allc
+func (_c *AdminLoginLogCreate) SetLoginMAC(v string) *AdminLoginLogCreate {
+	_c.mutation.SetLoginMAC(v)
+	return _c
 }
 
 // SetNillableLoginMAC sets the "login_mac" field if the given value is not nil.
-func (allc *AdminLoginLogCreate) SetNillableLoginMAC(s *string) *AdminLoginLogCreate {
-	if s != nil {
-		allc.SetLoginMAC(*s)
+func (_c *AdminLoginLogCreate) SetNillableLoginMAC(v *string) *AdminLoginLogCreate {
+	if v != nil {
+		_c.SetLoginMAC(*v)
 	}
-	return allc
+	return _c
 }
 
 // SetLoginTime sets the "login_time" field.
-func (allc *AdminLoginLogCreate) SetLoginTime(t time.Time) *AdminLoginLogCreate {
-	allc.mutation.SetLoginTime(t)
-	return allc
+func (_c *AdminLoginLogCreate) SetLoginTime(v time.Time) *AdminLoginLogCreate {
+	_c.mutation.SetLoginTime(v)
+	return _c
 }
 
 // SetNillableLoginTime sets the "login_time" field if the given value is not nil.
-func (allc *AdminLoginLogCreate) SetNillableLoginTime(t *time.Time) *AdminLoginLogCreate {
-	if t != nil {
-		allc.SetLoginTime(*t)
+func (_c *AdminLoginLogCreate) SetNillableLoginTime(v *time.Time) *AdminLoginLogCreate {
+	if v != nil {
+		_c.SetLoginTime(*v)
 	}
-	return allc
+	return _c
 }
 
 // SetUserAgent sets the "user_agent" field.
-func (allc *AdminLoginLogCreate) SetUserAgent(s string) *AdminLoginLogCreate {
-	allc.mutation.SetUserAgent(s)
-	return allc
+func (_c *AdminLoginLogCreate) SetUserAgent(v string) *AdminLoginLogCreate {
+	_c.mutation.SetUserAgent(v)
+	return _c
 }
 
 // SetNillableUserAgent sets the "user_agent" field if the given value is not nil.
-func (allc *AdminLoginLogCreate) SetNillableUserAgent(s *string) *AdminLoginLogCreate {
-	if s != nil {
-		allc.SetUserAgent(*s)
+func (_c *AdminLoginLogCreate) SetNillableUserAgent(v *string) *AdminLoginLogCreate {
+	if v != nil {
+		_c.SetUserAgent(*v)
 	}
-	return allc
+	return _c
 }
 
 // SetBrowserName sets the "browser_name" field.
-func (allc *AdminLoginLogCreate) SetBrowserName(s string) *AdminLoginLogCreate {
-	allc.mutation.SetBrowserName(s)
-	return allc
+func (_c *AdminLoginLogCreate) SetBrowserName(v string) *AdminLoginLogCreate {
+	_c.mutation.SetBrowserName(v)
+	return _c
 }
 
 // SetNillableBrowserName sets the "browser_name" field if the given value is not nil.
-func (allc *AdminLoginLogCreate) SetNillableBrowserName(s *string) *AdminLoginLogCreate {
-	if s != nil {
-		allc.SetBrowserName(*s)
+func (_c *AdminLoginLogCreate) SetNillableBrowserName(v *string) *AdminLoginLogCreate {
+	if v != nil {
+		_c.SetBrowserName(*v)
 	}
-	return allc
+	return _c
 }
 
 // SetBrowserVersion sets the "browser_version" field.
-func (allc *AdminLoginLogCreate) SetBrowserVersion(s string) *AdminLoginLogCreate {
-	allc.mutation.SetBrowserVersion(s)
-	return allc
+func (_c *AdminLoginLogCreate) SetBrowserVersion(v string) *AdminLoginLogCreate {
+	_c.mutation.SetBrowserVersion(v)
+	return _c
 }
 
 // SetNillableBrowserVersion sets the "browser_version" field if the given value is not nil.
-func (allc *AdminLoginLogCreate) SetNillableBrowserVersion(s *string) *AdminLoginLogCreate {
-	if s != nil {
-		allc.SetBrowserVersion(*s)
+func (_c *AdminLoginLogCreate) SetNillableBrowserVersion(v *string) *AdminLoginLogCreate {
+	if v != nil {
+		_c.SetBrowserVersion(*v)
 	}
-	return allc
+	return _c
 }
 
 // SetClientID sets the "client_id" field.
-func (allc *AdminLoginLogCreate) SetClientID(s string) *AdminLoginLogCreate {
-	allc.mutation.SetClientID(s)
-	return allc
+func (_c *AdminLoginLogCreate) SetClientID(v string) *AdminLoginLogCreate {
+	_c.mutation.SetClientID(v)
+	return _c
 }
 
 // SetNillableClientID sets the "client_id" field if the given value is not nil.
-func (allc *AdminLoginLogCreate) SetNillableClientID(s *string) *AdminLoginLogCreate {
-	if s != nil {
-		allc.SetClientID(*s)
+func (_c *AdminLoginLogCreate) SetNillableClientID(v *string) *AdminLoginLogCreate {
+	if v != nil {
+		_c.SetClientID(*v)
 	}
-	return allc
+	return _c
 }
 
 // SetClientName sets the "client_name" field.
-func (allc *AdminLoginLogCreate) SetClientName(s string) *AdminLoginLogCreate {
-	allc.mutation.SetClientName(s)
-	return allc
+func (_c *AdminLoginLogCreate) SetClientName(v string) *AdminLoginLogCreate {
+	_c.mutation.SetClientName(v)
+	return _c
 }
 
 // SetNillableClientName sets the "client_name" field if the given value is not nil.
-func (allc *AdminLoginLogCreate) SetNillableClientName(s *string) *AdminLoginLogCreate {
-	if s != nil {
-		allc.SetClientName(*s)
+func (_c *AdminLoginLogCreate) SetNillableClientName(v *string) *AdminLoginLogCreate {
+	if v != nil {
+		_c.SetClientName(*v)
 	}
-	return allc
+	return _c
 }
 
 // SetOsName sets the "os_name" field.
-func (allc *AdminLoginLogCreate) SetOsName(s string) *AdminLoginLogCreate {
-	allc.mutation.SetOsName(s)
-	return allc
+func (_c *AdminLoginLogCreate) SetOsName(v string) *AdminLoginLogCreate {
+	_c.mutation.SetOsName(v)
+	return _c
 }
 
 // SetNillableOsName sets the "os_name" field if the given value is not nil.
-func (allc *AdminLoginLogCreate) SetNillableOsName(s *string) *AdminLoginLogCreate {
-	if s != nil {
-		allc.SetOsName(*s)
+func (_c *AdminLoginLogCreate) SetNillableOsName(v *string) *AdminLoginLogCreate {
+	if v != nil {
+		_c.SetOsName(*v)
 	}
-	return allc
+	return _c
 }
 
 // SetOsVersion sets the "os_version" field.
-func (allc *AdminLoginLogCreate) SetOsVersion(s string) *AdminLoginLogCreate {
-	allc.mutation.SetOsVersion(s)
-	return allc
+func (_c *AdminLoginLogCreate) SetOsVersion(v string) *AdminLoginLogCreate {
+	_c.mutation.SetOsVersion(v)
+	return _c
 }
 
 // SetNillableOsVersion sets the "os_version" field if the given value is not nil.
-func (allc *AdminLoginLogCreate) SetNillableOsVersion(s *string) *AdminLoginLogCreate {
-	if s != nil {
-		allc.SetOsVersion(*s)
+func (_c *AdminLoginLogCreate) SetNillableOsVersion(v *string) *AdminLoginLogCreate {
+	if v != nil {
+		_c.SetOsVersion(*v)
 	}
-	return allc
+	return _c
 }
 
 // SetUserID sets the "user_id" field.
-func (allc *AdminLoginLogCreate) SetUserID(u uint32) *AdminLoginLogCreate {
-	allc.mutation.SetUserID(u)
-	return allc
+func (_c *AdminLoginLogCreate) SetUserID(v uint32) *AdminLoginLogCreate {
+	_c.mutation.SetUserID(v)
+	return _c
 }
 
 // SetNillableUserID sets the "user_id" field if the given value is not nil.
-func (allc *AdminLoginLogCreate) SetNillableUserID(u *uint32) *AdminLoginLogCreate {
-	if u != nil {
-		allc.SetUserID(*u)
+func (_c *AdminLoginLogCreate) SetNillableUserID(v *uint32) *AdminLoginLogCreate {
+	if v != nil {
+		_c.SetUserID(*v)
 	}
-	return allc
+	return _c
 }
 
 // SetUsername sets the "username" field.
-func (allc *AdminLoginLogCreate) SetUsername(s string) *AdminLoginLogCreate {
-	allc.mutation.SetUsername(s)
-	return allc
+func (_c *AdminLoginLogCreate) SetUsername(v string) *AdminLoginLogCreate {
+	_c.mutation.SetUsername(v)
+	return _c
 }
 
 // SetNillableUsername sets the "username" field if the given value is not nil.
-func (allc *AdminLoginLogCreate) SetNillableUsername(s *string) *AdminLoginLogCreate {
-	if s != nil {
-		allc.SetUsername(*s)
+func (_c *AdminLoginLogCreate) SetNillableUsername(v *string) *AdminLoginLogCreate {
+	if v != nil {
+		_c.SetUsername(*v)
 	}
-	return allc
+	return _c
 }
 
 // SetStatusCode sets the "status_code" field.
-func (allc *AdminLoginLogCreate) SetStatusCode(i int32) *AdminLoginLogCreate {
-	allc.mutation.SetStatusCode(i)
-	return allc
+func (_c *AdminLoginLogCreate) SetStatusCode(v int32) *AdminLoginLogCreate {
+	_c.mutation.SetStatusCode(v)
+	return _c
 }
 
 // SetNillableStatusCode sets the "status_code" field if the given value is not nil.
-func (allc *AdminLoginLogCreate) SetNillableStatusCode(i *int32) *AdminLoginLogCreate {
-	if i != nil {
-		allc.SetStatusCode(*i)
+func (_c *AdminLoginLogCreate) SetNillableStatusCode(v *int32) *AdminLoginLogCreate {
+	if v != nil {
+		_c.SetStatusCode(*v)
 	}
-	return allc
+	return _c
 }
 
 // SetSuccess sets the "success" field.
-func (allc *AdminLoginLogCreate) SetSuccess(b bool) *AdminLoginLogCreate {
-	allc.mutation.SetSuccess(b)
-	return allc
+func (_c *AdminLoginLogCreate) SetSuccess(v bool) *AdminLoginLogCreate {
+	_c.mutation.SetSuccess(v)
+	return _c
 }
 
 // SetNillableSuccess sets the "success" field if the given value is not nil.
-func (allc *AdminLoginLogCreate) SetNillableSuccess(b *bool) *AdminLoginLogCreate {
-	if b != nil {
-		allc.SetSuccess(*b)
+func (_c *AdminLoginLogCreate) SetNillableSuccess(v *bool) *AdminLoginLogCreate {
+	if v != nil {
+		_c.SetSuccess(*v)
 	}
-	return allc
+	return _c
 }
 
 // SetReason sets the "reason" field.
-func (allc *AdminLoginLogCreate) SetReason(s string) *AdminLoginLogCreate {
-	allc.mutation.SetReason(s)
-	return allc
+func (_c *AdminLoginLogCreate) SetReason(v string) *AdminLoginLogCreate {
+	_c.mutation.SetReason(v)
+	return _c
 }
 
 // SetNillableReason sets the "reason" field if the given value is not nil.
-func (allc *AdminLoginLogCreate) SetNillableReason(s *string) *AdminLoginLogCreate {
-	if s != nil {
-		allc.SetReason(*s)
+func (_c *AdminLoginLogCreate) SetNillableReason(v *string) *AdminLoginLogCreate {
+	if v != nil {
+		_c.SetReason(*v)
 	}
-	return allc
+	return _c
 }
 
 // SetLocation sets the "location" field.
-func (allc *AdminLoginLogCreate) SetLocation(s string) *AdminLoginLogCreate {
-	allc.mutation.SetLocation(s)
-	return allc
+func (_c *AdminLoginLogCreate) SetLocation(v string) *AdminLoginLogCreate {
+	_c.mutation.SetLocation(v)
+	return _c
 }
 
 // SetNillableLocation sets the "location" field if the given value is not nil.
-func (allc *AdminLoginLogCreate) SetNillableLocation(s *string) *AdminLoginLogCreate {
-	if s != nil {
-		allc.SetLocation(*s)
+func (_c *AdminLoginLogCreate) SetNillableLocation(v *string) *AdminLoginLogCreate {
+	if v != nil {
+		_c.SetLocation(*v)
 	}
-	return allc
+	return _c
 }
 
 // SetID sets the "id" field.
-func (allc *AdminLoginLogCreate) SetID(u uint32) *AdminLoginLogCreate {
-	allc.mutation.SetID(u)
-	return allc
+func (_c *AdminLoginLogCreate) SetID(v uint32) *AdminLoginLogCreate {
+	_c.mutation.SetID(v)
+	return _c
 }
 
 // Mutation returns the AdminLoginLogMutation object of the builder.
-func (allc *AdminLoginLogCreate) Mutation() *AdminLoginLogMutation {
-	return allc.mutation
+func (_c *AdminLoginLogCreate) Mutation() *AdminLoginLogMutation {
+	return _c.mutation
 }
 
 // Save creates the AdminLoginLog in the database.
-func (allc *AdminLoginLogCreate) Save(ctx context.Context) (*AdminLoginLog, error) {
-	return withHooks(ctx, allc.sqlSave, allc.mutation, allc.hooks)
+func (_c *AdminLoginLogCreate) Save(ctx context.Context) (*AdminLoginLog, error) {
+	return withHooks(ctx, _c.sqlSave, _c.mutation, _c.hooks)
 }
 
 // SaveX calls Save and panics if Save returns an error.
-func (allc *AdminLoginLogCreate) SaveX(ctx context.Context) *AdminLoginLog {
-	v, err := allc.Save(ctx)
+func (_c *AdminLoginLogCreate) SaveX(ctx context.Context) *AdminLoginLog {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -286,21 +286,21 @@ func (allc *AdminLoginLogCreate) SaveX(ctx context.Context) *AdminLoginLog {
 }
 
 // Exec executes the query.
-func (allc *AdminLoginLogCreate) Exec(ctx context.Context) error {
-	_, err := allc.Save(ctx)
+func (_c *AdminLoginLogCreate) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (allc *AdminLoginLogCreate) ExecX(ctx context.Context) {
-	if err := allc.Exec(ctx); err != nil {
+func (_c *AdminLoginLogCreate) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
-func (allc *AdminLoginLogCreate) check() error {
-	if v, ok := allc.mutation.ID(); ok {
+func (_c *AdminLoginLogCreate) check() error {
+	if v, ok := _c.mutation.ID(); ok {
 		if err := adminloginlog.IDValidator(v); err != nil {
 			return &ValidationError{Name: "id", err: fmt.Errorf(`ent: validator failed for field "AdminLoginLog.id": %w`, err)}
 		}
@@ -308,12 +308,12 @@ func (allc *AdminLoginLogCreate) check() error {
 	return nil
 }
 
-func (allc *AdminLoginLogCreate) sqlSave(ctx context.Context) (*AdminLoginLog, error) {
-	if err := allc.check(); err != nil {
+func (_c *AdminLoginLogCreate) sqlSave(ctx context.Context) (*AdminLoginLog, error) {
+	if err := _c.check(); err != nil {
 		return nil, err
 	}
-	_node, _spec := allc.createSpec()
-	if err := sqlgraph.CreateNode(ctx, allc.driver, _spec); err != nil {
+	_node, _spec := _c.createSpec()
+	if err := sqlgraph.CreateNode(ctx, _c.driver, _spec); err != nil {
 		if sqlgraph.IsConstraintError(err) {
 			err = &ConstraintError{msg: err.Error(), wrap: err}
 		}
@@ -323,86 +323,86 @@ func (allc *AdminLoginLogCreate) sqlSave(ctx context.Context) (*AdminLoginLog, e
 		id := _spec.ID.Value.(int64)
 		_node.ID = uint32(id)
 	}
-	allc.mutation.id = &_node.ID
-	allc.mutation.done = true
+	_c.mutation.id = &_node.ID
+	_c.mutation.done = true
 	return _node, nil
 }
 
-func (allc *AdminLoginLogCreate) createSpec() (*AdminLoginLog, *sqlgraph.CreateSpec) {
+func (_c *AdminLoginLogCreate) createSpec() (*AdminLoginLog, *sqlgraph.CreateSpec) {
 	var (
-		_node = &AdminLoginLog{config: allc.config}
+		_node = &AdminLoginLog{config: _c.config}
 		_spec = sqlgraph.NewCreateSpec(adminloginlog.Table, sqlgraph.NewFieldSpec(adminloginlog.FieldID, field.TypeUint32))
 	)
-	_spec.OnConflict = allc.conflict
-	if id, ok := allc.mutation.ID(); ok {
+	_spec.OnConflict = _c.conflict
+	if id, ok := _c.mutation.ID(); ok {
 		_node.ID = id
 		_spec.ID.Value = id
 	}
-	if value, ok := allc.mutation.CreateTime(); ok {
+	if value, ok := _c.mutation.CreateTime(); ok {
 		_spec.SetField(adminloginlog.FieldCreateTime, field.TypeTime, value)
 		_node.CreateTime = &value
 	}
-	if value, ok := allc.mutation.LoginIP(); ok {
+	if value, ok := _c.mutation.LoginIP(); ok {
 		_spec.SetField(adminloginlog.FieldLoginIP, field.TypeString, value)
 		_node.LoginIP = &value
 	}
-	if value, ok := allc.mutation.LoginMAC(); ok {
+	if value, ok := _c.mutation.LoginMAC(); ok {
 		_spec.SetField(adminloginlog.FieldLoginMAC, field.TypeString, value)
 		_node.LoginMAC = &value
 	}
-	if value, ok := allc.mutation.LoginTime(); ok {
+	if value, ok := _c.mutation.LoginTime(); ok {
 		_spec.SetField(adminloginlog.FieldLoginTime, field.TypeTime, value)
 		_node.LoginTime = &value
 	}
-	if value, ok := allc.mutation.UserAgent(); ok {
+	if value, ok := _c.mutation.UserAgent(); ok {
 		_spec.SetField(adminloginlog.FieldUserAgent, field.TypeString, value)
 		_node.UserAgent = &value
 	}
-	if value, ok := allc.mutation.BrowserName(); ok {
+	if value, ok := _c.mutation.BrowserName(); ok {
 		_spec.SetField(adminloginlog.FieldBrowserName, field.TypeString, value)
 		_node.BrowserName = &value
 	}
-	if value, ok := allc.mutation.BrowserVersion(); ok {
+	if value, ok := _c.mutation.BrowserVersion(); ok {
 		_spec.SetField(adminloginlog.FieldBrowserVersion, field.TypeString, value)
 		_node.BrowserVersion = &value
 	}
-	if value, ok := allc.mutation.ClientID(); ok {
+	if value, ok := _c.mutation.ClientID(); ok {
 		_spec.SetField(adminloginlog.FieldClientID, field.TypeString, value)
 		_node.ClientID = &value
 	}
-	if value, ok := allc.mutation.ClientName(); ok {
+	if value, ok := _c.mutation.ClientName(); ok {
 		_spec.SetField(adminloginlog.FieldClientName, field.TypeString, value)
 		_node.ClientName = &value
 	}
-	if value, ok := allc.mutation.OsName(); ok {
+	if value, ok := _c.mutation.OsName(); ok {
 		_spec.SetField(adminloginlog.FieldOsName, field.TypeString, value)
 		_node.OsName = &value
 	}
-	if value, ok := allc.mutation.OsVersion(); ok {
+	if value, ok := _c.mutation.OsVersion(); ok {
 		_spec.SetField(adminloginlog.FieldOsVersion, field.TypeString, value)
 		_node.OsVersion = &value
 	}
-	if value, ok := allc.mutation.UserID(); ok {
+	if value, ok := _c.mutation.UserID(); ok {
 		_spec.SetField(adminloginlog.FieldUserID, field.TypeUint32, value)
 		_node.UserID = &value
 	}
-	if value, ok := allc.mutation.Username(); ok {
+	if value, ok := _c.mutation.Username(); ok {
 		_spec.SetField(adminloginlog.FieldUsername, field.TypeString, value)
 		_node.Username = &value
 	}
-	if value, ok := allc.mutation.StatusCode(); ok {
+	if value, ok := _c.mutation.StatusCode(); ok {
 		_spec.SetField(adminloginlog.FieldStatusCode, field.TypeInt32, value)
 		_node.StatusCode = &value
 	}
-	if value, ok := allc.mutation.Success(); ok {
+	if value, ok := _c.mutation.Success(); ok {
 		_spec.SetField(adminloginlog.FieldSuccess, field.TypeBool, value)
 		_node.Success = &value
 	}
-	if value, ok := allc.mutation.Reason(); ok {
+	if value, ok := _c.mutation.Reason(); ok {
 		_spec.SetField(adminloginlog.FieldReason, field.TypeString, value)
 		_node.Reason = &value
 	}
-	if value, ok := allc.mutation.Location(); ok {
+	if value, ok := _c.mutation.Location(); ok {
 		_spec.SetField(adminloginlog.FieldLocation, field.TypeString, value)
 		_node.Location = &value
 	}
@@ -425,10 +425,10 @@ func (allc *AdminLoginLogCreate) createSpec() (*AdminLoginLog, *sqlgraph.CreateS
 //			SetCreateTime(v+v).
 //		}).
 //		Exec(ctx)
-func (allc *AdminLoginLogCreate) OnConflict(opts ...sql.ConflictOption) *AdminLoginLogUpsertOne {
-	allc.conflict = opts
+func (_c *AdminLoginLogCreate) OnConflict(opts ...sql.ConflictOption) *AdminLoginLogUpsertOne {
+	_c.conflict = opts
 	return &AdminLoginLogUpsertOne{
-		create: allc,
+		create: _c,
 	}
 }
 
@@ -438,10 +438,10 @@ func (allc *AdminLoginLogCreate) OnConflict(opts ...sql.ConflictOption) *AdminLo
 //	client.AdminLoginLog.Create().
 //		OnConflict(sql.ConflictColumns(columns...)).
 //		Exec(ctx)
-func (allc *AdminLoginLogCreate) OnConflictColumns(columns ...string) *AdminLoginLogUpsertOne {
-	allc.conflict = append(allc.conflict, sql.ConflictColumns(columns...))
+func (_c *AdminLoginLogCreate) OnConflictColumns(columns ...string) *AdminLoginLogUpsertOne {
+	_c.conflict = append(_c.conflict, sql.ConflictColumns(columns...))
 	return &AdminLoginLogUpsertOne{
-		create: allc,
+		create: _c,
 	}
 }
 
@@ -1201,16 +1201,16 @@ type AdminLoginLogCreateBulk struct {
 }
 
 // Save creates the AdminLoginLog entities in the database.
-func (allcb *AdminLoginLogCreateBulk) Save(ctx context.Context) ([]*AdminLoginLog, error) {
-	if allcb.err != nil {
-		return nil, allcb.err
+func (_c *AdminLoginLogCreateBulk) Save(ctx context.Context) ([]*AdminLoginLog, error) {
+	if _c.err != nil {
+		return nil, _c.err
 	}
-	specs := make([]*sqlgraph.CreateSpec, len(allcb.builders))
-	nodes := make([]*AdminLoginLog, len(allcb.builders))
-	mutators := make([]Mutator, len(allcb.builders))
-	for i := range allcb.builders {
+	specs := make([]*sqlgraph.CreateSpec, len(_c.builders))
+	nodes := make([]*AdminLoginLog, len(_c.builders))
+	mutators := make([]Mutator, len(_c.builders))
+	for i := range _c.builders {
 		func(i int, root context.Context) {
-			builder := allcb.builders[i]
+			builder := _c.builders[i]
 			var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 				mutation, ok := m.(*AdminLoginLogMutation)
 				if !ok {
@@ -1223,12 +1223,12 @@ func (allcb *AdminLoginLogCreateBulk) Save(ctx context.Context) ([]*AdminLoginLo
 				var err error
 				nodes[i], specs[i] = builder.createSpec()
 				if i < len(mutators)-1 {
-					_, err = mutators[i+1].Mutate(root, allcb.builders[i+1].mutation)
+					_, err = mutators[i+1].Mutate(root, _c.builders[i+1].mutation)
 				} else {
 					spec := &sqlgraph.BatchCreateSpec{Nodes: specs}
-					spec.OnConflict = allcb.conflict
+					spec.OnConflict = _c.conflict
 					// Invoke the actual operation on the latest mutation in the chain.
-					if err = sqlgraph.BatchCreate(ctx, allcb.driver, spec); err != nil {
+					if err = sqlgraph.BatchCreate(ctx, _c.driver, spec); err != nil {
 						if sqlgraph.IsConstraintError(err) {
 							err = &ConstraintError{msg: err.Error(), wrap: err}
 						}
@@ -1252,7 +1252,7 @@ func (allcb *AdminLoginLogCreateBulk) Save(ctx context.Context) ([]*AdminLoginLo
 		}(i, ctx)
 	}
 	if len(mutators) > 0 {
-		if _, err := mutators[0].Mutate(ctx, allcb.builders[0].mutation); err != nil {
+		if _, err := mutators[0].Mutate(ctx, _c.builders[0].mutation); err != nil {
 			return nil, err
 		}
 	}
@@ -1260,8 +1260,8 @@ func (allcb *AdminLoginLogCreateBulk) Save(ctx context.Context) ([]*AdminLoginLo
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (allcb *AdminLoginLogCreateBulk) SaveX(ctx context.Context) []*AdminLoginLog {
-	v, err := allcb.Save(ctx)
+func (_c *AdminLoginLogCreateBulk) SaveX(ctx context.Context) []*AdminLoginLog {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -1269,14 +1269,14 @@ func (allcb *AdminLoginLogCreateBulk) SaveX(ctx context.Context) []*AdminLoginLo
 }
 
 // Exec executes the query.
-func (allcb *AdminLoginLogCreateBulk) Exec(ctx context.Context) error {
-	_, err := allcb.Save(ctx)
+func (_c *AdminLoginLogCreateBulk) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (allcb *AdminLoginLogCreateBulk) ExecX(ctx context.Context) {
-	if err := allcb.Exec(ctx); err != nil {
+func (_c *AdminLoginLogCreateBulk) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
@@ -1296,10 +1296,10 @@ func (allcb *AdminLoginLogCreateBulk) ExecX(ctx context.Context) {
 //			SetCreateTime(v+v).
 //		}).
 //		Exec(ctx)
-func (allcb *AdminLoginLogCreateBulk) OnConflict(opts ...sql.ConflictOption) *AdminLoginLogUpsertBulk {
-	allcb.conflict = opts
+func (_c *AdminLoginLogCreateBulk) OnConflict(opts ...sql.ConflictOption) *AdminLoginLogUpsertBulk {
+	_c.conflict = opts
 	return &AdminLoginLogUpsertBulk{
-		create: allcb,
+		create: _c,
 	}
 }
 
@@ -1309,10 +1309,10 @@ func (allcb *AdminLoginLogCreateBulk) OnConflict(opts ...sql.ConflictOption) *Ad
 //	client.AdminLoginLog.Create().
 //		OnConflict(sql.ConflictColumns(columns...)).
 //		Exec(ctx)
-func (allcb *AdminLoginLogCreateBulk) OnConflictColumns(columns ...string) *AdminLoginLogUpsertBulk {
-	allcb.conflict = append(allcb.conflict, sql.ConflictColumns(columns...))
+func (_c *AdminLoginLogCreateBulk) OnConflictColumns(columns ...string) *AdminLoginLogUpsertBulk {
+	_c.conflict = append(_c.conflict, sql.ConflictColumns(columns...))
 	return &AdminLoginLogUpsertBulk{
-		create: allcb,
+		create: _c,
 	}
 }
 

@@ -20,56 +20,56 @@ type NotificationMessageDelete struct {
 }
 
 // Where appends a list predicates to the NotificationMessageDelete builder.
-func (nmd *NotificationMessageDelete) Where(ps ...predicate.NotificationMessage) *NotificationMessageDelete {
-	nmd.mutation.Where(ps...)
-	return nmd
+func (_d *NotificationMessageDelete) Where(ps ...predicate.NotificationMessage) *NotificationMessageDelete {
+	_d.mutation.Where(ps...)
+	return _d
 }
 
 // Exec executes the deletion query and returns how many vertices were deleted.
-func (nmd *NotificationMessageDelete) Exec(ctx context.Context) (int, error) {
-	return withHooks(ctx, nmd.sqlExec, nmd.mutation, nmd.hooks)
+func (_d *NotificationMessageDelete) Exec(ctx context.Context) (int, error) {
+	return withHooks(ctx, _d.sqlExec, _d.mutation, _d.hooks)
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (nmd *NotificationMessageDelete) ExecX(ctx context.Context) int {
-	n, err := nmd.Exec(ctx)
+func (_d *NotificationMessageDelete) ExecX(ctx context.Context) int {
+	n, err := _d.Exec(ctx)
 	if err != nil {
 		panic(err)
 	}
 	return n
 }
 
-func (nmd *NotificationMessageDelete) sqlExec(ctx context.Context) (int, error) {
+func (_d *NotificationMessageDelete) sqlExec(ctx context.Context) (int, error) {
 	_spec := sqlgraph.NewDeleteSpec(notificationmessage.Table, sqlgraph.NewFieldSpec(notificationmessage.FieldID, field.TypeUint32))
-	if ps := nmd.mutation.predicates; len(ps) > 0 {
+	if ps := _d.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	affected, err := sqlgraph.DeleteNodes(ctx, nmd.driver, _spec)
+	affected, err := sqlgraph.DeleteNodes(ctx, _d.driver, _spec)
 	if err != nil && sqlgraph.IsConstraintError(err) {
 		err = &ConstraintError{msg: err.Error(), wrap: err}
 	}
-	nmd.mutation.done = true
+	_d.mutation.done = true
 	return affected, err
 }
 
 // NotificationMessageDeleteOne is the builder for deleting a single NotificationMessage entity.
 type NotificationMessageDeleteOne struct {
-	nmd *NotificationMessageDelete
+	_d *NotificationMessageDelete
 }
 
 // Where appends a list predicates to the NotificationMessageDelete builder.
-func (nmdo *NotificationMessageDeleteOne) Where(ps ...predicate.NotificationMessage) *NotificationMessageDeleteOne {
-	nmdo.nmd.mutation.Where(ps...)
-	return nmdo
+func (_d *NotificationMessageDeleteOne) Where(ps ...predicate.NotificationMessage) *NotificationMessageDeleteOne {
+	_d._d.mutation.Where(ps...)
+	return _d
 }
 
 // Exec executes the deletion query.
-func (nmdo *NotificationMessageDeleteOne) Exec(ctx context.Context) error {
-	n, err := nmdo.nmd.Exec(ctx)
+func (_d *NotificationMessageDeleteOne) Exec(ctx context.Context) error {
+	n, err := _d._d.Exec(ctx)
 	switch {
 	case err != nil:
 		return err
@@ -81,8 +81,8 @@ func (nmdo *NotificationMessageDeleteOne) Exec(ctx context.Context) error {
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (nmdo *NotificationMessageDeleteOne) ExecX(ctx context.Context) {
-	if err := nmdo.Exec(ctx); err != nil {
+func (_d *NotificationMessageDeleteOne) ExecX(ctx context.Context) {
+	if err := _d.Exec(ctx); err != nil {
 		panic(err)
 	}
 }

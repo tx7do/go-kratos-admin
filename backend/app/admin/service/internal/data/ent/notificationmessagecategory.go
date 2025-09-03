@@ -101,7 +101,7 @@ func (*NotificationMessageCategory) scanValues(columns []string) ([]any, error) 
 
 // assignValues assigns the values that were returned from sql.Rows (after scanning)
 // to the NotificationMessageCategory fields.
-func (nmc *NotificationMessageCategory) assignValues(columns []string, values []any) error {
+func (_m *NotificationMessageCategory) assignValues(columns []string, values []any) error {
 	if m, n := len(values), len(columns); m < n {
 		return fmt.Errorf("mismatch number of scan values: %d != %d", m, n)
 	}
@@ -112,93 +112,93 @@ func (nmc *NotificationMessageCategory) assignValues(columns []string, values []
 			if !ok {
 				return fmt.Errorf("unexpected type %T for field id", value)
 			}
-			nmc.ID = uint32(value.Int64)
+			_m.ID = uint32(value.Int64)
 		case notificationmessagecategory.FieldCreateTime:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field create_time", values[i])
 			} else if value.Valid {
-				nmc.CreateTime = new(time.Time)
-				*nmc.CreateTime = value.Time
+				_m.CreateTime = new(time.Time)
+				*_m.CreateTime = value.Time
 			}
 		case notificationmessagecategory.FieldUpdateTime:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field update_time", values[i])
 			} else if value.Valid {
-				nmc.UpdateTime = new(time.Time)
-				*nmc.UpdateTime = value.Time
+				_m.UpdateTime = new(time.Time)
+				*_m.UpdateTime = value.Time
 			}
 		case notificationmessagecategory.FieldDeleteTime:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field delete_time", values[i])
 			} else if value.Valid {
-				nmc.DeleteTime = new(time.Time)
-				*nmc.DeleteTime = value.Time
+				_m.DeleteTime = new(time.Time)
+				*_m.DeleteTime = value.Time
 			}
 		case notificationmessagecategory.FieldCreateBy:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field create_by", values[i])
 			} else if value.Valid {
-				nmc.CreateBy = new(uint32)
-				*nmc.CreateBy = uint32(value.Int64)
+				_m.CreateBy = new(uint32)
+				*_m.CreateBy = uint32(value.Int64)
 			}
 		case notificationmessagecategory.FieldUpdateBy:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field update_by", values[i])
 			} else if value.Valid {
-				nmc.UpdateBy = new(uint32)
-				*nmc.UpdateBy = uint32(value.Int64)
+				_m.UpdateBy = new(uint32)
+				*_m.UpdateBy = uint32(value.Int64)
 			}
 		case notificationmessagecategory.FieldRemark:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field remark", values[i])
 			} else if value.Valid {
-				nmc.Remark = new(string)
-				*nmc.Remark = value.String
+				_m.Remark = new(string)
+				*_m.Remark = value.String
 			}
 		case notificationmessagecategory.FieldTenantID:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field tenant_id", values[i])
 			} else if value.Valid {
-				nmc.TenantID = new(uint32)
-				*nmc.TenantID = uint32(value.Int64)
+				_m.TenantID = new(uint32)
+				*_m.TenantID = uint32(value.Int64)
 			}
 		case notificationmessagecategory.FieldName:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field name", values[i])
 			} else if value.Valid {
-				nmc.Name = new(string)
-				*nmc.Name = value.String
+				_m.Name = new(string)
+				*_m.Name = value.String
 			}
 		case notificationmessagecategory.FieldCode:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field code", values[i])
 			} else if value.Valid {
-				nmc.Code = new(string)
-				*nmc.Code = value.String
+				_m.Code = new(string)
+				*_m.Code = value.String
 			}
 		case notificationmessagecategory.FieldSortID:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field sort_id", values[i])
 			} else if value.Valid {
-				nmc.SortID = new(int32)
-				*nmc.SortID = int32(value.Int64)
+				_m.SortID = new(int32)
+				*_m.SortID = int32(value.Int64)
 			}
 		case notificationmessagecategory.FieldEnable:
 			if value, ok := values[i].(*sql.NullBool); !ok {
 				return fmt.Errorf("unexpected type %T for field enable", values[i])
 			} else if value.Valid {
-				nmc.Enable = new(bool)
-				*nmc.Enable = value.Bool
+				_m.Enable = new(bool)
+				*_m.Enable = value.Bool
 			}
 		case notificationmessagecategory.FieldParentID:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field parent_id", values[i])
 			} else if value.Valid {
-				nmc.ParentID = new(uint32)
-				*nmc.ParentID = uint32(value.Int64)
+				_m.ParentID = new(uint32)
+				*_m.ParentID = uint32(value.Int64)
 			}
 		default:
-			nmc.selectValues.Set(columns[i], values[i])
+			_m.selectValues.Set(columns[i], values[i])
 		}
 	}
 	return nil
@@ -206,99 +206,99 @@ func (nmc *NotificationMessageCategory) assignValues(columns []string, values []
 
 // Value returns the ent.Value that was dynamically selected and assigned to the NotificationMessageCategory.
 // This includes values selected through modifiers, order, etc.
-func (nmc *NotificationMessageCategory) Value(name string) (ent.Value, error) {
-	return nmc.selectValues.Get(name)
+func (_m *NotificationMessageCategory) Value(name string) (ent.Value, error) {
+	return _m.selectValues.Get(name)
 }
 
 // QueryParent queries the "parent" edge of the NotificationMessageCategory entity.
-func (nmc *NotificationMessageCategory) QueryParent() *NotificationMessageCategoryQuery {
-	return NewNotificationMessageCategoryClient(nmc.config).QueryParent(nmc)
+func (_m *NotificationMessageCategory) QueryParent() *NotificationMessageCategoryQuery {
+	return NewNotificationMessageCategoryClient(_m.config).QueryParent(_m)
 }
 
 // QueryChildren queries the "children" edge of the NotificationMessageCategory entity.
-func (nmc *NotificationMessageCategory) QueryChildren() *NotificationMessageCategoryQuery {
-	return NewNotificationMessageCategoryClient(nmc.config).QueryChildren(nmc)
+func (_m *NotificationMessageCategory) QueryChildren() *NotificationMessageCategoryQuery {
+	return NewNotificationMessageCategoryClient(_m.config).QueryChildren(_m)
 }
 
 // Update returns a builder for updating this NotificationMessageCategory.
 // Note that you need to call NotificationMessageCategory.Unwrap() before calling this method if this NotificationMessageCategory
 // was returned from a transaction, and the transaction was committed or rolled back.
-func (nmc *NotificationMessageCategory) Update() *NotificationMessageCategoryUpdateOne {
-	return NewNotificationMessageCategoryClient(nmc.config).UpdateOne(nmc)
+func (_m *NotificationMessageCategory) Update() *NotificationMessageCategoryUpdateOne {
+	return NewNotificationMessageCategoryClient(_m.config).UpdateOne(_m)
 }
 
 // Unwrap unwraps the NotificationMessageCategory entity that was returned from a transaction after it was closed,
 // so that all future queries will be executed through the driver which created the transaction.
-func (nmc *NotificationMessageCategory) Unwrap() *NotificationMessageCategory {
-	_tx, ok := nmc.config.driver.(*txDriver)
+func (_m *NotificationMessageCategory) Unwrap() *NotificationMessageCategory {
+	_tx, ok := _m.config.driver.(*txDriver)
 	if !ok {
 		panic("ent: NotificationMessageCategory is not a transactional entity")
 	}
-	nmc.config.driver = _tx.drv
-	return nmc
+	_m.config.driver = _tx.drv
+	return _m
 }
 
 // String implements the fmt.Stringer.
-func (nmc *NotificationMessageCategory) String() string {
+func (_m *NotificationMessageCategory) String() string {
 	var builder strings.Builder
 	builder.WriteString("NotificationMessageCategory(")
-	builder.WriteString(fmt.Sprintf("id=%v, ", nmc.ID))
-	if v := nmc.CreateTime; v != nil {
+	builder.WriteString(fmt.Sprintf("id=%v, ", _m.ID))
+	if v := _m.CreateTime; v != nil {
 		builder.WriteString("create_time=")
 		builder.WriteString(v.Format(time.ANSIC))
 	}
 	builder.WriteString(", ")
-	if v := nmc.UpdateTime; v != nil {
+	if v := _m.UpdateTime; v != nil {
 		builder.WriteString("update_time=")
 		builder.WriteString(v.Format(time.ANSIC))
 	}
 	builder.WriteString(", ")
-	if v := nmc.DeleteTime; v != nil {
+	if v := _m.DeleteTime; v != nil {
 		builder.WriteString("delete_time=")
 		builder.WriteString(v.Format(time.ANSIC))
 	}
 	builder.WriteString(", ")
-	if v := nmc.CreateBy; v != nil {
+	if v := _m.CreateBy; v != nil {
 		builder.WriteString("create_by=")
 		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteString(", ")
-	if v := nmc.UpdateBy; v != nil {
+	if v := _m.UpdateBy; v != nil {
 		builder.WriteString("update_by=")
 		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteString(", ")
-	if v := nmc.Remark; v != nil {
+	if v := _m.Remark; v != nil {
 		builder.WriteString("remark=")
 		builder.WriteString(*v)
 	}
 	builder.WriteString(", ")
-	if v := nmc.TenantID; v != nil {
+	if v := _m.TenantID; v != nil {
 		builder.WriteString("tenant_id=")
 		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteString(", ")
-	if v := nmc.Name; v != nil {
+	if v := _m.Name; v != nil {
 		builder.WriteString("name=")
 		builder.WriteString(*v)
 	}
 	builder.WriteString(", ")
-	if v := nmc.Code; v != nil {
+	if v := _m.Code; v != nil {
 		builder.WriteString("code=")
 		builder.WriteString(*v)
 	}
 	builder.WriteString(", ")
-	if v := nmc.SortID; v != nil {
+	if v := _m.SortID; v != nil {
 		builder.WriteString("sort_id=")
 		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteString(", ")
-	if v := nmc.Enable; v != nil {
+	if v := _m.Enable; v != nil {
 		builder.WriteString("enable=")
 		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteString(", ")
-	if v := nmc.ParentID; v != nil {
+	if v := _m.ParentID; v != nil {
 		builder.WriteString("parent_id=")
 		builder.WriteString(fmt.Sprintf("%v", *v))
 	}

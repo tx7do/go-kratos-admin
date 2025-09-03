@@ -63,7 +63,7 @@ func (*ApiResource) scanValues(columns []string) ([]any, error) {
 
 // assignValues assigns the values that were returned from sql.Rows (after scanning)
 // to the ApiResource fields.
-func (ar *ApiResource) assignValues(columns []string, values []any) error {
+func (_m *ApiResource) assignValues(columns []string, values []any) error {
 	if m, n := len(values), len(columns); m < n {
 		return fmt.Errorf("mismatch number of scan values: %d != %d", m, n)
 	}
@@ -74,86 +74,86 @@ func (ar *ApiResource) assignValues(columns []string, values []any) error {
 			if !ok {
 				return fmt.Errorf("unexpected type %T for field id", value)
 			}
-			ar.ID = uint32(value.Int64)
+			_m.ID = uint32(value.Int64)
 		case apiresource.FieldCreateTime:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field create_time", values[i])
 			} else if value.Valid {
-				ar.CreateTime = new(time.Time)
-				*ar.CreateTime = value.Time
+				_m.CreateTime = new(time.Time)
+				*_m.CreateTime = value.Time
 			}
 		case apiresource.FieldUpdateTime:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field update_time", values[i])
 			} else if value.Valid {
-				ar.UpdateTime = new(time.Time)
-				*ar.UpdateTime = value.Time
+				_m.UpdateTime = new(time.Time)
+				*_m.UpdateTime = value.Time
 			}
 		case apiresource.FieldDeleteTime:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field delete_time", values[i])
 			} else if value.Valid {
-				ar.DeleteTime = new(time.Time)
-				*ar.DeleteTime = value.Time
+				_m.DeleteTime = new(time.Time)
+				*_m.DeleteTime = value.Time
 			}
 		case apiresource.FieldCreateBy:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field create_by", values[i])
 			} else if value.Valid {
-				ar.CreateBy = new(uint32)
-				*ar.CreateBy = uint32(value.Int64)
+				_m.CreateBy = new(uint32)
+				*_m.CreateBy = uint32(value.Int64)
 			}
 		case apiresource.FieldUpdateBy:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field update_by", values[i])
 			} else if value.Valid {
-				ar.UpdateBy = new(uint32)
-				*ar.UpdateBy = uint32(value.Int64)
+				_m.UpdateBy = new(uint32)
+				*_m.UpdateBy = uint32(value.Int64)
 			}
 		case apiresource.FieldDescription:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field description", values[i])
 			} else if value.Valid {
-				ar.Description = new(string)
-				*ar.Description = value.String
+				_m.Description = new(string)
+				*_m.Description = value.String
 			}
 		case apiresource.FieldModule:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field module", values[i])
 			} else if value.Valid {
-				ar.Module = new(string)
-				*ar.Module = value.String
+				_m.Module = new(string)
+				*_m.Module = value.String
 			}
 		case apiresource.FieldModuleDescription:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field module_description", values[i])
 			} else if value.Valid {
-				ar.ModuleDescription = new(string)
-				*ar.ModuleDescription = value.String
+				_m.ModuleDescription = new(string)
+				*_m.ModuleDescription = value.String
 			}
 		case apiresource.FieldOperation:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field operation", values[i])
 			} else if value.Valid {
-				ar.Operation = new(string)
-				*ar.Operation = value.String
+				_m.Operation = new(string)
+				*_m.Operation = value.String
 			}
 		case apiresource.FieldPath:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field path", values[i])
 			} else if value.Valid {
-				ar.Path = new(string)
-				*ar.Path = value.String
+				_m.Path = new(string)
+				*_m.Path = value.String
 			}
 		case apiresource.FieldMethod:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field method", values[i])
 			} else if value.Valid {
-				ar.Method = new(string)
-				*ar.Method = value.String
+				_m.Method = new(string)
+				*_m.Method = value.String
 			}
 		default:
-			ar.selectValues.Set(columns[i], values[i])
+			_m.selectValues.Set(columns[i], values[i])
 		}
 	}
 	return nil
@@ -161,84 +161,84 @@ func (ar *ApiResource) assignValues(columns []string, values []any) error {
 
 // Value returns the ent.Value that was dynamically selected and assigned to the ApiResource.
 // This includes values selected through modifiers, order, etc.
-func (ar *ApiResource) Value(name string) (ent.Value, error) {
-	return ar.selectValues.Get(name)
+func (_m *ApiResource) Value(name string) (ent.Value, error) {
+	return _m.selectValues.Get(name)
 }
 
 // Update returns a builder for updating this ApiResource.
 // Note that you need to call ApiResource.Unwrap() before calling this method if this ApiResource
 // was returned from a transaction, and the transaction was committed or rolled back.
-func (ar *ApiResource) Update() *ApiResourceUpdateOne {
-	return NewApiResourceClient(ar.config).UpdateOne(ar)
+func (_m *ApiResource) Update() *ApiResourceUpdateOne {
+	return NewApiResourceClient(_m.config).UpdateOne(_m)
 }
 
 // Unwrap unwraps the ApiResource entity that was returned from a transaction after it was closed,
 // so that all future queries will be executed through the driver which created the transaction.
-func (ar *ApiResource) Unwrap() *ApiResource {
-	_tx, ok := ar.config.driver.(*txDriver)
+func (_m *ApiResource) Unwrap() *ApiResource {
+	_tx, ok := _m.config.driver.(*txDriver)
 	if !ok {
 		panic("ent: ApiResource is not a transactional entity")
 	}
-	ar.config.driver = _tx.drv
-	return ar
+	_m.config.driver = _tx.drv
+	return _m
 }
 
 // String implements the fmt.Stringer.
-func (ar *ApiResource) String() string {
+func (_m *ApiResource) String() string {
 	var builder strings.Builder
 	builder.WriteString("ApiResource(")
-	builder.WriteString(fmt.Sprintf("id=%v, ", ar.ID))
-	if v := ar.CreateTime; v != nil {
+	builder.WriteString(fmt.Sprintf("id=%v, ", _m.ID))
+	if v := _m.CreateTime; v != nil {
 		builder.WriteString("create_time=")
 		builder.WriteString(v.Format(time.ANSIC))
 	}
 	builder.WriteString(", ")
-	if v := ar.UpdateTime; v != nil {
+	if v := _m.UpdateTime; v != nil {
 		builder.WriteString("update_time=")
 		builder.WriteString(v.Format(time.ANSIC))
 	}
 	builder.WriteString(", ")
-	if v := ar.DeleteTime; v != nil {
+	if v := _m.DeleteTime; v != nil {
 		builder.WriteString("delete_time=")
 		builder.WriteString(v.Format(time.ANSIC))
 	}
 	builder.WriteString(", ")
-	if v := ar.CreateBy; v != nil {
+	if v := _m.CreateBy; v != nil {
 		builder.WriteString("create_by=")
 		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteString(", ")
-	if v := ar.UpdateBy; v != nil {
+	if v := _m.UpdateBy; v != nil {
 		builder.WriteString("update_by=")
 		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteString(", ")
-	if v := ar.Description; v != nil {
+	if v := _m.Description; v != nil {
 		builder.WriteString("description=")
 		builder.WriteString(*v)
 	}
 	builder.WriteString(", ")
-	if v := ar.Module; v != nil {
+	if v := _m.Module; v != nil {
 		builder.WriteString("module=")
 		builder.WriteString(*v)
 	}
 	builder.WriteString(", ")
-	if v := ar.ModuleDescription; v != nil {
+	if v := _m.ModuleDescription; v != nil {
 		builder.WriteString("module_description=")
 		builder.WriteString(*v)
 	}
 	builder.WriteString(", ")
-	if v := ar.Operation; v != nil {
+	if v := _m.Operation; v != nil {
 		builder.WriteString("operation=")
 		builder.WriteString(*v)
 	}
 	builder.WriteString(", ")
-	if v := ar.Path; v != nil {
+	if v := _m.Path; v != nil {
 		builder.WriteString("path=")
 		builder.WriteString(*v)
 	}
 	builder.WriteString(", ")
-	if v := ar.Method; v != nil {
+	if v := _m.Method; v != nil {
 		builder.WriteString("method=")
 		builder.WriteString(*v)
 	}

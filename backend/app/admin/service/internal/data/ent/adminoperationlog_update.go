@@ -23,525 +23,525 @@ type AdminOperationLogUpdate struct {
 }
 
 // Where appends a list predicates to the AdminOperationLogUpdate builder.
-func (aolu *AdminOperationLogUpdate) Where(ps ...predicate.AdminOperationLog) *AdminOperationLogUpdate {
-	aolu.mutation.Where(ps...)
-	return aolu
+func (_u *AdminOperationLogUpdate) Where(ps ...predicate.AdminOperationLog) *AdminOperationLogUpdate {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // SetRequestID sets the "request_id" field.
-func (aolu *AdminOperationLogUpdate) SetRequestID(s string) *AdminOperationLogUpdate {
-	aolu.mutation.SetRequestID(s)
-	return aolu
+func (_u *AdminOperationLogUpdate) SetRequestID(v string) *AdminOperationLogUpdate {
+	_u.mutation.SetRequestID(v)
+	return _u
 }
 
 // SetNillableRequestID sets the "request_id" field if the given value is not nil.
-func (aolu *AdminOperationLogUpdate) SetNillableRequestID(s *string) *AdminOperationLogUpdate {
-	if s != nil {
-		aolu.SetRequestID(*s)
+func (_u *AdminOperationLogUpdate) SetNillableRequestID(v *string) *AdminOperationLogUpdate {
+	if v != nil {
+		_u.SetRequestID(*v)
 	}
-	return aolu
+	return _u
 }
 
 // ClearRequestID clears the value of the "request_id" field.
-func (aolu *AdminOperationLogUpdate) ClearRequestID() *AdminOperationLogUpdate {
-	aolu.mutation.ClearRequestID()
-	return aolu
+func (_u *AdminOperationLogUpdate) ClearRequestID() *AdminOperationLogUpdate {
+	_u.mutation.ClearRequestID()
+	return _u
 }
 
 // SetMethod sets the "method" field.
-func (aolu *AdminOperationLogUpdate) SetMethod(s string) *AdminOperationLogUpdate {
-	aolu.mutation.SetMethod(s)
-	return aolu
+func (_u *AdminOperationLogUpdate) SetMethod(v string) *AdminOperationLogUpdate {
+	_u.mutation.SetMethod(v)
+	return _u
 }
 
 // SetNillableMethod sets the "method" field if the given value is not nil.
-func (aolu *AdminOperationLogUpdate) SetNillableMethod(s *string) *AdminOperationLogUpdate {
-	if s != nil {
-		aolu.SetMethod(*s)
+func (_u *AdminOperationLogUpdate) SetNillableMethod(v *string) *AdminOperationLogUpdate {
+	if v != nil {
+		_u.SetMethod(*v)
 	}
-	return aolu
+	return _u
 }
 
 // ClearMethod clears the value of the "method" field.
-func (aolu *AdminOperationLogUpdate) ClearMethod() *AdminOperationLogUpdate {
-	aolu.mutation.ClearMethod()
-	return aolu
+func (_u *AdminOperationLogUpdate) ClearMethod() *AdminOperationLogUpdate {
+	_u.mutation.ClearMethod()
+	return _u
 }
 
 // SetOperation sets the "operation" field.
-func (aolu *AdminOperationLogUpdate) SetOperation(s string) *AdminOperationLogUpdate {
-	aolu.mutation.SetOperation(s)
-	return aolu
+func (_u *AdminOperationLogUpdate) SetOperation(v string) *AdminOperationLogUpdate {
+	_u.mutation.SetOperation(v)
+	return _u
 }
 
 // SetNillableOperation sets the "operation" field if the given value is not nil.
-func (aolu *AdminOperationLogUpdate) SetNillableOperation(s *string) *AdminOperationLogUpdate {
-	if s != nil {
-		aolu.SetOperation(*s)
+func (_u *AdminOperationLogUpdate) SetNillableOperation(v *string) *AdminOperationLogUpdate {
+	if v != nil {
+		_u.SetOperation(*v)
 	}
-	return aolu
+	return _u
 }
 
 // ClearOperation clears the value of the "operation" field.
-func (aolu *AdminOperationLogUpdate) ClearOperation() *AdminOperationLogUpdate {
-	aolu.mutation.ClearOperation()
-	return aolu
+func (_u *AdminOperationLogUpdate) ClearOperation() *AdminOperationLogUpdate {
+	_u.mutation.ClearOperation()
+	return _u
 }
 
 // SetPath sets the "path" field.
-func (aolu *AdminOperationLogUpdate) SetPath(s string) *AdminOperationLogUpdate {
-	aolu.mutation.SetPath(s)
-	return aolu
+func (_u *AdminOperationLogUpdate) SetPath(v string) *AdminOperationLogUpdate {
+	_u.mutation.SetPath(v)
+	return _u
 }
 
 // SetNillablePath sets the "path" field if the given value is not nil.
-func (aolu *AdminOperationLogUpdate) SetNillablePath(s *string) *AdminOperationLogUpdate {
-	if s != nil {
-		aolu.SetPath(*s)
+func (_u *AdminOperationLogUpdate) SetNillablePath(v *string) *AdminOperationLogUpdate {
+	if v != nil {
+		_u.SetPath(*v)
 	}
-	return aolu
+	return _u
 }
 
 // ClearPath clears the value of the "path" field.
-func (aolu *AdminOperationLogUpdate) ClearPath() *AdminOperationLogUpdate {
-	aolu.mutation.ClearPath()
-	return aolu
+func (_u *AdminOperationLogUpdate) ClearPath() *AdminOperationLogUpdate {
+	_u.mutation.ClearPath()
+	return _u
 }
 
 // SetReferer sets the "referer" field.
-func (aolu *AdminOperationLogUpdate) SetReferer(s string) *AdminOperationLogUpdate {
-	aolu.mutation.SetReferer(s)
-	return aolu
+func (_u *AdminOperationLogUpdate) SetReferer(v string) *AdminOperationLogUpdate {
+	_u.mutation.SetReferer(v)
+	return _u
 }
 
 // SetNillableReferer sets the "referer" field if the given value is not nil.
-func (aolu *AdminOperationLogUpdate) SetNillableReferer(s *string) *AdminOperationLogUpdate {
-	if s != nil {
-		aolu.SetReferer(*s)
+func (_u *AdminOperationLogUpdate) SetNillableReferer(v *string) *AdminOperationLogUpdate {
+	if v != nil {
+		_u.SetReferer(*v)
 	}
-	return aolu
+	return _u
 }
 
 // ClearReferer clears the value of the "referer" field.
-func (aolu *AdminOperationLogUpdate) ClearReferer() *AdminOperationLogUpdate {
-	aolu.mutation.ClearReferer()
-	return aolu
+func (_u *AdminOperationLogUpdate) ClearReferer() *AdminOperationLogUpdate {
+	_u.mutation.ClearReferer()
+	return _u
 }
 
 // SetRequestURI sets the "request_uri" field.
-func (aolu *AdminOperationLogUpdate) SetRequestURI(s string) *AdminOperationLogUpdate {
-	aolu.mutation.SetRequestURI(s)
-	return aolu
+func (_u *AdminOperationLogUpdate) SetRequestURI(v string) *AdminOperationLogUpdate {
+	_u.mutation.SetRequestURI(v)
+	return _u
 }
 
 // SetNillableRequestURI sets the "request_uri" field if the given value is not nil.
-func (aolu *AdminOperationLogUpdate) SetNillableRequestURI(s *string) *AdminOperationLogUpdate {
-	if s != nil {
-		aolu.SetRequestURI(*s)
+func (_u *AdminOperationLogUpdate) SetNillableRequestURI(v *string) *AdminOperationLogUpdate {
+	if v != nil {
+		_u.SetRequestURI(*v)
 	}
-	return aolu
+	return _u
 }
 
 // ClearRequestURI clears the value of the "request_uri" field.
-func (aolu *AdminOperationLogUpdate) ClearRequestURI() *AdminOperationLogUpdate {
-	aolu.mutation.ClearRequestURI()
-	return aolu
+func (_u *AdminOperationLogUpdate) ClearRequestURI() *AdminOperationLogUpdate {
+	_u.mutation.ClearRequestURI()
+	return _u
 }
 
 // SetRequestBody sets the "request_body" field.
-func (aolu *AdminOperationLogUpdate) SetRequestBody(s string) *AdminOperationLogUpdate {
-	aolu.mutation.SetRequestBody(s)
-	return aolu
+func (_u *AdminOperationLogUpdate) SetRequestBody(v string) *AdminOperationLogUpdate {
+	_u.mutation.SetRequestBody(v)
+	return _u
 }
 
 // SetNillableRequestBody sets the "request_body" field if the given value is not nil.
-func (aolu *AdminOperationLogUpdate) SetNillableRequestBody(s *string) *AdminOperationLogUpdate {
-	if s != nil {
-		aolu.SetRequestBody(*s)
+func (_u *AdminOperationLogUpdate) SetNillableRequestBody(v *string) *AdminOperationLogUpdate {
+	if v != nil {
+		_u.SetRequestBody(*v)
 	}
-	return aolu
+	return _u
 }
 
 // ClearRequestBody clears the value of the "request_body" field.
-func (aolu *AdminOperationLogUpdate) ClearRequestBody() *AdminOperationLogUpdate {
-	aolu.mutation.ClearRequestBody()
-	return aolu
+func (_u *AdminOperationLogUpdate) ClearRequestBody() *AdminOperationLogUpdate {
+	_u.mutation.ClearRequestBody()
+	return _u
 }
 
 // SetRequestHeader sets the "request_header" field.
-func (aolu *AdminOperationLogUpdate) SetRequestHeader(s string) *AdminOperationLogUpdate {
-	aolu.mutation.SetRequestHeader(s)
-	return aolu
+func (_u *AdminOperationLogUpdate) SetRequestHeader(v string) *AdminOperationLogUpdate {
+	_u.mutation.SetRequestHeader(v)
+	return _u
 }
 
 // SetNillableRequestHeader sets the "request_header" field if the given value is not nil.
-func (aolu *AdminOperationLogUpdate) SetNillableRequestHeader(s *string) *AdminOperationLogUpdate {
-	if s != nil {
-		aolu.SetRequestHeader(*s)
+func (_u *AdminOperationLogUpdate) SetNillableRequestHeader(v *string) *AdminOperationLogUpdate {
+	if v != nil {
+		_u.SetRequestHeader(*v)
 	}
-	return aolu
+	return _u
 }
 
 // ClearRequestHeader clears the value of the "request_header" field.
-func (aolu *AdminOperationLogUpdate) ClearRequestHeader() *AdminOperationLogUpdate {
-	aolu.mutation.ClearRequestHeader()
-	return aolu
+func (_u *AdminOperationLogUpdate) ClearRequestHeader() *AdminOperationLogUpdate {
+	_u.mutation.ClearRequestHeader()
+	return _u
 }
 
 // SetResponse sets the "response" field.
-func (aolu *AdminOperationLogUpdate) SetResponse(s string) *AdminOperationLogUpdate {
-	aolu.mutation.SetResponse(s)
-	return aolu
+func (_u *AdminOperationLogUpdate) SetResponse(v string) *AdminOperationLogUpdate {
+	_u.mutation.SetResponse(v)
+	return _u
 }
 
 // SetNillableResponse sets the "response" field if the given value is not nil.
-func (aolu *AdminOperationLogUpdate) SetNillableResponse(s *string) *AdminOperationLogUpdate {
-	if s != nil {
-		aolu.SetResponse(*s)
+func (_u *AdminOperationLogUpdate) SetNillableResponse(v *string) *AdminOperationLogUpdate {
+	if v != nil {
+		_u.SetResponse(*v)
 	}
-	return aolu
+	return _u
 }
 
 // ClearResponse clears the value of the "response" field.
-func (aolu *AdminOperationLogUpdate) ClearResponse() *AdminOperationLogUpdate {
-	aolu.mutation.ClearResponse()
-	return aolu
+func (_u *AdminOperationLogUpdate) ClearResponse() *AdminOperationLogUpdate {
+	_u.mutation.ClearResponse()
+	return _u
 }
 
 // SetCostTime sets the "cost_time" field.
-func (aolu *AdminOperationLogUpdate) SetCostTime(f float64) *AdminOperationLogUpdate {
-	aolu.mutation.ResetCostTime()
-	aolu.mutation.SetCostTime(f)
-	return aolu
+func (_u *AdminOperationLogUpdate) SetCostTime(v float64) *AdminOperationLogUpdate {
+	_u.mutation.ResetCostTime()
+	_u.mutation.SetCostTime(v)
+	return _u
 }
 
 // SetNillableCostTime sets the "cost_time" field if the given value is not nil.
-func (aolu *AdminOperationLogUpdate) SetNillableCostTime(f *float64) *AdminOperationLogUpdate {
-	if f != nil {
-		aolu.SetCostTime(*f)
+func (_u *AdminOperationLogUpdate) SetNillableCostTime(v *float64) *AdminOperationLogUpdate {
+	if v != nil {
+		_u.SetCostTime(*v)
 	}
-	return aolu
+	return _u
 }
 
-// AddCostTime adds f to the "cost_time" field.
-func (aolu *AdminOperationLogUpdate) AddCostTime(f float64) *AdminOperationLogUpdate {
-	aolu.mutation.AddCostTime(f)
-	return aolu
+// AddCostTime adds value to the "cost_time" field.
+func (_u *AdminOperationLogUpdate) AddCostTime(v float64) *AdminOperationLogUpdate {
+	_u.mutation.AddCostTime(v)
+	return _u
 }
 
 // ClearCostTime clears the value of the "cost_time" field.
-func (aolu *AdminOperationLogUpdate) ClearCostTime() *AdminOperationLogUpdate {
-	aolu.mutation.ClearCostTime()
-	return aolu
+func (_u *AdminOperationLogUpdate) ClearCostTime() *AdminOperationLogUpdate {
+	_u.mutation.ClearCostTime()
+	return _u
 }
 
 // SetUserID sets the "user_id" field.
-func (aolu *AdminOperationLogUpdate) SetUserID(u uint32) *AdminOperationLogUpdate {
-	aolu.mutation.ResetUserID()
-	aolu.mutation.SetUserID(u)
-	return aolu
+func (_u *AdminOperationLogUpdate) SetUserID(v uint32) *AdminOperationLogUpdate {
+	_u.mutation.ResetUserID()
+	_u.mutation.SetUserID(v)
+	return _u
 }
 
 // SetNillableUserID sets the "user_id" field if the given value is not nil.
-func (aolu *AdminOperationLogUpdate) SetNillableUserID(u *uint32) *AdminOperationLogUpdate {
-	if u != nil {
-		aolu.SetUserID(*u)
+func (_u *AdminOperationLogUpdate) SetNillableUserID(v *uint32) *AdminOperationLogUpdate {
+	if v != nil {
+		_u.SetUserID(*v)
 	}
-	return aolu
+	return _u
 }
 
-// AddUserID adds u to the "user_id" field.
-func (aolu *AdminOperationLogUpdate) AddUserID(u int32) *AdminOperationLogUpdate {
-	aolu.mutation.AddUserID(u)
-	return aolu
+// AddUserID adds value to the "user_id" field.
+func (_u *AdminOperationLogUpdate) AddUserID(v int32) *AdminOperationLogUpdate {
+	_u.mutation.AddUserID(v)
+	return _u
 }
 
 // ClearUserID clears the value of the "user_id" field.
-func (aolu *AdminOperationLogUpdate) ClearUserID() *AdminOperationLogUpdate {
-	aolu.mutation.ClearUserID()
-	return aolu
+func (_u *AdminOperationLogUpdate) ClearUserID() *AdminOperationLogUpdate {
+	_u.mutation.ClearUserID()
+	return _u
 }
 
 // SetUsername sets the "username" field.
-func (aolu *AdminOperationLogUpdate) SetUsername(s string) *AdminOperationLogUpdate {
-	aolu.mutation.SetUsername(s)
-	return aolu
+func (_u *AdminOperationLogUpdate) SetUsername(v string) *AdminOperationLogUpdate {
+	_u.mutation.SetUsername(v)
+	return _u
 }
 
 // SetNillableUsername sets the "username" field if the given value is not nil.
-func (aolu *AdminOperationLogUpdate) SetNillableUsername(s *string) *AdminOperationLogUpdate {
-	if s != nil {
-		aolu.SetUsername(*s)
+func (_u *AdminOperationLogUpdate) SetNillableUsername(v *string) *AdminOperationLogUpdate {
+	if v != nil {
+		_u.SetUsername(*v)
 	}
-	return aolu
+	return _u
 }
 
 // ClearUsername clears the value of the "username" field.
-func (aolu *AdminOperationLogUpdate) ClearUsername() *AdminOperationLogUpdate {
-	aolu.mutation.ClearUsername()
-	return aolu
+func (_u *AdminOperationLogUpdate) ClearUsername() *AdminOperationLogUpdate {
+	_u.mutation.ClearUsername()
+	return _u
 }
 
 // SetClientIP sets the "client_ip" field.
-func (aolu *AdminOperationLogUpdate) SetClientIP(s string) *AdminOperationLogUpdate {
-	aolu.mutation.SetClientIP(s)
-	return aolu
+func (_u *AdminOperationLogUpdate) SetClientIP(v string) *AdminOperationLogUpdate {
+	_u.mutation.SetClientIP(v)
+	return _u
 }
 
 // SetNillableClientIP sets the "client_ip" field if the given value is not nil.
-func (aolu *AdminOperationLogUpdate) SetNillableClientIP(s *string) *AdminOperationLogUpdate {
-	if s != nil {
-		aolu.SetClientIP(*s)
+func (_u *AdminOperationLogUpdate) SetNillableClientIP(v *string) *AdminOperationLogUpdate {
+	if v != nil {
+		_u.SetClientIP(*v)
 	}
-	return aolu
+	return _u
 }
 
 // ClearClientIP clears the value of the "client_ip" field.
-func (aolu *AdminOperationLogUpdate) ClearClientIP() *AdminOperationLogUpdate {
-	aolu.mutation.ClearClientIP()
-	return aolu
+func (_u *AdminOperationLogUpdate) ClearClientIP() *AdminOperationLogUpdate {
+	_u.mutation.ClearClientIP()
+	return _u
 }
 
 // SetStatusCode sets the "status_code" field.
-func (aolu *AdminOperationLogUpdate) SetStatusCode(i int32) *AdminOperationLogUpdate {
-	aolu.mutation.ResetStatusCode()
-	aolu.mutation.SetStatusCode(i)
-	return aolu
+func (_u *AdminOperationLogUpdate) SetStatusCode(v int32) *AdminOperationLogUpdate {
+	_u.mutation.ResetStatusCode()
+	_u.mutation.SetStatusCode(v)
+	return _u
 }
 
 // SetNillableStatusCode sets the "status_code" field if the given value is not nil.
-func (aolu *AdminOperationLogUpdate) SetNillableStatusCode(i *int32) *AdminOperationLogUpdate {
-	if i != nil {
-		aolu.SetStatusCode(*i)
+func (_u *AdminOperationLogUpdate) SetNillableStatusCode(v *int32) *AdminOperationLogUpdate {
+	if v != nil {
+		_u.SetStatusCode(*v)
 	}
-	return aolu
+	return _u
 }
 
-// AddStatusCode adds i to the "status_code" field.
-func (aolu *AdminOperationLogUpdate) AddStatusCode(i int32) *AdminOperationLogUpdate {
-	aolu.mutation.AddStatusCode(i)
-	return aolu
+// AddStatusCode adds value to the "status_code" field.
+func (_u *AdminOperationLogUpdate) AddStatusCode(v int32) *AdminOperationLogUpdate {
+	_u.mutation.AddStatusCode(v)
+	return _u
 }
 
 // ClearStatusCode clears the value of the "status_code" field.
-func (aolu *AdminOperationLogUpdate) ClearStatusCode() *AdminOperationLogUpdate {
-	aolu.mutation.ClearStatusCode()
-	return aolu
+func (_u *AdminOperationLogUpdate) ClearStatusCode() *AdminOperationLogUpdate {
+	_u.mutation.ClearStatusCode()
+	return _u
 }
 
 // SetReason sets the "reason" field.
-func (aolu *AdminOperationLogUpdate) SetReason(s string) *AdminOperationLogUpdate {
-	aolu.mutation.SetReason(s)
-	return aolu
+func (_u *AdminOperationLogUpdate) SetReason(v string) *AdminOperationLogUpdate {
+	_u.mutation.SetReason(v)
+	return _u
 }
 
 // SetNillableReason sets the "reason" field if the given value is not nil.
-func (aolu *AdminOperationLogUpdate) SetNillableReason(s *string) *AdminOperationLogUpdate {
-	if s != nil {
-		aolu.SetReason(*s)
+func (_u *AdminOperationLogUpdate) SetNillableReason(v *string) *AdminOperationLogUpdate {
+	if v != nil {
+		_u.SetReason(*v)
 	}
-	return aolu
+	return _u
 }
 
 // ClearReason clears the value of the "reason" field.
-func (aolu *AdminOperationLogUpdate) ClearReason() *AdminOperationLogUpdate {
-	aolu.mutation.ClearReason()
-	return aolu
+func (_u *AdminOperationLogUpdate) ClearReason() *AdminOperationLogUpdate {
+	_u.mutation.ClearReason()
+	return _u
 }
 
 // SetSuccess sets the "success" field.
-func (aolu *AdminOperationLogUpdate) SetSuccess(b bool) *AdminOperationLogUpdate {
-	aolu.mutation.SetSuccess(b)
-	return aolu
+func (_u *AdminOperationLogUpdate) SetSuccess(v bool) *AdminOperationLogUpdate {
+	_u.mutation.SetSuccess(v)
+	return _u
 }
 
 // SetNillableSuccess sets the "success" field if the given value is not nil.
-func (aolu *AdminOperationLogUpdate) SetNillableSuccess(b *bool) *AdminOperationLogUpdate {
-	if b != nil {
-		aolu.SetSuccess(*b)
+func (_u *AdminOperationLogUpdate) SetNillableSuccess(v *bool) *AdminOperationLogUpdate {
+	if v != nil {
+		_u.SetSuccess(*v)
 	}
-	return aolu
+	return _u
 }
 
 // ClearSuccess clears the value of the "success" field.
-func (aolu *AdminOperationLogUpdate) ClearSuccess() *AdminOperationLogUpdate {
-	aolu.mutation.ClearSuccess()
-	return aolu
+func (_u *AdminOperationLogUpdate) ClearSuccess() *AdminOperationLogUpdate {
+	_u.mutation.ClearSuccess()
+	return _u
 }
 
 // SetLocation sets the "location" field.
-func (aolu *AdminOperationLogUpdate) SetLocation(s string) *AdminOperationLogUpdate {
-	aolu.mutation.SetLocation(s)
-	return aolu
+func (_u *AdminOperationLogUpdate) SetLocation(v string) *AdminOperationLogUpdate {
+	_u.mutation.SetLocation(v)
+	return _u
 }
 
 // SetNillableLocation sets the "location" field if the given value is not nil.
-func (aolu *AdminOperationLogUpdate) SetNillableLocation(s *string) *AdminOperationLogUpdate {
-	if s != nil {
-		aolu.SetLocation(*s)
+func (_u *AdminOperationLogUpdate) SetNillableLocation(v *string) *AdminOperationLogUpdate {
+	if v != nil {
+		_u.SetLocation(*v)
 	}
-	return aolu
+	return _u
 }
 
 // ClearLocation clears the value of the "location" field.
-func (aolu *AdminOperationLogUpdate) ClearLocation() *AdminOperationLogUpdate {
-	aolu.mutation.ClearLocation()
-	return aolu
+func (_u *AdminOperationLogUpdate) ClearLocation() *AdminOperationLogUpdate {
+	_u.mutation.ClearLocation()
+	return _u
 }
 
 // SetUserAgent sets the "user_agent" field.
-func (aolu *AdminOperationLogUpdate) SetUserAgent(s string) *AdminOperationLogUpdate {
-	aolu.mutation.SetUserAgent(s)
-	return aolu
+func (_u *AdminOperationLogUpdate) SetUserAgent(v string) *AdminOperationLogUpdate {
+	_u.mutation.SetUserAgent(v)
+	return _u
 }
 
 // SetNillableUserAgent sets the "user_agent" field if the given value is not nil.
-func (aolu *AdminOperationLogUpdate) SetNillableUserAgent(s *string) *AdminOperationLogUpdate {
-	if s != nil {
-		aolu.SetUserAgent(*s)
+func (_u *AdminOperationLogUpdate) SetNillableUserAgent(v *string) *AdminOperationLogUpdate {
+	if v != nil {
+		_u.SetUserAgent(*v)
 	}
-	return aolu
+	return _u
 }
 
 // ClearUserAgent clears the value of the "user_agent" field.
-func (aolu *AdminOperationLogUpdate) ClearUserAgent() *AdminOperationLogUpdate {
-	aolu.mutation.ClearUserAgent()
-	return aolu
+func (_u *AdminOperationLogUpdate) ClearUserAgent() *AdminOperationLogUpdate {
+	_u.mutation.ClearUserAgent()
+	return _u
 }
 
 // SetBrowserName sets the "browser_name" field.
-func (aolu *AdminOperationLogUpdate) SetBrowserName(s string) *AdminOperationLogUpdate {
-	aolu.mutation.SetBrowserName(s)
-	return aolu
+func (_u *AdminOperationLogUpdate) SetBrowserName(v string) *AdminOperationLogUpdate {
+	_u.mutation.SetBrowserName(v)
+	return _u
 }
 
 // SetNillableBrowserName sets the "browser_name" field if the given value is not nil.
-func (aolu *AdminOperationLogUpdate) SetNillableBrowserName(s *string) *AdminOperationLogUpdate {
-	if s != nil {
-		aolu.SetBrowserName(*s)
+func (_u *AdminOperationLogUpdate) SetNillableBrowserName(v *string) *AdminOperationLogUpdate {
+	if v != nil {
+		_u.SetBrowserName(*v)
 	}
-	return aolu
+	return _u
 }
 
 // ClearBrowserName clears the value of the "browser_name" field.
-func (aolu *AdminOperationLogUpdate) ClearBrowserName() *AdminOperationLogUpdate {
-	aolu.mutation.ClearBrowserName()
-	return aolu
+func (_u *AdminOperationLogUpdate) ClearBrowserName() *AdminOperationLogUpdate {
+	_u.mutation.ClearBrowserName()
+	return _u
 }
 
 // SetBrowserVersion sets the "browser_version" field.
-func (aolu *AdminOperationLogUpdate) SetBrowserVersion(s string) *AdminOperationLogUpdate {
-	aolu.mutation.SetBrowserVersion(s)
-	return aolu
+func (_u *AdminOperationLogUpdate) SetBrowserVersion(v string) *AdminOperationLogUpdate {
+	_u.mutation.SetBrowserVersion(v)
+	return _u
 }
 
 // SetNillableBrowserVersion sets the "browser_version" field if the given value is not nil.
-func (aolu *AdminOperationLogUpdate) SetNillableBrowserVersion(s *string) *AdminOperationLogUpdate {
-	if s != nil {
-		aolu.SetBrowserVersion(*s)
+func (_u *AdminOperationLogUpdate) SetNillableBrowserVersion(v *string) *AdminOperationLogUpdate {
+	if v != nil {
+		_u.SetBrowserVersion(*v)
 	}
-	return aolu
+	return _u
 }
 
 // ClearBrowserVersion clears the value of the "browser_version" field.
-func (aolu *AdminOperationLogUpdate) ClearBrowserVersion() *AdminOperationLogUpdate {
-	aolu.mutation.ClearBrowserVersion()
-	return aolu
+func (_u *AdminOperationLogUpdate) ClearBrowserVersion() *AdminOperationLogUpdate {
+	_u.mutation.ClearBrowserVersion()
+	return _u
 }
 
 // SetClientID sets the "client_id" field.
-func (aolu *AdminOperationLogUpdate) SetClientID(s string) *AdminOperationLogUpdate {
-	aolu.mutation.SetClientID(s)
-	return aolu
+func (_u *AdminOperationLogUpdate) SetClientID(v string) *AdminOperationLogUpdate {
+	_u.mutation.SetClientID(v)
+	return _u
 }
 
 // SetNillableClientID sets the "client_id" field if the given value is not nil.
-func (aolu *AdminOperationLogUpdate) SetNillableClientID(s *string) *AdminOperationLogUpdate {
-	if s != nil {
-		aolu.SetClientID(*s)
+func (_u *AdminOperationLogUpdate) SetNillableClientID(v *string) *AdminOperationLogUpdate {
+	if v != nil {
+		_u.SetClientID(*v)
 	}
-	return aolu
+	return _u
 }
 
 // ClearClientID clears the value of the "client_id" field.
-func (aolu *AdminOperationLogUpdate) ClearClientID() *AdminOperationLogUpdate {
-	aolu.mutation.ClearClientID()
-	return aolu
+func (_u *AdminOperationLogUpdate) ClearClientID() *AdminOperationLogUpdate {
+	_u.mutation.ClearClientID()
+	return _u
 }
 
 // SetClientName sets the "client_name" field.
-func (aolu *AdminOperationLogUpdate) SetClientName(s string) *AdminOperationLogUpdate {
-	aolu.mutation.SetClientName(s)
-	return aolu
+func (_u *AdminOperationLogUpdate) SetClientName(v string) *AdminOperationLogUpdate {
+	_u.mutation.SetClientName(v)
+	return _u
 }
 
 // SetNillableClientName sets the "client_name" field if the given value is not nil.
-func (aolu *AdminOperationLogUpdate) SetNillableClientName(s *string) *AdminOperationLogUpdate {
-	if s != nil {
-		aolu.SetClientName(*s)
+func (_u *AdminOperationLogUpdate) SetNillableClientName(v *string) *AdminOperationLogUpdate {
+	if v != nil {
+		_u.SetClientName(*v)
 	}
-	return aolu
+	return _u
 }
 
 // ClearClientName clears the value of the "client_name" field.
-func (aolu *AdminOperationLogUpdate) ClearClientName() *AdminOperationLogUpdate {
-	aolu.mutation.ClearClientName()
-	return aolu
+func (_u *AdminOperationLogUpdate) ClearClientName() *AdminOperationLogUpdate {
+	_u.mutation.ClearClientName()
+	return _u
 }
 
 // SetOsName sets the "os_name" field.
-func (aolu *AdminOperationLogUpdate) SetOsName(s string) *AdminOperationLogUpdate {
-	aolu.mutation.SetOsName(s)
-	return aolu
+func (_u *AdminOperationLogUpdate) SetOsName(v string) *AdminOperationLogUpdate {
+	_u.mutation.SetOsName(v)
+	return _u
 }
 
 // SetNillableOsName sets the "os_name" field if the given value is not nil.
-func (aolu *AdminOperationLogUpdate) SetNillableOsName(s *string) *AdminOperationLogUpdate {
-	if s != nil {
-		aolu.SetOsName(*s)
+func (_u *AdminOperationLogUpdate) SetNillableOsName(v *string) *AdminOperationLogUpdate {
+	if v != nil {
+		_u.SetOsName(*v)
 	}
-	return aolu
+	return _u
 }
 
 // ClearOsName clears the value of the "os_name" field.
-func (aolu *AdminOperationLogUpdate) ClearOsName() *AdminOperationLogUpdate {
-	aolu.mutation.ClearOsName()
-	return aolu
+func (_u *AdminOperationLogUpdate) ClearOsName() *AdminOperationLogUpdate {
+	_u.mutation.ClearOsName()
+	return _u
 }
 
 // SetOsVersion sets the "os_version" field.
-func (aolu *AdminOperationLogUpdate) SetOsVersion(s string) *AdminOperationLogUpdate {
-	aolu.mutation.SetOsVersion(s)
-	return aolu
+func (_u *AdminOperationLogUpdate) SetOsVersion(v string) *AdminOperationLogUpdate {
+	_u.mutation.SetOsVersion(v)
+	return _u
 }
 
 // SetNillableOsVersion sets the "os_version" field if the given value is not nil.
-func (aolu *AdminOperationLogUpdate) SetNillableOsVersion(s *string) *AdminOperationLogUpdate {
-	if s != nil {
-		aolu.SetOsVersion(*s)
+func (_u *AdminOperationLogUpdate) SetNillableOsVersion(v *string) *AdminOperationLogUpdate {
+	if v != nil {
+		_u.SetOsVersion(*v)
 	}
-	return aolu
+	return _u
 }
 
 // ClearOsVersion clears the value of the "os_version" field.
-func (aolu *AdminOperationLogUpdate) ClearOsVersion() *AdminOperationLogUpdate {
-	aolu.mutation.ClearOsVersion()
-	return aolu
+func (_u *AdminOperationLogUpdate) ClearOsVersion() *AdminOperationLogUpdate {
+	_u.mutation.ClearOsVersion()
+	return _u
 }
 
 // Mutation returns the AdminOperationLogMutation object of the builder.
-func (aolu *AdminOperationLogUpdate) Mutation() *AdminOperationLogMutation {
-	return aolu.mutation
+func (_u *AdminOperationLogUpdate) Mutation() *AdminOperationLogMutation {
+	return _u.mutation
 }
 
 // Save executes the query and returns the number of nodes affected by the update operation.
-func (aolu *AdminOperationLogUpdate) Save(ctx context.Context) (int, error) {
-	return withHooks(ctx, aolu.sqlSave, aolu.mutation, aolu.hooks)
+func (_u *AdminOperationLogUpdate) Save(ctx context.Context) (int, error) {
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (aolu *AdminOperationLogUpdate) SaveX(ctx context.Context) int {
-	affected, err := aolu.Save(ctx)
+func (_u *AdminOperationLogUpdate) SaveX(ctx context.Context) int {
+	affected, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -549,191 +549,191 @@ func (aolu *AdminOperationLogUpdate) SaveX(ctx context.Context) int {
 }
 
 // Exec executes the query.
-func (aolu *AdminOperationLogUpdate) Exec(ctx context.Context) error {
-	_, err := aolu.Save(ctx)
+func (_u *AdminOperationLogUpdate) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (aolu *AdminOperationLogUpdate) ExecX(ctx context.Context) {
-	if err := aolu.Exec(ctx); err != nil {
+func (_u *AdminOperationLogUpdate) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // Modify adds a statement modifier for attaching custom logic to the UPDATE statement.
-func (aolu *AdminOperationLogUpdate) Modify(modifiers ...func(u *sql.UpdateBuilder)) *AdminOperationLogUpdate {
-	aolu.modifiers = append(aolu.modifiers, modifiers...)
-	return aolu
+func (_u *AdminOperationLogUpdate) Modify(modifiers ...func(u *sql.UpdateBuilder)) *AdminOperationLogUpdate {
+	_u.modifiers = append(_u.modifiers, modifiers...)
+	return _u
 }
 
-func (aolu *AdminOperationLogUpdate) sqlSave(ctx context.Context) (n int, err error) {
+func (_u *AdminOperationLogUpdate) sqlSave(ctx context.Context) (_node int, err error) {
 	_spec := sqlgraph.NewUpdateSpec(adminoperationlog.Table, adminoperationlog.Columns, sqlgraph.NewFieldSpec(adminoperationlog.FieldID, field.TypeUint32))
-	if ps := aolu.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if aolu.mutation.CreateTimeCleared() {
+	if _u.mutation.CreateTimeCleared() {
 		_spec.ClearField(adminoperationlog.FieldCreateTime, field.TypeTime)
 	}
-	if value, ok := aolu.mutation.RequestID(); ok {
+	if value, ok := _u.mutation.RequestID(); ok {
 		_spec.SetField(adminoperationlog.FieldRequestID, field.TypeString, value)
 	}
-	if aolu.mutation.RequestIDCleared() {
+	if _u.mutation.RequestIDCleared() {
 		_spec.ClearField(adminoperationlog.FieldRequestID, field.TypeString)
 	}
-	if value, ok := aolu.mutation.Method(); ok {
+	if value, ok := _u.mutation.Method(); ok {
 		_spec.SetField(adminoperationlog.FieldMethod, field.TypeString, value)
 	}
-	if aolu.mutation.MethodCleared() {
+	if _u.mutation.MethodCleared() {
 		_spec.ClearField(adminoperationlog.FieldMethod, field.TypeString)
 	}
-	if value, ok := aolu.mutation.Operation(); ok {
+	if value, ok := _u.mutation.Operation(); ok {
 		_spec.SetField(adminoperationlog.FieldOperation, field.TypeString, value)
 	}
-	if aolu.mutation.OperationCleared() {
+	if _u.mutation.OperationCleared() {
 		_spec.ClearField(adminoperationlog.FieldOperation, field.TypeString)
 	}
-	if value, ok := aolu.mutation.Path(); ok {
+	if value, ok := _u.mutation.Path(); ok {
 		_spec.SetField(adminoperationlog.FieldPath, field.TypeString, value)
 	}
-	if aolu.mutation.PathCleared() {
+	if _u.mutation.PathCleared() {
 		_spec.ClearField(adminoperationlog.FieldPath, field.TypeString)
 	}
-	if value, ok := aolu.mutation.Referer(); ok {
+	if value, ok := _u.mutation.Referer(); ok {
 		_spec.SetField(adminoperationlog.FieldReferer, field.TypeString, value)
 	}
-	if aolu.mutation.RefererCleared() {
+	if _u.mutation.RefererCleared() {
 		_spec.ClearField(adminoperationlog.FieldReferer, field.TypeString)
 	}
-	if value, ok := aolu.mutation.RequestURI(); ok {
+	if value, ok := _u.mutation.RequestURI(); ok {
 		_spec.SetField(adminoperationlog.FieldRequestURI, field.TypeString, value)
 	}
-	if aolu.mutation.RequestURICleared() {
+	if _u.mutation.RequestURICleared() {
 		_spec.ClearField(adminoperationlog.FieldRequestURI, field.TypeString)
 	}
-	if value, ok := aolu.mutation.RequestBody(); ok {
+	if value, ok := _u.mutation.RequestBody(); ok {
 		_spec.SetField(adminoperationlog.FieldRequestBody, field.TypeString, value)
 	}
-	if aolu.mutation.RequestBodyCleared() {
+	if _u.mutation.RequestBodyCleared() {
 		_spec.ClearField(adminoperationlog.FieldRequestBody, field.TypeString)
 	}
-	if value, ok := aolu.mutation.RequestHeader(); ok {
+	if value, ok := _u.mutation.RequestHeader(); ok {
 		_spec.SetField(adminoperationlog.FieldRequestHeader, field.TypeString, value)
 	}
-	if aolu.mutation.RequestHeaderCleared() {
+	if _u.mutation.RequestHeaderCleared() {
 		_spec.ClearField(adminoperationlog.FieldRequestHeader, field.TypeString)
 	}
-	if value, ok := aolu.mutation.Response(); ok {
+	if value, ok := _u.mutation.Response(); ok {
 		_spec.SetField(adminoperationlog.FieldResponse, field.TypeString, value)
 	}
-	if aolu.mutation.ResponseCleared() {
+	if _u.mutation.ResponseCleared() {
 		_spec.ClearField(adminoperationlog.FieldResponse, field.TypeString)
 	}
-	if value, ok := aolu.mutation.CostTime(); ok {
+	if value, ok := _u.mutation.CostTime(); ok {
 		_spec.SetField(adminoperationlog.FieldCostTime, field.TypeFloat64, value)
 	}
-	if value, ok := aolu.mutation.AddedCostTime(); ok {
+	if value, ok := _u.mutation.AddedCostTime(); ok {
 		_spec.AddField(adminoperationlog.FieldCostTime, field.TypeFloat64, value)
 	}
-	if aolu.mutation.CostTimeCleared() {
+	if _u.mutation.CostTimeCleared() {
 		_spec.ClearField(adminoperationlog.FieldCostTime, field.TypeFloat64)
 	}
-	if value, ok := aolu.mutation.UserID(); ok {
+	if value, ok := _u.mutation.UserID(); ok {
 		_spec.SetField(adminoperationlog.FieldUserID, field.TypeUint32, value)
 	}
-	if value, ok := aolu.mutation.AddedUserID(); ok {
+	if value, ok := _u.mutation.AddedUserID(); ok {
 		_spec.AddField(adminoperationlog.FieldUserID, field.TypeUint32, value)
 	}
-	if aolu.mutation.UserIDCleared() {
+	if _u.mutation.UserIDCleared() {
 		_spec.ClearField(adminoperationlog.FieldUserID, field.TypeUint32)
 	}
-	if value, ok := aolu.mutation.Username(); ok {
+	if value, ok := _u.mutation.Username(); ok {
 		_spec.SetField(adminoperationlog.FieldUsername, field.TypeString, value)
 	}
-	if aolu.mutation.UsernameCleared() {
+	if _u.mutation.UsernameCleared() {
 		_spec.ClearField(adminoperationlog.FieldUsername, field.TypeString)
 	}
-	if value, ok := aolu.mutation.ClientIP(); ok {
+	if value, ok := _u.mutation.ClientIP(); ok {
 		_spec.SetField(adminoperationlog.FieldClientIP, field.TypeString, value)
 	}
-	if aolu.mutation.ClientIPCleared() {
+	if _u.mutation.ClientIPCleared() {
 		_spec.ClearField(adminoperationlog.FieldClientIP, field.TypeString)
 	}
-	if value, ok := aolu.mutation.StatusCode(); ok {
+	if value, ok := _u.mutation.StatusCode(); ok {
 		_spec.SetField(adminoperationlog.FieldStatusCode, field.TypeInt32, value)
 	}
-	if value, ok := aolu.mutation.AddedStatusCode(); ok {
+	if value, ok := _u.mutation.AddedStatusCode(); ok {
 		_spec.AddField(adminoperationlog.FieldStatusCode, field.TypeInt32, value)
 	}
-	if aolu.mutation.StatusCodeCleared() {
+	if _u.mutation.StatusCodeCleared() {
 		_spec.ClearField(adminoperationlog.FieldStatusCode, field.TypeInt32)
 	}
-	if value, ok := aolu.mutation.Reason(); ok {
+	if value, ok := _u.mutation.Reason(); ok {
 		_spec.SetField(adminoperationlog.FieldReason, field.TypeString, value)
 	}
-	if aolu.mutation.ReasonCleared() {
+	if _u.mutation.ReasonCleared() {
 		_spec.ClearField(adminoperationlog.FieldReason, field.TypeString)
 	}
-	if value, ok := aolu.mutation.Success(); ok {
+	if value, ok := _u.mutation.Success(); ok {
 		_spec.SetField(adminoperationlog.FieldSuccess, field.TypeBool, value)
 	}
-	if aolu.mutation.SuccessCleared() {
+	if _u.mutation.SuccessCleared() {
 		_spec.ClearField(adminoperationlog.FieldSuccess, field.TypeBool)
 	}
-	if value, ok := aolu.mutation.Location(); ok {
+	if value, ok := _u.mutation.Location(); ok {
 		_spec.SetField(adminoperationlog.FieldLocation, field.TypeString, value)
 	}
-	if aolu.mutation.LocationCleared() {
+	if _u.mutation.LocationCleared() {
 		_spec.ClearField(adminoperationlog.FieldLocation, field.TypeString)
 	}
-	if value, ok := aolu.mutation.UserAgent(); ok {
+	if value, ok := _u.mutation.UserAgent(); ok {
 		_spec.SetField(adminoperationlog.FieldUserAgent, field.TypeString, value)
 	}
-	if aolu.mutation.UserAgentCleared() {
+	if _u.mutation.UserAgentCleared() {
 		_spec.ClearField(adminoperationlog.FieldUserAgent, field.TypeString)
 	}
-	if value, ok := aolu.mutation.BrowserName(); ok {
+	if value, ok := _u.mutation.BrowserName(); ok {
 		_spec.SetField(adminoperationlog.FieldBrowserName, field.TypeString, value)
 	}
-	if aolu.mutation.BrowserNameCleared() {
+	if _u.mutation.BrowserNameCleared() {
 		_spec.ClearField(adminoperationlog.FieldBrowserName, field.TypeString)
 	}
-	if value, ok := aolu.mutation.BrowserVersion(); ok {
+	if value, ok := _u.mutation.BrowserVersion(); ok {
 		_spec.SetField(adminoperationlog.FieldBrowserVersion, field.TypeString, value)
 	}
-	if aolu.mutation.BrowserVersionCleared() {
+	if _u.mutation.BrowserVersionCleared() {
 		_spec.ClearField(adminoperationlog.FieldBrowserVersion, field.TypeString)
 	}
-	if value, ok := aolu.mutation.ClientID(); ok {
+	if value, ok := _u.mutation.ClientID(); ok {
 		_spec.SetField(adminoperationlog.FieldClientID, field.TypeString, value)
 	}
-	if aolu.mutation.ClientIDCleared() {
+	if _u.mutation.ClientIDCleared() {
 		_spec.ClearField(adminoperationlog.FieldClientID, field.TypeString)
 	}
-	if value, ok := aolu.mutation.ClientName(); ok {
+	if value, ok := _u.mutation.ClientName(); ok {
 		_spec.SetField(adminoperationlog.FieldClientName, field.TypeString, value)
 	}
-	if aolu.mutation.ClientNameCleared() {
+	if _u.mutation.ClientNameCleared() {
 		_spec.ClearField(adminoperationlog.FieldClientName, field.TypeString)
 	}
-	if value, ok := aolu.mutation.OsName(); ok {
+	if value, ok := _u.mutation.OsName(); ok {
 		_spec.SetField(adminoperationlog.FieldOsName, field.TypeString, value)
 	}
-	if aolu.mutation.OsNameCleared() {
+	if _u.mutation.OsNameCleared() {
 		_spec.ClearField(adminoperationlog.FieldOsName, field.TypeString)
 	}
-	if value, ok := aolu.mutation.OsVersion(); ok {
+	if value, ok := _u.mutation.OsVersion(); ok {
 		_spec.SetField(adminoperationlog.FieldOsVersion, field.TypeString, value)
 	}
-	if aolu.mutation.OsVersionCleared() {
+	if _u.mutation.OsVersionCleared() {
 		_spec.ClearField(adminoperationlog.FieldOsVersion, field.TypeString)
 	}
-	_spec.AddModifiers(aolu.modifiers...)
-	if n, err = sqlgraph.UpdateNodes(ctx, aolu.driver, _spec); err != nil {
+	_spec.AddModifiers(_u.modifiers...)
+	if _node, err = sqlgraph.UpdateNodes(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{adminoperationlog.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -741,8 +741,8 @@ func (aolu *AdminOperationLogUpdate) sqlSave(ctx context.Context) (n int, err er
 		}
 		return 0, err
 	}
-	aolu.mutation.done = true
-	return n, nil
+	_u.mutation.done = true
+	return _node, nil
 }
 
 // AdminOperationLogUpdateOne is the builder for updating a single AdminOperationLog entity.
@@ -755,532 +755,532 @@ type AdminOperationLogUpdateOne struct {
 }
 
 // SetRequestID sets the "request_id" field.
-func (aoluo *AdminOperationLogUpdateOne) SetRequestID(s string) *AdminOperationLogUpdateOne {
-	aoluo.mutation.SetRequestID(s)
-	return aoluo
+func (_u *AdminOperationLogUpdateOne) SetRequestID(v string) *AdminOperationLogUpdateOne {
+	_u.mutation.SetRequestID(v)
+	return _u
 }
 
 // SetNillableRequestID sets the "request_id" field if the given value is not nil.
-func (aoluo *AdminOperationLogUpdateOne) SetNillableRequestID(s *string) *AdminOperationLogUpdateOne {
-	if s != nil {
-		aoluo.SetRequestID(*s)
+func (_u *AdminOperationLogUpdateOne) SetNillableRequestID(v *string) *AdminOperationLogUpdateOne {
+	if v != nil {
+		_u.SetRequestID(*v)
 	}
-	return aoluo
+	return _u
 }
 
 // ClearRequestID clears the value of the "request_id" field.
-func (aoluo *AdminOperationLogUpdateOne) ClearRequestID() *AdminOperationLogUpdateOne {
-	aoluo.mutation.ClearRequestID()
-	return aoluo
+func (_u *AdminOperationLogUpdateOne) ClearRequestID() *AdminOperationLogUpdateOne {
+	_u.mutation.ClearRequestID()
+	return _u
 }
 
 // SetMethod sets the "method" field.
-func (aoluo *AdminOperationLogUpdateOne) SetMethod(s string) *AdminOperationLogUpdateOne {
-	aoluo.mutation.SetMethod(s)
-	return aoluo
+func (_u *AdminOperationLogUpdateOne) SetMethod(v string) *AdminOperationLogUpdateOne {
+	_u.mutation.SetMethod(v)
+	return _u
 }
 
 // SetNillableMethod sets the "method" field if the given value is not nil.
-func (aoluo *AdminOperationLogUpdateOne) SetNillableMethod(s *string) *AdminOperationLogUpdateOne {
-	if s != nil {
-		aoluo.SetMethod(*s)
+func (_u *AdminOperationLogUpdateOne) SetNillableMethod(v *string) *AdminOperationLogUpdateOne {
+	if v != nil {
+		_u.SetMethod(*v)
 	}
-	return aoluo
+	return _u
 }
 
 // ClearMethod clears the value of the "method" field.
-func (aoluo *AdminOperationLogUpdateOne) ClearMethod() *AdminOperationLogUpdateOne {
-	aoluo.mutation.ClearMethod()
-	return aoluo
+func (_u *AdminOperationLogUpdateOne) ClearMethod() *AdminOperationLogUpdateOne {
+	_u.mutation.ClearMethod()
+	return _u
 }
 
 // SetOperation sets the "operation" field.
-func (aoluo *AdminOperationLogUpdateOne) SetOperation(s string) *AdminOperationLogUpdateOne {
-	aoluo.mutation.SetOperation(s)
-	return aoluo
+func (_u *AdminOperationLogUpdateOne) SetOperation(v string) *AdminOperationLogUpdateOne {
+	_u.mutation.SetOperation(v)
+	return _u
 }
 
 // SetNillableOperation sets the "operation" field if the given value is not nil.
-func (aoluo *AdminOperationLogUpdateOne) SetNillableOperation(s *string) *AdminOperationLogUpdateOne {
-	if s != nil {
-		aoluo.SetOperation(*s)
+func (_u *AdminOperationLogUpdateOne) SetNillableOperation(v *string) *AdminOperationLogUpdateOne {
+	if v != nil {
+		_u.SetOperation(*v)
 	}
-	return aoluo
+	return _u
 }
 
 // ClearOperation clears the value of the "operation" field.
-func (aoluo *AdminOperationLogUpdateOne) ClearOperation() *AdminOperationLogUpdateOne {
-	aoluo.mutation.ClearOperation()
-	return aoluo
+func (_u *AdminOperationLogUpdateOne) ClearOperation() *AdminOperationLogUpdateOne {
+	_u.mutation.ClearOperation()
+	return _u
 }
 
 // SetPath sets the "path" field.
-func (aoluo *AdminOperationLogUpdateOne) SetPath(s string) *AdminOperationLogUpdateOne {
-	aoluo.mutation.SetPath(s)
-	return aoluo
+func (_u *AdminOperationLogUpdateOne) SetPath(v string) *AdminOperationLogUpdateOne {
+	_u.mutation.SetPath(v)
+	return _u
 }
 
 // SetNillablePath sets the "path" field if the given value is not nil.
-func (aoluo *AdminOperationLogUpdateOne) SetNillablePath(s *string) *AdminOperationLogUpdateOne {
-	if s != nil {
-		aoluo.SetPath(*s)
+func (_u *AdminOperationLogUpdateOne) SetNillablePath(v *string) *AdminOperationLogUpdateOne {
+	if v != nil {
+		_u.SetPath(*v)
 	}
-	return aoluo
+	return _u
 }
 
 // ClearPath clears the value of the "path" field.
-func (aoluo *AdminOperationLogUpdateOne) ClearPath() *AdminOperationLogUpdateOne {
-	aoluo.mutation.ClearPath()
-	return aoluo
+func (_u *AdminOperationLogUpdateOne) ClearPath() *AdminOperationLogUpdateOne {
+	_u.mutation.ClearPath()
+	return _u
 }
 
 // SetReferer sets the "referer" field.
-func (aoluo *AdminOperationLogUpdateOne) SetReferer(s string) *AdminOperationLogUpdateOne {
-	aoluo.mutation.SetReferer(s)
-	return aoluo
+func (_u *AdminOperationLogUpdateOne) SetReferer(v string) *AdminOperationLogUpdateOne {
+	_u.mutation.SetReferer(v)
+	return _u
 }
 
 // SetNillableReferer sets the "referer" field if the given value is not nil.
-func (aoluo *AdminOperationLogUpdateOne) SetNillableReferer(s *string) *AdminOperationLogUpdateOne {
-	if s != nil {
-		aoluo.SetReferer(*s)
+func (_u *AdminOperationLogUpdateOne) SetNillableReferer(v *string) *AdminOperationLogUpdateOne {
+	if v != nil {
+		_u.SetReferer(*v)
 	}
-	return aoluo
+	return _u
 }
 
 // ClearReferer clears the value of the "referer" field.
-func (aoluo *AdminOperationLogUpdateOne) ClearReferer() *AdminOperationLogUpdateOne {
-	aoluo.mutation.ClearReferer()
-	return aoluo
+func (_u *AdminOperationLogUpdateOne) ClearReferer() *AdminOperationLogUpdateOne {
+	_u.mutation.ClearReferer()
+	return _u
 }
 
 // SetRequestURI sets the "request_uri" field.
-func (aoluo *AdminOperationLogUpdateOne) SetRequestURI(s string) *AdminOperationLogUpdateOne {
-	aoluo.mutation.SetRequestURI(s)
-	return aoluo
+func (_u *AdminOperationLogUpdateOne) SetRequestURI(v string) *AdminOperationLogUpdateOne {
+	_u.mutation.SetRequestURI(v)
+	return _u
 }
 
 // SetNillableRequestURI sets the "request_uri" field if the given value is not nil.
-func (aoluo *AdminOperationLogUpdateOne) SetNillableRequestURI(s *string) *AdminOperationLogUpdateOne {
-	if s != nil {
-		aoluo.SetRequestURI(*s)
+func (_u *AdminOperationLogUpdateOne) SetNillableRequestURI(v *string) *AdminOperationLogUpdateOne {
+	if v != nil {
+		_u.SetRequestURI(*v)
 	}
-	return aoluo
+	return _u
 }
 
 // ClearRequestURI clears the value of the "request_uri" field.
-func (aoluo *AdminOperationLogUpdateOne) ClearRequestURI() *AdminOperationLogUpdateOne {
-	aoluo.mutation.ClearRequestURI()
-	return aoluo
+func (_u *AdminOperationLogUpdateOne) ClearRequestURI() *AdminOperationLogUpdateOne {
+	_u.mutation.ClearRequestURI()
+	return _u
 }
 
 // SetRequestBody sets the "request_body" field.
-func (aoluo *AdminOperationLogUpdateOne) SetRequestBody(s string) *AdminOperationLogUpdateOne {
-	aoluo.mutation.SetRequestBody(s)
-	return aoluo
+func (_u *AdminOperationLogUpdateOne) SetRequestBody(v string) *AdminOperationLogUpdateOne {
+	_u.mutation.SetRequestBody(v)
+	return _u
 }
 
 // SetNillableRequestBody sets the "request_body" field if the given value is not nil.
-func (aoluo *AdminOperationLogUpdateOne) SetNillableRequestBody(s *string) *AdminOperationLogUpdateOne {
-	if s != nil {
-		aoluo.SetRequestBody(*s)
+func (_u *AdminOperationLogUpdateOne) SetNillableRequestBody(v *string) *AdminOperationLogUpdateOne {
+	if v != nil {
+		_u.SetRequestBody(*v)
 	}
-	return aoluo
+	return _u
 }
 
 // ClearRequestBody clears the value of the "request_body" field.
-func (aoluo *AdminOperationLogUpdateOne) ClearRequestBody() *AdminOperationLogUpdateOne {
-	aoluo.mutation.ClearRequestBody()
-	return aoluo
+func (_u *AdminOperationLogUpdateOne) ClearRequestBody() *AdminOperationLogUpdateOne {
+	_u.mutation.ClearRequestBody()
+	return _u
 }
 
 // SetRequestHeader sets the "request_header" field.
-func (aoluo *AdminOperationLogUpdateOne) SetRequestHeader(s string) *AdminOperationLogUpdateOne {
-	aoluo.mutation.SetRequestHeader(s)
-	return aoluo
+func (_u *AdminOperationLogUpdateOne) SetRequestHeader(v string) *AdminOperationLogUpdateOne {
+	_u.mutation.SetRequestHeader(v)
+	return _u
 }
 
 // SetNillableRequestHeader sets the "request_header" field if the given value is not nil.
-func (aoluo *AdminOperationLogUpdateOne) SetNillableRequestHeader(s *string) *AdminOperationLogUpdateOne {
-	if s != nil {
-		aoluo.SetRequestHeader(*s)
+func (_u *AdminOperationLogUpdateOne) SetNillableRequestHeader(v *string) *AdminOperationLogUpdateOne {
+	if v != nil {
+		_u.SetRequestHeader(*v)
 	}
-	return aoluo
+	return _u
 }
 
 // ClearRequestHeader clears the value of the "request_header" field.
-func (aoluo *AdminOperationLogUpdateOne) ClearRequestHeader() *AdminOperationLogUpdateOne {
-	aoluo.mutation.ClearRequestHeader()
-	return aoluo
+func (_u *AdminOperationLogUpdateOne) ClearRequestHeader() *AdminOperationLogUpdateOne {
+	_u.mutation.ClearRequestHeader()
+	return _u
 }
 
 // SetResponse sets the "response" field.
-func (aoluo *AdminOperationLogUpdateOne) SetResponse(s string) *AdminOperationLogUpdateOne {
-	aoluo.mutation.SetResponse(s)
-	return aoluo
+func (_u *AdminOperationLogUpdateOne) SetResponse(v string) *AdminOperationLogUpdateOne {
+	_u.mutation.SetResponse(v)
+	return _u
 }
 
 // SetNillableResponse sets the "response" field if the given value is not nil.
-func (aoluo *AdminOperationLogUpdateOne) SetNillableResponse(s *string) *AdminOperationLogUpdateOne {
-	if s != nil {
-		aoluo.SetResponse(*s)
+func (_u *AdminOperationLogUpdateOne) SetNillableResponse(v *string) *AdminOperationLogUpdateOne {
+	if v != nil {
+		_u.SetResponse(*v)
 	}
-	return aoluo
+	return _u
 }
 
 // ClearResponse clears the value of the "response" field.
-func (aoluo *AdminOperationLogUpdateOne) ClearResponse() *AdminOperationLogUpdateOne {
-	aoluo.mutation.ClearResponse()
-	return aoluo
+func (_u *AdminOperationLogUpdateOne) ClearResponse() *AdminOperationLogUpdateOne {
+	_u.mutation.ClearResponse()
+	return _u
 }
 
 // SetCostTime sets the "cost_time" field.
-func (aoluo *AdminOperationLogUpdateOne) SetCostTime(f float64) *AdminOperationLogUpdateOne {
-	aoluo.mutation.ResetCostTime()
-	aoluo.mutation.SetCostTime(f)
-	return aoluo
+func (_u *AdminOperationLogUpdateOne) SetCostTime(v float64) *AdminOperationLogUpdateOne {
+	_u.mutation.ResetCostTime()
+	_u.mutation.SetCostTime(v)
+	return _u
 }
 
 // SetNillableCostTime sets the "cost_time" field if the given value is not nil.
-func (aoluo *AdminOperationLogUpdateOne) SetNillableCostTime(f *float64) *AdminOperationLogUpdateOne {
-	if f != nil {
-		aoluo.SetCostTime(*f)
+func (_u *AdminOperationLogUpdateOne) SetNillableCostTime(v *float64) *AdminOperationLogUpdateOne {
+	if v != nil {
+		_u.SetCostTime(*v)
 	}
-	return aoluo
+	return _u
 }
 
-// AddCostTime adds f to the "cost_time" field.
-func (aoluo *AdminOperationLogUpdateOne) AddCostTime(f float64) *AdminOperationLogUpdateOne {
-	aoluo.mutation.AddCostTime(f)
-	return aoluo
+// AddCostTime adds value to the "cost_time" field.
+func (_u *AdminOperationLogUpdateOne) AddCostTime(v float64) *AdminOperationLogUpdateOne {
+	_u.mutation.AddCostTime(v)
+	return _u
 }
 
 // ClearCostTime clears the value of the "cost_time" field.
-func (aoluo *AdminOperationLogUpdateOne) ClearCostTime() *AdminOperationLogUpdateOne {
-	aoluo.mutation.ClearCostTime()
-	return aoluo
+func (_u *AdminOperationLogUpdateOne) ClearCostTime() *AdminOperationLogUpdateOne {
+	_u.mutation.ClearCostTime()
+	return _u
 }
 
 // SetUserID sets the "user_id" field.
-func (aoluo *AdminOperationLogUpdateOne) SetUserID(u uint32) *AdminOperationLogUpdateOne {
-	aoluo.mutation.ResetUserID()
-	aoluo.mutation.SetUserID(u)
-	return aoluo
+func (_u *AdminOperationLogUpdateOne) SetUserID(v uint32) *AdminOperationLogUpdateOne {
+	_u.mutation.ResetUserID()
+	_u.mutation.SetUserID(v)
+	return _u
 }
 
 // SetNillableUserID sets the "user_id" field if the given value is not nil.
-func (aoluo *AdminOperationLogUpdateOne) SetNillableUserID(u *uint32) *AdminOperationLogUpdateOne {
-	if u != nil {
-		aoluo.SetUserID(*u)
+func (_u *AdminOperationLogUpdateOne) SetNillableUserID(v *uint32) *AdminOperationLogUpdateOne {
+	if v != nil {
+		_u.SetUserID(*v)
 	}
-	return aoluo
+	return _u
 }
 
-// AddUserID adds u to the "user_id" field.
-func (aoluo *AdminOperationLogUpdateOne) AddUserID(u int32) *AdminOperationLogUpdateOne {
-	aoluo.mutation.AddUserID(u)
-	return aoluo
+// AddUserID adds value to the "user_id" field.
+func (_u *AdminOperationLogUpdateOne) AddUserID(v int32) *AdminOperationLogUpdateOne {
+	_u.mutation.AddUserID(v)
+	return _u
 }
 
 // ClearUserID clears the value of the "user_id" field.
-func (aoluo *AdminOperationLogUpdateOne) ClearUserID() *AdminOperationLogUpdateOne {
-	aoluo.mutation.ClearUserID()
-	return aoluo
+func (_u *AdminOperationLogUpdateOne) ClearUserID() *AdminOperationLogUpdateOne {
+	_u.mutation.ClearUserID()
+	return _u
 }
 
 // SetUsername sets the "username" field.
-func (aoluo *AdminOperationLogUpdateOne) SetUsername(s string) *AdminOperationLogUpdateOne {
-	aoluo.mutation.SetUsername(s)
-	return aoluo
+func (_u *AdminOperationLogUpdateOne) SetUsername(v string) *AdminOperationLogUpdateOne {
+	_u.mutation.SetUsername(v)
+	return _u
 }
 
 // SetNillableUsername sets the "username" field if the given value is not nil.
-func (aoluo *AdminOperationLogUpdateOne) SetNillableUsername(s *string) *AdminOperationLogUpdateOne {
-	if s != nil {
-		aoluo.SetUsername(*s)
+func (_u *AdminOperationLogUpdateOne) SetNillableUsername(v *string) *AdminOperationLogUpdateOne {
+	if v != nil {
+		_u.SetUsername(*v)
 	}
-	return aoluo
+	return _u
 }
 
 // ClearUsername clears the value of the "username" field.
-func (aoluo *AdminOperationLogUpdateOne) ClearUsername() *AdminOperationLogUpdateOne {
-	aoluo.mutation.ClearUsername()
-	return aoluo
+func (_u *AdminOperationLogUpdateOne) ClearUsername() *AdminOperationLogUpdateOne {
+	_u.mutation.ClearUsername()
+	return _u
 }
 
 // SetClientIP sets the "client_ip" field.
-func (aoluo *AdminOperationLogUpdateOne) SetClientIP(s string) *AdminOperationLogUpdateOne {
-	aoluo.mutation.SetClientIP(s)
-	return aoluo
+func (_u *AdminOperationLogUpdateOne) SetClientIP(v string) *AdminOperationLogUpdateOne {
+	_u.mutation.SetClientIP(v)
+	return _u
 }
 
 // SetNillableClientIP sets the "client_ip" field if the given value is not nil.
-func (aoluo *AdminOperationLogUpdateOne) SetNillableClientIP(s *string) *AdminOperationLogUpdateOne {
-	if s != nil {
-		aoluo.SetClientIP(*s)
+func (_u *AdminOperationLogUpdateOne) SetNillableClientIP(v *string) *AdminOperationLogUpdateOne {
+	if v != nil {
+		_u.SetClientIP(*v)
 	}
-	return aoluo
+	return _u
 }
 
 // ClearClientIP clears the value of the "client_ip" field.
-func (aoluo *AdminOperationLogUpdateOne) ClearClientIP() *AdminOperationLogUpdateOne {
-	aoluo.mutation.ClearClientIP()
-	return aoluo
+func (_u *AdminOperationLogUpdateOne) ClearClientIP() *AdminOperationLogUpdateOne {
+	_u.mutation.ClearClientIP()
+	return _u
 }
 
 // SetStatusCode sets the "status_code" field.
-func (aoluo *AdminOperationLogUpdateOne) SetStatusCode(i int32) *AdminOperationLogUpdateOne {
-	aoluo.mutation.ResetStatusCode()
-	aoluo.mutation.SetStatusCode(i)
-	return aoluo
+func (_u *AdminOperationLogUpdateOne) SetStatusCode(v int32) *AdminOperationLogUpdateOne {
+	_u.mutation.ResetStatusCode()
+	_u.mutation.SetStatusCode(v)
+	return _u
 }
 
 // SetNillableStatusCode sets the "status_code" field if the given value is not nil.
-func (aoluo *AdminOperationLogUpdateOne) SetNillableStatusCode(i *int32) *AdminOperationLogUpdateOne {
-	if i != nil {
-		aoluo.SetStatusCode(*i)
+func (_u *AdminOperationLogUpdateOne) SetNillableStatusCode(v *int32) *AdminOperationLogUpdateOne {
+	if v != nil {
+		_u.SetStatusCode(*v)
 	}
-	return aoluo
+	return _u
 }
 
-// AddStatusCode adds i to the "status_code" field.
-func (aoluo *AdminOperationLogUpdateOne) AddStatusCode(i int32) *AdminOperationLogUpdateOne {
-	aoluo.mutation.AddStatusCode(i)
-	return aoluo
+// AddStatusCode adds value to the "status_code" field.
+func (_u *AdminOperationLogUpdateOne) AddStatusCode(v int32) *AdminOperationLogUpdateOne {
+	_u.mutation.AddStatusCode(v)
+	return _u
 }
 
 // ClearStatusCode clears the value of the "status_code" field.
-func (aoluo *AdminOperationLogUpdateOne) ClearStatusCode() *AdminOperationLogUpdateOne {
-	aoluo.mutation.ClearStatusCode()
-	return aoluo
+func (_u *AdminOperationLogUpdateOne) ClearStatusCode() *AdminOperationLogUpdateOne {
+	_u.mutation.ClearStatusCode()
+	return _u
 }
 
 // SetReason sets the "reason" field.
-func (aoluo *AdminOperationLogUpdateOne) SetReason(s string) *AdminOperationLogUpdateOne {
-	aoluo.mutation.SetReason(s)
-	return aoluo
+func (_u *AdminOperationLogUpdateOne) SetReason(v string) *AdminOperationLogUpdateOne {
+	_u.mutation.SetReason(v)
+	return _u
 }
 
 // SetNillableReason sets the "reason" field if the given value is not nil.
-func (aoluo *AdminOperationLogUpdateOne) SetNillableReason(s *string) *AdminOperationLogUpdateOne {
-	if s != nil {
-		aoluo.SetReason(*s)
+func (_u *AdminOperationLogUpdateOne) SetNillableReason(v *string) *AdminOperationLogUpdateOne {
+	if v != nil {
+		_u.SetReason(*v)
 	}
-	return aoluo
+	return _u
 }
 
 // ClearReason clears the value of the "reason" field.
-func (aoluo *AdminOperationLogUpdateOne) ClearReason() *AdminOperationLogUpdateOne {
-	aoluo.mutation.ClearReason()
-	return aoluo
+func (_u *AdminOperationLogUpdateOne) ClearReason() *AdminOperationLogUpdateOne {
+	_u.mutation.ClearReason()
+	return _u
 }
 
 // SetSuccess sets the "success" field.
-func (aoluo *AdminOperationLogUpdateOne) SetSuccess(b bool) *AdminOperationLogUpdateOne {
-	aoluo.mutation.SetSuccess(b)
-	return aoluo
+func (_u *AdminOperationLogUpdateOne) SetSuccess(v bool) *AdminOperationLogUpdateOne {
+	_u.mutation.SetSuccess(v)
+	return _u
 }
 
 // SetNillableSuccess sets the "success" field if the given value is not nil.
-func (aoluo *AdminOperationLogUpdateOne) SetNillableSuccess(b *bool) *AdminOperationLogUpdateOne {
-	if b != nil {
-		aoluo.SetSuccess(*b)
+func (_u *AdminOperationLogUpdateOne) SetNillableSuccess(v *bool) *AdminOperationLogUpdateOne {
+	if v != nil {
+		_u.SetSuccess(*v)
 	}
-	return aoluo
+	return _u
 }
 
 // ClearSuccess clears the value of the "success" field.
-func (aoluo *AdminOperationLogUpdateOne) ClearSuccess() *AdminOperationLogUpdateOne {
-	aoluo.mutation.ClearSuccess()
-	return aoluo
+func (_u *AdminOperationLogUpdateOne) ClearSuccess() *AdminOperationLogUpdateOne {
+	_u.mutation.ClearSuccess()
+	return _u
 }
 
 // SetLocation sets the "location" field.
-func (aoluo *AdminOperationLogUpdateOne) SetLocation(s string) *AdminOperationLogUpdateOne {
-	aoluo.mutation.SetLocation(s)
-	return aoluo
+func (_u *AdminOperationLogUpdateOne) SetLocation(v string) *AdminOperationLogUpdateOne {
+	_u.mutation.SetLocation(v)
+	return _u
 }
 
 // SetNillableLocation sets the "location" field if the given value is not nil.
-func (aoluo *AdminOperationLogUpdateOne) SetNillableLocation(s *string) *AdminOperationLogUpdateOne {
-	if s != nil {
-		aoluo.SetLocation(*s)
+func (_u *AdminOperationLogUpdateOne) SetNillableLocation(v *string) *AdminOperationLogUpdateOne {
+	if v != nil {
+		_u.SetLocation(*v)
 	}
-	return aoluo
+	return _u
 }
 
 // ClearLocation clears the value of the "location" field.
-func (aoluo *AdminOperationLogUpdateOne) ClearLocation() *AdminOperationLogUpdateOne {
-	aoluo.mutation.ClearLocation()
-	return aoluo
+func (_u *AdminOperationLogUpdateOne) ClearLocation() *AdminOperationLogUpdateOne {
+	_u.mutation.ClearLocation()
+	return _u
 }
 
 // SetUserAgent sets the "user_agent" field.
-func (aoluo *AdminOperationLogUpdateOne) SetUserAgent(s string) *AdminOperationLogUpdateOne {
-	aoluo.mutation.SetUserAgent(s)
-	return aoluo
+func (_u *AdminOperationLogUpdateOne) SetUserAgent(v string) *AdminOperationLogUpdateOne {
+	_u.mutation.SetUserAgent(v)
+	return _u
 }
 
 // SetNillableUserAgent sets the "user_agent" field if the given value is not nil.
-func (aoluo *AdminOperationLogUpdateOne) SetNillableUserAgent(s *string) *AdminOperationLogUpdateOne {
-	if s != nil {
-		aoluo.SetUserAgent(*s)
+func (_u *AdminOperationLogUpdateOne) SetNillableUserAgent(v *string) *AdminOperationLogUpdateOne {
+	if v != nil {
+		_u.SetUserAgent(*v)
 	}
-	return aoluo
+	return _u
 }
 
 // ClearUserAgent clears the value of the "user_agent" field.
-func (aoluo *AdminOperationLogUpdateOne) ClearUserAgent() *AdminOperationLogUpdateOne {
-	aoluo.mutation.ClearUserAgent()
-	return aoluo
+func (_u *AdminOperationLogUpdateOne) ClearUserAgent() *AdminOperationLogUpdateOne {
+	_u.mutation.ClearUserAgent()
+	return _u
 }
 
 // SetBrowserName sets the "browser_name" field.
-func (aoluo *AdminOperationLogUpdateOne) SetBrowserName(s string) *AdminOperationLogUpdateOne {
-	aoluo.mutation.SetBrowserName(s)
-	return aoluo
+func (_u *AdminOperationLogUpdateOne) SetBrowserName(v string) *AdminOperationLogUpdateOne {
+	_u.mutation.SetBrowserName(v)
+	return _u
 }
 
 // SetNillableBrowserName sets the "browser_name" field if the given value is not nil.
-func (aoluo *AdminOperationLogUpdateOne) SetNillableBrowserName(s *string) *AdminOperationLogUpdateOne {
-	if s != nil {
-		aoluo.SetBrowserName(*s)
+func (_u *AdminOperationLogUpdateOne) SetNillableBrowserName(v *string) *AdminOperationLogUpdateOne {
+	if v != nil {
+		_u.SetBrowserName(*v)
 	}
-	return aoluo
+	return _u
 }
 
 // ClearBrowserName clears the value of the "browser_name" field.
-func (aoluo *AdminOperationLogUpdateOne) ClearBrowserName() *AdminOperationLogUpdateOne {
-	aoluo.mutation.ClearBrowserName()
-	return aoluo
+func (_u *AdminOperationLogUpdateOne) ClearBrowserName() *AdminOperationLogUpdateOne {
+	_u.mutation.ClearBrowserName()
+	return _u
 }
 
 // SetBrowserVersion sets the "browser_version" field.
-func (aoluo *AdminOperationLogUpdateOne) SetBrowserVersion(s string) *AdminOperationLogUpdateOne {
-	aoluo.mutation.SetBrowserVersion(s)
-	return aoluo
+func (_u *AdminOperationLogUpdateOne) SetBrowserVersion(v string) *AdminOperationLogUpdateOne {
+	_u.mutation.SetBrowserVersion(v)
+	return _u
 }
 
 // SetNillableBrowserVersion sets the "browser_version" field if the given value is not nil.
-func (aoluo *AdminOperationLogUpdateOne) SetNillableBrowserVersion(s *string) *AdminOperationLogUpdateOne {
-	if s != nil {
-		aoluo.SetBrowserVersion(*s)
+func (_u *AdminOperationLogUpdateOne) SetNillableBrowserVersion(v *string) *AdminOperationLogUpdateOne {
+	if v != nil {
+		_u.SetBrowserVersion(*v)
 	}
-	return aoluo
+	return _u
 }
 
 // ClearBrowserVersion clears the value of the "browser_version" field.
-func (aoluo *AdminOperationLogUpdateOne) ClearBrowserVersion() *AdminOperationLogUpdateOne {
-	aoluo.mutation.ClearBrowserVersion()
-	return aoluo
+func (_u *AdminOperationLogUpdateOne) ClearBrowserVersion() *AdminOperationLogUpdateOne {
+	_u.mutation.ClearBrowserVersion()
+	return _u
 }
 
 // SetClientID sets the "client_id" field.
-func (aoluo *AdminOperationLogUpdateOne) SetClientID(s string) *AdminOperationLogUpdateOne {
-	aoluo.mutation.SetClientID(s)
-	return aoluo
+func (_u *AdminOperationLogUpdateOne) SetClientID(v string) *AdminOperationLogUpdateOne {
+	_u.mutation.SetClientID(v)
+	return _u
 }
 
 // SetNillableClientID sets the "client_id" field if the given value is not nil.
-func (aoluo *AdminOperationLogUpdateOne) SetNillableClientID(s *string) *AdminOperationLogUpdateOne {
-	if s != nil {
-		aoluo.SetClientID(*s)
+func (_u *AdminOperationLogUpdateOne) SetNillableClientID(v *string) *AdminOperationLogUpdateOne {
+	if v != nil {
+		_u.SetClientID(*v)
 	}
-	return aoluo
+	return _u
 }
 
 // ClearClientID clears the value of the "client_id" field.
-func (aoluo *AdminOperationLogUpdateOne) ClearClientID() *AdminOperationLogUpdateOne {
-	aoluo.mutation.ClearClientID()
-	return aoluo
+func (_u *AdminOperationLogUpdateOne) ClearClientID() *AdminOperationLogUpdateOne {
+	_u.mutation.ClearClientID()
+	return _u
 }
 
 // SetClientName sets the "client_name" field.
-func (aoluo *AdminOperationLogUpdateOne) SetClientName(s string) *AdminOperationLogUpdateOne {
-	aoluo.mutation.SetClientName(s)
-	return aoluo
+func (_u *AdminOperationLogUpdateOne) SetClientName(v string) *AdminOperationLogUpdateOne {
+	_u.mutation.SetClientName(v)
+	return _u
 }
 
 // SetNillableClientName sets the "client_name" field if the given value is not nil.
-func (aoluo *AdminOperationLogUpdateOne) SetNillableClientName(s *string) *AdminOperationLogUpdateOne {
-	if s != nil {
-		aoluo.SetClientName(*s)
+func (_u *AdminOperationLogUpdateOne) SetNillableClientName(v *string) *AdminOperationLogUpdateOne {
+	if v != nil {
+		_u.SetClientName(*v)
 	}
-	return aoluo
+	return _u
 }
 
 // ClearClientName clears the value of the "client_name" field.
-func (aoluo *AdminOperationLogUpdateOne) ClearClientName() *AdminOperationLogUpdateOne {
-	aoluo.mutation.ClearClientName()
-	return aoluo
+func (_u *AdminOperationLogUpdateOne) ClearClientName() *AdminOperationLogUpdateOne {
+	_u.mutation.ClearClientName()
+	return _u
 }
 
 // SetOsName sets the "os_name" field.
-func (aoluo *AdminOperationLogUpdateOne) SetOsName(s string) *AdminOperationLogUpdateOne {
-	aoluo.mutation.SetOsName(s)
-	return aoluo
+func (_u *AdminOperationLogUpdateOne) SetOsName(v string) *AdminOperationLogUpdateOne {
+	_u.mutation.SetOsName(v)
+	return _u
 }
 
 // SetNillableOsName sets the "os_name" field if the given value is not nil.
-func (aoluo *AdminOperationLogUpdateOne) SetNillableOsName(s *string) *AdminOperationLogUpdateOne {
-	if s != nil {
-		aoluo.SetOsName(*s)
+func (_u *AdminOperationLogUpdateOne) SetNillableOsName(v *string) *AdminOperationLogUpdateOne {
+	if v != nil {
+		_u.SetOsName(*v)
 	}
-	return aoluo
+	return _u
 }
 
 // ClearOsName clears the value of the "os_name" field.
-func (aoluo *AdminOperationLogUpdateOne) ClearOsName() *AdminOperationLogUpdateOne {
-	aoluo.mutation.ClearOsName()
-	return aoluo
+func (_u *AdminOperationLogUpdateOne) ClearOsName() *AdminOperationLogUpdateOne {
+	_u.mutation.ClearOsName()
+	return _u
 }
 
 // SetOsVersion sets the "os_version" field.
-func (aoluo *AdminOperationLogUpdateOne) SetOsVersion(s string) *AdminOperationLogUpdateOne {
-	aoluo.mutation.SetOsVersion(s)
-	return aoluo
+func (_u *AdminOperationLogUpdateOne) SetOsVersion(v string) *AdminOperationLogUpdateOne {
+	_u.mutation.SetOsVersion(v)
+	return _u
 }
 
 // SetNillableOsVersion sets the "os_version" field if the given value is not nil.
-func (aoluo *AdminOperationLogUpdateOne) SetNillableOsVersion(s *string) *AdminOperationLogUpdateOne {
-	if s != nil {
-		aoluo.SetOsVersion(*s)
+func (_u *AdminOperationLogUpdateOne) SetNillableOsVersion(v *string) *AdminOperationLogUpdateOne {
+	if v != nil {
+		_u.SetOsVersion(*v)
 	}
-	return aoluo
+	return _u
 }
 
 // ClearOsVersion clears the value of the "os_version" field.
-func (aoluo *AdminOperationLogUpdateOne) ClearOsVersion() *AdminOperationLogUpdateOne {
-	aoluo.mutation.ClearOsVersion()
-	return aoluo
+func (_u *AdminOperationLogUpdateOne) ClearOsVersion() *AdminOperationLogUpdateOne {
+	_u.mutation.ClearOsVersion()
+	return _u
 }
 
 // Mutation returns the AdminOperationLogMutation object of the builder.
-func (aoluo *AdminOperationLogUpdateOne) Mutation() *AdminOperationLogMutation {
-	return aoluo.mutation
+func (_u *AdminOperationLogUpdateOne) Mutation() *AdminOperationLogMutation {
+	return _u.mutation
 }
 
 // Where appends a list predicates to the AdminOperationLogUpdate builder.
-func (aoluo *AdminOperationLogUpdateOne) Where(ps ...predicate.AdminOperationLog) *AdminOperationLogUpdateOne {
-	aoluo.mutation.Where(ps...)
-	return aoluo
+func (_u *AdminOperationLogUpdateOne) Where(ps ...predicate.AdminOperationLog) *AdminOperationLogUpdateOne {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // Select allows selecting one or more fields (columns) of the returned entity.
 // The default is selecting all fields defined in the entity schema.
-func (aoluo *AdminOperationLogUpdateOne) Select(field string, fields ...string) *AdminOperationLogUpdateOne {
-	aoluo.fields = append([]string{field}, fields...)
-	return aoluo
+func (_u *AdminOperationLogUpdateOne) Select(field string, fields ...string) *AdminOperationLogUpdateOne {
+	_u.fields = append([]string{field}, fields...)
+	return _u
 }
 
 // Save executes the query and returns the updated AdminOperationLog entity.
-func (aoluo *AdminOperationLogUpdateOne) Save(ctx context.Context) (*AdminOperationLog, error) {
-	return withHooks(ctx, aoluo.sqlSave, aoluo.mutation, aoluo.hooks)
+func (_u *AdminOperationLogUpdateOne) Save(ctx context.Context) (*AdminOperationLog, error) {
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (aoluo *AdminOperationLogUpdateOne) SaveX(ctx context.Context) *AdminOperationLog {
-	node, err := aoluo.Save(ctx)
+func (_u *AdminOperationLogUpdateOne) SaveX(ctx context.Context) *AdminOperationLog {
+	node, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -1288,32 +1288,32 @@ func (aoluo *AdminOperationLogUpdateOne) SaveX(ctx context.Context) *AdminOperat
 }
 
 // Exec executes the query on the entity.
-func (aoluo *AdminOperationLogUpdateOne) Exec(ctx context.Context) error {
-	_, err := aoluo.Save(ctx)
+func (_u *AdminOperationLogUpdateOne) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (aoluo *AdminOperationLogUpdateOne) ExecX(ctx context.Context) {
-	if err := aoluo.Exec(ctx); err != nil {
+func (_u *AdminOperationLogUpdateOne) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // Modify adds a statement modifier for attaching custom logic to the UPDATE statement.
-func (aoluo *AdminOperationLogUpdateOne) Modify(modifiers ...func(u *sql.UpdateBuilder)) *AdminOperationLogUpdateOne {
-	aoluo.modifiers = append(aoluo.modifiers, modifiers...)
-	return aoluo
+func (_u *AdminOperationLogUpdateOne) Modify(modifiers ...func(u *sql.UpdateBuilder)) *AdminOperationLogUpdateOne {
+	_u.modifiers = append(_u.modifiers, modifiers...)
+	return _u
 }
 
-func (aoluo *AdminOperationLogUpdateOne) sqlSave(ctx context.Context) (_node *AdminOperationLog, err error) {
+func (_u *AdminOperationLogUpdateOne) sqlSave(ctx context.Context) (_node *AdminOperationLog, err error) {
 	_spec := sqlgraph.NewUpdateSpec(adminoperationlog.Table, adminoperationlog.Columns, sqlgraph.NewFieldSpec(adminoperationlog.FieldID, field.TypeUint32))
-	id, ok := aoluo.mutation.ID()
+	id, ok := _u.mutation.ID()
 	if !ok {
 		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "AdminOperationLog.id" for update`)}
 	}
 	_spec.Node.ID.Value = id
-	if fields := aoluo.fields; len(fields) > 0 {
+	if fields := _u.fields; len(fields) > 0 {
 		_spec.Node.Columns = make([]string, 0, len(fields))
 		_spec.Node.Columns = append(_spec.Node.Columns, adminoperationlog.FieldID)
 		for _, f := range fields {
@@ -1325,174 +1325,174 @@ func (aoluo *AdminOperationLogUpdateOne) sqlSave(ctx context.Context) (_node *Ad
 			}
 		}
 	}
-	if ps := aoluo.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if aoluo.mutation.CreateTimeCleared() {
+	if _u.mutation.CreateTimeCleared() {
 		_spec.ClearField(adminoperationlog.FieldCreateTime, field.TypeTime)
 	}
-	if value, ok := aoluo.mutation.RequestID(); ok {
+	if value, ok := _u.mutation.RequestID(); ok {
 		_spec.SetField(adminoperationlog.FieldRequestID, field.TypeString, value)
 	}
-	if aoluo.mutation.RequestIDCleared() {
+	if _u.mutation.RequestIDCleared() {
 		_spec.ClearField(adminoperationlog.FieldRequestID, field.TypeString)
 	}
-	if value, ok := aoluo.mutation.Method(); ok {
+	if value, ok := _u.mutation.Method(); ok {
 		_spec.SetField(adminoperationlog.FieldMethod, field.TypeString, value)
 	}
-	if aoluo.mutation.MethodCleared() {
+	if _u.mutation.MethodCleared() {
 		_spec.ClearField(adminoperationlog.FieldMethod, field.TypeString)
 	}
-	if value, ok := aoluo.mutation.Operation(); ok {
+	if value, ok := _u.mutation.Operation(); ok {
 		_spec.SetField(adminoperationlog.FieldOperation, field.TypeString, value)
 	}
-	if aoluo.mutation.OperationCleared() {
+	if _u.mutation.OperationCleared() {
 		_spec.ClearField(adminoperationlog.FieldOperation, field.TypeString)
 	}
-	if value, ok := aoluo.mutation.Path(); ok {
+	if value, ok := _u.mutation.Path(); ok {
 		_spec.SetField(adminoperationlog.FieldPath, field.TypeString, value)
 	}
-	if aoluo.mutation.PathCleared() {
+	if _u.mutation.PathCleared() {
 		_spec.ClearField(adminoperationlog.FieldPath, field.TypeString)
 	}
-	if value, ok := aoluo.mutation.Referer(); ok {
+	if value, ok := _u.mutation.Referer(); ok {
 		_spec.SetField(adminoperationlog.FieldReferer, field.TypeString, value)
 	}
-	if aoluo.mutation.RefererCleared() {
+	if _u.mutation.RefererCleared() {
 		_spec.ClearField(adminoperationlog.FieldReferer, field.TypeString)
 	}
-	if value, ok := aoluo.mutation.RequestURI(); ok {
+	if value, ok := _u.mutation.RequestURI(); ok {
 		_spec.SetField(adminoperationlog.FieldRequestURI, field.TypeString, value)
 	}
-	if aoluo.mutation.RequestURICleared() {
+	if _u.mutation.RequestURICleared() {
 		_spec.ClearField(adminoperationlog.FieldRequestURI, field.TypeString)
 	}
-	if value, ok := aoluo.mutation.RequestBody(); ok {
+	if value, ok := _u.mutation.RequestBody(); ok {
 		_spec.SetField(adminoperationlog.FieldRequestBody, field.TypeString, value)
 	}
-	if aoluo.mutation.RequestBodyCleared() {
+	if _u.mutation.RequestBodyCleared() {
 		_spec.ClearField(adminoperationlog.FieldRequestBody, field.TypeString)
 	}
-	if value, ok := aoluo.mutation.RequestHeader(); ok {
+	if value, ok := _u.mutation.RequestHeader(); ok {
 		_spec.SetField(adminoperationlog.FieldRequestHeader, field.TypeString, value)
 	}
-	if aoluo.mutation.RequestHeaderCleared() {
+	if _u.mutation.RequestHeaderCleared() {
 		_spec.ClearField(adminoperationlog.FieldRequestHeader, field.TypeString)
 	}
-	if value, ok := aoluo.mutation.Response(); ok {
+	if value, ok := _u.mutation.Response(); ok {
 		_spec.SetField(adminoperationlog.FieldResponse, field.TypeString, value)
 	}
-	if aoluo.mutation.ResponseCleared() {
+	if _u.mutation.ResponseCleared() {
 		_spec.ClearField(adminoperationlog.FieldResponse, field.TypeString)
 	}
-	if value, ok := aoluo.mutation.CostTime(); ok {
+	if value, ok := _u.mutation.CostTime(); ok {
 		_spec.SetField(adminoperationlog.FieldCostTime, field.TypeFloat64, value)
 	}
-	if value, ok := aoluo.mutation.AddedCostTime(); ok {
+	if value, ok := _u.mutation.AddedCostTime(); ok {
 		_spec.AddField(adminoperationlog.FieldCostTime, field.TypeFloat64, value)
 	}
-	if aoluo.mutation.CostTimeCleared() {
+	if _u.mutation.CostTimeCleared() {
 		_spec.ClearField(adminoperationlog.FieldCostTime, field.TypeFloat64)
 	}
-	if value, ok := aoluo.mutation.UserID(); ok {
+	if value, ok := _u.mutation.UserID(); ok {
 		_spec.SetField(adminoperationlog.FieldUserID, field.TypeUint32, value)
 	}
-	if value, ok := aoluo.mutation.AddedUserID(); ok {
+	if value, ok := _u.mutation.AddedUserID(); ok {
 		_spec.AddField(adminoperationlog.FieldUserID, field.TypeUint32, value)
 	}
-	if aoluo.mutation.UserIDCleared() {
+	if _u.mutation.UserIDCleared() {
 		_spec.ClearField(adminoperationlog.FieldUserID, field.TypeUint32)
 	}
-	if value, ok := aoluo.mutation.Username(); ok {
+	if value, ok := _u.mutation.Username(); ok {
 		_spec.SetField(adminoperationlog.FieldUsername, field.TypeString, value)
 	}
-	if aoluo.mutation.UsernameCleared() {
+	if _u.mutation.UsernameCleared() {
 		_spec.ClearField(adminoperationlog.FieldUsername, field.TypeString)
 	}
-	if value, ok := aoluo.mutation.ClientIP(); ok {
+	if value, ok := _u.mutation.ClientIP(); ok {
 		_spec.SetField(adminoperationlog.FieldClientIP, field.TypeString, value)
 	}
-	if aoluo.mutation.ClientIPCleared() {
+	if _u.mutation.ClientIPCleared() {
 		_spec.ClearField(adminoperationlog.FieldClientIP, field.TypeString)
 	}
-	if value, ok := aoluo.mutation.StatusCode(); ok {
+	if value, ok := _u.mutation.StatusCode(); ok {
 		_spec.SetField(adminoperationlog.FieldStatusCode, field.TypeInt32, value)
 	}
-	if value, ok := aoluo.mutation.AddedStatusCode(); ok {
+	if value, ok := _u.mutation.AddedStatusCode(); ok {
 		_spec.AddField(adminoperationlog.FieldStatusCode, field.TypeInt32, value)
 	}
-	if aoluo.mutation.StatusCodeCleared() {
+	if _u.mutation.StatusCodeCleared() {
 		_spec.ClearField(adminoperationlog.FieldStatusCode, field.TypeInt32)
 	}
-	if value, ok := aoluo.mutation.Reason(); ok {
+	if value, ok := _u.mutation.Reason(); ok {
 		_spec.SetField(adminoperationlog.FieldReason, field.TypeString, value)
 	}
-	if aoluo.mutation.ReasonCleared() {
+	if _u.mutation.ReasonCleared() {
 		_spec.ClearField(adminoperationlog.FieldReason, field.TypeString)
 	}
-	if value, ok := aoluo.mutation.Success(); ok {
+	if value, ok := _u.mutation.Success(); ok {
 		_spec.SetField(adminoperationlog.FieldSuccess, field.TypeBool, value)
 	}
-	if aoluo.mutation.SuccessCleared() {
+	if _u.mutation.SuccessCleared() {
 		_spec.ClearField(adminoperationlog.FieldSuccess, field.TypeBool)
 	}
-	if value, ok := aoluo.mutation.Location(); ok {
+	if value, ok := _u.mutation.Location(); ok {
 		_spec.SetField(adminoperationlog.FieldLocation, field.TypeString, value)
 	}
-	if aoluo.mutation.LocationCleared() {
+	if _u.mutation.LocationCleared() {
 		_spec.ClearField(adminoperationlog.FieldLocation, field.TypeString)
 	}
-	if value, ok := aoluo.mutation.UserAgent(); ok {
+	if value, ok := _u.mutation.UserAgent(); ok {
 		_spec.SetField(adminoperationlog.FieldUserAgent, field.TypeString, value)
 	}
-	if aoluo.mutation.UserAgentCleared() {
+	if _u.mutation.UserAgentCleared() {
 		_spec.ClearField(adminoperationlog.FieldUserAgent, field.TypeString)
 	}
-	if value, ok := aoluo.mutation.BrowserName(); ok {
+	if value, ok := _u.mutation.BrowserName(); ok {
 		_spec.SetField(adminoperationlog.FieldBrowserName, field.TypeString, value)
 	}
-	if aoluo.mutation.BrowserNameCleared() {
+	if _u.mutation.BrowserNameCleared() {
 		_spec.ClearField(adminoperationlog.FieldBrowserName, field.TypeString)
 	}
-	if value, ok := aoluo.mutation.BrowserVersion(); ok {
+	if value, ok := _u.mutation.BrowserVersion(); ok {
 		_spec.SetField(adminoperationlog.FieldBrowserVersion, field.TypeString, value)
 	}
-	if aoluo.mutation.BrowserVersionCleared() {
+	if _u.mutation.BrowserVersionCleared() {
 		_spec.ClearField(adminoperationlog.FieldBrowserVersion, field.TypeString)
 	}
-	if value, ok := aoluo.mutation.ClientID(); ok {
+	if value, ok := _u.mutation.ClientID(); ok {
 		_spec.SetField(adminoperationlog.FieldClientID, field.TypeString, value)
 	}
-	if aoluo.mutation.ClientIDCleared() {
+	if _u.mutation.ClientIDCleared() {
 		_spec.ClearField(adminoperationlog.FieldClientID, field.TypeString)
 	}
-	if value, ok := aoluo.mutation.ClientName(); ok {
+	if value, ok := _u.mutation.ClientName(); ok {
 		_spec.SetField(adminoperationlog.FieldClientName, field.TypeString, value)
 	}
-	if aoluo.mutation.ClientNameCleared() {
+	if _u.mutation.ClientNameCleared() {
 		_spec.ClearField(adminoperationlog.FieldClientName, field.TypeString)
 	}
-	if value, ok := aoluo.mutation.OsName(); ok {
+	if value, ok := _u.mutation.OsName(); ok {
 		_spec.SetField(adminoperationlog.FieldOsName, field.TypeString, value)
 	}
-	if aoluo.mutation.OsNameCleared() {
+	if _u.mutation.OsNameCleared() {
 		_spec.ClearField(adminoperationlog.FieldOsName, field.TypeString)
 	}
-	if value, ok := aoluo.mutation.OsVersion(); ok {
+	if value, ok := _u.mutation.OsVersion(); ok {
 		_spec.SetField(adminoperationlog.FieldOsVersion, field.TypeString, value)
 	}
-	if aoluo.mutation.OsVersionCleared() {
+	if _u.mutation.OsVersionCleared() {
 		_spec.ClearField(adminoperationlog.FieldOsVersion, field.TypeString)
 	}
-	_spec.AddModifiers(aoluo.modifiers...)
-	_node = &AdminOperationLog{config: aoluo.config}
+	_spec.AddModifiers(_u.modifiers...)
+	_node = &AdminOperationLog{config: _u.config}
 	_spec.Assign = _node.assignValues
 	_spec.ScanValues = _node.scanValues
-	if err = sqlgraph.UpdateNode(ctx, aoluo.driver, _spec); err != nil {
+	if err = sqlgraph.UpdateNode(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{adminoperationlog.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -1500,6 +1500,6 @@ func (aoluo *AdminOperationLogUpdateOne) sqlSave(ctx context.Context) (_node *Ad
 		}
 		return nil, err
 	}
-	aoluo.mutation.done = true
+	_u.mutation.done = true
 	return _node, nil
 }

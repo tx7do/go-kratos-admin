@@ -23,164 +23,164 @@ type NotificationMessageCreate struct {
 }
 
 // SetCreateTime sets the "create_time" field.
-func (nmc *NotificationMessageCreate) SetCreateTime(t time.Time) *NotificationMessageCreate {
-	nmc.mutation.SetCreateTime(t)
-	return nmc
+func (_c *NotificationMessageCreate) SetCreateTime(v time.Time) *NotificationMessageCreate {
+	_c.mutation.SetCreateTime(v)
+	return _c
 }
 
 // SetNillableCreateTime sets the "create_time" field if the given value is not nil.
-func (nmc *NotificationMessageCreate) SetNillableCreateTime(t *time.Time) *NotificationMessageCreate {
-	if t != nil {
-		nmc.SetCreateTime(*t)
+func (_c *NotificationMessageCreate) SetNillableCreateTime(v *time.Time) *NotificationMessageCreate {
+	if v != nil {
+		_c.SetCreateTime(*v)
 	}
-	return nmc
+	return _c
 }
 
 // SetUpdateTime sets the "update_time" field.
-func (nmc *NotificationMessageCreate) SetUpdateTime(t time.Time) *NotificationMessageCreate {
-	nmc.mutation.SetUpdateTime(t)
-	return nmc
+func (_c *NotificationMessageCreate) SetUpdateTime(v time.Time) *NotificationMessageCreate {
+	_c.mutation.SetUpdateTime(v)
+	return _c
 }
 
 // SetNillableUpdateTime sets the "update_time" field if the given value is not nil.
-func (nmc *NotificationMessageCreate) SetNillableUpdateTime(t *time.Time) *NotificationMessageCreate {
-	if t != nil {
-		nmc.SetUpdateTime(*t)
+func (_c *NotificationMessageCreate) SetNillableUpdateTime(v *time.Time) *NotificationMessageCreate {
+	if v != nil {
+		_c.SetUpdateTime(*v)
 	}
-	return nmc
+	return _c
 }
 
 // SetDeleteTime sets the "delete_time" field.
-func (nmc *NotificationMessageCreate) SetDeleteTime(t time.Time) *NotificationMessageCreate {
-	nmc.mutation.SetDeleteTime(t)
-	return nmc
+func (_c *NotificationMessageCreate) SetDeleteTime(v time.Time) *NotificationMessageCreate {
+	_c.mutation.SetDeleteTime(v)
+	return _c
 }
 
 // SetNillableDeleteTime sets the "delete_time" field if the given value is not nil.
-func (nmc *NotificationMessageCreate) SetNillableDeleteTime(t *time.Time) *NotificationMessageCreate {
-	if t != nil {
-		nmc.SetDeleteTime(*t)
+func (_c *NotificationMessageCreate) SetNillableDeleteTime(v *time.Time) *NotificationMessageCreate {
+	if v != nil {
+		_c.SetDeleteTime(*v)
 	}
-	return nmc
+	return _c
 }
 
 // SetCreateBy sets the "create_by" field.
-func (nmc *NotificationMessageCreate) SetCreateBy(u uint32) *NotificationMessageCreate {
-	nmc.mutation.SetCreateBy(u)
-	return nmc
+func (_c *NotificationMessageCreate) SetCreateBy(v uint32) *NotificationMessageCreate {
+	_c.mutation.SetCreateBy(v)
+	return _c
 }
 
 // SetNillableCreateBy sets the "create_by" field if the given value is not nil.
-func (nmc *NotificationMessageCreate) SetNillableCreateBy(u *uint32) *NotificationMessageCreate {
-	if u != nil {
-		nmc.SetCreateBy(*u)
+func (_c *NotificationMessageCreate) SetNillableCreateBy(v *uint32) *NotificationMessageCreate {
+	if v != nil {
+		_c.SetCreateBy(*v)
 	}
-	return nmc
+	return _c
 }
 
 // SetUpdateBy sets the "update_by" field.
-func (nmc *NotificationMessageCreate) SetUpdateBy(u uint32) *NotificationMessageCreate {
-	nmc.mutation.SetUpdateBy(u)
-	return nmc
+func (_c *NotificationMessageCreate) SetUpdateBy(v uint32) *NotificationMessageCreate {
+	_c.mutation.SetUpdateBy(v)
+	return _c
 }
 
 // SetNillableUpdateBy sets the "update_by" field if the given value is not nil.
-func (nmc *NotificationMessageCreate) SetNillableUpdateBy(u *uint32) *NotificationMessageCreate {
-	if u != nil {
-		nmc.SetUpdateBy(*u)
+func (_c *NotificationMessageCreate) SetNillableUpdateBy(v *uint32) *NotificationMessageCreate {
+	if v != nil {
+		_c.SetUpdateBy(*v)
 	}
-	return nmc
+	return _c
 }
 
 // SetTenantID sets the "tenant_id" field.
-func (nmc *NotificationMessageCreate) SetTenantID(u uint32) *NotificationMessageCreate {
-	nmc.mutation.SetTenantID(u)
-	return nmc
+func (_c *NotificationMessageCreate) SetTenantID(v uint32) *NotificationMessageCreate {
+	_c.mutation.SetTenantID(v)
+	return _c
 }
 
 // SetNillableTenantID sets the "tenant_id" field if the given value is not nil.
-func (nmc *NotificationMessageCreate) SetNillableTenantID(u *uint32) *NotificationMessageCreate {
-	if u != nil {
-		nmc.SetTenantID(*u)
+func (_c *NotificationMessageCreate) SetNillableTenantID(v *uint32) *NotificationMessageCreate {
+	if v != nil {
+		_c.SetTenantID(*v)
 	}
-	return nmc
+	return _c
 }
 
 // SetSubject sets the "subject" field.
-func (nmc *NotificationMessageCreate) SetSubject(s string) *NotificationMessageCreate {
-	nmc.mutation.SetSubject(s)
-	return nmc
+func (_c *NotificationMessageCreate) SetSubject(v string) *NotificationMessageCreate {
+	_c.mutation.SetSubject(v)
+	return _c
 }
 
 // SetNillableSubject sets the "subject" field if the given value is not nil.
-func (nmc *NotificationMessageCreate) SetNillableSubject(s *string) *NotificationMessageCreate {
-	if s != nil {
-		nmc.SetSubject(*s)
+func (_c *NotificationMessageCreate) SetNillableSubject(v *string) *NotificationMessageCreate {
+	if v != nil {
+		_c.SetSubject(*v)
 	}
-	return nmc
+	return _c
 }
 
 // SetContent sets the "content" field.
-func (nmc *NotificationMessageCreate) SetContent(s string) *NotificationMessageCreate {
-	nmc.mutation.SetContent(s)
-	return nmc
+func (_c *NotificationMessageCreate) SetContent(v string) *NotificationMessageCreate {
+	_c.mutation.SetContent(v)
+	return _c
 }
 
 // SetNillableContent sets the "content" field if the given value is not nil.
-func (nmc *NotificationMessageCreate) SetNillableContent(s *string) *NotificationMessageCreate {
-	if s != nil {
-		nmc.SetContent(*s)
+func (_c *NotificationMessageCreate) SetNillableContent(v *string) *NotificationMessageCreate {
+	if v != nil {
+		_c.SetContent(*v)
 	}
-	return nmc
+	return _c
 }
 
 // SetCategoryID sets the "category_id" field.
-func (nmc *NotificationMessageCreate) SetCategoryID(u uint32) *NotificationMessageCreate {
-	nmc.mutation.SetCategoryID(u)
-	return nmc
+func (_c *NotificationMessageCreate) SetCategoryID(v uint32) *NotificationMessageCreate {
+	_c.mutation.SetCategoryID(v)
+	return _c
 }
 
 // SetNillableCategoryID sets the "category_id" field if the given value is not nil.
-func (nmc *NotificationMessageCreate) SetNillableCategoryID(u *uint32) *NotificationMessageCreate {
-	if u != nil {
-		nmc.SetCategoryID(*u)
+func (_c *NotificationMessageCreate) SetNillableCategoryID(v *uint32) *NotificationMessageCreate {
+	if v != nil {
+		_c.SetCategoryID(*v)
 	}
-	return nmc
+	return _c
 }
 
 // SetStatus sets the "status" field.
-func (nmc *NotificationMessageCreate) SetStatus(n notificationmessage.Status) *NotificationMessageCreate {
-	nmc.mutation.SetStatus(n)
-	return nmc
+func (_c *NotificationMessageCreate) SetStatus(v notificationmessage.Status) *NotificationMessageCreate {
+	_c.mutation.SetStatus(v)
+	return _c
 }
 
 // SetNillableStatus sets the "status" field if the given value is not nil.
-func (nmc *NotificationMessageCreate) SetNillableStatus(n *notificationmessage.Status) *NotificationMessageCreate {
-	if n != nil {
-		nmc.SetStatus(*n)
+func (_c *NotificationMessageCreate) SetNillableStatus(v *notificationmessage.Status) *NotificationMessageCreate {
+	if v != nil {
+		_c.SetStatus(*v)
 	}
-	return nmc
+	return _c
 }
 
 // SetID sets the "id" field.
-func (nmc *NotificationMessageCreate) SetID(u uint32) *NotificationMessageCreate {
-	nmc.mutation.SetID(u)
-	return nmc
+func (_c *NotificationMessageCreate) SetID(v uint32) *NotificationMessageCreate {
+	_c.mutation.SetID(v)
+	return _c
 }
 
 // Mutation returns the NotificationMessageMutation object of the builder.
-func (nmc *NotificationMessageCreate) Mutation() *NotificationMessageMutation {
-	return nmc.mutation
+func (_c *NotificationMessageCreate) Mutation() *NotificationMessageMutation {
+	return _c.mutation
 }
 
 // Save creates the NotificationMessage in the database.
-func (nmc *NotificationMessageCreate) Save(ctx context.Context) (*NotificationMessage, error) {
-	return withHooks(ctx, nmc.sqlSave, nmc.mutation, nmc.hooks)
+func (_c *NotificationMessageCreate) Save(ctx context.Context) (*NotificationMessage, error) {
+	return withHooks(ctx, _c.sqlSave, _c.mutation, _c.hooks)
 }
 
 // SaveX calls Save and panics if Save returns an error.
-func (nmc *NotificationMessageCreate) SaveX(ctx context.Context) *NotificationMessage {
-	v, err := nmc.Save(ctx)
+func (_c *NotificationMessageCreate) SaveX(ctx context.Context) *NotificationMessage {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -188,31 +188,31 @@ func (nmc *NotificationMessageCreate) SaveX(ctx context.Context) *NotificationMe
 }
 
 // Exec executes the query.
-func (nmc *NotificationMessageCreate) Exec(ctx context.Context) error {
-	_, err := nmc.Save(ctx)
+func (_c *NotificationMessageCreate) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (nmc *NotificationMessageCreate) ExecX(ctx context.Context) {
-	if err := nmc.Exec(ctx); err != nil {
+func (_c *NotificationMessageCreate) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
-func (nmc *NotificationMessageCreate) check() error {
-	if v, ok := nmc.mutation.TenantID(); ok {
+func (_c *NotificationMessageCreate) check() error {
+	if v, ok := _c.mutation.TenantID(); ok {
 		if err := notificationmessage.TenantIDValidator(v); err != nil {
 			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "NotificationMessage.tenant_id": %w`, err)}
 		}
 	}
-	if v, ok := nmc.mutation.Status(); ok {
+	if v, ok := _c.mutation.Status(); ok {
 		if err := notificationmessage.StatusValidator(v); err != nil {
 			return &ValidationError{Name: "status", err: fmt.Errorf(`ent: validator failed for field "NotificationMessage.status": %w`, err)}
 		}
 	}
-	if v, ok := nmc.mutation.ID(); ok {
+	if v, ok := _c.mutation.ID(); ok {
 		if err := notificationmessage.IDValidator(v); err != nil {
 			return &ValidationError{Name: "id", err: fmt.Errorf(`ent: validator failed for field "NotificationMessage.id": %w`, err)}
 		}
@@ -220,12 +220,12 @@ func (nmc *NotificationMessageCreate) check() error {
 	return nil
 }
 
-func (nmc *NotificationMessageCreate) sqlSave(ctx context.Context) (*NotificationMessage, error) {
-	if err := nmc.check(); err != nil {
+func (_c *NotificationMessageCreate) sqlSave(ctx context.Context) (*NotificationMessage, error) {
+	if err := _c.check(); err != nil {
 		return nil, err
 	}
-	_node, _spec := nmc.createSpec()
-	if err := sqlgraph.CreateNode(ctx, nmc.driver, _spec); err != nil {
+	_node, _spec := _c.createSpec()
+	if err := sqlgraph.CreateNode(ctx, _c.driver, _spec); err != nil {
 		if sqlgraph.IsConstraintError(err) {
 			err = &ConstraintError{msg: err.Error(), wrap: err}
 		}
@@ -235,58 +235,58 @@ func (nmc *NotificationMessageCreate) sqlSave(ctx context.Context) (*Notificatio
 		id := _spec.ID.Value.(int64)
 		_node.ID = uint32(id)
 	}
-	nmc.mutation.id = &_node.ID
-	nmc.mutation.done = true
+	_c.mutation.id = &_node.ID
+	_c.mutation.done = true
 	return _node, nil
 }
 
-func (nmc *NotificationMessageCreate) createSpec() (*NotificationMessage, *sqlgraph.CreateSpec) {
+func (_c *NotificationMessageCreate) createSpec() (*NotificationMessage, *sqlgraph.CreateSpec) {
 	var (
-		_node = &NotificationMessage{config: nmc.config}
+		_node = &NotificationMessage{config: _c.config}
 		_spec = sqlgraph.NewCreateSpec(notificationmessage.Table, sqlgraph.NewFieldSpec(notificationmessage.FieldID, field.TypeUint32))
 	)
-	_spec.OnConflict = nmc.conflict
-	if id, ok := nmc.mutation.ID(); ok {
+	_spec.OnConflict = _c.conflict
+	if id, ok := _c.mutation.ID(); ok {
 		_node.ID = id
 		_spec.ID.Value = id
 	}
-	if value, ok := nmc.mutation.CreateTime(); ok {
+	if value, ok := _c.mutation.CreateTime(); ok {
 		_spec.SetField(notificationmessage.FieldCreateTime, field.TypeTime, value)
 		_node.CreateTime = &value
 	}
-	if value, ok := nmc.mutation.UpdateTime(); ok {
+	if value, ok := _c.mutation.UpdateTime(); ok {
 		_spec.SetField(notificationmessage.FieldUpdateTime, field.TypeTime, value)
 		_node.UpdateTime = &value
 	}
-	if value, ok := nmc.mutation.DeleteTime(); ok {
+	if value, ok := _c.mutation.DeleteTime(); ok {
 		_spec.SetField(notificationmessage.FieldDeleteTime, field.TypeTime, value)
 		_node.DeleteTime = &value
 	}
-	if value, ok := nmc.mutation.CreateBy(); ok {
+	if value, ok := _c.mutation.CreateBy(); ok {
 		_spec.SetField(notificationmessage.FieldCreateBy, field.TypeUint32, value)
 		_node.CreateBy = &value
 	}
-	if value, ok := nmc.mutation.UpdateBy(); ok {
+	if value, ok := _c.mutation.UpdateBy(); ok {
 		_spec.SetField(notificationmessage.FieldUpdateBy, field.TypeUint32, value)
 		_node.UpdateBy = &value
 	}
-	if value, ok := nmc.mutation.TenantID(); ok {
+	if value, ok := _c.mutation.TenantID(); ok {
 		_spec.SetField(notificationmessage.FieldTenantID, field.TypeUint32, value)
 		_node.TenantID = &value
 	}
-	if value, ok := nmc.mutation.Subject(); ok {
+	if value, ok := _c.mutation.Subject(); ok {
 		_spec.SetField(notificationmessage.FieldSubject, field.TypeString, value)
 		_node.Subject = &value
 	}
-	if value, ok := nmc.mutation.Content(); ok {
+	if value, ok := _c.mutation.Content(); ok {
 		_spec.SetField(notificationmessage.FieldContent, field.TypeString, value)
 		_node.Content = &value
 	}
-	if value, ok := nmc.mutation.CategoryID(); ok {
+	if value, ok := _c.mutation.CategoryID(); ok {
 		_spec.SetField(notificationmessage.FieldCategoryID, field.TypeUint32, value)
 		_node.CategoryID = &value
 	}
-	if value, ok := nmc.mutation.Status(); ok {
+	if value, ok := _c.mutation.Status(); ok {
 		_spec.SetField(notificationmessage.FieldStatus, field.TypeEnum, value)
 		_node.Status = &value
 	}
@@ -309,10 +309,10 @@ func (nmc *NotificationMessageCreate) createSpec() (*NotificationMessage, *sqlgr
 //			SetCreateTime(v+v).
 //		}).
 //		Exec(ctx)
-func (nmc *NotificationMessageCreate) OnConflict(opts ...sql.ConflictOption) *NotificationMessageUpsertOne {
-	nmc.conflict = opts
+func (_c *NotificationMessageCreate) OnConflict(opts ...sql.ConflictOption) *NotificationMessageUpsertOne {
+	_c.conflict = opts
 	return &NotificationMessageUpsertOne{
-		create: nmc,
+		create: _c,
 	}
 }
 
@@ -322,10 +322,10 @@ func (nmc *NotificationMessageCreate) OnConflict(opts ...sql.ConflictOption) *No
 //	client.NotificationMessage.Create().
 //		OnConflict(sql.ConflictColumns(columns...)).
 //		Exec(ctx)
-func (nmc *NotificationMessageCreate) OnConflictColumns(columns ...string) *NotificationMessageUpsertOne {
-	nmc.conflict = append(nmc.conflict, sql.ConflictColumns(columns...))
+func (_c *NotificationMessageCreate) OnConflictColumns(columns ...string) *NotificationMessageUpsertOne {
+	_c.conflict = append(_c.conflict, sql.ConflictColumns(columns...))
 	return &NotificationMessageUpsertOne{
-		create: nmc,
+		create: _c,
 	}
 }
 
@@ -789,16 +789,16 @@ type NotificationMessageCreateBulk struct {
 }
 
 // Save creates the NotificationMessage entities in the database.
-func (nmcb *NotificationMessageCreateBulk) Save(ctx context.Context) ([]*NotificationMessage, error) {
-	if nmcb.err != nil {
-		return nil, nmcb.err
+func (_c *NotificationMessageCreateBulk) Save(ctx context.Context) ([]*NotificationMessage, error) {
+	if _c.err != nil {
+		return nil, _c.err
 	}
-	specs := make([]*sqlgraph.CreateSpec, len(nmcb.builders))
-	nodes := make([]*NotificationMessage, len(nmcb.builders))
-	mutators := make([]Mutator, len(nmcb.builders))
-	for i := range nmcb.builders {
+	specs := make([]*sqlgraph.CreateSpec, len(_c.builders))
+	nodes := make([]*NotificationMessage, len(_c.builders))
+	mutators := make([]Mutator, len(_c.builders))
+	for i := range _c.builders {
 		func(i int, root context.Context) {
-			builder := nmcb.builders[i]
+			builder := _c.builders[i]
 			var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 				mutation, ok := m.(*NotificationMessageMutation)
 				if !ok {
@@ -811,12 +811,12 @@ func (nmcb *NotificationMessageCreateBulk) Save(ctx context.Context) ([]*Notific
 				var err error
 				nodes[i], specs[i] = builder.createSpec()
 				if i < len(mutators)-1 {
-					_, err = mutators[i+1].Mutate(root, nmcb.builders[i+1].mutation)
+					_, err = mutators[i+1].Mutate(root, _c.builders[i+1].mutation)
 				} else {
 					spec := &sqlgraph.BatchCreateSpec{Nodes: specs}
-					spec.OnConflict = nmcb.conflict
+					spec.OnConflict = _c.conflict
 					// Invoke the actual operation on the latest mutation in the chain.
-					if err = sqlgraph.BatchCreate(ctx, nmcb.driver, spec); err != nil {
+					if err = sqlgraph.BatchCreate(ctx, _c.driver, spec); err != nil {
 						if sqlgraph.IsConstraintError(err) {
 							err = &ConstraintError{msg: err.Error(), wrap: err}
 						}
@@ -840,7 +840,7 @@ func (nmcb *NotificationMessageCreateBulk) Save(ctx context.Context) ([]*Notific
 		}(i, ctx)
 	}
 	if len(mutators) > 0 {
-		if _, err := mutators[0].Mutate(ctx, nmcb.builders[0].mutation); err != nil {
+		if _, err := mutators[0].Mutate(ctx, _c.builders[0].mutation); err != nil {
 			return nil, err
 		}
 	}
@@ -848,8 +848,8 @@ func (nmcb *NotificationMessageCreateBulk) Save(ctx context.Context) ([]*Notific
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (nmcb *NotificationMessageCreateBulk) SaveX(ctx context.Context) []*NotificationMessage {
-	v, err := nmcb.Save(ctx)
+func (_c *NotificationMessageCreateBulk) SaveX(ctx context.Context) []*NotificationMessage {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -857,14 +857,14 @@ func (nmcb *NotificationMessageCreateBulk) SaveX(ctx context.Context) []*Notific
 }
 
 // Exec executes the query.
-func (nmcb *NotificationMessageCreateBulk) Exec(ctx context.Context) error {
-	_, err := nmcb.Save(ctx)
+func (_c *NotificationMessageCreateBulk) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (nmcb *NotificationMessageCreateBulk) ExecX(ctx context.Context) {
-	if err := nmcb.Exec(ctx); err != nil {
+func (_c *NotificationMessageCreateBulk) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
@@ -884,10 +884,10 @@ func (nmcb *NotificationMessageCreateBulk) ExecX(ctx context.Context) {
 //			SetCreateTime(v+v).
 //		}).
 //		Exec(ctx)
-func (nmcb *NotificationMessageCreateBulk) OnConflict(opts ...sql.ConflictOption) *NotificationMessageUpsertBulk {
-	nmcb.conflict = opts
+func (_c *NotificationMessageCreateBulk) OnConflict(opts ...sql.ConflictOption) *NotificationMessageUpsertBulk {
+	_c.conflict = opts
 	return &NotificationMessageUpsertBulk{
-		create: nmcb,
+		create: _c,
 	}
 }
 
@@ -897,10 +897,10 @@ func (nmcb *NotificationMessageCreateBulk) OnConflict(opts ...sql.ConflictOption
 //	client.NotificationMessage.Create().
 //		OnConflict(sql.ConflictColumns(columns...)).
 //		Exec(ctx)
-func (nmcb *NotificationMessageCreateBulk) OnConflictColumns(columns ...string) *NotificationMessageUpsertBulk {
-	nmcb.conflict = append(nmcb.conflict, sql.ConflictColumns(columns...))
+func (_c *NotificationMessageCreateBulk) OnConflictColumns(columns ...string) *NotificationMessageUpsertBulk {
+	_c.conflict = append(_c.conflict, sql.ConflictColumns(columns...))
 	return &NotificationMessageUpsertBulk{
-		create: nmcb,
+		create: _c,
 	}
 }
 

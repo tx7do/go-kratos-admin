@@ -24,138 +24,138 @@ type NotificationMessageRecipientUpdate struct {
 }
 
 // Where appends a list predicates to the NotificationMessageRecipientUpdate builder.
-func (nmru *NotificationMessageRecipientUpdate) Where(ps ...predicate.NotificationMessageRecipient) *NotificationMessageRecipientUpdate {
-	nmru.mutation.Where(ps...)
-	return nmru
+func (_u *NotificationMessageRecipientUpdate) Where(ps ...predicate.NotificationMessageRecipient) *NotificationMessageRecipientUpdate {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // SetUpdateTime sets the "update_time" field.
-func (nmru *NotificationMessageRecipientUpdate) SetUpdateTime(t time.Time) *NotificationMessageRecipientUpdate {
-	nmru.mutation.SetUpdateTime(t)
-	return nmru
+func (_u *NotificationMessageRecipientUpdate) SetUpdateTime(v time.Time) *NotificationMessageRecipientUpdate {
+	_u.mutation.SetUpdateTime(v)
+	return _u
 }
 
 // SetNillableUpdateTime sets the "update_time" field if the given value is not nil.
-func (nmru *NotificationMessageRecipientUpdate) SetNillableUpdateTime(t *time.Time) *NotificationMessageRecipientUpdate {
-	if t != nil {
-		nmru.SetUpdateTime(*t)
+func (_u *NotificationMessageRecipientUpdate) SetNillableUpdateTime(v *time.Time) *NotificationMessageRecipientUpdate {
+	if v != nil {
+		_u.SetUpdateTime(*v)
 	}
-	return nmru
+	return _u
 }
 
 // ClearUpdateTime clears the value of the "update_time" field.
-func (nmru *NotificationMessageRecipientUpdate) ClearUpdateTime() *NotificationMessageRecipientUpdate {
-	nmru.mutation.ClearUpdateTime()
-	return nmru
+func (_u *NotificationMessageRecipientUpdate) ClearUpdateTime() *NotificationMessageRecipientUpdate {
+	_u.mutation.ClearUpdateTime()
+	return _u
 }
 
 // SetDeleteTime sets the "delete_time" field.
-func (nmru *NotificationMessageRecipientUpdate) SetDeleteTime(t time.Time) *NotificationMessageRecipientUpdate {
-	nmru.mutation.SetDeleteTime(t)
-	return nmru
+func (_u *NotificationMessageRecipientUpdate) SetDeleteTime(v time.Time) *NotificationMessageRecipientUpdate {
+	_u.mutation.SetDeleteTime(v)
+	return _u
 }
 
 // SetNillableDeleteTime sets the "delete_time" field if the given value is not nil.
-func (nmru *NotificationMessageRecipientUpdate) SetNillableDeleteTime(t *time.Time) *NotificationMessageRecipientUpdate {
-	if t != nil {
-		nmru.SetDeleteTime(*t)
+func (_u *NotificationMessageRecipientUpdate) SetNillableDeleteTime(v *time.Time) *NotificationMessageRecipientUpdate {
+	if v != nil {
+		_u.SetDeleteTime(*v)
 	}
-	return nmru
+	return _u
 }
 
 // ClearDeleteTime clears the value of the "delete_time" field.
-func (nmru *NotificationMessageRecipientUpdate) ClearDeleteTime() *NotificationMessageRecipientUpdate {
-	nmru.mutation.ClearDeleteTime()
-	return nmru
+func (_u *NotificationMessageRecipientUpdate) ClearDeleteTime() *NotificationMessageRecipientUpdate {
+	_u.mutation.ClearDeleteTime()
+	return _u
 }
 
 // SetMessageID sets the "message_id" field.
-func (nmru *NotificationMessageRecipientUpdate) SetMessageID(u uint32) *NotificationMessageRecipientUpdate {
-	nmru.mutation.ResetMessageID()
-	nmru.mutation.SetMessageID(u)
-	return nmru
+func (_u *NotificationMessageRecipientUpdate) SetMessageID(v uint32) *NotificationMessageRecipientUpdate {
+	_u.mutation.ResetMessageID()
+	_u.mutation.SetMessageID(v)
+	return _u
 }
 
 // SetNillableMessageID sets the "message_id" field if the given value is not nil.
-func (nmru *NotificationMessageRecipientUpdate) SetNillableMessageID(u *uint32) *NotificationMessageRecipientUpdate {
-	if u != nil {
-		nmru.SetMessageID(*u)
+func (_u *NotificationMessageRecipientUpdate) SetNillableMessageID(v *uint32) *NotificationMessageRecipientUpdate {
+	if v != nil {
+		_u.SetMessageID(*v)
 	}
-	return nmru
+	return _u
 }
 
-// AddMessageID adds u to the "message_id" field.
-func (nmru *NotificationMessageRecipientUpdate) AddMessageID(u int32) *NotificationMessageRecipientUpdate {
-	nmru.mutation.AddMessageID(u)
-	return nmru
+// AddMessageID adds value to the "message_id" field.
+func (_u *NotificationMessageRecipientUpdate) AddMessageID(v int32) *NotificationMessageRecipientUpdate {
+	_u.mutation.AddMessageID(v)
+	return _u
 }
 
 // ClearMessageID clears the value of the "message_id" field.
-func (nmru *NotificationMessageRecipientUpdate) ClearMessageID() *NotificationMessageRecipientUpdate {
-	nmru.mutation.ClearMessageID()
-	return nmru
+func (_u *NotificationMessageRecipientUpdate) ClearMessageID() *NotificationMessageRecipientUpdate {
+	_u.mutation.ClearMessageID()
+	return _u
 }
 
 // SetRecipientID sets the "recipient_id" field.
-func (nmru *NotificationMessageRecipientUpdate) SetRecipientID(u uint32) *NotificationMessageRecipientUpdate {
-	nmru.mutation.ResetRecipientID()
-	nmru.mutation.SetRecipientID(u)
-	return nmru
+func (_u *NotificationMessageRecipientUpdate) SetRecipientID(v uint32) *NotificationMessageRecipientUpdate {
+	_u.mutation.ResetRecipientID()
+	_u.mutation.SetRecipientID(v)
+	return _u
 }
 
 // SetNillableRecipientID sets the "recipient_id" field if the given value is not nil.
-func (nmru *NotificationMessageRecipientUpdate) SetNillableRecipientID(u *uint32) *NotificationMessageRecipientUpdate {
-	if u != nil {
-		nmru.SetRecipientID(*u)
+func (_u *NotificationMessageRecipientUpdate) SetNillableRecipientID(v *uint32) *NotificationMessageRecipientUpdate {
+	if v != nil {
+		_u.SetRecipientID(*v)
 	}
-	return nmru
+	return _u
 }
 
-// AddRecipientID adds u to the "recipient_id" field.
-func (nmru *NotificationMessageRecipientUpdate) AddRecipientID(u int32) *NotificationMessageRecipientUpdate {
-	nmru.mutation.AddRecipientID(u)
-	return nmru
+// AddRecipientID adds value to the "recipient_id" field.
+func (_u *NotificationMessageRecipientUpdate) AddRecipientID(v int32) *NotificationMessageRecipientUpdate {
+	_u.mutation.AddRecipientID(v)
+	return _u
 }
 
 // ClearRecipientID clears the value of the "recipient_id" field.
-func (nmru *NotificationMessageRecipientUpdate) ClearRecipientID() *NotificationMessageRecipientUpdate {
-	nmru.mutation.ClearRecipientID()
-	return nmru
+func (_u *NotificationMessageRecipientUpdate) ClearRecipientID() *NotificationMessageRecipientUpdate {
+	_u.mutation.ClearRecipientID()
+	return _u
 }
 
 // SetStatus sets the "status" field.
-func (nmru *NotificationMessageRecipientUpdate) SetStatus(n notificationmessagerecipient.Status) *NotificationMessageRecipientUpdate {
-	nmru.mutation.SetStatus(n)
-	return nmru
+func (_u *NotificationMessageRecipientUpdate) SetStatus(v notificationmessagerecipient.Status) *NotificationMessageRecipientUpdate {
+	_u.mutation.SetStatus(v)
+	return _u
 }
 
 // SetNillableStatus sets the "status" field if the given value is not nil.
-func (nmru *NotificationMessageRecipientUpdate) SetNillableStatus(n *notificationmessagerecipient.Status) *NotificationMessageRecipientUpdate {
-	if n != nil {
-		nmru.SetStatus(*n)
+func (_u *NotificationMessageRecipientUpdate) SetNillableStatus(v *notificationmessagerecipient.Status) *NotificationMessageRecipientUpdate {
+	if v != nil {
+		_u.SetStatus(*v)
 	}
-	return nmru
+	return _u
 }
 
 // ClearStatus clears the value of the "status" field.
-func (nmru *NotificationMessageRecipientUpdate) ClearStatus() *NotificationMessageRecipientUpdate {
-	nmru.mutation.ClearStatus()
-	return nmru
+func (_u *NotificationMessageRecipientUpdate) ClearStatus() *NotificationMessageRecipientUpdate {
+	_u.mutation.ClearStatus()
+	return _u
 }
 
 // Mutation returns the NotificationMessageRecipientMutation object of the builder.
-func (nmru *NotificationMessageRecipientUpdate) Mutation() *NotificationMessageRecipientMutation {
-	return nmru.mutation
+func (_u *NotificationMessageRecipientUpdate) Mutation() *NotificationMessageRecipientMutation {
+	return _u.mutation
 }
 
 // Save executes the query and returns the number of nodes affected by the update operation.
-func (nmru *NotificationMessageRecipientUpdate) Save(ctx context.Context) (int, error) {
-	return withHooks(ctx, nmru.sqlSave, nmru.mutation, nmru.hooks)
+func (_u *NotificationMessageRecipientUpdate) Save(ctx context.Context) (int, error) {
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (nmru *NotificationMessageRecipientUpdate) SaveX(ctx context.Context) int {
-	affected, err := nmru.Save(ctx)
+func (_u *NotificationMessageRecipientUpdate) SaveX(ctx context.Context) int {
+	affected, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -163,21 +163,21 @@ func (nmru *NotificationMessageRecipientUpdate) SaveX(ctx context.Context) int {
 }
 
 // Exec executes the query.
-func (nmru *NotificationMessageRecipientUpdate) Exec(ctx context.Context) error {
-	_, err := nmru.Save(ctx)
+func (_u *NotificationMessageRecipientUpdate) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (nmru *NotificationMessageRecipientUpdate) ExecX(ctx context.Context) {
-	if err := nmru.Exec(ctx); err != nil {
+func (_u *NotificationMessageRecipientUpdate) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
-func (nmru *NotificationMessageRecipientUpdate) check() error {
-	if v, ok := nmru.mutation.Status(); ok {
+func (_u *NotificationMessageRecipientUpdate) check() error {
+	if v, ok := _u.mutation.Status(); ok {
 		if err := notificationmessagerecipient.StatusValidator(v); err != nil {
 			return &ValidationError{Name: "status", err: fmt.Errorf(`ent: validator failed for field "NotificationMessageRecipient.status": %w`, err)}
 		}
@@ -186,67 +186,67 @@ func (nmru *NotificationMessageRecipientUpdate) check() error {
 }
 
 // Modify adds a statement modifier for attaching custom logic to the UPDATE statement.
-func (nmru *NotificationMessageRecipientUpdate) Modify(modifiers ...func(u *sql.UpdateBuilder)) *NotificationMessageRecipientUpdate {
-	nmru.modifiers = append(nmru.modifiers, modifiers...)
-	return nmru
+func (_u *NotificationMessageRecipientUpdate) Modify(modifiers ...func(u *sql.UpdateBuilder)) *NotificationMessageRecipientUpdate {
+	_u.modifiers = append(_u.modifiers, modifiers...)
+	return _u
 }
 
-func (nmru *NotificationMessageRecipientUpdate) sqlSave(ctx context.Context) (n int, err error) {
-	if err := nmru.check(); err != nil {
-		return n, err
+func (_u *NotificationMessageRecipientUpdate) sqlSave(ctx context.Context) (_node int, err error) {
+	if err := _u.check(); err != nil {
+		return _node, err
 	}
 	_spec := sqlgraph.NewUpdateSpec(notificationmessagerecipient.Table, notificationmessagerecipient.Columns, sqlgraph.NewFieldSpec(notificationmessagerecipient.FieldID, field.TypeUint32))
-	if ps := nmru.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if nmru.mutation.CreateTimeCleared() {
+	if _u.mutation.CreateTimeCleared() {
 		_spec.ClearField(notificationmessagerecipient.FieldCreateTime, field.TypeTime)
 	}
-	if value, ok := nmru.mutation.UpdateTime(); ok {
+	if value, ok := _u.mutation.UpdateTime(); ok {
 		_spec.SetField(notificationmessagerecipient.FieldUpdateTime, field.TypeTime, value)
 	}
-	if nmru.mutation.UpdateTimeCleared() {
+	if _u.mutation.UpdateTimeCleared() {
 		_spec.ClearField(notificationmessagerecipient.FieldUpdateTime, field.TypeTime)
 	}
-	if value, ok := nmru.mutation.DeleteTime(); ok {
+	if value, ok := _u.mutation.DeleteTime(); ok {
 		_spec.SetField(notificationmessagerecipient.FieldDeleteTime, field.TypeTime, value)
 	}
-	if nmru.mutation.DeleteTimeCleared() {
+	if _u.mutation.DeleteTimeCleared() {
 		_spec.ClearField(notificationmessagerecipient.FieldDeleteTime, field.TypeTime)
 	}
-	if nmru.mutation.TenantIDCleared() {
+	if _u.mutation.TenantIDCleared() {
 		_spec.ClearField(notificationmessagerecipient.FieldTenantID, field.TypeUint32)
 	}
-	if value, ok := nmru.mutation.MessageID(); ok {
+	if value, ok := _u.mutation.MessageID(); ok {
 		_spec.SetField(notificationmessagerecipient.FieldMessageID, field.TypeUint32, value)
 	}
-	if value, ok := nmru.mutation.AddedMessageID(); ok {
+	if value, ok := _u.mutation.AddedMessageID(); ok {
 		_spec.AddField(notificationmessagerecipient.FieldMessageID, field.TypeUint32, value)
 	}
-	if nmru.mutation.MessageIDCleared() {
+	if _u.mutation.MessageIDCleared() {
 		_spec.ClearField(notificationmessagerecipient.FieldMessageID, field.TypeUint32)
 	}
-	if value, ok := nmru.mutation.RecipientID(); ok {
+	if value, ok := _u.mutation.RecipientID(); ok {
 		_spec.SetField(notificationmessagerecipient.FieldRecipientID, field.TypeUint32, value)
 	}
-	if value, ok := nmru.mutation.AddedRecipientID(); ok {
+	if value, ok := _u.mutation.AddedRecipientID(); ok {
 		_spec.AddField(notificationmessagerecipient.FieldRecipientID, field.TypeUint32, value)
 	}
-	if nmru.mutation.RecipientIDCleared() {
+	if _u.mutation.RecipientIDCleared() {
 		_spec.ClearField(notificationmessagerecipient.FieldRecipientID, field.TypeUint32)
 	}
-	if value, ok := nmru.mutation.Status(); ok {
+	if value, ok := _u.mutation.Status(); ok {
 		_spec.SetField(notificationmessagerecipient.FieldStatus, field.TypeEnum, value)
 	}
-	if nmru.mutation.StatusCleared() {
+	if _u.mutation.StatusCleared() {
 		_spec.ClearField(notificationmessagerecipient.FieldStatus, field.TypeEnum)
 	}
-	_spec.AddModifiers(nmru.modifiers...)
-	if n, err = sqlgraph.UpdateNodes(ctx, nmru.driver, _spec); err != nil {
+	_spec.AddModifiers(_u.modifiers...)
+	if _node, err = sqlgraph.UpdateNodes(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{notificationmessagerecipient.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -254,8 +254,8 @@ func (nmru *NotificationMessageRecipientUpdate) sqlSave(ctx context.Context) (n 
 		}
 		return 0, err
 	}
-	nmru.mutation.done = true
-	return n, nil
+	_u.mutation.done = true
+	return _node, nil
 }
 
 // NotificationMessageRecipientUpdateOne is the builder for updating a single NotificationMessageRecipient entity.
@@ -268,145 +268,145 @@ type NotificationMessageRecipientUpdateOne struct {
 }
 
 // SetUpdateTime sets the "update_time" field.
-func (nmruo *NotificationMessageRecipientUpdateOne) SetUpdateTime(t time.Time) *NotificationMessageRecipientUpdateOne {
-	nmruo.mutation.SetUpdateTime(t)
-	return nmruo
+func (_u *NotificationMessageRecipientUpdateOne) SetUpdateTime(v time.Time) *NotificationMessageRecipientUpdateOne {
+	_u.mutation.SetUpdateTime(v)
+	return _u
 }
 
 // SetNillableUpdateTime sets the "update_time" field if the given value is not nil.
-func (nmruo *NotificationMessageRecipientUpdateOne) SetNillableUpdateTime(t *time.Time) *NotificationMessageRecipientUpdateOne {
-	if t != nil {
-		nmruo.SetUpdateTime(*t)
+func (_u *NotificationMessageRecipientUpdateOne) SetNillableUpdateTime(v *time.Time) *NotificationMessageRecipientUpdateOne {
+	if v != nil {
+		_u.SetUpdateTime(*v)
 	}
-	return nmruo
+	return _u
 }
 
 // ClearUpdateTime clears the value of the "update_time" field.
-func (nmruo *NotificationMessageRecipientUpdateOne) ClearUpdateTime() *NotificationMessageRecipientUpdateOne {
-	nmruo.mutation.ClearUpdateTime()
-	return nmruo
+func (_u *NotificationMessageRecipientUpdateOne) ClearUpdateTime() *NotificationMessageRecipientUpdateOne {
+	_u.mutation.ClearUpdateTime()
+	return _u
 }
 
 // SetDeleteTime sets the "delete_time" field.
-func (nmruo *NotificationMessageRecipientUpdateOne) SetDeleteTime(t time.Time) *NotificationMessageRecipientUpdateOne {
-	nmruo.mutation.SetDeleteTime(t)
-	return nmruo
+func (_u *NotificationMessageRecipientUpdateOne) SetDeleteTime(v time.Time) *NotificationMessageRecipientUpdateOne {
+	_u.mutation.SetDeleteTime(v)
+	return _u
 }
 
 // SetNillableDeleteTime sets the "delete_time" field if the given value is not nil.
-func (nmruo *NotificationMessageRecipientUpdateOne) SetNillableDeleteTime(t *time.Time) *NotificationMessageRecipientUpdateOne {
-	if t != nil {
-		nmruo.SetDeleteTime(*t)
+func (_u *NotificationMessageRecipientUpdateOne) SetNillableDeleteTime(v *time.Time) *NotificationMessageRecipientUpdateOne {
+	if v != nil {
+		_u.SetDeleteTime(*v)
 	}
-	return nmruo
+	return _u
 }
 
 // ClearDeleteTime clears the value of the "delete_time" field.
-func (nmruo *NotificationMessageRecipientUpdateOne) ClearDeleteTime() *NotificationMessageRecipientUpdateOne {
-	nmruo.mutation.ClearDeleteTime()
-	return nmruo
+func (_u *NotificationMessageRecipientUpdateOne) ClearDeleteTime() *NotificationMessageRecipientUpdateOne {
+	_u.mutation.ClearDeleteTime()
+	return _u
 }
 
 // SetMessageID sets the "message_id" field.
-func (nmruo *NotificationMessageRecipientUpdateOne) SetMessageID(u uint32) *NotificationMessageRecipientUpdateOne {
-	nmruo.mutation.ResetMessageID()
-	nmruo.mutation.SetMessageID(u)
-	return nmruo
+func (_u *NotificationMessageRecipientUpdateOne) SetMessageID(v uint32) *NotificationMessageRecipientUpdateOne {
+	_u.mutation.ResetMessageID()
+	_u.mutation.SetMessageID(v)
+	return _u
 }
 
 // SetNillableMessageID sets the "message_id" field if the given value is not nil.
-func (nmruo *NotificationMessageRecipientUpdateOne) SetNillableMessageID(u *uint32) *NotificationMessageRecipientUpdateOne {
-	if u != nil {
-		nmruo.SetMessageID(*u)
+func (_u *NotificationMessageRecipientUpdateOne) SetNillableMessageID(v *uint32) *NotificationMessageRecipientUpdateOne {
+	if v != nil {
+		_u.SetMessageID(*v)
 	}
-	return nmruo
+	return _u
 }
 
-// AddMessageID adds u to the "message_id" field.
-func (nmruo *NotificationMessageRecipientUpdateOne) AddMessageID(u int32) *NotificationMessageRecipientUpdateOne {
-	nmruo.mutation.AddMessageID(u)
-	return nmruo
+// AddMessageID adds value to the "message_id" field.
+func (_u *NotificationMessageRecipientUpdateOne) AddMessageID(v int32) *NotificationMessageRecipientUpdateOne {
+	_u.mutation.AddMessageID(v)
+	return _u
 }
 
 // ClearMessageID clears the value of the "message_id" field.
-func (nmruo *NotificationMessageRecipientUpdateOne) ClearMessageID() *NotificationMessageRecipientUpdateOne {
-	nmruo.mutation.ClearMessageID()
-	return nmruo
+func (_u *NotificationMessageRecipientUpdateOne) ClearMessageID() *NotificationMessageRecipientUpdateOne {
+	_u.mutation.ClearMessageID()
+	return _u
 }
 
 // SetRecipientID sets the "recipient_id" field.
-func (nmruo *NotificationMessageRecipientUpdateOne) SetRecipientID(u uint32) *NotificationMessageRecipientUpdateOne {
-	nmruo.mutation.ResetRecipientID()
-	nmruo.mutation.SetRecipientID(u)
-	return nmruo
+func (_u *NotificationMessageRecipientUpdateOne) SetRecipientID(v uint32) *NotificationMessageRecipientUpdateOne {
+	_u.mutation.ResetRecipientID()
+	_u.mutation.SetRecipientID(v)
+	return _u
 }
 
 // SetNillableRecipientID sets the "recipient_id" field if the given value is not nil.
-func (nmruo *NotificationMessageRecipientUpdateOne) SetNillableRecipientID(u *uint32) *NotificationMessageRecipientUpdateOne {
-	if u != nil {
-		nmruo.SetRecipientID(*u)
+func (_u *NotificationMessageRecipientUpdateOne) SetNillableRecipientID(v *uint32) *NotificationMessageRecipientUpdateOne {
+	if v != nil {
+		_u.SetRecipientID(*v)
 	}
-	return nmruo
+	return _u
 }
 
-// AddRecipientID adds u to the "recipient_id" field.
-func (nmruo *NotificationMessageRecipientUpdateOne) AddRecipientID(u int32) *NotificationMessageRecipientUpdateOne {
-	nmruo.mutation.AddRecipientID(u)
-	return nmruo
+// AddRecipientID adds value to the "recipient_id" field.
+func (_u *NotificationMessageRecipientUpdateOne) AddRecipientID(v int32) *NotificationMessageRecipientUpdateOne {
+	_u.mutation.AddRecipientID(v)
+	return _u
 }
 
 // ClearRecipientID clears the value of the "recipient_id" field.
-func (nmruo *NotificationMessageRecipientUpdateOne) ClearRecipientID() *NotificationMessageRecipientUpdateOne {
-	nmruo.mutation.ClearRecipientID()
-	return nmruo
+func (_u *NotificationMessageRecipientUpdateOne) ClearRecipientID() *NotificationMessageRecipientUpdateOne {
+	_u.mutation.ClearRecipientID()
+	return _u
 }
 
 // SetStatus sets the "status" field.
-func (nmruo *NotificationMessageRecipientUpdateOne) SetStatus(n notificationmessagerecipient.Status) *NotificationMessageRecipientUpdateOne {
-	nmruo.mutation.SetStatus(n)
-	return nmruo
+func (_u *NotificationMessageRecipientUpdateOne) SetStatus(v notificationmessagerecipient.Status) *NotificationMessageRecipientUpdateOne {
+	_u.mutation.SetStatus(v)
+	return _u
 }
 
 // SetNillableStatus sets the "status" field if the given value is not nil.
-func (nmruo *NotificationMessageRecipientUpdateOne) SetNillableStatus(n *notificationmessagerecipient.Status) *NotificationMessageRecipientUpdateOne {
-	if n != nil {
-		nmruo.SetStatus(*n)
+func (_u *NotificationMessageRecipientUpdateOne) SetNillableStatus(v *notificationmessagerecipient.Status) *NotificationMessageRecipientUpdateOne {
+	if v != nil {
+		_u.SetStatus(*v)
 	}
-	return nmruo
+	return _u
 }
 
 // ClearStatus clears the value of the "status" field.
-func (nmruo *NotificationMessageRecipientUpdateOne) ClearStatus() *NotificationMessageRecipientUpdateOne {
-	nmruo.mutation.ClearStatus()
-	return nmruo
+func (_u *NotificationMessageRecipientUpdateOne) ClearStatus() *NotificationMessageRecipientUpdateOne {
+	_u.mutation.ClearStatus()
+	return _u
 }
 
 // Mutation returns the NotificationMessageRecipientMutation object of the builder.
-func (nmruo *NotificationMessageRecipientUpdateOne) Mutation() *NotificationMessageRecipientMutation {
-	return nmruo.mutation
+func (_u *NotificationMessageRecipientUpdateOne) Mutation() *NotificationMessageRecipientMutation {
+	return _u.mutation
 }
 
 // Where appends a list predicates to the NotificationMessageRecipientUpdate builder.
-func (nmruo *NotificationMessageRecipientUpdateOne) Where(ps ...predicate.NotificationMessageRecipient) *NotificationMessageRecipientUpdateOne {
-	nmruo.mutation.Where(ps...)
-	return nmruo
+func (_u *NotificationMessageRecipientUpdateOne) Where(ps ...predicate.NotificationMessageRecipient) *NotificationMessageRecipientUpdateOne {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // Select allows selecting one or more fields (columns) of the returned entity.
 // The default is selecting all fields defined in the entity schema.
-func (nmruo *NotificationMessageRecipientUpdateOne) Select(field string, fields ...string) *NotificationMessageRecipientUpdateOne {
-	nmruo.fields = append([]string{field}, fields...)
-	return nmruo
+func (_u *NotificationMessageRecipientUpdateOne) Select(field string, fields ...string) *NotificationMessageRecipientUpdateOne {
+	_u.fields = append([]string{field}, fields...)
+	return _u
 }
 
 // Save executes the query and returns the updated NotificationMessageRecipient entity.
-func (nmruo *NotificationMessageRecipientUpdateOne) Save(ctx context.Context) (*NotificationMessageRecipient, error) {
-	return withHooks(ctx, nmruo.sqlSave, nmruo.mutation, nmruo.hooks)
+func (_u *NotificationMessageRecipientUpdateOne) Save(ctx context.Context) (*NotificationMessageRecipient, error) {
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (nmruo *NotificationMessageRecipientUpdateOne) SaveX(ctx context.Context) *NotificationMessageRecipient {
-	node, err := nmruo.Save(ctx)
+func (_u *NotificationMessageRecipientUpdateOne) SaveX(ctx context.Context) *NotificationMessageRecipient {
+	node, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -414,21 +414,21 @@ func (nmruo *NotificationMessageRecipientUpdateOne) SaveX(ctx context.Context) *
 }
 
 // Exec executes the query on the entity.
-func (nmruo *NotificationMessageRecipientUpdateOne) Exec(ctx context.Context) error {
-	_, err := nmruo.Save(ctx)
+func (_u *NotificationMessageRecipientUpdateOne) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (nmruo *NotificationMessageRecipientUpdateOne) ExecX(ctx context.Context) {
-	if err := nmruo.Exec(ctx); err != nil {
+func (_u *NotificationMessageRecipientUpdateOne) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
-func (nmruo *NotificationMessageRecipientUpdateOne) check() error {
-	if v, ok := nmruo.mutation.Status(); ok {
+func (_u *NotificationMessageRecipientUpdateOne) check() error {
+	if v, ok := _u.mutation.Status(); ok {
 		if err := notificationmessagerecipient.StatusValidator(v); err != nil {
 			return &ValidationError{Name: "status", err: fmt.Errorf(`ent: validator failed for field "NotificationMessageRecipient.status": %w`, err)}
 		}
@@ -437,22 +437,22 @@ func (nmruo *NotificationMessageRecipientUpdateOne) check() error {
 }
 
 // Modify adds a statement modifier for attaching custom logic to the UPDATE statement.
-func (nmruo *NotificationMessageRecipientUpdateOne) Modify(modifiers ...func(u *sql.UpdateBuilder)) *NotificationMessageRecipientUpdateOne {
-	nmruo.modifiers = append(nmruo.modifiers, modifiers...)
-	return nmruo
+func (_u *NotificationMessageRecipientUpdateOne) Modify(modifiers ...func(u *sql.UpdateBuilder)) *NotificationMessageRecipientUpdateOne {
+	_u.modifiers = append(_u.modifiers, modifiers...)
+	return _u
 }
 
-func (nmruo *NotificationMessageRecipientUpdateOne) sqlSave(ctx context.Context) (_node *NotificationMessageRecipient, err error) {
-	if err := nmruo.check(); err != nil {
+func (_u *NotificationMessageRecipientUpdateOne) sqlSave(ctx context.Context) (_node *NotificationMessageRecipient, err error) {
+	if err := _u.check(); err != nil {
 		return _node, err
 	}
 	_spec := sqlgraph.NewUpdateSpec(notificationmessagerecipient.Table, notificationmessagerecipient.Columns, sqlgraph.NewFieldSpec(notificationmessagerecipient.FieldID, field.TypeUint32))
-	id, ok := nmruo.mutation.ID()
+	id, ok := _u.mutation.ID()
 	if !ok {
 		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "NotificationMessageRecipient.id" for update`)}
 	}
 	_spec.Node.ID.Value = id
-	if fields := nmruo.fields; len(fields) > 0 {
+	if fields := _u.fields; len(fields) > 0 {
 		_spec.Node.Columns = make([]string, 0, len(fields))
 		_spec.Node.Columns = append(_spec.Node.Columns, notificationmessagerecipient.FieldID)
 		for _, f := range fields {
@@ -464,60 +464,60 @@ func (nmruo *NotificationMessageRecipientUpdateOne) sqlSave(ctx context.Context)
 			}
 		}
 	}
-	if ps := nmruo.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if nmruo.mutation.CreateTimeCleared() {
+	if _u.mutation.CreateTimeCleared() {
 		_spec.ClearField(notificationmessagerecipient.FieldCreateTime, field.TypeTime)
 	}
-	if value, ok := nmruo.mutation.UpdateTime(); ok {
+	if value, ok := _u.mutation.UpdateTime(); ok {
 		_spec.SetField(notificationmessagerecipient.FieldUpdateTime, field.TypeTime, value)
 	}
-	if nmruo.mutation.UpdateTimeCleared() {
+	if _u.mutation.UpdateTimeCleared() {
 		_spec.ClearField(notificationmessagerecipient.FieldUpdateTime, field.TypeTime)
 	}
-	if value, ok := nmruo.mutation.DeleteTime(); ok {
+	if value, ok := _u.mutation.DeleteTime(); ok {
 		_spec.SetField(notificationmessagerecipient.FieldDeleteTime, field.TypeTime, value)
 	}
-	if nmruo.mutation.DeleteTimeCleared() {
+	if _u.mutation.DeleteTimeCleared() {
 		_spec.ClearField(notificationmessagerecipient.FieldDeleteTime, field.TypeTime)
 	}
-	if nmruo.mutation.TenantIDCleared() {
+	if _u.mutation.TenantIDCleared() {
 		_spec.ClearField(notificationmessagerecipient.FieldTenantID, field.TypeUint32)
 	}
-	if value, ok := nmruo.mutation.MessageID(); ok {
+	if value, ok := _u.mutation.MessageID(); ok {
 		_spec.SetField(notificationmessagerecipient.FieldMessageID, field.TypeUint32, value)
 	}
-	if value, ok := nmruo.mutation.AddedMessageID(); ok {
+	if value, ok := _u.mutation.AddedMessageID(); ok {
 		_spec.AddField(notificationmessagerecipient.FieldMessageID, field.TypeUint32, value)
 	}
-	if nmruo.mutation.MessageIDCleared() {
+	if _u.mutation.MessageIDCleared() {
 		_spec.ClearField(notificationmessagerecipient.FieldMessageID, field.TypeUint32)
 	}
-	if value, ok := nmruo.mutation.RecipientID(); ok {
+	if value, ok := _u.mutation.RecipientID(); ok {
 		_spec.SetField(notificationmessagerecipient.FieldRecipientID, field.TypeUint32, value)
 	}
-	if value, ok := nmruo.mutation.AddedRecipientID(); ok {
+	if value, ok := _u.mutation.AddedRecipientID(); ok {
 		_spec.AddField(notificationmessagerecipient.FieldRecipientID, field.TypeUint32, value)
 	}
-	if nmruo.mutation.RecipientIDCleared() {
+	if _u.mutation.RecipientIDCleared() {
 		_spec.ClearField(notificationmessagerecipient.FieldRecipientID, field.TypeUint32)
 	}
-	if value, ok := nmruo.mutation.Status(); ok {
+	if value, ok := _u.mutation.Status(); ok {
 		_spec.SetField(notificationmessagerecipient.FieldStatus, field.TypeEnum, value)
 	}
-	if nmruo.mutation.StatusCleared() {
+	if _u.mutation.StatusCleared() {
 		_spec.ClearField(notificationmessagerecipient.FieldStatus, field.TypeEnum)
 	}
-	_spec.AddModifiers(nmruo.modifiers...)
-	_node = &NotificationMessageRecipient{config: nmruo.config}
+	_spec.AddModifiers(_u.modifiers...)
+	_node = &NotificationMessageRecipient{config: _u.config}
 	_spec.Assign = _node.assignValues
 	_spec.ScanValues = _node.scanValues
-	if err = sqlgraph.UpdateNode(ctx, nmruo.driver, _spec); err != nil {
+	if err = sqlgraph.UpdateNode(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{notificationmessagerecipient.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -525,6 +525,6 @@ func (nmruo *NotificationMessageRecipientUpdateOne) sqlSave(ctx context.Context)
 		}
 		return nil, err
 	}
-	nmruo.mutation.done = true
+	_u.mutation.done = true
 	return _node, nil
 }

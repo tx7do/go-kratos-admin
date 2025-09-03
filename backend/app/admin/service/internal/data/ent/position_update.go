@@ -24,274 +24,274 @@ type PositionUpdate struct {
 }
 
 // Where appends a list predicates to the PositionUpdate builder.
-func (pu *PositionUpdate) Where(ps ...predicate.Position) *PositionUpdate {
-	pu.mutation.Where(ps...)
-	return pu
+func (_u *PositionUpdate) Where(ps ...predicate.Position) *PositionUpdate {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // SetUpdateTime sets the "update_time" field.
-func (pu *PositionUpdate) SetUpdateTime(t time.Time) *PositionUpdate {
-	pu.mutation.SetUpdateTime(t)
-	return pu
+func (_u *PositionUpdate) SetUpdateTime(v time.Time) *PositionUpdate {
+	_u.mutation.SetUpdateTime(v)
+	return _u
 }
 
 // SetNillableUpdateTime sets the "update_time" field if the given value is not nil.
-func (pu *PositionUpdate) SetNillableUpdateTime(t *time.Time) *PositionUpdate {
-	if t != nil {
-		pu.SetUpdateTime(*t)
+func (_u *PositionUpdate) SetNillableUpdateTime(v *time.Time) *PositionUpdate {
+	if v != nil {
+		_u.SetUpdateTime(*v)
 	}
-	return pu
+	return _u
 }
 
 // ClearUpdateTime clears the value of the "update_time" field.
-func (pu *PositionUpdate) ClearUpdateTime() *PositionUpdate {
-	pu.mutation.ClearUpdateTime()
-	return pu
+func (_u *PositionUpdate) ClearUpdateTime() *PositionUpdate {
+	_u.mutation.ClearUpdateTime()
+	return _u
 }
 
 // SetDeleteTime sets the "delete_time" field.
-func (pu *PositionUpdate) SetDeleteTime(t time.Time) *PositionUpdate {
-	pu.mutation.SetDeleteTime(t)
-	return pu
+func (_u *PositionUpdate) SetDeleteTime(v time.Time) *PositionUpdate {
+	_u.mutation.SetDeleteTime(v)
+	return _u
 }
 
 // SetNillableDeleteTime sets the "delete_time" field if the given value is not nil.
-func (pu *PositionUpdate) SetNillableDeleteTime(t *time.Time) *PositionUpdate {
-	if t != nil {
-		pu.SetDeleteTime(*t)
+func (_u *PositionUpdate) SetNillableDeleteTime(v *time.Time) *PositionUpdate {
+	if v != nil {
+		_u.SetDeleteTime(*v)
 	}
-	return pu
+	return _u
 }
 
 // ClearDeleteTime clears the value of the "delete_time" field.
-func (pu *PositionUpdate) ClearDeleteTime() *PositionUpdate {
-	pu.mutation.ClearDeleteTime()
-	return pu
+func (_u *PositionUpdate) ClearDeleteTime() *PositionUpdate {
+	_u.mutation.ClearDeleteTime()
+	return _u
 }
 
 // SetStatus sets the "status" field.
-func (pu *PositionUpdate) SetStatus(po position.Status) *PositionUpdate {
-	pu.mutation.SetStatus(po)
-	return pu
+func (_u *PositionUpdate) SetStatus(v position.Status) *PositionUpdate {
+	_u.mutation.SetStatus(v)
+	return _u
 }
 
 // SetNillableStatus sets the "status" field if the given value is not nil.
-func (pu *PositionUpdate) SetNillableStatus(po *position.Status) *PositionUpdate {
-	if po != nil {
-		pu.SetStatus(*po)
+func (_u *PositionUpdate) SetNillableStatus(v *position.Status) *PositionUpdate {
+	if v != nil {
+		_u.SetStatus(*v)
 	}
-	return pu
+	return _u
 }
 
 // ClearStatus clears the value of the "status" field.
-func (pu *PositionUpdate) ClearStatus() *PositionUpdate {
-	pu.mutation.ClearStatus()
-	return pu
+func (_u *PositionUpdate) ClearStatus() *PositionUpdate {
+	_u.mutation.ClearStatus()
+	return _u
 }
 
 // SetCreateBy sets the "create_by" field.
-func (pu *PositionUpdate) SetCreateBy(u uint32) *PositionUpdate {
-	pu.mutation.ResetCreateBy()
-	pu.mutation.SetCreateBy(u)
-	return pu
+func (_u *PositionUpdate) SetCreateBy(v uint32) *PositionUpdate {
+	_u.mutation.ResetCreateBy()
+	_u.mutation.SetCreateBy(v)
+	return _u
 }
 
 // SetNillableCreateBy sets the "create_by" field if the given value is not nil.
-func (pu *PositionUpdate) SetNillableCreateBy(u *uint32) *PositionUpdate {
-	if u != nil {
-		pu.SetCreateBy(*u)
+func (_u *PositionUpdate) SetNillableCreateBy(v *uint32) *PositionUpdate {
+	if v != nil {
+		_u.SetCreateBy(*v)
 	}
-	return pu
+	return _u
 }
 
-// AddCreateBy adds u to the "create_by" field.
-func (pu *PositionUpdate) AddCreateBy(u int32) *PositionUpdate {
-	pu.mutation.AddCreateBy(u)
-	return pu
+// AddCreateBy adds value to the "create_by" field.
+func (_u *PositionUpdate) AddCreateBy(v int32) *PositionUpdate {
+	_u.mutation.AddCreateBy(v)
+	return _u
 }
 
 // ClearCreateBy clears the value of the "create_by" field.
-func (pu *PositionUpdate) ClearCreateBy() *PositionUpdate {
-	pu.mutation.ClearCreateBy()
-	return pu
+func (_u *PositionUpdate) ClearCreateBy() *PositionUpdate {
+	_u.mutation.ClearCreateBy()
+	return _u
 }
 
 // SetUpdateBy sets the "update_by" field.
-func (pu *PositionUpdate) SetUpdateBy(u uint32) *PositionUpdate {
-	pu.mutation.ResetUpdateBy()
-	pu.mutation.SetUpdateBy(u)
-	return pu
+func (_u *PositionUpdate) SetUpdateBy(v uint32) *PositionUpdate {
+	_u.mutation.ResetUpdateBy()
+	_u.mutation.SetUpdateBy(v)
+	return _u
 }
 
 // SetNillableUpdateBy sets the "update_by" field if the given value is not nil.
-func (pu *PositionUpdate) SetNillableUpdateBy(u *uint32) *PositionUpdate {
-	if u != nil {
-		pu.SetUpdateBy(*u)
+func (_u *PositionUpdate) SetNillableUpdateBy(v *uint32) *PositionUpdate {
+	if v != nil {
+		_u.SetUpdateBy(*v)
 	}
-	return pu
+	return _u
 }
 
-// AddUpdateBy adds u to the "update_by" field.
-func (pu *PositionUpdate) AddUpdateBy(u int32) *PositionUpdate {
-	pu.mutation.AddUpdateBy(u)
-	return pu
+// AddUpdateBy adds value to the "update_by" field.
+func (_u *PositionUpdate) AddUpdateBy(v int32) *PositionUpdate {
+	_u.mutation.AddUpdateBy(v)
+	return _u
 }
 
 // ClearUpdateBy clears the value of the "update_by" field.
-func (pu *PositionUpdate) ClearUpdateBy() *PositionUpdate {
-	pu.mutation.ClearUpdateBy()
-	return pu
+func (_u *PositionUpdate) ClearUpdateBy() *PositionUpdate {
+	_u.mutation.ClearUpdateBy()
+	return _u
 }
 
 // SetRemark sets the "remark" field.
-func (pu *PositionUpdate) SetRemark(s string) *PositionUpdate {
-	pu.mutation.SetRemark(s)
-	return pu
+func (_u *PositionUpdate) SetRemark(v string) *PositionUpdate {
+	_u.mutation.SetRemark(v)
+	return _u
 }
 
 // SetNillableRemark sets the "remark" field if the given value is not nil.
-func (pu *PositionUpdate) SetNillableRemark(s *string) *PositionUpdate {
-	if s != nil {
-		pu.SetRemark(*s)
+func (_u *PositionUpdate) SetNillableRemark(v *string) *PositionUpdate {
+	if v != nil {
+		_u.SetRemark(*v)
 	}
-	return pu
+	return _u
 }
 
 // ClearRemark clears the value of the "remark" field.
-func (pu *PositionUpdate) ClearRemark() *PositionUpdate {
-	pu.mutation.ClearRemark()
-	return pu
+func (_u *PositionUpdate) ClearRemark() *PositionUpdate {
+	_u.mutation.ClearRemark()
+	return _u
 }
 
 // SetName sets the "name" field.
-func (pu *PositionUpdate) SetName(s string) *PositionUpdate {
-	pu.mutation.SetName(s)
-	return pu
+func (_u *PositionUpdate) SetName(v string) *PositionUpdate {
+	_u.mutation.SetName(v)
+	return _u
 }
 
 // SetNillableName sets the "name" field if the given value is not nil.
-func (pu *PositionUpdate) SetNillableName(s *string) *PositionUpdate {
-	if s != nil {
-		pu.SetName(*s)
+func (_u *PositionUpdate) SetNillableName(v *string) *PositionUpdate {
+	if v != nil {
+		_u.SetName(*v)
 	}
-	return pu
+	return _u
 }
 
 // SetCode sets the "code" field.
-func (pu *PositionUpdate) SetCode(s string) *PositionUpdate {
-	pu.mutation.SetCode(s)
-	return pu
+func (_u *PositionUpdate) SetCode(v string) *PositionUpdate {
+	_u.mutation.SetCode(v)
+	return _u
 }
 
 // SetNillableCode sets the "code" field if the given value is not nil.
-func (pu *PositionUpdate) SetNillableCode(s *string) *PositionUpdate {
-	if s != nil {
-		pu.SetCode(*s)
+func (_u *PositionUpdate) SetNillableCode(v *string) *PositionUpdate {
+	if v != nil {
+		_u.SetCode(*v)
 	}
-	return pu
+	return _u
 }
 
 // SetParentID sets the "parent_id" field.
-func (pu *PositionUpdate) SetParentID(u uint32) *PositionUpdate {
-	pu.mutation.SetParentID(u)
-	return pu
+func (_u *PositionUpdate) SetParentID(v uint32) *PositionUpdate {
+	_u.mutation.SetParentID(v)
+	return _u
 }
 
 // SetNillableParentID sets the "parent_id" field if the given value is not nil.
-func (pu *PositionUpdate) SetNillableParentID(u *uint32) *PositionUpdate {
-	if u != nil {
-		pu.SetParentID(*u)
+func (_u *PositionUpdate) SetNillableParentID(v *uint32) *PositionUpdate {
+	if v != nil {
+		_u.SetParentID(*v)
 	}
-	return pu
+	return _u
 }
 
 // ClearParentID clears the value of the "parent_id" field.
-func (pu *PositionUpdate) ClearParentID() *PositionUpdate {
-	pu.mutation.ClearParentID()
-	return pu
+func (_u *PositionUpdate) ClearParentID() *PositionUpdate {
+	_u.mutation.ClearParentID()
+	return _u
 }
 
 // SetSortID sets the "sort_id" field.
-func (pu *PositionUpdate) SetSortID(i int32) *PositionUpdate {
-	pu.mutation.ResetSortID()
-	pu.mutation.SetSortID(i)
-	return pu
+func (_u *PositionUpdate) SetSortID(v int32) *PositionUpdate {
+	_u.mutation.ResetSortID()
+	_u.mutation.SetSortID(v)
+	return _u
 }
 
 // SetNillableSortID sets the "sort_id" field if the given value is not nil.
-func (pu *PositionUpdate) SetNillableSortID(i *int32) *PositionUpdate {
-	if i != nil {
-		pu.SetSortID(*i)
+func (_u *PositionUpdate) SetNillableSortID(v *int32) *PositionUpdate {
+	if v != nil {
+		_u.SetSortID(*v)
 	}
-	return pu
+	return _u
 }
 
-// AddSortID adds i to the "sort_id" field.
-func (pu *PositionUpdate) AddSortID(i int32) *PositionUpdate {
-	pu.mutation.AddSortID(i)
-	return pu
+// AddSortID adds value to the "sort_id" field.
+func (_u *PositionUpdate) AddSortID(v int32) *PositionUpdate {
+	_u.mutation.AddSortID(v)
+	return _u
 }
 
 // SetParent sets the "parent" edge to the Position entity.
-func (pu *PositionUpdate) SetParent(p *Position) *PositionUpdate {
-	return pu.SetParentID(p.ID)
+func (_u *PositionUpdate) SetParent(v *Position) *PositionUpdate {
+	return _u.SetParentID(v.ID)
 }
 
 // AddChildIDs adds the "children" edge to the Position entity by IDs.
-func (pu *PositionUpdate) AddChildIDs(ids ...uint32) *PositionUpdate {
-	pu.mutation.AddChildIDs(ids...)
-	return pu
+func (_u *PositionUpdate) AddChildIDs(ids ...uint32) *PositionUpdate {
+	_u.mutation.AddChildIDs(ids...)
+	return _u
 }
 
 // AddChildren adds the "children" edges to the Position entity.
-func (pu *PositionUpdate) AddChildren(p ...*Position) *PositionUpdate {
-	ids := make([]uint32, len(p))
-	for i := range p {
-		ids[i] = p[i].ID
+func (_u *PositionUpdate) AddChildren(v ...*Position) *PositionUpdate {
+	ids := make([]uint32, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
 	}
-	return pu.AddChildIDs(ids...)
+	return _u.AddChildIDs(ids...)
 }
 
 // Mutation returns the PositionMutation object of the builder.
-func (pu *PositionUpdate) Mutation() *PositionMutation {
-	return pu.mutation
+func (_u *PositionUpdate) Mutation() *PositionMutation {
+	return _u.mutation
 }
 
 // ClearParent clears the "parent" edge to the Position entity.
-func (pu *PositionUpdate) ClearParent() *PositionUpdate {
-	pu.mutation.ClearParent()
-	return pu
+func (_u *PositionUpdate) ClearParent() *PositionUpdate {
+	_u.mutation.ClearParent()
+	return _u
 }
 
 // ClearChildren clears all "children" edges to the Position entity.
-func (pu *PositionUpdate) ClearChildren() *PositionUpdate {
-	pu.mutation.ClearChildren()
-	return pu
+func (_u *PositionUpdate) ClearChildren() *PositionUpdate {
+	_u.mutation.ClearChildren()
+	return _u
 }
 
 // RemoveChildIDs removes the "children" edge to Position entities by IDs.
-func (pu *PositionUpdate) RemoveChildIDs(ids ...uint32) *PositionUpdate {
-	pu.mutation.RemoveChildIDs(ids...)
-	return pu
+func (_u *PositionUpdate) RemoveChildIDs(ids ...uint32) *PositionUpdate {
+	_u.mutation.RemoveChildIDs(ids...)
+	return _u
 }
 
 // RemoveChildren removes "children" edges to Position entities.
-func (pu *PositionUpdate) RemoveChildren(p ...*Position) *PositionUpdate {
-	ids := make([]uint32, len(p))
-	for i := range p {
-		ids[i] = p[i].ID
+func (_u *PositionUpdate) RemoveChildren(v ...*Position) *PositionUpdate {
+	ids := make([]uint32, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
 	}
-	return pu.RemoveChildIDs(ids...)
+	return _u.RemoveChildIDs(ids...)
 }
 
 // Save executes the query and returns the number of nodes affected by the update operation.
-func (pu *PositionUpdate) Save(ctx context.Context) (int, error) {
-	return withHooks(ctx, pu.sqlSave, pu.mutation, pu.hooks)
+func (_u *PositionUpdate) Save(ctx context.Context) (int, error) {
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (pu *PositionUpdate) SaveX(ctx context.Context) int {
-	affected, err := pu.Save(ctx)
+func (_u *PositionUpdate) SaveX(ctx context.Context) int {
+	affected, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -299,31 +299,31 @@ func (pu *PositionUpdate) SaveX(ctx context.Context) int {
 }
 
 // Exec executes the query.
-func (pu *PositionUpdate) Exec(ctx context.Context) error {
-	_, err := pu.Save(ctx)
+func (_u *PositionUpdate) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (pu *PositionUpdate) ExecX(ctx context.Context) {
-	if err := pu.Exec(ctx); err != nil {
+func (_u *PositionUpdate) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
-func (pu *PositionUpdate) check() error {
-	if v, ok := pu.mutation.Status(); ok {
+func (_u *PositionUpdate) check() error {
+	if v, ok := _u.mutation.Status(); ok {
 		if err := position.StatusValidator(v); err != nil {
 			return &ValidationError{Name: "status", err: fmt.Errorf(`ent: validator failed for field "Position.status": %w`, err)}
 		}
 	}
-	if v, ok := pu.mutation.Name(); ok {
+	if v, ok := _u.mutation.Name(); ok {
 		if err := position.NameValidator(v); err != nil {
 			return &ValidationError{Name: "name", err: fmt.Errorf(`ent: validator failed for field "Position.name": %w`, err)}
 		}
 	}
-	if v, ok := pu.mutation.Code(); ok {
+	if v, ok := _u.mutation.Code(); ok {
 		if err := position.CodeValidator(v); err != nil {
 			return &ValidationError{Name: "code", err: fmt.Errorf(`ent: validator failed for field "Position.code": %w`, err)}
 		}
@@ -332,84 +332,84 @@ func (pu *PositionUpdate) check() error {
 }
 
 // Modify adds a statement modifier for attaching custom logic to the UPDATE statement.
-func (pu *PositionUpdate) Modify(modifiers ...func(u *sql.UpdateBuilder)) *PositionUpdate {
-	pu.modifiers = append(pu.modifiers, modifiers...)
-	return pu
+func (_u *PositionUpdate) Modify(modifiers ...func(u *sql.UpdateBuilder)) *PositionUpdate {
+	_u.modifiers = append(_u.modifiers, modifiers...)
+	return _u
 }
 
-func (pu *PositionUpdate) sqlSave(ctx context.Context) (n int, err error) {
-	if err := pu.check(); err != nil {
-		return n, err
+func (_u *PositionUpdate) sqlSave(ctx context.Context) (_node int, err error) {
+	if err := _u.check(); err != nil {
+		return _node, err
 	}
 	_spec := sqlgraph.NewUpdateSpec(position.Table, position.Columns, sqlgraph.NewFieldSpec(position.FieldID, field.TypeUint32))
-	if ps := pu.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if pu.mutation.CreateTimeCleared() {
+	if _u.mutation.CreateTimeCleared() {
 		_spec.ClearField(position.FieldCreateTime, field.TypeTime)
 	}
-	if value, ok := pu.mutation.UpdateTime(); ok {
+	if value, ok := _u.mutation.UpdateTime(); ok {
 		_spec.SetField(position.FieldUpdateTime, field.TypeTime, value)
 	}
-	if pu.mutation.UpdateTimeCleared() {
+	if _u.mutation.UpdateTimeCleared() {
 		_spec.ClearField(position.FieldUpdateTime, field.TypeTime)
 	}
-	if value, ok := pu.mutation.DeleteTime(); ok {
+	if value, ok := _u.mutation.DeleteTime(); ok {
 		_spec.SetField(position.FieldDeleteTime, field.TypeTime, value)
 	}
-	if pu.mutation.DeleteTimeCleared() {
+	if _u.mutation.DeleteTimeCleared() {
 		_spec.ClearField(position.FieldDeleteTime, field.TypeTime)
 	}
-	if value, ok := pu.mutation.Status(); ok {
+	if value, ok := _u.mutation.Status(); ok {
 		_spec.SetField(position.FieldStatus, field.TypeEnum, value)
 	}
-	if pu.mutation.StatusCleared() {
+	if _u.mutation.StatusCleared() {
 		_spec.ClearField(position.FieldStatus, field.TypeEnum)
 	}
-	if value, ok := pu.mutation.CreateBy(); ok {
+	if value, ok := _u.mutation.CreateBy(); ok {
 		_spec.SetField(position.FieldCreateBy, field.TypeUint32, value)
 	}
-	if value, ok := pu.mutation.AddedCreateBy(); ok {
+	if value, ok := _u.mutation.AddedCreateBy(); ok {
 		_spec.AddField(position.FieldCreateBy, field.TypeUint32, value)
 	}
-	if pu.mutation.CreateByCleared() {
+	if _u.mutation.CreateByCleared() {
 		_spec.ClearField(position.FieldCreateBy, field.TypeUint32)
 	}
-	if value, ok := pu.mutation.UpdateBy(); ok {
+	if value, ok := _u.mutation.UpdateBy(); ok {
 		_spec.SetField(position.FieldUpdateBy, field.TypeUint32, value)
 	}
-	if value, ok := pu.mutation.AddedUpdateBy(); ok {
+	if value, ok := _u.mutation.AddedUpdateBy(); ok {
 		_spec.AddField(position.FieldUpdateBy, field.TypeUint32, value)
 	}
-	if pu.mutation.UpdateByCleared() {
+	if _u.mutation.UpdateByCleared() {
 		_spec.ClearField(position.FieldUpdateBy, field.TypeUint32)
 	}
-	if value, ok := pu.mutation.Remark(); ok {
+	if value, ok := _u.mutation.Remark(); ok {
 		_spec.SetField(position.FieldRemark, field.TypeString, value)
 	}
-	if pu.mutation.RemarkCleared() {
+	if _u.mutation.RemarkCleared() {
 		_spec.ClearField(position.FieldRemark, field.TypeString)
 	}
-	if pu.mutation.TenantIDCleared() {
+	if _u.mutation.TenantIDCleared() {
 		_spec.ClearField(position.FieldTenantID, field.TypeUint32)
 	}
-	if value, ok := pu.mutation.Name(); ok {
+	if value, ok := _u.mutation.Name(); ok {
 		_spec.SetField(position.FieldName, field.TypeString, value)
 	}
-	if value, ok := pu.mutation.Code(); ok {
+	if value, ok := _u.mutation.Code(); ok {
 		_spec.SetField(position.FieldCode, field.TypeString, value)
 	}
-	if value, ok := pu.mutation.SortID(); ok {
+	if value, ok := _u.mutation.SortID(); ok {
 		_spec.SetField(position.FieldSortID, field.TypeInt32, value)
 	}
-	if value, ok := pu.mutation.AddedSortID(); ok {
+	if value, ok := _u.mutation.AddedSortID(); ok {
 		_spec.AddField(position.FieldSortID, field.TypeInt32, value)
 	}
-	if pu.mutation.ParentCleared() {
+	if _u.mutation.ParentCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
@@ -422,7 +422,7 @@ func (pu *PositionUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := pu.mutation.ParentIDs(); len(nodes) > 0 {
+	if nodes := _u.mutation.ParentIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
@@ -438,7 +438,7 @@ func (pu *PositionUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	if pu.mutation.ChildrenCleared() {
+	if _u.mutation.ChildrenCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
@@ -451,7 +451,7 @@ func (pu *PositionUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := pu.mutation.RemovedChildrenIDs(); len(nodes) > 0 && !pu.mutation.ChildrenCleared() {
+	if nodes := _u.mutation.RemovedChildrenIDs(); len(nodes) > 0 && !_u.mutation.ChildrenCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
@@ -467,7 +467,7 @@ func (pu *PositionUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := pu.mutation.ChildrenIDs(); len(nodes) > 0 {
+	if nodes := _u.mutation.ChildrenIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
@@ -483,8 +483,8 @@ func (pu *PositionUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	_spec.AddModifiers(pu.modifiers...)
-	if n, err = sqlgraph.UpdateNodes(ctx, pu.driver, _spec); err != nil {
+	_spec.AddModifiers(_u.modifiers...)
+	if _node, err = sqlgraph.UpdateNodes(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{position.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -492,8 +492,8 @@ func (pu *PositionUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		return 0, err
 	}
-	pu.mutation.done = true
-	return n, nil
+	_u.mutation.done = true
+	return _node, nil
 }
 
 // PositionUpdateOne is the builder for updating a single Position entity.
@@ -506,281 +506,281 @@ type PositionUpdateOne struct {
 }
 
 // SetUpdateTime sets the "update_time" field.
-func (puo *PositionUpdateOne) SetUpdateTime(t time.Time) *PositionUpdateOne {
-	puo.mutation.SetUpdateTime(t)
-	return puo
+func (_u *PositionUpdateOne) SetUpdateTime(v time.Time) *PositionUpdateOne {
+	_u.mutation.SetUpdateTime(v)
+	return _u
 }
 
 // SetNillableUpdateTime sets the "update_time" field if the given value is not nil.
-func (puo *PositionUpdateOne) SetNillableUpdateTime(t *time.Time) *PositionUpdateOne {
-	if t != nil {
-		puo.SetUpdateTime(*t)
+func (_u *PositionUpdateOne) SetNillableUpdateTime(v *time.Time) *PositionUpdateOne {
+	if v != nil {
+		_u.SetUpdateTime(*v)
 	}
-	return puo
+	return _u
 }
 
 // ClearUpdateTime clears the value of the "update_time" field.
-func (puo *PositionUpdateOne) ClearUpdateTime() *PositionUpdateOne {
-	puo.mutation.ClearUpdateTime()
-	return puo
+func (_u *PositionUpdateOne) ClearUpdateTime() *PositionUpdateOne {
+	_u.mutation.ClearUpdateTime()
+	return _u
 }
 
 // SetDeleteTime sets the "delete_time" field.
-func (puo *PositionUpdateOne) SetDeleteTime(t time.Time) *PositionUpdateOne {
-	puo.mutation.SetDeleteTime(t)
-	return puo
+func (_u *PositionUpdateOne) SetDeleteTime(v time.Time) *PositionUpdateOne {
+	_u.mutation.SetDeleteTime(v)
+	return _u
 }
 
 // SetNillableDeleteTime sets the "delete_time" field if the given value is not nil.
-func (puo *PositionUpdateOne) SetNillableDeleteTime(t *time.Time) *PositionUpdateOne {
-	if t != nil {
-		puo.SetDeleteTime(*t)
+func (_u *PositionUpdateOne) SetNillableDeleteTime(v *time.Time) *PositionUpdateOne {
+	if v != nil {
+		_u.SetDeleteTime(*v)
 	}
-	return puo
+	return _u
 }
 
 // ClearDeleteTime clears the value of the "delete_time" field.
-func (puo *PositionUpdateOne) ClearDeleteTime() *PositionUpdateOne {
-	puo.mutation.ClearDeleteTime()
-	return puo
+func (_u *PositionUpdateOne) ClearDeleteTime() *PositionUpdateOne {
+	_u.mutation.ClearDeleteTime()
+	return _u
 }
 
 // SetStatus sets the "status" field.
-func (puo *PositionUpdateOne) SetStatus(po position.Status) *PositionUpdateOne {
-	puo.mutation.SetStatus(po)
-	return puo
+func (_u *PositionUpdateOne) SetStatus(v position.Status) *PositionUpdateOne {
+	_u.mutation.SetStatus(v)
+	return _u
 }
 
 // SetNillableStatus sets the "status" field if the given value is not nil.
-func (puo *PositionUpdateOne) SetNillableStatus(po *position.Status) *PositionUpdateOne {
-	if po != nil {
-		puo.SetStatus(*po)
+func (_u *PositionUpdateOne) SetNillableStatus(v *position.Status) *PositionUpdateOne {
+	if v != nil {
+		_u.SetStatus(*v)
 	}
-	return puo
+	return _u
 }
 
 // ClearStatus clears the value of the "status" field.
-func (puo *PositionUpdateOne) ClearStatus() *PositionUpdateOne {
-	puo.mutation.ClearStatus()
-	return puo
+func (_u *PositionUpdateOne) ClearStatus() *PositionUpdateOne {
+	_u.mutation.ClearStatus()
+	return _u
 }
 
 // SetCreateBy sets the "create_by" field.
-func (puo *PositionUpdateOne) SetCreateBy(u uint32) *PositionUpdateOne {
-	puo.mutation.ResetCreateBy()
-	puo.mutation.SetCreateBy(u)
-	return puo
+func (_u *PositionUpdateOne) SetCreateBy(v uint32) *PositionUpdateOne {
+	_u.mutation.ResetCreateBy()
+	_u.mutation.SetCreateBy(v)
+	return _u
 }
 
 // SetNillableCreateBy sets the "create_by" field if the given value is not nil.
-func (puo *PositionUpdateOne) SetNillableCreateBy(u *uint32) *PositionUpdateOne {
-	if u != nil {
-		puo.SetCreateBy(*u)
+func (_u *PositionUpdateOne) SetNillableCreateBy(v *uint32) *PositionUpdateOne {
+	if v != nil {
+		_u.SetCreateBy(*v)
 	}
-	return puo
+	return _u
 }
 
-// AddCreateBy adds u to the "create_by" field.
-func (puo *PositionUpdateOne) AddCreateBy(u int32) *PositionUpdateOne {
-	puo.mutation.AddCreateBy(u)
-	return puo
+// AddCreateBy adds value to the "create_by" field.
+func (_u *PositionUpdateOne) AddCreateBy(v int32) *PositionUpdateOne {
+	_u.mutation.AddCreateBy(v)
+	return _u
 }
 
 // ClearCreateBy clears the value of the "create_by" field.
-func (puo *PositionUpdateOne) ClearCreateBy() *PositionUpdateOne {
-	puo.mutation.ClearCreateBy()
-	return puo
+func (_u *PositionUpdateOne) ClearCreateBy() *PositionUpdateOne {
+	_u.mutation.ClearCreateBy()
+	return _u
 }
 
 // SetUpdateBy sets the "update_by" field.
-func (puo *PositionUpdateOne) SetUpdateBy(u uint32) *PositionUpdateOne {
-	puo.mutation.ResetUpdateBy()
-	puo.mutation.SetUpdateBy(u)
-	return puo
+func (_u *PositionUpdateOne) SetUpdateBy(v uint32) *PositionUpdateOne {
+	_u.mutation.ResetUpdateBy()
+	_u.mutation.SetUpdateBy(v)
+	return _u
 }
 
 // SetNillableUpdateBy sets the "update_by" field if the given value is not nil.
-func (puo *PositionUpdateOne) SetNillableUpdateBy(u *uint32) *PositionUpdateOne {
-	if u != nil {
-		puo.SetUpdateBy(*u)
+func (_u *PositionUpdateOne) SetNillableUpdateBy(v *uint32) *PositionUpdateOne {
+	if v != nil {
+		_u.SetUpdateBy(*v)
 	}
-	return puo
+	return _u
 }
 
-// AddUpdateBy adds u to the "update_by" field.
-func (puo *PositionUpdateOne) AddUpdateBy(u int32) *PositionUpdateOne {
-	puo.mutation.AddUpdateBy(u)
-	return puo
+// AddUpdateBy adds value to the "update_by" field.
+func (_u *PositionUpdateOne) AddUpdateBy(v int32) *PositionUpdateOne {
+	_u.mutation.AddUpdateBy(v)
+	return _u
 }
 
 // ClearUpdateBy clears the value of the "update_by" field.
-func (puo *PositionUpdateOne) ClearUpdateBy() *PositionUpdateOne {
-	puo.mutation.ClearUpdateBy()
-	return puo
+func (_u *PositionUpdateOne) ClearUpdateBy() *PositionUpdateOne {
+	_u.mutation.ClearUpdateBy()
+	return _u
 }
 
 // SetRemark sets the "remark" field.
-func (puo *PositionUpdateOne) SetRemark(s string) *PositionUpdateOne {
-	puo.mutation.SetRemark(s)
-	return puo
+func (_u *PositionUpdateOne) SetRemark(v string) *PositionUpdateOne {
+	_u.mutation.SetRemark(v)
+	return _u
 }
 
 // SetNillableRemark sets the "remark" field if the given value is not nil.
-func (puo *PositionUpdateOne) SetNillableRemark(s *string) *PositionUpdateOne {
-	if s != nil {
-		puo.SetRemark(*s)
+func (_u *PositionUpdateOne) SetNillableRemark(v *string) *PositionUpdateOne {
+	if v != nil {
+		_u.SetRemark(*v)
 	}
-	return puo
+	return _u
 }
 
 // ClearRemark clears the value of the "remark" field.
-func (puo *PositionUpdateOne) ClearRemark() *PositionUpdateOne {
-	puo.mutation.ClearRemark()
-	return puo
+func (_u *PositionUpdateOne) ClearRemark() *PositionUpdateOne {
+	_u.mutation.ClearRemark()
+	return _u
 }
 
 // SetName sets the "name" field.
-func (puo *PositionUpdateOne) SetName(s string) *PositionUpdateOne {
-	puo.mutation.SetName(s)
-	return puo
+func (_u *PositionUpdateOne) SetName(v string) *PositionUpdateOne {
+	_u.mutation.SetName(v)
+	return _u
 }
 
 // SetNillableName sets the "name" field if the given value is not nil.
-func (puo *PositionUpdateOne) SetNillableName(s *string) *PositionUpdateOne {
-	if s != nil {
-		puo.SetName(*s)
+func (_u *PositionUpdateOne) SetNillableName(v *string) *PositionUpdateOne {
+	if v != nil {
+		_u.SetName(*v)
 	}
-	return puo
+	return _u
 }
 
 // SetCode sets the "code" field.
-func (puo *PositionUpdateOne) SetCode(s string) *PositionUpdateOne {
-	puo.mutation.SetCode(s)
-	return puo
+func (_u *PositionUpdateOne) SetCode(v string) *PositionUpdateOne {
+	_u.mutation.SetCode(v)
+	return _u
 }
 
 // SetNillableCode sets the "code" field if the given value is not nil.
-func (puo *PositionUpdateOne) SetNillableCode(s *string) *PositionUpdateOne {
-	if s != nil {
-		puo.SetCode(*s)
+func (_u *PositionUpdateOne) SetNillableCode(v *string) *PositionUpdateOne {
+	if v != nil {
+		_u.SetCode(*v)
 	}
-	return puo
+	return _u
 }
 
 // SetParentID sets the "parent_id" field.
-func (puo *PositionUpdateOne) SetParentID(u uint32) *PositionUpdateOne {
-	puo.mutation.SetParentID(u)
-	return puo
+func (_u *PositionUpdateOne) SetParentID(v uint32) *PositionUpdateOne {
+	_u.mutation.SetParentID(v)
+	return _u
 }
 
 // SetNillableParentID sets the "parent_id" field if the given value is not nil.
-func (puo *PositionUpdateOne) SetNillableParentID(u *uint32) *PositionUpdateOne {
-	if u != nil {
-		puo.SetParentID(*u)
+func (_u *PositionUpdateOne) SetNillableParentID(v *uint32) *PositionUpdateOne {
+	if v != nil {
+		_u.SetParentID(*v)
 	}
-	return puo
+	return _u
 }
 
 // ClearParentID clears the value of the "parent_id" field.
-func (puo *PositionUpdateOne) ClearParentID() *PositionUpdateOne {
-	puo.mutation.ClearParentID()
-	return puo
+func (_u *PositionUpdateOne) ClearParentID() *PositionUpdateOne {
+	_u.mutation.ClearParentID()
+	return _u
 }
 
 // SetSortID sets the "sort_id" field.
-func (puo *PositionUpdateOne) SetSortID(i int32) *PositionUpdateOne {
-	puo.mutation.ResetSortID()
-	puo.mutation.SetSortID(i)
-	return puo
+func (_u *PositionUpdateOne) SetSortID(v int32) *PositionUpdateOne {
+	_u.mutation.ResetSortID()
+	_u.mutation.SetSortID(v)
+	return _u
 }
 
 // SetNillableSortID sets the "sort_id" field if the given value is not nil.
-func (puo *PositionUpdateOne) SetNillableSortID(i *int32) *PositionUpdateOne {
-	if i != nil {
-		puo.SetSortID(*i)
+func (_u *PositionUpdateOne) SetNillableSortID(v *int32) *PositionUpdateOne {
+	if v != nil {
+		_u.SetSortID(*v)
 	}
-	return puo
+	return _u
 }
 
-// AddSortID adds i to the "sort_id" field.
-func (puo *PositionUpdateOne) AddSortID(i int32) *PositionUpdateOne {
-	puo.mutation.AddSortID(i)
-	return puo
+// AddSortID adds value to the "sort_id" field.
+func (_u *PositionUpdateOne) AddSortID(v int32) *PositionUpdateOne {
+	_u.mutation.AddSortID(v)
+	return _u
 }
 
 // SetParent sets the "parent" edge to the Position entity.
-func (puo *PositionUpdateOne) SetParent(p *Position) *PositionUpdateOne {
-	return puo.SetParentID(p.ID)
+func (_u *PositionUpdateOne) SetParent(v *Position) *PositionUpdateOne {
+	return _u.SetParentID(v.ID)
 }
 
 // AddChildIDs adds the "children" edge to the Position entity by IDs.
-func (puo *PositionUpdateOne) AddChildIDs(ids ...uint32) *PositionUpdateOne {
-	puo.mutation.AddChildIDs(ids...)
-	return puo
+func (_u *PositionUpdateOne) AddChildIDs(ids ...uint32) *PositionUpdateOne {
+	_u.mutation.AddChildIDs(ids...)
+	return _u
 }
 
 // AddChildren adds the "children" edges to the Position entity.
-func (puo *PositionUpdateOne) AddChildren(p ...*Position) *PositionUpdateOne {
-	ids := make([]uint32, len(p))
-	for i := range p {
-		ids[i] = p[i].ID
+func (_u *PositionUpdateOne) AddChildren(v ...*Position) *PositionUpdateOne {
+	ids := make([]uint32, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
 	}
-	return puo.AddChildIDs(ids...)
+	return _u.AddChildIDs(ids...)
 }
 
 // Mutation returns the PositionMutation object of the builder.
-func (puo *PositionUpdateOne) Mutation() *PositionMutation {
-	return puo.mutation
+func (_u *PositionUpdateOne) Mutation() *PositionMutation {
+	return _u.mutation
 }
 
 // ClearParent clears the "parent" edge to the Position entity.
-func (puo *PositionUpdateOne) ClearParent() *PositionUpdateOne {
-	puo.mutation.ClearParent()
-	return puo
+func (_u *PositionUpdateOne) ClearParent() *PositionUpdateOne {
+	_u.mutation.ClearParent()
+	return _u
 }
 
 // ClearChildren clears all "children" edges to the Position entity.
-func (puo *PositionUpdateOne) ClearChildren() *PositionUpdateOne {
-	puo.mutation.ClearChildren()
-	return puo
+func (_u *PositionUpdateOne) ClearChildren() *PositionUpdateOne {
+	_u.mutation.ClearChildren()
+	return _u
 }
 
 // RemoveChildIDs removes the "children" edge to Position entities by IDs.
-func (puo *PositionUpdateOne) RemoveChildIDs(ids ...uint32) *PositionUpdateOne {
-	puo.mutation.RemoveChildIDs(ids...)
-	return puo
+func (_u *PositionUpdateOne) RemoveChildIDs(ids ...uint32) *PositionUpdateOne {
+	_u.mutation.RemoveChildIDs(ids...)
+	return _u
 }
 
 // RemoveChildren removes "children" edges to Position entities.
-func (puo *PositionUpdateOne) RemoveChildren(p ...*Position) *PositionUpdateOne {
-	ids := make([]uint32, len(p))
-	for i := range p {
-		ids[i] = p[i].ID
+func (_u *PositionUpdateOne) RemoveChildren(v ...*Position) *PositionUpdateOne {
+	ids := make([]uint32, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
 	}
-	return puo.RemoveChildIDs(ids...)
+	return _u.RemoveChildIDs(ids...)
 }
 
 // Where appends a list predicates to the PositionUpdate builder.
-func (puo *PositionUpdateOne) Where(ps ...predicate.Position) *PositionUpdateOne {
-	puo.mutation.Where(ps...)
-	return puo
+func (_u *PositionUpdateOne) Where(ps ...predicate.Position) *PositionUpdateOne {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // Select allows selecting one or more fields (columns) of the returned entity.
 // The default is selecting all fields defined in the entity schema.
-func (puo *PositionUpdateOne) Select(field string, fields ...string) *PositionUpdateOne {
-	puo.fields = append([]string{field}, fields...)
-	return puo
+func (_u *PositionUpdateOne) Select(field string, fields ...string) *PositionUpdateOne {
+	_u.fields = append([]string{field}, fields...)
+	return _u
 }
 
 // Save executes the query and returns the updated Position entity.
-func (puo *PositionUpdateOne) Save(ctx context.Context) (*Position, error) {
-	return withHooks(ctx, puo.sqlSave, puo.mutation, puo.hooks)
+func (_u *PositionUpdateOne) Save(ctx context.Context) (*Position, error) {
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (puo *PositionUpdateOne) SaveX(ctx context.Context) *Position {
-	node, err := puo.Save(ctx)
+func (_u *PositionUpdateOne) SaveX(ctx context.Context) *Position {
+	node, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -788,31 +788,31 @@ func (puo *PositionUpdateOne) SaveX(ctx context.Context) *Position {
 }
 
 // Exec executes the query on the entity.
-func (puo *PositionUpdateOne) Exec(ctx context.Context) error {
-	_, err := puo.Save(ctx)
+func (_u *PositionUpdateOne) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (puo *PositionUpdateOne) ExecX(ctx context.Context) {
-	if err := puo.Exec(ctx); err != nil {
+func (_u *PositionUpdateOne) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
-func (puo *PositionUpdateOne) check() error {
-	if v, ok := puo.mutation.Status(); ok {
+func (_u *PositionUpdateOne) check() error {
+	if v, ok := _u.mutation.Status(); ok {
 		if err := position.StatusValidator(v); err != nil {
 			return &ValidationError{Name: "status", err: fmt.Errorf(`ent: validator failed for field "Position.status": %w`, err)}
 		}
 	}
-	if v, ok := puo.mutation.Name(); ok {
+	if v, ok := _u.mutation.Name(); ok {
 		if err := position.NameValidator(v); err != nil {
 			return &ValidationError{Name: "name", err: fmt.Errorf(`ent: validator failed for field "Position.name": %w`, err)}
 		}
 	}
-	if v, ok := puo.mutation.Code(); ok {
+	if v, ok := _u.mutation.Code(); ok {
 		if err := position.CodeValidator(v); err != nil {
 			return &ValidationError{Name: "code", err: fmt.Errorf(`ent: validator failed for field "Position.code": %w`, err)}
 		}
@@ -821,22 +821,22 @@ func (puo *PositionUpdateOne) check() error {
 }
 
 // Modify adds a statement modifier for attaching custom logic to the UPDATE statement.
-func (puo *PositionUpdateOne) Modify(modifiers ...func(u *sql.UpdateBuilder)) *PositionUpdateOne {
-	puo.modifiers = append(puo.modifiers, modifiers...)
-	return puo
+func (_u *PositionUpdateOne) Modify(modifiers ...func(u *sql.UpdateBuilder)) *PositionUpdateOne {
+	_u.modifiers = append(_u.modifiers, modifiers...)
+	return _u
 }
 
-func (puo *PositionUpdateOne) sqlSave(ctx context.Context) (_node *Position, err error) {
-	if err := puo.check(); err != nil {
+func (_u *PositionUpdateOne) sqlSave(ctx context.Context) (_node *Position, err error) {
+	if err := _u.check(); err != nil {
 		return _node, err
 	}
 	_spec := sqlgraph.NewUpdateSpec(position.Table, position.Columns, sqlgraph.NewFieldSpec(position.FieldID, field.TypeUint32))
-	id, ok := puo.mutation.ID()
+	id, ok := _u.mutation.ID()
 	if !ok {
 		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "Position.id" for update`)}
 	}
 	_spec.Node.ID.Value = id
-	if fields := puo.fields; len(fields) > 0 {
+	if fields := _u.fields; len(fields) > 0 {
 		_spec.Node.Columns = make([]string, 0, len(fields))
 		_spec.Node.Columns = append(_spec.Node.Columns, position.FieldID)
 		for _, f := range fields {
@@ -848,74 +848,74 @@ func (puo *PositionUpdateOne) sqlSave(ctx context.Context) (_node *Position, err
 			}
 		}
 	}
-	if ps := puo.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if puo.mutation.CreateTimeCleared() {
+	if _u.mutation.CreateTimeCleared() {
 		_spec.ClearField(position.FieldCreateTime, field.TypeTime)
 	}
-	if value, ok := puo.mutation.UpdateTime(); ok {
+	if value, ok := _u.mutation.UpdateTime(); ok {
 		_spec.SetField(position.FieldUpdateTime, field.TypeTime, value)
 	}
-	if puo.mutation.UpdateTimeCleared() {
+	if _u.mutation.UpdateTimeCleared() {
 		_spec.ClearField(position.FieldUpdateTime, field.TypeTime)
 	}
-	if value, ok := puo.mutation.DeleteTime(); ok {
+	if value, ok := _u.mutation.DeleteTime(); ok {
 		_spec.SetField(position.FieldDeleteTime, field.TypeTime, value)
 	}
-	if puo.mutation.DeleteTimeCleared() {
+	if _u.mutation.DeleteTimeCleared() {
 		_spec.ClearField(position.FieldDeleteTime, field.TypeTime)
 	}
-	if value, ok := puo.mutation.Status(); ok {
+	if value, ok := _u.mutation.Status(); ok {
 		_spec.SetField(position.FieldStatus, field.TypeEnum, value)
 	}
-	if puo.mutation.StatusCleared() {
+	if _u.mutation.StatusCleared() {
 		_spec.ClearField(position.FieldStatus, field.TypeEnum)
 	}
-	if value, ok := puo.mutation.CreateBy(); ok {
+	if value, ok := _u.mutation.CreateBy(); ok {
 		_spec.SetField(position.FieldCreateBy, field.TypeUint32, value)
 	}
-	if value, ok := puo.mutation.AddedCreateBy(); ok {
+	if value, ok := _u.mutation.AddedCreateBy(); ok {
 		_spec.AddField(position.FieldCreateBy, field.TypeUint32, value)
 	}
-	if puo.mutation.CreateByCleared() {
+	if _u.mutation.CreateByCleared() {
 		_spec.ClearField(position.FieldCreateBy, field.TypeUint32)
 	}
-	if value, ok := puo.mutation.UpdateBy(); ok {
+	if value, ok := _u.mutation.UpdateBy(); ok {
 		_spec.SetField(position.FieldUpdateBy, field.TypeUint32, value)
 	}
-	if value, ok := puo.mutation.AddedUpdateBy(); ok {
+	if value, ok := _u.mutation.AddedUpdateBy(); ok {
 		_spec.AddField(position.FieldUpdateBy, field.TypeUint32, value)
 	}
-	if puo.mutation.UpdateByCleared() {
+	if _u.mutation.UpdateByCleared() {
 		_spec.ClearField(position.FieldUpdateBy, field.TypeUint32)
 	}
-	if value, ok := puo.mutation.Remark(); ok {
+	if value, ok := _u.mutation.Remark(); ok {
 		_spec.SetField(position.FieldRemark, field.TypeString, value)
 	}
-	if puo.mutation.RemarkCleared() {
+	if _u.mutation.RemarkCleared() {
 		_spec.ClearField(position.FieldRemark, field.TypeString)
 	}
-	if puo.mutation.TenantIDCleared() {
+	if _u.mutation.TenantIDCleared() {
 		_spec.ClearField(position.FieldTenantID, field.TypeUint32)
 	}
-	if value, ok := puo.mutation.Name(); ok {
+	if value, ok := _u.mutation.Name(); ok {
 		_spec.SetField(position.FieldName, field.TypeString, value)
 	}
-	if value, ok := puo.mutation.Code(); ok {
+	if value, ok := _u.mutation.Code(); ok {
 		_spec.SetField(position.FieldCode, field.TypeString, value)
 	}
-	if value, ok := puo.mutation.SortID(); ok {
+	if value, ok := _u.mutation.SortID(); ok {
 		_spec.SetField(position.FieldSortID, field.TypeInt32, value)
 	}
-	if value, ok := puo.mutation.AddedSortID(); ok {
+	if value, ok := _u.mutation.AddedSortID(); ok {
 		_spec.AddField(position.FieldSortID, field.TypeInt32, value)
 	}
-	if puo.mutation.ParentCleared() {
+	if _u.mutation.ParentCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
@@ -928,7 +928,7 @@ func (puo *PositionUpdateOne) sqlSave(ctx context.Context) (_node *Position, err
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := puo.mutation.ParentIDs(); len(nodes) > 0 {
+	if nodes := _u.mutation.ParentIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
@@ -944,7 +944,7 @@ func (puo *PositionUpdateOne) sqlSave(ctx context.Context) (_node *Position, err
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	if puo.mutation.ChildrenCleared() {
+	if _u.mutation.ChildrenCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
@@ -957,7 +957,7 @@ func (puo *PositionUpdateOne) sqlSave(ctx context.Context) (_node *Position, err
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := puo.mutation.RemovedChildrenIDs(); len(nodes) > 0 && !puo.mutation.ChildrenCleared() {
+	if nodes := _u.mutation.RemovedChildrenIDs(); len(nodes) > 0 && !_u.mutation.ChildrenCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
@@ -973,7 +973,7 @@ func (puo *PositionUpdateOne) sqlSave(ctx context.Context) (_node *Position, err
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := puo.mutation.ChildrenIDs(); len(nodes) > 0 {
+	if nodes := _u.mutation.ChildrenIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
@@ -989,11 +989,11 @@ func (puo *PositionUpdateOne) sqlSave(ctx context.Context) (_node *Position, err
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	_spec.AddModifiers(puo.modifiers...)
-	_node = &Position{config: puo.config}
+	_spec.AddModifiers(_u.modifiers...)
+	_node = &Position{config: _u.config}
 	_spec.Assign = _node.assignValues
 	_spec.ScanValues = _node.scanValues
-	if err = sqlgraph.UpdateNode(ctx, puo.driver, _spec); err != nil {
+	if err = sqlgraph.UpdateNode(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{position.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -1001,6 +1001,6 @@ func (puo *PositionUpdateOne) sqlSave(ctx context.Context) (_node *Position, err
 		}
 		return nil, err
 	}
-	puo.mutation.done = true
+	_u.mutation.done = true
 	return _node, nil
 }

@@ -23,235 +23,235 @@ type DictCreate struct {
 }
 
 // SetCreateTime sets the "create_time" field.
-func (dc *DictCreate) SetCreateTime(t time.Time) *DictCreate {
-	dc.mutation.SetCreateTime(t)
-	return dc
+func (_c *DictCreate) SetCreateTime(v time.Time) *DictCreate {
+	_c.mutation.SetCreateTime(v)
+	return _c
 }
 
 // SetNillableCreateTime sets the "create_time" field if the given value is not nil.
-func (dc *DictCreate) SetNillableCreateTime(t *time.Time) *DictCreate {
-	if t != nil {
-		dc.SetCreateTime(*t)
+func (_c *DictCreate) SetNillableCreateTime(v *time.Time) *DictCreate {
+	if v != nil {
+		_c.SetCreateTime(*v)
 	}
-	return dc
+	return _c
 }
 
 // SetUpdateTime sets the "update_time" field.
-func (dc *DictCreate) SetUpdateTime(t time.Time) *DictCreate {
-	dc.mutation.SetUpdateTime(t)
-	return dc
+func (_c *DictCreate) SetUpdateTime(v time.Time) *DictCreate {
+	_c.mutation.SetUpdateTime(v)
+	return _c
 }
 
 // SetNillableUpdateTime sets the "update_time" field if the given value is not nil.
-func (dc *DictCreate) SetNillableUpdateTime(t *time.Time) *DictCreate {
-	if t != nil {
-		dc.SetUpdateTime(*t)
+func (_c *DictCreate) SetNillableUpdateTime(v *time.Time) *DictCreate {
+	if v != nil {
+		_c.SetUpdateTime(*v)
 	}
-	return dc
+	return _c
 }
 
 // SetDeleteTime sets the "delete_time" field.
-func (dc *DictCreate) SetDeleteTime(t time.Time) *DictCreate {
-	dc.mutation.SetDeleteTime(t)
-	return dc
+func (_c *DictCreate) SetDeleteTime(v time.Time) *DictCreate {
+	_c.mutation.SetDeleteTime(v)
+	return _c
 }
 
 // SetNillableDeleteTime sets the "delete_time" field if the given value is not nil.
-func (dc *DictCreate) SetNillableDeleteTime(t *time.Time) *DictCreate {
-	if t != nil {
-		dc.SetDeleteTime(*t)
+func (_c *DictCreate) SetNillableDeleteTime(v *time.Time) *DictCreate {
+	if v != nil {
+		_c.SetDeleteTime(*v)
 	}
-	return dc
+	return _c
 }
 
 // SetStatus sets the "status" field.
-func (dc *DictCreate) SetStatus(d dict.Status) *DictCreate {
-	dc.mutation.SetStatus(d)
-	return dc
+func (_c *DictCreate) SetStatus(v dict.Status) *DictCreate {
+	_c.mutation.SetStatus(v)
+	return _c
 }
 
 // SetNillableStatus sets the "status" field if the given value is not nil.
-func (dc *DictCreate) SetNillableStatus(d *dict.Status) *DictCreate {
-	if d != nil {
-		dc.SetStatus(*d)
+func (_c *DictCreate) SetNillableStatus(v *dict.Status) *DictCreate {
+	if v != nil {
+		_c.SetStatus(*v)
 	}
-	return dc
+	return _c
 }
 
 // SetCreateBy sets the "create_by" field.
-func (dc *DictCreate) SetCreateBy(u uint32) *DictCreate {
-	dc.mutation.SetCreateBy(u)
-	return dc
+func (_c *DictCreate) SetCreateBy(v uint32) *DictCreate {
+	_c.mutation.SetCreateBy(v)
+	return _c
 }
 
 // SetNillableCreateBy sets the "create_by" field if the given value is not nil.
-func (dc *DictCreate) SetNillableCreateBy(u *uint32) *DictCreate {
-	if u != nil {
-		dc.SetCreateBy(*u)
+func (_c *DictCreate) SetNillableCreateBy(v *uint32) *DictCreate {
+	if v != nil {
+		_c.SetCreateBy(*v)
 	}
-	return dc
+	return _c
 }
 
 // SetUpdateBy sets the "update_by" field.
-func (dc *DictCreate) SetUpdateBy(u uint32) *DictCreate {
-	dc.mutation.SetUpdateBy(u)
-	return dc
+func (_c *DictCreate) SetUpdateBy(v uint32) *DictCreate {
+	_c.mutation.SetUpdateBy(v)
+	return _c
 }
 
 // SetNillableUpdateBy sets the "update_by" field if the given value is not nil.
-func (dc *DictCreate) SetNillableUpdateBy(u *uint32) *DictCreate {
-	if u != nil {
-		dc.SetUpdateBy(*u)
+func (_c *DictCreate) SetNillableUpdateBy(v *uint32) *DictCreate {
+	if v != nil {
+		_c.SetUpdateBy(*v)
 	}
-	return dc
+	return _c
 }
 
 // SetRemark sets the "remark" field.
-func (dc *DictCreate) SetRemark(s string) *DictCreate {
-	dc.mutation.SetRemark(s)
-	return dc
+func (_c *DictCreate) SetRemark(v string) *DictCreate {
+	_c.mutation.SetRemark(v)
+	return _c
 }
 
 // SetNillableRemark sets the "remark" field if the given value is not nil.
-func (dc *DictCreate) SetNillableRemark(s *string) *DictCreate {
-	if s != nil {
-		dc.SetRemark(*s)
+func (_c *DictCreate) SetNillableRemark(v *string) *DictCreate {
+	if v != nil {
+		_c.SetRemark(*v)
 	}
-	return dc
+	return _c
 }
 
 // SetTenantID sets the "tenant_id" field.
-func (dc *DictCreate) SetTenantID(u uint32) *DictCreate {
-	dc.mutation.SetTenantID(u)
-	return dc
+func (_c *DictCreate) SetTenantID(v uint32) *DictCreate {
+	_c.mutation.SetTenantID(v)
+	return _c
 }
 
 // SetNillableTenantID sets the "tenant_id" field if the given value is not nil.
-func (dc *DictCreate) SetNillableTenantID(u *uint32) *DictCreate {
-	if u != nil {
-		dc.SetTenantID(*u)
+func (_c *DictCreate) SetNillableTenantID(v *uint32) *DictCreate {
+	if v != nil {
+		_c.SetTenantID(*v)
 	}
-	return dc
+	return _c
 }
 
 // SetKey sets the "key" field.
-func (dc *DictCreate) SetKey(s string) *DictCreate {
-	dc.mutation.SetKey(s)
-	return dc
+func (_c *DictCreate) SetKey(v string) *DictCreate {
+	_c.mutation.SetKey(v)
+	return _c
 }
 
 // SetNillableKey sets the "key" field if the given value is not nil.
-func (dc *DictCreate) SetNillableKey(s *string) *DictCreate {
-	if s != nil {
-		dc.SetKey(*s)
+func (_c *DictCreate) SetNillableKey(v *string) *DictCreate {
+	if v != nil {
+		_c.SetKey(*v)
 	}
-	return dc
+	return _c
 }
 
 // SetCategory sets the "category" field.
-func (dc *DictCreate) SetCategory(s string) *DictCreate {
-	dc.mutation.SetCategory(s)
-	return dc
+func (_c *DictCreate) SetCategory(v string) *DictCreate {
+	_c.mutation.SetCategory(v)
+	return _c
 }
 
 // SetNillableCategory sets the "category" field if the given value is not nil.
-func (dc *DictCreate) SetNillableCategory(s *string) *DictCreate {
-	if s != nil {
-		dc.SetCategory(*s)
+func (_c *DictCreate) SetNillableCategory(v *string) *DictCreate {
+	if v != nil {
+		_c.SetCategory(*v)
 	}
-	return dc
+	return _c
 }
 
 // SetCategoryDesc sets the "category_desc" field.
-func (dc *DictCreate) SetCategoryDesc(s string) *DictCreate {
-	dc.mutation.SetCategoryDesc(s)
-	return dc
+func (_c *DictCreate) SetCategoryDesc(v string) *DictCreate {
+	_c.mutation.SetCategoryDesc(v)
+	return _c
 }
 
 // SetNillableCategoryDesc sets the "category_desc" field if the given value is not nil.
-func (dc *DictCreate) SetNillableCategoryDesc(s *string) *DictCreate {
-	if s != nil {
-		dc.SetCategoryDesc(*s)
+func (_c *DictCreate) SetNillableCategoryDesc(v *string) *DictCreate {
+	if v != nil {
+		_c.SetCategoryDesc(*v)
 	}
-	return dc
+	return _c
 }
 
 // SetValue sets the "value" field.
-func (dc *DictCreate) SetValue(s string) *DictCreate {
-	dc.mutation.SetValue(s)
-	return dc
+func (_c *DictCreate) SetValue(v string) *DictCreate {
+	_c.mutation.SetValue(v)
+	return _c
 }
 
 // SetNillableValue sets the "value" field if the given value is not nil.
-func (dc *DictCreate) SetNillableValue(s *string) *DictCreate {
-	if s != nil {
-		dc.SetValue(*s)
+func (_c *DictCreate) SetNillableValue(v *string) *DictCreate {
+	if v != nil {
+		_c.SetValue(*v)
 	}
-	return dc
+	return _c
 }
 
 // SetValueDesc sets the "value_desc" field.
-func (dc *DictCreate) SetValueDesc(s string) *DictCreate {
-	dc.mutation.SetValueDesc(s)
-	return dc
+func (_c *DictCreate) SetValueDesc(v string) *DictCreate {
+	_c.mutation.SetValueDesc(v)
+	return _c
 }
 
 // SetNillableValueDesc sets the "value_desc" field if the given value is not nil.
-func (dc *DictCreate) SetNillableValueDesc(s *string) *DictCreate {
-	if s != nil {
-		dc.SetValueDesc(*s)
+func (_c *DictCreate) SetNillableValueDesc(v *string) *DictCreate {
+	if v != nil {
+		_c.SetValueDesc(*v)
 	}
-	return dc
+	return _c
 }
 
 // SetValueDataType sets the "value_data_type" field.
-func (dc *DictCreate) SetValueDataType(s string) *DictCreate {
-	dc.mutation.SetValueDataType(s)
-	return dc
+func (_c *DictCreate) SetValueDataType(v string) *DictCreate {
+	_c.mutation.SetValueDataType(v)
+	return _c
 }
 
 // SetNillableValueDataType sets the "value_data_type" field if the given value is not nil.
-func (dc *DictCreate) SetNillableValueDataType(s *string) *DictCreate {
-	if s != nil {
-		dc.SetValueDataType(*s)
+func (_c *DictCreate) SetNillableValueDataType(v *string) *DictCreate {
+	if v != nil {
+		_c.SetValueDataType(*v)
 	}
-	return dc
+	return _c
 }
 
 // SetSortID sets the "sort_id" field.
-func (dc *DictCreate) SetSortID(i int32) *DictCreate {
-	dc.mutation.SetSortID(i)
-	return dc
+func (_c *DictCreate) SetSortID(v int32) *DictCreate {
+	_c.mutation.SetSortID(v)
+	return _c
 }
 
 // SetNillableSortID sets the "sort_id" field if the given value is not nil.
-func (dc *DictCreate) SetNillableSortID(i *int32) *DictCreate {
-	if i != nil {
-		dc.SetSortID(*i)
+func (_c *DictCreate) SetNillableSortID(v *int32) *DictCreate {
+	if v != nil {
+		_c.SetSortID(*v)
 	}
-	return dc
+	return _c
 }
 
 // SetID sets the "id" field.
-func (dc *DictCreate) SetID(u uint32) *DictCreate {
-	dc.mutation.SetID(u)
-	return dc
+func (_c *DictCreate) SetID(v uint32) *DictCreate {
+	_c.mutation.SetID(v)
+	return _c
 }
 
 // Mutation returns the DictMutation object of the builder.
-func (dc *DictCreate) Mutation() *DictMutation {
-	return dc.mutation
+func (_c *DictCreate) Mutation() *DictMutation {
+	return _c.mutation
 }
 
 // Save creates the Dict in the database.
-func (dc *DictCreate) Save(ctx context.Context) (*Dict, error) {
-	dc.defaults()
-	return withHooks(ctx, dc.sqlSave, dc.mutation, dc.hooks)
+func (_c *DictCreate) Save(ctx context.Context) (*Dict, error) {
+	_c.defaults()
+	return withHooks(ctx, _c.sqlSave, _c.mutation, _c.hooks)
 }
 
 // SaveX calls Save and panics if Save returns an error.
-func (dc *DictCreate) SaveX(ctx context.Context) *Dict {
-	v, err := dc.Save(ctx)
+func (_c *DictCreate) SaveX(ctx context.Context) *Dict {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -259,47 +259,47 @@ func (dc *DictCreate) SaveX(ctx context.Context) *Dict {
 }
 
 // Exec executes the query.
-func (dc *DictCreate) Exec(ctx context.Context) error {
-	_, err := dc.Save(ctx)
+func (_c *DictCreate) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (dc *DictCreate) ExecX(ctx context.Context) {
-	if err := dc.Exec(ctx); err != nil {
+func (_c *DictCreate) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (dc *DictCreate) defaults() {
-	if _, ok := dc.mutation.Status(); !ok {
+func (_c *DictCreate) defaults() {
+	if _, ok := _c.mutation.Status(); !ok {
 		v := dict.DefaultStatus
-		dc.mutation.SetStatus(v)
+		_c.mutation.SetStatus(v)
 	}
-	if _, ok := dc.mutation.Remark(); !ok {
+	if _, ok := _c.mutation.Remark(); !ok {
 		v := dict.DefaultRemark
-		dc.mutation.SetRemark(v)
+		_c.mutation.SetRemark(v)
 	}
-	if _, ok := dc.mutation.SortID(); !ok {
+	if _, ok := _c.mutation.SortID(); !ok {
 		v := dict.DefaultSortID
-		dc.mutation.SetSortID(v)
+		_c.mutation.SetSortID(v)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
-func (dc *DictCreate) check() error {
-	if v, ok := dc.mutation.Status(); ok {
+func (_c *DictCreate) check() error {
+	if v, ok := _c.mutation.Status(); ok {
 		if err := dict.StatusValidator(v); err != nil {
 			return &ValidationError{Name: "status", err: fmt.Errorf(`ent: validator failed for field "Dict.status": %w`, err)}
 		}
 	}
-	if v, ok := dc.mutation.TenantID(); ok {
+	if v, ok := _c.mutation.TenantID(); ok {
 		if err := dict.TenantIDValidator(v); err != nil {
 			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "Dict.tenant_id": %w`, err)}
 		}
 	}
-	if v, ok := dc.mutation.ID(); ok {
+	if v, ok := _c.mutation.ID(); ok {
 		if err := dict.IDValidator(v); err != nil {
 			return &ValidationError{Name: "id", err: fmt.Errorf(`ent: validator failed for field "Dict.id": %w`, err)}
 		}
@@ -307,12 +307,12 @@ func (dc *DictCreate) check() error {
 	return nil
 }
 
-func (dc *DictCreate) sqlSave(ctx context.Context) (*Dict, error) {
-	if err := dc.check(); err != nil {
+func (_c *DictCreate) sqlSave(ctx context.Context) (*Dict, error) {
+	if err := _c.check(); err != nil {
 		return nil, err
 	}
-	_node, _spec := dc.createSpec()
-	if err := sqlgraph.CreateNode(ctx, dc.driver, _spec); err != nil {
+	_node, _spec := _c.createSpec()
+	if err := sqlgraph.CreateNode(ctx, _c.driver, _spec); err != nil {
 		if sqlgraph.IsConstraintError(err) {
 			err = &ConstraintError{msg: err.Error(), wrap: err}
 		}
@@ -322,78 +322,78 @@ func (dc *DictCreate) sqlSave(ctx context.Context) (*Dict, error) {
 		id := _spec.ID.Value.(int64)
 		_node.ID = uint32(id)
 	}
-	dc.mutation.id = &_node.ID
-	dc.mutation.done = true
+	_c.mutation.id = &_node.ID
+	_c.mutation.done = true
 	return _node, nil
 }
 
-func (dc *DictCreate) createSpec() (*Dict, *sqlgraph.CreateSpec) {
+func (_c *DictCreate) createSpec() (*Dict, *sqlgraph.CreateSpec) {
 	var (
-		_node = &Dict{config: dc.config}
+		_node = &Dict{config: _c.config}
 		_spec = sqlgraph.NewCreateSpec(dict.Table, sqlgraph.NewFieldSpec(dict.FieldID, field.TypeUint32))
 	)
-	_spec.OnConflict = dc.conflict
-	if id, ok := dc.mutation.ID(); ok {
+	_spec.OnConflict = _c.conflict
+	if id, ok := _c.mutation.ID(); ok {
 		_node.ID = id
 		_spec.ID.Value = id
 	}
-	if value, ok := dc.mutation.CreateTime(); ok {
+	if value, ok := _c.mutation.CreateTime(); ok {
 		_spec.SetField(dict.FieldCreateTime, field.TypeTime, value)
 		_node.CreateTime = &value
 	}
-	if value, ok := dc.mutation.UpdateTime(); ok {
+	if value, ok := _c.mutation.UpdateTime(); ok {
 		_spec.SetField(dict.FieldUpdateTime, field.TypeTime, value)
 		_node.UpdateTime = &value
 	}
-	if value, ok := dc.mutation.DeleteTime(); ok {
+	if value, ok := _c.mutation.DeleteTime(); ok {
 		_spec.SetField(dict.FieldDeleteTime, field.TypeTime, value)
 		_node.DeleteTime = &value
 	}
-	if value, ok := dc.mutation.Status(); ok {
+	if value, ok := _c.mutation.Status(); ok {
 		_spec.SetField(dict.FieldStatus, field.TypeEnum, value)
 		_node.Status = &value
 	}
-	if value, ok := dc.mutation.CreateBy(); ok {
+	if value, ok := _c.mutation.CreateBy(); ok {
 		_spec.SetField(dict.FieldCreateBy, field.TypeUint32, value)
 		_node.CreateBy = &value
 	}
-	if value, ok := dc.mutation.UpdateBy(); ok {
+	if value, ok := _c.mutation.UpdateBy(); ok {
 		_spec.SetField(dict.FieldUpdateBy, field.TypeUint32, value)
 		_node.UpdateBy = &value
 	}
-	if value, ok := dc.mutation.Remark(); ok {
+	if value, ok := _c.mutation.Remark(); ok {
 		_spec.SetField(dict.FieldRemark, field.TypeString, value)
 		_node.Remark = &value
 	}
-	if value, ok := dc.mutation.TenantID(); ok {
+	if value, ok := _c.mutation.TenantID(); ok {
 		_spec.SetField(dict.FieldTenantID, field.TypeUint32, value)
 		_node.TenantID = &value
 	}
-	if value, ok := dc.mutation.Key(); ok {
+	if value, ok := _c.mutation.Key(); ok {
 		_spec.SetField(dict.FieldKey, field.TypeString, value)
 		_node.Key = &value
 	}
-	if value, ok := dc.mutation.Category(); ok {
+	if value, ok := _c.mutation.Category(); ok {
 		_spec.SetField(dict.FieldCategory, field.TypeString, value)
 		_node.Category = &value
 	}
-	if value, ok := dc.mutation.CategoryDesc(); ok {
+	if value, ok := _c.mutation.CategoryDesc(); ok {
 		_spec.SetField(dict.FieldCategoryDesc, field.TypeString, value)
 		_node.CategoryDesc = &value
 	}
-	if value, ok := dc.mutation.Value(); ok {
+	if value, ok := _c.mutation.Value(); ok {
 		_spec.SetField(dict.FieldValue, field.TypeString, value)
 		_node.Value = &value
 	}
-	if value, ok := dc.mutation.ValueDesc(); ok {
+	if value, ok := _c.mutation.ValueDesc(); ok {
 		_spec.SetField(dict.FieldValueDesc, field.TypeString, value)
 		_node.ValueDesc = &value
 	}
-	if value, ok := dc.mutation.ValueDataType(); ok {
+	if value, ok := _c.mutation.ValueDataType(); ok {
 		_spec.SetField(dict.FieldValueDataType, field.TypeString, value)
 		_node.ValueDataType = &value
 	}
-	if value, ok := dc.mutation.SortID(); ok {
+	if value, ok := _c.mutation.SortID(); ok {
 		_spec.SetField(dict.FieldSortID, field.TypeInt32, value)
 		_node.SortID = &value
 	}
@@ -416,10 +416,10 @@ func (dc *DictCreate) createSpec() (*Dict, *sqlgraph.CreateSpec) {
 //			SetCreateTime(v+v).
 //		}).
 //		Exec(ctx)
-func (dc *DictCreate) OnConflict(opts ...sql.ConflictOption) *DictUpsertOne {
-	dc.conflict = opts
+func (_c *DictCreate) OnConflict(opts ...sql.ConflictOption) *DictUpsertOne {
+	_c.conflict = opts
 	return &DictUpsertOne{
-		create: dc,
+		create: _c,
 	}
 }
 
@@ -429,10 +429,10 @@ func (dc *DictCreate) OnConflict(opts ...sql.ConflictOption) *DictUpsertOne {
 //	client.Dict.Create().
 //		OnConflict(sql.ConflictColumns(columns...)).
 //		Exec(ctx)
-func (dc *DictCreate) OnConflictColumns(columns ...string) *DictUpsertOne {
-	dc.conflict = append(dc.conflict, sql.ConflictColumns(columns...))
+func (_c *DictCreate) OnConflictColumns(columns ...string) *DictUpsertOne {
+	_c.conflict = append(_c.conflict, sql.ConflictColumns(columns...))
 	return &DictUpsertOne{
-		create: dc,
+		create: _c,
 	}
 }
 
@@ -1091,16 +1091,16 @@ type DictCreateBulk struct {
 }
 
 // Save creates the Dict entities in the database.
-func (dcb *DictCreateBulk) Save(ctx context.Context) ([]*Dict, error) {
-	if dcb.err != nil {
-		return nil, dcb.err
+func (_c *DictCreateBulk) Save(ctx context.Context) ([]*Dict, error) {
+	if _c.err != nil {
+		return nil, _c.err
 	}
-	specs := make([]*sqlgraph.CreateSpec, len(dcb.builders))
-	nodes := make([]*Dict, len(dcb.builders))
-	mutators := make([]Mutator, len(dcb.builders))
-	for i := range dcb.builders {
+	specs := make([]*sqlgraph.CreateSpec, len(_c.builders))
+	nodes := make([]*Dict, len(_c.builders))
+	mutators := make([]Mutator, len(_c.builders))
+	for i := range _c.builders {
 		func(i int, root context.Context) {
-			builder := dcb.builders[i]
+			builder := _c.builders[i]
 			builder.defaults()
 			var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 				mutation, ok := m.(*DictMutation)
@@ -1114,12 +1114,12 @@ func (dcb *DictCreateBulk) Save(ctx context.Context) ([]*Dict, error) {
 				var err error
 				nodes[i], specs[i] = builder.createSpec()
 				if i < len(mutators)-1 {
-					_, err = mutators[i+1].Mutate(root, dcb.builders[i+1].mutation)
+					_, err = mutators[i+1].Mutate(root, _c.builders[i+1].mutation)
 				} else {
 					spec := &sqlgraph.BatchCreateSpec{Nodes: specs}
-					spec.OnConflict = dcb.conflict
+					spec.OnConflict = _c.conflict
 					// Invoke the actual operation on the latest mutation in the chain.
-					if err = sqlgraph.BatchCreate(ctx, dcb.driver, spec); err != nil {
+					if err = sqlgraph.BatchCreate(ctx, _c.driver, spec); err != nil {
 						if sqlgraph.IsConstraintError(err) {
 							err = &ConstraintError{msg: err.Error(), wrap: err}
 						}
@@ -1143,7 +1143,7 @@ func (dcb *DictCreateBulk) Save(ctx context.Context) ([]*Dict, error) {
 		}(i, ctx)
 	}
 	if len(mutators) > 0 {
-		if _, err := mutators[0].Mutate(ctx, dcb.builders[0].mutation); err != nil {
+		if _, err := mutators[0].Mutate(ctx, _c.builders[0].mutation); err != nil {
 			return nil, err
 		}
 	}
@@ -1151,8 +1151,8 @@ func (dcb *DictCreateBulk) Save(ctx context.Context) ([]*Dict, error) {
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (dcb *DictCreateBulk) SaveX(ctx context.Context) []*Dict {
-	v, err := dcb.Save(ctx)
+func (_c *DictCreateBulk) SaveX(ctx context.Context) []*Dict {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -1160,14 +1160,14 @@ func (dcb *DictCreateBulk) SaveX(ctx context.Context) []*Dict {
 }
 
 // Exec executes the query.
-func (dcb *DictCreateBulk) Exec(ctx context.Context) error {
-	_, err := dcb.Save(ctx)
+func (_c *DictCreateBulk) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (dcb *DictCreateBulk) ExecX(ctx context.Context) {
-	if err := dcb.Exec(ctx); err != nil {
+func (_c *DictCreateBulk) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
@@ -1187,10 +1187,10 @@ func (dcb *DictCreateBulk) ExecX(ctx context.Context) {
 //			SetCreateTime(v+v).
 //		}).
 //		Exec(ctx)
-func (dcb *DictCreateBulk) OnConflict(opts ...sql.ConflictOption) *DictUpsertBulk {
-	dcb.conflict = opts
+func (_c *DictCreateBulk) OnConflict(opts ...sql.ConflictOption) *DictUpsertBulk {
+	_c.conflict = opts
 	return &DictUpsertBulk{
-		create: dcb,
+		create: _c,
 	}
 }
 
@@ -1200,10 +1200,10 @@ func (dcb *DictCreateBulk) OnConflict(opts ...sql.ConflictOption) *DictUpsertBul
 //	client.Dict.Create().
 //		OnConflict(sql.ConflictColumns(columns...)).
 //		Exec(ctx)
-func (dcb *DictCreateBulk) OnConflictColumns(columns ...string) *DictUpsertBulk {
-	dcb.conflict = append(dcb.conflict, sql.ConflictColumns(columns...))
+func (_c *DictCreateBulk) OnConflictColumns(columns ...string) *DictUpsertBulk {
+	_c.conflict = append(_c.conflict, sql.ConflictColumns(columns...))
 	return &DictUpsertBulk{
-		create: dcb,
+		create: _c,
 	}
 }
 

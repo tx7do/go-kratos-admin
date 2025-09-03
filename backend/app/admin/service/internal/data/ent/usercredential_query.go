@@ -30,40 +30,40 @@ type UserCredentialQuery struct {
 }
 
 // Where adds a new predicate for the UserCredentialQuery builder.
-func (ucq *UserCredentialQuery) Where(ps ...predicate.UserCredential) *UserCredentialQuery {
-	ucq.predicates = append(ucq.predicates, ps...)
-	return ucq
+func (_q *UserCredentialQuery) Where(ps ...predicate.UserCredential) *UserCredentialQuery {
+	_q.predicates = append(_q.predicates, ps...)
+	return _q
 }
 
 // Limit the number of records to be returned by this query.
-func (ucq *UserCredentialQuery) Limit(limit int) *UserCredentialQuery {
-	ucq.ctx.Limit = &limit
-	return ucq
+func (_q *UserCredentialQuery) Limit(limit int) *UserCredentialQuery {
+	_q.ctx.Limit = &limit
+	return _q
 }
 
 // Offset to start from.
-func (ucq *UserCredentialQuery) Offset(offset int) *UserCredentialQuery {
-	ucq.ctx.Offset = &offset
-	return ucq
+func (_q *UserCredentialQuery) Offset(offset int) *UserCredentialQuery {
+	_q.ctx.Offset = &offset
+	return _q
 }
 
 // Unique configures the query builder to filter duplicate records on query.
 // By default, unique is set to true, and can be disabled using this method.
-func (ucq *UserCredentialQuery) Unique(unique bool) *UserCredentialQuery {
-	ucq.ctx.Unique = &unique
-	return ucq
+func (_q *UserCredentialQuery) Unique(unique bool) *UserCredentialQuery {
+	_q.ctx.Unique = &unique
+	return _q
 }
 
 // Order specifies how the records should be ordered.
-func (ucq *UserCredentialQuery) Order(o ...usercredential.OrderOption) *UserCredentialQuery {
-	ucq.order = append(ucq.order, o...)
-	return ucq
+func (_q *UserCredentialQuery) Order(o ...usercredential.OrderOption) *UserCredentialQuery {
+	_q.order = append(_q.order, o...)
+	return _q
 }
 
 // First returns the first UserCredential entity from the query.
 // Returns a *NotFoundError when no UserCredential was found.
-func (ucq *UserCredentialQuery) First(ctx context.Context) (*UserCredential, error) {
-	nodes, err := ucq.Limit(1).All(setContextOp(ctx, ucq.ctx, ent.OpQueryFirst))
+func (_q *UserCredentialQuery) First(ctx context.Context) (*UserCredential, error) {
+	nodes, err := _q.Limit(1).All(setContextOp(ctx, _q.ctx, ent.OpQueryFirst))
 	if err != nil {
 		return nil, err
 	}
@@ -74,8 +74,8 @@ func (ucq *UserCredentialQuery) First(ctx context.Context) (*UserCredential, err
 }
 
 // FirstX is like First, but panics if an error occurs.
-func (ucq *UserCredentialQuery) FirstX(ctx context.Context) *UserCredential {
-	node, err := ucq.First(ctx)
+func (_q *UserCredentialQuery) FirstX(ctx context.Context) *UserCredential {
+	node, err := _q.First(ctx)
 	if err != nil && !IsNotFound(err) {
 		panic(err)
 	}
@@ -84,9 +84,9 @@ func (ucq *UserCredentialQuery) FirstX(ctx context.Context) *UserCredential {
 
 // FirstID returns the first UserCredential ID from the query.
 // Returns a *NotFoundError when no UserCredential ID was found.
-func (ucq *UserCredentialQuery) FirstID(ctx context.Context) (id uint32, err error) {
+func (_q *UserCredentialQuery) FirstID(ctx context.Context) (id uint32, err error) {
 	var ids []uint32
-	if ids, err = ucq.Limit(1).IDs(setContextOp(ctx, ucq.ctx, ent.OpQueryFirstID)); err != nil {
+	if ids, err = _q.Limit(1).IDs(setContextOp(ctx, _q.ctx, ent.OpQueryFirstID)); err != nil {
 		return
 	}
 	if len(ids) == 0 {
@@ -97,8 +97,8 @@ func (ucq *UserCredentialQuery) FirstID(ctx context.Context) (id uint32, err err
 }
 
 // FirstIDX is like FirstID, but panics if an error occurs.
-func (ucq *UserCredentialQuery) FirstIDX(ctx context.Context) uint32 {
-	id, err := ucq.FirstID(ctx)
+func (_q *UserCredentialQuery) FirstIDX(ctx context.Context) uint32 {
+	id, err := _q.FirstID(ctx)
 	if err != nil && !IsNotFound(err) {
 		panic(err)
 	}
@@ -108,8 +108,8 @@ func (ucq *UserCredentialQuery) FirstIDX(ctx context.Context) uint32 {
 // Only returns a single UserCredential entity found by the query, ensuring it only returns one.
 // Returns a *NotSingularError when more than one UserCredential entity is found.
 // Returns a *NotFoundError when no UserCredential entities are found.
-func (ucq *UserCredentialQuery) Only(ctx context.Context) (*UserCredential, error) {
-	nodes, err := ucq.Limit(2).All(setContextOp(ctx, ucq.ctx, ent.OpQueryOnly))
+func (_q *UserCredentialQuery) Only(ctx context.Context) (*UserCredential, error) {
+	nodes, err := _q.Limit(2).All(setContextOp(ctx, _q.ctx, ent.OpQueryOnly))
 	if err != nil {
 		return nil, err
 	}
@@ -124,8 +124,8 @@ func (ucq *UserCredentialQuery) Only(ctx context.Context) (*UserCredential, erro
 }
 
 // OnlyX is like Only, but panics if an error occurs.
-func (ucq *UserCredentialQuery) OnlyX(ctx context.Context) *UserCredential {
-	node, err := ucq.Only(ctx)
+func (_q *UserCredentialQuery) OnlyX(ctx context.Context) *UserCredential {
+	node, err := _q.Only(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -135,9 +135,9 @@ func (ucq *UserCredentialQuery) OnlyX(ctx context.Context) *UserCredential {
 // OnlyID is like Only, but returns the only UserCredential ID in the query.
 // Returns a *NotSingularError when more than one UserCredential ID is found.
 // Returns a *NotFoundError when no entities are found.
-func (ucq *UserCredentialQuery) OnlyID(ctx context.Context) (id uint32, err error) {
+func (_q *UserCredentialQuery) OnlyID(ctx context.Context) (id uint32, err error) {
 	var ids []uint32
-	if ids, err = ucq.Limit(2).IDs(setContextOp(ctx, ucq.ctx, ent.OpQueryOnlyID)); err != nil {
+	if ids, err = _q.Limit(2).IDs(setContextOp(ctx, _q.ctx, ent.OpQueryOnlyID)); err != nil {
 		return
 	}
 	switch len(ids) {
@@ -152,8 +152,8 @@ func (ucq *UserCredentialQuery) OnlyID(ctx context.Context) (id uint32, err erro
 }
 
 // OnlyIDX is like OnlyID, but panics if an error occurs.
-func (ucq *UserCredentialQuery) OnlyIDX(ctx context.Context) uint32 {
-	id, err := ucq.OnlyID(ctx)
+func (_q *UserCredentialQuery) OnlyIDX(ctx context.Context) uint32 {
+	id, err := _q.OnlyID(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -161,18 +161,18 @@ func (ucq *UserCredentialQuery) OnlyIDX(ctx context.Context) uint32 {
 }
 
 // All executes the query and returns a list of UserCredentials.
-func (ucq *UserCredentialQuery) All(ctx context.Context) ([]*UserCredential, error) {
-	ctx = setContextOp(ctx, ucq.ctx, ent.OpQueryAll)
-	if err := ucq.prepareQuery(ctx); err != nil {
+func (_q *UserCredentialQuery) All(ctx context.Context) ([]*UserCredential, error) {
+	ctx = setContextOp(ctx, _q.ctx, ent.OpQueryAll)
+	if err := _q.prepareQuery(ctx); err != nil {
 		return nil, err
 	}
 	qr := querierAll[[]*UserCredential, *UserCredentialQuery]()
-	return withInterceptors[[]*UserCredential](ctx, ucq, qr, ucq.inters)
+	return withInterceptors[[]*UserCredential](ctx, _q, qr, _q.inters)
 }
 
 // AllX is like All, but panics if an error occurs.
-func (ucq *UserCredentialQuery) AllX(ctx context.Context) []*UserCredential {
-	nodes, err := ucq.All(ctx)
+func (_q *UserCredentialQuery) AllX(ctx context.Context) []*UserCredential {
+	nodes, err := _q.All(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -180,20 +180,20 @@ func (ucq *UserCredentialQuery) AllX(ctx context.Context) []*UserCredential {
 }
 
 // IDs executes the query and returns a list of UserCredential IDs.
-func (ucq *UserCredentialQuery) IDs(ctx context.Context) (ids []uint32, err error) {
-	if ucq.ctx.Unique == nil && ucq.path != nil {
-		ucq.Unique(true)
+func (_q *UserCredentialQuery) IDs(ctx context.Context) (ids []uint32, err error) {
+	if _q.ctx.Unique == nil && _q.path != nil {
+		_q.Unique(true)
 	}
-	ctx = setContextOp(ctx, ucq.ctx, ent.OpQueryIDs)
-	if err = ucq.Select(usercredential.FieldID).Scan(ctx, &ids); err != nil {
+	ctx = setContextOp(ctx, _q.ctx, ent.OpQueryIDs)
+	if err = _q.Select(usercredential.FieldID).Scan(ctx, &ids); err != nil {
 		return nil, err
 	}
 	return ids, nil
 }
 
 // IDsX is like IDs, but panics if an error occurs.
-func (ucq *UserCredentialQuery) IDsX(ctx context.Context) []uint32 {
-	ids, err := ucq.IDs(ctx)
+func (_q *UserCredentialQuery) IDsX(ctx context.Context) []uint32 {
+	ids, err := _q.IDs(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -201,17 +201,17 @@ func (ucq *UserCredentialQuery) IDsX(ctx context.Context) []uint32 {
 }
 
 // Count returns the count of the given query.
-func (ucq *UserCredentialQuery) Count(ctx context.Context) (int, error) {
-	ctx = setContextOp(ctx, ucq.ctx, ent.OpQueryCount)
-	if err := ucq.prepareQuery(ctx); err != nil {
+func (_q *UserCredentialQuery) Count(ctx context.Context) (int, error) {
+	ctx = setContextOp(ctx, _q.ctx, ent.OpQueryCount)
+	if err := _q.prepareQuery(ctx); err != nil {
 		return 0, err
 	}
-	return withInterceptors[int](ctx, ucq, querierCount[*UserCredentialQuery](), ucq.inters)
+	return withInterceptors[int](ctx, _q, querierCount[*UserCredentialQuery](), _q.inters)
 }
 
 // CountX is like Count, but panics if an error occurs.
-func (ucq *UserCredentialQuery) CountX(ctx context.Context) int {
-	count, err := ucq.Count(ctx)
+func (_q *UserCredentialQuery) CountX(ctx context.Context) int {
+	count, err := _q.Count(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -219,9 +219,9 @@ func (ucq *UserCredentialQuery) CountX(ctx context.Context) int {
 }
 
 // Exist returns true if the query has elements in the graph.
-func (ucq *UserCredentialQuery) Exist(ctx context.Context) (bool, error) {
-	ctx = setContextOp(ctx, ucq.ctx, ent.OpQueryExist)
-	switch _, err := ucq.FirstID(ctx); {
+func (_q *UserCredentialQuery) Exist(ctx context.Context) (bool, error) {
+	ctx = setContextOp(ctx, _q.ctx, ent.OpQueryExist)
+	switch _, err := _q.FirstID(ctx); {
 	case IsNotFound(err):
 		return false, nil
 	case err != nil:
@@ -232,8 +232,8 @@ func (ucq *UserCredentialQuery) Exist(ctx context.Context) (bool, error) {
 }
 
 // ExistX is like Exist, but panics if an error occurs.
-func (ucq *UserCredentialQuery) ExistX(ctx context.Context) bool {
-	exist, err := ucq.Exist(ctx)
+func (_q *UserCredentialQuery) ExistX(ctx context.Context) bool {
+	exist, err := _q.Exist(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -242,20 +242,20 @@ func (ucq *UserCredentialQuery) ExistX(ctx context.Context) bool {
 
 // Clone returns a duplicate of the UserCredentialQuery builder, including all associated steps. It can be
 // used to prepare common query builders and use them differently after the clone is made.
-func (ucq *UserCredentialQuery) Clone() *UserCredentialQuery {
-	if ucq == nil {
+func (_q *UserCredentialQuery) Clone() *UserCredentialQuery {
+	if _q == nil {
 		return nil
 	}
 	return &UserCredentialQuery{
-		config:     ucq.config,
-		ctx:        ucq.ctx.Clone(),
-		order:      append([]usercredential.OrderOption{}, ucq.order...),
-		inters:     append([]Interceptor{}, ucq.inters...),
-		predicates: append([]predicate.UserCredential{}, ucq.predicates...),
+		config:     _q.config,
+		ctx:        _q.ctx.Clone(),
+		order:      append([]usercredential.OrderOption{}, _q.order...),
+		inters:     append([]Interceptor{}, _q.inters...),
+		predicates: append([]predicate.UserCredential{}, _q.predicates...),
 		// clone intermediate query.
-		sql:       ucq.sql.Clone(),
-		path:      ucq.path,
-		modifiers: append([]func(*sql.Selector){}, ucq.modifiers...),
+		sql:       _q.sql.Clone(),
+		path:      _q.path,
+		modifiers: append([]func(*sql.Selector){}, _q.modifiers...),
 	}
 }
 
@@ -273,10 +273,10 @@ func (ucq *UserCredentialQuery) Clone() *UserCredentialQuery {
 //		GroupBy(usercredential.FieldCreateTime).
 //		Aggregate(ent.Count()).
 //		Scan(ctx, &v)
-func (ucq *UserCredentialQuery) GroupBy(field string, fields ...string) *UserCredentialGroupBy {
-	ucq.ctx.Fields = append([]string{field}, fields...)
-	grbuild := &UserCredentialGroupBy{build: ucq}
-	grbuild.flds = &ucq.ctx.Fields
+func (_q *UserCredentialQuery) GroupBy(field string, fields ...string) *UserCredentialGroupBy {
+	_q.ctx.Fields = append([]string{field}, fields...)
+	grbuild := &UserCredentialGroupBy{build: _q}
+	grbuild.flds = &_q.ctx.Fields
 	grbuild.label = usercredential.Label
 	grbuild.scan = grbuild.Scan
 	return grbuild
@@ -294,65 +294,65 @@ func (ucq *UserCredentialQuery) GroupBy(field string, fields ...string) *UserCre
 //	client.UserCredential.Query().
 //		Select(usercredential.FieldCreateTime).
 //		Scan(ctx, &v)
-func (ucq *UserCredentialQuery) Select(fields ...string) *UserCredentialSelect {
-	ucq.ctx.Fields = append(ucq.ctx.Fields, fields...)
-	sbuild := &UserCredentialSelect{UserCredentialQuery: ucq}
+func (_q *UserCredentialQuery) Select(fields ...string) *UserCredentialSelect {
+	_q.ctx.Fields = append(_q.ctx.Fields, fields...)
+	sbuild := &UserCredentialSelect{UserCredentialQuery: _q}
 	sbuild.label = usercredential.Label
-	sbuild.flds, sbuild.scan = &ucq.ctx.Fields, sbuild.Scan
+	sbuild.flds, sbuild.scan = &_q.ctx.Fields, sbuild.Scan
 	return sbuild
 }
 
 // Aggregate returns a UserCredentialSelect configured with the given aggregations.
-func (ucq *UserCredentialQuery) Aggregate(fns ...AggregateFunc) *UserCredentialSelect {
-	return ucq.Select().Aggregate(fns...)
+func (_q *UserCredentialQuery) Aggregate(fns ...AggregateFunc) *UserCredentialSelect {
+	return _q.Select().Aggregate(fns...)
 }
 
-func (ucq *UserCredentialQuery) prepareQuery(ctx context.Context) error {
-	for _, inter := range ucq.inters {
+func (_q *UserCredentialQuery) prepareQuery(ctx context.Context) error {
+	for _, inter := range _q.inters {
 		if inter == nil {
 			return fmt.Errorf("ent: uninitialized interceptor (forgotten import ent/runtime?)")
 		}
 		if trv, ok := inter.(Traverser); ok {
-			if err := trv.Traverse(ctx, ucq); err != nil {
+			if err := trv.Traverse(ctx, _q); err != nil {
 				return err
 			}
 		}
 	}
-	for _, f := range ucq.ctx.Fields {
+	for _, f := range _q.ctx.Fields {
 		if !usercredential.ValidColumn(f) {
 			return &ValidationError{Name: f, err: fmt.Errorf("ent: invalid field %q for query", f)}
 		}
 	}
-	if ucq.path != nil {
-		prev, err := ucq.path(ctx)
+	if _q.path != nil {
+		prev, err := _q.path(ctx)
 		if err != nil {
 			return err
 		}
-		ucq.sql = prev
+		_q.sql = prev
 	}
 	return nil
 }
 
-func (ucq *UserCredentialQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*UserCredential, error) {
+func (_q *UserCredentialQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*UserCredential, error) {
 	var (
 		nodes = []*UserCredential{}
-		_spec = ucq.querySpec()
+		_spec = _q.querySpec()
 	)
 	_spec.ScanValues = func(columns []string) ([]any, error) {
 		return (*UserCredential).scanValues(nil, columns)
 	}
 	_spec.Assign = func(columns []string, values []any) error {
-		node := &UserCredential{config: ucq.config}
+		node := &UserCredential{config: _q.config}
 		nodes = append(nodes, node)
 		return node.assignValues(columns, values)
 	}
-	if len(ucq.modifiers) > 0 {
-		_spec.Modifiers = ucq.modifiers
+	if len(_q.modifiers) > 0 {
+		_spec.Modifiers = _q.modifiers
 	}
 	for i := range hooks {
 		hooks[i](ctx, _spec)
 	}
-	if err := sqlgraph.QueryNodes(ctx, ucq.driver, _spec); err != nil {
+	if err := sqlgraph.QueryNodes(ctx, _q.driver, _spec); err != nil {
 		return nil, err
 	}
 	if len(nodes) == 0 {
@@ -361,27 +361,27 @@ func (ucq *UserCredentialQuery) sqlAll(ctx context.Context, hooks ...queryHook) 
 	return nodes, nil
 }
 
-func (ucq *UserCredentialQuery) sqlCount(ctx context.Context) (int, error) {
-	_spec := ucq.querySpec()
-	if len(ucq.modifiers) > 0 {
-		_spec.Modifiers = ucq.modifiers
+func (_q *UserCredentialQuery) sqlCount(ctx context.Context) (int, error) {
+	_spec := _q.querySpec()
+	if len(_q.modifiers) > 0 {
+		_spec.Modifiers = _q.modifiers
 	}
-	_spec.Node.Columns = ucq.ctx.Fields
-	if len(ucq.ctx.Fields) > 0 {
-		_spec.Unique = ucq.ctx.Unique != nil && *ucq.ctx.Unique
+	_spec.Node.Columns = _q.ctx.Fields
+	if len(_q.ctx.Fields) > 0 {
+		_spec.Unique = _q.ctx.Unique != nil && *_q.ctx.Unique
 	}
-	return sqlgraph.CountNodes(ctx, ucq.driver, _spec)
+	return sqlgraph.CountNodes(ctx, _q.driver, _spec)
 }
 
-func (ucq *UserCredentialQuery) querySpec() *sqlgraph.QuerySpec {
+func (_q *UserCredentialQuery) querySpec() *sqlgraph.QuerySpec {
 	_spec := sqlgraph.NewQuerySpec(usercredential.Table, usercredential.Columns, sqlgraph.NewFieldSpec(usercredential.FieldID, field.TypeUint32))
-	_spec.From = ucq.sql
-	if unique := ucq.ctx.Unique; unique != nil {
+	_spec.From = _q.sql
+	if unique := _q.ctx.Unique; unique != nil {
 		_spec.Unique = *unique
-	} else if ucq.path != nil {
+	} else if _q.path != nil {
 		_spec.Unique = true
 	}
-	if fields := ucq.ctx.Fields; len(fields) > 0 {
+	if fields := _q.ctx.Fields; len(fields) > 0 {
 		_spec.Node.Columns = make([]string, 0, len(fields))
 		_spec.Node.Columns = append(_spec.Node.Columns, usercredential.FieldID)
 		for i := range fields {
@@ -390,20 +390,20 @@ func (ucq *UserCredentialQuery) querySpec() *sqlgraph.QuerySpec {
 			}
 		}
 	}
-	if ps := ucq.predicates; len(ps) > 0 {
+	if ps := _q.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if limit := ucq.ctx.Limit; limit != nil {
+	if limit := _q.ctx.Limit; limit != nil {
 		_spec.Limit = *limit
 	}
-	if offset := ucq.ctx.Offset; offset != nil {
+	if offset := _q.ctx.Offset; offset != nil {
 		_spec.Offset = *offset
 	}
-	if ps := ucq.order; len(ps) > 0 {
+	if ps := _q.order; len(ps) > 0 {
 		_spec.Order = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
@@ -413,36 +413,36 @@ func (ucq *UserCredentialQuery) querySpec() *sqlgraph.QuerySpec {
 	return _spec
 }
 
-func (ucq *UserCredentialQuery) sqlQuery(ctx context.Context) *sql.Selector {
-	builder := sql.Dialect(ucq.driver.Dialect())
+func (_q *UserCredentialQuery) sqlQuery(ctx context.Context) *sql.Selector {
+	builder := sql.Dialect(_q.driver.Dialect())
 	t1 := builder.Table(usercredential.Table)
-	columns := ucq.ctx.Fields
+	columns := _q.ctx.Fields
 	if len(columns) == 0 {
 		columns = usercredential.Columns
 	}
 	selector := builder.Select(t1.Columns(columns...)...).From(t1)
-	if ucq.sql != nil {
-		selector = ucq.sql
+	if _q.sql != nil {
+		selector = _q.sql
 		selector.Select(selector.Columns(columns...)...)
 	}
-	if ucq.ctx.Unique != nil && *ucq.ctx.Unique {
+	if _q.ctx.Unique != nil && *_q.ctx.Unique {
 		selector.Distinct()
 	}
-	for _, m := range ucq.modifiers {
+	for _, m := range _q.modifiers {
 		m(selector)
 	}
-	for _, p := range ucq.predicates {
+	for _, p := range _q.predicates {
 		p(selector)
 	}
-	for _, p := range ucq.order {
+	for _, p := range _q.order {
 		p(selector)
 	}
-	if offset := ucq.ctx.Offset; offset != nil {
+	if offset := _q.ctx.Offset; offset != nil {
 		// limit is mandatory for offset clause. We start
 		// with default value, and override it below if needed.
 		selector.Offset(*offset).Limit(math.MaxInt32)
 	}
-	if limit := ucq.ctx.Limit; limit != nil {
+	if limit := _q.ctx.Limit; limit != nil {
 		selector.Limit(*limit)
 	}
 	return selector
@@ -451,33 +451,33 @@ func (ucq *UserCredentialQuery) sqlQuery(ctx context.Context) *sql.Selector {
 // ForUpdate locks the selected rows against concurrent updates, and prevent them from being
 // updated, deleted or "selected ... for update" by other sessions, until the transaction is
 // either committed or rolled-back.
-func (ucq *UserCredentialQuery) ForUpdate(opts ...sql.LockOption) *UserCredentialQuery {
-	if ucq.driver.Dialect() == dialect.Postgres {
-		ucq.Unique(false)
+func (_q *UserCredentialQuery) ForUpdate(opts ...sql.LockOption) *UserCredentialQuery {
+	if _q.driver.Dialect() == dialect.Postgres {
+		_q.Unique(false)
 	}
-	ucq.modifiers = append(ucq.modifiers, func(s *sql.Selector) {
+	_q.modifiers = append(_q.modifiers, func(s *sql.Selector) {
 		s.ForUpdate(opts...)
 	})
-	return ucq
+	return _q
 }
 
 // ForShare behaves similarly to ForUpdate, except that it acquires a shared mode lock
 // on any rows that are read. Other sessions can read the rows, but cannot modify them
 // until your transaction commits.
-func (ucq *UserCredentialQuery) ForShare(opts ...sql.LockOption) *UserCredentialQuery {
-	if ucq.driver.Dialect() == dialect.Postgres {
-		ucq.Unique(false)
+func (_q *UserCredentialQuery) ForShare(opts ...sql.LockOption) *UserCredentialQuery {
+	if _q.driver.Dialect() == dialect.Postgres {
+		_q.Unique(false)
 	}
-	ucq.modifiers = append(ucq.modifiers, func(s *sql.Selector) {
+	_q.modifiers = append(_q.modifiers, func(s *sql.Selector) {
 		s.ForShare(opts...)
 	})
-	return ucq
+	return _q
 }
 
 // Modify adds a query modifier for attaching custom logic to queries.
-func (ucq *UserCredentialQuery) Modify(modifiers ...func(s *sql.Selector)) *UserCredentialSelect {
-	ucq.modifiers = append(ucq.modifiers, modifiers...)
-	return ucq.Select()
+func (_q *UserCredentialQuery) Modify(modifiers ...func(s *sql.Selector)) *UserCredentialSelect {
+	_q.modifiers = append(_q.modifiers, modifiers...)
+	return _q.Select()
 }
 
 // UserCredentialGroupBy is the group-by builder for UserCredential entities.
@@ -487,41 +487,41 @@ type UserCredentialGroupBy struct {
 }
 
 // Aggregate adds the given aggregation functions to the group-by query.
-func (ucgb *UserCredentialGroupBy) Aggregate(fns ...AggregateFunc) *UserCredentialGroupBy {
-	ucgb.fns = append(ucgb.fns, fns...)
-	return ucgb
+func (_g *UserCredentialGroupBy) Aggregate(fns ...AggregateFunc) *UserCredentialGroupBy {
+	_g.fns = append(_g.fns, fns...)
+	return _g
 }
 
 // Scan applies the selector query and scans the result into the given value.
-func (ucgb *UserCredentialGroupBy) Scan(ctx context.Context, v any) error {
-	ctx = setContextOp(ctx, ucgb.build.ctx, ent.OpQueryGroupBy)
-	if err := ucgb.build.prepareQuery(ctx); err != nil {
+func (_g *UserCredentialGroupBy) Scan(ctx context.Context, v any) error {
+	ctx = setContextOp(ctx, _g.build.ctx, ent.OpQueryGroupBy)
+	if err := _g.build.prepareQuery(ctx); err != nil {
 		return err
 	}
-	return scanWithInterceptors[*UserCredentialQuery, *UserCredentialGroupBy](ctx, ucgb.build, ucgb, ucgb.build.inters, v)
+	return scanWithInterceptors[*UserCredentialQuery, *UserCredentialGroupBy](ctx, _g.build, _g, _g.build.inters, v)
 }
 
-func (ucgb *UserCredentialGroupBy) sqlScan(ctx context.Context, root *UserCredentialQuery, v any) error {
+func (_g *UserCredentialGroupBy) sqlScan(ctx context.Context, root *UserCredentialQuery, v any) error {
 	selector := root.sqlQuery(ctx).Select()
-	aggregation := make([]string, 0, len(ucgb.fns))
-	for _, fn := range ucgb.fns {
+	aggregation := make([]string, 0, len(_g.fns))
+	for _, fn := range _g.fns {
 		aggregation = append(aggregation, fn(selector))
 	}
 	if len(selector.SelectedColumns()) == 0 {
-		columns := make([]string, 0, len(*ucgb.flds)+len(ucgb.fns))
-		for _, f := range *ucgb.flds {
+		columns := make([]string, 0, len(*_g.flds)+len(_g.fns))
+		for _, f := range *_g.flds {
 			columns = append(columns, selector.C(f))
 		}
 		columns = append(columns, aggregation...)
 		selector.Select(columns...)
 	}
-	selector.GroupBy(selector.Columns(*ucgb.flds...)...)
+	selector.GroupBy(selector.Columns(*_g.flds...)...)
 	if err := selector.Err(); err != nil {
 		return err
 	}
 	rows := &sql.Rows{}
 	query, args := selector.Query()
-	if err := ucgb.build.driver.Query(ctx, query, args, rows); err != nil {
+	if err := _g.build.driver.Query(ctx, query, args, rows); err != nil {
 		return err
 	}
 	defer rows.Close()
@@ -535,27 +535,27 @@ type UserCredentialSelect struct {
 }
 
 // Aggregate adds the given aggregation functions to the selector query.
-func (ucs *UserCredentialSelect) Aggregate(fns ...AggregateFunc) *UserCredentialSelect {
-	ucs.fns = append(ucs.fns, fns...)
-	return ucs
+func (_s *UserCredentialSelect) Aggregate(fns ...AggregateFunc) *UserCredentialSelect {
+	_s.fns = append(_s.fns, fns...)
+	return _s
 }
 
 // Scan applies the selector query and scans the result into the given value.
-func (ucs *UserCredentialSelect) Scan(ctx context.Context, v any) error {
-	ctx = setContextOp(ctx, ucs.ctx, ent.OpQuerySelect)
-	if err := ucs.prepareQuery(ctx); err != nil {
+func (_s *UserCredentialSelect) Scan(ctx context.Context, v any) error {
+	ctx = setContextOp(ctx, _s.ctx, ent.OpQuerySelect)
+	if err := _s.prepareQuery(ctx); err != nil {
 		return err
 	}
-	return scanWithInterceptors[*UserCredentialQuery, *UserCredentialSelect](ctx, ucs.UserCredentialQuery, ucs, ucs.inters, v)
+	return scanWithInterceptors[*UserCredentialQuery, *UserCredentialSelect](ctx, _s.UserCredentialQuery, _s, _s.inters, v)
 }
 
-func (ucs *UserCredentialSelect) sqlScan(ctx context.Context, root *UserCredentialQuery, v any) error {
+func (_s *UserCredentialSelect) sqlScan(ctx context.Context, root *UserCredentialQuery, v any) error {
 	selector := root.sqlQuery(ctx)
-	aggregation := make([]string, 0, len(ucs.fns))
-	for _, fn := range ucs.fns {
+	aggregation := make([]string, 0, len(_s.fns))
+	for _, fn := range _s.fns {
 		aggregation = append(aggregation, fn(selector))
 	}
-	switch n := len(*ucs.selector.flds); {
+	switch n := len(*_s.selector.flds); {
 	case n == 0 && len(aggregation) > 0:
 		selector.Select(aggregation...)
 	case n != 0 && len(aggregation) > 0:
@@ -563,7 +563,7 @@ func (ucs *UserCredentialSelect) sqlScan(ctx context.Context, root *UserCredenti
 	}
 	rows := &sql.Rows{}
 	query, args := selector.Query()
-	if err := ucs.driver.Query(ctx, query, args, rows); err != nil {
+	if err := _s.driver.Query(ctx, query, args, rows); err != nil {
 		return err
 	}
 	defer rows.Close()
@@ -571,7 +571,7 @@ func (ucs *UserCredentialSelect) sqlScan(ctx context.Context, root *UserCredenti
 }
 
 // Modify adds a query modifier for attaching custom logic to queries.
-func (ucs *UserCredentialSelect) Modify(modifiers ...func(s *sql.Selector)) *UserCredentialSelect {
-	ucs.modifiers = append(ucs.modifiers, modifiers...)
-	return ucs
+func (_s *UserCredentialSelect) Modify(modifiers ...func(s *sql.Selector)) *UserCredentialSelect {
+	_s.modifiers = append(_s.modifiers, modifiers...)
+	return _s
 }

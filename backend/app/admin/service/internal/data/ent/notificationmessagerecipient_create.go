@@ -23,122 +23,122 @@ type NotificationMessageRecipientCreate struct {
 }
 
 // SetCreateTime sets the "create_time" field.
-func (nmrc *NotificationMessageRecipientCreate) SetCreateTime(t time.Time) *NotificationMessageRecipientCreate {
-	nmrc.mutation.SetCreateTime(t)
-	return nmrc
+func (_c *NotificationMessageRecipientCreate) SetCreateTime(v time.Time) *NotificationMessageRecipientCreate {
+	_c.mutation.SetCreateTime(v)
+	return _c
 }
 
 // SetNillableCreateTime sets the "create_time" field if the given value is not nil.
-func (nmrc *NotificationMessageRecipientCreate) SetNillableCreateTime(t *time.Time) *NotificationMessageRecipientCreate {
-	if t != nil {
-		nmrc.SetCreateTime(*t)
+func (_c *NotificationMessageRecipientCreate) SetNillableCreateTime(v *time.Time) *NotificationMessageRecipientCreate {
+	if v != nil {
+		_c.SetCreateTime(*v)
 	}
-	return nmrc
+	return _c
 }
 
 // SetUpdateTime sets the "update_time" field.
-func (nmrc *NotificationMessageRecipientCreate) SetUpdateTime(t time.Time) *NotificationMessageRecipientCreate {
-	nmrc.mutation.SetUpdateTime(t)
-	return nmrc
+func (_c *NotificationMessageRecipientCreate) SetUpdateTime(v time.Time) *NotificationMessageRecipientCreate {
+	_c.mutation.SetUpdateTime(v)
+	return _c
 }
 
 // SetNillableUpdateTime sets the "update_time" field if the given value is not nil.
-func (nmrc *NotificationMessageRecipientCreate) SetNillableUpdateTime(t *time.Time) *NotificationMessageRecipientCreate {
-	if t != nil {
-		nmrc.SetUpdateTime(*t)
+func (_c *NotificationMessageRecipientCreate) SetNillableUpdateTime(v *time.Time) *NotificationMessageRecipientCreate {
+	if v != nil {
+		_c.SetUpdateTime(*v)
 	}
-	return nmrc
+	return _c
 }
 
 // SetDeleteTime sets the "delete_time" field.
-func (nmrc *NotificationMessageRecipientCreate) SetDeleteTime(t time.Time) *NotificationMessageRecipientCreate {
-	nmrc.mutation.SetDeleteTime(t)
-	return nmrc
+func (_c *NotificationMessageRecipientCreate) SetDeleteTime(v time.Time) *NotificationMessageRecipientCreate {
+	_c.mutation.SetDeleteTime(v)
+	return _c
 }
 
 // SetNillableDeleteTime sets the "delete_time" field if the given value is not nil.
-func (nmrc *NotificationMessageRecipientCreate) SetNillableDeleteTime(t *time.Time) *NotificationMessageRecipientCreate {
-	if t != nil {
-		nmrc.SetDeleteTime(*t)
+func (_c *NotificationMessageRecipientCreate) SetNillableDeleteTime(v *time.Time) *NotificationMessageRecipientCreate {
+	if v != nil {
+		_c.SetDeleteTime(*v)
 	}
-	return nmrc
+	return _c
 }
 
 // SetTenantID sets the "tenant_id" field.
-func (nmrc *NotificationMessageRecipientCreate) SetTenantID(u uint32) *NotificationMessageRecipientCreate {
-	nmrc.mutation.SetTenantID(u)
-	return nmrc
+func (_c *NotificationMessageRecipientCreate) SetTenantID(v uint32) *NotificationMessageRecipientCreate {
+	_c.mutation.SetTenantID(v)
+	return _c
 }
 
 // SetNillableTenantID sets the "tenant_id" field if the given value is not nil.
-func (nmrc *NotificationMessageRecipientCreate) SetNillableTenantID(u *uint32) *NotificationMessageRecipientCreate {
-	if u != nil {
-		nmrc.SetTenantID(*u)
+func (_c *NotificationMessageRecipientCreate) SetNillableTenantID(v *uint32) *NotificationMessageRecipientCreate {
+	if v != nil {
+		_c.SetTenantID(*v)
 	}
-	return nmrc
+	return _c
 }
 
 // SetMessageID sets the "message_id" field.
-func (nmrc *NotificationMessageRecipientCreate) SetMessageID(u uint32) *NotificationMessageRecipientCreate {
-	nmrc.mutation.SetMessageID(u)
-	return nmrc
+func (_c *NotificationMessageRecipientCreate) SetMessageID(v uint32) *NotificationMessageRecipientCreate {
+	_c.mutation.SetMessageID(v)
+	return _c
 }
 
 // SetNillableMessageID sets the "message_id" field if the given value is not nil.
-func (nmrc *NotificationMessageRecipientCreate) SetNillableMessageID(u *uint32) *NotificationMessageRecipientCreate {
-	if u != nil {
-		nmrc.SetMessageID(*u)
+func (_c *NotificationMessageRecipientCreate) SetNillableMessageID(v *uint32) *NotificationMessageRecipientCreate {
+	if v != nil {
+		_c.SetMessageID(*v)
 	}
-	return nmrc
+	return _c
 }
 
 // SetRecipientID sets the "recipient_id" field.
-func (nmrc *NotificationMessageRecipientCreate) SetRecipientID(u uint32) *NotificationMessageRecipientCreate {
-	nmrc.mutation.SetRecipientID(u)
-	return nmrc
+func (_c *NotificationMessageRecipientCreate) SetRecipientID(v uint32) *NotificationMessageRecipientCreate {
+	_c.mutation.SetRecipientID(v)
+	return _c
 }
 
 // SetNillableRecipientID sets the "recipient_id" field if the given value is not nil.
-func (nmrc *NotificationMessageRecipientCreate) SetNillableRecipientID(u *uint32) *NotificationMessageRecipientCreate {
-	if u != nil {
-		nmrc.SetRecipientID(*u)
+func (_c *NotificationMessageRecipientCreate) SetNillableRecipientID(v *uint32) *NotificationMessageRecipientCreate {
+	if v != nil {
+		_c.SetRecipientID(*v)
 	}
-	return nmrc
+	return _c
 }
 
 // SetStatus sets the "status" field.
-func (nmrc *NotificationMessageRecipientCreate) SetStatus(n notificationmessagerecipient.Status) *NotificationMessageRecipientCreate {
-	nmrc.mutation.SetStatus(n)
-	return nmrc
+func (_c *NotificationMessageRecipientCreate) SetStatus(v notificationmessagerecipient.Status) *NotificationMessageRecipientCreate {
+	_c.mutation.SetStatus(v)
+	return _c
 }
 
 // SetNillableStatus sets the "status" field if the given value is not nil.
-func (nmrc *NotificationMessageRecipientCreate) SetNillableStatus(n *notificationmessagerecipient.Status) *NotificationMessageRecipientCreate {
-	if n != nil {
-		nmrc.SetStatus(*n)
+func (_c *NotificationMessageRecipientCreate) SetNillableStatus(v *notificationmessagerecipient.Status) *NotificationMessageRecipientCreate {
+	if v != nil {
+		_c.SetStatus(*v)
 	}
-	return nmrc
+	return _c
 }
 
 // SetID sets the "id" field.
-func (nmrc *NotificationMessageRecipientCreate) SetID(u uint32) *NotificationMessageRecipientCreate {
-	nmrc.mutation.SetID(u)
-	return nmrc
+func (_c *NotificationMessageRecipientCreate) SetID(v uint32) *NotificationMessageRecipientCreate {
+	_c.mutation.SetID(v)
+	return _c
 }
 
 // Mutation returns the NotificationMessageRecipientMutation object of the builder.
-func (nmrc *NotificationMessageRecipientCreate) Mutation() *NotificationMessageRecipientMutation {
-	return nmrc.mutation
+func (_c *NotificationMessageRecipientCreate) Mutation() *NotificationMessageRecipientMutation {
+	return _c.mutation
 }
 
 // Save creates the NotificationMessageRecipient in the database.
-func (nmrc *NotificationMessageRecipientCreate) Save(ctx context.Context) (*NotificationMessageRecipient, error) {
-	return withHooks(ctx, nmrc.sqlSave, nmrc.mutation, nmrc.hooks)
+func (_c *NotificationMessageRecipientCreate) Save(ctx context.Context) (*NotificationMessageRecipient, error) {
+	return withHooks(ctx, _c.sqlSave, _c.mutation, _c.hooks)
 }
 
 // SaveX calls Save and panics if Save returns an error.
-func (nmrc *NotificationMessageRecipientCreate) SaveX(ctx context.Context) *NotificationMessageRecipient {
-	v, err := nmrc.Save(ctx)
+func (_c *NotificationMessageRecipientCreate) SaveX(ctx context.Context) *NotificationMessageRecipient {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -146,31 +146,31 @@ func (nmrc *NotificationMessageRecipientCreate) SaveX(ctx context.Context) *Noti
 }
 
 // Exec executes the query.
-func (nmrc *NotificationMessageRecipientCreate) Exec(ctx context.Context) error {
-	_, err := nmrc.Save(ctx)
+func (_c *NotificationMessageRecipientCreate) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (nmrc *NotificationMessageRecipientCreate) ExecX(ctx context.Context) {
-	if err := nmrc.Exec(ctx); err != nil {
+func (_c *NotificationMessageRecipientCreate) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
-func (nmrc *NotificationMessageRecipientCreate) check() error {
-	if v, ok := nmrc.mutation.TenantID(); ok {
+func (_c *NotificationMessageRecipientCreate) check() error {
+	if v, ok := _c.mutation.TenantID(); ok {
 		if err := notificationmessagerecipient.TenantIDValidator(v); err != nil {
 			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "NotificationMessageRecipient.tenant_id": %w`, err)}
 		}
 	}
-	if v, ok := nmrc.mutation.Status(); ok {
+	if v, ok := _c.mutation.Status(); ok {
 		if err := notificationmessagerecipient.StatusValidator(v); err != nil {
 			return &ValidationError{Name: "status", err: fmt.Errorf(`ent: validator failed for field "NotificationMessageRecipient.status": %w`, err)}
 		}
 	}
-	if v, ok := nmrc.mutation.ID(); ok {
+	if v, ok := _c.mutation.ID(); ok {
 		if err := notificationmessagerecipient.IDValidator(v); err != nil {
 			return &ValidationError{Name: "id", err: fmt.Errorf(`ent: validator failed for field "NotificationMessageRecipient.id": %w`, err)}
 		}
@@ -178,12 +178,12 @@ func (nmrc *NotificationMessageRecipientCreate) check() error {
 	return nil
 }
 
-func (nmrc *NotificationMessageRecipientCreate) sqlSave(ctx context.Context) (*NotificationMessageRecipient, error) {
-	if err := nmrc.check(); err != nil {
+func (_c *NotificationMessageRecipientCreate) sqlSave(ctx context.Context) (*NotificationMessageRecipient, error) {
+	if err := _c.check(); err != nil {
 		return nil, err
 	}
-	_node, _spec := nmrc.createSpec()
-	if err := sqlgraph.CreateNode(ctx, nmrc.driver, _spec); err != nil {
+	_node, _spec := _c.createSpec()
+	if err := sqlgraph.CreateNode(ctx, _c.driver, _spec); err != nil {
 		if sqlgraph.IsConstraintError(err) {
 			err = &ConstraintError{msg: err.Error(), wrap: err}
 		}
@@ -193,46 +193,46 @@ func (nmrc *NotificationMessageRecipientCreate) sqlSave(ctx context.Context) (*N
 		id := _spec.ID.Value.(int64)
 		_node.ID = uint32(id)
 	}
-	nmrc.mutation.id = &_node.ID
-	nmrc.mutation.done = true
+	_c.mutation.id = &_node.ID
+	_c.mutation.done = true
 	return _node, nil
 }
 
-func (nmrc *NotificationMessageRecipientCreate) createSpec() (*NotificationMessageRecipient, *sqlgraph.CreateSpec) {
+func (_c *NotificationMessageRecipientCreate) createSpec() (*NotificationMessageRecipient, *sqlgraph.CreateSpec) {
 	var (
-		_node = &NotificationMessageRecipient{config: nmrc.config}
+		_node = &NotificationMessageRecipient{config: _c.config}
 		_spec = sqlgraph.NewCreateSpec(notificationmessagerecipient.Table, sqlgraph.NewFieldSpec(notificationmessagerecipient.FieldID, field.TypeUint32))
 	)
-	_spec.OnConflict = nmrc.conflict
-	if id, ok := nmrc.mutation.ID(); ok {
+	_spec.OnConflict = _c.conflict
+	if id, ok := _c.mutation.ID(); ok {
 		_node.ID = id
 		_spec.ID.Value = id
 	}
-	if value, ok := nmrc.mutation.CreateTime(); ok {
+	if value, ok := _c.mutation.CreateTime(); ok {
 		_spec.SetField(notificationmessagerecipient.FieldCreateTime, field.TypeTime, value)
 		_node.CreateTime = &value
 	}
-	if value, ok := nmrc.mutation.UpdateTime(); ok {
+	if value, ok := _c.mutation.UpdateTime(); ok {
 		_spec.SetField(notificationmessagerecipient.FieldUpdateTime, field.TypeTime, value)
 		_node.UpdateTime = &value
 	}
-	if value, ok := nmrc.mutation.DeleteTime(); ok {
+	if value, ok := _c.mutation.DeleteTime(); ok {
 		_spec.SetField(notificationmessagerecipient.FieldDeleteTime, field.TypeTime, value)
 		_node.DeleteTime = &value
 	}
-	if value, ok := nmrc.mutation.TenantID(); ok {
+	if value, ok := _c.mutation.TenantID(); ok {
 		_spec.SetField(notificationmessagerecipient.FieldTenantID, field.TypeUint32, value)
 		_node.TenantID = &value
 	}
-	if value, ok := nmrc.mutation.MessageID(); ok {
+	if value, ok := _c.mutation.MessageID(); ok {
 		_spec.SetField(notificationmessagerecipient.FieldMessageID, field.TypeUint32, value)
 		_node.MessageID = &value
 	}
-	if value, ok := nmrc.mutation.RecipientID(); ok {
+	if value, ok := _c.mutation.RecipientID(); ok {
 		_spec.SetField(notificationmessagerecipient.FieldRecipientID, field.TypeUint32, value)
 		_node.RecipientID = &value
 	}
-	if value, ok := nmrc.mutation.Status(); ok {
+	if value, ok := _c.mutation.Status(); ok {
 		_spec.SetField(notificationmessagerecipient.FieldStatus, field.TypeEnum, value)
 		_node.Status = &value
 	}
@@ -255,10 +255,10 @@ func (nmrc *NotificationMessageRecipientCreate) createSpec() (*NotificationMessa
 //			SetCreateTime(v+v).
 //		}).
 //		Exec(ctx)
-func (nmrc *NotificationMessageRecipientCreate) OnConflict(opts ...sql.ConflictOption) *NotificationMessageRecipientUpsertOne {
-	nmrc.conflict = opts
+func (_c *NotificationMessageRecipientCreate) OnConflict(opts ...sql.ConflictOption) *NotificationMessageRecipientUpsertOne {
+	_c.conflict = opts
 	return &NotificationMessageRecipientUpsertOne{
-		create: nmrc,
+		create: _c,
 	}
 }
 
@@ -268,10 +268,10 @@ func (nmrc *NotificationMessageRecipientCreate) OnConflict(opts ...sql.ConflictO
 //	client.NotificationMessageRecipient.Create().
 //		OnConflict(sql.ConflictColumns(columns...)).
 //		Exec(ctx)
-func (nmrc *NotificationMessageRecipientCreate) OnConflictColumns(columns ...string) *NotificationMessageRecipientUpsertOne {
-	nmrc.conflict = append(nmrc.conflict, sql.ConflictColumns(columns...))
+func (_c *NotificationMessageRecipientCreate) OnConflictColumns(columns ...string) *NotificationMessageRecipientUpsertOne {
+	_c.conflict = append(_c.conflict, sql.ConflictColumns(columns...))
 	return &NotificationMessageRecipientUpsertOne{
-		create: nmrc,
+		create: _c,
 	}
 }
 
@@ -605,16 +605,16 @@ type NotificationMessageRecipientCreateBulk struct {
 }
 
 // Save creates the NotificationMessageRecipient entities in the database.
-func (nmrcb *NotificationMessageRecipientCreateBulk) Save(ctx context.Context) ([]*NotificationMessageRecipient, error) {
-	if nmrcb.err != nil {
-		return nil, nmrcb.err
+func (_c *NotificationMessageRecipientCreateBulk) Save(ctx context.Context) ([]*NotificationMessageRecipient, error) {
+	if _c.err != nil {
+		return nil, _c.err
 	}
-	specs := make([]*sqlgraph.CreateSpec, len(nmrcb.builders))
-	nodes := make([]*NotificationMessageRecipient, len(nmrcb.builders))
-	mutators := make([]Mutator, len(nmrcb.builders))
-	for i := range nmrcb.builders {
+	specs := make([]*sqlgraph.CreateSpec, len(_c.builders))
+	nodes := make([]*NotificationMessageRecipient, len(_c.builders))
+	mutators := make([]Mutator, len(_c.builders))
+	for i := range _c.builders {
 		func(i int, root context.Context) {
-			builder := nmrcb.builders[i]
+			builder := _c.builders[i]
 			var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 				mutation, ok := m.(*NotificationMessageRecipientMutation)
 				if !ok {
@@ -627,12 +627,12 @@ func (nmrcb *NotificationMessageRecipientCreateBulk) Save(ctx context.Context) (
 				var err error
 				nodes[i], specs[i] = builder.createSpec()
 				if i < len(mutators)-1 {
-					_, err = mutators[i+1].Mutate(root, nmrcb.builders[i+1].mutation)
+					_, err = mutators[i+1].Mutate(root, _c.builders[i+1].mutation)
 				} else {
 					spec := &sqlgraph.BatchCreateSpec{Nodes: specs}
-					spec.OnConflict = nmrcb.conflict
+					spec.OnConflict = _c.conflict
 					// Invoke the actual operation on the latest mutation in the chain.
-					if err = sqlgraph.BatchCreate(ctx, nmrcb.driver, spec); err != nil {
+					if err = sqlgraph.BatchCreate(ctx, _c.driver, spec); err != nil {
 						if sqlgraph.IsConstraintError(err) {
 							err = &ConstraintError{msg: err.Error(), wrap: err}
 						}
@@ -656,7 +656,7 @@ func (nmrcb *NotificationMessageRecipientCreateBulk) Save(ctx context.Context) (
 		}(i, ctx)
 	}
 	if len(mutators) > 0 {
-		if _, err := mutators[0].Mutate(ctx, nmrcb.builders[0].mutation); err != nil {
+		if _, err := mutators[0].Mutate(ctx, _c.builders[0].mutation); err != nil {
 			return nil, err
 		}
 	}
@@ -664,8 +664,8 @@ func (nmrcb *NotificationMessageRecipientCreateBulk) Save(ctx context.Context) (
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (nmrcb *NotificationMessageRecipientCreateBulk) SaveX(ctx context.Context) []*NotificationMessageRecipient {
-	v, err := nmrcb.Save(ctx)
+func (_c *NotificationMessageRecipientCreateBulk) SaveX(ctx context.Context) []*NotificationMessageRecipient {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -673,14 +673,14 @@ func (nmrcb *NotificationMessageRecipientCreateBulk) SaveX(ctx context.Context) 
 }
 
 // Exec executes the query.
-func (nmrcb *NotificationMessageRecipientCreateBulk) Exec(ctx context.Context) error {
-	_, err := nmrcb.Save(ctx)
+func (_c *NotificationMessageRecipientCreateBulk) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (nmrcb *NotificationMessageRecipientCreateBulk) ExecX(ctx context.Context) {
-	if err := nmrcb.Exec(ctx); err != nil {
+func (_c *NotificationMessageRecipientCreateBulk) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
@@ -700,10 +700,10 @@ func (nmrcb *NotificationMessageRecipientCreateBulk) ExecX(ctx context.Context) 
 //			SetCreateTime(v+v).
 //		}).
 //		Exec(ctx)
-func (nmrcb *NotificationMessageRecipientCreateBulk) OnConflict(opts ...sql.ConflictOption) *NotificationMessageRecipientUpsertBulk {
-	nmrcb.conflict = opts
+func (_c *NotificationMessageRecipientCreateBulk) OnConflict(opts ...sql.ConflictOption) *NotificationMessageRecipientUpsertBulk {
+	_c.conflict = opts
 	return &NotificationMessageRecipientUpsertBulk{
-		create: nmrcb,
+		create: _c,
 	}
 }
 
@@ -713,10 +713,10 @@ func (nmrcb *NotificationMessageRecipientCreateBulk) OnConflict(opts ...sql.Conf
 //	client.NotificationMessageRecipient.Create().
 //		OnConflict(sql.ConflictColumns(columns...)).
 //		Exec(ctx)
-func (nmrcb *NotificationMessageRecipientCreateBulk) OnConflictColumns(columns ...string) *NotificationMessageRecipientUpsertBulk {
-	nmrcb.conflict = append(nmrcb.conflict, sql.ConflictColumns(columns...))
+func (_c *NotificationMessageRecipientCreateBulk) OnConflictColumns(columns ...string) *NotificationMessageRecipientUpsertBulk {
+	_c.conflict = append(_c.conflict, sql.ConflictColumns(columns...))
 	return &NotificationMessageRecipientUpsertBulk{
-		create: nmrcb,
+		create: _c,
 	}
 }
 

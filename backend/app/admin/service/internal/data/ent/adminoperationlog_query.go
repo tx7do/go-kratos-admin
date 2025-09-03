@@ -30,40 +30,40 @@ type AdminOperationLogQuery struct {
 }
 
 // Where adds a new predicate for the AdminOperationLogQuery builder.
-func (aolq *AdminOperationLogQuery) Where(ps ...predicate.AdminOperationLog) *AdminOperationLogQuery {
-	aolq.predicates = append(aolq.predicates, ps...)
-	return aolq
+func (_q *AdminOperationLogQuery) Where(ps ...predicate.AdminOperationLog) *AdminOperationLogQuery {
+	_q.predicates = append(_q.predicates, ps...)
+	return _q
 }
 
 // Limit the number of records to be returned by this query.
-func (aolq *AdminOperationLogQuery) Limit(limit int) *AdminOperationLogQuery {
-	aolq.ctx.Limit = &limit
-	return aolq
+func (_q *AdminOperationLogQuery) Limit(limit int) *AdminOperationLogQuery {
+	_q.ctx.Limit = &limit
+	return _q
 }
 
 // Offset to start from.
-func (aolq *AdminOperationLogQuery) Offset(offset int) *AdminOperationLogQuery {
-	aolq.ctx.Offset = &offset
-	return aolq
+func (_q *AdminOperationLogQuery) Offset(offset int) *AdminOperationLogQuery {
+	_q.ctx.Offset = &offset
+	return _q
 }
 
 // Unique configures the query builder to filter duplicate records on query.
 // By default, unique is set to true, and can be disabled using this method.
-func (aolq *AdminOperationLogQuery) Unique(unique bool) *AdminOperationLogQuery {
-	aolq.ctx.Unique = &unique
-	return aolq
+func (_q *AdminOperationLogQuery) Unique(unique bool) *AdminOperationLogQuery {
+	_q.ctx.Unique = &unique
+	return _q
 }
 
 // Order specifies how the records should be ordered.
-func (aolq *AdminOperationLogQuery) Order(o ...adminoperationlog.OrderOption) *AdminOperationLogQuery {
-	aolq.order = append(aolq.order, o...)
-	return aolq
+func (_q *AdminOperationLogQuery) Order(o ...adminoperationlog.OrderOption) *AdminOperationLogQuery {
+	_q.order = append(_q.order, o...)
+	return _q
 }
 
 // First returns the first AdminOperationLog entity from the query.
 // Returns a *NotFoundError when no AdminOperationLog was found.
-func (aolq *AdminOperationLogQuery) First(ctx context.Context) (*AdminOperationLog, error) {
-	nodes, err := aolq.Limit(1).All(setContextOp(ctx, aolq.ctx, ent.OpQueryFirst))
+func (_q *AdminOperationLogQuery) First(ctx context.Context) (*AdminOperationLog, error) {
+	nodes, err := _q.Limit(1).All(setContextOp(ctx, _q.ctx, ent.OpQueryFirst))
 	if err != nil {
 		return nil, err
 	}
@@ -74,8 +74,8 @@ func (aolq *AdminOperationLogQuery) First(ctx context.Context) (*AdminOperationL
 }
 
 // FirstX is like First, but panics if an error occurs.
-func (aolq *AdminOperationLogQuery) FirstX(ctx context.Context) *AdminOperationLog {
-	node, err := aolq.First(ctx)
+func (_q *AdminOperationLogQuery) FirstX(ctx context.Context) *AdminOperationLog {
+	node, err := _q.First(ctx)
 	if err != nil && !IsNotFound(err) {
 		panic(err)
 	}
@@ -84,9 +84,9 @@ func (aolq *AdminOperationLogQuery) FirstX(ctx context.Context) *AdminOperationL
 
 // FirstID returns the first AdminOperationLog ID from the query.
 // Returns a *NotFoundError when no AdminOperationLog ID was found.
-func (aolq *AdminOperationLogQuery) FirstID(ctx context.Context) (id uint32, err error) {
+func (_q *AdminOperationLogQuery) FirstID(ctx context.Context) (id uint32, err error) {
 	var ids []uint32
-	if ids, err = aolq.Limit(1).IDs(setContextOp(ctx, aolq.ctx, ent.OpQueryFirstID)); err != nil {
+	if ids, err = _q.Limit(1).IDs(setContextOp(ctx, _q.ctx, ent.OpQueryFirstID)); err != nil {
 		return
 	}
 	if len(ids) == 0 {
@@ -97,8 +97,8 @@ func (aolq *AdminOperationLogQuery) FirstID(ctx context.Context) (id uint32, err
 }
 
 // FirstIDX is like FirstID, but panics if an error occurs.
-func (aolq *AdminOperationLogQuery) FirstIDX(ctx context.Context) uint32 {
-	id, err := aolq.FirstID(ctx)
+func (_q *AdminOperationLogQuery) FirstIDX(ctx context.Context) uint32 {
+	id, err := _q.FirstID(ctx)
 	if err != nil && !IsNotFound(err) {
 		panic(err)
 	}
@@ -108,8 +108,8 @@ func (aolq *AdminOperationLogQuery) FirstIDX(ctx context.Context) uint32 {
 // Only returns a single AdminOperationLog entity found by the query, ensuring it only returns one.
 // Returns a *NotSingularError when more than one AdminOperationLog entity is found.
 // Returns a *NotFoundError when no AdminOperationLog entities are found.
-func (aolq *AdminOperationLogQuery) Only(ctx context.Context) (*AdminOperationLog, error) {
-	nodes, err := aolq.Limit(2).All(setContextOp(ctx, aolq.ctx, ent.OpQueryOnly))
+func (_q *AdminOperationLogQuery) Only(ctx context.Context) (*AdminOperationLog, error) {
+	nodes, err := _q.Limit(2).All(setContextOp(ctx, _q.ctx, ent.OpQueryOnly))
 	if err != nil {
 		return nil, err
 	}
@@ -124,8 +124,8 @@ func (aolq *AdminOperationLogQuery) Only(ctx context.Context) (*AdminOperationLo
 }
 
 // OnlyX is like Only, but panics if an error occurs.
-func (aolq *AdminOperationLogQuery) OnlyX(ctx context.Context) *AdminOperationLog {
-	node, err := aolq.Only(ctx)
+func (_q *AdminOperationLogQuery) OnlyX(ctx context.Context) *AdminOperationLog {
+	node, err := _q.Only(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -135,9 +135,9 @@ func (aolq *AdminOperationLogQuery) OnlyX(ctx context.Context) *AdminOperationLo
 // OnlyID is like Only, but returns the only AdminOperationLog ID in the query.
 // Returns a *NotSingularError when more than one AdminOperationLog ID is found.
 // Returns a *NotFoundError when no entities are found.
-func (aolq *AdminOperationLogQuery) OnlyID(ctx context.Context) (id uint32, err error) {
+func (_q *AdminOperationLogQuery) OnlyID(ctx context.Context) (id uint32, err error) {
 	var ids []uint32
-	if ids, err = aolq.Limit(2).IDs(setContextOp(ctx, aolq.ctx, ent.OpQueryOnlyID)); err != nil {
+	if ids, err = _q.Limit(2).IDs(setContextOp(ctx, _q.ctx, ent.OpQueryOnlyID)); err != nil {
 		return
 	}
 	switch len(ids) {
@@ -152,8 +152,8 @@ func (aolq *AdminOperationLogQuery) OnlyID(ctx context.Context) (id uint32, err 
 }
 
 // OnlyIDX is like OnlyID, but panics if an error occurs.
-func (aolq *AdminOperationLogQuery) OnlyIDX(ctx context.Context) uint32 {
-	id, err := aolq.OnlyID(ctx)
+func (_q *AdminOperationLogQuery) OnlyIDX(ctx context.Context) uint32 {
+	id, err := _q.OnlyID(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -161,18 +161,18 @@ func (aolq *AdminOperationLogQuery) OnlyIDX(ctx context.Context) uint32 {
 }
 
 // All executes the query and returns a list of AdminOperationLogs.
-func (aolq *AdminOperationLogQuery) All(ctx context.Context) ([]*AdminOperationLog, error) {
-	ctx = setContextOp(ctx, aolq.ctx, ent.OpQueryAll)
-	if err := aolq.prepareQuery(ctx); err != nil {
+func (_q *AdminOperationLogQuery) All(ctx context.Context) ([]*AdminOperationLog, error) {
+	ctx = setContextOp(ctx, _q.ctx, ent.OpQueryAll)
+	if err := _q.prepareQuery(ctx); err != nil {
 		return nil, err
 	}
 	qr := querierAll[[]*AdminOperationLog, *AdminOperationLogQuery]()
-	return withInterceptors[[]*AdminOperationLog](ctx, aolq, qr, aolq.inters)
+	return withInterceptors[[]*AdminOperationLog](ctx, _q, qr, _q.inters)
 }
 
 // AllX is like All, but panics if an error occurs.
-func (aolq *AdminOperationLogQuery) AllX(ctx context.Context) []*AdminOperationLog {
-	nodes, err := aolq.All(ctx)
+func (_q *AdminOperationLogQuery) AllX(ctx context.Context) []*AdminOperationLog {
+	nodes, err := _q.All(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -180,20 +180,20 @@ func (aolq *AdminOperationLogQuery) AllX(ctx context.Context) []*AdminOperationL
 }
 
 // IDs executes the query and returns a list of AdminOperationLog IDs.
-func (aolq *AdminOperationLogQuery) IDs(ctx context.Context) (ids []uint32, err error) {
-	if aolq.ctx.Unique == nil && aolq.path != nil {
-		aolq.Unique(true)
+func (_q *AdminOperationLogQuery) IDs(ctx context.Context) (ids []uint32, err error) {
+	if _q.ctx.Unique == nil && _q.path != nil {
+		_q.Unique(true)
 	}
-	ctx = setContextOp(ctx, aolq.ctx, ent.OpQueryIDs)
-	if err = aolq.Select(adminoperationlog.FieldID).Scan(ctx, &ids); err != nil {
+	ctx = setContextOp(ctx, _q.ctx, ent.OpQueryIDs)
+	if err = _q.Select(adminoperationlog.FieldID).Scan(ctx, &ids); err != nil {
 		return nil, err
 	}
 	return ids, nil
 }
 
 // IDsX is like IDs, but panics if an error occurs.
-func (aolq *AdminOperationLogQuery) IDsX(ctx context.Context) []uint32 {
-	ids, err := aolq.IDs(ctx)
+func (_q *AdminOperationLogQuery) IDsX(ctx context.Context) []uint32 {
+	ids, err := _q.IDs(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -201,17 +201,17 @@ func (aolq *AdminOperationLogQuery) IDsX(ctx context.Context) []uint32 {
 }
 
 // Count returns the count of the given query.
-func (aolq *AdminOperationLogQuery) Count(ctx context.Context) (int, error) {
-	ctx = setContextOp(ctx, aolq.ctx, ent.OpQueryCount)
-	if err := aolq.prepareQuery(ctx); err != nil {
+func (_q *AdminOperationLogQuery) Count(ctx context.Context) (int, error) {
+	ctx = setContextOp(ctx, _q.ctx, ent.OpQueryCount)
+	if err := _q.prepareQuery(ctx); err != nil {
 		return 0, err
 	}
-	return withInterceptors[int](ctx, aolq, querierCount[*AdminOperationLogQuery](), aolq.inters)
+	return withInterceptors[int](ctx, _q, querierCount[*AdminOperationLogQuery](), _q.inters)
 }
 
 // CountX is like Count, but panics if an error occurs.
-func (aolq *AdminOperationLogQuery) CountX(ctx context.Context) int {
-	count, err := aolq.Count(ctx)
+func (_q *AdminOperationLogQuery) CountX(ctx context.Context) int {
+	count, err := _q.Count(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -219,9 +219,9 @@ func (aolq *AdminOperationLogQuery) CountX(ctx context.Context) int {
 }
 
 // Exist returns true if the query has elements in the graph.
-func (aolq *AdminOperationLogQuery) Exist(ctx context.Context) (bool, error) {
-	ctx = setContextOp(ctx, aolq.ctx, ent.OpQueryExist)
-	switch _, err := aolq.FirstID(ctx); {
+func (_q *AdminOperationLogQuery) Exist(ctx context.Context) (bool, error) {
+	ctx = setContextOp(ctx, _q.ctx, ent.OpQueryExist)
+	switch _, err := _q.FirstID(ctx); {
 	case IsNotFound(err):
 		return false, nil
 	case err != nil:
@@ -232,8 +232,8 @@ func (aolq *AdminOperationLogQuery) Exist(ctx context.Context) (bool, error) {
 }
 
 // ExistX is like Exist, but panics if an error occurs.
-func (aolq *AdminOperationLogQuery) ExistX(ctx context.Context) bool {
-	exist, err := aolq.Exist(ctx)
+func (_q *AdminOperationLogQuery) ExistX(ctx context.Context) bool {
+	exist, err := _q.Exist(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -242,20 +242,20 @@ func (aolq *AdminOperationLogQuery) ExistX(ctx context.Context) bool {
 
 // Clone returns a duplicate of the AdminOperationLogQuery builder, including all associated steps. It can be
 // used to prepare common query builders and use them differently after the clone is made.
-func (aolq *AdminOperationLogQuery) Clone() *AdminOperationLogQuery {
-	if aolq == nil {
+func (_q *AdminOperationLogQuery) Clone() *AdminOperationLogQuery {
+	if _q == nil {
 		return nil
 	}
 	return &AdminOperationLogQuery{
-		config:     aolq.config,
-		ctx:        aolq.ctx.Clone(),
-		order:      append([]adminoperationlog.OrderOption{}, aolq.order...),
-		inters:     append([]Interceptor{}, aolq.inters...),
-		predicates: append([]predicate.AdminOperationLog{}, aolq.predicates...),
+		config:     _q.config,
+		ctx:        _q.ctx.Clone(),
+		order:      append([]adminoperationlog.OrderOption{}, _q.order...),
+		inters:     append([]Interceptor{}, _q.inters...),
+		predicates: append([]predicate.AdminOperationLog{}, _q.predicates...),
 		// clone intermediate query.
-		sql:       aolq.sql.Clone(),
-		path:      aolq.path,
-		modifiers: append([]func(*sql.Selector){}, aolq.modifiers...),
+		sql:       _q.sql.Clone(),
+		path:      _q.path,
+		modifiers: append([]func(*sql.Selector){}, _q.modifiers...),
 	}
 }
 
@@ -273,10 +273,10 @@ func (aolq *AdminOperationLogQuery) Clone() *AdminOperationLogQuery {
 //		GroupBy(adminoperationlog.FieldCreateTime).
 //		Aggregate(ent.Count()).
 //		Scan(ctx, &v)
-func (aolq *AdminOperationLogQuery) GroupBy(field string, fields ...string) *AdminOperationLogGroupBy {
-	aolq.ctx.Fields = append([]string{field}, fields...)
-	grbuild := &AdminOperationLogGroupBy{build: aolq}
-	grbuild.flds = &aolq.ctx.Fields
+func (_q *AdminOperationLogQuery) GroupBy(field string, fields ...string) *AdminOperationLogGroupBy {
+	_q.ctx.Fields = append([]string{field}, fields...)
+	grbuild := &AdminOperationLogGroupBy{build: _q}
+	grbuild.flds = &_q.ctx.Fields
 	grbuild.label = adminoperationlog.Label
 	grbuild.scan = grbuild.Scan
 	return grbuild
@@ -294,65 +294,65 @@ func (aolq *AdminOperationLogQuery) GroupBy(field string, fields ...string) *Adm
 //	client.AdminOperationLog.Query().
 //		Select(adminoperationlog.FieldCreateTime).
 //		Scan(ctx, &v)
-func (aolq *AdminOperationLogQuery) Select(fields ...string) *AdminOperationLogSelect {
-	aolq.ctx.Fields = append(aolq.ctx.Fields, fields...)
-	sbuild := &AdminOperationLogSelect{AdminOperationLogQuery: aolq}
+func (_q *AdminOperationLogQuery) Select(fields ...string) *AdminOperationLogSelect {
+	_q.ctx.Fields = append(_q.ctx.Fields, fields...)
+	sbuild := &AdminOperationLogSelect{AdminOperationLogQuery: _q}
 	sbuild.label = adminoperationlog.Label
-	sbuild.flds, sbuild.scan = &aolq.ctx.Fields, sbuild.Scan
+	sbuild.flds, sbuild.scan = &_q.ctx.Fields, sbuild.Scan
 	return sbuild
 }
 
 // Aggregate returns a AdminOperationLogSelect configured with the given aggregations.
-func (aolq *AdminOperationLogQuery) Aggregate(fns ...AggregateFunc) *AdminOperationLogSelect {
-	return aolq.Select().Aggregate(fns...)
+func (_q *AdminOperationLogQuery) Aggregate(fns ...AggregateFunc) *AdminOperationLogSelect {
+	return _q.Select().Aggregate(fns...)
 }
 
-func (aolq *AdminOperationLogQuery) prepareQuery(ctx context.Context) error {
-	for _, inter := range aolq.inters {
+func (_q *AdminOperationLogQuery) prepareQuery(ctx context.Context) error {
+	for _, inter := range _q.inters {
 		if inter == nil {
 			return fmt.Errorf("ent: uninitialized interceptor (forgotten import ent/runtime?)")
 		}
 		if trv, ok := inter.(Traverser); ok {
-			if err := trv.Traverse(ctx, aolq); err != nil {
+			if err := trv.Traverse(ctx, _q); err != nil {
 				return err
 			}
 		}
 	}
-	for _, f := range aolq.ctx.Fields {
+	for _, f := range _q.ctx.Fields {
 		if !adminoperationlog.ValidColumn(f) {
 			return &ValidationError{Name: f, err: fmt.Errorf("ent: invalid field %q for query", f)}
 		}
 	}
-	if aolq.path != nil {
-		prev, err := aolq.path(ctx)
+	if _q.path != nil {
+		prev, err := _q.path(ctx)
 		if err != nil {
 			return err
 		}
-		aolq.sql = prev
+		_q.sql = prev
 	}
 	return nil
 }
 
-func (aolq *AdminOperationLogQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*AdminOperationLog, error) {
+func (_q *AdminOperationLogQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*AdminOperationLog, error) {
 	var (
 		nodes = []*AdminOperationLog{}
-		_spec = aolq.querySpec()
+		_spec = _q.querySpec()
 	)
 	_spec.ScanValues = func(columns []string) ([]any, error) {
 		return (*AdminOperationLog).scanValues(nil, columns)
 	}
 	_spec.Assign = func(columns []string, values []any) error {
-		node := &AdminOperationLog{config: aolq.config}
+		node := &AdminOperationLog{config: _q.config}
 		nodes = append(nodes, node)
 		return node.assignValues(columns, values)
 	}
-	if len(aolq.modifiers) > 0 {
-		_spec.Modifiers = aolq.modifiers
+	if len(_q.modifiers) > 0 {
+		_spec.Modifiers = _q.modifiers
 	}
 	for i := range hooks {
 		hooks[i](ctx, _spec)
 	}
-	if err := sqlgraph.QueryNodes(ctx, aolq.driver, _spec); err != nil {
+	if err := sqlgraph.QueryNodes(ctx, _q.driver, _spec); err != nil {
 		return nil, err
 	}
 	if len(nodes) == 0 {
@@ -361,27 +361,27 @@ func (aolq *AdminOperationLogQuery) sqlAll(ctx context.Context, hooks ...queryHo
 	return nodes, nil
 }
 
-func (aolq *AdminOperationLogQuery) sqlCount(ctx context.Context) (int, error) {
-	_spec := aolq.querySpec()
-	if len(aolq.modifiers) > 0 {
-		_spec.Modifiers = aolq.modifiers
+func (_q *AdminOperationLogQuery) sqlCount(ctx context.Context) (int, error) {
+	_spec := _q.querySpec()
+	if len(_q.modifiers) > 0 {
+		_spec.Modifiers = _q.modifiers
 	}
-	_spec.Node.Columns = aolq.ctx.Fields
-	if len(aolq.ctx.Fields) > 0 {
-		_spec.Unique = aolq.ctx.Unique != nil && *aolq.ctx.Unique
+	_spec.Node.Columns = _q.ctx.Fields
+	if len(_q.ctx.Fields) > 0 {
+		_spec.Unique = _q.ctx.Unique != nil && *_q.ctx.Unique
 	}
-	return sqlgraph.CountNodes(ctx, aolq.driver, _spec)
+	return sqlgraph.CountNodes(ctx, _q.driver, _spec)
 }
 
-func (aolq *AdminOperationLogQuery) querySpec() *sqlgraph.QuerySpec {
+func (_q *AdminOperationLogQuery) querySpec() *sqlgraph.QuerySpec {
 	_spec := sqlgraph.NewQuerySpec(adminoperationlog.Table, adminoperationlog.Columns, sqlgraph.NewFieldSpec(adminoperationlog.FieldID, field.TypeUint32))
-	_spec.From = aolq.sql
-	if unique := aolq.ctx.Unique; unique != nil {
+	_spec.From = _q.sql
+	if unique := _q.ctx.Unique; unique != nil {
 		_spec.Unique = *unique
-	} else if aolq.path != nil {
+	} else if _q.path != nil {
 		_spec.Unique = true
 	}
-	if fields := aolq.ctx.Fields; len(fields) > 0 {
+	if fields := _q.ctx.Fields; len(fields) > 0 {
 		_spec.Node.Columns = make([]string, 0, len(fields))
 		_spec.Node.Columns = append(_spec.Node.Columns, adminoperationlog.FieldID)
 		for i := range fields {
@@ -390,20 +390,20 @@ func (aolq *AdminOperationLogQuery) querySpec() *sqlgraph.QuerySpec {
 			}
 		}
 	}
-	if ps := aolq.predicates; len(ps) > 0 {
+	if ps := _q.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if limit := aolq.ctx.Limit; limit != nil {
+	if limit := _q.ctx.Limit; limit != nil {
 		_spec.Limit = *limit
 	}
-	if offset := aolq.ctx.Offset; offset != nil {
+	if offset := _q.ctx.Offset; offset != nil {
 		_spec.Offset = *offset
 	}
-	if ps := aolq.order; len(ps) > 0 {
+	if ps := _q.order; len(ps) > 0 {
 		_spec.Order = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
@@ -413,36 +413,36 @@ func (aolq *AdminOperationLogQuery) querySpec() *sqlgraph.QuerySpec {
 	return _spec
 }
 
-func (aolq *AdminOperationLogQuery) sqlQuery(ctx context.Context) *sql.Selector {
-	builder := sql.Dialect(aolq.driver.Dialect())
+func (_q *AdminOperationLogQuery) sqlQuery(ctx context.Context) *sql.Selector {
+	builder := sql.Dialect(_q.driver.Dialect())
 	t1 := builder.Table(adminoperationlog.Table)
-	columns := aolq.ctx.Fields
+	columns := _q.ctx.Fields
 	if len(columns) == 0 {
 		columns = adminoperationlog.Columns
 	}
 	selector := builder.Select(t1.Columns(columns...)...).From(t1)
-	if aolq.sql != nil {
-		selector = aolq.sql
+	if _q.sql != nil {
+		selector = _q.sql
 		selector.Select(selector.Columns(columns...)...)
 	}
-	if aolq.ctx.Unique != nil && *aolq.ctx.Unique {
+	if _q.ctx.Unique != nil && *_q.ctx.Unique {
 		selector.Distinct()
 	}
-	for _, m := range aolq.modifiers {
+	for _, m := range _q.modifiers {
 		m(selector)
 	}
-	for _, p := range aolq.predicates {
+	for _, p := range _q.predicates {
 		p(selector)
 	}
-	for _, p := range aolq.order {
+	for _, p := range _q.order {
 		p(selector)
 	}
-	if offset := aolq.ctx.Offset; offset != nil {
+	if offset := _q.ctx.Offset; offset != nil {
 		// limit is mandatory for offset clause. We start
 		// with default value, and override it below if needed.
 		selector.Offset(*offset).Limit(math.MaxInt32)
 	}
-	if limit := aolq.ctx.Limit; limit != nil {
+	if limit := _q.ctx.Limit; limit != nil {
 		selector.Limit(*limit)
 	}
 	return selector
@@ -451,33 +451,33 @@ func (aolq *AdminOperationLogQuery) sqlQuery(ctx context.Context) *sql.Selector 
 // ForUpdate locks the selected rows against concurrent updates, and prevent them from being
 // updated, deleted or "selected ... for update" by other sessions, until the transaction is
 // either committed or rolled-back.
-func (aolq *AdminOperationLogQuery) ForUpdate(opts ...sql.LockOption) *AdminOperationLogQuery {
-	if aolq.driver.Dialect() == dialect.Postgres {
-		aolq.Unique(false)
+func (_q *AdminOperationLogQuery) ForUpdate(opts ...sql.LockOption) *AdminOperationLogQuery {
+	if _q.driver.Dialect() == dialect.Postgres {
+		_q.Unique(false)
 	}
-	aolq.modifiers = append(aolq.modifiers, func(s *sql.Selector) {
+	_q.modifiers = append(_q.modifiers, func(s *sql.Selector) {
 		s.ForUpdate(opts...)
 	})
-	return aolq
+	return _q
 }
 
 // ForShare behaves similarly to ForUpdate, except that it acquires a shared mode lock
 // on any rows that are read. Other sessions can read the rows, but cannot modify them
 // until your transaction commits.
-func (aolq *AdminOperationLogQuery) ForShare(opts ...sql.LockOption) *AdminOperationLogQuery {
-	if aolq.driver.Dialect() == dialect.Postgres {
-		aolq.Unique(false)
+func (_q *AdminOperationLogQuery) ForShare(opts ...sql.LockOption) *AdminOperationLogQuery {
+	if _q.driver.Dialect() == dialect.Postgres {
+		_q.Unique(false)
 	}
-	aolq.modifiers = append(aolq.modifiers, func(s *sql.Selector) {
+	_q.modifiers = append(_q.modifiers, func(s *sql.Selector) {
 		s.ForShare(opts...)
 	})
-	return aolq
+	return _q
 }
 
 // Modify adds a query modifier for attaching custom logic to queries.
-func (aolq *AdminOperationLogQuery) Modify(modifiers ...func(s *sql.Selector)) *AdminOperationLogSelect {
-	aolq.modifiers = append(aolq.modifiers, modifiers...)
-	return aolq.Select()
+func (_q *AdminOperationLogQuery) Modify(modifiers ...func(s *sql.Selector)) *AdminOperationLogSelect {
+	_q.modifiers = append(_q.modifiers, modifiers...)
+	return _q.Select()
 }
 
 // AdminOperationLogGroupBy is the group-by builder for AdminOperationLog entities.
@@ -487,41 +487,41 @@ type AdminOperationLogGroupBy struct {
 }
 
 // Aggregate adds the given aggregation functions to the group-by query.
-func (aolgb *AdminOperationLogGroupBy) Aggregate(fns ...AggregateFunc) *AdminOperationLogGroupBy {
-	aolgb.fns = append(aolgb.fns, fns...)
-	return aolgb
+func (_g *AdminOperationLogGroupBy) Aggregate(fns ...AggregateFunc) *AdminOperationLogGroupBy {
+	_g.fns = append(_g.fns, fns...)
+	return _g
 }
 
 // Scan applies the selector query and scans the result into the given value.
-func (aolgb *AdminOperationLogGroupBy) Scan(ctx context.Context, v any) error {
-	ctx = setContextOp(ctx, aolgb.build.ctx, ent.OpQueryGroupBy)
-	if err := aolgb.build.prepareQuery(ctx); err != nil {
+func (_g *AdminOperationLogGroupBy) Scan(ctx context.Context, v any) error {
+	ctx = setContextOp(ctx, _g.build.ctx, ent.OpQueryGroupBy)
+	if err := _g.build.prepareQuery(ctx); err != nil {
 		return err
 	}
-	return scanWithInterceptors[*AdminOperationLogQuery, *AdminOperationLogGroupBy](ctx, aolgb.build, aolgb, aolgb.build.inters, v)
+	return scanWithInterceptors[*AdminOperationLogQuery, *AdminOperationLogGroupBy](ctx, _g.build, _g, _g.build.inters, v)
 }
 
-func (aolgb *AdminOperationLogGroupBy) sqlScan(ctx context.Context, root *AdminOperationLogQuery, v any) error {
+func (_g *AdminOperationLogGroupBy) sqlScan(ctx context.Context, root *AdminOperationLogQuery, v any) error {
 	selector := root.sqlQuery(ctx).Select()
-	aggregation := make([]string, 0, len(aolgb.fns))
-	for _, fn := range aolgb.fns {
+	aggregation := make([]string, 0, len(_g.fns))
+	for _, fn := range _g.fns {
 		aggregation = append(aggregation, fn(selector))
 	}
 	if len(selector.SelectedColumns()) == 0 {
-		columns := make([]string, 0, len(*aolgb.flds)+len(aolgb.fns))
-		for _, f := range *aolgb.flds {
+		columns := make([]string, 0, len(*_g.flds)+len(_g.fns))
+		for _, f := range *_g.flds {
 			columns = append(columns, selector.C(f))
 		}
 		columns = append(columns, aggregation...)
 		selector.Select(columns...)
 	}
-	selector.GroupBy(selector.Columns(*aolgb.flds...)...)
+	selector.GroupBy(selector.Columns(*_g.flds...)...)
 	if err := selector.Err(); err != nil {
 		return err
 	}
 	rows := &sql.Rows{}
 	query, args := selector.Query()
-	if err := aolgb.build.driver.Query(ctx, query, args, rows); err != nil {
+	if err := _g.build.driver.Query(ctx, query, args, rows); err != nil {
 		return err
 	}
 	defer rows.Close()
@@ -535,27 +535,27 @@ type AdminOperationLogSelect struct {
 }
 
 // Aggregate adds the given aggregation functions to the selector query.
-func (aols *AdminOperationLogSelect) Aggregate(fns ...AggregateFunc) *AdminOperationLogSelect {
-	aols.fns = append(aols.fns, fns...)
-	return aols
+func (_s *AdminOperationLogSelect) Aggregate(fns ...AggregateFunc) *AdminOperationLogSelect {
+	_s.fns = append(_s.fns, fns...)
+	return _s
 }
 
 // Scan applies the selector query and scans the result into the given value.
-func (aols *AdminOperationLogSelect) Scan(ctx context.Context, v any) error {
-	ctx = setContextOp(ctx, aols.ctx, ent.OpQuerySelect)
-	if err := aols.prepareQuery(ctx); err != nil {
+func (_s *AdminOperationLogSelect) Scan(ctx context.Context, v any) error {
+	ctx = setContextOp(ctx, _s.ctx, ent.OpQuerySelect)
+	if err := _s.prepareQuery(ctx); err != nil {
 		return err
 	}
-	return scanWithInterceptors[*AdminOperationLogQuery, *AdminOperationLogSelect](ctx, aols.AdminOperationLogQuery, aols, aols.inters, v)
+	return scanWithInterceptors[*AdminOperationLogQuery, *AdminOperationLogSelect](ctx, _s.AdminOperationLogQuery, _s, _s.inters, v)
 }
 
-func (aols *AdminOperationLogSelect) sqlScan(ctx context.Context, root *AdminOperationLogQuery, v any) error {
+func (_s *AdminOperationLogSelect) sqlScan(ctx context.Context, root *AdminOperationLogQuery, v any) error {
 	selector := root.sqlQuery(ctx)
-	aggregation := make([]string, 0, len(aols.fns))
-	for _, fn := range aols.fns {
+	aggregation := make([]string, 0, len(_s.fns))
+	for _, fn := range _s.fns {
 		aggregation = append(aggregation, fn(selector))
 	}
-	switch n := len(*aols.selector.flds); {
+	switch n := len(*_s.selector.flds); {
 	case n == 0 && len(aggregation) > 0:
 		selector.Select(aggregation...)
 	case n != 0 && len(aggregation) > 0:
@@ -563,7 +563,7 @@ func (aols *AdminOperationLogSelect) sqlScan(ctx context.Context, root *AdminOpe
 	}
 	rows := &sql.Rows{}
 	query, args := selector.Query()
-	if err := aols.driver.Query(ctx, query, args, rows); err != nil {
+	if err := _s.driver.Query(ctx, query, args, rows); err != nil {
 		return err
 	}
 	defer rows.Close()
@@ -571,7 +571,7 @@ func (aols *AdminOperationLogSelect) sqlScan(ctx context.Context, root *AdminOpe
 }
 
 // Modify adds a query modifier for attaching custom logic to queries.
-func (aols *AdminOperationLogSelect) Modify(modifiers ...func(s *sql.Selector)) *AdminOperationLogSelect {
-	aols.modifiers = append(aols.modifiers, modifiers...)
-	return aols
+func (_s *AdminOperationLogSelect) Modify(modifiers ...func(s *sql.Selector)) *AdminOperationLogSelect {
+	_s.modifiers = append(_s.modifiers, modifiers...)
+	return _s
 }

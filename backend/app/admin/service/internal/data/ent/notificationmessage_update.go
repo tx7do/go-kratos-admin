@@ -24,205 +24,205 @@ type NotificationMessageUpdate struct {
 }
 
 // Where appends a list predicates to the NotificationMessageUpdate builder.
-func (nmu *NotificationMessageUpdate) Where(ps ...predicate.NotificationMessage) *NotificationMessageUpdate {
-	nmu.mutation.Where(ps...)
-	return nmu
+func (_u *NotificationMessageUpdate) Where(ps ...predicate.NotificationMessage) *NotificationMessageUpdate {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // SetUpdateTime sets the "update_time" field.
-func (nmu *NotificationMessageUpdate) SetUpdateTime(t time.Time) *NotificationMessageUpdate {
-	nmu.mutation.SetUpdateTime(t)
-	return nmu
+func (_u *NotificationMessageUpdate) SetUpdateTime(v time.Time) *NotificationMessageUpdate {
+	_u.mutation.SetUpdateTime(v)
+	return _u
 }
 
 // SetNillableUpdateTime sets the "update_time" field if the given value is not nil.
-func (nmu *NotificationMessageUpdate) SetNillableUpdateTime(t *time.Time) *NotificationMessageUpdate {
-	if t != nil {
-		nmu.SetUpdateTime(*t)
+func (_u *NotificationMessageUpdate) SetNillableUpdateTime(v *time.Time) *NotificationMessageUpdate {
+	if v != nil {
+		_u.SetUpdateTime(*v)
 	}
-	return nmu
+	return _u
 }
 
 // ClearUpdateTime clears the value of the "update_time" field.
-func (nmu *NotificationMessageUpdate) ClearUpdateTime() *NotificationMessageUpdate {
-	nmu.mutation.ClearUpdateTime()
-	return nmu
+func (_u *NotificationMessageUpdate) ClearUpdateTime() *NotificationMessageUpdate {
+	_u.mutation.ClearUpdateTime()
+	return _u
 }
 
 // SetDeleteTime sets the "delete_time" field.
-func (nmu *NotificationMessageUpdate) SetDeleteTime(t time.Time) *NotificationMessageUpdate {
-	nmu.mutation.SetDeleteTime(t)
-	return nmu
+func (_u *NotificationMessageUpdate) SetDeleteTime(v time.Time) *NotificationMessageUpdate {
+	_u.mutation.SetDeleteTime(v)
+	return _u
 }
 
 // SetNillableDeleteTime sets the "delete_time" field if the given value is not nil.
-func (nmu *NotificationMessageUpdate) SetNillableDeleteTime(t *time.Time) *NotificationMessageUpdate {
-	if t != nil {
-		nmu.SetDeleteTime(*t)
+func (_u *NotificationMessageUpdate) SetNillableDeleteTime(v *time.Time) *NotificationMessageUpdate {
+	if v != nil {
+		_u.SetDeleteTime(*v)
 	}
-	return nmu
+	return _u
 }
 
 // ClearDeleteTime clears the value of the "delete_time" field.
-func (nmu *NotificationMessageUpdate) ClearDeleteTime() *NotificationMessageUpdate {
-	nmu.mutation.ClearDeleteTime()
-	return nmu
+func (_u *NotificationMessageUpdate) ClearDeleteTime() *NotificationMessageUpdate {
+	_u.mutation.ClearDeleteTime()
+	return _u
 }
 
 // SetCreateBy sets the "create_by" field.
-func (nmu *NotificationMessageUpdate) SetCreateBy(u uint32) *NotificationMessageUpdate {
-	nmu.mutation.ResetCreateBy()
-	nmu.mutation.SetCreateBy(u)
-	return nmu
+func (_u *NotificationMessageUpdate) SetCreateBy(v uint32) *NotificationMessageUpdate {
+	_u.mutation.ResetCreateBy()
+	_u.mutation.SetCreateBy(v)
+	return _u
 }
 
 // SetNillableCreateBy sets the "create_by" field if the given value is not nil.
-func (nmu *NotificationMessageUpdate) SetNillableCreateBy(u *uint32) *NotificationMessageUpdate {
-	if u != nil {
-		nmu.SetCreateBy(*u)
+func (_u *NotificationMessageUpdate) SetNillableCreateBy(v *uint32) *NotificationMessageUpdate {
+	if v != nil {
+		_u.SetCreateBy(*v)
 	}
-	return nmu
+	return _u
 }
 
-// AddCreateBy adds u to the "create_by" field.
-func (nmu *NotificationMessageUpdate) AddCreateBy(u int32) *NotificationMessageUpdate {
-	nmu.mutation.AddCreateBy(u)
-	return nmu
+// AddCreateBy adds value to the "create_by" field.
+func (_u *NotificationMessageUpdate) AddCreateBy(v int32) *NotificationMessageUpdate {
+	_u.mutation.AddCreateBy(v)
+	return _u
 }
 
 // ClearCreateBy clears the value of the "create_by" field.
-func (nmu *NotificationMessageUpdate) ClearCreateBy() *NotificationMessageUpdate {
-	nmu.mutation.ClearCreateBy()
-	return nmu
+func (_u *NotificationMessageUpdate) ClearCreateBy() *NotificationMessageUpdate {
+	_u.mutation.ClearCreateBy()
+	return _u
 }
 
 // SetUpdateBy sets the "update_by" field.
-func (nmu *NotificationMessageUpdate) SetUpdateBy(u uint32) *NotificationMessageUpdate {
-	nmu.mutation.ResetUpdateBy()
-	nmu.mutation.SetUpdateBy(u)
-	return nmu
+func (_u *NotificationMessageUpdate) SetUpdateBy(v uint32) *NotificationMessageUpdate {
+	_u.mutation.ResetUpdateBy()
+	_u.mutation.SetUpdateBy(v)
+	return _u
 }
 
 // SetNillableUpdateBy sets the "update_by" field if the given value is not nil.
-func (nmu *NotificationMessageUpdate) SetNillableUpdateBy(u *uint32) *NotificationMessageUpdate {
-	if u != nil {
-		nmu.SetUpdateBy(*u)
+func (_u *NotificationMessageUpdate) SetNillableUpdateBy(v *uint32) *NotificationMessageUpdate {
+	if v != nil {
+		_u.SetUpdateBy(*v)
 	}
-	return nmu
+	return _u
 }
 
-// AddUpdateBy adds u to the "update_by" field.
-func (nmu *NotificationMessageUpdate) AddUpdateBy(u int32) *NotificationMessageUpdate {
-	nmu.mutation.AddUpdateBy(u)
-	return nmu
+// AddUpdateBy adds value to the "update_by" field.
+func (_u *NotificationMessageUpdate) AddUpdateBy(v int32) *NotificationMessageUpdate {
+	_u.mutation.AddUpdateBy(v)
+	return _u
 }
 
 // ClearUpdateBy clears the value of the "update_by" field.
-func (nmu *NotificationMessageUpdate) ClearUpdateBy() *NotificationMessageUpdate {
-	nmu.mutation.ClearUpdateBy()
-	return nmu
+func (_u *NotificationMessageUpdate) ClearUpdateBy() *NotificationMessageUpdate {
+	_u.mutation.ClearUpdateBy()
+	return _u
 }
 
 // SetSubject sets the "subject" field.
-func (nmu *NotificationMessageUpdate) SetSubject(s string) *NotificationMessageUpdate {
-	nmu.mutation.SetSubject(s)
-	return nmu
+func (_u *NotificationMessageUpdate) SetSubject(v string) *NotificationMessageUpdate {
+	_u.mutation.SetSubject(v)
+	return _u
 }
 
 // SetNillableSubject sets the "subject" field if the given value is not nil.
-func (nmu *NotificationMessageUpdate) SetNillableSubject(s *string) *NotificationMessageUpdate {
-	if s != nil {
-		nmu.SetSubject(*s)
+func (_u *NotificationMessageUpdate) SetNillableSubject(v *string) *NotificationMessageUpdate {
+	if v != nil {
+		_u.SetSubject(*v)
 	}
-	return nmu
+	return _u
 }
 
 // ClearSubject clears the value of the "subject" field.
-func (nmu *NotificationMessageUpdate) ClearSubject() *NotificationMessageUpdate {
-	nmu.mutation.ClearSubject()
-	return nmu
+func (_u *NotificationMessageUpdate) ClearSubject() *NotificationMessageUpdate {
+	_u.mutation.ClearSubject()
+	return _u
 }
 
 // SetContent sets the "content" field.
-func (nmu *NotificationMessageUpdate) SetContent(s string) *NotificationMessageUpdate {
-	nmu.mutation.SetContent(s)
-	return nmu
+func (_u *NotificationMessageUpdate) SetContent(v string) *NotificationMessageUpdate {
+	_u.mutation.SetContent(v)
+	return _u
 }
 
 // SetNillableContent sets the "content" field if the given value is not nil.
-func (nmu *NotificationMessageUpdate) SetNillableContent(s *string) *NotificationMessageUpdate {
-	if s != nil {
-		nmu.SetContent(*s)
+func (_u *NotificationMessageUpdate) SetNillableContent(v *string) *NotificationMessageUpdate {
+	if v != nil {
+		_u.SetContent(*v)
 	}
-	return nmu
+	return _u
 }
 
 // ClearContent clears the value of the "content" field.
-func (nmu *NotificationMessageUpdate) ClearContent() *NotificationMessageUpdate {
-	nmu.mutation.ClearContent()
-	return nmu
+func (_u *NotificationMessageUpdate) ClearContent() *NotificationMessageUpdate {
+	_u.mutation.ClearContent()
+	return _u
 }
 
 // SetCategoryID sets the "category_id" field.
-func (nmu *NotificationMessageUpdate) SetCategoryID(u uint32) *NotificationMessageUpdate {
-	nmu.mutation.ResetCategoryID()
-	nmu.mutation.SetCategoryID(u)
-	return nmu
+func (_u *NotificationMessageUpdate) SetCategoryID(v uint32) *NotificationMessageUpdate {
+	_u.mutation.ResetCategoryID()
+	_u.mutation.SetCategoryID(v)
+	return _u
 }
 
 // SetNillableCategoryID sets the "category_id" field if the given value is not nil.
-func (nmu *NotificationMessageUpdate) SetNillableCategoryID(u *uint32) *NotificationMessageUpdate {
-	if u != nil {
-		nmu.SetCategoryID(*u)
+func (_u *NotificationMessageUpdate) SetNillableCategoryID(v *uint32) *NotificationMessageUpdate {
+	if v != nil {
+		_u.SetCategoryID(*v)
 	}
-	return nmu
+	return _u
 }
 
-// AddCategoryID adds u to the "category_id" field.
-func (nmu *NotificationMessageUpdate) AddCategoryID(u int32) *NotificationMessageUpdate {
-	nmu.mutation.AddCategoryID(u)
-	return nmu
+// AddCategoryID adds value to the "category_id" field.
+func (_u *NotificationMessageUpdate) AddCategoryID(v int32) *NotificationMessageUpdate {
+	_u.mutation.AddCategoryID(v)
+	return _u
 }
 
 // ClearCategoryID clears the value of the "category_id" field.
-func (nmu *NotificationMessageUpdate) ClearCategoryID() *NotificationMessageUpdate {
-	nmu.mutation.ClearCategoryID()
-	return nmu
+func (_u *NotificationMessageUpdate) ClearCategoryID() *NotificationMessageUpdate {
+	_u.mutation.ClearCategoryID()
+	return _u
 }
 
 // SetStatus sets the "status" field.
-func (nmu *NotificationMessageUpdate) SetStatus(n notificationmessage.Status) *NotificationMessageUpdate {
-	nmu.mutation.SetStatus(n)
-	return nmu
+func (_u *NotificationMessageUpdate) SetStatus(v notificationmessage.Status) *NotificationMessageUpdate {
+	_u.mutation.SetStatus(v)
+	return _u
 }
 
 // SetNillableStatus sets the "status" field if the given value is not nil.
-func (nmu *NotificationMessageUpdate) SetNillableStatus(n *notificationmessage.Status) *NotificationMessageUpdate {
-	if n != nil {
-		nmu.SetStatus(*n)
+func (_u *NotificationMessageUpdate) SetNillableStatus(v *notificationmessage.Status) *NotificationMessageUpdate {
+	if v != nil {
+		_u.SetStatus(*v)
 	}
-	return nmu
+	return _u
 }
 
 // ClearStatus clears the value of the "status" field.
-func (nmu *NotificationMessageUpdate) ClearStatus() *NotificationMessageUpdate {
-	nmu.mutation.ClearStatus()
-	return nmu
+func (_u *NotificationMessageUpdate) ClearStatus() *NotificationMessageUpdate {
+	_u.mutation.ClearStatus()
+	return _u
 }
 
 // Mutation returns the NotificationMessageMutation object of the builder.
-func (nmu *NotificationMessageUpdate) Mutation() *NotificationMessageMutation {
-	return nmu.mutation
+func (_u *NotificationMessageUpdate) Mutation() *NotificationMessageMutation {
+	return _u.mutation
 }
 
 // Save executes the query and returns the number of nodes affected by the update operation.
-func (nmu *NotificationMessageUpdate) Save(ctx context.Context) (int, error) {
-	return withHooks(ctx, nmu.sqlSave, nmu.mutation, nmu.hooks)
+func (_u *NotificationMessageUpdate) Save(ctx context.Context) (int, error) {
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (nmu *NotificationMessageUpdate) SaveX(ctx context.Context) int {
-	affected, err := nmu.Save(ctx)
+func (_u *NotificationMessageUpdate) SaveX(ctx context.Context) int {
+	affected, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -230,21 +230,21 @@ func (nmu *NotificationMessageUpdate) SaveX(ctx context.Context) int {
 }
 
 // Exec executes the query.
-func (nmu *NotificationMessageUpdate) Exec(ctx context.Context) error {
-	_, err := nmu.Save(ctx)
+func (_u *NotificationMessageUpdate) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (nmu *NotificationMessageUpdate) ExecX(ctx context.Context) {
-	if err := nmu.Exec(ctx); err != nil {
+func (_u *NotificationMessageUpdate) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
-func (nmu *NotificationMessageUpdate) check() error {
-	if v, ok := nmu.mutation.Status(); ok {
+func (_u *NotificationMessageUpdate) check() error {
+	if v, ok := _u.mutation.Status(); ok {
 		if err := notificationmessage.StatusValidator(v); err != nil {
 			return &ValidationError{Name: "status", err: fmt.Errorf(`ent: validator failed for field "NotificationMessage.status": %w`, err)}
 		}
@@ -253,88 +253,88 @@ func (nmu *NotificationMessageUpdate) check() error {
 }
 
 // Modify adds a statement modifier for attaching custom logic to the UPDATE statement.
-func (nmu *NotificationMessageUpdate) Modify(modifiers ...func(u *sql.UpdateBuilder)) *NotificationMessageUpdate {
-	nmu.modifiers = append(nmu.modifiers, modifiers...)
-	return nmu
+func (_u *NotificationMessageUpdate) Modify(modifiers ...func(u *sql.UpdateBuilder)) *NotificationMessageUpdate {
+	_u.modifiers = append(_u.modifiers, modifiers...)
+	return _u
 }
 
-func (nmu *NotificationMessageUpdate) sqlSave(ctx context.Context) (n int, err error) {
-	if err := nmu.check(); err != nil {
-		return n, err
+func (_u *NotificationMessageUpdate) sqlSave(ctx context.Context) (_node int, err error) {
+	if err := _u.check(); err != nil {
+		return _node, err
 	}
 	_spec := sqlgraph.NewUpdateSpec(notificationmessage.Table, notificationmessage.Columns, sqlgraph.NewFieldSpec(notificationmessage.FieldID, field.TypeUint32))
-	if ps := nmu.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if nmu.mutation.CreateTimeCleared() {
+	if _u.mutation.CreateTimeCleared() {
 		_spec.ClearField(notificationmessage.FieldCreateTime, field.TypeTime)
 	}
-	if value, ok := nmu.mutation.UpdateTime(); ok {
+	if value, ok := _u.mutation.UpdateTime(); ok {
 		_spec.SetField(notificationmessage.FieldUpdateTime, field.TypeTime, value)
 	}
-	if nmu.mutation.UpdateTimeCleared() {
+	if _u.mutation.UpdateTimeCleared() {
 		_spec.ClearField(notificationmessage.FieldUpdateTime, field.TypeTime)
 	}
-	if value, ok := nmu.mutation.DeleteTime(); ok {
+	if value, ok := _u.mutation.DeleteTime(); ok {
 		_spec.SetField(notificationmessage.FieldDeleteTime, field.TypeTime, value)
 	}
-	if nmu.mutation.DeleteTimeCleared() {
+	if _u.mutation.DeleteTimeCleared() {
 		_spec.ClearField(notificationmessage.FieldDeleteTime, field.TypeTime)
 	}
-	if value, ok := nmu.mutation.CreateBy(); ok {
+	if value, ok := _u.mutation.CreateBy(); ok {
 		_spec.SetField(notificationmessage.FieldCreateBy, field.TypeUint32, value)
 	}
-	if value, ok := nmu.mutation.AddedCreateBy(); ok {
+	if value, ok := _u.mutation.AddedCreateBy(); ok {
 		_spec.AddField(notificationmessage.FieldCreateBy, field.TypeUint32, value)
 	}
-	if nmu.mutation.CreateByCleared() {
+	if _u.mutation.CreateByCleared() {
 		_spec.ClearField(notificationmessage.FieldCreateBy, field.TypeUint32)
 	}
-	if value, ok := nmu.mutation.UpdateBy(); ok {
+	if value, ok := _u.mutation.UpdateBy(); ok {
 		_spec.SetField(notificationmessage.FieldUpdateBy, field.TypeUint32, value)
 	}
-	if value, ok := nmu.mutation.AddedUpdateBy(); ok {
+	if value, ok := _u.mutation.AddedUpdateBy(); ok {
 		_spec.AddField(notificationmessage.FieldUpdateBy, field.TypeUint32, value)
 	}
-	if nmu.mutation.UpdateByCleared() {
+	if _u.mutation.UpdateByCleared() {
 		_spec.ClearField(notificationmessage.FieldUpdateBy, field.TypeUint32)
 	}
-	if nmu.mutation.TenantIDCleared() {
+	if _u.mutation.TenantIDCleared() {
 		_spec.ClearField(notificationmessage.FieldTenantID, field.TypeUint32)
 	}
-	if value, ok := nmu.mutation.Subject(); ok {
+	if value, ok := _u.mutation.Subject(); ok {
 		_spec.SetField(notificationmessage.FieldSubject, field.TypeString, value)
 	}
-	if nmu.mutation.SubjectCleared() {
+	if _u.mutation.SubjectCleared() {
 		_spec.ClearField(notificationmessage.FieldSubject, field.TypeString)
 	}
-	if value, ok := nmu.mutation.Content(); ok {
+	if value, ok := _u.mutation.Content(); ok {
 		_spec.SetField(notificationmessage.FieldContent, field.TypeString, value)
 	}
-	if nmu.mutation.ContentCleared() {
+	if _u.mutation.ContentCleared() {
 		_spec.ClearField(notificationmessage.FieldContent, field.TypeString)
 	}
-	if value, ok := nmu.mutation.CategoryID(); ok {
+	if value, ok := _u.mutation.CategoryID(); ok {
 		_spec.SetField(notificationmessage.FieldCategoryID, field.TypeUint32, value)
 	}
-	if value, ok := nmu.mutation.AddedCategoryID(); ok {
+	if value, ok := _u.mutation.AddedCategoryID(); ok {
 		_spec.AddField(notificationmessage.FieldCategoryID, field.TypeUint32, value)
 	}
-	if nmu.mutation.CategoryIDCleared() {
+	if _u.mutation.CategoryIDCleared() {
 		_spec.ClearField(notificationmessage.FieldCategoryID, field.TypeUint32)
 	}
-	if value, ok := nmu.mutation.Status(); ok {
+	if value, ok := _u.mutation.Status(); ok {
 		_spec.SetField(notificationmessage.FieldStatus, field.TypeEnum, value)
 	}
-	if nmu.mutation.StatusCleared() {
+	if _u.mutation.StatusCleared() {
 		_spec.ClearField(notificationmessage.FieldStatus, field.TypeEnum)
 	}
-	_spec.AddModifiers(nmu.modifiers...)
-	if n, err = sqlgraph.UpdateNodes(ctx, nmu.driver, _spec); err != nil {
+	_spec.AddModifiers(_u.modifiers...)
+	if _node, err = sqlgraph.UpdateNodes(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{notificationmessage.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -342,8 +342,8 @@ func (nmu *NotificationMessageUpdate) sqlSave(ctx context.Context) (n int, err e
 		}
 		return 0, err
 	}
-	nmu.mutation.done = true
-	return n, nil
+	_u.mutation.done = true
+	return _node, nil
 }
 
 // NotificationMessageUpdateOne is the builder for updating a single NotificationMessage entity.
@@ -356,212 +356,212 @@ type NotificationMessageUpdateOne struct {
 }
 
 // SetUpdateTime sets the "update_time" field.
-func (nmuo *NotificationMessageUpdateOne) SetUpdateTime(t time.Time) *NotificationMessageUpdateOne {
-	nmuo.mutation.SetUpdateTime(t)
-	return nmuo
+func (_u *NotificationMessageUpdateOne) SetUpdateTime(v time.Time) *NotificationMessageUpdateOne {
+	_u.mutation.SetUpdateTime(v)
+	return _u
 }
 
 // SetNillableUpdateTime sets the "update_time" field if the given value is not nil.
-func (nmuo *NotificationMessageUpdateOne) SetNillableUpdateTime(t *time.Time) *NotificationMessageUpdateOne {
-	if t != nil {
-		nmuo.SetUpdateTime(*t)
+func (_u *NotificationMessageUpdateOne) SetNillableUpdateTime(v *time.Time) *NotificationMessageUpdateOne {
+	if v != nil {
+		_u.SetUpdateTime(*v)
 	}
-	return nmuo
+	return _u
 }
 
 // ClearUpdateTime clears the value of the "update_time" field.
-func (nmuo *NotificationMessageUpdateOne) ClearUpdateTime() *NotificationMessageUpdateOne {
-	nmuo.mutation.ClearUpdateTime()
-	return nmuo
+func (_u *NotificationMessageUpdateOne) ClearUpdateTime() *NotificationMessageUpdateOne {
+	_u.mutation.ClearUpdateTime()
+	return _u
 }
 
 // SetDeleteTime sets the "delete_time" field.
-func (nmuo *NotificationMessageUpdateOne) SetDeleteTime(t time.Time) *NotificationMessageUpdateOne {
-	nmuo.mutation.SetDeleteTime(t)
-	return nmuo
+func (_u *NotificationMessageUpdateOne) SetDeleteTime(v time.Time) *NotificationMessageUpdateOne {
+	_u.mutation.SetDeleteTime(v)
+	return _u
 }
 
 // SetNillableDeleteTime sets the "delete_time" field if the given value is not nil.
-func (nmuo *NotificationMessageUpdateOne) SetNillableDeleteTime(t *time.Time) *NotificationMessageUpdateOne {
-	if t != nil {
-		nmuo.SetDeleteTime(*t)
+func (_u *NotificationMessageUpdateOne) SetNillableDeleteTime(v *time.Time) *NotificationMessageUpdateOne {
+	if v != nil {
+		_u.SetDeleteTime(*v)
 	}
-	return nmuo
+	return _u
 }
 
 // ClearDeleteTime clears the value of the "delete_time" field.
-func (nmuo *NotificationMessageUpdateOne) ClearDeleteTime() *NotificationMessageUpdateOne {
-	nmuo.mutation.ClearDeleteTime()
-	return nmuo
+func (_u *NotificationMessageUpdateOne) ClearDeleteTime() *NotificationMessageUpdateOne {
+	_u.mutation.ClearDeleteTime()
+	return _u
 }
 
 // SetCreateBy sets the "create_by" field.
-func (nmuo *NotificationMessageUpdateOne) SetCreateBy(u uint32) *NotificationMessageUpdateOne {
-	nmuo.mutation.ResetCreateBy()
-	nmuo.mutation.SetCreateBy(u)
-	return nmuo
+func (_u *NotificationMessageUpdateOne) SetCreateBy(v uint32) *NotificationMessageUpdateOne {
+	_u.mutation.ResetCreateBy()
+	_u.mutation.SetCreateBy(v)
+	return _u
 }
 
 // SetNillableCreateBy sets the "create_by" field if the given value is not nil.
-func (nmuo *NotificationMessageUpdateOne) SetNillableCreateBy(u *uint32) *NotificationMessageUpdateOne {
-	if u != nil {
-		nmuo.SetCreateBy(*u)
+func (_u *NotificationMessageUpdateOne) SetNillableCreateBy(v *uint32) *NotificationMessageUpdateOne {
+	if v != nil {
+		_u.SetCreateBy(*v)
 	}
-	return nmuo
+	return _u
 }
 
-// AddCreateBy adds u to the "create_by" field.
-func (nmuo *NotificationMessageUpdateOne) AddCreateBy(u int32) *NotificationMessageUpdateOne {
-	nmuo.mutation.AddCreateBy(u)
-	return nmuo
+// AddCreateBy adds value to the "create_by" field.
+func (_u *NotificationMessageUpdateOne) AddCreateBy(v int32) *NotificationMessageUpdateOne {
+	_u.mutation.AddCreateBy(v)
+	return _u
 }
 
 // ClearCreateBy clears the value of the "create_by" field.
-func (nmuo *NotificationMessageUpdateOne) ClearCreateBy() *NotificationMessageUpdateOne {
-	nmuo.mutation.ClearCreateBy()
-	return nmuo
+func (_u *NotificationMessageUpdateOne) ClearCreateBy() *NotificationMessageUpdateOne {
+	_u.mutation.ClearCreateBy()
+	return _u
 }
 
 // SetUpdateBy sets the "update_by" field.
-func (nmuo *NotificationMessageUpdateOne) SetUpdateBy(u uint32) *NotificationMessageUpdateOne {
-	nmuo.mutation.ResetUpdateBy()
-	nmuo.mutation.SetUpdateBy(u)
-	return nmuo
+func (_u *NotificationMessageUpdateOne) SetUpdateBy(v uint32) *NotificationMessageUpdateOne {
+	_u.mutation.ResetUpdateBy()
+	_u.mutation.SetUpdateBy(v)
+	return _u
 }
 
 // SetNillableUpdateBy sets the "update_by" field if the given value is not nil.
-func (nmuo *NotificationMessageUpdateOne) SetNillableUpdateBy(u *uint32) *NotificationMessageUpdateOne {
-	if u != nil {
-		nmuo.SetUpdateBy(*u)
+func (_u *NotificationMessageUpdateOne) SetNillableUpdateBy(v *uint32) *NotificationMessageUpdateOne {
+	if v != nil {
+		_u.SetUpdateBy(*v)
 	}
-	return nmuo
+	return _u
 }
 
-// AddUpdateBy adds u to the "update_by" field.
-func (nmuo *NotificationMessageUpdateOne) AddUpdateBy(u int32) *NotificationMessageUpdateOne {
-	nmuo.mutation.AddUpdateBy(u)
-	return nmuo
+// AddUpdateBy adds value to the "update_by" field.
+func (_u *NotificationMessageUpdateOne) AddUpdateBy(v int32) *NotificationMessageUpdateOne {
+	_u.mutation.AddUpdateBy(v)
+	return _u
 }
 
 // ClearUpdateBy clears the value of the "update_by" field.
-func (nmuo *NotificationMessageUpdateOne) ClearUpdateBy() *NotificationMessageUpdateOne {
-	nmuo.mutation.ClearUpdateBy()
-	return nmuo
+func (_u *NotificationMessageUpdateOne) ClearUpdateBy() *NotificationMessageUpdateOne {
+	_u.mutation.ClearUpdateBy()
+	return _u
 }
 
 // SetSubject sets the "subject" field.
-func (nmuo *NotificationMessageUpdateOne) SetSubject(s string) *NotificationMessageUpdateOne {
-	nmuo.mutation.SetSubject(s)
-	return nmuo
+func (_u *NotificationMessageUpdateOne) SetSubject(v string) *NotificationMessageUpdateOne {
+	_u.mutation.SetSubject(v)
+	return _u
 }
 
 // SetNillableSubject sets the "subject" field if the given value is not nil.
-func (nmuo *NotificationMessageUpdateOne) SetNillableSubject(s *string) *NotificationMessageUpdateOne {
-	if s != nil {
-		nmuo.SetSubject(*s)
+func (_u *NotificationMessageUpdateOne) SetNillableSubject(v *string) *NotificationMessageUpdateOne {
+	if v != nil {
+		_u.SetSubject(*v)
 	}
-	return nmuo
+	return _u
 }
 
 // ClearSubject clears the value of the "subject" field.
-func (nmuo *NotificationMessageUpdateOne) ClearSubject() *NotificationMessageUpdateOne {
-	nmuo.mutation.ClearSubject()
-	return nmuo
+func (_u *NotificationMessageUpdateOne) ClearSubject() *NotificationMessageUpdateOne {
+	_u.mutation.ClearSubject()
+	return _u
 }
 
 // SetContent sets the "content" field.
-func (nmuo *NotificationMessageUpdateOne) SetContent(s string) *NotificationMessageUpdateOne {
-	nmuo.mutation.SetContent(s)
-	return nmuo
+func (_u *NotificationMessageUpdateOne) SetContent(v string) *NotificationMessageUpdateOne {
+	_u.mutation.SetContent(v)
+	return _u
 }
 
 // SetNillableContent sets the "content" field if the given value is not nil.
-func (nmuo *NotificationMessageUpdateOne) SetNillableContent(s *string) *NotificationMessageUpdateOne {
-	if s != nil {
-		nmuo.SetContent(*s)
+func (_u *NotificationMessageUpdateOne) SetNillableContent(v *string) *NotificationMessageUpdateOne {
+	if v != nil {
+		_u.SetContent(*v)
 	}
-	return nmuo
+	return _u
 }
 
 // ClearContent clears the value of the "content" field.
-func (nmuo *NotificationMessageUpdateOne) ClearContent() *NotificationMessageUpdateOne {
-	nmuo.mutation.ClearContent()
-	return nmuo
+func (_u *NotificationMessageUpdateOne) ClearContent() *NotificationMessageUpdateOne {
+	_u.mutation.ClearContent()
+	return _u
 }
 
 // SetCategoryID sets the "category_id" field.
-func (nmuo *NotificationMessageUpdateOne) SetCategoryID(u uint32) *NotificationMessageUpdateOne {
-	nmuo.mutation.ResetCategoryID()
-	nmuo.mutation.SetCategoryID(u)
-	return nmuo
+func (_u *NotificationMessageUpdateOne) SetCategoryID(v uint32) *NotificationMessageUpdateOne {
+	_u.mutation.ResetCategoryID()
+	_u.mutation.SetCategoryID(v)
+	return _u
 }
 
 // SetNillableCategoryID sets the "category_id" field if the given value is not nil.
-func (nmuo *NotificationMessageUpdateOne) SetNillableCategoryID(u *uint32) *NotificationMessageUpdateOne {
-	if u != nil {
-		nmuo.SetCategoryID(*u)
+func (_u *NotificationMessageUpdateOne) SetNillableCategoryID(v *uint32) *NotificationMessageUpdateOne {
+	if v != nil {
+		_u.SetCategoryID(*v)
 	}
-	return nmuo
+	return _u
 }
 
-// AddCategoryID adds u to the "category_id" field.
-func (nmuo *NotificationMessageUpdateOne) AddCategoryID(u int32) *NotificationMessageUpdateOne {
-	nmuo.mutation.AddCategoryID(u)
-	return nmuo
+// AddCategoryID adds value to the "category_id" field.
+func (_u *NotificationMessageUpdateOne) AddCategoryID(v int32) *NotificationMessageUpdateOne {
+	_u.mutation.AddCategoryID(v)
+	return _u
 }
 
 // ClearCategoryID clears the value of the "category_id" field.
-func (nmuo *NotificationMessageUpdateOne) ClearCategoryID() *NotificationMessageUpdateOne {
-	nmuo.mutation.ClearCategoryID()
-	return nmuo
+func (_u *NotificationMessageUpdateOne) ClearCategoryID() *NotificationMessageUpdateOne {
+	_u.mutation.ClearCategoryID()
+	return _u
 }
 
 // SetStatus sets the "status" field.
-func (nmuo *NotificationMessageUpdateOne) SetStatus(n notificationmessage.Status) *NotificationMessageUpdateOne {
-	nmuo.mutation.SetStatus(n)
-	return nmuo
+func (_u *NotificationMessageUpdateOne) SetStatus(v notificationmessage.Status) *NotificationMessageUpdateOne {
+	_u.mutation.SetStatus(v)
+	return _u
 }
 
 // SetNillableStatus sets the "status" field if the given value is not nil.
-func (nmuo *NotificationMessageUpdateOne) SetNillableStatus(n *notificationmessage.Status) *NotificationMessageUpdateOne {
-	if n != nil {
-		nmuo.SetStatus(*n)
+func (_u *NotificationMessageUpdateOne) SetNillableStatus(v *notificationmessage.Status) *NotificationMessageUpdateOne {
+	if v != nil {
+		_u.SetStatus(*v)
 	}
-	return nmuo
+	return _u
 }
 
 // ClearStatus clears the value of the "status" field.
-func (nmuo *NotificationMessageUpdateOne) ClearStatus() *NotificationMessageUpdateOne {
-	nmuo.mutation.ClearStatus()
-	return nmuo
+func (_u *NotificationMessageUpdateOne) ClearStatus() *NotificationMessageUpdateOne {
+	_u.mutation.ClearStatus()
+	return _u
 }
 
 // Mutation returns the NotificationMessageMutation object of the builder.
-func (nmuo *NotificationMessageUpdateOne) Mutation() *NotificationMessageMutation {
-	return nmuo.mutation
+func (_u *NotificationMessageUpdateOne) Mutation() *NotificationMessageMutation {
+	return _u.mutation
 }
 
 // Where appends a list predicates to the NotificationMessageUpdate builder.
-func (nmuo *NotificationMessageUpdateOne) Where(ps ...predicate.NotificationMessage) *NotificationMessageUpdateOne {
-	nmuo.mutation.Where(ps...)
-	return nmuo
+func (_u *NotificationMessageUpdateOne) Where(ps ...predicate.NotificationMessage) *NotificationMessageUpdateOne {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // Select allows selecting one or more fields (columns) of the returned entity.
 // The default is selecting all fields defined in the entity schema.
-func (nmuo *NotificationMessageUpdateOne) Select(field string, fields ...string) *NotificationMessageUpdateOne {
-	nmuo.fields = append([]string{field}, fields...)
-	return nmuo
+func (_u *NotificationMessageUpdateOne) Select(field string, fields ...string) *NotificationMessageUpdateOne {
+	_u.fields = append([]string{field}, fields...)
+	return _u
 }
 
 // Save executes the query and returns the updated NotificationMessage entity.
-func (nmuo *NotificationMessageUpdateOne) Save(ctx context.Context) (*NotificationMessage, error) {
-	return withHooks(ctx, nmuo.sqlSave, nmuo.mutation, nmuo.hooks)
+func (_u *NotificationMessageUpdateOne) Save(ctx context.Context) (*NotificationMessage, error) {
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (nmuo *NotificationMessageUpdateOne) SaveX(ctx context.Context) *NotificationMessage {
-	node, err := nmuo.Save(ctx)
+func (_u *NotificationMessageUpdateOne) SaveX(ctx context.Context) *NotificationMessage {
+	node, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -569,21 +569,21 @@ func (nmuo *NotificationMessageUpdateOne) SaveX(ctx context.Context) *Notificati
 }
 
 // Exec executes the query on the entity.
-func (nmuo *NotificationMessageUpdateOne) Exec(ctx context.Context) error {
-	_, err := nmuo.Save(ctx)
+func (_u *NotificationMessageUpdateOne) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (nmuo *NotificationMessageUpdateOne) ExecX(ctx context.Context) {
-	if err := nmuo.Exec(ctx); err != nil {
+func (_u *NotificationMessageUpdateOne) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
-func (nmuo *NotificationMessageUpdateOne) check() error {
-	if v, ok := nmuo.mutation.Status(); ok {
+func (_u *NotificationMessageUpdateOne) check() error {
+	if v, ok := _u.mutation.Status(); ok {
 		if err := notificationmessage.StatusValidator(v); err != nil {
 			return &ValidationError{Name: "status", err: fmt.Errorf(`ent: validator failed for field "NotificationMessage.status": %w`, err)}
 		}
@@ -592,22 +592,22 @@ func (nmuo *NotificationMessageUpdateOne) check() error {
 }
 
 // Modify adds a statement modifier for attaching custom logic to the UPDATE statement.
-func (nmuo *NotificationMessageUpdateOne) Modify(modifiers ...func(u *sql.UpdateBuilder)) *NotificationMessageUpdateOne {
-	nmuo.modifiers = append(nmuo.modifiers, modifiers...)
-	return nmuo
+func (_u *NotificationMessageUpdateOne) Modify(modifiers ...func(u *sql.UpdateBuilder)) *NotificationMessageUpdateOne {
+	_u.modifiers = append(_u.modifiers, modifiers...)
+	return _u
 }
 
-func (nmuo *NotificationMessageUpdateOne) sqlSave(ctx context.Context) (_node *NotificationMessage, err error) {
-	if err := nmuo.check(); err != nil {
+func (_u *NotificationMessageUpdateOne) sqlSave(ctx context.Context) (_node *NotificationMessage, err error) {
+	if err := _u.check(); err != nil {
 		return _node, err
 	}
 	_spec := sqlgraph.NewUpdateSpec(notificationmessage.Table, notificationmessage.Columns, sqlgraph.NewFieldSpec(notificationmessage.FieldID, field.TypeUint32))
-	id, ok := nmuo.mutation.ID()
+	id, ok := _u.mutation.ID()
 	if !ok {
 		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "NotificationMessage.id" for update`)}
 	}
 	_spec.Node.ID.Value = id
-	if fields := nmuo.fields; len(fields) > 0 {
+	if fields := _u.fields; len(fields) > 0 {
 		_spec.Node.Columns = make([]string, 0, len(fields))
 		_spec.Node.Columns = append(_spec.Node.Columns, notificationmessage.FieldID)
 		for _, f := range fields {
@@ -619,81 +619,81 @@ func (nmuo *NotificationMessageUpdateOne) sqlSave(ctx context.Context) (_node *N
 			}
 		}
 	}
-	if ps := nmuo.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if nmuo.mutation.CreateTimeCleared() {
+	if _u.mutation.CreateTimeCleared() {
 		_spec.ClearField(notificationmessage.FieldCreateTime, field.TypeTime)
 	}
-	if value, ok := nmuo.mutation.UpdateTime(); ok {
+	if value, ok := _u.mutation.UpdateTime(); ok {
 		_spec.SetField(notificationmessage.FieldUpdateTime, field.TypeTime, value)
 	}
-	if nmuo.mutation.UpdateTimeCleared() {
+	if _u.mutation.UpdateTimeCleared() {
 		_spec.ClearField(notificationmessage.FieldUpdateTime, field.TypeTime)
 	}
-	if value, ok := nmuo.mutation.DeleteTime(); ok {
+	if value, ok := _u.mutation.DeleteTime(); ok {
 		_spec.SetField(notificationmessage.FieldDeleteTime, field.TypeTime, value)
 	}
-	if nmuo.mutation.DeleteTimeCleared() {
+	if _u.mutation.DeleteTimeCleared() {
 		_spec.ClearField(notificationmessage.FieldDeleteTime, field.TypeTime)
 	}
-	if value, ok := nmuo.mutation.CreateBy(); ok {
+	if value, ok := _u.mutation.CreateBy(); ok {
 		_spec.SetField(notificationmessage.FieldCreateBy, field.TypeUint32, value)
 	}
-	if value, ok := nmuo.mutation.AddedCreateBy(); ok {
+	if value, ok := _u.mutation.AddedCreateBy(); ok {
 		_spec.AddField(notificationmessage.FieldCreateBy, field.TypeUint32, value)
 	}
-	if nmuo.mutation.CreateByCleared() {
+	if _u.mutation.CreateByCleared() {
 		_spec.ClearField(notificationmessage.FieldCreateBy, field.TypeUint32)
 	}
-	if value, ok := nmuo.mutation.UpdateBy(); ok {
+	if value, ok := _u.mutation.UpdateBy(); ok {
 		_spec.SetField(notificationmessage.FieldUpdateBy, field.TypeUint32, value)
 	}
-	if value, ok := nmuo.mutation.AddedUpdateBy(); ok {
+	if value, ok := _u.mutation.AddedUpdateBy(); ok {
 		_spec.AddField(notificationmessage.FieldUpdateBy, field.TypeUint32, value)
 	}
-	if nmuo.mutation.UpdateByCleared() {
+	if _u.mutation.UpdateByCleared() {
 		_spec.ClearField(notificationmessage.FieldUpdateBy, field.TypeUint32)
 	}
-	if nmuo.mutation.TenantIDCleared() {
+	if _u.mutation.TenantIDCleared() {
 		_spec.ClearField(notificationmessage.FieldTenantID, field.TypeUint32)
 	}
-	if value, ok := nmuo.mutation.Subject(); ok {
+	if value, ok := _u.mutation.Subject(); ok {
 		_spec.SetField(notificationmessage.FieldSubject, field.TypeString, value)
 	}
-	if nmuo.mutation.SubjectCleared() {
+	if _u.mutation.SubjectCleared() {
 		_spec.ClearField(notificationmessage.FieldSubject, field.TypeString)
 	}
-	if value, ok := nmuo.mutation.Content(); ok {
+	if value, ok := _u.mutation.Content(); ok {
 		_spec.SetField(notificationmessage.FieldContent, field.TypeString, value)
 	}
-	if nmuo.mutation.ContentCleared() {
+	if _u.mutation.ContentCleared() {
 		_spec.ClearField(notificationmessage.FieldContent, field.TypeString)
 	}
-	if value, ok := nmuo.mutation.CategoryID(); ok {
+	if value, ok := _u.mutation.CategoryID(); ok {
 		_spec.SetField(notificationmessage.FieldCategoryID, field.TypeUint32, value)
 	}
-	if value, ok := nmuo.mutation.AddedCategoryID(); ok {
+	if value, ok := _u.mutation.AddedCategoryID(); ok {
 		_spec.AddField(notificationmessage.FieldCategoryID, field.TypeUint32, value)
 	}
-	if nmuo.mutation.CategoryIDCleared() {
+	if _u.mutation.CategoryIDCleared() {
 		_spec.ClearField(notificationmessage.FieldCategoryID, field.TypeUint32)
 	}
-	if value, ok := nmuo.mutation.Status(); ok {
+	if value, ok := _u.mutation.Status(); ok {
 		_spec.SetField(notificationmessage.FieldStatus, field.TypeEnum, value)
 	}
-	if nmuo.mutation.StatusCleared() {
+	if _u.mutation.StatusCleared() {
 		_spec.ClearField(notificationmessage.FieldStatus, field.TypeEnum)
 	}
-	_spec.AddModifiers(nmuo.modifiers...)
-	_node = &NotificationMessage{config: nmuo.config}
+	_spec.AddModifiers(_u.modifiers...)
+	_node = &NotificationMessage{config: _u.config}
 	_spec.Assign = _node.assignValues
 	_spec.ScanValues = _node.scanValues
-	if err = sqlgraph.UpdateNode(ctx, nmuo.driver, _spec); err != nil {
+	if err = sqlgraph.UpdateNode(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{notificationmessage.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -701,6 +701,6 @@ func (nmuo *NotificationMessageUpdateOne) sqlSave(ctx context.Context) (_node *N
 		}
 		return nil, err
 	}
-	nmuo.mutation.done = true
+	_u.mutation.done = true
 	return _node, nil
 }

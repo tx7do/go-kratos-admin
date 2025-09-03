@@ -59,7 +59,7 @@ func (*PrivateMessage) scanValues(columns []string) ([]any, error) {
 
 // assignValues assigns the values that were returned from sql.Rows (after scanning)
 // to the PrivateMessage fields.
-func (pm *PrivateMessage) assignValues(columns []string, values []any) error {
+func (_m *PrivateMessage) assignValues(columns []string, values []any) error {
 	if m, n := len(values), len(columns); m < n {
 		return fmt.Errorf("mismatch number of scan values: %d != %d", m, n)
 	}
@@ -70,72 +70,72 @@ func (pm *PrivateMessage) assignValues(columns []string, values []any) error {
 			if !ok {
 				return fmt.Errorf("unexpected type %T for field id", value)
 			}
-			pm.ID = uint32(value.Int64)
+			_m.ID = uint32(value.Int64)
 		case privatemessage.FieldCreateTime:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field create_time", values[i])
 			} else if value.Valid {
-				pm.CreateTime = new(time.Time)
-				*pm.CreateTime = value.Time
+				_m.CreateTime = new(time.Time)
+				*_m.CreateTime = value.Time
 			}
 		case privatemessage.FieldUpdateTime:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field update_time", values[i])
 			} else if value.Valid {
-				pm.UpdateTime = new(time.Time)
-				*pm.UpdateTime = value.Time
+				_m.UpdateTime = new(time.Time)
+				*_m.UpdateTime = value.Time
 			}
 		case privatemessage.FieldDeleteTime:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field delete_time", values[i])
 			} else if value.Valid {
-				pm.DeleteTime = new(time.Time)
-				*pm.DeleteTime = value.Time
+				_m.DeleteTime = new(time.Time)
+				*_m.DeleteTime = value.Time
 			}
 		case privatemessage.FieldTenantID:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field tenant_id", values[i])
 			} else if value.Valid {
-				pm.TenantID = new(uint32)
-				*pm.TenantID = uint32(value.Int64)
+				_m.TenantID = new(uint32)
+				*_m.TenantID = uint32(value.Int64)
 			}
 		case privatemessage.FieldSubject:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field subject", values[i])
 			} else if value.Valid {
-				pm.Subject = new(string)
-				*pm.Subject = value.String
+				_m.Subject = new(string)
+				*_m.Subject = value.String
 			}
 		case privatemessage.FieldContent:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field content", values[i])
 			} else if value.Valid {
-				pm.Content = new(string)
-				*pm.Content = value.String
+				_m.Content = new(string)
+				*_m.Content = value.String
 			}
 		case privatemessage.FieldStatus:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field status", values[i])
 			} else if value.Valid {
-				pm.Status = new(privatemessage.Status)
-				*pm.Status = privatemessage.Status(value.String)
+				_m.Status = new(privatemessage.Status)
+				*_m.Status = privatemessage.Status(value.String)
 			}
 		case privatemessage.FieldSenderID:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field sender_id", values[i])
 			} else if value.Valid {
-				pm.SenderID = new(uint32)
-				*pm.SenderID = uint32(value.Int64)
+				_m.SenderID = new(uint32)
+				*_m.SenderID = uint32(value.Int64)
 			}
 		case privatemessage.FieldReceiverID:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field receiver_id", values[i])
 			} else if value.Valid {
-				pm.ReceiverID = new(uint32)
-				*pm.ReceiverID = uint32(value.Int64)
+				_m.ReceiverID = new(uint32)
+				*_m.ReceiverID = uint32(value.Int64)
 			}
 		default:
-			pm.selectValues.Set(columns[i], values[i])
+			_m.selectValues.Set(columns[i], values[i])
 		}
 	}
 	return nil
@@ -143,74 +143,74 @@ func (pm *PrivateMessage) assignValues(columns []string, values []any) error {
 
 // Value returns the ent.Value that was dynamically selected and assigned to the PrivateMessage.
 // This includes values selected through modifiers, order, etc.
-func (pm *PrivateMessage) Value(name string) (ent.Value, error) {
-	return pm.selectValues.Get(name)
+func (_m *PrivateMessage) Value(name string) (ent.Value, error) {
+	return _m.selectValues.Get(name)
 }
 
 // Update returns a builder for updating this PrivateMessage.
 // Note that you need to call PrivateMessage.Unwrap() before calling this method if this PrivateMessage
 // was returned from a transaction, and the transaction was committed or rolled back.
-func (pm *PrivateMessage) Update() *PrivateMessageUpdateOne {
-	return NewPrivateMessageClient(pm.config).UpdateOne(pm)
+func (_m *PrivateMessage) Update() *PrivateMessageUpdateOne {
+	return NewPrivateMessageClient(_m.config).UpdateOne(_m)
 }
 
 // Unwrap unwraps the PrivateMessage entity that was returned from a transaction after it was closed,
 // so that all future queries will be executed through the driver which created the transaction.
-func (pm *PrivateMessage) Unwrap() *PrivateMessage {
-	_tx, ok := pm.config.driver.(*txDriver)
+func (_m *PrivateMessage) Unwrap() *PrivateMessage {
+	_tx, ok := _m.config.driver.(*txDriver)
 	if !ok {
 		panic("ent: PrivateMessage is not a transactional entity")
 	}
-	pm.config.driver = _tx.drv
-	return pm
+	_m.config.driver = _tx.drv
+	return _m
 }
 
 // String implements the fmt.Stringer.
-func (pm *PrivateMessage) String() string {
+func (_m *PrivateMessage) String() string {
 	var builder strings.Builder
 	builder.WriteString("PrivateMessage(")
-	builder.WriteString(fmt.Sprintf("id=%v, ", pm.ID))
-	if v := pm.CreateTime; v != nil {
+	builder.WriteString(fmt.Sprintf("id=%v, ", _m.ID))
+	if v := _m.CreateTime; v != nil {
 		builder.WriteString("create_time=")
 		builder.WriteString(v.Format(time.ANSIC))
 	}
 	builder.WriteString(", ")
-	if v := pm.UpdateTime; v != nil {
+	if v := _m.UpdateTime; v != nil {
 		builder.WriteString("update_time=")
 		builder.WriteString(v.Format(time.ANSIC))
 	}
 	builder.WriteString(", ")
-	if v := pm.DeleteTime; v != nil {
+	if v := _m.DeleteTime; v != nil {
 		builder.WriteString("delete_time=")
 		builder.WriteString(v.Format(time.ANSIC))
 	}
 	builder.WriteString(", ")
-	if v := pm.TenantID; v != nil {
+	if v := _m.TenantID; v != nil {
 		builder.WriteString("tenant_id=")
 		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteString(", ")
-	if v := pm.Subject; v != nil {
+	if v := _m.Subject; v != nil {
 		builder.WriteString("subject=")
 		builder.WriteString(*v)
 	}
 	builder.WriteString(", ")
-	if v := pm.Content; v != nil {
+	if v := _m.Content; v != nil {
 		builder.WriteString("content=")
 		builder.WriteString(*v)
 	}
 	builder.WriteString(", ")
-	if v := pm.Status; v != nil {
+	if v := _m.Status; v != nil {
 		builder.WriteString("status=")
 		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteString(", ")
-	if v := pm.SenderID; v != nil {
+	if v := _m.SenderID; v != nil {
 		builder.WriteString("sender_id=")
 		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteString(", ")
-	if v := pm.ReceiverID; v != nil {
+	if v := _m.ReceiverID; v != nil {
 		builder.WriteString("receiver_id=")
 		builder.WriteString(fmt.Sprintf("%v", *v))
 	}

@@ -23,199 +23,199 @@ type OrganizationCreate struct {
 }
 
 // SetCreateTime sets the "create_time" field.
-func (oc *OrganizationCreate) SetCreateTime(t time.Time) *OrganizationCreate {
-	oc.mutation.SetCreateTime(t)
-	return oc
+func (_c *OrganizationCreate) SetCreateTime(v time.Time) *OrganizationCreate {
+	_c.mutation.SetCreateTime(v)
+	return _c
 }
 
 // SetNillableCreateTime sets the "create_time" field if the given value is not nil.
-func (oc *OrganizationCreate) SetNillableCreateTime(t *time.Time) *OrganizationCreate {
-	if t != nil {
-		oc.SetCreateTime(*t)
+func (_c *OrganizationCreate) SetNillableCreateTime(v *time.Time) *OrganizationCreate {
+	if v != nil {
+		_c.SetCreateTime(*v)
 	}
-	return oc
+	return _c
 }
 
 // SetUpdateTime sets the "update_time" field.
-func (oc *OrganizationCreate) SetUpdateTime(t time.Time) *OrganizationCreate {
-	oc.mutation.SetUpdateTime(t)
-	return oc
+func (_c *OrganizationCreate) SetUpdateTime(v time.Time) *OrganizationCreate {
+	_c.mutation.SetUpdateTime(v)
+	return _c
 }
 
 // SetNillableUpdateTime sets the "update_time" field if the given value is not nil.
-func (oc *OrganizationCreate) SetNillableUpdateTime(t *time.Time) *OrganizationCreate {
-	if t != nil {
-		oc.SetUpdateTime(*t)
+func (_c *OrganizationCreate) SetNillableUpdateTime(v *time.Time) *OrganizationCreate {
+	if v != nil {
+		_c.SetUpdateTime(*v)
 	}
-	return oc
+	return _c
 }
 
 // SetDeleteTime sets the "delete_time" field.
-func (oc *OrganizationCreate) SetDeleteTime(t time.Time) *OrganizationCreate {
-	oc.mutation.SetDeleteTime(t)
-	return oc
+func (_c *OrganizationCreate) SetDeleteTime(v time.Time) *OrganizationCreate {
+	_c.mutation.SetDeleteTime(v)
+	return _c
 }
 
 // SetNillableDeleteTime sets the "delete_time" field if the given value is not nil.
-func (oc *OrganizationCreate) SetNillableDeleteTime(t *time.Time) *OrganizationCreate {
-	if t != nil {
-		oc.SetDeleteTime(*t)
+func (_c *OrganizationCreate) SetNillableDeleteTime(v *time.Time) *OrganizationCreate {
+	if v != nil {
+		_c.SetDeleteTime(*v)
 	}
-	return oc
+	return _c
 }
 
 // SetStatus sets the "status" field.
-func (oc *OrganizationCreate) SetStatus(o organization.Status) *OrganizationCreate {
-	oc.mutation.SetStatus(o)
-	return oc
+func (_c *OrganizationCreate) SetStatus(v organization.Status) *OrganizationCreate {
+	_c.mutation.SetStatus(v)
+	return _c
 }
 
 // SetNillableStatus sets the "status" field if the given value is not nil.
-func (oc *OrganizationCreate) SetNillableStatus(o *organization.Status) *OrganizationCreate {
-	if o != nil {
-		oc.SetStatus(*o)
+func (_c *OrganizationCreate) SetNillableStatus(v *organization.Status) *OrganizationCreate {
+	if v != nil {
+		_c.SetStatus(*v)
 	}
-	return oc
+	return _c
 }
 
 // SetCreateBy sets the "create_by" field.
-func (oc *OrganizationCreate) SetCreateBy(u uint32) *OrganizationCreate {
-	oc.mutation.SetCreateBy(u)
-	return oc
+func (_c *OrganizationCreate) SetCreateBy(v uint32) *OrganizationCreate {
+	_c.mutation.SetCreateBy(v)
+	return _c
 }
 
 // SetNillableCreateBy sets the "create_by" field if the given value is not nil.
-func (oc *OrganizationCreate) SetNillableCreateBy(u *uint32) *OrganizationCreate {
-	if u != nil {
-		oc.SetCreateBy(*u)
+func (_c *OrganizationCreate) SetNillableCreateBy(v *uint32) *OrganizationCreate {
+	if v != nil {
+		_c.SetCreateBy(*v)
 	}
-	return oc
+	return _c
 }
 
 // SetUpdateBy sets the "update_by" field.
-func (oc *OrganizationCreate) SetUpdateBy(u uint32) *OrganizationCreate {
-	oc.mutation.SetUpdateBy(u)
-	return oc
+func (_c *OrganizationCreate) SetUpdateBy(v uint32) *OrganizationCreate {
+	_c.mutation.SetUpdateBy(v)
+	return _c
 }
 
 // SetNillableUpdateBy sets the "update_by" field if the given value is not nil.
-func (oc *OrganizationCreate) SetNillableUpdateBy(u *uint32) *OrganizationCreate {
-	if u != nil {
-		oc.SetUpdateBy(*u)
+func (_c *OrganizationCreate) SetNillableUpdateBy(v *uint32) *OrganizationCreate {
+	if v != nil {
+		_c.SetUpdateBy(*v)
 	}
-	return oc
+	return _c
 }
 
 // SetRemark sets the "remark" field.
-func (oc *OrganizationCreate) SetRemark(s string) *OrganizationCreate {
-	oc.mutation.SetRemark(s)
-	return oc
+func (_c *OrganizationCreate) SetRemark(v string) *OrganizationCreate {
+	_c.mutation.SetRemark(v)
+	return _c
 }
 
 // SetNillableRemark sets the "remark" field if the given value is not nil.
-func (oc *OrganizationCreate) SetNillableRemark(s *string) *OrganizationCreate {
-	if s != nil {
-		oc.SetRemark(*s)
+func (_c *OrganizationCreate) SetNillableRemark(v *string) *OrganizationCreate {
+	if v != nil {
+		_c.SetRemark(*v)
 	}
-	return oc
+	return _c
 }
 
 // SetTenantID sets the "tenant_id" field.
-func (oc *OrganizationCreate) SetTenantID(u uint32) *OrganizationCreate {
-	oc.mutation.SetTenantID(u)
-	return oc
+func (_c *OrganizationCreate) SetTenantID(v uint32) *OrganizationCreate {
+	_c.mutation.SetTenantID(v)
+	return _c
 }
 
 // SetNillableTenantID sets the "tenant_id" field if the given value is not nil.
-func (oc *OrganizationCreate) SetNillableTenantID(u *uint32) *OrganizationCreate {
-	if u != nil {
-		oc.SetTenantID(*u)
+func (_c *OrganizationCreate) SetNillableTenantID(v *uint32) *OrganizationCreate {
+	if v != nil {
+		_c.SetTenantID(*v)
 	}
-	return oc
+	return _c
 }
 
 // SetName sets the "name" field.
-func (oc *OrganizationCreate) SetName(s string) *OrganizationCreate {
-	oc.mutation.SetName(s)
-	return oc
+func (_c *OrganizationCreate) SetName(v string) *OrganizationCreate {
+	_c.mutation.SetName(v)
+	return _c
 }
 
 // SetNillableName sets the "name" field if the given value is not nil.
-func (oc *OrganizationCreate) SetNillableName(s *string) *OrganizationCreate {
-	if s != nil {
-		oc.SetName(*s)
+func (_c *OrganizationCreate) SetNillableName(v *string) *OrganizationCreate {
+	if v != nil {
+		_c.SetName(*v)
 	}
-	return oc
+	return _c
 }
 
 // SetParentID sets the "parent_id" field.
-func (oc *OrganizationCreate) SetParentID(u uint32) *OrganizationCreate {
-	oc.mutation.SetParentID(u)
-	return oc
+func (_c *OrganizationCreate) SetParentID(v uint32) *OrganizationCreate {
+	_c.mutation.SetParentID(v)
+	return _c
 }
 
 // SetNillableParentID sets the "parent_id" field if the given value is not nil.
-func (oc *OrganizationCreate) SetNillableParentID(u *uint32) *OrganizationCreate {
-	if u != nil {
-		oc.SetParentID(*u)
+func (_c *OrganizationCreate) SetNillableParentID(v *uint32) *OrganizationCreate {
+	if v != nil {
+		_c.SetParentID(*v)
 	}
-	return oc
+	return _c
 }
 
 // SetSortID sets the "sort_id" field.
-func (oc *OrganizationCreate) SetSortID(i int32) *OrganizationCreate {
-	oc.mutation.SetSortID(i)
-	return oc
+func (_c *OrganizationCreate) SetSortID(v int32) *OrganizationCreate {
+	_c.mutation.SetSortID(v)
+	return _c
 }
 
 // SetNillableSortID sets the "sort_id" field if the given value is not nil.
-func (oc *OrganizationCreate) SetNillableSortID(i *int32) *OrganizationCreate {
-	if i != nil {
-		oc.SetSortID(*i)
+func (_c *OrganizationCreate) SetNillableSortID(v *int32) *OrganizationCreate {
+	if v != nil {
+		_c.SetSortID(*v)
 	}
-	return oc
+	return _c
 }
 
 // SetID sets the "id" field.
-func (oc *OrganizationCreate) SetID(u uint32) *OrganizationCreate {
-	oc.mutation.SetID(u)
-	return oc
+func (_c *OrganizationCreate) SetID(v uint32) *OrganizationCreate {
+	_c.mutation.SetID(v)
+	return _c
 }
 
 // SetParent sets the "parent" edge to the Organization entity.
-func (oc *OrganizationCreate) SetParent(o *Organization) *OrganizationCreate {
-	return oc.SetParentID(o.ID)
+func (_c *OrganizationCreate) SetParent(v *Organization) *OrganizationCreate {
+	return _c.SetParentID(v.ID)
 }
 
 // AddChildIDs adds the "children" edge to the Organization entity by IDs.
-func (oc *OrganizationCreate) AddChildIDs(ids ...uint32) *OrganizationCreate {
-	oc.mutation.AddChildIDs(ids...)
-	return oc
+func (_c *OrganizationCreate) AddChildIDs(ids ...uint32) *OrganizationCreate {
+	_c.mutation.AddChildIDs(ids...)
+	return _c
 }
 
 // AddChildren adds the "children" edges to the Organization entity.
-func (oc *OrganizationCreate) AddChildren(o ...*Organization) *OrganizationCreate {
-	ids := make([]uint32, len(o))
-	for i := range o {
-		ids[i] = o[i].ID
+func (_c *OrganizationCreate) AddChildren(v ...*Organization) *OrganizationCreate {
+	ids := make([]uint32, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
 	}
-	return oc.AddChildIDs(ids...)
+	return _c.AddChildIDs(ids...)
 }
 
 // Mutation returns the OrganizationMutation object of the builder.
-func (oc *OrganizationCreate) Mutation() *OrganizationMutation {
-	return oc.mutation
+func (_c *OrganizationCreate) Mutation() *OrganizationMutation {
+	return _c.mutation
 }
 
 // Save creates the Organization in the database.
-func (oc *OrganizationCreate) Save(ctx context.Context) (*Organization, error) {
-	oc.defaults()
-	return withHooks(ctx, oc.sqlSave, oc.mutation, oc.hooks)
+func (_c *OrganizationCreate) Save(ctx context.Context) (*Organization, error) {
+	_c.defaults()
+	return withHooks(ctx, _c.sqlSave, _c.mutation, _c.hooks)
 }
 
 // SaveX calls Save and panics if Save returns an error.
-func (oc *OrganizationCreate) SaveX(ctx context.Context) *Organization {
-	v, err := oc.Save(ctx)
+func (_c *OrganizationCreate) SaveX(ctx context.Context) *Organization {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -223,51 +223,51 @@ func (oc *OrganizationCreate) SaveX(ctx context.Context) *Organization {
 }
 
 // Exec executes the query.
-func (oc *OrganizationCreate) Exec(ctx context.Context) error {
-	_, err := oc.Save(ctx)
+func (_c *OrganizationCreate) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (oc *OrganizationCreate) ExecX(ctx context.Context) {
-	if err := oc.Exec(ctx); err != nil {
+func (_c *OrganizationCreate) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (oc *OrganizationCreate) defaults() {
-	if _, ok := oc.mutation.Status(); !ok {
+func (_c *OrganizationCreate) defaults() {
+	if _, ok := _c.mutation.Status(); !ok {
 		v := organization.DefaultStatus
-		oc.mutation.SetStatus(v)
+		_c.mutation.SetStatus(v)
 	}
-	if _, ok := oc.mutation.Remark(); !ok {
+	if _, ok := _c.mutation.Remark(); !ok {
 		v := organization.DefaultRemark
-		oc.mutation.SetRemark(v)
+		_c.mutation.SetRemark(v)
 	}
-	if _, ok := oc.mutation.Name(); !ok {
+	if _, ok := _c.mutation.Name(); !ok {
 		v := organization.DefaultName
-		oc.mutation.SetName(v)
+		_c.mutation.SetName(v)
 	}
-	if _, ok := oc.mutation.SortID(); !ok {
+	if _, ok := _c.mutation.SortID(); !ok {
 		v := organization.DefaultSortID
-		oc.mutation.SetSortID(v)
+		_c.mutation.SetSortID(v)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
-func (oc *OrganizationCreate) check() error {
-	if v, ok := oc.mutation.Status(); ok {
+func (_c *OrganizationCreate) check() error {
+	if v, ok := _c.mutation.Status(); ok {
 		if err := organization.StatusValidator(v); err != nil {
 			return &ValidationError{Name: "status", err: fmt.Errorf(`ent: validator failed for field "Organization.status": %w`, err)}
 		}
 	}
-	if v, ok := oc.mutation.TenantID(); ok {
+	if v, ok := _c.mutation.TenantID(); ok {
 		if err := organization.TenantIDValidator(v); err != nil {
 			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "Organization.tenant_id": %w`, err)}
 		}
 	}
-	if v, ok := oc.mutation.ID(); ok {
+	if v, ok := _c.mutation.ID(); ok {
 		if err := organization.IDValidator(v); err != nil {
 			return &ValidationError{Name: "id", err: fmt.Errorf(`ent: validator failed for field "Organization.id": %w`, err)}
 		}
@@ -275,12 +275,12 @@ func (oc *OrganizationCreate) check() error {
 	return nil
 }
 
-func (oc *OrganizationCreate) sqlSave(ctx context.Context) (*Organization, error) {
-	if err := oc.check(); err != nil {
+func (_c *OrganizationCreate) sqlSave(ctx context.Context) (*Organization, error) {
+	if err := _c.check(); err != nil {
 		return nil, err
 	}
-	_node, _spec := oc.createSpec()
-	if err := sqlgraph.CreateNode(ctx, oc.driver, _spec); err != nil {
+	_node, _spec := _c.createSpec()
+	if err := sqlgraph.CreateNode(ctx, _c.driver, _spec); err != nil {
 		if sqlgraph.IsConstraintError(err) {
 			err = &ConstraintError{msg: err.Error(), wrap: err}
 		}
@@ -290,62 +290,62 @@ func (oc *OrganizationCreate) sqlSave(ctx context.Context) (*Organization, error
 		id := _spec.ID.Value.(int64)
 		_node.ID = uint32(id)
 	}
-	oc.mutation.id = &_node.ID
-	oc.mutation.done = true
+	_c.mutation.id = &_node.ID
+	_c.mutation.done = true
 	return _node, nil
 }
 
-func (oc *OrganizationCreate) createSpec() (*Organization, *sqlgraph.CreateSpec) {
+func (_c *OrganizationCreate) createSpec() (*Organization, *sqlgraph.CreateSpec) {
 	var (
-		_node = &Organization{config: oc.config}
+		_node = &Organization{config: _c.config}
 		_spec = sqlgraph.NewCreateSpec(organization.Table, sqlgraph.NewFieldSpec(organization.FieldID, field.TypeUint32))
 	)
-	_spec.OnConflict = oc.conflict
-	if id, ok := oc.mutation.ID(); ok {
+	_spec.OnConflict = _c.conflict
+	if id, ok := _c.mutation.ID(); ok {
 		_node.ID = id
 		_spec.ID.Value = id
 	}
-	if value, ok := oc.mutation.CreateTime(); ok {
+	if value, ok := _c.mutation.CreateTime(); ok {
 		_spec.SetField(organization.FieldCreateTime, field.TypeTime, value)
 		_node.CreateTime = &value
 	}
-	if value, ok := oc.mutation.UpdateTime(); ok {
+	if value, ok := _c.mutation.UpdateTime(); ok {
 		_spec.SetField(organization.FieldUpdateTime, field.TypeTime, value)
 		_node.UpdateTime = &value
 	}
-	if value, ok := oc.mutation.DeleteTime(); ok {
+	if value, ok := _c.mutation.DeleteTime(); ok {
 		_spec.SetField(organization.FieldDeleteTime, field.TypeTime, value)
 		_node.DeleteTime = &value
 	}
-	if value, ok := oc.mutation.Status(); ok {
+	if value, ok := _c.mutation.Status(); ok {
 		_spec.SetField(organization.FieldStatus, field.TypeEnum, value)
 		_node.Status = &value
 	}
-	if value, ok := oc.mutation.CreateBy(); ok {
+	if value, ok := _c.mutation.CreateBy(); ok {
 		_spec.SetField(organization.FieldCreateBy, field.TypeUint32, value)
 		_node.CreateBy = &value
 	}
-	if value, ok := oc.mutation.UpdateBy(); ok {
+	if value, ok := _c.mutation.UpdateBy(); ok {
 		_spec.SetField(organization.FieldUpdateBy, field.TypeUint32, value)
 		_node.UpdateBy = &value
 	}
-	if value, ok := oc.mutation.Remark(); ok {
+	if value, ok := _c.mutation.Remark(); ok {
 		_spec.SetField(organization.FieldRemark, field.TypeString, value)
 		_node.Remark = &value
 	}
-	if value, ok := oc.mutation.TenantID(); ok {
+	if value, ok := _c.mutation.TenantID(); ok {
 		_spec.SetField(organization.FieldTenantID, field.TypeUint32, value)
 		_node.TenantID = &value
 	}
-	if value, ok := oc.mutation.Name(); ok {
+	if value, ok := _c.mutation.Name(); ok {
 		_spec.SetField(organization.FieldName, field.TypeString, value)
 		_node.Name = &value
 	}
-	if value, ok := oc.mutation.SortID(); ok {
+	if value, ok := _c.mutation.SortID(); ok {
 		_spec.SetField(organization.FieldSortID, field.TypeInt32, value)
 		_node.SortID = &value
 	}
-	if nodes := oc.mutation.ParentIDs(); len(nodes) > 0 {
+	if nodes := _c.mutation.ParentIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: true,
@@ -362,7 +362,7 @@ func (oc *OrganizationCreate) createSpec() (*Organization, *sqlgraph.CreateSpec)
 		_node.ParentID = &nodes[0]
 		_spec.Edges = append(_spec.Edges, edge)
 	}
-	if nodes := oc.mutation.ChildrenIDs(); len(nodes) > 0 {
+	if nodes := _c.mutation.ChildrenIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: false,
@@ -397,10 +397,10 @@ func (oc *OrganizationCreate) createSpec() (*Organization, *sqlgraph.CreateSpec)
 //			SetCreateTime(v+v).
 //		}).
 //		Exec(ctx)
-func (oc *OrganizationCreate) OnConflict(opts ...sql.ConflictOption) *OrganizationUpsertOne {
-	oc.conflict = opts
+func (_c *OrganizationCreate) OnConflict(opts ...sql.ConflictOption) *OrganizationUpsertOne {
+	_c.conflict = opts
 	return &OrganizationUpsertOne{
-		create: oc,
+		create: _c,
 	}
 }
 
@@ -410,10 +410,10 @@ func (oc *OrganizationCreate) OnConflict(opts ...sql.ConflictOption) *Organizati
 //	client.Organization.Create().
 //		OnConflict(sql.ConflictColumns(columns...)).
 //		Exec(ctx)
-func (oc *OrganizationCreate) OnConflictColumns(columns ...string) *OrganizationUpsertOne {
-	oc.conflict = append(oc.conflict, sql.ConflictColumns(columns...))
+func (_c *OrganizationCreate) OnConflictColumns(columns ...string) *OrganizationUpsertOne {
+	_c.conflict = append(_c.conflict, sql.ConflictColumns(columns...))
 	return &OrganizationUpsertOne{
-		create: oc,
+		create: _c,
 	}
 }
 
@@ -916,16 +916,16 @@ type OrganizationCreateBulk struct {
 }
 
 // Save creates the Organization entities in the database.
-func (ocb *OrganizationCreateBulk) Save(ctx context.Context) ([]*Organization, error) {
-	if ocb.err != nil {
-		return nil, ocb.err
+func (_c *OrganizationCreateBulk) Save(ctx context.Context) ([]*Organization, error) {
+	if _c.err != nil {
+		return nil, _c.err
 	}
-	specs := make([]*sqlgraph.CreateSpec, len(ocb.builders))
-	nodes := make([]*Organization, len(ocb.builders))
-	mutators := make([]Mutator, len(ocb.builders))
-	for i := range ocb.builders {
+	specs := make([]*sqlgraph.CreateSpec, len(_c.builders))
+	nodes := make([]*Organization, len(_c.builders))
+	mutators := make([]Mutator, len(_c.builders))
+	for i := range _c.builders {
 		func(i int, root context.Context) {
-			builder := ocb.builders[i]
+			builder := _c.builders[i]
 			builder.defaults()
 			var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 				mutation, ok := m.(*OrganizationMutation)
@@ -939,12 +939,12 @@ func (ocb *OrganizationCreateBulk) Save(ctx context.Context) ([]*Organization, e
 				var err error
 				nodes[i], specs[i] = builder.createSpec()
 				if i < len(mutators)-1 {
-					_, err = mutators[i+1].Mutate(root, ocb.builders[i+1].mutation)
+					_, err = mutators[i+1].Mutate(root, _c.builders[i+1].mutation)
 				} else {
 					spec := &sqlgraph.BatchCreateSpec{Nodes: specs}
-					spec.OnConflict = ocb.conflict
+					spec.OnConflict = _c.conflict
 					// Invoke the actual operation on the latest mutation in the chain.
-					if err = sqlgraph.BatchCreate(ctx, ocb.driver, spec); err != nil {
+					if err = sqlgraph.BatchCreate(ctx, _c.driver, spec); err != nil {
 						if sqlgraph.IsConstraintError(err) {
 							err = &ConstraintError{msg: err.Error(), wrap: err}
 						}
@@ -968,7 +968,7 @@ func (ocb *OrganizationCreateBulk) Save(ctx context.Context) ([]*Organization, e
 		}(i, ctx)
 	}
 	if len(mutators) > 0 {
-		if _, err := mutators[0].Mutate(ctx, ocb.builders[0].mutation); err != nil {
+		if _, err := mutators[0].Mutate(ctx, _c.builders[0].mutation); err != nil {
 			return nil, err
 		}
 	}
@@ -976,8 +976,8 @@ func (ocb *OrganizationCreateBulk) Save(ctx context.Context) ([]*Organization, e
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (ocb *OrganizationCreateBulk) SaveX(ctx context.Context) []*Organization {
-	v, err := ocb.Save(ctx)
+func (_c *OrganizationCreateBulk) SaveX(ctx context.Context) []*Organization {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -985,14 +985,14 @@ func (ocb *OrganizationCreateBulk) SaveX(ctx context.Context) []*Organization {
 }
 
 // Exec executes the query.
-func (ocb *OrganizationCreateBulk) Exec(ctx context.Context) error {
-	_, err := ocb.Save(ctx)
+func (_c *OrganizationCreateBulk) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (ocb *OrganizationCreateBulk) ExecX(ctx context.Context) {
-	if err := ocb.Exec(ctx); err != nil {
+func (_c *OrganizationCreateBulk) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
@@ -1012,10 +1012,10 @@ func (ocb *OrganizationCreateBulk) ExecX(ctx context.Context) {
 //			SetCreateTime(v+v).
 //		}).
 //		Exec(ctx)
-func (ocb *OrganizationCreateBulk) OnConflict(opts ...sql.ConflictOption) *OrganizationUpsertBulk {
-	ocb.conflict = opts
+func (_c *OrganizationCreateBulk) OnConflict(opts ...sql.ConflictOption) *OrganizationUpsertBulk {
+	_c.conflict = opts
 	return &OrganizationUpsertBulk{
-		create: ocb,
+		create: _c,
 	}
 }
 
@@ -1025,10 +1025,10 @@ func (ocb *OrganizationCreateBulk) OnConflict(opts ...sql.ConflictOption) *Organ
 //	client.Organization.Create().
 //		OnConflict(sql.ConflictColumns(columns...)).
 //		Exec(ctx)
-func (ocb *OrganizationCreateBulk) OnConflictColumns(columns ...string) *OrganizationUpsertBulk {
-	ocb.conflict = append(ocb.conflict, sql.ConflictColumns(columns...))
+func (_c *OrganizationCreateBulk) OnConflictColumns(columns ...string) *OrganizationUpsertBulk {
+	_c.conflict = append(_c.conflict, sql.ConflictColumns(columns...))
 	return &OrganizationUpsertBulk{
-		create: ocb,
+		create: _c,
 	}
 }
 

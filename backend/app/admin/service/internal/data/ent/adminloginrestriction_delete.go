@@ -20,56 +20,56 @@ type AdminLoginRestrictionDelete struct {
 }
 
 // Where appends a list predicates to the AdminLoginRestrictionDelete builder.
-func (alrd *AdminLoginRestrictionDelete) Where(ps ...predicate.AdminLoginRestriction) *AdminLoginRestrictionDelete {
-	alrd.mutation.Where(ps...)
-	return alrd
+func (_d *AdminLoginRestrictionDelete) Where(ps ...predicate.AdminLoginRestriction) *AdminLoginRestrictionDelete {
+	_d.mutation.Where(ps...)
+	return _d
 }
 
 // Exec executes the deletion query and returns how many vertices were deleted.
-func (alrd *AdminLoginRestrictionDelete) Exec(ctx context.Context) (int, error) {
-	return withHooks(ctx, alrd.sqlExec, alrd.mutation, alrd.hooks)
+func (_d *AdminLoginRestrictionDelete) Exec(ctx context.Context) (int, error) {
+	return withHooks(ctx, _d.sqlExec, _d.mutation, _d.hooks)
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (alrd *AdminLoginRestrictionDelete) ExecX(ctx context.Context) int {
-	n, err := alrd.Exec(ctx)
+func (_d *AdminLoginRestrictionDelete) ExecX(ctx context.Context) int {
+	n, err := _d.Exec(ctx)
 	if err != nil {
 		panic(err)
 	}
 	return n
 }
 
-func (alrd *AdminLoginRestrictionDelete) sqlExec(ctx context.Context) (int, error) {
+func (_d *AdminLoginRestrictionDelete) sqlExec(ctx context.Context) (int, error) {
 	_spec := sqlgraph.NewDeleteSpec(adminloginrestriction.Table, sqlgraph.NewFieldSpec(adminloginrestriction.FieldID, field.TypeUint32))
-	if ps := alrd.mutation.predicates; len(ps) > 0 {
+	if ps := _d.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	affected, err := sqlgraph.DeleteNodes(ctx, alrd.driver, _spec)
+	affected, err := sqlgraph.DeleteNodes(ctx, _d.driver, _spec)
 	if err != nil && sqlgraph.IsConstraintError(err) {
 		err = &ConstraintError{msg: err.Error(), wrap: err}
 	}
-	alrd.mutation.done = true
+	_d.mutation.done = true
 	return affected, err
 }
 
 // AdminLoginRestrictionDeleteOne is the builder for deleting a single AdminLoginRestriction entity.
 type AdminLoginRestrictionDeleteOne struct {
-	alrd *AdminLoginRestrictionDelete
+	_d *AdminLoginRestrictionDelete
 }
 
 // Where appends a list predicates to the AdminLoginRestrictionDelete builder.
-func (alrdo *AdminLoginRestrictionDeleteOne) Where(ps ...predicate.AdminLoginRestriction) *AdminLoginRestrictionDeleteOne {
-	alrdo.alrd.mutation.Where(ps...)
-	return alrdo
+func (_d *AdminLoginRestrictionDeleteOne) Where(ps ...predicate.AdminLoginRestriction) *AdminLoginRestrictionDeleteOne {
+	_d._d.mutation.Where(ps...)
+	return _d
 }
 
 // Exec executes the deletion query.
-func (alrdo *AdminLoginRestrictionDeleteOne) Exec(ctx context.Context) error {
-	n, err := alrdo.alrd.Exec(ctx)
+func (_d *AdminLoginRestrictionDeleteOne) Exec(ctx context.Context) error {
+	n, err := _d._d.Exec(ctx)
 	switch {
 	case err != nil:
 		return err
@@ -81,8 +81,8 @@ func (alrdo *AdminLoginRestrictionDeleteOne) Exec(ctx context.Context) error {
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (alrdo *AdminLoginRestrictionDeleteOne) ExecX(ctx context.Context) {
-	if err := alrdo.Exec(ctx); err != nil {
+func (_d *AdminLoginRestrictionDeleteOne) ExecX(ctx context.Context) {
+	if err := _d.Exec(ctx); err != nil {
 		panic(err)
 	}
 }

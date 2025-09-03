@@ -33,44 +33,44 @@ type NotificationMessageCategoryQuery struct {
 }
 
 // Where adds a new predicate for the NotificationMessageCategoryQuery builder.
-func (nmcq *NotificationMessageCategoryQuery) Where(ps ...predicate.NotificationMessageCategory) *NotificationMessageCategoryQuery {
-	nmcq.predicates = append(nmcq.predicates, ps...)
-	return nmcq
+func (_q *NotificationMessageCategoryQuery) Where(ps ...predicate.NotificationMessageCategory) *NotificationMessageCategoryQuery {
+	_q.predicates = append(_q.predicates, ps...)
+	return _q
 }
 
 // Limit the number of records to be returned by this query.
-func (nmcq *NotificationMessageCategoryQuery) Limit(limit int) *NotificationMessageCategoryQuery {
-	nmcq.ctx.Limit = &limit
-	return nmcq
+func (_q *NotificationMessageCategoryQuery) Limit(limit int) *NotificationMessageCategoryQuery {
+	_q.ctx.Limit = &limit
+	return _q
 }
 
 // Offset to start from.
-func (nmcq *NotificationMessageCategoryQuery) Offset(offset int) *NotificationMessageCategoryQuery {
-	nmcq.ctx.Offset = &offset
-	return nmcq
+func (_q *NotificationMessageCategoryQuery) Offset(offset int) *NotificationMessageCategoryQuery {
+	_q.ctx.Offset = &offset
+	return _q
 }
 
 // Unique configures the query builder to filter duplicate records on query.
 // By default, unique is set to true, and can be disabled using this method.
-func (nmcq *NotificationMessageCategoryQuery) Unique(unique bool) *NotificationMessageCategoryQuery {
-	nmcq.ctx.Unique = &unique
-	return nmcq
+func (_q *NotificationMessageCategoryQuery) Unique(unique bool) *NotificationMessageCategoryQuery {
+	_q.ctx.Unique = &unique
+	return _q
 }
 
 // Order specifies how the records should be ordered.
-func (nmcq *NotificationMessageCategoryQuery) Order(o ...notificationmessagecategory.OrderOption) *NotificationMessageCategoryQuery {
-	nmcq.order = append(nmcq.order, o...)
-	return nmcq
+func (_q *NotificationMessageCategoryQuery) Order(o ...notificationmessagecategory.OrderOption) *NotificationMessageCategoryQuery {
+	_q.order = append(_q.order, o...)
+	return _q
 }
 
 // QueryParent chains the current query on the "parent" edge.
-func (nmcq *NotificationMessageCategoryQuery) QueryParent() *NotificationMessageCategoryQuery {
-	query := (&NotificationMessageCategoryClient{config: nmcq.config}).Query()
+func (_q *NotificationMessageCategoryQuery) QueryParent() *NotificationMessageCategoryQuery {
+	query := (&NotificationMessageCategoryClient{config: _q.config}).Query()
 	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
-		if err := nmcq.prepareQuery(ctx); err != nil {
+		if err := _q.prepareQuery(ctx); err != nil {
 			return nil, err
 		}
-		selector := nmcq.sqlQuery(ctx)
+		selector := _q.sqlQuery(ctx)
 		if err := selector.Err(); err != nil {
 			return nil, err
 		}
@@ -79,20 +79,20 @@ func (nmcq *NotificationMessageCategoryQuery) QueryParent() *NotificationMessage
 			sqlgraph.To(notificationmessagecategory.Table, notificationmessagecategory.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, notificationmessagecategory.ParentTable, notificationmessagecategory.ParentColumn),
 		)
-		fromU = sqlgraph.SetNeighbors(nmcq.driver.Dialect(), step)
+		fromU = sqlgraph.SetNeighbors(_q.driver.Dialect(), step)
 		return fromU, nil
 	}
 	return query
 }
 
 // QueryChildren chains the current query on the "children" edge.
-func (nmcq *NotificationMessageCategoryQuery) QueryChildren() *NotificationMessageCategoryQuery {
-	query := (&NotificationMessageCategoryClient{config: nmcq.config}).Query()
+func (_q *NotificationMessageCategoryQuery) QueryChildren() *NotificationMessageCategoryQuery {
+	query := (&NotificationMessageCategoryClient{config: _q.config}).Query()
 	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
-		if err := nmcq.prepareQuery(ctx); err != nil {
+		if err := _q.prepareQuery(ctx); err != nil {
 			return nil, err
 		}
-		selector := nmcq.sqlQuery(ctx)
+		selector := _q.sqlQuery(ctx)
 		if err := selector.Err(); err != nil {
 			return nil, err
 		}
@@ -101,7 +101,7 @@ func (nmcq *NotificationMessageCategoryQuery) QueryChildren() *NotificationMessa
 			sqlgraph.To(notificationmessagecategory.Table, notificationmessagecategory.FieldID),
 			sqlgraph.Edge(sqlgraph.O2M, false, notificationmessagecategory.ChildrenTable, notificationmessagecategory.ChildrenColumn),
 		)
-		fromU = sqlgraph.SetNeighbors(nmcq.driver.Dialect(), step)
+		fromU = sqlgraph.SetNeighbors(_q.driver.Dialect(), step)
 		return fromU, nil
 	}
 	return query
@@ -109,8 +109,8 @@ func (nmcq *NotificationMessageCategoryQuery) QueryChildren() *NotificationMessa
 
 // First returns the first NotificationMessageCategory entity from the query.
 // Returns a *NotFoundError when no NotificationMessageCategory was found.
-func (nmcq *NotificationMessageCategoryQuery) First(ctx context.Context) (*NotificationMessageCategory, error) {
-	nodes, err := nmcq.Limit(1).All(setContextOp(ctx, nmcq.ctx, ent.OpQueryFirst))
+func (_q *NotificationMessageCategoryQuery) First(ctx context.Context) (*NotificationMessageCategory, error) {
+	nodes, err := _q.Limit(1).All(setContextOp(ctx, _q.ctx, ent.OpQueryFirst))
 	if err != nil {
 		return nil, err
 	}
@@ -121,8 +121,8 @@ func (nmcq *NotificationMessageCategoryQuery) First(ctx context.Context) (*Notif
 }
 
 // FirstX is like First, but panics if an error occurs.
-func (nmcq *NotificationMessageCategoryQuery) FirstX(ctx context.Context) *NotificationMessageCategory {
-	node, err := nmcq.First(ctx)
+func (_q *NotificationMessageCategoryQuery) FirstX(ctx context.Context) *NotificationMessageCategory {
+	node, err := _q.First(ctx)
 	if err != nil && !IsNotFound(err) {
 		panic(err)
 	}
@@ -131,9 +131,9 @@ func (nmcq *NotificationMessageCategoryQuery) FirstX(ctx context.Context) *Notif
 
 // FirstID returns the first NotificationMessageCategory ID from the query.
 // Returns a *NotFoundError when no NotificationMessageCategory ID was found.
-func (nmcq *NotificationMessageCategoryQuery) FirstID(ctx context.Context) (id uint32, err error) {
+func (_q *NotificationMessageCategoryQuery) FirstID(ctx context.Context) (id uint32, err error) {
 	var ids []uint32
-	if ids, err = nmcq.Limit(1).IDs(setContextOp(ctx, nmcq.ctx, ent.OpQueryFirstID)); err != nil {
+	if ids, err = _q.Limit(1).IDs(setContextOp(ctx, _q.ctx, ent.OpQueryFirstID)); err != nil {
 		return
 	}
 	if len(ids) == 0 {
@@ -144,8 +144,8 @@ func (nmcq *NotificationMessageCategoryQuery) FirstID(ctx context.Context) (id u
 }
 
 // FirstIDX is like FirstID, but panics if an error occurs.
-func (nmcq *NotificationMessageCategoryQuery) FirstIDX(ctx context.Context) uint32 {
-	id, err := nmcq.FirstID(ctx)
+func (_q *NotificationMessageCategoryQuery) FirstIDX(ctx context.Context) uint32 {
+	id, err := _q.FirstID(ctx)
 	if err != nil && !IsNotFound(err) {
 		panic(err)
 	}
@@ -155,8 +155,8 @@ func (nmcq *NotificationMessageCategoryQuery) FirstIDX(ctx context.Context) uint
 // Only returns a single NotificationMessageCategory entity found by the query, ensuring it only returns one.
 // Returns a *NotSingularError when more than one NotificationMessageCategory entity is found.
 // Returns a *NotFoundError when no NotificationMessageCategory entities are found.
-func (nmcq *NotificationMessageCategoryQuery) Only(ctx context.Context) (*NotificationMessageCategory, error) {
-	nodes, err := nmcq.Limit(2).All(setContextOp(ctx, nmcq.ctx, ent.OpQueryOnly))
+func (_q *NotificationMessageCategoryQuery) Only(ctx context.Context) (*NotificationMessageCategory, error) {
+	nodes, err := _q.Limit(2).All(setContextOp(ctx, _q.ctx, ent.OpQueryOnly))
 	if err != nil {
 		return nil, err
 	}
@@ -171,8 +171,8 @@ func (nmcq *NotificationMessageCategoryQuery) Only(ctx context.Context) (*Notifi
 }
 
 // OnlyX is like Only, but panics if an error occurs.
-func (nmcq *NotificationMessageCategoryQuery) OnlyX(ctx context.Context) *NotificationMessageCategory {
-	node, err := nmcq.Only(ctx)
+func (_q *NotificationMessageCategoryQuery) OnlyX(ctx context.Context) *NotificationMessageCategory {
+	node, err := _q.Only(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -182,9 +182,9 @@ func (nmcq *NotificationMessageCategoryQuery) OnlyX(ctx context.Context) *Notifi
 // OnlyID is like Only, but returns the only NotificationMessageCategory ID in the query.
 // Returns a *NotSingularError when more than one NotificationMessageCategory ID is found.
 // Returns a *NotFoundError when no entities are found.
-func (nmcq *NotificationMessageCategoryQuery) OnlyID(ctx context.Context) (id uint32, err error) {
+func (_q *NotificationMessageCategoryQuery) OnlyID(ctx context.Context) (id uint32, err error) {
 	var ids []uint32
-	if ids, err = nmcq.Limit(2).IDs(setContextOp(ctx, nmcq.ctx, ent.OpQueryOnlyID)); err != nil {
+	if ids, err = _q.Limit(2).IDs(setContextOp(ctx, _q.ctx, ent.OpQueryOnlyID)); err != nil {
 		return
 	}
 	switch len(ids) {
@@ -199,8 +199,8 @@ func (nmcq *NotificationMessageCategoryQuery) OnlyID(ctx context.Context) (id ui
 }
 
 // OnlyIDX is like OnlyID, but panics if an error occurs.
-func (nmcq *NotificationMessageCategoryQuery) OnlyIDX(ctx context.Context) uint32 {
-	id, err := nmcq.OnlyID(ctx)
+func (_q *NotificationMessageCategoryQuery) OnlyIDX(ctx context.Context) uint32 {
+	id, err := _q.OnlyID(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -208,18 +208,18 @@ func (nmcq *NotificationMessageCategoryQuery) OnlyIDX(ctx context.Context) uint3
 }
 
 // All executes the query and returns a list of NotificationMessageCategories.
-func (nmcq *NotificationMessageCategoryQuery) All(ctx context.Context) ([]*NotificationMessageCategory, error) {
-	ctx = setContextOp(ctx, nmcq.ctx, ent.OpQueryAll)
-	if err := nmcq.prepareQuery(ctx); err != nil {
+func (_q *NotificationMessageCategoryQuery) All(ctx context.Context) ([]*NotificationMessageCategory, error) {
+	ctx = setContextOp(ctx, _q.ctx, ent.OpQueryAll)
+	if err := _q.prepareQuery(ctx); err != nil {
 		return nil, err
 	}
 	qr := querierAll[[]*NotificationMessageCategory, *NotificationMessageCategoryQuery]()
-	return withInterceptors[[]*NotificationMessageCategory](ctx, nmcq, qr, nmcq.inters)
+	return withInterceptors[[]*NotificationMessageCategory](ctx, _q, qr, _q.inters)
 }
 
 // AllX is like All, but panics if an error occurs.
-func (nmcq *NotificationMessageCategoryQuery) AllX(ctx context.Context) []*NotificationMessageCategory {
-	nodes, err := nmcq.All(ctx)
+func (_q *NotificationMessageCategoryQuery) AllX(ctx context.Context) []*NotificationMessageCategory {
+	nodes, err := _q.All(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -227,20 +227,20 @@ func (nmcq *NotificationMessageCategoryQuery) AllX(ctx context.Context) []*Notif
 }
 
 // IDs executes the query and returns a list of NotificationMessageCategory IDs.
-func (nmcq *NotificationMessageCategoryQuery) IDs(ctx context.Context) (ids []uint32, err error) {
-	if nmcq.ctx.Unique == nil && nmcq.path != nil {
-		nmcq.Unique(true)
+func (_q *NotificationMessageCategoryQuery) IDs(ctx context.Context) (ids []uint32, err error) {
+	if _q.ctx.Unique == nil && _q.path != nil {
+		_q.Unique(true)
 	}
-	ctx = setContextOp(ctx, nmcq.ctx, ent.OpQueryIDs)
-	if err = nmcq.Select(notificationmessagecategory.FieldID).Scan(ctx, &ids); err != nil {
+	ctx = setContextOp(ctx, _q.ctx, ent.OpQueryIDs)
+	if err = _q.Select(notificationmessagecategory.FieldID).Scan(ctx, &ids); err != nil {
 		return nil, err
 	}
 	return ids, nil
 }
 
 // IDsX is like IDs, but panics if an error occurs.
-func (nmcq *NotificationMessageCategoryQuery) IDsX(ctx context.Context) []uint32 {
-	ids, err := nmcq.IDs(ctx)
+func (_q *NotificationMessageCategoryQuery) IDsX(ctx context.Context) []uint32 {
+	ids, err := _q.IDs(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -248,17 +248,17 @@ func (nmcq *NotificationMessageCategoryQuery) IDsX(ctx context.Context) []uint32
 }
 
 // Count returns the count of the given query.
-func (nmcq *NotificationMessageCategoryQuery) Count(ctx context.Context) (int, error) {
-	ctx = setContextOp(ctx, nmcq.ctx, ent.OpQueryCount)
-	if err := nmcq.prepareQuery(ctx); err != nil {
+func (_q *NotificationMessageCategoryQuery) Count(ctx context.Context) (int, error) {
+	ctx = setContextOp(ctx, _q.ctx, ent.OpQueryCount)
+	if err := _q.prepareQuery(ctx); err != nil {
 		return 0, err
 	}
-	return withInterceptors[int](ctx, nmcq, querierCount[*NotificationMessageCategoryQuery](), nmcq.inters)
+	return withInterceptors[int](ctx, _q, querierCount[*NotificationMessageCategoryQuery](), _q.inters)
 }
 
 // CountX is like Count, but panics if an error occurs.
-func (nmcq *NotificationMessageCategoryQuery) CountX(ctx context.Context) int {
-	count, err := nmcq.Count(ctx)
+func (_q *NotificationMessageCategoryQuery) CountX(ctx context.Context) int {
+	count, err := _q.Count(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -266,9 +266,9 @@ func (nmcq *NotificationMessageCategoryQuery) CountX(ctx context.Context) int {
 }
 
 // Exist returns true if the query has elements in the graph.
-func (nmcq *NotificationMessageCategoryQuery) Exist(ctx context.Context) (bool, error) {
-	ctx = setContextOp(ctx, nmcq.ctx, ent.OpQueryExist)
-	switch _, err := nmcq.FirstID(ctx); {
+func (_q *NotificationMessageCategoryQuery) Exist(ctx context.Context) (bool, error) {
+	ctx = setContextOp(ctx, _q.ctx, ent.OpQueryExist)
+	switch _, err := _q.FirstID(ctx); {
 	case IsNotFound(err):
 		return false, nil
 	case err != nil:
@@ -279,8 +279,8 @@ func (nmcq *NotificationMessageCategoryQuery) Exist(ctx context.Context) (bool, 
 }
 
 // ExistX is like Exist, but panics if an error occurs.
-func (nmcq *NotificationMessageCategoryQuery) ExistX(ctx context.Context) bool {
-	exist, err := nmcq.Exist(ctx)
+func (_q *NotificationMessageCategoryQuery) ExistX(ctx context.Context) bool {
+	exist, err := _q.Exist(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -289,45 +289,45 @@ func (nmcq *NotificationMessageCategoryQuery) ExistX(ctx context.Context) bool {
 
 // Clone returns a duplicate of the NotificationMessageCategoryQuery builder, including all associated steps. It can be
 // used to prepare common query builders and use them differently after the clone is made.
-func (nmcq *NotificationMessageCategoryQuery) Clone() *NotificationMessageCategoryQuery {
-	if nmcq == nil {
+func (_q *NotificationMessageCategoryQuery) Clone() *NotificationMessageCategoryQuery {
+	if _q == nil {
 		return nil
 	}
 	return &NotificationMessageCategoryQuery{
-		config:       nmcq.config,
-		ctx:          nmcq.ctx.Clone(),
-		order:        append([]notificationmessagecategory.OrderOption{}, nmcq.order...),
-		inters:       append([]Interceptor{}, nmcq.inters...),
-		predicates:   append([]predicate.NotificationMessageCategory{}, nmcq.predicates...),
-		withParent:   nmcq.withParent.Clone(),
-		withChildren: nmcq.withChildren.Clone(),
+		config:       _q.config,
+		ctx:          _q.ctx.Clone(),
+		order:        append([]notificationmessagecategory.OrderOption{}, _q.order...),
+		inters:       append([]Interceptor{}, _q.inters...),
+		predicates:   append([]predicate.NotificationMessageCategory{}, _q.predicates...),
+		withParent:   _q.withParent.Clone(),
+		withChildren: _q.withChildren.Clone(),
 		// clone intermediate query.
-		sql:       nmcq.sql.Clone(),
-		path:      nmcq.path,
-		modifiers: append([]func(*sql.Selector){}, nmcq.modifiers...),
+		sql:       _q.sql.Clone(),
+		path:      _q.path,
+		modifiers: append([]func(*sql.Selector){}, _q.modifiers...),
 	}
 }
 
 // WithParent tells the query-builder to eager-load the nodes that are connected to
 // the "parent" edge. The optional arguments are used to configure the query builder of the edge.
-func (nmcq *NotificationMessageCategoryQuery) WithParent(opts ...func(*NotificationMessageCategoryQuery)) *NotificationMessageCategoryQuery {
-	query := (&NotificationMessageCategoryClient{config: nmcq.config}).Query()
+func (_q *NotificationMessageCategoryQuery) WithParent(opts ...func(*NotificationMessageCategoryQuery)) *NotificationMessageCategoryQuery {
+	query := (&NotificationMessageCategoryClient{config: _q.config}).Query()
 	for _, opt := range opts {
 		opt(query)
 	}
-	nmcq.withParent = query
-	return nmcq
+	_q.withParent = query
+	return _q
 }
 
 // WithChildren tells the query-builder to eager-load the nodes that are connected to
 // the "children" edge. The optional arguments are used to configure the query builder of the edge.
-func (nmcq *NotificationMessageCategoryQuery) WithChildren(opts ...func(*NotificationMessageCategoryQuery)) *NotificationMessageCategoryQuery {
-	query := (&NotificationMessageCategoryClient{config: nmcq.config}).Query()
+func (_q *NotificationMessageCategoryQuery) WithChildren(opts ...func(*NotificationMessageCategoryQuery)) *NotificationMessageCategoryQuery {
+	query := (&NotificationMessageCategoryClient{config: _q.config}).Query()
 	for _, opt := range opts {
 		opt(query)
 	}
-	nmcq.withChildren = query
-	return nmcq
+	_q.withChildren = query
+	return _q
 }
 
 // GroupBy is used to group vertices by one or more fields/columns.
@@ -344,10 +344,10 @@ func (nmcq *NotificationMessageCategoryQuery) WithChildren(opts ...func(*Notific
 //		GroupBy(notificationmessagecategory.FieldCreateTime).
 //		Aggregate(ent.Count()).
 //		Scan(ctx, &v)
-func (nmcq *NotificationMessageCategoryQuery) GroupBy(field string, fields ...string) *NotificationMessageCategoryGroupBy {
-	nmcq.ctx.Fields = append([]string{field}, fields...)
-	grbuild := &NotificationMessageCategoryGroupBy{build: nmcq}
-	grbuild.flds = &nmcq.ctx.Fields
+func (_q *NotificationMessageCategoryQuery) GroupBy(field string, fields ...string) *NotificationMessageCategoryGroupBy {
+	_q.ctx.Fields = append([]string{field}, fields...)
+	grbuild := &NotificationMessageCategoryGroupBy{build: _q}
+	grbuild.flds = &_q.ctx.Fields
 	grbuild.label = notificationmessagecategory.Label
 	grbuild.scan = grbuild.Scan
 	return grbuild
@@ -365,83 +365,83 @@ func (nmcq *NotificationMessageCategoryQuery) GroupBy(field string, fields ...st
 //	client.NotificationMessageCategory.Query().
 //		Select(notificationmessagecategory.FieldCreateTime).
 //		Scan(ctx, &v)
-func (nmcq *NotificationMessageCategoryQuery) Select(fields ...string) *NotificationMessageCategorySelect {
-	nmcq.ctx.Fields = append(nmcq.ctx.Fields, fields...)
-	sbuild := &NotificationMessageCategorySelect{NotificationMessageCategoryQuery: nmcq}
+func (_q *NotificationMessageCategoryQuery) Select(fields ...string) *NotificationMessageCategorySelect {
+	_q.ctx.Fields = append(_q.ctx.Fields, fields...)
+	sbuild := &NotificationMessageCategorySelect{NotificationMessageCategoryQuery: _q}
 	sbuild.label = notificationmessagecategory.Label
-	sbuild.flds, sbuild.scan = &nmcq.ctx.Fields, sbuild.Scan
+	sbuild.flds, sbuild.scan = &_q.ctx.Fields, sbuild.Scan
 	return sbuild
 }
 
 // Aggregate returns a NotificationMessageCategorySelect configured with the given aggregations.
-func (nmcq *NotificationMessageCategoryQuery) Aggregate(fns ...AggregateFunc) *NotificationMessageCategorySelect {
-	return nmcq.Select().Aggregate(fns...)
+func (_q *NotificationMessageCategoryQuery) Aggregate(fns ...AggregateFunc) *NotificationMessageCategorySelect {
+	return _q.Select().Aggregate(fns...)
 }
 
-func (nmcq *NotificationMessageCategoryQuery) prepareQuery(ctx context.Context) error {
-	for _, inter := range nmcq.inters {
+func (_q *NotificationMessageCategoryQuery) prepareQuery(ctx context.Context) error {
+	for _, inter := range _q.inters {
 		if inter == nil {
 			return fmt.Errorf("ent: uninitialized interceptor (forgotten import ent/runtime?)")
 		}
 		if trv, ok := inter.(Traverser); ok {
-			if err := trv.Traverse(ctx, nmcq); err != nil {
+			if err := trv.Traverse(ctx, _q); err != nil {
 				return err
 			}
 		}
 	}
-	for _, f := range nmcq.ctx.Fields {
+	for _, f := range _q.ctx.Fields {
 		if !notificationmessagecategory.ValidColumn(f) {
 			return &ValidationError{Name: f, err: fmt.Errorf("ent: invalid field %q for query", f)}
 		}
 	}
-	if nmcq.path != nil {
-		prev, err := nmcq.path(ctx)
+	if _q.path != nil {
+		prev, err := _q.path(ctx)
 		if err != nil {
 			return err
 		}
-		nmcq.sql = prev
+		_q.sql = prev
 	}
 	return nil
 }
 
-func (nmcq *NotificationMessageCategoryQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*NotificationMessageCategory, error) {
+func (_q *NotificationMessageCategoryQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*NotificationMessageCategory, error) {
 	var (
 		nodes       = []*NotificationMessageCategory{}
-		_spec       = nmcq.querySpec()
+		_spec       = _q.querySpec()
 		loadedTypes = [2]bool{
-			nmcq.withParent != nil,
-			nmcq.withChildren != nil,
+			_q.withParent != nil,
+			_q.withChildren != nil,
 		}
 	)
 	_spec.ScanValues = func(columns []string) ([]any, error) {
 		return (*NotificationMessageCategory).scanValues(nil, columns)
 	}
 	_spec.Assign = func(columns []string, values []any) error {
-		node := &NotificationMessageCategory{config: nmcq.config}
+		node := &NotificationMessageCategory{config: _q.config}
 		nodes = append(nodes, node)
 		node.Edges.loadedTypes = loadedTypes
 		return node.assignValues(columns, values)
 	}
-	if len(nmcq.modifiers) > 0 {
-		_spec.Modifiers = nmcq.modifiers
+	if len(_q.modifiers) > 0 {
+		_spec.Modifiers = _q.modifiers
 	}
 	for i := range hooks {
 		hooks[i](ctx, _spec)
 	}
-	if err := sqlgraph.QueryNodes(ctx, nmcq.driver, _spec); err != nil {
+	if err := sqlgraph.QueryNodes(ctx, _q.driver, _spec); err != nil {
 		return nil, err
 	}
 	if len(nodes) == 0 {
 		return nodes, nil
 	}
-	if query := nmcq.withParent; query != nil {
-		if err := nmcq.loadParent(ctx, query, nodes, nil,
+	if query := _q.withParent; query != nil {
+		if err := _q.loadParent(ctx, query, nodes, nil,
 			func(n *NotificationMessageCategory, e *NotificationMessageCategory) { n.Edges.Parent = e }); err != nil {
 			return nil, err
 		}
 	}
-	if query := nmcq.withChildren; query != nil {
-		if err := nmcq.loadChildren(ctx, query, nodes,
+	if query := _q.withChildren; query != nil {
+		if err := _q.loadChildren(ctx, query, nodes,
 			func(n *NotificationMessageCategory) { n.Edges.Children = []*NotificationMessageCategory{} },
 			func(n *NotificationMessageCategory, e *NotificationMessageCategory) {
 				n.Edges.Children = append(n.Edges.Children, e)
@@ -452,7 +452,7 @@ func (nmcq *NotificationMessageCategoryQuery) sqlAll(ctx context.Context, hooks 
 	return nodes, nil
 }
 
-func (nmcq *NotificationMessageCategoryQuery) loadParent(ctx context.Context, query *NotificationMessageCategoryQuery, nodes []*NotificationMessageCategory, init func(*NotificationMessageCategory), assign func(*NotificationMessageCategory, *NotificationMessageCategory)) error {
+func (_q *NotificationMessageCategoryQuery) loadParent(ctx context.Context, query *NotificationMessageCategoryQuery, nodes []*NotificationMessageCategory, init func(*NotificationMessageCategory), assign func(*NotificationMessageCategory, *NotificationMessageCategory)) error {
 	ids := make([]uint32, 0, len(nodes))
 	nodeids := make(map[uint32][]*NotificationMessageCategory)
 	for i := range nodes {
@@ -484,7 +484,7 @@ func (nmcq *NotificationMessageCategoryQuery) loadParent(ctx context.Context, qu
 	}
 	return nil
 }
-func (nmcq *NotificationMessageCategoryQuery) loadChildren(ctx context.Context, query *NotificationMessageCategoryQuery, nodes []*NotificationMessageCategory, init func(*NotificationMessageCategory), assign func(*NotificationMessageCategory, *NotificationMessageCategory)) error {
+func (_q *NotificationMessageCategoryQuery) loadChildren(ctx context.Context, query *NotificationMessageCategoryQuery, nodes []*NotificationMessageCategory, init func(*NotificationMessageCategory), assign func(*NotificationMessageCategory, *NotificationMessageCategory)) error {
 	fks := make([]driver.Value, 0, len(nodes))
 	nodeids := make(map[uint32]*NotificationMessageCategory)
 	for i := range nodes {
@@ -518,27 +518,27 @@ func (nmcq *NotificationMessageCategoryQuery) loadChildren(ctx context.Context, 
 	return nil
 }
 
-func (nmcq *NotificationMessageCategoryQuery) sqlCount(ctx context.Context) (int, error) {
-	_spec := nmcq.querySpec()
-	if len(nmcq.modifiers) > 0 {
-		_spec.Modifiers = nmcq.modifiers
+func (_q *NotificationMessageCategoryQuery) sqlCount(ctx context.Context) (int, error) {
+	_spec := _q.querySpec()
+	if len(_q.modifiers) > 0 {
+		_spec.Modifiers = _q.modifiers
 	}
-	_spec.Node.Columns = nmcq.ctx.Fields
-	if len(nmcq.ctx.Fields) > 0 {
-		_spec.Unique = nmcq.ctx.Unique != nil && *nmcq.ctx.Unique
+	_spec.Node.Columns = _q.ctx.Fields
+	if len(_q.ctx.Fields) > 0 {
+		_spec.Unique = _q.ctx.Unique != nil && *_q.ctx.Unique
 	}
-	return sqlgraph.CountNodes(ctx, nmcq.driver, _spec)
+	return sqlgraph.CountNodes(ctx, _q.driver, _spec)
 }
 
-func (nmcq *NotificationMessageCategoryQuery) querySpec() *sqlgraph.QuerySpec {
+func (_q *NotificationMessageCategoryQuery) querySpec() *sqlgraph.QuerySpec {
 	_spec := sqlgraph.NewQuerySpec(notificationmessagecategory.Table, notificationmessagecategory.Columns, sqlgraph.NewFieldSpec(notificationmessagecategory.FieldID, field.TypeUint32))
-	_spec.From = nmcq.sql
-	if unique := nmcq.ctx.Unique; unique != nil {
+	_spec.From = _q.sql
+	if unique := _q.ctx.Unique; unique != nil {
 		_spec.Unique = *unique
-	} else if nmcq.path != nil {
+	} else if _q.path != nil {
 		_spec.Unique = true
 	}
-	if fields := nmcq.ctx.Fields; len(fields) > 0 {
+	if fields := _q.ctx.Fields; len(fields) > 0 {
 		_spec.Node.Columns = make([]string, 0, len(fields))
 		_spec.Node.Columns = append(_spec.Node.Columns, notificationmessagecategory.FieldID)
 		for i := range fields {
@@ -546,24 +546,24 @@ func (nmcq *NotificationMessageCategoryQuery) querySpec() *sqlgraph.QuerySpec {
 				_spec.Node.Columns = append(_spec.Node.Columns, fields[i])
 			}
 		}
-		if nmcq.withParent != nil {
+		if _q.withParent != nil {
 			_spec.Node.AddColumnOnce(notificationmessagecategory.FieldParentID)
 		}
 	}
-	if ps := nmcq.predicates; len(ps) > 0 {
+	if ps := _q.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if limit := nmcq.ctx.Limit; limit != nil {
+	if limit := _q.ctx.Limit; limit != nil {
 		_spec.Limit = *limit
 	}
-	if offset := nmcq.ctx.Offset; offset != nil {
+	if offset := _q.ctx.Offset; offset != nil {
 		_spec.Offset = *offset
 	}
-	if ps := nmcq.order; len(ps) > 0 {
+	if ps := _q.order; len(ps) > 0 {
 		_spec.Order = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
@@ -573,36 +573,36 @@ func (nmcq *NotificationMessageCategoryQuery) querySpec() *sqlgraph.QuerySpec {
 	return _spec
 }
 
-func (nmcq *NotificationMessageCategoryQuery) sqlQuery(ctx context.Context) *sql.Selector {
-	builder := sql.Dialect(nmcq.driver.Dialect())
+func (_q *NotificationMessageCategoryQuery) sqlQuery(ctx context.Context) *sql.Selector {
+	builder := sql.Dialect(_q.driver.Dialect())
 	t1 := builder.Table(notificationmessagecategory.Table)
-	columns := nmcq.ctx.Fields
+	columns := _q.ctx.Fields
 	if len(columns) == 0 {
 		columns = notificationmessagecategory.Columns
 	}
 	selector := builder.Select(t1.Columns(columns...)...).From(t1)
-	if nmcq.sql != nil {
-		selector = nmcq.sql
+	if _q.sql != nil {
+		selector = _q.sql
 		selector.Select(selector.Columns(columns...)...)
 	}
-	if nmcq.ctx.Unique != nil && *nmcq.ctx.Unique {
+	if _q.ctx.Unique != nil && *_q.ctx.Unique {
 		selector.Distinct()
 	}
-	for _, m := range nmcq.modifiers {
+	for _, m := range _q.modifiers {
 		m(selector)
 	}
-	for _, p := range nmcq.predicates {
+	for _, p := range _q.predicates {
 		p(selector)
 	}
-	for _, p := range nmcq.order {
+	for _, p := range _q.order {
 		p(selector)
 	}
-	if offset := nmcq.ctx.Offset; offset != nil {
+	if offset := _q.ctx.Offset; offset != nil {
 		// limit is mandatory for offset clause. We start
 		// with default value, and override it below if needed.
 		selector.Offset(*offset).Limit(math.MaxInt32)
 	}
-	if limit := nmcq.ctx.Limit; limit != nil {
+	if limit := _q.ctx.Limit; limit != nil {
 		selector.Limit(*limit)
 	}
 	return selector
@@ -611,33 +611,33 @@ func (nmcq *NotificationMessageCategoryQuery) sqlQuery(ctx context.Context) *sql
 // ForUpdate locks the selected rows against concurrent updates, and prevent them from being
 // updated, deleted or "selected ... for update" by other sessions, until the transaction is
 // either committed or rolled-back.
-func (nmcq *NotificationMessageCategoryQuery) ForUpdate(opts ...sql.LockOption) *NotificationMessageCategoryQuery {
-	if nmcq.driver.Dialect() == dialect.Postgres {
-		nmcq.Unique(false)
+func (_q *NotificationMessageCategoryQuery) ForUpdate(opts ...sql.LockOption) *NotificationMessageCategoryQuery {
+	if _q.driver.Dialect() == dialect.Postgres {
+		_q.Unique(false)
 	}
-	nmcq.modifiers = append(nmcq.modifiers, func(s *sql.Selector) {
+	_q.modifiers = append(_q.modifiers, func(s *sql.Selector) {
 		s.ForUpdate(opts...)
 	})
-	return nmcq
+	return _q
 }
 
 // ForShare behaves similarly to ForUpdate, except that it acquires a shared mode lock
 // on any rows that are read. Other sessions can read the rows, but cannot modify them
 // until your transaction commits.
-func (nmcq *NotificationMessageCategoryQuery) ForShare(opts ...sql.LockOption) *NotificationMessageCategoryQuery {
-	if nmcq.driver.Dialect() == dialect.Postgres {
-		nmcq.Unique(false)
+func (_q *NotificationMessageCategoryQuery) ForShare(opts ...sql.LockOption) *NotificationMessageCategoryQuery {
+	if _q.driver.Dialect() == dialect.Postgres {
+		_q.Unique(false)
 	}
-	nmcq.modifiers = append(nmcq.modifiers, func(s *sql.Selector) {
+	_q.modifiers = append(_q.modifiers, func(s *sql.Selector) {
 		s.ForShare(opts...)
 	})
-	return nmcq
+	return _q
 }
 
 // Modify adds a query modifier for attaching custom logic to queries.
-func (nmcq *NotificationMessageCategoryQuery) Modify(modifiers ...func(s *sql.Selector)) *NotificationMessageCategorySelect {
-	nmcq.modifiers = append(nmcq.modifiers, modifiers...)
-	return nmcq.Select()
+func (_q *NotificationMessageCategoryQuery) Modify(modifiers ...func(s *sql.Selector)) *NotificationMessageCategorySelect {
+	_q.modifiers = append(_q.modifiers, modifiers...)
+	return _q.Select()
 }
 
 // NotificationMessageCategoryGroupBy is the group-by builder for NotificationMessageCategory entities.
@@ -647,41 +647,41 @@ type NotificationMessageCategoryGroupBy struct {
 }
 
 // Aggregate adds the given aggregation functions to the group-by query.
-func (nmcgb *NotificationMessageCategoryGroupBy) Aggregate(fns ...AggregateFunc) *NotificationMessageCategoryGroupBy {
-	nmcgb.fns = append(nmcgb.fns, fns...)
-	return nmcgb
+func (_g *NotificationMessageCategoryGroupBy) Aggregate(fns ...AggregateFunc) *NotificationMessageCategoryGroupBy {
+	_g.fns = append(_g.fns, fns...)
+	return _g
 }
 
 // Scan applies the selector query and scans the result into the given value.
-func (nmcgb *NotificationMessageCategoryGroupBy) Scan(ctx context.Context, v any) error {
-	ctx = setContextOp(ctx, nmcgb.build.ctx, ent.OpQueryGroupBy)
-	if err := nmcgb.build.prepareQuery(ctx); err != nil {
+func (_g *NotificationMessageCategoryGroupBy) Scan(ctx context.Context, v any) error {
+	ctx = setContextOp(ctx, _g.build.ctx, ent.OpQueryGroupBy)
+	if err := _g.build.prepareQuery(ctx); err != nil {
 		return err
 	}
-	return scanWithInterceptors[*NotificationMessageCategoryQuery, *NotificationMessageCategoryGroupBy](ctx, nmcgb.build, nmcgb, nmcgb.build.inters, v)
+	return scanWithInterceptors[*NotificationMessageCategoryQuery, *NotificationMessageCategoryGroupBy](ctx, _g.build, _g, _g.build.inters, v)
 }
 
-func (nmcgb *NotificationMessageCategoryGroupBy) sqlScan(ctx context.Context, root *NotificationMessageCategoryQuery, v any) error {
+func (_g *NotificationMessageCategoryGroupBy) sqlScan(ctx context.Context, root *NotificationMessageCategoryQuery, v any) error {
 	selector := root.sqlQuery(ctx).Select()
-	aggregation := make([]string, 0, len(nmcgb.fns))
-	for _, fn := range nmcgb.fns {
+	aggregation := make([]string, 0, len(_g.fns))
+	for _, fn := range _g.fns {
 		aggregation = append(aggregation, fn(selector))
 	}
 	if len(selector.SelectedColumns()) == 0 {
-		columns := make([]string, 0, len(*nmcgb.flds)+len(nmcgb.fns))
-		for _, f := range *nmcgb.flds {
+		columns := make([]string, 0, len(*_g.flds)+len(_g.fns))
+		for _, f := range *_g.flds {
 			columns = append(columns, selector.C(f))
 		}
 		columns = append(columns, aggregation...)
 		selector.Select(columns...)
 	}
-	selector.GroupBy(selector.Columns(*nmcgb.flds...)...)
+	selector.GroupBy(selector.Columns(*_g.flds...)...)
 	if err := selector.Err(); err != nil {
 		return err
 	}
 	rows := &sql.Rows{}
 	query, args := selector.Query()
-	if err := nmcgb.build.driver.Query(ctx, query, args, rows); err != nil {
+	if err := _g.build.driver.Query(ctx, query, args, rows); err != nil {
 		return err
 	}
 	defer rows.Close()
@@ -695,27 +695,27 @@ type NotificationMessageCategorySelect struct {
 }
 
 // Aggregate adds the given aggregation functions to the selector query.
-func (nmcs *NotificationMessageCategorySelect) Aggregate(fns ...AggregateFunc) *NotificationMessageCategorySelect {
-	nmcs.fns = append(nmcs.fns, fns...)
-	return nmcs
+func (_s *NotificationMessageCategorySelect) Aggregate(fns ...AggregateFunc) *NotificationMessageCategorySelect {
+	_s.fns = append(_s.fns, fns...)
+	return _s
 }
 
 // Scan applies the selector query and scans the result into the given value.
-func (nmcs *NotificationMessageCategorySelect) Scan(ctx context.Context, v any) error {
-	ctx = setContextOp(ctx, nmcs.ctx, ent.OpQuerySelect)
-	if err := nmcs.prepareQuery(ctx); err != nil {
+func (_s *NotificationMessageCategorySelect) Scan(ctx context.Context, v any) error {
+	ctx = setContextOp(ctx, _s.ctx, ent.OpQuerySelect)
+	if err := _s.prepareQuery(ctx); err != nil {
 		return err
 	}
-	return scanWithInterceptors[*NotificationMessageCategoryQuery, *NotificationMessageCategorySelect](ctx, nmcs.NotificationMessageCategoryQuery, nmcs, nmcs.inters, v)
+	return scanWithInterceptors[*NotificationMessageCategoryQuery, *NotificationMessageCategorySelect](ctx, _s.NotificationMessageCategoryQuery, _s, _s.inters, v)
 }
 
-func (nmcs *NotificationMessageCategorySelect) sqlScan(ctx context.Context, root *NotificationMessageCategoryQuery, v any) error {
+func (_s *NotificationMessageCategorySelect) sqlScan(ctx context.Context, root *NotificationMessageCategoryQuery, v any) error {
 	selector := root.sqlQuery(ctx)
-	aggregation := make([]string, 0, len(nmcs.fns))
-	for _, fn := range nmcs.fns {
+	aggregation := make([]string, 0, len(_s.fns))
+	for _, fn := range _s.fns {
 		aggregation = append(aggregation, fn(selector))
 	}
-	switch n := len(*nmcs.selector.flds); {
+	switch n := len(*_s.selector.flds); {
 	case n == 0 && len(aggregation) > 0:
 		selector.Select(aggregation...)
 	case n != 0 && len(aggregation) > 0:
@@ -723,7 +723,7 @@ func (nmcs *NotificationMessageCategorySelect) sqlScan(ctx context.Context, root
 	}
 	rows := &sql.Rows{}
 	query, args := selector.Query()
-	if err := nmcs.driver.Query(ctx, query, args, rows); err != nil {
+	if err := _s.driver.Query(ctx, query, args, rows); err != nil {
 		return err
 	}
 	defer rows.Close()
@@ -731,7 +731,7 @@ func (nmcs *NotificationMessageCategorySelect) sqlScan(ctx context.Context, root
 }
 
 // Modify adds a query modifier for attaching custom logic to queries.
-func (nmcs *NotificationMessageCategorySelect) Modify(modifiers ...func(s *sql.Selector)) *NotificationMessageCategorySelect {
-	nmcs.modifiers = append(nmcs.modifiers, modifiers...)
-	return nmcs
+func (_s *NotificationMessageCategorySelect) Modify(modifiers ...func(s *sql.Selector)) *NotificationMessageCategorySelect {
+	_s.modifiers = append(_s.modifiers, modifiers...)
+	return _s
 }

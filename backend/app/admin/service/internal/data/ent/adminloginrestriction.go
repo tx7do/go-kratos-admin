@@ -61,7 +61,7 @@ func (*AdminLoginRestriction) scanValues(columns []string) ([]any, error) {
 
 // assignValues assigns the values that were returned from sql.Rows (after scanning)
 // to the AdminLoginRestriction fields.
-func (alr *AdminLoginRestriction) assignValues(columns []string, values []any) error {
+func (_m *AdminLoginRestriction) assignValues(columns []string, values []any) error {
 	if m, n := len(values), len(columns); m < n {
 		return fmt.Errorf("mismatch number of scan values: %d != %d", m, n)
 	}
@@ -72,79 +72,79 @@ func (alr *AdminLoginRestriction) assignValues(columns []string, values []any) e
 			if !ok {
 				return fmt.Errorf("unexpected type %T for field id", value)
 			}
-			alr.ID = uint32(value.Int64)
+			_m.ID = uint32(value.Int64)
 		case adminloginrestriction.FieldCreateTime:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field create_time", values[i])
 			} else if value.Valid {
-				alr.CreateTime = new(time.Time)
-				*alr.CreateTime = value.Time
+				_m.CreateTime = new(time.Time)
+				*_m.CreateTime = value.Time
 			}
 		case adminloginrestriction.FieldUpdateTime:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field update_time", values[i])
 			} else if value.Valid {
-				alr.UpdateTime = new(time.Time)
-				*alr.UpdateTime = value.Time
+				_m.UpdateTime = new(time.Time)
+				*_m.UpdateTime = value.Time
 			}
 		case adminloginrestriction.FieldDeleteTime:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field delete_time", values[i])
 			} else if value.Valid {
-				alr.DeleteTime = new(time.Time)
-				*alr.DeleteTime = value.Time
+				_m.DeleteTime = new(time.Time)
+				*_m.DeleteTime = value.Time
 			}
 		case adminloginrestriction.FieldCreateBy:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field create_by", values[i])
 			} else if value.Valid {
-				alr.CreateBy = new(uint32)
-				*alr.CreateBy = uint32(value.Int64)
+				_m.CreateBy = new(uint32)
+				*_m.CreateBy = uint32(value.Int64)
 			}
 		case adminloginrestriction.FieldUpdateBy:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field update_by", values[i])
 			} else if value.Valid {
-				alr.UpdateBy = new(uint32)
-				*alr.UpdateBy = uint32(value.Int64)
+				_m.UpdateBy = new(uint32)
+				*_m.UpdateBy = uint32(value.Int64)
 			}
 		case adminloginrestriction.FieldTargetID:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field target_id", values[i])
 			} else if value.Valid {
-				alr.TargetID = new(uint32)
-				*alr.TargetID = uint32(value.Int64)
+				_m.TargetID = new(uint32)
+				*_m.TargetID = uint32(value.Int64)
 			}
 		case adminloginrestriction.FieldValue:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field value", values[i])
 			} else if value.Valid {
-				alr.Value = new(string)
-				*alr.Value = value.String
+				_m.Value = new(string)
+				*_m.Value = value.String
 			}
 		case adminloginrestriction.FieldReason:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field reason", values[i])
 			} else if value.Valid {
-				alr.Reason = new(string)
-				*alr.Reason = value.String
+				_m.Reason = new(string)
+				*_m.Reason = value.String
 			}
 		case adminloginrestriction.FieldType:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field type", values[i])
 			} else if value.Valid {
-				alr.Type = new(adminloginrestriction.Type)
-				*alr.Type = adminloginrestriction.Type(value.String)
+				_m.Type = new(adminloginrestriction.Type)
+				*_m.Type = adminloginrestriction.Type(value.String)
 			}
 		case adminloginrestriction.FieldMethod:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field method", values[i])
 			} else if value.Valid {
-				alr.Method = new(adminloginrestriction.Method)
-				*alr.Method = adminloginrestriction.Method(value.String)
+				_m.Method = new(adminloginrestriction.Method)
+				*_m.Method = adminloginrestriction.Method(value.String)
 			}
 		default:
-			alr.selectValues.Set(columns[i], values[i])
+			_m.selectValues.Set(columns[i], values[i])
 		}
 	}
 	return nil
@@ -152,79 +152,79 @@ func (alr *AdminLoginRestriction) assignValues(columns []string, values []any) e
 
 // GetValue returns the ent.Value that was dynamically selected and assigned to the AdminLoginRestriction.
 // This includes values selected through modifiers, order, etc.
-func (alr *AdminLoginRestriction) GetValue(name string) (ent.Value, error) {
-	return alr.selectValues.Get(name)
+func (_m *AdminLoginRestriction) GetValue(name string) (ent.Value, error) {
+	return _m.selectValues.Get(name)
 }
 
 // Update returns a builder for updating this AdminLoginRestriction.
 // Note that you need to call AdminLoginRestriction.Unwrap() before calling this method if this AdminLoginRestriction
 // was returned from a transaction, and the transaction was committed or rolled back.
-func (alr *AdminLoginRestriction) Update() *AdminLoginRestrictionUpdateOne {
-	return NewAdminLoginRestrictionClient(alr.config).UpdateOne(alr)
+func (_m *AdminLoginRestriction) Update() *AdminLoginRestrictionUpdateOne {
+	return NewAdminLoginRestrictionClient(_m.config).UpdateOne(_m)
 }
 
 // Unwrap unwraps the AdminLoginRestriction entity that was returned from a transaction after it was closed,
 // so that all future queries will be executed through the driver which created the transaction.
-func (alr *AdminLoginRestriction) Unwrap() *AdminLoginRestriction {
-	_tx, ok := alr.config.driver.(*txDriver)
+func (_m *AdminLoginRestriction) Unwrap() *AdminLoginRestriction {
+	_tx, ok := _m.config.driver.(*txDriver)
 	if !ok {
 		panic("ent: AdminLoginRestriction is not a transactional entity")
 	}
-	alr.config.driver = _tx.drv
-	return alr
+	_m.config.driver = _tx.drv
+	return _m
 }
 
 // String implements the fmt.Stringer.
-func (alr *AdminLoginRestriction) String() string {
+func (_m *AdminLoginRestriction) String() string {
 	var builder strings.Builder
 	builder.WriteString("AdminLoginRestriction(")
-	builder.WriteString(fmt.Sprintf("id=%v, ", alr.ID))
-	if v := alr.CreateTime; v != nil {
+	builder.WriteString(fmt.Sprintf("id=%v, ", _m.ID))
+	if v := _m.CreateTime; v != nil {
 		builder.WriteString("create_time=")
 		builder.WriteString(v.Format(time.ANSIC))
 	}
 	builder.WriteString(", ")
-	if v := alr.UpdateTime; v != nil {
+	if v := _m.UpdateTime; v != nil {
 		builder.WriteString("update_time=")
 		builder.WriteString(v.Format(time.ANSIC))
 	}
 	builder.WriteString(", ")
-	if v := alr.DeleteTime; v != nil {
+	if v := _m.DeleteTime; v != nil {
 		builder.WriteString("delete_time=")
 		builder.WriteString(v.Format(time.ANSIC))
 	}
 	builder.WriteString(", ")
-	if v := alr.CreateBy; v != nil {
+	if v := _m.CreateBy; v != nil {
 		builder.WriteString("create_by=")
 		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteString(", ")
-	if v := alr.UpdateBy; v != nil {
+	if v := _m.UpdateBy; v != nil {
 		builder.WriteString("update_by=")
 		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteString(", ")
-	if v := alr.TargetID; v != nil {
+	if v := _m.TargetID; v != nil {
 		builder.WriteString("target_id=")
 		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteString(", ")
-	if v := alr.Value; v != nil {
+	if v := _m.Value; v != nil {
 		builder.WriteString("value=")
 		builder.WriteString(*v)
 	}
 	builder.WriteString(", ")
-	if v := alr.Reason; v != nil {
+	if v := _m.Reason; v != nil {
 		builder.WriteString("reason=")
 		builder.WriteString(*v)
 	}
 	builder.WriteString(", ")
-	if v := alr.Type; v != nil {
+	if v := _m.Type; v != nil {
 		builder.WriteString("type=")
 		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteString(", ")
-	if v := alr.Method; v != nil {
+	if v := _m.Method; v != nil {
 		builder.WriteString("method=")
 		builder.WriteString(fmt.Sprintf("%v", *v))
 	}

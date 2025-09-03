@@ -24,178 +24,178 @@ type PrivateMessageUpdate struct {
 }
 
 // Where appends a list predicates to the PrivateMessageUpdate builder.
-func (pmu *PrivateMessageUpdate) Where(ps ...predicate.PrivateMessage) *PrivateMessageUpdate {
-	pmu.mutation.Where(ps...)
-	return pmu
+func (_u *PrivateMessageUpdate) Where(ps ...predicate.PrivateMessage) *PrivateMessageUpdate {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // SetUpdateTime sets the "update_time" field.
-func (pmu *PrivateMessageUpdate) SetUpdateTime(t time.Time) *PrivateMessageUpdate {
-	pmu.mutation.SetUpdateTime(t)
-	return pmu
+func (_u *PrivateMessageUpdate) SetUpdateTime(v time.Time) *PrivateMessageUpdate {
+	_u.mutation.SetUpdateTime(v)
+	return _u
 }
 
 // SetNillableUpdateTime sets the "update_time" field if the given value is not nil.
-func (pmu *PrivateMessageUpdate) SetNillableUpdateTime(t *time.Time) *PrivateMessageUpdate {
-	if t != nil {
-		pmu.SetUpdateTime(*t)
+func (_u *PrivateMessageUpdate) SetNillableUpdateTime(v *time.Time) *PrivateMessageUpdate {
+	if v != nil {
+		_u.SetUpdateTime(*v)
 	}
-	return pmu
+	return _u
 }
 
 // ClearUpdateTime clears the value of the "update_time" field.
-func (pmu *PrivateMessageUpdate) ClearUpdateTime() *PrivateMessageUpdate {
-	pmu.mutation.ClearUpdateTime()
-	return pmu
+func (_u *PrivateMessageUpdate) ClearUpdateTime() *PrivateMessageUpdate {
+	_u.mutation.ClearUpdateTime()
+	return _u
 }
 
 // SetDeleteTime sets the "delete_time" field.
-func (pmu *PrivateMessageUpdate) SetDeleteTime(t time.Time) *PrivateMessageUpdate {
-	pmu.mutation.SetDeleteTime(t)
-	return pmu
+func (_u *PrivateMessageUpdate) SetDeleteTime(v time.Time) *PrivateMessageUpdate {
+	_u.mutation.SetDeleteTime(v)
+	return _u
 }
 
 // SetNillableDeleteTime sets the "delete_time" field if the given value is not nil.
-func (pmu *PrivateMessageUpdate) SetNillableDeleteTime(t *time.Time) *PrivateMessageUpdate {
-	if t != nil {
-		pmu.SetDeleteTime(*t)
+func (_u *PrivateMessageUpdate) SetNillableDeleteTime(v *time.Time) *PrivateMessageUpdate {
+	if v != nil {
+		_u.SetDeleteTime(*v)
 	}
-	return pmu
+	return _u
 }
 
 // ClearDeleteTime clears the value of the "delete_time" field.
-func (pmu *PrivateMessageUpdate) ClearDeleteTime() *PrivateMessageUpdate {
-	pmu.mutation.ClearDeleteTime()
-	return pmu
+func (_u *PrivateMessageUpdate) ClearDeleteTime() *PrivateMessageUpdate {
+	_u.mutation.ClearDeleteTime()
+	return _u
 }
 
 // SetSubject sets the "subject" field.
-func (pmu *PrivateMessageUpdate) SetSubject(s string) *PrivateMessageUpdate {
-	pmu.mutation.SetSubject(s)
-	return pmu
+func (_u *PrivateMessageUpdate) SetSubject(v string) *PrivateMessageUpdate {
+	_u.mutation.SetSubject(v)
+	return _u
 }
 
 // SetNillableSubject sets the "subject" field if the given value is not nil.
-func (pmu *PrivateMessageUpdate) SetNillableSubject(s *string) *PrivateMessageUpdate {
-	if s != nil {
-		pmu.SetSubject(*s)
+func (_u *PrivateMessageUpdate) SetNillableSubject(v *string) *PrivateMessageUpdate {
+	if v != nil {
+		_u.SetSubject(*v)
 	}
-	return pmu
+	return _u
 }
 
 // ClearSubject clears the value of the "subject" field.
-func (pmu *PrivateMessageUpdate) ClearSubject() *PrivateMessageUpdate {
-	pmu.mutation.ClearSubject()
-	return pmu
+func (_u *PrivateMessageUpdate) ClearSubject() *PrivateMessageUpdate {
+	_u.mutation.ClearSubject()
+	return _u
 }
 
 // SetContent sets the "content" field.
-func (pmu *PrivateMessageUpdate) SetContent(s string) *PrivateMessageUpdate {
-	pmu.mutation.SetContent(s)
-	return pmu
+func (_u *PrivateMessageUpdate) SetContent(v string) *PrivateMessageUpdate {
+	_u.mutation.SetContent(v)
+	return _u
 }
 
 // SetNillableContent sets the "content" field if the given value is not nil.
-func (pmu *PrivateMessageUpdate) SetNillableContent(s *string) *PrivateMessageUpdate {
-	if s != nil {
-		pmu.SetContent(*s)
+func (_u *PrivateMessageUpdate) SetNillableContent(v *string) *PrivateMessageUpdate {
+	if v != nil {
+		_u.SetContent(*v)
 	}
-	return pmu
+	return _u
 }
 
 // ClearContent clears the value of the "content" field.
-func (pmu *PrivateMessageUpdate) ClearContent() *PrivateMessageUpdate {
-	pmu.mutation.ClearContent()
-	return pmu
+func (_u *PrivateMessageUpdate) ClearContent() *PrivateMessageUpdate {
+	_u.mutation.ClearContent()
+	return _u
 }
 
 // SetStatus sets the "status" field.
-func (pmu *PrivateMessageUpdate) SetStatus(pr privatemessage.Status) *PrivateMessageUpdate {
-	pmu.mutation.SetStatus(pr)
-	return pmu
+func (_u *PrivateMessageUpdate) SetStatus(v privatemessage.Status) *PrivateMessageUpdate {
+	_u.mutation.SetStatus(v)
+	return _u
 }
 
 // SetNillableStatus sets the "status" field if the given value is not nil.
-func (pmu *PrivateMessageUpdate) SetNillableStatus(pr *privatemessage.Status) *PrivateMessageUpdate {
-	if pr != nil {
-		pmu.SetStatus(*pr)
+func (_u *PrivateMessageUpdate) SetNillableStatus(v *privatemessage.Status) *PrivateMessageUpdate {
+	if v != nil {
+		_u.SetStatus(*v)
 	}
-	return pmu
+	return _u
 }
 
 // ClearStatus clears the value of the "status" field.
-func (pmu *PrivateMessageUpdate) ClearStatus() *PrivateMessageUpdate {
-	pmu.mutation.ClearStatus()
-	return pmu
+func (_u *PrivateMessageUpdate) ClearStatus() *PrivateMessageUpdate {
+	_u.mutation.ClearStatus()
+	return _u
 }
 
 // SetSenderID sets the "sender_id" field.
-func (pmu *PrivateMessageUpdate) SetSenderID(u uint32) *PrivateMessageUpdate {
-	pmu.mutation.ResetSenderID()
-	pmu.mutation.SetSenderID(u)
-	return pmu
+func (_u *PrivateMessageUpdate) SetSenderID(v uint32) *PrivateMessageUpdate {
+	_u.mutation.ResetSenderID()
+	_u.mutation.SetSenderID(v)
+	return _u
 }
 
 // SetNillableSenderID sets the "sender_id" field if the given value is not nil.
-func (pmu *PrivateMessageUpdate) SetNillableSenderID(u *uint32) *PrivateMessageUpdate {
-	if u != nil {
-		pmu.SetSenderID(*u)
+func (_u *PrivateMessageUpdate) SetNillableSenderID(v *uint32) *PrivateMessageUpdate {
+	if v != nil {
+		_u.SetSenderID(*v)
 	}
-	return pmu
+	return _u
 }
 
-// AddSenderID adds u to the "sender_id" field.
-func (pmu *PrivateMessageUpdate) AddSenderID(u int32) *PrivateMessageUpdate {
-	pmu.mutation.AddSenderID(u)
-	return pmu
+// AddSenderID adds value to the "sender_id" field.
+func (_u *PrivateMessageUpdate) AddSenderID(v int32) *PrivateMessageUpdate {
+	_u.mutation.AddSenderID(v)
+	return _u
 }
 
 // ClearSenderID clears the value of the "sender_id" field.
-func (pmu *PrivateMessageUpdate) ClearSenderID() *PrivateMessageUpdate {
-	pmu.mutation.ClearSenderID()
-	return pmu
+func (_u *PrivateMessageUpdate) ClearSenderID() *PrivateMessageUpdate {
+	_u.mutation.ClearSenderID()
+	return _u
 }
 
 // SetReceiverID sets the "receiver_id" field.
-func (pmu *PrivateMessageUpdate) SetReceiverID(u uint32) *PrivateMessageUpdate {
-	pmu.mutation.ResetReceiverID()
-	pmu.mutation.SetReceiverID(u)
-	return pmu
+func (_u *PrivateMessageUpdate) SetReceiverID(v uint32) *PrivateMessageUpdate {
+	_u.mutation.ResetReceiverID()
+	_u.mutation.SetReceiverID(v)
+	return _u
 }
 
 // SetNillableReceiverID sets the "receiver_id" field if the given value is not nil.
-func (pmu *PrivateMessageUpdate) SetNillableReceiverID(u *uint32) *PrivateMessageUpdate {
-	if u != nil {
-		pmu.SetReceiverID(*u)
+func (_u *PrivateMessageUpdate) SetNillableReceiverID(v *uint32) *PrivateMessageUpdate {
+	if v != nil {
+		_u.SetReceiverID(*v)
 	}
-	return pmu
+	return _u
 }
 
-// AddReceiverID adds u to the "receiver_id" field.
-func (pmu *PrivateMessageUpdate) AddReceiverID(u int32) *PrivateMessageUpdate {
-	pmu.mutation.AddReceiverID(u)
-	return pmu
+// AddReceiverID adds value to the "receiver_id" field.
+func (_u *PrivateMessageUpdate) AddReceiverID(v int32) *PrivateMessageUpdate {
+	_u.mutation.AddReceiverID(v)
+	return _u
 }
 
 // ClearReceiverID clears the value of the "receiver_id" field.
-func (pmu *PrivateMessageUpdate) ClearReceiverID() *PrivateMessageUpdate {
-	pmu.mutation.ClearReceiverID()
-	return pmu
+func (_u *PrivateMessageUpdate) ClearReceiverID() *PrivateMessageUpdate {
+	_u.mutation.ClearReceiverID()
+	return _u
 }
 
 // Mutation returns the PrivateMessageMutation object of the builder.
-func (pmu *PrivateMessageUpdate) Mutation() *PrivateMessageMutation {
-	return pmu.mutation
+func (_u *PrivateMessageUpdate) Mutation() *PrivateMessageMutation {
+	return _u.mutation
 }
 
 // Save executes the query and returns the number of nodes affected by the update operation.
-func (pmu *PrivateMessageUpdate) Save(ctx context.Context) (int, error) {
-	return withHooks(ctx, pmu.sqlSave, pmu.mutation, pmu.hooks)
+func (_u *PrivateMessageUpdate) Save(ctx context.Context) (int, error) {
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (pmu *PrivateMessageUpdate) SaveX(ctx context.Context) int {
-	affected, err := pmu.Save(ctx)
+func (_u *PrivateMessageUpdate) SaveX(ctx context.Context) int {
+	affected, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -203,21 +203,21 @@ func (pmu *PrivateMessageUpdate) SaveX(ctx context.Context) int {
 }
 
 // Exec executes the query.
-func (pmu *PrivateMessageUpdate) Exec(ctx context.Context) error {
-	_, err := pmu.Save(ctx)
+func (_u *PrivateMessageUpdate) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (pmu *PrivateMessageUpdate) ExecX(ctx context.Context) {
-	if err := pmu.Exec(ctx); err != nil {
+func (_u *PrivateMessageUpdate) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
-func (pmu *PrivateMessageUpdate) check() error {
-	if v, ok := pmu.mutation.Status(); ok {
+func (_u *PrivateMessageUpdate) check() error {
+	if v, ok := _u.mutation.Status(); ok {
 		if err := privatemessage.StatusValidator(v); err != nil {
 			return &ValidationError{Name: "status", err: fmt.Errorf(`ent: validator failed for field "PrivateMessage.status": %w`, err)}
 		}
@@ -226,79 +226,79 @@ func (pmu *PrivateMessageUpdate) check() error {
 }
 
 // Modify adds a statement modifier for attaching custom logic to the UPDATE statement.
-func (pmu *PrivateMessageUpdate) Modify(modifiers ...func(u *sql.UpdateBuilder)) *PrivateMessageUpdate {
-	pmu.modifiers = append(pmu.modifiers, modifiers...)
-	return pmu
+func (_u *PrivateMessageUpdate) Modify(modifiers ...func(u *sql.UpdateBuilder)) *PrivateMessageUpdate {
+	_u.modifiers = append(_u.modifiers, modifiers...)
+	return _u
 }
 
-func (pmu *PrivateMessageUpdate) sqlSave(ctx context.Context) (n int, err error) {
-	if err := pmu.check(); err != nil {
-		return n, err
+func (_u *PrivateMessageUpdate) sqlSave(ctx context.Context) (_node int, err error) {
+	if err := _u.check(); err != nil {
+		return _node, err
 	}
 	_spec := sqlgraph.NewUpdateSpec(privatemessage.Table, privatemessage.Columns, sqlgraph.NewFieldSpec(privatemessage.FieldID, field.TypeUint32))
-	if ps := pmu.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if pmu.mutation.CreateTimeCleared() {
+	if _u.mutation.CreateTimeCleared() {
 		_spec.ClearField(privatemessage.FieldCreateTime, field.TypeTime)
 	}
-	if value, ok := pmu.mutation.UpdateTime(); ok {
+	if value, ok := _u.mutation.UpdateTime(); ok {
 		_spec.SetField(privatemessage.FieldUpdateTime, field.TypeTime, value)
 	}
-	if pmu.mutation.UpdateTimeCleared() {
+	if _u.mutation.UpdateTimeCleared() {
 		_spec.ClearField(privatemessage.FieldUpdateTime, field.TypeTime)
 	}
-	if value, ok := pmu.mutation.DeleteTime(); ok {
+	if value, ok := _u.mutation.DeleteTime(); ok {
 		_spec.SetField(privatemessage.FieldDeleteTime, field.TypeTime, value)
 	}
-	if pmu.mutation.DeleteTimeCleared() {
+	if _u.mutation.DeleteTimeCleared() {
 		_spec.ClearField(privatemessage.FieldDeleteTime, field.TypeTime)
 	}
-	if pmu.mutation.TenantIDCleared() {
+	if _u.mutation.TenantIDCleared() {
 		_spec.ClearField(privatemessage.FieldTenantID, field.TypeUint32)
 	}
-	if value, ok := pmu.mutation.Subject(); ok {
+	if value, ok := _u.mutation.Subject(); ok {
 		_spec.SetField(privatemessage.FieldSubject, field.TypeString, value)
 	}
-	if pmu.mutation.SubjectCleared() {
+	if _u.mutation.SubjectCleared() {
 		_spec.ClearField(privatemessage.FieldSubject, field.TypeString)
 	}
-	if value, ok := pmu.mutation.Content(); ok {
+	if value, ok := _u.mutation.Content(); ok {
 		_spec.SetField(privatemessage.FieldContent, field.TypeString, value)
 	}
-	if pmu.mutation.ContentCleared() {
+	if _u.mutation.ContentCleared() {
 		_spec.ClearField(privatemessage.FieldContent, field.TypeString)
 	}
-	if value, ok := pmu.mutation.Status(); ok {
+	if value, ok := _u.mutation.Status(); ok {
 		_spec.SetField(privatemessage.FieldStatus, field.TypeEnum, value)
 	}
-	if pmu.mutation.StatusCleared() {
+	if _u.mutation.StatusCleared() {
 		_spec.ClearField(privatemessage.FieldStatus, field.TypeEnum)
 	}
-	if value, ok := pmu.mutation.SenderID(); ok {
+	if value, ok := _u.mutation.SenderID(); ok {
 		_spec.SetField(privatemessage.FieldSenderID, field.TypeUint32, value)
 	}
-	if value, ok := pmu.mutation.AddedSenderID(); ok {
+	if value, ok := _u.mutation.AddedSenderID(); ok {
 		_spec.AddField(privatemessage.FieldSenderID, field.TypeUint32, value)
 	}
-	if pmu.mutation.SenderIDCleared() {
+	if _u.mutation.SenderIDCleared() {
 		_spec.ClearField(privatemessage.FieldSenderID, field.TypeUint32)
 	}
-	if value, ok := pmu.mutation.ReceiverID(); ok {
+	if value, ok := _u.mutation.ReceiverID(); ok {
 		_spec.SetField(privatemessage.FieldReceiverID, field.TypeUint32, value)
 	}
-	if value, ok := pmu.mutation.AddedReceiverID(); ok {
+	if value, ok := _u.mutation.AddedReceiverID(); ok {
 		_spec.AddField(privatemessage.FieldReceiverID, field.TypeUint32, value)
 	}
-	if pmu.mutation.ReceiverIDCleared() {
+	if _u.mutation.ReceiverIDCleared() {
 		_spec.ClearField(privatemessage.FieldReceiverID, field.TypeUint32)
 	}
-	_spec.AddModifiers(pmu.modifiers...)
-	if n, err = sqlgraph.UpdateNodes(ctx, pmu.driver, _spec); err != nil {
+	_spec.AddModifiers(_u.modifiers...)
+	if _node, err = sqlgraph.UpdateNodes(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{privatemessage.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -306,8 +306,8 @@ func (pmu *PrivateMessageUpdate) sqlSave(ctx context.Context) (n int, err error)
 		}
 		return 0, err
 	}
-	pmu.mutation.done = true
-	return n, nil
+	_u.mutation.done = true
+	return _node, nil
 }
 
 // PrivateMessageUpdateOne is the builder for updating a single PrivateMessage entity.
@@ -320,185 +320,185 @@ type PrivateMessageUpdateOne struct {
 }
 
 // SetUpdateTime sets the "update_time" field.
-func (pmuo *PrivateMessageUpdateOne) SetUpdateTime(t time.Time) *PrivateMessageUpdateOne {
-	pmuo.mutation.SetUpdateTime(t)
-	return pmuo
+func (_u *PrivateMessageUpdateOne) SetUpdateTime(v time.Time) *PrivateMessageUpdateOne {
+	_u.mutation.SetUpdateTime(v)
+	return _u
 }
 
 // SetNillableUpdateTime sets the "update_time" field if the given value is not nil.
-func (pmuo *PrivateMessageUpdateOne) SetNillableUpdateTime(t *time.Time) *PrivateMessageUpdateOne {
-	if t != nil {
-		pmuo.SetUpdateTime(*t)
+func (_u *PrivateMessageUpdateOne) SetNillableUpdateTime(v *time.Time) *PrivateMessageUpdateOne {
+	if v != nil {
+		_u.SetUpdateTime(*v)
 	}
-	return pmuo
+	return _u
 }
 
 // ClearUpdateTime clears the value of the "update_time" field.
-func (pmuo *PrivateMessageUpdateOne) ClearUpdateTime() *PrivateMessageUpdateOne {
-	pmuo.mutation.ClearUpdateTime()
-	return pmuo
+func (_u *PrivateMessageUpdateOne) ClearUpdateTime() *PrivateMessageUpdateOne {
+	_u.mutation.ClearUpdateTime()
+	return _u
 }
 
 // SetDeleteTime sets the "delete_time" field.
-func (pmuo *PrivateMessageUpdateOne) SetDeleteTime(t time.Time) *PrivateMessageUpdateOne {
-	pmuo.mutation.SetDeleteTime(t)
-	return pmuo
+func (_u *PrivateMessageUpdateOne) SetDeleteTime(v time.Time) *PrivateMessageUpdateOne {
+	_u.mutation.SetDeleteTime(v)
+	return _u
 }
 
 // SetNillableDeleteTime sets the "delete_time" field if the given value is not nil.
-func (pmuo *PrivateMessageUpdateOne) SetNillableDeleteTime(t *time.Time) *PrivateMessageUpdateOne {
-	if t != nil {
-		pmuo.SetDeleteTime(*t)
+func (_u *PrivateMessageUpdateOne) SetNillableDeleteTime(v *time.Time) *PrivateMessageUpdateOne {
+	if v != nil {
+		_u.SetDeleteTime(*v)
 	}
-	return pmuo
+	return _u
 }
 
 // ClearDeleteTime clears the value of the "delete_time" field.
-func (pmuo *PrivateMessageUpdateOne) ClearDeleteTime() *PrivateMessageUpdateOne {
-	pmuo.mutation.ClearDeleteTime()
-	return pmuo
+func (_u *PrivateMessageUpdateOne) ClearDeleteTime() *PrivateMessageUpdateOne {
+	_u.mutation.ClearDeleteTime()
+	return _u
 }
 
 // SetSubject sets the "subject" field.
-func (pmuo *PrivateMessageUpdateOne) SetSubject(s string) *PrivateMessageUpdateOne {
-	pmuo.mutation.SetSubject(s)
-	return pmuo
+func (_u *PrivateMessageUpdateOne) SetSubject(v string) *PrivateMessageUpdateOne {
+	_u.mutation.SetSubject(v)
+	return _u
 }
 
 // SetNillableSubject sets the "subject" field if the given value is not nil.
-func (pmuo *PrivateMessageUpdateOne) SetNillableSubject(s *string) *PrivateMessageUpdateOne {
-	if s != nil {
-		pmuo.SetSubject(*s)
+func (_u *PrivateMessageUpdateOne) SetNillableSubject(v *string) *PrivateMessageUpdateOne {
+	if v != nil {
+		_u.SetSubject(*v)
 	}
-	return pmuo
+	return _u
 }
 
 // ClearSubject clears the value of the "subject" field.
-func (pmuo *PrivateMessageUpdateOne) ClearSubject() *PrivateMessageUpdateOne {
-	pmuo.mutation.ClearSubject()
-	return pmuo
+func (_u *PrivateMessageUpdateOne) ClearSubject() *PrivateMessageUpdateOne {
+	_u.mutation.ClearSubject()
+	return _u
 }
 
 // SetContent sets the "content" field.
-func (pmuo *PrivateMessageUpdateOne) SetContent(s string) *PrivateMessageUpdateOne {
-	pmuo.mutation.SetContent(s)
-	return pmuo
+func (_u *PrivateMessageUpdateOne) SetContent(v string) *PrivateMessageUpdateOne {
+	_u.mutation.SetContent(v)
+	return _u
 }
 
 // SetNillableContent sets the "content" field if the given value is not nil.
-func (pmuo *PrivateMessageUpdateOne) SetNillableContent(s *string) *PrivateMessageUpdateOne {
-	if s != nil {
-		pmuo.SetContent(*s)
+func (_u *PrivateMessageUpdateOne) SetNillableContent(v *string) *PrivateMessageUpdateOne {
+	if v != nil {
+		_u.SetContent(*v)
 	}
-	return pmuo
+	return _u
 }
 
 // ClearContent clears the value of the "content" field.
-func (pmuo *PrivateMessageUpdateOne) ClearContent() *PrivateMessageUpdateOne {
-	pmuo.mutation.ClearContent()
-	return pmuo
+func (_u *PrivateMessageUpdateOne) ClearContent() *PrivateMessageUpdateOne {
+	_u.mutation.ClearContent()
+	return _u
 }
 
 // SetStatus sets the "status" field.
-func (pmuo *PrivateMessageUpdateOne) SetStatus(pr privatemessage.Status) *PrivateMessageUpdateOne {
-	pmuo.mutation.SetStatus(pr)
-	return pmuo
+func (_u *PrivateMessageUpdateOne) SetStatus(v privatemessage.Status) *PrivateMessageUpdateOne {
+	_u.mutation.SetStatus(v)
+	return _u
 }
 
 // SetNillableStatus sets the "status" field if the given value is not nil.
-func (pmuo *PrivateMessageUpdateOne) SetNillableStatus(pr *privatemessage.Status) *PrivateMessageUpdateOne {
-	if pr != nil {
-		pmuo.SetStatus(*pr)
+func (_u *PrivateMessageUpdateOne) SetNillableStatus(v *privatemessage.Status) *PrivateMessageUpdateOne {
+	if v != nil {
+		_u.SetStatus(*v)
 	}
-	return pmuo
+	return _u
 }
 
 // ClearStatus clears the value of the "status" field.
-func (pmuo *PrivateMessageUpdateOne) ClearStatus() *PrivateMessageUpdateOne {
-	pmuo.mutation.ClearStatus()
-	return pmuo
+func (_u *PrivateMessageUpdateOne) ClearStatus() *PrivateMessageUpdateOne {
+	_u.mutation.ClearStatus()
+	return _u
 }
 
 // SetSenderID sets the "sender_id" field.
-func (pmuo *PrivateMessageUpdateOne) SetSenderID(u uint32) *PrivateMessageUpdateOne {
-	pmuo.mutation.ResetSenderID()
-	pmuo.mutation.SetSenderID(u)
-	return pmuo
+func (_u *PrivateMessageUpdateOne) SetSenderID(v uint32) *PrivateMessageUpdateOne {
+	_u.mutation.ResetSenderID()
+	_u.mutation.SetSenderID(v)
+	return _u
 }
 
 // SetNillableSenderID sets the "sender_id" field if the given value is not nil.
-func (pmuo *PrivateMessageUpdateOne) SetNillableSenderID(u *uint32) *PrivateMessageUpdateOne {
-	if u != nil {
-		pmuo.SetSenderID(*u)
+func (_u *PrivateMessageUpdateOne) SetNillableSenderID(v *uint32) *PrivateMessageUpdateOne {
+	if v != nil {
+		_u.SetSenderID(*v)
 	}
-	return pmuo
+	return _u
 }
 
-// AddSenderID adds u to the "sender_id" field.
-func (pmuo *PrivateMessageUpdateOne) AddSenderID(u int32) *PrivateMessageUpdateOne {
-	pmuo.mutation.AddSenderID(u)
-	return pmuo
+// AddSenderID adds value to the "sender_id" field.
+func (_u *PrivateMessageUpdateOne) AddSenderID(v int32) *PrivateMessageUpdateOne {
+	_u.mutation.AddSenderID(v)
+	return _u
 }
 
 // ClearSenderID clears the value of the "sender_id" field.
-func (pmuo *PrivateMessageUpdateOne) ClearSenderID() *PrivateMessageUpdateOne {
-	pmuo.mutation.ClearSenderID()
-	return pmuo
+func (_u *PrivateMessageUpdateOne) ClearSenderID() *PrivateMessageUpdateOne {
+	_u.mutation.ClearSenderID()
+	return _u
 }
 
 // SetReceiverID sets the "receiver_id" field.
-func (pmuo *PrivateMessageUpdateOne) SetReceiverID(u uint32) *PrivateMessageUpdateOne {
-	pmuo.mutation.ResetReceiverID()
-	pmuo.mutation.SetReceiverID(u)
-	return pmuo
+func (_u *PrivateMessageUpdateOne) SetReceiverID(v uint32) *PrivateMessageUpdateOne {
+	_u.mutation.ResetReceiverID()
+	_u.mutation.SetReceiverID(v)
+	return _u
 }
 
 // SetNillableReceiverID sets the "receiver_id" field if the given value is not nil.
-func (pmuo *PrivateMessageUpdateOne) SetNillableReceiverID(u *uint32) *PrivateMessageUpdateOne {
-	if u != nil {
-		pmuo.SetReceiverID(*u)
+func (_u *PrivateMessageUpdateOne) SetNillableReceiverID(v *uint32) *PrivateMessageUpdateOne {
+	if v != nil {
+		_u.SetReceiverID(*v)
 	}
-	return pmuo
+	return _u
 }
 
-// AddReceiverID adds u to the "receiver_id" field.
-func (pmuo *PrivateMessageUpdateOne) AddReceiverID(u int32) *PrivateMessageUpdateOne {
-	pmuo.mutation.AddReceiverID(u)
-	return pmuo
+// AddReceiverID adds value to the "receiver_id" field.
+func (_u *PrivateMessageUpdateOne) AddReceiverID(v int32) *PrivateMessageUpdateOne {
+	_u.mutation.AddReceiverID(v)
+	return _u
 }
 
 // ClearReceiverID clears the value of the "receiver_id" field.
-func (pmuo *PrivateMessageUpdateOne) ClearReceiverID() *PrivateMessageUpdateOne {
-	pmuo.mutation.ClearReceiverID()
-	return pmuo
+func (_u *PrivateMessageUpdateOne) ClearReceiverID() *PrivateMessageUpdateOne {
+	_u.mutation.ClearReceiverID()
+	return _u
 }
 
 // Mutation returns the PrivateMessageMutation object of the builder.
-func (pmuo *PrivateMessageUpdateOne) Mutation() *PrivateMessageMutation {
-	return pmuo.mutation
+func (_u *PrivateMessageUpdateOne) Mutation() *PrivateMessageMutation {
+	return _u.mutation
 }
 
 // Where appends a list predicates to the PrivateMessageUpdate builder.
-func (pmuo *PrivateMessageUpdateOne) Where(ps ...predicate.PrivateMessage) *PrivateMessageUpdateOne {
-	pmuo.mutation.Where(ps...)
-	return pmuo
+func (_u *PrivateMessageUpdateOne) Where(ps ...predicate.PrivateMessage) *PrivateMessageUpdateOne {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // Select allows selecting one or more fields (columns) of the returned entity.
 // The default is selecting all fields defined in the entity schema.
-func (pmuo *PrivateMessageUpdateOne) Select(field string, fields ...string) *PrivateMessageUpdateOne {
-	pmuo.fields = append([]string{field}, fields...)
-	return pmuo
+func (_u *PrivateMessageUpdateOne) Select(field string, fields ...string) *PrivateMessageUpdateOne {
+	_u.fields = append([]string{field}, fields...)
+	return _u
 }
 
 // Save executes the query and returns the updated PrivateMessage entity.
-func (pmuo *PrivateMessageUpdateOne) Save(ctx context.Context) (*PrivateMessage, error) {
-	return withHooks(ctx, pmuo.sqlSave, pmuo.mutation, pmuo.hooks)
+func (_u *PrivateMessageUpdateOne) Save(ctx context.Context) (*PrivateMessage, error) {
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (pmuo *PrivateMessageUpdateOne) SaveX(ctx context.Context) *PrivateMessage {
-	node, err := pmuo.Save(ctx)
+func (_u *PrivateMessageUpdateOne) SaveX(ctx context.Context) *PrivateMessage {
+	node, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -506,21 +506,21 @@ func (pmuo *PrivateMessageUpdateOne) SaveX(ctx context.Context) *PrivateMessage 
 }
 
 // Exec executes the query on the entity.
-func (pmuo *PrivateMessageUpdateOne) Exec(ctx context.Context) error {
-	_, err := pmuo.Save(ctx)
+func (_u *PrivateMessageUpdateOne) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (pmuo *PrivateMessageUpdateOne) ExecX(ctx context.Context) {
-	if err := pmuo.Exec(ctx); err != nil {
+func (_u *PrivateMessageUpdateOne) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
-func (pmuo *PrivateMessageUpdateOne) check() error {
-	if v, ok := pmuo.mutation.Status(); ok {
+func (_u *PrivateMessageUpdateOne) check() error {
+	if v, ok := _u.mutation.Status(); ok {
 		if err := privatemessage.StatusValidator(v); err != nil {
 			return &ValidationError{Name: "status", err: fmt.Errorf(`ent: validator failed for field "PrivateMessage.status": %w`, err)}
 		}
@@ -529,22 +529,22 @@ func (pmuo *PrivateMessageUpdateOne) check() error {
 }
 
 // Modify adds a statement modifier for attaching custom logic to the UPDATE statement.
-func (pmuo *PrivateMessageUpdateOne) Modify(modifiers ...func(u *sql.UpdateBuilder)) *PrivateMessageUpdateOne {
-	pmuo.modifiers = append(pmuo.modifiers, modifiers...)
-	return pmuo
+func (_u *PrivateMessageUpdateOne) Modify(modifiers ...func(u *sql.UpdateBuilder)) *PrivateMessageUpdateOne {
+	_u.modifiers = append(_u.modifiers, modifiers...)
+	return _u
 }
 
-func (pmuo *PrivateMessageUpdateOne) sqlSave(ctx context.Context) (_node *PrivateMessage, err error) {
-	if err := pmuo.check(); err != nil {
+func (_u *PrivateMessageUpdateOne) sqlSave(ctx context.Context) (_node *PrivateMessage, err error) {
+	if err := _u.check(); err != nil {
 		return _node, err
 	}
 	_spec := sqlgraph.NewUpdateSpec(privatemessage.Table, privatemessage.Columns, sqlgraph.NewFieldSpec(privatemessage.FieldID, field.TypeUint32))
-	id, ok := pmuo.mutation.ID()
+	id, ok := _u.mutation.ID()
 	if !ok {
 		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "PrivateMessage.id" for update`)}
 	}
 	_spec.Node.ID.Value = id
-	if fields := pmuo.fields; len(fields) > 0 {
+	if fields := _u.fields; len(fields) > 0 {
 		_spec.Node.Columns = make([]string, 0, len(fields))
 		_spec.Node.Columns = append(_spec.Node.Columns, privatemessage.FieldID)
 		for _, f := range fields {
@@ -556,72 +556,72 @@ func (pmuo *PrivateMessageUpdateOne) sqlSave(ctx context.Context) (_node *Privat
 			}
 		}
 	}
-	if ps := pmuo.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if pmuo.mutation.CreateTimeCleared() {
+	if _u.mutation.CreateTimeCleared() {
 		_spec.ClearField(privatemessage.FieldCreateTime, field.TypeTime)
 	}
-	if value, ok := pmuo.mutation.UpdateTime(); ok {
+	if value, ok := _u.mutation.UpdateTime(); ok {
 		_spec.SetField(privatemessage.FieldUpdateTime, field.TypeTime, value)
 	}
-	if pmuo.mutation.UpdateTimeCleared() {
+	if _u.mutation.UpdateTimeCleared() {
 		_spec.ClearField(privatemessage.FieldUpdateTime, field.TypeTime)
 	}
-	if value, ok := pmuo.mutation.DeleteTime(); ok {
+	if value, ok := _u.mutation.DeleteTime(); ok {
 		_spec.SetField(privatemessage.FieldDeleteTime, field.TypeTime, value)
 	}
-	if pmuo.mutation.DeleteTimeCleared() {
+	if _u.mutation.DeleteTimeCleared() {
 		_spec.ClearField(privatemessage.FieldDeleteTime, field.TypeTime)
 	}
-	if pmuo.mutation.TenantIDCleared() {
+	if _u.mutation.TenantIDCleared() {
 		_spec.ClearField(privatemessage.FieldTenantID, field.TypeUint32)
 	}
-	if value, ok := pmuo.mutation.Subject(); ok {
+	if value, ok := _u.mutation.Subject(); ok {
 		_spec.SetField(privatemessage.FieldSubject, field.TypeString, value)
 	}
-	if pmuo.mutation.SubjectCleared() {
+	if _u.mutation.SubjectCleared() {
 		_spec.ClearField(privatemessage.FieldSubject, field.TypeString)
 	}
-	if value, ok := pmuo.mutation.Content(); ok {
+	if value, ok := _u.mutation.Content(); ok {
 		_spec.SetField(privatemessage.FieldContent, field.TypeString, value)
 	}
-	if pmuo.mutation.ContentCleared() {
+	if _u.mutation.ContentCleared() {
 		_spec.ClearField(privatemessage.FieldContent, field.TypeString)
 	}
-	if value, ok := pmuo.mutation.Status(); ok {
+	if value, ok := _u.mutation.Status(); ok {
 		_spec.SetField(privatemessage.FieldStatus, field.TypeEnum, value)
 	}
-	if pmuo.mutation.StatusCleared() {
+	if _u.mutation.StatusCleared() {
 		_spec.ClearField(privatemessage.FieldStatus, field.TypeEnum)
 	}
-	if value, ok := pmuo.mutation.SenderID(); ok {
+	if value, ok := _u.mutation.SenderID(); ok {
 		_spec.SetField(privatemessage.FieldSenderID, field.TypeUint32, value)
 	}
-	if value, ok := pmuo.mutation.AddedSenderID(); ok {
+	if value, ok := _u.mutation.AddedSenderID(); ok {
 		_spec.AddField(privatemessage.FieldSenderID, field.TypeUint32, value)
 	}
-	if pmuo.mutation.SenderIDCleared() {
+	if _u.mutation.SenderIDCleared() {
 		_spec.ClearField(privatemessage.FieldSenderID, field.TypeUint32)
 	}
-	if value, ok := pmuo.mutation.ReceiverID(); ok {
+	if value, ok := _u.mutation.ReceiverID(); ok {
 		_spec.SetField(privatemessage.FieldReceiverID, field.TypeUint32, value)
 	}
-	if value, ok := pmuo.mutation.AddedReceiverID(); ok {
+	if value, ok := _u.mutation.AddedReceiverID(); ok {
 		_spec.AddField(privatemessage.FieldReceiverID, field.TypeUint32, value)
 	}
-	if pmuo.mutation.ReceiverIDCleared() {
+	if _u.mutation.ReceiverIDCleared() {
 		_spec.ClearField(privatemessage.FieldReceiverID, field.TypeUint32)
 	}
-	_spec.AddModifiers(pmuo.modifiers...)
-	_node = &PrivateMessage{config: pmuo.config}
+	_spec.AddModifiers(_u.modifiers...)
+	_node = &PrivateMessage{config: _u.config}
 	_spec.Assign = _node.assignValues
 	_spec.ScanValues = _node.scanValues
-	if err = sqlgraph.UpdateNode(ctx, pmuo.driver, _spec); err != nil {
+	if err = sqlgraph.UpdateNode(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{privatemessage.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -629,6 +629,6 @@ func (pmuo *PrivateMessageUpdateOne) sqlSave(ctx context.Context) (_node *Privat
 		}
 		return nil, err
 	}
-	pmuo.mutation.done = true
+	_u.mutation.done = true
 	return _node, nil
 }

@@ -20,56 +20,56 @@ type NotificationMessageCategoryDelete struct {
 }
 
 // Where appends a list predicates to the NotificationMessageCategoryDelete builder.
-func (nmcd *NotificationMessageCategoryDelete) Where(ps ...predicate.NotificationMessageCategory) *NotificationMessageCategoryDelete {
-	nmcd.mutation.Where(ps...)
-	return nmcd
+func (_d *NotificationMessageCategoryDelete) Where(ps ...predicate.NotificationMessageCategory) *NotificationMessageCategoryDelete {
+	_d.mutation.Where(ps...)
+	return _d
 }
 
 // Exec executes the deletion query and returns how many vertices were deleted.
-func (nmcd *NotificationMessageCategoryDelete) Exec(ctx context.Context) (int, error) {
-	return withHooks(ctx, nmcd.sqlExec, nmcd.mutation, nmcd.hooks)
+func (_d *NotificationMessageCategoryDelete) Exec(ctx context.Context) (int, error) {
+	return withHooks(ctx, _d.sqlExec, _d.mutation, _d.hooks)
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (nmcd *NotificationMessageCategoryDelete) ExecX(ctx context.Context) int {
-	n, err := nmcd.Exec(ctx)
+func (_d *NotificationMessageCategoryDelete) ExecX(ctx context.Context) int {
+	n, err := _d.Exec(ctx)
 	if err != nil {
 		panic(err)
 	}
 	return n
 }
 
-func (nmcd *NotificationMessageCategoryDelete) sqlExec(ctx context.Context) (int, error) {
+func (_d *NotificationMessageCategoryDelete) sqlExec(ctx context.Context) (int, error) {
 	_spec := sqlgraph.NewDeleteSpec(notificationmessagecategory.Table, sqlgraph.NewFieldSpec(notificationmessagecategory.FieldID, field.TypeUint32))
-	if ps := nmcd.mutation.predicates; len(ps) > 0 {
+	if ps := _d.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	affected, err := sqlgraph.DeleteNodes(ctx, nmcd.driver, _spec)
+	affected, err := sqlgraph.DeleteNodes(ctx, _d.driver, _spec)
 	if err != nil && sqlgraph.IsConstraintError(err) {
 		err = &ConstraintError{msg: err.Error(), wrap: err}
 	}
-	nmcd.mutation.done = true
+	_d.mutation.done = true
 	return affected, err
 }
 
 // NotificationMessageCategoryDeleteOne is the builder for deleting a single NotificationMessageCategory entity.
 type NotificationMessageCategoryDeleteOne struct {
-	nmcd *NotificationMessageCategoryDelete
+	_d *NotificationMessageCategoryDelete
 }
 
 // Where appends a list predicates to the NotificationMessageCategoryDelete builder.
-func (nmcdo *NotificationMessageCategoryDeleteOne) Where(ps ...predicate.NotificationMessageCategory) *NotificationMessageCategoryDeleteOne {
-	nmcdo.nmcd.mutation.Where(ps...)
-	return nmcdo
+func (_d *NotificationMessageCategoryDeleteOne) Where(ps ...predicate.NotificationMessageCategory) *NotificationMessageCategoryDeleteOne {
+	_d._d.mutation.Where(ps...)
+	return _d
 }
 
 // Exec executes the deletion query.
-func (nmcdo *NotificationMessageCategoryDeleteOne) Exec(ctx context.Context) error {
-	n, err := nmcdo.nmcd.Exec(ctx)
+func (_d *NotificationMessageCategoryDeleteOne) Exec(ctx context.Context) error {
+	n, err := _d._d.Exec(ctx)
 	switch {
 	case err != nil:
 		return err
@@ -81,8 +81,8 @@ func (nmcdo *NotificationMessageCategoryDeleteOne) Exec(ctx context.Context) err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (nmcdo *NotificationMessageCategoryDeleteOne) ExecX(ctx context.Context) {
-	if err := nmcdo.Exec(ctx); err != nil {
+func (_d *NotificationMessageCategoryDeleteOne) ExecX(ctx context.Context) {
+	if err := _d.Exec(ctx); err != nil {
 		panic(err)
 	}
 }

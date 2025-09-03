@@ -61,7 +61,7 @@ func (*NotificationMessage) scanValues(columns []string) ([]any, error) {
 
 // assignValues assigns the values that were returned from sql.Rows (after scanning)
 // to the NotificationMessage fields.
-func (nm *NotificationMessage) assignValues(columns []string, values []any) error {
+func (_m *NotificationMessage) assignValues(columns []string, values []any) error {
 	if m, n := len(values), len(columns); m < n {
 		return fmt.Errorf("mismatch number of scan values: %d != %d", m, n)
 	}
@@ -72,79 +72,79 @@ func (nm *NotificationMessage) assignValues(columns []string, values []any) erro
 			if !ok {
 				return fmt.Errorf("unexpected type %T for field id", value)
 			}
-			nm.ID = uint32(value.Int64)
+			_m.ID = uint32(value.Int64)
 		case notificationmessage.FieldCreateTime:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field create_time", values[i])
 			} else if value.Valid {
-				nm.CreateTime = new(time.Time)
-				*nm.CreateTime = value.Time
+				_m.CreateTime = new(time.Time)
+				*_m.CreateTime = value.Time
 			}
 		case notificationmessage.FieldUpdateTime:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field update_time", values[i])
 			} else if value.Valid {
-				nm.UpdateTime = new(time.Time)
-				*nm.UpdateTime = value.Time
+				_m.UpdateTime = new(time.Time)
+				*_m.UpdateTime = value.Time
 			}
 		case notificationmessage.FieldDeleteTime:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field delete_time", values[i])
 			} else if value.Valid {
-				nm.DeleteTime = new(time.Time)
-				*nm.DeleteTime = value.Time
+				_m.DeleteTime = new(time.Time)
+				*_m.DeleteTime = value.Time
 			}
 		case notificationmessage.FieldCreateBy:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field create_by", values[i])
 			} else if value.Valid {
-				nm.CreateBy = new(uint32)
-				*nm.CreateBy = uint32(value.Int64)
+				_m.CreateBy = new(uint32)
+				*_m.CreateBy = uint32(value.Int64)
 			}
 		case notificationmessage.FieldUpdateBy:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field update_by", values[i])
 			} else if value.Valid {
-				nm.UpdateBy = new(uint32)
-				*nm.UpdateBy = uint32(value.Int64)
+				_m.UpdateBy = new(uint32)
+				*_m.UpdateBy = uint32(value.Int64)
 			}
 		case notificationmessage.FieldTenantID:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field tenant_id", values[i])
 			} else if value.Valid {
-				nm.TenantID = new(uint32)
-				*nm.TenantID = uint32(value.Int64)
+				_m.TenantID = new(uint32)
+				*_m.TenantID = uint32(value.Int64)
 			}
 		case notificationmessage.FieldSubject:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field subject", values[i])
 			} else if value.Valid {
-				nm.Subject = new(string)
-				*nm.Subject = value.String
+				_m.Subject = new(string)
+				*_m.Subject = value.String
 			}
 		case notificationmessage.FieldContent:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field content", values[i])
 			} else if value.Valid {
-				nm.Content = new(string)
-				*nm.Content = value.String
+				_m.Content = new(string)
+				*_m.Content = value.String
 			}
 		case notificationmessage.FieldCategoryID:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field category_id", values[i])
 			} else if value.Valid {
-				nm.CategoryID = new(uint32)
-				*nm.CategoryID = uint32(value.Int64)
+				_m.CategoryID = new(uint32)
+				*_m.CategoryID = uint32(value.Int64)
 			}
 		case notificationmessage.FieldStatus:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field status", values[i])
 			} else if value.Valid {
-				nm.Status = new(notificationmessage.Status)
-				*nm.Status = notificationmessage.Status(value.String)
+				_m.Status = new(notificationmessage.Status)
+				*_m.Status = notificationmessage.Status(value.String)
 			}
 		default:
-			nm.selectValues.Set(columns[i], values[i])
+			_m.selectValues.Set(columns[i], values[i])
 		}
 	}
 	return nil
@@ -152,79 +152,79 @@ func (nm *NotificationMessage) assignValues(columns []string, values []any) erro
 
 // Value returns the ent.Value that was dynamically selected and assigned to the NotificationMessage.
 // This includes values selected through modifiers, order, etc.
-func (nm *NotificationMessage) Value(name string) (ent.Value, error) {
-	return nm.selectValues.Get(name)
+func (_m *NotificationMessage) Value(name string) (ent.Value, error) {
+	return _m.selectValues.Get(name)
 }
 
 // Update returns a builder for updating this NotificationMessage.
 // Note that you need to call NotificationMessage.Unwrap() before calling this method if this NotificationMessage
 // was returned from a transaction, and the transaction was committed or rolled back.
-func (nm *NotificationMessage) Update() *NotificationMessageUpdateOne {
-	return NewNotificationMessageClient(nm.config).UpdateOne(nm)
+func (_m *NotificationMessage) Update() *NotificationMessageUpdateOne {
+	return NewNotificationMessageClient(_m.config).UpdateOne(_m)
 }
 
 // Unwrap unwraps the NotificationMessage entity that was returned from a transaction after it was closed,
 // so that all future queries will be executed through the driver which created the transaction.
-func (nm *NotificationMessage) Unwrap() *NotificationMessage {
-	_tx, ok := nm.config.driver.(*txDriver)
+func (_m *NotificationMessage) Unwrap() *NotificationMessage {
+	_tx, ok := _m.config.driver.(*txDriver)
 	if !ok {
 		panic("ent: NotificationMessage is not a transactional entity")
 	}
-	nm.config.driver = _tx.drv
-	return nm
+	_m.config.driver = _tx.drv
+	return _m
 }
 
 // String implements the fmt.Stringer.
-func (nm *NotificationMessage) String() string {
+func (_m *NotificationMessage) String() string {
 	var builder strings.Builder
 	builder.WriteString("NotificationMessage(")
-	builder.WriteString(fmt.Sprintf("id=%v, ", nm.ID))
-	if v := nm.CreateTime; v != nil {
+	builder.WriteString(fmt.Sprintf("id=%v, ", _m.ID))
+	if v := _m.CreateTime; v != nil {
 		builder.WriteString("create_time=")
 		builder.WriteString(v.Format(time.ANSIC))
 	}
 	builder.WriteString(", ")
-	if v := nm.UpdateTime; v != nil {
+	if v := _m.UpdateTime; v != nil {
 		builder.WriteString("update_time=")
 		builder.WriteString(v.Format(time.ANSIC))
 	}
 	builder.WriteString(", ")
-	if v := nm.DeleteTime; v != nil {
+	if v := _m.DeleteTime; v != nil {
 		builder.WriteString("delete_time=")
 		builder.WriteString(v.Format(time.ANSIC))
 	}
 	builder.WriteString(", ")
-	if v := nm.CreateBy; v != nil {
+	if v := _m.CreateBy; v != nil {
 		builder.WriteString("create_by=")
 		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteString(", ")
-	if v := nm.UpdateBy; v != nil {
+	if v := _m.UpdateBy; v != nil {
 		builder.WriteString("update_by=")
 		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteString(", ")
-	if v := nm.TenantID; v != nil {
+	if v := _m.TenantID; v != nil {
 		builder.WriteString("tenant_id=")
 		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteString(", ")
-	if v := nm.Subject; v != nil {
+	if v := _m.Subject; v != nil {
 		builder.WriteString("subject=")
 		builder.WriteString(*v)
 	}
 	builder.WriteString(", ")
-	if v := nm.Content; v != nil {
+	if v := _m.Content; v != nil {
 		builder.WriteString("content=")
 		builder.WriteString(*v)
 	}
 	builder.WriteString(", ")
-	if v := nm.CategoryID; v != nil {
+	if v := _m.CategoryID; v != nil {
 		builder.WriteString("category_id=")
 		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteString(", ")
-	if v := nm.Status; v != nil {
+	if v := _m.Status; v != nil {
 		builder.WriteString("status=")
 		builder.WriteString(fmt.Sprintf("%v", *v))
 	}

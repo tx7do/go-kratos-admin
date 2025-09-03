@@ -23,165 +23,165 @@ type AdminLoginRestrictionCreate struct {
 }
 
 // SetCreateTime sets the "create_time" field.
-func (alrc *AdminLoginRestrictionCreate) SetCreateTime(t time.Time) *AdminLoginRestrictionCreate {
-	alrc.mutation.SetCreateTime(t)
-	return alrc
+func (_c *AdminLoginRestrictionCreate) SetCreateTime(v time.Time) *AdminLoginRestrictionCreate {
+	_c.mutation.SetCreateTime(v)
+	return _c
 }
 
 // SetNillableCreateTime sets the "create_time" field if the given value is not nil.
-func (alrc *AdminLoginRestrictionCreate) SetNillableCreateTime(t *time.Time) *AdminLoginRestrictionCreate {
-	if t != nil {
-		alrc.SetCreateTime(*t)
+func (_c *AdminLoginRestrictionCreate) SetNillableCreateTime(v *time.Time) *AdminLoginRestrictionCreate {
+	if v != nil {
+		_c.SetCreateTime(*v)
 	}
-	return alrc
+	return _c
 }
 
 // SetUpdateTime sets the "update_time" field.
-func (alrc *AdminLoginRestrictionCreate) SetUpdateTime(t time.Time) *AdminLoginRestrictionCreate {
-	alrc.mutation.SetUpdateTime(t)
-	return alrc
+func (_c *AdminLoginRestrictionCreate) SetUpdateTime(v time.Time) *AdminLoginRestrictionCreate {
+	_c.mutation.SetUpdateTime(v)
+	return _c
 }
 
 // SetNillableUpdateTime sets the "update_time" field if the given value is not nil.
-func (alrc *AdminLoginRestrictionCreate) SetNillableUpdateTime(t *time.Time) *AdminLoginRestrictionCreate {
-	if t != nil {
-		alrc.SetUpdateTime(*t)
+func (_c *AdminLoginRestrictionCreate) SetNillableUpdateTime(v *time.Time) *AdminLoginRestrictionCreate {
+	if v != nil {
+		_c.SetUpdateTime(*v)
 	}
-	return alrc
+	return _c
 }
 
 // SetDeleteTime sets the "delete_time" field.
-func (alrc *AdminLoginRestrictionCreate) SetDeleteTime(t time.Time) *AdminLoginRestrictionCreate {
-	alrc.mutation.SetDeleteTime(t)
-	return alrc
+func (_c *AdminLoginRestrictionCreate) SetDeleteTime(v time.Time) *AdminLoginRestrictionCreate {
+	_c.mutation.SetDeleteTime(v)
+	return _c
 }
 
 // SetNillableDeleteTime sets the "delete_time" field if the given value is not nil.
-func (alrc *AdminLoginRestrictionCreate) SetNillableDeleteTime(t *time.Time) *AdminLoginRestrictionCreate {
-	if t != nil {
-		alrc.SetDeleteTime(*t)
+func (_c *AdminLoginRestrictionCreate) SetNillableDeleteTime(v *time.Time) *AdminLoginRestrictionCreate {
+	if v != nil {
+		_c.SetDeleteTime(*v)
 	}
-	return alrc
+	return _c
 }
 
 // SetCreateBy sets the "create_by" field.
-func (alrc *AdminLoginRestrictionCreate) SetCreateBy(u uint32) *AdminLoginRestrictionCreate {
-	alrc.mutation.SetCreateBy(u)
-	return alrc
+func (_c *AdminLoginRestrictionCreate) SetCreateBy(v uint32) *AdminLoginRestrictionCreate {
+	_c.mutation.SetCreateBy(v)
+	return _c
 }
 
 // SetNillableCreateBy sets the "create_by" field if the given value is not nil.
-func (alrc *AdminLoginRestrictionCreate) SetNillableCreateBy(u *uint32) *AdminLoginRestrictionCreate {
-	if u != nil {
-		alrc.SetCreateBy(*u)
+func (_c *AdminLoginRestrictionCreate) SetNillableCreateBy(v *uint32) *AdminLoginRestrictionCreate {
+	if v != nil {
+		_c.SetCreateBy(*v)
 	}
-	return alrc
+	return _c
 }
 
 // SetUpdateBy sets the "update_by" field.
-func (alrc *AdminLoginRestrictionCreate) SetUpdateBy(u uint32) *AdminLoginRestrictionCreate {
-	alrc.mutation.SetUpdateBy(u)
-	return alrc
+func (_c *AdminLoginRestrictionCreate) SetUpdateBy(v uint32) *AdminLoginRestrictionCreate {
+	_c.mutation.SetUpdateBy(v)
+	return _c
 }
 
 // SetNillableUpdateBy sets the "update_by" field if the given value is not nil.
-func (alrc *AdminLoginRestrictionCreate) SetNillableUpdateBy(u *uint32) *AdminLoginRestrictionCreate {
-	if u != nil {
-		alrc.SetUpdateBy(*u)
+func (_c *AdminLoginRestrictionCreate) SetNillableUpdateBy(v *uint32) *AdminLoginRestrictionCreate {
+	if v != nil {
+		_c.SetUpdateBy(*v)
 	}
-	return alrc
+	return _c
 }
 
 // SetTargetID sets the "target_id" field.
-func (alrc *AdminLoginRestrictionCreate) SetTargetID(u uint32) *AdminLoginRestrictionCreate {
-	alrc.mutation.SetTargetID(u)
-	return alrc
+func (_c *AdminLoginRestrictionCreate) SetTargetID(v uint32) *AdminLoginRestrictionCreate {
+	_c.mutation.SetTargetID(v)
+	return _c
 }
 
 // SetNillableTargetID sets the "target_id" field if the given value is not nil.
-func (alrc *AdminLoginRestrictionCreate) SetNillableTargetID(u *uint32) *AdminLoginRestrictionCreate {
-	if u != nil {
-		alrc.SetTargetID(*u)
+func (_c *AdminLoginRestrictionCreate) SetNillableTargetID(v *uint32) *AdminLoginRestrictionCreate {
+	if v != nil {
+		_c.SetTargetID(*v)
 	}
-	return alrc
+	return _c
 }
 
 // SetValue sets the "value" field.
-func (alrc *AdminLoginRestrictionCreate) SetValue(s string) *AdminLoginRestrictionCreate {
-	alrc.mutation.SetValue(s)
-	return alrc
+func (_c *AdminLoginRestrictionCreate) SetValue(v string) *AdminLoginRestrictionCreate {
+	_c.mutation.SetValue(v)
+	return _c
 }
 
 // SetNillableValue sets the "value" field if the given value is not nil.
-func (alrc *AdminLoginRestrictionCreate) SetNillableValue(s *string) *AdminLoginRestrictionCreate {
-	if s != nil {
-		alrc.SetValue(*s)
+func (_c *AdminLoginRestrictionCreate) SetNillableValue(v *string) *AdminLoginRestrictionCreate {
+	if v != nil {
+		_c.SetValue(*v)
 	}
-	return alrc
+	return _c
 }
 
 // SetReason sets the "reason" field.
-func (alrc *AdminLoginRestrictionCreate) SetReason(s string) *AdminLoginRestrictionCreate {
-	alrc.mutation.SetReason(s)
-	return alrc
+func (_c *AdminLoginRestrictionCreate) SetReason(v string) *AdminLoginRestrictionCreate {
+	_c.mutation.SetReason(v)
+	return _c
 }
 
 // SetNillableReason sets the "reason" field if the given value is not nil.
-func (alrc *AdminLoginRestrictionCreate) SetNillableReason(s *string) *AdminLoginRestrictionCreate {
-	if s != nil {
-		alrc.SetReason(*s)
+func (_c *AdminLoginRestrictionCreate) SetNillableReason(v *string) *AdminLoginRestrictionCreate {
+	if v != nil {
+		_c.SetReason(*v)
 	}
-	return alrc
+	return _c
 }
 
 // SetType sets the "type" field.
-func (alrc *AdminLoginRestrictionCreate) SetType(a adminloginrestriction.Type) *AdminLoginRestrictionCreate {
-	alrc.mutation.SetType(a)
-	return alrc
+func (_c *AdminLoginRestrictionCreate) SetType(v adminloginrestriction.Type) *AdminLoginRestrictionCreate {
+	_c.mutation.SetType(v)
+	return _c
 }
 
 // SetNillableType sets the "type" field if the given value is not nil.
-func (alrc *AdminLoginRestrictionCreate) SetNillableType(a *adminloginrestriction.Type) *AdminLoginRestrictionCreate {
-	if a != nil {
-		alrc.SetType(*a)
+func (_c *AdminLoginRestrictionCreate) SetNillableType(v *adminloginrestriction.Type) *AdminLoginRestrictionCreate {
+	if v != nil {
+		_c.SetType(*v)
 	}
-	return alrc
+	return _c
 }
 
 // SetMethod sets the "method" field.
-func (alrc *AdminLoginRestrictionCreate) SetMethod(a adminloginrestriction.Method) *AdminLoginRestrictionCreate {
-	alrc.mutation.SetMethod(a)
-	return alrc
+func (_c *AdminLoginRestrictionCreate) SetMethod(v adminloginrestriction.Method) *AdminLoginRestrictionCreate {
+	_c.mutation.SetMethod(v)
+	return _c
 }
 
 // SetNillableMethod sets the "method" field if the given value is not nil.
-func (alrc *AdminLoginRestrictionCreate) SetNillableMethod(a *adminloginrestriction.Method) *AdminLoginRestrictionCreate {
-	if a != nil {
-		alrc.SetMethod(*a)
+func (_c *AdminLoginRestrictionCreate) SetNillableMethod(v *adminloginrestriction.Method) *AdminLoginRestrictionCreate {
+	if v != nil {
+		_c.SetMethod(*v)
 	}
-	return alrc
+	return _c
 }
 
 // SetID sets the "id" field.
-func (alrc *AdminLoginRestrictionCreate) SetID(u uint32) *AdminLoginRestrictionCreate {
-	alrc.mutation.SetID(u)
-	return alrc
+func (_c *AdminLoginRestrictionCreate) SetID(v uint32) *AdminLoginRestrictionCreate {
+	_c.mutation.SetID(v)
+	return _c
 }
 
 // Mutation returns the AdminLoginRestrictionMutation object of the builder.
-func (alrc *AdminLoginRestrictionCreate) Mutation() *AdminLoginRestrictionMutation {
-	return alrc.mutation
+func (_c *AdminLoginRestrictionCreate) Mutation() *AdminLoginRestrictionMutation {
+	return _c.mutation
 }
 
 // Save creates the AdminLoginRestriction in the database.
-func (alrc *AdminLoginRestrictionCreate) Save(ctx context.Context) (*AdminLoginRestriction, error) {
-	alrc.defaults()
-	return withHooks(ctx, alrc.sqlSave, alrc.mutation, alrc.hooks)
+func (_c *AdminLoginRestrictionCreate) Save(ctx context.Context) (*AdminLoginRestriction, error) {
+	_c.defaults()
+	return withHooks(ctx, _c.sqlSave, _c.mutation, _c.hooks)
 }
 
 // SaveX calls Save and panics if Save returns an error.
-func (alrc *AdminLoginRestrictionCreate) SaveX(ctx context.Context) *AdminLoginRestriction {
-	v, err := alrc.Save(ctx)
+func (_c *AdminLoginRestrictionCreate) SaveX(ctx context.Context) *AdminLoginRestriction {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -189,43 +189,43 @@ func (alrc *AdminLoginRestrictionCreate) SaveX(ctx context.Context) *AdminLoginR
 }
 
 // Exec executes the query.
-func (alrc *AdminLoginRestrictionCreate) Exec(ctx context.Context) error {
-	_, err := alrc.Save(ctx)
+func (_c *AdminLoginRestrictionCreate) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (alrc *AdminLoginRestrictionCreate) ExecX(ctx context.Context) {
-	if err := alrc.Exec(ctx); err != nil {
+func (_c *AdminLoginRestrictionCreate) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (alrc *AdminLoginRestrictionCreate) defaults() {
-	if _, ok := alrc.mutation.GetType(); !ok {
+func (_c *AdminLoginRestrictionCreate) defaults() {
+	if _, ok := _c.mutation.GetType(); !ok {
 		v := adminloginrestriction.DefaultType
-		alrc.mutation.SetType(v)
+		_c.mutation.SetType(v)
 	}
-	if _, ok := alrc.mutation.Method(); !ok {
+	if _, ok := _c.mutation.Method(); !ok {
 		v := adminloginrestriction.DefaultMethod
-		alrc.mutation.SetMethod(v)
+		_c.mutation.SetMethod(v)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
-func (alrc *AdminLoginRestrictionCreate) check() error {
-	if v, ok := alrc.mutation.GetType(); ok {
+func (_c *AdminLoginRestrictionCreate) check() error {
+	if v, ok := _c.mutation.GetType(); ok {
 		if err := adminloginrestriction.TypeValidator(v); err != nil {
 			return &ValidationError{Name: "type", err: fmt.Errorf(`ent: validator failed for field "AdminLoginRestriction.type": %w`, err)}
 		}
 	}
-	if v, ok := alrc.mutation.Method(); ok {
+	if v, ok := _c.mutation.Method(); ok {
 		if err := adminloginrestriction.MethodValidator(v); err != nil {
 			return &ValidationError{Name: "method", err: fmt.Errorf(`ent: validator failed for field "AdminLoginRestriction.method": %w`, err)}
 		}
 	}
-	if v, ok := alrc.mutation.ID(); ok {
+	if v, ok := _c.mutation.ID(); ok {
 		if err := adminloginrestriction.IDValidator(v); err != nil {
 			return &ValidationError{Name: "id", err: fmt.Errorf(`ent: validator failed for field "AdminLoginRestriction.id": %w`, err)}
 		}
@@ -233,12 +233,12 @@ func (alrc *AdminLoginRestrictionCreate) check() error {
 	return nil
 }
 
-func (alrc *AdminLoginRestrictionCreate) sqlSave(ctx context.Context) (*AdminLoginRestriction, error) {
-	if err := alrc.check(); err != nil {
+func (_c *AdminLoginRestrictionCreate) sqlSave(ctx context.Context) (*AdminLoginRestriction, error) {
+	if err := _c.check(); err != nil {
 		return nil, err
 	}
-	_node, _spec := alrc.createSpec()
-	if err := sqlgraph.CreateNode(ctx, alrc.driver, _spec); err != nil {
+	_node, _spec := _c.createSpec()
+	if err := sqlgraph.CreateNode(ctx, _c.driver, _spec); err != nil {
 		if sqlgraph.IsConstraintError(err) {
 			err = &ConstraintError{msg: err.Error(), wrap: err}
 		}
@@ -248,58 +248,58 @@ func (alrc *AdminLoginRestrictionCreate) sqlSave(ctx context.Context) (*AdminLog
 		id := _spec.ID.Value.(int64)
 		_node.ID = uint32(id)
 	}
-	alrc.mutation.id = &_node.ID
-	alrc.mutation.done = true
+	_c.mutation.id = &_node.ID
+	_c.mutation.done = true
 	return _node, nil
 }
 
-func (alrc *AdminLoginRestrictionCreate) createSpec() (*AdminLoginRestriction, *sqlgraph.CreateSpec) {
+func (_c *AdminLoginRestrictionCreate) createSpec() (*AdminLoginRestriction, *sqlgraph.CreateSpec) {
 	var (
-		_node = &AdminLoginRestriction{config: alrc.config}
+		_node = &AdminLoginRestriction{config: _c.config}
 		_spec = sqlgraph.NewCreateSpec(adminloginrestriction.Table, sqlgraph.NewFieldSpec(adminloginrestriction.FieldID, field.TypeUint32))
 	)
-	_spec.OnConflict = alrc.conflict
-	if id, ok := alrc.mutation.ID(); ok {
+	_spec.OnConflict = _c.conflict
+	if id, ok := _c.mutation.ID(); ok {
 		_node.ID = id
 		_spec.ID.Value = id
 	}
-	if value, ok := alrc.mutation.CreateTime(); ok {
+	if value, ok := _c.mutation.CreateTime(); ok {
 		_spec.SetField(adminloginrestriction.FieldCreateTime, field.TypeTime, value)
 		_node.CreateTime = &value
 	}
-	if value, ok := alrc.mutation.UpdateTime(); ok {
+	if value, ok := _c.mutation.UpdateTime(); ok {
 		_spec.SetField(adminloginrestriction.FieldUpdateTime, field.TypeTime, value)
 		_node.UpdateTime = &value
 	}
-	if value, ok := alrc.mutation.DeleteTime(); ok {
+	if value, ok := _c.mutation.DeleteTime(); ok {
 		_spec.SetField(adminloginrestriction.FieldDeleteTime, field.TypeTime, value)
 		_node.DeleteTime = &value
 	}
-	if value, ok := alrc.mutation.CreateBy(); ok {
+	if value, ok := _c.mutation.CreateBy(); ok {
 		_spec.SetField(adminloginrestriction.FieldCreateBy, field.TypeUint32, value)
 		_node.CreateBy = &value
 	}
-	if value, ok := alrc.mutation.UpdateBy(); ok {
+	if value, ok := _c.mutation.UpdateBy(); ok {
 		_spec.SetField(adminloginrestriction.FieldUpdateBy, field.TypeUint32, value)
 		_node.UpdateBy = &value
 	}
-	if value, ok := alrc.mutation.TargetID(); ok {
+	if value, ok := _c.mutation.TargetID(); ok {
 		_spec.SetField(adminloginrestriction.FieldTargetID, field.TypeUint32, value)
 		_node.TargetID = &value
 	}
-	if value, ok := alrc.mutation.Value(); ok {
+	if value, ok := _c.mutation.Value(); ok {
 		_spec.SetField(adminloginrestriction.FieldValue, field.TypeString, value)
 		_node.Value = &value
 	}
-	if value, ok := alrc.mutation.Reason(); ok {
+	if value, ok := _c.mutation.Reason(); ok {
 		_spec.SetField(adminloginrestriction.FieldReason, field.TypeString, value)
 		_node.Reason = &value
 	}
-	if value, ok := alrc.mutation.GetType(); ok {
+	if value, ok := _c.mutation.GetType(); ok {
 		_spec.SetField(adminloginrestriction.FieldType, field.TypeEnum, value)
 		_node.Type = &value
 	}
-	if value, ok := alrc.mutation.Method(); ok {
+	if value, ok := _c.mutation.Method(); ok {
 		_spec.SetField(adminloginrestriction.FieldMethod, field.TypeEnum, value)
 		_node.Method = &value
 	}
@@ -322,10 +322,10 @@ func (alrc *AdminLoginRestrictionCreate) createSpec() (*AdminLoginRestriction, *
 //			SetCreateTime(v+v).
 //		}).
 //		Exec(ctx)
-func (alrc *AdminLoginRestrictionCreate) OnConflict(opts ...sql.ConflictOption) *AdminLoginRestrictionUpsertOne {
-	alrc.conflict = opts
+func (_c *AdminLoginRestrictionCreate) OnConflict(opts ...sql.ConflictOption) *AdminLoginRestrictionUpsertOne {
+	_c.conflict = opts
 	return &AdminLoginRestrictionUpsertOne{
-		create: alrc,
+		create: _c,
 	}
 }
 
@@ -335,10 +335,10 @@ func (alrc *AdminLoginRestrictionCreate) OnConflict(opts ...sql.ConflictOption) 
 //	client.AdminLoginRestriction.Create().
 //		OnConflict(sql.ConflictColumns(columns...)).
 //		Exec(ctx)
-func (alrc *AdminLoginRestrictionCreate) OnConflictColumns(columns ...string) *AdminLoginRestrictionUpsertOne {
-	alrc.conflict = append(alrc.conflict, sql.ConflictColumns(columns...))
+func (_c *AdminLoginRestrictionCreate) OnConflictColumns(columns ...string) *AdminLoginRestrictionUpsertOne {
+	_c.conflict = append(_c.conflict, sql.ConflictColumns(columns...))
 	return &AdminLoginRestrictionUpsertOne{
-		create: alrc,
+		create: _c,
 	}
 }
 
@@ -838,16 +838,16 @@ type AdminLoginRestrictionCreateBulk struct {
 }
 
 // Save creates the AdminLoginRestriction entities in the database.
-func (alrcb *AdminLoginRestrictionCreateBulk) Save(ctx context.Context) ([]*AdminLoginRestriction, error) {
-	if alrcb.err != nil {
-		return nil, alrcb.err
+func (_c *AdminLoginRestrictionCreateBulk) Save(ctx context.Context) ([]*AdminLoginRestriction, error) {
+	if _c.err != nil {
+		return nil, _c.err
 	}
-	specs := make([]*sqlgraph.CreateSpec, len(alrcb.builders))
-	nodes := make([]*AdminLoginRestriction, len(alrcb.builders))
-	mutators := make([]Mutator, len(alrcb.builders))
-	for i := range alrcb.builders {
+	specs := make([]*sqlgraph.CreateSpec, len(_c.builders))
+	nodes := make([]*AdminLoginRestriction, len(_c.builders))
+	mutators := make([]Mutator, len(_c.builders))
+	for i := range _c.builders {
 		func(i int, root context.Context) {
-			builder := alrcb.builders[i]
+			builder := _c.builders[i]
 			builder.defaults()
 			var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 				mutation, ok := m.(*AdminLoginRestrictionMutation)
@@ -861,12 +861,12 @@ func (alrcb *AdminLoginRestrictionCreateBulk) Save(ctx context.Context) ([]*Admi
 				var err error
 				nodes[i], specs[i] = builder.createSpec()
 				if i < len(mutators)-1 {
-					_, err = mutators[i+1].Mutate(root, alrcb.builders[i+1].mutation)
+					_, err = mutators[i+1].Mutate(root, _c.builders[i+1].mutation)
 				} else {
 					spec := &sqlgraph.BatchCreateSpec{Nodes: specs}
-					spec.OnConflict = alrcb.conflict
+					spec.OnConflict = _c.conflict
 					// Invoke the actual operation on the latest mutation in the chain.
-					if err = sqlgraph.BatchCreate(ctx, alrcb.driver, spec); err != nil {
+					if err = sqlgraph.BatchCreate(ctx, _c.driver, spec); err != nil {
 						if sqlgraph.IsConstraintError(err) {
 							err = &ConstraintError{msg: err.Error(), wrap: err}
 						}
@@ -890,7 +890,7 @@ func (alrcb *AdminLoginRestrictionCreateBulk) Save(ctx context.Context) ([]*Admi
 		}(i, ctx)
 	}
 	if len(mutators) > 0 {
-		if _, err := mutators[0].Mutate(ctx, alrcb.builders[0].mutation); err != nil {
+		if _, err := mutators[0].Mutate(ctx, _c.builders[0].mutation); err != nil {
 			return nil, err
 		}
 	}
@@ -898,8 +898,8 @@ func (alrcb *AdminLoginRestrictionCreateBulk) Save(ctx context.Context) ([]*Admi
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (alrcb *AdminLoginRestrictionCreateBulk) SaveX(ctx context.Context) []*AdminLoginRestriction {
-	v, err := alrcb.Save(ctx)
+func (_c *AdminLoginRestrictionCreateBulk) SaveX(ctx context.Context) []*AdminLoginRestriction {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -907,14 +907,14 @@ func (alrcb *AdminLoginRestrictionCreateBulk) SaveX(ctx context.Context) []*Admi
 }
 
 // Exec executes the query.
-func (alrcb *AdminLoginRestrictionCreateBulk) Exec(ctx context.Context) error {
-	_, err := alrcb.Save(ctx)
+func (_c *AdminLoginRestrictionCreateBulk) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (alrcb *AdminLoginRestrictionCreateBulk) ExecX(ctx context.Context) {
-	if err := alrcb.Exec(ctx); err != nil {
+func (_c *AdminLoginRestrictionCreateBulk) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
@@ -934,10 +934,10 @@ func (alrcb *AdminLoginRestrictionCreateBulk) ExecX(ctx context.Context) {
 //			SetCreateTime(v+v).
 //		}).
 //		Exec(ctx)
-func (alrcb *AdminLoginRestrictionCreateBulk) OnConflict(opts ...sql.ConflictOption) *AdminLoginRestrictionUpsertBulk {
-	alrcb.conflict = opts
+func (_c *AdminLoginRestrictionCreateBulk) OnConflict(opts ...sql.ConflictOption) *AdminLoginRestrictionUpsertBulk {
+	_c.conflict = opts
 	return &AdminLoginRestrictionUpsertBulk{
-		create: alrcb,
+		create: _c,
 	}
 }
 
@@ -947,10 +947,10 @@ func (alrcb *AdminLoginRestrictionCreateBulk) OnConflict(opts ...sql.ConflictOpt
 //	client.AdminLoginRestriction.Create().
 //		OnConflict(sql.ConflictColumns(columns...)).
 //		Exec(ctx)
-func (alrcb *AdminLoginRestrictionCreateBulk) OnConflictColumns(columns ...string) *AdminLoginRestrictionUpsertBulk {
-	alrcb.conflict = append(alrcb.conflict, sql.ConflictColumns(columns...))
+func (_c *AdminLoginRestrictionCreateBulk) OnConflictColumns(columns ...string) *AdminLoginRestrictionUpsertBulk {
+	_c.conflict = append(_c.conflict, sql.ConflictColumns(columns...))
 	return &AdminLoginRestrictionUpsertBulk{
-		create: alrcb,
+		create: _c,
 	}
 }
 

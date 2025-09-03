@@ -413,8 +413,8 @@ func (c *AdminLoginLogClient) Update() *AdminLoginLogUpdate {
 }
 
 // UpdateOne returns an update builder for the given entity.
-func (c *AdminLoginLogClient) UpdateOne(all *AdminLoginLog) *AdminLoginLogUpdateOne {
-	mutation := newAdminLoginLogMutation(c.config, OpUpdateOne, withAdminLoginLog(all))
+func (c *AdminLoginLogClient) UpdateOne(_m *AdminLoginLog) *AdminLoginLogUpdateOne {
+	mutation := newAdminLoginLogMutation(c.config, OpUpdateOne, withAdminLoginLog(_m))
 	return &AdminLoginLogUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
@@ -431,8 +431,8 @@ func (c *AdminLoginLogClient) Delete() *AdminLoginLogDelete {
 }
 
 // DeleteOne returns a builder for deleting the given entity.
-func (c *AdminLoginLogClient) DeleteOne(all *AdminLoginLog) *AdminLoginLogDeleteOne {
-	return c.DeleteOneID(all.ID)
+func (c *AdminLoginLogClient) DeleteOne(_m *AdminLoginLog) *AdminLoginLogDeleteOne {
+	return c.DeleteOneID(_m.ID)
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
@@ -546,8 +546,8 @@ func (c *AdminLoginRestrictionClient) Update() *AdminLoginRestrictionUpdate {
 }
 
 // UpdateOne returns an update builder for the given entity.
-func (c *AdminLoginRestrictionClient) UpdateOne(alr *AdminLoginRestriction) *AdminLoginRestrictionUpdateOne {
-	mutation := newAdminLoginRestrictionMutation(c.config, OpUpdateOne, withAdminLoginRestriction(alr))
+func (c *AdminLoginRestrictionClient) UpdateOne(_m *AdminLoginRestriction) *AdminLoginRestrictionUpdateOne {
+	mutation := newAdminLoginRestrictionMutation(c.config, OpUpdateOne, withAdminLoginRestriction(_m))
 	return &AdminLoginRestrictionUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
@@ -564,8 +564,8 @@ func (c *AdminLoginRestrictionClient) Delete() *AdminLoginRestrictionDelete {
 }
 
 // DeleteOne returns a builder for deleting the given entity.
-func (c *AdminLoginRestrictionClient) DeleteOne(alr *AdminLoginRestriction) *AdminLoginRestrictionDeleteOne {
-	return c.DeleteOneID(alr.ID)
+func (c *AdminLoginRestrictionClient) DeleteOne(_m *AdminLoginRestriction) *AdminLoginRestrictionDeleteOne {
+	return c.DeleteOneID(_m.ID)
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
@@ -679,8 +679,8 @@ func (c *AdminOperationLogClient) Update() *AdminOperationLogUpdate {
 }
 
 // UpdateOne returns an update builder for the given entity.
-func (c *AdminOperationLogClient) UpdateOne(aol *AdminOperationLog) *AdminOperationLogUpdateOne {
-	mutation := newAdminOperationLogMutation(c.config, OpUpdateOne, withAdminOperationLog(aol))
+func (c *AdminOperationLogClient) UpdateOne(_m *AdminOperationLog) *AdminOperationLogUpdateOne {
+	mutation := newAdminOperationLogMutation(c.config, OpUpdateOne, withAdminOperationLog(_m))
 	return &AdminOperationLogUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
@@ -697,8 +697,8 @@ func (c *AdminOperationLogClient) Delete() *AdminOperationLogDelete {
 }
 
 // DeleteOne returns a builder for deleting the given entity.
-func (c *AdminOperationLogClient) DeleteOne(aol *AdminOperationLog) *AdminOperationLogDeleteOne {
-	return c.DeleteOneID(aol.ID)
+func (c *AdminOperationLogClient) DeleteOne(_m *AdminOperationLog) *AdminOperationLogDeleteOne {
+	return c.DeleteOneID(_m.ID)
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
@@ -812,8 +812,8 @@ func (c *ApiResourceClient) Update() *ApiResourceUpdate {
 }
 
 // UpdateOne returns an update builder for the given entity.
-func (c *ApiResourceClient) UpdateOne(ar *ApiResource) *ApiResourceUpdateOne {
-	mutation := newApiResourceMutation(c.config, OpUpdateOne, withApiResource(ar))
+func (c *ApiResourceClient) UpdateOne(_m *ApiResource) *ApiResourceUpdateOne {
+	mutation := newApiResourceMutation(c.config, OpUpdateOne, withApiResource(_m))
 	return &ApiResourceUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
@@ -830,8 +830,8 @@ func (c *ApiResourceClient) Delete() *ApiResourceDelete {
 }
 
 // DeleteOne returns a builder for deleting the given entity.
-func (c *ApiResourceClient) DeleteOne(ar *ApiResource) *ApiResourceDeleteOne {
-	return c.DeleteOneID(ar.ID)
+func (c *ApiResourceClient) DeleteOne(_m *ApiResource) *ApiResourceDeleteOne {
+	return c.DeleteOneID(_m.ID)
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
@@ -945,8 +945,8 @@ func (c *DepartmentClient) Update() *DepartmentUpdate {
 }
 
 // UpdateOne returns an update builder for the given entity.
-func (c *DepartmentClient) UpdateOne(d *Department) *DepartmentUpdateOne {
-	mutation := newDepartmentMutation(c.config, OpUpdateOne, withDepartment(d))
+func (c *DepartmentClient) UpdateOne(_m *Department) *DepartmentUpdateOne {
+	mutation := newDepartmentMutation(c.config, OpUpdateOne, withDepartment(_m))
 	return &DepartmentUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
@@ -963,8 +963,8 @@ func (c *DepartmentClient) Delete() *DepartmentDelete {
 }
 
 // DeleteOne returns a builder for deleting the given entity.
-func (c *DepartmentClient) DeleteOne(d *Department) *DepartmentDeleteOne {
-	return c.DeleteOneID(d.ID)
+func (c *DepartmentClient) DeleteOne(_m *Department) *DepartmentDeleteOne {
+	return c.DeleteOneID(_m.ID)
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
@@ -999,32 +999,32 @@ func (c *DepartmentClient) GetX(ctx context.Context, id uint32) *Department {
 }
 
 // QueryParent queries the parent edge of a Department.
-func (c *DepartmentClient) QueryParent(d *Department) *DepartmentQuery {
+func (c *DepartmentClient) QueryParent(_m *Department) *DepartmentQuery {
 	query := (&DepartmentClient{config: c.config}).Query()
 	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
-		id := d.ID
+		id := _m.ID
 		step := sqlgraph.NewStep(
 			sqlgraph.From(department.Table, department.FieldID, id),
 			sqlgraph.To(department.Table, department.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, department.ParentTable, department.ParentColumn),
 		)
-		fromV = sqlgraph.Neighbors(d.driver.Dialect(), step)
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
 	return query
 }
 
 // QueryChildren queries the children edge of a Department.
-func (c *DepartmentClient) QueryChildren(d *Department) *DepartmentQuery {
+func (c *DepartmentClient) QueryChildren(_m *Department) *DepartmentQuery {
 	query := (&DepartmentClient{config: c.config}).Query()
 	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
-		id := d.ID
+		id := _m.ID
 		step := sqlgraph.NewStep(
 			sqlgraph.From(department.Table, department.FieldID, id),
 			sqlgraph.To(department.Table, department.FieldID),
 			sqlgraph.Edge(sqlgraph.O2M, false, department.ChildrenTable, department.ChildrenColumn),
 		)
-		fromV = sqlgraph.Neighbors(d.driver.Dialect(), step)
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
 	return query
@@ -1110,8 +1110,8 @@ func (c *DictClient) Update() *DictUpdate {
 }
 
 // UpdateOne returns an update builder for the given entity.
-func (c *DictClient) UpdateOne(d *Dict) *DictUpdateOne {
-	mutation := newDictMutation(c.config, OpUpdateOne, withDict(d))
+func (c *DictClient) UpdateOne(_m *Dict) *DictUpdateOne {
+	mutation := newDictMutation(c.config, OpUpdateOne, withDict(_m))
 	return &DictUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
@@ -1128,8 +1128,8 @@ func (c *DictClient) Delete() *DictDelete {
 }
 
 // DeleteOne returns a builder for deleting the given entity.
-func (c *DictClient) DeleteOne(d *Dict) *DictDeleteOne {
-	return c.DeleteOneID(d.ID)
+func (c *DictClient) DeleteOne(_m *Dict) *DictDeleteOne {
+	return c.DeleteOneID(_m.ID)
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
@@ -1243,8 +1243,8 @@ func (c *FileClient) Update() *FileUpdate {
 }
 
 // UpdateOne returns an update builder for the given entity.
-func (c *FileClient) UpdateOne(f *File) *FileUpdateOne {
-	mutation := newFileMutation(c.config, OpUpdateOne, withFile(f))
+func (c *FileClient) UpdateOne(_m *File) *FileUpdateOne {
+	mutation := newFileMutation(c.config, OpUpdateOne, withFile(_m))
 	return &FileUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
@@ -1261,8 +1261,8 @@ func (c *FileClient) Delete() *FileDelete {
 }
 
 // DeleteOne returns a builder for deleting the given entity.
-func (c *FileClient) DeleteOne(f *File) *FileDeleteOne {
-	return c.DeleteOneID(f.ID)
+func (c *FileClient) DeleteOne(_m *File) *FileDeleteOne {
+	return c.DeleteOneID(_m.ID)
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
@@ -1376,8 +1376,8 @@ func (c *MenuClient) Update() *MenuUpdate {
 }
 
 // UpdateOne returns an update builder for the given entity.
-func (c *MenuClient) UpdateOne(m *Menu) *MenuUpdateOne {
-	mutation := newMenuMutation(c.config, OpUpdateOne, withMenu(m))
+func (c *MenuClient) UpdateOne(_m *Menu) *MenuUpdateOne {
+	mutation := newMenuMutation(c.config, OpUpdateOne, withMenu(_m))
 	return &MenuUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
@@ -1394,8 +1394,8 @@ func (c *MenuClient) Delete() *MenuDelete {
 }
 
 // DeleteOne returns a builder for deleting the given entity.
-func (c *MenuClient) DeleteOne(m *Menu) *MenuDeleteOne {
-	return c.DeleteOneID(m.ID)
+func (c *MenuClient) DeleteOne(_m *Menu) *MenuDeleteOne {
+	return c.DeleteOneID(_m.ID)
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
@@ -1430,32 +1430,32 @@ func (c *MenuClient) GetX(ctx context.Context, id int32) *Menu {
 }
 
 // QueryParent queries the parent edge of a Menu.
-func (c *MenuClient) QueryParent(m *Menu) *MenuQuery {
+func (c *MenuClient) QueryParent(_m *Menu) *MenuQuery {
 	query := (&MenuClient{config: c.config}).Query()
 	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
-		id := m.ID
+		id := _m.ID
 		step := sqlgraph.NewStep(
 			sqlgraph.From(menu.Table, menu.FieldID, id),
 			sqlgraph.To(menu.Table, menu.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, menu.ParentTable, menu.ParentColumn),
 		)
-		fromV = sqlgraph.Neighbors(m.driver.Dialect(), step)
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
 	return query
 }
 
 // QueryChildren queries the children edge of a Menu.
-func (c *MenuClient) QueryChildren(m *Menu) *MenuQuery {
+func (c *MenuClient) QueryChildren(_m *Menu) *MenuQuery {
 	query := (&MenuClient{config: c.config}).Query()
 	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
-		id := m.ID
+		id := _m.ID
 		step := sqlgraph.NewStep(
 			sqlgraph.From(menu.Table, menu.FieldID, id),
 			sqlgraph.To(menu.Table, menu.FieldID),
 			sqlgraph.Edge(sqlgraph.O2M, false, menu.ChildrenTable, menu.ChildrenColumn),
 		)
-		fromV = sqlgraph.Neighbors(m.driver.Dialect(), step)
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
 	return query
@@ -1541,8 +1541,8 @@ func (c *NotificationMessageClient) Update() *NotificationMessageUpdate {
 }
 
 // UpdateOne returns an update builder for the given entity.
-func (c *NotificationMessageClient) UpdateOne(nm *NotificationMessage) *NotificationMessageUpdateOne {
-	mutation := newNotificationMessageMutation(c.config, OpUpdateOne, withNotificationMessage(nm))
+func (c *NotificationMessageClient) UpdateOne(_m *NotificationMessage) *NotificationMessageUpdateOne {
+	mutation := newNotificationMessageMutation(c.config, OpUpdateOne, withNotificationMessage(_m))
 	return &NotificationMessageUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
@@ -1559,8 +1559,8 @@ func (c *NotificationMessageClient) Delete() *NotificationMessageDelete {
 }
 
 // DeleteOne returns a builder for deleting the given entity.
-func (c *NotificationMessageClient) DeleteOne(nm *NotificationMessage) *NotificationMessageDeleteOne {
-	return c.DeleteOneID(nm.ID)
+func (c *NotificationMessageClient) DeleteOne(_m *NotificationMessage) *NotificationMessageDeleteOne {
+	return c.DeleteOneID(_m.ID)
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
@@ -1674,8 +1674,8 @@ func (c *NotificationMessageCategoryClient) Update() *NotificationMessageCategor
 }
 
 // UpdateOne returns an update builder for the given entity.
-func (c *NotificationMessageCategoryClient) UpdateOne(nmc *NotificationMessageCategory) *NotificationMessageCategoryUpdateOne {
-	mutation := newNotificationMessageCategoryMutation(c.config, OpUpdateOne, withNotificationMessageCategory(nmc))
+func (c *NotificationMessageCategoryClient) UpdateOne(_m *NotificationMessageCategory) *NotificationMessageCategoryUpdateOne {
+	mutation := newNotificationMessageCategoryMutation(c.config, OpUpdateOne, withNotificationMessageCategory(_m))
 	return &NotificationMessageCategoryUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
@@ -1692,8 +1692,8 @@ func (c *NotificationMessageCategoryClient) Delete() *NotificationMessageCategor
 }
 
 // DeleteOne returns a builder for deleting the given entity.
-func (c *NotificationMessageCategoryClient) DeleteOne(nmc *NotificationMessageCategory) *NotificationMessageCategoryDeleteOne {
-	return c.DeleteOneID(nmc.ID)
+func (c *NotificationMessageCategoryClient) DeleteOne(_m *NotificationMessageCategory) *NotificationMessageCategoryDeleteOne {
+	return c.DeleteOneID(_m.ID)
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
@@ -1728,32 +1728,32 @@ func (c *NotificationMessageCategoryClient) GetX(ctx context.Context, id uint32)
 }
 
 // QueryParent queries the parent edge of a NotificationMessageCategory.
-func (c *NotificationMessageCategoryClient) QueryParent(nmc *NotificationMessageCategory) *NotificationMessageCategoryQuery {
+func (c *NotificationMessageCategoryClient) QueryParent(_m *NotificationMessageCategory) *NotificationMessageCategoryQuery {
 	query := (&NotificationMessageCategoryClient{config: c.config}).Query()
 	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
-		id := nmc.ID
+		id := _m.ID
 		step := sqlgraph.NewStep(
 			sqlgraph.From(notificationmessagecategory.Table, notificationmessagecategory.FieldID, id),
 			sqlgraph.To(notificationmessagecategory.Table, notificationmessagecategory.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, notificationmessagecategory.ParentTable, notificationmessagecategory.ParentColumn),
 		)
-		fromV = sqlgraph.Neighbors(nmc.driver.Dialect(), step)
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
 	return query
 }
 
 // QueryChildren queries the children edge of a NotificationMessageCategory.
-func (c *NotificationMessageCategoryClient) QueryChildren(nmc *NotificationMessageCategory) *NotificationMessageCategoryQuery {
+func (c *NotificationMessageCategoryClient) QueryChildren(_m *NotificationMessageCategory) *NotificationMessageCategoryQuery {
 	query := (&NotificationMessageCategoryClient{config: c.config}).Query()
 	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
-		id := nmc.ID
+		id := _m.ID
 		step := sqlgraph.NewStep(
 			sqlgraph.From(notificationmessagecategory.Table, notificationmessagecategory.FieldID, id),
 			sqlgraph.To(notificationmessagecategory.Table, notificationmessagecategory.FieldID),
 			sqlgraph.Edge(sqlgraph.O2M, false, notificationmessagecategory.ChildrenTable, notificationmessagecategory.ChildrenColumn),
 		)
-		fromV = sqlgraph.Neighbors(nmc.driver.Dialect(), step)
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
 	return query
@@ -1839,8 +1839,8 @@ func (c *NotificationMessageRecipientClient) Update() *NotificationMessageRecipi
 }
 
 // UpdateOne returns an update builder for the given entity.
-func (c *NotificationMessageRecipientClient) UpdateOne(nmr *NotificationMessageRecipient) *NotificationMessageRecipientUpdateOne {
-	mutation := newNotificationMessageRecipientMutation(c.config, OpUpdateOne, withNotificationMessageRecipient(nmr))
+func (c *NotificationMessageRecipientClient) UpdateOne(_m *NotificationMessageRecipient) *NotificationMessageRecipientUpdateOne {
+	mutation := newNotificationMessageRecipientMutation(c.config, OpUpdateOne, withNotificationMessageRecipient(_m))
 	return &NotificationMessageRecipientUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
@@ -1857,8 +1857,8 @@ func (c *NotificationMessageRecipientClient) Delete() *NotificationMessageRecipi
 }
 
 // DeleteOne returns a builder for deleting the given entity.
-func (c *NotificationMessageRecipientClient) DeleteOne(nmr *NotificationMessageRecipient) *NotificationMessageRecipientDeleteOne {
-	return c.DeleteOneID(nmr.ID)
+func (c *NotificationMessageRecipientClient) DeleteOne(_m *NotificationMessageRecipient) *NotificationMessageRecipientDeleteOne {
+	return c.DeleteOneID(_m.ID)
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
@@ -1972,8 +1972,8 @@ func (c *OrganizationClient) Update() *OrganizationUpdate {
 }
 
 // UpdateOne returns an update builder for the given entity.
-func (c *OrganizationClient) UpdateOne(o *Organization) *OrganizationUpdateOne {
-	mutation := newOrganizationMutation(c.config, OpUpdateOne, withOrganization(o))
+func (c *OrganizationClient) UpdateOne(_m *Organization) *OrganizationUpdateOne {
+	mutation := newOrganizationMutation(c.config, OpUpdateOne, withOrganization(_m))
 	return &OrganizationUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
@@ -1990,8 +1990,8 @@ func (c *OrganizationClient) Delete() *OrganizationDelete {
 }
 
 // DeleteOne returns a builder for deleting the given entity.
-func (c *OrganizationClient) DeleteOne(o *Organization) *OrganizationDeleteOne {
-	return c.DeleteOneID(o.ID)
+func (c *OrganizationClient) DeleteOne(_m *Organization) *OrganizationDeleteOne {
+	return c.DeleteOneID(_m.ID)
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
@@ -2026,32 +2026,32 @@ func (c *OrganizationClient) GetX(ctx context.Context, id uint32) *Organization 
 }
 
 // QueryParent queries the parent edge of a Organization.
-func (c *OrganizationClient) QueryParent(o *Organization) *OrganizationQuery {
+func (c *OrganizationClient) QueryParent(_m *Organization) *OrganizationQuery {
 	query := (&OrganizationClient{config: c.config}).Query()
 	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
-		id := o.ID
+		id := _m.ID
 		step := sqlgraph.NewStep(
 			sqlgraph.From(organization.Table, organization.FieldID, id),
 			sqlgraph.To(organization.Table, organization.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, organization.ParentTable, organization.ParentColumn),
 		)
-		fromV = sqlgraph.Neighbors(o.driver.Dialect(), step)
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
 	return query
 }
 
 // QueryChildren queries the children edge of a Organization.
-func (c *OrganizationClient) QueryChildren(o *Organization) *OrganizationQuery {
+func (c *OrganizationClient) QueryChildren(_m *Organization) *OrganizationQuery {
 	query := (&OrganizationClient{config: c.config}).Query()
 	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
-		id := o.ID
+		id := _m.ID
 		step := sqlgraph.NewStep(
 			sqlgraph.From(organization.Table, organization.FieldID, id),
 			sqlgraph.To(organization.Table, organization.FieldID),
 			sqlgraph.Edge(sqlgraph.O2M, false, organization.ChildrenTable, organization.ChildrenColumn),
 		)
-		fromV = sqlgraph.Neighbors(o.driver.Dialect(), step)
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
 	return query
@@ -2137,8 +2137,8 @@ func (c *PositionClient) Update() *PositionUpdate {
 }
 
 // UpdateOne returns an update builder for the given entity.
-func (c *PositionClient) UpdateOne(po *Position) *PositionUpdateOne {
-	mutation := newPositionMutation(c.config, OpUpdateOne, withPosition(po))
+func (c *PositionClient) UpdateOne(_m *Position) *PositionUpdateOne {
+	mutation := newPositionMutation(c.config, OpUpdateOne, withPosition(_m))
 	return &PositionUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
@@ -2155,8 +2155,8 @@ func (c *PositionClient) Delete() *PositionDelete {
 }
 
 // DeleteOne returns a builder for deleting the given entity.
-func (c *PositionClient) DeleteOne(po *Position) *PositionDeleteOne {
-	return c.DeleteOneID(po.ID)
+func (c *PositionClient) DeleteOne(_m *Position) *PositionDeleteOne {
+	return c.DeleteOneID(_m.ID)
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
@@ -2191,32 +2191,32 @@ func (c *PositionClient) GetX(ctx context.Context, id uint32) *Position {
 }
 
 // QueryParent queries the parent edge of a Position.
-func (c *PositionClient) QueryParent(po *Position) *PositionQuery {
+func (c *PositionClient) QueryParent(_m *Position) *PositionQuery {
 	query := (&PositionClient{config: c.config}).Query()
 	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
-		id := po.ID
+		id := _m.ID
 		step := sqlgraph.NewStep(
 			sqlgraph.From(position.Table, position.FieldID, id),
 			sqlgraph.To(position.Table, position.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, position.ParentTable, position.ParentColumn),
 		)
-		fromV = sqlgraph.Neighbors(po.driver.Dialect(), step)
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
 	return query
 }
 
 // QueryChildren queries the children edge of a Position.
-func (c *PositionClient) QueryChildren(po *Position) *PositionQuery {
+func (c *PositionClient) QueryChildren(_m *Position) *PositionQuery {
 	query := (&PositionClient{config: c.config}).Query()
 	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
-		id := po.ID
+		id := _m.ID
 		step := sqlgraph.NewStep(
 			sqlgraph.From(position.Table, position.FieldID, id),
 			sqlgraph.To(position.Table, position.FieldID),
 			sqlgraph.Edge(sqlgraph.O2M, false, position.ChildrenTable, position.ChildrenColumn),
 		)
-		fromV = sqlgraph.Neighbors(po.driver.Dialect(), step)
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
 	return query
@@ -2302,8 +2302,8 @@ func (c *PrivateMessageClient) Update() *PrivateMessageUpdate {
 }
 
 // UpdateOne returns an update builder for the given entity.
-func (c *PrivateMessageClient) UpdateOne(pm *PrivateMessage) *PrivateMessageUpdateOne {
-	mutation := newPrivateMessageMutation(c.config, OpUpdateOne, withPrivateMessage(pm))
+func (c *PrivateMessageClient) UpdateOne(_m *PrivateMessage) *PrivateMessageUpdateOne {
+	mutation := newPrivateMessageMutation(c.config, OpUpdateOne, withPrivateMessage(_m))
 	return &PrivateMessageUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
@@ -2320,8 +2320,8 @@ func (c *PrivateMessageClient) Delete() *PrivateMessageDelete {
 }
 
 // DeleteOne returns a builder for deleting the given entity.
-func (c *PrivateMessageClient) DeleteOne(pm *PrivateMessage) *PrivateMessageDeleteOne {
-	return c.DeleteOneID(pm.ID)
+func (c *PrivateMessageClient) DeleteOne(_m *PrivateMessage) *PrivateMessageDeleteOne {
+	return c.DeleteOneID(_m.ID)
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
@@ -2435,8 +2435,8 @@ func (c *RoleClient) Update() *RoleUpdate {
 }
 
 // UpdateOne returns an update builder for the given entity.
-func (c *RoleClient) UpdateOne(r *Role) *RoleUpdateOne {
-	mutation := newRoleMutation(c.config, OpUpdateOne, withRole(r))
+func (c *RoleClient) UpdateOne(_m *Role) *RoleUpdateOne {
+	mutation := newRoleMutation(c.config, OpUpdateOne, withRole(_m))
 	return &RoleUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
@@ -2453,8 +2453,8 @@ func (c *RoleClient) Delete() *RoleDelete {
 }
 
 // DeleteOne returns a builder for deleting the given entity.
-func (c *RoleClient) DeleteOne(r *Role) *RoleDeleteOne {
-	return c.DeleteOneID(r.ID)
+func (c *RoleClient) DeleteOne(_m *Role) *RoleDeleteOne {
+	return c.DeleteOneID(_m.ID)
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
@@ -2489,32 +2489,32 @@ func (c *RoleClient) GetX(ctx context.Context, id uint32) *Role {
 }
 
 // QueryParent queries the parent edge of a Role.
-func (c *RoleClient) QueryParent(r *Role) *RoleQuery {
+func (c *RoleClient) QueryParent(_m *Role) *RoleQuery {
 	query := (&RoleClient{config: c.config}).Query()
 	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
-		id := r.ID
+		id := _m.ID
 		step := sqlgraph.NewStep(
 			sqlgraph.From(role.Table, role.FieldID, id),
 			sqlgraph.To(role.Table, role.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, role.ParentTable, role.ParentColumn),
 		)
-		fromV = sqlgraph.Neighbors(r.driver.Dialect(), step)
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
 	return query
 }
 
 // QueryChildren queries the children edge of a Role.
-func (c *RoleClient) QueryChildren(r *Role) *RoleQuery {
+func (c *RoleClient) QueryChildren(_m *Role) *RoleQuery {
 	query := (&RoleClient{config: c.config}).Query()
 	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
-		id := r.ID
+		id := _m.ID
 		step := sqlgraph.NewStep(
 			sqlgraph.From(role.Table, role.FieldID, id),
 			sqlgraph.To(role.Table, role.FieldID),
 			sqlgraph.Edge(sqlgraph.O2M, false, role.ChildrenTable, role.ChildrenColumn),
 		)
-		fromV = sqlgraph.Neighbors(r.driver.Dialect(), step)
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
 	return query
@@ -2600,8 +2600,8 @@ func (c *TaskClient) Update() *TaskUpdate {
 }
 
 // UpdateOne returns an update builder for the given entity.
-func (c *TaskClient) UpdateOne(t *Task) *TaskUpdateOne {
-	mutation := newTaskMutation(c.config, OpUpdateOne, withTask(t))
+func (c *TaskClient) UpdateOne(_m *Task) *TaskUpdateOne {
+	mutation := newTaskMutation(c.config, OpUpdateOne, withTask(_m))
 	return &TaskUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
@@ -2618,8 +2618,8 @@ func (c *TaskClient) Delete() *TaskDelete {
 }
 
 // DeleteOne returns a builder for deleting the given entity.
-func (c *TaskClient) DeleteOne(t *Task) *TaskDeleteOne {
-	return c.DeleteOneID(t.ID)
+func (c *TaskClient) DeleteOne(_m *Task) *TaskDeleteOne {
+	return c.DeleteOneID(_m.ID)
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
@@ -2733,8 +2733,8 @@ func (c *TenantClient) Update() *TenantUpdate {
 }
 
 // UpdateOne returns an update builder for the given entity.
-func (c *TenantClient) UpdateOne(t *Tenant) *TenantUpdateOne {
-	mutation := newTenantMutation(c.config, OpUpdateOne, withTenant(t))
+func (c *TenantClient) UpdateOne(_m *Tenant) *TenantUpdateOne {
+	mutation := newTenantMutation(c.config, OpUpdateOne, withTenant(_m))
 	return &TenantUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
@@ -2751,8 +2751,8 @@ func (c *TenantClient) Delete() *TenantDelete {
 }
 
 // DeleteOne returns a builder for deleting the given entity.
-func (c *TenantClient) DeleteOne(t *Tenant) *TenantDeleteOne {
-	return c.DeleteOneID(t.ID)
+func (c *TenantClient) DeleteOne(_m *Tenant) *TenantDeleteOne {
+	return c.DeleteOneID(_m.ID)
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
@@ -2866,8 +2866,8 @@ func (c *UserClient) Update() *UserUpdate {
 }
 
 // UpdateOne returns an update builder for the given entity.
-func (c *UserClient) UpdateOne(u *User) *UserUpdateOne {
-	mutation := newUserMutation(c.config, OpUpdateOne, withUser(u))
+func (c *UserClient) UpdateOne(_m *User) *UserUpdateOne {
+	mutation := newUserMutation(c.config, OpUpdateOne, withUser(_m))
 	return &UserUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
@@ -2884,8 +2884,8 @@ func (c *UserClient) Delete() *UserDelete {
 }
 
 // DeleteOne returns a builder for deleting the given entity.
-func (c *UserClient) DeleteOne(u *User) *UserDeleteOne {
-	return c.DeleteOneID(u.ID)
+func (c *UserClient) DeleteOne(_m *User) *UserDeleteOne {
+	return c.DeleteOneID(_m.ID)
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
@@ -2999,8 +2999,8 @@ func (c *UserCredentialClient) Update() *UserCredentialUpdate {
 }
 
 // UpdateOne returns an update builder for the given entity.
-func (c *UserCredentialClient) UpdateOne(uc *UserCredential) *UserCredentialUpdateOne {
-	mutation := newUserCredentialMutation(c.config, OpUpdateOne, withUserCredential(uc))
+func (c *UserCredentialClient) UpdateOne(_m *UserCredential) *UserCredentialUpdateOne {
+	mutation := newUserCredentialMutation(c.config, OpUpdateOne, withUserCredential(_m))
 	return &UserCredentialUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
@@ -3017,8 +3017,8 @@ func (c *UserCredentialClient) Delete() *UserCredentialDelete {
 }
 
 // DeleteOne returns a builder for deleting the given entity.
-func (c *UserCredentialClient) DeleteOne(uc *UserCredential) *UserCredentialDeleteOne {
-	return c.DeleteOneID(uc.ID)
+func (c *UserCredentialClient) DeleteOne(_m *UserCredential) *UserCredentialDeleteOne {
+	return c.DeleteOneID(_m.ID)
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.

@@ -24,238 +24,238 @@ type ApiResourceUpdate struct {
 }
 
 // Where appends a list predicates to the ApiResourceUpdate builder.
-func (aru *ApiResourceUpdate) Where(ps ...predicate.ApiResource) *ApiResourceUpdate {
-	aru.mutation.Where(ps...)
-	return aru
+func (_u *ApiResourceUpdate) Where(ps ...predicate.ApiResource) *ApiResourceUpdate {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // SetUpdateTime sets the "update_time" field.
-func (aru *ApiResourceUpdate) SetUpdateTime(t time.Time) *ApiResourceUpdate {
-	aru.mutation.SetUpdateTime(t)
-	return aru
+func (_u *ApiResourceUpdate) SetUpdateTime(v time.Time) *ApiResourceUpdate {
+	_u.mutation.SetUpdateTime(v)
+	return _u
 }
 
 // SetNillableUpdateTime sets the "update_time" field if the given value is not nil.
-func (aru *ApiResourceUpdate) SetNillableUpdateTime(t *time.Time) *ApiResourceUpdate {
-	if t != nil {
-		aru.SetUpdateTime(*t)
+func (_u *ApiResourceUpdate) SetNillableUpdateTime(v *time.Time) *ApiResourceUpdate {
+	if v != nil {
+		_u.SetUpdateTime(*v)
 	}
-	return aru
+	return _u
 }
 
 // ClearUpdateTime clears the value of the "update_time" field.
-func (aru *ApiResourceUpdate) ClearUpdateTime() *ApiResourceUpdate {
-	aru.mutation.ClearUpdateTime()
-	return aru
+func (_u *ApiResourceUpdate) ClearUpdateTime() *ApiResourceUpdate {
+	_u.mutation.ClearUpdateTime()
+	return _u
 }
 
 // SetDeleteTime sets the "delete_time" field.
-func (aru *ApiResourceUpdate) SetDeleteTime(t time.Time) *ApiResourceUpdate {
-	aru.mutation.SetDeleteTime(t)
-	return aru
+func (_u *ApiResourceUpdate) SetDeleteTime(v time.Time) *ApiResourceUpdate {
+	_u.mutation.SetDeleteTime(v)
+	return _u
 }
 
 // SetNillableDeleteTime sets the "delete_time" field if the given value is not nil.
-func (aru *ApiResourceUpdate) SetNillableDeleteTime(t *time.Time) *ApiResourceUpdate {
-	if t != nil {
-		aru.SetDeleteTime(*t)
+func (_u *ApiResourceUpdate) SetNillableDeleteTime(v *time.Time) *ApiResourceUpdate {
+	if v != nil {
+		_u.SetDeleteTime(*v)
 	}
-	return aru
+	return _u
 }
 
 // ClearDeleteTime clears the value of the "delete_time" field.
-func (aru *ApiResourceUpdate) ClearDeleteTime() *ApiResourceUpdate {
-	aru.mutation.ClearDeleteTime()
-	return aru
+func (_u *ApiResourceUpdate) ClearDeleteTime() *ApiResourceUpdate {
+	_u.mutation.ClearDeleteTime()
+	return _u
 }
 
 // SetCreateBy sets the "create_by" field.
-func (aru *ApiResourceUpdate) SetCreateBy(u uint32) *ApiResourceUpdate {
-	aru.mutation.ResetCreateBy()
-	aru.mutation.SetCreateBy(u)
-	return aru
+func (_u *ApiResourceUpdate) SetCreateBy(v uint32) *ApiResourceUpdate {
+	_u.mutation.ResetCreateBy()
+	_u.mutation.SetCreateBy(v)
+	return _u
 }
 
 // SetNillableCreateBy sets the "create_by" field if the given value is not nil.
-func (aru *ApiResourceUpdate) SetNillableCreateBy(u *uint32) *ApiResourceUpdate {
-	if u != nil {
-		aru.SetCreateBy(*u)
+func (_u *ApiResourceUpdate) SetNillableCreateBy(v *uint32) *ApiResourceUpdate {
+	if v != nil {
+		_u.SetCreateBy(*v)
 	}
-	return aru
+	return _u
 }
 
-// AddCreateBy adds u to the "create_by" field.
-func (aru *ApiResourceUpdate) AddCreateBy(u int32) *ApiResourceUpdate {
-	aru.mutation.AddCreateBy(u)
-	return aru
+// AddCreateBy adds value to the "create_by" field.
+func (_u *ApiResourceUpdate) AddCreateBy(v int32) *ApiResourceUpdate {
+	_u.mutation.AddCreateBy(v)
+	return _u
 }
 
 // ClearCreateBy clears the value of the "create_by" field.
-func (aru *ApiResourceUpdate) ClearCreateBy() *ApiResourceUpdate {
-	aru.mutation.ClearCreateBy()
-	return aru
+func (_u *ApiResourceUpdate) ClearCreateBy() *ApiResourceUpdate {
+	_u.mutation.ClearCreateBy()
+	return _u
 }
 
 // SetUpdateBy sets the "update_by" field.
-func (aru *ApiResourceUpdate) SetUpdateBy(u uint32) *ApiResourceUpdate {
-	aru.mutation.ResetUpdateBy()
-	aru.mutation.SetUpdateBy(u)
-	return aru
+func (_u *ApiResourceUpdate) SetUpdateBy(v uint32) *ApiResourceUpdate {
+	_u.mutation.ResetUpdateBy()
+	_u.mutation.SetUpdateBy(v)
+	return _u
 }
 
 // SetNillableUpdateBy sets the "update_by" field if the given value is not nil.
-func (aru *ApiResourceUpdate) SetNillableUpdateBy(u *uint32) *ApiResourceUpdate {
-	if u != nil {
-		aru.SetUpdateBy(*u)
+func (_u *ApiResourceUpdate) SetNillableUpdateBy(v *uint32) *ApiResourceUpdate {
+	if v != nil {
+		_u.SetUpdateBy(*v)
 	}
-	return aru
+	return _u
 }
 
-// AddUpdateBy adds u to the "update_by" field.
-func (aru *ApiResourceUpdate) AddUpdateBy(u int32) *ApiResourceUpdate {
-	aru.mutation.AddUpdateBy(u)
-	return aru
+// AddUpdateBy adds value to the "update_by" field.
+func (_u *ApiResourceUpdate) AddUpdateBy(v int32) *ApiResourceUpdate {
+	_u.mutation.AddUpdateBy(v)
+	return _u
 }
 
 // ClearUpdateBy clears the value of the "update_by" field.
-func (aru *ApiResourceUpdate) ClearUpdateBy() *ApiResourceUpdate {
-	aru.mutation.ClearUpdateBy()
-	return aru
+func (_u *ApiResourceUpdate) ClearUpdateBy() *ApiResourceUpdate {
+	_u.mutation.ClearUpdateBy()
+	return _u
 }
 
 // SetDescription sets the "description" field.
-func (aru *ApiResourceUpdate) SetDescription(s string) *ApiResourceUpdate {
-	aru.mutation.SetDescription(s)
-	return aru
+func (_u *ApiResourceUpdate) SetDescription(v string) *ApiResourceUpdate {
+	_u.mutation.SetDescription(v)
+	return _u
 }
 
 // SetNillableDescription sets the "description" field if the given value is not nil.
-func (aru *ApiResourceUpdate) SetNillableDescription(s *string) *ApiResourceUpdate {
-	if s != nil {
-		aru.SetDescription(*s)
+func (_u *ApiResourceUpdate) SetNillableDescription(v *string) *ApiResourceUpdate {
+	if v != nil {
+		_u.SetDescription(*v)
 	}
-	return aru
+	return _u
 }
 
 // ClearDescription clears the value of the "description" field.
-func (aru *ApiResourceUpdate) ClearDescription() *ApiResourceUpdate {
-	aru.mutation.ClearDescription()
-	return aru
+func (_u *ApiResourceUpdate) ClearDescription() *ApiResourceUpdate {
+	_u.mutation.ClearDescription()
+	return _u
 }
 
 // SetModule sets the "module" field.
-func (aru *ApiResourceUpdate) SetModule(s string) *ApiResourceUpdate {
-	aru.mutation.SetModule(s)
-	return aru
+func (_u *ApiResourceUpdate) SetModule(v string) *ApiResourceUpdate {
+	_u.mutation.SetModule(v)
+	return _u
 }
 
 // SetNillableModule sets the "module" field if the given value is not nil.
-func (aru *ApiResourceUpdate) SetNillableModule(s *string) *ApiResourceUpdate {
-	if s != nil {
-		aru.SetModule(*s)
+func (_u *ApiResourceUpdate) SetNillableModule(v *string) *ApiResourceUpdate {
+	if v != nil {
+		_u.SetModule(*v)
 	}
-	return aru
+	return _u
 }
 
 // ClearModule clears the value of the "module" field.
-func (aru *ApiResourceUpdate) ClearModule() *ApiResourceUpdate {
-	aru.mutation.ClearModule()
-	return aru
+func (_u *ApiResourceUpdate) ClearModule() *ApiResourceUpdate {
+	_u.mutation.ClearModule()
+	return _u
 }
 
 // SetModuleDescription sets the "module_description" field.
-func (aru *ApiResourceUpdate) SetModuleDescription(s string) *ApiResourceUpdate {
-	aru.mutation.SetModuleDescription(s)
-	return aru
+func (_u *ApiResourceUpdate) SetModuleDescription(v string) *ApiResourceUpdate {
+	_u.mutation.SetModuleDescription(v)
+	return _u
 }
 
 // SetNillableModuleDescription sets the "module_description" field if the given value is not nil.
-func (aru *ApiResourceUpdate) SetNillableModuleDescription(s *string) *ApiResourceUpdate {
-	if s != nil {
-		aru.SetModuleDescription(*s)
+func (_u *ApiResourceUpdate) SetNillableModuleDescription(v *string) *ApiResourceUpdate {
+	if v != nil {
+		_u.SetModuleDescription(*v)
 	}
-	return aru
+	return _u
 }
 
 // ClearModuleDescription clears the value of the "module_description" field.
-func (aru *ApiResourceUpdate) ClearModuleDescription() *ApiResourceUpdate {
-	aru.mutation.ClearModuleDescription()
-	return aru
+func (_u *ApiResourceUpdate) ClearModuleDescription() *ApiResourceUpdate {
+	_u.mutation.ClearModuleDescription()
+	return _u
 }
 
 // SetOperation sets the "operation" field.
-func (aru *ApiResourceUpdate) SetOperation(s string) *ApiResourceUpdate {
-	aru.mutation.SetOperation(s)
-	return aru
+func (_u *ApiResourceUpdate) SetOperation(v string) *ApiResourceUpdate {
+	_u.mutation.SetOperation(v)
+	return _u
 }
 
 // SetNillableOperation sets the "operation" field if the given value is not nil.
-func (aru *ApiResourceUpdate) SetNillableOperation(s *string) *ApiResourceUpdate {
-	if s != nil {
-		aru.SetOperation(*s)
+func (_u *ApiResourceUpdate) SetNillableOperation(v *string) *ApiResourceUpdate {
+	if v != nil {
+		_u.SetOperation(*v)
 	}
-	return aru
+	return _u
 }
 
 // ClearOperation clears the value of the "operation" field.
-func (aru *ApiResourceUpdate) ClearOperation() *ApiResourceUpdate {
-	aru.mutation.ClearOperation()
-	return aru
+func (_u *ApiResourceUpdate) ClearOperation() *ApiResourceUpdate {
+	_u.mutation.ClearOperation()
+	return _u
 }
 
 // SetPath sets the "path" field.
-func (aru *ApiResourceUpdate) SetPath(s string) *ApiResourceUpdate {
-	aru.mutation.SetPath(s)
-	return aru
+func (_u *ApiResourceUpdate) SetPath(v string) *ApiResourceUpdate {
+	_u.mutation.SetPath(v)
+	return _u
 }
 
 // SetNillablePath sets the "path" field if the given value is not nil.
-func (aru *ApiResourceUpdate) SetNillablePath(s *string) *ApiResourceUpdate {
-	if s != nil {
-		aru.SetPath(*s)
+func (_u *ApiResourceUpdate) SetNillablePath(v *string) *ApiResourceUpdate {
+	if v != nil {
+		_u.SetPath(*v)
 	}
-	return aru
+	return _u
 }
 
 // ClearPath clears the value of the "path" field.
-func (aru *ApiResourceUpdate) ClearPath() *ApiResourceUpdate {
-	aru.mutation.ClearPath()
-	return aru
+func (_u *ApiResourceUpdate) ClearPath() *ApiResourceUpdate {
+	_u.mutation.ClearPath()
+	return _u
 }
 
 // SetMethod sets the "method" field.
-func (aru *ApiResourceUpdate) SetMethod(s string) *ApiResourceUpdate {
-	aru.mutation.SetMethod(s)
-	return aru
+func (_u *ApiResourceUpdate) SetMethod(v string) *ApiResourceUpdate {
+	_u.mutation.SetMethod(v)
+	return _u
 }
 
 // SetNillableMethod sets the "method" field if the given value is not nil.
-func (aru *ApiResourceUpdate) SetNillableMethod(s *string) *ApiResourceUpdate {
-	if s != nil {
-		aru.SetMethod(*s)
+func (_u *ApiResourceUpdate) SetNillableMethod(v *string) *ApiResourceUpdate {
+	if v != nil {
+		_u.SetMethod(*v)
 	}
-	return aru
+	return _u
 }
 
 // ClearMethod clears the value of the "method" field.
-func (aru *ApiResourceUpdate) ClearMethod() *ApiResourceUpdate {
-	aru.mutation.ClearMethod()
-	return aru
+func (_u *ApiResourceUpdate) ClearMethod() *ApiResourceUpdate {
+	_u.mutation.ClearMethod()
+	return _u
 }
 
 // Mutation returns the ApiResourceMutation object of the builder.
-func (aru *ApiResourceUpdate) Mutation() *ApiResourceMutation {
-	return aru.mutation
+func (_u *ApiResourceUpdate) Mutation() *ApiResourceMutation {
+	return _u.mutation
 }
 
 // Save executes the query and returns the number of nodes affected by the update operation.
-func (aru *ApiResourceUpdate) Save(ctx context.Context) (int, error) {
-	return withHooks(ctx, aru.sqlSave, aru.mutation, aru.hooks)
+func (_u *ApiResourceUpdate) Save(ctx context.Context) (int, error) {
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (aru *ApiResourceUpdate) SaveX(ctx context.Context) int {
-	affected, err := aru.Save(ctx)
+func (_u *ApiResourceUpdate) SaveX(ctx context.Context) int {
+	affected, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -263,104 +263,104 @@ func (aru *ApiResourceUpdate) SaveX(ctx context.Context) int {
 }
 
 // Exec executes the query.
-func (aru *ApiResourceUpdate) Exec(ctx context.Context) error {
-	_, err := aru.Save(ctx)
+func (_u *ApiResourceUpdate) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (aru *ApiResourceUpdate) ExecX(ctx context.Context) {
-	if err := aru.Exec(ctx); err != nil {
+func (_u *ApiResourceUpdate) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // Modify adds a statement modifier for attaching custom logic to the UPDATE statement.
-func (aru *ApiResourceUpdate) Modify(modifiers ...func(u *sql.UpdateBuilder)) *ApiResourceUpdate {
-	aru.modifiers = append(aru.modifiers, modifiers...)
-	return aru
+func (_u *ApiResourceUpdate) Modify(modifiers ...func(u *sql.UpdateBuilder)) *ApiResourceUpdate {
+	_u.modifiers = append(_u.modifiers, modifiers...)
+	return _u
 }
 
-func (aru *ApiResourceUpdate) sqlSave(ctx context.Context) (n int, err error) {
+func (_u *ApiResourceUpdate) sqlSave(ctx context.Context) (_node int, err error) {
 	_spec := sqlgraph.NewUpdateSpec(apiresource.Table, apiresource.Columns, sqlgraph.NewFieldSpec(apiresource.FieldID, field.TypeUint32))
-	if ps := aru.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if aru.mutation.CreateTimeCleared() {
+	if _u.mutation.CreateTimeCleared() {
 		_spec.ClearField(apiresource.FieldCreateTime, field.TypeTime)
 	}
-	if value, ok := aru.mutation.UpdateTime(); ok {
+	if value, ok := _u.mutation.UpdateTime(); ok {
 		_spec.SetField(apiresource.FieldUpdateTime, field.TypeTime, value)
 	}
-	if aru.mutation.UpdateTimeCleared() {
+	if _u.mutation.UpdateTimeCleared() {
 		_spec.ClearField(apiresource.FieldUpdateTime, field.TypeTime)
 	}
-	if value, ok := aru.mutation.DeleteTime(); ok {
+	if value, ok := _u.mutation.DeleteTime(); ok {
 		_spec.SetField(apiresource.FieldDeleteTime, field.TypeTime, value)
 	}
-	if aru.mutation.DeleteTimeCleared() {
+	if _u.mutation.DeleteTimeCleared() {
 		_spec.ClearField(apiresource.FieldDeleteTime, field.TypeTime)
 	}
-	if value, ok := aru.mutation.CreateBy(); ok {
+	if value, ok := _u.mutation.CreateBy(); ok {
 		_spec.SetField(apiresource.FieldCreateBy, field.TypeUint32, value)
 	}
-	if value, ok := aru.mutation.AddedCreateBy(); ok {
+	if value, ok := _u.mutation.AddedCreateBy(); ok {
 		_spec.AddField(apiresource.FieldCreateBy, field.TypeUint32, value)
 	}
-	if aru.mutation.CreateByCleared() {
+	if _u.mutation.CreateByCleared() {
 		_spec.ClearField(apiresource.FieldCreateBy, field.TypeUint32)
 	}
-	if value, ok := aru.mutation.UpdateBy(); ok {
+	if value, ok := _u.mutation.UpdateBy(); ok {
 		_spec.SetField(apiresource.FieldUpdateBy, field.TypeUint32, value)
 	}
-	if value, ok := aru.mutation.AddedUpdateBy(); ok {
+	if value, ok := _u.mutation.AddedUpdateBy(); ok {
 		_spec.AddField(apiresource.FieldUpdateBy, field.TypeUint32, value)
 	}
-	if aru.mutation.UpdateByCleared() {
+	if _u.mutation.UpdateByCleared() {
 		_spec.ClearField(apiresource.FieldUpdateBy, field.TypeUint32)
 	}
-	if value, ok := aru.mutation.Description(); ok {
+	if value, ok := _u.mutation.Description(); ok {
 		_spec.SetField(apiresource.FieldDescription, field.TypeString, value)
 	}
-	if aru.mutation.DescriptionCleared() {
+	if _u.mutation.DescriptionCleared() {
 		_spec.ClearField(apiresource.FieldDescription, field.TypeString)
 	}
-	if value, ok := aru.mutation.Module(); ok {
+	if value, ok := _u.mutation.Module(); ok {
 		_spec.SetField(apiresource.FieldModule, field.TypeString, value)
 	}
-	if aru.mutation.ModuleCleared() {
+	if _u.mutation.ModuleCleared() {
 		_spec.ClearField(apiresource.FieldModule, field.TypeString)
 	}
-	if value, ok := aru.mutation.ModuleDescription(); ok {
+	if value, ok := _u.mutation.ModuleDescription(); ok {
 		_spec.SetField(apiresource.FieldModuleDescription, field.TypeString, value)
 	}
-	if aru.mutation.ModuleDescriptionCleared() {
+	if _u.mutation.ModuleDescriptionCleared() {
 		_spec.ClearField(apiresource.FieldModuleDescription, field.TypeString)
 	}
-	if value, ok := aru.mutation.Operation(); ok {
+	if value, ok := _u.mutation.Operation(); ok {
 		_spec.SetField(apiresource.FieldOperation, field.TypeString, value)
 	}
-	if aru.mutation.OperationCleared() {
+	if _u.mutation.OperationCleared() {
 		_spec.ClearField(apiresource.FieldOperation, field.TypeString)
 	}
-	if value, ok := aru.mutation.Path(); ok {
+	if value, ok := _u.mutation.Path(); ok {
 		_spec.SetField(apiresource.FieldPath, field.TypeString, value)
 	}
-	if aru.mutation.PathCleared() {
+	if _u.mutation.PathCleared() {
 		_spec.ClearField(apiresource.FieldPath, field.TypeString)
 	}
-	if value, ok := aru.mutation.Method(); ok {
+	if value, ok := _u.mutation.Method(); ok {
 		_spec.SetField(apiresource.FieldMethod, field.TypeString, value)
 	}
-	if aru.mutation.MethodCleared() {
+	if _u.mutation.MethodCleared() {
 		_spec.ClearField(apiresource.FieldMethod, field.TypeString)
 	}
-	_spec.AddModifiers(aru.modifiers...)
-	if n, err = sqlgraph.UpdateNodes(ctx, aru.driver, _spec); err != nil {
+	_spec.AddModifiers(_u.modifiers...)
+	if _node, err = sqlgraph.UpdateNodes(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{apiresource.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -368,8 +368,8 @@ func (aru *ApiResourceUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		return 0, err
 	}
-	aru.mutation.done = true
-	return n, nil
+	_u.mutation.done = true
+	return _node, nil
 }
 
 // ApiResourceUpdateOne is the builder for updating a single ApiResource entity.
@@ -382,245 +382,245 @@ type ApiResourceUpdateOne struct {
 }
 
 // SetUpdateTime sets the "update_time" field.
-func (aruo *ApiResourceUpdateOne) SetUpdateTime(t time.Time) *ApiResourceUpdateOne {
-	aruo.mutation.SetUpdateTime(t)
-	return aruo
+func (_u *ApiResourceUpdateOne) SetUpdateTime(v time.Time) *ApiResourceUpdateOne {
+	_u.mutation.SetUpdateTime(v)
+	return _u
 }
 
 // SetNillableUpdateTime sets the "update_time" field if the given value is not nil.
-func (aruo *ApiResourceUpdateOne) SetNillableUpdateTime(t *time.Time) *ApiResourceUpdateOne {
-	if t != nil {
-		aruo.SetUpdateTime(*t)
+func (_u *ApiResourceUpdateOne) SetNillableUpdateTime(v *time.Time) *ApiResourceUpdateOne {
+	if v != nil {
+		_u.SetUpdateTime(*v)
 	}
-	return aruo
+	return _u
 }
 
 // ClearUpdateTime clears the value of the "update_time" field.
-func (aruo *ApiResourceUpdateOne) ClearUpdateTime() *ApiResourceUpdateOne {
-	aruo.mutation.ClearUpdateTime()
-	return aruo
+func (_u *ApiResourceUpdateOne) ClearUpdateTime() *ApiResourceUpdateOne {
+	_u.mutation.ClearUpdateTime()
+	return _u
 }
 
 // SetDeleteTime sets the "delete_time" field.
-func (aruo *ApiResourceUpdateOne) SetDeleteTime(t time.Time) *ApiResourceUpdateOne {
-	aruo.mutation.SetDeleteTime(t)
-	return aruo
+func (_u *ApiResourceUpdateOne) SetDeleteTime(v time.Time) *ApiResourceUpdateOne {
+	_u.mutation.SetDeleteTime(v)
+	return _u
 }
 
 // SetNillableDeleteTime sets the "delete_time" field if the given value is not nil.
-func (aruo *ApiResourceUpdateOne) SetNillableDeleteTime(t *time.Time) *ApiResourceUpdateOne {
-	if t != nil {
-		aruo.SetDeleteTime(*t)
+func (_u *ApiResourceUpdateOne) SetNillableDeleteTime(v *time.Time) *ApiResourceUpdateOne {
+	if v != nil {
+		_u.SetDeleteTime(*v)
 	}
-	return aruo
+	return _u
 }
 
 // ClearDeleteTime clears the value of the "delete_time" field.
-func (aruo *ApiResourceUpdateOne) ClearDeleteTime() *ApiResourceUpdateOne {
-	aruo.mutation.ClearDeleteTime()
-	return aruo
+func (_u *ApiResourceUpdateOne) ClearDeleteTime() *ApiResourceUpdateOne {
+	_u.mutation.ClearDeleteTime()
+	return _u
 }
 
 // SetCreateBy sets the "create_by" field.
-func (aruo *ApiResourceUpdateOne) SetCreateBy(u uint32) *ApiResourceUpdateOne {
-	aruo.mutation.ResetCreateBy()
-	aruo.mutation.SetCreateBy(u)
-	return aruo
+func (_u *ApiResourceUpdateOne) SetCreateBy(v uint32) *ApiResourceUpdateOne {
+	_u.mutation.ResetCreateBy()
+	_u.mutation.SetCreateBy(v)
+	return _u
 }
 
 // SetNillableCreateBy sets the "create_by" field if the given value is not nil.
-func (aruo *ApiResourceUpdateOne) SetNillableCreateBy(u *uint32) *ApiResourceUpdateOne {
-	if u != nil {
-		aruo.SetCreateBy(*u)
+func (_u *ApiResourceUpdateOne) SetNillableCreateBy(v *uint32) *ApiResourceUpdateOne {
+	if v != nil {
+		_u.SetCreateBy(*v)
 	}
-	return aruo
+	return _u
 }
 
-// AddCreateBy adds u to the "create_by" field.
-func (aruo *ApiResourceUpdateOne) AddCreateBy(u int32) *ApiResourceUpdateOne {
-	aruo.mutation.AddCreateBy(u)
-	return aruo
+// AddCreateBy adds value to the "create_by" field.
+func (_u *ApiResourceUpdateOne) AddCreateBy(v int32) *ApiResourceUpdateOne {
+	_u.mutation.AddCreateBy(v)
+	return _u
 }
 
 // ClearCreateBy clears the value of the "create_by" field.
-func (aruo *ApiResourceUpdateOne) ClearCreateBy() *ApiResourceUpdateOne {
-	aruo.mutation.ClearCreateBy()
-	return aruo
+func (_u *ApiResourceUpdateOne) ClearCreateBy() *ApiResourceUpdateOne {
+	_u.mutation.ClearCreateBy()
+	return _u
 }
 
 // SetUpdateBy sets the "update_by" field.
-func (aruo *ApiResourceUpdateOne) SetUpdateBy(u uint32) *ApiResourceUpdateOne {
-	aruo.mutation.ResetUpdateBy()
-	aruo.mutation.SetUpdateBy(u)
-	return aruo
+func (_u *ApiResourceUpdateOne) SetUpdateBy(v uint32) *ApiResourceUpdateOne {
+	_u.mutation.ResetUpdateBy()
+	_u.mutation.SetUpdateBy(v)
+	return _u
 }
 
 // SetNillableUpdateBy sets the "update_by" field if the given value is not nil.
-func (aruo *ApiResourceUpdateOne) SetNillableUpdateBy(u *uint32) *ApiResourceUpdateOne {
-	if u != nil {
-		aruo.SetUpdateBy(*u)
+func (_u *ApiResourceUpdateOne) SetNillableUpdateBy(v *uint32) *ApiResourceUpdateOne {
+	if v != nil {
+		_u.SetUpdateBy(*v)
 	}
-	return aruo
+	return _u
 }
 
-// AddUpdateBy adds u to the "update_by" field.
-func (aruo *ApiResourceUpdateOne) AddUpdateBy(u int32) *ApiResourceUpdateOne {
-	aruo.mutation.AddUpdateBy(u)
-	return aruo
+// AddUpdateBy adds value to the "update_by" field.
+func (_u *ApiResourceUpdateOne) AddUpdateBy(v int32) *ApiResourceUpdateOne {
+	_u.mutation.AddUpdateBy(v)
+	return _u
 }
 
 // ClearUpdateBy clears the value of the "update_by" field.
-func (aruo *ApiResourceUpdateOne) ClearUpdateBy() *ApiResourceUpdateOne {
-	aruo.mutation.ClearUpdateBy()
-	return aruo
+func (_u *ApiResourceUpdateOne) ClearUpdateBy() *ApiResourceUpdateOne {
+	_u.mutation.ClearUpdateBy()
+	return _u
 }
 
 // SetDescription sets the "description" field.
-func (aruo *ApiResourceUpdateOne) SetDescription(s string) *ApiResourceUpdateOne {
-	aruo.mutation.SetDescription(s)
-	return aruo
+func (_u *ApiResourceUpdateOne) SetDescription(v string) *ApiResourceUpdateOne {
+	_u.mutation.SetDescription(v)
+	return _u
 }
 
 // SetNillableDescription sets the "description" field if the given value is not nil.
-func (aruo *ApiResourceUpdateOne) SetNillableDescription(s *string) *ApiResourceUpdateOne {
-	if s != nil {
-		aruo.SetDescription(*s)
+func (_u *ApiResourceUpdateOne) SetNillableDescription(v *string) *ApiResourceUpdateOne {
+	if v != nil {
+		_u.SetDescription(*v)
 	}
-	return aruo
+	return _u
 }
 
 // ClearDescription clears the value of the "description" field.
-func (aruo *ApiResourceUpdateOne) ClearDescription() *ApiResourceUpdateOne {
-	aruo.mutation.ClearDescription()
-	return aruo
+func (_u *ApiResourceUpdateOne) ClearDescription() *ApiResourceUpdateOne {
+	_u.mutation.ClearDescription()
+	return _u
 }
 
 // SetModule sets the "module" field.
-func (aruo *ApiResourceUpdateOne) SetModule(s string) *ApiResourceUpdateOne {
-	aruo.mutation.SetModule(s)
-	return aruo
+func (_u *ApiResourceUpdateOne) SetModule(v string) *ApiResourceUpdateOne {
+	_u.mutation.SetModule(v)
+	return _u
 }
 
 // SetNillableModule sets the "module" field if the given value is not nil.
-func (aruo *ApiResourceUpdateOne) SetNillableModule(s *string) *ApiResourceUpdateOne {
-	if s != nil {
-		aruo.SetModule(*s)
+func (_u *ApiResourceUpdateOne) SetNillableModule(v *string) *ApiResourceUpdateOne {
+	if v != nil {
+		_u.SetModule(*v)
 	}
-	return aruo
+	return _u
 }
 
 // ClearModule clears the value of the "module" field.
-func (aruo *ApiResourceUpdateOne) ClearModule() *ApiResourceUpdateOne {
-	aruo.mutation.ClearModule()
-	return aruo
+func (_u *ApiResourceUpdateOne) ClearModule() *ApiResourceUpdateOne {
+	_u.mutation.ClearModule()
+	return _u
 }
 
 // SetModuleDescription sets the "module_description" field.
-func (aruo *ApiResourceUpdateOne) SetModuleDescription(s string) *ApiResourceUpdateOne {
-	aruo.mutation.SetModuleDescription(s)
-	return aruo
+func (_u *ApiResourceUpdateOne) SetModuleDescription(v string) *ApiResourceUpdateOne {
+	_u.mutation.SetModuleDescription(v)
+	return _u
 }
 
 // SetNillableModuleDescription sets the "module_description" field if the given value is not nil.
-func (aruo *ApiResourceUpdateOne) SetNillableModuleDescription(s *string) *ApiResourceUpdateOne {
-	if s != nil {
-		aruo.SetModuleDescription(*s)
+func (_u *ApiResourceUpdateOne) SetNillableModuleDescription(v *string) *ApiResourceUpdateOne {
+	if v != nil {
+		_u.SetModuleDescription(*v)
 	}
-	return aruo
+	return _u
 }
 
 // ClearModuleDescription clears the value of the "module_description" field.
-func (aruo *ApiResourceUpdateOne) ClearModuleDescription() *ApiResourceUpdateOne {
-	aruo.mutation.ClearModuleDescription()
-	return aruo
+func (_u *ApiResourceUpdateOne) ClearModuleDescription() *ApiResourceUpdateOne {
+	_u.mutation.ClearModuleDescription()
+	return _u
 }
 
 // SetOperation sets the "operation" field.
-func (aruo *ApiResourceUpdateOne) SetOperation(s string) *ApiResourceUpdateOne {
-	aruo.mutation.SetOperation(s)
-	return aruo
+func (_u *ApiResourceUpdateOne) SetOperation(v string) *ApiResourceUpdateOne {
+	_u.mutation.SetOperation(v)
+	return _u
 }
 
 // SetNillableOperation sets the "operation" field if the given value is not nil.
-func (aruo *ApiResourceUpdateOne) SetNillableOperation(s *string) *ApiResourceUpdateOne {
-	if s != nil {
-		aruo.SetOperation(*s)
+func (_u *ApiResourceUpdateOne) SetNillableOperation(v *string) *ApiResourceUpdateOne {
+	if v != nil {
+		_u.SetOperation(*v)
 	}
-	return aruo
+	return _u
 }
 
 // ClearOperation clears the value of the "operation" field.
-func (aruo *ApiResourceUpdateOne) ClearOperation() *ApiResourceUpdateOne {
-	aruo.mutation.ClearOperation()
-	return aruo
+func (_u *ApiResourceUpdateOne) ClearOperation() *ApiResourceUpdateOne {
+	_u.mutation.ClearOperation()
+	return _u
 }
 
 // SetPath sets the "path" field.
-func (aruo *ApiResourceUpdateOne) SetPath(s string) *ApiResourceUpdateOne {
-	aruo.mutation.SetPath(s)
-	return aruo
+func (_u *ApiResourceUpdateOne) SetPath(v string) *ApiResourceUpdateOne {
+	_u.mutation.SetPath(v)
+	return _u
 }
 
 // SetNillablePath sets the "path" field if the given value is not nil.
-func (aruo *ApiResourceUpdateOne) SetNillablePath(s *string) *ApiResourceUpdateOne {
-	if s != nil {
-		aruo.SetPath(*s)
+func (_u *ApiResourceUpdateOne) SetNillablePath(v *string) *ApiResourceUpdateOne {
+	if v != nil {
+		_u.SetPath(*v)
 	}
-	return aruo
+	return _u
 }
 
 // ClearPath clears the value of the "path" field.
-func (aruo *ApiResourceUpdateOne) ClearPath() *ApiResourceUpdateOne {
-	aruo.mutation.ClearPath()
-	return aruo
+func (_u *ApiResourceUpdateOne) ClearPath() *ApiResourceUpdateOne {
+	_u.mutation.ClearPath()
+	return _u
 }
 
 // SetMethod sets the "method" field.
-func (aruo *ApiResourceUpdateOne) SetMethod(s string) *ApiResourceUpdateOne {
-	aruo.mutation.SetMethod(s)
-	return aruo
+func (_u *ApiResourceUpdateOne) SetMethod(v string) *ApiResourceUpdateOne {
+	_u.mutation.SetMethod(v)
+	return _u
 }
 
 // SetNillableMethod sets the "method" field if the given value is not nil.
-func (aruo *ApiResourceUpdateOne) SetNillableMethod(s *string) *ApiResourceUpdateOne {
-	if s != nil {
-		aruo.SetMethod(*s)
+func (_u *ApiResourceUpdateOne) SetNillableMethod(v *string) *ApiResourceUpdateOne {
+	if v != nil {
+		_u.SetMethod(*v)
 	}
-	return aruo
+	return _u
 }
 
 // ClearMethod clears the value of the "method" field.
-func (aruo *ApiResourceUpdateOne) ClearMethod() *ApiResourceUpdateOne {
-	aruo.mutation.ClearMethod()
-	return aruo
+func (_u *ApiResourceUpdateOne) ClearMethod() *ApiResourceUpdateOne {
+	_u.mutation.ClearMethod()
+	return _u
 }
 
 // Mutation returns the ApiResourceMutation object of the builder.
-func (aruo *ApiResourceUpdateOne) Mutation() *ApiResourceMutation {
-	return aruo.mutation
+func (_u *ApiResourceUpdateOne) Mutation() *ApiResourceMutation {
+	return _u.mutation
 }
 
 // Where appends a list predicates to the ApiResourceUpdate builder.
-func (aruo *ApiResourceUpdateOne) Where(ps ...predicate.ApiResource) *ApiResourceUpdateOne {
-	aruo.mutation.Where(ps...)
-	return aruo
+func (_u *ApiResourceUpdateOne) Where(ps ...predicate.ApiResource) *ApiResourceUpdateOne {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // Select allows selecting one or more fields (columns) of the returned entity.
 // The default is selecting all fields defined in the entity schema.
-func (aruo *ApiResourceUpdateOne) Select(field string, fields ...string) *ApiResourceUpdateOne {
-	aruo.fields = append([]string{field}, fields...)
-	return aruo
+func (_u *ApiResourceUpdateOne) Select(field string, fields ...string) *ApiResourceUpdateOne {
+	_u.fields = append([]string{field}, fields...)
+	return _u
 }
 
 // Save executes the query and returns the updated ApiResource entity.
-func (aruo *ApiResourceUpdateOne) Save(ctx context.Context) (*ApiResource, error) {
-	return withHooks(ctx, aruo.sqlSave, aruo.mutation, aruo.hooks)
+func (_u *ApiResourceUpdateOne) Save(ctx context.Context) (*ApiResource, error) {
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (aruo *ApiResourceUpdateOne) SaveX(ctx context.Context) *ApiResource {
-	node, err := aruo.Save(ctx)
+func (_u *ApiResourceUpdateOne) SaveX(ctx context.Context) *ApiResource {
+	node, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -628,32 +628,32 @@ func (aruo *ApiResourceUpdateOne) SaveX(ctx context.Context) *ApiResource {
 }
 
 // Exec executes the query on the entity.
-func (aruo *ApiResourceUpdateOne) Exec(ctx context.Context) error {
-	_, err := aruo.Save(ctx)
+func (_u *ApiResourceUpdateOne) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (aruo *ApiResourceUpdateOne) ExecX(ctx context.Context) {
-	if err := aruo.Exec(ctx); err != nil {
+func (_u *ApiResourceUpdateOne) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // Modify adds a statement modifier for attaching custom logic to the UPDATE statement.
-func (aruo *ApiResourceUpdateOne) Modify(modifiers ...func(u *sql.UpdateBuilder)) *ApiResourceUpdateOne {
-	aruo.modifiers = append(aruo.modifiers, modifiers...)
-	return aruo
+func (_u *ApiResourceUpdateOne) Modify(modifiers ...func(u *sql.UpdateBuilder)) *ApiResourceUpdateOne {
+	_u.modifiers = append(_u.modifiers, modifiers...)
+	return _u
 }
 
-func (aruo *ApiResourceUpdateOne) sqlSave(ctx context.Context) (_node *ApiResource, err error) {
+func (_u *ApiResourceUpdateOne) sqlSave(ctx context.Context) (_node *ApiResource, err error) {
 	_spec := sqlgraph.NewUpdateSpec(apiresource.Table, apiresource.Columns, sqlgraph.NewFieldSpec(apiresource.FieldID, field.TypeUint32))
-	id, ok := aruo.mutation.ID()
+	id, ok := _u.mutation.ID()
 	if !ok {
 		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "ApiResource.id" for update`)}
 	}
 	_spec.Node.ID.Value = id
-	if fields := aruo.fields; len(fields) > 0 {
+	if fields := _u.fields; len(fields) > 0 {
 		_spec.Node.Columns = make([]string, 0, len(fields))
 		_spec.Node.Columns = append(_spec.Node.Columns, apiresource.FieldID)
 		for _, f := range fields {
@@ -665,87 +665,87 @@ func (aruo *ApiResourceUpdateOne) sqlSave(ctx context.Context) (_node *ApiResour
 			}
 		}
 	}
-	if ps := aruo.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if aruo.mutation.CreateTimeCleared() {
+	if _u.mutation.CreateTimeCleared() {
 		_spec.ClearField(apiresource.FieldCreateTime, field.TypeTime)
 	}
-	if value, ok := aruo.mutation.UpdateTime(); ok {
+	if value, ok := _u.mutation.UpdateTime(); ok {
 		_spec.SetField(apiresource.FieldUpdateTime, field.TypeTime, value)
 	}
-	if aruo.mutation.UpdateTimeCleared() {
+	if _u.mutation.UpdateTimeCleared() {
 		_spec.ClearField(apiresource.FieldUpdateTime, field.TypeTime)
 	}
-	if value, ok := aruo.mutation.DeleteTime(); ok {
+	if value, ok := _u.mutation.DeleteTime(); ok {
 		_spec.SetField(apiresource.FieldDeleteTime, field.TypeTime, value)
 	}
-	if aruo.mutation.DeleteTimeCleared() {
+	if _u.mutation.DeleteTimeCleared() {
 		_spec.ClearField(apiresource.FieldDeleteTime, field.TypeTime)
 	}
-	if value, ok := aruo.mutation.CreateBy(); ok {
+	if value, ok := _u.mutation.CreateBy(); ok {
 		_spec.SetField(apiresource.FieldCreateBy, field.TypeUint32, value)
 	}
-	if value, ok := aruo.mutation.AddedCreateBy(); ok {
+	if value, ok := _u.mutation.AddedCreateBy(); ok {
 		_spec.AddField(apiresource.FieldCreateBy, field.TypeUint32, value)
 	}
-	if aruo.mutation.CreateByCleared() {
+	if _u.mutation.CreateByCleared() {
 		_spec.ClearField(apiresource.FieldCreateBy, field.TypeUint32)
 	}
-	if value, ok := aruo.mutation.UpdateBy(); ok {
+	if value, ok := _u.mutation.UpdateBy(); ok {
 		_spec.SetField(apiresource.FieldUpdateBy, field.TypeUint32, value)
 	}
-	if value, ok := aruo.mutation.AddedUpdateBy(); ok {
+	if value, ok := _u.mutation.AddedUpdateBy(); ok {
 		_spec.AddField(apiresource.FieldUpdateBy, field.TypeUint32, value)
 	}
-	if aruo.mutation.UpdateByCleared() {
+	if _u.mutation.UpdateByCleared() {
 		_spec.ClearField(apiresource.FieldUpdateBy, field.TypeUint32)
 	}
-	if value, ok := aruo.mutation.Description(); ok {
+	if value, ok := _u.mutation.Description(); ok {
 		_spec.SetField(apiresource.FieldDescription, field.TypeString, value)
 	}
-	if aruo.mutation.DescriptionCleared() {
+	if _u.mutation.DescriptionCleared() {
 		_spec.ClearField(apiresource.FieldDescription, field.TypeString)
 	}
-	if value, ok := aruo.mutation.Module(); ok {
+	if value, ok := _u.mutation.Module(); ok {
 		_spec.SetField(apiresource.FieldModule, field.TypeString, value)
 	}
-	if aruo.mutation.ModuleCleared() {
+	if _u.mutation.ModuleCleared() {
 		_spec.ClearField(apiresource.FieldModule, field.TypeString)
 	}
-	if value, ok := aruo.mutation.ModuleDescription(); ok {
+	if value, ok := _u.mutation.ModuleDescription(); ok {
 		_spec.SetField(apiresource.FieldModuleDescription, field.TypeString, value)
 	}
-	if aruo.mutation.ModuleDescriptionCleared() {
+	if _u.mutation.ModuleDescriptionCleared() {
 		_spec.ClearField(apiresource.FieldModuleDescription, field.TypeString)
 	}
-	if value, ok := aruo.mutation.Operation(); ok {
+	if value, ok := _u.mutation.Operation(); ok {
 		_spec.SetField(apiresource.FieldOperation, field.TypeString, value)
 	}
-	if aruo.mutation.OperationCleared() {
+	if _u.mutation.OperationCleared() {
 		_spec.ClearField(apiresource.FieldOperation, field.TypeString)
 	}
-	if value, ok := aruo.mutation.Path(); ok {
+	if value, ok := _u.mutation.Path(); ok {
 		_spec.SetField(apiresource.FieldPath, field.TypeString, value)
 	}
-	if aruo.mutation.PathCleared() {
+	if _u.mutation.PathCleared() {
 		_spec.ClearField(apiresource.FieldPath, field.TypeString)
 	}
-	if value, ok := aruo.mutation.Method(); ok {
+	if value, ok := _u.mutation.Method(); ok {
 		_spec.SetField(apiresource.FieldMethod, field.TypeString, value)
 	}
-	if aruo.mutation.MethodCleared() {
+	if _u.mutation.MethodCleared() {
 		_spec.ClearField(apiresource.FieldMethod, field.TypeString)
 	}
-	_spec.AddModifiers(aruo.modifiers...)
-	_node = &ApiResource{config: aruo.config}
+	_spec.AddModifiers(_u.modifiers...)
+	_node = &ApiResource{config: _u.config}
 	_spec.Assign = _node.assignValues
 	_spec.ScanValues = _node.scanValues
-	if err = sqlgraph.UpdateNode(ctx, aruo.driver, _spec); err != nil {
+	if err = sqlgraph.UpdateNode(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{apiresource.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -753,6 +753,6 @@ func (aruo *ApiResourceUpdateOne) sqlSave(ctx context.Context) (_node *ApiResour
 		}
 		return nil, err
 	}
-	aruo.mutation.done = true
+	_u.mutation.done = true
 	return _node, nil
 }

@@ -24,225 +24,225 @@ type AdminLoginRestrictionUpdate struct {
 }
 
 // Where appends a list predicates to the AdminLoginRestrictionUpdate builder.
-func (alru *AdminLoginRestrictionUpdate) Where(ps ...predicate.AdminLoginRestriction) *AdminLoginRestrictionUpdate {
-	alru.mutation.Where(ps...)
-	return alru
+func (_u *AdminLoginRestrictionUpdate) Where(ps ...predicate.AdminLoginRestriction) *AdminLoginRestrictionUpdate {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // SetUpdateTime sets the "update_time" field.
-func (alru *AdminLoginRestrictionUpdate) SetUpdateTime(t time.Time) *AdminLoginRestrictionUpdate {
-	alru.mutation.SetUpdateTime(t)
-	return alru
+func (_u *AdminLoginRestrictionUpdate) SetUpdateTime(v time.Time) *AdminLoginRestrictionUpdate {
+	_u.mutation.SetUpdateTime(v)
+	return _u
 }
 
 // SetNillableUpdateTime sets the "update_time" field if the given value is not nil.
-func (alru *AdminLoginRestrictionUpdate) SetNillableUpdateTime(t *time.Time) *AdminLoginRestrictionUpdate {
-	if t != nil {
-		alru.SetUpdateTime(*t)
+func (_u *AdminLoginRestrictionUpdate) SetNillableUpdateTime(v *time.Time) *AdminLoginRestrictionUpdate {
+	if v != nil {
+		_u.SetUpdateTime(*v)
 	}
-	return alru
+	return _u
 }
 
 // ClearUpdateTime clears the value of the "update_time" field.
-func (alru *AdminLoginRestrictionUpdate) ClearUpdateTime() *AdminLoginRestrictionUpdate {
-	alru.mutation.ClearUpdateTime()
-	return alru
+func (_u *AdminLoginRestrictionUpdate) ClearUpdateTime() *AdminLoginRestrictionUpdate {
+	_u.mutation.ClearUpdateTime()
+	return _u
 }
 
 // SetDeleteTime sets the "delete_time" field.
-func (alru *AdminLoginRestrictionUpdate) SetDeleteTime(t time.Time) *AdminLoginRestrictionUpdate {
-	alru.mutation.SetDeleteTime(t)
-	return alru
+func (_u *AdminLoginRestrictionUpdate) SetDeleteTime(v time.Time) *AdminLoginRestrictionUpdate {
+	_u.mutation.SetDeleteTime(v)
+	return _u
 }
 
 // SetNillableDeleteTime sets the "delete_time" field if the given value is not nil.
-func (alru *AdminLoginRestrictionUpdate) SetNillableDeleteTime(t *time.Time) *AdminLoginRestrictionUpdate {
-	if t != nil {
-		alru.SetDeleteTime(*t)
+func (_u *AdminLoginRestrictionUpdate) SetNillableDeleteTime(v *time.Time) *AdminLoginRestrictionUpdate {
+	if v != nil {
+		_u.SetDeleteTime(*v)
 	}
-	return alru
+	return _u
 }
 
 // ClearDeleteTime clears the value of the "delete_time" field.
-func (alru *AdminLoginRestrictionUpdate) ClearDeleteTime() *AdminLoginRestrictionUpdate {
-	alru.mutation.ClearDeleteTime()
-	return alru
+func (_u *AdminLoginRestrictionUpdate) ClearDeleteTime() *AdminLoginRestrictionUpdate {
+	_u.mutation.ClearDeleteTime()
+	return _u
 }
 
 // SetCreateBy sets the "create_by" field.
-func (alru *AdminLoginRestrictionUpdate) SetCreateBy(u uint32) *AdminLoginRestrictionUpdate {
-	alru.mutation.ResetCreateBy()
-	alru.mutation.SetCreateBy(u)
-	return alru
+func (_u *AdminLoginRestrictionUpdate) SetCreateBy(v uint32) *AdminLoginRestrictionUpdate {
+	_u.mutation.ResetCreateBy()
+	_u.mutation.SetCreateBy(v)
+	return _u
 }
 
 // SetNillableCreateBy sets the "create_by" field if the given value is not nil.
-func (alru *AdminLoginRestrictionUpdate) SetNillableCreateBy(u *uint32) *AdminLoginRestrictionUpdate {
-	if u != nil {
-		alru.SetCreateBy(*u)
+func (_u *AdminLoginRestrictionUpdate) SetNillableCreateBy(v *uint32) *AdminLoginRestrictionUpdate {
+	if v != nil {
+		_u.SetCreateBy(*v)
 	}
-	return alru
+	return _u
 }
 
-// AddCreateBy adds u to the "create_by" field.
-func (alru *AdminLoginRestrictionUpdate) AddCreateBy(u int32) *AdminLoginRestrictionUpdate {
-	alru.mutation.AddCreateBy(u)
-	return alru
+// AddCreateBy adds value to the "create_by" field.
+func (_u *AdminLoginRestrictionUpdate) AddCreateBy(v int32) *AdminLoginRestrictionUpdate {
+	_u.mutation.AddCreateBy(v)
+	return _u
 }
 
 // ClearCreateBy clears the value of the "create_by" field.
-func (alru *AdminLoginRestrictionUpdate) ClearCreateBy() *AdminLoginRestrictionUpdate {
-	alru.mutation.ClearCreateBy()
-	return alru
+func (_u *AdminLoginRestrictionUpdate) ClearCreateBy() *AdminLoginRestrictionUpdate {
+	_u.mutation.ClearCreateBy()
+	return _u
 }
 
 // SetUpdateBy sets the "update_by" field.
-func (alru *AdminLoginRestrictionUpdate) SetUpdateBy(u uint32) *AdminLoginRestrictionUpdate {
-	alru.mutation.ResetUpdateBy()
-	alru.mutation.SetUpdateBy(u)
-	return alru
+func (_u *AdminLoginRestrictionUpdate) SetUpdateBy(v uint32) *AdminLoginRestrictionUpdate {
+	_u.mutation.ResetUpdateBy()
+	_u.mutation.SetUpdateBy(v)
+	return _u
 }
 
 // SetNillableUpdateBy sets the "update_by" field if the given value is not nil.
-func (alru *AdminLoginRestrictionUpdate) SetNillableUpdateBy(u *uint32) *AdminLoginRestrictionUpdate {
-	if u != nil {
-		alru.SetUpdateBy(*u)
+func (_u *AdminLoginRestrictionUpdate) SetNillableUpdateBy(v *uint32) *AdminLoginRestrictionUpdate {
+	if v != nil {
+		_u.SetUpdateBy(*v)
 	}
-	return alru
+	return _u
 }
 
-// AddUpdateBy adds u to the "update_by" field.
-func (alru *AdminLoginRestrictionUpdate) AddUpdateBy(u int32) *AdminLoginRestrictionUpdate {
-	alru.mutation.AddUpdateBy(u)
-	return alru
+// AddUpdateBy adds value to the "update_by" field.
+func (_u *AdminLoginRestrictionUpdate) AddUpdateBy(v int32) *AdminLoginRestrictionUpdate {
+	_u.mutation.AddUpdateBy(v)
+	return _u
 }
 
 // ClearUpdateBy clears the value of the "update_by" field.
-func (alru *AdminLoginRestrictionUpdate) ClearUpdateBy() *AdminLoginRestrictionUpdate {
-	alru.mutation.ClearUpdateBy()
-	return alru
+func (_u *AdminLoginRestrictionUpdate) ClearUpdateBy() *AdminLoginRestrictionUpdate {
+	_u.mutation.ClearUpdateBy()
+	return _u
 }
 
 // SetTargetID sets the "target_id" field.
-func (alru *AdminLoginRestrictionUpdate) SetTargetID(u uint32) *AdminLoginRestrictionUpdate {
-	alru.mutation.ResetTargetID()
-	alru.mutation.SetTargetID(u)
-	return alru
+func (_u *AdminLoginRestrictionUpdate) SetTargetID(v uint32) *AdminLoginRestrictionUpdate {
+	_u.mutation.ResetTargetID()
+	_u.mutation.SetTargetID(v)
+	return _u
 }
 
 // SetNillableTargetID sets the "target_id" field if the given value is not nil.
-func (alru *AdminLoginRestrictionUpdate) SetNillableTargetID(u *uint32) *AdminLoginRestrictionUpdate {
-	if u != nil {
-		alru.SetTargetID(*u)
+func (_u *AdminLoginRestrictionUpdate) SetNillableTargetID(v *uint32) *AdminLoginRestrictionUpdate {
+	if v != nil {
+		_u.SetTargetID(*v)
 	}
-	return alru
+	return _u
 }
 
-// AddTargetID adds u to the "target_id" field.
-func (alru *AdminLoginRestrictionUpdate) AddTargetID(u int32) *AdminLoginRestrictionUpdate {
-	alru.mutation.AddTargetID(u)
-	return alru
+// AddTargetID adds value to the "target_id" field.
+func (_u *AdminLoginRestrictionUpdate) AddTargetID(v int32) *AdminLoginRestrictionUpdate {
+	_u.mutation.AddTargetID(v)
+	return _u
 }
 
 // ClearTargetID clears the value of the "target_id" field.
-func (alru *AdminLoginRestrictionUpdate) ClearTargetID() *AdminLoginRestrictionUpdate {
-	alru.mutation.ClearTargetID()
-	return alru
+func (_u *AdminLoginRestrictionUpdate) ClearTargetID() *AdminLoginRestrictionUpdate {
+	_u.mutation.ClearTargetID()
+	return _u
 }
 
 // SetValue sets the "value" field.
-func (alru *AdminLoginRestrictionUpdate) SetValue(s string) *AdminLoginRestrictionUpdate {
-	alru.mutation.SetValue(s)
-	return alru
+func (_u *AdminLoginRestrictionUpdate) SetValue(v string) *AdminLoginRestrictionUpdate {
+	_u.mutation.SetValue(v)
+	return _u
 }
 
 // SetNillableValue sets the "value" field if the given value is not nil.
-func (alru *AdminLoginRestrictionUpdate) SetNillableValue(s *string) *AdminLoginRestrictionUpdate {
-	if s != nil {
-		alru.SetValue(*s)
+func (_u *AdminLoginRestrictionUpdate) SetNillableValue(v *string) *AdminLoginRestrictionUpdate {
+	if v != nil {
+		_u.SetValue(*v)
 	}
-	return alru
+	return _u
 }
 
 // ClearValue clears the value of the "value" field.
-func (alru *AdminLoginRestrictionUpdate) ClearValue() *AdminLoginRestrictionUpdate {
-	alru.mutation.ClearValue()
-	return alru
+func (_u *AdminLoginRestrictionUpdate) ClearValue() *AdminLoginRestrictionUpdate {
+	_u.mutation.ClearValue()
+	return _u
 }
 
 // SetReason sets the "reason" field.
-func (alru *AdminLoginRestrictionUpdate) SetReason(s string) *AdminLoginRestrictionUpdate {
-	alru.mutation.SetReason(s)
-	return alru
+func (_u *AdminLoginRestrictionUpdate) SetReason(v string) *AdminLoginRestrictionUpdate {
+	_u.mutation.SetReason(v)
+	return _u
 }
 
 // SetNillableReason sets the "reason" field if the given value is not nil.
-func (alru *AdminLoginRestrictionUpdate) SetNillableReason(s *string) *AdminLoginRestrictionUpdate {
-	if s != nil {
-		alru.SetReason(*s)
+func (_u *AdminLoginRestrictionUpdate) SetNillableReason(v *string) *AdminLoginRestrictionUpdate {
+	if v != nil {
+		_u.SetReason(*v)
 	}
-	return alru
+	return _u
 }
 
 // ClearReason clears the value of the "reason" field.
-func (alru *AdminLoginRestrictionUpdate) ClearReason() *AdminLoginRestrictionUpdate {
-	alru.mutation.ClearReason()
-	return alru
+func (_u *AdminLoginRestrictionUpdate) ClearReason() *AdminLoginRestrictionUpdate {
+	_u.mutation.ClearReason()
+	return _u
 }
 
 // SetType sets the "type" field.
-func (alru *AdminLoginRestrictionUpdate) SetType(a adminloginrestriction.Type) *AdminLoginRestrictionUpdate {
-	alru.mutation.SetType(a)
-	return alru
+func (_u *AdminLoginRestrictionUpdate) SetType(v adminloginrestriction.Type) *AdminLoginRestrictionUpdate {
+	_u.mutation.SetType(v)
+	return _u
 }
 
 // SetNillableType sets the "type" field if the given value is not nil.
-func (alru *AdminLoginRestrictionUpdate) SetNillableType(a *adminloginrestriction.Type) *AdminLoginRestrictionUpdate {
-	if a != nil {
-		alru.SetType(*a)
+func (_u *AdminLoginRestrictionUpdate) SetNillableType(v *adminloginrestriction.Type) *AdminLoginRestrictionUpdate {
+	if v != nil {
+		_u.SetType(*v)
 	}
-	return alru
+	return _u
 }
 
 // ClearType clears the value of the "type" field.
-func (alru *AdminLoginRestrictionUpdate) ClearType() *AdminLoginRestrictionUpdate {
-	alru.mutation.ClearType()
-	return alru
+func (_u *AdminLoginRestrictionUpdate) ClearType() *AdminLoginRestrictionUpdate {
+	_u.mutation.ClearType()
+	return _u
 }
 
 // SetMethod sets the "method" field.
-func (alru *AdminLoginRestrictionUpdate) SetMethod(a adminloginrestriction.Method) *AdminLoginRestrictionUpdate {
-	alru.mutation.SetMethod(a)
-	return alru
+func (_u *AdminLoginRestrictionUpdate) SetMethod(v adminloginrestriction.Method) *AdminLoginRestrictionUpdate {
+	_u.mutation.SetMethod(v)
+	return _u
 }
 
 // SetNillableMethod sets the "method" field if the given value is not nil.
-func (alru *AdminLoginRestrictionUpdate) SetNillableMethod(a *adminloginrestriction.Method) *AdminLoginRestrictionUpdate {
-	if a != nil {
-		alru.SetMethod(*a)
+func (_u *AdminLoginRestrictionUpdate) SetNillableMethod(v *adminloginrestriction.Method) *AdminLoginRestrictionUpdate {
+	if v != nil {
+		_u.SetMethod(*v)
 	}
-	return alru
+	return _u
 }
 
 // ClearMethod clears the value of the "method" field.
-func (alru *AdminLoginRestrictionUpdate) ClearMethod() *AdminLoginRestrictionUpdate {
-	alru.mutation.ClearMethod()
-	return alru
+func (_u *AdminLoginRestrictionUpdate) ClearMethod() *AdminLoginRestrictionUpdate {
+	_u.mutation.ClearMethod()
+	return _u
 }
 
 // Mutation returns the AdminLoginRestrictionMutation object of the builder.
-func (alru *AdminLoginRestrictionUpdate) Mutation() *AdminLoginRestrictionMutation {
-	return alru.mutation
+func (_u *AdminLoginRestrictionUpdate) Mutation() *AdminLoginRestrictionMutation {
+	return _u.mutation
 }
 
 // Save executes the query and returns the number of nodes affected by the update operation.
-func (alru *AdminLoginRestrictionUpdate) Save(ctx context.Context) (int, error) {
-	return withHooks(ctx, alru.sqlSave, alru.mutation, alru.hooks)
+func (_u *AdminLoginRestrictionUpdate) Save(ctx context.Context) (int, error) {
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (alru *AdminLoginRestrictionUpdate) SaveX(ctx context.Context) int {
-	affected, err := alru.Save(ctx)
+func (_u *AdminLoginRestrictionUpdate) SaveX(ctx context.Context) int {
+	affected, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -250,26 +250,26 @@ func (alru *AdminLoginRestrictionUpdate) SaveX(ctx context.Context) int {
 }
 
 // Exec executes the query.
-func (alru *AdminLoginRestrictionUpdate) Exec(ctx context.Context) error {
-	_, err := alru.Save(ctx)
+func (_u *AdminLoginRestrictionUpdate) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (alru *AdminLoginRestrictionUpdate) ExecX(ctx context.Context) {
-	if err := alru.Exec(ctx); err != nil {
+func (_u *AdminLoginRestrictionUpdate) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
-func (alru *AdminLoginRestrictionUpdate) check() error {
-	if v, ok := alru.mutation.GetType(); ok {
+func (_u *AdminLoginRestrictionUpdate) check() error {
+	if v, ok := _u.mutation.GetType(); ok {
 		if err := adminloginrestriction.TypeValidator(v); err != nil {
 			return &ValidationError{Name: "type", err: fmt.Errorf(`ent: validator failed for field "AdminLoginRestriction.type": %w`, err)}
 		}
 	}
-	if v, ok := alru.mutation.Method(); ok {
+	if v, ok := _u.mutation.Method(); ok {
 		if err := adminloginrestriction.MethodValidator(v); err != nil {
 			return &ValidationError{Name: "method", err: fmt.Errorf(`ent: validator failed for field "AdminLoginRestriction.method": %w`, err)}
 		}
@@ -278,91 +278,91 @@ func (alru *AdminLoginRestrictionUpdate) check() error {
 }
 
 // Modify adds a statement modifier for attaching custom logic to the UPDATE statement.
-func (alru *AdminLoginRestrictionUpdate) Modify(modifiers ...func(u *sql.UpdateBuilder)) *AdminLoginRestrictionUpdate {
-	alru.modifiers = append(alru.modifiers, modifiers...)
-	return alru
+func (_u *AdminLoginRestrictionUpdate) Modify(modifiers ...func(u *sql.UpdateBuilder)) *AdminLoginRestrictionUpdate {
+	_u.modifiers = append(_u.modifiers, modifiers...)
+	return _u
 }
 
-func (alru *AdminLoginRestrictionUpdate) sqlSave(ctx context.Context) (n int, err error) {
-	if err := alru.check(); err != nil {
-		return n, err
+func (_u *AdminLoginRestrictionUpdate) sqlSave(ctx context.Context) (_node int, err error) {
+	if err := _u.check(); err != nil {
+		return _node, err
 	}
 	_spec := sqlgraph.NewUpdateSpec(adminloginrestriction.Table, adminloginrestriction.Columns, sqlgraph.NewFieldSpec(adminloginrestriction.FieldID, field.TypeUint32))
-	if ps := alru.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if alru.mutation.CreateTimeCleared() {
+	if _u.mutation.CreateTimeCleared() {
 		_spec.ClearField(adminloginrestriction.FieldCreateTime, field.TypeTime)
 	}
-	if value, ok := alru.mutation.UpdateTime(); ok {
+	if value, ok := _u.mutation.UpdateTime(); ok {
 		_spec.SetField(adminloginrestriction.FieldUpdateTime, field.TypeTime, value)
 	}
-	if alru.mutation.UpdateTimeCleared() {
+	if _u.mutation.UpdateTimeCleared() {
 		_spec.ClearField(adminloginrestriction.FieldUpdateTime, field.TypeTime)
 	}
-	if value, ok := alru.mutation.DeleteTime(); ok {
+	if value, ok := _u.mutation.DeleteTime(); ok {
 		_spec.SetField(adminloginrestriction.FieldDeleteTime, field.TypeTime, value)
 	}
-	if alru.mutation.DeleteTimeCleared() {
+	if _u.mutation.DeleteTimeCleared() {
 		_spec.ClearField(adminloginrestriction.FieldDeleteTime, field.TypeTime)
 	}
-	if value, ok := alru.mutation.CreateBy(); ok {
+	if value, ok := _u.mutation.CreateBy(); ok {
 		_spec.SetField(adminloginrestriction.FieldCreateBy, field.TypeUint32, value)
 	}
-	if value, ok := alru.mutation.AddedCreateBy(); ok {
+	if value, ok := _u.mutation.AddedCreateBy(); ok {
 		_spec.AddField(adminloginrestriction.FieldCreateBy, field.TypeUint32, value)
 	}
-	if alru.mutation.CreateByCleared() {
+	if _u.mutation.CreateByCleared() {
 		_spec.ClearField(adminloginrestriction.FieldCreateBy, field.TypeUint32)
 	}
-	if value, ok := alru.mutation.UpdateBy(); ok {
+	if value, ok := _u.mutation.UpdateBy(); ok {
 		_spec.SetField(adminloginrestriction.FieldUpdateBy, field.TypeUint32, value)
 	}
-	if value, ok := alru.mutation.AddedUpdateBy(); ok {
+	if value, ok := _u.mutation.AddedUpdateBy(); ok {
 		_spec.AddField(adminloginrestriction.FieldUpdateBy, field.TypeUint32, value)
 	}
-	if alru.mutation.UpdateByCleared() {
+	if _u.mutation.UpdateByCleared() {
 		_spec.ClearField(adminloginrestriction.FieldUpdateBy, field.TypeUint32)
 	}
-	if value, ok := alru.mutation.TargetID(); ok {
+	if value, ok := _u.mutation.TargetID(); ok {
 		_spec.SetField(adminloginrestriction.FieldTargetID, field.TypeUint32, value)
 	}
-	if value, ok := alru.mutation.AddedTargetID(); ok {
+	if value, ok := _u.mutation.AddedTargetID(); ok {
 		_spec.AddField(adminloginrestriction.FieldTargetID, field.TypeUint32, value)
 	}
-	if alru.mutation.TargetIDCleared() {
+	if _u.mutation.TargetIDCleared() {
 		_spec.ClearField(adminloginrestriction.FieldTargetID, field.TypeUint32)
 	}
-	if value, ok := alru.mutation.Value(); ok {
+	if value, ok := _u.mutation.Value(); ok {
 		_spec.SetField(adminloginrestriction.FieldValue, field.TypeString, value)
 	}
-	if alru.mutation.ValueCleared() {
+	if _u.mutation.ValueCleared() {
 		_spec.ClearField(adminloginrestriction.FieldValue, field.TypeString)
 	}
-	if value, ok := alru.mutation.Reason(); ok {
+	if value, ok := _u.mutation.Reason(); ok {
 		_spec.SetField(adminloginrestriction.FieldReason, field.TypeString, value)
 	}
-	if alru.mutation.ReasonCleared() {
+	if _u.mutation.ReasonCleared() {
 		_spec.ClearField(adminloginrestriction.FieldReason, field.TypeString)
 	}
-	if value, ok := alru.mutation.GetType(); ok {
+	if value, ok := _u.mutation.GetType(); ok {
 		_spec.SetField(adminloginrestriction.FieldType, field.TypeEnum, value)
 	}
-	if alru.mutation.TypeCleared() {
+	if _u.mutation.TypeCleared() {
 		_spec.ClearField(adminloginrestriction.FieldType, field.TypeEnum)
 	}
-	if value, ok := alru.mutation.Method(); ok {
+	if value, ok := _u.mutation.Method(); ok {
 		_spec.SetField(adminloginrestriction.FieldMethod, field.TypeEnum, value)
 	}
-	if alru.mutation.MethodCleared() {
+	if _u.mutation.MethodCleared() {
 		_spec.ClearField(adminloginrestriction.FieldMethod, field.TypeEnum)
 	}
-	_spec.AddModifiers(alru.modifiers...)
-	if n, err = sqlgraph.UpdateNodes(ctx, alru.driver, _spec); err != nil {
+	_spec.AddModifiers(_u.modifiers...)
+	if _node, err = sqlgraph.UpdateNodes(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{adminloginrestriction.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -370,8 +370,8 @@ func (alru *AdminLoginRestrictionUpdate) sqlSave(ctx context.Context) (n int, er
 		}
 		return 0, err
 	}
-	alru.mutation.done = true
-	return n, nil
+	_u.mutation.done = true
+	return _node, nil
 }
 
 // AdminLoginRestrictionUpdateOne is the builder for updating a single AdminLoginRestriction entity.
@@ -384,232 +384,232 @@ type AdminLoginRestrictionUpdateOne struct {
 }
 
 // SetUpdateTime sets the "update_time" field.
-func (alruo *AdminLoginRestrictionUpdateOne) SetUpdateTime(t time.Time) *AdminLoginRestrictionUpdateOne {
-	alruo.mutation.SetUpdateTime(t)
-	return alruo
+func (_u *AdminLoginRestrictionUpdateOne) SetUpdateTime(v time.Time) *AdminLoginRestrictionUpdateOne {
+	_u.mutation.SetUpdateTime(v)
+	return _u
 }
 
 // SetNillableUpdateTime sets the "update_time" field if the given value is not nil.
-func (alruo *AdminLoginRestrictionUpdateOne) SetNillableUpdateTime(t *time.Time) *AdminLoginRestrictionUpdateOne {
-	if t != nil {
-		alruo.SetUpdateTime(*t)
+func (_u *AdminLoginRestrictionUpdateOne) SetNillableUpdateTime(v *time.Time) *AdminLoginRestrictionUpdateOne {
+	if v != nil {
+		_u.SetUpdateTime(*v)
 	}
-	return alruo
+	return _u
 }
 
 // ClearUpdateTime clears the value of the "update_time" field.
-func (alruo *AdminLoginRestrictionUpdateOne) ClearUpdateTime() *AdminLoginRestrictionUpdateOne {
-	alruo.mutation.ClearUpdateTime()
-	return alruo
+func (_u *AdminLoginRestrictionUpdateOne) ClearUpdateTime() *AdminLoginRestrictionUpdateOne {
+	_u.mutation.ClearUpdateTime()
+	return _u
 }
 
 // SetDeleteTime sets the "delete_time" field.
-func (alruo *AdminLoginRestrictionUpdateOne) SetDeleteTime(t time.Time) *AdminLoginRestrictionUpdateOne {
-	alruo.mutation.SetDeleteTime(t)
-	return alruo
+func (_u *AdminLoginRestrictionUpdateOne) SetDeleteTime(v time.Time) *AdminLoginRestrictionUpdateOne {
+	_u.mutation.SetDeleteTime(v)
+	return _u
 }
 
 // SetNillableDeleteTime sets the "delete_time" field if the given value is not nil.
-func (alruo *AdminLoginRestrictionUpdateOne) SetNillableDeleteTime(t *time.Time) *AdminLoginRestrictionUpdateOne {
-	if t != nil {
-		alruo.SetDeleteTime(*t)
+func (_u *AdminLoginRestrictionUpdateOne) SetNillableDeleteTime(v *time.Time) *AdminLoginRestrictionUpdateOne {
+	if v != nil {
+		_u.SetDeleteTime(*v)
 	}
-	return alruo
+	return _u
 }
 
 // ClearDeleteTime clears the value of the "delete_time" field.
-func (alruo *AdminLoginRestrictionUpdateOne) ClearDeleteTime() *AdminLoginRestrictionUpdateOne {
-	alruo.mutation.ClearDeleteTime()
-	return alruo
+func (_u *AdminLoginRestrictionUpdateOne) ClearDeleteTime() *AdminLoginRestrictionUpdateOne {
+	_u.mutation.ClearDeleteTime()
+	return _u
 }
 
 // SetCreateBy sets the "create_by" field.
-func (alruo *AdminLoginRestrictionUpdateOne) SetCreateBy(u uint32) *AdminLoginRestrictionUpdateOne {
-	alruo.mutation.ResetCreateBy()
-	alruo.mutation.SetCreateBy(u)
-	return alruo
+func (_u *AdminLoginRestrictionUpdateOne) SetCreateBy(v uint32) *AdminLoginRestrictionUpdateOne {
+	_u.mutation.ResetCreateBy()
+	_u.mutation.SetCreateBy(v)
+	return _u
 }
 
 // SetNillableCreateBy sets the "create_by" field if the given value is not nil.
-func (alruo *AdminLoginRestrictionUpdateOne) SetNillableCreateBy(u *uint32) *AdminLoginRestrictionUpdateOne {
-	if u != nil {
-		alruo.SetCreateBy(*u)
+func (_u *AdminLoginRestrictionUpdateOne) SetNillableCreateBy(v *uint32) *AdminLoginRestrictionUpdateOne {
+	if v != nil {
+		_u.SetCreateBy(*v)
 	}
-	return alruo
+	return _u
 }
 
-// AddCreateBy adds u to the "create_by" field.
-func (alruo *AdminLoginRestrictionUpdateOne) AddCreateBy(u int32) *AdminLoginRestrictionUpdateOne {
-	alruo.mutation.AddCreateBy(u)
-	return alruo
+// AddCreateBy adds value to the "create_by" field.
+func (_u *AdminLoginRestrictionUpdateOne) AddCreateBy(v int32) *AdminLoginRestrictionUpdateOne {
+	_u.mutation.AddCreateBy(v)
+	return _u
 }
 
 // ClearCreateBy clears the value of the "create_by" field.
-func (alruo *AdminLoginRestrictionUpdateOne) ClearCreateBy() *AdminLoginRestrictionUpdateOne {
-	alruo.mutation.ClearCreateBy()
-	return alruo
+func (_u *AdminLoginRestrictionUpdateOne) ClearCreateBy() *AdminLoginRestrictionUpdateOne {
+	_u.mutation.ClearCreateBy()
+	return _u
 }
 
 // SetUpdateBy sets the "update_by" field.
-func (alruo *AdminLoginRestrictionUpdateOne) SetUpdateBy(u uint32) *AdminLoginRestrictionUpdateOne {
-	alruo.mutation.ResetUpdateBy()
-	alruo.mutation.SetUpdateBy(u)
-	return alruo
+func (_u *AdminLoginRestrictionUpdateOne) SetUpdateBy(v uint32) *AdminLoginRestrictionUpdateOne {
+	_u.mutation.ResetUpdateBy()
+	_u.mutation.SetUpdateBy(v)
+	return _u
 }
 
 // SetNillableUpdateBy sets the "update_by" field if the given value is not nil.
-func (alruo *AdminLoginRestrictionUpdateOne) SetNillableUpdateBy(u *uint32) *AdminLoginRestrictionUpdateOne {
-	if u != nil {
-		alruo.SetUpdateBy(*u)
+func (_u *AdminLoginRestrictionUpdateOne) SetNillableUpdateBy(v *uint32) *AdminLoginRestrictionUpdateOne {
+	if v != nil {
+		_u.SetUpdateBy(*v)
 	}
-	return alruo
+	return _u
 }
 
-// AddUpdateBy adds u to the "update_by" field.
-func (alruo *AdminLoginRestrictionUpdateOne) AddUpdateBy(u int32) *AdminLoginRestrictionUpdateOne {
-	alruo.mutation.AddUpdateBy(u)
-	return alruo
+// AddUpdateBy adds value to the "update_by" field.
+func (_u *AdminLoginRestrictionUpdateOne) AddUpdateBy(v int32) *AdminLoginRestrictionUpdateOne {
+	_u.mutation.AddUpdateBy(v)
+	return _u
 }
 
 // ClearUpdateBy clears the value of the "update_by" field.
-func (alruo *AdminLoginRestrictionUpdateOne) ClearUpdateBy() *AdminLoginRestrictionUpdateOne {
-	alruo.mutation.ClearUpdateBy()
-	return alruo
+func (_u *AdminLoginRestrictionUpdateOne) ClearUpdateBy() *AdminLoginRestrictionUpdateOne {
+	_u.mutation.ClearUpdateBy()
+	return _u
 }
 
 // SetTargetID sets the "target_id" field.
-func (alruo *AdminLoginRestrictionUpdateOne) SetTargetID(u uint32) *AdminLoginRestrictionUpdateOne {
-	alruo.mutation.ResetTargetID()
-	alruo.mutation.SetTargetID(u)
-	return alruo
+func (_u *AdminLoginRestrictionUpdateOne) SetTargetID(v uint32) *AdminLoginRestrictionUpdateOne {
+	_u.mutation.ResetTargetID()
+	_u.mutation.SetTargetID(v)
+	return _u
 }
 
 // SetNillableTargetID sets the "target_id" field if the given value is not nil.
-func (alruo *AdminLoginRestrictionUpdateOne) SetNillableTargetID(u *uint32) *AdminLoginRestrictionUpdateOne {
-	if u != nil {
-		alruo.SetTargetID(*u)
+func (_u *AdminLoginRestrictionUpdateOne) SetNillableTargetID(v *uint32) *AdminLoginRestrictionUpdateOne {
+	if v != nil {
+		_u.SetTargetID(*v)
 	}
-	return alruo
+	return _u
 }
 
-// AddTargetID adds u to the "target_id" field.
-func (alruo *AdminLoginRestrictionUpdateOne) AddTargetID(u int32) *AdminLoginRestrictionUpdateOne {
-	alruo.mutation.AddTargetID(u)
-	return alruo
+// AddTargetID adds value to the "target_id" field.
+func (_u *AdminLoginRestrictionUpdateOne) AddTargetID(v int32) *AdminLoginRestrictionUpdateOne {
+	_u.mutation.AddTargetID(v)
+	return _u
 }
 
 // ClearTargetID clears the value of the "target_id" field.
-func (alruo *AdminLoginRestrictionUpdateOne) ClearTargetID() *AdminLoginRestrictionUpdateOne {
-	alruo.mutation.ClearTargetID()
-	return alruo
+func (_u *AdminLoginRestrictionUpdateOne) ClearTargetID() *AdminLoginRestrictionUpdateOne {
+	_u.mutation.ClearTargetID()
+	return _u
 }
 
 // SetValue sets the "value" field.
-func (alruo *AdminLoginRestrictionUpdateOne) SetValue(s string) *AdminLoginRestrictionUpdateOne {
-	alruo.mutation.SetValue(s)
-	return alruo
+func (_u *AdminLoginRestrictionUpdateOne) SetValue(v string) *AdminLoginRestrictionUpdateOne {
+	_u.mutation.SetValue(v)
+	return _u
 }
 
 // SetNillableValue sets the "value" field if the given value is not nil.
-func (alruo *AdminLoginRestrictionUpdateOne) SetNillableValue(s *string) *AdminLoginRestrictionUpdateOne {
-	if s != nil {
-		alruo.SetValue(*s)
+func (_u *AdminLoginRestrictionUpdateOne) SetNillableValue(v *string) *AdminLoginRestrictionUpdateOne {
+	if v != nil {
+		_u.SetValue(*v)
 	}
-	return alruo
+	return _u
 }
 
 // ClearValue clears the value of the "value" field.
-func (alruo *AdminLoginRestrictionUpdateOne) ClearValue() *AdminLoginRestrictionUpdateOne {
-	alruo.mutation.ClearValue()
-	return alruo
+func (_u *AdminLoginRestrictionUpdateOne) ClearValue() *AdminLoginRestrictionUpdateOne {
+	_u.mutation.ClearValue()
+	return _u
 }
 
 // SetReason sets the "reason" field.
-func (alruo *AdminLoginRestrictionUpdateOne) SetReason(s string) *AdminLoginRestrictionUpdateOne {
-	alruo.mutation.SetReason(s)
-	return alruo
+func (_u *AdminLoginRestrictionUpdateOne) SetReason(v string) *AdminLoginRestrictionUpdateOne {
+	_u.mutation.SetReason(v)
+	return _u
 }
 
 // SetNillableReason sets the "reason" field if the given value is not nil.
-func (alruo *AdminLoginRestrictionUpdateOne) SetNillableReason(s *string) *AdminLoginRestrictionUpdateOne {
-	if s != nil {
-		alruo.SetReason(*s)
+func (_u *AdminLoginRestrictionUpdateOne) SetNillableReason(v *string) *AdminLoginRestrictionUpdateOne {
+	if v != nil {
+		_u.SetReason(*v)
 	}
-	return alruo
+	return _u
 }
 
 // ClearReason clears the value of the "reason" field.
-func (alruo *AdminLoginRestrictionUpdateOne) ClearReason() *AdminLoginRestrictionUpdateOne {
-	alruo.mutation.ClearReason()
-	return alruo
+func (_u *AdminLoginRestrictionUpdateOne) ClearReason() *AdminLoginRestrictionUpdateOne {
+	_u.mutation.ClearReason()
+	return _u
 }
 
 // SetType sets the "type" field.
-func (alruo *AdminLoginRestrictionUpdateOne) SetType(a adminloginrestriction.Type) *AdminLoginRestrictionUpdateOne {
-	alruo.mutation.SetType(a)
-	return alruo
+func (_u *AdminLoginRestrictionUpdateOne) SetType(v adminloginrestriction.Type) *AdminLoginRestrictionUpdateOne {
+	_u.mutation.SetType(v)
+	return _u
 }
 
 // SetNillableType sets the "type" field if the given value is not nil.
-func (alruo *AdminLoginRestrictionUpdateOne) SetNillableType(a *adminloginrestriction.Type) *AdminLoginRestrictionUpdateOne {
-	if a != nil {
-		alruo.SetType(*a)
+func (_u *AdminLoginRestrictionUpdateOne) SetNillableType(v *adminloginrestriction.Type) *AdminLoginRestrictionUpdateOne {
+	if v != nil {
+		_u.SetType(*v)
 	}
-	return alruo
+	return _u
 }
 
 // ClearType clears the value of the "type" field.
-func (alruo *AdminLoginRestrictionUpdateOne) ClearType() *AdminLoginRestrictionUpdateOne {
-	alruo.mutation.ClearType()
-	return alruo
+func (_u *AdminLoginRestrictionUpdateOne) ClearType() *AdminLoginRestrictionUpdateOne {
+	_u.mutation.ClearType()
+	return _u
 }
 
 // SetMethod sets the "method" field.
-func (alruo *AdminLoginRestrictionUpdateOne) SetMethod(a adminloginrestriction.Method) *AdminLoginRestrictionUpdateOne {
-	alruo.mutation.SetMethod(a)
-	return alruo
+func (_u *AdminLoginRestrictionUpdateOne) SetMethod(v adminloginrestriction.Method) *AdminLoginRestrictionUpdateOne {
+	_u.mutation.SetMethod(v)
+	return _u
 }
 
 // SetNillableMethod sets the "method" field if the given value is not nil.
-func (alruo *AdminLoginRestrictionUpdateOne) SetNillableMethod(a *adminloginrestriction.Method) *AdminLoginRestrictionUpdateOne {
-	if a != nil {
-		alruo.SetMethod(*a)
+func (_u *AdminLoginRestrictionUpdateOne) SetNillableMethod(v *adminloginrestriction.Method) *AdminLoginRestrictionUpdateOne {
+	if v != nil {
+		_u.SetMethod(*v)
 	}
-	return alruo
+	return _u
 }
 
 // ClearMethod clears the value of the "method" field.
-func (alruo *AdminLoginRestrictionUpdateOne) ClearMethod() *AdminLoginRestrictionUpdateOne {
-	alruo.mutation.ClearMethod()
-	return alruo
+func (_u *AdminLoginRestrictionUpdateOne) ClearMethod() *AdminLoginRestrictionUpdateOne {
+	_u.mutation.ClearMethod()
+	return _u
 }
 
 // Mutation returns the AdminLoginRestrictionMutation object of the builder.
-func (alruo *AdminLoginRestrictionUpdateOne) Mutation() *AdminLoginRestrictionMutation {
-	return alruo.mutation
+func (_u *AdminLoginRestrictionUpdateOne) Mutation() *AdminLoginRestrictionMutation {
+	return _u.mutation
 }
 
 // Where appends a list predicates to the AdminLoginRestrictionUpdate builder.
-func (alruo *AdminLoginRestrictionUpdateOne) Where(ps ...predicate.AdminLoginRestriction) *AdminLoginRestrictionUpdateOne {
-	alruo.mutation.Where(ps...)
-	return alruo
+func (_u *AdminLoginRestrictionUpdateOne) Where(ps ...predicate.AdminLoginRestriction) *AdminLoginRestrictionUpdateOne {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // Select allows selecting one or more fields (columns) of the returned entity.
 // The default is selecting all fields defined in the entity schema.
-func (alruo *AdminLoginRestrictionUpdateOne) Select(field string, fields ...string) *AdminLoginRestrictionUpdateOne {
-	alruo.fields = append([]string{field}, fields...)
-	return alruo
+func (_u *AdminLoginRestrictionUpdateOne) Select(field string, fields ...string) *AdminLoginRestrictionUpdateOne {
+	_u.fields = append([]string{field}, fields...)
+	return _u
 }
 
 // Save executes the query and returns the updated AdminLoginRestriction entity.
-func (alruo *AdminLoginRestrictionUpdateOne) Save(ctx context.Context) (*AdminLoginRestriction, error) {
-	return withHooks(ctx, alruo.sqlSave, alruo.mutation, alruo.hooks)
+func (_u *AdminLoginRestrictionUpdateOne) Save(ctx context.Context) (*AdminLoginRestriction, error) {
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (alruo *AdminLoginRestrictionUpdateOne) SaveX(ctx context.Context) *AdminLoginRestriction {
-	node, err := alruo.Save(ctx)
+func (_u *AdminLoginRestrictionUpdateOne) SaveX(ctx context.Context) *AdminLoginRestriction {
+	node, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -617,26 +617,26 @@ func (alruo *AdminLoginRestrictionUpdateOne) SaveX(ctx context.Context) *AdminLo
 }
 
 // Exec executes the query on the entity.
-func (alruo *AdminLoginRestrictionUpdateOne) Exec(ctx context.Context) error {
-	_, err := alruo.Save(ctx)
+func (_u *AdminLoginRestrictionUpdateOne) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (alruo *AdminLoginRestrictionUpdateOne) ExecX(ctx context.Context) {
-	if err := alruo.Exec(ctx); err != nil {
+func (_u *AdminLoginRestrictionUpdateOne) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
-func (alruo *AdminLoginRestrictionUpdateOne) check() error {
-	if v, ok := alruo.mutation.GetType(); ok {
+func (_u *AdminLoginRestrictionUpdateOne) check() error {
+	if v, ok := _u.mutation.GetType(); ok {
 		if err := adminloginrestriction.TypeValidator(v); err != nil {
 			return &ValidationError{Name: "type", err: fmt.Errorf(`ent: validator failed for field "AdminLoginRestriction.type": %w`, err)}
 		}
 	}
-	if v, ok := alruo.mutation.Method(); ok {
+	if v, ok := _u.mutation.Method(); ok {
 		if err := adminloginrestriction.MethodValidator(v); err != nil {
 			return &ValidationError{Name: "method", err: fmt.Errorf(`ent: validator failed for field "AdminLoginRestriction.method": %w`, err)}
 		}
@@ -645,22 +645,22 @@ func (alruo *AdminLoginRestrictionUpdateOne) check() error {
 }
 
 // Modify adds a statement modifier for attaching custom logic to the UPDATE statement.
-func (alruo *AdminLoginRestrictionUpdateOne) Modify(modifiers ...func(u *sql.UpdateBuilder)) *AdminLoginRestrictionUpdateOne {
-	alruo.modifiers = append(alruo.modifiers, modifiers...)
-	return alruo
+func (_u *AdminLoginRestrictionUpdateOne) Modify(modifiers ...func(u *sql.UpdateBuilder)) *AdminLoginRestrictionUpdateOne {
+	_u.modifiers = append(_u.modifiers, modifiers...)
+	return _u
 }
 
-func (alruo *AdminLoginRestrictionUpdateOne) sqlSave(ctx context.Context) (_node *AdminLoginRestriction, err error) {
-	if err := alruo.check(); err != nil {
+func (_u *AdminLoginRestrictionUpdateOne) sqlSave(ctx context.Context) (_node *AdminLoginRestriction, err error) {
+	if err := _u.check(); err != nil {
 		return _node, err
 	}
 	_spec := sqlgraph.NewUpdateSpec(adminloginrestriction.Table, adminloginrestriction.Columns, sqlgraph.NewFieldSpec(adminloginrestriction.FieldID, field.TypeUint32))
-	id, ok := alruo.mutation.ID()
+	id, ok := _u.mutation.ID()
 	if !ok {
 		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "AdminLoginRestriction.id" for update`)}
 	}
 	_spec.Node.ID.Value = id
-	if fields := alruo.fields; len(fields) > 0 {
+	if fields := _u.fields; len(fields) > 0 {
 		_spec.Node.Columns = make([]string, 0, len(fields))
 		_spec.Node.Columns = append(_spec.Node.Columns, adminloginrestriction.FieldID)
 		for _, f := range fields {
@@ -672,84 +672,84 @@ func (alruo *AdminLoginRestrictionUpdateOne) sqlSave(ctx context.Context) (_node
 			}
 		}
 	}
-	if ps := alruo.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if alruo.mutation.CreateTimeCleared() {
+	if _u.mutation.CreateTimeCleared() {
 		_spec.ClearField(adminloginrestriction.FieldCreateTime, field.TypeTime)
 	}
-	if value, ok := alruo.mutation.UpdateTime(); ok {
+	if value, ok := _u.mutation.UpdateTime(); ok {
 		_spec.SetField(adminloginrestriction.FieldUpdateTime, field.TypeTime, value)
 	}
-	if alruo.mutation.UpdateTimeCleared() {
+	if _u.mutation.UpdateTimeCleared() {
 		_spec.ClearField(adminloginrestriction.FieldUpdateTime, field.TypeTime)
 	}
-	if value, ok := alruo.mutation.DeleteTime(); ok {
+	if value, ok := _u.mutation.DeleteTime(); ok {
 		_spec.SetField(adminloginrestriction.FieldDeleteTime, field.TypeTime, value)
 	}
-	if alruo.mutation.DeleteTimeCleared() {
+	if _u.mutation.DeleteTimeCleared() {
 		_spec.ClearField(adminloginrestriction.FieldDeleteTime, field.TypeTime)
 	}
-	if value, ok := alruo.mutation.CreateBy(); ok {
+	if value, ok := _u.mutation.CreateBy(); ok {
 		_spec.SetField(adminloginrestriction.FieldCreateBy, field.TypeUint32, value)
 	}
-	if value, ok := alruo.mutation.AddedCreateBy(); ok {
+	if value, ok := _u.mutation.AddedCreateBy(); ok {
 		_spec.AddField(adminloginrestriction.FieldCreateBy, field.TypeUint32, value)
 	}
-	if alruo.mutation.CreateByCleared() {
+	if _u.mutation.CreateByCleared() {
 		_spec.ClearField(adminloginrestriction.FieldCreateBy, field.TypeUint32)
 	}
-	if value, ok := alruo.mutation.UpdateBy(); ok {
+	if value, ok := _u.mutation.UpdateBy(); ok {
 		_spec.SetField(adminloginrestriction.FieldUpdateBy, field.TypeUint32, value)
 	}
-	if value, ok := alruo.mutation.AddedUpdateBy(); ok {
+	if value, ok := _u.mutation.AddedUpdateBy(); ok {
 		_spec.AddField(adminloginrestriction.FieldUpdateBy, field.TypeUint32, value)
 	}
-	if alruo.mutation.UpdateByCleared() {
+	if _u.mutation.UpdateByCleared() {
 		_spec.ClearField(adminloginrestriction.FieldUpdateBy, field.TypeUint32)
 	}
-	if value, ok := alruo.mutation.TargetID(); ok {
+	if value, ok := _u.mutation.TargetID(); ok {
 		_spec.SetField(adminloginrestriction.FieldTargetID, field.TypeUint32, value)
 	}
-	if value, ok := alruo.mutation.AddedTargetID(); ok {
+	if value, ok := _u.mutation.AddedTargetID(); ok {
 		_spec.AddField(adminloginrestriction.FieldTargetID, field.TypeUint32, value)
 	}
-	if alruo.mutation.TargetIDCleared() {
+	if _u.mutation.TargetIDCleared() {
 		_spec.ClearField(adminloginrestriction.FieldTargetID, field.TypeUint32)
 	}
-	if value, ok := alruo.mutation.Value(); ok {
+	if value, ok := _u.mutation.Value(); ok {
 		_spec.SetField(adminloginrestriction.FieldValue, field.TypeString, value)
 	}
-	if alruo.mutation.ValueCleared() {
+	if _u.mutation.ValueCleared() {
 		_spec.ClearField(adminloginrestriction.FieldValue, field.TypeString)
 	}
-	if value, ok := alruo.mutation.Reason(); ok {
+	if value, ok := _u.mutation.Reason(); ok {
 		_spec.SetField(adminloginrestriction.FieldReason, field.TypeString, value)
 	}
-	if alruo.mutation.ReasonCleared() {
+	if _u.mutation.ReasonCleared() {
 		_spec.ClearField(adminloginrestriction.FieldReason, field.TypeString)
 	}
-	if value, ok := alruo.mutation.GetType(); ok {
+	if value, ok := _u.mutation.GetType(); ok {
 		_spec.SetField(adminloginrestriction.FieldType, field.TypeEnum, value)
 	}
-	if alruo.mutation.TypeCleared() {
+	if _u.mutation.TypeCleared() {
 		_spec.ClearField(adminloginrestriction.FieldType, field.TypeEnum)
 	}
-	if value, ok := alruo.mutation.Method(); ok {
+	if value, ok := _u.mutation.Method(); ok {
 		_spec.SetField(adminloginrestriction.FieldMethod, field.TypeEnum, value)
 	}
-	if alruo.mutation.MethodCleared() {
+	if _u.mutation.MethodCleared() {
 		_spec.ClearField(adminloginrestriction.FieldMethod, field.TypeEnum)
 	}
-	_spec.AddModifiers(alruo.modifiers...)
-	_node = &AdminLoginRestriction{config: alruo.config}
+	_spec.AddModifiers(_u.modifiers...)
+	_node = &AdminLoginRestriction{config: _u.config}
 	_spec.Assign = _node.assignValues
 	_spec.ScanValues = _node.scanValues
-	if err = sqlgraph.UpdateNode(ctx, alruo.driver, _spec); err != nil {
+	if err = sqlgraph.UpdateNode(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{adminloginrestriction.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -757,6 +757,6 @@ func (alruo *AdminLoginRestrictionUpdateOne) sqlSave(ctx context.Context) (_node
 		}
 		return nil, err
 	}
-	alruo.mutation.done = true
+	_u.mutation.done = true
 	return _node, nil
 }

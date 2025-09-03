@@ -23,178 +23,178 @@ type ApiResourceCreate struct {
 }
 
 // SetCreateTime sets the "create_time" field.
-func (arc *ApiResourceCreate) SetCreateTime(t time.Time) *ApiResourceCreate {
-	arc.mutation.SetCreateTime(t)
-	return arc
+func (_c *ApiResourceCreate) SetCreateTime(v time.Time) *ApiResourceCreate {
+	_c.mutation.SetCreateTime(v)
+	return _c
 }
 
 // SetNillableCreateTime sets the "create_time" field if the given value is not nil.
-func (arc *ApiResourceCreate) SetNillableCreateTime(t *time.Time) *ApiResourceCreate {
-	if t != nil {
-		arc.SetCreateTime(*t)
+func (_c *ApiResourceCreate) SetNillableCreateTime(v *time.Time) *ApiResourceCreate {
+	if v != nil {
+		_c.SetCreateTime(*v)
 	}
-	return arc
+	return _c
 }
 
 // SetUpdateTime sets the "update_time" field.
-func (arc *ApiResourceCreate) SetUpdateTime(t time.Time) *ApiResourceCreate {
-	arc.mutation.SetUpdateTime(t)
-	return arc
+func (_c *ApiResourceCreate) SetUpdateTime(v time.Time) *ApiResourceCreate {
+	_c.mutation.SetUpdateTime(v)
+	return _c
 }
 
 // SetNillableUpdateTime sets the "update_time" field if the given value is not nil.
-func (arc *ApiResourceCreate) SetNillableUpdateTime(t *time.Time) *ApiResourceCreate {
-	if t != nil {
-		arc.SetUpdateTime(*t)
+func (_c *ApiResourceCreate) SetNillableUpdateTime(v *time.Time) *ApiResourceCreate {
+	if v != nil {
+		_c.SetUpdateTime(*v)
 	}
-	return arc
+	return _c
 }
 
 // SetDeleteTime sets the "delete_time" field.
-func (arc *ApiResourceCreate) SetDeleteTime(t time.Time) *ApiResourceCreate {
-	arc.mutation.SetDeleteTime(t)
-	return arc
+func (_c *ApiResourceCreate) SetDeleteTime(v time.Time) *ApiResourceCreate {
+	_c.mutation.SetDeleteTime(v)
+	return _c
 }
 
 // SetNillableDeleteTime sets the "delete_time" field if the given value is not nil.
-func (arc *ApiResourceCreate) SetNillableDeleteTime(t *time.Time) *ApiResourceCreate {
-	if t != nil {
-		arc.SetDeleteTime(*t)
+func (_c *ApiResourceCreate) SetNillableDeleteTime(v *time.Time) *ApiResourceCreate {
+	if v != nil {
+		_c.SetDeleteTime(*v)
 	}
-	return arc
+	return _c
 }
 
 // SetCreateBy sets the "create_by" field.
-func (arc *ApiResourceCreate) SetCreateBy(u uint32) *ApiResourceCreate {
-	arc.mutation.SetCreateBy(u)
-	return arc
+func (_c *ApiResourceCreate) SetCreateBy(v uint32) *ApiResourceCreate {
+	_c.mutation.SetCreateBy(v)
+	return _c
 }
 
 // SetNillableCreateBy sets the "create_by" field if the given value is not nil.
-func (arc *ApiResourceCreate) SetNillableCreateBy(u *uint32) *ApiResourceCreate {
-	if u != nil {
-		arc.SetCreateBy(*u)
+func (_c *ApiResourceCreate) SetNillableCreateBy(v *uint32) *ApiResourceCreate {
+	if v != nil {
+		_c.SetCreateBy(*v)
 	}
-	return arc
+	return _c
 }
 
 // SetUpdateBy sets the "update_by" field.
-func (arc *ApiResourceCreate) SetUpdateBy(u uint32) *ApiResourceCreate {
-	arc.mutation.SetUpdateBy(u)
-	return arc
+func (_c *ApiResourceCreate) SetUpdateBy(v uint32) *ApiResourceCreate {
+	_c.mutation.SetUpdateBy(v)
+	return _c
 }
 
 // SetNillableUpdateBy sets the "update_by" field if the given value is not nil.
-func (arc *ApiResourceCreate) SetNillableUpdateBy(u *uint32) *ApiResourceCreate {
-	if u != nil {
-		arc.SetUpdateBy(*u)
+func (_c *ApiResourceCreate) SetNillableUpdateBy(v *uint32) *ApiResourceCreate {
+	if v != nil {
+		_c.SetUpdateBy(*v)
 	}
-	return arc
+	return _c
 }
 
 // SetDescription sets the "description" field.
-func (arc *ApiResourceCreate) SetDescription(s string) *ApiResourceCreate {
-	arc.mutation.SetDescription(s)
-	return arc
+func (_c *ApiResourceCreate) SetDescription(v string) *ApiResourceCreate {
+	_c.mutation.SetDescription(v)
+	return _c
 }
 
 // SetNillableDescription sets the "description" field if the given value is not nil.
-func (arc *ApiResourceCreate) SetNillableDescription(s *string) *ApiResourceCreate {
-	if s != nil {
-		arc.SetDescription(*s)
+func (_c *ApiResourceCreate) SetNillableDescription(v *string) *ApiResourceCreate {
+	if v != nil {
+		_c.SetDescription(*v)
 	}
-	return arc
+	return _c
 }
 
 // SetModule sets the "module" field.
-func (arc *ApiResourceCreate) SetModule(s string) *ApiResourceCreate {
-	arc.mutation.SetModule(s)
-	return arc
+func (_c *ApiResourceCreate) SetModule(v string) *ApiResourceCreate {
+	_c.mutation.SetModule(v)
+	return _c
 }
 
 // SetNillableModule sets the "module" field if the given value is not nil.
-func (arc *ApiResourceCreate) SetNillableModule(s *string) *ApiResourceCreate {
-	if s != nil {
-		arc.SetModule(*s)
+func (_c *ApiResourceCreate) SetNillableModule(v *string) *ApiResourceCreate {
+	if v != nil {
+		_c.SetModule(*v)
 	}
-	return arc
+	return _c
 }
 
 // SetModuleDescription sets the "module_description" field.
-func (arc *ApiResourceCreate) SetModuleDescription(s string) *ApiResourceCreate {
-	arc.mutation.SetModuleDescription(s)
-	return arc
+func (_c *ApiResourceCreate) SetModuleDescription(v string) *ApiResourceCreate {
+	_c.mutation.SetModuleDescription(v)
+	return _c
 }
 
 // SetNillableModuleDescription sets the "module_description" field if the given value is not nil.
-func (arc *ApiResourceCreate) SetNillableModuleDescription(s *string) *ApiResourceCreate {
-	if s != nil {
-		arc.SetModuleDescription(*s)
+func (_c *ApiResourceCreate) SetNillableModuleDescription(v *string) *ApiResourceCreate {
+	if v != nil {
+		_c.SetModuleDescription(*v)
 	}
-	return arc
+	return _c
 }
 
 // SetOperation sets the "operation" field.
-func (arc *ApiResourceCreate) SetOperation(s string) *ApiResourceCreate {
-	arc.mutation.SetOperation(s)
-	return arc
+func (_c *ApiResourceCreate) SetOperation(v string) *ApiResourceCreate {
+	_c.mutation.SetOperation(v)
+	return _c
 }
 
 // SetNillableOperation sets the "operation" field if the given value is not nil.
-func (arc *ApiResourceCreate) SetNillableOperation(s *string) *ApiResourceCreate {
-	if s != nil {
-		arc.SetOperation(*s)
+func (_c *ApiResourceCreate) SetNillableOperation(v *string) *ApiResourceCreate {
+	if v != nil {
+		_c.SetOperation(*v)
 	}
-	return arc
+	return _c
 }
 
 // SetPath sets the "path" field.
-func (arc *ApiResourceCreate) SetPath(s string) *ApiResourceCreate {
-	arc.mutation.SetPath(s)
-	return arc
+func (_c *ApiResourceCreate) SetPath(v string) *ApiResourceCreate {
+	_c.mutation.SetPath(v)
+	return _c
 }
 
 // SetNillablePath sets the "path" field if the given value is not nil.
-func (arc *ApiResourceCreate) SetNillablePath(s *string) *ApiResourceCreate {
-	if s != nil {
-		arc.SetPath(*s)
+func (_c *ApiResourceCreate) SetNillablePath(v *string) *ApiResourceCreate {
+	if v != nil {
+		_c.SetPath(*v)
 	}
-	return arc
+	return _c
 }
 
 // SetMethod sets the "method" field.
-func (arc *ApiResourceCreate) SetMethod(s string) *ApiResourceCreate {
-	arc.mutation.SetMethod(s)
-	return arc
+func (_c *ApiResourceCreate) SetMethod(v string) *ApiResourceCreate {
+	_c.mutation.SetMethod(v)
+	return _c
 }
 
 // SetNillableMethod sets the "method" field if the given value is not nil.
-func (arc *ApiResourceCreate) SetNillableMethod(s *string) *ApiResourceCreate {
-	if s != nil {
-		arc.SetMethod(*s)
+func (_c *ApiResourceCreate) SetNillableMethod(v *string) *ApiResourceCreate {
+	if v != nil {
+		_c.SetMethod(*v)
 	}
-	return arc
+	return _c
 }
 
 // SetID sets the "id" field.
-func (arc *ApiResourceCreate) SetID(u uint32) *ApiResourceCreate {
-	arc.mutation.SetID(u)
-	return arc
+func (_c *ApiResourceCreate) SetID(v uint32) *ApiResourceCreate {
+	_c.mutation.SetID(v)
+	return _c
 }
 
 // Mutation returns the ApiResourceMutation object of the builder.
-func (arc *ApiResourceCreate) Mutation() *ApiResourceMutation {
-	return arc.mutation
+func (_c *ApiResourceCreate) Mutation() *ApiResourceMutation {
+	return _c.mutation
 }
 
 // Save creates the ApiResource in the database.
-func (arc *ApiResourceCreate) Save(ctx context.Context) (*ApiResource, error) {
-	return withHooks(ctx, arc.sqlSave, arc.mutation, arc.hooks)
+func (_c *ApiResourceCreate) Save(ctx context.Context) (*ApiResource, error) {
+	return withHooks(ctx, _c.sqlSave, _c.mutation, _c.hooks)
 }
 
 // SaveX calls Save and panics if Save returns an error.
-func (arc *ApiResourceCreate) SaveX(ctx context.Context) *ApiResource {
-	v, err := arc.Save(ctx)
+func (_c *ApiResourceCreate) SaveX(ctx context.Context) *ApiResource {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -202,21 +202,21 @@ func (arc *ApiResourceCreate) SaveX(ctx context.Context) *ApiResource {
 }
 
 // Exec executes the query.
-func (arc *ApiResourceCreate) Exec(ctx context.Context) error {
-	_, err := arc.Save(ctx)
+func (_c *ApiResourceCreate) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (arc *ApiResourceCreate) ExecX(ctx context.Context) {
-	if err := arc.Exec(ctx); err != nil {
+func (_c *ApiResourceCreate) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
-func (arc *ApiResourceCreate) check() error {
-	if v, ok := arc.mutation.ID(); ok {
+func (_c *ApiResourceCreate) check() error {
+	if v, ok := _c.mutation.ID(); ok {
 		if err := apiresource.IDValidator(v); err != nil {
 			return &ValidationError{Name: "id", err: fmt.Errorf(`ent: validator failed for field "ApiResource.id": %w`, err)}
 		}
@@ -224,12 +224,12 @@ func (arc *ApiResourceCreate) check() error {
 	return nil
 }
 
-func (arc *ApiResourceCreate) sqlSave(ctx context.Context) (*ApiResource, error) {
-	if err := arc.check(); err != nil {
+func (_c *ApiResourceCreate) sqlSave(ctx context.Context) (*ApiResource, error) {
+	if err := _c.check(); err != nil {
 		return nil, err
 	}
-	_node, _spec := arc.createSpec()
-	if err := sqlgraph.CreateNode(ctx, arc.driver, _spec); err != nil {
+	_node, _spec := _c.createSpec()
+	if err := sqlgraph.CreateNode(ctx, _c.driver, _spec); err != nil {
 		if sqlgraph.IsConstraintError(err) {
 			err = &ConstraintError{msg: err.Error(), wrap: err}
 		}
@@ -239,62 +239,62 @@ func (arc *ApiResourceCreate) sqlSave(ctx context.Context) (*ApiResource, error)
 		id := _spec.ID.Value.(int64)
 		_node.ID = uint32(id)
 	}
-	arc.mutation.id = &_node.ID
-	arc.mutation.done = true
+	_c.mutation.id = &_node.ID
+	_c.mutation.done = true
 	return _node, nil
 }
 
-func (arc *ApiResourceCreate) createSpec() (*ApiResource, *sqlgraph.CreateSpec) {
+func (_c *ApiResourceCreate) createSpec() (*ApiResource, *sqlgraph.CreateSpec) {
 	var (
-		_node = &ApiResource{config: arc.config}
+		_node = &ApiResource{config: _c.config}
 		_spec = sqlgraph.NewCreateSpec(apiresource.Table, sqlgraph.NewFieldSpec(apiresource.FieldID, field.TypeUint32))
 	)
-	_spec.OnConflict = arc.conflict
-	if id, ok := arc.mutation.ID(); ok {
+	_spec.OnConflict = _c.conflict
+	if id, ok := _c.mutation.ID(); ok {
 		_node.ID = id
 		_spec.ID.Value = id
 	}
-	if value, ok := arc.mutation.CreateTime(); ok {
+	if value, ok := _c.mutation.CreateTime(); ok {
 		_spec.SetField(apiresource.FieldCreateTime, field.TypeTime, value)
 		_node.CreateTime = &value
 	}
-	if value, ok := arc.mutation.UpdateTime(); ok {
+	if value, ok := _c.mutation.UpdateTime(); ok {
 		_spec.SetField(apiresource.FieldUpdateTime, field.TypeTime, value)
 		_node.UpdateTime = &value
 	}
-	if value, ok := arc.mutation.DeleteTime(); ok {
+	if value, ok := _c.mutation.DeleteTime(); ok {
 		_spec.SetField(apiresource.FieldDeleteTime, field.TypeTime, value)
 		_node.DeleteTime = &value
 	}
-	if value, ok := arc.mutation.CreateBy(); ok {
+	if value, ok := _c.mutation.CreateBy(); ok {
 		_spec.SetField(apiresource.FieldCreateBy, field.TypeUint32, value)
 		_node.CreateBy = &value
 	}
-	if value, ok := arc.mutation.UpdateBy(); ok {
+	if value, ok := _c.mutation.UpdateBy(); ok {
 		_spec.SetField(apiresource.FieldUpdateBy, field.TypeUint32, value)
 		_node.UpdateBy = &value
 	}
-	if value, ok := arc.mutation.Description(); ok {
+	if value, ok := _c.mutation.Description(); ok {
 		_spec.SetField(apiresource.FieldDescription, field.TypeString, value)
 		_node.Description = &value
 	}
-	if value, ok := arc.mutation.Module(); ok {
+	if value, ok := _c.mutation.Module(); ok {
 		_spec.SetField(apiresource.FieldModule, field.TypeString, value)
 		_node.Module = &value
 	}
-	if value, ok := arc.mutation.ModuleDescription(); ok {
+	if value, ok := _c.mutation.ModuleDescription(); ok {
 		_spec.SetField(apiresource.FieldModuleDescription, field.TypeString, value)
 		_node.ModuleDescription = &value
 	}
-	if value, ok := arc.mutation.Operation(); ok {
+	if value, ok := _c.mutation.Operation(); ok {
 		_spec.SetField(apiresource.FieldOperation, field.TypeString, value)
 		_node.Operation = &value
 	}
-	if value, ok := arc.mutation.Path(); ok {
+	if value, ok := _c.mutation.Path(); ok {
 		_spec.SetField(apiresource.FieldPath, field.TypeString, value)
 		_node.Path = &value
 	}
-	if value, ok := arc.mutation.Method(); ok {
+	if value, ok := _c.mutation.Method(); ok {
 		_spec.SetField(apiresource.FieldMethod, field.TypeString, value)
 		_node.Method = &value
 	}
@@ -317,10 +317,10 @@ func (arc *ApiResourceCreate) createSpec() (*ApiResource, *sqlgraph.CreateSpec) 
 //			SetCreateTime(v+v).
 //		}).
 //		Exec(ctx)
-func (arc *ApiResourceCreate) OnConflict(opts ...sql.ConflictOption) *ApiResourceUpsertOne {
-	arc.conflict = opts
+func (_c *ApiResourceCreate) OnConflict(opts ...sql.ConflictOption) *ApiResourceUpsertOne {
+	_c.conflict = opts
 	return &ApiResourceUpsertOne{
-		create: arc,
+		create: _c,
 	}
 }
 
@@ -330,10 +330,10 @@ func (arc *ApiResourceCreate) OnConflict(opts ...sql.ConflictOption) *ApiResourc
 //	client.ApiResource.Create().
 //		OnConflict(sql.ConflictColumns(columns...)).
 //		Exec(ctx)
-func (arc *ApiResourceCreate) OnConflictColumns(columns ...string) *ApiResourceUpsertOne {
-	arc.conflict = append(arc.conflict, sql.ConflictColumns(columns...))
+func (_c *ApiResourceCreate) OnConflictColumns(columns ...string) *ApiResourceUpsertOne {
+	_c.conflict = append(_c.conflict, sql.ConflictColumns(columns...))
 	return &ApiResourceUpsertOne{
-		create: arc,
+		create: _c,
 	}
 }
 
@@ -859,16 +859,16 @@ type ApiResourceCreateBulk struct {
 }
 
 // Save creates the ApiResource entities in the database.
-func (arcb *ApiResourceCreateBulk) Save(ctx context.Context) ([]*ApiResource, error) {
-	if arcb.err != nil {
-		return nil, arcb.err
+func (_c *ApiResourceCreateBulk) Save(ctx context.Context) ([]*ApiResource, error) {
+	if _c.err != nil {
+		return nil, _c.err
 	}
-	specs := make([]*sqlgraph.CreateSpec, len(arcb.builders))
-	nodes := make([]*ApiResource, len(arcb.builders))
-	mutators := make([]Mutator, len(arcb.builders))
-	for i := range arcb.builders {
+	specs := make([]*sqlgraph.CreateSpec, len(_c.builders))
+	nodes := make([]*ApiResource, len(_c.builders))
+	mutators := make([]Mutator, len(_c.builders))
+	for i := range _c.builders {
 		func(i int, root context.Context) {
-			builder := arcb.builders[i]
+			builder := _c.builders[i]
 			var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 				mutation, ok := m.(*ApiResourceMutation)
 				if !ok {
@@ -881,12 +881,12 @@ func (arcb *ApiResourceCreateBulk) Save(ctx context.Context) ([]*ApiResource, er
 				var err error
 				nodes[i], specs[i] = builder.createSpec()
 				if i < len(mutators)-1 {
-					_, err = mutators[i+1].Mutate(root, arcb.builders[i+1].mutation)
+					_, err = mutators[i+1].Mutate(root, _c.builders[i+1].mutation)
 				} else {
 					spec := &sqlgraph.BatchCreateSpec{Nodes: specs}
-					spec.OnConflict = arcb.conflict
+					spec.OnConflict = _c.conflict
 					// Invoke the actual operation on the latest mutation in the chain.
-					if err = sqlgraph.BatchCreate(ctx, arcb.driver, spec); err != nil {
+					if err = sqlgraph.BatchCreate(ctx, _c.driver, spec); err != nil {
 						if sqlgraph.IsConstraintError(err) {
 							err = &ConstraintError{msg: err.Error(), wrap: err}
 						}
@@ -910,7 +910,7 @@ func (arcb *ApiResourceCreateBulk) Save(ctx context.Context) ([]*ApiResource, er
 		}(i, ctx)
 	}
 	if len(mutators) > 0 {
-		if _, err := mutators[0].Mutate(ctx, arcb.builders[0].mutation); err != nil {
+		if _, err := mutators[0].Mutate(ctx, _c.builders[0].mutation); err != nil {
 			return nil, err
 		}
 	}
@@ -918,8 +918,8 @@ func (arcb *ApiResourceCreateBulk) Save(ctx context.Context) ([]*ApiResource, er
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (arcb *ApiResourceCreateBulk) SaveX(ctx context.Context) []*ApiResource {
-	v, err := arcb.Save(ctx)
+func (_c *ApiResourceCreateBulk) SaveX(ctx context.Context) []*ApiResource {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -927,14 +927,14 @@ func (arcb *ApiResourceCreateBulk) SaveX(ctx context.Context) []*ApiResource {
 }
 
 // Exec executes the query.
-func (arcb *ApiResourceCreateBulk) Exec(ctx context.Context) error {
-	_, err := arcb.Save(ctx)
+func (_c *ApiResourceCreateBulk) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (arcb *ApiResourceCreateBulk) ExecX(ctx context.Context) {
-	if err := arcb.Exec(ctx); err != nil {
+func (_c *ApiResourceCreateBulk) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
@@ -954,10 +954,10 @@ func (arcb *ApiResourceCreateBulk) ExecX(ctx context.Context) {
 //			SetCreateTime(v+v).
 //		}).
 //		Exec(ctx)
-func (arcb *ApiResourceCreateBulk) OnConflict(opts ...sql.ConflictOption) *ApiResourceUpsertBulk {
-	arcb.conflict = opts
+func (_c *ApiResourceCreateBulk) OnConflict(opts ...sql.ConflictOption) *ApiResourceUpsertBulk {
+	_c.conflict = opts
 	return &ApiResourceUpsertBulk{
-		create: arcb,
+		create: _c,
 	}
 }
 
@@ -967,10 +967,10 @@ func (arcb *ApiResourceCreateBulk) OnConflict(opts ...sql.ConflictOption) *ApiRe
 //	client.ApiResource.Create().
 //		OnConflict(sql.ConflictColumns(columns...)).
 //		Exec(ctx)
-func (arcb *ApiResourceCreateBulk) OnConflictColumns(columns ...string) *ApiResourceUpsertBulk {
-	arcb.conflict = append(arcb.conflict, sql.ConflictColumns(columns...))
+func (_c *ApiResourceCreateBulk) OnConflictColumns(columns ...string) *ApiResourceUpsertBulk {
+	_c.conflict = append(_c.conflict, sql.ConflictColumns(columns...))
 	return &ApiResourceUpsertBulk{
-		create: arcb,
+		create: _c,
 	}
 }
 

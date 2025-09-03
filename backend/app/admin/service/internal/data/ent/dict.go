@@ -71,7 +71,7 @@ func (*Dict) scanValues(columns []string) ([]any, error) {
 
 // assignValues assigns the values that were returned from sql.Rows (after scanning)
 // to the Dict fields.
-func (d *Dict) assignValues(columns []string, values []any) error {
+func (_m *Dict) assignValues(columns []string, values []any) error {
 	if m, n := len(values), len(columns); m < n {
 		return fmt.Errorf("mismatch number of scan values: %d != %d", m, n)
 	}
@@ -82,114 +82,114 @@ func (d *Dict) assignValues(columns []string, values []any) error {
 			if !ok {
 				return fmt.Errorf("unexpected type %T for field id", value)
 			}
-			d.ID = uint32(value.Int64)
+			_m.ID = uint32(value.Int64)
 		case dict.FieldCreateTime:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field create_time", values[i])
 			} else if value.Valid {
-				d.CreateTime = new(time.Time)
-				*d.CreateTime = value.Time
+				_m.CreateTime = new(time.Time)
+				*_m.CreateTime = value.Time
 			}
 		case dict.FieldUpdateTime:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field update_time", values[i])
 			} else if value.Valid {
-				d.UpdateTime = new(time.Time)
-				*d.UpdateTime = value.Time
+				_m.UpdateTime = new(time.Time)
+				*_m.UpdateTime = value.Time
 			}
 		case dict.FieldDeleteTime:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field delete_time", values[i])
 			} else if value.Valid {
-				d.DeleteTime = new(time.Time)
-				*d.DeleteTime = value.Time
+				_m.DeleteTime = new(time.Time)
+				*_m.DeleteTime = value.Time
 			}
 		case dict.FieldStatus:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field status", values[i])
 			} else if value.Valid {
-				d.Status = new(dict.Status)
-				*d.Status = dict.Status(value.String)
+				_m.Status = new(dict.Status)
+				*_m.Status = dict.Status(value.String)
 			}
 		case dict.FieldCreateBy:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field create_by", values[i])
 			} else if value.Valid {
-				d.CreateBy = new(uint32)
-				*d.CreateBy = uint32(value.Int64)
+				_m.CreateBy = new(uint32)
+				*_m.CreateBy = uint32(value.Int64)
 			}
 		case dict.FieldUpdateBy:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field update_by", values[i])
 			} else if value.Valid {
-				d.UpdateBy = new(uint32)
-				*d.UpdateBy = uint32(value.Int64)
+				_m.UpdateBy = new(uint32)
+				*_m.UpdateBy = uint32(value.Int64)
 			}
 		case dict.FieldRemark:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field remark", values[i])
 			} else if value.Valid {
-				d.Remark = new(string)
-				*d.Remark = value.String
+				_m.Remark = new(string)
+				*_m.Remark = value.String
 			}
 		case dict.FieldTenantID:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field tenant_id", values[i])
 			} else if value.Valid {
-				d.TenantID = new(uint32)
-				*d.TenantID = uint32(value.Int64)
+				_m.TenantID = new(uint32)
+				*_m.TenantID = uint32(value.Int64)
 			}
 		case dict.FieldKey:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field key", values[i])
 			} else if value.Valid {
-				d.Key = new(string)
-				*d.Key = value.String
+				_m.Key = new(string)
+				*_m.Key = value.String
 			}
 		case dict.FieldCategory:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field category", values[i])
 			} else if value.Valid {
-				d.Category = new(string)
-				*d.Category = value.String
+				_m.Category = new(string)
+				*_m.Category = value.String
 			}
 		case dict.FieldCategoryDesc:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field category_desc", values[i])
 			} else if value.Valid {
-				d.CategoryDesc = new(string)
-				*d.CategoryDesc = value.String
+				_m.CategoryDesc = new(string)
+				*_m.CategoryDesc = value.String
 			}
 		case dict.FieldValue:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field value", values[i])
 			} else if value.Valid {
-				d.Value = new(string)
-				*d.Value = value.String
+				_m.Value = new(string)
+				*_m.Value = value.String
 			}
 		case dict.FieldValueDesc:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field value_desc", values[i])
 			} else if value.Valid {
-				d.ValueDesc = new(string)
-				*d.ValueDesc = value.String
+				_m.ValueDesc = new(string)
+				*_m.ValueDesc = value.String
 			}
 		case dict.FieldValueDataType:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field value_data_type", values[i])
 			} else if value.Valid {
-				d.ValueDataType = new(string)
-				*d.ValueDataType = value.String
+				_m.ValueDataType = new(string)
+				*_m.ValueDataType = value.String
 			}
 		case dict.FieldSortID:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field sort_id", values[i])
 			} else if value.Valid {
-				d.SortID = new(int32)
-				*d.SortID = int32(value.Int64)
+				_m.SortID = new(int32)
+				*_m.SortID = int32(value.Int64)
 			}
 		default:
-			d.selectValues.Set(columns[i], values[i])
+			_m.selectValues.Set(columns[i], values[i])
 		}
 	}
 	return nil
@@ -197,104 +197,104 @@ func (d *Dict) assignValues(columns []string, values []any) error {
 
 // GetValue returns the ent.Value that was dynamically selected and assigned to the Dict.
 // This includes values selected through modifiers, order, etc.
-func (d *Dict) GetValue(name string) (ent.Value, error) {
-	return d.selectValues.Get(name)
+func (_m *Dict) GetValue(name string) (ent.Value, error) {
+	return _m.selectValues.Get(name)
 }
 
 // Update returns a builder for updating this Dict.
 // Note that you need to call Dict.Unwrap() before calling this method if this Dict
 // was returned from a transaction, and the transaction was committed or rolled back.
-func (d *Dict) Update() *DictUpdateOne {
-	return NewDictClient(d.config).UpdateOne(d)
+func (_m *Dict) Update() *DictUpdateOne {
+	return NewDictClient(_m.config).UpdateOne(_m)
 }
 
 // Unwrap unwraps the Dict entity that was returned from a transaction after it was closed,
 // so that all future queries will be executed through the driver which created the transaction.
-func (d *Dict) Unwrap() *Dict {
-	_tx, ok := d.config.driver.(*txDriver)
+func (_m *Dict) Unwrap() *Dict {
+	_tx, ok := _m.config.driver.(*txDriver)
 	if !ok {
 		panic("ent: Dict is not a transactional entity")
 	}
-	d.config.driver = _tx.drv
-	return d
+	_m.config.driver = _tx.drv
+	return _m
 }
 
 // String implements the fmt.Stringer.
-func (d *Dict) String() string {
+func (_m *Dict) String() string {
 	var builder strings.Builder
 	builder.WriteString("Dict(")
-	builder.WriteString(fmt.Sprintf("id=%v, ", d.ID))
-	if v := d.CreateTime; v != nil {
+	builder.WriteString(fmt.Sprintf("id=%v, ", _m.ID))
+	if v := _m.CreateTime; v != nil {
 		builder.WriteString("create_time=")
 		builder.WriteString(v.Format(time.ANSIC))
 	}
 	builder.WriteString(", ")
-	if v := d.UpdateTime; v != nil {
+	if v := _m.UpdateTime; v != nil {
 		builder.WriteString("update_time=")
 		builder.WriteString(v.Format(time.ANSIC))
 	}
 	builder.WriteString(", ")
-	if v := d.DeleteTime; v != nil {
+	if v := _m.DeleteTime; v != nil {
 		builder.WriteString("delete_time=")
 		builder.WriteString(v.Format(time.ANSIC))
 	}
 	builder.WriteString(", ")
-	if v := d.Status; v != nil {
+	if v := _m.Status; v != nil {
 		builder.WriteString("status=")
 		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteString(", ")
-	if v := d.CreateBy; v != nil {
+	if v := _m.CreateBy; v != nil {
 		builder.WriteString("create_by=")
 		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteString(", ")
-	if v := d.UpdateBy; v != nil {
+	if v := _m.UpdateBy; v != nil {
 		builder.WriteString("update_by=")
 		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteString(", ")
-	if v := d.Remark; v != nil {
+	if v := _m.Remark; v != nil {
 		builder.WriteString("remark=")
 		builder.WriteString(*v)
 	}
 	builder.WriteString(", ")
-	if v := d.TenantID; v != nil {
+	if v := _m.TenantID; v != nil {
 		builder.WriteString("tenant_id=")
 		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteString(", ")
-	if v := d.Key; v != nil {
+	if v := _m.Key; v != nil {
 		builder.WriteString("key=")
 		builder.WriteString(*v)
 	}
 	builder.WriteString(", ")
-	if v := d.Category; v != nil {
+	if v := _m.Category; v != nil {
 		builder.WriteString("category=")
 		builder.WriteString(*v)
 	}
 	builder.WriteString(", ")
-	if v := d.CategoryDesc; v != nil {
+	if v := _m.CategoryDesc; v != nil {
 		builder.WriteString("category_desc=")
 		builder.WriteString(*v)
 	}
 	builder.WriteString(", ")
-	if v := d.Value; v != nil {
+	if v := _m.Value; v != nil {
 		builder.WriteString("value=")
 		builder.WriteString(*v)
 	}
 	builder.WriteString(", ")
-	if v := d.ValueDesc; v != nil {
+	if v := _m.ValueDesc; v != nil {
 		builder.WriteString("value_desc=")
 		builder.WriteString(*v)
 	}
 	builder.WriteString(", ")
-	if v := d.ValueDataType; v != nil {
+	if v := _m.ValueDataType; v != nil {
 		builder.WriteString("value_data_type=")
 		builder.WriteString(*v)
 	}
 	builder.WriteString(", ")
-	if v := d.SortID; v != nil {
+	if v := _m.SortID; v != nil {
 		builder.WriteString("sort_id=")
 		builder.WriteString(fmt.Sprintf("%v", *v))
 	}

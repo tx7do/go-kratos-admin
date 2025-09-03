@@ -24,358 +24,358 @@ type AdminLoginLogUpdate struct {
 }
 
 // Where appends a list predicates to the AdminLoginLogUpdate builder.
-func (allu *AdminLoginLogUpdate) Where(ps ...predicate.AdminLoginLog) *AdminLoginLogUpdate {
-	allu.mutation.Where(ps...)
-	return allu
+func (_u *AdminLoginLogUpdate) Where(ps ...predicate.AdminLoginLog) *AdminLoginLogUpdate {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // SetLoginIP sets the "login_ip" field.
-func (allu *AdminLoginLogUpdate) SetLoginIP(s string) *AdminLoginLogUpdate {
-	allu.mutation.SetLoginIP(s)
-	return allu
+func (_u *AdminLoginLogUpdate) SetLoginIP(v string) *AdminLoginLogUpdate {
+	_u.mutation.SetLoginIP(v)
+	return _u
 }
 
 // SetNillableLoginIP sets the "login_ip" field if the given value is not nil.
-func (allu *AdminLoginLogUpdate) SetNillableLoginIP(s *string) *AdminLoginLogUpdate {
-	if s != nil {
-		allu.SetLoginIP(*s)
+func (_u *AdminLoginLogUpdate) SetNillableLoginIP(v *string) *AdminLoginLogUpdate {
+	if v != nil {
+		_u.SetLoginIP(*v)
 	}
-	return allu
+	return _u
 }
 
 // ClearLoginIP clears the value of the "login_ip" field.
-func (allu *AdminLoginLogUpdate) ClearLoginIP() *AdminLoginLogUpdate {
-	allu.mutation.ClearLoginIP()
-	return allu
+func (_u *AdminLoginLogUpdate) ClearLoginIP() *AdminLoginLogUpdate {
+	_u.mutation.ClearLoginIP()
+	return _u
 }
 
 // SetLoginMAC sets the "login_mac" field.
-func (allu *AdminLoginLogUpdate) SetLoginMAC(s string) *AdminLoginLogUpdate {
-	allu.mutation.SetLoginMAC(s)
-	return allu
+func (_u *AdminLoginLogUpdate) SetLoginMAC(v string) *AdminLoginLogUpdate {
+	_u.mutation.SetLoginMAC(v)
+	return _u
 }
 
 // SetNillableLoginMAC sets the "login_mac" field if the given value is not nil.
-func (allu *AdminLoginLogUpdate) SetNillableLoginMAC(s *string) *AdminLoginLogUpdate {
-	if s != nil {
-		allu.SetLoginMAC(*s)
+func (_u *AdminLoginLogUpdate) SetNillableLoginMAC(v *string) *AdminLoginLogUpdate {
+	if v != nil {
+		_u.SetLoginMAC(*v)
 	}
-	return allu
+	return _u
 }
 
 // ClearLoginMAC clears the value of the "login_mac" field.
-func (allu *AdminLoginLogUpdate) ClearLoginMAC() *AdminLoginLogUpdate {
-	allu.mutation.ClearLoginMAC()
-	return allu
+func (_u *AdminLoginLogUpdate) ClearLoginMAC() *AdminLoginLogUpdate {
+	_u.mutation.ClearLoginMAC()
+	return _u
 }
 
 // SetLoginTime sets the "login_time" field.
-func (allu *AdminLoginLogUpdate) SetLoginTime(t time.Time) *AdminLoginLogUpdate {
-	allu.mutation.SetLoginTime(t)
-	return allu
+func (_u *AdminLoginLogUpdate) SetLoginTime(v time.Time) *AdminLoginLogUpdate {
+	_u.mutation.SetLoginTime(v)
+	return _u
 }
 
 // SetNillableLoginTime sets the "login_time" field if the given value is not nil.
-func (allu *AdminLoginLogUpdate) SetNillableLoginTime(t *time.Time) *AdminLoginLogUpdate {
-	if t != nil {
-		allu.SetLoginTime(*t)
+func (_u *AdminLoginLogUpdate) SetNillableLoginTime(v *time.Time) *AdminLoginLogUpdate {
+	if v != nil {
+		_u.SetLoginTime(*v)
 	}
-	return allu
+	return _u
 }
 
 // ClearLoginTime clears the value of the "login_time" field.
-func (allu *AdminLoginLogUpdate) ClearLoginTime() *AdminLoginLogUpdate {
-	allu.mutation.ClearLoginTime()
-	return allu
+func (_u *AdminLoginLogUpdate) ClearLoginTime() *AdminLoginLogUpdate {
+	_u.mutation.ClearLoginTime()
+	return _u
 }
 
 // SetUserAgent sets the "user_agent" field.
-func (allu *AdminLoginLogUpdate) SetUserAgent(s string) *AdminLoginLogUpdate {
-	allu.mutation.SetUserAgent(s)
-	return allu
+func (_u *AdminLoginLogUpdate) SetUserAgent(v string) *AdminLoginLogUpdate {
+	_u.mutation.SetUserAgent(v)
+	return _u
 }
 
 // SetNillableUserAgent sets the "user_agent" field if the given value is not nil.
-func (allu *AdminLoginLogUpdate) SetNillableUserAgent(s *string) *AdminLoginLogUpdate {
-	if s != nil {
-		allu.SetUserAgent(*s)
+func (_u *AdminLoginLogUpdate) SetNillableUserAgent(v *string) *AdminLoginLogUpdate {
+	if v != nil {
+		_u.SetUserAgent(*v)
 	}
-	return allu
+	return _u
 }
 
 // ClearUserAgent clears the value of the "user_agent" field.
-func (allu *AdminLoginLogUpdate) ClearUserAgent() *AdminLoginLogUpdate {
-	allu.mutation.ClearUserAgent()
-	return allu
+func (_u *AdminLoginLogUpdate) ClearUserAgent() *AdminLoginLogUpdate {
+	_u.mutation.ClearUserAgent()
+	return _u
 }
 
 // SetBrowserName sets the "browser_name" field.
-func (allu *AdminLoginLogUpdate) SetBrowserName(s string) *AdminLoginLogUpdate {
-	allu.mutation.SetBrowserName(s)
-	return allu
+func (_u *AdminLoginLogUpdate) SetBrowserName(v string) *AdminLoginLogUpdate {
+	_u.mutation.SetBrowserName(v)
+	return _u
 }
 
 // SetNillableBrowserName sets the "browser_name" field if the given value is not nil.
-func (allu *AdminLoginLogUpdate) SetNillableBrowserName(s *string) *AdminLoginLogUpdate {
-	if s != nil {
-		allu.SetBrowserName(*s)
+func (_u *AdminLoginLogUpdate) SetNillableBrowserName(v *string) *AdminLoginLogUpdate {
+	if v != nil {
+		_u.SetBrowserName(*v)
 	}
-	return allu
+	return _u
 }
 
 // ClearBrowserName clears the value of the "browser_name" field.
-func (allu *AdminLoginLogUpdate) ClearBrowserName() *AdminLoginLogUpdate {
-	allu.mutation.ClearBrowserName()
-	return allu
+func (_u *AdminLoginLogUpdate) ClearBrowserName() *AdminLoginLogUpdate {
+	_u.mutation.ClearBrowserName()
+	return _u
 }
 
 // SetBrowserVersion sets the "browser_version" field.
-func (allu *AdminLoginLogUpdate) SetBrowserVersion(s string) *AdminLoginLogUpdate {
-	allu.mutation.SetBrowserVersion(s)
-	return allu
+func (_u *AdminLoginLogUpdate) SetBrowserVersion(v string) *AdminLoginLogUpdate {
+	_u.mutation.SetBrowserVersion(v)
+	return _u
 }
 
 // SetNillableBrowserVersion sets the "browser_version" field if the given value is not nil.
-func (allu *AdminLoginLogUpdate) SetNillableBrowserVersion(s *string) *AdminLoginLogUpdate {
-	if s != nil {
-		allu.SetBrowserVersion(*s)
+func (_u *AdminLoginLogUpdate) SetNillableBrowserVersion(v *string) *AdminLoginLogUpdate {
+	if v != nil {
+		_u.SetBrowserVersion(*v)
 	}
-	return allu
+	return _u
 }
 
 // ClearBrowserVersion clears the value of the "browser_version" field.
-func (allu *AdminLoginLogUpdate) ClearBrowserVersion() *AdminLoginLogUpdate {
-	allu.mutation.ClearBrowserVersion()
-	return allu
+func (_u *AdminLoginLogUpdate) ClearBrowserVersion() *AdminLoginLogUpdate {
+	_u.mutation.ClearBrowserVersion()
+	return _u
 }
 
 // SetClientID sets the "client_id" field.
-func (allu *AdminLoginLogUpdate) SetClientID(s string) *AdminLoginLogUpdate {
-	allu.mutation.SetClientID(s)
-	return allu
+func (_u *AdminLoginLogUpdate) SetClientID(v string) *AdminLoginLogUpdate {
+	_u.mutation.SetClientID(v)
+	return _u
 }
 
 // SetNillableClientID sets the "client_id" field if the given value is not nil.
-func (allu *AdminLoginLogUpdate) SetNillableClientID(s *string) *AdminLoginLogUpdate {
-	if s != nil {
-		allu.SetClientID(*s)
+func (_u *AdminLoginLogUpdate) SetNillableClientID(v *string) *AdminLoginLogUpdate {
+	if v != nil {
+		_u.SetClientID(*v)
 	}
-	return allu
+	return _u
 }
 
 // ClearClientID clears the value of the "client_id" field.
-func (allu *AdminLoginLogUpdate) ClearClientID() *AdminLoginLogUpdate {
-	allu.mutation.ClearClientID()
-	return allu
+func (_u *AdminLoginLogUpdate) ClearClientID() *AdminLoginLogUpdate {
+	_u.mutation.ClearClientID()
+	return _u
 }
 
 // SetClientName sets the "client_name" field.
-func (allu *AdminLoginLogUpdate) SetClientName(s string) *AdminLoginLogUpdate {
-	allu.mutation.SetClientName(s)
-	return allu
+func (_u *AdminLoginLogUpdate) SetClientName(v string) *AdminLoginLogUpdate {
+	_u.mutation.SetClientName(v)
+	return _u
 }
 
 // SetNillableClientName sets the "client_name" field if the given value is not nil.
-func (allu *AdminLoginLogUpdate) SetNillableClientName(s *string) *AdminLoginLogUpdate {
-	if s != nil {
-		allu.SetClientName(*s)
+func (_u *AdminLoginLogUpdate) SetNillableClientName(v *string) *AdminLoginLogUpdate {
+	if v != nil {
+		_u.SetClientName(*v)
 	}
-	return allu
+	return _u
 }
 
 // ClearClientName clears the value of the "client_name" field.
-func (allu *AdminLoginLogUpdate) ClearClientName() *AdminLoginLogUpdate {
-	allu.mutation.ClearClientName()
-	return allu
+func (_u *AdminLoginLogUpdate) ClearClientName() *AdminLoginLogUpdate {
+	_u.mutation.ClearClientName()
+	return _u
 }
 
 // SetOsName sets the "os_name" field.
-func (allu *AdminLoginLogUpdate) SetOsName(s string) *AdminLoginLogUpdate {
-	allu.mutation.SetOsName(s)
-	return allu
+func (_u *AdminLoginLogUpdate) SetOsName(v string) *AdminLoginLogUpdate {
+	_u.mutation.SetOsName(v)
+	return _u
 }
 
 // SetNillableOsName sets the "os_name" field if the given value is not nil.
-func (allu *AdminLoginLogUpdate) SetNillableOsName(s *string) *AdminLoginLogUpdate {
-	if s != nil {
-		allu.SetOsName(*s)
+func (_u *AdminLoginLogUpdate) SetNillableOsName(v *string) *AdminLoginLogUpdate {
+	if v != nil {
+		_u.SetOsName(*v)
 	}
-	return allu
+	return _u
 }
 
 // ClearOsName clears the value of the "os_name" field.
-func (allu *AdminLoginLogUpdate) ClearOsName() *AdminLoginLogUpdate {
-	allu.mutation.ClearOsName()
-	return allu
+func (_u *AdminLoginLogUpdate) ClearOsName() *AdminLoginLogUpdate {
+	_u.mutation.ClearOsName()
+	return _u
 }
 
 // SetOsVersion sets the "os_version" field.
-func (allu *AdminLoginLogUpdate) SetOsVersion(s string) *AdminLoginLogUpdate {
-	allu.mutation.SetOsVersion(s)
-	return allu
+func (_u *AdminLoginLogUpdate) SetOsVersion(v string) *AdminLoginLogUpdate {
+	_u.mutation.SetOsVersion(v)
+	return _u
 }
 
 // SetNillableOsVersion sets the "os_version" field if the given value is not nil.
-func (allu *AdminLoginLogUpdate) SetNillableOsVersion(s *string) *AdminLoginLogUpdate {
-	if s != nil {
-		allu.SetOsVersion(*s)
+func (_u *AdminLoginLogUpdate) SetNillableOsVersion(v *string) *AdminLoginLogUpdate {
+	if v != nil {
+		_u.SetOsVersion(*v)
 	}
-	return allu
+	return _u
 }
 
 // ClearOsVersion clears the value of the "os_version" field.
-func (allu *AdminLoginLogUpdate) ClearOsVersion() *AdminLoginLogUpdate {
-	allu.mutation.ClearOsVersion()
-	return allu
+func (_u *AdminLoginLogUpdate) ClearOsVersion() *AdminLoginLogUpdate {
+	_u.mutation.ClearOsVersion()
+	return _u
 }
 
 // SetUserID sets the "user_id" field.
-func (allu *AdminLoginLogUpdate) SetUserID(u uint32) *AdminLoginLogUpdate {
-	allu.mutation.ResetUserID()
-	allu.mutation.SetUserID(u)
-	return allu
+func (_u *AdminLoginLogUpdate) SetUserID(v uint32) *AdminLoginLogUpdate {
+	_u.mutation.ResetUserID()
+	_u.mutation.SetUserID(v)
+	return _u
 }
 
 // SetNillableUserID sets the "user_id" field if the given value is not nil.
-func (allu *AdminLoginLogUpdate) SetNillableUserID(u *uint32) *AdminLoginLogUpdate {
-	if u != nil {
-		allu.SetUserID(*u)
+func (_u *AdminLoginLogUpdate) SetNillableUserID(v *uint32) *AdminLoginLogUpdate {
+	if v != nil {
+		_u.SetUserID(*v)
 	}
-	return allu
+	return _u
 }
 
-// AddUserID adds u to the "user_id" field.
-func (allu *AdminLoginLogUpdate) AddUserID(u int32) *AdminLoginLogUpdate {
-	allu.mutation.AddUserID(u)
-	return allu
+// AddUserID adds value to the "user_id" field.
+func (_u *AdminLoginLogUpdate) AddUserID(v int32) *AdminLoginLogUpdate {
+	_u.mutation.AddUserID(v)
+	return _u
 }
 
 // ClearUserID clears the value of the "user_id" field.
-func (allu *AdminLoginLogUpdate) ClearUserID() *AdminLoginLogUpdate {
-	allu.mutation.ClearUserID()
-	return allu
+func (_u *AdminLoginLogUpdate) ClearUserID() *AdminLoginLogUpdate {
+	_u.mutation.ClearUserID()
+	return _u
 }
 
 // SetUsername sets the "username" field.
-func (allu *AdminLoginLogUpdate) SetUsername(s string) *AdminLoginLogUpdate {
-	allu.mutation.SetUsername(s)
-	return allu
+func (_u *AdminLoginLogUpdate) SetUsername(v string) *AdminLoginLogUpdate {
+	_u.mutation.SetUsername(v)
+	return _u
 }
 
 // SetNillableUsername sets the "username" field if the given value is not nil.
-func (allu *AdminLoginLogUpdate) SetNillableUsername(s *string) *AdminLoginLogUpdate {
-	if s != nil {
-		allu.SetUsername(*s)
+func (_u *AdminLoginLogUpdate) SetNillableUsername(v *string) *AdminLoginLogUpdate {
+	if v != nil {
+		_u.SetUsername(*v)
 	}
-	return allu
+	return _u
 }
 
 // ClearUsername clears the value of the "username" field.
-func (allu *AdminLoginLogUpdate) ClearUsername() *AdminLoginLogUpdate {
-	allu.mutation.ClearUsername()
-	return allu
+func (_u *AdminLoginLogUpdate) ClearUsername() *AdminLoginLogUpdate {
+	_u.mutation.ClearUsername()
+	return _u
 }
 
 // SetStatusCode sets the "status_code" field.
-func (allu *AdminLoginLogUpdate) SetStatusCode(i int32) *AdminLoginLogUpdate {
-	allu.mutation.ResetStatusCode()
-	allu.mutation.SetStatusCode(i)
-	return allu
+func (_u *AdminLoginLogUpdate) SetStatusCode(v int32) *AdminLoginLogUpdate {
+	_u.mutation.ResetStatusCode()
+	_u.mutation.SetStatusCode(v)
+	return _u
 }
 
 // SetNillableStatusCode sets the "status_code" field if the given value is not nil.
-func (allu *AdminLoginLogUpdate) SetNillableStatusCode(i *int32) *AdminLoginLogUpdate {
-	if i != nil {
-		allu.SetStatusCode(*i)
+func (_u *AdminLoginLogUpdate) SetNillableStatusCode(v *int32) *AdminLoginLogUpdate {
+	if v != nil {
+		_u.SetStatusCode(*v)
 	}
-	return allu
+	return _u
 }
 
-// AddStatusCode adds i to the "status_code" field.
-func (allu *AdminLoginLogUpdate) AddStatusCode(i int32) *AdminLoginLogUpdate {
-	allu.mutation.AddStatusCode(i)
-	return allu
+// AddStatusCode adds value to the "status_code" field.
+func (_u *AdminLoginLogUpdate) AddStatusCode(v int32) *AdminLoginLogUpdate {
+	_u.mutation.AddStatusCode(v)
+	return _u
 }
 
 // ClearStatusCode clears the value of the "status_code" field.
-func (allu *AdminLoginLogUpdate) ClearStatusCode() *AdminLoginLogUpdate {
-	allu.mutation.ClearStatusCode()
-	return allu
+func (_u *AdminLoginLogUpdate) ClearStatusCode() *AdminLoginLogUpdate {
+	_u.mutation.ClearStatusCode()
+	return _u
 }
 
 // SetSuccess sets the "success" field.
-func (allu *AdminLoginLogUpdate) SetSuccess(b bool) *AdminLoginLogUpdate {
-	allu.mutation.SetSuccess(b)
-	return allu
+func (_u *AdminLoginLogUpdate) SetSuccess(v bool) *AdminLoginLogUpdate {
+	_u.mutation.SetSuccess(v)
+	return _u
 }
 
 // SetNillableSuccess sets the "success" field if the given value is not nil.
-func (allu *AdminLoginLogUpdate) SetNillableSuccess(b *bool) *AdminLoginLogUpdate {
-	if b != nil {
-		allu.SetSuccess(*b)
+func (_u *AdminLoginLogUpdate) SetNillableSuccess(v *bool) *AdminLoginLogUpdate {
+	if v != nil {
+		_u.SetSuccess(*v)
 	}
-	return allu
+	return _u
 }
 
 // ClearSuccess clears the value of the "success" field.
-func (allu *AdminLoginLogUpdate) ClearSuccess() *AdminLoginLogUpdate {
-	allu.mutation.ClearSuccess()
-	return allu
+func (_u *AdminLoginLogUpdate) ClearSuccess() *AdminLoginLogUpdate {
+	_u.mutation.ClearSuccess()
+	return _u
 }
 
 // SetReason sets the "reason" field.
-func (allu *AdminLoginLogUpdate) SetReason(s string) *AdminLoginLogUpdate {
-	allu.mutation.SetReason(s)
-	return allu
+func (_u *AdminLoginLogUpdate) SetReason(v string) *AdminLoginLogUpdate {
+	_u.mutation.SetReason(v)
+	return _u
 }
 
 // SetNillableReason sets the "reason" field if the given value is not nil.
-func (allu *AdminLoginLogUpdate) SetNillableReason(s *string) *AdminLoginLogUpdate {
-	if s != nil {
-		allu.SetReason(*s)
+func (_u *AdminLoginLogUpdate) SetNillableReason(v *string) *AdminLoginLogUpdate {
+	if v != nil {
+		_u.SetReason(*v)
 	}
-	return allu
+	return _u
 }
 
 // ClearReason clears the value of the "reason" field.
-func (allu *AdminLoginLogUpdate) ClearReason() *AdminLoginLogUpdate {
-	allu.mutation.ClearReason()
-	return allu
+func (_u *AdminLoginLogUpdate) ClearReason() *AdminLoginLogUpdate {
+	_u.mutation.ClearReason()
+	return _u
 }
 
 // SetLocation sets the "location" field.
-func (allu *AdminLoginLogUpdate) SetLocation(s string) *AdminLoginLogUpdate {
-	allu.mutation.SetLocation(s)
-	return allu
+func (_u *AdminLoginLogUpdate) SetLocation(v string) *AdminLoginLogUpdate {
+	_u.mutation.SetLocation(v)
+	return _u
 }
 
 // SetNillableLocation sets the "location" field if the given value is not nil.
-func (allu *AdminLoginLogUpdate) SetNillableLocation(s *string) *AdminLoginLogUpdate {
-	if s != nil {
-		allu.SetLocation(*s)
+func (_u *AdminLoginLogUpdate) SetNillableLocation(v *string) *AdminLoginLogUpdate {
+	if v != nil {
+		_u.SetLocation(*v)
 	}
-	return allu
+	return _u
 }
 
 // ClearLocation clears the value of the "location" field.
-func (allu *AdminLoginLogUpdate) ClearLocation() *AdminLoginLogUpdate {
-	allu.mutation.ClearLocation()
-	return allu
+func (_u *AdminLoginLogUpdate) ClearLocation() *AdminLoginLogUpdate {
+	_u.mutation.ClearLocation()
+	return _u
 }
 
 // Mutation returns the AdminLoginLogMutation object of the builder.
-func (allu *AdminLoginLogUpdate) Mutation() *AdminLoginLogMutation {
-	return allu.mutation
+func (_u *AdminLoginLogUpdate) Mutation() *AdminLoginLogMutation {
+	return _u.mutation
 }
 
 // Save executes the query and returns the number of nodes affected by the update operation.
-func (allu *AdminLoginLogUpdate) Save(ctx context.Context) (int, error) {
-	return withHooks(ctx, allu.sqlSave, allu.mutation, allu.hooks)
+func (_u *AdminLoginLogUpdate) Save(ctx context.Context) (int, error) {
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (allu *AdminLoginLogUpdate) SaveX(ctx context.Context) int {
-	affected, err := allu.Save(ctx)
+func (_u *AdminLoginLogUpdate) SaveX(ctx context.Context) int {
+	affected, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -383,140 +383,140 @@ func (allu *AdminLoginLogUpdate) SaveX(ctx context.Context) int {
 }
 
 // Exec executes the query.
-func (allu *AdminLoginLogUpdate) Exec(ctx context.Context) error {
-	_, err := allu.Save(ctx)
+func (_u *AdminLoginLogUpdate) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (allu *AdminLoginLogUpdate) ExecX(ctx context.Context) {
-	if err := allu.Exec(ctx); err != nil {
+func (_u *AdminLoginLogUpdate) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // Modify adds a statement modifier for attaching custom logic to the UPDATE statement.
-func (allu *AdminLoginLogUpdate) Modify(modifiers ...func(u *sql.UpdateBuilder)) *AdminLoginLogUpdate {
-	allu.modifiers = append(allu.modifiers, modifiers...)
-	return allu
+func (_u *AdminLoginLogUpdate) Modify(modifiers ...func(u *sql.UpdateBuilder)) *AdminLoginLogUpdate {
+	_u.modifiers = append(_u.modifiers, modifiers...)
+	return _u
 }
 
-func (allu *AdminLoginLogUpdate) sqlSave(ctx context.Context) (n int, err error) {
+func (_u *AdminLoginLogUpdate) sqlSave(ctx context.Context) (_node int, err error) {
 	_spec := sqlgraph.NewUpdateSpec(adminloginlog.Table, adminloginlog.Columns, sqlgraph.NewFieldSpec(adminloginlog.FieldID, field.TypeUint32))
-	if ps := allu.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if allu.mutation.CreateTimeCleared() {
+	if _u.mutation.CreateTimeCleared() {
 		_spec.ClearField(adminloginlog.FieldCreateTime, field.TypeTime)
 	}
-	if value, ok := allu.mutation.LoginIP(); ok {
+	if value, ok := _u.mutation.LoginIP(); ok {
 		_spec.SetField(adminloginlog.FieldLoginIP, field.TypeString, value)
 	}
-	if allu.mutation.LoginIPCleared() {
+	if _u.mutation.LoginIPCleared() {
 		_spec.ClearField(adminloginlog.FieldLoginIP, field.TypeString)
 	}
-	if value, ok := allu.mutation.LoginMAC(); ok {
+	if value, ok := _u.mutation.LoginMAC(); ok {
 		_spec.SetField(adminloginlog.FieldLoginMAC, field.TypeString, value)
 	}
-	if allu.mutation.LoginMACCleared() {
+	if _u.mutation.LoginMACCleared() {
 		_spec.ClearField(adminloginlog.FieldLoginMAC, field.TypeString)
 	}
-	if value, ok := allu.mutation.LoginTime(); ok {
+	if value, ok := _u.mutation.LoginTime(); ok {
 		_spec.SetField(adminloginlog.FieldLoginTime, field.TypeTime, value)
 	}
-	if allu.mutation.LoginTimeCleared() {
+	if _u.mutation.LoginTimeCleared() {
 		_spec.ClearField(adminloginlog.FieldLoginTime, field.TypeTime)
 	}
-	if value, ok := allu.mutation.UserAgent(); ok {
+	if value, ok := _u.mutation.UserAgent(); ok {
 		_spec.SetField(adminloginlog.FieldUserAgent, field.TypeString, value)
 	}
-	if allu.mutation.UserAgentCleared() {
+	if _u.mutation.UserAgentCleared() {
 		_spec.ClearField(adminloginlog.FieldUserAgent, field.TypeString)
 	}
-	if value, ok := allu.mutation.BrowserName(); ok {
+	if value, ok := _u.mutation.BrowserName(); ok {
 		_spec.SetField(adminloginlog.FieldBrowserName, field.TypeString, value)
 	}
-	if allu.mutation.BrowserNameCleared() {
+	if _u.mutation.BrowserNameCleared() {
 		_spec.ClearField(adminloginlog.FieldBrowserName, field.TypeString)
 	}
-	if value, ok := allu.mutation.BrowserVersion(); ok {
+	if value, ok := _u.mutation.BrowserVersion(); ok {
 		_spec.SetField(adminloginlog.FieldBrowserVersion, field.TypeString, value)
 	}
-	if allu.mutation.BrowserVersionCleared() {
+	if _u.mutation.BrowserVersionCleared() {
 		_spec.ClearField(adminloginlog.FieldBrowserVersion, field.TypeString)
 	}
-	if value, ok := allu.mutation.ClientID(); ok {
+	if value, ok := _u.mutation.ClientID(); ok {
 		_spec.SetField(adminloginlog.FieldClientID, field.TypeString, value)
 	}
-	if allu.mutation.ClientIDCleared() {
+	if _u.mutation.ClientIDCleared() {
 		_spec.ClearField(adminloginlog.FieldClientID, field.TypeString)
 	}
-	if value, ok := allu.mutation.ClientName(); ok {
+	if value, ok := _u.mutation.ClientName(); ok {
 		_spec.SetField(adminloginlog.FieldClientName, field.TypeString, value)
 	}
-	if allu.mutation.ClientNameCleared() {
+	if _u.mutation.ClientNameCleared() {
 		_spec.ClearField(adminloginlog.FieldClientName, field.TypeString)
 	}
-	if value, ok := allu.mutation.OsName(); ok {
+	if value, ok := _u.mutation.OsName(); ok {
 		_spec.SetField(adminloginlog.FieldOsName, field.TypeString, value)
 	}
-	if allu.mutation.OsNameCleared() {
+	if _u.mutation.OsNameCleared() {
 		_spec.ClearField(adminloginlog.FieldOsName, field.TypeString)
 	}
-	if value, ok := allu.mutation.OsVersion(); ok {
+	if value, ok := _u.mutation.OsVersion(); ok {
 		_spec.SetField(adminloginlog.FieldOsVersion, field.TypeString, value)
 	}
-	if allu.mutation.OsVersionCleared() {
+	if _u.mutation.OsVersionCleared() {
 		_spec.ClearField(adminloginlog.FieldOsVersion, field.TypeString)
 	}
-	if value, ok := allu.mutation.UserID(); ok {
+	if value, ok := _u.mutation.UserID(); ok {
 		_spec.SetField(adminloginlog.FieldUserID, field.TypeUint32, value)
 	}
-	if value, ok := allu.mutation.AddedUserID(); ok {
+	if value, ok := _u.mutation.AddedUserID(); ok {
 		_spec.AddField(adminloginlog.FieldUserID, field.TypeUint32, value)
 	}
-	if allu.mutation.UserIDCleared() {
+	if _u.mutation.UserIDCleared() {
 		_spec.ClearField(adminloginlog.FieldUserID, field.TypeUint32)
 	}
-	if value, ok := allu.mutation.Username(); ok {
+	if value, ok := _u.mutation.Username(); ok {
 		_spec.SetField(adminloginlog.FieldUsername, field.TypeString, value)
 	}
-	if allu.mutation.UsernameCleared() {
+	if _u.mutation.UsernameCleared() {
 		_spec.ClearField(adminloginlog.FieldUsername, field.TypeString)
 	}
-	if value, ok := allu.mutation.StatusCode(); ok {
+	if value, ok := _u.mutation.StatusCode(); ok {
 		_spec.SetField(adminloginlog.FieldStatusCode, field.TypeInt32, value)
 	}
-	if value, ok := allu.mutation.AddedStatusCode(); ok {
+	if value, ok := _u.mutation.AddedStatusCode(); ok {
 		_spec.AddField(adminloginlog.FieldStatusCode, field.TypeInt32, value)
 	}
-	if allu.mutation.StatusCodeCleared() {
+	if _u.mutation.StatusCodeCleared() {
 		_spec.ClearField(adminloginlog.FieldStatusCode, field.TypeInt32)
 	}
-	if value, ok := allu.mutation.Success(); ok {
+	if value, ok := _u.mutation.Success(); ok {
 		_spec.SetField(adminloginlog.FieldSuccess, field.TypeBool, value)
 	}
-	if allu.mutation.SuccessCleared() {
+	if _u.mutation.SuccessCleared() {
 		_spec.ClearField(adminloginlog.FieldSuccess, field.TypeBool)
 	}
-	if value, ok := allu.mutation.Reason(); ok {
+	if value, ok := _u.mutation.Reason(); ok {
 		_spec.SetField(adminloginlog.FieldReason, field.TypeString, value)
 	}
-	if allu.mutation.ReasonCleared() {
+	if _u.mutation.ReasonCleared() {
 		_spec.ClearField(adminloginlog.FieldReason, field.TypeString)
 	}
-	if value, ok := allu.mutation.Location(); ok {
+	if value, ok := _u.mutation.Location(); ok {
 		_spec.SetField(adminloginlog.FieldLocation, field.TypeString, value)
 	}
-	if allu.mutation.LocationCleared() {
+	if _u.mutation.LocationCleared() {
 		_spec.ClearField(adminloginlog.FieldLocation, field.TypeString)
 	}
-	_spec.AddModifiers(allu.modifiers...)
-	if n, err = sqlgraph.UpdateNodes(ctx, allu.driver, _spec); err != nil {
+	_spec.AddModifiers(_u.modifiers...)
+	if _node, err = sqlgraph.UpdateNodes(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{adminloginlog.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -524,8 +524,8 @@ func (allu *AdminLoginLogUpdate) sqlSave(ctx context.Context) (n int, err error)
 		}
 		return 0, err
 	}
-	allu.mutation.done = true
-	return n, nil
+	_u.mutation.done = true
+	return _node, nil
 }
 
 // AdminLoginLogUpdateOne is the builder for updating a single AdminLoginLog entity.
@@ -538,365 +538,365 @@ type AdminLoginLogUpdateOne struct {
 }
 
 // SetLoginIP sets the "login_ip" field.
-func (alluo *AdminLoginLogUpdateOne) SetLoginIP(s string) *AdminLoginLogUpdateOne {
-	alluo.mutation.SetLoginIP(s)
-	return alluo
+func (_u *AdminLoginLogUpdateOne) SetLoginIP(v string) *AdminLoginLogUpdateOne {
+	_u.mutation.SetLoginIP(v)
+	return _u
 }
 
 // SetNillableLoginIP sets the "login_ip" field if the given value is not nil.
-func (alluo *AdminLoginLogUpdateOne) SetNillableLoginIP(s *string) *AdminLoginLogUpdateOne {
-	if s != nil {
-		alluo.SetLoginIP(*s)
+func (_u *AdminLoginLogUpdateOne) SetNillableLoginIP(v *string) *AdminLoginLogUpdateOne {
+	if v != nil {
+		_u.SetLoginIP(*v)
 	}
-	return alluo
+	return _u
 }
 
 // ClearLoginIP clears the value of the "login_ip" field.
-func (alluo *AdminLoginLogUpdateOne) ClearLoginIP() *AdminLoginLogUpdateOne {
-	alluo.mutation.ClearLoginIP()
-	return alluo
+func (_u *AdminLoginLogUpdateOne) ClearLoginIP() *AdminLoginLogUpdateOne {
+	_u.mutation.ClearLoginIP()
+	return _u
 }
 
 // SetLoginMAC sets the "login_mac" field.
-func (alluo *AdminLoginLogUpdateOne) SetLoginMAC(s string) *AdminLoginLogUpdateOne {
-	alluo.mutation.SetLoginMAC(s)
-	return alluo
+func (_u *AdminLoginLogUpdateOne) SetLoginMAC(v string) *AdminLoginLogUpdateOne {
+	_u.mutation.SetLoginMAC(v)
+	return _u
 }
 
 // SetNillableLoginMAC sets the "login_mac" field if the given value is not nil.
-func (alluo *AdminLoginLogUpdateOne) SetNillableLoginMAC(s *string) *AdminLoginLogUpdateOne {
-	if s != nil {
-		alluo.SetLoginMAC(*s)
+func (_u *AdminLoginLogUpdateOne) SetNillableLoginMAC(v *string) *AdminLoginLogUpdateOne {
+	if v != nil {
+		_u.SetLoginMAC(*v)
 	}
-	return alluo
+	return _u
 }
 
 // ClearLoginMAC clears the value of the "login_mac" field.
-func (alluo *AdminLoginLogUpdateOne) ClearLoginMAC() *AdminLoginLogUpdateOne {
-	alluo.mutation.ClearLoginMAC()
-	return alluo
+func (_u *AdminLoginLogUpdateOne) ClearLoginMAC() *AdminLoginLogUpdateOne {
+	_u.mutation.ClearLoginMAC()
+	return _u
 }
 
 // SetLoginTime sets the "login_time" field.
-func (alluo *AdminLoginLogUpdateOne) SetLoginTime(t time.Time) *AdminLoginLogUpdateOne {
-	alluo.mutation.SetLoginTime(t)
-	return alluo
+func (_u *AdminLoginLogUpdateOne) SetLoginTime(v time.Time) *AdminLoginLogUpdateOne {
+	_u.mutation.SetLoginTime(v)
+	return _u
 }
 
 // SetNillableLoginTime sets the "login_time" field if the given value is not nil.
-func (alluo *AdminLoginLogUpdateOne) SetNillableLoginTime(t *time.Time) *AdminLoginLogUpdateOne {
-	if t != nil {
-		alluo.SetLoginTime(*t)
+func (_u *AdminLoginLogUpdateOne) SetNillableLoginTime(v *time.Time) *AdminLoginLogUpdateOne {
+	if v != nil {
+		_u.SetLoginTime(*v)
 	}
-	return alluo
+	return _u
 }
 
 // ClearLoginTime clears the value of the "login_time" field.
-func (alluo *AdminLoginLogUpdateOne) ClearLoginTime() *AdminLoginLogUpdateOne {
-	alluo.mutation.ClearLoginTime()
-	return alluo
+func (_u *AdminLoginLogUpdateOne) ClearLoginTime() *AdminLoginLogUpdateOne {
+	_u.mutation.ClearLoginTime()
+	return _u
 }
 
 // SetUserAgent sets the "user_agent" field.
-func (alluo *AdminLoginLogUpdateOne) SetUserAgent(s string) *AdminLoginLogUpdateOne {
-	alluo.mutation.SetUserAgent(s)
-	return alluo
+func (_u *AdminLoginLogUpdateOne) SetUserAgent(v string) *AdminLoginLogUpdateOne {
+	_u.mutation.SetUserAgent(v)
+	return _u
 }
 
 // SetNillableUserAgent sets the "user_agent" field if the given value is not nil.
-func (alluo *AdminLoginLogUpdateOne) SetNillableUserAgent(s *string) *AdminLoginLogUpdateOne {
-	if s != nil {
-		alluo.SetUserAgent(*s)
+func (_u *AdminLoginLogUpdateOne) SetNillableUserAgent(v *string) *AdminLoginLogUpdateOne {
+	if v != nil {
+		_u.SetUserAgent(*v)
 	}
-	return alluo
+	return _u
 }
 
 // ClearUserAgent clears the value of the "user_agent" field.
-func (alluo *AdminLoginLogUpdateOne) ClearUserAgent() *AdminLoginLogUpdateOne {
-	alluo.mutation.ClearUserAgent()
-	return alluo
+func (_u *AdminLoginLogUpdateOne) ClearUserAgent() *AdminLoginLogUpdateOne {
+	_u.mutation.ClearUserAgent()
+	return _u
 }
 
 // SetBrowserName sets the "browser_name" field.
-func (alluo *AdminLoginLogUpdateOne) SetBrowserName(s string) *AdminLoginLogUpdateOne {
-	alluo.mutation.SetBrowserName(s)
-	return alluo
+func (_u *AdminLoginLogUpdateOne) SetBrowserName(v string) *AdminLoginLogUpdateOne {
+	_u.mutation.SetBrowserName(v)
+	return _u
 }
 
 // SetNillableBrowserName sets the "browser_name" field if the given value is not nil.
-func (alluo *AdminLoginLogUpdateOne) SetNillableBrowserName(s *string) *AdminLoginLogUpdateOne {
-	if s != nil {
-		alluo.SetBrowserName(*s)
+func (_u *AdminLoginLogUpdateOne) SetNillableBrowserName(v *string) *AdminLoginLogUpdateOne {
+	if v != nil {
+		_u.SetBrowserName(*v)
 	}
-	return alluo
+	return _u
 }
 
 // ClearBrowserName clears the value of the "browser_name" field.
-func (alluo *AdminLoginLogUpdateOne) ClearBrowserName() *AdminLoginLogUpdateOne {
-	alluo.mutation.ClearBrowserName()
-	return alluo
+func (_u *AdminLoginLogUpdateOne) ClearBrowserName() *AdminLoginLogUpdateOne {
+	_u.mutation.ClearBrowserName()
+	return _u
 }
 
 // SetBrowserVersion sets the "browser_version" field.
-func (alluo *AdminLoginLogUpdateOne) SetBrowserVersion(s string) *AdminLoginLogUpdateOne {
-	alluo.mutation.SetBrowserVersion(s)
-	return alluo
+func (_u *AdminLoginLogUpdateOne) SetBrowserVersion(v string) *AdminLoginLogUpdateOne {
+	_u.mutation.SetBrowserVersion(v)
+	return _u
 }
 
 // SetNillableBrowserVersion sets the "browser_version" field if the given value is not nil.
-func (alluo *AdminLoginLogUpdateOne) SetNillableBrowserVersion(s *string) *AdminLoginLogUpdateOne {
-	if s != nil {
-		alluo.SetBrowserVersion(*s)
+func (_u *AdminLoginLogUpdateOne) SetNillableBrowserVersion(v *string) *AdminLoginLogUpdateOne {
+	if v != nil {
+		_u.SetBrowserVersion(*v)
 	}
-	return alluo
+	return _u
 }
 
 // ClearBrowserVersion clears the value of the "browser_version" field.
-func (alluo *AdminLoginLogUpdateOne) ClearBrowserVersion() *AdminLoginLogUpdateOne {
-	alluo.mutation.ClearBrowserVersion()
-	return alluo
+func (_u *AdminLoginLogUpdateOne) ClearBrowserVersion() *AdminLoginLogUpdateOne {
+	_u.mutation.ClearBrowserVersion()
+	return _u
 }
 
 // SetClientID sets the "client_id" field.
-func (alluo *AdminLoginLogUpdateOne) SetClientID(s string) *AdminLoginLogUpdateOne {
-	alluo.mutation.SetClientID(s)
-	return alluo
+func (_u *AdminLoginLogUpdateOne) SetClientID(v string) *AdminLoginLogUpdateOne {
+	_u.mutation.SetClientID(v)
+	return _u
 }
 
 // SetNillableClientID sets the "client_id" field if the given value is not nil.
-func (alluo *AdminLoginLogUpdateOne) SetNillableClientID(s *string) *AdminLoginLogUpdateOne {
-	if s != nil {
-		alluo.SetClientID(*s)
+func (_u *AdminLoginLogUpdateOne) SetNillableClientID(v *string) *AdminLoginLogUpdateOne {
+	if v != nil {
+		_u.SetClientID(*v)
 	}
-	return alluo
+	return _u
 }
 
 // ClearClientID clears the value of the "client_id" field.
-func (alluo *AdminLoginLogUpdateOne) ClearClientID() *AdminLoginLogUpdateOne {
-	alluo.mutation.ClearClientID()
-	return alluo
+func (_u *AdminLoginLogUpdateOne) ClearClientID() *AdminLoginLogUpdateOne {
+	_u.mutation.ClearClientID()
+	return _u
 }
 
 // SetClientName sets the "client_name" field.
-func (alluo *AdminLoginLogUpdateOne) SetClientName(s string) *AdminLoginLogUpdateOne {
-	alluo.mutation.SetClientName(s)
-	return alluo
+func (_u *AdminLoginLogUpdateOne) SetClientName(v string) *AdminLoginLogUpdateOne {
+	_u.mutation.SetClientName(v)
+	return _u
 }
 
 // SetNillableClientName sets the "client_name" field if the given value is not nil.
-func (alluo *AdminLoginLogUpdateOne) SetNillableClientName(s *string) *AdminLoginLogUpdateOne {
-	if s != nil {
-		alluo.SetClientName(*s)
+func (_u *AdminLoginLogUpdateOne) SetNillableClientName(v *string) *AdminLoginLogUpdateOne {
+	if v != nil {
+		_u.SetClientName(*v)
 	}
-	return alluo
+	return _u
 }
 
 // ClearClientName clears the value of the "client_name" field.
-func (alluo *AdminLoginLogUpdateOne) ClearClientName() *AdminLoginLogUpdateOne {
-	alluo.mutation.ClearClientName()
-	return alluo
+func (_u *AdminLoginLogUpdateOne) ClearClientName() *AdminLoginLogUpdateOne {
+	_u.mutation.ClearClientName()
+	return _u
 }
 
 // SetOsName sets the "os_name" field.
-func (alluo *AdminLoginLogUpdateOne) SetOsName(s string) *AdminLoginLogUpdateOne {
-	alluo.mutation.SetOsName(s)
-	return alluo
+func (_u *AdminLoginLogUpdateOne) SetOsName(v string) *AdminLoginLogUpdateOne {
+	_u.mutation.SetOsName(v)
+	return _u
 }
 
 // SetNillableOsName sets the "os_name" field if the given value is not nil.
-func (alluo *AdminLoginLogUpdateOne) SetNillableOsName(s *string) *AdminLoginLogUpdateOne {
-	if s != nil {
-		alluo.SetOsName(*s)
+func (_u *AdminLoginLogUpdateOne) SetNillableOsName(v *string) *AdminLoginLogUpdateOne {
+	if v != nil {
+		_u.SetOsName(*v)
 	}
-	return alluo
+	return _u
 }
 
 // ClearOsName clears the value of the "os_name" field.
-func (alluo *AdminLoginLogUpdateOne) ClearOsName() *AdminLoginLogUpdateOne {
-	alluo.mutation.ClearOsName()
-	return alluo
+func (_u *AdminLoginLogUpdateOne) ClearOsName() *AdminLoginLogUpdateOne {
+	_u.mutation.ClearOsName()
+	return _u
 }
 
 // SetOsVersion sets the "os_version" field.
-func (alluo *AdminLoginLogUpdateOne) SetOsVersion(s string) *AdminLoginLogUpdateOne {
-	alluo.mutation.SetOsVersion(s)
-	return alluo
+func (_u *AdminLoginLogUpdateOne) SetOsVersion(v string) *AdminLoginLogUpdateOne {
+	_u.mutation.SetOsVersion(v)
+	return _u
 }
 
 // SetNillableOsVersion sets the "os_version" field if the given value is not nil.
-func (alluo *AdminLoginLogUpdateOne) SetNillableOsVersion(s *string) *AdminLoginLogUpdateOne {
-	if s != nil {
-		alluo.SetOsVersion(*s)
+func (_u *AdminLoginLogUpdateOne) SetNillableOsVersion(v *string) *AdminLoginLogUpdateOne {
+	if v != nil {
+		_u.SetOsVersion(*v)
 	}
-	return alluo
+	return _u
 }
 
 // ClearOsVersion clears the value of the "os_version" field.
-func (alluo *AdminLoginLogUpdateOne) ClearOsVersion() *AdminLoginLogUpdateOne {
-	alluo.mutation.ClearOsVersion()
-	return alluo
+func (_u *AdminLoginLogUpdateOne) ClearOsVersion() *AdminLoginLogUpdateOne {
+	_u.mutation.ClearOsVersion()
+	return _u
 }
 
 // SetUserID sets the "user_id" field.
-func (alluo *AdminLoginLogUpdateOne) SetUserID(u uint32) *AdminLoginLogUpdateOne {
-	alluo.mutation.ResetUserID()
-	alluo.mutation.SetUserID(u)
-	return alluo
+func (_u *AdminLoginLogUpdateOne) SetUserID(v uint32) *AdminLoginLogUpdateOne {
+	_u.mutation.ResetUserID()
+	_u.mutation.SetUserID(v)
+	return _u
 }
 
 // SetNillableUserID sets the "user_id" field if the given value is not nil.
-func (alluo *AdminLoginLogUpdateOne) SetNillableUserID(u *uint32) *AdminLoginLogUpdateOne {
-	if u != nil {
-		alluo.SetUserID(*u)
+func (_u *AdminLoginLogUpdateOne) SetNillableUserID(v *uint32) *AdminLoginLogUpdateOne {
+	if v != nil {
+		_u.SetUserID(*v)
 	}
-	return alluo
+	return _u
 }
 
-// AddUserID adds u to the "user_id" field.
-func (alluo *AdminLoginLogUpdateOne) AddUserID(u int32) *AdminLoginLogUpdateOne {
-	alluo.mutation.AddUserID(u)
-	return alluo
+// AddUserID adds value to the "user_id" field.
+func (_u *AdminLoginLogUpdateOne) AddUserID(v int32) *AdminLoginLogUpdateOne {
+	_u.mutation.AddUserID(v)
+	return _u
 }
 
 // ClearUserID clears the value of the "user_id" field.
-func (alluo *AdminLoginLogUpdateOne) ClearUserID() *AdminLoginLogUpdateOne {
-	alluo.mutation.ClearUserID()
-	return alluo
+func (_u *AdminLoginLogUpdateOne) ClearUserID() *AdminLoginLogUpdateOne {
+	_u.mutation.ClearUserID()
+	return _u
 }
 
 // SetUsername sets the "username" field.
-func (alluo *AdminLoginLogUpdateOne) SetUsername(s string) *AdminLoginLogUpdateOne {
-	alluo.mutation.SetUsername(s)
-	return alluo
+func (_u *AdminLoginLogUpdateOne) SetUsername(v string) *AdminLoginLogUpdateOne {
+	_u.mutation.SetUsername(v)
+	return _u
 }
 
 // SetNillableUsername sets the "username" field if the given value is not nil.
-func (alluo *AdminLoginLogUpdateOne) SetNillableUsername(s *string) *AdminLoginLogUpdateOne {
-	if s != nil {
-		alluo.SetUsername(*s)
+func (_u *AdminLoginLogUpdateOne) SetNillableUsername(v *string) *AdminLoginLogUpdateOne {
+	if v != nil {
+		_u.SetUsername(*v)
 	}
-	return alluo
+	return _u
 }
 
 // ClearUsername clears the value of the "username" field.
-func (alluo *AdminLoginLogUpdateOne) ClearUsername() *AdminLoginLogUpdateOne {
-	alluo.mutation.ClearUsername()
-	return alluo
+func (_u *AdminLoginLogUpdateOne) ClearUsername() *AdminLoginLogUpdateOne {
+	_u.mutation.ClearUsername()
+	return _u
 }
 
 // SetStatusCode sets the "status_code" field.
-func (alluo *AdminLoginLogUpdateOne) SetStatusCode(i int32) *AdminLoginLogUpdateOne {
-	alluo.mutation.ResetStatusCode()
-	alluo.mutation.SetStatusCode(i)
-	return alluo
+func (_u *AdminLoginLogUpdateOne) SetStatusCode(v int32) *AdminLoginLogUpdateOne {
+	_u.mutation.ResetStatusCode()
+	_u.mutation.SetStatusCode(v)
+	return _u
 }
 
 // SetNillableStatusCode sets the "status_code" field if the given value is not nil.
-func (alluo *AdminLoginLogUpdateOne) SetNillableStatusCode(i *int32) *AdminLoginLogUpdateOne {
-	if i != nil {
-		alluo.SetStatusCode(*i)
+func (_u *AdminLoginLogUpdateOne) SetNillableStatusCode(v *int32) *AdminLoginLogUpdateOne {
+	if v != nil {
+		_u.SetStatusCode(*v)
 	}
-	return alluo
+	return _u
 }
 
-// AddStatusCode adds i to the "status_code" field.
-func (alluo *AdminLoginLogUpdateOne) AddStatusCode(i int32) *AdminLoginLogUpdateOne {
-	alluo.mutation.AddStatusCode(i)
-	return alluo
+// AddStatusCode adds value to the "status_code" field.
+func (_u *AdminLoginLogUpdateOne) AddStatusCode(v int32) *AdminLoginLogUpdateOne {
+	_u.mutation.AddStatusCode(v)
+	return _u
 }
 
 // ClearStatusCode clears the value of the "status_code" field.
-func (alluo *AdminLoginLogUpdateOne) ClearStatusCode() *AdminLoginLogUpdateOne {
-	alluo.mutation.ClearStatusCode()
-	return alluo
+func (_u *AdminLoginLogUpdateOne) ClearStatusCode() *AdminLoginLogUpdateOne {
+	_u.mutation.ClearStatusCode()
+	return _u
 }
 
 // SetSuccess sets the "success" field.
-func (alluo *AdminLoginLogUpdateOne) SetSuccess(b bool) *AdminLoginLogUpdateOne {
-	alluo.mutation.SetSuccess(b)
-	return alluo
+func (_u *AdminLoginLogUpdateOne) SetSuccess(v bool) *AdminLoginLogUpdateOne {
+	_u.mutation.SetSuccess(v)
+	return _u
 }
 
 // SetNillableSuccess sets the "success" field if the given value is not nil.
-func (alluo *AdminLoginLogUpdateOne) SetNillableSuccess(b *bool) *AdminLoginLogUpdateOne {
-	if b != nil {
-		alluo.SetSuccess(*b)
+func (_u *AdminLoginLogUpdateOne) SetNillableSuccess(v *bool) *AdminLoginLogUpdateOne {
+	if v != nil {
+		_u.SetSuccess(*v)
 	}
-	return alluo
+	return _u
 }
 
 // ClearSuccess clears the value of the "success" field.
-func (alluo *AdminLoginLogUpdateOne) ClearSuccess() *AdminLoginLogUpdateOne {
-	alluo.mutation.ClearSuccess()
-	return alluo
+func (_u *AdminLoginLogUpdateOne) ClearSuccess() *AdminLoginLogUpdateOne {
+	_u.mutation.ClearSuccess()
+	return _u
 }
 
 // SetReason sets the "reason" field.
-func (alluo *AdminLoginLogUpdateOne) SetReason(s string) *AdminLoginLogUpdateOne {
-	alluo.mutation.SetReason(s)
-	return alluo
+func (_u *AdminLoginLogUpdateOne) SetReason(v string) *AdminLoginLogUpdateOne {
+	_u.mutation.SetReason(v)
+	return _u
 }
 
 // SetNillableReason sets the "reason" field if the given value is not nil.
-func (alluo *AdminLoginLogUpdateOne) SetNillableReason(s *string) *AdminLoginLogUpdateOne {
-	if s != nil {
-		alluo.SetReason(*s)
+func (_u *AdminLoginLogUpdateOne) SetNillableReason(v *string) *AdminLoginLogUpdateOne {
+	if v != nil {
+		_u.SetReason(*v)
 	}
-	return alluo
+	return _u
 }
 
 // ClearReason clears the value of the "reason" field.
-func (alluo *AdminLoginLogUpdateOne) ClearReason() *AdminLoginLogUpdateOne {
-	alluo.mutation.ClearReason()
-	return alluo
+func (_u *AdminLoginLogUpdateOne) ClearReason() *AdminLoginLogUpdateOne {
+	_u.mutation.ClearReason()
+	return _u
 }
 
 // SetLocation sets the "location" field.
-func (alluo *AdminLoginLogUpdateOne) SetLocation(s string) *AdminLoginLogUpdateOne {
-	alluo.mutation.SetLocation(s)
-	return alluo
+func (_u *AdminLoginLogUpdateOne) SetLocation(v string) *AdminLoginLogUpdateOne {
+	_u.mutation.SetLocation(v)
+	return _u
 }
 
 // SetNillableLocation sets the "location" field if the given value is not nil.
-func (alluo *AdminLoginLogUpdateOne) SetNillableLocation(s *string) *AdminLoginLogUpdateOne {
-	if s != nil {
-		alluo.SetLocation(*s)
+func (_u *AdminLoginLogUpdateOne) SetNillableLocation(v *string) *AdminLoginLogUpdateOne {
+	if v != nil {
+		_u.SetLocation(*v)
 	}
-	return alluo
+	return _u
 }
 
 // ClearLocation clears the value of the "location" field.
-func (alluo *AdminLoginLogUpdateOne) ClearLocation() *AdminLoginLogUpdateOne {
-	alluo.mutation.ClearLocation()
-	return alluo
+func (_u *AdminLoginLogUpdateOne) ClearLocation() *AdminLoginLogUpdateOne {
+	_u.mutation.ClearLocation()
+	return _u
 }
 
 // Mutation returns the AdminLoginLogMutation object of the builder.
-func (alluo *AdminLoginLogUpdateOne) Mutation() *AdminLoginLogMutation {
-	return alluo.mutation
+func (_u *AdminLoginLogUpdateOne) Mutation() *AdminLoginLogMutation {
+	return _u.mutation
 }
 
 // Where appends a list predicates to the AdminLoginLogUpdate builder.
-func (alluo *AdminLoginLogUpdateOne) Where(ps ...predicate.AdminLoginLog) *AdminLoginLogUpdateOne {
-	alluo.mutation.Where(ps...)
-	return alluo
+func (_u *AdminLoginLogUpdateOne) Where(ps ...predicate.AdminLoginLog) *AdminLoginLogUpdateOne {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // Select allows selecting one or more fields (columns) of the returned entity.
 // The default is selecting all fields defined in the entity schema.
-func (alluo *AdminLoginLogUpdateOne) Select(field string, fields ...string) *AdminLoginLogUpdateOne {
-	alluo.fields = append([]string{field}, fields...)
-	return alluo
+func (_u *AdminLoginLogUpdateOne) Select(field string, fields ...string) *AdminLoginLogUpdateOne {
+	_u.fields = append([]string{field}, fields...)
+	return _u
 }
 
 // Save executes the query and returns the updated AdminLoginLog entity.
-func (alluo *AdminLoginLogUpdateOne) Save(ctx context.Context) (*AdminLoginLog, error) {
-	return withHooks(ctx, alluo.sqlSave, alluo.mutation, alluo.hooks)
+func (_u *AdminLoginLogUpdateOne) Save(ctx context.Context) (*AdminLoginLog, error) {
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (alluo *AdminLoginLogUpdateOne) SaveX(ctx context.Context) *AdminLoginLog {
-	node, err := alluo.Save(ctx)
+func (_u *AdminLoginLogUpdateOne) SaveX(ctx context.Context) *AdminLoginLog {
+	node, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -904,32 +904,32 @@ func (alluo *AdminLoginLogUpdateOne) SaveX(ctx context.Context) *AdminLoginLog {
 }
 
 // Exec executes the query on the entity.
-func (alluo *AdminLoginLogUpdateOne) Exec(ctx context.Context) error {
-	_, err := alluo.Save(ctx)
+func (_u *AdminLoginLogUpdateOne) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (alluo *AdminLoginLogUpdateOne) ExecX(ctx context.Context) {
-	if err := alluo.Exec(ctx); err != nil {
+func (_u *AdminLoginLogUpdateOne) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // Modify adds a statement modifier for attaching custom logic to the UPDATE statement.
-func (alluo *AdminLoginLogUpdateOne) Modify(modifiers ...func(u *sql.UpdateBuilder)) *AdminLoginLogUpdateOne {
-	alluo.modifiers = append(alluo.modifiers, modifiers...)
-	return alluo
+func (_u *AdminLoginLogUpdateOne) Modify(modifiers ...func(u *sql.UpdateBuilder)) *AdminLoginLogUpdateOne {
+	_u.modifiers = append(_u.modifiers, modifiers...)
+	return _u
 }
 
-func (alluo *AdminLoginLogUpdateOne) sqlSave(ctx context.Context) (_node *AdminLoginLog, err error) {
+func (_u *AdminLoginLogUpdateOne) sqlSave(ctx context.Context) (_node *AdminLoginLog, err error) {
 	_spec := sqlgraph.NewUpdateSpec(adminloginlog.Table, adminloginlog.Columns, sqlgraph.NewFieldSpec(adminloginlog.FieldID, field.TypeUint32))
-	id, ok := alluo.mutation.ID()
+	id, ok := _u.mutation.ID()
 	if !ok {
 		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "AdminLoginLog.id" for update`)}
 	}
 	_spec.Node.ID.Value = id
-	if fields := alluo.fields; len(fields) > 0 {
+	if fields := _u.fields; len(fields) > 0 {
 		_spec.Node.Columns = make([]string, 0, len(fields))
 		_spec.Node.Columns = append(_spec.Node.Columns, adminloginlog.FieldID)
 		for _, f := range fields {
@@ -941,123 +941,123 @@ func (alluo *AdminLoginLogUpdateOne) sqlSave(ctx context.Context) (_node *AdminL
 			}
 		}
 	}
-	if ps := alluo.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if alluo.mutation.CreateTimeCleared() {
+	if _u.mutation.CreateTimeCleared() {
 		_spec.ClearField(adminloginlog.FieldCreateTime, field.TypeTime)
 	}
-	if value, ok := alluo.mutation.LoginIP(); ok {
+	if value, ok := _u.mutation.LoginIP(); ok {
 		_spec.SetField(adminloginlog.FieldLoginIP, field.TypeString, value)
 	}
-	if alluo.mutation.LoginIPCleared() {
+	if _u.mutation.LoginIPCleared() {
 		_spec.ClearField(adminloginlog.FieldLoginIP, field.TypeString)
 	}
-	if value, ok := alluo.mutation.LoginMAC(); ok {
+	if value, ok := _u.mutation.LoginMAC(); ok {
 		_spec.SetField(adminloginlog.FieldLoginMAC, field.TypeString, value)
 	}
-	if alluo.mutation.LoginMACCleared() {
+	if _u.mutation.LoginMACCleared() {
 		_spec.ClearField(adminloginlog.FieldLoginMAC, field.TypeString)
 	}
-	if value, ok := alluo.mutation.LoginTime(); ok {
+	if value, ok := _u.mutation.LoginTime(); ok {
 		_spec.SetField(adminloginlog.FieldLoginTime, field.TypeTime, value)
 	}
-	if alluo.mutation.LoginTimeCleared() {
+	if _u.mutation.LoginTimeCleared() {
 		_spec.ClearField(adminloginlog.FieldLoginTime, field.TypeTime)
 	}
-	if value, ok := alluo.mutation.UserAgent(); ok {
+	if value, ok := _u.mutation.UserAgent(); ok {
 		_spec.SetField(adminloginlog.FieldUserAgent, field.TypeString, value)
 	}
-	if alluo.mutation.UserAgentCleared() {
+	if _u.mutation.UserAgentCleared() {
 		_spec.ClearField(adminloginlog.FieldUserAgent, field.TypeString)
 	}
-	if value, ok := alluo.mutation.BrowserName(); ok {
+	if value, ok := _u.mutation.BrowserName(); ok {
 		_spec.SetField(adminloginlog.FieldBrowserName, field.TypeString, value)
 	}
-	if alluo.mutation.BrowserNameCleared() {
+	if _u.mutation.BrowserNameCleared() {
 		_spec.ClearField(adminloginlog.FieldBrowserName, field.TypeString)
 	}
-	if value, ok := alluo.mutation.BrowserVersion(); ok {
+	if value, ok := _u.mutation.BrowserVersion(); ok {
 		_spec.SetField(adminloginlog.FieldBrowserVersion, field.TypeString, value)
 	}
-	if alluo.mutation.BrowserVersionCleared() {
+	if _u.mutation.BrowserVersionCleared() {
 		_spec.ClearField(adminloginlog.FieldBrowserVersion, field.TypeString)
 	}
-	if value, ok := alluo.mutation.ClientID(); ok {
+	if value, ok := _u.mutation.ClientID(); ok {
 		_spec.SetField(adminloginlog.FieldClientID, field.TypeString, value)
 	}
-	if alluo.mutation.ClientIDCleared() {
+	if _u.mutation.ClientIDCleared() {
 		_spec.ClearField(adminloginlog.FieldClientID, field.TypeString)
 	}
-	if value, ok := alluo.mutation.ClientName(); ok {
+	if value, ok := _u.mutation.ClientName(); ok {
 		_spec.SetField(adminloginlog.FieldClientName, field.TypeString, value)
 	}
-	if alluo.mutation.ClientNameCleared() {
+	if _u.mutation.ClientNameCleared() {
 		_spec.ClearField(adminloginlog.FieldClientName, field.TypeString)
 	}
-	if value, ok := alluo.mutation.OsName(); ok {
+	if value, ok := _u.mutation.OsName(); ok {
 		_spec.SetField(adminloginlog.FieldOsName, field.TypeString, value)
 	}
-	if alluo.mutation.OsNameCleared() {
+	if _u.mutation.OsNameCleared() {
 		_spec.ClearField(adminloginlog.FieldOsName, field.TypeString)
 	}
-	if value, ok := alluo.mutation.OsVersion(); ok {
+	if value, ok := _u.mutation.OsVersion(); ok {
 		_spec.SetField(adminloginlog.FieldOsVersion, field.TypeString, value)
 	}
-	if alluo.mutation.OsVersionCleared() {
+	if _u.mutation.OsVersionCleared() {
 		_spec.ClearField(adminloginlog.FieldOsVersion, field.TypeString)
 	}
-	if value, ok := alluo.mutation.UserID(); ok {
+	if value, ok := _u.mutation.UserID(); ok {
 		_spec.SetField(adminloginlog.FieldUserID, field.TypeUint32, value)
 	}
-	if value, ok := alluo.mutation.AddedUserID(); ok {
+	if value, ok := _u.mutation.AddedUserID(); ok {
 		_spec.AddField(adminloginlog.FieldUserID, field.TypeUint32, value)
 	}
-	if alluo.mutation.UserIDCleared() {
+	if _u.mutation.UserIDCleared() {
 		_spec.ClearField(adminloginlog.FieldUserID, field.TypeUint32)
 	}
-	if value, ok := alluo.mutation.Username(); ok {
+	if value, ok := _u.mutation.Username(); ok {
 		_spec.SetField(adminloginlog.FieldUsername, field.TypeString, value)
 	}
-	if alluo.mutation.UsernameCleared() {
+	if _u.mutation.UsernameCleared() {
 		_spec.ClearField(adminloginlog.FieldUsername, field.TypeString)
 	}
-	if value, ok := alluo.mutation.StatusCode(); ok {
+	if value, ok := _u.mutation.StatusCode(); ok {
 		_spec.SetField(adminloginlog.FieldStatusCode, field.TypeInt32, value)
 	}
-	if value, ok := alluo.mutation.AddedStatusCode(); ok {
+	if value, ok := _u.mutation.AddedStatusCode(); ok {
 		_spec.AddField(adminloginlog.FieldStatusCode, field.TypeInt32, value)
 	}
-	if alluo.mutation.StatusCodeCleared() {
+	if _u.mutation.StatusCodeCleared() {
 		_spec.ClearField(adminloginlog.FieldStatusCode, field.TypeInt32)
 	}
-	if value, ok := alluo.mutation.Success(); ok {
+	if value, ok := _u.mutation.Success(); ok {
 		_spec.SetField(adminloginlog.FieldSuccess, field.TypeBool, value)
 	}
-	if alluo.mutation.SuccessCleared() {
+	if _u.mutation.SuccessCleared() {
 		_spec.ClearField(adminloginlog.FieldSuccess, field.TypeBool)
 	}
-	if value, ok := alluo.mutation.Reason(); ok {
+	if value, ok := _u.mutation.Reason(); ok {
 		_spec.SetField(adminloginlog.FieldReason, field.TypeString, value)
 	}
-	if alluo.mutation.ReasonCleared() {
+	if _u.mutation.ReasonCleared() {
 		_spec.ClearField(adminloginlog.FieldReason, field.TypeString)
 	}
-	if value, ok := alluo.mutation.Location(); ok {
+	if value, ok := _u.mutation.Location(); ok {
 		_spec.SetField(adminloginlog.FieldLocation, field.TypeString, value)
 	}
-	if alluo.mutation.LocationCleared() {
+	if _u.mutation.LocationCleared() {
 		_spec.ClearField(adminloginlog.FieldLocation, field.TypeString)
 	}
-	_spec.AddModifiers(alluo.modifiers...)
-	_node = &AdminLoginLog{config: alluo.config}
+	_spec.AddModifiers(_u.modifiers...)
+	_node = &AdminLoginLog{config: _u.config}
 	_spec.Assign = _node.assignValues
 	_spec.ScanValues = _node.scanValues
-	if err = sqlgraph.UpdateNode(ctx, alluo.driver, _spec); err != nil {
+	if err = sqlgraph.UpdateNode(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{adminloginlog.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -1065,6 +1065,6 @@ func (alluo *AdminLoginLogUpdateOne) sqlSave(ctx context.Context) (_node *AdminL
 		}
 		return nil, err
 	}
-	alluo.mutation.done = true
+	_u.mutation.done = true
 	return _node, nil
 }

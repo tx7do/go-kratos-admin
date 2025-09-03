@@ -20,56 +20,56 @@ type NotificationMessageRecipientDelete struct {
 }
 
 // Where appends a list predicates to the NotificationMessageRecipientDelete builder.
-func (nmrd *NotificationMessageRecipientDelete) Where(ps ...predicate.NotificationMessageRecipient) *NotificationMessageRecipientDelete {
-	nmrd.mutation.Where(ps...)
-	return nmrd
+func (_d *NotificationMessageRecipientDelete) Where(ps ...predicate.NotificationMessageRecipient) *NotificationMessageRecipientDelete {
+	_d.mutation.Where(ps...)
+	return _d
 }
 
 // Exec executes the deletion query and returns how many vertices were deleted.
-func (nmrd *NotificationMessageRecipientDelete) Exec(ctx context.Context) (int, error) {
-	return withHooks(ctx, nmrd.sqlExec, nmrd.mutation, nmrd.hooks)
+func (_d *NotificationMessageRecipientDelete) Exec(ctx context.Context) (int, error) {
+	return withHooks(ctx, _d.sqlExec, _d.mutation, _d.hooks)
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (nmrd *NotificationMessageRecipientDelete) ExecX(ctx context.Context) int {
-	n, err := nmrd.Exec(ctx)
+func (_d *NotificationMessageRecipientDelete) ExecX(ctx context.Context) int {
+	n, err := _d.Exec(ctx)
 	if err != nil {
 		panic(err)
 	}
 	return n
 }
 
-func (nmrd *NotificationMessageRecipientDelete) sqlExec(ctx context.Context) (int, error) {
+func (_d *NotificationMessageRecipientDelete) sqlExec(ctx context.Context) (int, error) {
 	_spec := sqlgraph.NewDeleteSpec(notificationmessagerecipient.Table, sqlgraph.NewFieldSpec(notificationmessagerecipient.FieldID, field.TypeUint32))
-	if ps := nmrd.mutation.predicates; len(ps) > 0 {
+	if ps := _d.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	affected, err := sqlgraph.DeleteNodes(ctx, nmrd.driver, _spec)
+	affected, err := sqlgraph.DeleteNodes(ctx, _d.driver, _spec)
 	if err != nil && sqlgraph.IsConstraintError(err) {
 		err = &ConstraintError{msg: err.Error(), wrap: err}
 	}
-	nmrd.mutation.done = true
+	_d.mutation.done = true
 	return affected, err
 }
 
 // NotificationMessageRecipientDeleteOne is the builder for deleting a single NotificationMessageRecipient entity.
 type NotificationMessageRecipientDeleteOne struct {
-	nmrd *NotificationMessageRecipientDelete
+	_d *NotificationMessageRecipientDelete
 }
 
 // Where appends a list predicates to the NotificationMessageRecipientDelete builder.
-func (nmrdo *NotificationMessageRecipientDeleteOne) Where(ps ...predicate.NotificationMessageRecipient) *NotificationMessageRecipientDeleteOne {
-	nmrdo.nmrd.mutation.Where(ps...)
-	return nmrdo
+func (_d *NotificationMessageRecipientDeleteOne) Where(ps ...predicate.NotificationMessageRecipient) *NotificationMessageRecipientDeleteOne {
+	_d._d.mutation.Where(ps...)
+	return _d
 }
 
 // Exec executes the deletion query.
-func (nmrdo *NotificationMessageRecipientDeleteOne) Exec(ctx context.Context) error {
-	n, err := nmrdo.nmrd.Exec(ctx)
+func (_d *NotificationMessageRecipientDeleteOne) Exec(ctx context.Context) error {
+	n, err := _d._d.Exec(ctx)
 	switch {
 	case err != nil:
 		return err
@@ -81,8 +81,8 @@ func (nmrdo *NotificationMessageRecipientDeleteOne) Exec(ctx context.Context) er
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (nmrdo *NotificationMessageRecipientDeleteOne) ExecX(ctx context.Context) {
-	if err := nmrdo.Exec(ctx); err != nil {
+func (_d *NotificationMessageRecipientDeleteOne) ExecX(ctx context.Context) {
+	if err := _d.Exec(ctx); err != nil {
 		panic(err)
 	}
 }

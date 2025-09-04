@@ -26,7 +26,7 @@
 
 ## 快速上手指南
 
-1. 安装完成docker和golang（参考backend/script/prepare_ubuntu.sh、backend/script/prepare_centos.sh、backend/script/prepare_rocky.sh）
+1. 安装完成docker和golang（参考`backend/script/prepare_ubuntu.sh`、`backend/script/prepare_centos.sh`、`backend/script/prepare_rocky.sh`）
 2. 进入backend目录，执行以下命令，完成后端服务kratos-admin编译和docker镜像构建并启动，同时启动依赖的docker镜像服务
     ```bash
     make init
@@ -41,8 +41,8 @@
     ```
 5. 访问测试
 
-- 前端：http://localhost:5666， 登录账号：admin，密码：admin
-- 后端：http://localhost:7788/docs/openapi.yaml
+- 前端：<http://localhost:5666>， 登录账号：`admin`，密码：`admin`
+- 后端：<http://localhost:7788/docs/openapi.yaml>
 
 ## 功能列表
 
@@ -104,7 +104,7 @@
 
 ## 联系我们
 
-- 微信个人号：`yang_lin_bo`（备注：go-kratos-admin）
+- 微信个人号：`yang_lin_bo`（备注：`go-kratos-admin`）
 - 掘金专栏：[go-kratos-admin](https://juejin.cn/column/7541283508041826367)
 
 ## [感谢JetBrains提供的免费GoLand](https://jb.gg/OpenSource)

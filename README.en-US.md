@@ -103,7 +103,7 @@ Easy to get started, feature-rich, and suitable for rapid development of enterpr
 
 ## Contact Us
 
-- WeChat: `yang_lin_bo` (Note: go-kratos-admin)
+- WeChat: `yang_lin_bo` (Note: `go-kratos-admin`)
 - Juejin Column: [go-kratos-admin](https://juejin.cn/column/7541283508041826367)
 
 ## [Thanks to JetBrains for providing free GoLand](https://jb.gg/OpenSource)

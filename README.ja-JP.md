@@ -103,7 +103,7 @@
 
 ## お問い合わせ
 
-- WeChat: `yang_lin_bo`（備考: go-kratos-admin）
+- WeChat: `yang_lin_bo`（備考: `go-kratos-admin`）
 - Juejinコラム: [go-kratos-admin](https://juejin.cn/column/7541283508041826367)
 
 ## [JetBrainsによる無料のGoLand提供に感謝](https://jb.gg/OpenSource)

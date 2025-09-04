@@ -156,6 +156,9 @@ func (a *Authorizer) ResetPolicies(ctx context.Context) error {
 			return err
 		}
 
+	case "noop":
+		return nil
+
 	default:
 		a.log.Warnf("unknown engine name: %s", a.engine.Name())
 		return errors.New("unknown authz engine name")

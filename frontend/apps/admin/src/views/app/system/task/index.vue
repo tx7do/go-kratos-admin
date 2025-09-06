@@ -220,7 +220,7 @@ async function handleEnableChanged(row: any, checked: boolean) {
         <a-button
           type="link"
           :icon="h(LucideFilePenLine)"
-          @click="() => handleEdit(row)"
+          @confirm="handleEdit(row)"
         />
         <a-popconfirm
           :cancel-text="$t('ui.button.cancel')"
@@ -230,7 +230,7 @@ async function handleEnableChanged(row: any, checked: boolean) {
               moduleName: $t('page.task.moduleName'),
             })
           "
-          @confirm="() => handleDelete(row)"
+          @confirm="handleDelete(row)"
         >
           <a-button danger type="link" :icon="h(LucideTrash2)" />
         </a-popconfirm>

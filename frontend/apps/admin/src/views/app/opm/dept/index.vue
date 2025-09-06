@@ -228,7 +228,7 @@ const collapseAll = () => {
         <a-button
           type="link"
           :icon="h(LucideFilePenLine)"
-          @click="() => handleEdit(row)"
+          @confirm="handleEdit(row)"
         />
         <a-popconfirm
           :cancel-text="$t('ui.button.cancel')"
@@ -238,7 +238,7 @@ const collapseAll = () => {
               moduleName: $t('page.dept.moduleName'),
             })
           "
-          @confirm="() => handleDelete(row)"
+          @confirm="handleDelete(row)"
         >
           <a-button danger type="link" :icon="h(LucideTrash2)" />
         </a-popconfirm>

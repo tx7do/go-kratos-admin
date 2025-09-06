@@ -195,7 +195,7 @@ async function handleDelete(row: any) {
         <a-button
           type="link"
           :icon="h(LucideFilePenLine)"
-          @confirm="handleEdit(row)"
+          @click.stop="handleEdit(row)"
         />
         <a-popconfirm
           :cancel-text="$t('ui.button.cancel')"

@@ -220,7 +220,7 @@ async function handleEnableChanged(row: any, checked: boolean) {
         <a-button
           type="link"
           :icon="h(LucideFilePenLine)"
-          @confirm="handleEdit(row)"
+          @click.stop="handleEdit(row)"
         />
         <a-popconfirm
           :cancel-text="$t('ui.button.cancel')"

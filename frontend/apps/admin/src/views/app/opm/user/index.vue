@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { VxeGridProps } from '#/adapter/vxe-table';
+import type { VxeGridListeners, VxeGridProps } from '#/adapter/vxe-table';
 import type { User } from '#/generated/api/user/service/v1/user.pb';
 
 import { h } from 'vue';
@@ -138,7 +138,18 @@ const gridOptions: VxeGridProps<User> = {
   ],
 };
 
-const [Grid, gridApi] = useVbenVxeGrid({ gridOptions, formOptions });
+const gridEvents: VxeGridListeners<User> = {
+  cellClick: ({ row }) => {
+    // console.log(`cell-click: ${row.id}`);
+    handleDetail(row);
+  },
+};
+
+const [Grid, gridApi] = useVbenVxeGrid({
+  gridOptions,
+  formOptions,
+  gridEvents,
+});
 
 const [Drawer, drawerApi] = useVbenDrawer({
   // 连接抽离的组件

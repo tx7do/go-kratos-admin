@@ -58,7 +58,6 @@ const [BaseForm, baseFormApi] = useVbenForm({
         labelField: 'name',
         valueField: 'id',
       },
-      rules: 'selectRequired',
     },
     {
       component: 'InputNumber',

@@ -71,33 +71,33 @@ services:
 #      - CONSUL_DISABLE_KEYRING_FILE=true
 #      - CONSUL_NODE_NAME=consul
 
-  etcd:
-    image: docker.io/bitnami/etcd:latest
-    restart: always
-    ports:
-      - "2379:2379"
-      - "2380:2380"
-    networks:
-      - app-tier
-    environment:
-      - ETCDCTL_API=3
-      - ALLOW_NONE_AUTHENTICATION=yes
-      - ETCD_ADVERTISE_CLIENT_URLS=http://0.0.0.0:2379
+#  etcd:
+#    image: docker.io/bitnami/etcd:latest
+#    restart: always
+#    ports:
+#      - "2379:2379"
+#      - "2380:2380"
+#    networks:
+#      - app-tier
+#    environment:
+#      - ETCDCTL_API=3
+#      - ALLOW_NONE_AUTHENTICATION=yes
+#      - ETCD_ADVERTISE_CLIENT_URLS=http://0.0.0.0:2379
 
-  jaeger:
-    image: docker.io/jaegertracing/all-in-one:latest
-    restart: always
-    ports:
-      - "6831:6831/udp"
-      - "5778:5778"
-      - "4317:4317"
-      - "4318:4318"
-      - "16686:16686"
-      - "14250:14250"
-      - "14268:14268"
-      - "14269:14269"
-    networks:
-      - app-tier
-    environment:
-      - COLLECTOR_ZIPKIN_HOST_PORT=:9411
-      - COLLECTOR_OTLP_ENABLED=true
+#  jaeger:
+#    image: docker.io/jaegertracing/all-in-one:latest
+#    restart: always
+#    ports:
+#      - "6831:6831/udp"
+#      - "5778:5778"
+#      - "4317:4317"
+#      - "4318:4318"
+#      - "16686:16686"
+#      - "14250:14250"
+#      - "14268:14268"
+#      - "14269:14269"
+#    networks:
+#      - app-tier
+#    environment:
+#      - COLLECTOR_ZIPKIN_HOST_PORT=:9411
+#      - COLLECTOR_OTLP_ENABLED=true

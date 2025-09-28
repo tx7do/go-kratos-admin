@@ -60,7 +60,7 @@ func NewUserTokenPayloadWithClaims(claims *authn.AuthClaims) (*authenticationV1.
 	}
 
 	tenantId, _ := claims.GetUint32(ClaimFieldTenantID)
-	if userId != 0 {
+	if tenantId != 0 {
 		payload.TenantId = trans.Ptr(tenantId)
 	}
 
@@ -99,7 +99,7 @@ func NewUserTokenPayloadWithJwtMapClaims(claims jwt.MapClaims) (*authenticationV
 	}
 
 	tenantId, _ := claims[ClaimFieldTenantID]
-	if userId != nil {
+	if tenantId != nil {
 		payload.TenantId = trans.Ptr(uint32(tenantId.(float64)))
 	}
 

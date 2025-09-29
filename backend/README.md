@@ -246,3 +246,16 @@ chmod +x ./script/*.sh
 > consul:
 > address: "localhost:8500"
 > ```
+
+## FAQ
+
+### go.sum验证不通过的问题
+
+有时候，有的依赖包在`go mod tidy`之后会出现`go.sum`验证不通过的问题，解决方法：
+
+```bash
+go clean -modcache
+go mod tidy
+```
+
+如果还不行的话，可以删除`go.sum`文件，然后重新执行`go mod tidy`。

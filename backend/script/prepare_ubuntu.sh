@@ -4,20 +4,20 @@
 ## 更新软件源和软件
 ####################################
 
-sudo apt update && sudo apt upgrade
+sudo apt update -y && sudo apt upgrade -y
 
 ####################################
 ## 安装工具软件
 ####################################
 
-sudo apt install htop wget unzip git jq -y
+sudo apt install -y htop wget unzip git jq
 
 ####################################
 ## 安装PM2
 ####################################
 
 # 安装nodejs和npm
-sudo apt install nodejs npm -y
+sudo apt install -y nodejs npm
 
 node -v
 npm -v
@@ -49,7 +49,7 @@ echo \
 "$(. /etc/os-release && echo "$VERSION_CODENAME")" stable" | \
 sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 
-sudo apt update
+sudo apt update -y
 sudo apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 #sudo apt install -y docker-compose
 

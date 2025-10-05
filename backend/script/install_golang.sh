@@ -4,19 +4,69 @@
 
 # 获取当前操作系统和架构
 get_os_arch() {
-    local os=$(uname | tr '[:upper:]' '[:lower:]')
-    local arch="amd64"
+  local os=$(uname | tr '[:upper:]' '[:lower:]')
+  local arch_raw=$(uname -m)
+  local arch
 
-    if [ "$os" = "darwin" ]; then
-        os="darwin"
-    elif [ "$os" = "linux" ]; then
-        os="linux"
-    else
-        echo "Unsupported OS: $os"
-        exit 1
-    fi
+  # 处理操作系统类型
+  case "$os" in
+      darwin|linux|freebsd|aix|dragonfly|illumos|openbsd|netbsd|plan9|solaris)
+          # 支持的操作系统，继续处理架构
+          ;;
+      *)
+          echo "Unsupported OS: $os"
+          exit 1
+          ;;
+  esac
 
-    echo "$os $arch"
+  # 处理架构类型（映射为常见的架构名称）
+  case "$arch_raw" in
+      i386|i486|i586|i686|i786|386)
+          arch="386"      # 32 位 x86 架构（老旧 Intel/AMD CPU）
+        ;;
+      x86_64|amd64)       # 64 位 x86 架构（Intel/AMD 主流 CPU）
+          arch="amd64"
+          ;;
+      aarch64|arm64)
+          arch="arm64"    # 64 位 ARM 架构（Apple Silicon、华为鲲鹏等）
+          ;;
+      armv7l|armv6l|arm)
+          arch="arm"      # 32 位 ARM 架构（armv6/armv7，如树莓派早期型号）
+          ;;
+      s390x)
+          arch="s390x"    # 64 位 IBM Z 架构（大型机）
+          ;;
+      ppc64)
+          arch="ppc64"    # 64 位 PowerPC 架构（大端模式）
+          ;;
+      ppc64le)
+          arch="ppc64le"  # 64 位 PowerPC 架构（小端模式）
+          ;;
+      loongarch64)
+          arch="loong64"  # 64 位龙芯架构（国产龙芯 CPU）
+          ;;
+      riscv64)
+          arch="riscv64"  # 64 位 RISC-V 架构（开源指令集，如各类 RISC-V 开发板）
+          ;;
+      mips64)
+          arch="mips64"   # MIPS 64位（大端模式）
+          ;;
+      mips64el)
+          arch="mips64el" # MIPS 64位（小端模式）
+          ;;
+      mips)
+          arch="mips"     # MIPS 32位（大端模式）
+          ;;
+      mipsel|mipsle)
+          arch="mipsle"   # MIPS 32位（小端模式）
+          ;;
+      *)
+          echo "Unsupported architecture: $arch_raw"
+          exit 1
+          ;;
+  esac
+
+  echo "$os $arch"
 }
 
 # 安装指定版本的Go

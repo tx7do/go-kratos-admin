@@ -33,7 +33,7 @@ do
 		app=${v##*$app_root/}
 		echo $app service installing...
 
-		app_install_root=$install_root/$app/
+		app_install_root=$install_root/$app
 		echo $app_install_root
 
     # 创建二进制存放路径
@@ -53,7 +53,7 @@ do
 		app=${v##*$app_root/}
 		echo $app service starting...
 
-    app_install_root=$install_root/$app/
+    app_install_root=$install_root/$app
     echo $app_install_root
 
     # 加入PM2监控运行

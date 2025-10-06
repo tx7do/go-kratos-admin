@@ -23,13 +23,13 @@ node -v
 npm -v
 
 # 安装pm2
-npm install -g pm2
+sudo npm install -g pm2
 # 查看pm2的版本
 pm2 --version
 # tab补全
 pm2 completion install
 # 创建pm2开机启动脚本
-pm2 startup
+sudo pm2 startup
 # 设置pm2的开机启动
 sudo systemctl enable pm2-${USER}
 

@@ -49,7 +49,8 @@ export const useAdminLoginLogStore = defineStore('admin_login_log', () => {
  * @param success
  */
 export function successToColor(success: boolean) {
-  return success ? 'green' : 'red';
+  // 成功用柔和的绿色，失败用柔和的红色，兼顾视觉舒适度与直观性
+  return success ? 'limegreen' : 'crimson';
 }
 
 export function successToName(success: boolean, statusCode: number) {

@@ -116,11 +116,14 @@ export function adminLoginRestrictionTypeToName(typeName: any) {
 export function adminLoginRestrictionTypeToColor(typeName: any) {
   switch (typeName) {
     case AdminLoginRestrictionType.BLACKLIST: {
-      return 'red';
+      return 'red'; // 黑名单用红色（表示限制/禁止）
     }
-
     case AdminLoginRestrictionType.WHITELIST: {
-      return 'green';
+      return 'green'; // 白名单用绿色（表示允许/信任）
+    }
+    default: {
+      // 新增默认分支，处理未知类型，避免返回undefined
+      return 'gray'; // 未知类型用灰色（中性默认值）
     }
   }
 }

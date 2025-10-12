@@ -2,9 +2,9 @@ import { computed } from 'vue';
 
 import { $t } from '@vben/locales';
 
-import { TaskType } from '#/generated/api/admin/service/v1/i_task.pb';
 import { defineStore } from 'pinia';
 
+import { TaskType } from '#/generated/api/admin/service/v1/i_task.pb';
 import { defTaskService } from '#/services';
 import { makeQueryString, makeUpdateMask } from '#/utils/query';
 
@@ -126,15 +126,16 @@ export function taskTypeToName(taskType: any) {
 export function taskTypeToColor(taskType: any) {
   switch (taskType) {
     case TaskType.DELAY: {
-      return 'green';
+      return 'blue'; // 延迟任务：蓝色（表示计划中、待执行的状态）
     }
-
     case TaskType.PERIODIC: {
-      return 'orange';
+      return 'orange'; // 周期性任务：橙色（表示循环执行、持续运行的特性）
     }
-
     case TaskType.WAIT_RESULT: {
-      return 'red';
+      return 'purple'; // 等待结果任务：紫色（表示过渡状态、等待响应）
+    }
+    default: {
+      return 'gray'; // 未知任务类型：灰色（默认中性色，避免返回undefined）
     }
   }
 }

@@ -2,9 +2,9 @@ import { computed } from 'vue';
 
 import { $t } from '@vben/locales';
 
-import { UserAuthority } from '#/generated/api/user/service/v1/user.pb';
 import { defineStore } from 'pinia';
 
+import { UserAuthority } from '#/generated/api/user/service/v1/user.pb';
 import { defUserService } from '#/services';
 import { makeQueryString, makeUpdateMask } from '#/utils/query';
 
@@ -139,19 +139,19 @@ export function authorityToName(authority: any) {
 export function authorityToColor(authority: any) {
   switch (authority) {
     case UserAuthority.CUSTOMER_USER: {
-      return 'green';
+      return 'green'; // 普通客户用户：绿色（常规、正常权限）
     }
     case UserAuthority.GUEST: {
-      return 'green';
+      return 'gray'; // 访客用户：灰色（最低权限，临时访问）
     }
     case UserAuthority.SYS_ADMIN: {
-      return 'orange';
+      return 'red'; // 系统管理员：红色（最高权限，需突出显示）
     }
     case UserAuthority.TENANT_ADMIN: {
-      return 'red';
+      return 'orange'; // 租户管理员：橙色（中等权限，管理租户内资源）
     }
     default: {
-      return 'black';
+      return 'gray'; // 未知权限：灰色（默认中性色）
     }
   }
 }

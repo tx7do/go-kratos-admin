@@ -12,7 +12,7 @@ import type { PagingRequest } from '#/generated/api/pagination/v1/pagination.pb'
 
 import { requestClient } from '#/utils/request';
 
-/** 职位管理服务 */
+/** 字典管理服务 */
 class DictServiceImpl implements DictService {
   async Create(request: CreateDictRequest): Promise<Empty> {
     return await requestClient.post<Empty>('/dict', request);

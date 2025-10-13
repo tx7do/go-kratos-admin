@@ -139,7 +139,7 @@ const gridOptions: VxeGridProps<User> = {
 };
 
 const gridEvents: VxeGridListeners<User> = {
-  cellClick: ({ row }) => {
+  cellDblclick: ({ row }) => {
     // console.log(`cell-click: ${row.id}`);
     handleDetail(row);
   },

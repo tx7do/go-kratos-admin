@@ -7,9 +7,17 @@ import { $t } from '@vben/locales';
 import { notification } from 'ant-design-vue';
 
 import { useVbenForm } from '#/adapter/form';
-import { statusList, useDepartmentStore } from '#/stores';
+import { DepartmentStatus } from '#/generated/api/user/service/v1/department.pb';
+import {
+  departmentStatusList,
+  useDepartmentStore,
+  useOrganizationStore,
+  useUserStore,
+} from '#/stores';
 
 const deptStore = useDepartmentStore();
+const orgStore = useOrganizationStore();
+const userStore = useUserStore();
 
 const data = ref();
 
@@ -42,10 +50,34 @@ const [BaseForm, baseFormApi] = useVbenForm({
     },
     {
       component: 'ApiTreeSelect',
+      fieldName: 'organizationId',
+      label: $t('page.dept.organization'),
+      rules: 'selectRequired',
+      componentProps: {
+        placeholder: $t('ui.placeholder.select'),
+        numberToString: true,
+        childrenField: 'children',
+        labelField: 'name',
+        valueField: 'id',
+        api: async () => {
+          const result = await orgStore.listOrganization(true, null, null, {
+            // parent_id: 0,
+            status: 'ON',
+          });
+          return result.items;
+        },
+      },
+    },
+    {
+      component: 'ApiTreeSelect',
       fieldName: 'parentId',
       label: $t('page.dept.parentId'),
       componentProps: {
         placeholder: $t('ui.placeholder.select'),
+        numberToString: true,
+        childrenField: 'children',
+        labelField: 'name',
+        valueField: 'id',
         api: async () => {
           const result = await deptStore.listDepartment(true, null, null, {
             // parent_id: 0,
@@ -53,10 +85,28 @@ const [BaseForm, baseFormApi] = useVbenForm({
           });
           return result.items;
         },
-        numberToString: true,
-        childrenField: 'children',
-        labelField: 'name',
-        valueField: 'id',
+      },
+    },
+    {
+      component: 'ApiSelect',
+      fieldName: 'managerId',
+      label: $t('page.dept.managerId'),
+      componentProps: {
+        placeholder: $t('ui.placeholder.select'),
+        allowClear: true,
+        afterFetch: (data: { name: string; path: string }[]) => {
+          return data.map((item: any) => ({
+            label: item.nickname,
+            value: item.id.toString(),
+          }));
+        },
+        api: async () => {
+          const result = await userStore.listUser(true, null, null, {
+            // parent_id: 0,
+            status: 'ON',
+          });
+          return result.items;
+        },
       },
     },
     {
@@ -72,13 +122,22 @@ const [BaseForm, baseFormApi] = useVbenForm({
     {
       component: 'RadioGroup',
       fieldName: 'status',
-      defaultValue: 'ON',
+      defaultValue: DepartmentStatus.DEPARTMENT_STATUS_ON,
       label: $t('ui.table.status'),
       rules: 'selectRequired',
       componentProps: {
         optionType: 'button',
         class: 'flex flex-wrap', // 如果选项过多，可以添加class来自动折叠
-        options: statusList,
+        options: departmentStatusList,
+      },
+    },
+    {
+      component: 'Textarea',
+      fieldName: 'description',
+      label: $t('page.dept.description'),
+      componentProps: {
+        placeholder: $t('ui.placeholder.input'),
+        allowClear: true,
       },
     },
     {

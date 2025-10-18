@@ -20,8 +20,6 @@ const (
 	FieldUpdateTime = "update_time"
 	// FieldDeleteTime holds the string denoting the delete_time field in the database.
 	FieldDeleteTime = "delete_time"
-	// FieldStatus holds the string denoting the status field in the database.
-	FieldStatus = "status"
 	// FieldCreateBy holds the string denoting the create_by field in the database.
 	FieldCreateBy = "create_by"
 	// FieldUpdateBy holds the string denoting the update_by field in the database.
@@ -36,6 +34,20 @@ const (
 	FieldParentID = "parent_id"
 	// FieldSortID holds the string denoting the sort_id field in the database.
 	FieldSortID = "sort_id"
+	// FieldStatus holds the string denoting the status field in the database.
+	FieldStatus = "status"
+	// FieldOrganizationType holds the string denoting the organization_type field in the database.
+	FieldOrganizationType = "organization_type"
+	// FieldCreditCode holds the string denoting the credit_code field in the database.
+	FieldCreditCode = "credit_code"
+	// FieldAddress holds the string denoting the address field in the database.
+	FieldAddress = "address"
+	// FieldBusinessScope holds the string denoting the business_scope field in the database.
+	FieldBusinessScope = "business_scope"
+	// FieldIsLegalEntity holds the string denoting the is_legal_entity field in the database.
+	FieldIsLegalEntity = "is_legal_entity"
+	// FieldManagerID holds the string denoting the manager_id field in the database.
+	FieldManagerID = "manager_id"
 	// EdgeParent holds the string denoting the parent edge name in mutations.
 	EdgeParent = "parent"
 	// EdgeChildren holds the string denoting the children edge name in mutations.
@@ -58,7 +70,6 @@ var Columns = []string{
 	FieldCreateTime,
 	FieldUpdateTime,
 	FieldDeleteTime,
-	FieldStatus,
 	FieldCreateBy,
 	FieldUpdateBy,
 	FieldRemark,
@@ -66,6 +77,13 @@ var Columns = []string{
 	FieldName,
 	FieldParentID,
 	FieldSortID,
+	FieldStatus,
+	FieldOrganizationType,
+	FieldCreditCode,
+	FieldAddress,
+	FieldBusinessScope,
+	FieldIsLegalEntity,
+	FieldManagerID,
 }
 
 // ValidColumn reports if the column name is valid (part of the table columns).
@@ -83,8 +101,8 @@ var (
 	DefaultRemark string
 	// TenantIDValidator is a validator for the "tenant_id" field. It is called by the builders before save.
 	TenantIDValidator func(uint32) error
-	// DefaultName holds the default value on creation for the "name" field.
-	DefaultName string
+	// NameValidator is a validator for the "name" field. It is called by the builders before save.
+	NameValidator func(string) error
 	// DefaultSortID holds the default value on creation for the "sort_id" field.
 	DefaultSortID int32
 	// IDValidator is a validator for the "id" field. It is called by the builders before save.
@@ -94,13 +112,10 @@ var (
 // Status defines the type for the "status" enum field.
 type Status string
 
-// StatusON is the default value of the Status enum.
-const DefaultStatus = StatusON
-
 // Status values.
 const (
-	StatusOFF Status = "OFF"
-	StatusON  Status = "ON"
+	StatusORGANIZATION_STATUS_ON  Status = "ON"
+	StatusORGANIZATION_STATUS_OFF Status = "OFF"
 )
 
 func (s Status) String() string {
@@ -110,10 +125,35 @@ func (s Status) String() string {
 // StatusValidator is a validator for the "status" field enum values. It is called by the builders before save.
 func StatusValidator(s Status) error {
 	switch s {
-	case StatusOFF, StatusON:
+	case StatusORGANIZATION_STATUS_ON, StatusORGANIZATION_STATUS_OFF:
 		return nil
 	default:
 		return fmt.Errorf("organization: invalid enum value for status field: %q", s)
+	}
+}
+
+// OrganizationType defines the type for the "organization_type" enum field.
+type OrganizationType string
+
+// OrganizationType values.
+const (
+	OrganizationTypeORGANIZATION_TYPE_GROUP      OrganizationType = "GROUP"
+	OrganizationTypeORGANIZATION_TYPE_SUBSIDIARY OrganizationType = "SUBSIDIARY"
+	OrganizationTypeORGANIZATION_TYPE_FILIALE    OrganizationType = "FILIALE"
+	OrganizationTypeORGANIZATION_TYPE_DIVISION   OrganizationType = "DIVISION"
+)
+
+func (ot OrganizationType) String() string {
+	return string(ot)
+}
+
+// OrganizationTypeValidator is a validator for the "organization_type" field enum values. It is called by the builders before save.
+func OrganizationTypeValidator(ot OrganizationType) error {
+	switch ot {
+	case OrganizationTypeORGANIZATION_TYPE_GROUP, OrganizationTypeORGANIZATION_TYPE_SUBSIDIARY, OrganizationTypeORGANIZATION_TYPE_FILIALE, OrganizationTypeORGANIZATION_TYPE_DIVISION:
+		return nil
+	default:
+		return fmt.Errorf("organization: invalid enum value for organization_type field: %q", ot)
 	}
 }
 
@@ -138,11 +178,6 @@ func ByUpdateTime(opts ...sql.OrderTermOption) OrderOption {
 // ByDeleteTime orders the results by the delete_time field.
 func ByDeleteTime(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldDeleteTime, opts...).ToFunc()
-}
-
-// ByStatus orders the results by the status field.
-func ByStatus(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldStatus, opts...).ToFunc()
 }
 
 // ByCreateBy orders the results by the create_by field.
@@ -178,6 +213,41 @@ func ByParentID(opts ...sql.OrderTermOption) OrderOption {
 // BySortID orders the results by the sort_id field.
 func BySortID(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldSortID, opts...).ToFunc()
+}
+
+// ByStatus orders the results by the status field.
+func ByStatus(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldStatus, opts...).ToFunc()
+}
+
+// ByOrganizationType orders the results by the organization_type field.
+func ByOrganizationType(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldOrganizationType, opts...).ToFunc()
+}
+
+// ByCreditCode orders the results by the credit_code field.
+func ByCreditCode(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldCreditCode, opts...).ToFunc()
+}
+
+// ByAddress orders the results by the address field.
+func ByAddress(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldAddress, opts...).ToFunc()
+}
+
+// ByBusinessScope orders the results by the business_scope field.
+func ByBusinessScope(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldBusinessScope, opts...).ToFunc()
+}
+
+// ByIsLegalEntity orders the results by the is_legal_entity field.
+func ByIsLegalEntity(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldIsLegalEntity, opts...).ToFunc()
+}
+
+// ByManagerID orders the results by the manager_id field.
+func ByManagerID(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldManagerID, opts...).ToFunc()
 }
 
 // ByParentField orders the results by parent field.

@@ -26,23 +26,77 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+// 部门状态
+type DepartmentStatus int32
+
+const (
+	DepartmentStatus_DEPARTMENT_STATUS_UNSPECIFIED DepartmentStatus = 0 // 未指定
+	DepartmentStatus_DEPARTMENT_STATUS_ON          DepartmentStatus = 1 // 启用
+	DepartmentStatus_DEPARTMENT_STATUS_OFF         DepartmentStatus = 2 // 停用
+)
+
+// Enum value maps for DepartmentStatus.
+var (
+	DepartmentStatus_name = map[int32]string{
+		0: "DEPARTMENT_STATUS_UNSPECIFIED",
+		1: "DEPARTMENT_STATUS_ON",
+		2: "DEPARTMENT_STATUS_OFF",
+	}
+	DepartmentStatus_value = map[string]int32{
+		"DEPARTMENT_STATUS_UNSPECIFIED": 0,
+		"DEPARTMENT_STATUS_ON":          1,
+		"DEPARTMENT_STATUS_OFF":         2,
+	}
+)
+
+func (x DepartmentStatus) Enum() *DepartmentStatus {
+	p := new(DepartmentStatus)
+	*p = x
+	return p
+}
+
+func (x DepartmentStatus) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (DepartmentStatus) Descriptor() protoreflect.EnumDescriptor {
+	return file_user_service_v1_department_proto_enumTypes[0].Descriptor()
+}
+
+func (DepartmentStatus) Type() protoreflect.EnumType {
+	return &file_user_service_v1_department_proto_enumTypes[0]
+}
+
+func (x DepartmentStatus) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use DepartmentStatus.Descriptor instead.
+func (DepartmentStatus) EnumDescriptor() ([]byte, []int) {
+	return file_user_service_v1_department_proto_rawDescGZIP(), []int{0}
+}
+
 // 部门
 type Department struct {
 	state            protoimpl.MessageState `protogen:"open.v1"`
-	Id               *uint32                `protobuf:"varint,1,opt,name=id,proto3,oneof" json:"id,omitempty"`                                                    // 部门ID
-	Name             *string                `protobuf:"bytes,2,opt,name=name,proto3,oneof" json:"name,omitempty"`                                                 // 部门名称
-	OrganizationId   *int32                 `protobuf:"varint,3,opt,name=organization_id,json=organizationId,proto3,oneof" json:"organization_id,omitempty"`      // 所属组织ID
-	OrganizationName *string                `protobuf:"bytes,4,opt,name=organization_name,json=organizationName,proto3,oneof" json:"organization_name,omitempty"` // 所属组织名称
-	SortId           *int32                 `protobuf:"varint,10,opt,name=sort_id,json=sortId,proto3,oneof" json:"sort_id,omitempty"`                             // 排序编号
-	Status           *string                `protobuf:"bytes,11,opt,name=status,proto3,oneof" json:"status,omitempty"`                                            // 状态
-	Remark           *string                `protobuf:"bytes,12,opt,name=remark,proto3,oneof" json:"remark,omitempty"`                                            // 备注
-	ParentId         *uint32                `protobuf:"varint,50,opt,name=parent_id,json=parentId,proto3,oneof" json:"parent_id,omitempty"`                       // 父节点ID
-	Children         []*Department          `protobuf:"bytes,51,rep,name=children,proto3" json:"children,omitempty"`                                              // 子节点树
-	CreateBy         *uint32                `protobuf:"varint,100,opt,name=create_by,json=createBy,proto3,oneof" json:"create_by,omitempty"`                      // 创建者ID
-	UpdateBy         *uint32                `protobuf:"varint,101,opt,name=update_by,json=updateBy,proto3,oneof" json:"update_by,omitempty"`                      // 更新者ID
-	CreateTime       *timestamppb.Timestamp `protobuf:"bytes,200,opt,name=create_time,json=createTime,proto3,oneof" json:"create_time,omitempty"`                 // 创建时间
-	UpdateTime       *timestamppb.Timestamp `protobuf:"bytes,201,opt,name=update_time,json=updateTime,proto3,oneof" json:"update_time,omitempty"`                 // 更新时间
-	DeleteTime       *timestamppb.Timestamp `protobuf:"bytes,202,opt,name=delete_time,json=deleteTime,proto3,oneof" json:"delete_time,omitempty"`                 // 删除时间
+	Id               *uint32                `protobuf:"varint,1,opt,name=id,proto3,oneof" json:"id,omitempty"`                                                     // 部门ID
+	Name             *string                `protobuf:"bytes,2,opt,name=name,proto3,oneof" json:"name,omitempty"`                                                  // 部门名称
+	Description      *string                `protobuf:"bytes,3,opt,name=description,proto3,oneof" json:"description,omitempty"`                                    // 职能描述
+	OrganizationId   *uint32                `protobuf:"varint,10,opt,name=organization_id,json=organizationId,proto3,oneof" json:"organization_id,omitempty"`      // 所属组织ID
+	OrganizationName *string                `protobuf:"bytes,11,opt,name=organization_name,json=organizationName,proto3,oneof" json:"organization_name,omitempty"` // 所属组织名称
+	ManagerId        *uint32                `protobuf:"varint,12,opt,name=manager_id,json=managerId,proto3,oneof" json:"manager_id,omitempty"`                     // 负责人ID
+	ManagerName      *string                `protobuf:"bytes,13,opt,name=manager_name,json=managerName,proto3,oneof" json:"manager_name,omitempty"`                // 负责人名称
+	TenantId         *uint32                `protobuf:"varint,14,opt,name=tenant_id,json=tenantId,proto3,oneof" json:"tenant_id,omitempty"`                        // 租户ID
+	SortId           *int32                 `protobuf:"varint,20,opt,name=sort_id,json=sortId,proto3,oneof" json:"sort_id,omitempty"`                              // 排序编号
+	Status           *DepartmentStatus      `protobuf:"varint,21,opt,name=status,proto3,enum=user.service.v1.DepartmentStatus,oneof" json:"status,omitempty"`      // 状态
+	Remark           *string                `protobuf:"bytes,22,opt,name=remark,proto3,oneof" json:"remark,omitempty"`                                             // 备注
+	ParentId         *uint32                `protobuf:"varint,50,opt,name=parent_id,json=parentId,proto3,oneof" json:"parent_id,omitempty"`                        // 父节点ID
+	Children         []*Department          `protobuf:"bytes,51,rep,name=children,proto3" json:"children,omitempty"`                                               // 子节点树
+	CreateBy         *uint32                `protobuf:"varint,100,opt,name=create_by,json=createBy,proto3,oneof" json:"create_by,omitempty"`                       // 创建者ID
+	UpdateBy         *uint32                `protobuf:"varint,101,opt,name=update_by,json=updateBy,proto3,oneof" json:"update_by,omitempty"`                       // 更新者ID
+	CreateTime       *timestamppb.Timestamp `protobuf:"bytes,200,opt,name=create_time,json=createTime,proto3,oneof" json:"create_time,omitempty"`                  // 创建时间
+	UpdateTime       *timestamppb.Timestamp `protobuf:"bytes,201,opt,name=update_time,json=updateTime,proto3,oneof" json:"update_time,omitempty"`                  // 更新时间
+	DeleteTime       *timestamppb.Timestamp `protobuf:"bytes,202,opt,name=delete_time,json=deleteTime,proto3,oneof" json:"delete_time,omitempty"`                  // 删除时间
 	unknownFields    protoimpl.UnknownFields
 	sizeCache        protoimpl.SizeCache
 }
@@ -91,7 +145,14 @@ func (x *Department) GetName() string {
 	return ""
 }
 
-func (x *Department) GetOrganizationId() int32 {
+func (x *Department) GetDescription() string {
+	if x != nil && x.Description != nil {
+		return *x.Description
+	}
+	return ""
+}
+
+func (x *Department) GetOrganizationId() uint32 {
 	if x != nil && x.OrganizationId != nil {
 		return *x.OrganizationId
 	}
@@ -105,6 +166,27 @@ func (x *Department) GetOrganizationName() string {
 	return ""
 }
 
+func (x *Department) GetManagerId() uint32 {
+	if x != nil && x.ManagerId != nil {
+		return *x.ManagerId
+	}
+	return 0
+}
+
+func (x *Department) GetManagerName() string {
+	if x != nil && x.ManagerName != nil {
+		return *x.ManagerName
+	}
+	return ""
+}
+
+func (x *Department) GetTenantId() uint32 {
+	if x != nil && x.TenantId != nil {
+		return *x.TenantId
+	}
+	return 0
+}
+
 func (x *Department) GetSortId() int32 {
 	if x != nil && x.SortId != nil {
 		return *x.SortId
@@ -112,11 +194,11 @@ func (x *Department) GetSortId() int32 {
 	return 0
 }
 
-func (x *Department) GetStatus() string {
+func (x *Department) GetStatus() DepartmentStatus {
 	if x != nil && x.Status != nil {
 		return *x.Status
 	}
-	return ""
+	return DepartmentStatus_DEPARTMENT_STATUS_UNSPECIFIED
 }
 
 func (x *Department) GetRemark() string {
@@ -516,32 +598,43 @@ var File_user_service_v1_department_proto protoreflect.FileDescriptor
 
 const file_user_service_v1_department_proto_rawDesc = "" +
 	"\n" +
-	" user/service/v1/department.proto\x12\x0fuser.service.v1\x1a$gnostic/openapi/v3/annotations.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a google/protobuf/field_mask.proto\x1a\x1epagination/v1/pagination.proto\"\xb3\b\n" +
+	" user/service/v1/department.proto\x12\x0fuser.service.v1\x1a$gnostic/openapi/v3/annotations.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a google/protobuf/field_mask.proto\x1a\x1epagination/v1/pagination.proto\"\xe1\n" +
+	"\n" +
 	"\n" +
 	"Department\x12#\n" +
 	"\x02id\x18\x01 \x01(\rB\x0e\xbaG\v\x92\x02\b部门IDH\x00R\x02id\x88\x01\x01\x12+\n" +
-	"\x04name\x18\x02 \x01(\tB\x12\xbaG\x0f\x92\x02\f部门名称H\x01R\x04name\x88\x01\x01\x12B\n" +
-	"\x0forganization_id\x18\x03 \x01(\x05B\x14\xbaG\x11\x92\x02\x0e所属组织IDH\x02R\x0eorganizationId\x88\x01\x01\x12J\n" +
-	"\x11organization_name\x18\x04 \x01(\tB\x18\xbaG\x15\x92\x02\x12所属组织名称H\x03R\x10organizationName\x88\x01\x01\x120\n" +
-	"\asort_id\x18\n" +
-	" \x01(\x05B\x12\xbaG\x0f\x92\x02\f排序编号H\x04R\x06sortId\x88\x01\x01\x12?\n" +
-	"\x06status\x18\v \x01(\tB\"\xbaG\x1f\xc2\x01\x04\x12\x02ON\xc2\x01\x05\x12\x03OFF\x8a\x02\x04\x1a\x02ON\x92\x02\x06状态H\x05R\x06status\x88\x01\x01\x12)\n" +
-	"\x06remark\x18\f \x01(\tB\f\xbaG\t\x92\x02\x06备注H\x06R\x06remark\x88\x01\x01\x123\n" +
-	"\tparent_id\x182 \x01(\rB\x11\xbaG\x0e\x92\x02\v父节点IDH\aR\bparentId\x88\x01\x01\x12K\n" +
+	"\x04name\x18\x02 \x01(\tB\x12\xbaG\x0f\x92\x02\f部门名称H\x01R\x04name\x88\x01\x01\x129\n" +
+	"\vdescription\x18\x03 \x01(\tB\x12\xbaG\x0f\x92\x02\f职能描述H\x02R\vdescription\x88\x01\x01\x12B\n" +
+	"\x0forganization_id\x18\n" +
+	" \x01(\rB\x14\xbaG\x11\x92\x02\x0e所属组织IDH\x03R\x0eorganizationId\x88\x01\x01\x12J\n" +
+	"\x11organization_name\x18\v \x01(\tB\x18\xbaG\x15\x92\x02\x12所属组织名称H\x04R\x10organizationName\x88\x01\x01\x125\n" +
+	"\n" +
+	"manager_id\x18\f \x01(\rB\x11\xbaG\x0e\x92\x02\v负责人IDH\x05R\tmanagerId\x88\x01\x01\x12=\n" +
+	"\fmanager_name\x18\r \x01(\tB\x15\xbaG\x12\x92\x02\x0f负责人名称H\x06R\vmanagerName\x88\x01\x01\x120\n" +
+	"\ttenant_id\x18\x0e \x01(\rB\x0e\xbaG\v\x92\x02\b租户IDH\aR\btenantId\x88\x01\x01\x120\n" +
+	"\asort_id\x18\x14 \x01(\x05B\x12\xbaG\x0f\x92\x02\f排序编号H\bR\x06sortId\x88\x01\x01\x12L\n" +
+	"\x06status\x18\x15 \x01(\x0e2!.user.service.v1.DepartmentStatusB\f\xbaG\t\x92\x02\x06状态H\tR\x06status\x88\x01\x01\x12)\n" +
+	"\x06remark\x18\x16 \x01(\tB\f\xbaG\t\x92\x02\x06备注H\n" +
+	"R\x06remark\x88\x01\x01\x123\n" +
+	"\tparent_id\x182 \x01(\rB\x11\xbaG\x0e\x92\x02\v父节点IDH\vR\bparentId\x88\x01\x01\x12K\n" +
 	"\bchildren\x183 \x03(\v2\x1b.user.service.v1.DepartmentB\x12\xbaG\x0f\x92\x02\f子节点树R\bchildren\x123\n" +
-	"\tcreate_by\x18d \x01(\rB\x11\xbaG\x0e\x92\x02\v创建者IDH\bR\bcreateBy\x88\x01\x01\x123\n" +
-	"\tupdate_by\x18e \x01(\rB\x11\xbaG\x0e\x92\x02\v更新者IDH\tR\bupdateBy\x88\x01\x01\x12U\n" +
-	"\vcreate_time\x18\xc8\x01 \x01(\v2\x1a.google.protobuf.TimestampB\x12\xbaG\x0f\x92\x02\f创建时间H\n" +
-	"R\n" +
+	"\tcreate_by\x18d \x01(\rB\x11\xbaG\x0e\x92\x02\v创建者IDH\fR\bcreateBy\x88\x01\x01\x123\n" +
+	"\tupdate_by\x18e \x01(\rB\x11\xbaG\x0e\x92\x02\v更新者IDH\rR\bupdateBy\x88\x01\x01\x12U\n" +
+	"\vcreate_time\x18\xc8\x01 \x01(\v2\x1a.google.protobuf.TimestampB\x12\xbaG\x0f\x92\x02\f创建时间H\x0eR\n" +
 	"createTime\x88\x01\x01\x12U\n" +
-	"\vupdate_time\x18\xc9\x01 \x01(\v2\x1a.google.protobuf.TimestampB\x12\xbaG\x0f\x92\x02\f更新时间H\vR\n" +
+	"\vupdate_time\x18\xc9\x01 \x01(\v2\x1a.google.protobuf.TimestampB\x12\xbaG\x0f\x92\x02\f更新时间H\x0fR\n" +
 	"updateTime\x88\x01\x01\x12U\n" +
-	"\vdelete_time\x18\xca\x01 \x01(\v2\x1a.google.protobuf.TimestampB\x12\xbaG\x0f\x92\x02\f删除时间H\fR\n" +
+	"\vdelete_time\x18\xca\x01 \x01(\v2\x1a.google.protobuf.TimestampB\x12\xbaG\x0f\x92\x02\f删除时间H\x10R\n" +
 	"deleteTime\x88\x01\x01B\x05\n" +
 	"\x03_idB\a\n" +
-	"\x05_nameB\x12\n" +
+	"\x05_nameB\x0e\n" +
+	"\f_descriptionB\x12\n" +
 	"\x10_organization_idB\x14\n" +
-	"\x12_organization_nameB\n" +
+	"\x12_organization_nameB\r\n" +
+	"\v_manager_idB\x0f\n" +
+	"\r_manager_nameB\f\n" +
+	"\n" +
+	"_tenant_idB\n" +
 	"\n" +
 	"\b_sort_idB\t\n" +
 	"\a_statusB\t\n" +
@@ -573,7 +666,11 @@ const file_user_service_v1_department_proto_rawDesc = "" +
 	"\x1dBatchCreateDepartmentsRequest\x12/\n" +
 	"\x04data\x18\x01 \x03(\v2\x1b.user.service.v1.DepartmentR\x04data\"Q\n" +
 	"\x1eBatchCreateDepartmentsResponse\x12/\n" +
-	"\x04data\x18\x01 \x03(\v2\x1b.user.service.v1.DepartmentR\x04data2\x8a\x04\n" +
+	"\x04data\x18\x01 \x03(\v2\x1b.user.service.v1.DepartmentR\x04data*j\n" +
+	"\x10DepartmentStatus\x12!\n" +
+	"\x1dDEPARTMENT_STATUS_UNSPECIFIED\x10\x00\x12\x18\n" +
+	"\x14DEPARTMENT_STATUS_ON\x10\x01\x12\x19\n" +
+	"\x15DEPARTMENT_STATUS_OFF\x10\x022\x8a\x04\n" +
 	"\x11DepartmentService\x12L\n" +
 	"\x04List\x12\x19.pagination.PagingRequest\x1a'.user.service.v1.ListDepartmentResponse\"\x00\x12K\n" +
 	"\x03Get\x12%.user.service.v1.GetDepartmentRequest\x1a\x1b.user.service.v1.Department\"\x00\x12L\n" +
@@ -595,49 +692,52 @@ func file_user_service_v1_department_proto_rawDescGZIP() []byte {
 	return file_user_service_v1_department_proto_rawDescData
 }
 
+var file_user_service_v1_department_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
 var file_user_service_v1_department_proto_msgTypes = make([]protoimpl.MessageInfo, 8)
 var file_user_service_v1_department_proto_goTypes = []any{
-	(*Department)(nil),                     // 0: user.service.v1.Department
-	(*ListDepartmentResponse)(nil),         // 1: user.service.v1.ListDepartmentResponse
-	(*GetDepartmentRequest)(nil),           // 2: user.service.v1.GetDepartmentRequest
-	(*CreateDepartmentRequest)(nil),        // 3: user.service.v1.CreateDepartmentRequest
-	(*UpdateDepartmentRequest)(nil),        // 4: user.service.v1.UpdateDepartmentRequest
-	(*DeleteDepartmentRequest)(nil),        // 5: user.service.v1.DeleteDepartmentRequest
-	(*BatchCreateDepartmentsRequest)(nil),  // 6: user.service.v1.BatchCreateDepartmentsRequest
-	(*BatchCreateDepartmentsResponse)(nil), // 7: user.service.v1.BatchCreateDepartmentsResponse
-	(*timestamppb.Timestamp)(nil),          // 8: google.protobuf.Timestamp
-	(*fieldmaskpb.FieldMask)(nil),          // 9: google.protobuf.FieldMask
-	(*v1.PagingRequest)(nil),               // 10: pagination.PagingRequest
-	(*emptypb.Empty)(nil),                  // 11: google.protobuf.Empty
+	(DepartmentStatus)(0),                  // 0: user.service.v1.DepartmentStatus
+	(*Department)(nil),                     // 1: user.service.v1.Department
+	(*ListDepartmentResponse)(nil),         // 2: user.service.v1.ListDepartmentResponse
+	(*GetDepartmentRequest)(nil),           // 3: user.service.v1.GetDepartmentRequest
+	(*CreateDepartmentRequest)(nil),        // 4: user.service.v1.CreateDepartmentRequest
+	(*UpdateDepartmentRequest)(nil),        // 5: user.service.v1.UpdateDepartmentRequest
+	(*DeleteDepartmentRequest)(nil),        // 6: user.service.v1.DeleteDepartmentRequest
+	(*BatchCreateDepartmentsRequest)(nil),  // 7: user.service.v1.BatchCreateDepartmentsRequest
+	(*BatchCreateDepartmentsResponse)(nil), // 8: user.service.v1.BatchCreateDepartmentsResponse
+	(*timestamppb.Timestamp)(nil),          // 9: google.protobuf.Timestamp
+	(*fieldmaskpb.FieldMask)(nil),          // 10: google.protobuf.FieldMask
+	(*v1.PagingRequest)(nil),               // 11: pagination.PagingRequest
+	(*emptypb.Empty)(nil),                  // 12: google.protobuf.Empty
 }
 var file_user_service_v1_department_proto_depIdxs = []int32{
-	0,  // 0: user.service.v1.Department.children:type_name -> user.service.v1.Department
-	8,  // 1: user.service.v1.Department.create_time:type_name -> google.protobuf.Timestamp
-	8,  // 2: user.service.v1.Department.update_time:type_name -> google.protobuf.Timestamp
-	8,  // 3: user.service.v1.Department.delete_time:type_name -> google.protobuf.Timestamp
-	0,  // 4: user.service.v1.ListDepartmentResponse.items:type_name -> user.service.v1.Department
-	0,  // 5: user.service.v1.CreateDepartmentRequest.data:type_name -> user.service.v1.Department
-	0,  // 6: user.service.v1.UpdateDepartmentRequest.data:type_name -> user.service.v1.Department
-	9,  // 7: user.service.v1.UpdateDepartmentRequest.update_mask:type_name -> google.protobuf.FieldMask
-	0,  // 8: user.service.v1.BatchCreateDepartmentsRequest.data:type_name -> user.service.v1.Department
-	0,  // 9: user.service.v1.BatchCreateDepartmentsResponse.data:type_name -> user.service.v1.Department
-	10, // 10: user.service.v1.DepartmentService.List:input_type -> pagination.PagingRequest
-	2,  // 11: user.service.v1.DepartmentService.Get:input_type -> user.service.v1.GetDepartmentRequest
-	3,  // 12: user.service.v1.DepartmentService.Create:input_type -> user.service.v1.CreateDepartmentRequest
-	4,  // 13: user.service.v1.DepartmentService.Update:input_type -> user.service.v1.UpdateDepartmentRequest
-	5,  // 14: user.service.v1.DepartmentService.Delete:input_type -> user.service.v1.DeleteDepartmentRequest
-	6,  // 15: user.service.v1.DepartmentService.BatchCreate:input_type -> user.service.v1.BatchCreateDepartmentsRequest
-	1,  // 16: user.service.v1.DepartmentService.List:output_type -> user.service.v1.ListDepartmentResponse
-	0,  // 17: user.service.v1.DepartmentService.Get:output_type -> user.service.v1.Department
-	11, // 18: user.service.v1.DepartmentService.Create:output_type -> google.protobuf.Empty
-	11, // 19: user.service.v1.DepartmentService.Update:output_type -> google.protobuf.Empty
-	11, // 20: user.service.v1.DepartmentService.Delete:output_type -> google.protobuf.Empty
-	7,  // 21: user.service.v1.DepartmentService.BatchCreate:output_type -> user.service.v1.BatchCreateDepartmentsResponse
-	16, // [16:22] is the sub-list for method output_type
-	10, // [10:16] is the sub-list for method input_type
-	10, // [10:10] is the sub-list for extension type_name
-	10, // [10:10] is the sub-list for extension extendee
-	0,  // [0:10] is the sub-list for field type_name
+	0,  // 0: user.service.v1.Department.status:type_name -> user.service.v1.DepartmentStatus
+	1,  // 1: user.service.v1.Department.children:type_name -> user.service.v1.Department
+	9,  // 2: user.service.v1.Department.create_time:type_name -> google.protobuf.Timestamp
+	9,  // 3: user.service.v1.Department.update_time:type_name -> google.protobuf.Timestamp
+	9,  // 4: user.service.v1.Department.delete_time:type_name -> google.protobuf.Timestamp
+	1,  // 5: user.service.v1.ListDepartmentResponse.items:type_name -> user.service.v1.Department
+	1,  // 6: user.service.v1.CreateDepartmentRequest.data:type_name -> user.service.v1.Department
+	1,  // 7: user.service.v1.UpdateDepartmentRequest.data:type_name -> user.service.v1.Department
+	10, // 8: user.service.v1.UpdateDepartmentRequest.update_mask:type_name -> google.protobuf.FieldMask
+	1,  // 9: user.service.v1.BatchCreateDepartmentsRequest.data:type_name -> user.service.v1.Department
+	1,  // 10: user.service.v1.BatchCreateDepartmentsResponse.data:type_name -> user.service.v1.Department
+	11, // 11: user.service.v1.DepartmentService.List:input_type -> pagination.PagingRequest
+	3,  // 12: user.service.v1.DepartmentService.Get:input_type -> user.service.v1.GetDepartmentRequest
+	4,  // 13: user.service.v1.DepartmentService.Create:input_type -> user.service.v1.CreateDepartmentRequest
+	5,  // 14: user.service.v1.DepartmentService.Update:input_type -> user.service.v1.UpdateDepartmentRequest
+	6,  // 15: user.service.v1.DepartmentService.Delete:input_type -> user.service.v1.DeleteDepartmentRequest
+	7,  // 16: user.service.v1.DepartmentService.BatchCreate:input_type -> user.service.v1.BatchCreateDepartmentsRequest
+	2,  // 17: user.service.v1.DepartmentService.List:output_type -> user.service.v1.ListDepartmentResponse
+	1,  // 18: user.service.v1.DepartmentService.Get:output_type -> user.service.v1.Department
+	12, // 19: user.service.v1.DepartmentService.Create:output_type -> google.protobuf.Empty
+	12, // 20: user.service.v1.DepartmentService.Update:output_type -> google.protobuf.Empty
+	12, // 21: user.service.v1.DepartmentService.Delete:output_type -> google.protobuf.Empty
+	8,  // 22: user.service.v1.DepartmentService.BatchCreate:output_type -> user.service.v1.BatchCreateDepartmentsResponse
+	17, // [17:23] is the sub-list for method output_type
+	11, // [11:17] is the sub-list for method input_type
+	11, // [11:11] is the sub-list for extension type_name
+	11, // [11:11] is the sub-list for extension extendee
+	0,  // [0:11] is the sub-list for field type_name
 }
 
 func init() { file_user_service_v1_department_proto_init() }
@@ -652,13 +752,14 @@ func file_user_service_v1_department_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_user_service_v1_department_proto_rawDesc), len(file_user_service_v1_department_proto_rawDesc)),
-			NumEnums:      0,
+			NumEnums:      1,
 			NumMessages:   8,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
 		GoTypes:           file_user_service_v1_department_proto_goTypes,
 		DependencyIndexes: file_user_service_v1_department_proto_depIdxs,
+		EnumInfos:         file_user_service_v1_department_proto_enumTypes,
 		MessageInfos:      file_user_service_v1_department_proto_msgTypes,
 	}.Build()
 	File_user_service_v1_department_proto = out.File

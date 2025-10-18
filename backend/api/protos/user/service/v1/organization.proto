@@ -30,6 +30,24 @@ service OrganizationService {
   rpc BatchCreate ( BatchCreateOrganizationsRequest ) returns ( BatchCreateOrganizationsResponse ) {}
 }
 
+// 组织类型
+enum OrganizationType {
+  ORGANIZATION_TYPE_UNSPECIFIED = 0; // 未指定
+
+  ORGANIZATION_TYPE_GROUP = 1; // 集团
+  ORGANIZATION_TYPE_SUBSIDIARY = 2; // 子公司
+  ORGANIZATION_TYPE_FILIALE = 3; // 分公司
+  ORGANIZATION_TYPE_DIVISION = 4; // 事业部
+}
+
+// 组织状态
+enum OrganizationStatus {
+  ORGANIZATION_STATUS_UNSPECIFIED = 0; // 未指定
+
+  ORGANIZATION_STATUS_ON = 1; // 启用
+  ORGANIZATION_STATUS_OFF = 2; // 停用
+}
+
 // 组织
 message Organization {
   optional uint32 id = 1 [
@@ -38,16 +56,30 @@ message Organization {
   ];  // 组织ID
 
   optional string name = 2 [json_name = "name", (gnostic.openapi.v3.property) = {description: "组织名称"}];  // 组织名称
+  optional OrganizationType organization_type = 3 [json_name = "organizationType", (gnostic.openapi.v3.property) = {description: "组织类型"}];  // 组织类型
+  optional bool is_legal_entity = 4 [json_name = "isLegalEntity", (gnostic.openapi.v3.property) = {description: "是否法人实体：1=是（集团/子公司），0=否（分公司/事业部）"}];  // 是否法人实体：1=是（集团/子公司），0=否（分公司/事业部）
 
-  optional int32 sort_id = 3 [json_name = "sortId", (gnostic.openapi.v3.property) = {description: "排序编号"}];  // 排序编号
+  optional string business_scope = 5 [json_name = "businessScope", (gnostic.openapi.v3.property) = {description: "核心业务范围（如“新能源汽车研发与生产”）"}];  // 核心业务范围（如“新能源汽车研发与生产”）
+  optional string credit_code = 6 [json_name = "creditCode", (gnostic.openapi.v3.property) = {description: "统一社会信用代码"}];  // 统一社会信用代码
+  optional string address = 7 [json_name = "address", (gnostic.openapi.v3.property) = {description: "注册地址"}];  // 注册地址
 
-  optional string status = 4 [(gnostic.openapi.v3.property) = {
-    description: "状态"
-    default: {string: "ON"}
-    enum: [{yaml: "ON"}, {yaml: "OFF"}]
-  }]; // 状态
+  optional int32 sort_id = 10 [json_name = "sortId", (gnostic.openapi.v3.property) = {description: "排序编号"}];  // 排序编号
 
-  optional string remark = 5 [json_name = "remark", (gnostic.openapi.v3.property) = {description: "备注"}];  // 备注
+  optional OrganizationStatus status = 11 [(gnostic.openapi.v3.property) = {description: "状态"}]; // 状态
+
+  optional string remark = 12 [json_name = "remark", (gnostic.openapi.v3.property) = {description: "备注"}];  // 备注
+
+  optional uint32 tenant_id = 13 [json_name = "tenantId", (gnostic.openapi.v3.property) = {description: "租户ID"}];  // 租户ID
+
+  optional uint32 manager_id = 14 [
+    json_name = "managerId",
+    (gnostic.openapi.v3.property) = {description: "负责人ID"}
+  ];  // 负责人ID
+
+  optional string manager_name = 15 [
+    json_name = "managerName",
+    (gnostic.openapi.v3.property) = {description: "负责人名称"}
+  ];  // 负责人名称
 
   optional uint32 parent_id = 50 [json_name = "parentId", (gnostic.openapi.v3.property) = {description: "父节点ID"}];  // 父节点ID
   repeated Organization children = 51 [json_name = "children", (gnostic.openapi.v3.property) = {description: "子节点树"}];  // 子节点树
@@ -59,6 +91,7 @@ message Organization {
   optional google.protobuf.Timestamp update_time = 201 [json_name = "updateTime", (gnostic.openapi.v3.property) = {description: "更新时间"}];// 更新时间
   optional google.protobuf.Timestamp delete_time = 202 [json_name = "deleteTime", (gnostic.openapi.v3.property) = {description: "删除时间"}];// 删除时间
 }
+
 // 组织列表 - 答复
 message ListOrganizationResponse {
   repeated Organization items = 1;

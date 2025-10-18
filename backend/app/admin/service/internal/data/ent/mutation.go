@@ -6148,7 +6148,6 @@ type DepartmentMutation struct {
 	create_time        *time.Time
 	update_time        *time.Time
 	delete_time        *time.Time
-	status             *department.Status
 	create_by          *uint32
 	addcreate_by       *int32
 	update_by          *uint32
@@ -6161,6 +6160,10 @@ type DepartmentMutation struct {
 	addorganization_id *int32
 	sort_id            *int32
 	addsort_id         *int32
+	status             *department.Status
+	description        *string
+	manager_id         *uint32
+	addmanager_id      *int32
 	clearedFields      map[string]struct{}
 	parent             *uint32
 	clearedparent      bool
@@ -6421,55 +6424,6 @@ func (m *DepartmentMutation) DeleteTimeCleared() bool {
 func (m *DepartmentMutation) ResetDeleteTime() {
 	m.delete_time = nil
 	delete(m.clearedFields, department.FieldDeleteTime)
-}
-
-// SetStatus sets the "status" field.
-func (m *DepartmentMutation) SetStatus(d department.Status) {
-	m.status = &d
-}
-
-// Status returns the value of the "status" field in the mutation.
-func (m *DepartmentMutation) Status() (r department.Status, exists bool) {
-	v := m.status
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldStatus returns the old "status" field's value of the Department entity.
-// If the Department object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *DepartmentMutation) OldStatus(ctx context.Context) (v *department.Status, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldStatus is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldStatus requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldStatus: %w", err)
-	}
-	return oldValue.Status, nil
-}
-
-// ClearStatus clears the value of the "status" field.
-func (m *DepartmentMutation) ClearStatus() {
-	m.status = nil
-	m.clearedFields[department.FieldStatus] = struct{}{}
-}
-
-// StatusCleared returns if the "status" field was cleared in this mutation.
-func (m *DepartmentMutation) StatusCleared() bool {
-	_, ok := m.clearedFields[department.FieldStatus]
-	return ok
-}
-
-// ResetStatus resets all changes to the "status" field.
-func (m *DepartmentMutation) ResetStatus() {
-	m.status = nil
-	delete(m.clearedFields, department.FieldStatus)
 }
 
 // SetCreateBy sets the "create_by" field.
@@ -6879,24 +6833,10 @@ func (m *DepartmentMutation) AddedOrganizationID() (r int32, exists bool) {
 	return *v, true
 }
 
-// ClearOrganizationID clears the value of the "organization_id" field.
-func (m *DepartmentMutation) ClearOrganizationID() {
-	m.organization_id = nil
-	m.addorganization_id = nil
-	m.clearedFields[department.FieldOrganizationID] = struct{}{}
-}
-
-// OrganizationIDCleared returns if the "organization_id" field was cleared in this mutation.
-func (m *DepartmentMutation) OrganizationIDCleared() bool {
-	_, ok := m.clearedFields[department.FieldOrganizationID]
-	return ok
-}
-
 // ResetOrganizationID resets all changes to the "organization_id" field.
 func (m *DepartmentMutation) ResetOrganizationID() {
 	m.organization_id = nil
 	m.addorganization_id = nil
-	delete(m.clearedFields, department.FieldOrganizationID)
 }
 
 // SetSortID sets the "sort_id" field.
@@ -6967,6 +6907,174 @@ func (m *DepartmentMutation) ResetSortID() {
 	m.sort_id = nil
 	m.addsort_id = nil
 	delete(m.clearedFields, department.FieldSortID)
+}
+
+// SetStatus sets the "status" field.
+func (m *DepartmentMutation) SetStatus(d department.Status) {
+	m.status = &d
+}
+
+// Status returns the value of the "status" field in the mutation.
+func (m *DepartmentMutation) Status() (r department.Status, exists bool) {
+	v := m.status
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldStatus returns the old "status" field's value of the Department entity.
+// If the Department object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *DepartmentMutation) OldStatus(ctx context.Context) (v *department.Status, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldStatus is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldStatus requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldStatus: %w", err)
+	}
+	return oldValue.Status, nil
+}
+
+// ClearStatus clears the value of the "status" field.
+func (m *DepartmentMutation) ClearStatus() {
+	m.status = nil
+	m.clearedFields[department.FieldStatus] = struct{}{}
+}
+
+// StatusCleared returns if the "status" field was cleared in this mutation.
+func (m *DepartmentMutation) StatusCleared() bool {
+	_, ok := m.clearedFields[department.FieldStatus]
+	return ok
+}
+
+// ResetStatus resets all changes to the "status" field.
+func (m *DepartmentMutation) ResetStatus() {
+	m.status = nil
+	delete(m.clearedFields, department.FieldStatus)
+}
+
+// SetDescription sets the "description" field.
+func (m *DepartmentMutation) SetDescription(s string) {
+	m.description = &s
+}
+
+// Description returns the value of the "description" field in the mutation.
+func (m *DepartmentMutation) Description() (r string, exists bool) {
+	v := m.description
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldDescription returns the old "description" field's value of the Department entity.
+// If the Department object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *DepartmentMutation) OldDescription(ctx context.Context) (v *string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldDescription is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldDescription requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldDescription: %w", err)
+	}
+	return oldValue.Description, nil
+}
+
+// ClearDescription clears the value of the "description" field.
+func (m *DepartmentMutation) ClearDescription() {
+	m.description = nil
+	m.clearedFields[department.FieldDescription] = struct{}{}
+}
+
+// DescriptionCleared returns if the "description" field was cleared in this mutation.
+func (m *DepartmentMutation) DescriptionCleared() bool {
+	_, ok := m.clearedFields[department.FieldDescription]
+	return ok
+}
+
+// ResetDescription resets all changes to the "description" field.
+func (m *DepartmentMutation) ResetDescription() {
+	m.description = nil
+	delete(m.clearedFields, department.FieldDescription)
+}
+
+// SetManagerID sets the "manager_id" field.
+func (m *DepartmentMutation) SetManagerID(u uint32) {
+	m.manager_id = &u
+	m.addmanager_id = nil
+}
+
+// ManagerID returns the value of the "manager_id" field in the mutation.
+func (m *DepartmentMutation) ManagerID() (r uint32, exists bool) {
+	v := m.manager_id
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldManagerID returns the old "manager_id" field's value of the Department entity.
+// If the Department object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *DepartmentMutation) OldManagerID(ctx context.Context) (v *uint32, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldManagerID is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldManagerID requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldManagerID: %w", err)
+	}
+	return oldValue.ManagerID, nil
+}
+
+// AddManagerID adds u to the "manager_id" field.
+func (m *DepartmentMutation) AddManagerID(u int32) {
+	if m.addmanager_id != nil {
+		*m.addmanager_id += u
+	} else {
+		m.addmanager_id = &u
+	}
+}
+
+// AddedManagerID returns the value that was added to the "manager_id" field in this mutation.
+func (m *DepartmentMutation) AddedManagerID() (r int32, exists bool) {
+	v := m.addmanager_id
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ClearManagerID clears the value of the "manager_id" field.
+func (m *DepartmentMutation) ClearManagerID() {
+	m.manager_id = nil
+	m.addmanager_id = nil
+	m.clearedFields[department.FieldManagerID] = struct{}{}
+}
+
+// ManagerIDCleared returns if the "manager_id" field was cleared in this mutation.
+func (m *DepartmentMutation) ManagerIDCleared() bool {
+	_, ok := m.clearedFields[department.FieldManagerID]
+	return ok
+}
+
+// ResetManagerID resets all changes to the "manager_id" field.
+func (m *DepartmentMutation) ResetManagerID() {
+	m.manager_id = nil
+	m.addmanager_id = nil
+	delete(m.clearedFields, department.FieldManagerID)
 }
 
 // ClearParent clears the "parent" edge to the Department entity.
@@ -7084,7 +7192,7 @@ func (m *DepartmentMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *DepartmentMutation) Fields() []string {
-	fields := make([]string, 0, 12)
+	fields := make([]string, 0, 14)
 	if m.create_time != nil {
 		fields = append(fields, department.FieldCreateTime)
 	}
@@ -7093,9 +7201,6 @@ func (m *DepartmentMutation) Fields() []string {
 	}
 	if m.delete_time != nil {
 		fields = append(fields, department.FieldDeleteTime)
-	}
-	if m.status != nil {
-		fields = append(fields, department.FieldStatus)
 	}
 	if m.create_by != nil {
 		fields = append(fields, department.FieldCreateBy)
@@ -7121,6 +7226,15 @@ func (m *DepartmentMutation) Fields() []string {
 	if m.sort_id != nil {
 		fields = append(fields, department.FieldSortID)
 	}
+	if m.status != nil {
+		fields = append(fields, department.FieldStatus)
+	}
+	if m.description != nil {
+		fields = append(fields, department.FieldDescription)
+	}
+	if m.manager_id != nil {
+		fields = append(fields, department.FieldManagerID)
+	}
 	return fields
 }
 
@@ -7135,8 +7249,6 @@ func (m *DepartmentMutation) Field(name string) (ent.Value, bool) {
 		return m.UpdateTime()
 	case department.FieldDeleteTime:
 		return m.DeleteTime()
-	case department.FieldStatus:
-		return m.Status()
 	case department.FieldCreateBy:
 		return m.CreateBy()
 	case department.FieldUpdateBy:
@@ -7153,6 +7265,12 @@ func (m *DepartmentMutation) Field(name string) (ent.Value, bool) {
 		return m.OrganizationID()
 	case department.FieldSortID:
 		return m.SortID()
+	case department.FieldStatus:
+		return m.Status()
+	case department.FieldDescription:
+		return m.Description()
+	case department.FieldManagerID:
+		return m.ManagerID()
 	}
 	return nil, false
 }
@@ -7168,8 +7286,6 @@ func (m *DepartmentMutation) OldField(ctx context.Context, name string) (ent.Val
 		return m.OldUpdateTime(ctx)
 	case department.FieldDeleteTime:
 		return m.OldDeleteTime(ctx)
-	case department.FieldStatus:
-		return m.OldStatus(ctx)
 	case department.FieldCreateBy:
 		return m.OldCreateBy(ctx)
 	case department.FieldUpdateBy:
@@ -7186,6 +7302,12 @@ func (m *DepartmentMutation) OldField(ctx context.Context, name string) (ent.Val
 		return m.OldOrganizationID(ctx)
 	case department.FieldSortID:
 		return m.OldSortID(ctx)
+	case department.FieldStatus:
+		return m.OldStatus(ctx)
+	case department.FieldDescription:
+		return m.OldDescription(ctx)
+	case department.FieldManagerID:
+		return m.OldManagerID(ctx)
 	}
 	return nil, fmt.Errorf("unknown Department field %s", name)
 }
@@ -7215,13 +7337,6 @@ func (m *DepartmentMutation) SetField(name string, value ent.Value) error {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetDeleteTime(v)
-		return nil
-	case department.FieldStatus:
-		v, ok := value.(department.Status)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetStatus(v)
 		return nil
 	case department.FieldCreateBy:
 		v, ok := value.(uint32)
@@ -7279,6 +7394,27 @@ func (m *DepartmentMutation) SetField(name string, value ent.Value) error {
 		}
 		m.SetSortID(v)
 		return nil
+	case department.FieldStatus:
+		v, ok := value.(department.Status)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetStatus(v)
+		return nil
+	case department.FieldDescription:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetDescription(v)
+		return nil
+	case department.FieldManagerID:
+		v, ok := value.(uint32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetManagerID(v)
+		return nil
 	}
 	return fmt.Errorf("unknown Department field %s", name)
 }
@@ -7302,6 +7438,9 @@ func (m *DepartmentMutation) AddedFields() []string {
 	if m.addsort_id != nil {
 		fields = append(fields, department.FieldSortID)
 	}
+	if m.addmanager_id != nil {
+		fields = append(fields, department.FieldManagerID)
+	}
 	return fields
 }
 
@@ -7320,6 +7459,8 @@ func (m *DepartmentMutation) AddedField(name string) (ent.Value, bool) {
 		return m.AddedOrganizationID()
 	case department.FieldSortID:
 		return m.AddedSortID()
+	case department.FieldManagerID:
+		return m.AddedManagerID()
 	}
 	return nil, false
 }
@@ -7364,6 +7505,13 @@ func (m *DepartmentMutation) AddField(name string, value ent.Value) error {
 		}
 		m.AddSortID(v)
 		return nil
+	case department.FieldManagerID:
+		v, ok := value.(int32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddManagerID(v)
+		return nil
 	}
 	return fmt.Errorf("unknown Department numeric field %s", name)
 }
@@ -7380,9 +7528,6 @@ func (m *DepartmentMutation) ClearedFields() []string {
 	}
 	if m.FieldCleared(department.FieldDeleteTime) {
 		fields = append(fields, department.FieldDeleteTime)
-	}
-	if m.FieldCleared(department.FieldStatus) {
-		fields = append(fields, department.FieldStatus)
 	}
 	if m.FieldCleared(department.FieldCreateBy) {
 		fields = append(fields, department.FieldCreateBy)
@@ -7402,11 +7547,17 @@ func (m *DepartmentMutation) ClearedFields() []string {
 	if m.FieldCleared(department.FieldParentID) {
 		fields = append(fields, department.FieldParentID)
 	}
-	if m.FieldCleared(department.FieldOrganizationID) {
-		fields = append(fields, department.FieldOrganizationID)
-	}
 	if m.FieldCleared(department.FieldSortID) {
 		fields = append(fields, department.FieldSortID)
+	}
+	if m.FieldCleared(department.FieldStatus) {
+		fields = append(fields, department.FieldStatus)
+	}
+	if m.FieldCleared(department.FieldDescription) {
+		fields = append(fields, department.FieldDescription)
+	}
+	if m.FieldCleared(department.FieldManagerID) {
+		fields = append(fields, department.FieldManagerID)
 	}
 	return fields
 }
@@ -7431,9 +7582,6 @@ func (m *DepartmentMutation) ClearField(name string) error {
 	case department.FieldDeleteTime:
 		m.ClearDeleteTime()
 		return nil
-	case department.FieldStatus:
-		m.ClearStatus()
-		return nil
 	case department.FieldCreateBy:
 		m.ClearCreateBy()
 		return nil
@@ -7452,11 +7600,17 @@ func (m *DepartmentMutation) ClearField(name string) error {
 	case department.FieldParentID:
 		m.ClearParentID()
 		return nil
-	case department.FieldOrganizationID:
-		m.ClearOrganizationID()
-		return nil
 	case department.FieldSortID:
 		m.ClearSortID()
+		return nil
+	case department.FieldStatus:
+		m.ClearStatus()
+		return nil
+	case department.FieldDescription:
+		m.ClearDescription()
+		return nil
+	case department.FieldManagerID:
+		m.ClearManagerID()
 		return nil
 	}
 	return fmt.Errorf("unknown Department nullable field %s", name)
@@ -7474,9 +7628,6 @@ func (m *DepartmentMutation) ResetField(name string) error {
 		return nil
 	case department.FieldDeleteTime:
 		m.ResetDeleteTime()
-		return nil
-	case department.FieldStatus:
-		m.ResetStatus()
 		return nil
 	case department.FieldCreateBy:
 		m.ResetCreateBy()
@@ -7501,6 +7652,15 @@ func (m *DepartmentMutation) ResetField(name string) error {
 		return nil
 	case department.FieldSortID:
 		m.ResetSortID()
+		return nil
+	case department.FieldStatus:
+		m.ResetStatus()
+		return nil
+	case department.FieldDescription:
+		m.ResetDescription()
+		return nil
+	case department.FieldManagerID:
+		m.ResetManagerID()
 		return nil
 	}
 	return fmt.Errorf("unknown Department field %s", name)
@@ -15821,32 +15981,39 @@ func (m *NotificationMessageRecipientMutation) ResetEdge(name string) error {
 // OrganizationMutation represents an operation that mutates the Organization nodes in the graph.
 type OrganizationMutation struct {
 	config
-	op              Op
-	typ             string
-	id              *uint32
-	create_time     *time.Time
-	update_time     *time.Time
-	delete_time     *time.Time
-	status          *organization.Status
-	create_by       *uint32
-	addcreate_by    *int32
-	update_by       *uint32
-	addupdate_by    *int32
-	remark          *string
-	tenant_id       *uint32
-	addtenant_id    *int32
-	name            *string
-	sort_id         *int32
-	addsort_id      *int32
-	clearedFields   map[string]struct{}
-	parent          *uint32
-	clearedparent   bool
-	children        map[uint32]struct{}
-	removedchildren map[uint32]struct{}
-	clearedchildren bool
-	done            bool
-	oldValue        func(context.Context) (*Organization, error)
-	predicates      []predicate.Organization
+	op                Op
+	typ               string
+	id                *uint32
+	create_time       *time.Time
+	update_time       *time.Time
+	delete_time       *time.Time
+	create_by         *uint32
+	addcreate_by      *int32
+	update_by         *uint32
+	addupdate_by      *int32
+	remark            *string
+	tenant_id         *uint32
+	addtenant_id      *int32
+	name              *string
+	sort_id           *int32
+	addsort_id        *int32
+	status            *organization.Status
+	organization_type *organization.OrganizationType
+	credit_code       *string
+	address           *string
+	business_scope    *string
+	is_legal_entity   *bool
+	manager_id        *uint32
+	addmanager_id     *int32
+	clearedFields     map[string]struct{}
+	parent            *uint32
+	clearedparent     bool
+	children          map[uint32]struct{}
+	removedchildren   map[uint32]struct{}
+	clearedchildren   bool
+	done              bool
+	oldValue          func(context.Context) (*Organization, error)
+	predicates        []predicate.Organization
 }
 
 var _ ent.Mutation = (*OrganizationMutation)(nil)
@@ -16098,55 +16265,6 @@ func (m *OrganizationMutation) DeleteTimeCleared() bool {
 func (m *OrganizationMutation) ResetDeleteTime() {
 	m.delete_time = nil
 	delete(m.clearedFields, organization.FieldDeleteTime)
-}
-
-// SetStatus sets the "status" field.
-func (m *OrganizationMutation) SetStatus(o organization.Status) {
-	m.status = &o
-}
-
-// Status returns the value of the "status" field in the mutation.
-func (m *OrganizationMutation) Status() (r organization.Status, exists bool) {
-	v := m.status
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldStatus returns the old "status" field's value of the Organization entity.
-// If the Organization object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *OrganizationMutation) OldStatus(ctx context.Context) (v *organization.Status, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldStatus is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldStatus requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldStatus: %w", err)
-	}
-	return oldValue.Status, nil
-}
-
-// ClearStatus clears the value of the "status" field.
-func (m *OrganizationMutation) ClearStatus() {
-	m.status = nil
-	m.clearedFields[organization.FieldStatus] = struct{}{}
-}
-
-// StatusCleared returns if the "status" field was cleared in this mutation.
-func (m *OrganizationMutation) StatusCleared() bool {
-	_, ok := m.clearedFields[organization.FieldStatus]
-	return ok
-}
-
-// ResetStatus resets all changes to the "status" field.
-func (m *OrganizationMutation) ResetStatus() {
-	m.status = nil
-	delete(m.clearedFields, organization.FieldStatus)
 }
 
 // SetCreateBy sets the "create_by" field.
@@ -16576,6 +16694,370 @@ func (m *OrganizationMutation) ResetSortID() {
 	delete(m.clearedFields, organization.FieldSortID)
 }
 
+// SetStatus sets the "status" field.
+func (m *OrganizationMutation) SetStatus(o organization.Status) {
+	m.status = &o
+}
+
+// Status returns the value of the "status" field in the mutation.
+func (m *OrganizationMutation) Status() (r organization.Status, exists bool) {
+	v := m.status
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldStatus returns the old "status" field's value of the Organization entity.
+// If the Organization object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *OrganizationMutation) OldStatus(ctx context.Context) (v *organization.Status, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldStatus is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldStatus requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldStatus: %w", err)
+	}
+	return oldValue.Status, nil
+}
+
+// ClearStatus clears the value of the "status" field.
+func (m *OrganizationMutation) ClearStatus() {
+	m.status = nil
+	m.clearedFields[organization.FieldStatus] = struct{}{}
+}
+
+// StatusCleared returns if the "status" field was cleared in this mutation.
+func (m *OrganizationMutation) StatusCleared() bool {
+	_, ok := m.clearedFields[organization.FieldStatus]
+	return ok
+}
+
+// ResetStatus resets all changes to the "status" field.
+func (m *OrganizationMutation) ResetStatus() {
+	m.status = nil
+	delete(m.clearedFields, organization.FieldStatus)
+}
+
+// SetOrganizationType sets the "organization_type" field.
+func (m *OrganizationMutation) SetOrganizationType(ot organization.OrganizationType) {
+	m.organization_type = &ot
+}
+
+// OrganizationType returns the value of the "organization_type" field in the mutation.
+func (m *OrganizationMutation) OrganizationType() (r organization.OrganizationType, exists bool) {
+	v := m.organization_type
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldOrganizationType returns the old "organization_type" field's value of the Organization entity.
+// If the Organization object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *OrganizationMutation) OldOrganizationType(ctx context.Context) (v *organization.OrganizationType, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldOrganizationType is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldOrganizationType requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldOrganizationType: %w", err)
+	}
+	return oldValue.OrganizationType, nil
+}
+
+// ClearOrganizationType clears the value of the "organization_type" field.
+func (m *OrganizationMutation) ClearOrganizationType() {
+	m.organization_type = nil
+	m.clearedFields[organization.FieldOrganizationType] = struct{}{}
+}
+
+// OrganizationTypeCleared returns if the "organization_type" field was cleared in this mutation.
+func (m *OrganizationMutation) OrganizationTypeCleared() bool {
+	_, ok := m.clearedFields[organization.FieldOrganizationType]
+	return ok
+}
+
+// ResetOrganizationType resets all changes to the "organization_type" field.
+func (m *OrganizationMutation) ResetOrganizationType() {
+	m.organization_type = nil
+	delete(m.clearedFields, organization.FieldOrganizationType)
+}
+
+// SetCreditCode sets the "credit_code" field.
+func (m *OrganizationMutation) SetCreditCode(s string) {
+	m.credit_code = &s
+}
+
+// CreditCode returns the value of the "credit_code" field in the mutation.
+func (m *OrganizationMutation) CreditCode() (r string, exists bool) {
+	v := m.credit_code
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldCreditCode returns the old "credit_code" field's value of the Organization entity.
+// If the Organization object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *OrganizationMutation) OldCreditCode(ctx context.Context) (v *string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldCreditCode is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldCreditCode requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldCreditCode: %w", err)
+	}
+	return oldValue.CreditCode, nil
+}
+
+// ClearCreditCode clears the value of the "credit_code" field.
+func (m *OrganizationMutation) ClearCreditCode() {
+	m.credit_code = nil
+	m.clearedFields[organization.FieldCreditCode] = struct{}{}
+}
+
+// CreditCodeCleared returns if the "credit_code" field was cleared in this mutation.
+func (m *OrganizationMutation) CreditCodeCleared() bool {
+	_, ok := m.clearedFields[organization.FieldCreditCode]
+	return ok
+}
+
+// ResetCreditCode resets all changes to the "credit_code" field.
+func (m *OrganizationMutation) ResetCreditCode() {
+	m.credit_code = nil
+	delete(m.clearedFields, organization.FieldCreditCode)
+}
+
+// SetAddress sets the "address" field.
+func (m *OrganizationMutation) SetAddress(s string) {
+	m.address = &s
+}
+
+// Address returns the value of the "address" field in the mutation.
+func (m *OrganizationMutation) Address() (r string, exists bool) {
+	v := m.address
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldAddress returns the old "address" field's value of the Organization entity.
+// If the Organization object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *OrganizationMutation) OldAddress(ctx context.Context) (v *string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldAddress is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldAddress requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldAddress: %w", err)
+	}
+	return oldValue.Address, nil
+}
+
+// ClearAddress clears the value of the "address" field.
+func (m *OrganizationMutation) ClearAddress() {
+	m.address = nil
+	m.clearedFields[organization.FieldAddress] = struct{}{}
+}
+
+// AddressCleared returns if the "address" field was cleared in this mutation.
+func (m *OrganizationMutation) AddressCleared() bool {
+	_, ok := m.clearedFields[organization.FieldAddress]
+	return ok
+}
+
+// ResetAddress resets all changes to the "address" field.
+func (m *OrganizationMutation) ResetAddress() {
+	m.address = nil
+	delete(m.clearedFields, organization.FieldAddress)
+}
+
+// SetBusinessScope sets the "business_scope" field.
+func (m *OrganizationMutation) SetBusinessScope(s string) {
+	m.business_scope = &s
+}
+
+// BusinessScope returns the value of the "business_scope" field in the mutation.
+func (m *OrganizationMutation) BusinessScope() (r string, exists bool) {
+	v := m.business_scope
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldBusinessScope returns the old "business_scope" field's value of the Organization entity.
+// If the Organization object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *OrganizationMutation) OldBusinessScope(ctx context.Context) (v *string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldBusinessScope is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldBusinessScope requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldBusinessScope: %w", err)
+	}
+	return oldValue.BusinessScope, nil
+}
+
+// ClearBusinessScope clears the value of the "business_scope" field.
+func (m *OrganizationMutation) ClearBusinessScope() {
+	m.business_scope = nil
+	m.clearedFields[organization.FieldBusinessScope] = struct{}{}
+}
+
+// BusinessScopeCleared returns if the "business_scope" field was cleared in this mutation.
+func (m *OrganizationMutation) BusinessScopeCleared() bool {
+	_, ok := m.clearedFields[organization.FieldBusinessScope]
+	return ok
+}
+
+// ResetBusinessScope resets all changes to the "business_scope" field.
+func (m *OrganizationMutation) ResetBusinessScope() {
+	m.business_scope = nil
+	delete(m.clearedFields, organization.FieldBusinessScope)
+}
+
+// SetIsLegalEntity sets the "is_legal_entity" field.
+func (m *OrganizationMutation) SetIsLegalEntity(b bool) {
+	m.is_legal_entity = &b
+}
+
+// IsLegalEntity returns the value of the "is_legal_entity" field in the mutation.
+func (m *OrganizationMutation) IsLegalEntity() (r bool, exists bool) {
+	v := m.is_legal_entity
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldIsLegalEntity returns the old "is_legal_entity" field's value of the Organization entity.
+// If the Organization object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *OrganizationMutation) OldIsLegalEntity(ctx context.Context) (v *bool, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldIsLegalEntity is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldIsLegalEntity requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldIsLegalEntity: %w", err)
+	}
+	return oldValue.IsLegalEntity, nil
+}
+
+// ClearIsLegalEntity clears the value of the "is_legal_entity" field.
+func (m *OrganizationMutation) ClearIsLegalEntity() {
+	m.is_legal_entity = nil
+	m.clearedFields[organization.FieldIsLegalEntity] = struct{}{}
+}
+
+// IsLegalEntityCleared returns if the "is_legal_entity" field was cleared in this mutation.
+func (m *OrganizationMutation) IsLegalEntityCleared() bool {
+	_, ok := m.clearedFields[organization.FieldIsLegalEntity]
+	return ok
+}
+
+// ResetIsLegalEntity resets all changes to the "is_legal_entity" field.
+func (m *OrganizationMutation) ResetIsLegalEntity() {
+	m.is_legal_entity = nil
+	delete(m.clearedFields, organization.FieldIsLegalEntity)
+}
+
+// SetManagerID sets the "manager_id" field.
+func (m *OrganizationMutation) SetManagerID(u uint32) {
+	m.manager_id = &u
+	m.addmanager_id = nil
+}
+
+// ManagerID returns the value of the "manager_id" field in the mutation.
+func (m *OrganizationMutation) ManagerID() (r uint32, exists bool) {
+	v := m.manager_id
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldManagerID returns the old "manager_id" field's value of the Organization entity.
+// If the Organization object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *OrganizationMutation) OldManagerID(ctx context.Context) (v *uint32, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldManagerID is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldManagerID requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldManagerID: %w", err)
+	}
+	return oldValue.ManagerID, nil
+}
+
+// AddManagerID adds u to the "manager_id" field.
+func (m *OrganizationMutation) AddManagerID(u int32) {
+	if m.addmanager_id != nil {
+		*m.addmanager_id += u
+	} else {
+		m.addmanager_id = &u
+	}
+}
+
+// AddedManagerID returns the value that was added to the "manager_id" field in this mutation.
+func (m *OrganizationMutation) AddedManagerID() (r int32, exists bool) {
+	v := m.addmanager_id
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ClearManagerID clears the value of the "manager_id" field.
+func (m *OrganizationMutation) ClearManagerID() {
+	m.manager_id = nil
+	m.addmanager_id = nil
+	m.clearedFields[organization.FieldManagerID] = struct{}{}
+}
+
+// ManagerIDCleared returns if the "manager_id" field was cleared in this mutation.
+func (m *OrganizationMutation) ManagerIDCleared() bool {
+	_, ok := m.clearedFields[organization.FieldManagerID]
+	return ok
+}
+
+// ResetManagerID resets all changes to the "manager_id" field.
+func (m *OrganizationMutation) ResetManagerID() {
+	m.manager_id = nil
+	m.addmanager_id = nil
+	delete(m.clearedFields, organization.FieldManagerID)
+}
+
 // ClearParent clears the "parent" edge to the Organization entity.
 func (m *OrganizationMutation) ClearParent() {
 	m.clearedparent = true
@@ -16691,7 +17173,7 @@ func (m *OrganizationMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *OrganizationMutation) Fields() []string {
-	fields := make([]string, 0, 11)
+	fields := make([]string, 0, 17)
 	if m.create_time != nil {
 		fields = append(fields, organization.FieldCreateTime)
 	}
@@ -16700,9 +17182,6 @@ func (m *OrganizationMutation) Fields() []string {
 	}
 	if m.delete_time != nil {
 		fields = append(fields, organization.FieldDeleteTime)
-	}
-	if m.status != nil {
-		fields = append(fields, organization.FieldStatus)
 	}
 	if m.create_by != nil {
 		fields = append(fields, organization.FieldCreateBy)
@@ -16725,6 +17204,27 @@ func (m *OrganizationMutation) Fields() []string {
 	if m.sort_id != nil {
 		fields = append(fields, organization.FieldSortID)
 	}
+	if m.status != nil {
+		fields = append(fields, organization.FieldStatus)
+	}
+	if m.organization_type != nil {
+		fields = append(fields, organization.FieldOrganizationType)
+	}
+	if m.credit_code != nil {
+		fields = append(fields, organization.FieldCreditCode)
+	}
+	if m.address != nil {
+		fields = append(fields, organization.FieldAddress)
+	}
+	if m.business_scope != nil {
+		fields = append(fields, organization.FieldBusinessScope)
+	}
+	if m.is_legal_entity != nil {
+		fields = append(fields, organization.FieldIsLegalEntity)
+	}
+	if m.manager_id != nil {
+		fields = append(fields, organization.FieldManagerID)
+	}
 	return fields
 }
 
@@ -16739,8 +17239,6 @@ func (m *OrganizationMutation) Field(name string) (ent.Value, bool) {
 		return m.UpdateTime()
 	case organization.FieldDeleteTime:
 		return m.DeleteTime()
-	case organization.FieldStatus:
-		return m.Status()
 	case organization.FieldCreateBy:
 		return m.CreateBy()
 	case organization.FieldUpdateBy:
@@ -16755,6 +17253,20 @@ func (m *OrganizationMutation) Field(name string) (ent.Value, bool) {
 		return m.ParentID()
 	case organization.FieldSortID:
 		return m.SortID()
+	case organization.FieldStatus:
+		return m.Status()
+	case organization.FieldOrganizationType:
+		return m.OrganizationType()
+	case organization.FieldCreditCode:
+		return m.CreditCode()
+	case organization.FieldAddress:
+		return m.Address()
+	case organization.FieldBusinessScope:
+		return m.BusinessScope()
+	case organization.FieldIsLegalEntity:
+		return m.IsLegalEntity()
+	case organization.FieldManagerID:
+		return m.ManagerID()
 	}
 	return nil, false
 }
@@ -16770,8 +17282,6 @@ func (m *OrganizationMutation) OldField(ctx context.Context, name string) (ent.V
 		return m.OldUpdateTime(ctx)
 	case organization.FieldDeleteTime:
 		return m.OldDeleteTime(ctx)
-	case organization.FieldStatus:
-		return m.OldStatus(ctx)
 	case organization.FieldCreateBy:
 		return m.OldCreateBy(ctx)
 	case organization.FieldUpdateBy:
@@ -16786,6 +17296,20 @@ func (m *OrganizationMutation) OldField(ctx context.Context, name string) (ent.V
 		return m.OldParentID(ctx)
 	case organization.FieldSortID:
 		return m.OldSortID(ctx)
+	case organization.FieldStatus:
+		return m.OldStatus(ctx)
+	case organization.FieldOrganizationType:
+		return m.OldOrganizationType(ctx)
+	case organization.FieldCreditCode:
+		return m.OldCreditCode(ctx)
+	case organization.FieldAddress:
+		return m.OldAddress(ctx)
+	case organization.FieldBusinessScope:
+		return m.OldBusinessScope(ctx)
+	case organization.FieldIsLegalEntity:
+		return m.OldIsLegalEntity(ctx)
+	case organization.FieldManagerID:
+		return m.OldManagerID(ctx)
 	}
 	return nil, fmt.Errorf("unknown Organization field %s", name)
 }
@@ -16815,13 +17339,6 @@ func (m *OrganizationMutation) SetField(name string, value ent.Value) error {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetDeleteTime(v)
-		return nil
-	case organization.FieldStatus:
-		v, ok := value.(organization.Status)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetStatus(v)
 		return nil
 	case organization.FieldCreateBy:
 		v, ok := value.(uint32)
@@ -16872,6 +17389,55 @@ func (m *OrganizationMutation) SetField(name string, value ent.Value) error {
 		}
 		m.SetSortID(v)
 		return nil
+	case organization.FieldStatus:
+		v, ok := value.(organization.Status)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetStatus(v)
+		return nil
+	case organization.FieldOrganizationType:
+		v, ok := value.(organization.OrganizationType)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetOrganizationType(v)
+		return nil
+	case organization.FieldCreditCode:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetCreditCode(v)
+		return nil
+	case organization.FieldAddress:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetAddress(v)
+		return nil
+	case organization.FieldBusinessScope:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetBusinessScope(v)
+		return nil
+	case organization.FieldIsLegalEntity:
+		v, ok := value.(bool)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetIsLegalEntity(v)
+		return nil
+	case organization.FieldManagerID:
+		v, ok := value.(uint32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetManagerID(v)
+		return nil
 	}
 	return fmt.Errorf("unknown Organization field %s", name)
 }
@@ -16892,6 +17458,9 @@ func (m *OrganizationMutation) AddedFields() []string {
 	if m.addsort_id != nil {
 		fields = append(fields, organization.FieldSortID)
 	}
+	if m.addmanager_id != nil {
+		fields = append(fields, organization.FieldManagerID)
+	}
 	return fields
 }
 
@@ -16908,6 +17477,8 @@ func (m *OrganizationMutation) AddedField(name string) (ent.Value, bool) {
 		return m.AddedTenantID()
 	case organization.FieldSortID:
 		return m.AddedSortID()
+	case organization.FieldManagerID:
+		return m.AddedManagerID()
 	}
 	return nil, false
 }
@@ -16945,6 +17516,13 @@ func (m *OrganizationMutation) AddField(name string, value ent.Value) error {
 		}
 		m.AddSortID(v)
 		return nil
+	case organization.FieldManagerID:
+		v, ok := value.(int32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddManagerID(v)
+		return nil
 	}
 	return fmt.Errorf("unknown Organization numeric field %s", name)
 }
@@ -16961,9 +17539,6 @@ func (m *OrganizationMutation) ClearedFields() []string {
 	}
 	if m.FieldCleared(organization.FieldDeleteTime) {
 		fields = append(fields, organization.FieldDeleteTime)
-	}
-	if m.FieldCleared(organization.FieldStatus) {
-		fields = append(fields, organization.FieldStatus)
 	}
 	if m.FieldCleared(organization.FieldCreateBy) {
 		fields = append(fields, organization.FieldCreateBy)
@@ -16985,6 +17560,27 @@ func (m *OrganizationMutation) ClearedFields() []string {
 	}
 	if m.FieldCleared(organization.FieldSortID) {
 		fields = append(fields, organization.FieldSortID)
+	}
+	if m.FieldCleared(organization.FieldStatus) {
+		fields = append(fields, organization.FieldStatus)
+	}
+	if m.FieldCleared(organization.FieldOrganizationType) {
+		fields = append(fields, organization.FieldOrganizationType)
+	}
+	if m.FieldCleared(organization.FieldCreditCode) {
+		fields = append(fields, organization.FieldCreditCode)
+	}
+	if m.FieldCleared(organization.FieldAddress) {
+		fields = append(fields, organization.FieldAddress)
+	}
+	if m.FieldCleared(organization.FieldBusinessScope) {
+		fields = append(fields, organization.FieldBusinessScope)
+	}
+	if m.FieldCleared(organization.FieldIsLegalEntity) {
+		fields = append(fields, organization.FieldIsLegalEntity)
+	}
+	if m.FieldCleared(organization.FieldManagerID) {
+		fields = append(fields, organization.FieldManagerID)
 	}
 	return fields
 }
@@ -17009,9 +17605,6 @@ func (m *OrganizationMutation) ClearField(name string) error {
 	case organization.FieldDeleteTime:
 		m.ClearDeleteTime()
 		return nil
-	case organization.FieldStatus:
-		m.ClearStatus()
-		return nil
 	case organization.FieldCreateBy:
 		m.ClearCreateBy()
 		return nil
@@ -17033,6 +17626,27 @@ func (m *OrganizationMutation) ClearField(name string) error {
 	case organization.FieldSortID:
 		m.ClearSortID()
 		return nil
+	case organization.FieldStatus:
+		m.ClearStatus()
+		return nil
+	case organization.FieldOrganizationType:
+		m.ClearOrganizationType()
+		return nil
+	case organization.FieldCreditCode:
+		m.ClearCreditCode()
+		return nil
+	case organization.FieldAddress:
+		m.ClearAddress()
+		return nil
+	case organization.FieldBusinessScope:
+		m.ClearBusinessScope()
+		return nil
+	case organization.FieldIsLegalEntity:
+		m.ClearIsLegalEntity()
+		return nil
+	case organization.FieldManagerID:
+		m.ClearManagerID()
+		return nil
 	}
 	return fmt.Errorf("unknown Organization nullable field %s", name)
 }
@@ -17049,9 +17663,6 @@ func (m *OrganizationMutation) ResetField(name string) error {
 		return nil
 	case organization.FieldDeleteTime:
 		m.ResetDeleteTime()
-		return nil
-	case organization.FieldStatus:
-		m.ResetStatus()
 		return nil
 	case organization.FieldCreateBy:
 		m.ResetCreateBy()
@@ -17073,6 +17684,27 @@ func (m *OrganizationMutation) ResetField(name string) error {
 		return nil
 	case organization.FieldSortID:
 		m.ResetSortID()
+		return nil
+	case organization.FieldStatus:
+		m.ResetStatus()
+		return nil
+	case organization.FieldOrganizationType:
+		m.ResetOrganizationType()
+		return nil
+	case organization.FieldCreditCode:
+		m.ResetCreditCode()
+		return nil
+	case organization.FieldAddress:
+		m.ResetAddress()
+		return nil
+	case organization.FieldBusinessScope:
+		m.ResetBusinessScope()
+		return nil
+	case organization.FieldIsLegalEntity:
+		m.ResetIsLegalEntity()
+		return nil
+	case organization.FieldManagerID:
+		m.ResetManagerID()
 		return nil
 	}
 	return fmt.Errorf("unknown Organization field %s", name)

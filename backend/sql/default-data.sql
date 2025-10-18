@@ -89,7 +89,6 @@ VALUES (1, null, 'FOLDER', 'Dashboard', '/', null, 'BasicLayout', 'ON', now(),
 SELECT setval('sys_menus_id_seq', (SELECT MAX(id) FROM sys_menus));
 
 -- API资源表数据
--- API资源表数据
 TRUNCATE TABLE kratos_admin.public.sys_api_resources RESTART IDENTITY;
 INSERT INTO public.sys_api_resources (id, create_time, update_time, delete_time, create_by, update_by, operation, description, module, path, method, module_description)
 VALUES (1, '2025-09-11 01:49:30.203766 +00:00', null, null, null, null, 'PositionService_List', ' 查询职位列表 ', 'PositionService', '/admin/v1/positions', 'GET', ' 职位管理服务 '),

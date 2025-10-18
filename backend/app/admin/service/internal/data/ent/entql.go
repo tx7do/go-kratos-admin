@@ -162,7 +162,6 @@ var schemaGraph = func() *sqlgraph.Schema {
 			department.FieldCreateTime:     {Type: field.TypeTime, Column: department.FieldCreateTime},
 			department.FieldUpdateTime:     {Type: field.TypeTime, Column: department.FieldUpdateTime},
 			department.FieldDeleteTime:     {Type: field.TypeTime, Column: department.FieldDeleteTime},
-			department.FieldStatus:         {Type: field.TypeEnum, Column: department.FieldStatus},
 			department.FieldCreateBy:       {Type: field.TypeUint32, Column: department.FieldCreateBy},
 			department.FieldUpdateBy:       {Type: field.TypeUint32, Column: department.FieldUpdateBy},
 			department.FieldRemark:         {Type: field.TypeString, Column: department.FieldRemark},
@@ -171,6 +170,9 @@ var schemaGraph = func() *sqlgraph.Schema {
 			department.FieldParentID:       {Type: field.TypeUint32, Column: department.FieldParentID},
 			department.FieldOrganizationID: {Type: field.TypeUint32, Column: department.FieldOrganizationID},
 			department.FieldSortID:         {Type: field.TypeInt32, Column: department.FieldSortID},
+			department.FieldStatus:         {Type: field.TypeEnum, Column: department.FieldStatus},
+			department.FieldDescription:    {Type: field.TypeString, Column: department.FieldDescription},
+			department.FieldManagerID:      {Type: field.TypeUint32, Column: department.FieldManagerID},
 		},
 	}
 	graph.Nodes[5] = &sqlgraph.Node{
@@ -338,17 +340,23 @@ var schemaGraph = func() *sqlgraph.Schema {
 		},
 		Type: "Organization",
 		Fields: map[string]*sqlgraph.FieldSpec{
-			organization.FieldCreateTime: {Type: field.TypeTime, Column: organization.FieldCreateTime},
-			organization.FieldUpdateTime: {Type: field.TypeTime, Column: organization.FieldUpdateTime},
-			organization.FieldDeleteTime: {Type: field.TypeTime, Column: organization.FieldDeleteTime},
-			organization.FieldStatus:     {Type: field.TypeEnum, Column: organization.FieldStatus},
-			organization.FieldCreateBy:   {Type: field.TypeUint32, Column: organization.FieldCreateBy},
-			organization.FieldUpdateBy:   {Type: field.TypeUint32, Column: organization.FieldUpdateBy},
-			organization.FieldRemark:     {Type: field.TypeString, Column: organization.FieldRemark},
-			organization.FieldTenantID:   {Type: field.TypeUint32, Column: organization.FieldTenantID},
-			organization.FieldName:       {Type: field.TypeString, Column: organization.FieldName},
-			organization.FieldParentID:   {Type: field.TypeUint32, Column: organization.FieldParentID},
-			organization.FieldSortID:     {Type: field.TypeInt32, Column: organization.FieldSortID},
+			organization.FieldCreateTime:       {Type: field.TypeTime, Column: organization.FieldCreateTime},
+			organization.FieldUpdateTime:       {Type: field.TypeTime, Column: organization.FieldUpdateTime},
+			organization.FieldDeleteTime:       {Type: field.TypeTime, Column: organization.FieldDeleteTime},
+			organization.FieldCreateBy:         {Type: field.TypeUint32, Column: organization.FieldCreateBy},
+			organization.FieldUpdateBy:         {Type: field.TypeUint32, Column: organization.FieldUpdateBy},
+			organization.FieldRemark:           {Type: field.TypeString, Column: organization.FieldRemark},
+			organization.FieldTenantID:         {Type: field.TypeUint32, Column: organization.FieldTenantID},
+			organization.FieldName:             {Type: field.TypeString, Column: organization.FieldName},
+			organization.FieldParentID:         {Type: field.TypeUint32, Column: organization.FieldParentID},
+			organization.FieldSortID:           {Type: field.TypeInt32, Column: organization.FieldSortID},
+			organization.FieldStatus:           {Type: field.TypeEnum, Column: organization.FieldStatus},
+			organization.FieldOrganizationType: {Type: field.TypeEnum, Column: organization.FieldOrganizationType},
+			organization.FieldCreditCode:       {Type: field.TypeString, Column: organization.FieldCreditCode},
+			organization.FieldAddress:          {Type: field.TypeString, Column: organization.FieldAddress},
+			organization.FieldBusinessScope:    {Type: field.TypeString, Column: organization.FieldBusinessScope},
+			organization.FieldIsLegalEntity:    {Type: field.TypeBool, Column: organization.FieldIsLegalEntity},
+			organization.FieldManagerID:        {Type: field.TypeUint32, Column: organization.FieldManagerID},
 		},
 	}
 	graph.Nodes[12] = &sqlgraph.Node{
@@ -1225,11 +1233,6 @@ func (f *DepartmentFilter) WhereDeleteTime(p entql.TimeP) {
 	f.Where(p.Field(department.FieldDeleteTime))
 }
 
-// WhereStatus applies the entql string predicate on the status field.
-func (f *DepartmentFilter) WhereStatus(p entql.StringP) {
-	f.Where(p.Field(department.FieldStatus))
-}
-
 // WhereCreateBy applies the entql uint32 predicate on the create_by field.
 func (f *DepartmentFilter) WhereCreateBy(p entql.Uint32P) {
 	f.Where(p.Field(department.FieldCreateBy))
@@ -1268,6 +1271,21 @@ func (f *DepartmentFilter) WhereOrganizationID(p entql.Uint32P) {
 // WhereSortID applies the entql int32 predicate on the sort_id field.
 func (f *DepartmentFilter) WhereSortID(p entql.Int32P) {
 	f.Where(p.Field(department.FieldSortID))
+}
+
+// WhereStatus applies the entql string predicate on the status field.
+func (f *DepartmentFilter) WhereStatus(p entql.StringP) {
+	f.Where(p.Field(department.FieldStatus))
+}
+
+// WhereDescription applies the entql string predicate on the description field.
+func (f *DepartmentFilter) WhereDescription(p entql.StringP) {
+	f.Where(p.Field(department.FieldDescription))
+}
+
+// WhereManagerID applies the entql uint32 predicate on the manager_id field.
+func (f *DepartmentFilter) WhereManagerID(p entql.Uint32P) {
+	f.Where(p.Field(department.FieldManagerID))
 }
 
 // WhereHasParent applies a predicate to check if query has an edge parent.
@@ -2029,11 +2047,6 @@ func (f *OrganizationFilter) WhereDeleteTime(p entql.TimeP) {
 	f.Where(p.Field(organization.FieldDeleteTime))
 }
 
-// WhereStatus applies the entql string predicate on the status field.
-func (f *OrganizationFilter) WhereStatus(p entql.StringP) {
-	f.Where(p.Field(organization.FieldStatus))
-}
-
 // WhereCreateBy applies the entql uint32 predicate on the create_by field.
 func (f *OrganizationFilter) WhereCreateBy(p entql.Uint32P) {
 	f.Where(p.Field(organization.FieldCreateBy))
@@ -2067,6 +2080,41 @@ func (f *OrganizationFilter) WhereParentID(p entql.Uint32P) {
 // WhereSortID applies the entql int32 predicate on the sort_id field.
 func (f *OrganizationFilter) WhereSortID(p entql.Int32P) {
 	f.Where(p.Field(organization.FieldSortID))
+}
+
+// WhereStatus applies the entql string predicate on the status field.
+func (f *OrganizationFilter) WhereStatus(p entql.StringP) {
+	f.Where(p.Field(organization.FieldStatus))
+}
+
+// WhereOrganizationType applies the entql string predicate on the organization_type field.
+func (f *OrganizationFilter) WhereOrganizationType(p entql.StringP) {
+	f.Where(p.Field(organization.FieldOrganizationType))
+}
+
+// WhereCreditCode applies the entql string predicate on the credit_code field.
+func (f *OrganizationFilter) WhereCreditCode(p entql.StringP) {
+	f.Where(p.Field(organization.FieldCreditCode))
+}
+
+// WhereAddress applies the entql string predicate on the address field.
+func (f *OrganizationFilter) WhereAddress(p entql.StringP) {
+	f.Where(p.Field(organization.FieldAddress))
+}
+
+// WhereBusinessScope applies the entql string predicate on the business_scope field.
+func (f *OrganizationFilter) WhereBusinessScope(p entql.StringP) {
+	f.Where(p.Field(organization.FieldBusinessScope))
+}
+
+// WhereIsLegalEntity applies the entql bool predicate on the is_legal_entity field.
+func (f *OrganizationFilter) WhereIsLegalEntity(p entql.BoolP) {
+	f.Where(p.Field(organization.FieldIsLegalEntity))
+}
+
+// WhereManagerID applies the entql uint32 predicate on the manager_id field.
+func (f *OrganizationFilter) WhereManagerID(p entql.Uint32P) {
+	f.Where(p.Field(organization.FieldManagerID))
 }
 
 // WhereHasParent applies a predicate to check if query has an edge parent.

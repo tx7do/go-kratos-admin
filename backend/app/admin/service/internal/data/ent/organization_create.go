@@ -64,20 +64,6 @@ func (_c *OrganizationCreate) SetNillableDeleteTime(v *time.Time) *OrganizationC
 	return _c
 }
 
-// SetStatus sets the "status" field.
-func (_c *OrganizationCreate) SetStatus(v organization.Status) *OrganizationCreate {
-	_c.mutation.SetStatus(v)
-	return _c
-}
-
-// SetNillableStatus sets the "status" field if the given value is not nil.
-func (_c *OrganizationCreate) SetNillableStatus(v *organization.Status) *OrganizationCreate {
-	if v != nil {
-		_c.SetStatus(*v)
-	}
-	return _c
-}
-
 // SetCreateBy sets the "create_by" field.
 func (_c *OrganizationCreate) SetCreateBy(v uint32) *OrganizationCreate {
 	_c.mutation.SetCreateBy(v)
@@ -176,6 +162,104 @@ func (_c *OrganizationCreate) SetNillableSortID(v *int32) *OrganizationCreate {
 	return _c
 }
 
+// SetStatus sets the "status" field.
+func (_c *OrganizationCreate) SetStatus(v organization.Status) *OrganizationCreate {
+	_c.mutation.SetStatus(v)
+	return _c
+}
+
+// SetNillableStatus sets the "status" field if the given value is not nil.
+func (_c *OrganizationCreate) SetNillableStatus(v *organization.Status) *OrganizationCreate {
+	if v != nil {
+		_c.SetStatus(*v)
+	}
+	return _c
+}
+
+// SetOrganizationType sets the "organization_type" field.
+func (_c *OrganizationCreate) SetOrganizationType(v organization.OrganizationType) *OrganizationCreate {
+	_c.mutation.SetOrganizationType(v)
+	return _c
+}
+
+// SetNillableOrganizationType sets the "organization_type" field if the given value is not nil.
+func (_c *OrganizationCreate) SetNillableOrganizationType(v *organization.OrganizationType) *OrganizationCreate {
+	if v != nil {
+		_c.SetOrganizationType(*v)
+	}
+	return _c
+}
+
+// SetCreditCode sets the "credit_code" field.
+func (_c *OrganizationCreate) SetCreditCode(v string) *OrganizationCreate {
+	_c.mutation.SetCreditCode(v)
+	return _c
+}
+
+// SetNillableCreditCode sets the "credit_code" field if the given value is not nil.
+func (_c *OrganizationCreate) SetNillableCreditCode(v *string) *OrganizationCreate {
+	if v != nil {
+		_c.SetCreditCode(*v)
+	}
+	return _c
+}
+
+// SetAddress sets the "address" field.
+func (_c *OrganizationCreate) SetAddress(v string) *OrganizationCreate {
+	_c.mutation.SetAddress(v)
+	return _c
+}
+
+// SetNillableAddress sets the "address" field if the given value is not nil.
+func (_c *OrganizationCreate) SetNillableAddress(v *string) *OrganizationCreate {
+	if v != nil {
+		_c.SetAddress(*v)
+	}
+	return _c
+}
+
+// SetBusinessScope sets the "business_scope" field.
+func (_c *OrganizationCreate) SetBusinessScope(v string) *OrganizationCreate {
+	_c.mutation.SetBusinessScope(v)
+	return _c
+}
+
+// SetNillableBusinessScope sets the "business_scope" field if the given value is not nil.
+func (_c *OrganizationCreate) SetNillableBusinessScope(v *string) *OrganizationCreate {
+	if v != nil {
+		_c.SetBusinessScope(*v)
+	}
+	return _c
+}
+
+// SetIsLegalEntity sets the "is_legal_entity" field.
+func (_c *OrganizationCreate) SetIsLegalEntity(v bool) *OrganizationCreate {
+	_c.mutation.SetIsLegalEntity(v)
+	return _c
+}
+
+// SetNillableIsLegalEntity sets the "is_legal_entity" field if the given value is not nil.
+func (_c *OrganizationCreate) SetNillableIsLegalEntity(v *bool) *OrganizationCreate {
+	if v != nil {
+		_c.SetIsLegalEntity(*v)
+	}
+	return _c
+}
+
+// SetManagerID sets the "manager_id" field.
+func (_c *OrganizationCreate) SetManagerID(v uint32) *OrganizationCreate {
+	_c.mutation.SetManagerID(v)
+	return _c
+}
+
+// SetNillableManagerID sets the "manager_id" field if the given value is not nil.
+func (_c *OrganizationCreate) SetNillableManagerID(v *uint32) *OrganizationCreate {
+	if v != nil {
+		_c.SetManagerID(*v)
+	}
+	return _c
+}
+
 // SetID sets the "id" field.
 func (_c *OrganizationCreate) SetID(v uint32) *OrganizationCreate {
 	_c.mutation.SetID(v)
@@ -237,17 +321,9 @@ func (_c *OrganizationCreate) ExecX(ctx context.Context) {
 
 // defaults sets the default values of the builder before save.
 func (_c *OrganizationCreate) defaults() {
-	if _, ok := _c.mutation.Status(); !ok {
-		v := organization.DefaultStatus
-		_c.mutation.SetStatus(v)
-	}
 	if _, ok := _c.mutation.Remark(); !ok {
 		v := organization.DefaultRemark
 		_c.mutation.SetRemark(v)
-	}
-	if _, ok := _c.mutation.Name(); !ok {
-		v := organization.DefaultName
-		_c.mutation.SetName(v)
 	}
 	if _, ok := _c.mutation.SortID(); !ok {
 		v := organization.DefaultSortID
@@ -257,14 +333,24 @@ func (_c *OrganizationCreate) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (_c *OrganizationCreate) check() error {
+	if v, ok := _c.mutation.TenantID(); ok {
+		if err := organization.TenantIDValidator(v); err != nil {
+			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "Organization.tenant_id": %w`, err)}
+		}
+	}
+	if v, ok := _c.mutation.Name(); ok {
+		if err := organization.NameValidator(v); err != nil {
+			return &ValidationError{Name: "name", err: fmt.Errorf(`ent: validator failed for field "Organization.name": %w`, err)}
+		}
+	}
 	if v, ok := _c.mutation.Status(); ok {
 		if err := organization.StatusValidator(v); err != nil {
 			return &ValidationError{Name: "status", err: fmt.Errorf(`ent: validator failed for field "Organization.status": %w`, err)}
 		}
 	}
-	if v, ok := _c.mutation.TenantID(); ok {
-		if err := organization.TenantIDValidator(v); err != nil {
-			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "Organization.tenant_id": %w`, err)}
+	if v, ok := _c.mutation.OrganizationType(); ok {
+		if err := organization.OrganizationTypeValidator(v); err != nil {
+			return &ValidationError{Name: "organization_type", err: fmt.Errorf(`ent: validator failed for field "Organization.organization_type": %w`, err)}
 		}
 	}
 	if v, ok := _c.mutation.ID(); ok {
@@ -317,10 +403,6 @@ func (_c *OrganizationCreate) createSpec() (*Organization, *sqlgraph.CreateSpec)
 		_spec.SetField(organization.FieldDeleteTime, field.TypeTime, value)
 		_node.DeleteTime = &value
 	}
-	if value, ok := _c.mutation.Status(); ok {
-		_spec.SetField(organization.FieldStatus, field.TypeEnum, value)
-		_node.Status = &value
-	}
 	if value, ok := _c.mutation.CreateBy(); ok {
 		_spec.SetField(organization.FieldCreateBy, field.TypeUint32, value)
 		_node.CreateBy = &value
@@ -344,6 +426,34 @@ func (_c *OrganizationCreate) createSpec() (*Organization, *sqlgraph.CreateSpec)
 	if value, ok := _c.mutation.SortID(); ok {
 		_spec.SetField(organization.FieldSortID, field.TypeInt32, value)
 		_node.SortID = &value
+	}
+	if value, ok := _c.mutation.Status(); ok {
+		_spec.SetField(organization.FieldStatus, field.TypeEnum, value)
+		_node.Status = &value
+	}
+	if value, ok := _c.mutation.OrganizationType(); ok {
+		_spec.SetField(organization.FieldOrganizationType, field.TypeEnum, value)
+		_node.OrganizationType = &value
+	}
+	if value, ok := _c.mutation.CreditCode(); ok {
+		_spec.SetField(organization.FieldCreditCode, field.TypeString, value)
+		_node.CreditCode = &value
+	}
+	if value, ok := _c.mutation.Address(); ok {
+		_spec.SetField(organization.FieldAddress, field.TypeString, value)
+		_node.Address = &value
+	}
+	if value, ok := _c.mutation.BusinessScope(); ok {
+		_spec.SetField(organization.FieldBusinessScope, field.TypeString, value)
+		_node.BusinessScope = &value
+	}
+	if value, ok := _c.mutation.IsLegalEntity(); ok {
+		_spec.SetField(organization.FieldIsLegalEntity, field.TypeBool, value)
+		_node.IsLegalEntity = &value
+	}
+	if value, ok := _c.mutation.ManagerID(); ok {
+		_spec.SetField(organization.FieldManagerID, field.TypeUint32, value)
+		_node.ManagerID = &value
 	}
 	if nodes := _c.mutation.ParentIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
@@ -463,24 +573,6 @@ func (u *OrganizationUpsert) UpdateDeleteTime() *OrganizationUpsert {
 // ClearDeleteTime clears the value of the "delete_time" field.
 func (u *OrganizationUpsert) ClearDeleteTime() *OrganizationUpsert {
 	u.SetNull(organization.FieldDeleteTime)
-	return u
-}
-
-// SetStatus sets the "status" field.
-func (u *OrganizationUpsert) SetStatus(v organization.Status) *OrganizationUpsert {
-	u.Set(organization.FieldStatus, v)
-	return u
-}
-
-// UpdateStatus sets the "status" field to the value that was provided on create.
-func (u *OrganizationUpsert) UpdateStatus() *OrganizationUpsert {
-	u.SetExcluded(organization.FieldStatus)
-	return u
-}
-
-// ClearStatus clears the value of the "status" field.
-func (u *OrganizationUpsert) ClearStatus() *OrganizationUpsert {
-	u.SetNull(organization.FieldStatus)
 	return u
 }
 
@@ -610,6 +702,138 @@ func (u *OrganizationUpsert) ClearSortID() *OrganizationUpsert {
 	return u
 }
 
+// SetStatus sets the "status" field.
+func (u *OrganizationUpsert) SetStatus(v organization.Status) *OrganizationUpsert {
+	u.Set(organization.FieldStatus, v)
+	return u
+}
+
+// UpdateStatus sets the "status" field to the value that was provided on create.
+func (u *OrganizationUpsert) UpdateStatus() *OrganizationUpsert {
+	u.SetExcluded(organization.FieldStatus)
+	return u
+}
+
+// ClearStatus clears the value of the "status" field.
+func (u *OrganizationUpsert) ClearStatus() *OrganizationUpsert {
+	u.SetNull(organization.FieldStatus)
+	return u
+}
+
+// SetOrganizationType sets the "organization_type" field.
+func (u *OrganizationUpsert) SetOrganizationType(v organization.OrganizationType) *OrganizationUpsert {
+	u.Set(organization.FieldOrganizationType, v)
+	return u
+}
+
+// UpdateOrganizationType sets the "organization_type" field to the value that was provided on create.
+func (u *OrganizationUpsert) UpdateOrganizationType() *OrganizationUpsert {
+	u.SetExcluded(organization.FieldOrganizationType)
+	return u
+}
+
+// ClearOrganizationType clears the value of the "organization_type" field.
+func (u *OrganizationUpsert) ClearOrganizationType() *OrganizationUpsert {
+	u.SetNull(organization.FieldOrganizationType)
+	return u
+}
+
+// SetCreditCode sets the "credit_code" field.
+func (u *OrganizationUpsert) SetCreditCode(v string) *OrganizationUpsert {
+	u.Set(organization.FieldCreditCode, v)
+	return u
+}
+
+// UpdateCreditCode sets the "credit_code" field to the value that was provided on create.
+func (u *OrganizationUpsert) UpdateCreditCode() *OrganizationUpsert {
+	u.SetExcluded(organization.FieldCreditCode)
+	return u
+}
+
+// ClearCreditCode clears the value of the "credit_code" field.
+func (u *OrganizationUpsert) ClearCreditCode() *OrganizationUpsert {
+	u.SetNull(organization.FieldCreditCode)
+	return u
+}
+
+// SetAddress sets the "address" field.
+func (u *OrganizationUpsert) SetAddress(v string) *OrganizationUpsert {
+	u.Set(organization.FieldAddress, v)
+	return u
+}
+
+// UpdateAddress sets the "address" field to the value that was provided on create.
+func (u *OrganizationUpsert) UpdateAddress() *OrganizationUpsert {
+	u.SetExcluded(organization.FieldAddress)
+	return u
+}
+
+// ClearAddress clears the value of the "address" field.
+func (u *OrganizationUpsert) ClearAddress() *OrganizationUpsert {
+	u.SetNull(organization.FieldAddress)
+	return u
+}
+
+// SetBusinessScope sets the "business_scope" field.
+func (u *OrganizationUpsert) SetBusinessScope(v string) *OrganizationUpsert {
+	u.Set(organization.FieldBusinessScope, v)
+	return u
+}
+
+// UpdateBusinessScope sets the "business_scope" field to the value that was provided on create.
+func (u *OrganizationUpsert) UpdateBusinessScope() *OrganizationUpsert {
+	u.SetExcluded(organization.FieldBusinessScope)
+	return u
+}
+
+// ClearBusinessScope clears the value of the "business_scope" field.
+func (u *OrganizationUpsert) ClearBusinessScope() *OrganizationUpsert {
+	u.SetNull(organization.FieldBusinessScope)
+	return u
+}
+
+// SetIsLegalEntity sets the "is_legal_entity" field.
+func (u *OrganizationUpsert) SetIsLegalEntity(v bool) *OrganizationUpsert {
+	u.Set(organization.FieldIsLegalEntity, v)
+	return u
+}
+
+// UpdateIsLegalEntity sets the "is_legal_entity" field to the value that was provided on create.
+func (u *OrganizationUpsert) UpdateIsLegalEntity() *OrganizationUpsert {
+	u.SetExcluded(organization.FieldIsLegalEntity)
+	return u
+}
+
+// ClearIsLegalEntity clears the value of the "is_legal_entity" field.
+func (u *OrganizationUpsert) ClearIsLegalEntity() *OrganizationUpsert {
+	u.SetNull(organization.FieldIsLegalEntity)
+	return u
+}
+
+// SetManagerID sets the "manager_id" field.
+func (u *OrganizationUpsert) SetManagerID(v uint32) *OrganizationUpsert {
+	u.Set(organization.FieldManagerID, v)
+	return u
+}
+
+// UpdateManagerID sets the "manager_id" field to the value that was provided on create.
+func (u *OrganizationUpsert) UpdateManagerID() *OrganizationUpsert {
+	u.SetExcluded(organization.FieldManagerID)
+	return u
+}
+
+// AddManagerID adds v to the "manager_id" field.
+func (u *OrganizationUpsert) AddManagerID(v uint32) *OrganizationUpsert {
+	u.Add(organization.FieldManagerID, v)
+	return u
+}
+
+// ClearManagerID clears the value of the "manager_id" field.
+func (u *OrganizationUpsert) ClearManagerID() *OrganizationUpsert {
+	u.SetNull(organization.FieldManagerID)
+	return u
+}
+
 // UpdateNewValues updates the mutable fields using the new values that were set on create except the ID field.
 // Using this option is equivalent to using:
 //
@@ -703,27 +927,6 @@ func (u *OrganizationUpsertOne) UpdateDeleteTime() *OrganizationUpsertOne {
 func (u *OrganizationUpsertOne) ClearDeleteTime() *OrganizationUpsertOne {
 	return u.Update(func(s *OrganizationUpsert) {
 		s.ClearDeleteTime()
-	})
-}
-
-// SetStatus sets the "status" field.
-func (u *OrganizationUpsertOne) SetStatus(v organization.Status) *OrganizationUpsertOne {
-	return u.Update(func(s *OrganizationUpsert) {
-		s.SetStatus(v)
-	})
-}
-
-// UpdateStatus sets the "status" field to the value that was provided on create.
-func (u *OrganizationUpsertOne) UpdateStatus() *OrganizationUpsertOne {
-	return u.Update(func(s *OrganizationUpsert) {
-		s.UpdateStatus()
-	})
-}
-
-// ClearStatus clears the value of the "status" field.
-func (u *OrganizationUpsertOne) ClearStatus() *OrganizationUpsertOne {
-	return u.Update(func(s *OrganizationUpsert) {
-		s.ClearStatus()
 	})
 }
 
@@ -871,6 +1074,160 @@ func (u *OrganizationUpsertOne) UpdateSortID() *OrganizationUpsertOne {
 func (u *OrganizationUpsertOne) ClearSortID() *OrganizationUpsertOne {
 	return u.Update(func(s *OrganizationUpsert) {
 		s.ClearSortID()
+	})
+}
+
+// SetStatus sets the "status" field.
+func (u *OrganizationUpsertOne) SetStatus(v organization.Status) *OrganizationUpsertOne {
+	return u.Update(func(s *OrganizationUpsert) {
+		s.SetStatus(v)
+	})
+}
+
+// UpdateStatus sets the "status" field to the value that was provided on create.
+func (u *OrganizationUpsertOne) UpdateStatus() *OrganizationUpsertOne {
+	return u.Update(func(s *OrganizationUpsert) {
+		s.UpdateStatus()
+	})
+}
+
+// ClearStatus clears the value of the "status" field.
+func (u *OrganizationUpsertOne) ClearStatus() *OrganizationUpsertOne {
+	return u.Update(func(s *OrganizationUpsert) {
+		s.ClearStatus()
+	})
+}
+
+// SetOrganizationType sets the "organization_type" field.
+func (u *OrganizationUpsertOne) SetOrganizationType(v organization.OrganizationType) *OrganizationUpsertOne {
+	return u.Update(func(s *OrganizationUpsert) {
+		s.SetOrganizationType(v)
+	})
+}
+
+// UpdateOrganizationType sets the "organization_type" field to the value that was provided on create.
+func (u *OrganizationUpsertOne) UpdateOrganizationType() *OrganizationUpsertOne {
+	return u.Update(func(s *OrganizationUpsert) {
+		s.UpdateOrganizationType()
+	})
+}
+
+// ClearOrganizationType clears the value of the "organization_type" field.
+func (u *OrganizationUpsertOne) ClearOrganizationType() *OrganizationUpsertOne {
+	return u.Update(func(s *OrganizationUpsert) {
+		s.ClearOrganizationType()
+	})
+}
+
+// SetCreditCode sets the "credit_code" field.
+func (u *OrganizationUpsertOne) SetCreditCode(v string) *OrganizationUpsertOne {
+	return u.Update(func(s *OrganizationUpsert) {
+		s.SetCreditCode(v)
+	})
+}
+
+// UpdateCreditCode sets the "credit_code" field to the value that was provided on create.
+func (u *OrganizationUpsertOne) UpdateCreditCode() *OrganizationUpsertOne {
+	return u.Update(func(s *OrganizationUpsert) {
+		s.UpdateCreditCode()
+	})
+}
+
+// ClearCreditCode clears the value of the "credit_code" field.
+func (u *OrganizationUpsertOne) ClearCreditCode() *OrganizationUpsertOne {
+	return u.Update(func(s *OrganizationUpsert) {
+		s.ClearCreditCode()
+	})
+}
+
+// SetAddress sets the "address" field.
+func (u *OrganizationUpsertOne) SetAddress(v string) *OrganizationUpsertOne {
+	return u.Update(func(s *OrganizationUpsert) {
+		s.SetAddress(v)
+	})
+}
+
+// UpdateAddress sets the "address" field to the value that was provided on create.
+func (u *OrganizationUpsertOne) UpdateAddress() *OrganizationUpsertOne {
+	return u.Update(func(s *OrganizationUpsert) {
+		s.UpdateAddress()
+	})
+}
+
+// ClearAddress clears the value of the "address" field.
+func (u *OrganizationUpsertOne) ClearAddress() *OrganizationUpsertOne {
+	return u.Update(func(s *OrganizationUpsert) {
+		s.ClearAddress()
+	})
+}
+
+// SetBusinessScope sets the "business_scope" field.
+func (u *OrganizationUpsertOne) SetBusinessScope(v string) *OrganizationUpsertOne {
+	return u.Update(func(s *OrganizationUpsert) {
+		s.SetBusinessScope(v)
+	})
+}
+
+// UpdateBusinessScope sets the "business_scope" field to the value that was provided on create.
+func (u *OrganizationUpsertOne) UpdateBusinessScope() *OrganizationUpsertOne {
+	return u.Update(func(s *OrganizationUpsert) {
+		s.UpdateBusinessScope()
+	})
+}
+
+// ClearBusinessScope clears the value of the "business_scope" field.
+func (u *OrganizationUpsertOne) ClearBusinessScope() *OrganizationUpsertOne {
+	return u.Update(func(s *OrganizationUpsert) {
+		s.ClearBusinessScope()
+	})
+}
+
+// SetIsLegalEntity sets the "is_legal_entity" field.
+func (u *OrganizationUpsertOne) SetIsLegalEntity(v bool) *OrganizationUpsertOne {
+	return u.Update(func(s *OrganizationUpsert) {
+		s.SetIsLegalEntity(v)
+	})
+}
+
+// UpdateIsLegalEntity sets the "is_legal_entity" field to the value that was provided on create.
+func (u *OrganizationUpsertOne) UpdateIsLegalEntity() *OrganizationUpsertOne {
+	return u.Update(func(s *OrganizationUpsert) {
+		s.UpdateIsLegalEntity()
+	})
+}
+
+// ClearIsLegalEntity clears the value of the "is_legal_entity" field.
+func (u *OrganizationUpsertOne) ClearIsLegalEntity() *OrganizationUpsertOne {
+	return u.Update(func(s *OrganizationUpsert) {
+		s.ClearIsLegalEntity()
+	})
+}
+
+// SetManagerID sets the "manager_id" field.
+func (u *OrganizationUpsertOne) SetManagerID(v uint32) *OrganizationUpsertOne {
+	return u.Update(func(s *OrganizationUpsert) {
+		s.SetManagerID(v)
+	})
+}
+
+// AddManagerID adds v to the "manager_id" field.
+func (u *OrganizationUpsertOne) AddManagerID(v uint32) *OrganizationUpsertOne {
+	return u.Update(func(s *OrganizationUpsert) {
+		s.AddManagerID(v)
+	})
+}
+
+// UpdateManagerID sets the "manager_id" field to the value that was provided on create.
+func (u *OrganizationUpsertOne) UpdateManagerID() *OrganizationUpsertOne {
+	return u.Update(func(s *OrganizationUpsert) {
+		s.UpdateManagerID()
+	})
+}
+
+// ClearManagerID clears the value of the "manager_id" field.
+func (u *OrganizationUpsertOne) ClearManagerID() *OrganizationUpsertOne {
+	return u.Update(func(s *OrganizationUpsert) {
+		s.ClearManagerID()
 	})
 }
 
@@ -1136,27 +1493,6 @@ func (u *OrganizationUpsertBulk) ClearDeleteTime() *OrganizationUpsertBulk {
 	})
 }
 
-// SetStatus sets the "status" field.
-func (u *OrganizationUpsertBulk) SetStatus(v organization.Status) *OrganizationUpsertBulk {
-	return u.Update(func(s *OrganizationUpsert) {
-		s.SetStatus(v)
-	})
-}
-
-// UpdateStatus sets the "status" field to the value that was provided on create.
-func (u *OrganizationUpsertBulk) UpdateStatus() *OrganizationUpsertBulk {
-	return u.Update(func(s *OrganizationUpsert) {
-		s.UpdateStatus()
-	})
-}
-
-// ClearStatus clears the value of the "status" field.
-func (u *OrganizationUpsertBulk) ClearStatus() *OrganizationUpsertBulk {
-	return u.Update(func(s *OrganizationUpsert) {
-		s.ClearStatus()
-	})
-}
-
 // SetCreateBy sets the "create_by" field.
 func (u *OrganizationUpsertBulk) SetCreateBy(v uint32) *OrganizationUpsertBulk {
 	return u.Update(func(s *OrganizationUpsert) {
@@ -1301,6 +1637,160 @@ func (u *OrganizationUpsertBulk) UpdateSortID() *OrganizationUpsertBulk {
 func (u *OrganizationUpsertBulk) ClearSortID() *OrganizationUpsertBulk {
 	return u.Update(func(s *OrganizationUpsert) {
 		s.ClearSortID()
+	})
+}
+
+// SetStatus sets the "status" field.
+func (u *OrganizationUpsertBulk) SetStatus(v organization.Status) *OrganizationUpsertBulk {
+	return u.Update(func(s *OrganizationUpsert) {
+		s.SetStatus(v)
+	})
+}
+
+// UpdateStatus sets the "status" field to the value that was provided on create.
+func (u *OrganizationUpsertBulk) UpdateStatus() *OrganizationUpsertBulk {
+	return u.Update(func(s *OrganizationUpsert) {
+		s.UpdateStatus()
+	})
+}
+
+// ClearStatus clears the value of the "status" field.
+func (u *OrganizationUpsertBulk) ClearStatus() *OrganizationUpsertBulk {
+	return u.Update(func(s *OrganizationUpsert) {
+		s.ClearStatus()
+	})
+}
+
+// SetOrganizationType sets the "organization_type" field.
+func (u *OrganizationUpsertBulk) SetOrganizationType(v organization.OrganizationType) *OrganizationUpsertBulk {
+	return u.Update(func(s *OrganizationUpsert) {
+		s.SetOrganizationType(v)
+	})
+}
+
+// UpdateOrganizationType sets the "organization_type" field to the value that was provided on create.
+func (u *OrganizationUpsertBulk) UpdateOrganizationType() *OrganizationUpsertBulk {
+	return u.Update(func(s *OrganizationUpsert) {
+		s.UpdateOrganizationType()
+	})
+}
+
+// ClearOrganizationType clears the value of the "organization_type" field.
+func (u *OrganizationUpsertBulk) ClearOrganizationType() *OrganizationUpsertBulk {
+	return u.Update(func(s *OrganizationUpsert) {
+		s.ClearOrganizationType()
+	})
+}
+
+// SetCreditCode sets the "credit_code" field.
+func (u *OrganizationUpsertBulk) SetCreditCode(v string) *OrganizationUpsertBulk {
+	return u.Update(func(s *OrganizationUpsert) {
+		s.SetCreditCode(v)
+	})
+}
+
+// UpdateCreditCode sets the "credit_code" field to the value that was provided on create.
+func (u *OrganizationUpsertBulk) UpdateCreditCode() *OrganizationUpsertBulk {
+	return u.Update(func(s *OrganizationUpsert) {
+		s.UpdateCreditCode()
+	})
+}
+
+// ClearCreditCode clears the value of the "credit_code" field.
+func (u *OrganizationUpsertBulk) ClearCreditCode() *OrganizationUpsertBulk {
+	return u.Update(func(s *OrganizationUpsert) {
+		s.ClearCreditCode()
+	})
+}
+
+// SetAddress sets the "address" field.
+func (u *OrganizationUpsertBulk) SetAddress(v string) *OrganizationUpsertBulk {
+	return u.Update(func(s *OrganizationUpsert) {
+		s.SetAddress(v)
+	})
+}
+
+// UpdateAddress sets the "address" field to the value that was provided on create.
+func (u *OrganizationUpsertBulk) UpdateAddress() *OrganizationUpsertBulk {
+	return u.Update(func(s *OrganizationUpsert) {
+		s.UpdateAddress()
+	})
+}
+
+// ClearAddress clears the value of the "address" field.
+func (u *OrganizationUpsertBulk) ClearAddress() *OrganizationUpsertBulk {
+	return u.Update(func(s *OrganizationUpsert) {
+		s.ClearAddress()
+	})
+}
+
+// SetBusinessScope sets the "business_scope" field.
+func (u *OrganizationUpsertBulk) SetBusinessScope(v string) *OrganizationUpsertBulk {
+	return u.Update(func(s *OrganizationUpsert) {
+		s.SetBusinessScope(v)
+	})
+}
+
+// UpdateBusinessScope sets the "business_scope" field to the value that was provided on create.
+func (u *OrganizationUpsertBulk) UpdateBusinessScope() *OrganizationUpsertBulk {
+	return u.Update(func(s *OrganizationUpsert) {
+		s.UpdateBusinessScope()
+	})
+}
+
+// ClearBusinessScope clears the value of the "business_scope" field.
+func (u *OrganizationUpsertBulk) ClearBusinessScope() *OrganizationUpsertBulk {
+	return u.Update(func(s *OrganizationUpsert) {
+		s.ClearBusinessScope()
+	})
+}
+
+// SetIsLegalEntity sets the "is_legal_entity" field.
+func (u *OrganizationUpsertBulk) SetIsLegalEntity(v bool) *OrganizationUpsertBulk {
+	return u.Update(func(s *OrganizationUpsert) {
+		s.SetIsLegalEntity(v)
+	})
+}
+
+// UpdateIsLegalEntity sets the "is_legal_entity" field to the value that was provided on create.
+func (u *OrganizationUpsertBulk) UpdateIsLegalEntity() *OrganizationUpsertBulk {
+	return u.Update(func(s *OrganizationUpsert) {
+		s.UpdateIsLegalEntity()
+	})
+}
+
+// ClearIsLegalEntity clears the value of the "is_legal_entity" field.
+func (u *OrganizationUpsertBulk) ClearIsLegalEntity() *OrganizationUpsertBulk {
+	return u.Update(func(s *OrganizationUpsert) {
+		s.ClearIsLegalEntity()
+	})
+}
+
+// SetManagerID sets the "manager_id" field.
+func (u *OrganizationUpsertBulk) SetManagerID(v uint32) *OrganizationUpsertBulk {
+	return u.Update(func(s *OrganizationUpsert) {
+		s.SetManagerID(v)
+	})
+}
+
+// AddManagerID adds v to the "manager_id" field.
+func (u *OrganizationUpsertBulk) AddManagerID(v uint32) *OrganizationUpsertBulk {
+	return u.Update(func(s *OrganizationUpsert) {
+		s.AddManagerID(v)
+	})
+}
+
+// UpdateManagerID sets the "manager_id" field to the value that was provided on create.
+func (u *OrganizationUpsertBulk) UpdateManagerID() *OrganizationUpsertBulk {
+	return u.Update(func(s *OrganizationUpsert) {
+		s.UpdateManagerID()
+	})
+}
+
+// ClearManagerID clears the value of the "manager_id" field.
+func (u *OrganizationUpsertBulk) ClearManagerID() *OrganizationUpsertBulk {
+	return u.Update(func(s *OrganizationUpsert) {
+		s.ClearManagerID()
 	})
 }
 

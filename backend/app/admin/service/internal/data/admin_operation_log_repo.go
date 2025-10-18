@@ -44,6 +44,7 @@ func NewAdminOperationLogRepo(data *Data, logger log.Logger) *AdminOperationLogR
 func (r *AdminOperationLogRepo) init() {
 	r.mapper.AppendConverters(copierutil.NewTimeStringConverterPair())
 	r.mapper.AppendConverters(copierutil.NewTimeTimestamppbConverterPair())
+
 	r.mapper.AppendConverters(r.NewFloatSecondConverterPair())
 }
 

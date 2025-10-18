@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import type { VxeGridProps } from '#/adapter/vxe-table';
-import type { Organization } from '#/generated/api/user/service/v1/organization.pb';
 
 import { h } from 'vue';
 
@@ -10,8 +9,18 @@ import { LucideFilePenLine, LucideTrash2 } from '@vben/icons';
 import { notification } from 'ant-design-vue';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
+import {
+  type Organization,
+  OrganizationStatus,
+} from '#/generated/api/user/service/v1/organization.pb';
 import { $t } from '#/locales';
-import { statusList, useOrganizationStore } from '#/stores';
+import {
+  organizationTypeListForQuery,
+  organizationTypeToColor,
+  organizationTypeToName,
+  statusList,
+  useOrganizationStore,
+} from '#/stores';
 
 import OrgDrawer from './org-drawer.vue';
 
@@ -40,6 +49,16 @@ const formOptions: VbenFormProps = {
       label: $t('ui.table.status'),
       componentProps: {
         options: statusList,
+        placeholder: $t('ui.placeholder.select'),
+        allowClear: true,
+      },
+    },
+    {
+      component: 'Select',
+      fieldName: 'organizationType',
+      label: $t('page.org.organizationType'),
+      componentProps: {
+        options: organizationTypeListForQuery,
         placeholder: $t('ui.placeholder.select'),
         allowClear: true,
       },
@@ -88,6 +107,14 @@ const gridOptions: VxeGridProps<Organization> = {
   columns: [
     { title: $t('ui.table.seq'), type: 'seq', width: 50 },
     { title: $t('page.org.name'), field: 'name', treeNode: true },
+    { title: $t('page.org.businessScope'), field: 'businessScope' },
+    {
+      title: $t('page.org.organizationType'),
+      field: 'organizationType',
+      slots: { default: 'organizationType' },
+      width: 95,
+    },
+    { title: $t('page.dept.managerName'), field: 'managerName' },
     { title: $t('ui.table.sortId'), field: 'sortId', width: 70 },
     {
       title: $t('ui.table.status'),
@@ -173,7 +200,9 @@ async function handleStatusChanged(row: any, checked: boolean) {
   console.log('handleStatusChanged', row.status, checked);
 
   row.pending = true;
-  row.status = checked ? 'ON' : 'OFF';
+  row.status = checked
+    ? OrganizationStatus.ORGANIZATION_STATUS_ON
+    : OrganizationStatus.ORGANIZATION_STATUS_OFF;
 
   try {
     await orgStore.updateOrganization(row.id, { status: row.status });
@@ -215,7 +244,7 @@ const collapseAll = () => {
       </template>
       <template #status="{ row }">
         <a-switch
-          :checked="row.status === 'ON'"
+          :checked="row.status === OrganizationStatus.ORGANIZATION_STATUS_ON"
           :loading="row.pending"
           :checked-children="$t('ui.switch.active')"
           :un-checked-children="$t('ui.switch.inactive')"
@@ -223,6 +252,11 @@ const collapseAll = () => {
             (checked: any) => handleStatusChanged(row, checked as boolean)
           "
         />
+      </template>
+      <template #organizationType="{ row }">
+        <a-tag :color="organizationTypeToColor(row.organizationType)">
+          {{ organizationTypeToName(row.organizationType) }}
+        </a-tag>
       </template>
       <template #action="{ row }">
         <a-button

@@ -64,20 +64,6 @@ func (_c *DepartmentCreate) SetNillableDeleteTime(v *time.Time) *DepartmentCreat
 	return _c
 }
 
-// SetStatus sets the "status" field.
-func (_c *DepartmentCreate) SetStatus(v department.Status) *DepartmentCreate {
-	_c.mutation.SetStatus(v)
-	return _c
-}
-
-// SetNillableStatus sets the "status" field if the given value is not nil.
-func (_c *DepartmentCreate) SetNillableStatus(v *department.Status) *DepartmentCreate {
-	if v != nil {
-		_c.SetStatus(*v)
-	}
-	return _c
-}
-
 // SetCreateBy sets the "create_by" field.
 func (_c *DepartmentCreate) SetCreateBy(v uint32) *DepartmentCreate {
 	_c.mutation.SetCreateBy(v)
@@ -168,14 +154,6 @@ func (_c *DepartmentCreate) SetOrganizationID(v uint32) *DepartmentCreate {
 	return _c
 }
 
-// SetNillableOrganizationID sets the "organization_id" field if the given value is not nil.
-func (_c *DepartmentCreate) SetNillableOrganizationID(v *uint32) *DepartmentCreate {
-	if v != nil {
-		_c.SetOrganizationID(*v)
-	}
-	return _c
-}
-
 // SetSortID sets the "sort_id" field.
 func (_c *DepartmentCreate) SetSortID(v int32) *DepartmentCreate {
 	_c.mutation.SetSortID(v)
@@ -186,6 +164,48 @@ func (_c *DepartmentCreate) SetSortID(v int32) *DepartmentCreate {
 func (_c *DepartmentCreate) SetNillableSortID(v *int32) *DepartmentCreate {
 	if v != nil {
 		_c.SetSortID(*v)
+	}
+	return _c
+}
+
+// SetStatus sets the "status" field.
+func (_c *DepartmentCreate) SetStatus(v department.Status) *DepartmentCreate {
+	_c.mutation.SetStatus(v)
+	return _c
+}
+
+// SetNillableStatus sets the "status" field if the given value is not nil.
+func (_c *DepartmentCreate) SetNillableStatus(v *department.Status) *DepartmentCreate {
+	if v != nil {
+		_c.SetStatus(*v)
+	}
+	return _c
+}
+
+// SetDescription sets the "description" field.
+func (_c *DepartmentCreate) SetDescription(v string) *DepartmentCreate {
+	_c.mutation.SetDescription(v)
+	return _c
+}
+
+// SetNillableDescription sets the "description" field if the given value is not nil.
+func (_c *DepartmentCreate) SetNillableDescription(v *string) *DepartmentCreate {
+	if v != nil {
+		_c.SetDescription(*v)
+	}
+	return _c
+}
+
+// SetManagerID sets the "manager_id" field.
+func (_c *DepartmentCreate) SetManagerID(v uint32) *DepartmentCreate {
+	_c.mutation.SetManagerID(v)
+	return _c
+}
+
+// SetNillableManagerID sets the "manager_id" field if the given value is not nil.
+func (_c *DepartmentCreate) SetNillableManagerID(v *uint32) *DepartmentCreate {
+	if v != nil {
+		_c.SetManagerID(*v)
 	}
 	return _c
 }
@@ -251,17 +271,9 @@ func (_c *DepartmentCreate) ExecX(ctx context.Context) {
 
 // defaults sets the default values of the builder before save.
 func (_c *DepartmentCreate) defaults() {
-	if _, ok := _c.mutation.Status(); !ok {
-		v := department.DefaultStatus
-		_c.mutation.SetStatus(v)
-	}
 	if _, ok := _c.mutation.Remark(); !ok {
 		v := department.DefaultRemark
 		_c.mutation.SetRemark(v)
-	}
-	if _, ok := _c.mutation.Name(); !ok {
-		v := department.DefaultName
-		_c.mutation.SetName(v)
 	}
 	if _, ok := _c.mutation.SortID(); !ok {
 		v := department.DefaultSortID
@@ -271,14 +283,22 @@ func (_c *DepartmentCreate) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (_c *DepartmentCreate) check() error {
-	if v, ok := _c.mutation.Status(); ok {
-		if err := department.StatusValidator(v); err != nil {
-			return &ValidationError{Name: "status", err: fmt.Errorf(`ent: validator failed for field "Department.status": %w`, err)}
-		}
-	}
 	if v, ok := _c.mutation.TenantID(); ok {
 		if err := department.TenantIDValidator(v); err != nil {
 			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "Department.tenant_id": %w`, err)}
+		}
+	}
+	if v, ok := _c.mutation.Name(); ok {
+		if err := department.NameValidator(v); err != nil {
+			return &ValidationError{Name: "name", err: fmt.Errorf(`ent: validator failed for field "Department.name": %w`, err)}
+		}
+	}
+	if _, ok := _c.mutation.OrganizationID(); !ok {
+		return &ValidationError{Name: "organization_id", err: errors.New(`ent: missing required field "Department.organization_id"`)}
+	}
+	if v, ok := _c.mutation.Status(); ok {
+		if err := department.StatusValidator(v); err != nil {
+			return &ValidationError{Name: "status", err: fmt.Errorf(`ent: validator failed for field "Department.status": %w`, err)}
 		}
 	}
 	if v, ok := _c.mutation.ID(); ok {
@@ -331,10 +351,6 @@ func (_c *DepartmentCreate) createSpec() (*Department, *sqlgraph.CreateSpec) {
 		_spec.SetField(department.FieldDeleteTime, field.TypeTime, value)
 		_node.DeleteTime = &value
 	}
-	if value, ok := _c.mutation.Status(); ok {
-		_spec.SetField(department.FieldStatus, field.TypeEnum, value)
-		_node.Status = &value
-	}
 	if value, ok := _c.mutation.CreateBy(); ok {
 		_spec.SetField(department.FieldCreateBy, field.TypeUint32, value)
 		_node.CreateBy = &value
@@ -362,6 +378,18 @@ func (_c *DepartmentCreate) createSpec() (*Department, *sqlgraph.CreateSpec) {
 	if value, ok := _c.mutation.SortID(); ok {
 		_spec.SetField(department.FieldSortID, field.TypeInt32, value)
 		_node.SortID = &value
+	}
+	if value, ok := _c.mutation.Status(); ok {
+		_spec.SetField(department.FieldStatus, field.TypeEnum, value)
+		_node.Status = &value
+	}
+	if value, ok := _c.mutation.Description(); ok {
+		_spec.SetField(department.FieldDescription, field.TypeString, value)
+		_node.Description = &value
+	}
+	if value, ok := _c.mutation.ManagerID(); ok {
+		_spec.SetField(department.FieldManagerID, field.TypeUint32, value)
+		_node.ManagerID = &value
 	}
 	if nodes := _c.mutation.ParentIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
@@ -481,24 +509,6 @@ func (u *DepartmentUpsert) UpdateDeleteTime() *DepartmentUpsert {
 // ClearDeleteTime clears the value of the "delete_time" field.
 func (u *DepartmentUpsert) ClearDeleteTime() *DepartmentUpsert {
 	u.SetNull(department.FieldDeleteTime)
-	return u
-}
-
-// SetStatus sets the "status" field.
-func (u *DepartmentUpsert) SetStatus(v department.Status) *DepartmentUpsert {
-	u.Set(department.FieldStatus, v)
-	return u
-}
-
-// UpdateStatus sets the "status" field to the value that was provided on create.
-func (u *DepartmentUpsert) UpdateStatus() *DepartmentUpsert {
-	u.SetExcluded(department.FieldStatus)
-	return u
-}
-
-// ClearStatus clears the value of the "status" field.
-func (u *DepartmentUpsert) ClearStatus() *DepartmentUpsert {
-	u.SetNull(department.FieldStatus)
 	return u
 }
 
@@ -622,12 +632,6 @@ func (u *DepartmentUpsert) AddOrganizationID(v uint32) *DepartmentUpsert {
 	return u
 }
 
-// ClearOrganizationID clears the value of the "organization_id" field.
-func (u *DepartmentUpsert) ClearOrganizationID() *DepartmentUpsert {
-	u.SetNull(department.FieldOrganizationID)
-	return u
-}
-
 // SetSortID sets the "sort_id" field.
 func (u *DepartmentUpsert) SetSortID(v int32) *DepartmentUpsert {
 	u.Set(department.FieldSortID, v)
@@ -649,6 +653,66 @@ func (u *DepartmentUpsert) AddSortID(v int32) *DepartmentUpsert {
 // ClearSortID clears the value of the "sort_id" field.
 func (u *DepartmentUpsert) ClearSortID() *DepartmentUpsert {
 	u.SetNull(department.FieldSortID)
+	return u
+}
+
+// SetStatus sets the "status" field.
+func (u *DepartmentUpsert) SetStatus(v department.Status) *DepartmentUpsert {
+	u.Set(department.FieldStatus, v)
+	return u
+}
+
+// UpdateStatus sets the "status" field to the value that was provided on create.
+func (u *DepartmentUpsert) UpdateStatus() *DepartmentUpsert {
+	u.SetExcluded(department.FieldStatus)
+	return u
+}
+
+// ClearStatus clears the value of the "status" field.
+func (u *DepartmentUpsert) ClearStatus() *DepartmentUpsert {
+	u.SetNull(department.FieldStatus)
+	return u
+}
+
+// SetDescription sets the "description" field.
+func (u *DepartmentUpsert) SetDescription(v string) *DepartmentUpsert {
+	u.Set(department.FieldDescription, v)
+	return u
+}
+
+// UpdateDescription sets the "description" field to the value that was provided on create.
+func (u *DepartmentUpsert) UpdateDescription() *DepartmentUpsert {
+	u.SetExcluded(department.FieldDescription)
+	return u
+}
+
+// ClearDescription clears the value of the "description" field.
+func (u *DepartmentUpsert) ClearDescription() *DepartmentUpsert {
+	u.SetNull(department.FieldDescription)
+	return u
+}
+
+// SetManagerID sets the "manager_id" field.
+func (u *DepartmentUpsert) SetManagerID(v uint32) *DepartmentUpsert {
+	u.Set(department.FieldManagerID, v)
+	return u
+}
+
+// UpdateManagerID sets the "manager_id" field to the value that was provided on create.
+func (u *DepartmentUpsert) UpdateManagerID() *DepartmentUpsert {
+	u.SetExcluded(department.FieldManagerID)
+	return u
+}
+
+// AddManagerID adds v to the "manager_id" field.
+func (u *DepartmentUpsert) AddManagerID(v uint32) *DepartmentUpsert {
+	u.Add(department.FieldManagerID, v)
+	return u
+}
+
+// ClearManagerID clears the value of the "manager_id" field.
+func (u *DepartmentUpsert) ClearManagerID() *DepartmentUpsert {
+	u.SetNull(department.FieldManagerID)
 	return u
 }
 
@@ -745,27 +809,6 @@ func (u *DepartmentUpsertOne) UpdateDeleteTime() *DepartmentUpsertOne {
 func (u *DepartmentUpsertOne) ClearDeleteTime() *DepartmentUpsertOne {
 	return u.Update(func(s *DepartmentUpsert) {
 		s.ClearDeleteTime()
-	})
-}
-
-// SetStatus sets the "status" field.
-func (u *DepartmentUpsertOne) SetStatus(v department.Status) *DepartmentUpsertOne {
-	return u.Update(func(s *DepartmentUpsert) {
-		s.SetStatus(v)
-	})
-}
-
-// UpdateStatus sets the "status" field to the value that was provided on create.
-func (u *DepartmentUpsertOne) UpdateStatus() *DepartmentUpsertOne {
-	return u.Update(func(s *DepartmentUpsert) {
-		s.UpdateStatus()
-	})
-}
-
-// ClearStatus clears the value of the "status" field.
-func (u *DepartmentUpsertOne) ClearStatus() *DepartmentUpsertOne {
-	return u.Update(func(s *DepartmentUpsert) {
-		s.ClearStatus()
 	})
 }
 
@@ -909,13 +952,6 @@ func (u *DepartmentUpsertOne) UpdateOrganizationID() *DepartmentUpsertOne {
 	})
 }
 
-// ClearOrganizationID clears the value of the "organization_id" field.
-func (u *DepartmentUpsertOne) ClearOrganizationID() *DepartmentUpsertOne {
-	return u.Update(func(s *DepartmentUpsert) {
-		s.ClearOrganizationID()
-	})
-}
-
 // SetSortID sets the "sort_id" field.
 func (u *DepartmentUpsertOne) SetSortID(v int32) *DepartmentUpsertOne {
 	return u.Update(func(s *DepartmentUpsert) {
@@ -941,6 +977,76 @@ func (u *DepartmentUpsertOne) UpdateSortID() *DepartmentUpsertOne {
 func (u *DepartmentUpsertOne) ClearSortID() *DepartmentUpsertOne {
 	return u.Update(func(s *DepartmentUpsert) {
 		s.ClearSortID()
+	})
+}
+
+// SetStatus sets the "status" field.
+func (u *DepartmentUpsertOne) SetStatus(v department.Status) *DepartmentUpsertOne {
+	return u.Update(func(s *DepartmentUpsert) {
+		s.SetStatus(v)
+	})
+}
+
+// UpdateStatus sets the "status" field to the value that was provided on create.
+func (u *DepartmentUpsertOne) UpdateStatus() *DepartmentUpsertOne {
+	return u.Update(func(s *DepartmentUpsert) {
+		s.UpdateStatus()
+	})
+}
+
+// ClearStatus clears the value of the "status" field.
+func (u *DepartmentUpsertOne) ClearStatus() *DepartmentUpsertOne {
+	return u.Update(func(s *DepartmentUpsert) {
+		s.ClearStatus()
+	})
+}
+
+// SetDescription sets the "description" field.
+func (u *DepartmentUpsertOne) SetDescription(v string) *DepartmentUpsertOne {
+	return u.Update(func(s *DepartmentUpsert) {
+		s.SetDescription(v)
+	})
+}
+
+// UpdateDescription sets the "description" field to the value that was provided on create.
+func (u *DepartmentUpsertOne) UpdateDescription() *DepartmentUpsertOne {
+	return u.Update(func(s *DepartmentUpsert) {
+		s.UpdateDescription()
+	})
+}
+
+// ClearDescription clears the value of the "description" field.
+func (u *DepartmentUpsertOne) ClearDescription() *DepartmentUpsertOne {
+	return u.Update(func(s *DepartmentUpsert) {
+		s.ClearDescription()
+	})
+}
+
+// SetManagerID sets the "manager_id" field.
+func (u *DepartmentUpsertOne) SetManagerID(v uint32) *DepartmentUpsertOne {
+	return u.Update(func(s *DepartmentUpsert) {
+		s.SetManagerID(v)
+	})
+}
+
+// AddManagerID adds v to the "manager_id" field.
+func (u *DepartmentUpsertOne) AddManagerID(v uint32) *DepartmentUpsertOne {
+	return u.Update(func(s *DepartmentUpsert) {
+		s.AddManagerID(v)
+	})
+}
+
+// UpdateManagerID sets the "manager_id" field to the value that was provided on create.
+func (u *DepartmentUpsertOne) UpdateManagerID() *DepartmentUpsertOne {
+	return u.Update(func(s *DepartmentUpsert) {
+		s.UpdateManagerID()
+	})
+}
+
+// ClearManagerID clears the value of the "manager_id" field.
+func (u *DepartmentUpsertOne) ClearManagerID() *DepartmentUpsertOne {
+	return u.Update(func(s *DepartmentUpsert) {
+		s.ClearManagerID()
 	})
 }
 
@@ -1206,27 +1312,6 @@ func (u *DepartmentUpsertBulk) ClearDeleteTime() *DepartmentUpsertBulk {
 	})
 }
 
-// SetStatus sets the "status" field.
-func (u *DepartmentUpsertBulk) SetStatus(v department.Status) *DepartmentUpsertBulk {
-	return u.Update(func(s *DepartmentUpsert) {
-		s.SetStatus(v)
-	})
-}
-
-// UpdateStatus sets the "status" field to the value that was provided on create.
-func (u *DepartmentUpsertBulk) UpdateStatus() *DepartmentUpsertBulk {
-	return u.Update(func(s *DepartmentUpsert) {
-		s.UpdateStatus()
-	})
-}
-
-// ClearStatus clears the value of the "status" field.
-func (u *DepartmentUpsertBulk) ClearStatus() *DepartmentUpsertBulk {
-	return u.Update(func(s *DepartmentUpsert) {
-		s.ClearStatus()
-	})
-}
-
 // SetCreateBy sets the "create_by" field.
 func (u *DepartmentUpsertBulk) SetCreateBy(v uint32) *DepartmentUpsertBulk {
 	return u.Update(func(s *DepartmentUpsert) {
@@ -1367,13 +1452,6 @@ func (u *DepartmentUpsertBulk) UpdateOrganizationID() *DepartmentUpsertBulk {
 	})
 }
 
-// ClearOrganizationID clears the value of the "organization_id" field.
-func (u *DepartmentUpsertBulk) ClearOrganizationID() *DepartmentUpsertBulk {
-	return u.Update(func(s *DepartmentUpsert) {
-		s.ClearOrganizationID()
-	})
-}
-
 // SetSortID sets the "sort_id" field.
 func (u *DepartmentUpsertBulk) SetSortID(v int32) *DepartmentUpsertBulk {
 	return u.Update(func(s *DepartmentUpsert) {
@@ -1399,6 +1477,76 @@ func (u *DepartmentUpsertBulk) UpdateSortID() *DepartmentUpsertBulk {
 func (u *DepartmentUpsertBulk) ClearSortID() *DepartmentUpsertBulk {
 	return u.Update(func(s *DepartmentUpsert) {
 		s.ClearSortID()
+	})
+}
+
+// SetStatus sets the "status" field.
+func (u *DepartmentUpsertBulk) SetStatus(v department.Status) *DepartmentUpsertBulk {
+	return u.Update(func(s *DepartmentUpsert) {
+		s.SetStatus(v)
+	})
+}
+
+// UpdateStatus sets the "status" field to the value that was provided on create.
+func (u *DepartmentUpsertBulk) UpdateStatus() *DepartmentUpsertBulk {
+	return u.Update(func(s *DepartmentUpsert) {
+		s.UpdateStatus()
+	})
+}
+
+// ClearStatus clears the value of the "status" field.
+func (u *DepartmentUpsertBulk) ClearStatus() *DepartmentUpsertBulk {
+	return u.Update(func(s *DepartmentUpsert) {
+		s.ClearStatus()
+	})
+}
+
+// SetDescription sets the "description" field.
+func (u *DepartmentUpsertBulk) SetDescription(v string) *DepartmentUpsertBulk {
+	return u.Update(func(s *DepartmentUpsert) {
+		s.SetDescription(v)
+	})
+}
+
+// UpdateDescription sets the "description" field to the value that was provided on create.
+func (u *DepartmentUpsertBulk) UpdateDescription() *DepartmentUpsertBulk {
+	return u.Update(func(s *DepartmentUpsert) {
+		s.UpdateDescription()
+	})
+}
+
+// ClearDescription clears the value of the "description" field.
+func (u *DepartmentUpsertBulk) ClearDescription() *DepartmentUpsertBulk {
+	return u.Update(func(s *DepartmentUpsert) {
+		s.ClearDescription()
+	})
+}
+
+// SetManagerID sets the "manager_id" field.
+func (u *DepartmentUpsertBulk) SetManagerID(v uint32) *DepartmentUpsertBulk {
+	return u.Update(func(s *DepartmentUpsert) {
+		s.SetManagerID(v)
+	})
+}
+
+// AddManagerID adds v to the "manager_id" field.
+func (u *DepartmentUpsertBulk) AddManagerID(v uint32) *DepartmentUpsertBulk {
+	return u.Update(func(s *DepartmentUpsert) {
+		s.AddManagerID(v)
+	})
+}
+
+// UpdateManagerID sets the "manager_id" field to the value that was provided on create.
+func (u *DepartmentUpsertBulk) UpdateManagerID() *DepartmentUpsertBulk {
+	return u.Update(func(s *DepartmentUpsert) {
+		s.UpdateManagerID()
+	})
+}
+
+// ClearManagerID clears the value of the "manager_id" field.
+func (u *DepartmentUpsertBulk) ClearManagerID() *DepartmentUpsertBulk {
+	return u.Update(func(s *DepartmentUpsert) {
+		s.ClearManagerID()
 	})
 }
 

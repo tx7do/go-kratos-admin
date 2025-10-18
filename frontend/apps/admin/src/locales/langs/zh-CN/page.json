@@ -63,14 +63,6 @@
       "create": "创建角色"
     }
   },
-  "dept": {
-    "moduleName": "部门",
-    "name": "部门名称",
-    "parentId": "上级部门",
-    "button": {
-      "create": "创建部门"
-    }
-  },
   "dict": {
     "moduleName": "字典",
     "key": "字典键",
@@ -101,8 +93,29 @@
     "moduleName": "组织",
     "name": "组织名称",
     "parentId": "上级组织",
+    "organizationType": "组织类型",
+    "isLegalEntity": "是否法人实体",
+    "businessScope": "核心业务范围",
+    "creditCode": "统一社会信用代码",
+    "address": "注册地址",
+    "managerId": "负责人ID",
+    "managerName": "负责人名称",
     "button": {
       "create": "创建组织"
+    }
+  },
+  "dept": {
+    "moduleName": "部门",
+    "name": "部门名称",
+    "parentId": "上级部门",
+    "managerId": "负责人ID",
+    "managerName": "负责人名称",
+    "description": "职能描述",
+    "organization": "所属组织",
+    "organizationId": "所属组织ID",
+    "organizationName": "所属组织名称",
+    "button": {
+      "create": "创建部门"
     }
   },
   "position": {

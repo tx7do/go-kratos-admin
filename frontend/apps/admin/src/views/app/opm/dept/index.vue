@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import type { VxeGridProps } from '#/adapter/vxe-table';
-import type { Department } from '#/generated/api/user/service/v1/department.pb';
 
 import { h } from 'vue';
 
@@ -10,12 +9,17 @@ import { LucideFilePenLine, LucideTrash2 } from '@vben/icons';
 import { notification } from 'ant-design-vue';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
+import {
+  type Department,
+  DepartmentStatus,
+} from '#/generated/api/user/service/v1/department.pb';
 import { $t } from '#/locales';
-import { statusList, useDepartmentStore } from '#/stores';
+import { statusList, useDepartmentStore, useOrganizationStore } from '#/stores';
 
 import DeptDrawer from './dept-drawer.vue';
 
 const deptStore = useDepartmentStore();
+const orgStore = useOrganizationStore();
 
 const formOptions: VbenFormProps = {
   // 默认展开
@@ -42,6 +46,27 @@ const formOptions: VbenFormProps = {
         options: statusList,
         placeholder: $t('ui.placeholder.select'),
         allowClear: true,
+      },
+    },
+    {
+      component: 'ApiTreeSelect',
+      fieldName: 'organizationId',
+      label: $t('page.dept.organization'),
+      componentProps: {
+        placeholder: $t('ui.placeholder.select'),
+        numberToString: true,
+        childrenField: 'children',
+        labelField: 'name',
+        valueField: 'id',
+        toolbar: true,
+        search: true,
+        api: async () => {
+          const result = await orgStore.listOrganization(true, null, null, {
+            // parent_id: 0,
+            status: 'ON',
+          });
+          return result.items;
+        },
       },
     },
   ],
@@ -88,6 +113,9 @@ const gridOptions: VxeGridProps<Department> = {
   columns: [
     { title: $t('ui.table.seq'), type: 'seq', width: 50 },
     { title: $t('page.dept.name'), field: 'name', treeNode: true },
+    { title: $t('page.dept.description'), field: 'description' },
+    { title: $t('page.dept.organizationName'), field: 'organizationName' },
+    { title: $t('page.dept.managerName'), field: 'managerName' },
     { title: $t('ui.table.sortId'), field: 'sortId', width: 70 },
     {
       title: $t('ui.table.status'),
@@ -173,7 +201,9 @@ async function handleStatusChanged(row: any, checked: boolean) {
   console.log('handleStatusChanged', row.status, checked);
 
   row.pending = true;
-  row.status = checked ? 'ON' : 'OFF';
+  row.status = checked
+    ? DepartmentStatus.DEPARTMENT_STATUS_ON
+    : DepartmentStatus.DEPARTMENT_STATUS_OFF;
 
   try {
     await deptStore.updateDepartment(row.id, { status: row.status });
@@ -215,7 +245,7 @@ const collapseAll = () => {
       </template>
       <template #status="{ row }">
         <a-switch
-          :checked="row.status === 'ON'"
+          :checked="row.status === DepartmentStatus.DEPARTMENT_STATUS_ON"
           :loading="row.pending"
           :checked-children="$t('ui.switch.active')"
           :un-checked-children="$t('ui.switch.inactive')"

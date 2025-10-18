@@ -14,6 +14,7 @@ import (
 	userV1 "kratos-admin/api/gen/go/user/service/v1"
 
 	"kratos-admin/pkg/middleware/auth"
+	"kratos-admin/pkg/utils/name_set"
 )
 
 type OrganizationService struct {
@@ -21,23 +22,56 @@ type OrganizationService struct {
 
 	log *log.Helper
 
-	repo *data.OrganizationRepo
+	organizationRepo *data.OrganizationRepo
+	userRepo         *data.UserRepo
 }
 
-func NewOrganizationService(logger log.Logger, repo *data.OrganizationRepo) *OrganizationService {
+func NewOrganizationService(
+	logger log.Logger,
+	organizationRepo *data.OrganizationRepo,
+	userRepo *data.UserRepo,
+) *OrganizationService {
 	l := log.NewHelper(log.With(logger, "module", "organization/service/admin-service"))
 	return &OrganizationService{
-		log:  l,
-		repo: repo,
+		log:              l,
+		organizationRepo: organizationRepo,
+		userRepo:         userRepo,
 	}
 }
 
 func (s *OrganizationService) List(ctx context.Context, req *pagination.PagingRequest) (*userV1.ListOrganizationResponse, error) {
-	return s.repo.List(ctx, req)
+	resp, err := s.organizationRepo.List(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+
+	var userSet = make(name_set.UserNameSetMap)
+
+	InitOrganizationManagerId(resp.Items, &userSet)
+
+	QueryUserInfoFromRepo(ctx, s.userRepo, &userSet)
+
+	FileOrganizationInfo(resp.Items, &userSet)
+
+	return resp, nil
 }
 
 func (s *OrganizationService) Get(ctx context.Context, req *userV1.GetOrganizationRequest) (*userV1.Organization, error) {
-	return s.repo.Get(ctx, req)
+	resp, err := s.organizationRepo.Get(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+
+	if resp.ManagerId != nil {
+		manager, err := s.userRepo.Get(ctx, resp.GetManagerId())
+		if err == nil && manager != nil {
+			resp.ManagerName = manager.Nickname
+		} else {
+			s.log.Warnf("Get organization manager user failed: %v", err)
+		}
+	}
+
+	return resp, nil
 }
 
 func (s *OrganizationService) Create(ctx context.Context, req *userV1.CreateOrganizationRequest) (*emptypb.Empty, error) {
@@ -53,7 +87,7 @@ func (s *OrganizationService) Create(ctx context.Context, req *userV1.CreateOrga
 
 	req.Data.CreateBy = trans.Ptr(operator.UserId)
 
-	if err = s.repo.Create(ctx, req); err != nil {
+	if err = s.organizationRepo.Create(ctx, req); err != nil {
 		return nil, err
 	}
 
@@ -73,7 +107,7 @@ func (s *OrganizationService) Update(ctx context.Context, req *userV1.UpdateOrga
 
 	req.Data.UpdateBy = trans.Ptr(operator.UserId)
 
-	if err = s.repo.Update(ctx, req); err != nil {
+	if err = s.organizationRepo.Update(ctx, req); err != nil {
 		return nil, err
 	}
 
@@ -81,7 +115,7 @@ func (s *OrganizationService) Update(ctx context.Context, req *userV1.UpdateOrga
 }
 
 func (s *OrganizationService) Delete(ctx context.Context, req *userV1.DeleteOrganizationRequest) (*emptypb.Empty, error) {
-	if err := s.repo.Delete(ctx, req); err != nil {
+	if err := s.organizationRepo.Delete(ctx, req); err != nil {
 		return nil, err
 	}
 	return &emptypb.Empty{}, nil

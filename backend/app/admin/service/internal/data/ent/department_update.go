@@ -69,26 +69,6 @@ func (_u *DepartmentUpdate) ClearDeleteTime() *DepartmentUpdate {
 	return _u
 }
 
-// SetStatus sets the "status" field.
-func (_u *DepartmentUpdate) SetStatus(v department.Status) *DepartmentUpdate {
-	_u.mutation.SetStatus(v)
-	return _u
-}
-
-// SetNillableStatus sets the "status" field if the given value is not nil.
-func (_u *DepartmentUpdate) SetNillableStatus(v *department.Status) *DepartmentUpdate {
-	if v != nil {
-		_u.SetStatus(*v)
-	}
-	return _u
-}
-
-// ClearStatus clears the value of the "status" field.
-func (_u *DepartmentUpdate) ClearStatus() *DepartmentUpdate {
-	_u.mutation.ClearStatus()
-	return _u
-}
-
 // SetCreateBy sets the "create_by" field.
 func (_u *DepartmentUpdate) SetCreateBy(v uint32) *DepartmentUpdate {
 	_u.mutation.ResetCreateBy()
@@ -224,12 +204,6 @@ func (_u *DepartmentUpdate) AddOrganizationID(v int32) *DepartmentUpdate {
 	return _u
 }
 
-// ClearOrganizationID clears the value of the "organization_id" field.
-func (_u *DepartmentUpdate) ClearOrganizationID() *DepartmentUpdate {
-	_u.mutation.ClearOrganizationID()
-	return _u
-}
-
 // SetSortID sets the "sort_id" field.
 func (_u *DepartmentUpdate) SetSortID(v int32) *DepartmentUpdate {
 	_u.mutation.ResetSortID()
@@ -254,6 +228,73 @@ func (_u *DepartmentUpdate) AddSortID(v int32) *DepartmentUpdate {
 // ClearSortID clears the value of the "sort_id" field.
 func (_u *DepartmentUpdate) ClearSortID() *DepartmentUpdate {
 	_u.mutation.ClearSortID()
+	return _u
+}
+
+// SetStatus sets the "status" field.
+func (_u *DepartmentUpdate) SetStatus(v department.Status) *DepartmentUpdate {
+	_u.mutation.SetStatus(v)
+	return _u
+}
+
+// SetNillableStatus sets the "status" field if the given value is not nil.
+func (_u *DepartmentUpdate) SetNillableStatus(v *department.Status) *DepartmentUpdate {
+	if v != nil {
+		_u.SetStatus(*v)
+	}
+	return _u
+}
+
+// ClearStatus clears the value of the "status" field.
+func (_u *DepartmentUpdate) ClearStatus() *DepartmentUpdate {
+	_u.mutation.ClearStatus()
+	return _u
+}
+
+// SetDescription sets the "description" field.
+func (_u *DepartmentUpdate) SetDescription(v string) *DepartmentUpdate {
+	_u.mutation.SetDescription(v)
+	return _u
+}
+
+// SetNillableDescription sets the "description" field if the given value is not nil.
+func (_u *DepartmentUpdate) SetNillableDescription(v *string) *DepartmentUpdate {
+	if v != nil {
+		_u.SetDescription(*v)
+	}
+	return _u
+}
+
+// ClearDescription clears the value of the "description" field.
+func (_u *DepartmentUpdate) ClearDescription() *DepartmentUpdate {
+	_u.mutation.ClearDescription()
+	return _u
+}
+
+// SetManagerID sets the "manager_id" field.
+func (_u *DepartmentUpdate) SetManagerID(v uint32) *DepartmentUpdate {
+	_u.mutation.ResetManagerID()
+	_u.mutation.SetManagerID(v)
+	return _u
+}
+
+// SetNillableManagerID sets the "manager_id" field if the given value is not nil.
+func (_u *DepartmentUpdate) SetNillableManagerID(v *uint32) *DepartmentUpdate {
+	if v != nil {
+		_u.SetManagerID(*v)
+	}
+	return _u
+}
+
+// AddManagerID adds value to the "manager_id" field.
+func (_u *DepartmentUpdate) AddManagerID(v int32) *DepartmentUpdate {
+	_u.mutation.AddManagerID(v)
+	return _u
+}
+
+// ClearManagerID clears the value of the "manager_id" field.
+func (_u *DepartmentUpdate) ClearManagerID() *DepartmentUpdate {
+	_u.mutation.ClearManagerID()
 	return _u
 }
 
@@ -338,6 +379,11 @@ func (_u *DepartmentUpdate) ExecX(ctx context.Context) {
 
 // check runs all checks and user-defined validators on the builder.
 func (_u *DepartmentUpdate) check() error {
+	if v, ok := _u.mutation.Name(); ok {
+		if err := department.NameValidator(v); err != nil {
+			return &ValidationError{Name: "name", err: fmt.Errorf(`ent: validator failed for field "Department.name": %w`, err)}
+		}
+	}
 	if v, ok := _u.mutation.Status(); ok {
 		if err := department.StatusValidator(v); err != nil {
 			return &ValidationError{Name: "status", err: fmt.Errorf(`ent: validator failed for field "Department.status": %w`, err)}
@@ -379,12 +425,6 @@ func (_u *DepartmentUpdate) sqlSave(ctx context.Context) (_node int, err error) 
 	if _u.mutation.DeleteTimeCleared() {
 		_spec.ClearField(department.FieldDeleteTime, field.TypeTime)
 	}
-	if value, ok := _u.mutation.Status(); ok {
-		_spec.SetField(department.FieldStatus, field.TypeEnum, value)
-	}
-	if _u.mutation.StatusCleared() {
-		_spec.ClearField(department.FieldStatus, field.TypeEnum)
-	}
 	if value, ok := _u.mutation.CreateBy(); ok {
 		_spec.SetField(department.FieldCreateBy, field.TypeUint32, value)
 	}
@@ -424,9 +464,6 @@ func (_u *DepartmentUpdate) sqlSave(ctx context.Context) (_node int, err error) 
 	if value, ok := _u.mutation.AddedOrganizationID(); ok {
 		_spec.AddField(department.FieldOrganizationID, field.TypeUint32, value)
 	}
-	if _u.mutation.OrganizationIDCleared() {
-		_spec.ClearField(department.FieldOrganizationID, field.TypeUint32)
-	}
 	if value, ok := _u.mutation.SortID(); ok {
 		_spec.SetField(department.FieldSortID, field.TypeInt32, value)
 	}
@@ -435,6 +472,27 @@ func (_u *DepartmentUpdate) sqlSave(ctx context.Context) (_node int, err error) 
 	}
 	if _u.mutation.SortIDCleared() {
 		_spec.ClearField(department.FieldSortID, field.TypeInt32)
+	}
+	if value, ok := _u.mutation.Status(); ok {
+		_spec.SetField(department.FieldStatus, field.TypeEnum, value)
+	}
+	if _u.mutation.StatusCleared() {
+		_spec.ClearField(department.FieldStatus, field.TypeEnum)
+	}
+	if value, ok := _u.mutation.Description(); ok {
+		_spec.SetField(department.FieldDescription, field.TypeString, value)
+	}
+	if _u.mutation.DescriptionCleared() {
+		_spec.ClearField(department.FieldDescription, field.TypeString)
+	}
+	if value, ok := _u.mutation.ManagerID(); ok {
+		_spec.SetField(department.FieldManagerID, field.TypeUint32, value)
+	}
+	if value, ok := _u.mutation.AddedManagerID(); ok {
+		_spec.AddField(department.FieldManagerID, field.TypeUint32, value)
+	}
+	if _u.mutation.ManagerIDCleared() {
+		_spec.ClearField(department.FieldManagerID, field.TypeUint32)
 	}
 	if _u.mutation.ParentCleared() {
 		edge := &sqlgraph.EdgeSpec{
@@ -569,26 +627,6 @@ func (_u *DepartmentUpdateOne) SetNillableDeleteTime(v *time.Time) *DepartmentUp
 // ClearDeleteTime clears the value of the "delete_time" field.
 func (_u *DepartmentUpdateOne) ClearDeleteTime() *DepartmentUpdateOne {
 	_u.mutation.ClearDeleteTime()
-	return _u
-}
-
-// SetStatus sets the "status" field.
-func (_u *DepartmentUpdateOne) SetStatus(v department.Status) *DepartmentUpdateOne {
-	_u.mutation.SetStatus(v)
-	return _u
-}
-
-// SetNillableStatus sets the "status" field if the given value is not nil.
-func (_u *DepartmentUpdateOne) SetNillableStatus(v *department.Status) *DepartmentUpdateOne {
-	if v != nil {
-		_u.SetStatus(*v)
-	}
-	return _u
-}
-
-// ClearStatus clears the value of the "status" field.
-func (_u *DepartmentUpdateOne) ClearStatus() *DepartmentUpdateOne {
-	_u.mutation.ClearStatus()
 	return _u
 }
 
@@ -727,12 +765,6 @@ func (_u *DepartmentUpdateOne) AddOrganizationID(v int32) *DepartmentUpdateOne {
 	return _u
 }
 
-// ClearOrganizationID clears the value of the "organization_id" field.
-func (_u *DepartmentUpdateOne) ClearOrganizationID() *DepartmentUpdateOne {
-	_u.mutation.ClearOrganizationID()
-	return _u
-}
-
 // SetSortID sets the "sort_id" field.
 func (_u *DepartmentUpdateOne) SetSortID(v int32) *DepartmentUpdateOne {
 	_u.mutation.ResetSortID()
@@ -757,6 +789,73 @@ func (_u *DepartmentUpdateOne) AddSortID(v int32) *DepartmentUpdateOne {
 // ClearSortID clears the value of the "sort_id" field.
 func (_u *DepartmentUpdateOne) ClearSortID() *DepartmentUpdateOne {
 	_u.mutation.ClearSortID()
+	return _u
+}
+
+// SetStatus sets the "status" field.
+func (_u *DepartmentUpdateOne) SetStatus(v department.Status) *DepartmentUpdateOne {
+	_u.mutation.SetStatus(v)
+	return _u
+}
+
+// SetNillableStatus sets the "status" field if the given value is not nil.
+func (_u *DepartmentUpdateOne) SetNillableStatus(v *department.Status) *DepartmentUpdateOne {
+	if v != nil {
+		_u.SetStatus(*v)
+	}
+	return _u
+}
+
+// ClearStatus clears the value of the "status" field.
+func (_u *DepartmentUpdateOne) ClearStatus() *DepartmentUpdateOne {
+	_u.mutation.ClearStatus()
+	return _u
+}
+
+// SetDescription sets the "description" field.
+func (_u *DepartmentUpdateOne) SetDescription(v string) *DepartmentUpdateOne {
+	_u.mutation.SetDescription(v)
+	return _u
+}
+
+// SetNillableDescription sets the "description" field if the given value is not nil.
+func (_u *DepartmentUpdateOne) SetNillableDescription(v *string) *DepartmentUpdateOne {
+	if v != nil {
+		_u.SetDescription(*v)
+	}
+	return _u
+}
+
+// ClearDescription clears the value of the "description" field.
+func (_u *DepartmentUpdateOne) ClearDescription() *DepartmentUpdateOne {
+	_u.mutation.ClearDescription()
+	return _u
+}
+
+// SetManagerID sets the "manager_id" field.
+func (_u *DepartmentUpdateOne) SetManagerID(v uint32) *DepartmentUpdateOne {
+	_u.mutation.ResetManagerID()
+	_u.mutation.SetManagerID(v)
+	return _u
+}
+
+// SetNillableManagerID sets the "manager_id" field if the given value is not nil.
+func (_u *DepartmentUpdateOne) SetNillableManagerID(v *uint32) *DepartmentUpdateOne {
+	if v != nil {
+		_u.SetManagerID(*v)
+	}
+	return _u
+}
+
+// AddManagerID adds value to the "manager_id" field.
+func (_u *DepartmentUpdateOne) AddManagerID(v int32) *DepartmentUpdateOne {
+	_u.mutation.AddManagerID(v)
+	return _u
+}
+
+// ClearManagerID clears the value of the "manager_id" field.
+func (_u *DepartmentUpdateOne) ClearManagerID() *DepartmentUpdateOne {
+	_u.mutation.ClearManagerID()
 	return _u
 }
 
@@ -854,6 +953,11 @@ func (_u *DepartmentUpdateOne) ExecX(ctx context.Context) {
 
 // check runs all checks and user-defined validators on the builder.
 func (_u *DepartmentUpdateOne) check() error {
+	if v, ok := _u.mutation.Name(); ok {
+		if err := department.NameValidator(v); err != nil {
+			return &ValidationError{Name: "name", err: fmt.Errorf(`ent: validator failed for field "Department.name": %w`, err)}
+		}
+	}
 	if v, ok := _u.mutation.Status(); ok {
 		if err := department.StatusValidator(v); err != nil {
 			return &ValidationError{Name: "status", err: fmt.Errorf(`ent: validator failed for field "Department.status": %w`, err)}
@@ -912,12 +1016,6 @@ func (_u *DepartmentUpdateOne) sqlSave(ctx context.Context) (_node *Department, 
 	if _u.mutation.DeleteTimeCleared() {
 		_spec.ClearField(department.FieldDeleteTime, field.TypeTime)
 	}
-	if value, ok := _u.mutation.Status(); ok {
-		_spec.SetField(department.FieldStatus, field.TypeEnum, value)
-	}
-	if _u.mutation.StatusCleared() {
-		_spec.ClearField(department.FieldStatus, field.TypeEnum)
-	}
 	if value, ok := _u.mutation.CreateBy(); ok {
 		_spec.SetField(department.FieldCreateBy, field.TypeUint32, value)
 	}
@@ -957,9 +1055,6 @@ func (_u *DepartmentUpdateOne) sqlSave(ctx context.Context) (_node *Department, 
 	if value, ok := _u.mutation.AddedOrganizationID(); ok {
 		_spec.AddField(department.FieldOrganizationID, field.TypeUint32, value)
 	}
-	if _u.mutation.OrganizationIDCleared() {
-		_spec.ClearField(department.FieldOrganizationID, field.TypeUint32)
-	}
 	if value, ok := _u.mutation.SortID(); ok {
 		_spec.SetField(department.FieldSortID, field.TypeInt32, value)
 	}
@@ -968,6 +1063,27 @@ func (_u *DepartmentUpdateOne) sqlSave(ctx context.Context) (_node *Department, 
 	}
 	if _u.mutation.SortIDCleared() {
 		_spec.ClearField(department.FieldSortID, field.TypeInt32)
+	}
+	if value, ok := _u.mutation.Status(); ok {
+		_spec.SetField(department.FieldStatus, field.TypeEnum, value)
+	}
+	if _u.mutation.StatusCleared() {
+		_spec.ClearField(department.FieldStatus, field.TypeEnum)
+	}
+	if value, ok := _u.mutation.Description(); ok {
+		_spec.SetField(department.FieldDescription, field.TypeString, value)
+	}
+	if _u.mutation.DescriptionCleared() {
+		_spec.ClearField(department.FieldDescription, field.TypeString)
+	}
+	if value, ok := _u.mutation.ManagerID(); ok {
+		_spec.SetField(department.FieldManagerID, field.TypeUint32, value)
+	}
+	if value, ok := _u.mutation.AddedManagerID(); ok {
+		_spec.AddField(department.FieldManagerID, field.TypeUint32, value)
+	}
+	if _u.mutation.ManagerIDCleared() {
+		_spec.ClearField(department.FieldManagerID, field.TypeUint32)
 	}
 	if _u.mutation.ParentCleared() {
 		edge := &sqlgraph.EdgeSpec{

@@ -45,6 +45,7 @@ func NewTaskRepo(data *Data, logger log.Logger) *TaskRepo {
 func (r *TaskRepo) init() {
 	r.mapper.AppendConverters(copierutil.NewTimeStringConverterPair())
 	r.mapper.AppendConverters(copierutil.NewTimeTimestamppbConverterPair())
+
 	r.mapper.AppendConverters(r.typeConverter.NewConverterPair())
 }
 

@@ -14,6 +14,7 @@ import (
 	userV1 "kratos-admin/api/gen/go/user/service/v1"
 
 	"kratos-admin/pkg/middleware/auth"
+	"kratos-admin/pkg/utils/name_set"
 )
 
 type DepartmentService struct {
@@ -21,23 +22,71 @@ type DepartmentService struct {
 
 	log *log.Helper
 
-	repo *data.DepartmentRepo
+	departmentRepo   *data.DepartmentRepo
+	organizationRepo *data.OrganizationRepo
+	userRepo         *data.UserRepo
 }
 
-func NewDepartmentService(logger log.Logger, repo *data.DepartmentRepo) *DepartmentService {
+func NewDepartmentService(
+	logger log.Logger,
+	departmentRepo *data.DepartmentRepo,
+	organizationRepo *data.OrganizationRepo,
+	userRepo *data.UserRepo,
+) *DepartmentService {
 	l := log.NewHelper(log.With(logger, "module", "department/service/admin-service"))
 	return &DepartmentService{
-		log:  l,
-		repo: repo,
+		log:              l,
+		departmentRepo:   departmentRepo,
+		organizationRepo: organizationRepo,
+		userRepo:         userRepo,
 	}
 }
 
 func (s *DepartmentService) List(ctx context.Context, req *pagination.PagingRequest) (*userV1.ListDepartmentResponse, error) {
-	return s.repo.List(ctx, req)
+	resp, err := s.departmentRepo.List(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+
+	var userSet = make(name_set.UserNameSetMap)
+	var orgSet = make(name_set.UserNameSetMap)
+
+	InitDepartmentManagerId(resp.Items, &userSet, &orgSet)
+
+	QueryUserInfoFromRepo(ctx, s.userRepo, &userSet)
+	QueryOrganizationInfoFromRepo(ctx, s.organizationRepo, &orgSet)
+
+	FileDepartmentUserInfo(resp.Items, &userSet)
+	FileDepartmentOrganizationInfo(resp.Items, &orgSet)
+
+	return resp, nil
 }
 
 func (s *DepartmentService) Get(ctx context.Context, req *userV1.GetDepartmentRequest) (*userV1.Department, error) {
-	return s.repo.Get(ctx, req)
+	resp, err := s.departmentRepo.Get(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+
+	if resp.ManagerId != nil {
+		manager, err := s.userRepo.Get(ctx, resp.GetManagerId())
+		if err == nil && manager != nil {
+			resp.ManagerName = manager.Username
+		} else {
+			s.log.Warnf("Get organization manager user failed: %v", err)
+		}
+	}
+
+	if resp.OrganizationId != nil {
+		organization, err := s.organizationRepo.Get(ctx, &userV1.GetOrganizationRequest{Id: resp.GetOrganizationId()})
+		if err == nil && organization != nil {
+			resp.OrganizationName = organization.Name
+		} else {
+			s.log.Warnf("Get department organization failed: %v", err)
+		}
+	}
+
+	return resp, nil
 }
 
 func (s *DepartmentService) Create(ctx context.Context, req *userV1.CreateDepartmentRequest) (*emptypb.Empty, error) {
@@ -53,7 +102,7 @@ func (s *DepartmentService) Create(ctx context.Context, req *userV1.CreateDepart
 
 	req.Data.CreateBy = trans.Ptr(operator.UserId)
 
-	if err = s.repo.Create(ctx, req); err != nil {
+	if err = s.departmentRepo.Create(ctx, req); err != nil {
 		return nil, err
 	}
 
@@ -73,7 +122,7 @@ func (s *DepartmentService) Update(ctx context.Context, req *userV1.UpdateDepart
 
 	req.Data.UpdateBy = trans.Ptr(operator.UserId)
 
-	if err = s.repo.Update(ctx, req); err != nil {
+	if err = s.departmentRepo.Update(ctx, req); err != nil {
 		return nil, err
 	}
 
@@ -81,7 +130,7 @@ func (s *DepartmentService) Update(ctx context.Context, req *userV1.UpdateDepart
 }
 
 func (s *DepartmentService) Delete(ctx context.Context, req *userV1.DeleteDepartmentRequest) (*emptypb.Empty, error) {
-	if err := s.repo.Delete(ctx, req); err != nil {
+	if err := s.departmentRepo.Delete(ctx, req); err != nil {
 		return nil, err
 	}
 

@@ -9,7 +9,7 @@ import { notification } from 'ant-design-vue';
 import { useVbenForm, z } from '#/adapter/form';
 import {
   authorityList,
-  genderList, isButton,
+  genderList,
   useOrganizationStore,
   useUserStore,
 } from '#/stores';
@@ -81,15 +81,15 @@ const [BaseForm, baseFormApi] = useVbenForm({
       label: $t('page.user.table.orgId'),
       componentProps: {
         placeholder: $t('ui.placeholder.select'),
+        numberToString: true,
+        childrenField: 'children',
+        labelField: 'name',
+        valueField: 'id',
         api: async () => {
           const result = await orgStore.listOrganization(true);
 
           return result.items;
         },
-        numberToString: true,
-        childrenField: 'children',
-        labelField: 'name',
-        valueField: 'id',
         // afterFetch: (data: any) => {
         //   return data.map((item: any) => ({
         //     label: item.name,

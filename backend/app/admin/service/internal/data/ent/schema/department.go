@@ -1,13 +1,14 @@
 package schema
 
 import (
+	appmixin "kratos-admin/pkg/entgo/mixin"
+
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/entsql"
 	"entgo.io/ent/schema"
 	"entgo.io/ent/schema/edge"
 	"entgo.io/ent/schema/field"
 	"github.com/tx7do/go-utils/entgo/mixin"
-	appmixin "kratos-admin/pkg/entgo/mixin"
 )
 
 // Department holds the schema definition for the Department entity.
@@ -31,8 +32,8 @@ func (Department) Annotations() []schema.Annotation {
 func (Department) Fields() []ent.Field {
 	return []ent.Field{
 		field.String("name").
-			Comment("名字").
-			Default("").
+			Comment("部门名称").
+			NotEmpty().
 			Optional().
 			Nillable(),
 
@@ -43,12 +44,30 @@ func (Department) Fields() []ent.Field {
 
 		field.Uint32("organization_id").
 			Comment("所属组织ID").
-			Optional().
 			Nillable(),
 
 		field.Int32("sort_id").
 			Comment("排序ID").
 			Default(0).
+			Optional().
+			Nillable(),
+
+		field.Enum("status").
+			Comment("部门状态").
+			NamedValues(
+				"DEPARTMENT_STATUS_ON", "ON",
+				"DEPARTMENT_STATUS_OFF", "OFF",
+			).
+			Optional().
+			Nillable(),
+
+		field.String("description").
+			Comment("职能描述").
+			Optional().
+			Nillable(),
+
+		field.Uint32("manager_id").
+			Comment("负责人ID").
 			Optional().
 			Nillable(),
 	}
@@ -59,7 +78,6 @@ func (Department) Mixin() []ent.Mixin {
 	return []ent.Mixin{
 		mixin.AutoIncrementId{},
 		mixin.Time{},
-		mixin.SwitchStatus{},
 		mixin.CreateBy{},
 		mixin.UpdateBy{},
 		mixin.Remark{},

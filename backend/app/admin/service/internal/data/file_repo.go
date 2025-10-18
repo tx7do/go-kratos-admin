@@ -45,6 +45,7 @@ func NewFileRepo(data *Data, logger log.Logger) *FileRepo {
 func (r *FileRepo) init() {
 	r.mapper.AppendConverters(copierutil.NewTimeStringConverterPair())
 	r.mapper.AppendConverters(copierutil.NewTimeTimestamppbConverterPair())
+
 	r.mapper.AppendConverters(r.providerConverter.NewConverterPair())
 }
 

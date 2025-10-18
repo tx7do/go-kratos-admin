@@ -42,5 +42,11 @@
     "REGION": "地区限制",
     "TIME": "时间限制",
     "DEVICE": "设备限制"
+  },
+  "organizationType": {
+    "ORGANIZATION_TYPE_GROUP": "集团",
+    "ORGANIZATION_TYPE_SUBSIDIARY": "子公司",
+    "ORGANIZATION_TYPE_FILIALE": "分公司",
+    "ORGANIZATION_TYPE_DIVISION": "事业部"
   }
 }

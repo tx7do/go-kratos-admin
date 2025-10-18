@@ -22,18 +22,32 @@ import (
 	userV1 "kratos-admin/api/gen/go/user/service/v1"
 )
 
+var (
+	DepartmentStatusNameMap = map[int32]string{
+		int32(userV1.DepartmentStatus_DEPARTMENT_STATUS_ON):  string(department.StatusDEPARTMENT_STATUS_ON),
+		int32(userV1.DepartmentStatus_DEPARTMENT_STATUS_OFF): string(department.StatusDEPARTMENT_STATUS_OFF),
+	}
+
+	DepartmentStatusValueMap = map[string]int32{
+		string(department.StatusDEPARTMENT_STATUS_ON):  int32(userV1.DepartmentStatus_DEPARTMENT_STATUS_ON),
+		string(department.StatusDEPARTMENT_STATUS_OFF): int32(userV1.DepartmentStatus_DEPARTMENT_STATUS_OFF),
+	}
+)
+
 type DepartmentRepo struct {
 	data *Data
 	log  *log.Helper
 
-	mapper *mapper.CopierMapper[userV1.Department, ent.Department]
+	mapper          *mapper.CopierMapper[userV1.Department, ent.Department]
+	statusConverter *mapper.EnumTypeConverter[userV1.DepartmentStatus, department.Status]
 }
 
 func NewDepartmentRepo(data *Data, logger log.Logger) *DepartmentRepo {
 	repo := &DepartmentRepo{
-		log:    log.NewHelper(log.With(logger, "module", "department/repo/admin-service")),
-		data:   data,
-		mapper: mapper.NewCopierMapper[userV1.Department, ent.Department](),
+		log:             log.NewHelper(log.With(logger, "module", "department/repo/admin-service")),
+		data:            data,
+		mapper:          mapper.NewCopierMapper[userV1.Department, ent.Department](),
+		statusConverter: mapper.NewEnumTypeConverter[userV1.DepartmentStatus, department.Status](DepartmentStatusNameMap, DepartmentStatusValueMap),
 	}
 
 	repo.init()
@@ -44,6 +58,8 @@ func NewDepartmentRepo(data *Data, logger log.Logger) *DepartmentRepo {
 func (r *DepartmentRepo) init() {
 	r.mapper.AppendConverters(copierutil.NewTimeStringConverterPair())
 	r.mapper.AppendConverters(copierutil.NewTimeTimestamppbConverterPair())
+
+	r.mapper.AppendConverters(r.statusConverter.NewConverterPair())
 }
 
 func (r *DepartmentRepo) travelChild(nodes []*userV1.Department, node *userV1.Department) bool {
@@ -117,13 +133,14 @@ func (r *DepartmentRepo) List(ctx context.Context, req *pagination.PagingRequest
 	}
 
 	sort.SliceStable(entities, func(i, j int) bool {
-		if entities[j].ParentID == nil {
-			return true
+		var sortI, sortJ int32
+		if entities[i].SortID != nil {
+			sortI = *entities[i].SortID
 		}
-		if entities[i].ParentID == nil {
-			return true
+		if entities[j].SortID != nil {
+			sortJ = *entities[j].SortID
 		}
-		return *entities[i].ParentID < *entities[j].ParentID
+		return sortI < sortJ
 	})
 
 	dtos := make([]*userV1.Department, 0, len(entities))
@@ -198,7 +215,11 @@ func (r *DepartmentRepo) Create(ctx context.Context, req *userV1.CreateDepartmen
 		SetNillableParentID(req.Data.ParentId).
 		SetNillableSortID(req.Data.SortId).
 		SetNillableRemark(req.Data.Remark).
-		SetNillableStatus((*department.Status)(req.Data.Status)).
+		SetNillableStatus(r.statusConverter.ToEntity(req.Data.Status)).
+		SetOrganizationID(req.Data.GetOrganizationId()).
+		SetNillableManagerID(req.Data.ManagerId).
+		SetNillableTenantID(req.Data.TenantId).
+		SetNillableDescription(req.Data.Description).
 		SetNillableCreateBy(req.Data.CreateBy).
 		SetNillableCreateTime(timeutil.TimestamppbToTime(req.Data.CreateTime))
 
@@ -252,12 +273,17 @@ func (r *DepartmentRepo) Update(ctx context.Context, req *userV1.UpdateDepartmen
 		SetNillableParentID(req.Data.ParentId).
 		SetNillableSortID(req.Data.SortId).
 		SetNillableRemark(req.Data.Remark).
-		SetNillableStatus((*department.Status)(req.Data.Status)).
+		SetNillableStatus(r.statusConverter.ToEntity(req.Data.Status)).
+		SetNillableDescription(req.Data.Description).
 		SetNillableUpdateBy(req.Data.UpdateBy).
 		SetNillableUpdateTime(timeutil.TimestamppbToTime(req.Data.UpdateTime))
 
 	if req.Data.UpdateTime == nil {
 		builder.SetUpdateTime(time.Now())
+	}
+
+	if req.Data.OrganizationId == nil {
+		builder.SetOrganizationID(req.Data.GetOrganizationId())
 	}
 
 	if req.UpdateMask != nil {

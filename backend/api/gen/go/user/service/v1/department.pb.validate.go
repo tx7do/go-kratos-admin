@@ -99,12 +99,28 @@ func (m *Department) validate(all bool) error {
 		// no validation rules for Name
 	}
 
+	if m.Description != nil {
+		// no validation rules for Description
+	}
+
 	if m.OrganizationId != nil {
 		// no validation rules for OrganizationId
 	}
 
 	if m.OrganizationName != nil {
 		// no validation rules for OrganizationName
+	}
+
+	if m.ManagerId != nil {
+		// no validation rules for ManagerId
+	}
+
+	if m.ManagerName != nil {
+		// no validation rules for ManagerName
+	}
+
+	if m.TenantId != nil {
+		// no validation rules for TenantId
 	}
 
 	if m.SortId != nil {

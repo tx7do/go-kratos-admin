@@ -2991,24 +2991,39 @@ components:
                 name:
                     type: string
                     description: 部门名称
+                description:
+                    type: string
+                    description: 职能描述
                 organizationId:
                     type: integer
                     description: 所属组织ID
-                    format: int32
+                    format: uint32
                 organizationName:
                     type: string
                     description: 所属组织名称
+                managerId:
+                    type: integer
+                    description: 负责人ID
+                    format: uint32
+                managerName:
+                    type: string
+                    description: 负责人名称
+                tenantId:
+                    type: integer
+                    description: 租户ID
+                    format: uint32
                 sortId:
                     type: integer
                     description: 排序编号
                     format: int32
                 status:
                     enum:
-                        - ON
-                        - OFF
+                        - DEPARTMENT_STATUS_UNSPECIFIED
+                        - DEPARTMENT_STATUS_ON
+                        - DEPARTMENT_STATUS_OFF
                     type: string
-                    default: ON
                     description: 状态
+                    format: enum
                 remark:
                     type: string
                     description: 备注
@@ -3699,20 +3714,54 @@ components:
                 name:
                     type: string
                     description: 组织名称
+                organizationType:
+                    enum:
+                        - ORGANIZATION_TYPE_UNSPECIFIED
+                        - ORGANIZATION_TYPE_GROUP
+                        - ORGANIZATION_TYPE_SUBSIDIARY
+                        - ORGANIZATION_TYPE_FILIALE
+                        - ORGANIZATION_TYPE_DIVISION
+                    type: string
+                    description: 组织类型
+                    format: enum
+                isLegalEntity:
+                    type: boolean
+                    description: 是否法人实体：1=是（集团/子公司），0=否（分公司/事业部）
+                businessScope:
+                    type: string
+                    description: 核心业务范围（如“新能源汽车研发与生产”）
+                creditCode:
+                    type: string
+                    description: 统一社会信用代码
+                address:
+                    type: string
+                    description: 注册地址
                 sortId:
                     type: integer
                     description: 排序编号
                     format: int32
                 status:
                     enum:
-                        - ON
-                        - OFF
+                        - ORGANIZATION_STATUS_UNSPECIFIED
+                        - ORGANIZATION_STATUS_ON
+                        - ORGANIZATION_STATUS_OFF
                     type: string
-                    default: ON
                     description: 状态
+                    format: enum
                 remark:
                     type: string
                     description: 备注
+                tenantId:
+                    type: integer
+                    description: 租户ID
+                    format: uint32
+                managerId:
+                    type: integer
+                    description: 负责人ID
+                    format: uint32
+                managerName:
+                    type: string
+                    description: 负责人名称
                 parentId:
                     type: integer
                     description: 父节点ID

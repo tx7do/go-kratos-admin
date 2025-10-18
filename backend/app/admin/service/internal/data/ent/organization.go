@@ -24,8 +24,6 @@ type Organization struct {
 	UpdateTime *time.Time `json:"update_time,omitempty"`
 	// 删除时间
 	DeleteTime *time.Time `json:"delete_time,omitempty"`
-	// 状态
-	Status *organization.Status `json:"status,omitempty"`
 	// 创建者ID
 	CreateBy *uint32 `json:"create_by,omitempty"`
 	// 更新者ID
@@ -34,12 +32,26 @@ type Organization struct {
 	Remark *string `json:"remark,omitempty"`
 	// 租户ID
 	TenantID *uint32 `json:"tenant_id,omitempty"`
-	// 名字
+	// 组织名称
 	Name *string `json:"name,omitempty"`
 	// 上一层组织ID
 	ParentID *uint32 `json:"parent_id,omitempty"`
 	// 排序ID
 	SortID *int32 `json:"sort_id,omitempty"`
+	// 组织状态
+	Status *organization.Status `json:"status,omitempty"`
+	// 组织类型
+	OrganizationType *organization.OrganizationType `json:"organization_type,omitempty"`
+	// 统一社会信用代码
+	CreditCode *string `json:"credit_code,omitempty"`
+	// 注册地址
+	Address *string `json:"address,omitempty"`
+	// 核心业务范围
+	BusinessScope *string `json:"business_scope,omitempty"`
+	// 是否法人实体
+	IsLegalEntity *bool `json:"is_legal_entity,omitempty"`
+	// 负责人ID
+	ManagerID *uint32 `json:"manager_id,omitempty"`
 	// Edges holds the relations/edges for other nodes in the graph.
 	// The values are being populated by the OrganizationQuery when eager-loading is set.
 	Edges        OrganizationEdges `json:"edges"`
@@ -82,9 +94,11 @@ func (*Organization) scanValues(columns []string) ([]any, error) {
 	values := make([]any, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case organization.FieldID, organization.FieldCreateBy, organization.FieldUpdateBy, organization.FieldTenantID, organization.FieldParentID, organization.FieldSortID:
+		case organization.FieldIsLegalEntity:
+			values[i] = new(sql.NullBool)
+		case organization.FieldID, organization.FieldCreateBy, organization.FieldUpdateBy, organization.FieldTenantID, organization.FieldParentID, organization.FieldSortID, organization.FieldManagerID:
 			values[i] = new(sql.NullInt64)
-		case organization.FieldStatus, organization.FieldRemark, organization.FieldName:
+		case organization.FieldRemark, organization.FieldName, organization.FieldStatus, organization.FieldOrganizationType, organization.FieldCreditCode, organization.FieldAddress, organization.FieldBusinessScope:
 			values[i] = new(sql.NullString)
 		case organization.FieldCreateTime, organization.FieldUpdateTime, organization.FieldDeleteTime:
 			values[i] = new(sql.NullTime)
@@ -129,13 +143,6 @@ func (_m *Organization) assignValues(columns []string, values []any) error {
 			} else if value.Valid {
 				_m.DeleteTime = new(time.Time)
 				*_m.DeleteTime = value.Time
-			}
-		case organization.FieldStatus:
-			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field status", values[i])
-			} else if value.Valid {
-				_m.Status = new(organization.Status)
-				*_m.Status = organization.Status(value.String)
 			}
 		case organization.FieldCreateBy:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
@@ -185,6 +192,55 @@ func (_m *Organization) assignValues(columns []string, values []any) error {
 			} else if value.Valid {
 				_m.SortID = new(int32)
 				*_m.SortID = int32(value.Int64)
+			}
+		case organization.FieldStatus:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field status", values[i])
+			} else if value.Valid {
+				_m.Status = new(organization.Status)
+				*_m.Status = organization.Status(value.String)
+			}
+		case organization.FieldOrganizationType:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field organization_type", values[i])
+			} else if value.Valid {
+				_m.OrganizationType = new(organization.OrganizationType)
+				*_m.OrganizationType = organization.OrganizationType(value.String)
+			}
+		case organization.FieldCreditCode:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field credit_code", values[i])
+			} else if value.Valid {
+				_m.CreditCode = new(string)
+				*_m.CreditCode = value.String
+			}
+		case organization.FieldAddress:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field address", values[i])
+			} else if value.Valid {
+				_m.Address = new(string)
+				*_m.Address = value.String
+			}
+		case organization.FieldBusinessScope:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field business_scope", values[i])
+			} else if value.Valid {
+				_m.BusinessScope = new(string)
+				*_m.BusinessScope = value.String
+			}
+		case organization.FieldIsLegalEntity:
+			if value, ok := values[i].(*sql.NullBool); !ok {
+				return fmt.Errorf("unexpected type %T for field is_legal_entity", values[i])
+			} else if value.Valid {
+				_m.IsLegalEntity = new(bool)
+				*_m.IsLegalEntity = value.Bool
+			}
+		case organization.FieldManagerID:
+			if value, ok := values[i].(*sql.NullInt64); !ok {
+				return fmt.Errorf("unexpected type %T for field manager_id", values[i])
+			} else if value.Valid {
+				_m.ManagerID = new(uint32)
+				*_m.ManagerID = uint32(value.Int64)
 			}
 		default:
 			_m.selectValues.Set(columns[i], values[i])
@@ -247,11 +303,6 @@ func (_m *Organization) String() string {
 		builder.WriteString(v.Format(time.ANSIC))
 	}
 	builder.WriteString(", ")
-	if v := _m.Status; v != nil {
-		builder.WriteString("status=")
-		builder.WriteString(fmt.Sprintf("%v", *v))
-	}
-	builder.WriteString(", ")
 	if v := _m.CreateBy; v != nil {
 		builder.WriteString("create_by=")
 		builder.WriteString(fmt.Sprintf("%v", *v))
@@ -284,6 +335,41 @@ func (_m *Organization) String() string {
 	builder.WriteString(", ")
 	if v := _m.SortID; v != nil {
 		builder.WriteString("sort_id=")
+		builder.WriteString(fmt.Sprintf("%v", *v))
+	}
+	builder.WriteString(", ")
+	if v := _m.Status; v != nil {
+		builder.WriteString("status=")
+		builder.WriteString(fmt.Sprintf("%v", *v))
+	}
+	builder.WriteString(", ")
+	if v := _m.OrganizationType; v != nil {
+		builder.WriteString("organization_type=")
+		builder.WriteString(fmt.Sprintf("%v", *v))
+	}
+	builder.WriteString(", ")
+	if v := _m.CreditCode; v != nil {
+		builder.WriteString("credit_code=")
+		builder.WriteString(*v)
+	}
+	builder.WriteString(", ")
+	if v := _m.Address; v != nil {
+		builder.WriteString("address=")
+		builder.WriteString(*v)
+	}
+	builder.WriteString(", ")
+	if v := _m.BusinessScope; v != nil {
+		builder.WriteString("business_scope=")
+		builder.WriteString(*v)
+	}
+	builder.WriteString(", ")
+	if v := _m.IsLegalEntity; v != nil {
+		builder.WriteString("is_legal_entity=")
+		builder.WriteString(fmt.Sprintf("%v", *v))
+	}
+	builder.WriteString(", ")
+	if v := _m.ManagerID; v != nil {
+		builder.WriteString("manager_id=")
 		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteByte(')')

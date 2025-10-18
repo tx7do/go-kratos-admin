@@ -69,26 +69,6 @@ func (_u *OrganizationUpdate) ClearDeleteTime() *OrganizationUpdate {
 	return _u
 }
 
-// SetStatus sets the "status" field.
-func (_u *OrganizationUpdate) SetStatus(v organization.Status) *OrganizationUpdate {
-	_u.mutation.SetStatus(v)
-	return _u
-}
-
-// SetNillableStatus sets the "status" field if the given value is not nil.
-func (_u *OrganizationUpdate) SetNillableStatus(v *organization.Status) *OrganizationUpdate {
-	if v != nil {
-		_u.SetStatus(*v)
-	}
-	return _u
-}
-
-// ClearStatus clears the value of the "status" field.
-func (_u *OrganizationUpdate) ClearStatus() *OrganizationUpdate {
-	_u.mutation.ClearStatus()
-	return _u
-}
-
 // SetCreateBy sets the "create_by" field.
 func (_u *OrganizationUpdate) SetCreateBy(v uint32) *OrganizationUpdate {
 	_u.mutation.ResetCreateBy()
@@ -230,6 +210,153 @@ func (_u *OrganizationUpdate) ClearSortID() *OrganizationUpdate {
 	return _u
 }
 
+// SetStatus sets the "status" field.
+func (_u *OrganizationUpdate) SetStatus(v organization.Status) *OrganizationUpdate {
+	_u.mutation.SetStatus(v)
+	return _u
+}
+
+// SetNillableStatus sets the "status" field if the given value is not nil.
+func (_u *OrganizationUpdate) SetNillableStatus(v *organization.Status) *OrganizationUpdate {
+	if v != nil {
+		_u.SetStatus(*v)
+	}
+	return _u
+}
+
+// ClearStatus clears the value of the "status" field.
+func (_u *OrganizationUpdate) ClearStatus() *OrganizationUpdate {
+	_u.mutation.ClearStatus()
+	return _u
+}
+
+// SetOrganizationType sets the "organization_type" field.
+func (_u *OrganizationUpdate) SetOrganizationType(v organization.OrganizationType) *OrganizationUpdate {
+	_u.mutation.SetOrganizationType(v)
+	return _u
+}
+
+// SetNillableOrganizationType sets the "organization_type" field if the given value is not nil.
+func (_u *OrganizationUpdate) SetNillableOrganizationType(v *organization.OrganizationType) *OrganizationUpdate {
+	if v != nil {
+		_u.SetOrganizationType(*v)
+	}
+	return _u
+}
+
+// ClearOrganizationType clears the value of the "organization_type" field.
+func (_u *OrganizationUpdate) ClearOrganizationType() *OrganizationUpdate {
+	_u.mutation.ClearOrganizationType()
+	return _u
+}
+
+// SetCreditCode sets the "credit_code" field.
+func (_u *OrganizationUpdate) SetCreditCode(v string) *OrganizationUpdate {
+	_u.mutation.SetCreditCode(v)
+	return _u
+}
+
+// SetNillableCreditCode sets the "credit_code" field if the given value is not nil.
+func (_u *OrganizationUpdate) SetNillableCreditCode(v *string) *OrganizationUpdate {
+	if v != nil {
+		_u.SetCreditCode(*v)
+	}
+	return _u
+}
+
+// ClearCreditCode clears the value of the "credit_code" field.
+func (_u *OrganizationUpdate) ClearCreditCode() *OrganizationUpdate {
+	_u.mutation.ClearCreditCode()
+	return _u
+}
+
+// SetAddress sets the "address" field.
+func (_u *OrganizationUpdate) SetAddress(v string) *OrganizationUpdate {
+	_u.mutation.SetAddress(v)
+	return _u
+}
+
+// SetNillableAddress sets the "address" field if the given value is not nil.
+func (_u *OrganizationUpdate) SetNillableAddress(v *string) *OrganizationUpdate {
+	if v != nil {
+		_u.SetAddress(*v)
+	}
+	return _u
+}
+
+// ClearAddress clears the value of the "address" field.
+func (_u *OrganizationUpdate) ClearAddress() *OrganizationUpdate {
+	_u.mutation.ClearAddress()
+	return _u
+}
+
+// SetBusinessScope sets the "business_scope" field.
+func (_u *OrganizationUpdate) SetBusinessScope(v string) *OrganizationUpdate {
+	_u.mutation.SetBusinessScope(v)
+	return _u
+}
+
+// SetNillableBusinessScope sets the "business_scope" field if the given value is not nil.
+func (_u *OrganizationUpdate) SetNillableBusinessScope(v *string) *OrganizationUpdate {
+	if v != nil {
+		_u.SetBusinessScope(*v)
+	}
+	return _u
+}
+
+// ClearBusinessScope clears the value of the "business_scope" field.
+func (_u *OrganizationUpdate) ClearBusinessScope() *OrganizationUpdate {
+	_u.mutation.ClearBusinessScope()
+	return _u
+}
+
+// SetIsLegalEntity sets the "is_legal_entity" field.
+func (_u *OrganizationUpdate) SetIsLegalEntity(v bool) *OrganizationUpdate {
+	_u.mutation.SetIsLegalEntity(v)
+	return _u
+}
+
+// SetNillableIsLegalEntity sets the "is_legal_entity" field if the given value is not nil.
+func (_u *OrganizationUpdate) SetNillableIsLegalEntity(v *bool) *OrganizationUpdate {
+	if v != nil {
+		_u.SetIsLegalEntity(*v)
+	}
+	return _u
+}
+
+// ClearIsLegalEntity clears the value of the "is_legal_entity" field.
+func (_u *OrganizationUpdate) ClearIsLegalEntity() *OrganizationUpdate {
+	_u.mutation.ClearIsLegalEntity()
+	return _u
+}
+
+// SetManagerID sets the "manager_id" field.
+func (_u *OrganizationUpdate) SetManagerID(v uint32) *OrganizationUpdate {
+	_u.mutation.ResetManagerID()
+	_u.mutation.SetManagerID(v)
+	return _u
+}
+
+// SetNillableManagerID sets the "manager_id" field if the given value is not nil.
+func (_u *OrganizationUpdate) SetNillableManagerID(v *uint32) *OrganizationUpdate {
+	if v != nil {
+		_u.SetManagerID(*v)
+	}
+	return _u
+}
+
+// AddManagerID adds value to the "manager_id" field.
+func (_u *OrganizationUpdate) AddManagerID(v int32) *OrganizationUpdate {
+	_u.mutation.AddManagerID(v)
+	return _u
+}
+
+// ClearManagerID clears the value of the "manager_id" field.
+func (_u *OrganizationUpdate) ClearManagerID() *OrganizationUpdate {
+	_u.mutation.ClearManagerID()
+	return _u
+}
+
 // SetParent sets the "parent" edge to the Organization entity.
 func (_u *OrganizationUpdate) SetParent(v *Organization) *OrganizationUpdate {
 	return _u.SetParentID(v.ID)
@@ -311,9 +438,19 @@ func (_u *OrganizationUpdate) ExecX(ctx context.Context) {
 
 // check runs all checks and user-defined validators on the builder.
 func (_u *OrganizationUpdate) check() error {
+	if v, ok := _u.mutation.Name(); ok {
+		if err := organization.NameValidator(v); err != nil {
+			return &ValidationError{Name: "name", err: fmt.Errorf(`ent: validator failed for field "Organization.name": %w`, err)}
+		}
+	}
 	if v, ok := _u.mutation.Status(); ok {
 		if err := organization.StatusValidator(v); err != nil {
 			return &ValidationError{Name: "status", err: fmt.Errorf(`ent: validator failed for field "Organization.status": %w`, err)}
+		}
+	}
+	if v, ok := _u.mutation.OrganizationType(); ok {
+		if err := organization.OrganizationTypeValidator(v); err != nil {
+			return &ValidationError{Name: "organization_type", err: fmt.Errorf(`ent: validator failed for field "Organization.organization_type": %w`, err)}
 		}
 	}
 	return nil
@@ -351,12 +488,6 @@ func (_u *OrganizationUpdate) sqlSave(ctx context.Context) (_node int, err error
 	}
 	if _u.mutation.DeleteTimeCleared() {
 		_spec.ClearField(organization.FieldDeleteTime, field.TypeTime)
-	}
-	if value, ok := _u.mutation.Status(); ok {
-		_spec.SetField(organization.FieldStatus, field.TypeEnum, value)
-	}
-	if _u.mutation.StatusCleared() {
-		_spec.ClearField(organization.FieldStatus, field.TypeEnum)
 	}
 	if value, ok := _u.mutation.CreateBy(); ok {
 		_spec.SetField(organization.FieldCreateBy, field.TypeUint32, value)
@@ -399,6 +530,51 @@ func (_u *OrganizationUpdate) sqlSave(ctx context.Context) (_node int, err error
 	}
 	if _u.mutation.SortIDCleared() {
 		_spec.ClearField(organization.FieldSortID, field.TypeInt32)
+	}
+	if value, ok := _u.mutation.Status(); ok {
+		_spec.SetField(organization.FieldStatus, field.TypeEnum, value)
+	}
+	if _u.mutation.StatusCleared() {
+		_spec.ClearField(organization.FieldStatus, field.TypeEnum)
+	}
+	if value, ok := _u.mutation.OrganizationType(); ok {
+		_spec.SetField(organization.FieldOrganizationType, field.TypeEnum, value)
+	}
+	if _u.mutation.OrganizationTypeCleared() {
+		_spec.ClearField(organization.FieldOrganizationType, field.TypeEnum)
+	}
+	if value, ok := _u.mutation.CreditCode(); ok {
+		_spec.SetField(organization.FieldCreditCode, field.TypeString, value)
+	}
+	if _u.mutation.CreditCodeCleared() {
+		_spec.ClearField(organization.FieldCreditCode, field.TypeString)
+	}
+	if value, ok := _u.mutation.Address(); ok {
+		_spec.SetField(organization.FieldAddress, field.TypeString, value)
+	}
+	if _u.mutation.AddressCleared() {
+		_spec.ClearField(organization.FieldAddress, field.TypeString)
+	}
+	if value, ok := _u.mutation.BusinessScope(); ok {
+		_spec.SetField(organization.FieldBusinessScope, field.TypeString, value)
+	}
+	if _u.mutation.BusinessScopeCleared() {
+		_spec.ClearField(organization.FieldBusinessScope, field.TypeString)
+	}
+	if value, ok := _u.mutation.IsLegalEntity(); ok {
+		_spec.SetField(organization.FieldIsLegalEntity, field.TypeBool, value)
+	}
+	if _u.mutation.IsLegalEntityCleared() {
+		_spec.ClearField(organization.FieldIsLegalEntity, field.TypeBool)
+	}
+	if value, ok := _u.mutation.ManagerID(); ok {
+		_spec.SetField(organization.FieldManagerID, field.TypeUint32, value)
+	}
+	if value, ok := _u.mutation.AddedManagerID(); ok {
+		_spec.AddField(organization.FieldManagerID, field.TypeUint32, value)
+	}
+	if _u.mutation.ManagerIDCleared() {
+		_spec.ClearField(organization.FieldManagerID, field.TypeUint32)
 	}
 	if _u.mutation.ParentCleared() {
 		edge := &sqlgraph.EdgeSpec{
@@ -533,26 +709,6 @@ func (_u *OrganizationUpdateOne) SetNillableDeleteTime(v *time.Time) *Organizati
 // ClearDeleteTime clears the value of the "delete_time" field.
 func (_u *OrganizationUpdateOne) ClearDeleteTime() *OrganizationUpdateOne {
 	_u.mutation.ClearDeleteTime()
-	return _u
-}
-
-// SetStatus sets the "status" field.
-func (_u *OrganizationUpdateOne) SetStatus(v organization.Status) *OrganizationUpdateOne {
-	_u.mutation.SetStatus(v)
-	return _u
-}
-
-// SetNillableStatus sets the "status" field if the given value is not nil.
-func (_u *OrganizationUpdateOne) SetNillableStatus(v *organization.Status) *OrganizationUpdateOne {
-	if v != nil {
-		_u.SetStatus(*v)
-	}
-	return _u
-}
-
-// ClearStatus clears the value of the "status" field.
-func (_u *OrganizationUpdateOne) ClearStatus() *OrganizationUpdateOne {
-	_u.mutation.ClearStatus()
 	return _u
 }
 
@@ -697,6 +853,153 @@ func (_u *OrganizationUpdateOne) ClearSortID() *OrganizationUpdateOne {
 	return _u
 }
 
+// SetStatus sets the "status" field.
+func (_u *OrganizationUpdateOne) SetStatus(v organization.Status) *OrganizationUpdateOne {
+	_u.mutation.SetStatus(v)
+	return _u
+}
+
+// SetNillableStatus sets the "status" field if the given value is not nil.
+func (_u *OrganizationUpdateOne) SetNillableStatus(v *organization.Status) *OrganizationUpdateOne {
+	if v != nil {
+		_u.SetStatus(*v)
+	}
+	return _u
+}
+
+// ClearStatus clears the value of the "status" field.
+func (_u *OrganizationUpdateOne) ClearStatus() *OrganizationUpdateOne {
+	_u.mutation.ClearStatus()
+	return _u
+}
+
+// SetOrganizationType sets the "organization_type" field.
+func (_u *OrganizationUpdateOne) SetOrganizationType(v organization.OrganizationType) *OrganizationUpdateOne {
+	_u.mutation.SetOrganizationType(v)
+	return _u
+}
+
+// SetNillableOrganizationType sets the "organization_type" field if the given value is not nil.
+func (_u *OrganizationUpdateOne) SetNillableOrganizationType(v *organization.OrganizationType) *OrganizationUpdateOne {
+	if v != nil {
+		_u.SetOrganizationType(*v)
+	}
+	return _u
+}
+
+// ClearOrganizationType clears the value of the "organization_type" field.
+func (_u *OrganizationUpdateOne) ClearOrganizationType() *OrganizationUpdateOne {
+	_u.mutation.ClearOrganizationType()
+	return _u
+}
+
+// SetCreditCode sets the "credit_code" field.
+func (_u *OrganizationUpdateOne) SetCreditCode(v string) *OrganizationUpdateOne {
+	_u.mutation.SetCreditCode(v)
+	return _u
+}
+
+// SetNillableCreditCode sets the "credit_code" field if the given value is not nil.
+func (_u *OrganizationUpdateOne) SetNillableCreditCode(v *string) *OrganizationUpdateOne {
+	if v != nil {
+		_u.SetCreditCode(*v)
+	}
+	return _u
+}
+
+// ClearCreditCode clears the value of the "credit_code" field.
+func (_u *OrganizationUpdateOne) ClearCreditCode() *OrganizationUpdateOne {
+	_u.mutation.ClearCreditCode()
+	return _u
+}
+
+// SetAddress sets the "address" field.
+func (_u *OrganizationUpdateOne) SetAddress(v string) *OrganizationUpdateOne {
+	_u.mutation.SetAddress(v)
+	return _u
+}
+
+// SetNillableAddress sets the "address" field if the given value is not nil.
+func (_u *OrganizationUpdateOne) SetNillableAddress(v *string) *OrganizationUpdateOne {
+	if v != nil {
+		_u.SetAddress(*v)
+	}
+	return _u
+}
+
+// ClearAddress clears the value of the "address" field.
+func (_u *OrganizationUpdateOne) ClearAddress() *OrganizationUpdateOne {
+	_u.mutation.ClearAddress()
+	return _u
+}
+
+// SetBusinessScope sets the "business_scope" field.
+func (_u *OrganizationUpdateOne) SetBusinessScope(v string) *OrganizationUpdateOne {
+	_u.mutation.SetBusinessScope(v)
+	return _u
+}
+
+// SetNillableBusinessScope sets the "business_scope" field if the given value is not nil.
+func (_u *OrganizationUpdateOne) SetNillableBusinessScope(v *string) *OrganizationUpdateOne {
+	if v != nil {
+		_u.SetBusinessScope(*v)
+	}
+	return _u
+}
+
+// ClearBusinessScope clears the value of the "business_scope" field.
+func (_u *OrganizationUpdateOne) ClearBusinessScope() *OrganizationUpdateOne {
+	_u.mutation.ClearBusinessScope()
+	return _u
+}
+
+// SetIsLegalEntity sets the "is_legal_entity" field.
+func (_u *OrganizationUpdateOne) SetIsLegalEntity(v bool) *OrganizationUpdateOne {
+	_u.mutation.SetIsLegalEntity(v)
+	return _u
+}
+
+// SetNillableIsLegalEntity sets the "is_legal_entity" field if the given value is not nil.
+func (_u *OrganizationUpdateOne) SetNillableIsLegalEntity(v *bool) *OrganizationUpdateOne {
+	if v != nil {
+		_u.SetIsLegalEntity(*v)
+	}
+	return _u
+}
+
+// ClearIsLegalEntity clears the value of the "is_legal_entity" field.
+func (_u *OrganizationUpdateOne) ClearIsLegalEntity() *OrganizationUpdateOne {
+	_u.mutation.ClearIsLegalEntity()
+	return _u
+}
+
+// SetManagerID sets the "manager_id" field.
+func (_u *OrganizationUpdateOne) SetManagerID(v uint32) *OrganizationUpdateOne {
+	_u.mutation.ResetManagerID()
+	_u.mutation.SetManagerID(v)
+	return _u
+}
+
+// SetNillableManagerID sets the "manager_id" field if the given value is not nil.
+func (_u *OrganizationUpdateOne) SetNillableManagerID(v *uint32) *OrganizationUpdateOne {
+	if v != nil {
+		_u.SetManagerID(*v)
+	}
+	return _u
+}
+
+// AddManagerID adds value to the "manager_id" field.
+func (_u *OrganizationUpdateOne) AddManagerID(v int32) *OrganizationUpdateOne {
+	_u.mutation.AddManagerID(v)
+	return _u
+}
+
+// ClearManagerID clears the value of the "manager_id" field.
+func (_u *OrganizationUpdateOne) ClearManagerID() *OrganizationUpdateOne {
+	_u.mutation.ClearManagerID()
+	return _u
+}
+
 // SetParent sets the "parent" edge to the Organization entity.
 func (_u *OrganizationUpdateOne) SetParent(v *Organization) *OrganizationUpdateOne {
 	return _u.SetParentID(v.ID)
@@ -791,9 +1094,19 @@ func (_u *OrganizationUpdateOne) ExecX(ctx context.Context) {
 
 // check runs all checks and user-defined validators on the builder.
 func (_u *OrganizationUpdateOne) check() error {
+	if v, ok := _u.mutation.Name(); ok {
+		if err := organization.NameValidator(v); err != nil {
+			return &ValidationError{Name: "name", err: fmt.Errorf(`ent: validator failed for field "Organization.name": %w`, err)}
+		}
+	}
 	if v, ok := _u.mutation.Status(); ok {
 		if err := organization.StatusValidator(v); err != nil {
 			return &ValidationError{Name: "status", err: fmt.Errorf(`ent: validator failed for field "Organization.status": %w`, err)}
+		}
+	}
+	if v, ok := _u.mutation.OrganizationType(); ok {
+		if err := organization.OrganizationTypeValidator(v); err != nil {
+			return &ValidationError{Name: "organization_type", err: fmt.Errorf(`ent: validator failed for field "Organization.organization_type": %w`, err)}
 		}
 	}
 	return nil
@@ -849,12 +1162,6 @@ func (_u *OrganizationUpdateOne) sqlSave(ctx context.Context) (_node *Organizati
 	if _u.mutation.DeleteTimeCleared() {
 		_spec.ClearField(organization.FieldDeleteTime, field.TypeTime)
 	}
-	if value, ok := _u.mutation.Status(); ok {
-		_spec.SetField(organization.FieldStatus, field.TypeEnum, value)
-	}
-	if _u.mutation.StatusCleared() {
-		_spec.ClearField(organization.FieldStatus, field.TypeEnum)
-	}
 	if value, ok := _u.mutation.CreateBy(); ok {
 		_spec.SetField(organization.FieldCreateBy, field.TypeUint32, value)
 	}
@@ -896,6 +1203,51 @@ func (_u *OrganizationUpdateOne) sqlSave(ctx context.Context) (_node *Organizati
 	}
 	if _u.mutation.SortIDCleared() {
 		_spec.ClearField(organization.FieldSortID, field.TypeInt32)
+	}
+	if value, ok := _u.mutation.Status(); ok {
+		_spec.SetField(organization.FieldStatus, field.TypeEnum, value)
+	}
+	if _u.mutation.StatusCleared() {
+		_spec.ClearField(organization.FieldStatus, field.TypeEnum)
+	}
+	if value, ok := _u.mutation.OrganizationType(); ok {
+		_spec.SetField(organization.FieldOrganizationType, field.TypeEnum, value)
+	}
+	if _u.mutation.OrganizationTypeCleared() {
+		_spec.ClearField(organization.FieldOrganizationType, field.TypeEnum)
+	}
+	if value, ok := _u.mutation.CreditCode(); ok {
+		_spec.SetField(organization.FieldCreditCode, field.TypeString, value)
+	}
+	if _u.mutation.CreditCodeCleared() {
+		_spec.ClearField(organization.FieldCreditCode, field.TypeString)
+	}
+	if value, ok := _u.mutation.Address(); ok {
+		_spec.SetField(organization.FieldAddress, field.TypeString, value)
+	}
+	if _u.mutation.AddressCleared() {
+		_spec.ClearField(organization.FieldAddress, field.TypeString)
+	}
+	if value, ok := _u.mutation.BusinessScope(); ok {
+		_spec.SetField(organization.FieldBusinessScope, field.TypeString, value)
+	}
+	if _u.mutation.BusinessScopeCleared() {
+		_spec.ClearField(organization.FieldBusinessScope, field.TypeString)
+	}
+	if value, ok := _u.mutation.IsLegalEntity(); ok {
+		_spec.SetField(organization.FieldIsLegalEntity, field.TypeBool, value)
+	}
+	if _u.mutation.IsLegalEntityCleared() {
+		_spec.ClearField(organization.FieldIsLegalEntity, field.TypeBool)
+	}
+	if value, ok := _u.mutation.ManagerID(); ok {
+		_spec.SetField(organization.FieldManagerID, field.TypeUint32, value)
+	}
+	if value, ok := _u.mutation.AddedManagerID(); ok {
+		_spec.AddField(organization.FieldManagerID, field.TypeUint32, value)
+	}
+	if _u.mutation.ManagerIDCleared() {
+		_spec.ClearField(organization.FieldManagerID, field.TypeUint32)
 	}
 	if _u.mutation.ParentCleared() {
 		edge := &sqlgraph.EdgeSpec{

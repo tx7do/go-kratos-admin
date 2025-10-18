@@ -69,26 +69,24 @@ func init() {
 	departmentMixin := schema.Department{}.Mixin()
 	departmentMixinFields0 := departmentMixin[0].Fields()
 	_ = departmentMixinFields0
-	departmentMixinFields2 := departmentMixin[2].Fields()
-	_ = departmentMixinFields2
+	departmentMixinFields4 := departmentMixin[4].Fields()
+	_ = departmentMixinFields4
 	departmentMixinFields5 := departmentMixin[5].Fields()
 	_ = departmentMixinFields5
-	departmentMixinFields6 := departmentMixin[6].Fields()
-	_ = departmentMixinFields6
 	departmentFields := schema.Department{}.Fields()
 	_ = departmentFields
 	// departmentDescRemark is the schema descriptor for remark field.
-	departmentDescRemark := departmentMixinFields5[0].Descriptor()
+	departmentDescRemark := departmentMixinFields4[0].Descriptor()
 	// department.DefaultRemark holds the default value on creation for the remark field.
 	department.DefaultRemark = departmentDescRemark.Default.(string)
 	// departmentDescTenantID is the schema descriptor for tenant_id field.
-	departmentDescTenantID := departmentMixinFields6[0].Descriptor()
+	departmentDescTenantID := departmentMixinFields5[0].Descriptor()
 	// department.TenantIDValidator is a validator for the "tenant_id" field. It is called by the builders before save.
 	department.TenantIDValidator = departmentDescTenantID.Validators[0].(func(uint32) error)
 	// departmentDescName is the schema descriptor for name field.
 	departmentDescName := departmentFields[0].Descriptor()
-	// department.DefaultName holds the default value on creation for the name field.
-	department.DefaultName = departmentDescName.Default.(string)
+	// department.NameValidator is a validator for the "name" field. It is called by the builders before save.
+	department.NameValidator = departmentDescName.Validators[0].(func(string) error)
 	// departmentDescSortID is the schema descriptor for sort_id field.
 	departmentDescSortID := departmentFields[3].Descriptor()
 	// department.DefaultSortID holds the default value on creation for the sort_id field.
@@ -222,26 +220,24 @@ func init() {
 	organizationMixin := schema.Organization{}.Mixin()
 	organizationMixinFields0 := organizationMixin[0].Fields()
 	_ = organizationMixinFields0
-	organizationMixinFields2 := organizationMixin[2].Fields()
-	_ = organizationMixinFields2
+	organizationMixinFields4 := organizationMixin[4].Fields()
+	_ = organizationMixinFields4
 	organizationMixinFields5 := organizationMixin[5].Fields()
 	_ = organizationMixinFields5
-	organizationMixinFields6 := organizationMixin[6].Fields()
-	_ = organizationMixinFields6
 	organizationFields := schema.Organization{}.Fields()
 	_ = organizationFields
 	// organizationDescRemark is the schema descriptor for remark field.
-	organizationDescRemark := organizationMixinFields5[0].Descriptor()
+	organizationDescRemark := organizationMixinFields4[0].Descriptor()
 	// organization.DefaultRemark holds the default value on creation for the remark field.
 	organization.DefaultRemark = organizationDescRemark.Default.(string)
 	// organizationDescTenantID is the schema descriptor for tenant_id field.
-	organizationDescTenantID := organizationMixinFields6[0].Descriptor()
+	organizationDescTenantID := organizationMixinFields5[0].Descriptor()
 	// organization.TenantIDValidator is a validator for the "tenant_id" field. It is called by the builders before save.
 	organization.TenantIDValidator = organizationDescTenantID.Validators[0].(func(uint32) error)
 	// organizationDescName is the schema descriptor for name field.
 	organizationDescName := organizationFields[0].Descriptor()
-	// organization.DefaultName holds the default value on creation for the name field.
-	organization.DefaultName = organizationDescName.Default.(string)
+	// organization.NameValidator is a validator for the "name" field. It is called by the builders before save.
+	organization.NameValidator = organizationDescName.Validators[0].(func(string) error)
 	// organizationDescSortID is the schema descriptor for sort_id field.
 	organizationDescSortID := organizationFields[2].Descriptor()
 	// organization.DefaultSortID holds the default value on creation for the sort_id field.

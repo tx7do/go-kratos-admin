@@ -31,6 +31,14 @@ service DepartmentService {
   rpc BatchCreate ( BatchCreateDepartmentsRequest ) returns ( BatchCreateDepartmentsResponse ) {}
 }
 
+// 部门状态
+enum DepartmentStatus {
+  DEPARTMENT_STATUS_UNSPECIFIED = 0; // 未指定
+
+  DEPARTMENT_STATUS_ON = 1; // 启用
+  DEPARTMENT_STATUS_OFF = 2; // 停用
+}
+
 // 部门
 message Department {
   optional uint32 id = 1 [
@@ -43,28 +51,41 @@ message Department {
     (gnostic.openapi.v3.property) = {description: "部门名称"}
   ];  // 部门名称
 
-  optional int32 organization_id = 3 [
+  optional string description = 3 [
+    json_name = "description",
+    (gnostic.openapi.v3.property) = {description: "职能描述"}
+  ];  // 职能描述
+
+  optional uint32 organization_id = 10 [
     json_name = "organizationId",
     (gnostic.openapi.v3.property) = {description: "所属组织ID"}
   ];  // 所属组织ID
 
-  optional string organization_name = 4 [
+  optional string organization_name = 11 [
     json_name = "organizationName",
     (gnostic.openapi.v3.property) = {description: "所属组织名称"}
   ];  // 所属组织名称
 
-  optional int32 sort_id = 10 [
+  optional uint32 manager_id = 12 [
+    json_name = "managerId",
+    (gnostic.openapi.v3.property) = {description: "负责人ID"}
+  ];  // 负责人ID
+
+  optional string manager_name = 13 [
+    json_name = "managerName",
+    (gnostic.openapi.v3.property) = {description: "负责人名称"}
+  ];  // 负责人名称
+
+  optional uint32 tenant_id = 14 [json_name = "tenantId", (gnostic.openapi.v3.property) = {description: "租户ID"}];  // 租户ID
+
+  optional int32 sort_id = 20 [
     json_name = "sortId",
     (gnostic.openapi.v3.property) = {description: "排序编号"}
   ];  // 排序编号
 
-  optional string status = 11 [(gnostic.openapi.v3.property) = {
-    description: "状态"
-    default: {string: "ON"}
-    enum: [{yaml: "ON"}, {yaml: "OFF"}]
-  }]; // 状态
+  optional DepartmentStatus status = 21 [(gnostic.openapi.v3.property) = {description: "状态"}]; // 状态
 
-  optional string remark = 12 [json_name = "remark", (gnostic.openapi.v3.property) = {description: "备注"}];  // 备注
+  optional string remark = 22 [json_name = "remark", (gnostic.openapi.v3.property) = {description: "备注"}];  // 备注
 
   optional uint32 parent_id = 50 [json_name = "parentId", (gnostic.openapi.v3.property) = {description: "父节点ID"}];  // 父节点ID
   repeated Department children = 51 [json_name = "children", (gnostic.openapi.v3.property) = {description: "子节点树"}];  // 子节点树

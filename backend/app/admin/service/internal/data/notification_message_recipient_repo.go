@@ -45,6 +45,7 @@ func NewNotificationMessageRecipientRepo(data *Data, logger log.Logger) *Notific
 func (r *NotificationMessageRecipientRepo) init() {
 	r.mapper.AppendConverters(copierutil.NewTimeStringConverterPair())
 	r.mapper.AppendConverters(copierutil.NewTimeTimestamppbConverterPair())
+
 	r.mapper.AppendConverters(r.statusConverter.NewConverterPair())
 }
 

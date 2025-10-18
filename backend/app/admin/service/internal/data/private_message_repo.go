@@ -45,6 +45,7 @@ func NewPrivateMessageRepo(data *Data, logger log.Logger) *PrivateMessageRepo {
 func (r *PrivateMessageRepo) init() {
 	r.mapper.AppendConverters(copierutil.NewTimeStringConverterPair())
 	r.mapper.AppendConverters(copierutil.NewTimeTimestamppbConverterPair())
+
 	r.mapper.AppendConverters(r.statusConverter.NewConverterPair())
 }
 

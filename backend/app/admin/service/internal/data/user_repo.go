@@ -50,6 +50,7 @@ func NewUserRepo(logger log.Logger, data *Data) *UserRepo {
 func (r *UserRepo) init() {
 	r.mapper.AppendConverters(copierutil.NewTimeStringConverterPair())
 	r.mapper.AppendConverters(copierutil.NewTimeTimestamppbConverterPair())
+
 	r.mapper.AppendConverters(r.statusConverter.NewConverterPair())
 	r.mapper.AppendConverters(r.genderConverter.NewConverterPair())
 	r.mapper.AppendConverters(r.authorityConverter.NewConverterPair())

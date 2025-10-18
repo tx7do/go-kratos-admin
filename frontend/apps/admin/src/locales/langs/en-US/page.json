@@ -63,14 +63,6 @@
       "create": "Create"
     }
   },
-  "dept": {
-    "moduleName": "Department",
-    "name": "Department Name",
-    "parentId": "Parent Department",
-    "button": {
-      "create": "Create"
-    }
-  },
   "dict": {
     "moduleName": "Dict",
     "key": "Key",
@@ -101,6 +93,27 @@
     "moduleName": "Organization",
     "name": "Organization Name",
     "parentId": "Parent Organization",
+    "organizationType": "Organization Type",
+    "isLegalEntity": "Is Legal Entity",
+    "businessScope": "Business Scope",
+    "creditCode": "Credit Code",
+    "address": "Address",
+    "managerId": "Manager ID",
+    "managerName": "Manager Name",
+    "button": {
+      "create": "Create"
+    }
+  },
+  "dept": {
+    "moduleName": "Department",
+    "name": "Department Name",
+    "parentId": "Parent Department",
+    "managerId": "Manager ID",
+    "managerName": "Manager Name",
+    "description": "Description",
+    "organization": "Organization",
+    "organizationId": "Organization ID",
+    "organizationName": "Organization Name",
     "button": {
       "create": "Create"
     }

@@ -99,6 +99,26 @@ func (m *Organization) validate(all bool) error {
 		// no validation rules for Name
 	}
 
+	if m.OrganizationType != nil {
+		// no validation rules for OrganizationType
+	}
+
+	if m.IsLegalEntity != nil {
+		// no validation rules for IsLegalEntity
+	}
+
+	if m.BusinessScope != nil {
+		// no validation rules for BusinessScope
+	}
+
+	if m.CreditCode != nil {
+		// no validation rules for CreditCode
+	}
+
+	if m.Address != nil {
+		// no validation rules for Address
+	}
+
 	if m.SortId != nil {
 		// no validation rules for SortId
 	}
@@ -109,6 +129,18 @@ func (m *Organization) validate(all bool) error {
 
 	if m.Remark != nil {
 		// no validation rules for Remark
+	}
+
+	if m.TenantId != nil {
+		// no validation rules for TenantId
+	}
+
+	if m.ManagerId != nil {
+		// no validation rules for ManagerId
+	}
+
+	if m.ManagerName != nil {
+		// no validation rules for ManagerName
 	}
 
 	if m.ParentId != nil {

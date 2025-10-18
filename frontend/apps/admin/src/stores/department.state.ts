@@ -1,5 +1,10 @@
+import { computed } from 'vue';
+
+import { $t } from '@vben/locales';
+
 import { defineStore } from 'pinia';
 
+import { DepartmentStatus } from '#/generated/api/user/service/v1/department.pb';
 import { defDepartmentService } from '#/services';
 import { makeQueryString, makeUpdateMask } from '#/utils/query';
 
@@ -78,3 +83,11 @@ export const useDepartmentStore = defineStore('department', () => {
     deleteDepartment,
   };
 });
+
+export const departmentStatusList = computed(() => [
+  { value: DepartmentStatus.DEPARTMENT_STATUS_ON, label: $t('enum.status.ON') },
+  {
+    value: DepartmentStatus.DEPARTMENT_STATUS_OFF,
+    label: $t('enum.status.OFF'),
+  },
+]);

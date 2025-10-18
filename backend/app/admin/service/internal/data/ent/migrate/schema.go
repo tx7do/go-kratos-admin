@@ -155,14 +155,16 @@ var (
 		{Name: "create_time", Type: field.TypeTime, Nullable: true, Comment: "创建时间"},
 		{Name: "update_time", Type: field.TypeTime, Nullable: true, Comment: "更新时间"},
 		{Name: "delete_time", Type: field.TypeTime, Nullable: true, Comment: "删除时间"},
-		{Name: "status", Type: field.TypeEnum, Nullable: true, Comment: "状态", Enums: []string{"OFF", "ON"}, Default: "ON"},
 		{Name: "create_by", Type: field.TypeUint32, Nullable: true, Comment: "创建者ID"},
 		{Name: "update_by", Type: field.TypeUint32, Nullable: true, Comment: "更新者ID"},
 		{Name: "remark", Type: field.TypeString, Nullable: true, Comment: "备注", Default: ""},
 		{Name: "tenant_id", Type: field.TypeUint32, Nullable: true, Comment: "租户ID"},
-		{Name: "name", Type: field.TypeString, Nullable: true, Comment: "名字", Default: ""},
-		{Name: "organization_id", Type: field.TypeUint32, Nullable: true, Comment: "所属组织ID"},
+		{Name: "name", Type: field.TypeString, Nullable: true, Comment: "部门名称"},
+		{Name: "organization_id", Type: field.TypeUint32, Comment: "所属组织ID"},
 		{Name: "sort_id", Type: field.TypeInt32, Nullable: true, Comment: "排序ID", Default: 0},
+		{Name: "status", Type: field.TypeEnum, Nullable: true, Comment: "部门状态", Enums: []string{"ON", "OFF"}},
+		{Name: "description", Type: field.TypeString, Nullable: true, Comment: "职能描述"},
+		{Name: "manager_id", Type: field.TypeUint32, Nullable: true, Comment: "负责人ID"},
 		{Name: "parent_id", Type: field.TypeUint32, Nullable: true, Comment: "上一层部门ID", SchemaType: map[string]string{"mysql": "int", "postgres": "serial"}},
 	}
 	// DepartmentsTable holds the schema information for the "departments" table.
@@ -174,7 +176,7 @@ var (
 		ForeignKeys: []*schema.ForeignKey{
 			{
 				Symbol:     "departments_departments_children",
-				Columns:    []*schema.Column{DepartmentsColumns[12]},
+				Columns:    []*schema.Column{DepartmentsColumns[14]},
 				RefColumns: []*schema.Column{DepartmentsColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
@@ -188,7 +190,7 @@ var (
 			{
 				Name:    "department_tenant_id",
 				Unique:  false,
-				Columns: []*schema.Column{DepartmentsColumns[8]},
+				Columns: []*schema.Column{DepartmentsColumns[7]},
 			},
 		},
 	}
@@ -416,13 +418,19 @@ var (
 		{Name: "create_time", Type: field.TypeTime, Nullable: true, Comment: "创建时间"},
 		{Name: "update_time", Type: field.TypeTime, Nullable: true, Comment: "更新时间"},
 		{Name: "delete_time", Type: field.TypeTime, Nullable: true, Comment: "删除时间"},
-		{Name: "status", Type: field.TypeEnum, Nullable: true, Comment: "状态", Enums: []string{"OFF", "ON"}, Default: "ON"},
 		{Name: "create_by", Type: field.TypeUint32, Nullable: true, Comment: "创建者ID"},
 		{Name: "update_by", Type: field.TypeUint32, Nullable: true, Comment: "更新者ID"},
 		{Name: "remark", Type: field.TypeString, Nullable: true, Comment: "备注", Default: ""},
 		{Name: "tenant_id", Type: field.TypeUint32, Nullable: true, Comment: "租户ID"},
-		{Name: "name", Type: field.TypeString, Nullable: true, Comment: "名字", Default: ""},
+		{Name: "name", Type: field.TypeString, Nullable: true, Comment: "组织名称"},
 		{Name: "sort_id", Type: field.TypeInt32, Nullable: true, Comment: "排序ID", Default: 0},
+		{Name: "status", Type: field.TypeEnum, Nullable: true, Comment: "组织状态", Enums: []string{"ON", "OFF"}},
+		{Name: "organization_type", Type: field.TypeEnum, Nullable: true, Comment: "组织类型", Enums: []string{"GROUP", "SUBSIDIARY", "FILIALE", "DIVISION"}},
+		{Name: "credit_code", Type: field.TypeString, Nullable: true, Comment: "统一社会信用代码"},
+		{Name: "address", Type: field.TypeString, Nullable: true, Comment: "注册地址"},
+		{Name: "business_scope", Type: field.TypeString, Nullable: true, Comment: "核心业务范围"},
+		{Name: "is_legal_entity", Type: field.TypeBool, Nullable: true, Comment: "是否法人实体"},
+		{Name: "manager_id", Type: field.TypeUint32, Nullable: true, Comment: "负责人ID"},
 		{Name: "parent_id", Type: field.TypeUint32, Nullable: true, Comment: "上一层组织ID", SchemaType: map[string]string{"mysql": "int", "postgres": "serial"}},
 	}
 	// OrganizationsTable holds the schema information for the "organizations" table.
@@ -434,7 +442,7 @@ var (
 		ForeignKeys: []*schema.ForeignKey{
 			{
 				Symbol:     "organizations_organizations_children",
-				Columns:    []*schema.Column{OrganizationsColumns[11]},
+				Columns:    []*schema.Column{OrganizationsColumns[17]},
 				RefColumns: []*schema.Column{OrganizationsColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
@@ -448,7 +456,7 @@ var (
 			{
 				Name:    "organization_tenant_id",
 				Unique:  false,
-				Columns: []*schema.Column{OrganizationsColumns[8]},
+				Columns: []*schema.Column{OrganizationsColumns[7]},
 			},
 		},
 	}

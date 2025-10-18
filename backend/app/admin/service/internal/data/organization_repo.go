@@ -22,18 +22,48 @@ import (
 	userV1 "kratos-admin/api/gen/go/user/service/v1"
 )
 
+var (
+	OrganizationStatusNameMap = map[int32]string{
+		int32(userV1.OrganizationStatus_ORGANIZATION_STATUS_ON):  string(organization.StatusORGANIZATION_STATUS_ON),
+		int32(userV1.OrganizationStatus_ORGANIZATION_STATUS_OFF): string(organization.StatusORGANIZATION_STATUS_OFF),
+	}
+
+	OrganizationStatusValueMap = map[string]int32{
+		string(organization.StatusORGANIZATION_STATUS_ON):  int32(userV1.OrganizationStatus_ORGANIZATION_STATUS_ON),
+		string(organization.StatusORGANIZATION_STATUS_OFF): int32(userV1.OrganizationStatus_ORGANIZATION_STATUS_OFF),
+	}
+
+	OrganizationTypeNameMap = map[int32]string{
+		int32(userV1.OrganizationType_ORGANIZATION_TYPE_GROUP):      string(organization.OrganizationTypeORGANIZATION_TYPE_GROUP),
+		int32(userV1.OrganizationType_ORGANIZATION_TYPE_SUBSIDIARY): string(organization.OrganizationTypeORGANIZATION_TYPE_SUBSIDIARY),
+		int32(userV1.OrganizationType_ORGANIZATION_TYPE_FILIALE):    string(organization.OrganizationTypeORGANIZATION_TYPE_FILIALE),
+		int32(userV1.OrganizationType_ORGANIZATION_TYPE_DIVISION):   string(organization.OrganizationTypeORGANIZATION_TYPE_DIVISION),
+	}
+
+	OrganizationTypeValueMap = map[string]int32{
+		string(organization.OrganizationTypeORGANIZATION_TYPE_GROUP):      int32(userV1.OrganizationType_ORGANIZATION_TYPE_GROUP),
+		string(organization.OrganizationTypeORGANIZATION_TYPE_SUBSIDIARY): int32(userV1.OrganizationType_ORGANIZATION_TYPE_SUBSIDIARY),
+		string(organization.OrganizationTypeORGANIZATION_TYPE_FILIALE):    int32(userV1.OrganizationType_ORGANIZATION_TYPE_FILIALE),
+		string(organization.OrganizationTypeORGANIZATION_TYPE_DIVISION):   int32(userV1.OrganizationType_ORGANIZATION_TYPE_DIVISION),
+	}
+)
+
 type OrganizationRepo struct {
 	data *Data
 	log  *log.Helper
 
-	mapper *mapper.CopierMapper[userV1.Organization, ent.Organization]
+	mapper          *mapper.CopierMapper[userV1.Organization, ent.Organization]
+	typeConverter   *mapper.EnumTypeConverter[userV1.OrganizationType, organization.OrganizationType]
+	statusConverter *mapper.EnumTypeConverter[userV1.OrganizationStatus, organization.Status]
 }
 
 func NewOrganizationRepo(data *Data, logger log.Logger) *OrganizationRepo {
 	repo := &OrganizationRepo{
-		log:    log.NewHelper(log.With(logger, "module", "organization/repo/admin-service")),
-		data:   data,
-		mapper: mapper.NewCopierMapper[userV1.Organization, ent.Organization](),
+		log:             log.NewHelper(log.With(logger, "module", "organization/repo/admin-service")),
+		data:            data,
+		mapper:          mapper.NewCopierMapper[userV1.Organization, ent.Organization](),
+		typeConverter:   mapper.NewEnumTypeConverter[userV1.OrganizationType, organization.OrganizationType](OrganizationTypeNameMap, OrganizationTypeValueMap),
+		statusConverter: mapper.NewEnumTypeConverter[userV1.OrganizationStatus, organization.Status](OrganizationStatusNameMap, OrganizationStatusValueMap),
 	}
 
 	repo.init()
@@ -44,6 +74,9 @@ func NewOrganizationRepo(data *Data, logger log.Logger) *OrganizationRepo {
 func (r *OrganizationRepo) init() {
 	r.mapper.AppendConverters(copierutil.NewTimeStringConverterPair())
 	r.mapper.AppendConverters(copierutil.NewTimeTimestamppbConverterPair())
+
+	r.mapper.AppendConverters(r.typeConverter.NewConverterPair())
+	r.mapper.AppendConverters(r.statusConverter.NewConverterPair())
 }
 
 func (r *OrganizationRepo) travelChild(nodes []*userV1.Organization, node *userV1.Organization) bool {
@@ -117,13 +150,14 @@ func (r *OrganizationRepo) List(ctx context.Context, req *pagination.PagingReque
 	}
 
 	sort.SliceStable(entities, func(i, j int) bool {
-		if entities[j].ParentID == nil {
-			return true
+		var sortI, sortJ int32
+		if entities[i].SortID != nil {
+			sortI = *entities[i].SortID
 		}
-		if entities[i].ParentID == nil {
-			return true
+		if entities[j].SortID != nil {
+			sortJ = *entities[j].SortID
 		}
-		return *entities[i].ParentID < *entities[j].ParentID
+		return sortI < sortJ
 	})
 
 	dtos := make([]*userV1.Organization, 0, len(entities))
@@ -196,7 +230,14 @@ func (r *OrganizationRepo) Create(ctx context.Context, req *userV1.CreateOrganiz
 		SetNillableParentID(req.Data.ParentId).
 		SetNillableSortID(req.Data.SortId).
 		SetNillableRemark(req.Data.Remark).
-		SetNillableStatus((*organization.Status)(req.Data.Status)).
+		SetNillableStatus(r.statusConverter.ToEntity(req.Data.Status)).
+		SetNillableOrganizationType(r.typeConverter.ToEntity(req.Data.OrganizationType)).
+		SetNillableIsLegalEntity(req.Data.IsLegalEntity).
+		SetNillableBusinessScope(req.Data.BusinessScope).
+		SetNillableCreditCode(req.Data.CreditCode).
+		SetNillableAddress(req.Data.Address).
+		SetNillableManagerID(req.Data.ManagerId).
+		SetNillableTenantID(req.Data.TenantId).
 		SetNillableCreateBy(req.Data.CreateBy).
 		SetNillableCreateTime(timeutil.TimestamppbToTime(req.Data.CreateTime))
 
@@ -250,7 +291,13 @@ func (r *OrganizationRepo) Update(ctx context.Context, req *userV1.UpdateOrganiz
 		SetNillableParentID(req.Data.ParentId).
 		SetNillableSortID(req.Data.SortId).
 		SetNillableRemark(req.Data.Remark).
-		SetNillableStatus((*organization.Status)(req.Data.Status)).
+		SetNillableStatus(r.statusConverter.ToEntity(req.Data.Status)).
+		SetNillableOrganizationType(r.typeConverter.ToEntity(req.Data.OrganizationType)).
+		SetNillableIsLegalEntity(req.Data.IsLegalEntity).
+		SetNillableBusinessScope(req.Data.BusinessScope).
+		SetNillableCreditCode(req.Data.CreditCode).
+		SetNillableAddress(req.Data.Address).
+		SetNillableManagerID(req.Data.ManagerId).
 		SetNillableUpdateBy(req.Data.UpdateBy).
 		SetNillableUpdateTime(timeutil.TimestamppbToTime(req.Data.UpdateTime))
 

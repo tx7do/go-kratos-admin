@@ -48,6 +48,7 @@ func NewMenuRepo(data *Data, logger log.Logger) *MenuRepo {
 func (r *MenuRepo) init() {
 	r.mapper.AppendConverters(copierutil.NewTimeStringConverterPair())
 	r.mapper.AppendConverters(copierutil.NewTimeTimestamppbConverterPair())
+
 	r.mapper.AppendConverters(r.statusConverter.NewConverterPair())
 	r.mapper.AppendConverters(r.typeConverter.NewConverterPair())
 }

@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { VxeGridProps } from '#/adapter/vxe-table';
-import type { PrivateMessage } from '#/generated/api/internal_message/service/v1/private_message.pb';
+import type { NotificationMessage } from '#/generated/api/internal_message/service/v1/notification_message.pb';
 
 import { h } from 'vue';
 
@@ -11,11 +11,11 @@ import { notification } from 'ant-design-vue';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
 import { $t } from '#/locales';
-import { usePrivateMessageStore } from '#/stores';
+import { useNotificationMessageStore } from '#/stores';
 
-import PrivateMessageDrawer from './private-message-drawer.vue';
+import NotificationMessageDrawer from './notification-message-drawer.vue';
 
-const privateMessageStore = usePrivateMessageStore();
+const notificationMessageStore = useNotificationMessageStore();
 
 const formOptions: VbenFormProps = {
   // 默认展开
@@ -28,7 +28,7 @@ const formOptions: VbenFormProps = {
     {
       component: 'Input',
       fieldName: 'subject',
-      label: $t('page.privateMessage.subject'),
+      label: $t('page.notificationMessage.subject'),
       componentProps: {
         placeholder: $t('ui.placeholder.input'),
         allowClear: true,
@@ -37,7 +37,7 @@ const formOptions: VbenFormProps = {
   ],
 };
 
-const gridOptions: VxeGridProps<PrivateMessage> = {
+const gridOptions: VxeGridProps<NotificationMessage> = {
   toolbarConfig: {
     custom: true,
     export: true,
@@ -59,7 +59,7 @@ const gridOptions: VxeGridProps<PrivateMessage> = {
       query: async ({ page }, formValues) => {
         console.log('query:', formValues);
 
-        return await privateMessageStore.listPrivateMessage(
+        return await notificationMessageStore.listNotificationMessage(
           true,
           page.currentPage,
           page.pageSize,
@@ -71,7 +71,14 @@ const gridOptions: VxeGridProps<PrivateMessage> = {
 
   columns: [
     { title: $t('ui.table.seq'), type: 'seq', width: 50 },
-    { title: $t('page.privateMessage.subject'), field: 'subject' },
+    {
+      title: $t('page.notificationMessage.subject'),
+      field: 'subject',
+    },
+    {
+      title: $t('page.notificationMessage.categoryName'),
+      field: 'categoryName',
+    },
     {
       title: $t('ui.table.createTime'),
       field: 'createTime',
@@ -93,7 +100,7 @@ const [Grid, gridApi] = useVbenVxeGrid({ gridOptions, formOptions });
 
 const [Drawer, drawerApi] = useVbenDrawer({
   // 连接抽离的组件
-  connectedComponent: PrivateMessageDrawer,
+  connectedComponent: NotificationMessageDrawer,
 
   onOpenChange(isOpen: boolean) {
     if (!isOpen) {
@@ -130,7 +137,7 @@ async function handleDelete(row: any) {
   console.log('删除', row);
 
   try {
-    await privateMessageStore.deletePrivateMessage(row.id);
+    await notificationMessageStore.deleteNotificationMessage(row.id);
 
     notification.success({
       message: $t('ui.notification.delete_success'),
@@ -152,7 +159,7 @@ async function handleStatusChanged(row: any, checked: boolean) {
   row.status = checked ? 'ON' : 'OFF';
 
   try {
-    await privateMessageStore.updatePrivateMessage(row.id, {
+    await notificationMessageStore.updateNotificationMessage(row.id, {
       status: row.status,
     });
 
@@ -171,10 +178,10 @@ async function handleStatusChanged(row: any, checked: boolean) {
 
 <template>
   <Page auto-content-height>
-    <Grid :table-title="$t('menu.system.privateMessage')">
+    <Grid :table-title="$t('menu.internalMessage.notificationMessage')">
       <template #toolbar-tools>
         <a-button class="mr-2" type="primary" @click="handleCreate">
-          {{ $t('page.privateMessage.button.create') }}
+          {{ $t('page.notificationMessage.button.create') }}
         </a-button>
       </template>
       <template #status="{ row }">
@@ -199,7 +206,7 @@ async function handleStatusChanged(row: any, checked: boolean) {
           :ok-text="$t('ui.button.ok')"
           :title="
             $t('ui.text.do_you_want_delete', {
-              moduleName: $t('page.privateMessage.moduleName'),
+              moduleName: $t('page.notificationMessage.moduleName'),
             })
           "
           @confirm="handleDelete(row)"

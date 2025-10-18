@@ -9,7 +9,7 @@ const system: RouteRecordRaw[] = [
     name: 'System',
     component: BasicLayout,
     meta: {
-      order: 2004,
+      order: 2005,
       icon: 'lucide:settings',
       title: $t('menu.system.moduleName'),
       keepAlive: true,
@@ -58,41 +58,6 @@ const system: RouteRecordRaw[] = [
           authority: ['super', 'admin'],
         },
         component: () => import('#/views/app/system/api_resource/index.vue'),
-      },
-
-      {
-        path: 'notifications',
-        name: 'NotificationMessageManagement',
-        meta: {
-          icon: 'lucide:bell',
-          title: $t('menu.system.notificationMessage'),
-          authority: ['super', 'admin'],
-        },
-        component: () =>
-          import('#/views/app/system/notification_message/index.vue'),
-      },
-
-      {
-        path: 'notification_categories',
-        name: 'NotificationMessageCategoryManagement',
-        meta: {
-          icon: 'lucide:bell-dot',
-          title: $t('menu.system.notificationMessageCategory'),
-          authority: ['super', 'admin'],
-        },
-        component: () =>
-          import('#/views/app/system/notification_message_category/index.vue'),
-      },
-
-      {
-        path: 'private_messages',
-        name: 'PrivateMessageManagement',
-        meta: {
-          icon: 'lucide:message-circle-more',
-          title: $t('menu.system.privateMessage'),
-          authority: ['super', 'admin'],
-        },
-        component: () => import('#/views/app/system/private_message/index.vue'),
       },
 
       {

@@ -30,14 +30,17 @@
     "task": "任务管理",
     "file": "文件管理",
     "apiResource": "API资源",
-    "notificationMessage": "通知消息",
-    "notificationMessageCategory": "通知类型",
-    "privateMessage": "私聊消息",
     "adminLoginRestriction": "登录限制"
   },
   "log": {
     "moduleName": "日志审计",
     "adminLoginLog": "登录日志",
     "adminOperationLog": "操作日志"
+  },
+  "internalMessage": {
+    "moduleName": "站内信",
+    "notificationMessage": "通知消息",
+    "notificationMessageCategory": "通知类型",
+    "privateMessage": "私聊消息"
   }
 }

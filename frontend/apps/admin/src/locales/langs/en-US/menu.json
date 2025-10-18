@@ -30,14 +30,17 @@
     "task": "Task Management",
     "file": "File Management",
     "apiResource": "API Resource",
-    "notificationMessage": "Notification Message",
-    "notificationMessageCategory": "Notification Type",
-    "privateMessage": "Private Message",
     "adminLoginRestriction": "Admin Login Restriction"
   },
   "log": {
     "moduleName": "Log Audit",
     "adminLoginLog": "Login Log",
     "adminOperationLog": "Operation Log"
+  },
+  "internalMessage": {
+    "moduleName": "Internal Message",
+    "notificationMessage": "Notification Message",
+    "notificationMessageCategory": "Notification Type",
+    "privateMessage": "Private Message"
   }
 }

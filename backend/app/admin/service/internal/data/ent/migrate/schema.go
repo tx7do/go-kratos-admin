@@ -161,10 +161,10 @@ var (
 		{Name: "tenant_id", Type: field.TypeUint32, Nullable: true, Comment: "租户ID"},
 		{Name: "name", Type: field.TypeString, Nullable: true, Comment: "部门名称"},
 		{Name: "organization_id", Type: field.TypeUint32, Comment: "所属组织ID"},
+		{Name: "manager_id", Type: field.TypeUint32, Nullable: true, Comment: "负责人ID"},
 		{Name: "sort_id", Type: field.TypeInt32, Nullable: true, Comment: "排序ID", Default: 0},
 		{Name: "status", Type: field.TypeEnum, Nullable: true, Comment: "部门状态", Enums: []string{"ON", "OFF"}},
 		{Name: "description", Type: field.TypeString, Nullable: true, Comment: "职能描述"},
-		{Name: "manager_id", Type: field.TypeUint32, Nullable: true, Comment: "负责人ID"},
 		{Name: "parent_id", Type: field.TypeUint32, Nullable: true, Comment: "上一层部门ID", SchemaType: map[string]string{"mysql": "int", "postgres": "serial"}},
 	}
 	// DepartmentsTable holds the schema information for the "departments" table.
@@ -466,14 +466,18 @@ var (
 		{Name: "create_time", Type: field.TypeTime, Nullable: true, Comment: "创建时间"},
 		{Name: "update_time", Type: field.TypeTime, Nullable: true, Comment: "更新时间"},
 		{Name: "delete_time", Type: field.TypeTime, Nullable: true, Comment: "删除时间"},
-		{Name: "status", Type: field.TypeEnum, Nullable: true, Comment: "状态", Enums: []string{"OFF", "ON"}, Default: "ON"},
 		{Name: "create_by", Type: field.TypeUint32, Nullable: true, Comment: "创建者ID"},
 		{Name: "update_by", Type: field.TypeUint32, Nullable: true, Comment: "更新者ID"},
 		{Name: "remark", Type: field.TypeString, Nullable: true, Comment: "备注", Default: ""},
 		{Name: "tenant_id", Type: field.TypeUint32, Nullable: true, Comment: "租户ID"},
 		{Name: "name", Type: field.TypeString, Size: 128, Comment: "职位名称", Default: ""},
-		{Name: "code", Type: field.TypeString, Size: 128, Comment: "职位标识", Default: ""},
-		{Name: "sort_id", Type: field.TypeInt32, Comment: "排序ID", Default: 0},
+		{Name: "code", Type: field.TypeString, Nullable: true, Comment: "唯一编码"},
+		{Name: "sort_id", Type: field.TypeInt32, Nullable: true, Comment: "排序ID", Default: 0},
+		{Name: "organization_id", Type: field.TypeUint32, Comment: "所属组织ID"},
+		{Name: "department_id", Type: field.TypeUint32, Comment: "所属部门ID"},
+		{Name: "status", Type: field.TypeEnum, Nullable: true, Comment: "职位状态", Enums: []string{"ON", "OFF"}},
+		{Name: "description", Type: field.TypeString, Nullable: true, Comment: "职能描述"},
+		{Name: "quota", Type: field.TypeUint32, Nullable: true, Comment: "编制人数"},
 		{Name: "parent_id", Type: field.TypeUint32, Nullable: true, Comment: "上一层职位ID", Default: 0, SchemaType: map[string]string{"mysql": "int", "postgres": "serial"}},
 	}
 	// PositionsTable holds the schema information for the "positions" table.
@@ -485,7 +489,7 @@ var (
 		ForeignKeys: []*schema.ForeignKey{
 			{
 				Symbol:     "positions_positions_children",
-				Columns:    []*schema.Column{PositionsColumns[12]},
+				Columns:    []*schema.Column{PositionsColumns[16]},
 				RefColumns: []*schema.Column{PositionsColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
@@ -499,7 +503,7 @@ var (
 			{
 				Name:    "position_tenant_id",
 				Unique:  false,
-				Columns: []*schema.Column{PositionsColumns[8]},
+				Columns: []*schema.Column{PositionsColumns[7]},
 			},
 		},
 	}

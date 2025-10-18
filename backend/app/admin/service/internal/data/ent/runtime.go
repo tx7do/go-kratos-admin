@@ -88,7 +88,7 @@ func init() {
 	// department.NameValidator is a validator for the "name" field. It is called by the builders before save.
 	department.NameValidator = departmentDescName.Validators[0].(func(string) error)
 	// departmentDescSortID is the schema descriptor for sort_id field.
-	departmentDescSortID := departmentFields[3].Descriptor()
+	departmentDescSortID := departmentFields[4].Descriptor()
 	// department.DefaultSortID holds the default value on creation for the sort_id field.
 	department.DefaultSortID = departmentDescSortID.Default.(int32)
 	// departmentDescID is the schema descriptor for id field.
@@ -249,20 +249,18 @@ func init() {
 	positionMixin := schema.Position{}.Mixin()
 	positionMixinFields0 := positionMixin[0].Fields()
 	_ = positionMixinFields0
-	positionMixinFields2 := positionMixin[2].Fields()
-	_ = positionMixinFields2
+	positionMixinFields4 := positionMixin[4].Fields()
+	_ = positionMixinFields4
 	positionMixinFields5 := positionMixin[5].Fields()
 	_ = positionMixinFields5
-	positionMixinFields6 := positionMixin[6].Fields()
-	_ = positionMixinFields6
 	positionFields := schema.Position{}.Fields()
 	_ = positionFields
 	// positionDescRemark is the schema descriptor for remark field.
-	positionDescRemark := positionMixinFields5[0].Descriptor()
+	positionDescRemark := positionMixinFields4[0].Descriptor()
 	// position.DefaultRemark holds the default value on creation for the remark field.
 	position.DefaultRemark = positionDescRemark.Default.(string)
 	// positionDescTenantID is the schema descriptor for tenant_id field.
-	positionDescTenantID := positionMixinFields6[0].Descriptor()
+	positionDescTenantID := positionMixinFields5[0].Descriptor()
 	// position.TenantIDValidator is a validator for the "tenant_id" field. It is called by the builders before save.
 	position.TenantIDValidator = positionDescTenantID.Validators[0].(func(uint32) error)
 	// positionDescName is the schema descriptor for name field.
@@ -271,12 +269,6 @@ func init() {
 	position.DefaultName = positionDescName.Default.(string)
 	// position.NameValidator is a validator for the "name" field. It is called by the builders before save.
 	position.NameValidator = positionDescName.Validators[0].(func(string) error)
-	// positionDescCode is the schema descriptor for code field.
-	positionDescCode := positionFields[1].Descriptor()
-	// position.DefaultCode holds the default value on creation for the code field.
-	position.DefaultCode = positionDescCode.Default.(string)
-	// position.CodeValidator is a validator for the "code" field. It is called by the builders before save.
-	position.CodeValidator = positionDescCode.Validators[0].(func(string) error)
 	// positionDescParentID is the schema descriptor for parent_id field.
 	positionDescParentID := positionFields[2].Descriptor()
 	// position.DefaultParentID holds the default value on creation for the parent_id field.

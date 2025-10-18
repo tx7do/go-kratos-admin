@@ -9,6 +9,16 @@ import type { Empty } from "../../../google/protobuf/empty.pb";
 import type { Timestamp } from "../../../google/protobuf/timestamp.pb";
 import type { PagingRequest } from "../../../pagination/v1/pagination.pb";
 
+/** 职位状态 */
+export enum PositionStatus {
+  /** PositionStatus_Invalid - 无效 */
+  PositionStatus_Invalid = "PositionStatus_Invalid",
+  /** POSITION_STATUS_ON - 启用 */
+  POSITION_STATUS_ON = "POSITION_STATUS_ON",
+  /** POSITION_STATUS_OFF - 禁用 */
+  POSITION_STATUS_OFF = "POSITION_STATUS_OFF",
+}
+
 /** 职位 */
 export interface Position {
   /** 职位ID */
@@ -21,24 +31,59 @@ export interface Position {
     | string
     | null
     | undefined;
-  /** 排序编号 */
-  sortId?:
-    | number
-    | null
-    | undefined;
-  /** 职位值 */
+  /** 唯一编码（建议规则：部门编码 + 职位类型 + 序号，如 “FIN-LEADER-001”），用于数据同步和快速识别 */
   code?:
     | string
     | null
     | undefined;
+  /** 编制人数（该职位最多可容纳的员工数量，0表示无限制） */
+  quota?:
+    | number
+    | null
+    | undefined;
+  /** 排序号 */
+  sortId?:
+    | number
+    | null
+    | undefined;
   /** 状态 */
   status?:
-    | string
+    | PositionStatus
     | null
     | undefined;
   /** 备注 */
   remark?:
     | string
+    | null
+    | undefined;
+  /** 职责描述 */
+  description?:
+    | string
+    | null
+    | undefined;
+  /** 所属组织ID */
+  organizationId?:
+    | number
+    | null
+    | undefined;
+  /** 所属组织名称 */
+  organizationName?:
+    | string
+    | null
+    | undefined;
+  /** 所属部门ID */
+  departmentId?:
+    | number
+    | null
+    | undefined;
+  /** 所属部门名称 */
+  departmentName?:
+    | string
+    | null
+    | undefined;
+  /** 租户ID */
+  tenantId?:
+    | number
     | null
     | undefined;
   /** 父节点ID */

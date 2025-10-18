@@ -38,14 +38,14 @@ type Department struct {
 	ParentID *uint32 `json:"parent_id,omitempty"`
 	// 所属组织ID
 	OrganizationID *uint32 `json:"organization_id,omitempty"`
+	// 负责人ID
+	ManagerID *uint32 `json:"manager_id,omitempty"`
 	// 排序ID
 	SortID *int32 `json:"sort_id,omitempty"`
 	// 部门状态
 	Status *department.Status `json:"status,omitempty"`
 	// 职能描述
 	Description *string `json:"description,omitempty"`
-	// 负责人ID
-	ManagerID *uint32 `json:"manager_id,omitempty"`
 	// Edges holds the relations/edges for other nodes in the graph.
 	// The values are being populated by the DepartmentQuery when eager-loading is set.
 	Edges        DepartmentEdges `json:"edges"`
@@ -88,7 +88,7 @@ func (*Department) scanValues(columns []string) ([]any, error) {
 	values := make([]any, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case department.FieldID, department.FieldCreateBy, department.FieldUpdateBy, department.FieldTenantID, department.FieldParentID, department.FieldOrganizationID, department.FieldSortID, department.FieldManagerID:
+		case department.FieldID, department.FieldCreateBy, department.FieldUpdateBy, department.FieldTenantID, department.FieldParentID, department.FieldOrganizationID, department.FieldManagerID, department.FieldSortID:
 			values[i] = new(sql.NullInt64)
 		case department.FieldRemark, department.FieldName, department.FieldStatus, department.FieldDescription:
 			values[i] = new(sql.NullString)
@@ -185,6 +185,13 @@ func (_m *Department) assignValues(columns []string, values []any) error {
 				_m.OrganizationID = new(uint32)
 				*_m.OrganizationID = uint32(value.Int64)
 			}
+		case department.FieldManagerID:
+			if value, ok := values[i].(*sql.NullInt64); !ok {
+				return fmt.Errorf("unexpected type %T for field manager_id", values[i])
+			} else if value.Valid {
+				_m.ManagerID = new(uint32)
+				*_m.ManagerID = uint32(value.Int64)
+			}
 		case department.FieldSortID:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field sort_id", values[i])
@@ -205,13 +212,6 @@ func (_m *Department) assignValues(columns []string, values []any) error {
 			} else if value.Valid {
 				_m.Description = new(string)
 				*_m.Description = value.String
-			}
-		case department.FieldManagerID:
-			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for field manager_id", values[i])
-			} else if value.Valid {
-				_m.ManagerID = new(uint32)
-				*_m.ManagerID = uint32(value.Int64)
 			}
 		default:
 			_m.selectValues.Set(columns[i], values[i])
@@ -309,6 +309,11 @@ func (_m *Department) String() string {
 		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteString(", ")
+	if v := _m.ManagerID; v != nil {
+		builder.WriteString("manager_id=")
+		builder.WriteString(fmt.Sprintf("%v", *v))
+	}
+	builder.WriteString(", ")
 	if v := _m.SortID; v != nil {
 		builder.WriteString("sort_id=")
 		builder.WriteString(fmt.Sprintf("%v", *v))
@@ -322,11 +327,6 @@ func (_m *Department) String() string {
 	if v := _m.Description; v != nil {
 		builder.WriteString("description=")
 		builder.WriteString(*v)
-	}
-	builder.WriteString(", ")
-	if v := _m.ManagerID; v != nil {
-		builder.WriteString("manager_id=")
-		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteByte(')')
 	return builder.String()

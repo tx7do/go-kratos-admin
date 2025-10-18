@@ -99,12 +99,16 @@ func (m *Position) validate(all bool) error {
 		// no validation rules for Name
 	}
 
-	if m.SortId != nil {
-		// no validation rules for SortId
-	}
-
 	if m.Code != nil {
 		// no validation rules for Code
+	}
+
+	if m.Quota != nil {
+		// no validation rules for Quota
+	}
+
+	if m.SortId != nil {
+		// no validation rules for SortId
 	}
 
 	if m.Status != nil {
@@ -113,6 +117,30 @@ func (m *Position) validate(all bool) error {
 
 	if m.Remark != nil {
 		// no validation rules for Remark
+	}
+
+	if m.Description != nil {
+		// no validation rules for Description
+	}
+
+	if m.OrganizationId != nil {
+		// no validation rules for OrganizationId
+	}
+
+	if m.OrganizationName != nil {
+		// no validation rules for OrganizationName
+	}
+
+	if m.DepartmentId != nil {
+		// no validation rules for DepartmentId
+	}
+
+	if m.DepartmentName != nil {
+		// no validation rules for DepartmentName
+	}
+
+	if m.TenantId != nil {
+		// no validation rules for TenantId
 	}
 
 	if m.ParentId != nil {

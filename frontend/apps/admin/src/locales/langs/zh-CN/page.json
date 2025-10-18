@@ -121,6 +121,16 @@
   "position": {
     "moduleName": "职位",
     "name": "职位名称",
+    "parentId": "上级职位",
+    "organization": "所属组织",
+    "organizationId": "所属组织ID",
+    "organizationName": "所属组织名称",
+    "department": "所属部门",
+    "departmentId": "所属部门ID",
+    "departmentName": "所属部门名称",
+    "description": "职责描述",
+    "code": "唯一编码",
+    "quota": "编制人数",
     "button": {
       "create": "创建职位"
     }

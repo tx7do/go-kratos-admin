@@ -34,14 +34,14 @@ const (
 	FieldParentID = "parent_id"
 	// FieldOrganizationID holds the string denoting the organization_id field in the database.
 	FieldOrganizationID = "organization_id"
+	// FieldManagerID holds the string denoting the manager_id field in the database.
+	FieldManagerID = "manager_id"
 	// FieldSortID holds the string denoting the sort_id field in the database.
 	FieldSortID = "sort_id"
 	// FieldStatus holds the string denoting the status field in the database.
 	FieldStatus = "status"
 	// FieldDescription holds the string denoting the description field in the database.
 	FieldDescription = "description"
-	// FieldManagerID holds the string denoting the manager_id field in the database.
-	FieldManagerID = "manager_id"
 	// EdgeParent holds the string denoting the parent edge name in mutations.
 	EdgeParent = "parent"
 	// EdgeChildren holds the string denoting the children edge name in mutations.
@@ -71,10 +71,10 @@ var Columns = []string{
 	FieldName,
 	FieldParentID,
 	FieldOrganizationID,
+	FieldManagerID,
 	FieldSortID,
 	FieldStatus,
 	FieldDescription,
-	FieldManagerID,
 }
 
 // ValidColumn reports if the column name is valid (part of the table columns).
@@ -181,6 +181,11 @@ func ByOrganizationID(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldOrganizationID, opts...).ToFunc()
 }
 
+// ByManagerID orders the results by the manager_id field.
+func ByManagerID(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldManagerID, opts...).ToFunc()
+}
+
 // BySortID orders the results by the sort_id field.
 func BySortID(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldSortID, opts...).ToFunc()
@@ -194,11 +199,6 @@ func ByStatus(opts ...sql.OrderTermOption) OrderOption {
 // ByDescription orders the results by the description field.
 func ByDescription(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldDescription, opts...).ToFunc()
-}
-
-// ByManagerID orders the results by the manager_id field.
-func ByManagerID(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldManagerID, opts...).ToFunc()
 }
 
 // ByParentField orders the results by parent field.

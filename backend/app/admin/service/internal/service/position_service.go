@@ -14,6 +14,7 @@ import (
 	userV1 "kratos-admin/api/gen/go/user/service/v1"
 
 	"kratos-admin/pkg/middleware/auth"
+	"kratos-admin/pkg/utils/name_set"
 )
 
 type PositionService struct {
@@ -21,23 +22,71 @@ type PositionService struct {
 
 	log *log.Helper
 
-	repo *data.PositionRepo
+	positionRepo     *data.PositionRepo
+	departmentRepo   *data.DepartmentRepo
+	organizationRepo *data.OrganizationRepo
 }
 
-func NewPositionService(logger log.Logger, repo *data.PositionRepo) *PositionService {
+func NewPositionService(
+	logger log.Logger,
+	positionRepo *data.PositionRepo,
+	departmentRepo *data.DepartmentRepo,
+	organizationRepo *data.OrganizationRepo,
+) *PositionService {
 	l := log.NewHelper(log.With(logger, "module", "position/service/admin-service"))
 	return &PositionService{
-		log:  l,
-		repo: repo,
+		log:              l,
+		positionRepo:     positionRepo,
+		departmentRepo:   departmentRepo,
+		organizationRepo: organizationRepo,
 	}
 }
 
 func (s *PositionService) List(ctx context.Context, req *pagination.PagingRequest) (*userV1.ListPositionResponse, error) {
-	return s.repo.List(ctx, req)
+	resp, err := s.positionRepo.List(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+
+	var deptSet = make(name_set.UserNameSetMap)
+	var orgSet = make(name_set.UserNameSetMap)
+
+	InitPositionOrgId(resp.Items, &orgSet, &deptSet)
+
+	QueryOrganizationInfoFromRepo(ctx, s.organizationRepo, &orgSet)
+	QueryDepartmentInfoFromRepo(ctx, s.departmentRepo, &deptSet)
+
+	FilePositionOrganizationInfo(resp.Items, &orgSet)
+	FilePositionDepartmentInfo(resp.Items, &deptSet)
+
+	return resp, nil
 }
 
 func (s *PositionService) Get(ctx context.Context, req *userV1.GetPositionRequest) (*userV1.Position, error) {
-	return s.repo.Get(ctx, req)
+	resp, err := s.positionRepo.Get(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+
+	if resp.OrganizationId != nil {
+		organization, err := s.organizationRepo.Get(ctx, &userV1.GetOrganizationRequest{Id: resp.GetOrganizationId()})
+		if err == nil && organization != nil {
+			resp.OrganizationName = organization.Name
+		} else {
+			s.log.Warnf("Get position organization failed: %v", err)
+		}
+	}
+
+	if resp.DepartmentId != nil {
+		department, err := s.departmentRepo.Get(ctx, &userV1.GetDepartmentRequest{Id: resp.GetDepartmentId()})
+		if err == nil && department != nil {
+			resp.DepartmentName = department.Name
+		} else {
+			s.log.Warnf("Get position department failed: %v", err)
+		}
+	}
+
+	return resp, nil
 }
 
 func (s *PositionService) Create(ctx context.Context, req *userV1.CreatePositionRequest) (*emptypb.Empty, error) {
@@ -53,7 +102,7 @@ func (s *PositionService) Create(ctx context.Context, req *userV1.CreatePosition
 
 	req.Data.CreateBy = trans.Ptr(operator.UserId)
 
-	if err = s.repo.Create(ctx, req); err != nil {
+	if err = s.positionRepo.Create(ctx, req); err != nil {
 		return nil, err
 	}
 
@@ -73,7 +122,7 @@ func (s *PositionService) Update(ctx context.Context, req *userV1.UpdatePosition
 
 	req.Data.UpdateBy = trans.Ptr(operator.UserId)
 
-	if err = s.repo.Update(ctx, req); err != nil {
+	if err = s.positionRepo.Update(ctx, req); err != nil {
 		return nil, err
 	}
 
@@ -81,7 +130,7 @@ func (s *PositionService) Update(ctx context.Context, req *userV1.UpdatePosition
 }
 
 func (s *PositionService) Delete(ctx context.Context, req *userV1.DeletePositionRequest) (*emptypb.Empty, error) {
-	if err := s.repo.Delete(ctx, req); err != nil {
+	if err := s.positionRepo.Delete(ctx, req); err != nil {
 		return nil, err
 	}
 

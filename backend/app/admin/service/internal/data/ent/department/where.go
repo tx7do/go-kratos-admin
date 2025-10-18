@@ -105,6 +105,11 @@ func OrganizationID(v uint32) predicate.Department {
 	return predicate.Department(sql.FieldEQ(FieldOrganizationID, v))
 }
 
+// ManagerID applies equality check predicate on the "manager_id" field. It's identical to ManagerIDEQ.
+func ManagerID(v uint32) predicate.Department {
+	return predicate.Department(sql.FieldEQ(FieldManagerID, v))
+}
+
 // SortID applies equality check predicate on the "sort_id" field. It's identical to SortIDEQ.
 func SortID(v int32) predicate.Department {
 	return predicate.Department(sql.FieldEQ(FieldSortID, v))
@@ -113,11 +118,6 @@ func SortID(v int32) predicate.Department {
 // Description applies equality check predicate on the "description" field. It's identical to DescriptionEQ.
 func Description(v string) predicate.Department {
 	return predicate.Department(sql.FieldEQ(FieldDescription, v))
-}
-
-// ManagerID applies equality check predicate on the "manager_id" field. It's identical to ManagerIDEQ.
-func ManagerID(v uint32) predicate.Department {
-	return predicate.Department(sql.FieldEQ(FieldManagerID, v))
 }
 
 // CreateTimeEQ applies the EQ predicate on the "create_time" field.
@@ -640,6 +640,56 @@ func OrganizationIDLTE(v uint32) predicate.Department {
 	return predicate.Department(sql.FieldLTE(FieldOrganizationID, v))
 }
 
+// ManagerIDEQ applies the EQ predicate on the "manager_id" field.
+func ManagerIDEQ(v uint32) predicate.Department {
+	return predicate.Department(sql.FieldEQ(FieldManagerID, v))
+}
+
+// ManagerIDNEQ applies the NEQ predicate on the "manager_id" field.
+func ManagerIDNEQ(v uint32) predicate.Department {
+	return predicate.Department(sql.FieldNEQ(FieldManagerID, v))
+}
+
+// ManagerIDIn applies the In predicate on the "manager_id" field.
+func ManagerIDIn(vs ...uint32) predicate.Department {
+	return predicate.Department(sql.FieldIn(FieldManagerID, vs...))
+}
+
+// ManagerIDNotIn applies the NotIn predicate on the "manager_id" field.
+func ManagerIDNotIn(vs ...uint32) predicate.Department {
+	return predicate.Department(sql.FieldNotIn(FieldManagerID, vs...))
+}
+
+// ManagerIDGT applies the GT predicate on the "manager_id" field.
+func ManagerIDGT(v uint32) predicate.Department {
+	return predicate.Department(sql.FieldGT(FieldManagerID, v))
+}
+
+// ManagerIDGTE applies the GTE predicate on the "manager_id" field.
+func ManagerIDGTE(v uint32) predicate.Department {
+	return predicate.Department(sql.FieldGTE(FieldManagerID, v))
+}
+
+// ManagerIDLT applies the LT predicate on the "manager_id" field.
+func ManagerIDLT(v uint32) predicate.Department {
+	return predicate.Department(sql.FieldLT(FieldManagerID, v))
+}
+
+// ManagerIDLTE applies the LTE predicate on the "manager_id" field.
+func ManagerIDLTE(v uint32) predicate.Department {
+	return predicate.Department(sql.FieldLTE(FieldManagerID, v))
+}
+
+// ManagerIDIsNil applies the IsNil predicate on the "manager_id" field.
+func ManagerIDIsNil() predicate.Department {
+	return predicate.Department(sql.FieldIsNull(FieldManagerID))
+}
+
+// ManagerIDNotNil applies the NotNil predicate on the "manager_id" field.
+func ManagerIDNotNil() predicate.Department {
+	return predicate.Department(sql.FieldNotNull(FieldManagerID))
+}
+
 // SortIDEQ applies the EQ predicate on the "sort_id" field.
 func SortIDEQ(v int32) predicate.Department {
 	return predicate.Department(sql.FieldEQ(FieldSortID, v))
@@ -793,56 +843,6 @@ func DescriptionEqualFold(v string) predicate.Department {
 // DescriptionContainsFold applies the ContainsFold predicate on the "description" field.
 func DescriptionContainsFold(v string) predicate.Department {
 	return predicate.Department(sql.FieldContainsFold(FieldDescription, v))
-}
-
-// ManagerIDEQ applies the EQ predicate on the "manager_id" field.
-func ManagerIDEQ(v uint32) predicate.Department {
-	return predicate.Department(sql.FieldEQ(FieldManagerID, v))
-}
-
-// ManagerIDNEQ applies the NEQ predicate on the "manager_id" field.
-func ManagerIDNEQ(v uint32) predicate.Department {
-	return predicate.Department(sql.FieldNEQ(FieldManagerID, v))
-}
-
-// ManagerIDIn applies the In predicate on the "manager_id" field.
-func ManagerIDIn(vs ...uint32) predicate.Department {
-	return predicate.Department(sql.FieldIn(FieldManagerID, vs...))
-}
-
-// ManagerIDNotIn applies the NotIn predicate on the "manager_id" field.
-func ManagerIDNotIn(vs ...uint32) predicate.Department {
-	return predicate.Department(sql.FieldNotIn(FieldManagerID, vs...))
-}
-
-// ManagerIDGT applies the GT predicate on the "manager_id" field.
-func ManagerIDGT(v uint32) predicate.Department {
-	return predicate.Department(sql.FieldGT(FieldManagerID, v))
-}
-
-// ManagerIDGTE applies the GTE predicate on the "manager_id" field.
-func ManagerIDGTE(v uint32) predicate.Department {
-	return predicate.Department(sql.FieldGTE(FieldManagerID, v))
-}
-
-// ManagerIDLT applies the LT predicate on the "manager_id" field.
-func ManagerIDLT(v uint32) predicate.Department {
-	return predicate.Department(sql.FieldLT(FieldManagerID, v))
-}
-
-// ManagerIDLTE applies the LTE predicate on the "manager_id" field.
-func ManagerIDLTE(v uint32) predicate.Department {
-	return predicate.Department(sql.FieldLTE(FieldManagerID, v))
-}
-
-// ManagerIDIsNil applies the IsNil predicate on the "manager_id" field.
-func ManagerIDIsNil() predicate.Department {
-	return predicate.Department(sql.FieldIsNull(FieldManagerID))
-}
-
-// ManagerIDNotNil applies the NotNil predicate on the "manager_id" field.
-func ManagerIDNotNil() predicate.Department {
-	return predicate.Department(sql.FieldNotNull(FieldManagerID))
 }
 
 // HasParent applies the HasEdge predicate on the "parent" edge.

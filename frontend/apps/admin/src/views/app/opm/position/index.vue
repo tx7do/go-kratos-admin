@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import type { VxeGridProps } from '#/adapter/vxe-table';
-import type { Position } from '#/generated/api/user/service/v1/position.pb';
 
 import { h } from 'vue';
 
@@ -10,6 +9,10 @@ import { LucideFilePenLine, LucideTrash2 } from '@vben/icons';
 import { notification } from 'ant-design-vue';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
+import {
+  type Position,
+  PositionStatus,
+} from '#/generated/api/user/service/v1/position.pb';
 import { $t } from '#/locales';
 import { statusList, usePositionStore } from '#/stores';
 
@@ -29,6 +32,15 @@ const formOptions: VbenFormProps = {
       component: 'Input',
       fieldName: 'name',
       label: $t('page.position.name'),
+      componentProps: {
+        placeholder: $t('ui.placeholder.input'),
+        allowClear: true,
+      },
+    },
+    {
+      component: 'Input',
+      fieldName: 'code',
+      label: $t('page.position.code'),
       componentProps: {
         placeholder: $t('ui.placeholder.input'),
         allowClear: true,
@@ -88,6 +100,19 @@ const gridOptions: VxeGridProps<Position> = {
   columns: [
     { title: $t('ui.table.seq'), type: 'seq', width: 50 },
     { title: $t('page.position.name'), field: 'name', treeNode: true },
+    { title: $t('page.position.code'), field: 'code', width: 150 },
+    { title: $t('page.position.description'), field: 'description' },
+    {
+      title: $t('page.position.organizationName'),
+      field: 'organizationName',
+      width: 150,
+    },
+    {
+      title: $t('page.position.departmentName'),
+      field: 'departmentName',
+      width: 150,
+    },
+    { title: $t('page.position.quota'), field: 'quota', width: 80 },
     { title: $t('ui.table.sortId'), field: 'sortId', width: 70 },
     {
       title: $t('ui.table.status'),
@@ -171,7 +196,9 @@ async function handleStatusChanged(row: any, checked: boolean) {
   console.log('handleStatusChanged', row.status, checked);
 
   row.pending = true;
-  row.status = checked ? 'ON' : 'OFF';
+  row.status = checked
+    ? PositionStatus.POSITION_STATUS_ON
+    : PositionStatus.POSITION_STATUS_OFF;
 
   try {
     await positionStore.updatePosition(row.id, { status: row.status });
@@ -213,7 +240,7 @@ const collapseAll = () => {
       </template>
       <template #status="{ row }">
         <a-switch
-          :checked="row.status === 'ON'"
+          :checked="row.status === PositionStatus.POSITION_STATUS_ON"
           :loading="row.pending"
           :checked-children="$t('ui.switch.active')"
           :un-checked-children="$t('ui.switch.inactive')"

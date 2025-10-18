@@ -64,20 +64,6 @@ func (_c *PositionCreate) SetNillableDeleteTime(v *time.Time) *PositionCreate {
 	return _c
 }
 
-// SetStatus sets the "status" field.
-func (_c *PositionCreate) SetStatus(v position.Status) *PositionCreate {
-	_c.mutation.SetStatus(v)
-	return _c
-}
-
-// SetNillableStatus sets the "status" field if the given value is not nil.
-func (_c *PositionCreate) SetNillableStatus(v *position.Status) *PositionCreate {
-	if v != nil {
-		_c.SetStatus(*v)
-	}
-	return _c
-}
-
 // SetCreateBy sets the "create_by" field.
 func (_c *PositionCreate) SetCreateBy(v uint32) *PositionCreate {
 	_c.mutation.SetCreateBy(v)
@@ -190,6 +176,60 @@ func (_c *PositionCreate) SetNillableSortID(v *int32) *PositionCreate {
 	return _c
 }
 
+// SetOrganizationID sets the "organization_id" field.
+func (_c *PositionCreate) SetOrganizationID(v uint32) *PositionCreate {
+	_c.mutation.SetOrganizationID(v)
+	return _c
+}
+
+// SetDepartmentID sets the "department_id" field.
+func (_c *PositionCreate) SetDepartmentID(v uint32) *PositionCreate {
+	_c.mutation.SetDepartmentID(v)
+	return _c
+}
+
+// SetStatus sets the "status" field.
+func (_c *PositionCreate) SetStatus(v position.Status) *PositionCreate {
+	_c.mutation.SetStatus(v)
+	return _c
+}
+
+// SetNillableStatus sets the "status" field if the given value is not nil.
+func (_c *PositionCreate) SetNillableStatus(v *position.Status) *PositionCreate {
+	if v != nil {
+		_c.SetStatus(*v)
+	}
+	return _c
+}
+
+// SetDescription sets the "description" field.
+func (_c *PositionCreate) SetDescription(v string) *PositionCreate {
+	_c.mutation.SetDescription(v)
+	return _c
+}
+
+// SetNillableDescription sets the "description" field if the given value is not nil.
+func (_c *PositionCreate) SetNillableDescription(v *string) *PositionCreate {
+	if v != nil {
+		_c.SetDescription(*v)
+	}
+	return _c
+}
+
+// SetQuota sets the "quota" field.
+func (_c *PositionCreate) SetQuota(v uint32) *PositionCreate {
+	_c.mutation.SetQuota(v)
+	return _c
+}
+
+// SetNillableQuota sets the "quota" field if the given value is not nil.
+func (_c *PositionCreate) SetNillableQuota(v *uint32) *PositionCreate {
+	if v != nil {
+		_c.SetQuota(*v)
+	}
+	return _c
+}
+
 // SetID sets the "id" field.
 func (_c *PositionCreate) SetID(v uint32) *PositionCreate {
 	_c.mutation.SetID(v)
@@ -251,10 +291,6 @@ func (_c *PositionCreate) ExecX(ctx context.Context) {
 
 // defaults sets the default values of the builder before save.
 func (_c *PositionCreate) defaults() {
-	if _, ok := _c.mutation.Status(); !ok {
-		v := position.DefaultStatus
-		_c.mutation.SetStatus(v)
-	}
 	if _, ok := _c.mutation.Remark(); !ok {
 		v := position.DefaultRemark
 		_c.mutation.SetRemark(v)
@@ -262,10 +298,6 @@ func (_c *PositionCreate) defaults() {
 	if _, ok := _c.mutation.Name(); !ok {
 		v := position.DefaultName
 		_c.mutation.SetName(v)
-	}
-	if _, ok := _c.mutation.Code(); !ok {
-		v := position.DefaultCode
-		_c.mutation.SetCode(v)
 	}
 	if _, ok := _c.mutation.ParentID(); !ok {
 		v := position.DefaultParentID
@@ -279,11 +311,6 @@ func (_c *PositionCreate) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (_c *PositionCreate) check() error {
-	if v, ok := _c.mutation.Status(); ok {
-		if err := position.StatusValidator(v); err != nil {
-			return &ValidationError{Name: "status", err: fmt.Errorf(`ent: validator failed for field "Position.status": %w`, err)}
-		}
-	}
 	if v, ok := _c.mutation.TenantID(); ok {
 		if err := position.TenantIDValidator(v); err != nil {
 			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "Position.tenant_id": %w`, err)}
@@ -297,16 +324,16 @@ func (_c *PositionCreate) check() error {
 			return &ValidationError{Name: "name", err: fmt.Errorf(`ent: validator failed for field "Position.name": %w`, err)}
 		}
 	}
-	if _, ok := _c.mutation.Code(); !ok {
-		return &ValidationError{Name: "code", err: errors.New(`ent: missing required field "Position.code"`)}
+	if _, ok := _c.mutation.OrganizationID(); !ok {
+		return &ValidationError{Name: "organization_id", err: errors.New(`ent: missing required field "Position.organization_id"`)}
 	}
-	if v, ok := _c.mutation.Code(); ok {
-		if err := position.CodeValidator(v); err != nil {
-			return &ValidationError{Name: "code", err: fmt.Errorf(`ent: validator failed for field "Position.code": %w`, err)}
+	if _, ok := _c.mutation.DepartmentID(); !ok {
+		return &ValidationError{Name: "department_id", err: errors.New(`ent: missing required field "Position.department_id"`)}
+	}
+	if v, ok := _c.mutation.Status(); ok {
+		if err := position.StatusValidator(v); err != nil {
+			return &ValidationError{Name: "status", err: fmt.Errorf(`ent: validator failed for field "Position.status": %w`, err)}
 		}
-	}
-	if _, ok := _c.mutation.SortID(); !ok {
-		return &ValidationError{Name: "sort_id", err: errors.New(`ent: missing required field "Position.sort_id"`)}
 	}
 	if v, ok := _c.mutation.ID(); ok {
 		if err := position.IDValidator(v); err != nil {
@@ -358,10 +385,6 @@ func (_c *PositionCreate) createSpec() (*Position, *sqlgraph.CreateSpec) {
 		_spec.SetField(position.FieldDeleteTime, field.TypeTime, value)
 		_node.DeleteTime = &value
 	}
-	if value, ok := _c.mutation.Status(); ok {
-		_spec.SetField(position.FieldStatus, field.TypeEnum, value)
-		_node.Status = &value
-	}
 	if value, ok := _c.mutation.CreateBy(); ok {
 		_spec.SetField(position.FieldCreateBy, field.TypeUint32, value)
 		_node.CreateBy = &value
@@ -384,11 +407,31 @@ func (_c *PositionCreate) createSpec() (*Position, *sqlgraph.CreateSpec) {
 	}
 	if value, ok := _c.mutation.Code(); ok {
 		_spec.SetField(position.FieldCode, field.TypeString, value)
-		_node.Code = value
+		_node.Code = &value
 	}
 	if value, ok := _c.mutation.SortID(); ok {
 		_spec.SetField(position.FieldSortID, field.TypeInt32, value)
-		_node.SortID = value
+		_node.SortID = &value
+	}
+	if value, ok := _c.mutation.OrganizationID(); ok {
+		_spec.SetField(position.FieldOrganizationID, field.TypeUint32, value)
+		_node.OrganizationID = &value
+	}
+	if value, ok := _c.mutation.DepartmentID(); ok {
+		_spec.SetField(position.FieldDepartmentID, field.TypeUint32, value)
+		_node.DepartmentID = &value
+	}
+	if value, ok := _c.mutation.Status(); ok {
+		_spec.SetField(position.FieldStatus, field.TypeEnum, value)
+		_node.Status = &value
+	}
+	if value, ok := _c.mutation.Description(); ok {
+		_spec.SetField(position.FieldDescription, field.TypeString, value)
+		_node.Description = &value
+	}
+	if value, ok := _c.mutation.Quota(); ok {
+		_spec.SetField(position.FieldQuota, field.TypeUint32, value)
+		_node.Quota = &value
 	}
 	if nodes := _c.mutation.ParentIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
@@ -404,7 +447,7 @@ func (_c *PositionCreate) createSpec() (*Position, *sqlgraph.CreateSpec) {
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
-		_node.ParentID = nodes[0]
+		_node.ParentID = &nodes[0]
 		_spec.Edges = append(_spec.Edges, edge)
 	}
 	if nodes := _c.mutation.ChildrenIDs(); len(nodes) > 0 {
@@ -511,24 +554,6 @@ func (u *PositionUpsert) ClearDeleteTime() *PositionUpsert {
 	return u
 }
 
-// SetStatus sets the "status" field.
-func (u *PositionUpsert) SetStatus(v position.Status) *PositionUpsert {
-	u.Set(position.FieldStatus, v)
-	return u
-}
-
-// UpdateStatus sets the "status" field to the value that was provided on create.
-func (u *PositionUpsert) UpdateStatus() *PositionUpsert {
-	u.SetExcluded(position.FieldStatus)
-	return u
-}
-
-// ClearStatus clears the value of the "status" field.
-func (u *PositionUpsert) ClearStatus() *PositionUpsert {
-	u.SetNull(position.FieldStatus)
-	return u
-}
-
 // SetCreateBy sets the "create_by" field.
 func (u *PositionUpsert) SetCreateBy(v uint32) *PositionUpsert {
 	u.Set(position.FieldCreateBy, v)
@@ -619,6 +644,12 @@ func (u *PositionUpsert) UpdateCode() *PositionUpsert {
 	return u
 }
 
+// ClearCode clears the value of the "code" field.
+func (u *PositionUpsert) ClearCode() *PositionUpsert {
+	u.SetNull(position.FieldCode)
+	return u
+}
+
 // SetParentID sets the "parent_id" field.
 func (u *PositionUpsert) SetParentID(v uint32) *PositionUpsert {
 	u.Set(position.FieldParentID, v)
@@ -652,6 +683,108 @@ func (u *PositionUpsert) UpdateSortID() *PositionUpsert {
 // AddSortID adds v to the "sort_id" field.
 func (u *PositionUpsert) AddSortID(v int32) *PositionUpsert {
 	u.Add(position.FieldSortID, v)
+	return u
+}
+
+// ClearSortID clears the value of the "sort_id" field.
+func (u *PositionUpsert) ClearSortID() *PositionUpsert {
+	u.SetNull(position.FieldSortID)
+	return u
+}
+
+// SetOrganizationID sets the "organization_id" field.
+func (u *PositionUpsert) SetOrganizationID(v uint32) *PositionUpsert {
+	u.Set(position.FieldOrganizationID, v)
+	return u
+}
+
+// UpdateOrganizationID sets the "organization_id" field to the value that was provided on create.
+func (u *PositionUpsert) UpdateOrganizationID() *PositionUpsert {
+	u.SetExcluded(position.FieldOrganizationID)
+	return u
+}
+
+// AddOrganizationID adds v to the "organization_id" field.
+func (u *PositionUpsert) AddOrganizationID(v uint32) *PositionUpsert {
+	u.Add(position.FieldOrganizationID, v)
+	return u
+}
+
+// SetDepartmentID sets the "department_id" field.
+func (u *PositionUpsert) SetDepartmentID(v uint32) *PositionUpsert {
+	u.Set(position.FieldDepartmentID, v)
+	return u
+}
+
+// UpdateDepartmentID sets the "department_id" field to the value that was provided on create.
+func (u *PositionUpsert) UpdateDepartmentID() *PositionUpsert {
+	u.SetExcluded(position.FieldDepartmentID)
+	return u
+}
+
+// AddDepartmentID adds v to the "department_id" field.
+func (u *PositionUpsert) AddDepartmentID(v uint32) *PositionUpsert {
+	u.Add(position.FieldDepartmentID, v)
+	return u
+}
+
+// SetStatus sets the "status" field.
+func (u *PositionUpsert) SetStatus(v position.Status) *PositionUpsert {
+	u.Set(position.FieldStatus, v)
+	return u
+}
+
+// UpdateStatus sets the "status" field to the value that was provided on create.
+func (u *PositionUpsert) UpdateStatus() *PositionUpsert {
+	u.SetExcluded(position.FieldStatus)
+	return u
+}
+
+// ClearStatus clears the value of the "status" field.
+func (u *PositionUpsert) ClearStatus() *PositionUpsert {
+	u.SetNull(position.FieldStatus)
+	return u
+}
+
+// SetDescription sets the "description" field.
+func (u *PositionUpsert) SetDescription(v string) *PositionUpsert {
+	u.Set(position.FieldDescription, v)
+	return u
+}
+
+// UpdateDescription sets the "description" field to the value that was provided on create.
+func (u *PositionUpsert) UpdateDescription() *PositionUpsert {
+	u.SetExcluded(position.FieldDescription)
+	return u
+}
+
+// ClearDescription clears the value of the "description" field.
+func (u *PositionUpsert) ClearDescription() *PositionUpsert {
+	u.SetNull(position.FieldDescription)
+	return u
+}
+
+// SetQuota sets the "quota" field.
+func (u *PositionUpsert) SetQuota(v uint32) *PositionUpsert {
+	u.Set(position.FieldQuota, v)
+	return u
+}
+
+// UpdateQuota sets the "quota" field to the value that was provided on create.
+func (u *PositionUpsert) UpdateQuota() *PositionUpsert {
+	u.SetExcluded(position.FieldQuota)
+	return u
+}
+
+// AddQuota adds v to the "quota" field.
+func (u *PositionUpsert) AddQuota(v uint32) *PositionUpsert {
+	u.Add(position.FieldQuota, v)
+	return u
+}
+
+// ClearQuota clears the value of the "quota" field.
+func (u *PositionUpsert) ClearQuota() *PositionUpsert {
+	u.SetNull(position.FieldQuota)
 	return u
 }
 
@@ -748,27 +881,6 @@ func (u *PositionUpsertOne) UpdateDeleteTime() *PositionUpsertOne {
 func (u *PositionUpsertOne) ClearDeleteTime() *PositionUpsertOne {
 	return u.Update(func(s *PositionUpsert) {
 		s.ClearDeleteTime()
-	})
-}
-
-// SetStatus sets the "status" field.
-func (u *PositionUpsertOne) SetStatus(v position.Status) *PositionUpsertOne {
-	return u.Update(func(s *PositionUpsert) {
-		s.SetStatus(v)
-	})
-}
-
-// UpdateStatus sets the "status" field to the value that was provided on create.
-func (u *PositionUpsertOne) UpdateStatus() *PositionUpsertOne {
-	return u.Update(func(s *PositionUpsert) {
-		s.UpdateStatus()
-	})
-}
-
-// ClearStatus clears the value of the "status" field.
-func (u *PositionUpsertOne) ClearStatus() *PositionUpsertOne {
-	return u.Update(func(s *PositionUpsert) {
-		s.ClearStatus()
 	})
 }
 
@@ -877,6 +989,13 @@ func (u *PositionUpsertOne) UpdateCode() *PositionUpsertOne {
 	})
 }
 
+// ClearCode clears the value of the "code" field.
+func (u *PositionUpsertOne) ClearCode() *PositionUpsertOne {
+	return u.Update(func(s *PositionUpsert) {
+		s.ClearCode()
+	})
+}
+
 // SetParentID sets the "parent_id" field.
 func (u *PositionUpsertOne) SetParentID(v uint32) *PositionUpsertOne {
 	return u.Update(func(s *PositionUpsert) {
@@ -916,6 +1035,125 @@ func (u *PositionUpsertOne) AddSortID(v int32) *PositionUpsertOne {
 func (u *PositionUpsertOne) UpdateSortID() *PositionUpsertOne {
 	return u.Update(func(s *PositionUpsert) {
 		s.UpdateSortID()
+	})
+}
+
+// ClearSortID clears the value of the "sort_id" field.
+func (u *PositionUpsertOne) ClearSortID() *PositionUpsertOne {
+	return u.Update(func(s *PositionUpsert) {
+		s.ClearSortID()
+	})
+}
+
+// SetOrganizationID sets the "organization_id" field.
+func (u *PositionUpsertOne) SetOrganizationID(v uint32) *PositionUpsertOne {
+	return u.Update(func(s *PositionUpsert) {
+		s.SetOrganizationID(v)
+	})
+}
+
+// AddOrganizationID adds v to the "organization_id" field.
+func (u *PositionUpsertOne) AddOrganizationID(v uint32) *PositionUpsertOne {
+	return u.Update(func(s *PositionUpsert) {
+		s.AddOrganizationID(v)
+	})
+}
+
+// UpdateOrganizationID sets the "organization_id" field to the value that was provided on create.
+func (u *PositionUpsertOne) UpdateOrganizationID() *PositionUpsertOne {
+	return u.Update(func(s *PositionUpsert) {
+		s.UpdateOrganizationID()
+	})
+}
+
+// SetDepartmentID sets the "department_id" field.
+func (u *PositionUpsertOne) SetDepartmentID(v uint32) *PositionUpsertOne {
+	return u.Update(func(s *PositionUpsert) {
+		s.SetDepartmentID(v)
+	})
+}
+
+// AddDepartmentID adds v to the "department_id" field.
+func (u *PositionUpsertOne) AddDepartmentID(v uint32) *PositionUpsertOne {
+	return u.Update(func(s *PositionUpsert) {
+		s.AddDepartmentID(v)
+	})
+}
+
+// UpdateDepartmentID sets the "department_id" field to the value that was provided on create.
+func (u *PositionUpsertOne) UpdateDepartmentID() *PositionUpsertOne {
+	return u.Update(func(s *PositionUpsert) {
+		s.UpdateDepartmentID()
+	})
+}
+
+// SetStatus sets the "status" field.
+func (u *PositionUpsertOne) SetStatus(v position.Status) *PositionUpsertOne {
+	return u.Update(func(s *PositionUpsert) {
+		s.SetStatus(v)
+	})
+}
+
+// UpdateStatus sets the "status" field to the value that was provided on create.
+func (u *PositionUpsertOne) UpdateStatus() *PositionUpsertOne {
+	return u.Update(func(s *PositionUpsert) {
+		s.UpdateStatus()
+	})
+}
+
+// ClearStatus clears the value of the "status" field.
+func (u *PositionUpsertOne) ClearStatus() *PositionUpsertOne {
+	return u.Update(func(s *PositionUpsert) {
+		s.ClearStatus()
+	})
+}
+
+// SetDescription sets the "description" field.
+func (u *PositionUpsertOne) SetDescription(v string) *PositionUpsertOne {
+	return u.Update(func(s *PositionUpsert) {
+		s.SetDescription(v)
+	})
+}
+
+// UpdateDescription sets the "description" field to the value that was provided on create.
+func (u *PositionUpsertOne) UpdateDescription() *PositionUpsertOne {
+	return u.Update(func(s *PositionUpsert) {
+		s.UpdateDescription()
+	})
+}
+
+// ClearDescription clears the value of the "description" field.
+func (u *PositionUpsertOne) ClearDescription() *PositionUpsertOne {
+	return u.Update(func(s *PositionUpsert) {
+		s.ClearDescription()
+	})
+}
+
+// SetQuota sets the "quota" field.
+func (u *PositionUpsertOne) SetQuota(v uint32) *PositionUpsertOne {
+	return u.Update(func(s *PositionUpsert) {
+		s.SetQuota(v)
+	})
+}
+
+// AddQuota adds v to the "quota" field.
+func (u *PositionUpsertOne) AddQuota(v uint32) *PositionUpsertOne {
+	return u.Update(func(s *PositionUpsert) {
+		s.AddQuota(v)
+	})
+}
+
+// UpdateQuota sets the "quota" field to the value that was provided on create.
+func (u *PositionUpsertOne) UpdateQuota() *PositionUpsertOne {
+	return u.Update(func(s *PositionUpsert) {
+		s.UpdateQuota()
+	})
+}
+
+// ClearQuota clears the value of the "quota" field.
+func (u *PositionUpsertOne) ClearQuota() *PositionUpsertOne {
+	return u.Update(func(s *PositionUpsert) {
+		s.ClearQuota()
 	})
 }
 
@@ -1181,27 +1419,6 @@ func (u *PositionUpsertBulk) ClearDeleteTime() *PositionUpsertBulk {
 	})
 }
 
-// SetStatus sets the "status" field.
-func (u *PositionUpsertBulk) SetStatus(v position.Status) *PositionUpsertBulk {
-	return u.Update(func(s *PositionUpsert) {
-		s.SetStatus(v)
-	})
-}
-
-// UpdateStatus sets the "status" field to the value that was provided on create.
-func (u *PositionUpsertBulk) UpdateStatus() *PositionUpsertBulk {
-	return u.Update(func(s *PositionUpsert) {
-		s.UpdateStatus()
-	})
-}
-
-// ClearStatus clears the value of the "status" field.
-func (u *PositionUpsertBulk) ClearStatus() *PositionUpsertBulk {
-	return u.Update(func(s *PositionUpsert) {
-		s.ClearStatus()
-	})
-}
-
 // SetCreateBy sets the "create_by" field.
 func (u *PositionUpsertBulk) SetCreateBy(v uint32) *PositionUpsertBulk {
 	return u.Update(func(s *PositionUpsert) {
@@ -1307,6 +1524,13 @@ func (u *PositionUpsertBulk) UpdateCode() *PositionUpsertBulk {
 	})
 }
 
+// ClearCode clears the value of the "code" field.
+func (u *PositionUpsertBulk) ClearCode() *PositionUpsertBulk {
+	return u.Update(func(s *PositionUpsert) {
+		s.ClearCode()
+	})
+}
+
 // SetParentID sets the "parent_id" field.
 func (u *PositionUpsertBulk) SetParentID(v uint32) *PositionUpsertBulk {
 	return u.Update(func(s *PositionUpsert) {
@@ -1346,6 +1570,125 @@ func (u *PositionUpsertBulk) AddSortID(v int32) *PositionUpsertBulk {
 func (u *PositionUpsertBulk) UpdateSortID() *PositionUpsertBulk {
 	return u.Update(func(s *PositionUpsert) {
 		s.UpdateSortID()
+	})
+}
+
+// ClearSortID clears the value of the "sort_id" field.
+func (u *PositionUpsertBulk) ClearSortID() *PositionUpsertBulk {
+	return u.Update(func(s *PositionUpsert) {
+		s.ClearSortID()
+	})
+}
+
+// SetOrganizationID sets the "organization_id" field.
+func (u *PositionUpsertBulk) SetOrganizationID(v uint32) *PositionUpsertBulk {
+	return u.Update(func(s *PositionUpsert) {
+		s.SetOrganizationID(v)
+	})
+}
+
+// AddOrganizationID adds v to the "organization_id" field.
+func (u *PositionUpsertBulk) AddOrganizationID(v uint32) *PositionUpsertBulk {
+	return u.Update(func(s *PositionUpsert) {
+		s.AddOrganizationID(v)
+	})
+}
+
+// UpdateOrganizationID sets the "organization_id" field to the value that was provided on create.
+func (u *PositionUpsertBulk) UpdateOrganizationID() *PositionUpsertBulk {
+	return u.Update(func(s *PositionUpsert) {
+		s.UpdateOrganizationID()
+	})
+}
+
+// SetDepartmentID sets the "department_id" field.
+func (u *PositionUpsertBulk) SetDepartmentID(v uint32) *PositionUpsertBulk {
+	return u.Update(func(s *PositionUpsert) {
+		s.SetDepartmentID(v)
+	})
+}
+
+// AddDepartmentID adds v to the "department_id" field.
+func (u *PositionUpsertBulk) AddDepartmentID(v uint32) *PositionUpsertBulk {
+	return u.Update(func(s *PositionUpsert) {
+		s.AddDepartmentID(v)
+	})
+}
+
+// UpdateDepartmentID sets the "department_id" field to the value that was provided on create.
+func (u *PositionUpsertBulk) UpdateDepartmentID() *PositionUpsertBulk {
+	return u.Update(func(s *PositionUpsert) {
+		s.UpdateDepartmentID()
+	})
+}
+
+// SetStatus sets the "status" field.
+func (u *PositionUpsertBulk) SetStatus(v position.Status) *PositionUpsertBulk {
+	return u.Update(func(s *PositionUpsert) {
+		s.SetStatus(v)
+	})
+}
+
+// UpdateStatus sets the "status" field to the value that was provided on create.
+func (u *PositionUpsertBulk) UpdateStatus() *PositionUpsertBulk {
+	return u.Update(func(s *PositionUpsert) {
+		s.UpdateStatus()
+	})
+}
+
+// ClearStatus clears the value of the "status" field.
+func (u *PositionUpsertBulk) ClearStatus() *PositionUpsertBulk {
+	return u.Update(func(s *PositionUpsert) {
+		s.ClearStatus()
+	})
+}
+
+// SetDescription sets the "description" field.
+func (u *PositionUpsertBulk) SetDescription(v string) *PositionUpsertBulk {
+	return u.Update(func(s *PositionUpsert) {
+		s.SetDescription(v)
+	})
+}
+
+// UpdateDescription sets the "description" field to the value that was provided on create.
+func (u *PositionUpsertBulk) UpdateDescription() *PositionUpsertBulk {
+	return u.Update(func(s *PositionUpsert) {
+		s.UpdateDescription()
+	})
+}
+
+// ClearDescription clears the value of the "description" field.
+func (u *PositionUpsertBulk) ClearDescription() *PositionUpsertBulk {
+	return u.Update(func(s *PositionUpsert) {
+		s.ClearDescription()
+	})
+}
+
+// SetQuota sets the "quota" field.
+func (u *PositionUpsertBulk) SetQuota(v uint32) *PositionUpsertBulk {
+	return u.Update(func(s *PositionUpsert) {
+		s.SetQuota(v)
+	})
+}
+
+// AddQuota adds v to the "quota" field.
+func (u *PositionUpsertBulk) AddQuota(v uint32) *PositionUpsertBulk {
+	return u.Update(func(s *PositionUpsert) {
+		s.AddQuota(v)
+	})
+}
+
+// UpdateQuota sets the "quota" field to the value that was provided on create.
+func (u *PositionUpsertBulk) UpdateQuota() *PositionUpsertBulk {
+	return u.Update(func(s *PositionUpsert) {
+		s.UpdateQuota()
+	})
+}
+
+// ClearQuota clears the value of the "quota" field.
+func (u *PositionUpsertBulk) ClearQuota() *PositionUpsertBulk {
+	return u.Update(func(s *PositionUpsert) {
+		s.ClearQuota()
 	})
 }
 

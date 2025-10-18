@@ -121,6 +121,16 @@
   "position": {
     "moduleName": "Position",
     "name": "Position Name",
+    "parentId": "Parent Position",
+    "organization": "Organization",
+    "organizationId": "Organization ID",
+    "organizationName": "Organization Name",
+    "department": "Department",
+    "departmentId": "Department ID",
+    "departmentName": "Department Name",
+    "description": "Description",
+    "code": "Code",
+    "quota": "Quota",
     "button": {
       "create": "Create"
     }

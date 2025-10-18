@@ -2,6 +2,7 @@ package data
 
 import (
 	"context"
+	"sort"
 	"time"
 
 	"entgo.io/ent/dialect/sql"
@@ -21,18 +22,32 @@ import (
 	userV1 "kratos-admin/api/gen/go/user/service/v1"
 )
 
+var (
+	PositionStatusNameMap = map[int32]string{
+		int32(userV1.PositionStatus_POSITION_STATUS_ON):  string(position.StatusPOSITION_STATUS_ON),
+		int32(userV1.PositionStatus_POSITION_STATUS_OFF): string(position.StatusPOSITION_STATUS_OFF),
+	}
+
+	PositionStatusValueMap = map[string]int32{
+		string(position.StatusPOSITION_STATUS_ON):  int32(userV1.PositionStatus_POSITION_STATUS_ON),
+		string(position.StatusPOSITION_STATUS_OFF): int32(userV1.PositionStatus_POSITION_STATUS_OFF),
+	}
+)
+
 type PositionRepo struct {
 	data *Data
 	log  *log.Helper
 
-	mapper *mapper.CopierMapper[userV1.Position, ent.Position]
+	mapper          *mapper.CopierMapper[userV1.Position, ent.Position]
+	statusConverter *mapper.EnumTypeConverter[userV1.PositionStatus, position.Status]
 }
 
 func NewPositionRepo(data *Data, logger log.Logger) *PositionRepo {
 	repo := &PositionRepo{
-		log:    log.NewHelper(log.With(logger, "module", "position/repo/admin-service")),
-		data:   data,
-		mapper: mapper.NewCopierMapper[userV1.Position, ent.Position](),
+		log:             log.NewHelper(log.With(logger, "module", "position/repo/admin-service")),
+		data:            data,
+		mapper:          mapper.NewCopierMapper[userV1.Position, ent.Position](),
+		statusConverter: mapper.NewEnumTypeConverter[userV1.PositionStatus, position.Status](PositionStatusNameMap, PositionStatusValueMap),
 	}
 
 	repo.init()
@@ -43,6 +58,35 @@ func NewPositionRepo(data *Data, logger log.Logger) *PositionRepo {
 func (r *PositionRepo) init() {
 	r.mapper.AppendConverters(copierutil.NewTimeStringConverterPair())
 	r.mapper.AppendConverters(copierutil.NewTimeTimestamppbConverterPair())
+
+	r.mapper.AppendConverters(r.statusConverter.NewConverterPair())
+}
+
+func (r *PositionRepo) travelChild(nodes []*userV1.Position, node *userV1.Position) bool {
+	if nodes == nil {
+		return false
+	}
+
+	if node.ParentId == nil {
+		nodes = append(nodes, node)
+		return true
+	}
+
+	for _, n := range nodes {
+		if node.ParentId == nil {
+			continue
+		}
+
+		if n.GetId() == node.GetParentId() {
+			n.Children = append(n.Children, node)
+			return true
+		} else {
+			if r.travelChild(n.Children, node) {
+				return true
+			}
+		}
+	}
+	return false
 }
 
 func (r *PositionRepo) Count(ctx context.Context, whereCond []func(s *sql.Selector)) (int, error) {
@@ -88,10 +132,34 @@ func (r *PositionRepo) List(ctx context.Context, req *pagination.PagingRequest) 
 		return nil, userV1.ErrorInternalServerError("query list failed")
 	}
 
+	sort.SliceStable(entities, func(i, j int) bool {
+		var sortI, sortJ int32
+		if entities[i].SortID != nil {
+			sortI = *entities[i].SortID
+		}
+		if entities[j].SortID != nil {
+			sortJ = *entities[j].SortID
+		}
+		return sortI < sortJ
+	})
+
 	dtos := make([]*userV1.Position, 0, len(entities))
 	for _, entity := range entities {
-		dto := r.mapper.ToDTO(entity)
-		dtos = append(dtos, dto)
+		if entity.ParentID == nil {
+			dto := r.mapper.ToDTO(entity)
+			dtos = append(dtos, dto)
+		}
+	}
+	for _, entity := range entities {
+		if entity.ParentID != nil {
+			dto := r.mapper.ToDTO(entity)
+
+			if r.travelChild(dtos, dto) {
+				continue
+			}
+
+			dtos = append(dtos, dto)
+		}
 	}
 
 	count, err := r.Count(ctx, whereSelectors)
@@ -145,8 +213,13 @@ func (r *PositionRepo) Create(ctx context.Context, req *userV1.CreatePositionReq
 		SetNillableParentID(req.Data.ParentId).
 		SetNillableSortID(req.Data.SortId).
 		SetNillableCode(req.Data.Code).
-		SetNillableStatus((*position.Status)(req.Data.Status)).
+		SetNillableStatus(r.statusConverter.ToEntity(req.Data.Status)).
 		SetNillableRemark(req.Data.Remark).
+		SetNillableQuota(req.Data.Quota).
+		SetNillableDescription(req.Data.Description).
+		SetOrganizationID(req.Data.GetOrganizationId()).
+		SetDepartmentID(req.Data.GetDepartmentId()).
+		SetNillableTenantID(req.Data.TenantId).
 		SetNillableCreateBy(req.Data.CreateBy).
 		SetNillableCreateTime(timeutil.TimestamppbToTime(req.Data.CreateTime))
 
@@ -199,13 +272,23 @@ func (r *PositionRepo) Update(ctx context.Context, req *userV1.UpdatePositionReq
 		SetNillableParentID(req.Data.ParentId).
 		SetNillableSortID(req.Data.SortId).
 		SetNillableCode(req.Data.Code).
+		SetNillableStatus(r.statusConverter.ToEntity(req.Data.Status)).
 		SetNillableRemark(req.Data.Remark).
-		SetNillableStatus((*position.Status)(req.Data.Status)).
+		SetNillableQuota(req.Data.Quota).
+		SetNillableDescription(req.Data.Description).
 		SetNillableUpdateBy(req.Data.UpdateBy).
 		SetNillableUpdateTime(timeutil.TimestamppbToTime(req.Data.UpdateTime))
 
 	if req.Data.UpdateTime == nil {
 		builder.SetUpdateTime(time.Now())
+	}
+
+	if req.Data.OrganizationId == nil {
+		builder.SetOrganizationID(req.Data.GetOrganizationId())
+	}
+
+	if req.Data.DepartmentId == nil {
+		builder.SetDepartmentID(req.Data.GetDepartmentId())
 	}
 
 	if req.UpdateMask != nil {

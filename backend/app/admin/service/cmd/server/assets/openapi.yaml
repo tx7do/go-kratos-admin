@@ -3846,23 +3846,49 @@ components:
                 name:
                     type: string
                     description: 职位名称
-                sortId:
-                    type: integer
-                    description: 排序编号
-                    format: int32
                 code:
                     type: string
-                    description: 职位值
+                    description: 唯一编码（建议规则：部门编码 + 职位类型 + 序号，如 “FIN-LEADER-001”），用于数据同步和快速识别
+                quota:
+                    type: integer
+                    description: 编制人数（该职位最多可容纳的员工数量，0表示无限制）
+                    format: uint32
+                sortId:
+                    type: integer
+                    description: 排序号
+                    format: int32
                 status:
                     enum:
-                        - ON
-                        - OFF
+                        - PositionStatus_Invalid
+                        - POSITION_STATUS_ON
+                        - POSITION_STATUS_OFF
                     type: string
-                    default: ON
                     description: 状态
+                    format: enum
                 remark:
                     type: string
                     description: 备注
+                description:
+                    type: string
+                    description: 职责描述
+                organizationId:
+                    type: integer
+                    description: 所属组织ID
+                    format: uint32
+                organizationName:
+                    type: string
+                    description: 所属组织名称
+                departmentId:
+                    type: integer
+                    description: 所属部门ID
+                    format: uint32
+                departmentName:
+                    type: string
+                    description: 所属部门名称
+                tenantId:
+                    type: integer
+                    description: 租户ID
+                    format: uint32
                 parentId:
                     type: integer
                     description: 父节点ID

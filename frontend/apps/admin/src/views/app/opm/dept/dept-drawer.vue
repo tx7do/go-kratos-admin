@@ -50,6 +50,25 @@ const [BaseForm, baseFormApi] = useVbenForm({
     },
     {
       component: 'ApiTreeSelect',
+      fieldName: 'parentId',
+      label: $t('page.dept.parentId'),
+      componentProps: {
+        placeholder: $t('ui.placeholder.select'),
+        numberToString: true,
+        childrenField: 'children',
+        labelField: 'name',
+        valueField: 'id',
+        api: async () => {
+          const result = await deptStore.listDepartment(true, null, null, {
+            // parent_id: 0,
+            status: 'ON',
+          });
+          return result.items;
+        },
+      },
+    },
+    {
+      component: 'ApiTreeSelect',
       fieldName: 'organizationId',
       label: $t('page.dept.organization'),
       rules: 'selectRequired',
@@ -61,25 +80,6 @@ const [BaseForm, baseFormApi] = useVbenForm({
         valueField: 'id',
         api: async () => {
           const result = await orgStore.listOrganization(true, null, null, {
-            // parent_id: 0,
-            status: 'ON',
-          });
-          return result.items;
-        },
-      },
-    },
-    {
-      component: 'ApiTreeSelect',
-      fieldName: 'parentId',
-      label: $t('page.dept.parentId'),
-      componentProps: {
-        placeholder: $t('ui.placeholder.select'),
-        numberToString: true,
-        childrenField: 'children',
-        labelField: 'name',
-        valueField: 'id',
-        api: async () => {
-          const result = await deptStore.listDepartment(true, null, null, {
             // parent_id: 0,
             status: 'ON',
           });

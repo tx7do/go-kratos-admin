@@ -24,8 +24,6 @@ type Position struct {
 	UpdateTime *time.Time `json:"update_time,omitempty"`
 	// 删除时间
 	DeleteTime *time.Time `json:"delete_time,omitempty"`
-	// 状态
-	Status *position.Status `json:"status,omitempty"`
 	// 创建者ID
 	CreateBy *uint32 `json:"create_by,omitempty"`
 	// 更新者ID
@@ -36,12 +34,22 @@ type Position struct {
 	TenantID *uint32 `json:"tenant_id,omitempty"`
 	// 职位名称
 	Name string `json:"name,omitempty"`
-	// 职位标识
-	Code string `json:"code,omitempty"`
+	// 唯一编码
+	Code *string `json:"code,omitempty"`
 	// 上一层职位ID
-	ParentID uint32 `json:"parent_id,omitempty"`
+	ParentID *uint32 `json:"parent_id,omitempty"`
 	// 排序ID
-	SortID int32 `json:"sort_id,omitempty"`
+	SortID *int32 `json:"sort_id,omitempty"`
+	// 所属组织ID
+	OrganizationID *uint32 `json:"organization_id,omitempty"`
+	// 所属部门ID
+	DepartmentID *uint32 `json:"department_id,omitempty"`
+	// 职位状态
+	Status *position.Status `json:"status,omitempty"`
+	// 职能描述
+	Description *string `json:"description,omitempty"`
+	// 编制人数
+	Quota *uint32 `json:"quota,omitempty"`
 	// Edges holds the relations/edges for other nodes in the graph.
 	// The values are being populated by the PositionQuery when eager-loading is set.
 	Edges        PositionEdges `json:"edges"`
@@ -84,9 +92,9 @@ func (*Position) scanValues(columns []string) ([]any, error) {
 	values := make([]any, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case position.FieldID, position.FieldCreateBy, position.FieldUpdateBy, position.FieldTenantID, position.FieldParentID, position.FieldSortID:
+		case position.FieldID, position.FieldCreateBy, position.FieldUpdateBy, position.FieldTenantID, position.FieldParentID, position.FieldSortID, position.FieldOrganizationID, position.FieldDepartmentID, position.FieldQuota:
 			values[i] = new(sql.NullInt64)
-		case position.FieldStatus, position.FieldRemark, position.FieldName, position.FieldCode:
+		case position.FieldRemark, position.FieldName, position.FieldCode, position.FieldStatus, position.FieldDescription:
 			values[i] = new(sql.NullString)
 		case position.FieldCreateTime, position.FieldUpdateTime, position.FieldDeleteTime:
 			values[i] = new(sql.NullTime)
@@ -132,13 +140,6 @@ func (_m *Position) assignValues(columns []string, values []any) error {
 				_m.DeleteTime = new(time.Time)
 				*_m.DeleteTime = value.Time
 			}
-		case position.FieldStatus:
-			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field status", values[i])
-			} else if value.Valid {
-				_m.Status = new(position.Status)
-				*_m.Status = position.Status(value.String)
-			}
 		case position.FieldCreateBy:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field create_by", values[i])
@@ -177,19 +178,57 @@ func (_m *Position) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field code", values[i])
 			} else if value.Valid {
-				_m.Code = value.String
+				_m.Code = new(string)
+				*_m.Code = value.String
 			}
 		case position.FieldParentID:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field parent_id", values[i])
 			} else if value.Valid {
-				_m.ParentID = uint32(value.Int64)
+				_m.ParentID = new(uint32)
+				*_m.ParentID = uint32(value.Int64)
 			}
 		case position.FieldSortID:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field sort_id", values[i])
 			} else if value.Valid {
-				_m.SortID = int32(value.Int64)
+				_m.SortID = new(int32)
+				*_m.SortID = int32(value.Int64)
+			}
+		case position.FieldOrganizationID:
+			if value, ok := values[i].(*sql.NullInt64); !ok {
+				return fmt.Errorf("unexpected type %T for field organization_id", values[i])
+			} else if value.Valid {
+				_m.OrganizationID = new(uint32)
+				*_m.OrganizationID = uint32(value.Int64)
+			}
+		case position.FieldDepartmentID:
+			if value, ok := values[i].(*sql.NullInt64); !ok {
+				return fmt.Errorf("unexpected type %T for field department_id", values[i])
+			} else if value.Valid {
+				_m.DepartmentID = new(uint32)
+				*_m.DepartmentID = uint32(value.Int64)
+			}
+		case position.FieldStatus:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field status", values[i])
+			} else if value.Valid {
+				_m.Status = new(position.Status)
+				*_m.Status = position.Status(value.String)
+			}
+		case position.FieldDescription:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field description", values[i])
+			} else if value.Valid {
+				_m.Description = new(string)
+				*_m.Description = value.String
+			}
+		case position.FieldQuota:
+			if value, ok := values[i].(*sql.NullInt64); !ok {
+				return fmt.Errorf("unexpected type %T for field quota", values[i])
+			} else if value.Valid {
+				_m.Quota = new(uint32)
+				*_m.Quota = uint32(value.Int64)
 			}
 		default:
 			_m.selectValues.Set(columns[i], values[i])
@@ -252,11 +291,6 @@ func (_m *Position) String() string {
 		builder.WriteString(v.Format(time.ANSIC))
 	}
 	builder.WriteString(", ")
-	if v := _m.Status; v != nil {
-		builder.WriteString("status=")
-		builder.WriteString(fmt.Sprintf("%v", *v))
-	}
-	builder.WriteString(", ")
 	if v := _m.CreateBy; v != nil {
 		builder.WriteString("create_by=")
 		builder.WriteString(fmt.Sprintf("%v", *v))
@@ -280,14 +314,45 @@ func (_m *Position) String() string {
 	builder.WriteString("name=")
 	builder.WriteString(_m.Name)
 	builder.WriteString(", ")
-	builder.WriteString("code=")
-	builder.WriteString(_m.Code)
+	if v := _m.Code; v != nil {
+		builder.WriteString("code=")
+		builder.WriteString(*v)
+	}
 	builder.WriteString(", ")
-	builder.WriteString("parent_id=")
-	builder.WriteString(fmt.Sprintf("%v", _m.ParentID))
+	if v := _m.ParentID; v != nil {
+		builder.WriteString("parent_id=")
+		builder.WriteString(fmt.Sprintf("%v", *v))
+	}
 	builder.WriteString(", ")
-	builder.WriteString("sort_id=")
-	builder.WriteString(fmt.Sprintf("%v", _m.SortID))
+	if v := _m.SortID; v != nil {
+		builder.WriteString("sort_id=")
+		builder.WriteString(fmt.Sprintf("%v", *v))
+	}
+	builder.WriteString(", ")
+	if v := _m.OrganizationID; v != nil {
+		builder.WriteString("organization_id=")
+		builder.WriteString(fmt.Sprintf("%v", *v))
+	}
+	builder.WriteString(", ")
+	if v := _m.DepartmentID; v != nil {
+		builder.WriteString("department_id=")
+		builder.WriteString(fmt.Sprintf("%v", *v))
+	}
+	builder.WriteString(", ")
+	if v := _m.Status; v != nil {
+		builder.WriteString("status=")
+		builder.WriteString(fmt.Sprintf("%v", *v))
+	}
+	builder.WriteString(", ")
+	if v := _m.Description; v != nil {
+		builder.WriteString("description=")
+		builder.WriteString(*v)
+	}
+	builder.WriteString(", ")
+	if v := _m.Quota; v != nil {
+		builder.WriteString("quota=")
+		builder.WriteString(fmt.Sprintf("%v", *v))
+	}
 	builder.WriteByte(')')
 	return builder.String()
 }

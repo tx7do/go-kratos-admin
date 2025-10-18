@@ -46,6 +46,11 @@ func (Department) Fields() []ent.Field {
 			Comment("所属组织ID").
 			Nillable(),
 
+		field.Uint32("manager_id").
+			Comment("负责人ID").
+			Optional().
+			Nillable(),
+
 		field.Int32("sort_id").
 			Comment("排序ID").
 			Default(0).
@@ -63,11 +68,6 @@ func (Department) Fields() []ent.Field {
 
 		field.String("description").
 			Comment("职能描述").
-			Optional().
-			Nillable(),
-
-		field.Uint32("manager_id").
-			Comment("负责人ID").
 			Optional().
 			Nillable(),
 	}

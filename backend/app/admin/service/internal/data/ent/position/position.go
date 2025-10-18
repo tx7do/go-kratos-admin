@@ -20,8 +20,6 @@ const (
 	FieldUpdateTime = "update_time"
 	// FieldDeleteTime holds the string denoting the delete_time field in the database.
 	FieldDeleteTime = "delete_time"
-	// FieldStatus holds the string denoting the status field in the database.
-	FieldStatus = "status"
 	// FieldCreateBy holds the string denoting the create_by field in the database.
 	FieldCreateBy = "create_by"
 	// FieldUpdateBy holds the string denoting the update_by field in the database.
@@ -38,6 +36,16 @@ const (
 	FieldParentID = "parent_id"
 	// FieldSortID holds the string denoting the sort_id field in the database.
 	FieldSortID = "sort_id"
+	// FieldOrganizationID holds the string denoting the organization_id field in the database.
+	FieldOrganizationID = "organization_id"
+	// FieldDepartmentID holds the string denoting the department_id field in the database.
+	FieldDepartmentID = "department_id"
+	// FieldStatus holds the string denoting the status field in the database.
+	FieldStatus = "status"
+	// FieldDescription holds the string denoting the description field in the database.
+	FieldDescription = "description"
+	// FieldQuota holds the string denoting the quota field in the database.
+	FieldQuota = "quota"
 	// EdgeParent holds the string denoting the parent edge name in mutations.
 	EdgeParent = "parent"
 	// EdgeChildren holds the string denoting the children edge name in mutations.
@@ -60,7 +68,6 @@ var Columns = []string{
 	FieldCreateTime,
 	FieldUpdateTime,
 	FieldDeleteTime,
-	FieldStatus,
 	FieldCreateBy,
 	FieldUpdateBy,
 	FieldRemark,
@@ -69,6 +76,11 @@ var Columns = []string{
 	FieldCode,
 	FieldParentID,
 	FieldSortID,
+	FieldOrganizationID,
+	FieldDepartmentID,
+	FieldStatus,
+	FieldDescription,
+	FieldQuota,
 }
 
 // ValidColumn reports if the column name is valid (part of the table columns).
@@ -90,10 +102,6 @@ var (
 	DefaultName string
 	// NameValidator is a validator for the "name" field. It is called by the builders before save.
 	NameValidator func(string) error
-	// DefaultCode holds the default value on creation for the "code" field.
-	DefaultCode string
-	// CodeValidator is a validator for the "code" field. It is called by the builders before save.
-	CodeValidator func(string) error
 	// DefaultParentID holds the default value on creation for the "parent_id" field.
 	DefaultParentID uint32
 	// DefaultSortID holds the default value on creation for the "sort_id" field.
@@ -105,13 +113,10 @@ var (
 // Status defines the type for the "status" enum field.
 type Status string
 
-// StatusON is the default value of the Status enum.
-const DefaultStatus = StatusON
-
 // Status values.
 const (
-	StatusOFF Status = "OFF"
-	StatusON  Status = "ON"
+	StatusPOSITION_STATUS_ON  Status = "ON"
+	StatusPOSITION_STATUS_OFF Status = "OFF"
 )
 
 func (s Status) String() string {
@@ -121,7 +126,7 @@ func (s Status) String() string {
 // StatusValidator is a validator for the "status" field enum values. It is called by the builders before save.
 func StatusValidator(s Status) error {
 	switch s {
-	case StatusOFF, StatusON:
+	case StatusPOSITION_STATUS_ON, StatusPOSITION_STATUS_OFF:
 		return nil
 	default:
 		return fmt.Errorf("position: invalid enum value for status field: %q", s)
@@ -149,11 +154,6 @@ func ByUpdateTime(opts ...sql.OrderTermOption) OrderOption {
 // ByDeleteTime orders the results by the delete_time field.
 func ByDeleteTime(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldDeleteTime, opts...).ToFunc()
-}
-
-// ByStatus orders the results by the status field.
-func ByStatus(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldStatus, opts...).ToFunc()
 }
 
 // ByCreateBy orders the results by the create_by field.
@@ -194,6 +194,31 @@ func ByParentID(opts ...sql.OrderTermOption) OrderOption {
 // BySortID orders the results by the sort_id field.
 func BySortID(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldSortID, opts...).ToFunc()
+}
+
+// ByOrganizationID orders the results by the organization_id field.
+func ByOrganizationID(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldOrganizationID, opts...).ToFunc()
+}
+
+// ByDepartmentID orders the results by the department_id field.
+func ByDepartmentID(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldDepartmentID, opts...).ToFunc()
+}
+
+// ByStatus orders the results by the status field.
+func ByStatus(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldStatus, opts...).ToFunc()
+}
+
+// ByDescription orders the results by the description field.
+func ByDescription(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldDescription, opts...).ToFunc()
+}
+
+// ByQuota orders the results by the quota field.
+func ByQuota(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldQuota, opts...).ToFunc()
 }
 
 // ByParentField orders the results by parent field.

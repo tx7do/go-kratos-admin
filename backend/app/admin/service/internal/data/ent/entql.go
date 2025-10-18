@@ -169,10 +169,10 @@ var schemaGraph = func() *sqlgraph.Schema {
 			department.FieldName:           {Type: field.TypeString, Column: department.FieldName},
 			department.FieldParentID:       {Type: field.TypeUint32, Column: department.FieldParentID},
 			department.FieldOrganizationID: {Type: field.TypeUint32, Column: department.FieldOrganizationID},
+			department.FieldManagerID:      {Type: field.TypeUint32, Column: department.FieldManagerID},
 			department.FieldSortID:         {Type: field.TypeInt32, Column: department.FieldSortID},
 			department.FieldStatus:         {Type: field.TypeEnum, Column: department.FieldStatus},
 			department.FieldDescription:    {Type: field.TypeString, Column: department.FieldDescription},
-			department.FieldManagerID:      {Type: field.TypeUint32, Column: department.FieldManagerID},
 		},
 	}
 	graph.Nodes[5] = &sqlgraph.Node{
@@ -370,18 +370,22 @@ var schemaGraph = func() *sqlgraph.Schema {
 		},
 		Type: "Position",
 		Fields: map[string]*sqlgraph.FieldSpec{
-			position.FieldCreateTime: {Type: field.TypeTime, Column: position.FieldCreateTime},
-			position.FieldUpdateTime: {Type: field.TypeTime, Column: position.FieldUpdateTime},
-			position.FieldDeleteTime: {Type: field.TypeTime, Column: position.FieldDeleteTime},
-			position.FieldStatus:     {Type: field.TypeEnum, Column: position.FieldStatus},
-			position.FieldCreateBy:   {Type: field.TypeUint32, Column: position.FieldCreateBy},
-			position.FieldUpdateBy:   {Type: field.TypeUint32, Column: position.FieldUpdateBy},
-			position.FieldRemark:     {Type: field.TypeString, Column: position.FieldRemark},
-			position.FieldTenantID:   {Type: field.TypeUint32, Column: position.FieldTenantID},
-			position.FieldName:       {Type: field.TypeString, Column: position.FieldName},
-			position.FieldCode:       {Type: field.TypeString, Column: position.FieldCode},
-			position.FieldParentID:   {Type: field.TypeUint32, Column: position.FieldParentID},
-			position.FieldSortID:     {Type: field.TypeInt32, Column: position.FieldSortID},
+			position.FieldCreateTime:     {Type: field.TypeTime, Column: position.FieldCreateTime},
+			position.FieldUpdateTime:     {Type: field.TypeTime, Column: position.FieldUpdateTime},
+			position.FieldDeleteTime:     {Type: field.TypeTime, Column: position.FieldDeleteTime},
+			position.FieldCreateBy:       {Type: field.TypeUint32, Column: position.FieldCreateBy},
+			position.FieldUpdateBy:       {Type: field.TypeUint32, Column: position.FieldUpdateBy},
+			position.FieldRemark:         {Type: field.TypeString, Column: position.FieldRemark},
+			position.FieldTenantID:       {Type: field.TypeUint32, Column: position.FieldTenantID},
+			position.FieldName:           {Type: field.TypeString, Column: position.FieldName},
+			position.FieldCode:           {Type: field.TypeString, Column: position.FieldCode},
+			position.FieldParentID:       {Type: field.TypeUint32, Column: position.FieldParentID},
+			position.FieldSortID:         {Type: field.TypeInt32, Column: position.FieldSortID},
+			position.FieldOrganizationID: {Type: field.TypeUint32, Column: position.FieldOrganizationID},
+			position.FieldDepartmentID:   {Type: field.TypeUint32, Column: position.FieldDepartmentID},
+			position.FieldStatus:         {Type: field.TypeEnum, Column: position.FieldStatus},
+			position.FieldDescription:    {Type: field.TypeString, Column: position.FieldDescription},
+			position.FieldQuota:          {Type: field.TypeUint32, Column: position.FieldQuota},
 		},
 	}
 	graph.Nodes[13] = &sqlgraph.Node{
@@ -1268,6 +1272,11 @@ func (f *DepartmentFilter) WhereOrganizationID(p entql.Uint32P) {
 	f.Where(p.Field(department.FieldOrganizationID))
 }
 
+// WhereManagerID applies the entql uint32 predicate on the manager_id field.
+func (f *DepartmentFilter) WhereManagerID(p entql.Uint32P) {
+	f.Where(p.Field(department.FieldManagerID))
+}
+
 // WhereSortID applies the entql int32 predicate on the sort_id field.
 func (f *DepartmentFilter) WhereSortID(p entql.Int32P) {
 	f.Where(p.Field(department.FieldSortID))
@@ -1281,11 +1290,6 @@ func (f *DepartmentFilter) WhereStatus(p entql.StringP) {
 // WhereDescription applies the entql string predicate on the description field.
 func (f *DepartmentFilter) WhereDescription(p entql.StringP) {
 	f.Where(p.Field(department.FieldDescription))
-}
-
-// WhereManagerID applies the entql uint32 predicate on the manager_id field.
-func (f *DepartmentFilter) WhereManagerID(p entql.Uint32P) {
-	f.Where(p.Field(department.FieldManagerID))
 }
 
 // WhereHasParent applies a predicate to check if query has an edge parent.
@@ -2200,11 +2204,6 @@ func (f *PositionFilter) WhereDeleteTime(p entql.TimeP) {
 	f.Where(p.Field(position.FieldDeleteTime))
 }
 
-// WhereStatus applies the entql string predicate on the status field.
-func (f *PositionFilter) WhereStatus(p entql.StringP) {
-	f.Where(p.Field(position.FieldStatus))
-}
-
 // WhereCreateBy applies the entql uint32 predicate on the create_by field.
 func (f *PositionFilter) WhereCreateBy(p entql.Uint32P) {
 	f.Where(p.Field(position.FieldCreateBy))
@@ -2243,6 +2242,31 @@ func (f *PositionFilter) WhereParentID(p entql.Uint32P) {
 // WhereSortID applies the entql int32 predicate on the sort_id field.
 func (f *PositionFilter) WhereSortID(p entql.Int32P) {
 	f.Where(p.Field(position.FieldSortID))
+}
+
+// WhereOrganizationID applies the entql uint32 predicate on the organization_id field.
+func (f *PositionFilter) WhereOrganizationID(p entql.Uint32P) {
+	f.Where(p.Field(position.FieldOrganizationID))
+}
+
+// WhereDepartmentID applies the entql uint32 predicate on the department_id field.
+func (f *PositionFilter) WhereDepartmentID(p entql.Uint32P) {
+	f.Where(p.Field(position.FieldDepartmentID))
+}
+
+// WhereStatus applies the entql string predicate on the status field.
+func (f *PositionFilter) WhereStatus(p entql.StringP) {
+	f.Where(p.Field(position.FieldStatus))
+}
+
+// WhereDescription applies the entql string predicate on the description field.
+func (f *PositionFilter) WhereDescription(p entql.StringP) {
+	f.Where(p.Field(position.FieldDescription))
+}
+
+// WhereQuota applies the entql uint32 predicate on the quota field.
+func (f *PositionFilter) WhereQuota(p entql.Uint32P) {
+	f.Where(p.Field(position.FieldQuota))
 }
 
 // WhereHasParent applies a predicate to check if query has an edge parent.

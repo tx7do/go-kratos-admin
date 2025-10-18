@@ -1,5 +1,10 @@
+import { computed } from 'vue';
+
+import { $t } from '@vben/locales';
+
 import { defineStore } from 'pinia';
 
+import { PositionStatus } from '#/generated/api/user/service/v1/position.pb';
 import { defPositionService } from '#/services';
 import { makeQueryString, makeUpdateMask } from '#/utils/query';
 
@@ -78,3 +83,11 @@ export const usePositionStore = defineStore('position', () => {
     deletePosition,
   };
 });
+
+export const positionStatusList = computed(() => [
+  { value: PositionStatus.POSITION_STATUS_ON, label: $t('enum.status.ON') },
+  {
+    value: PositionStatus.POSITION_STATUS_OFF,
+    label: $t('enum.status.OFF'),
+  },
+]);

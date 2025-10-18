@@ -13,8 +13,8 @@ import (
 )
 
 // InitOrganizationManagerId initializes the organization manager IDs into the userSet map.
-func InitOrganizationManagerId(orgs []*userV1.Organization, userSet *name_set.UserNameSetMap) {
-	for _, v := range orgs {
+func InitOrganizationManagerId(organizations []*userV1.Organization, userSet *name_set.UserNameSetMap) {
+	for _, v := range organizations {
 		if v.ManagerId != nil {
 			(*userSet)[v.GetManagerId()] = nil
 		}
@@ -43,25 +43,25 @@ func QueryUserInfoFromRepo(ctx context.Context, userRepo *data.UserRepo, nameSet
 	}
 }
 
-func FileOrganizationInfo(orgs []*userV1.Organization, userSet *name_set.UserNameSetMap) {
+func FileOrganizationInfo(organizations []*userV1.Organization, userSet *name_set.UserNameSetMap) {
 	for k, v := range *userSet {
 		if v == nil {
 			continue
 		}
 
-		for i := 0; i < len(orgs); i++ {
-			if orgs[i].ManagerId != nil && orgs[i].GetManagerId() == k {
-				orgs[i].ManagerName = &v.NickName
+		for i := 0; i < len(organizations); i++ {
+			if organizations[i].ManagerId != nil && organizations[i].GetManagerId() == k {
+				organizations[i].ManagerName = &v.NickName
 			}
 
-			FileOrganizationInfo(orgs[i].Children, userSet)
+			FileOrganizationInfo(organizations[i].Children, userSet)
 		}
 	}
 }
 
 // InitDepartmentManagerId initializes the department manager IDs into the userSet map.
-func InitDepartmentManagerId(depts []*userV1.Department, userSet *name_set.UserNameSetMap, orgSet *name_set.UserNameSetMap) {
-	for _, v := range depts {
+func InitDepartmentManagerId(departments []*userV1.Department, userSet *name_set.UserNameSetMap, orgSet *name_set.UserNameSetMap) {
+	for _, v := range departments {
 		if v.ManagerId != nil {
 			(*userSet)[v.GetManagerId()] = nil
 		}
@@ -91,34 +91,97 @@ func QueryOrganizationInfoFromRepo(ctx context.Context, organizationRepo *data.O
 	}
 }
 
-func FileDepartmentUserInfo(dpts []*userV1.Department, userSet *name_set.UserNameSetMap) {
+func QueryDepartmentInfoFromRepo(ctx context.Context, departmentRepo *data.DepartmentRepo, nameSetMap *name_set.UserNameSetMap) {
+	var err error
+	var dept *userV1.Department
+	for deptId := range *nameSetMap {
+		dept, err = departmentRepo.Get(ctx, &userV1.GetDepartmentRequest{Id: deptId})
+		if err != nil {
+			log.Errorf("query department err: %v", err)
+			continue
+		}
+
+		(*nameSetMap)[deptId] = &name_set.UserNameSet{
+			UserName: dept.GetName(),
+		}
+	}
+}
+
+func FileDepartmentUserInfo(departments []*userV1.Department, userSet *name_set.UserNameSetMap) {
 	for k, v := range *userSet {
 		if v == nil {
 			continue
 		}
 
-		for i := 0; i < len(dpts); i++ {
-			if dpts[i].ManagerId != nil && dpts[i].GetManagerId() == k {
-				dpts[i].ManagerName = &v.NickName
+		for i := 0; i < len(departments); i++ {
+			if departments[i].ManagerId != nil && departments[i].GetManagerId() == k {
+				departments[i].ManagerName = &v.NickName
 			}
 
-			FileDepartmentUserInfo(dpts[i].Children, userSet)
+			FileDepartmentUserInfo(departments[i].Children, userSet)
 		}
 	}
 }
 
-func FileDepartmentOrganizationInfo(dpts []*userV1.Department, orgSet *name_set.UserNameSetMap) {
+func FileDepartmentOrganizationInfo(departments []*userV1.Department, orgSet *name_set.UserNameSetMap) {
 	for k, v := range *orgSet {
 		if v == nil {
 			continue
 		}
 
-		for i := 0; i < len(dpts); i++ {
-			if dpts[i].OrganizationId != nil && dpts[i].GetOrganizationId() == k {
-				dpts[i].OrganizationName = &v.UserName
+		for i := 0; i < len(departments); i++ {
+			if departments[i].OrganizationId != nil && departments[i].GetOrganizationId() == k {
+				departments[i].OrganizationName = &v.UserName
 			}
 
-			FileDepartmentOrganizationInfo(dpts[i].Children, orgSet)
+			FileDepartmentOrganizationInfo(departments[i].Children, orgSet)
+		}
+	}
+}
+
+func InitPositionOrgId(positions []*userV1.Position, orgSet *name_set.UserNameSetMap, deptSet *name_set.UserNameSetMap) {
+	for _, v := range positions {
+		if v.OrganizationId != nil {
+			(*orgSet)[v.GetOrganizationId()] = nil
+		}
+		if v.DepartmentId != nil {
+			(*deptSet)[v.GetDepartmentId()] = nil
+		}
+
+		for _, c := range v.Children {
+			InitPositionOrgId(c.Children, orgSet, deptSet)
+		}
+	}
+}
+
+func FilePositionOrganizationInfo(positions []*userV1.Position, orgSet *name_set.UserNameSetMap) {
+	for k, v := range *orgSet {
+		if v == nil {
+			continue
+		}
+
+		for i := 0; i < len(positions); i++ {
+			if positions[i].OrganizationId != nil && positions[i].GetOrganizationId() == k {
+				positions[i].OrganizationName = &v.UserName
+			}
+
+			FilePositionOrganizationInfo(positions[i].Children, orgSet)
+		}
+	}
+}
+
+func FilePositionDepartmentInfo(positions []*userV1.Position, deptSet *name_set.UserNameSetMap) {
+	for k, v := range *deptSet {
+		if v == nil {
+			continue
+		}
+
+		for i := 0; i < len(positions); i++ {
+			if positions[i].DepartmentId != nil && positions[i].GetDepartmentId() == k {
+				positions[i].DepartmentName = &v.UserName
+			}
+
+			FilePositionDepartmentInfo(positions[i].Children, deptSet)
 		}
 	}
 }

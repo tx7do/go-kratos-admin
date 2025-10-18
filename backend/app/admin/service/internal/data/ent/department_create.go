@@ -154,6 +154,20 @@ func (_c *DepartmentCreate) SetOrganizationID(v uint32) *DepartmentCreate {
 	return _c
 }
 
+// SetManagerID sets the "manager_id" field.
+func (_c *DepartmentCreate) SetManagerID(v uint32) *DepartmentCreate {
+	_c.mutation.SetManagerID(v)
+	return _c
+}
+
+// SetNillableManagerID sets the "manager_id" field if the given value is not nil.
+func (_c *DepartmentCreate) SetNillableManagerID(v *uint32) *DepartmentCreate {
+	if v != nil {
+		_c.SetManagerID(*v)
+	}
+	return _c
+}
+
 // SetSortID sets the "sort_id" field.
 func (_c *DepartmentCreate) SetSortID(v int32) *DepartmentCreate {
 	_c.mutation.SetSortID(v)
@@ -192,20 +206,6 @@ func (_c *DepartmentCreate) SetDescription(v string) *DepartmentCreate {
 func (_c *DepartmentCreate) SetNillableDescription(v *string) *DepartmentCreate {
 	if v != nil {
 		_c.SetDescription(*v)
-	}
-	return _c
-}
-
-// SetManagerID sets the "manager_id" field.
-func (_c *DepartmentCreate) SetManagerID(v uint32) *DepartmentCreate {
-	_c.mutation.SetManagerID(v)
-	return _c
-}
-
-// SetNillableManagerID sets the "manager_id" field if the given value is not nil.
-func (_c *DepartmentCreate) SetNillableManagerID(v *uint32) *DepartmentCreate {
-	if v != nil {
-		_c.SetManagerID(*v)
 	}
 	return _c
 }
@@ -375,6 +375,10 @@ func (_c *DepartmentCreate) createSpec() (*Department, *sqlgraph.CreateSpec) {
 		_spec.SetField(department.FieldOrganizationID, field.TypeUint32, value)
 		_node.OrganizationID = &value
 	}
+	if value, ok := _c.mutation.ManagerID(); ok {
+		_spec.SetField(department.FieldManagerID, field.TypeUint32, value)
+		_node.ManagerID = &value
+	}
 	if value, ok := _c.mutation.SortID(); ok {
 		_spec.SetField(department.FieldSortID, field.TypeInt32, value)
 		_node.SortID = &value
@@ -386,10 +390,6 @@ func (_c *DepartmentCreate) createSpec() (*Department, *sqlgraph.CreateSpec) {
 	if value, ok := _c.mutation.Description(); ok {
 		_spec.SetField(department.FieldDescription, field.TypeString, value)
 		_node.Description = &value
-	}
-	if value, ok := _c.mutation.ManagerID(); ok {
-		_spec.SetField(department.FieldManagerID, field.TypeUint32, value)
-		_node.ManagerID = &value
 	}
 	if nodes := _c.mutation.ParentIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
@@ -632,6 +632,30 @@ func (u *DepartmentUpsert) AddOrganizationID(v uint32) *DepartmentUpsert {
 	return u
 }
 
+// SetManagerID sets the "manager_id" field.
+func (u *DepartmentUpsert) SetManagerID(v uint32) *DepartmentUpsert {
+	u.Set(department.FieldManagerID, v)
+	return u
+}
+
+// UpdateManagerID sets the "manager_id" field to the value that was provided on create.
+func (u *DepartmentUpsert) UpdateManagerID() *DepartmentUpsert {
+	u.SetExcluded(department.FieldManagerID)
+	return u
+}
+
+// AddManagerID adds v to the "manager_id" field.
+func (u *DepartmentUpsert) AddManagerID(v uint32) *DepartmentUpsert {
+	u.Add(department.FieldManagerID, v)
+	return u
+}
+
+// ClearManagerID clears the value of the "manager_id" field.
+func (u *DepartmentUpsert) ClearManagerID() *DepartmentUpsert {
+	u.SetNull(department.FieldManagerID)
+	return u
+}
+
 // SetSortID sets the "sort_id" field.
 func (u *DepartmentUpsert) SetSortID(v int32) *DepartmentUpsert {
 	u.Set(department.FieldSortID, v)
@@ -689,30 +713,6 @@ func (u *DepartmentUpsert) UpdateDescription() *DepartmentUpsert {
 // ClearDescription clears the value of the "description" field.
 func (u *DepartmentUpsert) ClearDescription() *DepartmentUpsert {
 	u.SetNull(department.FieldDescription)
-	return u
-}
-
-// SetManagerID sets the "manager_id" field.
-func (u *DepartmentUpsert) SetManagerID(v uint32) *DepartmentUpsert {
-	u.Set(department.FieldManagerID, v)
-	return u
-}
-
-// UpdateManagerID sets the "manager_id" field to the value that was provided on create.
-func (u *DepartmentUpsert) UpdateManagerID() *DepartmentUpsert {
-	u.SetExcluded(department.FieldManagerID)
-	return u
-}
-
-// AddManagerID adds v to the "manager_id" field.
-func (u *DepartmentUpsert) AddManagerID(v uint32) *DepartmentUpsert {
-	u.Add(department.FieldManagerID, v)
-	return u
-}
-
-// ClearManagerID clears the value of the "manager_id" field.
-func (u *DepartmentUpsert) ClearManagerID() *DepartmentUpsert {
-	u.SetNull(department.FieldManagerID)
 	return u
 }
 
@@ -952,6 +952,34 @@ func (u *DepartmentUpsertOne) UpdateOrganizationID() *DepartmentUpsertOne {
 	})
 }
 
+// SetManagerID sets the "manager_id" field.
+func (u *DepartmentUpsertOne) SetManagerID(v uint32) *DepartmentUpsertOne {
+	return u.Update(func(s *DepartmentUpsert) {
+		s.SetManagerID(v)
+	})
+}
+
+// AddManagerID adds v to the "manager_id" field.
+func (u *DepartmentUpsertOne) AddManagerID(v uint32) *DepartmentUpsertOne {
+	return u.Update(func(s *DepartmentUpsert) {
+		s.AddManagerID(v)
+	})
+}
+
+// UpdateManagerID sets the "manager_id" field to the value that was provided on create.
+func (u *DepartmentUpsertOne) UpdateManagerID() *DepartmentUpsertOne {
+	return u.Update(func(s *DepartmentUpsert) {
+		s.UpdateManagerID()
+	})
+}
+
+// ClearManagerID clears the value of the "manager_id" field.
+func (u *DepartmentUpsertOne) ClearManagerID() *DepartmentUpsertOne {
+	return u.Update(func(s *DepartmentUpsert) {
+		s.ClearManagerID()
+	})
+}
+
 // SetSortID sets the "sort_id" field.
 func (u *DepartmentUpsertOne) SetSortID(v int32) *DepartmentUpsertOne {
 	return u.Update(func(s *DepartmentUpsert) {
@@ -1019,34 +1047,6 @@ func (u *DepartmentUpsertOne) UpdateDescription() *DepartmentUpsertOne {
 func (u *DepartmentUpsertOne) ClearDescription() *DepartmentUpsertOne {
 	return u.Update(func(s *DepartmentUpsert) {
 		s.ClearDescription()
-	})
-}
-
-// SetManagerID sets the "manager_id" field.
-func (u *DepartmentUpsertOne) SetManagerID(v uint32) *DepartmentUpsertOne {
-	return u.Update(func(s *DepartmentUpsert) {
-		s.SetManagerID(v)
-	})
-}
-
-// AddManagerID adds v to the "manager_id" field.
-func (u *DepartmentUpsertOne) AddManagerID(v uint32) *DepartmentUpsertOne {
-	return u.Update(func(s *DepartmentUpsert) {
-		s.AddManagerID(v)
-	})
-}
-
-// UpdateManagerID sets the "manager_id" field to the value that was provided on create.
-func (u *DepartmentUpsertOne) UpdateManagerID() *DepartmentUpsertOne {
-	return u.Update(func(s *DepartmentUpsert) {
-		s.UpdateManagerID()
-	})
-}
-
-// ClearManagerID clears the value of the "manager_id" field.
-func (u *DepartmentUpsertOne) ClearManagerID() *DepartmentUpsertOne {
-	return u.Update(func(s *DepartmentUpsert) {
-		s.ClearManagerID()
 	})
 }
 
@@ -1452,6 +1452,34 @@ func (u *DepartmentUpsertBulk) UpdateOrganizationID() *DepartmentUpsertBulk {
 	})
 }
 
+// SetManagerID sets the "manager_id" field.
+func (u *DepartmentUpsertBulk) SetManagerID(v uint32) *DepartmentUpsertBulk {
+	return u.Update(func(s *DepartmentUpsert) {
+		s.SetManagerID(v)
+	})
+}
+
+// AddManagerID adds v to the "manager_id" field.
+func (u *DepartmentUpsertBulk) AddManagerID(v uint32) *DepartmentUpsertBulk {
+	return u.Update(func(s *DepartmentUpsert) {
+		s.AddManagerID(v)
+	})
+}
+
+// UpdateManagerID sets the "manager_id" field to the value that was provided on create.
+func (u *DepartmentUpsertBulk) UpdateManagerID() *DepartmentUpsertBulk {
+	return u.Update(func(s *DepartmentUpsert) {
+		s.UpdateManagerID()
+	})
+}
+
+// ClearManagerID clears the value of the "manager_id" field.
+func (u *DepartmentUpsertBulk) ClearManagerID() *DepartmentUpsertBulk {
+	return u.Update(func(s *DepartmentUpsert) {
+		s.ClearManagerID()
+	})
+}
+
 // SetSortID sets the "sort_id" field.
 func (u *DepartmentUpsertBulk) SetSortID(v int32) *DepartmentUpsertBulk {
 	return u.Update(func(s *DepartmentUpsert) {
@@ -1519,34 +1547,6 @@ func (u *DepartmentUpsertBulk) UpdateDescription() *DepartmentUpsertBulk {
 func (u *DepartmentUpsertBulk) ClearDescription() *DepartmentUpsertBulk {
 	return u.Update(func(s *DepartmentUpsert) {
 		s.ClearDescription()
-	})
-}
-
-// SetManagerID sets the "manager_id" field.
-func (u *DepartmentUpsertBulk) SetManagerID(v uint32) *DepartmentUpsertBulk {
-	return u.Update(func(s *DepartmentUpsert) {
-		s.SetManagerID(v)
-	})
-}
-
-// AddManagerID adds v to the "manager_id" field.
-func (u *DepartmentUpsertBulk) AddManagerID(v uint32) *DepartmentUpsertBulk {
-	return u.Update(func(s *DepartmentUpsert) {
-		s.AddManagerID(v)
-	})
-}
-
-// UpdateManagerID sets the "manager_id" field to the value that was provided on create.
-func (u *DepartmentUpsertBulk) UpdateManagerID() *DepartmentUpsertBulk {
-	return u.Update(func(s *DepartmentUpsert) {
-		s.UpdateManagerID()
-	})
-}
-
-// ClearManagerID clears the value of the "manager_id" field.
-func (u *DepartmentUpsertBulk) ClearManagerID() *DepartmentUpsertBulk {
-	return u.Update(func(s *DepartmentUpsert) {
-		s.ClearManagerID()
 	})
 }
 

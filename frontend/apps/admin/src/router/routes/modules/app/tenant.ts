@@ -10,7 +10,7 @@ const tenant: RouteRecordRaw[] = [
     component: BasicLayout,
     meta: {
       order: 2000,
-      icon: 'lucide:earth',
+      icon: 'lucide:building-2',
       title: $t('menu.tenant.moduleName'),
       keepAlive: true,
       authority: ['super', 'admin'],

@@ -38,7 +38,7 @@
     "adminOperationLog": "操作日志"
   },
   "internalMessage": {
-    "moduleName": "站内信",
+    "moduleName": "站内消息",
     "notificationMessage": "通知消息",
     "notificationMessageCategory": "通知类型",
     "privateMessage": "私聊消息"

@@ -9,7 +9,7 @@ const internal_message: RouteRecordRaw[] = [
     name: 'InternalMessageManagement',
     component: BasicLayout,
     meta: {
-      order: 2004,
+      order: 2003,
       icon: 'lucide:mail',
       title: $t('menu.internalMessage.moduleName'),
       keepAlive: true,

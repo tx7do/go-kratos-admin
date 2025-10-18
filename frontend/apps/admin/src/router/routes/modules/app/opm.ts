@@ -21,7 +21,7 @@ const opm: RouteRecordRaw[] = [
         name: 'OrganizationManagement',
         meta: {
           order: 1,
-          icon: 'lucide:building-2',
+          icon: 'lucide:layers',
           title: $t('menu.opm.org'),
           authority: ['super', 'admin'],
         },
@@ -33,7 +33,7 @@ const opm: RouteRecordRaw[] = [
         name: 'DepartmentManagement',
         meta: {
           order: 2,
-          icon: 'lucide:network',
+          icon: 'lucide:folder-tree',
           title: $t('menu.opm.dept'),
           authority: ['super', 'admin'],
         },
@@ -45,7 +45,7 @@ const opm: RouteRecordRaw[] = [
         name: 'PositionManagement',
         meta: {
           order: 3,
-          icon: 'lucide:id-card',
+          icon: 'lucide:briefcase',
           title: $t('menu.opm.position'),
           hideInTab: false,
           authority: ['super', 'admin'],

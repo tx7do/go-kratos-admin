@@ -20,7 +20,7 @@ const tenant: RouteRecordRaw[] = [
         path: 'members',
         name: 'TenantMemberManagement',
         meta: {
-          icon: 'lucide:book-user',
+          icon: 'lucide:building-2',
           title: $t('menu.tenant.member'),
           hideInTab: false,
           authority: ['super', 'admin'],

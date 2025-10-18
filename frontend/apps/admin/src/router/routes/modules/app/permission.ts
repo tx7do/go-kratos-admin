@@ -21,7 +21,7 @@ const permission: RouteRecordRaw[] = [
         name: 'RoleManagement',
         meta: {
           order: 1,
-          icon: 'lucide:user-round-cog',
+          icon: 'lucide:shield-user',
           title: $t('menu.permission.role'),
           hideInTab: false,
           authority: ['super', 'admin'],
@@ -34,7 +34,7 @@ const permission: RouteRecordRaw[] = [
         name: 'MenuManagement',
         meta: {
           order: 2,
-          icon: 'lucide:layout-list',
+          icon: 'lucide:square-menu',
           title: $t('menu.permission.menu'),
           authority: ['super', 'admin'],
         },

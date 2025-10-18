@@ -32,7 +32,7 @@ const internal_message: RouteRecordRaw[] = [
         path: 'notification_categories',
         name: 'NotificationMessageCategoryManagement',
         meta: {
-          icon: 'lucide:bell-dot',
+          icon: 'lucide:calendar-check',
           title: $t('menu.internalMessage.notificationMessageCategory'),
           authority: ['super', 'admin'],
         },

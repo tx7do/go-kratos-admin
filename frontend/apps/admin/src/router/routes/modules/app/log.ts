@@ -20,7 +20,7 @@ const log: RouteRecordRaw[] = [
         path: 'login',
         name: 'AdminLoginLog',
         meta: {
-          icon: 'lucide:file-symlink',
+          icon: 'lucide:user-lock',
           title: $t('menu.log.adminLoginLog'),
           authority: ['super'],
         },
@@ -31,7 +31,7 @@ const log: RouteRecordRaw[] = [
         path: 'operation',
         name: 'AdminOperationLog',
         meta: {
-          icon: 'lucide:file-sliders',
+          icon: 'lucide:file-clock',
           title: $t('menu.log.adminOperationLog'),
           authority: ['super'],
         },

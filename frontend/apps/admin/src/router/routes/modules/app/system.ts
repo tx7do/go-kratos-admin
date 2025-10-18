@@ -31,7 +31,7 @@ const system: RouteRecordRaw[] = [
         path: 'files',
         name: 'FileManagement',
         meta: {
-          icon: 'lucide:file-stack',
+          icon: 'lucide:file-search',
           title: $t('menu.system.file'),
           authority: ['super', 'admin'],
         },
@@ -42,7 +42,7 @@ const system: RouteRecordRaw[] = [
         path: 'tasks',
         name: 'TaskManagement',
         meta: {
-          icon: 'lucide:calendar-clock',
+          icon: 'lucide:list-todo',
           title: $t('menu.system.task'),
           authority: ['super', 'admin'],
         },
@@ -64,7 +64,7 @@ const system: RouteRecordRaw[] = [
         path: 'admin_login_restriction',
         name: 'AdminLoginRestrictionManagement',
         meta: {
-          icon: 'lucide:door-open',
+          icon: 'lucide:shield-x',
           title: $t('menu.system.adminLoginRestriction'),
           authority: ['super', 'admin'],
         },

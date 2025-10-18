@@ -14,11 +14,18 @@ import {
   PositionStatus,
 } from '#/generated/api/user/service/v1/position.pb';
 import { $t } from '#/locales';
-import { statusList, usePositionStore } from '#/stores';
+import {
+  statusList,
+  useDepartmentStore,
+  useOrganizationStore,
+  usePositionStore,
+} from '#/stores';
 
 import PositionDrawer from './position-drawer.vue';
 
 const positionStore = usePositionStore();
+const deptStore = useDepartmentStore();
+const orgStore = useOrganizationStore();
 
 const formOptions: VbenFormProps = {
   // 默认展开
@@ -54,6 +61,50 @@ const formOptions: VbenFormProps = {
         options: statusList,
         placeholder: $t('ui.placeholder.select'),
         allowClear: true,
+      },
+    },
+    {
+      component: 'ApiTreeSelect',
+      fieldName: 'organizationId',
+      label: $t('page.position.organization'),
+      componentProps: {
+        placeholder: $t('ui.placeholder.select'),
+        numberToString: true,
+        childrenField: 'children',
+        labelField: 'name',
+        valueField: 'id',
+        toolbar: true,
+        search: true,
+        allowClear: true,
+        api: async () => {
+          const result = await orgStore.listOrganization(true, null, null, {
+            // parent_id: 0,
+            status: 'ON',
+          });
+          return result.items;
+        },
+      },
+    },
+    {
+      component: 'ApiTreeSelect',
+      fieldName: 'departmentId',
+      label: $t('page.position.department'),
+      componentProps: {
+        placeholder: $t('ui.placeholder.select'),
+        numberToString: true,
+        childrenField: 'children',
+        labelField: 'name',
+        valueField: 'id',
+        toolbar: true,
+        search: true,
+        allowClear: true,
+        api: async () => {
+          const result = await deptStore.listDepartment(true, null, null, {
+            // parent_id: 0,
+            status: 'ON',
+          });
+          return result.items;
+        },
       },
     },
   ],

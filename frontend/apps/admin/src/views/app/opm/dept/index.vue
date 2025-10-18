@@ -60,6 +60,7 @@ const formOptions: VbenFormProps = {
         valueField: 'id',
         toolbar: true,
         search: true,
+        allowClear: true,
         api: async () => {
           const result = await orgStore.listOrganization(true, null, null, {
             // parent_id: 0,

@@ -1,35 +1,48 @@
--- 默认的超级管理员，默认账号：admin，密码：admin
+-- 插入4个权限的用户
 TRUNCATE TABLE kratos_admin.public.users RESTART IDENTITY;
-INSERT INTO kratos_admin.public.users (username, nickname, email, authority, roles)
-VALUES ('admin', 'admin', 'admin@gmail.com', 'SYS_ADMIN', '["super"]');
+INSERT INTO kratos_admin.public.users (username, nickname, realname, email, authority, role_ids, gender)
+VALUES ('admin', '鹳狸猿', '喵个咪', 'admin@gmail.com', 'SYS_ADMIN', '[1]', 'MALE'),
+       -- 2. 租户管理员（TENANT_ADMIN）
+       ('tenant_admin', '租户管理', '张管理员', 'tenant@company.com', 'TENANT_ADMIN', '[2]', 'MALE'),
+       -- 3. 普通用户（CUSTOMER_USER）
+       ('normal_user', '普通用户', '李用户', 'user@company.com', 'CUSTOMER_USER', '[3]', 'FEMALE'),
+       -- 4. 访客（GUEST）
+       ('guest_user', '临时访客', '王访客', 'guest@company.com', 'GUEST', '[4]', 'SECRET')
+;
 SELECT setval('users_id_seq', (SELECT MAX(id) FROM users));
 
+-- 插入4个用户的凭证（密码统一为admin，哈希值与原admin一致，方便测试）
 TRUNCATE TABLE user_credentials RESTART IDENTITY;
-INSERT INTO user_credentials (user_id, identity_type, identifier, credential_type, credential, status, is_primary,
-                              create_time)
-VALUES (1, 'USERNAME', 'admin', 'PASSWORD_HASH', '$2a$10$yajZDX20Y40FkG0Bu4N19eXNqRizez/S9fK63.JxGkfLq.RoNKR/a',
-        'ENABLED', true, now()),
-       (1, 'EMAIL', 'admin@gmail.com', 'PASSWORD_HASH', '$2a$10$yajZDX20Y40FkG0Bu4N19eXNqRizez/S9fK63.JxGkfLq.RoNKR/a',
-        'ENABLED', true, now())
+INSERT INTO user_credentials (user_id, identity_type, identifier, credential_type, credential, status, is_primary, create_time)
+VALUES (1, 'USERNAME', 'admin', 'PASSWORD_HASH', '$2a$10$yajZDX20Y40FkG0Bu4N19eXNqRizez/S9fK63.JxGkfLq.RoNKR/a', 'ENABLED', true, now()),
+       (1, 'EMAIL', 'admin@gmail.com', 'PASSWORD_HASH', '$2a$10$yajZDX20Y40FkG0Bu4N19eXNqRizez/S9fK63.JxGkfLq.RoNKR/a', 'ENABLED', false, now()),
+       -- 租户管理员（对应users表id=2）
+       (2, 'USERNAME', 'tenant_admin', 'PASSWORD_HASH', '$2a$10$yajZDX20Y40FkG0Bu4N19eXNqRizez/S9fK63.JxGkfLq.RoNKR/a', 'ENABLED', true, now()),
+       (2, 'EMAIL', 'tenant@company.com', 'PASSWORD_HASH', '$2a$10$yajZDX20Y40FkG0Bu4N19eXNqRizez/S9fK63.JxGkfLq.RoNKR/a', 'ENABLED', false, now()),
+
+       -- 普通用户（对应users表id=3）
+       (3, 'USERNAME', 'normal_user', 'PASSWORD_HASH', '$2a$10$yajZDX20Y40FkG0Bu4N19eXNqRizez/S9fK63.JxGkfLq.RoNKR/a', 'ENABLED', true, now()),
+       (3, 'EMAIL', 'user@company.com', 'PASSWORD_HASH', '$2a$10$yajZDX20Y40FkG0Bu4N19eXNqRizez/S9fK63.JxGkfLq.RoNKR/a', 'ENABLED', false, now()),
+
+       -- 访客（对应users表id=4）
+       (4, 'USERNAME', 'guest_user', 'PASSWORD_HASH', '$2a$10$yajZDX20Y40FkG0Bu4N19eXNqRizez/S9fK63.JxGkfLq.RoNKR/a', 'ENABLED', true, now()),
+       (4, 'EMAIL', 'guest@company.com', 'PASSWORD_HASH', '$2a$10$yajZDX20Y40FkG0Bu4N19eXNqRizez/S9fK63.JxGkfLq.RoNKR/a', 'ENABLED', false, now())
 ;
 SELECT setval('user_credentials_id_seq', (SELECT MAX(id) FROM user_credentials));
 
 -- 默认的角色
 TRUNCATE TABLE kratos_admin.public.sys_roles RESTART IDENTITY;
-INSERT INTO kratos_admin.public.sys_roles(id, parent_id, create_by, sort_id, name, code, status, remark, menus, apis,
-                                          create_time)
+INSERT INTO kratos_admin.public.sys_roles(id, parent_id, create_by, sort_id, name, code, status, remark, menus, apis, create_time)
 VALUES (1, null, 0, 1, '超级管理员', 'super', 'ON', '超级管理员拥有对系统的最高权限',
         '[1, 2, 10, 11, 12, 13, 14, 20, 21, 22, 15, 16, 17, 18, 23, 24, 25, 26, 27, 30, 31, 32]', '[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102]', now()),
-       (2, null, 0, 2, '管理员', 'admin', 'ON', '系统管理员拥有对整个系统的管理权限',
-        '[1, 2, 6, 7, 8, 9, 10, 11, 12, 13, 14]', '[]', now()),
+       (2, null, 0, 2, '管理员', 'admin', 'ON', '系统管理员拥有对整个系统的管理权限', '[1, 2, 6, 7, 8, 9, 10, 11, 12, 13, 14]', '[]', now()),
        (3, null, 0, 3, '普通用户', 'user', 'ON', '普通用户没有管理权限，只有设备和APP的使用权限', '[]', '[]', now()),
        (4, null, 0, 4, '游客', 'guest', 'ON', '游客只有非常有限的数据读取权限', '[]', '[]', now());
 SELECT setval('sys_roles_id_seq', (SELECT MAX(id) FROM sys_roles));
 
 -- 后台目录
 TRUNCATE TABLE kratos_admin.public.sys_menus RESTART IDENTITY;
-INSERT INTO kratos_admin.public.sys_menus(id, parent_id, type, name, path, redirect, component, status, create_time,
-                                          meta)
+INSERT INTO kratos_admin.public.sys_menus(id, parent_id, type, name, path, redirect, component, status, create_time, meta)
 VALUES (1, null, 'FOLDER', 'Dashboard', '/', null, 'BasicLayout', 'ON', now(), '{"order":-1, "title":"page.dashboard.title", "icon":"lucide:layout-dashboard", "keepAlive":false, "hideInBreadcrumb":false, "hideInMenu":false, "hideInTab":false}'),
        (2, 1, 'MENU', 'Analytics', '/analytics', null, 'dashboard/analytics/index.vue', 'ON', now(), '{"order":-1, "title":"page.dashboard.analytics", "icon":"lucide:area-chart", "affixTab": true, "keepAlive":false, "hideInBreadcrumb":false, "hideInMenu":false, "hideInTab":false}'),
 

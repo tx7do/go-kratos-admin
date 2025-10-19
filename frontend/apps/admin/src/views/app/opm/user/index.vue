@@ -13,8 +13,13 @@ import { useVbenVxeGrid } from '#/adapter/vxe-table';
 import { $t } from '#/locales';
 import { router } from '#/router';
 import {
+  authorityList,
   authorityToColor,
   authorityToName,
+  genderToColor,
+  genderToName,
+  statusToColor,
+  statusToName,
   useRoleStore,
   useUserStore,
 } from '#/stores';
@@ -35,7 +40,7 @@ const formOptions: VbenFormProps = {
     {
       component: 'Input',
       fieldName: 'realname',
-      label: $t('page.user.form.real_name'),
+      label: $t('page.user.form.realName'),
       componentProps: {
         placeholder: $t('ui.placeholder.input'),
         allowClear: true,
@@ -48,6 +53,16 @@ const formOptions: VbenFormProps = {
       componentProps: {
         placeholder: $t('ui.placeholder.input'),
         allowClear: true,
+      },
+    },
+    {
+      component: 'Select',
+      fieldName: 'authority',
+      label: $t('page.user.form.authority'),
+      componentProps: {
+        placeholder: $t('ui.placeholder.input'),
+        allowClear: true,
+        options: authorityList,
       },
     },
     {
@@ -105,17 +120,17 @@ const gridOptions: VxeGridProps<User> = {
 
   columns: [
     { title: $t('ui.table.seq'), type: 'seq', width: 50 },
-    { title: $t('page.user.table.username'), field: 'username' },
-    { title: $t('page.user.table.nickname'), field: 'nickname' },
-    { title: $t('page.user.table.realname'), field: 'realname' },
-    { title: $t('page.user.table.email'), field: 'email' },
-    { title: $t('page.user.table.mobile'), field: 'mobile' },
+    { title: $t('page.user.table.username'), field: 'username', width: 120 },
+    { title: $t('page.user.table.realname'), field: 'realname', width: 100 },
+    { title: $t('page.user.table.nickname'), field: 'nickname', width: 100 },
     {
-      title: $t('ui.table.createTime'),
-      field: 'createTime',
-      formatter: 'formatDateTime',
-      width: 140,
+      title: $t('ui.table.status'),
+      field: 'status',
+      slots: { default: 'status' },
+      width: 100,
     },
+    { title: $t('page.user.table.email'), field: 'email', width: 160 },
+    { title: $t('page.user.table.mobile'), field: 'mobile', width: 130 },
     {
       title: $t('page.user.table.authority'),
       field: 'authority',
@@ -123,11 +138,19 @@ const gridOptions: VxeGridProps<User> = {
       width: 80,
     },
     {
-      title: $t('ui.table.status'),
-      field: 'status',
-      slots: { default: 'status' },
-      width: 95,
+      title: $t('page.user.table.lastLoginTime'),
+      field: 'lastLoginTime',
+      formatter: 'formatDateTime',
+      width: 160,
     },
+    {
+      title: $t('ui.table.createTime'),
+      field: 'createTime',
+      formatter: 'formatDateTime',
+      width: 160,
+    },
+    { title: $t('ui.table.remark'), field: 'remark' },
+
     {
       title: $t('ui.table.action'),
       field: 'action',
@@ -241,19 +264,18 @@ async function handleStatusChanged(row: any, checked: boolean) {
         </a-button>
       </template>
       <template #status="{ row }">
-        <a-switch
-          :checked="row.status === 'ON'"
-          :loading="row.pending"
-          :checked-children="$t('ui.switch.active')"
-          :un-checked-children="$t('ui.switch.inactive')"
-          @change="
-            (checked: boolean) => handleStatusChanged(row, checked as boolean)
-          "
-        />
+        <a-tag :color="statusToColor(row.status)">
+          {{ statusToName(row.status) }}
+        </a-tag>
       </template>
       <template #authority="{ row }">
         <a-tag :color="authorityToColor(row.authority)">
           {{ authorityToName(row.authority) }}
+        </a-tag>
+      </template>
+      <template #gender="{ row }">
+        <a-tag :color="genderToColor(row.gender)">
+          {{ genderToName(row.gender) }}
         </a-tag>
       </template>
       <template #action="{ row }">

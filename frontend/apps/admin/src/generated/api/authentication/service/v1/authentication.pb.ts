@@ -145,13 +145,8 @@ export interface UserTokenPayload {
     | undefined;
   /** 用户权限 */
   aut: UserAuthority;
-  /** 用户角色列表，以逗号分隔 */
+  /** 用户角色码列表 */
   roc: string[];
-  /** 角色ID */
-  rid?:
-    | number
-    | null
-    | undefined;
   /** 设备ID */
   did?: string | null | undefined;
 }

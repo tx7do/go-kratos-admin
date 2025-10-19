@@ -2,9 +2,12 @@ import { computed } from 'vue';
 
 import { $t } from '@vben/locales';
 
-import { type Menu, MenuType } from '#/generated/api/admin/service/v1/i_menu.pb';
 import { defineStore } from 'pinia';
 
+import {
+  type Menu,
+  MenuType,
+} from '#/generated/api/admin/service/v1/i_menu.pb';
 import { defMenuService } from '#/services';
 import { makeQueryString, makeUpdateMask } from '#/utils/query';
 
@@ -88,12 +91,80 @@ export const menuTypeList = computed(() => [
   { value: MenuType.FOLDER, label: $t('enum.menuType.FOLDER') },
   { value: MenuType.MENU, label: $t('enum.menuType.MENU') },
   { value: MenuType.BUTTON, label: $t('enum.menuType.BUTTON') },
+  { value: MenuType.EMBEDDED, label: $t('enum.menuType.EMBEDDED') },
+  { value: MenuType.LINK, label: $t('enum.menuType.LINK') },
 ]);
+
+/**
+ * 目录类型转名称
+ * @param menuType 目录类型
+ */
+export function menuTypeToName(menuType: any) {
+  switch (menuType) {
+    case MenuType.BUTTON: {
+      return $t('enum.menuType.BUTTON');
+    }
+    case MenuType.EMBEDDED: {
+      return $t('enum.menuType.EMBEDDED');
+    }
+    case MenuType.FOLDER: {
+      return $t('enum.menuType.FOLDER');
+    }
+    case MenuType.LINK: {
+      return $t('enum.menuType.LINK');
+    }
+    case MenuType.MENU: {
+      return $t('enum.menuType.MENU');
+    }
+    default: {
+      return '';
+    }
+  }
+}
+
+/**
+ * 菜单类型转颜色值
+ * @param menuType 菜单类型枚举
+ * @returns 十六进制颜色值（兼容所有UI框架）
+ */
+export function menuTypeToColor(menuType: any) {
+  switch (menuType) {
+    case MenuType.BUTTON: {
+      // 按钮：操作型元素，醒目柔和
+      return '#F56C6C';
+    } // 柔和红色
+    case MenuType.EMBEDDED: {
+      // 嵌入式菜单：融合科技感
+      return '#4096FF';
+    } // 浅蓝色
+    case MenuType.FOLDER: {
+      // 文件夹：归类属性
+      return '#27AE60';
+    } // 深绿色
+    case MenuType.LINK: {
+      // 链接菜单：跳转属性
+      return '#9B59B6';
+    } // 紫色
+    case MenuType.MENU: {
+      // 普通菜单：基础导航
+      return '#165DFF';
+    } // 深蓝色
+    default: {
+      // 未知类型：中性色
+      return '#86909C';
+    } // 浅灰色
+  }
+}
 
 export const isFolder = (type: string) => type === MenuType.FOLDER;
 export const isMenu = (type: string) => type === MenuType.MENU;
 export const isButton = (type: string) => type === MenuType.BUTTON;
 
+/** 遍历菜单子节点
+ * @param nodes 节点列表
+ * @param parent 父节点
+ * @return 是否找到并添加
+ */
 export function travelMenuChild(nodes: Menu[], parent: Menu): boolean {
   if (nodes === undefined) {
     return false;
@@ -124,6 +195,11 @@ export function travelMenuChild(nodes: Menu[], parent: Menu): boolean {
   return false;
 }
 
+/**
+ * 构建菜单树
+ * @param menus 菜单列表
+ * @return 菜单树
+ */
 export function buildMenuTree(menus: Menu[]): Menu[] {
   const tree: Menu[] = [];
 

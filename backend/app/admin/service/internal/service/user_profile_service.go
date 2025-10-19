@@ -59,6 +59,14 @@ func (s *UserProfileService) GetUser(ctx context.Context, _ *emptypb.Empty) (*us
 	//	user.Roles = append(user.Roles, role.GetCode())
 	//}
 
+	roleCodes, err := s.roleRepo.GetRoleCodesByRoleIds(ctx, user.GetRoleIds())
+	if err != nil {
+		s.log.Errorf("get user role codes failed [%s]", err.Error())
+	}
+	if roleCodes != nil {
+		user.Roles = roleCodes
+	}
+
 	return user, err
 }
 

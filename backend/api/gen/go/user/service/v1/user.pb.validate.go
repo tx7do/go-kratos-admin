@@ -60,20 +60,32 @@ func (m *User) validate(all bool) error {
 		// no validation rules for Id
 	}
 
-	if m.WorkId != nil {
-		// no validation rules for WorkId
+	if m.TenantId != nil {
+		// no validation rules for TenantId
+	}
+
+	if m.TenantName != nil {
+		// no validation rules for TenantName
 	}
 
 	if m.OrgId != nil {
 		// no validation rules for OrgId
 	}
 
+	if m.OrgName != nil {
+		// no validation rules for OrgName
+	}
+
 	if m.PositionId != nil {
 		// no validation rules for PositionId
 	}
 
-	if m.TenantId != nil {
-		// no validation rules for TenantId
+	if m.PositionName != nil {
+		// no validation rules for PositionName
+	}
+
+	if m.WorkId != nil {
+		// no validation rules for WorkId
 	}
 
 	if m.Username != nil {

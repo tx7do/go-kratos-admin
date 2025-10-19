@@ -3,6 +3,7 @@ package jwt
 import (
 	"errors"
 
+	"github.com/go-kratos/kratos/v2/log"
 	"github.com/golang-jwt/jwt/v5"
 	"github.com/tx7do/go-utils/trans"
 
@@ -19,8 +20,8 @@ const (
 	ClaimFieldClientID  = "cid"                   // 客户端ID
 	ClaimFieldDeviceID  = "did"                   // 设备ID
 	ClaimFieldAuthority = "aut"                   // 用户权限
-	ClaimFieldRoleID    = "rid"                   // 角色ID
-	ClaimFieldRoleCodes = "roc"                   // 角色码列表
+	//ClaimFieldRoleIds   = "rid"                   // 角色ID列表
+	ClaimFieldRoleCodes = "roc" // 角色码列表
 )
 
 // NewUserTokenPayload 创建用户令牌
@@ -49,27 +50,42 @@ func NewUserTokenAuthClaims(user *userV1.User, clientId string) *authn.AuthClaim
 func NewUserTokenPayloadWithClaims(claims *authn.AuthClaims) (*authenticationV1.UserTokenPayload, error) {
 	payload := &authenticationV1.UserTokenPayload{}
 
-	sub, _ := claims.GetSubject()
+	sub, err := claims.GetSubject()
+	if err != nil {
+		log.Errorf("GetSubject failed: %v", err)
+	}
 	if sub != "" {
 		payload.Username = trans.Ptr(sub)
 	}
 
-	userId, _ := claims.GetUint32(ClaimFieldUserID)
+	userId, err := claims.GetUint32(ClaimFieldUserID)
+	if err != nil {
+		log.Errorf("GetUint32 ClaimFieldUserID failed: %v", err)
+	}
 	if userId != 0 {
 		payload.UserId = userId
 	}
 
-	tenantId, _ := claims.GetUint32(ClaimFieldTenantID)
+	tenantId, err := claims.GetUint32(ClaimFieldTenantID)
+	if err != nil {
+		log.Errorf("GetUint32 ClaimFieldTenantID failed: %v", err)
+	}
 	if tenantId != 0 {
 		payload.TenantId = trans.Ptr(tenantId)
 	}
 
-	clientId, _ := claims.GetString(ClaimFieldClientID)
+	clientId, err := claims.GetString(ClaimFieldClientID)
+	if err != nil {
+		log.Errorf("GetString ClaimFieldClientID failed: %v", err)
+	}
 	if clientId != "" {
 		payload.ClientId = trans.Ptr(clientId)
 	}
 
-	authority, _ := claims.GetString(ClaimFieldAuthority)
+	authority, err := claims.GetString(ClaimFieldAuthority)
+	if err != nil {
+		log.Errorf("GetString ClaimFieldAuthority failed: %v", err)
+	}
 	if authority != "" {
 		v, ok := userV1.UserAuthority_value[authority]
 		if ok {
@@ -77,9 +93,12 @@ func NewUserTokenPayloadWithClaims(claims *authn.AuthClaims) (*authenticationV1.
 		}
 	}
 
-	roles, _ := claims.GetStrings(ClaimFieldRoleCodes)
-	if roles != nil {
-		payload.Roles = roles
+	roleCodes, err := claims.GetStrings(ClaimFieldRoleCodes)
+	if err != nil {
+		log.Errorf("GetStrings ClaimFieldRoleCodes failed: %v", err)
+	}
+	if roleCodes != nil {
+		payload.Roles = roleCodes
 	}
 
 	return payload, nil
@@ -88,7 +107,10 @@ func NewUserTokenPayloadWithClaims(claims *authn.AuthClaims) (*authenticationV1.
 func NewUserTokenPayloadWithJwtMapClaims(claims jwt.MapClaims) (*authenticationV1.UserTokenPayload, error) {
 	payload := &authenticationV1.UserTokenPayload{}
 
-	sub, _ := claims.GetSubject()
+	sub, err := claims.GetSubject()
+	if err != nil {
+		log.Errorf("GetSubject failed: %v", err)
+	}
 	if sub != "" {
 		payload.Username = trans.Ptr(sub)
 	}
@@ -116,22 +138,19 @@ func NewUserTokenPayloadWithJwtMapClaims(claims jwt.MapClaims) (*authenticationV
 		}
 	}
 
-	roles, _ := claims[ClaimFieldRoleCodes]
-	if roles != nil {
-		switch itf := roles.(type) {
+	roleCodes, _ := claims[ClaimFieldRoleCodes]
+	if roleCodes != nil {
+		switch itf := roleCodes.(type) {
 		case []interface{}:
-			payload.Roles = make([]string, 0, len(itf))
-			for _, v := range itf {
-				if str, ok := v.(string); ok {
-					payload.Roles = append(payload.Roles, str)
-				}
+			for _, rc := range itf {
+				payload.Roles = append(payload.Roles, rc.(string))
 			}
 
 		case []string:
 			payload.Roles = itf
 
 		default:
-			return nil, errors.New("invalid roles type")
+			return nil, errors.New("invalid roleCodes type")
 		}
 	}
 

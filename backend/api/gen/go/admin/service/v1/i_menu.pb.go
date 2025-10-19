@@ -31,9 +31,11 @@ const (
 type MenuType int32
 
 const (
-	MenuType_FOLDER MenuType = 0 // 菜单夹
-	MenuType_MENU   MenuType = 1 // 菜单项
-	MenuType_BUTTON MenuType = 2 // 按钮
+	MenuType_FOLDER   MenuType = 0 // 目录
+	MenuType_MENU     MenuType = 1 // 菜单
+	MenuType_BUTTON   MenuType = 2 // 按钮
+	MenuType_EMBEDDED MenuType = 3 // 内嵌
+	MenuType_LINK     MenuType = 4 // 外链
 )
 
 // Enum value maps for MenuType.
@@ -42,11 +44,15 @@ var (
 		0: "FOLDER",
 		1: "MENU",
 		2: "BUTTON",
+		3: "EMBEDDED",
+		4: "LINK",
 	}
 	MenuType_value = map[string]int32{
-		"FOLDER": 0,
-		"MENU":   1,
-		"BUTTON": 2,
+		"FOLDER":   0,
+		"MENU":     1,
+		"BUTTON":   2,
+		"EMBEDDED": 3,
+		"LINK":     4,
 	}
 )
 
@@ -610,13 +616,15 @@ const file_admin_service_v1_i_menu_proto_rawDesc = "" +
 	"\voperator_id\x18\x01 \x01(\rB\x16\xbaG\x13\x18\x01\x92\x02\x0e操作用户IDH\x00R\n" +
 	"operatorId\x88\x01\x01\x12\x0e\n" +
 	"\x02id\x18\x02 \x01(\x05R\x02idB\x0e\n" +
-	"\f_operator_id*,\n" +
+	"\f_operator_id*D\n" +
 	"\bMenuType\x12\n" +
 	"\n" +
 	"\x06FOLDER\x10\x00\x12\b\n" +
 	"\x04MENU\x10\x01\x12\n" +
 	"\n" +
-	"\x06BUTTON\x10\x02*\x1d\n" +
+	"\x06BUTTON\x10\x02\x12\f\n" +
+	"\bEMBEDDED\x10\x03\x12\b\n" +
+	"\x04LINK\x10\x04*\x1d\n" +
 	"\n" +
 	"MenuStatus\x12\a\n" +
 	"\x03OFF\x10\x00\x12\x06\n" +

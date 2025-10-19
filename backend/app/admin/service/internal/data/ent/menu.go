@@ -36,7 +36,7 @@ type Menu struct {
 	Remark *string `json:"remark,omitempty"`
 	// 上一层菜单ID
 	ParentID *int32 `json:"parent_id,omitempty"`
-	// 菜单类型 FOLDER: 目录 MENU: 菜单 BUTTON: 按钮
+	// 菜单类型 FOLDER: 目录 MENU: 菜单 BUTTON: 按钮 EMBEDDED: 内嵌 LINK: 外链
 	Type *menu.Type `json:"type,omitempty"`
 	// 路径,当其类型为'按钮'的时候对应的数据操作名,例如:/user.service.v1.UserService/Login
 	Path *string `json:"path,omitempty"`

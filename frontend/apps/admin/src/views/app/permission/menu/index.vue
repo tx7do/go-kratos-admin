@@ -5,14 +5,21 @@ import type { Menu } from '#/generated/api/admin/service/v1/i_menu.pb';
 import { h } from 'vue';
 
 import { Page, useVbenDrawer, type VbenFormProps } from '@vben/common-ui';
-import { LucideFilePenLine, LucideTrash2 } from '@vben/icons';
+import { IconifyIcon, LucideFilePenLine, LucideTrash2 } from '@vben/icons';
 
 import { Icon } from '@iconify/vue';
 import { notification } from 'ant-design-vue';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
 import { $t } from '#/locales';
-import { statusList, useMenuStore } from '#/stores';
+import {
+  menuTypeToColor,
+  menuTypeToName,
+  statusList,
+  statusToColor,
+  statusToName,
+  useMenuStore,
+} from '#/stores';
 
 import MenuDrawer from './menu-drawer.vue';
 
@@ -89,22 +96,22 @@ const gridOptions: VxeGridProps<Menu> = {
   },
 
   columns: [
-    { title: $t('ui.table.seq'), type: 'seq', width: 50 },
     {
       title: $t('page.menu.name'),
       field: 'meta.title',
       slots: { default: 'title' },
-      width: 200,
+      width: 250,
+      fixed: 'left',
+      align: 'left',
       treeNode: true,
     },
     {
-      title: $t('page.menu.icon'),
-      field: 'meta.icon',
-      slots: { default: 'icon' },
-      width: 50,
+      title: $t('page.menu.type'),
+      field: 'type',
+      slots: { default: 'type' },
+      width: 95,
     },
-    { title: $t('ui.table.sortId'), field: 'meta.order', width: 70 },
-    // { title: '权限标识', field: 'permissionCode', width: 50 },
+    { title: $t('page.menu.authority'), field: 'meta.authority', width: 100 },
     { title: $t('page.menu.path'), field: 'path' },
     { title: $t('page.menu.component'), field: 'component' },
     {
@@ -113,6 +120,7 @@ const gridOptions: VxeGridProps<Menu> = {
       slots: { default: 'status' },
       width: 95,
     },
+    { title: $t('ui.table.sortId'), field: 'meta.order', width: 70 },
     {
       title: $t('ui.table.updateTime'),
       field: 'updateTime',
@@ -229,7 +237,22 @@ const collapseAll = () => {
         </a-button>
       </template>
       <template #title="{ row }">
-        <span :style="{ marginRight: '15px' }">{{ $t(row.meta.title) }}</span>
+        <div class="flex w-full items-center gap-1">
+          <div class="size-5 flex-shrink-0">
+            <IconifyIcon
+              v-if="row.type === 'button'"
+              icon="carbon:security"
+              class="size-full"
+            />
+            <IconifyIcon
+              v-else-if="row.meta?.icon"
+              :icon="row.meta?.icon || 'carbon:circle-dash'"
+              class="size-full"
+            />
+          </div>
+          <span class="flex-auto">{{ $t(row.meta?.title) }}</span>
+          <div class="items-center justify-end"></div>
+        </div>
       </template>
       <template #icon="{ row }">
         <Icon
@@ -239,15 +262,14 @@ const collapseAll = () => {
         />
       </template>
       <template #status="{ row }">
-        <a-switch
-          :checked="row.status === 'ON'"
-          :loading="row.pending"
-          :checked-children="$t('ui.switch.active')"
-          :un-checked-children="$t('ui.switch.inactive')"
-          @change="
-            (checked: any) => handleStatusChanged(row, checked as boolean)
-          "
-        />
+        <a-tag :color="statusToColor(row.status)">
+          {{ statusToName(row.status) }}
+        </a-tag>
+      </template>
+      <template #type="{ row }">
+        <a-tag :color="menuTypeToColor(row.type)">
+          {{ menuTypeToName(row.type) }}
+        </a-tag>
       </template>
       <template #action="{ row }">
         <a-button

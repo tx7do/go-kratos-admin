@@ -183,8 +183,17 @@ func (r *UserRepo) Create(ctx context.Context, req *userV1.CreateUserRequest) (*
 	if req.Data.Id != nil {
 		builder.SetID(req.Data.GetId())
 	}
-	if req.Data.Roles != nil {
-		builder.SetRoles(req.Data.GetRoles())
+
+	//if req.Data.Roles != nil {
+	//	builder.SetRoles(req.Data.GetRoles())
+	//}
+
+	if req.Data.RoleIds != nil {
+		var roleIds []int
+		for _, roleId := range req.Data.GetRoleIds() {
+			roleIds = append(roleIds, int(roleId))
+		}
+		builder.SetRoleIds(roleIds)
 	}
 
 	if ret, err := builder.Save(ctx); err != nil {
@@ -249,7 +258,7 @@ func (r *UserRepo) Update(ctx context.Context, req *userV1.UpdateUserRequest) er
 		SetNillableLastLoginIP(req.Data.LastLoginIp).
 		SetNillableStatus(r.statusConverter.ToEntity(req.Data.Status)).
 		SetNillableGender(r.genderConverter.ToEntity(req.Data.Gender)).
-		SetNillableAuthority(r.authorityConverter.ToEntity(req.Data.Authority)).
+		//SetNillableAuthority(r.authorityConverter.ToEntity(req.Data.Authority)).
 		SetNillableOrgID(req.Data.OrgId).
 		SetNillableWorkID(req.Data.WorkId).
 		SetNillablePositionID(req.Data.PositionId).
@@ -261,8 +270,16 @@ func (r *UserRepo) Update(ctx context.Context, req *userV1.UpdateUserRequest) er
 		builder.SetUpdateTime(time.Now())
 	}
 
-	if req.Data.Roles != nil {
-		builder.SetRoles(req.Data.GetRoles())
+	//if req.Data.Roles != nil {
+	//	builder.SetRoles(req.Data.GetRoles())
+	//}
+
+	if req.Data.RoleIds != nil {
+		var roleIds []int
+		for _, roleId := range req.Data.GetRoleIds() {
+			roleIds = append(roleIds, int(roleId))
+		}
+		builder.SetRoleIds(roleIds)
 	}
 
 	if req.UpdateMask != nil {

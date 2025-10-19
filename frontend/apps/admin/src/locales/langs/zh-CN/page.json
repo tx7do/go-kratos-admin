@@ -14,9 +14,10 @@
   "user": {
     "moduleName": "用户",
     "form": {
-      "real_name": "用户名称",
+      "realName": "真实姓名",
       "mobile": "手机号码",
       "roleId": "角色",
+      "authority": "权限",
       "oldPassword": "当前密码",
       "newPassword": "新密码",
       "confirmPassword": "确认密码"
@@ -34,8 +35,8 @@
       "address": "住址",
       "region": "国家地区",
       "description": "个人描述",
-      "last_login_time": "最后登录时间",
-      "last_login_ip": "最后登录IP",
+      "lastLoginTime": "最后登录时间",
+      "lastLoginIp": "最后登录IP",
       "authority": "权限",
       "roleId": "角色",
       "workId": "工号",
@@ -76,8 +77,8 @@
   },
   "menu": {
     "moduleName": "菜单",
-    "name": "菜单名称",
-    "type": "菜单类型",
+    "name": "标题",
+    "type": "类型",
     "icon": "图标",
     "path": "路由地址",
     "component": "组件路径",
@@ -85,6 +86,7 @@
     "isExt": "是否外链",
     "keepAlive": "是否缓存",
     "parentId": "上级菜单",
+    "authority": "权限标识",
     "button": {
       "create": "创建菜单"
     }

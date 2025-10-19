@@ -24874,8 +24874,8 @@ type UserMutation struct {
 	addposition_id  *int32
 	work_id         *uint32
 	addwork_id      *int32
-	roles           *[]string
-	appendroles     []string
+	role_ids        *[]int
+	appendrole_ids  []int
 	clearedFields   map[string]struct{}
 	done            bool
 	oldValue        func(context.Context) (*User, error)
@@ -26011,22 +26011,9 @@ func (m *UserMutation) OldAuthority(ctx context.Context) (v *user.Authority, err
 	return oldValue.Authority, nil
 }
 
-// ClearAuthority clears the value of the "authority" field.
-func (m *UserMutation) ClearAuthority() {
-	m.authority = nil
-	m.clearedFields[user.FieldAuthority] = struct{}{}
-}
-
-// AuthorityCleared returns if the "authority" field was cleared in this mutation.
-func (m *UserMutation) AuthorityCleared() bool {
-	_, ok := m.clearedFields[user.FieldAuthority]
-	return ok
-}
-
 // ResetAuthority resets all changes to the "authority" field.
 func (m *UserMutation) ResetAuthority() {
 	m.authority = nil
-	delete(m.clearedFields, user.FieldAuthority)
 }
 
 // SetLastLoginTime sets the "last_login_time" field.
@@ -26337,69 +26324,69 @@ func (m *UserMutation) ResetWorkID() {
 	delete(m.clearedFields, user.FieldWorkID)
 }
 
-// SetRoles sets the "roles" field.
-func (m *UserMutation) SetRoles(s []string) {
-	m.roles = &s
-	m.appendroles = nil
+// SetRoleIds sets the "role_ids" field.
+func (m *UserMutation) SetRoleIds(i []int) {
+	m.role_ids = &i
+	m.appendrole_ids = nil
 }
 
-// Roles returns the value of the "roles" field in the mutation.
-func (m *UserMutation) Roles() (r []string, exists bool) {
-	v := m.roles
+// RoleIds returns the value of the "role_ids" field in the mutation.
+func (m *UserMutation) RoleIds() (r []int, exists bool) {
+	v := m.role_ids
 	if v == nil {
 		return
 	}
 	return *v, true
 }
 
-// OldRoles returns the old "roles" field's value of the User entity.
+// OldRoleIds returns the old "role_ids" field's value of the User entity.
 // If the User object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *UserMutation) OldRoles(ctx context.Context) (v []string, err error) {
+func (m *UserMutation) OldRoleIds(ctx context.Context) (v []int, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldRoles is only allowed on UpdateOne operations")
+		return v, errors.New("OldRoleIds is only allowed on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldRoles requires an ID field in the mutation")
+		return v, errors.New("OldRoleIds requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
-		return v, fmt.Errorf("querying old value for OldRoles: %w", err)
+		return v, fmt.Errorf("querying old value for OldRoleIds: %w", err)
 	}
-	return oldValue.Roles, nil
+	return oldValue.RoleIds, nil
 }
 
-// AppendRoles adds s to the "roles" field.
-func (m *UserMutation) AppendRoles(s []string) {
-	m.appendroles = append(m.appendroles, s...)
+// AppendRoleIds adds i to the "role_ids" field.
+func (m *UserMutation) AppendRoleIds(i []int) {
+	m.appendrole_ids = append(m.appendrole_ids, i...)
 }
 
-// AppendedRoles returns the list of values that were appended to the "roles" field in this mutation.
-func (m *UserMutation) AppendedRoles() ([]string, bool) {
-	if len(m.appendroles) == 0 {
+// AppendedRoleIds returns the list of values that were appended to the "role_ids" field in this mutation.
+func (m *UserMutation) AppendedRoleIds() ([]int, bool) {
+	if len(m.appendrole_ids) == 0 {
 		return nil, false
 	}
-	return m.appendroles, true
+	return m.appendrole_ids, true
 }
 
-// ClearRoles clears the value of the "roles" field.
-func (m *UserMutation) ClearRoles() {
-	m.roles = nil
-	m.appendroles = nil
-	m.clearedFields[user.FieldRoles] = struct{}{}
+// ClearRoleIds clears the value of the "role_ids" field.
+func (m *UserMutation) ClearRoleIds() {
+	m.role_ids = nil
+	m.appendrole_ids = nil
+	m.clearedFields[user.FieldRoleIds] = struct{}{}
 }
 
-// RolesCleared returns if the "roles" field was cleared in this mutation.
-func (m *UserMutation) RolesCleared() bool {
-	_, ok := m.clearedFields[user.FieldRoles]
+// RoleIdsCleared returns if the "role_ids" field was cleared in this mutation.
+func (m *UserMutation) RoleIdsCleared() bool {
+	_, ok := m.clearedFields[user.FieldRoleIds]
 	return ok
 }
 
-// ResetRoles resets all changes to the "roles" field.
-func (m *UserMutation) ResetRoles() {
-	m.roles = nil
-	m.appendroles = nil
-	delete(m.clearedFields, user.FieldRoles)
+// ResetRoleIds resets all changes to the "role_ids" field.
+func (m *UserMutation) ResetRoleIds() {
+	m.role_ids = nil
+	m.appendrole_ids = nil
+	delete(m.clearedFields, user.FieldRoleIds)
 }
 
 // Where appends a list predicates to the UserMutation builder.
@@ -26512,8 +26499,8 @@ func (m *UserMutation) Fields() []string {
 	if m.work_id != nil {
 		fields = append(fields, user.FieldWorkID)
 	}
-	if m.roles != nil {
-		fields = append(fields, user.FieldRoles)
+	if m.role_ids != nil {
+		fields = append(fields, user.FieldRoleIds)
 	}
 	return fields
 }
@@ -26573,8 +26560,8 @@ func (m *UserMutation) Field(name string) (ent.Value, bool) {
 		return m.PositionID()
 	case user.FieldWorkID:
 		return m.WorkID()
-	case user.FieldRoles:
-		return m.Roles()
+	case user.FieldRoleIds:
+		return m.RoleIds()
 	}
 	return nil, false
 }
@@ -26634,8 +26621,8 @@ func (m *UserMutation) OldField(ctx context.Context, name string) (ent.Value, er
 		return m.OldPositionID(ctx)
 	case user.FieldWorkID:
 		return m.OldWorkID(ctx)
-	case user.FieldRoles:
-		return m.OldRoles(ctx)
+	case user.FieldRoleIds:
+		return m.OldRoleIds(ctx)
 	}
 	return nil, fmt.Errorf("unknown User field %s", name)
 }
@@ -26820,12 +26807,12 @@ func (m *UserMutation) SetField(name string, value ent.Value) error {
 		}
 		m.SetWorkID(v)
 		return nil
-	case user.FieldRoles:
-		v, ok := value.([]string)
+	case user.FieldRoleIds:
+		v, ok := value.([]int)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
-		m.SetRoles(v)
+		m.SetRoleIds(v)
 		return nil
 	}
 	return fmt.Errorf("unknown User field %s", name)
@@ -26989,9 +26976,6 @@ func (m *UserMutation) ClearedFields() []string {
 	if m.FieldCleared(user.FieldGender) {
 		fields = append(fields, user.FieldGender)
 	}
-	if m.FieldCleared(user.FieldAuthority) {
-		fields = append(fields, user.FieldAuthority)
-	}
 	if m.FieldCleared(user.FieldLastLoginTime) {
 		fields = append(fields, user.FieldLastLoginTime)
 	}
@@ -27007,8 +26991,8 @@ func (m *UserMutation) ClearedFields() []string {
 	if m.FieldCleared(user.FieldWorkID) {
 		fields = append(fields, user.FieldWorkID)
 	}
-	if m.FieldCleared(user.FieldRoles) {
-		fields = append(fields, user.FieldRoles)
+	if m.FieldCleared(user.FieldRoleIds) {
+		fields = append(fields, user.FieldRoleIds)
 	}
 	return fields
 }
@@ -27081,9 +27065,6 @@ func (m *UserMutation) ClearField(name string) error {
 	case user.FieldGender:
 		m.ClearGender()
 		return nil
-	case user.FieldAuthority:
-		m.ClearAuthority()
-		return nil
 	case user.FieldLastLoginTime:
 		m.ClearLastLoginTime()
 		return nil
@@ -27099,8 +27080,8 @@ func (m *UserMutation) ClearField(name string) error {
 	case user.FieldWorkID:
 		m.ClearWorkID()
 		return nil
-	case user.FieldRoles:
-		m.ClearRoles()
+	case user.FieldRoleIds:
+		m.ClearRoleIds()
 		return nil
 	}
 	return fmt.Errorf("unknown User nullable field %s", name)
@@ -27185,8 +27166,8 @@ func (m *UserMutation) ResetField(name string) error {
 	case user.FieldWorkID:
 		m.ResetWorkID()
 		return nil
-	case user.FieldRoles:
-		m.ResetRoles()
+	case user.FieldRoleIds:
+		m.ResetRoleIds()
 		return nil
 	}
 	return fmt.Errorf("unknown User field %s", name)

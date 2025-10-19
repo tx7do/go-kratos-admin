@@ -14,7 +14,7 @@
   "user": {
     "moduleName": "User",
     "form": {
-      "real_name": "UserName",
+      "realName": "UserName",
       "mobile": "Phone",
       "roleId": "Role",
       "oldPassword": "Old Password",
@@ -34,8 +34,8 @@
       "address": "Address",
       "region": "Region",
       "description": "Description",
-      "last_login_time": "Last Login Time",
-      "last_login_ip": "Last Login IP",
+      "lastLoginTime": "Last Login Time",
+      "lastLoginIp": "Last Login IP",
       "authority": "Authority",
       "roleId": "Role",
       "workId": "Work",
@@ -85,6 +85,7 @@
     "isExt": "Is Ext",
     "keepAlive": "Keep Alive",
     "parentId": "Parent Menu",
+    "authority": "Authority",
     "button": {
       "create": "Create"
     }

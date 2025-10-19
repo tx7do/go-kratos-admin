@@ -135,6 +135,7 @@ func (r *RoleRepo) Get(ctx context.Context, id uint32) (*userV1.Role, error) {
 	return r.mapper.ToDTO(entity), nil
 }
 
+// GetRoleByCode 通过角色编码获取角色信息
 func (r *RoleRepo) GetRoleByCode(ctx context.Context, code string) (*userV1.Role, error) {
 	if code == "" {
 		return nil, userV1.ErrorBadRequest("invalid parameter")
@@ -154,6 +155,76 @@ func (r *RoleRepo) GetRoleByCode(ctx context.Context, code string) (*userV1.Role
 	}
 
 	return r.mapper.ToDTO(entity), nil
+}
+
+// GetRolesByRoleCodes 通过角色编码列表获取角色列表
+func (r *RoleRepo) GetRolesByRoleCodes(ctx context.Context, codes []string) ([]*userV1.Role, error) {
+	if len(codes) == 0 {
+		return []*userV1.Role{}, nil
+	}
+
+	entities, err := r.data.db.Client().Role.Query().
+		Where(role.CodeIn(codes...)).
+		All(ctx)
+	if err != nil {
+		r.log.Errorf("query roles by codes failed: %s", err.Error())
+		return nil, userV1.ErrorInternalServerError("query roles by codes failed")
+	}
+
+	dtos := make([]*userV1.Role, 0, len(entities))
+	for _, entity := range entities {
+		dto := r.mapper.ToDTO(entity)
+		dtos = append(dtos, dto)
+	}
+
+	return dtos, nil
+}
+
+// GetRolesByRoleIds 通过角色ID列表获取角色列表
+func (r *RoleRepo) GetRolesByRoleIds(ctx context.Context, ids []uint32) ([]*userV1.Role, error) {
+	if len(ids) == 0 {
+		return []*userV1.Role{}, nil
+	}
+
+	entities, err := r.data.db.Client().Role.Query().
+		Where(role.IDIn(ids...)).
+		All(ctx)
+	if err != nil {
+		r.log.Errorf("query roles by ids failed: %s", err.Error())
+		return nil, userV1.ErrorInternalServerError("query roles by ids failed")
+	}
+
+	dtos := make([]*userV1.Role, 0, len(entities))
+	for _, entity := range entities {
+		dto := r.mapper.ToDTO(entity)
+		dtos = append(dtos, dto)
+	}
+
+	return dtos, nil
+}
+
+// GetRoleCodesByRoleIds 通过角色ID列表获取角色编码列表
+func (r *RoleRepo) GetRoleCodesByRoleIds(ctx context.Context, ids []uint32) ([]string, error) {
+	if len(ids) == 0 {
+		return []string{}, nil
+	}
+
+	entities, err := r.data.db.Client().Role.Query().
+		Where(role.IDIn(ids...)).
+		All(ctx)
+	if err != nil {
+		r.log.Errorf("query role codes failed: %s", err.Error())
+		return nil, userV1.ErrorInternalServerError("query role codes failed")
+	}
+
+	codes := make([]string, 0, len(entities))
+	for _, entity := range entities {
+		if entity.Code != nil {
+			codes = append(codes, *entity.Code)
+		}
+	}
+
+	return codes, nil
 }
 
 func (r *RoleRepo) Create(ctx context.Context, req *userV1.CreateRoleRequest) error {

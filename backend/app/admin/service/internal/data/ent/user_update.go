@@ -364,26 +364,6 @@ func (_u *UserUpdate) ClearGender() *UserUpdate {
 	return _u
 }
 
-// SetAuthority sets the "authority" field.
-func (_u *UserUpdate) SetAuthority(v user.Authority) *UserUpdate {
-	_u.mutation.SetAuthority(v)
-	return _u
-}
-
-// SetNillableAuthority sets the "authority" field if the given value is not nil.
-func (_u *UserUpdate) SetNillableAuthority(v *user.Authority) *UserUpdate {
-	if v != nil {
-		_u.SetAuthority(*v)
-	}
-	return _u
-}
-
-// ClearAuthority clears the value of the "authority" field.
-func (_u *UserUpdate) ClearAuthority() *UserUpdate {
-	_u.mutation.ClearAuthority()
-	return _u
-}
-
 // SetLastLoginTime sets the "last_login_time" field.
 func (_u *UserUpdate) SetLastLoginTime(v time.Time) *UserUpdate {
 	_u.mutation.SetLastLoginTime(v)
@@ -505,21 +485,21 @@ func (_u *UserUpdate) ClearWorkID() *UserUpdate {
 	return _u
 }
 
-// SetRoles sets the "roles" field.
-func (_u *UserUpdate) SetRoles(v []string) *UserUpdate {
-	_u.mutation.SetRoles(v)
+// SetRoleIds sets the "role_ids" field.
+func (_u *UserUpdate) SetRoleIds(v []int) *UserUpdate {
+	_u.mutation.SetRoleIds(v)
 	return _u
 }
 
-// AppendRoles appends value to the "roles" field.
-func (_u *UserUpdate) AppendRoles(v []string) *UserUpdate {
-	_u.mutation.AppendRoles(v)
+// AppendRoleIds appends value to the "role_ids" field.
+func (_u *UserUpdate) AppendRoleIds(v []int) *UserUpdate {
+	_u.mutation.AppendRoleIds(v)
 	return _u
 }
 
-// ClearRoles clears the value of the "roles" field.
-func (_u *UserUpdate) ClearRoles() *UserUpdate {
-	_u.mutation.ClearRoles()
+// ClearRoleIds clears the value of the "role_ids" field.
+func (_u *UserUpdate) ClearRoleIds() *UserUpdate {
+	_u.mutation.ClearRoleIds()
 	return _u
 }
 
@@ -610,11 +590,6 @@ func (_u *UserUpdate) check() error {
 	if v, ok := _u.mutation.Gender(); ok {
 		if err := user.GenderValidator(v); err != nil {
 			return &ValidationError{Name: "gender", err: fmt.Errorf(`ent: validator failed for field "User.gender": %w`, err)}
-		}
-	}
-	if v, ok := _u.mutation.Authority(); ok {
-		if err := user.AuthorityValidator(v); err != nil {
-			return &ValidationError{Name: "authority", err: fmt.Errorf(`ent: validator failed for field "User.authority": %w`, err)}
 		}
 	}
 	if v, ok := _u.mutation.LastLoginIP(); ok {
@@ -754,12 +729,6 @@ func (_u *UserUpdate) sqlSave(ctx context.Context) (_node int, err error) {
 	if _u.mutation.GenderCleared() {
 		_spec.ClearField(user.FieldGender, field.TypeEnum)
 	}
-	if value, ok := _u.mutation.Authority(); ok {
-		_spec.SetField(user.FieldAuthority, field.TypeEnum, value)
-	}
-	if _u.mutation.AuthorityCleared() {
-		_spec.ClearField(user.FieldAuthority, field.TypeEnum)
-	}
 	if value, ok := _u.mutation.LastLoginTime(); ok {
 		_spec.SetField(user.FieldLastLoginTime, field.TypeTime, value)
 	}
@@ -799,16 +768,16 @@ func (_u *UserUpdate) sqlSave(ctx context.Context) (_node int, err error) {
 	if _u.mutation.WorkIDCleared() {
 		_spec.ClearField(user.FieldWorkID, field.TypeUint32)
 	}
-	if value, ok := _u.mutation.Roles(); ok {
-		_spec.SetField(user.FieldRoles, field.TypeJSON, value)
+	if value, ok := _u.mutation.RoleIds(); ok {
+		_spec.SetField(user.FieldRoleIds, field.TypeJSON, value)
 	}
-	if value, ok := _u.mutation.AppendedRoles(); ok {
+	if value, ok := _u.mutation.AppendedRoleIds(); ok {
 		_spec.AddModifier(func(u *sql.UpdateBuilder) {
-			sqljson.Append(u, user.FieldRoles, value)
+			sqljson.Append(u, user.FieldRoleIds, value)
 		})
 	}
-	if _u.mutation.RolesCleared() {
-		_spec.ClearField(user.FieldRoles, field.TypeJSON)
+	if _u.mutation.RoleIdsCleared() {
+		_spec.ClearField(user.FieldRoleIds, field.TypeJSON)
 	}
 	_spec.AddModifiers(_u.modifiers...)
 	if _node, err = sqlgraph.UpdateNodes(ctx, _u.driver, _spec); err != nil {
@@ -1166,26 +1135,6 @@ func (_u *UserUpdateOne) ClearGender() *UserUpdateOne {
 	return _u
 }
 
-// SetAuthority sets the "authority" field.
-func (_u *UserUpdateOne) SetAuthority(v user.Authority) *UserUpdateOne {
-	_u.mutation.SetAuthority(v)
-	return _u
-}
-
-// SetNillableAuthority sets the "authority" field if the given value is not nil.
-func (_u *UserUpdateOne) SetNillableAuthority(v *user.Authority) *UserUpdateOne {
-	if v != nil {
-		_u.SetAuthority(*v)
-	}
-	return _u
-}
-
-// ClearAuthority clears the value of the "authority" field.
-func (_u *UserUpdateOne) ClearAuthority() *UserUpdateOne {
-	_u.mutation.ClearAuthority()
-	return _u
-}
-
 // SetLastLoginTime sets the "last_login_time" field.
 func (_u *UserUpdateOne) SetLastLoginTime(v time.Time) *UserUpdateOne {
 	_u.mutation.SetLastLoginTime(v)
@@ -1307,21 +1256,21 @@ func (_u *UserUpdateOne) ClearWorkID() *UserUpdateOne {
 	return _u
 }
 
-// SetRoles sets the "roles" field.
-func (_u *UserUpdateOne) SetRoles(v []string) *UserUpdateOne {
-	_u.mutation.SetRoles(v)
+// SetRoleIds sets the "role_ids" field.
+func (_u *UserUpdateOne) SetRoleIds(v []int) *UserUpdateOne {
+	_u.mutation.SetRoleIds(v)
 	return _u
 }
 
-// AppendRoles appends value to the "roles" field.
-func (_u *UserUpdateOne) AppendRoles(v []string) *UserUpdateOne {
-	_u.mutation.AppendRoles(v)
+// AppendRoleIds appends value to the "role_ids" field.
+func (_u *UserUpdateOne) AppendRoleIds(v []int) *UserUpdateOne {
+	_u.mutation.AppendRoleIds(v)
 	return _u
 }
 
-// ClearRoles clears the value of the "roles" field.
-func (_u *UserUpdateOne) ClearRoles() *UserUpdateOne {
-	_u.mutation.ClearRoles()
+// ClearRoleIds clears the value of the "role_ids" field.
+func (_u *UserUpdateOne) ClearRoleIds() *UserUpdateOne {
+	_u.mutation.ClearRoleIds()
 	return _u
 }
 
@@ -1425,11 +1374,6 @@ func (_u *UserUpdateOne) check() error {
 	if v, ok := _u.mutation.Gender(); ok {
 		if err := user.GenderValidator(v); err != nil {
 			return &ValidationError{Name: "gender", err: fmt.Errorf(`ent: validator failed for field "User.gender": %w`, err)}
-		}
-	}
-	if v, ok := _u.mutation.Authority(); ok {
-		if err := user.AuthorityValidator(v); err != nil {
-			return &ValidationError{Name: "authority", err: fmt.Errorf(`ent: validator failed for field "User.authority": %w`, err)}
 		}
 	}
 	if v, ok := _u.mutation.LastLoginIP(); ok {
@@ -1586,12 +1530,6 @@ func (_u *UserUpdateOne) sqlSave(ctx context.Context) (_node *User, err error) {
 	if _u.mutation.GenderCleared() {
 		_spec.ClearField(user.FieldGender, field.TypeEnum)
 	}
-	if value, ok := _u.mutation.Authority(); ok {
-		_spec.SetField(user.FieldAuthority, field.TypeEnum, value)
-	}
-	if _u.mutation.AuthorityCleared() {
-		_spec.ClearField(user.FieldAuthority, field.TypeEnum)
-	}
 	if value, ok := _u.mutation.LastLoginTime(); ok {
 		_spec.SetField(user.FieldLastLoginTime, field.TypeTime, value)
 	}
@@ -1631,16 +1569,16 @@ func (_u *UserUpdateOne) sqlSave(ctx context.Context) (_node *User, err error) {
 	if _u.mutation.WorkIDCleared() {
 		_spec.ClearField(user.FieldWorkID, field.TypeUint32)
 	}
-	if value, ok := _u.mutation.Roles(); ok {
-		_spec.SetField(user.FieldRoles, field.TypeJSON, value)
+	if value, ok := _u.mutation.RoleIds(); ok {
+		_spec.SetField(user.FieldRoleIds, field.TypeJSON, value)
 	}
-	if value, ok := _u.mutation.AppendedRoles(); ok {
+	if value, ok := _u.mutation.AppendedRoleIds(); ok {
 		_spec.AddModifier(func(u *sql.UpdateBuilder) {
-			sqljson.Append(u, user.FieldRoles, value)
+			sqljson.Append(u, user.FieldRoleIds, value)
 		})
 	}
-	if _u.mutation.RolesCleared() {
-		_spec.ClearField(user.FieldRoles, field.TypeJSON)
+	if _u.mutation.RoleIdsCleared() {
+		_spec.ClearField(user.FieldRoleIds, field.TypeJSON)
 	}
 	_spec.AddModifiers(_u.modifiers...)
 	_node = &User{config: _u.config}

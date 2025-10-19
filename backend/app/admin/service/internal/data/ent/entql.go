@@ -524,7 +524,7 @@ var schemaGraph = func() *sqlgraph.Schema {
 			user.FieldOrgID:         {Type: field.TypeUint32, Column: user.FieldOrgID},
 			user.FieldPositionID:    {Type: field.TypeUint32, Column: user.FieldPositionID},
 			user.FieldWorkID:        {Type: field.TypeUint32, Column: user.FieldWorkID},
-			user.FieldRoles:         {Type: field.TypeJSON, Column: user.FieldRoles},
+			user.FieldRoleIds:       {Type: field.TypeJSON, Column: user.FieldRoleIds},
 		},
 	}
 	graph.Nodes[18] = &sqlgraph.Node{
@@ -2890,9 +2890,9 @@ func (f *UserFilter) WhereWorkID(p entql.Uint32P) {
 	f.Where(p.Field(user.FieldWorkID))
 }
 
-// WhereRoles applies the entql json.RawMessage predicate on the roles field.
-func (f *UserFilter) WhereRoles(p entql.BytesP) {
-	f.Where(p.Field(user.FieldRoles))
+// WhereRoleIds applies the entql json.RawMessage predicate on the role_ids field.
+func (f *UserFilter) WhereRoleIds(p entql.BytesP) {
+	f.Where(p.Field(user.FieldRoleIds))
 }
 
 // addPredicate implements the predicateAdder interface.

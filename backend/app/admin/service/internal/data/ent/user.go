@@ -69,8 +69,8 @@ type User struct {
 	PositionID *uint32 `json:"position_id,omitempty"`
 	// 员工工号
 	WorkID *uint32 `json:"work_id,omitempty"`
-	// 多角色角色码列表
-	Roles        []string `json:"roles,omitempty"`
+	// 角色ID列表
+	RoleIds      []int `json:"role_ids,omitempty"`
 	selectValues sql.SelectValues
 }
 
@@ -79,7 +79,7 @@ func (*User) scanValues(columns []string) ([]any, error) {
 	values := make([]any, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case user.FieldRoles:
+		case user.FieldRoleIds:
 			values[i] = new([]byte)
 		case user.FieldID, user.FieldCreateBy, user.FieldUpdateBy, user.FieldTenantID, user.FieldOrgID, user.FieldPositionID, user.FieldWorkID:
 			values[i] = new(sql.NullInt64)
@@ -283,12 +283,12 @@ func (_m *User) assignValues(columns []string, values []any) error {
 				_m.WorkID = new(uint32)
 				*_m.WorkID = uint32(value.Int64)
 			}
-		case user.FieldRoles:
+		case user.FieldRoleIds:
 			if value, ok := values[i].(*[]byte); !ok {
-				return fmt.Errorf("unexpected type %T for field roles", values[i])
+				return fmt.Errorf("unexpected type %T for field role_ids", values[i])
 			} else if value != nil && len(*value) > 0 {
-				if err := json.Unmarshal(*value, &_m.Roles); err != nil {
-					return fmt.Errorf("unmarshal field roles: %w", err)
+				if err := json.Unmarshal(*value, &_m.RoleIds); err != nil {
+					return fmt.Errorf("unmarshal field role_ids: %w", err)
 				}
 			}
 		default:
@@ -452,8 +452,8 @@ func (_m *User) String() string {
 		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteString(", ")
-	builder.WriteString("roles=")
-	builder.WriteString(fmt.Sprintf("%v", _m.Roles))
+	builder.WriteString("role_ids=")
+	builder.WriteString(fmt.Sprintf("%v", _m.RoleIds))
 	builder.WriteByte(')')
 	return builder.String()
 }

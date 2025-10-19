@@ -3496,6 +3496,8 @@ components:
                         - FOLDER
                         - MENU
                         - BUTTON
+                        - EMBEDDED
+                        - LINK
                     type: string
                     default: FOLDER
                     description: 菜单类型
@@ -4756,25 +4758,34 @@ components:
                     type: integer
                     description: 用户ID
                     format: uint32
-                workId:
-                    type: integer
-                    description: 工号
-                    format: uint32
-                orgId:
-                    type: integer
-                    description: 部门ID
-                    format: uint32
-                positionId:
-                    type: integer
-                    description: 岗位ID
-                    format: uint32
                 tenantId:
                     type: integer
                     description: 租户ID
                     format: uint32
+                tenantName:
+                    type: string
+                    description: 租户名称
+                orgId:
+                    type: integer
+                    description: 部门ID
+                    format: uint32
+                orgName:
+                    type: string
+                    description: 部门名称
+                positionId:
+                    type: integer
+                    description: 职位ID
+                    format: uint32
+                positionName:
+                    type: string
+                    description: 职位名称
+                workId:
+                    type: integer
+                    description: 工号
+                    format: uint32
                 username:
                     type: string
-                    description: 登录名
+                    description: 用户名
                 nickname:
                     type: string
                     description: 昵称
@@ -4812,7 +4823,7 @@ components:
                     description: 个人描述
                 remark:
                     type: string
-                    description: 备注名
+                    description: 备注
                 lastLoginTime:
                     type: string
                     description: 最后登录时间
@@ -4824,10 +4835,7 @@ components:
                     enum:
                         - OFF
                         - ON
-                        - ON
-                        - OFF
                     type: string
-                    default: ON
                     description: 用户状态
                     format: enum
                 authority:
@@ -4840,11 +4848,22 @@ components:
                     default: CUSTOMER_USER
                     description: 权限
                     format: enum
+                roleIds:
+                    type: array
+                    items:
+                        type: integer
+                        format: uint32
+                    description: 角色ID列表
                 roles:
                     type: array
                     items:
                         type: string
                     description: 角色码列表
+                roleNames:
+                    type: array
+                    items:
+                        type: string
+                    description: 角色名称列表
                 createBy:
                     type: integer
                     description: 创建者ID

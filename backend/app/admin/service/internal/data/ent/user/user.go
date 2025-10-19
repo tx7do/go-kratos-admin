@@ -63,8 +63,8 @@ const (
 	FieldPositionID = "position_id"
 	// FieldWorkID holds the string denoting the work_id field in the database.
 	FieldWorkID = "work_id"
-	// FieldRoles holds the string denoting the roles field in the database.
-	FieldRoles = "roles"
+	// FieldRoleIds holds the string denoting the role_ids field in the database.
+	FieldRoleIds = "role_ids"
 	// Table holds the table name of the user in the database.
 	Table = "users"
 )
@@ -97,7 +97,7 @@ var Columns = []string{
 	FieldOrgID,
 	FieldPositionID,
 	FieldWorkID,
-	FieldRoles,
+	FieldRoleIds,
 }
 
 // ValidColumn reports if the column name is valid (part of the table columns).

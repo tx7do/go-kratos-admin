@@ -108,8 +108,8 @@ func (User) Fields() []ent.Field {
 
 		field.Enum("authority").
 			Comment("授权").
-			Optional().
 			Nillable().
+			Immutable().
 			NamedValues(
 				"SysAdmin", "SYS_ADMIN",
 				"TenantAdmin", "TENANT_ADMIN",
@@ -150,9 +150,13 @@ func (User) Fields() []ent.Field {
 		//	Optional().
 		//	Nillable(),
 
-		field.Strings("roles").
-			Comment("多角色角色码列表").
+		field.Ints("role_ids").
+			Comment("角色ID列表").
 			Optional(),
+
+		//field.Strings("roles").
+		//	Comment("角色码列表").
+		//	Optional(),
 	}
 }
 

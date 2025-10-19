@@ -44,9 +44,14 @@ export interface User {
     | number
     | null
     | undefined;
-  /** optional uint32 role_id = 2 [json_name = "roleId", (gnostic.openapi.v3.property) = {description: "角色ID"}];  // 角色ID */
-  workId?:
+  /** 租户ID */
+  tenantId?:
     | number
+    | null
+    | undefined;
+  /** 租户名称 */
+  tenantName?:
+    | string
     | null
     | undefined;
   /** 部门ID */
@@ -54,17 +59,27 @@ export interface User {
     | number
     | null
     | undefined;
-  /** 岗位ID */
+  /** 部门名称 */
+  orgName?:
+    | string
+    | null
+    | undefined;
+  /** 职位ID */
   positionId?:
     | number
     | null
     | undefined;
-  /** 租户ID */
-  tenantId?:
+  /** 职位名称 */
+  positionName?:
+    | string
+    | null
+    | undefined;
+  /** 工号 */
+  workId?:
     | number
     | null
     | undefined;
-  /** 登录名 */
+  /** 用户名 */
   username?:
     | string
     | null
@@ -119,7 +134,7 @@ export interface User {
     | string
     | null
     | undefined;
-  /** 备注名 */
+  /** 备注 */
   remark?:
     | string
     | null
@@ -144,8 +159,12 @@ export interface User {
     | UserAuthority
     | null
     | undefined;
+  /** optional uint32 role_id = 40 [json_name = "roleId", (gnostic.openapi.v3.property) = {description: "角色ID"}];  // 角色ID */
+  roleIds: number[];
   /** 角色码列表 */
   roles: string[];
+  /** 角色名称列表 */
+  roleNames: string[];
   /** 创建者ID */
   createBy?:
     | number

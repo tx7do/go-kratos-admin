@@ -16,7 +16,9 @@
   "menuType": {
     "FOLDER": "Folder",
     "MENU": "Menu",
-    "BUTTON": "Button"
+    "BUTTON": "Button",
+    "EMBEDDED": "Embedded",
+    "LINK": "Link"
   },
   "successStatus": {
     "success": "Success",

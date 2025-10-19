@@ -266,16 +266,16 @@ message UserTokenPayload {
   repeated string roles = 6 [
     json_name = "roc",
     (gnostic.openapi.v3.property) = {
-      description: "用户角色列表，以逗号分隔"
+      description: "用户角色码列表"
     }
-  ]; // 用户角色列表，以逗号分隔
+  ]; // 用户角色码列表
 
-  optional uint32 role_id = 7 [
-    json_name = "rid",
-    (gnostic.openapi.v3.property) = {
-      description: "角色ID"
-    }
-  ]; // 角色ID
+//  repeated uint32 role_ids = 7 [
+//    json_name = "rid",
+//    (gnostic.openapi.v3.property) = {
+//      description: "角色ID列表"
+//    }
+//  ]; // 角色ID列表
 
   optional string device_id = 8 [
     json_name = "did",

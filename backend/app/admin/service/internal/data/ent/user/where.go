@@ -1369,16 +1369,6 @@ func AuthorityNotIn(vs ...Authority) predicate.User {
 	return predicate.User(sql.FieldNotIn(FieldAuthority, vs...))
 }
 
-// AuthorityIsNil applies the IsNil predicate on the "authority" field.
-func AuthorityIsNil() predicate.User {
-	return predicate.User(sql.FieldIsNull(FieldAuthority))
-}
-
-// AuthorityNotNil applies the NotNil predicate on the "authority" field.
-func AuthorityNotNil() predicate.User {
-	return predicate.User(sql.FieldNotNull(FieldAuthority))
-}
-
 // LastLoginTimeEQ applies the EQ predicate on the "last_login_time" field.
 func LastLoginTimeEQ(v time.Time) predicate.User {
 	return predicate.User(sql.FieldEQ(FieldLastLoginTime, v))
@@ -1654,14 +1644,14 @@ func WorkIDNotNil() predicate.User {
 	return predicate.User(sql.FieldNotNull(FieldWorkID))
 }
 
-// RolesIsNil applies the IsNil predicate on the "roles" field.
-func RolesIsNil() predicate.User {
-	return predicate.User(sql.FieldIsNull(FieldRoles))
+// RoleIdsIsNil applies the IsNil predicate on the "role_ids" field.
+func RoleIdsIsNil() predicate.User {
+	return predicate.User(sql.FieldIsNull(FieldRoleIds))
 }
 
-// RolesNotNil applies the NotNil predicate on the "roles" field.
-func RolesNotNil() predicate.User {
-	return predicate.User(sql.FieldNotNull(FieldRoles))
+// RoleIdsNotNil applies the NotNil predicate on the "role_ids" field.
+func RoleIdsNotNil() predicate.User {
+	return predicate.User(sql.FieldNotNull(FieldRoleIds))
 }
 
 // And groups predicates with the AND operator between them.

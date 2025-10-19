@@ -57,9 +57,11 @@ service MenuService {
 
 // 菜单类型
 enum MenuType {
-  FOLDER = 0;  // 菜单夹
-  MENU = 1;  // 菜单项
-  BUTTON = 2;  // 按钮
+  FOLDER = 0;     // 目录
+  MENU = 1;       // 菜单
+  BUTTON = 2;     // 按钮
+  EMBEDDED = 3;   // 内嵌
+  LINK = 4;       // 外链
 }
 
 // 菜单状态

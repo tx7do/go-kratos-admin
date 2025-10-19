@@ -23,12 +23,12 @@ require (
 	github.com/lib/pq v1.10.9
 	github.com/mileusna/useragent v1.3.5
 	github.com/minio/minio-go/v7 v7.0.95
-	github.com/redis/go-redis/v9 v9.13.0
+	github.com/redis/go-redis/v9 v9.14.1
 	github.com/stretchr/testify v1.11.1
 	github.com/tx7do/go-utils v1.1.29
 	github.com/tx7do/go-utils/copierutil v0.0.5
 	github.com/tx7do/go-utils/entgo v1.1.32
-	github.com/tx7do/go-utils/geoip v1.1.5
+	github.com/tx7do/go-utils/geoip v1.1.6
 	github.com/tx7do/go-utils/jwtutil v0.0.2
 	github.com/tx7do/go-utils/mapper v0.0.3
 	github.com/tx7do/go-utils/password v0.0.1
@@ -61,7 +61,7 @@ require (
 	cel.dev/expr v0.24.0 // indirect
 	dario.cat/mergo v1.0.2 // indirect
 	filippo.io/edwards25519 v1.1.0 // indirect
-	github.com/XSAM/otelsql v0.39.0 // indirect
+	github.com/XSAM/otelsql v0.40.0 // indirect
 	github.com/agext/levenshtein v1.2.3 // indirect
 	github.com/agnivade/levenshtein v1.2.1 // indirect
 	github.com/alibabacloud-go/alibabacloud-gateway-pop v0.1.0 // indirect
@@ -201,6 +201,8 @@ require (
 	github.com/opentracing/opentracing-go v1.2.1-0.20220228012449-10b1cf09e00b // indirect
 	github.com/openzipkin/zipkin-go v0.4.3 // indirect
 	github.com/orcaman/concurrent-map v1.0.0 // indirect
+	github.com/oschwald/geoip2-golang v1.13.0 // indirect
+	github.com/oschwald/maxminddb-golang v1.13.1 // indirect
 	github.com/patrickmn/go-cache v2.1.0+incompatible // indirect
 	github.com/pelletier/go-toml/v2 v2.2.4 // indirect
 	github.com/perimeterx/marshmallow v1.1.5 // indirect
@@ -292,10 +294,10 @@ require (
 	golang.org/x/mod v0.28.0 // indirect
 	golang.org/x/net v0.44.0 // indirect
 	golang.org/x/sync v0.17.0 // indirect
-	golang.org/x/sys v0.36.0 // indirect
-	golang.org/x/text v0.29.0 // indirect
+	golang.org/x/sys v0.37.0 // indirect
+	golang.org/x/text v0.30.0 // indirect
 	golang.org/x/time v0.13.0 // indirect
-	golang.org/x/tools v0.36.0 // indirect
+	golang.org/x/tools v0.37.0 // indirect
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20250922171735-9219d122eba9 // indirect
 	gopkg.in/cenkalti/backoff.v1 v1.1.0 // indirect
 	gopkg.in/ini.v1 v1.67.0 // indirect

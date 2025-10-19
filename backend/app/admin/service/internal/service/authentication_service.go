@@ -95,6 +95,14 @@ func (s *AuthenticationService) doGrantTypePassword(ctx context.Context, req *au
 		return &authenticationV1.LoginResponse{}, authenticationV1.ErrorForbidden("权限不够")
 	}
 
+	roleCodes, err := s.roleRepo.GetRoleCodesByRoleIds(ctx, user.GetRoleIds())
+	if err != nil {
+		s.log.Errorf("get user role codes failed [%s]", err.Error())
+	}
+	if roleCodes != nil {
+		user.Roles = roleCodes
+	}
+
 	// 生成令牌
 	accessToken, refreshToken, err := s.userToken.GenerateToken(ctx, user, req.GetClientId())
 	if err != nil {
@@ -129,6 +137,14 @@ func (s *AuthenticationService) doGrantTypeRefreshToken(ctx context.Context, req
 
 	if err = s.userToken.RemoveRefreshToken(ctx, operator.UserId, req.GetRefreshToken()); err != nil {
 		s.log.Errorf("remove refresh token failed [%s]", err.Error())
+	}
+
+	roleCodes, err := s.roleRepo.GetRoleCodesByRoleIds(ctx, user.GetRoleIds())
+	if err != nil {
+		s.log.Errorf("get user role codes failed [%s]", err.Error())
+	}
+	if roleCodes != nil {
+		user.Roles = roleCodes
 	}
 
 	// 生成令牌

@@ -87,6 +87,95 @@ export const useOrganizationStore = defineStore('organization', () => {
   };
 });
 
+export const organizationStatusList = computed(() => [
+  {
+    value: OrganizationStatus.ORGANIZATION_STATUS_ON,
+    label: $t('enum.status.ON'),
+  },
+  {
+    value: OrganizationStatus.ORGANIZATION_STATUS_OFF,
+    label: $t('enum.status.OFF'),
+  },
+]);
+
+/**
+ * 状态转名称
+ * @param status 状态值
+ */
+export function organizationStatusToName(status: any) {
+  switch (status) {
+    case OrganizationStatus.ORGANIZATION_STATUS_OFF: {
+      return $t('enum.status.OFF');
+    }
+    case OrganizationStatus.ORGANIZATION_STATUS_ON: {
+      return $t('enum.status.ON');
+    }
+    default: {
+      return '';
+    }
+  }
+}
+
+/**
+ * 状态转颜色值
+ * @param status 状态值
+ */
+export function organizationStatusToColor(status: any) {
+  switch (status) {
+    case OrganizationStatus.ORGANIZATION_STATUS_OFF: {
+      // 关闭/停用：深灰色，明确非激活状态
+      return '#8C8C8C';
+    } // 中深灰色，与“关闭”语义匹配，区别于浅灰的“未知”
+    case OrganizationStatus.ORGANIZATION_STATUS_ON: {
+      // 开启/激活：标准成功绿，体现正常运行
+      return '#52C41A';
+    } // 对应Element Plus的success色，大众认知中的“正常”色
+    default: {
+      // 异常状态：浅灰色，代表未定义状态
+      return '#C9CDD4';
+    }
+  }
+}
+
+export const organizationTypeList = computed(() => [
+  {
+    value: OrganizationType.ORGANIZATION_TYPE_GROUP,
+    label: $t('enum.organizationType.ORGANIZATION_TYPE_GROUP'),
+  },
+  {
+    value: OrganizationType.ORGANIZATION_TYPE_SUBSIDIARY,
+    label: $t('enum.organizationType.ORGANIZATION_TYPE_SUBSIDIARY'),
+  },
+  {
+    value: OrganizationType.ORGANIZATION_TYPE_FILIALE,
+    label: $t('enum.organizationType.ORGANIZATION_TYPE_FILIALE'),
+  },
+  {
+    value: OrganizationType.ORGANIZATION_TYPE_DIVISION,
+    label: $t('enum.organizationType.ORGANIZATION_TYPE_DIVISION'),
+  },
+]);
+
+export const organizationTypeListForQuery = computed(() => [
+  {
+    value: 'GROUP',
+    label: $t('enum.organizationType.ORGANIZATION_TYPE_GROUP'),
+  },
+  {
+    value: 'SUBSIDIARY',
+    label: $t('enum.organizationType.ORGANIZATION_TYPE_SUBSIDIARY'),
+  },
+  {
+    value: 'FILIALE',
+    label: $t('enum.organizationType.ORGANIZATION_TYPE_FILIALE'),
+  },
+  {
+    value: 'DIVISION',
+    label: $t('enum.organizationType.ORGANIZATION_TYPE_DIVISION'),
+  },
+]);
+
+
 /**
  * 组织类型转名称
  * @param organizationType
@@ -138,52 +227,3 @@ export function organizationTypeToColor(organizationType: any) {
     }
   }
 }
-
-export const organizationStatusList = computed(() => [
-  {
-    value: OrganizationStatus.ORGANIZATION_STATUS_ON,
-    label: $t('enum.status.ON'),
-  },
-  {
-    value: OrganizationStatus.ORGANIZATION_STATUS_OFF,
-    label: $t('enum.status.OFF'),
-  },
-]);
-
-export const organizationTypeList = computed(() => [
-  {
-    value: OrganizationType.ORGANIZATION_TYPE_GROUP,
-    label: $t('enum.organizationType.ORGANIZATION_TYPE_GROUP'),
-  },
-  {
-    value: OrganizationType.ORGANIZATION_TYPE_SUBSIDIARY,
-    label: $t('enum.organizationType.ORGANIZATION_TYPE_SUBSIDIARY'),
-  },
-  {
-    value: OrganizationType.ORGANIZATION_TYPE_FILIALE,
-    label: $t('enum.organizationType.ORGANIZATION_TYPE_FILIALE'),
-  },
-  {
-    value: OrganizationType.ORGANIZATION_TYPE_DIVISION,
-    label: $t('enum.organizationType.ORGANIZATION_TYPE_DIVISION'),
-  },
-]);
-
-export const organizationTypeListForQuery = computed(() => [
-  {
-    value: 'GROUP',
-    label: $t('enum.organizationType.ORGANIZATION_TYPE_GROUP'),
-  },
-  {
-    value: 'SUBSIDIARY',
-    label: $t('enum.organizationType.ORGANIZATION_TYPE_SUBSIDIARY'),
-  },
-  {
-    value: 'FILIALE',
-    label: $t('enum.organizationType.ORGANIZATION_TYPE_FILIALE'),
-  },
-  {
-    value: 'DIVISION',
-    label: $t('enum.organizationType.ORGANIZATION_TYPE_DIVISION'),
-  },
-]);

@@ -45,11 +45,13 @@ func (Menu) Fields() []ent.Field {
 			Nillable(),
 
 		field.Enum("type").
-			Comment("菜单类型 FOLDER: 目录 MENU: 菜单 BUTTON: 按钮").
+			Comment("菜单类型 FOLDER: 目录 MENU: 菜单 BUTTON: 按钮 EMBEDDED: 内嵌 LINK: 外链").
 			NamedValues(
 				"Folder", "FOLDER",
 				"Menu", "MENU",
 				"Button", "BUTTON",
+				"Embedded", "EMBEDDED",
+				"Link", "LINK",
 			).
 			Default("MENU").
 			Optional().

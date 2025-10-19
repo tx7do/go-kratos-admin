@@ -15,7 +15,8 @@ import {
 } from '#/generated/api/user/service/v1/position.pb';
 import { $t } from '#/locales';
 import {
-  statusList,
+  organizationTypeToColor, organizationTypeToName, positionStatusToColor, positionStatusToName,
+  statusList, statusToColor, statusToName,
   useDepartmentStore,
   useOrganizationStore,
   usePositionStore,
@@ -149,9 +150,8 @@ const gridOptions: VxeGridProps<Position> = {
   },
 
   columns: [
-    { title: $t('ui.table.seq'), type: 'seq', width: 50 },
     { title: $t('page.position.name'), field: 'name', treeNode: true },
-    { title: $t('page.position.code'), field: 'code', width: 150 },
+    { title: $t('page.position.code'), field: 'code' },
     { title: $t('page.position.description'), field: 'description' },
     {
       title: $t('page.position.organizationName'),
@@ -164,13 +164,13 @@ const gridOptions: VxeGridProps<Position> = {
       width: 150,
     },
     { title: $t('page.position.quota'), field: 'quota', width: 80 },
-    { title: $t('ui.table.sortId'), field: 'sortId', width: 70 },
     {
       title: $t('ui.table.status'),
       field: 'status',
       slots: { default: 'status' },
       width: 95,
     },
+    { title: $t('ui.table.sortId'), field: 'sortId', width: 70 },
     {
       title: $t('ui.table.createTime'),
       field: 'createTime',
@@ -290,15 +290,9 @@ const collapseAll = () => {
         </a-button>
       </template>
       <template #status="{ row }">
-        <a-switch
-          :checked="row.status === PositionStatus.POSITION_STATUS_ON"
-          :loading="row.pending"
-          :checked-children="$t('ui.switch.active')"
-          :un-checked-children="$t('ui.switch.inactive')"
-          @change="
-            (checked: any) => handleStatusChanged(row, checked as boolean)
-          "
-        />
+        <a-tag :color="positionStatusToColor(row.status)">
+          {{ positionStatusToName(row.status) }}
+        </a-tag>
       </template>
       <template #action="{ row }">
         <a-button

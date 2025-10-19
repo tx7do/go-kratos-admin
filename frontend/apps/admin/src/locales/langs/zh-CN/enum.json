@@ -16,7 +16,9 @@
   "menuType": {
     "FOLDER": "目录",
     "MENU": "菜单",
-    "BUTTON": "按钮"
+    "BUTTON": "按钮",
+    "EMBEDDED": "内嵌",
+    "LINK": "外链"
   },
   "successStatus": {
     "success": "成功",
@@ -28,7 +30,7 @@
     "WaitResult": "等待结果"
   },
   "gender": {
-    "SECRET": "未知",
+    "SECRET": "保密",
     "MALE": "男性",
     "FEMALE": "女性"
   },

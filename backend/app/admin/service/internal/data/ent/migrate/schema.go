@@ -282,7 +282,7 @@ var (
 		{Name: "create_by", Type: field.TypeUint32, Nullable: true, Comment: "创建者ID"},
 		{Name: "update_by", Type: field.TypeUint32, Nullable: true, Comment: "更新者ID"},
 		{Name: "remark", Type: field.TypeString, Nullable: true, Comment: "备注", Default: ""},
-		{Name: "type", Type: field.TypeEnum, Nullable: true, Comment: "菜单类型 FOLDER: 目录 MENU: 菜单 BUTTON: 按钮", Enums: []string{"FOLDER", "MENU", "BUTTON"}, Default: "MENU"},
+		{Name: "type", Type: field.TypeEnum, Nullable: true, Comment: "菜单类型 FOLDER: 目录 MENU: 菜单 BUTTON: 按钮 EMBEDDED: 内嵌 LINK: 外链", Enums: []string{"FOLDER", "MENU", "BUTTON", "EMBEDDED", "LINK"}, Default: "MENU"},
 		{Name: "path", Type: field.TypeString, Nullable: true, Comment: "路径,当其类型为'按钮'的时候对应的数据操作名,例如:/user.service.v1.UserService/Login", Default: ""},
 		{Name: "redirect", Type: field.TypeString, Nullable: true, Comment: "重定向地址"},
 		{Name: "alias", Type: field.TypeString, Nullable: true, Comment: "路由别名"},
@@ -677,13 +677,13 @@ var (
 		{Name: "region", Type: field.TypeString, Nullable: true, Size: 255, Comment: "国家地区", Default: ""},
 		{Name: "description", Type: field.TypeString, Nullable: true, Size: 1023, Comment: "个人说明"},
 		{Name: "gender", Type: field.TypeEnum, Nullable: true, Comment: "性别", Enums: []string{"SECRET", "MALE", "FEMALE"}},
-		{Name: "authority", Type: field.TypeEnum, Nullable: true, Comment: "授权", Enums: []string{"SYS_ADMIN", "TENANT_ADMIN", "CUSTOMER_USER", "GUEST"}, Default: "CUSTOMER_USER"},
+		{Name: "authority", Type: field.TypeEnum, Comment: "授权", Enums: []string{"SYS_ADMIN", "TENANT_ADMIN", "CUSTOMER_USER", "GUEST"}, Default: "CUSTOMER_USER"},
 		{Name: "last_login_time", Type: field.TypeTime, Nullable: true, Comment: "最后一次登录的时间"},
 		{Name: "last_login_ip", Type: field.TypeString, Nullable: true, Size: 64, Comment: "最后一次登录的IP", Default: ""},
 		{Name: "org_id", Type: field.TypeUint32, Nullable: true, Comment: "部门ID"},
 		{Name: "position_id", Type: field.TypeUint32, Nullable: true, Comment: "职位ID"},
 		{Name: "work_id", Type: field.TypeUint32, Nullable: true, Comment: "员工工号"},
-		{Name: "roles", Type: field.TypeJSON, Nullable: true, Comment: "多角色角色码列表"},
+		{Name: "role_ids", Type: field.TypeJSON, Nullable: true, Comment: "角色ID列表"},
 	}
 	// UsersTable holds the schema information for the "users" table.
 	UsersTable = &schema.Table{

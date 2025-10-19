@@ -372,9 +372,9 @@ func (_c *UserCreate) SetNillableWorkID(v *uint32) *UserCreate {
 	return _c
 }
 
-// SetRoles sets the "roles" field.
-func (_c *UserCreate) SetRoles(v []string) *UserCreate {
-	_c.mutation.SetRoles(v)
+// SetRoleIds sets the "role_ids" field.
+func (_c *UserCreate) SetRoleIds(v []int) *UserCreate {
+	_c.mutation.SetRoleIds(v)
 	return _c
 }
 
@@ -519,6 +519,9 @@ func (_c *UserCreate) check() error {
 		if err := user.GenderValidator(v); err != nil {
 			return &ValidationError{Name: "gender", err: fmt.Errorf(`ent: validator failed for field "User.gender": %w`, err)}
 		}
+	}
+	if _, ok := _c.mutation.Authority(); !ok {
+		return &ValidationError{Name: "authority", err: errors.New(`ent: missing required field "User.authority"`)}
 	}
 	if v, ok := _c.mutation.Authority(); ok {
 		if err := user.AuthorityValidator(v); err != nil {
@@ -668,9 +671,9 @@ func (_c *UserCreate) createSpec() (*User, *sqlgraph.CreateSpec) {
 		_spec.SetField(user.FieldWorkID, field.TypeUint32, value)
 		_node.WorkID = &value
 	}
-	if value, ok := _c.mutation.Roles(); ok {
-		_spec.SetField(user.FieldRoles, field.TypeJSON, value)
-		_node.Roles = value
+	if value, ok := _c.mutation.RoleIds(); ok {
+		_spec.SetField(user.FieldRoleIds, field.TypeJSON, value)
+		_node.RoleIds = value
 	}
 	return _node, _spec
 }
@@ -1024,24 +1027,6 @@ func (u *UserUpsert) ClearGender() *UserUpsert {
 	return u
 }
 
-// SetAuthority sets the "authority" field.
-func (u *UserUpsert) SetAuthority(v user.Authority) *UserUpsert {
-	u.Set(user.FieldAuthority, v)
-	return u
-}
-
-// UpdateAuthority sets the "authority" field to the value that was provided on create.
-func (u *UserUpsert) UpdateAuthority() *UserUpsert {
-	u.SetExcluded(user.FieldAuthority)
-	return u
-}
-
-// ClearAuthority clears the value of the "authority" field.
-func (u *UserUpsert) ClearAuthority() *UserUpsert {
-	u.SetNull(user.FieldAuthority)
-	return u
-}
-
 // SetLastLoginTime sets the "last_login_time" field.
 func (u *UserUpsert) SetLastLoginTime(v time.Time) *UserUpsert {
 	u.Set(user.FieldLastLoginTime, v)
@@ -1150,21 +1135,21 @@ func (u *UserUpsert) ClearWorkID() *UserUpsert {
 	return u
 }
 
-// SetRoles sets the "roles" field.
-func (u *UserUpsert) SetRoles(v []string) *UserUpsert {
-	u.Set(user.FieldRoles, v)
+// SetRoleIds sets the "role_ids" field.
+func (u *UserUpsert) SetRoleIds(v []int) *UserUpsert {
+	u.Set(user.FieldRoleIds, v)
 	return u
 }
 
-// UpdateRoles sets the "roles" field to the value that was provided on create.
-func (u *UserUpsert) UpdateRoles() *UserUpsert {
-	u.SetExcluded(user.FieldRoles)
+// UpdateRoleIds sets the "role_ids" field to the value that was provided on create.
+func (u *UserUpsert) UpdateRoleIds() *UserUpsert {
+	u.SetExcluded(user.FieldRoleIds)
 	return u
 }
 
-// ClearRoles clears the value of the "roles" field.
-func (u *UserUpsert) ClearRoles() *UserUpsert {
-	u.SetNull(user.FieldRoles)
+// ClearRoleIds clears the value of the "role_ids" field.
+func (u *UserUpsert) ClearRoleIds() *UserUpsert {
+	u.SetNull(user.FieldRoleIds)
 	return u
 }
 
@@ -1193,6 +1178,9 @@ func (u *UserUpsertOne) UpdateNewValues() *UserUpsertOne {
 		}
 		if _, exists := u.create.mutation.Username(); exists {
 			s.SetIgnore(user.FieldUsername)
+		}
+		if _, exists := u.create.mutation.Authority(); exists {
+			s.SetIgnore(user.FieldAuthority)
 		}
 	}))
 	return u
@@ -1575,27 +1563,6 @@ func (u *UserUpsertOne) ClearGender() *UserUpsertOne {
 	})
 }
 
-// SetAuthority sets the "authority" field.
-func (u *UserUpsertOne) SetAuthority(v user.Authority) *UserUpsertOne {
-	return u.Update(func(s *UserUpsert) {
-		s.SetAuthority(v)
-	})
-}
-
-// UpdateAuthority sets the "authority" field to the value that was provided on create.
-func (u *UserUpsertOne) UpdateAuthority() *UserUpsertOne {
-	return u.Update(func(s *UserUpsert) {
-		s.UpdateAuthority()
-	})
-}
-
-// ClearAuthority clears the value of the "authority" field.
-func (u *UserUpsertOne) ClearAuthority() *UserUpsertOne {
-	return u.Update(func(s *UserUpsert) {
-		s.ClearAuthority()
-	})
-}
-
 // SetLastLoginTime sets the "last_login_time" field.
 func (u *UserUpsertOne) SetLastLoginTime(v time.Time) *UserUpsertOne {
 	return u.Update(func(s *UserUpsert) {
@@ -1722,24 +1689,24 @@ func (u *UserUpsertOne) ClearWorkID() *UserUpsertOne {
 	})
 }
 
-// SetRoles sets the "roles" field.
-func (u *UserUpsertOne) SetRoles(v []string) *UserUpsertOne {
+// SetRoleIds sets the "role_ids" field.
+func (u *UserUpsertOne) SetRoleIds(v []int) *UserUpsertOne {
 	return u.Update(func(s *UserUpsert) {
-		s.SetRoles(v)
+		s.SetRoleIds(v)
 	})
 }
 
-// UpdateRoles sets the "roles" field to the value that was provided on create.
-func (u *UserUpsertOne) UpdateRoles() *UserUpsertOne {
+// UpdateRoleIds sets the "role_ids" field to the value that was provided on create.
+func (u *UserUpsertOne) UpdateRoleIds() *UserUpsertOne {
 	return u.Update(func(s *UserUpsert) {
-		s.UpdateRoles()
+		s.UpdateRoleIds()
 	})
 }
 
-// ClearRoles clears the value of the "roles" field.
-func (u *UserUpsertOne) ClearRoles() *UserUpsertOne {
+// ClearRoleIds clears the value of the "role_ids" field.
+func (u *UserUpsertOne) ClearRoleIds() *UserUpsertOne {
 	return u.Update(func(s *UserUpsert) {
-		s.ClearRoles()
+		s.ClearRoleIds()
 	})
 }
 
@@ -1933,6 +1900,9 @@ func (u *UserUpsertBulk) UpdateNewValues() *UserUpsertBulk {
 			}
 			if _, exists := b.mutation.Username(); exists {
 				s.SetIgnore(user.FieldUsername)
+			}
+			if _, exists := b.mutation.Authority(); exists {
+				s.SetIgnore(user.FieldAuthority)
 			}
 		}
 	}))
@@ -2316,27 +2286,6 @@ func (u *UserUpsertBulk) ClearGender() *UserUpsertBulk {
 	})
 }
 
-// SetAuthority sets the "authority" field.
-func (u *UserUpsertBulk) SetAuthority(v user.Authority) *UserUpsertBulk {
-	return u.Update(func(s *UserUpsert) {
-		s.SetAuthority(v)
-	})
-}
-
-// UpdateAuthority sets the "authority" field to the value that was provided on create.
-func (u *UserUpsertBulk) UpdateAuthority() *UserUpsertBulk {
-	return u.Update(func(s *UserUpsert) {
-		s.UpdateAuthority()
-	})
-}
-
-// ClearAuthority clears the value of the "authority" field.
-func (u *UserUpsertBulk) ClearAuthority() *UserUpsertBulk {
-	return u.Update(func(s *UserUpsert) {
-		s.ClearAuthority()
-	})
-}
-
 // SetLastLoginTime sets the "last_login_time" field.
 func (u *UserUpsertBulk) SetLastLoginTime(v time.Time) *UserUpsertBulk {
 	return u.Update(func(s *UserUpsert) {
@@ -2463,24 +2412,24 @@ func (u *UserUpsertBulk) ClearWorkID() *UserUpsertBulk {
 	})
 }
 
-// SetRoles sets the "roles" field.
-func (u *UserUpsertBulk) SetRoles(v []string) *UserUpsertBulk {
+// SetRoleIds sets the "role_ids" field.
+func (u *UserUpsertBulk) SetRoleIds(v []int) *UserUpsertBulk {
 	return u.Update(func(s *UserUpsert) {
-		s.SetRoles(v)
+		s.SetRoleIds(v)
 	})
 }
 
-// UpdateRoles sets the "roles" field to the value that was provided on create.
-func (u *UserUpsertBulk) UpdateRoles() *UserUpsertBulk {
+// UpdateRoleIds sets the "role_ids" field to the value that was provided on create.
+func (u *UserUpsertBulk) UpdateRoleIds() *UserUpsertBulk {
 	return u.Update(func(s *UserUpsert) {
-		s.UpdateRoles()
+		s.UpdateRoleIds()
 	})
 }
 
-// ClearRoles clears the value of the "roles" field.
-func (u *UserUpsertBulk) ClearRoles() *UserUpsertBulk {
+// ClearRoleIds clears the value of the "role_ids" field.
+func (u *UserUpsertBulk) ClearRoleIds() *UserUpsertBulk {
 	return u.Update(func(s *UserUpsert) {
-		s.ClearRoles()
+		s.ClearRoleIds()
 	})
 }
 

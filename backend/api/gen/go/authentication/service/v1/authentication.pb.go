@@ -587,8 +587,7 @@ type UserTokenPayload struct {
 	Username      *string                `protobuf:"bytes,3,opt,name=username,json=sub,proto3,oneof" json:"username,omitempty"`                                 // 用户名
 	ClientId      *string                `protobuf:"bytes,4,opt,name=client_id,json=cid,proto3,oneof" json:"client_id,omitempty"`                               // 客户端ID
 	Authority     v1.UserAuthority       `protobuf:"varint,5,opt,name=authority,json=aut,proto3,enum=user.service.v1.UserAuthority" json:"authority,omitempty"` // 用户权限
-	Roles         []string               `protobuf:"bytes,6,rep,name=roles,json=roc,proto3" json:"roles,omitempty"`                                             // 用户角色列表，以逗号分隔
-	RoleId        *uint32                `protobuf:"varint,7,opt,name=role_id,json=rid,proto3,oneof" json:"role_id,omitempty"`                                  // 角色ID
+	Roles         []string               `protobuf:"bytes,6,rep,name=roles,json=roc,proto3" json:"roles,omitempty"`                                             // 用户角色码列表
 	DeviceId      *string                `protobuf:"bytes,8,opt,name=device_id,json=did,proto3,oneof" json:"device_id,omitempty"`                               // 设备ID
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -664,13 +663,6 @@ func (x *UserTokenPayload) GetRoles() []string {
 		return x.Roles
 	}
 	return nil
-}
-
-func (x *UserTokenPayload) GetRoleId() uint32 {
-	if x != nil && x.RoleId != nil {
-		return *x.RoleId
-	}
-	return 0
 }
 
 func (x *UserTokenPayload) GetDeviceId() string {
@@ -858,23 +850,20 @@ const file_authentication_service_v1_authentication_proto_rawDesc = "" +
 	"\x05email\x18\x04 \x01(\tB\x18\xbaG\x15\x92\x02\x12电子邮件地址H\x00R\x05email\x88\x01\x01B\b\n" +
 	"\x06_email\"/\n" +
 	"\x14RegisterUserResponse\x12\x17\n" +
-	"\auser_id\x18\x01 \x01(\rR\x06userId\"\xe9\x03\n" +
+	"\auser_id\x18\x01 \x01(\rR\x06userId\"\xa3\x03\n" +
 	"\x10UserTokenPayload\x12$\n" +
 	"\auser_id\x18\x01 \x01(\rB\x0e\xbaG\v\x92\x02\b用户IDR\x03uid\x12+\n" +
 	"\ttenant_id\x18\x02 \x01(\rB\x0e\xbaG\v\x92\x02\b租户IDH\x00R\x03tid\x88\x01\x01\x12+\n" +
 	"\busername\x18\x03 \x01(\tB\x0f\xbaG\f\x92\x02\t用户名H\x01R\x03sub\x88\x01\x01\x12.\n" +
 	"\tclient_id\x18\x04 \x01(\tB\x11\xbaG\x0e\x92\x02\v客户端IDH\x02R\x03cid\x88\x01\x01\x12J\n" +
-	"\tauthority\x18\x05 \x01(\x0e2\x1e.user.service.v1.UserAuthorityB\x12\xbaG\x0f\x92\x02\f用户权限R\x03aut\x12>\n" +
-	"\x05roles\x18\x06 \x03(\tB*\xbaG'\x92\x02$用户角色列表，以逗号分隔R\x03roc\x12)\n" +
-	"\arole_id\x18\a \x01(\rB\x0e\xbaG\v\x92\x02\b角色IDH\x03R\x03rid\x88\x01\x01\x12+\n" +
-	"\tdevice_id\x18\b \x01(\tB\x0e\xbaG\v\x92\x02\b设备IDH\x04R\x03did\x88\x01\x01B\f\n" +
+	"\tauthority\x18\x05 \x01(\x0e2\x1e.user.service.v1.UserAuthorityB\x12\xbaG\x0f\x92\x02\f用户权限R\x03aut\x12/\n" +
+	"\x05roles\x18\x06 \x03(\tB\x1b\xbaG\x18\x92\x02\x15用户角色码列表R\x03roc\x12+\n" +
+	"\tdevice_id\x18\b \x01(\tB\x0e\xbaG\v\x92\x02\b设备IDH\x03R\x03did\x88\x01\x01B\f\n" +
 	"\n" +
 	"_tenant_idB\v\n" +
 	"\t_usernameB\f\n" +
 	"\n" +
-	"_client_idB\n" +
-	"\n" +
-	"\b_role_idB\f\n" +
+	"_client_idB\f\n" +
 	"\n" +
 	"_device_id\"\xc4\x01\n" +
 	"\x0eWhoAmIResponse\x12$\n" +

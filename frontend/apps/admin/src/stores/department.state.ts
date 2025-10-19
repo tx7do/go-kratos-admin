@@ -91,3 +91,43 @@ export const departmentStatusList = computed(() => [
     label: $t('enum.status.OFF'),
   },
 ]);
+
+
+/**
+ * 状态转名称
+ * @param status 状态值
+ */
+export function departmentStatusToName(status: any) {
+  switch (status) {
+    case DepartmentStatus.DEPARTMENT_STATUS_OFF: {
+      return $t('enum.status.OFF');
+    }
+    case DepartmentStatus.DEPARTMENT_STATUS_ON: {
+      return $t('enum.status.ON');
+    }
+    default: {
+      return '';
+    }
+  }
+}
+
+/**
+ * 状态转颜色值
+ * @param status 状态值
+ */
+export function departmentStatusToColor(status: any) {
+  switch (status) {
+    case DepartmentStatus.DEPARTMENT_STATUS_OFF: {
+      // 关闭/停用：深灰色，明确非激活状态
+      return '#8C8C8C';
+    } // 中深灰色，与“关闭”语义匹配，区别于浅灰的“未知”
+    case DepartmentStatus.DEPARTMENT_STATUS_ON: {
+      // 开启/激活：标准成功绿，体现正常运行
+      return '#52C41A';
+    } // 对应Element Plus的success色，大众认知中的“正常”色
+    default: {
+      // 异常状态：浅灰色，代表未定义状态
+      return '#C9CDD4';
+    }
+  }
+}

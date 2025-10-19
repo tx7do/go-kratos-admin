@@ -783,10 +783,6 @@ func (m *UserTokenPayload) validate(all bool) error {
 		// no validation rules for ClientId
 	}
 
-	if m.RoleId != nil {
-		// no validation rules for RoleId
-	}
-
 	if m.DeviceId != nil {
 		// no validation rules for DeviceId
 	}

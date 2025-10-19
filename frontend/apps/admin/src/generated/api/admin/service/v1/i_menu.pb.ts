@@ -12,12 +12,16 @@ import type { RouteMeta } from "./i_router.pb";
 
 /** 菜单类型 */
 export enum MenuType {
-  /** FOLDER - 菜单夹 */
+  /** FOLDER - 目录 */
   FOLDER = "FOLDER",
-  /** MENU - 菜单项 */
+  /** MENU - 菜单 */
   MENU = "MENU",
   /** BUTTON - 按钮 */
   BUTTON = "BUTTON",
+  /** EMBEDDED - 内嵌 */
+  EMBEDDED = "EMBEDDED",
+  /** LINK - 外链 */
+  LINK = "LINK",
 }
 
 /** 菜单状态 */

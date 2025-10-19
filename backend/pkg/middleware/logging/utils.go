@@ -10,10 +10,11 @@ import (
 	"net/url"
 
 	"github.com/go-kratos/kratos/v2/errors"
+	"github.com/go-kratos/kratos/v2/log"
 	"github.com/go-kratos/kratos/v2/transport/http"
 
 	"github.com/mileusna/useragent"
-	"github.com/tx7do/go-utils/geoip/qqwry"
+	"github.com/tx7do/go-utils/geoip/geolite"
 	"github.com/tx7do/go-utils/jwtutil"
 
 	authenticationV1 "kratos-admin/api/gen/go/authentication/service/v1"
@@ -21,7 +22,7 @@ import (
 	"kratos-admin/pkg/jwt"
 )
 
-var ipClient = qqwry.NewClient()
+var ipClient, _ = geolite.NewClient()
 
 // extractAuthToken 从JWT Token中提取用户信息
 func extractAuthToken(htr *http.Transport) *authenticationV1.UserTokenPayload {
@@ -34,11 +35,13 @@ func extractAuthToken(htr *http.Transport) *authenticationV1.UserTokenPayload {
 
 	claims, err := jwtutil.ParseJWTPayload(jwtToken)
 	if err != nil {
+		log.Errorf("extractAuthToken ParseJWTPayload failed: %v", err)
 		return nil
 	}
 
 	ut, err := jwt.NewUserTokenPayloadWithJwtMapClaims(claims)
 	if err != nil {
+		log.Errorf("extractAuthToken NewUserTokenPayloadWithJwtMapClaims failed: %v", err)
 		return nil
 	}
 

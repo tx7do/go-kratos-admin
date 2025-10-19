@@ -179,14 +179,16 @@ func (UserStatus) EnumDescriptor() ([]byte, []int) {
 
 // 用户
 type User struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	Id    *uint32                `protobuf:"varint,1,opt,name=id,proto3,oneof" json:"id,omitempty"` // 用户ID
-	//  optional uint32 role_id = 2 [json_name = "roleId", (gnostic.openapi.v3.property) = {description: "角色ID"}];  // 角色ID
-	WorkId        *uint32                `protobuf:"varint,3,opt,name=work_id,json=workId,proto3,oneof" json:"work_id,omitempty"`                             // 工号
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            *uint32                `protobuf:"varint,1,opt,name=id,proto3,oneof" json:"id,omitempty"`                                                   // 用户ID
+	TenantId      *uint32                `protobuf:"varint,2,opt,name=tenant_id,json=tenantId,proto3,oneof" json:"tenant_id,omitempty"`                       // 租户ID
+	TenantName    *string                `protobuf:"bytes,3,opt,name=tenant_name,json=tenantName,proto3,oneof" json:"tenant_name,omitempty"`                  // 租户名称
 	OrgId         *uint32                `protobuf:"varint,4,opt,name=org_id,json=orgId,proto3,oneof" json:"org_id,omitempty"`                                // 部门ID
-	PositionId    *uint32                `protobuf:"varint,5,opt,name=position_id,json=positionId,proto3,oneof" json:"position_id,omitempty"`                 // 岗位ID
-	TenantId      *uint32                `protobuf:"varint,6,opt,name=tenant_id,json=tenantId,proto3,oneof" json:"tenant_id,omitempty"`                       // 租户ID
-	Username      *string                `protobuf:"bytes,10,opt,name=username,proto3,oneof" json:"username,omitempty"`                                       // 登录名
+	OrgName       *string                `protobuf:"bytes,5,opt,name=org_name,json=orgName,proto3,oneof" json:"org_name,omitempty"`                           // 部门名称
+	PositionId    *uint32                `protobuf:"varint,6,opt,name=position_id,json=positionId,proto3,oneof" json:"position_id,omitempty"`                 // 职位ID
+	PositionName  *string                `protobuf:"bytes,7,opt,name=position_name,json=positionName,proto3,oneof" json:"position_name,omitempty"`            // 职位名称
+	WorkId        *uint32                `protobuf:"varint,8,opt,name=work_id,json=workId,proto3,oneof" json:"work_id,omitempty"`                             // 工号
+	Username      *string                `protobuf:"bytes,10,opt,name=username,proto3,oneof" json:"username,omitempty"`                                       // 用户名
 	Nickname      *string                `protobuf:"bytes,11,opt,name=nickname,proto3,oneof" json:"nickname,omitempty"`                                       // 昵称
 	Realname      *string                `protobuf:"bytes,12,opt,name=realname,proto3,oneof" json:"realname,omitempty"`                                       // 真实姓名
 	Avatar        *string                `protobuf:"bytes,13,opt,name=avatar,proto3,oneof" json:"avatar,omitempty"`                                           // 头像
@@ -197,17 +199,20 @@ type User struct {
 	Address       *string                `protobuf:"bytes,18,opt,name=address,proto3,oneof" json:"address,omitempty"`                                         // 住址
 	Region        *string                `protobuf:"bytes,19,opt,name=region,proto3,oneof" json:"region,omitempty"`                                           // 国家地区
 	Description   *string                `protobuf:"bytes,20,opt,name=description,proto3,oneof" json:"description,omitempty"`                                 // 个人描述
-	Remark        *string                `protobuf:"bytes,21,opt,name=remark,proto3,oneof" json:"remark,omitempty"`                                           // 备注名
+	Remark        *string                `protobuf:"bytes,21,opt,name=remark,proto3,oneof" json:"remark,omitempty"`                                           // 备注
 	LastLoginTime *timestamppb.Timestamp `protobuf:"bytes,30,opt,name=last_login_time,json=lastLoginTime,proto3,oneof" json:"last_login_time,omitempty"`      // 最后登录时间
 	LastLoginIp   *string                `protobuf:"bytes,31,opt,name=last_login_ip,json=lastLoginIp,proto3,oneof" json:"last_login_ip,omitempty"`            // 最后登录IP
 	Status        *UserStatus            `protobuf:"varint,32,opt,name=status,proto3,enum=user.service.v1.UserStatus,oneof" json:"status,omitempty"`          // 用户状态
 	Authority     *UserAuthority         `protobuf:"varint,33,opt,name=authority,proto3,enum=user.service.v1.UserAuthority,oneof" json:"authority,omitempty"` // 权限
-	Roles         []string               `protobuf:"bytes,34,rep,name=roles,proto3" json:"roles,omitempty"`                                                   // 角色码列表
-	CreateBy      *uint32                `protobuf:"varint,100,opt,name=create_by,json=createBy,proto3,oneof" json:"create_by,omitempty"`                     // 创建者ID
-	UpdateBy      *uint32                `protobuf:"varint,101,opt,name=update_by,json=updateBy,proto3,oneof" json:"update_by,omitempty"`                     // 更新者ID
-	CreateTime    *timestamppb.Timestamp `protobuf:"bytes,200,opt,name=create_time,json=createTime,proto3,oneof" json:"create_time,omitempty"`                // 创建时间
-	UpdateTime    *timestamppb.Timestamp `protobuf:"bytes,201,opt,name=update_time,json=updateTime,proto3,oneof" json:"update_time,omitempty"`                // 更新时间
-	DeleteTime    *timestamppb.Timestamp `protobuf:"bytes,202,opt,name=delete_time,json=deleteTime,proto3,oneof" json:"delete_time,omitempty"`                // 删除时间
+	//  optional uint32 role_id = 40 [json_name = "roleId", (gnostic.openapi.v3.property) = {description: "角色ID"}];  // 角色ID
+	RoleIds       []uint32               `protobuf:"varint,41,rep,packed,name=role_ids,json=roleIds,proto3" json:"role_ids,omitempty"`         // 角色ID列表
+	Roles         []string               `protobuf:"bytes,42,rep,name=roles,proto3" json:"roles,omitempty"`                                    // 角色码列表
+	RoleNames     []string               `protobuf:"bytes,43,rep,name=role_names,json=roleNames,proto3" json:"role_names,omitempty"`           // 角色名称列表
+	CreateBy      *uint32                `protobuf:"varint,100,opt,name=create_by,json=createBy,proto3,oneof" json:"create_by,omitempty"`      // 创建者ID
+	UpdateBy      *uint32                `protobuf:"varint,101,opt,name=update_by,json=updateBy,proto3,oneof" json:"update_by,omitempty"`      // 更新者ID
+	CreateTime    *timestamppb.Timestamp `protobuf:"bytes,200,opt,name=create_time,json=createTime,proto3,oneof" json:"create_time,omitempty"` // 创建时间
+	UpdateTime    *timestamppb.Timestamp `protobuf:"bytes,201,opt,name=update_time,json=updateTime,proto3,oneof" json:"update_time,omitempty"` // 更新时间
+	DeleteTime    *timestamppb.Timestamp `protobuf:"bytes,202,opt,name=delete_time,json=deleteTime,proto3,oneof" json:"delete_time,omitempty"` // 删除时间
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -249,11 +254,18 @@ func (x *User) GetId() uint32 {
 	return 0
 }
 
-func (x *User) GetWorkId() uint32 {
-	if x != nil && x.WorkId != nil {
-		return *x.WorkId
+func (x *User) GetTenantId() uint32 {
+	if x != nil && x.TenantId != nil {
+		return *x.TenantId
 	}
 	return 0
+}
+
+func (x *User) GetTenantName() string {
+	if x != nil && x.TenantName != nil {
+		return *x.TenantName
+	}
+	return ""
 }
 
 func (x *User) GetOrgId() uint32 {
@@ -263,6 +275,13 @@ func (x *User) GetOrgId() uint32 {
 	return 0
 }
 
+func (x *User) GetOrgName() string {
+	if x != nil && x.OrgName != nil {
+		return *x.OrgName
+	}
+	return ""
+}
+
 func (x *User) GetPositionId() uint32 {
 	if x != nil && x.PositionId != nil {
 		return *x.PositionId
@@ -270,9 +289,16 @@ func (x *User) GetPositionId() uint32 {
 	return 0
 }
 
-func (x *User) GetTenantId() uint32 {
-	if x != nil && x.TenantId != nil {
-		return *x.TenantId
+func (x *User) GetPositionName() string {
+	if x != nil && x.PositionName != nil {
+		return *x.PositionName
+	}
+	return ""
+}
+
+func (x *User) GetWorkId() uint32 {
+	if x != nil && x.WorkId != nil {
+		return *x.WorkId
 	}
 	return 0
 }
@@ -389,9 +415,23 @@ func (x *User) GetAuthority() UserAuthority {
 	return UserAuthority_GUEST
 }
 
+func (x *User) GetRoleIds() []uint32 {
+	if x != nil {
+		return x.RoleIds
+	}
+	return nil
+}
+
 func (x *User) GetRoles() []string {
 	if x != nil {
 		return x.Roles
+	}
+	return nil
+}
+
+func (x *User) GetRoleNames() []string {
+	if x != nil {
+		return x.RoleNames
 	}
 	return nil
 }
@@ -922,48 +962,58 @@ var File_user_service_v1_user_proto protoreflect.FileDescriptor
 
 const file_user_service_v1_user_proto_rawDesc = "" +
 	"\n" +
-	"\x1auser/service/v1/user.proto\x12\x0fuser.service.v1\x1a$gnostic/openapi/v3/annotations.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a google/protobuf/field_mask.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x1fgoogle/api/field_behavior.proto\x1a\x1epagination/v1/pagination.proto\"\xa4\x0f\n" +
+	"\x1auser/service/v1/user.proto\x12\x0fuser.service.v1\x1a$gnostic/openapi/v3/annotations.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a google/protobuf/field_mask.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x1fgoogle/api/field_behavior.proto\x1a\x1epagination/v1/pagination.proto\"\xd0\x11\n" +
 	"\x04User\x12#\n" +
-	"\x02id\x18\x01 \x01(\rB\x0e\xbaG\v\x92\x02\b用户IDH\x00R\x02id\x88\x01\x01\x12*\n" +
-	"\awork_id\x18\x03 \x01(\rB\f\xbaG\t\x92\x02\x06工号H\x01R\x06workId\x88\x01\x01\x12*\n" +
-	"\x06org_id\x18\x04 \x01(\rB\x0e\xbaG\v\x92\x02\b部门IDH\x02R\x05orgId\x88\x01\x01\x124\n" +
-	"\vposition_id\x18\x05 \x01(\rB\x0e\xbaG\v\x92\x02\b岗位IDH\x03R\n" +
-	"positionId\x88\x01\x01\x120\n" +
-	"\ttenant_id\x18\x06 \x01(\rB\x0e\xbaG\v\x92\x02\b租户IDH\x04R\btenantId\x88\x01\x01\x120\n" +
+	"\x02id\x18\x01 \x01(\rB\x0e\xbaG\v\x92\x02\b用户IDH\x00R\x02id\x88\x01\x01\x120\n" +
+	"\ttenant_id\x18\x02 \x01(\rB\x0e\xbaG\v\x92\x02\b租户IDH\x01R\btenantId\x88\x01\x01\x128\n" +
+	"\vtenant_name\x18\x03 \x01(\tB\x12\xbaG\x0f\x92\x02\f租户名称H\x02R\n" +
+	"tenantName\x88\x01\x01\x12*\n" +
+	"\x06org_id\x18\x04 \x01(\rB\x0e\xbaG\v\x92\x02\b部门IDH\x03R\x05orgId\x88\x01\x01\x122\n" +
+	"\borg_name\x18\x05 \x01(\tB\x12\xbaG\x0f\x92\x02\f部门名称H\x04R\aorgName\x88\x01\x01\x124\n" +
+	"\vposition_id\x18\x06 \x01(\rB\x0e\xbaG\v\x92\x02\b职位IDH\x05R\n" +
+	"positionId\x88\x01\x01\x12<\n" +
+	"\rposition_name\x18\a \x01(\tB\x12\xbaG\x0f\x92\x02\f职位名称H\x06R\fpositionName\x88\x01\x01\x12*\n" +
+	"\awork_id\x18\b \x01(\rB\f\xbaG\t\x92\x02\x06工号H\aR\x06workId\x88\x01\x01\x120\n" +
 	"\busername\x18\n" +
-	" \x01(\tB\x0f\xbaG\f\x92\x02\t登录名H\x05R\busername\x88\x01\x01\x12-\n" +
-	"\bnickname\x18\v \x01(\tB\f\xbaG\t\x92\x02\x06昵称H\x06R\bnickname\x88\x01\x01\x123\n" +
-	"\brealname\x18\f \x01(\tB\x12\xbaG\x0f\x92\x02\f真实姓名H\aR\brealname\x88\x01\x01\x12)\n" +
-	"\x06avatar\x18\r \x01(\tB\f\xbaG\t\x92\x02\x06头像H\bR\x06avatar\x88\x01\x01\x12'\n" +
-	"\x05email\x18\x0e \x01(\tB\f\xbaG\t\x92\x02\x06邮箱H\tR\x05email\x88\x01\x01\x12,\n" +
-	"\x06mobile\x18\x0f \x01(\tB\x0f\xbaG\f\x92\x02\t手机号H\n" +
-	"R\x06mobile\x88\x01\x01\x122\n" +
-	"\ttelephone\x18\x10 \x01(\tB\x0f\xbaG\f\x92\x02\t座机号H\vR\ttelephone\x88\x01\x01\x12F\n" +
-	"\x06gender\x18\x11 \x01(\x0e2\x1b.user.service.v1.UserGenderB\f\xbaG\t\x92\x02\x06性别H\fR\x06gender\x88\x01\x01\x12+\n" +
-	"\aaddress\x18\x12 \x01(\tB\f\xbaG\t\x92\x02\x06住址H\rR\aaddress\x88\x01\x01\x12/\n" +
-	"\x06region\x18\x13 \x01(\tB\x12\xbaG\x0f\x92\x02\f国家地区H\x0eR\x06region\x88\x01\x01\x129\n" +
-	"\vdescription\x18\x14 \x01(\tB\x12\xbaG\x0f\x92\x02\f个人描述H\x0fR\vdescription\x88\x01\x01\x12,\n" +
-	"\x06remark\x18\x15 \x01(\tB\x0f\xbaG\f\x92\x02\t备注名H\x10R\x06remark\x88\x01\x01\x12a\n" +
-	"\x0flast_login_time\x18\x1e \x01(\v2\x1a.google.protobuf.TimestampB\x18\xbaG\x15\x92\x02\x12最后登录时间H\x11R\rlastLoginTime\x88\x01\x01\x12=\n" +
-	"\rlast_login_ip\x18\x1f \x01(\tB\x14\xbaG\x11\x92\x02\x0e最后登录IPH\x12R\vlastLoginIp\x88\x01\x01\x12b\n" +
-	"\x06status\x18  \x01(\x0e2\x1b.user.service.v1.UserStatusB(\xbaG%\xc2\x01\x04\x12\x02ON\xc2\x01\x05\x12\x03OFF\x8a\x02\x04\x1a\x02ON\x92\x02\f用户状态H\x13R\x06status\x88\x01\x01\x12a\n" +
-	"\tauthority\x18! \x01(\x0e2\x1e.user.service.v1.UserAuthorityB\x1e\xbaG\x1b\x8a\x02\x0f\x1a\rCUSTOMER_USER\x92\x02\x06权限H\x14R\tauthority\x88\x01\x01\x12+\n" +
-	"\x05roles\x18\" \x03(\tB\x15\xbaG\x12\x92\x02\x0f角色码列表R\x05roles\x123\n" +
-	"\tcreate_by\x18d \x01(\rB\x11\xbaG\x0e\x92\x02\v创建者IDH\x15R\bcreateBy\x88\x01\x01\x123\n" +
-	"\tupdate_by\x18e \x01(\rB\x11\xbaG\x0e\x92\x02\v更新者IDH\x16R\bupdateBy\x88\x01\x01\x12U\n" +
-	"\vcreate_time\x18\xc8\x01 \x01(\v2\x1a.google.protobuf.TimestampB\x12\xbaG\x0f\x92\x02\f创建时间H\x17R\n" +
+	" \x01(\tB\x0f\xbaG\f\x92\x02\t用户名H\bR\busername\x88\x01\x01\x12-\n" +
+	"\bnickname\x18\v \x01(\tB\f\xbaG\t\x92\x02\x06昵称H\tR\bnickname\x88\x01\x01\x123\n" +
+	"\brealname\x18\f \x01(\tB\x12\xbaG\x0f\x92\x02\f真实姓名H\n" +
+	"R\brealname\x88\x01\x01\x12)\n" +
+	"\x06avatar\x18\r \x01(\tB\f\xbaG\t\x92\x02\x06头像H\vR\x06avatar\x88\x01\x01\x12'\n" +
+	"\x05email\x18\x0e \x01(\tB\f\xbaG\t\x92\x02\x06邮箱H\fR\x05email\x88\x01\x01\x12,\n" +
+	"\x06mobile\x18\x0f \x01(\tB\x0f\xbaG\f\x92\x02\t手机号H\rR\x06mobile\x88\x01\x01\x122\n" +
+	"\ttelephone\x18\x10 \x01(\tB\x0f\xbaG\f\x92\x02\t座机号H\x0eR\ttelephone\x88\x01\x01\x12F\n" +
+	"\x06gender\x18\x11 \x01(\x0e2\x1b.user.service.v1.UserGenderB\f\xbaG\t\x92\x02\x06性别H\x0fR\x06gender\x88\x01\x01\x12+\n" +
+	"\aaddress\x18\x12 \x01(\tB\f\xbaG\t\x92\x02\x06住址H\x10R\aaddress\x88\x01\x01\x12/\n" +
+	"\x06region\x18\x13 \x01(\tB\x12\xbaG\x0f\x92\x02\f国家地区H\x11R\x06region\x88\x01\x01\x129\n" +
+	"\vdescription\x18\x14 \x01(\tB\x12\xbaG\x0f\x92\x02\f个人描述H\x12R\vdescription\x88\x01\x01\x12)\n" +
+	"\x06remark\x18\x15 \x01(\tB\f\xbaG\t\x92\x02\x06备注H\x13R\x06remark\x88\x01\x01\x12a\n" +
+	"\x0flast_login_time\x18\x1e \x01(\v2\x1a.google.protobuf.TimestampB\x18\xbaG\x15\x92\x02\x12最后登录时间H\x14R\rlastLoginTime\x88\x01\x01\x12=\n" +
+	"\rlast_login_ip\x18\x1f \x01(\tB\x14\xbaG\x11\x92\x02\x0e最后登录IPH\x15R\vlastLoginIp\x88\x01\x01\x12L\n" +
+	"\x06status\x18  \x01(\x0e2\x1b.user.service.v1.UserStatusB\x12\xbaG\x0f\x92\x02\f用户状态H\x16R\x06status\x88\x01\x01\x12a\n" +
+	"\tauthority\x18! \x01(\x0e2\x1e.user.service.v1.UserAuthorityB\x1e\xbaG\x1b\x8a\x02\x0f\x1a\rCUSTOMER_USER\x92\x02\x06权限H\x17R\tauthority\x88\x01\x01\x12/\n" +
+	"\brole_ids\x18) \x03(\rB\x14\xbaG\x11\x92\x02\x0e角色ID列表R\aroleIds\x12+\n" +
+	"\x05roles\x18* \x03(\tB\x15\xbaG\x12\x92\x02\x0f角色码列表R\x05roles\x127\n" +
+	"\n" +
+	"role_names\x18+ \x03(\tB\x18\xbaG\x15\x92\x02\x12角色名称列表R\troleNames\x123\n" +
+	"\tcreate_by\x18d \x01(\rB\x11\xbaG\x0e\x92\x02\v创建者IDH\x18R\bcreateBy\x88\x01\x01\x123\n" +
+	"\tupdate_by\x18e \x01(\rB\x11\xbaG\x0e\x92\x02\v更新者IDH\x19R\bupdateBy\x88\x01\x01\x12U\n" +
+	"\vcreate_time\x18\xc8\x01 \x01(\v2\x1a.google.protobuf.TimestampB\x12\xbaG\x0f\x92\x02\f创建时间H\x1aR\n" +
 	"createTime\x88\x01\x01\x12U\n" +
-	"\vupdate_time\x18\xc9\x01 \x01(\v2\x1a.google.protobuf.TimestampB\x12\xbaG\x0f\x92\x02\f更新时间H\x18R\n" +
+	"\vupdate_time\x18\xc9\x01 \x01(\v2\x1a.google.protobuf.TimestampB\x12\xbaG\x0f\x92\x02\f更新时间H\x1bR\n" +
 	"updateTime\x88\x01\x01\x12U\n" +
-	"\vdelete_time\x18\xca\x01 \x01(\v2\x1a.google.protobuf.TimestampB\x12\xbaG\x0f\x92\x02\f删除时间H\x19R\n" +
+	"\vdelete_time\x18\xca\x01 \x01(\v2\x1a.google.protobuf.TimestampB\x12\xbaG\x0f\x92\x02\f删除时间H\x1cR\n" +
 	"deleteTime\x88\x01\x01B\x05\n" +
-	"\x03_idB\n" +
+	"\x03_idB\f\n" +
 	"\n" +
-	"\b_work_idB\t\n" +
-	"\a_org_idB\x0e\n" +
-	"\f_position_idB\f\n" +
+	"_tenant_idB\x0e\n" +
+	"\f_tenant_nameB\t\n" +
+	"\a_org_idB\v\n" +
+	"\t_org_nameB\x0e\n" +
+	"\f_position_idB\x10\n" +
+	"\x0e_position_nameB\n" +
 	"\n" +
-	"_tenant_idB\v\n" +
+	"\b_work_idB\v\n" +
 	"\t_usernameB\v\n" +
 	"\t_nicknameB\v\n" +
 	"\t_realnameB\t\n" +

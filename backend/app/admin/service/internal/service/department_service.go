@@ -56,8 +56,8 @@ func (s *DepartmentService) List(ctx context.Context, req *pagination.PagingRequ
 	QueryUserInfoFromRepo(ctx, s.userRepo, &userSet)
 	QueryOrganizationInfoFromRepo(ctx, s.organizationRepo, &orgSet)
 
-	FileDepartmentUserInfo(resp.Items, &userSet)
-	FileDepartmentOrganizationInfo(resp.Items, &orgSet)
+	FillDepartmentUserInfo(resp.Items, &userSet)
+	FillDepartmentOrganizationInfo(resp.Items, &orgSet)
 
 	return resp, nil
 }

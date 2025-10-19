@@ -205,6 +205,29 @@ func (r *DepartmentRepo) Get(ctx context.Context, req *userV1.GetDepartmentReque
 	return r.mapper.ToDTO(entity), nil
 }
 
+// GetDepartmentsByIds 通过多个ID获取部门信息列表
+func (r *DepartmentRepo) GetDepartmentsByIds(ctx context.Context, ids []uint32) ([]*userV1.Department, error) {
+	if len(ids) == 0 {
+		return []*userV1.Department{}, nil
+	}
+
+	entities, err := r.data.db.Client().Department.Query().
+		Where(department.IDIn(ids...)).
+		All(ctx)
+	if err != nil {
+		r.log.Errorf("query department by ids failed: %s", err.Error())
+		return nil, userV1.ErrorInternalServerError("query department by ids failed")
+	}
+
+	dtos := make([]*userV1.Department, 0, len(entities))
+	for _, entity := range entities {
+		dto := r.mapper.ToDTO(entity)
+		dtos = append(dtos, dto)
+	}
+
+	return dtos, nil
+}
+
 func (r *DepartmentRepo) Create(ctx context.Context, req *userV1.CreateDepartmentRequest) error {
 	if req == nil || req.Data == nil {
 		return userV1.ErrorBadRequest("invalid parameter")

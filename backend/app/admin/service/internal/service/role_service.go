@@ -32,12 +32,16 @@ func NewRoleService(logger log.Logger, repo *data.RoleRepo) *RoleService {
 		repo: repo,
 	}
 
-	ctx := context.Background()
-	if count, _ := svc.repo.Count(ctx, []func(s *sql.Selector){}); count == 0 {
-		_ = svc.createDefaultRoles(ctx)
-	}
+	svc.init()
 
 	return svc
+}
+
+func (s *RoleService) init() {
+	ctx := context.Background()
+	if count, _ := s.repo.Count(ctx, []func(s *sql.Selector){}); count == 0 {
+		_ = s.createDefaultRoles(ctx)
+	}
 }
 
 func (s *RoleService) List(ctx context.Context, req *pagination.PagingRequest) (*userV1.ListRoleResponse, error) {

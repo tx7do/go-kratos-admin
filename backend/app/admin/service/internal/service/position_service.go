@@ -56,8 +56,8 @@ func (s *PositionService) List(ctx context.Context, req *pagination.PagingReques
 	QueryOrganizationInfoFromRepo(ctx, s.organizationRepo, &orgSet)
 	QueryDepartmentInfoFromRepo(ctx, s.departmentRepo, &deptSet)
 
-	FilePositionOrganizationInfo(resp.Items, &orgSet)
-	FilePositionDepartmentInfo(resp.Items, &deptSet)
+	FillPositionOrganizationInfo(resp.Items, &orgSet)
+	FillPositionDepartmentInfo(resp.Items, &deptSet)
 
 	return resp, nil
 }

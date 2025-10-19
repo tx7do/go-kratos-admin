@@ -220,6 +220,29 @@ func (r *OrganizationRepo) Get(ctx context.Context, req *userV1.GetOrganizationR
 	return r.mapper.ToDTO(entity), nil
 }
 
+// GetOrganizationsByIds 通过多个ID获取组织列表
+func (r *OrganizationRepo) GetOrganizationsByIds(ctx context.Context, ids []uint32) ([]*userV1.Organization, error) {
+	if len(ids) == 0 {
+		return []*userV1.Organization{}, nil
+	}
+
+	entities, err := r.data.db.Client().Organization.Query().
+		Where(organization.IDIn(ids...)).
+		All(ctx)
+	if err != nil {
+		r.log.Errorf("query organization by ids failed: %s", err.Error())
+		return nil, userV1.ErrorInternalServerError("query organization by ids failed")
+	}
+
+	dtos := make([]*userV1.Organization, 0, len(entities))
+	for _, entity := range entities {
+		dto := r.mapper.ToDTO(entity)
+		dtos = append(dtos, dto)
+	}
+
+	return dtos, nil
+}
+
 func (r *OrganizationRepo) Create(ctx context.Context, req *userV1.CreateOrganizationRequest) error {
 	if req == nil || req.Data == nil {
 		return userV1.ErrorBadRequest("invalid parameter")

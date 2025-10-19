@@ -26,6 +26,9 @@ type UserService struct {
 	userRepo            *data.UserRepo
 	roleRepo            *data.RoleRepo
 	userCredentialsRepo *data.UserCredentialRepo
+	positionRepo        *data.PositionRepo
+	departmentRepo      *data.DepartmentRepo
+	organizationRepo    *data.OrganizationRepo
 }
 
 func NewUserService(
@@ -33,6 +36,9 @@ func NewUserService(
 	userRepo *data.UserRepo,
 	roleRepo *data.RoleRepo,
 	userCredentialsRepo *data.UserCredentialRepo,
+	positionRepo *data.PositionRepo,
+	departmentRepo *data.DepartmentRepo,
+	organizationRepo *data.OrganizationRepo,
 ) *UserService {
 	l := log.NewHelper(log.With(logger, "module", "user/service/admin-service"))
 	svc := &UserService{
@@ -40,14 +46,21 @@ func NewUserService(
 		userRepo:            userRepo,
 		roleRepo:            roleRepo,
 		userCredentialsRepo: userCredentialsRepo,
+		positionRepo:        positionRepo,
+		departmentRepo:      departmentRepo,
+		organizationRepo:    organizationRepo,
 	}
 
-	ctx := context.Background()
-	if count, _ := svc.userRepo.Count(ctx, []func(s *sql.Selector){}); count == 0 {
-		_ = svc.CreateDefaultUser(ctx)
-	}
+	svc.init()
 
 	return svc
+}
+
+func (s *UserService) init() {
+	ctx := context.Background()
+	if count, _ := s.userRepo.Count(ctx, []func(s *sql.Selector){}); count == 0 {
+		_ = s.CreateDefaultUser(ctx)
+	}
 }
 
 func (s *UserService) List(ctx context.Context, req *pagination.PagingRequest) (*userV1.ListUserResponse, error) {

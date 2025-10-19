@@ -37,12 +37,16 @@ func NewApiResourceService(logger log.Logger, repo *data.ApiResourceRepo) *ApiRe
 		repo: repo,
 	}
 
-	ctx := context.Background()
-	if count, _ := repo.Count(ctx, []func(s *sql.Selector){}); count == 0 {
-		_, _ = svc.SyncApiResources(ctx, &emptypb.Empty{})
-	}
+	svc.init()
 
 	return svc
+}
+
+func (s *ApiResourceService) init() {
+	ctx := context.Background()
+	if count, _ := s.repo.Count(ctx, []func(s *sql.Selector){}); count == 0 {
+		_, _ = s.SyncApiResources(ctx, &emptypb.Empty{})
+	}
 }
 
 func (s *ApiResourceService) List(ctx context.Context, req *pagination.PagingRequest) (*adminV1.ListApiResourceResponse, error) {

@@ -203,6 +203,29 @@ func (r *PositionRepo) Get(ctx context.Context, req *userV1.GetPositionRequest) 
 	return r.mapper.ToDTO(entity), nil
 }
 
+// GetPositionByIds 通过多个ID获取职位信息
+func (r *PositionRepo) GetPositionByIds(ctx context.Context, ids []uint32) ([]*userV1.Position, error) {
+	if len(ids) == 0 {
+		return []*userV1.Position{}, nil
+	}
+
+	entities, err := r.data.db.Client().Position.Query().
+		Where(position.IDIn(ids...)).
+		All(ctx)
+	if err != nil {
+		r.log.Errorf("query position by ids failed: %s", err.Error())
+		return nil, userV1.ErrorInternalServerError("query position by ids failed")
+	}
+
+	dtos := make([]*userV1.Position, 0, len(entities))
+	for _, entity := range entities {
+		dto := r.mapper.ToDTO(entity)
+		dtos = append(dtos, dto)
+	}
+
+	return dtos, nil
+}
+
 func (r *PositionRepo) Create(ctx context.Context, req *userV1.CreatePositionRequest) error {
 	if req == nil || req.Data == nil {
 		return userV1.ErrorBadRequest("invalid parameter")

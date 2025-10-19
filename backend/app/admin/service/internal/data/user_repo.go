@@ -333,6 +333,28 @@ func (r *UserRepo) GetUserByUserName(ctx context.Context, userName string) (*use
 	return r.mapper.ToDTO(entity), nil
 }
 
+func (r *UserRepo) GetUsersByIds(ctx context.Context, ids []uint32) ([]*userV1.User, error) {
+	if len(ids) == 0 {
+		return []*userV1.User{}, nil
+	}
+
+	entities, err := r.data.db.Client().User.Query().
+		Where(user.IDIn(ids...)).
+		All(ctx)
+	if err != nil {
+		r.log.Errorf("query user by ids failed: %s", err.Error())
+		return nil, userV1.ErrorInternalServerError("query user by ids failed")
+	}
+
+	dtos := make([]*userV1.User, 0, len(entities))
+	for _, entity := range entities {
+		dto := r.mapper.ToDTO(entity)
+		dtos = append(dtos, dto)
+	}
+
+	return dtos, nil
+}
+
 func (r *UserRepo) UserExists(ctx context.Context, req *userV1.UserExistsRequest) (*userV1.UserExistsResponse, error) {
 	exist, err := r.data.db.Client().User.Query().
 		Where(user.UsernameEQ(req.GetUsername())).

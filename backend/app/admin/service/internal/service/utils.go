@@ -26,16 +26,19 @@ func InitOrganizationManagerId(organizations []*userV1.Organization, userSet *na
 
 // QueryUserInfoFromRepo queries user information from user repository and fills the nameSetMap.
 func QueryUserInfoFromRepo(ctx context.Context, userRepo *data.UserRepo, nameSetMap *name_set.UserNameSetMap) {
-	var err error
-	var user *userV1.User
+	userIds := make([]uint32, 0, len(*nameSetMap))
 	for userId := range *nameSetMap {
-		user, err = userRepo.Get(ctx, userId)
-		if err != nil {
-			log.Errorf("query user err: %v", err)
-			continue
-		}
+		userIds = append(userIds, userId)
+	}
 
-		(*nameSetMap)[userId] = &name_set.UserNameSet{
+	users, err := userRepo.GetUsersByIds(ctx, userIds)
+	if err != nil {
+		log.Errorf("query users err: %v", err)
+		return
+	}
+
+	for _, user := range users {
+		(*nameSetMap)[user.GetId()] = &name_set.UserNameSet{
 			UserName: user.GetUsername(),
 			RealName: user.GetRealname(),
 			NickName: user.GetNickname(),
@@ -76,38 +79,44 @@ func InitDepartmentManagerId(departments []*userV1.Department, userSet *name_set
 }
 
 func QueryOrganizationInfoFromRepo(ctx context.Context, organizationRepo *data.OrganizationRepo, nameSetMap *name_set.UserNameSetMap) {
-	var err error
-	var org *userV1.Organization
+	var orgIds []uint32
 	for orgId := range *nameSetMap {
-		org, err = organizationRepo.Get(ctx, &userV1.GetOrganizationRequest{Id: orgId})
-		if err != nil {
-			log.Errorf("query organization err: %v", err)
-			continue
-		}
+		orgIds = append(orgIds, orgId)
+	}
 
-		(*nameSetMap)[orgId] = &name_set.UserNameSet{
-			UserName: org.GetName(),
+	orgs, err := organizationRepo.GetOrganizationsByIds(ctx, orgIds)
+	if err != nil {
+		log.Errorf("query organizations err: %v", err)
+		return
+	}
+
+	for _, o := range orgs {
+		(*nameSetMap)[o.GetId()] = &name_set.UserNameSet{
+			UserName: o.GetName(),
 		}
 	}
 }
 
 func QueryDepartmentInfoFromRepo(ctx context.Context, departmentRepo *data.DepartmentRepo, nameSetMap *name_set.UserNameSetMap) {
-	var err error
-	var dept *userV1.Department
+	var deptIds []uint32
 	for deptId := range *nameSetMap {
-		dept, err = departmentRepo.Get(ctx, &userV1.GetDepartmentRequest{Id: deptId})
-		if err != nil {
-			log.Errorf("query department err: %v", err)
-			continue
-		}
+		deptIds = append(deptIds, deptId)
+	}
 
-		(*nameSetMap)[deptId] = &name_set.UserNameSet{
-			UserName: dept.GetName(),
+	depts, err := departmentRepo.GetDepartmentsByIds(ctx, deptIds)
+	if err != nil {
+		log.Errorf("query departments err: %v", err)
+		return
+	}
+
+	for _, d := range depts {
+		(*nameSetMap)[d.GetId()] = &name_set.UserNameSet{
+			UserName: d.GetName(),
 		}
 	}
 }
 
-func FileDepartmentUserInfo(departments []*userV1.Department, userSet *name_set.UserNameSetMap) {
+func FillDepartmentUserInfo(departments []*userV1.Department, userSet *name_set.UserNameSetMap) {
 	for k, v := range *userSet {
 		if v == nil {
 			continue
@@ -118,12 +127,12 @@ func FileDepartmentUserInfo(departments []*userV1.Department, userSet *name_set.
 				departments[i].ManagerName = &v.NickName
 			}
 
-			FileDepartmentUserInfo(departments[i].Children, userSet)
+			FillDepartmentUserInfo(departments[i].Children, userSet)
 		}
 	}
 }
 
-func FileDepartmentOrganizationInfo(departments []*userV1.Department, orgSet *name_set.UserNameSetMap) {
+func FillDepartmentOrganizationInfo(departments []*userV1.Department, orgSet *name_set.UserNameSetMap) {
 	for k, v := range *orgSet {
 		if v == nil {
 			continue
@@ -134,7 +143,7 @@ func FileDepartmentOrganizationInfo(departments []*userV1.Department, orgSet *na
 				departments[i].OrganizationName = &v.UserName
 			}
 
-			FileDepartmentOrganizationInfo(departments[i].Children, orgSet)
+			FillDepartmentOrganizationInfo(departments[i].Children, orgSet)
 		}
 	}
 }
@@ -154,7 +163,7 @@ func InitPositionOrgId(positions []*userV1.Position, orgSet *name_set.UserNameSe
 	}
 }
 
-func FilePositionOrganizationInfo(positions []*userV1.Position, orgSet *name_set.UserNameSetMap) {
+func FillPositionOrganizationInfo(positions []*userV1.Position, orgSet *name_set.UserNameSetMap) {
 	for k, v := range *orgSet {
 		if v == nil {
 			continue
@@ -165,12 +174,12 @@ func FilePositionOrganizationInfo(positions []*userV1.Position, orgSet *name_set
 				positions[i].OrganizationName = &v.UserName
 			}
 
-			FilePositionOrganizationInfo(positions[i].Children, orgSet)
+			FillPositionOrganizationInfo(positions[i].Children, orgSet)
 		}
 	}
 }
 
-func FilePositionDepartmentInfo(positions []*userV1.Position, deptSet *name_set.UserNameSetMap) {
+func FillPositionDepartmentInfo(positions []*userV1.Position, deptSet *name_set.UserNameSetMap) {
 	for k, v := range *deptSet {
 		if v == nil {
 			continue
@@ -181,7 +190,7 @@ func FilePositionDepartmentInfo(positions []*userV1.Position, deptSet *name_set.
 				positions[i].DepartmentName = &v.UserName
 			}
 
-			FilePositionDepartmentInfo(positions[i].Children, deptSet)
+			FillPositionDepartmentInfo(positions[i].Children, deptSet)
 		}
 	}
 }

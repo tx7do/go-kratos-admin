@@ -154,8 +154,6 @@ message Menu {
   optional google.protobuf.Timestamp delete_time = 202 [json_name = "deleteTime", (gnostic.openapi.v3.property) = {description: "删除时间"}];// 删除时间
 }
 
-
-
 // 查询菜单列表 - 回应
 message ListMenuResponse {
   repeated Menu items = 1;

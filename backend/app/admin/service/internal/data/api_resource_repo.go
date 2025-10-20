@@ -21,18 +21,32 @@ import (
 	adminV1 "kratos-admin/api/gen/go/admin/service/v1"
 )
 
+var (
+	ApiScopeNameMap = map[int32]string{
+		int32(adminV1.ApiScope_API_SCOPE_ADMIN): string(apiresource.ScopeAPI_SCOPE_ADMIN),
+		int32(adminV1.ApiScope_API_SCOPE_APP):   string(apiresource.ScopeAPI_SCOPE_APP),
+	}
+
+	ApiScopeValueMap = map[string]int32{
+		string(apiresource.ScopeAPI_SCOPE_ADMIN): int32(adminV1.ApiScope_API_SCOPE_ADMIN),
+		string(apiresource.ScopeAPI_SCOPE_APP):   int32(adminV1.ApiScope_API_SCOPE_APP),
+	}
+)
+
 type ApiResourceRepo struct {
 	data *Data
 	log  *log.Helper
 
-	mapper *mapper.CopierMapper[adminV1.ApiResource, ent.ApiResource]
+	mapper         *mapper.CopierMapper[adminV1.ApiResource, ent.ApiResource]
+	scopeConverter *mapper.EnumTypeConverter[adminV1.ApiScope, apiresource.Scope]
 }
 
 func NewApiResourceRepo(data *Data, logger log.Logger) *ApiResourceRepo {
 	repo := &ApiResourceRepo{
-		log:    log.NewHelper(log.With(logger, "module", "api-resource/repo/admin-service")),
-		data:   data,
-		mapper: mapper.NewCopierMapper[adminV1.ApiResource, ent.ApiResource](),
+		log:            log.NewHelper(log.With(logger, "module", "api-resource/repo/admin-service")),
+		data:           data,
+		mapper:         mapper.NewCopierMapper[adminV1.ApiResource, ent.ApiResource](),
+		scopeConverter: mapper.NewEnumTypeConverter[adminV1.ApiScope, apiresource.Scope](ApiScopeNameMap, ApiScopeValueMap),
 	}
 
 	repo.init()
@@ -43,6 +57,8 @@ func NewApiResourceRepo(data *Data, logger log.Logger) *ApiResourceRepo {
 func (r *ApiResourceRepo) init() {
 	r.mapper.AppendConverters(copierutil.NewTimeStringConverterPair())
 	r.mapper.AppendConverters(copierutil.NewTimeTimestamppbConverterPair())
+
+	r.mapper.AppendConverters(r.scopeConverter.NewConverterPair())
 }
 
 func (r *ApiResourceRepo) Count(ctx context.Context, whereCond []func(s *sql.Selector)) (int, error) {
@@ -171,6 +187,7 @@ func (r *ApiResourceRepo) Create(ctx context.Context, req *adminV1.CreateApiReso
 		SetNillableOperation(req.Data.Operation).
 		SetNillablePath(req.Data.Path).
 		SetNillableMethod(req.Data.Method).
+		SetNillableScope(r.scopeConverter.ToEntity(req.Data.Scope)).
 		SetNillableCreateBy(req.Data.CreateBy).
 		SetNillableCreateTime(timeutil.TimestamppbToTime(req.Data.CreateTime))
 
@@ -226,6 +243,7 @@ func (r *ApiResourceRepo) Update(ctx context.Context, req *adminV1.UpdateApiReso
 		SetNillableOperation(req.Data.Operation).
 		SetNillablePath(req.Data.Path).
 		SetNillableMethod(req.Data.Method).
+		SetNillableScope(r.scopeConverter.ToEntity(req.Data.Scope)).
 		SetNillableUpdateBy(req.Data.UpdateBy).
 		SetNillableUpdateTime(timeutil.TimestamppbToTime(req.Data.UpdateTime))
 

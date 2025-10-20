@@ -27,6 +27,56 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+// API作用域
+type ApiScope int32
+
+const (
+	ApiScope_API_SCOPE_INVALID ApiScope = 0 // 无效
+	ApiScope_API_SCOPE_ADMIN   ApiScope = 1 // 管理后台API
+	ApiScope_API_SCOPE_APP     ApiScope = 2 // 前台应用API
+)
+
+// Enum value maps for ApiScope.
+var (
+	ApiScope_name = map[int32]string{
+		0: "API_SCOPE_INVALID",
+		1: "API_SCOPE_ADMIN",
+		2: "API_SCOPE_APP",
+	}
+	ApiScope_value = map[string]int32{
+		"API_SCOPE_INVALID": 0,
+		"API_SCOPE_ADMIN":   1,
+		"API_SCOPE_APP":     2,
+	}
+)
+
+func (x ApiScope) Enum() *ApiScope {
+	p := new(ApiScope)
+	*p = x
+	return p
+}
+
+func (x ApiScope) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (ApiScope) Descriptor() protoreflect.EnumDescriptor {
+	return file_admin_service_v1_i_api_resource_proto_enumTypes[0].Descriptor()
+}
+
+func (ApiScope) Type() protoreflect.EnumType {
+	return &file_admin_service_v1_i_api_resource_proto_enumTypes[0]
+}
+
+func (x ApiScope) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use ApiScope.Descriptor instead.
+func (ApiScope) EnumDescriptor() ([]byte, []int) {
+	return file_admin_service_v1_i_api_resource_proto_rawDescGZIP(), []int{0}
+}
+
 // API资源
 type ApiResource struct {
 	state             protoimpl.MessageState `protogen:"open.v1"`
@@ -37,6 +87,7 @@ type ApiResource struct {
 	Module            *string                `protobuf:"bytes,5,opt,name=module,proto3,oneof" json:"module,omitempty"`                                                // 所属业务模块
 	ModuleDescription *string                `protobuf:"bytes,6,opt,name=module_description,json=moduleDescription,proto3,oneof" json:"module_description,omitempty"` // 模块描述
 	Description       *string                `protobuf:"bytes,7,opt,name=description,proto3,oneof" json:"description,omitempty"`                                      // 描述
+	Scope             *ApiScope              `protobuf:"varint,8,opt,name=scope,proto3,enum=admin.service.v1.ApiScope,oneof" json:"scope,omitempty"`                  // 作用域
 	CreateBy          *uint32                `protobuf:"varint,100,opt,name=create_by,json=createBy,proto3,oneof" json:"create_by,omitempty"`                         // 创建者ID
 	UpdateBy          *uint32                `protobuf:"varint,101,opt,name=update_by,json=updateBy,proto3,oneof" json:"update_by,omitempty"`                         // 更新者ID
 	CreateTime        *timestamppb.Timestamp `protobuf:"bytes,200,opt,name=create_time,json=createTime,proto3,oneof" json:"create_time,omitempty"`                    // 创建时间
@@ -123,6 +174,13 @@ func (x *ApiResource) GetDescription() string {
 		return *x.Description
 	}
 	return ""
+}
+
+func (x *ApiResource) GetScope() ApiScope {
+	if x != nil && x.Scope != nil {
+		return *x.Scope
+	}
+	return ApiScope_API_SCOPE_INVALID
 }
 
 func (x *ApiResource) GetCreateBy() uint32 {
@@ -413,7 +471,7 @@ var File_admin_service_v1_i_api_resource_proto protoreflect.FileDescriptor
 
 const file_admin_service_v1_i_api_resource_proto_rawDesc = "" +
 	"\n" +
-	"%admin/service/v1/i_api_resource.proto\x12\x10admin.service.v1\x1a$gnostic/openapi/v3/annotations.proto\x1a\x1cgoogle/api/annotations.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a google/protobuf/field_mask.proto\x1a\x1epagination/v1/pagination.proto\"\xdb\a\n" +
+	"%admin/service/v1/i_api_resource.proto\x12\x10admin.service.v1\x1a$gnostic/openapi/v3/annotations.proto\x1a\x1cgoogle/api/annotations.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a google/protobuf/field_mask.proto\x1a\x1epagination/v1/pagination.proto\"\xad\b\n" +
 	"\vApiResource\x12#\n" +
 	"\x02id\x18\x01 \x01(\rB\x0e\xbaG\v\x92\x02\b资源IDH\x00R\x02id\x88\x01\x01\x128\n" +
 	"\toperation\x18\x02 \x01(\tB\x15\xbaG\x12\x92\x02\x0f接口操作名H\x01R\toperation\x88\x01\x01\x12+\n" +
@@ -421,15 +479,16 @@ const file_admin_service_v1_i_api_resource_proto_rawDesc = "" +
 	"\x06method\x18\x04 \x01(\tB+\xbaG(\x92\x02%请求方法（GET/POST/PUT/DELETE）H\x03R\x06method\x88\x01\x01\x12c\n" +
 	"\x06module\x18\x05 \x01(\tBF\xbaGC\x92\x02@所属业务模块（如 “用户管理”“支付系统”）H\x04R\x06module\x88\x01\x01\x12F\n" +
 	"\x12module_description\x18\x06 \x01(\tB\x12\xbaG\x0f\x92\x02\f模块描述H\x05R\x11moduleDescription\x88\x01\x01\x123\n" +
-	"\vdescription\x18\a \x01(\tB\f\xbaG\t\x92\x02\x06描述H\x06R\vdescription\x88\x01\x01\x123\n" +
-	"\tcreate_by\x18d \x01(\rB\x11\xbaG\x0e\x92\x02\v创建者IDH\aR\bcreateBy\x88\x01\x01\x123\n" +
-	"\tupdate_by\x18e \x01(\rB\x11\xbaG\x0e\x92\x02\v更新者IDH\bR\bupdateBy\x88\x01\x01\x12U\n" +
-	"\vcreate_time\x18\xc8\x01 \x01(\v2\x1a.google.protobuf.TimestampB\x12\xbaG\x0f\x92\x02\f创建时间H\tR\n" +
-	"createTime\x88\x01\x01\x12U\n" +
-	"\vupdate_time\x18\xc9\x01 \x01(\v2\x1a.google.protobuf.TimestampB\x12\xbaG\x0f\x92\x02\f更新时间H\n" +
+	"\vdescription\x18\a \x01(\tB\f\xbaG\t\x92\x02\x06描述H\x06R\vdescription\x88\x01\x01\x12F\n" +
+	"\x05scope\x18\b \x01(\x0e2\x1a.admin.service.v1.ApiScopeB\x0f\xbaG\f\x92\x02\t作用域H\aR\x05scope\x88\x01\x01\x123\n" +
+	"\tcreate_by\x18d \x01(\rB\x11\xbaG\x0e\x92\x02\v创建者IDH\bR\bcreateBy\x88\x01\x01\x123\n" +
+	"\tupdate_by\x18e \x01(\rB\x11\xbaG\x0e\x92\x02\v更新者IDH\tR\bupdateBy\x88\x01\x01\x12U\n" +
+	"\vcreate_time\x18\xc8\x01 \x01(\v2\x1a.google.protobuf.TimestampB\x12\xbaG\x0f\x92\x02\f创建时间H\n" +
 	"R\n" +
+	"createTime\x88\x01\x01\x12U\n" +
+	"\vupdate_time\x18\xc9\x01 \x01(\v2\x1a.google.protobuf.TimestampB\x12\xbaG\x0f\x92\x02\f更新时间H\vR\n" +
 	"updateTime\x88\x01\x01\x12U\n" +
-	"\vdelete_time\x18\xca\x01 \x01(\v2\x1a.google.protobuf.TimestampB\x12\xbaG\x0f\x92\x02\f删除时间H\vR\n" +
+	"\vdelete_time\x18\xca\x01 \x01(\v2\x1a.google.protobuf.TimestampB\x12\xbaG\x0f\x92\x02\f删除时间H\fR\n" +
 	"deleteTime\x88\x01\x01B\x05\n" +
 	"\x03_idB\f\n" +
 	"\n" +
@@ -438,7 +497,8 @@ const file_admin_service_v1_i_api_resource_proto_rawDesc = "" +
 	"\a_methodB\t\n" +
 	"\a_moduleB\x15\n" +
 	"\x13_module_descriptionB\x0e\n" +
-	"\f_descriptionB\f\n" +
+	"\f_descriptionB\b\n" +
+	"\x06_scopeB\f\n" +
 	"\n" +
 	"_create_byB\f\n" +
 	"\n" +
@@ -460,7 +520,11 @@ const file_admin_service_v1_i_api_resource_proto_rawDesc = "" +
 	"\rallow_missing\x18\x03 \x01(\bB\x89\x01\xbaG\x85\x01\x92\x02\x81\x01如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。H\x00R\fallowMissing\x88\x01\x01B\x10\n" +
 	"\x0e_allow_missing\"*\n" +
 	"\x18DeleteApiResourceRequest\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\rR\x02id2\xcb\x06\n" +
+	"\x02id\x18\x01 \x01(\rR\x02id*I\n" +
+	"\bApiScope\x12\x15\n" +
+	"\x11API_SCOPE_INVALID\x10\x00\x12\x13\n" +
+	"\x0fAPI_SCOPE_ADMIN\x10\x01\x12\x11\n" +
+	"\rAPI_SCOPE_APP\x10\x022\xcb\x06\n" +
 	"\x12ApiResourceService\x12m\n" +
 	"\x04List\x12\x19.pagination.PagingRequest\x1a).admin.service.v1.ListApiResourceResponse\"\x1f\x82\xd3\xe4\x93\x02\x19\x12\x17/admin/v1/api-resources\x12s\n" +
 	"\x03Get\x12'.admin.service.v1.GetApiResourceRequest\x1a\x1d.admin.service.v1.ApiResource\"$\x82\xd3\xe4\x93\x02\x1e\x12\x1c/admin/v1/api-resources/{id}\x12p\n" +
@@ -483,46 +547,49 @@ func file_admin_service_v1_i_api_resource_proto_rawDescGZIP() []byte {
 	return file_admin_service_v1_i_api_resource_proto_rawDescData
 }
 
+var file_admin_service_v1_i_api_resource_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
 var file_admin_service_v1_i_api_resource_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
 var file_admin_service_v1_i_api_resource_proto_goTypes = []any{
-	(*ApiResource)(nil),              // 0: admin.service.v1.ApiResource
-	(*ListApiResourceResponse)(nil),  // 1: admin.service.v1.ListApiResourceResponse
-	(*GetApiResourceRequest)(nil),    // 2: admin.service.v1.GetApiResourceRequest
-	(*CreateApiResourceRequest)(nil), // 3: admin.service.v1.CreateApiResourceRequest
-	(*UpdateApiResourceRequest)(nil), // 4: admin.service.v1.UpdateApiResourceRequest
-	(*DeleteApiResourceRequest)(nil), // 5: admin.service.v1.DeleteApiResourceRequest
-	(*timestamppb.Timestamp)(nil),    // 6: google.protobuf.Timestamp
-	(*fieldmaskpb.FieldMask)(nil),    // 7: google.protobuf.FieldMask
-	(*v1.PagingRequest)(nil),         // 8: pagination.PagingRequest
-	(*emptypb.Empty)(nil),            // 9: google.protobuf.Empty
+	(ApiScope)(0),                    // 0: admin.service.v1.ApiScope
+	(*ApiResource)(nil),              // 1: admin.service.v1.ApiResource
+	(*ListApiResourceResponse)(nil),  // 2: admin.service.v1.ListApiResourceResponse
+	(*GetApiResourceRequest)(nil),    // 3: admin.service.v1.GetApiResourceRequest
+	(*CreateApiResourceRequest)(nil), // 4: admin.service.v1.CreateApiResourceRequest
+	(*UpdateApiResourceRequest)(nil), // 5: admin.service.v1.UpdateApiResourceRequest
+	(*DeleteApiResourceRequest)(nil), // 6: admin.service.v1.DeleteApiResourceRequest
+	(*timestamppb.Timestamp)(nil),    // 7: google.protobuf.Timestamp
+	(*fieldmaskpb.FieldMask)(nil),    // 8: google.protobuf.FieldMask
+	(*v1.PagingRequest)(nil),         // 9: pagination.PagingRequest
+	(*emptypb.Empty)(nil),            // 10: google.protobuf.Empty
 }
 var file_admin_service_v1_i_api_resource_proto_depIdxs = []int32{
-	6,  // 0: admin.service.v1.ApiResource.create_time:type_name -> google.protobuf.Timestamp
-	6,  // 1: admin.service.v1.ApiResource.update_time:type_name -> google.protobuf.Timestamp
-	6,  // 2: admin.service.v1.ApiResource.delete_time:type_name -> google.protobuf.Timestamp
-	0,  // 3: admin.service.v1.ListApiResourceResponse.items:type_name -> admin.service.v1.ApiResource
-	0,  // 4: admin.service.v1.CreateApiResourceRequest.data:type_name -> admin.service.v1.ApiResource
-	0,  // 5: admin.service.v1.UpdateApiResourceRequest.data:type_name -> admin.service.v1.ApiResource
-	7,  // 6: admin.service.v1.UpdateApiResourceRequest.update_mask:type_name -> google.protobuf.FieldMask
-	8,  // 7: admin.service.v1.ApiResourceService.List:input_type -> pagination.PagingRequest
-	2,  // 8: admin.service.v1.ApiResourceService.Get:input_type -> admin.service.v1.GetApiResourceRequest
-	3,  // 9: admin.service.v1.ApiResourceService.Create:input_type -> admin.service.v1.CreateApiResourceRequest
-	4,  // 10: admin.service.v1.ApiResourceService.Update:input_type -> admin.service.v1.UpdateApiResourceRequest
-	5,  // 11: admin.service.v1.ApiResourceService.Delete:input_type -> admin.service.v1.DeleteApiResourceRequest
-	9,  // 12: admin.service.v1.ApiResourceService.SyncApiResources:input_type -> google.protobuf.Empty
-	9,  // 13: admin.service.v1.ApiResourceService.GetWalkRouteData:input_type -> google.protobuf.Empty
-	1,  // 14: admin.service.v1.ApiResourceService.List:output_type -> admin.service.v1.ListApiResourceResponse
-	0,  // 15: admin.service.v1.ApiResourceService.Get:output_type -> admin.service.v1.ApiResource
-	9,  // 16: admin.service.v1.ApiResourceService.Create:output_type -> google.protobuf.Empty
-	9,  // 17: admin.service.v1.ApiResourceService.Update:output_type -> google.protobuf.Empty
-	9,  // 18: admin.service.v1.ApiResourceService.Delete:output_type -> google.protobuf.Empty
-	9,  // 19: admin.service.v1.ApiResourceService.SyncApiResources:output_type -> google.protobuf.Empty
-	1,  // 20: admin.service.v1.ApiResourceService.GetWalkRouteData:output_type -> admin.service.v1.ListApiResourceResponse
-	14, // [14:21] is the sub-list for method output_type
-	7,  // [7:14] is the sub-list for method input_type
-	7,  // [7:7] is the sub-list for extension type_name
-	7,  // [7:7] is the sub-list for extension extendee
-	0,  // [0:7] is the sub-list for field type_name
+	0,  // 0: admin.service.v1.ApiResource.scope:type_name -> admin.service.v1.ApiScope
+	7,  // 1: admin.service.v1.ApiResource.create_time:type_name -> google.protobuf.Timestamp
+	7,  // 2: admin.service.v1.ApiResource.update_time:type_name -> google.protobuf.Timestamp
+	7,  // 3: admin.service.v1.ApiResource.delete_time:type_name -> google.protobuf.Timestamp
+	1,  // 4: admin.service.v1.ListApiResourceResponse.items:type_name -> admin.service.v1.ApiResource
+	1,  // 5: admin.service.v1.CreateApiResourceRequest.data:type_name -> admin.service.v1.ApiResource
+	1,  // 6: admin.service.v1.UpdateApiResourceRequest.data:type_name -> admin.service.v1.ApiResource
+	8,  // 7: admin.service.v1.UpdateApiResourceRequest.update_mask:type_name -> google.protobuf.FieldMask
+	9,  // 8: admin.service.v1.ApiResourceService.List:input_type -> pagination.PagingRequest
+	3,  // 9: admin.service.v1.ApiResourceService.Get:input_type -> admin.service.v1.GetApiResourceRequest
+	4,  // 10: admin.service.v1.ApiResourceService.Create:input_type -> admin.service.v1.CreateApiResourceRequest
+	5,  // 11: admin.service.v1.ApiResourceService.Update:input_type -> admin.service.v1.UpdateApiResourceRequest
+	6,  // 12: admin.service.v1.ApiResourceService.Delete:input_type -> admin.service.v1.DeleteApiResourceRequest
+	10, // 13: admin.service.v1.ApiResourceService.SyncApiResources:input_type -> google.protobuf.Empty
+	10, // 14: admin.service.v1.ApiResourceService.GetWalkRouteData:input_type -> google.protobuf.Empty
+	2,  // 15: admin.service.v1.ApiResourceService.List:output_type -> admin.service.v1.ListApiResourceResponse
+	1,  // 16: admin.service.v1.ApiResourceService.Get:output_type -> admin.service.v1.ApiResource
+	10, // 17: admin.service.v1.ApiResourceService.Create:output_type -> google.protobuf.Empty
+	10, // 18: admin.service.v1.ApiResourceService.Update:output_type -> google.protobuf.Empty
+	10, // 19: admin.service.v1.ApiResourceService.Delete:output_type -> google.protobuf.Empty
+	10, // 20: admin.service.v1.ApiResourceService.SyncApiResources:output_type -> google.protobuf.Empty
+	2,  // 21: admin.service.v1.ApiResourceService.GetWalkRouteData:output_type -> admin.service.v1.ListApiResourceResponse
+	15, // [15:22] is the sub-list for method output_type
+	8,  // [8:15] is the sub-list for method input_type
+	8,  // [8:8] is the sub-list for extension type_name
+	8,  // [8:8] is the sub-list for extension extendee
+	0,  // [0:8] is the sub-list for field type_name
 }
 
 func init() { file_admin_service_v1_i_api_resource_proto_init() }
@@ -537,13 +604,14 @@ func file_admin_service_v1_i_api_resource_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_admin_service_v1_i_api_resource_proto_rawDesc), len(file_admin_service_v1_i_api_resource_proto_rawDesc)),
-			NumEnums:      0,
+			NumEnums:      1,
 			NumMessages:   6,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
 		GoTypes:           file_admin_service_v1_i_api_resource_proto_goTypes,
 		DependencyIndexes: file_admin_service_v1_i_api_resource_proto_depIdxs,
+		EnumInfos:         file_admin_service_v1_i_api_resource_proto_enumTypes,
 		MessageInfos:      file_admin_service_v1_i_api_resource_proto_msgTypes,
 	}.Build()
 	File_admin_service_v1_i_api_resource_proto = out.File

@@ -146,6 +146,7 @@ var schemaGraph = func() *sqlgraph.Schema {
 			apiresource.FieldOperation:         {Type: field.TypeString, Column: apiresource.FieldOperation},
 			apiresource.FieldPath:              {Type: field.TypeString, Column: apiresource.FieldPath},
 			apiresource.FieldMethod:            {Type: field.TypeString, Column: apiresource.FieldMethod},
+			apiresource.FieldScope:             {Type: field.TypeEnum, Column: apiresource.FieldScope},
 		},
 	}
 	graph.Nodes[4] = &sqlgraph.Node{
@@ -1181,6 +1182,11 @@ func (f *ApiResourceFilter) WherePath(p entql.StringP) {
 // WhereMethod applies the entql string predicate on the method field.
 func (f *ApiResourceFilter) WhereMethod(p entql.StringP) {
 	f.Where(p.Field(apiresource.FieldMethod))
+}
+
+// WhereScope applies the entql string predicate on the scope field.
+func (f *ApiResourceFilter) WhereScope(p entql.StringP) {
+	f.Where(p.Field(apiresource.FieldScope))
 }
 
 // addPredicate implements the predicateAdder interface.

@@ -1,14 +1,14 @@
 package schema
 
 import (
-	appmixin "kratos-admin/pkg/entgo/mixin"
-
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/entsql"
 	"entgo.io/ent/schema"
 	"entgo.io/ent/schema/edge"
 	"entgo.io/ent/schema/field"
 	"github.com/tx7do/go-utils/entgo/mixin"
+
+	appmixin "kratos-admin/pkg/entgo/mixin"
 )
 
 // Position holds the schema definition for the Position entity.

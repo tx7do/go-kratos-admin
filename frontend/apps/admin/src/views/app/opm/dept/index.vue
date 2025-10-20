@@ -64,8 +64,8 @@ const formOptions: VbenFormProps = {
         childrenField: 'children',
         labelField: 'name',
         valueField: 'id',
-        toolbar: true,
-        search: true,
+        showSearch: true,
+        treeDefaultExpandAll: true,
         allowClear: true,
         api: async () => {
           const result = await orgStore.listOrganization(true, null, null, {

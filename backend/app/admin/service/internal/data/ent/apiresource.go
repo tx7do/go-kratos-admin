@@ -39,7 +39,9 @@ type ApiResource struct {
 	// 接口路径
 	Path *string `json:"path,omitempty"`
 	// 请求方法
-	Method       *string `json:"method,omitempty"`
+	Method *string `json:"method,omitempty"`
+	// 作用域
+	Scope        *apiresource.Scope `json:"scope,omitempty"`
 	selectValues sql.SelectValues
 }
 
@@ -50,7 +52,7 @@ func (*ApiResource) scanValues(columns []string) ([]any, error) {
 		switch columns[i] {
 		case apiresource.FieldID, apiresource.FieldCreateBy, apiresource.FieldUpdateBy:
 			values[i] = new(sql.NullInt64)
-		case apiresource.FieldDescription, apiresource.FieldModule, apiresource.FieldModuleDescription, apiresource.FieldOperation, apiresource.FieldPath, apiresource.FieldMethod:
+		case apiresource.FieldDescription, apiresource.FieldModule, apiresource.FieldModuleDescription, apiresource.FieldOperation, apiresource.FieldPath, apiresource.FieldMethod, apiresource.FieldScope:
 			values[i] = new(sql.NullString)
 		case apiresource.FieldCreateTime, apiresource.FieldUpdateTime, apiresource.FieldDeleteTime:
 			values[i] = new(sql.NullTime)
@@ -152,6 +154,13 @@ func (_m *ApiResource) assignValues(columns []string, values []any) error {
 				_m.Method = new(string)
 				*_m.Method = value.String
 			}
+		case apiresource.FieldScope:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field scope", values[i])
+			} else if value.Valid {
+				_m.Scope = new(apiresource.Scope)
+				*_m.Scope = apiresource.Scope(value.String)
+			}
 		default:
 			_m.selectValues.Set(columns[i], values[i])
 		}
@@ -241,6 +250,11 @@ func (_m *ApiResource) String() string {
 	if v := _m.Method; v != nil {
 		builder.WriteString("method=")
 		builder.WriteString(*v)
+	}
+	builder.WriteString(", ")
+	if v := _m.Scope; v != nil {
+		builder.WriteString("scope=")
+		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteByte(')')
 	return builder.String()

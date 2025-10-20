@@ -5003,6 +5003,7 @@ type ApiResourceMutation struct {
 	operation          *string
 	_path              *string
 	method             *string
+	scope              *apiresource.Scope
 	clearedFields      map[string]struct{}
 	done               bool
 	oldValue           func(context.Context) (*ApiResource, error)
@@ -5694,6 +5695,55 @@ func (m *ApiResourceMutation) ResetMethod() {
 	delete(m.clearedFields, apiresource.FieldMethod)
 }
 
+// SetScope sets the "scope" field.
+func (m *ApiResourceMutation) SetScope(a apiresource.Scope) {
+	m.scope = &a
+}
+
+// Scope returns the value of the "scope" field in the mutation.
+func (m *ApiResourceMutation) Scope() (r apiresource.Scope, exists bool) {
+	v := m.scope
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldScope returns the old "scope" field's value of the ApiResource entity.
+// If the ApiResource object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *ApiResourceMutation) OldScope(ctx context.Context) (v *apiresource.Scope, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldScope is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldScope requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldScope: %w", err)
+	}
+	return oldValue.Scope, nil
+}
+
+// ClearScope clears the value of the "scope" field.
+func (m *ApiResourceMutation) ClearScope() {
+	m.scope = nil
+	m.clearedFields[apiresource.FieldScope] = struct{}{}
+}
+
+// ScopeCleared returns if the "scope" field was cleared in this mutation.
+func (m *ApiResourceMutation) ScopeCleared() bool {
+	_, ok := m.clearedFields[apiresource.FieldScope]
+	return ok
+}
+
+// ResetScope resets all changes to the "scope" field.
+func (m *ApiResourceMutation) ResetScope() {
+	m.scope = nil
+	delete(m.clearedFields, apiresource.FieldScope)
+}
+
 // Where appends a list predicates to the ApiResourceMutation builder.
 func (m *ApiResourceMutation) Where(ps ...predicate.ApiResource) {
 	m.predicates = append(m.predicates, ps...)
@@ -5728,7 +5778,7 @@ func (m *ApiResourceMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *ApiResourceMutation) Fields() []string {
-	fields := make([]string, 0, 11)
+	fields := make([]string, 0, 12)
 	if m.create_time != nil {
 		fields = append(fields, apiresource.FieldCreateTime)
 	}
@@ -5762,6 +5812,9 @@ func (m *ApiResourceMutation) Fields() []string {
 	if m.method != nil {
 		fields = append(fields, apiresource.FieldMethod)
 	}
+	if m.scope != nil {
+		fields = append(fields, apiresource.FieldScope)
+	}
 	return fields
 }
 
@@ -5792,6 +5845,8 @@ func (m *ApiResourceMutation) Field(name string) (ent.Value, bool) {
 		return m.Path()
 	case apiresource.FieldMethod:
 		return m.Method()
+	case apiresource.FieldScope:
+		return m.Scope()
 	}
 	return nil, false
 }
@@ -5823,6 +5878,8 @@ func (m *ApiResourceMutation) OldField(ctx context.Context, name string) (ent.Va
 		return m.OldPath(ctx)
 	case apiresource.FieldMethod:
 		return m.OldMethod(ctx)
+	case apiresource.FieldScope:
+		return m.OldScope(ctx)
 	}
 	return nil, fmt.Errorf("unknown ApiResource field %s", name)
 }
@@ -5908,6 +5965,13 @@ func (m *ApiResourceMutation) SetField(name string, value ent.Value) error {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetMethod(v)
+		return nil
+	case apiresource.FieldScope:
+		v, ok := value.(apiresource.Scope)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetScope(v)
 		return nil
 	}
 	return fmt.Errorf("unknown ApiResource field %s", name)
@@ -5999,6 +6063,9 @@ func (m *ApiResourceMutation) ClearedFields() []string {
 	if m.FieldCleared(apiresource.FieldMethod) {
 		fields = append(fields, apiresource.FieldMethod)
 	}
+	if m.FieldCleared(apiresource.FieldScope) {
+		fields = append(fields, apiresource.FieldScope)
+	}
 	return fields
 }
 
@@ -6046,6 +6113,9 @@ func (m *ApiResourceMutation) ClearField(name string) error {
 	case apiresource.FieldMethod:
 		m.ClearMethod()
 		return nil
+	case apiresource.FieldScope:
+		m.ClearScope()
+		return nil
 	}
 	return fmt.Errorf("unknown ApiResource nullable field %s", name)
 }
@@ -6086,6 +6156,9 @@ func (m *ApiResourceMutation) ResetField(name string) error {
 		return nil
 	case apiresource.FieldMethod:
 		m.ResetMethod()
+		return nil
+	case apiresource.FieldScope:
+		m.ResetScope()
 		return nil
 	}
 	return fmt.Errorf("unknown ApiResource field %s", name)

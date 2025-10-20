@@ -134,6 +134,7 @@ var (
 		{Name: "operation", Type: field.TypeString, Nullable: true, Comment: "接口操作名"},
 		{Name: "path", Type: field.TypeString, Nullable: true, Comment: "接口路径"},
 		{Name: "method", Type: field.TypeString, Nullable: true, Comment: "请求方法"},
+		{Name: "scope", Type: field.TypeEnum, Nullable: true, Comment: "作用域", Enums: []string{"ADMIN", "APP"}, Default: "ADMIN"},
 	}
 	// SysAPIResourcesTable holds the schema information for the "sys_api_resources" table.
 	SysAPIResourcesTable = &schema.Table{

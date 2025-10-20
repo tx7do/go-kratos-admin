@@ -176,6 +176,20 @@ func (_c *ApiResourceCreate) SetNillableMethod(v *string) *ApiResourceCreate {
 	return _c
 }
 
+// SetScope sets the "scope" field.
+func (_c *ApiResourceCreate) SetScope(v apiresource.Scope) *ApiResourceCreate {
+	_c.mutation.SetScope(v)
+	return _c
+}
+
+// SetNillableScope sets the "scope" field if the given value is not nil.
+func (_c *ApiResourceCreate) SetNillableScope(v *apiresource.Scope) *ApiResourceCreate {
+	if v != nil {
+		_c.SetScope(*v)
+	}
+	return _c
+}
+
 // SetID sets the "id" field.
 func (_c *ApiResourceCreate) SetID(v uint32) *ApiResourceCreate {
 	_c.mutation.SetID(v)
@@ -189,6 +203,7 @@ func (_c *ApiResourceCreate) Mutation() *ApiResourceMutation {
 
 // Save creates the ApiResource in the database.
 func (_c *ApiResourceCreate) Save(ctx context.Context) (*ApiResource, error) {
+	_c.defaults()
 	return withHooks(ctx, _c.sqlSave, _c.mutation, _c.hooks)
 }
 
@@ -214,8 +229,21 @@ func (_c *ApiResourceCreate) ExecX(ctx context.Context) {
 	}
 }
 
+// defaults sets the default values of the builder before save.
+func (_c *ApiResourceCreate) defaults() {
+	if _, ok := _c.mutation.Scope(); !ok {
+		v := apiresource.DefaultScope
+		_c.mutation.SetScope(v)
+	}
+}
+
 // check runs all checks and user-defined validators on the builder.
 func (_c *ApiResourceCreate) check() error {
+	if v, ok := _c.mutation.Scope(); ok {
+		if err := apiresource.ScopeValidator(v); err != nil {
+			return &ValidationError{Name: "scope", err: fmt.Errorf(`ent: validator failed for field "ApiResource.scope": %w`, err)}
+		}
+	}
 	if v, ok := _c.mutation.ID(); ok {
 		if err := apiresource.IDValidator(v); err != nil {
 			return &ValidationError{Name: "id", err: fmt.Errorf(`ent: validator failed for field "ApiResource.id": %w`, err)}
@@ -297,6 +325,10 @@ func (_c *ApiResourceCreate) createSpec() (*ApiResource, *sqlgraph.CreateSpec) {
 	if value, ok := _c.mutation.Method(); ok {
 		_spec.SetField(apiresource.FieldMethod, field.TypeString, value)
 		_node.Method = &value
+	}
+	if value, ok := _c.mutation.Scope(); ok {
+		_spec.SetField(apiresource.FieldScope, field.TypeEnum, value)
+		_node.Scope = &value
 	}
 	return _node, _spec
 }
@@ -539,6 +571,24 @@ func (u *ApiResourceUpsert) UpdateMethod() *ApiResourceUpsert {
 // ClearMethod clears the value of the "method" field.
 func (u *ApiResourceUpsert) ClearMethod() *ApiResourceUpsert {
 	u.SetNull(apiresource.FieldMethod)
+	return u
+}
+
+// SetScope sets the "scope" field.
+func (u *ApiResourceUpsert) SetScope(v apiresource.Scope) *ApiResourceUpsert {
+	u.Set(apiresource.FieldScope, v)
+	return u
+}
+
+// UpdateScope sets the "scope" field to the value that was provided on create.
+func (u *ApiResourceUpsert) UpdateScope() *ApiResourceUpsert {
+	u.SetExcluded(apiresource.FieldScope)
+	return u
+}
+
+// ClearScope clears the value of the "scope" field.
+func (u *ApiResourceUpsert) ClearScope() *ApiResourceUpsert {
+	u.SetNull(apiresource.FieldScope)
 	return u
 }
 
@@ -817,6 +867,27 @@ func (u *ApiResourceUpsertOne) ClearMethod() *ApiResourceUpsertOne {
 	})
 }
 
+// SetScope sets the "scope" field.
+func (u *ApiResourceUpsertOne) SetScope(v apiresource.Scope) *ApiResourceUpsertOne {
+	return u.Update(func(s *ApiResourceUpsert) {
+		s.SetScope(v)
+	})
+}
+
+// UpdateScope sets the "scope" field to the value that was provided on create.
+func (u *ApiResourceUpsertOne) UpdateScope() *ApiResourceUpsertOne {
+	return u.Update(func(s *ApiResourceUpsert) {
+		s.UpdateScope()
+	})
+}
+
+// ClearScope clears the value of the "scope" field.
+func (u *ApiResourceUpsertOne) ClearScope() *ApiResourceUpsertOne {
+	return u.Update(func(s *ApiResourceUpsert) {
+		s.ClearScope()
+	})
+}
+
 // Exec executes the query.
 func (u *ApiResourceUpsertOne) Exec(ctx context.Context) error {
 	if len(u.create.conflict) == 0 {
@@ -869,6 +940,7 @@ func (_c *ApiResourceCreateBulk) Save(ctx context.Context) ([]*ApiResource, erro
 	for i := range _c.builders {
 		func(i int, root context.Context) {
 			builder := _c.builders[i]
+			builder.defaults()
 			var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 				mutation, ok := m.(*ApiResourceMutation)
 				if !ok {
@@ -1254,6 +1326,27 @@ func (u *ApiResourceUpsertBulk) UpdateMethod() *ApiResourceUpsertBulk {
 func (u *ApiResourceUpsertBulk) ClearMethod() *ApiResourceUpsertBulk {
 	return u.Update(func(s *ApiResourceUpsert) {
 		s.ClearMethod()
+	})
+}
+
+// SetScope sets the "scope" field.
+func (u *ApiResourceUpsertBulk) SetScope(v apiresource.Scope) *ApiResourceUpsertBulk {
+	return u.Update(func(s *ApiResourceUpsert) {
+		s.SetScope(v)
+	})
+}
+
+// UpdateScope sets the "scope" field to the value that was provided on create.
+func (u *ApiResourceUpsertBulk) UpdateScope() *ApiResourceUpsertBulk {
+	return u.Update(func(s *ApiResourceUpsert) {
+		s.UpdateScope()
+	})
+}
+
+// ClearScope clears the value of the "scope" field.
+func (u *ApiResourceUpsertBulk) ClearScope() *ApiResourceUpsertBulk {
+	return u.Update(func(s *ApiResourceUpsert) {
+		s.ClearScope()
 	})
 }
 

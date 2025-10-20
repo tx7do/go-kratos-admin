@@ -2833,6 +2833,14 @@ components:
                 description:
                     type: string
                     description: 描述
+                scope:
+                    enum:
+                        - API_SCOPE_INVALID
+                        - API_SCOPE_ADMIN
+                        - API_SCOPE_APP
+                    type: string
+                    description: 作用域
+                    format: enum
                 createBy:
                     type: integer
                     description: 创建者ID
@@ -4028,6 +4036,13 @@ components:
                         type: integer
                         format: uint32
                     description: 分配的API列表
+                tenantId:
+                    type: integer
+                    description: 租户ID
+                    format: uint32
+                tenantName:
+                    type: string
+                    description: 租户名称
                 parentId:
                     type: integer
                     description: 父节点ID

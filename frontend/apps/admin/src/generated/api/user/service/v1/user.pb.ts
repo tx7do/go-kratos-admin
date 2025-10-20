@@ -11,13 +11,13 @@ import type { PagingRequest } from "../../../pagination/v1/pagination.pb";
 
 /** 用户权限 */
 export enum UserAuthority {
-  /** GUEST - 游客 */
+  /** GUEST - 游客，仅能访问系统公开资源（如首页、帮助中心），无业务操作及管理权限。 */
   GUEST = "GUEST",
-  /** CUSTOMER_USER - 普通用户 */
+  /** CUSTOMER_USER - 普通用户，仅拥有个人业务操作权限，可访问授权的功能模块，无管理权限。 */
   CUSTOMER_USER = "CUSTOMER_USER",
-  /** TENANT_ADMIN - 租户管理 */
+  /** TENANT_ADMIN - 租户管理，拥有当前租户内的管理权限，可管理租户内用户、角色及业务资源，无系统级配置权限。 */
   TENANT_ADMIN = "TENANT_ADMIN",
-  /** SYS_ADMIN - 系统管理员 */
+  /** SYS_ADMIN - 系统管理员，拥有系统全量权限，可管理所有租户、用户、配置及资源 */
   SYS_ADMIN = "SYS_ADMIN",
 }
 

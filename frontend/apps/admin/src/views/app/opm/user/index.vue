@@ -20,6 +20,9 @@ import {
   genderToName,
   statusToColor,
   statusToName,
+  useDepartmentStore,
+  useOrganizationStore,
+  usePositionStore,
   useRoleStore,
   useUserStore,
 } from '#/stores';
@@ -28,6 +31,8 @@ import UserDrawer from './user-drawer.vue';
 
 const userStore = useUserStore();
 const roleStore = useRoleStore();
+const deptStore = useDepartmentStore();
+const orgStore = useOrganizationStore();
 
 const formOptions: VbenFormProps = {
   // 默认展开
@@ -39,8 +44,17 @@ const formOptions: VbenFormProps = {
   schema: [
     {
       component: 'Input',
+      fieldName: 'username',
+      label: $t('page.user.form.username'),
+      componentProps: {
+        placeholder: $t('ui.placeholder.input'),
+        allowClear: true,
+      },
+    },
+    {
+      component: 'Input',
       fieldName: 'realname',
-      label: $t('page.user.form.realName'),
+      label: $t('page.user.form.realname'),
       componentProps: {
         placeholder: $t('ui.placeholder.input'),
         allowClear: true,
@@ -80,6 +94,50 @@ const formOptions: VbenFormProps = {
         },
         api: async () => {
           const result = await roleStore.listRole(true);
+          return result.items;
+        },
+      },
+    },
+    {
+      component: 'ApiTreeSelect',
+      fieldName: 'organizationId',
+      label: $t('page.position.organization'),
+      componentProps: {
+        placeholder: $t('ui.placeholder.select'),
+        numberToString: true,
+        childrenField: 'children',
+        labelField: 'name',
+        valueField: 'id',
+        showSearch: true,
+        treeDefaultExpandAll: true,
+        allowClear: true,
+        api: async () => {
+          const result = await orgStore.listOrganization(true, null, null, {
+            // parent_id: 0,
+            status: 'ON',
+          });
+          return result.items;
+        },
+      },
+    },
+    {
+      component: 'ApiTreeSelect',
+      fieldName: 'departmentId',
+      label: $t('page.position.department'),
+      componentProps: {
+        placeholder: $t('ui.placeholder.select'),
+        numberToString: true,
+        childrenField: 'children',
+        labelField: 'name',
+        valueField: 'id',
+        showSearch: true,
+        treeDefaultExpandAll: true,
+        allowClear: true,
+        api: async () => {
+          const result = await deptStore.listDepartment(true, null, null, {
+            // parent_id: 0,
+            status: 'ON',
+          });
           return result.items;
         },
       },
@@ -135,7 +193,7 @@ const gridOptions: VxeGridProps<User> = {
       title: $t('page.user.table.authority'),
       field: 'authority',
       slots: { default: 'authority' },
-      width: 80,
+      width: 110,
     },
     {
       title: $t('page.user.table.lastLoginTime'),

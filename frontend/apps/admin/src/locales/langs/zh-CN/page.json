@@ -14,7 +14,10 @@
   "user": {
     "moduleName": "用户",
     "form": {
-      "realName": "真实姓名",
+      "username": "用户名",
+      "nickname": "昵称",
+      "realname": "真实姓名",
+      "email": "电子邮箱",
       "mobile": "手机号码",
       "roleId": "角色",
       "authority": "权限",

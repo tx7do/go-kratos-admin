@@ -809,6 +809,36 @@ func MethodContainsFold(v string) predicate.ApiResource {
 	return predicate.ApiResource(sql.FieldContainsFold(FieldMethod, v))
 }
 
+// ScopeEQ applies the EQ predicate on the "scope" field.
+func ScopeEQ(v Scope) predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldEQ(FieldScope, v))
+}
+
+// ScopeNEQ applies the NEQ predicate on the "scope" field.
+func ScopeNEQ(v Scope) predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldNEQ(FieldScope, v))
+}
+
+// ScopeIn applies the In predicate on the "scope" field.
+func ScopeIn(vs ...Scope) predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldIn(FieldScope, vs...))
+}
+
+// ScopeNotIn applies the NotIn predicate on the "scope" field.
+func ScopeNotIn(vs ...Scope) predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldNotIn(FieldScope, vs...))
+}
+
+// ScopeIsNil applies the IsNil predicate on the "scope" field.
+func ScopeIsNil() predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldIsNull(FieldScope))
+}
+
+// ScopeNotNil applies the NotNil predicate on the "scope" field.
+func ScopeNotNil() predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldNotNull(FieldScope))
+}
+
 // And groups predicates with the AND operator between them.
 func And(predicates ...predicate.ApiResource) predicate.ApiResource {
 	return predicate.ApiResource(sql.AndPredicates(predicates...))

@@ -15,8 +15,9 @@ import {
 } from '#/generated/api/user/service/v1/position.pb';
 import { $t } from '#/locales';
 import {
-  organizationTypeToColor, organizationTypeToName, positionStatusToColor, positionStatusToName,
-  statusList, statusToColor, statusToName,
+  positionStatusToColor,
+  positionStatusToName,
+  statusList,
   useDepartmentStore,
   useOrganizationStore,
   usePositionStore,
@@ -74,8 +75,8 @@ const formOptions: VbenFormProps = {
         childrenField: 'children',
         labelField: 'name',
         valueField: 'id',
-        toolbar: true,
-        search: true,
+        showSearch: true,
+        treeDefaultExpandAll: true,
         allowClear: true,
         api: async () => {
           const result = await orgStore.listOrganization(true, null, null, {
@@ -96,8 +97,8 @@ const formOptions: VbenFormProps = {
         childrenField: 'children',
         labelField: 'name',
         valueField: 'id',
-        toolbar: true,
-        search: true,
+        showSearch: true,
+        treeDefaultExpandAll: true,
         allowClear: true,
         api: async () => {
           const result = await deptStore.listDepartment(true, null, null, {

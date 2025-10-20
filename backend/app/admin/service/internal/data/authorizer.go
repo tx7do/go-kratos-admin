@@ -175,6 +175,7 @@ func (a *Authorizer) ResetPolicies(ctx context.Context) error {
 	return nil
 }
 
+// generateCasbinPolicies 生成 Casbin 策略
 func (a *Authorizer) generateCasbinPolicies(roles *userV1.ListRoleResponse, apis *adminV1.ListApiResourceResponse) (authzEngine.PolicyMap, error) {
 	var rules []casbin.PolicyRule
 	apiSet := make(map[uint32]struct{})
@@ -215,6 +216,7 @@ func (a *Authorizer) generateCasbinPolicies(roles *userV1.ListRoleResponse, apis
 	return policies, nil
 }
 
+// generateOpaPolicies 生成 OPA 策略
 func (a *Authorizer) generateOpaPolicies(roles *userV1.ListRoleResponse, apis *adminV1.ListApiResourceResponse) (authzEngine.PolicyMap, error) {
 	type OpaPolicyPath struct {
 		Pattern string `json:"pattern"`

@@ -1,12 +1,13 @@
 package schema
 
 import (
+	"time"
+
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/entsql"
 	"entgo.io/ent/schema"
 	"entgo.io/ent/schema/field"
 	"github.com/tx7do/go-utils/entgo/mixin"
-	"time"
 )
 
 // Tenant holds the schema definition for the Tenant entity.

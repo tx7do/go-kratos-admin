@@ -31,10 +31,10 @@ const (
 type UserAuthority int32
 
 const (
-	UserAuthority_GUEST         UserAuthority = 0 // 游客
-	UserAuthority_CUSTOMER_USER UserAuthority = 1 // 普通用户
-	UserAuthority_TENANT_ADMIN  UserAuthority = 2 // 租户管理
-	UserAuthority_SYS_ADMIN     UserAuthority = 3 // 系统管理员
+	UserAuthority_GUEST         UserAuthority = 0 // 游客，仅能访问系统公开资源（如首页、帮助中心），无业务操作及管理权限。
+	UserAuthority_CUSTOMER_USER UserAuthority = 1 // 普通用户，仅拥有个人业务操作权限，可访问授权的功能模块，无管理权限。
+	UserAuthority_TENANT_ADMIN  UserAuthority = 2 // 租户管理，拥有当前租户内的管理权限，可管理租户内用户、角色及业务资源，无系统级配置权限。
+	UserAuthority_SYS_ADMIN     UserAuthority = 3 // 系统管理员，拥有系统全量权限，可管理所有租户、用户、配置及资源
 )
 
 // Enum value maps for UserAuthority.

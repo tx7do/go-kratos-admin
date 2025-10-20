@@ -37,6 +37,8 @@ type Role struct {
 	Remark        *string                `protobuf:"bytes,6,opt,name=remark,proto3,oneof" json:"remark,omitempty"`                             // 备注
 	Menus         []uint32               `protobuf:"varint,7,rep,packed,name=menus,proto3" json:"menus,omitempty"`                             // 分配的菜单列表
 	Apis          []uint32               `protobuf:"varint,8,rep,packed,name=apis,proto3" json:"apis,omitempty"`                               // 分配的API列表
+	TenantId      *uint32                `protobuf:"varint,40,opt,name=tenant_id,json=tenantId,proto3,oneof" json:"tenant_id,omitempty"`       // 租户ID
+	TenantName    *string                `protobuf:"bytes,41,opt,name=tenant_name,json=tenantName,proto3,oneof" json:"tenant_name,omitempty"`  // 租户名称
 	ParentId      *uint32                `protobuf:"varint,50,opt,name=parent_id,json=parentId,proto3,oneof" json:"parent_id,omitempty"`       // 父节点ID
 	Children      []*Role                `protobuf:"bytes,51,rep,name=children,proto3" json:"children,omitempty"`                              // 子节点树
 	CreateBy      *uint32                `protobuf:"varint,100,opt,name=create_by,json=createBy,proto3,oneof" json:"create_by,omitempty"`      // 创建者ID
@@ -132,6 +134,20 @@ func (x *Role) GetApis() []uint32 {
 		return x.Apis
 	}
 	return nil
+}
+
+func (x *Role) GetTenantId() uint32 {
+	if x != nil && x.TenantId != nil {
+		return *x.TenantId
+	}
+	return 0
+}
+
+func (x *Role) GetTenantName() string {
+	if x != nil && x.TenantName != nil {
+		return *x.TenantName
+	}
+	return ""
 }
 
 func (x *Role) GetParentId() uint32 {
@@ -524,7 +540,7 @@ var File_user_service_v1_role_proto protoreflect.FileDescriptor
 
 const file_user_service_v1_role_proto_rawDesc = "" +
 	"\n" +
-	"\x1auser/service/v1/role.proto\x12\x0fuser.service.v1\x1a$gnostic/openapi/v3/annotations.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a google/protobuf/field_mask.proto\x1a\x1epagination/v1/pagination.proto\"\x81\b\n" +
+	"\x1auser/service/v1/role.proto\x12\x0fuser.service.v1\x1a$gnostic/openapi/v3/annotations.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a google/protobuf/field_mask.proto\x1a\x1epagination/v1/pagination.proto\"\x8b\t\n" +
 	"\x04Role\x12#\n" +
 	"\x02id\x18\x01 \x01(\rB\x0e\xbaG\v\x92\x02\b角色IDH\x00R\x02id\x88\x01\x01\x12+\n" +
 	"\x04name\x18\x02 \x01(\tB\x12\xbaG\x0f\x92\x02\f角色名称H\x01R\x04name\x88\x01\x01\x120\n" +
@@ -533,17 +549,20 @@ const file_user_service_v1_role_proto_rawDesc = "" +
 	"\x06status\x18\x05 \x01(\tB\"\xbaG\x1f\xc2\x01\x04\x12\x02ON\xc2\x01\x05\x12\x03OFF\x8a\x02\x04\x1a\x02ON\x92\x02\x06状态H\x04R\x06status\x88\x01\x01\x12)\n" +
 	"\x06remark\x18\x06 \x01(\tB\f\xbaG\t\x92\x02\x06备注H\x05R\x06remark\x88\x01\x01\x121\n" +
 	"\x05menus\x18\a \x03(\rB\x1b\xbaG\x18\x92\x02\x15分配的菜单列表R\x05menus\x12,\n" +
-	"\x04apis\x18\b \x03(\rB\x18\xbaG\x15\x92\x02\x12分配的API列表R\x04apis\x123\n" +
-	"\tparent_id\x182 \x01(\rB\x11\xbaG\x0e\x92\x02\v父节点IDH\x06R\bparentId\x88\x01\x01\x12E\n" +
+	"\x04apis\x18\b \x03(\rB\x18\xbaG\x15\x92\x02\x12分配的API列表R\x04apis\x120\n" +
+	"\ttenant_id\x18( \x01(\rB\x0e\xbaG\v\x92\x02\b租户IDH\x06R\btenantId\x88\x01\x01\x128\n" +
+	"\vtenant_name\x18) \x01(\tB\x12\xbaG\x0f\x92\x02\f租户名称H\aR\n" +
+	"tenantName\x88\x01\x01\x123\n" +
+	"\tparent_id\x182 \x01(\rB\x11\xbaG\x0e\x92\x02\v父节点IDH\bR\bparentId\x88\x01\x01\x12E\n" +
 	"\bchildren\x183 \x03(\v2\x15.user.service.v1.RoleB\x12\xbaG\x0f\x92\x02\f子节点树R\bchildren\x123\n" +
-	"\tcreate_by\x18d \x01(\rB\x11\xbaG\x0e\x92\x02\v创建者IDH\aR\bcreateBy\x88\x01\x01\x123\n" +
-	"\tupdate_by\x18e \x01(\rB\x11\xbaG\x0e\x92\x02\v更新者IDH\bR\bupdateBy\x88\x01\x01\x12U\n" +
-	"\vcreate_time\x18\xc8\x01 \x01(\v2\x1a.google.protobuf.TimestampB\x12\xbaG\x0f\x92\x02\f创建时间H\tR\n" +
+	"\tcreate_by\x18d \x01(\rB\x11\xbaG\x0e\x92\x02\v创建者IDH\tR\bcreateBy\x88\x01\x01\x123\n" +
+	"\tupdate_by\x18e \x01(\rB\x11\xbaG\x0e\x92\x02\v更新者IDH\n" +
+	"R\bupdateBy\x88\x01\x01\x12U\n" +
+	"\vcreate_time\x18\xc8\x01 \x01(\v2\x1a.google.protobuf.TimestampB\x12\xbaG\x0f\x92\x02\f创建时间H\vR\n" +
 	"createTime\x88\x01\x01\x12U\n" +
-	"\vupdate_time\x18\xc9\x01 \x01(\v2\x1a.google.protobuf.TimestampB\x12\xbaG\x0f\x92\x02\f更新时间H\n" +
-	"R\n" +
+	"\vupdate_time\x18\xc9\x01 \x01(\v2\x1a.google.protobuf.TimestampB\x12\xbaG\x0f\x92\x02\f更新时间H\fR\n" +
 	"updateTime\x88\x01\x01\x12U\n" +
-	"\vdelete_time\x18\xca\x01 \x01(\v2\x1a.google.protobuf.TimestampB\x12\xbaG\x0f\x92\x02\f删除时间H\vR\n" +
+	"\vdelete_time\x18\xca\x01 \x01(\v2\x1a.google.protobuf.TimestampB\x12\xbaG\x0f\x92\x02\f删除时间H\rR\n" +
 	"deleteTime\x88\x01\x01B\x05\n" +
 	"\x03_idB\a\n" +
 	"\x05_nameB\n" +
@@ -552,6 +571,9 @@ const file_user_service_v1_role_proto_rawDesc = "" +
 	"\x05_codeB\t\n" +
 	"\a_statusB\t\n" +
 	"\a_remarkB\f\n" +
+	"\n" +
+	"_tenant_idB\x0e\n" +
+	"\f_tenant_nameB\f\n" +
 	"\n" +
 	"_parent_idB\f\n" +
 	"\n" +

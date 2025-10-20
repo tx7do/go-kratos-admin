@@ -9,6 +9,16 @@ import type { Empty } from "../../../google/protobuf/empty.pb";
 import type { Timestamp } from "../../../google/protobuf/timestamp.pb";
 import type { PagingRequest } from "../../../pagination/v1/pagination.pb";
 
+/** API作用域 */
+export enum ApiScope {
+  /** API_SCOPE_INVALID - 无效 */
+  API_SCOPE_INVALID = "API_SCOPE_INVALID",
+  /** API_SCOPE_ADMIN - 管理后台API */
+  API_SCOPE_ADMIN = "API_SCOPE_ADMIN",
+  /** API_SCOPE_APP - 前台应用API */
+  API_SCOPE_APP = "API_SCOPE_APP",
+}
+
 /** API资源 */
 export interface ApiResource {
   /** 资源ID */
@@ -44,6 +54,11 @@ export interface ApiResource {
   /** 描述 */
   description?:
     | string
+    | null
+    | undefined;
+  /** 作用域 */
+  scope?:
+    | ApiScope
     | null
     | undefined;
   /** 创建者ID */

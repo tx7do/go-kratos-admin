@@ -41,6 +41,15 @@ const formOptions: VbenFormProps = {
       },
     },
     {
+      component: 'Input',
+      fieldName: 'code',
+      label: $t('page.role.code'),
+      componentProps: {
+        placeholder: $t('ui.placeholder.input'),
+        allowClear: true,
+      },
+    },
+    {
       component: 'Select',
       fieldName: 'status',
       label: $t('ui.table.status'),

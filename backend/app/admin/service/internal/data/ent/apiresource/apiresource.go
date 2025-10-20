@@ -3,6 +3,8 @@
 package apiresource
 
 import (
+	"fmt"
+
 	"entgo.io/ent/dialect/sql"
 )
 
@@ -33,6 +35,8 @@ const (
 	FieldPath = "path"
 	// FieldMethod holds the string denoting the method field in the database.
 	FieldMethod = "method"
+	// FieldScope holds the string denoting the scope field in the database.
+	FieldScope = "scope"
 	// Table holds the table name of the apiresource in the database.
 	Table = "sys_api_resources"
 )
@@ -51,6 +55,7 @@ var Columns = []string{
 	FieldOperation,
 	FieldPath,
 	FieldMethod,
+	FieldScope,
 }
 
 // ValidColumn reports if the column name is valid (part of the table columns).
@@ -67,6 +72,32 @@ var (
 	// IDValidator is a validator for the "id" field. It is called by the builders before save.
 	IDValidator func(uint32) error
 )
+
+// Scope defines the type for the "scope" enum field.
+type Scope string
+
+// ScopeAPI_SCOPE_ADMIN is the default value of the Scope enum.
+const DefaultScope = ScopeAPI_SCOPE_ADMIN
+
+// Scope values.
+const (
+	ScopeAPI_SCOPE_ADMIN Scope = "ADMIN"
+	ScopeAPI_SCOPE_APP   Scope = "APP"
+)
+
+func (s Scope) String() string {
+	return string(s)
+}
+
+// ScopeValidator is a validator for the "scope" field enum values. It is called by the builders before save.
+func ScopeValidator(s Scope) error {
+	switch s {
+	case ScopeAPI_SCOPE_ADMIN, ScopeAPI_SCOPE_APP:
+		return nil
+	default:
+		return fmt.Errorf("apiresource: invalid enum value for scope field: %q", s)
+	}
+}
 
 // OrderOption defines the ordering options for the ApiResource queries.
 type OrderOption func(*sql.Selector)
@@ -129,4 +160,9 @@ func ByPath(opts ...sql.OrderTermOption) OrderOption {
 // ByMethod orders the results by the method field.
 func ByMethod(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldMethod, opts...).ToFunc()
+}
+
+// ByScope orders the results by the scope field.
+func ByScope(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldScope, opts...).ToFunc()
 }

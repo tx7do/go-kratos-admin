@@ -239,6 +239,7 @@ func (r *RoleRepo) Create(ctx context.Context, req *userV1.CreateRoleRequest) er
 		SetNillableCode(req.Data.Code).
 		SetNillableStatus((*role.Status)(req.Data.Status)).
 		SetNillableRemark(req.Data.Remark).
+		SetNillableTenantID(req.Data.TenantId).
 		SetNillableCreateBy(req.Data.CreateBy).
 		SetNillableCreateTime(timeutil.TimestamppbToTime(req.Data.CreateTime))
 

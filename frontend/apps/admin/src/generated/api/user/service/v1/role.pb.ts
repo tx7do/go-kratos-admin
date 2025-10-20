@@ -41,6 +41,16 @@ export interface Role {
   menus: number[];
   /** 分配的API列表 */
   apis: number[];
+  /** 租户ID */
+  tenantId?:
+    | number
+    | null
+    | undefined;
+  /** 租户名称 */
+  tenantName?:
+    | string
+    | null
+    | undefined;
   /** 父节点ID */
   parentId?:
     | number

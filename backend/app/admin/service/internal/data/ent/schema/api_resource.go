@@ -57,6 +57,16 @@ func (ApiResource) Fields() []ent.Field {
 			Comment("请求方法").
 			Optional().
 			Nillable(),
+
+		field.Enum("scope").
+			Comment("作用域").
+			NamedValues(
+				"API_SCOPE_ADMIN", "ADMIN",
+				"API_SCOPE_APP", "APP",
+			).
+			Default("ADMIN").
+			Optional().
+			Nillable(),
 	}
 }
 

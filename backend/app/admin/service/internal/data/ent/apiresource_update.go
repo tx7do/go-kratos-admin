@@ -243,6 +243,26 @@ func (_u *ApiResourceUpdate) ClearMethod() *ApiResourceUpdate {
 	return _u
 }
 
+// SetScope sets the "scope" field.
+func (_u *ApiResourceUpdate) SetScope(v apiresource.Scope) *ApiResourceUpdate {
+	_u.mutation.SetScope(v)
+	return _u
+}
+
+// SetNillableScope sets the "scope" field if the given value is not nil.
+func (_u *ApiResourceUpdate) SetNillableScope(v *apiresource.Scope) *ApiResourceUpdate {
+	if v != nil {
+		_u.SetScope(*v)
+	}
+	return _u
+}
+
+// ClearScope clears the value of the "scope" field.
+func (_u *ApiResourceUpdate) ClearScope() *ApiResourceUpdate {
+	_u.mutation.ClearScope()
+	return _u
+}
+
 // Mutation returns the ApiResourceMutation object of the builder.
 func (_u *ApiResourceUpdate) Mutation() *ApiResourceMutation {
 	return _u.mutation
@@ -275,6 +295,16 @@ func (_u *ApiResourceUpdate) ExecX(ctx context.Context) {
 	}
 }
 
+// check runs all checks and user-defined validators on the builder.
+func (_u *ApiResourceUpdate) check() error {
+	if v, ok := _u.mutation.Scope(); ok {
+		if err := apiresource.ScopeValidator(v); err != nil {
+			return &ValidationError{Name: "scope", err: fmt.Errorf(`ent: validator failed for field "ApiResource.scope": %w`, err)}
+		}
+	}
+	return nil
+}
+
 // Modify adds a statement modifier for attaching custom logic to the UPDATE statement.
 func (_u *ApiResourceUpdate) Modify(modifiers ...func(u *sql.UpdateBuilder)) *ApiResourceUpdate {
 	_u.modifiers = append(_u.modifiers, modifiers...)
@@ -282,6 +312,9 @@ func (_u *ApiResourceUpdate) Modify(modifiers ...func(u *sql.UpdateBuilder)) *Ap
 }
 
 func (_u *ApiResourceUpdate) sqlSave(ctx context.Context) (_node int, err error) {
+	if err := _u.check(); err != nil {
+		return _node, err
+	}
 	_spec := sqlgraph.NewUpdateSpec(apiresource.Table, apiresource.Columns, sqlgraph.NewFieldSpec(apiresource.FieldID, field.TypeUint32))
 	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
@@ -358,6 +391,12 @@ func (_u *ApiResourceUpdate) sqlSave(ctx context.Context) (_node int, err error)
 	}
 	if _u.mutation.MethodCleared() {
 		_spec.ClearField(apiresource.FieldMethod, field.TypeString)
+	}
+	if value, ok := _u.mutation.Scope(); ok {
+		_spec.SetField(apiresource.FieldScope, field.TypeEnum, value)
+	}
+	if _u.mutation.ScopeCleared() {
+		_spec.ClearField(apiresource.FieldScope, field.TypeEnum)
 	}
 	_spec.AddModifiers(_u.modifiers...)
 	if _node, err = sqlgraph.UpdateNodes(ctx, _u.driver, _spec); err != nil {
@@ -595,6 +634,26 @@ func (_u *ApiResourceUpdateOne) ClearMethod() *ApiResourceUpdateOne {
 	return _u
 }
 
+// SetScope sets the "scope" field.
+func (_u *ApiResourceUpdateOne) SetScope(v apiresource.Scope) *ApiResourceUpdateOne {
+	_u.mutation.SetScope(v)
+	return _u
+}
+
+// SetNillableScope sets the "scope" field if the given value is not nil.
+func (_u *ApiResourceUpdateOne) SetNillableScope(v *apiresource.Scope) *ApiResourceUpdateOne {
+	if v != nil {
+		_u.SetScope(*v)
+	}
+	return _u
+}
+
+// ClearScope clears the value of the "scope" field.
+func (_u *ApiResourceUpdateOne) ClearScope() *ApiResourceUpdateOne {
+	_u.mutation.ClearScope()
+	return _u
+}
+
 // Mutation returns the ApiResourceMutation object of the builder.
 func (_u *ApiResourceUpdateOne) Mutation() *ApiResourceMutation {
 	return _u.mutation
@@ -640,6 +699,16 @@ func (_u *ApiResourceUpdateOne) ExecX(ctx context.Context) {
 	}
 }
 
+// check runs all checks and user-defined validators on the builder.
+func (_u *ApiResourceUpdateOne) check() error {
+	if v, ok := _u.mutation.Scope(); ok {
+		if err := apiresource.ScopeValidator(v); err != nil {
+			return &ValidationError{Name: "scope", err: fmt.Errorf(`ent: validator failed for field "ApiResource.scope": %w`, err)}
+		}
+	}
+	return nil
+}
+
 // Modify adds a statement modifier for attaching custom logic to the UPDATE statement.
 func (_u *ApiResourceUpdateOne) Modify(modifiers ...func(u *sql.UpdateBuilder)) *ApiResourceUpdateOne {
 	_u.modifiers = append(_u.modifiers, modifiers...)
@@ -647,6 +716,9 @@ func (_u *ApiResourceUpdateOne) Modify(modifiers ...func(u *sql.UpdateBuilder)) 
 }
 
 func (_u *ApiResourceUpdateOne) sqlSave(ctx context.Context) (_node *ApiResource, err error) {
+	if err := _u.check(); err != nil {
+		return _node, err
+	}
 	_spec := sqlgraph.NewUpdateSpec(apiresource.Table, apiresource.Columns, sqlgraph.NewFieldSpec(apiresource.FieldID, field.TypeUint32))
 	id, ok := _u.mutation.ID()
 	if !ok {
@@ -740,6 +812,12 @@ func (_u *ApiResourceUpdateOne) sqlSave(ctx context.Context) (_node *ApiResource
 	}
 	if _u.mutation.MethodCleared() {
 		_spec.ClearField(apiresource.FieldMethod, field.TypeString)
+	}
+	if value, ok := _u.mutation.Scope(); ok {
+		_spec.SetField(apiresource.FieldScope, field.TypeEnum, value)
+	}
+	if _u.mutation.ScopeCleared() {
+		_spec.ClearField(apiresource.FieldScope, field.TypeEnum)
 	}
 	_spec.AddModifiers(_u.modifiers...)
 	_node = &ApiResource{config: _u.config}

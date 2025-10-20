@@ -6,6 +6,7 @@ import (
 	"entgo.io/ent/schema"
 	"entgo.io/ent/schema/field"
 	"github.com/tx7do/go-utils/entgo/mixin"
+
 	appmixin "kratos-admin/pkg/entgo/mixin"
 )
 

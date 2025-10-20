@@ -36,9 +36,9 @@ require (
 	github.com/tx7do/kratos-authn/engine/jwt v1.1.8
 	github.com/tx7do/kratos-authn/middleware v1.1.9
 	github.com/tx7do/kratos-authz v1.1.6
-	github.com/tx7do/kratos-authz/engine/casbin v1.1.9
-	github.com/tx7do/kratos-authz/engine/opa v1.1.12
-	github.com/tx7do/kratos-authz/middleware v1.1.9
+	github.com/tx7do/kratos-authz/engine/casbin v1.1.10
+	github.com/tx7do/kratos-authz/engine/opa v1.1.13
+	github.com/tx7do/kratos-authz/middleware v1.1.11
 	github.com/tx7do/kratos-bootstrap/api v0.0.27
 	github.com/tx7do/kratos-bootstrap/bootstrap v0.0.20
 	github.com/tx7do/kratos-bootstrap/cache/redis v0.0.12
@@ -48,10 +48,10 @@ require (
 	github.com/tx7do/kratos-transport v1.1.17
 	github.com/tx7do/kratos-transport/transport/asynq v1.2.34
 	github.com/tx7do/kratos-transport/transport/sse v1.2.24
-	google.golang.org/genproto v0.0.0-20250826171959-ef028d996bc1
-	google.golang.org/genproto/googleapis/api v0.0.0-20250922171735-9219d122eba9
-	google.golang.org/grpc v1.75.1
-	google.golang.org/protobuf v1.36.9
+	google.golang.org/genproto v0.0.0-20251014184007-4626949a642f
+	google.golang.org/genproto/googleapis/api v0.0.0-20251014184007-4626949a642f
+	google.golang.org/grpc v1.76.0
+	google.golang.org/protobuf v1.36.10
 )
 
 require (
@@ -94,8 +94,8 @@ require (
 	github.com/bufbuild/protocompile v0.14.1 // indirect
 	github.com/buger/jsonparser v1.1.1 // indirect
 	github.com/bwmarrin/snowflake v0.3.0 // indirect
-	github.com/casbin/casbin/v2 v2.121.0 // indirect
-	github.com/casbin/govaluate v1.9.0 // indirect
+	github.com/casbin/casbin/v2 v2.128.0 // indirect
+	github.com/casbin/govaluate v1.10.0 // indirect
 	github.com/cenkalti/backoff/v4 v4.3.0 // indirect
 	github.com/cenkalti/backoff/v5 v5.0.3 // indirect
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
@@ -144,7 +144,7 @@ require (
 	github.com/gorilla/mux v1.8.1 // indirect
 	github.com/gorilla/websocket v1.5.4-0.20250319132907-e064f32e3674 // indirect
 	github.com/grpc-ecosystem/go-grpc-middleware v1.4.0 // indirect
-	github.com/grpc-ecosystem/grpc-gateway/v2 v2.27.2 // indirect
+	github.com/grpc-ecosystem/grpc-gateway/v2 v2.27.3 // indirect
 	github.com/hashicorp/consul/api v1.32.1 // indirect
 	github.com/hashicorp/errwrap v1.1.0 // indirect
 	github.com/hashicorp/go-cleanhttp v0.5.2 // indirect
@@ -165,14 +165,14 @@ require (
 	github.com/josharian/intern v1.0.0 // indirect
 	github.com/json-iterator/go v1.1.12 // indirect
 	github.com/karlseguin/ccache/v2 v2.0.8 // indirect
-	github.com/klauspost/compress v1.18.0 // indirect
+	github.com/klauspost/compress v1.18.1 // indirect
 	github.com/klauspost/cpuid/v2 v2.3.0 // indirect
 	github.com/lestrrat-go/blackmagic v1.0.4 // indirect
 	github.com/lestrrat-go/dsig v1.0.0 // indirect
 	github.com/lestrrat-go/dsig-secp256k1 v1.0.0 // indirect
 	github.com/lestrrat-go/httpcc v1.0.1 // indirect
 	github.com/lestrrat-go/httprc/v3 v3.0.1 // indirect
-	github.com/lestrrat-go/jwx/v3 v3.0.11 // indirect
+	github.com/lestrrat-go/jwx/v3 v3.0.12 // indirect
 	github.com/lestrrat-go/option v1.0.1 // indirect
 	github.com/lestrrat-go/option/v2 v2.0.0 // indirect
 	github.com/lithammer/shortuuid/v4 v4.2.0 // indirect
@@ -213,7 +213,7 @@ require (
 	github.com/power-devops/perfstat v0.0.0-20240221224432-82ca36839d55 // indirect
 	github.com/prometheus/client_golang v1.23.2 // indirect
 	github.com/prometheus/client_model v0.6.2 // indirect
-	github.com/prometheus/common v0.66.1 // indirect
+	github.com/prometheus/common v0.67.1 // indirect
 	github.com/prometheus/procfs v0.17.0 // indirect
 	github.com/rcrowley/go-metrics v0.0.0-20250401214520-65e299d6c5c9 // indirect
 	github.com/redis/go-redis/extra/rediscmd/v9 v9.13.0 // indirect
@@ -289,16 +289,16 @@ require (
 	go.uber.org/zap v1.27.0 // indirect
 	go.yaml.in/yaml/v2 v2.4.3 // indirect
 	go.yaml.in/yaml/v3 v3.0.4 // indirect
-	golang.org/x/crypto v0.42.0 // indirect
+	golang.org/x/crypto v0.43.0 // indirect
 	golang.org/x/exp v0.0.0-20250819193227-8b4c13bb791b // indirect
 	golang.org/x/mod v0.28.0 // indirect
-	golang.org/x/net v0.44.0 // indirect
+	golang.org/x/net v0.46.0 // indirect
 	golang.org/x/sync v0.17.0 // indirect
 	golang.org/x/sys v0.37.0 // indirect
 	golang.org/x/text v0.30.0 // indirect
 	golang.org/x/time v0.13.0 // indirect
 	golang.org/x/tools v0.37.0 // indirect
-	google.golang.org/genproto/googleapis/rpc v0.0.0-20250922171735-9219d122eba9 // indirect
+	google.golang.org/genproto/googleapis/rpc v0.0.0-20251014184007-4626949a642f // indirect
 	gopkg.in/cenkalti/backoff.v1 v1.1.0 // indirect
 	gopkg.in/ini.v1 v1.67.0 // indirect
 	gopkg.in/natefinch/lumberjack.v2 v2.2.1 // indirect

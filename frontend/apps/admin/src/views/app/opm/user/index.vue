@@ -22,7 +22,6 @@ import {
   statusToName,
   useDepartmentStore,
   useOrganizationStore,
-  usePositionStore,
   useRoleStore,
   useUserStore,
 } from '#/stores';

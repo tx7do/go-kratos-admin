@@ -1,8 +1,10 @@
 <script lang="ts" setup>
-import { computed, ref } from 'vue';
+import type { ChangeEvent } from 'ant-design-vue/es/_util/EventInterface';
+
+import { computed, reactive, ref } from 'vue';
 
 import { useVbenDrawer } from '@vben/common-ui';
-import { $t } from '@vben/locales';
+import { $t, $te } from '@vben/locales';
 
 import lucide from '@iconify/json/json/lucide.json';
 import { addCollection } from '@iconify/vue';
@@ -25,6 +27,8 @@ const menuStore = useMenuStore();
 addCollection(lucide);
 
 const data = ref();
+
+const titleSuffix = reactive({ title: '' });
 
 const getTitle = computed(() =>
   data.value?.create
@@ -61,9 +65,16 @@ const [BaseForm, baseFormApi] = useVbenForm({
       fieldName: 'meta.title',
       label: $t('page.menu.title'),
       rules: 'required',
-      componentProps: {
-        placeholder: $t('ui.placeholder.input'),
-        allowClear: true,
+      componentProps() {
+        // 不需要处理多语言时就无需这么做
+        return {
+          placeholder: $t('ui.placeholder.input'),
+          allowClear: true,
+          addonAfter: titleSuffix.title,
+          onChange({ target: { value } }: ChangeEvent) {
+            titleSuffix.title = value && $te(value) ? $t(value) : '';
+          },
+        };
       },
     },
     {
@@ -335,6 +346,10 @@ const [Drawer, drawerApi] = useVbenDrawer({
         const authority = data.value.row.meta.authority;
         data.value.row.meta.authority = authority.join(',');
       }
+
+      titleSuffix.title = data.value?.row?.meta?.title
+        ? $t(data.value?.row?.meta?.title)
+        : '';
 
       // 为表单赋值
       baseFormApi.setValues(data.value?.row);

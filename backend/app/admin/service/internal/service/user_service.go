@@ -16,6 +16,7 @@ import (
 	userV1 "kratos-admin/api/gen/go/user/service/v1"
 
 	"kratos-admin/pkg/middleware/auth"
+	"kratos-admin/pkg/utils/name_set"
 )
 
 type UserService struct {
@@ -64,35 +65,138 @@ func (s *UserService) init() {
 }
 
 func (s *UserService) List(ctx context.Context, req *pagination.PagingRequest) (*userV1.ListUserResponse, error) {
-	return s.userRepo.List(ctx, req)
+	resp, err := s.userRepo.List(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+
+	var orgSet = make(name_set.UserNameSetMap)
+	var deptSet = make(name_set.UserNameSetMap)
+	var posSet = make(name_set.UserNameSetMap)
+	var roleSet = make(name_set.UserNameSetMap)
+
+	InitUserNameSetMap(resp.Items, &orgSet, &deptSet, &posSet, &roleSet)
+
+	QueryOrganizationInfoFromRepo(ctx, s.organizationRepo, &orgSet)
+	QueryDepartmentInfoFromRepo(ctx, s.departmentRepo, &deptSet)
+	QueryPositionInfoFromRepo(ctx, s.positionRepo, &posSet)
+	QueryRoleInfoFromRepo(ctx, s.roleRepo, &roleSet)
+
+	for k, v := range orgSet {
+		if v == nil {
+			continue
+		}
+
+		for i := 0; i < len(resp.Items); i++ {
+			if resp.Items[i].OrgId != nil && resp.Items[i].GetOrgId() == k {
+				resp.Items[i].OrgName = &v.UserName
+			}
+		}
+	}
+	for k, v := range deptSet {
+		if v == nil {
+			continue
+		}
+
+		for i := 0; i < len(resp.Items); i++ {
+			if resp.Items[i].DepartmentId != nil && resp.Items[i].GetDepartmentId() == k {
+				resp.Items[i].DepartmentName = &v.UserName
+			}
+		}
+	}
+	for k, v := range posSet {
+		if v == nil {
+			continue
+		}
+
+		for i := 0; i < len(resp.Items); i++ {
+			if resp.Items[i].PositionId != nil && resp.Items[i].GetPositionId() == k {
+				resp.Items[i].PositionName = &v.UserName
+			}
+		}
+	}
+	for k, v := range roleSet {
+		if v == nil {
+			continue
+		}
+
+		for i := 0; i < len(resp.Items); i++ {
+			for _, roleId := range resp.Items[i].RoleIds {
+				if roleId == k {
+					resp.Items[i].RoleNames = append(resp.Items[i].RoleNames, v.UserName)
+					resp.Items[i].Roles = append(resp.Items[i].Roles, v.Code)
+				}
+			}
+		}
+	}
+
+	return resp, nil
 }
 
 func (s *UserService) Get(ctx context.Context, req *userV1.GetUserRequest) (*userV1.User, error) {
-	user, err := s.userRepo.Get(ctx, req.GetId())
+	resp, err := s.userRepo.Get(ctx, req.GetId())
 	if err != nil {
 		return nil, err
 	}
 
-	//role, err := s.roleRepo.Get(ctx, user.GetRoleId())
-	//if err == nil && role != nil {
-	//	user.Roles = append(user.Roles, role.GetCode())
-	//}
+	if resp.OrgId != nil {
+		organization, err := s.organizationRepo.Get(ctx, &userV1.GetOrganizationRequest{Id: resp.GetOrgId()})
+		if err == nil && organization != nil {
+			resp.OrgName = organization.Name
+		} else {
+			s.log.Warnf("Get user organization failed: %v", err)
+		}
+	}
 
-	return user, nil
+	if resp.DepartmentId != nil {
+		department, err := s.departmentRepo.Get(ctx, &userV1.GetDepartmentRequest{Id: resp.GetDepartmentId()})
+		if err == nil && department != nil {
+			resp.DepartmentName = department.Name
+		} else {
+			s.log.Warnf("Get user department failed: %v", err)
+		}
+	}
+
+	if resp.PositionId != nil {
+		position, err := s.positionRepo.Get(ctx, &userV1.GetPositionRequest{Id: resp.GetPositionId()})
+		if err == nil && position != nil {
+			resp.PositionName = position.Name
+		} else {
+			s.log.Warnf("Get user position failed: %v", err)
+		}
+	}
+
+	if len(resp.RoleIds) > 0 {
+		roles, err := s.roleRepo.GetRolesByRoleIds(ctx, resp.RoleIds)
+		if err == nil && roles != nil {
+			var roleNames []string
+			var roleCodes []string
+			for _, role := range roles {
+				roleNames = append(roleNames, role.GetName())
+				roleCodes = append(roleCodes, role.GetCode())
+			}
+			resp.RoleNames = roleNames
+			resp.Roles = roleCodes
+		} else {
+			s.log.Warnf("Get user roles failed: %v", err)
+		}
+	}
+
+	return resp, nil
 }
 
 func (s *UserService) GetUserByUserName(ctx context.Context, req *userV1.GetUserByUserNameRequest) (*userV1.User, error) {
-	user, err := s.userRepo.GetUserByUserName(ctx, req.GetUsername())
+	resp, err := s.userRepo.GetUserByUserName(ctx, req.GetUsername())
 	if err != nil {
 		return nil, err
 	}
 
-	//role, err := s.roleRepo.Get(ctx, user.GetRoleId())
+	//role, err := s.roleRepo.Get(ctx, resp.GetRoleId())
 	//if err == nil && role != nil {
-	//	user.Roles = append(user.Roles, role.GetCode())
+	//	resp.Roles = append(resp.Roles, role.GetCode())
 	//}
 
-	return user, nil
+	return resp, nil
 }
 
 func (s *UserService) Create(ctx context.Context, req *userV1.CreateUserRequest) (*emptypb.Empty, error) {

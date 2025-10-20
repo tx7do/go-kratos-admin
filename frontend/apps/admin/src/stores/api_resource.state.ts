@@ -1,3 +1,5 @@
+import type { ApiResource } from '#/generated/api/admin/service/v1/i_api_resource.pb';
+
 import { defineStore } from 'pinia';
 
 import { defApiResourceService } from '#/services';
@@ -93,3 +95,35 @@ export const methodList = [
   { value: 'PUT', label: 'PUT' },
   { value: 'DELETE', label: 'DELETE' },
 ];
+
+interface ApiResourceTreeDataNode {
+  key: number | string; // 节点唯一标识（父节点用module，子节点用api.id）
+  title: string; // 节点显示文本（父节点用module，子节点用api.name）
+  children?: ApiResourceTreeDataNode[]; // 子节点（仅父节点有）
+  disabled?: boolean;
+  apiInfo?: ApiResource;
+}
+
+export function convertApiToTree(
+  rawApiList: ApiResource[],
+): ApiResourceTreeDataNode[] {
+  const moduleMap = new Map<string, ApiResource[]>();
+  rawApiList.forEach((api) => {
+    const moduleName =
+      typeof api.moduleDescription === 'string' ? api.moduleDescription : '';
+    if (!moduleMap.has(moduleName)) {
+      moduleMap.set(moduleName, []);
+    }
+    moduleMap.get(moduleName)?.push(api);
+  });
+
+  return [...moduleMap.entries()].map(([moduleName, apiList]) => ({
+    key: `module-${moduleName}`,
+    title: moduleName,
+    children: apiList.map((api, index) => ({
+      key: api.id ?? `api-default-${index}`,
+      title: `${api.description}（${api.method}）`,
+      apiInfo: api,
+    })),
+  }));
+}

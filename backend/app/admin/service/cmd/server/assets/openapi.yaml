@@ -4767,9 +4767,16 @@ components:
                     description: 租户名称
                 orgId:
                     type: integer
-                    description: 部门ID
+                    description: 组织ID
                     format: uint32
                 orgName:
+                    type: string
+                    description: 组织名称
+                departmentId:
+                    type: integer
+                    description: 部门ID
+                    format: uint32
+                departmentName:
                     type: string
                     description: 部门名称
                 positionId:
@@ -4783,6 +4790,22 @@ components:
                     type: integer
                     description: 工号
                     format: uint32
+                roleIds:
+                    type: array
+                    items:
+                        type: integer
+                        format: uint32
+                    description: 角色ID列表
+                roles:
+                    type: array
+                    items:
+                        type: string
+                    description: 角色码列表
+                roleNames:
+                    type: array
+                    items:
+                        type: string
+                    description: 角色名称列表
                 username:
                     type: string
                     description: 用户名
@@ -4848,22 +4871,6 @@ components:
                     default: CUSTOMER_USER
                     description: 权限
                     format: enum
-                roleIds:
-                    type: array
-                    items:
-                        type: integer
-                        format: uint32
-                    description: 角色ID列表
-                roles:
-                    type: array
-                    items:
-                        type: string
-                    description: 角色码列表
-                roleNames:
-                    type: array
-                    items:
-                        type: string
-                    description: 角色名称列表
                 createBy:
                     type: integer
                     description: 创建者ID

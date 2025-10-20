@@ -68,103 +68,106 @@ message User {
   optional uint32 tenant_id = 2 [json_name = "tenantId", (gnostic.openapi.v3.property) = {description: "租户ID"}];  // 租户ID
   optional string tenant_name = 3 [json_name = "tenantName", (gnostic.openapi.v3.property) = {description: "租户名称"}];  // 租户名称
 
-  optional uint32 org_id = 4 [json_name = "orgId", (gnostic.openapi.v3.property) = {description: "部门ID"}];  // 部门ID
-  optional string org_name = 5 [json_name = "orgName", (gnostic.openapi.v3.property) = {description: "部门名称"}];  // 部门名称
+  optional uint32 org_id = 4 [json_name = "orgId", (gnostic.openapi.v3.property) = {description: "组织ID"}];  // 组织ID
+  optional string org_name = 5 [json_name = "orgName", (gnostic.openapi.v3.property) = {description: "组织名称"}];  // 组织名称
 
-  optional uint32 position_id = 6 [json_name = "positionId", (gnostic.openapi.v3.property) = {description: "职位ID"}];  // 职位ID
-  optional string position_name = 7 [json_name = "positionName", (gnostic.openapi.v3.property) = {description: "职位名称"}];  // 职位名称
+  optional uint32 department_id = 6 [json_name = "departmentId", (gnostic.openapi.v3.property) = {description: "部门ID"}];  // 部门ID
+  optional string department_name = 7 [json_name = "departmentName", (gnostic.openapi.v3.property) = {description: "部门名称"}];  // 部门名称
 
-  optional uint32 work_id = 8 [json_name = "workId", (gnostic.openapi.v3.property) = {description: "工号"}];  // 工号
+  optional uint32 position_id = 8 [json_name = "positionId", (gnostic.openapi.v3.property) = {description: "职位ID"}];  // 职位ID
+  optional string position_name = 9 [json_name = "positionName", (gnostic.openapi.v3.property) = {description: "职位名称"}];  // 职位名称
 
-  optional string username = 10 [
+  optional uint32 work_id = 10 [json_name = "workId", (gnostic.openapi.v3.property) = {description: "工号"}];  // 工号
+
+  //  optional uint32 role_id = 11 [json_name = "roleId", (gnostic.openapi.v3.property) = {description: "角色ID"}];  // 角色ID
+  repeated uint32 role_ids = 12 [json_name = "roleIds", (gnostic.openapi.v3.property) = {description: "角色ID列表"}];  // 角色ID列表
+
+  repeated string roles = 13 [(gnostic.openapi.v3.property) = {
+    description: "角色码列表"
+  }]; // 角色码列表
+
+  repeated string role_names = 14 [(gnostic.openapi.v3.property) = {
+    description: "角色名称列表"
+  }]; // 角色名称列表
+
+  optional string username = 20 [
     json_name = "username",
     (gnostic.openapi.v3.property) = {description: "用户名"}
   ]; // 用户名
 
-  optional string nickname = 11 [
+  optional string nickname = 21 [
     json_name = "nickname",
     (gnostic.openapi.v3.property) = {description: "昵称"}
   ]; // 昵称
 
-  optional string realname = 12 [
+  optional string realname = 22 [
     json_name = "realname",
     (gnostic.openapi.v3.property) = {description: "真实姓名"}
   ]; // 真实姓名
 
-  optional string avatar = 13 [
+  optional string avatar = 23 [
     json_name = "avatar",
     (gnostic.openapi.v3.property) = {description: "头像"}
   ]; // 头像
 
-  optional string email = 14 [
+  optional string email = 24 [
     json_name = "email",
     (gnostic.openapi.v3.property) = {description: "邮箱"}
   ]; // 邮箱
 
-  optional string mobile = 15 [
+  optional string mobile = 25 [
     json_name = "mobile",
     (gnostic.openapi.v3.property) = {description: "手机号"}
   ]; // 手机号
 
-  optional string telephone = 16 [
+  optional string telephone = 26 [
     json_name = "telephone",
     (gnostic.openapi.v3.property) = {description: "座机号"}
   ]; // 座机号
 
-  optional UserGender gender = 17 [
+  optional UserGender gender = 27 [
     json_name = "gender",
     (gnostic.openapi.v3.property) = {description: "性别"}
   ]; // 性别
 
-  optional string address = 18 [
+  optional string address = 28 [
     json_name = "address",
     (gnostic.openapi.v3.property) = {description: "住址"}
   ]; // 住址
 
-  optional string region = 19 [
+  optional string region = 29 [
     json_name = "region",
     (gnostic.openapi.v3.property) = {description: "国家地区"}
   ]; // 国家地区
 
-  optional string description = 20 [
+  optional string description = 30 [
     json_name = "description",
     (gnostic.openapi.v3.property) = {description: "个人描述"}
   ]; // 个人描述
 
-  optional string remark = 21 [
+  optional string remark = 31 [
     json_name = "remark",
     (gnostic.openapi.v3.property) = {description: "备注"}
   ]; // 备注
 
-  optional google.protobuf.Timestamp last_login_time = 30 [
+  optional google.protobuf.Timestamp last_login_time = 32 [
     json_name = "lastLoginTime",
     (gnostic.openapi.v3.property) = {description: "最后登录时间"}
   ]; // 最后登录时间
 
-  optional string last_login_ip = 31 [
+  optional string last_login_ip = 33 [
     json_name = "lastLoginIp",
     (gnostic.openapi.v3.property) = {description: "最后登录IP"}
   ]; // 最后登录IP
 
-  optional UserStatus status = 32 [(gnostic.openapi.v3.property) = {
+  optional UserStatus status = 34 [(gnostic.openapi.v3.property) = {
     description: "用户状态"
   }]; // 用户状态
 
-  optional UserAuthority authority = 33 [(gnostic.openapi.v3.property) = {
+  optional UserAuthority authority = 35 [(gnostic.openapi.v3.property) = {
     description: "权限"
     default: {string: "CUSTOMER_USER"}
   }]; // 权限
-
-//  optional uint32 role_id = 40 [json_name = "roleId", (gnostic.openapi.v3.property) = {description: "角色ID"}];  // 角色ID
-  repeated uint32 role_ids = 41 [json_name = "roleIds", (gnostic.openapi.v3.property) = {description: "角色ID列表"}];  // 角色ID列表
-
-  repeated string roles = 42 [(gnostic.openapi.v3.property) = {
-    description: "角色码列表"
-  }]; // 角色码列表
-
-  repeated string role_names = 43 [(gnostic.openapi.v3.property) = {
-    description: "角色名称列表"
-  }]; // 角色名称列表
 
   optional uint32 create_by = 100 [json_name = "createBy", (gnostic.openapi.v3.property) = {description: "创建者ID"}]; // 创建者ID
   optional uint32 update_by = 101 [json_name = "updateBy", (gnostic.openapi.v3.property) = {description: "更新者ID"}]; // 更新者ID

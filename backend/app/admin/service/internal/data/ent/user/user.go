@@ -59,6 +59,8 @@ const (
 	FieldLastLoginIP = "last_login_ip"
 	// FieldOrgID holds the string denoting the org_id field in the database.
 	FieldOrgID = "org_id"
+	// FieldDepartmentID holds the string denoting the department_id field in the database.
+	FieldDepartmentID = "department_id"
 	// FieldPositionID holds the string denoting the position_id field in the database.
 	FieldPositionID = "position_id"
 	// FieldWorkID holds the string denoting the work_id field in the database.
@@ -95,6 +97,7 @@ var Columns = []string{
 	FieldLastLoginTime,
 	FieldLastLoginIP,
 	FieldOrgID,
+	FieldDepartmentID,
 	FieldPositionID,
 	FieldWorkID,
 	FieldRoleIds,
@@ -350,6 +353,11 @@ func ByLastLoginIP(opts ...sql.OrderTermOption) OrderOption {
 // ByOrgID orders the results by the org_id field.
 func ByOrgID(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldOrgID, opts...).ToFunc()
+}
+
+// ByDepartmentID orders the results by the department_id field.
+func ByDepartmentID(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldDepartmentID, opts...).ToFunc()
 }
 
 // ByPositionID orders the results by the position_id field.

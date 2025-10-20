@@ -431,6 +431,33 @@ func (_u *UserUpdate) ClearOrgID() *UserUpdate {
 	return _u
 }
 
+// SetDepartmentID sets the "department_id" field.
+func (_u *UserUpdate) SetDepartmentID(v uint32) *UserUpdate {
+	_u.mutation.ResetDepartmentID()
+	_u.mutation.SetDepartmentID(v)
+	return _u
+}
+
+// SetNillableDepartmentID sets the "department_id" field if the given value is not nil.
+func (_u *UserUpdate) SetNillableDepartmentID(v *uint32) *UserUpdate {
+	if v != nil {
+		_u.SetDepartmentID(*v)
+	}
+	return _u
+}
+
+// AddDepartmentID adds value to the "department_id" field.
+func (_u *UserUpdate) AddDepartmentID(v int32) *UserUpdate {
+	_u.mutation.AddDepartmentID(v)
+	return _u
+}
+
+// ClearDepartmentID clears the value of the "department_id" field.
+func (_u *UserUpdate) ClearDepartmentID() *UserUpdate {
+	_u.mutation.ClearDepartmentID()
+	return _u
+}
+
 // SetPositionID sets the "position_id" field.
 func (_u *UserUpdate) SetPositionID(v uint32) *UserUpdate {
 	_u.mutation.ResetPositionID()
@@ -749,6 +776,15 @@ func (_u *UserUpdate) sqlSave(ctx context.Context) (_node int, err error) {
 	}
 	if _u.mutation.OrgIDCleared() {
 		_spec.ClearField(user.FieldOrgID, field.TypeUint32)
+	}
+	if value, ok := _u.mutation.DepartmentID(); ok {
+		_spec.SetField(user.FieldDepartmentID, field.TypeUint32, value)
+	}
+	if value, ok := _u.mutation.AddedDepartmentID(); ok {
+		_spec.AddField(user.FieldDepartmentID, field.TypeUint32, value)
+	}
+	if _u.mutation.DepartmentIDCleared() {
+		_spec.ClearField(user.FieldDepartmentID, field.TypeUint32)
 	}
 	if value, ok := _u.mutation.PositionID(); ok {
 		_spec.SetField(user.FieldPositionID, field.TypeUint32, value)
@@ -1202,6 +1238,33 @@ func (_u *UserUpdateOne) ClearOrgID() *UserUpdateOne {
 	return _u
 }
 
+// SetDepartmentID sets the "department_id" field.
+func (_u *UserUpdateOne) SetDepartmentID(v uint32) *UserUpdateOne {
+	_u.mutation.ResetDepartmentID()
+	_u.mutation.SetDepartmentID(v)
+	return _u
+}
+
+// SetNillableDepartmentID sets the "department_id" field if the given value is not nil.
+func (_u *UserUpdateOne) SetNillableDepartmentID(v *uint32) *UserUpdateOne {
+	if v != nil {
+		_u.SetDepartmentID(*v)
+	}
+	return _u
+}
+
+// AddDepartmentID adds value to the "department_id" field.
+func (_u *UserUpdateOne) AddDepartmentID(v int32) *UserUpdateOne {
+	_u.mutation.AddDepartmentID(v)
+	return _u
+}
+
+// ClearDepartmentID clears the value of the "department_id" field.
+func (_u *UserUpdateOne) ClearDepartmentID() *UserUpdateOne {
+	_u.mutation.ClearDepartmentID()
+	return _u
+}
+
 // SetPositionID sets the "position_id" field.
 func (_u *UserUpdateOne) SetPositionID(v uint32) *UserUpdateOne {
 	_u.mutation.ResetPositionID()
@@ -1550,6 +1613,15 @@ func (_u *UserUpdateOne) sqlSave(ctx context.Context) (_node *User, err error) {
 	}
 	if _u.mutation.OrgIDCleared() {
 		_spec.ClearField(user.FieldOrgID, field.TypeUint32)
+	}
+	if value, ok := _u.mutation.DepartmentID(); ok {
+		_spec.SetField(user.FieldDepartmentID, field.TypeUint32, value)
+	}
+	if value, ok := _u.mutation.AddedDepartmentID(); ok {
+		_spec.AddField(user.FieldDepartmentID, field.TypeUint32, value)
+	}
+	if _u.mutation.DepartmentIDCleared() {
+		_spec.ClearField(user.FieldDepartmentID, field.TypeUint32)
 	}
 	if value, ok := _u.mutation.PositionID(); ok {
 		_spec.SetField(user.FieldPositionID, field.TypeUint32, value)

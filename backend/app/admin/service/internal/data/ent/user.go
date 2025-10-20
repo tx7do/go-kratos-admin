@@ -63,8 +63,10 @@ type User struct {
 	LastLoginTime *time.Time `json:"last_login_time,omitempty"`
 	// 最后一次登录的IP
 	LastLoginIP *string `json:"last_login_ip,omitempty"`
-	// 部门ID
+	// 组织ID
 	OrgID *uint32 `json:"org_id,omitempty"`
+	// 部门ID
+	DepartmentID *uint32 `json:"department_id,omitempty"`
 	// 职位ID
 	PositionID *uint32 `json:"position_id,omitempty"`
 	// 员工工号
@@ -81,7 +83,7 @@ func (*User) scanValues(columns []string) ([]any, error) {
 		switch columns[i] {
 		case user.FieldRoleIds:
 			values[i] = new([]byte)
-		case user.FieldID, user.FieldCreateBy, user.FieldUpdateBy, user.FieldTenantID, user.FieldOrgID, user.FieldPositionID, user.FieldWorkID:
+		case user.FieldID, user.FieldCreateBy, user.FieldUpdateBy, user.FieldTenantID, user.FieldOrgID, user.FieldDepartmentID, user.FieldPositionID, user.FieldWorkID:
 			values[i] = new(sql.NullInt64)
 		case user.FieldRemark, user.FieldStatus, user.FieldUsername, user.FieldNickname, user.FieldRealname, user.FieldEmail, user.FieldMobile, user.FieldTelephone, user.FieldAvatar, user.FieldAddress, user.FieldRegion, user.FieldDescription, user.FieldGender, user.FieldAuthority, user.FieldLastLoginIP:
 			values[i] = new(sql.NullString)
@@ -269,6 +271,13 @@ func (_m *User) assignValues(columns []string, values []any) error {
 				_m.OrgID = new(uint32)
 				*_m.OrgID = uint32(value.Int64)
 			}
+		case user.FieldDepartmentID:
+			if value, ok := values[i].(*sql.NullInt64); !ok {
+				return fmt.Errorf("unexpected type %T for field department_id", values[i])
+			} else if value.Valid {
+				_m.DepartmentID = new(uint32)
+				*_m.DepartmentID = uint32(value.Int64)
+			}
 		case user.FieldPositionID:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field position_id", values[i])
@@ -439,6 +448,11 @@ func (_m *User) String() string {
 	builder.WriteString(", ")
 	if v := _m.OrgID; v != nil {
 		builder.WriteString("org_id=")
+		builder.WriteString(fmt.Sprintf("%v", *v))
+	}
+	builder.WriteString(", ")
+	if v := _m.DepartmentID; v != nil {
+		builder.WriteString("department_id=")
 		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteString(", ")

@@ -522,6 +522,7 @@ var schemaGraph = func() *sqlgraph.Schema {
 			user.FieldLastLoginTime: {Type: field.TypeTime, Column: user.FieldLastLoginTime},
 			user.FieldLastLoginIP:   {Type: field.TypeString, Column: user.FieldLastLoginIP},
 			user.FieldOrgID:         {Type: field.TypeUint32, Column: user.FieldOrgID},
+			user.FieldDepartmentID:  {Type: field.TypeUint32, Column: user.FieldDepartmentID},
 			user.FieldPositionID:    {Type: field.TypeUint32, Column: user.FieldPositionID},
 			user.FieldWorkID:        {Type: field.TypeUint32, Column: user.FieldWorkID},
 			user.FieldRoleIds:       {Type: field.TypeJSON, Column: user.FieldRoleIds},
@@ -2878,6 +2879,11 @@ func (f *UserFilter) WhereLastLoginIP(p entql.StringP) {
 // WhereOrgID applies the entql uint32 predicate on the org_id field.
 func (f *UserFilter) WhereOrgID(p entql.Uint32P) {
 	f.Where(p.Field(user.FieldOrgID))
+}
+
+// WhereDepartmentID applies the entql uint32 predicate on the department_id field.
+func (f *UserFilter) WhereDepartmentID(p entql.Uint32P) {
+	f.Where(p.Field(user.FieldDepartmentID))
 }
 
 // WherePositionID applies the entql uint32 predicate on the position_id field.

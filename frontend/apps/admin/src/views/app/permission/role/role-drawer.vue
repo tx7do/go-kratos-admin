@@ -7,9 +7,16 @@ import { $t } from '@vben/locales';
 import { notification } from 'ant-design-vue';
 
 import { useVbenForm } from '#/adapter/form';
-import { buildMenuTree, statusList, useMenuStore, useRoleStore } from '#/stores';
+import {
+  buildMenuTree, convertApiToTree,
+  statusList,
+  useApiResourceStore,
+  useMenuStore,
+  useRoleStore,
+} from '#/stores';
 
 const roleStore = useRoleStore();
+const apiStore = useApiResourceStore();
 
 const data = ref();
 
@@ -87,19 +94,38 @@ const [BaseForm, baseFormApi] = useVbenForm({
       component: 'ApiTree',
       fieldName: 'menus',
       componentProps: {
-        title: '菜单分配',
-        api: async () => {
-          return await menuStore.listMenu(true, null, null, {
-            status: 'ON',
-          });
-        },
+        title: $t('page.role.menus'),
+        showSearch: true,
+        treeDefaultExpandAll: true,
         loadingSlot: 'suffixIcon',
         childrenField: 'children',
         labelField: 'meta.title',
         valueField: 'id',
         resultField: 'items',
+        api: async () => {
+          return await menuStore.listMenu(true, null, null, {
+            status: 'ON',
+          });
+        },
         afterFetch: (data: any) => {
           return buildMenuTree(data.items);
+        },
+      },
+    },
+    {
+      component: 'ApiTree',
+      fieldName: 'apis',
+      componentProps: {
+        title: $t('page.role.apis'),
+        search: true,
+        numberToString: false,
+        loadingSlot: 'suffixIcon',
+        childrenField: 'children',
+        labelField: 'title',
+        valueField: 'key',
+        api: async () => {
+          const data = await apiStore.listApiResource(true, null, null, {});
+          return convertApiToTree(data.items);
         },
       },
     },

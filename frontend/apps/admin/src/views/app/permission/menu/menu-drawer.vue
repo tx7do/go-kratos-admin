@@ -4,12 +4,12 @@ import { computed, ref } from 'vue';
 import { useVbenDrawer } from '@vben/common-ui';
 import { $t } from '@vben/locales';
 
-import { MenuType } from '#/generated/api/admin/service/v1/i_menu.pb';
 import lucide from '@iconify/json/json/lucide.json';
 import { addCollection } from '@iconify/vue';
 import { notification } from 'ant-design-vue';
 
 import { useVbenForm } from '#/adapter/form';
+import { MenuType } from '#/generated/api/admin/service/v1/i_menu.pb';
 import {
   buildMenuTree,
   isButton,
@@ -38,29 +38,28 @@ const [BaseForm, baseFormApi] = useVbenForm({
   showDefaultActions: false,
   // 所有表单项共用，可单独在表单内覆盖
   commonConfig: {
-    // 所有表单项
-    componentProps: {
-      class: 'w-full',
-    },
+    formItemClass: 'col-span-2 md:col-span-1',
   },
+  wrapperClass: 'grid-cols-2 gap-x-4',
+
   schema: [
     {
       component: 'RadioGroup',
       fieldName: 'type',
-      label: '菜单类型',
+      label: $t('page.menu.type'),
       componentProps: {
         optionType: 'button',
-        class: 'flex flex-wrap', // 如果选项过多，可以添加class来自动折叠
+        buttonStyle: 'solid',
         options: menuTypeList,
       },
-      defaultValue: MenuType.FOLDER,
-      rules: 'selectRequired',
+      defaultValue: MenuType.MENU,
+      formItemClass: 'col-span-2 md:col-span-2',
     },
 
     {
       component: 'Input',
       fieldName: 'meta.title',
-      label: '菜单名称',
+      label: $t('page.menu.title'),
       rules: 'required',
       componentProps: {
         placeholder: $t('ui.placeholder.input'),
@@ -70,9 +69,16 @@ const [BaseForm, baseFormApi] = useVbenForm({
     {
       component: 'ApiTreeSelect',
       fieldName: 'parentId',
-      label: '上级菜单',
+      label: $t('page.menu.parentId'),
       componentProps: {
         placeholder: $t('ui.placeholder.select'),
+        class: 'w-full',
+        showSearch: true,
+        treeDefaultExpandAll: true,
+        numberToString: true,
+        childrenField: 'children',
+        labelField: 'meta.title',
+        valueField: 'id',
         api: async () => {
           const fieldValue = baseFormApi.form.values;
           const result = await menuStore.listMenu(true, null, null, {
@@ -81,10 +87,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
           });
           return result.items;
         },
-        numberToString: true,
-        childrenField: 'children',
-        labelField: 'meta.title',
-        valueField: 'id',
+
         afterFetch: (data: any) => {
           return buildMenuTree(data);
         },
@@ -93,7 +96,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
     {
       component: 'InputNumber',
       fieldName: 'meta.order',
-      label: '排序',
+      label: $t('page.menu.order'),
       componentProps: {
         placeholder: $t('ui.placeholder.input'),
         allowClear: true,
@@ -102,7 +105,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
     {
       component: 'IconPicker',
       fieldName: 'meta.icon',
-      label: '图标',
+      label: $t('page.menu.icon'),
       componentProps: {
         prefix: 'lucide',
       },
@@ -114,7 +117,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
     {
       component: 'Input',
       fieldName: 'path',
-      label: '路由地址',
+      label: $t('page.menu.path'),
       rules: 'required',
       componentProps: {
         placeholder: $t('ui.placeholder.input'),
@@ -128,7 +131,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
     {
       component: 'Input',
       fieldName: 'component',
-      label: '组件路径',
+      label: $t('page.menu.component'),
       defaultValue: 'BasicLayout',
       rules: 'required',
       componentProps: {
@@ -143,7 +146,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
     {
       component: 'Input',
       fieldName: 'meta.authority',
-      label: '权限标识',
+      label: $t('page.menu.authority'),
       componentProps: {
         placeholder: $t('ui.placeholder.input'),
         allowClear: true,
@@ -157,7 +160,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
       component: 'RadioGroup',
       fieldName: 'status',
       defaultValue: 'ON',
-      label: '状态',
+      label: $t('ui.table.status'),
       rules: 'selectRequired',
       componentProps: {
         optionType: 'button',
@@ -166,75 +169,111 @@ const [BaseForm, baseFormApi] = useVbenForm({
       },
     },
     {
-      component: 'Switch',
-      fieldName: 'meta.affixTab',
-      label: '固定标签页',
-      componentProps: {
-        class: 'w-auto',
-      },
+      component: 'Divider',
       dependencies: {
-        show: (values) => !isButton(values.type),
+        show: (values) => {
+          return ![MenuType.BUTTON, MenuType.LINK].includes(values.type);
+        },
         triggerFields: ['type'],
       },
-    },
-    {
-      component: 'Switch',
-      fieldName: 'meta.hideChildrenInMenu',
-      label: '子级不展现',
-      componentProps: {
-        class: 'w-auto',
-      },
-      dependencies: {
-        show: (values) => !isButton(values.type),
-        triggerFields: ['type'],
+      fieldName: 'divider1',
+      formItemClass: 'col-span-2 md:col-span-2 pb-0',
+      hideLabel: true,
+      renderComponentContent() {
+        return {
+          default: () => $t('page.menu.advancedSettings'),
+        };
       },
     },
+
     {
-      component: 'Switch',
-      fieldName: 'meta.hideInBreadcrumb',
-      label: '面包屑中不展现',
-      componentProps: {
-        class: 'w-auto',
-      },
-      dependencies: {
-        show: (values) => !isButton(values.type),
-        triggerFields: ['type'],
-      },
-    },
-    {
-      component: 'Switch',
-      fieldName: 'meta.hideInMenu',
-      label: '菜单中不展现',
-      componentProps: {
-        class: 'w-auto',
-      },
-      dependencies: {
-        show: (values) => !isButton(values.type),
-        triggerFields: ['type'],
-      },
-    },
-    {
-      component: 'Switch',
-      fieldName: 'meta.hideInTab',
-      label: '标签页中不展现',
-      componentProps: {
-        class: 'w-auto',
-      },
-      dependencies: {
-        show: (values) => !isButton(values.type),
-        triggerFields: ['type'],
-      },
-    },
-    {
-      component: 'Switch',
+      component: 'Checkbox',
       fieldName: 'meta.keepAlive',
-      label: '是否缓存',
-      componentProps: {
-        class: 'w-auto',
-      },
       dependencies: {
-        show: (values) => isMenu(values.type),
+        show: (values) => {
+          return [MenuType.MENU].includes(values.type);
+        },
         triggerFields: ['type'],
+      },
+      renderComponentContent() {
+        return {
+          default: () => $t('page.menu.keepAlive'),
+        };
+      },
+    },
+    {
+      component: 'Checkbox',
+      fieldName: 'meta.affixTab',
+      dependencies: {
+        show: (values) => {
+          return [MenuType.EMBEDDED, MenuType.MENU].includes(values.type);
+        },
+        triggerFields: ['type'],
+      },
+      renderComponentContent() {
+        return {
+          default: () => $t('page.menu.affixTab'),
+        };
+      },
+    },
+    {
+      component: 'Checkbox',
+      fieldName: 'meta.hideInMenu',
+      dependencies: {
+        show: (values) => {
+          return ![MenuType.BUTTON].includes(values.type);
+        },
+        triggerFields: ['type'],
+      },
+      renderComponentContent() {
+        return {
+          default: () => $t('page.menu.hideInMenu'),
+        };
+      },
+    },
+    {
+      component: 'Checkbox',
+      fieldName: 'meta.hideChildrenInMenu',
+      dependencies: {
+        show: (values) => {
+          return [MenuType.FOLDER, MenuType.MENU].includes(values.type);
+        },
+        triggerFields: ['type'],
+      },
+      renderComponentContent() {
+        return {
+          default: () => $t('page.menu.hideChildrenInMenu'),
+        };
+      },
+    },
+    {
+      component: 'Checkbox',
+      fieldName: 'meta.hideInBreadcrumb',
+      dependencies: {
+        show: (values) => {
+          return ![MenuType.BUTTON, MenuType.LINK].includes(values.type);
+        },
+        triggerFields: ['type'],
+      },
+      renderComponentContent() {
+        return {
+          default: () => $t('page.menu.hideInBreadcrumb'),
+        };
+      },
+    },
+    {
+      component: 'Checkbox',
+      fieldName: 'meta.hideInTab',
+      dependencies: {
+        show: (values) => {
+          return ![MenuType.BUTTON, MenuType.LINK].includes(values.type);
+        },
+        triggerFields: ['type'],
+      },
+      renderComponentContent() {
+        return {
+          default: () => $t('page.menu.hideInTab'),
+        };
       },
     },
   ],
@@ -311,7 +350,7 @@ function setLoading(loading: boolean) {
 </script>
 
 <template>
-  <Drawer :title="getTitle">
-    <BaseForm />
+  <Drawer :title="getTitle" class="w-full max-w-[800px]">
+    <BaseForm class="mx-4" />
   </Drawer>
 </template>

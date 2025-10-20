@@ -54,13 +54,23 @@ export interface User {
     | string
     | null
     | undefined;
-  /** 部门ID */
+  /** 组织ID */
   orgId?:
     | number
     | null
     | undefined;
-  /** 部门名称 */
+  /** 组织名称 */
   orgName?:
+    | string
+    | null
+    | undefined;
+  /** 部门ID */
+  departmentId?:
+    | number
+    | null
+    | undefined;
+  /** 部门名称 */
+  departmentName?:
     | string
     | null
     | undefined;
@@ -79,6 +89,12 @@ export interface User {
     | number
     | null
     | undefined;
+  /** optional uint32 role_id = 11 [json_name = "roleId", (gnostic.openapi.v3.property) = {description: "角色ID"}];  // 角色ID */
+  roleIds: number[];
+  /** 角色码列表 */
+  roles: string[];
+  /** 角色名称列表 */
+  roleNames: string[];
   /** 用户名 */
   username?:
     | string
@@ -159,12 +175,6 @@ export interface User {
     | UserAuthority
     | null
     | undefined;
-  /** optional uint32 role_id = 40 [json_name = "roleId", (gnostic.openapi.v3.property) = {description: "角色ID"}];  // 角色ID */
-  roleIds: number[];
-  /** 角色码列表 */
-  roles: string[];
-  /** 角色名称列表 */
-  roleNames: string[];
   /** 创建者ID */
   createBy?:
     | number

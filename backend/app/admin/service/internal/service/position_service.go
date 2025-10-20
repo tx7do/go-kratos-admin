@@ -51,7 +51,7 @@ func (s *PositionService) List(ctx context.Context, req *pagination.PagingReques
 	var deptSet = make(name_set.UserNameSetMap)
 	var orgSet = make(name_set.UserNameSetMap)
 
-	InitPositionOrgId(resp.Items, &orgSet, &deptSet)
+	InitPositionNameSetMap(resp.Items, &orgSet, &deptSet)
 
 	QueryOrganizationInfoFromRepo(ctx, s.organizationRepo, &orgSet)
 	QueryDepartmentInfoFromRepo(ctx, s.departmentRepo, &deptSet)

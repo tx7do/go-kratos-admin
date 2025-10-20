@@ -27,6 +27,7 @@
       "username": "用户名",
       "nickname": "昵称",
       "realname": "姓名",
+      "password": "密码",
       "avatar": "头像",
       "email": "邮箱",
       "mobile": "手机",
@@ -60,6 +61,8 @@
     "moduleName": "角色",
     "name": "角色名称",
     "code": "角色值",
+    "menus": "分配菜单",
+    "apis": "分配API",
     "button": {
       "create": "创建角色"
     }
@@ -84,9 +87,17 @@
     "component": "组件路径",
     "show": "是否显示",
     "isExt": "是否外链",
-    "keepAlive": "是否缓存",
+    "keepAlive": "缓存标签页",
+    "affixTab": "固定在标签",
+    "hideInMenu": "隐藏菜单",
+    "hideChildrenInMenu": "隐藏子菜单",
+    "hideInTab": "在标签栏中不隐藏",
+    "hideInBreadcrumb": "在面包屑中隐藏",
     "parentId": "上级菜单",
     "authority": "权限标识",
+    "order": "排序",
+    "title": "菜单标题",
+    "advancedSettings": "其他设置",
     "button": {
       "create": "创建菜单"
     }

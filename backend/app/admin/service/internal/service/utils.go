@@ -12,14 +12,14 @@ import (
 	"kratos-admin/pkg/utils/name_set"
 )
 
-// InitOrganizationManagerId initializes the organization manager IDs into the userSet map.
-func InitOrganizationManagerId(organizations []*userV1.Organization, userSet *name_set.UserNameSetMap) {
+// InitOrganizationNameSetMap initializes the organization manager IDs into the userSet map.
+func InitOrganizationNameSetMap(organizations []*userV1.Organization, userSet *name_set.UserNameSetMap) {
 	for _, v := range organizations {
 		if v.ManagerId != nil {
 			(*userSet)[v.GetManagerId()] = nil
 		}
 		for _, c := range v.Children {
-			InitOrganizationManagerId(c.Children, userSet)
+			InitOrganizationNameSetMap(c.Children, userSet)
 		}
 	}
 }
@@ -62,8 +62,8 @@ func FileOrganizationInfo(organizations []*userV1.Organization, userSet *name_se
 	}
 }
 
-// InitDepartmentManagerId initializes the department manager IDs into the userSet map.
-func InitDepartmentManagerId(departments []*userV1.Department, userSet *name_set.UserNameSetMap, orgSet *name_set.UserNameSetMap) {
+// InitDepartmentNameSetMap initializes the department manager IDs into the userSet map.
+func InitDepartmentNameSetMap(departments []*userV1.Department, userSet *name_set.UserNameSetMap, orgSet *name_set.UserNameSetMap) {
 	for _, v := range departments {
 		if v.ManagerId != nil {
 			(*userSet)[v.GetManagerId()] = nil
@@ -73,7 +73,7 @@ func InitDepartmentManagerId(departments []*userV1.Department, userSet *name_set
 		}
 
 		for _, c := range v.Children {
-			InitDepartmentManagerId(c.Children, userSet, orgSet)
+			InitDepartmentNameSetMap(c.Children, userSet, orgSet)
 		}
 	}
 }
@@ -109,9 +109,9 @@ func QueryDepartmentInfoFromRepo(ctx context.Context, departmentRepo *data.Depar
 		return
 	}
 
-	for _, d := range depts {
-		(*nameSetMap)[d.GetId()] = &name_set.UserNameSet{
-			UserName: d.GetName(),
+	for _, dept := range depts {
+		(*nameSetMap)[dept.GetId()] = &name_set.UserNameSet{
+			UserName: dept.GetName(),
 		}
 	}
 }
@@ -148,7 +148,7 @@ func FillDepartmentOrganizationInfo(departments []*userV1.Department, orgSet *na
 	}
 }
 
-func InitPositionOrgId(positions []*userV1.Position, orgSet *name_set.UserNameSetMap, deptSet *name_set.UserNameSetMap) {
+func InitPositionNameSetMap(positions []*userV1.Position, orgSet *name_set.UserNameSetMap, deptSet *name_set.UserNameSetMap) {
 	for _, v := range positions {
 		if v.OrganizationId != nil {
 			(*orgSet)[v.GetOrganizationId()] = nil
@@ -158,7 +158,7 @@ func InitPositionOrgId(positions []*userV1.Position, orgSet *name_set.UserNameSe
 		}
 
 		for _, c := range v.Children {
-			InitPositionOrgId(c.Children, orgSet, deptSet)
+			InitPositionNameSetMap(c.Children, orgSet, deptSet)
 		}
 	}
 }
@@ -191,6 +191,62 @@ func FillPositionDepartmentInfo(positions []*userV1.Position, deptSet *name_set.
 			}
 
 			FillPositionDepartmentInfo(positions[i].Children, deptSet)
+		}
+	}
+}
+
+func InitUserNameSetMap(users []*userV1.User, orgSet *name_set.UserNameSetMap, deptSet *name_set.UserNameSetMap, posSet *name_set.UserNameSetMap, roleSet *name_set.UserNameSetMap) {
+	for _, v := range users {
+		if v.OrgId != nil {
+			(*orgSet)[v.GetOrgId()] = nil
+		}
+		if v.DepartmentId != nil {
+			(*deptSet)[v.GetDepartmentId()] = nil
+		}
+		if v.PositionId != nil {
+			(*posSet)[v.GetPositionId()] = nil
+		}
+		for _, roleId := range v.RoleIds {
+			(*roleSet)[roleId] = nil
+		}
+	}
+}
+
+func QueryPositionInfoFromRepo(ctx context.Context, positionRepo *data.PositionRepo, nameSetMap *name_set.UserNameSetMap) {
+	var posIds []uint32
+	for posId := range *nameSetMap {
+		posIds = append(posIds, posId)
+	}
+
+	poss, err := positionRepo.GetPositionByIds(ctx, posIds)
+	if err != nil {
+		log.Errorf("query positions err: %v", err)
+		return
+	}
+
+	for _, position := range poss {
+		(*nameSetMap)[position.GetId()] = &name_set.UserNameSet{
+			UserName: position.GetName(),
+		}
+	}
+}
+
+func QueryRoleInfoFromRepo(ctx context.Context, roleRepo *data.RoleRepo, nameSetMap *name_set.UserNameSetMap) {
+	var roleIds []uint32
+	for roleId := range *nameSetMap {
+		roleIds = append(roleIds, roleId)
+	}
+
+	roles, err := roleRepo.GetRolesByRoleIds(ctx, roleIds)
+	if err != nil {
+		log.Errorf("query roles err: %v", err)
+		return
+	}
+
+	for _, role := range roles {
+		(*nameSetMap)[role.GetId()] = &name_set.UserNameSet{
+			UserName: role.GetName(),
+			Code:     role.GetCode(),
 		}
 	}
 }

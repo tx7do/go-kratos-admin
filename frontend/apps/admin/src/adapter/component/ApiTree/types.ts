@@ -48,6 +48,8 @@ export interface Props {
   visibleEvent?: string;
   /** 组件的v-model属性名，默认为modelValue。部分组件可能为value */
   modelPropName?: string;
+  /** 树形组件是否默认展开所有节点 */
+  treeDefaultExpandAll?: boolean;
 }
 
 export type TreeEmits = {

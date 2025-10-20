@@ -8,6 +8,10 @@ import { notification } from 'ant-design-vue';
 
 import { useVbenForm, z } from '#/adapter/form';
 import {
+  UserAuthority,
+  UserGender,
+} from '#/generated/api/user/service/v1/user.pb';
+import {
   authorityList,
   genderList,
   useOrganizationStore,
@@ -53,7 +57,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
     {
       component: 'VbenInputPassword',
       fieldName: 'password',
-      label: '密码',
+      label: $t('page.user.table.password'),
       componentProps: {
         passwordStrength: true,
         placeholder: $t('ui.placeholder.input'),
@@ -64,6 +68,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
       component: 'Select',
       fieldName: 'authority',
       label: $t('page.user.table.authority'),
+      defaultValue: UserAuthority.CUSTOMER_USER,
       componentProps: {
         placeholder: $t('ui.placeholder.select'),
         options: authorityList,
@@ -82,6 +87,8 @@ const [BaseForm, baseFormApi] = useVbenForm({
       componentProps: {
         placeholder: $t('ui.placeholder.select'),
         numberToString: true,
+        showSearch: true,
+        treeDefaultExpandAll: true,
         childrenField: 'children',
         labelField: 'name',
         valueField: 'id',
@@ -90,12 +97,6 @@ const [BaseForm, baseFormApi] = useVbenForm({
 
           return result.items;
         },
-        // afterFetch: (data: any) => {
-        //   return data.map((item: any) => ({
-        //     label: item.name,
-        //     value: item.id,
-        //   }));
-        // },
       },
       // rules: 'selectRequired',
     },
@@ -134,6 +135,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
       component: 'Select',
       fieldName: 'gender',
       label: $t('page.user.table.gender'),
+      defaultValue: UserGender.SECRET,
       componentProps: {
         options: genderList,
         placeholder: $t('ui.placeholder.select'),

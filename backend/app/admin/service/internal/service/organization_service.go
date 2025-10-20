@@ -47,7 +47,7 @@ func (s *OrganizationService) List(ctx context.Context, req *pagination.PagingRe
 
 	var userSet = make(name_set.UserNameSetMap)
 
-	InitOrganizationManagerId(resp.Items, &userSet)
+	InitOrganizationNameSetMap(resp.Items, &userSet)
 
 	QueryUserInfoFromRepo(ctx, s.userRepo, &userSet)
 

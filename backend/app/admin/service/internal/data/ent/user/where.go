@@ -154,6 +154,11 @@ func OrgID(v uint32) predicate.User {
 	return predicate.User(sql.FieldEQ(FieldOrgID, v))
 }
 
+// DepartmentID applies equality check predicate on the "department_id" field. It's identical to DepartmentIDEQ.
+func DepartmentID(v uint32) predicate.User {
+	return predicate.User(sql.FieldEQ(FieldDepartmentID, v))
+}
+
 // PositionID applies equality check predicate on the "position_id" field. It's identical to PositionIDEQ.
 func PositionID(v uint32) predicate.User {
 	return predicate.User(sql.FieldEQ(FieldPositionID, v))
@@ -1542,6 +1547,56 @@ func OrgIDIsNil() predicate.User {
 // OrgIDNotNil applies the NotNil predicate on the "org_id" field.
 func OrgIDNotNil() predicate.User {
 	return predicate.User(sql.FieldNotNull(FieldOrgID))
+}
+
+// DepartmentIDEQ applies the EQ predicate on the "department_id" field.
+func DepartmentIDEQ(v uint32) predicate.User {
+	return predicate.User(sql.FieldEQ(FieldDepartmentID, v))
+}
+
+// DepartmentIDNEQ applies the NEQ predicate on the "department_id" field.
+func DepartmentIDNEQ(v uint32) predicate.User {
+	return predicate.User(sql.FieldNEQ(FieldDepartmentID, v))
+}
+
+// DepartmentIDIn applies the In predicate on the "department_id" field.
+func DepartmentIDIn(vs ...uint32) predicate.User {
+	return predicate.User(sql.FieldIn(FieldDepartmentID, vs...))
+}
+
+// DepartmentIDNotIn applies the NotIn predicate on the "department_id" field.
+func DepartmentIDNotIn(vs ...uint32) predicate.User {
+	return predicate.User(sql.FieldNotIn(FieldDepartmentID, vs...))
+}
+
+// DepartmentIDGT applies the GT predicate on the "department_id" field.
+func DepartmentIDGT(v uint32) predicate.User {
+	return predicate.User(sql.FieldGT(FieldDepartmentID, v))
+}
+
+// DepartmentIDGTE applies the GTE predicate on the "department_id" field.
+func DepartmentIDGTE(v uint32) predicate.User {
+	return predicate.User(sql.FieldGTE(FieldDepartmentID, v))
+}
+
+// DepartmentIDLT applies the LT predicate on the "department_id" field.
+func DepartmentIDLT(v uint32) predicate.User {
+	return predicate.User(sql.FieldLT(FieldDepartmentID, v))
+}
+
+// DepartmentIDLTE applies the LTE predicate on the "department_id" field.
+func DepartmentIDLTE(v uint32) predicate.User {
+	return predicate.User(sql.FieldLTE(FieldDepartmentID, v))
+}
+
+// DepartmentIDIsNil applies the IsNil predicate on the "department_id" field.
+func DepartmentIDIsNil() predicate.User {
+	return predicate.User(sql.FieldIsNull(FieldDepartmentID))
+}
+
+// DepartmentIDNotNil applies the NotNil predicate on the "department_id" field.
+func DepartmentIDNotNil() predicate.User {
+	return predicate.User(sql.FieldNotNull(FieldDepartmentID))
 }
 
 // PositionIDEQ applies the EQ predicate on the "position_id" field.

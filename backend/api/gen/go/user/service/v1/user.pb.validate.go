@@ -76,6 +76,14 @@ func (m *User) validate(all bool) error {
 		// no validation rules for OrgName
 	}
 
+	if m.DepartmentId != nil {
+		// no validation rules for DepartmentId
+	}
+
+	if m.DepartmentName != nil {
+		// no validation rules for DepartmentName
+	}
+
 	if m.PositionId != nil {
 		// no validation rules for PositionId
 	}

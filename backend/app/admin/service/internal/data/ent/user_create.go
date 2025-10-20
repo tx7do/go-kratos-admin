@@ -344,6 +344,20 @@ func (_c *UserCreate) SetNillableOrgID(v *uint32) *UserCreate {
 	return _c
 }
 
+// SetDepartmentID sets the "department_id" field.
+func (_c *UserCreate) SetDepartmentID(v uint32) *UserCreate {
+	_c.mutation.SetDepartmentID(v)
+	return _c
+}
+
+// SetNillableDepartmentID sets the "department_id" field if the given value is not nil.
+func (_c *UserCreate) SetNillableDepartmentID(v *uint32) *UserCreate {
+	if v != nil {
+		_c.SetDepartmentID(*v)
+	}
+	return _c
+}
+
 // SetPositionID sets the "position_id" field.
 func (_c *UserCreate) SetPositionID(v uint32) *UserCreate {
 	_c.mutation.SetPositionID(v)
@@ -662,6 +676,10 @@ func (_c *UserCreate) createSpec() (*User, *sqlgraph.CreateSpec) {
 	if value, ok := _c.mutation.OrgID(); ok {
 		_spec.SetField(user.FieldOrgID, field.TypeUint32, value)
 		_node.OrgID = &value
+	}
+	if value, ok := _c.mutation.DepartmentID(); ok {
+		_spec.SetField(user.FieldDepartmentID, field.TypeUint32, value)
+		_node.DepartmentID = &value
 	}
 	if value, ok := _c.mutation.PositionID(); ok {
 		_spec.SetField(user.FieldPositionID, field.TypeUint32, value)
@@ -1084,6 +1102,30 @@ func (u *UserUpsert) AddOrgID(v uint32) *UserUpsert {
 // ClearOrgID clears the value of the "org_id" field.
 func (u *UserUpsert) ClearOrgID() *UserUpsert {
 	u.SetNull(user.FieldOrgID)
+	return u
+}
+
+// SetDepartmentID sets the "department_id" field.
+func (u *UserUpsert) SetDepartmentID(v uint32) *UserUpsert {
+	u.Set(user.FieldDepartmentID, v)
+	return u
+}
+
+// UpdateDepartmentID sets the "department_id" field to the value that was provided on create.
+func (u *UserUpsert) UpdateDepartmentID() *UserUpsert {
+	u.SetExcluded(user.FieldDepartmentID)
+	return u
+}
+
+// AddDepartmentID adds v to the "department_id" field.
+func (u *UserUpsert) AddDepartmentID(v uint32) *UserUpsert {
+	u.Add(user.FieldDepartmentID, v)
+	return u
+}
+
+// ClearDepartmentID clears the value of the "department_id" field.
+func (u *UserUpsert) ClearDepartmentID() *UserUpsert {
+	u.SetNull(user.FieldDepartmentID)
 	return u
 }
 
@@ -1630,6 +1672,34 @@ func (u *UserUpsertOne) UpdateOrgID() *UserUpsertOne {
 func (u *UserUpsertOne) ClearOrgID() *UserUpsertOne {
 	return u.Update(func(s *UserUpsert) {
 		s.ClearOrgID()
+	})
+}
+
+// SetDepartmentID sets the "department_id" field.
+func (u *UserUpsertOne) SetDepartmentID(v uint32) *UserUpsertOne {
+	return u.Update(func(s *UserUpsert) {
+		s.SetDepartmentID(v)
+	})
+}
+
+// AddDepartmentID adds v to the "department_id" field.
+func (u *UserUpsertOne) AddDepartmentID(v uint32) *UserUpsertOne {
+	return u.Update(func(s *UserUpsert) {
+		s.AddDepartmentID(v)
+	})
+}
+
+// UpdateDepartmentID sets the "department_id" field to the value that was provided on create.
+func (u *UserUpsertOne) UpdateDepartmentID() *UserUpsertOne {
+	return u.Update(func(s *UserUpsert) {
+		s.UpdateDepartmentID()
+	})
+}
+
+// ClearDepartmentID clears the value of the "department_id" field.
+func (u *UserUpsertOne) ClearDepartmentID() *UserUpsertOne {
+	return u.Update(func(s *UserUpsert) {
+		s.ClearDepartmentID()
 	})
 }
 
@@ -2353,6 +2423,34 @@ func (u *UserUpsertBulk) UpdateOrgID() *UserUpsertBulk {
 func (u *UserUpsertBulk) ClearOrgID() *UserUpsertBulk {
 	return u.Update(func(s *UserUpsert) {
 		s.ClearOrgID()
+	})
+}
+
+// SetDepartmentID sets the "department_id" field.
+func (u *UserUpsertBulk) SetDepartmentID(v uint32) *UserUpsertBulk {
+	return u.Update(func(s *UserUpsert) {
+		s.SetDepartmentID(v)
+	})
+}
+
+// AddDepartmentID adds v to the "department_id" field.
+func (u *UserUpsertBulk) AddDepartmentID(v uint32) *UserUpsertBulk {
+	return u.Update(func(s *UserUpsert) {
+		s.AddDepartmentID(v)
+	})
+}
+
+// UpdateDepartmentID sets the "department_id" field to the value that was provided on create.
+func (u *UserUpsertBulk) UpdateDepartmentID() *UserUpsertBulk {
+	return u.Update(func(s *UserUpsert) {
+		s.UpdateDepartmentID()
+	})
+}
+
+// ClearDepartmentID clears the value of the "department_id" field.
+func (u *UserUpsertBulk) ClearDepartmentID() *UserUpsertBulk {
+	return u.Update(func(s *UserUpsert) {
+		s.ClearDepartmentID()
 	})
 }
 

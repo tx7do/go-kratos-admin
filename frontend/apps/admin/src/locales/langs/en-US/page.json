@@ -26,6 +26,7 @@
       "username": "User Name",
       "nickname": "Nick Name",
       "realname": "Real Name",
+      "password": "Password",
       "avatar": "Avatar",
       "email": "Email",
       "mobile": "Phone",
@@ -59,6 +60,8 @@
     "moduleName": "Role",
     "name": "Name",
     "code": "Code",
+    "menus": "Assign Menu",
+    "apis": "Assign API",
     "button": {
       "create": "Create"
     }
@@ -84,8 +87,16 @@
     "show": "Show",
     "isExt": "Is Ext",
     "keepAlive": "Keep Alive",
+    "hideInTab": "Hide In Tab",
+    "hideInMenu": "Hide In Menu",
+    "hideInBreadcrumb": "Hide In Breadcrumb",
+    "hideChildrenInMenu": "Hide Children In Menu",
     "parentId": "Parent Menu",
     "authority": "Authority",
+    "affixTab": "Affix Tab",
+    "order": "Order",
+    "title": "Title",
+    "advancedSettings": "Advanced Settings",
     "button": {
       "create": "Create"
     }

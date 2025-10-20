@@ -32,6 +32,7 @@ const props = withDefaults(defineProps<Props>(), {
   params: () => ({}),
   immediate: true,
   alwaysLoad: false,
+  treeDefaultExpandAll: false,
   loadingSlot: 'suffixIcon',
   beforeFetch: undefined,
   afterFetch: undefined,
@@ -147,7 +148,14 @@ function emitChange() {
 }
 
 async function fetchApi() {
-  let { api, beforeFetch, afterFetch, params, resultField } = props;
+  let {
+    api,
+    beforeFetch,
+    afterFetch,
+    params,
+    resultField,
+    treeDefaultExpandAll,
+  } = props;
 
   if (!api || !isFunction(api) || loading.value) {
     return;
@@ -165,6 +173,10 @@ async function fetchApi() {
 
     if (afterFetch && isFunction(afterFetch)) {
       res = (await afterFetch(res)) || res;
+    }
+
+    if (treeDefaultExpandAll) {
+      expandAll();
     }
 
     isFirstLoaded.value = true;

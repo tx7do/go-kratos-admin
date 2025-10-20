@@ -54,6 +54,8 @@ const [BaseForm, baseFormApi] = useVbenForm({
       componentProps: {
         placeholder: $t('ui.placeholder.select'),
         numberToString: true,
+        showSearch: true,
+        treeDefaultExpandAll: true,
         childrenField: 'children',
         labelField: 'name',
         valueField: 'id',

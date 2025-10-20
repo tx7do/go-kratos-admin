@@ -24840,46 +24840,48 @@ func (m *TenantMutation) ResetEdge(name string) error {
 // UserMutation represents an operation that mutates the User nodes in the graph.
 type UserMutation struct {
 	config
-	op              Op
-	typ             string
-	id              *uint32
-	create_by       *uint32
-	addcreate_by    *int32
-	update_by       *uint32
-	addupdate_by    *int32
-	create_time     *time.Time
-	update_time     *time.Time
-	delete_time     *time.Time
-	remark          *string
-	status          *user.Status
-	tenant_id       *uint32
-	addtenant_id    *int32
-	username        *string
-	nickname        *string
-	realname        *string
-	email           *string
-	mobile          *string
-	telephone       *string
-	avatar          *string
-	address         *string
-	region          *string
-	description     *string
-	gender          *user.Gender
-	authority       *user.Authority
-	last_login_time *time.Time
-	last_login_ip   *string
-	org_id          *uint32
-	addorg_id       *int32
-	position_id     *uint32
-	addposition_id  *int32
-	work_id         *uint32
-	addwork_id      *int32
-	role_ids        *[]int
-	appendrole_ids  []int
-	clearedFields   map[string]struct{}
-	done            bool
-	oldValue        func(context.Context) (*User, error)
-	predicates      []predicate.User
+	op               Op
+	typ              string
+	id               *uint32
+	create_by        *uint32
+	addcreate_by     *int32
+	update_by        *uint32
+	addupdate_by     *int32
+	create_time      *time.Time
+	update_time      *time.Time
+	delete_time      *time.Time
+	remark           *string
+	status           *user.Status
+	tenant_id        *uint32
+	addtenant_id     *int32
+	username         *string
+	nickname         *string
+	realname         *string
+	email            *string
+	mobile           *string
+	telephone        *string
+	avatar           *string
+	address          *string
+	region           *string
+	description      *string
+	gender           *user.Gender
+	authority        *user.Authority
+	last_login_time  *time.Time
+	last_login_ip    *string
+	org_id           *uint32
+	addorg_id        *int32
+	department_id    *uint32
+	adddepartment_id *int32
+	position_id      *uint32
+	addposition_id   *int32
+	work_id          *uint32
+	addwork_id       *int32
+	role_ids         *[]int
+	appendrole_ids   []int
+	clearedFields    map[string]struct{}
+	done             bool
+	oldValue         func(context.Context) (*User, error)
+	predicates       []predicate.User
 }
 
 var _ ent.Mutation = (*UserMutation)(nil)
@@ -26184,6 +26186,76 @@ func (m *UserMutation) ResetOrgID() {
 	delete(m.clearedFields, user.FieldOrgID)
 }
 
+// SetDepartmentID sets the "department_id" field.
+func (m *UserMutation) SetDepartmentID(u uint32) {
+	m.department_id = &u
+	m.adddepartment_id = nil
+}
+
+// DepartmentID returns the value of the "department_id" field in the mutation.
+func (m *UserMutation) DepartmentID() (r uint32, exists bool) {
+	v := m.department_id
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldDepartmentID returns the old "department_id" field's value of the User entity.
+// If the User object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *UserMutation) OldDepartmentID(ctx context.Context) (v *uint32, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldDepartmentID is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldDepartmentID requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldDepartmentID: %w", err)
+	}
+	return oldValue.DepartmentID, nil
+}
+
+// AddDepartmentID adds u to the "department_id" field.
+func (m *UserMutation) AddDepartmentID(u int32) {
+	if m.adddepartment_id != nil {
+		*m.adddepartment_id += u
+	} else {
+		m.adddepartment_id = &u
+	}
+}
+
+// AddedDepartmentID returns the value that was added to the "department_id" field in this mutation.
+func (m *UserMutation) AddedDepartmentID() (r int32, exists bool) {
+	v := m.adddepartment_id
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ClearDepartmentID clears the value of the "department_id" field.
+func (m *UserMutation) ClearDepartmentID() {
+	m.department_id = nil
+	m.adddepartment_id = nil
+	m.clearedFields[user.FieldDepartmentID] = struct{}{}
+}
+
+// DepartmentIDCleared returns if the "department_id" field was cleared in this mutation.
+func (m *UserMutation) DepartmentIDCleared() bool {
+	_, ok := m.clearedFields[user.FieldDepartmentID]
+	return ok
+}
+
+// ResetDepartmentID resets all changes to the "department_id" field.
+func (m *UserMutation) ResetDepartmentID() {
+	m.department_id = nil
+	m.adddepartment_id = nil
+	delete(m.clearedFields, user.FieldDepartmentID)
+}
+
 // SetPositionID sets the "position_id" field.
 func (m *UserMutation) SetPositionID(u uint32) {
 	m.position_id = &u
@@ -26423,7 +26495,7 @@ func (m *UserMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *UserMutation) Fields() []string {
-	fields := make([]string, 0, 26)
+	fields := make([]string, 0, 27)
 	if m.create_by != nil {
 		fields = append(fields, user.FieldCreateBy)
 	}
@@ -26493,6 +26565,9 @@ func (m *UserMutation) Fields() []string {
 	if m.org_id != nil {
 		fields = append(fields, user.FieldOrgID)
 	}
+	if m.department_id != nil {
+		fields = append(fields, user.FieldDepartmentID)
+	}
 	if m.position_id != nil {
 		fields = append(fields, user.FieldPositionID)
 	}
@@ -26556,6 +26631,8 @@ func (m *UserMutation) Field(name string) (ent.Value, bool) {
 		return m.LastLoginIP()
 	case user.FieldOrgID:
 		return m.OrgID()
+	case user.FieldDepartmentID:
+		return m.DepartmentID()
 	case user.FieldPositionID:
 		return m.PositionID()
 	case user.FieldWorkID:
@@ -26617,6 +26694,8 @@ func (m *UserMutation) OldField(ctx context.Context, name string) (ent.Value, er
 		return m.OldLastLoginIP(ctx)
 	case user.FieldOrgID:
 		return m.OldOrgID(ctx)
+	case user.FieldDepartmentID:
+		return m.OldDepartmentID(ctx)
 	case user.FieldPositionID:
 		return m.OldPositionID(ctx)
 	case user.FieldWorkID:
@@ -26793,6 +26872,13 @@ func (m *UserMutation) SetField(name string, value ent.Value) error {
 		}
 		m.SetOrgID(v)
 		return nil
+	case user.FieldDepartmentID:
+		v, ok := value.(uint32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetDepartmentID(v)
+		return nil
 	case user.FieldPositionID:
 		v, ok := value.(uint32)
 		if !ok {
@@ -26834,6 +26920,9 @@ func (m *UserMutation) AddedFields() []string {
 	if m.addorg_id != nil {
 		fields = append(fields, user.FieldOrgID)
 	}
+	if m.adddepartment_id != nil {
+		fields = append(fields, user.FieldDepartmentID)
+	}
 	if m.addposition_id != nil {
 		fields = append(fields, user.FieldPositionID)
 	}
@@ -26856,6 +26945,8 @@ func (m *UserMutation) AddedField(name string) (ent.Value, bool) {
 		return m.AddedTenantID()
 	case user.FieldOrgID:
 		return m.AddedOrgID()
+	case user.FieldDepartmentID:
+		return m.AddedDepartmentID()
 	case user.FieldPositionID:
 		return m.AddedPositionID()
 	case user.FieldWorkID:
@@ -26896,6 +26987,13 @@ func (m *UserMutation) AddField(name string, value ent.Value) error {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.AddOrgID(v)
+		return nil
+	case user.FieldDepartmentID:
+		v, ok := value.(int32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddDepartmentID(v)
 		return nil
 	case user.FieldPositionID:
 		v, ok := value.(int32)
@@ -26984,6 +27082,9 @@ func (m *UserMutation) ClearedFields() []string {
 	}
 	if m.FieldCleared(user.FieldOrgID) {
 		fields = append(fields, user.FieldOrgID)
+	}
+	if m.FieldCleared(user.FieldDepartmentID) {
+		fields = append(fields, user.FieldDepartmentID)
 	}
 	if m.FieldCleared(user.FieldPositionID) {
 		fields = append(fields, user.FieldPositionID)
@@ -27074,6 +27175,9 @@ func (m *UserMutation) ClearField(name string) error {
 	case user.FieldOrgID:
 		m.ClearOrgID()
 		return nil
+	case user.FieldDepartmentID:
+		m.ClearDepartmentID()
+		return nil
 	case user.FieldPositionID:
 		m.ClearPositionID()
 		return nil
@@ -27159,6 +27263,9 @@ func (m *UserMutation) ResetField(name string) error {
 		return nil
 	case user.FieldOrgID:
 		m.ResetOrgID()
+		return nil
+	case user.FieldDepartmentID:
+		m.ResetDepartmentID()
 		return nil
 	case user.FieldPositionID:
 		m.ResetPositionID()

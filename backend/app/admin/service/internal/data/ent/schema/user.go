@@ -131,6 +131,11 @@ func (User) Fields() []ent.Field {
 			Nillable(),
 
 		field.Uint32("org_id").
+			Comment("组织ID").
+			Optional().
+			Nillable(),
+
+		field.Uint32("department_id").
 			Comment("部门ID").
 			Optional().
 			Nillable(),

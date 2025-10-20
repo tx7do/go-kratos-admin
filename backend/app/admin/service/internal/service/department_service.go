@@ -51,7 +51,7 @@ func (s *DepartmentService) List(ctx context.Context, req *pagination.PagingRequ
 	var userSet = make(name_set.UserNameSetMap)
 	var orgSet = make(name_set.UserNameSetMap)
 
-	InitDepartmentManagerId(resp.Items, &userSet, &orgSet)
+	InitDepartmentNameSetMap(resp.Items, &userSet, &orgSet)
 
 	QueryUserInfoFromRepo(ctx, s.userRepo, &userSet)
 	QueryOrganizationInfoFromRepo(ctx, s.organizationRepo, &orgSet)

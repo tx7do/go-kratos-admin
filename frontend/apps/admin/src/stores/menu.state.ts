@@ -159,6 +159,8 @@ export function menuTypeToColor(menuType: any) {
 export const isFolder = (type: string) => type === MenuType.FOLDER;
 export const isMenu = (type: string) => type === MenuType.MENU;
 export const isButton = (type: string) => type === MenuType.BUTTON;
+export const isEmbedded = (type: string) => type === MenuType.EMBEDDED;
+export const isLink = (type: string) => type === MenuType.LINK;
 
 /** 遍历菜单子节点
  * @param nodes 节点列表

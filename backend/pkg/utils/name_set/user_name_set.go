@@ -12,6 +12,7 @@ type UserNameSet struct {
 	UserName string
 	RealName string
 	NickName string
+	Code     string
 }
 
 type UserNameSetMap map[uint32]*UserNameSet

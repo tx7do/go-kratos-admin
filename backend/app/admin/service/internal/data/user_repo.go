@@ -168,11 +168,11 @@ func (r *UserRepo) Create(ctx context.Context, req *userV1.CreateUserRequest) (*
 		SetNillableStatus(r.statusConverter.ToEntity(req.Data.Status)).
 		SetNillableGender(r.genderConverter.ToEntity(req.Data.Gender)).
 		SetNillableAuthority(r.authorityConverter.ToEntity(req.Data.Authority)).
-		SetNillableOrgID(req.Data.OrgId).
-		SetNillableWorkID(req.Data.WorkId).
-		SetNillablePositionID(req.Data.PositionId).
 		SetNillableTenantID(req.Data.TenantId).
-		//SetNillableRoleID(req.Data.RoleId).
+		SetNillableOrgID(req.Data.OrgId).
+		SetNillableDepartmentID(req.Data.DepartmentId).
+		SetNillablePositionID(req.Data.PositionId).
+		SetNillableWorkID(req.Data.WorkId).
 		SetNillableCreateBy(req.Data.CreateBy).
 		SetNillableCreateTime(timeutil.TimestamppbToTime(req.Data.CreateTime))
 
@@ -260,9 +260,9 @@ func (r *UserRepo) Update(ctx context.Context, req *userV1.UpdateUserRequest) er
 		SetNillableGender(r.genderConverter.ToEntity(req.Data.Gender)).
 		//SetNillableAuthority(r.authorityConverter.ToEntity(req.Data.Authority)).
 		SetNillableOrgID(req.Data.OrgId).
-		SetNillableWorkID(req.Data.WorkId).
+		SetNillableDepartmentID(req.Data.DepartmentId).
 		SetNillablePositionID(req.Data.PositionId).
-		//SetNillableRoleID(req.Data.RoleId).
+		SetNillableWorkID(req.Data.WorkId).
 		SetNillableUpdateBy(req.Data.UpdateBy).
 		SetNillableUpdateTime(timeutil.TimestamppbToTime(req.Data.UpdateTime))
 

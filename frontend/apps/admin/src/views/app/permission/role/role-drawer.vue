@@ -8,7 +8,8 @@ import { notification } from 'ant-design-vue';
 
 import { useVbenForm } from '#/adapter/form';
 import {
-  buildMenuTree, convertApiToTree,
+  buildMenuTree,
+  convertApiToTree,
   statusList,
   useApiResourceStore,
   useMenuStore,
@@ -96,7 +97,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
       componentProps: {
         title: $t('page.role.menus'),
         showSearch: true,
-        treeDefaultExpandAll: true,
+        treeDefaultExpandAll: false,
         loadingSlot: 'suffixIcon',
         childrenField: 'children',
         labelField: 'meta.title',
@@ -150,13 +151,22 @@ const [Drawer, drawerApi] = useVbenDrawer({
 
     // 获取表单数据
     const values = await baseFormApi.getValues();
+    const finalValues = JSON.parse(JSON.stringify(values));
 
-    console.log(getTitle.value, values, data.value.row);
+    if (
+      finalValues.apis !== null &&
+      Array.isArray(finalValues.apis) &&
+      finalValues.apis.length > 0
+    ) {
+      finalValues.apis = filterNumbers(values.apis);
+    }
+
+    console.log(getTitle.value, finalValues, data.value.row);
 
     try {
       await (data.value?.create
-        ? roleStore.createRole(values)
-        : roleStore.updateRole(data.value.row.id, values));
+        ? roleStore.createRole(finalValues)
+        : roleStore.updateRole(data.value.row.id, finalValues));
 
       notification.success({
         message: data.value?.create
@@ -191,6 +201,27 @@ const [Drawer, drawerApi] = useVbenDrawer({
 
 function setLoading(loading: boolean) {
   drawerApi.setState({ loading });
+}
+
+/**
+ * 从数组或对象中提取所有有效数字（原始 number 类型，排除 NaN/Infinity）
+ * @returns 仅包含有效数字的数组
+ */
+function filterNumbers(arr: unknown[]): number[] {
+  if (!Array.isArray(arr)) {
+    throw new TypeError('输入必须是 Array 类型');
+  }
+
+  const is_valid_number = (value: unknown): value is number => {
+    return (
+      typeof value === 'number' && // 必须是原始 number 类型
+      Object.prototype.toString.call(value) === '[object Number]' && // 排除数字包装对象（new Number()）
+      !Number.isNaN(value) && // 排除 NaN
+      Number.isFinite(value) // 排除 Infinity
+    );
+  };
+
+  return arr.filter((element) => is_valid_number(element));
 }
 </script>
 

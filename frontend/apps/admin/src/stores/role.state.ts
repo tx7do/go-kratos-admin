@@ -38,6 +38,7 @@ export const useRoleStore = defineStore('role', () => {
    */
   async function createRole(values: object) {
     return await defRoleService.Create({
+      // @ts-ignore proto generated code is error.
       data: {
         ...values,
         children: [],
@@ -50,6 +51,7 @@ export const useRoleStore = defineStore('role', () => {
    */
   async function updateRole(id: number, values: object) {
     return await defRoleService.Update({
+      // @ts-ignore proto generated code is error.
       data: {
         id,
         ...values,

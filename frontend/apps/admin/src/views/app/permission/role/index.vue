@@ -11,7 +11,13 @@ import { notification } from 'ant-design-vue';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
 import { $t } from '#/locales';
-import { statusList, useRoleStore } from '#/stores';
+import {
+  departmentStatusToColor,
+  departmentStatusToName,
+  statusList,
+  statusToColor, statusToName,
+  useRoleStore
+} from '#/stores';
 
 import RoleDrawer from './role-drawer.vue';
 
@@ -199,15 +205,9 @@ async function handleStatusChanged(row: any, checked: boolean) {
         </a-button>
       </template>
       <template #status="{ row }">
-        <a-switch
-          :checked="row.status === 'ON'"
-          :loading="row.pending"
-          :checked-children="$t('ui.switch.active')"
-          :un-checked-children="$t('ui.switch.inactive')"
-          @change="
-            (checked: any) => handleStatusChanged(row, checked as boolean)
-          "
-        />
+        <a-tag :color="statusToColor(row.status)">
+          {{ statusToName(row.status) }}
+        </a-tag>
       </template>
       <template #action="{ row }">
         <a-button

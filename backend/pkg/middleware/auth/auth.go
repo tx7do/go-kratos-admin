@@ -138,9 +138,9 @@ func processAuthz(
 		action = authzEngine.Action(htr.Request().Method)
 	}
 
-	log.Infof("Coming API Request: PATH[%s] ACTION[%s] USER ROLES[%v] USER ID[%d]",
-		path, action, tokenPayload.GetRoles(), tokenPayload.UserId,
-	)
+	//log.Infof("Coming API Request: PATH[%s] ACTION[%s] USER ROLES[%v] USER ID[%d]",
+	//	path, action, tokenPayload.GetRoles(), tokenPayload.UserId,
+	//)
 
 	authzClaims := authzEngine.AuthClaims{
 		//Subject:  (*authzEngine.Subject)(&sub),

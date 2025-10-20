@@ -119,24 +119,37 @@ function handleMenuClick(e: MenuInfo) {
   }
 }
 
-const getOptions = computed(() => {
+function transformData(data: OptionsItem[]): OptionsItem[] {
   const { labelField, valueField, childrenField, numberToString } = props;
 
-  const refOptionsData = unref(refOptions);
+  return data.map((item, index) => {
+    const value = get(item, valueField);
+    // 校验value是否存在，不存在则警告并生成临时唯一key
+    if (value === undefined || value === null) {
+      console.warn('节点缺少valueField对应的值', { item, valueField });
+      // 生成临时唯一key（避免重复）
+      const tempKey = `temp-key-${index}-${Date.now()}`;
+      console.warn(`自动生成临时key: ${tempKey}`);
+    }
+    return {
+      ...objectOmit(item, [labelField, valueField, childrenField]),
+      title: get(item, labelField),
+      // 确保key有效：优先用value，否则用临时key
+      key:
+        value !== undefined && value !== null
+          ? (numberToString
+            ? `${value}`
+            : value)
+          : `temp-key-${index}-${Date.now()}`,
+      ...(childrenField && item[childrenField]
+        ? { children: transformData(item[childrenField]) }
+        : {}),
+    };
+  });
+}
 
-  function transformData(data: OptionsItem[]): OptionsItem[] {
-    return data.map((item) => {
-      const value = get(item, valueField);
-      return {
-        ...objectOmit(item, [labelField, valueField, childrenField]),
-        title: get(item, labelField),
-        key: numberToString ? `${value}` : value,
-        ...(childrenField && item[childrenField]
-          ? { children: transformData(item[childrenField]) }
-          : {}),
-      };
-    });
-  }
+const getOptions = computed(() => {
+  const refOptionsData = unref(refOptions);
 
   const data: OptionsItem[] = transformData(refOptionsData);
 
@@ -148,14 +161,7 @@ function emitChange() {
 }
 
 async function fetchApi() {
-  let {
-    api,
-    beforeFetch,
-    afterFetch,
-    params,
-    resultField,
-    treeDefaultExpandAll,
-  } = props;
+  let { api, beforeFetch, afterFetch, params, resultField } = props;
 
   if (!api || !isFunction(api) || loading.value) {
     return;
@@ -173,10 +179,6 @@ async function fetchApi() {
 
     if (afterFetch && isFunction(afterFetch)) {
       res = (await afterFetch(res)) || res;
-    }
-
-    if (treeDefaultExpandAll) {
-      expandAll();
     }
 
     isFirstLoaded.value = true;

@@ -27,14 +27,20 @@ type ApiResourceService struct {
 
 	log *log.Helper
 
-	repo *data.ApiResourceRepo
+	repo       *data.ApiResourceRepo
+	authorizer *data.Authorizer
 }
 
-func NewApiResourceService(logger log.Logger, repo *data.ApiResourceRepo) *ApiResourceService {
+func NewApiResourceService(
+	logger log.Logger,
+	repo *data.ApiResourceRepo,
+	authorizer *data.Authorizer,
+) *ApiResourceService {
 	l := log.NewHelper(log.With(logger, "module", "api-resource/service/admin-service"))
 	svc := &ApiResourceService{
-		log:  l,
-		repo: repo,
+		log:        l,
+		repo:       repo,
+		authorizer: authorizer,
 	}
 
 	svc.init()

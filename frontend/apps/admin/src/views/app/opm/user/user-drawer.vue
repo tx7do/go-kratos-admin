@@ -13,13 +13,19 @@ import {
 } from '#/generated/api/user/service/v1/user.pb';
 import {
   authorityList,
-  genderList,
+  genderList, statusList,
+  useDepartmentStore,
   useOrganizationStore,
+  usePositionStore,
+  useRoleStore,
   useUserStore,
 } from '#/stores';
 
 const userStore = useUserStore();
+const roleStore = useRoleStore();
 const orgStore = useOrganizationStore();
+const positionStore = usePositionStore();
+const deptStore = useDepartmentStore();
 
 const data = ref();
 
@@ -72,7 +78,6 @@ const [BaseForm, baseFormApi] = useVbenForm({
       componentProps: {
         placeholder: $t('ui.placeholder.select'),
         options: authorityList,
-        allowClear: true,
       },
       rules: 'selectRequired',
       dependencies: {
@@ -82,13 +87,36 @@ const [BaseForm, baseFormApi] = useVbenForm({
     },
     {
       component: 'ApiTreeSelect',
+      fieldName: 'roleIds',
+      label: $t('page.user.form.role'),
+      componentProps: {
+        placeholder: $t('ui.placeholder.select'),
+        showSearch: true,
+        multiple: true,
+        treeDefaultExpandAll: false,
+        allowClear: true,
+        loadingSlot: 'suffixIcon',
+        childrenField: 'children',
+        labelField: 'name',
+        valueField: 'id',
+        api: async () => {
+          const result = await roleStore.listRole(true);
+
+          return result.items;
+        },
+      },
+      // rules: 'selectRequired',
+    },
+    {
+      component: 'ApiTreeSelect',
       fieldName: 'orgId',
-      label: $t('page.user.table.orgId'),
+      label: $t('page.user.form.org'),
       componentProps: {
         placeholder: $t('ui.placeholder.select'),
         numberToString: true,
         showSearch: true,
         treeDefaultExpandAll: true,
+        allowClear: true,
         childrenField: 'children',
         labelField: 'name',
         valueField: 'id',
@@ -101,6 +129,60 @@ const [BaseForm, baseFormApi] = useVbenForm({
       // rules: 'selectRequired',
     },
     {
+      component: 'ApiTreeSelect',
+      fieldName: 'departmentId',
+      label: $t('page.user.form.department'),
+      componentProps: {
+        placeholder: $t('ui.placeholder.select'),
+        numberToString: true,
+        showSearch: true,
+        treeDefaultExpandAll: true,
+        allowClear: true,
+        childrenField: 'children',
+        labelField: 'name',
+        valueField: 'id',
+        api: async () => {
+          const result = await deptStore.listDepartment(true, null, null, {
+            status: 'ON',
+          });
+          return result.items;
+        },
+      },
+    },
+    {
+      component: 'ApiTreeSelect',
+      fieldName: 'positionId',
+      label: $t('page.user.form.position'),
+      componentProps: {
+        placeholder: $t('ui.placeholder.select'),
+        numberToString: true,
+        showSearch: true,
+        treeDefaultExpandAll: true,
+        allowClear: true,
+        childrenField: 'children',
+        labelField: 'name',
+        valueField: 'id',
+        api: async () => {
+          const result = await positionStore.listPosition(true, null, null, {
+            status: 'ON',
+          });
+          return result.items;
+        },
+      },
+    },
+
+    {
+      component: 'Select',
+      fieldName: 'gender',
+      label: $t('page.user.table.gender'),
+      defaultValue: UserGender.SECRET,
+      componentProps: {
+        options: genderList,
+        placeholder: $t('ui.placeholder.select'),
+      },
+    },
+
+    {
       component: 'Input',
       fieldName: 'nickname',
       label: $t('page.user.table.nickname'),
@@ -109,6 +191,15 @@ const [BaseForm, baseFormApi] = useVbenForm({
         allowClear: true,
       },
       rules: 'required',
+    },
+    {
+      component: 'Input',
+      fieldName: 'realname',
+      label: $t('page.user.table.realname'),
+      componentProps: {
+        placeholder: $t('ui.placeholder.input'),
+        allowClear: true,
+      },
     },
     {
       component: 'Input',
@@ -132,14 +223,16 @@ const [BaseForm, baseFormApi] = useVbenForm({
     },
 
     {
-      component: 'Select',
-      fieldName: 'gender',
-      label: $t('page.user.table.gender'),
-      defaultValue: UserGender.SECRET,
+      component: 'RadioGroup',
+      fieldName: 'status',
+      label: $t('ui.table.status'),
+      defaultValue: 'ON',
+      rules: 'selectRequired',
       componentProps: {
-        options: genderList,
-        placeholder: $t('ui.placeholder.select'),
-        allowClear: true,
+        optionType: 'button',
+        buttonStyle: 'solid',
+        class: 'flex flex-wrap', // 如果选项过多，可以添加class来自动折叠
+        options: statusList,
       },
     },
 

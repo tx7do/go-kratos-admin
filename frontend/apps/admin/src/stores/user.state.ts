@@ -147,7 +147,7 @@ export function authorityToColor(authority: any) {
     } // 柔和绿色（Antd success色，体现“正常、常规”）
     case UserAuthority.GUEST: {
       // 访客用户：最低权限，浅灰弱化
-      return '#C9CDD4';
+      return '#b0b0b0';
     } // 浅灰色（视觉上弱化，体现“临时、受限”）
     case UserAuthority.SYS_ADMIN: {
       // 系统管理员：最高权限，深蓝稳重

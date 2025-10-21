@@ -39,11 +39,11 @@
       "lastLoginIp": "Last Login IP",
       "authority": "Authority",
       "roleId": "Role",
-      "workId": "Work",
-      "orgId": "Organization",
-      "positionId": "Position",
       "tenantId": "Tenant",
-      "deptId": "Department"
+      "orgId": "Organization",
+      "deptId": "Department",
+      "positionId": "Position",
+      "workId": "Work ID"
     },
     "button": {
       "create": "Create",

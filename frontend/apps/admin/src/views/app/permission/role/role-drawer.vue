@@ -78,6 +78,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
       rules: 'selectRequired',
       componentProps: {
         optionType: 'button',
+        buttonStyle: 'solid',
         class: 'flex flex-wrap', // 如果选项过多，可以添加class来自动折叠
         options: statusList,
       },

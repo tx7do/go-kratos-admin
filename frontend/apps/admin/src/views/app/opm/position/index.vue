@@ -72,12 +72,12 @@ const formOptions: VbenFormProps = {
       componentProps: {
         placeholder: $t('ui.placeholder.select'),
         numberToString: true,
-        childrenField: 'children',
-        labelField: 'name',
-        valueField: 'id',
         showSearch: true,
         treeDefaultExpandAll: true,
         allowClear: true,
+        childrenField: 'children',
+        labelField: 'name',
+        valueField: 'id',
         api: async () => {
           const result = await orgStore.listOrganization(true, null, null, {
             // parent_id: 0,
@@ -94,12 +94,12 @@ const formOptions: VbenFormProps = {
       componentProps: {
         placeholder: $t('ui.placeholder.select'),
         numberToString: true,
-        childrenField: 'children',
-        labelField: 'name',
-        valueField: 'id',
         showSearch: true,
         treeDefaultExpandAll: true,
         allowClear: true,
+        childrenField: 'children',
+        labelField: 'name',
+        valueField: 'id',
         api: async () => {
           const result = await deptStore.listDepartment(true, null, null, {
             // parent_id: 0,

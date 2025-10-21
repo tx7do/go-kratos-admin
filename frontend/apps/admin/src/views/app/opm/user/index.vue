@@ -81,7 +81,7 @@ const formOptions: VbenFormProps = {
     {
       component: 'ApiSelect',
       fieldName: 'roleId',
-      label: $t('page.user.form.roleId'),
+      label: $t('page.user.form.role'),
       componentProps: {
         placeholder: $t('ui.placeholder.select'),
         allowClear: true,
@@ -188,6 +188,22 @@ const gridOptions: VxeGridProps<User> = {
     },
     { title: $t('page.user.table.email'), field: 'email', width: 160 },
     { title: $t('page.user.table.mobile'), field: 'mobile', width: 130 },
+    { title: $t('page.user.table.orgId'), field: 'orgName', width: 130 },
+    {
+      title: $t('page.user.table.deptId'),
+      field: 'departmentName',
+      width: 130,
+    },
+    {
+      title: $t('page.user.table.positionId'),
+      field: 'positionName',
+      width: 130,
+    },
+    {
+      title: $t('page.user.table.roleId'),
+      field: 'roleNames',
+      slots: { default: 'role' },
+    },
     {
       title: $t('page.user.table.authority'),
       field: 'authority',
@@ -289,27 +305,20 @@ function handleDetail(row: any) {
   router.push(`/system/users/detail/${row.username}`);
 }
 
-/* 修改用户状态 */
-async function handleStatusChanged(row: any, checked: boolean) {
-  console.log('handleStatusChanged', row.status, checked);
-
-  row.pending = true;
-  row.status = checked ? 'ON' : 'OFF';
-
-  try {
-    await userStore.updateUser(row.id, { status: row.status });
-
-    notification.success({
-      message: $t('ui.notification.update_status_success'),
-    });
-  } catch {
-    notification.error({
-      message: $t('ui.notification.update_status_failed'),
-    });
-  } finally {
-    row.pending = false;
+// 生成基于字符串的固定随机色（HSL模式，保证饱和度和明度适中）
+const getRandomColor = (str: string) => {
+  // 1. 基于字符串生成哈希值（确保同字符串同结果）
+  let hash = 0;
+  for (let i = 0; i < str.length; i++) {
+    hash = str.codePointAt(i) + ((hash << 5) - hash);
   }
-}
+
+  // 2. 色相（0-360）：基于哈希值取随机
+  const hue = Math.abs(hash % 360);
+
+  // 3. 固定饱和度（50%）和明度（85%）：避免颜色过深/过浅，保证文字可读
+  return `hsl(${hue}, 50%, 85%)`;
+};
 </script>
 
 <template>
@@ -334,6 +343,22 @@ async function handleStatusChanged(row: any, checked: boolean) {
         <a-tag :color="genderToColor(row.gender)">
           {{ genderToName(row.gender) }}
         </a-tag>
+      </template>
+      <template #role="{ row }">
+        <div>
+          <a-tag
+            v-for="role in row.roleNames"
+            :key="role"
+            class="mb-1 mr-1"
+            :style="{
+              backgroundColor: getRandomColor(role), // 随机背景色
+              color: '#333', // 深色文字（适配浅色背景）
+              border: 'none', // 可选：去掉边框更美观
+            }"
+          >
+            {{ role }}
+          </a-tag>
+        </div>
       </template>
       <template #action="{ row }">
         <a-button
@@ -364,3 +389,18 @@ async function handleStatusChanged(row: any, checked: boolean) {
     <Drawer />
   </Page>
 </template>
+
+<style scoped>
+.tag-container {
+  /* 1. 启用flex布局 */
+  display: flex;
+  /* 2. 允许换行 */
+  flex-wrap: wrap;
+  /* 3. 控制标签之间的间距（水平+垂直），替代mr-1 mb-1 */
+  gap: 4px; /* 等价于 margin-right:4px + margin-bottom:4px */
+  /* 4. 限制容器宽度（根据实际场景设置，如100%占满父容器） */
+  width: 100%;
+  /* 可选：避免内容溢出时隐藏 */
+  overflow: visible;
+}
+</style>

@@ -19,7 +19,11 @@
       "realname": "真实姓名",
       "email": "电子邮箱",
       "mobile": "手机号码",
-      "roleId": "角色",
+      "tenant": "所属租户",
+      "role": "角色",
+      "org": "所属组织",
+      "department": "所属部门",
+      "position": "所属职位",
       "authority": "权限",
       "oldPassword": "当前密码",
       "newPassword": "新密码",
@@ -43,11 +47,11 @@
       "lastLoginIp": "最后登录IP",
       "authority": "权限",
       "roleId": "角色",
-      "workId": "工号",
-      "orgId": "所属组织",
-      "positionId": "所属岗位",
       "tenantId": "所属租户",
-      "deptId": "所属部门"
+      "orgId": "所属组织",
+      "deptId": "所属部门",
+      "positionId": "所属岗位",
+      "workId": "工号"
     },
     "button": {
       "create": "创建账号",

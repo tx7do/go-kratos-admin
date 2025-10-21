@@ -51,13 +51,13 @@ const [BaseForm, baseFormApi] = useVbenForm({
       component: 'RadioGroup',
       fieldName: 'type',
       label: $t('page.menu.type'),
+      defaultValue: MenuType.MENU,
+      formItemClass: 'col-span-2 md:col-span-2',
       componentProps: {
         optionType: 'button',
         buttonStyle: 'solid',
         options: menuTypeList,
       },
-      defaultValue: MenuType.MENU,
-      formItemClass: 'col-span-2 md:col-span-2',
     },
 
     {
@@ -87,6 +87,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
         showSearch: true,
         treeDefaultExpandAll: true,
         numberToString: true,
+        allowClear: true,
         childrenField: 'children',
         labelField: 'meta.title',
         valueField: 'id',
@@ -175,6 +176,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
       rules: 'selectRequired',
       componentProps: {
         optionType: 'button',
+        buttonStyle: 'solid',
         class: 'flex flex-wrap', // 如果选项过多，可以添加class来自动折叠
         options: statusList,
       },

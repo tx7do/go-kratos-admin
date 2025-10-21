@@ -10,8 +10,8 @@
   "authority": {
     "GUEST": "访客用户",
     "CUSTOMER_USER": "普通用户",
-    "TENANT_ADMIN": "租户管理员",
-    "SYS_ADMIN": "超级管理员"
+    "TENANT_ADMIN": "租户管理",
+    "SYS_ADMIN": "超级管理"
   },
   "menuType": {
     "FOLDER": "目录",

@@ -86,9 +86,10 @@ message User {
     description: "角色码列表"
   }]; // 角色码列表
 
-  repeated string role_names = 14 [(gnostic.openapi.v3.property) = {
-    description: "角色名称列表"
-  }]; // 角色名称列表
+  repeated string role_names = 14 [
+    json_name = "roleNames",
+    (gnostic.openapi.v3.property) = { description: "角色名称列表"}
+  ]; // 角色名称列表
 
   optional string username = 20 [
     json_name = "username",

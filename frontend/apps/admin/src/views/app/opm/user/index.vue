@@ -2,7 +2,7 @@
 import type { VxeGridListeners, VxeGridProps } from '#/adapter/vxe-table';
 import type { User } from '#/generated/api/user/service/v1/user.pb';
 
-import { h } from 'vue';
+import { h, ref } from 'vue';
 
 import { Page, useVbenDrawer, type VbenFormProps } from '@vben/common-ui';
 import { LucideFilePenLine, LucideInfo, LucideTrash2 } from '@vben/icons';
@@ -22,6 +22,7 @@ import {
   statusToName,
   useDepartmentStore,
   useOrganizationStore,
+  usePositionStore,
   useRoleStore,
   useUserStore,
 } from '#/stores';
@@ -30,8 +31,9 @@ import UserDrawer from './user-drawer.vue';
 
 const userStore = useUserStore();
 const roleStore = useRoleStore();
-const deptStore = useDepartmentStore();
 const orgStore = useOrganizationStore();
+const deptStore = useDepartmentStore();
+const positionStore = usePositionStore();
 
 const formOptions: VbenFormProps = {
   // 默认展开
@@ -100,7 +102,7 @@ const formOptions: VbenFormProps = {
     {
       component: 'ApiTreeSelect',
       fieldName: 'organizationId',
-      label: $t('page.position.organization'),
+      label: $t('page.user.form.org'),
       componentProps: {
         placeholder: $t('ui.placeholder.select'),
         numberToString: true,
@@ -112,7 +114,6 @@ const formOptions: VbenFormProps = {
         allowClear: true,
         api: async () => {
           const result = await orgStore.listOrganization(true, null, null, {
-            // parent_id: 0,
             status: 'ON',
           });
           return result.items;
@@ -122,7 +123,7 @@ const formOptions: VbenFormProps = {
     {
       component: 'ApiTreeSelect',
       fieldName: 'departmentId',
-      label: $t('page.position.department'),
+      label: $t('page.user.form.department'),
       componentProps: {
         placeholder: $t('ui.placeholder.select'),
         numberToString: true,
@@ -134,7 +135,27 @@ const formOptions: VbenFormProps = {
         allowClear: true,
         api: async () => {
           const result = await deptStore.listDepartment(true, null, null, {
-            // parent_id: 0,
+            status: 'ON',
+          });
+          return result.items;
+        },
+      },
+    },
+    {
+      component: 'ApiTreeSelect',
+      fieldName: 'positionId',
+      label: $t('page.user.form.position'),
+      componentProps: {
+        placeholder: $t('ui.placeholder.select'),
+        numberToString: true,
+        showSearch: true,
+        treeDefaultExpandAll: true,
+        allowClear: true,
+        childrenField: 'children',
+        labelField: 'name',
+        valueField: 'id',
+        api: async () => {
+          const result = await positionStore.listPosition(true, null, null, {
             status: 'ON',
           });
           return result.items;
@@ -145,6 +166,9 @@ const formOptions: VbenFormProps = {
 };
 
 const gridOptions: VxeGridProps<User> = {
+  height: 'auto',
+  stripe: true,
+  autoResize: true,
   toolbarConfig: {
     custom: true,
     export: true,
@@ -152,13 +176,13 @@ const gridOptions: VxeGridProps<User> = {
     refresh: true,
     zoom: true,
   },
-  height: 'auto',
   exportConfig: {},
   pagerConfig: {},
   rowConfig: {
     isHover: true,
+    resizable: true,
   },
-  stripe: true,
+  resizableConfig: {},
 
   proxyConfig: {
     ajax: {
@@ -203,6 +227,7 @@ const gridOptions: VxeGridProps<User> = {
       title: $t('page.user.table.roleId'),
       field: 'roleNames',
       slots: { default: 'role' },
+      showOverflow: 'tooltip',
     },
     {
       title: $t('page.user.table.authority'),
@@ -305,12 +330,14 @@ function handleDetail(row: any) {
   router.push(`/system/users/detail/${row.username}`);
 }
 
+const isExpand = ref(false);
+
 // 生成基于字符串的固定随机色（HSL模式，保证饱和度和明度适中）
 const getRandomColor = (str: string) => {
   // 1. 基于字符串生成哈希值（确保同字符串同结果）
   let hash = 0;
   for (let i = 0; i < str.length; i++) {
-    hash = str.codePointAt(i) + ((hash << 5) - hash);
+    hash = str.charCodeAt(i) + ((hash << 5) - hash);
   }
 
   // 2. 色相（0-360）：基于哈希值取随机
@@ -402,5 +429,15 @@ const getRandomColor = (str: string) => {
   width: 100%;
   /* 可选：避免内容溢出时隐藏 */
   overflow: visible;
+}
+
+.visible-roles,
+.all-roles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.all-roles {
+  margin-top: 4px;
 }
 </style>

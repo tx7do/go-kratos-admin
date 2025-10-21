@@ -133,41 +133,36 @@ func (s *UserService) List(ctx context.Context, req *pagination.PagingRequest) (
 	return resp, nil
 }
 
-func (s *UserService) Get(ctx context.Context, req *userV1.GetUserRequest) (*userV1.User, error) {
-	resp, err := s.userRepo.Get(ctx, req.GetId())
-	if err != nil {
-		return nil, err
-	}
-
-	if resp.OrgId != nil {
-		organization, err := s.organizationRepo.Get(ctx, &userV1.GetOrganizationRequest{Id: resp.GetOrgId()})
+func (s *UserService) fileUserInfo(ctx context.Context, user *userV1.User) error {
+	if user.OrgId != nil {
+		organization, err := s.organizationRepo.Get(ctx, &userV1.GetOrganizationRequest{Id: user.GetOrgId()})
 		if err == nil && organization != nil {
-			resp.OrgName = organization.Name
+			user.OrgName = organization.Name
 		} else {
 			s.log.Warnf("Get user organization failed: %v", err)
 		}
 	}
 
-	if resp.DepartmentId != nil {
-		department, err := s.departmentRepo.Get(ctx, &userV1.GetDepartmentRequest{Id: resp.GetDepartmentId()})
+	if user.DepartmentId != nil {
+		department, err := s.departmentRepo.Get(ctx, &userV1.GetDepartmentRequest{Id: user.GetDepartmentId()})
 		if err == nil && department != nil {
-			resp.DepartmentName = department.Name
+			user.DepartmentName = department.Name
 		} else {
 			s.log.Warnf("Get user department failed: %v", err)
 		}
 	}
 
-	if resp.PositionId != nil {
-		position, err := s.positionRepo.Get(ctx, &userV1.GetPositionRequest{Id: resp.GetPositionId()})
+	if user.PositionId != nil {
+		position, err := s.positionRepo.Get(ctx, &userV1.GetPositionRequest{Id: user.GetPositionId()})
 		if err == nil && position != nil {
-			resp.PositionName = position.Name
+			user.PositionName = position.Name
 		} else {
 			s.log.Warnf("Get user position failed: %v", err)
 		}
 	}
 
-	if len(resp.RoleIds) > 0 {
-		roles, err := s.roleRepo.GetRolesByRoleIds(ctx, resp.RoleIds)
+	if len(user.RoleIds) > 0 {
+		roles, err := s.roleRepo.GetRolesByRoleIds(ctx, user.RoleIds)
 		if err == nil && roles != nil {
 			var roleNames []string
 			var roleCodes []string
@@ -175,12 +170,23 @@ func (s *UserService) Get(ctx context.Context, req *userV1.GetUserRequest) (*use
 				roleNames = append(roleNames, role.GetName())
 				roleCodes = append(roleCodes, role.GetCode())
 			}
-			resp.RoleNames = roleNames
-			resp.Roles = roleCodes
+			user.RoleNames = roleNames
+			user.Roles = roleCodes
 		} else {
 			s.log.Warnf("Get user roles failed: %v", err)
 		}
 	}
+
+	return nil
+}
+
+func (s *UserService) Get(ctx context.Context, req *userV1.GetUserRequest) (*userV1.User, error) {
+	resp, err := s.userRepo.Get(ctx, req.GetId())
+	if err != nil {
+		return nil, err
+	}
+
+	_ = s.fileUserInfo(ctx, resp)
 
 	return resp, nil
 }
@@ -191,10 +197,7 @@ func (s *UserService) GetUserByUserName(ctx context.Context, req *userV1.GetUser
 		return nil, err
 	}
 
-	//role, err := s.roleRepo.Get(ctx, resp.GetRoleId())
-	//if err == nil && role != nil {
-	//	resp.Roles = append(resp.Roles, role.GetCode())
-	//}
+	_ = s.fileUserInfo(ctx, resp)
 
 	return resp, nil
 }
@@ -217,7 +220,8 @@ func (s *UserService) Create(ctx context.Context, req *userV1.CreateUserRequest)
 	}
 
 	// 校验操作者的权限
-	if operatorUser.GetAuthority() != userV1.UserAuthority_SYS_ADMIN {
+	if operatorUser.GetAuthority() != userV1.UserAuthority_SYS_ADMIN && operatorUser.GetAuthority() != userV1.UserAuthority_TENANT_ADMIN {
+		s.log.Infof("operator authority: %v", operatorUser.GetAuthority())
 		return nil, adminV1.ErrorForbidden("权限不够")
 	}
 
@@ -227,6 +231,7 @@ func (s *UserService) Create(ctx context.Context, req *userV1.CreateUserRequest)
 
 	if req.Data.Authority != nil {
 		if operatorUser.GetAuthority() < req.Data.GetAuthority() {
+			s.log.Infof("operator authority: %v, create authority: %v", operatorUser.GetAuthority(), req.Data.GetAuthority())
 			return nil, adminV1.ErrorForbidden("不能够创建同级用户或者比自己权限高的用户")
 		}
 	}
@@ -236,7 +241,6 @@ func (s *UserService) Create(ctx context.Context, req *userV1.CreateUserRequest)
 	// 创建用户
 	var user *userV1.User
 	if user, err = s.userRepo.Create(ctx, req); err != nil {
-		s.log.Error(err)
 		return nil, err
 	}
 
@@ -373,11 +377,12 @@ func (s *UserService) CreateDefaultUser(ctx context.Context) error {
 		Data: &userV1.User{
 			Id:        trans.Ptr(uint32(1)),
 			Username:  trans.Ptr(defaultUsername),
-			Realname:  trans.Ptr("大灰狼"),
+			Realname:  trans.Ptr("喵个咪"),
 			Nickname:  trans.Ptr("鹳狸猿"),
 			Region:    trans.Ptr("中国"),
 			Email:     trans.Ptr("admin@gmail.com"),
 			Authority: userV1.UserAuthority_SYS_ADMIN.Enum(),
+			RoleIds:   []uint32{1},
 			Roles:     []string{"super"},
 		},
 	}); err != nil {

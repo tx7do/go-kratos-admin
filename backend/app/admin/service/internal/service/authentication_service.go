@@ -71,6 +71,21 @@ func (s *AuthenticationService) Login(ctx context.Context, req *authenticationV1
 	}
 }
 
+// checkAuthority 检查用户权限
+func (s *AuthenticationService) checkAuthority(user *userV1.User) error {
+	if user == nil {
+		return authenticationV1.ErrorUnauthorized("用户不存在")
+	}
+
+	// 仅允许系统管理员和租户管理员登录后台管理系统
+	if user.GetAuthority() != userV1.UserAuthority_SYS_ADMIN && user.GetAuthority() != userV1.UserAuthority_TENANT_ADMIN {
+		s.log.Errorf("user [%d] authority [%s] is not allowed to login admin system", user.GetId(), user.GetAuthority().String())
+		return authenticationV1.ErrorForbidden("权限不够")
+	}
+
+	return nil
+}
+
 // doGrantTypePassword 处理授权类型 - 密码
 func (s *AuthenticationService) doGrantTypePassword(ctx context.Context, req *authenticationV1.LoginRequest) (*authenticationV1.LoginResponse, error) {
 	var err error
@@ -91,8 +106,8 @@ func (s *AuthenticationService) doGrantTypePassword(ctx context.Context, req *au
 	}
 
 	// 验证权限
-	if user.GetAuthority() != userV1.UserAuthority_SYS_ADMIN {
-		return &authenticationV1.LoginResponse{}, authenticationV1.ErrorForbidden("权限不够")
+	if err = s.checkAuthority(user); err != nil {
+		return nil, err
 	}
 
 	roleCodes, err := s.roleRepo.GetRoleCodesByRoleIds(ctx, user.GetRoleIds())
@@ -116,7 +131,7 @@ func (s *AuthenticationService) doGrantTypePassword(ctx context.Context, req *au
 	}, nil
 }
 
-// doGrantTypeAuthorizationCode 处理授权类型 -
+// doGrantTypeAuthorizationCode 处理授权类型 - 刷新令牌
 func (s *AuthenticationService) doGrantTypeRefreshToken(ctx context.Context, req *authenticationV1.LoginRequest) (*authenticationV1.LoginResponse, error) {
 	// 获取操作人信息
 	operator, err := auth.FromContext(ctx)
@@ -128,6 +143,11 @@ func (s *AuthenticationService) doGrantTypeRefreshToken(ctx context.Context, req
 	user, err := s.userRepo.Get(ctx, operator.UserId)
 	if err != nil {
 		return &authenticationV1.LoginResponse{}, err
+	}
+
+	// 验证权限
+	if err = s.checkAuthority(user); err != nil {
+		return nil, err
 	}
 
 	// 校验刷新令牌
@@ -190,6 +210,7 @@ func (s *AuthenticationService) RefreshToken(ctx context.Context, req *authentic
 	return s.doGrantTypeRefreshToken(ctx, req)
 }
 
+// ValidateToken 验证令牌
 func (s *AuthenticationService) ValidateToken(_ context.Context, req *authenticationV1.ValidateTokenRequest) (*authenticationV1.ValidateTokenResponse, error) {
 	ret, err := s.authenticator.AuthenticateToken(req.GetToken())
 	if err != nil {
@@ -211,6 +232,7 @@ func (s *AuthenticationService) ValidateToken(_ context.Context, req *authentica
 	}, nil
 }
 
+// RegisterUser 注册前台用户
 func (s *AuthenticationService) RegisterUser(ctx context.Context, req *authenticationV1.RegisterUserRequest) (*authenticationV1.RegisterUserResponse, error) {
 	var err error
 

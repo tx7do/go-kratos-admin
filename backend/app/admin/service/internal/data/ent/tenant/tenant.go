@@ -39,7 +39,7 @@ const (
 	// FieldUnsubscribeAt holds the string denoting the unsubscribe_at field in the database.
 	FieldUnsubscribeAt = "unsubscribe_at"
 	// Table holds the table name of the tenant in the database.
-	Table = "tenants"
+	Table = "sys_tenants"
 )
 
 // Columns holds all SQL columns for tenant fields.

@@ -68,7 +68,7 @@ const (
 	// FieldRoleIds holds the string denoting the role_ids field in the database.
 	FieldRoleIds = "role_ids"
 	// Table holds the table name of the user in the database.
-	Table = "users"
+	Table = "sys_users"
 )
 
 // Columns holds all SQL columns for user fields.

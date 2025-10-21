@@ -17,7 +17,7 @@ type AdminLoginRestriction struct {
 func (AdminLoginRestriction) Annotations() []schema.Annotation {
 	return []schema.Annotation{
 		entsql.Annotation{
-			Table:     "admin_login_restrictions",
+			Table:     "sys_admin_login_restrictions",
 			Charset:   "utf8mb4",
 			Collation: "utf8mb4_bin",
 		},

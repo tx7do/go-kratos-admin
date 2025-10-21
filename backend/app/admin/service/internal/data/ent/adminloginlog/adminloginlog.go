@@ -46,7 +46,7 @@ const (
 	// FieldLocation holds the string denoting the location field in the database.
 	FieldLocation = "location"
 	// Table holds the table name of the adminloginlog in the database.
-	Table = "admin_login_logs"
+	Table = "sys_admin_login_logs"
 )
 
 // Columns holds all SQL columns for adminloginlog fields.

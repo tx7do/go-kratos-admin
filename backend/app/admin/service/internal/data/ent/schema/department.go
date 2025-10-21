@@ -19,7 +19,7 @@ type Department struct {
 func (Department) Annotations() []schema.Annotation {
 	return []schema.Annotation{
 		entsql.Annotation{
-			Table:     "departments",
+			Table:     "sys_departments",
 			Charset:   "utf8mb4",
 			Collation: "utf8mb4_bin",
 		},

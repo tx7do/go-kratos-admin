@@ -16,7 +16,7 @@ type AdminOperationLog struct {
 func (AdminOperationLog) Annotations() []schema.Annotation {
 	return []schema.Annotation{
 		entsql.Annotation{
-			Table:     "admin_operation_logs",
+			Table:     "sys_admin_operation_logs",
 			Charset:   "utf8mb4",
 			Collation: "utf8mb4_bin",
 		},

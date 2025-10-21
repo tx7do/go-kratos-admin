@@ -9,8 +9,8 @@ import (
 )
 
 var (
-	// AdminLoginLogsColumns holds the columns for the "admin_login_logs" table.
-	AdminLoginLogsColumns = []*schema.Column{
+	// SysAdminLoginLogsColumns holds the columns for the "sys_admin_login_logs" table.
+	SysAdminLoginLogsColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeUint32, Increment: true, Comment: "id", SchemaType: map[string]string{"mysql": "int", "postgres": "serial"}},
 		{Name: "create_time", Type: field.TypeTime, Nullable: true, Comment: "创建时间"},
 		{Name: "login_ip", Type: field.TypeString, Nullable: true, Comment: "登录IP地址"},
@@ -30,22 +30,22 @@ var (
 		{Name: "reason", Type: field.TypeString, Nullable: true, Comment: "登录失败原因"},
 		{Name: "location", Type: field.TypeString, Nullable: true, Comment: "登录地理位置"},
 	}
-	// AdminLoginLogsTable holds the schema information for the "admin_login_logs" table.
-	AdminLoginLogsTable = &schema.Table{
-		Name:       "admin_login_logs",
+	// SysAdminLoginLogsTable holds the schema information for the "sys_admin_login_logs" table.
+	SysAdminLoginLogsTable = &schema.Table{
+		Name:       "sys_admin_login_logs",
 		Comment:    "后台登录日志表",
-		Columns:    AdminLoginLogsColumns,
-		PrimaryKey: []*schema.Column{AdminLoginLogsColumns[0]},
+		Columns:    SysAdminLoginLogsColumns,
+		PrimaryKey: []*schema.Column{SysAdminLoginLogsColumns[0]},
 		Indexes: []*schema.Index{
 			{
 				Name:    "adminloginlog_id",
 				Unique:  false,
-				Columns: []*schema.Column{AdminLoginLogsColumns[0]},
+				Columns: []*schema.Column{SysAdminLoginLogsColumns[0]},
 			},
 		},
 	}
-	// AdminLoginRestrictionsColumns holds the columns for the "admin_login_restrictions" table.
-	AdminLoginRestrictionsColumns = []*schema.Column{
+	// SysAdminLoginRestrictionsColumns holds the columns for the "sys_admin_login_restrictions" table.
+	SysAdminLoginRestrictionsColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeUint32, Increment: true, Comment: "id", SchemaType: map[string]string{"mysql": "int", "postgres": "serial"}},
 		{Name: "create_time", Type: field.TypeTime, Nullable: true, Comment: "创建时间"},
 		{Name: "update_time", Type: field.TypeTime, Nullable: true, Comment: "更新时间"},
@@ -58,27 +58,27 @@ var (
 		{Name: "type", Type: field.TypeEnum, Nullable: true, Comment: "限制类型", Enums: []string{"BLACKLIST", "WHITELIST"}, Default: "BLACKLIST"},
 		{Name: "method", Type: field.TypeEnum, Nullable: true, Comment: "限制方式", Enums: []string{"IP", "MAC", "REGION", "TIME", "DEVICE"}, Default: "IP"},
 	}
-	// AdminLoginRestrictionsTable holds the schema information for the "admin_login_restrictions" table.
-	AdminLoginRestrictionsTable = &schema.Table{
-		Name:       "admin_login_restrictions",
+	// SysAdminLoginRestrictionsTable holds the schema information for the "sys_admin_login_restrictions" table.
+	SysAdminLoginRestrictionsTable = &schema.Table{
+		Name:       "sys_admin_login_restrictions",
 		Comment:    "后台登录限制表",
-		Columns:    AdminLoginRestrictionsColumns,
-		PrimaryKey: []*schema.Column{AdminLoginRestrictionsColumns[0]},
+		Columns:    SysAdminLoginRestrictionsColumns,
+		PrimaryKey: []*schema.Column{SysAdminLoginRestrictionsColumns[0]},
 		Indexes: []*schema.Index{
 			{
 				Name:    "adminloginrestriction_id",
 				Unique:  false,
-				Columns: []*schema.Column{AdminLoginRestrictionsColumns[0]},
+				Columns: []*schema.Column{SysAdminLoginRestrictionsColumns[0]},
 			},
 			{
 				Name:    "adminloginrestriction_target_id_type_method",
 				Unique:  true,
-				Columns: []*schema.Column{AdminLoginRestrictionsColumns[6], AdminLoginRestrictionsColumns[9], AdminLoginRestrictionsColumns[10]},
+				Columns: []*schema.Column{SysAdminLoginRestrictionsColumns[6], SysAdminLoginRestrictionsColumns[9], SysAdminLoginRestrictionsColumns[10]},
 			},
 		},
 	}
-	// AdminOperationLogsColumns holds the columns for the "admin_operation_logs" table.
-	AdminOperationLogsColumns = []*schema.Column{
+	// SysAdminOperationLogsColumns holds the columns for the "sys_admin_operation_logs" table.
+	SysAdminOperationLogsColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeUint32, Increment: true, Comment: "id", SchemaType: map[string]string{"mysql": "int", "postgres": "serial"}},
 		{Name: "create_time", Type: field.TypeTime, Nullable: true, Comment: "创建时间"},
 		{Name: "request_id", Type: field.TypeString, Nullable: true, Comment: "请求ID"},
@@ -106,17 +106,17 @@ var (
 		{Name: "os_name", Type: field.TypeString, Nullable: true, Comment: "操作系统名称"},
 		{Name: "os_version", Type: field.TypeString, Nullable: true, Comment: "操作系统版本"},
 	}
-	// AdminOperationLogsTable holds the schema information for the "admin_operation_logs" table.
-	AdminOperationLogsTable = &schema.Table{
-		Name:       "admin_operation_logs",
+	// SysAdminOperationLogsTable holds the schema information for the "sys_admin_operation_logs" table.
+	SysAdminOperationLogsTable = &schema.Table{
+		Name:       "sys_admin_operation_logs",
 		Comment:    "后台操作日志表",
-		Columns:    AdminOperationLogsColumns,
-		PrimaryKey: []*schema.Column{AdminOperationLogsColumns[0]},
+		Columns:    SysAdminOperationLogsColumns,
+		PrimaryKey: []*schema.Column{SysAdminOperationLogsColumns[0]},
 		Indexes: []*schema.Index{
 			{
 				Name:    "adminoperationlog_id",
 				Unique:  false,
-				Columns: []*schema.Column{AdminOperationLogsColumns[0]},
+				Columns: []*schema.Column{SysAdminOperationLogsColumns[0]},
 			},
 		},
 	}
@@ -150,8 +150,8 @@ var (
 			},
 		},
 	}
-	// DepartmentsColumns holds the columns for the "departments" table.
-	DepartmentsColumns = []*schema.Column{
+	// SysDepartmentsColumns holds the columns for the "sys_departments" table.
+	SysDepartmentsColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeUint32, Increment: true, Comment: "id", SchemaType: map[string]string{"mysql": "int", "postgres": "serial"}},
 		{Name: "create_time", Type: field.TypeTime, Nullable: true, Comment: "创建时间"},
 		{Name: "update_time", Type: field.TypeTime, Nullable: true, Comment: "更新时间"},
@@ -168,17 +168,17 @@ var (
 		{Name: "description", Type: field.TypeString, Nullable: true, Comment: "职能描述"},
 		{Name: "parent_id", Type: field.TypeUint32, Nullable: true, Comment: "上一层部门ID", SchemaType: map[string]string{"mysql": "int", "postgres": "serial"}},
 	}
-	// DepartmentsTable holds the schema information for the "departments" table.
-	DepartmentsTable = &schema.Table{
-		Name:       "departments",
+	// SysDepartmentsTable holds the schema information for the "sys_departments" table.
+	SysDepartmentsTable = &schema.Table{
+		Name:       "sys_departments",
 		Comment:    "部门表",
-		Columns:    DepartmentsColumns,
-		PrimaryKey: []*schema.Column{DepartmentsColumns[0]},
+		Columns:    SysDepartmentsColumns,
+		PrimaryKey: []*schema.Column{SysDepartmentsColumns[0]},
 		ForeignKeys: []*schema.ForeignKey{
 			{
-				Symbol:     "departments_departments_children",
-				Columns:    []*schema.Column{DepartmentsColumns[14]},
-				RefColumns: []*schema.Column{DepartmentsColumns[0]},
+				Symbol:     "sys_departments_sys_departments_children",
+				Columns:    []*schema.Column{SysDepartmentsColumns[14]},
+				RefColumns: []*schema.Column{SysDepartmentsColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
 		},
@@ -186,12 +186,12 @@ var (
 			{
 				Name:    "department_id",
 				Unique:  false,
-				Columns: []*schema.Column{DepartmentsColumns[0]},
+				Columns: []*schema.Column{SysDepartmentsColumns[0]},
 			},
 			{
 				Name:    "department_tenant_id",
 				Unique:  false,
-				Columns: []*schema.Column{DepartmentsColumns[7]},
+				Columns: []*schema.Column{SysDepartmentsColumns[7]},
 			},
 		},
 	}
@@ -413,8 +413,8 @@ var (
 			},
 		},
 	}
-	// OrganizationsColumns holds the columns for the "organizations" table.
-	OrganizationsColumns = []*schema.Column{
+	// SysOrganizationsColumns holds the columns for the "sys_organizations" table.
+	SysOrganizationsColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeUint32, Increment: true, Comment: "id", SchemaType: map[string]string{"mysql": "int", "postgres": "serial"}},
 		{Name: "create_time", Type: field.TypeTime, Nullable: true, Comment: "创建时间"},
 		{Name: "update_time", Type: field.TypeTime, Nullable: true, Comment: "更新时间"},
@@ -434,17 +434,17 @@ var (
 		{Name: "manager_id", Type: field.TypeUint32, Nullable: true, Comment: "负责人ID"},
 		{Name: "parent_id", Type: field.TypeUint32, Nullable: true, Comment: "上一层组织ID", SchemaType: map[string]string{"mysql": "int", "postgres": "serial"}},
 	}
-	// OrganizationsTable holds the schema information for the "organizations" table.
-	OrganizationsTable = &schema.Table{
-		Name:       "organizations",
+	// SysOrganizationsTable holds the schema information for the "sys_organizations" table.
+	SysOrganizationsTable = &schema.Table{
+		Name:       "sys_organizations",
 		Comment:    "组织表",
-		Columns:    OrganizationsColumns,
-		PrimaryKey: []*schema.Column{OrganizationsColumns[0]},
+		Columns:    SysOrganizationsColumns,
+		PrimaryKey: []*schema.Column{SysOrganizationsColumns[0]},
 		ForeignKeys: []*schema.ForeignKey{
 			{
-				Symbol:     "organizations_organizations_children",
-				Columns:    []*schema.Column{OrganizationsColumns[17]},
-				RefColumns: []*schema.Column{OrganizationsColumns[0]},
+				Symbol:     "sys_organizations_sys_organizations_children",
+				Columns:    []*schema.Column{SysOrganizationsColumns[17]},
+				RefColumns: []*schema.Column{SysOrganizationsColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
 		},
@@ -452,17 +452,17 @@ var (
 			{
 				Name:    "organization_id",
 				Unique:  false,
-				Columns: []*schema.Column{OrganizationsColumns[0]},
+				Columns: []*schema.Column{SysOrganizationsColumns[0]},
 			},
 			{
 				Name:    "organization_tenant_id",
 				Unique:  false,
-				Columns: []*schema.Column{OrganizationsColumns[7]},
+				Columns: []*schema.Column{SysOrganizationsColumns[7]},
 			},
 		},
 	}
-	// PositionsColumns holds the columns for the "positions" table.
-	PositionsColumns = []*schema.Column{
+	// SysPositionsColumns holds the columns for the "sys_positions" table.
+	SysPositionsColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeUint32, Increment: true, Comment: "id", SchemaType: map[string]string{"mysql": "int", "postgres": "serial"}},
 		{Name: "create_time", Type: field.TypeTime, Nullable: true, Comment: "创建时间"},
 		{Name: "update_time", Type: field.TypeTime, Nullable: true, Comment: "更新时间"},
@@ -481,17 +481,17 @@ var (
 		{Name: "quota", Type: field.TypeUint32, Nullable: true, Comment: "编制人数"},
 		{Name: "parent_id", Type: field.TypeUint32, Nullable: true, Comment: "上一层职位ID", Default: 0, SchemaType: map[string]string{"mysql": "int", "postgres": "serial"}},
 	}
-	// PositionsTable holds the schema information for the "positions" table.
-	PositionsTable = &schema.Table{
-		Name:       "positions",
+	// SysPositionsTable holds the schema information for the "sys_positions" table.
+	SysPositionsTable = &schema.Table{
+		Name:       "sys_positions",
 		Comment:    "职位表",
-		Columns:    PositionsColumns,
-		PrimaryKey: []*schema.Column{PositionsColumns[0]},
+		Columns:    SysPositionsColumns,
+		PrimaryKey: []*schema.Column{SysPositionsColumns[0]},
 		ForeignKeys: []*schema.ForeignKey{
 			{
-				Symbol:     "positions_positions_children",
-				Columns:    []*schema.Column{PositionsColumns[16]},
-				RefColumns: []*schema.Column{PositionsColumns[0]},
+				Symbol:     "sys_positions_sys_positions_children",
+				Columns:    []*schema.Column{SysPositionsColumns[16]},
+				RefColumns: []*schema.Column{SysPositionsColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
 		},
@@ -499,12 +499,12 @@ var (
 			{
 				Name:    "position_id",
 				Unique:  false,
-				Columns: []*schema.Column{PositionsColumns[0]},
+				Columns: []*schema.Column{SysPositionsColumns[0]},
 			},
 			{
 				Name:    "position_tenant_id",
 				Unique:  false,
-				Columns: []*schema.Column{PositionsColumns[7]},
+				Columns: []*schema.Column{SysPositionsColumns[7]},
 			},
 		},
 	}
@@ -626,8 +626,8 @@ var (
 			},
 		},
 	}
-	// TenantsColumns holds the columns for the "tenants" table.
-	TenantsColumns = []*schema.Column{
+	// SysTenantsColumns holds the columns for the "sys_tenants" table.
+	SysTenantsColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeUint32, Increment: true, Comment: "id", SchemaType: map[string]string{"mysql": "int", "postgres": "serial"}},
 		{Name: "create_time", Type: field.TypeTime, Nullable: true, Comment: "创建时间"},
 		{Name: "update_time", Type: field.TypeTime, Nullable: true, Comment: "更新时间"},
@@ -642,22 +642,22 @@ var (
 		{Name: "subscription_at", Type: field.TypeTime, Nullable: true, Comment: "订阅时间"},
 		{Name: "unsubscribe_at", Type: field.TypeTime, Nullable: true, Comment: "取消订阅时间"},
 	}
-	// TenantsTable holds the schema information for the "tenants" table.
-	TenantsTable = &schema.Table{
-		Name:       "tenants",
+	// SysTenantsTable holds the schema information for the "sys_tenants" table.
+	SysTenantsTable = &schema.Table{
+		Name:       "sys_tenants",
 		Comment:    "租户表",
-		Columns:    TenantsColumns,
-		PrimaryKey: []*schema.Column{TenantsColumns[0]},
+		Columns:    SysTenantsColumns,
+		PrimaryKey: []*schema.Column{SysTenantsColumns[0]},
 		Indexes: []*schema.Index{
 			{
 				Name:    "tenant_id",
 				Unique:  false,
-				Columns: []*schema.Column{TenantsColumns[0]},
+				Columns: []*schema.Column{SysTenantsColumns[0]},
 			},
 		},
 	}
-	// UsersColumns holds the columns for the "users" table.
-	UsersColumns = []*schema.Column{
+	// SysUsersColumns holds the columns for the "sys_users" table.
+	SysUsersColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeUint32, Increment: true, Comment: "id", SchemaType: map[string]string{"mysql": "int", "postgres": "serial"}},
 		{Name: "create_by", Type: field.TypeUint32, Nullable: true, Comment: "创建者ID"},
 		{Name: "update_by", Type: field.TypeUint32, Nullable: true, Comment: "更新者ID"},
@@ -687,27 +687,27 @@ var (
 		{Name: "work_id", Type: field.TypeUint32, Nullable: true, Comment: "员工工号"},
 		{Name: "role_ids", Type: field.TypeJSON, Nullable: true, Comment: "角色ID列表"},
 	}
-	// UsersTable holds the schema information for the "users" table.
-	UsersTable = &schema.Table{
-		Name:       "users",
+	// SysUsersTable holds the schema information for the "sys_users" table.
+	SysUsersTable = &schema.Table{
+		Name:       "sys_users",
 		Comment:    "用户表",
-		Columns:    UsersColumns,
-		PrimaryKey: []*schema.Column{UsersColumns[0]},
+		Columns:    SysUsersColumns,
+		PrimaryKey: []*schema.Column{SysUsersColumns[0]},
 		Indexes: []*schema.Index{
 			{
 				Name:    "user_id",
 				Unique:  false,
-				Columns: []*schema.Column{UsersColumns[0]},
+				Columns: []*schema.Column{SysUsersColumns[0]},
 			},
 			{
 				Name:    "user_tenant_id",
 				Unique:  false,
-				Columns: []*schema.Column{UsersColumns[8]},
+				Columns: []*schema.Column{SysUsersColumns[8]},
 			},
 		},
 	}
-	// UserCredentialsColumns holds the columns for the "user_credentials" table.
-	UserCredentialsColumns = []*schema.Column{
+	// SysUserCredentialsColumns holds the columns for the "sys_user_credentials" table.
+	SysUserCredentialsColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeUint32, Increment: true, Comment: "id", SchemaType: map[string]string{"mysql": "int", "postgres": "serial"}},
 		{Name: "create_time", Type: field.TypeTime, Nullable: true, Comment: "创建时间"},
 		{Name: "update_time", Type: field.TypeTime, Nullable: true, Comment: "更新时间"},
@@ -724,77 +724,77 @@ var (
 		{Name: "activate_token", Type: field.TypeString, Unique: true, Nullable: true, Size: 255, Comment: "激活账号用的令牌"},
 		{Name: "reset_token", Type: field.TypeString, Unique: true, Nullable: true, Size: 255, Comment: "重置密码用的令牌"},
 	}
-	// UserCredentialsTable holds the schema information for the "user_credentials" table.
-	UserCredentialsTable = &schema.Table{
-		Name:       "user_credentials",
+	// SysUserCredentialsTable holds the schema information for the "sys_user_credentials" table.
+	SysUserCredentialsTable = &schema.Table{
+		Name:       "sys_user_credentials",
 		Comment:    "用户认证信息表",
-		Columns:    UserCredentialsColumns,
-		PrimaryKey: []*schema.Column{UserCredentialsColumns[0]},
+		Columns:    SysUserCredentialsColumns,
+		PrimaryKey: []*schema.Column{SysUserCredentialsColumns[0]},
 		Indexes: []*schema.Index{
 			{
 				Name:    "usercredential_id",
 				Unique:  false,
-				Columns: []*schema.Column{UserCredentialsColumns[0]},
+				Columns: []*schema.Column{SysUserCredentialsColumns[0]},
 			},
 			{
 				Name:    "usercredential_tenant_id",
 				Unique:  false,
-				Columns: []*schema.Column{UserCredentialsColumns[4]},
+				Columns: []*schema.Column{SysUserCredentialsColumns[4]},
 			},
 			{
 				Name:    "usercredential_user_id_identity_type_identifier",
 				Unique:  true,
-				Columns: []*schema.Column{UserCredentialsColumns[5], UserCredentialsColumns[6], UserCredentialsColumns[7]},
+				Columns: []*schema.Column{SysUserCredentialsColumns[5], SysUserCredentialsColumns[6], SysUserCredentialsColumns[7]},
 			},
 			{
 				Name:    "usercredential_identifier",
 				Unique:  false,
-				Columns: []*schema.Column{UserCredentialsColumns[7]},
+				Columns: []*schema.Column{SysUserCredentialsColumns[7]},
 			},
 			{
 				Name:    "usercredential_user_id",
 				Unique:  false,
-				Columns: []*schema.Column{UserCredentialsColumns[5]},
+				Columns: []*schema.Column{SysUserCredentialsColumns[5]},
 			},
 		},
 	}
 	// Tables holds all the tables in the schema.
 	Tables = []*schema.Table{
-		AdminLoginLogsTable,
-		AdminLoginRestrictionsTable,
-		AdminOperationLogsTable,
+		SysAdminLoginLogsTable,
+		SysAdminLoginRestrictionsTable,
+		SysAdminOperationLogsTable,
 		SysAPIResourcesTable,
-		DepartmentsTable,
+		SysDepartmentsTable,
 		SysDictsTable,
 		FilesTable,
 		SysMenusTable,
 		NotificationMessagesTable,
 		NotificationMessageCategoriesTable,
 		NotificationMessageRecipientsTable,
-		OrganizationsTable,
-		PositionsTable,
+		SysOrganizationsTable,
+		SysPositionsTable,
 		PrivateMessagesTable,
 		SysRolesTable,
 		SysTasksTable,
-		TenantsTable,
-		UsersTable,
-		UserCredentialsTable,
+		SysTenantsTable,
+		SysUsersTable,
+		SysUserCredentialsTable,
 	}
 )
 
 func init() {
-	AdminLoginLogsTable.Annotation = &entsql.Annotation{
-		Table:     "admin_login_logs",
+	SysAdminLoginLogsTable.Annotation = &entsql.Annotation{
+		Table:     "sys_admin_login_logs",
 		Charset:   "utf8mb4",
 		Collation: "utf8mb4_bin",
 	}
-	AdminLoginRestrictionsTable.Annotation = &entsql.Annotation{
-		Table:     "admin_login_restrictions",
+	SysAdminLoginRestrictionsTable.Annotation = &entsql.Annotation{
+		Table:     "sys_admin_login_restrictions",
 		Charset:   "utf8mb4",
 		Collation: "utf8mb4_bin",
 	}
-	AdminOperationLogsTable.Annotation = &entsql.Annotation{
-		Table:     "admin_operation_logs",
+	SysAdminOperationLogsTable.Annotation = &entsql.Annotation{
+		Table:     "sys_admin_operation_logs",
 		Charset:   "utf8mb4",
 		Collation: "utf8mb4_bin",
 	}
@@ -803,9 +803,9 @@ func init() {
 		Charset:   "utf8mb4",
 		Collation: "utf8mb4_bin",
 	}
-	DepartmentsTable.ForeignKeys[0].RefTable = DepartmentsTable
-	DepartmentsTable.Annotation = &entsql.Annotation{
-		Table:     "departments",
+	SysDepartmentsTable.ForeignKeys[0].RefTable = SysDepartmentsTable
+	SysDepartmentsTable.Annotation = &entsql.Annotation{
+		Table:     "sys_departments",
 		Charset:   "utf8mb4",
 		Collation: "utf8mb4_bin",
 	}
@@ -841,15 +841,15 @@ func init() {
 		Charset:   "utf8mb4",
 		Collation: "utf8mb4_bin",
 	}
-	OrganizationsTable.ForeignKeys[0].RefTable = OrganizationsTable
-	OrganizationsTable.Annotation = &entsql.Annotation{
-		Table:     "organizations",
+	SysOrganizationsTable.ForeignKeys[0].RefTable = SysOrganizationsTable
+	SysOrganizationsTable.Annotation = &entsql.Annotation{
+		Table:     "sys_organizations",
 		Charset:   "utf8mb4",
 		Collation: "utf8mb4_bin",
 	}
-	PositionsTable.ForeignKeys[0].RefTable = PositionsTable
-	PositionsTable.Annotation = &entsql.Annotation{
-		Table:     "positions",
+	SysPositionsTable.ForeignKeys[0].RefTable = SysPositionsTable
+	SysPositionsTable.Annotation = &entsql.Annotation{
+		Table:     "sys_positions",
 		Charset:   "utf8mb4",
 		Collation: "utf8mb4_bin",
 	}
@@ -869,18 +869,18 @@ func init() {
 		Charset:   "utf8mb4",
 		Collation: "utf8mb4_bin",
 	}
-	TenantsTable.Annotation = &entsql.Annotation{
-		Table:     "tenants",
+	SysTenantsTable.Annotation = &entsql.Annotation{
+		Table:     "sys_tenants",
 		Charset:   "utf8mb4",
 		Collation: "utf8mb4_bin",
 	}
-	UsersTable.Annotation = &entsql.Annotation{
-		Table:     "users",
+	SysUsersTable.Annotation = &entsql.Annotation{
+		Table:     "sys_users",
 		Charset:   "utf8mb4",
 		Collation: "utf8mb4_bin",
 	}
-	UserCredentialsTable.Annotation = &entsql.Annotation{
-		Table:     "user_credentials",
+	SysUserCredentialsTable.Annotation = &entsql.Annotation{
+		Table:     "sys_user_credentials",
 		Charset:   "utf8mb4",
 		Collation: "utf8mb4_bin",
 	}

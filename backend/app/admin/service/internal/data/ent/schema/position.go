@@ -19,7 +19,7 @@ type Position struct {
 func (Position) Annotations() []schema.Annotation {
 	return []schema.Annotation{
 		entsql.Annotation{
-			Table:     "positions",
+			Table:     "sys_positions",
 			Charset:   "utf8mb4",
 			Collation: "utf8mb4_bin",
 		},

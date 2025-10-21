@@ -18,7 +18,7 @@ type Tenant struct {
 func (Tenant) Annotations() []schema.Annotation {
 	return []schema.Annotation{
 		entsql.Annotation{
-			Table:     "tenants",
+			Table:     "sys_tenants",
 			Charset:   "utf8mb4",
 			Collation: "utf8mb4_bin",
 		},

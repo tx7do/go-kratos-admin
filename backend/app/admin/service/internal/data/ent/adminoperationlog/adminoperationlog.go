@@ -62,7 +62,7 @@ const (
 	// FieldOsVersion holds the string denoting the os_version field in the database.
 	FieldOsVersion = "os_version"
 	// Table holds the table name of the adminoperationlog in the database.
-	Table = "admin_operation_logs"
+	Table = "sys_admin_operation_logs"
 )
 
 // Columns holds all SQL columns for adminoperationlog fields.

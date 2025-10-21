@@ -20,7 +20,7 @@ type UserCredential struct {
 func (UserCredential) Annotations() []schema.Annotation {
 	return []schema.Annotation{
 		entsql.Annotation{
-			Table:     "user_credentials",
+			Table:     "sys_user_credentials",
 			Charset:   "utf8mb4",
 			Collation: "utf8mb4_bin",
 		},

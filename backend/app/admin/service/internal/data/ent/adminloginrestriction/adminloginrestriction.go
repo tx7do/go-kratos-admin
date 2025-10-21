@@ -34,7 +34,7 @@ const (
 	// FieldMethod holds the string denoting the method field in the database.
 	FieldMethod = "method"
 	// Table holds the table name of the adminloginrestriction in the database.
-	Table = "admin_login_restrictions"
+	Table = "sys_admin_login_restrictions"
 )
 
 // Columns holds all SQL columns for adminloginrestriction fields.

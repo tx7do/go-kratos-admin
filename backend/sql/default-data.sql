@@ -1,6 +1,6 @@
 -- 插入4个权限的用户
-TRUNCATE TABLE kratos_admin.public.users RESTART IDENTITY;
-INSERT INTO kratos_admin.public.users (username, nickname, realname, email, authority, role_ids, gender)
+TRUNCATE TABLE kratos_admin.public.sys_users RESTART IDENTITY;
+INSERT INTO kratos_admin.public.sys_users (username, nickname, realname, email, authority, role_ids, gender)
 VALUES ('admin', '鹳狸猿', '喵个咪', 'admin@gmail.com', 'SYS_ADMIN', '[1]', 'MALE'),
        -- 2. 租户管理员（TENANT_ADMIN）
        ('tenant_admin', '租户管理', '张管理员', 'tenant@company.com', 'TENANT_ADMIN', '[2]', 'MALE'),
@@ -9,11 +9,11 @@ VALUES ('admin', '鹳狸猿', '喵个咪', 'admin@gmail.com', 'SYS_ADMIN', '[1]'
        -- 4. 访客（GUEST）
        ('guest_user', '临时访客', '王访客', 'guest@company.com', 'GUEST', '[4]', 'SECRET')
 ;
-SELECT setval('users_id_seq', (SELECT MAX(id) FROM users));
+SELECT setval('sys_users_id_seq', (SELECT MAX(id) FROM sys_users));
 
 -- 插入4个用户的凭证（密码统一为admin，哈希值与原admin一致，方便测试）
-TRUNCATE TABLE user_credentials RESTART IDENTITY;
-INSERT INTO user_credentials (user_id, identity_type, identifier, credential_type, credential, status, is_primary, create_time)
+TRUNCATE TABLE sys_user_credentials RESTART IDENTITY;
+INSERT INTO sys_user_credentials (user_id, identity_type, identifier, credential_type, credential, status, is_primary, create_time)
 VALUES (1, 'USERNAME', 'admin', 'PASSWORD_HASH', '$2a$10$yajZDX20Y40FkG0Bu4N19eXNqRizez/S9fK63.JxGkfLq.RoNKR/a', 'ENABLED', true, now()),
        (1, 'EMAIL', 'admin@gmail.com', 'PASSWORD_HASH', '$2a$10$yajZDX20Y40FkG0Bu4N19eXNqRizez/S9fK63.JxGkfLq.RoNKR/a', 'ENABLED', false, now()),
        -- 租户管理员（对应users表id=2）
@@ -28,7 +28,7 @@ VALUES (1, 'USERNAME', 'admin', 'PASSWORD_HASH', '$2a$10$yajZDX20Y40FkG0Bu4N19eX
        (4, 'USERNAME', 'guest_user', 'PASSWORD_HASH', '$2a$10$yajZDX20Y40FkG0Bu4N19eXNqRizez/S9fK63.JxGkfLq.RoNKR/a', 'ENABLED', true, now()),
        (4, 'EMAIL', 'guest@company.com', 'PASSWORD_HASH', '$2a$10$yajZDX20Y40FkG0Bu4N19eXNqRizez/S9fK63.JxGkfLq.RoNKR/a', 'ENABLED', false, now())
 ;
-SELECT setval('user_credentials_id_seq', (SELECT MAX(id) FROM user_credentials));
+SELECT setval('sys_user_credentials_id_seq', (SELECT MAX(id) FROM sys_user_credentials));
 
 -- 默认的角色
 TRUNCATE TABLE kratos_admin.public.sys_roles RESTART IDENTITY;

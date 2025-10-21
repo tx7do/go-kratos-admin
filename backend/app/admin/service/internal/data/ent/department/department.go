@@ -47,13 +47,13 @@ const (
 	// EdgeChildren holds the string denoting the children edge name in mutations.
 	EdgeChildren = "children"
 	// Table holds the table name of the department in the database.
-	Table = "departments"
+	Table = "sys_departments"
 	// ParentTable is the table that holds the parent relation/edge.
-	ParentTable = "departments"
+	ParentTable = "sys_departments"
 	// ParentColumn is the table column denoting the parent relation/edge.
 	ParentColumn = "parent_id"
 	// ChildrenTable is the table that holds the children relation/edge.
-	ChildrenTable = "departments"
+	ChildrenTable = "sys_departments"
 	// ChildrenColumn is the table column denoting the children relation/edge.
 	ChildrenColumn = "parent_id"
 )

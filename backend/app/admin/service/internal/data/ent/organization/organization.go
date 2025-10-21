@@ -53,13 +53,13 @@ const (
 	// EdgeChildren holds the string denoting the children edge name in mutations.
 	EdgeChildren = "children"
 	// Table holds the table name of the organization in the database.
-	Table = "organizations"
+	Table = "sys_organizations"
 	// ParentTable is the table that holds the parent relation/edge.
-	ParentTable = "organizations"
+	ParentTable = "sys_organizations"
 	// ParentColumn is the table column denoting the parent relation/edge.
 	ParentColumn = "parent_id"
 	// ChildrenTable is the table that holds the children relation/edge.
-	ChildrenTable = "organizations"
+	ChildrenTable = "sys_organizations"
 	// ChildrenColumn is the table column denoting the children relation/edge.
 	ChildrenColumn = "parent_id"
 )

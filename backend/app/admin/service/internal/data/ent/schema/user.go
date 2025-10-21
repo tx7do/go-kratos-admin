@@ -18,7 +18,7 @@ type User struct {
 func (User) Annotations() []schema.Annotation {
 	return []schema.Annotation{
 		entsql.Annotation{
-			Table:     "users",
+			Table:     "sys_users",
 			Charset:   "utf8mb4",
 			Collation: "utf8mb4_bin",
 		},

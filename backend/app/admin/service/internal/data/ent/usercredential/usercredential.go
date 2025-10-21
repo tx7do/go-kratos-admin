@@ -42,7 +42,7 @@ const (
 	// FieldResetToken holds the string denoting the reset_token field in the database.
 	FieldResetToken = "reset_token"
 	// Table holds the table name of the usercredential in the database.
-	Table = "user_credentials"
+	Table = "sys_user_credentials"
 )
 
 // Columns holds all SQL columns for usercredential fields.

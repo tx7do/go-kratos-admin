@@ -1,4 +1,7 @@
 <script lang="ts" setup>
+import type { Department } from '#/generated/api/user/service/v1/department.pb';
+import type { Organization } from '#/generated/api/user/service/v1/organization.pb';
+
 import { computed, ref } from 'vue';
 
 import { useVbenDrawer } from '@vben/common-ui';
@@ -7,13 +10,17 @@ import { $t } from '@vben/locales';
 import { notification } from 'ant-design-vue';
 
 import { useVbenForm, z } from '#/adapter/form';
+import { type Position } from '#/generated/api/user/service/v1/position.pb';
 import {
   UserAuthority,
   UserGender,
 } from '#/generated/api/user/service/v1/user.pb';
 import {
   authorityList,
-  genderList, statusList,
+  findDepartment,
+  findPosition,
+  genderList,
+  statusList,
   useDepartmentStore,
   useOrganizationStore,
   usePositionStore,
@@ -28,6 +35,10 @@ const positionStore = usePositionStore();
 const deptStore = useDepartmentStore();
 
 const data = ref();
+
+const orgList = ref<Organization[]>([]);
+const deptList = ref<Department[]>([]);
+const positionList = ref<Position[]>([]);
 
 const getTitle = computed(() =>
   data.value?.create
@@ -105,7 +116,6 @@ const [BaseForm, baseFormApi] = useVbenForm({
           return result.items;
         },
       },
-      // rules: 'selectRequired',
     },
     {
       component: 'ApiTreeSelect',
@@ -121,12 +131,27 @@ const [BaseForm, baseFormApi] = useVbenForm({
         labelField: 'name',
         valueField: 'id',
         api: async () => {
-          const result = await orgStore.listOrganization(true);
-
+          const result = await orgStore.listOrganization(true, null, null, {
+            status: 'ON',
+          });
+          orgList.value = result.items;
           return result.items;
         },
+        onChange: async (orgId: any) => {
+          console.log('org onChange:', orgId);
+
+          if (!orgId) {
+            await baseFormApi.setValues(
+              {
+                orgId: undefined,
+                departmentId: undefined,
+                positionId: undefined,
+              },
+              false,
+            );
+          }
+        },
       },
-      // rules: 'selectRequired',
     },
     {
       component: 'ApiTreeSelect',
@@ -142,10 +167,39 @@ const [BaseForm, baseFormApi] = useVbenForm({
         labelField: 'name',
         valueField: 'id',
         api: async () => {
+          const values = await baseFormApi.getValues();
+          // console.log('values', values);
+
           const result = await deptStore.listDepartment(true, null, null, {
             status: 'ON',
+            organizationId: values.orgId,
           });
+          deptList.value = result.items;
           return result.items;
+        },
+        onChange: async (deptId: any) => {
+          // console.log('department onChange:', deptId);
+
+          if (!deptId) {
+            await baseFormApi.setValues(
+              {
+                positionId: undefined,
+              },
+              false,
+            );
+          }
+
+          const selectedDept = findDepartment(deptList.value, deptId);
+          console.log('selectedDept:', selectedDept);
+          if (selectedDept) {
+            await baseFormApi.setValues(
+              {
+                orgId: selectedDept.organizationId || undefined,
+                positionId: undefined,
+              },
+              false,
+            );
+          }
         },
       },
     },
@@ -166,7 +220,33 @@ const [BaseForm, baseFormApi] = useVbenForm({
           const result = await positionStore.listPosition(true, null, null, {
             status: 'ON',
           });
+          positionList.value = result.items;
           return result.items;
+        },
+        onChange: async (positionId: any) => {
+          console.log('position onChange:', positionId);
+
+          if (!positionId) {
+            await baseFormApi.setValues(
+              {
+                orgId: undefined,
+                departmentId: undefined,
+              },
+              false,
+            );
+          }
+
+          const selectedPosition = findPosition(positionList.value, positionId);
+          console.log('selectedPosition:', selectedPosition);
+          if (selectedPosition) {
+            await baseFormApi.setValues(
+              {
+                orgId: selectedPosition.organizationId || undefined,
+                departmentId: selectedPosition.departmentId || undefined,
+              },
+              false,
+            );
+          }
         },
       },
     },
@@ -219,7 +299,6 @@ const [BaseForm, baseFormApi] = useVbenForm({
         placeholder: $t('ui.placeholder.input'),
         allowClear: true,
       },
-      // rules: 'required',
     },
 
     {

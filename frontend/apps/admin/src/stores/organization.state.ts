@@ -5,6 +5,7 @@ import { $t } from '@vben/locales';
 import { defineStore } from 'pinia';
 
 import {
+  type Organization,
   OrganizationStatus,
   OrganizationType,
 } from '#/generated/api/user/service/v1/organization.pb';
@@ -175,7 +176,6 @@ export const organizationTypeListForQuery = computed(() => [
   },
 ]);
 
-
 /**
  * 组织类型转名称
  * @param organizationType
@@ -227,3 +227,21 @@ export function organizationTypeToColor(organizationType: any) {
     }
   }
 }
+
+export const findOrganization = (
+  list: Organization[],
+  id: number,
+): null | Organization | undefined => {
+  for (const item of list) {
+    if (item.id == id) {
+      return item;
+    }
+
+    if (item.children && item.children.length > 0) {
+      const found = findOrganization(item.children, id);
+      if (found) return found;
+    }
+  }
+
+  return null;
+};

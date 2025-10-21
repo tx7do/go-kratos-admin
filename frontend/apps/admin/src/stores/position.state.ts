@@ -4,7 +4,10 @@ import { $t } from '@vben/locales';
 
 import { defineStore } from 'pinia';
 
-import { PositionStatus } from '#/generated/api/user/service/v1/position.pb';
+import {
+  type Position,
+  PositionStatus,
+} from '#/generated/api/user/service/v1/position.pb';
 import { defPositionService } from '#/services';
 import { makeQueryString, makeUpdateMask } from '#/utils/query';
 
@@ -130,3 +133,21 @@ export function positionStatusToColor(status: any) {
     }
   }
 }
+
+export const findPosition = (
+  list: Position[],
+  id: number,
+): null | Position | undefined => {
+  for (const item of list) {
+    if (item.id == id) {
+      return item;
+    }
+
+    if (item.children && item.children.length > 0) {
+      const found = findPosition(item.children, id);
+      if (found) return found;
+    }
+  }
+
+  return null;
+};

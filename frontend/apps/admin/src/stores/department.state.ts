@@ -4,7 +4,10 @@ import { $t } from '@vben/locales';
 
 import { defineStore } from 'pinia';
 
-import { DepartmentStatus } from '#/generated/api/user/service/v1/department.pb';
+import {
+  type Department,
+  DepartmentStatus,
+} from '#/generated/api/user/service/v1/department.pb';
 import { defDepartmentService } from '#/services';
 import { makeQueryString, makeUpdateMask } from '#/utils/query';
 
@@ -92,7 +95,6 @@ export const departmentStatusList = computed(() => [
   },
 ]);
 
-
 /**
  * 状态转名称
  * @param status 状态值
@@ -131,3 +133,21 @@ export function departmentStatusToColor(status: any) {
     }
   }
 }
+
+export const findDepartment = (
+  list: Department[],
+  id: number,
+): Department | null | undefined => {
+  for (const item of list) {
+    if (item.id == id) {
+      return item;
+    }
+
+    if (item.children && item.children.length > 0) {
+      const found = findDepartment(item.children, id);
+      if (found) return found;
+    }
+  }
+
+  return null;
+};

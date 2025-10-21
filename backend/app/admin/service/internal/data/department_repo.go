@@ -330,18 +330,10 @@ func (r *DepartmentRepo) Delete(ctx context.Context, req *userV1.DeleteDepartmen
 		return userV1.ErrorBadRequest("invalid parameter")
 	}
 
-	depts, err := r.data.db.Client().Department.Query().
-		Where(department.IDEQ(req.GetId())).
-		QueryChildren().
-		All(ctx)
+	ids, err := queryAllChildrenIDs(ctx, r.data.db, "sys_departments", req.GetId())
 	if err != nil {
 		r.log.Errorf("query child departments failed: %s", err.Error())
 		return userV1.ErrorInternalServerError("query child departments failed")
-	}
-
-	ids := make([]uint32, 0, len(depts))
-	for _, d := range depts {
-		ids = append(ids, d.ID)
 	}
 	ids = append(ids, req.GetId())
 

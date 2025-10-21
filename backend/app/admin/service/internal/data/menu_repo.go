@@ -2,6 +2,7 @@ package data
 
 import (
 	"context"
+	userV1 "kratos-admin/api/gen/go/user/service/v1"
 	"strings"
 	"time"
 
@@ -320,25 +321,22 @@ func (r *MenuRepo) Delete(ctx context.Context, req *adminV1.DeleteMenuRequest) e
 		return adminV1.ErrorBadRequest("invalid parameter")
 	}
 
-	menus, err := r.data.db.Client().Menu.Query().
-		Where(menu.IDEQ(req.GetId())).
-		QueryChildren().
-		All(ctx)
+	ids, err := queryAllChildrenIDs(ctx, r.data.db, "sys_menus", uint32(req.GetId()))
 	if err != nil {
 		r.log.Errorf("query child menus failed: %s", err.Error())
-		return adminV1.ErrorInternalServerError("query child menus failed")
+		return userV1.ErrorInternalServerError("query child menus failed")
 	}
-
-	ids := make([]int32, 0, len(menus))
-	for _, d := range menus {
-		ids = append(ids, d.ID)
-	}
-	ids = append(ids, req.GetId())
+	ids = append(ids, uint32(req.GetId()))
 
 	//r.log.Info("menu ids to delete: ", ids)
 
+	var idInts []int32
+	for _, id := range ids {
+		idInts = append(idInts, int32(id))
+	}
+
 	if _, err = r.data.db.Client().Menu.Delete().
-		Where(menu.IDIn(ids...)).
+		Where(menu.IDIn(idInts...)).
 		Exec(ctx); err != nil {
 		r.log.Errorf("delete menus failed: %s", err.Error())
 		return adminV1.ErrorInternalServerError("delete menus failed")

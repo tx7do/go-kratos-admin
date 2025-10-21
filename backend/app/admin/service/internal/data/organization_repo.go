@@ -349,18 +349,10 @@ func (r *OrganizationRepo) Delete(ctx context.Context, req *userV1.DeleteOrganiz
 		return userV1.ErrorBadRequest("invalid parameter")
 	}
 
-	organizations, err := r.data.db.Client().Organization.Query().
-		Where(organization.IDEQ(req.GetId())).
-		QueryChildren().
-		All(ctx)
+	ids, err := queryAllChildrenIDs(ctx, r.data.db, "sys_organizations", req.GetId())
 	if err != nil {
 		r.log.Errorf("query child organizations failed: %s", err.Error())
 		return userV1.ErrorInternalServerError("query child organizations failed")
-	}
-
-	ids := make([]uint32, 0, len(organizations))
-	for _, d := range organizations {
-		ids = append(ids, d.ID)
 	}
 	ids = append(ids, req.GetId())
 

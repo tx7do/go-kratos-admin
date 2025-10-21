@@ -278,18 +278,10 @@ func (r *NotificationMessageCategoryRepo) Delete(ctx context.Context, req *inter
 		return internalMessageV1.ErrorBadRequest("invalid parameter")
 	}
 
-	categories, err := r.data.db.Client().NotificationMessageCategory.Query().
-		Where(notificationmessagecategory.IDEQ(req.GetId())).
-		QueryChildren().
-		All(ctx)
+	ids, err := queryAllChildrenIDs(ctx, r.data.db, "notification_message_categories", req.GetId())
 	if err != nil {
 		r.log.Errorf("query child notification message categories failed: %s", err.Error())
 		return internalMessageV1.ErrorInternalServerError("query child notification message categories failed")
-	}
-
-	ids := make([]uint32, 0, len(categories))
-	for _, d := range categories {
-		ids = append(ids, d.ID)
 	}
 	ids = append(ids, req.GetId())
 

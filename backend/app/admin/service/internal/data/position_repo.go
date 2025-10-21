@@ -335,14 +335,28 @@ func (r *PositionRepo) Delete(ctx context.Context, req *userV1.DeletePositionReq
 		return userV1.ErrorBadRequest("invalid parameter")
 	}
 
-	if err := r.data.db.Client().Position.DeleteOneID(req.GetId()).Exec(ctx); err != nil {
-		if ent.IsNotFound(err) {
-			return userV1.ErrorNotFound("position not found")
-		}
+	positions, err := r.data.db.Client().Position.Query().
+		Where(position.IDEQ(req.GetId())).
+		QueryChildren().
+		All(ctx)
+	if err != nil {
+		r.log.Errorf("query child positions failed: %s", err.Error())
+		return userV1.ErrorInternalServerError("query child positions failed")
+	}
 
-		r.log.Errorf("delete one data failed: %s", err.Error())
+	ids := make([]uint32, 0, len(positions))
+	for _, d := range positions {
+		ids = append(ids, d.ID)
+	}
+	ids = append(ids, req.GetId())
 
-		return userV1.ErrorInternalServerError("delete failed")
+	//r.log.Info("positions ids to delete: ", ids)
+
+	if _, err = r.data.db.Client().Position.Delete().
+		Where(position.IDIn(ids...)).
+		Exec(ctx); err != nil {
+		r.log.Errorf("delete positions failed: %s", err.Error())
+		return userV1.ErrorInternalServerError("delete positions failed")
 	}
 
 	return nil

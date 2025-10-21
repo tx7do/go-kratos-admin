@@ -278,14 +278,28 @@ func (r *NotificationMessageCategoryRepo) Delete(ctx context.Context, req *inter
 		return internalMessageV1.ErrorBadRequest("invalid parameter")
 	}
 
-	if err := r.data.db.Client().NotificationMessageCategory.DeleteOneID(req.GetId()).Exec(ctx); err != nil {
-		if ent.IsNotFound(err) {
-			return internalMessageV1.ErrorNotFound("notification message category not found")
-		}
+	categories, err := r.data.db.Client().NotificationMessageCategory.Query().
+		Where(notificationmessagecategory.IDEQ(req.GetId())).
+		QueryChildren().
+		All(ctx)
+	if err != nil {
+		r.log.Errorf("query child notification message categories failed: %s", err.Error())
+		return internalMessageV1.ErrorInternalServerError("query child notification message categories failed")
+	}
 
-		r.log.Errorf("delete one data failed: %s", err.Error())
+	ids := make([]uint32, 0, len(categories))
+	for _, d := range categories {
+		ids = append(ids, d.ID)
+	}
+	ids = append(ids, req.GetId())
 
-		return internalMessageV1.ErrorInternalServerError("delete failed")
+	//r.log.Info("notification message category ids to delete: ", ids)
+
+	if _, err = r.data.db.Client().NotificationMessageCategory.Delete().
+		Where(notificationmessagecategory.IDIn(ids...)).
+		Exec(ctx); err != nil {
+		r.log.Errorf("delete notification message categories failed: %s", err.Error())
+		return internalMessageV1.ErrorInternalServerError("delete notification message categories failed")
 	}
 
 	return nil

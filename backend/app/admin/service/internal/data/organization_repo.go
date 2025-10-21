@@ -349,14 +349,28 @@ func (r *OrganizationRepo) Delete(ctx context.Context, req *userV1.DeleteOrganiz
 		return userV1.ErrorBadRequest("invalid parameter")
 	}
 
-	if err := r.data.db.Client().Organization.DeleteOneID(req.GetId()).Exec(ctx); err != nil {
-		if ent.IsNotFound(err) {
-			return userV1.ErrorNotFound("organization not found")
-		}
+	organizations, err := r.data.db.Client().Organization.Query().
+		Where(organization.IDEQ(req.GetId())).
+		QueryChildren().
+		All(ctx)
+	if err != nil {
+		r.log.Errorf("query child organizations failed: %s", err.Error())
+		return userV1.ErrorInternalServerError("query child organizations failed")
+	}
 
-		r.log.Errorf("delete one data failed: %s", err.Error())
+	ids := make([]uint32, 0, len(organizations))
+	for _, d := range organizations {
+		ids = append(ids, d.ID)
+	}
+	ids = append(ids, req.GetId())
 
-		return userV1.ErrorInternalServerError("delete failed")
+	//r.log.Info("organizations ids to delete: ", ids)
+
+	if _, err = r.data.db.Client().Organization.Delete().
+		Where(organization.IDIn(ids...)).
+		Exec(ctx); err != nil {
+		r.log.Errorf("delete organizations failed: %s", err.Error())
+		return userV1.ErrorInternalServerError("delete organizations failed")
 	}
 
 	return nil

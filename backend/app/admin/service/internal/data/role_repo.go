@@ -336,14 +336,28 @@ func (r *RoleRepo) Delete(ctx context.Context, req *userV1.DeleteRoleRequest) er
 		return userV1.ErrorBadRequest("invalid parameter")
 	}
 
-	if err := r.data.db.Client().Role.DeleteOneID(req.GetId()).Exec(ctx); err != nil {
-		if ent.IsNotFound(err) {
-			return userV1.ErrorNotFound("role not found")
-		}
+	roles, err := r.data.db.Client().Role.Query().
+		Where(role.IDEQ(req.GetId())).
+		QueryChildren().
+		All(ctx)
+	if err != nil {
+		r.log.Errorf("query child roles failed: %s", err.Error())
+		return userV1.ErrorInternalServerError("query child roles failed")
+	}
 
-		r.log.Errorf("delete one data failed: %s", err.Error())
+	ids := make([]uint32, 0, len(roles))
+	for _, d := range roles {
+		ids = append(ids, d.ID)
+	}
+	ids = append(ids, req.GetId())
 
-		return userV1.ErrorInternalServerError("delete failed")
+	//r.log.Info("roles ids to delete: ", ids)
+
+	if _, err = r.data.db.Client().Role.Delete().
+		Where(role.IDIn(ids...)).
+		Exec(ctx); err != nil {
+		r.log.Errorf("delete roles failed: %s", err.Error())
+		return userV1.ErrorInternalServerError("delete roles failed")
 	}
 
 	return nil

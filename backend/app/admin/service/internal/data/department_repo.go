@@ -330,14 +330,28 @@ func (r *DepartmentRepo) Delete(ctx context.Context, req *userV1.DeleteDepartmen
 		return userV1.ErrorBadRequest("invalid parameter")
 	}
 
-	if err := r.data.db.Client().Department.DeleteOneID(req.GetId()).Exec(ctx); err != nil {
-		if ent.IsNotFound(err) {
-			return userV1.ErrorNotFound("department not found")
-		}
+	depts, err := r.data.db.Client().Department.Query().
+		Where(department.IDEQ(req.GetId())).
+		QueryChildren().
+		All(ctx)
+	if err != nil {
+		r.log.Errorf("query child departments failed: %s", err.Error())
+		return userV1.ErrorInternalServerError("query child departments failed")
+	}
 
-		r.log.Errorf("delete one data failed: %s", err.Error())
+	ids := make([]uint32, 0, len(depts))
+	for _, d := range depts {
+		ids = append(ids, d.ID)
+	}
+	ids = append(ids, req.GetId())
 
-		return userV1.ErrorInternalServerError("delete failed")
+	//r.log.Info("department ids to delete: ", ids)
+
+	if _, err = r.data.db.Client().Department.Delete().
+		Where(department.IDIn(ids...)).
+		Exec(ctx); err != nil {
+		r.log.Errorf("delete departments failed: %s", err.Error())
+		return userV1.ErrorInternalServerError("delete departments failed")
 	}
 
 	return nil

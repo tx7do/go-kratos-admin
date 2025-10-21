@@ -320,14 +320,28 @@ func (r *MenuRepo) Delete(ctx context.Context, req *adminV1.DeleteMenuRequest) e
 		return adminV1.ErrorBadRequest("invalid parameter")
 	}
 
-	if err := r.data.db.Client().Menu.DeleteOneID(req.GetId()).Exec(ctx); err != nil {
-		if ent.IsNotFound(err) {
-			return adminV1.ErrorNotFound("menu not found")
-		}
+	menus, err := r.data.db.Client().Menu.Query().
+		Where(menu.IDEQ(req.GetId())).
+		QueryChildren().
+		All(ctx)
+	if err != nil {
+		r.log.Errorf("query child menus failed: %s", err.Error())
+		return adminV1.ErrorInternalServerError("query child menus failed")
+	}
 
-		r.log.Errorf("delete one data failed: %s", err.Error())
+	ids := make([]int32, 0, len(menus))
+	for _, d := range menus {
+		ids = append(ids, d.ID)
+	}
+	ids = append(ids, req.GetId())
 
-		return adminV1.ErrorInternalServerError("delete failed")
+	//r.log.Info("menu ids to delete: ", ids)
+
+	if _, err = r.data.db.Client().Menu.Delete().
+		Where(menu.IDIn(ids...)).
+		Exec(ctx); err != nil {
+		r.log.Errorf("delete menus failed: %s", err.Error())
+		return adminV1.ErrorInternalServerError("delete menus failed")
 	}
 
 	return nil

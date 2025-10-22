@@ -83,8 +83,8 @@ func queryAllChildrenIDs(ctx context.Context, entClient *entgo.EntClient[*ent.Cl
 					p.name,
 					ad.depth + 1 AS depth
 				FROM %s p
-				INNER JOIN all_descendants ad 
-					ON p.parent_id = ad.id
+					INNER JOIN all_descendants ad
+				ON p.parent_id = ad.id
 			)
 			SELECT id FROM all_descendants;
 		`, tableName, tableName)
@@ -92,10 +92,14 @@ func queryAllChildrenIDs(ctx context.Context, entClient *entgo.EntClient[*ent.Cl
 	case dialect.Postgres:
 		query = fmt.Sprintf(`
         WITH RECURSIVE all_descendants AS (
-            SELECT * FROM %s WHERE parent_id = $1
+            SELECT *
+			FROM %s
+			WHERE parent_id = $1
             UNION ALL
-            SELECT p.* FROM %s p
-            INNER JOIN all_descendants ad ON p.parent_id = ad.id
+            SELECT p.*
+			FROM %s p
+            	INNER JOIN all_descendants ad
+			ON p.parent_id = ad.id
         )
         SELECT id FROM all_descendants;
     `, tableName, tableName)

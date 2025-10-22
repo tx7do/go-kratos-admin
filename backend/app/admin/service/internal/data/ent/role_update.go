@@ -287,6 +287,26 @@ func (_u *RoleUpdate) ClearApis() *RoleUpdate {
 	return _u
 }
 
+// SetDataScope sets the "data_scope" field.
+func (_u *RoleUpdate) SetDataScope(v role.DataScope) *RoleUpdate {
+	_u.mutation.SetDataScope(v)
+	return _u
+}
+
+// SetNillableDataScope sets the "data_scope" field if the given value is not nil.
+func (_u *RoleUpdate) SetNillableDataScope(v *role.DataScope) *RoleUpdate {
+	if v != nil {
+		_u.SetDataScope(*v)
+	}
+	return _u
+}
+
+// ClearDataScope clears the value of the "data_scope" field.
+func (_u *RoleUpdate) ClearDataScope() *RoleUpdate {
+	_u.mutation.ClearDataScope()
+	return _u
+}
+
 // SetParent sets the "parent" edge to the Role entity.
 func (_u *RoleUpdate) SetParent(v *Role) *RoleUpdate {
 	return _u.SetParentID(v.ID)
@@ -381,6 +401,11 @@ func (_u *RoleUpdate) check() error {
 	if v, ok := _u.mutation.Code(); ok {
 		if err := role.CodeValidator(v); err != nil {
 			return &ValidationError{Name: "code", err: fmt.Errorf(`ent: validator failed for field "Role.code": %w`, err)}
+		}
+	}
+	if v, ok := _u.mutation.DataScope(); ok {
+		if err := role.DataScopeValidator(v); err != nil {
+			return &ValidationError{Name: "data_scope", err: fmt.Errorf(`ent: validator failed for field "Role.data_scope": %w`, err)}
 		}
 	}
 	return nil
@@ -494,6 +519,12 @@ func (_u *RoleUpdate) sqlSave(ctx context.Context) (_node int, err error) {
 	}
 	if _u.mutation.ApisCleared() {
 		_spec.ClearField(role.FieldApis, field.TypeJSON)
+	}
+	if value, ok := _u.mutation.DataScope(); ok {
+		_spec.SetField(role.FieldDataScope, field.TypeEnum, value)
+	}
+	if _u.mutation.DataScopeCleared() {
+		_spec.ClearField(role.FieldDataScope, field.TypeEnum)
 	}
 	if _u.mutation.ParentCleared() {
 		edge := &sqlgraph.EdgeSpec{
@@ -848,6 +879,26 @@ func (_u *RoleUpdateOne) ClearApis() *RoleUpdateOne {
 	return _u
 }
 
+// SetDataScope sets the "data_scope" field.
+func (_u *RoleUpdateOne) SetDataScope(v role.DataScope) *RoleUpdateOne {
+	_u.mutation.SetDataScope(v)
+	return _u
+}
+
+// SetNillableDataScope sets the "data_scope" field if the given value is not nil.
+func (_u *RoleUpdateOne) SetNillableDataScope(v *role.DataScope) *RoleUpdateOne {
+	if v != nil {
+		_u.SetDataScope(*v)
+	}
+	return _u
+}
+
+// ClearDataScope clears the value of the "data_scope" field.
+func (_u *RoleUpdateOne) ClearDataScope() *RoleUpdateOne {
+	_u.mutation.ClearDataScope()
+	return _u
+}
+
 // SetParent sets the "parent" edge to the Role entity.
 func (_u *RoleUpdateOne) SetParent(v *Role) *RoleUpdateOne {
 	return _u.SetParentID(v.ID)
@@ -955,6 +1006,11 @@ func (_u *RoleUpdateOne) check() error {
 	if v, ok := _u.mutation.Code(); ok {
 		if err := role.CodeValidator(v); err != nil {
 			return &ValidationError{Name: "code", err: fmt.Errorf(`ent: validator failed for field "Role.code": %w`, err)}
+		}
+	}
+	if v, ok := _u.mutation.DataScope(); ok {
+		if err := role.DataScopeValidator(v); err != nil {
+			return &ValidationError{Name: "data_scope", err: fmt.Errorf(`ent: validator failed for field "Role.data_scope": %w`, err)}
 		}
 	}
 	return nil
@@ -1085,6 +1141,12 @@ func (_u *RoleUpdateOne) sqlSave(ctx context.Context) (_node *Role, err error) {
 	}
 	if _u.mutation.ApisCleared() {
 		_spec.ClearField(role.FieldApis, field.TypeJSON)
+	}
+	if value, ok := _u.mutation.DataScope(); ok {
+		_spec.SetField(role.FieldDataScope, field.TypeEnum, value)
+	}
+	if _u.mutation.DataScopeCleared() {
+		_spec.ClearField(role.FieldDataScope, field.TypeEnum)
 	}
 	if _u.mutation.ParentCleared() {
 		edge := &sqlgraph.EdgeSpec{

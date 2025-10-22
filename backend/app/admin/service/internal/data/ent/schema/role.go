@@ -64,6 +64,20 @@ func (Role) Fields() []ent.Field {
 		field.JSON("apis", []uint32{}).
 			Comment("分配的API列表").
 			Optional(),
+
+		field.Enum("data_scope").
+			Comment("数据权限范围").
+			NamedValues(
+				"DATA_SCOPE_ALL", "ALL",
+				"DATA_SCOPE_CUSTOM", "CUSTOM",
+				"DATA_SCOPE_SELF", "SELF",
+				"DATA_SCOPE_ORG", "ORG",
+				"DATA_SCOPE_ORG_AND_CHILD", "ORG_AND_CHILD",
+				"DATA_SCOPE_DEPT", "DEPT",
+				"DATA_SCOPE_DEPT_AND_CHILD", "DEPT_AND_CHILD",
+			).
+			Optional().
+			Nillable(),
 	}
 }
 

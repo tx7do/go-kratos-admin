@@ -47,6 +47,8 @@ type Role struct {
 	Menus []uint32 `json:"menus,omitempty"`
 	// 分配的API列表
 	Apis []uint32 `json:"apis,omitempty"`
+	// 数据权限范围
+	DataScope *role.DataScope `json:"data_scope,omitempty"`
 	// Edges holds the relations/edges for other nodes in the graph.
 	// The values are being populated by the RoleQuery when eager-loading is set.
 	Edges        RoleEdges `json:"edges"`
@@ -93,7 +95,7 @@ func (*Role) scanValues(columns []string) ([]any, error) {
 			values[i] = new([]byte)
 		case role.FieldID, role.FieldCreateBy, role.FieldUpdateBy, role.FieldTenantID, role.FieldParentID, role.FieldSortID:
 			values[i] = new(sql.NullInt64)
-		case role.FieldStatus, role.FieldRemark, role.FieldName, role.FieldCode:
+		case role.FieldStatus, role.FieldRemark, role.FieldName, role.FieldCode, role.FieldDataScope:
 			values[i] = new(sql.NullString)
 		case role.FieldCreateTime, role.FieldUpdateTime, role.FieldDeleteTime:
 			values[i] = new(sql.NullTime)
@@ -218,6 +220,13 @@ func (_m *Role) assignValues(columns []string, values []any) error {
 					return fmt.Errorf("unmarshal field apis: %w", err)
 				}
 			}
+		case role.FieldDataScope:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field data_scope", values[i])
+			} else if value.Valid {
+				_m.DataScope = new(role.DataScope)
+				*_m.DataScope = role.DataScope(value.String)
+			}
 		default:
 			_m.selectValues.Set(columns[i], values[i])
 		}
@@ -329,6 +338,11 @@ func (_m *Role) String() string {
 	builder.WriteString(", ")
 	builder.WriteString("apis=")
 	builder.WriteString(fmt.Sprintf("%v", _m.Apis))
+	builder.WriteString(", ")
+	if v := _m.DataScope; v != nil {
+		builder.WriteString("data_scope=")
+		builder.WriteString(fmt.Sprintf("%v", *v))
+	}
 	builder.WriteByte(')')
 	return builder.String()
 }

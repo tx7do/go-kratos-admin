@@ -21,10 +21,17 @@ import (
 	"kratos-admin/app/admin/service/internal/data/ent/position"
 	"kratos-admin/app/admin/service/internal/data/ent/privatemessage"
 	"kratos-admin/app/admin/service/internal/data/ent/role"
+	"kratos-admin/app/admin/service/internal/data/ent/roleapi"
+	"kratos-admin/app/admin/service/internal/data/ent/roledept"
+	"kratos-admin/app/admin/service/internal/data/ent/rolemenu"
+	"kratos-admin/app/admin/service/internal/data/ent/roleorg"
+	"kratos-admin/app/admin/service/internal/data/ent/roleposition"
 	"kratos-admin/app/admin/service/internal/data/ent/task"
 	"kratos-admin/app/admin/service/internal/data/ent/tenant"
 	"kratos-admin/app/admin/service/internal/data/ent/user"
 	"kratos-admin/app/admin/service/internal/data/ent/usercredential"
+	"kratos-admin/app/admin/service/internal/data/ent/userposition"
+	"kratos-admin/app/admin/service/internal/data/ent/userrole"
 	"reflect"
 	"sync"
 
@@ -106,10 +113,17 @@ func checkColumn(t, c string) error {
 			position.Table:                     position.ValidColumn,
 			privatemessage.Table:               privatemessage.ValidColumn,
 			role.Table:                         role.ValidColumn,
+			roleapi.Table:                      roleapi.ValidColumn,
+			roledept.Table:                     roledept.ValidColumn,
+			rolemenu.Table:                     rolemenu.ValidColumn,
+			roleorg.Table:                      roleorg.ValidColumn,
+			roleposition.Table:                 roleposition.ValidColumn,
 			task.Table:                         task.ValidColumn,
 			tenant.Table:                       tenant.ValidColumn,
 			user.Table:                         user.ValidColumn,
 			usercredential.Table:               usercredential.ValidColumn,
+			userposition.Table:                 userposition.ValidColumn,
+			userrole.Table:                     userrole.ValidColumn,
 		})
 	})
 	return columnCheck(t, c)

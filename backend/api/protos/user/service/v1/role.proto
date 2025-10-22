@@ -30,6 +30,21 @@ service RoleService {
   rpc BatchCreate ( BatchCreateRolesRequest ) returns ( BatchCreateRolesResponse ) {}
 }
 
+// 数据权限范围
+enum DataScope {
+  DATA_SCOPE_UNSPECIFIED = 0;
+
+  DATA_SCOPE_ALL = 1;            // 全部数据权限
+  DATA_SCOPE_CUSTOM = 2;         // 自定义数据权限
+  DATA_SCOPE_SELF = 3;           // 仅本人数据权限
+
+  DATA_SCOPE_ORG = 4;           // 本机构数据权限
+  DATA_SCOPE_ORG_AND_CHILD = 5; // 本机构及以下数据权限
+
+  DATA_SCOPE_DEPT = 6;           // 本部门数据权限
+  DATA_SCOPE_DEPT_AND_CHILD = 7; // 本部门及以下数据权限
+}
+
 // 角色
 message Role {
   optional uint32 id = 1 [
@@ -53,6 +68,8 @@ message Role {
 
   repeated uint32 menus = 7 [json_name = "menus", (gnostic.openapi.v3.property) = {description: "分配的菜单列表"}];  // 分配的菜单列表
   repeated uint32 apis = 8 [json_name = "apis", (gnostic.openapi.v3.property) = {description: "分配的API列表"}];  // 分配的API列表
+
+  optional DataScope data_scope = 9 [json_name = "dataScope", (gnostic.openapi.v3.property) = {description: "数据权限范围"}];  // 数据权限范围
 
   optional uint32 tenant_id = 40 [json_name = "tenantId", (gnostic.openapi.v3.property) = {description: "租户ID"}];  // 租户ID
   optional string tenant_name = 41 [json_name = "tenantName", (gnostic.openapi.v3.property) = {description: "租户名称"}];  // 租户名称

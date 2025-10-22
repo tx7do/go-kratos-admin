@@ -18,11 +18,18 @@ import (
 	"kratos-admin/app/admin/service/internal/data/ent/position"
 	"kratos-admin/app/admin/service/internal/data/ent/privatemessage"
 	"kratos-admin/app/admin/service/internal/data/ent/role"
+	"kratos-admin/app/admin/service/internal/data/ent/roleapi"
+	"kratos-admin/app/admin/service/internal/data/ent/roledept"
+	"kratos-admin/app/admin/service/internal/data/ent/rolemenu"
+	"kratos-admin/app/admin/service/internal/data/ent/roleorg"
+	"kratos-admin/app/admin/service/internal/data/ent/roleposition"
 	"kratos-admin/app/admin/service/internal/data/ent/schema"
 	"kratos-admin/app/admin/service/internal/data/ent/task"
 	"kratos-admin/app/admin/service/internal/data/ent/tenant"
 	"kratos-admin/app/admin/service/internal/data/ent/user"
 	"kratos-admin/app/admin/service/internal/data/ent/usercredential"
+	"kratos-admin/app/admin/service/internal/data/ent/userposition"
+	"kratos-admin/app/admin/service/internal/data/ent/userrole"
 	"time"
 )
 
@@ -333,6 +340,51 @@ func init() {
 	roleDescID := roleMixinFields0[0].Descriptor()
 	// role.IDValidator is a validator for the "id" field. It is called by the builders before save.
 	role.IDValidator = roleDescID.Validators[0].(func(uint32) error)
+	roleapiMixin := schema.RoleApi{}.Mixin()
+	roleapiMixinFields0 := roleapiMixin[0].Fields()
+	_ = roleapiMixinFields0
+	roleapiFields := schema.RoleApi{}.Fields()
+	_ = roleapiFields
+	// roleapiDescID is the schema descriptor for id field.
+	roleapiDescID := roleapiMixinFields0[0].Descriptor()
+	// roleapi.IDValidator is a validator for the "id" field. It is called by the builders before save.
+	roleapi.IDValidator = roleapiDescID.Validators[0].(func(uint32) error)
+	roledeptMixin := schema.RoleDept{}.Mixin()
+	roledeptMixinFields0 := roledeptMixin[0].Fields()
+	_ = roledeptMixinFields0
+	roledeptFields := schema.RoleDept{}.Fields()
+	_ = roledeptFields
+	// roledeptDescID is the schema descriptor for id field.
+	roledeptDescID := roledeptMixinFields0[0].Descriptor()
+	// roledept.IDValidator is a validator for the "id" field. It is called by the builders before save.
+	roledept.IDValidator = roledeptDescID.Validators[0].(func(uint32) error)
+	rolemenuMixin := schema.RoleMenu{}.Mixin()
+	rolemenuMixinFields0 := rolemenuMixin[0].Fields()
+	_ = rolemenuMixinFields0
+	rolemenuFields := schema.RoleMenu{}.Fields()
+	_ = rolemenuFields
+	// rolemenuDescID is the schema descriptor for id field.
+	rolemenuDescID := rolemenuMixinFields0[0].Descriptor()
+	// rolemenu.IDValidator is a validator for the "id" field. It is called by the builders before save.
+	rolemenu.IDValidator = rolemenuDescID.Validators[0].(func(uint32) error)
+	roleorgMixin := schema.RoleOrg{}.Mixin()
+	roleorgMixinFields0 := roleorgMixin[0].Fields()
+	_ = roleorgMixinFields0
+	roleorgFields := schema.RoleOrg{}.Fields()
+	_ = roleorgFields
+	// roleorgDescID is the schema descriptor for id field.
+	roleorgDescID := roleorgMixinFields0[0].Descriptor()
+	// roleorg.IDValidator is a validator for the "id" field. It is called by the builders before save.
+	roleorg.IDValidator = roleorgDescID.Validators[0].(func(uint32) error)
+	rolepositionMixin := schema.RolePosition{}.Mixin()
+	rolepositionMixinFields0 := rolepositionMixin[0].Fields()
+	_ = rolepositionMixinFields0
+	rolepositionFields := schema.RolePosition{}.Fields()
+	_ = rolepositionFields
+	// rolepositionDescID is the schema descriptor for id field.
+	rolepositionDescID := rolepositionMixinFields0[0].Descriptor()
+	// roleposition.IDValidator is a validator for the "id" field. It is called by the builders before save.
+	roleposition.IDValidator = rolepositionDescID.Validators[0].(func(uint32) error)
 	taskMixin := schema.Task{}.Mixin()
 	taskMixinFields0 := taskMixin[0].Fields()
 	_ = taskMixinFields0
@@ -517,4 +569,22 @@ func init() {
 	usercredentialDescID := usercredentialMixinFields1[0].Descriptor()
 	// usercredential.IDValidator is a validator for the "id" field. It is called by the builders before save.
 	usercredential.IDValidator = usercredentialDescID.Validators[0].(func(uint32) error)
+	userpositionMixin := schema.UserPosition{}.Mixin()
+	userpositionMixinFields0 := userpositionMixin[0].Fields()
+	_ = userpositionMixinFields0
+	userpositionFields := schema.UserPosition{}.Fields()
+	_ = userpositionFields
+	// userpositionDescID is the schema descriptor for id field.
+	userpositionDescID := userpositionMixinFields0[0].Descriptor()
+	// userposition.IDValidator is a validator for the "id" field. It is called by the builders before save.
+	userposition.IDValidator = userpositionDescID.Validators[0].(func(uint32) error)
+	userroleMixin := schema.UserRole{}.Mixin()
+	userroleMixinFields0 := userroleMixin[0].Fields()
+	_ = userroleMixinFields0
+	userroleFields := schema.UserRole{}.Fields()
+	_ = userroleFields
+	// userroleDescID is the schema descriptor for id field.
+	userroleDescID := userroleMixinFields0[0].Descriptor()
+	// userrole.IDValidator is a validator for the "id" field. It is called by the builders before save.
+	userrole.IDValidator = userroleDescID.Validators[0].(func(uint32) error)
 }

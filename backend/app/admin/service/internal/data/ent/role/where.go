@@ -765,6 +765,36 @@ func ApisNotNil() predicate.Role {
 	return predicate.Role(sql.FieldNotNull(FieldApis))
 }
 
+// DataScopeEQ applies the EQ predicate on the "data_scope" field.
+func DataScopeEQ(v DataScope) predicate.Role {
+	return predicate.Role(sql.FieldEQ(FieldDataScope, v))
+}
+
+// DataScopeNEQ applies the NEQ predicate on the "data_scope" field.
+func DataScopeNEQ(v DataScope) predicate.Role {
+	return predicate.Role(sql.FieldNEQ(FieldDataScope, v))
+}
+
+// DataScopeIn applies the In predicate on the "data_scope" field.
+func DataScopeIn(vs ...DataScope) predicate.Role {
+	return predicate.Role(sql.FieldIn(FieldDataScope, vs...))
+}
+
+// DataScopeNotIn applies the NotIn predicate on the "data_scope" field.
+func DataScopeNotIn(vs ...DataScope) predicate.Role {
+	return predicate.Role(sql.FieldNotIn(FieldDataScope, vs...))
+}
+
+// DataScopeIsNil applies the IsNil predicate on the "data_scope" field.
+func DataScopeIsNil() predicate.Role {
+	return predicate.Role(sql.FieldIsNull(FieldDataScope))
+}
+
+// DataScopeNotNil applies the NotNil predicate on the "data_scope" field.
+func DataScopeNotNil() predicate.Role {
+	return predicate.Role(sql.FieldNotNull(FieldDataScope))
+}
+
 // HasParent applies the HasEdge predicate on the "parent" edge.
 func HasParent() predicate.Role {
 	return predicate.Role(func(s *sql.Selector) {

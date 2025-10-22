@@ -42,6 +42,16 @@ type Tx struct {
 	PrivateMessage *PrivateMessageClient
 	// Role is the client for interacting with the Role builders.
 	Role *RoleClient
+	// RoleApi is the client for interacting with the RoleApi builders.
+	RoleApi *RoleApiClient
+	// RoleDept is the client for interacting with the RoleDept builders.
+	RoleDept *RoleDeptClient
+	// RoleMenu is the client for interacting with the RoleMenu builders.
+	RoleMenu *RoleMenuClient
+	// RoleOrg is the client for interacting with the RoleOrg builders.
+	RoleOrg *RoleOrgClient
+	// RolePosition is the client for interacting with the RolePosition builders.
+	RolePosition *RolePositionClient
 	// Task is the client for interacting with the Task builders.
 	Task *TaskClient
 	// Tenant is the client for interacting with the Tenant builders.
@@ -50,6 +60,10 @@ type Tx struct {
 	User *UserClient
 	// UserCredential is the client for interacting with the UserCredential builders.
 	UserCredential *UserCredentialClient
+	// UserPosition is the client for interacting with the UserPosition builders.
+	UserPosition *UserPositionClient
+	// UserRole is the client for interacting with the UserRole builders.
+	UserRole *UserRoleClient
 
 	// lazily loaded.
 	client     *Client
@@ -196,10 +210,17 @@ func (tx *Tx) init() {
 	tx.Position = NewPositionClient(tx.config)
 	tx.PrivateMessage = NewPrivateMessageClient(tx.config)
 	tx.Role = NewRoleClient(tx.config)
+	tx.RoleApi = NewRoleApiClient(tx.config)
+	tx.RoleDept = NewRoleDeptClient(tx.config)
+	tx.RoleMenu = NewRoleMenuClient(tx.config)
+	tx.RoleOrg = NewRoleOrgClient(tx.config)
+	tx.RolePosition = NewRolePositionClient(tx.config)
 	tx.Task = NewTaskClient(tx.config)
 	tx.Tenant = NewTenantClient(tx.config)
 	tx.User = NewUserClient(tx.config)
 	tx.UserCredential = NewUserCredentialClient(tx.config)
+	tx.UserPosition = NewUserPositionClient(tx.config)
+	tx.UserRole = NewUserRoleClient(tx.config)
 }
 
 // txDriver wraps the given dialect.Tx with a nop dialect.Driver implementation.

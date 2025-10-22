@@ -51,6 +51,21 @@ type PrivateMessage func(*sql.Selector)
 // Role is the predicate function for role builders.
 type Role func(*sql.Selector)
 
+// RoleApi is the predicate function for roleapi builders.
+type RoleApi func(*sql.Selector)
+
+// RoleDept is the predicate function for roledept builders.
+type RoleDept func(*sql.Selector)
+
+// RoleMenu is the predicate function for rolemenu builders.
+type RoleMenu func(*sql.Selector)
+
+// RoleOrg is the predicate function for roleorg builders.
+type RoleOrg func(*sql.Selector)
+
+// RolePosition is the predicate function for roleposition builders.
+type RolePosition func(*sql.Selector)
+
 // Task is the predicate function for task builders.
 type Task func(*sql.Selector)
 
@@ -62,3 +77,9 @@ type User func(*sql.Selector)
 
 // UserCredential is the predicate function for usercredential builders.
 type UserCredential func(*sql.Selector)
+
+// UserPosition is the predicate function for userposition builders.
+type UserPosition func(*sql.Selector)
+
+// UserRole is the predicate function for userrole builders.
+type UserRole func(*sql.Selector)

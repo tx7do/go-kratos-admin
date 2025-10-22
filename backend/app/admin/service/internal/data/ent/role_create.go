@@ -202,6 +202,20 @@ func (_c *RoleCreate) SetApis(v []uint32) *RoleCreate {
 	return _c
 }
 
+// SetDataScope sets the "data_scope" field.
+func (_c *RoleCreate) SetDataScope(v role.DataScope) *RoleCreate {
+	_c.mutation.SetDataScope(v)
+	return _c
+}
+
+// SetNillableDataScope sets the "data_scope" field if the given value is not nil.
+func (_c *RoleCreate) SetNillableDataScope(v *role.DataScope) *RoleCreate {
+	if v != nil {
+		_c.SetDataScope(*v)
+	}
+	return _c
+}
+
 // SetID sets the "id" field.
 func (_c *RoleCreate) SetID(v uint32) *RoleCreate {
 	_c.mutation.SetID(v)
@@ -303,6 +317,11 @@ func (_c *RoleCreate) check() error {
 			return &ValidationError{Name: "code", err: fmt.Errorf(`ent: validator failed for field "Role.code": %w`, err)}
 		}
 	}
+	if v, ok := _c.mutation.DataScope(); ok {
+		if err := role.DataScopeValidator(v); err != nil {
+			return &ValidationError{Name: "data_scope", err: fmt.Errorf(`ent: validator failed for field "Role.data_scope": %w`, err)}
+		}
+	}
 	if v, ok := _c.mutation.ID(); ok {
 		if err := role.IDValidator(v); err != nil {
 			return &ValidationError{Name: "id", err: fmt.Errorf(`ent: validator failed for field "Role.id": %w`, err)}
@@ -392,6 +411,10 @@ func (_c *RoleCreate) createSpec() (*Role, *sqlgraph.CreateSpec) {
 	if value, ok := _c.mutation.Apis(); ok {
 		_spec.SetField(role.FieldApis, field.TypeJSON, value)
 		_node.Apis = value
+	}
+	if value, ok := _c.mutation.DataScope(); ok {
+		_spec.SetField(role.FieldDataScope, field.TypeEnum, value)
+		_node.DataScope = &value
 	}
 	if nodes := _c.mutation.ParentIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
@@ -709,6 +732,24 @@ func (u *RoleUpsert) UpdateApis() *RoleUpsert {
 // ClearApis clears the value of the "apis" field.
 func (u *RoleUpsert) ClearApis() *RoleUpsert {
 	u.SetNull(role.FieldApis)
+	return u
+}
+
+// SetDataScope sets the "data_scope" field.
+func (u *RoleUpsert) SetDataScope(v role.DataScope) *RoleUpsert {
+	u.Set(role.FieldDataScope, v)
+	return u
+}
+
+// UpdateDataScope sets the "data_scope" field to the value that was provided on create.
+func (u *RoleUpsert) UpdateDataScope() *RoleUpsert {
+	u.SetExcluded(role.FieldDataScope)
+	return u
+}
+
+// ClearDataScope clears the value of the "data_scope" field.
+func (u *RoleUpsert) ClearDataScope() *RoleUpsert {
+	u.SetNull(role.FieldDataScope)
 	return u
 }
 
@@ -1036,6 +1077,27 @@ func (u *RoleUpsertOne) UpdateApis() *RoleUpsertOne {
 func (u *RoleUpsertOne) ClearApis() *RoleUpsertOne {
 	return u.Update(func(s *RoleUpsert) {
 		s.ClearApis()
+	})
+}
+
+// SetDataScope sets the "data_scope" field.
+func (u *RoleUpsertOne) SetDataScope(v role.DataScope) *RoleUpsertOne {
+	return u.Update(func(s *RoleUpsert) {
+		s.SetDataScope(v)
+	})
+}
+
+// UpdateDataScope sets the "data_scope" field to the value that was provided on create.
+func (u *RoleUpsertOne) UpdateDataScope() *RoleUpsertOne {
+	return u.Update(func(s *RoleUpsert) {
+		s.UpdateDataScope()
+	})
+}
+
+// ClearDataScope clears the value of the "data_scope" field.
+func (u *RoleUpsertOne) ClearDataScope() *RoleUpsertOne {
+	return u.Update(func(s *RoleUpsert) {
+		s.ClearDataScope()
 	})
 }
 
@@ -1529,6 +1591,27 @@ func (u *RoleUpsertBulk) UpdateApis() *RoleUpsertBulk {
 func (u *RoleUpsertBulk) ClearApis() *RoleUpsertBulk {
 	return u.Update(func(s *RoleUpsert) {
 		s.ClearApis()
+	})
+}
+
+// SetDataScope sets the "data_scope" field.
+func (u *RoleUpsertBulk) SetDataScope(v role.DataScope) *RoleUpsertBulk {
+	return u.Update(func(s *RoleUpsert) {
+		s.SetDataScope(v)
+	})
+}
+
+// UpdateDataScope sets the "data_scope" field to the value that was provided on create.
+func (u *RoleUpsertBulk) UpdateDataScope() *RoleUpsertBulk {
+	return u.Update(func(s *RoleUpsert) {
+		s.UpdateDataScope()
+	})
+}
+
+// ClearDataScope clears the value of the "data_scope" field.
+func (u *RoleUpsertBulk) ClearDataScope() *RoleUpsertBulk {
+	return u.Update(func(s *RoleUpsert) {
+		s.ClearDataScope()
 	})
 }
 

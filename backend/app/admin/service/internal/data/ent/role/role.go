@@ -42,6 +42,8 @@ const (
 	FieldMenus = "menus"
 	// FieldApis holds the string denoting the apis field in the database.
 	FieldApis = "apis"
+	// FieldDataScope holds the string denoting the data_scope field in the database.
+	FieldDataScope = "data_scope"
 	// EdgeParent holds the string denoting the parent edge name in mutations.
 	EdgeParent = "parent"
 	// EdgeChildren holds the string denoting the children edge name in mutations.
@@ -75,6 +77,7 @@ var Columns = []string{
 	FieldSortID,
 	FieldMenus,
 	FieldApis,
+	FieldDataScope,
 }
 
 // ValidColumn reports if the column name is valid (part of the table columns).
@@ -127,6 +130,34 @@ func StatusValidator(s Status) error {
 		return nil
 	default:
 		return fmt.Errorf("role: invalid enum value for status field: %q", s)
+	}
+}
+
+// DataScope defines the type for the "data_scope" enum field.
+type DataScope string
+
+// DataScope values.
+const (
+	DataScopeDATA_SCOPE_ALL            DataScope = "ALL"
+	DataScopeDATA_SCOPE_CUSTOM         DataScope = "CUSTOM"
+	DataScopeDATA_SCOPE_SELF           DataScope = "SELF"
+	DataScopeDATA_SCOPE_ORG            DataScope = "ORG"
+	DataScopeDATA_SCOPE_ORG_AND_CHILD  DataScope = "ORG_AND_CHILD"
+	DataScopeDATA_SCOPE_DEPT           DataScope = "DEPT"
+	DataScopeDATA_SCOPE_DEPT_AND_CHILD DataScope = "DEPT_AND_CHILD"
+)
+
+func (ds DataScope) String() string {
+	return string(ds)
+}
+
+// DataScopeValidator is a validator for the "data_scope" field enum values. It is called by the builders before save.
+func DataScopeValidator(ds DataScope) error {
+	switch ds {
+	case DataScopeDATA_SCOPE_ALL, DataScopeDATA_SCOPE_CUSTOM, DataScopeDATA_SCOPE_SELF, DataScopeDATA_SCOPE_ORG, DataScopeDATA_SCOPE_ORG_AND_CHILD, DataScopeDATA_SCOPE_DEPT, DataScopeDATA_SCOPE_DEPT_AND_CHILD:
+		return nil
+	default:
+		return fmt.Errorf("role: invalid enum value for data_scope field: %q", ds)
 	}
 }
 
@@ -196,6 +227,11 @@ func ByParentID(opts ...sql.OrderTermOption) OrderOption {
 // BySortID orders the results by the sort_id field.
 func BySortID(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldSortID, opts...).ToFunc()
+}
+
+// ByDataScope orders the results by the data_scope field.
+func ByDataScope(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldDataScope, opts...).ToFunc()
 }
 
 // ByParentField orders the results by parent field.

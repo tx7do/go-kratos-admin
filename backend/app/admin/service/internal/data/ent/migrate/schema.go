@@ -556,6 +556,7 @@ var (
 		{Name: "sort_id", Type: field.TypeInt32, Nullable: true, Comment: "排序ID", Default: 0},
 		{Name: "menus", Type: field.TypeJSON, Nullable: true, Comment: "分配的菜单列表"},
 		{Name: "apis", Type: field.TypeJSON, Nullable: true, Comment: "分配的API列表"},
+		{Name: "data_scope", Type: field.TypeEnum, Nullable: true, Comment: "数据权限范围", Enums: []string{"ALL", "CUSTOM", "SELF", "ORG", "ORG_AND_CHILD", "DEPT", "DEPT_AND_CHILD"}},
 		{Name: "parent_id", Type: field.TypeUint32, Nullable: true, Comment: "上一层角色ID", SchemaType: map[string]string{"mysql": "int", "postgres": "serial"}},
 	}
 	// SysRolesTable holds the schema information for the "sys_roles" table.
@@ -567,7 +568,7 @@ var (
 		ForeignKeys: []*schema.ForeignKey{
 			{
 				Symbol:     "sys_roles_sys_roles_children",
-				Columns:    []*schema.Column{SysRolesColumns[14]},
+				Columns:    []*schema.Column{SysRolesColumns[15]},
 				RefColumns: []*schema.Column{SysRolesColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
@@ -587,6 +588,176 @@ var (
 				Name:    "role_code",
 				Unique:  false,
 				Columns: []*schema.Column{SysRolesColumns[10]},
+			},
+		},
+	}
+	// SysRoleAPIColumns holds the columns for the "sys_role_api" table.
+	SysRoleAPIColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeUint32, Increment: true, Comment: "id", SchemaType: map[string]string{"mysql": "int", "postgres": "serial"}},
+		{Name: "create_time", Type: field.TypeTime, Nullable: true, Comment: "创建时间"},
+		{Name: "update_time", Type: field.TypeTime, Nullable: true, Comment: "更新时间"},
+		{Name: "delete_time", Type: field.TypeTime, Nullable: true, Comment: "删除时间"},
+		{Name: "create_by", Type: field.TypeUint32, Nullable: true, Comment: "创建者ID"},
+		{Name: "role_id", Type: field.TypeUint32, Comment: "角色ID"},
+		{Name: "api_id", Type: field.TypeUint32, Comment: "API ID"},
+	}
+	// SysRoleAPITable holds the schema information for the "sys_role_api" table.
+	SysRoleAPITable = &schema.Table{
+		Name:       "sys_role_api",
+		Comment:    "角色 - API关联表",
+		Columns:    SysRoleAPIColumns,
+		PrimaryKey: []*schema.Column{SysRoleAPIColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "roleapi_id",
+				Unique:  false,
+				Columns: []*schema.Column{SysRoleAPIColumns[0]},
+			},
+			{
+				Name:    "roleapi_role_id_api_id",
+				Unique:  true,
+				Columns: []*schema.Column{SysRoleAPIColumns[5], SysRoleAPIColumns[6]},
+			},
+			{
+				Name:    "roleapi_role_id",
+				Unique:  false,
+				Columns: []*schema.Column{SysRoleAPIColumns[5]},
+			},
+		},
+	}
+	// SysRoleDeptColumns holds the columns for the "sys_role_dept" table.
+	SysRoleDeptColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeUint32, Increment: true, Comment: "id", SchemaType: map[string]string{"mysql": "int", "postgres": "serial"}},
+		{Name: "create_time", Type: field.TypeTime, Nullable: true, Comment: "创建时间"},
+		{Name: "update_time", Type: field.TypeTime, Nullable: true, Comment: "更新时间"},
+		{Name: "delete_time", Type: field.TypeTime, Nullable: true, Comment: "删除时间"},
+		{Name: "create_by", Type: field.TypeUint32, Nullable: true, Comment: "创建者ID"},
+		{Name: "role_id", Type: field.TypeUint32, Comment: "角色ID"},
+		{Name: "dept_id", Type: field.TypeUint32, Comment: "部门ID"},
+	}
+	// SysRoleDeptTable holds the schema information for the "sys_role_dept" table.
+	SysRoleDeptTable = &schema.Table{
+		Name:       "sys_role_dept",
+		Comment:    "角色 - 部门关联表",
+		Columns:    SysRoleDeptColumns,
+		PrimaryKey: []*schema.Column{SysRoleDeptColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "roledept_id",
+				Unique:  false,
+				Columns: []*schema.Column{SysRoleDeptColumns[0]},
+			},
+			{
+				Name:    "roledept_role_id_dept_id",
+				Unique:  true,
+				Columns: []*schema.Column{SysRoleDeptColumns[5], SysRoleDeptColumns[6]},
+			},
+			{
+				Name:    "roledept_role_id",
+				Unique:  false,
+				Columns: []*schema.Column{SysRoleDeptColumns[5]},
+			},
+		},
+	}
+	// SysRoleMenuColumns holds the columns for the "sys_role_menu" table.
+	SysRoleMenuColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeUint32, Increment: true, Comment: "id", SchemaType: map[string]string{"mysql": "int", "postgres": "serial"}},
+		{Name: "create_time", Type: field.TypeTime, Nullable: true, Comment: "创建时间"},
+		{Name: "update_time", Type: field.TypeTime, Nullable: true, Comment: "更新时间"},
+		{Name: "delete_time", Type: field.TypeTime, Nullable: true, Comment: "删除时间"},
+		{Name: "create_by", Type: field.TypeUint32, Nullable: true, Comment: "创建者ID"},
+		{Name: "role_id", Type: field.TypeUint32, Comment: "角色ID"},
+		{Name: "menu_id", Type: field.TypeUint32, Comment: "菜单ID"},
+	}
+	// SysRoleMenuTable holds the schema information for the "sys_role_menu" table.
+	SysRoleMenuTable = &schema.Table{
+		Name:       "sys_role_menu",
+		Comment:    "角色 - 菜单关联表",
+		Columns:    SysRoleMenuColumns,
+		PrimaryKey: []*schema.Column{SysRoleMenuColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "rolemenu_id",
+				Unique:  false,
+				Columns: []*schema.Column{SysRoleMenuColumns[0]},
+			},
+			{
+				Name:    "rolemenu_role_id_menu_id",
+				Unique:  true,
+				Columns: []*schema.Column{SysRoleMenuColumns[5], SysRoleMenuColumns[6]},
+			},
+			{
+				Name:    "rolemenu_role_id",
+				Unique:  false,
+				Columns: []*schema.Column{SysRoleMenuColumns[5]},
+			},
+		},
+	}
+	// SysRoleOrgColumns holds the columns for the "sys_role_org" table.
+	SysRoleOrgColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeUint32, Increment: true, Comment: "id", SchemaType: map[string]string{"mysql": "int", "postgres": "serial"}},
+		{Name: "create_time", Type: field.TypeTime, Nullable: true, Comment: "创建时间"},
+		{Name: "update_time", Type: field.TypeTime, Nullable: true, Comment: "更新时间"},
+		{Name: "delete_time", Type: field.TypeTime, Nullable: true, Comment: "删除时间"},
+		{Name: "create_by", Type: field.TypeUint32, Nullable: true, Comment: "创建者ID"},
+		{Name: "role_id", Type: field.TypeUint32, Comment: "角色ID"},
+		{Name: "org_id", Type: field.TypeUint32, Comment: "组织ID"},
+	}
+	// SysRoleOrgTable holds the schema information for the "sys_role_org" table.
+	SysRoleOrgTable = &schema.Table{
+		Name:       "sys_role_org",
+		Comment:    "角色 - 组织关联表",
+		Columns:    SysRoleOrgColumns,
+		PrimaryKey: []*schema.Column{SysRoleOrgColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "roleorg_id",
+				Unique:  false,
+				Columns: []*schema.Column{SysRoleOrgColumns[0]},
+			},
+			{
+				Name:    "roleorg_role_id_org_id",
+				Unique:  true,
+				Columns: []*schema.Column{SysRoleOrgColumns[5], SysRoleOrgColumns[6]},
+			},
+			{
+				Name:    "roleorg_role_id",
+				Unique:  false,
+				Columns: []*schema.Column{SysRoleOrgColumns[5]},
+			},
+		},
+	}
+	// SysRolePositionColumns holds the columns for the "sys_role_position" table.
+	SysRolePositionColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeUint32, Increment: true, Comment: "id", SchemaType: map[string]string{"mysql": "int", "postgres": "serial"}},
+		{Name: "create_time", Type: field.TypeTime, Nullable: true, Comment: "创建时间"},
+		{Name: "update_time", Type: field.TypeTime, Nullable: true, Comment: "更新时间"},
+		{Name: "delete_time", Type: field.TypeTime, Nullable: true, Comment: "删除时间"},
+		{Name: "create_by", Type: field.TypeUint32, Nullable: true, Comment: "创建者ID"},
+		{Name: "role_id", Type: field.TypeUint32, Comment: "角色ID"},
+		{Name: "position_id", Type: field.TypeUint32, Comment: "职位ID"},
+	}
+	// SysRolePositionTable holds the schema information for the "sys_role_position" table.
+	SysRolePositionTable = &schema.Table{
+		Name:       "sys_role_position",
+		Comment:    "角色 - 职位关联表",
+		Columns:    SysRolePositionColumns,
+		PrimaryKey: []*schema.Column{SysRolePositionColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "roleposition_id",
+				Unique:  false,
+				Columns: []*schema.Column{SysRolePositionColumns[0]},
+			},
+			{
+				Name:    "roleposition_role_id_position_id",
+				Unique:  true,
+				Columns: []*schema.Column{SysRolePositionColumns[5], SysRolePositionColumns[6]},
+			},
+			{
+				Name:    "roleposition_role_id",
+				Unique:  false,
+				Columns: []*schema.Column{SysRolePositionColumns[5]},
 			},
 		},
 	}
@@ -758,6 +929,84 @@ var (
 			},
 		},
 	}
+	// SysUserPositionColumns holds the columns for the "sys_user_position" table.
+	SysUserPositionColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeUint32, Increment: true, Comment: "id", SchemaType: map[string]string{"mysql": "int", "postgres": "serial"}},
+		{Name: "create_time", Type: field.TypeTime, Nullable: true, Comment: "创建时间"},
+		{Name: "update_time", Type: field.TypeTime, Nullable: true, Comment: "更新时间"},
+		{Name: "delete_time", Type: field.TypeTime, Nullable: true, Comment: "删除时间"},
+		{Name: "create_by", Type: field.TypeUint32, Nullable: true, Comment: "创建者ID"},
+		{Name: "user_id", Type: field.TypeUint32, Comment: "用户ID"},
+		{Name: "position_id", Type: field.TypeUint32, Comment: "职位ID"},
+	}
+	// SysUserPositionTable holds the schema information for the "sys_user_position" table.
+	SysUserPositionTable = &schema.Table{
+		Name:       "sys_user_position",
+		Comment:    "用户 - 职位关联表",
+		Columns:    SysUserPositionColumns,
+		PrimaryKey: []*schema.Column{SysUserPositionColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "userposition_id",
+				Unique:  false,
+				Columns: []*schema.Column{SysUserPositionColumns[0]},
+			},
+			{
+				Name:    "userposition_user_id_position_id",
+				Unique:  true,
+				Columns: []*schema.Column{SysUserPositionColumns[5], SysUserPositionColumns[6]},
+			},
+			{
+				Name:    "userposition_user_id",
+				Unique:  false,
+				Columns: []*schema.Column{SysUserPositionColumns[5]},
+			},
+			{
+				Name:    "userposition_position_id",
+				Unique:  false,
+				Columns: []*schema.Column{SysUserPositionColumns[6]},
+			},
+		},
+	}
+	// SysUserRoleColumns holds the columns for the "sys_user_role" table.
+	SysUserRoleColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeUint32, Increment: true, Comment: "id", SchemaType: map[string]string{"mysql": "int", "postgres": "serial"}},
+		{Name: "create_time", Type: field.TypeTime, Nullable: true, Comment: "创建时间"},
+		{Name: "update_time", Type: field.TypeTime, Nullable: true, Comment: "更新时间"},
+		{Name: "delete_time", Type: field.TypeTime, Nullable: true, Comment: "删除时间"},
+		{Name: "create_by", Type: field.TypeUint32, Nullable: true, Comment: "创建者ID"},
+		{Name: "user_id", Type: field.TypeUint32, Comment: "用户ID"},
+		{Name: "role_id", Type: field.TypeUint32, Comment: "角色ID"},
+	}
+	// SysUserRoleTable holds the schema information for the "sys_user_role" table.
+	SysUserRoleTable = &schema.Table{
+		Name:       "sys_user_role",
+		Comment:    "用户 - 角色关联表",
+		Columns:    SysUserRoleColumns,
+		PrimaryKey: []*schema.Column{SysUserRoleColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "userrole_id",
+				Unique:  false,
+				Columns: []*schema.Column{SysUserRoleColumns[0]},
+			},
+			{
+				Name:    "userrole_user_id_role_id",
+				Unique:  true,
+				Columns: []*schema.Column{SysUserRoleColumns[5], SysUserRoleColumns[6]},
+			},
+			{
+				Name:    "userrole_user_id",
+				Unique:  false,
+				Columns: []*schema.Column{SysUserRoleColumns[5]},
+			},
+			{
+				Name:    "userrole_role_id",
+				Unique:  false,
+				Columns: []*schema.Column{SysUserRoleColumns[6]},
+			},
+		},
+	}
 	// Tables holds all the tables in the schema.
 	Tables = []*schema.Table{
 		SysAdminLoginLogsTable,
@@ -775,10 +1024,17 @@ var (
 		SysPositionsTable,
 		PrivateMessagesTable,
 		SysRolesTable,
+		SysRoleAPITable,
+		SysRoleDeptTable,
+		SysRoleMenuTable,
+		SysRoleOrgTable,
+		SysRolePositionTable,
 		SysTasksTable,
 		SysTenantsTable,
 		SysUsersTable,
 		SysUserCredentialsTable,
+		SysUserPositionTable,
+		SysUserRoleTable,
 	}
 )
 
@@ -864,6 +1120,31 @@ func init() {
 		Charset:   "utf8mb4",
 		Collation: "utf8mb4_bin",
 	}
+	SysRoleAPITable.Annotation = &entsql.Annotation{
+		Table:     "sys_role_api",
+		Charset:   "utf8mb4",
+		Collation: "utf8mb4_bin",
+	}
+	SysRoleDeptTable.Annotation = &entsql.Annotation{
+		Table:     "sys_role_dept",
+		Charset:   "utf8mb4",
+		Collation: "utf8mb4_bin",
+	}
+	SysRoleMenuTable.Annotation = &entsql.Annotation{
+		Table:     "sys_role_menu",
+		Charset:   "utf8mb4",
+		Collation: "utf8mb4_bin",
+	}
+	SysRoleOrgTable.Annotation = &entsql.Annotation{
+		Table:     "sys_role_org",
+		Charset:   "utf8mb4",
+		Collation: "utf8mb4_bin",
+	}
+	SysRolePositionTable.Annotation = &entsql.Annotation{
+		Table:     "sys_role_position",
+		Charset:   "utf8mb4",
+		Collation: "utf8mb4_bin",
+	}
 	SysTasksTable.Annotation = &entsql.Annotation{
 		Table:     "sys_tasks",
 		Charset:   "utf8mb4",
@@ -881,6 +1162,16 @@ func init() {
 	}
 	SysUserCredentialsTable.Annotation = &entsql.Annotation{
 		Table:     "sys_user_credentials",
+		Charset:   "utf8mb4",
+		Collation: "utf8mb4_bin",
+	}
+	SysUserPositionTable.Annotation = &entsql.Annotation{
+		Table:     "sys_user_position",
+		Charset:   "utf8mb4",
+		Collation: "utf8mb4_bin",
+	}
+	SysUserRoleTable.Annotation = &entsql.Annotation{
+		Table:     "sys_user_role",
 		Charset:   "utf8mb4",
 		Collation: "utf8mb4_bin",
 	}

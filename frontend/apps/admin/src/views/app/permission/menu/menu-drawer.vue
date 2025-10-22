@@ -159,8 +159,9 @@ const [BaseForm, baseFormApi] = useVbenForm({
       component: 'Input',
       fieldName: 'meta.authority',
       label: $t('page.menu.authority'),
+      help: $t('page.menu.tips.authority'),
       componentProps: {
-        placeholder: $t('ui.placeholder.input'),
+        placeholder: $t('page.menu.tips.authority'),
         allowClear: true,
       },
       dependencies: {

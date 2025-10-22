@@ -11,6 +11,17 @@ import {
 import { defMenuService } from '#/services';
 import { makeQueryString, makeUpdateMask } from '#/utils/query';
 
+const parseToArray = (str: string): string[] => {
+  if (!str.trim()) {
+    return []; // 空输入返回空数组
+  }
+  // 按逗号分割，去除每个元素的前后空格，过滤空字符串
+  return str
+    .split(',')
+    .map((item) => item.trim())
+    .filter(Boolean); // 排除空字符串（如连续逗号产生的空项）
+};
+
 export const useMenuStore = defineStore('menu', () => {
   /**
    * 查询菜单列表
@@ -41,13 +52,32 @@ export const useMenuStore = defineStore('menu', () => {
     return await defMenuService.Get({ id });
   }
 
+  function prepareMenuData(values: object): Menu {
+    // eslint-disable-next-line unicorn/prefer-structured-clone
+    const copyData: Menu = JSON.parse(JSON.stringify(values));
+
+    // noinspection TypeScriptUnresolvedReference
+    delete copyData.divider1;
+    if (
+      copyData.meta?.authority !== undefined &&
+      copyData.meta?.authority !== null &&
+      copyData.meta?.authority !== ''
+    ) {
+      copyData.meta.authority = parseToArray(copyData.meta?.authority);
+    }
+
+    return copyData;
+  }
+
   /**
    * 创建菜单
    */
   async function createMenu(values: object) {
+    const copyData = prepareMenuData(values);
+
     return await defMenuService.Create({
       data: {
-        ...values,
+        ...copyData,
         children: [],
       },
     });
@@ -57,14 +87,18 @@ export const useMenuStore = defineStore('menu', () => {
    * 更新菜单
    */
   async function updateMenu(id: number, values: object) {
+    const copyData = prepareMenuData(values);
+
+    console.log('updateMenu', copyData);
+
     return await defMenuService.Update({
       data: {
         id,
-        ...values,
+        ...copyData,
         children: [],
       },
       // @ts-ignore proto generated code is error.
-      updateMask: makeUpdateMask(Object.keys(values ?? [])),
+      updateMask: makeUpdateMask(Object.keys(copyData ?? [])),
     });
   }
 

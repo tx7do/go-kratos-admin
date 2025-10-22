@@ -105,6 +105,9 @@
     "order": "排序",
     "title": "菜单标题",
     "advancedSettings": "其他设置",
+    "tips": {
+      "authority": "多个权限用逗号隔开，如：sys:user:add,sys:user:edit"
+    },
     "button": {
       "create": "创建菜单"
     }

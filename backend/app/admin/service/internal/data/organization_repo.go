@@ -22,32 +22,6 @@ import (
 	userV1 "kratos-admin/api/gen/go/user/service/v1"
 )
 
-var (
-	OrganizationStatusNameMap = map[int32]string{
-		int32(userV1.OrganizationStatus_ORGANIZATION_STATUS_ON):  string(organization.StatusORGANIZATION_STATUS_ON),
-		int32(userV1.OrganizationStatus_ORGANIZATION_STATUS_OFF): string(organization.StatusORGANIZATION_STATUS_OFF),
-	}
-
-	OrganizationStatusValueMap = map[string]int32{
-		string(organization.StatusORGANIZATION_STATUS_ON):  int32(userV1.OrganizationStatus_ORGANIZATION_STATUS_ON),
-		string(organization.StatusORGANIZATION_STATUS_OFF): int32(userV1.OrganizationStatus_ORGANIZATION_STATUS_OFF),
-	}
-
-	OrganizationTypeNameMap = map[int32]string{
-		int32(userV1.OrganizationType_ORGANIZATION_TYPE_GROUP):      string(organization.OrganizationTypeORGANIZATION_TYPE_GROUP),
-		int32(userV1.OrganizationType_ORGANIZATION_TYPE_SUBSIDIARY): string(organization.OrganizationTypeORGANIZATION_TYPE_SUBSIDIARY),
-		int32(userV1.OrganizationType_ORGANIZATION_TYPE_FILIALE):    string(organization.OrganizationTypeORGANIZATION_TYPE_FILIALE),
-		int32(userV1.OrganizationType_ORGANIZATION_TYPE_DIVISION):   string(organization.OrganizationTypeORGANIZATION_TYPE_DIVISION),
-	}
-
-	OrganizationTypeValueMap = map[string]int32{
-		string(organization.OrganizationTypeORGANIZATION_TYPE_GROUP):      int32(userV1.OrganizationType_ORGANIZATION_TYPE_GROUP),
-		string(organization.OrganizationTypeORGANIZATION_TYPE_SUBSIDIARY): int32(userV1.OrganizationType_ORGANIZATION_TYPE_SUBSIDIARY),
-		string(organization.OrganizationTypeORGANIZATION_TYPE_FILIALE):    int32(userV1.OrganizationType_ORGANIZATION_TYPE_FILIALE),
-		string(organization.OrganizationTypeORGANIZATION_TYPE_DIVISION):   int32(userV1.OrganizationType_ORGANIZATION_TYPE_DIVISION),
-	}
-)
-
 type OrganizationRepo struct {
 	data *Data
 	log  *log.Helper
@@ -62,8 +36,8 @@ func NewOrganizationRepo(data *Data, logger log.Logger) *OrganizationRepo {
 		log:             log.NewHelper(log.With(logger, "module", "organization/repo/admin-service")),
 		data:            data,
 		mapper:          mapper.NewCopierMapper[userV1.Organization, ent.Organization](),
-		typeConverter:   mapper.NewEnumTypeConverter[userV1.OrganizationType, organization.OrganizationType](OrganizationTypeNameMap, OrganizationTypeValueMap),
-		statusConverter: mapper.NewEnumTypeConverter[userV1.OrganizationStatus, organization.Status](OrganizationStatusNameMap, OrganizationStatusValueMap),
+		typeConverter:   mapper.NewEnumTypeConverter[userV1.OrganizationType, organization.OrganizationType](userV1.OrganizationType_name, userV1.OrganizationType_value),
+		statusConverter: mapper.NewEnumTypeConverter[userV1.OrganizationStatus, organization.Status](userV1.OrganizationStatus_name, userV1.OrganizationStatus_value),
 	}
 
 	repo.init()

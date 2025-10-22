@@ -22,18 +22,6 @@ import (
 	userV1 "kratos-admin/api/gen/go/user/service/v1"
 )
 
-var (
-	PositionStatusNameMap = map[int32]string{
-		int32(userV1.PositionStatus_POSITION_STATUS_ON):  string(position.StatusPOSITION_STATUS_ON),
-		int32(userV1.PositionStatus_POSITION_STATUS_OFF): string(position.StatusPOSITION_STATUS_OFF),
-	}
-
-	PositionStatusValueMap = map[string]int32{
-		string(position.StatusPOSITION_STATUS_ON):  int32(userV1.PositionStatus_POSITION_STATUS_ON),
-		string(position.StatusPOSITION_STATUS_OFF): int32(userV1.PositionStatus_POSITION_STATUS_OFF),
-	}
-)
-
 type PositionRepo struct {
 	data *Data
 	log  *log.Helper
@@ -47,7 +35,7 @@ func NewPositionRepo(data *Data, logger log.Logger) *PositionRepo {
 		log:             log.NewHelper(log.With(logger, "module", "position/repo/admin-service")),
 		data:            data,
 		mapper:          mapper.NewCopierMapper[userV1.Position, ent.Position](),
-		statusConverter: mapper.NewEnumTypeConverter[userV1.PositionStatus, position.Status](PositionStatusNameMap, PositionStatusValueMap),
+		statusConverter: mapper.NewEnumTypeConverter[userV1.PositionStatus, position.Status](userV1.PositionStatus_name, userV1.PositionStatus_value),
 	}
 
 	repo.init()

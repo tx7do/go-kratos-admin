@@ -181,7 +181,7 @@ func TestCopier(t *testing.T) {
 	{
 		var in ent.Department
 		var out userV1.Department
-		in.Status = trans.Ptr(department.StatusON)
+		in.Status = trans.Ptr(department.StatusDEPARTMENT_STATUS_ON)
 
 		_ = copier.Copy(&out, &in)
 

@@ -2,7 +2,6 @@ package data
 
 import (
 	"context"
-	internalMessageV1 "kratos-admin/api/gen/go/internal_message/service/v1"
 	"time"
 
 	"entgo.io/ent/dialect/sql"
@@ -340,7 +339,7 @@ func (r *RoleRepo) Delete(ctx context.Context, req *userV1.DeleteRoleRequest) er
 	ids, err := queryAllChildrenIDs(ctx, r.data.db, "sys_roles", req.GetId())
 	if err != nil {
 		r.log.Errorf("query child roles failed: %s", err.Error())
-		return internalMessageV1.ErrorInternalServerError("query child roles failed")
+		return userV1.ErrorInternalServerError("query child roles failed")
 	}
 	ids = append(ids, req.GetId())
 

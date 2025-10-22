@@ -21,18 +21,6 @@ import (
 	adminV1 "kratos-admin/api/gen/go/admin/service/v1"
 )
 
-var (
-	ApiScopeNameMap = map[int32]string{
-		int32(adminV1.ApiScope_API_SCOPE_ADMIN): string(apiresource.ScopeAPI_SCOPE_ADMIN),
-		int32(adminV1.ApiScope_API_SCOPE_APP):   string(apiresource.ScopeAPI_SCOPE_APP),
-	}
-
-	ApiScopeValueMap = map[string]int32{
-		string(apiresource.ScopeAPI_SCOPE_ADMIN): int32(adminV1.ApiScope_API_SCOPE_ADMIN),
-		string(apiresource.ScopeAPI_SCOPE_APP):   int32(adminV1.ApiScope_API_SCOPE_APP),
-	}
-)
-
 type ApiResourceRepo struct {
 	data *Data
 	log  *log.Helper
@@ -46,7 +34,7 @@ func NewApiResourceRepo(data *Data, logger log.Logger) *ApiResourceRepo {
 		log:            log.NewHelper(log.With(logger, "module", "api-resource/repo/admin-service")),
 		data:           data,
 		mapper:         mapper.NewCopierMapper[adminV1.ApiResource, ent.ApiResource](),
-		scopeConverter: mapper.NewEnumTypeConverter[adminV1.ApiScope, apiresource.Scope](ApiScopeNameMap, ApiScopeValueMap),
+		scopeConverter: mapper.NewEnumTypeConverter[adminV1.ApiScope, apiresource.Scope](adminV1.ApiScope_name, adminV1.ApiScope_value),
 	}
 
 	repo.init()

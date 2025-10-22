@@ -2,7 +2,6 @@ package data
 
 import (
 	"context"
-	userV1 "kratos-admin/api/gen/go/user/service/v1"
 	"strings"
 	"time"
 
@@ -324,7 +323,7 @@ func (r *MenuRepo) Delete(ctx context.Context, req *adminV1.DeleteMenuRequest) e
 	ids, err := queryAllChildrenIDs(ctx, r.data.db, "sys_menus", uint32(req.GetId()))
 	if err != nil {
 		r.log.Errorf("query child menus failed: %s", err.Error())
-		return userV1.ErrorInternalServerError("query child menus failed")
+		return adminV1.ErrorInternalServerError("query child menus failed")
 	}
 	ids = append(ids, uint32(req.GetId()))
 

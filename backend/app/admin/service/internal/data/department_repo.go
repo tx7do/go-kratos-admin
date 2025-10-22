@@ -22,18 +22,6 @@ import (
 	userV1 "kratos-admin/api/gen/go/user/service/v1"
 )
 
-var (
-	DepartmentStatusNameMap = map[int32]string{
-		int32(userV1.DepartmentStatus_DEPARTMENT_STATUS_ON):  string(department.StatusDEPARTMENT_STATUS_ON),
-		int32(userV1.DepartmentStatus_DEPARTMENT_STATUS_OFF): string(department.StatusDEPARTMENT_STATUS_OFF),
-	}
-
-	DepartmentStatusValueMap = map[string]int32{
-		string(department.StatusDEPARTMENT_STATUS_ON):  int32(userV1.DepartmentStatus_DEPARTMENT_STATUS_ON),
-		string(department.StatusDEPARTMENT_STATUS_OFF): int32(userV1.DepartmentStatus_DEPARTMENT_STATUS_OFF),
-	}
-)
-
 type DepartmentRepo struct {
 	data *Data
 	log  *log.Helper
@@ -47,7 +35,7 @@ func NewDepartmentRepo(data *Data, logger log.Logger) *DepartmentRepo {
 		log:             log.NewHelper(log.With(logger, "module", "department/repo/admin-service")),
 		data:            data,
 		mapper:          mapper.NewCopierMapper[userV1.Department, ent.Department](),
-		statusConverter: mapper.NewEnumTypeConverter[userV1.DepartmentStatus, department.Status](DepartmentStatusNameMap, DepartmentStatusValueMap),
+		statusConverter: mapper.NewEnumTypeConverter[userV1.DepartmentStatus, department.Status](userV1.DepartmentStatus_name, userV1.DepartmentStatus_value),
 	}
 
 	repo.init()

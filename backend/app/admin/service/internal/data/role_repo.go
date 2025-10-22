@@ -2,6 +2,10 @@ package data
 
 import (
 	"context"
+	"kratos-admin/app/admin/service/internal/data/ent/roledept"
+	"kratos-admin/app/admin/service/internal/data/ent/roleorg"
+	"kratos-admin/app/admin/service/internal/data/ent/roleposition"
+
 	"time"
 
 	"entgo.io/ent/dialect/sql"
@@ -17,6 +21,8 @@ import (
 
 	"kratos-admin/app/admin/service/internal/data/ent"
 	"kratos-admin/app/admin/service/internal/data/ent/role"
+	"kratos-admin/app/admin/service/internal/data/ent/roleapi"
+	"kratos-admin/app/admin/service/internal/data/ent/rolemenu"
 
 	userV1 "kratos-admin/api/gen/go/user/service/v1"
 )
@@ -352,5 +358,420 @@ func (r *RoleRepo) Delete(ctx context.Context, req *userV1.DeleteRoleRequest) er
 		return userV1.ErrorInternalServerError("delete roles failed")
 	}
 
+	return nil
+}
+
+// AssignMenus 给角色分配菜单
+func (r *RoleRepo) AssignMenus(ctx context.Context, roleId uint32, menuIds []uint32, operatorId uint32) error {
+	// 开启事务
+	tx, err := r.data.db.Client().Tx(ctx)
+	if err != nil {
+		r.log.Errorf("start transaction failed: %s", err.Error())
+		return userV1.ErrorInternalServerError("start transaction failed")
+	}
+
+	// 删除该角色的所有旧关联
+	if _, err = tx.RoleMenu.Delete().Where(rolemenu.RoleID(roleId)).Exec(ctx); err != nil {
+		err = rollback(tx, err)
+		r.log.Errorf("delete old role menus failed: %s", err.Error())
+		return userV1.ErrorInternalServerError("delete old role menus failed")
+	}
+
+	// 如果没有分配任何菜单，则直接提交事务返回
+	if len(menuIds) == 0 {
+		// 提交事务
+		if err = tx.Commit(); err != nil {
+			r.log.Errorf("commit transaction failed: %s", err.Error())
+			return userV1.ErrorInternalServerError("commit transaction failed")
+		}
+		return nil
+	}
+
+	var roleMenus []*ent.RoleMenuCreate
+	for _, menuID := range menuIds {
+		rm := r.data.db.Client().RoleMenu.
+			Create().
+			SetRoleID(roleId).
+			SetMenuID(menuID).
+			SetCreateBy(operatorId).
+			SetCreateTime(time.Now())
+		roleMenus = append(roleMenus, rm)
+	}
+
+	_, err = r.data.db.Client().RoleMenu.CreateBulk(roleMenus...).Save(ctx)
+	if err != nil {
+		err = rollback(tx, err)
+		r.log.Errorf("assign menus to role failed: %s", err.Error())
+		return userV1.ErrorInternalServerError("assign menus to role failed")
+	}
+
+	// 提交事务
+	if err = tx.Commit(); err != nil {
+		r.log.Errorf("commit transaction failed: %s", err.Error())
+		return userV1.ErrorInternalServerError("commit transaction failed")
+	}
+
+	return nil
+}
+
+// GetMenuIdsByRoleId 获取角色分配的菜单ID列表
+func (r *RoleRepo) GetMenuIdsByRoleId(ctx context.Context, roleId uint32) ([]uint32, error) {
+	menuIds, err := r.data.db.Client().RoleMenu.Query().
+		Where(rolemenu.RoleIDEQ(roleId)).
+		Select(rolemenu.FieldMenuID).
+		IDs(ctx)
+	if err != nil {
+		r.log.Errorf("query menu ids by role id failed: %s", err.Error())
+		return nil, userV1.ErrorInternalServerError("query menu ids by role id failed")
+	}
+	return menuIds, nil
+}
+
+// RemoveMenus 从角色移除菜单
+func (r *RoleRepo) RemoveMenus(ctx context.Context, roleId uint32, menuIds []uint32) error {
+	_, err := r.data.db.Client().RoleMenu.Delete().
+		Where(
+			rolemenu.And(
+				rolemenu.RoleIDEQ(roleId),
+				rolemenu.MenuIDIn(menuIds...),
+			),
+		).
+		Exec(ctx)
+	if err != nil {
+		r.log.Errorf("remove menus from role failed: %s", err.Error())
+		return userV1.ErrorInternalServerError("remove menus from role failed")
+	}
+	return nil
+}
+
+// AssignApis 给角色分配API
+func (r *RoleRepo) AssignApis(ctx context.Context, roleId uint32, apiIds []uint32, operatorId uint32) error {
+	// 开启事务
+	tx, err := r.data.db.Client().Tx(ctx)
+	if err != nil {
+		r.log.Errorf("start transaction failed: %s", err.Error())
+		return userV1.ErrorInternalServerError("start transaction failed")
+	}
+
+	// 删除该角色的所有旧关联
+	if _, err = tx.RoleApi.Delete().Where(roleapi.RoleID(roleId)).Exec(ctx); err != nil {
+		err = rollback(tx, err)
+		r.log.Errorf("delete old role apis failed: %s", err.Error())
+		return userV1.ErrorInternalServerError("delete old role apis failed")
+	}
+
+	// 如果没有分配任何，则直接提交事务返回
+	if len(apiIds) == 0 {
+		// 提交事务
+		if err = tx.Commit(); err != nil {
+			r.log.Errorf("commit transaction failed: %s", err.Error())
+			return userV1.ErrorInternalServerError("commit transaction failed")
+		}
+		return nil
+	}
+
+	var roleApis []*ent.RoleApiCreate
+	for _, apiId := range apiIds {
+		rm := r.data.db.Client().RoleApi.
+			Create().
+			SetRoleID(roleId).
+			SetAPIID(apiId).
+			SetCreateBy(operatorId).
+			SetCreateTime(time.Now())
+		roleApis = append(roleApis, rm)
+	}
+
+	_, err = r.data.db.Client().RoleApi.CreateBulk(roleApis...).Save(ctx)
+	if err != nil {
+		err = rollback(tx, err)
+		r.log.Errorf("assign apis to role failed: %s", err.Error())
+		return userV1.ErrorInternalServerError("assign apis to role failed")
+	}
+
+	// 提交事务
+	if err = tx.Commit(); err != nil {
+		r.log.Errorf("commit transaction failed: %s", err.Error())
+		return userV1.ErrorInternalServerError("commit transaction failed")
+	}
+
+	return nil
+}
+
+// GetApiIdsByRoleId 获取角色分配的API ID列表
+func (r *RoleRepo) GetApiIdsByRoleId(ctx context.Context, roleId uint32) ([]uint32, error) {
+	apiIds, err := r.data.db.Client().RoleApi.Query().
+		Where(roleapi.IDEQ(roleId)).
+		Select(roleapi.FieldAPIID).
+		IDs(ctx)
+	if err != nil {
+		r.log.Errorf("query api ids by role id failed: %s", err.Error())
+		return nil, userV1.ErrorInternalServerError("query api ids by role id failed")
+	}
+	return apiIds, nil
+}
+
+// RemoveApis 从角色移除API
+func (r *RoleRepo) RemoveApis(ctx context.Context, roleId uint32, apiIds []uint32) error {
+	_, err := r.data.db.Client().RoleApi.Delete().
+		Where(
+			roleapi.And(
+				roleapi.RoleIDEQ(roleId),
+				roleapi.APIIDIn(apiIds...),
+			),
+		).
+		Exec(ctx)
+	if err != nil {
+		r.log.Errorf("remove apis from role failed: %s", err.Error())
+		return userV1.ErrorInternalServerError("remove apis from role failed")
+	}
+	return nil
+}
+
+// AssignOrganizations 给角色分配组织
+func (r *RoleRepo) AssignOrganizations(ctx context.Context, roleId uint32, orgIds []uint32, operatorId uint32) error {
+	// 开启事务
+	tx, err := r.data.db.Client().Tx(ctx)
+	if err != nil {
+		r.log.Errorf("start transaction failed: %s", err.Error())
+		return userV1.ErrorInternalServerError("start transaction failed")
+	}
+
+	// 删除该角色的所有旧关联
+	if _, err = tx.RoleOrg.Delete().Where(roleorg.RoleID(roleId)).Exec(ctx); err != nil {
+		err = rollback(tx, err)
+		r.log.Errorf("delete old role organizations failed: %s", err.Error())
+		return userV1.ErrorInternalServerError("delete old role organizations failed")
+	}
+
+	// 如果没有分配任何，则直接提交事务返回
+	if len(orgIds) == 0 {
+		// 提交事务
+		if err = tx.Commit(); err != nil {
+			r.log.Errorf("commit transaction failed: %s", err.Error())
+			return userV1.ErrorInternalServerError("commit transaction failed")
+		}
+		return nil
+	}
+
+	var roleOrgs []*ent.RoleOrgCreate
+	for _, orgId := range orgIds {
+		rm := r.data.db.Client().RoleOrg.
+			Create().
+			SetRoleID(roleId).
+			SetOrgID(orgId).
+			SetCreateBy(operatorId).
+			SetCreateTime(time.Now())
+		roleOrgs = append(roleOrgs, rm)
+	}
+
+	_, err = r.data.db.Client().RoleOrg.CreateBulk(roleOrgs...).Save(ctx)
+	if err != nil {
+		err = rollback(tx, err)
+		r.log.Errorf("assign organizations to role failed: %s", err.Error())
+		return userV1.ErrorInternalServerError("assign organizations to role failed")
+	}
+
+	// 提交事务
+	if err = tx.Commit(); err != nil {
+		r.log.Errorf("commit transaction failed: %s", err.Error())
+		return userV1.ErrorInternalServerError("commit transaction failed")
+	}
+
+	return nil
+}
+
+// GetOrganizationIdsByRoleId 获取角色分配的组织ID列表
+func (r *RoleRepo) GetOrganizationIdsByRoleId(ctx context.Context, roleId uint32) ([]uint32, error) {
+	ids, err := r.data.db.Client().RoleOrg.Query().
+		Where(roleorg.RoleIDEQ(roleId)).
+		Select(roleorg.FieldOrgID).
+		IDs(ctx)
+	if err != nil {
+		r.log.Errorf("query organization ids by role id failed: %s", err.Error())
+		return nil, userV1.ErrorInternalServerError("query organization ids by role id failed")
+	}
+	return ids, nil
+}
+
+// RemoveOrganizations 从角色移除组织
+func (r *RoleRepo) RemoveOrganizations(ctx context.Context, roleId uint32, ids []uint32) error {
+	_, err := r.data.db.Client().RoleOrg.Delete().
+		Where(
+			roleorg.And(
+				roleorg.RoleIDEQ(roleId),
+				roleorg.OrgIDIn(ids...),
+			),
+		).
+		Exec(ctx)
+	if err != nil {
+		r.log.Errorf("remove organizations from role failed: %s", err.Error())
+		return userV1.ErrorInternalServerError("remove organizations from role failed")
+	}
+	return nil
+}
+
+// AssignDepartments 给角色分配部门
+func (r *RoleRepo) AssignDepartments(ctx context.Context, roleId uint32, deptIds []uint32, operatorId uint32) error {
+	// 开启事务
+	tx, err := r.data.db.Client().Tx(ctx)
+	if err != nil {
+		r.log.Errorf("start transaction failed: %s", err.Error())
+		return userV1.ErrorInternalServerError("start transaction failed")
+	}
+
+	// 删除该角色的所有旧关联
+	if _, err = tx.RoleDept.Delete().Where(roledept.RoleID(roleId)).Exec(ctx); err != nil {
+		err = rollback(tx, err)
+		r.log.Errorf("delete old role departments failed: %s", err.Error())
+		return userV1.ErrorInternalServerError("delete old role departments failed")
+	}
+
+	// 如果没有分配任何，则直接提交事务返回
+	if len(deptIds) == 0 {
+		// 提交事务
+		if err = tx.Commit(); err != nil {
+			r.log.Errorf("commit transaction failed: %s", err.Error())
+			return userV1.ErrorInternalServerError("commit transaction failed")
+		}
+		return nil
+	}
+
+	var roleDepts []*ent.RoleDeptCreate
+	for _, deptId := range deptIds {
+		rm := r.data.db.Client().RoleDept.
+			Create().
+			SetRoleID(roleId).
+			SetDeptID(deptId).
+			SetCreateBy(operatorId).
+			SetCreateTime(time.Now())
+		roleDepts = append(roleDepts, rm)
+	}
+
+	_, err = r.data.db.Client().RoleDept.CreateBulk(roleDepts...).Save(ctx)
+	if err != nil {
+		err = rollback(tx, err)
+		r.log.Errorf("assign departments to role failed: %s", err.Error())
+		return userV1.ErrorInternalServerError("assign departments to role failed")
+	}
+
+	// 提交事务
+	if err = tx.Commit(); err != nil {
+		r.log.Errorf("commit transaction failed: %s", err.Error())
+		return userV1.ErrorInternalServerError("commit transaction failed")
+	}
+
+	return nil
+}
+
+// GetDepartmentIdsByRoleId 获取角色分配的部门ID列表
+func (r *RoleRepo) GetDepartmentIdsByRoleId(ctx context.Context, roleId uint32) ([]uint32, error) {
+	ids, err := r.data.db.Client().RoleDept.Query().
+		Where(roledept.RoleIDEQ(roleId)).
+		Select(roledept.FieldDeptID).
+		IDs(ctx)
+	if err != nil {
+		r.log.Errorf("query department ids by role id failed: %s", err.Error())
+		return nil, userV1.ErrorInternalServerError("query department ids by role id failed")
+	}
+	return ids, nil
+}
+
+// RemoveDepartments 从角色移除部门
+func (r *RoleRepo) RemoveDepartments(ctx context.Context, roleId uint32, ids []uint32) error {
+	_, err := r.data.db.Client().RoleDept.Delete().
+		Where(
+			roledept.And(
+				roledept.RoleIDEQ(roleId),
+				roledept.DeptIDIn(ids...),
+			),
+		).
+		Exec(ctx)
+	if err != nil {
+		r.log.Errorf("remove departments from role failed: %s", err.Error())
+		return userV1.ErrorInternalServerError("remove departments from role failed")
+	}
+	return nil
+}
+
+// AssignPositions 给角色分配岗位
+func (r *RoleRepo) AssignPositions(ctx context.Context, roleId uint32, positionIds []uint32, operatorId uint32) error {
+	// 开启事务
+	tx, err := r.data.db.Client().Tx(ctx)
+	if err != nil {
+		r.log.Errorf("start transaction failed: %s", err.Error())
+		return userV1.ErrorInternalServerError("start transaction failed")
+	}
+
+	// 删除该角色的所有旧关联
+	if _, err = tx.RolePosition.Delete().Where(roleposition.RoleID(roleId)).Exec(ctx); err != nil {
+		err = rollback(tx, err)
+		r.log.Errorf("delete old role positions failed: %s", err.Error())
+		return userV1.ErrorInternalServerError("delete old role positions failed")
+	}
+
+	// 如果没有分配任何，则直接提交事务返回
+	if len(positionIds) == 0 {
+		// 提交事务
+		if err = tx.Commit(); err != nil {
+			r.log.Errorf("commit transaction failed: %s", err.Error())
+			return userV1.ErrorInternalServerError("commit transaction failed")
+		}
+		return nil
+	}
+
+	var rolePositions []*ent.RolePositionCreate
+	for _, positionId := range positionIds {
+		rm := r.data.db.Client().RolePosition.
+			Create().
+			SetRoleID(roleId).
+			SetPositionID(positionId).
+			SetCreateBy(operatorId).
+			SetCreateTime(time.Now())
+		rolePositions = append(rolePositions, rm)
+	}
+
+	_, err = r.data.db.Client().RolePosition.CreateBulk(rolePositions...).Save(ctx)
+	if err != nil {
+		err = rollback(tx, err)
+		r.log.Errorf("assign positions to role failed: %s", err.Error())
+		return userV1.ErrorInternalServerError("assign positions to role failed")
+	}
+
+	// 提交事务
+	if err = tx.Commit(); err != nil {
+		r.log.Errorf("commit transaction failed: %s", err.Error())
+		return userV1.ErrorInternalServerError("commit transaction failed")
+	}
+
+	return nil
+}
+
+// GetPositionIdsByRoleId 获取角色分配的岗位ID列表
+func (r *RoleRepo) GetPositionIdsByRoleId(ctx context.Context, roleId uint32) ([]uint32, error) {
+	ids, err := r.data.db.Client().RolePosition.Query().
+		Where(roleposition.RoleIDEQ(roleId)).
+		Select(roleposition.FieldPositionID).
+		IDs(ctx)
+	if err != nil {
+		r.log.Errorf("query position ids by role id failed: %s", err.Error())
+		return nil, userV1.ErrorInternalServerError("query position ids by role id failed")
+	}
+	return ids, nil
+}
+
+// RemovePositions 从角色移除岗位
+func (r *RoleRepo) RemovePositions(ctx context.Context, roleId uint32, ids []uint32) error {
+	_, err := r.data.db.Client().RolePosition.Delete().
+		Where(
+			roleposition.And(
+				roleposition.RoleIDEQ(roleId),
+				roleposition.PositionIDIn(ids...),
+			),
+		).
+		Exec(ctx)
+	if err != nil {
+		r.log.Errorf("remove positions from role failed: %s", err.Error())
+		return userV1.ErrorInternalServerError("remove positions from role failed")
+	}
 	return nil
 }

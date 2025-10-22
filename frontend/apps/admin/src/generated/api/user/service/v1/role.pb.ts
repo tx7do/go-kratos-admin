@@ -9,6 +9,25 @@ import type { Empty } from "../../../google/protobuf/empty.pb";
 import type { Timestamp } from "../../../google/protobuf/timestamp.pb";
 import type { PagingRequest } from "../../../pagination/v1/pagination.pb";
 
+/** 数据权限范围 */
+export enum DataScope {
+  DATA_SCOPE_UNSPECIFIED = "DATA_SCOPE_UNSPECIFIED",
+  /** DATA_SCOPE_ALL - 全部数据权限 */
+  DATA_SCOPE_ALL = "DATA_SCOPE_ALL",
+  /** DATA_SCOPE_CUSTOM - 自定义数据权限 */
+  DATA_SCOPE_CUSTOM = "DATA_SCOPE_CUSTOM",
+  /** DATA_SCOPE_SELF - 仅本人数据权限 */
+  DATA_SCOPE_SELF = "DATA_SCOPE_SELF",
+  /** DATA_SCOPE_ORG - 本机构数据权限 */
+  DATA_SCOPE_ORG = "DATA_SCOPE_ORG",
+  /** DATA_SCOPE_ORG_AND_CHILD - 本机构及以下数据权限 */
+  DATA_SCOPE_ORG_AND_CHILD = "DATA_SCOPE_ORG_AND_CHILD",
+  /** DATA_SCOPE_DEPT - 本部门数据权限 */
+  DATA_SCOPE_DEPT = "DATA_SCOPE_DEPT",
+  /** DATA_SCOPE_DEPT_AND_CHILD - 本部门及以下数据权限 */
+  DATA_SCOPE_DEPT_AND_CHILD = "DATA_SCOPE_DEPT_AND_CHILD",
+}
+
 /** 角色 */
 export interface Role {
   /** 角色ID */
@@ -41,6 +60,11 @@ export interface Role {
   menus: number[];
   /** 分配的API列表 */
   apis: number[];
+  /** 数据权限范围 */
+  dataScope?:
+    | DataScope
+    | null
+    | undefined;
   /** 租户ID */
   tenantId?:
     | number

@@ -114,6 +114,10 @@ func (m *Role) validate(all bool) error {
 		// no validation rules for Remark
 	}
 
+	if m.DataScope != nil {
+		// no validation rules for DataScope
+	}
+
 	if m.TenantId != nil {
 		// no validation rules for TenantId
 	}

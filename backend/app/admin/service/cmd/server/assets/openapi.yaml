@@ -4036,6 +4036,19 @@ components:
                         type: integer
                         format: uint32
                     description: 分配的API列表
+                dataScope:
+                    enum:
+                        - DATA_SCOPE_UNSPECIFIED
+                        - DATA_SCOPE_ALL
+                        - DATA_SCOPE_CUSTOM
+                        - DATA_SCOPE_SELF
+                        - DATA_SCOPE_ORG
+                        - DATA_SCOPE_ORG_AND_CHILD
+                        - DATA_SCOPE_DEPT
+                        - DATA_SCOPE_DEPT_AND_CHILD
+                    type: string
+                    description: 数据权限范围
+                    format: enum
                 tenantId:
                     type: integer
                     description: 租户ID

@@ -60,6 +60,15 @@ func NewEntClient(cfg *conf.Bootstrap, logger log.Logger) *entgo.EntClient[*ent.
 	return cli
 }
 
+// rollback calls to tx.Rollback and wraps the given error
+// with the rollback error if occurred.
+func rollback(tx *ent.Tx, err error) error {
+	if rerr := tx.Rollback(); rerr != nil {
+		err = fmt.Errorf("%w: %v", err, rerr)
+	}
+	return err
+}
+
 // queryAllChildrenIDs 使用CTE递归查询所有子节点ID
 func queryAllChildrenIDs(ctx context.Context, entClient *entgo.EntClient[*ent.Client], tableName string, parentID uint32) ([]uint32, error) {
 	var query string

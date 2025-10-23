@@ -94,9 +94,20 @@ function handleEditPassword() {
       </div>
     </template>
     <template #extra>
-      <a-button class="mr-2" danger type="primary" @click="handleBanAccount">
-        {{ $t('page.user.button.banAccount') }}
-      </a-button>
+      <a-popconfirm
+        :cancel-text="$t('ui.button.cancel')"
+        :ok-text="$t('ui.button.ok')"
+        :title="
+          $t('ui.text.do_you_want_disable', {
+            moduleName: $t('page.user.moduleName'),
+          })
+        "
+        @confirm="handleBanAccount"
+      >
+        <a-button class="mr-2" danger type="primary">
+          {{ $t('page.user.button.banAccount') }}
+        </a-button>
+      </a-popconfirm>
       <a-button class="mr-2" type="primary" @click="handleEditPassword">
         {{ $t('page.user.button.editPassword') }}
       </a-button>

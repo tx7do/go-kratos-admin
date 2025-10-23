@@ -56,6 +56,7 @@
   },
   "text": {
     "do_you_want_delete": "你是否要删除掉该{moduleName}？",
-    "do_you_want_sync_api": "你是否确定要同步API？它将会重建数据库中的数据。\t如果API资源较多，可能需要花费一些时间，请耐心等待。"
+    "do_you_want_sync_api": "你是否确定要同步API？它将会重建数据库中的数据。\t如果API资源较多，可能需要花费一些时间，请耐心等待。",
+    "do_you_want_disable": "你是否要禁用该{moduleName}？"
   }
 }

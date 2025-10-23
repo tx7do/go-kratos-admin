@@ -22,11 +22,12 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	UserService_List_FullMethodName   = "/admin.service.v1.UserService/List"
-	UserService_Get_FullMethodName    = "/admin.service.v1.UserService/Get"
-	UserService_Create_FullMethodName = "/admin.service.v1.UserService/Create"
-	UserService_Update_FullMethodName = "/admin.service.v1.UserService/Update"
-	UserService_Delete_FullMethodName = "/admin.service.v1.UserService/Delete"
+	UserService_List_FullMethodName             = "/admin.service.v1.UserService/List"
+	UserService_Get_FullMethodName              = "/admin.service.v1.UserService/Get"
+	UserService_Create_FullMethodName           = "/admin.service.v1.UserService/Create"
+	UserService_Update_FullMethodName           = "/admin.service.v1.UserService/Update"
+	UserService_Delete_FullMethodName           = "/admin.service.v1.UserService/Delete"
+	UserService_EditUserPassword_FullMethodName = "/admin.service.v1.UserService/EditUserPassword"
 )
 
 // UserServiceClient is the client API for UserService service.
@@ -45,6 +46,8 @@ type UserServiceClient interface {
 	Update(ctx context.Context, in *v11.UpdateUserRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	// 删除用户
 	Delete(ctx context.Context, in *v11.DeleteUserRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	// 修改用户密码
+	EditUserPassword(ctx context.Context, in *v11.EditUserPasswordRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 }
 
 type userServiceClient struct {
@@ -105,6 +108,16 @@ func (c *userServiceClient) Delete(ctx context.Context, in *v11.DeleteUserReques
 	return out, nil
 }
 
+func (c *userServiceClient) EditUserPassword(ctx context.Context, in *v11.EditUserPasswordRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(emptypb.Empty)
+	err := c.cc.Invoke(ctx, UserService_EditUserPassword_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // UserServiceServer is the server API for UserService service.
 // All implementations must embed UnimplementedUserServiceServer
 // for forward compatibility.
@@ -121,6 +134,8 @@ type UserServiceServer interface {
 	Update(context.Context, *v11.UpdateUserRequest) (*emptypb.Empty, error)
 	// 删除用户
 	Delete(context.Context, *v11.DeleteUserRequest) (*emptypb.Empty, error)
+	// 修改用户密码
+	EditUserPassword(context.Context, *v11.EditUserPasswordRequest) (*emptypb.Empty, error)
 	mustEmbedUnimplementedUserServiceServer()
 }
 
@@ -145,6 +160,9 @@ func (UnimplementedUserServiceServer) Update(context.Context, *v11.UpdateUserReq
 }
 func (UnimplementedUserServiceServer) Delete(context.Context, *v11.DeleteUserRequest) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Delete not implemented")
+}
+func (UnimplementedUserServiceServer) EditUserPassword(context.Context, *v11.EditUserPasswordRequest) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method EditUserPassword not implemented")
 }
 func (UnimplementedUserServiceServer) mustEmbedUnimplementedUserServiceServer() {}
 func (UnimplementedUserServiceServer) testEmbeddedByValue()                     {}
@@ -257,6 +275,24 @@ func _UserService_Delete_Handler(srv interface{}, ctx context.Context, dec func(
 	return interceptor(ctx, in, info, handler)
 }
 
+func _UserService_EditUserPassword_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(v11.EditUserPasswordRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).EditUserPassword(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UserService_EditUserPassword_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).EditUserPassword(ctx, req.(*v11.EditUserPasswordRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // UserService_ServiceDesc is the grpc.ServiceDesc for UserService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -283,6 +319,10 @@ var UserService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Delete",
 			Handler:    _UserService_Delete_Handler,
+		},
+		{
+			MethodName: "EditUserPassword",
+			Handler:    _UserService_EditUserPassword_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -8,11 +8,11 @@ const tenant: RouteRecordRaw[] = [
     path: '/tenant',
     name: 'TenantManagement',
     component: BasicLayout,
+    redirect: '/tenant/members',
     meta: {
       order: 2000,
       icon: 'lucide:building-2',
       title: $t('menu.tenant.moduleName'),
-      keepAlive: true,
       authority: ['super', 'admin'],
     },
     children: [

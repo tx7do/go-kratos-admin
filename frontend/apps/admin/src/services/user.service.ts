@@ -4,6 +4,7 @@ import type { PagingRequest } from '#/generated/api/pagination/v1/pagination.pb'
 import type {
   CreateUserRequest,
   DeleteUserRequest,
+  EditUserPasswordRequest,
   GetUserRequest,
   ListUserResponse,
   UpdateUserRequest,
@@ -20,6 +21,13 @@ class UserServiceImpl implements UserService {
 
   async Delete(request: DeleteUserRequest): Promise<Empty> {
     return await requestClient.delete<Empty>(`/users/${request.id}`);
+  }
+
+  async EditUserPassword(request: EditUserPasswordRequest): Promise<Empty> {
+    return await requestClient.post<Empty>(
+      '/users/{user_id}/password',
+      request,
+    );
   }
 
   async Get(request: GetUserRequest): Promise<User> {

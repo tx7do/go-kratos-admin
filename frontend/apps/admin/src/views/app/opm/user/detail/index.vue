@@ -4,20 +4,28 @@ import { useRoute } from 'vue-router';
 
 import { Page, useVbenModal } from '@vben/common-ui';
 import { LucideArrowLeft } from '@vben/icons';
+import { $t } from '@vben/locales';
 
+import { notification } from 'ant-design-vue';
+
+import { UserStatus } from '#/generated/api/user/service/v1/user.pb';
 import { router } from '#/router';
+import { useUserStore } from '#/stores';
 
-import DetailPage from './detail-page.vue';
+import BasicInfoPage from './basic-info-page.vue';
 import EditPasswordModal from './edit-password-modal.vue';
-import LogPage from './log-page.vue';
+import OperationLogPage from './operation-log-page.vue';
 
 const activeTab = ref('detail');
 
 const route = useRoute();
 
 const userId = computed(() => {
-  return route.params?.id ?? -1;
+  const id = route.params.id ?? -1;
+  return Number(id);
 });
+
+const userStore = useUserStore();
 
 const [Modal, modalApi] = useVbenModal({
   // 连接抽离的组件
@@ -25,10 +33,10 @@ const [Modal, modalApi] = useVbenModal({
 });
 
 /* 打开模态窗口 */
-function openModal(create: boolean, row?: any) {
+function openModal(create: boolean, userId?: any) {
   modalApi.setData({
     create,
-    row,
+    userId,
   });
 
   modalApi.open();
@@ -38,19 +46,31 @@ function openModal(create: boolean, row?: any) {
  * 返回上一级页面
  */
 function goBack() {
-  router.push('/system/users');
+  router.push('/opm/users');
 }
 
 /**
  * 禁用账户
  */
-function handleBanAccount() {}
+async function handleBanAccount() {
+  try {
+    await userStore.updateUser(userId.value, { status: UserStatus.OFF });
+
+    notification.success({
+      message: $t('ui.notification.update_status_success'),
+    });
+  } catch {
+    notification.error({
+      message: $t('ui.notification.update_status_failed'),
+    });
+  }
+}
 
 /**
  * 编辑密码
  */
 function handleEditPassword() {
-  openModal(true);
+  openModal(true, userId);
 }
 </script>
 
@@ -87,15 +107,18 @@ function handleEditPassword() {
         :tab-bar-style="{ marginBottom: 0 }"
       >
         <a-tab-pane key="detail" :tab="$t('page.user.tab.detail')" />
-        <a-tab-pane key="log" :tab="$t('page.user.tab.log')" />
+        <a-tab-pane
+          key="operationLog"
+          :tab="$t('page.user.tab.operationLog')"
+        />
       </a-tabs>
     </template>
 
     <a-card v-show="activeTab === 'detail'">
-      <DetailPage />
+      <BasicInfoPage :user-id="userId" />
     </a-card>
-    <a-card v-show="activeTab === 'log'">
-      <LogPage />
+    <a-card v-show="activeTab === 'operationLog'">
+      <OperationLogPage :user-id="userId" />
     </a-card>
     <Modal />
   </Page>

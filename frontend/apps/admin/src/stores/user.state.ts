@@ -80,6 +80,18 @@ export const useUserStore = defineStore('user', () => {
     return await defUserService.Delete({ id });
   }
 
+  /**
+   * 修改用户密码
+   * @param id 用户ID
+   * @param password 用户新密码
+   */
+  async function editUserPassword(id: number, password: string) {
+    return await defUserService.EditUserPassword({
+      userId: id,
+      newPassword: password,
+    });
+  }
+
   function $reset() {}
 
   return {
@@ -89,6 +101,7 @@ export const useUserStore = defineStore('user', () => {
     createUser,
     updateUser,
     deleteUser,
+    editUserPassword,
   };
 });
 

@@ -10,6 +10,7 @@ import type { PagingRequest } from "../../../pagination/v1/pagination.pb";
 import type {
   CreateUserRequest,
   DeleteUserRequest,
+  EditUserPasswordRequest,
   GetUserRequest,
   ListUserResponse,
   UpdateUserRequest,
@@ -28,4 +29,6 @@ export interface UserService {
   Update(request: UpdateUserRequest): Promise<Empty>;
   /** 删除用户 */
   Delete(request: DeleteUserRequest): Promise<Empty>;
+  /** 修改用户密码 */
+  EditUserPassword(request: EditUserPasswordRequest): Promise<Empty>;
 }

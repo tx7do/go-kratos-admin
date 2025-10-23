@@ -15,6 +15,10 @@ import {
   useAdminOperationLogStore,
 } from '#/stores';
 
+const props = defineProps({
+  userId: { type: Number, default: undefined },
+});
+
 const adminOperationLogStore = useAdminOperationLogStore();
 
 const formOptions: VbenFormProps = {
@@ -26,20 +30,11 @@ const formOptions: VbenFormProps = {
   submitOnEnter: true,
   schema: [
     {
-      component: 'Input',
-      fieldName: 'username',
-      label: $t('page.adminOperationLog.username'),
+      component: 'RangePicker',
+      fieldName: 'createTime',
+      label: $t('page.adminOperationLog.createTime'),
       componentProps: {
-        placeholder: $t('ui.placeholder.input'),
-        allowClear: true,
-      },
-    },
-    {
-      component: 'Input',
-      fieldName: 'path',
-      label: $t('page.adminOperationLog.path'),
-      componentProps: {
-        placeholder: $t('ui.placeholder.input'),
+        showTime: true,
         allowClear: true,
       },
     },
@@ -55,19 +50,10 @@ const formOptions: VbenFormProps = {
     },
     {
       component: 'Input',
-      fieldName: 'clientIp',
-      label: $t('page.adminOperationLog.clientIp'),
+      fieldName: 'path',
+      label: $t('page.adminOperationLog.path'),
       componentProps: {
         placeholder: $t('ui.placeholder.input'),
-        allowClear: true,
-      },
-    },
-    {
-      component: 'RangePicker',
-      fieldName: 'createTime',
-      label: $t('page.adminOperationLog.createTime'),
-      componentProps: {
-        showTime: true,
         allowClear: true,
       },
     },
@@ -75,13 +61,6 @@ const formOptions: VbenFormProps = {
 };
 
 const gridOptions: VxeGridProps<AdminOperationLog> = {
-  toolbarConfig: {
-    custom: true,
-    export: true,
-    // import: true,
-    refresh: true,
-    zoom: true,
-  },
   height: 'auto',
   exportConfig: {},
   pagerConfig: {},
@@ -115,10 +94,10 @@ const gridOptions: VxeGridProps<AdminOperationLog> = {
           page.currentPage,
           page.pageSize,
           {
+            user_id: props.userId?.toString(),
             username: formValues.username,
             method: formValues.method,
             path: formValues.path,
-            clientIp: formValues.clientIp,
             create_time__gte: startTime,
             create_time__lte: endTime,
           },
@@ -167,7 +146,7 @@ const [Grid] = useVbenVxeGrid({ gridOptions, formOptions });
 
 <template>
   <Page auto-content-height>
-    <Grid :table-title="$t('menu.log.adminOperationLog')">
+    <Grid>
       <template #success="{ row }">
         <a-tag :color="successToColor(row.success)">
           {{ successToName(row.success, row.statusCode) }}

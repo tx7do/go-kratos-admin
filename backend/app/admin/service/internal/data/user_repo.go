@@ -2,8 +2,6 @@ package data
 
 import (
 	"context"
-	"kratos-admin/app/admin/service/internal/data/ent/userposition"
-	"kratos-admin/app/admin/service/internal/data/ent/userrole"
 	"time"
 
 	"entgo.io/ent/dialect/sql"
@@ -20,6 +18,8 @@ import (
 	"kratos-admin/app/admin/service/internal/data/ent"
 	_ "kratos-admin/app/admin/service/internal/data/ent/runtime"
 	"kratos-admin/app/admin/service/internal/data/ent/user"
+	"kratos-admin/app/admin/service/internal/data/ent/userposition"
+	"kratos-admin/app/admin/service/internal/data/ent/userrole"
 
 	userV1 "kratos-admin/api/gen/go/user/service/v1"
 )
@@ -314,6 +314,7 @@ func (r *UserRepo) Delete(ctx context.Context, userId uint32) error {
 	return nil
 }
 
+// GetUserByUserName 根据用户名获取用户
 func (r *UserRepo) GetUserByUserName(ctx context.Context, userName string) (*userV1.User, error) {
 	if userName == "" {
 		return nil, userV1.ErrorBadRequest("invalid parameter")
@@ -335,6 +336,7 @@ func (r *UserRepo) GetUserByUserName(ctx context.Context, userName string) (*use
 	return r.mapper.ToDTO(entity), nil
 }
 
+// GetUsersByIds 根据ID列表获取用户列表
 func (r *UserRepo) GetUsersByIds(ctx context.Context, ids []uint32) ([]*userV1.User, error) {
 	if len(ids) == 0 {
 		return []*userV1.User{}, nil
@@ -357,6 +359,7 @@ func (r *UserRepo) GetUsersByIds(ctx context.Context, ids []uint32) ([]*userV1.U
 	return dtos, nil
 }
 
+// UserExists 检查用户是否存在
 func (r *UserRepo) UserExists(ctx context.Context, req *userV1.UserExistsRequest) (*userV1.UserExistsResponse, error) {
 	exist, err := r.data.db.Client().User.Query().
 		Where(user.UsernameEQ(req.GetUsername())).

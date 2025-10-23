@@ -355,16 +355,12 @@ func (r *UserCredentialRepo) VerifyCredential(ctx context.Context, req *authenti
 		bytesPass, err := base64.StdEncoding.DecodeString(req.GetCredential())
 		if err != nil {
 			r.log.Errorf("decode base64 credential failed: %s", err.Error())
-			return &authenticationV1.VerifyCredentialResponse{
-				Success: false,
-			}, authenticationV1.ErrorBadRequest("invalid credential format")
+			return nil, authenticationV1.ErrorBadRequest("invalid credential format")
 		}
 		plainPassword, err := crypto.AesDecrypt(bytesPass, crypto.DefaultAESKey, nil)
 		if err != nil {
 			r.log.Errorf("decrypt credential failed: %s", err.Error())
-			return &authenticationV1.VerifyCredentialResponse{
-				Success: false,
-			}, authenticationV1.ErrorBadRequest("decrypt credential failed")
+			return nil, authenticationV1.ErrorBadRequest("decrypt credential failed")
 		}
 
 		req.Credential = string(plainPassword)
@@ -379,28 +375,20 @@ func (r *UserCredentialRepo) VerifyCredential(ctx context.Context, req *authenti
 		Only(ctx)
 	if err != nil {
 		if ent.IsNotFound(err) {
-			return &authenticationV1.VerifyCredentialResponse{
-				Success: false,
-			}, authenticationV1.ErrorUserNotFound("user not found")
+			return nil, authenticationV1.ErrorUserNotFound("user not found")
 		}
 
 		r.log.Errorf("query one data failed: %s", err.Error())
 
-		return &authenticationV1.VerifyCredentialResponse{
-			Success: false,
-		}, authenticationV1.ErrorServiceUnavailable("db error")
+		return nil, authenticationV1.ErrorServiceUnavailable("db error")
 	}
 
 	if *entity.Status != usercredential.StatusEnabled {
-		return &authenticationV1.VerifyCredentialResponse{
-			Success: false,
-		}, authenticationV1.ErrorUserFreeze("account has freeze")
+		return nil, authenticationV1.ErrorUserFreeze("account has freeze")
 	}
 
 	if !r.verifyCredential(entity.CredentialType, req.GetCredential(), *entity.Credential) {
-		return &authenticationV1.VerifyCredentialResponse{
-			Success: false,
-		}, authenticationV1.ErrorIncorrectPassword("incorrect password")
+		return nil, authenticationV1.ErrorIncorrectPassword("incorrect password")
 	}
 
 	return &authenticationV1.VerifyCredentialResponse{
@@ -445,6 +433,7 @@ func (r *UserCredentialRepo) prepareCredential(credentialType *usercredential.Cr
 	return newCredential, nil
 }
 
+// ChangeCredential 修改认证信息
 func (r *UserCredentialRepo) ChangeCredential(ctx context.Context, req *authenticationV1.ChangeCredentialRequest) error {
 	if req.GetNeedDecrypt() {
 		// 解密密码
@@ -509,6 +498,7 @@ func (r *UserCredentialRepo) ChangeCredential(ctx context.Context, req *authenti
 	return nil
 }
 
+// ResetCredential 修改认证信息
 func (r *UserCredentialRepo) ResetCredential(ctx context.Context, req *authenticationV1.ResetCredentialRequest) error {
 	if req.GetNeedDecrypt() {
 		// 解密密码

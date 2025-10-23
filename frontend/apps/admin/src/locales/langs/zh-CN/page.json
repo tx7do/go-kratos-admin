@@ -59,8 +59,9 @@
       "banAccount": "禁用账号"
     },
     "tab": {
-      "detail": "用户资料",
-      "log": "操作日志"
+      "detail": "基础信息",
+      "permission": "权限管理",
+      "operationLog": "操作日志"
     },
     "detailTitle": "用户{userId}的资料"
   },

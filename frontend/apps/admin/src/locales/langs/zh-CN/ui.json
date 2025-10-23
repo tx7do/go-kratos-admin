@@ -51,7 +51,8 @@
     "update_status_success": "更新状态成功",
     "update_status_failed": "更新状态失败",
     "sync_success": "同步成功",
-    "sync_failed": "同步失败"
+    "sync_failed": "同步失败",
+    "password_mismatch": "两次输入的密码不一致"
   },
   "text": {
     "do_you_want_delete": "你是否要删除掉该{moduleName}？",

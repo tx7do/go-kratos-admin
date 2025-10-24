@@ -16,7 +16,16 @@ import BasicInfoPage from './basic-info-page.vue';
 import EditPasswordModal from './edit-password-modal.vue';
 import OperationLogPage from './operation-log-page.vue';
 
-const activeTab = ref('detail');
+/**
+ * 标签页枚举
+ */
+enum TabEnum {
+  BASIC_INFO = 'basicInfo',
+  OPERATION_LOG = 'operationLog',
+  PERMISSION_INFO = 'permissionInfo',
+}
+
+const activeTab = ref<TabEnum>(TabEnum.BASIC_INFO);
 
 const route = useRoute();
 
@@ -90,7 +99,7 @@ function handleEditPassword() {
             <LucideArrowLeft class="text-align:center" />
           </template>
         </a-button>
-        <span>{{ $t('page.user.detailTitle', { userId }) }}</span>
+        <span>{{ $t('page.user.detail.title', { userId }) }}</span>
       </div>
     </template>
     <template #extra>
@@ -117,18 +126,21 @@ function handleEditPassword() {
         v-model:active-key="activeTab"
         :tab-bar-style="{ marginBottom: 0 }"
       >
-        <a-tab-pane key="detail" :tab="$t('page.user.tab.detail')" />
         <a-tab-pane
-          key="operationLog"
-          :tab="$t('page.user.tab.operationLog')"
+          :key="TabEnum.BASIC_INFO"
+          :tab="$t('page.user.detail.tab.basicInfo')"
+        />
+        <a-tab-pane
+          :key="TabEnum.OPERATION_LOG"
+          :tab="$t('page.user.detail.tab.operationLog')"
         />
       </a-tabs>
     </template>
 
-    <a-card v-show="activeTab === 'detail'">
+    <a-card v-show="activeTab === TabEnum.BASIC_INFO">
       <BasicInfoPage :user-id="userId" />
     </a-card>
-    <a-card v-show="activeTab === 'operationLog'">
+    <a-card v-show="activeTab === TabEnum.OPERATION_LOG">
       <OperationLogPage :user-id="userId" />
     </a-card>
     <Modal />

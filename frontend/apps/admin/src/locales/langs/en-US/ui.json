@@ -50,10 +50,12 @@
     "update_status_success": "Update Status Success",
     "update_status_failed": "Update Status Failed",
     "sync_success": "Sync Success",
-    "sync_failed": "Sync Failed"
+    "sync_failed": "Sync Failed",
+    "password_mismatch": "Password Mismatch"
   },
   "text": {
     "do_you_want_delete": "Do you want to delete the {moduleName}?",
-    "do_you_want_sync_api": "Do you want to sync the API? It will rebuild the data in the database. If there are many API resources, it may take some time, please be patient."
+    "do_you_want_sync_api": "Do you want to sync the API? It will rebuild the data in the database. If there are many API resources, it may take some time, please be patient.",
+    "do_you_want_disable": "Do you want to disable the {moduleName}?"
   }
 }

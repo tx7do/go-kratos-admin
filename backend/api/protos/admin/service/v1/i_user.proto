@@ -48,4 +48,14 @@ service UserService {
       delete: "/admin/v1/users/{id}"
     };
   }
+
+  // 修改用户密码
+  rpc EditUserPassword(user.service.v1.EditUserPasswordRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      post: "/admin/v1/users/{user_id}/password"
+      body: "*"
+    };
+  }
+
+
 }

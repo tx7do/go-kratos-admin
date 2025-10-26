@@ -2593,6 +2593,29 @@ paths:
                 "200":
                     description: OK
                     content: {}
+    /admin/v1/users/{userId}/password:
+        post:
+            tags:
+                - UserService
+            description: 修改用户密码
+            operationId: UserService_EditUserPassword
+            parameters:
+                - name: userId
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: uint32
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/EditUserPasswordRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content: {}
 components:
     schemas:
         AdminLoginLog:
@@ -3125,6 +3148,17 @@ components:
                     description: 删除时间
                     format: date-time
             description: 字典
+        EditUserPasswordRequest:
+            type: object
+            properties:
+                userId:
+                    type: integer
+                    description: 用户ID
+                    format: uint32
+                newPassword:
+                    type: string
+                    description: 新密码
+            description: 修改用户密码 - 请求
         File:
             type: object
             properties:

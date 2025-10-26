@@ -24,6 +24,7 @@ const _ = http.SupportPackageIsVersion1
 
 const OperationUserServiceCreate = "/admin.service.v1.UserService/Create"
 const OperationUserServiceDelete = "/admin.service.v1.UserService/Delete"
+const OperationUserServiceEditUserPassword = "/admin.service.v1.UserService/EditUserPassword"
 const OperationUserServiceGet = "/admin.service.v1.UserService/Get"
 const OperationUserServiceList = "/admin.service.v1.UserService/List"
 const OperationUserServiceUpdate = "/admin.service.v1.UserService/Update"
@@ -33,6 +34,8 @@ type UserServiceHTTPServer interface {
 	Create(context.Context, *v11.CreateUserRequest) (*emptypb.Empty, error)
 	// Delete 删除用户
 	Delete(context.Context, *v11.DeleteUserRequest) (*emptypb.Empty, error)
+	// EditUserPassword 修改用户密码
+	EditUserPassword(context.Context, *v11.EditUserPasswordRequest) (*emptypb.Empty, error)
 	// Get 获取用户数据
 	Get(context.Context, *v11.GetUserRequest) (*v11.User, error)
 	// List 获取用户列表
@@ -48,6 +51,7 @@ func RegisterUserServiceHTTPServer(s *http.Server, srv UserServiceHTTPServer) {
 	r.POST("/admin/v1/users", _UserService_Create15_HTTP_Handler(srv))
 	r.PUT("/admin/v1/users/{data.id}", _UserService_Update15_HTTP_Handler(srv))
 	r.DELETE("/admin/v1/users/{id}", _UserService_Delete15_HTTP_Handler(srv))
+	r.POST("/admin/v1/users/{user_id}/password", _UserService_EditUserPassword0_HTTP_Handler(srv))
 }
 
 func _UserService_List17_HTTP_Handler(srv UserServiceHTTPServer) func(ctx http.Context) error {
@@ -160,9 +164,35 @@ func _UserService_Delete15_HTTP_Handler(srv UserServiceHTTPServer) func(ctx http
 	}
 }
 
+func _UserService_EditUserPassword0_HTTP_Handler(srv UserServiceHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in v11.EditUserPasswordRequest
+		if err := ctx.Bind(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindVars(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationUserServiceEditUserPassword)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.EditUserPassword(ctx, req.(*v11.EditUserPasswordRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*emptypb.Empty)
+		return ctx.Result(200, reply)
+	}
+}
+
 type UserServiceHTTPClient interface {
 	Create(ctx context.Context, req *v11.CreateUserRequest, opts ...http.CallOption) (rsp *emptypb.Empty, err error)
 	Delete(ctx context.Context, req *v11.DeleteUserRequest, opts ...http.CallOption) (rsp *emptypb.Empty, err error)
+	EditUserPassword(ctx context.Context, req *v11.EditUserPasswordRequest, opts ...http.CallOption) (rsp *emptypb.Empty, err error)
 	Get(ctx context.Context, req *v11.GetUserRequest, opts ...http.CallOption) (rsp *v11.User, err error)
 	List(ctx context.Context, req *v1.PagingRequest, opts ...http.CallOption) (rsp *v11.ListUserResponse, err error)
 	Update(ctx context.Context, req *v11.UpdateUserRequest, opts ...http.CallOption) (rsp *emptypb.Empty, err error)
@@ -196,6 +226,19 @@ func (c *UserServiceHTTPClientImpl) Delete(ctx context.Context, in *v11.DeleteUs
 	opts = append(opts, http.Operation(OperationUserServiceDelete))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "DELETE", path, nil, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
+func (c *UserServiceHTTPClientImpl) EditUserPassword(ctx context.Context, in *v11.EditUserPasswordRequest, opts ...http.CallOption) (*emptypb.Empty, error) {
+	var out emptypb.Empty
+	pattern := "/admin/v1/users/{user_id}/password"
+	path := binding.EncodeURL(pattern, in, false)
+	opts = append(opts, http.Operation(OperationUserServiceEditUserPassword))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
 	if err != nil {
 		return nil, err
 	}

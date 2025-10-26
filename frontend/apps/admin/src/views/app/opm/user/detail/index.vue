@@ -4,20 +4,37 @@ import { useRoute } from 'vue-router';
 
 import { Page, useVbenModal } from '@vben/common-ui';
 import { LucideArrowLeft } from '@vben/icons';
+import { $t } from '@vben/locales';
 
+import { notification } from 'ant-design-vue';
+
+import { UserStatus } from '#/generated/api/user/service/v1/user.pb';
 import { router } from '#/router';
+import { useUserStore } from '#/stores';
 
-import DetailPage from './detail-page.vue';
+import BasicInfoPage from './basic-info-page.vue';
 import EditPasswordModal from './edit-password-modal.vue';
-import LogPage from './log-page.vue';
+import OperationLogPage from './operation-log-page.vue';
 
-const activeTab = ref('detail');
+/**
+ * 标签页枚举
+ */
+enum TabEnum {
+  BASIC_INFO = 'basicInfo',
+  OPERATION_LOG = 'operationLog',
+  PERMISSION_INFO = 'permissionInfo',
+}
+
+const activeTab = ref<TabEnum>(TabEnum.BASIC_INFO);
 
 const route = useRoute();
 
 const userId = computed(() => {
-  return route.params?.id ?? -1;
+  const id = route.params.id ?? -1;
+  return Number(id);
 });
+
+const userStore = useUserStore();
 
 const [Modal, modalApi] = useVbenModal({
   // 连接抽离的组件
@@ -25,10 +42,10 @@ const [Modal, modalApi] = useVbenModal({
 });
 
 /* 打开模态窗口 */
-function openModal(create: boolean, row?: any) {
+function openModal(create: boolean, userId?: any) {
   modalApi.setData({
     create,
-    row,
+    userId,
   });
 
   modalApi.open();
@@ -38,19 +55,31 @@ function openModal(create: boolean, row?: any) {
  * 返回上一级页面
  */
 function goBack() {
-  router.push('/system/users');
+  router.push('/opm/users');
 }
 
 /**
  * 禁用账户
  */
-function handleBanAccount() {}
+async function handleBanAccount() {
+  try {
+    await userStore.updateUser(userId.value, { status: UserStatus.OFF });
+
+    notification.success({
+      message: $t('ui.notification.update_status_success'),
+    });
+  } catch {
+    notification.error({
+      message: $t('ui.notification.update_status_failed'),
+    });
+  }
+}
 
 /**
  * 编辑密码
  */
 function handleEditPassword() {
-  openModal(true);
+  openModal(true, userId);
 }
 </script>
 
@@ -70,13 +99,24 @@ function handleEditPassword() {
             <LucideArrowLeft class="text-align:center" />
           </template>
         </a-button>
-        <span>{{ $t('page.user.detailTitle', { userId }) }}</span>
+        <span>{{ $t('page.user.detail.title', { userId }) }}</span>
       </div>
     </template>
     <template #extra>
-      <a-button class="mr-2" danger type="primary" @click="handleBanAccount">
-        {{ $t('page.user.button.banAccount') }}
-      </a-button>
+      <a-popconfirm
+        :cancel-text="$t('ui.button.cancel')"
+        :ok-text="$t('ui.button.ok')"
+        :title="
+          $t('ui.text.do_you_want_disable', {
+            moduleName: $t('page.user.moduleName'),
+          })
+        "
+        @confirm="handleBanAccount"
+      >
+        <a-button class="mr-2" danger type="primary">
+          {{ $t('page.user.button.banAccount') }}
+        </a-button>
+      </a-popconfirm>
       <a-button class="mr-2" type="primary" @click="handleEditPassword">
         {{ $t('page.user.button.editPassword') }}
       </a-button>
@@ -86,16 +126,22 @@ function handleEditPassword() {
         v-model:active-key="activeTab"
         :tab-bar-style="{ marginBottom: 0 }"
       >
-        <a-tab-pane key="detail" :tab="$t('page.user.tab.detail')" />
-        <a-tab-pane key="log" :tab="$t('page.user.tab.log')" />
+        <a-tab-pane
+          :key="TabEnum.BASIC_INFO"
+          :tab="$t('page.user.detail.tab.basicInfo')"
+        />
+        <a-tab-pane
+          :key="TabEnum.OPERATION_LOG"
+          :tab="$t('page.user.detail.tab.operationLog')"
+        />
       </a-tabs>
     </template>
 
-    <a-card v-show="activeTab === 'detail'">
-      <DetailPage />
+    <a-card v-show="activeTab === TabEnum.BASIC_INFO">
+      <BasicInfoPage :user-id="userId" />
     </a-card>
-    <a-card v-show="activeTab === 'log'">
-      <LogPage />
+    <a-card v-show="activeTab === TabEnum.OPERATION_LOG">
+      <OperationLogPage :user-id="userId" />
     </a-card>
     <Modal />
   </Page>

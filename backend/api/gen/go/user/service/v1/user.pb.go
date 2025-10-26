@@ -974,6 +974,59 @@ func (x *BatchCreateUsersResponse) GetData() []*User {
 	return nil
 }
 
+// 修改用户密码 - 请求
+type EditUserPasswordRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	UserId        uint32                 `protobuf:"varint,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`               // 用户ID
+	NewPassword   string                 `protobuf:"bytes,2,opt,name=new_password,json=newPassword,proto3" json:"new_password,omitempty"` // 新密码
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *EditUserPasswordRequest) Reset() {
+	*x = EditUserPasswordRequest{}
+	mi := &file_user_service_v1_user_proto_msgTypes[11]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *EditUserPasswordRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*EditUserPasswordRequest) ProtoMessage() {}
+
+func (x *EditUserPasswordRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_user_service_v1_user_proto_msgTypes[11]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use EditUserPasswordRequest.ProtoReflect.Descriptor instead.
+func (*EditUserPasswordRequest) Descriptor() ([]byte, []int) {
+	return file_user_service_v1_user_proto_rawDescGZIP(), []int{11}
+}
+
+func (x *EditUserPasswordRequest) GetUserId() uint32 {
+	if x != nil {
+		return x.UserId
+	}
+	return 0
+}
+
+func (x *EditUserPasswordRequest) GetNewPassword() string {
+	if x != nil {
+		return x.NewPassword
+	}
+	return ""
+}
+
 var File_user_service_v1_user_proto protoreflect.FileDescriptor
 
 const file_user_service_v1_user_proto_rawDesc = "" +
@@ -1088,7 +1141,10 @@ const file_user_service_v1_user_proto_rawDesc = "" +
 	"\x17BatchCreateUsersRequest\x12)\n" +
 	"\x04data\x18\x01 \x03(\v2\x15.user.service.v1.UserR\x04data\"E\n" +
 	"\x18BatchCreateUsersResponse\x12)\n" +
-	"\x04data\x18\x01 \x03(\v2\x15.user.service.v1.UserR\x04data*N\n" +
+	"\x04data\x18\x01 \x03(\v2\x15.user.service.v1.UserR\x04data\"v\n" +
+	"\x17EditUserPasswordRequest\x12'\n" +
+	"\auser_id\x18\x01 \x01(\rB\x0e\xbaG\v\x92\x02\b用户IDR\x06userId\x122\n" +
+	"\fnew_password\x18\x02 \x01(\tB\x0f\xbaG\f\x92\x02\t新密码R\vnewPassword*N\n" +
 	"\rUserAuthority\x12\t\n" +
 	"\x05GUEST\x10\x00\x12\x11\n" +
 	"\rCUSTOMER_USER\x10\x01\x12\x10\n" +
@@ -1104,7 +1160,7 @@ const file_user_service_v1_user_proto_rawDesc = "" +
 	"\n" +
 	"UserStatus\x12\a\n" +
 	"\x03OFF\x10\x00\x12\x06\n" +
-	"\x02ON\x10\x012\x86\x05\n" +
+	"\x02ON\x10\x012\xdc\x05\n" +
 	"\vUserService\x12F\n" +
 	"\x04List\x12\x19.pagination.PagingRequest\x1a!.user.service.v1.ListUserResponse\"\x00\x12?\n" +
 	"\x03Get\x12\x1f.user.service.v1.GetUserRequest\x1a\x15.user.service.v1.User\"\x00\x12F\n" +
@@ -1114,7 +1170,8 @@ const file_user_service_v1_user_proto_rawDesc = "" +
 	"\vBatchCreate\x12(.user.service.v1.BatchCreateUsersRequest\x1a).user.service.v1.BatchCreateUsersResponse\"\x00\x12W\n" +
 	"\x11GetUserByUserName\x12).user.service.v1.GetUserByUserNameRequest\x1a\x15.user.service.v1.User\"\x00\x12W\n" +
 	"\n" +
-	"UserExists\x12\".user.service.v1.UserExistsRequest\x1a#.user.service.v1.UserExistsResponse\"\x00B\xb1\x01\n" +
+	"UserExists\x12\".user.service.v1.UserExistsRequest\x1a#.user.service.v1.UserExistsResponse\"\x00\x12T\n" +
+	"\x10EditUserPassword\x12(.user.service.v1.EditUserPasswordRequest\x1a\x16.google.protobuf.EmptyB\xb1\x01\n" +
 	"\x13com.user.service.v1B\tUserProtoP\x01Z1kratos-admin/api/gen/go/user/service/v1;servicev1\xa2\x02\x03USX\xaa\x02\x0fUser.Service.V1\xca\x02\x0fUser\\Service\\V1\xe2\x02\x1bUser\\Service\\V1\\GPBMetadata\xea\x02\x11User::Service::V1b\x06proto3"
 
 var (
@@ -1130,7 +1187,7 @@ func file_user_service_v1_user_proto_rawDescGZIP() []byte {
 }
 
 var file_user_service_v1_user_proto_enumTypes = make([]protoimpl.EnumInfo, 3)
-var file_user_service_v1_user_proto_msgTypes = make([]protoimpl.MessageInfo, 11)
+var file_user_service_v1_user_proto_msgTypes = make([]protoimpl.MessageInfo, 12)
 var file_user_service_v1_user_proto_goTypes = []any{
 	(UserAuthority)(0),               // 0: user.service.v1.UserAuthority
 	(UserGender)(0),                  // 1: user.service.v1.UserGender
@@ -1146,26 +1203,27 @@ var file_user_service_v1_user_proto_goTypes = []any{
 	(*UserExistsResponse)(nil),       // 11: user.service.v1.UserExistsResponse
 	(*BatchCreateUsersRequest)(nil),  // 12: user.service.v1.BatchCreateUsersRequest
 	(*BatchCreateUsersResponse)(nil), // 13: user.service.v1.BatchCreateUsersResponse
-	(*timestamppb.Timestamp)(nil),    // 14: google.protobuf.Timestamp
-	(*fieldmaskpb.FieldMask)(nil),    // 15: google.protobuf.FieldMask
-	(*v1.PagingRequest)(nil),         // 16: pagination.PagingRequest
-	(*emptypb.Empty)(nil),            // 17: google.protobuf.Empty
+	(*EditUserPasswordRequest)(nil),  // 14: user.service.v1.EditUserPasswordRequest
+	(*timestamppb.Timestamp)(nil),    // 15: google.protobuf.Timestamp
+	(*fieldmaskpb.FieldMask)(nil),    // 16: google.protobuf.FieldMask
+	(*v1.PagingRequest)(nil),         // 17: pagination.PagingRequest
+	(*emptypb.Empty)(nil),            // 18: google.protobuf.Empty
 }
 var file_user_service_v1_user_proto_depIdxs = []int32{
 	1,  // 0: user.service.v1.User.gender:type_name -> user.service.v1.UserGender
-	14, // 1: user.service.v1.User.last_login_time:type_name -> google.protobuf.Timestamp
+	15, // 1: user.service.v1.User.last_login_time:type_name -> google.protobuf.Timestamp
 	2,  // 2: user.service.v1.User.status:type_name -> user.service.v1.UserStatus
 	0,  // 3: user.service.v1.User.authority:type_name -> user.service.v1.UserAuthority
-	14, // 4: user.service.v1.User.create_time:type_name -> google.protobuf.Timestamp
-	14, // 5: user.service.v1.User.update_time:type_name -> google.protobuf.Timestamp
-	14, // 6: user.service.v1.User.delete_time:type_name -> google.protobuf.Timestamp
+	15, // 4: user.service.v1.User.create_time:type_name -> google.protobuf.Timestamp
+	15, // 5: user.service.v1.User.update_time:type_name -> google.protobuf.Timestamp
+	15, // 6: user.service.v1.User.delete_time:type_name -> google.protobuf.Timestamp
 	3,  // 7: user.service.v1.ListUserResponse.items:type_name -> user.service.v1.User
 	3,  // 8: user.service.v1.CreateUserRequest.data:type_name -> user.service.v1.User
 	3,  // 9: user.service.v1.UpdateUserRequest.data:type_name -> user.service.v1.User
-	15, // 10: user.service.v1.UpdateUserRequest.update_mask:type_name -> google.protobuf.FieldMask
+	16, // 10: user.service.v1.UpdateUserRequest.update_mask:type_name -> google.protobuf.FieldMask
 	3,  // 11: user.service.v1.BatchCreateUsersRequest.data:type_name -> user.service.v1.User
 	3,  // 12: user.service.v1.BatchCreateUsersResponse.data:type_name -> user.service.v1.User
-	16, // 13: user.service.v1.UserService.List:input_type -> pagination.PagingRequest
+	17, // 13: user.service.v1.UserService.List:input_type -> pagination.PagingRequest
 	5,  // 14: user.service.v1.UserService.Get:input_type -> user.service.v1.GetUserRequest
 	7,  // 15: user.service.v1.UserService.Create:input_type -> user.service.v1.CreateUserRequest
 	8,  // 16: user.service.v1.UserService.Update:input_type -> user.service.v1.UpdateUserRequest
@@ -1173,16 +1231,18 @@ var file_user_service_v1_user_proto_depIdxs = []int32{
 	12, // 18: user.service.v1.UserService.BatchCreate:input_type -> user.service.v1.BatchCreateUsersRequest
 	6,  // 19: user.service.v1.UserService.GetUserByUserName:input_type -> user.service.v1.GetUserByUserNameRequest
 	10, // 20: user.service.v1.UserService.UserExists:input_type -> user.service.v1.UserExistsRequest
-	4,  // 21: user.service.v1.UserService.List:output_type -> user.service.v1.ListUserResponse
-	3,  // 22: user.service.v1.UserService.Get:output_type -> user.service.v1.User
-	17, // 23: user.service.v1.UserService.Create:output_type -> google.protobuf.Empty
-	17, // 24: user.service.v1.UserService.Update:output_type -> google.protobuf.Empty
-	17, // 25: user.service.v1.UserService.Delete:output_type -> google.protobuf.Empty
-	13, // 26: user.service.v1.UserService.BatchCreate:output_type -> user.service.v1.BatchCreateUsersResponse
-	3,  // 27: user.service.v1.UserService.GetUserByUserName:output_type -> user.service.v1.User
-	11, // 28: user.service.v1.UserService.UserExists:output_type -> user.service.v1.UserExistsResponse
-	21, // [21:29] is the sub-list for method output_type
-	13, // [13:21] is the sub-list for method input_type
+	14, // 21: user.service.v1.UserService.EditUserPassword:input_type -> user.service.v1.EditUserPasswordRequest
+	4,  // 22: user.service.v1.UserService.List:output_type -> user.service.v1.ListUserResponse
+	3,  // 23: user.service.v1.UserService.Get:output_type -> user.service.v1.User
+	18, // 24: user.service.v1.UserService.Create:output_type -> google.protobuf.Empty
+	18, // 25: user.service.v1.UserService.Update:output_type -> google.protobuf.Empty
+	18, // 26: user.service.v1.UserService.Delete:output_type -> google.protobuf.Empty
+	13, // 27: user.service.v1.UserService.BatchCreate:output_type -> user.service.v1.BatchCreateUsersResponse
+	3,  // 28: user.service.v1.UserService.GetUserByUserName:output_type -> user.service.v1.User
+	11, // 29: user.service.v1.UserService.UserExists:output_type -> user.service.v1.UserExistsResponse
+	18, // 30: user.service.v1.UserService.EditUserPassword:output_type -> google.protobuf.Empty
+	22, // [22:31] is the sub-list for method output_type
+	13, // [13:22] is the sub-list for method input_type
 	13, // [13:13] is the sub-list for extension type_name
 	13, // [13:13] is the sub-list for extension extendee
 	0,  // [0:13] is the sub-list for field type_name
@@ -1202,7 +1262,7 @@ func file_user_service_v1_user_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_user_service_v1_user_proto_rawDesc), len(file_user_service_v1_user_proto_rawDesc)),
 			NumEnums:      3,
-			NumMessages:   11,
+			NumMessages:   12,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

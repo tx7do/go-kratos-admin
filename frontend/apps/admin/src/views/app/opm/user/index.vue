@@ -327,7 +327,7 @@ async function handleDelete(row: any) {
 
 /* 详情 */
 function handleDetail(row: any) {
-  router.push(`/system/users/detail/${row.username}`);
+  router.push(`/opm/users/detail/${row.id}`);
 }
 
 const isExpand = ref(false);

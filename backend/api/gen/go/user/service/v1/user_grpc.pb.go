@@ -29,6 +29,7 @@ const (
 	UserService_BatchCreate_FullMethodName       = "/user.service.v1.UserService/BatchCreate"
 	UserService_GetUserByUserName_FullMethodName = "/user.service.v1.UserService/GetUserByUserName"
 	UserService_UserExists_FullMethodName        = "/user.service.v1.UserService/UserExists"
+	UserService_EditUserPassword_FullMethodName  = "/user.service.v1.UserService/EditUserPassword"
 )
 
 // UserServiceClient is the client API for UserService service.
@@ -47,12 +48,14 @@ type UserServiceClient interface {
 	Update(ctx context.Context, in *UpdateUserRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	// 删除用户
 	Delete(ctx context.Context, in *DeleteUserRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
-	// 批量创建租户
+	// 批量创建用户
 	BatchCreate(ctx context.Context, in *BatchCreateUsersRequest, opts ...grpc.CallOption) (*BatchCreateUsersResponse, error)
 	// 查询用户详情
 	GetUserByUserName(ctx context.Context, in *GetUserByUserNameRequest, opts ...grpc.CallOption) (*User, error)
 	// 用户是否存在
 	UserExists(ctx context.Context, in *UserExistsRequest, opts ...grpc.CallOption) (*UserExistsResponse, error)
+	// 修改用户密码
+	EditUserPassword(ctx context.Context, in *EditUserPasswordRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 }
 
 type userServiceClient struct {
@@ -143,6 +146,16 @@ func (c *userServiceClient) UserExists(ctx context.Context, in *UserExistsReques
 	return out, nil
 }
 
+func (c *userServiceClient) EditUserPassword(ctx context.Context, in *EditUserPasswordRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(emptypb.Empty)
+	err := c.cc.Invoke(ctx, UserService_EditUserPassword_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // UserServiceServer is the server API for UserService service.
 // All implementations must embed UnimplementedUserServiceServer
 // for forward compatibility.
@@ -159,12 +172,14 @@ type UserServiceServer interface {
 	Update(context.Context, *UpdateUserRequest) (*emptypb.Empty, error)
 	// 删除用户
 	Delete(context.Context, *DeleteUserRequest) (*emptypb.Empty, error)
-	// 批量创建租户
+	// 批量创建用户
 	BatchCreate(context.Context, *BatchCreateUsersRequest) (*BatchCreateUsersResponse, error)
 	// 查询用户详情
 	GetUserByUserName(context.Context, *GetUserByUserNameRequest) (*User, error)
 	// 用户是否存在
 	UserExists(context.Context, *UserExistsRequest) (*UserExistsResponse, error)
+	// 修改用户密码
+	EditUserPassword(context.Context, *EditUserPasswordRequest) (*emptypb.Empty, error)
 	mustEmbedUnimplementedUserServiceServer()
 }
 
@@ -198,6 +213,9 @@ func (UnimplementedUserServiceServer) GetUserByUserName(context.Context, *GetUse
 }
 func (UnimplementedUserServiceServer) UserExists(context.Context, *UserExistsRequest) (*UserExistsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UserExists not implemented")
+}
+func (UnimplementedUserServiceServer) EditUserPassword(context.Context, *EditUserPasswordRequest) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method EditUserPassword not implemented")
 }
 func (UnimplementedUserServiceServer) mustEmbedUnimplementedUserServiceServer() {}
 func (UnimplementedUserServiceServer) testEmbeddedByValue()                     {}
@@ -364,6 +382,24 @@ func _UserService_UserExists_Handler(srv interface{}, ctx context.Context, dec f
 	return interceptor(ctx, in, info, handler)
 }
 
+func _UserService_EditUserPassword_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(EditUserPasswordRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).EditUserPassword(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UserService_EditUserPassword_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).EditUserPassword(ctx, req.(*EditUserPasswordRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // UserService_ServiceDesc is the grpc.ServiceDesc for UserService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -402,6 +438,10 @@ var UserService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UserExists",
 			Handler:    _UserService_UserExists_Handler,
+		},
+		{
+			MethodName: "EditUserPassword",
+			Handler:    _UserService_EditUserPassword_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

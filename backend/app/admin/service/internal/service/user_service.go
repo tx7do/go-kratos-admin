@@ -237,6 +237,7 @@ func (s *UserService) Create(ctx context.Context, req *userV1.CreateUserRequest)
 	}
 
 	req.Data.CreateBy = trans.Ptr(operator.UserId)
+	req.Data.TenantId = operator.TenantId
 
 	// 创建用户
 	var user *userV1.User
@@ -362,6 +363,27 @@ func (s *UserService) Delete(ctx context.Context, req *userV1.DeleteUserRequest)
 
 func (s *UserService) UserExists(ctx context.Context, req *userV1.UserExistsRequest) (*userV1.UserExistsResponse, error) {
 	return s.userRepo.UserExists(ctx, req)
+}
+
+// EditUserPassword 修改用户密码
+func (s *UserService) EditUserPassword(ctx context.Context, req *userV1.EditUserPasswordRequest) (*emptypb.Empty, error) {
+	// 获取操作者的用户信息
+	u, err := s.userRepo.Get(ctx, req.GetUserId())
+	if err != nil {
+		return nil, err
+	}
+
+	if err = s.userCredentialsRepo.ResetCredential(ctx, &authenticationV1.ResetCredentialRequest{
+		IdentityType:  authenticationV1.IdentityType_USERNAME,
+		Identifier:    u.GetUsername(),
+		NewCredential: req.GetNewPassword(),
+		NeedDecrypt:   false,
+	}); err != nil {
+		s.log.Errorf("reset user password err: %v", err)
+		return nil, err
+	}
+
+	return &emptypb.Empty{}, nil
 }
 
 // CreateDefaultUser 创建默认用户，即超级用户

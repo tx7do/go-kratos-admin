@@ -58,11 +58,27 @@
       "editPassword": "修改密码",
       "banAccount": "禁用账号"
     },
-    "tab": {
-      "detail": "用户资料",
-      "log": "操作日志"
-    },
-    "detailTitle": "用户{userId}的资料"
+    "detail": {
+      "title": "用户{userId}的资料",
+      "tab": {
+        "basicInfo": "基础信息",
+        "permission": "权限信息",
+        "operationLog": "操作日志"
+      },
+      "desc": {
+        "username" : "用户名",
+        "realname" : "真实姓名",
+        "nickname" : "昵称",
+        "gender" : "性别",
+        "mobile" : "手机号",
+        "email" : "电子邮箱",
+        "orgName" : "所属组织",
+        "departmentName" : "所属部门",
+        "positionName" : "职位",
+        "lastLoginTime" : "最后登录时间",
+        "lastLoginIp" : "最后登录IP"
+      }
+    }
   },
   "role": {
     "moduleName": "角色",

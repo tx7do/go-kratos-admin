@@ -7,6 +7,7 @@ const internal_message: RouteRecordRaw[] = [
   {
     path: '/internal_message',
     name: 'InternalMessageManagement',
+    redirect: '/internal_message/notifications',
     component: BasicLayout,
     meta: {
       order: 2003,

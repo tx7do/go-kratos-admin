@@ -50,11 +50,27 @@
       "editPassword": "Edit Password",
       "banAccount": "Ban Account"
     },
-    "tab": {
-      "detail": "User Detail",
-      "log": "Operation Log"
-    },
-    "detailTitle": "{userId}'s information"
+    "detail": {
+      "title": "User Detail",
+      "tab": {
+        "basicInfo": "Basic Info",
+        "permission": "Permission Info",
+        "operationLog": "Operation Log"
+      },
+      "desc": {
+        "username" : "Username",
+        "realname" : "Real Name",
+        "nickname" : "Nick Name",
+        "gender" : "Gender",
+        "mobile" : "Mobile",
+        "email" : "Email",
+        "orgName" : "Organization",
+        "departmentName" : "Department",
+        "positionName" : "Position",
+        "lastLoginTime" : "Last Login Time",
+        "lastLoginIp" : "Last Login IP"
+      }
+    }
   },
   "role": {
     "moduleName": "Role",

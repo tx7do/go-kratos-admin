@@ -4,9 +4,14 @@ import { ref } from 'vue';
 import { useVbenModal } from '@vben/common-ui';
 import { $t } from '@vben/locales';
 
+import { notification } from 'ant-design-vue';
+
 import { useVbenForm } from '#/adapter/form';
+import { useUserStore } from '#/stores';
 
 const data = ref();
+
+const userStore = useUserStore();
 
 const [BaseForm, baseFormApi] = useVbenForm({
   showDefaultActions: false,
@@ -18,15 +23,6 @@ const [BaseForm, baseFormApi] = useVbenForm({
     },
   },
   schema: [
-    {
-      component: 'VbenInputPassword',
-      fieldName: 'old_password',
-      label: $t('page.user.form.oldPassword'),
-      componentProps: {
-        placeholder: $t('ui.placeholder.input'),
-      },
-      rules: 'required',
-    },
     {
       component: 'VbenInputPassword',
       fieldName: 'new_password',
@@ -67,19 +63,37 @@ const [Modal, modalApi] = useVbenModal({
 
     // 获取表单数据
     const values = await baseFormApi.getValues();
+
+    if (values.new_password !== values.confirm_password) {
+      notification.error({
+        message: $t('page.notification.password_mismatch'),
+      });
+
+      setLoading(false);
+      return;
+    }
+
+    try {
+      await userStore.editUserPassword(data.value?.userId, values.new_password);
+
+      notification.success({
+        message: $t('ui.notification.update_status_success'),
+      });
+    } catch {
+      notification.error({
+        message: $t('ui.notification.update_status_failed'),
+      });
+    }
   },
 
   onOpenChange(isOpen: boolean) {
     if (isOpen) {
       // 获取传入的数据
-      data.value = modalApi.getData<Record<string, any>>();
-
-      // 为表单赋值
-      baseFormApi.setValues(data.value?.row);
+      data.value = modalApi.getData<any>();
 
       setLoading(false);
 
-      console.log('onOpenChange', data.value, data.value?.create);
+      console.log('onOpenChange', data.value?.create, data.value?.userId);
     }
   },
 });

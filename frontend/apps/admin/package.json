@@ -36,8 +36,8 @@
     "ant-design-vue": "catalog:",
     "crypto-js": "^4.2.0",
     "dayjs": "catalog:",
-    "pinia": "catalog:",
-    "vue": "catalog:",
+    "pinia": "2.2.2",
+    "vue": "^3.5.22",
     "vue-router": "catalog:"
   }
 }

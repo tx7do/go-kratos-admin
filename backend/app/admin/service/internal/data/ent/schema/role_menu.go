@@ -52,7 +52,7 @@ func (RoleMenu) Mixin() []ent.Mixin {
 // Indexes of the RoleMenu.
 func (RoleMenu) Indexes() []ent.Index {
 	return []ent.Index{
-		index.Fields("role_id", "menu_id").Unique(),
-		index.Fields("role_id"),
+		index.Fields("role_id", "menu_id").Unique().StorageKey("idx_sys_role_menu_role_id_menu_id"),
+		index.Fields("role_id").StorageKey("idx_sys_role_menu_role_id"),
 	}
 }

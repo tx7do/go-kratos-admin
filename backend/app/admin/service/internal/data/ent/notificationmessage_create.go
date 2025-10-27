@@ -175,6 +175,7 @@ func (_c *NotificationMessageCreate) Mutation() *NotificationMessageMutation {
 
 // Save creates the NotificationMessage in the database.
 func (_c *NotificationMessageCreate) Save(ctx context.Context) (*NotificationMessage, error) {
+	_c.defaults()
 	return withHooks(ctx, _c.sqlSave, _c.mutation, _c.hooks)
 }
 
@@ -197,6 +198,14 @@ func (_c *NotificationMessageCreate) Exec(ctx context.Context) error {
 func (_c *NotificationMessageCreate) ExecX(ctx context.Context) {
 	if err := _c.Exec(ctx); err != nil {
 		panic(err)
+	}
+}
+
+// defaults sets the default values of the builder before save.
+func (_c *NotificationMessageCreate) defaults() {
+	if _, ok := _c.mutation.Status(); !ok {
+		v := notificationmessage.DefaultStatus
+		_c.mutation.SetStatus(v)
 	}
 }
 
@@ -799,6 +808,7 @@ func (_c *NotificationMessageCreateBulk) Save(ctx context.Context) ([]*Notificat
 	for i := range _c.builders {
 		func(i int, root context.Context) {
 			builder := _c.builders[i]
+			builder.defaults()
 			var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 				mutation, ok := m.(*NotificationMessageMutation)
 				if !ok {

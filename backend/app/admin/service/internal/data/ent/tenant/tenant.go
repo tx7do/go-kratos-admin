@@ -4,7 +4,6 @@ package tenant
 
 import (
 	"fmt"
-	"time"
 
 	"entgo.io/ent/dialect/sql"
 )
@@ -20,8 +19,6 @@ const (
 	FieldUpdateTime = "update_time"
 	// FieldDeleteTime holds the string denoting the delete_time field in the database.
 	FieldDeleteTime = "delete_time"
-	// FieldStatus holds the string denoting the status field in the database.
-	FieldStatus = "status"
 	// FieldCreateBy holds the string denoting the create_by field in the database.
 	FieldCreateBy = "create_by"
 	// FieldUpdateBy holds the string denoting the update_by field in the database.
@@ -32,12 +29,30 @@ const (
 	FieldName = "name"
 	// FieldCode holds the string denoting the code field in the database.
 	FieldCode = "code"
-	// FieldMemberCount holds the string denoting the member_count field in the database.
-	FieldMemberCount = "member_count"
+	// FieldLogoURL holds the string denoting the logo_url field in the database.
+	FieldLogoURL = "logo_url"
+	// FieldIndustry holds the string denoting the industry field in the database.
+	FieldIndustry = "industry"
+	// FieldAdminUserID holds the string denoting the admin_user_id field in the database.
+	FieldAdminUserID = "admin_user_id"
+	// FieldStatus holds the string denoting the status field in the database.
+	FieldStatus = "status"
+	// FieldType holds the string denoting the type field in the database.
+	FieldType = "type"
+	// FieldAuditStatus holds the string denoting the audit_status field in the database.
+	FieldAuditStatus = "audit_status"
 	// FieldSubscriptionAt holds the string denoting the subscription_at field in the database.
 	FieldSubscriptionAt = "subscription_at"
 	// FieldUnsubscribeAt holds the string denoting the unsubscribe_at field in the database.
 	FieldUnsubscribeAt = "unsubscribe_at"
+	// FieldSubscriptionPlan holds the string denoting the subscription_plan field in the database.
+	FieldSubscriptionPlan = "subscription_plan"
+	// FieldExpiredAt holds the string denoting the expired_at field in the database.
+	FieldExpiredAt = "expired_at"
+	// FieldLastLoginTime holds the string denoting the last_login_time field in the database.
+	FieldLastLoginTime = "last_login_time"
+	// FieldLastLoginIP holds the string denoting the last_login_ip field in the database.
+	FieldLastLoginIP = "last_login_ip"
 	// Table holds the table name of the tenant in the database.
 	Table = "sys_tenants"
 )
@@ -48,15 +63,23 @@ var Columns = []string{
 	FieldCreateTime,
 	FieldUpdateTime,
 	FieldDeleteTime,
-	FieldStatus,
 	FieldCreateBy,
 	FieldUpdateBy,
 	FieldRemark,
 	FieldName,
 	FieldCode,
-	FieldMemberCount,
+	FieldLogoURL,
+	FieldIndustry,
+	FieldAdminUserID,
+	FieldStatus,
+	FieldType,
+	FieldAuditStatus,
 	FieldSubscriptionAt,
 	FieldUnsubscribeAt,
+	FieldSubscriptionPlan,
+	FieldExpiredAt,
+	FieldLastLoginTime,
+	FieldLastLoginIP,
 }
 
 // ValidColumn reports if the column name is valid (part of the table columns).
@@ -76,12 +99,6 @@ var (
 	NameValidator func(string) error
 	// CodeValidator is a validator for the "code" field. It is called by the builders before save.
 	CodeValidator func(string) error
-	// DefaultMemberCount holds the default value on creation for the "member_count" field.
-	DefaultMemberCount int32
-	// DefaultSubscriptionAt holds the default value on creation for the "subscription_at" field.
-	DefaultSubscriptionAt func() time.Time
-	// DefaultUnsubscribeAt holds the default value on creation for the "unsubscribe_at" field.
-	DefaultUnsubscribeAt func() time.Time
 	// IDValidator is a validator for the "id" field. It is called by the builders before save.
 	IDValidator func(uint32) error
 )
@@ -89,13 +106,15 @@ var (
 // Status defines the type for the "status" enum field.
 type Status string
 
-// StatusON is the default value of the Status enum.
-const DefaultStatus = StatusON
+// StatusTENANT_STATUS_ON is the default value of the Status enum.
+const DefaultStatus = StatusTENANT_STATUS_ON
 
 // Status values.
 const (
-	StatusOFF Status = "OFF"
-	StatusON  Status = "ON"
+	StatusTENANT_STATUS_ON      Status = "ON"
+	StatusTENANT_STATUS_OFF     Status = "OFF"
+	StatusTENANT_STATUS_EXPIRED Status = "EXPIRED"
+	StatusTENANT_STATUS_FREEZE  Status = "FREEZE"
 )
 
 func (s Status) String() string {
@@ -105,10 +124,60 @@ func (s Status) String() string {
 // StatusValidator is a validator for the "status" field enum values. It is called by the builders before save.
 func StatusValidator(s Status) error {
 	switch s {
-	case StatusOFF, StatusON:
+	case StatusTENANT_STATUS_ON, StatusTENANT_STATUS_OFF, StatusTENANT_STATUS_EXPIRED, StatusTENANT_STATUS_FREEZE:
 		return nil
 	default:
 		return fmt.Errorf("tenant: invalid enum value for status field: %q", s)
+	}
+}
+
+// Type defines the type for the "type" enum field.
+type Type string
+
+// Type values.
+const (
+	TypeTENANT_TYPE_TRIAL    Type = "TRIAL"
+	TypeTENANT_TYPE_PAID     Type = "PAID"
+	TypeTENANT_TYPE_INTERNAL Type = "INTERNAL"
+	TypeTENANT_TYPE_PARTNER  Type = "PARTNER"
+	TypeTENANT_TYPE_CUSTOM   Type = "CUSTOM"
+)
+
+func (_type Type) String() string {
+	return string(_type)
+}
+
+// TypeValidator is a validator for the "type" field enum values. It is called by the builders before save.
+func TypeValidator(_type Type) error {
+	switch _type {
+	case TypeTENANT_TYPE_TRIAL, TypeTENANT_TYPE_PAID, TypeTENANT_TYPE_INTERNAL, TypeTENANT_TYPE_PARTNER, TypeTENANT_TYPE_CUSTOM:
+		return nil
+	default:
+		return fmt.Errorf("tenant: invalid enum value for type field: %q", _type)
+	}
+}
+
+// AuditStatus defines the type for the "audit_status" enum field.
+type AuditStatus string
+
+// AuditStatus values.
+const (
+	AuditStatusTENANT_AUDIT_STATUS_PENDING  AuditStatus = "PENDING"
+	AuditStatusTENANT_AUDIT_STATUS_APPROVED AuditStatus = "APPROVED"
+	AuditStatusTENANT_AUDIT_STATUS_REJECTED AuditStatus = "REJECTED"
+)
+
+func (as AuditStatus) String() string {
+	return string(as)
+}
+
+// AuditStatusValidator is a validator for the "audit_status" field enum values. It is called by the builders before save.
+func AuditStatusValidator(as AuditStatus) error {
+	switch as {
+	case AuditStatusTENANT_AUDIT_STATUS_PENDING, AuditStatusTENANT_AUDIT_STATUS_APPROVED, AuditStatusTENANT_AUDIT_STATUS_REJECTED:
+		return nil
+	default:
+		return fmt.Errorf("tenant: invalid enum value for audit_status field: %q", as)
 	}
 }
 
@@ -133,11 +202,6 @@ func ByUpdateTime(opts ...sql.OrderTermOption) OrderOption {
 // ByDeleteTime orders the results by the delete_time field.
 func ByDeleteTime(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldDeleteTime, opts...).ToFunc()
-}
-
-// ByStatus orders the results by the status field.
-func ByStatus(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldStatus, opts...).ToFunc()
 }
 
 // ByCreateBy orders the results by the create_by field.
@@ -165,9 +229,34 @@ func ByCode(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldCode, opts...).ToFunc()
 }
 
-// ByMemberCount orders the results by the member_count field.
-func ByMemberCount(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldMemberCount, opts...).ToFunc()
+// ByLogoURL orders the results by the logo_url field.
+func ByLogoURL(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldLogoURL, opts...).ToFunc()
+}
+
+// ByIndustry orders the results by the industry field.
+func ByIndustry(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldIndustry, opts...).ToFunc()
+}
+
+// ByAdminUserID orders the results by the admin_user_id field.
+func ByAdminUserID(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldAdminUserID, opts...).ToFunc()
+}
+
+// ByStatus orders the results by the status field.
+func ByStatus(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldStatus, opts...).ToFunc()
+}
+
+// ByType orders the results by the type field.
+func ByType(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldType, opts...).ToFunc()
+}
+
+// ByAuditStatus orders the results by the audit_status field.
+func ByAuditStatus(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldAuditStatus, opts...).ToFunc()
 }
 
 // BySubscriptionAt orders the results by the subscription_at field.
@@ -178,4 +267,24 @@ func BySubscriptionAt(opts ...sql.OrderTermOption) OrderOption {
 // ByUnsubscribeAt orders the results by the unsubscribe_at field.
 func ByUnsubscribeAt(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldUnsubscribeAt, opts...).ToFunc()
+}
+
+// BySubscriptionPlan orders the results by the subscription_plan field.
+func BySubscriptionPlan(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldSubscriptionPlan, opts...).ToFunc()
+}
+
+// ByExpiredAt orders the results by the expired_at field.
+func ByExpiredAt(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldExpiredAt, opts...).ToFunc()
+}
+
+// ByLastLoginTime orders the results by the last_login_time field.
+func ByLastLoginTime(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldLastLoginTime, opts...).ToFunc()
+}
+
+// ByLastLoginIP orders the results by the last_login_ip field.
+func ByLastLoginIP(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldLastLoginIP, opts...).ToFunc()
 }

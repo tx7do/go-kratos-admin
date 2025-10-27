@@ -578,18 +578,26 @@ var schemaGraph = func() *sqlgraph.Schema {
 		},
 		Type: "Tenant",
 		Fields: map[string]*sqlgraph.FieldSpec{
-			tenant.FieldCreateTime:     {Type: field.TypeTime, Column: tenant.FieldCreateTime},
-			tenant.FieldUpdateTime:     {Type: field.TypeTime, Column: tenant.FieldUpdateTime},
-			tenant.FieldDeleteTime:     {Type: field.TypeTime, Column: tenant.FieldDeleteTime},
-			tenant.FieldStatus:         {Type: field.TypeEnum, Column: tenant.FieldStatus},
-			tenant.FieldCreateBy:       {Type: field.TypeUint32, Column: tenant.FieldCreateBy},
-			tenant.FieldUpdateBy:       {Type: field.TypeUint32, Column: tenant.FieldUpdateBy},
-			tenant.FieldRemark:         {Type: field.TypeString, Column: tenant.FieldRemark},
-			tenant.FieldName:           {Type: field.TypeString, Column: tenant.FieldName},
-			tenant.FieldCode:           {Type: field.TypeString, Column: tenant.FieldCode},
-			tenant.FieldMemberCount:    {Type: field.TypeInt32, Column: tenant.FieldMemberCount},
-			tenant.FieldSubscriptionAt: {Type: field.TypeTime, Column: tenant.FieldSubscriptionAt},
-			tenant.FieldUnsubscribeAt:  {Type: field.TypeTime, Column: tenant.FieldUnsubscribeAt},
+			tenant.FieldCreateTime:       {Type: field.TypeTime, Column: tenant.FieldCreateTime},
+			tenant.FieldUpdateTime:       {Type: field.TypeTime, Column: tenant.FieldUpdateTime},
+			tenant.FieldDeleteTime:       {Type: field.TypeTime, Column: tenant.FieldDeleteTime},
+			tenant.FieldCreateBy:         {Type: field.TypeUint32, Column: tenant.FieldCreateBy},
+			tenant.FieldUpdateBy:         {Type: field.TypeUint32, Column: tenant.FieldUpdateBy},
+			tenant.FieldRemark:           {Type: field.TypeString, Column: tenant.FieldRemark},
+			tenant.FieldName:             {Type: field.TypeString, Column: tenant.FieldName},
+			tenant.FieldCode:             {Type: field.TypeString, Column: tenant.FieldCode},
+			tenant.FieldLogoURL:          {Type: field.TypeString, Column: tenant.FieldLogoURL},
+			tenant.FieldIndustry:         {Type: field.TypeString, Column: tenant.FieldIndustry},
+			tenant.FieldAdminUserID:      {Type: field.TypeUint32, Column: tenant.FieldAdminUserID},
+			tenant.FieldStatus:           {Type: field.TypeEnum, Column: tenant.FieldStatus},
+			tenant.FieldType:             {Type: field.TypeEnum, Column: tenant.FieldType},
+			tenant.FieldAuditStatus:      {Type: field.TypeEnum, Column: tenant.FieldAuditStatus},
+			tenant.FieldSubscriptionAt:   {Type: field.TypeTime, Column: tenant.FieldSubscriptionAt},
+			tenant.FieldUnsubscribeAt:    {Type: field.TypeTime, Column: tenant.FieldUnsubscribeAt},
+			tenant.FieldSubscriptionPlan: {Type: field.TypeString, Column: tenant.FieldSubscriptionPlan},
+			tenant.FieldExpiredAt:        {Type: field.TypeTime, Column: tenant.FieldExpiredAt},
+			tenant.FieldLastLoginTime:    {Type: field.TypeTime, Column: tenant.FieldLastLoginTime},
+			tenant.FieldLastLoginIP:      {Type: field.TypeString, Column: tenant.FieldLastLoginIP},
 		},
 	}
 	graph.Nodes[22] = &sqlgraph.Node{
@@ -3183,11 +3191,6 @@ func (f *TenantFilter) WhereDeleteTime(p entql.TimeP) {
 	f.Where(p.Field(tenant.FieldDeleteTime))
 }
 
-// WhereStatus applies the entql string predicate on the status field.
-func (f *TenantFilter) WhereStatus(p entql.StringP) {
-	f.Where(p.Field(tenant.FieldStatus))
-}
-
 // WhereCreateBy applies the entql uint32 predicate on the create_by field.
 func (f *TenantFilter) WhereCreateBy(p entql.Uint32P) {
 	f.Where(p.Field(tenant.FieldCreateBy))
@@ -3213,9 +3216,34 @@ func (f *TenantFilter) WhereCode(p entql.StringP) {
 	f.Where(p.Field(tenant.FieldCode))
 }
 
-// WhereMemberCount applies the entql int32 predicate on the member_count field.
-func (f *TenantFilter) WhereMemberCount(p entql.Int32P) {
-	f.Where(p.Field(tenant.FieldMemberCount))
+// WhereLogoURL applies the entql string predicate on the logo_url field.
+func (f *TenantFilter) WhereLogoURL(p entql.StringP) {
+	f.Where(p.Field(tenant.FieldLogoURL))
+}
+
+// WhereIndustry applies the entql string predicate on the industry field.
+func (f *TenantFilter) WhereIndustry(p entql.StringP) {
+	f.Where(p.Field(tenant.FieldIndustry))
+}
+
+// WhereAdminUserID applies the entql uint32 predicate on the admin_user_id field.
+func (f *TenantFilter) WhereAdminUserID(p entql.Uint32P) {
+	f.Where(p.Field(tenant.FieldAdminUserID))
+}
+
+// WhereStatus applies the entql string predicate on the status field.
+func (f *TenantFilter) WhereStatus(p entql.StringP) {
+	f.Where(p.Field(tenant.FieldStatus))
+}
+
+// WhereType applies the entql string predicate on the type field.
+func (f *TenantFilter) WhereType(p entql.StringP) {
+	f.Where(p.Field(tenant.FieldType))
+}
+
+// WhereAuditStatus applies the entql string predicate on the audit_status field.
+func (f *TenantFilter) WhereAuditStatus(p entql.StringP) {
+	f.Where(p.Field(tenant.FieldAuditStatus))
 }
 
 // WhereSubscriptionAt applies the entql time.Time predicate on the subscription_at field.
@@ -3226,6 +3254,26 @@ func (f *TenantFilter) WhereSubscriptionAt(p entql.TimeP) {
 // WhereUnsubscribeAt applies the entql time.Time predicate on the unsubscribe_at field.
 func (f *TenantFilter) WhereUnsubscribeAt(p entql.TimeP) {
 	f.Where(p.Field(tenant.FieldUnsubscribeAt))
+}
+
+// WhereSubscriptionPlan applies the entql string predicate on the subscription_plan field.
+func (f *TenantFilter) WhereSubscriptionPlan(p entql.StringP) {
+	f.Where(p.Field(tenant.FieldSubscriptionPlan))
+}
+
+// WhereExpiredAt applies the entql time.Time predicate on the expired_at field.
+func (f *TenantFilter) WhereExpiredAt(p entql.TimeP) {
+	f.Where(p.Field(tenant.FieldExpiredAt))
+}
+
+// WhereLastLoginTime applies the entql time.Time predicate on the last_login_time field.
+func (f *TenantFilter) WhereLastLoginTime(p entql.TimeP) {
+	f.Where(p.Field(tenant.FieldLastLoginTime))
+}
+
+// WhereLastLoginIP applies the entql string predicate on the last_login_ip field.
+func (f *TenantFilter) WhereLastLoginIP(p entql.StringP) {
+	f.Where(p.Field(tenant.FieldLastLoginIP))
 }
 
 // addPredicate implements the predicateAdder interface.

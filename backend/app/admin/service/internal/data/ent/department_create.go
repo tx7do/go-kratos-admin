@@ -279,6 +279,10 @@ func (_c *DepartmentCreate) defaults() {
 		v := department.DefaultSortID
 		_c.mutation.SetSortID(v)
 	}
+	if _, ok := _c.mutation.Status(); !ok {
+		v := department.DefaultStatus
+		_c.mutation.SetStatus(v)
+	}
 }
 
 // check runs all checks and user-defined validators on the builder.

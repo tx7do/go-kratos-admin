@@ -25,14 +25,20 @@ type TenantRepo struct {
 	data *Data
 	log  *log.Helper
 
-	mapper *mapper.CopierMapper[userV1.Tenant, ent.Tenant]
+	mapper               *mapper.CopierMapper[userV1.Tenant, ent.Tenant]
+	statusConverter      *mapper.EnumTypeConverter[userV1.TenantStatus, tenant.Status]
+	typeConverter        *mapper.EnumTypeConverter[userV1.TenantType, tenant.Type]
+	auditStatusConverter *mapper.EnumTypeConverter[userV1.TenantAuditStatus, tenant.AuditStatus]
 }
 
 func NewTenantRepo(data *Data, logger log.Logger) *TenantRepo {
 	repo := &TenantRepo{
-		log:    log.NewHelper(log.With(logger, "module", "tenant/repo/admin-service")),
-		data:   data,
-		mapper: mapper.NewCopierMapper[userV1.Tenant, ent.Tenant](),
+		log:                  log.NewHelper(log.With(logger, "module", "tenant/repo/admin-service")),
+		data:                 data,
+		mapper:               mapper.NewCopierMapper[userV1.Tenant, ent.Tenant](),
+		statusConverter:      mapper.NewEnumTypeConverter[userV1.TenantStatus, tenant.Status](userV1.TenantStatus_name, userV1.TenantStatus_value),
+		typeConverter:        mapper.NewEnumTypeConverter[userV1.TenantType, tenant.Type](userV1.TenantType_name, userV1.TenantType_value),
+		auditStatusConverter: mapper.NewEnumTypeConverter[userV1.TenantAuditStatus, tenant.AuditStatus](userV1.TenantAuditStatus_name, userV1.TenantAuditStatus_value),
 	}
 
 	repo.init()
@@ -43,6 +49,10 @@ func NewTenantRepo(data *Data, logger log.Logger) *TenantRepo {
 func (r *TenantRepo) init() {
 	r.mapper.AppendConverters(copierutil.NewTimeStringConverterPair())
 	r.mapper.AppendConverters(copierutil.NewTimeTimestamppbConverterPair())
+
+	r.mapper.AppendConverters(r.statusConverter.NewConverterPair())
+	r.mapper.AppendConverters(r.typeConverter.NewConverterPair())
+	r.mapper.AppendConverters(r.auditStatusConverter.NewConverterPair())
 }
 
 func (r *TenantRepo) Count(ctx context.Context, whereCond []func(s *sql.Selector)) (int, error) {
@@ -143,9 +153,17 @@ func (r *TenantRepo) Create(ctx context.Context, req *userV1.CreateTenantRequest
 	builder := r.data.db.Client().Tenant.Create().
 		SetNillableName(req.Data.Name).
 		SetNillableCode(req.Data.Code).
-		SetNillableMemberCount(req.Data.MemberCount).
+		SetNillableLogoURL(req.Data.LogoUrl).
 		SetNillableRemark(req.Data.Remark).
-		SetNillableStatus((*tenant.Status)(req.Data.Status)).
+		SetNillableIndustry(req.Data.Industry).
+		SetNillableAdminUserID(req.Data.AdminUserId).
+		SetNillableStatus(r.statusConverter.ToEntity(req.Data.Status)).
+		SetNillableType(r.typeConverter.ToEntity(req.Data.Type)).
+		SetNillableAuditStatus(r.auditStatusConverter.ToEntity(req.Data.AuditStatus)).
+		SetNillableLastLoginTime(timeutil.TimestamppbToTime(req.Data.LastLoginTime)).
+		SetNillableLastLoginIP(req.Data.LastLoginIp).
+		SetNillableSubscriptionPlan(req.Data.SubscriptionPlan).
+		SetNillableExpiredAt(timeutil.TimestamppbToTime(req.Data.ExpiredAt)).
 		SetNillableSubscriptionAt(timeutil.TimestamppbToTime(req.Data.SubscriptionAt)).
 		SetNillableUnsubscribeAt(timeutil.TimestamppbToTime(req.Data.UnsubscribeAt))
 
@@ -200,9 +218,17 @@ func (r *TenantRepo) Update(ctx context.Context, req *userV1.UpdateTenantRequest
 	builder := r.data.db.Client().Tenant.UpdateOneID(req.Data.GetId()).
 		SetNillableName(req.Data.Name).
 		SetNillableCode(req.Data.Code).
-		SetNillableMemberCount(req.Data.MemberCount).
+		SetNillableLogoURL(req.Data.LogoUrl).
 		SetNillableRemark(req.Data.Remark).
-		SetNillableStatus((*tenant.Status)(req.Data.Status)).
+		SetNillableIndustry(req.Data.Industry).
+		SetNillableAdminUserID(req.Data.AdminUserId).
+		SetNillableStatus(r.statusConverter.ToEntity(req.Data.Status)).
+		SetNillableType(r.typeConverter.ToEntity(req.Data.Type)).
+		SetNillableAuditStatus(r.auditStatusConverter.ToEntity(req.Data.AuditStatus)).
+		SetNillableLastLoginTime(timeutil.TimestamppbToTime(req.Data.LastLoginTime)).
+		SetNillableLastLoginIP(req.Data.LastLoginIp).
+		SetNillableSubscriptionPlan(req.Data.SubscriptionPlan).
+		SetNillableExpiredAt(timeutil.TimestamppbToTime(req.Data.ExpiredAt)).
 		SetNillableSubscriptionAt(timeutil.TimestamppbToTime(req.Data.SubscriptionAt)).
 		SetNillableUnsubscribeAt(timeutil.TimestamppbToTime(req.Data.UnsubscribeAt))
 

@@ -4323,28 +4323,87 @@ components:
                 code:
                     type: string
                     description: 租户编码
+                logoUrl:
+                    type: string
+                    description: 租户logo地址
+                industry:
+                    type: string
+                    description: 所属行业（如“互联网”“金融”“制造”）
+                status:
+                    enum:
+                        - TENANT_STATUS_UNSPECIFIED
+                        - TENANT_STATUS_ON
+                        - TENANT_STATUS_OFF
+                        - TENANT_STATUS_EXPIRED
+                        - TENANT_STATUS_FREEZE
+                    type: string
+                    description: 租户状态
+                    format: enum
+                type:
+                    enum:
+                        - TENANT_TYPE_UNSPECIFIED
+                        - TENANT_TYPE_TRIAL
+                        - TENANT_TYPE_PAID
+                        - TENANT_TYPE_INTERNAL
+                        - TENANT_TYPE_PARTNER
+                        - TENANT_TYPE_CUSTOM
+                    type: string
+                    description: 租户类型
+                    format: enum
+                auditStatus:
+                    enum:
+                        - TENANT_AUDIT_STATUS_UNSPECIFIED
+                        - TENANT_AUDIT_STATUS_PENDING
+                        - TENANT_AUDIT_STATUS_APPROVED
+                        - TENANT_AUDIT_STATUS_REJECTED
+                    type: string
+                    description: 审核状态
+                    format: enum
+                remark:
+                    type: string
+                    description: 备注
+                adminUserId:
+                    type: integer
+                    description: 管理员用户ID
+                    format: uint32
+                adminUserName:
+                    type: string
+                    description: 管理员用户名
+                subscriptionAt:
+                    type: string
+                    description: 订阅时间（首次订阅/续费时间，NULL表示未订阅）
+                    format: date-time
+                unsubscribeAt:
+                    type: string
+                    description: 取消订阅时间
+                    format: date-time
+                expiredAt:
+                    type: string
+                    description: 租户有效期（NULL表示永久，过期后状态自动改为“过期”）
+                    format: date-time
+                subscriptionPlan:
+                    type: string
+                    description: 订阅套餐（如“企业版1年”“基础版3个月”）
                 memberCount:
                     type: integer
                     description: 成员数量
                     format: int32
-                status:
-                    enum:
-                        - ON
-                        - OFF
+                lastLoginTime:
                     type: string
-                    default: ON
-                    description: 状态
-                remark:
-                    type: string
-                    description: 备注
-                subscriptionAt:
-                    type: string
-                    description: 订阅时间
+                    description: 最后登录时间
                     format: date-time
-                unsubscribeAt:
+                lastLoginIp:
                     type: string
-                    description: 退订时间
-                    format: date-time
+                    description: 最后登录IP
+                parentId:
+                    type: integer
+                    description: 父节点ID
+                    format: uint32
+                children:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Tenant'
+                    description: 子节点树
                 createBy:
                     type: integer
                     description: 创建者ID

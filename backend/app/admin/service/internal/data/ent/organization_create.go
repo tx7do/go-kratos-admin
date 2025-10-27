@@ -329,6 +329,10 @@ func (_c *OrganizationCreate) defaults() {
 		v := organization.DefaultSortID
 		_c.mutation.SetSortID(v)
 	}
+	if _, ok := _c.mutation.Status(); !ok {
+		v := organization.DefaultStatus
+		_c.mutation.SetStatus(v)
+	}
 }
 
 // check runs all checks and user-defined validators on the builder.

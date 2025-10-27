@@ -349,6 +349,11 @@ func (_u *DictUpdate) check() error {
 			return &ValidationError{Name: "status", err: fmt.Errorf(`ent: validator failed for field "Dict.status": %w`, err)}
 		}
 	}
+	if v, ok := _u.mutation.Key(); ok {
+		if err := dict.KeyValidator(v); err != nil {
+			return &ValidationError{Name: "key", err: fmt.Errorf(`ent: validator failed for field "Dict.key": %w`, err)}
+		}
+	}
 	return nil
 }
 
@@ -816,6 +821,11 @@ func (_u *DictUpdateOne) check() error {
 	if v, ok := _u.mutation.Status(); ok {
 		if err := dict.StatusValidator(v); err != nil {
 			return &ValidationError{Name: "status", err: fmt.Errorf(`ent: validator failed for field "Dict.status": %w`, err)}
+		}
+	}
+	if v, ok := _u.mutation.Key(); ok {
+		if err := dict.KeyValidator(v); err != nil {
+			return &ValidationError{Name: "key", err: fmt.Errorf(`ent: validator failed for field "Dict.key": %w`, err)}
 		}
 	}
 	return nil

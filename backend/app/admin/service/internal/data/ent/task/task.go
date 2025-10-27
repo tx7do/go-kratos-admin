@@ -83,6 +83,9 @@ var (
 // Type defines the type for the "type" enum field.
 type Type string
 
+// TypePeriodic is the default value of the Type enum.
+const DefaultType = TypePeriodic
+
 // Type values.
 const (
 	TypePeriodic   Type = "PERIODIC"

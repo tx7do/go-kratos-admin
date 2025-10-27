@@ -56,6 +56,7 @@ func (NotificationMessage) Fields() []ent.Field {
 				"Archived", "ARCHIVED",
 				"Deleted", "DELETED",
 			).
+			Default("DRAFT").
 			Optional().
 			Nillable(),
 	}

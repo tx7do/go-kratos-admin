@@ -98,12 +98,10 @@ var (
 	DefaultRemark string
 	// TenantIDValidator is a validator for the "tenant_id" field. It is called by the builders before save.
 	TenantIDValidator func(uint32) error
-	// DefaultName holds the default value on creation for the "name" field.
-	DefaultName string
 	// NameValidator is a validator for the "name" field. It is called by the builders before save.
 	NameValidator func(string) error
-	// DefaultParentID holds the default value on creation for the "parent_id" field.
-	DefaultParentID uint32
+	// CodeValidator is a validator for the "code" field. It is called by the builders before save.
+	CodeValidator func(string) error
 	// DefaultSortID holds the default value on creation for the "sort_id" field.
 	DefaultSortID int32
 	// IDValidator is a validator for the "id" field. It is called by the builders before save.
@@ -112,6 +110,9 @@ var (
 
 // Status defines the type for the "status" enum field.
 type Status string
+
+// StatusPOSITION_STATUS_ON is the default value of the Status enum.
+const DefaultStatus = StatusPOSITION_STATUS_ON
 
 // Status values.
 const (

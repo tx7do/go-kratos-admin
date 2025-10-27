@@ -7,6 +7,7 @@ import (
 	"entgo.io/ent/schema"
 	"entgo.io/ent/schema/edge"
 	"entgo.io/ent/schema/field"
+	"entgo.io/ent/schema/index"
 	"github.com/tx7do/go-utils/entgo/mixin"
 
 	appmixin "kratos-admin/pkg/entgo/mixin"
@@ -34,16 +35,21 @@ func (NotificationMessageCategory) Fields() []ent.Field {
 	return []ent.Field{
 		field.String("name").
 			Comment("名称").
+			//Unique().
+			NotEmpty().
 			Optional().
 			Nillable(),
 
 		field.String("code").
 			Comment("编码").
+			//Unique().
+			NotEmpty().
 			Optional().
 			Nillable(),
 
 		field.Int32("sort_id").
-			Comment("排序编号").
+			Comment("排序ID").
+			Default(0).
 			Optional().
 			Nillable(),
 
@@ -68,6 +74,14 @@ func (NotificationMessageCategory) Mixin() []ent.Mixin {
 		mixin.UpdateBy{},
 		mixin.Remark{},
 		appmixin.TenantID{},
+	}
+}
+
+// Indexes of the NotificationMessageCategory.
+func (NotificationMessageCategory) Indexes() []ent.Index {
+	return []ent.Index{
+		index.Fields("code").Unique().StorageKey("idx_notification_message_category_code"),
+		index.Fields("name").StorageKey("idx_notification_message_category_name"),
 	}
 }
 

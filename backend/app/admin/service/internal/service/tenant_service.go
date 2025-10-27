@@ -14,6 +14,7 @@ import (
 	userV1 "kratos-admin/api/gen/go/user/service/v1"
 
 	"kratos-admin/pkg/middleware/auth"
+	"kratos-admin/pkg/utils/name_set"
 )
 
 type TenantService struct {
@@ -21,23 +22,66 @@ type TenantService struct {
 
 	log *log.Helper
 
-	repo *data.TenantRepo
+	tenantRepo *data.TenantRepo
+	userRepo   *data.UserRepo
 }
 
-func NewTenantService(logger log.Logger, repo *data.TenantRepo) *TenantService {
+func NewTenantService(
+	logger log.Logger,
+	tenantRepo *data.TenantRepo,
+	userRepo *data.UserRepo,
+) *TenantService {
 	l := log.NewHelper(log.With(logger, "module", "tenant/service/admin-service"))
 	return &TenantService{
-		log:  l,
-		repo: repo,
+		log:        l,
+		tenantRepo: tenantRepo,
+		userRepo:   userRepo,
 	}
 }
 
 func (s *TenantService) List(ctx context.Context, req *pagination.PagingRequest) (*userV1.ListTenantResponse, error) {
-	return s.repo.List(ctx, req)
+	resp, err := s.tenantRepo.List(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+
+	var userSet = make(name_set.UserNameSetMap)
+
+	for _, v := range resp.Items {
+		if v.AdminUserId != nil {
+			userSet[v.GetAdminUserId()] = nil
+		}
+	}
+
+	QueryUserInfoFromRepo(ctx, s.userRepo, &userSet)
+
+	for _, v := range resp.Items {
+		if v.AdminUserId != nil {
+			if userInfo, ok := userSet[v.GetAdminUserId()]; ok && userInfo != nil {
+				v.AdminUserName = &userInfo.UserName
+			}
+		}
+	}
+
+	return resp, nil
 }
 
 func (s *TenantService) Get(ctx context.Context, req *userV1.GetTenantRequest) (*userV1.Tenant, error) {
-	return s.repo.Get(ctx, req)
+	resp, err := s.tenantRepo.Get(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+
+	if resp.AdminUserId != nil {
+		userResp, err := s.userRepo.Get(ctx, resp.GetAdminUserId())
+		if err != nil {
+			s.log.Errorf("failed to get admin user info: %v", err)
+		} else {
+			resp.AdminUserName = userResp.Username
+		}
+	}
+
+	return resp, nil
 }
 
 func (s *TenantService) Create(ctx context.Context, req *userV1.CreateTenantRequest) (*emptypb.Empty, error) {
@@ -53,7 +97,7 @@ func (s *TenantService) Create(ctx context.Context, req *userV1.CreateTenantRequ
 
 	req.Data.CreateBy = trans.Ptr(operator.UserId)
 
-	if err = s.repo.Create(ctx, req); err != nil {
+	if err = s.tenantRepo.Create(ctx, req); err != nil {
 		return nil, err
 	}
 
@@ -73,7 +117,7 @@ func (s *TenantService) Update(ctx context.Context, req *userV1.UpdateTenantRequ
 
 	req.Data.UpdateBy = trans.Ptr(operator.UserId)
 
-	if err = s.repo.Update(ctx, req); err != nil {
+	if err = s.tenantRepo.Update(ctx, req); err != nil {
 		return nil, err
 	}
 
@@ -81,7 +125,7 @@ func (s *TenantService) Update(ctx context.Context, req *userV1.UpdateTenantRequ
 }
 
 func (s *TenantService) Delete(ctx context.Context, req *userV1.DeleteTenantRequest) (*emptypb.Empty, error) {
-	if err := s.repo.Delete(ctx, req); err != nil {
+	if err := s.tenantRepo.Delete(ctx, req); err != nil {
 		return nil, err
 	}
 

@@ -34,17 +34,17 @@ func (Role) Fields() []ent.Field {
 	return []ent.Field{
 		field.String("name").
 			Comment("角色名称").
-			Unique().
+			//Unique().
+			NotEmpty().
 			Optional().
-			Nillable().
-			MaxLen(128),
+			Nillable(),
 
 		field.String("code").
 			Comment("角色标识").
-			Default("").
+			//Unique().
+			NotEmpty().
 			Optional().
-			Nillable().
-			MaxLen(128),
+			Nillable(),
 
 		field.Uint32("parent_id").
 			Comment("上一层角色ID").
@@ -53,9 +53,9 @@ func (Role) Fields() []ent.Field {
 
 		field.Int32("sort_id").
 			Comment("排序ID").
+			Default(0).
 			Optional().
-			Nillable().
-			Default(0),
+			Nillable(),
 
 		field.JSON("menus", []uint32{}).
 			Comment("分配的菜单列表").
@@ -97,7 +97,8 @@ func (Role) Mixin() []ent.Mixin {
 // Indexes of the User.
 func (Role) Indexes() []ent.Index {
 	return []ent.Index{
-		index.Fields("code"),
+		index.Fields("name").Unique().StorageKey("idx_sys_role_name"),
+		index.Fields("code").Unique().StorageKey("idx_sys_role_code"),
 	}
 }
 

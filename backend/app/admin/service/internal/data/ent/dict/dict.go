@@ -82,6 +82,8 @@ var (
 	DefaultRemark string
 	// TenantIDValidator is a validator for the "tenant_id" field. It is called by the builders before save.
 	TenantIDValidator func(uint32) error
+	// KeyValidator is a validator for the "key" field. It is called by the builders before save.
+	KeyValidator func(string) error
 	// DefaultSortID holds the default value on creation for the "sort_id" field.
 	DefaultSortID int32
 	// IDValidator is a validator for the "id" field. It is called by the builders before save.

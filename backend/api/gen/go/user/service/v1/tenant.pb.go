@@ -26,24 +26,204 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+// 租户状态
+type TenantStatus int32
+
+const (
+	TenantStatus_TENANT_STATUS_UNSPECIFIED TenantStatus = 0 // 未指定
+	TenantStatus_TENANT_STATUS_ON          TenantStatus = 1 // 启用
+	TenantStatus_TENANT_STATUS_OFF         TenantStatus = 2 // 禁用
+	TenantStatus_TENANT_STATUS_EXPIRED     TenantStatus = 3 // 过期
+	TenantStatus_TENANT_STATUS_FREEZE      TenantStatus = 4 // 冻结
+)
+
+// Enum value maps for TenantStatus.
+var (
+	TenantStatus_name = map[int32]string{
+		0: "TENANT_STATUS_UNSPECIFIED",
+		1: "TENANT_STATUS_ON",
+		2: "TENANT_STATUS_OFF",
+		3: "TENANT_STATUS_EXPIRED",
+		4: "TENANT_STATUS_FREEZE",
+	}
+	TenantStatus_value = map[string]int32{
+		"TENANT_STATUS_UNSPECIFIED": 0,
+		"TENANT_STATUS_ON":          1,
+		"TENANT_STATUS_OFF":         2,
+		"TENANT_STATUS_EXPIRED":     3,
+		"TENANT_STATUS_FREEZE":      4,
+	}
+)
+
+func (x TenantStatus) Enum() *TenantStatus {
+	p := new(TenantStatus)
+	*p = x
+	return p
+}
+
+func (x TenantStatus) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (TenantStatus) Descriptor() protoreflect.EnumDescriptor {
+	return file_user_service_v1_tenant_proto_enumTypes[0].Descriptor()
+}
+
+func (TenantStatus) Type() protoreflect.EnumType {
+	return &file_user_service_v1_tenant_proto_enumTypes[0]
+}
+
+func (x TenantStatus) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use TenantStatus.Descriptor instead.
+func (TenantStatus) EnumDescriptor() ([]byte, []int) {
+	return file_user_service_v1_tenant_proto_rawDescGZIP(), []int{0}
+}
+
+// 租户类型
+type TenantType int32
+
+const (
+	TenantType_TENANT_TYPE_UNSPECIFIED TenantType = 0 // 未指定
+	TenantType_TENANT_TYPE_TRIAL       TenantType = 1 // 试用
+	TenantType_TENANT_TYPE_PAID        TenantType = 2 // 付费
+	TenantType_TENANT_TYPE_INTERNAL    TenantType = 3 // 内部
+	TenantType_TENANT_TYPE_PARTNER     TenantType = 4 // 合作伙伴
+	TenantType_TENANT_TYPE_CUSTOM      TenantType = 5 // 定制
+)
+
+// Enum value maps for TenantType.
+var (
+	TenantType_name = map[int32]string{
+		0: "TENANT_TYPE_UNSPECIFIED",
+		1: "TENANT_TYPE_TRIAL",
+		2: "TENANT_TYPE_PAID",
+		3: "TENANT_TYPE_INTERNAL",
+		4: "TENANT_TYPE_PARTNER",
+		5: "TENANT_TYPE_CUSTOM",
+	}
+	TenantType_value = map[string]int32{
+		"TENANT_TYPE_UNSPECIFIED": 0,
+		"TENANT_TYPE_TRIAL":       1,
+		"TENANT_TYPE_PAID":        2,
+		"TENANT_TYPE_INTERNAL":    3,
+		"TENANT_TYPE_PARTNER":     4,
+		"TENANT_TYPE_CUSTOM":      5,
+	}
+)
+
+func (x TenantType) Enum() *TenantType {
+	p := new(TenantType)
+	*p = x
+	return p
+}
+
+func (x TenantType) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (TenantType) Descriptor() protoreflect.EnumDescriptor {
+	return file_user_service_v1_tenant_proto_enumTypes[1].Descriptor()
+}
+
+func (TenantType) Type() protoreflect.EnumType {
+	return &file_user_service_v1_tenant_proto_enumTypes[1]
+}
+
+func (x TenantType) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use TenantType.Descriptor instead.
+func (TenantType) EnumDescriptor() ([]byte, []int) {
+	return file_user_service_v1_tenant_proto_rawDescGZIP(), []int{1}
+}
+
+// 租户审核状态
+type TenantAuditStatus int32
+
+const (
+	TenantAuditStatus_TENANT_AUDIT_STATUS_UNSPECIFIED TenantAuditStatus = 0 // 未指定
+	TenantAuditStatus_TENANT_AUDIT_STATUS_PENDING     TenantAuditStatus = 1 // 待审核
+	TenantAuditStatus_TENANT_AUDIT_STATUS_APPROVED    TenantAuditStatus = 2 // 审核通过
+	TenantAuditStatus_TENANT_AUDIT_STATUS_REJECTED    TenantAuditStatus = 3 // 审核拒绝
+)
+
+// Enum value maps for TenantAuditStatus.
+var (
+	TenantAuditStatus_name = map[int32]string{
+		0: "TENANT_AUDIT_STATUS_UNSPECIFIED",
+		1: "TENANT_AUDIT_STATUS_PENDING",
+		2: "TENANT_AUDIT_STATUS_APPROVED",
+		3: "TENANT_AUDIT_STATUS_REJECTED",
+	}
+	TenantAuditStatus_value = map[string]int32{
+		"TENANT_AUDIT_STATUS_UNSPECIFIED": 0,
+		"TENANT_AUDIT_STATUS_PENDING":     1,
+		"TENANT_AUDIT_STATUS_APPROVED":    2,
+		"TENANT_AUDIT_STATUS_REJECTED":    3,
+	}
+)
+
+func (x TenantAuditStatus) Enum() *TenantAuditStatus {
+	p := new(TenantAuditStatus)
+	*p = x
+	return p
+}
+
+func (x TenantAuditStatus) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (TenantAuditStatus) Descriptor() protoreflect.EnumDescriptor {
+	return file_user_service_v1_tenant_proto_enumTypes[2].Descriptor()
+}
+
+func (TenantAuditStatus) Type() protoreflect.EnumType {
+	return &file_user_service_v1_tenant_proto_enumTypes[2]
+}
+
+func (x TenantAuditStatus) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use TenantAuditStatus.Descriptor instead.
+func (TenantAuditStatus) EnumDescriptor() ([]byte, []int) {
+	return file_user_service_v1_tenant_proto_rawDescGZIP(), []int{2}
+}
+
 // 租户
 type Tenant struct {
-	state          protoimpl.MessageState `protogen:"open.v1"`
-	Id             *uint32                `protobuf:"varint,1,opt,name=id,proto3,oneof" json:"id,omitempty"`                                      // 租户ID
-	Name           *string                `protobuf:"bytes,2,opt,name=name,proto3,oneof" json:"name,omitempty"`                                   // 租户名称
-	Code           *string                `protobuf:"bytes,3,opt,name=code,proto3,oneof" json:"code,omitempty"`                                   // 租户编码
-	MemberCount    *int32                 `protobuf:"varint,4,opt,name=member_count,json=memberCount,proto3,oneof" json:"member_count,omitempty"` // 成员数量
-	Status         *string                `protobuf:"bytes,5,opt,name=status,proto3,oneof" json:"status,omitempty"`
-	Remark         *string                `protobuf:"bytes,6,opt,name=remark,proto3,oneof" json:"remark,omitempty"` // 备注
-	SubscriptionAt *timestamppb.Timestamp `protobuf:"bytes,10,opt,name=subscription_at,json=subscriptionAt,proto3,oneof" json:"subscription_at,omitempty"`
-	UnsubscribeAt  *timestamppb.Timestamp `protobuf:"bytes,11,opt,name=unsubscribe_at,json=unsubscribeAt,proto3,oneof" json:"unsubscribe_at,omitempty"`
-	CreateBy       *uint32                `protobuf:"varint,100,opt,name=create_by,json=createBy,proto3,oneof" json:"create_by,omitempty"`      // 创建者ID
-	UpdateBy       *uint32                `protobuf:"varint,101,opt,name=update_by,json=updateBy,proto3,oneof" json:"update_by,omitempty"`      // 更新者ID
-	CreateTime     *timestamppb.Timestamp `protobuf:"bytes,200,opt,name=create_time,json=createTime,proto3,oneof" json:"create_time,omitempty"` // 创建时间
-	UpdateTime     *timestamppb.Timestamp `protobuf:"bytes,201,opt,name=update_time,json=updateTime,proto3,oneof" json:"update_time,omitempty"` // 更新时间
-	DeleteTime     *timestamppb.Timestamp `protobuf:"bytes,202,opt,name=delete_time,json=deleteTime,proto3,oneof" json:"delete_time,omitempty"` // 删除时间
-	unknownFields  protoimpl.UnknownFields
-	sizeCache      protoimpl.SizeCache
+	state            protoimpl.MessageState `protogen:"open.v1"`
+	Id               *uint32                `protobuf:"varint,1,opt,name=id,proto3,oneof" json:"id,omitempty"`                                                                             // 租户ID
+	Name             *string                `protobuf:"bytes,2,opt,name=name,proto3,oneof" json:"name,omitempty"`                                                                          // 租户名称
+	Code             *string                `protobuf:"bytes,3,opt,name=code,proto3,oneof" json:"code,omitempty"`                                                                          // 租户编码
+	LogoUrl          *string                `protobuf:"bytes,4,opt,name=logo_url,json=logoUrl,proto3,oneof" json:"logo_url,omitempty"`                                                     // 租户logo地址
+	Industry         *string                `protobuf:"bytes,5,opt,name=industry,proto3,oneof" json:"industry,omitempty"`                                                                  // 所属行业
+	Status           *TenantStatus          `protobuf:"varint,6,opt,name=status,proto3,enum=user.service.v1.TenantStatus,oneof" json:"status,omitempty"`                                   // 租户状态
+	Type             *TenantType            `protobuf:"varint,7,opt,name=type,proto3,enum=user.service.v1.TenantType,oneof" json:"type,omitempty"`                                         // 租户类型
+	AuditStatus      *TenantAuditStatus     `protobuf:"varint,8,opt,name=audit_status,json=auditStatus,proto3,enum=user.service.v1.TenantAuditStatus,oneof" json:"audit_status,omitempty"` // 审核状态
+	Remark           *string                `protobuf:"bytes,9,opt,name=remark,proto3,oneof" json:"remark,omitempty"`                                                                      // 备注
+	AdminUserId      *uint32                `protobuf:"varint,10,opt,name=admin_user_id,json=adminUserId,proto3,oneof" json:"admin_user_id,omitempty"`                                     // 管理员用户ID
+	AdminUserName    *string                `protobuf:"bytes,11,opt,name=admin_user_name,json=adminUserName,proto3,oneof" json:"admin_user_name,omitempty"`                                // 管理员用户名
+	SubscriptionAt   *timestamppb.Timestamp `protobuf:"bytes,20,opt,name=subscription_at,json=subscriptionAt,proto3,oneof" json:"subscription_at,omitempty"`                               // 订阅时间（首次订阅/续费时间，NULL表示未订阅）
+	UnsubscribeAt    *timestamppb.Timestamp `protobuf:"bytes,21,opt,name=unsubscribe_at,json=unsubscribeAt,proto3,oneof" json:"unsubscribe_at,omitempty"`                                  // 取消订阅时间（NULL表示未取消）
+	ExpiredAt        *timestamppb.Timestamp `protobuf:"bytes,22,opt,name=expired_at,json=expiredAt,proto3,oneof" json:"expired_at,omitempty"`                                              // 租户有效期（NULL表示永久，过期后状态自动改为“过期”）
+	SubscriptionPlan *string                `protobuf:"bytes,23,opt,name=subscription_plan,json=subscriptionPlan,proto3,oneof" json:"subscription_plan,omitempty"`                         // 订阅套餐（如“企业版1年”“基础版3个月”）
+	MemberCount      *int32                 `protobuf:"varint,30,opt,name=member_count,json=memberCount,proto3,oneof" json:"member_count,omitempty"`                                       // 成员数量
+	LastLoginTime    *timestamppb.Timestamp `protobuf:"bytes,31,opt,name=last_login_time,json=lastLoginTime,proto3,oneof" json:"last_login_time,omitempty"`                                // 最后登录时间
+	LastLoginIp      *string                `protobuf:"bytes,32,opt,name=last_login_ip,json=lastLoginIp,proto3,oneof" json:"last_login_ip,omitempty"`                                      // 最后登录IP
+	ParentId         *uint32                `protobuf:"varint,50,opt,name=parent_id,json=parentId,proto3,oneof" json:"parent_id,omitempty"`                                                // 父节点ID
+	Children         []*Tenant              `protobuf:"bytes,51,rep,name=children,proto3" json:"children,omitempty"`                                                                       // 子节点树
+	CreateBy         *uint32                `protobuf:"varint,100,opt,name=create_by,json=createBy,proto3,oneof" json:"create_by,omitempty"`                                               // 创建者ID
+	UpdateBy         *uint32                `protobuf:"varint,101,opt,name=update_by,json=updateBy,proto3,oneof" json:"update_by,omitempty"`                                               // 更新者ID
+	CreateTime       *timestamppb.Timestamp `protobuf:"bytes,200,opt,name=create_time,json=createTime,proto3,oneof" json:"create_time,omitempty"`                                          // 创建时间
+	UpdateTime       *timestamppb.Timestamp `protobuf:"bytes,201,opt,name=update_time,json=updateTime,proto3,oneof" json:"update_time,omitempty"`                                          // 更新时间
+	DeleteTime       *timestamppb.Timestamp `protobuf:"bytes,202,opt,name=delete_time,json=deleteTime,proto3,oneof" json:"delete_time,omitempty"`                                          // 删除时间
+	unknownFields    protoimpl.UnknownFields
+	sizeCache        protoimpl.SizeCache
 }
 
 func (x *Tenant) Reset() {
@@ -97,23 +277,58 @@ func (x *Tenant) GetCode() string {
 	return ""
 }
 
-func (x *Tenant) GetMemberCount() int32 {
-	if x != nil && x.MemberCount != nil {
-		return *x.MemberCount
+func (x *Tenant) GetLogoUrl() string {
+	if x != nil && x.LogoUrl != nil {
+		return *x.LogoUrl
 	}
-	return 0
+	return ""
 }
 
-func (x *Tenant) GetStatus() string {
+func (x *Tenant) GetIndustry() string {
+	if x != nil && x.Industry != nil {
+		return *x.Industry
+	}
+	return ""
+}
+
+func (x *Tenant) GetStatus() TenantStatus {
 	if x != nil && x.Status != nil {
 		return *x.Status
 	}
-	return ""
+	return TenantStatus_TENANT_STATUS_UNSPECIFIED
+}
+
+func (x *Tenant) GetType() TenantType {
+	if x != nil && x.Type != nil {
+		return *x.Type
+	}
+	return TenantType_TENANT_TYPE_UNSPECIFIED
+}
+
+func (x *Tenant) GetAuditStatus() TenantAuditStatus {
+	if x != nil && x.AuditStatus != nil {
+		return *x.AuditStatus
+	}
+	return TenantAuditStatus_TENANT_AUDIT_STATUS_UNSPECIFIED
 }
 
 func (x *Tenant) GetRemark() string {
 	if x != nil && x.Remark != nil {
 		return *x.Remark
+	}
+	return ""
+}
+
+func (x *Tenant) GetAdminUserId() uint32 {
+	if x != nil && x.AdminUserId != nil {
+		return *x.AdminUserId
+	}
+	return 0
+}
+
+func (x *Tenant) GetAdminUserName() string {
+	if x != nil && x.AdminUserName != nil {
+		return *x.AdminUserName
 	}
 	return ""
 }
@@ -128,6 +343,55 @@ func (x *Tenant) GetSubscriptionAt() *timestamppb.Timestamp {
 func (x *Tenant) GetUnsubscribeAt() *timestamppb.Timestamp {
 	if x != nil {
 		return x.UnsubscribeAt
+	}
+	return nil
+}
+
+func (x *Tenant) GetExpiredAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.ExpiredAt
+	}
+	return nil
+}
+
+func (x *Tenant) GetSubscriptionPlan() string {
+	if x != nil && x.SubscriptionPlan != nil {
+		return *x.SubscriptionPlan
+	}
+	return ""
+}
+
+func (x *Tenant) GetMemberCount() int32 {
+	if x != nil && x.MemberCount != nil {
+		return *x.MemberCount
+	}
+	return 0
+}
+
+func (x *Tenant) GetLastLoginTime() *timestamppb.Timestamp {
+	if x != nil {
+		return x.LastLoginTime
+	}
+	return nil
+}
+
+func (x *Tenant) GetLastLoginIp() string {
+	if x != nil && x.LastLoginIp != nil {
+		return *x.LastLoginIp
+	}
+	return ""
+}
+
+func (x *Tenant) GetParentId() uint32 {
+	if x != nil && x.ParentId != nil {
+		return *x.ParentId
+	}
+	return 0
+}
+
+func (x *Tenant) GetChildren() []*Tenant {
+	if x != nil {
+		return x.Children
 	}
 	return nil
 }
@@ -508,34 +772,59 @@ var File_user_service_v1_tenant_proto protoreflect.FileDescriptor
 
 const file_user_service_v1_tenant_proto_rawDesc = "" +
 	"\n" +
-	"\x1cuser/service/v1/tenant.proto\x12\x0fuser.service.v1\x1a$gnostic/openapi/v3/annotations.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a google/protobuf/field_mask.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x1epagination/v1/pagination.proto\"\x8b\b\n" +
+	"\x1cuser/service/v1/tenant.proto\x12\x0fuser.service.v1\x1a$gnostic/openapi/v3/annotations.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a google/protobuf/field_mask.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x1epagination/v1/pagination.proto\"\x89\x12\n" +
 	"\x06Tenant\x12#\n" +
 	"\x02id\x18\x01 \x01(\rB\x0e\xbaG\v\x92\x02\b租户IDH\x00R\x02id\x88\x01\x01\x12+\n" +
 	"\x04name\x18\x02 \x01(\tB\x12\xbaG\x0f\x92\x02\f租户名称H\x01R\x04name\x88\x01\x01\x12+\n" +
-	"\x04code\x18\x03 \x01(\tB\x12\xbaG\x0f\x92\x02\f租户编码H\x02R\x04code\x88\x01\x01\x12:\n" +
-	"\fmember_count\x18\x04 \x01(\x05B\x12\xbaG\x0f\x92\x02\f成员数量H\x03R\vmemberCount\x88\x01\x01\x12?\n" +
-	"\x06status\x18\x05 \x01(\tB\"\xbaG\x1f\xc2\x01\x04\x12\x02ON\xc2\x01\x05\x12\x03OFF\x8a\x02\x04\x1a\x02ON\x92\x02\x06状态H\x04R\x06status\x88\x01\x01\x12)\n" +
-	"\x06remark\x18\x06 \x01(\tB\f\xbaG\t\x92\x02\x06备注H\x05R\x06remark\x88\x01\x01\x12\\\n" +
-	"\x0fsubscription_at\x18\n" +
-	" \x01(\v2\x1a.google.protobuf.TimestampB\x12\xbaG\x0f\x92\x02\f订阅时间H\x06R\x0esubscriptionAt\x88\x01\x01\x12Z\n" +
-	"\x0eunsubscribe_at\x18\v \x01(\v2\x1a.google.protobuf.TimestampB\x12\xbaG\x0f\x92\x02\f退订时间H\aR\runsubscribeAt\x88\x01\x01\x123\n" +
-	"\tcreate_by\x18d \x01(\rB\x11\xbaG\x0e\x92\x02\v创建者IDH\bR\bcreateBy\x88\x01\x01\x123\n" +
-	"\tupdate_by\x18e \x01(\rB\x11\xbaG\x0e\x92\x02\v更新者IDH\tR\bupdateBy\x88\x01\x01\x12U\n" +
-	"\vcreate_time\x18\xc8\x01 \x01(\v2\x1a.google.protobuf.TimestampB\x12\xbaG\x0f\x92\x02\f创建时间H\n" +
-	"R\n" +
+	"\x04code\x18\x03 \x01(\tB\x12\xbaG\x0f\x92\x02\f租户编码H\x02R\x04code\x88\x01\x01\x126\n" +
+	"\blogo_url\x18\x04 \x01(\tB\x16\xbaG\x13\x92\x02\x10租户logo地址H\x03R\alogoUrl\x88\x01\x01\x12c\n" +
+	"\bindustry\x18\x05 \x01(\tBB\xbaG?\x92\x02<所属行业（如“互联网”“金融”“制造”）H\x04R\bindustry\x88\x01\x01\x12N\n" +
+	"\x06status\x18\x06 \x01(\x0e2\x1d.user.service.v1.TenantStatusB\x12\xbaG\x0f\x92\x02\f租户状态H\x05R\x06status\x88\x01\x01\x12H\n" +
+	"\x04type\x18\a \x01(\x0e2\x1b.user.service.v1.TenantTypeB\x12\xbaG\x0f\x92\x02\f租户类型H\x06R\x04type\x88\x01\x01\x12^\n" +
+	"\faudit_status\x18\b \x01(\x0e2\".user.service.v1.TenantAuditStatusB\x12\xbaG\x0f\x92\x02\f审核状态H\aR\vauditStatus\x88\x01\x01\x12)\n" +
+	"\x06remark\x18\t \x01(\tB\f\xbaG\t\x92\x02\x06备注H\bR\x06remark\x88\x01\x01\x12@\n" +
+	"\radmin_user_id\x18\n" +
+	" \x01(\rB\x17\xbaG\x14\x92\x02\x11管理员用户IDH\tR\vadminUserId\x88\x01\x01\x12E\n" +
+	"\x0fadmin_user_name\x18\v \x01(\tB\x18\xbaG\x15\x92\x02\x12管理员用户名H\n" +
+	"R\radminUserName\x88\x01\x01\x12\x91\x01\n" +
+	"\x0fsubscription_at\x18\x14 \x01(\v2\x1a.google.protobuf.TimestampBG\xbaGD\x92\x02A订阅时间（首次订阅/续费时间，NULL表示未订阅）H\vR\x0esubscriptionAt\x88\x01\x01\x12`\n" +
+	"\x0eunsubscribe_at\x18\x15 \x01(\v2\x1a.google.protobuf.TimestampB\x18\xbaG\x15\x92\x02\x12取消订阅时间H\fR\runsubscribeAt\x88\x01\x01\x12\x95\x01\n" +
+	"\n" +
+	"expired_at\x18\x16 \x01(\v2\x1a.google.protobuf.TimestampBU\xbaGR\x92\x02O租户有效期（NULL表示永久，过期后状态自动改为“过期”）H\rR\texpiredAt\x88\x01\x01\x12v\n" +
+	"\x11subscription_plan\x18\x17 \x01(\tBD\xbaGA\x92\x02>订阅套餐（如“企业版1年”“基础版3个月”）H\x0eR\x10subscriptionPlan\x88\x01\x01\x12:\n" +
+	"\fmember_count\x18\x1e \x01(\x05B\x12\xbaG\x0f\x92\x02\f成员数量H\x0fR\vmemberCount\x88\x01\x01\x12a\n" +
+	"\x0flast_login_time\x18\x1f \x01(\v2\x1a.google.protobuf.TimestampB\x18\xbaG\x15\x92\x02\x12最后登录时间H\x10R\rlastLoginTime\x88\x01\x01\x12=\n" +
+	"\rlast_login_ip\x18  \x01(\tB\x14\xbaG\x11\x92\x02\x0e最后登录IPH\x11R\vlastLoginIp\x88\x01\x01\x123\n" +
+	"\tparent_id\x182 \x01(\rB\x11\xbaG\x0e\x92\x02\v父节点IDH\x12R\bparentId\x88\x01\x01\x12G\n" +
+	"\bchildren\x183 \x03(\v2\x17.user.service.v1.TenantB\x12\xbaG\x0f\x92\x02\f子节点树R\bchildren\x123\n" +
+	"\tcreate_by\x18d \x01(\rB\x11\xbaG\x0e\x92\x02\v创建者IDH\x13R\bcreateBy\x88\x01\x01\x123\n" +
+	"\tupdate_by\x18e \x01(\rB\x11\xbaG\x0e\x92\x02\v更新者IDH\x14R\bupdateBy\x88\x01\x01\x12U\n" +
+	"\vcreate_time\x18\xc8\x01 \x01(\v2\x1a.google.protobuf.TimestampB\x12\xbaG\x0f\x92\x02\f创建时间H\x15R\n" +
 	"createTime\x88\x01\x01\x12U\n" +
-	"\vupdate_time\x18\xc9\x01 \x01(\v2\x1a.google.protobuf.TimestampB\x12\xbaG\x0f\x92\x02\f更新时间H\vR\n" +
+	"\vupdate_time\x18\xc9\x01 \x01(\v2\x1a.google.protobuf.TimestampB\x12\xbaG\x0f\x92\x02\f更新时间H\x16R\n" +
 	"updateTime\x88\x01\x01\x12U\n" +
-	"\vdelete_time\x18\xca\x01 \x01(\v2\x1a.google.protobuf.TimestampB\x12\xbaG\x0f\x92\x02\f删除时间H\fR\n" +
+	"\vdelete_time\x18\xca\x01 \x01(\v2\x1a.google.protobuf.TimestampB\x12\xbaG\x0f\x92\x02\f删除时间H\x17R\n" +
 	"deleteTime\x88\x01\x01B\x05\n" +
 	"\x03_idB\a\n" +
 	"\x05_nameB\a\n" +
-	"\x05_codeB\x0f\n" +
-	"\r_member_countB\t\n" +
-	"\a_statusB\t\n" +
-	"\a_remarkB\x12\n" +
+	"\x05_codeB\v\n" +
+	"\t_logo_urlB\v\n" +
+	"\t_industryB\t\n" +
+	"\a_statusB\a\n" +
+	"\x05_typeB\x0f\n" +
+	"\r_audit_statusB\t\n" +
+	"\a_remarkB\x10\n" +
+	"\x0e_admin_user_idB\x12\n" +
+	"\x10_admin_user_nameB\x12\n" +
 	"\x10_subscription_atB\x11\n" +
-	"\x0f_unsubscribe_atB\f\n" +
+	"\x0f_unsubscribe_atB\r\n" +
+	"\v_expired_atB\x14\n" +
+	"\x12_subscription_planB\x0f\n" +
+	"\r_member_countB\x12\n" +
+	"\x10_last_login_timeB\x10\n" +
+	"\x0e_last_login_ipB\f\n" +
+	"\n" +
+	"_parent_idB\f\n" +
 	"\n" +
 	"_create_byB\f\n" +
 	"\n" +
@@ -561,7 +850,26 @@ const file_user_service_v1_tenant_proto_rawDesc = "" +
 	"\x19BatchCreateTenantsRequest\x12+\n" +
 	"\x04data\x18\x01 \x03(\v2\x17.user.service.v1.TenantR\x04data\"I\n" +
 	"\x1aBatchCreateTenantsResponse\x12+\n" +
-	"\x04data\x18\x01 \x03(\v2\x17.user.service.v1.TenantR\x04data2\xe6\x03\n" +
+	"\x04data\x18\x01 \x03(\v2\x17.user.service.v1.TenantR\x04data*\x8f\x01\n" +
+	"\fTenantStatus\x12\x1d\n" +
+	"\x19TENANT_STATUS_UNSPECIFIED\x10\x00\x12\x14\n" +
+	"\x10TENANT_STATUS_ON\x10\x01\x12\x15\n" +
+	"\x11TENANT_STATUS_OFF\x10\x02\x12\x19\n" +
+	"\x15TENANT_STATUS_EXPIRED\x10\x03\x12\x18\n" +
+	"\x14TENANT_STATUS_FREEZE\x10\x04*\xa1\x01\n" +
+	"\n" +
+	"TenantType\x12\x1b\n" +
+	"\x17TENANT_TYPE_UNSPECIFIED\x10\x00\x12\x15\n" +
+	"\x11TENANT_TYPE_TRIAL\x10\x01\x12\x14\n" +
+	"\x10TENANT_TYPE_PAID\x10\x02\x12\x18\n" +
+	"\x14TENANT_TYPE_INTERNAL\x10\x03\x12\x17\n" +
+	"\x13TENANT_TYPE_PARTNER\x10\x04\x12\x16\n" +
+	"\x12TENANT_TYPE_CUSTOM\x10\x05*\x9d\x01\n" +
+	"\x11TenantAuditStatus\x12#\n" +
+	"\x1fTENANT_AUDIT_STATUS_UNSPECIFIED\x10\x00\x12\x1f\n" +
+	"\x1bTENANT_AUDIT_STATUS_PENDING\x10\x01\x12 \n" +
+	"\x1cTENANT_AUDIT_STATUS_APPROVED\x10\x02\x12 \n" +
+	"\x1cTENANT_AUDIT_STATUS_REJECTED\x10\x032\xe6\x03\n" +
 	"\rTenantService\x12H\n" +
 	"\x04List\x12\x19.pagination.PagingRequest\x1a#.user.service.v1.ListTenantResponse\"\x00\x12C\n" +
 	"\x03Get\x12!.user.service.v1.GetTenantRequest\x1a\x17.user.service.v1.Tenant\"\x00\x12H\n" +
@@ -583,50 +891,60 @@ func file_user_service_v1_tenant_proto_rawDescGZIP() []byte {
 	return file_user_service_v1_tenant_proto_rawDescData
 }
 
+var file_user_service_v1_tenant_proto_enumTypes = make([]protoimpl.EnumInfo, 3)
 var file_user_service_v1_tenant_proto_msgTypes = make([]protoimpl.MessageInfo, 8)
 var file_user_service_v1_tenant_proto_goTypes = []any{
-	(*Tenant)(nil),                     // 0: user.service.v1.Tenant
-	(*ListTenantResponse)(nil),         // 1: user.service.v1.ListTenantResponse
-	(*GetTenantRequest)(nil),           // 2: user.service.v1.GetTenantRequest
-	(*CreateTenantRequest)(nil),        // 3: user.service.v1.CreateTenantRequest
-	(*UpdateTenantRequest)(nil),        // 4: user.service.v1.UpdateTenantRequest
-	(*DeleteTenantRequest)(nil),        // 5: user.service.v1.DeleteTenantRequest
-	(*BatchCreateTenantsRequest)(nil),  // 6: user.service.v1.BatchCreateTenantsRequest
-	(*BatchCreateTenantsResponse)(nil), // 7: user.service.v1.BatchCreateTenantsResponse
-	(*timestamppb.Timestamp)(nil),      // 8: google.protobuf.Timestamp
-	(*fieldmaskpb.FieldMask)(nil),      // 9: google.protobuf.FieldMask
-	(*v1.PagingRequest)(nil),           // 10: pagination.PagingRequest
-	(*emptypb.Empty)(nil),              // 11: google.protobuf.Empty
+	(TenantStatus)(0),                  // 0: user.service.v1.TenantStatus
+	(TenantType)(0),                    // 1: user.service.v1.TenantType
+	(TenantAuditStatus)(0),             // 2: user.service.v1.TenantAuditStatus
+	(*Tenant)(nil),                     // 3: user.service.v1.Tenant
+	(*ListTenantResponse)(nil),         // 4: user.service.v1.ListTenantResponse
+	(*GetTenantRequest)(nil),           // 5: user.service.v1.GetTenantRequest
+	(*CreateTenantRequest)(nil),        // 6: user.service.v1.CreateTenantRequest
+	(*UpdateTenantRequest)(nil),        // 7: user.service.v1.UpdateTenantRequest
+	(*DeleteTenantRequest)(nil),        // 8: user.service.v1.DeleteTenantRequest
+	(*BatchCreateTenantsRequest)(nil),  // 9: user.service.v1.BatchCreateTenantsRequest
+	(*BatchCreateTenantsResponse)(nil), // 10: user.service.v1.BatchCreateTenantsResponse
+	(*timestamppb.Timestamp)(nil),      // 11: google.protobuf.Timestamp
+	(*fieldmaskpb.FieldMask)(nil),      // 12: google.protobuf.FieldMask
+	(*v1.PagingRequest)(nil),           // 13: pagination.PagingRequest
+	(*emptypb.Empty)(nil),              // 14: google.protobuf.Empty
 }
 var file_user_service_v1_tenant_proto_depIdxs = []int32{
-	8,  // 0: user.service.v1.Tenant.subscription_at:type_name -> google.protobuf.Timestamp
-	8,  // 1: user.service.v1.Tenant.unsubscribe_at:type_name -> google.protobuf.Timestamp
-	8,  // 2: user.service.v1.Tenant.create_time:type_name -> google.protobuf.Timestamp
-	8,  // 3: user.service.v1.Tenant.update_time:type_name -> google.protobuf.Timestamp
-	8,  // 4: user.service.v1.Tenant.delete_time:type_name -> google.protobuf.Timestamp
-	0,  // 5: user.service.v1.ListTenantResponse.items:type_name -> user.service.v1.Tenant
-	0,  // 6: user.service.v1.CreateTenantRequest.data:type_name -> user.service.v1.Tenant
-	0,  // 7: user.service.v1.UpdateTenantRequest.data:type_name -> user.service.v1.Tenant
-	9,  // 8: user.service.v1.UpdateTenantRequest.update_mask:type_name -> google.protobuf.FieldMask
-	0,  // 9: user.service.v1.BatchCreateTenantsRequest.data:type_name -> user.service.v1.Tenant
-	0,  // 10: user.service.v1.BatchCreateTenantsResponse.data:type_name -> user.service.v1.Tenant
-	10, // 11: user.service.v1.TenantService.List:input_type -> pagination.PagingRequest
-	2,  // 12: user.service.v1.TenantService.Get:input_type -> user.service.v1.GetTenantRequest
-	3,  // 13: user.service.v1.TenantService.Create:input_type -> user.service.v1.CreateTenantRequest
-	4,  // 14: user.service.v1.TenantService.Update:input_type -> user.service.v1.UpdateTenantRequest
-	5,  // 15: user.service.v1.TenantService.Delete:input_type -> user.service.v1.DeleteTenantRequest
-	6,  // 16: user.service.v1.TenantService.BatchCreate:input_type -> user.service.v1.BatchCreateTenantsRequest
-	1,  // 17: user.service.v1.TenantService.List:output_type -> user.service.v1.ListTenantResponse
-	0,  // 18: user.service.v1.TenantService.Get:output_type -> user.service.v1.Tenant
-	11, // 19: user.service.v1.TenantService.Create:output_type -> google.protobuf.Empty
-	11, // 20: user.service.v1.TenantService.Update:output_type -> google.protobuf.Empty
-	11, // 21: user.service.v1.TenantService.Delete:output_type -> google.protobuf.Empty
-	7,  // 22: user.service.v1.TenantService.BatchCreate:output_type -> user.service.v1.BatchCreateTenantsResponse
-	17, // [17:23] is the sub-list for method output_type
-	11, // [11:17] is the sub-list for method input_type
-	11, // [11:11] is the sub-list for extension type_name
-	11, // [11:11] is the sub-list for extension extendee
-	0,  // [0:11] is the sub-list for field type_name
+	0,  // 0: user.service.v1.Tenant.status:type_name -> user.service.v1.TenantStatus
+	1,  // 1: user.service.v1.Tenant.type:type_name -> user.service.v1.TenantType
+	2,  // 2: user.service.v1.Tenant.audit_status:type_name -> user.service.v1.TenantAuditStatus
+	11, // 3: user.service.v1.Tenant.subscription_at:type_name -> google.protobuf.Timestamp
+	11, // 4: user.service.v1.Tenant.unsubscribe_at:type_name -> google.protobuf.Timestamp
+	11, // 5: user.service.v1.Tenant.expired_at:type_name -> google.protobuf.Timestamp
+	11, // 6: user.service.v1.Tenant.last_login_time:type_name -> google.protobuf.Timestamp
+	3,  // 7: user.service.v1.Tenant.children:type_name -> user.service.v1.Tenant
+	11, // 8: user.service.v1.Tenant.create_time:type_name -> google.protobuf.Timestamp
+	11, // 9: user.service.v1.Tenant.update_time:type_name -> google.protobuf.Timestamp
+	11, // 10: user.service.v1.Tenant.delete_time:type_name -> google.protobuf.Timestamp
+	3,  // 11: user.service.v1.ListTenantResponse.items:type_name -> user.service.v1.Tenant
+	3,  // 12: user.service.v1.CreateTenantRequest.data:type_name -> user.service.v1.Tenant
+	3,  // 13: user.service.v1.UpdateTenantRequest.data:type_name -> user.service.v1.Tenant
+	12, // 14: user.service.v1.UpdateTenantRequest.update_mask:type_name -> google.protobuf.FieldMask
+	3,  // 15: user.service.v1.BatchCreateTenantsRequest.data:type_name -> user.service.v1.Tenant
+	3,  // 16: user.service.v1.BatchCreateTenantsResponse.data:type_name -> user.service.v1.Tenant
+	13, // 17: user.service.v1.TenantService.List:input_type -> pagination.PagingRequest
+	5,  // 18: user.service.v1.TenantService.Get:input_type -> user.service.v1.GetTenantRequest
+	6,  // 19: user.service.v1.TenantService.Create:input_type -> user.service.v1.CreateTenantRequest
+	7,  // 20: user.service.v1.TenantService.Update:input_type -> user.service.v1.UpdateTenantRequest
+	8,  // 21: user.service.v1.TenantService.Delete:input_type -> user.service.v1.DeleteTenantRequest
+	9,  // 22: user.service.v1.TenantService.BatchCreate:input_type -> user.service.v1.BatchCreateTenantsRequest
+	4,  // 23: user.service.v1.TenantService.List:output_type -> user.service.v1.ListTenantResponse
+	3,  // 24: user.service.v1.TenantService.Get:output_type -> user.service.v1.Tenant
+	14, // 25: user.service.v1.TenantService.Create:output_type -> google.protobuf.Empty
+	14, // 26: user.service.v1.TenantService.Update:output_type -> google.protobuf.Empty
+	14, // 27: user.service.v1.TenantService.Delete:output_type -> google.protobuf.Empty
+	10, // 28: user.service.v1.TenantService.BatchCreate:output_type -> user.service.v1.BatchCreateTenantsResponse
+	23, // [23:29] is the sub-list for method output_type
+	17, // [17:23] is the sub-list for method input_type
+	17, // [17:17] is the sub-list for extension type_name
+	17, // [17:17] is the sub-list for extension extendee
+	0,  // [0:17] is the sub-list for field type_name
 }
 
 func init() { file_user_service_v1_tenant_proto_init() }
@@ -641,13 +959,14 @@ func file_user_service_v1_tenant_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_user_service_v1_tenant_proto_rawDesc), len(file_user_service_v1_tenant_proto_rawDesc)),
-			NumEnums:      0,
+			NumEnums:      3,
 			NumMessages:   8,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
 		GoTypes:           file_user_service_v1_tenant_proto_goTypes,
 		DependencyIndexes: file_user_service_v1_tenant_proto_depIdxs,
+		EnumInfos:         file_user_service_v1_tenant_proto_enumTypes,
 		MessageInfos:      file_user_service_v1_tenant_proto_msgTypes,
 	}.Build()
 	File_user_service_v1_tenant_proto = out.File

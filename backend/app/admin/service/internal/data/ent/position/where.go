@@ -560,6 +560,16 @@ func NameHasSuffix(v string) predicate.Position {
 	return predicate.Position(sql.FieldHasSuffix(FieldName, v))
 }
 
+// NameIsNil applies the IsNil predicate on the "name" field.
+func NameIsNil() predicate.Position {
+	return predicate.Position(sql.FieldIsNull(FieldName))
+}
+
+// NameNotNil applies the NotNil predicate on the "name" field.
+func NameNotNil() predicate.Position {
+	return predicate.Position(sql.FieldNotNull(FieldName))
+}
+
 // NameEqualFold applies the EqualFold predicate on the "name" field.
 func NameEqualFold(v string) predicate.Position {
 	return predicate.Position(sql.FieldEqualFold(FieldName, v))

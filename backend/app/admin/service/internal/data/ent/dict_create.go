@@ -299,6 +299,11 @@ func (_c *DictCreate) check() error {
 			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "Dict.tenant_id": %w`, err)}
 		}
 	}
+	if v, ok := _c.mutation.Key(); ok {
+		if err := dict.KeyValidator(v); err != nil {
+			return &ValidationError{Name: "key", err: fmt.Errorf(`ent: validator failed for field "Dict.key": %w`, err)}
+		}
+	}
 	if v, ok := _c.mutation.ID(); ok {
 		if err := dict.IDValidator(v); err != nil {
 			return &ValidationError{Name: "id", err: fmt.Errorf(`ent: validator failed for field "Dict.id": %w`, err)}

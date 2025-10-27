@@ -157,6 +157,12 @@ func (_u *PositionUpdate) SetNillableName(v *string) *PositionUpdate {
 	return _u
 }
 
+// ClearName clears the value of the "name" field.
+func (_u *PositionUpdate) ClearName() *PositionUpdate {
+	_u.mutation.ClearName()
+	return _u
+}
+
 // SetCode sets the "code" field.
 func (_u *PositionUpdate) SetCode(v string) *PositionUpdate {
 	_u.mutation.SetCode(v)
@@ -419,6 +425,11 @@ func (_u *PositionUpdate) check() error {
 			return &ValidationError{Name: "name", err: fmt.Errorf(`ent: validator failed for field "Position.name": %w`, err)}
 		}
 	}
+	if v, ok := _u.mutation.Code(); ok {
+		if err := position.CodeValidator(v); err != nil {
+			return &ValidationError{Name: "code", err: fmt.Errorf(`ent: validator failed for field "Position.code": %w`, err)}
+		}
+	}
 	if v, ok := _u.mutation.Status(); ok {
 		if err := position.StatusValidator(v); err != nil {
 			return &ValidationError{Name: "status", err: fmt.Errorf(`ent: validator failed for field "Position.status": %w`, err)}
@@ -489,6 +500,9 @@ func (_u *PositionUpdate) sqlSave(ctx context.Context) (_node int, err error) {
 	}
 	if value, ok := _u.mutation.Name(); ok {
 		_spec.SetField(position.FieldName, field.TypeString, value)
+	}
+	if _u.mutation.NameCleared() {
+		_spec.ClearField(position.FieldName, field.TypeString)
 	}
 	if value, ok := _u.mutation.Code(); ok {
 		_spec.SetField(position.FieldCode, field.TypeString, value)
@@ -759,6 +773,12 @@ func (_u *PositionUpdateOne) SetNillableName(v *string) *PositionUpdateOne {
 	if v != nil {
 		_u.SetName(*v)
 	}
+	return _u
+}
+
+// ClearName clears the value of the "name" field.
+func (_u *PositionUpdateOne) ClearName() *PositionUpdateOne {
+	_u.mutation.ClearName()
 	return _u
 }
 
@@ -1037,6 +1057,11 @@ func (_u *PositionUpdateOne) check() error {
 			return &ValidationError{Name: "name", err: fmt.Errorf(`ent: validator failed for field "Position.name": %w`, err)}
 		}
 	}
+	if v, ok := _u.mutation.Code(); ok {
+		if err := position.CodeValidator(v); err != nil {
+			return &ValidationError{Name: "code", err: fmt.Errorf(`ent: validator failed for field "Position.code": %w`, err)}
+		}
+	}
 	if v, ok := _u.mutation.Status(); ok {
 		if err := position.StatusValidator(v); err != nil {
 			return &ValidationError{Name: "status", err: fmt.Errorf(`ent: validator failed for field "Position.status": %w`, err)}
@@ -1124,6 +1149,9 @@ func (_u *PositionUpdateOne) sqlSave(ctx context.Context) (_node *Position, err 
 	}
 	if value, ok := _u.mutation.Name(); ok {
 		_spec.SetField(position.FieldName, field.TypeString, value)
+	}
+	if _u.mutation.NameCleared() {
+		_spec.ClearField(position.FieldName, field.TypeString)
 	}
 	if value, ok := _u.mutation.Code(); ok {
 		_spec.SetField(position.FieldCode, field.TypeString, value)

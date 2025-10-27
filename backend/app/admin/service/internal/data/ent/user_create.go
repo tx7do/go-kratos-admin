@@ -461,10 +461,6 @@ func (_c *UserCreate) defaults() {
 		v := user.DefaultAuthority
 		_c.mutation.SetAuthority(v)
 	}
-	if _, ok := _c.mutation.LastLoginIP(); !ok {
-		v := user.DefaultLastLoginIP
-		_c.mutation.SetLastLoginIP(v)
-	}
 }
 
 // check runs all checks and user-defined validators on the builder.
@@ -484,16 +480,6 @@ func (_c *UserCreate) check() error {
 			return &ValidationError{Name: "username", err: fmt.Errorf(`ent: validator failed for field "User.username": %w`, err)}
 		}
 	}
-	if v, ok := _c.mutation.Nickname(); ok {
-		if err := user.NicknameValidator(v); err != nil {
-			return &ValidationError{Name: "nickname", err: fmt.Errorf(`ent: validator failed for field "User.nickname": %w`, err)}
-		}
-	}
-	if v, ok := _c.mutation.Realname(); ok {
-		if err := user.RealnameValidator(v); err != nil {
-			return &ValidationError{Name: "realname", err: fmt.Errorf(`ent: validator failed for field "User.realname": %w`, err)}
-		}
-	}
 	if v, ok := _c.mutation.Email(); ok {
 		if err := user.EmailValidator(v); err != nil {
 			return &ValidationError{Name: "email", err: fmt.Errorf(`ent: validator failed for field "User.email": %w`, err)}
@@ -507,21 +493,6 @@ func (_c *UserCreate) check() error {
 	if v, ok := _c.mutation.Telephone(); ok {
 		if err := user.TelephoneValidator(v); err != nil {
 			return &ValidationError{Name: "telephone", err: fmt.Errorf(`ent: validator failed for field "User.telephone": %w`, err)}
-		}
-	}
-	if v, ok := _c.mutation.Avatar(); ok {
-		if err := user.AvatarValidator(v); err != nil {
-			return &ValidationError{Name: "avatar", err: fmt.Errorf(`ent: validator failed for field "User.avatar": %w`, err)}
-		}
-	}
-	if v, ok := _c.mutation.Address(); ok {
-		if err := user.AddressValidator(v); err != nil {
-			return &ValidationError{Name: "address", err: fmt.Errorf(`ent: validator failed for field "User.address": %w`, err)}
-		}
-	}
-	if v, ok := _c.mutation.Region(); ok {
-		if err := user.RegionValidator(v); err != nil {
-			return &ValidationError{Name: "region", err: fmt.Errorf(`ent: validator failed for field "User.region": %w`, err)}
 		}
 	}
 	if v, ok := _c.mutation.Description(); ok {
@@ -540,11 +511,6 @@ func (_c *UserCreate) check() error {
 	if v, ok := _c.mutation.Authority(); ok {
 		if err := user.AuthorityValidator(v); err != nil {
 			return &ValidationError{Name: "authority", err: fmt.Errorf(`ent: validator failed for field "User.authority": %w`, err)}
-		}
-	}
-	if v, ok := _c.mutation.LastLoginIP(); ok {
-		if err := user.LastLoginIPValidator(v); err != nil {
-			return &ValidationError{Name: "last_login_ip", err: fmt.Errorf(`ent: validator failed for field "User.last_login_ip": %w`, err)}
 		}
 	}
 	if v, ok := _c.mutation.ID(); ok {

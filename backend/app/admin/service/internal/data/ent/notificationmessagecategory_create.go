@@ -255,6 +255,10 @@ func (_c *NotificationMessageCategoryCreate) defaults() {
 		v := notificationmessagecategory.DefaultRemark
 		_c.mutation.SetRemark(v)
 	}
+	if _, ok := _c.mutation.SortID(); !ok {
+		v := notificationmessagecategory.DefaultSortID
+		_c.mutation.SetSortID(v)
+	}
 }
 
 // check runs all checks and user-defined validators on the builder.
@@ -262,6 +266,16 @@ func (_c *NotificationMessageCategoryCreate) check() error {
 	if v, ok := _c.mutation.TenantID(); ok {
 		if err := notificationmessagecategory.TenantIDValidator(v); err != nil {
 			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "NotificationMessageCategory.tenant_id": %w`, err)}
+		}
+	}
+	if v, ok := _c.mutation.Name(); ok {
+		if err := notificationmessagecategory.NameValidator(v); err != nil {
+			return &ValidationError{Name: "name", err: fmt.Errorf(`ent: validator failed for field "NotificationMessageCategory.name": %w`, err)}
+		}
+	}
+	if v, ok := _c.mutation.Code(); ok {
+		if err := notificationmessagecategory.CodeValidator(v); err != nil {
+			return &ValidationError{Name: "code", err: fmt.Errorf(`ent: validator failed for field "NotificationMessageCategory.code": %w`, err)}
 		}
 	}
 	if v, ok := _c.mutation.ID(); ok {

@@ -52,7 +52,7 @@ func (RoleDept) Mixin() []ent.Mixin {
 // Indexes of the RoleDept.
 func (RoleDept) Indexes() []ent.Index {
 	return []ent.Index{
-		index.Fields("role_id", "dept_id").Unique(),
-		index.Fields("role_id"),
+		index.Fields("role_id", "dept_id").Unique().StorageKey("idx_sys_role_dept_role_id_dept_id"),
+		index.Fields("role_id").StorageKey("idx_sys_role_dept_role_id"),
 	}
 }

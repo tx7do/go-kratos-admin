@@ -33,7 +33,7 @@ type Position struct {
 	// 租户ID
 	TenantID *uint32 `json:"tenant_id,omitempty"`
 	// 职位名称
-	Name string `json:"name,omitempty"`
+	Name *string `json:"name,omitempty"`
 	// 唯一编码
 	Code *string `json:"code,omitempty"`
 	// 上一层职位ID
@@ -172,7 +172,8 @@ func (_m *Position) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field name", values[i])
 			} else if value.Valid {
-				_m.Name = value.String
+				_m.Name = new(string)
+				*_m.Name = value.String
 			}
 		case position.FieldCode:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -311,8 +312,10 @@ func (_m *Position) String() string {
 		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteString(", ")
-	builder.WriteString("name=")
-	builder.WriteString(_m.Name)
+	if v := _m.Name; v != nil {
+		builder.WriteString("name=")
+		builder.WriteString(*v)
+	}
 	builder.WriteString(", ")
 	if v := _m.Code; v != nil {
 		builder.WriteString("code=")

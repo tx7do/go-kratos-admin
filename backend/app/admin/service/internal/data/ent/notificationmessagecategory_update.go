@@ -329,6 +329,21 @@ func (_u *NotificationMessageCategoryUpdate) ExecX(ctx context.Context) {
 	}
 }
 
+// check runs all checks and user-defined validators on the builder.
+func (_u *NotificationMessageCategoryUpdate) check() error {
+	if v, ok := _u.mutation.Name(); ok {
+		if err := notificationmessagecategory.NameValidator(v); err != nil {
+			return &ValidationError{Name: "name", err: fmt.Errorf(`ent: validator failed for field "NotificationMessageCategory.name": %w`, err)}
+		}
+	}
+	if v, ok := _u.mutation.Code(); ok {
+		if err := notificationmessagecategory.CodeValidator(v); err != nil {
+			return &ValidationError{Name: "code", err: fmt.Errorf(`ent: validator failed for field "NotificationMessageCategory.code": %w`, err)}
+		}
+	}
+	return nil
+}
+
 // Modify adds a statement modifier for attaching custom logic to the UPDATE statement.
 func (_u *NotificationMessageCategoryUpdate) Modify(modifiers ...func(u *sql.UpdateBuilder)) *NotificationMessageCategoryUpdate {
 	_u.modifiers = append(_u.modifiers, modifiers...)
@@ -336,6 +351,9 @@ func (_u *NotificationMessageCategoryUpdate) Modify(modifiers ...func(u *sql.Upd
 }
 
 func (_u *NotificationMessageCategoryUpdate) sqlSave(ctx context.Context) (_node int, err error) {
+	if err := _u.check(); err != nil {
+		return _node, err
+	}
 	_spec := sqlgraph.NewUpdateSpec(notificationmessagecategory.Table, notificationmessagecategory.Columns, sqlgraph.NewFieldSpec(notificationmessagecategory.FieldID, field.TypeUint32))
 	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
@@ -822,6 +840,21 @@ func (_u *NotificationMessageCategoryUpdateOne) ExecX(ctx context.Context) {
 	}
 }
 
+// check runs all checks and user-defined validators on the builder.
+func (_u *NotificationMessageCategoryUpdateOne) check() error {
+	if v, ok := _u.mutation.Name(); ok {
+		if err := notificationmessagecategory.NameValidator(v); err != nil {
+			return &ValidationError{Name: "name", err: fmt.Errorf(`ent: validator failed for field "NotificationMessageCategory.name": %w`, err)}
+		}
+	}
+	if v, ok := _u.mutation.Code(); ok {
+		if err := notificationmessagecategory.CodeValidator(v); err != nil {
+			return &ValidationError{Name: "code", err: fmt.Errorf(`ent: validator failed for field "NotificationMessageCategory.code": %w`, err)}
+		}
+	}
+	return nil
+}
+
 // Modify adds a statement modifier for attaching custom logic to the UPDATE statement.
 func (_u *NotificationMessageCategoryUpdateOne) Modify(modifiers ...func(u *sql.UpdateBuilder)) *NotificationMessageCategoryUpdateOne {
 	_u.modifiers = append(_u.modifiers, modifiers...)
@@ -829,6 +862,9 @@ func (_u *NotificationMessageCategoryUpdateOne) Modify(modifiers ...func(u *sql.
 }
 
 func (_u *NotificationMessageCategoryUpdateOne) sqlSave(ctx context.Context) (_node *NotificationMessageCategory, err error) {
+	if err := _u.check(); err != nil {
+		return _node, err
+	}
 	_spec := sqlgraph.NewUpdateSpec(notificationmessagecategory.Table, notificationmessagecategory.Columns, sqlgraph.NewFieldSpec(notificationmessagecategory.FieldID, field.TypeUint32))
 	id, ok := _u.mutation.ID()
 	if !ok {

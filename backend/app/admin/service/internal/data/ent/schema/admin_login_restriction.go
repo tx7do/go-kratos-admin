@@ -72,7 +72,7 @@ func (AdminLoginRestriction) Fields() []ent.Field {
 // Indexes of the AdminLoginRestriction.
 func (AdminLoginRestriction) Indexes() []ent.Index {
 	return []ent.Index{
-		index.Fields("target_id", "type", "method").Unique(),
+		index.Fields("target_id", "type", "method").Unique().StorageKey("idx_sys_admin_login_restriction_target_type_method"),
 	}
 }
 

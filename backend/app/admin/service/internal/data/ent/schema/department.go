@@ -6,6 +6,7 @@ import (
 	"entgo.io/ent/schema"
 	"entgo.io/ent/schema/edge"
 	"entgo.io/ent/schema/field"
+	"entgo.io/ent/schema/index"
 	"github.com/tx7do/go-utils/entgo/mixin"
 
 	appmixin "kratos-admin/pkg/entgo/mixin"
@@ -33,6 +34,7 @@ func (Department) Fields() []ent.Field {
 	return []ent.Field{
 		field.String("name").
 			Comment("部门名称").
+			//Unique().
 			NotEmpty().
 			Optional().
 			Nillable(),
@@ -63,6 +65,7 @@ func (Department) Fields() []ent.Field {
 				"DEPARTMENT_STATUS_ON", "ON",
 				"DEPARTMENT_STATUS_OFF", "OFF",
 			).
+			Default("ON").
 			Optional().
 			Nillable(),
 
@@ -82,6 +85,13 @@ func (Department) Mixin() []ent.Mixin {
 		mixin.UpdateBy{},
 		mixin.Remark{},
 		appmixin.TenantID{},
+	}
+}
+
+// Indexes of the Department.
+func (Department) Indexes() []ent.Index {
+	return []ent.Index{
+		index.Fields("name").StorageKey("idx_sys_department_name"),
 	}
 }
 

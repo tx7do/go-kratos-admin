@@ -6,6 +6,7 @@ import (
 	"entgo.io/ent/schema"
 	"entgo.io/ent/schema/edge"
 	"entgo.io/ent/schema/field"
+	"entgo.io/ent/schema/index"
 	"github.com/tx7do/go-utils/entgo/mixin"
 
 	appmixin "kratos-admin/pkg/entgo/mixin"
@@ -33,6 +34,7 @@ func (Organization) Fields() []ent.Field {
 	return []ent.Field{
 		field.String("name").
 			Comment("组织名称").
+			//Unique().
 			NotEmpty().
 			Optional().
 			Nillable(),
@@ -54,6 +56,7 @@ func (Organization) Fields() []ent.Field {
 				"ORGANIZATION_STATUS_ON", "ON",
 				"ORGANIZATION_STATUS_OFF", "OFF",
 			).
+			Default("ON").
 			Optional().
 			Nillable(),
 
@@ -104,6 +107,13 @@ func (Organization) Mixin() []ent.Mixin {
 		mixin.UpdateBy{},
 		mixin.Remark{},
 		appmixin.TenantID{},
+	}
+}
+
+// Indexes of the Organization.
+func (Organization) Indexes() []ent.Index {
+	return []ent.Index{
+		index.Fields("name").StorageKey("idx_sys_organization_name"),
 	}
 }
 

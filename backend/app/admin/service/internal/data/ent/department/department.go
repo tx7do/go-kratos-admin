@@ -103,6 +103,9 @@ var (
 // Status defines the type for the "status" enum field.
 type Status string
 
+// StatusDEPARTMENT_STATUS_ON is the default value of the Status enum.
+const DefaultStatus = StatusDEPARTMENT_STATUS_ON
+
 // Status values.
 const (
 	StatusDEPARTMENT_STATUS_ON  Status = "ON"

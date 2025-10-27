@@ -9,6 +9,48 @@ import type { Empty } from "../../../google/protobuf/empty.pb";
 import type { Timestamp } from "../../../google/protobuf/timestamp.pb";
 import type { PagingRequest } from "../../../pagination/v1/pagination.pb";
 
+/** 租户状态 */
+export enum TenantStatus {
+  /** TENANT_STATUS_UNSPECIFIED - 未指定 */
+  TENANT_STATUS_UNSPECIFIED = "TENANT_STATUS_UNSPECIFIED",
+  /** TENANT_STATUS_ON - 启用 */
+  TENANT_STATUS_ON = "TENANT_STATUS_ON",
+  /** TENANT_STATUS_OFF - 禁用 */
+  TENANT_STATUS_OFF = "TENANT_STATUS_OFF",
+  /** TENANT_STATUS_EXPIRED - 过期 */
+  TENANT_STATUS_EXPIRED = "TENANT_STATUS_EXPIRED",
+  /** TENANT_STATUS_FREEZE - 冻结 */
+  TENANT_STATUS_FREEZE = "TENANT_STATUS_FREEZE",
+}
+
+/** 租户类型 */
+export enum TenantType {
+  /** TENANT_TYPE_UNSPECIFIED - 未指定 */
+  TENANT_TYPE_UNSPECIFIED = "TENANT_TYPE_UNSPECIFIED",
+  /** TENANT_TYPE_TRIAL - 试用 */
+  TENANT_TYPE_TRIAL = "TENANT_TYPE_TRIAL",
+  /** TENANT_TYPE_PAID - 付费 */
+  TENANT_TYPE_PAID = "TENANT_TYPE_PAID",
+  /** TENANT_TYPE_INTERNAL - 内部 */
+  TENANT_TYPE_INTERNAL = "TENANT_TYPE_INTERNAL",
+  /** TENANT_TYPE_PARTNER - 合作伙伴 */
+  TENANT_TYPE_PARTNER = "TENANT_TYPE_PARTNER",
+  /** TENANT_TYPE_CUSTOM - 定制 */
+  TENANT_TYPE_CUSTOM = "TENANT_TYPE_CUSTOM",
+}
+
+/** 租户审核状态 */
+export enum TenantAuditStatus {
+  /** TENANT_AUDIT_STATUS_UNSPECIFIED - 未指定 */
+  TENANT_AUDIT_STATUS_UNSPECIFIED = "TENANT_AUDIT_STATUS_UNSPECIFIED",
+  /** TENANT_AUDIT_STATUS_PENDING - 待审核 */
+  TENANT_AUDIT_STATUS_PENDING = "TENANT_AUDIT_STATUS_PENDING",
+  /** TENANT_AUDIT_STATUS_APPROVED - 审核通过 */
+  TENANT_AUDIT_STATUS_APPROVED = "TENANT_AUDIT_STATUS_APPROVED",
+  /** TENANT_AUDIT_STATUS_REJECTED - 审核拒绝 */
+  TENANT_AUDIT_STATUS_REJECTED = "TENANT_AUDIT_STATUS_REJECTED",
+}
+
 /** 租户 */
 export interface Tenant {
   /** 租户ID */
@@ -26,19 +68,88 @@ export interface Tenant {
     | string
     | null
     | undefined;
-  /** 成员数量 */
-  memberCount?: number | null | undefined;
-  status?:
+  /** 租户logo地址 */
+  logoUrl?:
     | string
     | null
     | undefined;
+  /** 所属行业 */
+  industry?:
+    | string
+    | null
+    | undefined;
+  /** 租户状态 */
+  status?:
+    | TenantStatus
+    | null
+    | undefined;
+  /** 租户类型 */
+  type?:
+    | TenantType
+    | null
+    | undefined;
+  /** 审核状态 */
+  auditStatus?:
+    | TenantAuditStatus
+    | null
+    | undefined;
   /** 备注 */
-  remark?: string | null | undefined;
-  subscriptionAt?: Timestamp | null | undefined;
+  remark?:
+    | string
+    | null
+    | undefined;
+  /** 管理员用户ID */
+  adminUserId?:
+    | number
+    | null
+    | undefined;
+  /** 管理员用户名 */
+  adminUserName?:
+    | string
+    | null
+    | undefined;
+  /** 订阅时间（首次订阅/续费时间，NULL表示未订阅） */
+  subscriptionAt?:
+    | Timestamp
+    | null
+    | undefined;
+  /** 取消订阅时间（NULL表示未取消） */
   unsubscribeAt?:
     | Timestamp
     | null
     | undefined;
+  /** 租户有效期（NULL表示永久，过期后状态自动改为“过期”） */
+  expiredAt?:
+    | Timestamp
+    | null
+    | undefined;
+  /** 订阅套餐（如“企业版1年”“基础版3个月”） */
+  subscriptionPlan?:
+    | string
+    | null
+    | undefined;
+  /** 成员数量 */
+  memberCount?:
+    | number
+    | null
+    | undefined;
+  /** 最后登录时间 */
+  lastLoginTime?:
+    | Timestamp
+    | null
+    | undefined;
+  /** 最后登录IP */
+  lastLoginIp?:
+    | string
+    | null
+    | undefined;
+  /** 父节点ID */
+  parentId?:
+    | number
+    | null
+    | undefined;
+  /** 子节点树 */
+  children: Tenant[];
   /** 创建者ID */
   createBy?:
     | number

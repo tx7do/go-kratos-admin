@@ -58,7 +58,7 @@ func initApp(logger log.Logger, registrar registry.Registrar, bootstrap *v1.Boot
 	uEditorService := service.NewUEditorService(logger, minIOClient)
 	fileRepo := data.NewFileRepo(dataData, logger)
 	fileService := service.NewFileService(logger, fileRepo)
-	tenantService := service.NewTenantService(logger, tenantRepo)
+	tenantService := service.NewTenantService(logger, tenantRepo, userRepo)
 	taskRepo := data.NewTaskRepo(dataData, logger)
 	taskService := service.NewTaskService(logger, taskRepo, userRepo)
 	notificationMessageRepo := data.NewNotificationMessageRepo(dataData, logger)

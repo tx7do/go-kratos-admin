@@ -56,6 +56,40 @@ func (m *Tenant) validate(all bool) error {
 
 	var errors []error
 
+	for idx, item := range m.GetChildren() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, TenantValidationError{
+						field:  fmt.Sprintf("Children[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, TenantValidationError{
+						field:  fmt.Sprintf("Children[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return TenantValidationError{
+					field:  fmt.Sprintf("Children[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
 	if m.Id != nil {
 		// no validation rules for Id
 	}
@@ -68,16 +102,36 @@ func (m *Tenant) validate(all bool) error {
 		// no validation rules for Code
 	}
 
-	if m.MemberCount != nil {
-		// no validation rules for MemberCount
+	if m.LogoUrl != nil {
+		// no validation rules for LogoUrl
+	}
+
+	if m.Industry != nil {
+		// no validation rules for Industry
 	}
 
 	if m.Status != nil {
 		// no validation rules for Status
 	}
 
+	if m.Type != nil {
+		// no validation rules for Type
+	}
+
+	if m.AuditStatus != nil {
+		// no validation rules for AuditStatus
+	}
+
 	if m.Remark != nil {
 		// no validation rules for Remark
+	}
+
+	if m.AdminUserId != nil {
+		// no validation rules for AdminUserId
+	}
+
+	if m.AdminUserName != nil {
+		// no validation rules for AdminUserName
 	}
 
 	if m.SubscriptionAt != nil {
@@ -144,6 +198,88 @@ func (m *Tenant) validate(all bool) error {
 			}
 		}
 
+	}
+
+	if m.ExpiredAt != nil {
+
+		if all {
+			switch v := interface{}(m.GetExpiredAt()).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, TenantValidationError{
+						field:  "ExpiredAt",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, TenantValidationError{
+						field:  "ExpiredAt",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(m.GetExpiredAt()).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return TenantValidationError{
+					field:  "ExpiredAt",
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	if m.SubscriptionPlan != nil {
+		// no validation rules for SubscriptionPlan
+	}
+
+	if m.MemberCount != nil {
+		// no validation rules for MemberCount
+	}
+
+	if m.LastLoginTime != nil {
+
+		if all {
+			switch v := interface{}(m.GetLastLoginTime()).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, TenantValidationError{
+						field:  "LastLoginTime",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, TenantValidationError{
+						field:  "LastLoginTime",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(m.GetLastLoginTime()).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return TenantValidationError{
+					field:  "LastLoginTime",
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	if m.LastLoginIp != nil {
+		// no validation rules for LastLoginIp
+	}
+
+	if m.ParentId != nil {
+		// no validation rules for ParentId
 	}
 
 	if m.CreateBy != nil {

@@ -53,8 +53,8 @@ func (UserPosition) Mixin() []ent.Mixin {
 func (UserPosition) Indexes() []ent.Index {
 	return []ent.Index{
 		// 避免用户重复分配同一角色
-		index.Fields("user_id", "position_id").Unique(),
-		index.Fields("user_id"),
-		index.Fields("position_id"),
+		index.Fields("user_id", "position_id").Unique().StorageKey("idx_sys_user_position_user_id_position_id"),
+		index.Fields("user_id").StorageKey("idx_sys_user_position_user_id"),
+		index.Fields("position_id").StorageKey("idx_sys_user_position_position_id"),
 	}
 }

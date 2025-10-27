@@ -5,6 +5,7 @@ import (
 	"entgo.io/ent/dialect/entsql"
 	"entgo.io/ent/schema"
 	"entgo.io/ent/schema/field"
+	"entgo.io/ent/schema/index"
 	"github.com/tx7do/go-utils/entgo/mixin"
 
 	appmixin "kratos-admin/pkg/entgo/mixin"
@@ -32,7 +33,8 @@ func (Dict) Fields() []ent.Field {
 	return []ent.Field{
 		field.String("key").
 			Comment("字典键").
-			Unique().
+			//Unique().
+			NotEmpty().
 			Optional().
 			Nillable(),
 
@@ -63,9 +65,9 @@ func (Dict) Fields() []ent.Field {
 
 		field.Int32("sort_id").
 			Comment("排序ID").
+			Default(0).
 			Optional().
-			Nillable().
-			Default(0),
+			Nillable(),
 	}
 }
 
@@ -79,5 +81,12 @@ func (Dict) Mixin() []ent.Mixin {
 		mixin.UpdateBy{},
 		mixin.Remark{},
 		appmixin.TenantID{},
+	}
+}
+
+// Indexes of the Dict.
+func (Dict) Indexes() []ent.Index {
+	return []ent.Index{
+		index.Fields("key").Unique().StorageKey("idx_sys_dict_key"),
 	}
 }

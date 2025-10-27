@@ -5,6 +5,7 @@ import (
 	"entgo.io/ent/dialect/entsql"
 	"entgo.io/ent/schema"
 	"entgo.io/ent/schema/field"
+	"entgo.io/ent/schema/index"
 	"github.com/tx7do/go-utils/entgo/mixin"
 
 	appmixin "kratos-admin/pkg/entgo/mixin"
@@ -32,7 +33,7 @@ func (User) Fields() []ent.Field {
 	return []ent.Field{
 		field.String("username").
 			Comment("用户名").
-			Unique().
+			//Unique().
 			NotEmpty().
 			Immutable().
 			Optional().
@@ -40,13 +41,11 @@ func (User) Fields() []ent.Field {
 
 		field.String("nickname").
 			Comment("昵称").
-			MaxLen(255).
 			Optional().
 			Nillable(),
 
 		field.String("realname").
 			Comment("真实名字").
-			MaxLen(255).
 			Optional().
 			Nillable(),
 
@@ -72,21 +71,18 @@ func (User) Fields() []ent.Field {
 
 		field.String("avatar").
 			Comment("头像").
-			MaxLen(1023).
 			Optional().
 			Nillable(),
 
 		field.String("address").
 			Comment("地址").
 			Default("").
-			MaxLen(2048).
 			Optional().
 			Nillable(),
 
 		field.String("region").
 			Comment("国家地区").
 			Default("").
-			MaxLen(255).
 			Optional().
 			Nillable(),
 
@@ -125,8 +121,6 @@ func (User) Fields() []ent.Field {
 
 		field.String("last_login_ip").
 			Comment("最后一次登录的IP").
-			Default("").
-			MaxLen(64).
 			Optional().
 			Nillable(),
 
@@ -185,5 +179,7 @@ func (User) Edges() []ent.Edge {
 
 // Indexes of the User.
 func (User) Indexes() []ent.Index {
-	return []ent.Index{}
+	return []ent.Index{
+		index.Fields("username").Unique().StorageKey("idx_sys_user_username"),
+	}
 }

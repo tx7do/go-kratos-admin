@@ -120,10 +120,6 @@ var (
 	TenantIDValidator func(uint32) error
 	// UsernameValidator is a validator for the "username" field. It is called by the builders before save.
 	UsernameValidator func(string) error
-	// NicknameValidator is a validator for the "nickname" field. It is called by the builders before save.
-	NicknameValidator func(string) error
-	// RealnameValidator is a validator for the "realname" field. It is called by the builders before save.
-	RealnameValidator func(string) error
 	// EmailValidator is a validator for the "email" field. It is called by the builders before save.
 	EmailValidator func(string) error
 	// DefaultMobile holds the default value on creation for the "mobile" field.
@@ -134,22 +130,12 @@ var (
 	DefaultTelephone string
 	// TelephoneValidator is a validator for the "telephone" field. It is called by the builders before save.
 	TelephoneValidator func(string) error
-	// AvatarValidator is a validator for the "avatar" field. It is called by the builders before save.
-	AvatarValidator func(string) error
 	// DefaultAddress holds the default value on creation for the "address" field.
 	DefaultAddress string
-	// AddressValidator is a validator for the "address" field. It is called by the builders before save.
-	AddressValidator func(string) error
 	// DefaultRegion holds the default value on creation for the "region" field.
 	DefaultRegion string
-	// RegionValidator is a validator for the "region" field. It is called by the builders before save.
-	RegionValidator func(string) error
 	// DescriptionValidator is a validator for the "description" field. It is called by the builders before save.
 	DescriptionValidator func(string) error
-	// DefaultLastLoginIP holds the default value on creation for the "last_login_ip" field.
-	DefaultLastLoginIP string
-	// LastLoginIPValidator is a validator for the "last_login_ip" field. It is called by the builders before save.
-	LastLoginIPValidator func(string) error
 	// IDValidator is a validator for the "id" field. It is called by the builders before save.
 	IDValidator func(uint32) error
 )

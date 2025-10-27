@@ -97,8 +97,6 @@ var (
 	TenantIDValidator func(uint32) error
 	// NameValidator is a validator for the "name" field. It is called by the builders before save.
 	NameValidator func(string) error
-	// DefaultCode holds the default value on creation for the "code" field.
-	DefaultCode string
 	// CodeValidator is a validator for the "code" field. It is called by the builders before save.
 	CodeValidator func(string) error
 	// DefaultSortID holds the default value on creation for the "sort_id" field.

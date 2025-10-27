@@ -285,10 +285,6 @@ func (_c *RoleCreate) defaults() {
 		v := role.DefaultRemark
 		_c.mutation.SetRemark(v)
 	}
-	if _, ok := _c.mutation.Code(); !ok {
-		v := role.DefaultCode
-		_c.mutation.SetCode(v)
-	}
 	if _, ok := _c.mutation.SortID(); !ok {
 		v := role.DefaultSortID
 		_c.mutation.SetSortID(v)

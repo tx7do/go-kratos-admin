@@ -64,20 +64,6 @@ func (_c *TenantCreate) SetNillableDeleteTime(v *time.Time) *TenantCreate {
 	return _c
 }
 
-// SetStatus sets the "status" field.
-func (_c *TenantCreate) SetStatus(v tenant.Status) *TenantCreate {
-	_c.mutation.SetStatus(v)
-	return _c
-}
-
-// SetNillableStatus sets the "status" field if the given value is not nil.
-func (_c *TenantCreate) SetNillableStatus(v *tenant.Status) *TenantCreate {
-	if v != nil {
-		_c.SetStatus(*v)
-	}
-	return _c
-}
-
 // SetCreateBy sets the "create_by" field.
 func (_c *TenantCreate) SetCreateBy(v uint32) *TenantCreate {
 	_c.mutation.SetCreateBy(v)
@@ -148,16 +134,86 @@ func (_c *TenantCreate) SetNillableCode(v *string) *TenantCreate {
 	return _c
 }
 
-// SetMemberCount sets the "member_count" field.
-func (_c *TenantCreate) SetMemberCount(v int32) *TenantCreate {
-	_c.mutation.SetMemberCount(v)
+// SetLogoURL sets the "logo_url" field.
+func (_c *TenantCreate) SetLogoURL(v string) *TenantCreate {
+	_c.mutation.SetLogoURL(v)
 	return _c
 }
 
-// SetNillableMemberCount sets the "member_count" field if the given value is not nil.
-func (_c *TenantCreate) SetNillableMemberCount(v *int32) *TenantCreate {
+// SetNillableLogoURL sets the "logo_url" field if the given value is not nil.
+func (_c *TenantCreate) SetNillableLogoURL(v *string) *TenantCreate {
 	if v != nil {
-		_c.SetMemberCount(*v)
+		_c.SetLogoURL(*v)
+	}
+	return _c
+}
+
+// SetIndustry sets the "industry" field.
+func (_c *TenantCreate) SetIndustry(v string) *TenantCreate {
+	_c.mutation.SetIndustry(v)
+	return _c
+}
+
+// SetNillableIndustry sets the "industry" field if the given value is not nil.
+func (_c *TenantCreate) SetNillableIndustry(v *string) *TenantCreate {
+	if v != nil {
+		_c.SetIndustry(*v)
+	}
+	return _c
+}
+
+// SetAdminUserID sets the "admin_user_id" field.
+func (_c *TenantCreate) SetAdminUserID(v uint32) *TenantCreate {
+	_c.mutation.SetAdminUserID(v)
+	return _c
+}
+
+// SetNillableAdminUserID sets the "admin_user_id" field if the given value is not nil.
+func (_c *TenantCreate) SetNillableAdminUserID(v *uint32) *TenantCreate {
+	if v != nil {
+		_c.SetAdminUserID(*v)
+	}
+	return _c
+}
+
+// SetStatus sets the "status" field.
+func (_c *TenantCreate) SetStatus(v tenant.Status) *TenantCreate {
+	_c.mutation.SetStatus(v)
+	return _c
+}
+
+// SetNillableStatus sets the "status" field if the given value is not nil.
+func (_c *TenantCreate) SetNillableStatus(v *tenant.Status) *TenantCreate {
+	if v != nil {
+		_c.SetStatus(*v)
+	}
+	return _c
+}
+
+// SetType sets the "type" field.
+func (_c *TenantCreate) SetType(v tenant.Type) *TenantCreate {
+	_c.mutation.SetType(v)
+	return _c
+}
+
+// SetNillableType sets the "type" field if the given value is not nil.
+func (_c *TenantCreate) SetNillableType(v *tenant.Type) *TenantCreate {
+	if v != nil {
+		_c.SetType(*v)
+	}
+	return _c
+}
+
+// SetAuditStatus sets the "audit_status" field.
+func (_c *TenantCreate) SetAuditStatus(v tenant.AuditStatus) *TenantCreate {
+	_c.mutation.SetAuditStatus(v)
+	return _c
+}
+
+// SetNillableAuditStatus sets the "audit_status" field if the given value is not nil.
+func (_c *TenantCreate) SetNillableAuditStatus(v *tenant.AuditStatus) *TenantCreate {
+	if v != nil {
+		_c.SetAuditStatus(*v)
 	}
 	return _c
 }
@@ -186,6 +242,62 @@ func (_c *TenantCreate) SetUnsubscribeAt(v time.Time) *TenantCreate {
 func (_c *TenantCreate) SetNillableUnsubscribeAt(v *time.Time) *TenantCreate {
 	if v != nil {
 		_c.SetUnsubscribeAt(*v)
+	}
+	return _c
+}
+
+// SetSubscriptionPlan sets the "subscription_plan" field.
+func (_c *TenantCreate) SetSubscriptionPlan(v string) *TenantCreate {
+	_c.mutation.SetSubscriptionPlan(v)
+	return _c
+}
+
+// SetNillableSubscriptionPlan sets the "subscription_plan" field if the given value is not nil.
+func (_c *TenantCreate) SetNillableSubscriptionPlan(v *string) *TenantCreate {
+	if v != nil {
+		_c.SetSubscriptionPlan(*v)
+	}
+	return _c
+}
+
+// SetExpiredAt sets the "expired_at" field.
+func (_c *TenantCreate) SetExpiredAt(v time.Time) *TenantCreate {
+	_c.mutation.SetExpiredAt(v)
+	return _c
+}
+
+// SetNillableExpiredAt sets the "expired_at" field if the given value is not nil.
+func (_c *TenantCreate) SetNillableExpiredAt(v *time.Time) *TenantCreate {
+	if v != nil {
+		_c.SetExpiredAt(*v)
+	}
+	return _c
+}
+
+// SetLastLoginTime sets the "last_login_time" field.
+func (_c *TenantCreate) SetLastLoginTime(v time.Time) *TenantCreate {
+	_c.mutation.SetLastLoginTime(v)
+	return _c
+}
+
+// SetNillableLastLoginTime sets the "last_login_time" field if the given value is not nil.
+func (_c *TenantCreate) SetNillableLastLoginTime(v *time.Time) *TenantCreate {
+	if v != nil {
+		_c.SetLastLoginTime(*v)
+	}
+	return _c
+}
+
+// SetLastLoginIP sets the "last_login_ip" field.
+func (_c *TenantCreate) SetLastLoginIP(v string) *TenantCreate {
+	_c.mutation.SetLastLoginIP(v)
+	return _c
+}
+
+// SetNillableLastLoginIP sets the "last_login_ip" field if the given value is not nil.
+func (_c *TenantCreate) SetNillableLastLoginIP(v *string) *TenantCreate {
+	if v != nil {
+		_c.SetLastLoginIP(*v)
 	}
 	return _c
 }
@@ -231,35 +343,18 @@ func (_c *TenantCreate) ExecX(ctx context.Context) {
 
 // defaults sets the default values of the builder before save.
 func (_c *TenantCreate) defaults() {
-	if _, ok := _c.mutation.Status(); !ok {
-		v := tenant.DefaultStatus
-		_c.mutation.SetStatus(v)
-	}
 	if _, ok := _c.mutation.Remark(); !ok {
 		v := tenant.DefaultRemark
 		_c.mutation.SetRemark(v)
 	}
-	if _, ok := _c.mutation.MemberCount(); !ok {
-		v := tenant.DefaultMemberCount
-		_c.mutation.SetMemberCount(v)
-	}
-	if _, ok := _c.mutation.SubscriptionAt(); !ok {
-		v := tenant.DefaultSubscriptionAt()
-		_c.mutation.SetSubscriptionAt(v)
-	}
-	if _, ok := _c.mutation.UnsubscribeAt(); !ok {
-		v := tenant.DefaultUnsubscribeAt()
-		_c.mutation.SetUnsubscribeAt(v)
+	if _, ok := _c.mutation.Status(); !ok {
+		v := tenant.DefaultStatus
+		_c.mutation.SetStatus(v)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
 func (_c *TenantCreate) check() error {
-	if v, ok := _c.mutation.Status(); ok {
-		if err := tenant.StatusValidator(v); err != nil {
-			return &ValidationError{Name: "status", err: fmt.Errorf(`ent: validator failed for field "Tenant.status": %w`, err)}
-		}
-	}
 	if v, ok := _c.mutation.Name(); ok {
 		if err := tenant.NameValidator(v); err != nil {
 			return &ValidationError{Name: "name", err: fmt.Errorf(`ent: validator failed for field "Tenant.name": %w`, err)}
@@ -268,6 +363,21 @@ func (_c *TenantCreate) check() error {
 	if v, ok := _c.mutation.Code(); ok {
 		if err := tenant.CodeValidator(v); err != nil {
 			return &ValidationError{Name: "code", err: fmt.Errorf(`ent: validator failed for field "Tenant.code": %w`, err)}
+		}
+	}
+	if v, ok := _c.mutation.Status(); ok {
+		if err := tenant.StatusValidator(v); err != nil {
+			return &ValidationError{Name: "status", err: fmt.Errorf(`ent: validator failed for field "Tenant.status": %w`, err)}
+		}
+	}
+	if v, ok := _c.mutation.GetType(); ok {
+		if err := tenant.TypeValidator(v); err != nil {
+			return &ValidationError{Name: "type", err: fmt.Errorf(`ent: validator failed for field "Tenant.type": %w`, err)}
+		}
+	}
+	if v, ok := _c.mutation.AuditStatus(); ok {
+		if err := tenant.AuditStatusValidator(v); err != nil {
+			return &ValidationError{Name: "audit_status", err: fmt.Errorf(`ent: validator failed for field "Tenant.audit_status": %w`, err)}
 		}
 	}
 	if v, ok := _c.mutation.ID(); ok {
@@ -320,10 +430,6 @@ func (_c *TenantCreate) createSpec() (*Tenant, *sqlgraph.CreateSpec) {
 		_spec.SetField(tenant.FieldDeleteTime, field.TypeTime, value)
 		_node.DeleteTime = &value
 	}
-	if value, ok := _c.mutation.Status(); ok {
-		_spec.SetField(tenant.FieldStatus, field.TypeEnum, value)
-		_node.Status = &value
-	}
 	if value, ok := _c.mutation.CreateBy(); ok {
 		_spec.SetField(tenant.FieldCreateBy, field.TypeUint32, value)
 		_node.CreateBy = &value
@@ -344,9 +450,29 @@ func (_c *TenantCreate) createSpec() (*Tenant, *sqlgraph.CreateSpec) {
 		_spec.SetField(tenant.FieldCode, field.TypeString, value)
 		_node.Code = &value
 	}
-	if value, ok := _c.mutation.MemberCount(); ok {
-		_spec.SetField(tenant.FieldMemberCount, field.TypeInt32, value)
-		_node.MemberCount = &value
+	if value, ok := _c.mutation.LogoURL(); ok {
+		_spec.SetField(tenant.FieldLogoURL, field.TypeString, value)
+		_node.LogoURL = &value
+	}
+	if value, ok := _c.mutation.Industry(); ok {
+		_spec.SetField(tenant.FieldIndustry, field.TypeString, value)
+		_node.Industry = &value
+	}
+	if value, ok := _c.mutation.AdminUserID(); ok {
+		_spec.SetField(tenant.FieldAdminUserID, field.TypeUint32, value)
+		_node.AdminUserID = &value
+	}
+	if value, ok := _c.mutation.Status(); ok {
+		_spec.SetField(tenant.FieldStatus, field.TypeEnum, value)
+		_node.Status = &value
+	}
+	if value, ok := _c.mutation.GetType(); ok {
+		_spec.SetField(tenant.FieldType, field.TypeEnum, value)
+		_node.Type = &value
+	}
+	if value, ok := _c.mutation.AuditStatus(); ok {
+		_spec.SetField(tenant.FieldAuditStatus, field.TypeEnum, value)
+		_node.AuditStatus = &value
 	}
 	if value, ok := _c.mutation.SubscriptionAt(); ok {
 		_spec.SetField(tenant.FieldSubscriptionAt, field.TypeTime, value)
@@ -355,6 +481,22 @@ func (_c *TenantCreate) createSpec() (*Tenant, *sqlgraph.CreateSpec) {
 	if value, ok := _c.mutation.UnsubscribeAt(); ok {
 		_spec.SetField(tenant.FieldUnsubscribeAt, field.TypeTime, value)
 		_node.UnsubscribeAt = &value
+	}
+	if value, ok := _c.mutation.SubscriptionPlan(); ok {
+		_spec.SetField(tenant.FieldSubscriptionPlan, field.TypeString, value)
+		_node.SubscriptionPlan = &value
+	}
+	if value, ok := _c.mutation.ExpiredAt(); ok {
+		_spec.SetField(tenant.FieldExpiredAt, field.TypeTime, value)
+		_node.ExpiredAt = &value
+	}
+	if value, ok := _c.mutation.LastLoginTime(); ok {
+		_spec.SetField(tenant.FieldLastLoginTime, field.TypeTime, value)
+		_node.LastLoginTime = &value
+	}
+	if value, ok := _c.mutation.LastLoginIP(); ok {
+		_spec.SetField(tenant.FieldLastLoginIP, field.TypeString, value)
+		_node.LastLoginIP = &value
 	}
 	return _node, _spec
 }
@@ -441,24 +583,6 @@ func (u *TenantUpsert) UpdateDeleteTime() *TenantUpsert {
 // ClearDeleteTime clears the value of the "delete_time" field.
 func (u *TenantUpsert) ClearDeleteTime() *TenantUpsert {
 	u.SetNull(tenant.FieldDeleteTime)
-	return u
-}
-
-// SetStatus sets the "status" field.
-func (u *TenantUpsert) SetStatus(v tenant.Status) *TenantUpsert {
-	u.Set(tenant.FieldStatus, v)
-	return u
-}
-
-// UpdateStatus sets the "status" field to the value that was provided on create.
-func (u *TenantUpsert) UpdateStatus() *TenantUpsert {
-	u.SetExcluded(tenant.FieldStatus)
-	return u
-}
-
-// ClearStatus clears the value of the "status" field.
-func (u *TenantUpsert) ClearStatus() *TenantUpsert {
-	u.SetNull(tenant.FieldStatus)
 	return u
 }
 
@@ -564,27 +688,117 @@ func (u *TenantUpsert) ClearCode() *TenantUpsert {
 	return u
 }
 
-// SetMemberCount sets the "member_count" field.
-func (u *TenantUpsert) SetMemberCount(v int32) *TenantUpsert {
-	u.Set(tenant.FieldMemberCount, v)
+// SetLogoURL sets the "logo_url" field.
+func (u *TenantUpsert) SetLogoURL(v string) *TenantUpsert {
+	u.Set(tenant.FieldLogoURL, v)
 	return u
 }
 
-// UpdateMemberCount sets the "member_count" field to the value that was provided on create.
-func (u *TenantUpsert) UpdateMemberCount() *TenantUpsert {
-	u.SetExcluded(tenant.FieldMemberCount)
+// UpdateLogoURL sets the "logo_url" field to the value that was provided on create.
+func (u *TenantUpsert) UpdateLogoURL() *TenantUpsert {
+	u.SetExcluded(tenant.FieldLogoURL)
 	return u
 }
 
-// AddMemberCount adds v to the "member_count" field.
-func (u *TenantUpsert) AddMemberCount(v int32) *TenantUpsert {
-	u.Add(tenant.FieldMemberCount, v)
+// ClearLogoURL clears the value of the "logo_url" field.
+func (u *TenantUpsert) ClearLogoURL() *TenantUpsert {
+	u.SetNull(tenant.FieldLogoURL)
 	return u
 }
 
-// ClearMemberCount clears the value of the "member_count" field.
-func (u *TenantUpsert) ClearMemberCount() *TenantUpsert {
-	u.SetNull(tenant.FieldMemberCount)
+// SetIndustry sets the "industry" field.
+func (u *TenantUpsert) SetIndustry(v string) *TenantUpsert {
+	u.Set(tenant.FieldIndustry, v)
+	return u
+}
+
+// UpdateIndustry sets the "industry" field to the value that was provided on create.
+func (u *TenantUpsert) UpdateIndustry() *TenantUpsert {
+	u.SetExcluded(tenant.FieldIndustry)
+	return u
+}
+
+// ClearIndustry clears the value of the "industry" field.
+func (u *TenantUpsert) ClearIndustry() *TenantUpsert {
+	u.SetNull(tenant.FieldIndustry)
+	return u
+}
+
+// SetAdminUserID sets the "admin_user_id" field.
+func (u *TenantUpsert) SetAdminUserID(v uint32) *TenantUpsert {
+	u.Set(tenant.FieldAdminUserID, v)
+	return u
+}
+
+// UpdateAdminUserID sets the "admin_user_id" field to the value that was provided on create.
+func (u *TenantUpsert) UpdateAdminUserID() *TenantUpsert {
+	u.SetExcluded(tenant.FieldAdminUserID)
+	return u
+}
+
+// AddAdminUserID adds v to the "admin_user_id" field.
+func (u *TenantUpsert) AddAdminUserID(v uint32) *TenantUpsert {
+	u.Add(tenant.FieldAdminUserID, v)
+	return u
+}
+
+// ClearAdminUserID clears the value of the "admin_user_id" field.
+func (u *TenantUpsert) ClearAdminUserID() *TenantUpsert {
+	u.SetNull(tenant.FieldAdminUserID)
+	return u
+}
+
+// SetStatus sets the "status" field.
+func (u *TenantUpsert) SetStatus(v tenant.Status) *TenantUpsert {
+	u.Set(tenant.FieldStatus, v)
+	return u
+}
+
+// UpdateStatus sets the "status" field to the value that was provided on create.
+func (u *TenantUpsert) UpdateStatus() *TenantUpsert {
+	u.SetExcluded(tenant.FieldStatus)
+	return u
+}
+
+// ClearStatus clears the value of the "status" field.
+func (u *TenantUpsert) ClearStatus() *TenantUpsert {
+	u.SetNull(tenant.FieldStatus)
+	return u
+}
+
+// SetType sets the "type" field.
+func (u *TenantUpsert) SetType(v tenant.Type) *TenantUpsert {
+	u.Set(tenant.FieldType, v)
+	return u
+}
+
+// UpdateType sets the "type" field to the value that was provided on create.
+func (u *TenantUpsert) UpdateType() *TenantUpsert {
+	u.SetExcluded(tenant.FieldType)
+	return u
+}
+
+// ClearType clears the value of the "type" field.
+func (u *TenantUpsert) ClearType() *TenantUpsert {
+	u.SetNull(tenant.FieldType)
+	return u
+}
+
+// SetAuditStatus sets the "audit_status" field.
+func (u *TenantUpsert) SetAuditStatus(v tenant.AuditStatus) *TenantUpsert {
+	u.Set(tenant.FieldAuditStatus, v)
+	return u
+}
+
+// UpdateAuditStatus sets the "audit_status" field to the value that was provided on create.
+func (u *TenantUpsert) UpdateAuditStatus() *TenantUpsert {
+	u.SetExcluded(tenant.FieldAuditStatus)
+	return u
+}
+
+// ClearAuditStatus clears the value of the "audit_status" field.
+func (u *TenantUpsert) ClearAuditStatus() *TenantUpsert {
+	u.SetNull(tenant.FieldAuditStatus)
 	return u
 }
 
@@ -621,6 +835,78 @@ func (u *TenantUpsert) UpdateUnsubscribeAt() *TenantUpsert {
 // ClearUnsubscribeAt clears the value of the "unsubscribe_at" field.
 func (u *TenantUpsert) ClearUnsubscribeAt() *TenantUpsert {
 	u.SetNull(tenant.FieldUnsubscribeAt)
+	return u
+}
+
+// SetSubscriptionPlan sets the "subscription_plan" field.
+func (u *TenantUpsert) SetSubscriptionPlan(v string) *TenantUpsert {
+	u.Set(tenant.FieldSubscriptionPlan, v)
+	return u
+}
+
+// UpdateSubscriptionPlan sets the "subscription_plan" field to the value that was provided on create.
+func (u *TenantUpsert) UpdateSubscriptionPlan() *TenantUpsert {
+	u.SetExcluded(tenant.FieldSubscriptionPlan)
+	return u
+}
+
+// ClearSubscriptionPlan clears the value of the "subscription_plan" field.
+func (u *TenantUpsert) ClearSubscriptionPlan() *TenantUpsert {
+	u.SetNull(tenant.FieldSubscriptionPlan)
+	return u
+}
+
+// SetExpiredAt sets the "expired_at" field.
+func (u *TenantUpsert) SetExpiredAt(v time.Time) *TenantUpsert {
+	u.Set(tenant.FieldExpiredAt, v)
+	return u
+}
+
+// UpdateExpiredAt sets the "expired_at" field to the value that was provided on create.
+func (u *TenantUpsert) UpdateExpiredAt() *TenantUpsert {
+	u.SetExcluded(tenant.FieldExpiredAt)
+	return u
+}
+
+// ClearExpiredAt clears the value of the "expired_at" field.
+func (u *TenantUpsert) ClearExpiredAt() *TenantUpsert {
+	u.SetNull(tenant.FieldExpiredAt)
+	return u
+}
+
+// SetLastLoginTime sets the "last_login_time" field.
+func (u *TenantUpsert) SetLastLoginTime(v time.Time) *TenantUpsert {
+	u.Set(tenant.FieldLastLoginTime, v)
+	return u
+}
+
+// UpdateLastLoginTime sets the "last_login_time" field to the value that was provided on create.
+func (u *TenantUpsert) UpdateLastLoginTime() *TenantUpsert {
+	u.SetExcluded(tenant.FieldLastLoginTime)
+	return u
+}
+
+// ClearLastLoginTime clears the value of the "last_login_time" field.
+func (u *TenantUpsert) ClearLastLoginTime() *TenantUpsert {
+	u.SetNull(tenant.FieldLastLoginTime)
+	return u
+}
+
+// SetLastLoginIP sets the "last_login_ip" field.
+func (u *TenantUpsert) SetLastLoginIP(v string) *TenantUpsert {
+	u.Set(tenant.FieldLastLoginIP, v)
+	return u
+}
+
+// UpdateLastLoginIP sets the "last_login_ip" field to the value that was provided on create.
+func (u *TenantUpsert) UpdateLastLoginIP() *TenantUpsert {
+	u.SetExcluded(tenant.FieldLastLoginIP)
+	return u
+}
+
+// ClearLastLoginIP clears the value of the "last_login_ip" field.
+func (u *TenantUpsert) ClearLastLoginIP() *TenantUpsert {
+	u.SetNull(tenant.FieldLastLoginIP)
 	return u
 }
 
@@ -714,27 +1000,6 @@ func (u *TenantUpsertOne) UpdateDeleteTime() *TenantUpsertOne {
 func (u *TenantUpsertOne) ClearDeleteTime() *TenantUpsertOne {
 	return u.Update(func(s *TenantUpsert) {
 		s.ClearDeleteTime()
-	})
-}
-
-// SetStatus sets the "status" field.
-func (u *TenantUpsertOne) SetStatus(v tenant.Status) *TenantUpsertOne {
-	return u.Update(func(s *TenantUpsert) {
-		s.SetStatus(v)
-	})
-}
-
-// UpdateStatus sets the "status" field to the value that was provided on create.
-func (u *TenantUpsertOne) UpdateStatus() *TenantUpsertOne {
-	return u.Update(func(s *TenantUpsert) {
-		s.UpdateStatus()
-	})
-}
-
-// ClearStatus clears the value of the "status" field.
-func (u *TenantUpsertOne) ClearStatus() *TenantUpsertOne {
-	return u.Update(func(s *TenantUpsert) {
-		s.ClearStatus()
 	})
 }
 
@@ -857,31 +1122,136 @@ func (u *TenantUpsertOne) ClearCode() *TenantUpsertOne {
 	})
 }
 
-// SetMemberCount sets the "member_count" field.
-func (u *TenantUpsertOne) SetMemberCount(v int32) *TenantUpsertOne {
+// SetLogoURL sets the "logo_url" field.
+func (u *TenantUpsertOne) SetLogoURL(v string) *TenantUpsertOne {
 	return u.Update(func(s *TenantUpsert) {
-		s.SetMemberCount(v)
+		s.SetLogoURL(v)
 	})
 }
 
-// AddMemberCount adds v to the "member_count" field.
-func (u *TenantUpsertOne) AddMemberCount(v int32) *TenantUpsertOne {
+// UpdateLogoURL sets the "logo_url" field to the value that was provided on create.
+func (u *TenantUpsertOne) UpdateLogoURL() *TenantUpsertOne {
 	return u.Update(func(s *TenantUpsert) {
-		s.AddMemberCount(v)
+		s.UpdateLogoURL()
 	})
 }
 
-// UpdateMemberCount sets the "member_count" field to the value that was provided on create.
-func (u *TenantUpsertOne) UpdateMemberCount() *TenantUpsertOne {
+// ClearLogoURL clears the value of the "logo_url" field.
+func (u *TenantUpsertOne) ClearLogoURL() *TenantUpsertOne {
 	return u.Update(func(s *TenantUpsert) {
-		s.UpdateMemberCount()
+		s.ClearLogoURL()
 	})
 }
 
-// ClearMemberCount clears the value of the "member_count" field.
-func (u *TenantUpsertOne) ClearMemberCount() *TenantUpsertOne {
+// SetIndustry sets the "industry" field.
+func (u *TenantUpsertOne) SetIndustry(v string) *TenantUpsertOne {
 	return u.Update(func(s *TenantUpsert) {
-		s.ClearMemberCount()
+		s.SetIndustry(v)
+	})
+}
+
+// UpdateIndustry sets the "industry" field to the value that was provided on create.
+func (u *TenantUpsertOne) UpdateIndustry() *TenantUpsertOne {
+	return u.Update(func(s *TenantUpsert) {
+		s.UpdateIndustry()
+	})
+}
+
+// ClearIndustry clears the value of the "industry" field.
+func (u *TenantUpsertOne) ClearIndustry() *TenantUpsertOne {
+	return u.Update(func(s *TenantUpsert) {
+		s.ClearIndustry()
+	})
+}
+
+// SetAdminUserID sets the "admin_user_id" field.
+func (u *TenantUpsertOne) SetAdminUserID(v uint32) *TenantUpsertOne {
+	return u.Update(func(s *TenantUpsert) {
+		s.SetAdminUserID(v)
+	})
+}
+
+// AddAdminUserID adds v to the "admin_user_id" field.
+func (u *TenantUpsertOne) AddAdminUserID(v uint32) *TenantUpsertOne {
+	return u.Update(func(s *TenantUpsert) {
+		s.AddAdminUserID(v)
+	})
+}
+
+// UpdateAdminUserID sets the "admin_user_id" field to the value that was provided on create.
+func (u *TenantUpsertOne) UpdateAdminUserID() *TenantUpsertOne {
+	return u.Update(func(s *TenantUpsert) {
+		s.UpdateAdminUserID()
+	})
+}
+
+// ClearAdminUserID clears the value of the "admin_user_id" field.
+func (u *TenantUpsertOne) ClearAdminUserID() *TenantUpsertOne {
+	return u.Update(func(s *TenantUpsert) {
+		s.ClearAdminUserID()
+	})
+}
+
+// SetStatus sets the "status" field.
+func (u *TenantUpsertOne) SetStatus(v tenant.Status) *TenantUpsertOne {
+	return u.Update(func(s *TenantUpsert) {
+		s.SetStatus(v)
+	})
+}
+
+// UpdateStatus sets the "status" field to the value that was provided on create.
+func (u *TenantUpsertOne) UpdateStatus() *TenantUpsertOne {
+	return u.Update(func(s *TenantUpsert) {
+		s.UpdateStatus()
+	})
+}
+
+// ClearStatus clears the value of the "status" field.
+func (u *TenantUpsertOne) ClearStatus() *TenantUpsertOne {
+	return u.Update(func(s *TenantUpsert) {
+		s.ClearStatus()
+	})
+}
+
+// SetType sets the "type" field.
+func (u *TenantUpsertOne) SetType(v tenant.Type) *TenantUpsertOne {
+	return u.Update(func(s *TenantUpsert) {
+		s.SetType(v)
+	})
+}
+
+// UpdateType sets the "type" field to the value that was provided on create.
+func (u *TenantUpsertOne) UpdateType() *TenantUpsertOne {
+	return u.Update(func(s *TenantUpsert) {
+		s.UpdateType()
+	})
+}
+
+// ClearType clears the value of the "type" field.
+func (u *TenantUpsertOne) ClearType() *TenantUpsertOne {
+	return u.Update(func(s *TenantUpsert) {
+		s.ClearType()
+	})
+}
+
+// SetAuditStatus sets the "audit_status" field.
+func (u *TenantUpsertOne) SetAuditStatus(v tenant.AuditStatus) *TenantUpsertOne {
+	return u.Update(func(s *TenantUpsert) {
+		s.SetAuditStatus(v)
+	})
+}
+
+// UpdateAuditStatus sets the "audit_status" field to the value that was provided on create.
+func (u *TenantUpsertOne) UpdateAuditStatus() *TenantUpsertOne {
+	return u.Update(func(s *TenantUpsert) {
+		s.UpdateAuditStatus()
+	})
+}
+
+// ClearAuditStatus clears the value of the "audit_status" field.
+func (u *TenantUpsertOne) ClearAuditStatus() *TenantUpsertOne {
+	return u.Update(func(s *TenantUpsert) {
+		s.ClearAuditStatus()
 	})
 }
 
@@ -924,6 +1294,90 @@ func (u *TenantUpsertOne) UpdateUnsubscribeAt() *TenantUpsertOne {
 func (u *TenantUpsertOne) ClearUnsubscribeAt() *TenantUpsertOne {
 	return u.Update(func(s *TenantUpsert) {
 		s.ClearUnsubscribeAt()
+	})
+}
+
+// SetSubscriptionPlan sets the "subscription_plan" field.
+func (u *TenantUpsertOne) SetSubscriptionPlan(v string) *TenantUpsertOne {
+	return u.Update(func(s *TenantUpsert) {
+		s.SetSubscriptionPlan(v)
+	})
+}
+
+// UpdateSubscriptionPlan sets the "subscription_plan" field to the value that was provided on create.
+func (u *TenantUpsertOne) UpdateSubscriptionPlan() *TenantUpsertOne {
+	return u.Update(func(s *TenantUpsert) {
+		s.UpdateSubscriptionPlan()
+	})
+}
+
+// ClearSubscriptionPlan clears the value of the "subscription_plan" field.
+func (u *TenantUpsertOne) ClearSubscriptionPlan() *TenantUpsertOne {
+	return u.Update(func(s *TenantUpsert) {
+		s.ClearSubscriptionPlan()
+	})
+}
+
+// SetExpiredAt sets the "expired_at" field.
+func (u *TenantUpsertOne) SetExpiredAt(v time.Time) *TenantUpsertOne {
+	return u.Update(func(s *TenantUpsert) {
+		s.SetExpiredAt(v)
+	})
+}
+
+// UpdateExpiredAt sets the "expired_at" field to the value that was provided on create.
+func (u *TenantUpsertOne) UpdateExpiredAt() *TenantUpsertOne {
+	return u.Update(func(s *TenantUpsert) {
+		s.UpdateExpiredAt()
+	})
+}
+
+// ClearExpiredAt clears the value of the "expired_at" field.
+func (u *TenantUpsertOne) ClearExpiredAt() *TenantUpsertOne {
+	return u.Update(func(s *TenantUpsert) {
+		s.ClearExpiredAt()
+	})
+}
+
+// SetLastLoginTime sets the "last_login_time" field.
+func (u *TenantUpsertOne) SetLastLoginTime(v time.Time) *TenantUpsertOne {
+	return u.Update(func(s *TenantUpsert) {
+		s.SetLastLoginTime(v)
+	})
+}
+
+// UpdateLastLoginTime sets the "last_login_time" field to the value that was provided on create.
+func (u *TenantUpsertOne) UpdateLastLoginTime() *TenantUpsertOne {
+	return u.Update(func(s *TenantUpsert) {
+		s.UpdateLastLoginTime()
+	})
+}
+
+// ClearLastLoginTime clears the value of the "last_login_time" field.
+func (u *TenantUpsertOne) ClearLastLoginTime() *TenantUpsertOne {
+	return u.Update(func(s *TenantUpsert) {
+		s.ClearLastLoginTime()
+	})
+}
+
+// SetLastLoginIP sets the "last_login_ip" field.
+func (u *TenantUpsertOne) SetLastLoginIP(v string) *TenantUpsertOne {
+	return u.Update(func(s *TenantUpsert) {
+		s.SetLastLoginIP(v)
+	})
+}
+
+// UpdateLastLoginIP sets the "last_login_ip" field to the value that was provided on create.
+func (u *TenantUpsertOne) UpdateLastLoginIP() *TenantUpsertOne {
+	return u.Update(func(s *TenantUpsert) {
+		s.UpdateLastLoginIP()
+	})
+}
+
+// ClearLastLoginIP clears the value of the "last_login_ip" field.
+func (u *TenantUpsertOne) ClearLastLoginIP() *TenantUpsertOne {
+	return u.Update(func(s *TenantUpsert) {
+		s.ClearLastLoginIP()
 	})
 }
 
@@ -1186,27 +1640,6 @@ func (u *TenantUpsertBulk) ClearDeleteTime() *TenantUpsertBulk {
 	})
 }
 
-// SetStatus sets the "status" field.
-func (u *TenantUpsertBulk) SetStatus(v tenant.Status) *TenantUpsertBulk {
-	return u.Update(func(s *TenantUpsert) {
-		s.SetStatus(v)
-	})
-}
-
-// UpdateStatus sets the "status" field to the value that was provided on create.
-func (u *TenantUpsertBulk) UpdateStatus() *TenantUpsertBulk {
-	return u.Update(func(s *TenantUpsert) {
-		s.UpdateStatus()
-	})
-}
-
-// ClearStatus clears the value of the "status" field.
-func (u *TenantUpsertBulk) ClearStatus() *TenantUpsertBulk {
-	return u.Update(func(s *TenantUpsert) {
-		s.ClearStatus()
-	})
-}
-
 // SetCreateBy sets the "create_by" field.
 func (u *TenantUpsertBulk) SetCreateBy(v uint32) *TenantUpsertBulk {
 	return u.Update(func(s *TenantUpsert) {
@@ -1326,31 +1759,136 @@ func (u *TenantUpsertBulk) ClearCode() *TenantUpsertBulk {
 	})
 }
 
-// SetMemberCount sets the "member_count" field.
-func (u *TenantUpsertBulk) SetMemberCount(v int32) *TenantUpsertBulk {
+// SetLogoURL sets the "logo_url" field.
+func (u *TenantUpsertBulk) SetLogoURL(v string) *TenantUpsertBulk {
 	return u.Update(func(s *TenantUpsert) {
-		s.SetMemberCount(v)
+		s.SetLogoURL(v)
 	})
 }
 
-// AddMemberCount adds v to the "member_count" field.
-func (u *TenantUpsertBulk) AddMemberCount(v int32) *TenantUpsertBulk {
+// UpdateLogoURL sets the "logo_url" field to the value that was provided on create.
+func (u *TenantUpsertBulk) UpdateLogoURL() *TenantUpsertBulk {
 	return u.Update(func(s *TenantUpsert) {
-		s.AddMemberCount(v)
+		s.UpdateLogoURL()
 	})
 }
 
-// UpdateMemberCount sets the "member_count" field to the value that was provided on create.
-func (u *TenantUpsertBulk) UpdateMemberCount() *TenantUpsertBulk {
+// ClearLogoURL clears the value of the "logo_url" field.
+func (u *TenantUpsertBulk) ClearLogoURL() *TenantUpsertBulk {
 	return u.Update(func(s *TenantUpsert) {
-		s.UpdateMemberCount()
+		s.ClearLogoURL()
 	})
 }
 
-// ClearMemberCount clears the value of the "member_count" field.
-func (u *TenantUpsertBulk) ClearMemberCount() *TenantUpsertBulk {
+// SetIndustry sets the "industry" field.
+func (u *TenantUpsertBulk) SetIndustry(v string) *TenantUpsertBulk {
 	return u.Update(func(s *TenantUpsert) {
-		s.ClearMemberCount()
+		s.SetIndustry(v)
+	})
+}
+
+// UpdateIndustry sets the "industry" field to the value that was provided on create.
+func (u *TenantUpsertBulk) UpdateIndustry() *TenantUpsertBulk {
+	return u.Update(func(s *TenantUpsert) {
+		s.UpdateIndustry()
+	})
+}
+
+// ClearIndustry clears the value of the "industry" field.
+func (u *TenantUpsertBulk) ClearIndustry() *TenantUpsertBulk {
+	return u.Update(func(s *TenantUpsert) {
+		s.ClearIndustry()
+	})
+}
+
+// SetAdminUserID sets the "admin_user_id" field.
+func (u *TenantUpsertBulk) SetAdminUserID(v uint32) *TenantUpsertBulk {
+	return u.Update(func(s *TenantUpsert) {
+		s.SetAdminUserID(v)
+	})
+}
+
+// AddAdminUserID adds v to the "admin_user_id" field.
+func (u *TenantUpsertBulk) AddAdminUserID(v uint32) *TenantUpsertBulk {
+	return u.Update(func(s *TenantUpsert) {
+		s.AddAdminUserID(v)
+	})
+}
+
+// UpdateAdminUserID sets the "admin_user_id" field to the value that was provided on create.
+func (u *TenantUpsertBulk) UpdateAdminUserID() *TenantUpsertBulk {
+	return u.Update(func(s *TenantUpsert) {
+		s.UpdateAdminUserID()
+	})
+}
+
+// ClearAdminUserID clears the value of the "admin_user_id" field.
+func (u *TenantUpsertBulk) ClearAdminUserID() *TenantUpsertBulk {
+	return u.Update(func(s *TenantUpsert) {
+		s.ClearAdminUserID()
+	})
+}
+
+// SetStatus sets the "status" field.
+func (u *TenantUpsertBulk) SetStatus(v tenant.Status) *TenantUpsertBulk {
+	return u.Update(func(s *TenantUpsert) {
+		s.SetStatus(v)
+	})
+}
+
+// UpdateStatus sets the "status" field to the value that was provided on create.
+func (u *TenantUpsertBulk) UpdateStatus() *TenantUpsertBulk {
+	return u.Update(func(s *TenantUpsert) {
+		s.UpdateStatus()
+	})
+}
+
+// ClearStatus clears the value of the "status" field.
+func (u *TenantUpsertBulk) ClearStatus() *TenantUpsertBulk {
+	return u.Update(func(s *TenantUpsert) {
+		s.ClearStatus()
+	})
+}
+
+// SetType sets the "type" field.
+func (u *TenantUpsertBulk) SetType(v tenant.Type) *TenantUpsertBulk {
+	return u.Update(func(s *TenantUpsert) {
+		s.SetType(v)
+	})
+}
+
+// UpdateType sets the "type" field to the value that was provided on create.
+func (u *TenantUpsertBulk) UpdateType() *TenantUpsertBulk {
+	return u.Update(func(s *TenantUpsert) {
+		s.UpdateType()
+	})
+}
+
+// ClearType clears the value of the "type" field.
+func (u *TenantUpsertBulk) ClearType() *TenantUpsertBulk {
+	return u.Update(func(s *TenantUpsert) {
+		s.ClearType()
+	})
+}
+
+// SetAuditStatus sets the "audit_status" field.
+func (u *TenantUpsertBulk) SetAuditStatus(v tenant.AuditStatus) *TenantUpsertBulk {
+	return u.Update(func(s *TenantUpsert) {
+		s.SetAuditStatus(v)
+	})
+}
+
+// UpdateAuditStatus sets the "audit_status" field to the value that was provided on create.
+func (u *TenantUpsertBulk) UpdateAuditStatus() *TenantUpsertBulk {
+	return u.Update(func(s *TenantUpsert) {
+		s.UpdateAuditStatus()
+	})
+}
+
+// ClearAuditStatus clears the value of the "audit_status" field.
+func (u *TenantUpsertBulk) ClearAuditStatus() *TenantUpsertBulk {
+	return u.Update(func(s *TenantUpsert) {
+		s.ClearAuditStatus()
 	})
 }
 
@@ -1393,6 +1931,90 @@ func (u *TenantUpsertBulk) UpdateUnsubscribeAt() *TenantUpsertBulk {
 func (u *TenantUpsertBulk) ClearUnsubscribeAt() *TenantUpsertBulk {
 	return u.Update(func(s *TenantUpsert) {
 		s.ClearUnsubscribeAt()
+	})
+}
+
+// SetSubscriptionPlan sets the "subscription_plan" field.
+func (u *TenantUpsertBulk) SetSubscriptionPlan(v string) *TenantUpsertBulk {
+	return u.Update(func(s *TenantUpsert) {
+		s.SetSubscriptionPlan(v)
+	})
+}
+
+// UpdateSubscriptionPlan sets the "subscription_plan" field to the value that was provided on create.
+func (u *TenantUpsertBulk) UpdateSubscriptionPlan() *TenantUpsertBulk {
+	return u.Update(func(s *TenantUpsert) {
+		s.UpdateSubscriptionPlan()
+	})
+}
+
+// ClearSubscriptionPlan clears the value of the "subscription_plan" field.
+func (u *TenantUpsertBulk) ClearSubscriptionPlan() *TenantUpsertBulk {
+	return u.Update(func(s *TenantUpsert) {
+		s.ClearSubscriptionPlan()
+	})
+}
+
+// SetExpiredAt sets the "expired_at" field.
+func (u *TenantUpsertBulk) SetExpiredAt(v time.Time) *TenantUpsertBulk {
+	return u.Update(func(s *TenantUpsert) {
+		s.SetExpiredAt(v)
+	})
+}
+
+// UpdateExpiredAt sets the "expired_at" field to the value that was provided on create.
+func (u *TenantUpsertBulk) UpdateExpiredAt() *TenantUpsertBulk {
+	return u.Update(func(s *TenantUpsert) {
+		s.UpdateExpiredAt()
+	})
+}
+
+// ClearExpiredAt clears the value of the "expired_at" field.
+func (u *TenantUpsertBulk) ClearExpiredAt() *TenantUpsertBulk {
+	return u.Update(func(s *TenantUpsert) {
+		s.ClearExpiredAt()
+	})
+}
+
+// SetLastLoginTime sets the "last_login_time" field.
+func (u *TenantUpsertBulk) SetLastLoginTime(v time.Time) *TenantUpsertBulk {
+	return u.Update(func(s *TenantUpsert) {
+		s.SetLastLoginTime(v)
+	})
+}
+
+// UpdateLastLoginTime sets the "last_login_time" field to the value that was provided on create.
+func (u *TenantUpsertBulk) UpdateLastLoginTime() *TenantUpsertBulk {
+	return u.Update(func(s *TenantUpsert) {
+		s.UpdateLastLoginTime()
+	})
+}
+
+// ClearLastLoginTime clears the value of the "last_login_time" field.
+func (u *TenantUpsertBulk) ClearLastLoginTime() *TenantUpsertBulk {
+	return u.Update(func(s *TenantUpsert) {
+		s.ClearLastLoginTime()
+	})
+}
+
+// SetLastLoginIP sets the "last_login_ip" field.
+func (u *TenantUpsertBulk) SetLastLoginIP(v string) *TenantUpsertBulk {
+	return u.Update(func(s *TenantUpsert) {
+		s.SetLastLoginIP(v)
+	})
+}
+
+// UpdateLastLoginIP sets the "last_login_ip" field to the value that was provided on create.
+func (u *TenantUpsertBulk) UpdateLastLoginIP() *TenantUpsertBulk {
+	return u.Update(func(s *TenantUpsert) {
+		s.UpdateLastLoginIP()
+	})
+}
+
+// ClearLastLoginIP clears the value of the "last_login_ip" field.
+func (u *TenantUpsertBulk) ClearLastLoginIP() *TenantUpsertBulk {
+	return u.Update(func(s *TenantUpsert) {
+		s.ClearLastLoginIP()
 	})
 }
 

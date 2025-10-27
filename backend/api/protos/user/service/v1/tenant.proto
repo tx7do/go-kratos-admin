@@ -31,6 +31,36 @@ service TenantService {
   rpc BatchCreate ( BatchCreateTenantsRequest ) returns ( BatchCreateTenantsResponse ) {}
 }
 
+// 租户状态
+enum TenantStatus {
+  TENANT_STATUS_UNSPECIFIED = 0; // 未指定
+
+  TENANT_STATUS_ON = 1;          // 启用
+  TENANT_STATUS_OFF = 2;         // 禁用
+  TENANT_STATUS_EXPIRED = 3;     // 过期
+  TENANT_STATUS_FREEZE = 4;      // 冻结
+}
+
+// 租户类型
+enum TenantType {
+  TENANT_TYPE_UNSPECIFIED = 0; // 未指定
+
+  TENANT_TYPE_TRIAL = 1;       // 试用
+  TENANT_TYPE_PAID = 2;        // 付费
+  TENANT_TYPE_INTERNAL = 3;    // 内部
+  TENANT_TYPE_PARTNER = 4;     // 合作伙伴
+  TENANT_TYPE_CUSTOM = 5;      // 定制
+}
+
+// 租户审核状态
+enum TenantAuditStatus {
+  TENANT_AUDIT_STATUS_UNSPECIFIED = 0; // 未指定
+
+  TENANT_AUDIT_STATUS_PENDING = 1;      // 待审核
+  TENANT_AUDIT_STATUS_APPROVED = 2;     // 审核通过
+  TENANT_AUDIT_STATUS_REJECTED = 3;     // 审核拒绝
+}
+
 // 租户
 message Tenant {
   optional uint32 id = 1 [
@@ -48,36 +78,72 @@ message Tenant {
     (gnostic.openapi.v3.property) = {description: "租户编码"}
   ];  // 租户编码
 
-  optional int32 member_count = 4 [
+  optional string logo_url = 4 [
+    json_name = "logoUrl",
+    (gnostic.openapi.v3.property) = {description: "租户logo地址"}
+  ];  // 租户logo地址
+
+  optional string industry = 5 [
+    json_name = "industry",
+    (gnostic.openapi.v3.property) = {description: "所属行业（如“互联网”“金融”“制造”）"}
+  ];  // 所属行业
+
+  optional TenantStatus status = 6 [(gnostic.openapi.v3.property) = {description: "租户状态"}]; // 租户状态
+  optional TenantType type = 7 [(gnostic.openapi.v3.property) = {description: "租户类型"}]; // 租户类型
+  optional TenantAuditStatus audit_status = 8 [
+    json_name = "auditStatus",
+    (gnostic.openapi.v3.property) = {description: "审核状态"}
+  ]; // 审核状态
+
+  optional string remark = 9 [
+    json_name = "remark",
+    (gnostic.openapi.v3.property) = {description: "备注"}
+  ]; // 备注
+
+  optional uint32 admin_user_id = 10 [
+    json_name = "adminUserId",
+    (gnostic.openapi.v3.property) = {description: "管理员用户ID"}
+  ];  // 管理员用户ID
+
+  optional string admin_user_name = 11 [
+    json_name = "adminUserName",
+    (gnostic.openapi.v3.property) = {description: "管理员用户名"}
+  ];  // 管理员用户名
+
+  optional google.protobuf.Timestamp subscription_at = 20 [
+    json_name = "subscriptionAt",
+    (gnostic.openapi.v3.property) = {description: "订阅时间（首次订阅/续费时间，NULL表示未订阅）"}
+  ]; // 订阅时间（首次订阅/续费时间，NULL表示未订阅）
+  optional google.protobuf.Timestamp unsubscribe_at = 21 [
+    json_name = "unsubscribeAt",
+    (gnostic.openapi.v3.property) = {description: "取消订阅时间"}
+  ]; // 取消订阅时间（NULL表示未取消）
+  optional google.protobuf.Timestamp expired_at = 22 [
+    json_name = "expiredAt",
+    (gnostic.openapi.v3.property) = {description: "租户有效期（NULL表示永久，过期后状态自动改为“过期”）"}
+  ]; // 租户有效期（NULL表示永久，过期后状态自动改为“过期”）
+  optional string subscription_plan = 23 [
+    json_name = "subscriptionPlan",
+    (gnostic.openapi.v3.property) = {description: "订阅套餐（如“企业版1年”“基础版3个月”）"}
+  ]; // 订阅套餐（如“企业版1年”“基础版3个月”）
+
+  optional int32 member_count = 30 [
     json_name = "memberCount",
     (gnostic.openapi.v3.property) = {description: "成员数量"}
   ];  // 成员数量
 
-  optional string status = 5 [(gnostic.openapi.v3.property) = {
-    description: "状态"
-    default: { string: "ON" }
-    enum: [{yaml: "ON"}, {yaml: "OFF"}]
-  }];
+  optional google.protobuf.Timestamp last_login_time = 31 [
+    json_name = "lastLoginTime",
+    (gnostic.openapi.v3.property) = {description: "最后登录时间"}
+  ]; // 最后登录时间
 
-  optional string remark = 6 [
-    json_name = "remark",
-    (gnostic.openapi.v3.property) = {
-      description: "备注"
-    }
-  ]; // 备注
+  optional string last_login_ip = 32 [
+    json_name = "lastLoginIp",
+    (gnostic.openapi.v3.property) = {description: "最后登录IP"}
+  ]; // 最后登录IP
 
-  optional google.protobuf.Timestamp subscription_at = 10 [
-    json_name = "subscriptionAt",
-    (gnostic.openapi.v3.property) = {
-      description: "订阅时间"
-    }
-  ];
-  optional google.protobuf.Timestamp unsubscribe_at = 11 [
-    json_name = "unsubscribeAt",
-    (gnostic.openapi.v3.property) = {
-      description: "退订时间"
-    }
-  ];
+  optional uint32 parent_id = 50 [json_name = "parentId", (gnostic.openapi.v3.property) = {description: "父节点ID"}];  // 父节点ID
+  repeated Tenant children = 51 [json_name = "children", (gnostic.openapi.v3.property) = {description: "子节点树"}];  // 子节点树
 
   optional uint32 create_by = 100 [json_name = "createBy", (gnostic.openapi.v3.property) = {description: "创建者ID"}]; // 创建者ID
   optional uint32 update_by = 101 [json_name = "updateBy", (gnostic.openapi.v3.property) = {description: "更新者ID"}]; // 更新者ID

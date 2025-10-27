@@ -36,7 +36,7 @@ type NotificationMessageCategory struct {
 	Name *string `json:"name,omitempty"`
 	// 编码
 	Code *string `json:"code,omitempty"`
-	// 排序编号
+	// 排序ID
 	SortID *int32 `json:"sort_id,omitempty"`
 	// 是否启用
 	Enable *bool `json:"enable,omitempty"`

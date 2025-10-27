@@ -295,17 +295,13 @@ func (_c *PositionCreate) defaults() {
 		v := position.DefaultRemark
 		_c.mutation.SetRemark(v)
 	}
-	if _, ok := _c.mutation.Name(); !ok {
-		v := position.DefaultName
-		_c.mutation.SetName(v)
-	}
-	if _, ok := _c.mutation.ParentID(); !ok {
-		v := position.DefaultParentID
-		_c.mutation.SetParentID(v)
-	}
 	if _, ok := _c.mutation.SortID(); !ok {
 		v := position.DefaultSortID
 		_c.mutation.SetSortID(v)
+	}
+	if _, ok := _c.mutation.Status(); !ok {
+		v := position.DefaultStatus
+		_c.mutation.SetStatus(v)
 	}
 }
 
@@ -316,12 +312,14 @@ func (_c *PositionCreate) check() error {
 			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "Position.tenant_id": %w`, err)}
 		}
 	}
-	if _, ok := _c.mutation.Name(); !ok {
-		return &ValidationError{Name: "name", err: errors.New(`ent: missing required field "Position.name"`)}
-	}
 	if v, ok := _c.mutation.Name(); ok {
 		if err := position.NameValidator(v); err != nil {
 			return &ValidationError{Name: "name", err: fmt.Errorf(`ent: validator failed for field "Position.name": %w`, err)}
+		}
+	}
+	if v, ok := _c.mutation.Code(); ok {
+		if err := position.CodeValidator(v); err != nil {
+			return &ValidationError{Name: "code", err: fmt.Errorf(`ent: validator failed for field "Position.code": %w`, err)}
 		}
 	}
 	if _, ok := _c.mutation.OrganizationID(); !ok {
@@ -403,7 +401,7 @@ func (_c *PositionCreate) createSpec() (*Position, *sqlgraph.CreateSpec) {
 	}
 	if value, ok := _c.mutation.Name(); ok {
 		_spec.SetField(position.FieldName, field.TypeString, value)
-		_node.Name = value
+		_node.Name = &value
 	}
 	if value, ok := _c.mutation.Code(); ok {
 		_spec.SetField(position.FieldCode, field.TypeString, value)
@@ -629,6 +627,12 @@ func (u *PositionUpsert) SetName(v string) *PositionUpsert {
 // UpdateName sets the "name" field to the value that was provided on create.
 func (u *PositionUpsert) UpdateName() *PositionUpsert {
 	u.SetExcluded(position.FieldName)
+	return u
+}
+
+// ClearName clears the value of the "name" field.
+func (u *PositionUpsert) ClearName() *PositionUpsert {
+	u.SetNull(position.FieldName)
 	return u
 }
 
@@ -972,6 +976,13 @@ func (u *PositionUpsertOne) SetName(v string) *PositionUpsertOne {
 func (u *PositionUpsertOne) UpdateName() *PositionUpsertOne {
 	return u.Update(func(s *PositionUpsert) {
 		s.UpdateName()
+	})
+}
+
+// ClearName clears the value of the "name" field.
+func (u *PositionUpsertOne) ClearName() *PositionUpsertOne {
+	return u.Update(func(s *PositionUpsert) {
+		s.ClearName()
 	})
 }
 
@@ -1507,6 +1518,13 @@ func (u *PositionUpsertBulk) SetName(v string) *PositionUpsertBulk {
 func (u *PositionUpsertBulk) UpdateName() *PositionUpsertBulk {
 	return u.Update(func(s *PositionUpsert) {
 		s.UpdateName()
+	})
+}
+
+// ClearName clears the value of the "name" field.
+func (u *PositionUpsertBulk) ClearName() *PositionUpsertBulk {
+	return u.Update(func(s *PositionUpsert) {
+		s.ClearName()
 	})
 }
 

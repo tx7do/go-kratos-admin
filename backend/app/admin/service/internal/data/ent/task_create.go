@@ -242,6 +242,10 @@ func (_c *TaskCreate) defaults() {
 		v := task.DefaultRemark
 		_c.mutation.SetRemark(v)
 	}
+	if _, ok := _c.mutation.GetType(); !ok {
+		v := task.DefaultType
+		_c.mutation.SetType(v)
+	}
 }
 
 // check runs all checks and user-defined validators on the builder.

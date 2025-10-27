@@ -54,7 +54,10 @@ const [BaseForm, baseFormApi] = useVbenForm({
       componentProps: {
         options: adminLoginRestrictionTypeList,
         placeholder: $t('ui.placeholder.select'),
+        filterOption: (input: string, option: any) =>
+          option.label.toLowerCase().includes(input.toLowerCase()),
         allowClear: true,
+        showSearch: true,
       },
       rules: 'required',
     },
@@ -65,7 +68,10 @@ const [BaseForm, baseFormApi] = useVbenForm({
       componentProps: {
         options: adminLoginRestrictionMethodList,
         placeholder: $t('ui.placeholder.select'),
+        filterOption: (input: string, option: any) =>
+          option.label.toLowerCase().includes(input.toLowerCase()),
         allowClear: true,
+        showSearch: true,
       },
       rules: 'required',
     },

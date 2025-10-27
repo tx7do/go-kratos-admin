@@ -50,7 +50,10 @@ const formOptions: VbenFormProps = {
       componentProps: {
         options: methodList,
         placeholder: $t('ui.placeholder.select'),
+        filterOption: (input: string, option: any) =>
+          option.label.toLowerCase().includes(input.toLowerCase()),
         allowClear: true,
+        showSearch: true,
       },
     },
     {

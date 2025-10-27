@@ -75,8 +75,11 @@ const [BaseForm, baseFormApi] = useVbenForm({
       fieldName: 'managerId',
       label: $t('page.org.managerId'),
       componentProps: {
-        placeholder: $t('ui.placeholder.select'),
         allowClear: true,
+        showSearch: true,
+        placeholder: $t('ui.placeholder.select'),
+        filterOption: (input: string, option: any) =>
+          option.label.toLowerCase().includes(input.toLowerCase()),
         afterFetch: (data: { name: string; path: string }[]) => {
           return data.map((item: any) => ({
             label: item.nickname,
@@ -99,7 +102,10 @@ const [BaseForm, baseFormApi] = useVbenForm({
       componentProps: {
         placeholder: $t('ui.placeholder.select'),
         options: organizationTypeList,
+        filterOption: (input: string, option: any) =>
+          option.label.toLowerCase().includes(input.toLowerCase()),
         allowClear: true,
+        showSearch: true,
       },
       rules: 'selectRequired',
     },

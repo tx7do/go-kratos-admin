@@ -49,7 +49,10 @@ const formOptions: VbenFormProps = {
       componentProps: {
         options: statusList,
         placeholder: $t('ui.placeholder.select'),
+        filterOption: (input: string, option: any) =>
+          option.label.toLowerCase().includes(input.toLowerCase()),
         allowClear: true,
+        showSearch: true,
       },
     },
   ],

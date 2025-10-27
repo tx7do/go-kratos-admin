@@ -99,6 +99,10 @@ const [BaseForm, baseFormApi] = useVbenForm({
       componentProps: {
         placeholder: $t('ui.placeholder.select'),
         options: authorityList,
+        filterOption: (input: string, option: any) =>
+          option.label.toLowerCase().includes(input.toLowerCase()),
+        allowClear: true,
+        showSearch: true,
       },
       rules: 'selectRequired',
       dependencies: {
@@ -270,6 +274,10 @@ const [BaseForm, baseFormApi] = useVbenForm({
       label: $t('page.user.table.gender'),
       defaultValue: User_Gender.SECRET,
       componentProps: {
+        filterOption: (input: string, option: any) =>
+          option.label.toLowerCase().includes(input.toLowerCase()),
+        allowClear: true,
+        showSearch: true,
         options: genderList,
         placeholder: $t('ui.placeholder.select'),
       },

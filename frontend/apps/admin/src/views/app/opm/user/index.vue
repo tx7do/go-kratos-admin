@@ -80,8 +80,11 @@ const formOptions: VbenFormProps = {
       label: $t('page.user.form.authority'),
       componentProps: {
         placeholder: $t('ui.placeholder.input'),
-        allowClear: true,
         options: authorityList,
+        filterOption: (input: string, option: any) =>
+          option.label.toLowerCase().includes(input.toLowerCase()),
+        allowClear: true,
+        showSearch: true,
       },
     },
     {
@@ -89,8 +92,11 @@ const formOptions: VbenFormProps = {
       fieldName: 'roleId',
       label: $t('page.user.form.role'),
       componentProps: {
-        placeholder: $t('ui.placeholder.select'),
         allowClear: true,
+        showSearch: true,
+        placeholder: $t('ui.placeholder.select'),
+        filterOption: (input: string, option: any) =>
+          option.label.toLowerCase().includes(input.toLowerCase()),
         afterFetch: (data: { name: string; path: string }[]) => {
           return data.map((item: any) => ({
             label: item.name,

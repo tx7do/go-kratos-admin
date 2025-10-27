@@ -7,8 +7,17 @@ import { $t } from '@vben/locales';
 import { notification } from 'ant-design-vue';
 
 import { useVbenForm } from '#/adapter/form';
-import { Tenant_Status } from '#/generated/api/user/service/v1/tenant.pb';
-import { statusList, useTenantStore } from '#/stores';
+import {
+  Tenant_AuditStatus,
+  Tenant_Status,
+  Tenant_Type,
+} from '#/generated/api/user/service/v1/tenant.pb';
+import {
+  tenantAuditStatusList,
+  tenantStatusList,
+  tenantTypeList,
+  useTenantStore,
+} from '#/stores';
 
 const tenantStore = useTenantStore();
 
@@ -52,16 +61,47 @@ const [BaseForm, baseFormApi] = useVbenForm({
       rules: 'required',
     },
     {
-      component: 'RadioGroup',
+      component: 'Select',
+      fieldName: 'type',
+      label: $t('page.tenant.type'),
+      defaultValue: Tenant_Type.PAID,
+      componentProps: {
+        placeholder: $t('ui.placeholder.select'),
+        options: tenantTypeList,
+        filterOption: (input: string, option: any) =>
+          option.label.toLowerCase().includes(input.toLowerCase()),
+        allowClear: true,
+        showSearch: true,
+      },
+      rules: 'selectRequired',
+    },
+    {
+      component: 'Select',
+      fieldName: 'auditStatus',
+      label: $t('page.tenant.auditStatus'),
+      defaultValue: Tenant_AuditStatus.PENDING,
+      componentProps: {
+        placeholder: $t('ui.placeholder.select'),
+        options: tenantAuditStatusList,
+        filterOption: (input: string, option: any) =>
+          option.label.toLowerCase().includes(input.toLowerCase()),
+        allowClear: true,
+        showSearch: true,
+      },
+      rules: 'selectRequired',
+    },
+    {
+      component: 'Select',
       fieldName: 'status',
       defaultValue: Tenant_Status.ON,
       label: $t('ui.table.status'),
       rules: 'selectRequired',
       componentProps: {
-        optionType: 'button',
-        buttonStyle: 'solid',
-        class: 'flex flex-wrap', // 如果选项过多，可以添加class来自动折叠
-        options: statusList,
+        options: tenantStatusList,
+        filterOption: (input: string, option: any) =>
+          option.label.toLowerCase().includes(input.toLowerCase()),
+        allowClear: true,
+        showSearch: true,
       },
     },
     {
@@ -71,6 +111,23 @@ const [BaseForm, baseFormApi] = useVbenForm({
       componentProps: {
         placeholder: $t('ui.placeholder.input'),
         allowClear: true,
+      },
+    },
+
+    {
+      component: 'Divider',
+      fieldName: 'divider1',
+      hideLabel: true,
+      dependencies: {
+        show: (_values) => {
+          return data.value?.create;
+        },
+        triggerFields: ['type'],
+      },
+      renderComponentContent() {
+        return {
+          default: () => $t('page.tenant.adminSetting'),
+        };
       },
     },
   ],

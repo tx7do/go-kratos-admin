@@ -134,6 +134,9 @@ func StatusValidator(s Status) error {
 // Type defines the type for the "type" enum field.
 type Type string
 
+// TypePaid is the default value of the Type enum.
+const DefaultType = TypePaid
+
 // Type values.
 const (
 	TypeTrial    Type = "TRIAL"

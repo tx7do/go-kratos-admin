@@ -13,8 +13,12 @@ import { useVbenVxeGrid } from '#/adapter/vxe-table';
 import { $t } from '#/locales';
 import {
   statusList,
-  statusToColor,
-  statusToName,
+  tenantAuditStatusToColor,
+  tenantAuditStatusToName, tenantStatusList,
+  tenantStatusToColor,
+  tenantStatusToName,
+  tenantTypeToColor,
+  tenantTypeToName,
   useTenantStore,
 } from '#/stores';
 
@@ -53,7 +57,7 @@ const formOptions: VbenFormProps = {
       fieldName: 'status',
       label: $t('ui.table.status'),
       componentProps: {
-        options: statusList,
+        options: tenantStatusList,
         placeholder: $t('ui.placeholder.select'),
         filterOption: (input: string, option: any) =>
           option.label.toLowerCase().includes(input.toLowerCase()),
@@ -106,6 +110,18 @@ const gridOptions: VxeGridProps<Tenant> = {
     { title: $t('ui.table.seq'), type: 'seq', width: 50 },
     { title: $t('page.tenant.name'), field: 'name' },
     { title: $t('page.tenant.code'), field: 'code' },
+    {
+      title: $t('page.tenant.type'),
+      field: 'type',
+      slots: { default: 'type' },
+      width: 95,
+    },
+    {
+      title: $t('page.tenant.auditStatus'),
+      field: 'auditStatus',
+      slots: { default: 'audit-status' },
+      width: 95,
+    },
     {
       title: $t('ui.table.status'),
       field: 'status',
@@ -195,8 +211,18 @@ async function handleDelete(row: any) {
         </a-button>
       </template>
       <template #status="{ row }">
-        <a-tag :color="statusToColor(row.status)">
-          {{ statusToName(row.status) }}
+        <a-tag :color="tenantStatusToColor(row.status)">
+          {{ tenantStatusToName(row.status) }}
+        </a-tag>
+      </template>
+      <template #type="{ row }">
+        <a-tag :color="tenantTypeToColor(row.type)">
+          {{ tenantTypeToName(row.type) }}
+        </a-tag>
+      </template>
+      <template #audit-status="{ row }">
+        <a-tag :color="tenantAuditStatusToColor(row.auditStatus)">
+          {{ tenantAuditStatusToName(row.auditStatus) }}
         </a-tag>
       </template>
       <template #action="{ row }">

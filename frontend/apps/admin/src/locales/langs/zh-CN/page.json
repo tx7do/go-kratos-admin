@@ -178,6 +178,19 @@
     "moduleName": "租户",
     "name": "租户名称",
     "code": "租户编码",
+    "type": "租户类型",
+    "auditStatus": "审核状态",
+    "adminSetting": "租户管理员",
+    "lastLoginTime" : "最后登录时间",
+    "lastLoginIp" : "最后登录IP",
+    "logoUrl": "LOGO地址",
+    "industry": "所属行业",
+    "subscriptionPlan": "订阅套餐",
+    "expiredAt": "到期时间",
+    "memberCount": "成员数量",
+    "subscriptionAt": "订阅时间",
+    "unsubscribeAt": "退订时间",
+    "adminUserName": "管理员用户名",
     "button": {
       "create": "创建租户"
     }

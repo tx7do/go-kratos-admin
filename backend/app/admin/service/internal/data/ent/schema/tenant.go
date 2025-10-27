@@ -80,6 +80,7 @@ func (Tenant) Fields() []ent.Field {
 				"Partner", "PARTNER",
 				"Custom", "CUSTOM",
 			).
+			Default("PAID").
 			Optional().
 			Nillable(),
 

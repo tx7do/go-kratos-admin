@@ -864,7 +864,7 @@ var (
 		{Name: "industry", Type: field.TypeString, Nullable: true, Comment: "所属行业"},
 		{Name: "admin_user_id", Type: field.TypeUint32, Nullable: true, Comment: "管理员用户ID"},
 		{Name: "status", Type: field.TypeEnum, Nullable: true, Comment: "租户状态", Enums: []string{"ON", "OFF", "EXPIRED", "FREEZE"}, Default: "ON"},
-		{Name: "type", Type: field.TypeEnum, Nullable: true, Comment: "租户类型", Enums: []string{"TRIAL", "PAID", "INTERNAL", "PARTNER", "CUSTOM"}},
+		{Name: "type", Type: field.TypeEnum, Nullable: true, Comment: "租户类型", Enums: []string{"TRIAL", "PAID", "INTERNAL", "PARTNER", "CUSTOM"}, Default: "PAID"},
 		{Name: "audit_status", Type: field.TypeEnum, Nullable: true, Comment: "审核状态", Enums: []string{"PENDING", "APPROVED", "REJECTED"}},
 		{Name: "subscription_at", Type: field.TypeTime, Nullable: true, Comment: "订阅时间"},
 		{Name: "unsubscribe_at", Type: field.TypeTime, Nullable: true, Comment: "取消订阅时间"},

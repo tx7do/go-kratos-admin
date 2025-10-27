@@ -351,6 +351,10 @@ func (_c *TenantCreate) defaults() {
 		v := tenant.DefaultStatus
 		_c.mutation.SetStatus(v)
 	}
+	if _, ok := _c.mutation.GetType(); !ok {
+		v := tenant.DefaultType
+		_c.mutation.SetType(v)
+	}
 }
 
 // check runs all checks and user-defined validators on the builder.

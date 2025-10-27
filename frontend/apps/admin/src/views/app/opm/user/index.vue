@@ -28,6 +28,9 @@ import {
 } from '#/stores';
 
 import UserDrawer from './user-drawer.vue';
+import {OrganizationStatus} from "#/generated/api/user/service/v1/organization.pb";
+import {DepartmentStatus} from "#/generated/api/user/service/v1/department.pb";
+import {PositionStatus} from "#/generated/api/user/service/v1/position.pb";
 
 const userStore = useUserStore();
 const roleStore = useRoleStore();
@@ -114,7 +117,7 @@ const formOptions: VbenFormProps = {
         allowClear: true,
         api: async () => {
           const result = await orgStore.listOrganization(true, null, null, {
-            status: 'ON',
+            status: OrganizationStatus.ORGANIZATION_STATUS_ON,
           });
           return result.items;
         },
@@ -135,7 +138,7 @@ const formOptions: VbenFormProps = {
         allowClear: true,
         api: async () => {
           const result = await deptStore.listDepartment(true, null, null, {
-            status: 'ON',
+            status: DepartmentStatus.DEPARTMENT_STATUS_ON,
           });
           return result.items;
         },
@@ -156,7 +159,7 @@ const formOptions: VbenFormProps = {
         valueField: 'id',
         api: async () => {
           const result = await positionStore.listPosition(true, null, null, {
-            status: 'ON',
+            status: PositionStatus.POSITION_STATUS_ON,
           });
           return result.items;
         },

@@ -1,6 +1,9 @@
 <script lang="ts" setup>
-import type { Department } from '#/generated/api/user/service/v1/department.pb';
-import type { Organization } from '#/generated/api/user/service/v1/organization.pb';
+import {type Department, DepartmentStatus} from '#/generated/api/user/service/v1/department.pb';
+import {
+  type Organization,
+  OrganizationStatus
+} from '#/generated/api/user/service/v1/organization.pb';
 
 import { computed, ref } from 'vue';
 
@@ -10,7 +13,7 @@ import { $t } from '@vben/locales';
 import { notification } from 'ant-design-vue';
 
 import { useVbenForm, z } from '#/adapter/form';
-import { type Position } from '#/generated/api/user/service/v1/position.pb';
+import {type Position, PositionStatus} from '#/generated/api/user/service/v1/position.pb';
 import {
   UserAuthority,
   UserGender,
@@ -132,7 +135,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
         valueField: 'id',
         api: async () => {
           const result = await orgStore.listOrganization(true, null, null, {
-            status: 'ON',
+            status: OrganizationStatus.ORGANIZATION_STATUS_ON,
           });
           orgList.value = result.items;
           return result.items;
@@ -171,7 +174,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
           // console.log('values', values);
 
           const result = await deptStore.listDepartment(true, null, null, {
-            status: 'ON',
+            status: DepartmentStatus.DEPARTMENT_STATUS_ON,
             organizationId: values.orgId,
           });
           deptList.value = result.items;
@@ -218,7 +221,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
         valueField: 'id',
         api: async () => {
           const result = await positionStore.listPosition(true, null, null, {
-            status: 'ON',
+            status: PositionStatus.POSITION_STATUS_ON,
           });
           positionList.value = result.items;
           return result.items;

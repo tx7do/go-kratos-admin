@@ -24,6 +24,8 @@ import {
 } from '#/stores';
 
 import PositionDrawer from './position-drawer.vue';
+import {OrganizationStatus} from "#/generated/api/user/service/v1/organization.pb";
+import {DepartmentStatus} from "#/generated/api/user/service/v1/department.pb";
 
 const positionStore = usePositionStore();
 const deptStore = useDepartmentStore();
@@ -81,7 +83,7 @@ const formOptions: VbenFormProps = {
         api: async () => {
           const result = await orgStore.listOrganization(true, null, null, {
             // parent_id: 0,
-            status: 'ON',
+            status: OrganizationStatus.ORGANIZATION_STATUS_ON,
           });
           return result.items;
         },
@@ -103,7 +105,7 @@ const formOptions: VbenFormProps = {
         api: async () => {
           const result = await deptStore.listDepartment(true, null, null, {
             // parent_id: 0,
-            status: 'ON',
+            status: DepartmentStatus.DEPARTMENT_STATUS_ON,
           });
           return result.items;
         },

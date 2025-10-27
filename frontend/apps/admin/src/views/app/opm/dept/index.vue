@@ -23,6 +23,7 @@ import {
 } from '#/stores';
 
 import DeptDrawer from './dept-drawer.vue';
+import {OrganizationStatus} from "#/generated/api/user/service/v1/organization.pb";
 
 const deptStore = useDepartmentStore();
 const orgStore = useOrganizationStore();
@@ -70,7 +71,7 @@ const formOptions: VbenFormProps = {
         api: async () => {
           const result = await orgStore.listOrganization(true, null, null, {
             // parent_id: 0,
-            status: 'ON',
+            status: OrganizationStatus.ORGANIZATION_STATUS_ON,
           });
           return result.items;
         },

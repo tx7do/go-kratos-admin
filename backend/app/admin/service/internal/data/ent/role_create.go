@@ -64,20 +64,6 @@ func (_c *RoleCreate) SetNillableDeleteTime(v *time.Time) *RoleCreate {
 	return _c
 }
 
-// SetStatus sets the "status" field.
-func (_c *RoleCreate) SetStatus(v role.Status) *RoleCreate {
-	_c.mutation.SetStatus(v)
-	return _c
-}
-
-// SetNillableStatus sets the "status" field if the given value is not nil.
-func (_c *RoleCreate) SetNillableStatus(v *role.Status) *RoleCreate {
-	if v != nil {
-		_c.SetStatus(*v)
-	}
-	return _c
-}
-
 // SetCreateBy sets the "create_by" field.
 func (_c *RoleCreate) SetCreateBy(v uint32) *RoleCreate {
 	_c.mutation.SetCreateBy(v)
@@ -216,6 +202,20 @@ func (_c *RoleCreate) SetNillableDataScope(v *role.DataScope) *RoleCreate {
 	return _c
 }
 
+// SetStatus sets the "status" field.
+func (_c *RoleCreate) SetStatus(v role.Status) *RoleCreate {
+	_c.mutation.SetStatus(v)
+	return _c
+}
+
+// SetNillableStatus sets the "status" field if the given value is not nil.
+func (_c *RoleCreate) SetNillableStatus(v *role.Status) *RoleCreate {
+	if v != nil {
+		_c.SetStatus(*v)
+	}
+	return _c
+}
+
 // SetID sets the "id" field.
 func (_c *RoleCreate) SetID(v uint32) *RoleCreate {
 	_c.mutation.SetID(v)
@@ -277,10 +277,6 @@ func (_c *RoleCreate) ExecX(ctx context.Context) {
 
 // defaults sets the default values of the builder before save.
 func (_c *RoleCreate) defaults() {
-	if _, ok := _c.mutation.Status(); !ok {
-		v := role.DefaultStatus
-		_c.mutation.SetStatus(v)
-	}
 	if _, ok := _c.mutation.Remark(); !ok {
 		v := role.DefaultRemark
 		_c.mutation.SetRemark(v)
@@ -289,15 +285,14 @@ func (_c *RoleCreate) defaults() {
 		v := role.DefaultSortID
 		_c.mutation.SetSortID(v)
 	}
+	if _, ok := _c.mutation.Status(); !ok {
+		v := role.DefaultStatus
+		_c.mutation.SetStatus(v)
+	}
 }
 
 // check runs all checks and user-defined validators on the builder.
 func (_c *RoleCreate) check() error {
-	if v, ok := _c.mutation.Status(); ok {
-		if err := role.StatusValidator(v); err != nil {
-			return &ValidationError{Name: "status", err: fmt.Errorf(`ent: validator failed for field "Role.status": %w`, err)}
-		}
-	}
 	if v, ok := _c.mutation.TenantID(); ok {
 		if err := role.TenantIDValidator(v); err != nil {
 			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "Role.tenant_id": %w`, err)}
@@ -316,6 +311,11 @@ func (_c *RoleCreate) check() error {
 	if v, ok := _c.mutation.DataScope(); ok {
 		if err := role.DataScopeValidator(v); err != nil {
 			return &ValidationError{Name: "data_scope", err: fmt.Errorf(`ent: validator failed for field "Role.data_scope": %w`, err)}
+		}
+	}
+	if v, ok := _c.mutation.Status(); ok {
+		if err := role.StatusValidator(v); err != nil {
+			return &ValidationError{Name: "status", err: fmt.Errorf(`ent: validator failed for field "Role.status": %w`, err)}
 		}
 	}
 	if v, ok := _c.mutation.ID(); ok {
@@ -368,10 +368,6 @@ func (_c *RoleCreate) createSpec() (*Role, *sqlgraph.CreateSpec) {
 		_spec.SetField(role.FieldDeleteTime, field.TypeTime, value)
 		_node.DeleteTime = &value
 	}
-	if value, ok := _c.mutation.Status(); ok {
-		_spec.SetField(role.FieldStatus, field.TypeEnum, value)
-		_node.Status = &value
-	}
 	if value, ok := _c.mutation.CreateBy(); ok {
 		_spec.SetField(role.FieldCreateBy, field.TypeUint32, value)
 		_node.CreateBy = &value
@@ -411,6 +407,10 @@ func (_c *RoleCreate) createSpec() (*Role, *sqlgraph.CreateSpec) {
 	if value, ok := _c.mutation.DataScope(); ok {
 		_spec.SetField(role.FieldDataScope, field.TypeEnum, value)
 		_node.DataScope = &value
+	}
+	if value, ok := _c.mutation.Status(); ok {
+		_spec.SetField(role.FieldStatus, field.TypeEnum, value)
+		_node.Status = &value
 	}
 	if nodes := _c.mutation.ParentIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
@@ -530,24 +530,6 @@ func (u *RoleUpsert) UpdateDeleteTime() *RoleUpsert {
 // ClearDeleteTime clears the value of the "delete_time" field.
 func (u *RoleUpsert) ClearDeleteTime() *RoleUpsert {
 	u.SetNull(role.FieldDeleteTime)
-	return u
-}
-
-// SetStatus sets the "status" field.
-func (u *RoleUpsert) SetStatus(v role.Status) *RoleUpsert {
-	u.Set(role.FieldStatus, v)
-	return u
-}
-
-// UpdateStatus sets the "status" field to the value that was provided on create.
-func (u *RoleUpsert) UpdateStatus() *RoleUpsert {
-	u.SetExcluded(role.FieldStatus)
-	return u
-}
-
-// ClearStatus clears the value of the "status" field.
-func (u *RoleUpsert) ClearStatus() *RoleUpsert {
-	u.SetNull(role.FieldStatus)
 	return u
 }
 
@@ -749,6 +731,24 @@ func (u *RoleUpsert) ClearDataScope() *RoleUpsert {
 	return u
 }
 
+// SetStatus sets the "status" field.
+func (u *RoleUpsert) SetStatus(v role.Status) *RoleUpsert {
+	u.Set(role.FieldStatus, v)
+	return u
+}
+
+// UpdateStatus sets the "status" field to the value that was provided on create.
+func (u *RoleUpsert) UpdateStatus() *RoleUpsert {
+	u.SetExcluded(role.FieldStatus)
+	return u
+}
+
+// ClearStatus clears the value of the "status" field.
+func (u *RoleUpsert) ClearStatus() *RoleUpsert {
+	u.SetNull(role.FieldStatus)
+	return u
+}
+
 // UpdateNewValues updates the mutable fields using the new values that were set on create except the ID field.
 // Using this option is equivalent to using:
 //
@@ -842,27 +842,6 @@ func (u *RoleUpsertOne) UpdateDeleteTime() *RoleUpsertOne {
 func (u *RoleUpsertOne) ClearDeleteTime() *RoleUpsertOne {
 	return u.Update(func(s *RoleUpsert) {
 		s.ClearDeleteTime()
-	})
-}
-
-// SetStatus sets the "status" field.
-func (u *RoleUpsertOne) SetStatus(v role.Status) *RoleUpsertOne {
-	return u.Update(func(s *RoleUpsert) {
-		s.SetStatus(v)
-	})
-}
-
-// UpdateStatus sets the "status" field to the value that was provided on create.
-func (u *RoleUpsertOne) UpdateStatus() *RoleUpsertOne {
-	return u.Update(func(s *RoleUpsert) {
-		s.UpdateStatus()
-	})
-}
-
-// ClearStatus clears the value of the "status" field.
-func (u *RoleUpsertOne) ClearStatus() *RoleUpsertOne {
-	return u.Update(func(s *RoleUpsert) {
-		s.ClearStatus()
 	})
 }
 
@@ -1094,6 +1073,27 @@ func (u *RoleUpsertOne) UpdateDataScope() *RoleUpsertOne {
 func (u *RoleUpsertOne) ClearDataScope() *RoleUpsertOne {
 	return u.Update(func(s *RoleUpsert) {
 		s.ClearDataScope()
+	})
+}
+
+// SetStatus sets the "status" field.
+func (u *RoleUpsertOne) SetStatus(v role.Status) *RoleUpsertOne {
+	return u.Update(func(s *RoleUpsert) {
+		s.SetStatus(v)
+	})
+}
+
+// UpdateStatus sets the "status" field to the value that was provided on create.
+func (u *RoleUpsertOne) UpdateStatus() *RoleUpsertOne {
+	return u.Update(func(s *RoleUpsert) {
+		s.UpdateStatus()
+	})
+}
+
+// ClearStatus clears the value of the "status" field.
+func (u *RoleUpsertOne) ClearStatus() *RoleUpsertOne {
+	return u.Update(func(s *RoleUpsert) {
+		s.ClearStatus()
 	})
 }
 
@@ -1359,27 +1359,6 @@ func (u *RoleUpsertBulk) ClearDeleteTime() *RoleUpsertBulk {
 	})
 }
 
-// SetStatus sets the "status" field.
-func (u *RoleUpsertBulk) SetStatus(v role.Status) *RoleUpsertBulk {
-	return u.Update(func(s *RoleUpsert) {
-		s.SetStatus(v)
-	})
-}
-
-// UpdateStatus sets the "status" field to the value that was provided on create.
-func (u *RoleUpsertBulk) UpdateStatus() *RoleUpsertBulk {
-	return u.Update(func(s *RoleUpsert) {
-		s.UpdateStatus()
-	})
-}
-
-// ClearStatus clears the value of the "status" field.
-func (u *RoleUpsertBulk) ClearStatus() *RoleUpsertBulk {
-	return u.Update(func(s *RoleUpsert) {
-		s.ClearStatus()
-	})
-}
-
 // SetCreateBy sets the "create_by" field.
 func (u *RoleUpsertBulk) SetCreateBy(v uint32) *RoleUpsertBulk {
 	return u.Update(func(s *RoleUpsert) {
@@ -1608,6 +1587,27 @@ func (u *RoleUpsertBulk) UpdateDataScope() *RoleUpsertBulk {
 func (u *RoleUpsertBulk) ClearDataScope() *RoleUpsertBulk {
 	return u.Update(func(s *RoleUpsert) {
 		s.ClearDataScope()
+	})
+}
+
+// SetStatus sets the "status" field.
+func (u *RoleUpsertBulk) SetStatus(v role.Status) *RoleUpsertBulk {
+	return u.Update(func(s *RoleUpsert) {
+		s.SetStatus(v)
+	})
+}
+
+// UpdateStatus sets the "status" field to the value that was provided on create.
+func (u *RoleUpsertBulk) UpdateStatus() *RoleUpsertBulk {
+	return u.Update(func(s *RoleUpsert) {
+		s.UpdateStatus()
+	})
+}
+
+// ClearStatus clears the value of the "status" field.
+func (u *RoleUpsertBulk) ClearStatus() *RoleUpsertBulk {
+	return u.Update(func(s *RoleUpsert) {
+		s.ClearStatus()
 	})
 }
 

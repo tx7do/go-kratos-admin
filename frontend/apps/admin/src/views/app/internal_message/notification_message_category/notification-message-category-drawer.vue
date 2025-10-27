@@ -45,19 +45,6 @@ const [BaseForm, baseFormApi] = useVbenForm({
       rules: 'required',
     },
     {
-      component: 'RadioGroup',
-      fieldName: 'status',
-      defaultValue: 'ON',
-      label: $t('ui.table.status'),
-      rules: 'selectRequired',
-      componentProps: {
-        optionType: 'button',
-        buttonStyle: 'solid',
-        class: 'flex flex-wrap', // 如果选项过多，可以添加class来自动折叠
-        options: statusList,
-      },
-    },
-    {
       component: 'Textarea',
       fieldName: 'remark',
       label: $t('ui.table.remark'),

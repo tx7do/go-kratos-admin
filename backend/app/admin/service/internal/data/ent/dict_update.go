@@ -69,26 +69,6 @@ func (_u *DictUpdate) ClearDeleteTime() *DictUpdate {
 	return _u
 }
 
-// SetStatus sets the "status" field.
-func (_u *DictUpdate) SetStatus(v dict.Status) *DictUpdate {
-	_u.mutation.SetStatus(v)
-	return _u
-}
-
-// SetNillableStatus sets the "status" field if the given value is not nil.
-func (_u *DictUpdate) SetNillableStatus(v *dict.Status) *DictUpdate {
-	if v != nil {
-		_u.SetStatus(*v)
-	}
-	return _u
-}
-
-// ClearStatus clears the value of the "status" field.
-func (_u *DictUpdate) ClearStatus() *DictUpdate {
-	_u.mutation.ClearStatus()
-	return _u
-}
-
 // SetCreateBy sets the "create_by" field.
 func (_u *DictUpdate) SetCreateBy(v uint32) *DictUpdate {
 	_u.mutation.ResetCreateBy()
@@ -310,6 +290,26 @@ func (_u *DictUpdate) ClearSortID() *DictUpdate {
 	return _u
 }
 
+// SetStatus sets the "status" field.
+func (_u *DictUpdate) SetStatus(v dict.Status) *DictUpdate {
+	_u.mutation.SetStatus(v)
+	return _u
+}
+
+// SetNillableStatus sets the "status" field if the given value is not nil.
+func (_u *DictUpdate) SetNillableStatus(v *dict.Status) *DictUpdate {
+	if v != nil {
+		_u.SetStatus(*v)
+	}
+	return _u
+}
+
+// ClearStatus clears the value of the "status" field.
+func (_u *DictUpdate) ClearStatus() *DictUpdate {
+	_u.mutation.ClearStatus()
+	return _u
+}
+
 // Mutation returns the DictMutation object of the builder.
 func (_u *DictUpdate) Mutation() *DictMutation {
 	return _u.mutation
@@ -344,14 +344,14 @@ func (_u *DictUpdate) ExecX(ctx context.Context) {
 
 // check runs all checks and user-defined validators on the builder.
 func (_u *DictUpdate) check() error {
-	if v, ok := _u.mutation.Status(); ok {
-		if err := dict.StatusValidator(v); err != nil {
-			return &ValidationError{Name: "status", err: fmt.Errorf(`ent: validator failed for field "Dict.status": %w`, err)}
-		}
-	}
 	if v, ok := _u.mutation.Key(); ok {
 		if err := dict.KeyValidator(v); err != nil {
 			return &ValidationError{Name: "key", err: fmt.Errorf(`ent: validator failed for field "Dict.key": %w`, err)}
+		}
+	}
+	if v, ok := _u.mutation.Status(); ok {
+		if err := dict.StatusValidator(v); err != nil {
+			return &ValidationError{Name: "status", err: fmt.Errorf(`ent: validator failed for field "Dict.status": %w`, err)}
 		}
 	}
 	return nil
@@ -389,12 +389,6 @@ func (_u *DictUpdate) sqlSave(ctx context.Context) (_node int, err error) {
 	}
 	if _u.mutation.DeleteTimeCleared() {
 		_spec.ClearField(dict.FieldDeleteTime, field.TypeTime)
-	}
-	if value, ok := _u.mutation.Status(); ok {
-		_spec.SetField(dict.FieldStatus, field.TypeEnum, value)
-	}
-	if _u.mutation.StatusCleared() {
-		_spec.ClearField(dict.FieldStatus, field.TypeEnum)
 	}
 	if value, ok := _u.mutation.CreateBy(); ok {
 		_spec.SetField(dict.FieldCreateBy, field.TypeUint32, value)
@@ -468,6 +462,12 @@ func (_u *DictUpdate) sqlSave(ctx context.Context) (_node int, err error) {
 	if _u.mutation.SortIDCleared() {
 		_spec.ClearField(dict.FieldSortID, field.TypeInt32)
 	}
+	if value, ok := _u.mutation.Status(); ok {
+		_spec.SetField(dict.FieldStatus, field.TypeEnum, value)
+	}
+	if _u.mutation.StatusCleared() {
+		_spec.ClearField(dict.FieldStatus, field.TypeEnum)
+	}
 	_spec.AddModifiers(_u.modifiers...)
 	if _node, err = sqlgraph.UpdateNodes(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
@@ -527,26 +527,6 @@ func (_u *DictUpdateOne) SetNillableDeleteTime(v *time.Time) *DictUpdateOne {
 // ClearDeleteTime clears the value of the "delete_time" field.
 func (_u *DictUpdateOne) ClearDeleteTime() *DictUpdateOne {
 	_u.mutation.ClearDeleteTime()
-	return _u
-}
-
-// SetStatus sets the "status" field.
-func (_u *DictUpdateOne) SetStatus(v dict.Status) *DictUpdateOne {
-	_u.mutation.SetStatus(v)
-	return _u
-}
-
-// SetNillableStatus sets the "status" field if the given value is not nil.
-func (_u *DictUpdateOne) SetNillableStatus(v *dict.Status) *DictUpdateOne {
-	if v != nil {
-		_u.SetStatus(*v)
-	}
-	return _u
-}
-
-// ClearStatus clears the value of the "status" field.
-func (_u *DictUpdateOne) ClearStatus() *DictUpdateOne {
-	_u.mutation.ClearStatus()
 	return _u
 }
 
@@ -771,6 +751,26 @@ func (_u *DictUpdateOne) ClearSortID() *DictUpdateOne {
 	return _u
 }
 
+// SetStatus sets the "status" field.
+func (_u *DictUpdateOne) SetStatus(v dict.Status) *DictUpdateOne {
+	_u.mutation.SetStatus(v)
+	return _u
+}
+
+// SetNillableStatus sets the "status" field if the given value is not nil.
+func (_u *DictUpdateOne) SetNillableStatus(v *dict.Status) *DictUpdateOne {
+	if v != nil {
+		_u.SetStatus(*v)
+	}
+	return _u
+}
+
+// ClearStatus clears the value of the "status" field.
+func (_u *DictUpdateOne) ClearStatus() *DictUpdateOne {
+	_u.mutation.ClearStatus()
+	return _u
+}
+
 // Mutation returns the DictMutation object of the builder.
 func (_u *DictUpdateOne) Mutation() *DictMutation {
 	return _u.mutation
@@ -818,14 +818,14 @@ func (_u *DictUpdateOne) ExecX(ctx context.Context) {
 
 // check runs all checks and user-defined validators on the builder.
 func (_u *DictUpdateOne) check() error {
-	if v, ok := _u.mutation.Status(); ok {
-		if err := dict.StatusValidator(v); err != nil {
-			return &ValidationError{Name: "status", err: fmt.Errorf(`ent: validator failed for field "Dict.status": %w`, err)}
-		}
-	}
 	if v, ok := _u.mutation.Key(); ok {
 		if err := dict.KeyValidator(v); err != nil {
 			return &ValidationError{Name: "key", err: fmt.Errorf(`ent: validator failed for field "Dict.key": %w`, err)}
+		}
+	}
+	if v, ok := _u.mutation.Status(); ok {
+		if err := dict.StatusValidator(v); err != nil {
+			return &ValidationError{Name: "status", err: fmt.Errorf(`ent: validator failed for field "Dict.status": %w`, err)}
 		}
 	}
 	return nil
@@ -880,12 +880,6 @@ func (_u *DictUpdateOne) sqlSave(ctx context.Context) (_node *Dict, err error) {
 	}
 	if _u.mutation.DeleteTimeCleared() {
 		_spec.ClearField(dict.FieldDeleteTime, field.TypeTime)
-	}
-	if value, ok := _u.mutation.Status(); ok {
-		_spec.SetField(dict.FieldStatus, field.TypeEnum, value)
-	}
-	if _u.mutation.StatusCleared() {
-		_spec.ClearField(dict.FieldStatus, field.TypeEnum)
 	}
 	if value, ok := _u.mutation.CreateBy(); ok {
 		_spec.SetField(dict.FieldCreateBy, field.TypeUint32, value)
@@ -958,6 +952,12 @@ func (_u *DictUpdateOne) sqlSave(ctx context.Context) (_node *Dict, err error) {
 	}
 	if _u.mutation.SortIDCleared() {
 		_spec.ClearField(dict.FieldSortID, field.TypeInt32)
+	}
+	if value, ok := _u.mutation.Status(); ok {
+		_spec.SetField(dict.FieldStatus, field.TypeEnum, value)
+	}
+	if _u.mutation.StatusCleared() {
+		_spec.ClearField(dict.FieldStatus, field.TypeEnum)
 	}
 	_spec.AddModifiers(_u.modifiers...)
 	_node = &Dict{config: _u.config}

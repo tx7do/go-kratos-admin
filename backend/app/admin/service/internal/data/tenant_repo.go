@@ -26,9 +26,9 @@ type TenantRepo struct {
 	log  *log.Helper
 
 	mapper               *mapper.CopierMapper[userV1.Tenant, ent.Tenant]
-	statusConverter      *mapper.EnumTypeConverter[userV1.TenantStatus, tenant.Status]
-	typeConverter        *mapper.EnumTypeConverter[userV1.TenantType, tenant.Type]
-	auditStatusConverter *mapper.EnumTypeConverter[userV1.TenantAuditStatus, tenant.AuditStatus]
+	statusConverter      *mapper.EnumTypeConverter[userV1.Tenant_Status, tenant.Status]
+	typeConverter        *mapper.EnumTypeConverter[userV1.Tenant_Type, tenant.Type]
+	auditStatusConverter *mapper.EnumTypeConverter[userV1.Tenant_AuditStatus, tenant.AuditStatus]
 }
 
 func NewTenantRepo(data *Data, logger log.Logger) *TenantRepo {
@@ -36,9 +36,9 @@ func NewTenantRepo(data *Data, logger log.Logger) *TenantRepo {
 		log:                  log.NewHelper(log.With(logger, "module", "tenant/repo/admin-service")),
 		data:                 data,
 		mapper:               mapper.NewCopierMapper[userV1.Tenant, ent.Tenant](),
-		statusConverter:      mapper.NewEnumTypeConverter[userV1.TenantStatus, tenant.Status](userV1.TenantStatus_name, userV1.TenantStatus_value),
-		typeConverter:        mapper.NewEnumTypeConverter[userV1.TenantType, tenant.Type](userV1.TenantType_name, userV1.TenantType_value),
-		auditStatusConverter: mapper.NewEnumTypeConverter[userV1.TenantAuditStatus, tenant.AuditStatus](userV1.TenantAuditStatus_name, userV1.TenantAuditStatus_value),
+		statusConverter:      mapper.NewEnumTypeConverter[userV1.Tenant_Status, tenant.Status](userV1.Tenant_Status_name, userV1.Tenant_Status_value),
+		typeConverter:        mapper.NewEnumTypeConverter[userV1.Tenant_Type, tenant.Type](userV1.Tenant_Type_name, userV1.Tenant_Type_value),
+		auditStatusConverter: mapper.NewEnumTypeConverter[userV1.Tenant_AuditStatus, tenant.AuditStatus](userV1.Tenant_AuditStatus_name, userV1.Tenant_AuditStatus_value),
 	}
 
 	repo.init()

@@ -104,20 +104,18 @@ func init() {
 	dictMixin := schema.Dict{}.Mixin()
 	dictMixinFields0 := dictMixin[0].Fields()
 	_ = dictMixinFields0
-	dictMixinFields2 := dictMixin[2].Fields()
-	_ = dictMixinFields2
+	dictMixinFields4 := dictMixin[4].Fields()
+	_ = dictMixinFields4
 	dictMixinFields5 := dictMixin[5].Fields()
 	_ = dictMixinFields5
-	dictMixinFields6 := dictMixin[6].Fields()
-	_ = dictMixinFields6
 	dictFields := schema.Dict{}.Fields()
 	_ = dictFields
 	// dictDescRemark is the schema descriptor for remark field.
-	dictDescRemark := dictMixinFields5[0].Descriptor()
+	dictDescRemark := dictMixinFields4[0].Descriptor()
 	// dict.DefaultRemark holds the default value on creation for the remark field.
 	dict.DefaultRemark = dictDescRemark.Default.(string)
 	// dictDescTenantID is the schema descriptor for tenant_id field.
-	dictDescTenantID := dictMixinFields6[0].Descriptor()
+	dictDescTenantID := dictMixinFields5[0].Descriptor()
 	// dict.TenantIDValidator is a validator for the "tenant_id" field. It is called by the builders before save.
 	dict.TenantIDValidator = dictDescTenantID.Validators[0].(func(uint32) error)
 	// dictDescKey is the schema descriptor for key field.
@@ -173,9 +171,9 @@ func init() {
 	// menu.DefaultComponent holds the default value on creation for the component field.
 	menu.DefaultComponent = menuDescComponent.Default.(string)
 	// menuDescID is the schema descriptor for id field.
-	menuDescID := menuFields[0].Descriptor()
+	menuDescID := menuMixinFields0[0].Descriptor()
 	// menu.IDValidator is a validator for the "id" field. It is called by the builders before save.
-	menu.IDValidator = menuDescID.Validators[0].(func(int32) error)
+	menu.IDValidator = menuDescID.Validators[0].(func(uint32) error)
 	notificationmessageMixin := schema.NotificationMessage{}.Mixin()
 	notificationmessageMixinFields0 := notificationmessageMixin[0].Fields()
 	_ = notificationmessageMixinFields0
@@ -319,20 +317,18 @@ func init() {
 	roleMixin := schema.Role{}.Mixin()
 	roleMixinFields0 := roleMixin[0].Fields()
 	_ = roleMixinFields0
-	roleMixinFields2 := roleMixin[2].Fields()
-	_ = roleMixinFields2
+	roleMixinFields4 := roleMixin[4].Fields()
+	_ = roleMixinFields4
 	roleMixinFields5 := roleMixin[5].Fields()
 	_ = roleMixinFields5
-	roleMixinFields6 := roleMixin[6].Fields()
-	_ = roleMixinFields6
 	roleFields := schema.Role{}.Fields()
 	_ = roleFields
 	// roleDescRemark is the schema descriptor for remark field.
-	roleDescRemark := roleMixinFields5[0].Descriptor()
+	roleDescRemark := roleMixinFields4[0].Descriptor()
 	// role.DefaultRemark holds the default value on creation for the remark field.
 	role.DefaultRemark = roleDescRemark.Default.(string)
 	// roleDescTenantID is the schema descriptor for tenant_id field.
-	roleDescTenantID := roleMixinFields6[0].Descriptor()
+	roleDescTenantID := roleMixinFields5[0].Descriptor()
 	// role.TenantIDValidator is a validator for the "tenant_id" field. It is called by the builders before save.
 	role.TenantIDValidator = roleDescTenantID.Validators[0].(func(uint32) error)
 	// roleDescName is the schema descriptor for name field.
@@ -447,8 +443,6 @@ func init() {
 	_ = userMixinFields4
 	userMixinFields5 := userMixin[5].Fields()
 	_ = userMixinFields5
-	userMixinFields6 := userMixin[6].Fields()
-	_ = userMixinFields6
 	userFields := schema.User{}.Fields()
 	_ = userFields
 	// userDescRemark is the schema descriptor for remark field.
@@ -456,7 +450,7 @@ func init() {
 	// user.DefaultRemark holds the default value on creation for the remark field.
 	user.DefaultRemark = userDescRemark.Default.(string)
 	// userDescTenantID is the schema descriptor for tenant_id field.
-	userDescTenantID := userMixinFields6[0].Descriptor()
+	userDescTenantID := userMixinFields5[0].Descriptor()
 	// user.TenantIDValidator is a validator for the "tenant_id" field. It is called by the builders before save.
 	user.TenantIDValidator = userDescTenantID.Validators[0].(func(uint32) error)
 	// userDescUsername is the schema descriptor for username field.

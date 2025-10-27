@@ -31,8 +31,6 @@ type User struct {
 	DeleteTime *time.Time `json:"delete_time,omitempty"`
 	// 备注
 	Remark *string `json:"remark,omitempty"`
-	// 状态
-	Status *user.Status `json:"status,omitempty"`
 	// 租户ID
 	TenantID *uint32 `json:"tenant_id,omitempty"`
 	// 用户名
@@ -59,6 +57,8 @@ type User struct {
 	Gender *user.Gender `json:"gender,omitempty"`
 	// 授权
 	Authority *user.Authority `json:"authority,omitempty"`
+	// 用户状态
+	Status *user.Status `json:"status,omitempty"`
 	// 最后一次登录的时间
 	LastLoginTime *time.Time `json:"last_login_time,omitempty"`
 	// 最后一次登录的IP
@@ -85,7 +85,7 @@ func (*User) scanValues(columns []string) ([]any, error) {
 			values[i] = new([]byte)
 		case user.FieldID, user.FieldCreateBy, user.FieldUpdateBy, user.FieldTenantID, user.FieldOrgID, user.FieldDepartmentID, user.FieldPositionID, user.FieldWorkID:
 			values[i] = new(sql.NullInt64)
-		case user.FieldRemark, user.FieldStatus, user.FieldUsername, user.FieldNickname, user.FieldRealname, user.FieldEmail, user.FieldMobile, user.FieldTelephone, user.FieldAvatar, user.FieldAddress, user.FieldRegion, user.FieldDescription, user.FieldGender, user.FieldAuthority, user.FieldLastLoginIP:
+		case user.FieldRemark, user.FieldUsername, user.FieldNickname, user.FieldRealname, user.FieldEmail, user.FieldMobile, user.FieldTelephone, user.FieldAvatar, user.FieldAddress, user.FieldRegion, user.FieldDescription, user.FieldGender, user.FieldAuthority, user.FieldStatus, user.FieldLastLoginIP:
 			values[i] = new(sql.NullString)
 		case user.FieldCreateTime, user.FieldUpdateTime, user.FieldDeleteTime, user.FieldLastLoginTime:
 			values[i] = new(sql.NullTime)
@@ -151,13 +151,6 @@ func (_m *User) assignValues(columns []string, values []any) error {
 			} else if value.Valid {
 				_m.Remark = new(string)
 				*_m.Remark = value.String
-			}
-		case user.FieldStatus:
-			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field status", values[i])
-			} else if value.Valid {
-				_m.Status = new(user.Status)
-				*_m.Status = user.Status(value.String)
 			}
 		case user.FieldTenantID:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
@@ -249,6 +242,13 @@ func (_m *User) assignValues(columns []string, values []any) error {
 			} else if value.Valid {
 				_m.Authority = new(user.Authority)
 				*_m.Authority = user.Authority(value.String)
+			}
+		case user.FieldStatus:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field status", values[i])
+			} else if value.Valid {
+				_m.Status = new(user.Status)
+				*_m.Status = user.Status(value.String)
 			}
 		case user.FieldLastLoginTime:
 			if value, ok := values[i].(*sql.NullTime); !ok {
@@ -366,11 +366,6 @@ func (_m *User) String() string {
 		builder.WriteString(*v)
 	}
 	builder.WriteString(", ")
-	if v := _m.Status; v != nil {
-		builder.WriteString("status=")
-		builder.WriteString(fmt.Sprintf("%v", *v))
-	}
-	builder.WriteString(", ")
 	if v := _m.TenantID; v != nil {
 		builder.WriteString("tenant_id=")
 		builder.WriteString(fmt.Sprintf("%v", *v))
@@ -433,6 +428,11 @@ func (_m *User) String() string {
 	builder.WriteString(", ")
 	if v := _m.Authority; v != nil {
 		builder.WriteString("authority=")
+		builder.WriteString(fmt.Sprintf("%v", *v))
+	}
+	builder.WriteString(", ")
+	if v := _m.Status; v != nil {
+		builder.WriteString("status=")
 		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteString(", ")

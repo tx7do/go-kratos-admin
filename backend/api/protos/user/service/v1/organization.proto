@@ -30,33 +30,33 @@ service OrganizationService {
   rpc BatchCreate ( BatchCreateOrganizationsRequest ) returns ( BatchCreateOrganizationsResponse ) {}
 }
 
-// 组织类型
-enum OrganizationType {
-  ORGANIZATION_TYPE_UNSPECIFIED = 0; // 未指定
-
-  ORGANIZATION_TYPE_GROUP = 1; // 集团
-  ORGANIZATION_TYPE_SUBSIDIARY = 2; // 子公司
-  ORGANIZATION_TYPE_FILIALE = 3; // 分公司
-  ORGANIZATION_TYPE_DIVISION = 4; // 事业部
-}
-
-// 组织状态
-enum OrganizationStatus {
-  ORGANIZATION_STATUS_UNSPECIFIED = 0; // 未指定
-
-  ORGANIZATION_STATUS_ON = 1; // 启用
-  ORGANIZATION_STATUS_OFF = 2; // 停用
-}
-
 // 组织
 message Organization {
+  // 组织类型
+  enum Type {
+    ORGANIZATION_TYPE_UNSPECIFIED = 0; // 未指定
+
+    GROUP = 1; // 集团
+    SUBSIDIARY = 2; // 子公司
+    FILIALE = 3; // 分公司
+    DIVISION = 4; // 事业部
+  }
+
+  // 组织状态
+  enum Status {
+    ORGANIZATION_STATUS_UNSPECIFIED = 0; // 未指定
+
+    ON = 1; // 启用
+    OFF = 2; // 停用
+  }
+
   optional uint32 id = 1 [
     json_name = "id",
     (gnostic.openapi.v3.property) = {description: "组织ID"}
   ];  // 组织ID
 
   optional string name = 2 [json_name = "name", (gnostic.openapi.v3.property) = {description: "组织名称"}];  // 组织名称
-  optional OrganizationType organization_type = 3 [json_name = "organizationType", (gnostic.openapi.v3.property) = {description: "组织类型"}];  // 组织类型
+  optional Type organization_type = 3 [json_name = "organizationType", (gnostic.openapi.v3.property) = {description: "组织类型"}];  // 组织类型
   optional bool is_legal_entity = 4 [json_name = "isLegalEntity", (gnostic.openapi.v3.property) = {description: "是否法人实体：1=是（集团/子公司），0=否（分公司/事业部）"}];  // 是否法人实体：1=是（集团/子公司），0=否（分公司/事业部）
 
   optional string business_scope = 5 [json_name = "businessScope", (gnostic.openapi.v3.property) = {description: "核心业务范围（如“新能源汽车研发与生产”）"}];  // 核心业务范围（如“新能源汽车研发与生产”）
@@ -65,7 +65,7 @@ message Organization {
 
   optional int32 sort_id = 10 [json_name = "sortId", (gnostic.openapi.v3.property) = {description: "排序编号"}];  // 排序编号
 
-  optional OrganizationStatus status = 11 [(gnostic.openapi.v3.property) = {description: "状态"}]; // 状态
+  optional Status status = 11 [(gnostic.openapi.v3.property) = {description: "状态"}]; // 状态
 
   optional string remark = 12 [json_name = "remark", (gnostic.openapi.v3.property) = {description: "备注"}];  // 备注
 

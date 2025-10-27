@@ -106,20 +106,6 @@ func (_c *UserCreate) SetNillableRemark(v *string) *UserCreate {
 	return _c
 }
 
-// SetStatus sets the "status" field.
-func (_c *UserCreate) SetStatus(v user.Status) *UserCreate {
-	_c.mutation.SetStatus(v)
-	return _c
-}
-
-// SetNillableStatus sets the "status" field if the given value is not nil.
-func (_c *UserCreate) SetNillableStatus(v *user.Status) *UserCreate {
-	if v != nil {
-		_c.SetStatus(*v)
-	}
-	return _c
-}
-
 // SetTenantID sets the "tenant_id" field.
 func (_c *UserCreate) SetTenantID(v uint32) *UserCreate {
 	_c.mutation.SetTenantID(v)
@@ -302,6 +288,20 @@ func (_c *UserCreate) SetNillableAuthority(v *user.Authority) *UserCreate {
 	return _c
 }
 
+// SetStatus sets the "status" field.
+func (_c *UserCreate) SetStatus(v user.Status) *UserCreate {
+	_c.mutation.SetStatus(v)
+	return _c
+}
+
+// SetNillableStatus sets the "status" field if the given value is not nil.
+func (_c *UserCreate) SetNillableStatus(v *user.Status) *UserCreate {
+	if v != nil {
+		_c.SetStatus(*v)
+	}
+	return _c
+}
+
 // SetLastLoginTime sets the "last_login_time" field.
 func (_c *UserCreate) SetLastLoginTime(v time.Time) *UserCreate {
 	_c.mutation.SetLastLoginTime(v)
@@ -437,10 +437,6 @@ func (_c *UserCreate) defaults() {
 		v := user.DefaultRemark
 		_c.mutation.SetRemark(v)
 	}
-	if _, ok := _c.mutation.Status(); !ok {
-		v := user.DefaultStatus
-		_c.mutation.SetStatus(v)
-	}
 	if _, ok := _c.mutation.Mobile(); !ok {
 		v := user.DefaultMobile
 		_c.mutation.SetMobile(v)
@@ -461,15 +457,14 @@ func (_c *UserCreate) defaults() {
 		v := user.DefaultAuthority
 		_c.mutation.SetAuthority(v)
 	}
+	if _, ok := _c.mutation.Status(); !ok {
+		v := user.DefaultStatus
+		_c.mutation.SetStatus(v)
+	}
 }
 
 // check runs all checks and user-defined validators on the builder.
 func (_c *UserCreate) check() error {
-	if v, ok := _c.mutation.Status(); ok {
-		if err := user.StatusValidator(v); err != nil {
-			return &ValidationError{Name: "status", err: fmt.Errorf(`ent: validator failed for field "User.status": %w`, err)}
-		}
-	}
 	if v, ok := _c.mutation.TenantID(); ok {
 		if err := user.TenantIDValidator(v); err != nil {
 			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "User.tenant_id": %w`, err)}
@@ -511,6 +506,11 @@ func (_c *UserCreate) check() error {
 	if v, ok := _c.mutation.Authority(); ok {
 		if err := user.AuthorityValidator(v); err != nil {
 			return &ValidationError{Name: "authority", err: fmt.Errorf(`ent: validator failed for field "User.authority": %w`, err)}
+		}
+	}
+	if v, ok := _c.mutation.Status(); ok {
+		if err := user.StatusValidator(v); err != nil {
+			return &ValidationError{Name: "status", err: fmt.Errorf(`ent: validator failed for field "User.status": %w`, err)}
 		}
 	}
 	if v, ok := _c.mutation.ID(); ok {
@@ -575,10 +575,6 @@ func (_c *UserCreate) createSpec() (*User, *sqlgraph.CreateSpec) {
 		_spec.SetField(user.FieldRemark, field.TypeString, value)
 		_node.Remark = &value
 	}
-	if value, ok := _c.mutation.Status(); ok {
-		_spec.SetField(user.FieldStatus, field.TypeEnum, value)
-		_node.Status = &value
-	}
 	if value, ok := _c.mutation.TenantID(); ok {
 		_spec.SetField(user.FieldTenantID, field.TypeUint32, value)
 		_node.TenantID = &value
@@ -630,6 +626,10 @@ func (_c *UserCreate) createSpec() (*User, *sqlgraph.CreateSpec) {
 	if value, ok := _c.mutation.Authority(); ok {
 		_spec.SetField(user.FieldAuthority, field.TypeEnum, value)
 		_node.Authority = &value
+	}
+	if value, ok := _c.mutation.Status(); ok {
+		_spec.SetField(user.FieldStatus, field.TypeEnum, value)
+		_node.Status = &value
 	}
 	if value, ok := _c.mutation.LastLoginTime(); ok {
 		_spec.SetField(user.FieldLastLoginTime, field.TypeTime, value)
@@ -813,24 +813,6 @@ func (u *UserUpsert) ClearRemark() *UserUpsert {
 	return u
 }
 
-// SetStatus sets the "status" field.
-func (u *UserUpsert) SetStatus(v user.Status) *UserUpsert {
-	u.Set(user.FieldStatus, v)
-	return u
-}
-
-// UpdateStatus sets the "status" field to the value that was provided on create.
-func (u *UserUpsert) UpdateStatus() *UserUpsert {
-	u.SetExcluded(user.FieldStatus)
-	return u
-}
-
-// ClearStatus clears the value of the "status" field.
-func (u *UserUpsert) ClearStatus() *UserUpsert {
-	u.SetNull(user.FieldStatus)
-	return u
-}
-
 // SetNickname sets the "nickname" field.
 func (u *UserUpsert) SetNickname(v string) *UserUpsert {
 	u.Set(user.FieldNickname, v)
@@ -1008,6 +990,24 @@ func (u *UserUpsert) UpdateGender() *UserUpsert {
 // ClearGender clears the value of the "gender" field.
 func (u *UserUpsert) ClearGender() *UserUpsert {
 	u.SetNull(user.FieldGender)
+	return u
+}
+
+// SetStatus sets the "status" field.
+func (u *UserUpsert) SetStatus(v user.Status) *UserUpsert {
+	u.Set(user.FieldStatus, v)
+	return u
+}
+
+// UpdateStatus sets the "status" field to the value that was provided on create.
+func (u *UserUpsert) UpdateStatus() *UserUpsert {
+	u.SetExcluded(user.FieldStatus)
+	return u
+}
+
+// ClearStatus clears the value of the "status" field.
+func (u *UserUpsert) ClearStatus() *UserUpsert {
+	u.SetNull(user.FieldStatus)
 	return u
 }
 
@@ -1340,27 +1340,6 @@ func (u *UserUpsertOne) ClearRemark() *UserUpsertOne {
 	})
 }
 
-// SetStatus sets the "status" field.
-func (u *UserUpsertOne) SetStatus(v user.Status) *UserUpsertOne {
-	return u.Update(func(s *UserUpsert) {
-		s.SetStatus(v)
-	})
-}
-
-// UpdateStatus sets the "status" field to the value that was provided on create.
-func (u *UserUpsertOne) UpdateStatus() *UserUpsertOne {
-	return u.Update(func(s *UserUpsert) {
-		s.UpdateStatus()
-	})
-}
-
-// ClearStatus clears the value of the "status" field.
-func (u *UserUpsertOne) ClearStatus() *UserUpsertOne {
-	return u.Update(func(s *UserUpsert) {
-		s.ClearStatus()
-	})
-}
-
 // SetNickname sets the "nickname" field.
 func (u *UserUpsertOne) SetNickname(v string) *UserUpsertOne {
 	return u.Update(func(s *UserUpsert) {
@@ -1568,6 +1547,27 @@ func (u *UserUpsertOne) UpdateGender() *UserUpsertOne {
 func (u *UserUpsertOne) ClearGender() *UserUpsertOne {
 	return u.Update(func(s *UserUpsert) {
 		s.ClearGender()
+	})
+}
+
+// SetStatus sets the "status" field.
+func (u *UserUpsertOne) SetStatus(v user.Status) *UserUpsertOne {
+	return u.Update(func(s *UserUpsert) {
+		s.SetStatus(v)
+	})
+}
+
+// UpdateStatus sets the "status" field to the value that was provided on create.
+func (u *UserUpsertOne) UpdateStatus() *UserUpsertOne {
+	return u.Update(func(s *UserUpsert) {
+		s.UpdateStatus()
+	})
+}
+
+// ClearStatus clears the value of the "status" field.
+func (u *UserUpsertOne) ClearStatus() *UserUpsertOne {
+	return u.Update(func(s *UserUpsert) {
+		s.ClearStatus()
 	})
 }
 
@@ -2091,27 +2091,6 @@ func (u *UserUpsertBulk) ClearRemark() *UserUpsertBulk {
 	})
 }
 
-// SetStatus sets the "status" field.
-func (u *UserUpsertBulk) SetStatus(v user.Status) *UserUpsertBulk {
-	return u.Update(func(s *UserUpsert) {
-		s.SetStatus(v)
-	})
-}
-
-// UpdateStatus sets the "status" field to the value that was provided on create.
-func (u *UserUpsertBulk) UpdateStatus() *UserUpsertBulk {
-	return u.Update(func(s *UserUpsert) {
-		s.UpdateStatus()
-	})
-}
-
-// ClearStatus clears the value of the "status" field.
-func (u *UserUpsertBulk) ClearStatus() *UserUpsertBulk {
-	return u.Update(func(s *UserUpsert) {
-		s.ClearStatus()
-	})
-}
-
 // SetNickname sets the "nickname" field.
 func (u *UserUpsertBulk) SetNickname(v string) *UserUpsertBulk {
 	return u.Update(func(s *UserUpsert) {
@@ -2319,6 +2298,27 @@ func (u *UserUpsertBulk) UpdateGender() *UserUpsertBulk {
 func (u *UserUpsertBulk) ClearGender() *UserUpsertBulk {
 	return u.Update(func(s *UserUpsert) {
 		s.ClearGender()
+	})
+}
+
+// SetStatus sets the "status" field.
+func (u *UserUpsertBulk) SetStatus(v user.Status) *UserUpsertBulk {
+	return u.Update(func(s *UserUpsert) {
+		s.SetStatus(v)
+	})
+}
+
+// UpdateStatus sets the "status" field to the value that was provided on create.
+func (u *UserUpsertBulk) UpdateStatus() *UserUpsertBulk {
+	return u.Update(func(s *UserUpsert) {
+		s.UpdateStatus()
+	})
+}
+
+// ClearStatus clears the value of the "status" field.
+func (u *UserUpsertBulk) ClearStatus() *UserUpsertBulk {
+	return u.Update(func(s *UserUpsert) {
+		s.ClearStatus()
 	})
 }
 

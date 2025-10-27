@@ -260,36 +260,6 @@ func DeleteTimeNotNil() predicate.Role {
 	return predicate.Role(sql.FieldNotNull(FieldDeleteTime))
 }
 
-// StatusEQ applies the EQ predicate on the "status" field.
-func StatusEQ(v Status) predicate.Role {
-	return predicate.Role(sql.FieldEQ(FieldStatus, v))
-}
-
-// StatusNEQ applies the NEQ predicate on the "status" field.
-func StatusNEQ(v Status) predicate.Role {
-	return predicate.Role(sql.FieldNEQ(FieldStatus, v))
-}
-
-// StatusIn applies the In predicate on the "status" field.
-func StatusIn(vs ...Status) predicate.Role {
-	return predicate.Role(sql.FieldIn(FieldStatus, vs...))
-}
-
-// StatusNotIn applies the NotIn predicate on the "status" field.
-func StatusNotIn(vs ...Status) predicate.Role {
-	return predicate.Role(sql.FieldNotIn(FieldStatus, vs...))
-}
-
-// StatusIsNil applies the IsNil predicate on the "status" field.
-func StatusIsNil() predicate.Role {
-	return predicate.Role(sql.FieldIsNull(FieldStatus))
-}
-
-// StatusNotNil applies the NotNil predicate on the "status" field.
-func StatusNotNil() predicate.Role {
-	return predicate.Role(sql.FieldNotNull(FieldStatus))
-}
-
 // CreateByEQ applies the EQ predicate on the "create_by" field.
 func CreateByEQ(v uint32) predicate.Role {
 	return predicate.Role(sql.FieldEQ(FieldCreateBy, v))
@@ -793,6 +763,36 @@ func DataScopeIsNil() predicate.Role {
 // DataScopeNotNil applies the NotNil predicate on the "data_scope" field.
 func DataScopeNotNil() predicate.Role {
 	return predicate.Role(sql.FieldNotNull(FieldDataScope))
+}
+
+// StatusEQ applies the EQ predicate on the "status" field.
+func StatusEQ(v Status) predicate.Role {
+	return predicate.Role(sql.FieldEQ(FieldStatus, v))
+}
+
+// StatusNEQ applies the NEQ predicate on the "status" field.
+func StatusNEQ(v Status) predicate.Role {
+	return predicate.Role(sql.FieldNEQ(FieldStatus, v))
+}
+
+// StatusIn applies the In predicate on the "status" field.
+func StatusIn(vs ...Status) predicate.Role {
+	return predicate.Role(sql.FieldIn(FieldStatus, vs...))
+}
+
+// StatusNotIn applies the NotIn predicate on the "status" field.
+func StatusNotIn(vs ...Status) predicate.Role {
+	return predicate.Role(sql.FieldNotIn(FieldStatus, vs...))
+}
+
+// StatusIsNil applies the IsNil predicate on the "status" field.
+func StatusIsNil() predicate.Role {
+	return predicate.Role(sql.FieldIsNull(FieldStatus))
+}
+
+// StatusNotNil applies the NotNil predicate on the "status" field.
+func StatusNotNil() predicate.Role {
+	return predicate.Role(sql.FieldNotNull(FieldStatus))
 }
 
 // HasParent applies the HasEdge predicate on the "parent" edge.

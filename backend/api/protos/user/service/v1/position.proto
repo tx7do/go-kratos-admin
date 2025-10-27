@@ -30,16 +30,16 @@ service PositionService {
   rpc BatchCreate ( BatchCreatePositionsRequest ) returns ( BatchCreatePositionsResponse ) {}
 }
 
-// 职位状态
-enum PositionStatus {
-  PositionStatus_Invalid = 0; // 无效
-
-  POSITION_STATUS_ON = 1; // 启用
-  POSITION_STATUS_OFF = 2; // 禁用
-}
-
 // 职位
 message Position {
+  // 职位状态
+  enum Status {
+    PositionStatus_Invalid = 0; // 无效
+
+    ON = 1; // 启用
+    OFF = 2; // 禁用
+  }
+
   optional uint32 id = 1 [
     json_name = "id",
     (gnostic.openapi.v3.property) = {description: "职位ID"}
@@ -50,7 +50,7 @@ message Position {
   optional uint32 quota = 4 [json_name = "quota", (gnostic.openapi.v3.property) = {description: "编制人数（该职位最多可容纳的员工数量，0表示无限制）"}];  // 编制人数（该职位最多可容纳的员工数量，0表示无限制）
   optional int32 sort_id = 5 [json_name = "sortId", (gnostic.openapi.v3.property) = {description: "排序号"}];  // 排序号
 
-  optional PositionStatus status = 6 [(gnostic.openapi.v3.property) = {description: "状态"}]; // 状态
+  optional Status status = 6 [(gnostic.openapi.v3.property) = {description: "状态"}]; // 状态
   optional string remark = 7 [json_name = "remark", (gnostic.openapi.v3.property) = {description: "备注"}];  // 备注
   optional string description = 8 [json_name = "description", (gnostic.openapi.v3.property) = {description: "职责描述"}];  // 职责描述
 

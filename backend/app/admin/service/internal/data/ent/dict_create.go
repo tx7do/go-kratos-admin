@@ -64,20 +64,6 @@ func (_c *DictCreate) SetNillableDeleteTime(v *time.Time) *DictCreate {
 	return _c
 }
 
-// SetStatus sets the "status" field.
-func (_c *DictCreate) SetStatus(v dict.Status) *DictCreate {
-	_c.mutation.SetStatus(v)
-	return _c
-}
-
-// SetNillableStatus sets the "status" field if the given value is not nil.
-func (_c *DictCreate) SetNillableStatus(v *dict.Status) *DictCreate {
-	if v != nil {
-		_c.SetStatus(*v)
-	}
-	return _c
-}
-
 // SetCreateBy sets the "create_by" field.
 func (_c *DictCreate) SetCreateBy(v uint32) *DictCreate {
 	_c.mutation.SetCreateBy(v)
@@ -232,6 +218,20 @@ func (_c *DictCreate) SetNillableSortID(v *int32) *DictCreate {
 	return _c
 }
 
+// SetStatus sets the "status" field.
+func (_c *DictCreate) SetStatus(v dict.Status) *DictCreate {
+	_c.mutation.SetStatus(v)
+	return _c
+}
+
+// SetNillableStatus sets the "status" field if the given value is not nil.
+func (_c *DictCreate) SetNillableStatus(v *dict.Status) *DictCreate {
+	if v != nil {
+		_c.SetStatus(*v)
+	}
+	return _c
+}
+
 // SetID sets the "id" field.
 func (_c *DictCreate) SetID(v uint32) *DictCreate {
 	_c.mutation.SetID(v)
@@ -273,10 +273,6 @@ func (_c *DictCreate) ExecX(ctx context.Context) {
 
 // defaults sets the default values of the builder before save.
 func (_c *DictCreate) defaults() {
-	if _, ok := _c.mutation.Status(); !ok {
-		v := dict.DefaultStatus
-		_c.mutation.SetStatus(v)
-	}
 	if _, ok := _c.mutation.Remark(); !ok {
 		v := dict.DefaultRemark
 		_c.mutation.SetRemark(v)
@@ -285,15 +281,14 @@ func (_c *DictCreate) defaults() {
 		v := dict.DefaultSortID
 		_c.mutation.SetSortID(v)
 	}
+	if _, ok := _c.mutation.Status(); !ok {
+		v := dict.DefaultStatus
+		_c.mutation.SetStatus(v)
+	}
 }
 
 // check runs all checks and user-defined validators on the builder.
 func (_c *DictCreate) check() error {
-	if v, ok := _c.mutation.Status(); ok {
-		if err := dict.StatusValidator(v); err != nil {
-			return &ValidationError{Name: "status", err: fmt.Errorf(`ent: validator failed for field "Dict.status": %w`, err)}
-		}
-	}
 	if v, ok := _c.mutation.TenantID(); ok {
 		if err := dict.TenantIDValidator(v); err != nil {
 			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "Dict.tenant_id": %w`, err)}
@@ -302,6 +297,11 @@ func (_c *DictCreate) check() error {
 	if v, ok := _c.mutation.Key(); ok {
 		if err := dict.KeyValidator(v); err != nil {
 			return &ValidationError{Name: "key", err: fmt.Errorf(`ent: validator failed for field "Dict.key": %w`, err)}
+		}
+	}
+	if v, ok := _c.mutation.Status(); ok {
+		if err := dict.StatusValidator(v); err != nil {
+			return &ValidationError{Name: "status", err: fmt.Errorf(`ent: validator failed for field "Dict.status": %w`, err)}
 		}
 	}
 	if v, ok := _c.mutation.ID(); ok {
@@ -354,10 +354,6 @@ func (_c *DictCreate) createSpec() (*Dict, *sqlgraph.CreateSpec) {
 		_spec.SetField(dict.FieldDeleteTime, field.TypeTime, value)
 		_node.DeleteTime = &value
 	}
-	if value, ok := _c.mutation.Status(); ok {
-		_spec.SetField(dict.FieldStatus, field.TypeEnum, value)
-		_node.Status = &value
-	}
 	if value, ok := _c.mutation.CreateBy(); ok {
 		_spec.SetField(dict.FieldCreateBy, field.TypeUint32, value)
 		_node.CreateBy = &value
@@ -401,6 +397,10 @@ func (_c *DictCreate) createSpec() (*Dict, *sqlgraph.CreateSpec) {
 	if value, ok := _c.mutation.SortID(); ok {
 		_spec.SetField(dict.FieldSortID, field.TypeInt32, value)
 		_node.SortID = &value
+	}
+	if value, ok := _c.mutation.Status(); ok {
+		_spec.SetField(dict.FieldStatus, field.TypeEnum, value)
+		_node.Status = &value
 	}
 	return _node, _spec
 }
@@ -487,24 +487,6 @@ func (u *DictUpsert) UpdateDeleteTime() *DictUpsert {
 // ClearDeleteTime clears the value of the "delete_time" field.
 func (u *DictUpsert) ClearDeleteTime() *DictUpsert {
 	u.SetNull(dict.FieldDeleteTime)
-	return u
-}
-
-// SetStatus sets the "status" field.
-func (u *DictUpsert) SetStatus(v dict.Status) *DictUpsert {
-	u.Set(dict.FieldStatus, v)
-	return u
-}
-
-// UpdateStatus sets the "status" field to the value that was provided on create.
-func (u *DictUpsert) UpdateStatus() *DictUpsert {
-	u.SetExcluded(dict.FieldStatus)
-	return u
-}
-
-// ClearStatus clears the value of the "status" field.
-func (u *DictUpsert) ClearStatus() *DictUpsert {
-	u.SetNull(dict.FieldStatus)
 	return u
 }
 
@@ -706,6 +688,24 @@ func (u *DictUpsert) ClearSortID() *DictUpsert {
 	return u
 }
 
+// SetStatus sets the "status" field.
+func (u *DictUpsert) SetStatus(v dict.Status) *DictUpsert {
+	u.Set(dict.FieldStatus, v)
+	return u
+}
+
+// UpdateStatus sets the "status" field to the value that was provided on create.
+func (u *DictUpsert) UpdateStatus() *DictUpsert {
+	u.SetExcluded(dict.FieldStatus)
+	return u
+}
+
+// ClearStatus clears the value of the "status" field.
+func (u *DictUpsert) ClearStatus() *DictUpsert {
+	u.SetNull(dict.FieldStatus)
+	return u
+}
+
 // UpdateNewValues updates the mutable fields using the new values that were set on create except the ID field.
 // Using this option is equivalent to using:
 //
@@ -799,27 +799,6 @@ func (u *DictUpsertOne) UpdateDeleteTime() *DictUpsertOne {
 func (u *DictUpsertOne) ClearDeleteTime() *DictUpsertOne {
 	return u.Update(func(s *DictUpsert) {
 		s.ClearDeleteTime()
-	})
-}
-
-// SetStatus sets the "status" field.
-func (u *DictUpsertOne) SetStatus(v dict.Status) *DictUpsertOne {
-	return u.Update(func(s *DictUpsert) {
-		s.SetStatus(v)
-	})
-}
-
-// UpdateStatus sets the "status" field to the value that was provided on create.
-func (u *DictUpsertOne) UpdateStatus() *DictUpsertOne {
-	return u.Update(func(s *DictUpsert) {
-		s.UpdateStatus()
-	})
-}
-
-// ClearStatus clears the value of the "status" field.
-func (u *DictUpsertOne) ClearStatus() *DictUpsertOne {
-	return u.Update(func(s *DictUpsert) {
-		s.ClearStatus()
 	})
 }
 
@@ -1051,6 +1030,27 @@ func (u *DictUpsertOne) UpdateSortID() *DictUpsertOne {
 func (u *DictUpsertOne) ClearSortID() *DictUpsertOne {
 	return u.Update(func(s *DictUpsert) {
 		s.ClearSortID()
+	})
+}
+
+// SetStatus sets the "status" field.
+func (u *DictUpsertOne) SetStatus(v dict.Status) *DictUpsertOne {
+	return u.Update(func(s *DictUpsert) {
+		s.SetStatus(v)
+	})
+}
+
+// UpdateStatus sets the "status" field to the value that was provided on create.
+func (u *DictUpsertOne) UpdateStatus() *DictUpsertOne {
+	return u.Update(func(s *DictUpsert) {
+		s.UpdateStatus()
+	})
+}
+
+// ClearStatus clears the value of the "status" field.
+func (u *DictUpsertOne) ClearStatus() *DictUpsertOne {
+	return u.Update(func(s *DictUpsert) {
+		s.ClearStatus()
 	})
 }
 
@@ -1316,27 +1316,6 @@ func (u *DictUpsertBulk) ClearDeleteTime() *DictUpsertBulk {
 	})
 }
 
-// SetStatus sets the "status" field.
-func (u *DictUpsertBulk) SetStatus(v dict.Status) *DictUpsertBulk {
-	return u.Update(func(s *DictUpsert) {
-		s.SetStatus(v)
-	})
-}
-
-// UpdateStatus sets the "status" field to the value that was provided on create.
-func (u *DictUpsertBulk) UpdateStatus() *DictUpsertBulk {
-	return u.Update(func(s *DictUpsert) {
-		s.UpdateStatus()
-	})
-}
-
-// ClearStatus clears the value of the "status" field.
-func (u *DictUpsertBulk) ClearStatus() *DictUpsertBulk {
-	return u.Update(func(s *DictUpsert) {
-		s.ClearStatus()
-	})
-}
-
 // SetCreateBy sets the "create_by" field.
 func (u *DictUpsertBulk) SetCreateBy(v uint32) *DictUpsertBulk {
 	return u.Update(func(s *DictUpsert) {
@@ -1565,6 +1544,27 @@ func (u *DictUpsertBulk) UpdateSortID() *DictUpsertBulk {
 func (u *DictUpsertBulk) ClearSortID() *DictUpsertBulk {
 	return u.Update(func(s *DictUpsert) {
 		s.ClearSortID()
+	})
+}
+
+// SetStatus sets the "status" field.
+func (u *DictUpsertBulk) SetStatus(v dict.Status) *DictUpsertBulk {
+	return u.Update(func(s *DictUpsert) {
+		s.SetStatus(v)
+	})
+}
+
+// UpdateStatus sets the "status" field to the value that was provided on create.
+func (u *DictUpsertBulk) UpdateStatus() *DictUpsertBulk {
+	return u.Update(func(s *DictUpsert) {
+		s.UpdateStatus()
+	})
+}
+
+// ClearStatus clears the value of the "status" field.
+func (u *DictUpsertBulk) ClearStatus() *DictUpsertBulk {
+	return u.Update(func(s *DictUpsert) {
+		s.ClearStatus()
 	})
 }
 

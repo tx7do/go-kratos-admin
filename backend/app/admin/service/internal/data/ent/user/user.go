@@ -25,8 +25,6 @@ const (
 	FieldDeleteTime = "delete_time"
 	// FieldRemark holds the string denoting the remark field in the database.
 	FieldRemark = "remark"
-	// FieldStatus holds the string denoting the status field in the database.
-	FieldStatus = "status"
 	// FieldTenantID holds the string denoting the tenant_id field in the database.
 	FieldTenantID = "tenant_id"
 	// FieldUsername holds the string denoting the username field in the database.
@@ -53,6 +51,8 @@ const (
 	FieldGender = "gender"
 	// FieldAuthority holds the string denoting the authority field in the database.
 	FieldAuthority = "authority"
+	// FieldStatus holds the string denoting the status field in the database.
+	FieldStatus = "status"
 	// FieldLastLoginTime holds the string denoting the last_login_time field in the database.
 	FieldLastLoginTime = "last_login_time"
 	// FieldLastLoginIP holds the string denoting the last_login_ip field in the database.
@@ -80,7 +80,6 @@ var Columns = []string{
 	FieldUpdateTime,
 	FieldDeleteTime,
 	FieldRemark,
-	FieldStatus,
 	FieldTenantID,
 	FieldUsername,
 	FieldNickname,
@@ -94,6 +93,7 @@ var Columns = []string{
 	FieldDescription,
 	FieldGender,
 	FieldAuthority,
+	FieldStatus,
 	FieldLastLoginTime,
 	FieldLastLoginIP,
 	FieldOrgID,
@@ -139,32 +139,6 @@ var (
 	// IDValidator is a validator for the "id" field. It is called by the builders before save.
 	IDValidator func(uint32) error
 )
-
-// Status defines the type for the "status" enum field.
-type Status string
-
-// StatusON is the default value of the Status enum.
-const DefaultStatus = StatusON
-
-// Status values.
-const (
-	StatusOFF Status = "OFF"
-	StatusON  Status = "ON"
-)
-
-func (s Status) String() string {
-	return string(s)
-}
-
-// StatusValidator is a validator for the "status" field enum values. It is called by the builders before save.
-func StatusValidator(s Status) error {
-	switch s {
-	case StatusOFF, StatusON:
-		return nil
-	default:
-		return fmt.Errorf("user: invalid enum value for status field: %q", s)
-	}
-}
 
 // Gender defines the type for the "gender" enum field.
 type Gender string
@@ -218,6 +192,32 @@ func AuthorityValidator(a Authority) error {
 	}
 }
 
+// Status defines the type for the "status" enum field.
+type Status string
+
+// StatusOn is the default value of the Status enum.
+const DefaultStatus = StatusOn
+
+// Status values.
+const (
+	StatusOn  Status = "ON"
+	StatusOff Status = "OFF"
+)
+
+func (s Status) String() string {
+	return string(s)
+}
+
+// StatusValidator is a validator for the "status" field enum values. It is called by the builders before save.
+func StatusValidator(s Status) error {
+	switch s {
+	case StatusOn, StatusOff:
+		return nil
+	default:
+		return fmt.Errorf("user: invalid enum value for status field: %q", s)
+	}
+}
+
 // OrderOption defines the ordering options for the User queries.
 type OrderOption func(*sql.Selector)
 
@@ -254,11 +254,6 @@ func ByDeleteTime(opts ...sql.OrderTermOption) OrderOption {
 // ByRemark orders the results by the remark field.
 func ByRemark(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldRemark, opts...).ToFunc()
-}
-
-// ByStatus orders the results by the status field.
-func ByStatus(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldStatus, opts...).ToFunc()
 }
 
 // ByTenantID orders the results by the tenant_id field.
@@ -324,6 +319,11 @@ func ByGender(opts ...sql.OrderTermOption) OrderOption {
 // ByAuthority orders the results by the authority field.
 func ByAuthority(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldAuthority, opts...).ToFunc()
+}
+
+// ByStatus orders the results by the status field.
+func ByStatus(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldStatus, opts...).ToFunc()
 }
 
 // ByLastLoginTime orders the results by the last_login_time field.

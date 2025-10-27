@@ -55,24 +55,24 @@ service MenuService {
   }
 }
 
-// 菜单类型
-enum MenuType {
-  FOLDER = 0;     // 目录
-  MENU = 1;       // 菜单
-  BUTTON = 2;     // 按钮
-  EMBEDDED = 3;   // 内嵌
-  LINK = 4;       // 外链
-}
-
-// 菜单状态
-enum MenuStatus {
-  OFF = 0;
-  ON = 1;
-}
-
 // 菜单
 message Menu {
-  optional int32 id = 1 [
+  // 菜单类型
+  enum Type {
+    FOLDER = 0;     // 目录
+    MENU = 1;       // 菜单
+    BUTTON = 2;     // 按钮
+    EMBEDDED = 3;   // 内嵌
+    LINK = 4;       // 外链
+  }
+
+  // 菜单状态
+  enum Status {
+    OFF = 0;
+    ON = 1;
+  }
+
+  optional uint32 id = 1 [
     json_name = "id",
     (google.api.field_behavior) = OPTIONAL,
     (gnostic.openapi.v3.property) = {
@@ -80,21 +80,14 @@ message Menu {
     }
   ]; // 菜单ID
 
-  optional MenuStatus status = 2 [
+  optional Status status = 2 [
     json_name = "status",
-    (gnostic.openapi.v3.property) = {
-      description: "菜单状态"
-      default: {string: "ON"}
-      enum: [{yaml: "ON"}, {yaml: "OFF"}]
-    }
+    (gnostic.openapi.v3.property) = {description: "菜单状态"}
   ]; // 菜单状态
 
-  optional MenuType type = 3 [
+  optional Type type = 3 [
     json_name = "type",
-    (gnostic.openapi.v3.property) = {
-      description: "菜单类型"
-      default: {string: "FOLDER"}
-    }
+    (gnostic.openapi.v3.property) = {description: "菜单类型"}
   ]; // 菜单类型
 
   optional string path = 10 [
@@ -132,20 +125,16 @@ message Menu {
   optional string component = 14 [
     json_name = "component",
     (google.api.field_behavior) = OPTIONAL,
-    (gnostic.openapi.v3.property) = {
-      description: "指向的组件"
-    }
+    (gnostic.openapi.v3.property) = {description: "指向的组件"}
   ]; // 指向的组件
 
   optional RouteMeta meta = 15 [
     json_name = "meta",
     (google.api.field_behavior) = OPTIONAL,
-    (gnostic.openapi.v3.property) = {
-      description: "路由元信息"
-    }
+    (gnostic.openapi.v3.property) = {description: "路由元信息"}
   ]; // 路由元信息
 
-  optional int32 parent_id = 50 [json_name = "parentId", (gnostic.openapi.v3.property) = {description: "父节点ID"}];  // 父节点ID
+  optional uint32 parent_id = 50 [json_name = "parentId", (gnostic.openapi.v3.property) = {description: "父节点ID"}];  // 父节点ID
   repeated Menu children = 51 [json_name = "children", (gnostic.openapi.v3.property) = {description: "子节点树"}];  // 子节点树
 
   optional uint32 create_by = 100 [json_name = "createBy", (gnostic.openapi.v3.property) = {description: "创建者ID"}]; // 创建者ID
@@ -164,7 +153,7 @@ message ListMenuResponse {
 
 // 查询菜单详情 - 请求
 message GetMenuRequest {
-  int32 id = 1;
+  uint32 id = 1;
 }
 
 // 创建菜单 - 请求
@@ -197,5 +186,5 @@ message DeleteMenuRequest {
     json_name = "operatorId"
   ]; // 操作用户ID
 
-  int32 id = 2;
+  uint32 id = 2;
 }

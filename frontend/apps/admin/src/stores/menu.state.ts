@@ -6,7 +6,7 @@ import { defineStore } from 'pinia';
 
 import {
   type Menu,
-  MenuType,
+  Menu_Type,
 } from '#/generated/api/admin/service/v1/i_menu.pb';
 import { defMenuService } from '#/services';
 import { makeQueryString, makeUpdateMask } from '#/utils/query';
@@ -122,11 +122,11 @@ export const useMenuStore = defineStore('menu', () => {
 });
 
 export const menuTypeList = computed(() => [
-  { value: MenuType.FOLDER, label: $t('enum.menuType.FOLDER') },
-  { value: MenuType.MENU, label: $t('enum.menuType.MENU') },
-  { value: MenuType.BUTTON, label: $t('enum.menuType.BUTTON') },
-  { value: MenuType.EMBEDDED, label: $t('enum.menuType.EMBEDDED') },
-  { value: MenuType.LINK, label: $t('enum.menuType.LINK') },
+  { value: Menu_Type.FOLDER, label: $t('enum.menuType.FOLDER') },
+  { value: Menu_Type.MENU, label: $t('enum.menuType.MENU') },
+  { value: Menu_Type.BUTTON, label: $t('enum.menuType.BUTTON') },
+  { value: Menu_Type.EMBEDDED, label: $t('enum.menuType.EMBEDDED') },
+  { value: Menu_Type.LINK, label: $t('enum.menuType.LINK') },
 ]);
 
 /**
@@ -135,19 +135,19 @@ export const menuTypeList = computed(() => [
  */
 export function menuTypeToName(menuType: any) {
   switch (menuType) {
-    case MenuType.BUTTON: {
+    case Menu_Type.BUTTON: {
       return $t('enum.menuType.BUTTON');
     }
-    case MenuType.EMBEDDED: {
+    case Menu_Type.EMBEDDED: {
       return $t('enum.menuType.EMBEDDED');
     }
-    case MenuType.FOLDER: {
+    case Menu_Type.FOLDER: {
       return $t('enum.menuType.FOLDER');
     }
-    case MenuType.LINK: {
+    case Menu_Type.LINK: {
       return $t('enum.menuType.LINK');
     }
-    case MenuType.MENU: {
+    case Menu_Type.MENU: {
       return $t('enum.menuType.MENU');
     }
     default: {
@@ -163,23 +163,23 @@ export function menuTypeToName(menuType: any) {
  */
 export function menuTypeToColor(menuType: any) {
   switch (menuType) {
-    case MenuType.BUTTON: {
+    case Menu_Type.BUTTON: {
       // 按钮：操作型元素，醒目柔和
       return '#F56C6C';
     } // 柔和红色
-    case MenuType.EMBEDDED: {
+    case Menu_Type.EMBEDDED: {
       // 嵌入式菜单：融合科技感
       return '#4096FF';
     } // 浅蓝色
-    case MenuType.FOLDER: {
+    case Menu_Type.FOLDER: {
       // 文件夹：归类属性
       return '#27AE60';
     } // 深绿色
-    case MenuType.LINK: {
+    case Menu_Type.LINK: {
       // 链接菜单：跳转属性
       return '#9B59B6';
     } // 紫色
-    case MenuType.MENU: {
+    case Menu_Type.MENU: {
       // 普通菜单：基础导航
       return '#165DFF';
     } // 深蓝色
@@ -190,11 +190,11 @@ export function menuTypeToColor(menuType: any) {
   }
 }
 
-export const isFolder = (type: string) => type === MenuType.FOLDER;
-export const isMenu = (type: string) => type === MenuType.MENU;
-export const isButton = (type: string) => type === MenuType.BUTTON;
-export const isEmbedded = (type: string) => type === MenuType.EMBEDDED;
-export const isLink = (type: string) => type === MenuType.LINK;
+export const isFolder = (type: string) => type === Menu_Type.FOLDER;
+export const isMenu = (type: string) => type === Menu_Type.MENU;
+export const isButton = (type: string) => type === Menu_Type.BUTTON;
+export const isEmbedded = (type: string) => type === Menu_Type.EMBEDDED;
+export const isLink = (type: string) => type === Menu_Type.LINK;
 
 /** 遍历菜单子节点
  * @param nodes 节点列表

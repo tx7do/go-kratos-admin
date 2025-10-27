@@ -40,29 +40,29 @@ service UserService {
   rpc EditUserPassword(EditUserPasswordRequest) returns (google.protobuf.Empty);
 }
 
-// 用户权限
-enum UserAuthority {
-  GUEST = 0;  // 游客，仅能访问系统公开资源（如首页、帮助中心），无业务操作及管理权限。
-  CUSTOMER_USER = 1;  // 普通用户，仅拥有个人业务操作权限，可访问授权的功能模块，无管理权限。
-  TENANT_ADMIN = 2;  // 租户管理，拥有当前租户内的管理权限，可管理租户内用户、角色及业务资源，无系统级配置权限。
-  SYS_ADMIN = 3;  // 系统管理员，拥有系统全量权限，可管理所有租户、用户、配置及资源
-}
-
-// 用户性别
-enum UserGender {
-  SECRET = 0;  // 未知
-  MALE = 1;     // 男性
-  FEMALE = 2;   // 女性
-}
-
-// 用户状态
-enum UserStatus {
-  OFF = 0;
-  ON = 1;
-}
-
 // 用户
 message User {
+  // 用户状态
+  enum Status {
+    OFF = 0;
+    ON = 1;
+  }
+
+  // 用户权限
+  enum Authority {
+    GUEST = 0;  // 游客，仅能访问系统公开资源（如首页、帮助中心），无业务操作及管理权限。
+    CUSTOMER_USER = 1;  // 普通用户，仅拥有个人业务操作权限，可访问授权的功能模块，无管理权限。
+    TENANT_ADMIN = 2;  // 租户管理，拥有当前租户内的管理权限，可管理租户内用户、角色及业务资源，无系统级配置权限。
+    SYS_ADMIN = 3;  // 系统管理员，拥有系统全量权限，可管理所有租户、用户、配置及资源
+  }
+
+  // 用户性别
+  enum Gender {
+    SECRET = 0;  // 未知
+    MALE = 1;     // 男性
+    FEMALE = 2;   // 女性
+  }
+
   optional uint32 id = 1 [
     json_name = "id",
     (gnostic.openapi.v3.property) = {description: "用户ID"}
@@ -129,7 +129,7 @@ message User {
     (gnostic.openapi.v3.property) = {description: "座机号"}
   ]; // 座机号
 
-  optional UserGender gender = 27 [
+  optional Gender gender = 27 [
     json_name = "gender",
     (gnostic.openapi.v3.property) = {description: "性别"}
   ]; // 性别
@@ -164,11 +164,11 @@ message User {
     (gnostic.openapi.v3.property) = {description: "最后登录IP"}
   ]; // 最后登录IP
 
-  optional UserStatus status = 34 [(gnostic.openapi.v3.property) = {
+  optional Status status = 34 [(gnostic.openapi.v3.property) = {
     description: "用户状态"
   }]; // 用户状态
 
-  optional UserAuthority authority = 35 [(gnostic.openapi.v3.property) = {
+  optional Authority authority = 35 [(gnostic.openapi.v3.property) = {
     description: "权限"
     default: {string: "CUSTOMER_USER"}
   }]; // 权限

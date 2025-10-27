@@ -197,7 +197,6 @@ var schemaGraph = func() *sqlgraph.Schema {
 			dict.FieldCreateTime:    {Type: field.TypeTime, Column: dict.FieldCreateTime},
 			dict.FieldUpdateTime:    {Type: field.TypeTime, Column: dict.FieldUpdateTime},
 			dict.FieldDeleteTime:    {Type: field.TypeTime, Column: dict.FieldDeleteTime},
-			dict.FieldStatus:        {Type: field.TypeEnum, Column: dict.FieldStatus},
 			dict.FieldCreateBy:      {Type: field.TypeUint32, Column: dict.FieldCreateBy},
 			dict.FieldUpdateBy:      {Type: field.TypeUint32, Column: dict.FieldUpdateBy},
 			dict.FieldRemark:        {Type: field.TypeString, Column: dict.FieldRemark},
@@ -209,6 +208,7 @@ var schemaGraph = func() *sqlgraph.Schema {
 			dict.FieldValueDesc:     {Type: field.TypeString, Column: dict.FieldValueDesc},
 			dict.FieldValueDataType: {Type: field.TypeString, Column: dict.FieldValueDataType},
 			dict.FieldSortID:        {Type: field.TypeInt32, Column: dict.FieldSortID},
+			dict.FieldStatus:        {Type: field.TypeEnum, Column: dict.FieldStatus},
 		},
 	}
 	graph.Nodes[6] = &sqlgraph.Node{
@@ -246,20 +246,20 @@ var schemaGraph = func() *sqlgraph.Schema {
 			Table:   menu.Table,
 			Columns: menu.Columns,
 			ID: &sqlgraph.FieldSpec{
-				Type:   field.TypeInt32,
+				Type:   field.TypeUint32,
 				Column: menu.FieldID,
 			},
 		},
 		Type: "Menu",
 		Fields: map[string]*sqlgraph.FieldSpec{
-			menu.FieldStatus:     {Type: field.TypeEnum, Column: menu.FieldStatus},
 			menu.FieldCreateTime: {Type: field.TypeTime, Column: menu.FieldCreateTime},
 			menu.FieldUpdateTime: {Type: field.TypeTime, Column: menu.FieldUpdateTime},
 			menu.FieldDeleteTime: {Type: field.TypeTime, Column: menu.FieldDeleteTime},
 			menu.FieldCreateBy:   {Type: field.TypeUint32, Column: menu.FieldCreateBy},
 			menu.FieldUpdateBy:   {Type: field.TypeUint32, Column: menu.FieldUpdateBy},
 			menu.FieldRemark:     {Type: field.TypeString, Column: menu.FieldRemark},
-			menu.FieldParentID:   {Type: field.TypeInt32, Column: menu.FieldParentID},
+			menu.FieldParentID:   {Type: field.TypeUint32, Column: menu.FieldParentID},
+			menu.FieldStatus:     {Type: field.TypeEnum, Column: menu.FieldStatus},
 			menu.FieldType:       {Type: field.TypeEnum, Column: menu.FieldType},
 			menu.FieldPath:       {Type: field.TypeString, Column: menu.FieldPath},
 			menu.FieldRedirect:   {Type: field.TypeString, Column: menu.FieldRedirect},
@@ -432,7 +432,6 @@ var schemaGraph = func() *sqlgraph.Schema {
 			role.FieldCreateTime: {Type: field.TypeTime, Column: role.FieldCreateTime},
 			role.FieldUpdateTime: {Type: field.TypeTime, Column: role.FieldUpdateTime},
 			role.FieldDeleteTime: {Type: field.TypeTime, Column: role.FieldDeleteTime},
-			role.FieldStatus:     {Type: field.TypeEnum, Column: role.FieldStatus},
 			role.FieldCreateBy:   {Type: field.TypeUint32, Column: role.FieldCreateBy},
 			role.FieldUpdateBy:   {Type: field.TypeUint32, Column: role.FieldUpdateBy},
 			role.FieldRemark:     {Type: field.TypeString, Column: role.FieldRemark},
@@ -444,6 +443,7 @@ var schemaGraph = func() *sqlgraph.Schema {
 			role.FieldMenus:      {Type: field.TypeJSON, Column: role.FieldMenus},
 			role.FieldApis:       {Type: field.TypeJSON, Column: role.FieldApis},
 			role.FieldDataScope:  {Type: field.TypeEnum, Column: role.FieldDataScope},
+			role.FieldStatus:     {Type: field.TypeEnum, Column: role.FieldStatus},
 		},
 	}
 	graph.Nodes[15] = &sqlgraph.Node{
@@ -617,7 +617,6 @@ var schemaGraph = func() *sqlgraph.Schema {
 			user.FieldUpdateTime:    {Type: field.TypeTime, Column: user.FieldUpdateTime},
 			user.FieldDeleteTime:    {Type: field.TypeTime, Column: user.FieldDeleteTime},
 			user.FieldRemark:        {Type: field.TypeString, Column: user.FieldRemark},
-			user.FieldStatus:        {Type: field.TypeEnum, Column: user.FieldStatus},
 			user.FieldTenantID:      {Type: field.TypeUint32, Column: user.FieldTenantID},
 			user.FieldUsername:      {Type: field.TypeString, Column: user.FieldUsername},
 			user.FieldNickname:      {Type: field.TypeString, Column: user.FieldNickname},
@@ -631,6 +630,7 @@ var schemaGraph = func() *sqlgraph.Schema {
 			user.FieldDescription:   {Type: field.TypeString, Column: user.FieldDescription},
 			user.FieldGender:        {Type: field.TypeEnum, Column: user.FieldGender},
 			user.FieldAuthority:     {Type: field.TypeEnum, Column: user.FieldAuthority},
+			user.FieldStatus:        {Type: field.TypeEnum, Column: user.FieldStatus},
 			user.FieldLastLoginTime: {Type: field.TypeTime, Column: user.FieldLastLoginTime},
 			user.FieldLastLoginIP:   {Type: field.TypeString, Column: user.FieldLastLoginIP},
 			user.FieldOrgID:         {Type: field.TypeUint32, Column: user.FieldOrgID},
@@ -1531,11 +1531,6 @@ func (f *DictFilter) WhereDeleteTime(p entql.TimeP) {
 	f.Where(p.Field(dict.FieldDeleteTime))
 }
 
-// WhereStatus applies the entql string predicate on the status field.
-func (f *DictFilter) WhereStatus(p entql.StringP) {
-	f.Where(p.Field(dict.FieldStatus))
-}
-
 // WhereCreateBy applies the entql uint32 predicate on the create_by field.
 func (f *DictFilter) WhereCreateBy(p entql.Uint32P) {
 	f.Where(p.Field(dict.FieldCreateBy))
@@ -1589,6 +1584,11 @@ func (f *DictFilter) WhereValueDataType(p entql.StringP) {
 // WhereSortID applies the entql int32 predicate on the sort_id field.
 func (f *DictFilter) WhereSortID(p entql.Int32P) {
 	f.Where(p.Field(dict.FieldSortID))
+}
+
+// WhereStatus applies the entql string predicate on the status field.
+func (f *DictFilter) WhereStatus(p entql.StringP) {
+	f.Where(p.Field(dict.FieldStatus))
 }
 
 // addPredicate implements the predicateAdder interface.
@@ -1751,14 +1751,9 @@ func (f *MenuFilter) Where(p entql.P) {
 	})
 }
 
-// WhereID applies the entql int32 predicate on the id field.
-func (f *MenuFilter) WhereID(p entql.Int32P) {
+// WhereID applies the entql uint32 predicate on the id field.
+func (f *MenuFilter) WhereID(p entql.Uint32P) {
 	f.Where(p.Field(menu.FieldID))
-}
-
-// WhereStatus applies the entql string predicate on the status field.
-func (f *MenuFilter) WhereStatus(p entql.StringP) {
-	f.Where(p.Field(menu.FieldStatus))
 }
 
 // WhereCreateTime applies the entql time.Time predicate on the create_time field.
@@ -1791,9 +1786,14 @@ func (f *MenuFilter) WhereRemark(p entql.StringP) {
 	f.Where(p.Field(menu.FieldRemark))
 }
 
-// WhereParentID applies the entql int32 predicate on the parent_id field.
-func (f *MenuFilter) WhereParentID(p entql.Int32P) {
+// WhereParentID applies the entql uint32 predicate on the parent_id field.
+func (f *MenuFilter) WhereParentID(p entql.Uint32P) {
 	f.Where(p.Field(menu.FieldParentID))
+}
+
+// WhereStatus applies the entql string predicate on the status field.
+func (f *MenuFilter) WhereStatus(p entql.StringP) {
+	f.Where(p.Field(menu.FieldStatus))
 }
 
 // WhereType applies the entql string predicate on the type field.
@@ -2593,11 +2593,6 @@ func (f *RoleFilter) WhereDeleteTime(p entql.TimeP) {
 	f.Where(p.Field(role.FieldDeleteTime))
 }
 
-// WhereStatus applies the entql string predicate on the status field.
-func (f *RoleFilter) WhereStatus(p entql.StringP) {
-	f.Where(p.Field(role.FieldStatus))
-}
-
 // WhereCreateBy applies the entql uint32 predicate on the create_by field.
 func (f *RoleFilter) WhereCreateBy(p entql.Uint32P) {
 	f.Where(p.Field(role.FieldCreateBy))
@@ -2651,6 +2646,11 @@ func (f *RoleFilter) WhereApis(p entql.BytesP) {
 // WhereDataScope applies the entql string predicate on the data_scope field.
 func (f *RoleFilter) WhereDataScope(p entql.StringP) {
 	f.Where(p.Field(role.FieldDataScope))
+}
+
+// WhereStatus applies the entql string predicate on the status field.
+func (f *RoleFilter) WhereStatus(p entql.StringP) {
+	f.Where(p.Field(role.FieldStatus))
 }
 
 // WhereHasParent applies a predicate to check if query has an edge parent.
@@ -3346,11 +3346,6 @@ func (f *UserFilter) WhereRemark(p entql.StringP) {
 	f.Where(p.Field(user.FieldRemark))
 }
 
-// WhereStatus applies the entql string predicate on the status field.
-func (f *UserFilter) WhereStatus(p entql.StringP) {
-	f.Where(p.Field(user.FieldStatus))
-}
-
 // WhereTenantID applies the entql uint32 predicate on the tenant_id field.
 func (f *UserFilter) WhereTenantID(p entql.Uint32P) {
 	f.Where(p.Field(user.FieldTenantID))
@@ -3414,6 +3409,11 @@ func (f *UserFilter) WhereGender(p entql.StringP) {
 // WhereAuthority applies the entql string predicate on the authority field.
 func (f *UserFilter) WhereAuthority(p entql.StringP) {
 	f.Where(p.Field(user.FieldAuthority))
+}
+
+// WhereStatus applies the entql string predicate on the status field.
+func (f *UserFilter) WhereStatus(p entql.StringP) {
+	f.Where(p.Field(user.FieldStatus))
 }
 
 // WhereLastLoginTime applies the entql time.Time predicate on the last_login_time field.

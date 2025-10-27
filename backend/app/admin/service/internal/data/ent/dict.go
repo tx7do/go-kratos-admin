@@ -24,8 +24,6 @@ type Dict struct {
 	UpdateTime *time.Time `json:"update_time,omitempty"`
 	// 删除时间
 	DeleteTime *time.Time `json:"delete_time,omitempty"`
-	// 状态
-	Status *dict.Status `json:"status,omitempty"`
 	// 创建者ID
 	CreateBy *uint32 `json:"create_by,omitempty"`
 	// 更新者ID
@@ -47,7 +45,9 @@ type Dict struct {
 	// 字典值数据类型
 	ValueDataType *string `json:"value_data_type,omitempty"`
 	// 排序ID
-	SortID       *int32 `json:"sort_id,omitempty"`
+	SortID *int32 `json:"sort_id,omitempty"`
+	// 字典状态
+	Status       *dict.Status `json:"status,omitempty"`
 	selectValues sql.SelectValues
 }
 
@@ -58,7 +58,7 @@ func (*Dict) scanValues(columns []string) ([]any, error) {
 		switch columns[i] {
 		case dict.FieldID, dict.FieldCreateBy, dict.FieldUpdateBy, dict.FieldTenantID, dict.FieldSortID:
 			values[i] = new(sql.NullInt64)
-		case dict.FieldStatus, dict.FieldRemark, dict.FieldKey, dict.FieldCategory, dict.FieldCategoryDesc, dict.FieldValue, dict.FieldValueDesc, dict.FieldValueDataType:
+		case dict.FieldRemark, dict.FieldKey, dict.FieldCategory, dict.FieldCategoryDesc, dict.FieldValue, dict.FieldValueDesc, dict.FieldValueDataType, dict.FieldStatus:
 			values[i] = new(sql.NullString)
 		case dict.FieldCreateTime, dict.FieldUpdateTime, dict.FieldDeleteTime:
 			values[i] = new(sql.NullTime)
@@ -103,13 +103,6 @@ func (_m *Dict) assignValues(columns []string, values []any) error {
 			} else if value.Valid {
 				_m.DeleteTime = new(time.Time)
 				*_m.DeleteTime = value.Time
-			}
-		case dict.FieldStatus:
-			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field status", values[i])
-			} else if value.Valid {
-				_m.Status = new(dict.Status)
-				*_m.Status = dict.Status(value.String)
 			}
 		case dict.FieldCreateBy:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
@@ -188,6 +181,13 @@ func (_m *Dict) assignValues(columns []string, values []any) error {
 				_m.SortID = new(int32)
 				*_m.SortID = int32(value.Int64)
 			}
+		case dict.FieldStatus:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field status", values[i])
+			} else if value.Valid {
+				_m.Status = new(dict.Status)
+				*_m.Status = dict.Status(value.String)
+			}
 		default:
 			_m.selectValues.Set(columns[i], values[i])
 		}
@@ -237,11 +237,6 @@ func (_m *Dict) String() string {
 	if v := _m.DeleteTime; v != nil {
 		builder.WriteString("delete_time=")
 		builder.WriteString(v.Format(time.ANSIC))
-	}
-	builder.WriteString(", ")
-	if v := _m.Status; v != nil {
-		builder.WriteString("status=")
-		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteString(", ")
 	if v := _m.CreateBy; v != nil {
@@ -296,6 +291,11 @@ func (_m *Dict) String() string {
 	builder.WriteString(", ")
 	if v := _m.SortID; v != nil {
 		builder.WriteString("sort_id=")
+		builder.WriteString(fmt.Sprintf("%v", *v))
+	}
+	builder.WriteString(", ")
+	if v := _m.Status; v != nil {
+		builder.WriteString("status=")
 		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteByte(')')

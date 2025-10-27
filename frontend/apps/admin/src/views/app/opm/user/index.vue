@@ -2,7 +2,7 @@
 import type { VxeGridListeners, VxeGridProps } from '#/adapter/vxe-table';
 import type { User } from '#/generated/api/user/service/v1/user.pb';
 
-import { h, ref } from 'vue';
+import { h } from 'vue';
 
 import { Page, useVbenDrawer, type VbenFormProps } from '@vben/common-ui';
 import { LucideFilePenLine, LucideInfo, LucideTrash2 } from '@vben/icons';
@@ -10,6 +10,10 @@ import { LucideFilePenLine, LucideInfo, LucideTrash2 } from '@vben/icons';
 import { notification } from 'ant-design-vue';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
+import { Department_Status } from '#/generated/api/user/service/v1/department.pb';
+import { Organization_Status } from '#/generated/api/user/service/v1/organization.pb';
+import { Position_Status } from '#/generated/api/user/service/v1/position.pb';
+import { Role_Status } from '#/generated/api/user/service/v1/role.pb';
 import { $t } from '#/locales';
 import { router } from '#/router';
 import {
@@ -28,9 +32,6 @@ import {
 } from '#/stores';
 
 import UserDrawer from './user-drawer.vue';
-import {OrganizationStatus} from "#/generated/api/user/service/v1/organization.pb";
-import {DepartmentStatus} from "#/generated/api/user/service/v1/department.pb";
-import {PositionStatus} from "#/generated/api/user/service/v1/position.pb";
 
 const userStore = useUserStore();
 const roleStore = useRoleStore();
@@ -97,7 +98,10 @@ const formOptions: VbenFormProps = {
           }));
         },
         api: async () => {
-          const result = await roleStore.listRole(true);
+          const result = await roleStore.listRole(true, null, null, {
+            // parent_id: 0,
+            status: Role_Status.ON,
+          });
           return result.items;
         },
       },
@@ -117,7 +121,7 @@ const formOptions: VbenFormProps = {
         allowClear: true,
         api: async () => {
           const result = await orgStore.listOrganization(true, null, null, {
-            status: OrganizationStatus.ORGANIZATION_STATUS_ON,
+            status: Organization_Status.ON,
           });
           return result.items;
         },
@@ -138,7 +142,7 @@ const formOptions: VbenFormProps = {
         allowClear: true,
         api: async () => {
           const result = await deptStore.listDepartment(true, null, null, {
-            status: DepartmentStatus.DEPARTMENT_STATUS_ON,
+            status: Department_Status.ON,
           });
           return result.items;
         },
@@ -159,7 +163,7 @@ const formOptions: VbenFormProps = {
         valueField: 'id',
         api: async () => {
           const result = await positionStore.listPosition(true, null, null, {
-            status: PositionStatus.POSITION_STATUS_ON,
+            status: Position_Status.ON,
           });
           return result.items;
         },
@@ -332,8 +336,6 @@ async function handleDelete(row: any) {
 function handleDetail(row: any) {
   router.push(`/opm/users/detail/${row.id}`);
 }
-
-const isExpand = ref(false);
 
 // 生成基于字符串的固定随机色（HSL模式，保证饱和度和明度适中）
 const getRandomColor = (str: string) => {

@@ -26,7 +26,7 @@ type ApiResourceRepo struct {
 	log  *log.Helper
 
 	mapper         *mapper.CopierMapper[adminV1.ApiResource, ent.ApiResource]
-	scopeConverter *mapper.EnumTypeConverter[adminV1.ApiScope, apiresource.Scope]
+	scopeConverter *mapper.EnumTypeConverter[adminV1.ApiResource_Scope, apiresource.Scope]
 }
 
 func NewApiResourceRepo(data *Data, logger log.Logger) *ApiResourceRepo {
@@ -34,7 +34,7 @@ func NewApiResourceRepo(data *Data, logger log.Logger) *ApiResourceRepo {
 		log:            log.NewHelper(log.With(logger, "module", "api-resource/repo/admin-service")),
 		data:           data,
 		mapper:         mapper.NewCopierMapper[adminV1.ApiResource, ent.ApiResource](),
-		scopeConverter: mapper.NewEnumTypeConverter[adminV1.ApiScope, apiresource.Scope](adminV1.ApiScope_name, adminV1.ApiScope_value),
+		scopeConverter: mapper.NewEnumTypeConverter[adminV1.ApiResource_Scope, apiresource.Scope](adminV1.ApiResource_Scope_name, adminV1.ApiResource_Scope_value),
 	}
 
 	repo.init()

@@ -27,7 +27,7 @@ type DepartmentRepo struct {
 	log  *log.Helper
 
 	mapper          *mapper.CopierMapper[userV1.Department, ent.Department]
-	statusConverter *mapper.EnumTypeConverter[userV1.DepartmentStatus, department.Status]
+	statusConverter *mapper.EnumTypeConverter[userV1.Department_Status, department.Status]
 }
 
 func NewDepartmentRepo(data *Data, logger log.Logger) *DepartmentRepo {
@@ -35,7 +35,7 @@ func NewDepartmentRepo(data *Data, logger log.Logger) *DepartmentRepo {
 		log:             log.NewHelper(log.With(logger, "module", "department/repo/admin-service")),
 		data:            data,
 		mapper:          mapper.NewCopierMapper[userV1.Department, ent.Department](),
-		statusConverter: mapper.NewEnumTypeConverter[userV1.DepartmentStatus, department.Status](userV1.DepartmentStatus_name, userV1.DepartmentStatus_value),
+		statusConverter: mapper.NewEnumTypeConverter[userV1.Department_Status, department.Status](userV1.Department_Status_name, userV1.Department_Status_value),
 	}
 
 	repo.init()

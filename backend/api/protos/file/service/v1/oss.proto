@@ -23,15 +23,15 @@ service OssService {
   rpc UploadOssFile (UploadOssFileRequest) returns (UploadOssFileResponse) {}
 }
 
-// 前端上传文件所用的HTTP方法
-enum UploadMethod {
-  Put = 0;
-  Post = 1;
-}
-
 // 获取对象存储上传链接 - 请求
 message OssUploadUrlRequest {
-  UploadMethod method = 1 [
+  // 前端上传文件所用的HTTP方法
+  enum Method {
+    Put = 0;
+    Post = 1;
+  }
+
+  Method method = 1 [
     json_name = "method",
     (gnostic.openapi.v3.property) = { description: "上传文件所用的HTTP方法，支持POST和PUT" }
   ];  // 上传文件所用的HTTP方法

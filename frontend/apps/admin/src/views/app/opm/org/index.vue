@@ -9,10 +9,7 @@ import { LucideFilePenLine, LucideTrash2 } from '@vben/icons';
 import { notification } from 'ant-design-vue';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
-import {
-  type Organization,
-  OrganizationStatus,
-} from '#/generated/api/user/service/v1/organization.pb';
+import { type Organization } from '#/generated/api/user/service/v1/organization.pb';
 import { $t } from '#/locales';
 import {
   organizationStatusToColor,
@@ -201,9 +198,7 @@ async function handleStatusChanged(row: any, checked: boolean) {
   console.log('handleStatusChanged', row.status, checked);
 
   row.pending = true;
-  row.status = checked
-    ? OrganizationStatus.ORGANIZATION_STATUS_ON
-    : OrganizationStatus.ORGANIZATION_STATUS_OFF;
+  row.status = checked ? Organization_Status.ON : Organization_Status.OFF;
 
   try {
     await orgStore.updateOrganization(row.id, { status: row.status });

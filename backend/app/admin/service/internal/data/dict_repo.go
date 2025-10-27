@@ -25,14 +25,16 @@ type DictRepo struct {
 	data *Data
 	log  *log.Helper
 
-	mapper *mapper.CopierMapper[adminV1.Dict, ent.Dict]
+	mapper          *mapper.CopierMapper[adminV1.Dict, ent.Dict]
+	statusConverter *mapper.EnumTypeConverter[adminV1.Dict_Status, dict.Status]
 }
 
 func NewDictRepo(data *Data, logger log.Logger) *DictRepo {
 	repo := &DictRepo{
-		log:    log.NewHelper(log.With(logger, "module", "dict/repo/admin-service")),
-		data:   data,
-		mapper: mapper.NewCopierMapper[adminV1.Dict, ent.Dict](),
+		log:             log.NewHelper(log.With(logger, "module", "dict/repo/admin-service")),
+		data:            data,
+		mapper:          mapper.NewCopierMapper[adminV1.Dict, ent.Dict](),
+		statusConverter: mapper.NewEnumTypeConverter[adminV1.Dict_Status, dict.Status](adminV1.Dict_Status_name, adminV1.Dict_Status_value),
 	}
 
 	repo.init()
@@ -43,6 +45,8 @@ func NewDictRepo(data *Data, logger log.Logger) *DictRepo {
 func (r *DictRepo) init() {
 	r.mapper.AppendConverters(copierutil.NewTimeStringConverterPair())
 	r.mapper.AppendConverters(copierutil.NewTimeTimestamppbConverterPair())
+
+	r.mapper.AppendConverters(r.statusConverter.NewConverterPair())
 }
 
 func (r *DictRepo) Count(ctx context.Context, whereCond []func(s *sql.Selector)) (int, error) {
@@ -148,7 +152,7 @@ func (r *DictRepo) Create(ctx context.Context, req *adminV1.CreateDictRequest) e
 		SetNillableValueDesc(req.Data.ValueDesc).
 		SetNillableValueDataType(req.Data.ValueDataType).
 		SetNillableSortID(req.Data.SortId).
-		SetNillableStatus((*dict.Status)(req.Data.Status)).
+		SetNillableStatus(r.statusConverter.ToEntity(req.Data.Status)).
 		SetNillableRemark(req.Data.Remark).
 		SetNillableCreateBy(req.Data.CreateBy).
 		SetNillableCreateTime(timeutil.TimestamppbToTime(req.Data.CreateTime))
@@ -206,7 +210,7 @@ func (r *DictRepo) Update(ctx context.Context, req *adminV1.UpdateDictRequest) e
 		SetNillableValueDesc(req.Data.ValueDesc).
 		SetNillableValueDataType(req.Data.ValueDataType).
 		SetNillableSortID(req.Data.SortId).
-		SetNillableStatus((*dict.Status)(req.Data.Status)).
+		SetNillableStatus(r.statusConverter.ToEntity(req.Data.Status)).
 		SetNillableRemark(req.Data.Remark).
 		SetNillableUpdateBy(req.Data.UpdateBy).
 		SetNillableUpdateTime(timeutil.TimestamppbToTime(req.Data.UpdateTime))

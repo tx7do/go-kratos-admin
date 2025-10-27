@@ -27,53 +27,53 @@ const (
 )
 
 // 职位状态
-type PositionStatus int32
+type Position_Status int32
 
 const (
-	PositionStatus_PositionStatus_Invalid PositionStatus = 0 // 无效
-	PositionStatus_POSITION_STATUS_ON     PositionStatus = 1 // 启用
-	PositionStatus_POSITION_STATUS_OFF    PositionStatus = 2 // 禁用
+	Position_PositionStatus_Invalid Position_Status = 0 // 无效
+	Position_ON                     Position_Status = 1 // 启用
+	Position_OFF                    Position_Status = 2 // 禁用
 )
 
-// Enum value maps for PositionStatus.
+// Enum value maps for Position_Status.
 var (
-	PositionStatus_name = map[int32]string{
+	Position_Status_name = map[int32]string{
 		0: "PositionStatus_Invalid",
-		1: "POSITION_STATUS_ON",
-		2: "POSITION_STATUS_OFF",
+		1: "ON",
+		2: "OFF",
 	}
-	PositionStatus_value = map[string]int32{
+	Position_Status_value = map[string]int32{
 		"PositionStatus_Invalid": 0,
-		"POSITION_STATUS_ON":     1,
-		"POSITION_STATUS_OFF":    2,
+		"ON":                     1,
+		"OFF":                    2,
 	}
 )
 
-func (x PositionStatus) Enum() *PositionStatus {
-	p := new(PositionStatus)
+func (x Position_Status) Enum() *Position_Status {
+	p := new(Position_Status)
 	*p = x
 	return p
 }
 
-func (x PositionStatus) String() string {
+func (x Position_Status) String() string {
 	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
 }
 
-func (PositionStatus) Descriptor() protoreflect.EnumDescriptor {
+func (Position_Status) Descriptor() protoreflect.EnumDescriptor {
 	return file_user_service_v1_position_proto_enumTypes[0].Descriptor()
 }
 
-func (PositionStatus) Type() protoreflect.EnumType {
+func (Position_Status) Type() protoreflect.EnumType {
 	return &file_user_service_v1_position_proto_enumTypes[0]
 }
 
-func (x PositionStatus) Number() protoreflect.EnumNumber {
+func (x Position_Status) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use PositionStatus.Descriptor instead.
-func (PositionStatus) EnumDescriptor() ([]byte, []int) {
-	return file_user_service_v1_position_proto_rawDescGZIP(), []int{0}
+// Deprecated: Use Position_Status.Descriptor instead.
+func (Position_Status) EnumDescriptor() ([]byte, []int) {
+	return file_user_service_v1_position_proto_rawDescGZIP(), []int{0, 0}
 }
 
 // 职位
@@ -84,7 +84,7 @@ type Position struct {
 	Code             *string                `protobuf:"bytes,3,opt,name=code,proto3,oneof" json:"code,omitempty"`                                                  // 唯一编码（建议规则：部门编码 + 职位类型 + 序号，如 “FIN-LEADER-001”），用于数据同步和快速识别
 	Quota            *uint32                `protobuf:"varint,4,opt,name=quota,proto3,oneof" json:"quota,omitempty"`                                               // 编制人数（该职位最多可容纳的员工数量，0表示无限制）
 	SortId           *int32                 `protobuf:"varint,5,opt,name=sort_id,json=sortId,proto3,oneof" json:"sort_id,omitempty"`                               // 排序号
-	Status           *PositionStatus        `protobuf:"varint,6,opt,name=status,proto3,enum=user.service.v1.PositionStatus,oneof" json:"status,omitempty"`         // 状态
+	Status           *Position_Status       `protobuf:"varint,6,opt,name=status,proto3,enum=user.service.v1.Position_Status,oneof" json:"status,omitempty"`        // 状态
 	Remark           *string                `protobuf:"bytes,7,opt,name=remark,proto3,oneof" json:"remark,omitempty"`                                              // 备注
 	Description      *string                `protobuf:"bytes,8,opt,name=description,proto3,oneof" json:"description,omitempty"`                                    // 职责描述
 	OrganizationId   *uint32                `protobuf:"varint,10,opt,name=organization_id,json=organizationId,proto3,oneof" json:"organization_id,omitempty"`      // 所属组织ID
@@ -168,11 +168,11 @@ func (x *Position) GetSortId() int32 {
 	return 0
 }
 
-func (x *Position) GetStatus() PositionStatus {
+func (x *Position) GetStatus() Position_Status {
 	if x != nil && x.Status != nil {
 		return *x.Status
 	}
-	return PositionStatus_PositionStatus_Invalid
+	return Position_PositionStatus_Invalid
 }
 
 func (x *Position) GetRemark() string {
@@ -614,14 +614,14 @@ var File_user_service_v1_position_proto protoreflect.FileDescriptor
 
 const file_user_service_v1_position_proto_rawDesc = "" +
 	"\n" +
-	"\x1euser/service/v1/position.proto\x12\x0fuser.service.v1\x1a$gnostic/openapi/v3/annotations.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a google/protobuf/field_mask.proto\x1a\x1epagination/v1/pagination.proto\"\x9b\r\n" +
+	"\x1euser/service/v1/position.proto\x12\x0fuser.service.v1\x1a$gnostic/openapi/v3/annotations.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a google/protobuf/field_mask.proto\x1a\x1epagination/v1/pagination.proto\"\xd3\r\n" +
 	"\bPosition\x12#\n" +
 	"\x02id\x18\x01 \x01(\rB\x0e\xbaG\v\x92\x02\b职位IDH\x00R\x02id\x88\x01\x01\x12+\n" +
 	"\x04name\x18\x02 \x01(\tB\x12\xbaG\x0f\x92\x02\f职位名称H\x01R\x04name\x88\x01\x01\x12\xa6\x01\n" +
 	"\x04code\x18\x03 \x01(\tB\x8c\x01\xbaG\x88\x01\x92\x02\x84\x01唯一编码（建议规则：部门编码 + 职位类型 + 序号，如 “FIN-LEADER-001”），用于数据同步和快速识别H\x02R\x04code\x88\x01\x01\x12m\n" +
 	"\x05quota\x18\x04 \x01(\rBR\xbaGO\x92\x02L编制人数（该职位最多可容纳的员工数量，0表示无限制）H\x03R\x05quota\x88\x01\x01\x12-\n" +
-	"\asort_id\x18\x05 \x01(\x05B\x0f\xbaG\f\x92\x02\t排序号H\x04R\x06sortId\x88\x01\x01\x12J\n" +
-	"\x06status\x18\x06 \x01(\x0e2\x1f.user.service.v1.PositionStatusB\f\xbaG\t\x92\x02\x06状态H\x05R\x06status\x88\x01\x01\x12)\n" +
+	"\asort_id\x18\x05 \x01(\x05B\x0f\xbaG\f\x92\x02\t排序号H\x04R\x06sortId\x88\x01\x01\x12K\n" +
+	"\x06status\x18\x06 \x01(\x0e2 .user.service.v1.Position.StatusB\f\xbaG\t\x92\x02\x06状态H\x05R\x06status\x88\x01\x01\x12)\n" +
 	"\x06remark\x18\a \x01(\tB\f\xbaG\t\x92\x02\x06备注H\x06R\x06remark\x88\x01\x01\x129\n" +
 	"\vdescription\x18\b \x01(\tB\x12\xbaG\x0f\x92\x02\f职责描述H\aR\vdescription\x88\x01\x01\x12B\n" +
 	"\x0forganization_id\x18\n" +
@@ -640,7 +640,11 @@ const file_user_service_v1_position_proto_rawDesc = "" +
 	"\vupdate_time\x18\xc9\x01 \x01(\v2\x1a.google.protobuf.TimestampB\x12\xbaG\x0f\x92\x02\f更新时间H\x11R\n" +
 	"updateTime\x88\x01\x01\x12U\n" +
 	"\vdelete_time\x18\xca\x01 \x01(\v2\x1a.google.protobuf.TimestampB\x12\xbaG\x0f\x92\x02\f删除时间H\x12R\n" +
-	"deleteTime\x88\x01\x01B\x05\n" +
+	"deleteTime\x88\x01\x01\"5\n" +
+	"\x06Status\x12\x1a\n" +
+	"\x16PositionStatus_Invalid\x10\x00\x12\x06\n" +
+	"\x02ON\x10\x01\x12\a\n" +
+	"\x03OFF\x10\x02B\x05\n" +
 	"\x03_idB\a\n" +
 	"\x05_nameB\a\n" +
 	"\x05_codeB\b\n" +
@@ -683,11 +687,7 @@ const file_user_service_v1_position_proto_rawDesc = "" +
 	"\x1bBatchCreatePositionsRequest\x12-\n" +
 	"\x04data\x18\x01 \x03(\v2\x19.user.service.v1.PositionR\x04data\"M\n" +
 	"\x1cBatchCreatePositionsResponse\x12-\n" +
-	"\x04data\x18\x01 \x03(\v2\x19.user.service.v1.PositionR\x04data*]\n" +
-	"\x0ePositionStatus\x12\x1a\n" +
-	"\x16PositionStatus_Invalid\x10\x00\x12\x16\n" +
-	"\x12POSITION_STATUS_ON\x10\x01\x12\x17\n" +
-	"\x13POSITION_STATUS_OFF\x10\x022\xf8\x03\n" +
+	"\x04data\x18\x01 \x03(\v2\x19.user.service.v1.PositionR\x04data2\xf8\x03\n" +
 	"\x0fPositionService\x12J\n" +
 	"\x04List\x12\x19.pagination.PagingRequest\x1a%.user.service.v1.ListPositionResponse\"\x00\x12G\n" +
 	"\x03Get\x12#.user.service.v1.GetPositionRequest\x1a\x19.user.service.v1.Position\"\x00\x12J\n" +
@@ -712,7 +712,7 @@ func file_user_service_v1_position_proto_rawDescGZIP() []byte {
 var file_user_service_v1_position_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
 var file_user_service_v1_position_proto_msgTypes = make([]protoimpl.MessageInfo, 8)
 var file_user_service_v1_position_proto_goTypes = []any{
-	(PositionStatus)(0),                  // 0: user.service.v1.PositionStatus
+	(Position_Status)(0),                 // 0: user.service.v1.Position.Status
 	(*Position)(nil),                     // 1: user.service.v1.Position
 	(*ListPositionResponse)(nil),         // 2: user.service.v1.ListPositionResponse
 	(*GetPositionRequest)(nil),           // 3: user.service.v1.GetPositionRequest
@@ -727,7 +727,7 @@ var file_user_service_v1_position_proto_goTypes = []any{
 	(*emptypb.Empty)(nil),                // 12: google.protobuf.Empty
 }
 var file_user_service_v1_position_proto_depIdxs = []int32{
-	0,  // 0: user.service.v1.Position.status:type_name -> user.service.v1.PositionStatus
+	0,  // 0: user.service.v1.Position.status:type_name -> user.service.v1.Position.Status
 	1,  // 1: user.service.v1.Position.children:type_name -> user.service.v1.Position
 	9,  // 2: user.service.v1.Position.create_time:type_name -> google.protobuf.Timestamp
 	9,  // 3: user.service.v1.Position.update_time:type_name -> google.protobuf.Timestamp

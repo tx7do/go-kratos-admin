@@ -20,8 +20,6 @@ const (
 	FieldUpdateTime = "update_time"
 	// FieldDeleteTime holds the string denoting the delete_time field in the database.
 	FieldDeleteTime = "delete_time"
-	// FieldStatus holds the string denoting the status field in the database.
-	FieldStatus = "status"
 	// FieldCreateBy holds the string denoting the create_by field in the database.
 	FieldCreateBy = "create_by"
 	// FieldUpdateBy holds the string denoting the update_by field in the database.
@@ -44,6 +42,8 @@ const (
 	FieldApis = "apis"
 	// FieldDataScope holds the string denoting the data_scope field in the database.
 	FieldDataScope = "data_scope"
+	// FieldStatus holds the string denoting the status field in the database.
+	FieldStatus = "status"
 	// EdgeParent holds the string denoting the parent edge name in mutations.
 	EdgeParent = "parent"
 	// EdgeChildren holds the string denoting the children edge name in mutations.
@@ -66,7 +66,6 @@ var Columns = []string{
 	FieldCreateTime,
 	FieldUpdateTime,
 	FieldDeleteTime,
-	FieldStatus,
 	FieldCreateBy,
 	FieldUpdateBy,
 	FieldRemark,
@@ -78,6 +77,7 @@ var Columns = []string{
 	FieldMenus,
 	FieldApis,
 	FieldDataScope,
+	FieldStatus,
 }
 
 // ValidColumn reports if the column name is valid (part of the table columns).
@@ -105,44 +105,18 @@ var (
 	IDValidator func(uint32) error
 )
 
-// Status defines the type for the "status" enum field.
-type Status string
-
-// StatusON is the default value of the Status enum.
-const DefaultStatus = StatusON
-
-// Status values.
-const (
-	StatusOFF Status = "OFF"
-	StatusON  Status = "ON"
-)
-
-func (s Status) String() string {
-	return string(s)
-}
-
-// StatusValidator is a validator for the "status" field enum values. It is called by the builders before save.
-func StatusValidator(s Status) error {
-	switch s {
-	case StatusOFF, StatusON:
-		return nil
-	default:
-		return fmt.Errorf("role: invalid enum value for status field: %q", s)
-	}
-}
-
 // DataScope defines the type for the "data_scope" enum field.
 type DataScope string
 
 // DataScope values.
 const (
-	DataScopeDATA_SCOPE_ALL            DataScope = "ALL"
-	DataScopeDATA_SCOPE_CUSTOM         DataScope = "CUSTOM"
-	DataScopeDATA_SCOPE_SELF           DataScope = "SELF"
-	DataScopeDATA_SCOPE_ORG            DataScope = "ORG"
-	DataScopeDATA_SCOPE_ORG_AND_CHILD  DataScope = "ORG_AND_CHILD"
-	DataScopeDATA_SCOPE_DEPT           DataScope = "DEPT"
-	DataScopeDATA_SCOPE_DEPT_AND_CHILD DataScope = "DEPT_AND_CHILD"
+	DataScopeAll          DataScope = "ALL"
+	DataScopeCustom       DataScope = "CUSTOM"
+	DataScopeSelf         DataScope = "SELF"
+	DataScopeOrg          DataScope = "ORG"
+	DataScopeOrgAndChild  DataScope = "ORG_AND_CHILD"
+	DataScopeDept         DataScope = "DEPT"
+	DataScopeDeptAndChild DataScope = "DEPT_AND_CHILD"
 )
 
 func (ds DataScope) String() string {
@@ -152,10 +126,36 @@ func (ds DataScope) String() string {
 // DataScopeValidator is a validator for the "data_scope" field enum values. It is called by the builders before save.
 func DataScopeValidator(ds DataScope) error {
 	switch ds {
-	case DataScopeDATA_SCOPE_ALL, DataScopeDATA_SCOPE_CUSTOM, DataScopeDATA_SCOPE_SELF, DataScopeDATA_SCOPE_ORG, DataScopeDATA_SCOPE_ORG_AND_CHILD, DataScopeDATA_SCOPE_DEPT, DataScopeDATA_SCOPE_DEPT_AND_CHILD:
+	case DataScopeAll, DataScopeCustom, DataScopeSelf, DataScopeOrg, DataScopeOrgAndChild, DataScopeDept, DataScopeDeptAndChild:
 		return nil
 	default:
 		return fmt.Errorf("role: invalid enum value for data_scope field: %q", ds)
+	}
+}
+
+// Status defines the type for the "status" enum field.
+type Status string
+
+// StatusOn is the default value of the Status enum.
+const DefaultStatus = StatusOn
+
+// Status values.
+const (
+	StatusOn  Status = "ON"
+	StatusOff Status = "OFF"
+)
+
+func (s Status) String() string {
+	return string(s)
+}
+
+// StatusValidator is a validator for the "status" field enum values. It is called by the builders before save.
+func StatusValidator(s Status) error {
+	switch s {
+	case StatusOn, StatusOff:
+		return nil
+	default:
+		return fmt.Errorf("role: invalid enum value for status field: %q", s)
 	}
 }
 
@@ -180,11 +180,6 @@ func ByUpdateTime(opts ...sql.OrderTermOption) OrderOption {
 // ByDeleteTime orders the results by the delete_time field.
 func ByDeleteTime(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldDeleteTime, opts...).ToFunc()
-}
-
-// ByStatus orders the results by the status field.
-func ByStatus(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldStatus, opts...).ToFunc()
 }
 
 // ByCreateBy orders the results by the create_by field.
@@ -230,6 +225,11 @@ func BySortID(opts ...sql.OrderTermOption) OrderOption {
 // ByDataScope orders the results by the data_scope field.
 func ByDataScope(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldDataScope, opts...).ToFunc()
+}
+
+// ByStatus orders the results by the status field.
+func ByStatus(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldStatus, opts...).ToFunc()
 }
 
 // ByParentField orders the results by parent field.

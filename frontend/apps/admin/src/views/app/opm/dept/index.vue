@@ -11,8 +11,9 @@ import { notification } from 'ant-design-vue';
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
 import {
   type Department,
-  DepartmentStatus,
+  Department_Status,
 } from '#/generated/api/user/service/v1/department.pb';
+import { Organization_Status } from '#/generated/api/user/service/v1/organization.pb';
 import { $t } from '#/locales';
 import {
   departmentStatusToColor,
@@ -23,7 +24,6 @@ import {
 } from '#/stores';
 
 import DeptDrawer from './dept-drawer.vue';
-import {OrganizationStatus} from "#/generated/api/user/service/v1/organization.pb";
 
 const deptStore = useDepartmentStore();
 const orgStore = useOrganizationStore();
@@ -71,7 +71,7 @@ const formOptions: VbenFormProps = {
         api: async () => {
           const result = await orgStore.listOrganization(true, null, null, {
             // parent_id: 0,
-            status: OrganizationStatus.ORGANIZATION_STATUS_ON,
+            status: Organization_Status.ON,
           });
           return result.items;
         },
@@ -208,9 +208,7 @@ async function handleStatusChanged(row: any, checked: boolean) {
   console.log('handleStatusChanged', row.status, checked);
 
   row.pending = true;
-  row.status = checked
-    ? DepartmentStatus.DEPARTMENT_STATUS_ON
-    : DepartmentStatus.DEPARTMENT_STATUS_OFF;
+  row.status = checked ? Department_Status.ON : Department_Status.OFF;
 
   try {
     await deptStore.updateDepartment(row.id, { status: row.status });

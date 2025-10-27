@@ -11,6 +11,7 @@ import { notification } from 'ant-design-vue';
 import CryptoJS from 'crypto-js';
 import { defineStore } from 'pinia';
 
+import { GrantType } from '#/generated/api/authentication/service/v1/authentication.pb';
 import { $t } from '#/locales';
 import {
   defAuthnService,
@@ -62,7 +63,7 @@ export const useAuthStore = defineStore('auth', () => {
       const { access_token } = await defAuthnService.Login({
         username: params.username,
         password: encryptPassword(params.password),
-        grant_type: 'password',
+        grant_type: GrantType.password,
       });
 
       // 如果成功获取到 accessToken
@@ -165,7 +166,7 @@ export const useAuthStore = defineStore('auth', () => {
     const accessStore = useAccessStore();
 
     const resp = await defAuthnService.RefreshToken({
-      grant_type: 'password',
+      grant_type: GrantType.password,
       refresh_token: accessStore.refreshToken ?? '',
     });
     const newToken = resp.access_token;

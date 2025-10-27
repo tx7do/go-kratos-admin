@@ -6,8 +6,8 @@ import { defineStore } from 'pinia';
 
 import {
   type Organization,
-  OrganizationStatus,
-  OrganizationType,
+  Organization_Status,
+  Organization_Type,
 } from '#/generated/api/user/service/v1/organization.pb';
 import { defOrganizationService } from '#/services';
 import { makeQueryString, makeUpdateMask } from '#/utils/query';
@@ -90,11 +90,11 @@ export const useOrganizationStore = defineStore('organization', () => {
 
 export const organizationStatusList = computed(() => [
   {
-    value: OrganizationStatus.ORGANIZATION_STATUS_ON,
+    value: Organization_Status.ON,
     label: $t('enum.status.ON'),
   },
   {
-    value: OrganizationStatus.ORGANIZATION_STATUS_OFF,
+    value: Organization_Status.OFF,
     label: $t('enum.status.OFF'),
   },
 ]);
@@ -105,10 +105,10 @@ export const organizationStatusList = computed(() => [
  */
 export function organizationStatusToName(status: any) {
   switch (status) {
-    case OrganizationStatus.ORGANIZATION_STATUS_OFF: {
+    case Organization_Status.OFF: {
       return $t('enum.status.OFF');
     }
-    case OrganizationStatus.ORGANIZATION_STATUS_ON: {
+    case Organization_Status.ON: {
       return $t('enum.status.ON');
     }
     default: {
@@ -123,11 +123,11 @@ export function organizationStatusToName(status: any) {
  */
 export function organizationStatusToColor(status: any) {
   switch (status) {
-    case OrganizationStatus.ORGANIZATION_STATUS_OFF: {
+    case Organization_Status.OFF: {
       // 关闭/停用：深灰色，明确非激活状态
       return '#8C8C8C';
     } // 中深灰色，与“关闭”语义匹配，区别于浅灰的“未知”
-    case OrganizationStatus.ORGANIZATION_STATUS_ON: {
+    case Organization_Status.ON: {
       // 开启/激活：标准成功绿，体现正常运行
       return '#52C41A';
     } // 对应Element Plus的success色，大众认知中的“正常”色
@@ -140,39 +140,39 @@ export function organizationStatusToColor(status: any) {
 
 export const organizationTypeList = computed(() => [
   {
-    value: OrganizationType.ORGANIZATION_TYPE_GROUP,
-    label: $t('enum.organizationType.ORGANIZATION_TYPE_GROUP'),
+    value: Organization_Type.GROUP,
+    label: $t('enum.organizationType.GROUP'),
   },
   {
-    value: OrganizationType.ORGANIZATION_TYPE_SUBSIDIARY,
-    label: $t('enum.organizationType.ORGANIZATION_TYPE_SUBSIDIARY'),
+    value: Organization_Type.SUBSIDIARY,
+    label: $t('enum.organizationType.SUBSIDIARY'),
   },
   {
-    value: OrganizationType.ORGANIZATION_TYPE_FILIALE,
-    label: $t('enum.organizationType.ORGANIZATION_TYPE_FILIALE'),
+    value: Organization_Type.FILIALE,
+    label: $t('enum.organizationType.FILIALE'),
   },
   {
-    value: OrganizationType.ORGANIZATION_TYPE_DIVISION,
-    label: $t('enum.organizationType.ORGANIZATION_TYPE_DIVISION'),
+    value: Organization_Type.DIVISION,
+    label: $t('enum.organizationType.DIVISION'),
   },
 ]);
 
 export const organizationTypeListForQuery = computed(() => [
   {
     value: 'GROUP',
-    label: $t('enum.organizationType.ORGANIZATION_TYPE_GROUP'),
+    label: $t('enum.organizationType.GROUP'),
   },
   {
     value: 'SUBSIDIARY',
-    label: $t('enum.organizationType.ORGANIZATION_TYPE_SUBSIDIARY'),
+    label: $t('enum.organizationType.SUBSIDIARY'),
   },
   {
     value: 'FILIALE',
-    label: $t('enum.organizationType.ORGANIZATION_TYPE_FILIALE'),
+    label: $t('enum.organizationType.FILIALE'),
   },
   {
     value: 'DIVISION',
-    label: $t('enum.organizationType.ORGANIZATION_TYPE_DIVISION'),
+    label: $t('enum.organizationType.DIVISION'),
   },
 ]);
 
@@ -182,17 +182,17 @@ export const organizationTypeListForQuery = computed(() => [
  */
 export function organizationTypeToName(organizationType: any) {
   switch (organizationType) {
-    case OrganizationType.ORGANIZATION_TYPE_DIVISION: {
-      return $t('enum.organizationType.ORGANIZATION_TYPE_DIVISION');
+    case Organization_Type.DIVISION: {
+      return $t('enum.organizationType.DIVISION');
     }
-    case OrganizationType.ORGANIZATION_TYPE_FILIALE: {
-      return $t('enum.organizationType.ORGANIZATION_TYPE_FILIALE');
+    case Organization_Type.FILIALE: {
+      return $t('enum.organizationType.FILIALE');
     }
-    case OrganizationType.ORGANIZATION_TYPE_GROUP: {
-      return $t('enum.organizationType.ORGANIZATION_TYPE_GROUP');
+    case Organization_Type.GROUP: {
+      return $t('enum.organizationType.GROUP');
     }
-    case OrganizationType.ORGANIZATION_TYPE_SUBSIDIARY: {
-      return $t('enum.organizationType.ORGANIZATION_TYPE_SUBSIDIARY');
+    case Organization_Type.SUBSIDIARY: {
+      return $t('enum.organizationType.SUBSIDIARY');
     }
     default: {
       return '';
@@ -206,19 +206,19 @@ export function organizationTypeToName(organizationType: any) {
  */
 export function organizationTypeToColor(organizationType: any) {
   switch (organizationType) {
-    case OrganizationType.ORGANIZATION_TYPE_DIVISION: {
+    case Organization_Type.DIVISION: {
       // 事业部
       return '#FF7D00';
     } // 橙色（活力，业务线特性）
-    case OrganizationType.ORGANIZATION_TYPE_FILIALE: {
+    case Organization_Type.FILIALE: {
       // 分公司
       return '#4096FF';
     } // 浅蓝色（从属集团，区域分支）
-    case OrganizationType.ORGANIZATION_TYPE_GROUP: {
+    case Organization_Type.GROUP: {
       // 集团
       return '#165DFF';
     } // 深蓝色（核心，权威）
-    case OrganizationType.ORGANIZATION_TYPE_SUBSIDIARY: {
+    case Organization_Type.SUBSIDIARY: {
       // 子公司
       return '#722ED1';
     } // 紫色（独立法人，专业属性）

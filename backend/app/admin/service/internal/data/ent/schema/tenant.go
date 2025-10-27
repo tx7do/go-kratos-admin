@@ -62,10 +62,10 @@ func (Tenant) Fields() []ent.Field {
 		field.Enum("status").
 			Comment("租户状态").
 			NamedValues(
-				"TENANT_STATUS_ON", "ON",
-				"TENANT_STATUS_OFF", "OFF",
-				"TENANT_STATUS_EXPIRED", "EXPIRED",
-				"TENANT_STATUS_FREEZE", "FREEZE",
+				"On", "ON",
+				"Off", "OFF",
+				"Expired", "EXPIRED",
+				"Freeze", "FREEZE",
 			).
 			Default("ON").
 			Optional().
@@ -74,11 +74,11 @@ func (Tenant) Fields() []ent.Field {
 		field.Enum("type").
 			Comment("租户类型").
 			NamedValues(
-				"TENANT_TYPE_TRIAL", "TRIAL",
-				"TENANT_TYPE_PAID", "PAID",
-				"TENANT_TYPE_INTERNAL", "INTERNAL",
-				"TENANT_TYPE_PARTNER", "PARTNER",
-				"TENANT_TYPE_CUSTOM", "CUSTOM",
+				"Trial", "TRIAL",
+				"Paid", "PAID",
+				"Internal", "INTERNAL",
+				"Partner", "PARTNER",
+				"Custom", "CUSTOM",
 			).
 			Optional().
 			Nillable(),
@@ -86,9 +86,9 @@ func (Tenant) Fields() []ent.Field {
 		field.Enum("audit_status").
 			Comment("审核状态").
 			NamedValues(
-				"TENANT_AUDIT_STATUS_PENDING", "PENDING",
-				"TENANT_AUDIT_STATUS_APPROVED", "APPROVED",
-				"TENANT_AUDIT_STATUS_REJECTED", "REJECTED",
+				"Pending", "PENDING",
+				"Approved", "APPROVED",
+				"Rejected", "REJECTED",
 			).
 			Optional().
 			Nillable(),

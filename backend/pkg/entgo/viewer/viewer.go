@@ -24,7 +24,7 @@ type Viewer interface {
 // UserViewer describes a user-viewer.
 type UserViewer struct {
 	TenantId  *uint32 // Tenant ID
-	Authority userV1.UserAuthority
+	Authority userV1.User_Authority
 }
 
 func (v UserViewer) Admin() bool {
@@ -32,11 +32,11 @@ func (v UserViewer) Admin() bool {
 }
 
 func (v UserViewer) SystemAdmin() bool {
-	return v.Authority == userV1.UserAuthority_SYS_ADMIN
+	return v.Authority == userV1.User_SYS_ADMIN
 }
 
 func (v UserViewer) TenantAdmin() bool {
-	return v.Authority == userV1.UserAuthority_TENANT_ADMIN
+	return v.Authority == userV1.User_TENANT_ADMIN
 }
 
 func (v UserViewer) Tenant() (uint32, bool) {

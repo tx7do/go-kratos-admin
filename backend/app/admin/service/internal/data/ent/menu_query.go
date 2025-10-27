@@ -131,8 +131,8 @@ func (_q *MenuQuery) FirstX(ctx context.Context) *Menu {
 
 // FirstID returns the first Menu ID from the query.
 // Returns a *NotFoundError when no Menu ID was found.
-func (_q *MenuQuery) FirstID(ctx context.Context) (id int32, err error) {
-	var ids []int32
+func (_q *MenuQuery) FirstID(ctx context.Context) (id uint32, err error) {
+	var ids []uint32
 	if ids, err = _q.Limit(1).IDs(setContextOp(ctx, _q.ctx, ent.OpQueryFirstID)); err != nil {
 		return
 	}
@@ -144,7 +144,7 @@ func (_q *MenuQuery) FirstID(ctx context.Context) (id int32, err error) {
 }
 
 // FirstIDX is like FirstID, but panics if an error occurs.
-func (_q *MenuQuery) FirstIDX(ctx context.Context) int32 {
+func (_q *MenuQuery) FirstIDX(ctx context.Context) uint32 {
 	id, err := _q.FirstID(ctx)
 	if err != nil && !IsNotFound(err) {
 		panic(err)
@@ -182,8 +182,8 @@ func (_q *MenuQuery) OnlyX(ctx context.Context) *Menu {
 // OnlyID is like Only, but returns the only Menu ID in the query.
 // Returns a *NotSingularError when more than one Menu ID is found.
 // Returns a *NotFoundError when no entities are found.
-func (_q *MenuQuery) OnlyID(ctx context.Context) (id int32, err error) {
-	var ids []int32
+func (_q *MenuQuery) OnlyID(ctx context.Context) (id uint32, err error) {
+	var ids []uint32
 	if ids, err = _q.Limit(2).IDs(setContextOp(ctx, _q.ctx, ent.OpQueryOnlyID)); err != nil {
 		return
 	}
@@ -199,7 +199,7 @@ func (_q *MenuQuery) OnlyID(ctx context.Context) (id int32, err error) {
 }
 
 // OnlyIDX is like OnlyID, but panics if an error occurs.
-func (_q *MenuQuery) OnlyIDX(ctx context.Context) int32 {
+func (_q *MenuQuery) OnlyIDX(ctx context.Context) uint32 {
 	id, err := _q.OnlyID(ctx)
 	if err != nil {
 		panic(err)
@@ -227,7 +227,7 @@ func (_q *MenuQuery) AllX(ctx context.Context) []*Menu {
 }
 
 // IDs executes the query and returns a list of Menu IDs.
-func (_q *MenuQuery) IDs(ctx context.Context) (ids []int32, err error) {
+func (_q *MenuQuery) IDs(ctx context.Context) (ids []uint32, err error) {
 	if _q.ctx.Unique == nil && _q.path != nil {
 		_q.Unique(true)
 	}
@@ -239,7 +239,7 @@ func (_q *MenuQuery) IDs(ctx context.Context) (ids []int32, err error) {
 }
 
 // IDsX is like IDs, but panics if an error occurs.
-func (_q *MenuQuery) IDsX(ctx context.Context) []int32 {
+func (_q *MenuQuery) IDsX(ctx context.Context) []uint32 {
 	ids, err := _q.IDs(ctx)
 	if err != nil {
 		panic(err)
@@ -336,12 +336,12 @@ func (_q *MenuQuery) WithChildren(opts ...func(*MenuQuery)) *MenuQuery {
 // Example:
 //
 //	var v []struct {
-//		Status menu.Status `json:"status,omitempty"`
+//		CreateTime time.Time `json:"create_time,omitempty"`
 //		Count int `json:"count,omitempty"`
 //	}
 //
 //	client.Menu.Query().
-//		GroupBy(menu.FieldStatus).
+//		GroupBy(menu.FieldCreateTime).
 //		Aggregate(ent.Count()).
 //		Scan(ctx, &v)
 func (_q *MenuQuery) GroupBy(field string, fields ...string) *MenuGroupBy {
@@ -359,11 +359,11 @@ func (_q *MenuQuery) GroupBy(field string, fields ...string) *MenuGroupBy {
 // Example:
 //
 //	var v []struct {
-//		Status menu.Status `json:"status,omitempty"`
+//		CreateTime time.Time `json:"create_time,omitempty"`
 //	}
 //
 //	client.Menu.Query().
-//		Select(menu.FieldStatus).
+//		Select(menu.FieldCreateTime).
 //		Scan(ctx, &v)
 func (_q *MenuQuery) Select(fields ...string) *MenuSelect {
 	_q.ctx.Fields = append(_q.ctx.Fields, fields...)
@@ -451,8 +451,8 @@ func (_q *MenuQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*Menu, e
 }
 
 func (_q *MenuQuery) loadParent(ctx context.Context, query *MenuQuery, nodes []*Menu, init func(*Menu), assign func(*Menu, *Menu)) error {
-	ids := make([]int32, 0, len(nodes))
-	nodeids := make(map[int32][]*Menu)
+	ids := make([]uint32, 0, len(nodes))
+	nodeids := make(map[uint32][]*Menu)
 	for i := range nodes {
 		if nodes[i].ParentID == nil {
 			continue
@@ -484,7 +484,7 @@ func (_q *MenuQuery) loadParent(ctx context.Context, query *MenuQuery, nodes []*
 }
 func (_q *MenuQuery) loadChildren(ctx context.Context, query *MenuQuery, nodes []*Menu, init func(*Menu), assign func(*Menu, *Menu)) error {
 	fks := make([]driver.Value, 0, len(nodes))
-	nodeids := make(map[int32]*Menu)
+	nodeids := make(map[uint32]*Menu)
 	for i := range nodes {
 		fks = append(fks, nodes[i].ID)
 		nodeids[nodes[i].ID] = nodes[i]
@@ -529,7 +529,7 @@ func (_q *MenuQuery) sqlCount(ctx context.Context) (int, error) {
 }
 
 func (_q *MenuQuery) querySpec() *sqlgraph.QuerySpec {
-	_spec := sqlgraph.NewQuerySpec(menu.Table, menu.Columns, sqlgraph.NewFieldSpec(menu.FieldID, field.TypeInt32))
+	_spec := sqlgraph.NewQuerySpec(menu.Table, menu.Columns, sqlgraph.NewFieldSpec(menu.FieldID, field.TypeUint32))
 	_spec.From = _q.sql
 	if unique := _q.ctx.Unique; unique != nil {
 		_spec.Unique = *unique

@@ -7,14 +7,15 @@ import { $t } from '@vben/locales';
 import { notification } from 'ant-design-vue';
 
 import { useVbenForm } from '#/adapter/form';
-import { DepartmentStatus } from '#/generated/api/user/service/v1/department.pb';
+import { Department_Status } from '#/generated/api/user/service/v1/department.pb';
+import { Organization_Status } from '#/generated/api/user/service/v1/organization.pb';
+import { User_Status } from '#/generated/api/user/service/v1/user.pb';
 import {
   departmentStatusList,
   useDepartmentStore,
   useOrganizationStore,
   useUserStore,
 } from '#/stores';
-import {OrganizationStatus} from "#/generated/api/user/service/v1/organization.pb";
 
 const deptStore = useDepartmentStore();
 const orgStore = useOrganizationStore();
@@ -65,7 +66,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
         api: async () => {
           const result = await deptStore.listDepartment(true, null, null, {
             // parent_id: 0,
-            status: DepartmentStatus.DEPARTMENT_STATUS_ON,
+            status: Department_Status.ON,
           });
           return result.items;
         },
@@ -88,7 +89,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
         api: async () => {
           const result = await orgStore.listOrganization(true, null, null, {
             // parent_id: 0,
-            status: OrganizationStatus.ORGANIZATION_STATUS_ON,
+            status: Organization_Status.ON,
           });
           return result.items;
         },
@@ -110,7 +111,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
         api: async () => {
           const result = await userStore.listUser(true, null, null, {
             // parent_id: 0,
-            status: 'ON',
+            status: User_Status.ON,
           });
           return result.items;
         },
@@ -129,7 +130,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
     {
       component: 'RadioGroup',
       fieldName: 'status',
-      defaultValue: DepartmentStatus.DEPARTMENT_STATUS_ON,
+      defaultValue: Department_Status.ON,
       label: $t('ui.table.status'),
       rules: 'selectRequired',
       componentProps: {

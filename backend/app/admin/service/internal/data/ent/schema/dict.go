@@ -68,6 +68,16 @@ func (Dict) Fields() []ent.Field {
 			Default(0).
 			Optional().
 			Nillable(),
+
+		field.Enum("status").
+			Comment("字典状态").
+			NamedValues(
+				"On", "ON",
+				"Off", "OFF",
+			).
+			Default("ON").
+			Optional().
+			Nillable(),
 	}
 }
 
@@ -76,7 +86,6 @@ func (Dict) Mixin() []ent.Mixin {
 	return []ent.Mixin{
 		mixin.AutoIncrementId{},
 		mixin.Time{},
-		mixin.SwitchStatus{},
 		mixin.CreateBy{},
 		mixin.UpdateBy{},
 		mixin.Remark{},

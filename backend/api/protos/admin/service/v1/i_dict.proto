@@ -55,6 +55,14 @@ service DictService {
 
 // 字典
 message Dict {
+  // 字典状态
+  enum Status {
+    DICT_STATUS_UNSPECIFIED = 0; // 未指定
+
+    ON = 1;          // 启用
+    OFF = 2;         // 禁用
+  }
+
   optional uint32 id = 1 [
     json_name = "id",
     (google.api.field_behavior) = OPTIONAL,
@@ -105,13 +113,9 @@ message Dict {
     }
   ]; // 字典值数据类型
 
-  optional string status = 10 [
+  optional Status status = 10 [
     json_name = "status",
-    (gnostic.openapi.v3.property) = {
-      description: "字典状态"
-      default: {string: "ON"}
-      enum: [{yaml: "ON"}, {yaml: "OFF"}]
-    }
+    (gnostic.openapi.v3.property) = {description: "字典状态"}
   ]; // 字典状态
 
   optional int32 sort_id = 11 [

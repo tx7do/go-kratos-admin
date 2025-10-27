@@ -68,16 +68,16 @@ service ApiResourceService {
   }
 }
 
-// API作用域
-enum ApiScope {
-  API_SCOPE_INVALID = 0; // 无效
-
-  API_SCOPE_ADMIN = 1; // 管理后台API
-  API_SCOPE_APP = 2; // 前台应用API
-}
-
 // API资源
 message ApiResource {
+  // API作用域
+  enum Scope {
+    API_SCOPE_INVALID = 0; // 无效
+
+    ADMIN = 1; // 管理后台API
+    APP = 2; // 前台应用API
+  }
+
   optional uint32 id = 1 [
     json_name = "id",
     (gnostic.openapi.v3.property) = { description: "资源ID" }
@@ -113,7 +113,7 @@ message ApiResource {
     (gnostic.openapi.v3.property) = { description: "描述" }
   ]; // 描述
 
-  optional ApiScope scope = 8 [
+  optional Scope scope = 8 [
     json_name = "scope",
     (gnostic.openapi.v3.property) = { description: "作用域" }
   ]; // 作用域

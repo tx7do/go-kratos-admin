@@ -2,12 +2,12 @@ import { computed } from 'vue';
 
 import { $t } from '@vben/locales';
 
-import {
-  AdminLoginRestrictionMethod,
-  AdminLoginRestrictionType,
-} from '#/generated/api/admin/service/v1/i_admin_login_restriction.pb';
 import { defineStore } from 'pinia';
 
+import {
+  AdminLoginRestriction_Method,
+  AdminLoginRestriction_Type,
+} from '#/generated/api/admin/service/v1/i_admin_login_restriction.pb';
 import { defAdminLoginRestrictionService } from '#/services';
 import { makeQueryString, makeUpdateMask } from '#/utils/query';
 
@@ -103,11 +103,11 @@ export const adminLoginRestrictionMethodList = computed(() => [
 
 export function adminLoginRestrictionTypeToName(typeName: any) {
   switch (typeName) {
-    case AdminLoginRestrictionType.BLACKLIST: {
+    case AdminLoginRestriction_Type.BLACKLIST: {
       return $t('enum.adminLoginRestrictionType.BLACKLIST');
     }
 
-    case AdminLoginRestrictionType.WHITELIST: {
+    case AdminLoginRestriction_Type.WHITELIST: {
       return $t('enum.adminLoginRestrictionType.WHITELIST');
     }
   }
@@ -115,10 +115,10 @@ export function adminLoginRestrictionTypeToName(typeName: any) {
 
 export function adminLoginRestrictionTypeToColor(typeName: any) {
   switch (typeName) {
-    case AdminLoginRestrictionType.BLACKLIST: {
+    case AdminLoginRestriction_Type.BLACKLIST: {
       return 'red'; // 黑名单用红色（表示限制/禁止）
     }
-    case AdminLoginRestrictionType.WHITELIST: {
+    case AdminLoginRestriction_Type.WHITELIST: {
       return 'green'; // 白名单用绿色（表示允许/信任）
     }
     default: {
@@ -130,23 +130,23 @@ export function adminLoginRestrictionTypeToColor(typeName: any) {
 
 export function adminLoginRestrictionMethodToName(methodName: any) {
   switch (methodName) {
-    case AdminLoginRestrictionMethod.DEVICE: {
+    case AdminLoginRestriction_Method.DEVICE: {
       return $t('enum.adminLoginRestrictionMethod.DEVICE');
     }
 
-    case AdminLoginRestrictionMethod.IP: {
+    case AdminLoginRestriction_Method.IP: {
       return $t('enum.adminLoginRestrictionMethod.IP');
     }
 
-    case AdminLoginRestrictionMethod.MAC: {
+    case AdminLoginRestriction_Method.MAC: {
       return $t('enum.adminLoginRestrictionMethod.MAC');
     }
 
-    case AdminLoginRestrictionMethod.REGION: {
+    case AdminLoginRestriction_Method.REGION: {
       return $t('enum.adminLoginRestrictionMethod.REGION');
     }
 
-    case AdminLoginRestrictionMethod.TIME: {
+    case AdminLoginRestriction_Method.TIME: {
       return $t('enum.adminLoginRestrictionMethod.TIME');
     }
   }

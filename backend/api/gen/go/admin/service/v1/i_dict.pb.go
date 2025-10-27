@@ -27,6 +27,56 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+// 字典状态
+type Dict_Status int32
+
+const (
+	Dict_DICT_STATUS_UNSPECIFIED Dict_Status = 0 // 未指定
+	Dict_ON                      Dict_Status = 1 // 启用
+	Dict_OFF                     Dict_Status = 2 // 禁用
+)
+
+// Enum value maps for Dict_Status.
+var (
+	Dict_Status_name = map[int32]string{
+		0: "DICT_STATUS_UNSPECIFIED",
+		1: "ON",
+		2: "OFF",
+	}
+	Dict_Status_value = map[string]int32{
+		"DICT_STATUS_UNSPECIFIED": 0,
+		"ON":                      1,
+		"OFF":                     2,
+	}
+)
+
+func (x Dict_Status) Enum() *Dict_Status {
+	p := new(Dict_Status)
+	*p = x
+	return p
+}
+
+func (x Dict_Status) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (Dict_Status) Descriptor() protoreflect.EnumDescriptor {
+	return file_admin_service_v1_i_dict_proto_enumTypes[0].Descriptor()
+}
+
+func (Dict_Status) Type() protoreflect.EnumType {
+	return &file_admin_service_v1_i_dict_proto_enumTypes[0]
+}
+
+func (x Dict_Status) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use Dict_Status.Descriptor instead.
+func (Dict_Status) EnumDescriptor() ([]byte, []int) {
+	return file_admin_service_v1_i_dict_proto_rawDescGZIP(), []int{0, 0}
+}
+
 // 字典
 type Dict struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
@@ -37,7 +87,7 @@ type Dict struct {
 	Value         *string                `protobuf:"bytes,5,opt,name=value,proto3,oneof" json:"value,omitempty"`                                        // 字典值
 	ValueDesc     *string                `protobuf:"bytes,6,opt,name=value_desc,json=valueDesc,proto3,oneof" json:"value_desc,omitempty"`               // 字典值名称
 	ValueDataType *string                `protobuf:"bytes,7,opt,name=value_data_type,json=valueDataType,proto3,oneof" json:"value_data_type,omitempty"` // 字典值数据类型
-	Status        *string                `protobuf:"bytes,10,opt,name=status,proto3,oneof" json:"status,omitempty"`                                     // 字典状态
+	Status        *Dict_Status           `protobuf:"varint,10,opt,name=status,proto3,enum=admin.service.v1.Dict_Status,oneof" json:"status,omitempty"`  // 字典状态
 	SortId        *int32                 `protobuf:"varint,11,opt,name=sort_id,json=sortId,proto3,oneof" json:"sort_id,omitempty"`                      // 排序编号
 	Remark        *string                `protobuf:"bytes,12,opt,name=remark,proto3,oneof" json:"remark,omitempty"`                                     // 备注
 	CreateBy      *uint32                `protobuf:"varint,100,opt,name=create_by,json=createBy,proto3,oneof" json:"create_by,omitempty"`               // 创建者ID
@@ -128,11 +178,11 @@ func (x *Dict) GetValueDataType() string {
 	return ""
 }
 
-func (x *Dict) GetStatus() string {
+func (x *Dict) GetStatus() Dict_Status {
 	if x != nil && x.Status != nil {
 		return *x.Status
 	}
-	return ""
+	return Dict_DICT_STATUS_UNSPECIFIED
 }
 
 func (x *Dict) GetSortId() int32 {
@@ -437,7 +487,7 @@ var File_admin_service_v1_i_dict_proto protoreflect.FileDescriptor
 
 const file_admin_service_v1_i_dict_proto_rawDesc = "" +
 	"\n" +
-	"\x1dadmin/service/v1/i_dict.proto\x12\x10admin.service.v1\x1a$gnostic/openapi/v3/annotations.proto\x1a\x1cgoogle/api/annotations.proto\x1a\x1fgoogle/api/field_behavior.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a google/protobuf/field_mask.proto\x1a\x1epagination/v1/pagination.proto\"\xdc\b\n" +
+	"\x1dadmin/service/v1/i_dict.proto\x12\x10admin.service.v1\x1a$gnostic/openapi/v3/annotations.proto\x1a\x1cgoogle/api/annotations.proto\x1a\x1fgoogle/api/field_behavior.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a google/protobuf/field_mask.proto\x1a\x1epagination/v1/pagination.proto\"\x9d\t\n" +
 	"\x04Dict\x12&\n" +
 	"\x02id\x18\x01 \x01(\rB\x11\xe0A\x01\xbaG\v\x92\x02\b字典IDH\x00R\x02id\x88\x01\x01\x123\n" +
 	"\bcategory\x18\x02 \x01(\tB\x12\xbaG\x0f\x92\x02\f字典分类H\x01R\bcategory\x88\x01\x01\x12B\n" +
@@ -446,9 +496,9 @@ const file_admin_service_v1_i_dict_proto_rawDesc = "" +
 	"\x05value\x18\x05 \x01(\tB\x0f\xbaG\f\x92\x02\t字典值H\x04R\x05value\x88\x01\x01\x129\n" +
 	"\n" +
 	"value_desc\x18\x06 \x01(\tB\x15\xbaG\x12\x92\x02\x0f字典值名称H\x05R\tvalueDesc\x88\x01\x01\x12H\n" +
-	"\x0fvalue_data_type\x18\a \x01(\tB\x1b\xbaG\x18\x92\x02\x15字典值数据类型H\x06R\rvalueDataType\x88\x01\x01\x12E\n" +
+	"\x0fvalue_data_type\x18\a \x01(\tB\x1b\xbaG\x18\x92\x02\x15字典值数据类型H\x06R\rvalueDataType\x88\x01\x01\x12N\n" +
 	"\x06status\x18\n" +
-	" \x01(\tB(\xbaG%\xc2\x01\x04\x12\x02ON\xc2\x01\x05\x12\x03OFF\x8a\x02\x04\x1a\x02ON\x92\x02\f字典状态H\aR\x06status\x88\x01\x01\x120\n" +
+	" \x01(\x0e2\x1d.admin.service.v1.Dict.StatusB\x12\xbaG\x0f\x92\x02\f字典状态H\aR\x06status\x88\x01\x01\x120\n" +
 	"\asort_id\x18\v \x01(\x05B\x12\xbaG\x0f\x92\x02\f排序编号H\bR\x06sortId\x88\x01\x01\x12)\n" +
 	"\x06remark\x18\f \x01(\tB\f\xbaG\t\x92\x02\x06备注H\tR\x06remark\x88\x01\x01\x123\n" +
 	"\tcreate_by\x18d \x01(\rB\x11\xbaG\x0e\x92\x02\v创建者IDH\n" +
@@ -459,7 +509,11 @@ const file_admin_service_v1_i_dict_proto_rawDesc = "" +
 	"\vupdate_time\x18\xc9\x01 \x01(\v2\x1a.google.protobuf.TimestampB\x12\xbaG\x0f\x92\x02\f更新时间H\rR\n" +
 	"updateTime\x88\x01\x01\x12U\n" +
 	"\vdelete_time\x18\xca\x01 \x01(\v2\x1a.google.protobuf.TimestampB\x12\xbaG\x0f\x92\x02\f删除时间H\x0eR\n" +
-	"deleteTime\x88\x01\x01B\x05\n" +
+	"deleteTime\x88\x01\x01\"6\n" +
+	"\x06Status\x12\x1b\n" +
+	"\x17DICT_STATUS_UNSPECIFIED\x10\x00\x12\x06\n" +
+	"\x02ON\x10\x01\x12\a\n" +
+	"\x03OFF\x10\x02B\x05\n" +
 	"\x03_idB\v\n" +
 	"\t_categoryB\x10\n" +
 	"\x0e_category_descB\x06\n" +
@@ -514,42 +568,45 @@ func file_admin_service_v1_i_dict_proto_rawDescGZIP() []byte {
 	return file_admin_service_v1_i_dict_proto_rawDescData
 }
 
+var file_admin_service_v1_i_dict_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
 var file_admin_service_v1_i_dict_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
 var file_admin_service_v1_i_dict_proto_goTypes = []any{
-	(*Dict)(nil),                  // 0: admin.service.v1.Dict
-	(*ListDictResponse)(nil),      // 1: admin.service.v1.ListDictResponse
-	(*GetDictRequest)(nil),        // 2: admin.service.v1.GetDictRequest
-	(*CreateDictRequest)(nil),     // 3: admin.service.v1.CreateDictRequest
-	(*UpdateDictRequest)(nil),     // 4: admin.service.v1.UpdateDictRequest
-	(*DeleteDictRequest)(nil),     // 5: admin.service.v1.DeleteDictRequest
-	(*timestamppb.Timestamp)(nil), // 6: google.protobuf.Timestamp
-	(*fieldmaskpb.FieldMask)(nil), // 7: google.protobuf.FieldMask
-	(*v1.PagingRequest)(nil),      // 8: pagination.PagingRequest
-	(*emptypb.Empty)(nil),         // 9: google.protobuf.Empty
+	(Dict_Status)(0),              // 0: admin.service.v1.Dict.Status
+	(*Dict)(nil),                  // 1: admin.service.v1.Dict
+	(*ListDictResponse)(nil),      // 2: admin.service.v1.ListDictResponse
+	(*GetDictRequest)(nil),        // 3: admin.service.v1.GetDictRequest
+	(*CreateDictRequest)(nil),     // 4: admin.service.v1.CreateDictRequest
+	(*UpdateDictRequest)(nil),     // 5: admin.service.v1.UpdateDictRequest
+	(*DeleteDictRequest)(nil),     // 6: admin.service.v1.DeleteDictRequest
+	(*timestamppb.Timestamp)(nil), // 7: google.protobuf.Timestamp
+	(*fieldmaskpb.FieldMask)(nil), // 8: google.protobuf.FieldMask
+	(*v1.PagingRequest)(nil),      // 9: pagination.PagingRequest
+	(*emptypb.Empty)(nil),         // 10: google.protobuf.Empty
 }
 var file_admin_service_v1_i_dict_proto_depIdxs = []int32{
-	6,  // 0: admin.service.v1.Dict.create_time:type_name -> google.protobuf.Timestamp
-	6,  // 1: admin.service.v1.Dict.update_time:type_name -> google.protobuf.Timestamp
-	6,  // 2: admin.service.v1.Dict.delete_time:type_name -> google.protobuf.Timestamp
-	0,  // 3: admin.service.v1.ListDictResponse.items:type_name -> admin.service.v1.Dict
-	0,  // 4: admin.service.v1.CreateDictRequest.data:type_name -> admin.service.v1.Dict
-	0,  // 5: admin.service.v1.UpdateDictRequest.data:type_name -> admin.service.v1.Dict
-	7,  // 6: admin.service.v1.UpdateDictRequest.update_mask:type_name -> google.protobuf.FieldMask
-	8,  // 7: admin.service.v1.DictService.List:input_type -> pagination.PagingRequest
-	2,  // 8: admin.service.v1.DictService.Get:input_type -> admin.service.v1.GetDictRequest
-	3,  // 9: admin.service.v1.DictService.Create:input_type -> admin.service.v1.CreateDictRequest
-	4,  // 10: admin.service.v1.DictService.Update:input_type -> admin.service.v1.UpdateDictRequest
-	5,  // 11: admin.service.v1.DictService.Delete:input_type -> admin.service.v1.DeleteDictRequest
-	1,  // 12: admin.service.v1.DictService.List:output_type -> admin.service.v1.ListDictResponse
-	0,  // 13: admin.service.v1.DictService.Get:output_type -> admin.service.v1.Dict
-	9,  // 14: admin.service.v1.DictService.Create:output_type -> google.protobuf.Empty
-	9,  // 15: admin.service.v1.DictService.Update:output_type -> google.protobuf.Empty
-	9,  // 16: admin.service.v1.DictService.Delete:output_type -> google.protobuf.Empty
-	12, // [12:17] is the sub-list for method output_type
-	7,  // [7:12] is the sub-list for method input_type
-	7,  // [7:7] is the sub-list for extension type_name
-	7,  // [7:7] is the sub-list for extension extendee
-	0,  // [0:7] is the sub-list for field type_name
+	0,  // 0: admin.service.v1.Dict.status:type_name -> admin.service.v1.Dict.Status
+	7,  // 1: admin.service.v1.Dict.create_time:type_name -> google.protobuf.Timestamp
+	7,  // 2: admin.service.v1.Dict.update_time:type_name -> google.protobuf.Timestamp
+	7,  // 3: admin.service.v1.Dict.delete_time:type_name -> google.protobuf.Timestamp
+	1,  // 4: admin.service.v1.ListDictResponse.items:type_name -> admin.service.v1.Dict
+	1,  // 5: admin.service.v1.CreateDictRequest.data:type_name -> admin.service.v1.Dict
+	1,  // 6: admin.service.v1.UpdateDictRequest.data:type_name -> admin.service.v1.Dict
+	8,  // 7: admin.service.v1.UpdateDictRequest.update_mask:type_name -> google.protobuf.FieldMask
+	9,  // 8: admin.service.v1.DictService.List:input_type -> pagination.PagingRequest
+	3,  // 9: admin.service.v1.DictService.Get:input_type -> admin.service.v1.GetDictRequest
+	4,  // 10: admin.service.v1.DictService.Create:input_type -> admin.service.v1.CreateDictRequest
+	5,  // 11: admin.service.v1.DictService.Update:input_type -> admin.service.v1.UpdateDictRequest
+	6,  // 12: admin.service.v1.DictService.Delete:input_type -> admin.service.v1.DeleteDictRequest
+	2,  // 13: admin.service.v1.DictService.List:output_type -> admin.service.v1.ListDictResponse
+	1,  // 14: admin.service.v1.DictService.Get:output_type -> admin.service.v1.Dict
+	10, // 15: admin.service.v1.DictService.Create:output_type -> google.protobuf.Empty
+	10, // 16: admin.service.v1.DictService.Update:output_type -> google.protobuf.Empty
+	10, // 17: admin.service.v1.DictService.Delete:output_type -> google.protobuf.Empty
+	13, // [13:18] is the sub-list for method output_type
+	8,  // [8:13] is the sub-list for method input_type
+	8,  // [8:8] is the sub-list for extension type_name
+	8,  // [8:8] is the sub-list for extension extendee
+	0,  // [0:8] is the sub-list for field type_name
 }
 
 func init() { file_admin_service_v1_i_dict_proto_init() }
@@ -564,13 +621,14 @@ func file_admin_service_v1_i_dict_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_admin_service_v1_i_dict_proto_rawDesc), len(file_admin_service_v1_i_dict_proto_rawDesc)),
-			NumEnums:      0,
+			NumEnums:      1,
 			NumMessages:   6,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
 		GoTypes:           file_admin_service_v1_i_dict_proto_goTypes,
 		DependencyIndexes: file_admin_service_v1_i_dict_proto_depIdxs,
+		EnumInfos:         file_admin_service_v1_i_dict_proto_enumTypes,
 		MessageInfos:      file_admin_service_v1_i_dict_proto_msgTypes,
 	}.Build()
 	File_admin_service_v1_i_dict_proto = out.File

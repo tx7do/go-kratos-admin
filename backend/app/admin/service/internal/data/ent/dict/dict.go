@@ -19,8 +19,6 @@ const (
 	FieldUpdateTime = "update_time"
 	// FieldDeleteTime holds the string denoting the delete_time field in the database.
 	FieldDeleteTime = "delete_time"
-	// FieldStatus holds the string denoting the status field in the database.
-	FieldStatus = "status"
 	// FieldCreateBy holds the string denoting the create_by field in the database.
 	FieldCreateBy = "create_by"
 	// FieldUpdateBy holds the string denoting the update_by field in the database.
@@ -43,6 +41,8 @@ const (
 	FieldValueDataType = "value_data_type"
 	// FieldSortID holds the string denoting the sort_id field in the database.
 	FieldSortID = "sort_id"
+	// FieldStatus holds the string denoting the status field in the database.
+	FieldStatus = "status"
 	// Table holds the table name of the dict in the database.
 	Table = "sys_dicts"
 )
@@ -53,7 +53,6 @@ var Columns = []string{
 	FieldCreateTime,
 	FieldUpdateTime,
 	FieldDeleteTime,
-	FieldStatus,
 	FieldCreateBy,
 	FieldUpdateBy,
 	FieldRemark,
@@ -65,6 +64,7 @@ var Columns = []string{
 	FieldValueDesc,
 	FieldValueDataType,
 	FieldSortID,
+	FieldStatus,
 }
 
 // ValidColumn reports if the column name is valid (part of the table columns).
@@ -93,13 +93,13 @@ var (
 // Status defines the type for the "status" enum field.
 type Status string
 
-// StatusON is the default value of the Status enum.
-const DefaultStatus = StatusON
+// StatusOn is the default value of the Status enum.
+const DefaultStatus = StatusOn
 
 // Status values.
 const (
-	StatusOFF Status = "OFF"
-	StatusON  Status = "ON"
+	StatusOn  Status = "ON"
+	StatusOff Status = "OFF"
 )
 
 func (s Status) String() string {
@@ -109,7 +109,7 @@ func (s Status) String() string {
 // StatusValidator is a validator for the "status" field enum values. It is called by the builders before save.
 func StatusValidator(s Status) error {
 	switch s {
-	case StatusOFF, StatusON:
+	case StatusOn, StatusOff:
 		return nil
 	default:
 		return fmt.Errorf("dict: invalid enum value for status field: %q", s)
@@ -137,11 +137,6 @@ func ByUpdateTime(opts ...sql.OrderTermOption) OrderOption {
 // ByDeleteTime orders the results by the delete_time field.
 func ByDeleteTime(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldDeleteTime, opts...).ToFunc()
-}
-
-// ByStatus orders the results by the status field.
-func ByStatus(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldStatus, opts...).ToFunc()
 }
 
 // ByCreateBy orders the results by the create_by field.
@@ -197,4 +192,9 @@ func ByValueDataType(opts ...sql.OrderTermOption) OrderOption {
 // BySortID orders the results by the sort_id field.
 func BySortID(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldSortID, opts...).ToFunc()
+}
+
+// ByStatus orders the results by the status field.
+func ByStatus(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldStatus, opts...).ToFunc()
 }

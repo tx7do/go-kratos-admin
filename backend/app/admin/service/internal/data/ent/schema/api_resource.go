@@ -61,8 +61,8 @@ func (ApiResource) Fields() []ent.Field {
 		field.Enum("scope").
 			Comment("作用域").
 			NamedValues(
-				"API_SCOPE_ADMIN", "ADMIN",
-				"API_SCOPE_APP", "APP",
+				"Admin", "ADMIN",
+				"App", "APP",
 			).
 			Default("ADMIN").
 			Optional().

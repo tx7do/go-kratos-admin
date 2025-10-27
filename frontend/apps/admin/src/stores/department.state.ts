@@ -6,7 +6,7 @@ import { defineStore } from 'pinia';
 
 import {
   type Department,
-  DepartmentStatus,
+  Department_Status,
 } from '#/generated/api/user/service/v1/department.pb';
 import { defDepartmentService } from '#/services';
 import { makeQueryString, makeUpdateMask } from '#/utils/query';
@@ -88,9 +88,9 @@ export const useDepartmentStore = defineStore('department', () => {
 });
 
 export const departmentStatusList = computed(() => [
-  { value: DepartmentStatus.DEPARTMENT_STATUS_ON, label: $t('enum.status.ON') },
+  { value: Department_Status.ON, label: $t('enum.status.ON') },
   {
-    value: DepartmentStatus.DEPARTMENT_STATUS_OFF,
+    value: Department_Status.OFF,
     label: $t('enum.status.OFF'),
   },
 ]);
@@ -101,10 +101,10 @@ export const departmentStatusList = computed(() => [
  */
 export function departmentStatusToName(status: any) {
   switch (status) {
-    case DepartmentStatus.DEPARTMENT_STATUS_OFF: {
+    case Department_Status.OFF: {
       return $t('enum.status.OFF');
     }
-    case DepartmentStatus.DEPARTMENT_STATUS_ON: {
+    case Department_Status.ON: {
       return $t('enum.status.ON');
     }
     default: {
@@ -119,11 +119,11 @@ export function departmentStatusToName(status: any) {
  */
 export function departmentStatusToColor(status: any) {
   switch (status) {
-    case DepartmentStatus.DEPARTMENT_STATUS_OFF: {
+    case Department_Status.OFF: {
       // 关闭/停用：深灰色，明确非激活状态
       return '#8C8C8C';
     } // 中深灰色，与“关闭”语义匹配，区别于浅灰的“未知”
-    case DepartmentStatus.DEPARTMENT_STATUS_ON: {
+    case Department_Status.ON: {
       // 开启/激活：标准成功绿，体现正常运行
       return '#52C41A';
     } // 对应Element Plus的success色，大众认知中的“正常”色

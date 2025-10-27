@@ -53,25 +53,27 @@ service AdminLoginRestrictionService {
   }
 }
 
-// 后台登录限制类型
-enum AdminLoginRestrictionType {
-  LOGIN_RESTRICTION_TYPE_UNSPECIFIED = 0; // 未知
-  BLACKLIST = 1; // 黑名单
-  WHITELIST = 2; // 白名单
-}
-
-// 后台登录限制方式
-enum AdminLoginRestrictionMethod {
-  LOGIN_RESTRICTION_METHOD_UNSPECIFIED = 0; // 未知
-  IP = 1; // IP地址限制
-  MAC = 2; // MAC地址限制，绑定设备的MAC地址。
-  REGION = 3; // 地区限制，根据地理位置（如国家、城市）限制登录。
-  TIME = 4; // 时间限制，限制登录的时间段，例如只允许工作时间登录。
-  DEVICE = 5; // 设备限制，限制登录设备的类型（如PC、手机）或特定设备ID。
-}
-
 // 后台登录限制
 message AdminLoginRestriction {
+  // 后台登录限制类型
+  enum Type {
+    LOGIN_RESTRICTION_TYPE_UNSPECIFIED = 0; // 未知
+
+    BLACKLIST = 1; // 黑名单
+    WHITELIST = 2; // 白名单
+  }
+
+  // 后台登录限制方式
+  enum Method {
+    LOGIN_RESTRICTION_METHOD_UNSPECIFIED = 0; // 未知
+
+    IP = 1; // IP地址限制
+    MAC = 2; // MAC地址限制，绑定设备的MAC地址。
+    REGION = 3; // 地区限制，根据地理位置（如国家、城市）限制登录。
+    TIME = 4; // 时间限制，限制登录的时间段，例如只允许工作时间登录。
+    DEVICE = 5; // 设备限制，限制登录设备的类型（如PC、手机）或特定设备ID。
+  }
+
   optional uint32 id = 1 [
     json_name = "id",
     (google.api.field_behavior) = OPTIONAL,
@@ -87,14 +89,14 @@ message AdminLoginRestriction {
     }
   ]; // 目标用户ID
 
-  optional AdminLoginRestrictionType type = 3 [
+  optional Type type = 3 [
     json_name = "type",
     (gnostic.openapi.v3.property) = {
       description: "限制类型"
     }
   ]; // 限制类型
 
-  optional AdminLoginRestrictionMethod method = 4 [
+  optional Method method = 4 [
     json_name = "method",
     (gnostic.openapi.v3.property) = {
       description: "限制方式"

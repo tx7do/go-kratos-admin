@@ -19,9 +19,7 @@ type Menu struct {
 	config `json:"-"`
 	// ID of the ent.
 	// id
-	ID int32 `json:"id,omitempty"`
-	// 状态
-	Status *menu.Status `json:"status,omitempty"`
+	ID uint32 `json:"id,omitempty"`
 	// 创建时间
 	CreateTime *time.Time `json:"create_time,omitempty"`
 	// 更新时间
@@ -35,7 +33,9 @@ type Menu struct {
 	// 备注
 	Remark *string `json:"remark,omitempty"`
 	// 上一层菜单ID
-	ParentID *int32 `json:"parent_id,omitempty"`
+	ParentID *uint32 `json:"parent_id,omitempty"`
+	// 菜单状态
+	Status *menu.Status `json:"status,omitempty"`
 	// 菜单类型 FOLDER: 目录 MENU: 菜单 BUTTON: 按钮 EMBEDDED: 内嵌 LINK: 外链
 	Type *menu.Type `json:"type,omitempty"`
 	// 路径,当其类型为'按钮'的时候对应的数据操作名,例如:/user.service.v1.UserService/Login
@@ -96,7 +96,7 @@ func (*Menu) scanValues(columns []string) ([]any, error) {
 			values[i] = new([]byte)
 		case menu.FieldID, menu.FieldCreateBy, menu.FieldUpdateBy, menu.FieldParentID:
 			values[i] = new(sql.NullInt64)
-		case menu.FieldStatus, menu.FieldRemark, menu.FieldType, menu.FieldPath, menu.FieldRedirect, menu.FieldAlias, menu.FieldName, menu.FieldComponent:
+		case menu.FieldRemark, menu.FieldStatus, menu.FieldType, menu.FieldPath, menu.FieldRedirect, menu.FieldAlias, menu.FieldName, menu.FieldComponent:
 			values[i] = new(sql.NullString)
 		case menu.FieldCreateTime, menu.FieldUpdateTime, menu.FieldDeleteTime:
 			values[i] = new(sql.NullTime)
@@ -120,14 +120,7 @@ func (_m *Menu) assignValues(columns []string, values []any) error {
 			if !ok {
 				return fmt.Errorf("unexpected type %T for field id", value)
 			}
-			_m.ID = int32(value.Int64)
-		case menu.FieldStatus:
-			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field status", values[i])
-			} else if value.Valid {
-				_m.Status = new(menu.Status)
-				*_m.Status = menu.Status(value.String)
-			}
+			_m.ID = uint32(value.Int64)
 		case menu.FieldCreateTime:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field create_time", values[i])
@@ -174,8 +167,15 @@ func (_m *Menu) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field parent_id", values[i])
 			} else if value.Valid {
-				_m.ParentID = new(int32)
-				*_m.ParentID = int32(value.Int64)
+				_m.ParentID = new(uint32)
+				*_m.ParentID = uint32(value.Int64)
+			}
+		case menu.FieldStatus:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field status", values[i])
+			} else if value.Valid {
+				_m.Status = new(menu.Status)
+				*_m.Status = menu.Status(value.String)
 			}
 		case menu.FieldType:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -273,11 +273,6 @@ func (_m *Menu) String() string {
 	var builder strings.Builder
 	builder.WriteString("Menu(")
 	builder.WriteString(fmt.Sprintf("id=%v, ", _m.ID))
-	if v := _m.Status; v != nil {
-		builder.WriteString("status=")
-		builder.WriteString(fmt.Sprintf("%v", *v))
-	}
-	builder.WriteString(", ")
 	if v := _m.CreateTime; v != nil {
 		builder.WriteString("create_time=")
 		builder.WriteString(v.Format(time.ANSIC))
@@ -310,6 +305,11 @@ func (_m *Menu) String() string {
 	builder.WriteString(", ")
 	if v := _m.ParentID; v != nil {
 		builder.WriteString("parent_id=")
+		builder.WriteString(fmt.Sprintf("%v", *v))
+	}
+	builder.WriteString(", ")
+	if v := _m.Status; v != nil {
+		builder.WriteString("status=")
 		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteString(", ")

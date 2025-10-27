@@ -29,9 +29,9 @@ type UserRepo struct {
 	log  *log.Helper
 
 	mapper             *mapper.CopierMapper[userV1.User, ent.User]
-	statusConverter    *mapper.EnumTypeConverter[userV1.UserStatus, user.Status]
-	genderConverter    *mapper.EnumTypeConverter[userV1.UserGender, user.Gender]
-	authorityConverter *mapper.EnumTypeConverter[userV1.UserAuthority, user.Authority]
+	statusConverter    *mapper.EnumTypeConverter[userV1.User_Status, user.Status]
+	genderConverter    *mapper.EnumTypeConverter[userV1.User_Gender, user.Gender]
+	authorityConverter *mapper.EnumTypeConverter[userV1.User_Authority, user.Authority]
 }
 
 func NewUserRepo(logger log.Logger, data *Data) *UserRepo {
@@ -39,9 +39,9 @@ func NewUserRepo(logger log.Logger, data *Data) *UserRepo {
 		log:                log.NewHelper(log.With(logger, "module", "user/repo/admin-service")),
 		data:               data,
 		mapper:             mapper.NewCopierMapper[userV1.User, ent.User](),
-		statusConverter:    mapper.NewEnumTypeConverter[userV1.UserStatus, user.Status](userV1.UserStatus_name, userV1.UserStatus_value),
-		genderConverter:    mapper.NewEnumTypeConverter[userV1.UserGender, user.Gender](userV1.UserGender_name, userV1.UserGender_value),
-		authorityConverter: mapper.NewEnumTypeConverter[userV1.UserAuthority, user.Authority](userV1.UserAuthority_name, userV1.UserAuthority_value),
+		statusConverter:    mapper.NewEnumTypeConverter[userV1.User_Status, user.Status](userV1.User_Status_name, userV1.User_Status_value),
+		genderConverter:    mapper.NewEnumTypeConverter[userV1.User_Gender, user.Gender](userV1.User_Gender_name, userV1.User_Gender_value),
+		authorityConverter: mapper.NewEnumTypeConverter[userV1.User_Authority, user.Authority](userV1.User_Authority_name, userV1.User_Authority_value),
 	}
 
 	repo.init()

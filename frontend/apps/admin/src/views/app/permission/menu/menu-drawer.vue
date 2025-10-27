@@ -11,7 +11,10 @@ import { addCollection } from '@iconify/vue';
 import { notification } from 'ant-design-vue';
 
 import { useVbenForm } from '#/adapter/form';
-import { MenuType } from '#/generated/api/admin/service/v1/i_menu.pb';
+import {
+  Menu_Status,
+  Menu_Type,
+} from '#/generated/api/admin/service/v1/i_menu.pb';
 import {
   buildMenuTree,
   isButton,
@@ -51,7 +54,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
       component: 'RadioGroup',
       fieldName: 'type',
       label: $t('page.menu.type'),
-      defaultValue: MenuType.MENU,
+      defaultValue: Menu_Type.MENU,
       formItemClass: 'col-span-2 md:col-span-2',
       componentProps: {
         optionType: 'button',
@@ -95,7 +98,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
           const fieldValue = baseFormApi.form.values;
           const result = await menuStore.listMenu(true, null, null, {
             parentId: fieldValue.parentId,
-            status: 'ON',
+            status: Menu_Status.ON,
           });
           return result.items;
         },
@@ -172,7 +175,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
     {
       component: 'RadioGroup',
       fieldName: 'status',
-      defaultValue: 'ON',
+      defaultValue: Menu_Status.ON,
       label: $t('ui.table.status'),
       rules: 'selectRequired',
       componentProps: {
@@ -186,7 +189,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
       component: 'Divider',
       dependencies: {
         show: (values) => {
-          return ![MenuType.BUTTON, MenuType.LINK].includes(values.type);
+          return ![Menu_Type.BUTTON, Menu_Type.LINK].includes(values.type);
         },
         triggerFields: ['type'],
       },
@@ -205,7 +208,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
       fieldName: 'meta.keepAlive',
       dependencies: {
         show: (values) => {
-          return [MenuType.MENU].includes(values.type);
+          return [Menu_Type.MENU].includes(values.type);
         },
         triggerFields: ['type'],
       },
@@ -220,7 +223,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
       fieldName: 'meta.affixTab',
       dependencies: {
         show: (values) => {
-          return [MenuType.EMBEDDED, MenuType.MENU].includes(values.type);
+          return [Menu_Type.EMBEDDED, Menu_Type.MENU].includes(values.type);
         },
         triggerFields: ['type'],
       },
@@ -235,7 +238,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
       fieldName: 'meta.hideInMenu',
       dependencies: {
         show: (values) => {
-          return ![MenuType.BUTTON].includes(values.type);
+          return ![Menu_Type.BUTTON].includes(values.type);
         },
         triggerFields: ['type'],
       },
@@ -250,7 +253,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
       fieldName: 'meta.hideChildrenInMenu',
       dependencies: {
         show: (values) => {
-          return [MenuType.FOLDER, MenuType.MENU].includes(values.type);
+          return [Menu_Type.FOLDER, Menu_Type.MENU].includes(values.type);
         },
         triggerFields: ['type'],
       },
@@ -265,7 +268,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
       fieldName: 'meta.hideInBreadcrumb',
       dependencies: {
         show: (values) => {
-          return ![MenuType.BUTTON, MenuType.LINK].includes(values.type);
+          return ![Menu_Type.BUTTON, Menu_Type.LINK].includes(values.type);
         },
         triggerFields: ['type'],
       },
@@ -280,7 +283,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
       fieldName: 'meta.hideInTab',
       dependencies: {
         show: (values) => {
-          return ![MenuType.BUTTON, MenuType.LINK].includes(values.type);
+          return ![Menu_Type.BUTTON, Menu_Type.LINK].includes(values.type);
         },
         triggerFields: ['type'],
       },

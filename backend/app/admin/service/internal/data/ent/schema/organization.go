@@ -53,8 +53,8 @@ func (Organization) Fields() []ent.Field {
 		field.Enum("status").
 			Comment("组织状态").
 			NamedValues(
-				"ORGANIZATION_STATUS_ON", "ON",
-				"ORGANIZATION_STATUS_OFF", "OFF",
+				"On", "ON",
+				"Off", "OFF",
 			).
 			Default("ON").
 			Optional().
@@ -63,10 +63,10 @@ func (Organization) Fields() []ent.Field {
 		field.Enum("organization_type").
 			Comment("组织类型").
 			NamedValues(
-				"ORGANIZATION_TYPE_GROUP", "GROUP",
-				"ORGANIZATION_TYPE_SUBSIDIARY", "SUBSIDIARY",
-				"ORGANIZATION_TYPE_FILIALE", "FILIALE",
-				"ORGANIZATION_TYPE_DIVISION", "DIVISION",
+				"Group", "GROUP",
+				"Subsidiary", "SUBSIDIARY",
+				"Filiale", "FILIALE",
+				"Division", "DIVISION",
 			).
 			Optional().
 			Nillable(),

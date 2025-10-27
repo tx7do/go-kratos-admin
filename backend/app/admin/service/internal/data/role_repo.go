@@ -2,10 +2,6 @@ package data
 
 import (
 	"context"
-	"kratos-admin/app/admin/service/internal/data/ent/roledept"
-	"kratos-admin/app/admin/service/internal/data/ent/roleorg"
-	"kratos-admin/app/admin/service/internal/data/ent/roleposition"
-
 	"time"
 
 	"entgo.io/ent/dialect/sql"
@@ -22,7 +18,10 @@ import (
 	"kratos-admin/app/admin/service/internal/data/ent"
 	"kratos-admin/app/admin/service/internal/data/ent/role"
 	"kratos-admin/app/admin/service/internal/data/ent/roleapi"
+	"kratos-admin/app/admin/service/internal/data/ent/roledept"
 	"kratos-admin/app/admin/service/internal/data/ent/rolemenu"
+	"kratos-admin/app/admin/service/internal/data/ent/roleorg"
+	"kratos-admin/app/admin/service/internal/data/ent/roleposition"
 
 	userV1 "kratos-admin/api/gen/go/user/service/v1"
 )
@@ -31,14 +30,16 @@ type RoleRepo struct {
 	data *Data
 	log  *log.Helper
 
-	mapper *mapper.CopierMapper[userV1.Role, ent.Role]
+	mapper          *mapper.CopierMapper[userV1.Role, ent.Role]
+	statusConverter *mapper.EnumTypeConverter[userV1.Role_Status, role.Status]
 }
 
 func NewRoleRepo(data *Data, logger log.Logger) *RoleRepo {
 	repo := &RoleRepo{
-		log:    log.NewHelper(log.With(logger, "module", "role/repo/admin-service")),
-		data:   data,
-		mapper: mapper.NewCopierMapper[userV1.Role, ent.Role](),
+		log:             log.NewHelper(log.With(logger, "module", "role/repo/admin-service")),
+		data:            data,
+		mapper:          mapper.NewCopierMapper[userV1.Role, ent.Role](),
+		statusConverter: mapper.NewEnumTypeConverter[userV1.Role_Status, role.Status](userV1.Role_Status_name, userV1.Role_Status_value),
 	}
 
 	repo.init()
@@ -49,6 +50,8 @@ func NewRoleRepo(data *Data, logger log.Logger) *RoleRepo {
 func (r *RoleRepo) init() {
 	r.mapper.AppendConverters(copierutil.NewTimeStringConverterPair())
 	r.mapper.AppendConverters(copierutil.NewTimeTimestamppbConverterPair())
+
+	r.mapper.AppendConverters(r.statusConverter.NewConverterPair())
 }
 
 func (r *RoleRepo) Count(ctx context.Context, whereCond []func(s *sql.Selector)) (int, error) {
@@ -243,7 +246,7 @@ func (r *RoleRepo) Create(ctx context.Context, req *userV1.CreateRoleRequest) er
 		SetNillableParentID(req.Data.ParentId).
 		SetNillableSortID(req.Data.SortId).
 		SetNillableCode(req.Data.Code).
-		SetNillableStatus((*role.Status)(req.Data.Status)).
+		SetNillableStatus(r.statusConverter.ToEntity(req.Data.Status)).
 		SetNillableRemark(req.Data.Remark).
 		SetNillableTenantID(req.Data.TenantId).
 		SetNillableCreateBy(req.Data.CreateBy).
@@ -306,7 +309,7 @@ func (r *RoleRepo) Update(ctx context.Context, req *userV1.UpdateRoleRequest) er
 		SetNillableSortID(req.Data.SortId).
 		SetNillableCode(req.Data.Code).
 		SetNillableRemark(req.Data.Remark).
-		SetNillableStatus((*role.Status)(req.Data.Status)).
+		SetNillableStatus(r.statusConverter.ToEntity(req.Data.Status)).
 		SetNillableUpdateBy(req.Data.UpdateBy).
 		SetNillableUpdateTime(timeutil.TimestamppbToTime(req.Data.UpdateTime))
 

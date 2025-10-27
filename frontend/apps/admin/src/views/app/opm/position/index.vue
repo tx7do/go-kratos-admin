@@ -9,9 +9,11 @@ import { LucideFilePenLine, LucideTrash2 } from '@vben/icons';
 import { notification } from 'ant-design-vue';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
+import { Department_Status } from '#/generated/api/user/service/v1/department.pb';
+import { Organization_Status } from '#/generated/api/user/service/v1/organization.pb';
 import {
   type Position,
-  PositionStatus,
+  Position_Status,
 } from '#/generated/api/user/service/v1/position.pb';
 import { $t } from '#/locales';
 import {
@@ -24,8 +26,6 @@ import {
 } from '#/stores';
 
 import PositionDrawer from './position-drawer.vue';
-import {OrganizationStatus} from "#/generated/api/user/service/v1/organization.pb";
-import {DepartmentStatus} from "#/generated/api/user/service/v1/department.pb";
 
 const positionStore = usePositionStore();
 const deptStore = useDepartmentStore();
@@ -83,7 +83,7 @@ const formOptions: VbenFormProps = {
         api: async () => {
           const result = await orgStore.listOrganization(true, null, null, {
             // parent_id: 0,
-            status: OrganizationStatus.ORGANIZATION_STATUS_ON,
+            status: Organization_Status.ON,
           });
           return result.items;
         },
@@ -105,7 +105,7 @@ const formOptions: VbenFormProps = {
         api: async () => {
           const result = await deptStore.listDepartment(true, null, null, {
             // parent_id: 0,
-            status: DepartmentStatus.DEPARTMENT_STATUS_ON,
+            status: Department_Status.ON,
           });
           return result.items;
         },
@@ -250,9 +250,7 @@ async function handleStatusChanged(row: any, checked: boolean) {
   console.log('handleStatusChanged', row.status, checked);
 
   row.pending = true;
-  row.status = checked
-    ? PositionStatus.POSITION_STATUS_ON
-    : PositionStatus.POSITION_STATUS_OFF;
+  row.status = checked ? Position_Status.ON : Position_Status.OFF;
 
   try {
     await positionStore.updatePosition(row.id, { status: row.status });

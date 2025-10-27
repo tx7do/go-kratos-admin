@@ -85,8 +85,8 @@ func (GrantType) EnumDescriptor() ([]byte, []int) {
 type TokenType int32
 
 const (
-	TokenType_bearer TokenType = 0 //
-	TokenType_mac    TokenType = 1 //
+	TokenType_bearer TokenType = 0 // Bearer
+	TokenType_mac    TokenType = 1 // MAC
 )
 
 // Enum value maps for TokenType.
@@ -178,7 +178,7 @@ func (ClientType) EnumDescriptor() ([]byte, []int) {
 // 用户后台登录 - 请求
 type LoginRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	GrantType     string                 `protobuf:"bytes,1,opt,name=grant_type,proto3" json:"grant_type,omitempty"` // 授权类型，此处的值固定为"password"，必选项。
+	GrantType     GrantType              `protobuf:"varint,1,opt,name=grant_type,proto3,enum=authentication.service.v1.GrantType" json:"grant_type,omitempty"` // 授权类型，此处的值固定为"password"，必选项。
 	ClientId      *string                `protobuf:"bytes,2,opt,name=client_id,proto3,oneof" json:"client_id,omitempty"`
 	ClientSecret  *string                `protobuf:"bytes,3,opt,name=client_secret,proto3,oneof" json:"client_secret,omitempty"`
 	Scope         *string                `protobuf:"bytes,4,opt,name=scope,proto3,oneof" json:"scope,omitempty"`                  // 以空格分隔的范围列表。如果未提供，scope则授权任何范围，默认为空列表。
@@ -221,11 +221,11 @@ func (*LoginRequest) Descriptor() ([]byte, []int) {
 	return file_authentication_service_v1_authentication_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *LoginRequest) GetGrantType() string {
+func (x *LoginRequest) GetGrantType() GrantType {
 	if x != nil {
 		return x.GrantType
 	}
-	return ""
+	return GrantType_password
 }
 
 func (x *LoginRequest) GetClientId() string {
@@ -287,11 +287,11 @@ func (x *LoginRequest) GetCode() string {
 // 用户后台登录 - 回应
 type LoginResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	AccessToken   string                 `protobuf:"bytes,1,opt,name=access_token,proto3" json:"access_token,omitempty"`    // 访问令牌，必选项。
-	RefreshToken  string                 `protobuf:"bytes,2,opt,name=refresh_token,proto3" json:"refresh_token,omitempty"`  // 更新令牌，用来获取下一次的访问令牌，可选项。
-	TokenType     string                 `protobuf:"bytes,3,opt,name=token_type,proto3" json:"token_type,omitempty"`        // 令牌类型，该值大小写不敏感，必选项，可以是bearer类型或mac类型。
-	ExpiresIn     *int64                 `protobuf:"varint,4,opt,name=expires_in,proto3,oneof" json:"expires_in,omitempty"` // 令牌有效时间，单位为秒。如果访问令牌过期，服务器应回复授予访问令牌的持续时间。如果省略该参数，必须其他方式设置过期时间。
-	Scope         *string                `protobuf:"bytes,5,opt,name=scope,proto3,oneof" json:"scope,omitempty"`            // 以空格分隔的用户授予范围列表。如果未提供，scope则授权任何范围，默认为空列表。
+	AccessToken   string                 `protobuf:"bytes,1,opt,name=access_token,proto3" json:"access_token,omitempty"`                                       // 访问令牌，必选项。
+	RefreshToken  string                 `protobuf:"bytes,2,opt,name=refresh_token,proto3" json:"refresh_token,omitempty"`                                     // 更新令牌，用来获取下一次的访问令牌，可选项。
+	TokenType     TokenType              `protobuf:"varint,3,opt,name=token_type,proto3,enum=authentication.service.v1.TokenType" json:"token_type,omitempty"` // 令牌类型，该值大小写不敏感，必选项，可以是bearer类型或mac类型。
+	ExpiresIn     *int64                 `protobuf:"varint,4,opt,name=expires_in,proto3,oneof" json:"expires_in,omitempty"`                                    // 令牌有效时间，单位为秒。如果访问令牌过期，服务器应回复授予访问令牌的持续时间。如果省略该参数，必须其他方式设置过期时间。
+	Scope         *string                `protobuf:"bytes,5,opt,name=scope,proto3,oneof" json:"scope,omitempty"`                                               // 以空格分隔的用户授予范围列表。如果未提供，scope则授权任何范围，默认为空列表。
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -340,11 +340,11 @@ func (x *LoginResponse) GetRefreshToken() string {
 	return ""
 }
 
-func (x *LoginResponse) GetTokenType() string {
+func (x *LoginResponse) GetTokenType() TokenType {
 	if x != nil {
 		return x.TokenType
 	}
-	return ""
+	return TokenType_bearer
 }
 
 func (x *LoginResponse) GetExpiresIn() int64 {
@@ -364,8 +364,8 @@ func (x *LoginResponse) GetScope() string {
 // 验证令牌 - 请求
 type ValidateTokenRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Token         string                 `protobuf:"bytes,1,opt,name=token,json=isValid,proto3" json:"token,omitempty"`                                                           // 令牌
-	ClientType    ClientType             `protobuf:"varint,2,opt,name=client_type,json=clientType,proto3,enum=authentication.service.v1.ClientType" json:"client_type,omitempty"` // 客戶端類型
+	Token         string                 `protobuf:"bytes,1,opt,name=token,proto3" json:"token,omitempty"`                                                                        // 令牌
+	ClientType    ClientType             `protobuf:"varint,2,opt,name=client_type,json=clientType,proto3,enum=authentication.service.v1.ClientType" json:"client_type,omitempty"` // 客户端类型
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -418,7 +418,7 @@ func (x *ValidateTokenRequest) GetClientType() ClientType {
 type ValidateTokenResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	IsValid       bool                   `protobuf:"varint,1,opt,name=is_valid,json=isValid,proto3" json:"is_valid,omitempty"` // 令牌是否有效
-	Claim         *UserTokenPayload      `protobuf:"bytes,2,opt,name=claim,proto3,oneof" json:"claim,omitempty"`               // 用戶令牌载体
+	Claim         *UserTokenPayload      `protobuf:"bytes,2,opt,name=claim,proto3,oneof" json:"claim,omitempty"`               // 用户令牌载体
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -582,13 +582,13 @@ func (x *RegisterUserResponse) GetUserId() uint32 {
 // 用户令牌载体
 type UserTokenPayload struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	UserId        uint32                 `protobuf:"varint,1,opt,name=user_id,json=uid,proto3" json:"user_id,omitempty"`                                        // 用户ID
-	TenantId      *uint32                `protobuf:"varint,2,opt,name=tenant_id,json=tid,proto3,oneof" json:"tenant_id,omitempty"`                              // 租户ID
-	Username      *string                `protobuf:"bytes,3,opt,name=username,json=sub,proto3,oneof" json:"username,omitempty"`                                 // 用户名
-	ClientId      *string                `protobuf:"bytes,4,opt,name=client_id,json=cid,proto3,oneof" json:"client_id,omitempty"`                               // 客户端ID
-	Authority     v1.UserAuthority       `protobuf:"varint,5,opt,name=authority,json=aut,proto3,enum=user.service.v1.UserAuthority" json:"authority,omitempty"` // 用户权限
-	Roles         []string               `protobuf:"bytes,6,rep,name=roles,json=roc,proto3" json:"roles,omitempty"`                                             // 用户角色码列表
-	DeviceId      *string                `protobuf:"bytes,8,opt,name=device_id,json=did,proto3,oneof" json:"device_id,omitempty"`                               // 设备ID
+	UserId        uint32                 `protobuf:"varint,1,opt,name=user_id,json=uid,proto3" json:"user_id,omitempty"`                                         // 用户ID
+	TenantId      *uint32                `protobuf:"varint,2,opt,name=tenant_id,json=tid,proto3,oneof" json:"tenant_id,omitempty"`                               // 租户ID
+	Username      *string                `protobuf:"bytes,3,opt,name=username,json=sub,proto3,oneof" json:"username,omitempty"`                                  // 用户名
+	ClientId      *string                `protobuf:"bytes,4,opt,name=client_id,json=cid,proto3,oneof" json:"client_id,omitempty"`                                // 客户端ID
+	Authority     v1.User_Authority      `protobuf:"varint,5,opt,name=authority,json=aut,proto3,enum=user.service.v1.User_Authority" json:"authority,omitempty"` // 用户权限
+	Roles         []string               `protobuf:"bytes,6,rep,name=roles,json=roc,proto3" json:"roles,omitempty"`                                              // 用户角色码列表
+	DeviceId      *string                `protobuf:"bytes,8,opt,name=device_id,json=did,proto3,oneof" json:"device_id,omitempty"`                                // 设备ID
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -651,11 +651,11 @@ func (x *UserTokenPayload) GetClientId() string {
 	return ""
 }
 
-func (x *UserTokenPayload) GetAuthority() v1.UserAuthority {
+func (x *UserTokenPayload) GetAuthority() v1.User_Authority {
 	if x != nil {
 		return x.Authority
 	}
-	return v1.UserAuthority(0)
+	return v1.User_Authority(0)
 }
 
 func (x *UserTokenPayload) GetRoles() []string {
@@ -675,9 +675,9 @@ func (x *UserTokenPayload) GetDeviceId() string {
 // 获取当前用户身份信息 - 响应
 type WhoAmIResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	UserId        uint32                 `protobuf:"varint,1,opt,name=user_id,json=uid,proto3" json:"user_id,omitempty"`                               // 用户ID
-	Username      string                 `protobuf:"bytes,2,opt,name=username,proto3" json:"username,omitempty"`                                       // 当前用户的用户名
-	Authority     v1.UserAuthority       `protobuf:"varint,3,opt,name=authority,proto3,enum=user.service.v1.UserAuthority" json:"authority,omitempty"` // 用户权限
+	UserId        uint32                 `protobuf:"varint,1,opt,name=user_id,json=uid,proto3" json:"user_id,omitempty"`                                // 用户ID
+	Username      string                 `protobuf:"bytes,2,opt,name=username,proto3" json:"username,omitempty"`                                        // 当前用户的用户名
+	Authority     v1.User_Authority      `protobuf:"varint,3,opt,name=authority,proto3,enum=user.service.v1.User_Authority" json:"authority,omitempty"` // 用户权限
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -726,11 +726,11 @@ func (x *WhoAmIResponse) GetUsername() string {
 	return ""
 }
 
-func (x *WhoAmIResponse) GetAuthority() v1.UserAuthority {
+func (x *WhoAmIResponse) GetAuthority() v1.User_Authority {
 	if x != nil {
 		return x.Authority
 	}
-	return v1.UserAuthority(0)
+	return v1.User_Authority(0)
 }
 
 // 修改用户密码 - 请求
@@ -798,10 +798,10 @@ var File_authentication_service_v1_authentication_proto protoreflect.FileDescrip
 
 const file_authentication_service_v1_authentication_proto_rawDesc = "" +
 	"\n" +
-	".authentication/service/v1/authentication.proto\x12\x19authentication.service.v1\x1a$gnostic/openapi/v3/annotations.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1cgoogle/api/annotations.proto\x1a\x1fgoogle/api/field_behavior.proto\x1a\x1auser/service/v1/user.proto\"\xb6\b\n" +
-	"\fLoginRequest\x12s\n" +
+	".authentication/service/v1/authentication.proto\x12\x19authentication.service.v1\x1a$gnostic/openapi/v3/annotations.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1cgoogle/api/annotations.proto\x1a\x1fgoogle/api/field_behavior.proto\x1a\x1auser/service/v1/user.proto\"\xdd\b\n" +
+	"\fLoginRequest\x12\x99\x01\n" +
 	"\n" +
-	"grant_type\x18\x01 \x01(\tBS\xe0A\x02\xbaGM\x8a\x02\n" +
+	"grant_type\x18\x01 \x01(\x0e2$.authentication.service.v1.GrantTypeBS\xe0A\x02\xbaGM\x8a\x02\n" +
 	"\x1a\bpassword\x92\x02=授权类型，此处的值固定为\"password\"，必选项。R\n" +
 	"grant_type\x124\n" +
 	"\tclient_id\x18\x02 \x01(\tB\x11\xbaG\x0e\x92\x02\v客户端IDH\x00R\tclient_id\x88\x01\x01\x12@\n" +
@@ -821,26 +821,26 @@ const file_authentication_service_v1_authentication_proto_rawDesc = "" +
 	"\t_usernameB\v\n" +
 	"\t_passwordB\x10\n" +
 	"\x0e_refresh_tokenB\a\n" +
-	"\x05_code\"\x91\b\n" +
+	"\x05_code\"\xb7\b\n" +
 	"\rLoginResponse\x12u\n" +
 	"\faccess_token\x18\x01 \x01(\tBQ\xbaGN\x92\x02K访问令牌，必选项。授权服务器颁发的访问令牌字符串。R\faccess_token\x12\xbd\x02\n" +
-	"\rrefresh_token\x18\x02 \x01(\tB\x96\x02\xbaG\x92\x02\x92\x02\x8e\x02更新令牌，用来获取下一次的访问令牌，可选项。如果访问令牌将过期，则返回刷新令牌很有用，应用程序可以使用该刷新令牌来获取另一个访问令牌。但是，通过隐式授予颁发的令牌不能颁发刷新令牌。R\rrefresh_token\x12\xb5\x01\n" +
+	"\rrefresh_token\x18\x02 \x01(\tB\x96\x02\xbaG\x92\x02\x92\x02\x8e\x02更新令牌，用来获取下一次的访问令牌，可选项。如果访问令牌将过期，则返回刷新令牌很有用，应用程序可以使用该刷新令牌来获取另一个访问令牌。但是，通过隐式授予颁发的令牌不能颁发刷新令牌。R\rrefresh_token\x12\xdb\x01\n" +
 	"\n" +
-	"token_type\x18\x03 \x01(\tB\x94\x01\xbaG\x90\x01\x8a\x02\b\x1a\x06Bearer\x92\x02\x81\x01令牌的类型，该值大小写不敏感，必选项，可以是bearer类型或mac类型，通常只是字符串“Bearer”。R\n" +
+	"token_type\x18\x03 \x01(\x0e2$.authentication.service.v1.TokenTypeB\x94\x01\xbaG\x90\x01\x8a\x02\b\x1a\x06Bearer\x92\x02\x81\x01令牌的类型，该值大小写不敏感，必选项，可以是bearer类型或mac类型，通常只是字符串“Bearer”。R\n" +
 	"token_type\x12\xe2\x01\n" +
 	"\n" +
 	"expires_in\x18\x04 \x01(\x03B\xbc\x01\xbaG\xb8\x01\x92\x02\xb4\x01令牌有效时间，单位为秒。如果访问令牌过期，服务器应回复授予访问令牌的持续时间。如果省略该参数，必须其他方式设置过期时间。H\x00R\n" +
 	"expires_in\x88\x01\x01\x12\x92\x01\n" +
 	"\x05scope\x18\x05 \x01(\tBw\xbaGt\x92\x02q以空格分隔的用户授予范围列表。如果未提供，scope则授权任何范围，默认为空列表。H\x01R\x05scope\x88\x01\x01B\r\n" +
 	"\v_expires_inB\b\n" +
-	"\x06_scope\"\x9b\x01\n" +
-	"\x14ValidateTokenRequest\x12$\n" +
-	"\x05token\x18\x01 \x01(\tB\f\xbaG\t\x92\x02\x06令牌R\aisValid\x12]\n" +
-	"\vclient_type\x18\x02 \x01(\x0e2%.authentication.service.v1.ClientTypeB\x15\xbaG\x12\x92\x02\x0f客戶端類型R\n" +
+	"\x06_scope\"\x99\x01\n" +
+	"\x14ValidateTokenRequest\x12\"\n" +
+	"\x05token\x18\x01 \x01(\tB\f\xbaG\t\x92\x02\x06令牌R\x05token\x12]\n" +
+	"\vclient_type\x18\x02 \x01(\x0e2%.authentication.service.v1.ClientTypeB\x15\xbaG\x12\x92\x02\x0f客户端类型R\n" +
 	"clientType\"\xb8\x01\n" +
 	"\x15ValidateTokenResponse\x123\n" +
 	"\bis_valid\x18\x01 \x01(\bB\x18\xbaG\x15\x92\x02\x12令牌是否有效R\aisValid\x12`\n" +
-	"\x05claim\x18\x02 \x01(\v2+.authentication.service.v1.UserTokenPayloadB\x18\xbaG\x15\x92\x02\x12用戶令牌载体H\x00R\x05claim\x88\x01\x01B\b\n" +
+	"\x05claim\x18\x02 \x01(\v2+.authentication.service.v1.UserTokenPayloadB\x18\xbaG\x15\x92\x02\x12用户令牌载体H\x00R\x05claim\x88\x01\x01B\b\n" +
 	"\x06_claim\"\xe6\x01\n" +
 	"\x13RegisterUserRequest\x12+\n" +
 	"\busername\x18\x01 \x01(\tB\x0f\xbaG\f\x92\x02\t用户名R\busername\x12.\n" +
@@ -850,13 +850,13 @@ const file_authentication_service_v1_authentication_proto_rawDesc = "" +
 	"\x05email\x18\x04 \x01(\tB\x18\xbaG\x15\x92\x02\x12电子邮件地址H\x00R\x05email\x88\x01\x01B\b\n" +
 	"\x06_email\"/\n" +
 	"\x14RegisterUserResponse\x12\x17\n" +
-	"\auser_id\x18\x01 \x01(\rR\x06userId\"\xa3\x03\n" +
+	"\auser_id\x18\x01 \x01(\rR\x06userId\"\xa4\x03\n" +
 	"\x10UserTokenPayload\x12$\n" +
 	"\auser_id\x18\x01 \x01(\rB\x0e\xbaG\v\x92\x02\b用户IDR\x03uid\x12+\n" +
 	"\ttenant_id\x18\x02 \x01(\rB\x0e\xbaG\v\x92\x02\b租户IDH\x00R\x03tid\x88\x01\x01\x12+\n" +
 	"\busername\x18\x03 \x01(\tB\x0f\xbaG\f\x92\x02\t用户名H\x01R\x03sub\x88\x01\x01\x12.\n" +
-	"\tclient_id\x18\x04 \x01(\tB\x11\xbaG\x0e\x92\x02\v客户端IDH\x02R\x03cid\x88\x01\x01\x12J\n" +
-	"\tauthority\x18\x05 \x01(\x0e2\x1e.user.service.v1.UserAuthorityB\x12\xbaG\x0f\x92\x02\f用户权限R\x03aut\x12/\n" +
+	"\tclient_id\x18\x04 \x01(\tB\x11\xbaG\x0e\x92\x02\v客户端IDH\x02R\x03cid\x88\x01\x01\x12K\n" +
+	"\tauthority\x18\x05 \x01(\x0e2\x1f.user.service.v1.User.AuthorityB\x12\xbaG\x0f\x92\x02\f用户权限R\x03aut\x12/\n" +
 	"\x05roles\x18\x06 \x03(\tB\x1b\xbaG\x18\x92\x02\x15用户角色码列表R\x03roc\x12+\n" +
 	"\tdevice_id\x18\b \x01(\tB\x0e\xbaG\v\x92\x02\b设备IDH\x03R\x03did\x88\x01\x01B\f\n" +
 	"\n" +
@@ -865,11 +865,11 @@ const file_authentication_service_v1_authentication_proto_rawDesc = "" +
 	"\n" +
 	"_client_idB\f\n" +
 	"\n" +
-	"_device_id\"\xc4\x01\n" +
+	"_device_id\"\xc5\x01\n" +
 	"\x0eWhoAmIResponse\x12$\n" +
 	"\auser_id\x18\x01 \x01(\rB\x0e\xbaG\v\x92\x02\b用户IDR\x03uid\x12:\n" +
-	"\busername\x18\x02 \x01(\tB\x1e\xbaG\x1b\x92\x02\x18当前用户的用户名R\busername\x12P\n" +
-	"\tauthority\x18\x03 \x01(\x0e2\x1e.user.service.v1.UserAuthorityB\x12\xbaG\x0f\x92\x02\f用户权限R\tauthority\"\xac\x01\n" +
+	"\busername\x18\x02 \x01(\tB\x1e\xbaG\x1b\x92\x02\x18当前用户的用户名R\busername\x12Q\n" +
+	"\tauthority\x18\x03 \x01(\x0e2\x1f.user.service.v1.User.AuthorityB\x12\xbaG\x0f\x92\x02\f用户权限R\tauthority\"\xac\x01\n" +
 	"\x15ChangePasswordRequest\x12+\n" +
 	"\busername\x18\x01 \x01(\tB\x0f\xbaG\f\x92\x02\t用户名R\busername\x122\n" +
 	"\fold_password\x18\x02 \x01(\tB\x0f\xbaG\f\x92\x02\t旧密码R\voldPassword\x122\n" +
@@ -925,33 +925,35 @@ var file_authentication_service_v1_authentication_proto_goTypes = []any{
 	(*UserTokenPayload)(nil),      // 9: authentication.service.v1.UserTokenPayload
 	(*WhoAmIResponse)(nil),        // 10: authentication.service.v1.WhoAmIResponse
 	(*ChangePasswordRequest)(nil), // 11: authentication.service.v1.ChangePasswordRequest
-	(v1.UserAuthority)(0),         // 12: user.service.v1.UserAuthority
+	(v1.User_Authority)(0),        // 12: user.service.v1.User.Authority
 	(*emptypb.Empty)(nil),         // 13: google.protobuf.Empty
 }
 var file_authentication_service_v1_authentication_proto_depIdxs = []int32{
-	2,  // 0: authentication.service.v1.ValidateTokenRequest.client_type:type_name -> authentication.service.v1.ClientType
-	9,  // 1: authentication.service.v1.ValidateTokenResponse.claim:type_name -> authentication.service.v1.UserTokenPayload
-	12, // 2: authentication.service.v1.UserTokenPayload.authority:type_name -> user.service.v1.UserAuthority
-	12, // 3: authentication.service.v1.WhoAmIResponse.authority:type_name -> user.service.v1.UserAuthority
-	3,  // 4: authentication.service.v1.AuthenticationService.Login:input_type -> authentication.service.v1.LoginRequest
-	13, // 5: authentication.service.v1.AuthenticationService.Logout:input_type -> google.protobuf.Empty
-	7,  // 6: authentication.service.v1.AuthenticationService.RegisterUser:input_type -> authentication.service.v1.RegisterUserRequest
-	3,  // 7: authentication.service.v1.AuthenticationService.RefreshToken:input_type -> authentication.service.v1.LoginRequest
-	5,  // 8: authentication.service.v1.AuthenticationService.ValidateToken:input_type -> authentication.service.v1.ValidateTokenRequest
-	11, // 9: authentication.service.v1.AuthenticationService.ChangePassword:input_type -> authentication.service.v1.ChangePasswordRequest
-	13, // 10: authentication.service.v1.AuthenticationService.WhoAmI:input_type -> google.protobuf.Empty
-	4,  // 11: authentication.service.v1.AuthenticationService.Login:output_type -> authentication.service.v1.LoginResponse
-	13, // 12: authentication.service.v1.AuthenticationService.Logout:output_type -> google.protobuf.Empty
-	8,  // 13: authentication.service.v1.AuthenticationService.RegisterUser:output_type -> authentication.service.v1.RegisterUserResponse
-	4,  // 14: authentication.service.v1.AuthenticationService.RefreshToken:output_type -> authentication.service.v1.LoginResponse
-	6,  // 15: authentication.service.v1.AuthenticationService.ValidateToken:output_type -> authentication.service.v1.ValidateTokenResponse
-	13, // 16: authentication.service.v1.AuthenticationService.ChangePassword:output_type -> google.protobuf.Empty
-	10, // 17: authentication.service.v1.AuthenticationService.WhoAmI:output_type -> authentication.service.v1.WhoAmIResponse
-	11, // [11:18] is the sub-list for method output_type
-	4,  // [4:11] is the sub-list for method input_type
-	4,  // [4:4] is the sub-list for extension type_name
-	4,  // [4:4] is the sub-list for extension extendee
-	0,  // [0:4] is the sub-list for field type_name
+	0,  // 0: authentication.service.v1.LoginRequest.grant_type:type_name -> authentication.service.v1.GrantType
+	1,  // 1: authentication.service.v1.LoginResponse.token_type:type_name -> authentication.service.v1.TokenType
+	2,  // 2: authentication.service.v1.ValidateTokenRequest.client_type:type_name -> authentication.service.v1.ClientType
+	9,  // 3: authentication.service.v1.ValidateTokenResponse.claim:type_name -> authentication.service.v1.UserTokenPayload
+	12, // 4: authentication.service.v1.UserTokenPayload.authority:type_name -> user.service.v1.User.Authority
+	12, // 5: authentication.service.v1.WhoAmIResponse.authority:type_name -> user.service.v1.User.Authority
+	3,  // 6: authentication.service.v1.AuthenticationService.Login:input_type -> authentication.service.v1.LoginRequest
+	13, // 7: authentication.service.v1.AuthenticationService.Logout:input_type -> google.protobuf.Empty
+	7,  // 8: authentication.service.v1.AuthenticationService.RegisterUser:input_type -> authentication.service.v1.RegisterUserRequest
+	3,  // 9: authentication.service.v1.AuthenticationService.RefreshToken:input_type -> authentication.service.v1.LoginRequest
+	5,  // 10: authentication.service.v1.AuthenticationService.ValidateToken:input_type -> authentication.service.v1.ValidateTokenRequest
+	11, // 11: authentication.service.v1.AuthenticationService.ChangePassword:input_type -> authentication.service.v1.ChangePasswordRequest
+	13, // 12: authentication.service.v1.AuthenticationService.WhoAmI:input_type -> google.protobuf.Empty
+	4,  // 13: authentication.service.v1.AuthenticationService.Login:output_type -> authentication.service.v1.LoginResponse
+	13, // 14: authentication.service.v1.AuthenticationService.Logout:output_type -> google.protobuf.Empty
+	8,  // 15: authentication.service.v1.AuthenticationService.RegisterUser:output_type -> authentication.service.v1.RegisterUserResponse
+	4,  // 16: authentication.service.v1.AuthenticationService.RefreshToken:output_type -> authentication.service.v1.LoginResponse
+	6,  // 17: authentication.service.v1.AuthenticationService.ValidateToken:output_type -> authentication.service.v1.ValidateTokenResponse
+	13, // 18: authentication.service.v1.AuthenticationService.ChangePassword:output_type -> google.protobuf.Empty
+	10, // 19: authentication.service.v1.AuthenticationService.WhoAmI:output_type -> authentication.service.v1.WhoAmIResponse
+	13, // [13:20] is the sub-list for method output_type
+	6,  // [6:13] is the sub-list for method input_type
+	6,  // [6:6] is the sub-list for extension type_name
+	6,  // [6:6] is the sub-list for extension extendee
+	0,  // [0:6] is the sub-list for field type_name
 }
 
 func init() { file_authentication_service_v1_authentication_proto_init() }

@@ -26,8 +26,8 @@ type AdminLoginRestrictionRepo struct {
 	log  *log.Helper
 
 	mapper          *mapper.CopierMapper[adminV1.AdminLoginRestriction, ent.AdminLoginRestriction]
-	typeConverter   *mapper.EnumTypeConverter[adminV1.AdminLoginRestrictionType, adminloginrestriction.Type]
-	methodConverter *mapper.EnumTypeConverter[adminV1.AdminLoginRestrictionMethod, adminloginrestriction.Method]
+	typeConverter   *mapper.EnumTypeConverter[adminV1.AdminLoginRestriction_Type, adminloginrestriction.Type]
+	methodConverter *mapper.EnumTypeConverter[adminV1.AdminLoginRestriction_Method, adminloginrestriction.Method]
 }
 
 func NewAdminLoginRestrictionRepo(data *Data, logger log.Logger) *AdminLoginRestrictionRepo {
@@ -35,8 +35,8 @@ func NewAdminLoginRestrictionRepo(data *Data, logger log.Logger) *AdminLoginRest
 		log:             log.NewHelper(log.With(logger, "module", "admin-login-restriction/repo/admin-service")),
 		data:            data,
 		mapper:          mapper.NewCopierMapper[adminV1.AdminLoginRestriction, ent.AdminLoginRestriction](),
-		typeConverter:   mapper.NewEnumTypeConverter[adminV1.AdminLoginRestrictionType, adminloginrestriction.Type](adminV1.AdminLoginRestrictionType_name, adminV1.AdminLoginRestrictionType_value),
-		methodConverter: mapper.NewEnumTypeConverter[adminV1.AdminLoginRestrictionMethod, adminloginrestriction.Method](adminV1.AdminLoginRestrictionMethod_name, adminV1.AdminLoginRestrictionMethod_value),
+		typeConverter:   mapper.NewEnumTypeConverter[adminV1.AdminLoginRestriction_Type, adminloginrestriction.Type](adminV1.AdminLoginRestriction_Type_name, adminV1.AdminLoginRestriction_Type_value),
+		methodConverter: mapper.NewEnumTypeConverter[adminV1.AdminLoginRestriction_Method, adminloginrestriction.Method](adminV1.AdminLoginRestriction_Method_name, adminV1.AdminLoginRestriction_Method_value),
 	}
 
 	repo.init()

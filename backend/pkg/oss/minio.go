@@ -136,7 +136,7 @@ func (c *MinIOClient) OssUploadUrl(ctx context.Context, req *fileV1.OssUploadUrl
 	var presignedURL *url.URL
 
 	switch req.GetMethod() {
-	case fileV1.UploadMethod_Put:
+	case fileV1.OssUploadUrlRequest_Put:
 		presignedURL, err = c.mc.PresignedPutObject(ctx, bucketName, objectName, expiry)
 		if err != nil {
 			return nil, err
@@ -151,7 +151,7 @@ func (c *MinIOClient) OssUploadUrl(ctx context.Context, req *fileV1.OssUploadUrl
 			downloadUrl = presignedURL.Scheme + "://" + downloadUrl
 		}
 
-	case fileV1.UploadMethod_Post:
+	case fileV1.OssUploadUrlRequest_Post:
 		policy := minio.NewPostPolicy()
 		_ = policy.SetBucket(bucketName)
 		_ = policy.SetKey(objectName)

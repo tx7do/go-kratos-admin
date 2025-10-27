@@ -27,25 +27,72 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-// 用户权限
-type UserAuthority int32
+// 用户状态
+type User_Status int32
 
 const (
-	UserAuthority_GUEST         UserAuthority = 0 // 游客，仅能访问系统公开资源（如首页、帮助中心），无业务操作及管理权限。
-	UserAuthority_CUSTOMER_USER UserAuthority = 1 // 普通用户，仅拥有个人业务操作权限，可访问授权的功能模块，无管理权限。
-	UserAuthority_TENANT_ADMIN  UserAuthority = 2 // 租户管理，拥有当前租户内的管理权限，可管理租户内用户、角色及业务资源，无系统级配置权限。
-	UserAuthority_SYS_ADMIN     UserAuthority = 3 // 系统管理员，拥有系统全量权限，可管理所有租户、用户、配置及资源
+	User_OFF User_Status = 0
+	User_ON  User_Status = 1
 )
 
-// Enum value maps for UserAuthority.
+// Enum value maps for User_Status.
 var (
-	UserAuthority_name = map[int32]string{
+	User_Status_name = map[int32]string{
+		0: "OFF",
+		1: "ON",
+	}
+	User_Status_value = map[string]int32{
+		"OFF": 0,
+		"ON":  1,
+	}
+)
+
+func (x User_Status) Enum() *User_Status {
+	p := new(User_Status)
+	*p = x
+	return p
+}
+
+func (x User_Status) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (User_Status) Descriptor() protoreflect.EnumDescriptor {
+	return file_user_service_v1_user_proto_enumTypes[0].Descriptor()
+}
+
+func (User_Status) Type() protoreflect.EnumType {
+	return &file_user_service_v1_user_proto_enumTypes[0]
+}
+
+func (x User_Status) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use User_Status.Descriptor instead.
+func (User_Status) EnumDescriptor() ([]byte, []int) {
+	return file_user_service_v1_user_proto_rawDescGZIP(), []int{0, 0}
+}
+
+// 用户权限
+type User_Authority int32
+
+const (
+	User_GUEST         User_Authority = 0 // 游客，仅能访问系统公开资源（如首页、帮助中心），无业务操作及管理权限。
+	User_CUSTOMER_USER User_Authority = 1 // 普通用户，仅拥有个人业务操作权限，可访问授权的功能模块，无管理权限。
+	User_TENANT_ADMIN  User_Authority = 2 // 租户管理，拥有当前租户内的管理权限，可管理租户内用户、角色及业务资源，无系统级配置权限。
+	User_SYS_ADMIN     User_Authority = 3 // 系统管理员，拥有系统全量权限，可管理所有租户、用户、配置及资源
+)
+
+// Enum value maps for User_Authority.
+var (
+	User_Authority_name = map[int32]string{
 		0: "GUEST",
 		1: "CUSTOMER_USER",
 		2: "TENANT_ADMIN",
 		3: "SYS_ADMIN",
 	}
-	UserAuthority_value = map[string]int32{
+	User_Authority_value = map[string]int32{
 		"GUEST":         0,
 		"CUSTOMER_USER": 1,
 		"TENANT_ADMIN":  2,
@@ -53,128 +100,81 @@ var (
 	}
 )
 
-func (x UserAuthority) Enum() *UserAuthority {
-	p := new(UserAuthority)
+func (x User_Authority) Enum() *User_Authority {
+	p := new(User_Authority)
 	*p = x
 	return p
 }
 
-func (x UserAuthority) String() string {
+func (x User_Authority) String() string {
 	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
 }
 
-func (UserAuthority) Descriptor() protoreflect.EnumDescriptor {
-	return file_user_service_v1_user_proto_enumTypes[0].Descriptor()
+func (User_Authority) Descriptor() protoreflect.EnumDescriptor {
+	return file_user_service_v1_user_proto_enumTypes[1].Descriptor()
 }
 
-func (UserAuthority) Type() protoreflect.EnumType {
-	return &file_user_service_v1_user_proto_enumTypes[0]
+func (User_Authority) Type() protoreflect.EnumType {
+	return &file_user_service_v1_user_proto_enumTypes[1]
 }
 
-func (x UserAuthority) Number() protoreflect.EnumNumber {
+func (x User_Authority) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use UserAuthority.Descriptor instead.
-func (UserAuthority) EnumDescriptor() ([]byte, []int) {
-	return file_user_service_v1_user_proto_rawDescGZIP(), []int{0}
+// Deprecated: Use User_Authority.Descriptor instead.
+func (User_Authority) EnumDescriptor() ([]byte, []int) {
+	return file_user_service_v1_user_proto_rawDescGZIP(), []int{0, 1}
 }
 
 // 用户性别
-type UserGender int32
+type User_Gender int32
 
 const (
-	UserGender_SECRET UserGender = 0 // 未知
-	UserGender_MALE   UserGender = 1 // 男性
-	UserGender_FEMALE UserGender = 2 // 女性
+	User_SECRET User_Gender = 0 // 未知
+	User_MALE   User_Gender = 1 // 男性
+	User_FEMALE User_Gender = 2 // 女性
 )
 
-// Enum value maps for UserGender.
+// Enum value maps for User_Gender.
 var (
-	UserGender_name = map[int32]string{
+	User_Gender_name = map[int32]string{
 		0: "SECRET",
 		1: "MALE",
 		2: "FEMALE",
 	}
-	UserGender_value = map[string]int32{
+	User_Gender_value = map[string]int32{
 		"SECRET": 0,
 		"MALE":   1,
 		"FEMALE": 2,
 	}
 )
 
-func (x UserGender) Enum() *UserGender {
-	p := new(UserGender)
+func (x User_Gender) Enum() *User_Gender {
+	p := new(User_Gender)
 	*p = x
 	return p
 }
 
-func (x UserGender) String() string {
+func (x User_Gender) String() string {
 	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
 }
 
-func (UserGender) Descriptor() protoreflect.EnumDescriptor {
-	return file_user_service_v1_user_proto_enumTypes[1].Descriptor()
-}
-
-func (UserGender) Type() protoreflect.EnumType {
-	return &file_user_service_v1_user_proto_enumTypes[1]
-}
-
-func (x UserGender) Number() protoreflect.EnumNumber {
-	return protoreflect.EnumNumber(x)
-}
-
-// Deprecated: Use UserGender.Descriptor instead.
-func (UserGender) EnumDescriptor() ([]byte, []int) {
-	return file_user_service_v1_user_proto_rawDescGZIP(), []int{1}
-}
-
-// 用户状态
-type UserStatus int32
-
-const (
-	UserStatus_OFF UserStatus = 0
-	UserStatus_ON  UserStatus = 1
-)
-
-// Enum value maps for UserStatus.
-var (
-	UserStatus_name = map[int32]string{
-		0: "OFF",
-		1: "ON",
-	}
-	UserStatus_value = map[string]int32{
-		"OFF": 0,
-		"ON":  1,
-	}
-)
-
-func (x UserStatus) Enum() *UserStatus {
-	p := new(UserStatus)
-	*p = x
-	return p
-}
-
-func (x UserStatus) String() string {
-	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
-}
-
-func (UserStatus) Descriptor() protoreflect.EnumDescriptor {
+func (User_Gender) Descriptor() protoreflect.EnumDescriptor {
 	return file_user_service_v1_user_proto_enumTypes[2].Descriptor()
 }
 
-func (UserStatus) Type() protoreflect.EnumType {
+func (User_Gender) Type() protoreflect.EnumType {
 	return &file_user_service_v1_user_proto_enumTypes[2]
 }
 
-func (x UserStatus) Number() protoreflect.EnumNumber {
+func (x User_Gender) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use UserStatus.Descriptor instead.
-func (UserStatus) EnumDescriptor() ([]byte, []int) {
-	return file_user_service_v1_user_proto_rawDescGZIP(), []int{2}
+// Deprecated: Use User_Gender.Descriptor instead.
+func (User_Gender) EnumDescriptor() ([]byte, []int) {
+	return file_user_service_v1_user_proto_rawDescGZIP(), []int{0, 2}
 }
 
 // 用户
@@ -191,30 +191,30 @@ type User struct {
 	PositionName   *string                `protobuf:"bytes,9,opt,name=position_name,json=positionName,proto3,oneof" json:"position_name,omitempty"`       // 职位名称
 	WorkId         *uint32                `protobuf:"varint,10,opt,name=work_id,json=workId,proto3,oneof" json:"work_id,omitempty"`                       // 工号
 	//  optional uint32 role_id = 11 [json_name = "roleId", (gnostic.openapi.v3.property) = {description: "角色ID"}];  // 角色ID
-	RoleIds       []uint32               `protobuf:"varint,12,rep,packed,name=role_ids,json=roleIds,proto3" json:"role_ids,omitempty"`                        // 角色ID列表
-	Roles         []string               `protobuf:"bytes,13,rep,name=roles,proto3" json:"roles,omitempty"`                                                   // 角色码列表
-	RoleNames     []string               `protobuf:"bytes,14,rep,name=role_names,json=roleNames,proto3" json:"role_names,omitempty"`                          // 角色名称列表
-	Username      *string                `protobuf:"bytes,20,opt,name=username,proto3,oneof" json:"username,omitempty"`                                       // 用户名
-	Nickname      *string                `protobuf:"bytes,21,opt,name=nickname,proto3,oneof" json:"nickname,omitempty"`                                       // 昵称
-	Realname      *string                `protobuf:"bytes,22,opt,name=realname,proto3,oneof" json:"realname,omitempty"`                                       // 真实姓名
-	Avatar        *string                `protobuf:"bytes,23,opt,name=avatar,proto3,oneof" json:"avatar,omitempty"`                                           // 头像
-	Email         *string                `protobuf:"bytes,24,opt,name=email,proto3,oneof" json:"email,omitempty"`                                             // 邮箱
-	Mobile        *string                `protobuf:"bytes,25,opt,name=mobile,proto3,oneof" json:"mobile,omitempty"`                                           // 手机号
-	Telephone     *string                `protobuf:"bytes,26,opt,name=telephone,proto3,oneof" json:"telephone,omitempty"`                                     // 座机号
-	Gender        *UserGender            `protobuf:"varint,27,opt,name=gender,proto3,enum=user.service.v1.UserGender,oneof" json:"gender,omitempty"`          // 性别
-	Address       *string                `protobuf:"bytes,28,opt,name=address,proto3,oneof" json:"address,omitempty"`                                         // 住址
-	Region        *string                `protobuf:"bytes,29,opt,name=region,proto3,oneof" json:"region,omitempty"`                                           // 国家地区
-	Description   *string                `protobuf:"bytes,30,opt,name=description,proto3,oneof" json:"description,omitempty"`                                 // 个人描述
-	Remark        *string                `protobuf:"bytes,31,opt,name=remark,proto3,oneof" json:"remark,omitempty"`                                           // 备注
-	LastLoginTime *timestamppb.Timestamp `protobuf:"bytes,32,opt,name=last_login_time,json=lastLoginTime,proto3,oneof" json:"last_login_time,omitempty"`      // 最后登录时间
-	LastLoginIp   *string                `protobuf:"bytes,33,opt,name=last_login_ip,json=lastLoginIp,proto3,oneof" json:"last_login_ip,omitempty"`            // 最后登录IP
-	Status        *UserStatus            `protobuf:"varint,34,opt,name=status,proto3,enum=user.service.v1.UserStatus,oneof" json:"status,omitempty"`          // 用户状态
-	Authority     *UserAuthority         `protobuf:"varint,35,opt,name=authority,proto3,enum=user.service.v1.UserAuthority,oneof" json:"authority,omitempty"` // 权限
-	CreateBy      *uint32                `protobuf:"varint,100,opt,name=create_by,json=createBy,proto3,oneof" json:"create_by,omitempty"`                     // 创建者ID
-	UpdateBy      *uint32                `protobuf:"varint,101,opt,name=update_by,json=updateBy,proto3,oneof" json:"update_by,omitempty"`                     // 更新者ID
-	CreateTime    *timestamppb.Timestamp `protobuf:"bytes,200,opt,name=create_time,json=createTime,proto3,oneof" json:"create_time,omitempty"`                // 创建时间
-	UpdateTime    *timestamppb.Timestamp `protobuf:"bytes,201,opt,name=update_time,json=updateTime,proto3,oneof" json:"update_time,omitempty"`                // 更新时间
-	DeleteTime    *timestamppb.Timestamp `protobuf:"bytes,202,opt,name=delete_time,json=deleteTime,proto3,oneof" json:"delete_time,omitempty"`                // 删除时间
+	RoleIds       []uint32               `protobuf:"varint,12,rep,packed,name=role_ids,json=roleIds,proto3" json:"role_ids,omitempty"`                         // 角色ID列表
+	Roles         []string               `protobuf:"bytes,13,rep,name=roles,proto3" json:"roles,omitempty"`                                                    // 角色码列表
+	RoleNames     []string               `protobuf:"bytes,14,rep,name=role_names,json=roleNames,proto3" json:"role_names,omitempty"`                           // 角色名称列表
+	Username      *string                `protobuf:"bytes,20,opt,name=username,proto3,oneof" json:"username,omitempty"`                                        // 用户名
+	Nickname      *string                `protobuf:"bytes,21,opt,name=nickname,proto3,oneof" json:"nickname,omitempty"`                                        // 昵称
+	Realname      *string                `protobuf:"bytes,22,opt,name=realname,proto3,oneof" json:"realname,omitempty"`                                        // 真实姓名
+	Avatar        *string                `protobuf:"bytes,23,opt,name=avatar,proto3,oneof" json:"avatar,omitempty"`                                            // 头像
+	Email         *string                `protobuf:"bytes,24,opt,name=email,proto3,oneof" json:"email,omitempty"`                                              // 邮箱
+	Mobile        *string                `protobuf:"bytes,25,opt,name=mobile,proto3,oneof" json:"mobile,omitempty"`                                            // 手机号
+	Telephone     *string                `protobuf:"bytes,26,opt,name=telephone,proto3,oneof" json:"telephone,omitempty"`                                      // 座机号
+	Gender        *User_Gender           `protobuf:"varint,27,opt,name=gender,proto3,enum=user.service.v1.User_Gender,oneof" json:"gender,omitempty"`          // 性别
+	Address       *string                `protobuf:"bytes,28,opt,name=address,proto3,oneof" json:"address,omitempty"`                                          // 住址
+	Region        *string                `protobuf:"bytes,29,opt,name=region,proto3,oneof" json:"region,omitempty"`                                            // 国家地区
+	Description   *string                `protobuf:"bytes,30,opt,name=description,proto3,oneof" json:"description,omitempty"`                                  // 个人描述
+	Remark        *string                `protobuf:"bytes,31,opt,name=remark,proto3,oneof" json:"remark,omitempty"`                                            // 备注
+	LastLoginTime *timestamppb.Timestamp `protobuf:"bytes,32,opt,name=last_login_time,json=lastLoginTime,proto3,oneof" json:"last_login_time,omitempty"`       // 最后登录时间
+	LastLoginIp   *string                `protobuf:"bytes,33,opt,name=last_login_ip,json=lastLoginIp,proto3,oneof" json:"last_login_ip,omitempty"`             // 最后登录IP
+	Status        *User_Status           `protobuf:"varint,34,opt,name=status,proto3,enum=user.service.v1.User_Status,oneof" json:"status,omitempty"`          // 用户状态
+	Authority     *User_Authority        `protobuf:"varint,35,opt,name=authority,proto3,enum=user.service.v1.User_Authority,oneof" json:"authority,omitempty"` // 权限
+	CreateBy      *uint32                `protobuf:"varint,100,opt,name=create_by,json=createBy,proto3,oneof" json:"create_by,omitempty"`                      // 创建者ID
+	UpdateBy      *uint32                `protobuf:"varint,101,opt,name=update_by,json=updateBy,proto3,oneof" json:"update_by,omitempty"`                      // 更新者ID
+	CreateTime    *timestamppb.Timestamp `protobuf:"bytes,200,opt,name=create_time,json=createTime,proto3,oneof" json:"create_time,omitempty"`                 // 创建时间
+	UpdateTime    *timestamppb.Timestamp `protobuf:"bytes,201,opt,name=update_time,json=updateTime,proto3,oneof" json:"update_time,omitempty"`                 // 更新时间
+	DeleteTime    *timestamppb.Timestamp `protobuf:"bytes,202,opt,name=delete_time,json=deleteTime,proto3,oneof" json:"delete_time,omitempty"`                 // 删除时间
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -389,11 +389,11 @@ func (x *User) GetTelephone() string {
 	return ""
 }
 
-func (x *User) GetGender() UserGender {
+func (x *User) GetGender() User_Gender {
 	if x != nil && x.Gender != nil {
 		return *x.Gender
 	}
-	return UserGender_SECRET
+	return User_SECRET
 }
 
 func (x *User) GetAddress() string {
@@ -438,18 +438,18 @@ func (x *User) GetLastLoginIp() string {
 	return ""
 }
 
-func (x *User) GetStatus() UserStatus {
+func (x *User) GetStatus() User_Status {
 	if x != nil && x.Status != nil {
 		return *x.Status
 	}
-	return UserStatus_OFF
+	return User_OFF
 }
 
-func (x *User) GetAuthority() UserAuthority {
+func (x *User) GetAuthority() User_Authority {
 	if x != nil && x.Authority != nil {
 		return *x.Authority
 	}
-	return UserAuthority_GUEST
+	return User_GUEST
 }
 
 func (x *User) GetCreateBy() uint32 {
@@ -1031,7 +1031,7 @@ var File_user_service_v1_user_proto protoreflect.FileDescriptor
 
 const file_user_service_v1_user_proto_rawDesc = "" +
 	"\n" +
-	"\x1auser/service/v1/user.proto\x12\x0fuser.service.v1\x1a$gnostic/openapi/v3/annotations.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a google/protobuf/field_mask.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x1fgoogle/api/field_behavior.proto\x1a\x1epagination/v1/pagination.proto\"\xf2\x12\n" +
+	"\x1auser/service/v1/user.proto\x12\x0fuser.service.v1\x1a$gnostic/openapi/v3/annotations.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a google/protobuf/field_mask.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x1fgoogle/api/field_behavior.proto\x1a\x1epagination/v1/pagination.proto\"\x88\x14\n" +
 	"\x04User\x12#\n" +
 	"\x02id\x18\x01 \x01(\rB\x0e\xbaG\v\x92\x02\b用户IDH\x00R\x02id\x88\x01\x01\x120\n" +
 	"\ttenant_id\x18\x02 \x01(\rB\x0e\xbaG\v\x92\x02\b租户IDH\x01R\btenantId\x88\x01\x01\x128\n" +
@@ -1057,16 +1057,16 @@ const file_user_service_v1_user_proto_rawDesc = "" +
 	"\x06avatar\x18\x17 \x01(\tB\f\xbaG\t\x92\x02\x06头像H\rR\x06avatar\x88\x01\x01\x12'\n" +
 	"\x05email\x18\x18 \x01(\tB\f\xbaG\t\x92\x02\x06邮箱H\x0eR\x05email\x88\x01\x01\x12,\n" +
 	"\x06mobile\x18\x19 \x01(\tB\x0f\xbaG\f\x92\x02\t手机号H\x0fR\x06mobile\x88\x01\x01\x122\n" +
-	"\ttelephone\x18\x1a \x01(\tB\x0f\xbaG\f\x92\x02\t座机号H\x10R\ttelephone\x88\x01\x01\x12F\n" +
-	"\x06gender\x18\x1b \x01(\x0e2\x1b.user.service.v1.UserGenderB\f\xbaG\t\x92\x02\x06性别H\x11R\x06gender\x88\x01\x01\x12+\n" +
+	"\ttelephone\x18\x1a \x01(\tB\x0f\xbaG\f\x92\x02\t座机号H\x10R\ttelephone\x88\x01\x01\x12G\n" +
+	"\x06gender\x18\x1b \x01(\x0e2\x1c.user.service.v1.User.GenderB\f\xbaG\t\x92\x02\x06性别H\x11R\x06gender\x88\x01\x01\x12+\n" +
 	"\aaddress\x18\x1c \x01(\tB\f\xbaG\t\x92\x02\x06住址H\x12R\aaddress\x88\x01\x01\x12/\n" +
 	"\x06region\x18\x1d \x01(\tB\x12\xbaG\x0f\x92\x02\f国家地区H\x13R\x06region\x88\x01\x01\x129\n" +
 	"\vdescription\x18\x1e \x01(\tB\x12\xbaG\x0f\x92\x02\f个人描述H\x14R\vdescription\x88\x01\x01\x12)\n" +
 	"\x06remark\x18\x1f \x01(\tB\f\xbaG\t\x92\x02\x06备注H\x15R\x06remark\x88\x01\x01\x12a\n" +
 	"\x0flast_login_time\x18  \x01(\v2\x1a.google.protobuf.TimestampB\x18\xbaG\x15\x92\x02\x12最后登录时间H\x16R\rlastLoginTime\x88\x01\x01\x12=\n" +
-	"\rlast_login_ip\x18! \x01(\tB\x14\xbaG\x11\x92\x02\x0e最后登录IPH\x17R\vlastLoginIp\x88\x01\x01\x12L\n" +
-	"\x06status\x18\" \x01(\x0e2\x1b.user.service.v1.UserStatusB\x12\xbaG\x0f\x92\x02\f用户状态H\x18R\x06status\x88\x01\x01\x12a\n" +
-	"\tauthority\x18# \x01(\x0e2\x1e.user.service.v1.UserAuthorityB\x1e\xbaG\x1b\x8a\x02\x0f\x1a\rCUSTOMER_USER\x92\x02\x06权限H\x19R\tauthority\x88\x01\x01\x123\n" +
+	"\rlast_login_ip\x18! \x01(\tB\x14\xbaG\x11\x92\x02\x0e最后登录IPH\x17R\vlastLoginIp\x88\x01\x01\x12M\n" +
+	"\x06status\x18\" \x01(\x0e2\x1c.user.service.v1.User.StatusB\x12\xbaG\x0f\x92\x02\f用户状态H\x18R\x06status\x88\x01\x01\x12b\n" +
+	"\tauthority\x18# \x01(\x0e2\x1f.user.service.v1.User.AuthorityB\x1e\xbaG\x1b\x8a\x02\x0f\x1a\rCUSTOMER_USER\x92\x02\x06权限H\x19R\tauthority\x88\x01\x01\x123\n" +
 	"\tcreate_by\x18d \x01(\rB\x11\xbaG\x0e\x92\x02\v创建者IDH\x1aR\bcreateBy\x88\x01\x01\x123\n" +
 	"\tupdate_by\x18e \x01(\rB\x11\xbaG\x0e\x92\x02\v更新者IDH\x1bR\bupdateBy\x88\x01\x01\x12U\n" +
 	"\vcreate_time\x18\xc8\x01 \x01(\v2\x1a.google.protobuf.TimestampB\x12\xbaG\x0f\x92\x02\f创建时间H\x1cR\n" +
@@ -1074,7 +1074,21 @@ const file_user_service_v1_user_proto_rawDesc = "" +
 	"\vupdate_time\x18\xc9\x01 \x01(\v2\x1a.google.protobuf.TimestampB\x12\xbaG\x0f\x92\x02\f更新时间H\x1dR\n" +
 	"updateTime\x88\x01\x01\x12U\n" +
 	"\vdelete_time\x18\xca\x01 \x01(\v2\x1a.google.protobuf.TimestampB\x12\xbaG\x0f\x92\x02\f删除时间H\x1eR\n" +
-	"deleteTime\x88\x01\x01B\x05\n" +
+	"deleteTime\x88\x01\x01\"\x19\n" +
+	"\x06Status\x12\a\n" +
+	"\x03OFF\x10\x00\x12\x06\n" +
+	"\x02ON\x10\x01\"J\n" +
+	"\tAuthority\x12\t\n" +
+	"\x05GUEST\x10\x00\x12\x11\n" +
+	"\rCUSTOMER_USER\x10\x01\x12\x10\n" +
+	"\fTENANT_ADMIN\x10\x02\x12\r\n" +
+	"\tSYS_ADMIN\x10\x03\"*\n" +
+	"\x06Gender\x12\n" +
+	"\n" +
+	"\x06SECRET\x10\x00\x12\b\n" +
+	"\x04MALE\x10\x01\x12\n" +
+	"\n" +
+	"\x06FEMALE\x10\x02B\x05\n" +
 	"\x03_idB\f\n" +
 	"\n" +
 	"_tenant_idB\x0e\n" +
@@ -1144,23 +1158,7 @@ const file_user_service_v1_user_proto_rawDesc = "" +
 	"\x04data\x18\x01 \x03(\v2\x15.user.service.v1.UserR\x04data\"v\n" +
 	"\x17EditUserPasswordRequest\x12'\n" +
 	"\auser_id\x18\x01 \x01(\rB\x0e\xbaG\v\x92\x02\b用户IDR\x06userId\x122\n" +
-	"\fnew_password\x18\x02 \x01(\tB\x0f\xbaG\f\x92\x02\t新密码R\vnewPassword*N\n" +
-	"\rUserAuthority\x12\t\n" +
-	"\x05GUEST\x10\x00\x12\x11\n" +
-	"\rCUSTOMER_USER\x10\x01\x12\x10\n" +
-	"\fTENANT_ADMIN\x10\x02\x12\r\n" +
-	"\tSYS_ADMIN\x10\x03*.\n" +
-	"\n" +
-	"UserGender\x12\n" +
-	"\n" +
-	"\x06SECRET\x10\x00\x12\b\n" +
-	"\x04MALE\x10\x01\x12\n" +
-	"\n" +
-	"\x06FEMALE\x10\x02*\x1d\n" +
-	"\n" +
-	"UserStatus\x12\a\n" +
-	"\x03OFF\x10\x00\x12\x06\n" +
-	"\x02ON\x10\x012\xdc\x05\n" +
+	"\fnew_password\x18\x02 \x01(\tB\x0f\xbaG\f\x92\x02\t新密码R\vnewPassword2\xdc\x05\n" +
 	"\vUserService\x12F\n" +
 	"\x04List\x12\x19.pagination.PagingRequest\x1a!.user.service.v1.ListUserResponse\"\x00\x12?\n" +
 	"\x03Get\x12\x1f.user.service.v1.GetUserRequest\x1a\x15.user.service.v1.User\"\x00\x12F\n" +
@@ -1189,9 +1187,9 @@ func file_user_service_v1_user_proto_rawDescGZIP() []byte {
 var file_user_service_v1_user_proto_enumTypes = make([]protoimpl.EnumInfo, 3)
 var file_user_service_v1_user_proto_msgTypes = make([]protoimpl.MessageInfo, 12)
 var file_user_service_v1_user_proto_goTypes = []any{
-	(UserAuthority)(0),               // 0: user.service.v1.UserAuthority
-	(UserGender)(0),                  // 1: user.service.v1.UserGender
-	(UserStatus)(0),                  // 2: user.service.v1.UserStatus
+	(User_Status)(0),                 // 0: user.service.v1.User.Status
+	(User_Authority)(0),              // 1: user.service.v1.User.Authority
+	(User_Gender)(0),                 // 2: user.service.v1.User.Gender
 	(*User)(nil),                     // 3: user.service.v1.User
 	(*ListUserResponse)(nil),         // 4: user.service.v1.ListUserResponse
 	(*GetUserRequest)(nil),           // 5: user.service.v1.GetUserRequest
@@ -1210,10 +1208,10 @@ var file_user_service_v1_user_proto_goTypes = []any{
 	(*emptypb.Empty)(nil),            // 18: google.protobuf.Empty
 }
 var file_user_service_v1_user_proto_depIdxs = []int32{
-	1,  // 0: user.service.v1.User.gender:type_name -> user.service.v1.UserGender
+	2,  // 0: user.service.v1.User.gender:type_name -> user.service.v1.User.Gender
 	15, // 1: user.service.v1.User.last_login_time:type_name -> google.protobuf.Timestamp
-	2,  // 2: user.service.v1.User.status:type_name -> user.service.v1.UserStatus
-	0,  // 3: user.service.v1.User.authority:type_name -> user.service.v1.UserAuthority
+	0,  // 2: user.service.v1.User.status:type_name -> user.service.v1.User.Status
+	1,  // 3: user.service.v1.User.authority:type_name -> user.service.v1.User.Authority
 	15, // 4: user.service.v1.User.create_time:type_name -> google.protobuf.Timestamp
 	15, // 5: user.service.v1.User.update_time:type_name -> google.protobuf.Timestamp
 	15, // 6: user.service.v1.User.delete_time:type_name -> google.protobuf.Timestamp

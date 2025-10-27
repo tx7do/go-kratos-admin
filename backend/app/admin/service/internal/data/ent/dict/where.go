@@ -274,36 +274,6 @@ func DeleteTimeNotNil() predicate.Dict {
 	return predicate.Dict(sql.FieldNotNull(FieldDeleteTime))
 }
 
-// StatusEQ applies the EQ predicate on the "status" field.
-func StatusEQ(v Status) predicate.Dict {
-	return predicate.Dict(sql.FieldEQ(FieldStatus, v))
-}
-
-// StatusNEQ applies the NEQ predicate on the "status" field.
-func StatusNEQ(v Status) predicate.Dict {
-	return predicate.Dict(sql.FieldNEQ(FieldStatus, v))
-}
-
-// StatusIn applies the In predicate on the "status" field.
-func StatusIn(vs ...Status) predicate.Dict {
-	return predicate.Dict(sql.FieldIn(FieldStatus, vs...))
-}
-
-// StatusNotIn applies the NotIn predicate on the "status" field.
-func StatusNotIn(vs ...Status) predicate.Dict {
-	return predicate.Dict(sql.FieldNotIn(FieldStatus, vs...))
-}
-
-// StatusIsNil applies the IsNil predicate on the "status" field.
-func StatusIsNil() predicate.Dict {
-	return predicate.Dict(sql.FieldIsNull(FieldStatus))
-}
-
-// StatusNotNil applies the NotNil predicate on the "status" field.
-func StatusNotNil() predicate.Dict {
-	return predicate.Dict(sql.FieldNotNull(FieldStatus))
-}
-
 // CreateByEQ applies the EQ predicate on the "create_by" field.
 func CreateByEQ(v uint32) predicate.Dict {
 	return predicate.Dict(sql.FieldEQ(FieldCreateBy, v))
@@ -1027,6 +997,36 @@ func SortIDIsNil() predicate.Dict {
 // SortIDNotNil applies the NotNil predicate on the "sort_id" field.
 func SortIDNotNil() predicate.Dict {
 	return predicate.Dict(sql.FieldNotNull(FieldSortID))
+}
+
+// StatusEQ applies the EQ predicate on the "status" field.
+func StatusEQ(v Status) predicate.Dict {
+	return predicate.Dict(sql.FieldEQ(FieldStatus, v))
+}
+
+// StatusNEQ applies the NEQ predicate on the "status" field.
+func StatusNEQ(v Status) predicate.Dict {
+	return predicate.Dict(sql.FieldNEQ(FieldStatus, v))
+}
+
+// StatusIn applies the In predicate on the "status" field.
+func StatusIn(vs ...Status) predicate.Dict {
+	return predicate.Dict(sql.FieldIn(FieldStatus, vs...))
+}
+
+// StatusNotIn applies the NotIn predicate on the "status" field.
+func StatusNotIn(vs ...Status) predicate.Dict {
+	return predicate.Dict(sql.FieldNotIn(FieldStatus, vs...))
+}
+
+// StatusIsNil applies the IsNil predicate on the "status" field.
+func StatusIsNil() predicate.Dict {
+	return predicate.Dict(sql.FieldIsNull(FieldStatus))
+}
+
+// StatusNotNil applies the NotNil predicate on the "status" field.
+func StatusNotNil() predicate.Dict {
+	return predicate.Dict(sql.FieldNotNull(FieldStatus))
 }
 
 // And groups predicates with the AND operator between them.

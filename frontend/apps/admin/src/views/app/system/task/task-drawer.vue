@@ -7,7 +7,7 @@ import { $t } from '@vben/locales';
 import { notification } from 'ant-design-vue';
 
 import { useVbenForm } from '#/adapter/form';
-import { TaskType } from '#/generated/api/admin/service/v1/i_task.pb';
+import { Task_Type } from '#/generated/api/admin/service/v1/i_task.pb';
 import { enableBoolList, taskTypeList, useTaskStore } from '#/stores';
 
 const taskStore = useTaskStore();
@@ -35,7 +35,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
       component: 'Select',
       fieldName: 'type',
       label: $t('page.task.type'),
-      defaultValue: TaskType.PERIODIC,
+      defaultValue: Task_Type.PERIODIC,
       componentProps: {
         placeholder: $t('ui.placeholder.select'),
         options: taskTypeList,

@@ -14,8 +14,6 @@ const (
 	Label = "menu"
 	// FieldID holds the string denoting the id field in the database.
 	FieldID = "id"
-	// FieldStatus holds the string denoting the status field in the database.
-	FieldStatus = "status"
 	// FieldCreateTime holds the string denoting the create_time field in the database.
 	FieldCreateTime = "create_time"
 	// FieldUpdateTime holds the string denoting the update_time field in the database.
@@ -30,6 +28,8 @@ const (
 	FieldRemark = "remark"
 	// FieldParentID holds the string denoting the parent_id field in the database.
 	FieldParentID = "parent_id"
+	// FieldStatus holds the string denoting the status field in the database.
+	FieldStatus = "status"
 	// FieldType holds the string denoting the type field in the database.
 	FieldType = "type"
 	// FieldPath holds the string denoting the path field in the database.
@@ -63,7 +63,6 @@ const (
 // Columns holds all SQL columns for menu fields.
 var Columns = []string{
 	FieldID,
-	FieldStatus,
 	FieldCreateTime,
 	FieldUpdateTime,
 	FieldDeleteTime,
@@ -71,6 +70,7 @@ var Columns = []string{
 	FieldUpdateBy,
 	FieldRemark,
 	FieldParentID,
+	FieldStatus,
 	FieldType,
 	FieldPath,
 	FieldRedirect,
@@ -98,19 +98,19 @@ var (
 	// DefaultComponent holds the default value on creation for the "component" field.
 	DefaultComponent string
 	// IDValidator is a validator for the "id" field. It is called by the builders before save.
-	IDValidator func(int32) error
+	IDValidator func(uint32) error
 )
 
 // Status defines the type for the "status" enum field.
 type Status string
 
-// StatusON is the default value of the Status enum.
-const DefaultStatus = StatusON
+// StatusOn is the default value of the Status enum.
+const DefaultStatus = StatusOn
 
 // Status values.
 const (
-	StatusOFF Status = "OFF"
-	StatusON  Status = "ON"
+	StatusOn  Status = "ON"
+	StatusOff Status = "OFF"
 )
 
 func (s Status) String() string {
@@ -120,7 +120,7 @@ func (s Status) String() string {
 // StatusValidator is a validator for the "status" field enum values. It is called by the builders before save.
 func StatusValidator(s Status) error {
 	switch s {
-	case StatusOFF, StatusON:
+	case StatusOn, StatusOff:
 		return nil
 	default:
 		return fmt.Errorf("menu: invalid enum value for status field: %q", s)
@@ -164,11 +164,6 @@ func ByID(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldID, opts...).ToFunc()
 }
 
-// ByStatus orders the results by the status field.
-func ByStatus(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldStatus, opts...).ToFunc()
-}
-
 // ByCreateTime orders the results by the create_time field.
 func ByCreateTime(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldCreateTime, opts...).ToFunc()
@@ -202,6 +197,11 @@ func ByRemark(opts ...sql.OrderTermOption) OrderOption {
 // ByParentID orders the results by the parent_id field.
 func ByParentID(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldParentID, opts...).ToFunc()
+}
+
+// ByStatus orders the results by the status field.
+func ByStatus(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldStatus, opts...).ToFunc()
 }
 
 // ByType orders the results by the type field.

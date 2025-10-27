@@ -114,6 +114,16 @@ func (User) Fields() []ent.Field {
 			).
 			Default("CUSTOMER_USER"),
 
+		field.Enum("status").
+			Comment("用户状态").
+			NamedValues(
+				"On", "ON",
+				"Off", "OFF",
+			).
+			Default("ON").
+			Optional().
+			Nillable(),
+
 		field.Time("last_login_time").
 			Comment("最后一次登录的时间").
 			Optional().
@@ -152,10 +162,6 @@ func (User) Fields() []ent.Field {
 		field.Ints("role_ids").
 			Comment("角色ID列表").
 			Optional(),
-
-		//field.Strings("roles").
-		//	Comment("角色码列表").
-		//	Optional(),
 	}
 }
 
@@ -167,7 +173,6 @@ func (User) Mixin() []ent.Mixin {
 		mixin.UpdateBy{},
 		mixin.Time{},
 		mixin.Remark{},
-		mixin.SwitchStatus{},
 		appmixin.TenantID{},
 	}
 }

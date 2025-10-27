@@ -1102,7 +1102,7 @@ paths:
                   required: true
                   schema:
                     type: integer
-                    format: int32
+                    format: uint32
             responses:
                 "200":
                     description: OK
@@ -1121,7 +1121,7 @@ paths:
                   required: true
                   schema:
                     type: integer
-                    format: int32
+                    format: uint32
                 - name: operatorId
                   in: query
                   schema:
@@ -2859,8 +2859,8 @@ components:
                 scope:
                     enum:
                         - API_SCOPE_INVALID
-                        - API_SCOPE_ADMIN
-                        - API_SCOPE_APP
+                        - ADMIN
+                        - APP
                     type: string
                     description: 作用域
                     format: enum
@@ -3050,8 +3050,8 @@ components:
                 status:
                     enum:
                         - DEPARTMENT_STATUS_UNSPECIFIED
-                        - DEPARTMENT_STATUS_ON
-                        - DEPARTMENT_STATUS_OFF
+                        - ON
+                        - OFF
                     type: string
                     description: 状态
                     format: enum
@@ -3115,11 +3115,12 @@ components:
                     description: 字典值数据类型
                 status:
                     enum:
+                        - DICT_STATUS_UNSPECIFIED
                         - ON
                         - OFF
                     type: string
-                    default: ON
                     description: 字典状态
+                    format: enum
                 sortId:
                     type: integer
                     description: 排序编号
@@ -3470,9 +3471,16 @@ components:
             type: object
             properties:
                 grant_type:
+                    enum:
+                        - password
+                        - client_credentials
+                        - authorization_code
+                        - refresh_token
+                        - implicit
                     type: string
                     default: password
                     description: 授权类型，此处的值固定为"password"，必选项。
+                    format: enum
                 client_id:
                     type: string
                     description: 客户端ID
@@ -3506,9 +3514,13 @@ components:
                     type: string
                     description: 更新令牌，用来获取下一次的访问令牌，可选项。如果访问令牌将过期，则返回刷新令牌很有用，应用程序可以使用该刷新令牌来获取另一个访问令牌。但是，通过隐式授予颁发的令牌不能颁发刷新令牌。
                 token_type:
+                    enum:
+                        - bearer
+                        - mac
                     type: string
                     default: Bearer
                     description: 令牌的类型，该值大小写不敏感，必选项，可以是bearer类型或mac类型，通常只是字符串“Bearer”。
+                    format: enum
                 expires_in:
                     type: string
                     description: 令牌有效时间，单位为秒。如果访问令牌过期，服务器应回复授予访问令牌的持续时间。如果省略该参数，必须其他方式设置过期时间。
@@ -3522,15 +3534,12 @@ components:
                 id:
                     type: integer
                     description: 菜单ID
-                    format: int32
+                    format: uint32
                 status:
                     enum:
                         - OFF
                         - ON
-                        - ON
-                        - OFF
                     type: string
-                    default: ON
                     description: 菜单状态
                     format: enum
                 type:
@@ -3541,7 +3550,6 @@ components:
                         - EMBEDDED
                         - LINK
                     type: string
-                    default: FOLDER
                     description: 菜单类型
                     format: enum
                 path:
@@ -3564,7 +3572,7 @@ components:
                 parentId:
                     type: integer
                     description: 父节点ID
-                    format: int32
+                    format: uint32
                 children:
                     type: array
                     items:
@@ -3761,10 +3769,10 @@ components:
                 organizationType:
                     enum:
                         - ORGANIZATION_TYPE_UNSPECIFIED
-                        - ORGANIZATION_TYPE_GROUP
-                        - ORGANIZATION_TYPE_SUBSIDIARY
-                        - ORGANIZATION_TYPE_FILIALE
-                        - ORGANIZATION_TYPE_DIVISION
+                        - GROUP
+                        - SUBSIDIARY
+                        - FILIALE
+                        - DIVISION
                     type: string
                     description: 组织类型
                     format: enum
@@ -3787,8 +3795,8 @@ components:
                 status:
                     enum:
                         - ORGANIZATION_STATUS_UNSPECIFIED
-                        - ORGANIZATION_STATUS_ON
-                        - ORGANIZATION_STATUS_OFF
+                        - ON
+                        - OFF
                     type: string
                     description: 状态
                     format: enum
@@ -3904,8 +3912,8 @@ components:
                 status:
                     enum:
                         - PositionStatus_Invalid
-                        - POSITION_STATUS_ON
-                        - POSITION_STATUS_OFF
+                        - ON
+                        - OFF
                     type: string
                     description: 状态
                     format: enum
@@ -4050,11 +4058,12 @@ components:
                     description: 角色值
                 status:
                     enum:
+                        - ROLE_STATUS_UNSPECIFIED
                         - ON
                         - OFF
                     type: string
-                    default: ON
                     description: 状态
+                    format: enum
                 remark:
                     type: string
                     description: 备注
@@ -4073,13 +4082,13 @@ components:
                 dataScope:
                     enum:
                         - DATA_SCOPE_UNSPECIFIED
-                        - DATA_SCOPE_ALL
-                        - DATA_SCOPE_CUSTOM
-                        - DATA_SCOPE_SELF
-                        - DATA_SCOPE_ORG
-                        - DATA_SCOPE_ORG_AND_CHILD
-                        - DATA_SCOPE_DEPT
-                        - DATA_SCOPE_DEPT_AND_CHILD
+                        - ALL
+                        - CUSTOM
+                        - SELF
+                        - ORG
+                        - ORG_AND_CHILD
+                        - DEPT
+                        - DEPT_AND_CHILD
                     type: string
                     description: 数据权限范围
                     format: enum
@@ -4332,30 +4341,30 @@ components:
                 status:
                     enum:
                         - TENANT_STATUS_UNSPECIFIED
-                        - TENANT_STATUS_ON
-                        - TENANT_STATUS_OFF
-                        - TENANT_STATUS_EXPIRED
-                        - TENANT_STATUS_FREEZE
+                        - ON
+                        - OFF
+                        - EXPIRED
+                        - FREEZE
                     type: string
                     description: 租户状态
                     format: enum
                 type:
                     enum:
                         - TENANT_TYPE_UNSPECIFIED
-                        - TENANT_TYPE_TRIAL
-                        - TENANT_TYPE_PAID
-                        - TENANT_TYPE_INTERNAL
-                        - TENANT_TYPE_PARTNER
-                        - TENANT_TYPE_CUSTOM
+                        - TRIAL
+                        - PAID
+                        - INTERNAL
+                        - PARTNER
+                        - CUSTOM
                     type: string
                     description: 租户类型
                     format: enum
                 auditStatus:
                     enum:
                         - TENANT_AUDIT_STATUS_UNSPECIFIED
-                        - TENANT_AUDIT_STATUS_PENDING
-                        - TENANT_AUDIT_STATUS_APPROVED
-                        - TENANT_AUDIT_STATUS_REJECTED
+                        - PENDING
+                        - APPROVED
+                        - REJECTED
                     type: string
                     description: 审核状态
                     format: enum

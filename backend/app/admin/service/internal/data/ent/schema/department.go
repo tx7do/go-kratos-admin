@@ -62,8 +62,8 @@ func (Department) Fields() []ent.Field {
 		field.Enum("status").
 			Comment("部门状态").
 			NamedValues(
-				"DEPARTMENT_STATUS_ON", "ON",
-				"DEPARTMENT_STATUS_OFF", "OFF",
+				"On", "ON",
+				"Off", "OFF",
 			).
 			Default("ON").
 			Optional().

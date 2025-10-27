@@ -68,8 +68,8 @@ func (Position) Fields() []ent.Field {
 		field.Enum("status").
 			Comment("职位状态").
 			NamedValues(
-				"POSITION_STATUS_ON", "ON",
-				"POSITION_STATUS_OFF", "OFF",
+				"On", "ON",
+				"Off", "OFF",
 			).
 			Default("ON").
 			Optional().

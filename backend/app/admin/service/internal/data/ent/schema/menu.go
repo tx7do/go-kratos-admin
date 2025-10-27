@@ -32,15 +32,18 @@ func (Menu) Annotations() []schema.Annotation {
 // Fields of the Menu.
 func (Menu) Fields() []ent.Field {
 	return []ent.Field{
-		field.Int32("id").
-			Comment("id").
-			StructTag(`json:"id,omitempty"`).
-			Positive().
-			Immutable().
-			Unique(),
-
-		field.Int32("parent_id").
+		field.Uint32("parent_id").
 			Comment("上一层菜单ID").
+			Optional().
+			Nillable(),
+
+		field.Enum("status").
+			Comment("菜单状态").
+			NamedValues(
+				"On", "ON",
+				"Off", "OFF",
+			).
+			Default("ON").
 			Optional().
 			Nillable(),
 
@@ -92,7 +95,7 @@ func (Menu) Fields() []ent.Field {
 
 func (Menu) Mixin() []ent.Mixin {
 	return []ent.Mixin{
-		mixin.SwitchStatus{},
+		mixin.AutoIncrementId{},
 		mixin.Time{},
 		mixin.CreateBy{},
 		mixin.UpdateBy{},

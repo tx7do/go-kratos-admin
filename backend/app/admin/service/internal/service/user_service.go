@@ -220,13 +220,13 @@ func (s *UserService) Create(ctx context.Context, req *userV1.CreateUserRequest)
 	}
 
 	// 校验操作者的权限
-	if operatorUser.GetAuthority() != userV1.UserAuthority_SYS_ADMIN && operatorUser.GetAuthority() != userV1.UserAuthority_TENANT_ADMIN {
+	if operatorUser.GetAuthority() != userV1.User_SYS_ADMIN && operatorUser.GetAuthority() != userV1.User_TENANT_ADMIN {
 		s.log.Infof("operator authority: %v", operatorUser.GetAuthority())
 		return nil, adminV1.ErrorForbidden("权限不够")
 	}
 
 	if req.Data.Authority == nil {
-		req.Data.Authority = userV1.UserAuthority_CUSTOMER_USER.Enum()
+		req.Data.Authority = userV1.User_CUSTOMER_USER.Enum()
 	}
 
 	if req.Data.Authority != nil {
@@ -259,11 +259,11 @@ func (s *UserService) Create(ctx context.Context, req *userV1.CreateUserRequest)
 				IdentityType: authenticationV1.IdentityType_USERNAME.Enum(),
 				Identifier:   req.Data.Username,
 
-				CredentialType: authenticationV1.CredentialType_PASSWORD_HASH.Enum(),
+				CredentialType: authenticationV1.UserCredential_PASSWORD_HASH.Enum(),
 				Credential:     req.Password,
 
 				IsPrimary: trans.Ptr(true),
-				Status:    authenticationV1.UserCredentialStatus_ENABLED.Enum(),
+				Status:    authenticationV1.UserCredential_ENABLED.Enum(),
 			},
 		}); err != nil {
 			return nil, err
@@ -291,7 +291,7 @@ func (s *UserService) Update(ctx context.Context, req *userV1.UpdateUserRequest)
 	}
 
 	// 校验操作者的权限
-	if operatorUser.GetAuthority() != userV1.UserAuthority_SYS_ADMIN {
+	if operatorUser.GetAuthority() != userV1.User_SYS_ADMIN {
 		return nil, adminV1.ErrorForbidden("权限不够")
 	}
 
@@ -336,7 +336,7 @@ func (s *UserService) Delete(ctx context.Context, req *userV1.DeleteUserRequest)
 	}
 
 	// 校验操作者的权限
-	if operatorUser.GetAuthority() != userV1.UserAuthority_SYS_ADMIN {
+	if operatorUser.GetAuthority() != userV1.User_SYS_ADMIN {
 		return nil, adminV1.ErrorForbidden("权限不够")
 	}
 
@@ -347,7 +347,7 @@ func (s *UserService) Delete(ctx context.Context, req *userV1.DeleteUserRequest)
 	}
 
 	// 不能删除超级管理员
-	if user.GetAuthority() == userV1.UserAuthority_SYS_ADMIN {
+	if user.GetAuthority() == userV1.User_SYS_ADMIN {
 		return nil, adminV1.ErrorForbidden("闹哪样？不能删除超级管理员！")
 	}
 
@@ -403,7 +403,7 @@ func (s *UserService) CreateDefaultUser(ctx context.Context) error {
 			Nickname:  trans.Ptr("鹳狸猿"),
 			Region:    trans.Ptr("中国"),
 			Email:     trans.Ptr("admin@gmail.com"),
-			Authority: userV1.UserAuthority_SYS_ADMIN.Enum(),
+			Authority: userV1.User_SYS_ADMIN.Enum(),
 			RoleIds:   []uint32{1},
 			Roles:     []string{"super"},
 		},
@@ -417,10 +417,10 @@ func (s *UserService) CreateDefaultUser(ctx context.Context) error {
 			UserId:         trans.Ptr(uint32(1)),
 			IdentityType:   authenticationV1.IdentityType_USERNAME.Enum(),
 			Identifier:     trans.Ptr(defaultUsername),
-			CredentialType: authenticationV1.CredentialType_PASSWORD_HASH.Enum(),
+			CredentialType: authenticationV1.UserCredential_PASSWORD_HASH.Enum(),
 			Credential:     trans.Ptr(defaultPassword),
 			IsPrimary:      trans.Ptr(true),
-			Status:         authenticationV1.UserCredentialStatus_ENABLED.Enum(),
+			Status:         authenticationV1.UserCredential_ENABLED.Enum(),
 		},
 	})
 	if err != nil {

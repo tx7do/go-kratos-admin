@@ -27,8 +27,8 @@ type MenuRepo struct {
 	log  *log.Helper
 
 	mapper          *mapper.CopierMapper[adminV1.Menu, ent.Menu]
-	statusConverter *mapper.EnumTypeConverter[adminV1.MenuStatus, menu.Status]
-	typeConverter   *mapper.EnumTypeConverter[adminV1.MenuType, menu.Type]
+	statusConverter *mapper.EnumTypeConverter[adminV1.Menu_Status, menu.Status]
+	typeConverter   *mapper.EnumTypeConverter[adminV1.Menu_Type, menu.Type]
 }
 
 func NewMenuRepo(data *Data, logger log.Logger) *MenuRepo {
@@ -36,8 +36,8 @@ func NewMenuRepo(data *Data, logger log.Logger) *MenuRepo {
 		log:             log.NewHelper(log.With(logger, "module", "menu/repo/admin-service")),
 		data:            data,
 		mapper:          mapper.NewCopierMapper[adminV1.Menu, ent.Menu](),
-		statusConverter: mapper.NewEnumTypeConverter[adminV1.MenuStatus, menu.Status](adminV1.MenuStatus_name, adminV1.MenuStatus_value),
-		typeConverter:   mapper.NewEnumTypeConverter[adminV1.MenuType, menu.Type](adminV1.MenuType_name, adminV1.MenuType_value),
+		statusConverter: mapper.NewEnumTypeConverter[adminV1.Menu_Status, menu.Status](adminV1.Menu_Status_name, adminV1.Menu_Status_value),
+		typeConverter:   mapper.NewEnumTypeConverter[adminV1.Menu_Type, menu.Type](adminV1.Menu_Type_name, adminV1.Menu_Type_value),
 	}
 
 	repo.init()
@@ -160,7 +160,7 @@ func (r *MenuRepo) List(ctx context.Context, req *pagination.PagingRequest, tree
 	}, nil
 }
 
-func (r *MenuRepo) IsExist(ctx context.Context, id int32) (bool, error) {
+func (r *MenuRepo) IsExist(ctx context.Context, id uint32) (bool, error) {
 	exist, err := r.data.db.Client().Menu.Query().
 		Where(menu.IDEQ(id)).
 		Exist(ctx)
@@ -329,13 +329,8 @@ func (r *MenuRepo) Delete(ctx context.Context, req *adminV1.DeleteMenuRequest) e
 
 	//r.log.Info("menu ids to delete: ", ids)
 
-	var idInts []int32
-	for _, id := range ids {
-		idInts = append(idInts, int32(id))
-	}
-
 	if _, err = r.data.db.Client().Menu.Delete().
-		Where(menu.IDIn(idInts...)).
+		Where(menu.IDIn(ids...)).
 		Exec(ctx); err != nil {
 		r.log.Errorf("delete menus failed: %s", err.Error())
 		return adminV1.ErrorInternalServerError("delete menus failed")

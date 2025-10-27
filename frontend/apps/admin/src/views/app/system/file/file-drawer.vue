@@ -7,7 +7,7 @@ import { $t } from '@vben/locales';
 import { notification } from 'ant-design-vue';
 
 import { useVbenForm } from '#/adapter/form';
-import { statusList, useFileStore } from '#/stores';
+import { useFileStore } from '#/stores';
 
 const fileStore = useFileStore();
 
@@ -39,19 +39,6 @@ const [BaseForm, baseFormApi] = useVbenForm({
         allowClear: true,
       },
       rules: 'required',
-    },
-    {
-      component: 'RadioGroup',
-      fieldName: 'status',
-      defaultValue: 'ON',
-      label: $t('ui.table.status'),
-      rules: 'selectRequired',
-      componentProps: {
-        optionType: 'button',
-        buttonStyle: 'solid',
-        class: 'flex flex-wrap', // 如果选项过多，可以添加class来自动折叠
-        options: statusList,
-      },
     },
     {
       component: 'Textarea',

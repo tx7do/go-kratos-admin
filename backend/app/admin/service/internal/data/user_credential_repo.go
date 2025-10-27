@@ -30,9 +30,9 @@ type UserCredentialRepo struct {
 	log  *log.Helper
 
 	mapper                  *mapper.CopierMapper[authenticationV1.UserCredential, ent.UserCredential]
-	statusConverter         *mapper.EnumTypeConverter[authenticationV1.UserCredentialStatus, usercredential.Status]
+	statusConverter         *mapper.EnumTypeConverter[authenticationV1.UserCredential_Status, usercredential.Status]
 	identityTypeConverter   *mapper.EnumTypeConverter[authenticationV1.IdentityType, usercredential.IdentityType]
-	credentialTypeConverter *mapper.EnumTypeConverter[authenticationV1.CredentialType, usercredential.CredentialType]
+	credentialTypeConverter *mapper.EnumTypeConverter[authenticationV1.UserCredential_Type, usercredential.CredentialType]
 
 	passwordCrypto password.Crypto
 }
@@ -43,9 +43,9 @@ func NewUserCredentialRepo(logger log.Logger, data *Data, passwordCrypto passwor
 		data:                    data,
 		passwordCrypto:          passwordCrypto,
 		mapper:                  mapper.NewCopierMapper[authenticationV1.UserCredential, ent.UserCredential](),
-		statusConverter:         mapper.NewEnumTypeConverter[authenticationV1.UserCredentialStatus, usercredential.Status](authenticationV1.UserCredentialStatus_name, authenticationV1.UserCredentialStatus_value),
+		statusConverter:         mapper.NewEnumTypeConverter[authenticationV1.UserCredential_Status, usercredential.Status](authenticationV1.UserCredential_Status_name, authenticationV1.UserCredential_Status_value),
 		identityTypeConverter:   mapper.NewEnumTypeConverter[authenticationV1.IdentityType, usercredential.IdentityType](authenticationV1.IdentityType_name, authenticationV1.IdentityType_value),
-		credentialTypeConverter: mapper.NewEnumTypeConverter[authenticationV1.CredentialType, usercredential.CredentialType](authenticationV1.CredentialType_name, authenticationV1.CredentialType_value),
+		credentialTypeConverter: mapper.NewEnumTypeConverter[authenticationV1.UserCredential_Type, usercredential.CredentialType](authenticationV1.UserCredential_Type_name, authenticationV1.UserCredential_Type_value),
 	}
 
 	repo.init()

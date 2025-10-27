@@ -26,7 +26,7 @@ type TaskRepo struct {
 	log  *log.Helper
 
 	mapper        *mapper.CopierMapper[adminV1.Task, ent.Task]
-	typeConverter *mapper.EnumTypeConverter[adminV1.TaskType, task.Type]
+	typeConverter *mapper.EnumTypeConverter[adminV1.Task_Type, task.Type]
 }
 
 func NewTaskRepo(data *Data, logger log.Logger) *TaskRepo {
@@ -34,7 +34,7 @@ func NewTaskRepo(data *Data, logger log.Logger) *TaskRepo {
 		log:           log.NewHelper(log.With(logger, "module", "task/repo/admin-service")),
 		data:          data,
 		mapper:        mapper.NewCopierMapper[adminV1.Task, ent.Task](),
-		typeConverter: mapper.NewEnumTypeConverter[adminV1.TaskType, task.Type](adminV1.TaskType_name, adminV1.TaskType_value),
+		typeConverter: mapper.NewEnumTypeConverter[adminV1.Task_Type, task.Type](adminV1.Task_Type_name, adminV1.Task_Type_value),
 	}
 
 	repo.init()

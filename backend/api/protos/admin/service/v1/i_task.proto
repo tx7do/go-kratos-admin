@@ -80,12 +80,7 @@ service TaskService {
   }
 }
 
-// 调度任务类型
-enum TaskType {
-  PERIODIC = 0;    // 周期性任务
-  DELAY = 1;       // 延时任务
-  WAIT_RESULT = 2;  // 等待结果
-}
+
 
 // 任务选项
 message TaskOption {
@@ -132,6 +127,13 @@ message TaskOption {
 
 // 调度任务
 message Task {
+  // 调度任务类型
+  enum Type {
+    PERIODIC = 0;    // 周期性任务
+    DELAY = 1;       // 延时任务
+    WAIT_RESULT = 2;  // 等待结果
+  }
+
   optional uint32 id = 1 [
     json_name = "id",
     (google.api.field_behavior) = OPTIONAL,
@@ -140,7 +142,7 @@ message Task {
     }
   ]; // 任务ID
 
-  optional TaskType type = 2 [
+  optional Type type = 2 [
     json_name = "type",
     (google.api.field_behavior) = OPTIONAL,
     (gnostic.openapi.v3.property) = {

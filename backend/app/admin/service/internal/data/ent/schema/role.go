@@ -68,14 +68,24 @@ func (Role) Fields() []ent.Field {
 		field.Enum("data_scope").
 			Comment("数据权限范围").
 			NamedValues(
-				"DATA_SCOPE_ALL", "ALL",
-				"DATA_SCOPE_CUSTOM", "CUSTOM",
-				"DATA_SCOPE_SELF", "SELF",
-				"DATA_SCOPE_ORG", "ORG",
-				"DATA_SCOPE_ORG_AND_CHILD", "ORG_AND_CHILD",
-				"DATA_SCOPE_DEPT", "DEPT",
-				"DATA_SCOPE_DEPT_AND_CHILD", "DEPT_AND_CHILD",
+				"All", "ALL",
+				"Custom", "CUSTOM",
+				"Self", "SELF",
+				"Org", "ORG",
+				"OrgAndChild", "ORG_AND_CHILD",
+				"Dept", "DEPT",
+				"DeptAndChild", "DEPT_AND_CHILD",
 			).
+			Optional().
+			Nillable(),
+
+		field.Enum("status").
+			Comment("角色状态").
+			NamedValues(
+				"On", "ON",
+				"Off", "OFF",
+			).
+			Default("ON").
 			Optional().
 			Nillable(),
 	}
@@ -86,7 +96,6 @@ func (Role) Mixin() []ent.Mixin {
 	return []ent.Mixin{
 		mixin.AutoIncrementId{},
 		mixin.Time{},
-		mixin.SwitchStatus{},
 		mixin.CreateBy{},
 		mixin.UpdateBy{},
 		mixin.Remark{},

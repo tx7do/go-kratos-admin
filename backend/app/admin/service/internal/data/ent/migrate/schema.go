@@ -206,7 +206,6 @@ var (
 		{Name: "create_time", Type: field.TypeTime, Nullable: true, Comment: "创建时间"},
 		{Name: "update_time", Type: field.TypeTime, Nullable: true, Comment: "更新时间"},
 		{Name: "delete_time", Type: field.TypeTime, Nullable: true, Comment: "删除时间"},
-		{Name: "status", Type: field.TypeEnum, Nullable: true, Comment: "状态", Enums: []string{"OFF", "ON"}, Default: "ON"},
 		{Name: "create_by", Type: field.TypeUint32, Nullable: true, Comment: "创建者ID"},
 		{Name: "update_by", Type: field.TypeUint32, Nullable: true, Comment: "更新者ID"},
 		{Name: "remark", Type: field.TypeString, Nullable: true, Comment: "备注", Default: ""},
@@ -218,6 +217,7 @@ var (
 		{Name: "value_desc", Type: field.TypeString, Nullable: true, Comment: "字典值名称"},
 		{Name: "value_data_type", Type: field.TypeString, Nullable: true, Comment: "字典值数据类型"},
 		{Name: "sort_id", Type: field.TypeInt32, Nullable: true, Comment: "排序ID", Default: 0},
+		{Name: "status", Type: field.TypeEnum, Nullable: true, Comment: "字典状态", Enums: []string{"ON", "OFF"}, Default: "ON"},
 	}
 	// SysDictsTable holds the schema information for the "sys_dicts" table.
 	SysDictsTable = &schema.Table{
@@ -234,12 +234,12 @@ var (
 			{
 				Name:    "dict_tenant_id",
 				Unique:  false,
-				Columns: []*schema.Column{SysDictsColumns[8]},
+				Columns: []*schema.Column{SysDictsColumns[7]},
 			},
 			{
 				Name:    "idx_sys_dict_key",
 				Unique:  true,
-				Columns: []*schema.Column{SysDictsColumns[9]},
+				Columns: []*schema.Column{SysDictsColumns[8]},
 			},
 		},
 	}
@@ -285,14 +285,14 @@ var (
 	}
 	// SysMenusColumns holds the columns for the "sys_menus" table.
 	SysMenusColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt32, Increment: true, Comment: "id"},
-		{Name: "status", Type: field.TypeEnum, Nullable: true, Comment: "状态", Enums: []string{"OFF", "ON"}, Default: "ON"},
+		{Name: "id", Type: field.TypeUint32, Increment: true, Comment: "id", SchemaType: map[string]string{"mysql": "int", "postgres": "serial"}},
 		{Name: "create_time", Type: field.TypeTime, Nullable: true, Comment: "创建时间"},
 		{Name: "update_time", Type: field.TypeTime, Nullable: true, Comment: "更新时间"},
 		{Name: "delete_time", Type: field.TypeTime, Nullable: true, Comment: "删除时间"},
 		{Name: "create_by", Type: field.TypeUint32, Nullable: true, Comment: "创建者ID"},
 		{Name: "update_by", Type: field.TypeUint32, Nullable: true, Comment: "更新者ID"},
 		{Name: "remark", Type: field.TypeString, Nullable: true, Comment: "备注", Default: ""},
+		{Name: "status", Type: field.TypeEnum, Nullable: true, Comment: "菜单状态", Enums: []string{"ON", "OFF"}, Default: "ON"},
 		{Name: "type", Type: field.TypeEnum, Nullable: true, Comment: "菜单类型 FOLDER: 目录 MENU: 菜单 BUTTON: 按钮 EMBEDDED: 内嵌 LINK: 外链", Enums: []string{"FOLDER", "MENU", "BUTTON", "EMBEDDED", "LINK"}, Default: "MENU"},
 		{Name: "path", Type: field.TypeString, Nullable: true, Comment: "路径,当其类型为'按钮'的时候对应的数据操作名,例如:/user.service.v1.UserService/Login", Default: ""},
 		{Name: "redirect", Type: field.TypeString, Nullable: true, Comment: "重定向地址"},
@@ -300,7 +300,7 @@ var (
 		{Name: "name", Type: field.TypeString, Nullable: true, Comment: "路由命名，然后我们可以使用 name 而不是 path 来传递 to 属性给 <router-link>。"},
 		{Name: "component", Type: field.TypeString, Nullable: true, Comment: "前端页面组件", Default: ""},
 		{Name: "meta", Type: field.TypeJSON, Nullable: true, Comment: "前端页面组件"},
-		{Name: "parent_id", Type: field.TypeInt32, Nullable: true, Comment: "上一层菜单ID"},
+		{Name: "parent_id", Type: field.TypeUint32, Nullable: true, Comment: "上一层菜单ID", SchemaType: map[string]string{"mysql": "int", "postgres": "serial"}},
 	}
 	// SysMenusTable holds the schema information for the "sys_menus" table.
 	SysMenusTable = &schema.Table{
@@ -314,6 +314,13 @@ var (
 				Columns:    []*schema.Column{SysMenusColumns[15]},
 				RefColumns: []*schema.Column{SysMenusColumns[0]},
 				OnDelete:   schema.SetNull,
+			},
+		},
+		Indexes: []*schema.Index{
+			{
+				Name:    "menu_id",
+				Unique:  false,
+				Columns: []*schema.Column{SysMenusColumns[0]},
 			},
 		},
 	}
@@ -581,7 +588,6 @@ var (
 		{Name: "create_time", Type: field.TypeTime, Nullable: true, Comment: "创建时间"},
 		{Name: "update_time", Type: field.TypeTime, Nullable: true, Comment: "更新时间"},
 		{Name: "delete_time", Type: field.TypeTime, Nullable: true, Comment: "删除时间"},
-		{Name: "status", Type: field.TypeEnum, Nullable: true, Comment: "状态", Enums: []string{"OFF", "ON"}, Default: "ON"},
 		{Name: "create_by", Type: field.TypeUint32, Nullable: true, Comment: "创建者ID"},
 		{Name: "update_by", Type: field.TypeUint32, Nullable: true, Comment: "更新者ID"},
 		{Name: "remark", Type: field.TypeString, Nullable: true, Comment: "备注", Default: ""},
@@ -592,6 +598,7 @@ var (
 		{Name: "menus", Type: field.TypeJSON, Nullable: true, Comment: "分配的菜单列表"},
 		{Name: "apis", Type: field.TypeJSON, Nullable: true, Comment: "分配的API列表"},
 		{Name: "data_scope", Type: field.TypeEnum, Nullable: true, Comment: "数据权限范围", Enums: []string{"ALL", "CUSTOM", "SELF", "ORG", "ORG_AND_CHILD", "DEPT", "DEPT_AND_CHILD"}},
+		{Name: "status", Type: field.TypeEnum, Nullable: true, Comment: "角色状态", Enums: []string{"ON", "OFF"}, Default: "ON"},
 		{Name: "parent_id", Type: field.TypeUint32, Nullable: true, Comment: "上一层角色ID", SchemaType: map[string]string{"mysql": "int", "postgres": "serial"}},
 	}
 	// SysRolesTable holds the schema information for the "sys_roles" table.
@@ -617,17 +624,17 @@ var (
 			{
 				Name:    "role_tenant_id",
 				Unique:  false,
-				Columns: []*schema.Column{SysRolesColumns[8]},
+				Columns: []*schema.Column{SysRolesColumns[7]},
 			},
 			{
 				Name:    "idx_sys_role_name",
 				Unique:  true,
-				Columns: []*schema.Column{SysRolesColumns[9]},
+				Columns: []*schema.Column{SysRolesColumns[8]},
 			},
 			{
 				Name:    "idx_sys_role_code",
 				Unique:  true,
-				Columns: []*schema.Column{SysRolesColumns[10]},
+				Columns: []*schema.Column{SysRolesColumns[9]},
 			},
 		},
 	}
@@ -909,7 +916,6 @@ var (
 		{Name: "update_time", Type: field.TypeTime, Nullable: true, Comment: "更新时间"},
 		{Name: "delete_time", Type: field.TypeTime, Nullable: true, Comment: "删除时间"},
 		{Name: "remark", Type: field.TypeString, Nullable: true, Comment: "备注", Default: ""},
-		{Name: "status", Type: field.TypeEnum, Nullable: true, Comment: "状态", Enums: []string{"OFF", "ON"}, Default: "ON"},
 		{Name: "tenant_id", Type: field.TypeUint32, Nullable: true, Comment: "租户ID"},
 		{Name: "username", Type: field.TypeString, Nullable: true, Comment: "用户名"},
 		{Name: "nickname", Type: field.TypeString, Nullable: true, Comment: "昵称"},
@@ -923,6 +929,7 @@ var (
 		{Name: "description", Type: field.TypeString, Nullable: true, Size: 1023, Comment: "个人说明"},
 		{Name: "gender", Type: field.TypeEnum, Nullable: true, Comment: "性别", Enums: []string{"SECRET", "MALE", "FEMALE"}},
 		{Name: "authority", Type: field.TypeEnum, Comment: "授权", Enums: []string{"SYS_ADMIN", "TENANT_ADMIN", "CUSTOMER_USER", "GUEST"}, Default: "CUSTOMER_USER"},
+		{Name: "status", Type: field.TypeEnum, Nullable: true, Comment: "用户状态", Enums: []string{"ON", "OFF"}, Default: "ON"},
 		{Name: "last_login_time", Type: field.TypeTime, Nullable: true, Comment: "最后一次登录的时间"},
 		{Name: "last_login_ip", Type: field.TypeString, Nullable: true, Comment: "最后一次登录的IP"},
 		{Name: "org_id", Type: field.TypeUint32, Nullable: true, Comment: "组织ID"},
@@ -946,12 +953,12 @@ var (
 			{
 				Name:    "user_tenant_id",
 				Unique:  false,
-				Columns: []*schema.Column{SysUsersColumns[8]},
+				Columns: []*schema.Column{SysUsersColumns[7]},
 			},
 			{
 				Name:    "idx_sys_user_username",
 				Unique:  true,
-				Columns: []*schema.Column{SysUsersColumns[9]},
+				Columns: []*schema.Column{SysUsersColumns[8]},
 			},
 		},
 	}

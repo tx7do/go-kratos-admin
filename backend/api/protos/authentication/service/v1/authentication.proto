@@ -49,8 +49,8 @@ enum GrantType {
 
 // 令牌类型
 enum TokenType {
-  bearer = 0; //
-  mac = 1; //
+  bearer = 0; // Bearer
+  mac = 1; // MAC
 }
 
 // 客户端类型
@@ -61,7 +61,7 @@ enum ClientType {
 
 // 用户后台登录 - 请求
 message LoginRequest {
-  string grant_type = 1 [
+  GrantType grant_type = 1 [
     json_name = "grant_type",
     (google.api.field_behavior) = REQUIRED,
     (gnostic.openapi.v3.property) = {
@@ -136,7 +136,7 @@ message LoginResponse {
     }
   ]; // 更新令牌，用来获取下一次的访问令牌，可选项。
 
-  string token_type = 3 [
+  TokenType token_type = 3 [
     json_name = "token_type",
     (gnostic.openapi.v3.property) = {
       description: "令牌的类型，该值大小写不敏感，必选项，可以是bearer类型或mac类型，通常只是字符串“Bearer”。",
@@ -162,7 +162,7 @@ message LoginResponse {
 // 验证令牌 - 请求
 message ValidateTokenRequest {
   string token = 1 [
-    json_name = "isValid",
+    json_name = "token",
     (gnostic.openapi.v3.property) = {
       description: "令牌"
     }
@@ -171,9 +171,9 @@ message ValidateTokenRequest {
   ClientType client_type = 2 [
     json_name = "clientType",
     (gnostic.openapi.v3.property) = {
-      description: "客戶端類型"
+      description: "客户端类型"
     }
-  ]; // 客戶端類型
+  ]; // 客户端类型
 }
 
 // 验证令牌 - 回应
@@ -188,9 +188,9 @@ message ValidateTokenResponse {
   optional UserTokenPayload claim = 2 [
     json_name = "claim",
     (gnostic.openapi.v3.property) = {
-      description: "用戶令牌载体"
+      description: "用户令牌载体"
     }
-  ]; // 用戶令牌载体
+  ]; // 用户令牌载体
 }
 
 message RegisterUserRequest {
@@ -256,7 +256,7 @@ message UserTokenPayload {
     }
   ]; // 客户端ID
 
-  user.service.v1.UserAuthority authority = 5 [
+  user.service.v1.User.Authority authority = 5 [
     json_name = "aut",
     (gnostic.openapi.v3.property) = {
       description: "用户权限"
@@ -301,7 +301,7 @@ message WhoAmIResponse {
     }
   ]; // 当前用户的用户名
 
-  user.service.v1.UserAuthority authority = 3 [
+  user.service.v1.User.Authority authority = 3 [
     json_name = "authority",
     (gnostic.openapi.v3.property) = {
       description: "用户权限"

@@ -28,56 +28,6 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-// 调度任务类型
-type TaskType int32
-
-const (
-	TaskType_PERIODIC    TaskType = 0 // 周期性任务
-	TaskType_DELAY       TaskType = 1 // 延时任务
-	TaskType_WAIT_RESULT TaskType = 2 // 等待结果
-)
-
-// Enum value maps for TaskType.
-var (
-	TaskType_name = map[int32]string{
-		0: "PERIODIC",
-		1: "DELAY",
-		2: "WAIT_RESULT",
-	}
-	TaskType_value = map[string]int32{
-		"PERIODIC":    0,
-		"DELAY":       1,
-		"WAIT_RESULT": 2,
-	}
-)
-
-func (x TaskType) Enum() *TaskType {
-	p := new(TaskType)
-	*p = x
-	return p
-}
-
-func (x TaskType) String() string {
-	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
-}
-
-func (TaskType) Descriptor() protoreflect.EnumDescriptor {
-	return file_admin_service_v1_i_task_proto_enumTypes[0].Descriptor()
-}
-
-func (TaskType) Type() protoreflect.EnumType {
-	return &file_admin_service_v1_i_task_proto_enumTypes[0]
-}
-
-func (x TaskType) Number() protoreflect.EnumNumber {
-	return protoreflect.EnumNumber(x)
-}
-
-// Deprecated: Use TaskType.Descriptor instead.
-func (TaskType) EnumDescriptor() ([]byte, []int) {
-	return file_admin_service_v1_i_task_proto_rawDescGZIP(), []int{0}
-}
-
 // 调度任务控制类型
 type TaskControlType int32
 
@@ -112,11 +62,11 @@ func (x TaskControlType) String() string {
 }
 
 func (TaskControlType) Descriptor() protoreflect.EnumDescriptor {
-	return file_admin_service_v1_i_task_proto_enumTypes[1].Descriptor()
+	return file_admin_service_v1_i_task_proto_enumTypes[0].Descriptor()
 }
 
 func (TaskControlType) Type() protoreflect.EnumType {
-	return &file_admin_service_v1_i_task_proto_enumTypes[1]
+	return &file_admin_service_v1_i_task_proto_enumTypes[0]
 }
 
 func (x TaskControlType) Number() protoreflect.EnumNumber {
@@ -125,7 +75,57 @@ func (x TaskControlType) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use TaskControlType.Descriptor instead.
 func (TaskControlType) EnumDescriptor() ([]byte, []int) {
-	return file_admin_service_v1_i_task_proto_rawDescGZIP(), []int{1}
+	return file_admin_service_v1_i_task_proto_rawDescGZIP(), []int{0}
+}
+
+// 调度任务类型
+type Task_Type int32
+
+const (
+	Task_PERIODIC    Task_Type = 0 // 周期性任务
+	Task_DELAY       Task_Type = 1 // 延时任务
+	Task_WAIT_RESULT Task_Type = 2 // 等待结果
+)
+
+// Enum value maps for Task_Type.
+var (
+	Task_Type_name = map[int32]string{
+		0: "PERIODIC",
+		1: "DELAY",
+		2: "WAIT_RESULT",
+	}
+	Task_Type_value = map[string]int32{
+		"PERIODIC":    0,
+		"DELAY":       1,
+		"WAIT_RESULT": 2,
+	}
+)
+
+func (x Task_Type) Enum() *Task_Type {
+	p := new(Task_Type)
+	*p = x
+	return p
+}
+
+func (x Task_Type) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (Task_Type) Descriptor() protoreflect.EnumDescriptor {
+	return file_admin_service_v1_i_task_proto_enumTypes[1].Descriptor()
+}
+
+func (Task_Type) Type() protoreflect.EnumType {
+	return &file_admin_service_v1_i_task_proto_enumTypes[1]
+}
+
+func (x Task_Type) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use Task_Type.Descriptor instead.
+func (Task_Type) EnumDescriptor() ([]byte, []int) {
+	return file_admin_service_v1_i_task_proto_rawDescGZIP(), []int{1, 0}
 }
 
 // 任务选项
@@ -209,7 +209,7 @@ func (x *TaskOption) GetProcessAt() *timestamppb.Timestamp {
 type Task struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            *uint32                `protobuf:"varint,1,opt,name=id,proto3,oneof" json:"id,omitempty"`                                     // 任务ID
-	Type          *TaskType              `protobuf:"varint,2,opt,name=type,proto3,enum=admin.service.v1.TaskType,oneof" json:"type,omitempty"`  // 任务类型
+	Type          *Task_Type             `protobuf:"varint,2,opt,name=type,proto3,enum=admin.service.v1.Task_Type,oneof" json:"type,omitempty"` // 任务类型
 	TypeName      *string                `protobuf:"bytes,3,opt,name=type_name,json=typeName,proto3,oneof" json:"type_name,omitempty"`          // 任务执行类型名
 	TaskPayload   *string                `protobuf:"bytes,4,opt,name=task_payload,json=taskPayload,proto3,oneof" json:"task_payload,omitempty"` // 任务数据，以 JSON 格式存储，方便存储不同类型和数量的参数
 	CronSpec      *string                `protobuf:"bytes,5,opt,name=cron_spec,json=cronSpec,proto3,oneof" json:"cron_spec,omitempty"`          // cron表达式
@@ -262,11 +262,11 @@ func (x *Task) GetId() uint32 {
 	return 0
 }
 
-func (x *Task) GetType() TaskType {
+func (x *Task) GetType() Task_Type {
 	if x != nil && x.Type != nil {
 		return *x.Type
 	}
-	return TaskType_PERIODIC
+	return Task_PERIODIC
 }
 
 func (x *Task) GetTypeName() string {
@@ -757,11 +757,11 @@ const file_admin_service_v1_i_task_proto_rawDesc = "" +
 	"\b_timeoutB\v\n" +
 	"\t_deadlineB\r\n" +
 	"\v_process_inB\r\n" +
-	"\v_process_at\"\x97\n" +
+	"\v_process_at\"\xca\n" +
 	"\n" +
 	"\x04Task\x12&\n" +
-	"\x02id\x18\x01 \x01(\rB\x11\xe0A\x01\xbaG\v\x92\x02\b任务IDH\x00R\x02id\x88\x01\x01\x12J\n" +
-	"\x04type\x18\x02 \x01(\x0e2\x1a.admin.service.v1.TaskTypeB\x15\xe0A\x01\xbaG\x0f\x92\x02\f任务类型H\x01R\x04type\x88\x01\x01\x12\x92\x01\n" +
+	"\x02id\x18\x01 \x01(\rB\x11\xe0A\x01\xbaG\v\x92\x02\b任务IDH\x00R\x02id\x88\x01\x01\x12K\n" +
+	"\x04type\x18\x02 \x01(\x0e2\x1b.admin.service.v1.Task.TypeB\x15\xe0A\x01\xbaG\x0f\x92\x02\f任务类型H\x01R\x04type\x88\x01\x01\x12\x92\x01\n" +
 	"\ttype_name\x18\x03 \x01(\tBp\xe0A\x01\xbaGj\x92\x02g任务执行类型名，例如 \"send_email\"、\"generate_report\" 等，用于区分不同类型的任务H\x02R\btypeName\x88\x01\x01\x12\x82\x01\n" +
 	"\ftask_payload\x18\x04 \x01(\tBZ\xe0A\x01\xbaGT\x92\x02Q任务数据，以 JSON 格式存储，方便存储不同类型和数量的参数H\x03R\vtaskPayload\x88\x01\x01\x12\\\n" +
 	"\tcron_spec\x18\x05 \x01(\tB:\xe0A\x01\xbaG4\x92\x021cron表达式，用于定义任务的调度时间H\x04R\bcronSpec\x88\x01\x01\x12\xa0\x01\n" +
@@ -777,7 +777,11 @@ const file_admin_service_v1_i_task_proto_rawDesc = "" +
 	"\vupdate_time\x18\xc9\x01 \x01(\v2\x1a.google.protobuf.TimestampB\x12\xbaG\x0f\x92\x02\f更新时间H\vR\n" +
 	"updateTime\x88\x01\x01\x12U\n" +
 	"\vdelete_time\x18\xca\x01 \x01(\v2\x1a.google.protobuf.TimestampB\x12\xbaG\x0f\x92\x02\f删除时间H\fR\n" +
-	"deleteTime\x88\x01\x01B\x05\n" +
+	"deleteTime\x88\x01\x01\"0\n" +
+	"\x04Type\x12\f\n" +
+	"\bPERIODIC\x10\x00\x12\t\n" +
+	"\x05DELAY\x10\x01\x12\x0f\n" +
+	"\vWAIT_RESULT\x10\x02B\x05\n" +
 	"\x03_idB\a\n" +
 	"\x05_typeB\f\n" +
 	"\n" +
@@ -816,11 +820,7 @@ const file_admin_service_v1_i_task_proto_rawDesc = "" +
 	"\x05count\x18\x01 \x01(\x05R\x05count\"\xea\x01\n" +
 	"\x12ControlTaskRequest\x12D\n" +
 	"\fcontrol_type\x18\x01 \x01(\x0e2!.admin.service.v1.TaskControlTypeR\vcontrolType\x12\x8d\x01\n" +
-	"\ttype_name\x18\x02 \x01(\tBp\xe0A\x01\xbaGj\x92\x02g任务执行类型名，例如 \"send_email\"、\"generate_report\" 等，用于区分不同类型的任务R\btypeName*4\n" +
-	"\bTaskType\x12\f\n" +
-	"\bPERIODIC\x10\x00\x12\t\n" +
-	"\x05DELAY\x10\x01\x12\x0f\n" +
-	"\vWAIT_RESULT\x10\x02*W\n" +
+	"\ttype_name\x18\x02 \x01(\tBp\xe0A\x01\xbaGj\x92\x02g任务执行类型名，例如 \"send_email\"、\"generate_report\" 等，用于区分不同类型的任务R\btypeName*W\n" +
 	"\x0fTaskControlType\x12\x15\n" +
 	"\x11ControlType_Start\x10\x00\x12\x14\n" +
 	"\x10ControlType_Stop\x10\x01\x12\x17\n" +
@@ -853,8 +853,8 @@ func file_admin_service_v1_i_task_proto_rawDescGZIP() []byte {
 var file_admin_service_v1_i_task_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
 var file_admin_service_v1_i_task_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
 var file_admin_service_v1_i_task_proto_goTypes = []any{
-	(TaskType)(0),                    // 0: admin.service.v1.TaskType
-	(TaskControlType)(0),             // 1: admin.service.v1.TaskControlType
+	(TaskControlType)(0),             // 0: admin.service.v1.TaskControlType
+	(Task_Type)(0),                   // 1: admin.service.v1.Task.Type
 	(*TaskOption)(nil),               // 2: admin.service.v1.TaskOption
 	(*Task)(nil),                     // 3: admin.service.v1.Task
 	(*ListTaskResponse)(nil),         // 4: admin.service.v1.ListTaskResponse
@@ -876,7 +876,7 @@ var file_admin_service_v1_i_task_proto_depIdxs = []int32{
 	13, // 1: admin.service.v1.TaskOption.deadline:type_name -> google.protobuf.Timestamp
 	12, // 2: admin.service.v1.TaskOption.process_in:type_name -> google.protobuf.Duration
 	13, // 3: admin.service.v1.TaskOption.process_at:type_name -> google.protobuf.Timestamp
-	0,  // 4: admin.service.v1.Task.type:type_name -> admin.service.v1.TaskType
+	1,  // 4: admin.service.v1.Task.type:type_name -> admin.service.v1.Task.Type
 	2,  // 5: admin.service.v1.Task.task_options:type_name -> admin.service.v1.TaskOption
 	13, // 6: admin.service.v1.Task.create_time:type_name -> google.protobuf.Timestamp
 	13, // 7: admin.service.v1.Task.update_time:type_name -> google.protobuf.Timestamp
@@ -885,7 +885,7 @@ var file_admin_service_v1_i_task_proto_depIdxs = []int32{
 	3,  // 10: admin.service.v1.CreateTaskRequest.data:type_name -> admin.service.v1.Task
 	3,  // 11: admin.service.v1.UpdateTaskRequest.data:type_name -> admin.service.v1.Task
 	14, // 12: admin.service.v1.UpdateTaskRequest.update_mask:type_name -> google.protobuf.FieldMask
-	1,  // 13: admin.service.v1.ControlTaskRequest.control_type:type_name -> admin.service.v1.TaskControlType
+	0,  // 13: admin.service.v1.ControlTaskRequest.control_type:type_name -> admin.service.v1.TaskControlType
 	15, // 14: admin.service.v1.TaskService.List:input_type -> pagination.PagingRequest
 	5,  // 15: admin.service.v1.TaskService.Get:input_type -> admin.service.v1.GetTaskRequest
 	7,  // 16: admin.service.v1.TaskService.Create:input_type -> admin.service.v1.CreateTaskRequest

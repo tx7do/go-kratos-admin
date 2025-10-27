@@ -7,6 +7,7 @@ import { $t } from '@vben/locales';
 import { notification } from 'ant-design-vue';
 
 import { useVbenForm } from '#/adapter/form';
+import { Tenant_Status } from '#/generated/api/user/service/v1/tenant.pb';
 import { statusList, useTenantStore } from '#/stores';
 
 const tenantStore = useTenantStore();
@@ -53,7 +54,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
     {
       component: 'RadioGroup',
       fieldName: 'status',
-      defaultValue: 'ON',
+      defaultValue: Tenant_Status.ON,
       label: $t('ui.table.status'),
       rules: 'selectRequired',
       componentProps: {

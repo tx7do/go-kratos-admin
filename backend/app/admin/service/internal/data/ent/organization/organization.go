@@ -112,13 +112,13 @@ var (
 // Status defines the type for the "status" enum field.
 type Status string
 
-// StatusORGANIZATION_STATUS_ON is the default value of the Status enum.
-const DefaultStatus = StatusORGANIZATION_STATUS_ON
+// StatusOn is the default value of the Status enum.
+const DefaultStatus = StatusOn
 
 // Status values.
 const (
-	StatusORGANIZATION_STATUS_ON  Status = "ON"
-	StatusORGANIZATION_STATUS_OFF Status = "OFF"
+	StatusOn  Status = "ON"
+	StatusOff Status = "OFF"
 )
 
 func (s Status) String() string {
@@ -128,7 +128,7 @@ func (s Status) String() string {
 // StatusValidator is a validator for the "status" field enum values. It is called by the builders before save.
 func StatusValidator(s Status) error {
 	switch s {
-	case StatusORGANIZATION_STATUS_ON, StatusORGANIZATION_STATUS_OFF:
+	case StatusOn, StatusOff:
 		return nil
 	default:
 		return fmt.Errorf("organization: invalid enum value for status field: %q", s)
@@ -140,10 +140,10 @@ type OrganizationType string
 
 // OrganizationType values.
 const (
-	OrganizationTypeORGANIZATION_TYPE_GROUP      OrganizationType = "GROUP"
-	OrganizationTypeORGANIZATION_TYPE_SUBSIDIARY OrganizationType = "SUBSIDIARY"
-	OrganizationTypeORGANIZATION_TYPE_FILIALE    OrganizationType = "FILIALE"
-	OrganizationTypeORGANIZATION_TYPE_DIVISION   OrganizationType = "DIVISION"
+	OrganizationTypeGroup      OrganizationType = "GROUP"
+	OrganizationTypeSubsidiary OrganizationType = "SUBSIDIARY"
+	OrganizationTypeFiliale    OrganizationType = "FILIALE"
+	OrganizationTypeDivision   OrganizationType = "DIVISION"
 )
 
 func (ot OrganizationType) String() string {
@@ -153,7 +153,7 @@ func (ot OrganizationType) String() string {
 // OrganizationTypeValidator is a validator for the "organization_type" field enum values. It is called by the builders before save.
 func OrganizationTypeValidator(ot OrganizationType) error {
 	switch ot {
-	case OrganizationTypeORGANIZATION_TYPE_GROUP, OrganizationTypeORGANIZATION_TYPE_SUBSIDIARY, OrganizationTypeORGANIZATION_TYPE_FILIALE, OrganizationTypeORGANIZATION_TYPE_DIVISION:
+	case OrganizationTypeGroup, OrganizationTypeSubsidiary, OrganizationTypeFiliale, OrganizationTypeDivision:
 		return nil
 	default:
 		return fmt.Errorf("organization: invalid enum value for organization_type field: %q", ot)

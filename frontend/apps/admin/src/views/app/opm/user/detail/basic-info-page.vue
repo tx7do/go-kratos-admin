@@ -7,7 +7,10 @@ import { formatDateTime } from '@vben/utils';
 
 import { Avatar, Descriptions, DescriptionsItem } from 'ant-design-vue';
 
-import { type User, UserStatus } from '#/generated/api/user/service/v1/user.pb';
+import {
+  type User,
+  User_Status,
+} from '#/generated/api/user/service/v1/user.pb';
 import { genderToColor, genderToName, useUserStore } from '#/stores';
 
 const props = defineProps({
@@ -71,10 +74,10 @@ reload();
           </Avatar>
           <a-tag
             class="status-badge"
-            :color="data?.status === UserStatus.ON ? 'success' : 'error'"
+            :color="data?.status === User_Status.ON ? 'success' : 'error'"
           >
             {{
-              data?.status === UserStatus.ON
+              data?.status === User_Status.ON
                 ? $t('enum.status.ON')
                 : $t('enum.status.OFF')
             }}

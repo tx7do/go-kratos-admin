@@ -27,7 +27,7 @@ type PositionRepo struct {
 	log  *log.Helper
 
 	mapper          *mapper.CopierMapper[userV1.Position, ent.Position]
-	statusConverter *mapper.EnumTypeConverter[userV1.PositionStatus, position.Status]
+	statusConverter *mapper.EnumTypeConverter[userV1.Position_Status, position.Status]
 }
 
 func NewPositionRepo(data *Data, logger log.Logger) *PositionRepo {
@@ -35,7 +35,7 @@ func NewPositionRepo(data *Data, logger log.Logger) *PositionRepo {
 		log:             log.NewHelper(log.With(logger, "module", "position/repo/admin-service")),
 		data:            data,
 		mapper:          mapper.NewCopierMapper[userV1.Position, ent.Position](),
-		statusConverter: mapper.NewEnumTypeConverter[userV1.PositionStatus, position.Status](userV1.PositionStatus_name, userV1.PositionStatus_value),
+		statusConverter: mapper.NewEnumTypeConverter[userV1.Position_Status, position.Status](userV1.Position_Status_name, userV1.Position_Status_value),
 	}
 
 	repo.init()

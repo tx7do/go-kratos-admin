@@ -27,134 +27,134 @@ const (
 )
 
 // 组织类型
-type OrganizationType int32
+type Organization_Type int32
 
 const (
-	OrganizationType_ORGANIZATION_TYPE_UNSPECIFIED OrganizationType = 0 // 未指定
-	OrganizationType_ORGANIZATION_TYPE_GROUP       OrganizationType = 1 // 集团
-	OrganizationType_ORGANIZATION_TYPE_SUBSIDIARY  OrganizationType = 2 // 子公司
-	OrganizationType_ORGANIZATION_TYPE_FILIALE     OrganizationType = 3 // 分公司
-	OrganizationType_ORGANIZATION_TYPE_DIVISION    OrganizationType = 4 // 事业部
+	Organization_ORGANIZATION_TYPE_UNSPECIFIED Organization_Type = 0 // 未指定
+	Organization_GROUP                         Organization_Type = 1 // 集团
+	Organization_SUBSIDIARY                    Organization_Type = 2 // 子公司
+	Organization_FILIALE                       Organization_Type = 3 // 分公司
+	Organization_DIVISION                      Organization_Type = 4 // 事业部
 )
 
-// Enum value maps for OrganizationType.
+// Enum value maps for Organization_Type.
 var (
-	OrganizationType_name = map[int32]string{
+	Organization_Type_name = map[int32]string{
 		0: "ORGANIZATION_TYPE_UNSPECIFIED",
-		1: "ORGANIZATION_TYPE_GROUP",
-		2: "ORGANIZATION_TYPE_SUBSIDIARY",
-		3: "ORGANIZATION_TYPE_FILIALE",
-		4: "ORGANIZATION_TYPE_DIVISION",
+		1: "GROUP",
+		2: "SUBSIDIARY",
+		3: "FILIALE",
+		4: "DIVISION",
 	}
-	OrganizationType_value = map[string]int32{
+	Organization_Type_value = map[string]int32{
 		"ORGANIZATION_TYPE_UNSPECIFIED": 0,
-		"ORGANIZATION_TYPE_GROUP":       1,
-		"ORGANIZATION_TYPE_SUBSIDIARY":  2,
-		"ORGANIZATION_TYPE_FILIALE":     3,
-		"ORGANIZATION_TYPE_DIVISION":    4,
+		"GROUP":                         1,
+		"SUBSIDIARY":                    2,
+		"FILIALE":                       3,
+		"DIVISION":                      4,
 	}
 )
 
-func (x OrganizationType) Enum() *OrganizationType {
-	p := new(OrganizationType)
+func (x Organization_Type) Enum() *Organization_Type {
+	p := new(Organization_Type)
 	*p = x
 	return p
 }
 
-func (x OrganizationType) String() string {
+func (x Organization_Type) String() string {
 	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
 }
 
-func (OrganizationType) Descriptor() protoreflect.EnumDescriptor {
+func (Organization_Type) Descriptor() protoreflect.EnumDescriptor {
 	return file_user_service_v1_organization_proto_enumTypes[0].Descriptor()
 }
 
-func (OrganizationType) Type() protoreflect.EnumType {
+func (Organization_Type) Type() protoreflect.EnumType {
 	return &file_user_service_v1_organization_proto_enumTypes[0]
 }
 
-func (x OrganizationType) Number() protoreflect.EnumNumber {
+func (x Organization_Type) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use OrganizationType.Descriptor instead.
-func (OrganizationType) EnumDescriptor() ([]byte, []int) {
-	return file_user_service_v1_organization_proto_rawDescGZIP(), []int{0}
+// Deprecated: Use Organization_Type.Descriptor instead.
+func (Organization_Type) EnumDescriptor() ([]byte, []int) {
+	return file_user_service_v1_organization_proto_rawDescGZIP(), []int{0, 0}
 }
 
 // 组织状态
-type OrganizationStatus int32
+type Organization_Status int32
 
 const (
-	OrganizationStatus_ORGANIZATION_STATUS_UNSPECIFIED OrganizationStatus = 0 // 未指定
-	OrganizationStatus_ORGANIZATION_STATUS_ON          OrganizationStatus = 1 // 启用
-	OrganizationStatus_ORGANIZATION_STATUS_OFF         OrganizationStatus = 2 // 停用
+	Organization_ORGANIZATION_STATUS_UNSPECIFIED Organization_Status = 0 // 未指定
+	Organization_ON                              Organization_Status = 1 // 启用
+	Organization_OFF                             Organization_Status = 2 // 停用
 )
 
-// Enum value maps for OrganizationStatus.
+// Enum value maps for Organization_Status.
 var (
-	OrganizationStatus_name = map[int32]string{
+	Organization_Status_name = map[int32]string{
 		0: "ORGANIZATION_STATUS_UNSPECIFIED",
-		1: "ORGANIZATION_STATUS_ON",
-		2: "ORGANIZATION_STATUS_OFF",
+		1: "ON",
+		2: "OFF",
 	}
-	OrganizationStatus_value = map[string]int32{
+	Organization_Status_value = map[string]int32{
 		"ORGANIZATION_STATUS_UNSPECIFIED": 0,
-		"ORGANIZATION_STATUS_ON":          1,
-		"ORGANIZATION_STATUS_OFF":         2,
+		"ON":                              1,
+		"OFF":                             2,
 	}
 )
 
-func (x OrganizationStatus) Enum() *OrganizationStatus {
-	p := new(OrganizationStatus)
+func (x Organization_Status) Enum() *Organization_Status {
+	p := new(Organization_Status)
 	*p = x
 	return p
 }
 
-func (x OrganizationStatus) String() string {
+func (x Organization_Status) String() string {
 	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
 }
 
-func (OrganizationStatus) Descriptor() protoreflect.EnumDescriptor {
+func (Organization_Status) Descriptor() protoreflect.EnumDescriptor {
 	return file_user_service_v1_organization_proto_enumTypes[1].Descriptor()
 }
 
-func (OrganizationStatus) Type() protoreflect.EnumType {
+func (Organization_Status) Type() protoreflect.EnumType {
 	return &file_user_service_v1_organization_proto_enumTypes[1]
 }
 
-func (x OrganizationStatus) Number() protoreflect.EnumNumber {
+func (x Organization_Status) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use OrganizationStatus.Descriptor instead.
-func (OrganizationStatus) EnumDescriptor() ([]byte, []int) {
-	return file_user_service_v1_organization_proto_rawDescGZIP(), []int{1}
+// Deprecated: Use Organization_Status.Descriptor instead.
+func (Organization_Status) EnumDescriptor() ([]byte, []int) {
+	return file_user_service_v1_organization_proto_rawDescGZIP(), []int{0, 1}
 }
 
 // 组织
 type Organization struct {
 	state            protoimpl.MessageState `protogen:"open.v1"`
-	Id               *uint32                `protobuf:"varint,1,opt,name=id,proto3,oneof" json:"id,omitempty"`                                                                                           // 组织ID
-	Name             *string                `protobuf:"bytes,2,opt,name=name,proto3,oneof" json:"name,omitempty"`                                                                                        // 组织名称
-	OrganizationType *OrganizationType      `protobuf:"varint,3,opt,name=organization_type,json=organizationType,proto3,enum=user.service.v1.OrganizationType,oneof" json:"organization_type,omitempty"` // 组织类型
-	IsLegalEntity    *bool                  `protobuf:"varint,4,opt,name=is_legal_entity,json=isLegalEntity,proto3,oneof" json:"is_legal_entity,omitempty"`                                              // 是否法人实体：1=是（集团/子公司），0=否（分公司/事业部）
-	BusinessScope    *string                `protobuf:"bytes,5,opt,name=business_scope,json=businessScope,proto3,oneof" json:"business_scope,omitempty"`                                                 // 核心业务范围（如“新能源汽车研发与生产”）
-	CreditCode       *string                `protobuf:"bytes,6,opt,name=credit_code,json=creditCode,proto3,oneof" json:"credit_code,omitempty"`                                                          // 统一社会信用代码
-	Address          *string                `protobuf:"bytes,7,opt,name=address,proto3,oneof" json:"address,omitempty"`                                                                                  // 注册地址
-	SortId           *int32                 `protobuf:"varint,10,opt,name=sort_id,json=sortId,proto3,oneof" json:"sort_id,omitempty"`                                                                    // 排序编号
-	Status           *OrganizationStatus    `protobuf:"varint,11,opt,name=status,proto3,enum=user.service.v1.OrganizationStatus,oneof" json:"status,omitempty"`                                          // 状态
-	Remark           *string                `protobuf:"bytes,12,opt,name=remark,proto3,oneof" json:"remark,omitempty"`                                                                                   // 备注
-	TenantId         *uint32                `protobuf:"varint,13,opt,name=tenant_id,json=tenantId,proto3,oneof" json:"tenant_id,omitempty"`                                                              // 租户ID
-	ManagerId        *uint32                `protobuf:"varint,14,opt,name=manager_id,json=managerId,proto3,oneof" json:"manager_id,omitempty"`                                                           // 负责人ID
-	ManagerName      *string                `protobuf:"bytes,15,opt,name=manager_name,json=managerName,proto3,oneof" json:"manager_name,omitempty"`                                                      // 负责人名称
-	ParentId         *uint32                `protobuf:"varint,50,opt,name=parent_id,json=parentId,proto3,oneof" json:"parent_id,omitempty"`                                                              // 父节点ID
-	Children         []*Organization        `protobuf:"bytes,51,rep,name=children,proto3" json:"children,omitempty"`                                                                                     // 子节点树
-	CreateBy         *uint32                `protobuf:"varint,100,opt,name=create_by,json=createBy,proto3,oneof" json:"create_by,omitempty"`                                                             // 创建者ID
-	UpdateBy         *uint32                `protobuf:"varint,101,opt,name=update_by,json=updateBy,proto3,oneof" json:"update_by,omitempty"`                                                             // 更新者ID
-	CreateTime       *timestamppb.Timestamp `protobuf:"bytes,200,opt,name=create_time,json=createTime,proto3,oneof" json:"create_time,omitempty"`                                                        // 创建时间
-	UpdateTime       *timestamppb.Timestamp `protobuf:"bytes,201,opt,name=update_time,json=updateTime,proto3,oneof" json:"update_time,omitempty"`                                                        // 更新时间
-	DeleteTime       *timestamppb.Timestamp `protobuf:"bytes,202,opt,name=delete_time,json=deleteTime,proto3,oneof" json:"delete_time,omitempty"`                                                        // 删除时间
+	Id               *uint32                `protobuf:"varint,1,opt,name=id,proto3,oneof" json:"id,omitempty"`                                                                                            // 组织ID
+	Name             *string                `protobuf:"bytes,2,opt,name=name,proto3,oneof" json:"name,omitempty"`                                                                                         // 组织名称
+	OrganizationType *Organization_Type     `protobuf:"varint,3,opt,name=organization_type,json=organizationType,proto3,enum=user.service.v1.Organization_Type,oneof" json:"organization_type,omitempty"` // 组织类型
+	IsLegalEntity    *bool                  `protobuf:"varint,4,opt,name=is_legal_entity,json=isLegalEntity,proto3,oneof" json:"is_legal_entity,omitempty"`                                               // 是否法人实体：1=是（集团/子公司），0=否（分公司/事业部）
+	BusinessScope    *string                `protobuf:"bytes,5,opt,name=business_scope,json=businessScope,proto3,oneof" json:"business_scope,omitempty"`                                                  // 核心业务范围（如“新能源汽车研发与生产”）
+	CreditCode       *string                `protobuf:"bytes,6,opt,name=credit_code,json=creditCode,proto3,oneof" json:"credit_code,omitempty"`                                                           // 统一社会信用代码
+	Address          *string                `protobuf:"bytes,7,opt,name=address,proto3,oneof" json:"address,omitempty"`                                                                                   // 注册地址
+	SortId           *int32                 `protobuf:"varint,10,opt,name=sort_id,json=sortId,proto3,oneof" json:"sort_id,omitempty"`                                                                     // 排序编号
+	Status           *Organization_Status   `protobuf:"varint,11,opt,name=status,proto3,enum=user.service.v1.Organization_Status,oneof" json:"status,omitempty"`                                          // 状态
+	Remark           *string                `protobuf:"bytes,12,opt,name=remark,proto3,oneof" json:"remark,omitempty"`                                                                                    // 备注
+	TenantId         *uint32                `protobuf:"varint,13,opt,name=tenant_id,json=tenantId,proto3,oneof" json:"tenant_id,omitempty"`                                                               // 租户ID
+	ManagerId        *uint32                `protobuf:"varint,14,opt,name=manager_id,json=managerId,proto3,oneof" json:"manager_id,omitempty"`                                                            // 负责人ID
+	ManagerName      *string                `protobuf:"bytes,15,opt,name=manager_name,json=managerName,proto3,oneof" json:"manager_name,omitempty"`                                                       // 负责人名称
+	ParentId         *uint32                `protobuf:"varint,50,opt,name=parent_id,json=parentId,proto3,oneof" json:"parent_id,omitempty"`                                                               // 父节点ID
+	Children         []*Organization        `protobuf:"bytes,51,rep,name=children,proto3" json:"children,omitempty"`                                                                                      // 子节点树
+	CreateBy         *uint32                `protobuf:"varint,100,opt,name=create_by,json=createBy,proto3,oneof" json:"create_by,omitempty"`                                                              // 创建者ID
+	UpdateBy         *uint32                `protobuf:"varint,101,opt,name=update_by,json=updateBy,proto3,oneof" json:"update_by,omitempty"`                                                              // 更新者ID
+	CreateTime       *timestamppb.Timestamp `protobuf:"bytes,200,opt,name=create_time,json=createTime,proto3,oneof" json:"create_time,omitempty"`                                                         // 创建时间
+	UpdateTime       *timestamppb.Timestamp `protobuf:"bytes,201,opt,name=update_time,json=updateTime,proto3,oneof" json:"update_time,omitempty"`                                                         // 更新时间
+	DeleteTime       *timestamppb.Timestamp `protobuf:"bytes,202,opt,name=delete_time,json=deleteTime,proto3,oneof" json:"delete_time,omitempty"`                                                         // 删除时间
 	unknownFields    protoimpl.UnknownFields
 	sizeCache        protoimpl.SizeCache
 }
@@ -203,11 +203,11 @@ func (x *Organization) GetName() string {
 	return ""
 }
 
-func (x *Organization) GetOrganizationType() OrganizationType {
+func (x *Organization) GetOrganizationType() Organization_Type {
 	if x != nil && x.OrganizationType != nil {
 		return *x.OrganizationType
 	}
-	return OrganizationType_ORGANIZATION_TYPE_UNSPECIFIED
+	return Organization_ORGANIZATION_TYPE_UNSPECIFIED
 }
 
 func (x *Organization) GetIsLegalEntity() bool {
@@ -245,11 +245,11 @@ func (x *Organization) GetSortId() int32 {
 	return 0
 }
 
-func (x *Organization) GetStatus() OrganizationStatus {
+func (x *Organization) GetStatus() Organization_Status {
 	if x != nil && x.Status != nil {
 		return *x.Status
 	}
-	return OrganizationStatus_ORGANIZATION_STATUS_UNSPECIFIED
+	return Organization_ORGANIZATION_STATUS_UNSPECIFIED
 }
 
 func (x *Organization) GetRemark() string {
@@ -670,19 +670,19 @@ var File_user_service_v1_organization_proto protoreflect.FileDescriptor
 
 const file_user_service_v1_organization_proto_rawDesc = "" +
 	"\n" +
-	"\"user/service/v1/organization.proto\x12\x0fuser.service.v1\x1a$gnostic/openapi/v3/annotations.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a google/protobuf/field_mask.proto\x1a\x1epagination/v1/pagination.proto\"\x97\r\n" +
+	"\"user/service/v1/organization.proto\x12\x0fuser.service.v1\x1a$gnostic/openapi/v3/annotations.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a google/protobuf/field_mask.proto\x1a\x1epagination/v1/pagination.proto\"\xba\x0e\n" +
 	"\fOrganization\x12#\n" +
 	"\x02id\x18\x01 \x01(\rB\x0e\xbaG\v\x92\x02\b组织IDH\x00R\x02id\x88\x01\x01\x12+\n" +
-	"\x04name\x18\x02 \x01(\tB\x12\xbaG\x0f\x92\x02\f组织名称H\x01R\x04name\x88\x01\x01\x12g\n" +
-	"\x11organization_type\x18\x03 \x01(\x0e2!.user.service.v1.OrganizationTypeB\x12\xbaG\x0f\x92\x02\f组织类型H\x02R\x10organizationType\x88\x01\x01\x12\x84\x01\n" +
+	"\x04name\x18\x02 \x01(\tB\x12\xbaG\x0f\x92\x02\f组织名称H\x01R\x04name\x88\x01\x01\x12h\n" +
+	"\x11organization_type\x18\x03 \x01(\x0e2\".user.service.v1.Organization.TypeB\x12\xbaG\x0f\x92\x02\f组织类型H\x02R\x10organizationType\x88\x01\x01\x12\x84\x01\n" +
 	"\x0fis_legal_entity\x18\x04 \x01(\bBW\xbaGT\x92\x02Q是否法人实体：1=是（集团/子公司），0=否（分公司/事业部）H\x03R\risLegalEntity\x88\x01\x01\x12q\n" +
 	"\x0ebusiness_scope\x18\x05 \x01(\tBE\xbaGB\x92\x02?核心业务范围（如“新能源汽车研发与生产”）H\x04R\rbusinessScope\x88\x01\x01\x12D\n" +
 	"\vcredit_code\x18\x06 \x01(\tB\x1e\xbaG\x1b\x92\x02\x18统一社会信用代码H\x05R\n" +
 	"creditCode\x88\x01\x01\x121\n" +
 	"\aaddress\x18\a \x01(\tB\x12\xbaG\x0f\x92\x02\f注册地址H\x06R\aaddress\x88\x01\x01\x120\n" +
 	"\asort_id\x18\n" +
-	" \x01(\x05B\x12\xbaG\x0f\x92\x02\f排序编号H\aR\x06sortId\x88\x01\x01\x12N\n" +
-	"\x06status\x18\v \x01(\x0e2#.user.service.v1.OrganizationStatusB\f\xbaG\t\x92\x02\x06状态H\bR\x06status\x88\x01\x01\x12)\n" +
+	" \x01(\x05B\x12\xbaG\x0f\x92\x02\f排序编号H\aR\x06sortId\x88\x01\x01\x12O\n" +
+	"\x06status\x18\v \x01(\x0e2$.user.service.v1.Organization.StatusB\f\xbaG\t\x92\x02\x06状态H\bR\x06status\x88\x01\x01\x12)\n" +
 	"\x06remark\x18\f \x01(\tB\f\xbaG\t\x92\x02\x06备注H\tR\x06remark\x88\x01\x01\x120\n" +
 	"\ttenant_id\x18\r \x01(\rB\x0e\xbaG\v\x92\x02\b租户IDH\n" +
 	"R\btenantId\x88\x01\x01\x125\n" +
@@ -698,7 +698,18 @@ const file_user_service_v1_organization_proto_rawDesc = "" +
 	"\vupdate_time\x18\xc9\x01 \x01(\v2\x1a.google.protobuf.TimestampB\x12\xbaG\x0f\x92\x02\f更新时间H\x11R\n" +
 	"updateTime\x88\x01\x01\x12U\n" +
 	"\vdelete_time\x18\xca\x01 \x01(\v2\x1a.google.protobuf.TimestampB\x12\xbaG\x0f\x92\x02\f删除时间H\x12R\n" +
-	"deleteTime\x88\x01\x01B\x05\n" +
+	"deleteTime\x88\x01\x01\"_\n" +
+	"\x04Type\x12!\n" +
+	"\x1dORGANIZATION_TYPE_UNSPECIFIED\x10\x00\x12\t\n" +
+	"\x05GROUP\x10\x01\x12\x0e\n" +
+	"\n" +
+	"SUBSIDIARY\x10\x02\x12\v\n" +
+	"\aFILIALE\x10\x03\x12\f\n" +
+	"\bDIVISION\x10\x04\">\n" +
+	"\x06Status\x12#\n" +
+	"\x1fORGANIZATION_STATUS_UNSPECIFIED\x10\x00\x12\x06\n" +
+	"\x02ON\x10\x01\x12\a\n" +
+	"\x03OFF\x10\x02B\x05\n" +
 	"\x03_idB\a\n" +
 	"\x05_nameB\x14\n" +
 	"\x12_organization_typeB\x12\n" +
@@ -742,17 +753,7 @@ const file_user_service_v1_organization_proto_rawDesc = "" +
 	"\x1fBatchCreateOrganizationsRequest\x121\n" +
 	"\x04data\x18\x01 \x03(\v2\x1d.user.service.v1.OrganizationR\x04data\"U\n" +
 	" BatchCreateOrganizationsResponse\x121\n" +
-	"\x04data\x18\x01 \x03(\v2\x1d.user.service.v1.OrganizationR\x04data*\xb3\x01\n" +
-	"\x10OrganizationType\x12!\n" +
-	"\x1dORGANIZATION_TYPE_UNSPECIFIED\x10\x00\x12\x1b\n" +
-	"\x17ORGANIZATION_TYPE_GROUP\x10\x01\x12 \n" +
-	"\x1cORGANIZATION_TYPE_SUBSIDIARY\x10\x02\x12\x1d\n" +
-	"\x19ORGANIZATION_TYPE_FILIALE\x10\x03\x12\x1e\n" +
-	"\x1aORGANIZATION_TYPE_DIVISION\x10\x04*r\n" +
-	"\x12OrganizationStatus\x12#\n" +
-	"\x1fORGANIZATION_STATUS_UNSPECIFIED\x10\x00\x12\x1a\n" +
-	"\x16ORGANIZATION_STATUS_ON\x10\x01\x12\x1b\n" +
-	"\x17ORGANIZATION_STATUS_OFF\x10\x022\x9c\x04\n" +
+	"\x04data\x18\x01 \x03(\v2\x1d.user.service.v1.OrganizationR\x04data2\x9c\x04\n" +
 	"\x13OrganizationService\x12N\n" +
 	"\x04List\x12\x19.pagination.PagingRequest\x1a).user.service.v1.ListOrganizationResponse\"\x00\x12O\n" +
 	"\x03Get\x12'.user.service.v1.GetOrganizationRequest\x1a\x1d.user.service.v1.Organization\"\x00\x12N\n" +
@@ -777,8 +778,8 @@ func file_user_service_v1_organization_proto_rawDescGZIP() []byte {
 var file_user_service_v1_organization_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
 var file_user_service_v1_organization_proto_msgTypes = make([]protoimpl.MessageInfo, 8)
 var file_user_service_v1_organization_proto_goTypes = []any{
-	(OrganizationType)(0),                    // 0: user.service.v1.OrganizationType
-	(OrganizationStatus)(0),                  // 1: user.service.v1.OrganizationStatus
+	(Organization_Type)(0),                   // 0: user.service.v1.Organization.Type
+	(Organization_Status)(0),                 // 1: user.service.v1.Organization.Status
 	(*Organization)(nil),                     // 2: user.service.v1.Organization
 	(*ListOrganizationResponse)(nil),         // 3: user.service.v1.ListOrganizationResponse
 	(*GetOrganizationRequest)(nil),           // 4: user.service.v1.GetOrganizationRequest
@@ -793,8 +794,8 @@ var file_user_service_v1_organization_proto_goTypes = []any{
 	(*emptypb.Empty)(nil),                    // 13: google.protobuf.Empty
 }
 var file_user_service_v1_organization_proto_depIdxs = []int32{
-	0,  // 0: user.service.v1.Organization.organization_type:type_name -> user.service.v1.OrganizationType
-	1,  // 1: user.service.v1.Organization.status:type_name -> user.service.v1.OrganizationStatus
+	0,  // 0: user.service.v1.Organization.organization_type:type_name -> user.service.v1.Organization.Type
+	1,  // 1: user.service.v1.Organization.status:type_name -> user.service.v1.Organization.Status
 	2,  // 2: user.service.v1.Organization.children:type_name -> user.service.v1.Organization
 	10, // 3: user.service.v1.Organization.create_time:type_name -> google.protobuf.Timestamp
 	10, // 4: user.service.v1.Organization.update_time:type_name -> google.protobuf.Timestamp

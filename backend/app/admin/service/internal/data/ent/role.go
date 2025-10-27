@@ -25,8 +25,6 @@ type Role struct {
 	UpdateTime *time.Time `json:"update_time,omitempty"`
 	// 删除时间
 	DeleteTime *time.Time `json:"delete_time,omitempty"`
-	// 状态
-	Status *role.Status `json:"status,omitempty"`
 	// 创建者ID
 	CreateBy *uint32 `json:"create_by,omitempty"`
 	// 更新者ID
@@ -49,6 +47,8 @@ type Role struct {
 	Apis []uint32 `json:"apis,omitempty"`
 	// 数据权限范围
 	DataScope *role.DataScope `json:"data_scope,omitempty"`
+	// 角色状态
+	Status *role.Status `json:"status,omitempty"`
 	// Edges holds the relations/edges for other nodes in the graph.
 	// The values are being populated by the RoleQuery when eager-loading is set.
 	Edges        RoleEdges `json:"edges"`
@@ -95,7 +95,7 @@ func (*Role) scanValues(columns []string) ([]any, error) {
 			values[i] = new([]byte)
 		case role.FieldID, role.FieldCreateBy, role.FieldUpdateBy, role.FieldTenantID, role.FieldParentID, role.FieldSortID:
 			values[i] = new(sql.NullInt64)
-		case role.FieldStatus, role.FieldRemark, role.FieldName, role.FieldCode, role.FieldDataScope:
+		case role.FieldRemark, role.FieldName, role.FieldCode, role.FieldDataScope, role.FieldStatus:
 			values[i] = new(sql.NullString)
 		case role.FieldCreateTime, role.FieldUpdateTime, role.FieldDeleteTime:
 			values[i] = new(sql.NullTime)
@@ -140,13 +140,6 @@ func (_m *Role) assignValues(columns []string, values []any) error {
 			} else if value.Valid {
 				_m.DeleteTime = new(time.Time)
 				*_m.DeleteTime = value.Time
-			}
-		case role.FieldStatus:
-			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field status", values[i])
-			} else if value.Valid {
-				_m.Status = new(role.Status)
-				*_m.Status = role.Status(value.String)
 			}
 		case role.FieldCreateBy:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
@@ -227,6 +220,13 @@ func (_m *Role) assignValues(columns []string, values []any) error {
 				_m.DataScope = new(role.DataScope)
 				*_m.DataScope = role.DataScope(value.String)
 			}
+		case role.FieldStatus:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field status", values[i])
+			} else if value.Valid {
+				_m.Status = new(role.Status)
+				*_m.Status = role.Status(value.String)
+			}
 		default:
 			_m.selectValues.Set(columns[i], values[i])
 		}
@@ -288,11 +288,6 @@ func (_m *Role) String() string {
 		builder.WriteString(v.Format(time.ANSIC))
 	}
 	builder.WriteString(", ")
-	if v := _m.Status; v != nil {
-		builder.WriteString("status=")
-		builder.WriteString(fmt.Sprintf("%v", *v))
-	}
-	builder.WriteString(", ")
 	if v := _m.CreateBy; v != nil {
 		builder.WriteString("create_by=")
 		builder.WriteString(fmt.Sprintf("%v", *v))
@@ -341,6 +336,11 @@ func (_m *Role) String() string {
 	builder.WriteString(", ")
 	if v := _m.DataScope; v != nil {
 		builder.WriteString("data_scope=")
+		builder.WriteString(fmt.Sprintf("%v", *v))
+	}
+	builder.WriteString(", ")
+	if v := _m.Status; v != nil {
+		builder.WriteString("status=")
 		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteByte(')')

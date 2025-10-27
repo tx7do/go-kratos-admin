@@ -27,53 +27,53 @@ const (
 )
 
 // 部门状态
-type DepartmentStatus int32
+type Department_Status int32
 
 const (
-	DepartmentStatus_DEPARTMENT_STATUS_UNSPECIFIED DepartmentStatus = 0 // 未指定
-	DepartmentStatus_DEPARTMENT_STATUS_ON          DepartmentStatus = 1 // 启用
-	DepartmentStatus_DEPARTMENT_STATUS_OFF         DepartmentStatus = 2 // 停用
+	Department_DEPARTMENT_STATUS_UNSPECIFIED Department_Status = 0 // 未指定
+	Department_ON                            Department_Status = 1 // 启用
+	Department_OFF                           Department_Status = 2 // 停用
 )
 
-// Enum value maps for DepartmentStatus.
+// Enum value maps for Department_Status.
 var (
-	DepartmentStatus_name = map[int32]string{
+	Department_Status_name = map[int32]string{
 		0: "DEPARTMENT_STATUS_UNSPECIFIED",
-		1: "DEPARTMENT_STATUS_ON",
-		2: "DEPARTMENT_STATUS_OFF",
+		1: "ON",
+		2: "OFF",
 	}
-	DepartmentStatus_value = map[string]int32{
+	Department_Status_value = map[string]int32{
 		"DEPARTMENT_STATUS_UNSPECIFIED": 0,
-		"DEPARTMENT_STATUS_ON":          1,
-		"DEPARTMENT_STATUS_OFF":         2,
+		"ON":                            1,
+		"OFF":                           2,
 	}
 )
 
-func (x DepartmentStatus) Enum() *DepartmentStatus {
-	p := new(DepartmentStatus)
+func (x Department_Status) Enum() *Department_Status {
+	p := new(Department_Status)
 	*p = x
 	return p
 }
 
-func (x DepartmentStatus) String() string {
+func (x Department_Status) String() string {
 	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
 }
 
-func (DepartmentStatus) Descriptor() protoreflect.EnumDescriptor {
+func (Department_Status) Descriptor() protoreflect.EnumDescriptor {
 	return file_user_service_v1_department_proto_enumTypes[0].Descriptor()
 }
 
-func (DepartmentStatus) Type() protoreflect.EnumType {
+func (Department_Status) Type() protoreflect.EnumType {
 	return &file_user_service_v1_department_proto_enumTypes[0]
 }
 
-func (x DepartmentStatus) Number() protoreflect.EnumNumber {
+func (x Department_Status) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use DepartmentStatus.Descriptor instead.
-func (DepartmentStatus) EnumDescriptor() ([]byte, []int) {
-	return file_user_service_v1_department_proto_rawDescGZIP(), []int{0}
+// Deprecated: Use Department_Status.Descriptor instead.
+func (Department_Status) EnumDescriptor() ([]byte, []int) {
+	return file_user_service_v1_department_proto_rawDescGZIP(), []int{0, 0}
 }
 
 // 部门
@@ -88,7 +88,7 @@ type Department struct {
 	ManagerName      *string                `protobuf:"bytes,13,opt,name=manager_name,json=managerName,proto3,oneof" json:"manager_name,omitempty"`                // 负责人名称
 	TenantId         *uint32                `protobuf:"varint,14,opt,name=tenant_id,json=tenantId,proto3,oneof" json:"tenant_id,omitempty"`                        // 租户ID
 	SortId           *int32                 `protobuf:"varint,20,opt,name=sort_id,json=sortId,proto3,oneof" json:"sort_id,omitempty"`                              // 排序编号
-	Status           *DepartmentStatus      `protobuf:"varint,21,opt,name=status,proto3,enum=user.service.v1.DepartmentStatus,oneof" json:"status,omitempty"`      // 状态
+	Status           *Department_Status     `protobuf:"varint,21,opt,name=status,proto3,enum=user.service.v1.Department_Status,oneof" json:"status,omitempty"`     // 状态
 	Remark           *string                `protobuf:"bytes,22,opt,name=remark,proto3,oneof" json:"remark,omitempty"`                                             // 备注
 	ParentId         *uint32                `protobuf:"varint,50,opt,name=parent_id,json=parentId,proto3,oneof" json:"parent_id,omitempty"`                        // 父节点ID
 	Children         []*Department          `protobuf:"bytes,51,rep,name=children,proto3" json:"children,omitempty"`                                               // 子节点树
@@ -194,11 +194,11 @@ func (x *Department) GetSortId() int32 {
 	return 0
 }
 
-func (x *Department) GetStatus() DepartmentStatus {
+func (x *Department) GetStatus() Department_Status {
 	if x != nil && x.Status != nil {
 		return *x.Status
 	}
-	return DepartmentStatus_DEPARTMENT_STATUS_UNSPECIFIED
+	return Department_DEPARTMENT_STATUS_UNSPECIFIED
 }
 
 func (x *Department) GetRemark() string {
@@ -598,8 +598,7 @@ var File_user_service_v1_department_proto protoreflect.FileDescriptor
 
 const file_user_service_v1_department_proto_rawDesc = "" +
 	"\n" +
-	" user/service/v1/department.proto\x12\x0fuser.service.v1\x1a$gnostic/openapi/v3/annotations.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a google/protobuf/field_mask.proto\x1a\x1epagination/v1/pagination.proto\"\xe1\n" +
-	"\n" +
+	" user/service/v1/department.proto\x12\x0fuser.service.v1\x1a$gnostic/openapi/v3/annotations.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a google/protobuf/field_mask.proto\x1a\x1epagination/v1/pagination.proto\"\xa0\v\n" +
 	"\n" +
 	"Department\x12#\n" +
 	"\x02id\x18\x01 \x01(\rB\x0e\xbaG\v\x92\x02\b部门IDH\x00R\x02id\x88\x01\x01\x12+\n" +
@@ -612,8 +611,8 @@ const file_user_service_v1_department_proto_rawDesc = "" +
 	"manager_id\x18\f \x01(\rB\x11\xbaG\x0e\x92\x02\v负责人IDH\x05R\tmanagerId\x88\x01\x01\x12=\n" +
 	"\fmanager_name\x18\r \x01(\tB\x15\xbaG\x12\x92\x02\x0f负责人名称H\x06R\vmanagerName\x88\x01\x01\x120\n" +
 	"\ttenant_id\x18\x0e \x01(\rB\x0e\xbaG\v\x92\x02\b租户IDH\aR\btenantId\x88\x01\x01\x120\n" +
-	"\asort_id\x18\x14 \x01(\x05B\x12\xbaG\x0f\x92\x02\f排序编号H\bR\x06sortId\x88\x01\x01\x12L\n" +
-	"\x06status\x18\x15 \x01(\x0e2!.user.service.v1.DepartmentStatusB\f\xbaG\t\x92\x02\x06状态H\tR\x06status\x88\x01\x01\x12)\n" +
+	"\asort_id\x18\x14 \x01(\x05B\x12\xbaG\x0f\x92\x02\f排序编号H\bR\x06sortId\x88\x01\x01\x12M\n" +
+	"\x06status\x18\x15 \x01(\x0e2\".user.service.v1.Department.StatusB\f\xbaG\t\x92\x02\x06状态H\tR\x06status\x88\x01\x01\x12)\n" +
 	"\x06remark\x18\x16 \x01(\tB\f\xbaG\t\x92\x02\x06备注H\n" +
 	"R\x06remark\x88\x01\x01\x123\n" +
 	"\tparent_id\x182 \x01(\rB\x11\xbaG\x0e\x92\x02\v父节点IDH\vR\bparentId\x88\x01\x01\x12K\n" +
@@ -625,7 +624,11 @@ const file_user_service_v1_department_proto_rawDesc = "" +
 	"\vupdate_time\x18\xc9\x01 \x01(\v2\x1a.google.protobuf.TimestampB\x12\xbaG\x0f\x92\x02\f更新时间H\x0fR\n" +
 	"updateTime\x88\x01\x01\x12U\n" +
 	"\vdelete_time\x18\xca\x01 \x01(\v2\x1a.google.protobuf.TimestampB\x12\xbaG\x0f\x92\x02\f删除时间H\x10R\n" +
-	"deleteTime\x88\x01\x01B\x05\n" +
+	"deleteTime\x88\x01\x01\"<\n" +
+	"\x06Status\x12!\n" +
+	"\x1dDEPARTMENT_STATUS_UNSPECIFIED\x10\x00\x12\x06\n" +
+	"\x02ON\x10\x01\x12\a\n" +
+	"\x03OFF\x10\x02B\x05\n" +
 	"\x03_idB\a\n" +
 	"\x05_nameB\x0e\n" +
 	"\f_descriptionB\x12\n" +
@@ -666,11 +669,7 @@ const file_user_service_v1_department_proto_rawDesc = "" +
 	"\x1dBatchCreateDepartmentsRequest\x12/\n" +
 	"\x04data\x18\x01 \x03(\v2\x1b.user.service.v1.DepartmentR\x04data\"Q\n" +
 	"\x1eBatchCreateDepartmentsResponse\x12/\n" +
-	"\x04data\x18\x01 \x03(\v2\x1b.user.service.v1.DepartmentR\x04data*j\n" +
-	"\x10DepartmentStatus\x12!\n" +
-	"\x1dDEPARTMENT_STATUS_UNSPECIFIED\x10\x00\x12\x18\n" +
-	"\x14DEPARTMENT_STATUS_ON\x10\x01\x12\x19\n" +
-	"\x15DEPARTMENT_STATUS_OFF\x10\x022\x8a\x04\n" +
+	"\x04data\x18\x01 \x03(\v2\x1b.user.service.v1.DepartmentR\x04data2\x8a\x04\n" +
 	"\x11DepartmentService\x12L\n" +
 	"\x04List\x12\x19.pagination.PagingRequest\x1a'.user.service.v1.ListDepartmentResponse\"\x00\x12K\n" +
 	"\x03Get\x12%.user.service.v1.GetDepartmentRequest\x1a\x1b.user.service.v1.Department\"\x00\x12L\n" +
@@ -695,7 +694,7 @@ func file_user_service_v1_department_proto_rawDescGZIP() []byte {
 var file_user_service_v1_department_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
 var file_user_service_v1_department_proto_msgTypes = make([]protoimpl.MessageInfo, 8)
 var file_user_service_v1_department_proto_goTypes = []any{
-	(DepartmentStatus)(0),                  // 0: user.service.v1.DepartmentStatus
+	(Department_Status)(0),                 // 0: user.service.v1.Department.Status
 	(*Department)(nil),                     // 1: user.service.v1.Department
 	(*ListDepartmentResponse)(nil),         // 2: user.service.v1.ListDepartmentResponse
 	(*GetDepartmentRequest)(nil),           // 3: user.service.v1.GetDepartmentRequest
@@ -710,7 +709,7 @@ var file_user_service_v1_department_proto_goTypes = []any{
 	(*emptypb.Empty)(nil),                  // 12: google.protobuf.Empty
 }
 var file_user_service_v1_department_proto_depIdxs = []int32{
-	0,  // 0: user.service.v1.Department.status:type_name -> user.service.v1.DepartmentStatus
+	0,  // 0: user.service.v1.Department.status:type_name -> user.service.v1.Department.Status
 	1,  // 1: user.service.v1.Department.children:type_name -> user.service.v1.Department
 	9,  // 2: user.service.v1.Department.create_time:type_name -> google.protobuf.Timestamp
 	9,  // 3: user.service.v1.Department.update_time:type_name -> google.protobuf.Timestamp

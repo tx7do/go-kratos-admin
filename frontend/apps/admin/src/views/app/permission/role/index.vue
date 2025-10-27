@@ -12,11 +12,10 @@ import { notification } from 'ant-design-vue';
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
 import { $t } from '#/locales';
 import {
-  departmentStatusToColor,
-  departmentStatusToName,
   statusList,
-  statusToColor, statusToName,
-  useRoleStore
+  statusToColor,
+  statusToName,
+  useRoleStore,
 } from '#/stores';
 
 import RoleDrawer from './role-drawer.vue';
@@ -179,28 +178,6 @@ async function handleDelete(row: any) {
     notification.error({
       message: $t('ui.notification.delete_failed'),
     });
-  }
-}
-
-/* 修改角色状态 */
-async function handleStatusChanged(row: any, checked: boolean) {
-  console.log('handleStatusChanged', row.status, checked);
-
-  row.pending = true;
-  row.status = checked ? 'ON' : 'OFF';
-
-  try {
-    await roleStore.updateRole(row.id, { status: row.status });
-
-    notification.success({
-      message: $t('ui.notification.update_status_success'),
-    });
-  } catch {
-    notification.error({
-      message: $t('ui.notification.update_status_failed'),
-    });
-  } finally {
-    row.pending = false;
   }
 }
 </script>

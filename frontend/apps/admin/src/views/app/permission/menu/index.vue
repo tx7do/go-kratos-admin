@@ -191,28 +191,6 @@ async function handleDelete(row: any) {
   }
 }
 
-/* 修改菜单状态 */
-async function handleStatusChanged(row: any, checked: boolean) {
-  console.log('handleStatusChanged', row.status, checked);
-
-  row.pending = true;
-  row.status = checked ? 'ON' : 'OFF';
-
-  try {
-    await menuStore.updateMenu(row.id, { status: row.status });
-
-    notification.success({
-      message: $t('ui.notification.update_status_success'),
-    });
-  } catch {
-    notification.error({
-      message: $t('ui.notification.update_status_failed'),
-    });
-  } finally {
-    row.pending = false;
-  }
-}
-
 const expandAll = () => {
   gridApi.grid?.setAllTreeExpand(true);
 };

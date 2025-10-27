@@ -30,23 +30,31 @@ service RoleService {
   rpc BatchCreate ( BatchCreateRolesRequest ) returns ( BatchCreateRolesResponse ) {}
 }
 
-// 数据权限范围
-enum DataScope {
-  DATA_SCOPE_UNSPECIFIED = 0;
-
-  DATA_SCOPE_ALL = 1;            // 全部数据权限
-  DATA_SCOPE_CUSTOM = 2;         // 自定义数据权限
-  DATA_SCOPE_SELF = 3;           // 仅本人数据权限
-
-  DATA_SCOPE_ORG = 4;           // 本机构数据权限
-  DATA_SCOPE_ORG_AND_CHILD = 5; // 本机构及以下数据权限
-
-  DATA_SCOPE_DEPT = 6;           // 本部门数据权限
-  DATA_SCOPE_DEPT_AND_CHILD = 7; // 本部门及以下数据权限
-}
-
 // 角色
 message Role {
+  // 角色状态
+  enum Status {
+    ROLE_STATUS_UNSPECIFIED = 0;
+
+    ON = 1;          // 启用
+    OFF = 2;         // 禁用
+  }
+
+  // 数据权限范围
+  enum DataScope {
+    DATA_SCOPE_UNSPECIFIED = 0;
+
+    ALL = 1;            // 全部数据权限
+    CUSTOM = 2;         // 自定义数据权限
+    SELF = 3;           // 仅本人数据权限
+
+    ORG = 4;           // 本机构数据权限
+    ORG_AND_CHILD = 5; // 本机构及以下数据权限
+
+    DEPT = 6;           // 本部门数据权限
+    DEPT_AND_CHILD = 7; // 本部门及以下数据权限
+  }
+
   optional uint32 id = 1 [
     json_name = "id",
     (gnostic.openapi.v3.property) = {description: "角色ID"}
@@ -58,11 +66,7 @@ message Role {
 
   optional string code = 4 [json_name = "code", (gnostic.openapi.v3.property) = {description: "角色值"}];  // 角色值
 
-  optional string status = 5 [(gnostic.openapi.v3.property) = {
-    description: "状态"
-    default: { string: "ON" }
-    enum: [{yaml: "ON"}, {yaml: "OFF"}]
-  }];
+  optional Status status = 5 [(gnostic.openapi.v3.property) = {description: "状态"}, json_name = "status"];  // 状态
 
   optional string remark = 6 [json_name = "remark", (gnostic.openapi.v3.property) = {description: "备注"}];  // 备注
 

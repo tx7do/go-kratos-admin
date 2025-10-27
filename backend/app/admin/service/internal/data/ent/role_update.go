@@ -70,26 +70,6 @@ func (_u *RoleUpdate) ClearDeleteTime() *RoleUpdate {
 	return _u
 }
 
-// SetStatus sets the "status" field.
-func (_u *RoleUpdate) SetStatus(v role.Status) *RoleUpdate {
-	_u.mutation.SetStatus(v)
-	return _u
-}
-
-// SetNillableStatus sets the "status" field if the given value is not nil.
-func (_u *RoleUpdate) SetNillableStatus(v *role.Status) *RoleUpdate {
-	if v != nil {
-		_u.SetStatus(*v)
-	}
-	return _u
-}
-
-// ClearStatus clears the value of the "status" field.
-func (_u *RoleUpdate) ClearStatus() *RoleUpdate {
-	_u.mutation.ClearStatus()
-	return _u
-}
-
 // SetCreateBy sets the "create_by" field.
 func (_u *RoleUpdate) SetCreateBy(v uint32) *RoleUpdate {
 	_u.mutation.ResetCreateBy()
@@ -307,6 +287,26 @@ func (_u *RoleUpdate) ClearDataScope() *RoleUpdate {
 	return _u
 }
 
+// SetStatus sets the "status" field.
+func (_u *RoleUpdate) SetStatus(v role.Status) *RoleUpdate {
+	_u.mutation.SetStatus(v)
+	return _u
+}
+
+// SetNillableStatus sets the "status" field if the given value is not nil.
+func (_u *RoleUpdate) SetNillableStatus(v *role.Status) *RoleUpdate {
+	if v != nil {
+		_u.SetStatus(*v)
+	}
+	return _u
+}
+
+// ClearStatus clears the value of the "status" field.
+func (_u *RoleUpdate) ClearStatus() *RoleUpdate {
+	_u.mutation.ClearStatus()
+	return _u
+}
+
 // SetParent sets the "parent" edge to the Role entity.
 func (_u *RoleUpdate) SetParent(v *Role) *RoleUpdate {
 	return _u.SetParentID(v.ID)
@@ -388,11 +388,6 @@ func (_u *RoleUpdate) ExecX(ctx context.Context) {
 
 // check runs all checks and user-defined validators on the builder.
 func (_u *RoleUpdate) check() error {
-	if v, ok := _u.mutation.Status(); ok {
-		if err := role.StatusValidator(v); err != nil {
-			return &ValidationError{Name: "status", err: fmt.Errorf(`ent: validator failed for field "Role.status": %w`, err)}
-		}
-	}
 	if v, ok := _u.mutation.Name(); ok {
 		if err := role.NameValidator(v); err != nil {
 			return &ValidationError{Name: "name", err: fmt.Errorf(`ent: validator failed for field "Role.name": %w`, err)}
@@ -406,6 +401,11 @@ func (_u *RoleUpdate) check() error {
 	if v, ok := _u.mutation.DataScope(); ok {
 		if err := role.DataScopeValidator(v); err != nil {
 			return &ValidationError{Name: "data_scope", err: fmt.Errorf(`ent: validator failed for field "Role.data_scope": %w`, err)}
+		}
+	}
+	if v, ok := _u.mutation.Status(); ok {
+		if err := role.StatusValidator(v); err != nil {
+			return &ValidationError{Name: "status", err: fmt.Errorf(`ent: validator failed for field "Role.status": %w`, err)}
 		}
 	}
 	return nil
@@ -443,12 +443,6 @@ func (_u *RoleUpdate) sqlSave(ctx context.Context) (_node int, err error) {
 	}
 	if _u.mutation.DeleteTimeCleared() {
 		_spec.ClearField(role.FieldDeleteTime, field.TypeTime)
-	}
-	if value, ok := _u.mutation.Status(); ok {
-		_spec.SetField(role.FieldStatus, field.TypeEnum, value)
-	}
-	if _u.mutation.StatusCleared() {
-		_spec.ClearField(role.FieldStatus, field.TypeEnum)
 	}
 	if value, ok := _u.mutation.CreateBy(); ok {
 		_spec.SetField(role.FieldCreateBy, field.TypeUint32, value)
@@ -525,6 +519,12 @@ func (_u *RoleUpdate) sqlSave(ctx context.Context) (_node int, err error) {
 	}
 	if _u.mutation.DataScopeCleared() {
 		_spec.ClearField(role.FieldDataScope, field.TypeEnum)
+	}
+	if value, ok := _u.mutation.Status(); ok {
+		_spec.SetField(role.FieldStatus, field.TypeEnum, value)
+	}
+	if _u.mutation.StatusCleared() {
+		_spec.ClearField(role.FieldStatus, field.TypeEnum)
 	}
 	if _u.mutation.ParentCleared() {
 		edge := &sqlgraph.EdgeSpec{
@@ -659,26 +659,6 @@ func (_u *RoleUpdateOne) SetNillableDeleteTime(v *time.Time) *RoleUpdateOne {
 // ClearDeleteTime clears the value of the "delete_time" field.
 func (_u *RoleUpdateOne) ClearDeleteTime() *RoleUpdateOne {
 	_u.mutation.ClearDeleteTime()
-	return _u
-}
-
-// SetStatus sets the "status" field.
-func (_u *RoleUpdateOne) SetStatus(v role.Status) *RoleUpdateOne {
-	_u.mutation.SetStatus(v)
-	return _u
-}
-
-// SetNillableStatus sets the "status" field if the given value is not nil.
-func (_u *RoleUpdateOne) SetNillableStatus(v *role.Status) *RoleUpdateOne {
-	if v != nil {
-		_u.SetStatus(*v)
-	}
-	return _u
-}
-
-// ClearStatus clears the value of the "status" field.
-func (_u *RoleUpdateOne) ClearStatus() *RoleUpdateOne {
-	_u.mutation.ClearStatus()
 	return _u
 }
 
@@ -899,6 +879,26 @@ func (_u *RoleUpdateOne) ClearDataScope() *RoleUpdateOne {
 	return _u
 }
 
+// SetStatus sets the "status" field.
+func (_u *RoleUpdateOne) SetStatus(v role.Status) *RoleUpdateOne {
+	_u.mutation.SetStatus(v)
+	return _u
+}
+
+// SetNillableStatus sets the "status" field if the given value is not nil.
+func (_u *RoleUpdateOne) SetNillableStatus(v *role.Status) *RoleUpdateOne {
+	if v != nil {
+		_u.SetStatus(*v)
+	}
+	return _u
+}
+
+// ClearStatus clears the value of the "status" field.
+func (_u *RoleUpdateOne) ClearStatus() *RoleUpdateOne {
+	_u.mutation.ClearStatus()
+	return _u
+}
+
 // SetParent sets the "parent" edge to the Role entity.
 func (_u *RoleUpdateOne) SetParent(v *Role) *RoleUpdateOne {
 	return _u.SetParentID(v.ID)
@@ -993,11 +993,6 @@ func (_u *RoleUpdateOne) ExecX(ctx context.Context) {
 
 // check runs all checks and user-defined validators on the builder.
 func (_u *RoleUpdateOne) check() error {
-	if v, ok := _u.mutation.Status(); ok {
-		if err := role.StatusValidator(v); err != nil {
-			return &ValidationError{Name: "status", err: fmt.Errorf(`ent: validator failed for field "Role.status": %w`, err)}
-		}
-	}
 	if v, ok := _u.mutation.Name(); ok {
 		if err := role.NameValidator(v); err != nil {
 			return &ValidationError{Name: "name", err: fmt.Errorf(`ent: validator failed for field "Role.name": %w`, err)}
@@ -1011,6 +1006,11 @@ func (_u *RoleUpdateOne) check() error {
 	if v, ok := _u.mutation.DataScope(); ok {
 		if err := role.DataScopeValidator(v); err != nil {
 			return &ValidationError{Name: "data_scope", err: fmt.Errorf(`ent: validator failed for field "Role.data_scope": %w`, err)}
+		}
+	}
+	if v, ok := _u.mutation.Status(); ok {
+		if err := role.StatusValidator(v); err != nil {
+			return &ValidationError{Name: "status", err: fmt.Errorf(`ent: validator failed for field "Role.status": %w`, err)}
 		}
 	}
 	return nil
@@ -1065,12 +1065,6 @@ func (_u *RoleUpdateOne) sqlSave(ctx context.Context) (_node *Role, err error) {
 	}
 	if _u.mutation.DeleteTimeCleared() {
 		_spec.ClearField(role.FieldDeleteTime, field.TypeTime)
-	}
-	if value, ok := _u.mutation.Status(); ok {
-		_spec.SetField(role.FieldStatus, field.TypeEnum, value)
-	}
-	if _u.mutation.StatusCleared() {
-		_spec.ClearField(role.FieldStatus, field.TypeEnum)
 	}
 	if value, ok := _u.mutation.CreateBy(); ok {
 		_spec.SetField(role.FieldCreateBy, field.TypeUint32, value)
@@ -1147,6 +1141,12 @@ func (_u *RoleUpdateOne) sqlSave(ctx context.Context) (_node *Role, err error) {
 	}
 	if _u.mutation.DataScopeCleared() {
 		_spec.ClearField(role.FieldDataScope, field.TypeEnum)
+	}
+	if value, ok := _u.mutation.Status(); ok {
+		_spec.SetField(role.FieldStatus, field.TypeEnum, value)
+	}
+	if _u.mutation.StatusCleared() {
+		_spec.ClearField(role.FieldStatus, field.TypeEnum)
 	}
 	if _u.mutation.ParentCleared() {
 		edge := &sqlgraph.EdgeSpec{

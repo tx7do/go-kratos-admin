@@ -27,8 +27,8 @@ type OrganizationRepo struct {
 	log  *log.Helper
 
 	mapper          *mapper.CopierMapper[userV1.Organization, ent.Organization]
-	typeConverter   *mapper.EnumTypeConverter[userV1.OrganizationType, organization.OrganizationType]
-	statusConverter *mapper.EnumTypeConverter[userV1.OrganizationStatus, organization.Status]
+	typeConverter   *mapper.EnumTypeConverter[userV1.Organization_Type, organization.OrganizationType]
+	statusConverter *mapper.EnumTypeConverter[userV1.Organization_Status, organization.Status]
 }
 
 func NewOrganizationRepo(data *Data, logger log.Logger) *OrganizationRepo {
@@ -36,8 +36,8 @@ func NewOrganizationRepo(data *Data, logger log.Logger) *OrganizationRepo {
 		log:             log.NewHelper(log.With(logger, "module", "organization/repo/admin-service")),
 		data:            data,
 		mapper:          mapper.NewCopierMapper[userV1.Organization, ent.Organization](),
-		typeConverter:   mapper.NewEnumTypeConverter[userV1.OrganizationType, organization.OrganizationType](userV1.OrganizationType_name, userV1.OrganizationType_value),
-		statusConverter: mapper.NewEnumTypeConverter[userV1.OrganizationStatus, organization.Status](userV1.OrganizationStatus_name, userV1.OrganizationStatus_value),
+		typeConverter:   mapper.NewEnumTypeConverter[userV1.Organization_Type, organization.OrganizationType](userV1.Organization_Type_name, userV1.Organization_Type_value),
+		statusConverter: mapper.NewEnumTypeConverter[userV1.Organization_Status, organization.Status](userV1.Organization_Status_name, userV1.Organization_Status_value),
 	}
 
 	repo.init()

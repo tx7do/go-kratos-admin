@@ -28,70 +28,70 @@ const (
 )
 
 // 后台登录限制类型
-type AdminLoginRestrictionType int32
+type AdminLoginRestriction_Type int32
 
 const (
-	AdminLoginRestrictionType_LOGIN_RESTRICTION_TYPE_UNSPECIFIED AdminLoginRestrictionType = 0 // 未知
-	AdminLoginRestrictionType_BLACKLIST                          AdminLoginRestrictionType = 1 // 黑名单
-	AdminLoginRestrictionType_WHITELIST                          AdminLoginRestrictionType = 2 // 白名单
+	AdminLoginRestriction_LOGIN_RESTRICTION_TYPE_UNSPECIFIED AdminLoginRestriction_Type = 0 // 未知
+	AdminLoginRestriction_BLACKLIST                          AdminLoginRestriction_Type = 1 // 黑名单
+	AdminLoginRestriction_WHITELIST                          AdminLoginRestriction_Type = 2 // 白名单
 )
 
-// Enum value maps for AdminLoginRestrictionType.
+// Enum value maps for AdminLoginRestriction_Type.
 var (
-	AdminLoginRestrictionType_name = map[int32]string{
+	AdminLoginRestriction_Type_name = map[int32]string{
 		0: "LOGIN_RESTRICTION_TYPE_UNSPECIFIED",
 		1: "BLACKLIST",
 		2: "WHITELIST",
 	}
-	AdminLoginRestrictionType_value = map[string]int32{
+	AdminLoginRestriction_Type_value = map[string]int32{
 		"LOGIN_RESTRICTION_TYPE_UNSPECIFIED": 0,
 		"BLACKLIST":                          1,
 		"WHITELIST":                          2,
 	}
 )
 
-func (x AdminLoginRestrictionType) Enum() *AdminLoginRestrictionType {
-	p := new(AdminLoginRestrictionType)
+func (x AdminLoginRestriction_Type) Enum() *AdminLoginRestriction_Type {
+	p := new(AdminLoginRestriction_Type)
 	*p = x
 	return p
 }
 
-func (x AdminLoginRestrictionType) String() string {
+func (x AdminLoginRestriction_Type) String() string {
 	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
 }
 
-func (AdminLoginRestrictionType) Descriptor() protoreflect.EnumDescriptor {
+func (AdminLoginRestriction_Type) Descriptor() protoreflect.EnumDescriptor {
 	return file_admin_service_v1_i_admin_login_restriction_proto_enumTypes[0].Descriptor()
 }
 
-func (AdminLoginRestrictionType) Type() protoreflect.EnumType {
+func (AdminLoginRestriction_Type) Type() protoreflect.EnumType {
 	return &file_admin_service_v1_i_admin_login_restriction_proto_enumTypes[0]
 }
 
-func (x AdminLoginRestrictionType) Number() protoreflect.EnumNumber {
+func (x AdminLoginRestriction_Type) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use AdminLoginRestrictionType.Descriptor instead.
-func (AdminLoginRestrictionType) EnumDescriptor() ([]byte, []int) {
-	return file_admin_service_v1_i_admin_login_restriction_proto_rawDescGZIP(), []int{0}
+// Deprecated: Use AdminLoginRestriction_Type.Descriptor instead.
+func (AdminLoginRestriction_Type) EnumDescriptor() ([]byte, []int) {
+	return file_admin_service_v1_i_admin_login_restriction_proto_rawDescGZIP(), []int{0, 0}
 }
 
 // 后台登录限制方式
-type AdminLoginRestrictionMethod int32
+type AdminLoginRestriction_Method int32
 
 const (
-	AdminLoginRestrictionMethod_LOGIN_RESTRICTION_METHOD_UNSPECIFIED AdminLoginRestrictionMethod = 0 // 未知
-	AdminLoginRestrictionMethod_IP                                   AdminLoginRestrictionMethod = 1 // IP地址限制
-	AdminLoginRestrictionMethod_MAC                                  AdminLoginRestrictionMethod = 2 // MAC地址限制，绑定设备的MAC地址。
-	AdminLoginRestrictionMethod_REGION                               AdminLoginRestrictionMethod = 3 // 地区限制，根据地理位置（如国家、城市）限制登录。
-	AdminLoginRestrictionMethod_TIME                                 AdminLoginRestrictionMethod = 4 // 时间限制，限制登录的时间段，例如只允许工作时间登录。
-	AdminLoginRestrictionMethod_DEVICE                               AdminLoginRestrictionMethod = 5 // 设备限制，限制登录设备的类型（如PC、手机）或特定设备ID。
+	AdminLoginRestriction_LOGIN_RESTRICTION_METHOD_UNSPECIFIED AdminLoginRestriction_Method = 0 // 未知
+	AdminLoginRestriction_IP                                   AdminLoginRestriction_Method = 1 // IP地址限制
+	AdminLoginRestriction_MAC                                  AdminLoginRestriction_Method = 2 // MAC地址限制，绑定设备的MAC地址。
+	AdminLoginRestriction_REGION                               AdminLoginRestriction_Method = 3 // 地区限制，根据地理位置（如国家、城市）限制登录。
+	AdminLoginRestriction_TIME                                 AdminLoginRestriction_Method = 4 // 时间限制，限制登录的时间段，例如只允许工作时间登录。
+	AdminLoginRestriction_DEVICE                               AdminLoginRestriction_Method = 5 // 设备限制，限制登录设备的类型（如PC、手机）或特定设备ID。
 )
 
-// Enum value maps for AdminLoginRestrictionMethod.
+// Enum value maps for AdminLoginRestriction_Method.
 var (
-	AdminLoginRestrictionMethod_name = map[int32]string{
+	AdminLoginRestriction_Method_name = map[int32]string{
 		0: "LOGIN_RESTRICTION_METHOD_UNSPECIFIED",
 		1: "IP",
 		2: "MAC",
@@ -99,7 +99,7 @@ var (
 		4: "TIME",
 		5: "DEVICE",
 	}
-	AdminLoginRestrictionMethod_value = map[string]int32{
+	AdminLoginRestriction_Method_value = map[string]int32{
 		"LOGIN_RESTRICTION_METHOD_UNSPECIFIED": 0,
 		"IP":                                   1,
 		"MAC":                                  2,
@@ -109,47 +109,47 @@ var (
 	}
 )
 
-func (x AdminLoginRestrictionMethod) Enum() *AdminLoginRestrictionMethod {
-	p := new(AdminLoginRestrictionMethod)
+func (x AdminLoginRestriction_Method) Enum() *AdminLoginRestriction_Method {
+	p := new(AdminLoginRestriction_Method)
 	*p = x
 	return p
 }
 
-func (x AdminLoginRestrictionMethod) String() string {
+func (x AdminLoginRestriction_Method) String() string {
 	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
 }
 
-func (AdminLoginRestrictionMethod) Descriptor() protoreflect.EnumDescriptor {
+func (AdminLoginRestriction_Method) Descriptor() protoreflect.EnumDescriptor {
 	return file_admin_service_v1_i_admin_login_restriction_proto_enumTypes[1].Descriptor()
 }
 
-func (AdminLoginRestrictionMethod) Type() protoreflect.EnumType {
+func (AdminLoginRestriction_Method) Type() protoreflect.EnumType {
 	return &file_admin_service_v1_i_admin_login_restriction_proto_enumTypes[1]
 }
 
-func (x AdminLoginRestrictionMethod) Number() protoreflect.EnumNumber {
+func (x AdminLoginRestriction_Method) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use AdminLoginRestrictionMethod.Descriptor instead.
-func (AdminLoginRestrictionMethod) EnumDescriptor() ([]byte, []int) {
-	return file_admin_service_v1_i_admin_login_restriction_proto_rawDescGZIP(), []int{1}
+// Deprecated: Use AdminLoginRestriction_Method.Descriptor instead.
+func (AdminLoginRestriction_Method) EnumDescriptor() ([]byte, []int) {
+	return file_admin_service_v1_i_admin_login_restriction_proto_rawDescGZIP(), []int{0, 1}
 }
 
 // 后台登录限制
 type AdminLoginRestriction struct {
-	state         protoimpl.MessageState       `protogen:"open.v1"`
-	Id            *uint32                      `protobuf:"varint,1,opt,name=id,proto3,oneof" json:"id,omitempty"`                                                           // 后台登录限制ID
-	TargetId      *uint32                      `protobuf:"varint,2,opt,name=target_id,json=targetId,proto3,oneof" json:"target_id,omitempty"`                               // 目标用户ID
-	Type          *AdminLoginRestrictionType   `protobuf:"varint,3,opt,name=type,proto3,enum=admin.service.v1.AdminLoginRestrictionType,oneof" json:"type,omitempty"`       // 限制类型
-	Method        *AdminLoginRestrictionMethod `protobuf:"varint,4,opt,name=method,proto3,enum=admin.service.v1.AdminLoginRestrictionMethod,oneof" json:"method,omitempty"` // 限制方式
-	Value         *string                      `protobuf:"bytes,5,opt,name=value,proto3,oneof" json:"value,omitempty"`                                                      // 限制值（如IP地址、MAC地址或地区代码）
-	Reason        *string                      `protobuf:"bytes,6,opt,name=reason,proto3,oneof" json:"reason,omitempty"`                                                    // 限制原因
-	CreateBy      *uint32                      `protobuf:"varint,100,opt,name=create_by,json=createBy,proto3,oneof" json:"create_by,omitempty"`                             // 创建者ID
-	UpdateBy      *uint32                      `protobuf:"varint,101,opt,name=update_by,json=updateBy,proto3,oneof" json:"update_by,omitempty"`                             // 更新者ID
-	CreateTime    *timestamppb.Timestamp       `protobuf:"bytes,200,opt,name=create_time,json=createTime,proto3,oneof" json:"create_time,omitempty"`                        // 创建时间
-	UpdateTime    *timestamppb.Timestamp       `protobuf:"bytes,201,opt,name=update_time,json=updateTime,proto3,oneof" json:"update_time,omitempty"`                        // 更新时间
-	DeleteTime    *timestamppb.Timestamp       `protobuf:"bytes,202,opt,name=delete_time,json=deleteTime,proto3,oneof" json:"delete_time,omitempty"`                        // 删除时间
+	state         protoimpl.MessageState        `protogen:"open.v1"`
+	Id            *uint32                       `protobuf:"varint,1,opt,name=id,proto3,oneof" json:"id,omitempty"`                                                            // 后台登录限制ID
+	TargetId      *uint32                       `protobuf:"varint,2,opt,name=target_id,json=targetId,proto3,oneof" json:"target_id,omitempty"`                                // 目标用户ID
+	Type          *AdminLoginRestriction_Type   `protobuf:"varint,3,opt,name=type,proto3,enum=admin.service.v1.AdminLoginRestriction_Type,oneof" json:"type,omitempty"`       // 限制类型
+	Method        *AdminLoginRestriction_Method `protobuf:"varint,4,opt,name=method,proto3,enum=admin.service.v1.AdminLoginRestriction_Method,oneof" json:"method,omitempty"` // 限制方式
+	Value         *string                       `protobuf:"bytes,5,opt,name=value,proto3,oneof" json:"value,omitempty"`                                                       // 限制值（如IP地址、MAC地址或地区代码）
+	Reason        *string                       `protobuf:"bytes,6,opt,name=reason,proto3,oneof" json:"reason,omitempty"`                                                     // 限制原因
+	CreateBy      *uint32                       `protobuf:"varint,100,opt,name=create_by,json=createBy,proto3,oneof" json:"create_by,omitempty"`                              // 创建者ID
+	UpdateBy      *uint32                       `protobuf:"varint,101,opt,name=update_by,json=updateBy,proto3,oneof" json:"update_by,omitempty"`                              // 更新者ID
+	CreateTime    *timestamppb.Timestamp        `protobuf:"bytes,200,opt,name=create_time,json=createTime,proto3,oneof" json:"create_time,omitempty"`                         // 创建时间
+	UpdateTime    *timestamppb.Timestamp        `protobuf:"bytes,201,opt,name=update_time,json=updateTime,proto3,oneof" json:"update_time,omitempty"`                         // 更新时间
+	DeleteTime    *timestamppb.Timestamp        `protobuf:"bytes,202,opt,name=delete_time,json=deleteTime,proto3,oneof" json:"delete_time,omitempty"`                         // 删除时间
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -198,18 +198,18 @@ func (x *AdminLoginRestriction) GetTargetId() uint32 {
 	return 0
 }
 
-func (x *AdminLoginRestriction) GetType() AdminLoginRestrictionType {
+func (x *AdminLoginRestriction) GetType() AdminLoginRestriction_Type {
 	if x != nil && x.Type != nil {
 		return *x.Type
 	}
-	return AdminLoginRestrictionType_LOGIN_RESTRICTION_TYPE_UNSPECIFIED
+	return AdminLoginRestriction_LOGIN_RESTRICTION_TYPE_UNSPECIFIED
 }
 
-func (x *AdminLoginRestriction) GetMethod() AdminLoginRestrictionMethod {
+func (x *AdminLoginRestriction) GetMethod() AdminLoginRestriction_Method {
 	if x != nil && x.Method != nil {
 		return *x.Method
 	}
-	return AdminLoginRestrictionMethod_LOGIN_RESTRICTION_METHOD_UNSPECIFIED
+	return AdminLoginRestriction_LOGIN_RESTRICTION_METHOD_UNSPECIFIED
 }
 
 func (x *AdminLoginRestriction) GetValue() string {
@@ -514,12 +514,12 @@ var File_admin_service_v1_i_admin_login_restriction_proto protoreflect.FileDescr
 
 const file_admin_service_v1_i_admin_login_restriction_proto_rawDesc = "" +
 	"\n" +
-	"0admin/service/v1/i_admin_login_restriction.proto\x12\x10admin.service.v1\x1a$gnostic/openapi/v3/annotations.proto\x1a\x1cgoogle/api/annotations.proto\x1a\x1fgoogle/api/field_behavior.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a google/protobuf/field_mask.proto\x1a\x1epagination/v1/pagination.proto\"\xbf\a\n" +
+	"0admin/service/v1/i_admin_login_restriction.proto\x12\x10admin.service.v1\x1a$gnostic/openapi/v3/annotations.proto\x1a\x1cgoogle/api/annotations.proto\x1a\x1fgoogle/api/field_behavior.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a google/protobuf/field_mask.proto\x1a\x1epagination/v1/pagination.proto\"\xf6\b\n" +
 	"\x15AdminLoginRestriction\x122\n" +
 	"\x02id\x18\x01 \x01(\rB\x1d\xe0A\x01\xbaG\x17\x92\x02\x14后台登录限制IDH\x00R\x02id\x88\x01\x01\x126\n" +
-	"\ttarget_id\x18\x02 \x01(\rB\x14\xbaG\x11\x92\x02\x0e目标用户IDH\x01R\btargetId\x88\x01\x01\x12X\n" +
-	"\x04type\x18\x03 \x01(\x0e2+.admin.service.v1.AdminLoginRestrictionTypeB\x12\xbaG\x0f\x92\x02\f限制类型H\x02R\x04type\x88\x01\x01\x12^\n" +
-	"\x06method\x18\x04 \x01(\x0e2-.admin.service.v1.AdminLoginRestrictionMethodB\x12\xbaG\x0f\x92\x02\f限制方式H\x03R\x06method\x88\x01\x01\x12V\n" +
+	"\ttarget_id\x18\x02 \x01(\rB\x14\xbaG\x11\x92\x02\x0e目标用户IDH\x01R\btargetId\x88\x01\x01\x12Y\n" +
+	"\x04type\x18\x03 \x01(\x0e2,.admin.service.v1.AdminLoginRestriction.TypeB\x12\xbaG\x0f\x92\x02\f限制类型H\x02R\x04type\x88\x01\x01\x12_\n" +
+	"\x06method\x18\x04 \x01(\x0e2..admin.service.v1.AdminLoginRestriction.MethodB\x12\xbaG\x0f\x92\x02\f限制方式H\x03R\x06method\x88\x01\x01\x12V\n" +
 	"\x05value\x18\x05 \x01(\tB;\xbaG8\x92\x025限制值（如IP地址、MAC地址或地区代码）H\x04R\x05value\x88\x01\x01\x12/\n" +
 	"\x06reason\x18\x06 \x01(\tB\x12\xbaG\x0f\x92\x02\f限制原因H\x05R\x06reason\x88\x01\x01\x123\n" +
 	"\tcreate_by\x18d \x01(\rB\x11\xbaG\x0e\x92\x02\v创建者IDH\x06R\bcreateBy\x88\x01\x01\x123\n" +
@@ -530,7 +530,20 @@ const file_admin_service_v1_i_admin_login_restriction_proto_rawDesc = "" +
 	"updateTime\x88\x01\x01\x12U\n" +
 	"\vdelete_time\x18\xca\x01 \x01(\v2\x1a.google.protobuf.TimestampB\x12\xbaG\x0f\x92\x02\f删除时间H\n" +
 	"R\n" +
-	"deleteTime\x88\x01\x01B\x05\n" +
+	"deleteTime\x88\x01\x01\"L\n" +
+	"\x04Type\x12&\n" +
+	"\"LOGIN_RESTRICTION_TYPE_UNSPECIFIED\x10\x00\x12\r\n" +
+	"\tBLACKLIST\x10\x01\x12\r\n" +
+	"\tWHITELIST\x10\x02\"e\n" +
+	"\x06Method\x12(\n" +
+	"$LOGIN_RESTRICTION_METHOD_UNSPECIFIED\x10\x00\x12\x06\n" +
+	"\x02IP\x10\x01\x12\a\n" +
+	"\x03MAC\x10\x02\x12\n" +
+	"\n" +
+	"\x06REGION\x10\x03\x12\b\n" +
+	"\x04TIME\x10\x04\x12\n" +
+	"\n" +
+	"\x06DEVICE\x10\x05B\x05\n" +
 	"\x03_idB\f\n" +
 	"\n" +
 	"_target_idB\a\n" +
@@ -559,20 +572,7 @@ const file_admin_service_v1_i_admin_login_restriction_proto_rawDesc = "" +
 	"\rallow_missing\x18\x03 \x01(\bB\x89\x01\xbaG\x85\x01\x92\x02\x81\x01如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。H\x00R\fallowMissing\x88\x01\x01B\x10\n" +
 	"\x0e_allow_missing\"4\n" +
 	"\"DeleteAdminLoginRestrictionRequest\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\rR\x02id*a\n" +
-	"\x19AdminLoginRestrictionType\x12&\n" +
-	"\"LOGIN_RESTRICTION_TYPE_UNSPECIFIED\x10\x00\x12\r\n" +
-	"\tBLACKLIST\x10\x01\x12\r\n" +
-	"\tWHITELIST\x10\x02*z\n" +
-	"\x1bAdminLoginRestrictionMethod\x12(\n" +
-	"$LOGIN_RESTRICTION_METHOD_UNSPECIFIED\x10\x00\x12\x06\n" +
-	"\x02IP\x10\x01\x12\a\n" +
-	"\x03MAC\x10\x02\x12\n" +
-	"\n" +
-	"\x06REGION\x10\x03\x12\b\n" +
-	"\x04TIME\x10\x04\x12\n" +
-	"\n" +
-	"\x06DEVICE\x10\x052\xbc\x05\n" +
+	"\x02id\x18\x01 \x01(\rR\x02id2\xbc\x05\n" +
 	"\x1cAdminLoginRestrictionService\x12|\n" +
 	"\x04List\x12\x19.pagination.PagingRequest\x1a3.admin.service.v1.ListAdminLoginRestrictionResponse\"$\x82\xd3\xe4\x93\x02\x1e\x12\x1c/admin/v1/login-restrictions\x12\x8c\x01\n" +
 	"\x03Get\x121.admin.service.v1.GetAdminLoginRestrictionRequest\x1a'.admin.service.v1.AdminLoginRestriction\")\x82\xd3\xe4\x93\x02#\x12!/admin/v1/login-restrictions/{id}\x12\x7f\n" +
@@ -596,8 +596,8 @@ func file_admin_service_v1_i_admin_login_restriction_proto_rawDescGZIP() []byte 
 var file_admin_service_v1_i_admin_login_restriction_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
 var file_admin_service_v1_i_admin_login_restriction_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
 var file_admin_service_v1_i_admin_login_restriction_proto_goTypes = []any{
-	(AdminLoginRestrictionType)(0),             // 0: admin.service.v1.AdminLoginRestrictionType
-	(AdminLoginRestrictionMethod)(0),           // 1: admin.service.v1.AdminLoginRestrictionMethod
+	(AdminLoginRestriction_Type)(0),            // 0: admin.service.v1.AdminLoginRestriction.Type
+	(AdminLoginRestriction_Method)(0),          // 1: admin.service.v1.AdminLoginRestriction.Method
 	(*AdminLoginRestriction)(nil),              // 2: admin.service.v1.AdminLoginRestriction
 	(*ListAdminLoginRestrictionResponse)(nil),  // 3: admin.service.v1.ListAdminLoginRestrictionResponse
 	(*GetAdminLoginRestrictionRequest)(nil),    // 4: admin.service.v1.GetAdminLoginRestrictionRequest
@@ -610,8 +610,8 @@ var file_admin_service_v1_i_admin_login_restriction_proto_goTypes = []any{
 	(*emptypb.Empty)(nil),                      // 11: google.protobuf.Empty
 }
 var file_admin_service_v1_i_admin_login_restriction_proto_depIdxs = []int32{
-	0,  // 0: admin.service.v1.AdminLoginRestriction.type:type_name -> admin.service.v1.AdminLoginRestrictionType
-	1,  // 1: admin.service.v1.AdminLoginRestriction.method:type_name -> admin.service.v1.AdminLoginRestrictionMethod
+	0,  // 0: admin.service.v1.AdminLoginRestriction.type:type_name -> admin.service.v1.AdminLoginRestriction.Type
+	1,  // 1: admin.service.v1.AdminLoginRestriction.method:type_name -> admin.service.v1.AdminLoginRestriction.Method
 	8,  // 2: admin.service.v1.AdminLoginRestriction.create_time:type_name -> google.protobuf.Timestamp
 	8,  // 3: admin.service.v1.AdminLoginRestriction.update_time:type_name -> google.protobuf.Timestamp
 	8,  // 4: admin.service.v1.AdminLoginRestriction.delete_time:type_name -> google.protobuf.Timestamp

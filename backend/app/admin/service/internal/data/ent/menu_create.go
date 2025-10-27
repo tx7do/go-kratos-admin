@@ -23,20 +23,6 @@ type MenuCreate struct {
 	conflict []sql.ConflictOption
 }
 
-// SetStatus sets the "status" field.
-func (_c *MenuCreate) SetStatus(v menu.Status) *MenuCreate {
-	_c.mutation.SetStatus(v)
-	return _c
-}
-
-// SetNillableStatus sets the "status" field if the given value is not nil.
-func (_c *MenuCreate) SetNillableStatus(v *menu.Status) *MenuCreate {
-	if v != nil {
-		_c.SetStatus(*v)
-	}
-	return _c
-}
-
 // SetCreateTime sets the "create_time" field.
 func (_c *MenuCreate) SetCreateTime(v time.Time) *MenuCreate {
 	_c.mutation.SetCreateTime(v)
@@ -122,15 +108,29 @@ func (_c *MenuCreate) SetNillableRemark(v *string) *MenuCreate {
 }
 
 // SetParentID sets the "parent_id" field.
-func (_c *MenuCreate) SetParentID(v int32) *MenuCreate {
+func (_c *MenuCreate) SetParentID(v uint32) *MenuCreate {
 	_c.mutation.SetParentID(v)
 	return _c
 }
 
 // SetNillableParentID sets the "parent_id" field if the given value is not nil.
-func (_c *MenuCreate) SetNillableParentID(v *int32) *MenuCreate {
+func (_c *MenuCreate) SetNillableParentID(v *uint32) *MenuCreate {
 	if v != nil {
 		_c.SetParentID(*v)
+	}
+	return _c
+}
+
+// SetStatus sets the "status" field.
+func (_c *MenuCreate) SetStatus(v menu.Status) *MenuCreate {
+	_c.mutation.SetStatus(v)
+	return _c
+}
+
+// SetNillableStatus sets the "status" field if the given value is not nil.
+func (_c *MenuCreate) SetNillableStatus(v *menu.Status) *MenuCreate {
+	if v != nil {
+		_c.SetStatus(*v)
 	}
 	return _c
 }
@@ -226,7 +226,7 @@ func (_c *MenuCreate) SetMeta(v *servicev1.RouteMeta) *MenuCreate {
 }
 
 // SetID sets the "id" field.
-func (_c *MenuCreate) SetID(v int32) *MenuCreate {
+func (_c *MenuCreate) SetID(v uint32) *MenuCreate {
 	_c.mutation.SetID(v)
 	return _c
 }
@@ -237,14 +237,14 @@ func (_c *MenuCreate) SetParent(v *Menu) *MenuCreate {
 }
 
 // AddChildIDs adds the "children" edge to the Menu entity by IDs.
-func (_c *MenuCreate) AddChildIDs(ids ...int32) *MenuCreate {
+func (_c *MenuCreate) AddChildIDs(ids ...uint32) *MenuCreate {
 	_c.mutation.AddChildIDs(ids...)
 	return _c
 }
 
 // AddChildren adds the "children" edges to the Menu entity.
 func (_c *MenuCreate) AddChildren(v ...*Menu) *MenuCreate {
-	ids := make([]int32, len(v))
+	ids := make([]uint32, len(v))
 	for i := range v {
 		ids[i] = v[i].ID
 	}
@@ -286,13 +286,13 @@ func (_c *MenuCreate) ExecX(ctx context.Context) {
 
 // defaults sets the default values of the builder before save.
 func (_c *MenuCreate) defaults() {
-	if _, ok := _c.mutation.Status(); !ok {
-		v := menu.DefaultStatus
-		_c.mutation.SetStatus(v)
-	}
 	if _, ok := _c.mutation.Remark(); !ok {
 		v := menu.DefaultRemark
 		_c.mutation.SetRemark(v)
+	}
+	if _, ok := _c.mutation.Status(); !ok {
+		v := menu.DefaultStatus
+		_c.mutation.SetStatus(v)
 	}
 	if _, ok := _c.mutation.GetType(); !ok {
 		v := menu.DefaultType
@@ -346,7 +346,7 @@ func (_c *MenuCreate) sqlSave(ctx context.Context) (*Menu, error) {
 	}
 	if _spec.ID.Value != _node.ID {
 		id := _spec.ID.Value.(int64)
-		_node.ID = int32(id)
+		_node.ID = uint32(id)
 	}
 	_c.mutation.id = &_node.ID
 	_c.mutation.done = true
@@ -356,16 +356,12 @@ func (_c *MenuCreate) sqlSave(ctx context.Context) (*Menu, error) {
 func (_c *MenuCreate) createSpec() (*Menu, *sqlgraph.CreateSpec) {
 	var (
 		_node = &Menu{config: _c.config}
-		_spec = sqlgraph.NewCreateSpec(menu.Table, sqlgraph.NewFieldSpec(menu.FieldID, field.TypeInt32))
+		_spec = sqlgraph.NewCreateSpec(menu.Table, sqlgraph.NewFieldSpec(menu.FieldID, field.TypeUint32))
 	)
 	_spec.OnConflict = _c.conflict
 	if id, ok := _c.mutation.ID(); ok {
 		_node.ID = id
 		_spec.ID.Value = id
-	}
-	if value, ok := _c.mutation.Status(); ok {
-		_spec.SetField(menu.FieldStatus, field.TypeEnum, value)
-		_node.Status = &value
 	}
 	if value, ok := _c.mutation.CreateTime(); ok {
 		_spec.SetField(menu.FieldCreateTime, field.TypeTime, value)
@@ -390,6 +386,10 @@ func (_c *MenuCreate) createSpec() (*Menu, *sqlgraph.CreateSpec) {
 	if value, ok := _c.mutation.Remark(); ok {
 		_spec.SetField(menu.FieldRemark, field.TypeString, value)
 		_node.Remark = &value
+	}
+	if value, ok := _c.mutation.Status(); ok {
+		_spec.SetField(menu.FieldStatus, field.TypeEnum, value)
+		_node.Status = &value
 	}
 	if value, ok := _c.mutation.GetType(); ok {
 		_spec.SetField(menu.FieldType, field.TypeEnum, value)
@@ -427,7 +427,7 @@ func (_c *MenuCreate) createSpec() (*Menu, *sqlgraph.CreateSpec) {
 			Columns: []string{menu.ParentColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(menu.FieldID, field.TypeInt32),
+				IDSpec: sqlgraph.NewFieldSpec(menu.FieldID, field.TypeUint32),
 			},
 		}
 		for _, k := range nodes {
@@ -444,7 +444,7 @@ func (_c *MenuCreate) createSpec() (*Menu, *sqlgraph.CreateSpec) {
 			Columns: []string{menu.ChildrenColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(menu.FieldID, field.TypeInt32),
+				IDSpec: sqlgraph.NewFieldSpec(menu.FieldID, field.TypeUint32),
 			},
 		}
 		for _, k := range nodes {
@@ -459,7 +459,7 @@ func (_c *MenuCreate) createSpec() (*Menu, *sqlgraph.CreateSpec) {
 // of the `INSERT` statement. For example:
 //
 //	client.Menu.Create().
-//		SetStatus(v).
+//		SetCreateTime(v).
 //		OnConflict(
 //			// Update the row with the new values
 //			// the was proposed for insertion.
@@ -468,7 +468,7 @@ func (_c *MenuCreate) createSpec() (*Menu, *sqlgraph.CreateSpec) {
 //		// Override some of the fields with custom
 //		// update values.
 //		Update(func(u *ent.MenuUpsert) {
-//			SetStatus(v+v).
+//			SetCreateTime(v+v).
 //		}).
 //		Exec(ctx)
 func (_c *MenuCreate) OnConflict(opts ...sql.ConflictOption) *MenuUpsertOne {
@@ -503,24 +503,6 @@ type (
 		*sql.UpdateSet
 	}
 )
-
-// SetStatus sets the "status" field.
-func (u *MenuUpsert) SetStatus(v menu.Status) *MenuUpsert {
-	u.Set(menu.FieldStatus, v)
-	return u
-}
-
-// UpdateStatus sets the "status" field to the value that was provided on create.
-func (u *MenuUpsert) UpdateStatus() *MenuUpsert {
-	u.SetExcluded(menu.FieldStatus)
-	return u
-}
-
-// ClearStatus clears the value of the "status" field.
-func (u *MenuUpsert) ClearStatus() *MenuUpsert {
-	u.SetNull(menu.FieldStatus)
-	return u
-}
 
 // SetUpdateTime sets the "update_time" field.
 func (u *MenuUpsert) SetUpdateTime(v time.Time) *MenuUpsert {
@@ -625,7 +607,7 @@ func (u *MenuUpsert) ClearRemark() *MenuUpsert {
 }
 
 // SetParentID sets the "parent_id" field.
-func (u *MenuUpsert) SetParentID(v int32) *MenuUpsert {
+func (u *MenuUpsert) SetParentID(v uint32) *MenuUpsert {
 	u.Set(menu.FieldParentID, v)
 	return u
 }
@@ -639,6 +621,24 @@ func (u *MenuUpsert) UpdateParentID() *MenuUpsert {
 // ClearParentID clears the value of the "parent_id" field.
 func (u *MenuUpsert) ClearParentID() *MenuUpsert {
 	u.SetNull(menu.FieldParentID)
+	return u
+}
+
+// SetStatus sets the "status" field.
+func (u *MenuUpsert) SetStatus(v menu.Status) *MenuUpsert {
+	u.Set(menu.FieldStatus, v)
+	return u
+}
+
+// UpdateStatus sets the "status" field to the value that was provided on create.
+func (u *MenuUpsert) UpdateStatus() *MenuUpsert {
+	u.SetExcluded(menu.FieldStatus)
+	return u
+}
+
+// ClearStatus clears the value of the "status" field.
+func (u *MenuUpsert) ClearStatus() *MenuUpsert {
+	u.SetNull(menu.FieldStatus)
 	return u
 }
 
@@ -819,27 +819,6 @@ func (u *MenuUpsertOne) Update(set func(*MenuUpsert)) *MenuUpsertOne {
 	return u
 }
 
-// SetStatus sets the "status" field.
-func (u *MenuUpsertOne) SetStatus(v menu.Status) *MenuUpsertOne {
-	return u.Update(func(s *MenuUpsert) {
-		s.SetStatus(v)
-	})
-}
-
-// UpdateStatus sets the "status" field to the value that was provided on create.
-func (u *MenuUpsertOne) UpdateStatus() *MenuUpsertOne {
-	return u.Update(func(s *MenuUpsert) {
-		s.UpdateStatus()
-	})
-}
-
-// ClearStatus clears the value of the "status" field.
-func (u *MenuUpsertOne) ClearStatus() *MenuUpsertOne {
-	return u.Update(func(s *MenuUpsert) {
-		s.ClearStatus()
-	})
-}
-
 // SetUpdateTime sets the "update_time" field.
 func (u *MenuUpsertOne) SetUpdateTime(v time.Time) *MenuUpsertOne {
 	return u.Update(func(s *MenuUpsert) {
@@ -960,7 +939,7 @@ func (u *MenuUpsertOne) ClearRemark() *MenuUpsertOne {
 }
 
 // SetParentID sets the "parent_id" field.
-func (u *MenuUpsertOne) SetParentID(v int32) *MenuUpsertOne {
+func (u *MenuUpsertOne) SetParentID(v uint32) *MenuUpsertOne {
 	return u.Update(func(s *MenuUpsert) {
 		s.SetParentID(v)
 	})
@@ -977,6 +956,27 @@ func (u *MenuUpsertOne) UpdateParentID() *MenuUpsertOne {
 func (u *MenuUpsertOne) ClearParentID() *MenuUpsertOne {
 	return u.Update(func(s *MenuUpsert) {
 		s.ClearParentID()
+	})
+}
+
+// SetStatus sets the "status" field.
+func (u *MenuUpsertOne) SetStatus(v menu.Status) *MenuUpsertOne {
+	return u.Update(func(s *MenuUpsert) {
+		s.SetStatus(v)
+	})
+}
+
+// UpdateStatus sets the "status" field to the value that was provided on create.
+func (u *MenuUpsertOne) UpdateStatus() *MenuUpsertOne {
+	return u.Update(func(s *MenuUpsert) {
+		s.UpdateStatus()
+	})
+}
+
+// ClearStatus clears the value of the "status" field.
+func (u *MenuUpsertOne) ClearStatus() *MenuUpsertOne {
+	return u.Update(func(s *MenuUpsert) {
+		s.ClearStatus()
 	})
 }
 
@@ -1143,7 +1143,7 @@ func (u *MenuUpsertOne) ExecX(ctx context.Context) {
 }
 
 // Exec executes the UPSERT query and returns the inserted/updated ID.
-func (u *MenuUpsertOne) ID(ctx context.Context) (id int32, err error) {
+func (u *MenuUpsertOne) ID(ctx context.Context) (id uint32, err error) {
 	node, err := u.create.Save(ctx)
 	if err != nil {
 		return id, err
@@ -1152,7 +1152,7 @@ func (u *MenuUpsertOne) ID(ctx context.Context) (id int32, err error) {
 }
 
 // IDX is like ID, but panics if an error occurs.
-func (u *MenuUpsertOne) IDX(ctx context.Context) int32 {
+func (u *MenuUpsertOne) IDX(ctx context.Context) uint32 {
 	id, err := u.ID(ctx)
 	if err != nil {
 		panic(err)
@@ -1209,7 +1209,7 @@ func (_c *MenuCreateBulk) Save(ctx context.Context) ([]*Menu, error) {
 				mutation.id = &nodes[i].ID
 				if specs[i].ID.Value != nil && nodes[i].ID == 0 {
 					id := specs[i].ID.Value.(int64)
-					nodes[i].ID = int32(id)
+					nodes[i].ID = uint32(id)
 				}
 				mutation.done = true
 				return nodes[i], nil
@@ -1262,7 +1262,7 @@ func (_c *MenuCreateBulk) ExecX(ctx context.Context) {
 //		// Override some of the fields with custom
 //		// update values.
 //		Update(func(u *ent.MenuUpsert) {
-//			SetStatus(v+v).
+//			SetCreateTime(v+v).
 //		}).
 //		Exec(ctx)
 func (_c *MenuCreateBulk) OnConflict(opts ...sql.ConflictOption) *MenuUpsertBulk {
@@ -1342,27 +1342,6 @@ func (u *MenuUpsertBulk) Update(set func(*MenuUpsert)) *MenuUpsertBulk {
 		set(&MenuUpsert{UpdateSet: update})
 	}))
 	return u
-}
-
-// SetStatus sets the "status" field.
-func (u *MenuUpsertBulk) SetStatus(v menu.Status) *MenuUpsertBulk {
-	return u.Update(func(s *MenuUpsert) {
-		s.SetStatus(v)
-	})
-}
-
-// UpdateStatus sets the "status" field to the value that was provided on create.
-func (u *MenuUpsertBulk) UpdateStatus() *MenuUpsertBulk {
-	return u.Update(func(s *MenuUpsert) {
-		s.UpdateStatus()
-	})
-}
-
-// ClearStatus clears the value of the "status" field.
-func (u *MenuUpsertBulk) ClearStatus() *MenuUpsertBulk {
-	return u.Update(func(s *MenuUpsert) {
-		s.ClearStatus()
-	})
 }
 
 // SetUpdateTime sets the "update_time" field.
@@ -1485,7 +1464,7 @@ func (u *MenuUpsertBulk) ClearRemark() *MenuUpsertBulk {
 }
 
 // SetParentID sets the "parent_id" field.
-func (u *MenuUpsertBulk) SetParentID(v int32) *MenuUpsertBulk {
+func (u *MenuUpsertBulk) SetParentID(v uint32) *MenuUpsertBulk {
 	return u.Update(func(s *MenuUpsert) {
 		s.SetParentID(v)
 	})
@@ -1502,6 +1481,27 @@ func (u *MenuUpsertBulk) UpdateParentID() *MenuUpsertBulk {
 func (u *MenuUpsertBulk) ClearParentID() *MenuUpsertBulk {
 	return u.Update(func(s *MenuUpsert) {
 		s.ClearParentID()
+	})
+}
+
+// SetStatus sets the "status" field.
+func (u *MenuUpsertBulk) SetStatus(v menu.Status) *MenuUpsertBulk {
+	return u.Update(func(s *MenuUpsert) {
+		s.SetStatus(v)
+	})
+}
+
+// UpdateStatus sets the "status" field to the value that was provided on create.
+func (u *MenuUpsertBulk) UpdateStatus() *MenuUpsertBulk {
+	return u.Update(func(s *MenuUpsert) {
+		s.UpdateStatus()
+	})
+}
+
+// ClearStatus clears the value of the "status" field.
+func (u *MenuUpsertBulk) ClearStatus() *MenuUpsertBulk {
+	return u.Update(func(s *MenuUpsert) {
+		s.ClearStatus()
 	})
 }
 

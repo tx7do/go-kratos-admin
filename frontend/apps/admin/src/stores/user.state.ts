@@ -5,8 +5,8 @@ import { $t } from '@vben/locales';
 import { defineStore } from 'pinia';
 
 import {
-  UserAuthority,
-  UserGender,
+  User_Authority,
+  User_Gender, User_Status,
 } from '#/generated/api/user/service/v1/user.pb';
 import { defUserService } from '#/services';
 import { makeQueryString, makeUpdateMask } from '#/utils/query';
@@ -107,19 +107,19 @@ export const useUserStore = defineStore('user', () => {
 
 export const authorityList = computed(() => [
   {
-    value: UserAuthority.GUEST,
+    value: User_Authority.GUEST,
     label: $t('enum.authority.GUEST'),
   },
   {
-    value: UserAuthority.CUSTOMER_USER,
+    value: User_Authority.CUSTOMER_USER,
     label: $t('enum.authority.CUSTOMER_USER'),
   },
   {
-    value: UserAuthority.TENANT_ADMIN,
+    value: User_Authority.TENANT_ADMIN,
     label: $t('enum.authority.TENANT_ADMIN'),
   },
   {
-    value: UserAuthority.SYS_ADMIN,
+    value: User_Authority.SYS_ADMIN,
     label: $t('enum.authority.SYS_ADMIN'),
   },
 ]);
@@ -130,16 +130,16 @@ export const authorityList = computed(() => [
  */
 export function authorityToName(authority: any) {
   switch (authority) {
-    case UserAuthority.CUSTOMER_USER: {
+    case User_Authority.CUSTOMER_USER: {
       return $t('enum.authority.CUSTOMER_USER');
     }
-    case UserAuthority.GUEST: {
+    case User_Authority.GUEST: {
       return $t('enum.authority.GUEST');
     }
-    case UserAuthority.SYS_ADMIN: {
+    case User_Authority.SYS_ADMIN: {
       return $t('enum.authority.SYS_ADMIN');
     }
-    case UserAuthority.TENANT_ADMIN: {
+    case User_Authority.TENANT_ADMIN: {
       return $t('enum.authority.TENANT_ADMIN');
     }
     default: {
@@ -154,19 +154,19 @@ export function authorityToName(authority: any) {
  */
 export function authorityToColor(authority: any) {
   switch (authority) {
-    case UserAuthority.CUSTOMER_USER: {
+    case User_Authority.CUSTOMER_USER: {
       // 普通客户用户：基础权限，友好绿色
       return '#52C41A';
     } // 柔和绿色（Antd success色，体现“正常、常规”）
-    case UserAuthority.GUEST: {
+    case User_Authority.GUEST: {
       // 访客用户：最低权限，浅灰弱化
       return '#b0b0b0';
     } // 浅灰色（视觉上弱化，体现“临时、受限”）
-    case UserAuthority.SYS_ADMIN: {
+    case User_Authority.SYS_ADMIN: {
       // 系统管理员：最高权限，深蓝稳重
       return '#1890FF';
     } // 深蓝色（Antd primary色，体现“全局控制、专业”）
-    case UserAuthority.TENANT_ADMIN: {
+    case User_Authority.TENANT_ADMIN: {
       // 租户管理员：中等权限，温和橙色
       return '#FAAD14';
     } // 柔和橙色（体现“租户内管理，范围有限”）
@@ -178,8 +178,8 @@ export function authorityToColor(authority: any) {
 }
 
 export const statusList = computed(() => [
-  { value: 'ON', label: $t('enum.status.ON') },
-  { value: 'OFF', label: $t('enum.status.OFF') },
+  { value: User_Status.ON, label: $t('enum.status.ON') },
+  { value: User_Status.OFF, label: $t('enum.status.OFF') },
 ]);
 
 /**
@@ -188,10 +188,10 @@ export const statusList = computed(() => [
  */
 export function statusToName(status: any) {
   switch (status) {
-    case 'OFF': {
+    case User_Status.OFF: {
       return $t('enum.status.OFF');
     }
-    case 'ON': {
+    case User_Status.ON: {
       return $t('enum.status.ON');
     }
     default: {
@@ -206,11 +206,11 @@ export function statusToName(status: any) {
  */
 export function statusToColor(status: any) {
   switch (status) {
-    case 'OFF': {
+    case User_Status.OFF: {
       // 关闭/停用：深灰色，明确非激活状态
       return '#8C8C8C';
     } // 中深灰色，与“关闭”语义匹配，区别于浅灰的“未知”
-    case 'ON': {
+    case User_Status.ON: {
       // 开启/激活：标准成功绿，体现正常运行
       return '#52C41A';
     } // 对应Element Plus的success色，大众认知中的“正常”色
@@ -222,9 +222,9 @@ export function statusToColor(status: any) {
 }
 
 export const genderList = computed(() => [
-  { value: UserGender.SECRET, label: $t('enum.gender.SECRET') },
-  { value: UserGender.MALE, label: $t('enum.gender.MALE') },
-  { value: UserGender.FEMALE, label: $t('enum.gender.FEMALE') },
+  { value: User_Gender.SECRET, label: $t('enum.gender.SECRET') },
+  { value: User_Gender.MALE, label: $t('enum.gender.MALE') },
+  { value: User_Gender.FEMALE, label: $t('enum.gender.FEMALE') },
 ]);
 
 /**
@@ -233,13 +233,13 @@ export const genderList = computed(() => [
  */
 export function genderToName(gender: any) {
   switch (gender) {
-    case UserGender.FEMALE: {
+    case User_Gender.FEMALE: {
       return $t('enum.gender.FEMALE');
     }
-    case UserGender.MALE: {
+    case User_Gender.MALE: {
       return $t('enum.gender.MALE');
     }
-    case UserGender.SECRET: {
+    case User_Gender.SECRET: {
       return $t('enum.gender.SECRET');
     }
     default: {
@@ -254,15 +254,15 @@ export function genderToName(gender: any) {
  */
 export function genderToColor(gender: any) {
   switch (gender) {
-    case UserGender.FEMALE: {
+    case User_Gender.FEMALE: {
       // 女性：温和粉色，符合大众视觉认知
       return '#F77272';
     } // 柔和粉色
-    case UserGender.MALE: {
+    case User_Gender.MALE: {
       // 男性：专业蓝色，体现沉稳感
       return '#4096FF';
     } // 浅蓝色
-    case UserGender.SECRET: {
+    case User_Gender.SECRET: {
       // 保密：中性灰色，代表未知
       return '#86909C';
     } // 浅灰色

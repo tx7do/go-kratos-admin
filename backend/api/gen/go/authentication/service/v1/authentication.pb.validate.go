@@ -36,7 +36,7 @@ var (
 	_ = anypb.Any{}
 	_ = sort.Sort
 
-	_ = servicev1.UserAuthority(0)
+	_ = servicev1.User_Authority(0)
 )
 
 // Validate checks the field values on LoginRequest with the rules defined in

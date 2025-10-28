@@ -1,9 +1,9 @@
 -- 租户
 TRUNCATE TABLE kratos_admin.public.sys_tenants RESTART IDENTITY;
-INSERT INTO kratos_admin.public.sys_tenants(id, name, code, type, audit_status, status, create_time)
-VALUES (1, '超级租户', 'super', 'PAID', 'APPROVED', 'ON', now()),
-       (2, '测试租户', 'test', 'PAID', 'APPROVED',  'ON', now()),
-       (3, '测试租户2', 'test2', 'PAID', 'APPROVED',  'ON', now())
+INSERT INTO kratos_admin.public.sys_tenants(id, name, code, type, audit_status, status, admin_user_id, create_time)
+VALUES (1, '超级租户', 'super', 'PAID', 'APPROVED', 'ON', 1, now()),
+       (2, '测试租户', 'test', 'PAID', 'APPROVED', 'ON', null, now()),
+       (3, '测试租户2', 'test2', 'PAID', 'APPROVED', 'ON', null, now())
 ;
 SELECT setval('sys_tenants_id_seq', (SELECT MAX(id) FROM sys_tenants));
 

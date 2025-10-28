@@ -145,28 +145,46 @@ const [BaseForm, baseFormApi] = useVbenForm({
         placeholder: $t('ui.placeholder.input'),
         allowClear: true,
       },
+      dependencies: {
+        show: (_values) => {
+          return data.value?.create;
+        },
+        triggerFields: ['type'],
+      },
     },
 
     {
       component: 'VbenInputPassword',
       fieldName: 'password',
       label: $t('page.tenant.adminPassword'),
+      rules: 'required',
       componentProps: {
         passwordStrength: true,
         placeholder: $t('ui.placeholder.input'),
       },
-      rules: 'required',
+      dependencies: {
+        show: (_values) => {
+          return data.value?.create;
+        },
+        triggerFields: ['type'],
+      },
     },
 
     {
       component: 'VbenInputPassword',
       fieldName: 'passwordConfirm',
       label: $t('page.tenant.adminPasswordConfirm'),
+      rules: 'required',
       componentProps: {
         passwordStrength: true,
         placeholder: $t('ui.placeholder.input'),
       },
-      rules: 'required',
+      dependencies: {
+        show: (_values) => {
+          return data.value?.create;
+        },
+        triggerFields: ['type'],
+      },
     },
 
     {
@@ -178,6 +196,12 @@ const [BaseForm, baseFormApi] = useVbenForm({
         placeholder: $t('ui.placeholder.input'),
         allowClear: true,
       },
+      dependencies: {
+        show: (_values) => {
+          return data.value?.create;
+        },
+        triggerFields: ['type'],
+      },
     },
 
     {
@@ -188,6 +212,12 @@ const [BaseForm, baseFormApi] = useVbenForm({
       componentProps: {
         placeholder: $t('ui.placeholder.input'),
         allowClear: true,
+      },
+      dependencies: {
+        show: (_values) => {
+          return data.value?.create;
+        },
+        triggerFields: ['type'],
       },
     },
 
@@ -213,6 +243,12 @@ const [BaseForm, baseFormApi] = useVbenForm({
 
           return result.items;
         },
+      },
+      dependencies: {
+        show: (_values) => {
+          return data.value?.create;
+        },
+        triggerFields: ['type'],
       },
     },
   ],

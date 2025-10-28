@@ -1,13 +1,13 @@
 -- 插入4个权限的用户
 TRUNCATE TABLE kratos_admin.public.sys_users RESTART IDENTITY;
-INSERT INTO kratos_admin.public.sys_users (username, nickname, realname, email, authority, role_ids, gender, create_time)
-VALUES ('admin', '鹳狸猿', '喵个咪', 'admin@gmail.com', 'SYS_ADMIN', '[1]', 'MALE', now()),
+INSERT INTO kratos_admin.public.sys_users (username, nickname, realname, email, authority, role_ids, gender, tenant_id, create_time)
+VALUES ('admin', '鹳狸猿', '喵个咪', 'admin@gmail.com', 'SYS_ADMIN', '[1]', 'MALE', null, now()),
        -- 2. 租户管理员（TENANT_ADMIN）
-       ('tenant_admin', '租户管理', '张管理员', 'tenant@company.com', 'TENANT_ADMIN', '[2]', 'MALE', now()),
+       ('tenant_admin', '租户管理', '张管理员', 'tenant@company.com', 'TENANT_ADMIN', '[2]', 'MALE', 1, now()),
        -- 3. 普通用户（CUSTOMER_USER）
-       ('normal_user', '普通用户', '李用户', 'user@company.com', 'CUSTOMER_USER', '[3]', 'FEMALE', now()),
+       ('normal_user', '普通用户', '李用户', 'user@company.com', 'CUSTOMER_USER', '[3]', 'FEMALE', null, now()),
        -- 4. 访客（GUEST）
-       ('guest_user', '临时访客', '王访客', 'guest@company.com', 'GUEST', '[4]', 'SECRET', now())
+       ('guest_user', '临时访客', '王访客', 'guest@company.com', 'GUEST', '[4]', 'SECRET', null, now())
 ;
 SELECT setval('sys_users_id_seq', (SELECT MAX(id) FROM sys_users));
 

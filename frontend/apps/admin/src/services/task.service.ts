@@ -14,8 +14,6 @@ import type {
 import type { Empty } from '#/generated/api/google/protobuf/empty.pb';
 import type { PagingRequest } from '#/generated/api/pagination/v1/pagination.pb';
 
-import * as console from 'node:console';
-
 import { requestClient } from '#/utils/request';
 
 /** 调度任务管理服务 */
@@ -73,7 +71,7 @@ class TaskServiceImpl implements TaskService {
   async Update(request: UpdateTaskRequest): Promise<Empty> {
     const id = request.data?.id;
 
-    console.log('UpdateTask', request.data);
+    // console.log('UpdateTask', request.data);
     if (request.data !== null && request.data !== undefined) {
       request.data.id = undefined;
     }

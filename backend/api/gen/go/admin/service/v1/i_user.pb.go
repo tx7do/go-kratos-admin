@@ -29,14 +29,16 @@ var File_admin_service_v1_i_user_proto protoreflect.FileDescriptor
 
 const file_admin_service_v1_i_user_proto_rawDesc = "" +
 	"\n" +
-	"\x1dadmin/service/v1/i_user.proto\x12\x10admin.service.v1\x1a$gnostic/openapi/v3/annotations.proto\x1a\x1cgoogle/api/annotations.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1epagination/v1/pagination.proto\x1a\x1auser/service/v1/user.proto2\x81\x05\n" +
+	"\x1dadmin/service/v1/i_user.proto\x12\x10admin.service.v1\x1a$gnostic/openapi/v3/annotations.proto\x1a\x1cgoogle/api/annotations.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1epagination/v1/pagination.proto\x1a\x1auser/service/v1/user.proto2\xf8\x05\n" +
 	"\vUserService\x12]\n" +
 	"\x04List\x12\x19.pagination.PagingRequest\x1a!.user.service.v1.ListUserResponse\"\x17\x82\xd3\xe4\x93\x02\x11\x12\x0f/admin/v1/users\x12[\n" +
 	"\x03Get\x12\x1f.user.service.v1.GetUserRequest\x1a\x15.user.service.v1.User\"\x1c\x82\xd3\xe4\x93\x02\x16\x12\x14/admin/v1/users/{id}\x12`\n" +
 	"\x06Create\x12\".user.service.v1.CreateUserRequest\x1a\x16.google.protobuf.Empty\"\x1a\x82\xd3\xe4\x93\x02\x14:\x01*\"\x0f/admin/v1/users\x12j\n" +
 	"\x06Update\x12\".user.service.v1.UpdateUserRequest\x1a\x16.google.protobuf.Empty\"$\x82\xd3\xe4\x93\x02\x1e:\x01*\x1a\x19/admin/v1/users/{data.id}\x12b\n" +
 	"\x06Delete\x12\".user.service.v1.DeleteUserRequest\x1a\x16.google.protobuf.Empty\"\x1c\x82\xd3\xe4\x93\x02\x16*\x14/admin/v1/users/{id}\x12\x83\x01\n" +
-	"\x10EditUserPassword\x12(.user.service.v1.EditUserPasswordRequest\x1a\x16.google.protobuf.Empty\"-\x82\xd3\xe4\x93\x02':\x01*\"\"/admin/v1/users/{user_id}/passwordB\xb8\x01\n" +
+	"\x10EditUserPassword\x12(.user.service.v1.EditUserPasswordRequest\x1a\x16.google.protobuf.Empty\"-\x82\xd3\xe4\x93\x02':\x01*\"\"/admin/v1/users/{user_id}/password\x12u\n" +
+	"\n" +
+	"UserExists\x12\".user.service.v1.UserExistsRequest\x1a#.user.service.v1.UserExistsResponse\"\x1e\x82\xd3\xe4\x93\x02\x18\x12\x16/admin/v1/users_existsB\xb8\x01\n" +
 	"\x14com.admin.service.v1B\n" +
 	"IUserProtoP\x01Z2kratos-admin/api/gen/go/admin/service/v1;servicev1\xa2\x02\x03ASX\xaa\x02\x10Admin.Service.V1\xca\x02\x10Admin\\Service\\V1\xe2\x02\x1cAdmin\\Service\\V1\\GPBMetadata\xea\x02\x12Admin::Service::V1b\x06proto3"
 
@@ -47,28 +49,32 @@ var file_admin_service_v1_i_user_proto_goTypes = []any{
 	(*v11.UpdateUserRequest)(nil),       // 3: user.service.v1.UpdateUserRequest
 	(*v11.DeleteUserRequest)(nil),       // 4: user.service.v1.DeleteUserRequest
 	(*v11.EditUserPasswordRequest)(nil), // 5: user.service.v1.EditUserPasswordRequest
-	(*v11.ListUserResponse)(nil),        // 6: user.service.v1.ListUserResponse
-	(*v11.User)(nil),                    // 7: user.service.v1.User
-	(*emptypb.Empty)(nil),               // 8: google.protobuf.Empty
+	(*v11.UserExistsRequest)(nil),       // 6: user.service.v1.UserExistsRequest
+	(*v11.ListUserResponse)(nil),        // 7: user.service.v1.ListUserResponse
+	(*v11.User)(nil),                    // 8: user.service.v1.User
+	(*emptypb.Empty)(nil),               // 9: google.protobuf.Empty
+	(*v11.UserExistsResponse)(nil),      // 10: user.service.v1.UserExistsResponse
 }
 var file_admin_service_v1_i_user_proto_depIdxs = []int32{
-	0, // 0: admin.service.v1.UserService.List:input_type -> pagination.PagingRequest
-	1, // 1: admin.service.v1.UserService.Get:input_type -> user.service.v1.GetUserRequest
-	2, // 2: admin.service.v1.UserService.Create:input_type -> user.service.v1.CreateUserRequest
-	3, // 3: admin.service.v1.UserService.Update:input_type -> user.service.v1.UpdateUserRequest
-	4, // 4: admin.service.v1.UserService.Delete:input_type -> user.service.v1.DeleteUserRequest
-	5, // 5: admin.service.v1.UserService.EditUserPassword:input_type -> user.service.v1.EditUserPasswordRequest
-	6, // 6: admin.service.v1.UserService.List:output_type -> user.service.v1.ListUserResponse
-	7, // 7: admin.service.v1.UserService.Get:output_type -> user.service.v1.User
-	8, // 8: admin.service.v1.UserService.Create:output_type -> google.protobuf.Empty
-	8, // 9: admin.service.v1.UserService.Update:output_type -> google.protobuf.Empty
-	8, // 10: admin.service.v1.UserService.Delete:output_type -> google.protobuf.Empty
-	8, // 11: admin.service.v1.UserService.EditUserPassword:output_type -> google.protobuf.Empty
-	6, // [6:12] is the sub-list for method output_type
-	0, // [0:6] is the sub-list for method input_type
-	0, // [0:0] is the sub-list for extension type_name
-	0, // [0:0] is the sub-list for extension extendee
-	0, // [0:0] is the sub-list for field type_name
+	0,  // 0: admin.service.v1.UserService.List:input_type -> pagination.PagingRequest
+	1,  // 1: admin.service.v1.UserService.Get:input_type -> user.service.v1.GetUserRequest
+	2,  // 2: admin.service.v1.UserService.Create:input_type -> user.service.v1.CreateUserRequest
+	3,  // 3: admin.service.v1.UserService.Update:input_type -> user.service.v1.UpdateUserRequest
+	4,  // 4: admin.service.v1.UserService.Delete:input_type -> user.service.v1.DeleteUserRequest
+	5,  // 5: admin.service.v1.UserService.EditUserPassword:input_type -> user.service.v1.EditUserPasswordRequest
+	6,  // 6: admin.service.v1.UserService.UserExists:input_type -> user.service.v1.UserExistsRequest
+	7,  // 7: admin.service.v1.UserService.List:output_type -> user.service.v1.ListUserResponse
+	8,  // 8: admin.service.v1.UserService.Get:output_type -> user.service.v1.User
+	9,  // 9: admin.service.v1.UserService.Create:output_type -> google.protobuf.Empty
+	9,  // 10: admin.service.v1.UserService.Update:output_type -> google.protobuf.Empty
+	9,  // 11: admin.service.v1.UserService.Delete:output_type -> google.protobuf.Empty
+	9,  // 12: admin.service.v1.UserService.EditUserPassword:output_type -> google.protobuf.Empty
+	10, // 13: admin.service.v1.UserService.UserExists:output_type -> user.service.v1.UserExistsResponse
+	7,  // [7:14] is the sub-list for method output_type
+	0,  // [0:7] is the sub-list for method input_type
+	0,  // [0:0] is the sub-list for extension type_name
+	0,  // [0:0] is the sub-list for extension extendee
+	0,  // [0:0] is the sub-list for field type_name
 }
 
 func init() { file_admin_service_v1_i_user_proto_init() }

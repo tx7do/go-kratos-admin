@@ -768,6 +768,96 @@ func (x *BatchCreateTenantsResponse) GetData() []*Tenant {
 	return nil
 }
 
+// 租户是否存在 - 请求
+type TenantExistsRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Code          string                 `protobuf:"bytes,1,opt,name=code,proto3" json:"code,omitempty"` // 租户编码
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *TenantExistsRequest) Reset() {
+	*x = TenantExistsRequest{}
+	mi := &file_user_service_v1_tenant_proto_msgTypes[8]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *TenantExistsRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*TenantExistsRequest) ProtoMessage() {}
+
+func (x *TenantExistsRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_user_service_v1_tenant_proto_msgTypes[8]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use TenantExistsRequest.ProtoReflect.Descriptor instead.
+func (*TenantExistsRequest) Descriptor() ([]byte, []int) {
+	return file_user_service_v1_tenant_proto_rawDescGZIP(), []int{8}
+}
+
+func (x *TenantExistsRequest) GetCode() string {
+	if x != nil {
+		return x.Code
+	}
+	return ""
+}
+
+// 租户是否存在 - 答复
+type TenantExistsResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Exist         bool                   `protobuf:"varint,1,opt,name=exist,proto3" json:"exist,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *TenantExistsResponse) Reset() {
+	*x = TenantExistsResponse{}
+	mi := &file_user_service_v1_tenant_proto_msgTypes[9]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *TenantExistsResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*TenantExistsResponse) ProtoMessage() {}
+
+func (x *TenantExistsResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_user_service_v1_tenant_proto_msgTypes[9]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use TenantExistsResponse.ProtoReflect.Descriptor instead.
+func (*TenantExistsResponse) Descriptor() ([]byte, []int) {
+	return file_user_service_v1_tenant_proto_rawDescGZIP(), []int{9}
+}
+
+func (x *TenantExistsResponse) GetExist() bool {
+	if x != nil {
+		return x.Exist
+	}
+	return false
+}
+
 var File_user_service_v1_tenant_proto protoreflect.FileDescriptor
 
 const file_user_service_v1_tenant_proto_rawDesc = "" +
@@ -870,14 +960,19 @@ const file_user_service_v1_tenant_proto_rawDesc = "" +
 	"\x19BatchCreateTenantsRequest\x12+\n" +
 	"\x04data\x18\x01 \x03(\v2\x17.user.service.v1.TenantR\x04data\"I\n" +
 	"\x1aBatchCreateTenantsResponse\x12+\n" +
-	"\x04data\x18\x01 \x03(\v2\x17.user.service.v1.TenantR\x04data2\xe6\x03\n" +
+	"\x04data\x18\x01 \x03(\v2\x17.user.service.v1.TenantR\x04data\"?\n" +
+	"\x13TenantExistsRequest\x12(\n" +
+	"\x04code\x18\x01 \x01(\tB\x14\xbaG\x11\x18\x01\x92\x02\f租户编码R\x04code\",\n" +
+	"\x14TenantExistsResponse\x12\x14\n" +
+	"\x05exist\x18\x01 \x01(\bR\x05exist2\xc5\x04\n" +
 	"\rTenantService\x12H\n" +
 	"\x04List\x12\x19.pagination.PagingRequest\x1a#.user.service.v1.ListTenantResponse\"\x00\x12C\n" +
 	"\x03Get\x12!.user.service.v1.GetTenantRequest\x1a\x17.user.service.v1.Tenant\"\x00\x12H\n" +
 	"\x06Create\x12$.user.service.v1.CreateTenantRequest\x1a\x16.google.protobuf.Empty\"\x00\x12H\n" +
 	"\x06Update\x12$.user.service.v1.UpdateTenantRequest\x1a\x16.google.protobuf.Empty\"\x00\x12H\n" +
 	"\x06Delete\x12$.user.service.v1.DeleteTenantRequest\x1a\x16.google.protobuf.Empty\"\x00\x12h\n" +
-	"\vBatchCreate\x12*.user.service.v1.BatchCreateTenantsRequest\x1a+.user.service.v1.BatchCreateTenantsResponse\"\x00B\xb3\x01\n" +
+	"\vBatchCreate\x12*.user.service.v1.BatchCreateTenantsRequest\x1a+.user.service.v1.BatchCreateTenantsResponse\"\x00\x12]\n" +
+	"\fTenantExists\x12$.user.service.v1.TenantExistsRequest\x1a%.user.service.v1.TenantExistsResponse\"\x00B\xb3\x01\n" +
 	"\x13com.user.service.v1B\vTenantProtoP\x01Z1kratos-admin/api/gen/go/user/service/v1;servicev1\xa2\x02\x03USX\xaa\x02\x0fUser.Service.V1\xca\x02\x0fUser\\Service\\V1\xe2\x02\x1bUser\\Service\\V1\\GPBMetadata\xea\x02\x11User::Service::V1b\x06proto3"
 
 var (
@@ -893,7 +988,7 @@ func file_user_service_v1_tenant_proto_rawDescGZIP() []byte {
 }
 
 var file_user_service_v1_tenant_proto_enumTypes = make([]protoimpl.EnumInfo, 3)
-var file_user_service_v1_tenant_proto_msgTypes = make([]protoimpl.MessageInfo, 8)
+var file_user_service_v1_tenant_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
 var file_user_service_v1_tenant_proto_goTypes = []any{
 	(Tenant_Status)(0),                 // 0: user.service.v1.Tenant.Status
 	(Tenant_Type)(0),                   // 1: user.service.v1.Tenant.Type
@@ -906,43 +1001,47 @@ var file_user_service_v1_tenant_proto_goTypes = []any{
 	(*DeleteTenantRequest)(nil),        // 8: user.service.v1.DeleteTenantRequest
 	(*BatchCreateTenantsRequest)(nil),  // 9: user.service.v1.BatchCreateTenantsRequest
 	(*BatchCreateTenantsResponse)(nil), // 10: user.service.v1.BatchCreateTenantsResponse
-	(*timestamppb.Timestamp)(nil),      // 11: google.protobuf.Timestamp
-	(*fieldmaskpb.FieldMask)(nil),      // 12: google.protobuf.FieldMask
-	(*v1.PagingRequest)(nil),           // 13: pagination.PagingRequest
-	(*emptypb.Empty)(nil),              // 14: google.protobuf.Empty
+	(*TenantExistsRequest)(nil),        // 11: user.service.v1.TenantExistsRequest
+	(*TenantExistsResponse)(nil),       // 12: user.service.v1.TenantExistsResponse
+	(*timestamppb.Timestamp)(nil),      // 13: google.protobuf.Timestamp
+	(*fieldmaskpb.FieldMask)(nil),      // 14: google.protobuf.FieldMask
+	(*v1.PagingRequest)(nil),           // 15: pagination.PagingRequest
+	(*emptypb.Empty)(nil),              // 16: google.protobuf.Empty
 }
 var file_user_service_v1_tenant_proto_depIdxs = []int32{
 	0,  // 0: user.service.v1.Tenant.status:type_name -> user.service.v1.Tenant.Status
 	1,  // 1: user.service.v1.Tenant.type:type_name -> user.service.v1.Tenant.Type
 	2,  // 2: user.service.v1.Tenant.audit_status:type_name -> user.service.v1.Tenant.AuditStatus
-	11, // 3: user.service.v1.Tenant.subscription_at:type_name -> google.protobuf.Timestamp
-	11, // 4: user.service.v1.Tenant.unsubscribe_at:type_name -> google.protobuf.Timestamp
-	11, // 5: user.service.v1.Tenant.expired_at:type_name -> google.protobuf.Timestamp
-	11, // 6: user.service.v1.Tenant.last_login_time:type_name -> google.protobuf.Timestamp
+	13, // 3: user.service.v1.Tenant.subscription_at:type_name -> google.protobuf.Timestamp
+	13, // 4: user.service.v1.Tenant.unsubscribe_at:type_name -> google.protobuf.Timestamp
+	13, // 5: user.service.v1.Tenant.expired_at:type_name -> google.protobuf.Timestamp
+	13, // 6: user.service.v1.Tenant.last_login_time:type_name -> google.protobuf.Timestamp
 	3,  // 7: user.service.v1.Tenant.children:type_name -> user.service.v1.Tenant
-	11, // 8: user.service.v1.Tenant.create_time:type_name -> google.protobuf.Timestamp
-	11, // 9: user.service.v1.Tenant.update_time:type_name -> google.protobuf.Timestamp
-	11, // 10: user.service.v1.Tenant.delete_time:type_name -> google.protobuf.Timestamp
+	13, // 8: user.service.v1.Tenant.create_time:type_name -> google.protobuf.Timestamp
+	13, // 9: user.service.v1.Tenant.update_time:type_name -> google.protobuf.Timestamp
+	13, // 10: user.service.v1.Tenant.delete_time:type_name -> google.protobuf.Timestamp
 	3,  // 11: user.service.v1.ListTenantResponse.items:type_name -> user.service.v1.Tenant
 	3,  // 12: user.service.v1.CreateTenantRequest.data:type_name -> user.service.v1.Tenant
 	3,  // 13: user.service.v1.UpdateTenantRequest.data:type_name -> user.service.v1.Tenant
-	12, // 14: user.service.v1.UpdateTenantRequest.update_mask:type_name -> google.protobuf.FieldMask
+	14, // 14: user.service.v1.UpdateTenantRequest.update_mask:type_name -> google.protobuf.FieldMask
 	3,  // 15: user.service.v1.BatchCreateTenantsRequest.data:type_name -> user.service.v1.Tenant
 	3,  // 16: user.service.v1.BatchCreateTenantsResponse.data:type_name -> user.service.v1.Tenant
-	13, // 17: user.service.v1.TenantService.List:input_type -> pagination.PagingRequest
+	15, // 17: user.service.v1.TenantService.List:input_type -> pagination.PagingRequest
 	5,  // 18: user.service.v1.TenantService.Get:input_type -> user.service.v1.GetTenantRequest
 	6,  // 19: user.service.v1.TenantService.Create:input_type -> user.service.v1.CreateTenantRequest
 	7,  // 20: user.service.v1.TenantService.Update:input_type -> user.service.v1.UpdateTenantRequest
 	8,  // 21: user.service.v1.TenantService.Delete:input_type -> user.service.v1.DeleteTenantRequest
 	9,  // 22: user.service.v1.TenantService.BatchCreate:input_type -> user.service.v1.BatchCreateTenantsRequest
-	4,  // 23: user.service.v1.TenantService.List:output_type -> user.service.v1.ListTenantResponse
-	3,  // 24: user.service.v1.TenantService.Get:output_type -> user.service.v1.Tenant
-	14, // 25: user.service.v1.TenantService.Create:output_type -> google.protobuf.Empty
-	14, // 26: user.service.v1.TenantService.Update:output_type -> google.protobuf.Empty
-	14, // 27: user.service.v1.TenantService.Delete:output_type -> google.protobuf.Empty
-	10, // 28: user.service.v1.TenantService.BatchCreate:output_type -> user.service.v1.BatchCreateTenantsResponse
-	23, // [23:29] is the sub-list for method output_type
-	17, // [17:23] is the sub-list for method input_type
+	11, // 23: user.service.v1.TenantService.TenantExists:input_type -> user.service.v1.TenantExistsRequest
+	4,  // 24: user.service.v1.TenantService.List:output_type -> user.service.v1.ListTenantResponse
+	3,  // 25: user.service.v1.TenantService.Get:output_type -> user.service.v1.Tenant
+	16, // 26: user.service.v1.TenantService.Create:output_type -> google.protobuf.Empty
+	16, // 27: user.service.v1.TenantService.Update:output_type -> google.protobuf.Empty
+	16, // 28: user.service.v1.TenantService.Delete:output_type -> google.protobuf.Empty
+	10, // 29: user.service.v1.TenantService.BatchCreate:output_type -> user.service.v1.BatchCreateTenantsResponse
+	12, // 30: user.service.v1.TenantService.TenantExists:output_type -> user.service.v1.TenantExistsResponse
+	24, // [24:31] is the sub-list for method output_type
+	17, // [17:24] is the sub-list for method input_type
 	17, // [17:17] is the sub-list for extension type_name
 	17, // [17:17] is the sub-list for extension extendee
 	0,  // [0:17] is the sub-list for field type_name
@@ -961,7 +1060,7 @@ func file_user_service_v1_tenant_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_user_service_v1_tenant_proto_rawDesc), len(file_user_service_v1_tenant_proto_rawDesc)),
 			NumEnums:      3,
-			NumMessages:   8,
+			NumMessages:   10,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

@@ -14,6 +14,7 @@ import { Department_Status } from '#/generated/api/user/service/v1/department.pb
 import { Organization_Status } from '#/generated/api/user/service/v1/organization.pb';
 import { Position_Status } from '#/generated/api/user/service/v1/position.pb';
 import { Role_Status } from '#/generated/api/user/service/v1/role.pb';
+import { Tenant_Status } from '#/generated/api/user/service/v1/tenant.pb';
 import { $t } from '#/locales';
 import { router } from '#/router';
 import {
@@ -28,12 +29,14 @@ import {
   useOrganizationStore,
   usePositionStore,
   useRoleStore,
+  useTenantStore,
   useUserStore,
 } from '#/stores';
 
 import UserDrawer from './user-drawer.vue';
 
 const userStore = useUserStore();
+const tenantStore = useTenantStore();
 const roleStore = useRoleStore();
 const orgStore = useOrganizationStore();
 const deptStore = useDepartmentStore();
@@ -41,9 +44,9 @@ const positionStore = usePositionStore();
 
 const formOptions: VbenFormProps = {
   // 默认展开
-  collapsed: false,
+  collapsed: true,
   // 控制表单是否显示折叠按钮
-  showCollapseButton: false,
+  showCollapseButton: true,
   // 按下回车时是否提交表单
   submitOnEnter: true,
   schema: [
@@ -107,6 +110,27 @@ const formOptions: VbenFormProps = {
           const result = await roleStore.listRole(true, null, null, {
             // parent_id: 0,
             status: Role_Status.ON,
+          });
+          return result.items;
+        },
+      },
+    },
+    {
+      component: 'ApiTreeSelect',
+      fieldName: 'tenantId',
+      label: $t('page.user.form.tenant'),
+      componentProps: {
+        placeholder: $t('ui.placeholder.select'),
+        numberToString: true,
+        childrenField: 'children',
+        labelField: 'name',
+        valueField: 'id',
+        showSearch: true,
+        treeDefaultExpandAll: true,
+        allowClear: true,
+        api: async () => {
+          const result = await tenantStore.listTenant(true, null, null, {
+            status: Tenant_Status.ON,
           });
           return result.items;
         },
@@ -225,6 +249,7 @@ const gridOptions: VxeGridProps<User> = {
     },
     { title: $t('page.user.table.email'), field: 'email', width: 160 },
     { title: $t('page.user.table.mobile'), field: 'mobile', width: 130 },
+    { title: $t('page.user.table.tenantId'), field: 'tenantName', width: 130 },
     { title: $t('page.user.table.orgId'), field: 'orgName', width: 130 },
     {
       title: $t('page.user.table.deptId'),

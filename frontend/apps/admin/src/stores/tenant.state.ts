@@ -1,3 +1,5 @@
+import type { CreateTenantWithAdminUserRequest } from '#/generated/api/admin/service/v1/i_tenant.pb';
+
 import { computed } from 'vue';
 
 import { $t } from '@vben/locales';
@@ -55,6 +57,16 @@ export const useTenantStore = defineStore('tenant', () => {
   }
 
   /**
+   * 创建租户及管理员用户
+   * @param values
+   */
+  async function createTenantWithAdminUser(values: object) {
+    return await defTenantService.CreateTenantWithAdminUser(
+      <CreateTenantWithAdminUserRequest>values,
+    );
+  }
+
+  /**
    * 更新租户
    */
   async function updateTenant(id: number, values: object) {
@@ -76,6 +88,14 @@ export const useTenantStore = defineStore('tenant', () => {
     return await defTenantService.Delete({ id });
   }
 
+  /**
+   * 租户是否存在
+   * @param code 租户编码
+   */
+  async function tenantExists(code: string) {
+    return await defTenantService.TenantExists({ code });
+  }
+
   function $reset() {}
 
   return {
@@ -83,8 +103,10 @@ export const useTenantStore = defineStore('tenant', () => {
     listTenant,
     getTenant,
     createTenant,
+    createTenantWithAdminUser,
     updateTenant,
     deleteTenant,
+    tenantExists,
   };
 });
 

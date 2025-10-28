@@ -56,4 +56,11 @@ service UserService {
       body: "*"
     };
   }
+
+  // 用户是否存在
+  rpc UserExists (user.service.v1.UserExistsRequest) returns (user.service.v1.UserExistsResponse) {
+    option (google.api.http) = {
+      get: "/admin/v1/users_exists"
+    };
+  }
 }

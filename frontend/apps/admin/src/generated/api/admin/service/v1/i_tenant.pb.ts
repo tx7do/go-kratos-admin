@@ -13,8 +13,18 @@ import type {
   GetTenantRequest,
   ListTenantResponse,
   Tenant,
+  TenantExistsRequest,
+  TenantExistsResponse,
   UpdateTenantRequest,
 } from "../../../user/service/v1/tenant.pb";
+import type { User } from "../../../user/service/v1/user.pb";
+
+/** 创建租户及管理员用户 - 请求 */
+export interface CreateTenantWithAdminUserRequest {
+  tenant: Tenant | null;
+  user: User | null;
+  password: string;
+}
 
 /** 租户管理服务 */
 export interface TenantService {
@@ -28,4 +38,8 @@ export interface TenantService {
   Update(request: UpdateTenantRequest): Promise<Empty>;
   /** 删除租户 */
   Delete(request: DeleteTenantRequest): Promise<Empty>;
+  /** 创建租户及管理员用户 */
+  CreateTenantWithAdminUser(request: CreateTenantWithAdminUserRequest): Promise<Empty>;
+  /** 租户是否存在 */
+  TenantExists(request: TenantExistsRequest): Promise<TenantExistsResponse>;
 }

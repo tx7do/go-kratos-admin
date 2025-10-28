@@ -1376,3 +1376,211 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = BatchCreateTenantsResponseValidationError{}
+
+// Validate checks the field values on TenantExistsRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *TenantExistsRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on TenantExistsRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// TenantExistsRequestMultiError, or nil if none found.
+func (m *TenantExistsRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *TenantExistsRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Code
+
+	if len(errors) > 0 {
+		return TenantExistsRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// TenantExistsRequestMultiError is an error wrapping multiple validation
+// errors returned by TenantExistsRequest.ValidateAll() if the designated
+// constraints aren't met.
+type TenantExistsRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m TenantExistsRequestMultiError) Error() string {
+	msgs := make([]string, 0, len(m))
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m TenantExistsRequestMultiError) AllErrors() []error { return m }
+
+// TenantExistsRequestValidationError is the validation error returned by
+// TenantExistsRequest.Validate if the designated constraints aren't met.
+type TenantExistsRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e TenantExistsRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e TenantExistsRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e TenantExistsRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e TenantExistsRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e TenantExistsRequestValidationError) ErrorName() string {
+	return "TenantExistsRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e TenantExistsRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sTenantExistsRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = TenantExistsRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = TenantExistsRequestValidationError{}
+
+// Validate checks the field values on TenantExistsResponse with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *TenantExistsResponse) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on TenantExistsResponse with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// TenantExistsResponseMultiError, or nil if none found.
+func (m *TenantExistsResponse) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *TenantExistsResponse) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Exist
+
+	if len(errors) > 0 {
+		return TenantExistsResponseMultiError(errors)
+	}
+
+	return nil
+}
+
+// TenantExistsResponseMultiError is an error wrapping multiple validation
+// errors returned by TenantExistsResponse.ValidateAll() if the designated
+// constraints aren't met.
+type TenantExistsResponseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m TenantExistsResponseMultiError) Error() string {
+	msgs := make([]string, 0, len(m))
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m TenantExistsResponseMultiError) AllErrors() []error { return m }
+
+// TenantExistsResponseValidationError is the validation error returned by
+// TenantExistsResponse.Validate if the designated constraints aren't met.
+type TenantExistsResponseValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e TenantExistsResponseValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e TenantExistsResponseValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e TenantExistsResponseValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e TenantExistsResponseValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e TenantExistsResponseValidationError) ErrorName() string {
+	return "TenantExistsResponseValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e TenantExistsResponseValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sTenantExistsResponse.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = TenantExistsResponseValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = TenantExistsResponseValidationError{}

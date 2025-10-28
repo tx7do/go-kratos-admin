@@ -180,7 +180,7 @@
     "code": "租户编码",
     "type": "租户类型",
     "auditStatus": "审核状态",
-    "adminSetting": "租户管理员",
+    "adminSetting": "管理员账号配置",
     "lastLoginTime": "最后登录时间",
     "lastLoginIp": "最后登录IP",
     "logoUrl": "LOGO地址",
@@ -191,8 +191,16 @@
     "subscriptionAt": "订阅时间",
     "unsubscribeAt": "退订时间",
     "adminUserName": "管理员用户名",
+    "adminPassword": "初始密码",
+    "adminPasswordConfirm": "确认密码",
+    "adminMobile": "手机号",
+    "adminEmail": "邮箱",
     "button": {
       "create": "创建租户"
+    },
+    "notification": {
+      "tenant_code_exists": "租户编码已存在，请更换后重新创建！",
+      "user_username_exists": "管理员用户名已存在，请更换后重新创建！"
     }
   },
   "file": {

@@ -78,13 +78,32 @@ func InitDepartmentNameSetMap(departments []*userV1.Department, userSet *name_se
 	}
 }
 
-func QueryOrganizationInfoFromRepo(ctx context.Context, organizationRepo *data.OrganizationRepo, nameSetMap *name_set.UserNameSetMap) {
-	var orgIds []uint32
+func QueryTenantInfoFromRepo(ctx context.Context, tenantRepo *data.TenantRepo, nameSetMap *name_set.UserNameSetMap) {
+	var ids []uint32
 	for orgId := range *nameSetMap {
-		orgIds = append(orgIds, orgId)
+		ids = append(ids, orgId)
 	}
 
-	orgs, err := organizationRepo.GetOrganizationsByIds(ctx, orgIds)
+	tenants, err := tenantRepo.GetTenantsByIds(ctx, ids)
+	if err != nil {
+		log.Errorf("query tenants err: %v", err)
+		return
+	}
+
+	for _, o := range tenants {
+		(*nameSetMap)[o.GetId()] = &name_set.UserNameSet{
+			UserName: o.GetName(),
+		}
+	}
+}
+
+func QueryOrganizationInfoFromRepo(ctx context.Context, organizationRepo *data.OrganizationRepo, nameSetMap *name_set.UserNameSetMap) {
+	var ids []uint32
+	for orgId := range *nameSetMap {
+		ids = append(ids, orgId)
+	}
+
+	orgs, err := organizationRepo.GetOrganizationsByIds(ctx, ids)
 	if err != nil {
 		log.Errorf("query organizations err: %v", err)
 		return
@@ -98,12 +117,12 @@ func QueryOrganizationInfoFromRepo(ctx context.Context, organizationRepo *data.O
 }
 
 func QueryDepartmentInfoFromRepo(ctx context.Context, departmentRepo *data.DepartmentRepo, nameSetMap *name_set.UserNameSetMap) {
-	var deptIds []uint32
+	var ids []uint32
 	for deptId := range *nameSetMap {
-		deptIds = append(deptIds, deptId)
+		ids = append(ids, deptId)
 	}
 
-	depts, err := departmentRepo.GetDepartmentsByIds(ctx, deptIds)
+	depts, err := departmentRepo.GetDepartmentsByIds(ctx, ids)
 	if err != nil {
 		log.Errorf("query departments err: %v", err)
 		return
@@ -191,23 +210,6 @@ func FillPositionDepartmentInfo(positions []*userV1.Position, deptSet *name_set.
 			}
 
 			FillPositionDepartmentInfo(positions[i].Children, deptSet)
-		}
-	}
-}
-
-func InitUserNameSetMap(users []*userV1.User, orgSet *name_set.UserNameSetMap, deptSet *name_set.UserNameSetMap, posSet *name_set.UserNameSetMap, roleSet *name_set.UserNameSetMap) {
-	for _, v := range users {
-		if v.OrgId != nil {
-			(*orgSet)[v.GetOrgId()] = nil
-		}
-		if v.DepartmentId != nil {
-			(*deptSet)[v.GetDepartmentId()] = nil
-		}
-		if v.PositionId != nil {
-			(*posSet)[v.GetPositionId()] = nil
-		}
-		for _, roleId := range v.RoleIds {
-			(*roleSet)[roleId] = nil
 		}
 	}
 }

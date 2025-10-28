@@ -29,6 +29,9 @@ service TenantService {
 
   // 批量创建租户
   rpc BatchCreate ( BatchCreateTenantsRequest ) returns ( BatchCreateTenantsResponse ) {}
+
+  // 租户是否存在
+  rpc TenantExists ( TenantExistsRequest ) returns ( TenantExistsResponse ) {}
 }
 
 // 租户
@@ -197,4 +200,16 @@ message BatchCreateTenantsRequest {
 }
 message BatchCreateTenantsResponse {
   repeated Tenant data = 1;
+}
+
+// 租户是否存在 - 请求
+message TenantExistsRequest {
+  string code = 1 [
+    (gnostic.openapi.v3.property) = {description: "租户编码", read_only: true},
+    json_name = "code"
+  ]; // 租户编码
+}
+// 租户是否存在 - 答复
+message TenantExistsResponse {
+  bool exist = 1;
 }

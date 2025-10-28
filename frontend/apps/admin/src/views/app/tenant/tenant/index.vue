@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import type { VxeGridProps } from '#/adapter/vxe-table';
-import type { Tenant } from '#/generated/api/user/service/v1/tenant.pb';
 
 import { h } from 'vue';
 
@@ -10,13 +9,16 @@ import { LucideFilePenLine, LucideTrash2 } from '@vben/icons';
 import { notification } from 'ant-design-vue';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
+import { type Tenant } from '#/generated/api/user/service/v1/tenant.pb';
 import { $t } from '#/locales';
 import {
+  tenantAuditStatusList,
   tenantAuditStatusToColor,
   tenantAuditStatusToName,
   tenantStatusList,
   tenantStatusToColor,
   tenantStatusToName,
+  tenantTypeList,
   tenantTypeToColor,
   tenantTypeToName,
   useTenantStore,
@@ -50,6 +52,32 @@ const formOptions: VbenFormProps = {
       componentProps: {
         placeholder: $t('ui.placeholder.input'),
         allowClear: true,
+      },
+    },
+    {
+      component: 'Select',
+      fieldName: 'type',
+      label: $t('page.tenant.type'),
+      componentProps: {
+        placeholder: $t('ui.placeholder.select'),
+        options: tenantTypeList,
+        filterOption: (input: string, option: any) =>
+          option.label.toLowerCase().includes(input.toLowerCase()),
+        allowClear: true,
+        showSearch: true,
+      },
+    },
+    {
+      component: 'Select',
+      fieldName: 'auditStatus',
+      label: $t('page.tenant.auditStatus'),
+      componentProps: {
+        placeholder: $t('ui.placeholder.select'),
+        options: tenantAuditStatusList,
+        filterOption: (input: string, option: any) =>
+          option.label.toLowerCase().includes(input.toLowerCase()),
+        allowClear: true,
+        showSearch: true,
       },
     },
     {
@@ -110,6 +138,7 @@ const gridOptions: VxeGridProps<Tenant> = {
     { title: $t('ui.table.seq'), type: 'seq', width: 50 },
     { title: $t('page.tenant.name'), field: 'name' },
     { title: $t('page.tenant.code'), field: 'code' },
+    { title: $t('page.tenant.adminUserName'), field: 'adminUserName' },
     {
       title: $t('page.tenant.type'),
       field: 'type',
@@ -127,6 +156,12 @@ const gridOptions: VxeGridProps<Tenant> = {
       field: 'status',
       slots: { default: 'status' },
       width: 95,
+    },
+    {
+      title: $t('page.user.table.lastLoginTime'),
+      field: 'lastLoginTime',
+      formatter: 'formatDateTime',
+      width: 160,
     },
     {
       title: $t('ui.table.createTime'),

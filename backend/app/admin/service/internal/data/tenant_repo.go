@@ -145,46 +145,46 @@ func (r *TenantRepo) Get(ctx context.Context, req *userV1.GetTenantRequest) (*us
 	return r.mapper.ToDTO(entity), nil
 }
 
-func (r *TenantRepo) Create(ctx context.Context, req *userV1.CreateTenantRequest) error {
-	if req == nil || req.Data == nil {
-		return userV1.ErrorBadRequest("invalid parameter")
+func (r *TenantRepo) Create(ctx context.Context, data *userV1.Tenant) (*userV1.Tenant, error) {
+	if data == nil {
+		return nil, userV1.ErrorBadRequest("invalid parameter")
 	}
 
 	builder := r.data.db.Client().Tenant.Create().
-		SetNillableName(req.Data.Name).
-		SetNillableCode(req.Data.Code).
-		SetNillableLogoURL(req.Data.LogoUrl).
-		SetNillableRemark(req.Data.Remark).
-		SetNillableIndustry(req.Data.Industry).
-		SetNillableAdminUserID(req.Data.AdminUserId).
-		SetNillableStatus(r.statusConverter.ToEntity(req.Data.Status)).
-		SetNillableType(r.typeConverter.ToEntity(req.Data.Type)).
-		SetNillableAuditStatus(r.auditStatusConverter.ToEntity(req.Data.AuditStatus)).
-		SetNillableLastLoginTime(timeutil.TimestamppbToTime(req.Data.LastLoginTime)).
-		SetNillableLastLoginIP(req.Data.LastLoginIp).
-		SetNillableSubscriptionPlan(req.Data.SubscriptionPlan).
-		SetNillableExpiredAt(timeutil.TimestamppbToTime(req.Data.ExpiredAt)).
-		SetNillableSubscriptionAt(timeutil.TimestamppbToTime(req.Data.SubscriptionAt)).
-		SetNillableUnsubscribeAt(timeutil.TimestamppbToTime(req.Data.UnsubscribeAt))
+		SetNillableName(data.Name).
+		SetNillableCode(data.Code).
+		SetNillableLogoURL(data.LogoUrl).
+		SetNillableRemark(data.Remark).
+		SetNillableIndustry(data.Industry).
+		SetNillableAdminUserID(data.AdminUserId).
+		SetNillableStatus(r.statusConverter.ToEntity(data.Status)).
+		SetNillableType(r.typeConverter.ToEntity(data.Type)).
+		SetNillableAuditStatus(r.auditStatusConverter.ToEntity(data.AuditStatus)).
+		SetNillableLastLoginTime(timeutil.TimestamppbToTime(data.LastLoginTime)).
+		SetNillableLastLoginIP(data.LastLoginIp).
+		SetNillableSubscriptionPlan(data.SubscriptionPlan).
+		SetNillableExpiredAt(timeutil.TimestamppbToTime(data.ExpiredAt)).
+		SetNillableSubscriptionAt(timeutil.TimestamppbToTime(data.SubscriptionAt)).
+		SetNillableUnsubscribeAt(timeutil.TimestamppbToTime(data.UnsubscribeAt))
 
-	builder.SetNillableCreateBy(req.Data.CreateBy)
+	builder.SetNillableCreateBy(data.CreateBy)
 
-	if req.Data.CreateTime == nil {
+	if data.CreateTime == nil {
 		builder.SetCreateTime(time.Now())
 	} else {
-		builder.SetNillableCreateTime(timeutil.TimestamppbToTime(req.Data.CreateTime))
+		builder.SetNillableCreateTime(timeutil.TimestamppbToTime(data.CreateTime))
 	}
 
-	if req.Data.Id != nil {
-		builder.SetID(req.Data.GetId())
+	if data.Id != nil {
+		builder.SetID(data.GetId())
 	}
 
-	if err := builder.Exec(ctx); err != nil {
+	if ret, err := builder.Save(ctx); err != nil {
 		r.log.Errorf("insert one data failed: %s", err.Error())
-		return userV1.ErrorInternalServerError("insert data failed")
+		return nil, userV1.ErrorInternalServerError("insert data failed")
+	} else {
+		return r.mapper.ToDTO(ret), nil
 	}
-
-	return nil
 }
 
 func (r *TenantRepo) Update(ctx context.Context, req *userV1.UpdateTenantRequest) error {
@@ -202,7 +202,8 @@ func (r *TenantRepo) Update(ctx context.Context, req *userV1.UpdateTenantRequest
 			createReq := &userV1.CreateTenantRequest{Data: req.Data}
 			createReq.Data.CreateBy = createReq.Data.UpdateBy
 			createReq.Data.UpdateBy = nil
-			return r.Create(ctx, createReq)
+			_, err = r.Create(ctx, createReq.Data)
+			return err
 		}
 	}
 
@@ -274,6 +275,7 @@ func (r *TenantRepo) Delete(ctx context.Context, req *userV1.DeleteTenantRequest
 	return nil
 }
 
+// GetTenantByTenantName gets tenant by tenant name.
 func (r *TenantRepo) GetTenantByTenantName(ctx context.Context, userName string) (*userV1.Tenant, error) {
 	entity, err := r.data.db.Client().Tenant.Query().
 		Where(tenant.NameEQ(userName)).
@@ -291,6 +293,7 @@ func (r *TenantRepo) GetTenantByTenantName(ctx context.Context, userName string)
 	return r.mapper.ToDTO(entity), nil
 }
 
+// GetTenantByTenantCode gets tenant by tenant code.
 func (r *TenantRepo) GetTenantByTenantCode(ctx context.Context, code string) (*userV1.Tenant, error) {
 	entity, err := r.data.db.Client().Tenant.Query().
 		Where(tenant.CodeEQ(code)).
@@ -306,4 +309,42 @@ func (r *TenantRepo) GetTenantByTenantCode(ctx context.Context, code string) (*u
 	}
 
 	return r.mapper.ToDTO(entity), nil
+}
+
+// TenantExists checks if a tenant with the given username exists.
+func (r *TenantRepo) TenantExists(ctx context.Context, req *userV1.TenantExistsRequest) (*userV1.TenantExistsResponse, error) {
+	exist, err := r.data.db.Client().Tenant.Query().
+		Where(tenant.CodeEQ(req.GetCode())).
+		Exist(ctx)
+	if err != nil {
+		r.log.Errorf("query exist failed: %s", err.Error())
+		return nil, userV1.ErrorInternalServerError("query exist failed")
+	}
+
+	return &userV1.TenantExistsResponse{
+		Exist: exist,
+	}, nil
+}
+
+// GetTenantsByIds gets tenants by a list of IDs.
+func (r *TenantRepo) GetTenantsByIds(ctx context.Context, ids []uint32) ([]*userV1.Tenant, error) {
+	if len(ids) == 0 {
+		return []*userV1.Tenant{}, nil
+	}
+
+	entities, err := r.data.db.Client().Tenant.Query().
+		Where(tenant.IDIn(ids...)).
+		All(ctx)
+	if err != nil {
+		r.log.Errorf("query tenant by ids failed: %s", err.Error())
+		return nil, userV1.ErrorInternalServerError("query tenant by ids failed")
+	}
+
+	dtos := make([]*userV1.Tenant, 0, len(entities))
+	for _, entity := range entities {
+		dto := r.mapper.ToDTO(entity)
+		dtos = append(dtos, dto)
+	}
+
+	return dtos, nil
 }

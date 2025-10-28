@@ -28,6 +28,7 @@ const OperationUserServiceEditUserPassword = "/admin.service.v1.UserService/Edit
 const OperationUserServiceGet = "/admin.service.v1.UserService/Get"
 const OperationUserServiceList = "/admin.service.v1.UserService/List"
 const OperationUserServiceUpdate = "/admin.service.v1.UserService/Update"
+const OperationUserServiceUserExists = "/admin.service.v1.UserService/UserExists"
 
 type UserServiceHTTPServer interface {
 	// Create 创建用户
@@ -42,6 +43,8 @@ type UserServiceHTTPServer interface {
 	List(context.Context, *v1.PagingRequest) (*v11.ListUserResponse, error)
 	// Update 更新用户
 	Update(context.Context, *v11.UpdateUserRequest) (*emptypb.Empty, error)
+	// UserExists 用户是否存在
+	UserExists(context.Context, *v11.UserExistsRequest) (*v11.UserExistsResponse, error)
 }
 
 func RegisterUserServiceHTTPServer(s *http.Server, srv UserServiceHTTPServer) {
@@ -52,6 +55,7 @@ func RegisterUserServiceHTTPServer(s *http.Server, srv UserServiceHTTPServer) {
 	r.PUT("/admin/v1/users/{data.id}", _UserService_Update15_HTTP_Handler(srv))
 	r.DELETE("/admin/v1/users/{id}", _UserService_Delete15_HTTP_Handler(srv))
 	r.POST("/admin/v1/users/{user_id}/password", _UserService_EditUserPassword0_HTTP_Handler(srv))
+	r.GET("/admin/v1/users_exists", _UserService_UserExists0_HTTP_Handler(srv))
 }
 
 func _UserService_List17_HTTP_Handler(srv UserServiceHTTPServer) func(ctx http.Context) error {
@@ -189,6 +193,25 @@ func _UserService_EditUserPassword0_HTTP_Handler(srv UserServiceHTTPServer) func
 	}
 }
 
+func _UserService_UserExists0_HTTP_Handler(srv UserServiceHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in v11.UserExistsRequest
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationUserServiceUserExists)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.UserExists(ctx, req.(*v11.UserExistsRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*v11.UserExistsResponse)
+		return ctx.Result(200, reply)
+	}
+}
+
 type UserServiceHTTPClient interface {
 	Create(ctx context.Context, req *v11.CreateUserRequest, opts ...http.CallOption) (rsp *emptypb.Empty, err error)
 	Delete(ctx context.Context, req *v11.DeleteUserRequest, opts ...http.CallOption) (rsp *emptypb.Empty, err error)
@@ -196,6 +219,7 @@ type UserServiceHTTPClient interface {
 	Get(ctx context.Context, req *v11.GetUserRequest, opts ...http.CallOption) (rsp *v11.User, err error)
 	List(ctx context.Context, req *v1.PagingRequest, opts ...http.CallOption) (rsp *v11.ListUserResponse, err error)
 	Update(ctx context.Context, req *v11.UpdateUserRequest, opts ...http.CallOption) (rsp *emptypb.Empty, err error)
+	UserExists(ctx context.Context, req *v11.UserExistsRequest, opts ...http.CallOption) (rsp *v11.UserExistsResponse, err error)
 }
 
 type UserServiceHTTPClientImpl struct {
@@ -278,6 +302,19 @@ func (c *UserServiceHTTPClientImpl) Update(ctx context.Context, in *v11.UpdateUs
 	opts = append(opts, http.Operation(OperationUserServiceUpdate))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "PUT", path, in, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
+func (c *UserServiceHTTPClientImpl) UserExists(ctx context.Context, in *v11.UserExistsRequest, opts ...http.CallOption) (*v11.UserExistsResponse, error) {
+	var out v11.UserExistsResponse
+	pattern := "/admin/v1/users_exists"
+	path := binding.EncodeURL(pattern, in, true)
+	opts = append(opts, http.Operation(OperationUserServiceUserExists))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
 	if err != nil {
 		return nil, err
 	}

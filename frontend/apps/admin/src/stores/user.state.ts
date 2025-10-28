@@ -6,7 +6,8 @@ import { defineStore } from 'pinia';
 
 import {
   User_Authority,
-  User_Gender, User_Status,
+  User_Gender,
+  User_Status,
 } from '#/generated/api/user/service/v1/user.pb';
 import { defUserService } from '#/services';
 import { makeQueryString, makeUpdateMask } from '#/utils/query';
@@ -81,6 +82,14 @@ export const useUserStore = defineStore('user', () => {
   }
 
   /**
+   * 用户是否存在
+   * @param username 用户名
+   */
+  async function userExists(username: string) {
+    return await defUserService.UserExists({ username });
+  }
+
+  /**
    * 修改用户密码
    * @param id 用户ID
    * @param password 用户新密码
@@ -102,6 +111,7 @@ export const useUserStore = defineStore('user', () => {
     updateUser,
     deleteUser,
     editUserPassword,
+    userExists,
   };
 });
 

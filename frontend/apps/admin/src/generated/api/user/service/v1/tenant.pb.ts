@@ -216,6 +216,17 @@ export interface BatchCreateTenantsResponse {
   data: Tenant[];
 }
 
+/** 租户是否存在 - 请求 */
+export interface TenantExistsRequest {
+  /** 租户编码 */
+  code: string;
+}
+
+/** 租户是否存在 - 答复 */
+export interface TenantExistsResponse {
+  exist: boolean;
+}
+
 /** 租户服务 */
 export interface TenantService {
   /** 查询租户列表 */
@@ -230,4 +241,6 @@ export interface TenantService {
   Delete(request: DeleteTenantRequest): Promise<Empty>;
   /** 批量创建租户 */
   BatchCreate(request: BatchCreateTenantsRequest): Promise<BatchCreateTenantsResponse>;
+  /** 租户是否存在 */
+  TenantExists(request: TenantExistsRequest): Promise<TenantExistsResponse>;
 }

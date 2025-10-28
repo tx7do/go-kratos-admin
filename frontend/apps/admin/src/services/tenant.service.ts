@@ -1,4 +1,7 @@
-import type { TenantService } from '#/generated/api/admin/service/v1/i_tenant.pb';
+import type {
+  CreateTenantWithAdminUserRequest,
+  TenantService,
+} from '#/generated/api/admin/service/v1/i_tenant.pb';
 import type { Empty } from '#/generated/api/google/protobuf/empty.pb';
 import type { PagingRequest } from '#/generated/api/pagination/v1/pagination.pb';
 import type {
@@ -7,6 +10,8 @@ import type {
   GetTenantRequest,
   ListTenantResponse,
   Tenant,
+  TenantExistsRequest,
+  TenantExistsResponse,
   UpdateTenantRequest,
 } from '#/generated/api/user/service/v1/tenant.pb';
 
@@ -16,6 +21,12 @@ import { requestClient } from '#/utils/request';
 class TenantServiceImpl implements TenantService {
   async Create(request: CreateTenantRequest): Promise<Empty> {
     return await requestClient.post<Empty>('/tenants', request);
+  }
+
+  async CreateTenantWithAdminUser(
+    request: CreateTenantWithAdminUserRequest,
+  ): Promise<Empty> {
+    return await requestClient.post<Empty>('/tenants_with_admin', request);
   }
 
   async Delete(request: DeleteTenantRequest): Promise<Empty> {
@@ -28,6 +39,14 @@ class TenantServiceImpl implements TenantService {
 
   async List(request: PagingRequest): Promise<ListTenantResponse> {
     return await requestClient.get<ListTenantResponse>('/tenants', {
+      params: request,
+    });
+  }
+
+  async TenantExists(
+    request: TenantExistsRequest,
+  ): Promise<TenantExistsResponse> {
+    return await requestClient.get<TenantExistsResponse>(`/tenants_exists`, {
       params: request,
     });
   }

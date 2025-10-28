@@ -15,6 +15,8 @@ import type {
   ListUserResponse,
   UpdateUserRequest,
   User,
+  UserExistsRequest,
+  UserExistsResponse,
 } from "../../../user/service/v1/user.pb";
 
 /** 用户管理服务 */
@@ -31,4 +33,6 @@ export interface UserService {
   Delete(request: DeleteUserRequest): Promise<Empty>;
   /** 修改用户密码 */
   EditUserPassword(request: EditUserPasswordRequest): Promise<Empty>;
+  /** 用户是否存在 */
+  UserExists(request: UserExistsRequest): Promise<UserExistsResponse>;
 }

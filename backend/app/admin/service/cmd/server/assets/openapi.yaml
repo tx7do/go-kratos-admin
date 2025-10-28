@@ -2438,6 +2438,40 @@ paths:
                 "200":
                     description: OK
                     content: {}
+    /admin/v1/tenants_exists:
+        get:
+            tags:
+                - TenantService
+            description: 租户是否存在
+            operationId: TenantService_TenantExists
+            parameters:
+                - name: code
+                  in: query
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/TenantExistsResponse'
+    /admin/v1/tenants_with_admin:
+        post:
+            tags:
+                - TenantService
+            description: 创建租户及管理员用户
+            operationId: TenantService_CreateTenantWithAdminUser
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/CreateTenantWithAdminUserRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content: {}
     /admin/v1/ueditor:
         get:
             tags:
@@ -2643,6 +2677,24 @@ paths:
                 "200":
                     description: OK
                     content: {}
+    /admin/v1/users_exists:
+        get:
+            tags:
+                - UserService
+            description: 用户是否存在
+            operationId: UserService_UserExists
+            parameters:
+                - name: username
+                  in: query
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/UserExistsResponse'
 components:
     schemas:
         AdminLoginLog:
@@ -3030,6 +3082,16 @@ components:
                 data:
                     $ref: '#/components/schemas/Tenant'
             description: 创建租户 - 请求
+        CreateTenantWithAdminUserRequest:
+            type: object
+            properties:
+                tenant:
+                    $ref: '#/components/schemas/Tenant'
+                user:
+                    $ref: '#/components/schemas/User'
+                password:
+                    type: string
+            description: 创建租户及管理员用户 - 请求
         CreateUserRequest:
             type: object
             properties:
@@ -4485,6 +4547,12 @@ components:
                     description: 删除时间
                     format: date-time
             description: 租户
+        TenantExistsResponse:
+            type: object
+            properties:
+                exist:
+                    type: boolean
+            description: 租户是否存在 - 答复
         UEditorResponse:
             type: object
             properties:
@@ -5073,6 +5141,12 @@ components:
                     description: 删除时间
                     format: date-time
             description: 用户
+        UserExistsResponse:
+            type: object
+            properties:
+                exist:
+                    type: boolean
+            description: 用户是否存在 - 答复
     responses:
         default:
             description: default kratos response

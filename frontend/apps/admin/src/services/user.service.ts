@@ -9,6 +9,8 @@ import type {
   ListUserResponse,
   UpdateUserRequest,
   User,
+  UserExistsRequest,
+  UserExistsResponse,
 } from '#/generated/api/user/service/v1/user.pb';
 
 import { requestClient } from '#/utils/request';
@@ -46,6 +48,12 @@ class UserServiceImpl implements UserService {
       request.data.id = undefined;
     }
     return await requestClient.put<Empty>(`/users/${id}`, request);
+  }
+
+  async UserExists(request: UserExistsRequest): Promise<UserExistsResponse> {
+    return await requestClient.get<UserExistsResponse>(`/users_exists`, {
+      params: request,
+    });
   }
 }
 

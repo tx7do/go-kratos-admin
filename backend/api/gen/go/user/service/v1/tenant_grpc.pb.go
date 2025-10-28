@@ -21,12 +21,13 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	TenantService_List_FullMethodName        = "/user.service.v1.TenantService/List"
-	TenantService_Get_FullMethodName         = "/user.service.v1.TenantService/Get"
-	TenantService_Create_FullMethodName      = "/user.service.v1.TenantService/Create"
-	TenantService_Update_FullMethodName      = "/user.service.v1.TenantService/Update"
-	TenantService_Delete_FullMethodName      = "/user.service.v1.TenantService/Delete"
-	TenantService_BatchCreate_FullMethodName = "/user.service.v1.TenantService/BatchCreate"
+	TenantService_List_FullMethodName         = "/user.service.v1.TenantService/List"
+	TenantService_Get_FullMethodName          = "/user.service.v1.TenantService/Get"
+	TenantService_Create_FullMethodName       = "/user.service.v1.TenantService/Create"
+	TenantService_Update_FullMethodName       = "/user.service.v1.TenantService/Update"
+	TenantService_Delete_FullMethodName       = "/user.service.v1.TenantService/Delete"
+	TenantService_BatchCreate_FullMethodName  = "/user.service.v1.TenantService/BatchCreate"
+	TenantService_TenantExists_FullMethodName = "/user.service.v1.TenantService/TenantExists"
 )
 
 // TenantServiceClient is the client API for TenantService service.
@@ -47,6 +48,8 @@ type TenantServiceClient interface {
 	Delete(ctx context.Context, in *DeleteTenantRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	// 批量创建租户
 	BatchCreate(ctx context.Context, in *BatchCreateTenantsRequest, opts ...grpc.CallOption) (*BatchCreateTenantsResponse, error)
+	// 租户是否存在
+	TenantExists(ctx context.Context, in *TenantExistsRequest, opts ...grpc.CallOption) (*TenantExistsResponse, error)
 }
 
 type tenantServiceClient struct {
@@ -117,6 +120,16 @@ func (c *tenantServiceClient) BatchCreate(ctx context.Context, in *BatchCreateTe
 	return out, nil
 }
 
+func (c *tenantServiceClient) TenantExists(ctx context.Context, in *TenantExistsRequest, opts ...grpc.CallOption) (*TenantExistsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(TenantExistsResponse)
+	err := c.cc.Invoke(ctx, TenantService_TenantExists_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // TenantServiceServer is the server API for TenantService service.
 // All implementations must embed UnimplementedTenantServiceServer
 // for forward compatibility.
@@ -135,6 +148,8 @@ type TenantServiceServer interface {
 	Delete(context.Context, *DeleteTenantRequest) (*emptypb.Empty, error)
 	// 批量创建租户
 	BatchCreate(context.Context, *BatchCreateTenantsRequest) (*BatchCreateTenantsResponse, error)
+	// 租户是否存在
+	TenantExists(context.Context, *TenantExistsRequest) (*TenantExistsResponse, error)
 	mustEmbedUnimplementedTenantServiceServer()
 }
 
@@ -162,6 +177,9 @@ func (UnimplementedTenantServiceServer) Delete(context.Context, *DeleteTenantReq
 }
 func (UnimplementedTenantServiceServer) BatchCreate(context.Context, *BatchCreateTenantsRequest) (*BatchCreateTenantsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method BatchCreate not implemented")
+}
+func (UnimplementedTenantServiceServer) TenantExists(context.Context, *TenantExistsRequest) (*TenantExistsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method TenantExists not implemented")
 }
 func (UnimplementedTenantServiceServer) mustEmbedUnimplementedTenantServiceServer() {}
 func (UnimplementedTenantServiceServer) testEmbeddedByValue()                       {}
@@ -292,6 +310,24 @@ func _TenantService_BatchCreate_Handler(srv interface{}, ctx context.Context, de
 	return interceptor(ctx, in, info, handler)
 }
 
+func _TenantService_TenantExists_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(TenantExistsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TenantServiceServer).TenantExists(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: TenantService_TenantExists_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TenantServiceServer).TenantExists(ctx, req.(*TenantExistsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // TenantService_ServiceDesc is the grpc.ServiceDesc for TenantService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -322,6 +358,10 @@ var TenantService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "BatchCreate",
 			Handler:    _TenantService_BatchCreate_Handler,
+		},
+		{
+			MethodName: "TenantExists",
+			Handler:    _TenantService_TenantExists_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

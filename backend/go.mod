@@ -23,7 +23,7 @@ require (
 	github.com/lib/pq v1.10.9
 	github.com/mileusna/useragent v1.3.5
 	github.com/minio/minio-go/v7 v7.0.95
-	github.com/redis/go-redis/v9 v9.14.1
+	github.com/redis/go-redis/v9 v9.16.0
 	github.com/stretchr/testify v1.11.1
 	github.com/tx7do/go-utils v1.1.29
 	github.com/tx7do/go-utils/copierutil v0.0.5
@@ -46,10 +46,10 @@ require (
 	github.com/tx7do/kratos-bootstrap/rpc v0.0.19
 	github.com/tx7do/kratos-swagger-ui v0.0.0-20250528131001-09c0dbdb208d
 	github.com/tx7do/kratos-transport v1.1.17
-	github.com/tx7do/kratos-transport/transport/asynq v1.2.34
+	github.com/tx7do/kratos-transport/transport/asynq v1.2.35
 	github.com/tx7do/kratos-transport/transport/sse v1.2.24
 	google.golang.org/genproto v0.0.0-20251014184007-4626949a642f
-	google.golang.org/genproto/googleapis/api v0.0.0-20251014184007-4626949a642f
+	google.golang.org/genproto/googleapis/api v0.0.0-20251022142026-3a174f9686a8
 	google.golang.org/grpc v1.76.0
 	google.golang.org/protobuf v1.36.10
 )
@@ -127,7 +127,7 @@ require (
 	github.com/go-openapi/inflect v0.21.2 // indirect
 	github.com/go-openapi/jsonpointer v0.21.0 // indirect
 	github.com/go-openapi/swag v0.23.0 // indirect
-	github.com/go-playground/form/v4 v4.2.1 // indirect
+	github.com/go-playground/form/v4 v4.3.0 // indirect
 	github.com/go-viper/mapstructure/v2 v2.4.0 // indirect
 	github.com/go-zookeeper/zk v1.0.4 // indirect
 	github.com/gobwas/glob v0.2.3 // indirect
@@ -296,9 +296,9 @@ require (
 	golang.org/x/sync v0.17.0 // indirect
 	golang.org/x/sys v0.37.0 // indirect
 	golang.org/x/text v0.30.0 // indirect
-	golang.org/x/time v0.13.0 // indirect
+	golang.org/x/time v0.14.0 // indirect
 	golang.org/x/tools v0.37.0 // indirect
-	google.golang.org/genproto/googleapis/rpc v0.0.0-20251014184007-4626949a642f // indirect
+	google.golang.org/genproto/googleapis/rpc v0.0.0-20251022142026-3a174f9686a8 // indirect
 	gopkg.in/cenkalti/backoff.v1 v1.1.0 // indirect
 	gopkg.in/ini.v1 v1.67.0 // indirect
 	gopkg.in/natefinch/lumberjack.v2 v2.2.1 // indirect

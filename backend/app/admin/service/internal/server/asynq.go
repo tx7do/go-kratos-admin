@@ -6,6 +6,7 @@ import (
 	"github.com/go-kratos/kratos/v2/log"
 	conf "github.com/tx7do/kratos-bootstrap/api/gen/go/conf/v1"
 	"github.com/tx7do/kratos-transport/transport/asynq"
+	"google.golang.org/protobuf/types/known/emptypb"
 
 	"kratos-admin/app/admin/service/internal/service"
 
@@ -36,7 +37,7 @@ func NewAsynqServer(cfg *conf.Bootstrap, _ log.Logger, svc *service.TaskService)
 	}
 
 	// 启动所有的任务
-	_, _ = svc.StartAllTask(context.Background())
+	_, _ = svc.StartAllTask(context.Background(), &emptypb.Empty{})
 
 	return srv
 }

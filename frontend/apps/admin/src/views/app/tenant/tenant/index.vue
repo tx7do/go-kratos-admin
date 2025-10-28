@@ -12,9 +12,9 @@ import { notification } from 'ant-design-vue';
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
 import { $t } from '#/locales';
 import {
-  statusList,
   tenantAuditStatusToColor,
-  tenantAuditStatusToName, tenantStatusList,
+  tenantAuditStatusToName,
+  tenantStatusList,
   tenantStatusToColor,
   tenantStatusToName,
   tenantTypeToColor,
@@ -210,6 +210,7 @@ async function handleDelete(row: any) {
           {{ $t('page.tenant.button.create') }}
         </a-button>
       </template>
+
       <template #status="{ row }">
         <a-tag :color="tenantStatusToColor(row.status)">
           {{ tenantStatusToName(row.status) }}

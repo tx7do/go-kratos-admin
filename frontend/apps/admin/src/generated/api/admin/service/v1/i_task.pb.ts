@@ -10,20 +10,10 @@ import type { Empty } from "../../../google/protobuf/empty.pb";
 import type { Timestamp } from "../../../google/protobuf/timestamp.pb";
 import type { PagingRequest } from "../../../pagination/v1/pagination.pb";
 
-/** 调度任务控制类型 */
-export enum TaskControlType {
-  /** ControlType_Start - 启动 */
-  ControlType_Start = "ControlType_Start",
-  /** ControlType_Stop - 停止 */
-  ControlType_Stop = "ControlType_Stop",
-  /** ControlType_Restart - 重启 */
-  ControlType_Restart = "ControlType_Restart",
-}
-
 /** 任务选项 */
 export interface TaskOption {
   /** 任务最多可以重试的次数 */
-  retryCount?:
+  maxRetry?:
     | number
     | null
     | undefined;
@@ -43,7 +33,27 @@ export interface TaskOption {
     | null
     | undefined;
   /** 任务执行时间点 */
-  processAt?: Timestamp | null | undefined;
+  processAt?:
+    | Timestamp
+    | null
+    | undefined;
+  /** 任务唯一锁定时间 */
+  uniqueTTL?:
+    | Duration
+    | null
+    | undefined;
+  /** 任务结果保留时间 */
+  retention?:
+    | Duration
+    | null
+    | undefined;
+  /** 任务分组 */
+  group?:
+    | string
+    | null
+    | undefined;
+  /** 任务唯一标识ID */
+  taskID?: string | null | undefined;
 }
 
 /** 调度任务 */
@@ -168,9 +178,26 @@ export interface RestartAllTaskResponse {
 
 /** 控制调度任务 - 请求 */
 export interface ControlTaskRequest {
-  controlType: TaskControlType;
+  /** 控制类型 */
+  controlType: ControlTaskRequest_ControlType;
   /** 任务执行类型名 */
   typeName: string;
+}
+
+/** 调度任务控制类型 */
+export enum ControlTaskRequest_ControlType {
+  /** Start - 启动 */
+  Start = "Start",
+  /** Stop - 停止 */
+  Stop = "Stop",
+  /** Restart - 重启 */
+  Restart = "Restart",
+}
+
+/** 任务类型名称列表 - 回应 */
+export interface ListTaskTypeNameResponse {
+  /** 类型名称列表 */
+  typeNames: string[];
 }
 
 /** 调度任务管理服务 */
@@ -185,9 +212,14 @@ export interface TaskService {
   Update(request: UpdateTaskRequest): Promise<Empty>;
   /** 删除调度任务 */
   Delete(request: DeleteTaskRequest): Promise<Empty>;
+  /** 根据任务类型名称查询调度任务详情 */
   GetTaskByTypeName(request: GetTaskByTypeNameRequest): Promise<Task>;
+  /** 任务类型名称列表 */
+  ListTaskTypeName(request: Empty): Promise<ListTaskTypeNameResponse>;
   /** 重启所有的调度任务 */
   RestartAllTask(request: Empty): Promise<RestartAllTaskResponse>;
+  /** 启动所有的调度任务 */
+  StartAllTask(request: Empty): Promise<Empty>;
   /** 停止所有的调度任务 */
   StopAllTask(request: Empty): Promise<Empty>;
   /** 控制调度任务 */

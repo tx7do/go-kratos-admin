@@ -16,7 +16,7 @@ func TestNewUserTokenPayload(t *testing.T) {
 		Id:        trans.Ptr(uint32(1)),
 		TenantId:  trans.Ptr(uint32(2)),
 		Username:  trans.Ptr("test_user"),
-		Authority: trans.Ptr(userV1.UserAuthority_TENANT_ADMIN),
+		Authority: trans.Ptr(userV1.User_TENANT_ADMIN),
 	}
 
 	payload := NewUserTokenPayload(&user, clientId)
@@ -34,7 +34,7 @@ func TestMakeAuthClaims(t *testing.T) {
 		Id:        trans.Ptr(uint32(1)),
 		TenantId:  trans.Ptr(uint32(2)),
 		Username:  trans.Ptr("test_user"),
-		Authority: trans.Ptr(userV1.UserAuthority_TENANT_ADMIN),
+		Authority: trans.Ptr(userV1.User_TENANT_ADMIN),
 	}
 
 	claims := NewUserTokenAuthClaims(&user, clientId)
@@ -52,7 +52,7 @@ func TestExtractAuthClaims(t *testing.T) {
 		Id:        trans.Ptr(uint32(1)),
 		TenantId:  trans.Ptr(uint32(2)),
 		Username:  trans.Ptr("test_user"),
-		Authority: trans.Ptr(userV1.UserAuthority_TENANT_ADMIN),
+		Authority: trans.Ptr(userV1.User_TENANT_ADMIN),
 	}
 
 	claims := &authn.AuthClaims{

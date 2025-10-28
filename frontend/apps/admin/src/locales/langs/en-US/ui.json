@@ -51,6 +51,8 @@
     "update_status_failed": "Update Status Failed",
     "sync_success": "Sync Success",
     "sync_failed": "Sync Failed",
+    "operation_success": "Operation Success",
+    "operation_failed": "Operation Failed",
     "password_mismatch": "Password Mismatch"
   },
   "text": {

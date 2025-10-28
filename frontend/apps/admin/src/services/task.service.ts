@@ -5,6 +5,7 @@ import type {
   GetTaskByTypeNameRequest,
   GetTaskRequest,
   ListTaskResponse,
+  ListTaskTypeNameResponse,
   RestartAllTaskResponse,
   Task,
   TaskService,
@@ -45,11 +46,24 @@ class TaskServiceImpl implements TaskService {
     });
   }
 
+  async ListTaskTypeName(request: Empty): Promise<ListTaskTypeNameResponse> {
+    return await requestClient.get<ListTaskTypeNameResponse>(
+      '/tasks:type-names',
+      {
+        params: request,
+      },
+    );
+  }
+
   async RestartAllTask(request: Empty): Promise<RestartAllTaskResponse> {
     return await requestClient.post<RestartAllTaskResponse>(
       '/tasks:restart',
       request,
     );
+  }
+
+  async StartAllTask(_request: Empty): Promise<Empty> {
+    return await requestClient.post<Empty>('/tasks:start', _request);
   }
 
   async StopAllTask(_request: Empty): Promise<Empty> {

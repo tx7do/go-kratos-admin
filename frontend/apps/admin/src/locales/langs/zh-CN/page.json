@@ -66,17 +66,17 @@
         "operationLog": "操作日志"
       },
       "desc": {
-        "username" : "用户名",
-        "realname" : "真实姓名",
-        "nickname" : "昵称",
-        "gender" : "性别",
-        "mobile" : "手机号",
-        "email" : "电子邮箱",
-        "orgName" : "所属组织",
-        "departmentName" : "所属部门",
-        "positionName" : "职位",
-        "lastLoginTime" : "最后登录时间",
-        "lastLoginIp" : "最后登录IP"
+        "username": "用户名",
+        "realname": "真实姓名",
+        "nickname": "昵称",
+        "gender": "性别",
+        "mobile": "手机号",
+        "email": "电子邮箱",
+        "orgName": "所属组织",
+        "departmentName": "所属部门",
+        "positionName": "职位",
+        "lastLoginTime": "最后登录时间",
+        "lastLoginIp": "最后登录IP"
       }
     }
   },
@@ -181,8 +181,8 @@
     "type": "租户类型",
     "auditStatus": "审核状态",
     "adminSetting": "租户管理员",
-    "lastLoginTime" : "最后登录时间",
-    "lastLoginIp" : "最后登录IP",
+    "lastLoginTime": "最后登录时间",
+    "lastLoginIp": "最后登录IP",
     "logoUrl": "LOGO地址",
     "industry": "所属行业",
     "subscriptionPlan": "订阅套餐",
@@ -212,12 +212,32 @@
   "task": {
     "moduleName": "任务",
     "type": "调度类型",
-    "typeName": "任务名",
-    "taskPayload": "任务参数",
+    "typeName": "调度方法",
+    "taskPayload": "任务数据",
+    "taskOptions": "任务选项",
+    "taskOptionsMaxRetry": "重试次数",
+    "taskOptionsTimeout": "超时时间",
+    "taskOptionsDeadline": "截止时间",
+    "taskOptionsProcessIn": "延迟时间",
+    "taskOptionsProcessAt": "执行时间",
     "cronSpec": "cron表达式",
     "enable": "启用状态",
     "button": {
-      "create": "创建任务"
+      "create": "创建任务",
+      "start": "启动任务",
+      "restart": "重启任务",
+      "stop": "停止任务",
+      "startAll": "启动全部任务",
+      "restartAll": "重启全部任务",
+      "stopAll": "停止全部任务"
+    },
+    "text": {
+      "do_you_want_start_all_task": "您确定要启动全部任务吗？",
+      "do_you_want_restart_all_task": "您确定要重启全部任务吗？",
+      "do_you_want_stop_all_task": "您确定要停止全部任务吗？",
+      "do_you_want_start_task": "您确定要启动该任务吗？",
+      "do_you_want_restart_task": "您确定要重启该任务吗？",
+      "do_you_want_stop_task": "您确定要停止该任务吗？"
     }
   },
   "notificationMessage": {

@@ -27,7 +27,9 @@ const (
 	TaskService_Update_FullMethodName            = "/admin.service.v1.TaskService/Update"
 	TaskService_Delete_FullMethodName            = "/admin.service.v1.TaskService/Delete"
 	TaskService_GetTaskByTypeName_FullMethodName = "/admin.service.v1.TaskService/GetTaskByTypeName"
+	TaskService_ListTaskTypeName_FullMethodName  = "/admin.service.v1.TaskService/ListTaskTypeName"
 	TaskService_RestartAllTask_FullMethodName    = "/admin.service.v1.TaskService/RestartAllTask"
+	TaskService_StartAllTask_FullMethodName      = "/admin.service.v1.TaskService/StartAllTask"
 	TaskService_StopAllTask_FullMethodName       = "/admin.service.v1.TaskService/StopAllTask"
 	TaskService_ControlTask_FullMethodName       = "/admin.service.v1.TaskService/ControlTask"
 )
@@ -48,9 +50,14 @@ type TaskServiceClient interface {
 	Update(ctx context.Context, in *UpdateTaskRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	// 删除调度任务
 	Delete(ctx context.Context, in *DeleteTaskRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	// 根据任务类型名称查询调度任务详情
 	GetTaskByTypeName(ctx context.Context, in *GetTaskByTypeNameRequest, opts ...grpc.CallOption) (*Task, error)
+	// 任务类型名称列表
+	ListTaskTypeName(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*ListTaskTypeNameResponse, error)
 	// 重启所有的调度任务
 	RestartAllTask(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*RestartAllTaskResponse, error)
+	// 启动所有的调度任务
+	StartAllTask(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	// 停止所有的调度任务
 	StopAllTask(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	// 控制调度任务
@@ -125,10 +132,30 @@ func (c *taskServiceClient) GetTaskByTypeName(ctx context.Context, in *GetTaskBy
 	return out, nil
 }
 
+func (c *taskServiceClient) ListTaskTypeName(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*ListTaskTypeNameResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListTaskTypeNameResponse)
+	err := c.cc.Invoke(ctx, TaskService_ListTaskTypeName_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *taskServiceClient) RestartAllTask(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*RestartAllTaskResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(RestartAllTaskResponse)
 	err := c.cc.Invoke(ctx, TaskService_RestartAllTask_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *taskServiceClient) StartAllTask(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(emptypb.Empty)
+	err := c.cc.Invoke(ctx, TaskService_StartAllTask_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -171,9 +198,14 @@ type TaskServiceServer interface {
 	Update(context.Context, *UpdateTaskRequest) (*emptypb.Empty, error)
 	// 删除调度任务
 	Delete(context.Context, *DeleteTaskRequest) (*emptypb.Empty, error)
+	// 根据任务类型名称查询调度任务详情
 	GetTaskByTypeName(context.Context, *GetTaskByTypeNameRequest) (*Task, error)
+	// 任务类型名称列表
+	ListTaskTypeName(context.Context, *emptypb.Empty) (*ListTaskTypeNameResponse, error)
 	// 重启所有的调度任务
 	RestartAllTask(context.Context, *emptypb.Empty) (*RestartAllTaskResponse, error)
+	// 启动所有的调度任务
+	StartAllTask(context.Context, *emptypb.Empty) (*emptypb.Empty, error)
 	// 停止所有的调度任务
 	StopAllTask(context.Context, *emptypb.Empty) (*emptypb.Empty, error)
 	// 控制调度任务
@@ -206,8 +238,14 @@ func (UnimplementedTaskServiceServer) Delete(context.Context, *DeleteTaskRequest
 func (UnimplementedTaskServiceServer) GetTaskByTypeName(context.Context, *GetTaskByTypeNameRequest) (*Task, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetTaskByTypeName not implemented")
 }
+func (UnimplementedTaskServiceServer) ListTaskTypeName(context.Context, *emptypb.Empty) (*ListTaskTypeNameResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListTaskTypeName not implemented")
+}
 func (UnimplementedTaskServiceServer) RestartAllTask(context.Context, *emptypb.Empty) (*RestartAllTaskResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RestartAllTask not implemented")
+}
+func (UnimplementedTaskServiceServer) StartAllTask(context.Context, *emptypb.Empty) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method StartAllTask not implemented")
 }
 func (UnimplementedTaskServiceServer) StopAllTask(context.Context, *emptypb.Empty) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method StopAllTask not implemented")
@@ -344,6 +382,24 @@ func _TaskService_GetTaskByTypeName_Handler(srv interface{}, ctx context.Context
 	return interceptor(ctx, in, info, handler)
 }
 
+func _TaskService_ListTaskTypeName_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(emptypb.Empty)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TaskServiceServer).ListTaskTypeName(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: TaskService_ListTaskTypeName_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TaskServiceServer).ListTaskTypeName(ctx, req.(*emptypb.Empty))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _TaskService_RestartAllTask_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(emptypb.Empty)
 	if err := dec(in); err != nil {
@@ -358,6 +414,24 @@ func _TaskService_RestartAllTask_Handler(srv interface{}, ctx context.Context, d
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(TaskServiceServer).RestartAllTask(ctx, req.(*emptypb.Empty))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _TaskService_StartAllTask_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(emptypb.Empty)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TaskServiceServer).StartAllTask(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: TaskService_StartAllTask_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TaskServiceServer).StartAllTask(ctx, req.(*emptypb.Empty))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -430,8 +504,16 @@ var TaskService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _TaskService_GetTaskByTypeName_Handler,
 		},
 		{
+			MethodName: "ListTaskTypeName",
+			Handler:    _TaskService_ListTaskTypeName_Handler,
+		},
+		{
 			MethodName: "RestartAllTask",
 			Handler:    _TaskService_RestartAllTask_Handler,
+		},
+		{
+			MethodName: "StartAllTask",
+			Handler:    _TaskService_StartAllTask_Handler,
 		},
 		{
 			MethodName: "StopAllTask",

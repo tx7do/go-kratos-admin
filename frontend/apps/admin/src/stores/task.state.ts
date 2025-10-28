@@ -70,6 +70,41 @@ export const useTaskStore = defineStore('task', () => {
     return await defTaskService.Delete({ id });
   }
 
+  /**
+   * 获取任务类型名称列表
+   */
+  async function listTaskTypeName() {
+    return await defTaskService.ListTaskTypeName({});
+  }
+
+  /**
+   * 重启所有任务
+   */
+  async function restartAllTask() {
+    return await defTaskService.RestartAllTask({});
+  }
+
+  /**
+   * 停止所有任务
+   */
+  async function stopAllTask() {
+    return await defTaskService.StopAllTask({});
+  }
+
+  /**
+   * 启动所有任务
+   */
+  async function startAllTask() {
+    return await defTaskService.StartAllTask({});
+  }
+
+  /**
+   * 控制任务运行
+   */
+  async function controlTask(controlType: any, typeName: any) {
+    return await defTaskService.ControlTask({ controlType, typeName });
+  }
+
   function $reset() {}
 
   return {
@@ -79,6 +114,11 @@ export const useTaskStore = defineStore('task', () => {
     createTask,
     updateTask,
     deleteTask,
+    listTaskTypeName,
+    restartAllTask,
+    startAllTask,
+    stopAllTask,
+    controlTask,
   };
 });
 

@@ -2265,6 +2265,20 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/RestartAllTaskResponse'
+    /admin/v1/tasks:start:
+        post:
+            tags:
+                - TaskService
+            description: 启动所有的调度任务
+            operationId: TaskService_StartAllTask
+            requestBody:
+                content:
+                    application/json: {}
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content: {}
     /admin/v1/tasks:stop:
         post:
             tags:
@@ -2279,6 +2293,19 @@ paths:
                 "200":
                     description: OK
                     content: {}
+    /admin/v1/tasks:type-names:
+        get:
+            tags:
+                - TaskService
+            description: 任务类型名称列表
+            operationId: TaskService_ListTaskTypeName
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ListTaskTypeNameResponse'
     /admin/v1/tenants:
         get:
             tags:
@@ -2903,10 +2930,11 @@ components:
             properties:
                 controlType:
                     enum:
-                        - ControlType_Start
-                        - ControlType_Stop
-                        - ControlType_Restart
+                        - Start
+                        - Stop
+                        - Restart
                     type: string
+                    description: 控制类型
                     format: enum
                 typeName:
                     type: string
@@ -3443,6 +3471,15 @@ components:
                     type: integer
                     format: uint32
             description: 查询调度任务列表 - 回应
+        ListTaskTypeNameResponse:
+            type: object
+            properties:
+                typeNames:
+                    type: array
+                    items:
+                        type: string
+                    description: 类型名称列表
+            description: 任务类型名称列表 - 回应
         ListTenantResponse:
             type: object
             properties:
@@ -4298,7 +4335,7 @@ components:
         TaskOption:
             type: object
             properties:
-                retryCount:
+                maxRetry:
                     type: integer
                     description: 任务最多可以重试的次数
                     format: uint32
@@ -4318,6 +4355,20 @@ components:
                     type: string
                     description: 任务执行时间点
                     format: date-time
+                uniqueTTL:
+                    pattern: ^-?(?:0|[1-9][0-9]{0,11})(?:\.[0-9]{1,9})?s$
+                    type: string
+                    description: 任务唯一锁定时间
+                retention:
+                    pattern: ^-?(?:0|[1-9][0-9]{0,11})(?:\.[0-9]{1,9})?s$
+                    type: string
+                    description: 任务结果保留时间
+                group:
+                    type: string
+                    description: 任务分组
+                taskID:
+                    type: string
+                    description: 任务唯一标识ID
             description: 任务选项
         Tenant:
             type: object

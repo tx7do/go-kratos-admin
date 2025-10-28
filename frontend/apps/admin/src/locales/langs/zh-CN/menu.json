@@ -41,6 +41,6 @@
     "moduleName": "站内消息",
     "notificationMessage": "通知消息",
     "notificationMessageCategory": "通知类型",
-    "privateMessage": "私聊消息"
+    "privateMessage": "私信消息"
   }
 }

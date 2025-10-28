@@ -206,10 +206,30 @@
     "type": "Type",
     "typeName": "Type Name",
     "taskPayload": "Task Payload",
+    "taskOptions": "Task Options",
+    "taskOptionsMaxRetry": "Retry Count",
+    "taskOptionsTimeout": "Timeout",
+    "taskOptionsDeadline": "Deadline",
+    "taskOptionsProcessIn": "Process In",
+    "taskOptionsProcessAt": "Process At",
     "cronSpec": "Cron Spec",
     "enable": "Enable",
     "button": {
-      "create": "Create"
+      "create": "Create",
+      "start": "Start Task",
+      "restart": "Restart Task",
+      "stop": "Stop Task",
+      "startAll": "Start All Tasks",
+      "restartAll": "Restart All Tasks",
+      "stopAll": "Stop All Tasks"
+    },
+    "text": {
+      "do_you_want_start_all_task": "Are you sure you want to start all tasks?",
+      "do_you_want_restart_all_task": "Are you sure you want to restart all tasks?",
+      "do_you_want_stop_all_task": "Are you sure you want to stop all tasks?",
+      "do_you_want_start_task": "Are you sure you want to start this task?",
+      "do_you_want_restart_task": "Are you sure you want to restart this task?",
+      "do_you_want_stop_task": "Are you sure you want to stop this task?"
     }
   },
   "notificationMessage": {

@@ -53,12 +53,28 @@ service TaskService {
     };
   }
 
+  // 根据任务类型名称查询调度任务详情
   rpc GetTaskByTypeName (GetTaskByTypeNameRequest) returns (Task) {}
+
+  // 任务类型名称列表
+  rpc ListTaskTypeName (google.protobuf.Empty) returns (ListTaskTypeNameResponse) {
+    option (google.api.http) = {
+      get: "/admin/v1/tasks:type-names"
+    };
+  }
 
   // 重启所有的调度任务
   rpc RestartAllTask (google.protobuf.Empty) returns (RestartAllTaskResponse) {
     option (google.api.http) = {
       post: "/admin/v1/tasks:restart"
+      body: "*"
+    };
+  }
+
+  // 启动所有的调度任务
+  rpc StartAllTask (google.protobuf.Empty) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      post: "/admin/v1/tasks:start"
       body: "*"
     };
   }
@@ -80,12 +96,10 @@ service TaskService {
   }
 }
 
-
-
 // 任务选项
 message TaskOption {
-  optional uint32 retry_count = 1 [
-    json_name = "retryCount",
+  optional uint32 max_retry = 1 [
+    json_name = "maxRetry",
     (google.api.field_behavior) = OPTIONAL,
     (gnostic.openapi.v3.property) = {
       description: "任务最多可以重试的次数"
@@ -123,6 +137,38 @@ message TaskOption {
       description: "任务执行时间点"
     }
   ]; // 任务执行时间点
+
+  optional google.protobuf.Duration unique_ttl = 6 [
+    json_name = "uniqueTTL",
+    (google.api.field_behavior) = OPTIONAL,
+    (gnostic.openapi.v3.property) = {
+      description: "任务唯一锁定时间"
+    }
+  ]; // 任务唯一锁定时间
+
+  optional google.protobuf.Duration retention = 7 [
+    json_name = "retention",
+    (google.api.field_behavior) = OPTIONAL,
+    (gnostic.openapi.v3.property) = {
+      description: "任务结果保留时间"
+    }
+  ]; // 任务结果保留时间
+
+  optional string group = 8 [
+    json_name = "group",
+    (google.api.field_behavior) = OPTIONAL,
+    (gnostic.openapi.v3.property) = {
+      description: "任务分组"
+    }
+  ]; // 任务分组
+
+  optional string task_id = 9 [
+    json_name = "taskID",
+    (google.api.field_behavior) = OPTIONAL,
+    (gnostic.openapi.v3.property) = {
+      description: "任务唯一标识ID"
+    }
+  ]; // 任务唯一标识ID
 }
 
 // 调度任务
@@ -191,9 +237,7 @@ message Task {
 
   optional string remark = 11 [
     json_name = "remark",
-    (gnostic.openapi.v3.property) = {
-      description: "备注"
-    }
+    (gnostic.openapi.v3.property) = {description: "备注"}
   ]; // 备注
 
   optional uint32 create_by = 100 [json_name = "createBy", (gnostic.openapi.v3.property) = {description: "创建者ID"}]; // 创建者ID
@@ -257,16 +301,19 @@ message RestartAllTaskResponse {
   int32 count = 1;
 }
 
-// 调度任务控制类型
-enum TaskControlType {
-  ControlType_Start = 0; // 启动
-  ControlType_Stop = 1;  // 停止
-  ControlType_Restart = 2; // 重启
-}
-
 // 控制调度任务 - 请求
 message ControlTaskRequest {
-  TaskControlType control_type = 1;
+  // 调度任务控制类型
+  enum ControlType {
+    Start = 0; // 启动
+    Stop = 1;  // 停止
+    Restart = 2; // 重启
+  }
+
+  ControlType control_type = 1 [
+    json_name = "controlType",
+    (gnostic.openapi.v3.property) = {description: "控制类型"}
+  ]; // 控制类型
 
   string type_name = 2 [
     json_name = "typeName",
@@ -275,4 +322,12 @@ message ControlTaskRequest {
       description: "任务执行类型名，例如 \"send_email\"、\"generate_report\" 等，用于区分不同类型的任务"
     }
   ]; // 任务执行类型名
+}
+
+// 任务类型名称列表 - 回应
+message ListTaskTypeNameResponse {
+  repeated string type_names = 1 [
+    json_name = "typeNames",
+    (gnostic.openapi.v3.property) = {description: "类型名称列表"}
+  ]; // 类型名称列表
 }

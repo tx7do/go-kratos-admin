@@ -48,14 +48,35 @@ const [BaseForm, baseFormApi] = useVbenForm({
     },
 
     {
-      component: 'Input',
+      component: 'ApiSelect',
       fieldName: 'typeName',
       label: $t('page.task.typeName'),
+      rules: 'required',
+      componentProps: {
+        allowClear: true,
+        showSearch: true,
+        placeholder: $t('ui.placeholder.select'),
+        api: async () => {
+          const result = await taskStore.listTaskTypeName();
+          return result.typeNames;
+        },
+        afterFetch: (data: { name: string; path: string }[]) => {
+          return data.map((item: any) => ({
+            label: item,
+            value: item,
+          }));
+        },
+      },
+    },
+
+    {
+      component: 'Textarea',
+      fieldName: 'taskPayload',
+      label: $t('page.task.taskPayload'),
       componentProps: {
         placeholder: $t('ui.placeholder.input'),
         allowClear: true,
       },
-      rules: 'required',
     },
 
     {
@@ -66,16 +87,89 @@ const [BaseForm, baseFormApi] = useVbenForm({
         placeholder: $t('ui.placeholder.input'),
         allowClear: true,
       },
-      rules: 'required',
+      dependencies: {
+        show: (values) => {
+          return [Task_Type.PERIODIC].includes(values.type);
+        },
+        triggerFields: ['type'],
+      },
     },
 
     {
-      component: 'Textarea',
-      fieldName: 'taskPayload',
-      label: $t('page.task.taskPayload'),
+      component: 'InputNumber',
+      fieldName: 'taskOptions.maxRetry',
+      label: $t('page.task.taskOptionsMaxRetry'),
       componentProps: {
         placeholder: $t('ui.placeholder.input'),
         allowClear: true,
+        defaultValue: 3,
+      },
+    },
+
+    {
+      component: 'InputNumber',
+      fieldName: 'taskOptions.timeout',
+      label: $t('page.task.taskOptionsTimeout'),
+      componentProps: {
+        placeholder: $t('ui.placeholder.input'),
+        allowClear: true,
+      },
+      dependencies: {
+        show: (values) => {
+          return [Task_Type.DELAY, Task_Type.WAIT_RESULT].includes(values.type);
+        },
+        triggerFields: ['type'],
+      },
+    },
+
+    {
+      component: 'DatePicker',
+      fieldName: 'taskOptions.deadline',
+      label: $t('page.task.taskOptionsDeadline'),
+      componentProps: {
+        placeholder: $t('ui.placeholder.input'),
+        allowClear: true,
+        showTime: true,
+      },
+      dependencies: {
+        show: (values) => {
+          return [Task_Type.DELAY].includes(values.type);
+        },
+        triggerFields: ['type'],
+      },
+    },
+
+    {
+      component: 'DatePicker',
+      fieldName: 'taskOptions.processIn',
+      label: $t('page.task.taskOptionsProcessIn'),
+      componentProps: {
+        placeholder: $t('ui.placeholder.input'),
+        allowClear: true,
+        showTime: true,
+      },
+      dependencies: {
+        show: (values) => {
+          return [Task_Type.DELAY].includes(values.type);
+        },
+        triggerFields: ['type'],
+      },
+    },
+
+    {
+      component: 'DatePicker',
+      fieldName: 'taskOptions.processAt',
+      label: $t('page.task.taskOptionsProcessAt'),
+      componentProps: {
+        placeholder: $t('ui.placeholder.input'),
+        allowClear: true,
+        showTime: true,
+      },
+      dependencies: {
+        show: (values) => {
+          return [Task_Type.DELAY].includes(values.type);
+        },
+        triggerFields: ['type'],
       },
     },
 

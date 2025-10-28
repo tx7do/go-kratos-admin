@@ -28,56 +28,6 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-// 调度任务控制类型
-type TaskControlType int32
-
-const (
-	TaskControlType_ControlType_Start   TaskControlType = 0 // 启动
-	TaskControlType_ControlType_Stop    TaskControlType = 1 // 停止
-	TaskControlType_ControlType_Restart TaskControlType = 2 // 重启
-)
-
-// Enum value maps for TaskControlType.
-var (
-	TaskControlType_name = map[int32]string{
-		0: "ControlType_Start",
-		1: "ControlType_Stop",
-		2: "ControlType_Restart",
-	}
-	TaskControlType_value = map[string]int32{
-		"ControlType_Start":   0,
-		"ControlType_Stop":    1,
-		"ControlType_Restart": 2,
-	}
-)
-
-func (x TaskControlType) Enum() *TaskControlType {
-	p := new(TaskControlType)
-	*p = x
-	return p
-}
-
-func (x TaskControlType) String() string {
-	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
-}
-
-func (TaskControlType) Descriptor() protoreflect.EnumDescriptor {
-	return file_admin_service_v1_i_task_proto_enumTypes[0].Descriptor()
-}
-
-func (TaskControlType) Type() protoreflect.EnumType {
-	return &file_admin_service_v1_i_task_proto_enumTypes[0]
-}
-
-func (x TaskControlType) Number() protoreflect.EnumNumber {
-	return protoreflect.EnumNumber(x)
-}
-
-// Deprecated: Use TaskControlType.Descriptor instead.
-func (TaskControlType) EnumDescriptor() ([]byte, []int) {
-	return file_admin_service_v1_i_task_proto_rawDescGZIP(), []int{0}
-}
-
 // 调度任务类型
 type Task_Type int32
 
@@ -112,11 +62,11 @@ func (x Task_Type) String() string {
 }
 
 func (Task_Type) Descriptor() protoreflect.EnumDescriptor {
-	return file_admin_service_v1_i_task_proto_enumTypes[1].Descriptor()
+	return file_admin_service_v1_i_task_proto_enumTypes[0].Descriptor()
 }
 
 func (Task_Type) Type() protoreflect.EnumType {
-	return &file_admin_service_v1_i_task_proto_enumTypes[1]
+	return &file_admin_service_v1_i_task_proto_enumTypes[0]
 }
 
 func (x Task_Type) Number() protoreflect.EnumNumber {
@@ -128,14 +78,68 @@ func (Task_Type) EnumDescriptor() ([]byte, []int) {
 	return file_admin_service_v1_i_task_proto_rawDescGZIP(), []int{1, 0}
 }
 
+// 调度任务控制类型
+type ControlTaskRequest_ControlType int32
+
+const (
+	ControlTaskRequest_Start   ControlTaskRequest_ControlType = 0 // 启动
+	ControlTaskRequest_Stop    ControlTaskRequest_ControlType = 1 // 停止
+	ControlTaskRequest_Restart ControlTaskRequest_ControlType = 2 // 重启
+)
+
+// Enum value maps for ControlTaskRequest_ControlType.
+var (
+	ControlTaskRequest_ControlType_name = map[int32]string{
+		0: "Start",
+		1: "Stop",
+		2: "Restart",
+	}
+	ControlTaskRequest_ControlType_value = map[string]int32{
+		"Start":   0,
+		"Stop":    1,
+		"Restart": 2,
+	}
+)
+
+func (x ControlTaskRequest_ControlType) Enum() *ControlTaskRequest_ControlType {
+	p := new(ControlTaskRequest_ControlType)
+	*p = x
+	return p
+}
+
+func (x ControlTaskRequest_ControlType) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (ControlTaskRequest_ControlType) Descriptor() protoreflect.EnumDescriptor {
+	return file_admin_service_v1_i_task_proto_enumTypes[1].Descriptor()
+}
+
+func (ControlTaskRequest_ControlType) Type() protoreflect.EnumType {
+	return &file_admin_service_v1_i_task_proto_enumTypes[1]
+}
+
+func (x ControlTaskRequest_ControlType) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use ControlTaskRequest_ControlType.Descriptor instead.
+func (ControlTaskRequest_ControlType) EnumDescriptor() ([]byte, []int) {
+	return file_admin_service_v1_i_task_proto_rawDescGZIP(), []int{9, 0}
+}
+
 // 任务选项
 type TaskOption struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	RetryCount    *uint32                `protobuf:"varint,1,opt,name=retry_count,json=retryCount,proto3,oneof" json:"retry_count,omitempty"` // 任务最多可以重试的次数
-	Timeout       *durationpb.Duration   `protobuf:"bytes,2,opt,name=timeout,proto3,oneof" json:"timeout,omitempty"`                          // 任务超时时间
-	Deadline      *timestamppb.Timestamp `protobuf:"bytes,3,opt,name=deadline,proto3,oneof" json:"deadline,omitempty"`                        // 任务截止时间
-	ProcessIn     *durationpb.Duration   `protobuf:"bytes,4,opt,name=process_in,json=processIn,proto3,oneof" json:"process_in,omitempty"`     // 任务延迟处理时间
-	ProcessAt     *timestamppb.Timestamp `protobuf:"bytes,5,opt,name=process_at,json=processAt,proto3,oneof" json:"process_at,omitempty"`     // 任务执行时间点
+	MaxRetry      *uint32                `protobuf:"varint,1,opt,name=max_retry,json=maxRetry,proto3,oneof" json:"max_retry,omitempty"`   // 任务最多可以重试的次数
+	Timeout       *durationpb.Duration   `protobuf:"bytes,2,opt,name=timeout,proto3,oneof" json:"timeout,omitempty"`                      // 任务超时时间
+	Deadline      *timestamppb.Timestamp `protobuf:"bytes,3,opt,name=deadline,proto3,oneof" json:"deadline,omitempty"`                    // 任务截止时间
+	ProcessIn     *durationpb.Duration   `protobuf:"bytes,4,opt,name=process_in,json=processIn,proto3,oneof" json:"process_in,omitempty"` // 任务延迟处理时间
+	ProcessAt     *timestamppb.Timestamp `protobuf:"bytes,5,opt,name=process_at,json=processAt,proto3,oneof" json:"process_at,omitempty"` // 任务执行时间点
+	UniqueTtl     *durationpb.Duration   `protobuf:"bytes,6,opt,name=unique_ttl,json=uniqueTTL,proto3,oneof" json:"unique_ttl,omitempty"` // 任务唯一锁定时间
+	Retention     *durationpb.Duration   `protobuf:"bytes,7,opt,name=retention,proto3,oneof" json:"retention,omitempty"`                  // 任务结果保留时间
+	Group         *string                `protobuf:"bytes,8,opt,name=group,proto3,oneof" json:"group,omitempty"`                          // 任务分组
+	TaskId        *string                `protobuf:"bytes,9,opt,name=task_id,json=taskID,proto3,oneof" json:"task_id,omitempty"`          // 任务唯一标识ID
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -170,9 +174,9 @@ func (*TaskOption) Descriptor() ([]byte, []int) {
 	return file_admin_service_v1_i_task_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *TaskOption) GetRetryCount() uint32 {
-	if x != nil && x.RetryCount != nil {
-		return *x.RetryCount
+func (x *TaskOption) GetMaxRetry() uint32 {
+	if x != nil && x.MaxRetry != nil {
+		return *x.MaxRetry
 	}
 	return 0
 }
@@ -203,6 +207,34 @@ func (x *TaskOption) GetProcessAt() *timestamppb.Timestamp {
 		return x.ProcessAt
 	}
 	return nil
+}
+
+func (x *TaskOption) GetUniqueTtl() *durationpb.Duration {
+	if x != nil {
+		return x.UniqueTtl
+	}
+	return nil
+}
+
+func (x *TaskOption) GetRetention() *durationpb.Duration {
+	if x != nil {
+		return x.Retention
+	}
+	return nil
+}
+
+func (x *TaskOption) GetGroup() string {
+	if x != nil && x.Group != nil {
+		return *x.Group
+	}
+	return ""
+}
+
+func (x *TaskOption) GetTaskId() string {
+	if x != nil && x.TaskId != nil {
+		return *x.TaskId
+	}
+	return ""
 }
 
 // 调度任务
@@ -686,9 +718,9 @@ func (x *RestartAllTaskResponse) GetCount() int32 {
 
 // 控制调度任务 - 请求
 type ControlTaskRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	ControlType   TaskControlType        `protobuf:"varint,1,opt,name=control_type,json=controlType,proto3,enum=admin.service.v1.TaskControlType" json:"control_type,omitempty"`
-	TypeName      string                 `protobuf:"bytes,2,opt,name=type_name,json=typeName,proto3" json:"type_name,omitempty"` // 任务执行类型名
+	state         protoimpl.MessageState         `protogen:"open.v1"`
+	ControlType   ControlTaskRequest_ControlType `protobuf:"varint,1,opt,name=control_type,json=controlType,proto3,enum=admin.service.v1.ControlTaskRequest_ControlType" json:"control_type,omitempty"` // 控制类型
+	TypeName      string                         `protobuf:"bytes,2,opt,name=type_name,json=typeName,proto3" json:"type_name,omitempty"`                                                                // 任务执行类型名
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -723,11 +755,11 @@ func (*ControlTaskRequest) Descriptor() ([]byte, []int) {
 	return file_admin_service_v1_i_task_proto_rawDescGZIP(), []int{9}
 }
 
-func (x *ControlTaskRequest) GetControlType() TaskControlType {
+func (x *ControlTaskRequest) GetControlType() ControlTaskRequest_ControlType {
 	if x != nil {
 		return x.ControlType
 	}
-	return TaskControlType_ControlType_Start
+	return ControlTaskRequest_Start
 }
 
 func (x *ControlTaskRequest) GetTypeName() string {
@@ -737,27 +769,83 @@ func (x *ControlTaskRequest) GetTypeName() string {
 	return ""
 }
 
+// 任务类型名称列表 - 回应
+type ListTaskTypeNameResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	TypeNames     []string               `protobuf:"bytes,1,rep,name=type_names,json=typeNames,proto3" json:"type_names,omitempty"` // 类型名称列表
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListTaskTypeNameResponse) Reset() {
+	*x = ListTaskTypeNameResponse{}
+	mi := &file_admin_service_v1_i_task_proto_msgTypes[10]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListTaskTypeNameResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListTaskTypeNameResponse) ProtoMessage() {}
+
+func (x *ListTaskTypeNameResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_admin_service_v1_i_task_proto_msgTypes[10]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListTaskTypeNameResponse.ProtoReflect.Descriptor instead.
+func (*ListTaskTypeNameResponse) Descriptor() ([]byte, []int) {
+	return file_admin_service_v1_i_task_proto_rawDescGZIP(), []int{10}
+}
+
+func (x *ListTaskTypeNameResponse) GetTypeNames() []string {
+	if x != nil {
+		return x.TypeNames
+	}
+	return nil
+}
+
 var File_admin_service_v1_i_task_proto protoreflect.FileDescriptor
 
 const file_admin_service_v1_i_task_proto_rawDesc = "" +
 	"\n" +
-	"\x1dadmin/service/v1/i_task.proto\x12\x10admin.service.v1\x1a$gnostic/openapi/v3/annotations.proto\x1a\x1cgoogle/api/annotations.proto\x1a\x1fgoogle/api/field_behavior.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x1egoogle/protobuf/duration.proto\x1a google/protobuf/field_mask.proto\x1a\x1epagination/v1/pagination.proto\"\x98\x04\n" +
+	"\x1dadmin/service/v1/i_task.proto\x12\x10admin.service.v1\x1a$gnostic/openapi/v3/annotations.proto\x1a\x1cgoogle/api/annotations.proto\x1a\x1fgoogle/api/field_behavior.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x1egoogle/protobuf/duration.proto\x1a google/protobuf/field_mask.proto\x1a\x1epagination/v1/pagination.proto\"\xf7\x06\n" +
 	"\n" +
-	"TaskOption\x12P\n" +
-	"\vretry_count\x18\x01 \x01(\rB*\xe0A\x01\xbaG$\x92\x02!任务最多可以重试的次数H\x00R\n" +
-	"retryCount\x88\x01\x01\x12U\n" +
+	"TaskOption\x12L\n" +
+	"\tmax_retry\x18\x01 \x01(\rB*\xe0A\x01\xbaG$\x92\x02!任务最多可以重试的次数H\x00R\bmaxRetry\x88\x01\x01\x12U\n" +
 	"\atimeout\x18\x02 \x01(\v2\x19.google.protobuf.DurationB\x1b\xe0A\x01\xbaG\x15\x92\x02\x12任务超时时间H\x01R\atimeout\x88\x01\x01\x12X\n" +
 	"\bdeadline\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampB\x1b\xe0A\x01\xbaG\x15\x92\x02\x12任务截止时间H\x02R\bdeadline\x88\x01\x01\x12`\n" +
 	"\n" +
 	"process_in\x18\x04 \x01(\v2\x19.google.protobuf.DurationB!\xe0A\x01\xbaG\x1b\x92\x02\x18任务延迟处理时间H\x03R\tprocessIn\x88\x01\x01\x12^\n" +
 	"\n" +
-	"process_at\x18\x05 \x01(\v2\x1a.google.protobuf.TimestampB\x1e\xe0A\x01\xbaG\x18\x92\x02\x15任务执行时间点H\x04R\tprocessAt\x88\x01\x01B\x0e\n" +
-	"\f_retry_countB\n" +
+	"process_at\x18\x05 \x01(\v2\x1a.google.protobuf.TimestampB\x1e\xe0A\x01\xbaG\x18\x92\x02\x15任务执行时间点H\x04R\tprocessAt\x88\x01\x01\x12`\n" +
+	"\n" +
+	"unique_ttl\x18\x06 \x01(\v2\x19.google.protobuf.DurationB!\xe0A\x01\xbaG\x1b\x92\x02\x18任务唯一锁定时间H\x05R\tuniqueTTL\x88\x01\x01\x12_\n" +
+	"\tretention\x18\a \x01(\v2\x19.google.protobuf.DurationB!\xe0A\x01\xbaG\x1b\x92\x02\x18任务结果保留时间H\x06R\tretention\x88\x01\x01\x120\n" +
+	"\x05group\x18\b \x01(\tB\x15\xe0A\x01\xbaG\x0f\x92\x02\f任务分组H\aR\x05group\x88\x01\x01\x12;\n" +
+	"\atask_id\x18\t \x01(\tB\x1d\xe0A\x01\xbaG\x17\x92\x02\x14任务唯一标识IDH\bR\x06taskID\x88\x01\x01B\f\n" +
+	"\n" +
+	"_max_retryB\n" +
 	"\n" +
 	"\b_timeoutB\v\n" +
 	"\t_deadlineB\r\n" +
 	"\v_process_inB\r\n" +
-	"\v_process_at\"\xca\n" +
+	"\v_process_atB\r\n" +
+	"\v_unique_ttlB\f\n" +
+	"\n" +
+	"_retentionB\b\n" +
+	"\x06_groupB\n" +
+	"\n" +
+	"\b_task_id\"\xca\n" +
 	"\n" +
 	"\x04Task\x12&\n" +
 	"\x02id\x18\x01 \x01(\rB\x11\xe0A\x01\xbaG\v\x92\x02\b任务IDH\x00R\x02id\x88\x01\x01\x12K\n" +
@@ -817,22 +905,27 @@ const file_admin_service_v1_i_task_proto_rawDesc = "" +
 	"\x11DeleteTaskRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\rR\x02id\".\n" +
 	"\x16RestartAllTaskResponse\x12\x14\n" +
-	"\x05count\x18\x01 \x01(\x05R\x05count\"\xea\x01\n" +
-	"\x12ControlTaskRequest\x12D\n" +
-	"\fcontrol_type\x18\x01 \x01(\x0e2!.admin.service.v1.TaskControlTypeR\vcontrolType\x12\x8d\x01\n" +
-	"\ttype_name\x18\x02 \x01(\tBp\xe0A\x01\xbaGj\x92\x02g任务执行类型名，例如 \"send_email\"、\"generate_report\" 等，用于区分不同类型的任务R\btypeName*W\n" +
-	"\x0fTaskControlType\x12\x15\n" +
-	"\x11ControlType_Start\x10\x00\x12\x14\n" +
-	"\x10ControlType_Stop\x10\x01\x12\x17\n" +
-	"\x13ControlType_Restart\x10\x022\xa5\a\n" +
+	"\x05count\x18\x01 \x01(\x05R\x05count\"\xbe\x02\n" +
+	"\x12ControlTaskRequest\x12g\n" +
+	"\fcontrol_type\x18\x01 \x01(\x0e20.admin.service.v1.ControlTaskRequest.ControlTypeB\x12\xbaG\x0f\x92\x02\f控制类型R\vcontrolType\x12\x8d\x01\n" +
+	"\ttype_name\x18\x02 \x01(\tBp\xe0A\x01\xbaGj\x92\x02g任务执行类型名，例如 \"send_email\"、\"generate_report\" 等，用于区分不同类型的任务R\btypeName\"/\n" +
+	"\vControlType\x12\t\n" +
+	"\x05Start\x10\x00\x12\b\n" +
+	"\x04Stop\x10\x01\x12\v\n" +
+	"\aRestart\x10\x02\"S\n" +
+	"\x18ListTaskTypeNameResponse\x127\n" +
+	"\n" +
+	"type_names\x18\x01 \x03(\tB\x18\xbaG\x15\x92\x02\x12类型名称列表R\ttypeNames2\x83\t\n" +
 	"\vTaskService\x12^\n" +
 	"\x04List\x12\x19.pagination.PagingRequest\x1a\".admin.service.v1.ListTaskResponse\"\x17\x82\xd3\xe4\x93\x02\x11\x12\x0f/admin/v1/tasks\x12]\n" +
 	"\x03Get\x12 .admin.service.v1.GetTaskRequest\x1a\x16.admin.service.v1.Task\"\x1c\x82\xd3\xe4\x93\x02\x16\x12\x14/admin/v1/tasks/{id}\x12a\n" +
 	"\x06Create\x12#.admin.service.v1.CreateTaskRequest\x1a\x16.google.protobuf.Empty\"\x1a\x82\xd3\xe4\x93\x02\x14:\x01*\"\x0f/admin/v1/tasks\x12k\n" +
 	"\x06Update\x12#.admin.service.v1.UpdateTaskRequest\x1a\x16.google.protobuf.Empty\"$\x82\xd3\xe4\x93\x02\x1e:\x01*\x1a\x19/admin/v1/tasks/{data.id}\x12c\n" +
 	"\x06Delete\x12#.admin.service.v1.DeleteTaskRequest\x1a\x16.google.protobuf.Empty\"\x1c\x82\xd3\xe4\x93\x02\x16*\x14/admin/v1/tasks/{id}\x12Y\n" +
-	"\x11GetTaskByTypeName\x12*.admin.service.v1.GetTaskByTypeNameRequest\x1a\x16.admin.service.v1.Task\"\x00\x12v\n" +
-	"\x0eRestartAllTask\x12\x16.google.protobuf.Empty\x1a(.admin.service.v1.RestartAllTaskResponse\"\"\x82\xd3\xe4\x93\x02\x1c:\x01*\"\x17/admin/v1/tasks:restart\x12^\n" +
+	"\x11GetTaskByTypeName\x12*.admin.service.v1.GetTaskByTypeNameRequest\x1a\x16.admin.service.v1.Task\"\x00\x12z\n" +
+	"\x10ListTaskTypeName\x12\x16.google.protobuf.Empty\x1a*.admin.service.v1.ListTaskTypeNameResponse\"\"\x82\xd3\xe4\x93\x02\x1c\x12\x1a/admin/v1/tasks:type-names\x12v\n" +
+	"\x0eRestartAllTask\x12\x16.google.protobuf.Empty\x1a(.admin.service.v1.RestartAllTaskResponse\"\"\x82\xd3\xe4\x93\x02\x1c:\x01*\"\x17/admin/v1/tasks:restart\x12`\n" +
+	"\fStartAllTask\x12\x16.google.protobuf.Empty\x1a\x16.google.protobuf.Empty\" \x82\xd3\xe4\x93\x02\x1a:\x01*\"\x15/admin/v1/tasks:start\x12^\n" +
 	"\vStopAllTask\x12\x16.google.protobuf.Empty\x1a\x16.google.protobuf.Empty\"\x1f\x82\xd3\xe4\x93\x02\x19:\x01*\"\x14/admin/v1/tasks:stop\x12o\n" +
 	"\vControlTask\x12$.admin.service.v1.ControlTaskRequest\x1a\x16.google.protobuf.Empty\"\"\x82\xd3\xe4\x93\x02\x1c:\x01*\"\x17/admin/v1/tasks:controlB\xb8\x01\n" +
 	"\x14com.admin.service.v1B\n" +
@@ -851,64 +944,71 @@ func file_admin_service_v1_i_task_proto_rawDescGZIP() []byte {
 }
 
 var file_admin_service_v1_i_task_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
-var file_admin_service_v1_i_task_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
+var file_admin_service_v1_i_task_proto_msgTypes = make([]protoimpl.MessageInfo, 11)
 var file_admin_service_v1_i_task_proto_goTypes = []any{
-	(TaskControlType)(0),             // 0: admin.service.v1.TaskControlType
-	(Task_Type)(0),                   // 1: admin.service.v1.Task.Type
-	(*TaskOption)(nil),               // 2: admin.service.v1.TaskOption
-	(*Task)(nil),                     // 3: admin.service.v1.Task
-	(*ListTaskResponse)(nil),         // 4: admin.service.v1.ListTaskResponse
-	(*GetTaskRequest)(nil),           // 5: admin.service.v1.GetTaskRequest
-	(*GetTaskByTypeNameRequest)(nil), // 6: admin.service.v1.GetTaskByTypeNameRequest
-	(*CreateTaskRequest)(nil),        // 7: admin.service.v1.CreateTaskRequest
-	(*UpdateTaskRequest)(nil),        // 8: admin.service.v1.UpdateTaskRequest
-	(*DeleteTaskRequest)(nil),        // 9: admin.service.v1.DeleteTaskRequest
-	(*RestartAllTaskResponse)(nil),   // 10: admin.service.v1.RestartAllTaskResponse
-	(*ControlTaskRequest)(nil),       // 11: admin.service.v1.ControlTaskRequest
-	(*durationpb.Duration)(nil),      // 12: google.protobuf.Duration
-	(*timestamppb.Timestamp)(nil),    // 13: google.protobuf.Timestamp
-	(*fieldmaskpb.FieldMask)(nil),    // 14: google.protobuf.FieldMask
-	(*v1.PagingRequest)(nil),         // 15: pagination.PagingRequest
-	(*emptypb.Empty)(nil),            // 16: google.protobuf.Empty
+	(Task_Type)(0),                      // 0: admin.service.v1.Task.Type
+	(ControlTaskRequest_ControlType)(0), // 1: admin.service.v1.ControlTaskRequest.ControlType
+	(*TaskOption)(nil),                  // 2: admin.service.v1.TaskOption
+	(*Task)(nil),                        // 3: admin.service.v1.Task
+	(*ListTaskResponse)(nil),            // 4: admin.service.v1.ListTaskResponse
+	(*GetTaskRequest)(nil),              // 5: admin.service.v1.GetTaskRequest
+	(*GetTaskByTypeNameRequest)(nil),    // 6: admin.service.v1.GetTaskByTypeNameRequest
+	(*CreateTaskRequest)(nil),           // 7: admin.service.v1.CreateTaskRequest
+	(*UpdateTaskRequest)(nil),           // 8: admin.service.v1.UpdateTaskRequest
+	(*DeleteTaskRequest)(nil),           // 9: admin.service.v1.DeleteTaskRequest
+	(*RestartAllTaskResponse)(nil),      // 10: admin.service.v1.RestartAllTaskResponse
+	(*ControlTaskRequest)(nil),          // 11: admin.service.v1.ControlTaskRequest
+	(*ListTaskTypeNameResponse)(nil),    // 12: admin.service.v1.ListTaskTypeNameResponse
+	(*durationpb.Duration)(nil),         // 13: google.protobuf.Duration
+	(*timestamppb.Timestamp)(nil),       // 14: google.protobuf.Timestamp
+	(*fieldmaskpb.FieldMask)(nil),       // 15: google.protobuf.FieldMask
+	(*v1.PagingRequest)(nil),            // 16: pagination.PagingRequest
+	(*emptypb.Empty)(nil),               // 17: google.protobuf.Empty
 }
 var file_admin_service_v1_i_task_proto_depIdxs = []int32{
-	12, // 0: admin.service.v1.TaskOption.timeout:type_name -> google.protobuf.Duration
-	13, // 1: admin.service.v1.TaskOption.deadline:type_name -> google.protobuf.Timestamp
-	12, // 2: admin.service.v1.TaskOption.process_in:type_name -> google.protobuf.Duration
-	13, // 3: admin.service.v1.TaskOption.process_at:type_name -> google.protobuf.Timestamp
-	1,  // 4: admin.service.v1.Task.type:type_name -> admin.service.v1.Task.Type
-	2,  // 5: admin.service.v1.Task.task_options:type_name -> admin.service.v1.TaskOption
-	13, // 6: admin.service.v1.Task.create_time:type_name -> google.protobuf.Timestamp
-	13, // 7: admin.service.v1.Task.update_time:type_name -> google.protobuf.Timestamp
-	13, // 8: admin.service.v1.Task.delete_time:type_name -> google.protobuf.Timestamp
-	3,  // 9: admin.service.v1.ListTaskResponse.items:type_name -> admin.service.v1.Task
-	3,  // 10: admin.service.v1.CreateTaskRequest.data:type_name -> admin.service.v1.Task
-	3,  // 11: admin.service.v1.UpdateTaskRequest.data:type_name -> admin.service.v1.Task
-	14, // 12: admin.service.v1.UpdateTaskRequest.update_mask:type_name -> google.protobuf.FieldMask
-	0,  // 13: admin.service.v1.ControlTaskRequest.control_type:type_name -> admin.service.v1.TaskControlType
-	15, // 14: admin.service.v1.TaskService.List:input_type -> pagination.PagingRequest
-	5,  // 15: admin.service.v1.TaskService.Get:input_type -> admin.service.v1.GetTaskRequest
-	7,  // 16: admin.service.v1.TaskService.Create:input_type -> admin.service.v1.CreateTaskRequest
-	8,  // 17: admin.service.v1.TaskService.Update:input_type -> admin.service.v1.UpdateTaskRequest
-	9,  // 18: admin.service.v1.TaskService.Delete:input_type -> admin.service.v1.DeleteTaskRequest
-	6,  // 19: admin.service.v1.TaskService.GetTaskByTypeName:input_type -> admin.service.v1.GetTaskByTypeNameRequest
-	16, // 20: admin.service.v1.TaskService.RestartAllTask:input_type -> google.protobuf.Empty
-	16, // 21: admin.service.v1.TaskService.StopAllTask:input_type -> google.protobuf.Empty
-	11, // 22: admin.service.v1.TaskService.ControlTask:input_type -> admin.service.v1.ControlTaskRequest
-	4,  // 23: admin.service.v1.TaskService.List:output_type -> admin.service.v1.ListTaskResponse
-	3,  // 24: admin.service.v1.TaskService.Get:output_type -> admin.service.v1.Task
-	16, // 25: admin.service.v1.TaskService.Create:output_type -> google.protobuf.Empty
-	16, // 26: admin.service.v1.TaskService.Update:output_type -> google.protobuf.Empty
-	16, // 27: admin.service.v1.TaskService.Delete:output_type -> google.protobuf.Empty
-	3,  // 28: admin.service.v1.TaskService.GetTaskByTypeName:output_type -> admin.service.v1.Task
-	10, // 29: admin.service.v1.TaskService.RestartAllTask:output_type -> admin.service.v1.RestartAllTaskResponse
-	16, // 30: admin.service.v1.TaskService.StopAllTask:output_type -> google.protobuf.Empty
-	16, // 31: admin.service.v1.TaskService.ControlTask:output_type -> google.protobuf.Empty
-	23, // [23:32] is the sub-list for method output_type
-	14, // [14:23] is the sub-list for method input_type
-	14, // [14:14] is the sub-list for extension type_name
-	14, // [14:14] is the sub-list for extension extendee
-	0,  // [0:14] is the sub-list for field type_name
+	13, // 0: admin.service.v1.TaskOption.timeout:type_name -> google.protobuf.Duration
+	14, // 1: admin.service.v1.TaskOption.deadline:type_name -> google.protobuf.Timestamp
+	13, // 2: admin.service.v1.TaskOption.process_in:type_name -> google.protobuf.Duration
+	14, // 3: admin.service.v1.TaskOption.process_at:type_name -> google.protobuf.Timestamp
+	13, // 4: admin.service.v1.TaskOption.unique_ttl:type_name -> google.protobuf.Duration
+	13, // 5: admin.service.v1.TaskOption.retention:type_name -> google.protobuf.Duration
+	0,  // 6: admin.service.v1.Task.type:type_name -> admin.service.v1.Task.Type
+	2,  // 7: admin.service.v1.Task.task_options:type_name -> admin.service.v1.TaskOption
+	14, // 8: admin.service.v1.Task.create_time:type_name -> google.protobuf.Timestamp
+	14, // 9: admin.service.v1.Task.update_time:type_name -> google.protobuf.Timestamp
+	14, // 10: admin.service.v1.Task.delete_time:type_name -> google.protobuf.Timestamp
+	3,  // 11: admin.service.v1.ListTaskResponse.items:type_name -> admin.service.v1.Task
+	3,  // 12: admin.service.v1.CreateTaskRequest.data:type_name -> admin.service.v1.Task
+	3,  // 13: admin.service.v1.UpdateTaskRequest.data:type_name -> admin.service.v1.Task
+	15, // 14: admin.service.v1.UpdateTaskRequest.update_mask:type_name -> google.protobuf.FieldMask
+	1,  // 15: admin.service.v1.ControlTaskRequest.control_type:type_name -> admin.service.v1.ControlTaskRequest.ControlType
+	16, // 16: admin.service.v1.TaskService.List:input_type -> pagination.PagingRequest
+	5,  // 17: admin.service.v1.TaskService.Get:input_type -> admin.service.v1.GetTaskRequest
+	7,  // 18: admin.service.v1.TaskService.Create:input_type -> admin.service.v1.CreateTaskRequest
+	8,  // 19: admin.service.v1.TaskService.Update:input_type -> admin.service.v1.UpdateTaskRequest
+	9,  // 20: admin.service.v1.TaskService.Delete:input_type -> admin.service.v1.DeleteTaskRequest
+	6,  // 21: admin.service.v1.TaskService.GetTaskByTypeName:input_type -> admin.service.v1.GetTaskByTypeNameRequest
+	17, // 22: admin.service.v1.TaskService.ListTaskTypeName:input_type -> google.protobuf.Empty
+	17, // 23: admin.service.v1.TaskService.RestartAllTask:input_type -> google.protobuf.Empty
+	17, // 24: admin.service.v1.TaskService.StartAllTask:input_type -> google.protobuf.Empty
+	17, // 25: admin.service.v1.TaskService.StopAllTask:input_type -> google.protobuf.Empty
+	11, // 26: admin.service.v1.TaskService.ControlTask:input_type -> admin.service.v1.ControlTaskRequest
+	4,  // 27: admin.service.v1.TaskService.List:output_type -> admin.service.v1.ListTaskResponse
+	3,  // 28: admin.service.v1.TaskService.Get:output_type -> admin.service.v1.Task
+	17, // 29: admin.service.v1.TaskService.Create:output_type -> google.protobuf.Empty
+	17, // 30: admin.service.v1.TaskService.Update:output_type -> google.protobuf.Empty
+	17, // 31: admin.service.v1.TaskService.Delete:output_type -> google.protobuf.Empty
+	3,  // 32: admin.service.v1.TaskService.GetTaskByTypeName:output_type -> admin.service.v1.Task
+	12, // 33: admin.service.v1.TaskService.ListTaskTypeName:output_type -> admin.service.v1.ListTaskTypeNameResponse
+	10, // 34: admin.service.v1.TaskService.RestartAllTask:output_type -> admin.service.v1.RestartAllTaskResponse
+	17, // 35: admin.service.v1.TaskService.StartAllTask:output_type -> google.protobuf.Empty
+	17, // 36: admin.service.v1.TaskService.StopAllTask:output_type -> google.protobuf.Empty
+	17, // 37: admin.service.v1.TaskService.ControlTask:output_type -> google.protobuf.Empty
+	27, // [27:38] is the sub-list for method output_type
+	16, // [16:27] is the sub-list for method input_type
+	16, // [16:16] is the sub-list for extension type_name
+	16, // [16:16] is the sub-list for extension extendee
+	0,  // [0:16] is the sub-list for field type_name
 }
 
 func init() { file_admin_service_v1_i_task_proto_init() }
@@ -925,7 +1025,7 @@ func file_admin_service_v1_i_task_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_admin_service_v1_i_task_proto_rawDesc), len(file_admin_service_v1_i_task_proto_rawDesc)),
 			NumEnums:      2,
-			NumMessages:   10,
+			NumMessages:   11,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

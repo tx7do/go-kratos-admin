@@ -139,6 +139,7 @@ func (r *ApiResourceRepo) Get(ctx context.Context, req *adminV1.GetApiResourceRe
 	return r.mapper.ToDTO(entity), nil
 }
 
+// GetApiResourceByEndpoint 根据路径和方法获取API资源
 func (r *ApiResourceRepo) GetApiResourceByEndpoint(ctx context.Context, path, method string) (*adminV1.ApiResource, error) {
 	if path == "" || method == "" {
 		return nil, adminV1.ErrorBadRequest("invalid parameter")
@@ -273,6 +274,7 @@ func (r *ApiResourceRepo) Delete(ctx context.Context, req *adminV1.DeleteApiReso
 	return nil
 }
 
+// Truncate 清空表数据
 func (r *ApiResourceRepo) Truncate(ctx context.Context) error {
 	if _, err := r.data.db.Client().ApiResource.Delete().Exec(ctx); err != nil {
 		r.log.Errorf("failed to truncate api_resources table: %s", err.Error())

@@ -22,6 +22,7 @@ import {
 import { $t } from '#/locales';
 import {
   enableList,
+  taskTypeList,
   taskTypeToColor,
   taskTypeToName,
   useTaskStore,
@@ -40,10 +41,23 @@ const formOptions: VbenFormProps = {
   submitOnEnter: true,
   schema: [
     {
+      component: 'Select',
+      fieldName: 'type',
+      label: $t('page.task.type'),
+      componentProps: {
+        placeholder: $t('ui.placeholder.select'),
+        options: taskTypeList,
+        filterOption: (input: string, option: any) =>
+          option.label.toLowerCase().includes(input.toLowerCase()),
+        allowClear: true,
+        showSearch: true,
+      },
+    },
+
+    {
       component: 'ApiSelect',
       fieldName: 'typeName',
       label: $t('page.task.typeName'),
-      rules: 'required',
       componentProps: {
         allowClear: true,
         showSearch: true,

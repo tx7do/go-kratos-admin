@@ -80,8 +80,8 @@ func InitDepartmentNameSetMap(departments []*userV1.Department, userSet *name_se
 
 func QueryTenantInfoFromRepo(ctx context.Context, tenantRepo *data.TenantRepo, nameSetMap *name_set.UserNameSetMap) {
 	var ids []uint32
-	for orgId := range *nameSetMap {
-		ids = append(ids, orgId)
+	for id := range *nameSetMap {
+		ids = append(ids, id)
 	}
 
 	tenants, err := tenantRepo.GetTenantsByIds(ctx, ids)
@@ -99,8 +99,8 @@ func QueryTenantInfoFromRepo(ctx context.Context, tenantRepo *data.TenantRepo, n
 
 func QueryOrganizationInfoFromRepo(ctx context.Context, organizationRepo *data.OrganizationRepo, nameSetMap *name_set.UserNameSetMap) {
 	var ids []uint32
-	for orgId := range *nameSetMap {
-		ids = append(ids, orgId)
+	for id := range *nameSetMap {
+		ids = append(ids, id)
 	}
 
 	orgs, err := organizationRepo.GetOrganizationsByIds(ctx, ids)
@@ -118,8 +118,8 @@ func QueryOrganizationInfoFromRepo(ctx context.Context, organizationRepo *data.O
 
 func QueryDepartmentInfoFromRepo(ctx context.Context, departmentRepo *data.DepartmentRepo, nameSetMap *name_set.UserNameSetMap) {
 	var ids []uint32
-	for deptId := range *nameSetMap {
-		ids = append(ids, deptId)
+	for id := range *nameSetMap {
+		ids = append(ids, id)
 	}
 
 	depts, err := departmentRepo.GetDepartmentsByIds(ctx, ids)

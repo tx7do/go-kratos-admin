@@ -180,7 +180,7 @@ func (s *UserService) List(ctx context.Context, req *pagination.PagingRequest) (
 	return resp, nil
 }
 
-func (s *UserService) fileUserInfo(ctx context.Context, user *userV1.User) error {
+func (s *UserService) fillUserInfo(ctx context.Context, user *userV1.User) error {
 	if user.TenantId != nil {
 		tenant, err := s.tenantRepo.Get(ctx, &userV1.GetTenantRequest{Id: user.GetTenantId()})
 		if err == nil && tenant != nil {
@@ -242,7 +242,7 @@ func (s *UserService) Get(ctx context.Context, req *userV1.GetUserRequest) (*use
 		return nil, err
 	}
 
-	_ = s.fileUserInfo(ctx, resp)
+	_ = s.fillUserInfo(ctx, resp)
 
 	return resp, nil
 }
@@ -253,7 +253,7 @@ func (s *UserService) GetUserByUserName(ctx context.Context, req *userV1.GetUser
 		return nil, err
 	}
 
-	_ = s.fileUserInfo(ctx, resp)
+	_ = s.fillUserInfo(ctx, resp)
 
 	return resp, nil
 }

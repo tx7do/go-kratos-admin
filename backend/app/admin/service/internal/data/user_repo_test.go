@@ -160,7 +160,7 @@ func TestCopier(t *testing.T) {
 		entMsg.Realname = trans.Ptr("RealName")
 		entMsg.Email = trans.Ptr("test@gmail.com")
 		entMsg.TenantID = trans.Ptr(uint32(2))
-		entMsg.Status = trans.Ptr(user.StatusON)
+		entMsg.Status = trans.Ptr(user.StatusOn)
 
 		_ = copier.Copy(&protoMsg, entMsg)
 		assert.Equal(t, protoMsg.GetUsername(), *entMsg.Username)
@@ -181,7 +181,7 @@ func TestCopier(t *testing.T) {
 	{
 		var in ent.Department
 		var out userV1.Department
-		in.Status = trans.Ptr(department.StatusDEPARTMENT_STATUS_ON)
+		in.Status = trans.Ptr(department.StatusOn)
 
 		_ = copier.Copy(&out, &in)
 

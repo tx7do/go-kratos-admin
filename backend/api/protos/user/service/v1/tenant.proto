@@ -32,6 +32,9 @@ service TenantService {
 
   // 租户是否存在
   rpc TenantExists ( TenantExistsRequest ) returns ( TenantExistsResponse ) {}
+
+  // 根据租户编码获取租户信息
+  rpc GetTenantByTenantCode(GetTenantByTenantCodeRequest) returns (Tenant) {}
 }
 
 // 租户
@@ -212,4 +215,11 @@ message TenantExistsRequest {
 // 租户是否存在 - 答复
 message TenantExistsResponse {
   bool exist = 1;
+}
+
+message GetTenantByTenantCodeRequest {
+  string code = 1 [
+    (gnostic.openapi.v3.property) = {description: "租户编码", read_only: true},
+    json_name = "code"
+  ]; // 租户编码
 }

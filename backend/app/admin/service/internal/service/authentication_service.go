@@ -280,16 +280,6 @@ func (s *AuthenticationService) RegisterUser(ctx context.Context, req *authentic
 	}, nil
 }
 
-func (s *AuthenticationService) ChangePassword(ctx context.Context, req *authenticationV1.ChangePasswordRequest) (*emptypb.Empty, error) {
-	err := s.userCredentialRepo.ChangeCredential(ctx, &authenticationV1.ChangeCredentialRequest{
-		IdentityType:  authenticationV1.IdentityType_USERNAME,
-		Identifier:    req.GetUsername(),
-		OldCredential: req.GetOldPassword(),
-		NewCredential: req.GetNewPassword(),
-	})
-	return &emptypb.Empty{}, err
-}
-
 func (s *AuthenticationService) WhoAmI(ctx context.Context, _ *emptypb.Empty) (*authenticationV1.WhoAmIResponse, error) {
 	// 获取操作人信息
 	operator, err := auth.FromContext(ctx)

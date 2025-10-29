@@ -24,20 +24,20 @@ type UserService struct {
 
 	log *log.Helper
 
-	userRepo            *data.UserRepo
-	roleRepo            *data.RoleRepo
-	userCredentialsRepo *data.UserCredentialRepo
-	positionRepo        *data.PositionRepo
-	departmentRepo      *data.DepartmentRepo
-	organizationRepo    *data.OrganizationRepo
-	tenantRepo          *data.TenantRepo
+	userRepo           *data.UserRepo
+	roleRepo           *data.RoleRepo
+	userCredentialRepo *data.UserCredentialRepo
+	positionRepo       *data.PositionRepo
+	departmentRepo     *data.DepartmentRepo
+	organizationRepo   *data.OrganizationRepo
+	tenantRepo         *data.TenantRepo
 }
 
 func NewUserService(
 	logger log.Logger,
 	userRepo *data.UserRepo,
 	roleRepo *data.RoleRepo,
-	userCredentialsRepo *data.UserCredentialRepo,
+	userCredentialRepo *data.UserCredentialRepo,
 	positionRepo *data.PositionRepo,
 	departmentRepo *data.DepartmentRepo,
 	organizationRepo *data.OrganizationRepo,
@@ -45,14 +45,14 @@ func NewUserService(
 ) *UserService {
 	l := log.NewHelper(log.With(logger, "module", "user/service/admin-service"))
 	svc := &UserService{
-		log:                 l,
-		userRepo:            userRepo,
-		roleRepo:            roleRepo,
-		userCredentialsRepo: userCredentialsRepo,
-		positionRepo:        positionRepo,
-		departmentRepo:      departmentRepo,
-		organizationRepo:    organizationRepo,
-		tenantRepo:          tenantRepo,
+		log:                l,
+		userRepo:           userRepo,
+		roleRepo:           roleRepo,
+		userCredentialRepo: userCredentialRepo,
+		positionRepo:       positionRepo,
+		departmentRepo:     departmentRepo,
+		organizationRepo:   organizationRepo,
+		tenantRepo:         tenantRepo,
 	}
 
 	svc.init()
@@ -307,7 +307,7 @@ func (s *UserService) Create(ctx context.Context, req *userV1.CreateUserRequest)
 	}
 
 	if len(req.GetPassword()) > 0 {
-		if err = s.userCredentialsRepo.Create(ctx, &authenticationV1.CreateUserCredentialRequest{
+		if err = s.userCredentialRepo.Create(ctx, &authenticationV1.CreateUserCredentialRequest{
 			Data: &authenticationV1.UserCredential{
 				UserId:   user.Id,
 				TenantId: user.TenantId,
@@ -366,7 +366,7 @@ func (s *UserService) Update(ctx context.Context, req *userV1.UpdateUserRequest)
 	}
 
 	if len(req.GetPassword()) > 0 {
-		if err = s.userCredentialsRepo.ResetCredential(ctx, &authenticationV1.ResetCredentialRequest{
+		if err = s.userCredentialRepo.ResetCredential(ctx, &authenticationV1.ResetCredentialRequest{
 			IdentityType:  authenticationV1.IdentityType_USERNAME,
 			Identifier:    req.Data.GetUsername(),
 			NewCredential: req.GetPassword(),
@@ -422,14 +422,14 @@ func (s *UserService) UserExists(ctx context.Context, req *userV1.UserExistsRequ
 }
 
 // EditUserPassword 修改用户密码
-func (s *UserService) EditUserPassword(ctx context.Context, req *userV1.EditUserPasswordRequest) (*emptypb.Empty, error) {
+func (s *UserService) EditUserPassword(ctx context.Context, req *adminV1.EditUserPasswordRequest) (*emptypb.Empty, error) {
 	// 获取操作者的用户信息
 	u, err := s.userRepo.Get(ctx, req.GetUserId())
 	if err != nil {
 		return nil, err
 	}
 
-	if err = s.userCredentialsRepo.ResetCredential(ctx, &authenticationV1.ResetCredentialRequest{
+	if err = s.userCredentialRepo.ResetCredential(ctx, &authenticationV1.ResetCredentialRequest{
 		IdentityType:  authenticationV1.IdentityType_USERNAME,
 		Identifier:    u.GetUsername(),
 		NewCredential: req.GetNewPassword(),
@@ -440,6 +440,16 @@ func (s *UserService) EditUserPassword(ctx context.Context, req *userV1.EditUser
 	}
 
 	return &emptypb.Empty{}, nil
+}
+
+func (s *UserService) ChangePassword(ctx context.Context, req *adminV1.ChangePasswordRequest) (*emptypb.Empty, error) {
+	err := s.userCredentialRepo.ChangeCredential(ctx, &authenticationV1.ChangeCredentialRequest{
+		IdentityType:  authenticationV1.IdentityType_USERNAME,
+		Identifier:    req.GetUsername(),
+		OldCredential: req.GetOldPassword(),
+		NewCredential: req.GetNewPassword(),
+	})
+	return &emptypb.Empty{}, err
 }
 
 // CreateDefaultUser 创建默认用户，即超级用户
@@ -467,7 +477,7 @@ func (s *UserService) CreateDefaultUser(ctx context.Context) error {
 		return err
 	}
 
-	if err = s.userCredentialsRepo.Create(ctx, &authenticationV1.CreateUserCredentialRequest{
+	if err = s.userCredentialRepo.Create(ctx, &authenticationV1.CreateUserCredentialRequest{
 		Data: &authenticationV1.UserCredential{
 			UserId:         trans.Ptr(uint32(1)),
 			IdentityType:   authenticationV1.IdentityType_USERNAME.Enum(),

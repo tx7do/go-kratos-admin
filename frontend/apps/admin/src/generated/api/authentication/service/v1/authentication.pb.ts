@@ -161,16 +161,6 @@ export interface WhoAmIResponse {
   authority: User_Authority;
 }
 
-/** 修改用户密码 - 请求 */
-export interface ChangePasswordRequest {
-  /** 用户名 */
-  username: string;
-  /** 旧密码 */
-  oldPassword: string;
-  /** 新密码 */
-  newPassword: string;
-}
-
 /** 用户登录认证服务 */
 export interface AuthenticationService {
   /** 用户登录 */
@@ -183,8 +173,6 @@ export interface AuthenticationService {
   RefreshToken(request: LoginRequest): Promise<LoginResponse>;
   /** 验证令牌 */
   ValidateToken(request: ValidateTokenRequest): Promise<ValidateTokenResponse>;
-  /** 修改用户密码 */
-  ChangePassword(request: ChangePasswordRequest): Promise<Empty>;
   /** 获取当前用户身份信息 */
   WhoAmI(request: Empty): Promise<WhoAmIResponse>;
 }

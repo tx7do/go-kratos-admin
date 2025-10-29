@@ -267,14 +267,6 @@ export interface BatchCreateUsersResponse {
   data: User[];
 }
 
-/** 修改用户密码 - 请求 */
-export interface EditUserPasswordRequest {
-  /** 用户ID */
-  userId: number;
-  /** 新密码 */
-  newPassword: string;
-}
-
 /** 用户服务 */
 export interface UserService {
   /** 查询用户列表 */
@@ -293,6 +285,4 @@ export interface UserService {
   GetUserByUserName(request: GetUserByUserNameRequest): Promise<User>;
   /** 用户是否存在 */
   UserExists(request: UserExistsRequest): Promise<UserExistsResponse>;
-  /** 修改用户密码 */
-  EditUserPassword(request: EditUserPasswordRequest): Promise<Empty>;
 }

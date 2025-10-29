@@ -29,31 +29,27 @@ var File_admin_service_v1_i_authentication_proto protoreflect.FileDescriptor
 
 const file_admin_service_v1_i_authentication_proto_rawDesc = "" +
 	"\n" +
-	"'admin/service/v1/i_authentication.proto\x12\x10admin.service.v1\x1a$gnostic/openapi/v3/annotations.proto\x1a\x1cgoogle/api/annotations.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1auser/service/v1/user.proto\x1a.authentication/service/v1/authentication.proto2\xf6\x03\n" +
+	"'admin/service/v1/i_authentication.proto\x12\x10admin.service.v1\x1a$gnostic/openapi/v3/annotations.proto\x1a\x1cgoogle/api/annotations.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1auser/service/v1/user.proto\x1a.authentication/service/v1/authentication.proto2\xf3\x02\n" +
 	"\x15AuthenticationService\x12{\n" +
 	"\x05Login\x12'.authentication.service.v1.LoginRequest\x1a(.authentication.service.v1.LoginResponse\"\x1f\xbaG\x02Z\x00\x82\xd3\xe4\x93\x02\x14:\x01*\"\x0f/admin/v1/login\x12U\n" +
 	"\x06Logout\x12\x16.google.protobuf.Empty\x1a\x16.google.protobuf.Empty\"\x1b\x82\xd3\xe4\x93\x02\x15:\x01*\"\x10/admin/v1/logout\x12\x85\x01\n" +
-	"\fRefreshToken\x12'.authentication.service.v1.LoginRequest\x1a(.authentication.service.v1.LoginResponse\"\"\x82\xd3\xe4\x93\x02\x1c:\x01*\"\x17/admin/v1/refresh_token\x12\x80\x01\n" +
-	"\x0eChangePassword\x120.authentication.service.v1.ChangePasswordRequest\x1a\x16.google.protobuf.Empty\"$\x82\xd3\xe4\x93\x02\x1e:\x01*\"\x19/admin/v1/change_passwordB\xc2\x01\n" +
+	"\fRefreshToken\x12'.authentication.service.v1.LoginRequest\x1a(.authentication.service.v1.LoginResponse\"\"\x82\xd3\xe4\x93\x02\x1c:\x01*\"\x17/admin/v1/refresh_tokenB\xc2\x01\n" +
 	"\x14com.admin.service.v1B\x14IAuthenticationProtoP\x01Z2kratos-admin/api/gen/go/admin/service/v1;servicev1\xa2\x02\x03ASX\xaa\x02\x10Admin.Service.V1\xca\x02\x10Admin\\Service\\V1\xe2\x02\x1cAdmin\\Service\\V1\\GPBMetadata\xea\x02\x12Admin::Service::V1b\x06proto3"
 
 var file_admin_service_v1_i_authentication_proto_goTypes = []any{
-	(*v1.LoginRequest)(nil),          // 0: authentication.service.v1.LoginRequest
-	(*emptypb.Empty)(nil),            // 1: google.protobuf.Empty
-	(*v1.ChangePasswordRequest)(nil), // 2: authentication.service.v1.ChangePasswordRequest
-	(*v1.LoginResponse)(nil),         // 3: authentication.service.v1.LoginResponse
+	(*v1.LoginRequest)(nil),  // 0: authentication.service.v1.LoginRequest
+	(*emptypb.Empty)(nil),    // 1: google.protobuf.Empty
+	(*v1.LoginResponse)(nil), // 2: authentication.service.v1.LoginResponse
 }
 var file_admin_service_v1_i_authentication_proto_depIdxs = []int32{
 	0, // 0: admin.service.v1.AuthenticationService.Login:input_type -> authentication.service.v1.LoginRequest
 	1, // 1: admin.service.v1.AuthenticationService.Logout:input_type -> google.protobuf.Empty
 	0, // 2: admin.service.v1.AuthenticationService.RefreshToken:input_type -> authentication.service.v1.LoginRequest
-	2, // 3: admin.service.v1.AuthenticationService.ChangePassword:input_type -> authentication.service.v1.ChangePasswordRequest
-	3, // 4: admin.service.v1.AuthenticationService.Login:output_type -> authentication.service.v1.LoginResponse
-	1, // 5: admin.service.v1.AuthenticationService.Logout:output_type -> google.protobuf.Empty
-	3, // 6: admin.service.v1.AuthenticationService.RefreshToken:output_type -> authentication.service.v1.LoginResponse
-	1, // 7: admin.service.v1.AuthenticationService.ChangePassword:output_type -> google.protobuf.Empty
-	4, // [4:8] is the sub-list for method output_type
-	0, // [0:4] is the sub-list for method input_type
+	2, // 3: admin.service.v1.AuthenticationService.Login:output_type -> authentication.service.v1.LoginResponse
+	1, // 4: admin.service.v1.AuthenticationService.Logout:output_type -> google.protobuf.Empty
+	2, // 5: admin.service.v1.AuthenticationService.RefreshToken:output_type -> authentication.service.v1.LoginResponse
+	3, // [3:6] is the sub-list for method output_type
+	0, // [0:3] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
 	0, // [0:0] is the sub-list for extension extendee
 	0, // [0:0] is the sub-list for field type_name

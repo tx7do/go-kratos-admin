@@ -733,67 +733,6 @@ func (x *WhoAmIResponse) GetAuthority() v1.User_Authority {
 	return v1.User_Authority(0)
 }
 
-// 修改用户密码 - 请求
-type ChangePasswordRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Username      string                 `protobuf:"bytes,1,opt,name=username,proto3" json:"username,omitempty"`                          // 用户名
-	OldPassword   string                 `protobuf:"bytes,2,opt,name=old_password,json=oldPassword,proto3" json:"old_password,omitempty"` // 旧密码
-	NewPassword   string                 `protobuf:"bytes,3,opt,name=new_password,json=newPassword,proto3" json:"new_password,omitempty"` // 新密码
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *ChangePasswordRequest) Reset() {
-	*x = ChangePasswordRequest{}
-	mi := &file_authentication_service_v1_authentication_proto_msgTypes[8]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *ChangePasswordRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*ChangePasswordRequest) ProtoMessage() {}
-
-func (x *ChangePasswordRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_authentication_service_v1_authentication_proto_msgTypes[8]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use ChangePasswordRequest.ProtoReflect.Descriptor instead.
-func (*ChangePasswordRequest) Descriptor() ([]byte, []int) {
-	return file_authentication_service_v1_authentication_proto_rawDescGZIP(), []int{8}
-}
-
-func (x *ChangePasswordRequest) GetUsername() string {
-	if x != nil {
-		return x.Username
-	}
-	return ""
-}
-
-func (x *ChangePasswordRequest) GetOldPassword() string {
-	if x != nil {
-		return x.OldPassword
-	}
-	return ""
-}
-
-func (x *ChangePasswordRequest) GetNewPassword() string {
-	if x != nil {
-		return x.NewPassword
-	}
-	return ""
-}
-
 var File_authentication_service_v1_authentication_proto protoreflect.FileDescriptor
 
 const file_authentication_service_v1_authentication_proto_rawDesc = "" +
@@ -869,11 +808,7 @@ const file_authentication_service_v1_authentication_proto_rawDesc = "" +
 	"\x0eWhoAmIResponse\x12$\n" +
 	"\auser_id\x18\x01 \x01(\rB\x0e\xbaG\v\x92\x02\b用户IDR\x03uid\x12:\n" +
 	"\busername\x18\x02 \x01(\tB\x1e\xbaG\x1b\x92\x02\x18当前用户的用户名R\busername\x12Q\n" +
-	"\tauthority\x18\x03 \x01(\x0e2\x1f.user.service.v1.User.AuthorityB\x12\xbaG\x0f\x92\x02\f用户权限R\tauthority\"\xac\x01\n" +
-	"\x15ChangePasswordRequest\x12+\n" +
-	"\busername\x18\x01 \x01(\tB\x0f\xbaG\f\x92\x02\t用户名R\busername\x122\n" +
-	"\fold_password\x18\x02 \x01(\tB\x0f\xbaG\f\x92\x02\t旧密码R\voldPassword\x122\n" +
-	"\fnew_password\x18\x03 \x01(\tB\x0f\xbaG\f\x92\x02\t新密码R\vnewPassword*j\n" +
+	"\tauthority\x18\x03 \x01(\x0e2\x1f.user.service.v1.User.AuthorityB\x12\xbaG\x0f\x92\x02\f用户权限R\tauthority*j\n" +
 	"\tGrantType\x12\f\n" +
 	"\bpassword\x10\x00\x12\x16\n" +
 	"\x12client_credentials\x10\x01\x12\x16\n" +
@@ -887,14 +822,13 @@ const file_authentication_service_v1_authentication_proto_rawDesc = "" +
 	"\n" +
 	"ClientType\x12\t\n" +
 	"\x05admin\x10\x00\x12\a\n" +
-	"\x03app\x10\x012\xaa\x05\n" +
+	"\x03app\x10\x012\xce\x04\n" +
 	"\x15AuthenticationService\x12\\\n" +
 	"\x05Login\x12'.authentication.service.v1.LoginRequest\x1a(.authentication.service.v1.LoginResponse\"\x00\x12:\n" +
 	"\x06Logout\x12\x16.google.protobuf.Empty\x1a\x16.google.protobuf.Empty\"\x00\x12q\n" +
 	"\fRegisterUser\x12..authentication.service.v1.RegisterUserRequest\x1a/.authentication.service.v1.RegisterUserResponse\"\x00\x12c\n" +
 	"\fRefreshToken\x12'.authentication.service.v1.LoginRequest\x1a(.authentication.service.v1.LoginResponse\"\x00\x12t\n" +
-	"\rValidateToken\x12/.authentication.service.v1.ValidateTokenRequest\x1a0.authentication.service.v1.ValidateTokenResponse\"\x00\x12Z\n" +
-	"\x0eChangePassword\x120.authentication.service.v1.ChangePasswordRequest\x1a\x16.google.protobuf.Empty\x12M\n" +
+	"\rValidateToken\x12/.authentication.service.v1.ValidateTokenRequest\x1a0.authentication.service.v1.ValidateTokenResponse\"\x00\x12M\n" +
 	"\x06WhoAmI\x12\x16.google.protobuf.Empty\x1a).authentication.service.v1.WhoAmIResponse\"\x00B\xf7\x01\n" +
 	"\x1dcom.authentication.service.v1B\x13AuthenticationProtoP\x01Z;kratos-admin/api/gen/go/authentication/service/v1;servicev1\xa2\x02\x03ASX\xaa\x02\x19Authentication.Service.V1\xca\x02\x19Authentication\\Service\\V1\xe2\x02%Authentication\\Service\\V1\\GPBMetadata\xea\x02\x1bAuthentication::Service::V1b\x06proto3"
 
@@ -911,7 +845,7 @@ func file_authentication_service_v1_authentication_proto_rawDescGZIP() []byte {
 }
 
 var file_authentication_service_v1_authentication_proto_enumTypes = make([]protoimpl.EnumInfo, 3)
-var file_authentication_service_v1_authentication_proto_msgTypes = make([]protoimpl.MessageInfo, 9)
+var file_authentication_service_v1_authentication_proto_msgTypes = make([]protoimpl.MessageInfo, 8)
 var file_authentication_service_v1_authentication_proto_goTypes = []any{
 	(GrantType)(0),                // 0: authentication.service.v1.GrantType
 	(TokenType)(0),                // 1: authentication.service.v1.TokenType
@@ -924,33 +858,30 @@ var file_authentication_service_v1_authentication_proto_goTypes = []any{
 	(*RegisterUserResponse)(nil),  // 8: authentication.service.v1.RegisterUserResponse
 	(*UserTokenPayload)(nil),      // 9: authentication.service.v1.UserTokenPayload
 	(*WhoAmIResponse)(nil),        // 10: authentication.service.v1.WhoAmIResponse
-	(*ChangePasswordRequest)(nil), // 11: authentication.service.v1.ChangePasswordRequest
-	(v1.User_Authority)(0),        // 12: user.service.v1.User.Authority
-	(*emptypb.Empty)(nil),         // 13: google.protobuf.Empty
+	(v1.User_Authority)(0),        // 11: user.service.v1.User.Authority
+	(*emptypb.Empty)(nil),         // 12: google.protobuf.Empty
 }
 var file_authentication_service_v1_authentication_proto_depIdxs = []int32{
 	0,  // 0: authentication.service.v1.LoginRequest.grant_type:type_name -> authentication.service.v1.GrantType
 	1,  // 1: authentication.service.v1.LoginResponse.token_type:type_name -> authentication.service.v1.TokenType
 	2,  // 2: authentication.service.v1.ValidateTokenRequest.client_type:type_name -> authentication.service.v1.ClientType
 	9,  // 3: authentication.service.v1.ValidateTokenResponse.claim:type_name -> authentication.service.v1.UserTokenPayload
-	12, // 4: authentication.service.v1.UserTokenPayload.authority:type_name -> user.service.v1.User.Authority
-	12, // 5: authentication.service.v1.WhoAmIResponse.authority:type_name -> user.service.v1.User.Authority
+	11, // 4: authentication.service.v1.UserTokenPayload.authority:type_name -> user.service.v1.User.Authority
+	11, // 5: authentication.service.v1.WhoAmIResponse.authority:type_name -> user.service.v1.User.Authority
 	3,  // 6: authentication.service.v1.AuthenticationService.Login:input_type -> authentication.service.v1.LoginRequest
-	13, // 7: authentication.service.v1.AuthenticationService.Logout:input_type -> google.protobuf.Empty
+	12, // 7: authentication.service.v1.AuthenticationService.Logout:input_type -> google.protobuf.Empty
 	7,  // 8: authentication.service.v1.AuthenticationService.RegisterUser:input_type -> authentication.service.v1.RegisterUserRequest
 	3,  // 9: authentication.service.v1.AuthenticationService.RefreshToken:input_type -> authentication.service.v1.LoginRequest
 	5,  // 10: authentication.service.v1.AuthenticationService.ValidateToken:input_type -> authentication.service.v1.ValidateTokenRequest
-	11, // 11: authentication.service.v1.AuthenticationService.ChangePassword:input_type -> authentication.service.v1.ChangePasswordRequest
-	13, // 12: authentication.service.v1.AuthenticationService.WhoAmI:input_type -> google.protobuf.Empty
-	4,  // 13: authentication.service.v1.AuthenticationService.Login:output_type -> authentication.service.v1.LoginResponse
-	13, // 14: authentication.service.v1.AuthenticationService.Logout:output_type -> google.protobuf.Empty
-	8,  // 15: authentication.service.v1.AuthenticationService.RegisterUser:output_type -> authentication.service.v1.RegisterUserResponse
-	4,  // 16: authentication.service.v1.AuthenticationService.RefreshToken:output_type -> authentication.service.v1.LoginResponse
-	6,  // 17: authentication.service.v1.AuthenticationService.ValidateToken:output_type -> authentication.service.v1.ValidateTokenResponse
-	13, // 18: authentication.service.v1.AuthenticationService.ChangePassword:output_type -> google.protobuf.Empty
-	10, // 19: authentication.service.v1.AuthenticationService.WhoAmI:output_type -> authentication.service.v1.WhoAmIResponse
-	13, // [13:20] is the sub-list for method output_type
-	6,  // [6:13] is the sub-list for method input_type
+	12, // 11: authentication.service.v1.AuthenticationService.WhoAmI:input_type -> google.protobuf.Empty
+	4,  // 12: authentication.service.v1.AuthenticationService.Login:output_type -> authentication.service.v1.LoginResponse
+	12, // 13: authentication.service.v1.AuthenticationService.Logout:output_type -> google.protobuf.Empty
+	8,  // 14: authentication.service.v1.AuthenticationService.RegisterUser:output_type -> authentication.service.v1.RegisterUserResponse
+	4,  // 15: authentication.service.v1.AuthenticationService.RefreshToken:output_type -> authentication.service.v1.LoginResponse
+	6,  // 16: authentication.service.v1.AuthenticationService.ValidateToken:output_type -> authentication.service.v1.ValidateTokenResponse
+	10, // 17: authentication.service.v1.AuthenticationService.WhoAmI:output_type -> authentication.service.v1.WhoAmIResponse
+	12, // [12:18] is the sub-list for method output_type
+	6,  // [6:12] is the sub-list for method input_type
 	6,  // [6:6] is the sub-list for extension type_name
 	6,  // [6:6] is the sub-list for extension extendee
 	0,  // [0:6] is the sub-list for field type_name
@@ -972,7 +903,7 @@ func file_authentication_service_v1_authentication_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_authentication_service_v1_authentication_proto_rawDesc), len(file_authentication_service_v1_authentication_proto_rawDesc)),
 			NumEnums:      3,
-			NumMessages:   9,
+			NumMessages:   8,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

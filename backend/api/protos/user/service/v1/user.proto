@@ -35,9 +35,6 @@ service UserService {
 
   // 用户是否存在
   rpc UserExists (UserExistsRequest) returns (UserExistsResponse) {}
-
-  // 修改用户密码
-  rpc EditUserPassword(EditUserPasswordRequest) returns (google.protobuf.Empty);
 }
 
 // 用户
@@ -257,21 +254,4 @@ message BatchCreateUsersRequest {
 }
 message BatchCreateUsersResponse {
   repeated User data = 1;
-}
-
-// 修改用户密码 - 请求
-message EditUserPasswordRequest {
-  uint32 user_id = 1 [
-    json_name = "userId",
-    (gnostic.openapi.v3.property) = {
-      description: "用户ID"
-    }
-  ]; // 用户ID
-
-  string new_password = 2 [
-    json_name = "newPassword",
-    (gnostic.openapi.v3.property) = {
-      description: "新密码"
-    }
-  ]; // 新密码
 }

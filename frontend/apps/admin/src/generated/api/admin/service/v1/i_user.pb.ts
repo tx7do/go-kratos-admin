@@ -10,7 +10,6 @@ import type { PagingRequest } from "../../../pagination/v1/pagination.pb";
 import type {
   CreateUserRequest,
   DeleteUserRequest,
-  EditUserPasswordRequest,
   GetUserRequest,
   ListUserResponse,
   UpdateUserRequest,
@@ -18,6 +17,24 @@ import type {
   UserExistsRequest,
   UserExistsResponse,
 } from "../../../user/service/v1/user.pb";
+
+/** 修改用户密码 - 请求 */
+export interface ChangePasswordRequest {
+  /** 用户名 */
+  username: string;
+  /** 旧密码 */
+  oldPassword: string;
+  /** 新密码 */
+  newPassword: string;
+}
+
+/** 修改用户密码 - 请求 */
+export interface EditUserPasswordRequest {
+  /** 用户ID */
+  userId: number;
+  /** 新密码 */
+  newPassword: string;
+}
 
 /** 用户管理服务 */
 export interface UserService {
@@ -31,8 +48,10 @@ export interface UserService {
   Update(request: UpdateUserRequest): Promise<Empty>;
   /** 删除用户 */
   Delete(request: DeleteUserRequest): Promise<Empty>;
-  /** 修改用户密码 */
-  EditUserPassword(request: EditUserPasswordRequest): Promise<Empty>;
   /** 用户是否存在 */
   UserExists(request: UserExistsRequest): Promise<UserExistsResponse>;
+  /** 修改用户密码 */
+  EditUserPassword(request: EditUserPasswordRequest): Promise<Empty>;
+  /** 修改用户密码 */
+  ChangePassword(request: ChangePasswordRequest): Promise<Empty>;
 }

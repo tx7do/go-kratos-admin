@@ -30,10 +30,6 @@ service AuthenticationService {
   rpc ValidateToken(ValidateTokenRequest) returns (ValidateTokenResponse) {}
 
 
-  // 修改用户密码
-  rpc ChangePassword(ChangePasswordRequest) returns (google.protobuf.Empty);
-
-
   // 获取当前用户身份信息
   rpc WhoAmI(google.protobuf.Empty) returns (WhoAmIResponse) {}
 }
@@ -307,28 +303,4 @@ message WhoAmIResponse {
       description: "用户权限"
     }
   ]; // 用户权限
-}
-
-// 修改用户密码 - 请求
-message ChangePasswordRequest {
-  string username = 1 [
-    json_name = "username",
-    (gnostic.openapi.v3.property) = {
-      description: "用户名"
-    }
-  ]; // 用户名
-
-  string old_password = 2 [
-    json_name = "oldPassword",
-    (gnostic.openapi.v3.property) = {
-      description: "旧密码"
-    }
-  ]; // 旧密码
-
-  string new_password = 3 [
-    json_name = "newPassword",
-    (gnostic.openapi.v3.property) = {
-      description: "新密码"
-    }
-  ]; // 新密码
 }

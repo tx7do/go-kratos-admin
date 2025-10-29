@@ -27,7 +27,16 @@ service RoleService {
   rpc Delete (DeleteRoleRequest) returns (google.protobuf.Empty) {}
 
   // 批量创建角色
-  rpc BatchCreate ( BatchCreateRolesRequest ) returns ( BatchCreateRolesResponse ) {}
+  rpc BatchCreate (BatchCreateRolesRequest) returns (BatchCreateRolesResponse) {}
+
+  // 根据角色ID列表获取角色值列表
+  rpc GetRoleCodesByRoleIds(GetRoleCodesByRoleIdsRequest) returns (GetRoleCodesByRoleIdsResponse) {}
+
+  // 根据角色值列表获取角色列表
+  rpc GetRolesByRoleCodes(GetRolesByRoleCodesRequest) returns (ListRoleResponse) {}
+
+  // 根据角色值列表获取角色列表
+  rpc GetRolesByRoleIds(GetRolesByRoleIdsRequest) returns (ListRoleResponse) {}
 }
 
 // 角色
@@ -133,4 +142,19 @@ message BatchCreateRolesRequest {
 }
 message BatchCreateRolesResponse {
   repeated Role data = 1;
+}
+
+message GetRoleCodesByRoleIdsRequest {
+  repeated uint32 role_ids = 1 [json_name = "roleIds", (gnostic.openapi.v3.property) = {description: "角色ID列表"}];
+}
+message GetRoleCodesByRoleIdsResponse {
+  repeated string role_codes = 1 [json_name = "roleCodes", (gnostic.openapi.v3.property) = {description: "角色值列表"}];
+}
+
+message GetRolesByRoleCodesRequest {
+  repeated string role_codes = 1 [json_name = "roleCodes", (gnostic.openapi.v3.property) = {description: "角色值列表"}];
+}
+
+message GetRolesByRoleIdsRequest {
+  repeated uint32 role_ids = 1 [json_name = "roleIds", (gnostic.openapi.v3.property) = {description: "角色ID列表"}];
 }

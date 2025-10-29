@@ -161,6 +161,22 @@ export interface BatchCreateRolesResponse {
   data: Role[];
 }
 
+export interface GetRoleCodesByRoleIdsRequest {
+  roleIds: number[];
+}
+
+export interface GetRoleCodesByRoleIdsResponse {
+  roleCodes: string[];
+}
+
+export interface GetRolesByRoleCodesRequest {
+  roleCodes: string[];
+}
+
+export interface GetRolesByRoleIdsRequest {
+  roleIds: number[];
+}
+
 /** 角色服务 */
 export interface RoleService {
   /** 查询角色列表 */
@@ -175,4 +191,10 @@ export interface RoleService {
   Delete(request: DeleteRoleRequest): Promise<Empty>;
   /** 批量创建角色 */
   BatchCreate(request: BatchCreateRolesRequest): Promise<BatchCreateRolesResponse>;
+  /** 根据角色ID列表获取角色值列表 */
+  GetRoleCodesByRoleIds(request: GetRoleCodesByRoleIdsRequest): Promise<GetRoleCodesByRoleIdsResponse>;
+  /** 根据角色值列表获取角色列表 */
+  GetRolesByRoleCodes(request: GetRolesByRoleCodesRequest): Promise<ListRoleResponse>;
+  /** 根据角色值列表获取角色列表 */
+  GetRolesByRoleIds(request: GetRolesByRoleIdsRequest): Promise<ListRoleResponse>;
 }

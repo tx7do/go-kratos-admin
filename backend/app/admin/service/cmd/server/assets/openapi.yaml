@@ -331,22 +331,6 @@ paths:
                 "200":
                     description: OK
                     content: {}
-    /admin/v1/change_password:
-        post:
-            tags:
-                - AuthenticationService
-            description: 修改用户密码
-            operationId: AuthenticationService_ChangePassword
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/ChangePasswordRequest'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content: {}
     /admin/v1/departments:
         get:
             tags:
@@ -2591,6 +2575,22 @@ paths:
                     application/json:
                         schema:
                             $ref: '#/components/schemas/CreateUserRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content: {}
+    /admin/v1/users/change-password:
+        post:
+            tags:
+                - UserService
+            description: 修改用户密码
+            operationId: UserService_ChangePassword
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/ChangePasswordRequest'
                 required: true
             responses:
                 "200":

@@ -120,6 +120,41 @@ func (s *RoleService) Delete(ctx context.Context, req *userV1.DeleteRoleRequest)
 	return &emptypb.Empty{}, nil
 }
 
+func (s *RoleService) GetRoleCodesByRoleIds(ctx context.Context, req *userV1.GetRoleCodesByRoleIdsRequest) (*userV1.GetRoleCodesByRoleIdsResponse, error) {
+	ids, err := s.repo.GetRoleCodesByRoleIds(ctx, req.GetRoleIds())
+	if err != nil {
+		return nil, err
+	}
+
+	return &userV1.GetRoleCodesByRoleIdsResponse{
+		RoleCodes: ids,
+	}, nil
+}
+
+func (s *RoleService) GetRolesByRoleCodes(ctx context.Context, req *userV1.GetRolesByRoleCodesRequest) (*userV1.ListRoleResponse, error) {
+	roles, err := s.repo.GetRolesByRoleCodes(ctx, req.GetRoleCodes())
+	if err != nil {
+		return nil, err
+	}
+
+	return &userV1.ListRoleResponse{
+		Items: roles,
+		Total: uint32(len(roles)),
+	}, nil
+}
+
+func (s *RoleService) GetRolesByRoleIds(ctx context.Context, req *userV1.GetRolesByRoleIdsRequest) (*userV1.ListRoleResponse, error) {
+	roles, err := s.repo.GetRolesByRoleIds(ctx, req.GetRoleIds())
+	if err != nil {
+		return nil, err
+	}
+
+	return &userV1.ListRoleResponse{
+		Items: roles,
+		Total: uint32(len(roles)),
+	}, nil
+}
+
 // createDefaultRoles 创建默认角色(包括超级管理员)
 func (s *RoleService) createDefaultRoles(ctx context.Context) error {
 	var err error

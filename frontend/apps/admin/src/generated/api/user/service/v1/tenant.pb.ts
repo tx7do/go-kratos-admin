@@ -227,6 +227,11 @@ export interface TenantExistsResponse {
   exist: boolean;
 }
 
+export interface GetTenantByTenantCodeRequest {
+  /** 租户编码 */
+  code: string;
+}
+
 /** 租户服务 */
 export interface TenantService {
   /** 查询租户列表 */
@@ -243,4 +248,6 @@ export interface TenantService {
   BatchCreate(request: BatchCreateTenantsRequest): Promise<BatchCreateTenantsResponse>;
   /** 租户是否存在 */
   TenantExists(request: TenantExistsRequest): Promise<TenantExistsResponse>;
+  /** 根据租户编码获取租户信息 */
+  GetTenantByTenantCode(request: GetTenantByTenantCodeRequest): Promise<Tenant>;
 }

@@ -1,10 +1,13 @@
-import type { UserService } from '#/generated/api/admin/service/v1/i_user.pb';
+import type {
+  ChangePasswordRequest,
+  EditUserPasswordRequest,
+  UserService,
+} from '#/generated/api/admin/service/v1/i_user.pb';
 import type { Empty } from '#/generated/api/google/protobuf/empty.pb';
 import type { PagingRequest } from '#/generated/api/pagination/v1/pagination.pb';
 import type {
   CreateUserRequest,
   DeleteUserRequest,
-  EditUserPasswordRequest,
   GetUserRequest,
   ListUserResponse,
   UpdateUserRequest,
@@ -17,6 +20,10 @@ import { requestClient } from '#/utils/request';
 
 /** 用户管理服务 */
 class UserServiceImpl implements UserService {
+  async ChangePassword(request: ChangePasswordRequest): Promise<Empty> {
+    return await requestClient.post<Empty>('/users/change-password', request);
+  }
+
   async Create(request: CreateUserRequest): Promise<Empty> {
     return await requestClient.post<Empty>('/users', request);
   }

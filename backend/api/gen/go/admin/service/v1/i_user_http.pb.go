@@ -22,6 +22,7 @@ var _ = binding.EncodeURL
 
 const _ = http.SupportPackageIsVersion1
 
+const OperationUserServiceChangePassword = "/admin.service.v1.UserService/ChangePassword"
 const OperationUserServiceCreate = "/admin.service.v1.UserService/Create"
 const OperationUserServiceDelete = "/admin.service.v1.UserService/Delete"
 const OperationUserServiceEditUserPassword = "/admin.service.v1.UserService/EditUserPassword"
@@ -31,12 +32,14 @@ const OperationUserServiceUpdate = "/admin.service.v1.UserService/Update"
 const OperationUserServiceUserExists = "/admin.service.v1.UserService/UserExists"
 
 type UserServiceHTTPServer interface {
+	// ChangePassword 修改用户密码
+	ChangePassword(context.Context, *ChangePasswordRequest) (*emptypb.Empty, error)
 	// Create 创建用户
 	Create(context.Context, *v11.CreateUserRequest) (*emptypb.Empty, error)
 	// Delete 删除用户
 	Delete(context.Context, *v11.DeleteUserRequest) (*emptypb.Empty, error)
 	// EditUserPassword 修改用户密码
-	EditUserPassword(context.Context, *v11.EditUserPasswordRequest) (*emptypb.Empty, error)
+	EditUserPassword(context.Context, *EditUserPasswordRequest) (*emptypb.Empty, error)
 	// Get 获取用户数据
 	Get(context.Context, *v11.GetUserRequest) (*v11.User, error)
 	// List 获取用户列表
@@ -54,8 +57,9 @@ func RegisterUserServiceHTTPServer(s *http.Server, srv UserServiceHTTPServer) {
 	r.POST("/admin/v1/users", _UserService_Create15_HTTP_Handler(srv))
 	r.PUT("/admin/v1/users/{data.id}", _UserService_Update15_HTTP_Handler(srv))
 	r.DELETE("/admin/v1/users/{id}", _UserService_Delete15_HTTP_Handler(srv))
-	r.POST("/admin/v1/users/{user_id}/password", _UserService_EditUserPassword0_HTTP_Handler(srv))
 	r.GET("/admin/v1/users_exists", _UserService_UserExists0_HTTP_Handler(srv))
+	r.POST("/admin/v1/users/{user_id}/password", _UserService_EditUserPassword0_HTTP_Handler(srv))
+	r.POST("/admin/v1/users/change-password", _UserService_ChangePassword0_HTTP_Handler(srv))
 }
 
 func _UserService_List17_HTTP_Handler(srv UserServiceHTTPServer) func(ctx http.Context) error {
@@ -168,31 +172,6 @@ func _UserService_Delete15_HTTP_Handler(srv UserServiceHTTPServer) func(ctx http
 	}
 }
 
-func _UserService_EditUserPassword0_HTTP_Handler(srv UserServiceHTTPServer) func(ctx http.Context) error {
-	return func(ctx http.Context) error {
-		var in v11.EditUserPasswordRequest
-		if err := ctx.Bind(&in); err != nil {
-			return err
-		}
-		if err := ctx.BindQuery(&in); err != nil {
-			return err
-		}
-		if err := ctx.BindVars(&in); err != nil {
-			return err
-		}
-		http.SetOperation(ctx, OperationUserServiceEditUserPassword)
-		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
-			return srv.EditUserPassword(ctx, req.(*v11.EditUserPasswordRequest))
-		})
-		out, err := h(ctx, &in)
-		if err != nil {
-			return err
-		}
-		reply := out.(*emptypb.Empty)
-		return ctx.Result(200, reply)
-	}
-}
-
 func _UserService_UserExists0_HTTP_Handler(srv UserServiceHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
 		var in v11.UserExistsRequest
@@ -212,10 +191,58 @@ func _UserService_UserExists0_HTTP_Handler(srv UserServiceHTTPServer) func(ctx h
 	}
 }
 
+func _UserService_EditUserPassword0_HTTP_Handler(srv UserServiceHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in EditUserPasswordRequest
+		if err := ctx.Bind(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindVars(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationUserServiceEditUserPassword)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.EditUserPassword(ctx, req.(*EditUserPasswordRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*emptypb.Empty)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _UserService_ChangePassword0_HTTP_Handler(srv UserServiceHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in ChangePasswordRequest
+		if err := ctx.Bind(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationUserServiceChangePassword)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.ChangePassword(ctx, req.(*ChangePasswordRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*emptypb.Empty)
+		return ctx.Result(200, reply)
+	}
+}
+
 type UserServiceHTTPClient interface {
+	ChangePassword(ctx context.Context, req *ChangePasswordRequest, opts ...http.CallOption) (rsp *emptypb.Empty, err error)
 	Create(ctx context.Context, req *v11.CreateUserRequest, opts ...http.CallOption) (rsp *emptypb.Empty, err error)
 	Delete(ctx context.Context, req *v11.DeleteUserRequest, opts ...http.CallOption) (rsp *emptypb.Empty, err error)
-	EditUserPassword(ctx context.Context, req *v11.EditUserPasswordRequest, opts ...http.CallOption) (rsp *emptypb.Empty, err error)
+	EditUserPassword(ctx context.Context, req *EditUserPasswordRequest, opts ...http.CallOption) (rsp *emptypb.Empty, err error)
 	Get(ctx context.Context, req *v11.GetUserRequest, opts ...http.CallOption) (rsp *v11.User, err error)
 	List(ctx context.Context, req *v1.PagingRequest, opts ...http.CallOption) (rsp *v11.ListUserResponse, err error)
 	Update(ctx context.Context, req *v11.UpdateUserRequest, opts ...http.CallOption) (rsp *emptypb.Empty, err error)
@@ -228,6 +255,19 @@ type UserServiceHTTPClientImpl struct {
 
 func NewUserServiceHTTPClient(client *http.Client) UserServiceHTTPClient {
 	return &UserServiceHTTPClientImpl{client}
+}
+
+func (c *UserServiceHTTPClientImpl) ChangePassword(ctx context.Context, in *ChangePasswordRequest, opts ...http.CallOption) (*emptypb.Empty, error) {
+	var out emptypb.Empty
+	pattern := "/admin/v1/users/change-password"
+	path := binding.EncodeURL(pattern, in, false)
+	opts = append(opts, http.Operation(OperationUserServiceChangePassword))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
 }
 
 func (c *UserServiceHTTPClientImpl) Create(ctx context.Context, in *v11.CreateUserRequest, opts ...http.CallOption) (*emptypb.Empty, error) {
@@ -256,7 +296,7 @@ func (c *UserServiceHTTPClientImpl) Delete(ctx context.Context, in *v11.DeleteUs
 	return &out, nil
 }
 
-func (c *UserServiceHTTPClientImpl) EditUserPassword(ctx context.Context, in *v11.EditUserPasswordRequest, opts ...http.CallOption) (*emptypb.Empty, error) {
+func (c *UserServiceHTTPClientImpl) EditUserPassword(ctx context.Context, in *EditUserPasswordRequest, opts ...http.CallOption) (*emptypb.Empty, error) {
 	var out emptypb.Empty
 	pattern := "/admin/v1/users/{user_id}/password"
 	path := binding.EncodeURL(pattern, in, false)

@@ -7,6 +7,7 @@
 package servicev1
 
 import (
+	_ "github.com/arrakis-digital/protoc-gen-redact/v3/redact/v3"
 	_ "github.com/google/gnostic/openapiv3"
 	_ "google.golang.org/genproto/googleapis/api/annotations"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
@@ -737,7 +738,7 @@ var File_authentication_service_v1_authentication_proto protoreflect.FileDescrip
 
 const file_authentication_service_v1_authentication_proto_rawDesc = "" +
 	"\n" +
-	".authentication/service/v1/authentication.proto\x12\x19authentication.service.v1\x1a$gnostic/openapi/v3/annotations.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1cgoogle/api/annotations.proto\x1a\x1fgoogle/api/field_behavior.proto\x1a\x1auser/service/v1/user.proto\"\xdd\b\n" +
+	".authentication/service/v1/authentication.proto\x12\x19authentication.service.v1\x1a$gnostic/openapi/v3/annotations.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1cgoogle/api/annotations.proto\x1a\x1fgoogle/api/field_behavior.proto\x1a\x16redact/v3/redact.proto\x1a\x1auser/service/v1/user.proto\"\x8b\t\n" +
 	"\fLoginRequest\x12\x99\x01\n" +
 	"\n" +
 	"grant_type\x18\x01 \x01(\x0e2$.authentication.service.v1.GrantTypeBS\xe0A\x02\xbaGM\x8a\x02\n" +
@@ -746,10 +747,10 @@ const file_authentication_service_v1_authentication_proto_rawDesc = "" +
 	"\tclient_id\x18\x02 \x01(\tB\x11\xbaG\x0e\x92\x02\v客户端IDH\x00R\tclient_id\x88\x01\x01\x12@\n" +
 	"\rclient_secret\x18\x03 \x01(\tB\x15\xbaG\x12\x92\x02\x0f客户端密钥H\x01R\rclient_secret\x88\x01\x01\x12\x92\x01\n" +
 	"\x05scope\x18\x04 \x01(\tBw\xbaGt\x92\x02q以空格分隔的用户授予范围列表。如果未提供，scope则授权任何范围，默认为空列表。H\x02R\x05scope\x88\x01\x01\x12;\n" +
-	"\fredirect_uri\x18\x05 \x01(\tB\x12\xbaG\x0f\x92\x02\f跳转链接H\x03R\fredirect_uri\x88\x01\x01\x12\x1f\n" +
+	"\fredirect_uri\x18\x05 \x01(\tB\x12\xbaG\x0f\x92\x02\f跳转链接H\x03R\fredirect_uri\x88\x01\x01\x120\n" +
 	"\busername\x18\n" +
-	" \x01(\tH\x04R\busername\x88\x01\x01\x12\x1f\n" +
-	"\bpassword\x18\v \x01(\tH\x05R\bpassword\x88\x01\x01\x12\xc2\x02\n" +
+	" \x01(\tB\x0f\xbaG\f\x92\x02\t用户名H\x04R\busername\x88\x01\x01\x12<\n" +
+	"\bpassword\x18\v \x01(\tB\x1b\xbaG\x12\x92\x02\x0f用户的密码ڶ\x1a\x02z\x00H\x05R\bpassword\x88\x01\x01\x12\xc2\x02\n" +
 	"\rrefresh_token\x18\x14 \x01(\tB\x96\x02\xbaG\x92\x02\x92\x02\x8e\x02更新令牌，用来获取下一次的访问令牌，可选项。如果访问令牌将过期，则返回刷新令牌很有用，应用程序可以使用该刷新令牌来获取另一个访问令牌。但是，通过隐式授予颁发的令牌不能颁发刷新令牌。H\x06R\rrefresh_token\x88\x01\x01\x12p\n" +
 	"\x04code\x18\x1e \x01(\tBW\xbaGT\x92\x02Q授权请求中收到的一次性验证/认证码。(当使用授权码模式时)H\aR\x04code\x88\x01\x01B\f\n" +
 	"\n" +

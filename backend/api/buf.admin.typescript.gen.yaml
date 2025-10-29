@@ -13,6 +13,7 @@ managed:
     - module: 'buf.build/gnostic/gnostic'
     - module: 'buf.build/gogo/protobuf'
     - module: 'buf.build/tx7do/pagination'
+    - module: 'buf.build/arrakis-digital/redact'
 
 inputs:
   - directory: protos

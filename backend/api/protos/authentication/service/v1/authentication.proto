@@ -3,11 +3,10 @@ syntax = "proto3";
 package authentication.service.v1;
 
 import "gnostic/openapi/v3/annotations.proto";
-
 import "google/protobuf/empty.proto";
-
 import "google/api/annotations.proto";
 import "google/api/field_behavior.proto";
+import "redact/v3/redact.proto";
 
 import "user/service/v1/user.proto";
 
@@ -88,17 +87,18 @@ message LoginRequest {
 
   optional string redirect_uri = 5 [
     json_name = "redirect_uri",
-    (gnostic.openapi.v3.property) = {
-      description: "跳转链接"
-    }
+    (gnostic.openapi.v3.property) = {description: "跳转链接"}
   ]; // 跳转链接
 
   optional string username = 10 [
-    json_name = "username"
+    json_name = "username",
+    (gnostic.openapi.v3.property) = {description: "用户名"}
   ]; // 用户名，必选项。
 
   optional string password = 11 [
-    json_name = "password"
+    (redact.v3.value).string = "",
+    json_name = "password",
+    (gnostic.openapi.v3.property) = {description: "用户的密码"}
   ]; // 用户的密码，必选项。
 
   optional string refresh_token = 20 [

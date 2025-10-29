@@ -10,6 +10,7 @@ replace (
 require (
 	entgo.io/contrib v0.7.0
 	entgo.io/ent v0.14.5
+	github.com/arrakis-digital/protoc-gen-redact/v3 v3.3.0
 	github.com/getkin/kin-openapi v0.133.0
 	github.com/go-kratos/kratos/v2 v2.9.1
 	github.com/go-sql-driver/mysql v1.9.3

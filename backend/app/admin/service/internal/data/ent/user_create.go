@@ -453,6 +453,10 @@ func (_c *UserCreate) defaults() {
 		v := user.DefaultRegion
 		_c.mutation.SetRegion(v)
 	}
+	if _, ok := _c.mutation.Gender(); !ok {
+		v := user.DefaultGender
+		_c.mutation.SetGender(v)
+	}
 	if _, ok := _c.mutation.Authority(); !ok {
 		v := user.DefaultAuthority
 		_c.mutation.SetAuthority(v)

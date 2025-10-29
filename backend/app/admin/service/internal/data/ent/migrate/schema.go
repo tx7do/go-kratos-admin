@@ -927,7 +927,7 @@ var (
 		{Name: "address", Type: field.TypeString, Nullable: true, Comment: "地址", Default: ""},
 		{Name: "region", Type: field.TypeString, Nullable: true, Comment: "国家地区", Default: ""},
 		{Name: "description", Type: field.TypeString, Nullable: true, Size: 1023, Comment: "个人说明"},
-		{Name: "gender", Type: field.TypeEnum, Nullable: true, Comment: "性别", Enums: []string{"SECRET", "MALE", "FEMALE"}},
+		{Name: "gender", Type: field.TypeEnum, Nullable: true, Comment: "性别", Enums: []string{"SECRET", "MALE", "FEMALE"}, Default: "SECRET"},
 		{Name: "authority", Type: field.TypeEnum, Comment: "授权", Enums: []string{"SYS_ADMIN", "TENANT_ADMIN", "CUSTOMER_USER", "GUEST"}, Default: "CUSTOMER_USER"},
 		{Name: "status", Type: field.TypeEnum, Nullable: true, Comment: "用户状态", Enums: []string{"ON", "OFF"}, Default: "ON"},
 		{Name: "last_login_time", Type: field.TypeTime, Nullable: true, Comment: "最后一次登录的时间"},

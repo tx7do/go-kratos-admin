@@ -99,6 +99,7 @@ func (User) Fields() []ent.Field {
 				"Male", "MALE",
 				"Female", "FEMALE",
 			).
+			Default("SECRET").
 			Optional().
 			Nillable(),
 

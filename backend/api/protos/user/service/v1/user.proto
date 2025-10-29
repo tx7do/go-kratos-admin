@@ -7,6 +7,7 @@ import "google/protobuf/empty.proto";
 import "google/protobuf/field_mask.proto";
 import "google/protobuf/timestamp.proto";
 import "google/api/field_behavior.proto";
+import "redact/v3/redact.proto";
 
 import "pagination/v1/pagination.proto";
 
@@ -112,6 +113,7 @@ message User {
   ]; // 头像
 
   optional string email = 24 [
+    (redact.v3.value).string = "r*d@ct*d",
     json_name = "email",
     (gnostic.openapi.v3.property) = {description: "邮箱"}
   ]; // 邮箱

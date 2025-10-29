@@ -7,6 +7,7 @@
 package servicev1
 
 import (
+	_ "github.com/arrakis-digital/protoc-gen-redact/v3/redact/v3"
 	_ "github.com/google/gnostic/openapiv3"
 	v1 "github.com/tx7do/kratos-bootstrap/api/gen/go/pagination/v1"
 	_ "google.golang.org/genproto/googleapis/api/annotations"
@@ -978,7 +979,7 @@ var File_user_service_v1_user_proto protoreflect.FileDescriptor
 
 const file_user_service_v1_user_proto_rawDesc = "" +
 	"\n" +
-	"\x1auser/service/v1/user.proto\x12\x0fuser.service.v1\x1a$gnostic/openapi/v3/annotations.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a google/protobuf/field_mask.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x1fgoogle/api/field_behavior.proto\x1a\x1epagination/v1/pagination.proto\"\x88\x14\n" +
+	"\x1auser/service/v1/user.proto\x12\x0fuser.service.v1\x1a$gnostic/openapi/v3/annotations.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a google/protobuf/field_mask.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x1fgoogle/api/field_behavior.proto\x1a\x16redact/v3/redact.proto\x1a\x1epagination/v1/pagination.proto\"\x96\x14\n" +
 	"\x04User\x12#\n" +
 	"\x02id\x18\x01 \x01(\rB\x0e\xbaG\v\x92\x02\b用户IDH\x00R\x02id\x88\x01\x01\x120\n" +
 	"\ttenant_id\x18\x02 \x01(\rB\x0e\xbaG\v\x92\x02\b租户IDH\x01R\btenantId\x88\x01\x01\x128\n" +
@@ -1001,8 +1002,9 @@ const file_user_service_v1_user_proto_rawDesc = "" +
 	"R\busername\x88\x01\x01\x12-\n" +
 	"\bnickname\x18\x15 \x01(\tB\f\xbaG\t\x92\x02\x06昵称H\vR\bnickname\x88\x01\x01\x123\n" +
 	"\brealname\x18\x16 \x01(\tB\x12\xbaG\x0f\x92\x02\f真实姓名H\fR\brealname\x88\x01\x01\x12)\n" +
-	"\x06avatar\x18\x17 \x01(\tB\f\xbaG\t\x92\x02\x06头像H\rR\x06avatar\x88\x01\x01\x12'\n" +
-	"\x05email\x18\x18 \x01(\tB\f\xbaG\t\x92\x02\x06邮箱H\x0eR\x05email\x88\x01\x01\x12,\n" +
+	"\x06avatar\x18\x17 \x01(\tB\f\xbaG\t\x92\x02\x06头像H\rR\x06avatar\x88\x01\x01\x125\n" +
+	"\x05email\x18\x18 \x01(\tB\x1a\xbaG\t\x92\x02\x06邮箱ڶ\x1a\n" +
+	"z\br*d@ct*dH\x0eR\x05email\x88\x01\x01\x12,\n" +
 	"\x06mobile\x18\x19 \x01(\tB\x0f\xbaG\f\x92\x02\t手机号H\x0fR\x06mobile\x88\x01\x01\x122\n" +
 	"\ttelephone\x18\x1a \x01(\tB\x0f\xbaG\f\x92\x02\t座机号H\x10R\ttelephone\x88\x01\x01\x12G\n" +
 	"\x06gender\x18\x1b \x01(\x0e2\x1c.user.service.v1.User.GenderB\f\xbaG\t\x92\x02\x06性别H\x11R\x06gender\x88\x01\x01\x12+\n" +

@@ -7,6 +7,7 @@
 package servicev1
 
 import (
+	_ "github.com/arrakis-digital/protoc-gen-redact/v3/redact/v3"
 	_ "github.com/google/gnostic/openapiv3"
 	v1 "github.com/tx7do/kratos-bootstrap/api/gen/go/pagination/v1"
 	_ "google.golang.org/genproto/googleapis/api/annotations"
@@ -144,17 +145,17 @@ var File_admin_service_v1_i_user_proto protoreflect.FileDescriptor
 
 const file_admin_service_v1_i_user_proto_rawDesc = "" +
 	"\n" +
-	"\x1dadmin/service/v1/i_user.proto\x12\x10admin.service.v1\x1a$gnostic/openapi/v3/annotations.proto\x1a\x1cgoogle/api/annotations.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1epagination/v1/pagination.proto\x1a\x1auser/service/v1/user.proto\"\xac\x01\n" +
+	"\x1dadmin/service/v1/i_user.proto\x12\x10admin.service.v1\x1a$gnostic/openapi/v3/annotations.proto\x1a\x1cgoogle/api/annotations.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x16redact/v3/redact.proto\x1a\x1epagination/v1/pagination.proto\x1a\x1auser/service/v1/user.proto\"\xac\x01\n" +
 	"\x15ChangePasswordRequest\x12+\n" +
 	"\busername\x18\x01 \x01(\tB\x0f\xbaG\f\x92\x02\t用户名R\busername\x122\n" +
 	"\fold_password\x18\x02 \x01(\tB\x0f\xbaG\f\x92\x02\t旧密码R\voldPassword\x122\n" +
 	"\fnew_password\x18\x03 \x01(\tB\x0f\xbaG\f\x92\x02\t新密码R\vnewPassword\"v\n" +
 	"\x17EditUserPasswordRequest\x12'\n" +
 	"\auser_id\x18\x01 \x01(\rB\x0e\xbaG\v\x92\x02\b用户IDR\x06userId\x122\n" +
-	"\fnew_password\x18\x02 \x01(\tB\x0f\xbaG\f\x92\x02\t新密码R\vnewPassword2\xf8\x06\n" +
-	"\vUserService\x12]\n" +
-	"\x04List\x12\x19.pagination.PagingRequest\x1a!.user.service.v1.ListUserResponse\"\x17\x82\xd3\xe4\x93\x02\x11\x12\x0f/admin/v1/users\x12[\n" +
-	"\x03Get\x12\x1f.user.service.v1.GetUserRequest\x1a\x15.user.service.v1.User\"\x1c\x82\xd3\xe4\x93\x02\x16\x12\x14/admin/v1/users/{id}\x12`\n" +
+	"\fnew_password\x18\x02 \x01(\tB\x0f\xbaG\f\x92\x02\t新密码R\vnewPassword2\x80\a\n" +
+	"\vUserService\x12a\n" +
+	"\x04List\x12\x19.pagination.PagingRequest\x1a!.user.service.v1.ListUserResponse\"\x1b\xe0\xb6\x1a\x01\x82\xd3\xe4\x93\x02\x11\x12\x0f/admin/v1/users\x12_\n" +
+	"\x03Get\x12\x1f.user.service.v1.GetUserRequest\x1a\x15.user.service.v1.User\" \xe0\xb6\x1a\x01\x82\xd3\xe4\x93\x02\x16\x12\x14/admin/v1/users/{id}\x12`\n" +
 	"\x06Create\x12\".user.service.v1.CreateUserRequest\x1a\x16.google.protobuf.Empty\"\x1a\x82\xd3\xe4\x93\x02\x14:\x01*\"\x0f/admin/v1/users\x12j\n" +
 	"\x06Update\x12\".user.service.v1.UpdateUserRequest\x1a\x16.google.protobuf.Empty\"$\x82\xd3\xe4\x93\x02\x1e:\x01*\x1a\x19/admin/v1/users/{data.id}\x12b\n" +
 	"\x06Delete\x12\".user.service.v1.DeleteUserRequest\x1a\x16.google.protobuf.Empty\"\x1c\x82\xd3\xe4\x93\x02\x16*\x14/admin/v1/users/{id}\x12u\n" +

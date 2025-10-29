@@ -143,6 +143,9 @@ var (
 // Gender defines the type for the "gender" enum field.
 type Gender string
 
+// GenderSecret is the default value of the Gender enum.
+const DefaultGender = GenderSecret
+
 // Gender values.
 const (
 	GenderSecret Gender = "SECRET"

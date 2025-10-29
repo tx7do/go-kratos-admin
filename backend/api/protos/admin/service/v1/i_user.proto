@@ -5,6 +5,7 @@ package admin.service.v1;
 import "gnostic/openapi/v3/annotations.proto";
 import "google/api/annotations.proto";
 import "google/protobuf/empty.proto";
+import "redact/v3/redact.proto";
 
 import "pagination/v1/pagination.proto";
 
@@ -14,6 +15,7 @@ import "user/service/v1/user.proto";
 service UserService {
   // 获取用户列表
   rpc List (pagination.PagingRequest) returns (user.service.v1.ListUserResponse) {
+    option (redact.v3.internal_method) = true;
     option (google.api.http) = {
       get: "/admin/v1/users"
     };
@@ -21,6 +23,7 @@ service UserService {
 
   // 获取用户数据
   rpc Get (user.service.v1.GetUserRequest) returns (user.service.v1.User) {
+    option (redact.v3.internal_method) = true;
     option (google.api.http) = {
       get: "/admin/v1/users/{id}"
     };

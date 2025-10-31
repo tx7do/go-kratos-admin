@@ -3,7 +3,10 @@
 package dictmain
 
 import (
+	"fmt"
+
 	"entgo.io/ent/dialect/sql"
+	"entgo.io/ent/dialect/sql/sqlgraph"
 )
 
 const (
@@ -29,8 +32,21 @@ const (
 	FieldCode = "code"
 	// FieldName holds the string denoting the name field in the database.
 	FieldName = "name"
+	// FieldSortID holds the string denoting the sort_id field in the database.
+	FieldSortID = "sort_id"
+	// FieldStatus holds the string denoting the status field in the database.
+	FieldStatus = "status"
+	// EdgeItems holds the string denoting the items edge name in mutations.
+	EdgeItems = "items"
 	// Table holds the table name of the dictmain in the database.
 	Table = "sys_dict_mains"
+	// ItemsTable is the table that holds the items relation/edge.
+	ItemsTable = "sys_dict_items"
+	// ItemsInverseTable is the table name for the DictItem entity.
+	// It exists in this package in order to avoid circular dependency with the "dictitem" package.
+	ItemsInverseTable = "sys_dict_items"
+	// ItemsColumn is the table column denoting the items relation/edge.
+	ItemsColumn = "main_id"
 )
 
 // Columns holds all SQL columns for dictmain fields.
@@ -45,6 +61,8 @@ var Columns = []string{
 	FieldTenantID,
 	FieldCode,
 	FieldName,
+	FieldSortID,
+	FieldStatus,
 }
 
 // ValidColumn reports if the column name is valid (part of the table columns).
@@ -66,9 +84,37 @@ var (
 	CodeValidator func(string) error
 	// NameValidator is a validator for the "name" field. It is called by the builders before save.
 	NameValidator func(string) error
+	// DefaultSortID holds the default value on creation for the "sort_id" field.
+	DefaultSortID int32
 	// IDValidator is a validator for the "id" field. It is called by the builders before save.
 	IDValidator func(uint32) error
 )
+
+// Status defines the type for the "status" enum field.
+type Status string
+
+// StatusOn is the default value of the Status enum.
+const DefaultStatus = StatusOn
+
+// Status values.
+const (
+	StatusOn  Status = "ON"
+	StatusOff Status = "OFF"
+)
+
+func (s Status) String() string {
+	return string(s)
+}
+
+// StatusValidator is a validator for the "status" field enum values. It is called by the builders before save.
+func StatusValidator(s Status) error {
+	switch s {
+	case StatusOn, StatusOff:
+		return nil
+	default:
+		return fmt.Errorf("dictmain: invalid enum value for status field: %q", s)
+	}
+}
 
 // OrderOption defines the ordering options for the DictMain queries.
 type OrderOption func(*sql.Selector)
@@ -121,4 +167,35 @@ func ByCode(opts ...sql.OrderTermOption) OrderOption {
 // ByName orders the results by the name field.
 func ByName(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldName, opts...).ToFunc()
+}
+
+// BySortID orders the results by the sort_id field.
+func BySortID(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldSortID, opts...).ToFunc()
+}
+
+// ByStatus orders the results by the status field.
+func ByStatus(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldStatus, opts...).ToFunc()
+}
+
+// ByItemsCount orders the results by items count.
+func ByItemsCount(opts ...sql.OrderTermOption) OrderOption {
+	return func(s *sql.Selector) {
+		sqlgraph.OrderByNeighborsCount(s, newItemsStep(), opts...)
+	}
+}
+
+// ByItems orders the results by items terms.
+func ByItems(term sql.OrderTerm, terms ...sql.OrderTerm) OrderOption {
+	return func(s *sql.Selector) {
+		sqlgraph.OrderByNeighborTerms(s, newItemsStep(), append([]sql.OrderTerm{term}, terms...)...)
+	}
+}
+func newItemsStep() *sqlgraph.Step {
+	return sqlgraph.NewStep(
+		sqlgraph.From(Table, FieldID),
+		sqlgraph.To(ItemsInverseTable, FieldID),
+		sqlgraph.Edge(sqlgraph.O2M, true, ItemsTable, ItemsColumn),
+	)
 }

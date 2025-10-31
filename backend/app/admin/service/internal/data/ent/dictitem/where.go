@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"entgo.io/ent/dialect/sql"
+	"entgo.io/ent/dialect/sql/sqlgraph"
 )
 
 // ID filters vertices based on their ID field.
@@ -99,14 +100,14 @@ func Name(v string) predicate.DictItem {
 	return predicate.DictItem(sql.FieldEQ(FieldName, v))
 }
 
-// MainID applies equality check predicate on the "main_id" field. It's identical to MainIDEQ.
-func MainID(v uint32) predicate.DictItem {
-	return predicate.DictItem(sql.FieldEQ(FieldMainID, v))
-}
-
 // SortID applies equality check predicate on the "sort_id" field. It's identical to SortIDEQ.
 func SortID(v int32) predicate.DictItem {
 	return predicate.DictItem(sql.FieldEQ(FieldSortID, v))
+}
+
+// Value applies equality check predicate on the "value" field. It's identical to ValueEQ.
+func Value(v int32) predicate.DictItem {
+	return predicate.DictItem(sql.FieldEQ(FieldValue, v))
 }
 
 // CreateTimeEQ applies the EQ predicate on the "create_time" field.
@@ -634,56 +635,6 @@ func NameContainsFold(v string) predicate.DictItem {
 	return predicate.DictItem(sql.FieldContainsFold(FieldName, v))
 }
 
-// MainIDEQ applies the EQ predicate on the "main_id" field.
-func MainIDEQ(v uint32) predicate.DictItem {
-	return predicate.DictItem(sql.FieldEQ(FieldMainID, v))
-}
-
-// MainIDNEQ applies the NEQ predicate on the "main_id" field.
-func MainIDNEQ(v uint32) predicate.DictItem {
-	return predicate.DictItem(sql.FieldNEQ(FieldMainID, v))
-}
-
-// MainIDIn applies the In predicate on the "main_id" field.
-func MainIDIn(vs ...uint32) predicate.DictItem {
-	return predicate.DictItem(sql.FieldIn(FieldMainID, vs...))
-}
-
-// MainIDNotIn applies the NotIn predicate on the "main_id" field.
-func MainIDNotIn(vs ...uint32) predicate.DictItem {
-	return predicate.DictItem(sql.FieldNotIn(FieldMainID, vs...))
-}
-
-// MainIDGT applies the GT predicate on the "main_id" field.
-func MainIDGT(v uint32) predicate.DictItem {
-	return predicate.DictItem(sql.FieldGT(FieldMainID, v))
-}
-
-// MainIDGTE applies the GTE predicate on the "main_id" field.
-func MainIDGTE(v uint32) predicate.DictItem {
-	return predicate.DictItem(sql.FieldGTE(FieldMainID, v))
-}
-
-// MainIDLT applies the LT predicate on the "main_id" field.
-func MainIDLT(v uint32) predicate.DictItem {
-	return predicate.DictItem(sql.FieldLT(FieldMainID, v))
-}
-
-// MainIDLTE applies the LTE predicate on the "main_id" field.
-func MainIDLTE(v uint32) predicate.DictItem {
-	return predicate.DictItem(sql.FieldLTE(FieldMainID, v))
-}
-
-// MainIDIsNil applies the IsNil predicate on the "main_id" field.
-func MainIDIsNil() predicate.DictItem {
-	return predicate.DictItem(sql.FieldIsNull(FieldMainID))
-}
-
-// MainIDNotNil applies the NotNil predicate on the "main_id" field.
-func MainIDNotNil() predicate.DictItem {
-	return predicate.DictItem(sql.FieldNotNull(FieldMainID))
-}
-
 // SortIDEQ applies the EQ predicate on the "sort_id" field.
 func SortIDEQ(v int32) predicate.DictItem {
 	return predicate.DictItem(sql.FieldEQ(FieldSortID, v))
@@ -734,6 +685,56 @@ func SortIDNotNil() predicate.DictItem {
 	return predicate.DictItem(sql.FieldNotNull(FieldSortID))
 }
 
+// ValueEQ applies the EQ predicate on the "value" field.
+func ValueEQ(v int32) predicate.DictItem {
+	return predicate.DictItem(sql.FieldEQ(FieldValue, v))
+}
+
+// ValueNEQ applies the NEQ predicate on the "value" field.
+func ValueNEQ(v int32) predicate.DictItem {
+	return predicate.DictItem(sql.FieldNEQ(FieldValue, v))
+}
+
+// ValueIn applies the In predicate on the "value" field.
+func ValueIn(vs ...int32) predicate.DictItem {
+	return predicate.DictItem(sql.FieldIn(FieldValue, vs...))
+}
+
+// ValueNotIn applies the NotIn predicate on the "value" field.
+func ValueNotIn(vs ...int32) predicate.DictItem {
+	return predicate.DictItem(sql.FieldNotIn(FieldValue, vs...))
+}
+
+// ValueGT applies the GT predicate on the "value" field.
+func ValueGT(v int32) predicate.DictItem {
+	return predicate.DictItem(sql.FieldGT(FieldValue, v))
+}
+
+// ValueGTE applies the GTE predicate on the "value" field.
+func ValueGTE(v int32) predicate.DictItem {
+	return predicate.DictItem(sql.FieldGTE(FieldValue, v))
+}
+
+// ValueLT applies the LT predicate on the "value" field.
+func ValueLT(v int32) predicate.DictItem {
+	return predicate.DictItem(sql.FieldLT(FieldValue, v))
+}
+
+// ValueLTE applies the LTE predicate on the "value" field.
+func ValueLTE(v int32) predicate.DictItem {
+	return predicate.DictItem(sql.FieldLTE(FieldValue, v))
+}
+
+// ValueIsNil applies the IsNil predicate on the "value" field.
+func ValueIsNil() predicate.DictItem {
+	return predicate.DictItem(sql.FieldIsNull(FieldValue))
+}
+
+// ValueNotNil applies the NotNil predicate on the "value" field.
+func ValueNotNil() predicate.DictItem {
+	return predicate.DictItem(sql.FieldNotNull(FieldValue))
+}
+
 // StatusEQ applies the EQ predicate on the "status" field.
 func StatusEQ(v Status) predicate.DictItem {
 	return predicate.DictItem(sql.FieldEQ(FieldStatus, v))
@@ -762,6 +763,29 @@ func StatusIsNil() predicate.DictItem {
 // StatusNotNil applies the NotNil predicate on the "status" field.
 func StatusNotNil() predicate.DictItem {
 	return predicate.DictItem(sql.FieldNotNull(FieldStatus))
+}
+
+// HasSysDictMains applies the HasEdge predicate on the "sys_dict_mains" edge.
+func HasSysDictMains() predicate.DictItem {
+	return predicate.DictItem(func(s *sql.Selector) {
+		step := sqlgraph.NewStep(
+			sqlgraph.From(Table, FieldID),
+			sqlgraph.Edge(sqlgraph.M2O, false, SysDictMainsTable, SysDictMainsColumn),
+		)
+		sqlgraph.HasNeighbors(s, step)
+	})
+}
+
+// HasSysDictMainsWith applies the HasEdge predicate on the "sys_dict_mains" edge with a given conditions (other predicates).
+func HasSysDictMainsWith(preds ...predicate.DictMain) predicate.DictItem {
+	return predicate.DictItem(func(s *sql.Selector) {
+		step := newSysDictMainsStep()
+		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
+			for _, p := range preds {
+				p(s)
+			}
+		})
+	})
 }
 
 // And groups predicates with the AND operator between them.

@@ -25,6 +25,7 @@ export {
   FoldHorizontal,
   Fullscreen,
   Grip,
+  GripVertical,
   Info,
   InspectionPanel,
   Languages,

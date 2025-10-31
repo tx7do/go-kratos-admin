@@ -6,6 +6,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"kratos-admin/app/admin/service/internal/data/ent/dictitem"
 	"kratos-admin/app/admin/service/internal/data/ent/dictmain"
 	"time"
 
@@ -148,10 +149,53 @@ func (_c *DictMainCreate) SetNillableName(v *string) *DictMainCreate {
 	return _c
 }
 
+// SetSortID sets the "sort_id" field.
+func (_c *DictMainCreate) SetSortID(v int32) *DictMainCreate {
+	_c.mutation.SetSortID(v)
+	return _c
+}
+
+// SetNillableSortID sets the "sort_id" field if the given value is not nil.
+func (_c *DictMainCreate) SetNillableSortID(v *int32) *DictMainCreate {
+	if v != nil {
+		_c.SetSortID(*v)
+	}
+	return _c
+}
+
+// SetStatus sets the "status" field.
+func (_c *DictMainCreate) SetStatus(v dictmain.Status) *DictMainCreate {
+	_c.mutation.SetStatus(v)
+	return _c
+}
+
+// SetNillableStatus sets the "status" field if the given value is not nil.
+func (_c *DictMainCreate) SetNillableStatus(v *dictmain.Status) *DictMainCreate {
+	if v != nil {
+		_c.SetStatus(*v)
+	}
+	return _c
+}
+
 // SetID sets the "id" field.
 func (_c *DictMainCreate) SetID(v uint32) *DictMainCreate {
 	_c.mutation.SetID(v)
 	return _c
+}
+
+// AddItemIDs adds the "items" edge to the DictItem entity by IDs.
+func (_c *DictMainCreate) AddItemIDs(ids ...uint32) *DictMainCreate {
+	_c.mutation.AddItemIDs(ids...)
+	return _c
+}
+
+// AddItems adds the "items" edges to the DictItem entity.
+func (_c *DictMainCreate) AddItems(v ...*DictItem) *DictMainCreate {
+	ids := make([]uint32, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
+	}
+	return _c.AddItemIDs(ids...)
 }
 
 // Mutation returns the DictMainMutation object of the builder.
@@ -193,6 +237,14 @@ func (_c *DictMainCreate) defaults() {
 		v := dictmain.DefaultRemark
 		_c.mutation.SetRemark(v)
 	}
+	if _, ok := _c.mutation.SortID(); !ok {
+		v := dictmain.DefaultSortID
+		_c.mutation.SetSortID(v)
+	}
+	if _, ok := _c.mutation.Status(); !ok {
+		v := dictmain.DefaultStatus
+		_c.mutation.SetStatus(v)
+	}
 }
 
 // check runs all checks and user-defined validators on the builder.
@@ -210,6 +262,11 @@ func (_c *DictMainCreate) check() error {
 	if v, ok := _c.mutation.Name(); ok {
 		if err := dictmain.NameValidator(v); err != nil {
 			return &ValidationError{Name: "name", err: fmt.Errorf(`ent: validator failed for field "DictMain.name": %w`, err)}
+		}
+	}
+	if v, ok := _c.mutation.Status(); ok {
+		if err := dictmain.StatusValidator(v); err != nil {
+			return &ValidationError{Name: "status", err: fmt.Errorf(`ent: validator failed for field "DictMain.status": %w`, err)}
 		}
 	}
 	if v, ok := _c.mutation.ID(); ok {
@@ -285,6 +342,30 @@ func (_c *DictMainCreate) createSpec() (*DictMain, *sqlgraph.CreateSpec) {
 	if value, ok := _c.mutation.Name(); ok {
 		_spec.SetField(dictmain.FieldName, field.TypeString, value)
 		_node.Name = &value
+	}
+	if value, ok := _c.mutation.SortID(); ok {
+		_spec.SetField(dictmain.FieldSortID, field.TypeInt32, value)
+		_node.SortID = &value
+	}
+	if value, ok := _c.mutation.Status(); ok {
+		_spec.SetField(dictmain.FieldStatus, field.TypeEnum, value)
+		_node.Status = &value
+	}
+	if nodes := _c.mutation.ItemsIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: true,
+			Table:   dictmain.ItemsTable,
+			Columns: []string{dictmain.ItemsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(dictitem.FieldID, field.TypeUint32),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges = append(_spec.Edges, edge)
 	}
 	return _node, _spec
 }
@@ -473,6 +554,48 @@ func (u *DictMainUpsert) UpdateName() *DictMainUpsert {
 // ClearName clears the value of the "name" field.
 func (u *DictMainUpsert) ClearName() *DictMainUpsert {
 	u.SetNull(dictmain.FieldName)
+	return u
+}
+
+// SetSortID sets the "sort_id" field.
+func (u *DictMainUpsert) SetSortID(v int32) *DictMainUpsert {
+	u.Set(dictmain.FieldSortID, v)
+	return u
+}
+
+// UpdateSortID sets the "sort_id" field to the value that was provided on create.
+func (u *DictMainUpsert) UpdateSortID() *DictMainUpsert {
+	u.SetExcluded(dictmain.FieldSortID)
+	return u
+}
+
+// AddSortID adds v to the "sort_id" field.
+func (u *DictMainUpsert) AddSortID(v int32) *DictMainUpsert {
+	u.Add(dictmain.FieldSortID, v)
+	return u
+}
+
+// ClearSortID clears the value of the "sort_id" field.
+func (u *DictMainUpsert) ClearSortID() *DictMainUpsert {
+	u.SetNull(dictmain.FieldSortID)
+	return u
+}
+
+// SetStatus sets the "status" field.
+func (u *DictMainUpsert) SetStatus(v dictmain.Status) *DictMainUpsert {
+	u.Set(dictmain.FieldStatus, v)
+	return u
+}
+
+// UpdateStatus sets the "status" field to the value that was provided on create.
+func (u *DictMainUpsert) UpdateStatus() *DictMainUpsert {
+	u.SetExcluded(dictmain.FieldStatus)
+	return u
+}
+
+// ClearStatus clears the value of the "status" field.
+func (u *DictMainUpsert) ClearStatus() *DictMainUpsert {
+	u.SetNull(dictmain.FieldStatus)
 	return u
 }
 
@@ -688,6 +811,55 @@ func (u *DictMainUpsertOne) UpdateName() *DictMainUpsertOne {
 func (u *DictMainUpsertOne) ClearName() *DictMainUpsertOne {
 	return u.Update(func(s *DictMainUpsert) {
 		s.ClearName()
+	})
+}
+
+// SetSortID sets the "sort_id" field.
+func (u *DictMainUpsertOne) SetSortID(v int32) *DictMainUpsertOne {
+	return u.Update(func(s *DictMainUpsert) {
+		s.SetSortID(v)
+	})
+}
+
+// AddSortID adds v to the "sort_id" field.
+func (u *DictMainUpsertOne) AddSortID(v int32) *DictMainUpsertOne {
+	return u.Update(func(s *DictMainUpsert) {
+		s.AddSortID(v)
+	})
+}
+
+// UpdateSortID sets the "sort_id" field to the value that was provided on create.
+func (u *DictMainUpsertOne) UpdateSortID() *DictMainUpsertOne {
+	return u.Update(func(s *DictMainUpsert) {
+		s.UpdateSortID()
+	})
+}
+
+// ClearSortID clears the value of the "sort_id" field.
+func (u *DictMainUpsertOne) ClearSortID() *DictMainUpsertOne {
+	return u.Update(func(s *DictMainUpsert) {
+		s.ClearSortID()
+	})
+}
+
+// SetStatus sets the "status" field.
+func (u *DictMainUpsertOne) SetStatus(v dictmain.Status) *DictMainUpsertOne {
+	return u.Update(func(s *DictMainUpsert) {
+		s.SetStatus(v)
+	})
+}
+
+// UpdateStatus sets the "status" field to the value that was provided on create.
+func (u *DictMainUpsertOne) UpdateStatus() *DictMainUpsertOne {
+	return u.Update(func(s *DictMainUpsert) {
+		s.UpdateStatus()
+	})
+}
+
+// ClearStatus clears the value of the "status" field.
+func (u *DictMainUpsertOne) ClearStatus() *DictMainUpsertOne {
+	return u.Update(func(s *DictMainUpsert) {
+		s.ClearStatus()
 	})
 }
 
@@ -1069,6 +1241,55 @@ func (u *DictMainUpsertBulk) UpdateName() *DictMainUpsertBulk {
 func (u *DictMainUpsertBulk) ClearName() *DictMainUpsertBulk {
 	return u.Update(func(s *DictMainUpsert) {
 		s.ClearName()
+	})
+}
+
+// SetSortID sets the "sort_id" field.
+func (u *DictMainUpsertBulk) SetSortID(v int32) *DictMainUpsertBulk {
+	return u.Update(func(s *DictMainUpsert) {
+		s.SetSortID(v)
+	})
+}
+
+// AddSortID adds v to the "sort_id" field.
+func (u *DictMainUpsertBulk) AddSortID(v int32) *DictMainUpsertBulk {
+	return u.Update(func(s *DictMainUpsert) {
+		s.AddSortID(v)
+	})
+}
+
+// UpdateSortID sets the "sort_id" field to the value that was provided on create.
+func (u *DictMainUpsertBulk) UpdateSortID() *DictMainUpsertBulk {
+	return u.Update(func(s *DictMainUpsert) {
+		s.UpdateSortID()
+	})
+}
+
+// ClearSortID clears the value of the "sort_id" field.
+func (u *DictMainUpsertBulk) ClearSortID() *DictMainUpsertBulk {
+	return u.Update(func(s *DictMainUpsert) {
+		s.ClearSortID()
+	})
+}
+
+// SetStatus sets the "status" field.
+func (u *DictMainUpsertBulk) SetStatus(v dictmain.Status) *DictMainUpsertBulk {
+	return u.Update(func(s *DictMainUpsert) {
+		s.SetStatus(v)
+	})
+}
+
+// UpdateStatus sets the "status" field to the value that was provided on create.
+func (u *DictMainUpsertBulk) UpdateStatus() *DictMainUpsertBulk {
+	return u.Update(func(s *DictMainUpsert) {
+		s.UpdateStatus()
+	})
+}
+
+// ClearStatus clears the value of the "status" field.
+func (u *DictMainUpsertBulk) ClearStatus() *DictMainUpsertBulk {
+	return u.Update(func(s *DictMainUpsert) {
+		s.ClearStatus()
 	})
 }
 

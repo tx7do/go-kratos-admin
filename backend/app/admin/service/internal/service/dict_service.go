@@ -11,6 +11,7 @@ import (
 	"kratos-admin/app/admin/service/internal/data"
 
 	adminV1 "kratos-admin/api/gen/go/admin/service/v1"
+	dictV1 "kratos-admin/api/gen/go/dict/service/v1"
 
 	"kratos-admin/pkg/middleware/auth"
 )
@@ -37,15 +38,15 @@ func NewDictService(
 	}
 }
 
-func (s *DictService) ListDictMain(ctx context.Context, req *pagination.PagingRequest) (*adminV1.ListDictMainResponse, error) {
+func (s *DictService) ListDictMain(ctx context.Context, req *pagination.PagingRequest) (*dictV1.ListDictMainResponse, error) {
 	return s.dictMainRepo.List(ctx, req)
 }
 
-func (s *DictService) GetDictMain(ctx context.Context, req *adminV1.GetDictMainRequest) (*adminV1.DictMain, error) {
+func (s *DictService) GetDictMain(ctx context.Context, req *dictV1.GetDictMainRequest) (*dictV1.DictMain, error) {
 	return s.dictMainRepo.Get(ctx, req)
 }
 
-func (s *DictService) CreateDictMain(ctx context.Context, req *adminV1.CreateDictMainRequest) (*emptypb.Empty, error) {
+func (s *DictService) CreateDictMain(ctx context.Context, req *dictV1.CreateDictMainRequest) (*emptypb.Empty, error) {
 	if req.Data == nil {
 		return nil, adminV1.ErrorBadRequest("invalid parameter")
 	}
@@ -65,7 +66,7 @@ func (s *DictService) CreateDictMain(ctx context.Context, req *adminV1.CreateDic
 	return &emptypb.Empty{}, nil
 }
 
-func (s *DictService) UpdateDictMain(ctx context.Context, req *adminV1.UpdateDictMainRequest) (*emptypb.Empty, error) {
+func (s *DictService) UpdateDictMain(ctx context.Context, req *dictV1.UpdateDictMainRequest) (*emptypb.Empty, error) {
 	if req.Data == nil {
 		return nil, adminV1.ErrorBadRequest("invalid parameter")
 	}
@@ -85,7 +86,7 @@ func (s *DictService) UpdateDictMain(ctx context.Context, req *adminV1.UpdateDic
 	return &emptypb.Empty{}, nil
 }
 
-func (s *DictService) DeleteDictMain(ctx context.Context, req *adminV1.BatchDeleteDictRequest) (*emptypb.Empty, error) {
+func (s *DictService) DeleteDictMain(ctx context.Context, req *dictV1.BatchDeleteDictRequest) (*emptypb.Empty, error) {
 	if err := s.dictMainRepo.BatchDelete(ctx, req.GetIds()); err != nil {
 		return nil, err
 	}
@@ -93,11 +94,11 @@ func (s *DictService) DeleteDictMain(ctx context.Context, req *adminV1.BatchDele
 	return &emptypb.Empty{}, nil
 }
 
-func (s *DictService) ListDictItem(ctx context.Context, req *pagination.PagingRequest) (*adminV1.ListDictItemResponse, error) {
+func (s *DictService) ListDictItem(ctx context.Context, req *pagination.PagingRequest) (*dictV1.ListDictItemResponse, error) {
 	return s.dictItemRepo.List(ctx, req)
 }
 
-func (s *DictService) CreateDictItem(ctx context.Context, req *adminV1.CreateDictItemRequest) (*emptypb.Empty, error) {
+func (s *DictService) CreateDictItem(ctx context.Context, req *dictV1.CreateDictItemRequest) (*emptypb.Empty, error) {
 	if req.Data == nil {
 		return nil, adminV1.ErrorBadRequest("invalid parameter")
 	}
@@ -117,7 +118,7 @@ func (s *DictService) CreateDictItem(ctx context.Context, req *adminV1.CreateDic
 	return &emptypb.Empty{}, nil
 }
 
-func (s *DictService) UpdateDictItem(ctx context.Context, req *adminV1.UpdateDictItemRequest) (*emptypb.Empty, error) {
+func (s *DictService) UpdateDictItem(ctx context.Context, req *dictV1.UpdateDictItemRequest) (*emptypb.Empty, error) {
 	if req.Data == nil {
 		return nil, adminV1.ErrorBadRequest("invalid parameter")
 	}
@@ -137,7 +138,7 @@ func (s *DictService) UpdateDictItem(ctx context.Context, req *adminV1.UpdateDic
 	return &emptypb.Empty{}, nil
 }
 
-func (s *DictService) DeleteDictItem(ctx context.Context, req *adminV1.BatchDeleteDictRequest) (*emptypb.Empty, error) {
+func (s *DictService) DeleteDictItem(ctx context.Context, req *dictV1.BatchDeleteDictRequest) (*emptypb.Empty, error) {
 	if err := s.dictItemRepo.BatchDelete(ctx, req.GetIds()); err != nil {
 		return nil, err
 	}

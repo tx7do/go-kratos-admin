@@ -5,188 +5,19 @@
 // source: admin/service/v1/i_dict.proto
 
 /* eslint-disable */
+import type {
+  BatchDeleteDictRequest,
+  CreateDictItemRequest,
+  CreateDictMainRequest,
+  DictMain,
+  GetDictMainRequest,
+  ListDictItemResponse,
+  ListDictMainResponse,
+  UpdateDictItemRequest,
+  UpdateDictMainRequest,
+} from "../../../dict/service/v1/dict.pb";
 import type { Empty } from "../../../google/protobuf/empty.pb";
-import type { Timestamp } from "../../../google/protobuf/timestamp.pb";
 import type { PagingRequest } from "../../../pagination/v1/pagination.pb";
-
-/** 主字典 */
-export interface DictMain {
-  /** 主字典ID */
-  id?:
-    | number
-    | null
-    | undefined;
-  /** 主字典编码 */
-  code?:
-    | string
-    | null
-    | undefined;
-  /** 主字典名称 */
-  name?:
-    | string
-    | null
-    | undefined;
-  /** 备注 */
-  remark?:
-    | string
-    | null
-    | undefined;
-  /** 创建者ID */
-  createBy?:
-    | number
-    | null
-    | undefined;
-  /** 更新者ID */
-  updateBy?:
-    | number
-    | null
-    | undefined;
-  /** 创建时间 */
-  createTime?:
-    | Timestamp
-    | null
-    | undefined;
-  /** 更新时间 */
-  updateTime?:
-    | Timestamp
-    | null
-    | undefined;
-  /** 删除时间 */
-  deleteTime?: Timestamp | null | undefined;
-}
-
-/** 子字典 */
-export interface DictItem {
-  /** 子项ID */
-  id?:
-    | number
-    | null
-    | undefined;
-  /** 主字典ID */
-  mainId?:
-    | number
-    | null
-    | undefined;
-  /** 子项编码 */
-  code?:
-    | string
-    | null
-    | undefined;
-  /** 子项名称 */
-  name?:
-    | string
-    | null
-    | undefined;
-  /** 字典状态 */
-  status?:
-    | DictItem_Status
-    | null
-    | undefined;
-  /** 排序编号 */
-  sortId?:
-    | number
-    | null
-    | undefined;
-  /** 备注 */
-  remark?:
-    | string
-    | null
-    | undefined;
-  /** 创建者ID */
-  createBy?:
-    | number
-    | null
-    | undefined;
-  /** 更新者ID */
-  updateBy?:
-    | number
-    | null
-    | undefined;
-  /** 创建时间 */
-  createTime?:
-    | Timestamp
-    | null
-    | undefined;
-  /** 更新时间 */
-  updateTime?:
-    | Timestamp
-    | null
-    | undefined;
-  /** 删除时间 */
-  deleteTime?: Timestamp | null | undefined;
-}
-
-/** 字典状态 */
-export enum DictItem_Status {
-  /** OFF - 禁用 */
-  OFF = "OFF",
-  /** ON - 启用 */
-  ON = "ON",
-}
-
-/** 查询主字典列表 - 回应 */
-export interface ListDictMainResponse {
-  items: DictMain[];
-  total: number;
-}
-
-/** 查询主字典详情 - 请求 */
-export interface GetDictMainRequest {
-  queryBy?: { $case: "id"; id: number } | { $case: "code"; code: string } | null;
-}
-
-/** 创建主字典 - 请求 */
-export interface CreateDictMainRequest {
-  data: DictMain | null;
-}
-
-/** 更新主字典 - 请求 */
-export interface UpdateDictMainRequest {
-  data:
-    | DictMain
-    | null;
-  /** 要更新的字段列表 */
-  updateMask:
-    | string[]
-    | null;
-  /** 如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。 */
-  allowMissing?: boolean | null | undefined;
-}
-
-/** 批量删除字典 - 请求 */
-export interface BatchDeleteDictRequest {
-  /** 要删除的ID列表 */
-  ids: number[];
-}
-
-/** 查询子字典列表 - 回应 */
-export interface ListDictItemResponse {
-  items: DictItem[];
-  total: number;
-}
-
-/** 创建子字典 - 请求 */
-export interface CreateDictItemRequest {
-  data: DictItem | null;
-}
-
-/** 更新子字典 - 请求 */
-export interface UpdateDictItemRequest {
-  data:
-    | DictItem
-    | null;
-  /** 要更新的字段列表 */
-  updateMask:
-    | string[]
-    | null;
-  /** 如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。 */
-  allowMissing?: boolean | null | undefined;
-}
-
-/** 查询子字典详情 - 请求 */
-export interface GetDictItemRequest {
-  queryBy?: { $case: "id"; id: number } | { $case: "code"; code: string } | null;
-}
 
 /** 字典管理服务 */
 export interface DictService {

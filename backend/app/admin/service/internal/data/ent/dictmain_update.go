@@ -6,6 +6,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"kratos-admin/app/admin/service/internal/data/ent/dictitem"
 	"kratos-admin/app/admin/service/internal/data/ent/dictmain"
 	"kratos-admin/app/admin/service/internal/data/ent/predicate"
 	"time"
@@ -183,9 +184,92 @@ func (_u *DictMainUpdate) ClearName() *DictMainUpdate {
 	return _u
 }
 
+// SetSortID sets the "sort_id" field.
+func (_u *DictMainUpdate) SetSortID(v int32) *DictMainUpdate {
+	_u.mutation.ResetSortID()
+	_u.mutation.SetSortID(v)
+	return _u
+}
+
+// SetNillableSortID sets the "sort_id" field if the given value is not nil.
+func (_u *DictMainUpdate) SetNillableSortID(v *int32) *DictMainUpdate {
+	if v != nil {
+		_u.SetSortID(*v)
+	}
+	return _u
+}
+
+// AddSortID adds value to the "sort_id" field.
+func (_u *DictMainUpdate) AddSortID(v int32) *DictMainUpdate {
+	_u.mutation.AddSortID(v)
+	return _u
+}
+
+// ClearSortID clears the value of the "sort_id" field.
+func (_u *DictMainUpdate) ClearSortID() *DictMainUpdate {
+	_u.mutation.ClearSortID()
+	return _u
+}
+
+// SetStatus sets the "status" field.
+func (_u *DictMainUpdate) SetStatus(v dictmain.Status) *DictMainUpdate {
+	_u.mutation.SetStatus(v)
+	return _u
+}
+
+// SetNillableStatus sets the "status" field if the given value is not nil.
+func (_u *DictMainUpdate) SetNillableStatus(v *dictmain.Status) *DictMainUpdate {
+	if v != nil {
+		_u.SetStatus(*v)
+	}
+	return _u
+}
+
+// ClearStatus clears the value of the "status" field.
+func (_u *DictMainUpdate) ClearStatus() *DictMainUpdate {
+	_u.mutation.ClearStatus()
+	return _u
+}
+
+// AddItemIDs adds the "items" edge to the DictItem entity by IDs.
+func (_u *DictMainUpdate) AddItemIDs(ids ...uint32) *DictMainUpdate {
+	_u.mutation.AddItemIDs(ids...)
+	return _u
+}
+
+// AddItems adds the "items" edges to the DictItem entity.
+func (_u *DictMainUpdate) AddItems(v ...*DictItem) *DictMainUpdate {
+	ids := make([]uint32, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
+	}
+	return _u.AddItemIDs(ids...)
+}
+
 // Mutation returns the DictMainMutation object of the builder.
 func (_u *DictMainUpdate) Mutation() *DictMainMutation {
 	return _u.mutation
+}
+
+// ClearItems clears all "items" edges to the DictItem entity.
+func (_u *DictMainUpdate) ClearItems() *DictMainUpdate {
+	_u.mutation.ClearItems()
+	return _u
+}
+
+// RemoveItemIDs removes the "items" edge to DictItem entities by IDs.
+func (_u *DictMainUpdate) RemoveItemIDs(ids ...uint32) *DictMainUpdate {
+	_u.mutation.RemoveItemIDs(ids...)
+	return _u
+}
+
+// RemoveItems removes "items" edges to DictItem entities.
+func (_u *DictMainUpdate) RemoveItems(v ...*DictItem) *DictMainUpdate {
+	ids := make([]uint32, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
+	}
+	return _u.RemoveItemIDs(ids...)
 }
 
 // Save executes the query and returns the number of nodes affected by the update operation.
@@ -225,6 +309,11 @@ func (_u *DictMainUpdate) check() error {
 	if v, ok := _u.mutation.Name(); ok {
 		if err := dictmain.NameValidator(v); err != nil {
 			return &ValidationError{Name: "name", err: fmt.Errorf(`ent: validator failed for field "DictMain.name": %w`, err)}
+		}
+	}
+	if v, ok := _u.mutation.Status(); ok {
+		if err := dictmain.StatusValidator(v); err != nil {
+			return &ValidationError{Name: "status", err: fmt.Errorf(`ent: validator failed for field "DictMain.status": %w`, err)}
 		}
 	}
 	return nil
@@ -301,6 +390,66 @@ func (_u *DictMainUpdate) sqlSave(ctx context.Context) (_node int, err error) {
 	}
 	if _u.mutation.NameCleared() {
 		_spec.ClearField(dictmain.FieldName, field.TypeString)
+	}
+	if value, ok := _u.mutation.SortID(); ok {
+		_spec.SetField(dictmain.FieldSortID, field.TypeInt32, value)
+	}
+	if value, ok := _u.mutation.AddedSortID(); ok {
+		_spec.AddField(dictmain.FieldSortID, field.TypeInt32, value)
+	}
+	if _u.mutation.SortIDCleared() {
+		_spec.ClearField(dictmain.FieldSortID, field.TypeInt32)
+	}
+	if value, ok := _u.mutation.Status(); ok {
+		_spec.SetField(dictmain.FieldStatus, field.TypeEnum, value)
+	}
+	if _u.mutation.StatusCleared() {
+		_spec.ClearField(dictmain.FieldStatus, field.TypeEnum)
+	}
+	if _u.mutation.ItemsCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: true,
+			Table:   dictmain.ItemsTable,
+			Columns: []string{dictmain.ItemsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(dictitem.FieldID, field.TypeUint32),
+			},
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := _u.mutation.RemovedItemsIDs(); len(nodes) > 0 && !_u.mutation.ItemsCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: true,
+			Table:   dictmain.ItemsTable,
+			Columns: []string{dictmain.ItemsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(dictitem.FieldID, field.TypeUint32),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := _u.mutation.ItemsIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: true,
+			Table:   dictmain.ItemsTable,
+			Columns: []string{dictmain.ItemsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(dictitem.FieldID, field.TypeUint32),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
 	_spec.AddModifiers(_u.modifiers...)
 	if _node, err = sqlgraph.UpdateNodes(ctx, _u.driver, _spec); err != nil {
@@ -478,9 +627,92 @@ func (_u *DictMainUpdateOne) ClearName() *DictMainUpdateOne {
 	return _u
 }
 
+// SetSortID sets the "sort_id" field.
+func (_u *DictMainUpdateOne) SetSortID(v int32) *DictMainUpdateOne {
+	_u.mutation.ResetSortID()
+	_u.mutation.SetSortID(v)
+	return _u
+}
+
+// SetNillableSortID sets the "sort_id" field if the given value is not nil.
+func (_u *DictMainUpdateOne) SetNillableSortID(v *int32) *DictMainUpdateOne {
+	if v != nil {
+		_u.SetSortID(*v)
+	}
+	return _u
+}
+
+// AddSortID adds value to the "sort_id" field.
+func (_u *DictMainUpdateOne) AddSortID(v int32) *DictMainUpdateOne {
+	_u.mutation.AddSortID(v)
+	return _u
+}
+
+// ClearSortID clears the value of the "sort_id" field.
+func (_u *DictMainUpdateOne) ClearSortID() *DictMainUpdateOne {
+	_u.mutation.ClearSortID()
+	return _u
+}
+
+// SetStatus sets the "status" field.
+func (_u *DictMainUpdateOne) SetStatus(v dictmain.Status) *DictMainUpdateOne {
+	_u.mutation.SetStatus(v)
+	return _u
+}
+
+// SetNillableStatus sets the "status" field if the given value is not nil.
+func (_u *DictMainUpdateOne) SetNillableStatus(v *dictmain.Status) *DictMainUpdateOne {
+	if v != nil {
+		_u.SetStatus(*v)
+	}
+	return _u
+}
+
+// ClearStatus clears the value of the "status" field.
+func (_u *DictMainUpdateOne) ClearStatus() *DictMainUpdateOne {
+	_u.mutation.ClearStatus()
+	return _u
+}
+
+// AddItemIDs adds the "items" edge to the DictItem entity by IDs.
+func (_u *DictMainUpdateOne) AddItemIDs(ids ...uint32) *DictMainUpdateOne {
+	_u.mutation.AddItemIDs(ids...)
+	return _u
+}
+
+// AddItems adds the "items" edges to the DictItem entity.
+func (_u *DictMainUpdateOne) AddItems(v ...*DictItem) *DictMainUpdateOne {
+	ids := make([]uint32, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
+	}
+	return _u.AddItemIDs(ids...)
+}
+
 // Mutation returns the DictMainMutation object of the builder.
 func (_u *DictMainUpdateOne) Mutation() *DictMainMutation {
 	return _u.mutation
+}
+
+// ClearItems clears all "items" edges to the DictItem entity.
+func (_u *DictMainUpdateOne) ClearItems() *DictMainUpdateOne {
+	_u.mutation.ClearItems()
+	return _u
+}
+
+// RemoveItemIDs removes the "items" edge to DictItem entities by IDs.
+func (_u *DictMainUpdateOne) RemoveItemIDs(ids ...uint32) *DictMainUpdateOne {
+	_u.mutation.RemoveItemIDs(ids...)
+	return _u
+}
+
+// RemoveItems removes "items" edges to DictItem entities.
+func (_u *DictMainUpdateOne) RemoveItems(v ...*DictItem) *DictMainUpdateOne {
+	ids := make([]uint32, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
+	}
+	return _u.RemoveItemIDs(ids...)
 }
 
 // Where appends a list predicates to the DictMainUpdate builder.
@@ -533,6 +765,11 @@ func (_u *DictMainUpdateOne) check() error {
 	if v, ok := _u.mutation.Name(); ok {
 		if err := dictmain.NameValidator(v); err != nil {
 			return &ValidationError{Name: "name", err: fmt.Errorf(`ent: validator failed for field "DictMain.name": %w`, err)}
+		}
+	}
+	if v, ok := _u.mutation.Status(); ok {
+		if err := dictmain.StatusValidator(v); err != nil {
+			return &ValidationError{Name: "status", err: fmt.Errorf(`ent: validator failed for field "DictMain.status": %w`, err)}
 		}
 	}
 	return nil
@@ -626,6 +863,66 @@ func (_u *DictMainUpdateOne) sqlSave(ctx context.Context) (_node *DictMain, err 
 	}
 	if _u.mutation.NameCleared() {
 		_spec.ClearField(dictmain.FieldName, field.TypeString)
+	}
+	if value, ok := _u.mutation.SortID(); ok {
+		_spec.SetField(dictmain.FieldSortID, field.TypeInt32, value)
+	}
+	if value, ok := _u.mutation.AddedSortID(); ok {
+		_spec.AddField(dictmain.FieldSortID, field.TypeInt32, value)
+	}
+	if _u.mutation.SortIDCleared() {
+		_spec.ClearField(dictmain.FieldSortID, field.TypeInt32)
+	}
+	if value, ok := _u.mutation.Status(); ok {
+		_spec.SetField(dictmain.FieldStatus, field.TypeEnum, value)
+	}
+	if _u.mutation.StatusCleared() {
+		_spec.ClearField(dictmain.FieldStatus, field.TypeEnum)
+	}
+	if _u.mutation.ItemsCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: true,
+			Table:   dictmain.ItemsTable,
+			Columns: []string{dictmain.ItemsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(dictitem.FieldID, field.TypeUint32),
+			},
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := _u.mutation.RemovedItemsIDs(); len(nodes) > 0 && !_u.mutation.ItemsCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: true,
+			Table:   dictmain.ItemsTable,
+			Columns: []string{dictmain.ItemsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(dictitem.FieldID, field.TypeUint32),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := _u.mutation.ItemsIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: true,
+			Table:   dictmain.ItemsTable,
+			Columns: []string{dictmain.ItemsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(dictitem.FieldID, field.TypeUint32),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
 	_spec.AddModifiers(_u.modifiers...)
 	_node = &DictMain{config: _u.config}

@@ -1229,6 +1229,22 @@ func (c *DictItemClient) GetX(ctx context.Context, id uint32) *DictItem {
 	return obj
 }
 
+// QuerySysDictMains queries the sys_dict_mains edge of a DictItem.
+func (c *DictItemClient) QuerySysDictMains(_m *DictItem) *DictMainQuery {
+	query := (&DictMainClient{config: c.config}).Query()
+	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
+		id := _m.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(dictitem.Table, dictitem.FieldID, id),
+			sqlgraph.To(dictmain.Table, dictmain.FieldID),
+			sqlgraph.Edge(sqlgraph.M2O, false, dictitem.SysDictMainsTable, dictitem.SysDictMainsColumn),
+		)
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
 // Hooks returns the client hooks.
 func (c *DictItemClient) Hooks() []Hook {
 	return c.hooks.DictItem
@@ -1360,6 +1376,22 @@ func (c *DictMainClient) GetX(ctx context.Context, id uint32) *DictMain {
 		panic(err)
 	}
 	return obj
+}
+
+// QueryItems queries the items edge of a DictMain.
+func (c *DictMainClient) QueryItems(_m *DictMain) *DictItemQuery {
+	query := (&DictItemClient{config: c.config}).Query()
+	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
+		id := _m.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(dictmain.Table, dictmain.FieldID, id),
+			sqlgraph.To(dictitem.Table, dictitem.FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, true, dictmain.ItemsTable, dictmain.ItemsColumn),
+		)
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
 }
 
 // Hooks returns the client hooks.

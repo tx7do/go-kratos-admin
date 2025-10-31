@@ -204,8 +204,8 @@ var schemaGraph = func() *sqlgraph.Schema {
 			dictitem.FieldTenantID:   {Type: field.TypeUint32, Column: dictitem.FieldTenantID},
 			dictitem.FieldCode:       {Type: field.TypeString, Column: dictitem.FieldCode},
 			dictitem.FieldName:       {Type: field.TypeString, Column: dictitem.FieldName},
-			dictitem.FieldMainID:     {Type: field.TypeUint32, Column: dictitem.FieldMainID},
 			dictitem.FieldSortID:     {Type: field.TypeInt32, Column: dictitem.FieldSortID},
+			dictitem.FieldValue:      {Type: field.TypeInt32, Column: dictitem.FieldValue},
 			dictitem.FieldStatus:     {Type: field.TypeEnum, Column: dictitem.FieldStatus},
 		},
 	}
@@ -229,6 +229,8 @@ var schemaGraph = func() *sqlgraph.Schema {
 			dictmain.FieldTenantID:   {Type: field.TypeUint32, Column: dictmain.FieldTenantID},
 			dictmain.FieldCode:       {Type: field.TypeString, Column: dictmain.FieldCode},
 			dictmain.FieldName:       {Type: field.TypeString, Column: dictmain.FieldName},
+			dictmain.FieldSortID:     {Type: field.TypeInt32, Column: dictmain.FieldSortID},
+			dictmain.FieldStatus:     {Type: field.TypeEnum, Column: dictmain.FieldStatus},
 		},
 	}
 	graph.Nodes[7] = &sqlgraph.Node{
@@ -748,6 +750,30 @@ var schemaGraph = func() *sqlgraph.Schema {
 		},
 		"Department",
 		"Department",
+	)
+	graph.MustAddE(
+		"sys_dict_mains",
+		&sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2O,
+			Inverse: false,
+			Table:   dictitem.SysDictMainsTable,
+			Columns: []string{dictitem.SysDictMainsColumn},
+			Bidi:    false,
+		},
+		"DictItem",
+		"DictMain",
+	)
+	graph.MustAddE(
+		"items",
+		&sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: true,
+			Table:   dictmain.ItemsTable,
+			Columns: []string{dictmain.ItemsColumn},
+			Bidi:    false,
+		},
+		"DictMain",
+		"DictItem",
 	)
 	graph.MustAddE(
 		"parent",
@@ -1581,19 +1607,33 @@ func (f *DictItemFilter) WhereName(p entql.StringP) {
 	f.Where(p.Field(dictitem.FieldName))
 }
 
-// WhereMainID applies the entql uint32 predicate on the main_id field.
-func (f *DictItemFilter) WhereMainID(p entql.Uint32P) {
-	f.Where(p.Field(dictitem.FieldMainID))
-}
-
 // WhereSortID applies the entql int32 predicate on the sort_id field.
 func (f *DictItemFilter) WhereSortID(p entql.Int32P) {
 	f.Where(p.Field(dictitem.FieldSortID))
 }
 
+// WhereValue applies the entql int32 predicate on the value field.
+func (f *DictItemFilter) WhereValue(p entql.Int32P) {
+	f.Where(p.Field(dictitem.FieldValue))
+}
+
 // WhereStatus applies the entql string predicate on the status field.
 func (f *DictItemFilter) WhereStatus(p entql.StringP) {
 	f.Where(p.Field(dictitem.FieldStatus))
+}
+
+// WhereHasSysDictMains applies a predicate to check if query has an edge sys_dict_mains.
+func (f *DictItemFilter) WhereHasSysDictMains() {
+	f.Where(entql.HasEdge("sys_dict_mains"))
+}
+
+// WhereHasSysDictMainsWith applies a predicate to check if query has an edge sys_dict_mains with a given conditions (other predicates).
+func (f *DictItemFilter) WhereHasSysDictMainsWith(preds ...predicate.DictMain) {
+	f.Where(entql.HasEdgeWith("sys_dict_mains", sqlgraph.WrapFunc(func(s *sql.Selector) {
+		for _, p := range preds {
+			p(s)
+		}
+	})))
 }
 
 // addPredicate implements the predicateAdder interface.
@@ -1679,6 +1719,30 @@ func (f *DictMainFilter) WhereCode(p entql.StringP) {
 // WhereName applies the entql string predicate on the name field.
 func (f *DictMainFilter) WhereName(p entql.StringP) {
 	f.Where(p.Field(dictmain.FieldName))
+}
+
+// WhereSortID applies the entql int32 predicate on the sort_id field.
+func (f *DictMainFilter) WhereSortID(p entql.Int32P) {
+	f.Where(p.Field(dictmain.FieldSortID))
+}
+
+// WhereStatus applies the entql string predicate on the status field.
+func (f *DictMainFilter) WhereStatus(p entql.StringP) {
+	f.Where(p.Field(dictmain.FieldStatus))
+}
+
+// WhereHasItems applies a predicate to check if query has an edge items.
+func (f *DictMainFilter) WhereHasItems() {
+	f.Where(entql.HasEdge("items"))
+}
+
+// WhereHasItemsWith applies a predicate to check if query has an edge items with a given conditions (other predicates).
+func (f *DictMainFilter) WhereHasItemsWith(preds ...predicate.DictItem) {
+	f.Where(entql.HasEdgeWith("items", sqlgraph.WrapFunc(func(s *sql.Selector) {
+		for _, p := range preds {
+			p(s)
+		}
+	})))
 }
 
 // addPredicate implements the predicateAdder interface.

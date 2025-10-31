@@ -4,15 +4,11 @@ import type {
   RouteRecordRaw,
 } from '@vben/types';
 
-import { type Component, defineComponent, type DefineComponent, h } from 'vue';
-
 import {
   cloneDeep,
   generateMenus,
   generateRoutesByBackend,
   generateRoutesByFrontend,
-  isFunction,
-  isString,
   mapTree,
 } from '@vben/utils';
 
@@ -23,7 +19,6 @@ async function generateAccessible(
   const { router } = options;
 
   options.routes = cloneDeep(options.routes);
-
   // 生成路由
   const accessibleRoutes = await generateRoutes(mode, options);
 
@@ -33,7 +28,7 @@ async function generateAccessible(
   });
 
   // 生成菜单
-  const accessibleMenus = generateMenus(accessibleRoutes, options.router);
+  const accessibleMenus = await generateMenus(accessibleRoutes, options.router);
 
   return { accessibleMenus, accessibleRoutes };
 }
@@ -55,7 +50,6 @@ async function generateRoutes(
       resultRoutes = await generateRoutesByBackend(options);
       break;
     }
-
     case 'frontend': {
       resultRoutes = await generateRoutesByFrontend(
         routes,
@@ -64,51 +58,17 @@ async function generateRoutes(
       );
       break;
     }
-
-    case 'mixed': {
-      const [frontend_resultRoutes, backend_resultRoutes] = await Promise.all([
-        generateRoutesByFrontend(routes, roles || [], forbiddenComponent),
-        generateRoutesByBackend(options),
-      ]);
-
-      resultRoutes = [...frontend_resultRoutes, ...backend_resultRoutes];
-      break;
-    }
   }
 
   /**
    * 调整路由树，做以下处理：
    * 1. 对未添加redirect的路由添加redirect
-   * 2. 将懒加载的组件名称修改为当前路由的名称（如果启用了keep-alive的话）
    */
   resultRoutes = mapTree(resultRoutes, (route) => {
-    // 重新包装component，使用与路由名称相同的name以支持keep-alive的条件缓存。
-    if (
-      route.meta?.keepAlive &&
-      isFunction(route.component) &&
-      route.name &&
-      isString(route.name)
-    ) {
-      const originalComponent = route.component as () => Promise<{
-        default: Component | DefineComponent;
-      }>;
-      route.component = async () => {
-        const component = await originalComponent();
-        if (!component.default) return component;
-        return defineComponent({
-          name: route.name as string,
-          setup(props, { attrs, slots }) {
-            return () => h(component.default, { ...props, ...attrs }, slots);
-          },
-        });
-      };
-    }
-
     // 如果有redirect或者没有子路由，则直接返回
     if (route.redirect || !route.children || route.children.length === 0) {
       return route;
     }
-
     const firstChild = route.children[0];
 
     // 如果子路由不是以/开头，则直接返回,这种情况需要计算全部父级的path才能得出正确的path，这里不做处理

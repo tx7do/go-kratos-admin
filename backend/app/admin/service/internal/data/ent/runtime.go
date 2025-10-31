@@ -128,7 +128,7 @@ func init() {
 	// dictitem.NameValidator is a validator for the "name" field. It is called by the builders before save.
 	dictitem.NameValidator = dictitemDescName.Validators[0].(func(string) error)
 	// dictitemDescSortID is the schema descriptor for sort_id field.
-	dictitemDescSortID := dictitemFields[3].Descriptor()
+	dictitemDescSortID := dictitemFields[2].Descriptor()
 	// dictitem.DefaultSortID holds the default value on creation for the sort_id field.
 	dictitem.DefaultSortID = dictitemDescSortID.Default.(int32)
 	// dictitemDescID is the schema descriptor for id field.
@@ -160,6 +160,10 @@ func init() {
 	dictmainDescName := dictmainFields[1].Descriptor()
 	// dictmain.NameValidator is a validator for the "name" field. It is called by the builders before save.
 	dictmain.NameValidator = dictmainDescName.Validators[0].(func(string) error)
+	// dictmainDescSortID is the schema descriptor for sort_id field.
+	dictmainDescSortID := dictmainFields[2].Descriptor()
+	// dictmain.DefaultSortID holds the default value on creation for the sort_id field.
+	dictmain.DefaultSortID = dictmainDescSortID.Default.(int32)
 	// dictmainDescID is the schema descriptor for id field.
 	dictmainDescID := dictmainMixinFields0[0].Descriptor()
 	// dictmain.IDValidator is a validator for the "id" field. It is called by the builders before save.

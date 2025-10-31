@@ -5,6 +5,7 @@ package ent
 import (
 	"fmt"
 	"kratos-admin/app/admin/service/internal/data/ent/dictitem"
+	"kratos-admin/app/admin/service/internal/data/ent/dictmain"
 	"strings"
 	"time"
 
@@ -36,13 +37,37 @@ type DictItem struct {
 	Code *string `json:"code,omitempty"`
 	// 子项名称
 	Name *string `json:"name,omitempty"`
-	// 主字典ID
-	MainID *uint32 `json:"main_id,omitempty"`
 	// 排序ID
 	SortID *int32 `json:"sort_id,omitempty"`
+	// 数值型标识
+	Value *int32 `json:"value,omitempty"`
 	// 字典状态
-	Status       *dictitem.Status `json:"status,omitempty"`
+	Status *dictitem.Status `json:"status,omitempty"`
+	// Edges holds the relations/edges for other nodes in the graph.
+	// The values are being populated by the DictItemQuery when eager-loading is set.
+	Edges        DictItemEdges `json:"edges"`
+	main_id      *uint32
 	selectValues sql.SelectValues
+}
+
+// DictItemEdges holds the relations/edges for other nodes in the graph.
+type DictItemEdges struct {
+	// SysDictMains holds the value of the sys_dict_mains edge.
+	SysDictMains *DictMain `json:"sys_dict_mains,omitempty"`
+	// loadedTypes holds the information for reporting if a
+	// type was loaded (or requested) in eager-loading or not.
+	loadedTypes [1]bool
+}
+
+// SysDictMainsOrErr returns the SysDictMains value or an error if the edge
+// was not loaded in eager-loading, or loaded but was not found.
+func (e DictItemEdges) SysDictMainsOrErr() (*DictMain, error) {
+	if e.SysDictMains != nil {
+		return e.SysDictMains, nil
+	} else if e.loadedTypes[0] {
+		return nil, &NotFoundError{label: dictmain.Label}
+	}
+	return nil, &NotLoadedError{edge: "sys_dict_mains"}
 }
 
 // scanValues returns the types for scanning values from sql.Rows.
@@ -50,12 +75,14 @@ func (*DictItem) scanValues(columns []string) ([]any, error) {
 	values := make([]any, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case dictitem.FieldID, dictitem.FieldCreateBy, dictitem.FieldUpdateBy, dictitem.FieldTenantID, dictitem.FieldMainID, dictitem.FieldSortID:
+		case dictitem.FieldID, dictitem.FieldCreateBy, dictitem.FieldUpdateBy, dictitem.FieldTenantID, dictitem.FieldSortID, dictitem.FieldValue:
 			values[i] = new(sql.NullInt64)
 		case dictitem.FieldRemark, dictitem.FieldCode, dictitem.FieldName, dictitem.FieldStatus:
 			values[i] = new(sql.NullString)
 		case dictitem.FieldCreateTime, dictitem.FieldUpdateTime, dictitem.FieldDeleteTime:
 			values[i] = new(sql.NullTime)
+		case dictitem.ForeignKeys[0]: // main_id
+			values[i] = new(sql.NullInt64)
 		default:
 			values[i] = new(sql.UnknownType)
 		}
@@ -140,19 +167,19 @@ func (_m *DictItem) assignValues(columns []string, values []any) error {
 				_m.Name = new(string)
 				*_m.Name = value.String
 			}
-		case dictitem.FieldMainID:
-			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for field main_id", values[i])
-			} else if value.Valid {
-				_m.MainID = new(uint32)
-				*_m.MainID = uint32(value.Int64)
-			}
 		case dictitem.FieldSortID:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field sort_id", values[i])
 			} else if value.Valid {
 				_m.SortID = new(int32)
 				*_m.SortID = int32(value.Int64)
+			}
+		case dictitem.FieldValue:
+			if value, ok := values[i].(*sql.NullInt64); !ok {
+				return fmt.Errorf("unexpected type %T for field value", values[i])
+			} else if value.Valid {
+				_m.Value = new(int32)
+				*_m.Value = int32(value.Int64)
 			}
 		case dictitem.FieldStatus:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -161,6 +188,13 @@ func (_m *DictItem) assignValues(columns []string, values []any) error {
 				_m.Status = new(dictitem.Status)
 				*_m.Status = dictitem.Status(value.String)
 			}
+		case dictitem.ForeignKeys[0]:
+			if value, ok := values[i].(*sql.NullInt64); !ok {
+				return fmt.Errorf("unexpected type %T for edge-field main_id", value)
+			} else if value.Valid {
+				_m.main_id = new(uint32)
+				*_m.main_id = uint32(value.Int64)
+			}
 		default:
 			_m.selectValues.Set(columns[i], values[i])
 		}
@@ -168,10 +202,15 @@ func (_m *DictItem) assignValues(columns []string, values []any) error {
 	return nil
 }
 
-// Value returns the ent.Value that was dynamically selected and assigned to the DictItem.
+// GetValue returns the ent.Value that was dynamically selected and assigned to the DictItem.
 // This includes values selected through modifiers, order, etc.
-func (_m *DictItem) Value(name string) (ent.Value, error) {
+func (_m *DictItem) GetValue(name string) (ent.Value, error) {
 	return _m.selectValues.Get(name)
+}
+
+// QuerySysDictMains queries the "sys_dict_mains" edge of the DictItem entity.
+func (_m *DictItem) QuerySysDictMains() *DictMainQuery {
+	return NewDictItemClient(_m.config).QuerySysDictMains(_m)
 }
 
 // Update returns a builder for updating this DictItem.
@@ -242,13 +281,13 @@ func (_m *DictItem) String() string {
 		builder.WriteString(*v)
 	}
 	builder.WriteString(", ")
-	if v := _m.MainID; v != nil {
-		builder.WriteString("main_id=")
+	if v := _m.SortID; v != nil {
+		builder.WriteString("sort_id=")
 		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteString(", ")
-	if v := _m.SortID; v != nil {
-		builder.WriteString("sort_id=")
+	if v := _m.Value; v != nil {
+		builder.WriteString("value=")
 		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteString(", ")

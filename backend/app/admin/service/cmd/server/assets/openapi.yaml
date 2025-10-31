@@ -3342,6 +3342,10 @@ components:
                 name:
                     type: string
                     description: 子项名称
+                value:
+                    type: integer
+                    description: 数值型标识
+                    format: int32
                 status:
                     enum:
                         - OFF
@@ -3390,6 +3394,17 @@ components:
                 name:
                     type: string
                     description: 主字典名称
+                status:
+                    enum:
+                        - OFF
+                        - ON
+                    type: string
+                    description: 字典状态
+                    format: enum
+                sortId:
+                    type: integer
+                    description: 排序编号
+                    format: int32
                 remark:
                     type: string
                     description: 备注

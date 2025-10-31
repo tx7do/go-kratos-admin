@@ -92,10 +92,15 @@
   },
   "dict": {
     "moduleName": "字典",
+    "dictMain": "主字典",
+    "dictItem": "子字典",
+    "dictMainList": "主字典列表",
+    "dictItemList": "子字典列表",
     "code": "字典编码",
     "name": "字典名称",
+    "value": "数值型标识",
     "button": {
-      "create": "创建条目"
+      "create": "新增"
     }
   },
   "menu": {

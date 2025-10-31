@@ -7860,30 +7860,32 @@ func (m *DepartmentMutation) ResetEdge(name string) error {
 // DictItemMutation represents an operation that mutates the DictItem nodes in the graph.
 type DictItemMutation struct {
 	config
-	op            Op
-	typ           string
-	id            *uint32
-	create_time   *time.Time
-	update_time   *time.Time
-	delete_time   *time.Time
-	create_by     *uint32
-	addcreate_by  *int32
-	update_by     *uint32
-	addupdate_by  *int32
-	remark        *string
-	tenant_id     *uint32
-	addtenant_id  *int32
-	code          *string
-	name          *string
-	main_id       *uint32
-	addmain_id    *int32
-	sort_id       *int32
-	addsort_id    *int32
-	status        *dictitem.Status
-	clearedFields map[string]struct{}
-	done          bool
-	oldValue      func(context.Context) (*DictItem, error)
-	predicates    []predicate.DictItem
+	op                    Op
+	typ                   string
+	id                    *uint32
+	create_time           *time.Time
+	update_time           *time.Time
+	delete_time           *time.Time
+	create_by             *uint32
+	addcreate_by          *int32
+	update_by             *uint32
+	addupdate_by          *int32
+	remark                *string
+	tenant_id             *uint32
+	addtenant_id          *int32
+	code                  *string
+	name                  *string
+	sort_id               *int32
+	addsort_id            *int32
+	value                 *int32
+	addvalue              *int32
+	status                *dictitem.Status
+	clearedFields         map[string]struct{}
+	sys_dict_mains        *uint32
+	clearedsys_dict_mains bool
+	done                  bool
+	oldValue              func(context.Context) (*DictItem, error)
+	predicates            []predicate.DictItem
 }
 
 var _ ent.Mutation = (*DictItemMutation)(nil)
@@ -8494,76 +8496,6 @@ func (m *DictItemMutation) ResetName() {
 	delete(m.clearedFields, dictitem.FieldName)
 }
 
-// SetMainID sets the "main_id" field.
-func (m *DictItemMutation) SetMainID(u uint32) {
-	m.main_id = &u
-	m.addmain_id = nil
-}
-
-// MainID returns the value of the "main_id" field in the mutation.
-func (m *DictItemMutation) MainID() (r uint32, exists bool) {
-	v := m.main_id
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldMainID returns the old "main_id" field's value of the DictItem entity.
-// If the DictItem object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *DictItemMutation) OldMainID(ctx context.Context) (v *uint32, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldMainID is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldMainID requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldMainID: %w", err)
-	}
-	return oldValue.MainID, nil
-}
-
-// AddMainID adds u to the "main_id" field.
-func (m *DictItemMutation) AddMainID(u int32) {
-	if m.addmain_id != nil {
-		*m.addmain_id += u
-	} else {
-		m.addmain_id = &u
-	}
-}
-
-// AddedMainID returns the value that was added to the "main_id" field in this mutation.
-func (m *DictItemMutation) AddedMainID() (r int32, exists bool) {
-	v := m.addmain_id
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// ClearMainID clears the value of the "main_id" field.
-func (m *DictItemMutation) ClearMainID() {
-	m.main_id = nil
-	m.addmain_id = nil
-	m.clearedFields[dictitem.FieldMainID] = struct{}{}
-}
-
-// MainIDCleared returns if the "main_id" field was cleared in this mutation.
-func (m *DictItemMutation) MainIDCleared() bool {
-	_, ok := m.clearedFields[dictitem.FieldMainID]
-	return ok
-}
-
-// ResetMainID resets all changes to the "main_id" field.
-func (m *DictItemMutation) ResetMainID() {
-	m.main_id = nil
-	m.addmain_id = nil
-	delete(m.clearedFields, dictitem.FieldMainID)
-}
-
 // SetSortID sets the "sort_id" field.
 func (m *DictItemMutation) SetSortID(i int32) {
 	m.sort_id = &i
@@ -8634,6 +8566,76 @@ func (m *DictItemMutation) ResetSortID() {
 	delete(m.clearedFields, dictitem.FieldSortID)
 }
 
+// SetValue sets the "value" field.
+func (m *DictItemMutation) SetValue(i int32) {
+	m.value = &i
+	m.addvalue = nil
+}
+
+// Value returns the value of the "value" field in the mutation.
+func (m *DictItemMutation) Value() (r int32, exists bool) {
+	v := m.value
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldValue returns the old "value" field's value of the DictItem entity.
+// If the DictItem object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *DictItemMutation) OldValue(ctx context.Context) (v *int32, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldValue is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldValue requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldValue: %w", err)
+	}
+	return oldValue.Value, nil
+}
+
+// AddValue adds i to the "value" field.
+func (m *DictItemMutation) AddValue(i int32) {
+	if m.addvalue != nil {
+		*m.addvalue += i
+	} else {
+		m.addvalue = &i
+	}
+}
+
+// AddedValue returns the value that was added to the "value" field in this mutation.
+func (m *DictItemMutation) AddedValue() (r int32, exists bool) {
+	v := m.addvalue
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ClearValue clears the value of the "value" field.
+func (m *DictItemMutation) ClearValue() {
+	m.value = nil
+	m.addvalue = nil
+	m.clearedFields[dictitem.FieldValue] = struct{}{}
+}
+
+// ValueCleared returns if the "value" field was cleared in this mutation.
+func (m *DictItemMutation) ValueCleared() bool {
+	_, ok := m.clearedFields[dictitem.FieldValue]
+	return ok
+}
+
+// ResetValue resets all changes to the "value" field.
+func (m *DictItemMutation) ResetValue() {
+	m.value = nil
+	m.addvalue = nil
+	delete(m.clearedFields, dictitem.FieldValue)
+}
+
 // SetStatus sets the "status" field.
 func (m *DictItemMutation) SetStatus(d dictitem.Status) {
 	m.status = &d
@@ -8681,6 +8683,45 @@ func (m *DictItemMutation) StatusCleared() bool {
 func (m *DictItemMutation) ResetStatus() {
 	m.status = nil
 	delete(m.clearedFields, dictitem.FieldStatus)
+}
+
+// SetSysDictMainsID sets the "sys_dict_mains" edge to the DictMain entity by id.
+func (m *DictItemMutation) SetSysDictMainsID(id uint32) {
+	m.sys_dict_mains = &id
+}
+
+// ClearSysDictMains clears the "sys_dict_mains" edge to the DictMain entity.
+func (m *DictItemMutation) ClearSysDictMains() {
+	m.clearedsys_dict_mains = true
+}
+
+// SysDictMainsCleared reports if the "sys_dict_mains" edge to the DictMain entity was cleared.
+func (m *DictItemMutation) SysDictMainsCleared() bool {
+	return m.clearedsys_dict_mains
+}
+
+// SysDictMainsID returns the "sys_dict_mains" edge ID in the mutation.
+func (m *DictItemMutation) SysDictMainsID() (id uint32, exists bool) {
+	if m.sys_dict_mains != nil {
+		return *m.sys_dict_mains, true
+	}
+	return
+}
+
+// SysDictMainsIDs returns the "sys_dict_mains" edge IDs in the mutation.
+// Note that IDs always returns len(IDs) <= 1 for unique edges, and you should use
+// SysDictMainsID instead. It exists only for internal usage by the builders.
+func (m *DictItemMutation) SysDictMainsIDs() (ids []uint32) {
+	if id := m.sys_dict_mains; id != nil {
+		ids = append(ids, *id)
+	}
+	return
+}
+
+// ResetSysDictMains resets all changes to the "sys_dict_mains" edge.
+func (m *DictItemMutation) ResetSysDictMains() {
+	m.sys_dict_mains = nil
+	m.clearedsys_dict_mains = false
 }
 
 // Where appends a list predicates to the DictItemMutation builder.
@@ -8745,11 +8786,11 @@ func (m *DictItemMutation) Fields() []string {
 	if m.name != nil {
 		fields = append(fields, dictitem.FieldName)
 	}
-	if m.main_id != nil {
-		fields = append(fields, dictitem.FieldMainID)
-	}
 	if m.sort_id != nil {
 		fields = append(fields, dictitem.FieldSortID)
+	}
+	if m.value != nil {
+		fields = append(fields, dictitem.FieldValue)
 	}
 	if m.status != nil {
 		fields = append(fields, dictitem.FieldStatus)
@@ -8780,10 +8821,10 @@ func (m *DictItemMutation) Field(name string) (ent.Value, bool) {
 		return m.Code()
 	case dictitem.FieldName:
 		return m.Name()
-	case dictitem.FieldMainID:
-		return m.MainID()
 	case dictitem.FieldSortID:
 		return m.SortID()
+	case dictitem.FieldValue:
+		return m.Value()
 	case dictitem.FieldStatus:
 		return m.Status()
 	}
@@ -8813,10 +8854,10 @@ func (m *DictItemMutation) OldField(ctx context.Context, name string) (ent.Value
 		return m.OldCode(ctx)
 	case dictitem.FieldName:
 		return m.OldName(ctx)
-	case dictitem.FieldMainID:
-		return m.OldMainID(ctx)
 	case dictitem.FieldSortID:
 		return m.OldSortID(ctx)
+	case dictitem.FieldValue:
+		return m.OldValue(ctx)
 	case dictitem.FieldStatus:
 		return m.OldStatus(ctx)
 	}
@@ -8891,19 +8932,19 @@ func (m *DictItemMutation) SetField(name string, value ent.Value) error {
 		}
 		m.SetName(v)
 		return nil
-	case dictitem.FieldMainID:
-		v, ok := value.(uint32)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetMainID(v)
-		return nil
 	case dictitem.FieldSortID:
 		v, ok := value.(int32)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetSortID(v)
+		return nil
+	case dictitem.FieldValue:
+		v, ok := value.(int32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetValue(v)
 		return nil
 	case dictitem.FieldStatus:
 		v, ok := value.(dictitem.Status)
@@ -8929,11 +8970,11 @@ func (m *DictItemMutation) AddedFields() []string {
 	if m.addtenant_id != nil {
 		fields = append(fields, dictitem.FieldTenantID)
 	}
-	if m.addmain_id != nil {
-		fields = append(fields, dictitem.FieldMainID)
-	}
 	if m.addsort_id != nil {
 		fields = append(fields, dictitem.FieldSortID)
+	}
+	if m.addvalue != nil {
+		fields = append(fields, dictitem.FieldValue)
 	}
 	return fields
 }
@@ -8949,10 +8990,10 @@ func (m *DictItemMutation) AddedField(name string) (ent.Value, bool) {
 		return m.AddedUpdateBy()
 	case dictitem.FieldTenantID:
 		return m.AddedTenantID()
-	case dictitem.FieldMainID:
-		return m.AddedMainID()
 	case dictitem.FieldSortID:
 		return m.AddedSortID()
+	case dictitem.FieldValue:
+		return m.AddedValue()
 	}
 	return nil, false
 }
@@ -8983,19 +9024,19 @@ func (m *DictItemMutation) AddField(name string, value ent.Value) error {
 		}
 		m.AddTenantID(v)
 		return nil
-	case dictitem.FieldMainID:
-		v, ok := value.(int32)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.AddMainID(v)
-		return nil
 	case dictitem.FieldSortID:
 		v, ok := value.(int32)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.AddSortID(v)
+		return nil
+	case dictitem.FieldValue:
+		v, ok := value.(int32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddValue(v)
 		return nil
 	}
 	return fmt.Errorf("unknown DictItem numeric field %s", name)
@@ -9032,11 +9073,11 @@ func (m *DictItemMutation) ClearedFields() []string {
 	if m.FieldCleared(dictitem.FieldName) {
 		fields = append(fields, dictitem.FieldName)
 	}
-	if m.FieldCleared(dictitem.FieldMainID) {
-		fields = append(fields, dictitem.FieldMainID)
-	}
 	if m.FieldCleared(dictitem.FieldSortID) {
 		fields = append(fields, dictitem.FieldSortID)
+	}
+	if m.FieldCleared(dictitem.FieldValue) {
+		fields = append(fields, dictitem.FieldValue)
 	}
 	if m.FieldCleared(dictitem.FieldStatus) {
 		fields = append(fields, dictitem.FieldStatus)
@@ -9082,11 +9123,11 @@ func (m *DictItemMutation) ClearField(name string) error {
 	case dictitem.FieldName:
 		m.ClearName()
 		return nil
-	case dictitem.FieldMainID:
-		m.ClearMainID()
-		return nil
 	case dictitem.FieldSortID:
 		m.ClearSortID()
+		return nil
+	case dictitem.FieldValue:
+		m.ClearValue()
 		return nil
 	case dictitem.FieldStatus:
 		m.ClearStatus()
@@ -9126,11 +9167,11 @@ func (m *DictItemMutation) ResetField(name string) error {
 	case dictitem.FieldName:
 		m.ResetName()
 		return nil
-	case dictitem.FieldMainID:
-		m.ResetMainID()
-		return nil
 	case dictitem.FieldSortID:
 		m.ResetSortID()
+		return nil
+	case dictitem.FieldValue:
+		m.ResetValue()
 		return nil
 	case dictitem.FieldStatus:
 		m.ResetStatus()
@@ -9141,19 +9182,28 @@ func (m *DictItemMutation) ResetField(name string) error {
 
 // AddedEdges returns all edge names that were set/added in this mutation.
 func (m *DictItemMutation) AddedEdges() []string {
-	edges := make([]string, 0, 0)
+	edges := make([]string, 0, 1)
+	if m.sys_dict_mains != nil {
+		edges = append(edges, dictitem.EdgeSysDictMains)
+	}
 	return edges
 }
 
 // AddedIDs returns all IDs (to other nodes) that were added for the given edge
 // name in this mutation.
 func (m *DictItemMutation) AddedIDs(name string) []ent.Value {
+	switch name {
+	case dictitem.EdgeSysDictMains:
+		if id := m.sys_dict_mains; id != nil {
+			return []ent.Value{*id}
+		}
+	}
 	return nil
 }
 
 // RemovedEdges returns all edge names that were removed in this mutation.
 func (m *DictItemMutation) RemovedEdges() []string {
-	edges := make([]string, 0, 0)
+	edges := make([]string, 0, 1)
 	return edges
 }
 
@@ -9165,25 +9215,42 @@ func (m *DictItemMutation) RemovedIDs(name string) []ent.Value {
 
 // ClearedEdges returns all edge names that were cleared in this mutation.
 func (m *DictItemMutation) ClearedEdges() []string {
-	edges := make([]string, 0, 0)
+	edges := make([]string, 0, 1)
+	if m.clearedsys_dict_mains {
+		edges = append(edges, dictitem.EdgeSysDictMains)
+	}
 	return edges
 }
 
 // EdgeCleared returns a boolean which indicates if the edge with the given name
 // was cleared in this mutation.
 func (m *DictItemMutation) EdgeCleared(name string) bool {
+	switch name {
+	case dictitem.EdgeSysDictMains:
+		return m.clearedsys_dict_mains
+	}
 	return false
 }
 
 // ClearEdge clears the value of the edge with the given name. It returns an error
 // if that edge is not defined in the schema.
 func (m *DictItemMutation) ClearEdge(name string) error {
+	switch name {
+	case dictitem.EdgeSysDictMains:
+		m.ClearSysDictMains()
+		return nil
+	}
 	return fmt.Errorf("unknown DictItem unique edge %s", name)
 }
 
 // ResetEdge resets all changes to the edge with the given name in this mutation.
 // It returns an error if the edge is not defined in the schema.
 func (m *DictItemMutation) ResetEdge(name string) error {
+	switch name {
+	case dictitem.EdgeSysDictMains:
+		m.ResetSysDictMains()
+		return nil
+	}
 	return fmt.Errorf("unknown DictItem edge %s", name)
 }
 
@@ -9205,7 +9272,13 @@ type DictMainMutation struct {
 	addtenant_id  *int32
 	code          *string
 	name          *string
+	sort_id       *int32
+	addsort_id    *int32
+	status        *dictmain.Status
 	clearedFields map[string]struct{}
+	items         map[uint32]struct{}
+	removeditems  map[uint32]struct{}
+	cleareditems  bool
 	done          bool
 	oldValue      func(context.Context) (*DictMain, error)
 	predicates    []predicate.DictMain
@@ -9819,6 +9892,179 @@ func (m *DictMainMutation) ResetName() {
 	delete(m.clearedFields, dictmain.FieldName)
 }
 
+// SetSortID sets the "sort_id" field.
+func (m *DictMainMutation) SetSortID(i int32) {
+	m.sort_id = &i
+	m.addsort_id = nil
+}
+
+// SortID returns the value of the "sort_id" field in the mutation.
+func (m *DictMainMutation) SortID() (r int32, exists bool) {
+	v := m.sort_id
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldSortID returns the old "sort_id" field's value of the DictMain entity.
+// If the DictMain object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *DictMainMutation) OldSortID(ctx context.Context) (v *int32, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldSortID is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldSortID requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldSortID: %w", err)
+	}
+	return oldValue.SortID, nil
+}
+
+// AddSortID adds i to the "sort_id" field.
+func (m *DictMainMutation) AddSortID(i int32) {
+	if m.addsort_id != nil {
+		*m.addsort_id += i
+	} else {
+		m.addsort_id = &i
+	}
+}
+
+// AddedSortID returns the value that was added to the "sort_id" field in this mutation.
+func (m *DictMainMutation) AddedSortID() (r int32, exists bool) {
+	v := m.addsort_id
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ClearSortID clears the value of the "sort_id" field.
+func (m *DictMainMutation) ClearSortID() {
+	m.sort_id = nil
+	m.addsort_id = nil
+	m.clearedFields[dictmain.FieldSortID] = struct{}{}
+}
+
+// SortIDCleared returns if the "sort_id" field was cleared in this mutation.
+func (m *DictMainMutation) SortIDCleared() bool {
+	_, ok := m.clearedFields[dictmain.FieldSortID]
+	return ok
+}
+
+// ResetSortID resets all changes to the "sort_id" field.
+func (m *DictMainMutation) ResetSortID() {
+	m.sort_id = nil
+	m.addsort_id = nil
+	delete(m.clearedFields, dictmain.FieldSortID)
+}
+
+// SetStatus sets the "status" field.
+func (m *DictMainMutation) SetStatus(d dictmain.Status) {
+	m.status = &d
+}
+
+// Status returns the value of the "status" field in the mutation.
+func (m *DictMainMutation) Status() (r dictmain.Status, exists bool) {
+	v := m.status
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldStatus returns the old "status" field's value of the DictMain entity.
+// If the DictMain object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *DictMainMutation) OldStatus(ctx context.Context) (v *dictmain.Status, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldStatus is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldStatus requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldStatus: %w", err)
+	}
+	return oldValue.Status, nil
+}
+
+// ClearStatus clears the value of the "status" field.
+func (m *DictMainMutation) ClearStatus() {
+	m.status = nil
+	m.clearedFields[dictmain.FieldStatus] = struct{}{}
+}
+
+// StatusCleared returns if the "status" field was cleared in this mutation.
+func (m *DictMainMutation) StatusCleared() bool {
+	_, ok := m.clearedFields[dictmain.FieldStatus]
+	return ok
+}
+
+// ResetStatus resets all changes to the "status" field.
+func (m *DictMainMutation) ResetStatus() {
+	m.status = nil
+	delete(m.clearedFields, dictmain.FieldStatus)
+}
+
+// AddItemIDs adds the "items" edge to the DictItem entity by ids.
+func (m *DictMainMutation) AddItemIDs(ids ...uint32) {
+	if m.items == nil {
+		m.items = make(map[uint32]struct{})
+	}
+	for i := range ids {
+		m.items[ids[i]] = struct{}{}
+	}
+}
+
+// ClearItems clears the "items" edge to the DictItem entity.
+func (m *DictMainMutation) ClearItems() {
+	m.cleareditems = true
+}
+
+// ItemsCleared reports if the "items" edge to the DictItem entity was cleared.
+func (m *DictMainMutation) ItemsCleared() bool {
+	return m.cleareditems
+}
+
+// RemoveItemIDs removes the "items" edge to the DictItem entity by IDs.
+func (m *DictMainMutation) RemoveItemIDs(ids ...uint32) {
+	if m.removeditems == nil {
+		m.removeditems = make(map[uint32]struct{})
+	}
+	for i := range ids {
+		delete(m.items, ids[i])
+		m.removeditems[ids[i]] = struct{}{}
+	}
+}
+
+// RemovedItems returns the removed IDs of the "items" edge to the DictItem entity.
+func (m *DictMainMutation) RemovedItemsIDs() (ids []uint32) {
+	for id := range m.removeditems {
+		ids = append(ids, id)
+	}
+	return
+}
+
+// ItemsIDs returns the "items" edge IDs in the mutation.
+func (m *DictMainMutation) ItemsIDs() (ids []uint32) {
+	for id := range m.items {
+		ids = append(ids, id)
+	}
+	return
+}
+
+// ResetItems resets all changes to the "items" edge.
+func (m *DictMainMutation) ResetItems() {
+	m.items = nil
+	m.cleareditems = false
+	m.removeditems = nil
+}
+
 // Where appends a list predicates to the DictMainMutation builder.
 func (m *DictMainMutation) Where(ps ...predicate.DictMain) {
 	m.predicates = append(m.predicates, ps...)
@@ -9853,7 +10099,7 @@ func (m *DictMainMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *DictMainMutation) Fields() []string {
-	fields := make([]string, 0, 9)
+	fields := make([]string, 0, 11)
 	if m.create_time != nil {
 		fields = append(fields, dictmain.FieldCreateTime)
 	}
@@ -9881,6 +10127,12 @@ func (m *DictMainMutation) Fields() []string {
 	if m.name != nil {
 		fields = append(fields, dictmain.FieldName)
 	}
+	if m.sort_id != nil {
+		fields = append(fields, dictmain.FieldSortID)
+	}
+	if m.status != nil {
+		fields = append(fields, dictmain.FieldStatus)
+	}
 	return fields
 }
 
@@ -9907,6 +10159,10 @@ func (m *DictMainMutation) Field(name string) (ent.Value, bool) {
 		return m.Code()
 	case dictmain.FieldName:
 		return m.Name()
+	case dictmain.FieldSortID:
+		return m.SortID()
+	case dictmain.FieldStatus:
+		return m.Status()
 	}
 	return nil, false
 }
@@ -9934,6 +10190,10 @@ func (m *DictMainMutation) OldField(ctx context.Context, name string) (ent.Value
 		return m.OldCode(ctx)
 	case dictmain.FieldName:
 		return m.OldName(ctx)
+	case dictmain.FieldSortID:
+		return m.OldSortID(ctx)
+	case dictmain.FieldStatus:
+		return m.OldStatus(ctx)
 	}
 	return nil, fmt.Errorf("unknown DictMain field %s", name)
 }
@@ -10006,6 +10266,20 @@ func (m *DictMainMutation) SetField(name string, value ent.Value) error {
 		}
 		m.SetName(v)
 		return nil
+	case dictmain.FieldSortID:
+		v, ok := value.(int32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetSortID(v)
+		return nil
+	case dictmain.FieldStatus:
+		v, ok := value.(dictmain.Status)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetStatus(v)
+		return nil
 	}
 	return fmt.Errorf("unknown DictMain field %s", name)
 }
@@ -10023,6 +10297,9 @@ func (m *DictMainMutation) AddedFields() []string {
 	if m.addtenant_id != nil {
 		fields = append(fields, dictmain.FieldTenantID)
 	}
+	if m.addsort_id != nil {
+		fields = append(fields, dictmain.FieldSortID)
+	}
 	return fields
 }
 
@@ -10037,6 +10314,8 @@ func (m *DictMainMutation) AddedField(name string) (ent.Value, bool) {
 		return m.AddedUpdateBy()
 	case dictmain.FieldTenantID:
 		return m.AddedTenantID()
+	case dictmain.FieldSortID:
+		return m.AddedSortID()
 	}
 	return nil, false
 }
@@ -10066,6 +10345,13 @@ func (m *DictMainMutation) AddField(name string, value ent.Value) error {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.AddTenantID(v)
+		return nil
+	case dictmain.FieldSortID:
+		v, ok := value.(int32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddSortID(v)
 		return nil
 	}
 	return fmt.Errorf("unknown DictMain numeric field %s", name)
@@ -10101,6 +10387,12 @@ func (m *DictMainMutation) ClearedFields() []string {
 	}
 	if m.FieldCleared(dictmain.FieldName) {
 		fields = append(fields, dictmain.FieldName)
+	}
+	if m.FieldCleared(dictmain.FieldSortID) {
+		fields = append(fields, dictmain.FieldSortID)
+	}
+	if m.FieldCleared(dictmain.FieldStatus) {
+		fields = append(fields, dictmain.FieldStatus)
 	}
 	return fields
 }
@@ -10143,6 +10435,12 @@ func (m *DictMainMutation) ClearField(name string) error {
 	case dictmain.FieldName:
 		m.ClearName()
 		return nil
+	case dictmain.FieldSortID:
+		m.ClearSortID()
+		return nil
+	case dictmain.FieldStatus:
+		m.ClearStatus()
+		return nil
 	}
 	return fmt.Errorf("unknown DictMain nullable field %s", name)
 }
@@ -10178,55 +10476,97 @@ func (m *DictMainMutation) ResetField(name string) error {
 	case dictmain.FieldName:
 		m.ResetName()
 		return nil
+	case dictmain.FieldSortID:
+		m.ResetSortID()
+		return nil
+	case dictmain.FieldStatus:
+		m.ResetStatus()
+		return nil
 	}
 	return fmt.Errorf("unknown DictMain field %s", name)
 }
 
 // AddedEdges returns all edge names that were set/added in this mutation.
 func (m *DictMainMutation) AddedEdges() []string {
-	edges := make([]string, 0, 0)
+	edges := make([]string, 0, 1)
+	if m.items != nil {
+		edges = append(edges, dictmain.EdgeItems)
+	}
 	return edges
 }
 
 // AddedIDs returns all IDs (to other nodes) that were added for the given edge
 // name in this mutation.
 func (m *DictMainMutation) AddedIDs(name string) []ent.Value {
+	switch name {
+	case dictmain.EdgeItems:
+		ids := make([]ent.Value, 0, len(m.items))
+		for id := range m.items {
+			ids = append(ids, id)
+		}
+		return ids
+	}
 	return nil
 }
 
 // RemovedEdges returns all edge names that were removed in this mutation.
 func (m *DictMainMutation) RemovedEdges() []string {
-	edges := make([]string, 0, 0)
+	edges := make([]string, 0, 1)
+	if m.removeditems != nil {
+		edges = append(edges, dictmain.EdgeItems)
+	}
 	return edges
 }
 
 // RemovedIDs returns all IDs (to other nodes) that were removed for the edge with
 // the given name in this mutation.
 func (m *DictMainMutation) RemovedIDs(name string) []ent.Value {
+	switch name {
+	case dictmain.EdgeItems:
+		ids := make([]ent.Value, 0, len(m.removeditems))
+		for id := range m.removeditems {
+			ids = append(ids, id)
+		}
+		return ids
+	}
 	return nil
 }
 
 // ClearedEdges returns all edge names that were cleared in this mutation.
 func (m *DictMainMutation) ClearedEdges() []string {
-	edges := make([]string, 0, 0)
+	edges := make([]string, 0, 1)
+	if m.cleareditems {
+		edges = append(edges, dictmain.EdgeItems)
+	}
 	return edges
 }
 
 // EdgeCleared returns a boolean which indicates if the edge with the given name
 // was cleared in this mutation.
 func (m *DictMainMutation) EdgeCleared(name string) bool {
+	switch name {
+	case dictmain.EdgeItems:
+		return m.cleareditems
+	}
 	return false
 }
 
 // ClearEdge clears the value of the edge with the given name. It returns an error
 // if that edge is not defined in the schema.
 func (m *DictMainMutation) ClearEdge(name string) error {
+	switch name {
+	}
 	return fmt.Errorf("unknown DictMain unique edge %s", name)
 }
 
 // ResetEdge resets all changes to the edge with the given name in this mutation.
 // It returns an error if the edge is not defined in the schema.
 func (m *DictMainMutation) ResetEdge(name string) error {
+	switch name {
+	case dictmain.EdgeItems:
+		m.ResetItems()
+		return nil
+	}
 	return fmt.Errorf("unknown DictMain edge %s", name)
 }
 

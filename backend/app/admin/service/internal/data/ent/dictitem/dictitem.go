@@ -6,6 +6,7 @@ import (
 	"fmt"
 
 	"entgo.io/ent/dialect/sql"
+	"entgo.io/ent/dialect/sql/sqlgraph"
 )
 
 const (
@@ -31,14 +32,23 @@ const (
 	FieldCode = "code"
 	// FieldName holds the string denoting the name field in the database.
 	FieldName = "name"
-	// FieldMainID holds the string denoting the main_id field in the database.
-	FieldMainID = "main_id"
 	// FieldSortID holds the string denoting the sort_id field in the database.
 	FieldSortID = "sort_id"
+	// FieldValue holds the string denoting the value field in the database.
+	FieldValue = "value"
 	// FieldStatus holds the string denoting the status field in the database.
 	FieldStatus = "status"
+	// EdgeSysDictMains holds the string denoting the sys_dict_mains edge name in mutations.
+	EdgeSysDictMains = "sys_dict_mains"
 	// Table holds the table name of the dictitem in the database.
 	Table = "sys_dict_items"
+	// SysDictMainsTable is the table that holds the sys_dict_mains relation/edge.
+	SysDictMainsTable = "sys_dict_items"
+	// SysDictMainsInverseTable is the table name for the DictMain entity.
+	// It exists in this package in order to avoid circular dependency with the "dictmain" package.
+	SysDictMainsInverseTable = "sys_dict_mains"
+	// SysDictMainsColumn is the table column denoting the sys_dict_mains relation/edge.
+	SysDictMainsColumn = "main_id"
 )
 
 // Columns holds all SQL columns for dictitem fields.
@@ -53,15 +63,26 @@ var Columns = []string{
 	FieldTenantID,
 	FieldCode,
 	FieldName,
-	FieldMainID,
 	FieldSortID,
+	FieldValue,
 	FieldStatus,
+}
+
+// ForeignKeys holds the SQL foreign-keys that are owned by the "sys_dict_items"
+// table and are not defined as standalone fields in the schema.
+var ForeignKeys = []string{
+	"main_id",
 }
 
 // ValidColumn reports if the column name is valid (part of the table columns).
 func ValidColumn(column string) bool {
 	for i := range Columns {
 		if column == Columns[i] {
+			return true
+		}
+	}
+	for i := range ForeignKeys {
+		if column == ForeignKeys[i] {
 			return true
 		}
 	}
@@ -162,17 +183,31 @@ func ByName(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldName, opts...).ToFunc()
 }
 
-// ByMainID orders the results by the main_id field.
-func ByMainID(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldMainID, opts...).ToFunc()
-}
-
 // BySortID orders the results by the sort_id field.
 func BySortID(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldSortID, opts...).ToFunc()
 }
 
+// ByValue orders the results by the value field.
+func ByValue(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldValue, opts...).ToFunc()
+}
+
 // ByStatus orders the results by the status field.
 func ByStatus(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldStatus, opts...).ToFunc()
+}
+
+// BySysDictMainsField orders the results by sys_dict_mains field.
+func BySysDictMainsField(field string, opts ...sql.OrderTermOption) OrderOption {
+	return func(s *sql.Selector) {
+		sqlgraph.OrderByNeighborTerms(s, newSysDictMainsStep(), sql.OrderByField(field, opts...))
+	}
+}
+func newSysDictMainsStep() *sqlgraph.Step {
+	return sqlgraph.NewStep(
+		sqlgraph.From(Table, FieldID),
+		sqlgraph.To(SysDictMainsInverseTable, FieldID),
+		sqlgraph.Edge(sqlgraph.M2O, false, SysDictMainsTable, SysDictMainsColumn),
+	)
 }

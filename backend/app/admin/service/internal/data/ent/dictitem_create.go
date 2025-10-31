@@ -7,6 +7,7 @@ import (
 	"errors"
 	"fmt"
 	"kratos-admin/app/admin/service/internal/data/ent/dictitem"
+	"kratos-admin/app/admin/service/internal/data/ent/dictmain"
 	"time"
 
 	"entgo.io/ent/dialect/sql"
@@ -148,20 +149,6 @@ func (_c *DictItemCreate) SetNillableName(v *string) *DictItemCreate {
 	return _c
 }
 
-// SetMainID sets the "main_id" field.
-func (_c *DictItemCreate) SetMainID(v uint32) *DictItemCreate {
-	_c.mutation.SetMainID(v)
-	return _c
-}
-
-// SetNillableMainID sets the "main_id" field if the given value is not nil.
-func (_c *DictItemCreate) SetNillableMainID(v *uint32) *DictItemCreate {
-	if v != nil {
-		_c.SetMainID(*v)
-	}
-	return _c
-}
-
 // SetSortID sets the "sort_id" field.
 func (_c *DictItemCreate) SetSortID(v int32) *DictItemCreate {
 	_c.mutation.SetSortID(v)
@@ -172,6 +159,20 @@ func (_c *DictItemCreate) SetSortID(v int32) *DictItemCreate {
 func (_c *DictItemCreate) SetNillableSortID(v *int32) *DictItemCreate {
 	if v != nil {
 		_c.SetSortID(*v)
+	}
+	return _c
+}
+
+// SetValue sets the "value" field.
+func (_c *DictItemCreate) SetValue(v int32) *DictItemCreate {
+	_c.mutation.SetValue(v)
+	return _c
+}
+
+// SetNillableValue sets the "value" field if the given value is not nil.
+func (_c *DictItemCreate) SetNillableValue(v *int32) *DictItemCreate {
+	if v != nil {
+		_c.SetValue(*v)
 	}
 	return _c
 }
@@ -194,6 +195,17 @@ func (_c *DictItemCreate) SetNillableStatus(v *dictitem.Status) *DictItemCreate 
 func (_c *DictItemCreate) SetID(v uint32) *DictItemCreate {
 	_c.mutation.SetID(v)
 	return _c
+}
+
+// SetSysDictMainsID sets the "sys_dict_mains" edge to the DictMain entity by ID.
+func (_c *DictItemCreate) SetSysDictMainsID(id uint32) *DictItemCreate {
+	_c.mutation.SetSysDictMainsID(id)
+	return _c
+}
+
+// SetSysDictMains sets the "sys_dict_mains" edge to the DictMain entity.
+func (_c *DictItemCreate) SetSysDictMains(v *DictMain) *DictItemCreate {
+	return _c.SetSysDictMainsID(v.ID)
 }
 
 // Mutation returns the DictItemMutation object of the builder.
@@ -272,6 +284,9 @@ func (_c *DictItemCreate) check() error {
 			return &ValidationError{Name: "id", err: fmt.Errorf(`ent: validator failed for field "DictItem.id": %w`, err)}
 		}
 	}
+	if len(_c.mutation.SysDictMainsIDs()) == 0 {
+		return &ValidationError{Name: "sys_dict_mains", err: errors.New(`ent: missing required edge "DictItem.sys_dict_mains"`)}
+	}
 	return nil
 }
 
@@ -341,17 +356,34 @@ func (_c *DictItemCreate) createSpec() (*DictItem, *sqlgraph.CreateSpec) {
 		_spec.SetField(dictitem.FieldName, field.TypeString, value)
 		_node.Name = &value
 	}
-	if value, ok := _c.mutation.MainID(); ok {
-		_spec.SetField(dictitem.FieldMainID, field.TypeUint32, value)
-		_node.MainID = &value
-	}
 	if value, ok := _c.mutation.SortID(); ok {
 		_spec.SetField(dictitem.FieldSortID, field.TypeInt32, value)
 		_node.SortID = &value
 	}
+	if value, ok := _c.mutation.Value(); ok {
+		_spec.SetField(dictitem.FieldValue, field.TypeInt32, value)
+		_node.Value = &value
+	}
 	if value, ok := _c.mutation.Status(); ok {
 		_spec.SetField(dictitem.FieldStatus, field.TypeEnum, value)
 		_node.Status = &value
+	}
+	if nodes := _c.mutation.SysDictMainsIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2O,
+			Inverse: false,
+			Table:   dictitem.SysDictMainsTable,
+			Columns: []string{dictitem.SysDictMainsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(dictmain.FieldID, field.TypeUint32),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_node.main_id = &nodes[0]
+		_spec.Edges = append(_spec.Edges, edge)
 	}
 	return _node, _spec
 }
@@ -543,30 +575,6 @@ func (u *DictItemUpsert) ClearName() *DictItemUpsert {
 	return u
 }
 
-// SetMainID sets the "main_id" field.
-func (u *DictItemUpsert) SetMainID(v uint32) *DictItemUpsert {
-	u.Set(dictitem.FieldMainID, v)
-	return u
-}
-
-// UpdateMainID sets the "main_id" field to the value that was provided on create.
-func (u *DictItemUpsert) UpdateMainID() *DictItemUpsert {
-	u.SetExcluded(dictitem.FieldMainID)
-	return u
-}
-
-// AddMainID adds v to the "main_id" field.
-func (u *DictItemUpsert) AddMainID(v uint32) *DictItemUpsert {
-	u.Add(dictitem.FieldMainID, v)
-	return u
-}
-
-// ClearMainID clears the value of the "main_id" field.
-func (u *DictItemUpsert) ClearMainID() *DictItemUpsert {
-	u.SetNull(dictitem.FieldMainID)
-	return u
-}
-
 // SetSortID sets the "sort_id" field.
 func (u *DictItemUpsert) SetSortID(v int32) *DictItemUpsert {
 	u.Set(dictitem.FieldSortID, v)
@@ -588,6 +596,30 @@ func (u *DictItemUpsert) AddSortID(v int32) *DictItemUpsert {
 // ClearSortID clears the value of the "sort_id" field.
 func (u *DictItemUpsert) ClearSortID() *DictItemUpsert {
 	u.SetNull(dictitem.FieldSortID)
+	return u
+}
+
+// SetValue sets the "value" field.
+func (u *DictItemUpsert) SetValue(v int32) *DictItemUpsert {
+	u.Set(dictitem.FieldValue, v)
+	return u
+}
+
+// UpdateValue sets the "value" field to the value that was provided on create.
+func (u *DictItemUpsert) UpdateValue() *DictItemUpsert {
+	u.SetExcluded(dictitem.FieldValue)
+	return u
+}
+
+// AddValue adds v to the "value" field.
+func (u *DictItemUpsert) AddValue(v int32) *DictItemUpsert {
+	u.Add(dictitem.FieldValue, v)
+	return u
+}
+
+// ClearValue clears the value of the "value" field.
+func (u *DictItemUpsert) ClearValue() *DictItemUpsert {
+	u.SetNull(dictitem.FieldValue)
 	return u
 }
 
@@ -824,34 +856,6 @@ func (u *DictItemUpsertOne) ClearName() *DictItemUpsertOne {
 	})
 }
 
-// SetMainID sets the "main_id" field.
-func (u *DictItemUpsertOne) SetMainID(v uint32) *DictItemUpsertOne {
-	return u.Update(func(s *DictItemUpsert) {
-		s.SetMainID(v)
-	})
-}
-
-// AddMainID adds v to the "main_id" field.
-func (u *DictItemUpsertOne) AddMainID(v uint32) *DictItemUpsertOne {
-	return u.Update(func(s *DictItemUpsert) {
-		s.AddMainID(v)
-	})
-}
-
-// UpdateMainID sets the "main_id" field to the value that was provided on create.
-func (u *DictItemUpsertOne) UpdateMainID() *DictItemUpsertOne {
-	return u.Update(func(s *DictItemUpsert) {
-		s.UpdateMainID()
-	})
-}
-
-// ClearMainID clears the value of the "main_id" field.
-func (u *DictItemUpsertOne) ClearMainID() *DictItemUpsertOne {
-	return u.Update(func(s *DictItemUpsert) {
-		s.ClearMainID()
-	})
-}
-
 // SetSortID sets the "sort_id" field.
 func (u *DictItemUpsertOne) SetSortID(v int32) *DictItemUpsertOne {
 	return u.Update(func(s *DictItemUpsert) {
@@ -877,6 +881,34 @@ func (u *DictItemUpsertOne) UpdateSortID() *DictItemUpsertOne {
 func (u *DictItemUpsertOne) ClearSortID() *DictItemUpsertOne {
 	return u.Update(func(s *DictItemUpsert) {
 		s.ClearSortID()
+	})
+}
+
+// SetValue sets the "value" field.
+func (u *DictItemUpsertOne) SetValue(v int32) *DictItemUpsertOne {
+	return u.Update(func(s *DictItemUpsert) {
+		s.SetValue(v)
+	})
+}
+
+// AddValue adds v to the "value" field.
+func (u *DictItemUpsertOne) AddValue(v int32) *DictItemUpsertOne {
+	return u.Update(func(s *DictItemUpsert) {
+		s.AddValue(v)
+	})
+}
+
+// UpdateValue sets the "value" field to the value that was provided on create.
+func (u *DictItemUpsertOne) UpdateValue() *DictItemUpsertOne {
+	return u.Update(func(s *DictItemUpsert) {
+		s.UpdateValue()
+	})
+}
+
+// ClearValue clears the value of the "value" field.
+func (u *DictItemUpsertOne) ClearValue() *DictItemUpsertOne {
+	return u.Update(func(s *DictItemUpsert) {
+		s.ClearValue()
 	})
 }
 
@@ -1282,34 +1314,6 @@ func (u *DictItemUpsertBulk) ClearName() *DictItemUpsertBulk {
 	})
 }
 
-// SetMainID sets the "main_id" field.
-func (u *DictItemUpsertBulk) SetMainID(v uint32) *DictItemUpsertBulk {
-	return u.Update(func(s *DictItemUpsert) {
-		s.SetMainID(v)
-	})
-}
-
-// AddMainID adds v to the "main_id" field.
-func (u *DictItemUpsertBulk) AddMainID(v uint32) *DictItemUpsertBulk {
-	return u.Update(func(s *DictItemUpsert) {
-		s.AddMainID(v)
-	})
-}
-
-// UpdateMainID sets the "main_id" field to the value that was provided on create.
-func (u *DictItemUpsertBulk) UpdateMainID() *DictItemUpsertBulk {
-	return u.Update(func(s *DictItemUpsert) {
-		s.UpdateMainID()
-	})
-}
-
-// ClearMainID clears the value of the "main_id" field.
-func (u *DictItemUpsertBulk) ClearMainID() *DictItemUpsertBulk {
-	return u.Update(func(s *DictItemUpsert) {
-		s.ClearMainID()
-	})
-}
-
 // SetSortID sets the "sort_id" field.
 func (u *DictItemUpsertBulk) SetSortID(v int32) *DictItemUpsertBulk {
 	return u.Update(func(s *DictItemUpsert) {
@@ -1335,6 +1339,34 @@ func (u *DictItemUpsertBulk) UpdateSortID() *DictItemUpsertBulk {
 func (u *DictItemUpsertBulk) ClearSortID() *DictItemUpsertBulk {
 	return u.Update(func(s *DictItemUpsert) {
 		s.ClearSortID()
+	})
+}
+
+// SetValue sets the "value" field.
+func (u *DictItemUpsertBulk) SetValue(v int32) *DictItemUpsertBulk {
+	return u.Update(func(s *DictItemUpsert) {
+		s.SetValue(v)
+	})
+}
+
+// AddValue adds v to the "value" field.
+func (u *DictItemUpsertBulk) AddValue(v int32) *DictItemUpsertBulk {
+	return u.Update(func(s *DictItemUpsert) {
+		s.AddValue(v)
+	})
+}
+
+// UpdateValue sets the "value" field to the value that was provided on create.
+func (u *DictItemUpsertBulk) UpdateValue() *DictItemUpsertBulk {
+	return u.Update(func(s *DictItemUpsert) {
+		s.UpdateValue()
+	})
+}
+
+// ClearValue clears the value of the "value" field.
+func (u *DictItemUpsertBulk) ClearValue() *DictItemUpsertBulk {
+	return u.Update(func(s *DictItemUpsert) {
+		s.ClearValue()
 	})
 }
 

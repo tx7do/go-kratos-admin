@@ -35,8 +35,33 @@ type DictMain struct {
 	// 主字典编码
 	Code *string `json:"code,omitempty"`
 	// 主字典名称
-	Name         *string `json:"name,omitempty"`
+	Name *string `json:"name,omitempty"`
+	// 排序ID
+	SortID *int32 `json:"sort_id,omitempty"`
+	// 字典状态
+	Status *dictmain.Status `json:"status,omitempty"`
+	// Edges holds the relations/edges for other nodes in the graph.
+	// The values are being populated by the DictMainQuery when eager-loading is set.
+	Edges        DictMainEdges `json:"edges"`
 	selectValues sql.SelectValues
+}
+
+// DictMainEdges holds the relations/edges for other nodes in the graph.
+type DictMainEdges struct {
+	// Items holds the value of the items edge.
+	Items []*DictItem `json:"items,omitempty"`
+	// loadedTypes holds the information for reporting if a
+	// type was loaded (or requested) in eager-loading or not.
+	loadedTypes [1]bool
+}
+
+// ItemsOrErr returns the Items value or an error if the edge
+// was not loaded in eager-loading.
+func (e DictMainEdges) ItemsOrErr() ([]*DictItem, error) {
+	if e.loadedTypes[0] {
+		return e.Items, nil
+	}
+	return nil, &NotLoadedError{edge: "items"}
 }
 
 // scanValues returns the types for scanning values from sql.Rows.
@@ -44,9 +69,9 @@ func (*DictMain) scanValues(columns []string) ([]any, error) {
 	values := make([]any, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case dictmain.FieldID, dictmain.FieldCreateBy, dictmain.FieldUpdateBy, dictmain.FieldTenantID:
+		case dictmain.FieldID, dictmain.FieldCreateBy, dictmain.FieldUpdateBy, dictmain.FieldTenantID, dictmain.FieldSortID:
 			values[i] = new(sql.NullInt64)
-		case dictmain.FieldRemark, dictmain.FieldCode, dictmain.FieldName:
+		case dictmain.FieldRemark, dictmain.FieldCode, dictmain.FieldName, dictmain.FieldStatus:
 			values[i] = new(sql.NullString)
 		case dictmain.FieldCreateTime, dictmain.FieldUpdateTime, dictmain.FieldDeleteTime:
 			values[i] = new(sql.NullTime)
@@ -134,6 +159,20 @@ func (_m *DictMain) assignValues(columns []string, values []any) error {
 				_m.Name = new(string)
 				*_m.Name = value.String
 			}
+		case dictmain.FieldSortID:
+			if value, ok := values[i].(*sql.NullInt64); !ok {
+				return fmt.Errorf("unexpected type %T for field sort_id", values[i])
+			} else if value.Valid {
+				_m.SortID = new(int32)
+				*_m.SortID = int32(value.Int64)
+			}
+		case dictmain.FieldStatus:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field status", values[i])
+			} else if value.Valid {
+				_m.Status = new(dictmain.Status)
+				*_m.Status = dictmain.Status(value.String)
+			}
 		default:
 			_m.selectValues.Set(columns[i], values[i])
 		}
@@ -145,6 +184,11 @@ func (_m *DictMain) assignValues(columns []string, values []any) error {
 // This includes values selected through modifiers, order, etc.
 func (_m *DictMain) Value(name string) (ent.Value, error) {
 	return _m.selectValues.Get(name)
+}
+
+// QueryItems queries the "items" edge of the DictMain entity.
+func (_m *DictMain) QueryItems() *DictItemQuery {
+	return NewDictMainClient(_m.config).QueryItems(_m)
 }
 
 // Update returns a builder for updating this DictMain.
@@ -213,6 +257,16 @@ func (_m *DictMain) String() string {
 	if v := _m.Name; v != nil {
 		builder.WriteString("name=")
 		builder.WriteString(*v)
+	}
+	builder.WriteString(", ")
+	if v := _m.SortID; v != nil {
+		builder.WriteString("sort_id=")
+		builder.WriteString(fmt.Sprintf("%v", *v))
+	}
+	builder.WriteString(", ")
+	if v := _m.Status; v != nil {
+		builder.WriteString("status=")
+		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteByte(')')
 	return builder.String()

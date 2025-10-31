@@ -7,6 +7,7 @@ import (
 	"errors"
 	"fmt"
 	"kratos-admin/app/admin/service/internal/data/ent/dictitem"
+	"kratos-admin/app/admin/service/internal/data/ent/dictmain"
 	"kratos-admin/app/admin/service/internal/data/ent/predicate"
 	"time"
 
@@ -183,33 +184,6 @@ func (_u *DictItemUpdate) ClearName() *DictItemUpdate {
 	return _u
 }
 
-// SetMainID sets the "main_id" field.
-func (_u *DictItemUpdate) SetMainID(v uint32) *DictItemUpdate {
-	_u.mutation.ResetMainID()
-	_u.mutation.SetMainID(v)
-	return _u
-}
-
-// SetNillableMainID sets the "main_id" field if the given value is not nil.
-func (_u *DictItemUpdate) SetNillableMainID(v *uint32) *DictItemUpdate {
-	if v != nil {
-		_u.SetMainID(*v)
-	}
-	return _u
-}
-
-// AddMainID adds value to the "main_id" field.
-func (_u *DictItemUpdate) AddMainID(v int32) *DictItemUpdate {
-	_u.mutation.AddMainID(v)
-	return _u
-}
-
-// ClearMainID clears the value of the "main_id" field.
-func (_u *DictItemUpdate) ClearMainID() *DictItemUpdate {
-	_u.mutation.ClearMainID()
-	return _u
-}
-
 // SetSortID sets the "sort_id" field.
 func (_u *DictItemUpdate) SetSortID(v int32) *DictItemUpdate {
 	_u.mutation.ResetSortID()
@@ -237,6 +211,33 @@ func (_u *DictItemUpdate) ClearSortID() *DictItemUpdate {
 	return _u
 }
 
+// SetValue sets the "value" field.
+func (_u *DictItemUpdate) SetValue(v int32) *DictItemUpdate {
+	_u.mutation.ResetValue()
+	_u.mutation.SetValue(v)
+	return _u
+}
+
+// SetNillableValue sets the "value" field if the given value is not nil.
+func (_u *DictItemUpdate) SetNillableValue(v *int32) *DictItemUpdate {
+	if v != nil {
+		_u.SetValue(*v)
+	}
+	return _u
+}
+
+// AddValue adds value to the "value" field.
+func (_u *DictItemUpdate) AddValue(v int32) *DictItemUpdate {
+	_u.mutation.AddValue(v)
+	return _u
+}
+
+// ClearValue clears the value of the "value" field.
+func (_u *DictItemUpdate) ClearValue() *DictItemUpdate {
+	_u.mutation.ClearValue()
+	return _u
+}
+
 // SetStatus sets the "status" field.
 func (_u *DictItemUpdate) SetStatus(v dictitem.Status) *DictItemUpdate {
 	_u.mutation.SetStatus(v)
@@ -257,9 +258,26 @@ func (_u *DictItemUpdate) ClearStatus() *DictItemUpdate {
 	return _u
 }
 
+// SetSysDictMainsID sets the "sys_dict_mains" edge to the DictMain entity by ID.
+func (_u *DictItemUpdate) SetSysDictMainsID(id uint32) *DictItemUpdate {
+	_u.mutation.SetSysDictMainsID(id)
+	return _u
+}
+
+// SetSysDictMains sets the "sys_dict_mains" edge to the DictMain entity.
+func (_u *DictItemUpdate) SetSysDictMains(v *DictMain) *DictItemUpdate {
+	return _u.SetSysDictMainsID(v.ID)
+}
+
 // Mutation returns the DictItemMutation object of the builder.
 func (_u *DictItemUpdate) Mutation() *DictItemMutation {
 	return _u.mutation
+}
+
+// ClearSysDictMains clears the "sys_dict_mains" edge to the DictMain entity.
+func (_u *DictItemUpdate) ClearSysDictMains() *DictItemUpdate {
+	_u.mutation.ClearSysDictMains()
+	return _u
 }
 
 // Save executes the query and returns the number of nodes affected by the update operation.
@@ -305,6 +323,9 @@ func (_u *DictItemUpdate) check() error {
 		if err := dictitem.StatusValidator(v); err != nil {
 			return &ValidationError{Name: "status", err: fmt.Errorf(`ent: validator failed for field "DictItem.status": %w`, err)}
 		}
+	}
+	if _u.mutation.SysDictMainsCleared() && len(_u.mutation.SysDictMainsIDs()) > 0 {
+		return errors.New(`ent: clearing a required unique edge "DictItem.sys_dict_mains"`)
 	}
 	return nil
 }
@@ -381,15 +402,6 @@ func (_u *DictItemUpdate) sqlSave(ctx context.Context) (_node int, err error) {
 	if _u.mutation.NameCleared() {
 		_spec.ClearField(dictitem.FieldName, field.TypeString)
 	}
-	if value, ok := _u.mutation.MainID(); ok {
-		_spec.SetField(dictitem.FieldMainID, field.TypeUint32, value)
-	}
-	if value, ok := _u.mutation.AddedMainID(); ok {
-		_spec.AddField(dictitem.FieldMainID, field.TypeUint32, value)
-	}
-	if _u.mutation.MainIDCleared() {
-		_spec.ClearField(dictitem.FieldMainID, field.TypeUint32)
-	}
 	if value, ok := _u.mutation.SortID(); ok {
 		_spec.SetField(dictitem.FieldSortID, field.TypeInt32, value)
 	}
@@ -399,11 +411,49 @@ func (_u *DictItemUpdate) sqlSave(ctx context.Context) (_node int, err error) {
 	if _u.mutation.SortIDCleared() {
 		_spec.ClearField(dictitem.FieldSortID, field.TypeInt32)
 	}
+	if value, ok := _u.mutation.Value(); ok {
+		_spec.SetField(dictitem.FieldValue, field.TypeInt32, value)
+	}
+	if value, ok := _u.mutation.AddedValue(); ok {
+		_spec.AddField(dictitem.FieldValue, field.TypeInt32, value)
+	}
+	if _u.mutation.ValueCleared() {
+		_spec.ClearField(dictitem.FieldValue, field.TypeInt32)
+	}
 	if value, ok := _u.mutation.Status(); ok {
 		_spec.SetField(dictitem.FieldStatus, field.TypeEnum, value)
 	}
 	if _u.mutation.StatusCleared() {
 		_spec.ClearField(dictitem.FieldStatus, field.TypeEnum)
+	}
+	if _u.mutation.SysDictMainsCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2O,
+			Inverse: false,
+			Table:   dictitem.SysDictMainsTable,
+			Columns: []string{dictitem.SysDictMainsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(dictmain.FieldID, field.TypeUint32),
+			},
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := _u.mutation.SysDictMainsIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2O,
+			Inverse: false,
+			Table:   dictitem.SysDictMainsTable,
+			Columns: []string{dictitem.SysDictMainsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(dictmain.FieldID, field.TypeUint32),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
 	_spec.AddModifiers(_u.modifiers...)
 	if _node, err = sqlgraph.UpdateNodes(ctx, _u.driver, _spec); err != nil {
@@ -581,33 +631,6 @@ func (_u *DictItemUpdateOne) ClearName() *DictItemUpdateOne {
 	return _u
 }
 
-// SetMainID sets the "main_id" field.
-func (_u *DictItemUpdateOne) SetMainID(v uint32) *DictItemUpdateOne {
-	_u.mutation.ResetMainID()
-	_u.mutation.SetMainID(v)
-	return _u
-}
-
-// SetNillableMainID sets the "main_id" field if the given value is not nil.
-func (_u *DictItemUpdateOne) SetNillableMainID(v *uint32) *DictItemUpdateOne {
-	if v != nil {
-		_u.SetMainID(*v)
-	}
-	return _u
-}
-
-// AddMainID adds value to the "main_id" field.
-func (_u *DictItemUpdateOne) AddMainID(v int32) *DictItemUpdateOne {
-	_u.mutation.AddMainID(v)
-	return _u
-}
-
-// ClearMainID clears the value of the "main_id" field.
-func (_u *DictItemUpdateOne) ClearMainID() *DictItemUpdateOne {
-	_u.mutation.ClearMainID()
-	return _u
-}
-
 // SetSortID sets the "sort_id" field.
 func (_u *DictItemUpdateOne) SetSortID(v int32) *DictItemUpdateOne {
 	_u.mutation.ResetSortID()
@@ -635,6 +658,33 @@ func (_u *DictItemUpdateOne) ClearSortID() *DictItemUpdateOne {
 	return _u
 }
 
+// SetValue sets the "value" field.
+func (_u *DictItemUpdateOne) SetValue(v int32) *DictItemUpdateOne {
+	_u.mutation.ResetValue()
+	_u.mutation.SetValue(v)
+	return _u
+}
+
+// SetNillableValue sets the "value" field if the given value is not nil.
+func (_u *DictItemUpdateOne) SetNillableValue(v *int32) *DictItemUpdateOne {
+	if v != nil {
+		_u.SetValue(*v)
+	}
+	return _u
+}
+
+// AddValue adds value to the "value" field.
+func (_u *DictItemUpdateOne) AddValue(v int32) *DictItemUpdateOne {
+	_u.mutation.AddValue(v)
+	return _u
+}
+
+// ClearValue clears the value of the "value" field.
+func (_u *DictItemUpdateOne) ClearValue() *DictItemUpdateOne {
+	_u.mutation.ClearValue()
+	return _u
+}
+
 // SetStatus sets the "status" field.
 func (_u *DictItemUpdateOne) SetStatus(v dictitem.Status) *DictItemUpdateOne {
 	_u.mutation.SetStatus(v)
@@ -655,9 +705,26 @@ func (_u *DictItemUpdateOne) ClearStatus() *DictItemUpdateOne {
 	return _u
 }
 
+// SetSysDictMainsID sets the "sys_dict_mains" edge to the DictMain entity by ID.
+func (_u *DictItemUpdateOne) SetSysDictMainsID(id uint32) *DictItemUpdateOne {
+	_u.mutation.SetSysDictMainsID(id)
+	return _u
+}
+
+// SetSysDictMains sets the "sys_dict_mains" edge to the DictMain entity.
+func (_u *DictItemUpdateOne) SetSysDictMains(v *DictMain) *DictItemUpdateOne {
+	return _u.SetSysDictMainsID(v.ID)
+}
+
 // Mutation returns the DictItemMutation object of the builder.
 func (_u *DictItemUpdateOne) Mutation() *DictItemMutation {
 	return _u.mutation
+}
+
+// ClearSysDictMains clears the "sys_dict_mains" edge to the DictMain entity.
+func (_u *DictItemUpdateOne) ClearSysDictMains() *DictItemUpdateOne {
+	_u.mutation.ClearSysDictMains()
+	return _u
 }
 
 // Where appends a list predicates to the DictItemUpdate builder.
@@ -716,6 +783,9 @@ func (_u *DictItemUpdateOne) check() error {
 		if err := dictitem.StatusValidator(v); err != nil {
 			return &ValidationError{Name: "status", err: fmt.Errorf(`ent: validator failed for field "DictItem.status": %w`, err)}
 		}
+	}
+	if _u.mutation.SysDictMainsCleared() && len(_u.mutation.SysDictMainsIDs()) > 0 {
+		return errors.New(`ent: clearing a required unique edge "DictItem.sys_dict_mains"`)
 	}
 	return nil
 }
@@ -809,15 +879,6 @@ func (_u *DictItemUpdateOne) sqlSave(ctx context.Context) (_node *DictItem, err 
 	if _u.mutation.NameCleared() {
 		_spec.ClearField(dictitem.FieldName, field.TypeString)
 	}
-	if value, ok := _u.mutation.MainID(); ok {
-		_spec.SetField(dictitem.FieldMainID, field.TypeUint32, value)
-	}
-	if value, ok := _u.mutation.AddedMainID(); ok {
-		_spec.AddField(dictitem.FieldMainID, field.TypeUint32, value)
-	}
-	if _u.mutation.MainIDCleared() {
-		_spec.ClearField(dictitem.FieldMainID, field.TypeUint32)
-	}
 	if value, ok := _u.mutation.SortID(); ok {
 		_spec.SetField(dictitem.FieldSortID, field.TypeInt32, value)
 	}
@@ -827,11 +888,49 @@ func (_u *DictItemUpdateOne) sqlSave(ctx context.Context) (_node *DictItem, err 
 	if _u.mutation.SortIDCleared() {
 		_spec.ClearField(dictitem.FieldSortID, field.TypeInt32)
 	}
+	if value, ok := _u.mutation.Value(); ok {
+		_spec.SetField(dictitem.FieldValue, field.TypeInt32, value)
+	}
+	if value, ok := _u.mutation.AddedValue(); ok {
+		_spec.AddField(dictitem.FieldValue, field.TypeInt32, value)
+	}
+	if _u.mutation.ValueCleared() {
+		_spec.ClearField(dictitem.FieldValue, field.TypeInt32)
+	}
 	if value, ok := _u.mutation.Status(); ok {
 		_spec.SetField(dictitem.FieldStatus, field.TypeEnum, value)
 	}
 	if _u.mutation.StatusCleared() {
 		_spec.ClearField(dictitem.FieldStatus, field.TypeEnum)
+	}
+	if _u.mutation.SysDictMainsCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2O,
+			Inverse: false,
+			Table:   dictitem.SysDictMainsTable,
+			Columns: []string{dictitem.SysDictMainsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(dictmain.FieldID, field.TypeUint32),
+			},
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := _u.mutation.SysDictMainsIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2O,
+			Inverse: false,
+			Table:   dictitem.SysDictMainsTable,
+			Columns: []string{dictitem.SysDictMainsColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(dictmain.FieldID, field.TypeUint32),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
 	_spec.AddModifiers(_u.modifiers...)
 	_node = &DictItem{config: _u.config}

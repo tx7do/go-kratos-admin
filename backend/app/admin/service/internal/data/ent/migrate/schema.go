@@ -212,9 +212,10 @@ var (
 		{Name: "tenant_id", Type: field.TypeUint32, Nullable: true, Comment: "租户ID"},
 		{Name: "code", Type: field.TypeString, Nullable: true, Comment: "子项编码"},
 		{Name: "name", Type: field.TypeString, Nullable: true, Comment: "子项名称"},
-		{Name: "main_id", Type: field.TypeUint32, Nullable: true, Comment: "主字典ID"},
 		{Name: "sort_id", Type: field.TypeInt32, Nullable: true, Comment: "排序ID", Default: 0},
+		{Name: "value", Type: field.TypeInt32, Nullable: true, Comment: "数值型标识"},
 		{Name: "status", Type: field.TypeEnum, Nullable: true, Comment: "字典状态", Enums: []string{"ON", "OFF"}, Default: "ON"},
+		{Name: "main_id", Type: field.TypeUint32, SchemaType: map[string]string{"mysql": "int", "postgres": "serial"}},
 	}
 	// SysDictItemsTable holds the schema information for the "sys_dict_items" table.
 	SysDictItemsTable = &schema.Table{
@@ -222,6 +223,14 @@ var (
 		Comment:    "子字典表",
 		Columns:    SysDictItemsColumns,
 		PrimaryKey: []*schema.Column{SysDictItemsColumns[0]},
+		ForeignKeys: []*schema.ForeignKey{
+			{
+				Symbol:     "sys_dict_items_sys_dict_mains_sys_dict_mains",
+				Columns:    []*schema.Column{SysDictItemsColumns[13]},
+				RefColumns: []*schema.Column{SysDictMainsColumns[0]},
+				OnDelete:   schema.Cascade,
+			},
+		},
 		Indexes: []*schema.Index{
 			{
 				Name:    "dictitem_id",
@@ -234,9 +243,9 @@ var (
 				Columns: []*schema.Column{SysDictItemsColumns[7]},
 			},
 			{
-				Name:    "idx_sys_dict_items_code",
+				Name:    "uk_sys_dict_items_code",
 				Unique:  true,
-				Columns: []*schema.Column{SysDictItemsColumns[8]},
+				Columns: []*schema.Column{SysDictItemsColumns[8], SysDictItemsColumns[8], SysDictItemsColumns[13]},
 			},
 			{
 				Name:    "idx_sys_dict_items_status",
@@ -257,6 +266,8 @@ var (
 		{Name: "tenant_id", Type: field.TypeUint32, Nullable: true, Comment: "租户ID"},
 		{Name: "code", Type: field.TypeString, Nullable: true, Comment: "主字典编码"},
 		{Name: "name", Type: field.TypeString, Nullable: true, Comment: "主字典名称"},
+		{Name: "sort_id", Type: field.TypeInt32, Nullable: true, Comment: "排序ID", Default: 0},
+		{Name: "status", Type: field.TypeEnum, Nullable: true, Comment: "字典状态", Enums: []string{"ON", "OFF"}, Default: "ON"},
 	}
 	// SysDictMainsTable holds the schema information for the "sys_dict_mains" table.
 	SysDictMainsTable = &schema.Table{
@@ -1200,6 +1211,7 @@ func init() {
 		Charset:   "utf8mb4",
 		Collation: "utf8mb4_bin",
 	}
+	SysDictItemsTable.ForeignKeys[0].RefTable = SysDictMainsTable
 	SysDictItemsTable.Annotation = &entsql.Annotation{
 		Table:     "sys_dict_items",
 		Charset:   "utf8mb4",

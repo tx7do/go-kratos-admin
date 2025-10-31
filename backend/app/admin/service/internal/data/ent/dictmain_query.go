@@ -4,7 +4,9 @@ package ent
 
 import (
 	"context"
+	"database/sql/driver"
 	"fmt"
+	"kratos-admin/app/admin/service/internal/data/ent/dictitem"
 	"kratos-admin/app/admin/service/internal/data/ent/dictmain"
 	"kratos-admin/app/admin/service/internal/data/ent/predicate"
 	"math"
@@ -23,6 +25,7 @@ type DictMainQuery struct {
 	order      []dictmain.OrderOption
 	inters     []Interceptor
 	predicates []predicate.DictMain
+	withItems  *DictItemQuery
 	modifiers  []func(*sql.Selector)
 	// intermediate query (i.e. traversal path).
 	sql  *sql.Selector
@@ -58,6 +61,28 @@ func (_q *DictMainQuery) Unique(unique bool) *DictMainQuery {
 func (_q *DictMainQuery) Order(o ...dictmain.OrderOption) *DictMainQuery {
 	_q.order = append(_q.order, o...)
 	return _q
+}
+
+// QueryItems chains the current query on the "items" edge.
+func (_q *DictMainQuery) QueryItems() *DictItemQuery {
+	query := (&DictItemClient{config: _q.config}).Query()
+	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
+		if err := _q.prepareQuery(ctx); err != nil {
+			return nil, err
+		}
+		selector := _q.sqlQuery(ctx)
+		if err := selector.Err(); err != nil {
+			return nil, err
+		}
+		step := sqlgraph.NewStep(
+			sqlgraph.From(dictmain.Table, dictmain.FieldID, selector),
+			sqlgraph.To(dictitem.Table, dictitem.FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, true, dictmain.ItemsTable, dictmain.ItemsColumn),
+		)
+		fromU = sqlgraph.SetNeighbors(_q.driver.Dialect(), step)
+		return fromU, nil
+	}
+	return query
 }
 
 // First returns the first DictMain entity from the query.
@@ -252,11 +277,23 @@ func (_q *DictMainQuery) Clone() *DictMainQuery {
 		order:      append([]dictmain.OrderOption{}, _q.order...),
 		inters:     append([]Interceptor{}, _q.inters...),
 		predicates: append([]predicate.DictMain{}, _q.predicates...),
+		withItems:  _q.withItems.Clone(),
 		// clone intermediate query.
 		sql:       _q.sql.Clone(),
 		path:      _q.path,
 		modifiers: append([]func(*sql.Selector){}, _q.modifiers...),
 	}
+}
+
+// WithItems tells the query-builder to eager-load the nodes that are connected to
+// the "items" edge. The optional arguments are used to configure the query builder of the edge.
+func (_q *DictMainQuery) WithItems(opts ...func(*DictItemQuery)) *DictMainQuery {
+	query := (&DictItemClient{config: _q.config}).Query()
+	for _, opt := range opts {
+		opt(query)
+	}
+	_q.withItems = query
+	return _q
 }
 
 // GroupBy is used to group vertices by one or more fields/columns.
@@ -335,8 +372,11 @@ func (_q *DictMainQuery) prepareQuery(ctx context.Context) error {
 
 func (_q *DictMainQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*DictMain, error) {
 	var (
-		nodes = []*DictMain{}
-		_spec = _q.querySpec()
+		nodes       = []*DictMain{}
+		_spec       = _q.querySpec()
+		loadedTypes = [1]bool{
+			_q.withItems != nil,
+		}
 	)
 	_spec.ScanValues = func(columns []string) ([]any, error) {
 		return (*DictMain).scanValues(nil, columns)
@@ -344,6 +384,7 @@ func (_q *DictMainQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*Dic
 	_spec.Assign = func(columns []string, values []any) error {
 		node := &DictMain{config: _q.config}
 		nodes = append(nodes, node)
+		node.Edges.loadedTypes = loadedTypes
 		return node.assignValues(columns, values)
 	}
 	if len(_q.modifiers) > 0 {
@@ -358,7 +399,46 @@ func (_q *DictMainQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*Dic
 	if len(nodes) == 0 {
 		return nodes, nil
 	}
+	if query := _q.withItems; query != nil {
+		if err := _q.loadItems(ctx, query, nodes,
+			func(n *DictMain) { n.Edges.Items = []*DictItem{} },
+			func(n *DictMain, e *DictItem) { n.Edges.Items = append(n.Edges.Items, e) }); err != nil {
+			return nil, err
+		}
+	}
 	return nodes, nil
+}
+
+func (_q *DictMainQuery) loadItems(ctx context.Context, query *DictItemQuery, nodes []*DictMain, init func(*DictMain), assign func(*DictMain, *DictItem)) error {
+	fks := make([]driver.Value, 0, len(nodes))
+	nodeids := make(map[uint32]*DictMain)
+	for i := range nodes {
+		fks = append(fks, nodes[i].ID)
+		nodeids[nodes[i].ID] = nodes[i]
+		if init != nil {
+			init(nodes[i])
+		}
+	}
+	query.withFKs = true
+	query.Where(predicate.DictItem(func(s *sql.Selector) {
+		s.Where(sql.InValues(s.C(dictmain.ItemsColumn), fks...))
+	}))
+	neighbors, err := query.All(ctx)
+	if err != nil {
+		return err
+	}
+	for _, n := range neighbors {
+		fk := n.main_id
+		if fk == nil {
+			return fmt.Errorf(`foreign-key "main_id" is nil for node %v`, n.ID)
+		}
+		node, ok := nodeids[*fk]
+		if !ok {
+			return fmt.Errorf(`unexpected referenced foreign-key "main_id" returned %v for node %v`, *fk, n.ID)
+		}
+		assign(node, n)
+	}
+	return nil
 }
 
 func (_q *DictMainQuery) sqlCount(ctx context.Context) (int, error) {

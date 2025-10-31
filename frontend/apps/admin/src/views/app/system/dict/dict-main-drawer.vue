@@ -7,7 +7,8 @@ import { $t } from '@vben/locales';
 import { notification } from 'ant-design-vue';
 
 import { useVbenForm, z } from '#/adapter/form';
-import { useDictStore } from '#/stores';
+import { DictMain_Status } from '#/generated/api/dict/service/v1/dict.pb';
+import { statusList, useDictStore } from '#/stores';
 
 const dictStore = useDictStore();
 
@@ -15,8 +16,8 @@ const data = ref();
 
 const getTitle = computed(() =>
   data.value?.create
-    ? $t('ui.modal.create', { moduleName: $t('page.dict.moduleName') })
-    : $t('ui.modal.update', { moduleName: $t('page.dict.moduleName') }),
+    ? $t('ui.modal.create', { moduleName: $t('page.dict.dictMain') })
+    : $t('ui.modal.update', { moduleName: $t('page.dict.dictMain') }),
 );
 // const isCreate = computed(() => data.value?.create);
 
@@ -58,6 +59,20 @@ const [BaseForm, baseFormApi] = useVbenForm({
       componentProps: {
         placeholder: $t('ui.placeholder.input'),
         allowClear: true,
+      },
+    },
+
+    {
+      component: 'RadioGroup',
+      fieldName: 'status',
+      label: $t('ui.table.status'),
+      defaultValue: DictMain_Status.ON,
+      rules: 'selectRequired',
+      componentProps: {
+        optionType: 'button',
+        buttonStyle: 'solid',
+        class: 'flex flex-wrap', // 如果选项过多，可以添加class来自动折叠
+        options: statusList,
       },
     },
 

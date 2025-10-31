@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"entgo.io/ent/dialect/sql"
+	"entgo.io/ent/dialect/sql/sqlgraph"
 )
 
 // ID filters vertices based on their ID field.
@@ -97,6 +98,11 @@ func Code(v string) predicate.DictMain {
 // Name applies equality check predicate on the "name" field. It's identical to NameEQ.
 func Name(v string) predicate.DictMain {
 	return predicate.DictMain(sql.FieldEQ(FieldName, v))
+}
+
+// SortID applies equality check predicate on the "sort_id" field. It's identical to SortIDEQ.
+func SortID(v int32) predicate.DictMain {
+	return predicate.DictMain(sql.FieldEQ(FieldSortID, v))
 }
 
 // CreateTimeEQ applies the EQ predicate on the "create_time" field.
@@ -622,6 +628,109 @@ func NameEqualFold(v string) predicate.DictMain {
 // NameContainsFold applies the ContainsFold predicate on the "name" field.
 func NameContainsFold(v string) predicate.DictMain {
 	return predicate.DictMain(sql.FieldContainsFold(FieldName, v))
+}
+
+// SortIDEQ applies the EQ predicate on the "sort_id" field.
+func SortIDEQ(v int32) predicate.DictMain {
+	return predicate.DictMain(sql.FieldEQ(FieldSortID, v))
+}
+
+// SortIDNEQ applies the NEQ predicate on the "sort_id" field.
+func SortIDNEQ(v int32) predicate.DictMain {
+	return predicate.DictMain(sql.FieldNEQ(FieldSortID, v))
+}
+
+// SortIDIn applies the In predicate on the "sort_id" field.
+func SortIDIn(vs ...int32) predicate.DictMain {
+	return predicate.DictMain(sql.FieldIn(FieldSortID, vs...))
+}
+
+// SortIDNotIn applies the NotIn predicate on the "sort_id" field.
+func SortIDNotIn(vs ...int32) predicate.DictMain {
+	return predicate.DictMain(sql.FieldNotIn(FieldSortID, vs...))
+}
+
+// SortIDGT applies the GT predicate on the "sort_id" field.
+func SortIDGT(v int32) predicate.DictMain {
+	return predicate.DictMain(sql.FieldGT(FieldSortID, v))
+}
+
+// SortIDGTE applies the GTE predicate on the "sort_id" field.
+func SortIDGTE(v int32) predicate.DictMain {
+	return predicate.DictMain(sql.FieldGTE(FieldSortID, v))
+}
+
+// SortIDLT applies the LT predicate on the "sort_id" field.
+func SortIDLT(v int32) predicate.DictMain {
+	return predicate.DictMain(sql.FieldLT(FieldSortID, v))
+}
+
+// SortIDLTE applies the LTE predicate on the "sort_id" field.
+func SortIDLTE(v int32) predicate.DictMain {
+	return predicate.DictMain(sql.FieldLTE(FieldSortID, v))
+}
+
+// SortIDIsNil applies the IsNil predicate on the "sort_id" field.
+func SortIDIsNil() predicate.DictMain {
+	return predicate.DictMain(sql.FieldIsNull(FieldSortID))
+}
+
+// SortIDNotNil applies the NotNil predicate on the "sort_id" field.
+func SortIDNotNil() predicate.DictMain {
+	return predicate.DictMain(sql.FieldNotNull(FieldSortID))
+}
+
+// StatusEQ applies the EQ predicate on the "status" field.
+func StatusEQ(v Status) predicate.DictMain {
+	return predicate.DictMain(sql.FieldEQ(FieldStatus, v))
+}
+
+// StatusNEQ applies the NEQ predicate on the "status" field.
+func StatusNEQ(v Status) predicate.DictMain {
+	return predicate.DictMain(sql.FieldNEQ(FieldStatus, v))
+}
+
+// StatusIn applies the In predicate on the "status" field.
+func StatusIn(vs ...Status) predicate.DictMain {
+	return predicate.DictMain(sql.FieldIn(FieldStatus, vs...))
+}
+
+// StatusNotIn applies the NotIn predicate on the "status" field.
+func StatusNotIn(vs ...Status) predicate.DictMain {
+	return predicate.DictMain(sql.FieldNotIn(FieldStatus, vs...))
+}
+
+// StatusIsNil applies the IsNil predicate on the "status" field.
+func StatusIsNil() predicate.DictMain {
+	return predicate.DictMain(sql.FieldIsNull(FieldStatus))
+}
+
+// StatusNotNil applies the NotNil predicate on the "status" field.
+func StatusNotNil() predicate.DictMain {
+	return predicate.DictMain(sql.FieldNotNull(FieldStatus))
+}
+
+// HasItems applies the HasEdge predicate on the "items" edge.
+func HasItems() predicate.DictMain {
+	return predicate.DictMain(func(s *sql.Selector) {
+		step := sqlgraph.NewStep(
+			sqlgraph.From(Table, FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, true, ItemsTable, ItemsColumn),
+		)
+		sqlgraph.HasNeighbors(s, step)
+	})
+}
+
+// HasItemsWith applies the HasEdge predicate on the "items" edge with a given conditions (other predicates).
+func HasItemsWith(preds ...predicate.DictItem) predicate.DictMain {
+	return predicate.DictMain(func(s *sql.Selector) {
+		step := newItemsStep()
+		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
+			for _, p := range preds {
+				p(s)
+			}
+		})
+	})
 }
 
 // And groups predicates with the AND operator between them.

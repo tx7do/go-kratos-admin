@@ -4,6 +4,7 @@ import (
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/entsql"
 	"entgo.io/ent/schema"
+	"entgo.io/ent/schema/edge"
 	"entgo.io/ent/schema/field"
 	"entgo.io/ent/schema/index"
 	"github.com/tx7do/go-utils/entgo/mixin"
@@ -43,14 +44,19 @@ func (DictItem) Fields() []ent.Field {
 			Optional().
 			Nillable(),
 
-		field.Uint32("main_id").
-			Comment("主字典ID").
-			Optional().
-			Nillable(),
+		//field.Uint32("main_id").
+		//	Comment("主字典ID").
+		//	Optional().
+		//	Nillable(),
 
 		field.Int32("sort_id").
 			Comment("排序ID").
 			Default(0).
+			Optional().
+			Nillable(),
+
+		field.Int32("value").
+			Comment("数值型标识").
 			Optional().
 			Nillable(),
 
@@ -81,7 +87,23 @@ func (DictItem) Mixin() []ent.Mixin {
 // Indexes of the DictItem.
 func (DictItem) Indexes() []ent.Index {
 	return []ent.Index{
-		index.Fields("code").Unique().StorageKey("idx_sys_dict_items_code"),
-		index.Fields("status").StorageKey("idx_sys_dict_items_status"),
+		index.Fields("code", "code").
+			Edges("sys_dict_mains").
+			Unique().
+			StorageKey("uk_sys_dict_items_code"),
+
+		index.Fields("status").
+			StorageKey("idx_sys_dict_items_status"),
+	}
+}
+
+// Edges of the DictItem.
+func (DictItem) Edges() []ent.Edge {
+	return []ent.Edge{
+		edge.To("sys_dict_mains", DictMain.Type).
+			Unique().
+			Required().
+			Annotations(entsql.OnDelete(entsql.Cascade)).
+			StorageKey(edge.Column("main_id")),
 	}
 }

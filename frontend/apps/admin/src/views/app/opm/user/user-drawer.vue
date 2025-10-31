@@ -124,6 +124,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
         childrenField: 'children',
         labelField: 'name',
         valueField: 'id',
+        treeNodeFilterProp: 'label',
         api: async () => {
           const result = await roleStore.listRole(true, null, null, {
             // parent_id: 0,
@@ -147,6 +148,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
         childrenField: 'children',
         labelField: 'name',
         valueField: 'id',
+        treeNodeFilterProp: 'label',
         api: async () => {
           const result = await orgStore.listOrganization(true, null, null, {
             status: Organization_Status.ON,
@@ -183,6 +185,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
         childrenField: 'children',
         labelField: 'name',
         valueField: 'id',
+        treeNodeFilterProp: 'label',
         api: async () => {
           const values = await baseFormApi.getValues();
           // console.log('values', values);
@@ -233,6 +236,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
         childrenField: 'children',
         labelField: 'name',
         valueField: 'id',
+        treeNodeFilterProp: 'label',
         api: async () => {
           const result = await positionStore.listPosition(true, null, null, {
             status: Position_Status.ON,

@@ -39,11 +39,8 @@ const [BaseForm, baseFormApi] = useVbenForm({
       rules: 'required',
       componentProps: {
         placeholder: $t('ui.placeholder.select'),
-        numberToString: true,
         showSearch: true,
-        treeDefaultExpandAll: true,
         allowClear: false,
-        childrenField: 'children',
         labelField: 'name',
         valueField: 'id',
         api: async () => {
@@ -52,6 +49,8 @@ const [BaseForm, baseFormApi] = useVbenForm({
           });
           return result.items;
         },
+        filterOption: (input: string, option: any) =>
+          option.label.toLowerCase().includes(input.toLowerCase()),
       },
     },
     {

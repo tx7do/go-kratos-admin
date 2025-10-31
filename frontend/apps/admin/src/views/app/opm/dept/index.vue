@@ -71,6 +71,7 @@ const formOptions: VbenFormProps = {
         childrenField: 'children',
         labelField: 'name',
         valueField: 'id',
+        treeNodeFilterProp: 'label',
         api: async () => {
           const result = await orgStore.listOrganization(true, null, null, {
             // parent_id: 0,

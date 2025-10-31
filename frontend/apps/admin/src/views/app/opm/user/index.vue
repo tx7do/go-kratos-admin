@@ -122,12 +122,13 @@ const formOptions: VbenFormProps = {
       componentProps: {
         placeholder: $t('ui.placeholder.select'),
         numberToString: true,
-        childrenField: 'children',
-        labelField: 'name',
-        valueField: 'id',
         showSearch: true,
         treeDefaultExpandAll: true,
         allowClear: true,
+        childrenField: 'children',
+        labelField: 'name',
+        valueField: 'id',
+        treeNodeFilterProp: 'label',
         api: async () => {
           const result = await tenantStore.listTenant(true, null, null, {
             status: Tenant_Status.ON,
@@ -143,12 +144,13 @@ const formOptions: VbenFormProps = {
       componentProps: {
         placeholder: $t('ui.placeholder.select'),
         numberToString: true,
-        childrenField: 'children',
-        labelField: 'name',
-        valueField: 'id',
         showSearch: true,
         treeDefaultExpandAll: true,
         allowClear: true,
+        childrenField: 'children',
+        labelField: 'name',
+        valueField: 'id',
+        treeNodeFilterProp: 'label',
         api: async () => {
           const result = await orgStore.listOrganization(true, null, null, {
             status: Organization_Status.ON,
@@ -164,12 +166,13 @@ const formOptions: VbenFormProps = {
       componentProps: {
         placeholder: $t('ui.placeholder.select'),
         numberToString: true,
-        childrenField: 'children',
-        labelField: 'name',
-        valueField: 'id',
         showSearch: true,
         treeDefaultExpandAll: true,
         allowClear: true,
+        childrenField: 'children',
+        labelField: 'name',
+        valueField: 'id',
+        treeNodeFilterProp: 'label',
         api: async () => {
           const result = await deptStore.listDepartment(true, null, null, {
             status: Department_Status.ON,
@@ -191,6 +194,7 @@ const formOptions: VbenFormProps = {
         childrenField: 'children',
         labelField: 'name',
         valueField: 'id',
+        treeNodeFilterProp: 'label',
         api: async () => {
           const result = await positionStore.listPosition(true, null, null, {
             status: Position_Status.ON,

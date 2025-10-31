@@ -94,6 +94,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
         childrenField: 'children',
         labelField: 'meta.title',
         valueField: 'id',
+        treeNodeFilterProp: 'label',
         api: async () => {
           const fieldValue = baseFormApi.form.values;
           const result = await menuStore.listMenu(true, null, null, {

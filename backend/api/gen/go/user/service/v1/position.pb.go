@@ -30,22 +30,19 @@ const (
 type Position_Status int32
 
 const (
-	Position_PositionStatus_Invalid Position_Status = 0 // 无效
-	Position_ON                     Position_Status = 1 // 启用
-	Position_OFF                    Position_Status = 2 // 禁用
+	Position_OFF Position_Status = 0 // 禁用
+	Position_ON  Position_Status = 1 // 启用
 )
 
 // Enum value maps for Position_Status.
 var (
 	Position_Status_name = map[int32]string{
-		0: "PositionStatus_Invalid",
+		0: "OFF",
 		1: "ON",
-		2: "OFF",
 	}
 	Position_Status_value = map[string]int32{
-		"PositionStatus_Invalid": 0,
-		"ON":                     1,
-		"OFF":                    2,
+		"OFF": 0,
+		"ON":  1,
 	}
 )
 
@@ -172,7 +169,7 @@ func (x *Position) GetStatus() Position_Status {
 	if x != nil && x.Status != nil {
 		return *x.Status
 	}
-	return Position_PositionStatus_Invalid
+	return Position_OFF
 }
 
 func (x *Position) GetRemark() string {
@@ -614,7 +611,7 @@ var File_user_service_v1_position_proto protoreflect.FileDescriptor
 
 const file_user_service_v1_position_proto_rawDesc = "" +
 	"\n" +
-	"\x1euser/service/v1/position.proto\x12\x0fuser.service.v1\x1a$gnostic/openapi/v3/annotations.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a google/protobuf/field_mask.proto\x1a\x1epagination/v1/pagination.proto\"\xd3\r\n" +
+	"\x1euser/service/v1/position.proto\x12\x0fuser.service.v1\x1a$gnostic/openapi/v3/annotations.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a google/protobuf/field_mask.proto\x1a\x1epagination/v1/pagination.proto\"\xb7\r\n" +
 	"\bPosition\x12#\n" +
 	"\x02id\x18\x01 \x01(\rB\x0e\xbaG\v\x92\x02\b职位IDH\x00R\x02id\x88\x01\x01\x12+\n" +
 	"\x04name\x18\x02 \x01(\tB\x12\xbaG\x0f\x92\x02\f职位名称H\x01R\x04name\x88\x01\x01\x12\xa6\x01\n" +
@@ -640,11 +637,10 @@ const file_user_service_v1_position_proto_rawDesc = "" +
 	"\vupdate_time\x18\xc9\x01 \x01(\v2\x1a.google.protobuf.TimestampB\x12\xbaG\x0f\x92\x02\f更新时间H\x11R\n" +
 	"updateTime\x88\x01\x01\x12U\n" +
 	"\vdelete_time\x18\xca\x01 \x01(\v2\x1a.google.protobuf.TimestampB\x12\xbaG\x0f\x92\x02\f删除时间H\x12R\n" +
-	"deleteTime\x88\x01\x01\"5\n" +
-	"\x06Status\x12\x1a\n" +
-	"\x16PositionStatus_Invalid\x10\x00\x12\x06\n" +
-	"\x02ON\x10\x01\x12\a\n" +
-	"\x03OFF\x10\x02B\x05\n" +
+	"deleteTime\x88\x01\x01\"\x19\n" +
+	"\x06Status\x12\a\n" +
+	"\x03OFF\x10\x00\x12\x06\n" +
+	"\x02ON\x10\x01B\x05\n" +
 	"\x03_idB\a\n" +
 	"\x05_nameB\a\n" +
 	"\x05_codeB\b\n" +

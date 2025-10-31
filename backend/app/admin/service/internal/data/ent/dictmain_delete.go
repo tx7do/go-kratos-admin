@@ -4,7 +4,7 @@ package ent
 
 import (
 	"context"
-	"kratos-admin/app/admin/service/internal/data/ent/dict"
+	"kratos-admin/app/admin/service/internal/data/ent/dictmain"
 	"kratos-admin/app/admin/service/internal/data/ent/predicate"
 
 	"entgo.io/ent/dialect/sql"
@@ -12,26 +12,26 @@ import (
 	"entgo.io/ent/schema/field"
 )
 
-// DictDelete is the builder for deleting a Dict entity.
-type DictDelete struct {
+// DictMainDelete is the builder for deleting a DictMain entity.
+type DictMainDelete struct {
 	config
 	hooks    []Hook
-	mutation *DictMutation
+	mutation *DictMainMutation
 }
 
-// Where appends a list predicates to the DictDelete builder.
-func (_d *DictDelete) Where(ps ...predicate.Dict) *DictDelete {
+// Where appends a list predicates to the DictMainDelete builder.
+func (_d *DictMainDelete) Where(ps ...predicate.DictMain) *DictMainDelete {
 	_d.mutation.Where(ps...)
 	return _d
 }
 
 // Exec executes the deletion query and returns how many vertices were deleted.
-func (_d *DictDelete) Exec(ctx context.Context) (int, error) {
+func (_d *DictMainDelete) Exec(ctx context.Context) (int, error) {
 	return withHooks(ctx, _d.sqlExec, _d.mutation, _d.hooks)
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (_d *DictDelete) ExecX(ctx context.Context) int {
+func (_d *DictMainDelete) ExecX(ctx context.Context) int {
 	n, err := _d.Exec(ctx)
 	if err != nil {
 		panic(err)
@@ -39,8 +39,8 @@ func (_d *DictDelete) ExecX(ctx context.Context) int {
 	return n
 }
 
-func (_d *DictDelete) sqlExec(ctx context.Context) (int, error) {
-	_spec := sqlgraph.NewDeleteSpec(dict.Table, sqlgraph.NewFieldSpec(dict.FieldID, field.TypeUint32))
+func (_d *DictMainDelete) sqlExec(ctx context.Context) (int, error) {
+	_spec := sqlgraph.NewDeleteSpec(dictmain.Table, sqlgraph.NewFieldSpec(dictmain.FieldID, field.TypeUint32))
 	if ps := _d.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
@@ -56,32 +56,32 @@ func (_d *DictDelete) sqlExec(ctx context.Context) (int, error) {
 	return affected, err
 }
 
-// DictDeleteOne is the builder for deleting a single Dict entity.
-type DictDeleteOne struct {
-	_d *DictDelete
+// DictMainDeleteOne is the builder for deleting a single DictMain entity.
+type DictMainDeleteOne struct {
+	_d *DictMainDelete
 }
 
-// Where appends a list predicates to the DictDelete builder.
-func (_d *DictDeleteOne) Where(ps ...predicate.Dict) *DictDeleteOne {
+// Where appends a list predicates to the DictMainDelete builder.
+func (_d *DictMainDeleteOne) Where(ps ...predicate.DictMain) *DictMainDeleteOne {
 	_d._d.mutation.Where(ps...)
 	return _d
 }
 
 // Exec executes the deletion query.
-func (_d *DictDeleteOne) Exec(ctx context.Context) error {
+func (_d *DictMainDeleteOne) Exec(ctx context.Context) error {
 	n, err := _d._d.Exec(ctx)
 	switch {
 	case err != nil:
 		return err
 	case n == 0:
-		return &NotFoundError{dict.Label}
+		return &NotFoundError{dictmain.Label}
 	default:
 		return nil
 	}
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (_d *DictDeleteOne) ExecX(ctx context.Context) {
+func (_d *DictMainDeleteOne) ExecX(ctx context.Context) {
 	if err := _d.Exec(ctx); err != nil {
 		panic(err)
 	}

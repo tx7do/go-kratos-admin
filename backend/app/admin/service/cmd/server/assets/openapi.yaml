@@ -463,12 +463,12 @@ paths:
                 "200":
                     description: OK
                     content: {}
-    /admin/v1/dict:
+    /admin/v1/dict-items:
         get:
             tags:
                 - DictService
-            description: 查询字典列表
-            operationId: DictService_List
+            description: 分页查询子字典列表
+            operationId: DictService_ListDictItem
             parameters:
                 - name: page
                   in: query
@@ -521,28 +521,45 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/ListDictResponse'
+                                $ref: '#/components/schemas/ListDictItemResponse'
         post:
             tags:
                 - DictService
-            description: 创建字典
-            operationId: DictService_Create
+            description: 创建子字典
+            operationId: DictService_CreateDictItem
             requestBody:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/CreateDictRequest'
+                            $ref: '#/components/schemas/CreateDictItemRequest'
                 required: true
             responses:
                 "200":
                     description: OK
                     content: {}
-    /admin/v1/dict/{data.id}:
+        delete:
+            tags:
+                - DictService
+            description: 删除子字典
+            operationId: DictService_DeleteDictItem
+            parameters:
+                - name: ids
+                  in: query
+                  schema:
+                    type: array
+                    items:
+                        type: integer
+                        format: uint32
+            responses:
+                "200":
+                    description: OK
+                    content: {}
+    /admin/v1/dict-items/{data.id}:
         put:
             tags:
                 - DictService
-            description: 更新字典
-            operationId: DictService_Update
+            description: 更新子字典
+            operationId: DictService_UpdateDictItem
             parameters:
                 - name: data.id
                   in: path
@@ -553,22 +570,61 @@ paths:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/UpdateDictRequest'
+                            $ref: '#/components/schemas/UpdateDictItemRequest'
                 required: true
             responses:
                 "200":
                     description: OK
                     content: {}
-    /admin/v1/dict/{id}:
+    /admin/v1/dict-mains:
         get:
             tags:
                 - DictService
-            description: 查询字典详情
-            operationId: DictService_Get
+            description: 分页查询主字典列表
+            operationId: DictService_ListDictMain
             parameters:
-                - name: id
-                  in: path
-                  required: true
+                - name: page
+                  in: query
+                  description: 当前页码
+                  schema:
+                    type: integer
+                    format: int32
+                - name: pageSize
+                  in: query
+                  description: 每一页的行数
+                  schema:
+                    type: integer
+                    format: int32
+                - name: query
+                  in: query
+                  description: AND过滤参数，其语法为json格式的字符串，如：{"key1":"val1","key2":"val2"}，具体请参见：https://github.com/tx7do/go-utils/tree/main/entgo/query/README.md
+                  schema:
+                    type: string
+                - name: or
+                  in: query
+                  description: OR过滤参数，语法同AND过滤参数。
+                  schema:
+                    type: string
+                - name: orderBy
+                  in: query
+                  description: 排序条件，其语法为JSON字符串，例如：{"val1", "-val2"}。字段名前加'-'为降序，否则为升序。
+                  schema:
+                    type: array
+                    items:
+                        type: string
+                - name: noPaging
+                  in: query
+                  description: 是否不分页，如果为true，则page和pageSize参数无效。
+                  schema:
+                    type: boolean
+                - name: fieldMask
+                  in: query
+                  description: 字段掩码，其作用为SELECT中的字段，其语法为使用逗号分隔字段名，例如：id,realName,userName。如果为空则选中所有字段，即SELECT *。
+                  schema:
+                    type: string
+                    format: field-mask
+                - name: tenantId
+                  in: query
                   schema:
                     type: integer
                     format: uint32
@@ -578,12 +634,67 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/Dict'
+                                $ref: '#/components/schemas/ListDictMainResponse'
+        post:
+            tags:
+                - DictService
+            description: 创建主字典
+            operationId: DictService_CreateDictMain
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/CreateDictMainRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content: {}
         delete:
             tags:
                 - DictService
-            description: 删除字典
-            operationId: DictService_Delete
+            description: 删除主字典
+            operationId: DictService_DeleteDictMain
+            parameters:
+                - name: ids
+                  in: query
+                  schema:
+                    type: array
+                    items:
+                        type: integer
+                        format: uint32
+            responses:
+                "200":
+                    description: OK
+                    content: {}
+    /admin/v1/dict-mains/{data.id}:
+        put:
+            tags:
+                - DictService
+            description: 更新主字典
+            operationId: DictService_UpdateDictMain
+            parameters:
+                - name: data.id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/UpdateDictMainRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content: {}
+    /admin/v1/dict-mains/{id}:
+        get:
+            tags:
+                - DictService
+            description: 查询主字典详情
+            operationId: DictService_GetDictMain
             parameters:
                 - name: id
                   in: path
@@ -591,10 +702,17 @@ paths:
                   schema:
                     type: integer
                     format: uint32
+                - name: code
+                  in: query
+                  schema:
+                    type: string
             responses:
                 "200":
                     description: OK
-                    content: {}
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/DictMain'
     /admin/v1/file:upload:
         put:
             tags:
@@ -2695,6 +2813,30 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/UserExistsResponse'
+    /api/v1/dict-mains/code/{code}:
+        get:
+            tags:
+                - DictService
+            description: 查询主字典详情
+            operationId: DictService_GetDictMain
+            parameters:
+                - name: code
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                - name: id
+                  in: query
+                  schema:
+                    type: integer
+                    format: uint32
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/DictMain'
 components:
     schemas:
         AdminLoginLog:
@@ -3010,12 +3152,18 @@ components:
                 data:
                     $ref: '#/components/schemas/Department'
             description: 创建部门 - 请求
-        CreateDictRequest:
+        CreateDictItemRequest:
             type: object
             properties:
                 data:
-                    $ref: '#/components/schemas/Dict'
-            description: 创建字典 - 请求
+                    $ref: '#/components/schemas/DictItem'
+            description: 创建子字典 - 请求
+        CreateDictMainRequest:
+            type: object
+            properties:
+                data:
+                    $ref: '#/components/schemas/DictMain'
+            description: 创建主字典 - 请求
         CreateFileRequest:
             type: object
             properties:
@@ -3139,9 +3287,8 @@ components:
                     format: int32
                 status:
                     enum:
-                        - DEPARTMENT_STATUS_UNSPECIFIED
-                        - ON
                         - OFF
+                        - ON
                     type: string
                     description: 状态
                     format: enum
@@ -3178,36 +3325,27 @@ components:
                     description: 删除时间
                     format: date-time
             description: 部门
-        Dict:
+        DictItem:
             type: object
             properties:
                 id:
                     type: integer
-                    description: 字典ID
+                    description: 子项ID
                     format: uint32
-                category:
+                mainId:
+                    type: integer
+                    description: 主字典ID
+                    format: uint32
+                code:
                     type: string
-                    description: 字典分类
-                categoryDesc:
+                    description: 子项编码
+                name:
                     type: string
-                    description: 字典分类名称
-                key:
-                    type: string
-                    description: 字典键
-                value:
-                    type: string
-                    description: 字典值
-                valueDesc:
-                    type: string
-                    description: 字典值名称
-                valueDataType:
-                    type: string
-                    description: 字典值数据类型
+                    description: 子项名称
                 status:
                     enum:
-                        - DICT_STATUS_UNSPECIFIED
-                        - ON
                         - OFF
+                        - ON
                     type: string
                     description: 字典状态
                     format: enum
@@ -3238,7 +3376,44 @@ components:
                     type: string
                     description: 删除时间
                     format: date-time
-            description: 字典
+            description: 子字典
+        DictMain:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    description: 主字典ID
+                    format: uint32
+                code:
+                    type: string
+                    description: 主字典编码
+                name:
+                    type: string
+                    description: 主字典名称
+                remark:
+                    type: string
+                    description: 备注
+                createBy:
+                    type: integer
+                    description: 创建者ID
+                    format: uint32
+                updateBy:
+                    type: integer
+                    description: 更新者ID
+                    format: uint32
+                createTime:
+                    type: string
+                    description: 创建时间
+                    format: date-time
+                updateTime:
+                    type: string
+                    description: 更新时间
+                    format: date-time
+                deleteTime:
+                    type: string
+                    description: 删除时间
+                    format: date-time
+            description: 主字典
         EditUserPasswordRequest:
             type: object
             properties:
@@ -3396,17 +3571,28 @@ components:
                     type: integer
                     format: uint32
             description: 部门列表 - 答复
-        ListDictResponse:
+        ListDictItemResponse:
             type: object
             properties:
                 items:
                     type: array
                     items:
-                        $ref: '#/components/schemas/Dict'
+                        $ref: '#/components/schemas/DictItem'
                 total:
                     type: integer
                     format: uint32
-            description: 查询字典列表 - 回应
+            description: 查询子字典列表 - 回应
+        ListDictMainResponse:
+            type: object
+            properties:
+                items:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/DictMain'
+                total:
+                    type: integer
+                    format: uint32
+            description: 查询主字典列表 - 回应
         ListFileResponse:
             type: object
             properties:
@@ -3895,9 +4081,8 @@ components:
                     format: int32
                 status:
                     enum:
-                        - ORGANIZATION_STATUS_UNSPECIFIED
-                        - ON
                         - OFF
+                        - ON
                     type: string
                     description: 状态
                     format: enum
@@ -4012,9 +4197,8 @@ components:
                     format: int32
                 status:
                     enum:
-                        - PositionStatus_Invalid
-                        - ON
                         - OFF
+                        - ON
                     type: string
                     description: 状态
                     format: enum
@@ -4159,9 +4343,8 @@ components:
                     description: 角色值
                 status:
                     enum:
-                        - ROLE_STATUS_UNSPECIFIED
-                        - ON
                         - OFF
+                        - ON
                     type: string
                     description: 状态
                     format: enum
@@ -4455,9 +4638,8 @@ components:
                     description: 所属行业（如“互联网”“金融”“制造”）
                 status:
                     enum:
-                        - TENANT_STATUS_UNSPECIFIED
-                        - ON
                         - OFF
+                        - ON
                         - EXPIRED
                         - FREEZE
                     type: string
@@ -4790,11 +4972,11 @@ components:
                     type: boolean
                     description: 如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。
             description: 更新部门 - 请求
-        UpdateDictRequest:
+        UpdateDictItemRequest:
             type: object
             properties:
                 data:
-                    $ref: '#/components/schemas/Dict'
+                    $ref: '#/components/schemas/DictItem'
                 updateMask:
                     example: id,realname,username
                     type: string
@@ -4803,7 +4985,21 @@ components:
                 allowMissing:
                     type: boolean
                     description: 如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。
-            description: 更新字典 - 请求
+            description: 更新子字典 - 请求
+        UpdateDictMainRequest:
+            type: object
+            properties:
+                data:
+                    $ref: '#/components/schemas/DictMain'
+                updateMask:
+                    example: id,realname,username
+                    type: string
+                    description: 要更新的字段列表
+                    format: field-mask
+                allowMissing:
+                    type: boolean
+                    description: 如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。
+            description: 更新主字典 - 请求
         UpdateFileRequest:
             type: object
             properties:

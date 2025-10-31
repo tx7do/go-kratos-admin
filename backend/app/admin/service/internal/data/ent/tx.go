@@ -22,8 +22,10 @@ type Tx struct {
 	ApiResource *ApiResourceClient
 	// Department is the client for interacting with the Department builders.
 	Department *DepartmentClient
-	// Dict is the client for interacting with the Dict builders.
-	Dict *DictClient
+	// DictItem is the client for interacting with the DictItem builders.
+	DictItem *DictItemClient
+	// DictMain is the client for interacting with the DictMain builders.
+	DictMain *DictMainClient
 	// File is the client for interacting with the File builders.
 	File *FileClient
 	// Menu is the client for interacting with the Menu builders.
@@ -200,7 +202,8 @@ func (tx *Tx) init() {
 	tx.AdminOperationLog = NewAdminOperationLogClient(tx.config)
 	tx.ApiResource = NewApiResourceClient(tx.config)
 	tx.Department = NewDepartmentClient(tx.config)
-	tx.Dict = NewDictClient(tx.config)
+	tx.DictItem = NewDictItemClient(tx.config)
+	tx.DictMain = NewDictMainClient(tx.config)
 	tx.File = NewFileClient(tx.config)
 	tx.Menu = NewMenuClient(tx.config)
 	tx.NotificationMessage = NewNotificationMessageClient(tx.config)

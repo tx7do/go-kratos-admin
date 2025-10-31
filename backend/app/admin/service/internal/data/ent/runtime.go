@@ -8,7 +8,8 @@ import (
 	"kratos-admin/app/admin/service/internal/data/ent/adminoperationlog"
 	"kratos-admin/app/admin/service/internal/data/ent/apiresource"
 	"kratos-admin/app/admin/service/internal/data/ent/department"
-	"kratos-admin/app/admin/service/internal/data/ent/dict"
+	"kratos-admin/app/admin/service/internal/data/ent/dictitem"
+	"kratos-admin/app/admin/service/internal/data/ent/dictmain"
 	"kratos-admin/app/admin/service/internal/data/ent/file"
 	"kratos-admin/app/admin/service/internal/data/ent/menu"
 	"kratos-admin/app/admin/service/internal/data/ent/notificationmessage"
@@ -101,35 +102,68 @@ func init() {
 	departmentDescID := departmentMixinFields0[0].Descriptor()
 	// department.IDValidator is a validator for the "id" field. It is called by the builders before save.
 	department.IDValidator = departmentDescID.Validators[0].(func(uint32) error)
-	dictMixin := schema.Dict{}.Mixin()
-	dictMixinFields0 := dictMixin[0].Fields()
-	_ = dictMixinFields0
-	dictMixinFields4 := dictMixin[4].Fields()
-	_ = dictMixinFields4
-	dictMixinFields5 := dictMixin[5].Fields()
-	_ = dictMixinFields5
-	dictFields := schema.Dict{}.Fields()
-	_ = dictFields
-	// dictDescRemark is the schema descriptor for remark field.
-	dictDescRemark := dictMixinFields4[0].Descriptor()
-	// dict.DefaultRemark holds the default value on creation for the remark field.
-	dict.DefaultRemark = dictDescRemark.Default.(string)
-	// dictDescTenantID is the schema descriptor for tenant_id field.
-	dictDescTenantID := dictMixinFields5[0].Descriptor()
-	// dict.TenantIDValidator is a validator for the "tenant_id" field. It is called by the builders before save.
-	dict.TenantIDValidator = dictDescTenantID.Validators[0].(func(uint32) error)
-	// dictDescKey is the schema descriptor for key field.
-	dictDescKey := dictFields[0].Descriptor()
-	// dict.KeyValidator is a validator for the "key" field. It is called by the builders before save.
-	dict.KeyValidator = dictDescKey.Validators[0].(func(string) error)
-	// dictDescSortID is the schema descriptor for sort_id field.
-	dictDescSortID := dictFields[6].Descriptor()
-	// dict.DefaultSortID holds the default value on creation for the sort_id field.
-	dict.DefaultSortID = dictDescSortID.Default.(int32)
-	// dictDescID is the schema descriptor for id field.
-	dictDescID := dictMixinFields0[0].Descriptor()
-	// dict.IDValidator is a validator for the "id" field. It is called by the builders before save.
-	dict.IDValidator = dictDescID.Validators[0].(func(uint32) error)
+	dictitemMixin := schema.DictItem{}.Mixin()
+	dictitemMixinFields0 := dictitemMixin[0].Fields()
+	_ = dictitemMixinFields0
+	dictitemMixinFields4 := dictitemMixin[4].Fields()
+	_ = dictitemMixinFields4
+	dictitemMixinFields5 := dictitemMixin[5].Fields()
+	_ = dictitemMixinFields5
+	dictitemFields := schema.DictItem{}.Fields()
+	_ = dictitemFields
+	// dictitemDescRemark is the schema descriptor for remark field.
+	dictitemDescRemark := dictitemMixinFields4[0].Descriptor()
+	// dictitem.DefaultRemark holds the default value on creation for the remark field.
+	dictitem.DefaultRemark = dictitemDescRemark.Default.(string)
+	// dictitemDescTenantID is the schema descriptor for tenant_id field.
+	dictitemDescTenantID := dictitemMixinFields5[0].Descriptor()
+	// dictitem.TenantIDValidator is a validator for the "tenant_id" field. It is called by the builders before save.
+	dictitem.TenantIDValidator = dictitemDescTenantID.Validators[0].(func(uint32) error)
+	// dictitemDescCode is the schema descriptor for code field.
+	dictitemDescCode := dictitemFields[0].Descriptor()
+	// dictitem.CodeValidator is a validator for the "code" field. It is called by the builders before save.
+	dictitem.CodeValidator = dictitemDescCode.Validators[0].(func(string) error)
+	// dictitemDescName is the schema descriptor for name field.
+	dictitemDescName := dictitemFields[1].Descriptor()
+	// dictitem.NameValidator is a validator for the "name" field. It is called by the builders before save.
+	dictitem.NameValidator = dictitemDescName.Validators[0].(func(string) error)
+	// dictitemDescSortID is the schema descriptor for sort_id field.
+	dictitemDescSortID := dictitemFields[3].Descriptor()
+	// dictitem.DefaultSortID holds the default value on creation for the sort_id field.
+	dictitem.DefaultSortID = dictitemDescSortID.Default.(int32)
+	// dictitemDescID is the schema descriptor for id field.
+	dictitemDescID := dictitemMixinFields0[0].Descriptor()
+	// dictitem.IDValidator is a validator for the "id" field. It is called by the builders before save.
+	dictitem.IDValidator = dictitemDescID.Validators[0].(func(uint32) error)
+	dictmainMixin := schema.DictMain{}.Mixin()
+	dictmainMixinFields0 := dictmainMixin[0].Fields()
+	_ = dictmainMixinFields0
+	dictmainMixinFields4 := dictmainMixin[4].Fields()
+	_ = dictmainMixinFields4
+	dictmainMixinFields5 := dictmainMixin[5].Fields()
+	_ = dictmainMixinFields5
+	dictmainFields := schema.DictMain{}.Fields()
+	_ = dictmainFields
+	// dictmainDescRemark is the schema descriptor for remark field.
+	dictmainDescRemark := dictmainMixinFields4[0].Descriptor()
+	// dictmain.DefaultRemark holds the default value on creation for the remark field.
+	dictmain.DefaultRemark = dictmainDescRemark.Default.(string)
+	// dictmainDescTenantID is the schema descriptor for tenant_id field.
+	dictmainDescTenantID := dictmainMixinFields5[0].Descriptor()
+	// dictmain.TenantIDValidator is a validator for the "tenant_id" field. It is called by the builders before save.
+	dictmain.TenantIDValidator = dictmainDescTenantID.Validators[0].(func(uint32) error)
+	// dictmainDescCode is the schema descriptor for code field.
+	dictmainDescCode := dictmainFields[0].Descriptor()
+	// dictmain.CodeValidator is a validator for the "code" field. It is called by the builders before save.
+	dictmain.CodeValidator = dictmainDescCode.Validators[0].(func(string) error)
+	// dictmainDescName is the schema descriptor for name field.
+	dictmainDescName := dictmainFields[1].Descriptor()
+	// dictmain.NameValidator is a validator for the "name" field. It is called by the builders before save.
+	dictmain.NameValidator = dictmainDescName.Validators[0].(func(string) error)
+	// dictmainDescID is the schema descriptor for id field.
+	dictmainDescID := dictmainMixinFields0[0].Descriptor()
+	// dictmain.IDValidator is a validator for the "id" field. It is called by the builders before save.
+	dictmain.IDValidator = dictmainDescID.Validators[0].(func(uint32) error)
 	fileMixin := schema.File{}.Mixin()
 	fileMixinFields0 := fileMixin[0].Fields()
 	_ = fileMixinFields0

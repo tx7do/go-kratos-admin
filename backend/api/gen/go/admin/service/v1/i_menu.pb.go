@@ -87,8 +87,8 @@ func (Menu_Type) EnumDescriptor() ([]byte, []int) {
 type Menu_Status int32
 
 const (
-	Menu_OFF Menu_Status = 0
-	Menu_ON  Menu_Status = 1
+	Menu_OFF Menu_Status = 0 // 禁用
+	Menu_ON  Menu_Status = 1 // 启用
 )
 
 // Enum value maps for Menu_Status.

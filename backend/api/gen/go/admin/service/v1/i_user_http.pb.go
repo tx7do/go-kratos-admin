@@ -52,17 +52,17 @@ type UserServiceHTTPServer interface {
 
 func RegisterUserServiceHTTPServer(s *http.Server, srv UserServiceHTTPServer) {
 	r := s.Route("/")
-	r.GET("/admin/v1/users", _UserService_List17_HTTP_Handler(srv))
-	r.GET("/admin/v1/users/{id}", _UserService_Get17_HTTP_Handler(srv))
-	r.POST("/admin/v1/users", _UserService_Create15_HTTP_Handler(srv))
-	r.PUT("/admin/v1/users/{data.id}", _UserService_Update15_HTTP_Handler(srv))
-	r.DELETE("/admin/v1/users/{id}", _UserService_Delete15_HTTP_Handler(srv))
+	r.GET("/admin/v1/users", _UserService_List16_HTTP_Handler(srv))
+	r.GET("/admin/v1/users/{id}", _UserService_Get16_HTTP_Handler(srv))
+	r.POST("/admin/v1/users", _UserService_Create14_HTTP_Handler(srv))
+	r.PUT("/admin/v1/users/{data.id}", _UserService_Update14_HTTP_Handler(srv))
+	r.DELETE("/admin/v1/users/{id}", _UserService_Delete14_HTTP_Handler(srv))
 	r.GET("/admin/v1/users_exists", _UserService_UserExists0_HTTP_Handler(srv))
 	r.POST("/admin/v1/users/{user_id}/password", _UserService_EditUserPassword0_HTTP_Handler(srv))
 	r.POST("/admin/v1/users/change-password", _UserService_ChangePassword0_HTTP_Handler(srv))
 }
 
-func _UserService_List17_HTTP_Handler(srv UserServiceHTTPServer) func(ctx http.Context) error {
+func _UserService_List16_HTTP_Handler(srv UserServiceHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
 		var in v1.PagingRequest
 		if err := ctx.BindQuery(&in); err != nil {
@@ -81,7 +81,7 @@ func _UserService_List17_HTTP_Handler(srv UserServiceHTTPServer) func(ctx http.C
 	}
 }
 
-func _UserService_Get17_HTTP_Handler(srv UserServiceHTTPServer) func(ctx http.Context) error {
+func _UserService_Get16_HTTP_Handler(srv UserServiceHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
 		var in v11.GetUserRequest
 		if err := ctx.BindQuery(&in); err != nil {
@@ -103,7 +103,7 @@ func _UserService_Get17_HTTP_Handler(srv UserServiceHTTPServer) func(ctx http.Co
 	}
 }
 
-func _UserService_Create15_HTTP_Handler(srv UserServiceHTTPServer) func(ctx http.Context) error {
+func _UserService_Create14_HTTP_Handler(srv UserServiceHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
 		var in v11.CreateUserRequest
 		if err := ctx.Bind(&in); err != nil {
@@ -125,7 +125,7 @@ func _UserService_Create15_HTTP_Handler(srv UserServiceHTTPServer) func(ctx http
 	}
 }
 
-func _UserService_Update15_HTTP_Handler(srv UserServiceHTTPServer) func(ctx http.Context) error {
+func _UserService_Update14_HTTP_Handler(srv UserServiceHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
 		var in v11.UpdateUserRequest
 		if err := ctx.Bind(&in); err != nil {
@@ -150,7 +150,7 @@ func _UserService_Update15_HTTP_Handler(srv UserServiceHTTPServer) func(ctx http
 	}
 }
 
-func _UserService_Delete15_HTTP_Handler(srv UserServiceHTTPServer) func(ctx http.Context) error {
+func _UserService_Delete14_HTTP_Handler(srv UserServiceHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
 		var in v11.DeleteUserRequest
 		if err := ctx.BindQuery(&in); err != nil {

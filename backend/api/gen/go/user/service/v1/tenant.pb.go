@@ -30,28 +30,25 @@ const (
 type Tenant_Status int32
 
 const (
-	Tenant_TENANT_STATUS_UNSPECIFIED Tenant_Status = 0 // 未指定
-	Tenant_ON                        Tenant_Status = 1 // 启用
-	Tenant_OFF                       Tenant_Status = 2 // 禁用
-	Tenant_EXPIRED                   Tenant_Status = 3 // 过期
-	Tenant_FREEZE                    Tenant_Status = 4 // 冻结
+	Tenant_OFF     Tenant_Status = 0 // 禁用
+	Tenant_ON      Tenant_Status = 1 // 启用
+	Tenant_EXPIRED Tenant_Status = 2 // 过期
+	Tenant_FREEZE  Tenant_Status = 3 // 冻结
 )
 
 // Enum value maps for Tenant_Status.
 var (
 	Tenant_Status_name = map[int32]string{
-		0: "TENANT_STATUS_UNSPECIFIED",
+		0: "OFF",
 		1: "ON",
-		2: "OFF",
-		3: "EXPIRED",
-		4: "FREEZE",
+		2: "EXPIRED",
+		3: "FREEZE",
 	}
 	Tenant_Status_value = map[string]int32{
-		"TENANT_STATUS_UNSPECIFIED": 0,
-		"ON":                        1,
-		"OFF":                       2,
-		"EXPIRED":                   3,
-		"FREEZE":                    4,
+		"OFF":     0,
+		"ON":      1,
+		"EXPIRED": 2,
+		"FREEZE":  3,
 	}
 )
 
@@ -295,7 +292,7 @@ func (x *Tenant) GetStatus() Tenant_Status {
 	if x != nil && x.Status != nil {
 		return *x.Status
 	}
-	return Tenant_TENANT_STATUS_UNSPECIFIED
+	return Tenant_OFF
 }
 
 func (x *Tenant) GetType() Tenant_Type {
@@ -906,7 +903,7 @@ var File_user_service_v1_tenant_proto protoreflect.FileDescriptor
 
 const file_user_service_v1_tenant_proto_rawDesc = "" +
 	"\n" +
-	"\x1cuser/service/v1/tenant.proto\x12\x0fuser.service.v1\x1a$gnostic/openapi/v3/annotations.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a google/protobuf/field_mask.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x1epagination/v1/pagination.proto\"\x9d\x14\n" +
+	"\x1cuser/service/v1/tenant.proto\x12\x0fuser.service.v1\x1a$gnostic/openapi/v3/annotations.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a google/protobuf/field_mask.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x1epagination/v1/pagination.proto\"\xfe\x13\n" +
 	"\x06Tenant\x12#\n" +
 	"\x02id\x18\x01 \x01(\rB\x0e\xbaG\v\x92\x02\b租户IDH\x00R\x02id\x88\x01\x01\x12+\n" +
 	"\x04name\x18\x02 \x01(\tB\x12\xbaG\x0f\x92\x02\f租户名称H\x01R\x04name\x88\x01\x01\x12+\n" +
@@ -938,14 +935,13 @@ const file_user_service_v1_tenant_proto_rawDesc = "" +
 	"\vupdate_time\x18\xc9\x01 \x01(\v2\x1a.google.protobuf.TimestampB\x12\xbaG\x0f\x92\x02\f更新时间H\x16R\n" +
 	"updateTime\x88\x01\x01\x12U\n" +
 	"\vdelete_time\x18\xca\x01 \x01(\v2\x1a.google.protobuf.TimestampB\x12\xbaG\x0f\x92\x02\f删除时间H\x17R\n" +
-	"deleteTime\x88\x01\x01\"Q\n" +
-	"\x06Status\x12\x1d\n" +
-	"\x19TENANT_STATUS_UNSPECIFIED\x10\x00\x12\x06\n" +
-	"\x02ON\x10\x01\x12\a\n" +
-	"\x03OFF\x10\x02\x12\v\n" +
-	"\aEXPIRED\x10\x03\x12\n" +
+	"deleteTime\x88\x01\x01\"2\n" +
+	"\x06Status\x12\a\n" +
+	"\x03OFF\x10\x00\x12\x06\n" +
+	"\x02ON\x10\x01\x12\v\n" +
+	"\aEXPIRED\x10\x02\x12\n" +
 	"\n" +
-	"\x06FREEZE\x10\x04\"_\n" +
+	"\x06FREEZE\x10\x03\"_\n" +
 	"\x04Type\x12\x1b\n" +
 	"\x17TENANT_TYPE_UNSPECIFIED\x10\x00\x12\t\n" +
 	"\x05TRIAL\x10\x01\x12\b\n" +

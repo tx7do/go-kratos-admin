@@ -43,14 +43,14 @@ type NotificationMessageCategoryServiceHTTPServer interface {
 
 func RegisterNotificationMessageCategoryServiceHTTPServer(s *http.Server, srv NotificationMessageCategoryServiceHTTPServer) {
 	r := s.Route("/")
-	r.GET("/admin/v1/notifications:categories", _NotificationMessageCategoryService_List9_HTTP_Handler(srv))
-	r.GET("/admin/v1/notifications:categories/{id}", _NotificationMessageCategoryService_Get9_HTTP_Handler(srv))
-	r.POST("/admin/v1/notifications:categories", _NotificationMessageCategoryService_Create7_HTTP_Handler(srv))
-	r.PUT("/admin/v1/notifications:categories/{data.id}", _NotificationMessageCategoryService_Update7_HTTP_Handler(srv))
-	r.DELETE("/admin/v1/notifications:categories/{id}", _NotificationMessageCategoryService_Delete7_HTTP_Handler(srv))
+	r.GET("/admin/v1/notifications:categories", _NotificationMessageCategoryService_List8_HTTP_Handler(srv))
+	r.GET("/admin/v1/notifications:categories/{id}", _NotificationMessageCategoryService_Get8_HTTP_Handler(srv))
+	r.POST("/admin/v1/notifications:categories", _NotificationMessageCategoryService_Create6_HTTP_Handler(srv))
+	r.PUT("/admin/v1/notifications:categories/{data.id}", _NotificationMessageCategoryService_Update6_HTTP_Handler(srv))
+	r.DELETE("/admin/v1/notifications:categories/{id}", _NotificationMessageCategoryService_Delete6_HTTP_Handler(srv))
 }
 
-func _NotificationMessageCategoryService_List9_HTTP_Handler(srv NotificationMessageCategoryServiceHTTPServer) func(ctx http.Context) error {
+func _NotificationMessageCategoryService_List8_HTTP_Handler(srv NotificationMessageCategoryServiceHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
 		var in v1.PagingRequest
 		if err := ctx.BindQuery(&in); err != nil {
@@ -69,7 +69,7 @@ func _NotificationMessageCategoryService_List9_HTTP_Handler(srv NotificationMess
 	}
 }
 
-func _NotificationMessageCategoryService_Get9_HTTP_Handler(srv NotificationMessageCategoryServiceHTTPServer) func(ctx http.Context) error {
+func _NotificationMessageCategoryService_Get8_HTTP_Handler(srv NotificationMessageCategoryServiceHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
 		var in v11.GetNotificationMessageCategoryRequest
 		if err := ctx.BindQuery(&in); err != nil {
@@ -91,7 +91,7 @@ func _NotificationMessageCategoryService_Get9_HTTP_Handler(srv NotificationMessa
 	}
 }
 
-func _NotificationMessageCategoryService_Create7_HTTP_Handler(srv NotificationMessageCategoryServiceHTTPServer) func(ctx http.Context) error {
+func _NotificationMessageCategoryService_Create6_HTTP_Handler(srv NotificationMessageCategoryServiceHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
 		var in v11.CreateNotificationMessageCategoryRequest
 		if err := ctx.Bind(&in); err != nil {
@@ -113,7 +113,7 @@ func _NotificationMessageCategoryService_Create7_HTTP_Handler(srv NotificationMe
 	}
 }
 
-func _NotificationMessageCategoryService_Update7_HTTP_Handler(srv NotificationMessageCategoryServiceHTTPServer) func(ctx http.Context) error {
+func _NotificationMessageCategoryService_Update6_HTTP_Handler(srv NotificationMessageCategoryServiceHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
 		var in v11.UpdateNotificationMessageCategoryRequest
 		if err := ctx.Bind(&in); err != nil {
@@ -138,7 +138,7 @@ func _NotificationMessageCategoryService_Update7_HTTP_Handler(srv NotificationMe
 	}
 }
 
-func _NotificationMessageCategoryService_Delete7_HTTP_Handler(srv NotificationMessageCategoryServiceHTTPServer) func(ctx http.Context) error {
+func _NotificationMessageCategoryService_Delete6_HTTP_Handler(srv NotificationMessageCategoryServiceHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
 		var in v11.DeleteNotificationMessageCategoryRequest
 		if err := ctx.BindQuery(&in); err != nil {

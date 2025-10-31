@@ -20,7 +20,8 @@ var ProviderSet = wire.NewSet(
 	NewMinIoClient,
 
 	NewMenuRepo,
-	NewDictRepo,
+	NewDictMainRepo,
+	NewDictItemRepo,
 	NewTaskRepo,
 	NewAdminLoginRestrictionRepo,
 	NewApiResourceRepo,
@@ -32,6 +33,14 @@ var ProviderSet = wire.NewSet(
 	NewUserRepo,
 	NewTenantRepo,
 	NewUserCredentialRepo,
+
+	NewRoleApiRepo,
+	NewRoleDeptRepo,
+	NewRoleMenuRepo,
+	NewRoleOrgRepo,
+	NewRolePositionRepo,
+	NewUserRoleRepo,
+	NewUserPositionRepo,
 
 	NewAdminLoginLogRepo,
 	NewAdminOperationLogRepo,

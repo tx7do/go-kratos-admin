@@ -30,22 +30,19 @@ const (
 type Role_Status int32
 
 const (
-	Role_ROLE_STATUS_UNSPECIFIED Role_Status = 0
-	Role_ON                      Role_Status = 1 // 启用
-	Role_OFF                     Role_Status = 2 // 禁用
+	Role_OFF Role_Status = 0 // 禁用
+	Role_ON  Role_Status = 1 // 启用
 )
 
 // Enum value maps for Role_Status.
 var (
 	Role_Status_name = map[int32]string{
-		0: "ROLE_STATUS_UNSPECIFIED",
+		0: "OFF",
 		1: "ON",
-		2: "OFF",
 	}
 	Role_Status_value = map[string]int32{
-		"ROLE_STATUS_UNSPECIFIED": 0,
-		"ON":                      1,
-		"OFF":                     2,
+		"OFF": 0,
+		"ON":  1,
 	}
 )
 
@@ -228,7 +225,7 @@ func (x *Role) GetStatus() Role_Status {
 	if x != nil && x.Status != nil {
 		return *x.Status
 	}
-	return Role_ROLE_STATUS_UNSPECIFIED
+	return Role_OFF
 }
 
 func (x *Role) GetRemark() string {
@@ -839,7 +836,7 @@ var File_user_service_v1_role_proto protoreflect.FileDescriptor
 
 const file_user_service_v1_role_proto_rawDesc = "" +
 	"\n" +
-	"\x1auser/service/v1/role.proto\x12\x0fuser.service.v1\x1a$gnostic/openapi/v3/annotations.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a google/protobuf/field_mask.proto\x1a\x1epagination/v1/pagination.proto\"\xbc\v\n" +
+	"\x1auser/service/v1/role.proto\x12\x0fuser.service.v1\x1a$gnostic/openapi/v3/annotations.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a google/protobuf/field_mask.proto\x1a\x1epagination/v1/pagination.proto\"\x9f\v\n" +
 	"\x04Role\x12#\n" +
 	"\x02id\x18\x01 \x01(\rB\x0e\xbaG\v\x92\x02\b角色IDH\x00R\x02id\x88\x01\x01\x12+\n" +
 	"\x04name\x18\x02 \x01(\tB\x12\xbaG\x0f\x92\x02\f角色名称H\x01R\x04name\x88\x01\x01\x120\n" +
@@ -864,11 +861,10 @@ const file_user_service_v1_role_proto_rawDesc = "" +
 	"\vupdate_time\x18\xc9\x01 \x01(\v2\x1a.google.protobuf.TimestampB\x12\xbaG\x0f\x92\x02\f更新时间H\rR\n" +
 	"updateTime\x88\x01\x01\x12U\n" +
 	"\vdelete_time\x18\xca\x01 \x01(\v2\x1a.google.protobuf.TimestampB\x12\xbaG\x0f\x92\x02\f删除时间H\x0eR\n" +
-	"deleteTime\x88\x01\x01\"6\n" +
-	"\x06Status\x12\x1b\n" +
-	"\x17ROLE_STATUS_UNSPECIFIED\x10\x00\x12\x06\n" +
-	"\x02ON\x10\x01\x12\a\n" +
-	"\x03OFF\x10\x02\"\x80\x01\n" +
+	"deleteTime\x88\x01\x01\"\x19\n" +
+	"\x06Status\x12\a\n" +
+	"\x03OFF\x10\x00\x12\x06\n" +
+	"\x02ON\x10\x01\"\x80\x01\n" +
 	"\tDataScope\x12\x1a\n" +
 	"\x16DATA_SCOPE_UNSPECIFIED\x10\x00\x12\a\n" +
 	"\x03ALL\x10\x01\x12\n" +

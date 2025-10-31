@@ -31,6 +31,9 @@ type UserService struct {
 	departmentRepo     *data.DepartmentRepo
 	organizationRepo   *data.OrganizationRepo
 	tenantRepo         *data.TenantRepo
+
+	userRoleRepo     *data.UserRoleRepo
+	userPositionRepo *data.UserPositionRepo
 }
 
 func NewUserService(
@@ -42,6 +45,8 @@ func NewUserService(
 	departmentRepo *data.DepartmentRepo,
 	organizationRepo *data.OrganizationRepo,
 	tenantRepo *data.TenantRepo,
+	userRoleRepo *data.UserRoleRepo,
+	userPositionRepo *data.UserPositionRepo,
 ) *UserService {
 	l := log.NewHelper(log.With(logger, "module", "user/service/admin-service"))
 	svc := &UserService{
@@ -53,6 +58,8 @@ func NewUserService(
 		departmentRepo:     departmentRepo,
 		organizationRepo:   organizationRepo,
 		tenantRepo:         tenantRepo,
+		userRoleRepo:       userRoleRepo,
+		userPositionRepo:   userPositionRepo,
 	}
 
 	svc.init()

@@ -92,11 +92,8 @@
   },
   "dict": {
     "moduleName": "字典",
-    "key": "字典键",
-    "category": "字典类型",
-    "categoryDesc": "字典类型名称",
-    "value": "字典值",
-    "valueDesc": "字典值名称",
+    "code": "字典编码",
+    "name": "字典名称",
     "button": {
       "create": "创建条目"
     }

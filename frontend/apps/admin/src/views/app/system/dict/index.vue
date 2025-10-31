@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { VxeGridProps } from '#/adapter/vxe-table';
-import type { Dict } from '#/generated/api/admin/service/v1/i_dict.pb';
+import type { DictMain } from '#/generated/api/admin/service/v1/i_dict.pb';
 
 import { h } from 'vue';
 
@@ -27,8 +27,8 @@ const formOptions: VbenFormProps = {
   schema: [
     {
       component: 'Input',
-      fieldName: 'key',
-      label: $t('page.dict.key'),
+      fieldName: 'code',
+      label: $t('page.dict.code'),
       componentProps: {
         placeholder: $t('ui.placeholder.input'),
         allowClear: true,
@@ -36,8 +36,8 @@ const formOptions: VbenFormProps = {
     },
     {
       component: 'Input',
-      fieldName: 'categoryDesc',
-      label: $t('page.dict.categoryDesc'),
+      fieldName: 'name',
+      label: $t('page.dict.name'),
       componentProps: {
         placeholder: $t('ui.placeholder.input'),
         allowClear: true,
@@ -46,7 +46,7 @@ const formOptions: VbenFormProps = {
   ],
 };
 
-const gridOptions: VxeGridProps<Dict> = {
+const gridOptions: VxeGridProps<DictMain> = {
   toolbarConfig: {
     custom: true,
     export: true,
@@ -67,7 +67,7 @@ const gridOptions: VxeGridProps<Dict> = {
       query: async ({ page }, formValues) => {
         // console.log('query:', filters, form, formValues);
 
-        return await dictStore.listDict(
+        return await dictStore.listDictMain(
           false,
           page.currentPage,
           page.pageSize,
@@ -79,11 +79,8 @@ const gridOptions: VxeGridProps<Dict> = {
 
   columns: [
     { title: $t('ui.table.seq'), type: 'seq', width: 50 },
-    { title: $t('page.dict.key'), field: 'key' },
-    { title: $t('page.dict.category'), field: 'category' },
-    { title: $t('page.dict.categoryDesc'), field: 'categoryDesc' },
-    { title: $t('page.dict.value'), field: 'value' },
-    { title: $t('page.dict.valueDesc'), field: 'valueDesc' },
+    { title: $t('page.dict.code'), field: 'code' },
+    { title: $t('page.dict.name'), field: 'name' },
     { title: $t('ui.table.sortId'), field: 'sortId', width: 70 },
     { title: $t('ui.table.remark'), field: 'remark' },
     {
@@ -149,7 +146,7 @@ async function handleDelete(row: any) {
   console.log('删除', row);
 
   try {
-    await dictStore.deleteDict(row.id);
+    await dictStore.deleteDictMain(row.id);
 
     notification.success({
       message: $t('ui.notification.delete_success'),

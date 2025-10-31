@@ -44,10 +44,8 @@ message Organization {
 
   // 组织状态
   enum Status {
-    ORGANIZATION_STATUS_UNSPECIFIED = 0; // 未指定
-
-    ON = 1; // 启用
-    OFF = 2; // 停用
+    OFF = 0;         // 禁用
+    ON = 1;          // 启用
   }
 
   optional uint32 id = 1 [

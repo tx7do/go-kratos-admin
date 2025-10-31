@@ -86,22 +86,19 @@ func (Organization_Type) EnumDescriptor() ([]byte, []int) {
 type Organization_Status int32
 
 const (
-	Organization_ORGANIZATION_STATUS_UNSPECIFIED Organization_Status = 0 // 未指定
-	Organization_ON                              Organization_Status = 1 // 启用
-	Organization_OFF                             Organization_Status = 2 // 停用
+	Organization_OFF Organization_Status = 0 // 禁用
+	Organization_ON  Organization_Status = 1 // 启用
 )
 
 // Enum value maps for Organization_Status.
 var (
 	Organization_Status_name = map[int32]string{
-		0: "ORGANIZATION_STATUS_UNSPECIFIED",
+		0: "OFF",
 		1: "ON",
-		2: "OFF",
 	}
 	Organization_Status_value = map[string]int32{
-		"ORGANIZATION_STATUS_UNSPECIFIED": 0,
-		"ON":                              1,
-		"OFF":                             2,
+		"OFF": 0,
+		"ON":  1,
 	}
 )
 
@@ -249,7 +246,7 @@ func (x *Organization) GetStatus() Organization_Status {
 	if x != nil && x.Status != nil {
 		return *x.Status
 	}
-	return Organization_ORGANIZATION_STATUS_UNSPECIFIED
+	return Organization_OFF
 }
 
 func (x *Organization) GetRemark() string {
@@ -670,7 +667,7 @@ var File_user_service_v1_organization_proto protoreflect.FileDescriptor
 
 const file_user_service_v1_organization_proto_rawDesc = "" +
 	"\n" +
-	"\"user/service/v1/organization.proto\x12\x0fuser.service.v1\x1a$gnostic/openapi/v3/annotations.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a google/protobuf/field_mask.proto\x1a\x1epagination/v1/pagination.proto\"\xba\x0e\n" +
+	"\"user/service/v1/organization.proto\x12\x0fuser.service.v1\x1a$gnostic/openapi/v3/annotations.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a google/protobuf/field_mask.proto\x1a\x1epagination/v1/pagination.proto\"\x95\x0e\n" +
 	"\fOrganization\x12#\n" +
 	"\x02id\x18\x01 \x01(\rB\x0e\xbaG\v\x92\x02\b组织IDH\x00R\x02id\x88\x01\x01\x12+\n" +
 	"\x04name\x18\x02 \x01(\tB\x12\xbaG\x0f\x92\x02\f组织名称H\x01R\x04name\x88\x01\x01\x12h\n" +
@@ -705,11 +702,10 @@ const file_user_service_v1_organization_proto_rawDesc = "" +
 	"\n" +
 	"SUBSIDIARY\x10\x02\x12\v\n" +
 	"\aFILIALE\x10\x03\x12\f\n" +
-	"\bDIVISION\x10\x04\">\n" +
-	"\x06Status\x12#\n" +
-	"\x1fORGANIZATION_STATUS_UNSPECIFIED\x10\x00\x12\x06\n" +
-	"\x02ON\x10\x01\x12\a\n" +
-	"\x03OFF\x10\x02B\x05\n" +
+	"\bDIVISION\x10\x04\"\x19\n" +
+	"\x06Status\x12\a\n" +
+	"\x03OFF\x10\x00\x12\x06\n" +
+	"\x02ON\x10\x01B\x05\n" +
 	"\x03_idB\a\n" +
 	"\x05_nameB\x14\n" +
 	"\x12_organization_typeB\x12\n" +

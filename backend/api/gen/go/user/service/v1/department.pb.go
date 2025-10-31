@@ -30,22 +30,19 @@ const (
 type Department_Status int32
 
 const (
-	Department_DEPARTMENT_STATUS_UNSPECIFIED Department_Status = 0 // 未指定
-	Department_ON                            Department_Status = 1 // 启用
-	Department_OFF                           Department_Status = 2 // 停用
+	Department_OFF Department_Status = 0 // 禁用
+	Department_ON  Department_Status = 1 // 启用
 )
 
 // Enum value maps for Department_Status.
 var (
 	Department_Status_name = map[int32]string{
-		0: "DEPARTMENT_STATUS_UNSPECIFIED",
+		0: "OFF",
 		1: "ON",
-		2: "OFF",
 	}
 	Department_Status_value = map[string]int32{
-		"DEPARTMENT_STATUS_UNSPECIFIED": 0,
-		"ON":                            1,
-		"OFF":                           2,
+		"OFF": 0,
+		"ON":  1,
 	}
 )
 
@@ -198,7 +195,7 @@ func (x *Department) GetStatus() Department_Status {
 	if x != nil && x.Status != nil {
 		return *x.Status
 	}
-	return Department_DEPARTMENT_STATUS_UNSPECIFIED
+	return Department_OFF
 }
 
 func (x *Department) GetRemark() string {
@@ -598,7 +595,8 @@ var File_user_service_v1_department_proto protoreflect.FileDescriptor
 
 const file_user_service_v1_department_proto_rawDesc = "" +
 	"\n" +
-	" user/service/v1/department.proto\x12\x0fuser.service.v1\x1a$gnostic/openapi/v3/annotations.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a google/protobuf/field_mask.proto\x1a\x1epagination/v1/pagination.proto\"\xa0\v\n" +
+	" user/service/v1/department.proto\x12\x0fuser.service.v1\x1a$gnostic/openapi/v3/annotations.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a google/protobuf/field_mask.proto\x1a\x1epagination/v1/pagination.proto\"\xfd\n" +
+	"\n" +
 	"\n" +
 	"Department\x12#\n" +
 	"\x02id\x18\x01 \x01(\rB\x0e\xbaG\v\x92\x02\b部门IDH\x00R\x02id\x88\x01\x01\x12+\n" +
@@ -624,11 +622,10 @@ const file_user_service_v1_department_proto_rawDesc = "" +
 	"\vupdate_time\x18\xc9\x01 \x01(\v2\x1a.google.protobuf.TimestampB\x12\xbaG\x0f\x92\x02\f更新时间H\x0fR\n" +
 	"updateTime\x88\x01\x01\x12U\n" +
 	"\vdelete_time\x18\xca\x01 \x01(\v2\x1a.google.protobuf.TimestampB\x12\xbaG\x0f\x92\x02\f删除时间H\x10R\n" +
-	"deleteTime\x88\x01\x01\"<\n" +
-	"\x06Status\x12!\n" +
-	"\x1dDEPARTMENT_STATUS_UNSPECIFIED\x10\x00\x12\x06\n" +
-	"\x02ON\x10\x01\x12\a\n" +
-	"\x03OFF\x10\x02B\x05\n" +
+	"deleteTime\x88\x01\x01\"\x19\n" +
+	"\x06Status\x12\a\n" +
+	"\x03OFF\x10\x00\x12\x06\n" +
+	"\x02ON\x10\x01B\x05\n" +
 	"\x03_idB\a\n" +
 	"\x05_nameB\x0e\n" +
 	"\f_descriptionB\x12\n" +

@@ -11,55 +11,40 @@ import (
 	appmixin "kratos-admin/pkg/entgo/mixin"
 )
 
-// Dict holds the schema definition for the Dict entity.
-type Dict struct {
+// DictItem holds the schema definition for the DictItem entity.
+type DictItem struct {
 	ent.Schema
 }
 
-func (Dict) Annotations() []schema.Annotation {
+func (DictItem) Annotations() []schema.Annotation {
 	return []schema.Annotation{
 		entsql.Annotation{
-			Table:     "sys_dicts",
+			Table:     "sys_dict_items",
 			Charset:   "utf8mb4",
 			Collation: "utf8mb4_bin",
 		},
 		entsql.WithComments(true),
-		schema.Comment("字典表"),
+		schema.Comment("子字典表"),
 	}
 }
 
-// Fields of the Dict.
-func (Dict) Fields() []ent.Field {
+// Fields of the DictItem.
+func (DictItem) Fields() []ent.Field {
 	return []ent.Field{
-		field.String("key").
-			Comment("字典键").
-			//Unique().
+		field.String("code").
+			Comment("子项编码").
 			NotEmpty().
 			Optional().
 			Nillable(),
 
-		field.String("category").
-			Comment("字典类型").
+		field.String("name").
+			Comment("子项名称").
+			NotEmpty().
 			Optional().
 			Nillable(),
 
-		field.String("category_desc").
-			Comment("字典类型名称").
-			Optional().
-			Nillable(),
-
-		field.String("value").
-			Comment("字典值").
-			Optional().
-			Nillable(),
-
-		field.String("value_desc").
-			Comment("字典值名称").
-			Optional().
-			Nillable(),
-
-		field.String("value_data_type").
-			Comment("字典值数据类型").
+		field.Uint32("main_id").
+			Comment("主字典ID").
 			Optional().
 			Nillable(),
 
@@ -81,8 +66,8 @@ func (Dict) Fields() []ent.Field {
 	}
 }
 
-// Mixin of the Dict.
-func (Dict) Mixin() []ent.Mixin {
+// Mixin of the DictItem.
+func (DictItem) Mixin() []ent.Mixin {
 	return []ent.Mixin{
 		mixin.AutoIncrementId{},
 		mixin.Time{},
@@ -93,9 +78,10 @@ func (Dict) Mixin() []ent.Mixin {
 	}
 }
 
-// Indexes of the Dict.
-func (Dict) Indexes() []ent.Index {
+// Indexes of the DictItem.
+func (DictItem) Indexes() []ent.Index {
 	return []ent.Index{
-		index.Fields("key").Unique().StorageKey("idx_sys_dict_key"),
+		index.Fields("code").Unique().StorageKey("idx_sys_dict_items_code"),
+		index.Fields("status").StorageKey("idx_sys_dict_items_status"),
 	}
 }

@@ -200,8 +200,8 @@ var (
 			},
 		},
 	}
-	// SysDictsColumns holds the columns for the "sys_dicts" table.
-	SysDictsColumns = []*schema.Column{
+	// SysDictItemsColumns holds the columns for the "sys_dict_items" table.
+	SysDictItemsColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeUint32, Increment: true, Comment: "id", SchemaType: map[string]string{"mysql": "int", "postgres": "serial"}},
 		{Name: "create_time", Type: field.TypeTime, Nullable: true, Comment: "创建时间"},
 		{Name: "update_time", Type: field.TypeTime, Nullable: true, Comment: "更新时间"},
@@ -210,36 +210,75 @@ var (
 		{Name: "update_by", Type: field.TypeUint32, Nullable: true, Comment: "更新者ID"},
 		{Name: "remark", Type: field.TypeString, Nullable: true, Comment: "备注", Default: ""},
 		{Name: "tenant_id", Type: field.TypeUint32, Nullable: true, Comment: "租户ID"},
-		{Name: "key", Type: field.TypeString, Nullable: true, Comment: "字典键"},
-		{Name: "category", Type: field.TypeString, Nullable: true, Comment: "字典类型"},
-		{Name: "category_desc", Type: field.TypeString, Nullable: true, Comment: "字典类型名称"},
-		{Name: "value", Type: field.TypeString, Nullable: true, Comment: "字典值"},
-		{Name: "value_desc", Type: field.TypeString, Nullable: true, Comment: "字典值名称"},
-		{Name: "value_data_type", Type: field.TypeString, Nullable: true, Comment: "字典值数据类型"},
+		{Name: "code", Type: field.TypeString, Nullable: true, Comment: "子项编码"},
+		{Name: "name", Type: field.TypeString, Nullable: true, Comment: "子项名称"},
+		{Name: "main_id", Type: field.TypeUint32, Nullable: true, Comment: "主字典ID"},
 		{Name: "sort_id", Type: field.TypeInt32, Nullable: true, Comment: "排序ID", Default: 0},
 		{Name: "status", Type: field.TypeEnum, Nullable: true, Comment: "字典状态", Enums: []string{"ON", "OFF"}, Default: "ON"},
 	}
-	// SysDictsTable holds the schema information for the "sys_dicts" table.
-	SysDictsTable = &schema.Table{
-		Name:       "sys_dicts",
-		Comment:    "字典表",
-		Columns:    SysDictsColumns,
-		PrimaryKey: []*schema.Column{SysDictsColumns[0]},
+	// SysDictItemsTable holds the schema information for the "sys_dict_items" table.
+	SysDictItemsTable = &schema.Table{
+		Name:       "sys_dict_items",
+		Comment:    "子字典表",
+		Columns:    SysDictItemsColumns,
+		PrimaryKey: []*schema.Column{SysDictItemsColumns[0]},
 		Indexes: []*schema.Index{
 			{
-				Name:    "dict_id",
+				Name:    "dictitem_id",
 				Unique:  false,
-				Columns: []*schema.Column{SysDictsColumns[0]},
+				Columns: []*schema.Column{SysDictItemsColumns[0]},
 			},
 			{
-				Name:    "dict_tenant_id",
+				Name:    "dictitem_tenant_id",
 				Unique:  false,
-				Columns: []*schema.Column{SysDictsColumns[7]},
+				Columns: []*schema.Column{SysDictItemsColumns[7]},
 			},
 			{
-				Name:    "idx_sys_dict_key",
+				Name:    "idx_sys_dict_items_code",
 				Unique:  true,
-				Columns: []*schema.Column{SysDictsColumns[8]},
+				Columns: []*schema.Column{SysDictItemsColumns[8]},
+			},
+			{
+				Name:    "idx_sys_dict_items_status",
+				Unique:  false,
+				Columns: []*schema.Column{SysDictItemsColumns[12]},
+			},
+		},
+	}
+	// SysDictMainsColumns holds the columns for the "sys_dict_mains" table.
+	SysDictMainsColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeUint32, Increment: true, Comment: "id", SchemaType: map[string]string{"mysql": "int", "postgres": "serial"}},
+		{Name: "create_time", Type: field.TypeTime, Nullable: true, Comment: "创建时间"},
+		{Name: "update_time", Type: field.TypeTime, Nullable: true, Comment: "更新时间"},
+		{Name: "delete_time", Type: field.TypeTime, Nullable: true, Comment: "删除时间"},
+		{Name: "create_by", Type: field.TypeUint32, Nullable: true, Comment: "创建者ID"},
+		{Name: "update_by", Type: field.TypeUint32, Nullable: true, Comment: "更新者ID"},
+		{Name: "remark", Type: field.TypeString, Nullable: true, Comment: "备注", Default: ""},
+		{Name: "tenant_id", Type: field.TypeUint32, Nullable: true, Comment: "租户ID"},
+		{Name: "code", Type: field.TypeString, Nullable: true, Comment: "主字典编码"},
+		{Name: "name", Type: field.TypeString, Nullable: true, Comment: "主字典名称"},
+	}
+	// SysDictMainsTable holds the schema information for the "sys_dict_mains" table.
+	SysDictMainsTable = &schema.Table{
+		Name:       "sys_dict_mains",
+		Comment:    "主字典表",
+		Columns:    SysDictMainsColumns,
+		PrimaryKey: []*schema.Column{SysDictMainsColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "dictmain_id",
+				Unique:  false,
+				Columns: []*schema.Column{SysDictMainsColumns[0]},
+			},
+			{
+				Name:    "dictmain_tenant_id",
+				Unique:  false,
+				Columns: []*schema.Column{SysDictMainsColumns[7]},
+			},
+			{
+				Name:    "idx_sys_dict_mains_code",
+				Unique:  true,
+				Columns: []*schema.Column{SysDictMainsColumns[8]},
 			},
 		},
 	}
@@ -1109,7 +1148,8 @@ var (
 		SysAdminOperationLogsTable,
 		SysAPIResourcesTable,
 		SysDepartmentsTable,
-		SysDictsTable,
+		SysDictItemsTable,
+		SysDictMainsTable,
 		FilesTable,
 		SysMenusTable,
 		NotificationMessagesTable,
@@ -1160,8 +1200,13 @@ func init() {
 		Charset:   "utf8mb4",
 		Collation: "utf8mb4_bin",
 	}
-	SysDictsTable.Annotation = &entsql.Annotation{
-		Table:     "sys_dicts",
+	SysDictItemsTable.Annotation = &entsql.Annotation{
+		Table:     "sys_dict_items",
+		Charset:   "utf8mb4",
+		Collation: "utf8mb4_bin",
+	}
+	SysDictMainsTable.Annotation = &entsql.Annotation{
+		Table:     "sys_dict_mains",
 		Charset:   "utf8mb4",
 		Collation: "utf8mb4_bin",
 	}

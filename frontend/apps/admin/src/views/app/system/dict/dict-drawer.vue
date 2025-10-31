@@ -32,8 +32,8 @@ const [BaseForm, baseFormApi] = useVbenForm({
   schema: [
     {
       component: 'Input',
-      fieldName: 'key',
-      label: $t('page.dict.key'),
+      fieldName: 'code',
+      label: $t('page.dict.code'),
       componentProps: {
         placeholder: $t('ui.placeholder.input'),
         allowClear: true,
@@ -42,38 +42,8 @@ const [BaseForm, baseFormApi] = useVbenForm({
     },
     {
       component: 'Input',
-      fieldName: 'category',
-      label: $t('page.dict.category'),
-      componentProps: {
-        placeholder: $t('ui.placeholder.input'),
-        allowClear: true,
-      },
-      rules: 'required',
-    },
-    {
-      component: 'Input',
-      fieldName: 'categoryDesc',
-      label: $t('page.dict.categoryDesc'),
-      componentProps: {
-        placeholder: $t('ui.placeholder.input'),
-        allowClear: true,
-      },
-      rules: 'required',
-    },
-    {
-      component: 'Input',
-      fieldName: 'value',
-      label: $t('page.dict.value'),
-      componentProps: {
-        placeholder: $t('ui.placeholder.input'),
-        allowClear: true,
-      },
-      rules: 'required',
-    },
-    {
-      component: 'Input',
-      fieldName: 'valueDesc',
-      label: $t('page.dict.valueDesc'),
+      fieldName: 'name',
+      label: $t('page.dict.name'),
       componentProps: {
         placeholder: $t('ui.placeholder.input'),
         allowClear: true,
@@ -127,8 +97,8 @@ const [Drawer, drawerApi] = useVbenDrawer({
 
     try {
       await (data.value?.create
-        ? dictStore.createDict(values)
-        : dictStore.updateDict(data.value.row.id, values));
+        ? dictStore.createDictMain(values)
+        : dictStore.updateDictMain(data.value.row.id, values));
 
       notification.success({
         message: data.value?.create

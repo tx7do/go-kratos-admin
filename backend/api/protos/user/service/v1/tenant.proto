@@ -41,12 +41,10 @@ service TenantService {
 message Tenant {
   // 租户状态
   enum Status {
-    TENANT_STATUS_UNSPECIFIED = 0; // 未指定
-
+    OFF = 0;         // 禁用
     ON = 1;          // 启用
-    OFF = 2;         // 禁用
-    EXPIRED = 3;     // 过期
-    FREEZE = 4;      // 冻结
+    EXPIRED = 2;     // 过期
+    FREEZE = 3;      // 冻结
   }
 
   // 租户类型

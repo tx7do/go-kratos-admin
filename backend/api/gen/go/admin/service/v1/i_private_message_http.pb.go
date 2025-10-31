@@ -43,14 +43,14 @@ type PrivateMessageServiceHTTPServer interface {
 
 func RegisterPrivateMessageServiceHTTPServer(s *http.Server, srv PrivateMessageServiceHTTPServer) {
 	r := s.Route("/")
-	r.GET("/admin/v1/private_messages", _PrivateMessageService_List13_HTTP_Handler(srv))
-	r.GET("/admin/v1/private_messages/{id}", _PrivateMessageService_Get13_HTTP_Handler(srv))
-	r.POST("/admin/v1/private_messages", _PrivateMessageService_Create11_HTTP_Handler(srv))
-	r.PUT("/admin/v1/private_messages/{data.id}", _PrivateMessageService_Update11_HTTP_Handler(srv))
-	r.DELETE("/admin/v1/private_messages/{id}", _PrivateMessageService_Delete11_HTTP_Handler(srv))
+	r.GET("/admin/v1/private_messages", _PrivateMessageService_List12_HTTP_Handler(srv))
+	r.GET("/admin/v1/private_messages/{id}", _PrivateMessageService_Get12_HTTP_Handler(srv))
+	r.POST("/admin/v1/private_messages", _PrivateMessageService_Create10_HTTP_Handler(srv))
+	r.PUT("/admin/v1/private_messages/{data.id}", _PrivateMessageService_Update10_HTTP_Handler(srv))
+	r.DELETE("/admin/v1/private_messages/{id}", _PrivateMessageService_Delete10_HTTP_Handler(srv))
 }
 
-func _PrivateMessageService_List13_HTTP_Handler(srv PrivateMessageServiceHTTPServer) func(ctx http.Context) error {
+func _PrivateMessageService_List12_HTTP_Handler(srv PrivateMessageServiceHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
 		var in v1.PagingRequest
 		if err := ctx.BindQuery(&in); err != nil {
@@ -69,7 +69,7 @@ func _PrivateMessageService_List13_HTTP_Handler(srv PrivateMessageServiceHTTPSer
 	}
 }
 
-func _PrivateMessageService_Get13_HTTP_Handler(srv PrivateMessageServiceHTTPServer) func(ctx http.Context) error {
+func _PrivateMessageService_Get12_HTTP_Handler(srv PrivateMessageServiceHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
 		var in v11.GetPrivateMessageRequest
 		if err := ctx.BindQuery(&in); err != nil {
@@ -91,7 +91,7 @@ func _PrivateMessageService_Get13_HTTP_Handler(srv PrivateMessageServiceHTTPServ
 	}
 }
 
-func _PrivateMessageService_Create11_HTTP_Handler(srv PrivateMessageServiceHTTPServer) func(ctx http.Context) error {
+func _PrivateMessageService_Create10_HTTP_Handler(srv PrivateMessageServiceHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
 		var in v11.CreatePrivateMessageRequest
 		if err := ctx.Bind(&in); err != nil {
@@ -113,7 +113,7 @@ func _PrivateMessageService_Create11_HTTP_Handler(srv PrivateMessageServiceHTTPS
 	}
 }
 
-func _PrivateMessageService_Update11_HTTP_Handler(srv PrivateMessageServiceHTTPServer) func(ctx http.Context) error {
+func _PrivateMessageService_Update10_HTTP_Handler(srv PrivateMessageServiceHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
 		var in v11.UpdatePrivateMessageRequest
 		if err := ctx.Bind(&in); err != nil {
@@ -138,7 +138,7 @@ func _PrivateMessageService_Update11_HTTP_Handler(srv PrivateMessageServiceHTTPS
 	}
 }
 
-func _PrivateMessageService_Delete11_HTTP_Handler(srv PrivateMessageServiceHTTPServer) func(ctx http.Context) error {
+func _PrivateMessageService_Delete10_HTTP_Handler(srv PrivateMessageServiceHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
 		var in v11.DeletePrivateMessageRequest
 		if err := ctx.BindQuery(&in); err != nil {

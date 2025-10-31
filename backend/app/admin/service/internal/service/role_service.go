@@ -22,20 +22,37 @@ type RoleService struct {
 
 	log *log.Helper
 
-	repo       *data.RoleRepo
 	authorizer *data.Authorizer
+
+	roleRepo *data.RoleRepo
+
+	roleApiRepo      *data.RoleApiRepo
+	roleMenuRepo     *data.RoleMenuRepo
+	roleOrgRepo      *data.RoleOrgRepo
+	roleDeptRepo     *data.RoleDeptRepo
+	rolePositionRepo *data.RolePositionRepo
 }
 
 func NewRoleService(
 	logger log.Logger,
-	repo *data.RoleRepo,
 	authorizer *data.Authorizer,
+	roleRepo *data.RoleRepo,
+	roleApiRepo *data.RoleApiRepo,
+	roleMenuRepo *data.RoleMenuRepo,
+	roleOrgRepo *data.RoleOrgRepo,
+	roleDeptRepo *data.RoleDeptRepo,
+	rolePositionRepo *data.RolePositionRepo,
 ) *RoleService {
 	l := log.NewHelper(log.With(logger, "module", "role/service/admin-service"))
 	svc := &RoleService{
-		log:        l,
-		repo:       repo,
-		authorizer: authorizer,
+		log:              l,
+		authorizer:       authorizer,
+		roleRepo:         roleRepo,
+		roleApiRepo:      roleApiRepo,
+		roleMenuRepo:     roleMenuRepo,
+		roleOrgRepo:      roleOrgRepo,
+		roleDeptRepo:     roleDeptRepo,
+		rolePositionRepo: rolePositionRepo,
 	}
 
 	svc.init()
@@ -45,17 +62,17 @@ func NewRoleService(
 
 func (s *RoleService) init() {
 	ctx := context.Background()
-	if count, _ := s.repo.Count(ctx, []func(s *sql.Selector){}); count == 0 {
+	if count, _ := s.roleRepo.Count(ctx, []func(s *sql.Selector){}); count == 0 {
 		_ = s.createDefaultRoles(ctx)
 	}
 }
 
 func (s *RoleService) List(ctx context.Context, req *pagination.PagingRequest) (*userV1.ListRoleResponse, error) {
-	return s.repo.List(ctx, req)
+	return s.roleRepo.List(ctx, req)
 }
 
 func (s *RoleService) Get(ctx context.Context, req *userV1.GetRoleRequest) (*userV1.Role, error) {
-	return s.repo.Get(ctx, req.GetId())
+	return s.roleRepo.Get(ctx, req.GetId())
 }
 
 func (s *RoleService) Create(ctx context.Context, req *userV1.CreateRoleRequest) (*emptypb.Empty, error) {
@@ -71,7 +88,7 @@ func (s *RoleService) Create(ctx context.Context, req *userV1.CreateRoleRequest)
 
 	req.Data.CreateBy = trans.Ptr(operator.UserId)
 
-	if err = s.repo.Create(ctx, req); err != nil {
+	if err = s.roleRepo.Create(ctx, req); err != nil {
 		return nil, err
 	}
 
@@ -95,7 +112,7 @@ func (s *RoleService) Update(ctx context.Context, req *userV1.UpdateRoleRequest)
 
 	req.Data.UpdateBy = trans.Ptr(operator.UserId)
 
-	if err = s.repo.Update(ctx, req); err != nil {
+	if err = s.roleRepo.Update(ctx, req); err != nil {
 		return nil, err
 	}
 
@@ -109,7 +126,7 @@ func (s *RoleService) Update(ctx context.Context, req *userV1.UpdateRoleRequest)
 func (s *RoleService) Delete(ctx context.Context, req *userV1.DeleteRoleRequest) (*emptypb.Empty, error) {
 	var err error
 
-	if err = s.repo.Delete(ctx, req); err != nil {
+	if err = s.roleRepo.Delete(ctx, req); err != nil {
 		return nil, err
 	}
 
@@ -121,7 +138,7 @@ func (s *RoleService) Delete(ctx context.Context, req *userV1.DeleteRoleRequest)
 }
 
 func (s *RoleService) GetRoleCodesByRoleIds(ctx context.Context, req *userV1.GetRoleCodesByRoleIdsRequest) (*userV1.GetRoleCodesByRoleIdsResponse, error) {
-	ids, err := s.repo.GetRoleCodesByRoleIds(ctx, req.GetRoleIds())
+	ids, err := s.roleRepo.GetRoleCodesByRoleIds(ctx, req.GetRoleIds())
 	if err != nil {
 		return nil, err
 	}
@@ -132,7 +149,7 @@ func (s *RoleService) GetRoleCodesByRoleIds(ctx context.Context, req *userV1.Get
 }
 
 func (s *RoleService) GetRolesByRoleCodes(ctx context.Context, req *userV1.GetRolesByRoleCodesRequest) (*userV1.ListRoleResponse, error) {
-	roles, err := s.repo.GetRolesByRoleCodes(ctx, req.GetRoleCodes())
+	roles, err := s.roleRepo.GetRolesByRoleCodes(ctx, req.GetRoleCodes())
 	if err != nil {
 		return nil, err
 	}
@@ -144,7 +161,7 @@ func (s *RoleService) GetRolesByRoleCodes(ctx context.Context, req *userV1.GetRo
 }
 
 func (s *RoleService) GetRolesByRoleIds(ctx context.Context, req *userV1.GetRolesByRoleIdsRequest) (*userV1.ListRoleResponse, error) {
-	roles, err := s.repo.GetRolesByRoleIds(ctx, req.GetRoleIds())
+	roles, err := s.roleRepo.GetRolesByRoleIds(ctx, req.GetRoleIds())
 	if err != nil {
 		return nil, err
 	}
@@ -174,7 +191,7 @@ func (s *RoleService) createDefaultRoles(ctx context.Context) error {
 	}
 
 	for _, roleReq := range defaultRoles {
-		err = s.repo.Create(ctx, roleReq)
+		err = s.roleRepo.Create(ctx, roleReq)
 		if err != nil {
 			return err
 		}

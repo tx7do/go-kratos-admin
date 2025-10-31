@@ -32,8 +32,8 @@ const (
 type User_Status int32
 
 const (
-	User_OFF User_Status = 0
-	User_ON  User_Status = 1
+	User_OFF User_Status = 0 // 禁用
+	User_ON  User_Status = 1 // 启用
 )
 
 // Enum value maps for User_Status.

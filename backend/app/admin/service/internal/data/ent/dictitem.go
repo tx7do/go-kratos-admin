@@ -4,7 +4,7 @@ package ent
 
 import (
 	"fmt"
-	"kratos-admin/app/admin/service/internal/data/ent/dict"
+	"kratos-admin/app/admin/service/internal/data/ent/dictitem"
 	"strings"
 	"time"
 
@@ -12,8 +12,8 @@ import (
 	"entgo.io/ent/dialect/sql"
 )
 
-// 字典表
-type Dict struct {
+// 子字典表
+type DictItem struct {
 	config `json:"-"`
 	// ID of the ent.
 	// id
@@ -32,35 +32,29 @@ type Dict struct {
 	Remark *string `json:"remark,omitempty"`
 	// 租户ID
 	TenantID *uint32 `json:"tenant_id,omitempty"`
-	// 字典键
-	Key *string `json:"key,omitempty"`
-	// 字典类型
-	Category *string `json:"category,omitempty"`
-	// 字典类型名称
-	CategoryDesc *string `json:"category_desc,omitempty"`
-	// 字典值
-	Value *string `json:"value,omitempty"`
-	// 字典值名称
-	ValueDesc *string `json:"value_desc,omitempty"`
-	// 字典值数据类型
-	ValueDataType *string `json:"value_data_type,omitempty"`
+	// 子项编码
+	Code *string `json:"code,omitempty"`
+	// 子项名称
+	Name *string `json:"name,omitempty"`
+	// 主字典ID
+	MainID *uint32 `json:"main_id,omitempty"`
 	// 排序ID
 	SortID *int32 `json:"sort_id,omitempty"`
 	// 字典状态
-	Status       *dict.Status `json:"status,omitempty"`
+	Status       *dictitem.Status `json:"status,omitempty"`
 	selectValues sql.SelectValues
 }
 
 // scanValues returns the types for scanning values from sql.Rows.
-func (*Dict) scanValues(columns []string) ([]any, error) {
+func (*DictItem) scanValues(columns []string) ([]any, error) {
 	values := make([]any, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case dict.FieldID, dict.FieldCreateBy, dict.FieldUpdateBy, dict.FieldTenantID, dict.FieldSortID:
+		case dictitem.FieldID, dictitem.FieldCreateBy, dictitem.FieldUpdateBy, dictitem.FieldTenantID, dictitem.FieldMainID, dictitem.FieldSortID:
 			values[i] = new(sql.NullInt64)
-		case dict.FieldRemark, dict.FieldKey, dict.FieldCategory, dict.FieldCategoryDesc, dict.FieldValue, dict.FieldValueDesc, dict.FieldValueDataType, dict.FieldStatus:
+		case dictitem.FieldRemark, dictitem.FieldCode, dictitem.FieldName, dictitem.FieldStatus:
 			values[i] = new(sql.NullString)
-		case dict.FieldCreateTime, dict.FieldUpdateTime, dict.FieldDeleteTime:
+		case dictitem.FieldCreateTime, dictitem.FieldUpdateTime, dictitem.FieldDeleteTime:
 			values[i] = new(sql.NullTime)
 		default:
 			values[i] = new(sql.UnknownType)
@@ -70,123 +64,102 @@ func (*Dict) scanValues(columns []string) ([]any, error) {
 }
 
 // assignValues assigns the values that were returned from sql.Rows (after scanning)
-// to the Dict fields.
-func (_m *Dict) assignValues(columns []string, values []any) error {
+// to the DictItem fields.
+func (_m *DictItem) assignValues(columns []string, values []any) error {
 	if m, n := len(values), len(columns); m < n {
 		return fmt.Errorf("mismatch number of scan values: %d != %d", m, n)
 	}
 	for i := range columns {
 		switch columns[i] {
-		case dict.FieldID:
+		case dictitem.FieldID:
 			value, ok := values[i].(*sql.NullInt64)
 			if !ok {
 				return fmt.Errorf("unexpected type %T for field id", value)
 			}
 			_m.ID = uint32(value.Int64)
-		case dict.FieldCreateTime:
+		case dictitem.FieldCreateTime:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field create_time", values[i])
 			} else if value.Valid {
 				_m.CreateTime = new(time.Time)
 				*_m.CreateTime = value.Time
 			}
-		case dict.FieldUpdateTime:
+		case dictitem.FieldUpdateTime:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field update_time", values[i])
 			} else if value.Valid {
 				_m.UpdateTime = new(time.Time)
 				*_m.UpdateTime = value.Time
 			}
-		case dict.FieldDeleteTime:
+		case dictitem.FieldDeleteTime:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field delete_time", values[i])
 			} else if value.Valid {
 				_m.DeleteTime = new(time.Time)
 				*_m.DeleteTime = value.Time
 			}
-		case dict.FieldCreateBy:
+		case dictitem.FieldCreateBy:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field create_by", values[i])
 			} else if value.Valid {
 				_m.CreateBy = new(uint32)
 				*_m.CreateBy = uint32(value.Int64)
 			}
-		case dict.FieldUpdateBy:
+		case dictitem.FieldUpdateBy:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field update_by", values[i])
 			} else if value.Valid {
 				_m.UpdateBy = new(uint32)
 				*_m.UpdateBy = uint32(value.Int64)
 			}
-		case dict.FieldRemark:
+		case dictitem.FieldRemark:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field remark", values[i])
 			} else if value.Valid {
 				_m.Remark = new(string)
 				*_m.Remark = value.String
 			}
-		case dict.FieldTenantID:
+		case dictitem.FieldTenantID:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field tenant_id", values[i])
 			} else if value.Valid {
 				_m.TenantID = new(uint32)
 				*_m.TenantID = uint32(value.Int64)
 			}
-		case dict.FieldKey:
+		case dictitem.FieldCode:
 			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field key", values[i])
+				return fmt.Errorf("unexpected type %T for field code", values[i])
 			} else if value.Valid {
-				_m.Key = new(string)
-				*_m.Key = value.String
+				_m.Code = new(string)
+				*_m.Code = value.String
 			}
-		case dict.FieldCategory:
+		case dictitem.FieldName:
 			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field category", values[i])
+				return fmt.Errorf("unexpected type %T for field name", values[i])
 			} else if value.Valid {
-				_m.Category = new(string)
-				*_m.Category = value.String
+				_m.Name = new(string)
+				*_m.Name = value.String
 			}
-		case dict.FieldCategoryDesc:
-			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field category_desc", values[i])
+		case dictitem.FieldMainID:
+			if value, ok := values[i].(*sql.NullInt64); !ok {
+				return fmt.Errorf("unexpected type %T for field main_id", values[i])
 			} else if value.Valid {
-				_m.CategoryDesc = new(string)
-				*_m.CategoryDesc = value.String
+				_m.MainID = new(uint32)
+				*_m.MainID = uint32(value.Int64)
 			}
-		case dict.FieldValue:
-			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field value", values[i])
-			} else if value.Valid {
-				_m.Value = new(string)
-				*_m.Value = value.String
-			}
-		case dict.FieldValueDesc:
-			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field value_desc", values[i])
-			} else if value.Valid {
-				_m.ValueDesc = new(string)
-				*_m.ValueDesc = value.String
-			}
-		case dict.FieldValueDataType:
-			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field value_data_type", values[i])
-			} else if value.Valid {
-				_m.ValueDataType = new(string)
-				*_m.ValueDataType = value.String
-			}
-		case dict.FieldSortID:
+		case dictitem.FieldSortID:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field sort_id", values[i])
 			} else if value.Valid {
 				_m.SortID = new(int32)
 				*_m.SortID = int32(value.Int64)
 			}
-		case dict.FieldStatus:
+		case dictitem.FieldStatus:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field status", values[i])
 			} else if value.Valid {
-				_m.Status = new(dict.Status)
-				*_m.Status = dict.Status(value.String)
+				_m.Status = new(dictitem.Status)
+				*_m.Status = dictitem.Status(value.String)
 			}
 		default:
 			_m.selectValues.Set(columns[i], values[i])
@@ -195,34 +168,34 @@ func (_m *Dict) assignValues(columns []string, values []any) error {
 	return nil
 }
 
-// GetValue returns the ent.Value that was dynamically selected and assigned to the Dict.
+// Value returns the ent.Value that was dynamically selected and assigned to the DictItem.
 // This includes values selected through modifiers, order, etc.
-func (_m *Dict) GetValue(name string) (ent.Value, error) {
+func (_m *DictItem) Value(name string) (ent.Value, error) {
 	return _m.selectValues.Get(name)
 }
 
-// Update returns a builder for updating this Dict.
-// Note that you need to call Dict.Unwrap() before calling this method if this Dict
+// Update returns a builder for updating this DictItem.
+// Note that you need to call DictItem.Unwrap() before calling this method if this DictItem
 // was returned from a transaction, and the transaction was committed or rolled back.
-func (_m *Dict) Update() *DictUpdateOne {
-	return NewDictClient(_m.config).UpdateOne(_m)
+func (_m *DictItem) Update() *DictItemUpdateOne {
+	return NewDictItemClient(_m.config).UpdateOne(_m)
 }
 
-// Unwrap unwraps the Dict entity that was returned from a transaction after it was closed,
+// Unwrap unwraps the DictItem entity that was returned from a transaction after it was closed,
 // so that all future queries will be executed through the driver which created the transaction.
-func (_m *Dict) Unwrap() *Dict {
+func (_m *DictItem) Unwrap() *DictItem {
 	_tx, ok := _m.config.driver.(*txDriver)
 	if !ok {
-		panic("ent: Dict is not a transactional entity")
+		panic("ent: DictItem is not a transactional entity")
 	}
 	_m.config.driver = _tx.drv
 	return _m
 }
 
 // String implements the fmt.Stringer.
-func (_m *Dict) String() string {
+func (_m *DictItem) String() string {
 	var builder strings.Builder
-	builder.WriteString("Dict(")
+	builder.WriteString("DictItem(")
 	builder.WriteString(fmt.Sprintf("id=%v, ", _m.ID))
 	if v := _m.CreateTime; v != nil {
 		builder.WriteString("create_time=")
@@ -259,34 +232,19 @@ func (_m *Dict) String() string {
 		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteString(", ")
-	if v := _m.Key; v != nil {
-		builder.WriteString("key=")
+	if v := _m.Code; v != nil {
+		builder.WriteString("code=")
 		builder.WriteString(*v)
 	}
 	builder.WriteString(", ")
-	if v := _m.Category; v != nil {
-		builder.WriteString("category=")
+	if v := _m.Name; v != nil {
+		builder.WriteString("name=")
 		builder.WriteString(*v)
 	}
 	builder.WriteString(", ")
-	if v := _m.CategoryDesc; v != nil {
-		builder.WriteString("category_desc=")
-		builder.WriteString(*v)
-	}
-	builder.WriteString(", ")
-	if v := _m.Value; v != nil {
-		builder.WriteString("value=")
-		builder.WriteString(*v)
-	}
-	builder.WriteString(", ")
-	if v := _m.ValueDesc; v != nil {
-		builder.WriteString("value_desc=")
-		builder.WriteString(*v)
-	}
-	builder.WriteString(", ")
-	if v := _m.ValueDataType; v != nil {
-		builder.WriteString("value_data_type=")
-		builder.WriteString(*v)
+	if v := _m.MainID; v != nil {
+		builder.WriteString("main_id=")
+		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteString(", ")
 	if v := _m.SortID; v != nil {
@@ -302,5 +260,5 @@ func (_m *Dict) String() string {
 	return builder.String()
 }
 
-// Dicts is a parsable slice of Dict.
-type Dicts []*Dict
+// DictItems is a parsable slice of DictItem.
+type DictItems []*DictItem

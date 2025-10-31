@@ -68,8 +68,8 @@ message Menu {
 
   // 菜单状态
   enum Status {
-    OFF = 0;
-    ON = 1;
+    OFF = 0;         // 禁用
+    ON = 1;          // 启用
   }
 
   optional uint32 id = 1 [

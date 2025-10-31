@@ -1,7 +1,6 @@
 data:
   database:
     driver: "postgres"
-
     source: "host=postgres port=5432 user=postgres password=*Abcd123456 dbname=kratos_admin sslmode=disable"
     migrate: true
     debug: false

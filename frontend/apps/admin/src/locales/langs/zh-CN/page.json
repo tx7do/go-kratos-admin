@@ -99,6 +99,7 @@
     "code": "字典编码",
     "name": "字典名称",
     "value": "数值型标识",
+    "mainId": "主字典",
     "button": {
       "create": "新增"
     }

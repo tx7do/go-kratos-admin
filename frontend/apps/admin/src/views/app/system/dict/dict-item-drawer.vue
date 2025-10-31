@@ -7,8 +7,9 @@ import { $t } from '@vben/locales';
 import { notification } from 'ant-design-vue';
 
 import { useVbenForm, z } from '#/adapter/form';
-import { DictItem_Status } from '#/generated/api/dict/service/v1/dict.pb';
+import {DictItem_Status, DictMain_Status} from '#/generated/api/dict/service/v1/dict.pb';
 import { statusList, useDictStore } from '#/stores';
+import {Position_Status} from "#/generated/api/user/service/v1/position.pb";
 
 const dictStore = useDictStore();
 
@@ -32,6 +33,28 @@ const [BaseForm, baseFormApi] = useVbenForm({
   },
   schema: [
     {
+      component: 'ApiSelect',
+      fieldName: 'mainId',
+      label: $t('page.dict.mainId'),
+      rules: 'required',
+      componentProps: {
+        placeholder: $t('ui.placeholder.select'),
+        numberToString: true,
+        showSearch: true,
+        treeDefaultExpandAll: true,
+        allowClear: false,
+        childrenField: 'children',
+        labelField: 'name',
+        valueField: 'id',
+        api: async () => {
+          const result = await dictStore.listDictMain(true, null, null, {
+            status: DictMain_Status.ON,
+          });
+          return result.items;
+        },
+      },
+    },
+    {
       component: 'Input',
       fieldName: 'code',
       label: $t('page.dict.code'),
@@ -51,7 +74,6 @@ const [BaseForm, baseFormApi] = useVbenForm({
       },
       rules: 'required',
     },
-
     {
       component: 'InputNumber',
       fieldName: 'value',
@@ -61,7 +83,6 @@ const [BaseForm, baseFormApi] = useVbenForm({
         allowClear: true,
       },
     },
-
     {
       component: 'InputNumber',
       fieldName: 'sortId',
@@ -71,7 +92,6 @@ const [BaseForm, baseFormApi] = useVbenForm({
         allowClear: true,
       },
     },
-
     {
       component: 'RadioGroup',
       fieldName: 'status',
@@ -85,7 +105,6 @@ const [BaseForm, baseFormApi] = useVbenForm({
         options: statusList,
       },
     },
-
     {
       component: 'Textarea',
       fieldName: 'remark',

@@ -85,7 +85,7 @@ func (s *OrganizationService) Create(ctx context.Context, req *userV1.CreateOrga
 		return &emptypb.Empty{}, err
 	}
 
-	req.Data.CreateBy = trans.Ptr(operator.UserId)
+	req.Data.CreatedBy = trans.Ptr(operator.UserId)
 
 	if err = s.organizationRepo.Create(ctx, req); err != nil {
 		return nil, err
@@ -105,7 +105,7 @@ func (s *OrganizationService) Update(ctx context.Context, req *userV1.UpdateOrga
 		return &emptypb.Empty{}, err
 	}
 
-	req.Data.UpdateBy = trans.Ptr(operator.UserId)
+	req.Data.UpdatedBy = trans.Ptr(operator.UserId)
 
 	if err = s.organizationRepo.Update(ctx, req); err != nil {
 		return nil, err

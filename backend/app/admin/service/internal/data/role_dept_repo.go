@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"github.com/go-kratos/kratos/v2/log"
+	"github.com/tx7do/go-utils/entgo"
 
 	"kratos-admin/app/admin/service/internal/data/ent"
 	"kratos-admin/app/admin/service/internal/data/ent/roledept"
@@ -35,7 +36,7 @@ func (r *RoleDeptRepo) AssignDepartments(ctx context.Context, roleId uint32, dep
 
 	// 删除该角色的所有旧关联
 	if _, err = tx.RoleDept.Delete().Where(roledept.RoleID(roleId)).Exec(ctx); err != nil {
-		err = rollback(tx, err)
+		err = entgo.Rollback(tx, err)
 		r.log.Errorf("delete old role departments failed: %s", err.Error())
 		return userV1.ErrorInternalServerError("delete old role departments failed")
 	}
@@ -56,14 +57,14 @@ func (r *RoleDeptRepo) AssignDepartments(ctx context.Context, roleId uint32, dep
 			Create().
 			SetRoleID(roleId).
 			SetDeptID(deptId).
-			SetCreateBy(operatorId).
-			SetCreateTime(time.Now())
+			SetCreatedBy(operatorId).
+			SetCreatedAt(time.Now())
 		roleDepts = append(roleDepts, rm)
 	}
 
 	_, err = r.data.db.Client().RoleDept.CreateBulk(roleDepts...).Save(ctx)
 	if err != nil {
-		err = rollback(tx, err)
+		err = entgo.Rollback(tx, err)
 		r.log.Errorf("assign departments to role failed: %s", err.Error())
 		return userV1.ErrorInternalServerError("assign departments to role failed")
 	}

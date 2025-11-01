@@ -80,7 +80,7 @@ func (r *UserRepo) List(ctx context.Context, req *pagination.PagingRequest) (*us
 	err, whereSelectors, querySelectors := entgo.BuildQuerySelector(
 		req.GetQuery(), req.GetOrQuery(),
 		req.GetPage(), req.GetPageSize(), req.GetNoPaging(),
-		req.GetOrderBy(), user.FieldCreateTime,
+		req.GetOrderBy(), user.FieldCreatedAt,
 		req.GetFieldMask().GetPaths(),
 	)
 	if err != nil {
@@ -167,16 +167,18 @@ func (r *UserRepo) Create(ctx context.Context, req *userV1.CreateUserRequest) (*
 		SetNillableStatus(r.statusConverter.ToEntity(req.Data.Status)).
 		SetNillableGender(r.genderConverter.ToEntity(req.Data.Gender)).
 		SetNillableAuthority(r.authorityConverter.ToEntity(req.Data.Authority)).
-		SetNillableTenantID(req.Data.TenantId).
 		SetNillableOrgID(req.Data.OrgId).
 		SetNillableDepartmentID(req.Data.DepartmentId).
 		SetNillablePositionID(req.Data.PositionId).
 		SetNillableWorkID(req.Data.WorkId).
-		SetNillableCreateBy(req.Data.CreateBy).
-		SetNillableCreateTime(timeutil.TimestamppbToTime(req.Data.CreateTime))
+		SetNillableCreatedBy(req.Data.CreatedBy).
+		SetNillableCreatedAt(timeutil.TimestamppbToTime(req.Data.CreatedAt))
 
-	if req.Data.CreateTime == nil {
-		builder.SetCreateTime(time.Now())
+	if req.Data.TenantId == nil {
+		builder.SetTenantID(req.Data.GetTenantId())
+	}
+	if req.Data.CreatedAt == nil {
+		builder.SetCreatedAt(time.Now())
 	}
 
 	if req.Data.Id != nil {
@@ -216,8 +218,8 @@ func (r *UserRepo) Update(ctx context.Context, req *userV1.UpdateUserRequest) er
 		}
 		if !exist {
 			createReq := &userV1.CreateUserRequest{Data: req.Data}
-			createReq.Data.CreateBy = createReq.Data.UpdateBy
-			createReq.Data.UpdateBy = nil
+			createReq.Data.CreatedBy = createReq.Data.UpdatedBy
+			createReq.Data.UpdatedBy = nil
 			_, err = r.Create(ctx, createReq)
 			return err
 		}
@@ -262,11 +264,11 @@ func (r *UserRepo) Update(ctx context.Context, req *userV1.UpdateUserRequest) er
 		SetNillableDepartmentID(req.Data.DepartmentId).
 		SetNillablePositionID(req.Data.PositionId).
 		SetNillableWorkID(req.Data.WorkId).
-		SetNillableUpdateBy(req.Data.UpdateBy).
-		SetNillableUpdateTime(timeutil.TimestamppbToTime(req.Data.UpdateTime))
+		SetNillableUpdatedBy(req.Data.UpdatedBy).
+		SetNillableUpdatedAt(timeutil.TimestamppbToTime(req.Data.UpdatedAt))
 
-	if req.Data.UpdateTime == nil {
-		builder.SetUpdateTime(time.Now())
+	if req.Data.UpdatedAt == nil {
+		builder.SetUpdatedAt(time.Now())
 	}
 
 	//if req.Data.Roles != nil {

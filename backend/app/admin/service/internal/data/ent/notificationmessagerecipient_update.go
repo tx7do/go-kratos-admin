@@ -29,43 +29,43 @@ func (_u *NotificationMessageRecipientUpdate) Where(ps ...predicate.Notification
 	return _u
 }
 
-// SetUpdateTime sets the "update_time" field.
-func (_u *NotificationMessageRecipientUpdate) SetUpdateTime(v time.Time) *NotificationMessageRecipientUpdate {
-	_u.mutation.SetUpdateTime(v)
+// SetUpdatedAt sets the "updated_at" field.
+func (_u *NotificationMessageRecipientUpdate) SetUpdatedAt(v time.Time) *NotificationMessageRecipientUpdate {
+	_u.mutation.SetUpdatedAt(v)
 	return _u
 }
 
-// SetNillableUpdateTime sets the "update_time" field if the given value is not nil.
-func (_u *NotificationMessageRecipientUpdate) SetNillableUpdateTime(v *time.Time) *NotificationMessageRecipientUpdate {
+// SetNillableUpdatedAt sets the "updated_at" field if the given value is not nil.
+func (_u *NotificationMessageRecipientUpdate) SetNillableUpdatedAt(v *time.Time) *NotificationMessageRecipientUpdate {
 	if v != nil {
-		_u.SetUpdateTime(*v)
+		_u.SetUpdatedAt(*v)
 	}
 	return _u
 }
 
-// ClearUpdateTime clears the value of the "update_time" field.
-func (_u *NotificationMessageRecipientUpdate) ClearUpdateTime() *NotificationMessageRecipientUpdate {
-	_u.mutation.ClearUpdateTime()
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (_u *NotificationMessageRecipientUpdate) ClearUpdatedAt() *NotificationMessageRecipientUpdate {
+	_u.mutation.ClearUpdatedAt()
 	return _u
 }
 
-// SetDeleteTime sets the "delete_time" field.
-func (_u *NotificationMessageRecipientUpdate) SetDeleteTime(v time.Time) *NotificationMessageRecipientUpdate {
-	_u.mutation.SetDeleteTime(v)
+// SetDeletedAt sets the "deleted_at" field.
+func (_u *NotificationMessageRecipientUpdate) SetDeletedAt(v time.Time) *NotificationMessageRecipientUpdate {
+	_u.mutation.SetDeletedAt(v)
 	return _u
 }
 
-// SetNillableDeleteTime sets the "delete_time" field if the given value is not nil.
-func (_u *NotificationMessageRecipientUpdate) SetNillableDeleteTime(v *time.Time) *NotificationMessageRecipientUpdate {
+// SetNillableDeletedAt sets the "deleted_at" field if the given value is not nil.
+func (_u *NotificationMessageRecipientUpdate) SetNillableDeletedAt(v *time.Time) *NotificationMessageRecipientUpdate {
 	if v != nil {
-		_u.SetDeleteTime(*v)
+		_u.SetDeletedAt(*v)
 	}
 	return _u
 }
 
-// ClearDeleteTime clears the value of the "delete_time" field.
-func (_u *NotificationMessageRecipientUpdate) ClearDeleteTime() *NotificationMessageRecipientUpdate {
-	_u.mutation.ClearDeleteTime()
+// ClearDeletedAt clears the value of the "deleted_at" field.
+func (_u *NotificationMessageRecipientUpdate) ClearDeletedAt() *NotificationMessageRecipientUpdate {
+	_u.mutation.ClearDeletedAt()
 	return _u
 }
 
@@ -203,23 +203,20 @@ func (_u *NotificationMessageRecipientUpdate) sqlSave(ctx context.Context) (_nod
 			}
 		}
 	}
-	if _u.mutation.CreateTimeCleared() {
-		_spec.ClearField(notificationmessagerecipient.FieldCreateTime, field.TypeTime)
+	if _u.mutation.CreatedAtCleared() {
+		_spec.ClearField(notificationmessagerecipient.FieldCreatedAt, field.TypeTime)
 	}
-	if value, ok := _u.mutation.UpdateTime(); ok {
-		_spec.SetField(notificationmessagerecipient.FieldUpdateTime, field.TypeTime, value)
+	if value, ok := _u.mutation.UpdatedAt(); ok {
+		_spec.SetField(notificationmessagerecipient.FieldUpdatedAt, field.TypeTime, value)
 	}
-	if _u.mutation.UpdateTimeCleared() {
-		_spec.ClearField(notificationmessagerecipient.FieldUpdateTime, field.TypeTime)
+	if _u.mutation.UpdatedAtCleared() {
+		_spec.ClearField(notificationmessagerecipient.FieldUpdatedAt, field.TypeTime)
 	}
-	if value, ok := _u.mutation.DeleteTime(); ok {
-		_spec.SetField(notificationmessagerecipient.FieldDeleteTime, field.TypeTime, value)
+	if value, ok := _u.mutation.DeletedAt(); ok {
+		_spec.SetField(notificationmessagerecipient.FieldDeletedAt, field.TypeTime, value)
 	}
-	if _u.mutation.DeleteTimeCleared() {
-		_spec.ClearField(notificationmessagerecipient.FieldDeleteTime, field.TypeTime)
-	}
-	if _u.mutation.TenantIDCleared() {
-		_spec.ClearField(notificationmessagerecipient.FieldTenantID, field.TypeUint32)
+	if _u.mutation.DeletedAtCleared() {
+		_spec.ClearField(notificationmessagerecipient.FieldDeletedAt, field.TypeTime)
 	}
 	if value, ok := _u.mutation.MessageID(); ok {
 		_spec.SetField(notificationmessagerecipient.FieldMessageID, field.TypeUint32, value)
@@ -267,43 +264,43 @@ type NotificationMessageRecipientUpdateOne struct {
 	modifiers []func(*sql.UpdateBuilder)
 }
 
-// SetUpdateTime sets the "update_time" field.
-func (_u *NotificationMessageRecipientUpdateOne) SetUpdateTime(v time.Time) *NotificationMessageRecipientUpdateOne {
-	_u.mutation.SetUpdateTime(v)
+// SetUpdatedAt sets the "updated_at" field.
+func (_u *NotificationMessageRecipientUpdateOne) SetUpdatedAt(v time.Time) *NotificationMessageRecipientUpdateOne {
+	_u.mutation.SetUpdatedAt(v)
 	return _u
 }
 
-// SetNillableUpdateTime sets the "update_time" field if the given value is not nil.
-func (_u *NotificationMessageRecipientUpdateOne) SetNillableUpdateTime(v *time.Time) *NotificationMessageRecipientUpdateOne {
+// SetNillableUpdatedAt sets the "updated_at" field if the given value is not nil.
+func (_u *NotificationMessageRecipientUpdateOne) SetNillableUpdatedAt(v *time.Time) *NotificationMessageRecipientUpdateOne {
 	if v != nil {
-		_u.SetUpdateTime(*v)
+		_u.SetUpdatedAt(*v)
 	}
 	return _u
 }
 
-// ClearUpdateTime clears the value of the "update_time" field.
-func (_u *NotificationMessageRecipientUpdateOne) ClearUpdateTime() *NotificationMessageRecipientUpdateOne {
-	_u.mutation.ClearUpdateTime()
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (_u *NotificationMessageRecipientUpdateOne) ClearUpdatedAt() *NotificationMessageRecipientUpdateOne {
+	_u.mutation.ClearUpdatedAt()
 	return _u
 }
 
-// SetDeleteTime sets the "delete_time" field.
-func (_u *NotificationMessageRecipientUpdateOne) SetDeleteTime(v time.Time) *NotificationMessageRecipientUpdateOne {
-	_u.mutation.SetDeleteTime(v)
+// SetDeletedAt sets the "deleted_at" field.
+func (_u *NotificationMessageRecipientUpdateOne) SetDeletedAt(v time.Time) *NotificationMessageRecipientUpdateOne {
+	_u.mutation.SetDeletedAt(v)
 	return _u
 }
 
-// SetNillableDeleteTime sets the "delete_time" field if the given value is not nil.
-func (_u *NotificationMessageRecipientUpdateOne) SetNillableDeleteTime(v *time.Time) *NotificationMessageRecipientUpdateOne {
+// SetNillableDeletedAt sets the "deleted_at" field if the given value is not nil.
+func (_u *NotificationMessageRecipientUpdateOne) SetNillableDeletedAt(v *time.Time) *NotificationMessageRecipientUpdateOne {
 	if v != nil {
-		_u.SetDeleteTime(*v)
+		_u.SetDeletedAt(*v)
 	}
 	return _u
 }
 
-// ClearDeleteTime clears the value of the "delete_time" field.
-func (_u *NotificationMessageRecipientUpdateOne) ClearDeleteTime() *NotificationMessageRecipientUpdateOne {
-	_u.mutation.ClearDeleteTime()
+// ClearDeletedAt clears the value of the "deleted_at" field.
+func (_u *NotificationMessageRecipientUpdateOne) ClearDeletedAt() *NotificationMessageRecipientUpdateOne {
+	_u.mutation.ClearDeletedAt()
 	return _u
 }
 
@@ -471,23 +468,20 @@ func (_u *NotificationMessageRecipientUpdateOne) sqlSave(ctx context.Context) (_
 			}
 		}
 	}
-	if _u.mutation.CreateTimeCleared() {
-		_spec.ClearField(notificationmessagerecipient.FieldCreateTime, field.TypeTime)
+	if _u.mutation.CreatedAtCleared() {
+		_spec.ClearField(notificationmessagerecipient.FieldCreatedAt, field.TypeTime)
 	}
-	if value, ok := _u.mutation.UpdateTime(); ok {
-		_spec.SetField(notificationmessagerecipient.FieldUpdateTime, field.TypeTime, value)
+	if value, ok := _u.mutation.UpdatedAt(); ok {
+		_spec.SetField(notificationmessagerecipient.FieldUpdatedAt, field.TypeTime, value)
 	}
-	if _u.mutation.UpdateTimeCleared() {
-		_spec.ClearField(notificationmessagerecipient.FieldUpdateTime, field.TypeTime)
+	if _u.mutation.UpdatedAtCleared() {
+		_spec.ClearField(notificationmessagerecipient.FieldUpdatedAt, field.TypeTime)
 	}
-	if value, ok := _u.mutation.DeleteTime(); ok {
-		_spec.SetField(notificationmessagerecipient.FieldDeleteTime, field.TypeTime, value)
+	if value, ok := _u.mutation.DeletedAt(); ok {
+		_spec.SetField(notificationmessagerecipient.FieldDeletedAt, field.TypeTime, value)
 	}
-	if _u.mutation.DeleteTimeCleared() {
-		_spec.ClearField(notificationmessagerecipient.FieldDeleteTime, field.TypeTime)
-	}
-	if _u.mutation.TenantIDCleared() {
-		_spec.ClearField(notificationmessagerecipient.FieldTenantID, field.TypeUint32)
+	if _u.mutation.DeletedAtCleared() {
+		_spec.ClearField(notificationmessagerecipient.FieldDeletedAt, field.TypeTime)
 	}
 	if value, ok := _u.mutation.MessageID(); ok {
 		_spec.SetField(notificationmessagerecipient.FieldMessageID, field.TypeUint32, value)

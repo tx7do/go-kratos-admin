@@ -265,12 +265,12 @@ func (_q *UserRoleQuery) Clone() *UserRoleQuery {
 // Example:
 //
 //	var v []struct {
-//		CreateTime time.Time `json:"create_time,omitempty"`
+//		CreatedAt time.Time `json:"created_at,omitempty"`
 //		Count int `json:"count,omitempty"`
 //	}
 //
 //	client.UserRole.Query().
-//		GroupBy(userrole.FieldCreateTime).
+//		GroupBy(userrole.FieldCreatedAt).
 //		Aggregate(ent.Count()).
 //		Scan(ctx, &v)
 func (_q *UserRoleQuery) GroupBy(field string, fields ...string) *UserRoleGroupBy {
@@ -288,11 +288,11 @@ func (_q *UserRoleQuery) GroupBy(field string, fields ...string) *UserRoleGroupB
 // Example:
 //
 //	var v []struct {
-//		CreateTime time.Time `json:"create_time,omitempty"`
+//		CreatedAt time.Time `json:"created_at,omitempty"`
 //	}
 //
 //	client.UserRole.Query().
-//		Select(userrole.FieldCreateTime).
+//		Select(userrole.FieldCreatedAt).
 //		Scan(ctx, &v)
 func (_q *UserRoleQuery) Select(fields ...string) *UserRoleSelect {
 	_q.ctx.Fields = append(_q.ctx.Fields, fields...)

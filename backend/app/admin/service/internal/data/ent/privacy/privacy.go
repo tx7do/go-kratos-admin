@@ -231,52 +231,52 @@ func (f DepartmentMutationRuleFunc) EvalMutation(ctx context.Context, m ent.Muta
 	return Denyf("ent/privacy: unexpected mutation type %T, expect *ent.DepartmentMutation", m)
 }
 
-// The DictItemQueryRuleFunc type is an adapter to allow the use of ordinary
+// The DictEntryQueryRuleFunc type is an adapter to allow the use of ordinary
 // functions as a query rule.
-type DictItemQueryRuleFunc func(context.Context, *ent.DictItemQuery) error
+type DictEntryQueryRuleFunc func(context.Context, *ent.DictEntryQuery) error
 
 // EvalQuery return f(ctx, q).
-func (f DictItemQueryRuleFunc) EvalQuery(ctx context.Context, q ent.Query) error {
-	if q, ok := q.(*ent.DictItemQuery); ok {
+func (f DictEntryQueryRuleFunc) EvalQuery(ctx context.Context, q ent.Query) error {
+	if q, ok := q.(*ent.DictEntryQuery); ok {
 		return f(ctx, q)
 	}
-	return Denyf("ent/privacy: unexpected query type %T, expect *ent.DictItemQuery", q)
+	return Denyf("ent/privacy: unexpected query type %T, expect *ent.DictEntryQuery", q)
 }
 
-// The DictItemMutationRuleFunc type is an adapter to allow the use of ordinary
+// The DictEntryMutationRuleFunc type is an adapter to allow the use of ordinary
 // functions as a mutation rule.
-type DictItemMutationRuleFunc func(context.Context, *ent.DictItemMutation) error
+type DictEntryMutationRuleFunc func(context.Context, *ent.DictEntryMutation) error
 
 // EvalMutation calls f(ctx, m).
-func (f DictItemMutationRuleFunc) EvalMutation(ctx context.Context, m ent.Mutation) error {
-	if m, ok := m.(*ent.DictItemMutation); ok {
+func (f DictEntryMutationRuleFunc) EvalMutation(ctx context.Context, m ent.Mutation) error {
+	if m, ok := m.(*ent.DictEntryMutation); ok {
 		return f(ctx, m)
 	}
-	return Denyf("ent/privacy: unexpected mutation type %T, expect *ent.DictItemMutation", m)
+	return Denyf("ent/privacy: unexpected mutation type %T, expect *ent.DictEntryMutation", m)
 }
 
-// The DictMainQueryRuleFunc type is an adapter to allow the use of ordinary
+// The DictTypeQueryRuleFunc type is an adapter to allow the use of ordinary
 // functions as a query rule.
-type DictMainQueryRuleFunc func(context.Context, *ent.DictMainQuery) error
+type DictTypeQueryRuleFunc func(context.Context, *ent.DictTypeQuery) error
 
 // EvalQuery return f(ctx, q).
-func (f DictMainQueryRuleFunc) EvalQuery(ctx context.Context, q ent.Query) error {
-	if q, ok := q.(*ent.DictMainQuery); ok {
+func (f DictTypeQueryRuleFunc) EvalQuery(ctx context.Context, q ent.Query) error {
+	if q, ok := q.(*ent.DictTypeQuery); ok {
 		return f(ctx, q)
 	}
-	return Denyf("ent/privacy: unexpected query type %T, expect *ent.DictMainQuery", q)
+	return Denyf("ent/privacy: unexpected query type %T, expect *ent.DictTypeQuery", q)
 }
 
-// The DictMainMutationRuleFunc type is an adapter to allow the use of ordinary
+// The DictTypeMutationRuleFunc type is an adapter to allow the use of ordinary
 // functions as a mutation rule.
-type DictMainMutationRuleFunc func(context.Context, *ent.DictMainMutation) error
+type DictTypeMutationRuleFunc func(context.Context, *ent.DictTypeMutation) error
 
 // EvalMutation calls f(ctx, m).
-func (f DictMainMutationRuleFunc) EvalMutation(ctx context.Context, m ent.Mutation) error {
-	if m, ok := m.(*ent.DictMainMutation); ok {
+func (f DictTypeMutationRuleFunc) EvalMutation(ctx context.Context, m ent.Mutation) error {
+	if m, ok := m.(*ent.DictTypeMutation); ok {
 		return f(ctx, m)
 	}
-	return Denyf("ent/privacy: unexpected mutation type %T, expect *ent.DictMainMutation", m)
+	return Denyf("ent/privacy: unexpected mutation type %T, expect *ent.DictTypeMutation", m)
 }
 
 // The FileQueryRuleFunc type is an adapter to allow the use of ordinary
@@ -301,6 +301,30 @@ func (f FileMutationRuleFunc) EvalMutation(ctx context.Context, m ent.Mutation) 
 		return f(ctx, m)
 	}
 	return Denyf("ent/privacy: unexpected mutation type %T, expect *ent.FileMutation", m)
+}
+
+// The LanguageQueryRuleFunc type is an adapter to allow the use of ordinary
+// functions as a query rule.
+type LanguageQueryRuleFunc func(context.Context, *ent.LanguageQuery) error
+
+// EvalQuery return f(ctx, q).
+func (f LanguageQueryRuleFunc) EvalQuery(ctx context.Context, q ent.Query) error {
+	if q, ok := q.(*ent.LanguageQuery); ok {
+		return f(ctx, q)
+	}
+	return Denyf("ent/privacy: unexpected query type %T, expect *ent.LanguageQuery", q)
+}
+
+// The LanguageMutationRuleFunc type is an adapter to allow the use of ordinary
+// functions as a mutation rule.
+type LanguageMutationRuleFunc func(context.Context, *ent.LanguageMutation) error
+
+// EvalMutation calls f(ctx, m).
+func (f LanguageMutationRuleFunc) EvalMutation(ctx context.Context, m ent.Mutation) error {
+	if m, ok := m.(*ent.LanguageMutation); ok {
+		return f(ctx, m)
+	}
+	return Denyf("ent/privacy: unexpected mutation type %T, expect *ent.LanguageMutation", m)
 }
 
 // The MenuQueryRuleFunc type is an adapter to allow the use of ordinary
@@ -804,11 +828,13 @@ func queryFilter(q ent.Query) (Filter, error) {
 		return q.Filter(), nil
 	case *ent.DepartmentQuery:
 		return q.Filter(), nil
-	case *ent.DictItemQuery:
+	case *ent.DictEntryQuery:
 		return q.Filter(), nil
-	case *ent.DictMainQuery:
+	case *ent.DictTypeQuery:
 		return q.Filter(), nil
 	case *ent.FileQuery:
+		return q.Filter(), nil
+	case *ent.LanguageQuery:
 		return q.Filter(), nil
 	case *ent.MenuQuery:
 		return q.Filter(), nil
@@ -865,11 +891,13 @@ func mutationFilter(m ent.Mutation) (Filter, error) {
 		return m.Filter(), nil
 	case *ent.DepartmentMutation:
 		return m.Filter(), nil
-	case *ent.DictItemMutation:
+	case *ent.DictEntryMutation:
 		return m.Filter(), nil
-	case *ent.DictMainMutation:
+	case *ent.DictTypeMutation:
 		return m.Filter(), nil
 	case *ent.FileMutation:
+		return m.Filter(), nil
+	case *ent.LanguageMutation:
 		return m.Filter(), nil
 	case *ent.MenuMutation:
 		return m.Filter(), nil

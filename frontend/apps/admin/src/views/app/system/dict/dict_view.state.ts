@@ -1,6 +1,6 @@
 import type {
-  ListDictItemResponse,
-  ListDictMainResponse,
+  ListDictEntryResponse,
+  ListDictTypeResponse,
 } from '#/generated/api/dict/service/v1/dict.pb';
 
 import { defineStore } from 'pinia';
@@ -10,11 +10,11 @@ import { useDictStore } from '#/stores';
 const dictStore = useDictStore();
 
 interface DictViewState {
-  currentMainId: null | number; // 当前选中的主字典ID
+  currentTypeId: null | number; // 当前选中的字典类型ID
   loading: boolean; // 加载状态
 
-  mainList: ListDictMainResponse; // 主字典列表
-  itemList: ListDictItemResponse; // 子字典列表
+  typeList: ListDictTypeResponse; // 字典类型列表
+  entryList: ListDictEntryResponse; // 字典条目列表
 }
 
 /**
@@ -22,94 +22,95 @@ interface DictViewState {
  */
 export const useDictViewStore = defineStore('dict-view', {
   state: (): DictViewState => ({
-    currentMainId: null,
+    currentTypeId: null,
     loading: false,
-    mainList: { items: [], total: 0 },
-    itemList: { items: [], total: 0 },
+    typeList: { items: [], total: 0 },
+    entryList: { items: [], total: 0 },
   }),
 
   actions: {
     /**
-     * 获取主字典列表
+     * 获取字典类型列表
      */
-    async fetchMainList(
+    async fetchTypeList(
       currentPage: number,
       pageSize: number,
       formValues: any,
     ) {
       this.loading = true;
       try {
-        this.mainList = await dictStore.listDictMain(
+        this.typeList = await dictStore.listDictType(
           false,
           currentPage,
           pageSize,
           formValues,
         );
-        return this.mainList;
+        return this.typeList;
       } catch (error) {
-        console.error('获取主字典失败:', error);
-        this.resetMainList();
+        console.error('获取字典类型失败:', error);
+        this.resetTypeList();
       } finally {
         this.loading = false;
       }
 
-      return this.mainList;
+      return this.typeList;
     },
 
     /**
-     * 根据主字典ID获取子字典列表
-     * @param mainId 主字典ID
+     * 根据字典类型ID获取字典条目列表
+     * @param typeId 字典类型ID
      * @param currentPage
      * @param pageSize
      * @param formValues
      */
-    async fetchItemList(
-      mainId: null | number,
+    async fetchEntryList(
+      typeId: null | number,
       currentPage: number,
       pageSize: number,
       formValues: any,
     ) {
-      if (!mainId) {
-        this.resetItemList(); // 无主字典ID时清空子列表
-        return this.itemList;
+      if (!typeId) {
+        this.resetEntryList(); // 无字典类型ID时清空子列表
+        this.resetEntryList(); // 无字典类型ID时清空子列表
+        return this.entryList;
       }
 
       this.loading = true;
       try {
-        this.itemList = await dictStore.listDictItem(
+        this.entryList = await dictStore.listDictEntry(
           false,
           currentPage,
           pageSize,
           {
             ...formValues,
-            main_id: mainId.toString(),
+            type_id: typeId.toString(),
           },
         );
       } catch (error) {
-        console.error(`获取主字典[${mainId}]的子项失败:`, error);
-        this.resetItemList();
+        console.error(`获取字典类型[${typeId}]的条目失败:`, error);
+        this.resetEntryList();
       } finally {
         this.loading = false;
       }
 
-      return this.itemList;
+      return this.entryList;
     },
 
     /**
-     * 点击主字典时触发：设置当前主字典ID + 刷新子字典列表
-     * @param mainId 主字典ID
+     * 点击字典类型时触发：设置当前字典类型ID + 刷新字典条目列表
+     * @param typeId 字典类型ID
      */
-    async setCurrentMain(mainId: number) {
-      this.currentMainId = mainId; // 更新当前选中的主字典ID
-      await this.fetchItemList(mainId, 0, 10, null); // 联动刷新子字典
+    async setCurrentTypeId(typeId: number) {
+      this.currentTypeId = typeId; // 更新当前选中的字典类型ID
+      await this.fetchEntryList(typeId, 0, 10, null); // 联动刷新字典条目
     },
 
-    resetMainList() {
-      this.mainList = { items: [], total: 0 };
+    resetTypeList() {
+      this.typeList = { items: [], total: 0 };
     },
 
-    resetItemList() {
-      this.itemList = { items: [], total: 0 };
+    resetEntryList() {
+      this.entryList = { items: [], total: 0 };
     },
   },
 });

@@ -5,9 +5,9 @@ import { makeQueryString, makeUpdateMask } from '#/utils/query';
 
 export const useDictStore = defineStore('dict', () => {
   /**
-   * 查询主字典列表
+   * 查询字典类型列表
    */
-  async function listDictMain(
+  async function listDictType(
     noPaging: boolean = false,
     page?: null | number,
     pageSize?: null | number,
@@ -15,7 +15,7 @@ export const useDictStore = defineStore('dict', () => {
     fieldMask?: null | string,
     orderBy?: null | string[],
   ) {
-    return await defDictService.ListDictMain({
+    return await defDictService.ListDictType({
       // @ts-ignore proto generated code is error.
       fieldMask,
       orderBy: orderBy ?? [],
@@ -27,9 +27,9 @@ export const useDictStore = defineStore('dict', () => {
   }
 
   /**
-   * 查询子字典列表
+   * 查询字典条目列表
    */
-  async function listDictItem(
+  async function listDictEntry(
     noPaging: boolean = false,
     page?: null | number,
     pageSize?: null | number,
@@ -37,7 +37,7 @@ export const useDictStore = defineStore('dict', () => {
     fieldMask?: null | string,
     orderBy?: null | string[],
   ) {
-    return await defDictService.ListDictItem({
+    return await defDictService.ListDictEntry({
       // @ts-ignore proto generated code is error.
       fieldMask,
       orderBy: orderBy ?? [],
@@ -49,28 +49,28 @@ export const useDictStore = defineStore('dict', () => {
   }
 
   /**
-   * 获取主字典
+   * 获取字典类型
    */
-  async function getDictMain(id: number) {
-    return await defDictService.GetDictMain({
+  async function getDictType(id: number) {
+    return await defDictService.GetDictType({
       queryBy: { $case: 'id', id },
     });
   }
 
   /**
-   * 获取主字典
+   * 获取字典类型
    */
-  async function getDictMainByCode(code: string) {
-    return await defDictService.GetDictMain({
+  async function getDictTypeByCode(code: string) {
+    return await defDictService.GetDictType({
       queryBy: { $case: 'code', code },
     });
   }
 
   /**
-   * 创建主字典
+   * 创建字典类型
    */
-  async function createDictMain(values: object) {
-    return await defDictService.CreateDictMain({
+  async function createDictType(values: object) {
+    return await defDictService.CreateDictType({
       data: {
         ...values,
       },
@@ -78,10 +78,10 @@ export const useDictStore = defineStore('dict', () => {
   }
 
   /**
-   * 创建子字典
+   * 创建字典条目
    */
-  async function createDictItem(values: object) {
-    return await defDictService.CreateDictItem({
+  async function createDictEntry(values: object) {
+    return await defDictService.CreateDictEntry({
       data: {
         ...values,
       },
@@ -89,24 +89,10 @@ export const useDictStore = defineStore('dict', () => {
   }
 
   /**
-   * 更新主字典
+   * 更新字典类型
    */
-  async function updateDictMain(id: number, values: object) {
-    return await defDictService.UpdateDictMain({
-      data: {
-        id,
-        ...values,
-      },
-      // @ts-ignore proto generated code is error.
-      updateMask: makeUpdateMask(Object.keys(values ?? [])),
-    });
-  }
-
-  /**
-   * 更新子字典
-   */
-  async function updateDictItem(id: number, values: object) {
-    return await defDictService.UpdateDictItem({
+  async function updateDictType(id: number, values: object) {
+    return await defDictService.UpdateDictType({
       data: {
         id,
         ...values,
@@ -117,32 +103,46 @@ export const useDictStore = defineStore('dict', () => {
   }
 
   /**
-   * 删除主字典
+   * 更新字典条目
    */
-  async function deleteDictMain(ids: number[]) {
-    return await defDictService.DeleteDictMain({ ids });
+  async function updateDictEntry(id: number, values: object) {
+    return await defDictService.UpdateDictEntry({
+      data: {
+        id,
+        ...values,
+      },
+      // @ts-ignore proto generated code is error.
+      updateMask: makeUpdateMask(Object.keys(values ?? [])),
+    });
   }
 
   /**
-   * 删除子字典
+   * 删除字典类型
    */
-  async function deleteDictItem(ids: number[]) {
-    return await defDictService.DeleteDictItem({ ids });
+  async function deleteDictType(ids: number[]) {
+    return await defDictService.DeleteDictType({ ids });
+  }
+
+  /**
+   * 删除字典条目
+   */
+  async function deleteDictEntry(ids: number[]) {
+    return await defDictService.DeleteDictEntry({ ids });
   }
 
   function $reset() {}
 
   return {
     $reset,
-    listDictMain,
-    listDictItem,
-    getDictMain,
-    getDictMainByCode,
-    createDictMain,
-    createDictItem,
-    updateDictMain,
-    updateDictItem,
-    deleteDictMain,
-    deleteDictItem,
+    listDictType,
+    listDictEntry,
+    getDictType,
+    getDictTypeByCode,
+    createDictType,
+    createDictEntry,
+    updateDictType,
+    updateDictEntry,
+    deleteDictType,
+    deleteDictEntry,
   };
 });

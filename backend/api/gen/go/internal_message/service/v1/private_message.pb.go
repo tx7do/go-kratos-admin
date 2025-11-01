@@ -40,9 +40,9 @@ type PrivateMessage struct {
 	ReceiverId     *uint32                `protobuf:"varint,20,opt,name=receiver_id,json=receiverId,proto3,oneof" json:"receiver_id,omitempty"`                     // 接收者用户ID
 	ReceiverName   *string                `protobuf:"bytes,21,opt,name=receiver_name,json=receiverName,proto3,oneof" json:"receiver_name,omitempty"`                // 接收者用户名称
 	ReceiverAvatar *string                `protobuf:"bytes,22,opt,name=receiver_avatar,json=receiverAvatar,proto3,oneof" json:"receiver_avatar,omitempty"`          // 接收者用户头像
-	CreateTime     *timestamppb.Timestamp `protobuf:"bytes,200,opt,name=create_time,json=createTime,proto3,oneof" json:"create_time,omitempty"`                     // 创建时间
-	UpdateTime     *timestamppb.Timestamp `protobuf:"bytes,201,opt,name=update_time,json=updateTime,proto3,oneof" json:"update_time,omitempty"`                     // 更新时间
-	DeleteTime     *timestamppb.Timestamp `protobuf:"bytes,202,opt,name=delete_time,json=deleteTime,proto3,oneof" json:"delete_time,omitempty"`                     // 删除时间
+	CreatedAt      *timestamppb.Timestamp `protobuf:"bytes,200,opt,name=created_at,json=createdAt,proto3,oneof" json:"created_at,omitempty"`                        // 创建时间
+	UpdatedAt      *timestamppb.Timestamp `protobuf:"bytes,201,opt,name=updated_at,json=updatedAt,proto3,oneof" json:"updated_at,omitempty"`                        // 更新时间
+	DeletedAt      *timestamppb.Timestamp `protobuf:"bytes,202,opt,name=deleted_at,json=deletedAt,proto3,oneof" json:"deleted_at,omitempty"`                        // 删除时间
 	unknownFields  protoimpl.UnknownFields
 	sizeCache      protoimpl.SizeCache
 }
@@ -147,23 +147,23 @@ func (x *PrivateMessage) GetReceiverAvatar() string {
 	return ""
 }
 
-func (x *PrivateMessage) GetCreateTime() *timestamppb.Timestamp {
+func (x *PrivateMessage) GetCreatedAt() *timestamppb.Timestamp {
 	if x != nil {
-		return x.CreateTime
+		return x.CreatedAt
 	}
 	return nil
 }
 
-func (x *PrivateMessage) GetUpdateTime() *timestamppb.Timestamp {
+func (x *PrivateMessage) GetUpdatedAt() *timestamppb.Timestamp {
 	if x != nil {
-		return x.UpdateTime
+		return x.UpdatedAt
 	}
 	return nil
 }
 
-func (x *PrivateMessage) GetDeleteTime() *timestamppb.Timestamp {
+func (x *PrivateMessage) GetDeletedAt() *timestamppb.Timestamp {
 	if x != nil {
-		return x.DeleteTime
+		return x.DeletedAt
 	}
 	return nil
 }
@@ -421,7 +421,7 @@ var File_internal_message_service_v1_private_message_proto protoreflect.FileDesc
 
 const file_internal_message_service_v1_private_message_proto_rawDesc = "" +
 	"\n" +
-	"1internal_message/service/v1/private_message.proto\x12\x1binternal_message.service.v1\x1a$gnostic/openapi/v3/annotations.proto\x1a\x1cgoogle/api/annotations.proto\x1a\x1fgoogle/api/field_behavior.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a google/protobuf/field_mask.proto\x1a\x1epagination/v1/pagination.proto\x1a)internal_message/service/v1/message.proto\"\xca\b\n" +
+	"1internal_message/service/v1/private_message.proto\x12\x1binternal_message.service.v1\x1a$gnostic/openapi/v3/annotations.proto\x1a\x1cgoogle/api/annotations.proto\x1a\x1fgoogle/api/field_behavior.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a google/protobuf/field_mask.proto\x1a\x1epagination/v1/pagination.proto\x1a)internal_message/service/v1/message.proto\"\xc1\b\n" +
 	"\x0ePrivateMessage\x12&\n" +
 	"\x02id\x18\x01 \x01(\rB\x11\xe0A\x01\xbaG\v\x92\x02\b消息IDH\x00R\x02id\x88\x01\x01\x12+\n" +
 	"\asubject\x18\x02 \x01(\tB\f\xbaG\t\x92\x02\x06主题H\x01R\asubject\x88\x01\x01\x12+\n" +
@@ -435,14 +435,14 @@ const file_internal_message_service_v1_private_message_proto_rawDesc = "" +
 	"\vreceiver_id\x18\x14 \x01(\rB\x17\xbaG\x14\x92\x02\x11接收者用户IDH\aR\n" +
 	"receiverId\x88\x01\x01\x12E\n" +
 	"\rreceiver_name\x18\x15 \x01(\tB\x1b\xbaG\x18\x92\x02\x15接收者用户名称H\bR\freceiverName\x88\x01\x01\x12I\n" +
-	"\x0freceiver_avatar\x18\x16 \x01(\tB\x1b\xbaG\x18\x92\x02\x15接收者用户头像H\tR\x0ereceiverAvatar\x88\x01\x01\x12U\n" +
-	"\vcreate_time\x18\xc8\x01 \x01(\v2\x1a.google.protobuf.TimestampB\x12\xbaG\x0f\x92\x02\f创建时间H\n" +
-	"R\n" +
-	"createTime\x88\x01\x01\x12U\n" +
-	"\vupdate_time\x18\xc9\x01 \x01(\v2\x1a.google.protobuf.TimestampB\x12\xbaG\x0f\x92\x02\f更新时间H\vR\n" +
-	"updateTime\x88\x01\x01\x12U\n" +
-	"\vdelete_time\x18\xca\x01 \x01(\v2\x1a.google.protobuf.TimestampB\x12\xbaG\x0f\x92\x02\f删除时间H\fR\n" +
-	"deleteTime\x88\x01\x01B\x05\n" +
+	"\x0freceiver_avatar\x18\x16 \x01(\tB\x1b\xbaG\x18\x92\x02\x15接收者用户头像H\tR\x0ereceiverAvatar\x88\x01\x01\x12S\n" +
+	"\n" +
+	"created_at\x18\xc8\x01 \x01(\v2\x1a.google.protobuf.TimestampB\x12\xbaG\x0f\x92\x02\f创建时间H\n" +
+	"R\tcreatedAt\x88\x01\x01\x12S\n" +
+	"\n" +
+	"updated_at\x18\xc9\x01 \x01(\v2\x1a.google.protobuf.TimestampB\x12\xbaG\x0f\x92\x02\f更新时间H\vR\tupdatedAt\x88\x01\x01\x12S\n" +
+	"\n" +
+	"deleted_at\x18\xca\x01 \x01(\v2\x1a.google.protobuf.TimestampB\x12\xbaG\x0f\x92\x02\f删除时间H\fR\tdeletedAt\x88\x01\x01B\x05\n" +
 	"\x03_idB\n" +
 	"\n" +
 	"\b_subjectB\n" +
@@ -455,10 +455,10 @@ const file_internal_message_service_v1_private_message_proto_rawDesc = "" +
 	"\x0e_sender_avatarB\x0e\n" +
 	"\f_receiver_idB\x10\n" +
 	"\x0e_receiver_nameB\x12\n" +
-	"\x10_receiver_avatarB\x0e\n" +
-	"\f_create_timeB\x0e\n" +
-	"\f_update_timeB\x0e\n" +
-	"\f_delete_time\"u\n" +
+	"\x10_receiver_avatarB\r\n" +
+	"\v_created_atB\r\n" +
+	"\v_updated_atB\r\n" +
+	"\v_deleted_at\"u\n" +
 	"\x1aListPrivateMessageResponse\x12A\n" +
 	"\x05items\x18\x01 \x03(\v2+.internal_message.service.v1.PrivateMessageR\x05items\x12\x14\n" +
 	"\x05total\x18\x02 \x01(\rR\x05total\"*\n" +
@@ -510,9 +510,9 @@ var file_internal_message_service_v1_private_message_proto_goTypes = []any{
 }
 var file_internal_message_service_v1_private_message_proto_depIdxs = []int32{
 	6,  // 0: internal_message.service.v1.PrivateMessage.status:type_name -> internal_message.service.v1.MessageStatus
-	7,  // 1: internal_message.service.v1.PrivateMessage.create_time:type_name -> google.protobuf.Timestamp
-	7,  // 2: internal_message.service.v1.PrivateMessage.update_time:type_name -> google.protobuf.Timestamp
-	7,  // 3: internal_message.service.v1.PrivateMessage.delete_time:type_name -> google.protobuf.Timestamp
+	7,  // 1: internal_message.service.v1.PrivateMessage.created_at:type_name -> google.protobuf.Timestamp
+	7,  // 2: internal_message.service.v1.PrivateMessage.updated_at:type_name -> google.protobuf.Timestamp
+	7,  // 3: internal_message.service.v1.PrivateMessage.deleted_at:type_name -> google.protobuf.Timestamp
 	0,  // 4: internal_message.service.v1.ListPrivateMessageResponse.items:type_name -> internal_message.service.v1.PrivateMessage
 	0,  // 5: internal_message.service.v1.CreatePrivateMessageRequest.data:type_name -> internal_message.service.v1.PrivateMessage
 	0,  // 6: internal_message.service.v1.UpdatePrivateMessageRequest.data:type_name -> internal_message.service.v1.PrivateMessage

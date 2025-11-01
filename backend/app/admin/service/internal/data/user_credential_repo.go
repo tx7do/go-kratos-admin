@@ -98,7 +98,7 @@ func (r *UserCredentialRepo) List(ctx context.Context, req *pagination.PagingReq
 	err, whereSelectors, querySelectors := entgo.BuildQuerySelector(
 		req.GetQuery(), req.GetOrQuery(),
 		req.GetPage(), req.GetPageSize(), req.GetNoPaging(),
-		req.GetOrderBy(), usercredential.FieldCreateTime,
+		req.GetOrderBy(), usercredential.FieldCreatedAt,
 		req.GetFieldMask().GetPaths(),
 	)
 	if err != nil {
@@ -153,7 +153,6 @@ func (r *UserCredentialRepo) Create(ctx context.Context, req *authenticationV1.C
 	builder := r.data.db.Client().UserCredential.Create()
 	builder.
 		SetUserID(req.Data.GetUserId()).
-		SetNillableTenantID(req.Data.TenantId).
 		SetNillableIdentityType(r.identityTypeConverter.ToEntity(req.Data.IdentityType)).
 		SetNillableIdentifier(req.Data.Identifier).
 		SetNillableCredentialType(r.credentialTypeConverter.ToEntity(req.Data.CredentialType)).
@@ -161,10 +160,13 @@ func (r *UserCredentialRepo) Create(ctx context.Context, req *authenticationV1.C
 		SetNillableIsPrimary(req.Data.IsPrimary).
 		SetNillableStatus(r.statusConverter.ToEntity(req.Data.Status)).
 		SetNillableExtraInfo(req.Data.ExtraInfo).
-		SetNillableCreateTime(timeutil.TimestamppbToTime(req.Data.CreateTime))
+		SetNillableCreatedAt(timeutil.TimestamppbToTime(req.Data.CreatedAt))
 
-	if req.Data.CreateTime == nil {
-		builder.SetCreateTime(time.Now())
+	if req.Data.TenantId == nil {
+		builder.SetTenantID(req.Data.GetTenantId())
+	}
+	if req.Data.CreatedAt == nil {
+		builder.SetCreatedAt(time.Now())
 	}
 
 	if err = builder.Exec(ctx); err != nil {
@@ -221,10 +223,10 @@ func (r *UserCredentialRepo) Update(ctx context.Context, req *authenticationV1.U
 		SetNillableIsPrimary(req.Data.IsPrimary).
 		SetNillableStatus(r.statusConverter.ToEntity(req.Data.Status)).
 		SetNillableExtraInfo(req.Data.ExtraInfo).
-		SetNillableUpdateTime(timeutil.TimestamppbToTime(req.Data.UpdateTime))
+		SetNillableUpdatedAt(timeutil.TimestamppbToTime(req.Data.UpdatedAt))
 
-	if req.Data.UpdateTime == nil {
-		builder.SetUpdateTime(time.Now())
+	if req.Data.UpdatedAt == nil {
+		builder.SetUpdatedAt(time.Now())
 	}
 
 	if req.UpdateMask != nil {
@@ -489,7 +491,7 @@ func (r *UserCredentialRepo) ChangeCredential(ctx context.Context, req *authenti
 	)
 	builder.
 		SetCredential(newCredential).
-		SetUpdateTime(time.Now())
+		SetUpdatedAt(time.Now())
 	if err = builder.Exec(ctx); err != nil {
 		r.log.Errorf("update one data failed: %s", err.Error())
 		return authenticationV1.ErrorInternalServerError("update data failed")
@@ -544,7 +546,7 @@ func (r *UserCredentialRepo) ResetCredential(ctx context.Context, req *authentic
 	)
 	builder.
 		SetCredential(newCredential).
-		SetUpdateTime(time.Now())
+		SetUpdatedAt(time.Now())
 	if err = builder.Exec(ctx); err != nil {
 		r.log.Errorf("update one data failed: %s", err.Error())
 		return authenticationV1.ErrorInternalServerError("update data failed")

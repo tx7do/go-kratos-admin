@@ -336,12 +336,12 @@ func (_q *NotificationMessageCategoryQuery) WithChildren(opts ...func(*Notificat
 // Example:
 //
 //	var v []struct {
-//		CreateTime time.Time `json:"create_time,omitempty"`
+//		CreatedAt time.Time `json:"created_at,omitempty"`
 //		Count int `json:"count,omitempty"`
 //	}
 //
 //	client.NotificationMessageCategory.Query().
-//		GroupBy(notificationmessagecategory.FieldCreateTime).
+//		GroupBy(notificationmessagecategory.FieldCreatedAt).
 //		Aggregate(ent.Count()).
 //		Scan(ctx, &v)
 func (_q *NotificationMessageCategoryQuery) GroupBy(field string, fields ...string) *NotificationMessageCategoryGroupBy {
@@ -359,11 +359,11 @@ func (_q *NotificationMessageCategoryQuery) GroupBy(field string, fields ...stri
 // Example:
 //
 //	var v []struct {
-//		CreateTime time.Time `json:"create_time,omitempty"`
+//		CreatedAt time.Time `json:"created_at,omitempty"`
 //	}
 //
 //	client.NotificationMessageCategory.Query().
-//		Select(notificationmessagecategory.FieldCreateTime).
+//		Select(notificationmessagecategory.FieldCreatedAt).
 //		Scan(ctx, &v)
 func (_q *NotificationMessageCategoryQuery) Select(fields ...string) *NotificationMessageCategorySelect {
 	_q.ctx.Fields = append(_q.ctx.Fields, fields...)

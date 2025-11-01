@@ -33,27 +33,32 @@ export interface NotificationMessageRecipient {
     | null
     | undefined;
   /** 创建者ID */
-  createBy?:
+  createdBy?:
     | number
     | null
     | undefined;
   /** 更新者ID */
-  updateBy?:
+  updatedBy?:
+    | number
+    | null
+    | undefined;
+  /** 删除者用户ID */
+  deletedBy?:
     | number
     | null
     | undefined;
   /** 创建时间 */
-  createTime?:
+  createdAt?:
     | Timestamp
     | null
     | undefined;
   /** 更新时间 */
-  updateTime?:
+  updatedAt?:
     | Timestamp
     | null
     | undefined;
   /** 删除时间 */
-  deleteTime?: Timestamp | null | undefined;
+  deletedAt?: Timestamp | null | undefined;
 }
 
 /** 查询通知消息接收者列表 - 回应 */

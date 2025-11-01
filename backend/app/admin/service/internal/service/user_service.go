@@ -299,7 +299,7 @@ func (s *UserService) Create(ctx context.Context, req *userV1.CreateUserRequest)
 		}
 	}
 
-	req.Data.CreateBy = trans.Ptr(operator.UserId)
+	req.Data.CreatedBy = trans.Ptr(operator.UserId)
 	req.Data.TenantId = operator.TenantId
 
 	// 创建用户
@@ -364,7 +364,7 @@ func (s *UserService) Update(ctx context.Context, req *userV1.UpdateUserRequest)
 		}
 	}
 
-	req.Data.UpdateBy = trans.Ptr(operator.UserId)
+	req.Data.UpdatedBy = trans.Ptr(operator.UserId)
 
 	// 更新用户
 	if err = s.userRepo.Update(ctx, req); err != nil {

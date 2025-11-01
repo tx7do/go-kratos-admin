@@ -5,8 +5,8 @@ package ent
 import (
 	"context"
 	"fmt"
-	"kratos-admin/app/admin/service/internal/data/ent/dictitem"
-	"kratos-admin/app/admin/service/internal/data/ent/dictmain"
+	"kratos-admin/app/admin/service/internal/data/ent/dictentry"
+	"kratos-admin/app/admin/service/internal/data/ent/dicttype"
 	"kratos-admin/app/admin/service/internal/data/ent/predicate"
 	"math"
 
@@ -17,14 +17,14 @@ import (
 	"entgo.io/ent/schema/field"
 )
 
-// DictItemQuery is the builder for querying DictItem entities.
-type DictItemQuery struct {
+// DictEntryQuery is the builder for querying DictEntry entities.
+type DictEntryQuery struct {
 	config
 	ctx              *QueryContext
-	order            []dictitem.OrderOption
+	order            []dictentry.OrderOption
 	inters           []Interceptor
-	predicates       []predicate.DictItem
-	withSysDictMains *DictMainQuery
+	predicates       []predicate.DictEntry
+	withSysDictTypes *DictTypeQuery
 	withFKs          bool
 	modifiers        []func(*sql.Selector)
 	// intermediate query (i.e. traversal path).
@@ -32,40 +32,40 @@ type DictItemQuery struct {
 	path func(context.Context) (*sql.Selector, error)
 }
 
-// Where adds a new predicate for the DictItemQuery builder.
-func (_q *DictItemQuery) Where(ps ...predicate.DictItem) *DictItemQuery {
+// Where adds a new predicate for the DictEntryQuery builder.
+func (_q *DictEntryQuery) Where(ps ...predicate.DictEntry) *DictEntryQuery {
 	_q.predicates = append(_q.predicates, ps...)
 	return _q
 }
 
 // Limit the number of records to be returned by this query.
-func (_q *DictItemQuery) Limit(limit int) *DictItemQuery {
+func (_q *DictEntryQuery) Limit(limit int) *DictEntryQuery {
 	_q.ctx.Limit = &limit
 	return _q
 }
 
 // Offset to start from.
-func (_q *DictItemQuery) Offset(offset int) *DictItemQuery {
+func (_q *DictEntryQuery) Offset(offset int) *DictEntryQuery {
 	_q.ctx.Offset = &offset
 	return _q
 }
 
 // Unique configures the query builder to filter duplicate records on query.
 // By default, unique is set to true, and can be disabled using this method.
-func (_q *DictItemQuery) Unique(unique bool) *DictItemQuery {
+func (_q *DictEntryQuery) Unique(unique bool) *DictEntryQuery {
 	_q.ctx.Unique = &unique
 	return _q
 }
 
 // Order specifies how the records should be ordered.
-func (_q *DictItemQuery) Order(o ...dictitem.OrderOption) *DictItemQuery {
+func (_q *DictEntryQuery) Order(o ...dictentry.OrderOption) *DictEntryQuery {
 	_q.order = append(_q.order, o...)
 	return _q
 }
 
-// QuerySysDictMains chains the current query on the "sys_dict_mains" edge.
-func (_q *DictItemQuery) QuerySysDictMains() *DictMainQuery {
-	query := (&DictMainClient{config: _q.config}).Query()
+// QuerySysDictTypes chains the current query on the "sys_dict_types" edge.
+func (_q *DictEntryQuery) QuerySysDictTypes() *DictTypeQuery {
+	query := (&DictTypeClient{config: _q.config}).Query()
 	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
 		if err := _q.prepareQuery(ctx); err != nil {
 			return nil, err
@@ -75,9 +75,9 @@ func (_q *DictItemQuery) QuerySysDictMains() *DictMainQuery {
 			return nil, err
 		}
 		step := sqlgraph.NewStep(
-			sqlgraph.From(dictitem.Table, dictitem.FieldID, selector),
-			sqlgraph.To(dictmain.Table, dictmain.FieldID),
-			sqlgraph.Edge(sqlgraph.M2O, false, dictitem.SysDictMainsTable, dictitem.SysDictMainsColumn),
+			sqlgraph.From(dictentry.Table, dictentry.FieldID, selector),
+			sqlgraph.To(dicttype.Table, dicttype.FieldID),
+			sqlgraph.Edge(sqlgraph.M2O, false, dictentry.SysDictTypesTable, dictentry.SysDictTypesColumn),
 		)
 		fromU = sqlgraph.SetNeighbors(_q.driver.Dialect(), step)
 		return fromU, nil
@@ -85,21 +85,21 @@ func (_q *DictItemQuery) QuerySysDictMains() *DictMainQuery {
 	return query
 }
 
-// First returns the first DictItem entity from the query.
-// Returns a *NotFoundError when no DictItem was found.
-func (_q *DictItemQuery) First(ctx context.Context) (*DictItem, error) {
+// First returns the first DictEntry entity from the query.
+// Returns a *NotFoundError when no DictEntry was found.
+func (_q *DictEntryQuery) First(ctx context.Context) (*DictEntry, error) {
 	nodes, err := _q.Limit(1).All(setContextOp(ctx, _q.ctx, ent.OpQueryFirst))
 	if err != nil {
 		return nil, err
 	}
 	if len(nodes) == 0 {
-		return nil, &NotFoundError{dictitem.Label}
+		return nil, &NotFoundError{dictentry.Label}
 	}
 	return nodes[0], nil
 }
 
 // FirstX is like First, but panics if an error occurs.
-func (_q *DictItemQuery) FirstX(ctx context.Context) *DictItem {
+func (_q *DictEntryQuery) FirstX(ctx context.Context) *DictEntry {
 	node, err := _q.First(ctx)
 	if err != nil && !IsNotFound(err) {
 		panic(err)
@@ -107,22 +107,22 @@ func (_q *DictItemQuery) FirstX(ctx context.Context) *DictItem {
 	return node
 }
 
-// FirstID returns the first DictItem ID from the query.
-// Returns a *NotFoundError when no DictItem ID was found.
-func (_q *DictItemQuery) FirstID(ctx context.Context) (id uint32, err error) {
+// FirstID returns the first DictEntry ID from the query.
+// Returns a *NotFoundError when no DictEntry ID was found.
+func (_q *DictEntryQuery) FirstID(ctx context.Context) (id uint32, err error) {
 	var ids []uint32
 	if ids, err = _q.Limit(1).IDs(setContextOp(ctx, _q.ctx, ent.OpQueryFirstID)); err != nil {
 		return
 	}
 	if len(ids) == 0 {
-		err = &NotFoundError{dictitem.Label}
+		err = &NotFoundError{dictentry.Label}
 		return
 	}
 	return ids[0], nil
 }
 
 // FirstIDX is like FirstID, but panics if an error occurs.
-func (_q *DictItemQuery) FirstIDX(ctx context.Context) uint32 {
+func (_q *DictEntryQuery) FirstIDX(ctx context.Context) uint32 {
 	id, err := _q.FirstID(ctx)
 	if err != nil && !IsNotFound(err) {
 		panic(err)
@@ -130,10 +130,10 @@ func (_q *DictItemQuery) FirstIDX(ctx context.Context) uint32 {
 	return id
 }
 
-// Only returns a single DictItem entity found by the query, ensuring it only returns one.
-// Returns a *NotSingularError when more than one DictItem entity is found.
-// Returns a *NotFoundError when no DictItem entities are found.
-func (_q *DictItemQuery) Only(ctx context.Context) (*DictItem, error) {
+// Only returns a single DictEntry entity found by the query, ensuring it only returns one.
+// Returns a *NotSingularError when more than one DictEntry entity is found.
+// Returns a *NotFoundError when no DictEntry entities are found.
+func (_q *DictEntryQuery) Only(ctx context.Context) (*DictEntry, error) {
 	nodes, err := _q.Limit(2).All(setContextOp(ctx, _q.ctx, ent.OpQueryOnly))
 	if err != nil {
 		return nil, err
@@ -142,14 +142,14 @@ func (_q *DictItemQuery) Only(ctx context.Context) (*DictItem, error) {
 	case 1:
 		return nodes[0], nil
 	case 0:
-		return nil, &NotFoundError{dictitem.Label}
+		return nil, &NotFoundError{dictentry.Label}
 	default:
-		return nil, &NotSingularError{dictitem.Label}
+		return nil, &NotSingularError{dictentry.Label}
 	}
 }
 
 // OnlyX is like Only, but panics if an error occurs.
-func (_q *DictItemQuery) OnlyX(ctx context.Context) *DictItem {
+func (_q *DictEntryQuery) OnlyX(ctx context.Context) *DictEntry {
 	node, err := _q.Only(ctx)
 	if err != nil {
 		panic(err)
@@ -157,10 +157,10 @@ func (_q *DictItemQuery) OnlyX(ctx context.Context) *DictItem {
 	return node
 }
 
-// OnlyID is like Only, but returns the only DictItem ID in the query.
-// Returns a *NotSingularError when more than one DictItem ID is found.
+// OnlyID is like Only, but returns the only DictEntry ID in the query.
+// Returns a *NotSingularError when more than one DictEntry ID is found.
 // Returns a *NotFoundError when no entities are found.
-func (_q *DictItemQuery) OnlyID(ctx context.Context) (id uint32, err error) {
+func (_q *DictEntryQuery) OnlyID(ctx context.Context) (id uint32, err error) {
 	var ids []uint32
 	if ids, err = _q.Limit(2).IDs(setContextOp(ctx, _q.ctx, ent.OpQueryOnlyID)); err != nil {
 		return
@@ -169,15 +169,15 @@ func (_q *DictItemQuery) OnlyID(ctx context.Context) (id uint32, err error) {
 	case 1:
 		id = ids[0]
 	case 0:
-		err = &NotFoundError{dictitem.Label}
+		err = &NotFoundError{dictentry.Label}
 	default:
-		err = &NotSingularError{dictitem.Label}
+		err = &NotSingularError{dictentry.Label}
 	}
 	return
 }
 
 // OnlyIDX is like OnlyID, but panics if an error occurs.
-func (_q *DictItemQuery) OnlyIDX(ctx context.Context) uint32 {
+func (_q *DictEntryQuery) OnlyIDX(ctx context.Context) uint32 {
 	id, err := _q.OnlyID(ctx)
 	if err != nil {
 		panic(err)
@@ -185,18 +185,18 @@ func (_q *DictItemQuery) OnlyIDX(ctx context.Context) uint32 {
 	return id
 }
 
-// All executes the query and returns a list of DictItems.
-func (_q *DictItemQuery) All(ctx context.Context) ([]*DictItem, error) {
+// All executes the query and returns a list of DictEntries.
+func (_q *DictEntryQuery) All(ctx context.Context) ([]*DictEntry, error) {
 	ctx = setContextOp(ctx, _q.ctx, ent.OpQueryAll)
 	if err := _q.prepareQuery(ctx); err != nil {
 		return nil, err
 	}
-	qr := querierAll[[]*DictItem, *DictItemQuery]()
-	return withInterceptors[[]*DictItem](ctx, _q, qr, _q.inters)
+	qr := querierAll[[]*DictEntry, *DictEntryQuery]()
+	return withInterceptors[[]*DictEntry](ctx, _q, qr, _q.inters)
 }
 
 // AllX is like All, but panics if an error occurs.
-func (_q *DictItemQuery) AllX(ctx context.Context) []*DictItem {
+func (_q *DictEntryQuery) AllX(ctx context.Context) []*DictEntry {
 	nodes, err := _q.All(ctx)
 	if err != nil {
 		panic(err)
@@ -204,20 +204,20 @@ func (_q *DictItemQuery) AllX(ctx context.Context) []*DictItem {
 	return nodes
 }
 
-// IDs executes the query and returns a list of DictItem IDs.
-func (_q *DictItemQuery) IDs(ctx context.Context) (ids []uint32, err error) {
+// IDs executes the query and returns a list of DictEntry IDs.
+func (_q *DictEntryQuery) IDs(ctx context.Context) (ids []uint32, err error) {
 	if _q.ctx.Unique == nil && _q.path != nil {
 		_q.Unique(true)
 	}
 	ctx = setContextOp(ctx, _q.ctx, ent.OpQueryIDs)
-	if err = _q.Select(dictitem.FieldID).Scan(ctx, &ids); err != nil {
+	if err = _q.Select(dictentry.FieldID).Scan(ctx, &ids); err != nil {
 		return nil, err
 	}
 	return ids, nil
 }
 
 // IDsX is like IDs, but panics if an error occurs.
-func (_q *DictItemQuery) IDsX(ctx context.Context) []uint32 {
+func (_q *DictEntryQuery) IDsX(ctx context.Context) []uint32 {
 	ids, err := _q.IDs(ctx)
 	if err != nil {
 		panic(err)
@@ -226,16 +226,16 @@ func (_q *DictItemQuery) IDsX(ctx context.Context) []uint32 {
 }
 
 // Count returns the count of the given query.
-func (_q *DictItemQuery) Count(ctx context.Context) (int, error) {
+func (_q *DictEntryQuery) Count(ctx context.Context) (int, error) {
 	ctx = setContextOp(ctx, _q.ctx, ent.OpQueryCount)
 	if err := _q.prepareQuery(ctx); err != nil {
 		return 0, err
 	}
-	return withInterceptors[int](ctx, _q, querierCount[*DictItemQuery](), _q.inters)
+	return withInterceptors[int](ctx, _q, querierCount[*DictEntryQuery](), _q.inters)
 }
 
 // CountX is like Count, but panics if an error occurs.
-func (_q *DictItemQuery) CountX(ctx context.Context) int {
+func (_q *DictEntryQuery) CountX(ctx context.Context) int {
 	count, err := _q.Count(ctx)
 	if err != nil {
 		panic(err)
@@ -244,7 +244,7 @@ func (_q *DictItemQuery) CountX(ctx context.Context) int {
 }
 
 // Exist returns true if the query has elements in the graph.
-func (_q *DictItemQuery) Exist(ctx context.Context) (bool, error) {
+func (_q *DictEntryQuery) Exist(ctx context.Context) (bool, error) {
 	ctx = setContextOp(ctx, _q.ctx, ent.OpQueryExist)
 	switch _, err := _q.FirstID(ctx); {
 	case IsNotFound(err):
@@ -257,7 +257,7 @@ func (_q *DictItemQuery) Exist(ctx context.Context) (bool, error) {
 }
 
 // ExistX is like Exist, but panics if an error occurs.
-func (_q *DictItemQuery) ExistX(ctx context.Context) bool {
+func (_q *DictEntryQuery) ExistX(ctx context.Context) bool {
 	exist, err := _q.Exist(ctx)
 	if err != nil {
 		panic(err)
@@ -265,19 +265,19 @@ func (_q *DictItemQuery) ExistX(ctx context.Context) bool {
 	return exist
 }
 
-// Clone returns a duplicate of the DictItemQuery builder, including all associated steps. It can be
+// Clone returns a duplicate of the DictEntryQuery builder, including all associated steps. It can be
 // used to prepare common query builders and use them differently after the clone is made.
-func (_q *DictItemQuery) Clone() *DictItemQuery {
+func (_q *DictEntryQuery) Clone() *DictEntryQuery {
 	if _q == nil {
 		return nil
 	}
-	return &DictItemQuery{
+	return &DictEntryQuery{
 		config:           _q.config,
 		ctx:              _q.ctx.Clone(),
-		order:            append([]dictitem.OrderOption{}, _q.order...),
+		order:            append([]dictentry.OrderOption{}, _q.order...),
 		inters:           append([]Interceptor{}, _q.inters...),
-		predicates:       append([]predicate.DictItem{}, _q.predicates...),
-		withSysDictMains: _q.withSysDictMains.Clone(),
+		predicates:       append([]predicate.DictEntry{}, _q.predicates...),
+		withSysDictTypes: _q.withSysDictTypes.Clone(),
 		// clone intermediate query.
 		sql:       _q.sql.Clone(),
 		path:      _q.path,
@@ -285,14 +285,14 @@ func (_q *DictItemQuery) Clone() *DictItemQuery {
 	}
 }
 
-// WithSysDictMains tells the query-builder to eager-load the nodes that are connected to
-// the "sys_dict_mains" edge. The optional arguments are used to configure the query builder of the edge.
-func (_q *DictItemQuery) WithSysDictMains(opts ...func(*DictMainQuery)) *DictItemQuery {
-	query := (&DictMainClient{config: _q.config}).Query()
+// WithSysDictTypes tells the query-builder to eager-load the nodes that are connected to
+// the "sys_dict_types" edge. The optional arguments are used to configure the query builder of the edge.
+func (_q *DictEntryQuery) WithSysDictTypes(opts ...func(*DictTypeQuery)) *DictEntryQuery {
+	query := (&DictTypeClient{config: _q.config}).Query()
 	for _, opt := range opts {
 		opt(query)
 	}
-	_q.withSysDictMains = query
+	_q.withSysDictTypes = query
 	return _q
 }
 
@@ -302,19 +302,19 @@ func (_q *DictItemQuery) WithSysDictMains(opts ...func(*DictMainQuery)) *DictIte
 // Example:
 //
 //	var v []struct {
-//		CreateTime time.Time `json:"create_time,omitempty"`
+//		CreatedAt time.Time `json:"created_at,omitempty"`
 //		Count int `json:"count,omitempty"`
 //	}
 //
-//	client.DictItem.Query().
-//		GroupBy(dictitem.FieldCreateTime).
+//	client.DictEntry.Query().
+//		GroupBy(dictentry.FieldCreatedAt).
 //		Aggregate(ent.Count()).
 //		Scan(ctx, &v)
-func (_q *DictItemQuery) GroupBy(field string, fields ...string) *DictItemGroupBy {
+func (_q *DictEntryQuery) GroupBy(field string, fields ...string) *DictEntryGroupBy {
 	_q.ctx.Fields = append([]string{field}, fields...)
-	grbuild := &DictItemGroupBy{build: _q}
+	grbuild := &DictEntryGroupBy{build: _q}
 	grbuild.flds = &_q.ctx.Fields
-	grbuild.label = dictitem.Label
+	grbuild.label = dictentry.Label
 	grbuild.scan = grbuild.Scan
 	return grbuild
 }
@@ -325,26 +325,26 @@ func (_q *DictItemQuery) GroupBy(field string, fields ...string) *DictItemGroupB
 // Example:
 //
 //	var v []struct {
-//		CreateTime time.Time `json:"create_time,omitempty"`
+//		CreatedAt time.Time `json:"created_at,omitempty"`
 //	}
 //
-//	client.DictItem.Query().
-//		Select(dictitem.FieldCreateTime).
+//	client.DictEntry.Query().
+//		Select(dictentry.FieldCreatedAt).
 //		Scan(ctx, &v)
-func (_q *DictItemQuery) Select(fields ...string) *DictItemSelect {
+func (_q *DictEntryQuery) Select(fields ...string) *DictEntrySelect {
 	_q.ctx.Fields = append(_q.ctx.Fields, fields...)
-	sbuild := &DictItemSelect{DictItemQuery: _q}
-	sbuild.label = dictitem.Label
+	sbuild := &DictEntrySelect{DictEntryQuery: _q}
+	sbuild.label = dictentry.Label
 	sbuild.flds, sbuild.scan = &_q.ctx.Fields, sbuild.Scan
 	return sbuild
 }
 
-// Aggregate returns a DictItemSelect configured with the given aggregations.
-func (_q *DictItemQuery) Aggregate(fns ...AggregateFunc) *DictItemSelect {
+// Aggregate returns a DictEntrySelect configured with the given aggregations.
+func (_q *DictEntryQuery) Aggregate(fns ...AggregateFunc) *DictEntrySelect {
 	return _q.Select().Aggregate(fns...)
 }
 
-func (_q *DictItemQuery) prepareQuery(ctx context.Context) error {
+func (_q *DictEntryQuery) prepareQuery(ctx context.Context) error {
 	for _, inter := range _q.inters {
 		if inter == nil {
 			return fmt.Errorf("ent: uninitialized interceptor (forgotten import ent/runtime?)")
@@ -356,7 +356,7 @@ func (_q *DictItemQuery) prepareQuery(ctx context.Context) error {
 		}
 	}
 	for _, f := range _q.ctx.Fields {
-		if !dictitem.ValidColumn(f) {
+		if !dictentry.ValidColumn(f) {
 			return &ValidationError{Name: f, err: fmt.Errorf("ent: invalid field %q for query", f)}
 		}
 	}
@@ -370,26 +370,26 @@ func (_q *DictItemQuery) prepareQuery(ctx context.Context) error {
 	return nil
 }
 
-func (_q *DictItemQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*DictItem, error) {
+func (_q *DictEntryQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*DictEntry, error) {
 	var (
-		nodes       = []*DictItem{}
+		nodes       = []*DictEntry{}
 		withFKs     = _q.withFKs
 		_spec       = _q.querySpec()
 		loadedTypes = [1]bool{
-			_q.withSysDictMains != nil,
+			_q.withSysDictTypes != nil,
 		}
 	)
-	if _q.withSysDictMains != nil {
+	if _q.withSysDictTypes != nil {
 		withFKs = true
 	}
 	if withFKs {
-		_spec.Node.Columns = append(_spec.Node.Columns, dictitem.ForeignKeys...)
+		_spec.Node.Columns = append(_spec.Node.Columns, dictentry.ForeignKeys...)
 	}
 	_spec.ScanValues = func(columns []string) ([]any, error) {
-		return (*DictItem).scanValues(nil, columns)
+		return (*DictEntry).scanValues(nil, columns)
 	}
 	_spec.Assign = func(columns []string, values []any) error {
-		node := &DictItem{config: _q.config}
+		node := &DictEntry{config: _q.config}
 		nodes = append(nodes, node)
 		node.Edges.loadedTypes = loadedTypes
 		return node.assignValues(columns, values)
@@ -406,23 +406,23 @@ func (_q *DictItemQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*Dic
 	if len(nodes) == 0 {
 		return nodes, nil
 	}
-	if query := _q.withSysDictMains; query != nil {
-		if err := _q.loadSysDictMains(ctx, query, nodes, nil,
-			func(n *DictItem, e *DictMain) { n.Edges.SysDictMains = e }); err != nil {
+	if query := _q.withSysDictTypes; query != nil {
+		if err := _q.loadSysDictTypes(ctx, query, nodes, nil,
+			func(n *DictEntry, e *DictType) { n.Edges.SysDictTypes = e }); err != nil {
 			return nil, err
 		}
 	}
 	return nodes, nil
 }
 
-func (_q *DictItemQuery) loadSysDictMains(ctx context.Context, query *DictMainQuery, nodes []*DictItem, init func(*DictItem), assign func(*DictItem, *DictMain)) error {
+func (_q *DictEntryQuery) loadSysDictTypes(ctx context.Context, query *DictTypeQuery, nodes []*DictEntry, init func(*DictEntry), assign func(*DictEntry, *DictType)) error {
 	ids := make([]uint32, 0, len(nodes))
-	nodeids := make(map[uint32][]*DictItem)
+	nodeids := make(map[uint32][]*DictEntry)
 	for i := range nodes {
-		if nodes[i].main_id == nil {
+		if nodes[i].type_id == nil {
 			continue
 		}
-		fk := *nodes[i].main_id
+		fk := *nodes[i].type_id
 		if _, ok := nodeids[fk]; !ok {
 			ids = append(ids, fk)
 		}
@@ -431,7 +431,7 @@ func (_q *DictItemQuery) loadSysDictMains(ctx context.Context, query *DictMainQu
 	if len(ids) == 0 {
 		return nil
 	}
-	query.Where(dictmain.IDIn(ids...))
+	query.Where(dicttype.IDIn(ids...))
 	neighbors, err := query.All(ctx)
 	if err != nil {
 		return err
@@ -439,7 +439,7 @@ func (_q *DictItemQuery) loadSysDictMains(ctx context.Context, query *DictMainQu
 	for _, n := range neighbors {
 		nodes, ok := nodeids[n.ID]
 		if !ok {
-			return fmt.Errorf(`unexpected foreign-key "main_id" returned %v`, n.ID)
+			return fmt.Errorf(`unexpected foreign-key "type_id" returned %v`, n.ID)
 		}
 		for i := range nodes {
 			assign(nodes[i], n)
@@ -448,7 +448,7 @@ func (_q *DictItemQuery) loadSysDictMains(ctx context.Context, query *DictMainQu
 	return nil
 }
 
-func (_q *DictItemQuery) sqlCount(ctx context.Context) (int, error) {
+func (_q *DictEntryQuery) sqlCount(ctx context.Context) (int, error) {
 	_spec := _q.querySpec()
 	if len(_q.modifiers) > 0 {
 		_spec.Modifiers = _q.modifiers
@@ -460,8 +460,8 @@ func (_q *DictItemQuery) sqlCount(ctx context.Context) (int, error) {
 	return sqlgraph.CountNodes(ctx, _q.driver, _spec)
 }
 
-func (_q *DictItemQuery) querySpec() *sqlgraph.QuerySpec {
-	_spec := sqlgraph.NewQuerySpec(dictitem.Table, dictitem.Columns, sqlgraph.NewFieldSpec(dictitem.FieldID, field.TypeUint32))
+func (_q *DictEntryQuery) querySpec() *sqlgraph.QuerySpec {
+	_spec := sqlgraph.NewQuerySpec(dictentry.Table, dictentry.Columns, sqlgraph.NewFieldSpec(dictentry.FieldID, field.TypeUint32))
 	_spec.From = _q.sql
 	if unique := _q.ctx.Unique; unique != nil {
 		_spec.Unique = *unique
@@ -470,9 +470,9 @@ func (_q *DictItemQuery) querySpec() *sqlgraph.QuerySpec {
 	}
 	if fields := _q.ctx.Fields; len(fields) > 0 {
 		_spec.Node.Columns = make([]string, 0, len(fields))
-		_spec.Node.Columns = append(_spec.Node.Columns, dictitem.FieldID)
+		_spec.Node.Columns = append(_spec.Node.Columns, dictentry.FieldID)
 		for i := range fields {
-			if fields[i] != dictitem.FieldID {
+			if fields[i] != dictentry.FieldID {
 				_spec.Node.Columns = append(_spec.Node.Columns, fields[i])
 			}
 		}
@@ -500,12 +500,12 @@ func (_q *DictItemQuery) querySpec() *sqlgraph.QuerySpec {
 	return _spec
 }
 
-func (_q *DictItemQuery) sqlQuery(ctx context.Context) *sql.Selector {
+func (_q *DictEntryQuery) sqlQuery(ctx context.Context) *sql.Selector {
 	builder := sql.Dialect(_q.driver.Dialect())
-	t1 := builder.Table(dictitem.Table)
+	t1 := builder.Table(dictentry.Table)
 	columns := _q.ctx.Fields
 	if len(columns) == 0 {
-		columns = dictitem.Columns
+		columns = dictentry.Columns
 	}
 	selector := builder.Select(t1.Columns(columns...)...).From(t1)
 	if _q.sql != nil {
@@ -538,7 +538,7 @@ func (_q *DictItemQuery) sqlQuery(ctx context.Context) *sql.Selector {
 // ForUpdate locks the selected rows against concurrent updates, and prevent them from being
 // updated, deleted or "selected ... for update" by other sessions, until the transaction is
 // either committed or rolled-back.
-func (_q *DictItemQuery) ForUpdate(opts ...sql.LockOption) *DictItemQuery {
+func (_q *DictEntryQuery) ForUpdate(opts ...sql.LockOption) *DictEntryQuery {
 	if _q.driver.Dialect() == dialect.Postgres {
 		_q.Unique(false)
 	}
@@ -551,7 +551,7 @@ func (_q *DictItemQuery) ForUpdate(opts ...sql.LockOption) *DictItemQuery {
 // ForShare behaves similarly to ForUpdate, except that it acquires a shared mode lock
 // on any rows that are read. Other sessions can read the rows, but cannot modify them
 // until your transaction commits.
-func (_q *DictItemQuery) ForShare(opts ...sql.LockOption) *DictItemQuery {
+func (_q *DictEntryQuery) ForShare(opts ...sql.LockOption) *DictEntryQuery {
 	if _q.driver.Dialect() == dialect.Postgres {
 		_q.Unique(false)
 	}
@@ -562,33 +562,33 @@ func (_q *DictItemQuery) ForShare(opts ...sql.LockOption) *DictItemQuery {
 }
 
 // Modify adds a query modifier for attaching custom logic to queries.
-func (_q *DictItemQuery) Modify(modifiers ...func(s *sql.Selector)) *DictItemSelect {
+func (_q *DictEntryQuery) Modify(modifiers ...func(s *sql.Selector)) *DictEntrySelect {
 	_q.modifiers = append(_q.modifiers, modifiers...)
 	return _q.Select()
 }
 
-// DictItemGroupBy is the group-by builder for DictItem entities.
-type DictItemGroupBy struct {
+// DictEntryGroupBy is the group-by builder for DictEntry entities.
+type DictEntryGroupBy struct {
 	selector
-	build *DictItemQuery
+	build *DictEntryQuery
 }
 
 // Aggregate adds the given aggregation functions to the group-by query.
-func (_g *DictItemGroupBy) Aggregate(fns ...AggregateFunc) *DictItemGroupBy {
+func (_g *DictEntryGroupBy) Aggregate(fns ...AggregateFunc) *DictEntryGroupBy {
 	_g.fns = append(_g.fns, fns...)
 	return _g
 }
 
 // Scan applies the selector query and scans the result into the given value.
-func (_g *DictItemGroupBy) Scan(ctx context.Context, v any) error {
+func (_g *DictEntryGroupBy) Scan(ctx context.Context, v any) error {
 	ctx = setContextOp(ctx, _g.build.ctx, ent.OpQueryGroupBy)
 	if err := _g.build.prepareQuery(ctx); err != nil {
 		return err
 	}
-	return scanWithInterceptors[*DictItemQuery, *DictItemGroupBy](ctx, _g.build, _g, _g.build.inters, v)
+	return scanWithInterceptors[*DictEntryQuery, *DictEntryGroupBy](ctx, _g.build, _g, _g.build.inters, v)
 }
 
-func (_g *DictItemGroupBy) sqlScan(ctx context.Context, root *DictItemQuery, v any) error {
+func (_g *DictEntryGroupBy) sqlScan(ctx context.Context, root *DictEntryQuery, v any) error {
 	selector := root.sqlQuery(ctx).Select()
 	aggregation := make([]string, 0, len(_g.fns))
 	for _, fn := range _g.fns {
@@ -615,28 +615,28 @@ func (_g *DictItemGroupBy) sqlScan(ctx context.Context, root *DictItemQuery, v a
 	return sql.ScanSlice(rows, v)
 }
 
-// DictItemSelect is the builder for selecting fields of DictItem entities.
-type DictItemSelect struct {
-	*DictItemQuery
+// DictEntrySelect is the builder for selecting fields of DictEntry entities.
+type DictEntrySelect struct {
+	*DictEntryQuery
 	selector
 }
 
 // Aggregate adds the given aggregation functions to the selector query.
-func (_s *DictItemSelect) Aggregate(fns ...AggregateFunc) *DictItemSelect {
+func (_s *DictEntrySelect) Aggregate(fns ...AggregateFunc) *DictEntrySelect {
 	_s.fns = append(_s.fns, fns...)
 	return _s
 }
 
 // Scan applies the selector query and scans the result into the given value.
-func (_s *DictItemSelect) Scan(ctx context.Context, v any) error {
+func (_s *DictEntrySelect) Scan(ctx context.Context, v any) error {
 	ctx = setContextOp(ctx, _s.ctx, ent.OpQuerySelect)
 	if err := _s.prepareQuery(ctx); err != nil {
 		return err
 	}
-	return scanWithInterceptors[*DictItemQuery, *DictItemSelect](ctx, _s.DictItemQuery, _s, _s.inters, v)
+	return scanWithInterceptors[*DictEntryQuery, *DictEntrySelect](ctx, _s.DictEntryQuery, _s, _s.inters, v)
 }
 
-func (_s *DictItemSelect) sqlScan(ctx context.Context, root *DictItemQuery, v any) error {
+func (_s *DictEntrySelect) sqlScan(ctx context.Context, root *DictEntryQuery, v any) error {
 	selector := root.sqlQuery(ctx)
 	aggregation := make([]string, 0, len(_s.fns))
 	for _, fn := range _s.fns {
@@ -658,7 +658,7 @@ func (_s *DictItemSelect) sqlScan(ctx context.Context, root *DictItemQuery, v an
 }
 
 // Modify adds a query modifier for attaching custom logic to queries.
-func (_s *DictItemSelect) Modify(modifiers ...func(s *sql.Selector)) *DictItemSelect {
+func (_s *DictEntrySelect) Modify(modifiers ...func(s *sql.Selector)) *DictEntrySelect {
 	_s.modifiers = append(_s.modifiers, modifiers...)
 	return _s
 }

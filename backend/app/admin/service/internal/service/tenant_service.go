@@ -100,7 +100,7 @@ func (s *TenantService) Create(ctx context.Context, req *userV1.CreateTenantRequ
 		return &emptypb.Empty{}, err
 	}
 
-	req.Data.CreateBy = trans.Ptr(operator.UserId)
+	req.Data.CreatedBy = trans.Ptr(operator.UserId)
 
 	if _, err = s.tenantRepo.Create(ctx, req.Data); err != nil {
 		return nil, err
@@ -120,7 +120,7 @@ func (s *TenantService) Update(ctx context.Context, req *userV1.UpdateTenantRequ
 		return &emptypb.Empty{}, err
 	}
 
-	req.Data.UpdateBy = trans.Ptr(operator.UserId)
+	req.Data.UpdatedBy = trans.Ptr(operator.UserId)
 
 	if err = s.tenantRepo.Update(ctx, req); err != nil {
 		return nil, err
@@ -153,8 +153,8 @@ func (s *TenantService) CreateTenantWithAdminUser(ctx context.Context, req *admi
 		return &emptypb.Empty{}, err
 	}
 
-	req.Tenant.CreateBy = trans.Ptr(operator.UserId)
-	req.User.CreateBy = trans.Ptr(operator.UserId)
+	req.Tenant.CreatedBy = trans.Ptr(operator.UserId)
+	req.User.CreatedBy = trans.Ptr(operator.UserId)
 
 	// Check if tenant code or admin username already exists
 	if _, err = s.tenantRepo.TenantExists(ctx, &userV1.TenantExistsRequest{

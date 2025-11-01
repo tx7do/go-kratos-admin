@@ -153,7 +153,7 @@ message AdminLoginLog {
     }
   ]; // 操作者账号名
 
-  optional google.protobuf.Timestamp create_time = 400 [json_name = "createTime", (gnostic.openapi.v3.property) = {description: "创建时间"}];// 创建时间
+  optional google.protobuf.Timestamp created_at = 400 [json_name = "createdAt", (gnostic.openapi.v3.property) = {description: "创建时间"}];// 创建时间
 }
 
 // 查询后台登录日志列表 - 回应

@@ -16,25 +16,23 @@ import (
 	pagination "github.com/tx7do/kratos-bootstrap/api/gen/go/pagination/v1"
 
 	"kratos-admin/app/admin/service/internal/data/ent"
-	"kratos-admin/app/admin/service/internal/data/ent/dictitem"
+	"kratos-admin/app/admin/service/internal/data/ent/dictentry"
 
 	dictV1 "kratos-admin/api/gen/go/dict/service/v1"
 )
 
-type DictItemRepo struct {
+type DictEntryRepo struct {
 	data *Data
 	log  *log.Helper
 
-	mapper          *mapper.CopierMapper[dictV1.DictItem, ent.DictItem]
-	statusConverter *mapper.EnumTypeConverter[dictV1.DictItem_Status, dictitem.Status]
+	mapper *mapper.CopierMapper[dictV1.DictEntry, ent.DictEntry]
 }
 
-func NewDictItemRepo(data *Data, logger log.Logger) *DictItemRepo {
-	repo := &DictItemRepo{
-		log:             log.NewHelper(log.With(logger, "module", "dict-item/repo/admin-service")),
-		data:            data,
-		mapper:          mapper.NewCopierMapper[dictV1.DictItem, ent.DictItem](),
-		statusConverter: mapper.NewEnumTypeConverter[dictV1.DictItem_Status, dictitem.Status](dictV1.DictItem_Status_name, dictV1.DictItem_Status_value),
+func NewDictEntryRepo(data *Data, logger log.Logger) *DictEntryRepo {
+	repo := &DictEntryRepo{
+		log:    log.NewHelper(log.With(logger, "module", "dict-item/repo/admin-service")),
+		data:   data,
+		mapper: mapper.NewCopierMapper[dictV1.DictEntry, ent.DictEntry](),
 	}
 
 	repo.init()
@@ -42,15 +40,13 @@ func NewDictItemRepo(data *Data, logger log.Logger) *DictItemRepo {
 	return repo
 }
 
-func (r *DictItemRepo) init() {
+func (r *DictEntryRepo) init() {
 	r.mapper.AppendConverters(copierutil.NewTimeStringConverterPair())
 	r.mapper.AppendConverters(copierutil.NewTimeTimestamppbConverterPair())
-
-	r.mapper.AppendConverters(r.statusConverter.NewConverterPair())
 }
 
-func (r *DictItemRepo) Count(ctx context.Context, whereCond []func(s *sql.Selector)) (int, error) {
-	builder := r.data.db.Client().DictItem.Query()
+func (r *DictEntryRepo) Count(ctx context.Context, whereCond []func(s *sql.Selector)) (int, error) {
+	builder := r.data.db.Client().DictEntry.Query()
 	if len(whereCond) != 0 {
 		builder.Modify(whereCond...)
 	}
@@ -64,17 +60,17 @@ func (r *DictItemRepo) Count(ctx context.Context, whereCond []func(s *sql.Select
 	return count, nil
 }
 
-func (r *DictItemRepo) List(ctx context.Context, req *pagination.PagingRequest) (*dictV1.ListDictItemResponse, error) {
+func (r *DictEntryRepo) List(ctx context.Context, req *pagination.PagingRequest) (*dictV1.ListDictEntryResponse, error) {
 	if req == nil {
 		return nil, dictV1.ErrorBadRequest("invalid parameter")
 	}
 
-	builder := r.data.db.Client().DictItem.Query()
+	builder := r.data.db.Client().DictEntry.Query()
 
 	err, whereSelectors, querySelectors := entgo.BuildQuerySelector(
 		req.GetQuery(), req.GetOrQuery(),
 		req.GetPage(), req.GetPageSize(), req.GetNoPaging(),
-		req.GetOrderBy(), dictitem.FieldCreateTime,
+		req.GetOrderBy(), dictentry.FieldCreatedAt,
 		req.GetFieldMask().GetPaths(),
 	)
 	if err != nil {
@@ -92,7 +88,7 @@ func (r *DictItemRepo) List(ctx context.Context, req *pagination.PagingRequest) 
 		return nil, dictV1.ErrorInternalServerError("query list failed")
 	}
 
-	dtos := make([]*dictV1.DictItem, 0, len(entities))
+	dtos := make([]*dictV1.DictEntry, 0, len(entities))
 	for _, entity := range entities {
 		dto := r.mapper.ToDTO(entity)
 		dtos = append(dtos, dto)
@@ -103,15 +99,15 @@ func (r *DictItemRepo) List(ctx context.Context, req *pagination.PagingRequest) 
 		return nil, err
 	}
 
-	return &dictV1.ListDictItemResponse{
+	return &dictV1.ListDictEntryResponse{
 		Total: uint32(count),
 		Items: dtos,
 	}, err
 }
 
-func (r *DictItemRepo) IsExist(ctx context.Context, id uint32) (bool, error) {
-	exist, err := r.data.db.Client().DictItem.Query().
-		Where(dictitem.IDEQ(id)).
+func (r *DictEntryRepo) IsExist(ctx context.Context, id uint32) (bool, error) {
+	exist, err := r.data.db.Client().DictEntry.Query().
+		Where(dictentry.IDEQ(id)).
 		Exist(ctx)
 	if err != nil {
 		r.log.Errorf("query exist failed: %s", err.Error())
@@ -120,53 +116,27 @@ func (r *DictItemRepo) IsExist(ctx context.Context, id uint32) (bool, error) {
 	return exist, nil
 }
 
-func (r *DictItemRepo) Get(ctx context.Context, req *dictV1.GetDictItemRequest) (*dictV1.DictItem, error) {
-	if req == nil {
-		return nil, dictV1.ErrorBadRequest("invalid parameter")
-	}
-
-	builder := r.data.db.Client().DictItem.Query()
-
-	switch req.GetQueryBy().(type) {
-	case *dictV1.GetDictItemRequest_Id:
-		builder.Where(dictitem.IDEQ(req.GetId()))
-	case *dictV1.GetDictItemRequest_Code:
-		builder.Where(dictitem.CodeEQ(req.GetCode()))
-	default:
-		return nil, dictV1.ErrorBadRequest("invalid query parameter")
-	}
-
-	entity, err := builder.Only(ctx)
-	if err != nil {
-		if ent.IsNotFound(err) {
-			return nil, dictV1.ErrorNotFound("dict not found")
-		}
-
-		r.log.Errorf("query one data failed: %s", err.Error())
-
-		return nil, dictV1.ErrorInternalServerError("query data failed")
-	}
-
-	return r.mapper.ToDTO(entity), nil
-}
-
-func (r *DictItemRepo) Create(ctx context.Context, req *dictV1.CreateDictItemRequest) error {
+func (r *DictEntryRepo) Create(ctx context.Context, req *dictV1.CreateDictEntryRequest) error {
 	if req == nil || req.Data == nil {
 		return dictV1.ErrorBadRequest("invalid parameter")
 	}
 
-	builder := r.data.db.Client().DictItem.Create().
-		SetNillableCode(req.Data.Code).
-		SetNillableName(req.Data.Name).
-		SetNillableValue(req.Data.Value).
-		SetNillableSortID(req.Data.SortId).
-		SetNillableStatus(r.statusConverter.ToEntity(req.Data.Status)).
-		SetNillableRemark(req.Data.Remark).
-		SetNillableCreateBy(req.Data.CreateBy).
-		SetNillableCreateTime(timeutil.TimestamppbToTime(req.Data.CreateTime))
+	builder := r.data.db.Client().DictEntry.Create().
+		SetNillableEntryLabel(req.Data.EntryLabel).
+		SetNillableEntryValue(req.Data.EntryValue).
+		SetNillableNumericValue(req.Data.NumericValue).
+		SetNillableLanguageCode(req.Data.LanguageCode).
+		SetNillableIsEnabled(req.Data.IsEnabled).
+		SetNillableSortOrder(req.Data.SortOrder).
+		SetNillableDescription(req.Data.Description).
+		SetNillableCreatedBy(req.Data.CreatedBy).
+		SetNillableCreatedAt(timeutil.TimestamppbToTime(req.Data.CreatedAt))
 
-	if req.Data.CreateTime == nil {
-		builder.SetCreateTime(time.Now())
+	if req.Data.TypeId == nil {
+		builder.SetSysDictTypesID(req.Data.GetTypeId())
+	}
+	if req.Data.CreatedAt == nil {
+		builder.SetCreatedAt(time.Now())
 	}
 
 	if req.Data.Id != nil {
@@ -181,7 +151,7 @@ func (r *DictItemRepo) Create(ctx context.Context, req *dictV1.CreateDictItemReq
 	return nil
 }
 
-func (r *DictItemRepo) Update(ctx context.Context, req *dictV1.UpdateDictItemRequest) error {
+func (r *DictEntryRepo) Update(ctx context.Context, req *dictV1.UpdateDictEntryRequest) error {
 	if req == nil || req.Data == nil {
 		return dictV1.ErrorBadRequest("invalid parameter")
 	}
@@ -193,9 +163,9 @@ func (r *DictItemRepo) Update(ctx context.Context, req *dictV1.UpdateDictItemReq
 			return err
 		}
 		if !exist {
-			createReq := &dictV1.CreateDictItemRequest{Data: req.Data}
-			createReq.Data.CreateBy = createReq.Data.UpdateBy
-			createReq.Data.UpdateBy = nil
+			createReq := &dictV1.CreateDictEntryRequest{Data: req.Data}
+			createReq.Data.CreatedBy = createReq.Data.UpdatedBy
+			createReq.Data.UpdatedBy = nil
 			return r.Create(ctx, createReq)
 		}
 	}
@@ -209,18 +179,20 @@ func (r *DictItemRepo) Update(ctx context.Context, req *dictV1.UpdateDictItemReq
 		fieldmaskutil.Filter(req.GetData(), req.UpdateMask.GetPaths())
 	}
 
-	builder := r.data.db.Client().DictItem.
+	builder := r.data.db.Client().DictEntry.
 		UpdateOneID(req.Data.GetId()).
-		SetNillableCode(req.Data.Code).
-		SetNillableName(req.Data.Name).
-		SetNillableSortID(req.Data.SortId).
-		SetNillableStatus(r.statusConverter.ToEntity(req.Data.Status)).
-		SetNillableRemark(req.Data.Remark).
-		SetNillableUpdateBy(req.Data.UpdateBy).
-		SetNillableUpdateTime(timeutil.TimestamppbToTime(req.Data.UpdateTime))
+		SetNillableEntryLabel(req.Data.EntryLabel).
+		SetNillableEntryValue(req.Data.EntryValue).
+		SetNillableNumericValue(req.Data.NumericValue).
+		SetNillableLanguageCode(req.Data.LanguageCode).
+		SetNillableIsEnabled(req.Data.IsEnabled).
+		SetNillableSortOrder(req.Data.SortOrder).
+		SetNillableDescription(req.Data.Description).
+		SetNillableUpdatedBy(req.Data.UpdatedBy).
+		SetNillableUpdatedAt(timeutil.TimestamppbToTime(req.Data.UpdatedAt))
 
-	if req.Data.UpdateTime == nil {
-		builder.SetUpdateTime(time.Now())
+	if req.Data.UpdatedAt == nil {
+		builder.SetUpdatedAt(time.Now())
 	}
 
 	if req.UpdateMask != nil {
@@ -239,12 +211,12 @@ func (r *DictItemRepo) Update(ctx context.Context, req *dictV1.UpdateDictItemReq
 	return nil
 }
 
-func (r *DictItemRepo) Delete(ctx context.Context, id uint32) error {
+func (r *DictEntryRepo) Delete(ctx context.Context, id uint32) error {
 	if id == 0 {
 		return dictV1.ErrorBadRequest("invalid parameter")
 	}
 
-	if err := r.data.db.Client().DictItem.DeleteOneID(id).Exec(ctx); err != nil {
+	if err := r.data.db.Client().DictEntry.DeleteOneID(id).Exec(ctx); err != nil {
 		if ent.IsNotFound(err) {
 			return dictV1.ErrorNotFound("dict not found")
 		}
@@ -257,13 +229,13 @@ func (r *DictItemRepo) Delete(ctx context.Context, id uint32) error {
 	return nil
 }
 
-func (r *DictItemRepo) BatchDelete(ctx context.Context, ids []uint32) error {
+func (r *DictEntryRepo) BatchDelete(ctx context.Context, ids []uint32) error {
 	if len(ids) == 0 {
 		return dictV1.ErrorBadRequest("invalid parameter")
 	}
 
-	if _, err := r.data.db.Client().DictItem.Delete().
-		Where(dictitem.IDIn(ids...)).
+	if _, err := r.data.db.Client().DictEntry.Delete().
+		Where(dictentry.IDIn(ids...)).
 		Exec(ctx); err != nil {
 		if ent.IsNotFound(err) {
 			return dictV1.ErrorNotFound("dict not found")

@@ -463,12 +463,12 @@ paths:
                 "200":
                     description: OK
                     content: {}
-    /admin/v1/dict-items:
+    /admin/v1/dict-entries:
         get:
             tags:
                 - DictService
-            description: 分页查询子字典列表
-            operationId: DictService_ListDictItem
+            description: 分页查询字典条目列表
+            operationId: DictService_ListDictEntry
             parameters:
                 - name: page
                   in: query
@@ -521,17 +521,17 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/ListDictItemResponse'
+                                $ref: '#/components/schemas/ListDictEntryResponse'
         post:
             tags:
                 - DictService
-            description: 创建子字典
-            operationId: DictService_CreateDictItem
+            description: 创建字典条目
+            operationId: DictService_CreateDictEntry
             requestBody:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/CreateDictItemRequest'
+                            $ref: '#/components/schemas/CreateDictEntryRequest'
                 required: true
             responses:
                 "200":
@@ -540,8 +540,8 @@ paths:
         delete:
             tags:
                 - DictService
-            description: 删除子字典
-            operationId: DictService_DeleteDictItem
+            description: 删除字典条目
+            operationId: DictService_DeleteDictEntry
             parameters:
                 - name: ids
                   in: query
@@ -554,12 +554,12 @@ paths:
                 "200":
                     description: OK
                     content: {}
-    /admin/v1/dict-items/{data.id}:
+    /admin/v1/dict-entries/{data.id}:
         put:
             tags:
                 - DictService
-            description: 更新子字典
-            operationId: DictService_UpdateDictItem
+            description: 更新字典条目
+            operationId: DictService_UpdateDictEntry
             parameters:
                 - name: data.id
                   in: path
@@ -570,18 +570,18 @@ paths:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/UpdateDictItemRequest'
+                            $ref: '#/components/schemas/UpdateDictEntryRequest'
                 required: true
             responses:
                 "200":
                     description: OK
                     content: {}
-    /admin/v1/dict-mains:
+    /admin/v1/dict-types:
         get:
             tags:
                 - DictService
-            description: 分页查询主字典列表
-            operationId: DictService_ListDictMain
+            description: 分页查询字典类型列表
+            operationId: DictService_ListDictType
             parameters:
                 - name: page
                   in: query
@@ -634,17 +634,17 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/ListDictMainResponse'
+                                $ref: '#/components/schemas/ListDictTypeResponse'
         post:
             tags:
                 - DictService
-            description: 创建主字典
-            operationId: DictService_CreateDictMain
+            description: 创建字典类型
+            operationId: DictService_CreateDictType
             requestBody:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/CreateDictMainRequest'
+                            $ref: '#/components/schemas/CreateDictTypeRequest'
                 required: true
             responses:
                 "200":
@@ -653,8 +653,8 @@ paths:
         delete:
             tags:
                 - DictService
-            description: 删除主字典
-            operationId: DictService_DeleteDictMain
+            description: 删除字典类型
+            operationId: DictService_DeleteDictType
             parameters:
                 - name: ids
                   in: query
@@ -667,12 +667,12 @@ paths:
                 "200":
                     description: OK
                     content: {}
-    /admin/v1/dict-mains/{data.id}:
+    /admin/v1/dict-types/{data.id}:
         put:
             tags:
                 - DictService
-            description: 更新主字典
-            operationId: DictService_UpdateDictMain
+            description: 更新字典类型
+            operationId: DictService_UpdateDictType
             parameters:
                 - name: data.id
                   in: path
@@ -683,18 +683,18 @@ paths:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/UpdateDictMainRequest'
+                            $ref: '#/components/schemas/UpdateDictTypeRequest'
                 required: true
             responses:
                 "200":
                     description: OK
                     content: {}
-    /admin/v1/dict-mains/{id}:
+    /admin/v1/dict-types/{id}:
         get:
             tags:
                 - DictService
-            description: 查询主字典详情
-            operationId: DictService_GetDictMain
+            description: 查询字典类型详情
+            operationId: DictService_GetDictType
             parameters:
                 - name: id
                   in: path
@@ -712,7 +712,7 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/DictMain'
+                                $ref: '#/components/schemas/DictType'
     /admin/v1/file:upload:
         put:
             tags:
@@ -2813,12 +2813,12 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/UserExistsResponse'
-    /api/v1/dict-mains/code/{code}:
+    /api/v1/dict-types/code/{code}:
         get:
             tags:
                 - DictService
-            description: 查询主字典详情
-            operationId: DictService_GetDictMain
+            description: 查询字典类型详情
+            operationId: DictService_GetDictType
             parameters:
                 - name: code
                   in: path
@@ -2836,7 +2836,7 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/DictMain'
+                                $ref: '#/components/schemas/DictType'
 components:
     schemas:
         AdminLoginLog:
@@ -2897,7 +2897,7 @@ components:
                 username:
                     type: string
                     description: 操作者账号名
-                createTime:
+                createdAt:
                     type: string
                     description: 创建时间
                     format: date-time
@@ -2938,23 +2938,27 @@ components:
                 reason:
                     type: string
                     description: 限制原因
-                createBy:
+                createdBy:
                     type: integer
                     description: 创建者ID
                     format: uint32
-                updateBy:
+                updatedBy:
                     type: integer
                     description: 更新者ID
                     format: uint32
-                createTime:
+                deletedBy:
+                    type: integer
+                    description: 删除者用户ID
+                    format: uint32
+                createdAt:
                     type: string
                     description: 创建时间
                     format: date-time
-                updateTime:
+                updatedAt:
                     type: string
                     description: 更新时间
                     format: date-time
-                deleteTime:
+                deletedAt:
                     type: string
                     description: 删除时间
                     format: date-time
@@ -3047,7 +3051,7 @@ components:
                 osVersion:
                     type: string
                     description: 操作系统版本
-                createTime:
+                createdAt:
                     type: string
                     description: 创建时间
                     format: date-time
@@ -3085,23 +3089,27 @@ components:
                     type: string
                     description: 作用域
                     format: enum
-                createBy:
+                createdBy:
                     type: integer
                     description: 创建者ID
                     format: uint32
-                updateBy:
+                updatedBy:
                     type: integer
                     description: 更新者ID
                     format: uint32
-                createTime:
+                deletedBy:
+                    type: integer
+                    description: 删除者用户ID
+                    format: uint32
+                createdAt:
                     type: string
                     description: 创建时间
                     format: date-time
-                updateTime:
+                updatedAt:
                     type: string
                     description: 更新时间
                     format: date-time
-                deleteTime:
+                deletedAt:
                     type: string
                     description: 删除时间
                     format: date-time
@@ -3152,18 +3160,18 @@ components:
                 data:
                     $ref: '#/components/schemas/Department'
             description: 创建部门 - 请求
-        CreateDictItemRequest:
+        CreateDictEntryRequest:
             type: object
             properties:
                 data:
-                    $ref: '#/components/schemas/DictItem'
-            description: 创建子字典 - 请求
-        CreateDictMainRequest:
+                    $ref: '#/components/schemas/DictEntry'
+            description: 创建字典条目 - 请求
+        CreateDictTypeRequest:
             type: object
             properties:
                 data:
-                    $ref: '#/components/schemas/DictMain'
-            description: 创建主字典 - 请求
+                    $ref: '#/components/schemas/DictType'
+            description: 创建字典类型 - 请求
         CreateFileRequest:
             type: object
             properties:
@@ -3281,9 +3289,9 @@ components:
                     type: integer
                     description: 租户ID
                     format: uint32
-                sortId:
+                sortOrder:
                     type: integer
-                    description: 排序编号
+                    description: 排序顺序，值越小越靠前
                     format: int32
                 status:
                     enum:
@@ -3304,131 +3312,138 @@ components:
                     items:
                         $ref: '#/components/schemas/Department'
                     description: 子节点树
-                createBy:
+                createdBy:
                     type: integer
                     description: 创建者ID
                     format: uint32
-                updateBy:
+                updatedBy:
                     type: integer
                     description: 更新者ID
                     format: uint32
-                createTime:
+                deletedBy:
+                    type: integer
+                    description: 删除者用户ID
+                    format: uint32
+                createdAt:
                     type: string
                     description: 创建时间
                     format: date-time
-                updateTime:
+                updatedAt:
                     type: string
                     description: 更新时间
                     format: date-time
-                deleteTime:
+                deletedAt:
                     type: string
                     description: 删除时间
                     format: date-time
             description: 部门
-        DictItem:
+        DictEntry:
             type: object
             properties:
                 id:
                     type: integer
-                    description: 子项ID
+                    description: 字典条目ID
                     format: uint32
-                mainId:
+                typeId:
                     type: integer
-                    description: 主字典ID
+                    description: 字典类型ID
                     format: uint32
-                code:
+                entryLabel:
                     type: string
-                    description: 子项编码
-                name:
+                    description: 字典项的显示标签
+                entryValue:
                     type: string
-                    description: 子项名称
-                value:
+                    description: 字典项的实际值
+                numericValue:
                     type: integer
-                    description: 数值型标识
+                    description: 数值型值
                     format: int32
-                status:
-                    enum:
-                        - OFF
-                        - ON
+                languageCode:
                     type: string
+                    description: 语言代码
+                isEnabled:
+                    type: boolean
                     description: 字典状态
-                    format: enum
-                sortId:
+                sortOrder:
                     type: integer
-                    description: 排序编号
+                    description: 排序顺序，值越小越靠前
                     format: int32
-                remark:
+                description:
                     type: string
-                    description: 备注
-                createBy:
+                    description: 描述
+                createdBy:
                     type: integer
                     description: 创建者ID
                     format: uint32
-                updateBy:
+                updatedBy:
                     type: integer
                     description: 更新者ID
                     format: uint32
-                createTime:
+                deletedBy:
+                    type: integer
+                    description: 删除者用户ID
+                    format: uint32
+                createdAt:
                     type: string
                     description: 创建时间
                     format: date-time
-                updateTime:
+                updatedAt:
                     type: string
                     description: 更新时间
                     format: date-time
-                deleteTime:
+                deletedAt:
                     type: string
                     description: 删除时间
                     format: date-time
-            description: 子字典
-        DictMain:
+            description: 字典条目
+        DictType:
             type: object
             properties:
                 id:
                     type: integer
-                    description: 主字典ID
+                    description: 字典类型ID
                     format: uint32
-                code:
+                typeCode:
                     type: string
-                    description: 主字典编码
-                name:
+                    description: 字典类型唯一代码
+                typeName:
                     type: string
-                    description: 主字典名称
-                status:
-                    enum:
-                        - OFF
-                        - ON
-                    type: string
+                    description: 字典类型名称
+                isEnabled:
+                    type: boolean
                     description: 字典状态
-                    format: enum
-                sortId:
+                sortOrder:
                     type: integer
-                    description: 排序编号
+                    description: 排序顺序，值越小越靠前
                     format: int32
-                remark:
+                description:
                     type: string
-                    description: 备注
-                createBy:
+                    description: 描述
+                createdBy:
                     type: integer
-                    description: 创建者ID
+                    description: 创建者用户ID
                     format: uint32
-                updateBy:
+                updatedBy:
                     type: integer
-                    description: 更新者ID
+                    description: 更新者用户ID
                     format: uint32
-                createTime:
+                deletedBy:
+                    type: integer
+                    description: 删除者用户ID
+                    format: uint32
+                createdAt:
                     type: string
                     description: 创建时间
                     format: date-time
-                updateTime:
+                updatedAt:
                     type: string
                     description: 更新时间
                     format: date-time
-                deleteTime:
+                deletedAt:
                     type: string
                     description: 删除时间
                     format: date-time
-            description: 主字典
+            description: 字典类型
         EditUserPasswordRequest:
             type: object
             properties:
@@ -3493,23 +3508,27 @@ components:
                 md5:
                     type: string
                     description: md5码，防止上传重复文件
-                createBy:
+                createdBy:
                     type: integer
                     description: 创建者ID
                     format: uint32
-                updateBy:
+                updatedBy:
                     type: integer
                     description: 更新者ID
                     format: uint32
-                createTime:
+                deletedBy:
+                    type: integer
+                    description: 删除者用户ID
+                    format: uint32
+                createdAt:
                     type: string
                     description: 创建时间
                     format: date-time
-                updateTime:
+                updatedAt:
                     type: string
                     description: 更新时间
                     format: date-time
-                deleteTime:
+                deletedAt:
                     type: string
                     description: 删除时间
                     format: date-time
@@ -3586,28 +3605,28 @@ components:
                     type: integer
                     format: uint32
             description: 部门列表 - 答复
-        ListDictItemResponse:
+        ListDictEntryResponse:
             type: object
             properties:
                 items:
                     type: array
                     items:
-                        $ref: '#/components/schemas/DictItem'
+                        $ref: '#/components/schemas/DictEntry'
                 total:
                     type: integer
                     format: uint32
-            description: 查询子字典列表 - 回应
-        ListDictMainResponse:
+            description: 查询字典条目列表 - 回应
+        ListDictTypeResponse:
             type: object
             properties:
                 items:
                     type: array
                     items:
-                        $ref: '#/components/schemas/DictMain'
+                        $ref: '#/components/schemas/DictType'
                 total:
                     type: integer
                     format: uint32
-            description: 查询主字典列表 - 回应
+            description: 查询字典类型列表 - 回应
         ListFileResponse:
             type: object
             properties:
@@ -3880,23 +3899,27 @@ components:
                     items:
                         $ref: '#/components/schemas/Menu'
                     description: 子节点树
-                createBy:
+                createdBy:
                     type: integer
                     description: 创建者ID
                     format: uint32
-                updateBy:
+                updatedBy:
                     type: integer
                     description: 更新者ID
                     format: uint32
-                createTime:
+                deletedBy:
+                    type: integer
+                    description: 删除者用户ID
+                    format: uint32
+                createdAt:
                     type: string
                     description: 创建时间
                     format: date-time
-                updateTime:
+                updatedAt:
                     type: string
                     description: 更新时间
                     format: date-time
-                deleteTime:
+                deletedAt:
                     type: string
                     description: 删除时间
                     format: date-time
@@ -3936,23 +3959,27 @@ components:
                 categoryName:
                     type: string
                     description: 分类名称
-                createBy:
+                createdBy:
                     type: integer
                     description: 创建者ID
                     format: uint32
-                updateBy:
+                updatedBy:
                     type: integer
                     description: 更新者ID
                     format: uint32
-                createTime:
+                deletedBy:
+                    type: integer
+                    description: 删除者用户ID
+                    format: uint32
+                createdAt:
                     type: string
                     description: 创建时间
                     format: date-time
-                updateTime:
+                updatedAt:
                     type: string
                     description: 更新时间
                     format: date-time
-                deleteTime:
+                deletedAt:
                     type: string
                     description: 删除时间
                     format: date-time
@@ -3970,9 +3997,9 @@ components:
                 code:
                     type: string
                     description: 编码
-                sortId:
+                sortOrder:
                     type: integer
-                    description: 排序编号
+                    description: 排序顺序，值越小越靠前
                     format: int32
                 enable:
                     type: boolean
@@ -3986,23 +4013,27 @@ components:
                     items:
                         $ref: '#/components/schemas/NotificationMessageCategory'
                     description: 子节点树
-                createBy:
+                createdBy:
                     type: integer
                     description: 创建者ID
                     format: uint32
-                updateBy:
+                updatedBy:
                     type: integer
                     description: 更新者ID
                     format: uint32
-                createTime:
+                deletedBy:
+                    type: integer
+                    description: 删除者用户ID
+                    format: uint32
+                createdAt:
                     type: string
                     description: 创建时间
                     format: date-time
-                updateTime:
+                updatedAt:
                     type: string
                     description: 更新时间
                     format: date-time
-                deleteTime:
+                deletedAt:
                     type: string
                     description: 删除时间
                     format: date-time
@@ -4037,23 +4068,27 @@ components:
                     type: string
                     description: 消息状态
                     format: enum
-                createBy:
+                createdBy:
                     type: integer
                     description: 创建者ID
                     format: uint32
-                updateBy:
+                updatedBy:
                     type: integer
                     description: 更新者ID
                     format: uint32
-                createTime:
+                deletedBy:
+                    type: integer
+                    description: 删除者用户ID
+                    format: uint32
+                createdAt:
                     type: string
                     description: 创建时间
                     format: date-time
-                updateTime:
+                updatedAt:
                     type: string
                     description: 更新时间
                     format: date-time
-                deleteTime:
+                deletedAt:
                     type: string
                     description: 删除时间
                     format: date-time
@@ -4090,9 +4125,9 @@ components:
                 address:
                     type: string
                     description: 注册地址
-                sortId:
+                sortOrder:
                     type: integer
-                    description: 排序编号
+                    description: 排序顺序，值越小越靠前
                     format: int32
                 status:
                     enum:
@@ -4124,23 +4159,27 @@ components:
                     items:
                         $ref: '#/components/schemas/Organization'
                     description: 子节点树
-                createBy:
+                createdBy:
                     type: integer
                     description: 创建者ID
                     format: uint32
-                updateBy:
+                updatedBy:
                     type: integer
                     description: 更新者ID
                     format: uint32
-                createTime:
+                deletedBy:
+                    type: integer
+                    description: 删除者用户ID
+                    format: uint32
+                createdAt:
                     type: string
                     description: 创建时间
                     format: date-time
-                updateTime:
+                updatedAt:
                     type: string
                     description: 更新时间
                     format: date-time
-                deleteTime:
+                deletedAt:
                     type: string
                     description: 删除时间
                     format: date-time
@@ -4206,9 +4245,9 @@ components:
                     type: integer
                     description: 编制人数（该职位最多可容纳的员工数量，0表示无限制）
                     format: uint32
-                sortId:
+                sortOrder:
                     type: integer
-                    description: 排序号
+                    description: 排序顺序，值越小越靠前
                     format: int32
                 status:
                     enum:
@@ -4250,23 +4289,27 @@ components:
                     items:
                         $ref: '#/components/schemas/Position'
                     description: 子节点树
-                createBy:
+                createdBy:
                     type: integer
                     description: 创建者ID
                     format: uint32
-                updateBy:
+                updatedBy:
                     type: integer
                     description: 更新者ID
                     format: uint32
-                createTime:
+                deletedBy:
+                    type: integer
+                    description: 删除者用户ID
+                    format: uint32
+                createdAt:
                     type: string
                     description: 创建时间
                     format: date-time
-                updateTime:
+                updatedAt:
                     type: string
                     description: 更新时间
                     format: date-time
-                deleteTime:
+                deletedAt:
                     type: string
                     description: 删除时间
                     format: date-time
@@ -4319,15 +4362,15 @@ components:
                 receiverAvatar:
                     type: string
                     description: 接收者用户头像
-                createTime:
+                createdAt:
                     type: string
                     description: 创建时间
                     format: date-time
-                updateTime:
+                updatedAt:
                     type: string
                     description: 更新时间
                     format: date-time
-                deleteTime:
+                deletedAt:
                     type: string
                     description: 删除时间
                     format: date-time
@@ -4349,9 +4392,9 @@ components:
                 name:
                     type: string
                     description: 角色名称
-                sortId:
+                sortOrder:
                     type: integer
-                    description: 排序编号
+                    description: 排序顺序，值越小越靠前
                     format: int32
                 code:
                     type: string
@@ -4407,23 +4450,27 @@ components:
                     items:
                         $ref: '#/components/schemas/Role'
                     description: 子节点树
-                createBy:
+                createdBy:
                     type: integer
                     description: 创建者ID
                     format: uint32
-                updateBy:
+                updatedBy:
                     type: integer
                     description: 更新者ID
                     format: uint32
-                createTime:
+                deletedBy:
+                    type: integer
+                    description: 删除者用户ID
+                    format: uint32
+                createdAt:
                     type: string
                     description: 创建时间
                     format: date-time
-                updateTime:
+                updatedAt:
                     type: string
                     description: 更新时间
                     format: date-time
-                deleteTime:
+                deletedAt:
                     type: string
                     description: 删除时间
                     format: date-time
@@ -4573,23 +4620,27 @@ components:
                 remark:
                     type: string
                     description: 备注
-                createBy:
+                createdBy:
                     type: integer
                     description: 创建者ID
                     format: uint32
-                updateBy:
+                updatedBy:
                     type: integer
                     description: 更新者ID
                     format: uint32
-                createTime:
+                deletedBy:
+                    type: integer
+                    description: 删除者用户ID
+                    format: uint32
+                createdAt:
                     type: string
                     description: 创建时间
                     format: date-time
-                updateTime:
+                updatedAt:
                     type: string
                     description: 更新时间
                     format: date-time
-                deleteTime:
+                deletedAt:
                     type: string
                     description: 删除时间
                     format: date-time
@@ -4725,23 +4776,27 @@ components:
                     items:
                         $ref: '#/components/schemas/Tenant'
                     description: 子节点树
-                createBy:
+                createdBy:
                     type: integer
                     description: 创建者ID
                     format: uint32
-                updateBy:
+                updatedBy:
                     type: integer
                     description: 更新者ID
                     format: uint32
-                createTime:
+                deletedBy:
+                    type: integer
+                    description: 删除者用户ID
+                    format: uint32
+                createdAt:
                     type: string
                     description: 创建时间
                     format: date-time
-                updateTime:
+                updatedAt:
                     type: string
                     description: 更新时间
                     format: date-time
-                deleteTime:
+                deletedAt:
                     type: string
                     description: 删除时间
                     format: date-time
@@ -4987,11 +5042,11 @@ components:
                     type: boolean
                     description: 如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。
             description: 更新部门 - 请求
-        UpdateDictItemRequest:
+        UpdateDictEntryRequest:
             type: object
             properties:
                 data:
-                    $ref: '#/components/schemas/DictItem'
+                    $ref: '#/components/schemas/DictEntry'
                 updateMask:
                     example: id,realname,username
                     type: string
@@ -5000,12 +5055,12 @@ components:
                 allowMissing:
                     type: boolean
                     description: 如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。
-            description: 更新子字典 - 请求
-        UpdateDictMainRequest:
+            description: 更新字典条目 - 请求
+        UpdateDictTypeRequest:
             type: object
             properties:
                 data:
-                    $ref: '#/components/schemas/DictMain'
+                    $ref: '#/components/schemas/DictType'
                 updateMask:
                     example: id,realname,username
                     type: string
@@ -5014,7 +5069,7 @@ components:
                 allowMissing:
                     type: boolean
                     description: 如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。
-            description: 更新主字典 - 请求
+            description: 更新字典类型 - 请求
         UpdateFileRequest:
             type: object
             properties:
@@ -5333,23 +5388,27 @@ components:
                     default: CUSTOMER_USER
                     description: 权限
                     format: enum
-                createBy:
+                createdBy:
                     type: integer
                     description: 创建者ID
                     format: uint32
-                updateBy:
+                updatedBy:
                     type: integer
                     description: 更新者ID
                     format: uint32
-                createTime:
+                deletedBy:
+                    type: integer
+                    description: 删除者用户ID
+                    format: uint32
+                createdAt:
                     type: string
                     description: 创建时间
                     format: date-time
-                updateTime:
+                updatedAt:
                     type: string
                     description: 更新时间
                     format: date-time
-                deleteTime:
+                deletedAt:
                     type: string
                     description: 删除时间
                     format: date-time
@@ -5391,7 +5450,7 @@ tags:
     - name: DepartmentService
       description: 部门管理服务
     - name: DictService
-      description: 字典管理服务
+      description: 数据字典管理服务
     - name: FileService
       description: 文件管理服务
     - name: MenuService

@@ -11,9 +11,10 @@ import (
 	"kratos-admin/app/admin/service/internal/data/ent/adminoperationlog"
 	"kratos-admin/app/admin/service/internal/data/ent/apiresource"
 	"kratos-admin/app/admin/service/internal/data/ent/department"
-	"kratos-admin/app/admin/service/internal/data/ent/dictitem"
-	"kratos-admin/app/admin/service/internal/data/ent/dictmain"
+	"kratos-admin/app/admin/service/internal/data/ent/dictentry"
+	"kratos-admin/app/admin/service/internal/data/ent/dicttype"
 	"kratos-admin/app/admin/service/internal/data/ent/file"
+	"kratos-admin/app/admin/service/internal/data/ent/language"
 	"kratos-admin/app/admin/service/internal/data/ent/menu"
 	"kratos-admin/app/admin/service/internal/data/ent/notificationmessage"
 	"kratos-admin/app/admin/service/internal/data/ent/notificationmessagecategory"
@@ -104,9 +105,10 @@ func checkColumn(t, c string) error {
 			adminoperationlog.Table:            adminoperationlog.ValidColumn,
 			apiresource.Table:                  apiresource.ValidColumn,
 			department.Table:                   department.ValidColumn,
-			dictitem.Table:                     dictitem.ValidColumn,
-			dictmain.Table:                     dictmain.ValidColumn,
+			dictentry.Table:                    dictentry.ValidColumn,
+			dicttype.Table:                     dicttype.ValidColumn,
 			file.Table:                         file.ValidColumn,
+			language.Table:                     language.ValidColumn,
 			menu.Table:                         menu.ValidColumn,
 			notificationmessage.Table:          notificationmessage.ValidColumn,
 			notificationmessagecategory.Table:  notificationmessagecategory.ValidColumn,

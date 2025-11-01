@@ -74,7 +74,7 @@ func (r *FileRepo) List(ctx context.Context, req *pagination.PagingRequest) (*fi
 	err, whereSelectors, querySelectors := entgo.BuildQuerySelector(
 		req.GetQuery(), req.GetOrQuery(),
 		req.GetPage(), req.GetPageSize(), req.GetNoPaging(),
-		req.GetOrderBy(), file.FieldCreateTime,
+		req.GetOrderBy(), file.FieldCreatedAt,
 		req.GetFieldMask().GetPaths(),
 	)
 	if err != nil {
@@ -156,11 +156,11 @@ func (r *FileRepo) Create(ctx context.Context, req *fileV1.CreateFileRequest) er
 		SetNillableSizeFormat(req.Data.SizeFormat).
 		SetNillableLinkURL(req.Data.LinkUrl).
 		SetNillableMd5(req.Data.Md5).
-		SetNillableCreateBy(req.Data.CreateBy).
-		SetNillableCreateTime(timeutil.TimestamppbToTime(req.Data.CreateTime))
+		SetNillableCreatedBy(req.Data.CreatedBy).
+		SetNillableCreatedAt(timeutil.TimestamppbToTime(req.Data.CreatedAt))
 
-	if req.Data.CreateTime == nil {
-		builder.SetCreateTime(time.Now())
+	if req.Data.CreatedAt == nil {
+		builder.SetCreatedAt(time.Now())
 	}
 
 	if req.Data.Id != nil {
@@ -188,8 +188,8 @@ func (r *FileRepo) Update(ctx context.Context, req *fileV1.UpdateFileRequest) er
 		}
 		if !exist {
 			createReq := &fileV1.CreateFileRequest{Data: req.Data}
-			createReq.Data.CreateBy = createReq.Data.UpdateBy
-			createReq.Data.UpdateBy = nil
+			createReq.Data.CreatedBy = createReq.Data.UpdatedBy
+			createReq.Data.UpdatedBy = nil
 			return r.Create(ctx, createReq)
 		}
 	}
@@ -215,11 +215,11 @@ func (r *FileRepo) Update(ctx context.Context, req *fileV1.UpdateFileRequest) er
 		SetNillableSizeFormat(req.Data.SizeFormat).
 		SetNillableLinkURL(req.Data.LinkUrl).
 		SetNillableMd5(req.Data.Md5).
-		//SetNillableUpdateBy(trans.Ptr(operator.UserId)).
-		SetNillableUpdateTime(timeutil.TimestamppbToTime(req.Data.UpdateTime))
+		//SetNillableUpdatedBy(trans.Ptr(operator.UserId)).
+		SetNillableUpdatedAt(timeutil.TimestamppbToTime(req.Data.UpdatedAt))
 
-	if req.Data.UpdateTime == nil {
-		builder.SetUpdateTime(time.Now())
+	if req.Data.UpdatedAt == nil {
+		builder.SetUpdatedAt(time.Now())
 	}
 
 	if req.UpdateMask != nil {

@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"github.com/go-kratos/kratos/v2/log"
+	"github.com/tx7do/go-utils/entgo"
 
 	"kratos-admin/app/admin/service/internal/data/ent"
 	"kratos-admin/app/admin/service/internal/data/ent/userposition"
@@ -35,7 +36,7 @@ func (r *UserPositionRepo) AssignPositions(ctx context.Context, userId uint32, i
 
 	// 删除该用户的所有旧关联
 	if _, err = tx.UserPosition.Delete().Where(userposition.UserID(userId)).Exec(ctx); err != nil {
-		err = rollback(tx, err)
+		err = entgo.Rollback(tx, err)
 		r.log.Errorf("delete old user positions failed: %s", err.Error())
 		return userV1.ErrorInternalServerError("delete old user positions failed")
 	}
@@ -56,14 +57,14 @@ func (r *UserPositionRepo) AssignPositions(ctx context.Context, userId uint32, i
 			Create().
 			SetUserID(userId).
 			SetPositionID(id).
-			SetCreateBy(operatorId).
-			SetCreateTime(time.Now())
+			SetCreatedBy(operatorId).
+			SetCreatedAt(time.Now())
 		userPositions = append(userPositions, rm)
 	}
 
 	_, err = r.data.db.Client().UserPosition.CreateBulk(userPositions...).Save(ctx)
 	if err != nil {
-		err = rollback(tx, err)
+		err = entgo.Rollback(tx, err)
 		r.log.Errorf("assign positions to user failed: %s", err.Error())
 		return userV1.ErrorInternalServerError("assign positions to user failed")
 	}

@@ -97,14 +97,14 @@ func (m *PrivateMessage) validate(all bool) error {
 		// no validation rules for ReceiverAvatar
 	}
 
-	if m.CreateTime != nil {
+	if m.CreatedAt != nil {
 
 		if all {
-			switch v := interface{}(m.GetCreateTime()).(type) {
+			switch v := interface{}(m.GetCreatedAt()).(type) {
 			case interface{ ValidateAll() error }:
 				if err := v.ValidateAll(); err != nil {
 					errors = append(errors, PrivateMessageValidationError{
-						field:  "CreateTime",
+						field:  "CreatedAt",
 						reason: "embedded message failed validation",
 						cause:  err,
 					})
@@ -112,16 +112,16 @@ func (m *PrivateMessage) validate(all bool) error {
 			case interface{ Validate() error }:
 				if err := v.Validate(); err != nil {
 					errors = append(errors, PrivateMessageValidationError{
-						field:  "CreateTime",
+						field:  "CreatedAt",
 						reason: "embedded message failed validation",
 						cause:  err,
 					})
 				}
 			}
-		} else if v, ok := interface{}(m.GetCreateTime()).(interface{ Validate() error }); ok {
+		} else if v, ok := interface{}(m.GetCreatedAt()).(interface{ Validate() error }); ok {
 			if err := v.Validate(); err != nil {
 				return PrivateMessageValidationError{
-					field:  "CreateTime",
+					field:  "CreatedAt",
 					reason: "embedded message failed validation",
 					cause:  err,
 				}
@@ -130,14 +130,14 @@ func (m *PrivateMessage) validate(all bool) error {
 
 	}
 
-	if m.UpdateTime != nil {
+	if m.UpdatedAt != nil {
 
 		if all {
-			switch v := interface{}(m.GetUpdateTime()).(type) {
+			switch v := interface{}(m.GetUpdatedAt()).(type) {
 			case interface{ ValidateAll() error }:
 				if err := v.ValidateAll(); err != nil {
 					errors = append(errors, PrivateMessageValidationError{
-						field:  "UpdateTime",
+						field:  "UpdatedAt",
 						reason: "embedded message failed validation",
 						cause:  err,
 					})
@@ -145,16 +145,16 @@ func (m *PrivateMessage) validate(all bool) error {
 			case interface{ Validate() error }:
 				if err := v.Validate(); err != nil {
 					errors = append(errors, PrivateMessageValidationError{
-						field:  "UpdateTime",
+						field:  "UpdatedAt",
 						reason: "embedded message failed validation",
 						cause:  err,
 					})
 				}
 			}
-		} else if v, ok := interface{}(m.GetUpdateTime()).(interface{ Validate() error }); ok {
+		} else if v, ok := interface{}(m.GetUpdatedAt()).(interface{ Validate() error }); ok {
 			if err := v.Validate(); err != nil {
 				return PrivateMessageValidationError{
-					field:  "UpdateTime",
+					field:  "UpdatedAt",
 					reason: "embedded message failed validation",
 					cause:  err,
 				}
@@ -163,14 +163,14 @@ func (m *PrivateMessage) validate(all bool) error {
 
 	}
 
-	if m.DeleteTime != nil {
+	if m.DeletedAt != nil {
 
 		if all {
-			switch v := interface{}(m.GetDeleteTime()).(type) {
+			switch v := interface{}(m.GetDeletedAt()).(type) {
 			case interface{ ValidateAll() error }:
 				if err := v.ValidateAll(); err != nil {
 					errors = append(errors, PrivateMessageValidationError{
-						field:  "DeleteTime",
+						field:  "DeletedAt",
 						reason: "embedded message failed validation",
 						cause:  err,
 					})
@@ -178,16 +178,16 @@ func (m *PrivateMessage) validate(all bool) error {
 			case interface{ Validate() error }:
 				if err := v.Validate(); err != nil {
 					errors = append(errors, PrivateMessageValidationError{
-						field:  "DeleteTime",
+						field:  "DeletedAt",
 						reason: "embedded message failed validation",
 						cause:  err,
 					})
 				}
 			}
-		} else if v, ok := interface{}(m.GetDeleteTime()).(interface{ Validate() error }); ok {
+		} else if v, ok := interface{}(m.GetDeletedAt()).(interface{ Validate() error }); ok {
 			if err := v.Validate(); err != nil {
 				return PrivateMessageValidationError{
-					field:  "DeleteTime",
+					field:  "DeletedAt",
 					reason: "embedded message failed validation",
 					cause:  err,
 				}

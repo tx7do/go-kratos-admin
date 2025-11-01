@@ -22,12 +22,14 @@ type Tx struct {
 	ApiResource *ApiResourceClient
 	// Department is the client for interacting with the Department builders.
 	Department *DepartmentClient
-	// DictItem is the client for interacting with the DictItem builders.
-	DictItem *DictItemClient
-	// DictMain is the client for interacting with the DictMain builders.
-	DictMain *DictMainClient
+	// DictEntry is the client for interacting with the DictEntry builders.
+	DictEntry *DictEntryClient
+	// DictType is the client for interacting with the DictType builders.
+	DictType *DictTypeClient
 	// File is the client for interacting with the File builders.
 	File *FileClient
+	// Language is the client for interacting with the Language builders.
+	Language *LanguageClient
 	// Menu is the client for interacting with the Menu builders.
 	Menu *MenuClient
 	// NotificationMessage is the client for interacting with the NotificationMessage builders.
@@ -202,9 +204,10 @@ func (tx *Tx) init() {
 	tx.AdminOperationLog = NewAdminOperationLogClient(tx.config)
 	tx.ApiResource = NewApiResourceClient(tx.config)
 	tx.Department = NewDepartmentClient(tx.config)
-	tx.DictItem = NewDictItemClient(tx.config)
-	tx.DictMain = NewDictMainClient(tx.config)
+	tx.DictEntry = NewDictEntryClient(tx.config)
+	tx.DictType = NewDictTypeClient(tx.config)
 	tx.File = NewFileClient(tx.config)
+	tx.Language = NewLanguageClient(tx.config)
 	tx.Menu = NewMenuClient(tx.config)
 	tx.NotificationMessage = NewNotificationMessageClient(tx.config)
 	tx.NotificationMessageCategory = NewNotificationMessageCategoryClient(tx.config)

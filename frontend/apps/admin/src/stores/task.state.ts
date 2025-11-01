@@ -122,16 +122,6 @@ export const useTaskStore = defineStore('task', () => {
   };
 });
 
-export const enableList = computed(() => [
-  { value: 'true', label: $t('enum.enable.true') },
-  { value: 'false', label: $t('enum.enable.false') },
-]);
-
-export const enableBoolList = computed(() => [
-  { value: true, label: $t('enum.enable.true') },
-  { value: false, label: $t('enum.enable.false') },
-]);
-
 export const taskTypeList = computed(() => [
   {
     value: Task_Type.PERIODIC,

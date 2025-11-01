@@ -21,32 +21,32 @@ type DictService struct {
 
 	log *log.Helper
 
-	dictMainRepo *data.DictMainRepo
-	dictItemRepo *data.DictItemRepo
+	dictTypeRepo  *data.DictTypeRepo
+	dictEntryRepo *data.DictEntryRepo
 }
 
 func NewDictService(
 	logger log.Logger,
-	dictMainRepo *data.DictMainRepo,
-	dictItemRepo *data.DictItemRepo,
+	dictTypeRepo *data.DictTypeRepo,
+	dictEntryRepo *data.DictEntryRepo,
 ) *DictService {
 	l := log.NewHelper(log.With(logger, "module", "dict/service/admin-service"))
 	return &DictService{
-		log:          l,
-		dictMainRepo: dictMainRepo,
-		dictItemRepo: dictItemRepo,
+		log:           l,
+		dictTypeRepo:  dictTypeRepo,
+		dictEntryRepo: dictEntryRepo,
 	}
 }
 
-func (s *DictService) ListDictMain(ctx context.Context, req *pagination.PagingRequest) (*dictV1.ListDictMainResponse, error) {
-	return s.dictMainRepo.List(ctx, req)
+func (s *DictService) ListDictType(ctx context.Context, req *pagination.PagingRequest) (*dictV1.ListDictTypeResponse, error) {
+	return s.dictTypeRepo.List(ctx, req)
 }
 
-func (s *DictService) GetDictMain(ctx context.Context, req *dictV1.GetDictMainRequest) (*dictV1.DictMain, error) {
-	return s.dictMainRepo.Get(ctx, req)
+func (s *DictService) GetDictType(ctx context.Context, req *dictV1.GetDictTypeRequest) (*dictV1.DictType, error) {
+	return s.dictTypeRepo.Get(ctx, req)
 }
 
-func (s *DictService) CreateDictMain(ctx context.Context, req *dictV1.CreateDictMainRequest) (*emptypb.Empty, error) {
+func (s *DictService) CreateDictType(ctx context.Context, req *dictV1.CreateDictTypeRequest) (*emptypb.Empty, error) {
 	if req.Data == nil {
 		return nil, adminV1.ErrorBadRequest("invalid parameter")
 	}
@@ -57,16 +57,16 @@ func (s *DictService) CreateDictMain(ctx context.Context, req *dictV1.CreateDict
 		return &emptypb.Empty{}, err
 	}
 
-	req.Data.CreateBy = trans.Ptr(operator.UserId)
+	req.Data.CreatedBy = trans.Ptr(operator.UserId)
 
-	if err = s.dictMainRepo.Create(ctx, req); err != nil {
+	if err = s.dictTypeRepo.Create(ctx, req); err != nil {
 		return nil, err
 	}
 
 	return &emptypb.Empty{}, nil
 }
 
-func (s *DictService) UpdateDictMain(ctx context.Context, req *dictV1.UpdateDictMainRequest) (*emptypb.Empty, error) {
+func (s *DictService) UpdateDictType(ctx context.Context, req *dictV1.UpdateDictTypeRequest) (*emptypb.Empty, error) {
 	if req.Data == nil {
 		return nil, adminV1.ErrorBadRequest("invalid parameter")
 	}
@@ -77,28 +77,28 @@ func (s *DictService) UpdateDictMain(ctx context.Context, req *dictV1.UpdateDict
 		return &emptypb.Empty{}, err
 	}
 
-	req.Data.UpdateBy = trans.Ptr(operator.UserId)
+	req.Data.UpdatedBy = trans.Ptr(operator.UserId)
 
-	if err = s.dictMainRepo.Update(ctx, req); err != nil {
+	if err = s.dictTypeRepo.Update(ctx, req); err != nil {
 		return nil, err
 	}
 
 	return &emptypb.Empty{}, nil
 }
 
-func (s *DictService) DeleteDictMain(ctx context.Context, req *dictV1.BatchDeleteDictRequest) (*emptypb.Empty, error) {
-	if err := s.dictMainRepo.BatchDelete(ctx, req.GetIds()); err != nil {
+func (s *DictService) DeleteDictType(ctx context.Context, req *dictV1.BatchDeleteDictRequest) (*emptypb.Empty, error) {
+	if err := s.dictTypeRepo.BatchDelete(ctx, req.GetIds()); err != nil {
 		return nil, err
 	}
 
 	return &emptypb.Empty{}, nil
 }
 
-func (s *DictService) ListDictItem(ctx context.Context, req *pagination.PagingRequest) (*dictV1.ListDictItemResponse, error) {
-	return s.dictItemRepo.List(ctx, req)
+func (s *DictService) ListDictEntry(ctx context.Context, req *pagination.PagingRequest) (*dictV1.ListDictEntryResponse, error) {
+	return s.dictEntryRepo.List(ctx, req)
 }
 
-func (s *DictService) CreateDictItem(ctx context.Context, req *dictV1.CreateDictItemRequest) (*emptypb.Empty, error) {
+func (s *DictService) CreateDictEntry(ctx context.Context, req *dictV1.CreateDictEntryRequest) (*emptypb.Empty, error) {
 	if req.Data == nil {
 		return nil, adminV1.ErrorBadRequest("invalid parameter")
 	}
@@ -109,16 +109,16 @@ func (s *DictService) CreateDictItem(ctx context.Context, req *dictV1.CreateDict
 		return &emptypb.Empty{}, err
 	}
 
-	req.Data.CreateBy = trans.Ptr(operator.UserId)
+	req.Data.CreatedBy = trans.Ptr(operator.UserId)
 
-	if err = s.dictItemRepo.Create(ctx, req); err != nil {
+	if err = s.dictEntryRepo.Create(ctx, req); err != nil {
 		return nil, err
 	}
 
 	return &emptypb.Empty{}, nil
 }
 
-func (s *DictService) UpdateDictItem(ctx context.Context, req *dictV1.UpdateDictItemRequest) (*emptypb.Empty, error) {
+func (s *DictService) UpdateDictEntry(ctx context.Context, req *dictV1.UpdateDictEntryRequest) (*emptypb.Empty, error) {
 	if req.Data == nil {
 		return nil, adminV1.ErrorBadRequest("invalid parameter")
 	}
@@ -129,17 +129,17 @@ func (s *DictService) UpdateDictItem(ctx context.Context, req *dictV1.UpdateDict
 		return &emptypb.Empty{}, err
 	}
 
-	req.Data.UpdateBy = trans.Ptr(operator.UserId)
+	req.Data.UpdatedBy = trans.Ptr(operator.UserId)
 
-	if err = s.dictItemRepo.Update(ctx, req); err != nil {
+	if err = s.dictEntryRepo.Update(ctx, req); err != nil {
 		return nil, err
 	}
 
 	return &emptypb.Empty{}, nil
 }
 
-func (s *DictService) DeleteDictItem(ctx context.Context, req *dictV1.BatchDeleteDictRequest) (*emptypb.Empty, error) {
-	if err := s.dictItemRepo.BatchDelete(ctx, req.GetIds()); err != nil {
+func (s *DictService) DeleteDictEntry(ctx context.Context, req *dictV1.BatchDeleteDictRequest) (*emptypb.Empty, error) {
+	if err := s.dictEntryRepo.BatchDelete(ctx, req.GetIds()); err != nil {
 		return nil, err
 	}
 

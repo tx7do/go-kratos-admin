@@ -54,19 +54,19 @@ func IDLTE(id uint32) predicate.NotificationMessageRecipient {
 	return predicate.NotificationMessageRecipient(sql.FieldLTE(FieldID, id))
 }
 
-// CreateTime applies equality check predicate on the "create_time" field. It's identical to CreateTimeEQ.
-func CreateTime(v time.Time) predicate.NotificationMessageRecipient {
-	return predicate.NotificationMessageRecipient(sql.FieldEQ(FieldCreateTime, v))
+// CreatedAt applies equality check predicate on the "created_at" field. It's identical to CreatedAtEQ.
+func CreatedAt(v time.Time) predicate.NotificationMessageRecipient {
+	return predicate.NotificationMessageRecipient(sql.FieldEQ(FieldCreatedAt, v))
 }
 
-// UpdateTime applies equality check predicate on the "update_time" field. It's identical to UpdateTimeEQ.
-func UpdateTime(v time.Time) predicate.NotificationMessageRecipient {
-	return predicate.NotificationMessageRecipient(sql.FieldEQ(FieldUpdateTime, v))
+// UpdatedAt applies equality check predicate on the "updated_at" field. It's identical to UpdatedAtEQ.
+func UpdatedAt(v time.Time) predicate.NotificationMessageRecipient {
+	return predicate.NotificationMessageRecipient(sql.FieldEQ(FieldUpdatedAt, v))
 }
 
-// DeleteTime applies equality check predicate on the "delete_time" field. It's identical to DeleteTimeEQ.
-func DeleteTime(v time.Time) predicate.NotificationMessageRecipient {
-	return predicate.NotificationMessageRecipient(sql.FieldEQ(FieldDeleteTime, v))
+// DeletedAt applies equality check predicate on the "deleted_at" field. It's identical to DeletedAtEQ.
+func DeletedAt(v time.Time) predicate.NotificationMessageRecipient {
+	return predicate.NotificationMessageRecipient(sql.FieldEQ(FieldDeletedAt, v))
 }
 
 // TenantID applies equality check predicate on the "tenant_id" field. It's identical to TenantIDEQ.
@@ -84,154 +84,154 @@ func RecipientID(v uint32) predicate.NotificationMessageRecipient {
 	return predicate.NotificationMessageRecipient(sql.FieldEQ(FieldRecipientID, v))
 }
 
-// CreateTimeEQ applies the EQ predicate on the "create_time" field.
-func CreateTimeEQ(v time.Time) predicate.NotificationMessageRecipient {
-	return predicate.NotificationMessageRecipient(sql.FieldEQ(FieldCreateTime, v))
+// CreatedAtEQ applies the EQ predicate on the "created_at" field.
+func CreatedAtEQ(v time.Time) predicate.NotificationMessageRecipient {
+	return predicate.NotificationMessageRecipient(sql.FieldEQ(FieldCreatedAt, v))
 }
 
-// CreateTimeNEQ applies the NEQ predicate on the "create_time" field.
-func CreateTimeNEQ(v time.Time) predicate.NotificationMessageRecipient {
-	return predicate.NotificationMessageRecipient(sql.FieldNEQ(FieldCreateTime, v))
+// CreatedAtNEQ applies the NEQ predicate on the "created_at" field.
+func CreatedAtNEQ(v time.Time) predicate.NotificationMessageRecipient {
+	return predicate.NotificationMessageRecipient(sql.FieldNEQ(FieldCreatedAt, v))
 }
 
-// CreateTimeIn applies the In predicate on the "create_time" field.
-func CreateTimeIn(vs ...time.Time) predicate.NotificationMessageRecipient {
-	return predicate.NotificationMessageRecipient(sql.FieldIn(FieldCreateTime, vs...))
+// CreatedAtIn applies the In predicate on the "created_at" field.
+func CreatedAtIn(vs ...time.Time) predicate.NotificationMessageRecipient {
+	return predicate.NotificationMessageRecipient(sql.FieldIn(FieldCreatedAt, vs...))
 }
 
-// CreateTimeNotIn applies the NotIn predicate on the "create_time" field.
-func CreateTimeNotIn(vs ...time.Time) predicate.NotificationMessageRecipient {
-	return predicate.NotificationMessageRecipient(sql.FieldNotIn(FieldCreateTime, vs...))
+// CreatedAtNotIn applies the NotIn predicate on the "created_at" field.
+func CreatedAtNotIn(vs ...time.Time) predicate.NotificationMessageRecipient {
+	return predicate.NotificationMessageRecipient(sql.FieldNotIn(FieldCreatedAt, vs...))
 }
 
-// CreateTimeGT applies the GT predicate on the "create_time" field.
-func CreateTimeGT(v time.Time) predicate.NotificationMessageRecipient {
-	return predicate.NotificationMessageRecipient(sql.FieldGT(FieldCreateTime, v))
+// CreatedAtGT applies the GT predicate on the "created_at" field.
+func CreatedAtGT(v time.Time) predicate.NotificationMessageRecipient {
+	return predicate.NotificationMessageRecipient(sql.FieldGT(FieldCreatedAt, v))
 }
 
-// CreateTimeGTE applies the GTE predicate on the "create_time" field.
-func CreateTimeGTE(v time.Time) predicate.NotificationMessageRecipient {
-	return predicate.NotificationMessageRecipient(sql.FieldGTE(FieldCreateTime, v))
+// CreatedAtGTE applies the GTE predicate on the "created_at" field.
+func CreatedAtGTE(v time.Time) predicate.NotificationMessageRecipient {
+	return predicate.NotificationMessageRecipient(sql.FieldGTE(FieldCreatedAt, v))
 }
 
-// CreateTimeLT applies the LT predicate on the "create_time" field.
-func CreateTimeLT(v time.Time) predicate.NotificationMessageRecipient {
-	return predicate.NotificationMessageRecipient(sql.FieldLT(FieldCreateTime, v))
+// CreatedAtLT applies the LT predicate on the "created_at" field.
+func CreatedAtLT(v time.Time) predicate.NotificationMessageRecipient {
+	return predicate.NotificationMessageRecipient(sql.FieldLT(FieldCreatedAt, v))
 }
 
-// CreateTimeLTE applies the LTE predicate on the "create_time" field.
-func CreateTimeLTE(v time.Time) predicate.NotificationMessageRecipient {
-	return predicate.NotificationMessageRecipient(sql.FieldLTE(FieldCreateTime, v))
+// CreatedAtLTE applies the LTE predicate on the "created_at" field.
+func CreatedAtLTE(v time.Time) predicate.NotificationMessageRecipient {
+	return predicate.NotificationMessageRecipient(sql.FieldLTE(FieldCreatedAt, v))
 }
 
-// CreateTimeIsNil applies the IsNil predicate on the "create_time" field.
-func CreateTimeIsNil() predicate.NotificationMessageRecipient {
-	return predicate.NotificationMessageRecipient(sql.FieldIsNull(FieldCreateTime))
+// CreatedAtIsNil applies the IsNil predicate on the "created_at" field.
+func CreatedAtIsNil() predicate.NotificationMessageRecipient {
+	return predicate.NotificationMessageRecipient(sql.FieldIsNull(FieldCreatedAt))
 }
 
-// CreateTimeNotNil applies the NotNil predicate on the "create_time" field.
-func CreateTimeNotNil() predicate.NotificationMessageRecipient {
-	return predicate.NotificationMessageRecipient(sql.FieldNotNull(FieldCreateTime))
+// CreatedAtNotNil applies the NotNil predicate on the "created_at" field.
+func CreatedAtNotNil() predicate.NotificationMessageRecipient {
+	return predicate.NotificationMessageRecipient(sql.FieldNotNull(FieldCreatedAt))
 }
 
-// UpdateTimeEQ applies the EQ predicate on the "update_time" field.
-func UpdateTimeEQ(v time.Time) predicate.NotificationMessageRecipient {
-	return predicate.NotificationMessageRecipient(sql.FieldEQ(FieldUpdateTime, v))
+// UpdatedAtEQ applies the EQ predicate on the "updated_at" field.
+func UpdatedAtEQ(v time.Time) predicate.NotificationMessageRecipient {
+	return predicate.NotificationMessageRecipient(sql.FieldEQ(FieldUpdatedAt, v))
 }
 
-// UpdateTimeNEQ applies the NEQ predicate on the "update_time" field.
-func UpdateTimeNEQ(v time.Time) predicate.NotificationMessageRecipient {
-	return predicate.NotificationMessageRecipient(sql.FieldNEQ(FieldUpdateTime, v))
+// UpdatedAtNEQ applies the NEQ predicate on the "updated_at" field.
+func UpdatedAtNEQ(v time.Time) predicate.NotificationMessageRecipient {
+	return predicate.NotificationMessageRecipient(sql.FieldNEQ(FieldUpdatedAt, v))
 }
 
-// UpdateTimeIn applies the In predicate on the "update_time" field.
-func UpdateTimeIn(vs ...time.Time) predicate.NotificationMessageRecipient {
-	return predicate.NotificationMessageRecipient(sql.FieldIn(FieldUpdateTime, vs...))
+// UpdatedAtIn applies the In predicate on the "updated_at" field.
+func UpdatedAtIn(vs ...time.Time) predicate.NotificationMessageRecipient {
+	return predicate.NotificationMessageRecipient(sql.FieldIn(FieldUpdatedAt, vs...))
 }
 
-// UpdateTimeNotIn applies the NotIn predicate on the "update_time" field.
-func UpdateTimeNotIn(vs ...time.Time) predicate.NotificationMessageRecipient {
-	return predicate.NotificationMessageRecipient(sql.FieldNotIn(FieldUpdateTime, vs...))
+// UpdatedAtNotIn applies the NotIn predicate on the "updated_at" field.
+func UpdatedAtNotIn(vs ...time.Time) predicate.NotificationMessageRecipient {
+	return predicate.NotificationMessageRecipient(sql.FieldNotIn(FieldUpdatedAt, vs...))
 }
 
-// UpdateTimeGT applies the GT predicate on the "update_time" field.
-func UpdateTimeGT(v time.Time) predicate.NotificationMessageRecipient {
-	return predicate.NotificationMessageRecipient(sql.FieldGT(FieldUpdateTime, v))
+// UpdatedAtGT applies the GT predicate on the "updated_at" field.
+func UpdatedAtGT(v time.Time) predicate.NotificationMessageRecipient {
+	return predicate.NotificationMessageRecipient(sql.FieldGT(FieldUpdatedAt, v))
 }
 
-// UpdateTimeGTE applies the GTE predicate on the "update_time" field.
-func UpdateTimeGTE(v time.Time) predicate.NotificationMessageRecipient {
-	return predicate.NotificationMessageRecipient(sql.FieldGTE(FieldUpdateTime, v))
+// UpdatedAtGTE applies the GTE predicate on the "updated_at" field.
+func UpdatedAtGTE(v time.Time) predicate.NotificationMessageRecipient {
+	return predicate.NotificationMessageRecipient(sql.FieldGTE(FieldUpdatedAt, v))
 }
 
-// UpdateTimeLT applies the LT predicate on the "update_time" field.
-func UpdateTimeLT(v time.Time) predicate.NotificationMessageRecipient {
-	return predicate.NotificationMessageRecipient(sql.FieldLT(FieldUpdateTime, v))
+// UpdatedAtLT applies the LT predicate on the "updated_at" field.
+func UpdatedAtLT(v time.Time) predicate.NotificationMessageRecipient {
+	return predicate.NotificationMessageRecipient(sql.FieldLT(FieldUpdatedAt, v))
 }
 
-// UpdateTimeLTE applies the LTE predicate on the "update_time" field.
-func UpdateTimeLTE(v time.Time) predicate.NotificationMessageRecipient {
-	return predicate.NotificationMessageRecipient(sql.FieldLTE(FieldUpdateTime, v))
+// UpdatedAtLTE applies the LTE predicate on the "updated_at" field.
+func UpdatedAtLTE(v time.Time) predicate.NotificationMessageRecipient {
+	return predicate.NotificationMessageRecipient(sql.FieldLTE(FieldUpdatedAt, v))
 }
 
-// UpdateTimeIsNil applies the IsNil predicate on the "update_time" field.
-func UpdateTimeIsNil() predicate.NotificationMessageRecipient {
-	return predicate.NotificationMessageRecipient(sql.FieldIsNull(FieldUpdateTime))
+// UpdatedAtIsNil applies the IsNil predicate on the "updated_at" field.
+func UpdatedAtIsNil() predicate.NotificationMessageRecipient {
+	return predicate.NotificationMessageRecipient(sql.FieldIsNull(FieldUpdatedAt))
 }
 
-// UpdateTimeNotNil applies the NotNil predicate on the "update_time" field.
-func UpdateTimeNotNil() predicate.NotificationMessageRecipient {
-	return predicate.NotificationMessageRecipient(sql.FieldNotNull(FieldUpdateTime))
+// UpdatedAtNotNil applies the NotNil predicate on the "updated_at" field.
+func UpdatedAtNotNil() predicate.NotificationMessageRecipient {
+	return predicate.NotificationMessageRecipient(sql.FieldNotNull(FieldUpdatedAt))
 }
 
-// DeleteTimeEQ applies the EQ predicate on the "delete_time" field.
-func DeleteTimeEQ(v time.Time) predicate.NotificationMessageRecipient {
-	return predicate.NotificationMessageRecipient(sql.FieldEQ(FieldDeleteTime, v))
+// DeletedAtEQ applies the EQ predicate on the "deleted_at" field.
+func DeletedAtEQ(v time.Time) predicate.NotificationMessageRecipient {
+	return predicate.NotificationMessageRecipient(sql.FieldEQ(FieldDeletedAt, v))
 }
 
-// DeleteTimeNEQ applies the NEQ predicate on the "delete_time" field.
-func DeleteTimeNEQ(v time.Time) predicate.NotificationMessageRecipient {
-	return predicate.NotificationMessageRecipient(sql.FieldNEQ(FieldDeleteTime, v))
+// DeletedAtNEQ applies the NEQ predicate on the "deleted_at" field.
+func DeletedAtNEQ(v time.Time) predicate.NotificationMessageRecipient {
+	return predicate.NotificationMessageRecipient(sql.FieldNEQ(FieldDeletedAt, v))
 }
 
-// DeleteTimeIn applies the In predicate on the "delete_time" field.
-func DeleteTimeIn(vs ...time.Time) predicate.NotificationMessageRecipient {
-	return predicate.NotificationMessageRecipient(sql.FieldIn(FieldDeleteTime, vs...))
+// DeletedAtIn applies the In predicate on the "deleted_at" field.
+func DeletedAtIn(vs ...time.Time) predicate.NotificationMessageRecipient {
+	return predicate.NotificationMessageRecipient(sql.FieldIn(FieldDeletedAt, vs...))
 }
 
-// DeleteTimeNotIn applies the NotIn predicate on the "delete_time" field.
-func DeleteTimeNotIn(vs ...time.Time) predicate.NotificationMessageRecipient {
-	return predicate.NotificationMessageRecipient(sql.FieldNotIn(FieldDeleteTime, vs...))
+// DeletedAtNotIn applies the NotIn predicate on the "deleted_at" field.
+func DeletedAtNotIn(vs ...time.Time) predicate.NotificationMessageRecipient {
+	return predicate.NotificationMessageRecipient(sql.FieldNotIn(FieldDeletedAt, vs...))
 }
 
-// DeleteTimeGT applies the GT predicate on the "delete_time" field.
-func DeleteTimeGT(v time.Time) predicate.NotificationMessageRecipient {
-	return predicate.NotificationMessageRecipient(sql.FieldGT(FieldDeleteTime, v))
+// DeletedAtGT applies the GT predicate on the "deleted_at" field.
+func DeletedAtGT(v time.Time) predicate.NotificationMessageRecipient {
+	return predicate.NotificationMessageRecipient(sql.FieldGT(FieldDeletedAt, v))
 }
 
-// DeleteTimeGTE applies the GTE predicate on the "delete_time" field.
-func DeleteTimeGTE(v time.Time) predicate.NotificationMessageRecipient {
-	return predicate.NotificationMessageRecipient(sql.FieldGTE(FieldDeleteTime, v))
+// DeletedAtGTE applies the GTE predicate on the "deleted_at" field.
+func DeletedAtGTE(v time.Time) predicate.NotificationMessageRecipient {
+	return predicate.NotificationMessageRecipient(sql.FieldGTE(FieldDeletedAt, v))
 }
 
-// DeleteTimeLT applies the LT predicate on the "delete_time" field.
-func DeleteTimeLT(v time.Time) predicate.NotificationMessageRecipient {
-	return predicate.NotificationMessageRecipient(sql.FieldLT(FieldDeleteTime, v))
+// DeletedAtLT applies the LT predicate on the "deleted_at" field.
+func DeletedAtLT(v time.Time) predicate.NotificationMessageRecipient {
+	return predicate.NotificationMessageRecipient(sql.FieldLT(FieldDeletedAt, v))
 }
 
-// DeleteTimeLTE applies the LTE predicate on the "delete_time" field.
-func DeleteTimeLTE(v time.Time) predicate.NotificationMessageRecipient {
-	return predicate.NotificationMessageRecipient(sql.FieldLTE(FieldDeleteTime, v))
+// DeletedAtLTE applies the LTE predicate on the "deleted_at" field.
+func DeletedAtLTE(v time.Time) predicate.NotificationMessageRecipient {
+	return predicate.NotificationMessageRecipient(sql.FieldLTE(FieldDeletedAt, v))
 }
 
-// DeleteTimeIsNil applies the IsNil predicate on the "delete_time" field.
-func DeleteTimeIsNil() predicate.NotificationMessageRecipient {
-	return predicate.NotificationMessageRecipient(sql.FieldIsNull(FieldDeleteTime))
+// DeletedAtIsNil applies the IsNil predicate on the "deleted_at" field.
+func DeletedAtIsNil() predicate.NotificationMessageRecipient {
+	return predicate.NotificationMessageRecipient(sql.FieldIsNull(FieldDeletedAt))
 }
 
-// DeleteTimeNotNil applies the NotNil predicate on the "delete_time" field.
-func DeleteTimeNotNil() predicate.NotificationMessageRecipient {
-	return predicate.NotificationMessageRecipient(sql.FieldNotNull(FieldDeleteTime))
+// DeletedAtNotNil applies the NotNil predicate on the "deleted_at" field.
+func DeletedAtNotNil() predicate.NotificationMessageRecipient {
+	return predicate.NotificationMessageRecipient(sql.FieldNotNull(FieldDeletedAt))
 }
 
 // TenantIDEQ applies the EQ predicate on the "tenant_id" field.
@@ -272,16 +272,6 @@ func TenantIDLT(v uint32) predicate.NotificationMessageRecipient {
 // TenantIDLTE applies the LTE predicate on the "tenant_id" field.
 func TenantIDLTE(v uint32) predicate.NotificationMessageRecipient {
 	return predicate.NotificationMessageRecipient(sql.FieldLTE(FieldTenantID, v))
-}
-
-// TenantIDIsNil applies the IsNil predicate on the "tenant_id" field.
-func TenantIDIsNil() predicate.NotificationMessageRecipient {
-	return predicate.NotificationMessageRecipient(sql.FieldIsNull(FieldTenantID))
-}
-
-// TenantIDNotNil applies the NotNil predicate on the "tenant_id" field.
-func TenantIDNotNil() predicate.NotificationMessageRecipient {
-	return predicate.NotificationMessageRecipient(sql.FieldNotNull(FieldTenantID))
 }
 
 // MessageIDEQ applies the EQ predicate on the "message_id" field.

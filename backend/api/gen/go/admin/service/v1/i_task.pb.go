@@ -248,11 +248,12 @@ type Task struct {
 	TaskOptions   *TaskOption            `protobuf:"bytes,6,opt,name=task_options,json=taskOptions,proto3,oneof" json:"task_options,omitempty"` // 任务选项
 	Enable        *bool                  `protobuf:"varint,10,opt,name=enable,proto3,oneof" json:"enable,omitempty"`                            // 启用/禁用任务
 	Remark        *string                `protobuf:"bytes,11,opt,name=remark,proto3,oneof" json:"remark,omitempty"`                             // 备注
-	CreateBy      *uint32                `protobuf:"varint,100,opt,name=create_by,json=createBy,proto3,oneof" json:"create_by,omitempty"`       // 创建者ID
-	UpdateBy      *uint32                `protobuf:"varint,101,opt,name=update_by,json=updateBy,proto3,oneof" json:"update_by,omitempty"`       // 更新者ID
-	CreateTime    *timestamppb.Timestamp `protobuf:"bytes,200,opt,name=create_time,json=createTime,proto3,oneof" json:"create_time,omitempty"`  // 创建时间
-	UpdateTime    *timestamppb.Timestamp `protobuf:"bytes,201,opt,name=update_time,json=updateTime,proto3,oneof" json:"update_time,omitempty"`  // 更新时间
-	DeleteTime    *timestamppb.Timestamp `protobuf:"bytes,202,opt,name=delete_time,json=deleteTime,proto3,oneof" json:"delete_time,omitempty"`  // 删除时间
+	CreatedBy     *uint32                `protobuf:"varint,100,opt,name=created_by,json=createdBy,proto3,oneof" json:"created_by,omitempty"`    // 创建者ID
+	UpdatedBy     *uint32                `protobuf:"varint,101,opt,name=updated_by,json=updatedBy,proto3,oneof" json:"updated_by,omitempty"`    // 更新者ID
+	DeletedBy     *uint32                `protobuf:"varint,102,opt,name=deleted_by,json=deletedBy,proto3,oneof" json:"deleted_by,omitempty"`    // 删除者用户ID
+	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,200,opt,name=created_at,json=createdAt,proto3,oneof" json:"created_at,omitempty"`     // 创建时间
+	UpdatedAt     *timestamppb.Timestamp `protobuf:"bytes,201,opt,name=updated_at,json=updatedAt,proto3,oneof" json:"updated_at,omitempty"`     // 更新时间
+	DeletedAt     *timestamppb.Timestamp `protobuf:"bytes,202,opt,name=deleted_at,json=deletedAt,proto3,oneof" json:"deleted_at,omitempty"`     // 删除时间
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -343,37 +344,44 @@ func (x *Task) GetRemark() string {
 	return ""
 }
 
-func (x *Task) GetCreateBy() uint32 {
-	if x != nil && x.CreateBy != nil {
-		return *x.CreateBy
+func (x *Task) GetCreatedBy() uint32 {
+	if x != nil && x.CreatedBy != nil {
+		return *x.CreatedBy
 	}
 	return 0
 }
 
-func (x *Task) GetUpdateBy() uint32 {
-	if x != nil && x.UpdateBy != nil {
-		return *x.UpdateBy
+func (x *Task) GetUpdatedBy() uint32 {
+	if x != nil && x.UpdatedBy != nil {
+		return *x.UpdatedBy
 	}
 	return 0
 }
 
-func (x *Task) GetCreateTime() *timestamppb.Timestamp {
+func (x *Task) GetDeletedBy() uint32 {
+	if x != nil && x.DeletedBy != nil {
+		return *x.DeletedBy
+	}
+	return 0
+}
+
+func (x *Task) GetCreatedAt() *timestamppb.Timestamp {
 	if x != nil {
-		return x.CreateTime
+		return x.CreatedAt
 	}
 	return nil
 }
 
-func (x *Task) GetUpdateTime() *timestamppb.Timestamp {
+func (x *Task) GetUpdatedAt() *timestamppb.Timestamp {
 	if x != nil {
-		return x.UpdateTime
+		return x.UpdatedAt
 	}
 	return nil
 }
 
-func (x *Task) GetDeleteTime() *timestamppb.Timestamp {
+func (x *Task) GetDeletedAt() *timestamppb.Timestamp {
 	if x != nil {
-		return x.DeleteTime
+		return x.DeletedAt
 	}
 	return nil
 }
@@ -845,8 +853,7 @@ const file_admin_service_v1_i_task_proto_rawDesc = "" +
 	"_retentionB\b\n" +
 	"\x06_groupB\n" +
 	"\n" +
-	"\b_task_id\"\xca\n" +
-	"\n" +
+	"\b_task_id\"\x93\v\n" +
 	"\x04Task\x12&\n" +
 	"\x02id\x18\x01 \x01(\rB\x11\xe0A\x01\xbaG\v\x92\x02\b任务IDH\x00R\x02id\x88\x01\x01\x12K\n" +
 	"\x04type\x18\x02 \x01(\x0e2\x1b.admin.service.v1.Task.TypeB\x15\xe0A\x01\xbaG\x0f\x92\x02\f任务类型H\x01R\x04type\x88\x01\x01\x12\x92\x01\n" +
@@ -856,16 +863,20 @@ const file_admin_service_v1_i_task_proto_rawDesc = "" +
 	"\ftask_options\x18\x06 \x01(\v2\x1c.admin.service.v1.TaskOptionBZ\xe0A\x01\xbaGT\x92\x02Q任务选项，以 JSON 格式存储，方便存储不同类型和数量的选项H\x05R\vtaskOptions\x88\x01\x01\x126\n" +
 	"\x06enable\x18\n" +
 	" \x01(\bB\x19\xbaG\x16\x92\x02\x13启用/禁用任务H\x06R\x06enable\x88\x01\x01\x12)\n" +
-	"\x06remark\x18\v \x01(\tB\f\xbaG\t\x92\x02\x06备注H\aR\x06remark\x88\x01\x01\x123\n" +
-	"\tcreate_by\x18d \x01(\rB\x11\xbaG\x0e\x92\x02\v创建者IDH\bR\bcreateBy\x88\x01\x01\x123\n" +
-	"\tupdate_by\x18e \x01(\rB\x11\xbaG\x0e\x92\x02\v更新者IDH\tR\bupdateBy\x88\x01\x01\x12U\n" +
-	"\vcreate_time\x18\xc8\x01 \x01(\v2\x1a.google.protobuf.TimestampB\x12\xbaG\x0f\x92\x02\f创建时间H\n" +
-	"R\n" +
-	"createTime\x88\x01\x01\x12U\n" +
-	"\vupdate_time\x18\xc9\x01 \x01(\v2\x1a.google.protobuf.TimestampB\x12\xbaG\x0f\x92\x02\f更新时间H\vR\n" +
-	"updateTime\x88\x01\x01\x12U\n" +
-	"\vdelete_time\x18\xca\x01 \x01(\v2\x1a.google.protobuf.TimestampB\x12\xbaG\x0f\x92\x02\f删除时间H\fR\n" +
-	"deleteTime\x88\x01\x01\"0\n" +
+	"\x06remark\x18\v \x01(\tB\f\xbaG\t\x92\x02\x06备注H\aR\x06remark\x88\x01\x01\x125\n" +
+	"\n" +
+	"created_by\x18d \x01(\rB\x11\xbaG\x0e\x92\x02\v创建者IDH\bR\tcreatedBy\x88\x01\x01\x125\n" +
+	"\n" +
+	"updated_by\x18e \x01(\rB\x11\xbaG\x0e\x92\x02\v更新者IDH\tR\tupdatedBy\x88\x01\x01\x12;\n" +
+	"\n" +
+	"deleted_by\x18f \x01(\rB\x17\xbaG\x14\x92\x02\x11删除者用户IDH\n" +
+	"R\tdeletedBy\x88\x01\x01\x12S\n" +
+	"\n" +
+	"created_at\x18\xc8\x01 \x01(\v2\x1a.google.protobuf.TimestampB\x12\xbaG\x0f\x92\x02\f创建时间H\vR\tcreatedAt\x88\x01\x01\x12S\n" +
+	"\n" +
+	"updated_at\x18\xc9\x01 \x01(\v2\x1a.google.protobuf.TimestampB\x12\xbaG\x0f\x92\x02\f更新时间H\fR\tupdatedAt\x88\x01\x01\x12S\n" +
+	"\n" +
+	"deleted_at\x18\xca\x01 \x01(\v2\x1a.google.protobuf.TimestampB\x12\xbaG\x0f\x92\x02\f删除时间H\rR\tdeletedAt\x88\x01\x01\"0\n" +
 	"\x04Type\x12\f\n" +
 	"\bPERIODIC\x10\x00\x12\t\n" +
 	"\x05DELAY\x10\x01\x12\x0f\n" +
@@ -879,14 +890,13 @@ const file_admin_service_v1_i_task_proto_rawDesc = "" +
 	"_cron_specB\x0f\n" +
 	"\r_task_optionsB\t\n" +
 	"\a_enableB\t\n" +
-	"\a_remarkB\f\n" +
-	"\n" +
-	"_create_byB\f\n" +
-	"\n" +
-	"_update_byB\x0e\n" +
-	"\f_create_timeB\x0e\n" +
-	"\f_update_timeB\x0e\n" +
-	"\f_delete_time\"V\n" +
+	"\a_remarkB\r\n" +
+	"\v_created_byB\r\n" +
+	"\v_updated_byB\r\n" +
+	"\v_deleted_byB\r\n" +
+	"\v_created_atB\r\n" +
+	"\v_updated_atB\r\n" +
+	"\v_deleted_at\"V\n" +
 	"\x10ListTaskResponse\x12,\n" +
 	"\x05items\x18\x01 \x03(\v2\x16.admin.service.v1.TaskR\x05items\x12\x14\n" +
 	"\x05total\x18\x02 \x01(\rR\x05total\" \n" +
@@ -974,9 +984,9 @@ var file_admin_service_v1_i_task_proto_depIdxs = []int32{
 	13, // 5: admin.service.v1.TaskOption.retention:type_name -> google.protobuf.Duration
 	0,  // 6: admin.service.v1.Task.type:type_name -> admin.service.v1.Task.Type
 	2,  // 7: admin.service.v1.Task.task_options:type_name -> admin.service.v1.TaskOption
-	14, // 8: admin.service.v1.Task.create_time:type_name -> google.protobuf.Timestamp
-	14, // 9: admin.service.v1.Task.update_time:type_name -> google.protobuf.Timestamp
-	14, // 10: admin.service.v1.Task.delete_time:type_name -> google.protobuf.Timestamp
+	14, // 8: admin.service.v1.Task.created_at:type_name -> google.protobuf.Timestamp
+	14, // 9: admin.service.v1.Task.updated_at:type_name -> google.protobuf.Timestamp
+	14, // 10: admin.service.v1.Task.deleted_at:type_name -> google.protobuf.Timestamp
 	3,  // 11: admin.service.v1.ListTaskResponse.items:type_name -> admin.service.v1.Task
 	3,  // 12: admin.service.v1.CreateTaskRequest.data:type_name -> admin.service.v1.Task
 	3,  // 13: admin.service.v1.UpdateTaskRequest.data:type_name -> admin.service.v1.Task

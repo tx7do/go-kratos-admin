@@ -336,12 +336,12 @@ func (_q *PositionQuery) WithChildren(opts ...func(*PositionQuery)) *PositionQue
 // Example:
 //
 //	var v []struct {
-//		CreateTime time.Time `json:"create_time,omitempty"`
+//		CreatedAt time.Time `json:"created_at,omitempty"`
 //		Count int `json:"count,omitempty"`
 //	}
 //
 //	client.Position.Query().
-//		GroupBy(position.FieldCreateTime).
+//		GroupBy(position.FieldCreatedAt).
 //		Aggregate(ent.Count()).
 //		Scan(ctx, &v)
 func (_q *PositionQuery) GroupBy(field string, fields ...string) *PositionGroupBy {
@@ -359,11 +359,11 @@ func (_q *PositionQuery) GroupBy(field string, fields ...string) *PositionGroupB
 // Example:
 //
 //	var v []struct {
-//		CreateTime time.Time `json:"create_time,omitempty"`
+//		CreatedAt time.Time `json:"created_at,omitempty"`
 //	}
 //
 //	client.Position.Query().
-//		Select(position.FieldCreateTime).
+//		Select(position.FieldCreatedAt).
 //		Scan(ctx, &v)
 func (_q *PositionQuery) Select(fields ...string) *PositionSelect {
 	_q.ctx.Fields = append(_q.ctx.Fields, fields...)

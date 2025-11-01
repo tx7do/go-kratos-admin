@@ -9,164 +9,163 @@ import type { Empty } from "../../../google/protobuf/empty.pb";
 import type { Timestamp } from "../../../google/protobuf/timestamp.pb";
 import type { PagingRequest } from "../../../pagination/v1/pagination.pb";
 
-/** 主字典 */
-export interface DictMain {
-  /** 主字典ID */
+/** 字典类型 */
+export interface DictType {
+  /** 字典类型ID */
   id?:
     | number
     | null
     | undefined;
-  /** 主字典编码 */
-  code?:
+  /** 字典类型唯一代码 */
+  typeCode?:
     | string
     | null
     | undefined;
-  /** 主字典名称 */
-  name?:
+  /** 字典类型名称 */
+  typeName?:
     | string
     | null
     | undefined;
   /** 字典状态 */
-  status?:
-    | DictMain_Status
+  isEnabled?:
+    | boolean
     | null
     | undefined;
-  /** 排序编号 */
-  sortId?:
+  /** 排序顺序，值越小越靠前 */
+  sortOrder?:
     | number
     | null
     | undefined;
-  /** 备注 */
-  remark?:
+  /** 描述 */
+  description?:
     | string
     | null
     | undefined;
-  /** 创建者ID */
-  createBy?:
+  /** 创建者用户ID */
+  createdBy?:
     | number
     | null
     | undefined;
-  /** 更新者ID */
-  updateBy?:
+  /** 更新者用户ID */
+  updatedBy?:
+    | number
+    | null
+    | undefined;
+  /** 删除者用户ID */
+  deletedBy?:
     | number
     | null
     | undefined;
   /** 创建时间 */
-  createTime?:
+  createdAt?:
     | Timestamp
     | null
     | undefined;
   /** 更新时间 */
-  updateTime?:
+  updatedAt?:
     | Timestamp
     | null
     | undefined;
   /** 删除时间 */
-  deleteTime?: Timestamp | null | undefined;
+  deletedAt?: Timestamp | null | undefined;
 }
 
-/** 主字典状态 */
-export enum DictMain_Status {
-  /** OFF - 禁用 */
-  OFF = "OFF",
-  /** ON - 启用 */
-  ON = "ON",
-}
-
-/** 子字典 */
-export interface DictItem {
-  /** 子项ID */
+/** 字典条目 */
+export interface DictEntry {
+  /** 字典条目ID */
   id?:
     | number
     | null
     | undefined;
-  /** 主字典ID */
-  mainId?:
+  /** 字典类型ID */
+  typeId?:
     | number
     | null
     | undefined;
-  /** 子项编码 */
-  code?:
+  /** 字典项的显示标签 */
+  entryLabel?:
     | string
     | null
     | undefined;
-  /** 子项名称 */
-  name?:
+  /** 字典项的实际值 */
+  entryValue?:
     | string
     | null
     | undefined;
-  /** 数值型标识 */
-  value?:
+  /** 数值型值 */
+  numericValue?:
     | number
+    | null
+    | undefined;
+  /** 语言代码 */
+  languageCode?:
+    | string
     | null
     | undefined;
   /** 字典状态 */
-  status?:
-    | DictItem_Status
+  isEnabled?:
+    | boolean
     | null
     | undefined;
-  /** 排序编号 */
-  sortId?:
+  /** 排序顺序，值越小越靠前 */
+  sortOrder?:
     | number
     | null
     | undefined;
-  /** 备注 */
-  remark?:
+  /** 描述 */
+  description?:
     | string
     | null
     | undefined;
   /** 创建者ID */
-  createBy?:
+  createdBy?:
     | number
     | null
     | undefined;
   /** 更新者ID */
-  updateBy?:
+  updatedBy?:
+    | number
+    | null
+    | undefined;
+  /** 删除者用户ID */
+  deletedBy?:
     | number
     | null
     | undefined;
   /** 创建时间 */
-  createTime?:
+  createdAt?:
     | Timestamp
     | null
     | undefined;
   /** 更新时间 */
-  updateTime?:
+  updatedAt?:
     | Timestamp
     | null
     | undefined;
   /** 删除时间 */
-  deleteTime?: Timestamp | null | undefined;
+  deletedAt?: Timestamp | null | undefined;
 }
 
-/** 子字典状态 */
-export enum DictItem_Status {
-  /** OFF - 禁用 */
-  OFF = "OFF",
-  /** ON - 启用 */
-  ON = "ON",
-}
-
-/** 查询主字典列表 - 回应 */
-export interface ListDictMainResponse {
-  items: DictMain[];
+/** 查询字典类型列表 - 回应 */
+export interface ListDictTypeResponse {
+  items: DictType[];
   total: number;
 }
 
-/** 查询主字典详情 - 请求 */
-export interface GetDictMainRequest {
+/** 查询字典类型详情 - 请求 */
+export interface GetDictTypeRequest {
   queryBy?: { $case: "id"; id: number } | { $case: "code"; code: string } | null;
 }
 
-/** 创建主字典 - 请求 */
-export interface CreateDictMainRequest {
-  data: DictMain | null;
+/** 创建字典类型 - 请求 */
+export interface CreateDictTypeRequest {
+  data: DictType | null;
 }
 
-/** 更新主字典 - 请求 */
-export interface UpdateDictMainRequest {
+/** 更新字典类型 - 请求 */
+export interface UpdateDictTypeRequest {
   data:
-    | DictMain
+    | DictType
     | null;
   /** 要更新的字段列表 */
   updateMask:
@@ -182,21 +181,21 @@ export interface BatchDeleteDictRequest {
   ids: number[];
 }
 
-/** 查询子字典列表 - 回应 */
-export interface ListDictItemResponse {
-  items: DictItem[];
+/** 查询字典条目列表 - 回应 */
+export interface ListDictEntryResponse {
+  items: DictEntry[];
   total: number;
 }
 
-/** 创建子字典 - 请求 */
-export interface CreateDictItemRequest {
-  data: DictItem | null;
+/** 创建字典条目 - 请求 */
+export interface CreateDictEntryRequest {
+  data: DictEntry | null;
 }
 
-/** 更新子字典 - 请求 */
-export interface UpdateDictItemRequest {
+/** 更新字典条目 - 请求 */
+export interface UpdateDictEntryRequest {
   data:
-    | DictItem
+    | DictEntry
     | null;
   /** 要更新的字段列表 */
   updateMask:
@@ -206,29 +205,29 @@ export interface UpdateDictItemRequest {
   allowMissing?: boolean | null | undefined;
 }
 
-/** 查询子字典详情 - 请求 */
-export interface GetDictItemRequest {
+/** 查询字典条目详情 - 请求 */
+export interface GetDictEntryRequest {
   queryBy?: { $case: "id"; id: number } | { $case: "code"; code: string } | null;
 }
 
 /** 数据字典管理服务 */
 export interface DictService {
-  /** 分页查询主字典列表 */
-  ListDictMain(request: PagingRequest): Promise<ListDictMainResponse>;
-  /** 查询主字典详情 */
-  GetDictMain(request: GetDictMainRequest): Promise<DictMain>;
-  /** 创建主字典 */
-  CreateDictMain(request: CreateDictMainRequest): Promise<Empty>;
-  /** 更新主字典 */
-  UpdateDictMain(request: UpdateDictMainRequest): Promise<Empty>;
-  /** 删除主字典 */
-  DeleteDictMain(request: BatchDeleteDictRequest): Promise<Empty>;
-  /** 分页查询子字典列表 */
-  ListDictItem(request: PagingRequest): Promise<ListDictItemResponse>;
-  /** 创建子字典 */
-  CreateDictItem(request: CreateDictItemRequest): Promise<Empty>;
-  /** 更新子字典 */
-  UpdateDictItem(request: UpdateDictItemRequest): Promise<Empty>;
-  /** 删除子字典 */
-  DeleteDictItem(request: BatchDeleteDictRequest): Promise<Empty>;
+  /** 分页查询字典类型列表 */
+  ListDictType(request: PagingRequest): Promise<ListDictTypeResponse>;
+  /** 查询字典类型详情 */
+  GetDictType(request: GetDictTypeRequest): Promise<DictType>;
+  /** 创建字典类型 */
+  CreateDictType(request: CreateDictTypeRequest): Promise<Empty>;
+  /** 更新字典类型 */
+  UpdateDictType(request: UpdateDictTypeRequest): Promise<Empty>;
+  /** 删除字典类型 */
+  DeleteDictType(request: BatchDeleteDictRequest): Promise<Empty>;
+  /** 分页查询字典条目列表 */
+  ListDictEntry(request: PagingRequest): Promise<ListDictEntryResponse>;
+  /** 创建字典条目 */
+  CreateDictEntry(request: CreateDictEntryRequest): Promise<Empty>;
+  /** 更新字典条目 */
+  UpdateDictEntry(request: UpdateDictEntryRequest): Promise<Empty>;
+  /** 删除字典条目 */
+  DeleteDictEntry(request: BatchDeleteDictRequest): Promise<Empty>;
 }

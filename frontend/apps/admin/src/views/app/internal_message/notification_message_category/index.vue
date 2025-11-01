@@ -80,8 +80,8 @@ const gridOptions: VxeGridProps<NotificationMessageCategory> = {
       field: 'name',
     },
     {
-      title: $t('ui.table.createTime'),
-      field: 'createTime',
+      title: $t('ui.table.createdAt'),
+      field: 'createdAt',
       formatter: 'formatDateTime',
       width: 140,
     },

@@ -34,11 +34,12 @@ type NotificationMessageRecipient struct {
 	MessageId     *uint32                `protobuf:"varint,2,opt,name=message_id,json=messageId,proto3,oneof" json:"message_id,omitempty"`                         // 群发消息ID
 	RecipientId   *uint32                `protobuf:"varint,3,opt,name=recipient_id,json=recipientId,proto3,oneof" json:"recipient_id,omitempty"`                   // 接收者用户ID
 	Status        *MessageStatus         `protobuf:"varint,4,opt,name=status,proto3,enum=internal_message.service.v1.MessageStatus,oneof" json:"status,omitempty"` // 消息状态
-	CreateBy      *uint32                `protobuf:"varint,100,opt,name=create_by,json=createBy,proto3,oneof" json:"create_by,omitempty"`                          // 创建者ID
-	UpdateBy      *uint32                `protobuf:"varint,101,opt,name=update_by,json=updateBy,proto3,oneof" json:"update_by,omitempty"`                          // 更新者ID
-	CreateTime    *timestamppb.Timestamp `protobuf:"bytes,200,opt,name=create_time,json=createTime,proto3,oneof" json:"create_time,omitempty"`                     // 创建时间
-	UpdateTime    *timestamppb.Timestamp `protobuf:"bytes,201,opt,name=update_time,json=updateTime,proto3,oneof" json:"update_time,omitempty"`                     // 更新时间
-	DeleteTime    *timestamppb.Timestamp `protobuf:"bytes,202,opt,name=delete_time,json=deleteTime,proto3,oneof" json:"delete_time,omitempty"`                     // 删除时间
+	CreatedBy     *uint32                `protobuf:"varint,100,opt,name=created_by,json=createdBy,proto3,oneof" json:"created_by,omitempty"`                       // 创建者ID
+	UpdatedBy     *uint32                `protobuf:"varint,101,opt,name=updated_by,json=updatedBy,proto3,oneof" json:"updated_by,omitempty"`                       // 更新者ID
+	DeletedBy     *uint32                `protobuf:"varint,102,opt,name=deleted_by,json=deletedBy,proto3,oneof" json:"deleted_by,omitempty"`                       // 删除者用户ID
+	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,200,opt,name=created_at,json=createdAt,proto3,oneof" json:"created_at,omitempty"`                        // 创建时间
+	UpdatedAt     *timestamppb.Timestamp `protobuf:"bytes,201,opt,name=updated_at,json=updatedAt,proto3,oneof" json:"updated_at,omitempty"`                        // 更新时间
+	DeletedAt     *timestamppb.Timestamp `protobuf:"bytes,202,opt,name=deleted_at,json=deletedAt,proto3,oneof" json:"deleted_at,omitempty"`                        // 删除时间
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -101,37 +102,44 @@ func (x *NotificationMessageRecipient) GetStatus() MessageStatus {
 	return MessageStatus_MessageStatus_Unknown
 }
 
-func (x *NotificationMessageRecipient) GetCreateBy() uint32 {
-	if x != nil && x.CreateBy != nil {
-		return *x.CreateBy
+func (x *NotificationMessageRecipient) GetCreatedBy() uint32 {
+	if x != nil && x.CreatedBy != nil {
+		return *x.CreatedBy
 	}
 	return 0
 }
 
-func (x *NotificationMessageRecipient) GetUpdateBy() uint32 {
-	if x != nil && x.UpdateBy != nil {
-		return *x.UpdateBy
+func (x *NotificationMessageRecipient) GetUpdatedBy() uint32 {
+	if x != nil && x.UpdatedBy != nil {
+		return *x.UpdatedBy
 	}
 	return 0
 }
 
-func (x *NotificationMessageRecipient) GetCreateTime() *timestamppb.Timestamp {
+func (x *NotificationMessageRecipient) GetDeletedBy() uint32 {
+	if x != nil && x.DeletedBy != nil {
+		return *x.DeletedBy
+	}
+	return 0
+}
+
+func (x *NotificationMessageRecipient) GetCreatedAt() *timestamppb.Timestamp {
 	if x != nil {
-		return x.CreateTime
+		return x.CreatedAt
 	}
 	return nil
 }
 
-func (x *NotificationMessageRecipient) GetUpdateTime() *timestamppb.Timestamp {
+func (x *NotificationMessageRecipient) GetUpdatedAt() *timestamppb.Timestamp {
 	if x != nil {
-		return x.UpdateTime
+		return x.UpdatedAt
 	}
 	return nil
 }
 
-func (x *NotificationMessageRecipient) GetDeleteTime() *timestamppb.Timestamp {
+func (x *NotificationMessageRecipient) GetDeletedAt() *timestamppb.Timestamp {
 	if x != nil {
-		return x.DeleteTime
+		return x.DeletedAt
 	}
 	return nil
 }
@@ -389,32 +397,35 @@ var File_internal_message_service_v1_notification_message_recipient_proto protor
 
 const file_internal_message_service_v1_notification_message_recipient_proto_rawDesc = "" +
 	"\n" +
-	"@internal_message/service/v1/notification_message_recipient.proto\x12\x1binternal_message.service.v1\x1a$gnostic/openapi/v3/annotations.proto\x1a\x1cgoogle/api/annotations.proto\x1a\x1fgoogle/api/field_behavior.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a google/protobuf/field_mask.proto\x1a\x1epagination/v1/pagination.proto\x1a)internal_message/service/v1/message.proto\"\x91\x06\n" +
+	"@internal_message/service/v1/notification_message_recipient.proto\x12\x1binternal_message.service.v1\x1a$gnostic/openapi/v3/annotations.proto\x1a\x1cgoogle/api/annotations.proto\x1a\x1fgoogle/api/field_behavior.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a google/protobuf/field_mask.proto\x1a\x1epagination/v1/pagination.proto\x1a)internal_message/service/v1/message.proto\"\xda\x06\n" +
 	"\x1cNotificationMessageRecipient\x12&\n" +
 	"\x02id\x18\x01 \x01(\rB\x11\xe0A\x01\xbaG\v\x92\x02\b记录IDH\x00R\x02id\x88\x01\x01\x12;\n" +
 	"\n" +
 	"message_id\x18\x02 \x01(\rB\x17\xe0A\x01\xbaG\x11\x92\x02\x0e群发消息IDH\x01R\tmessageId\x88\x01\x01\x12B\n" +
 	"\frecipient_id\x18\x03 \x01(\rB\x1a\xe0A\x01\xbaG\x14\x92\x02\x11接收者用户IDH\x02R\vrecipientId\x88\x01\x01\x12[\n" +
-	"\x06status\x18\x04 \x01(\x0e2*.internal_message.service.v1.MessageStatusB\x12\xbaG\x0f\x92\x02\f消息状态H\x03R\x06status\x88\x01\x01\x123\n" +
-	"\tcreate_by\x18d \x01(\rB\x11\xbaG\x0e\x92\x02\v创建者IDH\x04R\bcreateBy\x88\x01\x01\x123\n" +
-	"\tupdate_by\x18e \x01(\rB\x11\xbaG\x0e\x92\x02\v更新者IDH\x05R\bupdateBy\x88\x01\x01\x12U\n" +
-	"\vcreate_time\x18\xc8\x01 \x01(\v2\x1a.google.protobuf.TimestampB\x12\xbaG\x0f\x92\x02\f创建时间H\x06R\n" +
-	"createTime\x88\x01\x01\x12U\n" +
-	"\vupdate_time\x18\xc9\x01 \x01(\v2\x1a.google.protobuf.TimestampB\x12\xbaG\x0f\x92\x02\f更新时间H\aR\n" +
-	"updateTime\x88\x01\x01\x12U\n" +
-	"\vdelete_time\x18\xca\x01 \x01(\v2\x1a.google.protobuf.TimestampB\x12\xbaG\x0f\x92\x02\f删除时间H\bR\n" +
-	"deleteTime\x88\x01\x01B\x05\n" +
+	"\x06status\x18\x04 \x01(\x0e2*.internal_message.service.v1.MessageStatusB\x12\xbaG\x0f\x92\x02\f消息状态H\x03R\x06status\x88\x01\x01\x125\n" +
+	"\n" +
+	"created_by\x18d \x01(\rB\x11\xbaG\x0e\x92\x02\v创建者IDH\x04R\tcreatedBy\x88\x01\x01\x125\n" +
+	"\n" +
+	"updated_by\x18e \x01(\rB\x11\xbaG\x0e\x92\x02\v更新者IDH\x05R\tupdatedBy\x88\x01\x01\x12;\n" +
+	"\n" +
+	"deleted_by\x18f \x01(\rB\x17\xbaG\x14\x92\x02\x11删除者用户IDH\x06R\tdeletedBy\x88\x01\x01\x12S\n" +
+	"\n" +
+	"created_at\x18\xc8\x01 \x01(\v2\x1a.google.protobuf.TimestampB\x12\xbaG\x0f\x92\x02\f创建时间H\aR\tcreatedAt\x88\x01\x01\x12S\n" +
+	"\n" +
+	"updated_at\x18\xc9\x01 \x01(\v2\x1a.google.protobuf.TimestampB\x12\xbaG\x0f\x92\x02\f更新时间H\bR\tupdatedAt\x88\x01\x01\x12S\n" +
+	"\n" +
+	"deleted_at\x18\xca\x01 \x01(\v2\x1a.google.protobuf.TimestampB\x12\xbaG\x0f\x92\x02\f删除时间H\tR\tdeletedAt\x88\x01\x01B\x05\n" +
 	"\x03_idB\r\n" +
 	"\v_message_idB\x0f\n" +
 	"\r_recipient_idB\t\n" +
-	"\a_statusB\f\n" +
-	"\n" +
-	"_create_byB\f\n" +
-	"\n" +
-	"_update_byB\x0e\n" +
-	"\f_create_timeB\x0e\n" +
-	"\f_update_timeB\x0e\n" +
-	"\f_delete_time\"\x91\x01\n" +
+	"\a_statusB\r\n" +
+	"\v_created_byB\r\n" +
+	"\v_updated_byB\r\n" +
+	"\v_deleted_byB\r\n" +
+	"\v_created_atB\r\n" +
+	"\v_updated_atB\r\n" +
+	"\v_deleted_at\"\x91\x01\n" +
 	"(ListNotificationMessageRecipientResponse\x12O\n" +
 	"\x05items\x18\x01 \x03(\v29.internal_message.service.v1.NotificationMessageRecipientR\x05items\x12\x14\n" +
 	"\x05total\x18\x02 \x01(\rR\x05total\"8\n" +
@@ -466,9 +477,9 @@ var file_internal_message_service_v1_notification_message_recipient_proto_goType
 }
 var file_internal_message_service_v1_notification_message_recipient_proto_depIdxs = []int32{
 	6,  // 0: internal_message.service.v1.NotificationMessageRecipient.status:type_name -> internal_message.service.v1.MessageStatus
-	7,  // 1: internal_message.service.v1.NotificationMessageRecipient.create_time:type_name -> google.protobuf.Timestamp
-	7,  // 2: internal_message.service.v1.NotificationMessageRecipient.update_time:type_name -> google.protobuf.Timestamp
-	7,  // 3: internal_message.service.v1.NotificationMessageRecipient.delete_time:type_name -> google.protobuf.Timestamp
+	7,  // 1: internal_message.service.v1.NotificationMessageRecipient.created_at:type_name -> google.protobuf.Timestamp
+	7,  // 2: internal_message.service.v1.NotificationMessageRecipient.updated_at:type_name -> google.protobuf.Timestamp
+	7,  // 3: internal_message.service.v1.NotificationMessageRecipient.deleted_at:type_name -> google.protobuf.Timestamp
 	0,  // 4: internal_message.service.v1.ListNotificationMessageRecipientResponse.items:type_name -> internal_message.service.v1.NotificationMessageRecipient
 	0,  // 5: internal_message.service.v1.CreateNotificationMessageRecipientRequest.data:type_name -> internal_message.service.v1.NotificationMessageRecipient
 	0,  // 6: internal_message.service.v1.UpdateNotificationMessageRecipientRequest.data:type_name -> internal_message.service.v1.NotificationMessageRecipient

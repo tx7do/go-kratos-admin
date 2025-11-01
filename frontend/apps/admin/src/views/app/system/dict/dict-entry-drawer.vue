@@ -7,8 +7,7 @@ import { $t } from '@vben/locales';
 import { notification } from 'ant-design-vue';
 
 import { useVbenForm, z } from '#/adapter/form';
-import { DictMain_Status } from '#/generated/api/dict/service/v1/dict.pb';
-import { statusList, useDictStore } from '#/stores';
+import { enableBoolList, useDictStore } from '#/stores';
 
 const dictStore = useDictStore();
 
@@ -16,8 +15,8 @@ const data = ref();
 
 const getTitle = computed(() =>
   data.value?.create
-    ? $t('ui.modal.create', { moduleName: $t('page.dict.dictMain') })
-    : $t('ui.modal.update', { moduleName: $t('page.dict.dictMain') }),
+    ? $t('ui.modal.create', { moduleName: $t('page.dict.dictEntry') })
+    : $t('ui.modal.update', { moduleName: $t('page.dict.dictEntry') }),
 );
 // const isCreate = computed(() => data.value?.create);
 
@@ -32,9 +31,30 @@ const [BaseForm, baseFormApi] = useVbenForm({
   },
   schema: [
     {
+      component: 'ApiSelect',
+      fieldName: 'typeId',
+      label: $t('page.dict.typeId'),
+      rules: 'required',
+      componentProps: {
+        placeholder: $t('ui.placeholder.select'),
+        showSearch: true,
+        allowClear: false,
+        labelField: 'typeName',
+        valueField: 'id',
+        api: async () => {
+          const result = await dictStore.listDictType(true, null, null, {
+            isEnabled: true,
+          });
+          return result.items;
+        },
+        filterOption: (input: string, option: any) =>
+          option.label.toLowerCase().includes(input.toLowerCase()),
+      },
+    },
+    {
       component: 'Input',
-      fieldName: 'code',
-      label: $t('page.dict.code'),
+      fieldName: 'entryValue',
+      label: $t('page.dict.entryValue'),
       componentProps: {
         placeholder: $t('ui.placeholder.input'),
         allowClear: true,
@@ -43,43 +63,49 @@ const [BaseForm, baseFormApi] = useVbenForm({
     },
     {
       component: 'Input',
-      fieldName: 'name',
-      label: $t('page.dict.name'),
+      fieldName: 'entryLabel',
+      label: $t('page.dict.entryLabel'),
       componentProps: {
         placeholder: $t('ui.placeholder.input'),
         allowClear: true,
       },
       rules: 'required',
     },
-
     {
       component: 'InputNumber',
-      fieldName: 'sortId',
-      label: $t('ui.table.sortId'),
+      fieldName: 'numericValue',
+      label: $t('page.dict.numericValue'),
       componentProps: {
         placeholder: $t('ui.placeholder.input'),
         allowClear: true,
       },
     },
-
+    {
+      component: 'InputNumber',
+      fieldName: 'sortOrder',
+      label: $t('ui.table.sortOrder'),
+      componentProps: {
+        placeholder: $t('ui.placeholder.input'),
+        allowClear: true,
+      },
+    },
     {
       component: 'RadioGroup',
-      fieldName: 'status',
+      fieldName: 'isEnabled',
       label: $t('ui.table.status'),
-      defaultValue: DictMain_Status.ON,
+      defaultValue: true,
       rules: 'selectRequired',
       componentProps: {
         optionType: 'button',
         buttonStyle: 'solid',
         class: 'flex flex-wrap', // 如果选项过多，可以添加class来自动折叠
-        options: statusList,
+        options: enableBoolList,
       },
     },
-
     {
       component: 'Textarea',
-      fieldName: 'remark',
-      label: $t('ui.table.remark'),
+      fieldName: 'description',
+      label: $t('ui.table.description'),
       componentProps: {
         placeholder: $t('ui.placeholder.input'),
         allowClear: true,
@@ -112,8 +138,8 @@ const [Drawer, drawerApi] = useVbenDrawer({
 
     try {
       await (data.value?.create
-        ? dictStore.createDictMain(values)
-        : dictStore.updateDictMain(data.value.row.id, values));
+        ? dictStore.createDictEntry(values)
+        : dictStore.updateDictEntry(data.value.row.id, values));
 
       notification.success({
         message: data.value?.create

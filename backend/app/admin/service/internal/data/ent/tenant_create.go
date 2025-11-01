@@ -22,72 +22,86 @@ type TenantCreate struct {
 	conflict []sql.ConflictOption
 }
 
-// SetCreateTime sets the "create_time" field.
-func (_c *TenantCreate) SetCreateTime(v time.Time) *TenantCreate {
-	_c.mutation.SetCreateTime(v)
+// SetCreatedAt sets the "created_at" field.
+func (_c *TenantCreate) SetCreatedAt(v time.Time) *TenantCreate {
+	_c.mutation.SetCreatedAt(v)
 	return _c
 }
 
-// SetNillableCreateTime sets the "create_time" field if the given value is not nil.
-func (_c *TenantCreate) SetNillableCreateTime(v *time.Time) *TenantCreate {
+// SetNillableCreatedAt sets the "created_at" field if the given value is not nil.
+func (_c *TenantCreate) SetNillableCreatedAt(v *time.Time) *TenantCreate {
 	if v != nil {
-		_c.SetCreateTime(*v)
+		_c.SetCreatedAt(*v)
 	}
 	return _c
 }
 
-// SetUpdateTime sets the "update_time" field.
-func (_c *TenantCreate) SetUpdateTime(v time.Time) *TenantCreate {
-	_c.mutation.SetUpdateTime(v)
+// SetUpdatedAt sets the "updated_at" field.
+func (_c *TenantCreate) SetUpdatedAt(v time.Time) *TenantCreate {
+	_c.mutation.SetUpdatedAt(v)
 	return _c
 }
 
-// SetNillableUpdateTime sets the "update_time" field if the given value is not nil.
-func (_c *TenantCreate) SetNillableUpdateTime(v *time.Time) *TenantCreate {
+// SetNillableUpdatedAt sets the "updated_at" field if the given value is not nil.
+func (_c *TenantCreate) SetNillableUpdatedAt(v *time.Time) *TenantCreate {
 	if v != nil {
-		_c.SetUpdateTime(*v)
+		_c.SetUpdatedAt(*v)
 	}
 	return _c
 }
 
-// SetDeleteTime sets the "delete_time" field.
-func (_c *TenantCreate) SetDeleteTime(v time.Time) *TenantCreate {
-	_c.mutation.SetDeleteTime(v)
+// SetDeletedAt sets the "deleted_at" field.
+func (_c *TenantCreate) SetDeletedAt(v time.Time) *TenantCreate {
+	_c.mutation.SetDeletedAt(v)
 	return _c
 }
 
-// SetNillableDeleteTime sets the "delete_time" field if the given value is not nil.
-func (_c *TenantCreate) SetNillableDeleteTime(v *time.Time) *TenantCreate {
+// SetNillableDeletedAt sets the "deleted_at" field if the given value is not nil.
+func (_c *TenantCreate) SetNillableDeletedAt(v *time.Time) *TenantCreate {
 	if v != nil {
-		_c.SetDeleteTime(*v)
+		_c.SetDeletedAt(*v)
 	}
 	return _c
 }
 
-// SetCreateBy sets the "create_by" field.
-func (_c *TenantCreate) SetCreateBy(v uint32) *TenantCreate {
-	_c.mutation.SetCreateBy(v)
+// SetCreatedBy sets the "created_by" field.
+func (_c *TenantCreate) SetCreatedBy(v uint32) *TenantCreate {
+	_c.mutation.SetCreatedBy(v)
 	return _c
 }
 
-// SetNillableCreateBy sets the "create_by" field if the given value is not nil.
-func (_c *TenantCreate) SetNillableCreateBy(v *uint32) *TenantCreate {
+// SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
+func (_c *TenantCreate) SetNillableCreatedBy(v *uint32) *TenantCreate {
 	if v != nil {
-		_c.SetCreateBy(*v)
+		_c.SetCreatedBy(*v)
 	}
 	return _c
 }
 
-// SetUpdateBy sets the "update_by" field.
-func (_c *TenantCreate) SetUpdateBy(v uint32) *TenantCreate {
-	_c.mutation.SetUpdateBy(v)
+// SetUpdatedBy sets the "updated_by" field.
+func (_c *TenantCreate) SetUpdatedBy(v uint32) *TenantCreate {
+	_c.mutation.SetUpdatedBy(v)
 	return _c
 }
 
-// SetNillableUpdateBy sets the "update_by" field if the given value is not nil.
-func (_c *TenantCreate) SetNillableUpdateBy(v *uint32) *TenantCreate {
+// SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
+func (_c *TenantCreate) SetNillableUpdatedBy(v *uint32) *TenantCreate {
 	if v != nil {
-		_c.SetUpdateBy(*v)
+		_c.SetUpdatedBy(*v)
+	}
+	return _c
+}
+
+// SetDeletedBy sets the "deleted_by" field.
+func (_c *TenantCreate) SetDeletedBy(v uint32) *TenantCreate {
+	_c.mutation.SetDeletedBy(v)
+	return _c
+}
+
+// SetNillableDeletedBy sets the "deleted_by" field if the given value is not nil.
+func (_c *TenantCreate) SetNillableDeletedBy(v *uint32) *TenantCreate {
+	if v != nil {
+		_c.SetDeletedBy(*v)
 	}
 	return _c
 }
@@ -343,10 +357,6 @@ func (_c *TenantCreate) ExecX(ctx context.Context) {
 
 // defaults sets the default values of the builder before save.
 func (_c *TenantCreate) defaults() {
-	if _, ok := _c.mutation.Remark(); !ok {
-		v := tenant.DefaultRemark
-		_c.mutation.SetRemark(v)
-	}
 	if _, ok := _c.mutation.Status(); !ok {
 		v := tenant.DefaultStatus
 		_c.mutation.SetStatus(v)
@@ -422,25 +432,29 @@ func (_c *TenantCreate) createSpec() (*Tenant, *sqlgraph.CreateSpec) {
 		_node.ID = id
 		_spec.ID.Value = id
 	}
-	if value, ok := _c.mutation.CreateTime(); ok {
-		_spec.SetField(tenant.FieldCreateTime, field.TypeTime, value)
-		_node.CreateTime = &value
+	if value, ok := _c.mutation.CreatedAt(); ok {
+		_spec.SetField(tenant.FieldCreatedAt, field.TypeTime, value)
+		_node.CreatedAt = &value
 	}
-	if value, ok := _c.mutation.UpdateTime(); ok {
-		_spec.SetField(tenant.FieldUpdateTime, field.TypeTime, value)
-		_node.UpdateTime = &value
+	if value, ok := _c.mutation.UpdatedAt(); ok {
+		_spec.SetField(tenant.FieldUpdatedAt, field.TypeTime, value)
+		_node.UpdatedAt = &value
 	}
-	if value, ok := _c.mutation.DeleteTime(); ok {
-		_spec.SetField(tenant.FieldDeleteTime, field.TypeTime, value)
-		_node.DeleteTime = &value
+	if value, ok := _c.mutation.DeletedAt(); ok {
+		_spec.SetField(tenant.FieldDeletedAt, field.TypeTime, value)
+		_node.DeletedAt = &value
 	}
-	if value, ok := _c.mutation.CreateBy(); ok {
-		_spec.SetField(tenant.FieldCreateBy, field.TypeUint32, value)
-		_node.CreateBy = &value
+	if value, ok := _c.mutation.CreatedBy(); ok {
+		_spec.SetField(tenant.FieldCreatedBy, field.TypeUint32, value)
+		_node.CreatedBy = &value
 	}
-	if value, ok := _c.mutation.UpdateBy(); ok {
-		_spec.SetField(tenant.FieldUpdateBy, field.TypeUint32, value)
-		_node.UpdateBy = &value
+	if value, ok := _c.mutation.UpdatedBy(); ok {
+		_spec.SetField(tenant.FieldUpdatedBy, field.TypeUint32, value)
+		_node.UpdatedBy = &value
+	}
+	if value, ok := _c.mutation.DeletedBy(); ok {
+		_spec.SetField(tenant.FieldDeletedBy, field.TypeUint32, value)
+		_node.DeletedBy = &value
 	}
 	if value, ok := _c.mutation.Remark(); ok {
 		_spec.SetField(tenant.FieldRemark, field.TypeString, value)
@@ -509,7 +523,7 @@ func (_c *TenantCreate) createSpec() (*Tenant, *sqlgraph.CreateSpec) {
 // of the `INSERT` statement. For example:
 //
 //	client.Tenant.Create().
-//		SetCreateTime(v).
+//		SetCreatedAt(v).
 //		OnConflict(
 //			// Update the row with the new values
 //			// the was proposed for insertion.
@@ -518,7 +532,7 @@ func (_c *TenantCreate) createSpec() (*Tenant, *sqlgraph.CreateSpec) {
 //		// Override some of the fields with custom
 //		// update values.
 //		Update(func(u *ent.TenantUpsert) {
-//			SetCreateTime(v+v).
+//			SetCreatedAt(v+v).
 //		}).
 //		Exec(ctx)
 func (_c *TenantCreate) OnConflict(opts ...sql.ConflictOption) *TenantUpsertOne {
@@ -554,87 +568,111 @@ type (
 	}
 )
 
-// SetUpdateTime sets the "update_time" field.
-func (u *TenantUpsert) SetUpdateTime(v time.Time) *TenantUpsert {
-	u.Set(tenant.FieldUpdateTime, v)
+// SetUpdatedAt sets the "updated_at" field.
+func (u *TenantUpsert) SetUpdatedAt(v time.Time) *TenantUpsert {
+	u.Set(tenant.FieldUpdatedAt, v)
 	return u
 }
 
-// UpdateUpdateTime sets the "update_time" field to the value that was provided on create.
-func (u *TenantUpsert) UpdateUpdateTime() *TenantUpsert {
-	u.SetExcluded(tenant.FieldUpdateTime)
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *TenantUpsert) UpdateUpdatedAt() *TenantUpsert {
+	u.SetExcluded(tenant.FieldUpdatedAt)
 	return u
 }
 
-// ClearUpdateTime clears the value of the "update_time" field.
-func (u *TenantUpsert) ClearUpdateTime() *TenantUpsert {
-	u.SetNull(tenant.FieldUpdateTime)
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (u *TenantUpsert) ClearUpdatedAt() *TenantUpsert {
+	u.SetNull(tenant.FieldUpdatedAt)
 	return u
 }
 
-// SetDeleteTime sets the "delete_time" field.
-func (u *TenantUpsert) SetDeleteTime(v time.Time) *TenantUpsert {
-	u.Set(tenant.FieldDeleteTime, v)
+// SetDeletedAt sets the "deleted_at" field.
+func (u *TenantUpsert) SetDeletedAt(v time.Time) *TenantUpsert {
+	u.Set(tenant.FieldDeletedAt, v)
 	return u
 }
 
-// UpdateDeleteTime sets the "delete_time" field to the value that was provided on create.
-func (u *TenantUpsert) UpdateDeleteTime() *TenantUpsert {
-	u.SetExcluded(tenant.FieldDeleteTime)
+// UpdateDeletedAt sets the "deleted_at" field to the value that was provided on create.
+func (u *TenantUpsert) UpdateDeletedAt() *TenantUpsert {
+	u.SetExcluded(tenant.FieldDeletedAt)
 	return u
 }
 
-// ClearDeleteTime clears the value of the "delete_time" field.
-func (u *TenantUpsert) ClearDeleteTime() *TenantUpsert {
-	u.SetNull(tenant.FieldDeleteTime)
+// ClearDeletedAt clears the value of the "deleted_at" field.
+func (u *TenantUpsert) ClearDeletedAt() *TenantUpsert {
+	u.SetNull(tenant.FieldDeletedAt)
 	return u
 }
 
-// SetCreateBy sets the "create_by" field.
-func (u *TenantUpsert) SetCreateBy(v uint32) *TenantUpsert {
-	u.Set(tenant.FieldCreateBy, v)
+// SetCreatedBy sets the "created_by" field.
+func (u *TenantUpsert) SetCreatedBy(v uint32) *TenantUpsert {
+	u.Set(tenant.FieldCreatedBy, v)
 	return u
 }
 
-// UpdateCreateBy sets the "create_by" field to the value that was provided on create.
-func (u *TenantUpsert) UpdateCreateBy() *TenantUpsert {
-	u.SetExcluded(tenant.FieldCreateBy)
+// UpdateCreatedBy sets the "created_by" field to the value that was provided on create.
+func (u *TenantUpsert) UpdateCreatedBy() *TenantUpsert {
+	u.SetExcluded(tenant.FieldCreatedBy)
 	return u
 }
 
-// AddCreateBy adds v to the "create_by" field.
-func (u *TenantUpsert) AddCreateBy(v uint32) *TenantUpsert {
-	u.Add(tenant.FieldCreateBy, v)
+// AddCreatedBy adds v to the "created_by" field.
+func (u *TenantUpsert) AddCreatedBy(v uint32) *TenantUpsert {
+	u.Add(tenant.FieldCreatedBy, v)
 	return u
 }
 
-// ClearCreateBy clears the value of the "create_by" field.
-func (u *TenantUpsert) ClearCreateBy() *TenantUpsert {
-	u.SetNull(tenant.FieldCreateBy)
+// ClearCreatedBy clears the value of the "created_by" field.
+func (u *TenantUpsert) ClearCreatedBy() *TenantUpsert {
+	u.SetNull(tenant.FieldCreatedBy)
 	return u
 }
 
-// SetUpdateBy sets the "update_by" field.
-func (u *TenantUpsert) SetUpdateBy(v uint32) *TenantUpsert {
-	u.Set(tenant.FieldUpdateBy, v)
+// SetUpdatedBy sets the "updated_by" field.
+func (u *TenantUpsert) SetUpdatedBy(v uint32) *TenantUpsert {
+	u.Set(tenant.FieldUpdatedBy, v)
 	return u
 }
 
-// UpdateUpdateBy sets the "update_by" field to the value that was provided on create.
-func (u *TenantUpsert) UpdateUpdateBy() *TenantUpsert {
-	u.SetExcluded(tenant.FieldUpdateBy)
+// UpdateUpdatedBy sets the "updated_by" field to the value that was provided on create.
+func (u *TenantUpsert) UpdateUpdatedBy() *TenantUpsert {
+	u.SetExcluded(tenant.FieldUpdatedBy)
 	return u
 }
 
-// AddUpdateBy adds v to the "update_by" field.
-func (u *TenantUpsert) AddUpdateBy(v uint32) *TenantUpsert {
-	u.Add(tenant.FieldUpdateBy, v)
+// AddUpdatedBy adds v to the "updated_by" field.
+func (u *TenantUpsert) AddUpdatedBy(v uint32) *TenantUpsert {
+	u.Add(tenant.FieldUpdatedBy, v)
 	return u
 }
 
-// ClearUpdateBy clears the value of the "update_by" field.
-func (u *TenantUpsert) ClearUpdateBy() *TenantUpsert {
-	u.SetNull(tenant.FieldUpdateBy)
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (u *TenantUpsert) ClearUpdatedBy() *TenantUpsert {
+	u.SetNull(tenant.FieldUpdatedBy)
+	return u
+}
+
+// SetDeletedBy sets the "deleted_by" field.
+func (u *TenantUpsert) SetDeletedBy(v uint32) *TenantUpsert {
+	u.Set(tenant.FieldDeletedBy, v)
+	return u
+}
+
+// UpdateDeletedBy sets the "deleted_by" field to the value that was provided on create.
+func (u *TenantUpsert) UpdateDeletedBy() *TenantUpsert {
+	u.SetExcluded(tenant.FieldDeletedBy)
+	return u
+}
+
+// AddDeletedBy adds v to the "deleted_by" field.
+func (u *TenantUpsert) AddDeletedBy(v uint32) *TenantUpsert {
+	u.Add(tenant.FieldDeletedBy, v)
+	return u
+}
+
+// ClearDeletedBy clears the value of the "deleted_by" field.
+func (u *TenantUpsert) ClearDeletedBy() *TenantUpsert {
+	u.SetNull(tenant.FieldDeletedBy)
 	return u
 }
 
@@ -931,8 +969,8 @@ func (u *TenantUpsertOne) UpdateNewValues() *TenantUpsertOne {
 		if _, exists := u.create.mutation.ID(); exists {
 			s.SetIgnore(tenant.FieldID)
 		}
-		if _, exists := u.create.mutation.CreateTime(); exists {
-			s.SetIgnore(tenant.FieldCreateTime)
+		if _, exists := u.create.mutation.CreatedAt(); exists {
+			s.SetIgnore(tenant.FieldCreatedAt)
 		}
 	}))
 	return u
@@ -965,101 +1003,129 @@ func (u *TenantUpsertOne) Update(set func(*TenantUpsert)) *TenantUpsertOne {
 	return u
 }
 
-// SetUpdateTime sets the "update_time" field.
-func (u *TenantUpsertOne) SetUpdateTime(v time.Time) *TenantUpsertOne {
+// SetUpdatedAt sets the "updated_at" field.
+func (u *TenantUpsertOne) SetUpdatedAt(v time.Time) *TenantUpsertOne {
 	return u.Update(func(s *TenantUpsert) {
-		s.SetUpdateTime(v)
+		s.SetUpdatedAt(v)
 	})
 }
 
-// UpdateUpdateTime sets the "update_time" field to the value that was provided on create.
-func (u *TenantUpsertOne) UpdateUpdateTime() *TenantUpsertOne {
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *TenantUpsertOne) UpdateUpdatedAt() *TenantUpsertOne {
 	return u.Update(func(s *TenantUpsert) {
-		s.UpdateUpdateTime()
+		s.UpdateUpdatedAt()
 	})
 }
 
-// ClearUpdateTime clears the value of the "update_time" field.
-func (u *TenantUpsertOne) ClearUpdateTime() *TenantUpsertOne {
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (u *TenantUpsertOne) ClearUpdatedAt() *TenantUpsertOne {
 	return u.Update(func(s *TenantUpsert) {
-		s.ClearUpdateTime()
+		s.ClearUpdatedAt()
 	})
 }
 
-// SetDeleteTime sets the "delete_time" field.
-func (u *TenantUpsertOne) SetDeleteTime(v time.Time) *TenantUpsertOne {
+// SetDeletedAt sets the "deleted_at" field.
+func (u *TenantUpsertOne) SetDeletedAt(v time.Time) *TenantUpsertOne {
 	return u.Update(func(s *TenantUpsert) {
-		s.SetDeleteTime(v)
+		s.SetDeletedAt(v)
 	})
 }
 
-// UpdateDeleteTime sets the "delete_time" field to the value that was provided on create.
-func (u *TenantUpsertOne) UpdateDeleteTime() *TenantUpsertOne {
+// UpdateDeletedAt sets the "deleted_at" field to the value that was provided on create.
+func (u *TenantUpsertOne) UpdateDeletedAt() *TenantUpsertOne {
 	return u.Update(func(s *TenantUpsert) {
-		s.UpdateDeleteTime()
+		s.UpdateDeletedAt()
 	})
 }
 
-// ClearDeleteTime clears the value of the "delete_time" field.
-func (u *TenantUpsertOne) ClearDeleteTime() *TenantUpsertOne {
+// ClearDeletedAt clears the value of the "deleted_at" field.
+func (u *TenantUpsertOne) ClearDeletedAt() *TenantUpsertOne {
 	return u.Update(func(s *TenantUpsert) {
-		s.ClearDeleteTime()
+		s.ClearDeletedAt()
 	})
 }
 
-// SetCreateBy sets the "create_by" field.
-func (u *TenantUpsertOne) SetCreateBy(v uint32) *TenantUpsertOne {
+// SetCreatedBy sets the "created_by" field.
+func (u *TenantUpsertOne) SetCreatedBy(v uint32) *TenantUpsertOne {
 	return u.Update(func(s *TenantUpsert) {
-		s.SetCreateBy(v)
+		s.SetCreatedBy(v)
 	})
 }
 
-// AddCreateBy adds v to the "create_by" field.
-func (u *TenantUpsertOne) AddCreateBy(v uint32) *TenantUpsertOne {
+// AddCreatedBy adds v to the "created_by" field.
+func (u *TenantUpsertOne) AddCreatedBy(v uint32) *TenantUpsertOne {
 	return u.Update(func(s *TenantUpsert) {
-		s.AddCreateBy(v)
+		s.AddCreatedBy(v)
 	})
 }
 
-// UpdateCreateBy sets the "create_by" field to the value that was provided on create.
-func (u *TenantUpsertOne) UpdateCreateBy() *TenantUpsertOne {
+// UpdateCreatedBy sets the "created_by" field to the value that was provided on create.
+func (u *TenantUpsertOne) UpdateCreatedBy() *TenantUpsertOne {
 	return u.Update(func(s *TenantUpsert) {
-		s.UpdateCreateBy()
+		s.UpdateCreatedBy()
 	})
 }
 
-// ClearCreateBy clears the value of the "create_by" field.
-func (u *TenantUpsertOne) ClearCreateBy() *TenantUpsertOne {
+// ClearCreatedBy clears the value of the "created_by" field.
+func (u *TenantUpsertOne) ClearCreatedBy() *TenantUpsertOne {
 	return u.Update(func(s *TenantUpsert) {
-		s.ClearCreateBy()
+		s.ClearCreatedBy()
 	})
 }
 
-// SetUpdateBy sets the "update_by" field.
-func (u *TenantUpsertOne) SetUpdateBy(v uint32) *TenantUpsertOne {
+// SetUpdatedBy sets the "updated_by" field.
+func (u *TenantUpsertOne) SetUpdatedBy(v uint32) *TenantUpsertOne {
 	return u.Update(func(s *TenantUpsert) {
-		s.SetUpdateBy(v)
+		s.SetUpdatedBy(v)
 	})
 }
 
-// AddUpdateBy adds v to the "update_by" field.
-func (u *TenantUpsertOne) AddUpdateBy(v uint32) *TenantUpsertOne {
+// AddUpdatedBy adds v to the "updated_by" field.
+func (u *TenantUpsertOne) AddUpdatedBy(v uint32) *TenantUpsertOne {
 	return u.Update(func(s *TenantUpsert) {
-		s.AddUpdateBy(v)
+		s.AddUpdatedBy(v)
 	})
 }
 
-// UpdateUpdateBy sets the "update_by" field to the value that was provided on create.
-func (u *TenantUpsertOne) UpdateUpdateBy() *TenantUpsertOne {
+// UpdateUpdatedBy sets the "updated_by" field to the value that was provided on create.
+func (u *TenantUpsertOne) UpdateUpdatedBy() *TenantUpsertOne {
 	return u.Update(func(s *TenantUpsert) {
-		s.UpdateUpdateBy()
+		s.UpdateUpdatedBy()
 	})
 }
 
-// ClearUpdateBy clears the value of the "update_by" field.
-func (u *TenantUpsertOne) ClearUpdateBy() *TenantUpsertOne {
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (u *TenantUpsertOne) ClearUpdatedBy() *TenantUpsertOne {
 	return u.Update(func(s *TenantUpsert) {
-		s.ClearUpdateBy()
+		s.ClearUpdatedBy()
+	})
+}
+
+// SetDeletedBy sets the "deleted_by" field.
+func (u *TenantUpsertOne) SetDeletedBy(v uint32) *TenantUpsertOne {
+	return u.Update(func(s *TenantUpsert) {
+		s.SetDeletedBy(v)
+	})
+}
+
+// AddDeletedBy adds v to the "deleted_by" field.
+func (u *TenantUpsertOne) AddDeletedBy(v uint32) *TenantUpsertOne {
+	return u.Update(func(s *TenantUpsert) {
+		s.AddDeletedBy(v)
+	})
+}
+
+// UpdateDeletedBy sets the "deleted_by" field to the value that was provided on create.
+func (u *TenantUpsertOne) UpdateDeletedBy() *TenantUpsertOne {
+	return u.Update(func(s *TenantUpsert) {
+		s.UpdateDeletedBy()
+	})
+}
+
+// ClearDeletedBy clears the value of the "deleted_by" field.
+func (u *TenantUpsertOne) ClearDeletedBy() *TenantUpsertOne {
+	return u.Update(func(s *TenantUpsert) {
+		s.ClearDeletedBy()
 	})
 }
 
@@ -1520,7 +1586,7 @@ func (_c *TenantCreateBulk) ExecX(ctx context.Context) {
 //		// Override some of the fields with custom
 //		// update values.
 //		Update(func(u *ent.TenantUpsert) {
-//			SetCreateTime(v+v).
+//			SetCreatedAt(v+v).
 //		}).
 //		Exec(ctx)
 func (_c *TenantCreateBulk) OnConflict(opts ...sql.ConflictOption) *TenantUpsertBulk {
@@ -1567,8 +1633,8 @@ func (u *TenantUpsertBulk) UpdateNewValues() *TenantUpsertBulk {
 			if _, exists := b.mutation.ID(); exists {
 				s.SetIgnore(tenant.FieldID)
 			}
-			if _, exists := b.mutation.CreateTime(); exists {
-				s.SetIgnore(tenant.FieldCreateTime)
+			if _, exists := b.mutation.CreatedAt(); exists {
+				s.SetIgnore(tenant.FieldCreatedAt)
 			}
 		}
 	}))
@@ -1602,101 +1668,129 @@ func (u *TenantUpsertBulk) Update(set func(*TenantUpsert)) *TenantUpsertBulk {
 	return u
 }
 
-// SetUpdateTime sets the "update_time" field.
-func (u *TenantUpsertBulk) SetUpdateTime(v time.Time) *TenantUpsertBulk {
+// SetUpdatedAt sets the "updated_at" field.
+func (u *TenantUpsertBulk) SetUpdatedAt(v time.Time) *TenantUpsertBulk {
 	return u.Update(func(s *TenantUpsert) {
-		s.SetUpdateTime(v)
+		s.SetUpdatedAt(v)
 	})
 }
 
-// UpdateUpdateTime sets the "update_time" field to the value that was provided on create.
-func (u *TenantUpsertBulk) UpdateUpdateTime() *TenantUpsertBulk {
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *TenantUpsertBulk) UpdateUpdatedAt() *TenantUpsertBulk {
 	return u.Update(func(s *TenantUpsert) {
-		s.UpdateUpdateTime()
+		s.UpdateUpdatedAt()
 	})
 }
 
-// ClearUpdateTime clears the value of the "update_time" field.
-func (u *TenantUpsertBulk) ClearUpdateTime() *TenantUpsertBulk {
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (u *TenantUpsertBulk) ClearUpdatedAt() *TenantUpsertBulk {
 	return u.Update(func(s *TenantUpsert) {
-		s.ClearUpdateTime()
+		s.ClearUpdatedAt()
 	})
 }
 
-// SetDeleteTime sets the "delete_time" field.
-func (u *TenantUpsertBulk) SetDeleteTime(v time.Time) *TenantUpsertBulk {
+// SetDeletedAt sets the "deleted_at" field.
+func (u *TenantUpsertBulk) SetDeletedAt(v time.Time) *TenantUpsertBulk {
 	return u.Update(func(s *TenantUpsert) {
-		s.SetDeleteTime(v)
+		s.SetDeletedAt(v)
 	})
 }
 
-// UpdateDeleteTime sets the "delete_time" field to the value that was provided on create.
-func (u *TenantUpsertBulk) UpdateDeleteTime() *TenantUpsertBulk {
+// UpdateDeletedAt sets the "deleted_at" field to the value that was provided on create.
+func (u *TenantUpsertBulk) UpdateDeletedAt() *TenantUpsertBulk {
 	return u.Update(func(s *TenantUpsert) {
-		s.UpdateDeleteTime()
+		s.UpdateDeletedAt()
 	})
 }
 
-// ClearDeleteTime clears the value of the "delete_time" field.
-func (u *TenantUpsertBulk) ClearDeleteTime() *TenantUpsertBulk {
+// ClearDeletedAt clears the value of the "deleted_at" field.
+func (u *TenantUpsertBulk) ClearDeletedAt() *TenantUpsertBulk {
 	return u.Update(func(s *TenantUpsert) {
-		s.ClearDeleteTime()
+		s.ClearDeletedAt()
 	})
 }
 
-// SetCreateBy sets the "create_by" field.
-func (u *TenantUpsertBulk) SetCreateBy(v uint32) *TenantUpsertBulk {
+// SetCreatedBy sets the "created_by" field.
+func (u *TenantUpsertBulk) SetCreatedBy(v uint32) *TenantUpsertBulk {
 	return u.Update(func(s *TenantUpsert) {
-		s.SetCreateBy(v)
+		s.SetCreatedBy(v)
 	})
 }
 
-// AddCreateBy adds v to the "create_by" field.
-func (u *TenantUpsertBulk) AddCreateBy(v uint32) *TenantUpsertBulk {
+// AddCreatedBy adds v to the "created_by" field.
+func (u *TenantUpsertBulk) AddCreatedBy(v uint32) *TenantUpsertBulk {
 	return u.Update(func(s *TenantUpsert) {
-		s.AddCreateBy(v)
+		s.AddCreatedBy(v)
 	})
 }
 
-// UpdateCreateBy sets the "create_by" field to the value that was provided on create.
-func (u *TenantUpsertBulk) UpdateCreateBy() *TenantUpsertBulk {
+// UpdateCreatedBy sets the "created_by" field to the value that was provided on create.
+func (u *TenantUpsertBulk) UpdateCreatedBy() *TenantUpsertBulk {
 	return u.Update(func(s *TenantUpsert) {
-		s.UpdateCreateBy()
+		s.UpdateCreatedBy()
 	})
 }
 
-// ClearCreateBy clears the value of the "create_by" field.
-func (u *TenantUpsertBulk) ClearCreateBy() *TenantUpsertBulk {
+// ClearCreatedBy clears the value of the "created_by" field.
+func (u *TenantUpsertBulk) ClearCreatedBy() *TenantUpsertBulk {
 	return u.Update(func(s *TenantUpsert) {
-		s.ClearCreateBy()
+		s.ClearCreatedBy()
 	})
 }
 
-// SetUpdateBy sets the "update_by" field.
-func (u *TenantUpsertBulk) SetUpdateBy(v uint32) *TenantUpsertBulk {
+// SetUpdatedBy sets the "updated_by" field.
+func (u *TenantUpsertBulk) SetUpdatedBy(v uint32) *TenantUpsertBulk {
 	return u.Update(func(s *TenantUpsert) {
-		s.SetUpdateBy(v)
+		s.SetUpdatedBy(v)
 	})
 }
 
-// AddUpdateBy adds v to the "update_by" field.
-func (u *TenantUpsertBulk) AddUpdateBy(v uint32) *TenantUpsertBulk {
+// AddUpdatedBy adds v to the "updated_by" field.
+func (u *TenantUpsertBulk) AddUpdatedBy(v uint32) *TenantUpsertBulk {
 	return u.Update(func(s *TenantUpsert) {
-		s.AddUpdateBy(v)
+		s.AddUpdatedBy(v)
 	})
 }
 
-// UpdateUpdateBy sets the "update_by" field to the value that was provided on create.
-func (u *TenantUpsertBulk) UpdateUpdateBy() *TenantUpsertBulk {
+// UpdateUpdatedBy sets the "updated_by" field to the value that was provided on create.
+func (u *TenantUpsertBulk) UpdateUpdatedBy() *TenantUpsertBulk {
 	return u.Update(func(s *TenantUpsert) {
-		s.UpdateUpdateBy()
+		s.UpdateUpdatedBy()
 	})
 }
 
-// ClearUpdateBy clears the value of the "update_by" field.
-func (u *TenantUpsertBulk) ClearUpdateBy() *TenantUpsertBulk {
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (u *TenantUpsertBulk) ClearUpdatedBy() *TenantUpsertBulk {
 	return u.Update(func(s *TenantUpsert) {
-		s.ClearUpdateBy()
+		s.ClearUpdatedBy()
+	})
+}
+
+// SetDeletedBy sets the "deleted_by" field.
+func (u *TenantUpsertBulk) SetDeletedBy(v uint32) *TenantUpsertBulk {
+	return u.Update(func(s *TenantUpsert) {
+		s.SetDeletedBy(v)
+	})
+}
+
+// AddDeletedBy adds v to the "deleted_by" field.
+func (u *TenantUpsertBulk) AddDeletedBy(v uint32) *TenantUpsertBulk {
+	return u.Update(func(s *TenantUpsert) {
+		s.AddDeletedBy(v)
+	})
+}
+
+// UpdateDeletedBy sets the "deleted_by" field to the value that was provided on create.
+func (u *TenantUpsertBulk) UpdateDeletedBy() *TenantUpsertBulk {
+	return u.Update(func(s *TenantUpsert) {
+		s.UpdateDeletedBy()
+	})
+}
+
+// ClearDeletedBy clears the value of the "deleted_by" field.
+func (u *TenantUpsertBulk) ClearDeletedBy() *TenantUpsertBulk {
+	return u.Update(func(s *TenantUpsert) {
+		s.ClearDeletedBy()
 	})
 }
 

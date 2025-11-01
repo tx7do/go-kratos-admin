@@ -51,8 +51,8 @@ export interface Department {
     | number
     | null
     | undefined;
-  /** 排序编号 */
-  sortId?:
+  /** 排序顺序，值越小越靠前 */
+  sortOrder?:
     | number
     | null
     | undefined;
@@ -74,27 +74,32 @@ export interface Department {
   /** 子节点树 */
   children: Department[];
   /** 创建者ID */
-  createBy?:
+  createdBy?:
     | number
     | null
     | undefined;
   /** 更新者ID */
-  updateBy?:
+  updatedBy?:
+    | number
+    | null
+    | undefined;
+  /** 删除者用户ID */
+  deletedBy?:
     | number
     | null
     | undefined;
   /** 创建时间 */
-  createTime?:
+  createdAt?:
     | Timestamp
     | null
     | undefined;
   /** 更新时间 */
-  updateTime?:
+  updatedAt?:
     | Timestamp
     | null
     | undefined;
   /** 删除时间 */
-  deleteTime?: Timestamp | null | undefined;
+  deletedAt?: Timestamp | null | undefined;
 }
 
 /** 部门状态 */
@@ -144,7 +149,8 @@ export interface BatchCreateDepartmentsRequest {
 }
 
 export interface BatchCreateDepartmentsResponse {
-  data: Department[];
+  /** 创建成功的部门ID列表 */
+  createdIds: number[];
 }
 
 /** 部门服务 */

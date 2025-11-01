@@ -19,7 +19,7 @@ type AdminLoginLog struct {
 	// id
 	ID uint32 `json:"id,omitempty"`
 	// 创建时间
-	CreateTime *time.Time `json:"create_time,omitempty"`
+	CreatedAt *time.Time `json:"created_at,omitempty"`
 	// 登录IP地址
 	LoginIP *string `json:"login_ip,omitempty"`
 	// 登录MAC地址
@@ -66,7 +66,7 @@ func (*AdminLoginLog) scanValues(columns []string) ([]any, error) {
 			values[i] = new(sql.NullInt64)
 		case adminloginlog.FieldLoginIP, adminloginlog.FieldLoginMAC, adminloginlog.FieldUserAgent, adminloginlog.FieldBrowserName, adminloginlog.FieldBrowserVersion, adminloginlog.FieldClientID, adminloginlog.FieldClientName, adminloginlog.FieldOsName, adminloginlog.FieldOsVersion, adminloginlog.FieldUsername, adminloginlog.FieldReason, adminloginlog.FieldLocation:
 			values[i] = new(sql.NullString)
-		case adminloginlog.FieldCreateTime, adminloginlog.FieldLoginTime:
+		case adminloginlog.FieldCreatedAt, adminloginlog.FieldLoginTime:
 			values[i] = new(sql.NullTime)
 		default:
 			values[i] = new(sql.UnknownType)
@@ -89,12 +89,12 @@ func (_m *AdminLoginLog) assignValues(columns []string, values []any) error {
 				return fmt.Errorf("unexpected type %T for field id", value)
 			}
 			_m.ID = uint32(value.Int64)
-		case adminloginlog.FieldCreateTime:
+		case adminloginlog.FieldCreatedAt:
 			if value, ok := values[i].(*sql.NullTime); !ok {
-				return fmt.Errorf("unexpected type %T for field create_time", values[i])
+				return fmt.Errorf("unexpected type %T for field created_at", values[i])
 			} else if value.Valid {
-				_m.CreateTime = new(time.Time)
-				*_m.CreateTime = value.Time
+				_m.CreatedAt = new(time.Time)
+				*_m.CreatedAt = value.Time
 			}
 		case adminloginlog.FieldLoginIP:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -244,8 +244,8 @@ func (_m *AdminLoginLog) String() string {
 	var builder strings.Builder
 	builder.WriteString("AdminLoginLog(")
 	builder.WriteString(fmt.Sprintf("id=%v, ", _m.ID))
-	if v := _m.CreateTime; v != nil {
-		builder.WriteString("create_time=")
+	if v := _m.CreatedAt; v != nil {
+		builder.WriteString("created_at=")
 		builder.WriteString(v.Format(time.ANSIC))
 	}
 	builder.WriteString(", ")

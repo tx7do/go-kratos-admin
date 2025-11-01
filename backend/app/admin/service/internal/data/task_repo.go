@@ -74,7 +74,7 @@ func (r *TaskRepo) List(ctx context.Context, req *pagination.PagingRequest) (*ad
 	err, whereSelectors, querySelectors := entgo.BuildQuerySelector(
 		req.GetQuery(), req.GetOrQuery(),
 		req.GetPage(), req.GetPageSize(), req.GetNoPaging(),
-		req.GetOrderBy(), task.FieldCreateTime,
+		req.GetOrderBy(), task.FieldCreatedAt,
 		req.GetFieldMask().GetPaths(),
 	)
 	if err != nil {
@@ -172,11 +172,11 @@ func (r *TaskRepo) Create(ctx context.Context, req *adminV1.CreateTaskRequest) (
 		SetNillableCronSpec(req.Data.CronSpec).
 		SetNillableEnable(req.Data.Enable).
 		SetNillableRemark(req.Data.Remark).
-		SetNillableCreateBy(req.Data.CreateBy).
-		SetNillableCreateTime(timeutil.TimestamppbToTime(req.Data.CreateTime))
+		SetNillableCreatedBy(req.Data.CreatedBy).
+		SetNillableCreatedAt(timeutil.TimestamppbToTime(req.Data.CreatedAt))
 
-	if req.Data.CreateTime == nil {
-		builder.SetCreateTime(time.Now())
+	if req.Data.CreatedAt == nil {
+		builder.SetCreatedAt(time.Now())
 	}
 
 	if req.Data.TaskOptions != nil {
@@ -209,8 +209,8 @@ func (r *TaskRepo) Update(ctx context.Context, req *adminV1.UpdateTaskRequest) (
 		}
 		if !exist {
 			createReq := &adminV1.CreateTaskRequest{Data: req.Data}
-			createReq.Data.CreateBy = createReq.Data.UpdateBy
-			createReq.Data.UpdateBy = nil
+			createReq.Data.CreatedBy = createReq.Data.UpdatedBy
+			createReq.Data.UpdatedBy = nil
 			return r.Create(ctx, createReq)
 		}
 	}
@@ -233,15 +233,15 @@ func (r *TaskRepo) Update(ctx context.Context, req *adminV1.UpdateTaskRequest) (
 		SetNillableCronSpec(req.Data.CronSpec).
 		SetNillableEnable(req.Data.Enable).
 		SetNillableRemark(req.Data.Remark).
-		SetNillableUpdateBy(req.Data.UpdateBy).
-		SetNillableUpdateTime(timeutil.TimestamppbToTime(req.Data.UpdateTime))
+		SetNillableUpdatedBy(req.Data.UpdatedBy).
+		SetNillableUpdatedAt(timeutil.TimestamppbToTime(req.Data.UpdatedAt))
 
 	if req.Data.TaskOptions != nil {
 		builder.SetTaskOptions(req.Data.TaskOptions)
 	}
 
-	if req.Data.UpdateTime == nil {
-		builder.SetUpdateTime(time.Now())
+	if req.Data.UpdatedAt == nil {
+		builder.SetUpdatedAt(time.Now())
 	}
 
 	if req.UpdateMask != nil {

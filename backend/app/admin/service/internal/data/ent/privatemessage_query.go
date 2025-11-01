@@ -265,12 +265,12 @@ func (_q *PrivateMessageQuery) Clone() *PrivateMessageQuery {
 // Example:
 //
 //	var v []struct {
-//		CreateTime time.Time `json:"create_time,omitempty"`
+//		CreatedAt time.Time `json:"created_at,omitempty"`
 //		Count int `json:"count,omitempty"`
 //	}
 //
 //	client.PrivateMessage.Query().
-//		GroupBy(privatemessage.FieldCreateTime).
+//		GroupBy(privatemessage.FieldCreatedAt).
 //		Aggregate(ent.Count()).
 //		Scan(ctx, &v)
 func (_q *PrivateMessageQuery) GroupBy(field string, fields ...string) *PrivateMessageGroupBy {
@@ -288,11 +288,11 @@ func (_q *PrivateMessageQuery) GroupBy(field string, fields ...string) *PrivateM
 // Example:
 //
 //	var v []struct {
-//		CreateTime time.Time `json:"create_time,omitempty"`
+//		CreatedAt time.Time `json:"created_at,omitempty"`
 //	}
 //
 //	client.PrivateMessage.Query().
-//		Select(privatemessage.FieldCreateTime).
+//		Select(privatemessage.FieldCreatedAt).
 //		Scan(ctx, &v)
 func (_q *PrivateMessageQuery) Select(fields ...string) *PrivateMessageSelect {
 	_q.ctx.Fields = append(_q.ctx.Fields, fields...)

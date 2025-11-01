@@ -102,7 +102,7 @@ func (r *PositionRepo) List(ctx context.Context, req *pagination.PagingRequest) 
 	err, whereSelectors, querySelectors := entgo.BuildQuerySelector(
 		req.GetQuery(), req.GetOrQuery(),
 		req.GetPage(), req.GetPageSize(), req.GetNoPaging(),
-		req.GetOrderBy(), position.FieldCreateTime,
+		req.GetOrderBy(), position.FieldCreatedAt,
 		req.GetFieldMask().GetPaths(),
 	)
 	if err != nil {
@@ -122,11 +122,11 @@ func (r *PositionRepo) List(ctx context.Context, req *pagination.PagingRequest) 
 
 	sort.SliceStable(entities, func(i, j int) bool {
 		var sortI, sortJ int32
-		if entities[i].SortID != nil {
-			sortI = *entities[i].SortID
+		if entities[i].SortOrder != nil {
+			sortI = *entities[i].SortOrder
 		}
-		if entities[j].SortID != nil {
-			sortJ = *entities[j].SortID
+		if entities[j].SortOrder != nil {
+			sortJ = *entities[j].SortOrder
 		}
 		return sortI < sortJ
 	})
@@ -222,7 +222,7 @@ func (r *PositionRepo) Create(ctx context.Context, req *userV1.CreatePositionReq
 	builder := r.data.db.Client().Position.Create().
 		SetNillableName(req.Data.Name).
 		SetNillableParentID(req.Data.ParentId).
-		SetNillableSortID(req.Data.SortId).
+		SetNillableSortOrder(req.Data.SortOrder).
 		SetNillableCode(req.Data.Code).
 		SetNillableStatus(r.statusConverter.ToEntity(req.Data.Status)).
 		SetNillableRemark(req.Data.Remark).
@@ -230,12 +230,14 @@ func (r *PositionRepo) Create(ctx context.Context, req *userV1.CreatePositionReq
 		SetNillableDescription(req.Data.Description).
 		SetOrganizationID(req.Data.GetOrganizationId()).
 		SetDepartmentID(req.Data.GetDepartmentId()).
-		SetNillableTenantID(req.Data.TenantId).
-		SetNillableCreateBy(req.Data.CreateBy).
-		SetNillableCreateTime(timeutil.TimestamppbToTime(req.Data.CreateTime))
+		SetNillableCreatedBy(req.Data.CreatedBy).
+		SetNillableCreatedAt(timeutil.TimestamppbToTime(req.Data.CreatedAt))
 
-	if req.Data.CreateTime == nil {
-		builder.SetCreateTime(time.Now())
+	if req.Data.TenantId == nil {
+		builder.SetTenantID(req.Data.GetTenantId())
+	}
+	if req.Data.CreatedAt == nil {
+		builder.SetCreatedAt(time.Now())
 	}
 
 	if req.Data.Id != nil {
@@ -263,8 +265,8 @@ func (r *PositionRepo) Update(ctx context.Context, req *userV1.UpdatePositionReq
 		}
 		if !exist {
 			createReq := &userV1.CreatePositionRequest{Data: req.Data}
-			createReq.Data.CreateBy = createReq.Data.UpdateBy
-			createReq.Data.UpdateBy = nil
+			createReq.Data.CreatedBy = createReq.Data.UpdatedBy
+			createReq.Data.UpdatedBy = nil
 			return r.Create(ctx, createReq)
 		}
 	}
@@ -281,17 +283,17 @@ func (r *PositionRepo) Update(ctx context.Context, req *userV1.UpdatePositionReq
 	builder := r.data.db.Client().Position.UpdateOneID(req.Data.GetId()).
 		SetNillableName(req.Data.Name).
 		SetNillableParentID(req.Data.ParentId).
-		SetNillableSortID(req.Data.SortId).
+		SetNillableSortOrder(req.Data.SortOrder).
 		SetNillableCode(req.Data.Code).
 		SetNillableStatus(r.statusConverter.ToEntity(req.Data.Status)).
 		SetNillableRemark(req.Data.Remark).
 		SetNillableQuota(req.Data.Quota).
 		SetNillableDescription(req.Data.Description).
-		SetNillableUpdateBy(req.Data.UpdateBy).
-		SetNillableUpdateTime(timeutil.TimestamppbToTime(req.Data.UpdateTime))
+		SetNillableUpdatedBy(req.Data.UpdatedBy).
+		SetNillableUpdatedAt(timeutil.TimestamppbToTime(req.Data.UpdatedAt))
 
-	if req.Data.UpdateTime == nil {
-		builder.SetUpdateTime(time.Now())
+	if req.Data.UpdatedAt == nil {
+		builder.SetUpdatedAt(time.Now())
 	}
 
 	if req.Data.OrganizationId == nil {

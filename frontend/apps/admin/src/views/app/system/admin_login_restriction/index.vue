@@ -108,8 +108,8 @@ const gridOptions: VxeGridProps<AdminLoginRestriction> = {
     { title: $t('page.adminLoginRestriction.value'), field: 'value' },
     { title: $t('page.adminLoginRestriction.reason'), field: 'reason' },
     {
-      title: $t('ui.table.createTime'),
-      field: 'createTime',
+      title: $t('ui.table.createdAt'),
+      field: 'createdAt',
       formatter: 'formatDateTime',
       width: 140,
     },

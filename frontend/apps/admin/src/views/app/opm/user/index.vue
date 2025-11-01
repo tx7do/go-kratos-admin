@@ -284,8 +284,8 @@ const gridOptions: VxeGridProps<User> = {
       width: 160,
     },
     {
-      title: $t('ui.table.createTime'),
-      field: 'createTime',
+      title: $t('ui.table.createdAt'),
+      field: 'createdAt',
       formatter: 'formatDateTime',
       width: 160,
     },

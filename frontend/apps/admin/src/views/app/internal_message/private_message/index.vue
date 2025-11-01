@@ -73,8 +73,8 @@ const gridOptions: VxeGridProps<PrivateMessage> = {
     { title: $t('ui.table.seq'), type: 'seq', width: 50 },
     { title: $t('page.privateMessage.subject'), field: 'subject' },
     {
-      title: $t('ui.table.createTime'),
-      field: 'createTime',
+      title: $t('ui.table.createdAt'),
+      field: 'createdAt',
       formatter: 'formatDateTime',
       width: 140,
     },

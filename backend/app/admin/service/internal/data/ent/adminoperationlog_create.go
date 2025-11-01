@@ -22,16 +22,16 @@ type AdminOperationLogCreate struct {
 	conflict []sql.ConflictOption
 }
 
-// SetCreateTime sets the "create_time" field.
-func (_c *AdminOperationLogCreate) SetCreateTime(v time.Time) *AdminOperationLogCreate {
-	_c.mutation.SetCreateTime(v)
+// SetCreatedAt sets the "created_at" field.
+func (_c *AdminOperationLogCreate) SetCreatedAt(v time.Time) *AdminOperationLogCreate {
+	_c.mutation.SetCreatedAt(v)
 	return _c
 }
 
-// SetNillableCreateTime sets the "create_time" field if the given value is not nil.
-func (_c *AdminOperationLogCreate) SetNillableCreateTime(v *time.Time) *AdminOperationLogCreate {
+// SetNillableCreatedAt sets the "created_at" field if the given value is not nil.
+func (_c *AdminOperationLogCreate) SetNillableCreatedAt(v *time.Time) *AdminOperationLogCreate {
 	if v != nil {
-		_c.SetCreateTime(*v)
+		_c.SetCreatedAt(*v)
 	}
 	return _c
 }
@@ -450,9 +450,9 @@ func (_c *AdminOperationLogCreate) createSpec() (*AdminOperationLog, *sqlgraph.C
 		_node.ID = id
 		_spec.ID.Value = id
 	}
-	if value, ok := _c.mutation.CreateTime(); ok {
-		_spec.SetField(adminoperationlog.FieldCreateTime, field.TypeTime, value)
-		_node.CreateTime = &value
+	if value, ok := _c.mutation.CreatedAt(); ok {
+		_spec.SetField(adminoperationlog.FieldCreatedAt, field.TypeTime, value)
+		_node.CreatedAt = &value
 	}
 	if value, ok := _c.mutation.RequestID(); ok {
 		_spec.SetField(adminoperationlog.FieldRequestID, field.TypeString, value)
@@ -557,7 +557,7 @@ func (_c *AdminOperationLogCreate) createSpec() (*AdminOperationLog, *sqlgraph.C
 // of the `INSERT` statement. For example:
 //
 //	client.AdminOperationLog.Create().
-//		SetCreateTime(v).
+//		SetCreatedAt(v).
 //		OnConflict(
 //			// Update the row with the new values
 //			// the was proposed for insertion.
@@ -566,7 +566,7 @@ func (_c *AdminOperationLogCreate) createSpec() (*AdminOperationLog, *sqlgraph.C
 //		// Override some of the fields with custom
 //		// update values.
 //		Update(func(u *ent.AdminOperationLogUpsert) {
-//			SetCreateTime(v+v).
+//			SetCreatedAt(v+v).
 //		}).
 //		Exec(ctx)
 func (_c *AdminOperationLogCreate) OnConflict(opts ...sql.ConflictOption) *AdminOperationLogUpsertOne {
@@ -1069,8 +1069,8 @@ func (u *AdminOperationLogUpsertOne) UpdateNewValues() *AdminOperationLogUpsertO
 		if _, exists := u.create.mutation.ID(); exists {
 			s.SetIgnore(adminoperationlog.FieldID)
 		}
-		if _, exists := u.create.mutation.CreateTime(); exists {
-			s.SetIgnore(adminoperationlog.FieldCreateTime)
+		if _, exists := u.create.mutation.CreatedAt(); exists {
+			s.SetIgnore(adminoperationlog.FieldCreatedAt)
 		}
 	}))
 	return u
@@ -1762,7 +1762,7 @@ func (_c *AdminOperationLogCreateBulk) ExecX(ctx context.Context) {
 //		// Override some of the fields with custom
 //		// update values.
 //		Update(func(u *ent.AdminOperationLogUpsert) {
-//			SetCreateTime(v+v).
+//			SetCreatedAt(v+v).
 //		}).
 //		Exec(ctx)
 func (_c *AdminOperationLogCreateBulk) OnConflict(opts ...sql.ConflictOption) *AdminOperationLogUpsertBulk {
@@ -1809,8 +1809,8 @@ func (u *AdminOperationLogUpsertBulk) UpdateNewValues() *AdminOperationLogUpsert
 			if _, exists := b.mutation.ID(); exists {
 				s.SetIgnore(adminoperationlog.FieldID)
 			}
-			if _, exists := b.mutation.CreateTime(); exists {
-				s.SetIgnore(adminoperationlog.FieldCreateTime)
+			if _, exists := b.mutation.CreatedAt(); exists {
+				s.SetIgnore(adminoperationlog.FieldCreatedAt)
 			}
 		}
 	}))

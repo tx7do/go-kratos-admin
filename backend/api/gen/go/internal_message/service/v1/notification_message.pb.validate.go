@@ -81,22 +81,26 @@ func (m *NotificationMessage) validate(all bool) error {
 		// no validation rules for CategoryName
 	}
 
-	if m.CreateBy != nil {
-		// no validation rules for CreateBy
+	if m.CreatedBy != nil {
+		// no validation rules for CreatedBy
 	}
 
-	if m.UpdateBy != nil {
-		// no validation rules for UpdateBy
+	if m.UpdatedBy != nil {
+		// no validation rules for UpdatedBy
 	}
 
-	if m.CreateTime != nil {
+	if m.DeletedBy != nil {
+		// no validation rules for DeletedBy
+	}
+
+	if m.CreatedAt != nil {
 
 		if all {
-			switch v := interface{}(m.GetCreateTime()).(type) {
+			switch v := interface{}(m.GetCreatedAt()).(type) {
 			case interface{ ValidateAll() error }:
 				if err := v.ValidateAll(); err != nil {
 					errors = append(errors, NotificationMessageValidationError{
-						field:  "CreateTime",
+						field:  "CreatedAt",
 						reason: "embedded message failed validation",
 						cause:  err,
 					})
@@ -104,16 +108,16 @@ func (m *NotificationMessage) validate(all bool) error {
 			case interface{ Validate() error }:
 				if err := v.Validate(); err != nil {
 					errors = append(errors, NotificationMessageValidationError{
-						field:  "CreateTime",
+						field:  "CreatedAt",
 						reason: "embedded message failed validation",
 						cause:  err,
 					})
 				}
 			}
-		} else if v, ok := interface{}(m.GetCreateTime()).(interface{ Validate() error }); ok {
+		} else if v, ok := interface{}(m.GetCreatedAt()).(interface{ Validate() error }); ok {
 			if err := v.Validate(); err != nil {
 				return NotificationMessageValidationError{
-					field:  "CreateTime",
+					field:  "CreatedAt",
 					reason: "embedded message failed validation",
 					cause:  err,
 				}
@@ -122,14 +126,14 @@ func (m *NotificationMessage) validate(all bool) error {
 
 	}
 
-	if m.UpdateTime != nil {
+	if m.UpdatedAt != nil {
 
 		if all {
-			switch v := interface{}(m.GetUpdateTime()).(type) {
+			switch v := interface{}(m.GetUpdatedAt()).(type) {
 			case interface{ ValidateAll() error }:
 				if err := v.ValidateAll(); err != nil {
 					errors = append(errors, NotificationMessageValidationError{
-						field:  "UpdateTime",
+						field:  "UpdatedAt",
 						reason: "embedded message failed validation",
 						cause:  err,
 					})
@@ -137,16 +141,16 @@ func (m *NotificationMessage) validate(all bool) error {
 			case interface{ Validate() error }:
 				if err := v.Validate(); err != nil {
 					errors = append(errors, NotificationMessageValidationError{
-						field:  "UpdateTime",
+						field:  "UpdatedAt",
 						reason: "embedded message failed validation",
 						cause:  err,
 					})
 				}
 			}
-		} else if v, ok := interface{}(m.GetUpdateTime()).(interface{ Validate() error }); ok {
+		} else if v, ok := interface{}(m.GetUpdatedAt()).(interface{ Validate() error }); ok {
 			if err := v.Validate(); err != nil {
 				return NotificationMessageValidationError{
-					field:  "UpdateTime",
+					field:  "UpdatedAt",
 					reason: "embedded message failed validation",
 					cause:  err,
 				}
@@ -155,14 +159,14 @@ func (m *NotificationMessage) validate(all bool) error {
 
 	}
 
-	if m.DeleteTime != nil {
+	if m.DeletedAt != nil {
 
 		if all {
-			switch v := interface{}(m.GetDeleteTime()).(type) {
+			switch v := interface{}(m.GetDeletedAt()).(type) {
 			case interface{ ValidateAll() error }:
 				if err := v.ValidateAll(); err != nil {
 					errors = append(errors, NotificationMessageValidationError{
-						field:  "DeleteTime",
+						field:  "DeletedAt",
 						reason: "embedded message failed validation",
 						cause:  err,
 					})
@@ -170,16 +174,16 @@ func (m *NotificationMessage) validate(all bool) error {
 			case interface{ Validate() error }:
 				if err := v.Validate(); err != nil {
 					errors = append(errors, NotificationMessageValidationError{
-						field:  "DeleteTime",
+						field:  "DeletedAt",
 						reason: "embedded message failed validation",
 						cause:  err,
 					})
 				}
 			}
-		} else if v, ok := interface{}(m.GetDeleteTime()).(interface{ Validate() error }); ok {
+		} else if v, ok := interface{}(m.GetDeletedAt()).(interface{ Validate() error }); ok {
 			if err := v.Validate(); err != nil {
 				return NotificationMessageValidationError{
-					field:  "DeleteTime",
+					field:  "DeletedAt",
 					reason: "embedded message failed validation",
 					cause:  err,
 				}

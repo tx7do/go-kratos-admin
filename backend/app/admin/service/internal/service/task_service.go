@@ -76,7 +76,7 @@ func (s *TaskService) Create(ctx context.Context, req *adminV1.CreateTaskRequest
 		return &emptypb.Empty{}, err
 	}
 
-	req.Data.CreateBy = trans.Ptr(operator.UserId)
+	req.Data.CreatedBy = trans.Ptr(operator.UserId)
 
 	var t *adminV1.Task
 	if t, err = s.taskRepo.Create(ctx, req); err != nil {
@@ -101,7 +101,7 @@ func (s *TaskService) Update(ctx context.Context, req *adminV1.UpdateTaskRequest
 		return &emptypb.Empty{}, err
 	}
 
-	req.Data.UpdateBy = trans.Ptr(operator.UserId)
+	req.Data.UpdatedBy = trans.Ptr(operator.UserId)
 
 	var t *adminV1.Task
 	if t, err = s.taskRepo.Update(ctx, req); err != nil {

@@ -159,7 +159,7 @@ func TestCopier(t *testing.T) {
 		entMsg.Nickname = trans.Ptr("NickName")
 		entMsg.Realname = trans.Ptr("RealName")
 		entMsg.Email = trans.Ptr("test@gmail.com")
-		entMsg.TenantID = trans.Ptr(uint32(2))
+		entMsg.TenantID = uint32(2)
 		entMsg.Status = trans.Ptr(user.StatusOn)
 
 		_ = copier.Copy(&protoMsg, entMsg)
@@ -167,7 +167,7 @@ func TestCopier(t *testing.T) {
 		assert.Equal(t, protoMsg.GetNickname(), *entMsg.Nickname)
 		assert.Equal(t, protoMsg.GetRealname(), *entMsg.Realname)
 		assert.Equal(t, protoMsg.GetEmail(), *entMsg.Email)
-		assert.Equal(t, protoMsg.GetTenantId(), *entMsg.TenantID)
+		assert.Equal(t, protoMsg.GetTenantId(), entMsg.TenantID)
 		assert.Equal(t, protoMsg.GetId(), entMsg.ID)
 	}
 
@@ -231,7 +231,7 @@ func TestCopier(t *testing.T) {
 		entMsg.Nickname = trans.Ptr("NickName")
 		entMsg.Realname = trans.Ptr("RealName")
 		entMsg.Email = trans.Ptr("test@gmail.com")
-		entMsg.CreateTime = trans.Ptr(time.Now())
+		entMsg.CreatedAt = trans.Ptr(time.Now())
 
 		converter := copier.TypeConverter{
 			SrcType: &time.Time{},  // 源类型
@@ -251,6 +251,6 @@ func TestCopier(t *testing.T) {
 			return
 		}
 
-		fmt.Println(protoMsg.GetUsername(), protoMsg.GetCreateTime())
+		fmt.Println(protoMsg.GetUsername(), protoMsg.GetCreatedAt())
 	}
 }

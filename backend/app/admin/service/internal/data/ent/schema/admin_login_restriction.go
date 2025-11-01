@@ -80,8 +80,7 @@ func (AdminLoginRestriction) Indexes() []ent.Index {
 func (AdminLoginRestriction) Mixin() []ent.Mixin {
 	return []ent.Mixin{
 		mixin.AutoIncrementId{},
-		mixin.Time{},
-		mixin.CreateBy{},
-		mixin.UpdateBy{},
+		mixin.TimeAt{},
+		mixin.OperatorID{},
 	}
 }

@@ -29,97 +29,124 @@ func (_u *AdminLoginRestrictionUpdate) Where(ps ...predicate.AdminLoginRestricti
 	return _u
 }
 
-// SetUpdateTime sets the "update_time" field.
-func (_u *AdminLoginRestrictionUpdate) SetUpdateTime(v time.Time) *AdminLoginRestrictionUpdate {
-	_u.mutation.SetUpdateTime(v)
+// SetUpdatedAt sets the "updated_at" field.
+func (_u *AdminLoginRestrictionUpdate) SetUpdatedAt(v time.Time) *AdminLoginRestrictionUpdate {
+	_u.mutation.SetUpdatedAt(v)
 	return _u
 }
 
-// SetNillableUpdateTime sets the "update_time" field if the given value is not nil.
-func (_u *AdminLoginRestrictionUpdate) SetNillableUpdateTime(v *time.Time) *AdminLoginRestrictionUpdate {
+// SetNillableUpdatedAt sets the "updated_at" field if the given value is not nil.
+func (_u *AdminLoginRestrictionUpdate) SetNillableUpdatedAt(v *time.Time) *AdminLoginRestrictionUpdate {
 	if v != nil {
-		_u.SetUpdateTime(*v)
+		_u.SetUpdatedAt(*v)
 	}
 	return _u
 }
 
-// ClearUpdateTime clears the value of the "update_time" field.
-func (_u *AdminLoginRestrictionUpdate) ClearUpdateTime() *AdminLoginRestrictionUpdate {
-	_u.mutation.ClearUpdateTime()
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (_u *AdminLoginRestrictionUpdate) ClearUpdatedAt() *AdminLoginRestrictionUpdate {
+	_u.mutation.ClearUpdatedAt()
 	return _u
 }
 
-// SetDeleteTime sets the "delete_time" field.
-func (_u *AdminLoginRestrictionUpdate) SetDeleteTime(v time.Time) *AdminLoginRestrictionUpdate {
-	_u.mutation.SetDeleteTime(v)
+// SetDeletedAt sets the "deleted_at" field.
+func (_u *AdminLoginRestrictionUpdate) SetDeletedAt(v time.Time) *AdminLoginRestrictionUpdate {
+	_u.mutation.SetDeletedAt(v)
 	return _u
 }
 
-// SetNillableDeleteTime sets the "delete_time" field if the given value is not nil.
-func (_u *AdminLoginRestrictionUpdate) SetNillableDeleteTime(v *time.Time) *AdminLoginRestrictionUpdate {
+// SetNillableDeletedAt sets the "deleted_at" field if the given value is not nil.
+func (_u *AdminLoginRestrictionUpdate) SetNillableDeletedAt(v *time.Time) *AdminLoginRestrictionUpdate {
 	if v != nil {
-		_u.SetDeleteTime(*v)
+		_u.SetDeletedAt(*v)
 	}
 	return _u
 }
 
-// ClearDeleteTime clears the value of the "delete_time" field.
-func (_u *AdminLoginRestrictionUpdate) ClearDeleteTime() *AdminLoginRestrictionUpdate {
-	_u.mutation.ClearDeleteTime()
+// ClearDeletedAt clears the value of the "deleted_at" field.
+func (_u *AdminLoginRestrictionUpdate) ClearDeletedAt() *AdminLoginRestrictionUpdate {
+	_u.mutation.ClearDeletedAt()
 	return _u
 }
 
-// SetCreateBy sets the "create_by" field.
-func (_u *AdminLoginRestrictionUpdate) SetCreateBy(v uint32) *AdminLoginRestrictionUpdate {
-	_u.mutation.ResetCreateBy()
-	_u.mutation.SetCreateBy(v)
+// SetCreatedBy sets the "created_by" field.
+func (_u *AdminLoginRestrictionUpdate) SetCreatedBy(v uint32) *AdminLoginRestrictionUpdate {
+	_u.mutation.ResetCreatedBy()
+	_u.mutation.SetCreatedBy(v)
 	return _u
 }
 
-// SetNillableCreateBy sets the "create_by" field if the given value is not nil.
-func (_u *AdminLoginRestrictionUpdate) SetNillableCreateBy(v *uint32) *AdminLoginRestrictionUpdate {
+// SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
+func (_u *AdminLoginRestrictionUpdate) SetNillableCreatedBy(v *uint32) *AdminLoginRestrictionUpdate {
 	if v != nil {
-		_u.SetCreateBy(*v)
+		_u.SetCreatedBy(*v)
 	}
 	return _u
 }
 
-// AddCreateBy adds value to the "create_by" field.
-func (_u *AdminLoginRestrictionUpdate) AddCreateBy(v int32) *AdminLoginRestrictionUpdate {
-	_u.mutation.AddCreateBy(v)
+// AddCreatedBy adds value to the "created_by" field.
+func (_u *AdminLoginRestrictionUpdate) AddCreatedBy(v int32) *AdminLoginRestrictionUpdate {
+	_u.mutation.AddCreatedBy(v)
 	return _u
 }
 
-// ClearCreateBy clears the value of the "create_by" field.
-func (_u *AdminLoginRestrictionUpdate) ClearCreateBy() *AdminLoginRestrictionUpdate {
-	_u.mutation.ClearCreateBy()
+// ClearCreatedBy clears the value of the "created_by" field.
+func (_u *AdminLoginRestrictionUpdate) ClearCreatedBy() *AdminLoginRestrictionUpdate {
+	_u.mutation.ClearCreatedBy()
 	return _u
 }
 
-// SetUpdateBy sets the "update_by" field.
-func (_u *AdminLoginRestrictionUpdate) SetUpdateBy(v uint32) *AdminLoginRestrictionUpdate {
-	_u.mutation.ResetUpdateBy()
-	_u.mutation.SetUpdateBy(v)
+// SetUpdatedBy sets the "updated_by" field.
+func (_u *AdminLoginRestrictionUpdate) SetUpdatedBy(v uint32) *AdminLoginRestrictionUpdate {
+	_u.mutation.ResetUpdatedBy()
+	_u.mutation.SetUpdatedBy(v)
 	return _u
 }
 
-// SetNillableUpdateBy sets the "update_by" field if the given value is not nil.
-func (_u *AdminLoginRestrictionUpdate) SetNillableUpdateBy(v *uint32) *AdminLoginRestrictionUpdate {
+// SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
+func (_u *AdminLoginRestrictionUpdate) SetNillableUpdatedBy(v *uint32) *AdminLoginRestrictionUpdate {
 	if v != nil {
-		_u.SetUpdateBy(*v)
+		_u.SetUpdatedBy(*v)
 	}
 	return _u
 }
 
-// AddUpdateBy adds value to the "update_by" field.
-func (_u *AdminLoginRestrictionUpdate) AddUpdateBy(v int32) *AdminLoginRestrictionUpdate {
-	_u.mutation.AddUpdateBy(v)
+// AddUpdatedBy adds value to the "updated_by" field.
+func (_u *AdminLoginRestrictionUpdate) AddUpdatedBy(v int32) *AdminLoginRestrictionUpdate {
+	_u.mutation.AddUpdatedBy(v)
 	return _u
 }
 
-// ClearUpdateBy clears the value of the "update_by" field.
-func (_u *AdminLoginRestrictionUpdate) ClearUpdateBy() *AdminLoginRestrictionUpdate {
-	_u.mutation.ClearUpdateBy()
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (_u *AdminLoginRestrictionUpdate) ClearUpdatedBy() *AdminLoginRestrictionUpdate {
+	_u.mutation.ClearUpdatedBy()
+	return _u
+}
+
+// SetDeletedBy sets the "deleted_by" field.
+func (_u *AdminLoginRestrictionUpdate) SetDeletedBy(v uint32) *AdminLoginRestrictionUpdate {
+	_u.mutation.ResetDeletedBy()
+	_u.mutation.SetDeletedBy(v)
+	return _u
+}
+
+// SetNillableDeletedBy sets the "deleted_by" field if the given value is not nil.
+func (_u *AdminLoginRestrictionUpdate) SetNillableDeletedBy(v *uint32) *AdminLoginRestrictionUpdate {
+	if v != nil {
+		_u.SetDeletedBy(*v)
+	}
+	return _u
+}
+
+// AddDeletedBy adds value to the "deleted_by" field.
+func (_u *AdminLoginRestrictionUpdate) AddDeletedBy(v int32) *AdminLoginRestrictionUpdate {
+	_u.mutation.AddDeletedBy(v)
+	return _u
+}
+
+// ClearDeletedBy clears the value of the "deleted_by" field.
+func (_u *AdminLoginRestrictionUpdate) ClearDeletedBy() *AdminLoginRestrictionUpdate {
+	_u.mutation.ClearDeletedBy()
 	return _u
 }
 
@@ -295,38 +322,47 @@ func (_u *AdminLoginRestrictionUpdate) sqlSave(ctx context.Context) (_node int, 
 			}
 		}
 	}
-	if _u.mutation.CreateTimeCleared() {
-		_spec.ClearField(adminloginrestriction.FieldCreateTime, field.TypeTime)
+	if _u.mutation.CreatedAtCleared() {
+		_spec.ClearField(adminloginrestriction.FieldCreatedAt, field.TypeTime)
 	}
-	if value, ok := _u.mutation.UpdateTime(); ok {
-		_spec.SetField(adminloginrestriction.FieldUpdateTime, field.TypeTime, value)
+	if value, ok := _u.mutation.UpdatedAt(); ok {
+		_spec.SetField(adminloginrestriction.FieldUpdatedAt, field.TypeTime, value)
 	}
-	if _u.mutation.UpdateTimeCleared() {
-		_spec.ClearField(adminloginrestriction.FieldUpdateTime, field.TypeTime)
+	if _u.mutation.UpdatedAtCleared() {
+		_spec.ClearField(adminloginrestriction.FieldUpdatedAt, field.TypeTime)
 	}
-	if value, ok := _u.mutation.DeleteTime(); ok {
-		_spec.SetField(adminloginrestriction.FieldDeleteTime, field.TypeTime, value)
+	if value, ok := _u.mutation.DeletedAt(); ok {
+		_spec.SetField(adminloginrestriction.FieldDeletedAt, field.TypeTime, value)
 	}
-	if _u.mutation.DeleteTimeCleared() {
-		_spec.ClearField(adminloginrestriction.FieldDeleteTime, field.TypeTime)
+	if _u.mutation.DeletedAtCleared() {
+		_spec.ClearField(adminloginrestriction.FieldDeletedAt, field.TypeTime)
 	}
-	if value, ok := _u.mutation.CreateBy(); ok {
-		_spec.SetField(adminloginrestriction.FieldCreateBy, field.TypeUint32, value)
+	if value, ok := _u.mutation.CreatedBy(); ok {
+		_spec.SetField(adminloginrestriction.FieldCreatedBy, field.TypeUint32, value)
 	}
-	if value, ok := _u.mutation.AddedCreateBy(); ok {
-		_spec.AddField(adminloginrestriction.FieldCreateBy, field.TypeUint32, value)
+	if value, ok := _u.mutation.AddedCreatedBy(); ok {
+		_spec.AddField(adminloginrestriction.FieldCreatedBy, field.TypeUint32, value)
 	}
-	if _u.mutation.CreateByCleared() {
-		_spec.ClearField(adminloginrestriction.FieldCreateBy, field.TypeUint32)
+	if _u.mutation.CreatedByCleared() {
+		_spec.ClearField(adminloginrestriction.FieldCreatedBy, field.TypeUint32)
 	}
-	if value, ok := _u.mutation.UpdateBy(); ok {
-		_spec.SetField(adminloginrestriction.FieldUpdateBy, field.TypeUint32, value)
+	if value, ok := _u.mutation.UpdatedBy(); ok {
+		_spec.SetField(adminloginrestriction.FieldUpdatedBy, field.TypeUint32, value)
 	}
-	if value, ok := _u.mutation.AddedUpdateBy(); ok {
-		_spec.AddField(adminloginrestriction.FieldUpdateBy, field.TypeUint32, value)
+	if value, ok := _u.mutation.AddedUpdatedBy(); ok {
+		_spec.AddField(adminloginrestriction.FieldUpdatedBy, field.TypeUint32, value)
 	}
-	if _u.mutation.UpdateByCleared() {
-		_spec.ClearField(adminloginrestriction.FieldUpdateBy, field.TypeUint32)
+	if _u.mutation.UpdatedByCleared() {
+		_spec.ClearField(adminloginrestriction.FieldUpdatedBy, field.TypeUint32)
+	}
+	if value, ok := _u.mutation.DeletedBy(); ok {
+		_spec.SetField(adminloginrestriction.FieldDeletedBy, field.TypeUint32, value)
+	}
+	if value, ok := _u.mutation.AddedDeletedBy(); ok {
+		_spec.AddField(adminloginrestriction.FieldDeletedBy, field.TypeUint32, value)
+	}
+	if _u.mutation.DeletedByCleared() {
+		_spec.ClearField(adminloginrestriction.FieldDeletedBy, field.TypeUint32)
 	}
 	if value, ok := _u.mutation.TargetID(); ok {
 		_spec.SetField(adminloginrestriction.FieldTargetID, field.TypeUint32, value)
@@ -383,97 +419,124 @@ type AdminLoginRestrictionUpdateOne struct {
 	modifiers []func(*sql.UpdateBuilder)
 }
 
-// SetUpdateTime sets the "update_time" field.
-func (_u *AdminLoginRestrictionUpdateOne) SetUpdateTime(v time.Time) *AdminLoginRestrictionUpdateOne {
-	_u.mutation.SetUpdateTime(v)
+// SetUpdatedAt sets the "updated_at" field.
+func (_u *AdminLoginRestrictionUpdateOne) SetUpdatedAt(v time.Time) *AdminLoginRestrictionUpdateOne {
+	_u.mutation.SetUpdatedAt(v)
 	return _u
 }
 
-// SetNillableUpdateTime sets the "update_time" field if the given value is not nil.
-func (_u *AdminLoginRestrictionUpdateOne) SetNillableUpdateTime(v *time.Time) *AdminLoginRestrictionUpdateOne {
+// SetNillableUpdatedAt sets the "updated_at" field if the given value is not nil.
+func (_u *AdminLoginRestrictionUpdateOne) SetNillableUpdatedAt(v *time.Time) *AdminLoginRestrictionUpdateOne {
 	if v != nil {
-		_u.SetUpdateTime(*v)
+		_u.SetUpdatedAt(*v)
 	}
 	return _u
 }
 
-// ClearUpdateTime clears the value of the "update_time" field.
-func (_u *AdminLoginRestrictionUpdateOne) ClearUpdateTime() *AdminLoginRestrictionUpdateOne {
-	_u.mutation.ClearUpdateTime()
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (_u *AdminLoginRestrictionUpdateOne) ClearUpdatedAt() *AdminLoginRestrictionUpdateOne {
+	_u.mutation.ClearUpdatedAt()
 	return _u
 }
 
-// SetDeleteTime sets the "delete_time" field.
-func (_u *AdminLoginRestrictionUpdateOne) SetDeleteTime(v time.Time) *AdminLoginRestrictionUpdateOne {
-	_u.mutation.SetDeleteTime(v)
+// SetDeletedAt sets the "deleted_at" field.
+func (_u *AdminLoginRestrictionUpdateOne) SetDeletedAt(v time.Time) *AdminLoginRestrictionUpdateOne {
+	_u.mutation.SetDeletedAt(v)
 	return _u
 }
 
-// SetNillableDeleteTime sets the "delete_time" field if the given value is not nil.
-func (_u *AdminLoginRestrictionUpdateOne) SetNillableDeleteTime(v *time.Time) *AdminLoginRestrictionUpdateOne {
+// SetNillableDeletedAt sets the "deleted_at" field if the given value is not nil.
+func (_u *AdminLoginRestrictionUpdateOne) SetNillableDeletedAt(v *time.Time) *AdminLoginRestrictionUpdateOne {
 	if v != nil {
-		_u.SetDeleteTime(*v)
+		_u.SetDeletedAt(*v)
 	}
 	return _u
 }
 
-// ClearDeleteTime clears the value of the "delete_time" field.
-func (_u *AdminLoginRestrictionUpdateOne) ClearDeleteTime() *AdminLoginRestrictionUpdateOne {
-	_u.mutation.ClearDeleteTime()
+// ClearDeletedAt clears the value of the "deleted_at" field.
+func (_u *AdminLoginRestrictionUpdateOne) ClearDeletedAt() *AdminLoginRestrictionUpdateOne {
+	_u.mutation.ClearDeletedAt()
 	return _u
 }
 
-// SetCreateBy sets the "create_by" field.
-func (_u *AdminLoginRestrictionUpdateOne) SetCreateBy(v uint32) *AdminLoginRestrictionUpdateOne {
-	_u.mutation.ResetCreateBy()
-	_u.mutation.SetCreateBy(v)
+// SetCreatedBy sets the "created_by" field.
+func (_u *AdminLoginRestrictionUpdateOne) SetCreatedBy(v uint32) *AdminLoginRestrictionUpdateOne {
+	_u.mutation.ResetCreatedBy()
+	_u.mutation.SetCreatedBy(v)
 	return _u
 }
 
-// SetNillableCreateBy sets the "create_by" field if the given value is not nil.
-func (_u *AdminLoginRestrictionUpdateOne) SetNillableCreateBy(v *uint32) *AdminLoginRestrictionUpdateOne {
+// SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
+func (_u *AdminLoginRestrictionUpdateOne) SetNillableCreatedBy(v *uint32) *AdminLoginRestrictionUpdateOne {
 	if v != nil {
-		_u.SetCreateBy(*v)
+		_u.SetCreatedBy(*v)
 	}
 	return _u
 }
 
-// AddCreateBy adds value to the "create_by" field.
-func (_u *AdminLoginRestrictionUpdateOne) AddCreateBy(v int32) *AdminLoginRestrictionUpdateOne {
-	_u.mutation.AddCreateBy(v)
+// AddCreatedBy adds value to the "created_by" field.
+func (_u *AdminLoginRestrictionUpdateOne) AddCreatedBy(v int32) *AdminLoginRestrictionUpdateOne {
+	_u.mutation.AddCreatedBy(v)
 	return _u
 }
 
-// ClearCreateBy clears the value of the "create_by" field.
-func (_u *AdminLoginRestrictionUpdateOne) ClearCreateBy() *AdminLoginRestrictionUpdateOne {
-	_u.mutation.ClearCreateBy()
+// ClearCreatedBy clears the value of the "created_by" field.
+func (_u *AdminLoginRestrictionUpdateOne) ClearCreatedBy() *AdminLoginRestrictionUpdateOne {
+	_u.mutation.ClearCreatedBy()
 	return _u
 }
 
-// SetUpdateBy sets the "update_by" field.
-func (_u *AdminLoginRestrictionUpdateOne) SetUpdateBy(v uint32) *AdminLoginRestrictionUpdateOne {
-	_u.mutation.ResetUpdateBy()
-	_u.mutation.SetUpdateBy(v)
+// SetUpdatedBy sets the "updated_by" field.
+func (_u *AdminLoginRestrictionUpdateOne) SetUpdatedBy(v uint32) *AdminLoginRestrictionUpdateOne {
+	_u.mutation.ResetUpdatedBy()
+	_u.mutation.SetUpdatedBy(v)
 	return _u
 }
 
-// SetNillableUpdateBy sets the "update_by" field if the given value is not nil.
-func (_u *AdminLoginRestrictionUpdateOne) SetNillableUpdateBy(v *uint32) *AdminLoginRestrictionUpdateOne {
+// SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
+func (_u *AdminLoginRestrictionUpdateOne) SetNillableUpdatedBy(v *uint32) *AdminLoginRestrictionUpdateOne {
 	if v != nil {
-		_u.SetUpdateBy(*v)
+		_u.SetUpdatedBy(*v)
 	}
 	return _u
 }
 
-// AddUpdateBy adds value to the "update_by" field.
-func (_u *AdminLoginRestrictionUpdateOne) AddUpdateBy(v int32) *AdminLoginRestrictionUpdateOne {
-	_u.mutation.AddUpdateBy(v)
+// AddUpdatedBy adds value to the "updated_by" field.
+func (_u *AdminLoginRestrictionUpdateOne) AddUpdatedBy(v int32) *AdminLoginRestrictionUpdateOne {
+	_u.mutation.AddUpdatedBy(v)
 	return _u
 }
 
-// ClearUpdateBy clears the value of the "update_by" field.
-func (_u *AdminLoginRestrictionUpdateOne) ClearUpdateBy() *AdminLoginRestrictionUpdateOne {
-	_u.mutation.ClearUpdateBy()
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (_u *AdminLoginRestrictionUpdateOne) ClearUpdatedBy() *AdminLoginRestrictionUpdateOne {
+	_u.mutation.ClearUpdatedBy()
+	return _u
+}
+
+// SetDeletedBy sets the "deleted_by" field.
+func (_u *AdminLoginRestrictionUpdateOne) SetDeletedBy(v uint32) *AdminLoginRestrictionUpdateOne {
+	_u.mutation.ResetDeletedBy()
+	_u.mutation.SetDeletedBy(v)
+	return _u
+}
+
+// SetNillableDeletedBy sets the "deleted_by" field if the given value is not nil.
+func (_u *AdminLoginRestrictionUpdateOne) SetNillableDeletedBy(v *uint32) *AdminLoginRestrictionUpdateOne {
+	if v != nil {
+		_u.SetDeletedBy(*v)
+	}
+	return _u
+}
+
+// AddDeletedBy adds value to the "deleted_by" field.
+func (_u *AdminLoginRestrictionUpdateOne) AddDeletedBy(v int32) *AdminLoginRestrictionUpdateOne {
+	_u.mutation.AddDeletedBy(v)
+	return _u
+}
+
+// ClearDeletedBy clears the value of the "deleted_by" field.
+func (_u *AdminLoginRestrictionUpdateOne) ClearDeletedBy() *AdminLoginRestrictionUpdateOne {
+	_u.mutation.ClearDeletedBy()
 	return _u
 }
 
@@ -679,38 +742,47 @@ func (_u *AdminLoginRestrictionUpdateOne) sqlSave(ctx context.Context) (_node *A
 			}
 		}
 	}
-	if _u.mutation.CreateTimeCleared() {
-		_spec.ClearField(adminloginrestriction.FieldCreateTime, field.TypeTime)
+	if _u.mutation.CreatedAtCleared() {
+		_spec.ClearField(adminloginrestriction.FieldCreatedAt, field.TypeTime)
 	}
-	if value, ok := _u.mutation.UpdateTime(); ok {
-		_spec.SetField(adminloginrestriction.FieldUpdateTime, field.TypeTime, value)
+	if value, ok := _u.mutation.UpdatedAt(); ok {
+		_spec.SetField(adminloginrestriction.FieldUpdatedAt, field.TypeTime, value)
 	}
-	if _u.mutation.UpdateTimeCleared() {
-		_spec.ClearField(adminloginrestriction.FieldUpdateTime, field.TypeTime)
+	if _u.mutation.UpdatedAtCleared() {
+		_spec.ClearField(adminloginrestriction.FieldUpdatedAt, field.TypeTime)
 	}
-	if value, ok := _u.mutation.DeleteTime(); ok {
-		_spec.SetField(adminloginrestriction.FieldDeleteTime, field.TypeTime, value)
+	if value, ok := _u.mutation.DeletedAt(); ok {
+		_spec.SetField(adminloginrestriction.FieldDeletedAt, field.TypeTime, value)
 	}
-	if _u.mutation.DeleteTimeCleared() {
-		_spec.ClearField(adminloginrestriction.FieldDeleteTime, field.TypeTime)
+	if _u.mutation.DeletedAtCleared() {
+		_spec.ClearField(adminloginrestriction.FieldDeletedAt, field.TypeTime)
 	}
-	if value, ok := _u.mutation.CreateBy(); ok {
-		_spec.SetField(adminloginrestriction.FieldCreateBy, field.TypeUint32, value)
+	if value, ok := _u.mutation.CreatedBy(); ok {
+		_spec.SetField(adminloginrestriction.FieldCreatedBy, field.TypeUint32, value)
 	}
-	if value, ok := _u.mutation.AddedCreateBy(); ok {
-		_spec.AddField(adminloginrestriction.FieldCreateBy, field.TypeUint32, value)
+	if value, ok := _u.mutation.AddedCreatedBy(); ok {
+		_spec.AddField(adminloginrestriction.FieldCreatedBy, field.TypeUint32, value)
 	}
-	if _u.mutation.CreateByCleared() {
-		_spec.ClearField(adminloginrestriction.FieldCreateBy, field.TypeUint32)
+	if _u.mutation.CreatedByCleared() {
+		_spec.ClearField(adminloginrestriction.FieldCreatedBy, field.TypeUint32)
 	}
-	if value, ok := _u.mutation.UpdateBy(); ok {
-		_spec.SetField(adminloginrestriction.FieldUpdateBy, field.TypeUint32, value)
+	if value, ok := _u.mutation.UpdatedBy(); ok {
+		_spec.SetField(adminloginrestriction.FieldUpdatedBy, field.TypeUint32, value)
 	}
-	if value, ok := _u.mutation.AddedUpdateBy(); ok {
-		_spec.AddField(adminloginrestriction.FieldUpdateBy, field.TypeUint32, value)
+	if value, ok := _u.mutation.AddedUpdatedBy(); ok {
+		_spec.AddField(adminloginrestriction.FieldUpdatedBy, field.TypeUint32, value)
 	}
-	if _u.mutation.UpdateByCleared() {
-		_spec.ClearField(adminloginrestriction.FieldUpdateBy, field.TypeUint32)
+	if _u.mutation.UpdatedByCleared() {
+		_spec.ClearField(adminloginrestriction.FieldUpdatedBy, field.TypeUint32)
+	}
+	if value, ok := _u.mutation.DeletedBy(); ok {
+		_spec.SetField(adminloginrestriction.FieldDeletedBy, field.TypeUint32, value)
+	}
+	if value, ok := _u.mutation.AddedDeletedBy(); ok {
+		_spec.AddField(adminloginrestriction.FieldDeletedBy, field.TypeUint32, value)
+	}
+	if _u.mutation.DeletedByCleared() {
+		_spec.ClearField(adminloginrestriction.FieldDeletedBy, field.TypeUint32)
 	}
 	if value, ok := _u.mutation.TargetID(); ok {
 		_spec.SetField(adminloginrestriction.FieldTargetID, field.TypeUint32, value)

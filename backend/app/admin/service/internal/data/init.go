@@ -20,8 +20,8 @@ var ProviderSet = wire.NewSet(
 	NewMinIoClient,
 
 	NewMenuRepo,
-	NewDictMainRepo,
-	NewDictItemRepo,
+	NewDictTypeRepo,
+	NewDictEntryRepo,
 	NewTaskRepo,
 	NewAdminLoginRestrictionRepo,
 	NewApiResourceRepo,

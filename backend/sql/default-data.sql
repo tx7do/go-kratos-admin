@@ -1,6 +1,6 @@
 -- 插入4个权限的用户
 TRUNCATE TABLE kratos_admin.public.sys_users RESTART IDENTITY;
-INSERT INTO kratos_admin.public.sys_users (username, nickname, realname, email, authority, role_ids, gender, tenant_id, create_time)
+INSERT INTO kratos_admin.public.sys_users (username, nickname, realname, email, authority, role_ids, gender, tenant_id, created_at)
 VALUES ('admin', '鹳狸猿', '喵个咪', 'admin@gmail.com', 'SYS_ADMIN', '[1]', 'MALE', null, now()),
        -- 2. 租户管理员（TENANT_ADMIN）
        ('tenant_admin', '租户管理', '张管理员', 'tenant@company.com', 'TENANT_ADMIN', '[2]', 'MALE', 1, now()),
@@ -13,7 +13,7 @@ SELECT setval('sys_users_id_seq', (SELECT MAX(id) FROM sys_users));
 
 -- 插入4个用户的凭证（密码统一为admin，哈希值与原admin一致，方便测试）
 TRUNCATE TABLE sys_user_credentials RESTART IDENTITY;
-INSERT INTO sys_user_credentials (user_id, identity_type, identifier, credential_type, credential, status, is_primary, create_time)
+INSERT INTO sys_user_credentials (user_id, identity_type, identifier, credential_type, credential, status, is_primary, created_at)
 VALUES (1, 'USERNAME', 'admin', 'PASSWORD_HASH', '$2a$10$yajZDX20Y40FkG0Bu4N19eXNqRizez/S9fK63.JxGkfLq.RoNKR/a', 'ENABLED', true, now()),
        (1, 'EMAIL', 'admin@gmail.com', 'PASSWORD_HASH', '$2a$10$yajZDX20Y40FkG0Bu4N19eXNqRizez/S9fK63.JxGkfLq.RoNKR/a', 'ENABLED', false, now()),
        -- 租户管理员（对应users表id=2）
@@ -32,7 +32,7 @@ SELECT setval('sys_user_credentials_id_seq', (SELECT MAX(id) FROM sys_user_crede
 
 -- 默认的角色
 TRUNCATE TABLE kratos_admin.public.sys_roles RESTART IDENTITY;
-INSERT INTO kratos_admin.public.sys_roles(id, parent_id, create_by, sort_id, name, code, status, remark, menus, apis, create_time)
+INSERT INTO kratos_admin.public.sys_roles(id, parent_id, create_by, sort_order, name, code, status, remark, menus, apis, created_at)
 VALUES (1, null, 0, 1, '超级管理员', 'super', 'ON', '拥有系统所有功能的操作权限，可管理租户、用户、角色及所有资源',
         '[1, 2, 10, 11, 20, 21, 22, 23, 24, 25, 30, 31, 32, 40, 41, 42, 43, 50, 51, 52, 60, 61, 62, 63, 64, 65]', '[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113]', now()),
        (2, null, 0, 2, '租户管理员', 'tenant_admin', 'ON', '管理当前租户下的用户、角色及资源，无跨租户操作权限', '[1, 2, 20, 21, 22, 23, 24, 25, 50, 51, 52]', '[105, 104, 35, 34, 16, 106, 93, 14, 1, 92, 91, 85, 79, 46, 24, 23, 78, 56, 55, 8, 7, 52, 51, 6, 5, 4, 31, 30, 20, 19, 53, 15]', now()),
@@ -44,7 +44,7 @@ SELECT setval('sys_roles_id_seq', (SELECT MAX(id) FROM sys_roles));
 
 -- 后台目录
 TRUNCATE TABLE kratos_admin.public.sys_menus RESTART IDENTITY;
-INSERT INTO kratos_admin.public.sys_menus(id, parent_id, type, name, path, redirect, component, status, create_time, meta)
+INSERT INTO kratos_admin.public.sys_menus(id, parent_id, type, name, path, redirect, component, status, created_at, meta)
 VALUES (1, null, 'FOLDER', 'Dashboard', '/', null, 'BasicLayout', 'ON', now(), '{"order":-1, "title":"page.dashboard.title", "icon":"lucide:layout-dashboard", "keepAlive":false, "hideInBreadcrumb":false, "hideInMenu":false, "hideInTab":false}'),
        (2, 1, 'MENU', 'Analytics', '/analytics', null, 'dashboard/analytics/index.vue', 'ON', now(), '{"order":-1, "title":"page.dashboard.analytics", "icon":"lucide:area-chart", "affixTab": true, "keepAlive":false, "hideInBreadcrumb":false, "hideInMenu":false, "hideInTab":false}'),
 
@@ -82,16 +82,12 @@ SELECT setval('sys_menus_id_seq', (SELECT MAX(id) FROM sys_menus));
 
 -- API资源表数据
 TRUNCATE TABLE kratos_admin.public.sys_api_resources RESTART IDENTITY;
-INSERT INTO public.sys_api_resources (
-    id, create_time, update_time, delete_time,
-    create_by, update_by, description, module,
-    module_description, operation, path, method, scope
-) VALUES
+INSERT INTO public.sys_api_resources (id, created_at, updated_at, deleted_at, created_by, updated_by, description, module, module_description, operation, path, method, scope) VALUES
       (1, now(), null, null, null, null, '查询通知消息接收者列表', 'NotificationMessageRecipientService', '通知消息接收者管理服务', 'NotificationMessageRecipientService_List', '/admin/v1/notifications:recipients', 'GET', 'ADMIN'),
       (2, now(), null, null, null, null, '创建通知消息接收者', 'NotificationMessageRecipientService', '通知消息接收者管理服务', 'NotificationMessageRecipientService_Create', '/admin/v1/notifications:recipients', 'POST', 'ADMIN'),
-      (3, now(), null, null, null, null, '删除子字典', 'DictService', '字典管理服务', 'DictService_DeleteDictItem', '/admin/v1/dict-items', 'DELETE', 'ADMIN'),
-      (4, now(), null, null, null, null, '分页查询子字典列表', 'DictService', '字典管理服务', 'DictService_ListDictItem', '/admin/v1/dict-items', 'GET', 'ADMIN'),
-      (5, now(), null, null, null, null, '创建子字典', 'DictService', '字典管理服务', 'DictService_CreateDictItem', '/admin/v1/dict-items', 'POST', 'ADMIN'),
+      (3, now(), null, null, null, null, '删除子字典', 'DictService', '字典管理服务', 'DictService_DeleteDictEntry', '/admin/v1/dict-items', 'DELETE', 'ADMIN'),
+      (4, now(), null, null, null, null, '分页查询子字典列表', 'DictService', '字典管理服务', 'DictService_ListDictEntry', '/admin/v1/dict-items', 'GET', 'ADMIN'),
+      (5, now(), null, null, null, null, '创建子字典', 'DictService', '字典管理服务', 'DictService_CreateDictEntry', '/admin/v1/dict-items', 'POST', 'ADMIN'),
       (6, now(), null, null, null, null, 'POST方法上传文件', 'OssService', 'OSS服务', 'OssService_PostUploadFile', '/admin/v1/file:upload', 'POST', 'ADMIN'),
       (7, now(), null, null, null, null, 'PUT方法上传文件', 'OssService', 'OSS服务', 'OssService_PutUploadFile', '/admin/v1/file:upload', 'PUT', 'ADMIN'),
       (8, now(), null, null, null, null, '查询后台登录限制详情', 'AdminLoginRestrictionService', '后台登录限制管理服务', 'AdminLoginRestrictionService_Get', '/admin/v1/login-restrictions/{id}', 'GET', 'ADMIN'),
@@ -129,8 +125,8 @@ INSERT INTO public.sys_api_resources (
       (40, now(), null, null, null, null, '创建后台登录限制', 'AdminLoginRestrictionService', '后台登录限制管理服务', 'AdminLoginRestrictionService_Create', '/admin/v1/login-restrictions', 'POST', 'ADMIN'),
       (41, now(), null, null, null, null, '修改用户密码', 'UserService', '用户管理服务', 'UserService_EditUserPassword', '/admin/v1/users/{userId}/password', 'POST', 'ADMIN'),
       (42, now(), null, null, null, null, '重启所有的调度任务', 'TaskService', '调度任务管理服务', 'TaskService_RestartAllTask', '/admin/v1/tasks:restart', 'POST', 'ADMIN'),
-      (43, now(), null, null, null, null, '查询主字典详情', 'DictService', '字典管理服务', 'DictService_GetDictMain', '/api/v1/dict-mains/code/{code}', 'GET', 'ADMIN'),
-      (44, now(), null, null, null, null, '更新子字典', 'DictService', '字典管理服务', 'DictService_UpdateDictItem', '/admin/v1/dict-items/{data.id}', 'PUT', 'ADMIN'),
+      (43, now(), null, null, null, null, '查询主字典详情', 'DictService', '字典管理服务', 'DictService_GetDictType', '/api/v1/dict-mains/code/{code}', 'GET', 'ADMIN'),
+      (44, now(), null, null, null, null, '更新子字典', 'DictService', '字典管理服务', 'DictService_UpdateDictEntry', '/admin/v1/dict-items/{data.id}', 'PUT', 'ADMIN'),
       (45, now(), null, null, null, null, '删除用户', 'UserService', '用户管理服务', 'UserService_Delete', '/admin/v1/users/{id}', 'DELETE', 'ADMIN'),
       (46, now(), null, null, null, null, '获取用户数据', 'UserService', '用户管理服务', 'UserService_Get', '/admin/v1/users/{id}', 'GET', 'ADMIN'),
       (47, now(), null, null, null, null, '查询后台操作日志详情', 'AdminOperationLogService', '后台操作日志管理服务', 'AdminOperationLogService_Get', '/admin/v1/admin_operation_logs/{id}', 'GET', 'ADMIN'),
@@ -146,9 +142,9 @@ INSERT INTO public.sys_api_resources (
       (57, now(), null, null, null, null, '更新用户资料', 'UserProfileService', '用户个人资料服务', 'UserProfileService_UpdateUser', '/admin/v1/me', 'PUT', 'ADMIN'),
       (58, now(), null, null, null, null, '获取用户资料', 'UserProfileService', '用户个人资料服务', 'UserProfileService_GetUser', '/admin/v1/me', 'GET', 'ADMIN'),
       (59, now(), null, null, null, null, '更新组织', 'OrganizationService', '组织管理服务', 'OrganizationService_Update', '/admin/v1/organizations/{data.id}', 'PUT', 'ADMIN'),
-      (60, now(), null, null, null, null, '删除主字典', 'DictService', '字典管理服务', 'DictService_DeleteDictMain', '/admin/v1/dict-mains', 'DELETE', 'ADMIN'),
-      (61, now(), null, null, null, null, '分页查询主字典列表', 'DictService', '字典管理服务', 'DictService_ListDictMain', '/admin/v1/dict-mains', 'GET', 'ADMIN'),
-      (62, now(), null, null, null, null, '创建主字典', 'DictService', '字典管理服务', 'DictService_CreateDictMain', '/admin/v1/dict-mains', 'POST', 'ADMIN'),
+      (60, now(), null, null, null, null, '删除主字典', 'DictService', '字典管理服务', 'DictService_DeleteDictType', '/admin/v1/dict-mains', 'DELETE', 'ADMIN'),
+      (61, now(), null, null, null, null, '分页查询主字典列表', 'DictService', '字典管理服务', 'DictService_ListDictType', '/admin/v1/dict-mains', 'GET', 'ADMIN'),
+      (62, now(), null, null, null, null, '创建主字典', 'DictService', '字典管理服务', 'DictService_CreateDictType', '/admin/v1/dict-mains', 'POST', 'ADMIN'),
       (63, now(), null, null, null, null, '更新角色', 'RoleService', '角色管理服务', 'RoleService_Update', '/admin/v1/roles/{data.id}', 'PUT', 'ADMIN'),
       (64, now(), null, null, null, null, '启动所有的调度任务', 'TaskService', '调度任务管理服务', 'TaskService_StartAllTask', '/admin/v1/tasks:start', 'POST', 'ADMIN'),
       (65, now(), null, null, null, null, '查询通知消息列表', 'NotificationMessageService', '通知消息管理服务', 'NotificationMessageService_List', '/admin/v1/notifications', 'GET', 'ADMIN'),
@@ -178,10 +174,10 @@ INSERT INTO public.sys_api_resources (
       (89, now(), null, null, null, null, '修改用户密码', 'UserService', '用户管理服务', 'UserService_ChangePassword', '/admin/v1/users/change-password', 'POST', 'ADMIN'),
       (90, now(), null, null, null, null, '查询文件详情', 'FileService', '文件管理服务', 'FileService_Get', '/admin/v1/files/{id}', 'GET', 'ADMIN'),
       (91, now(), null, null, null, null, '删除文件', 'FileService', '文件管理服务', 'FileService_Delete', '/admin/v1/files/{id}', 'DELETE', 'ADMIN'),
-      (92, now(), null, null, null, null, '更新主字典', 'DictService', '字典管理服务', 'DictService_UpdateDictMain', '/admin/v1/dict-mains/{data.id}', 'PUT', 'ADMIN'),
+      (92, now(), null, null, null, null, '更新主字典', 'DictService', '字典管理服务', 'DictService_UpdateDictType', '/admin/v1/dict-mains/{data.id}', 'PUT', 'ADMIN'),
       (93, now(), null, null, null, null, '创建私信消息', 'PrivateMessageService', '私信消息管理服务', 'PrivateMessageService_Create', '/admin/v1/private_messages', 'POST', 'ADMIN'),
       (94, now(), null, null, null, null, '查询私信消息列表', 'PrivateMessageService', '私信消息管理服务', 'PrivateMessageService_List', '/admin/v1/private_messages', 'GET', 'ADMIN'),
-      (95, now(), null, null, null, null, '查询主字典详情', 'DictService', '字典管理服务', 'DictService_GetDictMain', '/admin/v1/dict-mains/{id}', 'GET', 'ADMIN'),
+      (95, now(), null, null, null, null, '查询主字典详情', 'DictService', '字典管理服务', 'DictService_GetDictType', '/admin/v1/dict-mains/{id}', 'GET', 'ADMIN'),
       (96, now(), null, null, null, null, '更新租户', 'TenantService', '租户管理服务', 'TenantService_Update', '/admin/v1/tenants/{data.id}', 'PUT', 'ADMIN'),
       (97, now(), null, null, null, null, '查询文件列表', 'FileService', '文件管理服务', 'FileService_List', '/admin/v1/files', 'GET', 'ADMIN'),
       (98, now(), null, null, null, null, '创建文件', 'FileService', '文件管理服务', 'FileService_Create', '/admin/v1/files', 'POST', 'ADMIN'),

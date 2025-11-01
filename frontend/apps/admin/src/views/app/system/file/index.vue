@@ -76,8 +76,8 @@ const gridOptions: VxeGridProps<File> = {
     { title: $t('page.file.bucketName'), field: 'bucketName' },
     { title: $t('page.file.fileDirectory'), field: 'fileDirectory' },
     {
-      title: $t('ui.table.createTime'),
-      field: 'createTime',
+      title: $t('ui.table.createdAt'),
+      field: 'createdAt',
       formatter: 'formatDateTime',
       width: 140,
     },

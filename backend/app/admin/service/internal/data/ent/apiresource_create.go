@@ -22,72 +22,86 @@ type ApiResourceCreate struct {
 	conflict []sql.ConflictOption
 }
 
-// SetCreateTime sets the "create_time" field.
-func (_c *ApiResourceCreate) SetCreateTime(v time.Time) *ApiResourceCreate {
-	_c.mutation.SetCreateTime(v)
+// SetCreatedAt sets the "created_at" field.
+func (_c *ApiResourceCreate) SetCreatedAt(v time.Time) *ApiResourceCreate {
+	_c.mutation.SetCreatedAt(v)
 	return _c
 }
 
-// SetNillableCreateTime sets the "create_time" field if the given value is not nil.
-func (_c *ApiResourceCreate) SetNillableCreateTime(v *time.Time) *ApiResourceCreate {
+// SetNillableCreatedAt sets the "created_at" field if the given value is not nil.
+func (_c *ApiResourceCreate) SetNillableCreatedAt(v *time.Time) *ApiResourceCreate {
 	if v != nil {
-		_c.SetCreateTime(*v)
+		_c.SetCreatedAt(*v)
 	}
 	return _c
 }
 
-// SetUpdateTime sets the "update_time" field.
-func (_c *ApiResourceCreate) SetUpdateTime(v time.Time) *ApiResourceCreate {
-	_c.mutation.SetUpdateTime(v)
+// SetUpdatedAt sets the "updated_at" field.
+func (_c *ApiResourceCreate) SetUpdatedAt(v time.Time) *ApiResourceCreate {
+	_c.mutation.SetUpdatedAt(v)
 	return _c
 }
 
-// SetNillableUpdateTime sets the "update_time" field if the given value is not nil.
-func (_c *ApiResourceCreate) SetNillableUpdateTime(v *time.Time) *ApiResourceCreate {
+// SetNillableUpdatedAt sets the "updated_at" field if the given value is not nil.
+func (_c *ApiResourceCreate) SetNillableUpdatedAt(v *time.Time) *ApiResourceCreate {
 	if v != nil {
-		_c.SetUpdateTime(*v)
+		_c.SetUpdatedAt(*v)
 	}
 	return _c
 }
 
-// SetDeleteTime sets the "delete_time" field.
-func (_c *ApiResourceCreate) SetDeleteTime(v time.Time) *ApiResourceCreate {
-	_c.mutation.SetDeleteTime(v)
+// SetDeletedAt sets the "deleted_at" field.
+func (_c *ApiResourceCreate) SetDeletedAt(v time.Time) *ApiResourceCreate {
+	_c.mutation.SetDeletedAt(v)
 	return _c
 }
 
-// SetNillableDeleteTime sets the "delete_time" field if the given value is not nil.
-func (_c *ApiResourceCreate) SetNillableDeleteTime(v *time.Time) *ApiResourceCreate {
+// SetNillableDeletedAt sets the "deleted_at" field if the given value is not nil.
+func (_c *ApiResourceCreate) SetNillableDeletedAt(v *time.Time) *ApiResourceCreate {
 	if v != nil {
-		_c.SetDeleteTime(*v)
+		_c.SetDeletedAt(*v)
 	}
 	return _c
 }
 
-// SetCreateBy sets the "create_by" field.
-func (_c *ApiResourceCreate) SetCreateBy(v uint32) *ApiResourceCreate {
-	_c.mutation.SetCreateBy(v)
+// SetCreatedBy sets the "created_by" field.
+func (_c *ApiResourceCreate) SetCreatedBy(v uint32) *ApiResourceCreate {
+	_c.mutation.SetCreatedBy(v)
 	return _c
 }
 
-// SetNillableCreateBy sets the "create_by" field if the given value is not nil.
-func (_c *ApiResourceCreate) SetNillableCreateBy(v *uint32) *ApiResourceCreate {
+// SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
+func (_c *ApiResourceCreate) SetNillableCreatedBy(v *uint32) *ApiResourceCreate {
 	if v != nil {
-		_c.SetCreateBy(*v)
+		_c.SetCreatedBy(*v)
 	}
 	return _c
 }
 
-// SetUpdateBy sets the "update_by" field.
-func (_c *ApiResourceCreate) SetUpdateBy(v uint32) *ApiResourceCreate {
-	_c.mutation.SetUpdateBy(v)
+// SetUpdatedBy sets the "updated_by" field.
+func (_c *ApiResourceCreate) SetUpdatedBy(v uint32) *ApiResourceCreate {
+	_c.mutation.SetUpdatedBy(v)
 	return _c
 }
 
-// SetNillableUpdateBy sets the "update_by" field if the given value is not nil.
-func (_c *ApiResourceCreate) SetNillableUpdateBy(v *uint32) *ApiResourceCreate {
+// SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
+func (_c *ApiResourceCreate) SetNillableUpdatedBy(v *uint32) *ApiResourceCreate {
 	if v != nil {
-		_c.SetUpdateBy(*v)
+		_c.SetUpdatedBy(*v)
+	}
+	return _c
+}
+
+// SetDeletedBy sets the "deleted_by" field.
+func (_c *ApiResourceCreate) SetDeletedBy(v uint32) *ApiResourceCreate {
+	_c.mutation.SetDeletedBy(v)
+	return _c
+}
+
+// SetNillableDeletedBy sets the "deleted_by" field if the given value is not nil.
+func (_c *ApiResourceCreate) SetNillableDeletedBy(v *uint32) *ApiResourceCreate {
+	if v != nil {
+		_c.SetDeletedBy(*v)
 	}
 	return _c
 }
@@ -282,25 +296,29 @@ func (_c *ApiResourceCreate) createSpec() (*ApiResource, *sqlgraph.CreateSpec) {
 		_node.ID = id
 		_spec.ID.Value = id
 	}
-	if value, ok := _c.mutation.CreateTime(); ok {
-		_spec.SetField(apiresource.FieldCreateTime, field.TypeTime, value)
-		_node.CreateTime = &value
+	if value, ok := _c.mutation.CreatedAt(); ok {
+		_spec.SetField(apiresource.FieldCreatedAt, field.TypeTime, value)
+		_node.CreatedAt = &value
 	}
-	if value, ok := _c.mutation.UpdateTime(); ok {
-		_spec.SetField(apiresource.FieldUpdateTime, field.TypeTime, value)
-		_node.UpdateTime = &value
+	if value, ok := _c.mutation.UpdatedAt(); ok {
+		_spec.SetField(apiresource.FieldUpdatedAt, field.TypeTime, value)
+		_node.UpdatedAt = &value
 	}
-	if value, ok := _c.mutation.DeleteTime(); ok {
-		_spec.SetField(apiresource.FieldDeleteTime, field.TypeTime, value)
-		_node.DeleteTime = &value
+	if value, ok := _c.mutation.DeletedAt(); ok {
+		_spec.SetField(apiresource.FieldDeletedAt, field.TypeTime, value)
+		_node.DeletedAt = &value
 	}
-	if value, ok := _c.mutation.CreateBy(); ok {
-		_spec.SetField(apiresource.FieldCreateBy, field.TypeUint32, value)
-		_node.CreateBy = &value
+	if value, ok := _c.mutation.CreatedBy(); ok {
+		_spec.SetField(apiresource.FieldCreatedBy, field.TypeUint32, value)
+		_node.CreatedBy = &value
 	}
-	if value, ok := _c.mutation.UpdateBy(); ok {
-		_spec.SetField(apiresource.FieldUpdateBy, field.TypeUint32, value)
-		_node.UpdateBy = &value
+	if value, ok := _c.mutation.UpdatedBy(); ok {
+		_spec.SetField(apiresource.FieldUpdatedBy, field.TypeUint32, value)
+		_node.UpdatedBy = &value
+	}
+	if value, ok := _c.mutation.DeletedBy(); ok {
+		_spec.SetField(apiresource.FieldDeletedBy, field.TypeUint32, value)
+		_node.DeletedBy = &value
 	}
 	if value, ok := _c.mutation.Description(); ok {
 		_spec.SetField(apiresource.FieldDescription, field.TypeString, value)
@@ -337,7 +355,7 @@ func (_c *ApiResourceCreate) createSpec() (*ApiResource, *sqlgraph.CreateSpec) {
 // of the `INSERT` statement. For example:
 //
 //	client.ApiResource.Create().
-//		SetCreateTime(v).
+//		SetCreatedAt(v).
 //		OnConflict(
 //			// Update the row with the new values
 //			// the was proposed for insertion.
@@ -346,7 +364,7 @@ func (_c *ApiResourceCreate) createSpec() (*ApiResource, *sqlgraph.CreateSpec) {
 //		// Override some of the fields with custom
 //		// update values.
 //		Update(func(u *ent.ApiResourceUpsert) {
-//			SetCreateTime(v+v).
+//			SetCreatedAt(v+v).
 //		}).
 //		Exec(ctx)
 func (_c *ApiResourceCreate) OnConflict(opts ...sql.ConflictOption) *ApiResourceUpsertOne {
@@ -382,87 +400,111 @@ type (
 	}
 )
 
-// SetUpdateTime sets the "update_time" field.
-func (u *ApiResourceUpsert) SetUpdateTime(v time.Time) *ApiResourceUpsert {
-	u.Set(apiresource.FieldUpdateTime, v)
+// SetUpdatedAt sets the "updated_at" field.
+func (u *ApiResourceUpsert) SetUpdatedAt(v time.Time) *ApiResourceUpsert {
+	u.Set(apiresource.FieldUpdatedAt, v)
 	return u
 }
 
-// UpdateUpdateTime sets the "update_time" field to the value that was provided on create.
-func (u *ApiResourceUpsert) UpdateUpdateTime() *ApiResourceUpsert {
-	u.SetExcluded(apiresource.FieldUpdateTime)
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *ApiResourceUpsert) UpdateUpdatedAt() *ApiResourceUpsert {
+	u.SetExcluded(apiresource.FieldUpdatedAt)
 	return u
 }
 
-// ClearUpdateTime clears the value of the "update_time" field.
-func (u *ApiResourceUpsert) ClearUpdateTime() *ApiResourceUpsert {
-	u.SetNull(apiresource.FieldUpdateTime)
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (u *ApiResourceUpsert) ClearUpdatedAt() *ApiResourceUpsert {
+	u.SetNull(apiresource.FieldUpdatedAt)
 	return u
 }
 
-// SetDeleteTime sets the "delete_time" field.
-func (u *ApiResourceUpsert) SetDeleteTime(v time.Time) *ApiResourceUpsert {
-	u.Set(apiresource.FieldDeleteTime, v)
+// SetDeletedAt sets the "deleted_at" field.
+func (u *ApiResourceUpsert) SetDeletedAt(v time.Time) *ApiResourceUpsert {
+	u.Set(apiresource.FieldDeletedAt, v)
 	return u
 }
 
-// UpdateDeleteTime sets the "delete_time" field to the value that was provided on create.
-func (u *ApiResourceUpsert) UpdateDeleteTime() *ApiResourceUpsert {
-	u.SetExcluded(apiresource.FieldDeleteTime)
+// UpdateDeletedAt sets the "deleted_at" field to the value that was provided on create.
+func (u *ApiResourceUpsert) UpdateDeletedAt() *ApiResourceUpsert {
+	u.SetExcluded(apiresource.FieldDeletedAt)
 	return u
 }
 
-// ClearDeleteTime clears the value of the "delete_time" field.
-func (u *ApiResourceUpsert) ClearDeleteTime() *ApiResourceUpsert {
-	u.SetNull(apiresource.FieldDeleteTime)
+// ClearDeletedAt clears the value of the "deleted_at" field.
+func (u *ApiResourceUpsert) ClearDeletedAt() *ApiResourceUpsert {
+	u.SetNull(apiresource.FieldDeletedAt)
 	return u
 }
 
-// SetCreateBy sets the "create_by" field.
-func (u *ApiResourceUpsert) SetCreateBy(v uint32) *ApiResourceUpsert {
-	u.Set(apiresource.FieldCreateBy, v)
+// SetCreatedBy sets the "created_by" field.
+func (u *ApiResourceUpsert) SetCreatedBy(v uint32) *ApiResourceUpsert {
+	u.Set(apiresource.FieldCreatedBy, v)
 	return u
 }
 
-// UpdateCreateBy sets the "create_by" field to the value that was provided on create.
-func (u *ApiResourceUpsert) UpdateCreateBy() *ApiResourceUpsert {
-	u.SetExcluded(apiresource.FieldCreateBy)
+// UpdateCreatedBy sets the "created_by" field to the value that was provided on create.
+func (u *ApiResourceUpsert) UpdateCreatedBy() *ApiResourceUpsert {
+	u.SetExcluded(apiresource.FieldCreatedBy)
 	return u
 }
 
-// AddCreateBy adds v to the "create_by" field.
-func (u *ApiResourceUpsert) AddCreateBy(v uint32) *ApiResourceUpsert {
-	u.Add(apiresource.FieldCreateBy, v)
+// AddCreatedBy adds v to the "created_by" field.
+func (u *ApiResourceUpsert) AddCreatedBy(v uint32) *ApiResourceUpsert {
+	u.Add(apiresource.FieldCreatedBy, v)
 	return u
 }
 
-// ClearCreateBy clears the value of the "create_by" field.
-func (u *ApiResourceUpsert) ClearCreateBy() *ApiResourceUpsert {
-	u.SetNull(apiresource.FieldCreateBy)
+// ClearCreatedBy clears the value of the "created_by" field.
+func (u *ApiResourceUpsert) ClearCreatedBy() *ApiResourceUpsert {
+	u.SetNull(apiresource.FieldCreatedBy)
 	return u
 }
 
-// SetUpdateBy sets the "update_by" field.
-func (u *ApiResourceUpsert) SetUpdateBy(v uint32) *ApiResourceUpsert {
-	u.Set(apiresource.FieldUpdateBy, v)
+// SetUpdatedBy sets the "updated_by" field.
+func (u *ApiResourceUpsert) SetUpdatedBy(v uint32) *ApiResourceUpsert {
+	u.Set(apiresource.FieldUpdatedBy, v)
 	return u
 }
 
-// UpdateUpdateBy sets the "update_by" field to the value that was provided on create.
-func (u *ApiResourceUpsert) UpdateUpdateBy() *ApiResourceUpsert {
-	u.SetExcluded(apiresource.FieldUpdateBy)
+// UpdateUpdatedBy sets the "updated_by" field to the value that was provided on create.
+func (u *ApiResourceUpsert) UpdateUpdatedBy() *ApiResourceUpsert {
+	u.SetExcluded(apiresource.FieldUpdatedBy)
 	return u
 }
 
-// AddUpdateBy adds v to the "update_by" field.
-func (u *ApiResourceUpsert) AddUpdateBy(v uint32) *ApiResourceUpsert {
-	u.Add(apiresource.FieldUpdateBy, v)
+// AddUpdatedBy adds v to the "updated_by" field.
+func (u *ApiResourceUpsert) AddUpdatedBy(v uint32) *ApiResourceUpsert {
+	u.Add(apiresource.FieldUpdatedBy, v)
 	return u
 }
 
-// ClearUpdateBy clears the value of the "update_by" field.
-func (u *ApiResourceUpsert) ClearUpdateBy() *ApiResourceUpsert {
-	u.SetNull(apiresource.FieldUpdateBy)
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (u *ApiResourceUpsert) ClearUpdatedBy() *ApiResourceUpsert {
+	u.SetNull(apiresource.FieldUpdatedBy)
+	return u
+}
+
+// SetDeletedBy sets the "deleted_by" field.
+func (u *ApiResourceUpsert) SetDeletedBy(v uint32) *ApiResourceUpsert {
+	u.Set(apiresource.FieldDeletedBy, v)
+	return u
+}
+
+// UpdateDeletedBy sets the "deleted_by" field to the value that was provided on create.
+func (u *ApiResourceUpsert) UpdateDeletedBy() *ApiResourceUpsert {
+	u.SetExcluded(apiresource.FieldDeletedBy)
+	return u
+}
+
+// AddDeletedBy adds v to the "deleted_by" field.
+func (u *ApiResourceUpsert) AddDeletedBy(v uint32) *ApiResourceUpsert {
+	u.Add(apiresource.FieldDeletedBy, v)
+	return u
+}
+
+// ClearDeletedBy clears the value of the "deleted_by" field.
+func (u *ApiResourceUpsert) ClearDeletedBy() *ApiResourceUpsert {
+	u.SetNull(apiresource.FieldDeletedBy)
 	return u
 }
 
@@ -609,8 +651,8 @@ func (u *ApiResourceUpsertOne) UpdateNewValues() *ApiResourceUpsertOne {
 		if _, exists := u.create.mutation.ID(); exists {
 			s.SetIgnore(apiresource.FieldID)
 		}
-		if _, exists := u.create.mutation.CreateTime(); exists {
-			s.SetIgnore(apiresource.FieldCreateTime)
+		if _, exists := u.create.mutation.CreatedAt(); exists {
+			s.SetIgnore(apiresource.FieldCreatedAt)
 		}
 	}))
 	return u
@@ -643,101 +685,129 @@ func (u *ApiResourceUpsertOne) Update(set func(*ApiResourceUpsert)) *ApiResource
 	return u
 }
 
-// SetUpdateTime sets the "update_time" field.
-func (u *ApiResourceUpsertOne) SetUpdateTime(v time.Time) *ApiResourceUpsertOne {
+// SetUpdatedAt sets the "updated_at" field.
+func (u *ApiResourceUpsertOne) SetUpdatedAt(v time.Time) *ApiResourceUpsertOne {
 	return u.Update(func(s *ApiResourceUpsert) {
-		s.SetUpdateTime(v)
+		s.SetUpdatedAt(v)
 	})
 }
 
-// UpdateUpdateTime sets the "update_time" field to the value that was provided on create.
-func (u *ApiResourceUpsertOne) UpdateUpdateTime() *ApiResourceUpsertOne {
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *ApiResourceUpsertOne) UpdateUpdatedAt() *ApiResourceUpsertOne {
 	return u.Update(func(s *ApiResourceUpsert) {
-		s.UpdateUpdateTime()
+		s.UpdateUpdatedAt()
 	})
 }
 
-// ClearUpdateTime clears the value of the "update_time" field.
-func (u *ApiResourceUpsertOne) ClearUpdateTime() *ApiResourceUpsertOne {
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (u *ApiResourceUpsertOne) ClearUpdatedAt() *ApiResourceUpsertOne {
 	return u.Update(func(s *ApiResourceUpsert) {
-		s.ClearUpdateTime()
+		s.ClearUpdatedAt()
 	})
 }
 
-// SetDeleteTime sets the "delete_time" field.
-func (u *ApiResourceUpsertOne) SetDeleteTime(v time.Time) *ApiResourceUpsertOne {
+// SetDeletedAt sets the "deleted_at" field.
+func (u *ApiResourceUpsertOne) SetDeletedAt(v time.Time) *ApiResourceUpsertOne {
 	return u.Update(func(s *ApiResourceUpsert) {
-		s.SetDeleteTime(v)
+		s.SetDeletedAt(v)
 	})
 }
 
-// UpdateDeleteTime sets the "delete_time" field to the value that was provided on create.
-func (u *ApiResourceUpsertOne) UpdateDeleteTime() *ApiResourceUpsertOne {
+// UpdateDeletedAt sets the "deleted_at" field to the value that was provided on create.
+func (u *ApiResourceUpsertOne) UpdateDeletedAt() *ApiResourceUpsertOne {
 	return u.Update(func(s *ApiResourceUpsert) {
-		s.UpdateDeleteTime()
+		s.UpdateDeletedAt()
 	})
 }
 
-// ClearDeleteTime clears the value of the "delete_time" field.
-func (u *ApiResourceUpsertOne) ClearDeleteTime() *ApiResourceUpsertOne {
+// ClearDeletedAt clears the value of the "deleted_at" field.
+func (u *ApiResourceUpsertOne) ClearDeletedAt() *ApiResourceUpsertOne {
 	return u.Update(func(s *ApiResourceUpsert) {
-		s.ClearDeleteTime()
+		s.ClearDeletedAt()
 	})
 }
 
-// SetCreateBy sets the "create_by" field.
-func (u *ApiResourceUpsertOne) SetCreateBy(v uint32) *ApiResourceUpsertOne {
+// SetCreatedBy sets the "created_by" field.
+func (u *ApiResourceUpsertOne) SetCreatedBy(v uint32) *ApiResourceUpsertOne {
 	return u.Update(func(s *ApiResourceUpsert) {
-		s.SetCreateBy(v)
+		s.SetCreatedBy(v)
 	})
 }
 
-// AddCreateBy adds v to the "create_by" field.
-func (u *ApiResourceUpsertOne) AddCreateBy(v uint32) *ApiResourceUpsertOne {
+// AddCreatedBy adds v to the "created_by" field.
+func (u *ApiResourceUpsertOne) AddCreatedBy(v uint32) *ApiResourceUpsertOne {
 	return u.Update(func(s *ApiResourceUpsert) {
-		s.AddCreateBy(v)
+		s.AddCreatedBy(v)
 	})
 }
 
-// UpdateCreateBy sets the "create_by" field to the value that was provided on create.
-func (u *ApiResourceUpsertOne) UpdateCreateBy() *ApiResourceUpsertOne {
+// UpdateCreatedBy sets the "created_by" field to the value that was provided on create.
+func (u *ApiResourceUpsertOne) UpdateCreatedBy() *ApiResourceUpsertOne {
 	return u.Update(func(s *ApiResourceUpsert) {
-		s.UpdateCreateBy()
+		s.UpdateCreatedBy()
 	})
 }
 
-// ClearCreateBy clears the value of the "create_by" field.
-func (u *ApiResourceUpsertOne) ClearCreateBy() *ApiResourceUpsertOne {
+// ClearCreatedBy clears the value of the "created_by" field.
+func (u *ApiResourceUpsertOne) ClearCreatedBy() *ApiResourceUpsertOne {
 	return u.Update(func(s *ApiResourceUpsert) {
-		s.ClearCreateBy()
+		s.ClearCreatedBy()
 	})
 }
 
-// SetUpdateBy sets the "update_by" field.
-func (u *ApiResourceUpsertOne) SetUpdateBy(v uint32) *ApiResourceUpsertOne {
+// SetUpdatedBy sets the "updated_by" field.
+func (u *ApiResourceUpsertOne) SetUpdatedBy(v uint32) *ApiResourceUpsertOne {
 	return u.Update(func(s *ApiResourceUpsert) {
-		s.SetUpdateBy(v)
+		s.SetUpdatedBy(v)
 	})
 }
 
-// AddUpdateBy adds v to the "update_by" field.
-func (u *ApiResourceUpsertOne) AddUpdateBy(v uint32) *ApiResourceUpsertOne {
+// AddUpdatedBy adds v to the "updated_by" field.
+func (u *ApiResourceUpsertOne) AddUpdatedBy(v uint32) *ApiResourceUpsertOne {
 	return u.Update(func(s *ApiResourceUpsert) {
-		s.AddUpdateBy(v)
+		s.AddUpdatedBy(v)
 	})
 }
 
-// UpdateUpdateBy sets the "update_by" field to the value that was provided on create.
-func (u *ApiResourceUpsertOne) UpdateUpdateBy() *ApiResourceUpsertOne {
+// UpdateUpdatedBy sets the "updated_by" field to the value that was provided on create.
+func (u *ApiResourceUpsertOne) UpdateUpdatedBy() *ApiResourceUpsertOne {
 	return u.Update(func(s *ApiResourceUpsert) {
-		s.UpdateUpdateBy()
+		s.UpdateUpdatedBy()
 	})
 }
 
-// ClearUpdateBy clears the value of the "update_by" field.
-func (u *ApiResourceUpsertOne) ClearUpdateBy() *ApiResourceUpsertOne {
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (u *ApiResourceUpsertOne) ClearUpdatedBy() *ApiResourceUpsertOne {
 	return u.Update(func(s *ApiResourceUpsert) {
-		s.ClearUpdateBy()
+		s.ClearUpdatedBy()
+	})
+}
+
+// SetDeletedBy sets the "deleted_by" field.
+func (u *ApiResourceUpsertOne) SetDeletedBy(v uint32) *ApiResourceUpsertOne {
+	return u.Update(func(s *ApiResourceUpsert) {
+		s.SetDeletedBy(v)
+	})
+}
+
+// AddDeletedBy adds v to the "deleted_by" field.
+func (u *ApiResourceUpsertOne) AddDeletedBy(v uint32) *ApiResourceUpsertOne {
+	return u.Update(func(s *ApiResourceUpsert) {
+		s.AddDeletedBy(v)
+	})
+}
+
+// UpdateDeletedBy sets the "deleted_by" field to the value that was provided on create.
+func (u *ApiResourceUpsertOne) UpdateDeletedBy() *ApiResourceUpsertOne {
+	return u.Update(func(s *ApiResourceUpsert) {
+		s.UpdateDeletedBy()
+	})
+}
+
+// ClearDeletedBy clears the value of the "deleted_by" field.
+func (u *ApiResourceUpsertOne) ClearDeletedBy() *ApiResourceUpsertOne {
+	return u.Update(func(s *ApiResourceUpsert) {
+		s.ClearDeletedBy()
 	})
 }
 
@@ -1023,7 +1093,7 @@ func (_c *ApiResourceCreateBulk) ExecX(ctx context.Context) {
 //		// Override some of the fields with custom
 //		// update values.
 //		Update(func(u *ent.ApiResourceUpsert) {
-//			SetCreateTime(v+v).
+//			SetCreatedAt(v+v).
 //		}).
 //		Exec(ctx)
 func (_c *ApiResourceCreateBulk) OnConflict(opts ...sql.ConflictOption) *ApiResourceUpsertBulk {
@@ -1070,8 +1140,8 @@ func (u *ApiResourceUpsertBulk) UpdateNewValues() *ApiResourceUpsertBulk {
 			if _, exists := b.mutation.ID(); exists {
 				s.SetIgnore(apiresource.FieldID)
 			}
-			if _, exists := b.mutation.CreateTime(); exists {
-				s.SetIgnore(apiresource.FieldCreateTime)
+			if _, exists := b.mutation.CreatedAt(); exists {
+				s.SetIgnore(apiresource.FieldCreatedAt)
 			}
 		}
 	}))
@@ -1105,101 +1175,129 @@ func (u *ApiResourceUpsertBulk) Update(set func(*ApiResourceUpsert)) *ApiResourc
 	return u
 }
 
-// SetUpdateTime sets the "update_time" field.
-func (u *ApiResourceUpsertBulk) SetUpdateTime(v time.Time) *ApiResourceUpsertBulk {
+// SetUpdatedAt sets the "updated_at" field.
+func (u *ApiResourceUpsertBulk) SetUpdatedAt(v time.Time) *ApiResourceUpsertBulk {
 	return u.Update(func(s *ApiResourceUpsert) {
-		s.SetUpdateTime(v)
+		s.SetUpdatedAt(v)
 	})
 }
 
-// UpdateUpdateTime sets the "update_time" field to the value that was provided on create.
-func (u *ApiResourceUpsertBulk) UpdateUpdateTime() *ApiResourceUpsertBulk {
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *ApiResourceUpsertBulk) UpdateUpdatedAt() *ApiResourceUpsertBulk {
 	return u.Update(func(s *ApiResourceUpsert) {
-		s.UpdateUpdateTime()
+		s.UpdateUpdatedAt()
 	})
 }
 
-// ClearUpdateTime clears the value of the "update_time" field.
-func (u *ApiResourceUpsertBulk) ClearUpdateTime() *ApiResourceUpsertBulk {
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (u *ApiResourceUpsertBulk) ClearUpdatedAt() *ApiResourceUpsertBulk {
 	return u.Update(func(s *ApiResourceUpsert) {
-		s.ClearUpdateTime()
+		s.ClearUpdatedAt()
 	})
 }
 
-// SetDeleteTime sets the "delete_time" field.
-func (u *ApiResourceUpsertBulk) SetDeleteTime(v time.Time) *ApiResourceUpsertBulk {
+// SetDeletedAt sets the "deleted_at" field.
+func (u *ApiResourceUpsertBulk) SetDeletedAt(v time.Time) *ApiResourceUpsertBulk {
 	return u.Update(func(s *ApiResourceUpsert) {
-		s.SetDeleteTime(v)
+		s.SetDeletedAt(v)
 	})
 }
 
-// UpdateDeleteTime sets the "delete_time" field to the value that was provided on create.
-func (u *ApiResourceUpsertBulk) UpdateDeleteTime() *ApiResourceUpsertBulk {
+// UpdateDeletedAt sets the "deleted_at" field to the value that was provided on create.
+func (u *ApiResourceUpsertBulk) UpdateDeletedAt() *ApiResourceUpsertBulk {
 	return u.Update(func(s *ApiResourceUpsert) {
-		s.UpdateDeleteTime()
+		s.UpdateDeletedAt()
 	})
 }
 
-// ClearDeleteTime clears the value of the "delete_time" field.
-func (u *ApiResourceUpsertBulk) ClearDeleteTime() *ApiResourceUpsertBulk {
+// ClearDeletedAt clears the value of the "deleted_at" field.
+func (u *ApiResourceUpsertBulk) ClearDeletedAt() *ApiResourceUpsertBulk {
 	return u.Update(func(s *ApiResourceUpsert) {
-		s.ClearDeleteTime()
+		s.ClearDeletedAt()
 	})
 }
 
-// SetCreateBy sets the "create_by" field.
-func (u *ApiResourceUpsertBulk) SetCreateBy(v uint32) *ApiResourceUpsertBulk {
+// SetCreatedBy sets the "created_by" field.
+func (u *ApiResourceUpsertBulk) SetCreatedBy(v uint32) *ApiResourceUpsertBulk {
 	return u.Update(func(s *ApiResourceUpsert) {
-		s.SetCreateBy(v)
+		s.SetCreatedBy(v)
 	})
 }
 
-// AddCreateBy adds v to the "create_by" field.
-func (u *ApiResourceUpsertBulk) AddCreateBy(v uint32) *ApiResourceUpsertBulk {
+// AddCreatedBy adds v to the "created_by" field.
+func (u *ApiResourceUpsertBulk) AddCreatedBy(v uint32) *ApiResourceUpsertBulk {
 	return u.Update(func(s *ApiResourceUpsert) {
-		s.AddCreateBy(v)
+		s.AddCreatedBy(v)
 	})
 }
 
-// UpdateCreateBy sets the "create_by" field to the value that was provided on create.
-func (u *ApiResourceUpsertBulk) UpdateCreateBy() *ApiResourceUpsertBulk {
+// UpdateCreatedBy sets the "created_by" field to the value that was provided on create.
+func (u *ApiResourceUpsertBulk) UpdateCreatedBy() *ApiResourceUpsertBulk {
 	return u.Update(func(s *ApiResourceUpsert) {
-		s.UpdateCreateBy()
+		s.UpdateCreatedBy()
 	})
 }
 
-// ClearCreateBy clears the value of the "create_by" field.
-func (u *ApiResourceUpsertBulk) ClearCreateBy() *ApiResourceUpsertBulk {
+// ClearCreatedBy clears the value of the "created_by" field.
+func (u *ApiResourceUpsertBulk) ClearCreatedBy() *ApiResourceUpsertBulk {
 	return u.Update(func(s *ApiResourceUpsert) {
-		s.ClearCreateBy()
+		s.ClearCreatedBy()
 	})
 }
 
-// SetUpdateBy sets the "update_by" field.
-func (u *ApiResourceUpsertBulk) SetUpdateBy(v uint32) *ApiResourceUpsertBulk {
+// SetUpdatedBy sets the "updated_by" field.
+func (u *ApiResourceUpsertBulk) SetUpdatedBy(v uint32) *ApiResourceUpsertBulk {
 	return u.Update(func(s *ApiResourceUpsert) {
-		s.SetUpdateBy(v)
+		s.SetUpdatedBy(v)
 	})
 }
 
-// AddUpdateBy adds v to the "update_by" field.
-func (u *ApiResourceUpsertBulk) AddUpdateBy(v uint32) *ApiResourceUpsertBulk {
+// AddUpdatedBy adds v to the "updated_by" field.
+func (u *ApiResourceUpsertBulk) AddUpdatedBy(v uint32) *ApiResourceUpsertBulk {
 	return u.Update(func(s *ApiResourceUpsert) {
-		s.AddUpdateBy(v)
+		s.AddUpdatedBy(v)
 	})
 }
 
-// UpdateUpdateBy sets the "update_by" field to the value that was provided on create.
-func (u *ApiResourceUpsertBulk) UpdateUpdateBy() *ApiResourceUpsertBulk {
+// UpdateUpdatedBy sets the "updated_by" field to the value that was provided on create.
+func (u *ApiResourceUpsertBulk) UpdateUpdatedBy() *ApiResourceUpsertBulk {
 	return u.Update(func(s *ApiResourceUpsert) {
-		s.UpdateUpdateBy()
+		s.UpdateUpdatedBy()
 	})
 }
 
-// ClearUpdateBy clears the value of the "update_by" field.
-func (u *ApiResourceUpsertBulk) ClearUpdateBy() *ApiResourceUpsertBulk {
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (u *ApiResourceUpsertBulk) ClearUpdatedBy() *ApiResourceUpsertBulk {
 	return u.Update(func(s *ApiResourceUpsert) {
-		s.ClearUpdateBy()
+		s.ClearUpdatedBy()
+	})
+}
+
+// SetDeletedBy sets the "deleted_by" field.
+func (u *ApiResourceUpsertBulk) SetDeletedBy(v uint32) *ApiResourceUpsertBulk {
+	return u.Update(func(s *ApiResourceUpsert) {
+		s.SetDeletedBy(v)
+	})
+}
+
+// AddDeletedBy adds v to the "deleted_by" field.
+func (u *ApiResourceUpsertBulk) AddDeletedBy(v uint32) *ApiResourceUpsertBulk {
+	return u.Update(func(s *ApiResourceUpsert) {
+		s.AddDeletedBy(v)
+	})
+}
+
+// UpdateDeletedBy sets the "deleted_by" field to the value that was provided on create.
+func (u *ApiResourceUpsertBulk) UpdateDeletedBy() *ApiResourceUpsertBulk {
+	return u.Update(func(s *ApiResourceUpsert) {
+		s.UpdateDeletedBy()
+	})
+}
+
+// ClearDeletedBy clears the value of the "deleted_by" field.
+func (u *ApiResourceUpsertBulk) ClearDeletedBy() *ApiResourceUpsertBulk {
+	return u.Update(func(s *ApiResourceUpsert) {
+		s.ClearDeletedBy()
 	})
 }
 

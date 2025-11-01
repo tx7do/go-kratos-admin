@@ -8,8 +8,6 @@ import (
 	"entgo.io/ent/schema/field"
 	"entgo.io/ent/schema/index"
 	"github.com/tx7do/go-utils/entgo/mixin"
-
-	appmixin "kratos-admin/pkg/entgo/mixin"
 )
 
 // UserCredential holds the schema definition for the UserCredential entity.
@@ -191,9 +189,9 @@ func (UserCredential) Fields() []ent.Field {
 // Mixin of the UserCredential.
 func (UserCredential) Mixin() []ent.Mixin {
 	return []ent.Mixin{
-		mixin.Time{},
+		mixin.TimeAt{},
 		mixin.AutoIncrementId{},
-		appmixin.TenantID{},
+		mixin.TenantID{},
 	}
 }
 

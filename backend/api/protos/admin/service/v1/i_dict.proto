@@ -14,76 +14,76 @@ import "google/protobuf/field_mask.proto";
 import "pagination/v1/pagination.proto";
 import "dict/service/v1/dict.proto";
 
-// 字典管理服务
+// 数据字典管理服务
 service DictService {
-  // 分页查询主字典列表
-  rpc ListDictMain (pagination.PagingRequest) returns (dict.service.v1.ListDictMainResponse) {
+  // 分页查询字典类型列表
+  rpc ListDictType (pagination.PagingRequest) returns (dict.service.v1.ListDictTypeResponse) {
     option (google.api.http) = {
-      get: "/admin/v1/dict-mains"
+      get: "/admin/v1/dict-types"
     };
   }
 
-  // 查询主字典详情
-  rpc GetDictMain (dict.service.v1.GetDictMainRequest) returns (dict.service.v1.DictMain) {
+  // 查询字典类型详情
+  rpc GetDictType (dict.service.v1.GetDictTypeRequest) returns (dict.service.v1.DictType) {
     option (google.api.http) = {
-      get: "/admin/v1/dict-mains/{id}"
+      get: "/admin/v1/dict-types/{id}"
       additional_bindings {
-        get: "/api/v1/dict-mains/code/{code}"
+        get: "/api/v1/dict-types/code/{code}"
       }
     };
   }
 
-  // 创建主字典
-  rpc CreateDictMain (dict.service.v1.CreateDictMainRequest) returns (google.protobuf.Empty) {
+  // 创建字典类型
+  rpc CreateDictType (dict.service.v1.CreateDictTypeRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
-      post: "/admin/v1/dict-mains"
+      post: "/admin/v1/dict-types"
       body: "*"
     };
   }
 
-  // 更新主字典
-  rpc UpdateDictMain (dict.service.v1.UpdateDictMainRequest) returns (google.protobuf.Empty) {
+  // 更新字典类型
+  rpc UpdateDictType (dict.service.v1.UpdateDictTypeRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
-      put: "/admin/v1/dict-mains/{data.id}"
+      put: "/admin/v1/dict-types/{data.id}"
       body: "*"
     };
   }
 
-  // 删除主字典
-  rpc DeleteDictMain (dict.service.v1.BatchDeleteDictRequest) returns (google.protobuf.Empty) {
+  // 删除字典类型
+  rpc DeleteDictType (dict.service.v1.BatchDeleteDictRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
-      delete: "/admin/v1/dict-mains"
+      delete: "/admin/v1/dict-types"
     };
   }
 
 
-  // 分页查询子字典列表
-  rpc ListDictItem (pagination.PagingRequest) returns (dict.service.v1.ListDictItemResponse) {
+  // 分页查询字典条目列表
+  rpc ListDictEntry (pagination.PagingRequest) returns (dict.service.v1.ListDictEntryResponse) {
     option (google.api.http) = {
-      get: "/admin/v1/dict-items"
+      get: "/admin/v1/dict-entries"
     };
   }
 
-  // 创建子字典
-  rpc CreateDictItem (dict.service.v1.CreateDictItemRequest) returns (google.protobuf.Empty) {
+  // 创建字典条目
+  rpc CreateDictEntry (dict.service.v1.CreateDictEntryRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
-      post: "/admin/v1/dict-items"
+      post: "/admin/v1/dict-entries"
       body: "*"
     };
   }
 
-  // 更新子字典
-  rpc UpdateDictItem (dict.service.v1.UpdateDictItemRequest) returns (google.protobuf.Empty) {
+  // 更新字典条目
+  rpc UpdateDictEntry (dict.service.v1.UpdateDictEntryRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
-      put: "/admin/v1/dict-items/{data.id}"
+      put: "/admin/v1/dict-entries/{data.id}"
       body: "*"
     };
   }
 
-  // 删除子字典
-  rpc DeleteDictItem (dict.service.v1.BatchDeleteDictRequest) returns (google.protobuf.Empty) {
+  // 删除字典条目
+  rpc DeleteDictEntry (dict.service.v1.BatchDeleteDictRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
-      delete: "/admin/v1/dict-items"
+      delete: "/admin/v1/dict-entries"
     };
   }
 }

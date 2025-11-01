@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"github.com/go-kratos/kratos/v2/log"
+	"github.com/tx7do/go-utils/entgo"
 
 	"kratos-admin/app/admin/service/internal/data/ent"
 	"kratos-admin/app/admin/service/internal/data/ent/userrole"
@@ -35,7 +36,7 @@ func (r *UserRoleRepo) AssignRoles(ctx context.Context, userId uint32, ids []uin
 
 	// 删除该用户的所有旧关联
 	if _, err = tx.UserRole.Delete().Where(userrole.UserID(userId)).Exec(ctx); err != nil {
-		err = rollback(tx, err)
+		err = entgo.Rollback(tx, err)
 		r.log.Errorf("delete old user roles failed: %s", err.Error())
 		return userV1.ErrorInternalServerError("delete old user roles failed")
 	}
@@ -56,14 +57,14 @@ func (r *UserRoleRepo) AssignRoles(ctx context.Context, userId uint32, ids []uin
 			Create().
 			SetUserID(userId).
 			SetRoleID(id).
-			SetCreateBy(operatorId).
-			SetCreateTime(time.Now())
+			SetCreatedBy(operatorId).
+			SetCreatedAt(time.Now())
 		userRoles = append(userRoles, rm)
 	}
 
 	_, err = r.data.db.Client().UserRole.CreateBulk(userRoles...).Save(ctx)
 	if err != nil {
-		err = rollback(tx, err)
+		err = entgo.Rollback(tx, err)
 		r.log.Errorf("assign roles to user failed: %s", err.Error())
 		return userV1.ErrorInternalServerError("assign roles to user failed")
 	}

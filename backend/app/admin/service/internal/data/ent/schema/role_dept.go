@@ -44,8 +44,8 @@ func (RoleDept) Fields() []ent.Field {
 func (RoleDept) Mixin() []ent.Mixin {
 	return []ent.Mixin{
 		mixin.AutoIncrementId{},
-		mixin.Time{},
-		mixin.CreateBy{},
+		mixin.TimeAt{},
+		mixin.OperatorID{},
 	}
 }
 

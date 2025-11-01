@@ -30,18 +30,19 @@ const (
 // 通知消息分类
 type NotificationMessageCategory struct {
 	state         protoimpl.MessageState         `protogen:"open.v1"`
-	Id            *uint32                        `protobuf:"varint,1,opt,name=id,proto3,oneof" json:"id,omitempty"`                                    // 分类ID
-	Name          *string                        `protobuf:"bytes,2,opt,name=name,proto3,oneof" json:"name,omitempty"`                                 // 名称
-	Code          *string                        `protobuf:"bytes,3,opt,name=code,proto3,oneof" json:"code,omitempty"`                                 // 编码
-	SortId        *int32                         `protobuf:"varint,4,opt,name=sort_id,json=sortId,proto3,oneof" json:"sort_id,omitempty"`              // 排序编号
-	Enable        *bool                          `protobuf:"varint,5,opt,name=enable,proto3,oneof" json:"enable,omitempty"`                            // 是否启用
-	ParentId      *uint32                        `protobuf:"varint,50,opt,name=parent_id,json=parentId,proto3,oneof" json:"parent_id,omitempty"`       // 父节点ID
-	Children      []*NotificationMessageCategory `protobuf:"bytes,51,rep,name=children,proto3" json:"children,omitempty"`                              // 子节点树
-	CreateBy      *uint32                        `protobuf:"varint,100,opt,name=create_by,json=createBy,proto3,oneof" json:"create_by,omitempty"`      // 创建者ID
-	UpdateBy      *uint32                        `protobuf:"varint,101,opt,name=update_by,json=updateBy,proto3,oneof" json:"update_by,omitempty"`      // 更新者ID
-	CreateTime    *timestamppb.Timestamp         `protobuf:"bytes,200,opt,name=create_time,json=createTime,proto3,oneof" json:"create_time,omitempty"` // 创建时间
-	UpdateTime    *timestamppb.Timestamp         `protobuf:"bytes,201,opt,name=update_time,json=updateTime,proto3,oneof" json:"update_time,omitempty"` // 更新时间
-	DeleteTime    *timestamppb.Timestamp         `protobuf:"bytes,202,opt,name=delete_time,json=deleteTime,proto3,oneof" json:"delete_time,omitempty"` // 删除时间
+	Id            *uint32                        `protobuf:"varint,1,opt,name=id,proto3,oneof" json:"id,omitempty"`                                  // 分类ID
+	Name          *string                        `protobuf:"bytes,2,opt,name=name,proto3,oneof" json:"name,omitempty"`                               // 名称
+	Code          *string                        `protobuf:"bytes,3,opt,name=code,proto3,oneof" json:"code,omitempty"`                               // 编码
+	SortOrder     *int32                         `protobuf:"varint,4,opt,name=sort_order,json=sortOrder,proto3,oneof" json:"sort_order,omitempty"`   // 排序顺序，值越小越靠前
+	Enable        *bool                          `protobuf:"varint,5,opt,name=enable,proto3,oneof" json:"enable,omitempty"`                          // 是否启用
+	ParentId      *uint32                        `protobuf:"varint,50,opt,name=parent_id,json=parentId,proto3,oneof" json:"parent_id,omitempty"`     // 父节点ID
+	Children      []*NotificationMessageCategory `protobuf:"bytes,51,rep,name=children,proto3" json:"children,omitempty"`                            // 子节点树
+	CreatedBy     *uint32                        `protobuf:"varint,100,opt,name=created_by,json=createdBy,proto3,oneof" json:"created_by,omitempty"` // 创建者ID
+	UpdatedBy     *uint32                        `protobuf:"varint,101,opt,name=updated_by,json=updatedBy,proto3,oneof" json:"updated_by,omitempty"` // 更新者ID
+	DeletedBy     *uint32                        `protobuf:"varint,102,opt,name=deleted_by,json=deletedBy,proto3,oneof" json:"deleted_by,omitempty"` // 删除者用户ID
+	CreatedAt     *timestamppb.Timestamp         `protobuf:"bytes,200,opt,name=created_at,json=createdAt,proto3,oneof" json:"created_at,omitempty"`  // 创建时间
+	UpdatedAt     *timestamppb.Timestamp         `protobuf:"bytes,201,opt,name=updated_at,json=updatedAt,proto3,oneof" json:"updated_at,omitempty"`  // 更新时间
+	DeletedAt     *timestamppb.Timestamp         `protobuf:"bytes,202,opt,name=deleted_at,json=deletedAt,proto3,oneof" json:"deleted_at,omitempty"`  // 删除时间
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -97,9 +98,9 @@ func (x *NotificationMessageCategory) GetCode() string {
 	return ""
 }
 
-func (x *NotificationMessageCategory) GetSortId() int32 {
-	if x != nil && x.SortId != nil {
-		return *x.SortId
+func (x *NotificationMessageCategory) GetSortOrder() int32 {
+	if x != nil && x.SortOrder != nil {
+		return *x.SortOrder
 	}
 	return 0
 }
@@ -125,37 +126,44 @@ func (x *NotificationMessageCategory) GetChildren() []*NotificationMessageCatego
 	return nil
 }
 
-func (x *NotificationMessageCategory) GetCreateBy() uint32 {
-	if x != nil && x.CreateBy != nil {
-		return *x.CreateBy
+func (x *NotificationMessageCategory) GetCreatedBy() uint32 {
+	if x != nil && x.CreatedBy != nil {
+		return *x.CreatedBy
 	}
 	return 0
 }
 
-func (x *NotificationMessageCategory) GetUpdateBy() uint32 {
-	if x != nil && x.UpdateBy != nil {
-		return *x.UpdateBy
+func (x *NotificationMessageCategory) GetUpdatedBy() uint32 {
+	if x != nil && x.UpdatedBy != nil {
+		return *x.UpdatedBy
 	}
 	return 0
 }
 
-func (x *NotificationMessageCategory) GetCreateTime() *timestamppb.Timestamp {
+func (x *NotificationMessageCategory) GetDeletedBy() uint32 {
+	if x != nil && x.DeletedBy != nil {
+		return *x.DeletedBy
+	}
+	return 0
+}
+
+func (x *NotificationMessageCategory) GetCreatedAt() *timestamppb.Timestamp {
 	if x != nil {
-		return x.CreateTime
+		return x.CreatedAt
 	}
 	return nil
 }
 
-func (x *NotificationMessageCategory) GetUpdateTime() *timestamppb.Timestamp {
+func (x *NotificationMessageCategory) GetUpdatedAt() *timestamppb.Timestamp {
 	if x != nil {
-		return x.UpdateTime
+		return x.UpdatedAt
 	}
 	return nil
 }
 
-func (x *NotificationMessageCategory) GetDeleteTime() *timestamppb.Timestamp {
+func (x *NotificationMessageCategory) GetDeletedAt() *timestamppb.Timestamp {
 	if x != nil {
-		return x.DeleteTime
+		return x.DeletedAt
 	}
 	return nil
 }
@@ -413,39 +421,42 @@ var File_internal_message_service_v1_notification_message_category_proto protore
 
 const file_internal_message_service_v1_notification_message_category_proto_rawDesc = "" +
 	"\n" +
-	"?internal_message/service/v1/notification_message_category.proto\x12\x1binternal_message.service.v1\x1a$gnostic/openapi/v3/annotations.proto\x1a\x1cgoogle/api/annotations.proto\x1a\x1fgoogle/api/field_behavior.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a google/protobuf/field_mask.proto\x1a\x1epagination/v1/pagination.proto\"\x94\a\n" +
+	"?internal_message/service/v1/notification_message_category.proto\x12\x1binternal_message.service.v1\x1a$gnostic/openapi/v3/annotations.proto\x1a\x1cgoogle/api/annotations.proto\x1a\x1fgoogle/api/field_behavior.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a google/protobuf/field_mask.proto\x1a\x1epagination/v1/pagination.proto\"\xfb\a\n" +
 	"\x1bNotificationMessageCategory\x12&\n" +
 	"\x02id\x18\x01 \x01(\rB\x11\xe0A\x01\xbaG\v\x92\x02\b分类IDH\x00R\x02id\x88\x01\x01\x12(\n" +
 	"\x04name\x18\x02 \x01(\tB\x0f\xe0A\x01\xbaG\t\x92\x02\x06名称H\x01R\x04name\x88\x01\x01\x12(\n" +
-	"\x04code\x18\x03 \x01(\tB\x0f\xe0A\x01\xbaG\t\x92\x02\x06编码H\x02R\x04code\x88\x01\x01\x120\n" +
-	"\asort_id\x18\x04 \x01(\x05B\x12\xbaG\x0f\x92\x02\f排序编号H\x03R\x06sortId\x88\x01\x01\x12/\n" +
+	"\x04code\x18\x03 \x01(\tB\x0f\xe0A\x01\xbaG\t\x92\x02\x06编码H\x02R\x04code\x88\x01\x01\x12K\n" +
+	"\n" +
+	"sort_order\x18\x04 \x01(\x05B'\xbaG$\x92\x02!排序顺序，值越小越靠前H\x03R\tsortOrder\x88\x01\x01\x12/\n" +
 	"\x06enable\x18\x05 \x01(\bB\x12\xbaG\x0f\x92\x02\f是否启用H\x04R\x06enable\x88\x01\x01\x123\n" +
 	"\tparent_id\x182 \x01(\rB\x11\xbaG\x0e\x92\x02\v父节点IDH\x05R\bparentId\x88\x01\x01\x12h\n" +
-	"\bchildren\x183 \x03(\v28.internal_message.service.v1.NotificationMessageCategoryB\x12\xbaG\x0f\x92\x02\f子节点树R\bchildren\x123\n" +
-	"\tcreate_by\x18d \x01(\rB\x11\xbaG\x0e\x92\x02\v创建者IDH\x06R\bcreateBy\x88\x01\x01\x123\n" +
-	"\tupdate_by\x18e \x01(\rB\x11\xbaG\x0e\x92\x02\v更新者IDH\aR\bupdateBy\x88\x01\x01\x12U\n" +
-	"\vcreate_time\x18\xc8\x01 \x01(\v2\x1a.google.protobuf.TimestampB\x12\xbaG\x0f\x92\x02\f创建时间H\bR\n" +
-	"createTime\x88\x01\x01\x12U\n" +
-	"\vupdate_time\x18\xc9\x01 \x01(\v2\x1a.google.protobuf.TimestampB\x12\xbaG\x0f\x92\x02\f更新时间H\tR\n" +
-	"updateTime\x88\x01\x01\x12U\n" +
-	"\vdelete_time\x18\xca\x01 \x01(\v2\x1a.google.protobuf.TimestampB\x12\xbaG\x0f\x92\x02\f删除时间H\n" +
-	"R\n" +
-	"deleteTime\x88\x01\x01B\x05\n" +
+	"\bchildren\x183 \x03(\v28.internal_message.service.v1.NotificationMessageCategoryB\x12\xbaG\x0f\x92\x02\f子节点树R\bchildren\x125\n" +
+	"\n" +
+	"created_by\x18d \x01(\rB\x11\xbaG\x0e\x92\x02\v创建者IDH\x06R\tcreatedBy\x88\x01\x01\x125\n" +
+	"\n" +
+	"updated_by\x18e \x01(\rB\x11\xbaG\x0e\x92\x02\v更新者IDH\aR\tupdatedBy\x88\x01\x01\x12;\n" +
+	"\n" +
+	"deleted_by\x18f \x01(\rB\x17\xbaG\x14\x92\x02\x11删除者用户IDH\bR\tdeletedBy\x88\x01\x01\x12S\n" +
+	"\n" +
+	"created_at\x18\xc8\x01 \x01(\v2\x1a.google.protobuf.TimestampB\x12\xbaG\x0f\x92\x02\f创建时间H\tR\tcreatedAt\x88\x01\x01\x12S\n" +
+	"\n" +
+	"updated_at\x18\xc9\x01 \x01(\v2\x1a.google.protobuf.TimestampB\x12\xbaG\x0f\x92\x02\f更新时间H\n" +
+	"R\tupdatedAt\x88\x01\x01\x12S\n" +
+	"\n" +
+	"deleted_at\x18\xca\x01 \x01(\v2\x1a.google.protobuf.TimestampB\x12\xbaG\x0f\x92\x02\f删除时间H\vR\tdeletedAt\x88\x01\x01B\x05\n" +
 	"\x03_idB\a\n" +
 	"\x05_nameB\a\n" +
-	"\x05_codeB\n" +
-	"\n" +
-	"\b_sort_idB\t\n" +
+	"\x05_codeB\r\n" +
+	"\v_sort_orderB\t\n" +
 	"\a_enableB\f\n" +
 	"\n" +
-	"_parent_idB\f\n" +
-	"\n" +
-	"_create_byB\f\n" +
-	"\n" +
-	"_update_byB\x0e\n" +
-	"\f_create_timeB\x0e\n" +
-	"\f_update_timeB\x0e\n" +
-	"\f_delete_time\"\x8f\x01\n" +
+	"_parent_idB\r\n" +
+	"\v_created_byB\r\n" +
+	"\v_updated_byB\r\n" +
+	"\v_deleted_byB\r\n" +
+	"\v_created_atB\r\n" +
+	"\v_updated_atB\r\n" +
+	"\v_deleted_at\"\x8f\x01\n" +
 	"'ListNotificationMessageCategoryResponse\x12N\n" +
 	"\x05items\x18\x01 \x03(\v28.internal_message.service.v1.NotificationMessageCategoryR\x05items\x12\x14\n" +
 	"\x05total\x18\x02 \x01(\rR\x05total\"7\n" +
@@ -496,9 +507,9 @@ var file_internal_message_service_v1_notification_message_category_proto_goTypes
 }
 var file_internal_message_service_v1_notification_message_category_proto_depIdxs = []int32{
 	0,  // 0: internal_message.service.v1.NotificationMessageCategory.children:type_name -> internal_message.service.v1.NotificationMessageCategory
-	6,  // 1: internal_message.service.v1.NotificationMessageCategory.create_time:type_name -> google.protobuf.Timestamp
-	6,  // 2: internal_message.service.v1.NotificationMessageCategory.update_time:type_name -> google.protobuf.Timestamp
-	6,  // 3: internal_message.service.v1.NotificationMessageCategory.delete_time:type_name -> google.protobuf.Timestamp
+	6,  // 1: internal_message.service.v1.NotificationMessageCategory.created_at:type_name -> google.protobuf.Timestamp
+	6,  // 2: internal_message.service.v1.NotificationMessageCategory.updated_at:type_name -> google.protobuf.Timestamp
+	6,  // 3: internal_message.service.v1.NotificationMessageCategory.deleted_at:type_name -> google.protobuf.Timestamp
 	0,  // 4: internal_message.service.v1.ListNotificationMessageCategoryResponse.items:type_name -> internal_message.service.v1.NotificationMessageCategory
 	0,  // 5: internal_message.service.v1.CreateNotificationMessageCategoryRequest.data:type_name -> internal_message.service.v1.NotificationMessageCategory
 	0,  // 6: internal_message.service.v1.UpdateNotificationMessageCategoryRequest.data:type_name -> internal_message.service.v1.NotificationMessageCategory

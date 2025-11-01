@@ -133,10 +133,10 @@ const gridOptions: VxeGridProps<Department> = {
       slots: { default: 'status' },
       width: 95,
     },
-    { title: $t('ui.table.sortId'), field: 'sortId', width: 70 },
+    { title: $t('ui.table.sortOrder'), field: 'sortOrder', width: 70 },
     {
-      title: $t('ui.table.createTime'),
-      field: 'createTime',
+      title: $t('ui.table.createdAt'),
+      field: 'createdAt',
       formatter: 'formatDateTime',
       width: 140,
     },

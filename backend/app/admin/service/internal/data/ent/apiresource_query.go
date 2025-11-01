@@ -265,12 +265,12 @@ func (_q *ApiResourceQuery) Clone() *ApiResourceQuery {
 // Example:
 //
 //	var v []struct {
-//		CreateTime time.Time `json:"create_time,omitempty"`
+//		CreatedAt time.Time `json:"created_at,omitempty"`
 //		Count int `json:"count,omitempty"`
 //	}
 //
 //	client.ApiResource.Query().
-//		GroupBy(apiresource.FieldCreateTime).
+//		GroupBy(apiresource.FieldCreatedAt).
 //		Aggregate(ent.Count()).
 //		Scan(ctx, &v)
 func (_q *ApiResourceQuery) GroupBy(field string, fields ...string) *ApiResourceGroupBy {
@@ -288,11 +288,11 @@ func (_q *ApiResourceQuery) GroupBy(field string, fields ...string) *ApiResource
 // Example:
 //
 //	var v []struct {
-//		CreateTime time.Time `json:"create_time,omitempty"`
+//		CreatedAt time.Time `json:"created_at,omitempty"`
 //	}
 //
 //	client.ApiResource.Query().
-//		Select(apiresource.FieldCreateTime).
+//		Select(apiresource.FieldCreatedAt).
 //		Scan(ctx, &v)
 func (_q *ApiResourceQuery) Select(fields ...string) *ApiResourceSelect {
 	_q.ctx.Fields = append(_q.ctx.Fields, fields...)

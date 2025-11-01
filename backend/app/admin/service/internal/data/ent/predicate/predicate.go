@@ -21,14 +21,17 @@ type ApiResource func(*sql.Selector)
 // Department is the predicate function for department builders.
 type Department func(*sql.Selector)
 
-// DictItem is the predicate function for dictitem builders.
-type DictItem func(*sql.Selector)
+// DictEntry is the predicate function for dictentry builders.
+type DictEntry func(*sql.Selector)
 
-// DictMain is the predicate function for dictmain builders.
-type DictMain func(*sql.Selector)
+// DictType is the predicate function for dicttype builders.
+type DictType func(*sql.Selector)
 
 // File is the predicate function for file builders.
 type File func(*sql.Selector)
+
+// Language is the predicate function for language builders.
+type Language func(*sql.Selector)
 
 // Menu is the predicate function for menu builders.
 type Menu func(*sql.Selector)

@@ -214,11 +214,12 @@ type Tenant struct {
 	LastLoginIp      *string                `protobuf:"bytes,32,opt,name=last_login_ip,json=lastLoginIp,proto3,oneof" json:"last_login_ip,omitempty"`                                       // 最后登录IP
 	ParentId         *uint32                `protobuf:"varint,50,opt,name=parent_id,json=parentId,proto3,oneof" json:"parent_id,omitempty"`                                                 // 父节点ID
 	Children         []*Tenant              `protobuf:"bytes,51,rep,name=children,proto3" json:"children,omitempty"`                                                                        // 子节点树
-	CreateBy         *uint32                `protobuf:"varint,100,opt,name=create_by,json=createBy,proto3,oneof" json:"create_by,omitempty"`                                                // 创建者ID
-	UpdateBy         *uint32                `protobuf:"varint,101,opt,name=update_by,json=updateBy,proto3,oneof" json:"update_by,omitempty"`                                                // 更新者ID
-	CreateTime       *timestamppb.Timestamp `protobuf:"bytes,200,opt,name=create_time,json=createTime,proto3,oneof" json:"create_time,omitempty"`                                           // 创建时间
-	UpdateTime       *timestamppb.Timestamp `protobuf:"bytes,201,opt,name=update_time,json=updateTime,proto3,oneof" json:"update_time,omitempty"`                                           // 更新时间
-	DeleteTime       *timestamppb.Timestamp `protobuf:"bytes,202,opt,name=delete_time,json=deleteTime,proto3,oneof" json:"delete_time,omitempty"`                                           // 删除时间
+	CreatedBy        *uint32                `protobuf:"varint,100,opt,name=created_by,json=createdBy,proto3,oneof" json:"created_by,omitempty"`                                             // 创建者ID
+	UpdatedBy        *uint32                `protobuf:"varint,101,opt,name=updated_by,json=updatedBy,proto3,oneof" json:"updated_by,omitempty"`                                             // 更新者ID
+	DeletedBy        *uint32                `protobuf:"varint,102,opt,name=deleted_by,json=deletedBy,proto3,oneof" json:"deleted_by,omitempty"`                                             // 删除者用户ID
+	CreatedAt        *timestamppb.Timestamp `protobuf:"bytes,200,opt,name=created_at,json=createdAt,proto3,oneof" json:"created_at,omitempty"`                                              // 创建时间
+	UpdatedAt        *timestamppb.Timestamp `protobuf:"bytes,201,opt,name=updated_at,json=updatedAt,proto3,oneof" json:"updated_at,omitempty"`                                              // 更新时间
+	DeletedAt        *timestamppb.Timestamp `protobuf:"bytes,202,opt,name=deleted_at,json=deletedAt,proto3,oneof" json:"deleted_at,omitempty"`                                              // 删除时间
 	unknownFields    protoimpl.UnknownFields
 	sizeCache        protoimpl.SizeCache
 }
@@ -393,37 +394,44 @@ func (x *Tenant) GetChildren() []*Tenant {
 	return nil
 }
 
-func (x *Tenant) GetCreateBy() uint32 {
-	if x != nil && x.CreateBy != nil {
-		return *x.CreateBy
+func (x *Tenant) GetCreatedBy() uint32 {
+	if x != nil && x.CreatedBy != nil {
+		return *x.CreatedBy
 	}
 	return 0
 }
 
-func (x *Tenant) GetUpdateBy() uint32 {
-	if x != nil && x.UpdateBy != nil {
-		return *x.UpdateBy
+func (x *Tenant) GetUpdatedBy() uint32 {
+	if x != nil && x.UpdatedBy != nil {
+		return *x.UpdatedBy
 	}
 	return 0
 }
 
-func (x *Tenant) GetCreateTime() *timestamppb.Timestamp {
+func (x *Tenant) GetDeletedBy() uint32 {
+	if x != nil && x.DeletedBy != nil {
+		return *x.DeletedBy
+	}
+	return 0
+}
+
+func (x *Tenant) GetCreatedAt() *timestamppb.Timestamp {
 	if x != nil {
-		return x.CreateTime
+		return x.CreatedAt
 	}
 	return nil
 }
 
-func (x *Tenant) GetUpdateTime() *timestamppb.Timestamp {
+func (x *Tenant) GetUpdatedAt() *timestamppb.Timestamp {
 	if x != nil {
-		return x.UpdateTime
+		return x.UpdatedAt
 	}
 	return nil
 }
 
-func (x *Tenant) GetDeleteTime() *timestamppb.Timestamp {
+func (x *Tenant) GetDeletedAt() *timestamppb.Timestamp {
 	if x != nil {
-		return x.DeleteTime
+		return x.DeletedAt
 	}
 	return nil
 }
@@ -723,7 +731,7 @@ func (x *BatchCreateTenantsRequest) GetData() []*Tenant {
 
 type BatchCreateTenantsResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Data          []*Tenant              `protobuf:"bytes,1,rep,name=data,proto3" json:"data,omitempty"`
+	CreatedIds    []int32                `protobuf:"varint,1,rep,packed,name=created_ids,json=createdIds,proto3" json:"created_ids,omitempty"` // 创建成功的租户ID列表
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -758,9 +766,9 @@ func (*BatchCreateTenantsResponse) Descriptor() ([]byte, []int) {
 	return file_user_service_v1_tenant_proto_rawDescGZIP(), []int{7}
 }
 
-func (x *BatchCreateTenantsResponse) GetData() []*Tenant {
+func (x *BatchCreateTenantsResponse) GetCreatedIds() []int32 {
 	if x != nil {
-		return x.Data
+		return x.CreatedIds
 	}
 	return nil
 }
@@ -903,7 +911,7 @@ var File_user_service_v1_tenant_proto protoreflect.FileDescriptor
 
 const file_user_service_v1_tenant_proto_rawDesc = "" +
 	"\n" +
-	"\x1cuser/service/v1/tenant.proto\x12\x0fuser.service.v1\x1a$gnostic/openapi/v3/annotations.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a google/protobuf/field_mask.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x1epagination/v1/pagination.proto\"\xfe\x13\n" +
+	"\x1cuser/service/v1/tenant.proto\x12\x0fuser.service.v1\x1a$gnostic/openapi/v3/annotations.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a google/protobuf/field_mask.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x1epagination/v1/pagination.proto\"\xc7\x14\n" +
 	"\x06Tenant\x12#\n" +
 	"\x02id\x18\x01 \x01(\rB\x0e\xbaG\v\x92\x02\b租户IDH\x00R\x02id\x88\x01\x01\x12+\n" +
 	"\x04name\x18\x02 \x01(\tB\x12\xbaG\x0f\x92\x02\f租户名称H\x01R\x04name\x88\x01\x01\x12+\n" +
@@ -927,15 +935,19 @@ const file_user_service_v1_tenant_proto_rawDesc = "" +
 	"\x0flast_login_time\x18\x1f \x01(\v2\x1a.google.protobuf.TimestampB\x18\xbaG\x15\x92\x02\x12最后登录时间H\x10R\rlastLoginTime\x88\x01\x01\x12=\n" +
 	"\rlast_login_ip\x18  \x01(\tB\x14\xbaG\x11\x92\x02\x0e最后登录IPH\x11R\vlastLoginIp\x88\x01\x01\x123\n" +
 	"\tparent_id\x182 \x01(\rB\x11\xbaG\x0e\x92\x02\v父节点IDH\x12R\bparentId\x88\x01\x01\x12G\n" +
-	"\bchildren\x183 \x03(\v2\x17.user.service.v1.TenantB\x12\xbaG\x0f\x92\x02\f子节点树R\bchildren\x123\n" +
-	"\tcreate_by\x18d \x01(\rB\x11\xbaG\x0e\x92\x02\v创建者IDH\x13R\bcreateBy\x88\x01\x01\x123\n" +
-	"\tupdate_by\x18e \x01(\rB\x11\xbaG\x0e\x92\x02\v更新者IDH\x14R\bupdateBy\x88\x01\x01\x12U\n" +
-	"\vcreate_time\x18\xc8\x01 \x01(\v2\x1a.google.protobuf.TimestampB\x12\xbaG\x0f\x92\x02\f创建时间H\x15R\n" +
-	"createTime\x88\x01\x01\x12U\n" +
-	"\vupdate_time\x18\xc9\x01 \x01(\v2\x1a.google.protobuf.TimestampB\x12\xbaG\x0f\x92\x02\f更新时间H\x16R\n" +
-	"updateTime\x88\x01\x01\x12U\n" +
-	"\vdelete_time\x18\xca\x01 \x01(\v2\x1a.google.protobuf.TimestampB\x12\xbaG\x0f\x92\x02\f删除时间H\x17R\n" +
-	"deleteTime\x88\x01\x01\"2\n" +
+	"\bchildren\x183 \x03(\v2\x17.user.service.v1.TenantB\x12\xbaG\x0f\x92\x02\f子节点树R\bchildren\x125\n" +
+	"\n" +
+	"created_by\x18d \x01(\rB\x11\xbaG\x0e\x92\x02\v创建者IDH\x13R\tcreatedBy\x88\x01\x01\x125\n" +
+	"\n" +
+	"updated_by\x18e \x01(\rB\x11\xbaG\x0e\x92\x02\v更新者IDH\x14R\tupdatedBy\x88\x01\x01\x12;\n" +
+	"\n" +
+	"deleted_by\x18f \x01(\rB\x17\xbaG\x14\x92\x02\x11删除者用户IDH\x15R\tdeletedBy\x88\x01\x01\x12S\n" +
+	"\n" +
+	"created_at\x18\xc8\x01 \x01(\v2\x1a.google.protobuf.TimestampB\x12\xbaG\x0f\x92\x02\f创建时间H\x16R\tcreatedAt\x88\x01\x01\x12S\n" +
+	"\n" +
+	"updated_at\x18\xc9\x01 \x01(\v2\x1a.google.protobuf.TimestampB\x12\xbaG\x0f\x92\x02\f更新时间H\x17R\tupdatedAt\x88\x01\x01\x12S\n" +
+	"\n" +
+	"deleted_at\x18\xca\x01 \x01(\v2\x1a.google.protobuf.TimestampB\x12\xbaG\x0f\x92\x02\f删除时间H\x18R\tdeletedAt\x88\x01\x01\"2\n" +
 	"\x06Status\x12\a\n" +
 	"\x03OFF\x10\x00\x12\x06\n" +
 	"\x02ON\x10\x01\x12\v\n" +
@@ -974,14 +986,13 @@ const file_user_service_v1_tenant_proto_rawDesc = "" +
 	"\x10_last_login_timeB\x10\n" +
 	"\x0e_last_login_ipB\f\n" +
 	"\n" +
-	"_parent_idB\f\n" +
-	"\n" +
-	"_create_byB\f\n" +
-	"\n" +
-	"_update_byB\x0e\n" +
-	"\f_create_timeB\x0e\n" +
-	"\f_update_timeB\x0e\n" +
-	"\f_delete_time\"Y\n" +
+	"_parent_idB\r\n" +
+	"\v_created_byB\r\n" +
+	"\v_updated_byB\r\n" +
+	"\v_deleted_byB\r\n" +
+	"\v_created_atB\r\n" +
+	"\v_updated_atB\r\n" +
+	"\v_deleted_at\"Y\n" +
 	"\x12ListTenantResponse\x12-\n" +
 	"\x05items\x18\x01 \x03(\v2\x17.user.service.v1.TenantR\x05items\x12\x14\n" +
 	"\x05total\x18\x02 \x01(\rR\x05total\"\"\n" +
@@ -998,9 +1009,10 @@ const file_user_service_v1_tenant_proto_rawDesc = "" +
 	"\x13DeleteTenantRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\rR\x02id\"H\n" +
 	"\x19BatchCreateTenantsRequest\x12+\n" +
-	"\x04data\x18\x01 \x03(\v2\x17.user.service.v1.TenantR\x04data\"I\n" +
-	"\x1aBatchCreateTenantsResponse\x12+\n" +
-	"\x04data\x18\x01 \x03(\v2\x17.user.service.v1.TenantR\x04data\"?\n" +
+	"\x04data\x18\x01 \x03(\v2\x17.user.service.v1.TenantR\x04data\"b\n" +
+	"\x1aBatchCreateTenantsResponse\x12D\n" +
+	"\vcreated_ids\x18\x01 \x03(\x05B#\xbaG \x92\x02\x1d创建成功的租户ID列表R\n" +
+	"createdIds\"?\n" +
 	"\x13TenantExistsRequest\x12(\n" +
 	"\x04code\x18\x01 \x01(\tB\x14\xbaG\x11\x18\x01\x92\x02\f租户编码R\x04code\",\n" +
 	"\x14TenantExistsResponse\x12\x14\n" +
@@ -1061,36 +1073,35 @@ var file_user_service_v1_tenant_proto_depIdxs = []int32{
 	14, // 5: user.service.v1.Tenant.expired_at:type_name -> google.protobuf.Timestamp
 	14, // 6: user.service.v1.Tenant.last_login_time:type_name -> google.protobuf.Timestamp
 	3,  // 7: user.service.v1.Tenant.children:type_name -> user.service.v1.Tenant
-	14, // 8: user.service.v1.Tenant.create_time:type_name -> google.protobuf.Timestamp
-	14, // 9: user.service.v1.Tenant.update_time:type_name -> google.protobuf.Timestamp
-	14, // 10: user.service.v1.Tenant.delete_time:type_name -> google.protobuf.Timestamp
+	14, // 8: user.service.v1.Tenant.created_at:type_name -> google.protobuf.Timestamp
+	14, // 9: user.service.v1.Tenant.updated_at:type_name -> google.protobuf.Timestamp
+	14, // 10: user.service.v1.Tenant.deleted_at:type_name -> google.protobuf.Timestamp
 	3,  // 11: user.service.v1.ListTenantResponse.items:type_name -> user.service.v1.Tenant
 	3,  // 12: user.service.v1.CreateTenantRequest.data:type_name -> user.service.v1.Tenant
 	3,  // 13: user.service.v1.UpdateTenantRequest.data:type_name -> user.service.v1.Tenant
 	15, // 14: user.service.v1.UpdateTenantRequest.update_mask:type_name -> google.protobuf.FieldMask
 	3,  // 15: user.service.v1.BatchCreateTenantsRequest.data:type_name -> user.service.v1.Tenant
-	3,  // 16: user.service.v1.BatchCreateTenantsResponse.data:type_name -> user.service.v1.Tenant
-	16, // 17: user.service.v1.TenantService.List:input_type -> pagination.PagingRequest
-	5,  // 18: user.service.v1.TenantService.Get:input_type -> user.service.v1.GetTenantRequest
-	6,  // 19: user.service.v1.TenantService.Create:input_type -> user.service.v1.CreateTenantRequest
-	7,  // 20: user.service.v1.TenantService.Update:input_type -> user.service.v1.UpdateTenantRequest
-	8,  // 21: user.service.v1.TenantService.Delete:input_type -> user.service.v1.DeleteTenantRequest
-	9,  // 22: user.service.v1.TenantService.BatchCreate:input_type -> user.service.v1.BatchCreateTenantsRequest
-	11, // 23: user.service.v1.TenantService.TenantExists:input_type -> user.service.v1.TenantExistsRequest
-	13, // 24: user.service.v1.TenantService.GetTenantByTenantCode:input_type -> user.service.v1.GetTenantByTenantCodeRequest
-	4,  // 25: user.service.v1.TenantService.List:output_type -> user.service.v1.ListTenantResponse
-	3,  // 26: user.service.v1.TenantService.Get:output_type -> user.service.v1.Tenant
-	17, // 27: user.service.v1.TenantService.Create:output_type -> google.protobuf.Empty
-	17, // 28: user.service.v1.TenantService.Update:output_type -> google.protobuf.Empty
-	17, // 29: user.service.v1.TenantService.Delete:output_type -> google.protobuf.Empty
-	10, // 30: user.service.v1.TenantService.BatchCreate:output_type -> user.service.v1.BatchCreateTenantsResponse
-	12, // 31: user.service.v1.TenantService.TenantExists:output_type -> user.service.v1.TenantExistsResponse
-	3,  // 32: user.service.v1.TenantService.GetTenantByTenantCode:output_type -> user.service.v1.Tenant
-	25, // [25:33] is the sub-list for method output_type
-	17, // [17:25] is the sub-list for method input_type
-	17, // [17:17] is the sub-list for extension type_name
-	17, // [17:17] is the sub-list for extension extendee
-	0,  // [0:17] is the sub-list for field type_name
+	16, // 16: user.service.v1.TenantService.List:input_type -> pagination.PagingRequest
+	5,  // 17: user.service.v1.TenantService.Get:input_type -> user.service.v1.GetTenantRequest
+	6,  // 18: user.service.v1.TenantService.Create:input_type -> user.service.v1.CreateTenantRequest
+	7,  // 19: user.service.v1.TenantService.Update:input_type -> user.service.v1.UpdateTenantRequest
+	8,  // 20: user.service.v1.TenantService.Delete:input_type -> user.service.v1.DeleteTenantRequest
+	9,  // 21: user.service.v1.TenantService.BatchCreate:input_type -> user.service.v1.BatchCreateTenantsRequest
+	11, // 22: user.service.v1.TenantService.TenantExists:input_type -> user.service.v1.TenantExistsRequest
+	13, // 23: user.service.v1.TenantService.GetTenantByTenantCode:input_type -> user.service.v1.GetTenantByTenantCodeRequest
+	4,  // 24: user.service.v1.TenantService.List:output_type -> user.service.v1.ListTenantResponse
+	3,  // 25: user.service.v1.TenantService.Get:output_type -> user.service.v1.Tenant
+	17, // 26: user.service.v1.TenantService.Create:output_type -> google.protobuf.Empty
+	17, // 27: user.service.v1.TenantService.Update:output_type -> google.protobuf.Empty
+	17, // 28: user.service.v1.TenantService.Delete:output_type -> google.protobuf.Empty
+	10, // 29: user.service.v1.TenantService.BatchCreate:output_type -> user.service.v1.BatchCreateTenantsResponse
+	12, // 30: user.service.v1.TenantService.TenantExists:output_type -> user.service.v1.TenantExistsResponse
+	3,  // 31: user.service.v1.TenantService.GetTenantByTenantCode:output_type -> user.service.v1.Tenant
+	24, // [24:32] is the sub-list for method output_type
+	16, // [16:24] is the sub-list for method input_type
+	16, // [16:16] is the sub-list for extension type_name
+	16, // [16:16] is the sub-list for extension extendee
+	0,  // [0:16] is the sub-list for field type_name
 }
 
 func init() { file_user_service_v1_tenant_proto_init() }

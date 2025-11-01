@@ -54,24 +54,34 @@ func IDLTE(id uint32) predicate.RoleMenu {
 	return predicate.RoleMenu(sql.FieldLTE(FieldID, id))
 }
 
-// CreateTime applies equality check predicate on the "create_time" field. It's identical to CreateTimeEQ.
-func CreateTime(v time.Time) predicate.RoleMenu {
-	return predicate.RoleMenu(sql.FieldEQ(FieldCreateTime, v))
+// CreatedAt applies equality check predicate on the "created_at" field. It's identical to CreatedAtEQ.
+func CreatedAt(v time.Time) predicate.RoleMenu {
+	return predicate.RoleMenu(sql.FieldEQ(FieldCreatedAt, v))
 }
 
-// UpdateTime applies equality check predicate on the "update_time" field. It's identical to UpdateTimeEQ.
-func UpdateTime(v time.Time) predicate.RoleMenu {
-	return predicate.RoleMenu(sql.FieldEQ(FieldUpdateTime, v))
+// UpdatedAt applies equality check predicate on the "updated_at" field. It's identical to UpdatedAtEQ.
+func UpdatedAt(v time.Time) predicate.RoleMenu {
+	return predicate.RoleMenu(sql.FieldEQ(FieldUpdatedAt, v))
 }
 
-// DeleteTime applies equality check predicate on the "delete_time" field. It's identical to DeleteTimeEQ.
-func DeleteTime(v time.Time) predicate.RoleMenu {
-	return predicate.RoleMenu(sql.FieldEQ(FieldDeleteTime, v))
+// DeletedAt applies equality check predicate on the "deleted_at" field. It's identical to DeletedAtEQ.
+func DeletedAt(v time.Time) predicate.RoleMenu {
+	return predicate.RoleMenu(sql.FieldEQ(FieldDeletedAt, v))
 }
 
-// CreateBy applies equality check predicate on the "create_by" field. It's identical to CreateByEQ.
-func CreateBy(v uint32) predicate.RoleMenu {
-	return predicate.RoleMenu(sql.FieldEQ(FieldCreateBy, v))
+// CreatedBy applies equality check predicate on the "created_by" field. It's identical to CreatedByEQ.
+func CreatedBy(v uint32) predicate.RoleMenu {
+	return predicate.RoleMenu(sql.FieldEQ(FieldCreatedBy, v))
+}
+
+// UpdatedBy applies equality check predicate on the "updated_by" field. It's identical to UpdatedByEQ.
+func UpdatedBy(v uint32) predicate.RoleMenu {
+	return predicate.RoleMenu(sql.FieldEQ(FieldUpdatedBy, v))
+}
+
+// DeletedBy applies equality check predicate on the "deleted_by" field. It's identical to DeletedByEQ.
+func DeletedBy(v uint32) predicate.RoleMenu {
+	return predicate.RoleMenu(sql.FieldEQ(FieldDeletedBy, v))
 }
 
 // RoleID applies equality check predicate on the "role_id" field. It's identical to RoleIDEQ.
@@ -84,204 +94,304 @@ func MenuID(v uint32) predicate.RoleMenu {
 	return predicate.RoleMenu(sql.FieldEQ(FieldMenuID, v))
 }
 
-// CreateTimeEQ applies the EQ predicate on the "create_time" field.
-func CreateTimeEQ(v time.Time) predicate.RoleMenu {
-	return predicate.RoleMenu(sql.FieldEQ(FieldCreateTime, v))
+// CreatedAtEQ applies the EQ predicate on the "created_at" field.
+func CreatedAtEQ(v time.Time) predicate.RoleMenu {
+	return predicate.RoleMenu(sql.FieldEQ(FieldCreatedAt, v))
 }
 
-// CreateTimeNEQ applies the NEQ predicate on the "create_time" field.
-func CreateTimeNEQ(v time.Time) predicate.RoleMenu {
-	return predicate.RoleMenu(sql.FieldNEQ(FieldCreateTime, v))
+// CreatedAtNEQ applies the NEQ predicate on the "created_at" field.
+func CreatedAtNEQ(v time.Time) predicate.RoleMenu {
+	return predicate.RoleMenu(sql.FieldNEQ(FieldCreatedAt, v))
 }
 
-// CreateTimeIn applies the In predicate on the "create_time" field.
-func CreateTimeIn(vs ...time.Time) predicate.RoleMenu {
-	return predicate.RoleMenu(sql.FieldIn(FieldCreateTime, vs...))
+// CreatedAtIn applies the In predicate on the "created_at" field.
+func CreatedAtIn(vs ...time.Time) predicate.RoleMenu {
+	return predicate.RoleMenu(sql.FieldIn(FieldCreatedAt, vs...))
 }
 
-// CreateTimeNotIn applies the NotIn predicate on the "create_time" field.
-func CreateTimeNotIn(vs ...time.Time) predicate.RoleMenu {
-	return predicate.RoleMenu(sql.FieldNotIn(FieldCreateTime, vs...))
+// CreatedAtNotIn applies the NotIn predicate on the "created_at" field.
+func CreatedAtNotIn(vs ...time.Time) predicate.RoleMenu {
+	return predicate.RoleMenu(sql.FieldNotIn(FieldCreatedAt, vs...))
 }
 
-// CreateTimeGT applies the GT predicate on the "create_time" field.
-func CreateTimeGT(v time.Time) predicate.RoleMenu {
-	return predicate.RoleMenu(sql.FieldGT(FieldCreateTime, v))
+// CreatedAtGT applies the GT predicate on the "created_at" field.
+func CreatedAtGT(v time.Time) predicate.RoleMenu {
+	return predicate.RoleMenu(sql.FieldGT(FieldCreatedAt, v))
 }
 
-// CreateTimeGTE applies the GTE predicate on the "create_time" field.
-func CreateTimeGTE(v time.Time) predicate.RoleMenu {
-	return predicate.RoleMenu(sql.FieldGTE(FieldCreateTime, v))
+// CreatedAtGTE applies the GTE predicate on the "created_at" field.
+func CreatedAtGTE(v time.Time) predicate.RoleMenu {
+	return predicate.RoleMenu(sql.FieldGTE(FieldCreatedAt, v))
 }
 
-// CreateTimeLT applies the LT predicate on the "create_time" field.
-func CreateTimeLT(v time.Time) predicate.RoleMenu {
-	return predicate.RoleMenu(sql.FieldLT(FieldCreateTime, v))
+// CreatedAtLT applies the LT predicate on the "created_at" field.
+func CreatedAtLT(v time.Time) predicate.RoleMenu {
+	return predicate.RoleMenu(sql.FieldLT(FieldCreatedAt, v))
 }
 
-// CreateTimeLTE applies the LTE predicate on the "create_time" field.
-func CreateTimeLTE(v time.Time) predicate.RoleMenu {
-	return predicate.RoleMenu(sql.FieldLTE(FieldCreateTime, v))
+// CreatedAtLTE applies the LTE predicate on the "created_at" field.
+func CreatedAtLTE(v time.Time) predicate.RoleMenu {
+	return predicate.RoleMenu(sql.FieldLTE(FieldCreatedAt, v))
 }
 
-// CreateTimeIsNil applies the IsNil predicate on the "create_time" field.
-func CreateTimeIsNil() predicate.RoleMenu {
-	return predicate.RoleMenu(sql.FieldIsNull(FieldCreateTime))
+// CreatedAtIsNil applies the IsNil predicate on the "created_at" field.
+func CreatedAtIsNil() predicate.RoleMenu {
+	return predicate.RoleMenu(sql.FieldIsNull(FieldCreatedAt))
 }
 
-// CreateTimeNotNil applies the NotNil predicate on the "create_time" field.
-func CreateTimeNotNil() predicate.RoleMenu {
-	return predicate.RoleMenu(sql.FieldNotNull(FieldCreateTime))
+// CreatedAtNotNil applies the NotNil predicate on the "created_at" field.
+func CreatedAtNotNil() predicate.RoleMenu {
+	return predicate.RoleMenu(sql.FieldNotNull(FieldCreatedAt))
 }
 
-// UpdateTimeEQ applies the EQ predicate on the "update_time" field.
-func UpdateTimeEQ(v time.Time) predicate.RoleMenu {
-	return predicate.RoleMenu(sql.FieldEQ(FieldUpdateTime, v))
+// UpdatedAtEQ applies the EQ predicate on the "updated_at" field.
+func UpdatedAtEQ(v time.Time) predicate.RoleMenu {
+	return predicate.RoleMenu(sql.FieldEQ(FieldUpdatedAt, v))
 }
 
-// UpdateTimeNEQ applies the NEQ predicate on the "update_time" field.
-func UpdateTimeNEQ(v time.Time) predicate.RoleMenu {
-	return predicate.RoleMenu(sql.FieldNEQ(FieldUpdateTime, v))
+// UpdatedAtNEQ applies the NEQ predicate on the "updated_at" field.
+func UpdatedAtNEQ(v time.Time) predicate.RoleMenu {
+	return predicate.RoleMenu(sql.FieldNEQ(FieldUpdatedAt, v))
 }
 
-// UpdateTimeIn applies the In predicate on the "update_time" field.
-func UpdateTimeIn(vs ...time.Time) predicate.RoleMenu {
-	return predicate.RoleMenu(sql.FieldIn(FieldUpdateTime, vs...))
+// UpdatedAtIn applies the In predicate on the "updated_at" field.
+func UpdatedAtIn(vs ...time.Time) predicate.RoleMenu {
+	return predicate.RoleMenu(sql.FieldIn(FieldUpdatedAt, vs...))
 }
 
-// UpdateTimeNotIn applies the NotIn predicate on the "update_time" field.
-func UpdateTimeNotIn(vs ...time.Time) predicate.RoleMenu {
-	return predicate.RoleMenu(sql.FieldNotIn(FieldUpdateTime, vs...))
+// UpdatedAtNotIn applies the NotIn predicate on the "updated_at" field.
+func UpdatedAtNotIn(vs ...time.Time) predicate.RoleMenu {
+	return predicate.RoleMenu(sql.FieldNotIn(FieldUpdatedAt, vs...))
 }
 
-// UpdateTimeGT applies the GT predicate on the "update_time" field.
-func UpdateTimeGT(v time.Time) predicate.RoleMenu {
-	return predicate.RoleMenu(sql.FieldGT(FieldUpdateTime, v))
+// UpdatedAtGT applies the GT predicate on the "updated_at" field.
+func UpdatedAtGT(v time.Time) predicate.RoleMenu {
+	return predicate.RoleMenu(sql.FieldGT(FieldUpdatedAt, v))
 }
 
-// UpdateTimeGTE applies the GTE predicate on the "update_time" field.
-func UpdateTimeGTE(v time.Time) predicate.RoleMenu {
-	return predicate.RoleMenu(sql.FieldGTE(FieldUpdateTime, v))
+// UpdatedAtGTE applies the GTE predicate on the "updated_at" field.
+func UpdatedAtGTE(v time.Time) predicate.RoleMenu {
+	return predicate.RoleMenu(sql.FieldGTE(FieldUpdatedAt, v))
 }
 
-// UpdateTimeLT applies the LT predicate on the "update_time" field.
-func UpdateTimeLT(v time.Time) predicate.RoleMenu {
-	return predicate.RoleMenu(sql.FieldLT(FieldUpdateTime, v))
+// UpdatedAtLT applies the LT predicate on the "updated_at" field.
+func UpdatedAtLT(v time.Time) predicate.RoleMenu {
+	return predicate.RoleMenu(sql.FieldLT(FieldUpdatedAt, v))
 }
 
-// UpdateTimeLTE applies the LTE predicate on the "update_time" field.
-func UpdateTimeLTE(v time.Time) predicate.RoleMenu {
-	return predicate.RoleMenu(sql.FieldLTE(FieldUpdateTime, v))
+// UpdatedAtLTE applies the LTE predicate on the "updated_at" field.
+func UpdatedAtLTE(v time.Time) predicate.RoleMenu {
+	return predicate.RoleMenu(sql.FieldLTE(FieldUpdatedAt, v))
 }
 
-// UpdateTimeIsNil applies the IsNil predicate on the "update_time" field.
-func UpdateTimeIsNil() predicate.RoleMenu {
-	return predicate.RoleMenu(sql.FieldIsNull(FieldUpdateTime))
+// UpdatedAtIsNil applies the IsNil predicate on the "updated_at" field.
+func UpdatedAtIsNil() predicate.RoleMenu {
+	return predicate.RoleMenu(sql.FieldIsNull(FieldUpdatedAt))
 }
 
-// UpdateTimeNotNil applies the NotNil predicate on the "update_time" field.
-func UpdateTimeNotNil() predicate.RoleMenu {
-	return predicate.RoleMenu(sql.FieldNotNull(FieldUpdateTime))
+// UpdatedAtNotNil applies the NotNil predicate on the "updated_at" field.
+func UpdatedAtNotNil() predicate.RoleMenu {
+	return predicate.RoleMenu(sql.FieldNotNull(FieldUpdatedAt))
 }
 
-// DeleteTimeEQ applies the EQ predicate on the "delete_time" field.
-func DeleteTimeEQ(v time.Time) predicate.RoleMenu {
-	return predicate.RoleMenu(sql.FieldEQ(FieldDeleteTime, v))
+// DeletedAtEQ applies the EQ predicate on the "deleted_at" field.
+func DeletedAtEQ(v time.Time) predicate.RoleMenu {
+	return predicate.RoleMenu(sql.FieldEQ(FieldDeletedAt, v))
 }
 
-// DeleteTimeNEQ applies the NEQ predicate on the "delete_time" field.
-func DeleteTimeNEQ(v time.Time) predicate.RoleMenu {
-	return predicate.RoleMenu(sql.FieldNEQ(FieldDeleteTime, v))
+// DeletedAtNEQ applies the NEQ predicate on the "deleted_at" field.
+func DeletedAtNEQ(v time.Time) predicate.RoleMenu {
+	return predicate.RoleMenu(sql.FieldNEQ(FieldDeletedAt, v))
 }
 
-// DeleteTimeIn applies the In predicate on the "delete_time" field.
-func DeleteTimeIn(vs ...time.Time) predicate.RoleMenu {
-	return predicate.RoleMenu(sql.FieldIn(FieldDeleteTime, vs...))
+// DeletedAtIn applies the In predicate on the "deleted_at" field.
+func DeletedAtIn(vs ...time.Time) predicate.RoleMenu {
+	return predicate.RoleMenu(sql.FieldIn(FieldDeletedAt, vs...))
 }
 
-// DeleteTimeNotIn applies the NotIn predicate on the "delete_time" field.
-func DeleteTimeNotIn(vs ...time.Time) predicate.RoleMenu {
-	return predicate.RoleMenu(sql.FieldNotIn(FieldDeleteTime, vs...))
+// DeletedAtNotIn applies the NotIn predicate on the "deleted_at" field.
+func DeletedAtNotIn(vs ...time.Time) predicate.RoleMenu {
+	return predicate.RoleMenu(sql.FieldNotIn(FieldDeletedAt, vs...))
 }
 
-// DeleteTimeGT applies the GT predicate on the "delete_time" field.
-func DeleteTimeGT(v time.Time) predicate.RoleMenu {
-	return predicate.RoleMenu(sql.FieldGT(FieldDeleteTime, v))
+// DeletedAtGT applies the GT predicate on the "deleted_at" field.
+func DeletedAtGT(v time.Time) predicate.RoleMenu {
+	return predicate.RoleMenu(sql.FieldGT(FieldDeletedAt, v))
 }
 
-// DeleteTimeGTE applies the GTE predicate on the "delete_time" field.
-func DeleteTimeGTE(v time.Time) predicate.RoleMenu {
-	return predicate.RoleMenu(sql.FieldGTE(FieldDeleteTime, v))
+// DeletedAtGTE applies the GTE predicate on the "deleted_at" field.
+func DeletedAtGTE(v time.Time) predicate.RoleMenu {
+	return predicate.RoleMenu(sql.FieldGTE(FieldDeletedAt, v))
 }
 
-// DeleteTimeLT applies the LT predicate on the "delete_time" field.
-func DeleteTimeLT(v time.Time) predicate.RoleMenu {
-	return predicate.RoleMenu(sql.FieldLT(FieldDeleteTime, v))
+// DeletedAtLT applies the LT predicate on the "deleted_at" field.
+func DeletedAtLT(v time.Time) predicate.RoleMenu {
+	return predicate.RoleMenu(sql.FieldLT(FieldDeletedAt, v))
 }
 
-// DeleteTimeLTE applies the LTE predicate on the "delete_time" field.
-func DeleteTimeLTE(v time.Time) predicate.RoleMenu {
-	return predicate.RoleMenu(sql.FieldLTE(FieldDeleteTime, v))
+// DeletedAtLTE applies the LTE predicate on the "deleted_at" field.
+func DeletedAtLTE(v time.Time) predicate.RoleMenu {
+	return predicate.RoleMenu(sql.FieldLTE(FieldDeletedAt, v))
 }
 
-// DeleteTimeIsNil applies the IsNil predicate on the "delete_time" field.
-func DeleteTimeIsNil() predicate.RoleMenu {
-	return predicate.RoleMenu(sql.FieldIsNull(FieldDeleteTime))
+// DeletedAtIsNil applies the IsNil predicate on the "deleted_at" field.
+func DeletedAtIsNil() predicate.RoleMenu {
+	return predicate.RoleMenu(sql.FieldIsNull(FieldDeletedAt))
 }
 
-// DeleteTimeNotNil applies the NotNil predicate on the "delete_time" field.
-func DeleteTimeNotNil() predicate.RoleMenu {
-	return predicate.RoleMenu(sql.FieldNotNull(FieldDeleteTime))
+// DeletedAtNotNil applies the NotNil predicate on the "deleted_at" field.
+func DeletedAtNotNil() predicate.RoleMenu {
+	return predicate.RoleMenu(sql.FieldNotNull(FieldDeletedAt))
 }
 
-// CreateByEQ applies the EQ predicate on the "create_by" field.
-func CreateByEQ(v uint32) predicate.RoleMenu {
-	return predicate.RoleMenu(sql.FieldEQ(FieldCreateBy, v))
+// CreatedByEQ applies the EQ predicate on the "created_by" field.
+func CreatedByEQ(v uint32) predicate.RoleMenu {
+	return predicate.RoleMenu(sql.FieldEQ(FieldCreatedBy, v))
 }
 
-// CreateByNEQ applies the NEQ predicate on the "create_by" field.
-func CreateByNEQ(v uint32) predicate.RoleMenu {
-	return predicate.RoleMenu(sql.FieldNEQ(FieldCreateBy, v))
+// CreatedByNEQ applies the NEQ predicate on the "created_by" field.
+func CreatedByNEQ(v uint32) predicate.RoleMenu {
+	return predicate.RoleMenu(sql.FieldNEQ(FieldCreatedBy, v))
 }
 
-// CreateByIn applies the In predicate on the "create_by" field.
-func CreateByIn(vs ...uint32) predicate.RoleMenu {
-	return predicate.RoleMenu(sql.FieldIn(FieldCreateBy, vs...))
+// CreatedByIn applies the In predicate on the "created_by" field.
+func CreatedByIn(vs ...uint32) predicate.RoleMenu {
+	return predicate.RoleMenu(sql.FieldIn(FieldCreatedBy, vs...))
 }
 
-// CreateByNotIn applies the NotIn predicate on the "create_by" field.
-func CreateByNotIn(vs ...uint32) predicate.RoleMenu {
-	return predicate.RoleMenu(sql.FieldNotIn(FieldCreateBy, vs...))
+// CreatedByNotIn applies the NotIn predicate on the "created_by" field.
+func CreatedByNotIn(vs ...uint32) predicate.RoleMenu {
+	return predicate.RoleMenu(sql.FieldNotIn(FieldCreatedBy, vs...))
 }
 
-// CreateByGT applies the GT predicate on the "create_by" field.
-func CreateByGT(v uint32) predicate.RoleMenu {
-	return predicate.RoleMenu(sql.FieldGT(FieldCreateBy, v))
+// CreatedByGT applies the GT predicate on the "created_by" field.
+func CreatedByGT(v uint32) predicate.RoleMenu {
+	return predicate.RoleMenu(sql.FieldGT(FieldCreatedBy, v))
 }
 
-// CreateByGTE applies the GTE predicate on the "create_by" field.
-func CreateByGTE(v uint32) predicate.RoleMenu {
-	return predicate.RoleMenu(sql.FieldGTE(FieldCreateBy, v))
+// CreatedByGTE applies the GTE predicate on the "created_by" field.
+func CreatedByGTE(v uint32) predicate.RoleMenu {
+	return predicate.RoleMenu(sql.FieldGTE(FieldCreatedBy, v))
 }
 
-// CreateByLT applies the LT predicate on the "create_by" field.
-func CreateByLT(v uint32) predicate.RoleMenu {
-	return predicate.RoleMenu(sql.FieldLT(FieldCreateBy, v))
+// CreatedByLT applies the LT predicate on the "created_by" field.
+func CreatedByLT(v uint32) predicate.RoleMenu {
+	return predicate.RoleMenu(sql.FieldLT(FieldCreatedBy, v))
 }
 
-// CreateByLTE applies the LTE predicate on the "create_by" field.
-func CreateByLTE(v uint32) predicate.RoleMenu {
-	return predicate.RoleMenu(sql.FieldLTE(FieldCreateBy, v))
+// CreatedByLTE applies the LTE predicate on the "created_by" field.
+func CreatedByLTE(v uint32) predicate.RoleMenu {
+	return predicate.RoleMenu(sql.FieldLTE(FieldCreatedBy, v))
 }
 
-// CreateByIsNil applies the IsNil predicate on the "create_by" field.
-func CreateByIsNil() predicate.RoleMenu {
-	return predicate.RoleMenu(sql.FieldIsNull(FieldCreateBy))
+// CreatedByIsNil applies the IsNil predicate on the "created_by" field.
+func CreatedByIsNil() predicate.RoleMenu {
+	return predicate.RoleMenu(sql.FieldIsNull(FieldCreatedBy))
 }
 
-// CreateByNotNil applies the NotNil predicate on the "create_by" field.
-func CreateByNotNil() predicate.RoleMenu {
-	return predicate.RoleMenu(sql.FieldNotNull(FieldCreateBy))
+// CreatedByNotNil applies the NotNil predicate on the "created_by" field.
+func CreatedByNotNil() predicate.RoleMenu {
+	return predicate.RoleMenu(sql.FieldNotNull(FieldCreatedBy))
+}
+
+// UpdatedByEQ applies the EQ predicate on the "updated_by" field.
+func UpdatedByEQ(v uint32) predicate.RoleMenu {
+	return predicate.RoleMenu(sql.FieldEQ(FieldUpdatedBy, v))
+}
+
+// UpdatedByNEQ applies the NEQ predicate on the "updated_by" field.
+func UpdatedByNEQ(v uint32) predicate.RoleMenu {
+	return predicate.RoleMenu(sql.FieldNEQ(FieldUpdatedBy, v))
+}
+
+// UpdatedByIn applies the In predicate on the "updated_by" field.
+func UpdatedByIn(vs ...uint32) predicate.RoleMenu {
+	return predicate.RoleMenu(sql.FieldIn(FieldUpdatedBy, vs...))
+}
+
+// UpdatedByNotIn applies the NotIn predicate on the "updated_by" field.
+func UpdatedByNotIn(vs ...uint32) predicate.RoleMenu {
+	return predicate.RoleMenu(sql.FieldNotIn(FieldUpdatedBy, vs...))
+}
+
+// UpdatedByGT applies the GT predicate on the "updated_by" field.
+func UpdatedByGT(v uint32) predicate.RoleMenu {
+	return predicate.RoleMenu(sql.FieldGT(FieldUpdatedBy, v))
+}
+
+// UpdatedByGTE applies the GTE predicate on the "updated_by" field.
+func UpdatedByGTE(v uint32) predicate.RoleMenu {
+	return predicate.RoleMenu(sql.FieldGTE(FieldUpdatedBy, v))
+}
+
+// UpdatedByLT applies the LT predicate on the "updated_by" field.
+func UpdatedByLT(v uint32) predicate.RoleMenu {
+	return predicate.RoleMenu(sql.FieldLT(FieldUpdatedBy, v))
+}
+
+// UpdatedByLTE applies the LTE predicate on the "updated_by" field.
+func UpdatedByLTE(v uint32) predicate.RoleMenu {
+	return predicate.RoleMenu(sql.FieldLTE(FieldUpdatedBy, v))
+}
+
+// UpdatedByIsNil applies the IsNil predicate on the "updated_by" field.
+func UpdatedByIsNil() predicate.RoleMenu {
+	return predicate.RoleMenu(sql.FieldIsNull(FieldUpdatedBy))
+}
+
+// UpdatedByNotNil applies the NotNil predicate on the "updated_by" field.
+func UpdatedByNotNil() predicate.RoleMenu {
+	return predicate.RoleMenu(sql.FieldNotNull(FieldUpdatedBy))
+}
+
+// DeletedByEQ applies the EQ predicate on the "deleted_by" field.
+func DeletedByEQ(v uint32) predicate.RoleMenu {
+	return predicate.RoleMenu(sql.FieldEQ(FieldDeletedBy, v))
+}
+
+// DeletedByNEQ applies the NEQ predicate on the "deleted_by" field.
+func DeletedByNEQ(v uint32) predicate.RoleMenu {
+	return predicate.RoleMenu(sql.FieldNEQ(FieldDeletedBy, v))
+}
+
+// DeletedByIn applies the In predicate on the "deleted_by" field.
+func DeletedByIn(vs ...uint32) predicate.RoleMenu {
+	return predicate.RoleMenu(sql.FieldIn(FieldDeletedBy, vs...))
+}
+
+// DeletedByNotIn applies the NotIn predicate on the "deleted_by" field.
+func DeletedByNotIn(vs ...uint32) predicate.RoleMenu {
+	return predicate.RoleMenu(sql.FieldNotIn(FieldDeletedBy, vs...))
+}
+
+// DeletedByGT applies the GT predicate on the "deleted_by" field.
+func DeletedByGT(v uint32) predicate.RoleMenu {
+	return predicate.RoleMenu(sql.FieldGT(FieldDeletedBy, v))
+}
+
+// DeletedByGTE applies the GTE predicate on the "deleted_by" field.
+func DeletedByGTE(v uint32) predicate.RoleMenu {
+	return predicate.RoleMenu(sql.FieldGTE(FieldDeletedBy, v))
+}
+
+// DeletedByLT applies the LT predicate on the "deleted_by" field.
+func DeletedByLT(v uint32) predicate.RoleMenu {
+	return predicate.RoleMenu(sql.FieldLT(FieldDeletedBy, v))
+}
+
+// DeletedByLTE applies the LTE predicate on the "deleted_by" field.
+func DeletedByLTE(v uint32) predicate.RoleMenu {
+	return predicate.RoleMenu(sql.FieldLTE(FieldDeletedBy, v))
+}
+
+// DeletedByIsNil applies the IsNil predicate on the "deleted_by" field.
+func DeletedByIsNil() predicate.RoleMenu {
+	return predicate.RoleMenu(sql.FieldIsNull(FieldDeletedBy))
+}
+
+// DeletedByNotNil applies the NotNil predicate on the "deleted_by" field.
+func DeletedByNotNil() predicate.RoleMenu {
+	return predicate.RoleMenu(sql.FieldNotNull(FieldDeletedBy))
 }
 
 // RoleIDEQ applies the EQ predicate on the "role_id" field.

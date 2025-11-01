@@ -51,7 +51,7 @@ export function useTabbar() {
   watch(
     [
       () => tabbarStore.getTabs,
-      () => tabbarStore.updateTime,
+      () => tabbarStore.updatedAt,
       () => locale.value,
     ],
     ([tabs]) => {

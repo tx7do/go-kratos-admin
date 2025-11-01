@@ -7,8 +7,6 @@ import (
 	"entgo.io/ent/schema/field"
 	"entgo.io/ent/schema/index"
 	"github.com/tx7do/go-utils/entgo/mixin"
-
-	appmixin "kratos-admin/pkg/entgo/mixin"
 )
 
 // User holds the schema definition for the User entity.
@@ -170,11 +168,10 @@ func (User) Fields() []ent.Field {
 func (User) Mixin() []ent.Mixin {
 	return []ent.Mixin{
 		mixin.AutoIncrementId{},
-		mixin.CreateBy{},
-		mixin.UpdateBy{},
-		mixin.Time{},
+		mixin.OperatorID{},
+		mixin.TimeAt{},
 		mixin.Remark{},
-		appmixin.TenantID{},
+		mixin.TenantID{},
 	}
 }
 

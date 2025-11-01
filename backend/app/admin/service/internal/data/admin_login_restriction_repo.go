@@ -77,7 +77,7 @@ func (r *AdminLoginRestrictionRepo) List(ctx context.Context, req *pagination.Pa
 	err, whereSelectors, querySelectors := entgo.BuildQuerySelector(
 		req.GetQuery(), req.GetOrQuery(),
 		req.GetPage(), req.GetPageSize(), req.GetNoPaging(),
-		req.GetOrderBy(), adminloginrestriction.FieldCreateTime,
+		req.GetOrderBy(), adminloginrestriction.FieldCreatedAt,
 		req.GetFieldMask().GetPaths(),
 	)
 	if err != nil {
@@ -153,11 +153,11 @@ func (r *AdminLoginRestrictionRepo) Create(ctx context.Context, req *adminV1.Cre
 		SetNillableMethod(r.methodConverter.ToEntity(req.Data.Method)).
 		SetNillableValue(req.Data.Value).
 		SetNillableReason(req.Data.Reason).
-		SetNillableCreateBy(req.Data.CreateBy).
-		SetNillableCreateTime(timeutil.TimestamppbToTime(req.Data.CreateTime))
+		SetNillableCreatedBy(req.Data.CreatedBy).
+		SetNillableCreatedAt(timeutil.TimestamppbToTime(req.Data.CreatedAt))
 
-	if req.Data.CreateTime == nil {
-		builder.SetCreateTime(time.Now())
+	if req.Data.CreatedAt == nil {
+		builder.SetCreatedAt(time.Now())
 	}
 
 	if err := builder.Exec(ctx); err != nil {
@@ -181,8 +181,8 @@ func (r *AdminLoginRestrictionRepo) Update(ctx context.Context, req *adminV1.Upd
 		}
 		if !exist {
 			createReq := &adminV1.CreateAdminLoginRestrictionRequest{Data: req.Data}
-			createReq.Data.CreateBy = createReq.Data.UpdateBy
-			createReq.Data.UpdateBy = nil
+			createReq.Data.CreatedBy = createReq.Data.UpdatedBy
+			createReq.Data.UpdatedBy = nil
 			return r.Create(ctx, createReq)
 		}
 	}
@@ -202,11 +202,11 @@ func (r *AdminLoginRestrictionRepo) Update(ctx context.Context, req *adminV1.Upd
 		SetNillableMethod(r.methodConverter.ToEntity(req.Data.Method)).
 		SetNillableValue(req.Data.Value).
 		SetNillableReason(req.Data.Reason).
-		SetNillableUpdateBy(req.Data.UpdateBy).
-		SetNillableUpdateTime(timeutil.TimestamppbToTime(req.Data.UpdateTime))
+		SetNillableUpdatedBy(req.Data.UpdatedBy).
+		SetNillableUpdatedAt(timeutil.TimestamppbToTime(req.Data.UpdatedAt))
 
-	if req.Data.UpdateTime == nil {
-		builder.SetUpdateTime(time.Now())
+	if req.Data.UpdatedAt == nil {
+		builder.SetUpdatedAt(time.Now())
 	}
 
 	if req.UpdateMask != nil {

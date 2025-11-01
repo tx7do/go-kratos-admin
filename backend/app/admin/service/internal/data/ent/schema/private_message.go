@@ -6,8 +6,6 @@ import (
 	"entgo.io/ent/schema"
 	"entgo.io/ent/schema/field"
 	"github.com/tx7do/go-utils/entgo/mixin"
-
-	appmixin "kratos-admin/pkg/entgo/mixin"
 )
 
 // PrivateMessage holds the schema definition for the PrivateMessage entity.
@@ -70,7 +68,7 @@ func (PrivateMessage) Fields() []ent.Field {
 func (PrivateMessage) Mixin() []ent.Mixin {
 	return []ent.Mixin{
 		mixin.AutoIncrementId{},
-		mixin.Time{},
-		appmixin.TenantID{},
+		mixin.TimeAt{},
+		mixin.TenantID{},
 	}
 }

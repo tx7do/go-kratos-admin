@@ -26,8 +26,8 @@ export interface NotificationMessageCategory {
     | string
     | null
     | undefined;
-  /** 排序编号 */
-  sortId?:
+  /** 排序顺序，值越小越靠前 */
+  sortOrder?:
     | number
     | null
     | undefined;
@@ -44,27 +44,32 @@ export interface NotificationMessageCategory {
   /** 子节点树 */
   children: NotificationMessageCategory[];
   /** 创建者ID */
-  createBy?:
+  createdBy?:
     | number
     | null
     | undefined;
   /** 更新者ID */
-  updateBy?:
+  updatedBy?:
+    | number
+    | null
+    | undefined;
+  /** 删除者用户ID */
+  deletedBy?:
     | number
     | null
     | undefined;
   /** 创建时间 */
-  createTime?:
+  createdAt?:
     | Timestamp
     | null
     | undefined;
   /** 更新时间 */
-  updateTime?:
+  updatedAt?:
     | Timestamp
     | null
     | undefined;
   /** 删除时间 */
-  deleteTime?: Timestamp | null | undefined;
+  deletedAt?: Timestamp | null | undefined;
 }
 
 /** 查询通知消息分类列表 - 回应 */

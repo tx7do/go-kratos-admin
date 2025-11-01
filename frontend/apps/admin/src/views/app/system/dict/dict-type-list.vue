@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { VxeGridListeners, VxeGridProps } from '#/adapter/vxe-table';
-import type { DictMain } from '#/generated/api/dict/service/v1/dict.pb';
+import type { DictType } from '#/generated/api/dict/service/v1/dict.pb';
 import type { User } from '#/generated/api/user/service/v1/user.pb';
 
 import { h } from 'vue';
@@ -12,10 +12,10 @@ import { notification } from 'ant-design-vue';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
 import { $t } from '#/locales';
-import { statusToColor, statusToName, useDictStore } from '#/stores';
+import { enableBoolToColor, enableBoolToName, useDictStore } from '#/stores';
 import { useDictViewStore } from '#/views/app/system/dict/dict_view.state';
 
-import DictMainDrawer from './dict-main-drawer.vue';
+import DictTypeDrawer from './dict-type-drawer.vue';
 
 const dictStore = useDictStore();
 const dictViewStore = useDictViewStore();
@@ -30,8 +30,8 @@ const formOptions: VbenFormProps = {
   schema: [
     {
       component: 'Input',
-      fieldName: 'code',
-      label: $t('page.dict.code'),
+      fieldName: 'type_code',
+      label: $t('page.dict.typeCode'),
       componentProps: {
         placeholder: $t('ui.placeholder.input'),
         allowClear: true,
@@ -40,7 +40,7 @@ const formOptions: VbenFormProps = {
   ],
 };
 
-const gridOptions: VxeGridProps<DictMain> = {
+const gridOptions: VxeGridProps<DictType> = {
   toolbarConfig: {
     custom: false,
     export: true,
@@ -60,7 +60,7 @@ const gridOptions: VxeGridProps<DictMain> = {
     ajax: {
       query: async ({ page }, formValues) => {
         // console.log('query:', filters, form, formValues);
-        return await dictViewStore.fetchMainList(
+        return await dictViewStore.fetchTypeList(
           page.currentPage,
           page.pageSize,
           formValues,
@@ -70,13 +70,13 @@ const gridOptions: VxeGridProps<DictMain> = {
   },
 
   columns: [
-    { title: $t('page.dict.name'), field: 'name' },
-    { title: $t('page.dict.code'), field: 'code' },
-    { title: $t('ui.table.sortId'), field: 'sortId' },
+    { title: $t('page.dict.typeName'), field: 'typeName' },
+    { title: $t('page.dict.typeName'), field: 'typeName' },
+    { title: $t('ui.table.sortOrder'), field: 'sortOrder' },
     {
       title: $t('ui.table.status'),
-      field: 'status',
-      slots: { default: 'status' },
+      field: 'isEnabled',
+      slots: { default: 'isEnabled' },
       width: 95,
     },
     {
@@ -96,7 +96,7 @@ const gridEvents: VxeGridListeners<User> = {
   // },
   cellClick: ({ row }) => {
     // console.log(`cell-click: ${row.id}`);
-    dictViewStore.setCurrentMain(typeof row.id === 'number' ? row.id : 0);
+    dictViewStore.setCurrentTypeId(typeof row.id === 'number' ? row.id : 0);
   },
 };
 
@@ -107,7 +107,7 @@ const [Grid, gridApi] = useVbenVxeGrid({
 });
 
 const [Drawer, drawerApi] = useVbenDrawer({
-  connectedComponent: DictMainDrawer,
+  connectedComponent: DictTypeDrawer,
 
   onOpenChange(isOpen: boolean) {
     if (!isOpen) {
@@ -143,7 +143,7 @@ async function handleDelete(row: any) {
   console.log('删除', row);
 
   try {
-    await dictStore.deleteDictMain([row.id]);
+    await dictStore.deleteDictType([row.id]);
 
     notification.success({
       message: $t('ui.notification.delete_success'),
@@ -159,15 +159,15 @@ async function handleDelete(row: any) {
 </script>
 
 <template>
-  <Grid :table-title="$t('page.dict.dictMainList')">
+  <Grid :table-title="$t('page.dict.dictTypeList')">
     <template #toolbar-tools>
       <a-button type="primary" @click="handleCreate">
         {{ $t('page.dict.button.create') }}
       </a-button>
     </template>
-    <template #status="{ row }">
-      <a-tag :color="statusToColor(row.status)">
-        {{ statusToName(row.status) }}
+    <template #isEnabled="{ row }">
+      <a-tag :color="enableBoolToColor(row.isEnabled)">
+        {{ enableBoolToName(row.isEnabled) }}
       </a-tag>
     </template>
     <template #action="{ row }">

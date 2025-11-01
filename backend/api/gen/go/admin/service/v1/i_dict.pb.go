@@ -31,52 +31,52 @@ var File_admin_service_v1_i_dict_proto protoreflect.FileDescriptor
 
 const file_admin_service_v1_i_dict_proto_rawDesc = "" +
 	"\n" +
-	"\x1dadmin/service/v1/i_dict.proto\x12\x10admin.service.v1\x1a$gnostic/openapi/v3/annotations.proto\x1a\x1cgoogle/api/annotations.proto\x1a\x1fgoogle/api/field_behavior.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a google/protobuf/field_mask.proto\x1a\x1epagination/v1/pagination.proto\x1a\x1adict/service/v1/dict.proto2\xc4\b\n" +
+	"\x1dadmin/service/v1/i_dict.proto\x12\x10admin.service.v1\x1a$gnostic/openapi/v3/annotations.proto\x1a\x1cgoogle/api/annotations.proto\x1a\x1fgoogle/api/field_behavior.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a google/protobuf/field_mask.proto\x1a\x1epagination/v1/pagination.proto\x1a\x1adict/service/v1/dict.proto2\xd3\b\n" +
 	"\vDictService\x12n\n" +
-	"\fListDictMain\x12\x19.pagination.PagingRequest\x1a%.dict.service.v1.ListDictMainResponse\"\x1c\x82\xd3\xe4\x93\x02\x16\x12\x14/admin/v1/dict-mains\x12\x92\x01\n" +
-	"\vGetDictMain\x12#.dict.service.v1.GetDictMainRequest\x1a\x19.dict.service.v1.DictMain\"C\x82\xd3\xe4\x93\x02=Z \x12\x1e/api/v1/dict-mains/code/{code}\x12\x19/admin/v1/dict-mains/{id}\x12q\n" +
-	"\x0eCreateDictMain\x12&.dict.service.v1.CreateDictMainRequest\x1a\x16.google.protobuf.Empty\"\x1f\x82\xd3\xe4\x93\x02\x19:\x01*\"\x14/admin/v1/dict-mains\x12{\n" +
-	"\x0eUpdateDictMain\x12&.dict.service.v1.UpdateDictMainRequest\x1a\x16.google.protobuf.Empty\")\x82\xd3\xe4\x93\x02#:\x01*\x1a\x1e/admin/v1/dict-mains/{data.id}\x12o\n" +
-	"\x0eDeleteDictMain\x12'.dict.service.v1.BatchDeleteDictRequest\x1a\x16.google.protobuf.Empty\"\x1c\x82\xd3\xe4\x93\x02\x16*\x14/admin/v1/dict-mains\x12n\n" +
-	"\fListDictItem\x12\x19.pagination.PagingRequest\x1a%.dict.service.v1.ListDictItemResponse\"\x1c\x82\xd3\xe4\x93\x02\x16\x12\x14/admin/v1/dict-items\x12q\n" +
-	"\x0eCreateDictItem\x12&.dict.service.v1.CreateDictItemRequest\x1a\x16.google.protobuf.Empty\"\x1f\x82\xd3\xe4\x93\x02\x19:\x01*\"\x14/admin/v1/dict-items\x12{\n" +
-	"\x0eUpdateDictItem\x12&.dict.service.v1.UpdateDictItemRequest\x1a\x16.google.protobuf.Empty\")\x82\xd3\xe4\x93\x02#:\x01*\x1a\x1e/admin/v1/dict-items/{data.id}\x12o\n" +
-	"\x0eDeleteDictItem\x12'.dict.service.v1.BatchDeleteDictRequest\x1a\x16.google.protobuf.Empty\"\x1c\x82\xd3\xe4\x93\x02\x16*\x14/admin/v1/dict-itemsB\xb8\x01\n" +
+	"\fListDictType\x12\x19.pagination.PagingRequest\x1a%.dict.service.v1.ListDictTypeResponse\"\x1c\x82\xd3\xe4\x93\x02\x16\x12\x14/admin/v1/dict-types\x12\x92\x01\n" +
+	"\vGetDictType\x12#.dict.service.v1.GetDictTypeRequest\x1a\x19.dict.service.v1.DictType\"C\x82\xd3\xe4\x93\x02=Z \x12\x1e/api/v1/dict-types/code/{code}\x12\x19/admin/v1/dict-types/{id}\x12q\n" +
+	"\x0eCreateDictType\x12&.dict.service.v1.CreateDictTypeRequest\x1a\x16.google.protobuf.Empty\"\x1f\x82\xd3\xe4\x93\x02\x19:\x01*\"\x14/admin/v1/dict-types\x12{\n" +
+	"\x0eUpdateDictType\x12&.dict.service.v1.UpdateDictTypeRequest\x1a\x16.google.protobuf.Empty\")\x82\xd3\xe4\x93\x02#:\x01*\x1a\x1e/admin/v1/dict-types/{data.id}\x12o\n" +
+	"\x0eDeleteDictType\x12'.dict.service.v1.BatchDeleteDictRequest\x1a\x16.google.protobuf.Empty\"\x1c\x82\xd3\xe4\x93\x02\x16*\x14/admin/v1/dict-types\x12r\n" +
+	"\rListDictEntry\x12\x19.pagination.PagingRequest\x1a&.dict.service.v1.ListDictEntryResponse\"\x1e\x82\xd3\xe4\x93\x02\x18\x12\x16/admin/v1/dict-entries\x12u\n" +
+	"\x0fCreateDictEntry\x12'.dict.service.v1.CreateDictEntryRequest\x1a\x16.google.protobuf.Empty\"!\x82\xd3\xe4\x93\x02\x1b:\x01*\"\x16/admin/v1/dict-entries\x12\x7f\n" +
+	"\x0fUpdateDictEntry\x12'.dict.service.v1.UpdateDictEntryRequest\x1a\x16.google.protobuf.Empty\"+\x82\xd3\xe4\x93\x02%:\x01*\x1a /admin/v1/dict-entries/{data.id}\x12r\n" +
+	"\x0fDeleteDictEntry\x12'.dict.service.v1.BatchDeleteDictRequest\x1a\x16.google.protobuf.Empty\"\x1e\x82\xd3\xe4\x93\x02\x18*\x16/admin/v1/dict-entriesB\xb8\x01\n" +
 	"\x14com.admin.service.v1B\n" +
 	"IDictProtoP\x01Z2kratos-admin/api/gen/go/admin/service/v1;servicev1\xa2\x02\x03ASX\xaa\x02\x10Admin.Service.V1\xca\x02\x10Admin\\Service\\V1\xe2\x02\x1cAdmin\\Service\\V1\\GPBMetadata\xea\x02\x12Admin::Service::V1b\x06proto3"
 
 var file_admin_service_v1_i_dict_proto_goTypes = []any{
 	(*v1.PagingRequest)(nil),           // 0: pagination.PagingRequest
-	(*v11.GetDictMainRequest)(nil),     // 1: dict.service.v1.GetDictMainRequest
-	(*v11.CreateDictMainRequest)(nil),  // 2: dict.service.v1.CreateDictMainRequest
-	(*v11.UpdateDictMainRequest)(nil),  // 3: dict.service.v1.UpdateDictMainRequest
+	(*v11.GetDictTypeRequest)(nil),     // 1: dict.service.v1.GetDictTypeRequest
+	(*v11.CreateDictTypeRequest)(nil),  // 2: dict.service.v1.CreateDictTypeRequest
+	(*v11.UpdateDictTypeRequest)(nil),  // 3: dict.service.v1.UpdateDictTypeRequest
 	(*v11.BatchDeleteDictRequest)(nil), // 4: dict.service.v1.BatchDeleteDictRequest
-	(*v11.CreateDictItemRequest)(nil),  // 5: dict.service.v1.CreateDictItemRequest
-	(*v11.UpdateDictItemRequest)(nil),  // 6: dict.service.v1.UpdateDictItemRequest
-	(*v11.ListDictMainResponse)(nil),   // 7: dict.service.v1.ListDictMainResponse
-	(*v11.DictMain)(nil),               // 8: dict.service.v1.DictMain
+	(*v11.CreateDictEntryRequest)(nil), // 5: dict.service.v1.CreateDictEntryRequest
+	(*v11.UpdateDictEntryRequest)(nil), // 6: dict.service.v1.UpdateDictEntryRequest
+	(*v11.ListDictTypeResponse)(nil),   // 7: dict.service.v1.ListDictTypeResponse
+	(*v11.DictType)(nil),               // 8: dict.service.v1.DictType
 	(*emptypb.Empty)(nil),              // 9: google.protobuf.Empty
-	(*v11.ListDictItemResponse)(nil),   // 10: dict.service.v1.ListDictItemResponse
+	(*v11.ListDictEntryResponse)(nil),  // 10: dict.service.v1.ListDictEntryResponse
 }
 var file_admin_service_v1_i_dict_proto_depIdxs = []int32{
-	0,  // 0: admin.service.v1.DictService.ListDictMain:input_type -> pagination.PagingRequest
-	1,  // 1: admin.service.v1.DictService.GetDictMain:input_type -> dict.service.v1.GetDictMainRequest
-	2,  // 2: admin.service.v1.DictService.CreateDictMain:input_type -> dict.service.v1.CreateDictMainRequest
-	3,  // 3: admin.service.v1.DictService.UpdateDictMain:input_type -> dict.service.v1.UpdateDictMainRequest
-	4,  // 4: admin.service.v1.DictService.DeleteDictMain:input_type -> dict.service.v1.BatchDeleteDictRequest
-	0,  // 5: admin.service.v1.DictService.ListDictItem:input_type -> pagination.PagingRequest
-	5,  // 6: admin.service.v1.DictService.CreateDictItem:input_type -> dict.service.v1.CreateDictItemRequest
-	6,  // 7: admin.service.v1.DictService.UpdateDictItem:input_type -> dict.service.v1.UpdateDictItemRequest
-	4,  // 8: admin.service.v1.DictService.DeleteDictItem:input_type -> dict.service.v1.BatchDeleteDictRequest
-	7,  // 9: admin.service.v1.DictService.ListDictMain:output_type -> dict.service.v1.ListDictMainResponse
-	8,  // 10: admin.service.v1.DictService.GetDictMain:output_type -> dict.service.v1.DictMain
-	9,  // 11: admin.service.v1.DictService.CreateDictMain:output_type -> google.protobuf.Empty
-	9,  // 12: admin.service.v1.DictService.UpdateDictMain:output_type -> google.protobuf.Empty
-	9,  // 13: admin.service.v1.DictService.DeleteDictMain:output_type -> google.protobuf.Empty
-	10, // 14: admin.service.v1.DictService.ListDictItem:output_type -> dict.service.v1.ListDictItemResponse
-	9,  // 15: admin.service.v1.DictService.CreateDictItem:output_type -> google.protobuf.Empty
-	9,  // 16: admin.service.v1.DictService.UpdateDictItem:output_type -> google.protobuf.Empty
-	9,  // 17: admin.service.v1.DictService.DeleteDictItem:output_type -> google.protobuf.Empty
+	0,  // 0: admin.service.v1.DictService.ListDictType:input_type -> pagination.PagingRequest
+	1,  // 1: admin.service.v1.DictService.GetDictType:input_type -> dict.service.v1.GetDictTypeRequest
+	2,  // 2: admin.service.v1.DictService.CreateDictType:input_type -> dict.service.v1.CreateDictTypeRequest
+	3,  // 3: admin.service.v1.DictService.UpdateDictType:input_type -> dict.service.v1.UpdateDictTypeRequest
+	4,  // 4: admin.service.v1.DictService.DeleteDictType:input_type -> dict.service.v1.BatchDeleteDictRequest
+	0,  // 5: admin.service.v1.DictService.ListDictEntry:input_type -> pagination.PagingRequest
+	5,  // 6: admin.service.v1.DictService.CreateDictEntry:input_type -> dict.service.v1.CreateDictEntryRequest
+	6,  // 7: admin.service.v1.DictService.UpdateDictEntry:input_type -> dict.service.v1.UpdateDictEntryRequest
+	4,  // 8: admin.service.v1.DictService.DeleteDictEntry:input_type -> dict.service.v1.BatchDeleteDictRequest
+	7,  // 9: admin.service.v1.DictService.ListDictType:output_type -> dict.service.v1.ListDictTypeResponse
+	8,  // 10: admin.service.v1.DictService.GetDictType:output_type -> dict.service.v1.DictType
+	9,  // 11: admin.service.v1.DictService.CreateDictType:output_type -> google.protobuf.Empty
+	9,  // 12: admin.service.v1.DictService.UpdateDictType:output_type -> google.protobuf.Empty
+	9,  // 13: admin.service.v1.DictService.DeleteDictType:output_type -> google.protobuf.Empty
+	10, // 14: admin.service.v1.DictService.ListDictEntry:output_type -> dict.service.v1.ListDictEntryResponse
+	9,  // 15: admin.service.v1.DictService.CreateDictEntry:output_type -> google.protobuf.Empty
+	9,  // 16: admin.service.v1.DictService.UpdateDictEntry:output_type -> google.protobuf.Empty
+	9,  // 17: admin.service.v1.DictService.DeleteDictEntry:output_type -> google.protobuf.Empty
 	9,  // [9:18] is the sub-list for method output_type
 	0,  // [0:9] is the sub-list for method input_type
 	0,  // [0:0] is the sub-list for extension type_name

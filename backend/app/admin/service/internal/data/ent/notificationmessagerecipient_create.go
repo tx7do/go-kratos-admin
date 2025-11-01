@@ -22,44 +22,44 @@ type NotificationMessageRecipientCreate struct {
 	conflict []sql.ConflictOption
 }
 
-// SetCreateTime sets the "create_time" field.
-func (_c *NotificationMessageRecipientCreate) SetCreateTime(v time.Time) *NotificationMessageRecipientCreate {
-	_c.mutation.SetCreateTime(v)
+// SetCreatedAt sets the "created_at" field.
+func (_c *NotificationMessageRecipientCreate) SetCreatedAt(v time.Time) *NotificationMessageRecipientCreate {
+	_c.mutation.SetCreatedAt(v)
 	return _c
 }
 
-// SetNillableCreateTime sets the "create_time" field if the given value is not nil.
-func (_c *NotificationMessageRecipientCreate) SetNillableCreateTime(v *time.Time) *NotificationMessageRecipientCreate {
+// SetNillableCreatedAt sets the "created_at" field if the given value is not nil.
+func (_c *NotificationMessageRecipientCreate) SetNillableCreatedAt(v *time.Time) *NotificationMessageRecipientCreate {
 	if v != nil {
-		_c.SetCreateTime(*v)
+		_c.SetCreatedAt(*v)
 	}
 	return _c
 }
 
-// SetUpdateTime sets the "update_time" field.
-func (_c *NotificationMessageRecipientCreate) SetUpdateTime(v time.Time) *NotificationMessageRecipientCreate {
-	_c.mutation.SetUpdateTime(v)
+// SetUpdatedAt sets the "updated_at" field.
+func (_c *NotificationMessageRecipientCreate) SetUpdatedAt(v time.Time) *NotificationMessageRecipientCreate {
+	_c.mutation.SetUpdatedAt(v)
 	return _c
 }
 
-// SetNillableUpdateTime sets the "update_time" field if the given value is not nil.
-func (_c *NotificationMessageRecipientCreate) SetNillableUpdateTime(v *time.Time) *NotificationMessageRecipientCreate {
+// SetNillableUpdatedAt sets the "updated_at" field if the given value is not nil.
+func (_c *NotificationMessageRecipientCreate) SetNillableUpdatedAt(v *time.Time) *NotificationMessageRecipientCreate {
 	if v != nil {
-		_c.SetUpdateTime(*v)
+		_c.SetUpdatedAt(*v)
 	}
 	return _c
 }
 
-// SetDeleteTime sets the "delete_time" field.
-func (_c *NotificationMessageRecipientCreate) SetDeleteTime(v time.Time) *NotificationMessageRecipientCreate {
-	_c.mutation.SetDeleteTime(v)
+// SetDeletedAt sets the "deleted_at" field.
+func (_c *NotificationMessageRecipientCreate) SetDeletedAt(v time.Time) *NotificationMessageRecipientCreate {
+	_c.mutation.SetDeletedAt(v)
 	return _c
 }
 
-// SetNillableDeleteTime sets the "delete_time" field if the given value is not nil.
-func (_c *NotificationMessageRecipientCreate) SetNillableDeleteTime(v *time.Time) *NotificationMessageRecipientCreate {
+// SetNillableDeletedAt sets the "deleted_at" field if the given value is not nil.
+func (_c *NotificationMessageRecipientCreate) SetNillableDeletedAt(v *time.Time) *NotificationMessageRecipientCreate {
 	if v != nil {
-		_c.SetDeleteTime(*v)
+		_c.SetDeletedAt(*v)
 	}
 	return _c
 }
@@ -67,14 +67,6 @@ func (_c *NotificationMessageRecipientCreate) SetNillableDeleteTime(v *time.Time
 // SetTenantID sets the "tenant_id" field.
 func (_c *NotificationMessageRecipientCreate) SetTenantID(v uint32) *NotificationMessageRecipientCreate {
 	_c.mutation.SetTenantID(v)
-	return _c
-}
-
-// SetNillableTenantID sets the "tenant_id" field if the given value is not nil.
-func (_c *NotificationMessageRecipientCreate) SetNillableTenantID(v *uint32) *NotificationMessageRecipientCreate {
-	if v != nil {
-		_c.SetTenantID(*v)
-	}
 	return _c
 }
 
@@ -160,6 +152,9 @@ func (_c *NotificationMessageRecipientCreate) ExecX(ctx context.Context) {
 
 // check runs all checks and user-defined validators on the builder.
 func (_c *NotificationMessageRecipientCreate) check() error {
+	if _, ok := _c.mutation.TenantID(); !ok {
+		return &ValidationError{Name: "tenant_id", err: errors.New(`ent: missing required field "NotificationMessageRecipient.tenant_id"`)}
+	}
 	if v, ok := _c.mutation.TenantID(); ok {
 		if err := notificationmessagerecipient.TenantIDValidator(v); err != nil {
 			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "NotificationMessageRecipient.tenant_id": %w`, err)}
@@ -208,21 +203,21 @@ func (_c *NotificationMessageRecipientCreate) createSpec() (*NotificationMessage
 		_node.ID = id
 		_spec.ID.Value = id
 	}
-	if value, ok := _c.mutation.CreateTime(); ok {
-		_spec.SetField(notificationmessagerecipient.FieldCreateTime, field.TypeTime, value)
-		_node.CreateTime = &value
+	if value, ok := _c.mutation.CreatedAt(); ok {
+		_spec.SetField(notificationmessagerecipient.FieldCreatedAt, field.TypeTime, value)
+		_node.CreatedAt = &value
 	}
-	if value, ok := _c.mutation.UpdateTime(); ok {
-		_spec.SetField(notificationmessagerecipient.FieldUpdateTime, field.TypeTime, value)
-		_node.UpdateTime = &value
+	if value, ok := _c.mutation.UpdatedAt(); ok {
+		_spec.SetField(notificationmessagerecipient.FieldUpdatedAt, field.TypeTime, value)
+		_node.UpdatedAt = &value
 	}
-	if value, ok := _c.mutation.DeleteTime(); ok {
-		_spec.SetField(notificationmessagerecipient.FieldDeleteTime, field.TypeTime, value)
-		_node.DeleteTime = &value
+	if value, ok := _c.mutation.DeletedAt(); ok {
+		_spec.SetField(notificationmessagerecipient.FieldDeletedAt, field.TypeTime, value)
+		_node.DeletedAt = &value
 	}
 	if value, ok := _c.mutation.TenantID(); ok {
 		_spec.SetField(notificationmessagerecipient.FieldTenantID, field.TypeUint32, value)
-		_node.TenantID = &value
+		_node.TenantID = value
 	}
 	if value, ok := _c.mutation.MessageID(); ok {
 		_spec.SetField(notificationmessagerecipient.FieldMessageID, field.TypeUint32, value)
@@ -243,7 +238,7 @@ func (_c *NotificationMessageRecipientCreate) createSpec() (*NotificationMessage
 // of the `INSERT` statement. For example:
 //
 //	client.NotificationMessageRecipient.Create().
-//		SetCreateTime(v).
+//		SetCreatedAt(v).
 //		OnConflict(
 //			// Update the row with the new values
 //			// the was proposed for insertion.
@@ -252,7 +247,7 @@ func (_c *NotificationMessageRecipientCreate) createSpec() (*NotificationMessage
 //		// Override some of the fields with custom
 //		// update values.
 //		Update(func(u *ent.NotificationMessageRecipientUpsert) {
-//			SetCreateTime(v+v).
+//			SetCreatedAt(v+v).
 //		}).
 //		Exec(ctx)
 func (_c *NotificationMessageRecipientCreate) OnConflict(opts ...sql.ConflictOption) *NotificationMessageRecipientUpsertOne {
@@ -288,39 +283,39 @@ type (
 	}
 )
 
-// SetUpdateTime sets the "update_time" field.
-func (u *NotificationMessageRecipientUpsert) SetUpdateTime(v time.Time) *NotificationMessageRecipientUpsert {
-	u.Set(notificationmessagerecipient.FieldUpdateTime, v)
+// SetUpdatedAt sets the "updated_at" field.
+func (u *NotificationMessageRecipientUpsert) SetUpdatedAt(v time.Time) *NotificationMessageRecipientUpsert {
+	u.Set(notificationmessagerecipient.FieldUpdatedAt, v)
 	return u
 }
 
-// UpdateUpdateTime sets the "update_time" field to the value that was provided on create.
-func (u *NotificationMessageRecipientUpsert) UpdateUpdateTime() *NotificationMessageRecipientUpsert {
-	u.SetExcluded(notificationmessagerecipient.FieldUpdateTime)
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *NotificationMessageRecipientUpsert) UpdateUpdatedAt() *NotificationMessageRecipientUpsert {
+	u.SetExcluded(notificationmessagerecipient.FieldUpdatedAt)
 	return u
 }
 
-// ClearUpdateTime clears the value of the "update_time" field.
-func (u *NotificationMessageRecipientUpsert) ClearUpdateTime() *NotificationMessageRecipientUpsert {
-	u.SetNull(notificationmessagerecipient.FieldUpdateTime)
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (u *NotificationMessageRecipientUpsert) ClearUpdatedAt() *NotificationMessageRecipientUpsert {
+	u.SetNull(notificationmessagerecipient.FieldUpdatedAt)
 	return u
 }
 
-// SetDeleteTime sets the "delete_time" field.
-func (u *NotificationMessageRecipientUpsert) SetDeleteTime(v time.Time) *NotificationMessageRecipientUpsert {
-	u.Set(notificationmessagerecipient.FieldDeleteTime, v)
+// SetDeletedAt sets the "deleted_at" field.
+func (u *NotificationMessageRecipientUpsert) SetDeletedAt(v time.Time) *NotificationMessageRecipientUpsert {
+	u.Set(notificationmessagerecipient.FieldDeletedAt, v)
 	return u
 }
 
-// UpdateDeleteTime sets the "delete_time" field to the value that was provided on create.
-func (u *NotificationMessageRecipientUpsert) UpdateDeleteTime() *NotificationMessageRecipientUpsert {
-	u.SetExcluded(notificationmessagerecipient.FieldDeleteTime)
+// UpdateDeletedAt sets the "deleted_at" field to the value that was provided on create.
+func (u *NotificationMessageRecipientUpsert) UpdateDeletedAt() *NotificationMessageRecipientUpsert {
+	u.SetExcluded(notificationmessagerecipient.FieldDeletedAt)
 	return u
 }
 
-// ClearDeleteTime clears the value of the "delete_time" field.
-func (u *NotificationMessageRecipientUpsert) ClearDeleteTime() *NotificationMessageRecipientUpsert {
-	u.SetNull(notificationmessagerecipient.FieldDeleteTime)
+// ClearDeletedAt clears the value of the "deleted_at" field.
+func (u *NotificationMessageRecipientUpsert) ClearDeletedAt() *NotificationMessageRecipientUpsert {
+	u.SetNull(notificationmessagerecipient.FieldDeletedAt)
 	return u
 }
 
@@ -407,8 +402,8 @@ func (u *NotificationMessageRecipientUpsertOne) UpdateNewValues() *NotificationM
 		if _, exists := u.create.mutation.ID(); exists {
 			s.SetIgnore(notificationmessagerecipient.FieldID)
 		}
-		if _, exists := u.create.mutation.CreateTime(); exists {
-			s.SetIgnore(notificationmessagerecipient.FieldCreateTime)
+		if _, exists := u.create.mutation.CreatedAt(); exists {
+			s.SetIgnore(notificationmessagerecipient.FieldCreatedAt)
 		}
 		if _, exists := u.create.mutation.TenantID(); exists {
 			s.SetIgnore(notificationmessagerecipient.FieldTenantID)
@@ -444,45 +439,45 @@ func (u *NotificationMessageRecipientUpsertOne) Update(set func(*NotificationMes
 	return u
 }
 
-// SetUpdateTime sets the "update_time" field.
-func (u *NotificationMessageRecipientUpsertOne) SetUpdateTime(v time.Time) *NotificationMessageRecipientUpsertOne {
+// SetUpdatedAt sets the "updated_at" field.
+func (u *NotificationMessageRecipientUpsertOne) SetUpdatedAt(v time.Time) *NotificationMessageRecipientUpsertOne {
 	return u.Update(func(s *NotificationMessageRecipientUpsert) {
-		s.SetUpdateTime(v)
+		s.SetUpdatedAt(v)
 	})
 }
 
-// UpdateUpdateTime sets the "update_time" field to the value that was provided on create.
-func (u *NotificationMessageRecipientUpsertOne) UpdateUpdateTime() *NotificationMessageRecipientUpsertOne {
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *NotificationMessageRecipientUpsertOne) UpdateUpdatedAt() *NotificationMessageRecipientUpsertOne {
 	return u.Update(func(s *NotificationMessageRecipientUpsert) {
-		s.UpdateUpdateTime()
+		s.UpdateUpdatedAt()
 	})
 }
 
-// ClearUpdateTime clears the value of the "update_time" field.
-func (u *NotificationMessageRecipientUpsertOne) ClearUpdateTime() *NotificationMessageRecipientUpsertOne {
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (u *NotificationMessageRecipientUpsertOne) ClearUpdatedAt() *NotificationMessageRecipientUpsertOne {
 	return u.Update(func(s *NotificationMessageRecipientUpsert) {
-		s.ClearUpdateTime()
+		s.ClearUpdatedAt()
 	})
 }
 
-// SetDeleteTime sets the "delete_time" field.
-func (u *NotificationMessageRecipientUpsertOne) SetDeleteTime(v time.Time) *NotificationMessageRecipientUpsertOne {
+// SetDeletedAt sets the "deleted_at" field.
+func (u *NotificationMessageRecipientUpsertOne) SetDeletedAt(v time.Time) *NotificationMessageRecipientUpsertOne {
 	return u.Update(func(s *NotificationMessageRecipientUpsert) {
-		s.SetDeleteTime(v)
+		s.SetDeletedAt(v)
 	})
 }
 
-// UpdateDeleteTime sets the "delete_time" field to the value that was provided on create.
-func (u *NotificationMessageRecipientUpsertOne) UpdateDeleteTime() *NotificationMessageRecipientUpsertOne {
+// UpdateDeletedAt sets the "deleted_at" field to the value that was provided on create.
+func (u *NotificationMessageRecipientUpsertOne) UpdateDeletedAt() *NotificationMessageRecipientUpsertOne {
 	return u.Update(func(s *NotificationMessageRecipientUpsert) {
-		s.UpdateDeleteTime()
+		s.UpdateDeletedAt()
 	})
 }
 
-// ClearDeleteTime clears the value of the "delete_time" field.
-func (u *NotificationMessageRecipientUpsertOne) ClearDeleteTime() *NotificationMessageRecipientUpsertOne {
+// ClearDeletedAt clears the value of the "deleted_at" field.
+func (u *NotificationMessageRecipientUpsertOne) ClearDeletedAt() *NotificationMessageRecipientUpsertOne {
 	return u.Update(func(s *NotificationMessageRecipientUpsert) {
-		s.ClearDeleteTime()
+		s.ClearDeletedAt()
 	})
 }
 
@@ -697,7 +692,7 @@ func (_c *NotificationMessageRecipientCreateBulk) ExecX(ctx context.Context) {
 //		// Override some of the fields with custom
 //		// update values.
 //		Update(func(u *ent.NotificationMessageRecipientUpsert) {
-//			SetCreateTime(v+v).
+//			SetCreatedAt(v+v).
 //		}).
 //		Exec(ctx)
 func (_c *NotificationMessageRecipientCreateBulk) OnConflict(opts ...sql.ConflictOption) *NotificationMessageRecipientUpsertBulk {
@@ -744,8 +739,8 @@ func (u *NotificationMessageRecipientUpsertBulk) UpdateNewValues() *Notification
 			if _, exists := b.mutation.ID(); exists {
 				s.SetIgnore(notificationmessagerecipient.FieldID)
 			}
-			if _, exists := b.mutation.CreateTime(); exists {
-				s.SetIgnore(notificationmessagerecipient.FieldCreateTime)
+			if _, exists := b.mutation.CreatedAt(); exists {
+				s.SetIgnore(notificationmessagerecipient.FieldCreatedAt)
 			}
 			if _, exists := b.mutation.TenantID(); exists {
 				s.SetIgnore(notificationmessagerecipient.FieldTenantID)
@@ -782,45 +777,45 @@ func (u *NotificationMessageRecipientUpsertBulk) Update(set func(*NotificationMe
 	return u
 }
 
-// SetUpdateTime sets the "update_time" field.
-func (u *NotificationMessageRecipientUpsertBulk) SetUpdateTime(v time.Time) *NotificationMessageRecipientUpsertBulk {
+// SetUpdatedAt sets the "updated_at" field.
+func (u *NotificationMessageRecipientUpsertBulk) SetUpdatedAt(v time.Time) *NotificationMessageRecipientUpsertBulk {
 	return u.Update(func(s *NotificationMessageRecipientUpsert) {
-		s.SetUpdateTime(v)
+		s.SetUpdatedAt(v)
 	})
 }
 
-// UpdateUpdateTime sets the "update_time" field to the value that was provided on create.
-func (u *NotificationMessageRecipientUpsertBulk) UpdateUpdateTime() *NotificationMessageRecipientUpsertBulk {
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *NotificationMessageRecipientUpsertBulk) UpdateUpdatedAt() *NotificationMessageRecipientUpsertBulk {
 	return u.Update(func(s *NotificationMessageRecipientUpsert) {
-		s.UpdateUpdateTime()
+		s.UpdateUpdatedAt()
 	})
 }
 
-// ClearUpdateTime clears the value of the "update_time" field.
-func (u *NotificationMessageRecipientUpsertBulk) ClearUpdateTime() *NotificationMessageRecipientUpsertBulk {
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (u *NotificationMessageRecipientUpsertBulk) ClearUpdatedAt() *NotificationMessageRecipientUpsertBulk {
 	return u.Update(func(s *NotificationMessageRecipientUpsert) {
-		s.ClearUpdateTime()
+		s.ClearUpdatedAt()
 	})
 }
 
-// SetDeleteTime sets the "delete_time" field.
-func (u *NotificationMessageRecipientUpsertBulk) SetDeleteTime(v time.Time) *NotificationMessageRecipientUpsertBulk {
+// SetDeletedAt sets the "deleted_at" field.
+func (u *NotificationMessageRecipientUpsertBulk) SetDeletedAt(v time.Time) *NotificationMessageRecipientUpsertBulk {
 	return u.Update(func(s *NotificationMessageRecipientUpsert) {
-		s.SetDeleteTime(v)
+		s.SetDeletedAt(v)
 	})
 }
 
-// UpdateDeleteTime sets the "delete_time" field to the value that was provided on create.
-func (u *NotificationMessageRecipientUpsertBulk) UpdateDeleteTime() *NotificationMessageRecipientUpsertBulk {
+// UpdateDeletedAt sets the "deleted_at" field to the value that was provided on create.
+func (u *NotificationMessageRecipientUpsertBulk) UpdateDeletedAt() *NotificationMessageRecipientUpsertBulk {
 	return u.Update(func(s *NotificationMessageRecipientUpsert) {
-		s.UpdateDeleteTime()
+		s.UpdateDeletedAt()
 	})
 }
 
-// ClearDeleteTime clears the value of the "delete_time" field.
-func (u *NotificationMessageRecipientUpsertBulk) ClearDeleteTime() *NotificationMessageRecipientUpsertBulk {
+// ClearDeletedAt clears the value of the "deleted_at" field.
+func (u *NotificationMessageRecipientUpsertBulk) ClearDeletedAt() *NotificationMessageRecipientUpsertBulk {
 	return u.Update(func(s *NotificationMessageRecipientUpsert) {
-		s.ClearDeleteTime()
+		s.ClearDeletedAt()
 	})
 }
 

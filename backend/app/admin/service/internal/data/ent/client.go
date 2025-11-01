@@ -16,9 +16,10 @@ import (
 	"kratos-admin/app/admin/service/internal/data/ent/adminoperationlog"
 	"kratos-admin/app/admin/service/internal/data/ent/apiresource"
 	"kratos-admin/app/admin/service/internal/data/ent/department"
-	"kratos-admin/app/admin/service/internal/data/ent/dictitem"
-	"kratos-admin/app/admin/service/internal/data/ent/dictmain"
+	"kratos-admin/app/admin/service/internal/data/ent/dictentry"
+	"kratos-admin/app/admin/service/internal/data/ent/dicttype"
 	"kratos-admin/app/admin/service/internal/data/ent/file"
+	"kratos-admin/app/admin/service/internal/data/ent/language"
 	"kratos-admin/app/admin/service/internal/data/ent/menu"
 	"kratos-admin/app/admin/service/internal/data/ent/notificationmessage"
 	"kratos-admin/app/admin/service/internal/data/ent/notificationmessagecategory"
@@ -60,12 +61,14 @@ type Client struct {
 	ApiResource *ApiResourceClient
 	// Department is the client for interacting with the Department builders.
 	Department *DepartmentClient
-	// DictItem is the client for interacting with the DictItem builders.
-	DictItem *DictItemClient
-	// DictMain is the client for interacting with the DictMain builders.
-	DictMain *DictMainClient
+	// DictEntry is the client for interacting with the DictEntry builders.
+	DictEntry *DictEntryClient
+	// DictType is the client for interacting with the DictType builders.
+	DictType *DictTypeClient
 	// File is the client for interacting with the File builders.
 	File *FileClient
+	// Language is the client for interacting with the Language builders.
+	Language *LanguageClient
 	// Menu is the client for interacting with the Menu builders.
 	Menu *MenuClient
 	// NotificationMessage is the client for interacting with the NotificationMessage builders.
@@ -120,9 +123,10 @@ func (c *Client) init() {
 	c.AdminOperationLog = NewAdminOperationLogClient(c.config)
 	c.ApiResource = NewApiResourceClient(c.config)
 	c.Department = NewDepartmentClient(c.config)
-	c.DictItem = NewDictItemClient(c.config)
-	c.DictMain = NewDictMainClient(c.config)
+	c.DictEntry = NewDictEntryClient(c.config)
+	c.DictType = NewDictTypeClient(c.config)
 	c.File = NewFileClient(c.config)
+	c.Language = NewLanguageClient(c.config)
 	c.Menu = NewMenuClient(c.config)
 	c.NotificationMessage = NewNotificationMessageClient(c.config)
 	c.NotificationMessageCategory = NewNotificationMessageCategoryClient(c.config)
@@ -239,9 +243,10 @@ func (c *Client) Tx(ctx context.Context) (*Tx, error) {
 		AdminOperationLog:            NewAdminOperationLogClient(cfg),
 		ApiResource:                  NewApiResourceClient(cfg),
 		Department:                   NewDepartmentClient(cfg),
-		DictItem:                     NewDictItemClient(cfg),
-		DictMain:                     NewDictMainClient(cfg),
+		DictEntry:                    NewDictEntryClient(cfg),
+		DictType:                     NewDictTypeClient(cfg),
 		File:                         NewFileClient(cfg),
+		Language:                     NewLanguageClient(cfg),
 		Menu:                         NewMenuClient(cfg),
 		NotificationMessage:          NewNotificationMessageClient(cfg),
 		NotificationMessageCategory:  NewNotificationMessageCategoryClient(cfg),
@@ -285,9 +290,10 @@ func (c *Client) BeginTx(ctx context.Context, opts *sql.TxOptions) (*Tx, error) 
 		AdminOperationLog:            NewAdminOperationLogClient(cfg),
 		ApiResource:                  NewApiResourceClient(cfg),
 		Department:                   NewDepartmentClient(cfg),
-		DictItem:                     NewDictItemClient(cfg),
-		DictMain:                     NewDictMainClient(cfg),
+		DictEntry:                    NewDictEntryClient(cfg),
+		DictType:                     NewDictTypeClient(cfg),
 		File:                         NewFileClient(cfg),
+		Language:                     NewLanguageClient(cfg),
 		Menu:                         NewMenuClient(cfg),
 		NotificationMessage:          NewNotificationMessageClient(cfg),
 		NotificationMessageCategory:  NewNotificationMessageCategoryClient(cfg),
@@ -337,11 +343,11 @@ func (c *Client) Close() error {
 func (c *Client) Use(hooks ...Hook) {
 	for _, n := range []interface{ Use(...Hook) }{
 		c.AdminLoginLog, c.AdminLoginRestriction, c.AdminOperationLog, c.ApiResource,
-		c.Department, c.DictItem, c.DictMain, c.File, c.Menu, c.NotificationMessage,
-		c.NotificationMessageCategory, c.NotificationMessageRecipient, c.Organization,
-		c.Position, c.PrivateMessage, c.Role, c.RoleApi, c.RoleDept, c.RoleMenu,
-		c.RoleOrg, c.RolePosition, c.Task, c.Tenant, c.User, c.UserCredential,
-		c.UserPosition, c.UserRole,
+		c.Department, c.DictEntry, c.DictType, c.File, c.Language, c.Menu,
+		c.NotificationMessage, c.NotificationMessageCategory,
+		c.NotificationMessageRecipient, c.Organization, c.Position, c.PrivateMessage,
+		c.Role, c.RoleApi, c.RoleDept, c.RoleMenu, c.RoleOrg, c.RolePosition, c.Task,
+		c.Tenant, c.User, c.UserCredential, c.UserPosition, c.UserRole,
 	} {
 		n.Use(hooks...)
 	}
@@ -352,11 +358,11 @@ func (c *Client) Use(hooks ...Hook) {
 func (c *Client) Intercept(interceptors ...Interceptor) {
 	for _, n := range []interface{ Intercept(...Interceptor) }{
 		c.AdminLoginLog, c.AdminLoginRestriction, c.AdminOperationLog, c.ApiResource,
-		c.Department, c.DictItem, c.DictMain, c.File, c.Menu, c.NotificationMessage,
-		c.NotificationMessageCategory, c.NotificationMessageRecipient, c.Organization,
-		c.Position, c.PrivateMessage, c.Role, c.RoleApi, c.RoleDept, c.RoleMenu,
-		c.RoleOrg, c.RolePosition, c.Task, c.Tenant, c.User, c.UserCredential,
-		c.UserPosition, c.UserRole,
+		c.Department, c.DictEntry, c.DictType, c.File, c.Language, c.Menu,
+		c.NotificationMessage, c.NotificationMessageCategory,
+		c.NotificationMessageRecipient, c.Organization, c.Position, c.PrivateMessage,
+		c.Role, c.RoleApi, c.RoleDept, c.RoleMenu, c.RoleOrg, c.RolePosition, c.Task,
+		c.Tenant, c.User, c.UserCredential, c.UserPosition, c.UserRole,
 	} {
 		n.Intercept(interceptors...)
 	}
@@ -375,12 +381,14 @@ func (c *Client) Mutate(ctx context.Context, m Mutation) (Value, error) {
 		return c.ApiResource.mutate(ctx, m)
 	case *DepartmentMutation:
 		return c.Department.mutate(ctx, m)
-	case *DictItemMutation:
-		return c.DictItem.mutate(ctx, m)
-	case *DictMainMutation:
-		return c.DictMain.mutate(ctx, m)
+	case *DictEntryMutation:
+		return c.DictEntry.mutate(ctx, m)
+	case *DictTypeMutation:
+		return c.DictType.mutate(ctx, m)
 	case *FileMutation:
 		return c.File.mutate(ctx, m)
+	case *LanguageMutation:
+		return c.Language.mutate(ctx, m)
 	case *MenuMutation:
 		return c.Menu.mutate(ctx, m)
 	case *NotificationMessageMutation:
@@ -1121,107 +1129,107 @@ func (c *DepartmentClient) mutate(ctx context.Context, m *DepartmentMutation) (V
 	}
 }
 
-// DictItemClient is a client for the DictItem schema.
-type DictItemClient struct {
+// DictEntryClient is a client for the DictEntry schema.
+type DictEntryClient struct {
 	config
 }
 
-// NewDictItemClient returns a client for the DictItem from the given config.
-func NewDictItemClient(c config) *DictItemClient {
-	return &DictItemClient{config: c}
+// NewDictEntryClient returns a client for the DictEntry from the given config.
+func NewDictEntryClient(c config) *DictEntryClient {
+	return &DictEntryClient{config: c}
 }
 
 // Use adds a list of mutation hooks to the hooks stack.
-// A call to `Use(f, g, h)` equals to `dictitem.Hooks(f(g(h())))`.
-func (c *DictItemClient) Use(hooks ...Hook) {
-	c.hooks.DictItem = append(c.hooks.DictItem, hooks...)
+// A call to `Use(f, g, h)` equals to `dictentry.Hooks(f(g(h())))`.
+func (c *DictEntryClient) Use(hooks ...Hook) {
+	c.hooks.DictEntry = append(c.hooks.DictEntry, hooks...)
 }
 
 // Intercept adds a list of query interceptors to the interceptors stack.
-// A call to `Intercept(f, g, h)` equals to `dictitem.Intercept(f(g(h())))`.
-func (c *DictItemClient) Intercept(interceptors ...Interceptor) {
-	c.inters.DictItem = append(c.inters.DictItem, interceptors...)
+// A call to `Intercept(f, g, h)` equals to `dictentry.Intercept(f(g(h())))`.
+func (c *DictEntryClient) Intercept(interceptors ...Interceptor) {
+	c.inters.DictEntry = append(c.inters.DictEntry, interceptors...)
 }
 
-// Create returns a builder for creating a DictItem entity.
-func (c *DictItemClient) Create() *DictItemCreate {
-	mutation := newDictItemMutation(c.config, OpCreate)
-	return &DictItemCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+// Create returns a builder for creating a DictEntry entity.
+func (c *DictEntryClient) Create() *DictEntryCreate {
+	mutation := newDictEntryMutation(c.config, OpCreate)
+	return &DictEntryCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
-// CreateBulk returns a builder for creating a bulk of DictItem entities.
-func (c *DictItemClient) CreateBulk(builders ...*DictItemCreate) *DictItemCreateBulk {
-	return &DictItemCreateBulk{config: c.config, builders: builders}
+// CreateBulk returns a builder for creating a bulk of DictEntry entities.
+func (c *DictEntryClient) CreateBulk(builders ...*DictEntryCreate) *DictEntryCreateBulk {
+	return &DictEntryCreateBulk{config: c.config, builders: builders}
 }
 
 // MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
 // a builder and applies setFunc on it.
-func (c *DictItemClient) MapCreateBulk(slice any, setFunc func(*DictItemCreate, int)) *DictItemCreateBulk {
+func (c *DictEntryClient) MapCreateBulk(slice any, setFunc func(*DictEntryCreate, int)) *DictEntryCreateBulk {
 	rv := reflect.ValueOf(slice)
 	if rv.Kind() != reflect.Slice {
-		return &DictItemCreateBulk{err: fmt.Errorf("calling to DictItemClient.MapCreateBulk with wrong type %T, need slice", slice)}
+		return &DictEntryCreateBulk{err: fmt.Errorf("calling to DictEntryClient.MapCreateBulk with wrong type %T, need slice", slice)}
 	}
-	builders := make([]*DictItemCreate, rv.Len())
+	builders := make([]*DictEntryCreate, rv.Len())
 	for i := 0; i < rv.Len(); i++ {
 		builders[i] = c.Create()
 		setFunc(builders[i], i)
 	}
-	return &DictItemCreateBulk{config: c.config, builders: builders}
+	return &DictEntryCreateBulk{config: c.config, builders: builders}
 }
 
-// Update returns an update builder for DictItem.
-func (c *DictItemClient) Update() *DictItemUpdate {
-	mutation := newDictItemMutation(c.config, OpUpdate)
-	return &DictItemUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+// Update returns an update builder for DictEntry.
+func (c *DictEntryClient) Update() *DictEntryUpdate {
+	mutation := newDictEntryMutation(c.config, OpUpdate)
+	return &DictEntryUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
 // UpdateOne returns an update builder for the given entity.
-func (c *DictItemClient) UpdateOne(_m *DictItem) *DictItemUpdateOne {
-	mutation := newDictItemMutation(c.config, OpUpdateOne, withDictItem(_m))
-	return &DictItemUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+func (c *DictEntryClient) UpdateOne(_m *DictEntry) *DictEntryUpdateOne {
+	mutation := newDictEntryMutation(c.config, OpUpdateOne, withDictEntry(_m))
+	return &DictEntryUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *DictItemClient) UpdateOneID(id uint32) *DictItemUpdateOne {
-	mutation := newDictItemMutation(c.config, OpUpdateOne, withDictItemID(id))
-	return &DictItemUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+func (c *DictEntryClient) UpdateOneID(id uint32) *DictEntryUpdateOne {
+	mutation := newDictEntryMutation(c.config, OpUpdateOne, withDictEntryID(id))
+	return &DictEntryUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
-// Delete returns a delete builder for DictItem.
-func (c *DictItemClient) Delete() *DictItemDelete {
-	mutation := newDictItemMutation(c.config, OpDelete)
-	return &DictItemDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+// Delete returns a delete builder for DictEntry.
+func (c *DictEntryClient) Delete() *DictEntryDelete {
+	mutation := newDictEntryMutation(c.config, OpDelete)
+	return &DictEntryDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
 // DeleteOne returns a builder for deleting the given entity.
-func (c *DictItemClient) DeleteOne(_m *DictItem) *DictItemDeleteOne {
+func (c *DictEntryClient) DeleteOne(_m *DictEntry) *DictEntryDeleteOne {
 	return c.DeleteOneID(_m.ID)
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *DictItemClient) DeleteOneID(id uint32) *DictItemDeleteOne {
-	builder := c.Delete().Where(dictitem.ID(id))
+func (c *DictEntryClient) DeleteOneID(id uint32) *DictEntryDeleteOne {
+	builder := c.Delete().Where(dictentry.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
-	return &DictItemDeleteOne{builder}
+	return &DictEntryDeleteOne{builder}
 }
 
-// Query returns a query builder for DictItem.
-func (c *DictItemClient) Query() *DictItemQuery {
-	return &DictItemQuery{
+// Query returns a query builder for DictEntry.
+func (c *DictEntryClient) Query() *DictEntryQuery {
+	return &DictEntryQuery{
 		config: c.config,
-		ctx:    &QueryContext{Type: TypeDictItem},
+		ctx:    &QueryContext{Type: TypeDictEntry},
 		inters: c.Interceptors(),
 	}
 }
 
-// Get returns a DictItem entity by its id.
-func (c *DictItemClient) Get(ctx context.Context, id uint32) (*DictItem, error) {
-	return c.Query().Where(dictitem.ID(id)).Only(ctx)
+// Get returns a DictEntry entity by its id.
+func (c *DictEntryClient) Get(ctx context.Context, id uint32) (*DictEntry, error) {
+	return c.Query().Where(dictentry.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *DictItemClient) GetX(ctx context.Context, id uint32) *DictItem {
+func (c *DictEntryClient) GetX(ctx context.Context, id uint32) *DictEntry {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -1229,15 +1237,15 @@ func (c *DictItemClient) GetX(ctx context.Context, id uint32) *DictItem {
 	return obj
 }
 
-// QuerySysDictMains queries the sys_dict_mains edge of a DictItem.
-func (c *DictItemClient) QuerySysDictMains(_m *DictItem) *DictMainQuery {
-	query := (&DictMainClient{config: c.config}).Query()
+// QuerySysDictTypes queries the sys_dict_types edge of a DictEntry.
+func (c *DictEntryClient) QuerySysDictTypes(_m *DictEntry) *DictTypeQuery {
+	query := (&DictTypeClient{config: c.config}).Query()
 	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
 		id := _m.ID
 		step := sqlgraph.NewStep(
-			sqlgraph.From(dictitem.Table, dictitem.FieldID, id),
-			sqlgraph.To(dictmain.Table, dictmain.FieldID),
-			sqlgraph.Edge(sqlgraph.M2O, false, dictitem.SysDictMainsTable, dictitem.SysDictMainsColumn),
+			sqlgraph.From(dictentry.Table, dictentry.FieldID, id),
+			sqlgraph.To(dicttype.Table, dicttype.FieldID),
+			sqlgraph.Edge(sqlgraph.M2O, false, dictentry.SysDictTypesTable, dictentry.SysDictTypesColumn),
 		)
 		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
@@ -1246,131 +1254,131 @@ func (c *DictItemClient) QuerySysDictMains(_m *DictItem) *DictMainQuery {
 }
 
 // Hooks returns the client hooks.
-func (c *DictItemClient) Hooks() []Hook {
-	return c.hooks.DictItem
+func (c *DictEntryClient) Hooks() []Hook {
+	return c.hooks.DictEntry
 }
 
 // Interceptors returns the client interceptors.
-func (c *DictItemClient) Interceptors() []Interceptor {
-	return c.inters.DictItem
+func (c *DictEntryClient) Interceptors() []Interceptor {
+	return c.inters.DictEntry
 }
 
-func (c *DictItemClient) mutate(ctx context.Context, m *DictItemMutation) (Value, error) {
+func (c *DictEntryClient) mutate(ctx context.Context, m *DictEntryMutation) (Value, error) {
 	switch m.Op() {
 	case OpCreate:
-		return (&DictItemCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+		return (&DictEntryCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
 	case OpUpdate:
-		return (&DictItemUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+		return (&DictEntryUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
 	case OpUpdateOne:
-		return (&DictItemUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+		return (&DictEntryUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
 	case OpDelete, OpDeleteOne:
-		return (&DictItemDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+		return (&DictEntryDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
 	default:
-		return nil, fmt.Errorf("ent: unknown DictItem mutation op: %q", m.Op())
+		return nil, fmt.Errorf("ent: unknown DictEntry mutation op: %q", m.Op())
 	}
 }
 
-// DictMainClient is a client for the DictMain schema.
-type DictMainClient struct {
+// DictTypeClient is a client for the DictType schema.
+type DictTypeClient struct {
 	config
 }
 
-// NewDictMainClient returns a client for the DictMain from the given config.
-func NewDictMainClient(c config) *DictMainClient {
-	return &DictMainClient{config: c}
+// NewDictTypeClient returns a client for the DictType from the given config.
+func NewDictTypeClient(c config) *DictTypeClient {
+	return &DictTypeClient{config: c}
 }
 
 // Use adds a list of mutation hooks to the hooks stack.
-// A call to `Use(f, g, h)` equals to `dictmain.Hooks(f(g(h())))`.
-func (c *DictMainClient) Use(hooks ...Hook) {
-	c.hooks.DictMain = append(c.hooks.DictMain, hooks...)
+// A call to `Use(f, g, h)` equals to `dicttype.Hooks(f(g(h())))`.
+func (c *DictTypeClient) Use(hooks ...Hook) {
+	c.hooks.DictType = append(c.hooks.DictType, hooks...)
 }
 
 // Intercept adds a list of query interceptors to the interceptors stack.
-// A call to `Intercept(f, g, h)` equals to `dictmain.Intercept(f(g(h())))`.
-func (c *DictMainClient) Intercept(interceptors ...Interceptor) {
-	c.inters.DictMain = append(c.inters.DictMain, interceptors...)
+// A call to `Intercept(f, g, h)` equals to `dicttype.Intercept(f(g(h())))`.
+func (c *DictTypeClient) Intercept(interceptors ...Interceptor) {
+	c.inters.DictType = append(c.inters.DictType, interceptors...)
 }
 
-// Create returns a builder for creating a DictMain entity.
-func (c *DictMainClient) Create() *DictMainCreate {
-	mutation := newDictMainMutation(c.config, OpCreate)
-	return &DictMainCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+// Create returns a builder for creating a DictType entity.
+func (c *DictTypeClient) Create() *DictTypeCreate {
+	mutation := newDictTypeMutation(c.config, OpCreate)
+	return &DictTypeCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
-// CreateBulk returns a builder for creating a bulk of DictMain entities.
-func (c *DictMainClient) CreateBulk(builders ...*DictMainCreate) *DictMainCreateBulk {
-	return &DictMainCreateBulk{config: c.config, builders: builders}
+// CreateBulk returns a builder for creating a bulk of DictType entities.
+func (c *DictTypeClient) CreateBulk(builders ...*DictTypeCreate) *DictTypeCreateBulk {
+	return &DictTypeCreateBulk{config: c.config, builders: builders}
 }
 
 // MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
 // a builder and applies setFunc on it.
-func (c *DictMainClient) MapCreateBulk(slice any, setFunc func(*DictMainCreate, int)) *DictMainCreateBulk {
+func (c *DictTypeClient) MapCreateBulk(slice any, setFunc func(*DictTypeCreate, int)) *DictTypeCreateBulk {
 	rv := reflect.ValueOf(slice)
 	if rv.Kind() != reflect.Slice {
-		return &DictMainCreateBulk{err: fmt.Errorf("calling to DictMainClient.MapCreateBulk with wrong type %T, need slice", slice)}
+		return &DictTypeCreateBulk{err: fmt.Errorf("calling to DictTypeClient.MapCreateBulk with wrong type %T, need slice", slice)}
 	}
-	builders := make([]*DictMainCreate, rv.Len())
+	builders := make([]*DictTypeCreate, rv.Len())
 	for i := 0; i < rv.Len(); i++ {
 		builders[i] = c.Create()
 		setFunc(builders[i], i)
 	}
-	return &DictMainCreateBulk{config: c.config, builders: builders}
+	return &DictTypeCreateBulk{config: c.config, builders: builders}
 }
 
-// Update returns an update builder for DictMain.
-func (c *DictMainClient) Update() *DictMainUpdate {
-	mutation := newDictMainMutation(c.config, OpUpdate)
-	return &DictMainUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+// Update returns an update builder for DictType.
+func (c *DictTypeClient) Update() *DictTypeUpdate {
+	mutation := newDictTypeMutation(c.config, OpUpdate)
+	return &DictTypeUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
 // UpdateOne returns an update builder for the given entity.
-func (c *DictMainClient) UpdateOne(_m *DictMain) *DictMainUpdateOne {
-	mutation := newDictMainMutation(c.config, OpUpdateOne, withDictMain(_m))
-	return &DictMainUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+func (c *DictTypeClient) UpdateOne(_m *DictType) *DictTypeUpdateOne {
+	mutation := newDictTypeMutation(c.config, OpUpdateOne, withDictType(_m))
+	return &DictTypeUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *DictMainClient) UpdateOneID(id uint32) *DictMainUpdateOne {
-	mutation := newDictMainMutation(c.config, OpUpdateOne, withDictMainID(id))
-	return &DictMainUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+func (c *DictTypeClient) UpdateOneID(id uint32) *DictTypeUpdateOne {
+	mutation := newDictTypeMutation(c.config, OpUpdateOne, withDictTypeID(id))
+	return &DictTypeUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
-// Delete returns a delete builder for DictMain.
-func (c *DictMainClient) Delete() *DictMainDelete {
-	mutation := newDictMainMutation(c.config, OpDelete)
-	return &DictMainDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+// Delete returns a delete builder for DictType.
+func (c *DictTypeClient) Delete() *DictTypeDelete {
+	mutation := newDictTypeMutation(c.config, OpDelete)
+	return &DictTypeDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
 // DeleteOne returns a builder for deleting the given entity.
-func (c *DictMainClient) DeleteOne(_m *DictMain) *DictMainDeleteOne {
+func (c *DictTypeClient) DeleteOne(_m *DictType) *DictTypeDeleteOne {
 	return c.DeleteOneID(_m.ID)
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *DictMainClient) DeleteOneID(id uint32) *DictMainDeleteOne {
-	builder := c.Delete().Where(dictmain.ID(id))
+func (c *DictTypeClient) DeleteOneID(id uint32) *DictTypeDeleteOne {
+	builder := c.Delete().Where(dicttype.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
-	return &DictMainDeleteOne{builder}
+	return &DictTypeDeleteOne{builder}
 }
 
-// Query returns a query builder for DictMain.
-func (c *DictMainClient) Query() *DictMainQuery {
-	return &DictMainQuery{
+// Query returns a query builder for DictType.
+func (c *DictTypeClient) Query() *DictTypeQuery {
+	return &DictTypeQuery{
 		config: c.config,
-		ctx:    &QueryContext{Type: TypeDictMain},
+		ctx:    &QueryContext{Type: TypeDictType},
 		inters: c.Interceptors(),
 	}
 }
 
-// Get returns a DictMain entity by its id.
-func (c *DictMainClient) Get(ctx context.Context, id uint32) (*DictMain, error) {
-	return c.Query().Where(dictmain.ID(id)).Only(ctx)
+// Get returns a DictType entity by its id.
+func (c *DictTypeClient) Get(ctx context.Context, id uint32) (*DictType, error) {
+	return c.Query().Where(dicttype.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *DictMainClient) GetX(ctx context.Context, id uint32) *DictMain {
+func (c *DictTypeClient) GetX(ctx context.Context, id uint32) *DictType {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -1378,15 +1386,15 @@ func (c *DictMainClient) GetX(ctx context.Context, id uint32) *DictMain {
 	return obj
 }
 
-// QueryItems queries the items edge of a DictMain.
-func (c *DictMainClient) QueryItems(_m *DictMain) *DictItemQuery {
-	query := (&DictItemClient{config: c.config}).Query()
+// QueryEntries queries the entries edge of a DictType.
+func (c *DictTypeClient) QueryEntries(_m *DictType) *DictEntryQuery {
+	query := (&DictEntryClient{config: c.config}).Query()
 	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
 		id := _m.ID
 		step := sqlgraph.NewStep(
-			sqlgraph.From(dictmain.Table, dictmain.FieldID, id),
-			sqlgraph.To(dictitem.Table, dictitem.FieldID),
-			sqlgraph.Edge(sqlgraph.O2M, true, dictmain.ItemsTable, dictmain.ItemsColumn),
+			sqlgraph.From(dicttype.Table, dicttype.FieldID, id),
+			sqlgraph.To(dictentry.Table, dictentry.FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, true, dicttype.EntriesTable, dicttype.EntriesColumn),
 		)
 		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
@@ -1395,27 +1403,27 @@ func (c *DictMainClient) QueryItems(_m *DictMain) *DictItemQuery {
 }
 
 // Hooks returns the client hooks.
-func (c *DictMainClient) Hooks() []Hook {
-	return c.hooks.DictMain
+func (c *DictTypeClient) Hooks() []Hook {
+	return c.hooks.DictType
 }
 
 // Interceptors returns the client interceptors.
-func (c *DictMainClient) Interceptors() []Interceptor {
-	return c.inters.DictMain
+func (c *DictTypeClient) Interceptors() []Interceptor {
+	return c.inters.DictType
 }
 
-func (c *DictMainClient) mutate(ctx context.Context, m *DictMainMutation) (Value, error) {
+func (c *DictTypeClient) mutate(ctx context.Context, m *DictTypeMutation) (Value, error) {
 	switch m.Op() {
 	case OpCreate:
-		return (&DictMainCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+		return (&DictTypeCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
 	case OpUpdate:
-		return (&DictMainUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+		return (&DictTypeUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
 	case OpUpdateOne:
-		return (&DictMainUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+		return (&DictTypeUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
 	case OpDelete, OpDeleteOne:
-		return (&DictMainDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+		return (&DictTypeDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
 	default:
-		return nil, fmt.Errorf("ent: unknown DictMain mutation op: %q", m.Op())
+		return nil, fmt.Errorf("ent: unknown DictType mutation op: %q", m.Op())
 	}
 }
 
@@ -1549,6 +1557,139 @@ func (c *FileClient) mutate(ctx context.Context, m *FileMutation) (Value, error)
 		return (&FileDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
 	default:
 		return nil, fmt.Errorf("ent: unknown File mutation op: %q", m.Op())
+	}
+}
+
+// LanguageClient is a client for the Language schema.
+type LanguageClient struct {
+	config
+}
+
+// NewLanguageClient returns a client for the Language from the given config.
+func NewLanguageClient(c config) *LanguageClient {
+	return &LanguageClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `language.Hooks(f(g(h())))`.
+func (c *LanguageClient) Use(hooks ...Hook) {
+	c.hooks.Language = append(c.hooks.Language, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `language.Intercept(f(g(h())))`.
+func (c *LanguageClient) Intercept(interceptors ...Interceptor) {
+	c.inters.Language = append(c.inters.Language, interceptors...)
+}
+
+// Create returns a builder for creating a Language entity.
+func (c *LanguageClient) Create() *LanguageCreate {
+	mutation := newLanguageMutation(c.config, OpCreate)
+	return &LanguageCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of Language entities.
+func (c *LanguageClient) CreateBulk(builders ...*LanguageCreate) *LanguageCreateBulk {
+	return &LanguageCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *LanguageClient) MapCreateBulk(slice any, setFunc func(*LanguageCreate, int)) *LanguageCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &LanguageCreateBulk{err: fmt.Errorf("calling to LanguageClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*LanguageCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &LanguageCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for Language.
+func (c *LanguageClient) Update() *LanguageUpdate {
+	mutation := newLanguageMutation(c.config, OpUpdate)
+	return &LanguageUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *LanguageClient) UpdateOne(_m *Language) *LanguageUpdateOne {
+	mutation := newLanguageMutation(c.config, OpUpdateOne, withLanguage(_m))
+	return &LanguageUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *LanguageClient) UpdateOneID(id uint32) *LanguageUpdateOne {
+	mutation := newLanguageMutation(c.config, OpUpdateOne, withLanguageID(id))
+	return &LanguageUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for Language.
+func (c *LanguageClient) Delete() *LanguageDelete {
+	mutation := newLanguageMutation(c.config, OpDelete)
+	return &LanguageDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *LanguageClient) DeleteOne(_m *Language) *LanguageDeleteOne {
+	return c.DeleteOneID(_m.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *LanguageClient) DeleteOneID(id uint32) *LanguageDeleteOne {
+	builder := c.Delete().Where(language.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &LanguageDeleteOne{builder}
+}
+
+// Query returns a query builder for Language.
+func (c *LanguageClient) Query() *LanguageQuery {
+	return &LanguageQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeLanguage},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a Language entity by its id.
+func (c *LanguageClient) Get(ctx context.Context, id uint32) (*Language, error) {
+	return c.Query().Where(language.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *LanguageClient) GetX(ctx context.Context, id uint32) *Language {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *LanguageClient) Hooks() []Hook {
+	return c.hooks.Language
+}
+
+// Interceptors returns the client interceptors.
+func (c *LanguageClient) Interceptors() []Interceptor {
+	return c.inters.Language
+}
+
+func (c *LanguageClient) mutate(ctx context.Context, m *LanguageMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&LanguageCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&LanguageUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&LanguageUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&LanguageDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown Language mutation op: %q", m.Op())
 	}
 }
 
@@ -4243,7 +4384,7 @@ func (c *UserRoleClient) mutate(ctx context.Context, m *UserRoleMutation) (Value
 type (
 	hooks struct {
 		AdminLoginLog, AdminLoginRestriction, AdminOperationLog, ApiResource,
-		Department, DictItem, DictMain, File, Menu, NotificationMessage,
+		Department, DictEntry, DictType, File, Language, Menu, NotificationMessage,
 		NotificationMessageCategory, NotificationMessageRecipient, Organization,
 		Position, PrivateMessage, Role, RoleApi, RoleDept, RoleMenu, RoleOrg,
 		RolePosition, Task, Tenant, User, UserCredential, UserPosition,
@@ -4251,7 +4392,7 @@ type (
 	}
 	inters struct {
 		AdminLoginLog, AdminLoginRestriction, AdminOperationLog, ApiResource,
-		Department, DictItem, DictMain, File, Menu, NotificationMessage,
+		Department, DictEntry, DictType, File, Language, Menu, NotificationMessage,
 		NotificationMessageCategory, NotificationMessageRecipient, Organization,
 		Position, PrivateMessage, Role, RoleApi, RoleDept, RoleMenu, RoleOrg,
 		RolePosition, Task, Tenant, User, UserCredential, UserPosition,

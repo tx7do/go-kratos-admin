@@ -265,12 +265,12 @@ func (_q *RoleApiQuery) Clone() *RoleApiQuery {
 // Example:
 //
 //	var v []struct {
-//		CreateTime time.Time `json:"create_time,omitempty"`
+//		CreatedAt time.Time `json:"created_at,omitempty"`
 //		Count int `json:"count,omitempty"`
 //	}
 //
 //	client.RoleApi.Query().
-//		GroupBy(roleapi.FieldCreateTime).
+//		GroupBy(roleapi.FieldCreatedAt).
 //		Aggregate(ent.Count()).
 //		Scan(ctx, &v)
 func (_q *RoleApiQuery) GroupBy(field string, fields ...string) *RoleApiGroupBy {
@@ -288,11 +288,11 @@ func (_q *RoleApiQuery) GroupBy(field string, fields ...string) *RoleApiGroupBy 
 // Example:
 //
 //	var v []struct {
-//		CreateTime time.Time `json:"create_time,omitempty"`
+//		CreatedAt time.Time `json:"created_at,omitempty"`
 //	}
 //
 //	client.RoleApi.Query().
-//		Select(roleapi.FieldCreateTime).
+//		Select(roleapi.FieldCreatedAt).
 //		Scan(ctx, &v)
 func (_q *RoleApiQuery) Select(fields ...string) *RoleApiSelect {
 	_q.ctx.Fields = append(_q.ctx.Fields, fields...)

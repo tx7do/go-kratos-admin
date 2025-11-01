@@ -86,7 +86,7 @@ func (s *RoleService) Create(ctx context.Context, req *userV1.CreateRoleRequest)
 		return &emptypb.Empty{}, err
 	}
 
-	req.Data.CreateBy = trans.Ptr(operator.UserId)
+	req.Data.CreatedBy = trans.Ptr(operator.UserId)
 
 	if err = s.roleRepo.Create(ctx, req); err != nil {
 		return nil, err
@@ -110,7 +110,7 @@ func (s *RoleService) Update(ctx context.Context, req *userV1.UpdateRoleRequest)
 		return &emptypb.Empty{}, err
 	}
 
-	req.Data.UpdateBy = trans.Ptr(operator.UserId)
+	req.Data.UpdatedBy = trans.Ptr(operator.UserId)
 
 	if err = s.roleRepo.Update(ctx, req); err != nil {
 		return nil, err

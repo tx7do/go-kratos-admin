@@ -12,12 +12,12 @@
   },
   "table": {
     "seq": "序号",
-    "createTime": "创建时间",
-    "updateTime": "更新时间",
+    "createdAt": "创建时间",
+    "updatedAt": "更新时间",
     "deleteTime": "删除时间",
     "status": "状态",
     "action": "操作",
-    "sortId": "排序",
+    "sortOrder": "排序",
     "remark": "备注",
     "description": "描述"
   },

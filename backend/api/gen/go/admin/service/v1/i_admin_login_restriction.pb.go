@@ -145,11 +145,12 @@ type AdminLoginRestriction struct {
 	Method        *AdminLoginRestriction_Method `protobuf:"varint,4,opt,name=method,proto3,enum=admin.service.v1.AdminLoginRestriction_Method,oneof" json:"method,omitempty"` // 限制方式
 	Value         *string                       `protobuf:"bytes,5,opt,name=value,proto3,oneof" json:"value,omitempty"`                                                       // 限制值（如IP地址、MAC地址或地区代码）
 	Reason        *string                       `protobuf:"bytes,6,opt,name=reason,proto3,oneof" json:"reason,omitempty"`                                                     // 限制原因
-	CreateBy      *uint32                       `protobuf:"varint,100,opt,name=create_by,json=createBy,proto3,oneof" json:"create_by,omitempty"`                              // 创建者ID
-	UpdateBy      *uint32                       `protobuf:"varint,101,opt,name=update_by,json=updateBy,proto3,oneof" json:"update_by,omitempty"`                              // 更新者ID
-	CreateTime    *timestamppb.Timestamp        `protobuf:"bytes,200,opt,name=create_time,json=createTime,proto3,oneof" json:"create_time,omitempty"`                         // 创建时间
-	UpdateTime    *timestamppb.Timestamp        `protobuf:"bytes,201,opt,name=update_time,json=updateTime,proto3,oneof" json:"update_time,omitempty"`                         // 更新时间
-	DeleteTime    *timestamppb.Timestamp        `protobuf:"bytes,202,opt,name=delete_time,json=deleteTime,proto3,oneof" json:"delete_time,omitempty"`                         // 删除时间
+	CreatedBy     *uint32                       `protobuf:"varint,100,opt,name=created_by,json=createdBy,proto3,oneof" json:"created_by,omitempty"`                           // 创建者ID
+	UpdatedBy     *uint32                       `protobuf:"varint,101,opt,name=updated_by,json=updatedBy,proto3,oneof" json:"updated_by,omitempty"`                           // 更新者ID
+	DeletedBy     *uint32                       `protobuf:"varint,102,opt,name=deleted_by,json=deletedBy,proto3,oneof" json:"deleted_by,omitempty"`                           // 删除者用户ID
+	CreatedAt     *timestamppb.Timestamp        `protobuf:"bytes,200,opt,name=created_at,json=createdAt,proto3,oneof" json:"created_at,omitempty"`                            // 创建时间
+	UpdatedAt     *timestamppb.Timestamp        `protobuf:"bytes,201,opt,name=updated_at,json=updatedAt,proto3,oneof" json:"updated_at,omitempty"`                            // 更新时间
+	DeletedAt     *timestamppb.Timestamp        `protobuf:"bytes,202,opt,name=deleted_at,json=deletedAt,proto3,oneof" json:"deleted_at,omitempty"`                            // 删除时间
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -226,37 +227,44 @@ func (x *AdminLoginRestriction) GetReason() string {
 	return ""
 }
 
-func (x *AdminLoginRestriction) GetCreateBy() uint32 {
-	if x != nil && x.CreateBy != nil {
-		return *x.CreateBy
+func (x *AdminLoginRestriction) GetCreatedBy() uint32 {
+	if x != nil && x.CreatedBy != nil {
+		return *x.CreatedBy
 	}
 	return 0
 }
 
-func (x *AdminLoginRestriction) GetUpdateBy() uint32 {
-	if x != nil && x.UpdateBy != nil {
-		return *x.UpdateBy
+func (x *AdminLoginRestriction) GetUpdatedBy() uint32 {
+	if x != nil && x.UpdatedBy != nil {
+		return *x.UpdatedBy
 	}
 	return 0
 }
 
-func (x *AdminLoginRestriction) GetCreateTime() *timestamppb.Timestamp {
+func (x *AdminLoginRestriction) GetDeletedBy() uint32 {
+	if x != nil && x.DeletedBy != nil {
+		return *x.DeletedBy
+	}
+	return 0
+}
+
+func (x *AdminLoginRestriction) GetCreatedAt() *timestamppb.Timestamp {
 	if x != nil {
-		return x.CreateTime
+		return x.CreatedAt
 	}
 	return nil
 }
 
-func (x *AdminLoginRestriction) GetUpdateTime() *timestamppb.Timestamp {
+func (x *AdminLoginRestriction) GetUpdatedAt() *timestamppb.Timestamp {
 	if x != nil {
-		return x.UpdateTime
+		return x.UpdatedAt
 	}
 	return nil
 }
 
-func (x *AdminLoginRestriction) GetDeleteTime() *timestamppb.Timestamp {
+func (x *AdminLoginRestriction) GetDeletedAt() *timestamppb.Timestamp {
 	if x != nil {
-		return x.DeleteTime
+		return x.DeletedAt
 	}
 	return nil
 }
@@ -514,23 +522,27 @@ var File_admin_service_v1_i_admin_login_restriction_proto protoreflect.FileDescr
 
 const file_admin_service_v1_i_admin_login_restriction_proto_rawDesc = "" +
 	"\n" +
-	"0admin/service/v1/i_admin_login_restriction.proto\x12\x10admin.service.v1\x1a$gnostic/openapi/v3/annotations.proto\x1a\x1cgoogle/api/annotations.proto\x1a\x1fgoogle/api/field_behavior.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a google/protobuf/field_mask.proto\x1a\x1epagination/v1/pagination.proto\"\xf6\b\n" +
+	"0admin/service/v1/i_admin_login_restriction.proto\x12\x10admin.service.v1\x1a$gnostic/openapi/v3/annotations.proto\x1a\x1cgoogle/api/annotations.proto\x1a\x1fgoogle/api/field_behavior.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a google/protobuf/field_mask.proto\x1a\x1epagination/v1/pagination.proto\"\xbf\t\n" +
 	"\x15AdminLoginRestriction\x122\n" +
 	"\x02id\x18\x01 \x01(\rB\x1d\xe0A\x01\xbaG\x17\x92\x02\x14后台登录限制IDH\x00R\x02id\x88\x01\x01\x126\n" +
 	"\ttarget_id\x18\x02 \x01(\rB\x14\xbaG\x11\x92\x02\x0e目标用户IDH\x01R\btargetId\x88\x01\x01\x12Y\n" +
 	"\x04type\x18\x03 \x01(\x0e2,.admin.service.v1.AdminLoginRestriction.TypeB\x12\xbaG\x0f\x92\x02\f限制类型H\x02R\x04type\x88\x01\x01\x12_\n" +
 	"\x06method\x18\x04 \x01(\x0e2..admin.service.v1.AdminLoginRestriction.MethodB\x12\xbaG\x0f\x92\x02\f限制方式H\x03R\x06method\x88\x01\x01\x12V\n" +
 	"\x05value\x18\x05 \x01(\tB;\xbaG8\x92\x025限制值（如IP地址、MAC地址或地区代码）H\x04R\x05value\x88\x01\x01\x12/\n" +
-	"\x06reason\x18\x06 \x01(\tB\x12\xbaG\x0f\x92\x02\f限制原因H\x05R\x06reason\x88\x01\x01\x123\n" +
-	"\tcreate_by\x18d \x01(\rB\x11\xbaG\x0e\x92\x02\v创建者IDH\x06R\bcreateBy\x88\x01\x01\x123\n" +
-	"\tupdate_by\x18e \x01(\rB\x11\xbaG\x0e\x92\x02\v更新者IDH\aR\bupdateBy\x88\x01\x01\x12U\n" +
-	"\vcreate_time\x18\xc8\x01 \x01(\v2\x1a.google.protobuf.TimestampB\x12\xbaG\x0f\x92\x02\f创建时间H\bR\n" +
-	"createTime\x88\x01\x01\x12U\n" +
-	"\vupdate_time\x18\xc9\x01 \x01(\v2\x1a.google.protobuf.TimestampB\x12\xbaG\x0f\x92\x02\f更新时间H\tR\n" +
-	"updateTime\x88\x01\x01\x12U\n" +
-	"\vdelete_time\x18\xca\x01 \x01(\v2\x1a.google.protobuf.TimestampB\x12\xbaG\x0f\x92\x02\f删除时间H\n" +
-	"R\n" +
-	"deleteTime\x88\x01\x01\"L\n" +
+	"\x06reason\x18\x06 \x01(\tB\x12\xbaG\x0f\x92\x02\f限制原因H\x05R\x06reason\x88\x01\x01\x125\n" +
+	"\n" +
+	"created_by\x18d \x01(\rB\x11\xbaG\x0e\x92\x02\v创建者IDH\x06R\tcreatedBy\x88\x01\x01\x125\n" +
+	"\n" +
+	"updated_by\x18e \x01(\rB\x11\xbaG\x0e\x92\x02\v更新者IDH\aR\tupdatedBy\x88\x01\x01\x12;\n" +
+	"\n" +
+	"deleted_by\x18f \x01(\rB\x17\xbaG\x14\x92\x02\x11删除者用户IDH\bR\tdeletedBy\x88\x01\x01\x12S\n" +
+	"\n" +
+	"created_at\x18\xc8\x01 \x01(\v2\x1a.google.protobuf.TimestampB\x12\xbaG\x0f\x92\x02\f创建时间H\tR\tcreatedAt\x88\x01\x01\x12S\n" +
+	"\n" +
+	"updated_at\x18\xc9\x01 \x01(\v2\x1a.google.protobuf.TimestampB\x12\xbaG\x0f\x92\x02\f更新时间H\n" +
+	"R\tupdatedAt\x88\x01\x01\x12S\n" +
+	"\n" +
+	"deleted_at\x18\xca\x01 \x01(\v2\x1a.google.protobuf.TimestampB\x12\xbaG\x0f\x92\x02\f删除时间H\vR\tdeletedAt\x88\x01\x01\"L\n" +
 	"\x04Type\x12&\n" +
 	"\"LOGIN_RESTRICTION_TYPE_UNSPECIFIED\x10\x00\x12\r\n" +
 	"\tBLACKLIST\x10\x01\x12\r\n" +
@@ -550,14 +562,13 @@ const file_admin_service_v1_i_admin_login_restriction_proto_rawDesc = "" +
 	"\x05_typeB\t\n" +
 	"\a_methodB\b\n" +
 	"\x06_valueB\t\n" +
-	"\a_reasonB\f\n" +
-	"\n" +
-	"_create_byB\f\n" +
-	"\n" +
-	"_update_byB\x0e\n" +
-	"\f_create_timeB\x0e\n" +
-	"\f_update_timeB\x0e\n" +
-	"\f_delete_time\"x\n" +
+	"\a_reasonB\r\n" +
+	"\v_created_byB\r\n" +
+	"\v_updated_byB\r\n" +
+	"\v_deleted_byB\r\n" +
+	"\v_created_atB\r\n" +
+	"\v_updated_atB\r\n" +
+	"\v_deleted_at\"x\n" +
 	"!ListAdminLoginRestrictionResponse\x12=\n" +
 	"\x05items\x18\x01 \x03(\v2'.admin.service.v1.AdminLoginRestrictionR\x05items\x12\x14\n" +
 	"\x05total\x18\x02 \x01(\rR\x05total\"1\n" +
@@ -612,9 +623,9 @@ var file_admin_service_v1_i_admin_login_restriction_proto_goTypes = []any{
 var file_admin_service_v1_i_admin_login_restriction_proto_depIdxs = []int32{
 	0,  // 0: admin.service.v1.AdminLoginRestriction.type:type_name -> admin.service.v1.AdminLoginRestriction.Type
 	1,  // 1: admin.service.v1.AdminLoginRestriction.method:type_name -> admin.service.v1.AdminLoginRestriction.Method
-	8,  // 2: admin.service.v1.AdminLoginRestriction.create_time:type_name -> google.protobuf.Timestamp
-	8,  // 3: admin.service.v1.AdminLoginRestriction.update_time:type_name -> google.protobuf.Timestamp
-	8,  // 4: admin.service.v1.AdminLoginRestriction.delete_time:type_name -> google.protobuf.Timestamp
+	8,  // 2: admin.service.v1.AdminLoginRestriction.created_at:type_name -> google.protobuf.Timestamp
+	8,  // 3: admin.service.v1.AdminLoginRestriction.updated_at:type_name -> google.protobuf.Timestamp
+	8,  // 4: admin.service.v1.AdminLoginRestriction.deleted_at:type_name -> google.protobuf.Timestamp
 	2,  // 5: admin.service.v1.ListAdminLoginRestrictionResponse.items:type_name -> admin.service.v1.AdminLoginRestriction
 	2,  // 6: admin.service.v1.CreateAdminLoginRestrictionRequest.data:type_name -> admin.service.v1.AdminLoginRestriction
 	2,  // 7: admin.service.v1.UpdateAdminLoginRestrictionRequest.data:type_name -> admin.service.v1.AdminLoginRestriction

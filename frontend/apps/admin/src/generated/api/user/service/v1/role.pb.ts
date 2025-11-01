@@ -21,8 +21,8 @@ export interface Role {
     | string
     | null
     | undefined;
-  /** 排序编号 */
-  sortId?:
+  /** 排序顺序，值越小越靠前 */
+  sortOrder?:
     | number
     | null
     | undefined;
@@ -68,27 +68,32 @@ export interface Role {
   /** 子节点树 */
   children: Role[];
   /** 创建者ID */
-  createBy?:
+  createdBy?:
     | number
     | null
     | undefined;
   /** 更新者ID */
-  updateBy?:
+  updatedBy?:
+    | number
+    | null
+    | undefined;
+  /** 删除者用户ID */
+  deletedBy?:
     | number
     | null
     | undefined;
   /** 创建时间 */
-  createTime?:
+  createdAt?:
     | Timestamp
     | null
     | undefined;
   /** 更新时间 */
-  updateTime?:
+  updatedAt?:
     | Timestamp
     | null
     | undefined;
   /** 删除时间 */
-  deleteTime?: Timestamp | null | undefined;
+  deletedAt?: Timestamp | null | undefined;
 }
 
 /** 角色状态 */
@@ -157,7 +162,8 @@ export interface BatchCreateRolesRequest {
 }
 
 export interface BatchCreateRolesResponse {
-  data: Role[];
+  /** 创建成功的角色ID列表 */
+  createdIds: number[];
 }
 
 export interface GetRoleCodesByRoleIdsRequest {

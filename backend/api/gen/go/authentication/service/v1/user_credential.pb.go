@@ -408,11 +408,12 @@ type UserCredential struct {
 	IsPrimary      *bool                  `protobuf:"varint,30,opt,name=is_primary,json=isPrimary,proto3,oneof" json:"is_primary,omitempty"`                                                                   // 是否主认证方式
 	Status         *UserCredential_Status `protobuf:"varint,31,opt,name=status,proto3,enum=authentication.service.v1.UserCredential_Status,oneof" json:"status,omitempty"`                                     // 凭证状态
 	ExtraInfo      *string                `protobuf:"bytes,32,opt,name=extra_info,json=extraInfo,proto3,oneof" json:"extra_info,omitempty"`                                                                    // 扩展信息
-	CreateBy       *uint32                `protobuf:"varint,100,opt,name=create_by,json=createBy,proto3,oneof" json:"create_by,omitempty"`                                                                     // 创建者ID
-	UpdateBy       *uint32                `protobuf:"varint,101,opt,name=update_by,json=updateBy,proto3,oneof" json:"update_by,omitempty"`                                                                     // 更新者ID
-	CreateTime     *timestamppb.Timestamp `protobuf:"bytes,200,opt,name=create_time,json=createTime,proto3,oneof" json:"create_time,omitempty"`                                                                // 创建时间
-	UpdateTime     *timestamppb.Timestamp `protobuf:"bytes,201,opt,name=update_time,json=updateTime,proto3,oneof" json:"update_time,omitempty"`                                                                // 更新时间
-	DeleteTime     *timestamppb.Timestamp `protobuf:"bytes,202,opt,name=delete_time,json=deleteTime,proto3,oneof" json:"delete_time,omitempty"`                                                                // 删除时间
+	CreatedBy      *uint32                `protobuf:"varint,100,opt,name=created_by,json=createdBy,proto3,oneof" json:"created_by,omitempty"`                                                                  // 创建者ID
+	UpdatedBy      *uint32                `protobuf:"varint,101,opt,name=updated_by,json=updatedBy,proto3,oneof" json:"updated_by,omitempty"`                                                                  // 更新者ID
+	DeletedBy      *uint32                `protobuf:"varint,102,opt,name=deleted_by,json=deletedBy,proto3,oneof" json:"deleted_by,omitempty"`                                                                  // 删除者用户ID
+	CreatedAt      *timestamppb.Timestamp `protobuf:"bytes,200,opt,name=created_at,json=createdAt,proto3,oneof" json:"created_at,omitempty"`                                                                   // 创建时间
+	UpdatedAt      *timestamppb.Timestamp `protobuf:"bytes,201,opt,name=updated_at,json=updatedAt,proto3,oneof" json:"updated_at,omitempty"`                                                                   // 更新时间
+	DeletedAt      *timestamppb.Timestamp `protobuf:"bytes,202,opt,name=deleted_at,json=deletedAt,proto3,oneof" json:"deleted_at,omitempty"`                                                                   // 删除时间
 	unknownFields  protoimpl.UnknownFields
 	sizeCache      protoimpl.SizeCache
 }
@@ -517,37 +518,44 @@ func (x *UserCredential) GetExtraInfo() string {
 	return ""
 }
 
-func (x *UserCredential) GetCreateBy() uint32 {
-	if x != nil && x.CreateBy != nil {
-		return *x.CreateBy
+func (x *UserCredential) GetCreatedBy() uint32 {
+	if x != nil && x.CreatedBy != nil {
+		return *x.CreatedBy
 	}
 	return 0
 }
 
-func (x *UserCredential) GetUpdateBy() uint32 {
-	if x != nil && x.UpdateBy != nil {
-		return *x.UpdateBy
+func (x *UserCredential) GetUpdatedBy() uint32 {
+	if x != nil && x.UpdatedBy != nil {
+		return *x.UpdatedBy
 	}
 	return 0
 }
 
-func (x *UserCredential) GetCreateTime() *timestamppb.Timestamp {
+func (x *UserCredential) GetDeletedBy() uint32 {
+	if x != nil && x.DeletedBy != nil {
+		return *x.DeletedBy
+	}
+	return 0
+}
+
+func (x *UserCredential) GetCreatedAt() *timestamppb.Timestamp {
 	if x != nil {
-		return x.CreateTime
+		return x.CreatedAt
 	}
 	return nil
 }
 
-func (x *UserCredential) GetUpdateTime() *timestamppb.Timestamp {
+func (x *UserCredential) GetUpdatedAt() *timestamppb.Timestamp {
 	if x != nil {
-		return x.UpdateTime
+		return x.UpdatedAt
 	}
 	return nil
 }
 
-func (x *UserCredential) GetDeleteTime() *timestamppb.Timestamp {
+func (x *UserCredential) GetDeletedAt() *timestamppb.Timestamp {
 	if x != nil {
-		return x.DeleteTime
+		return x.DeletedAt
 	}
 	return nil
 }
@@ -1118,7 +1126,7 @@ var File_authentication_service_v1_user_credential_proto protoreflect.FileDescri
 
 const file_authentication_service_v1_user_credential_proto_rawDesc = "" +
 	"\n" +
-	"/authentication/service/v1/user_credential.proto\x12\x19authentication.service.v1\x1a$gnostic/openapi/v3/annotations.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a google/protobuf/field_mask.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x1epagination/v1/pagination.proto\"\xb8\x17\n" +
+	"/authentication/service/v1/user_credential.proto\x12\x19authentication.service.v1\x1a$gnostic/openapi/v3/annotations.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a google/protobuf/field_mask.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x1epagination/v1/pagination.proto\"\x81\x18\n" +
 	"\x0eUserCredential\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\rR\x02id\x12;\n" +
 	"\auser_id\x18\x02 \x01(\rB\x1d\xbaG\x1a\x92\x02\x17关联主表的用户IDH\x00R\x06userId\x88\x01\x01\x120\n" +
@@ -1136,16 +1144,20 @@ const file_authentication_service_v1_user_credential_proto_rawDesc = "" +
 	"is_primary\x18\x1e \x01(\bB~\xbaG{\x92\x02x是否主认证方式，如果用户同时绑定了邮箱和手机号，那么可以指定邮箱为主要认证方式。H\x06R\tisPrimary\x88\x01\x01\x12a\n" +
 	"\x06status\x18\x1f \x01(\x0e20.authentication.service.v1.UserCredential.StatusB\x12\xbaG\x0f\x92\x02\f凭证状态H\aR\x06status\x88\x01\x01\x12\x87\x01\n" +
 	"\n" +
-	"extra_info\x18  \x01(\tBc\xbaG`\x92\x02]扩展信息，如果是第三方平台认证，可以记录第三方平台的用户信息。H\bR\textraInfo\x88\x01\x01\x123\n" +
-	"\tcreate_by\x18d \x01(\rB\x11\xbaG\x0e\x92\x02\v创建者IDH\tR\bcreateBy\x88\x01\x01\x123\n" +
-	"\tupdate_by\x18e \x01(\rB\x11\xbaG\x0e\x92\x02\v更新者IDH\n" +
-	"R\bupdateBy\x88\x01\x01\x12U\n" +
-	"\vcreate_time\x18\xc8\x01 \x01(\v2\x1a.google.protobuf.TimestampB\x12\xbaG\x0f\x92\x02\f创建时间H\vR\n" +
-	"createTime\x88\x01\x01\x12U\n" +
-	"\vupdate_time\x18\xc9\x01 \x01(\v2\x1a.google.protobuf.TimestampB\x12\xbaG\x0f\x92\x02\f更新时间H\fR\n" +
-	"updateTime\x88\x01\x01\x12U\n" +
-	"\vdelete_time\x18\xca\x01 \x01(\v2\x1a.google.protobuf.TimestampB\x12\xbaG\x0f\x92\x02\f删除时间H\rR\n" +
-	"deleteTime\x88\x01\x01\"\xba\x06\n" +
+	"extra_info\x18  \x01(\tBc\xbaG`\x92\x02]扩展信息，如果是第三方平台认证，可以记录第三方平台的用户信息。H\bR\textraInfo\x88\x01\x01\x125\n" +
+	"\n" +
+	"created_by\x18d \x01(\rB\x11\xbaG\x0e\x92\x02\v创建者IDH\tR\tcreatedBy\x88\x01\x01\x125\n" +
+	"\n" +
+	"updated_by\x18e \x01(\rB\x11\xbaG\x0e\x92\x02\v更新者IDH\n" +
+	"R\tupdatedBy\x88\x01\x01\x12;\n" +
+	"\n" +
+	"deleted_by\x18f \x01(\rB\x17\xbaG\x14\x92\x02\x11删除者用户IDH\vR\tdeletedBy\x88\x01\x01\x12S\n" +
+	"\n" +
+	"created_at\x18\xc8\x01 \x01(\v2\x1a.google.protobuf.TimestampB\x12\xbaG\x0f\x92\x02\f创建时间H\fR\tcreatedAt\x88\x01\x01\x12S\n" +
+	"\n" +
+	"updated_at\x18\xc9\x01 \x01(\v2\x1a.google.protobuf.TimestampB\x12\xbaG\x0f\x92\x02\f更新时间H\rR\tupdatedAt\x88\x01\x01\x12S\n" +
+	"\n" +
+	"deleted_at\x18\xca\x01 \x01(\v2\x1a.google.protobuf.TimestampB\x12\xbaG\x0f\x92\x02\f删除时间H\x0eR\tdeletedAt\x88\x01\x01\"\xba\x06\n" +
 	"\x04Type\x12\x11\n" +
 	"\rPASSWORD_HASH\x10\x00\x12\x10\n" +
 	"\fACCESS_TOKEN\x10\x01\x12\x11\n" +
@@ -1206,14 +1218,13 @@ const file_authentication_service_v1_user_credential_proto_rawDesc = "" +
 	"\v_credentialB\r\n" +
 	"\v_is_primaryB\t\n" +
 	"\a_statusB\r\n" +
-	"\v_extra_infoB\f\n" +
-	"\n" +
-	"_create_byB\f\n" +
-	"\n" +
-	"_update_byB\x0e\n" +
-	"\f_create_timeB\x0e\n" +
-	"\f_update_timeB\x0e\n" +
-	"\f_delete_time\"s\n" +
+	"\v_extra_infoB\r\n" +
+	"\v_created_byB\r\n" +
+	"\v_updated_byB\r\n" +
+	"\v_deleted_byB\r\n" +
+	"\v_created_atB\r\n" +
+	"\v_updated_atB\r\n" +
+	"\v_deleted_at\"s\n" +
 	"\x1aListUserCredentialResponse\x12?\n" +
 	"\x05items\x18\x01 \x03(\v2).authentication.service.v1.UserCredentialR\x05items\x12\x14\n" +
 	"\x05total\x18\x02 \x01(\rR\x05total\"\x9a\x03\n" +
@@ -1357,9 +1368,9 @@ var file_authentication_service_v1_user_credential_proto_depIdxs = []int32{
 	0,  // 0: authentication.service.v1.UserCredential.identity_type:type_name -> authentication.service.v1.IdentityType
 	1,  // 1: authentication.service.v1.UserCredential.credential_type:type_name -> authentication.service.v1.UserCredential.Type
 	2,  // 2: authentication.service.v1.UserCredential.status:type_name -> authentication.service.v1.UserCredential.Status
-	14, // 3: authentication.service.v1.UserCredential.create_time:type_name -> google.protobuf.Timestamp
-	14, // 4: authentication.service.v1.UserCredential.update_time:type_name -> google.protobuf.Timestamp
-	14, // 5: authentication.service.v1.UserCredential.delete_time:type_name -> google.protobuf.Timestamp
+	14, // 3: authentication.service.v1.UserCredential.created_at:type_name -> google.protobuf.Timestamp
+	14, // 4: authentication.service.v1.UserCredential.updated_at:type_name -> google.protobuf.Timestamp
+	14, // 5: authentication.service.v1.UserCredential.deleted_at:type_name -> google.protobuf.Timestamp
 	3,  // 6: authentication.service.v1.ListUserCredentialResponse.items:type_name -> authentication.service.v1.UserCredential
 	3,  // 7: authentication.service.v1.UpdateUserCredentialRequest.data:type_name -> authentication.service.v1.UserCredential
 	15, // 8: authentication.service.v1.UpdateUserCredentialRequest.update_mask:type_name -> google.protobuf.FieldMask

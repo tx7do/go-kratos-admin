@@ -22,16 +22,16 @@ type AdminLoginLogCreate struct {
 	conflict []sql.ConflictOption
 }
 
-// SetCreateTime sets the "create_time" field.
-func (_c *AdminLoginLogCreate) SetCreateTime(v time.Time) *AdminLoginLogCreate {
-	_c.mutation.SetCreateTime(v)
+// SetCreatedAt sets the "created_at" field.
+func (_c *AdminLoginLogCreate) SetCreatedAt(v time.Time) *AdminLoginLogCreate {
+	_c.mutation.SetCreatedAt(v)
 	return _c
 }
 
-// SetNillableCreateTime sets the "create_time" field if the given value is not nil.
-func (_c *AdminLoginLogCreate) SetNillableCreateTime(v *time.Time) *AdminLoginLogCreate {
+// SetNillableCreatedAt sets the "created_at" field if the given value is not nil.
+func (_c *AdminLoginLogCreate) SetNillableCreatedAt(v *time.Time) *AdminLoginLogCreate {
 	if v != nil {
-		_c.SetCreateTime(*v)
+		_c.SetCreatedAt(*v)
 	}
 	return _c
 }
@@ -338,9 +338,9 @@ func (_c *AdminLoginLogCreate) createSpec() (*AdminLoginLog, *sqlgraph.CreateSpe
 		_node.ID = id
 		_spec.ID.Value = id
 	}
-	if value, ok := _c.mutation.CreateTime(); ok {
-		_spec.SetField(adminloginlog.FieldCreateTime, field.TypeTime, value)
-		_node.CreateTime = &value
+	if value, ok := _c.mutation.CreatedAt(); ok {
+		_spec.SetField(adminloginlog.FieldCreatedAt, field.TypeTime, value)
+		_node.CreatedAt = &value
 	}
 	if value, ok := _c.mutation.LoginIP(); ok {
 		_spec.SetField(adminloginlog.FieldLoginIP, field.TypeString, value)
@@ -413,7 +413,7 @@ func (_c *AdminLoginLogCreate) createSpec() (*AdminLoginLog, *sqlgraph.CreateSpe
 // of the `INSERT` statement. For example:
 //
 //	client.AdminLoginLog.Create().
-//		SetCreateTime(v).
+//		SetCreatedAt(v).
 //		OnConflict(
 //			// Update the row with the new values
 //			// the was proposed for insertion.
@@ -422,7 +422,7 @@ func (_c *AdminLoginLogCreate) createSpec() (*AdminLoginLog, *sqlgraph.CreateSpe
 //		// Override some of the fields with custom
 //		// update values.
 //		Update(func(u *ent.AdminLoginLogUpsert) {
-//			SetCreateTime(v+v).
+//			SetCreatedAt(v+v).
 //		}).
 //		Exec(ctx)
 func (_c *AdminLoginLogCreate) OnConflict(opts ...sql.ConflictOption) *AdminLoginLogUpsertOne {
@@ -775,8 +775,8 @@ func (u *AdminLoginLogUpsertOne) UpdateNewValues() *AdminLoginLogUpsertOne {
 		if _, exists := u.create.mutation.ID(); exists {
 			s.SetIgnore(adminloginlog.FieldID)
 		}
-		if _, exists := u.create.mutation.CreateTime(); exists {
-			s.SetIgnore(adminloginlog.FieldCreateTime)
+		if _, exists := u.create.mutation.CreatedAt(); exists {
+			s.SetIgnore(adminloginlog.FieldCreatedAt)
 		}
 	}))
 	return u
@@ -1293,7 +1293,7 @@ func (_c *AdminLoginLogCreateBulk) ExecX(ctx context.Context) {
 //		// Override some of the fields with custom
 //		// update values.
 //		Update(func(u *ent.AdminLoginLogUpsert) {
-//			SetCreateTime(v+v).
+//			SetCreatedAt(v+v).
 //		}).
 //		Exec(ctx)
 func (_c *AdminLoginLogCreateBulk) OnConflict(opts ...sql.ConflictOption) *AdminLoginLogUpsertBulk {
@@ -1340,8 +1340,8 @@ func (u *AdminLoginLogUpsertBulk) UpdateNewValues() *AdminLoginLogUpsertBulk {
 			if _, exists := b.mutation.ID(); exists {
 				s.SetIgnore(adminloginlog.FieldID)
 			}
-			if _, exists := b.mutation.CreateTime(); exists {
-				s.SetIgnore(adminloginlog.FieldCreateTime)
+			if _, exists := b.mutation.CreatedAt(); exists {
+				s.SetIgnore(adminloginlog.FieldCreatedAt)
 			}
 		}
 	}))

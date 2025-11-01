@@ -105,7 +105,7 @@ func (r *MenuRepo) List(ctx context.Context, req *pagination.PagingRequest, tree
 	err, whereSelectors, querySelectors := entgo.BuildQuerySelector(
 		req.GetQuery(), req.GetOrQuery(),
 		req.GetPage(), req.GetPageSize(), req.GetNoPaging(),
-		req.GetOrderBy(), menu.FieldCreateTime,
+		req.GetOrderBy(), menu.FieldCreatedAt,
 		req.GetFieldMask().GetPaths(),
 	)
 	if err != nil {
@@ -204,11 +204,11 @@ func (r *MenuRepo) Create(ctx context.Context, req *adminV1.CreateMenuRequest) e
 		SetNillableName(req.Data.Name).
 		SetNillableComponent(req.Data.Component).
 		SetNillableStatus(r.statusConverter.ToEntity(req.Data.Status)).
-		SetNillableCreateBy(req.Data.CreateBy).
-		SetNillableCreateTime(timeutil.TimestamppbToTime(req.Data.CreateTime))
+		SetNillableCreatedBy(req.Data.CreatedBy).
+		SetNillableCreatedAt(timeutil.TimestamppbToTime(req.Data.CreatedAt))
 
-	if req.Data.CreateTime == nil {
-		builder.SetCreateTime(time.Now())
+	if req.Data.CreatedAt == nil {
+		builder.SetCreatedAt(time.Now())
 	}
 
 	if req.Data.Meta != nil {
@@ -240,8 +240,8 @@ func (r *MenuRepo) Update(ctx context.Context, req *adminV1.UpdateMenuRequest) e
 		}
 		if !exist {
 			createReq := &adminV1.CreateMenuRequest{Data: req.Data}
-			createReq.Data.CreateBy = createReq.Data.UpdateBy
-			createReq.Data.UpdateBy = nil
+			createReq.Data.CreatedBy = createReq.Data.UpdatedBy
+			createReq.Data.UpdatedBy = nil
 			return r.Create(ctx, createReq)
 		}
 	}
@@ -273,11 +273,11 @@ func (r *MenuRepo) Update(ctx context.Context, req *adminV1.UpdateMenuRequest) e
 		SetNillableName(req.Data.Name).
 		SetNillableComponent(req.Data.Component).
 		SetNillableStatus(r.statusConverter.ToEntity(req.Data.Status)).
-		SetNillableUpdateBy(req.Data.UpdateBy).
-		SetNillableUpdateTime(timeutil.TimestamppbToTime(req.Data.UpdateTime))
+		SetNillableUpdatedBy(req.Data.UpdatedBy).
+		SetNillableUpdatedAt(timeutil.TimestamppbToTime(req.Data.UpdatedAt))
 
-	if req.Data.UpdateTime == nil {
-		builder.SetUpdateTime(time.Now())
+	if req.Data.UpdatedAt == nil {
+		builder.SetUpdatedAt(time.Now())
 	}
 
 	if req.Data.Meta != nil {
@@ -320,12 +320,12 @@ func (r *MenuRepo) Delete(ctx context.Context, req *adminV1.DeleteMenuRequest) e
 		return adminV1.ErrorBadRequest("invalid parameter")
 	}
 
-	ids, err := queryAllChildrenIDs(ctx, r.data.db, "sys_menus", uint32(req.GetId()))
+	ids, err := queryAllChildrenIDs(ctx, r.data.db, "sys_menus", req.GetId())
 	if err != nil {
 		r.log.Errorf("query child menus failed: %s", err.Error())
 		return adminV1.ErrorInternalServerError("query child menus failed")
 	}
-	ids = append(ids, uint32(req.GetId()))
+	ids = append(ids, req.GetId())
 
 	//r.log.Info("menu ids to delete: ", ids)
 

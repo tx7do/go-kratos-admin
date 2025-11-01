@@ -843,8 +843,10 @@ github.com/tx7do/go-utils v1.1.29 h1:kO1JDMVX++ZY4+aXGk3pOtDz5WBPDA3LxhIWkzXkvH8
 github.com/tx7do/go-utils v1.1.29/go.mod h1:bmt7c85QmHURtd7h6QOu7k0QKOJTwjJ+cFP29nljdSw=
 github.com/tx7do/go-utils/copierutil v0.0.5 h1:8ih5wZtccJYQtwIaiazBKKIXCzBb203lNIBYwFIWWC0=
 github.com/tx7do/go-utils/copierutil v0.0.5/go.mod h1:6mG9yYTGBwDzQtq25OwihTIaSaAtdby0UfpH8a8PdTM=
-github.com/tx7do/go-utils/entgo v1.1.33 h1:BGjFMCoP+DHfn9ymmFa0FpxD1uDjM+iGzv+q5LnBv8E=
-github.com/tx7do/go-utils/entgo v1.1.33/go.mod h1:0UcVTvTeVHdUrXEngrI8bH2nPwRSReFlpfabcaBdPuM=
+github.com/tx7do/go-utils/entgo v1.1.34 h1:xSiejKc7mSTTVO42jv/tnOdruhEDIeSnXc5zu6J3QOE=
+github.com/tx7do/go-utils/entgo v1.1.34/go.mod h1:0UcVTvTeVHdUrXEngrI8bH2nPwRSReFlpfabcaBdPuM=
+github.com/tx7do/go-utils/entgo v1.1.35 h1:ZJPxU3rKsjHWivfDx/xnE5ZKpVFolT1Y+zqCd5UTJKU=
+github.com/tx7do/go-utils/entgo v1.1.35/go.mod h1:0UcVTvTeVHdUrXEngrI8bH2nPwRSReFlpfabcaBdPuM=
 github.com/tx7do/go-utils/geoip v1.1.6 h1:4lS0hjErTOHz/xxH9WcDmaydymVv0tb5c49kyeYNXl0=
 github.com/tx7do/go-utils/geoip v1.1.6/go.mod h1:t5KO/rRcS760hO37WNVD13b6Hu+E+2daQ7MaF09tI20=
 github.com/tx7do/go-utils/id v0.0.2 h1:mV5kyr+G9bB5obPWeZHxRiaFRVr7P0IznaSrM/D6B5U=

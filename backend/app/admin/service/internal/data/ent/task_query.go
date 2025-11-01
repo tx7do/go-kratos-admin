@@ -265,12 +265,12 @@ func (_q *TaskQuery) Clone() *TaskQuery {
 // Example:
 //
 //	var v []struct {
-//		CreateTime time.Time `json:"create_time,omitempty"`
+//		CreatedAt time.Time `json:"created_at,omitempty"`
 //		Count int `json:"count,omitempty"`
 //	}
 //
 //	client.Task.Query().
-//		GroupBy(task.FieldCreateTime).
+//		GroupBy(task.FieldCreatedAt).
 //		Aggregate(ent.Count()).
 //		Scan(ctx, &v)
 func (_q *TaskQuery) GroupBy(field string, fields ...string) *TaskGroupBy {
@@ -288,11 +288,11 @@ func (_q *TaskQuery) GroupBy(field string, fields ...string) *TaskGroupBy {
 // Example:
 //
 //	var v []struct {
-//		CreateTime time.Time `json:"create_time,omitempty"`
+//		CreatedAt time.Time `json:"created_at,omitempty"`
 //	}
 //
 //	client.Task.Query().
-//		Select(task.FieldCreateTime).
+//		Select(task.FieldCreatedAt).
 //		Scan(ctx, &v)
 func (_q *TaskQuery) Select(fields ...string) *TaskSelect {
 	_q.ctx.Fields = append(_q.ctx.Fields, fields...)

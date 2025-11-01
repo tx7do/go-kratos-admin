@@ -3,8 +3,8 @@ import { reactive } from 'vue';
 
 import { ColPage } from '@vben/common-ui';
 
-import DictItemList from '#/views/app/system/dict/dict-item-list.vue';
-import DictMainList from '#/views/app/system/dict/dict-main-list.vue';
+import DictEntryList from '#/views/app/system/dict/dict-entry-list.vue';
+import DictTypeList from '#/views/app/system/dict/dict-type-list.vue';
 
 const props = reactive({
   leftCollapsedWidth: 0,
@@ -22,8 +22,8 @@ const props = reactive({
 <template>
   <ColPage auto-content-height v-bind="props">
     <template #left>
-      <DictMainList />
+      <DictTypeList />
     </template>
-    <DictItemList />
+    <DictEntryList />
   </ColPage>
 </template>

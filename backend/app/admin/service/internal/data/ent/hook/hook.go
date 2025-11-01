@@ -68,28 +68,28 @@ func (f DepartmentFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, 
 	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.DepartmentMutation", m)
 }
 
-// The DictItemFunc type is an adapter to allow the use of ordinary
-// function as DictItem mutator.
-type DictItemFunc func(context.Context, *ent.DictItemMutation) (ent.Value, error)
+// The DictEntryFunc type is an adapter to allow the use of ordinary
+// function as DictEntry mutator.
+type DictEntryFunc func(context.Context, *ent.DictEntryMutation) (ent.Value, error)
 
 // Mutate calls f(ctx, m).
-func (f DictItemFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
-	if mv, ok := m.(*ent.DictItemMutation); ok {
+func (f DictEntryFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.DictEntryMutation); ok {
 		return f(ctx, mv)
 	}
-	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.DictItemMutation", m)
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.DictEntryMutation", m)
 }
 
-// The DictMainFunc type is an adapter to allow the use of ordinary
-// function as DictMain mutator.
-type DictMainFunc func(context.Context, *ent.DictMainMutation) (ent.Value, error)
+// The DictTypeFunc type is an adapter to allow the use of ordinary
+// function as DictType mutator.
+type DictTypeFunc func(context.Context, *ent.DictTypeMutation) (ent.Value, error)
 
 // Mutate calls f(ctx, m).
-func (f DictMainFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
-	if mv, ok := m.(*ent.DictMainMutation); ok {
+func (f DictTypeFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.DictTypeMutation); ok {
 		return f(ctx, mv)
 	}
-	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.DictMainMutation", m)
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.DictTypeMutation", m)
 }
 
 // The FileFunc type is an adapter to allow the use of ordinary
@@ -102,6 +102,18 @@ func (f FileFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error)
 		return f(ctx, mv)
 	}
 	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.FileMutation", m)
+}
+
+// The LanguageFunc type is an adapter to allow the use of ordinary
+// function as Language mutator.
+type LanguageFunc func(context.Context, *ent.LanguageMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f LanguageFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.LanguageMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.LanguageMutation", m)
 }
 
 // The MenuFunc type is an adapter to allow the use of ordinary

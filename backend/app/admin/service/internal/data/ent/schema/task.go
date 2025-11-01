@@ -10,7 +10,6 @@ import (
 	"github.com/tx7do/go-utils/entgo/mixin"
 
 	adminV1 "kratos-admin/api/gen/go/admin/service/v1"
-	appmixin "kratos-admin/pkg/entgo/mixin"
 )
 
 // Task holds the schema definition for the Task entity.
@@ -79,11 +78,10 @@ func (Task) Fields() []ent.Field {
 func (Task) Mixin() []ent.Mixin {
 	return []ent.Mixin{
 		mixin.AutoIncrementId{},
-		mixin.Time{},
-		mixin.CreateBy{},
-		mixin.UpdateBy{},
+		mixin.TimeAt{},
+		mixin.OperatorID{},
 		mixin.Remark{},
-		appmixin.TenantID{},
+		mixin.TenantID{},
 	}
 }
 

@@ -64,8 +64,8 @@ const [BaseForm, baseFormApi] = useVbenForm({
     },
     {
       component: 'InputNumber',
-      fieldName: 'sortId',
-      label: $t('ui.table.sortId'),
+      fieldName: 'sortOrder',
+      label: $t('ui.table.sortOrder'),
       componentProps: {
         placeholder: $t('ui.placeholder.input'),
         allowClear: true,

@@ -123,10 +123,10 @@ const gridOptions: VxeGridProps<Menu> = {
       slots: { default: 'status' },
       width: 95,
     },
-    { title: $t('ui.table.sortId'), field: 'meta.order', width: 70 },
+    { title: $t('ui.table.sortOrder'), field: 'meta.order', width: 70 },
     {
-      title: $t('ui.table.updateTime'),
-      field: 'updateTime',
+      title: $t('ui.table.updatedAt'),
+      field: 'updatedAt',
       formatter: 'formatDateTime',
       width: 140,
     },

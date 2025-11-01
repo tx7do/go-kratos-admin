@@ -265,12 +265,12 @@ func (_q *RolePositionQuery) Clone() *RolePositionQuery {
 // Example:
 //
 //	var v []struct {
-//		CreateTime time.Time `json:"create_time,omitempty"`
+//		CreatedAt time.Time `json:"created_at,omitempty"`
 //		Count int `json:"count,omitempty"`
 //	}
 //
 //	client.RolePosition.Query().
-//		GroupBy(roleposition.FieldCreateTime).
+//		GroupBy(roleposition.FieldCreatedAt).
 //		Aggregate(ent.Count()).
 //		Scan(ctx, &v)
 func (_q *RolePositionQuery) GroupBy(field string, fields ...string) *RolePositionGroupBy {
@@ -288,11 +288,11 @@ func (_q *RolePositionQuery) GroupBy(field string, fields ...string) *RolePositi
 // Example:
 //
 //	var v []struct {
-//		CreateTime time.Time `json:"create_time,omitempty"`
+//		CreatedAt time.Time `json:"created_at,omitempty"`
 //	}
 //
 //	client.RolePosition.Query().
-//		Select(roleposition.FieldCreateTime).
+//		Select(roleposition.FieldCreatedAt).
 //		Scan(ctx, &v)
 func (_q *RolePositionQuery) Select(fields ...string) *RolePositionSelect {
 	_q.ctx.Fields = append(_q.ctx.Fields, fields...)

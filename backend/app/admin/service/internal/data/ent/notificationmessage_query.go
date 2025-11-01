@@ -265,12 +265,12 @@ func (_q *NotificationMessageQuery) Clone() *NotificationMessageQuery {
 // Example:
 //
 //	var v []struct {
-//		CreateTime time.Time `json:"create_time,omitempty"`
+//		CreatedAt time.Time `json:"created_at,omitempty"`
 //		Count int `json:"count,omitempty"`
 //	}
 //
 //	client.NotificationMessage.Query().
-//		GroupBy(notificationmessage.FieldCreateTime).
+//		GroupBy(notificationmessage.FieldCreatedAt).
 //		Aggregate(ent.Count()).
 //		Scan(ctx, &v)
 func (_q *NotificationMessageQuery) GroupBy(field string, fields ...string) *NotificationMessageGroupBy {
@@ -288,11 +288,11 @@ func (_q *NotificationMessageQuery) GroupBy(field string, fields ...string) *Not
 // Example:
 //
 //	var v []struct {
-//		CreateTime time.Time `json:"create_time,omitempty"`
+//		CreatedAt time.Time `json:"created_at,omitempty"`
 //	}
 //
 //	client.NotificationMessage.Query().
-//		Select(notificationmessage.FieldCreateTime).
+//		Select(notificationmessage.FieldCreatedAt).
 //		Scan(ctx, &v)
 func (_q *NotificationMessageQuery) Select(fields ...string) *NotificationMessageSelect {
 	_q.ctx.Fields = append(_q.ctx.Fields, fields...)

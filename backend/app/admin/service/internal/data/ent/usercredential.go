@@ -19,13 +19,13 @@ type UserCredential struct {
 	// id
 	ID uint32 `json:"id,omitempty"`
 	// 创建时间
-	CreateTime *time.Time `json:"create_time,omitempty"`
+	CreatedAt *time.Time `json:"created_at,omitempty"`
 	// 更新时间
-	UpdateTime *time.Time `json:"update_time,omitempty"`
+	UpdatedAt *time.Time `json:"updated_at,omitempty"`
 	// 删除时间
-	DeleteTime *time.Time `json:"delete_time,omitempty"`
+	DeletedAt *time.Time `json:"deleted_at,omitempty"`
 	// 租户ID
-	TenantID *uint32 `json:"tenant_id,omitempty"`
+	TenantID uint32 `json:"tenant_id,omitempty"`
 	// 关联主表的用户ID
 	UserID *uint32 `json:"user_id,omitempty"`
 	// 认证方式类型
@@ -60,7 +60,7 @@ func (*UserCredential) scanValues(columns []string) ([]any, error) {
 			values[i] = new(sql.NullInt64)
 		case usercredential.FieldIdentityType, usercredential.FieldIdentifier, usercredential.FieldCredentialType, usercredential.FieldCredential, usercredential.FieldStatus, usercredential.FieldExtraInfo, usercredential.FieldActivateToken, usercredential.FieldResetToken:
 			values[i] = new(sql.NullString)
-		case usercredential.FieldCreateTime, usercredential.FieldUpdateTime, usercredential.FieldDeleteTime:
+		case usercredential.FieldCreatedAt, usercredential.FieldUpdatedAt, usercredential.FieldDeletedAt:
 			values[i] = new(sql.NullTime)
 		default:
 			values[i] = new(sql.UnknownType)
@@ -83,33 +83,32 @@ func (_m *UserCredential) assignValues(columns []string, values []any) error {
 				return fmt.Errorf("unexpected type %T for field id", value)
 			}
 			_m.ID = uint32(value.Int64)
-		case usercredential.FieldCreateTime:
+		case usercredential.FieldCreatedAt:
 			if value, ok := values[i].(*sql.NullTime); !ok {
-				return fmt.Errorf("unexpected type %T for field create_time", values[i])
+				return fmt.Errorf("unexpected type %T for field created_at", values[i])
 			} else if value.Valid {
-				_m.CreateTime = new(time.Time)
-				*_m.CreateTime = value.Time
+				_m.CreatedAt = new(time.Time)
+				*_m.CreatedAt = value.Time
 			}
-		case usercredential.FieldUpdateTime:
+		case usercredential.FieldUpdatedAt:
 			if value, ok := values[i].(*sql.NullTime); !ok {
-				return fmt.Errorf("unexpected type %T for field update_time", values[i])
+				return fmt.Errorf("unexpected type %T for field updated_at", values[i])
 			} else if value.Valid {
-				_m.UpdateTime = new(time.Time)
-				*_m.UpdateTime = value.Time
+				_m.UpdatedAt = new(time.Time)
+				*_m.UpdatedAt = value.Time
 			}
-		case usercredential.FieldDeleteTime:
+		case usercredential.FieldDeletedAt:
 			if value, ok := values[i].(*sql.NullTime); !ok {
-				return fmt.Errorf("unexpected type %T for field delete_time", values[i])
+				return fmt.Errorf("unexpected type %T for field deleted_at", values[i])
 			} else if value.Valid {
-				_m.DeleteTime = new(time.Time)
-				*_m.DeleteTime = value.Time
+				_m.DeletedAt = new(time.Time)
+				*_m.DeletedAt = value.Time
 			}
 		case usercredential.FieldTenantID:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field tenant_id", values[i])
 			} else if value.Valid {
-				_m.TenantID = new(uint32)
-				*_m.TenantID = uint32(value.Int64)
+				_m.TenantID = uint32(value.Int64)
 			}
 		case usercredential.FieldUserID:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
@@ -217,25 +216,23 @@ func (_m *UserCredential) String() string {
 	var builder strings.Builder
 	builder.WriteString("UserCredential(")
 	builder.WriteString(fmt.Sprintf("id=%v, ", _m.ID))
-	if v := _m.CreateTime; v != nil {
-		builder.WriteString("create_time=")
+	if v := _m.CreatedAt; v != nil {
+		builder.WriteString("created_at=")
 		builder.WriteString(v.Format(time.ANSIC))
 	}
 	builder.WriteString(", ")
-	if v := _m.UpdateTime; v != nil {
-		builder.WriteString("update_time=")
+	if v := _m.UpdatedAt; v != nil {
+		builder.WriteString("updated_at=")
 		builder.WriteString(v.Format(time.ANSIC))
 	}
 	builder.WriteString(", ")
-	if v := _m.DeleteTime; v != nil {
-		builder.WriteString("delete_time=")
+	if v := _m.DeletedAt; v != nil {
+		builder.WriteString("deleted_at=")
 		builder.WriteString(v.Format(time.ANSIC))
 	}
 	builder.WriteString(", ")
-	if v := _m.TenantID; v != nil {
-		builder.WriteString("tenant_id=")
-		builder.WriteString(fmt.Sprintf("%v", *v))
-	}
+	builder.WriteString("tenant_id=")
+	builder.WriteString(fmt.Sprintf("%v", _m.TenantID))
 	builder.WriteString(", ")
 	if v := _m.UserID; v != nil {
 		builder.WriteString("user_id=")

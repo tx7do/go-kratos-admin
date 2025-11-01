@@ -115,8 +115,8 @@ reload();
           <DescriptionsItem :label="$t('page.user.detail.desc.positionName')">
             {{ data?.positionName }}
           </DescriptionsItem>
-          <DescriptionsItem :label="$t('ui.table.createTime')">
-            {{ formatDateTime(data?.createTime ?? '') }}
+          <DescriptionsItem :label="$t('ui.table.createdAt')">
+            {{ formatDateTime(data?.createdAt ?? '') }}
           </DescriptionsItem>
           <DescriptionsItem :label="$t('page.user.detail.desc.lastLoginTime')">
             {{ data?.lastLoginTime }}

@@ -80,7 +80,7 @@ func (r *TenantRepo) List(ctx context.Context, req *pagination.PagingRequest) (*
 	err, whereSelectors, querySelectors := entgo.BuildQuerySelector(
 		req.GetQuery(), req.GetOrQuery(),
 		req.GetPage(), req.GetPageSize(), req.GetNoPaging(),
-		req.GetOrderBy(), tenant.FieldCreateTime,
+		req.GetOrderBy(), tenant.FieldCreatedAt,
 		req.GetFieldMask().GetPaths(),
 	)
 	if err != nil {
@@ -167,12 +167,12 @@ func (r *TenantRepo) Create(ctx context.Context, data *userV1.Tenant) (*userV1.T
 		SetNillableSubscriptionAt(timeutil.TimestamppbToTime(data.SubscriptionAt)).
 		SetNillableUnsubscribeAt(timeutil.TimestamppbToTime(data.UnsubscribeAt))
 
-	builder.SetNillableCreateBy(data.CreateBy)
+	builder.SetNillableCreatedBy(data.CreatedBy)
 
-	if data.CreateTime == nil {
-		builder.SetCreateTime(time.Now())
+	if data.CreatedAt == nil {
+		builder.SetCreatedAt(time.Now())
 	} else {
-		builder.SetNillableCreateTime(timeutil.TimestamppbToTime(data.CreateTime))
+		builder.SetNillableCreatedAt(timeutil.TimestamppbToTime(data.CreatedAt))
 	}
 
 	if data.Id != nil {
@@ -200,8 +200,8 @@ func (r *TenantRepo) Update(ctx context.Context, req *userV1.UpdateTenantRequest
 		}
 		if !exist {
 			createReq := &userV1.CreateTenantRequest{Data: req.Data}
-			createReq.Data.CreateBy = createReq.Data.UpdateBy
-			createReq.Data.UpdateBy = nil
+			createReq.Data.CreatedBy = createReq.Data.UpdatedBy
+			createReq.Data.UpdatedBy = nil
 			_, err = r.Create(ctx, createReq.Data)
 			return err
 		}
@@ -233,12 +233,12 @@ func (r *TenantRepo) Update(ctx context.Context, req *userV1.UpdateTenantRequest
 		SetNillableSubscriptionAt(timeutil.TimestamppbToTime(req.Data.SubscriptionAt)).
 		SetNillableUnsubscribeAt(timeutil.TimestamppbToTime(req.Data.UnsubscribeAt))
 
-	builder.SetNillableUpdateBy(req.Data.UpdateBy)
+	builder.SetNillableUpdatedBy(req.Data.UpdatedBy)
 
-	if req.Data.UpdateTime == nil {
-		builder.SetUpdateTime(time.Now())
+	if req.Data.UpdatedAt == nil {
+		builder.SetUpdatedAt(time.Now())
 	} else {
-		builder.SetNillableUpdateTime(timeutil.TimestamppbToTime(req.Data.UpdateTime))
+		builder.SetNillableUpdatedAt(timeutil.TimestamppbToTime(req.Data.UpdatedAt))
 	}
 
 	if req.UpdateMask != nil {

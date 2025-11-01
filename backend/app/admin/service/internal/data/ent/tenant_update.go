@@ -29,97 +29,124 @@ func (_u *TenantUpdate) Where(ps ...predicate.Tenant) *TenantUpdate {
 	return _u
 }
 
-// SetUpdateTime sets the "update_time" field.
-func (_u *TenantUpdate) SetUpdateTime(v time.Time) *TenantUpdate {
-	_u.mutation.SetUpdateTime(v)
+// SetUpdatedAt sets the "updated_at" field.
+func (_u *TenantUpdate) SetUpdatedAt(v time.Time) *TenantUpdate {
+	_u.mutation.SetUpdatedAt(v)
 	return _u
 }
 
-// SetNillableUpdateTime sets the "update_time" field if the given value is not nil.
-func (_u *TenantUpdate) SetNillableUpdateTime(v *time.Time) *TenantUpdate {
+// SetNillableUpdatedAt sets the "updated_at" field if the given value is not nil.
+func (_u *TenantUpdate) SetNillableUpdatedAt(v *time.Time) *TenantUpdate {
 	if v != nil {
-		_u.SetUpdateTime(*v)
+		_u.SetUpdatedAt(*v)
 	}
 	return _u
 }
 
-// ClearUpdateTime clears the value of the "update_time" field.
-func (_u *TenantUpdate) ClearUpdateTime() *TenantUpdate {
-	_u.mutation.ClearUpdateTime()
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (_u *TenantUpdate) ClearUpdatedAt() *TenantUpdate {
+	_u.mutation.ClearUpdatedAt()
 	return _u
 }
 
-// SetDeleteTime sets the "delete_time" field.
-func (_u *TenantUpdate) SetDeleteTime(v time.Time) *TenantUpdate {
-	_u.mutation.SetDeleteTime(v)
+// SetDeletedAt sets the "deleted_at" field.
+func (_u *TenantUpdate) SetDeletedAt(v time.Time) *TenantUpdate {
+	_u.mutation.SetDeletedAt(v)
 	return _u
 }
 
-// SetNillableDeleteTime sets the "delete_time" field if the given value is not nil.
-func (_u *TenantUpdate) SetNillableDeleteTime(v *time.Time) *TenantUpdate {
+// SetNillableDeletedAt sets the "deleted_at" field if the given value is not nil.
+func (_u *TenantUpdate) SetNillableDeletedAt(v *time.Time) *TenantUpdate {
 	if v != nil {
-		_u.SetDeleteTime(*v)
+		_u.SetDeletedAt(*v)
 	}
 	return _u
 }
 
-// ClearDeleteTime clears the value of the "delete_time" field.
-func (_u *TenantUpdate) ClearDeleteTime() *TenantUpdate {
-	_u.mutation.ClearDeleteTime()
+// ClearDeletedAt clears the value of the "deleted_at" field.
+func (_u *TenantUpdate) ClearDeletedAt() *TenantUpdate {
+	_u.mutation.ClearDeletedAt()
 	return _u
 }
 
-// SetCreateBy sets the "create_by" field.
-func (_u *TenantUpdate) SetCreateBy(v uint32) *TenantUpdate {
-	_u.mutation.ResetCreateBy()
-	_u.mutation.SetCreateBy(v)
+// SetCreatedBy sets the "created_by" field.
+func (_u *TenantUpdate) SetCreatedBy(v uint32) *TenantUpdate {
+	_u.mutation.ResetCreatedBy()
+	_u.mutation.SetCreatedBy(v)
 	return _u
 }
 
-// SetNillableCreateBy sets the "create_by" field if the given value is not nil.
-func (_u *TenantUpdate) SetNillableCreateBy(v *uint32) *TenantUpdate {
+// SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
+func (_u *TenantUpdate) SetNillableCreatedBy(v *uint32) *TenantUpdate {
 	if v != nil {
-		_u.SetCreateBy(*v)
+		_u.SetCreatedBy(*v)
 	}
 	return _u
 }
 
-// AddCreateBy adds value to the "create_by" field.
-func (_u *TenantUpdate) AddCreateBy(v int32) *TenantUpdate {
-	_u.mutation.AddCreateBy(v)
+// AddCreatedBy adds value to the "created_by" field.
+func (_u *TenantUpdate) AddCreatedBy(v int32) *TenantUpdate {
+	_u.mutation.AddCreatedBy(v)
 	return _u
 }
 
-// ClearCreateBy clears the value of the "create_by" field.
-func (_u *TenantUpdate) ClearCreateBy() *TenantUpdate {
-	_u.mutation.ClearCreateBy()
+// ClearCreatedBy clears the value of the "created_by" field.
+func (_u *TenantUpdate) ClearCreatedBy() *TenantUpdate {
+	_u.mutation.ClearCreatedBy()
 	return _u
 }
 
-// SetUpdateBy sets the "update_by" field.
-func (_u *TenantUpdate) SetUpdateBy(v uint32) *TenantUpdate {
-	_u.mutation.ResetUpdateBy()
-	_u.mutation.SetUpdateBy(v)
+// SetUpdatedBy sets the "updated_by" field.
+func (_u *TenantUpdate) SetUpdatedBy(v uint32) *TenantUpdate {
+	_u.mutation.ResetUpdatedBy()
+	_u.mutation.SetUpdatedBy(v)
 	return _u
 }
 
-// SetNillableUpdateBy sets the "update_by" field if the given value is not nil.
-func (_u *TenantUpdate) SetNillableUpdateBy(v *uint32) *TenantUpdate {
+// SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
+func (_u *TenantUpdate) SetNillableUpdatedBy(v *uint32) *TenantUpdate {
 	if v != nil {
-		_u.SetUpdateBy(*v)
+		_u.SetUpdatedBy(*v)
 	}
 	return _u
 }
 
-// AddUpdateBy adds value to the "update_by" field.
-func (_u *TenantUpdate) AddUpdateBy(v int32) *TenantUpdate {
-	_u.mutation.AddUpdateBy(v)
+// AddUpdatedBy adds value to the "updated_by" field.
+func (_u *TenantUpdate) AddUpdatedBy(v int32) *TenantUpdate {
+	_u.mutation.AddUpdatedBy(v)
 	return _u
 }
 
-// ClearUpdateBy clears the value of the "update_by" field.
-func (_u *TenantUpdate) ClearUpdateBy() *TenantUpdate {
-	_u.mutation.ClearUpdateBy()
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (_u *TenantUpdate) ClearUpdatedBy() *TenantUpdate {
+	_u.mutation.ClearUpdatedBy()
+	return _u
+}
+
+// SetDeletedBy sets the "deleted_by" field.
+func (_u *TenantUpdate) SetDeletedBy(v uint32) *TenantUpdate {
+	_u.mutation.ResetDeletedBy()
+	_u.mutation.SetDeletedBy(v)
+	return _u
+}
+
+// SetNillableDeletedBy sets the "deleted_by" field if the given value is not nil.
+func (_u *TenantUpdate) SetNillableDeletedBy(v *uint32) *TenantUpdate {
+	if v != nil {
+		_u.SetDeletedBy(*v)
+	}
+	return _u
+}
+
+// AddDeletedBy adds value to the "deleted_by" field.
+func (_u *TenantUpdate) AddDeletedBy(v int32) *TenantUpdate {
+	_u.mutation.AddDeletedBy(v)
+	return _u
+}
+
+// ClearDeletedBy clears the value of the "deleted_by" field.
+func (_u *TenantUpdate) ClearDeletedBy() *TenantUpdate {
+	_u.mutation.ClearDeletedBy()
 	return _u
 }
 
@@ -510,38 +537,47 @@ func (_u *TenantUpdate) sqlSave(ctx context.Context) (_node int, err error) {
 			}
 		}
 	}
-	if _u.mutation.CreateTimeCleared() {
-		_spec.ClearField(tenant.FieldCreateTime, field.TypeTime)
+	if _u.mutation.CreatedAtCleared() {
+		_spec.ClearField(tenant.FieldCreatedAt, field.TypeTime)
 	}
-	if value, ok := _u.mutation.UpdateTime(); ok {
-		_spec.SetField(tenant.FieldUpdateTime, field.TypeTime, value)
+	if value, ok := _u.mutation.UpdatedAt(); ok {
+		_spec.SetField(tenant.FieldUpdatedAt, field.TypeTime, value)
 	}
-	if _u.mutation.UpdateTimeCleared() {
-		_spec.ClearField(tenant.FieldUpdateTime, field.TypeTime)
+	if _u.mutation.UpdatedAtCleared() {
+		_spec.ClearField(tenant.FieldUpdatedAt, field.TypeTime)
 	}
-	if value, ok := _u.mutation.DeleteTime(); ok {
-		_spec.SetField(tenant.FieldDeleteTime, field.TypeTime, value)
+	if value, ok := _u.mutation.DeletedAt(); ok {
+		_spec.SetField(tenant.FieldDeletedAt, field.TypeTime, value)
 	}
-	if _u.mutation.DeleteTimeCleared() {
-		_spec.ClearField(tenant.FieldDeleteTime, field.TypeTime)
+	if _u.mutation.DeletedAtCleared() {
+		_spec.ClearField(tenant.FieldDeletedAt, field.TypeTime)
 	}
-	if value, ok := _u.mutation.CreateBy(); ok {
-		_spec.SetField(tenant.FieldCreateBy, field.TypeUint32, value)
+	if value, ok := _u.mutation.CreatedBy(); ok {
+		_spec.SetField(tenant.FieldCreatedBy, field.TypeUint32, value)
 	}
-	if value, ok := _u.mutation.AddedCreateBy(); ok {
-		_spec.AddField(tenant.FieldCreateBy, field.TypeUint32, value)
+	if value, ok := _u.mutation.AddedCreatedBy(); ok {
+		_spec.AddField(tenant.FieldCreatedBy, field.TypeUint32, value)
 	}
-	if _u.mutation.CreateByCleared() {
-		_spec.ClearField(tenant.FieldCreateBy, field.TypeUint32)
+	if _u.mutation.CreatedByCleared() {
+		_spec.ClearField(tenant.FieldCreatedBy, field.TypeUint32)
 	}
-	if value, ok := _u.mutation.UpdateBy(); ok {
-		_spec.SetField(tenant.FieldUpdateBy, field.TypeUint32, value)
+	if value, ok := _u.mutation.UpdatedBy(); ok {
+		_spec.SetField(tenant.FieldUpdatedBy, field.TypeUint32, value)
 	}
-	if value, ok := _u.mutation.AddedUpdateBy(); ok {
-		_spec.AddField(tenant.FieldUpdateBy, field.TypeUint32, value)
+	if value, ok := _u.mutation.AddedUpdatedBy(); ok {
+		_spec.AddField(tenant.FieldUpdatedBy, field.TypeUint32, value)
 	}
-	if _u.mutation.UpdateByCleared() {
-		_spec.ClearField(tenant.FieldUpdateBy, field.TypeUint32)
+	if _u.mutation.UpdatedByCleared() {
+		_spec.ClearField(tenant.FieldUpdatedBy, field.TypeUint32)
+	}
+	if value, ok := _u.mutation.DeletedBy(); ok {
+		_spec.SetField(tenant.FieldDeletedBy, field.TypeUint32, value)
+	}
+	if value, ok := _u.mutation.AddedDeletedBy(); ok {
+		_spec.AddField(tenant.FieldDeletedBy, field.TypeUint32, value)
+	}
+	if _u.mutation.DeletedByCleared() {
+		_spec.ClearField(tenant.FieldDeletedBy, field.TypeUint32)
 	}
 	if value, ok := _u.mutation.Remark(); ok {
 		_spec.SetField(tenant.FieldRemark, field.TypeString, value)
@@ -658,97 +694,124 @@ type TenantUpdateOne struct {
 	modifiers []func(*sql.UpdateBuilder)
 }
 
-// SetUpdateTime sets the "update_time" field.
-func (_u *TenantUpdateOne) SetUpdateTime(v time.Time) *TenantUpdateOne {
-	_u.mutation.SetUpdateTime(v)
+// SetUpdatedAt sets the "updated_at" field.
+func (_u *TenantUpdateOne) SetUpdatedAt(v time.Time) *TenantUpdateOne {
+	_u.mutation.SetUpdatedAt(v)
 	return _u
 }
 
-// SetNillableUpdateTime sets the "update_time" field if the given value is not nil.
-func (_u *TenantUpdateOne) SetNillableUpdateTime(v *time.Time) *TenantUpdateOne {
+// SetNillableUpdatedAt sets the "updated_at" field if the given value is not nil.
+func (_u *TenantUpdateOne) SetNillableUpdatedAt(v *time.Time) *TenantUpdateOne {
 	if v != nil {
-		_u.SetUpdateTime(*v)
+		_u.SetUpdatedAt(*v)
 	}
 	return _u
 }
 
-// ClearUpdateTime clears the value of the "update_time" field.
-func (_u *TenantUpdateOne) ClearUpdateTime() *TenantUpdateOne {
-	_u.mutation.ClearUpdateTime()
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (_u *TenantUpdateOne) ClearUpdatedAt() *TenantUpdateOne {
+	_u.mutation.ClearUpdatedAt()
 	return _u
 }
 
-// SetDeleteTime sets the "delete_time" field.
-func (_u *TenantUpdateOne) SetDeleteTime(v time.Time) *TenantUpdateOne {
-	_u.mutation.SetDeleteTime(v)
+// SetDeletedAt sets the "deleted_at" field.
+func (_u *TenantUpdateOne) SetDeletedAt(v time.Time) *TenantUpdateOne {
+	_u.mutation.SetDeletedAt(v)
 	return _u
 }
 
-// SetNillableDeleteTime sets the "delete_time" field if the given value is not nil.
-func (_u *TenantUpdateOne) SetNillableDeleteTime(v *time.Time) *TenantUpdateOne {
+// SetNillableDeletedAt sets the "deleted_at" field if the given value is not nil.
+func (_u *TenantUpdateOne) SetNillableDeletedAt(v *time.Time) *TenantUpdateOne {
 	if v != nil {
-		_u.SetDeleteTime(*v)
+		_u.SetDeletedAt(*v)
 	}
 	return _u
 }
 
-// ClearDeleteTime clears the value of the "delete_time" field.
-func (_u *TenantUpdateOne) ClearDeleteTime() *TenantUpdateOne {
-	_u.mutation.ClearDeleteTime()
+// ClearDeletedAt clears the value of the "deleted_at" field.
+func (_u *TenantUpdateOne) ClearDeletedAt() *TenantUpdateOne {
+	_u.mutation.ClearDeletedAt()
 	return _u
 }
 
-// SetCreateBy sets the "create_by" field.
-func (_u *TenantUpdateOne) SetCreateBy(v uint32) *TenantUpdateOne {
-	_u.mutation.ResetCreateBy()
-	_u.mutation.SetCreateBy(v)
+// SetCreatedBy sets the "created_by" field.
+func (_u *TenantUpdateOne) SetCreatedBy(v uint32) *TenantUpdateOne {
+	_u.mutation.ResetCreatedBy()
+	_u.mutation.SetCreatedBy(v)
 	return _u
 }
 
-// SetNillableCreateBy sets the "create_by" field if the given value is not nil.
-func (_u *TenantUpdateOne) SetNillableCreateBy(v *uint32) *TenantUpdateOne {
+// SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
+func (_u *TenantUpdateOne) SetNillableCreatedBy(v *uint32) *TenantUpdateOne {
 	if v != nil {
-		_u.SetCreateBy(*v)
+		_u.SetCreatedBy(*v)
 	}
 	return _u
 }
 
-// AddCreateBy adds value to the "create_by" field.
-func (_u *TenantUpdateOne) AddCreateBy(v int32) *TenantUpdateOne {
-	_u.mutation.AddCreateBy(v)
+// AddCreatedBy adds value to the "created_by" field.
+func (_u *TenantUpdateOne) AddCreatedBy(v int32) *TenantUpdateOne {
+	_u.mutation.AddCreatedBy(v)
 	return _u
 }
 
-// ClearCreateBy clears the value of the "create_by" field.
-func (_u *TenantUpdateOne) ClearCreateBy() *TenantUpdateOne {
-	_u.mutation.ClearCreateBy()
+// ClearCreatedBy clears the value of the "created_by" field.
+func (_u *TenantUpdateOne) ClearCreatedBy() *TenantUpdateOne {
+	_u.mutation.ClearCreatedBy()
 	return _u
 }
 
-// SetUpdateBy sets the "update_by" field.
-func (_u *TenantUpdateOne) SetUpdateBy(v uint32) *TenantUpdateOne {
-	_u.mutation.ResetUpdateBy()
-	_u.mutation.SetUpdateBy(v)
+// SetUpdatedBy sets the "updated_by" field.
+func (_u *TenantUpdateOne) SetUpdatedBy(v uint32) *TenantUpdateOne {
+	_u.mutation.ResetUpdatedBy()
+	_u.mutation.SetUpdatedBy(v)
 	return _u
 }
 
-// SetNillableUpdateBy sets the "update_by" field if the given value is not nil.
-func (_u *TenantUpdateOne) SetNillableUpdateBy(v *uint32) *TenantUpdateOne {
+// SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
+func (_u *TenantUpdateOne) SetNillableUpdatedBy(v *uint32) *TenantUpdateOne {
 	if v != nil {
-		_u.SetUpdateBy(*v)
+		_u.SetUpdatedBy(*v)
 	}
 	return _u
 }
 
-// AddUpdateBy adds value to the "update_by" field.
-func (_u *TenantUpdateOne) AddUpdateBy(v int32) *TenantUpdateOne {
-	_u.mutation.AddUpdateBy(v)
+// AddUpdatedBy adds value to the "updated_by" field.
+func (_u *TenantUpdateOne) AddUpdatedBy(v int32) *TenantUpdateOne {
+	_u.mutation.AddUpdatedBy(v)
 	return _u
 }
 
-// ClearUpdateBy clears the value of the "update_by" field.
-func (_u *TenantUpdateOne) ClearUpdateBy() *TenantUpdateOne {
-	_u.mutation.ClearUpdateBy()
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (_u *TenantUpdateOne) ClearUpdatedBy() *TenantUpdateOne {
+	_u.mutation.ClearUpdatedBy()
+	return _u
+}
+
+// SetDeletedBy sets the "deleted_by" field.
+func (_u *TenantUpdateOne) SetDeletedBy(v uint32) *TenantUpdateOne {
+	_u.mutation.ResetDeletedBy()
+	_u.mutation.SetDeletedBy(v)
+	return _u
+}
+
+// SetNillableDeletedBy sets the "deleted_by" field if the given value is not nil.
+func (_u *TenantUpdateOne) SetNillableDeletedBy(v *uint32) *TenantUpdateOne {
+	if v != nil {
+		_u.SetDeletedBy(*v)
+	}
+	return _u
+}
+
+// AddDeletedBy adds value to the "deleted_by" field.
+func (_u *TenantUpdateOne) AddDeletedBy(v int32) *TenantUpdateOne {
+	_u.mutation.AddDeletedBy(v)
+	return _u
+}
+
+// ClearDeletedBy clears the value of the "deleted_by" field.
+func (_u *TenantUpdateOne) ClearDeletedBy() *TenantUpdateOne {
+	_u.mutation.ClearDeletedBy()
 	return _u
 }
 
@@ -1169,38 +1232,47 @@ func (_u *TenantUpdateOne) sqlSave(ctx context.Context) (_node *Tenant, err erro
 			}
 		}
 	}
-	if _u.mutation.CreateTimeCleared() {
-		_spec.ClearField(tenant.FieldCreateTime, field.TypeTime)
+	if _u.mutation.CreatedAtCleared() {
+		_spec.ClearField(tenant.FieldCreatedAt, field.TypeTime)
 	}
-	if value, ok := _u.mutation.UpdateTime(); ok {
-		_spec.SetField(tenant.FieldUpdateTime, field.TypeTime, value)
+	if value, ok := _u.mutation.UpdatedAt(); ok {
+		_spec.SetField(tenant.FieldUpdatedAt, field.TypeTime, value)
 	}
-	if _u.mutation.UpdateTimeCleared() {
-		_spec.ClearField(tenant.FieldUpdateTime, field.TypeTime)
+	if _u.mutation.UpdatedAtCleared() {
+		_spec.ClearField(tenant.FieldUpdatedAt, field.TypeTime)
 	}
-	if value, ok := _u.mutation.DeleteTime(); ok {
-		_spec.SetField(tenant.FieldDeleteTime, field.TypeTime, value)
+	if value, ok := _u.mutation.DeletedAt(); ok {
+		_spec.SetField(tenant.FieldDeletedAt, field.TypeTime, value)
 	}
-	if _u.mutation.DeleteTimeCleared() {
-		_spec.ClearField(tenant.FieldDeleteTime, field.TypeTime)
+	if _u.mutation.DeletedAtCleared() {
+		_spec.ClearField(tenant.FieldDeletedAt, field.TypeTime)
 	}
-	if value, ok := _u.mutation.CreateBy(); ok {
-		_spec.SetField(tenant.FieldCreateBy, field.TypeUint32, value)
+	if value, ok := _u.mutation.CreatedBy(); ok {
+		_spec.SetField(tenant.FieldCreatedBy, field.TypeUint32, value)
 	}
-	if value, ok := _u.mutation.AddedCreateBy(); ok {
-		_spec.AddField(tenant.FieldCreateBy, field.TypeUint32, value)
+	if value, ok := _u.mutation.AddedCreatedBy(); ok {
+		_spec.AddField(tenant.FieldCreatedBy, field.TypeUint32, value)
 	}
-	if _u.mutation.CreateByCleared() {
-		_spec.ClearField(tenant.FieldCreateBy, field.TypeUint32)
+	if _u.mutation.CreatedByCleared() {
+		_spec.ClearField(tenant.FieldCreatedBy, field.TypeUint32)
 	}
-	if value, ok := _u.mutation.UpdateBy(); ok {
-		_spec.SetField(tenant.FieldUpdateBy, field.TypeUint32, value)
+	if value, ok := _u.mutation.UpdatedBy(); ok {
+		_spec.SetField(tenant.FieldUpdatedBy, field.TypeUint32, value)
 	}
-	if value, ok := _u.mutation.AddedUpdateBy(); ok {
-		_spec.AddField(tenant.FieldUpdateBy, field.TypeUint32, value)
+	if value, ok := _u.mutation.AddedUpdatedBy(); ok {
+		_spec.AddField(tenant.FieldUpdatedBy, field.TypeUint32, value)
 	}
-	if _u.mutation.UpdateByCleared() {
-		_spec.ClearField(tenant.FieldUpdateBy, field.TypeUint32)
+	if _u.mutation.UpdatedByCleared() {
+		_spec.ClearField(tenant.FieldUpdatedBy, field.TypeUint32)
+	}
+	if value, ok := _u.mutation.DeletedBy(); ok {
+		_spec.SetField(tenant.FieldDeletedBy, field.TypeUint32, value)
+	}
+	if value, ok := _u.mutation.AddedDeletedBy(); ok {
+		_spec.AddField(tenant.FieldDeletedBy, field.TypeUint32, value)
+	}
+	if _u.mutation.DeletedByCleared() {
+		_spec.ClearField(tenant.FieldDeletedBy, field.TypeUint32)
 	}
 	if value, ok := _u.mutation.Remark(); ok {
 		_spec.SetField(tenant.FieldRemark, field.TypeString, value)

@@ -8,8 +8,6 @@ import (
 	"entgo.io/ent/schema/field"
 	"entgo.io/ent/schema/index"
 	"github.com/tx7do/go-utils/entgo/mixin"
-
-	appmixin "kratos-admin/pkg/entgo/mixin"
 )
 
 // Department holds the schema definition for the Department entity.
@@ -53,8 +51,8 @@ func (Department) Fields() []ent.Field {
 			Optional().
 			Nillable(),
 
-		field.Int32("sort_id").
-			Comment("排序ID").
+		field.Int32("sort_order").
+			Comment("排序顺序，值越小越靠前").
 			Default(0).
 			Optional().
 			Nillable(),
@@ -80,11 +78,10 @@ func (Department) Fields() []ent.Field {
 func (Department) Mixin() []ent.Mixin {
 	return []ent.Mixin{
 		mixin.AutoIncrementId{},
-		mixin.Time{},
-		mixin.CreateBy{},
-		mixin.UpdateBy{},
+		mixin.TimeAt{},
+		mixin.OperatorID{},
 		mixin.Remark{},
-		appmixin.TenantID{},
+		mixin.TenantID{},
 	}
 }
 

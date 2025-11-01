@@ -10,6 +10,7 @@ import (
 	userV1 "kratos-admin/api/gen/go/user/service/v1"
 
 	"github.com/go-kratos/kratos/v2/log"
+	"github.com/tx7do/go-utils/entgo"
 )
 
 type RoleOrgRepo struct {
@@ -35,7 +36,7 @@ func (r *RoleOrgRepo) AssignOrganizations(ctx context.Context, roleId uint32, or
 
 	// 删除该角色的所有旧关联
 	if _, err = tx.RoleOrg.Delete().Where(roleorg.RoleID(roleId)).Exec(ctx); err != nil {
-		err = rollback(tx, err)
+		err = entgo.Rollback(tx, err)
 		r.log.Errorf("delete old role organizations failed: %s", err.Error())
 		return userV1.ErrorInternalServerError("delete old role organizations failed")
 	}
@@ -56,14 +57,14 @@ func (r *RoleOrgRepo) AssignOrganizations(ctx context.Context, roleId uint32, or
 			Create().
 			SetRoleID(roleId).
 			SetOrgID(orgId).
-			SetCreateBy(operatorId).
-			SetCreateTime(time.Now())
+			SetCreatedBy(operatorId).
+			SetCreatedAt(time.Now())
 		roleOrgs = append(roleOrgs, rm)
 	}
 
 	_, err = r.data.db.Client().RoleOrg.CreateBulk(roleOrgs...).Save(ctx)
 	if err != nil {
-		err = rollback(tx, err)
+		err = entgo.Rollback(tx, err)
 		r.log.Errorf("assign organizations to role failed: %s", err.Error())
 		return userV1.ErrorInternalServerError("assign organizations to role failed")
 	}

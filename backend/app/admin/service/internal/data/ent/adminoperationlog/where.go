@@ -54,9 +54,9 @@ func IDLTE(id uint32) predicate.AdminOperationLog {
 	return predicate.AdminOperationLog(sql.FieldLTE(FieldID, id))
 }
 
-// CreateTime applies equality check predicate on the "create_time" field. It's identical to CreateTimeEQ.
-func CreateTime(v time.Time) predicate.AdminOperationLog {
-	return predicate.AdminOperationLog(sql.FieldEQ(FieldCreateTime, v))
+// CreatedAt applies equality check predicate on the "created_at" field. It's identical to CreatedAtEQ.
+func CreatedAt(v time.Time) predicate.AdminOperationLog {
+	return predicate.AdminOperationLog(sql.FieldEQ(FieldCreatedAt, v))
 }
 
 // RequestID applies equality check predicate on the "request_id" field. It's identical to RequestIDEQ.
@@ -179,54 +179,54 @@ func OsVersion(v string) predicate.AdminOperationLog {
 	return predicate.AdminOperationLog(sql.FieldEQ(FieldOsVersion, v))
 }
 
-// CreateTimeEQ applies the EQ predicate on the "create_time" field.
-func CreateTimeEQ(v time.Time) predicate.AdminOperationLog {
-	return predicate.AdminOperationLog(sql.FieldEQ(FieldCreateTime, v))
+// CreatedAtEQ applies the EQ predicate on the "created_at" field.
+func CreatedAtEQ(v time.Time) predicate.AdminOperationLog {
+	return predicate.AdminOperationLog(sql.FieldEQ(FieldCreatedAt, v))
 }
 
-// CreateTimeNEQ applies the NEQ predicate on the "create_time" field.
-func CreateTimeNEQ(v time.Time) predicate.AdminOperationLog {
-	return predicate.AdminOperationLog(sql.FieldNEQ(FieldCreateTime, v))
+// CreatedAtNEQ applies the NEQ predicate on the "created_at" field.
+func CreatedAtNEQ(v time.Time) predicate.AdminOperationLog {
+	return predicate.AdminOperationLog(sql.FieldNEQ(FieldCreatedAt, v))
 }
 
-// CreateTimeIn applies the In predicate on the "create_time" field.
-func CreateTimeIn(vs ...time.Time) predicate.AdminOperationLog {
-	return predicate.AdminOperationLog(sql.FieldIn(FieldCreateTime, vs...))
+// CreatedAtIn applies the In predicate on the "created_at" field.
+func CreatedAtIn(vs ...time.Time) predicate.AdminOperationLog {
+	return predicate.AdminOperationLog(sql.FieldIn(FieldCreatedAt, vs...))
 }
 
-// CreateTimeNotIn applies the NotIn predicate on the "create_time" field.
-func CreateTimeNotIn(vs ...time.Time) predicate.AdminOperationLog {
-	return predicate.AdminOperationLog(sql.FieldNotIn(FieldCreateTime, vs...))
+// CreatedAtNotIn applies the NotIn predicate on the "created_at" field.
+func CreatedAtNotIn(vs ...time.Time) predicate.AdminOperationLog {
+	return predicate.AdminOperationLog(sql.FieldNotIn(FieldCreatedAt, vs...))
 }
 
-// CreateTimeGT applies the GT predicate on the "create_time" field.
-func CreateTimeGT(v time.Time) predicate.AdminOperationLog {
-	return predicate.AdminOperationLog(sql.FieldGT(FieldCreateTime, v))
+// CreatedAtGT applies the GT predicate on the "created_at" field.
+func CreatedAtGT(v time.Time) predicate.AdminOperationLog {
+	return predicate.AdminOperationLog(sql.FieldGT(FieldCreatedAt, v))
 }
 
-// CreateTimeGTE applies the GTE predicate on the "create_time" field.
-func CreateTimeGTE(v time.Time) predicate.AdminOperationLog {
-	return predicate.AdminOperationLog(sql.FieldGTE(FieldCreateTime, v))
+// CreatedAtGTE applies the GTE predicate on the "created_at" field.
+func CreatedAtGTE(v time.Time) predicate.AdminOperationLog {
+	return predicate.AdminOperationLog(sql.FieldGTE(FieldCreatedAt, v))
 }
 
-// CreateTimeLT applies the LT predicate on the "create_time" field.
-func CreateTimeLT(v time.Time) predicate.AdminOperationLog {
-	return predicate.AdminOperationLog(sql.FieldLT(FieldCreateTime, v))
+// CreatedAtLT applies the LT predicate on the "created_at" field.
+func CreatedAtLT(v time.Time) predicate.AdminOperationLog {
+	return predicate.AdminOperationLog(sql.FieldLT(FieldCreatedAt, v))
 }
 
-// CreateTimeLTE applies the LTE predicate on the "create_time" field.
-func CreateTimeLTE(v time.Time) predicate.AdminOperationLog {
-	return predicate.AdminOperationLog(sql.FieldLTE(FieldCreateTime, v))
+// CreatedAtLTE applies the LTE predicate on the "created_at" field.
+func CreatedAtLTE(v time.Time) predicate.AdminOperationLog {
+	return predicate.AdminOperationLog(sql.FieldLTE(FieldCreatedAt, v))
 }
 
-// CreateTimeIsNil applies the IsNil predicate on the "create_time" field.
-func CreateTimeIsNil() predicate.AdminOperationLog {
-	return predicate.AdminOperationLog(sql.FieldIsNull(FieldCreateTime))
+// CreatedAtIsNil applies the IsNil predicate on the "created_at" field.
+func CreatedAtIsNil() predicate.AdminOperationLog {
+	return predicate.AdminOperationLog(sql.FieldIsNull(FieldCreatedAt))
 }
 
-// CreateTimeNotNil applies the NotNil predicate on the "create_time" field.
-func CreateTimeNotNil() predicate.AdminOperationLog {
-	return predicate.AdminOperationLog(sql.FieldNotNull(FieldCreateTime))
+// CreatedAtNotNil applies the NotNil predicate on the "created_at" field.
+func CreatedAtNotNil() predicate.AdminOperationLog {
+	return predicate.AdminOperationLog(sql.FieldNotNull(FieldCreatedAt))
 }
 
 // RequestIDEQ applies the EQ predicate on the "request_id" field.

@@ -22,58 +22,86 @@ type FileCreate struct {
 	conflict []sql.ConflictOption
 }
 
-// SetCreateTime sets the "create_time" field.
-func (_c *FileCreate) SetCreateTime(v time.Time) *FileCreate {
-	_c.mutation.SetCreateTime(v)
+// SetCreatedAt sets the "created_at" field.
+func (_c *FileCreate) SetCreatedAt(v time.Time) *FileCreate {
+	_c.mutation.SetCreatedAt(v)
 	return _c
 }
 
-// SetNillableCreateTime sets the "create_time" field if the given value is not nil.
-func (_c *FileCreate) SetNillableCreateTime(v *time.Time) *FileCreate {
+// SetNillableCreatedAt sets the "created_at" field if the given value is not nil.
+func (_c *FileCreate) SetNillableCreatedAt(v *time.Time) *FileCreate {
 	if v != nil {
-		_c.SetCreateTime(*v)
+		_c.SetCreatedAt(*v)
 	}
 	return _c
 }
 
-// SetUpdateTime sets the "update_time" field.
-func (_c *FileCreate) SetUpdateTime(v time.Time) *FileCreate {
-	_c.mutation.SetUpdateTime(v)
+// SetUpdatedAt sets the "updated_at" field.
+func (_c *FileCreate) SetUpdatedAt(v time.Time) *FileCreate {
+	_c.mutation.SetUpdatedAt(v)
 	return _c
 }
 
-// SetNillableUpdateTime sets the "update_time" field if the given value is not nil.
-func (_c *FileCreate) SetNillableUpdateTime(v *time.Time) *FileCreate {
+// SetNillableUpdatedAt sets the "updated_at" field if the given value is not nil.
+func (_c *FileCreate) SetNillableUpdatedAt(v *time.Time) *FileCreate {
 	if v != nil {
-		_c.SetUpdateTime(*v)
+		_c.SetUpdatedAt(*v)
 	}
 	return _c
 }
 
-// SetDeleteTime sets the "delete_time" field.
-func (_c *FileCreate) SetDeleteTime(v time.Time) *FileCreate {
-	_c.mutation.SetDeleteTime(v)
+// SetDeletedAt sets the "deleted_at" field.
+func (_c *FileCreate) SetDeletedAt(v time.Time) *FileCreate {
+	_c.mutation.SetDeletedAt(v)
 	return _c
 }
 
-// SetNillableDeleteTime sets the "delete_time" field if the given value is not nil.
-func (_c *FileCreate) SetNillableDeleteTime(v *time.Time) *FileCreate {
+// SetNillableDeletedAt sets the "deleted_at" field if the given value is not nil.
+func (_c *FileCreate) SetNillableDeletedAt(v *time.Time) *FileCreate {
 	if v != nil {
-		_c.SetDeleteTime(*v)
+		_c.SetDeletedAt(*v)
 	}
 	return _c
 }
 
-// SetCreateBy sets the "create_by" field.
-func (_c *FileCreate) SetCreateBy(v uint32) *FileCreate {
-	_c.mutation.SetCreateBy(v)
+// SetCreatedBy sets the "created_by" field.
+func (_c *FileCreate) SetCreatedBy(v uint32) *FileCreate {
+	_c.mutation.SetCreatedBy(v)
 	return _c
 }
 
-// SetNillableCreateBy sets the "create_by" field if the given value is not nil.
-func (_c *FileCreate) SetNillableCreateBy(v *uint32) *FileCreate {
+// SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
+func (_c *FileCreate) SetNillableCreatedBy(v *uint32) *FileCreate {
 	if v != nil {
-		_c.SetCreateBy(*v)
+		_c.SetCreatedBy(*v)
+	}
+	return _c
+}
+
+// SetUpdatedBy sets the "updated_by" field.
+func (_c *FileCreate) SetUpdatedBy(v uint32) *FileCreate {
+	_c.mutation.SetUpdatedBy(v)
+	return _c
+}
+
+// SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
+func (_c *FileCreate) SetNillableUpdatedBy(v *uint32) *FileCreate {
+	if v != nil {
+		_c.SetUpdatedBy(*v)
+	}
+	return _c
+}
+
+// SetDeletedBy sets the "deleted_by" field.
+func (_c *FileCreate) SetDeletedBy(v uint32) *FileCreate {
+	_c.mutation.SetDeletedBy(v)
+	return _c
+}
+
+// SetNillableDeletedBy sets the "deleted_by" field if the given value is not nil.
+func (_c *FileCreate) SetNillableDeletedBy(v *uint32) *FileCreate {
+	if v != nil {
+		_c.SetDeletedBy(*v)
 	}
 	return _c
 }
@@ -95,14 +123,6 @@ func (_c *FileCreate) SetNillableRemark(v *string) *FileCreate {
 // SetTenantID sets the "tenant_id" field.
 func (_c *FileCreate) SetTenantID(v uint32) *FileCreate {
 	_c.mutation.SetTenantID(v)
-	return _c
-}
-
-// SetNillableTenantID sets the "tenant_id" field if the given value is not nil.
-func (_c *FileCreate) SetNillableTenantID(v *uint32) *FileCreate {
-	if v != nil {
-		_c.SetTenantID(*v)
-	}
 	return _c
 }
 
@@ -273,7 +293,6 @@ func (_c *FileCreate) Mutation() *FileMutation {
 
 // Save creates the File in the database.
 func (_c *FileCreate) Save(ctx context.Context) (*File, error) {
-	_c.defaults()
 	return withHooks(ctx, _c.sqlSave, _c.mutation, _c.hooks)
 }
 
@@ -299,16 +318,11 @@ func (_c *FileCreate) ExecX(ctx context.Context) {
 	}
 }
 
-// defaults sets the default values of the builder before save.
-func (_c *FileCreate) defaults() {
-	if _, ok := _c.mutation.Remark(); !ok {
-		v := file.DefaultRemark
-		_c.mutation.SetRemark(v)
-	}
-}
-
 // check runs all checks and user-defined validators on the builder.
 func (_c *FileCreate) check() error {
+	if _, ok := _c.mutation.TenantID(); !ok {
+		return &ValidationError{Name: "tenant_id", err: errors.New(`ent: missing required field "File.tenant_id"`)}
+	}
 	if v, ok := _c.mutation.TenantID(); ok {
 		if err := file.TenantIDValidator(v); err != nil {
 			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "File.tenant_id": %w`, err)}
@@ -357,21 +371,29 @@ func (_c *FileCreate) createSpec() (*File, *sqlgraph.CreateSpec) {
 		_node.ID = id
 		_spec.ID.Value = id
 	}
-	if value, ok := _c.mutation.CreateTime(); ok {
-		_spec.SetField(file.FieldCreateTime, field.TypeTime, value)
-		_node.CreateTime = &value
+	if value, ok := _c.mutation.CreatedAt(); ok {
+		_spec.SetField(file.FieldCreatedAt, field.TypeTime, value)
+		_node.CreatedAt = &value
 	}
-	if value, ok := _c.mutation.UpdateTime(); ok {
-		_spec.SetField(file.FieldUpdateTime, field.TypeTime, value)
-		_node.UpdateTime = &value
+	if value, ok := _c.mutation.UpdatedAt(); ok {
+		_spec.SetField(file.FieldUpdatedAt, field.TypeTime, value)
+		_node.UpdatedAt = &value
 	}
-	if value, ok := _c.mutation.DeleteTime(); ok {
-		_spec.SetField(file.FieldDeleteTime, field.TypeTime, value)
-		_node.DeleteTime = &value
+	if value, ok := _c.mutation.DeletedAt(); ok {
+		_spec.SetField(file.FieldDeletedAt, field.TypeTime, value)
+		_node.DeletedAt = &value
 	}
-	if value, ok := _c.mutation.CreateBy(); ok {
-		_spec.SetField(file.FieldCreateBy, field.TypeUint32, value)
-		_node.CreateBy = &value
+	if value, ok := _c.mutation.CreatedBy(); ok {
+		_spec.SetField(file.FieldCreatedBy, field.TypeUint32, value)
+		_node.CreatedBy = &value
+	}
+	if value, ok := _c.mutation.UpdatedBy(); ok {
+		_spec.SetField(file.FieldUpdatedBy, field.TypeUint32, value)
+		_node.UpdatedBy = &value
+	}
+	if value, ok := _c.mutation.DeletedBy(); ok {
+		_spec.SetField(file.FieldDeletedBy, field.TypeUint32, value)
+		_node.DeletedBy = &value
 	}
 	if value, ok := _c.mutation.Remark(); ok {
 		_spec.SetField(file.FieldRemark, field.TypeString, value)
@@ -379,7 +401,7 @@ func (_c *FileCreate) createSpec() (*File, *sqlgraph.CreateSpec) {
 	}
 	if value, ok := _c.mutation.TenantID(); ok {
 		_spec.SetField(file.FieldTenantID, field.TypeUint32, value)
-		_node.TenantID = &value
+		_node.TenantID = value
 	}
 	if value, ok := _c.mutation.Provider(); ok {
 		_spec.SetField(file.FieldProvider, field.TypeEnum, value)
@@ -432,7 +454,7 @@ func (_c *FileCreate) createSpec() (*File, *sqlgraph.CreateSpec) {
 // of the `INSERT` statement. For example:
 //
 //	client.File.Create().
-//		SetCreateTime(v).
+//		SetCreatedAt(v).
 //		OnConflict(
 //			// Update the row with the new values
 //			// the was proposed for insertion.
@@ -441,7 +463,7 @@ func (_c *FileCreate) createSpec() (*File, *sqlgraph.CreateSpec) {
 //		// Override some of the fields with custom
 //		// update values.
 //		Update(func(u *ent.FileUpsert) {
-//			SetCreateTime(v+v).
+//			SetCreatedAt(v+v).
 //		}).
 //		Exec(ctx)
 func (_c *FileCreate) OnConflict(opts ...sql.ConflictOption) *FileUpsertOne {
@@ -477,63 +499,111 @@ type (
 	}
 )
 
-// SetUpdateTime sets the "update_time" field.
-func (u *FileUpsert) SetUpdateTime(v time.Time) *FileUpsert {
-	u.Set(file.FieldUpdateTime, v)
+// SetUpdatedAt sets the "updated_at" field.
+func (u *FileUpsert) SetUpdatedAt(v time.Time) *FileUpsert {
+	u.Set(file.FieldUpdatedAt, v)
 	return u
 }
 
-// UpdateUpdateTime sets the "update_time" field to the value that was provided on create.
-func (u *FileUpsert) UpdateUpdateTime() *FileUpsert {
-	u.SetExcluded(file.FieldUpdateTime)
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *FileUpsert) UpdateUpdatedAt() *FileUpsert {
+	u.SetExcluded(file.FieldUpdatedAt)
 	return u
 }
 
-// ClearUpdateTime clears the value of the "update_time" field.
-func (u *FileUpsert) ClearUpdateTime() *FileUpsert {
-	u.SetNull(file.FieldUpdateTime)
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (u *FileUpsert) ClearUpdatedAt() *FileUpsert {
+	u.SetNull(file.FieldUpdatedAt)
 	return u
 }
 
-// SetDeleteTime sets the "delete_time" field.
-func (u *FileUpsert) SetDeleteTime(v time.Time) *FileUpsert {
-	u.Set(file.FieldDeleteTime, v)
+// SetDeletedAt sets the "deleted_at" field.
+func (u *FileUpsert) SetDeletedAt(v time.Time) *FileUpsert {
+	u.Set(file.FieldDeletedAt, v)
 	return u
 }
 
-// UpdateDeleteTime sets the "delete_time" field to the value that was provided on create.
-func (u *FileUpsert) UpdateDeleteTime() *FileUpsert {
-	u.SetExcluded(file.FieldDeleteTime)
+// UpdateDeletedAt sets the "deleted_at" field to the value that was provided on create.
+func (u *FileUpsert) UpdateDeletedAt() *FileUpsert {
+	u.SetExcluded(file.FieldDeletedAt)
 	return u
 }
 
-// ClearDeleteTime clears the value of the "delete_time" field.
-func (u *FileUpsert) ClearDeleteTime() *FileUpsert {
-	u.SetNull(file.FieldDeleteTime)
+// ClearDeletedAt clears the value of the "deleted_at" field.
+func (u *FileUpsert) ClearDeletedAt() *FileUpsert {
+	u.SetNull(file.FieldDeletedAt)
 	return u
 }
 
-// SetCreateBy sets the "create_by" field.
-func (u *FileUpsert) SetCreateBy(v uint32) *FileUpsert {
-	u.Set(file.FieldCreateBy, v)
+// SetCreatedBy sets the "created_by" field.
+func (u *FileUpsert) SetCreatedBy(v uint32) *FileUpsert {
+	u.Set(file.FieldCreatedBy, v)
 	return u
 }
 
-// UpdateCreateBy sets the "create_by" field to the value that was provided on create.
-func (u *FileUpsert) UpdateCreateBy() *FileUpsert {
-	u.SetExcluded(file.FieldCreateBy)
+// UpdateCreatedBy sets the "created_by" field to the value that was provided on create.
+func (u *FileUpsert) UpdateCreatedBy() *FileUpsert {
+	u.SetExcluded(file.FieldCreatedBy)
 	return u
 }
 
-// AddCreateBy adds v to the "create_by" field.
-func (u *FileUpsert) AddCreateBy(v uint32) *FileUpsert {
-	u.Add(file.FieldCreateBy, v)
+// AddCreatedBy adds v to the "created_by" field.
+func (u *FileUpsert) AddCreatedBy(v uint32) *FileUpsert {
+	u.Add(file.FieldCreatedBy, v)
 	return u
 }
 
-// ClearCreateBy clears the value of the "create_by" field.
-func (u *FileUpsert) ClearCreateBy() *FileUpsert {
-	u.SetNull(file.FieldCreateBy)
+// ClearCreatedBy clears the value of the "created_by" field.
+func (u *FileUpsert) ClearCreatedBy() *FileUpsert {
+	u.SetNull(file.FieldCreatedBy)
+	return u
+}
+
+// SetUpdatedBy sets the "updated_by" field.
+func (u *FileUpsert) SetUpdatedBy(v uint32) *FileUpsert {
+	u.Set(file.FieldUpdatedBy, v)
+	return u
+}
+
+// UpdateUpdatedBy sets the "updated_by" field to the value that was provided on create.
+func (u *FileUpsert) UpdateUpdatedBy() *FileUpsert {
+	u.SetExcluded(file.FieldUpdatedBy)
+	return u
+}
+
+// AddUpdatedBy adds v to the "updated_by" field.
+func (u *FileUpsert) AddUpdatedBy(v uint32) *FileUpsert {
+	u.Add(file.FieldUpdatedBy, v)
+	return u
+}
+
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (u *FileUpsert) ClearUpdatedBy() *FileUpsert {
+	u.SetNull(file.FieldUpdatedBy)
+	return u
+}
+
+// SetDeletedBy sets the "deleted_by" field.
+func (u *FileUpsert) SetDeletedBy(v uint32) *FileUpsert {
+	u.Set(file.FieldDeletedBy, v)
+	return u
+}
+
+// UpdateDeletedBy sets the "deleted_by" field to the value that was provided on create.
+func (u *FileUpsert) UpdateDeletedBy() *FileUpsert {
+	u.SetExcluded(file.FieldDeletedBy)
+	return u
+}
+
+// AddDeletedBy adds v to the "deleted_by" field.
+func (u *FileUpsert) AddDeletedBy(v uint32) *FileUpsert {
+	u.Add(file.FieldDeletedBy, v)
+	return u
+}
+
+// ClearDeletedBy clears the value of the "deleted_by" field.
+func (u *FileUpsert) ClearDeletedBy() *FileUpsert {
+	u.SetNull(file.FieldDeletedBy)
 	return u
 }
 
@@ -776,8 +846,8 @@ func (u *FileUpsertOne) UpdateNewValues() *FileUpsertOne {
 		if _, exists := u.create.mutation.ID(); exists {
 			s.SetIgnore(file.FieldID)
 		}
-		if _, exists := u.create.mutation.CreateTime(); exists {
-			s.SetIgnore(file.FieldCreateTime)
+		if _, exists := u.create.mutation.CreatedAt(); exists {
+			s.SetIgnore(file.FieldCreatedAt)
 		}
 		if _, exists := u.create.mutation.TenantID(); exists {
 			s.SetIgnore(file.FieldTenantID)
@@ -813,73 +883,129 @@ func (u *FileUpsertOne) Update(set func(*FileUpsert)) *FileUpsertOne {
 	return u
 }
 
-// SetUpdateTime sets the "update_time" field.
-func (u *FileUpsertOne) SetUpdateTime(v time.Time) *FileUpsertOne {
+// SetUpdatedAt sets the "updated_at" field.
+func (u *FileUpsertOne) SetUpdatedAt(v time.Time) *FileUpsertOne {
 	return u.Update(func(s *FileUpsert) {
-		s.SetUpdateTime(v)
+		s.SetUpdatedAt(v)
 	})
 }
 
-// UpdateUpdateTime sets the "update_time" field to the value that was provided on create.
-func (u *FileUpsertOne) UpdateUpdateTime() *FileUpsertOne {
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *FileUpsertOne) UpdateUpdatedAt() *FileUpsertOne {
 	return u.Update(func(s *FileUpsert) {
-		s.UpdateUpdateTime()
+		s.UpdateUpdatedAt()
 	})
 }
 
-// ClearUpdateTime clears the value of the "update_time" field.
-func (u *FileUpsertOne) ClearUpdateTime() *FileUpsertOne {
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (u *FileUpsertOne) ClearUpdatedAt() *FileUpsertOne {
 	return u.Update(func(s *FileUpsert) {
-		s.ClearUpdateTime()
+		s.ClearUpdatedAt()
 	})
 }
 
-// SetDeleteTime sets the "delete_time" field.
-func (u *FileUpsertOne) SetDeleteTime(v time.Time) *FileUpsertOne {
+// SetDeletedAt sets the "deleted_at" field.
+func (u *FileUpsertOne) SetDeletedAt(v time.Time) *FileUpsertOne {
 	return u.Update(func(s *FileUpsert) {
-		s.SetDeleteTime(v)
+		s.SetDeletedAt(v)
 	})
 }
 
-// UpdateDeleteTime sets the "delete_time" field to the value that was provided on create.
-func (u *FileUpsertOne) UpdateDeleteTime() *FileUpsertOne {
+// UpdateDeletedAt sets the "deleted_at" field to the value that was provided on create.
+func (u *FileUpsertOne) UpdateDeletedAt() *FileUpsertOne {
 	return u.Update(func(s *FileUpsert) {
-		s.UpdateDeleteTime()
+		s.UpdateDeletedAt()
 	})
 }
 
-// ClearDeleteTime clears the value of the "delete_time" field.
-func (u *FileUpsertOne) ClearDeleteTime() *FileUpsertOne {
+// ClearDeletedAt clears the value of the "deleted_at" field.
+func (u *FileUpsertOne) ClearDeletedAt() *FileUpsertOne {
 	return u.Update(func(s *FileUpsert) {
-		s.ClearDeleteTime()
+		s.ClearDeletedAt()
 	})
 }
 
-// SetCreateBy sets the "create_by" field.
-func (u *FileUpsertOne) SetCreateBy(v uint32) *FileUpsertOne {
+// SetCreatedBy sets the "created_by" field.
+func (u *FileUpsertOne) SetCreatedBy(v uint32) *FileUpsertOne {
 	return u.Update(func(s *FileUpsert) {
-		s.SetCreateBy(v)
+		s.SetCreatedBy(v)
 	})
 }
 
-// AddCreateBy adds v to the "create_by" field.
-func (u *FileUpsertOne) AddCreateBy(v uint32) *FileUpsertOne {
+// AddCreatedBy adds v to the "created_by" field.
+func (u *FileUpsertOne) AddCreatedBy(v uint32) *FileUpsertOne {
 	return u.Update(func(s *FileUpsert) {
-		s.AddCreateBy(v)
+		s.AddCreatedBy(v)
 	})
 }
 
-// UpdateCreateBy sets the "create_by" field to the value that was provided on create.
-func (u *FileUpsertOne) UpdateCreateBy() *FileUpsertOne {
+// UpdateCreatedBy sets the "created_by" field to the value that was provided on create.
+func (u *FileUpsertOne) UpdateCreatedBy() *FileUpsertOne {
 	return u.Update(func(s *FileUpsert) {
-		s.UpdateCreateBy()
+		s.UpdateCreatedBy()
 	})
 }
 
-// ClearCreateBy clears the value of the "create_by" field.
-func (u *FileUpsertOne) ClearCreateBy() *FileUpsertOne {
+// ClearCreatedBy clears the value of the "created_by" field.
+func (u *FileUpsertOne) ClearCreatedBy() *FileUpsertOne {
 	return u.Update(func(s *FileUpsert) {
-		s.ClearCreateBy()
+		s.ClearCreatedBy()
+	})
+}
+
+// SetUpdatedBy sets the "updated_by" field.
+func (u *FileUpsertOne) SetUpdatedBy(v uint32) *FileUpsertOne {
+	return u.Update(func(s *FileUpsert) {
+		s.SetUpdatedBy(v)
+	})
+}
+
+// AddUpdatedBy adds v to the "updated_by" field.
+func (u *FileUpsertOne) AddUpdatedBy(v uint32) *FileUpsertOne {
+	return u.Update(func(s *FileUpsert) {
+		s.AddUpdatedBy(v)
+	})
+}
+
+// UpdateUpdatedBy sets the "updated_by" field to the value that was provided on create.
+func (u *FileUpsertOne) UpdateUpdatedBy() *FileUpsertOne {
+	return u.Update(func(s *FileUpsert) {
+		s.UpdateUpdatedBy()
+	})
+}
+
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (u *FileUpsertOne) ClearUpdatedBy() *FileUpsertOne {
+	return u.Update(func(s *FileUpsert) {
+		s.ClearUpdatedBy()
+	})
+}
+
+// SetDeletedBy sets the "deleted_by" field.
+func (u *FileUpsertOne) SetDeletedBy(v uint32) *FileUpsertOne {
+	return u.Update(func(s *FileUpsert) {
+		s.SetDeletedBy(v)
+	})
+}
+
+// AddDeletedBy adds v to the "deleted_by" field.
+func (u *FileUpsertOne) AddDeletedBy(v uint32) *FileUpsertOne {
+	return u.Update(func(s *FileUpsert) {
+		s.AddDeletedBy(v)
+	})
+}
+
+// UpdateDeletedBy sets the "deleted_by" field to the value that was provided on create.
+func (u *FileUpsertOne) UpdateDeletedBy() *FileUpsertOne {
+	return u.Update(func(s *FileUpsert) {
+		s.UpdateDeletedBy()
+	})
+}
+
+// ClearDeletedBy clears the value of the "deleted_by" field.
+func (u *FileUpsertOne) ClearDeletedBy() *FileUpsertOne {
+	return u.Update(func(s *FileUpsert) {
+		s.ClearDeletedBy()
 	})
 }
 
@@ -1194,7 +1320,6 @@ func (_c *FileCreateBulk) Save(ctx context.Context) ([]*File, error) {
 	for i := range _c.builders {
 		func(i int, root context.Context) {
 			builder := _c.builders[i]
-			builder.defaults()
 			var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 				mutation, ok := m.(*FileMutation)
 				if !ok {
@@ -1277,7 +1402,7 @@ func (_c *FileCreateBulk) ExecX(ctx context.Context) {
 //		// Override some of the fields with custom
 //		// update values.
 //		Update(func(u *ent.FileUpsert) {
-//			SetCreateTime(v+v).
+//			SetCreatedAt(v+v).
 //		}).
 //		Exec(ctx)
 func (_c *FileCreateBulk) OnConflict(opts ...sql.ConflictOption) *FileUpsertBulk {
@@ -1324,8 +1449,8 @@ func (u *FileUpsertBulk) UpdateNewValues() *FileUpsertBulk {
 			if _, exists := b.mutation.ID(); exists {
 				s.SetIgnore(file.FieldID)
 			}
-			if _, exists := b.mutation.CreateTime(); exists {
-				s.SetIgnore(file.FieldCreateTime)
+			if _, exists := b.mutation.CreatedAt(); exists {
+				s.SetIgnore(file.FieldCreatedAt)
 			}
 			if _, exists := b.mutation.TenantID(); exists {
 				s.SetIgnore(file.FieldTenantID)
@@ -1362,73 +1487,129 @@ func (u *FileUpsertBulk) Update(set func(*FileUpsert)) *FileUpsertBulk {
 	return u
 }
 
-// SetUpdateTime sets the "update_time" field.
-func (u *FileUpsertBulk) SetUpdateTime(v time.Time) *FileUpsertBulk {
+// SetUpdatedAt sets the "updated_at" field.
+func (u *FileUpsertBulk) SetUpdatedAt(v time.Time) *FileUpsertBulk {
 	return u.Update(func(s *FileUpsert) {
-		s.SetUpdateTime(v)
+		s.SetUpdatedAt(v)
 	})
 }
 
-// UpdateUpdateTime sets the "update_time" field to the value that was provided on create.
-func (u *FileUpsertBulk) UpdateUpdateTime() *FileUpsertBulk {
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *FileUpsertBulk) UpdateUpdatedAt() *FileUpsertBulk {
 	return u.Update(func(s *FileUpsert) {
-		s.UpdateUpdateTime()
+		s.UpdateUpdatedAt()
 	})
 }
 
-// ClearUpdateTime clears the value of the "update_time" field.
-func (u *FileUpsertBulk) ClearUpdateTime() *FileUpsertBulk {
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (u *FileUpsertBulk) ClearUpdatedAt() *FileUpsertBulk {
 	return u.Update(func(s *FileUpsert) {
-		s.ClearUpdateTime()
+		s.ClearUpdatedAt()
 	})
 }
 
-// SetDeleteTime sets the "delete_time" field.
-func (u *FileUpsertBulk) SetDeleteTime(v time.Time) *FileUpsertBulk {
+// SetDeletedAt sets the "deleted_at" field.
+func (u *FileUpsertBulk) SetDeletedAt(v time.Time) *FileUpsertBulk {
 	return u.Update(func(s *FileUpsert) {
-		s.SetDeleteTime(v)
+		s.SetDeletedAt(v)
 	})
 }
 
-// UpdateDeleteTime sets the "delete_time" field to the value that was provided on create.
-func (u *FileUpsertBulk) UpdateDeleteTime() *FileUpsertBulk {
+// UpdateDeletedAt sets the "deleted_at" field to the value that was provided on create.
+func (u *FileUpsertBulk) UpdateDeletedAt() *FileUpsertBulk {
 	return u.Update(func(s *FileUpsert) {
-		s.UpdateDeleteTime()
+		s.UpdateDeletedAt()
 	})
 }
 
-// ClearDeleteTime clears the value of the "delete_time" field.
-func (u *FileUpsertBulk) ClearDeleteTime() *FileUpsertBulk {
+// ClearDeletedAt clears the value of the "deleted_at" field.
+func (u *FileUpsertBulk) ClearDeletedAt() *FileUpsertBulk {
 	return u.Update(func(s *FileUpsert) {
-		s.ClearDeleteTime()
+		s.ClearDeletedAt()
 	})
 }
 
-// SetCreateBy sets the "create_by" field.
-func (u *FileUpsertBulk) SetCreateBy(v uint32) *FileUpsertBulk {
+// SetCreatedBy sets the "created_by" field.
+func (u *FileUpsertBulk) SetCreatedBy(v uint32) *FileUpsertBulk {
 	return u.Update(func(s *FileUpsert) {
-		s.SetCreateBy(v)
+		s.SetCreatedBy(v)
 	})
 }
 
-// AddCreateBy adds v to the "create_by" field.
-func (u *FileUpsertBulk) AddCreateBy(v uint32) *FileUpsertBulk {
+// AddCreatedBy adds v to the "created_by" field.
+func (u *FileUpsertBulk) AddCreatedBy(v uint32) *FileUpsertBulk {
 	return u.Update(func(s *FileUpsert) {
-		s.AddCreateBy(v)
+		s.AddCreatedBy(v)
 	})
 }
 
-// UpdateCreateBy sets the "create_by" field to the value that was provided on create.
-func (u *FileUpsertBulk) UpdateCreateBy() *FileUpsertBulk {
+// UpdateCreatedBy sets the "created_by" field to the value that was provided on create.
+func (u *FileUpsertBulk) UpdateCreatedBy() *FileUpsertBulk {
 	return u.Update(func(s *FileUpsert) {
-		s.UpdateCreateBy()
+		s.UpdateCreatedBy()
 	})
 }
 
-// ClearCreateBy clears the value of the "create_by" field.
-func (u *FileUpsertBulk) ClearCreateBy() *FileUpsertBulk {
+// ClearCreatedBy clears the value of the "created_by" field.
+func (u *FileUpsertBulk) ClearCreatedBy() *FileUpsertBulk {
 	return u.Update(func(s *FileUpsert) {
-		s.ClearCreateBy()
+		s.ClearCreatedBy()
+	})
+}
+
+// SetUpdatedBy sets the "updated_by" field.
+func (u *FileUpsertBulk) SetUpdatedBy(v uint32) *FileUpsertBulk {
+	return u.Update(func(s *FileUpsert) {
+		s.SetUpdatedBy(v)
+	})
+}
+
+// AddUpdatedBy adds v to the "updated_by" field.
+func (u *FileUpsertBulk) AddUpdatedBy(v uint32) *FileUpsertBulk {
+	return u.Update(func(s *FileUpsert) {
+		s.AddUpdatedBy(v)
+	})
+}
+
+// UpdateUpdatedBy sets the "updated_by" field to the value that was provided on create.
+func (u *FileUpsertBulk) UpdateUpdatedBy() *FileUpsertBulk {
+	return u.Update(func(s *FileUpsert) {
+		s.UpdateUpdatedBy()
+	})
+}
+
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (u *FileUpsertBulk) ClearUpdatedBy() *FileUpsertBulk {
+	return u.Update(func(s *FileUpsert) {
+		s.ClearUpdatedBy()
+	})
+}
+
+// SetDeletedBy sets the "deleted_by" field.
+func (u *FileUpsertBulk) SetDeletedBy(v uint32) *FileUpsertBulk {
+	return u.Update(func(s *FileUpsert) {
+		s.SetDeletedBy(v)
+	})
+}
+
+// AddDeletedBy adds v to the "deleted_by" field.
+func (u *FileUpsertBulk) AddDeletedBy(v uint32) *FileUpsertBulk {
+	return u.Update(func(s *FileUpsert) {
+		s.AddDeletedBy(v)
+	})
+}
+
+// UpdateDeletedBy sets the "deleted_by" field to the value that was provided on create.
+func (u *FileUpsertBulk) UpdateDeletedBy() *FileUpsertBulk {
+	return u.Update(func(s *FileUpsert) {
+		s.UpdateDeletedBy()
+	})
+}
+
+// ClearDeletedBy clears the value of the "deleted_by" field.
+func (u *FileUpsertBulk) ClearDeletedBy() *FileUpsertBulk {
+	return u.Update(func(s *FileUpsert) {
+		s.ClearDeletedBy()
 	})
 }
 

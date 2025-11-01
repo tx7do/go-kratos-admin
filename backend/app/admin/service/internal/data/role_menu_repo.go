@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"github.com/go-kratos/kratos/v2/log"
+	"github.com/tx7do/go-utils/entgo"
 
 	"kratos-admin/app/admin/service/internal/data/ent"
 	"kratos-admin/app/admin/service/internal/data/ent/rolemenu"
@@ -35,7 +36,7 @@ func (r *RoleMenuRepo) AssignMenus(ctx context.Context, roleId uint32, menuIds [
 
 	// 删除该角色的所有旧关联
 	if _, err = tx.RoleMenu.Delete().Where(rolemenu.RoleID(roleId)).Exec(ctx); err != nil {
-		err = rollback(tx, err)
+		err = entgo.Rollback(tx, err)
 		r.log.Errorf("delete old role menus failed: %s", err.Error())
 		return userV1.ErrorInternalServerError("delete old role menus failed")
 	}
@@ -56,14 +57,14 @@ func (r *RoleMenuRepo) AssignMenus(ctx context.Context, roleId uint32, menuIds [
 			Create().
 			SetRoleID(roleId).
 			SetMenuID(menuID).
-			SetCreateBy(operatorId).
-			SetCreateTime(time.Now())
+			SetCreatedBy(operatorId).
+			SetCreatedAt(time.Now())
 		roleMenus = append(roleMenus, rm)
 	}
 
 	_, err = r.data.db.Client().RoleMenu.CreateBulk(roleMenus...).Save(ctx)
 	if err != nil {
-		err = rollback(tx, err)
+		err = entgo.Rollback(tx, err)
 		r.log.Errorf("assign menus to role failed: %s", err.Error())
 		return userV1.ErrorInternalServerError("assign menus to role failed")
 	}

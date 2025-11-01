@@ -6,8 +6,6 @@ import (
 	"entgo.io/ent/schema"
 	"entgo.io/ent/schema/field"
 	"github.com/tx7do/go-utils/entgo/mixin"
-
-	appmixin "kratos-admin/pkg/entgo/mixin"
 )
 
 // NotificationMessage holds the schema definition for the NotificationMessage entity.
@@ -66,9 +64,8 @@ func (NotificationMessage) Fields() []ent.Field {
 func (NotificationMessage) Mixin() []ent.Mixin {
 	return []ent.Mixin{
 		mixin.AutoIncrementId{},
-		mixin.Time{},
-		mixin.CreateBy{},
-		mixin.UpdateBy{},
-		appmixin.TenantID{},
+		mixin.TimeAt{},
+		mixin.OperatorID{},
+		mixin.TenantID{},
 	}
 }

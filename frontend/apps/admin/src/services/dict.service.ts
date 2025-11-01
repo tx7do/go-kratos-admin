@@ -1,15 +1,15 @@
 import type {
   BatchDeleteDictRequest,
-  CreateDictItemRequest,
-  CreateDictMainRequest,
-  DictMain,
+  CreateDictEntryRequest,
+  CreateDictTypeRequest,
   DictService,
-  GetDictMainRequest,
-  ListDictItemResponse,
-  ListDictMainResponse,
-  UpdateDictItemRequest,
-  UpdateDictMainRequest,
-} from '#/generated/api/admin/service/v1/i_dict.pb';
+  DictType,
+  GetDictTypeRequest,
+  ListDictEntryResponse,
+  ListDictTypeResponse,
+  UpdateDictEntryRequest,
+  UpdateDictTypeRequest,
+} from '#/generated/api/dict/service/v1/dict.pb';
 import type { Empty } from '#/generated/api/google/protobuf/empty.pb';
 import type { PagingRequest } from '#/generated/api/pagination/v1/pagination.pb';
 
@@ -17,68 +17,68 @@ import { requestClient } from '#/utils/request';
 
 /** 字典管理服务 */
 class DictServiceImpl implements DictService {
-  async CreateDictItem(request: CreateDictItemRequest): Promise<Empty> {
-    return await requestClient.post<Empty>('/dict-items', request);
+  async CreateDictEntry(request: CreateDictEntryRequest): Promise<Empty> {
+    return await requestClient.post<Empty>('/dict-entries', request);
   }
 
-  async CreateDictMain(request: CreateDictMainRequest): Promise<Empty> {
-    return await requestClient.post<Empty>('/dict-mains', request);
+  async CreateDictType(request: CreateDictTypeRequest): Promise<Empty> {
+    return await requestClient.post<Empty>('/dict-types', request);
   }
 
-  async DeleteDictItem(request: BatchDeleteDictRequest): Promise<Empty> {
-    return await requestClient.delete<Empty>(`/dict-items`, {
+  async DeleteDictEntry(request: BatchDeleteDictRequest): Promise<Empty> {
+    return await requestClient.delete<Empty>(`/dict-entries`, {
       params: request,
     });
   }
 
-  async DeleteDictMain(request: BatchDeleteDictRequest): Promise<Empty> {
-    return await requestClient.delete<Empty>(`/dict-mains`, {
+  async DeleteDictType(request: BatchDeleteDictRequest): Promise<Empty> {
+    return await requestClient.delete<Empty>(`/dict-types`, {
       params: request,
     });
   }
 
-  async GetDictMain(request: GetDictMainRequest): Promise<DictMain> {
+  async GetDictType(request: GetDictTypeRequest): Promise<DictType> {
     switch (request.queryBy?.$case) {
       case 'code': {
-        return await requestClient.get<DictMain>(
-          `/dict-mains/code/${request.queryBy.code}`,
+        return await requestClient.get<DictType>(
+          `/dict-types/code/${request.queryBy.code}`,
         );
       }
       case 'id': {
-        return await requestClient.get<DictMain>(
-          `/dict-mains/${request.queryBy.id}`,
+        return await requestClient.get<DictType>(
+          `/dict-types/${request.queryBy.id}`,
         );
       }
     }
-    throw new Error('GetDictMain must set queryBy');
+    throw new Error('GetDictType must set queryBy');
   }
 
-  async ListDictItem(request: PagingRequest): Promise<ListDictItemResponse> {
-    return await requestClient.get<ListDictItemResponse>('/dict-items', {
+  async ListDictEntry(request: PagingRequest): Promise<ListDictEntryResponse> {
+    return await requestClient.get<ListDictEntryResponse>('/dict-entries', {
       params: request,
     });
   }
 
-  async ListDictMain(request: PagingRequest): Promise<ListDictMainResponse> {
-    return await requestClient.get<ListDictMainResponse>('/dict-mains', {
+  async ListDictType(request: PagingRequest): Promise<ListDictTypeResponse> {
+    return await requestClient.get<ListDictTypeResponse>('/dict-types', {
       params: request,
     });
   }
 
-  async UpdateDictItem(request: UpdateDictItemRequest): Promise<Empty> {
+  async UpdateDictEntry(request: UpdateDictEntryRequest): Promise<Empty> {
     const id = request.data?.id;
     if (request.data !== null && request.data !== undefined) {
       request.data.id = undefined;
     }
-    return await requestClient.put<Empty>(`/dict-items/${id}`, request);
+    return await requestClient.put<Empty>(`/dict-entries/${id}`, request);
   }
 
-  async UpdateDictMain(request: UpdateDictMainRequest): Promise<Empty> {
+  async UpdateDictType(request: UpdateDictTypeRequest): Promise<Empty> {
     const id = request.data?.id;
     if (request.data !== null && request.data !== undefined) {
       request.data.id = undefined;
     }
-    return await requestClient.put<Empty>(`/dict-mains/${id}`, request);
+    return await requestClient.put<Empty>(`/dict-types/${id}`, request);
   }
 }
 

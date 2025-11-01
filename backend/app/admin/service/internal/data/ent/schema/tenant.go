@@ -130,9 +130,8 @@ func (Tenant) Fields() []ent.Field {
 func (Tenant) Mixin() []ent.Mixin {
 	return []ent.Mixin{
 		mixin.AutoIncrementId{},
-		mixin.Time{},
-		mixin.CreateBy{},
-		mixin.UpdateBy{},
+		mixin.TimeAt{},
+		mixin.OperatorID{},
 		mixin.Remark{},
 	}
 }

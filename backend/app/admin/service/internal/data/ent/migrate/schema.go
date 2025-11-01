@@ -11,8 +11,8 @@ import (
 var (
 	// SysAdminLoginLogsColumns holds the columns for the "sys_admin_login_logs" table.
 	SysAdminLoginLogsColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeUint32, Increment: true, Comment: "id", SchemaType: map[string]string{"mysql": "int", "postgres": "serial"}},
-		{Name: "create_time", Type: field.TypeTime, Nullable: true, Comment: "创建时间"},
+		{Name: "id", Type: field.TypeUint32, Increment: true, Comment: "id"},
+		{Name: "created_at", Type: field.TypeTime, Nullable: true, Comment: "创建时间"},
 		{Name: "login_ip", Type: field.TypeString, Nullable: true, Comment: "登录IP地址"},
 		{Name: "login_mac", Type: field.TypeString, Nullable: true, Comment: "登录MAC地址"},
 		{Name: "login_time", Type: field.TypeTime, Nullable: true, Comment: "登录时间"},
@@ -36,22 +36,16 @@ var (
 		Comment:    "后台登录日志表",
 		Columns:    SysAdminLoginLogsColumns,
 		PrimaryKey: []*schema.Column{SysAdminLoginLogsColumns[0]},
-		Indexes: []*schema.Index{
-			{
-				Name:    "adminloginlog_id",
-				Unique:  false,
-				Columns: []*schema.Column{SysAdminLoginLogsColumns[0]},
-			},
-		},
 	}
 	// SysAdminLoginRestrictionsColumns holds the columns for the "sys_admin_login_restrictions" table.
 	SysAdminLoginRestrictionsColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeUint32, Increment: true, Comment: "id", SchemaType: map[string]string{"mysql": "int", "postgres": "serial"}},
-		{Name: "create_time", Type: field.TypeTime, Nullable: true, Comment: "创建时间"},
-		{Name: "update_time", Type: field.TypeTime, Nullable: true, Comment: "更新时间"},
-		{Name: "delete_time", Type: field.TypeTime, Nullable: true, Comment: "删除时间"},
-		{Name: "create_by", Type: field.TypeUint32, Nullable: true, Comment: "创建者ID"},
-		{Name: "update_by", Type: field.TypeUint32, Nullable: true, Comment: "更新者ID"},
+		{Name: "id", Type: field.TypeUint32, Increment: true, Comment: "id"},
+		{Name: "created_at", Type: field.TypeTime, Nullable: true, Comment: "创建时间"},
+		{Name: "updated_at", Type: field.TypeTime, Nullable: true, Comment: "更新时间"},
+		{Name: "deleted_at", Type: field.TypeTime, Nullable: true, Comment: "删除时间"},
+		{Name: "created_by", Type: field.TypeUint32, Nullable: true, Comment: "创建者ID"},
+		{Name: "updated_by", Type: field.TypeUint32, Nullable: true, Comment: "更新者ID"},
+		{Name: "deleted_by", Type: field.TypeUint32, Nullable: true, Comment: "删除者ID"},
 		{Name: "target_id", Type: field.TypeUint32, Nullable: true, Comment: "目标用户ID"},
 		{Name: "value", Type: field.TypeString, Nullable: true, Comment: "限制值（如IP地址、MAC地址或地区代码）"},
 		{Name: "reason", Type: field.TypeString, Nullable: true, Comment: "限制原因"},
@@ -66,21 +60,16 @@ var (
 		PrimaryKey: []*schema.Column{SysAdminLoginRestrictionsColumns[0]},
 		Indexes: []*schema.Index{
 			{
-				Name:    "adminloginrestriction_id",
-				Unique:  false,
-				Columns: []*schema.Column{SysAdminLoginRestrictionsColumns[0]},
-			},
-			{
 				Name:    "idx_sys_admin_login_restriction_target_type_method",
 				Unique:  true,
-				Columns: []*schema.Column{SysAdminLoginRestrictionsColumns[6], SysAdminLoginRestrictionsColumns[9], SysAdminLoginRestrictionsColumns[10]},
+				Columns: []*schema.Column{SysAdminLoginRestrictionsColumns[7], SysAdminLoginRestrictionsColumns[10], SysAdminLoginRestrictionsColumns[11]},
 			},
 		},
 	}
 	// SysAdminOperationLogsColumns holds the columns for the "sys_admin_operation_logs" table.
 	SysAdminOperationLogsColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeUint32, Increment: true, Comment: "id", SchemaType: map[string]string{"mysql": "int", "postgres": "serial"}},
-		{Name: "create_time", Type: field.TypeTime, Nullable: true, Comment: "创建时间"},
+		{Name: "id", Type: field.TypeUint32, Increment: true, Comment: "id"},
+		{Name: "created_at", Type: field.TypeTime, Nullable: true, Comment: "创建时间"},
 		{Name: "request_id", Type: field.TypeString, Nullable: true, Comment: "请求ID"},
 		{Name: "method", Type: field.TypeString, Nullable: true, Comment: "请求方法"},
 		{Name: "operation", Type: field.TypeString, Nullable: true, Comment: "操作方法"},
@@ -112,22 +101,16 @@ var (
 		Comment:    "后台操作日志表",
 		Columns:    SysAdminOperationLogsColumns,
 		PrimaryKey: []*schema.Column{SysAdminOperationLogsColumns[0]},
-		Indexes: []*schema.Index{
-			{
-				Name:    "adminoperationlog_id",
-				Unique:  false,
-				Columns: []*schema.Column{SysAdminOperationLogsColumns[0]},
-			},
-		},
 	}
 	// SysAPIResourcesColumns holds the columns for the "sys_api_resources" table.
 	SysAPIResourcesColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeUint32, Increment: true, Comment: "id", SchemaType: map[string]string{"mysql": "int", "postgres": "serial"}},
-		{Name: "create_time", Type: field.TypeTime, Nullable: true, Comment: "创建时间"},
-		{Name: "update_time", Type: field.TypeTime, Nullable: true, Comment: "更新时间"},
-		{Name: "delete_time", Type: field.TypeTime, Nullable: true, Comment: "删除时间"},
-		{Name: "create_by", Type: field.TypeUint32, Nullable: true, Comment: "创建者ID"},
-		{Name: "update_by", Type: field.TypeUint32, Nullable: true, Comment: "更新者ID"},
+		{Name: "id", Type: field.TypeUint32, Increment: true, Comment: "id"},
+		{Name: "created_at", Type: field.TypeTime, Nullable: true, Comment: "创建时间"},
+		{Name: "updated_at", Type: field.TypeTime, Nullable: true, Comment: "更新时间"},
+		{Name: "deleted_at", Type: field.TypeTime, Nullable: true, Comment: "删除时间"},
+		{Name: "created_by", Type: field.TypeUint32, Nullable: true, Comment: "创建者ID"},
+		{Name: "updated_by", Type: field.TypeUint32, Nullable: true, Comment: "更新者ID"},
+		{Name: "deleted_by", Type: field.TypeUint32, Nullable: true, Comment: "删除者ID"},
 		{Name: "description", Type: field.TypeString, Nullable: true, Comment: "描述"},
 		{Name: "module", Type: field.TypeString, Nullable: true, Comment: "所属业务模块"},
 		{Name: "module_description", Type: field.TypeString, Nullable: true, Comment: "业务模块描述"},
@@ -142,31 +125,25 @@ var (
 		Comment:    "API资源表",
 		Columns:    SysAPIResourcesColumns,
 		PrimaryKey: []*schema.Column{SysAPIResourcesColumns[0]},
-		Indexes: []*schema.Index{
-			{
-				Name:    "apiresource_id",
-				Unique:  false,
-				Columns: []*schema.Column{SysAPIResourcesColumns[0]},
-			},
-		},
 	}
 	// SysDepartmentsColumns holds the columns for the "sys_departments" table.
 	SysDepartmentsColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeUint32, Increment: true, Comment: "id", SchemaType: map[string]string{"mysql": "int", "postgres": "serial"}},
-		{Name: "create_time", Type: field.TypeTime, Nullable: true, Comment: "创建时间"},
-		{Name: "update_time", Type: field.TypeTime, Nullable: true, Comment: "更新时间"},
-		{Name: "delete_time", Type: field.TypeTime, Nullable: true, Comment: "删除时间"},
-		{Name: "create_by", Type: field.TypeUint32, Nullable: true, Comment: "创建者ID"},
-		{Name: "update_by", Type: field.TypeUint32, Nullable: true, Comment: "更新者ID"},
-		{Name: "remark", Type: field.TypeString, Nullable: true, Comment: "备注", Default: ""},
-		{Name: "tenant_id", Type: field.TypeUint32, Nullable: true, Comment: "租户ID"},
+		{Name: "id", Type: field.TypeUint32, Increment: true, Comment: "id"},
+		{Name: "created_at", Type: field.TypeTime, Nullable: true, Comment: "创建时间"},
+		{Name: "updated_at", Type: field.TypeTime, Nullable: true, Comment: "更新时间"},
+		{Name: "deleted_at", Type: field.TypeTime, Nullable: true, Comment: "删除时间"},
+		{Name: "created_by", Type: field.TypeUint32, Nullable: true, Comment: "创建者ID"},
+		{Name: "updated_by", Type: field.TypeUint32, Nullable: true, Comment: "更新者ID"},
+		{Name: "deleted_by", Type: field.TypeUint32, Nullable: true, Comment: "删除者ID"},
+		{Name: "remark", Type: field.TypeString, Nullable: true, Comment: "备注"},
+		{Name: "tenant_id", Type: field.TypeUint32, Comment: "租户ID"},
 		{Name: "name", Type: field.TypeString, Nullable: true, Comment: "部门名称"},
 		{Name: "organization_id", Type: field.TypeUint32, Comment: "所属组织ID"},
 		{Name: "manager_id", Type: field.TypeUint32, Nullable: true, Comment: "负责人ID"},
-		{Name: "sort_id", Type: field.TypeInt32, Nullable: true, Comment: "排序ID", Default: 0},
+		{Name: "sort_order", Type: field.TypeInt32, Nullable: true, Comment: "排序顺序，值越小越靠前", Default: 0},
 		{Name: "status", Type: field.TypeEnum, Nullable: true, Comment: "部门状态", Enums: []string{"ON", "OFF"}, Default: "ON"},
 		{Name: "description", Type: field.TypeString, Nullable: true, Comment: "职能描述"},
-		{Name: "parent_id", Type: field.TypeUint32, Nullable: true, Comment: "上一层部门ID", SchemaType: map[string]string{"mysql": "int", "postgres": "serial"}},
+		{Name: "parent_id", Type: field.TypeUint32, Nullable: true, Comment: "上一层部门ID"},
 	}
 	// SysDepartmentsTable holds the schema information for the "sys_departments" table.
 	SysDepartmentsTable = &schema.Table{
@@ -177,131 +154,126 @@ var (
 		ForeignKeys: []*schema.ForeignKey{
 			{
 				Symbol:     "sys_departments_sys_departments_children",
-				Columns:    []*schema.Column{SysDepartmentsColumns[14]},
+				Columns:    []*schema.Column{SysDepartmentsColumns[15]},
 				RefColumns: []*schema.Column{SysDepartmentsColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
 		},
 		Indexes: []*schema.Index{
 			{
-				Name:    "department_id",
-				Unique:  false,
-				Columns: []*schema.Column{SysDepartmentsColumns[0]},
-			},
-			{
 				Name:    "department_tenant_id",
 				Unique:  false,
-				Columns: []*schema.Column{SysDepartmentsColumns[7]},
+				Columns: []*schema.Column{SysDepartmentsColumns[8]},
 			},
 			{
 				Name:    "idx_sys_department_name",
 				Unique:  false,
-				Columns: []*schema.Column{SysDepartmentsColumns[8]},
+				Columns: []*schema.Column{SysDepartmentsColumns[9]},
 			},
 		},
 	}
-	// SysDictItemsColumns holds the columns for the "sys_dict_items" table.
-	SysDictItemsColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeUint32, Increment: true, Comment: "id", SchemaType: map[string]string{"mysql": "int", "postgres": "serial"}},
-		{Name: "create_time", Type: field.TypeTime, Nullable: true, Comment: "创建时间"},
-		{Name: "update_time", Type: field.TypeTime, Nullable: true, Comment: "更新时间"},
-		{Name: "delete_time", Type: field.TypeTime, Nullable: true, Comment: "删除时间"},
-		{Name: "create_by", Type: field.TypeUint32, Nullable: true, Comment: "创建者ID"},
-		{Name: "update_by", Type: field.TypeUint32, Nullable: true, Comment: "更新者ID"},
-		{Name: "remark", Type: field.TypeString, Nullable: true, Comment: "备注", Default: ""},
-		{Name: "tenant_id", Type: field.TypeUint32, Nullable: true, Comment: "租户ID"},
-		{Name: "code", Type: field.TypeString, Nullable: true, Comment: "子项编码"},
-		{Name: "name", Type: field.TypeString, Nullable: true, Comment: "子项名称"},
-		{Name: "sort_id", Type: field.TypeInt32, Nullable: true, Comment: "排序ID", Default: 0},
-		{Name: "value", Type: field.TypeInt32, Nullable: true, Comment: "数值型标识"},
-		{Name: "status", Type: field.TypeEnum, Nullable: true, Comment: "字典状态", Enums: []string{"ON", "OFF"}, Default: "ON"},
-		{Name: "main_id", Type: field.TypeUint32, SchemaType: map[string]string{"mysql": "int", "postgres": "serial"}},
+	// SysDictEntriesColumns holds the columns for the "sys_dict_entries" table.
+	SysDictEntriesColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeUint32, Increment: true, Comment: "id"},
+		{Name: "created_at", Type: field.TypeTime, Nullable: true, Comment: "创建时间"},
+		{Name: "updated_at", Type: field.TypeTime, Nullable: true, Comment: "更新时间"},
+		{Name: "deleted_at", Type: field.TypeTime, Nullable: true, Comment: "删除时间"},
+		{Name: "created_by", Type: field.TypeUint32, Nullable: true, Comment: "创建者ID"},
+		{Name: "updated_by", Type: field.TypeUint32, Nullable: true, Comment: "更新者ID"},
+		{Name: "deleted_by", Type: field.TypeUint32, Nullable: true, Comment: "删除者ID"},
+		{Name: "description", Type: field.TypeString, Nullable: true, Comment: "描述"},
+		{Name: "sort_order", Type: field.TypeInt32, Nullable: true, Comment: "排序顺序，值越小越靠前", Default: 0},
+		{Name: "is_enabled", Type: field.TypeBool, Nullable: true, Comment: "是否启用", Default: true},
+		{Name: "tenant_id", Type: field.TypeUint32, Comment: "租户ID"},
+		{Name: "entry_label", Type: field.TypeString, Nullable: true, Comment: "字典项的显示标签"},
+		{Name: "entry_value", Type: field.TypeString, Nullable: true, Comment: "字典项的实际值"},
+		{Name: "numeric_value", Type: field.TypeInt32, Nullable: true, Comment: "数值型值"},
+		{Name: "language_code", Type: field.TypeString, Nullable: true, Comment: "语言代码"},
+		{Name: "type_id", Type: field.TypeUint32},
 	}
-	// SysDictItemsTable holds the schema information for the "sys_dict_items" table.
-	SysDictItemsTable = &schema.Table{
-		Name:       "sys_dict_items",
-		Comment:    "子字典表",
-		Columns:    SysDictItemsColumns,
-		PrimaryKey: []*schema.Column{SysDictItemsColumns[0]},
+	// SysDictEntriesTable holds the schema information for the "sys_dict_entries" table.
+	SysDictEntriesTable = &schema.Table{
+		Name:       "sys_dict_entries",
+		Comment:    "字典条目表",
+		Columns:    SysDictEntriesColumns,
+		PrimaryKey: []*schema.Column{SysDictEntriesColumns[0]},
 		ForeignKeys: []*schema.ForeignKey{
 			{
-				Symbol:     "sys_dict_items_sys_dict_mains_sys_dict_mains",
-				Columns:    []*schema.Column{SysDictItemsColumns[13]},
-				RefColumns: []*schema.Column{SysDictMainsColumns[0]},
+				Symbol:     "sys_dict_entries_sys_dict_types_sys_dict_types",
+				Columns:    []*schema.Column{SysDictEntriesColumns[15]},
+				RefColumns: []*schema.Column{SysDictTypesColumns[0]},
 				OnDelete:   schema.Cascade,
 			},
 		},
 		Indexes: []*schema.Index{
 			{
-				Name:    "dictitem_id",
+				Name:    "dictentry_is_enabled",
 				Unique:  false,
-				Columns: []*schema.Column{SysDictItemsColumns[0]},
+				Columns: []*schema.Column{SysDictEntriesColumns[9]},
 			},
 			{
-				Name:    "dictitem_tenant_id",
+				Name:    "dictentry_tenant_id",
 				Unique:  false,
-				Columns: []*schema.Column{SysDictItemsColumns[7]},
+				Columns: []*schema.Column{SysDictEntriesColumns[10]},
 			},
 			{
-				Name:    "uk_sys_dict_items_code",
+				Name:    "uk_sys_dict_entries_entry_value",
 				Unique:  true,
-				Columns: []*schema.Column{SysDictItemsColumns[8], SysDictItemsColumns[8], SysDictItemsColumns[13]},
-			},
-			{
-				Name:    "idx_sys_dict_items_status",
-				Unique:  false,
-				Columns: []*schema.Column{SysDictItemsColumns[12]},
+				Columns: []*schema.Column{SysDictEntriesColumns[12], SysDictEntriesColumns[15]},
 			},
 		},
 	}
-	// SysDictMainsColumns holds the columns for the "sys_dict_mains" table.
-	SysDictMainsColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeUint32, Increment: true, Comment: "id", SchemaType: map[string]string{"mysql": "int", "postgres": "serial"}},
-		{Name: "create_time", Type: field.TypeTime, Nullable: true, Comment: "创建时间"},
-		{Name: "update_time", Type: field.TypeTime, Nullable: true, Comment: "更新时间"},
-		{Name: "delete_time", Type: field.TypeTime, Nullable: true, Comment: "删除时间"},
-		{Name: "create_by", Type: field.TypeUint32, Nullable: true, Comment: "创建者ID"},
-		{Name: "update_by", Type: field.TypeUint32, Nullable: true, Comment: "更新者ID"},
-		{Name: "remark", Type: field.TypeString, Nullable: true, Comment: "备注", Default: ""},
-		{Name: "tenant_id", Type: field.TypeUint32, Nullable: true, Comment: "租户ID"},
-		{Name: "code", Type: field.TypeString, Nullable: true, Comment: "主字典编码"},
-		{Name: "name", Type: field.TypeString, Nullable: true, Comment: "主字典名称"},
-		{Name: "sort_id", Type: field.TypeInt32, Nullable: true, Comment: "排序ID", Default: 0},
-		{Name: "status", Type: field.TypeEnum, Nullable: true, Comment: "字典状态", Enums: []string{"ON", "OFF"}, Default: "ON"},
+	// SysDictTypesColumns holds the columns for the "sys_dict_types" table.
+	SysDictTypesColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeUint32, Increment: true, Comment: "id"},
+		{Name: "created_at", Type: field.TypeTime, Nullable: true, Comment: "创建时间"},
+		{Name: "updated_at", Type: field.TypeTime, Nullable: true, Comment: "更新时间"},
+		{Name: "deleted_at", Type: field.TypeTime, Nullable: true, Comment: "删除时间"},
+		{Name: "created_by", Type: field.TypeUint32, Nullable: true, Comment: "创建者ID"},
+		{Name: "updated_by", Type: field.TypeUint32, Nullable: true, Comment: "更新者ID"},
+		{Name: "deleted_by", Type: field.TypeUint32, Nullable: true, Comment: "删除者ID"},
+		{Name: "is_enabled", Type: field.TypeBool, Nullable: true, Comment: "是否启用", Default: true},
+		{Name: "sort_order", Type: field.TypeInt32, Nullable: true, Comment: "排序顺序，值越小越靠前", Default: 0},
+		{Name: "description", Type: field.TypeString, Nullable: true, Comment: "描述"},
+		{Name: "tenant_id", Type: field.TypeUint32, Comment: "租户ID"},
+		{Name: "type_code", Type: field.TypeString, Nullable: true, Comment: "字典类型唯一代码"},
+		{Name: "type_name", Type: field.TypeString, Nullable: true, Comment: "字典类型名称"},
 	}
-	// SysDictMainsTable holds the schema information for the "sys_dict_mains" table.
-	SysDictMainsTable = &schema.Table{
-		Name:       "sys_dict_mains",
-		Comment:    "主字典表",
-		Columns:    SysDictMainsColumns,
-		PrimaryKey: []*schema.Column{SysDictMainsColumns[0]},
+	// SysDictTypesTable holds the schema information for the "sys_dict_types" table.
+	SysDictTypesTable = &schema.Table{
+		Name:       "sys_dict_types",
+		Comment:    "字典类型表",
+		Columns:    SysDictTypesColumns,
+		PrimaryKey: []*schema.Column{SysDictTypesColumns[0]},
 		Indexes: []*schema.Index{
 			{
-				Name:    "dictmain_id",
+				Name:    "dicttype_is_enabled",
 				Unique:  false,
-				Columns: []*schema.Column{SysDictMainsColumns[0]},
+				Columns: []*schema.Column{SysDictTypesColumns[7]},
 			},
 			{
-				Name:    "dictmain_tenant_id",
+				Name:    "dicttype_tenant_id",
 				Unique:  false,
-				Columns: []*schema.Column{SysDictMainsColumns[7]},
+				Columns: []*schema.Column{SysDictTypesColumns[10]},
 			},
 			{
-				Name:    "idx_sys_dict_mains_code",
+				Name:    "idx_sys_dict_types_type_code",
 				Unique:  true,
-				Columns: []*schema.Column{SysDictMainsColumns[8]},
+				Columns: []*schema.Column{SysDictTypesColumns[11]},
 			},
 		},
 	}
 	// FilesColumns holds the columns for the "files" table.
 	FilesColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeUint32, Increment: true, Comment: "id", SchemaType: map[string]string{"mysql": "int", "postgres": "serial"}},
-		{Name: "create_time", Type: field.TypeTime, Nullable: true, Comment: "创建时间"},
-		{Name: "update_time", Type: field.TypeTime, Nullable: true, Comment: "更新时间"},
-		{Name: "delete_time", Type: field.TypeTime, Nullable: true, Comment: "删除时间"},
-		{Name: "create_by", Type: field.TypeUint32, Nullable: true, Comment: "创建者ID"},
-		{Name: "remark", Type: field.TypeString, Nullable: true, Comment: "备注", Default: ""},
-		{Name: "tenant_id", Type: field.TypeUint32, Nullable: true, Comment: "租户ID"},
+		{Name: "id", Type: field.TypeUint32, Increment: true, Comment: "id"},
+		{Name: "created_at", Type: field.TypeTime, Nullable: true, Comment: "创建时间"},
+		{Name: "updated_at", Type: field.TypeTime, Nullable: true, Comment: "更新时间"},
+		{Name: "deleted_at", Type: field.TypeTime, Nullable: true, Comment: "删除时间"},
+		{Name: "created_by", Type: field.TypeUint32, Nullable: true, Comment: "创建者ID"},
+		{Name: "updated_by", Type: field.TypeUint32, Nullable: true, Comment: "更新者ID"},
+		{Name: "deleted_by", Type: field.TypeUint32, Nullable: true, Comment: "删除者ID"},
+		{Name: "remark", Type: field.TypeString, Nullable: true, Comment: "备注"},
+		{Name: "tenant_id", Type: field.TypeUint32, Comment: "租户ID"},
 		{Name: "provider", Type: field.TypeEnum, Nullable: true, Comment: "OSS供应商", Enums: []string{"UNKNOWN", "MINIO", "ALIYUN", "QINIU", "TENCENT", "AWS", "GOOGLE", "AZURE", "BAIDU", "HUAWEI", "QCLOUD", "LOCAL"}},
 		{Name: "bucket_name", Type: field.TypeString, Nullable: true, Comment: "存储桶名称"},
 		{Name: "file_directory", Type: field.TypeString, Nullable: true, Comment: "文件目录"},
@@ -322,26 +294,52 @@ var (
 		PrimaryKey: []*schema.Column{FilesColumns[0]},
 		Indexes: []*schema.Index{
 			{
-				Name:    "file_id",
-				Unique:  false,
-				Columns: []*schema.Column{FilesColumns[0]},
-			},
-			{
 				Name:    "file_tenant_id",
 				Unique:  false,
-				Columns: []*schema.Column{FilesColumns[6]},
+				Columns: []*schema.Column{FilesColumns[8]},
+			},
+		},
+	}
+	// SysLanguagesColumns holds the columns for the "sys_languages" table.
+	SysLanguagesColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeUint32, Increment: true, Comment: "id"},
+		{Name: "created_at", Type: field.TypeTime, Nullable: true, Comment: "创建时间"},
+		{Name: "updated_at", Type: field.TypeTime, Nullable: true, Comment: "更新时间"},
+		{Name: "deleted_at", Type: field.TypeTime, Nullable: true, Comment: "删除时间"},
+		{Name: "created_by", Type: field.TypeUint32, Nullable: true, Comment: "创建者ID"},
+		{Name: "updated_by", Type: field.TypeUint32, Nullable: true, Comment: "更新者ID"},
+		{Name: "deleted_by", Type: field.TypeUint32, Nullable: true, Comment: "删除者ID"},
+		{Name: "sort_order", Type: field.TypeInt32, Nullable: true, Comment: "排序顺序，值越小越靠前", Default: 0},
+		{Name: "is_enabled", Type: field.TypeBool, Nullable: true, Comment: "是否启用", Default: true},
+		{Name: "language_code", Type: field.TypeString, Nullable: true, Comment: "标准语言代码"},
+		{Name: "language_name", Type: field.TypeString, Nullable: true, Comment: "语言名称"},
+		{Name: "native_name", Type: field.TypeString, Nullable: true, Comment: "本地语言名称"},
+		{Name: "is_default", Type: field.TypeBool, Nullable: true, Comment: "是否为默认语言", Default: false},
+	}
+	// SysLanguagesTable holds the schema information for the "sys_languages" table.
+	SysLanguagesTable = &schema.Table{
+		Name:       "sys_languages",
+		Comment:    "语言表",
+		Columns:    SysLanguagesColumns,
+		PrimaryKey: []*schema.Column{SysLanguagesColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "language_is_enabled",
+				Unique:  false,
+				Columns: []*schema.Column{SysLanguagesColumns[8]},
 			},
 		},
 	}
 	// SysMenusColumns holds the columns for the "sys_menus" table.
 	SysMenusColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeUint32, Increment: true, Comment: "id", SchemaType: map[string]string{"mysql": "int", "postgres": "serial"}},
-		{Name: "create_time", Type: field.TypeTime, Nullable: true, Comment: "创建时间"},
-		{Name: "update_time", Type: field.TypeTime, Nullable: true, Comment: "更新时间"},
-		{Name: "delete_time", Type: field.TypeTime, Nullable: true, Comment: "删除时间"},
-		{Name: "create_by", Type: field.TypeUint32, Nullable: true, Comment: "创建者ID"},
-		{Name: "update_by", Type: field.TypeUint32, Nullable: true, Comment: "更新者ID"},
-		{Name: "remark", Type: field.TypeString, Nullable: true, Comment: "备注", Default: ""},
+		{Name: "id", Type: field.TypeUint32, Increment: true, Comment: "id"},
+		{Name: "created_at", Type: field.TypeTime, Nullable: true, Comment: "创建时间"},
+		{Name: "updated_at", Type: field.TypeTime, Nullable: true, Comment: "更新时间"},
+		{Name: "deleted_at", Type: field.TypeTime, Nullable: true, Comment: "删除时间"},
+		{Name: "created_by", Type: field.TypeUint32, Nullable: true, Comment: "创建者ID"},
+		{Name: "updated_by", Type: field.TypeUint32, Nullable: true, Comment: "更新者ID"},
+		{Name: "deleted_by", Type: field.TypeUint32, Nullable: true, Comment: "删除者ID"},
+		{Name: "remark", Type: field.TypeString, Nullable: true, Comment: "备注"},
 		{Name: "status", Type: field.TypeEnum, Nullable: true, Comment: "菜单状态", Enums: []string{"ON", "OFF"}, Default: "ON"},
 		{Name: "type", Type: field.TypeEnum, Nullable: true, Comment: "菜单类型 FOLDER: 目录 MENU: 菜单 BUTTON: 按钮 EMBEDDED: 内嵌 LINK: 外链", Enums: []string{"FOLDER", "MENU", "BUTTON", "EMBEDDED", "LINK"}, Default: "MENU"},
 		{Name: "path", Type: field.TypeString, Nullable: true, Comment: "路径,当其类型为'按钮'的时候对应的数据操作名,例如:/user.service.v1.UserService/Login", Default: ""},
@@ -350,7 +348,7 @@ var (
 		{Name: "name", Type: field.TypeString, Nullable: true, Comment: "路由命名，然后我们可以使用 name 而不是 path 来传递 to 属性给 <router-link>。"},
 		{Name: "component", Type: field.TypeString, Nullable: true, Comment: "前端页面组件", Default: ""},
 		{Name: "meta", Type: field.TypeJSON, Nullable: true, Comment: "前端页面组件"},
-		{Name: "parent_id", Type: field.TypeUint32, Nullable: true, Comment: "上一层菜单ID", SchemaType: map[string]string{"mysql": "int", "postgres": "serial"}},
+		{Name: "parent_id", Type: field.TypeUint32, Nullable: true, Comment: "上一层菜单ID"},
 	}
 	// SysMenusTable holds the schema information for the "sys_menus" table.
 	SysMenusTable = &schema.Table{
@@ -361,28 +359,22 @@ var (
 		ForeignKeys: []*schema.ForeignKey{
 			{
 				Symbol:     "sys_menus_sys_menus_children",
-				Columns:    []*schema.Column{SysMenusColumns[15]},
+				Columns:    []*schema.Column{SysMenusColumns[16]},
 				RefColumns: []*schema.Column{SysMenusColumns[0]},
 				OnDelete:   schema.SetNull,
-			},
-		},
-		Indexes: []*schema.Index{
-			{
-				Name:    "menu_id",
-				Unique:  false,
-				Columns: []*schema.Column{SysMenusColumns[0]},
 			},
 		},
 	}
 	// NotificationMessagesColumns holds the columns for the "notification_messages" table.
 	NotificationMessagesColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeUint32, Increment: true, Comment: "id", SchemaType: map[string]string{"mysql": "int", "postgres": "serial"}},
-		{Name: "create_time", Type: field.TypeTime, Nullable: true, Comment: "创建时间"},
-		{Name: "update_time", Type: field.TypeTime, Nullable: true, Comment: "更新时间"},
-		{Name: "delete_time", Type: field.TypeTime, Nullable: true, Comment: "删除时间"},
-		{Name: "create_by", Type: field.TypeUint32, Nullable: true, Comment: "创建者ID"},
-		{Name: "update_by", Type: field.TypeUint32, Nullable: true, Comment: "更新者ID"},
-		{Name: "tenant_id", Type: field.TypeUint32, Nullable: true, Comment: "租户ID"},
+		{Name: "id", Type: field.TypeUint32, Increment: true, Comment: "id"},
+		{Name: "created_at", Type: field.TypeTime, Nullable: true, Comment: "创建时间"},
+		{Name: "updated_at", Type: field.TypeTime, Nullable: true, Comment: "更新时间"},
+		{Name: "deleted_at", Type: field.TypeTime, Nullable: true, Comment: "删除时间"},
+		{Name: "created_by", Type: field.TypeUint32, Nullable: true, Comment: "创建者ID"},
+		{Name: "updated_by", Type: field.TypeUint32, Nullable: true, Comment: "更新者ID"},
+		{Name: "deleted_by", Type: field.TypeUint32, Nullable: true, Comment: "删除者ID"},
+		{Name: "tenant_id", Type: field.TypeUint32, Comment: "租户ID"},
 		{Name: "subject", Type: field.TypeString, Nullable: true, Comment: "主题"},
 		{Name: "content", Type: field.TypeString, Nullable: true, Comment: "内容"},
 		{Name: "category_id", Type: field.TypeUint32, Nullable: true, Comment: "分类ID"},
@@ -396,32 +388,28 @@ var (
 		PrimaryKey: []*schema.Column{NotificationMessagesColumns[0]},
 		Indexes: []*schema.Index{
 			{
-				Name:    "notificationmessage_id",
-				Unique:  false,
-				Columns: []*schema.Column{NotificationMessagesColumns[0]},
-			},
-			{
 				Name:    "notificationmessage_tenant_id",
 				Unique:  false,
-				Columns: []*schema.Column{NotificationMessagesColumns[6]},
+				Columns: []*schema.Column{NotificationMessagesColumns[7]},
 			},
 		},
 	}
 	// NotificationMessageCategoriesColumns holds the columns for the "notification_message_categories" table.
 	NotificationMessageCategoriesColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeUint32, Increment: true, Comment: "id", SchemaType: map[string]string{"mysql": "int", "postgres": "serial"}},
-		{Name: "create_time", Type: field.TypeTime, Nullable: true, Comment: "创建时间"},
-		{Name: "update_time", Type: field.TypeTime, Nullable: true, Comment: "更新时间"},
-		{Name: "delete_time", Type: field.TypeTime, Nullable: true, Comment: "删除时间"},
-		{Name: "create_by", Type: field.TypeUint32, Nullable: true, Comment: "创建者ID"},
-		{Name: "update_by", Type: field.TypeUint32, Nullable: true, Comment: "更新者ID"},
-		{Name: "remark", Type: field.TypeString, Nullable: true, Comment: "备注", Default: ""},
-		{Name: "tenant_id", Type: field.TypeUint32, Nullable: true, Comment: "租户ID"},
+		{Name: "id", Type: field.TypeUint32, Increment: true, Comment: "id"},
+		{Name: "created_at", Type: field.TypeTime, Nullable: true, Comment: "创建时间"},
+		{Name: "updated_at", Type: field.TypeTime, Nullable: true, Comment: "更新时间"},
+		{Name: "deleted_at", Type: field.TypeTime, Nullable: true, Comment: "删除时间"},
+		{Name: "created_by", Type: field.TypeUint32, Nullable: true, Comment: "创建者ID"},
+		{Name: "updated_by", Type: field.TypeUint32, Nullable: true, Comment: "更新者ID"},
+		{Name: "deleted_by", Type: field.TypeUint32, Nullable: true, Comment: "删除者ID"},
+		{Name: "remark", Type: field.TypeString, Nullable: true, Comment: "备注"},
+		{Name: "tenant_id", Type: field.TypeUint32, Comment: "租户ID"},
 		{Name: "name", Type: field.TypeString, Nullable: true, Comment: "名称"},
 		{Name: "code", Type: field.TypeString, Nullable: true, Comment: "编码"},
-		{Name: "sort_id", Type: field.TypeInt32, Nullable: true, Comment: "排序ID", Default: 0},
+		{Name: "sort_order", Type: field.TypeInt32, Nullable: true, Comment: "排序顺序，值越小越靠前", Default: 0},
 		{Name: "enable", Type: field.TypeBool, Nullable: true, Comment: "是否启用"},
-		{Name: "parent_id", Type: field.TypeUint32, Nullable: true, Comment: "父节点ID", SchemaType: map[string]string{"mysql": "int", "postgres": "serial"}},
+		{Name: "parent_id", Type: field.TypeUint32, Nullable: true, Comment: "父节点ID"},
 	}
 	// NotificationMessageCategoriesTable holds the schema information for the "notification_message_categories" table.
 	NotificationMessageCategoriesTable = &schema.Table{
@@ -432,41 +420,36 @@ var (
 		ForeignKeys: []*schema.ForeignKey{
 			{
 				Symbol:     "notification_message_categories_notification_message_categories_children",
-				Columns:    []*schema.Column{NotificationMessageCategoriesColumns[12]},
+				Columns:    []*schema.Column{NotificationMessageCategoriesColumns[13]},
 				RefColumns: []*schema.Column{NotificationMessageCategoriesColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
 		},
 		Indexes: []*schema.Index{
 			{
-				Name:    "notificationmessagecategory_id",
-				Unique:  false,
-				Columns: []*schema.Column{NotificationMessageCategoriesColumns[0]},
-			},
-			{
 				Name:    "notificationmessagecategory_tenant_id",
 				Unique:  false,
-				Columns: []*schema.Column{NotificationMessageCategoriesColumns[7]},
+				Columns: []*schema.Column{NotificationMessageCategoriesColumns[8]},
 			},
 			{
 				Name:    "idx_notification_message_category_code",
 				Unique:  true,
-				Columns: []*schema.Column{NotificationMessageCategoriesColumns[9]},
+				Columns: []*schema.Column{NotificationMessageCategoriesColumns[10]},
 			},
 			{
 				Name:    "idx_notification_message_category_name",
 				Unique:  false,
-				Columns: []*schema.Column{NotificationMessageCategoriesColumns[8]},
+				Columns: []*schema.Column{NotificationMessageCategoriesColumns[9]},
 			},
 		},
 	}
 	// NotificationMessageRecipientsColumns holds the columns for the "notification_message_recipients" table.
 	NotificationMessageRecipientsColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeUint32, Increment: true, Comment: "id", SchemaType: map[string]string{"mysql": "int", "postgres": "serial"}},
-		{Name: "create_time", Type: field.TypeTime, Nullable: true, Comment: "创建时间"},
-		{Name: "update_time", Type: field.TypeTime, Nullable: true, Comment: "更新时间"},
-		{Name: "delete_time", Type: field.TypeTime, Nullable: true, Comment: "删除时间"},
-		{Name: "tenant_id", Type: field.TypeUint32, Nullable: true, Comment: "租户ID"},
+		{Name: "id", Type: field.TypeUint32, Increment: true, Comment: "id"},
+		{Name: "created_at", Type: field.TypeTime, Nullable: true, Comment: "创建时间"},
+		{Name: "updated_at", Type: field.TypeTime, Nullable: true, Comment: "更新时间"},
+		{Name: "deleted_at", Type: field.TypeTime, Nullable: true, Comment: "删除时间"},
+		{Name: "tenant_id", Type: field.TypeUint32, Comment: "租户ID"},
 		{Name: "message_id", Type: field.TypeUint32, Nullable: true, Comment: "群发消息ID"},
 		{Name: "recipient_id", Type: field.TypeUint32, Nullable: true, Comment: "接收者用户ID"},
 		{Name: "status", Type: field.TypeEnum, Nullable: true, Comment: "消息状态", Enums: []string{"UNKNOWN", "RECEIVED", "READ", "ARCHIVED", "DELETED"}},
@@ -479,11 +462,6 @@ var (
 		PrimaryKey: []*schema.Column{NotificationMessageRecipientsColumns[0]},
 		Indexes: []*schema.Index{
 			{
-				Name:    "notificationmessagerecipient_id",
-				Unique:  false,
-				Columns: []*schema.Column{NotificationMessageRecipientsColumns[0]},
-			},
-			{
 				Name:    "notificationmessagerecipient_tenant_id",
 				Unique:  false,
 				Columns: []*schema.Column{NotificationMessageRecipientsColumns[4]},
@@ -492,16 +470,17 @@ var (
 	}
 	// SysOrganizationsColumns holds the columns for the "sys_organizations" table.
 	SysOrganizationsColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeUint32, Increment: true, Comment: "id", SchemaType: map[string]string{"mysql": "int", "postgres": "serial"}},
-		{Name: "create_time", Type: field.TypeTime, Nullable: true, Comment: "创建时间"},
-		{Name: "update_time", Type: field.TypeTime, Nullable: true, Comment: "更新时间"},
-		{Name: "delete_time", Type: field.TypeTime, Nullable: true, Comment: "删除时间"},
-		{Name: "create_by", Type: field.TypeUint32, Nullable: true, Comment: "创建者ID"},
-		{Name: "update_by", Type: field.TypeUint32, Nullable: true, Comment: "更新者ID"},
-		{Name: "remark", Type: field.TypeString, Nullable: true, Comment: "备注", Default: ""},
-		{Name: "tenant_id", Type: field.TypeUint32, Nullable: true, Comment: "租户ID"},
+		{Name: "id", Type: field.TypeUint32, Increment: true, Comment: "id"},
+		{Name: "created_at", Type: field.TypeTime, Nullable: true, Comment: "创建时间"},
+		{Name: "updated_at", Type: field.TypeTime, Nullable: true, Comment: "更新时间"},
+		{Name: "deleted_at", Type: field.TypeTime, Nullable: true, Comment: "删除时间"},
+		{Name: "created_by", Type: field.TypeUint32, Nullable: true, Comment: "创建者ID"},
+		{Name: "updated_by", Type: field.TypeUint32, Nullable: true, Comment: "更新者ID"},
+		{Name: "deleted_by", Type: field.TypeUint32, Nullable: true, Comment: "删除者ID"},
+		{Name: "remark", Type: field.TypeString, Nullable: true, Comment: "备注"},
+		{Name: "tenant_id", Type: field.TypeUint32, Comment: "租户ID"},
 		{Name: "name", Type: field.TypeString, Nullable: true, Comment: "组织名称"},
-		{Name: "sort_id", Type: field.TypeInt32, Nullable: true, Comment: "排序ID", Default: 0},
+		{Name: "sort_order", Type: field.TypeInt32, Nullable: true, Comment: "排序顺序，值越小越靠前", Default: 0},
 		{Name: "status", Type: field.TypeEnum, Nullable: true, Comment: "组织状态", Enums: []string{"ON", "OFF"}, Default: "ON"},
 		{Name: "organization_type", Type: field.TypeEnum, Nullable: true, Comment: "组织类型", Enums: []string{"GROUP", "SUBSIDIARY", "FILIALE", "DIVISION"}},
 		{Name: "credit_code", Type: field.TypeString, Nullable: true, Comment: "统一社会信用代码"},
@@ -509,7 +488,7 @@ var (
 		{Name: "business_scope", Type: field.TypeString, Nullable: true, Comment: "核心业务范围"},
 		{Name: "is_legal_entity", Type: field.TypeBool, Nullable: true, Comment: "是否法人实体"},
 		{Name: "manager_id", Type: field.TypeUint32, Nullable: true, Comment: "负责人ID"},
-		{Name: "parent_id", Type: field.TypeUint32, Nullable: true, Comment: "上一层组织ID", SchemaType: map[string]string{"mysql": "int", "postgres": "serial"}},
+		{Name: "parent_id", Type: field.TypeUint32, Nullable: true, Comment: "上一层组织ID"},
 	}
 	// SysOrganizationsTable holds the schema information for the "sys_organizations" table.
 	SysOrganizationsTable = &schema.Table{
@@ -520,48 +499,44 @@ var (
 		ForeignKeys: []*schema.ForeignKey{
 			{
 				Symbol:     "sys_organizations_sys_organizations_children",
-				Columns:    []*schema.Column{SysOrganizationsColumns[17]},
+				Columns:    []*schema.Column{SysOrganizationsColumns[18]},
 				RefColumns: []*schema.Column{SysOrganizationsColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
 		},
 		Indexes: []*schema.Index{
 			{
-				Name:    "organization_id",
-				Unique:  false,
-				Columns: []*schema.Column{SysOrganizationsColumns[0]},
-			},
-			{
 				Name:    "organization_tenant_id",
 				Unique:  false,
-				Columns: []*schema.Column{SysOrganizationsColumns[7]},
+				Columns: []*schema.Column{SysOrganizationsColumns[8]},
 			},
 			{
 				Name:    "idx_sys_organization_name",
 				Unique:  false,
-				Columns: []*schema.Column{SysOrganizationsColumns[8]},
+				Columns: []*schema.Column{SysOrganizationsColumns[9]},
 			},
 		},
 	}
 	// SysPositionsColumns holds the columns for the "sys_positions" table.
 	SysPositionsColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeUint32, Increment: true, Comment: "id", SchemaType: map[string]string{"mysql": "int", "postgres": "serial"}},
-		{Name: "create_time", Type: field.TypeTime, Nullable: true, Comment: "创建时间"},
-		{Name: "update_time", Type: field.TypeTime, Nullable: true, Comment: "更新时间"},
-		{Name: "delete_time", Type: field.TypeTime, Nullable: true, Comment: "删除时间"},
-		{Name: "create_by", Type: field.TypeUint32, Nullable: true, Comment: "创建者ID"},
-		{Name: "update_by", Type: field.TypeUint32, Nullable: true, Comment: "更新者ID"},
-		{Name: "remark", Type: field.TypeString, Nullable: true, Comment: "备注", Default: ""},
-		{Name: "tenant_id", Type: field.TypeUint32, Nullable: true, Comment: "租户ID"},
+		{Name: "id", Type: field.TypeUint32, Increment: true, Comment: "id"},
+		{Name: "created_at", Type: field.TypeTime, Nullable: true, Comment: "创建时间"},
+		{Name: "updated_at", Type: field.TypeTime, Nullable: true, Comment: "更新时间"},
+		{Name: "deleted_at", Type: field.TypeTime, Nullable: true, Comment: "删除时间"},
+		{Name: "created_by", Type: field.TypeUint32, Nullable: true, Comment: "创建者ID"},
+		{Name: "updated_by", Type: field.TypeUint32, Nullable: true, Comment: "更新者ID"},
+		{Name: "deleted_by", Type: field.TypeUint32, Nullable: true, Comment: "删除者ID"},
+		{Name: "remark", Type: field.TypeString, Nullable: true, Comment: "备注"},
+		{Name: "tenant_id", Type: field.TypeUint32, Comment: "租户ID"},
 		{Name: "name", Type: field.TypeString, Nullable: true, Comment: "职位名称"},
 		{Name: "code", Type: field.TypeString, Nullable: true, Comment: "唯一编码"},
-		{Name: "sort_id", Type: field.TypeInt32, Nullable: true, Comment: "排序ID", Default: 0},
+		{Name: "sort_order", Type: field.TypeInt32, Nullable: true, Comment: "排序顺序，值越小越靠前", Default: 0},
 		{Name: "organization_id", Type: field.TypeUint32, Comment: "所属组织ID"},
 		{Name: "department_id", Type: field.TypeUint32, Comment: "所属部门ID"},
 		{Name: "status", Type: field.TypeEnum, Nullable: true, Comment: "职位状态", Enums: []string{"ON", "OFF"}, Default: "ON"},
 		{Name: "description", Type: field.TypeString, Nullable: true, Comment: "职能描述"},
 		{Name: "quota", Type: field.TypeUint32, Nullable: true, Comment: "编制人数"},
-		{Name: "parent_id", Type: field.TypeUint32, Nullable: true, Comment: "上一层职位ID", SchemaType: map[string]string{"mysql": "int", "postgres": "serial"}},
+		{Name: "parent_id", Type: field.TypeUint32, Nullable: true, Comment: "上一层职位ID"},
 	}
 	// SysPositionsTable holds the schema information for the "sys_positions" table.
 	SysPositionsTable = &schema.Table{
@@ -572,41 +547,36 @@ var (
 		ForeignKeys: []*schema.ForeignKey{
 			{
 				Symbol:     "sys_positions_sys_positions_children",
-				Columns:    []*schema.Column{SysPositionsColumns[16]},
+				Columns:    []*schema.Column{SysPositionsColumns[17]},
 				RefColumns: []*schema.Column{SysPositionsColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
 		},
 		Indexes: []*schema.Index{
 			{
-				Name:    "position_id",
-				Unique:  false,
-				Columns: []*schema.Column{SysPositionsColumns[0]},
-			},
-			{
 				Name:    "position_tenant_id",
 				Unique:  false,
-				Columns: []*schema.Column{SysPositionsColumns[7]},
+				Columns: []*schema.Column{SysPositionsColumns[8]},
 			},
 			{
 				Name:    "idx_sys_position_code",
 				Unique:  true,
-				Columns: []*schema.Column{SysPositionsColumns[9]},
+				Columns: []*schema.Column{SysPositionsColumns[10]},
 			},
 			{
 				Name:    "idx_sys_position_name",
 				Unique:  false,
-				Columns: []*schema.Column{SysPositionsColumns[8]},
+				Columns: []*schema.Column{SysPositionsColumns[9]},
 			},
 		},
 	}
 	// PrivateMessagesColumns holds the columns for the "private_messages" table.
 	PrivateMessagesColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeUint32, Increment: true, Comment: "id", SchemaType: map[string]string{"mysql": "int", "postgres": "serial"}},
-		{Name: "create_time", Type: field.TypeTime, Nullable: true, Comment: "创建时间"},
-		{Name: "update_time", Type: field.TypeTime, Nullable: true, Comment: "更新时间"},
-		{Name: "delete_time", Type: field.TypeTime, Nullable: true, Comment: "删除时间"},
-		{Name: "tenant_id", Type: field.TypeUint32, Nullable: true, Comment: "租户ID"},
+		{Name: "id", Type: field.TypeUint32, Increment: true, Comment: "id"},
+		{Name: "created_at", Type: field.TypeTime, Nullable: true, Comment: "创建时间"},
+		{Name: "updated_at", Type: field.TypeTime, Nullable: true, Comment: "更新时间"},
+		{Name: "deleted_at", Type: field.TypeTime, Nullable: true, Comment: "删除时间"},
+		{Name: "tenant_id", Type: field.TypeUint32, Comment: "租户ID"},
 		{Name: "subject", Type: field.TypeString, Nullable: true, Comment: "主题"},
 		{Name: "content", Type: field.TypeString, Nullable: true, Comment: "内容"},
 		{Name: "status", Type: field.TypeEnum, Nullable: true, Comment: "消息状态", Enums: []string{"UNKNOWN", "DRAFT", "SENT", "RECEIVED", "READ", "ARCHIVED", "DELETED"}},
@@ -621,11 +591,6 @@ var (
 		PrimaryKey: []*schema.Column{PrivateMessagesColumns[0]},
 		Indexes: []*schema.Index{
 			{
-				Name:    "privatemessage_id",
-				Unique:  false,
-				Columns: []*schema.Column{PrivateMessagesColumns[0]},
-			},
-			{
 				Name:    "privatemessage_tenant_id",
 				Unique:  false,
 				Columns: []*schema.Column{PrivateMessagesColumns[4]},
@@ -634,22 +599,23 @@ var (
 	}
 	// SysRolesColumns holds the columns for the "sys_roles" table.
 	SysRolesColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeUint32, Increment: true, Comment: "id", SchemaType: map[string]string{"mysql": "int", "postgres": "serial"}},
-		{Name: "create_time", Type: field.TypeTime, Nullable: true, Comment: "创建时间"},
-		{Name: "update_time", Type: field.TypeTime, Nullable: true, Comment: "更新时间"},
-		{Name: "delete_time", Type: field.TypeTime, Nullable: true, Comment: "删除时间"},
-		{Name: "create_by", Type: field.TypeUint32, Nullable: true, Comment: "创建者ID"},
-		{Name: "update_by", Type: field.TypeUint32, Nullable: true, Comment: "更新者ID"},
-		{Name: "remark", Type: field.TypeString, Nullable: true, Comment: "备注", Default: ""},
-		{Name: "tenant_id", Type: field.TypeUint32, Nullable: true, Comment: "租户ID"},
+		{Name: "id", Type: field.TypeUint32, Increment: true, Comment: "id"},
+		{Name: "created_at", Type: field.TypeTime, Nullable: true, Comment: "创建时间"},
+		{Name: "updated_at", Type: field.TypeTime, Nullable: true, Comment: "更新时间"},
+		{Name: "deleted_at", Type: field.TypeTime, Nullable: true, Comment: "删除时间"},
+		{Name: "created_by", Type: field.TypeUint32, Nullable: true, Comment: "创建者ID"},
+		{Name: "updated_by", Type: field.TypeUint32, Nullable: true, Comment: "更新者ID"},
+		{Name: "deleted_by", Type: field.TypeUint32, Nullable: true, Comment: "删除者ID"},
+		{Name: "remark", Type: field.TypeString, Nullable: true, Comment: "备注"},
+		{Name: "tenant_id", Type: field.TypeUint32, Comment: "租户ID"},
 		{Name: "name", Type: field.TypeString, Nullable: true, Comment: "角色名称"},
 		{Name: "code", Type: field.TypeString, Nullable: true, Comment: "角色标识"},
-		{Name: "sort_id", Type: field.TypeInt32, Nullable: true, Comment: "排序ID", Default: 0},
+		{Name: "sort_order", Type: field.TypeInt32, Nullable: true, Comment: "排序顺序，值越小越靠前", Default: 0},
 		{Name: "menus", Type: field.TypeJSON, Nullable: true, Comment: "分配的菜单列表"},
 		{Name: "apis", Type: field.TypeJSON, Nullable: true, Comment: "分配的API列表"},
 		{Name: "data_scope", Type: field.TypeEnum, Nullable: true, Comment: "数据权限范围", Enums: []string{"ALL", "CUSTOM", "SELF", "ORG", "ORG_AND_CHILD", "DEPT", "DEPT_AND_CHILD"}},
 		{Name: "status", Type: field.TypeEnum, Nullable: true, Comment: "角色状态", Enums: []string{"ON", "OFF"}, Default: "ON"},
-		{Name: "parent_id", Type: field.TypeUint32, Nullable: true, Comment: "上一层角色ID", SchemaType: map[string]string{"mysql": "int", "postgres": "serial"}},
+		{Name: "parent_id", Type: field.TypeUint32, Nullable: true, Comment: "上一层角色ID"},
 	}
 	// SysRolesTable holds the schema information for the "sys_roles" table.
 	SysRolesTable = &schema.Table{
@@ -660,41 +626,38 @@ var (
 		ForeignKeys: []*schema.ForeignKey{
 			{
 				Symbol:     "sys_roles_sys_roles_children",
-				Columns:    []*schema.Column{SysRolesColumns[15]},
+				Columns:    []*schema.Column{SysRolesColumns[16]},
 				RefColumns: []*schema.Column{SysRolesColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
 		},
 		Indexes: []*schema.Index{
 			{
-				Name:    "role_id",
-				Unique:  false,
-				Columns: []*schema.Column{SysRolesColumns[0]},
-			},
-			{
 				Name:    "role_tenant_id",
 				Unique:  false,
-				Columns: []*schema.Column{SysRolesColumns[7]},
+				Columns: []*schema.Column{SysRolesColumns[8]},
 			},
 			{
 				Name:    "idx_sys_role_name",
 				Unique:  true,
-				Columns: []*schema.Column{SysRolesColumns[8]},
+				Columns: []*schema.Column{SysRolesColumns[9]},
 			},
 			{
 				Name:    "idx_sys_role_code",
 				Unique:  true,
-				Columns: []*schema.Column{SysRolesColumns[9]},
+				Columns: []*schema.Column{SysRolesColumns[10]},
 			},
 		},
 	}
 	// SysRoleAPIColumns holds the columns for the "sys_role_api" table.
 	SysRoleAPIColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeUint32, Increment: true, Comment: "id", SchemaType: map[string]string{"mysql": "int", "postgres": "serial"}},
-		{Name: "create_time", Type: field.TypeTime, Nullable: true, Comment: "创建时间"},
-		{Name: "update_time", Type: field.TypeTime, Nullable: true, Comment: "更新时间"},
-		{Name: "delete_time", Type: field.TypeTime, Nullable: true, Comment: "删除时间"},
-		{Name: "create_by", Type: field.TypeUint32, Nullable: true, Comment: "创建者ID"},
+		{Name: "id", Type: field.TypeUint32, Increment: true, Comment: "id"},
+		{Name: "created_at", Type: field.TypeTime, Nullable: true, Comment: "创建时间"},
+		{Name: "updated_at", Type: field.TypeTime, Nullable: true, Comment: "更新时间"},
+		{Name: "deleted_at", Type: field.TypeTime, Nullable: true, Comment: "删除时间"},
+		{Name: "created_by", Type: field.TypeUint32, Nullable: true, Comment: "创建者ID"},
+		{Name: "updated_by", Type: field.TypeUint32, Nullable: true, Comment: "更新者ID"},
+		{Name: "deleted_by", Type: field.TypeUint32, Nullable: true, Comment: "删除者ID"},
 		{Name: "role_id", Type: field.TypeUint32, Comment: "角色ID"},
 		{Name: "api_id", Type: field.TypeUint32, Comment: "API ID"},
 	}
@@ -706,29 +669,26 @@ var (
 		PrimaryKey: []*schema.Column{SysRoleAPIColumns[0]},
 		Indexes: []*schema.Index{
 			{
-				Name:    "roleapi_id",
-				Unique:  false,
-				Columns: []*schema.Column{SysRoleAPIColumns[0]},
-			},
-			{
 				Name:    "idx_sys_role_api_role_id_api_id",
 				Unique:  true,
-				Columns: []*schema.Column{SysRoleAPIColumns[5], SysRoleAPIColumns[6]},
+				Columns: []*schema.Column{SysRoleAPIColumns[7], SysRoleAPIColumns[8]},
 			},
 			{
 				Name:    "idx_sys_role_api_role_id",
 				Unique:  false,
-				Columns: []*schema.Column{SysRoleAPIColumns[5]},
+				Columns: []*schema.Column{SysRoleAPIColumns[7]},
 			},
 		},
 	}
 	// SysRoleDeptColumns holds the columns for the "sys_role_dept" table.
 	SysRoleDeptColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeUint32, Increment: true, Comment: "id", SchemaType: map[string]string{"mysql": "int", "postgres": "serial"}},
-		{Name: "create_time", Type: field.TypeTime, Nullable: true, Comment: "创建时间"},
-		{Name: "update_time", Type: field.TypeTime, Nullable: true, Comment: "更新时间"},
-		{Name: "delete_time", Type: field.TypeTime, Nullable: true, Comment: "删除时间"},
-		{Name: "create_by", Type: field.TypeUint32, Nullable: true, Comment: "创建者ID"},
+		{Name: "id", Type: field.TypeUint32, Increment: true, Comment: "id"},
+		{Name: "created_at", Type: field.TypeTime, Nullable: true, Comment: "创建时间"},
+		{Name: "updated_at", Type: field.TypeTime, Nullable: true, Comment: "更新时间"},
+		{Name: "deleted_at", Type: field.TypeTime, Nullable: true, Comment: "删除时间"},
+		{Name: "created_by", Type: field.TypeUint32, Nullable: true, Comment: "创建者ID"},
+		{Name: "updated_by", Type: field.TypeUint32, Nullable: true, Comment: "更新者ID"},
+		{Name: "deleted_by", Type: field.TypeUint32, Nullable: true, Comment: "删除者ID"},
 		{Name: "role_id", Type: field.TypeUint32, Comment: "角色ID"},
 		{Name: "dept_id", Type: field.TypeUint32, Comment: "部门ID"},
 	}
@@ -740,29 +700,26 @@ var (
 		PrimaryKey: []*schema.Column{SysRoleDeptColumns[0]},
 		Indexes: []*schema.Index{
 			{
-				Name:    "roledept_id",
-				Unique:  false,
-				Columns: []*schema.Column{SysRoleDeptColumns[0]},
-			},
-			{
 				Name:    "idx_sys_role_dept_role_id_dept_id",
 				Unique:  true,
-				Columns: []*schema.Column{SysRoleDeptColumns[5], SysRoleDeptColumns[6]},
+				Columns: []*schema.Column{SysRoleDeptColumns[7], SysRoleDeptColumns[8]},
 			},
 			{
 				Name:    "idx_sys_role_dept_role_id",
 				Unique:  false,
-				Columns: []*schema.Column{SysRoleDeptColumns[5]},
+				Columns: []*schema.Column{SysRoleDeptColumns[7]},
 			},
 		},
 	}
 	// SysRoleMenuColumns holds the columns for the "sys_role_menu" table.
 	SysRoleMenuColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeUint32, Increment: true, Comment: "id", SchemaType: map[string]string{"mysql": "int", "postgres": "serial"}},
-		{Name: "create_time", Type: field.TypeTime, Nullable: true, Comment: "创建时间"},
-		{Name: "update_time", Type: field.TypeTime, Nullable: true, Comment: "更新时间"},
-		{Name: "delete_time", Type: field.TypeTime, Nullable: true, Comment: "删除时间"},
-		{Name: "create_by", Type: field.TypeUint32, Nullable: true, Comment: "创建者ID"},
+		{Name: "id", Type: field.TypeUint32, Increment: true, Comment: "id"},
+		{Name: "created_at", Type: field.TypeTime, Nullable: true, Comment: "创建时间"},
+		{Name: "updated_at", Type: field.TypeTime, Nullable: true, Comment: "更新时间"},
+		{Name: "deleted_at", Type: field.TypeTime, Nullable: true, Comment: "删除时间"},
+		{Name: "created_by", Type: field.TypeUint32, Nullable: true, Comment: "创建者ID"},
+		{Name: "updated_by", Type: field.TypeUint32, Nullable: true, Comment: "更新者ID"},
+		{Name: "deleted_by", Type: field.TypeUint32, Nullable: true, Comment: "删除者ID"},
 		{Name: "role_id", Type: field.TypeUint32, Comment: "角色ID"},
 		{Name: "menu_id", Type: field.TypeUint32, Comment: "菜单ID"},
 	}
@@ -774,29 +731,26 @@ var (
 		PrimaryKey: []*schema.Column{SysRoleMenuColumns[0]},
 		Indexes: []*schema.Index{
 			{
-				Name:    "rolemenu_id",
-				Unique:  false,
-				Columns: []*schema.Column{SysRoleMenuColumns[0]},
-			},
-			{
 				Name:    "idx_sys_role_menu_role_id_menu_id",
 				Unique:  true,
-				Columns: []*schema.Column{SysRoleMenuColumns[5], SysRoleMenuColumns[6]},
+				Columns: []*schema.Column{SysRoleMenuColumns[7], SysRoleMenuColumns[8]},
 			},
 			{
 				Name:    "idx_sys_role_menu_role_id",
 				Unique:  false,
-				Columns: []*schema.Column{SysRoleMenuColumns[5]},
+				Columns: []*schema.Column{SysRoleMenuColumns[7]},
 			},
 		},
 	}
 	// SysRoleOrgColumns holds the columns for the "sys_role_org" table.
 	SysRoleOrgColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeUint32, Increment: true, Comment: "id", SchemaType: map[string]string{"mysql": "int", "postgres": "serial"}},
-		{Name: "create_time", Type: field.TypeTime, Nullable: true, Comment: "创建时间"},
-		{Name: "update_time", Type: field.TypeTime, Nullable: true, Comment: "更新时间"},
-		{Name: "delete_time", Type: field.TypeTime, Nullable: true, Comment: "删除时间"},
-		{Name: "create_by", Type: field.TypeUint32, Nullable: true, Comment: "创建者ID"},
+		{Name: "id", Type: field.TypeUint32, Increment: true, Comment: "id"},
+		{Name: "created_at", Type: field.TypeTime, Nullable: true, Comment: "创建时间"},
+		{Name: "updated_at", Type: field.TypeTime, Nullable: true, Comment: "更新时间"},
+		{Name: "deleted_at", Type: field.TypeTime, Nullable: true, Comment: "删除时间"},
+		{Name: "created_by", Type: field.TypeUint32, Nullable: true, Comment: "创建者ID"},
+		{Name: "updated_by", Type: field.TypeUint32, Nullable: true, Comment: "更新者ID"},
+		{Name: "deleted_by", Type: field.TypeUint32, Nullable: true, Comment: "删除者ID"},
 		{Name: "role_id", Type: field.TypeUint32, Comment: "角色ID"},
 		{Name: "org_id", Type: field.TypeUint32, Comment: "组织ID"},
 	}
@@ -808,29 +762,26 @@ var (
 		PrimaryKey: []*schema.Column{SysRoleOrgColumns[0]},
 		Indexes: []*schema.Index{
 			{
-				Name:    "roleorg_id",
-				Unique:  false,
-				Columns: []*schema.Column{SysRoleOrgColumns[0]},
-			},
-			{
 				Name:    "idx_sys_role_org_role_id_org_id",
 				Unique:  true,
-				Columns: []*schema.Column{SysRoleOrgColumns[5], SysRoleOrgColumns[6]},
+				Columns: []*schema.Column{SysRoleOrgColumns[7], SysRoleOrgColumns[8]},
 			},
 			{
 				Name:    "idx_sys_role_org_role_id",
 				Unique:  false,
-				Columns: []*schema.Column{SysRoleOrgColumns[5]},
+				Columns: []*schema.Column{SysRoleOrgColumns[7]},
 			},
 		},
 	}
 	// SysRolePositionColumns holds the columns for the "sys_role_position" table.
 	SysRolePositionColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeUint32, Increment: true, Comment: "id", SchemaType: map[string]string{"mysql": "int", "postgres": "serial"}},
-		{Name: "create_time", Type: field.TypeTime, Nullable: true, Comment: "创建时间"},
-		{Name: "update_time", Type: field.TypeTime, Nullable: true, Comment: "更新时间"},
-		{Name: "delete_time", Type: field.TypeTime, Nullable: true, Comment: "删除时间"},
-		{Name: "create_by", Type: field.TypeUint32, Nullable: true, Comment: "创建者ID"},
+		{Name: "id", Type: field.TypeUint32, Increment: true, Comment: "id"},
+		{Name: "created_at", Type: field.TypeTime, Nullable: true, Comment: "创建时间"},
+		{Name: "updated_at", Type: field.TypeTime, Nullable: true, Comment: "更新时间"},
+		{Name: "deleted_at", Type: field.TypeTime, Nullable: true, Comment: "删除时间"},
+		{Name: "created_by", Type: field.TypeUint32, Nullable: true, Comment: "创建者ID"},
+		{Name: "updated_by", Type: field.TypeUint32, Nullable: true, Comment: "更新者ID"},
+		{Name: "deleted_by", Type: field.TypeUint32, Nullable: true, Comment: "删除者ID"},
 		{Name: "role_id", Type: field.TypeUint32, Comment: "角色ID"},
 		{Name: "position_id", Type: field.TypeUint32, Comment: "职位ID"},
 	}
@@ -842,32 +793,28 @@ var (
 		PrimaryKey: []*schema.Column{SysRolePositionColumns[0]},
 		Indexes: []*schema.Index{
 			{
-				Name:    "roleposition_id",
-				Unique:  false,
-				Columns: []*schema.Column{SysRolePositionColumns[0]},
-			},
-			{
 				Name:    "idx_sys_role_position_role_id_position_id",
 				Unique:  true,
-				Columns: []*schema.Column{SysRolePositionColumns[5], SysRolePositionColumns[6]},
+				Columns: []*schema.Column{SysRolePositionColumns[7], SysRolePositionColumns[8]},
 			},
 			{
 				Name:    "idx_sys_role_position_role_id",
 				Unique:  false,
-				Columns: []*schema.Column{SysRolePositionColumns[5]},
+				Columns: []*schema.Column{SysRolePositionColumns[7]},
 			},
 		},
 	}
 	// SysTasksColumns holds the columns for the "sys_tasks" table.
 	SysTasksColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeUint32, Increment: true, Comment: "id", SchemaType: map[string]string{"mysql": "int", "postgres": "serial"}},
-		{Name: "create_time", Type: field.TypeTime, Nullable: true, Comment: "创建时间"},
-		{Name: "update_time", Type: field.TypeTime, Nullable: true, Comment: "更新时间"},
-		{Name: "delete_time", Type: field.TypeTime, Nullable: true, Comment: "删除时间"},
-		{Name: "create_by", Type: field.TypeUint32, Nullable: true, Comment: "创建者ID"},
-		{Name: "update_by", Type: field.TypeUint32, Nullable: true, Comment: "更新者ID"},
-		{Name: "remark", Type: field.TypeString, Nullable: true, Comment: "备注", Default: ""},
-		{Name: "tenant_id", Type: field.TypeUint32, Nullable: true, Comment: "租户ID"},
+		{Name: "id", Type: field.TypeUint32, Increment: true, Comment: "id"},
+		{Name: "created_at", Type: field.TypeTime, Nullable: true, Comment: "创建时间"},
+		{Name: "updated_at", Type: field.TypeTime, Nullable: true, Comment: "更新时间"},
+		{Name: "deleted_at", Type: field.TypeTime, Nullable: true, Comment: "删除时间"},
+		{Name: "created_by", Type: field.TypeUint32, Nullable: true, Comment: "创建者ID"},
+		{Name: "updated_by", Type: field.TypeUint32, Nullable: true, Comment: "更新者ID"},
+		{Name: "deleted_by", Type: field.TypeUint32, Nullable: true, Comment: "删除者ID"},
+		{Name: "remark", Type: field.TypeString, Nullable: true, Comment: "备注"},
+		{Name: "tenant_id", Type: field.TypeUint32, Comment: "租户ID"},
 		{Name: "type", Type: field.TypeEnum, Nullable: true, Comment: "任务类型", Enums: []string{"PERIODIC", "DELAY", "WAIT_RESULT"}, Default: "PERIODIC"},
 		{Name: "type_name", Type: field.TypeString, Nullable: true, Comment: "任务执行类型名"},
 		{Name: "task_payload", Type: field.TypeString, Nullable: true, Comment: "任务数据", SchemaType: map[string]string{"mysql": "json", "postgres": "jsonb"}},
@@ -883,31 +830,27 @@ var (
 		PrimaryKey: []*schema.Column{SysTasksColumns[0]},
 		Indexes: []*schema.Index{
 			{
-				Name:    "task_id",
-				Unique:  false,
-				Columns: []*schema.Column{SysTasksColumns[0]},
-			},
-			{
 				Name:    "task_tenant_id",
 				Unique:  false,
-				Columns: []*schema.Column{SysTasksColumns[7]},
+				Columns: []*schema.Column{SysTasksColumns[8]},
 			},
 			{
 				Name:    "idx_sys_task_type_name",
 				Unique:  true,
-				Columns: []*schema.Column{SysTasksColumns[9]},
+				Columns: []*schema.Column{SysTasksColumns[10]},
 			},
 		},
 	}
 	// SysTenantsColumns holds the columns for the "sys_tenants" table.
 	SysTenantsColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeUint32, Increment: true, Comment: "id", SchemaType: map[string]string{"mysql": "int", "postgres": "serial"}},
-		{Name: "create_time", Type: field.TypeTime, Nullable: true, Comment: "创建时间"},
-		{Name: "update_time", Type: field.TypeTime, Nullable: true, Comment: "更新时间"},
-		{Name: "delete_time", Type: field.TypeTime, Nullable: true, Comment: "删除时间"},
-		{Name: "create_by", Type: field.TypeUint32, Nullable: true, Comment: "创建者ID"},
-		{Name: "update_by", Type: field.TypeUint32, Nullable: true, Comment: "更新者ID"},
-		{Name: "remark", Type: field.TypeString, Nullable: true, Comment: "备注", Default: ""},
+		{Name: "id", Type: field.TypeUint32, Increment: true, Comment: "id"},
+		{Name: "created_at", Type: field.TypeTime, Nullable: true, Comment: "创建时间"},
+		{Name: "updated_at", Type: field.TypeTime, Nullable: true, Comment: "更新时间"},
+		{Name: "deleted_at", Type: field.TypeTime, Nullable: true, Comment: "删除时间"},
+		{Name: "created_by", Type: field.TypeUint32, Nullable: true, Comment: "创建者ID"},
+		{Name: "updated_by", Type: field.TypeUint32, Nullable: true, Comment: "更新者ID"},
+		{Name: "deleted_by", Type: field.TypeUint32, Nullable: true, Comment: "删除者ID"},
+		{Name: "remark", Type: field.TypeString, Nullable: true, Comment: "备注"},
 		{Name: "name", Type: field.TypeString, Nullable: true, Comment: "租户名称"},
 		{Name: "code", Type: field.TypeString, Nullable: true, Comment: "租户编号"},
 		{Name: "logo_url", Type: field.TypeString, Nullable: true, Comment: "租户logo地址"},
@@ -931,42 +874,38 @@ var (
 		PrimaryKey: []*schema.Column{SysTenantsColumns[0]},
 		Indexes: []*schema.Index{
 			{
-				Name:    "tenant_id",
-				Unique:  false,
-				Columns: []*schema.Column{SysTenantsColumns[0]},
-			},
-			{
 				Name:    "idx_sys_tenant_name",
-				Unique:  true,
-				Columns: []*schema.Column{SysTenantsColumns[7]},
-			},
-			{
-				Name:    "idx_sys_tenant_code",
 				Unique:  true,
 				Columns: []*schema.Column{SysTenantsColumns[8]},
 			},
 			{
+				Name:    "idx_sys_tenant_code",
+				Unique:  true,
+				Columns: []*schema.Column{SysTenantsColumns[9]},
+			},
+			{
 				Name:    "idx_sys_tenant_status_audit_status",
 				Unique:  false,
-				Columns: []*schema.Column{SysTenantsColumns[12], SysTenantsColumns[14]},
+				Columns: []*schema.Column{SysTenantsColumns[13], SysTenantsColumns[15]},
 			},
 			{
 				Name:    "idx_sys_tenant_expired_at",
 				Unique:  false,
-				Columns: []*schema.Column{SysTenantsColumns[18]},
+				Columns: []*schema.Column{SysTenantsColumns[19]},
 			},
 		},
 	}
 	// SysUsersColumns holds the columns for the "sys_users" table.
 	SysUsersColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeUint32, Increment: true, Comment: "id", SchemaType: map[string]string{"mysql": "int", "postgres": "serial"}},
-		{Name: "create_by", Type: field.TypeUint32, Nullable: true, Comment: "创建者ID"},
-		{Name: "update_by", Type: field.TypeUint32, Nullable: true, Comment: "更新者ID"},
-		{Name: "create_time", Type: field.TypeTime, Nullable: true, Comment: "创建时间"},
-		{Name: "update_time", Type: field.TypeTime, Nullable: true, Comment: "更新时间"},
-		{Name: "delete_time", Type: field.TypeTime, Nullable: true, Comment: "删除时间"},
-		{Name: "remark", Type: field.TypeString, Nullable: true, Comment: "备注", Default: ""},
-		{Name: "tenant_id", Type: field.TypeUint32, Nullable: true, Comment: "租户ID"},
+		{Name: "id", Type: field.TypeUint32, Increment: true, Comment: "id"},
+		{Name: "created_by", Type: field.TypeUint32, Nullable: true, Comment: "创建者ID"},
+		{Name: "updated_by", Type: field.TypeUint32, Nullable: true, Comment: "更新者ID"},
+		{Name: "deleted_by", Type: field.TypeUint32, Nullable: true, Comment: "删除者ID"},
+		{Name: "created_at", Type: field.TypeTime, Nullable: true, Comment: "创建时间"},
+		{Name: "updated_at", Type: field.TypeTime, Nullable: true, Comment: "更新时间"},
+		{Name: "deleted_at", Type: field.TypeTime, Nullable: true, Comment: "删除时间"},
+		{Name: "remark", Type: field.TypeString, Nullable: true, Comment: "备注"},
+		{Name: "tenant_id", Type: field.TypeUint32, Comment: "租户ID"},
 		{Name: "username", Type: field.TypeString, Nullable: true, Comment: "用户名"},
 		{Name: "nickname", Type: field.TypeString, Nullable: true, Comment: "昵称"},
 		{Name: "realname", Type: field.TypeString, Nullable: true, Comment: "真实名字"},
@@ -996,29 +935,24 @@ var (
 		PrimaryKey: []*schema.Column{SysUsersColumns[0]},
 		Indexes: []*schema.Index{
 			{
-				Name:    "user_id",
-				Unique:  false,
-				Columns: []*schema.Column{SysUsersColumns[0]},
-			},
-			{
 				Name:    "user_tenant_id",
 				Unique:  false,
-				Columns: []*schema.Column{SysUsersColumns[7]},
+				Columns: []*schema.Column{SysUsersColumns[8]},
 			},
 			{
 				Name:    "idx_sys_user_username",
 				Unique:  true,
-				Columns: []*schema.Column{SysUsersColumns[8]},
+				Columns: []*schema.Column{SysUsersColumns[9]},
 			},
 		},
 	}
 	// SysUserCredentialsColumns holds the columns for the "sys_user_credentials" table.
 	SysUserCredentialsColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeUint32, Increment: true, Comment: "id", SchemaType: map[string]string{"mysql": "int", "postgres": "serial"}},
-		{Name: "create_time", Type: field.TypeTime, Nullable: true, Comment: "创建时间"},
-		{Name: "update_time", Type: field.TypeTime, Nullable: true, Comment: "更新时间"},
-		{Name: "delete_time", Type: field.TypeTime, Nullable: true, Comment: "删除时间"},
-		{Name: "tenant_id", Type: field.TypeUint32, Nullable: true, Comment: "租户ID"},
+		{Name: "id", Type: field.TypeUint32, Increment: true, Comment: "id"},
+		{Name: "created_at", Type: field.TypeTime, Nullable: true, Comment: "创建时间"},
+		{Name: "updated_at", Type: field.TypeTime, Nullable: true, Comment: "更新时间"},
+		{Name: "deleted_at", Type: field.TypeTime, Nullable: true, Comment: "删除时间"},
+		{Name: "tenant_id", Type: field.TypeUint32, Comment: "租户ID"},
 		{Name: "user_id", Type: field.TypeUint32, Nullable: true, Comment: "关联主表的用户ID"},
 		{Name: "identity_type", Type: field.TypeEnum, Nullable: true, Comment: "认证方式类型", Enums: []string{"USERNAME", "USERID", "EMAIL", "PHONE", "WECHAT", "QQ", "WEIBO", "DOUYIN", "KUAISHOU", "BAIDU", "ALIPAY", "TAOBAO", "JD", "MEITUAN", "DINGTALK", "BILIBILI", "XIAOHONGSHU", "GOOGLE", "FACEBOOK", "APPLE", "TELEGRAM", "TWITTER", "LINKEDIN", "GITHUB", "MICROSOFT", "DISCORD", "SLACK", "INSTAGRAM", "TIKTOK", "REDDIT", "YOUTUBE", "SPOTIFY", "PINTEREST", "SNAPCHAT", "TUMBLR", "YAHOO", "WHATSAPP", "LINE"}, Default: "USERNAME"},
 		{Name: "identifier", Type: field.TypeString, Nullable: true, Comment: "身份唯一标识符"},
@@ -1037,11 +971,6 @@ var (
 		Columns:    SysUserCredentialsColumns,
 		PrimaryKey: []*schema.Column{SysUserCredentialsColumns[0]},
 		Indexes: []*schema.Index{
-			{
-				Name:    "usercredential_id",
-				Unique:  false,
-				Columns: []*schema.Column{SysUserCredentialsColumns[0]},
-			},
 			{
 				Name:    "usercredential_tenant_id",
 				Unique:  false,
@@ -1076,11 +1005,13 @@ var (
 	}
 	// SysUserPositionColumns holds the columns for the "sys_user_position" table.
 	SysUserPositionColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeUint32, Increment: true, Comment: "id", SchemaType: map[string]string{"mysql": "int", "postgres": "serial"}},
-		{Name: "create_time", Type: field.TypeTime, Nullable: true, Comment: "创建时间"},
-		{Name: "update_time", Type: field.TypeTime, Nullable: true, Comment: "更新时间"},
-		{Name: "delete_time", Type: field.TypeTime, Nullable: true, Comment: "删除时间"},
-		{Name: "create_by", Type: field.TypeUint32, Nullable: true, Comment: "创建者ID"},
+		{Name: "id", Type: field.TypeUint32, Increment: true, Comment: "id"},
+		{Name: "created_at", Type: field.TypeTime, Nullable: true, Comment: "创建时间"},
+		{Name: "updated_at", Type: field.TypeTime, Nullable: true, Comment: "更新时间"},
+		{Name: "deleted_at", Type: field.TypeTime, Nullable: true, Comment: "删除时间"},
+		{Name: "created_by", Type: field.TypeUint32, Nullable: true, Comment: "创建者ID"},
+		{Name: "updated_by", Type: field.TypeUint32, Nullable: true, Comment: "更新者ID"},
+		{Name: "deleted_by", Type: field.TypeUint32, Nullable: true, Comment: "删除者ID"},
 		{Name: "user_id", Type: field.TypeUint32, Comment: "用户ID"},
 		{Name: "position_id", Type: field.TypeUint32, Comment: "职位ID"},
 	}
@@ -1092,34 +1023,31 @@ var (
 		PrimaryKey: []*schema.Column{SysUserPositionColumns[0]},
 		Indexes: []*schema.Index{
 			{
-				Name:    "userposition_id",
-				Unique:  false,
-				Columns: []*schema.Column{SysUserPositionColumns[0]},
-			},
-			{
 				Name:    "idx_sys_user_position_user_id_position_id",
 				Unique:  true,
-				Columns: []*schema.Column{SysUserPositionColumns[5], SysUserPositionColumns[6]},
+				Columns: []*schema.Column{SysUserPositionColumns[7], SysUserPositionColumns[8]},
 			},
 			{
 				Name:    "idx_sys_user_position_user_id",
 				Unique:  false,
-				Columns: []*schema.Column{SysUserPositionColumns[5]},
+				Columns: []*schema.Column{SysUserPositionColumns[7]},
 			},
 			{
 				Name:    "idx_sys_user_position_position_id",
 				Unique:  false,
-				Columns: []*schema.Column{SysUserPositionColumns[6]},
+				Columns: []*schema.Column{SysUserPositionColumns[8]},
 			},
 		},
 	}
 	// SysUserRoleColumns holds the columns for the "sys_user_role" table.
 	SysUserRoleColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeUint32, Increment: true, Comment: "id", SchemaType: map[string]string{"mysql": "int", "postgres": "serial"}},
-		{Name: "create_time", Type: field.TypeTime, Nullable: true, Comment: "创建时间"},
-		{Name: "update_time", Type: field.TypeTime, Nullable: true, Comment: "更新时间"},
-		{Name: "delete_time", Type: field.TypeTime, Nullable: true, Comment: "删除时间"},
-		{Name: "create_by", Type: field.TypeUint32, Nullable: true, Comment: "创建者ID"},
+		{Name: "id", Type: field.TypeUint32, Increment: true, Comment: "id"},
+		{Name: "created_at", Type: field.TypeTime, Nullable: true, Comment: "创建时间"},
+		{Name: "updated_at", Type: field.TypeTime, Nullable: true, Comment: "更新时间"},
+		{Name: "deleted_at", Type: field.TypeTime, Nullable: true, Comment: "删除时间"},
+		{Name: "created_by", Type: field.TypeUint32, Nullable: true, Comment: "创建者ID"},
+		{Name: "updated_by", Type: field.TypeUint32, Nullable: true, Comment: "更新者ID"},
+		{Name: "deleted_by", Type: field.TypeUint32, Nullable: true, Comment: "删除者ID"},
 		{Name: "user_id", Type: field.TypeUint32, Comment: "用户ID"},
 		{Name: "role_id", Type: field.TypeUint32, Comment: "角色ID"},
 	}
@@ -1131,24 +1059,19 @@ var (
 		PrimaryKey: []*schema.Column{SysUserRoleColumns[0]},
 		Indexes: []*schema.Index{
 			{
-				Name:    "userrole_id",
-				Unique:  false,
-				Columns: []*schema.Column{SysUserRoleColumns[0]},
-			},
-			{
 				Name:    "idx_sys_user_role_user_id_role_id",
 				Unique:  true,
-				Columns: []*schema.Column{SysUserRoleColumns[5], SysUserRoleColumns[6]},
+				Columns: []*schema.Column{SysUserRoleColumns[7], SysUserRoleColumns[8]},
 			},
 			{
 				Name:    "idx_sys_user_role_user_id",
 				Unique:  false,
-				Columns: []*schema.Column{SysUserRoleColumns[5]},
+				Columns: []*schema.Column{SysUserRoleColumns[7]},
 			},
 			{
 				Name:    "idx_sys_user_role_role_id",
 				Unique:  false,
-				Columns: []*schema.Column{SysUserRoleColumns[6]},
+				Columns: []*schema.Column{SysUserRoleColumns[8]},
 			},
 		},
 	}
@@ -1159,9 +1082,10 @@ var (
 		SysAdminOperationLogsTable,
 		SysAPIResourcesTable,
 		SysDepartmentsTable,
-		SysDictItemsTable,
-		SysDictMainsTable,
+		SysDictEntriesTable,
+		SysDictTypesTable,
 		FilesTable,
+		SysLanguagesTable,
 		SysMenusTable,
 		NotificationMessagesTable,
 		NotificationMessageCategoriesTable,
@@ -1211,19 +1135,24 @@ func init() {
 		Charset:   "utf8mb4",
 		Collation: "utf8mb4_bin",
 	}
-	SysDictItemsTable.ForeignKeys[0].RefTable = SysDictMainsTable
-	SysDictItemsTable.Annotation = &entsql.Annotation{
-		Table:     "sys_dict_items",
+	SysDictEntriesTable.ForeignKeys[0].RefTable = SysDictTypesTable
+	SysDictEntriesTable.Annotation = &entsql.Annotation{
+		Table:     "sys_dict_entries",
 		Charset:   "utf8mb4",
 		Collation: "utf8mb4_bin",
 	}
-	SysDictMainsTable.Annotation = &entsql.Annotation{
-		Table:     "sys_dict_mains",
+	SysDictTypesTable.Annotation = &entsql.Annotation{
+		Table:     "sys_dict_types",
 		Charset:   "utf8mb4",
 		Collation: "utf8mb4_bin",
 	}
 	FilesTable.Annotation = &entsql.Annotation{
 		Table:     "files",
+		Charset:   "utf8mb4",
+		Collation: "utf8mb4_bin",
+	}
+	SysLanguagesTable.Annotation = &entsql.Annotation{
+		Table:     "sys_languages",
 		Charset:   "utf8mb4",
 		Collation: "utf8mb4_bin",
 	}

@@ -98,7 +98,7 @@ func (r *NotificationMessageCategoryRepo) List(ctx context.Context, req *paginat
 	err, whereSelectors, querySelectors := entgo.BuildQuerySelector(
 		req.GetQuery(), req.GetOrQuery(),
 		req.GetPage(), req.GetPageSize(), req.GetNoPaging(),
-		req.GetOrderBy(), notificationmessagecategory.FieldCreateTime,
+		req.GetOrderBy(), notificationmessagecategory.FieldCreatedAt,
 		req.GetFieldMask().GetPaths(),
 	)
 	if err != nil {
@@ -195,13 +195,13 @@ func (r *NotificationMessageCategoryRepo) Create(ctx context.Context, req *inter
 		SetNillableName(req.Data.Name).
 		SetNillableCode(req.Data.Code).
 		SetNillableParentID(req.Data.ParentId).
-		SetNillableSortID(req.Data.SortId).
+		SetNillableSortOrder(req.Data.SortOrder).
 		SetNillableEnable(req.Data.Enable).
-		SetNillableCreateBy(req.Data.CreateBy).
-		SetNillableCreateTime(timeutil.TimestamppbToTime(req.Data.CreateTime))
+		SetNillableCreatedBy(req.Data.CreatedBy).
+		SetNillableCreatedAt(timeutil.TimestamppbToTime(req.Data.CreatedAt))
 
-	if req.Data.CreateTime == nil {
-		builder.SetCreateTime(time.Now())
+	if req.Data.CreatedAt == nil {
+		builder.SetCreatedAt(time.Now())
 	}
 
 	if req.Data.Id != nil {
@@ -229,8 +229,8 @@ func (r *NotificationMessageCategoryRepo) Update(ctx context.Context, req *inter
 		}
 		if !exist {
 			createReq := &internalMessageV1.CreateNotificationMessageCategoryRequest{Data: req.Data}
-			createReq.Data.CreateBy = createReq.Data.UpdateBy
-			createReq.Data.UpdateBy = nil
+			createReq.Data.CreatedBy = createReq.Data.UpdatedBy
+			createReq.Data.UpdatedBy = nil
 			return r.Create(ctx, createReq)
 		}
 	}
@@ -248,13 +248,13 @@ func (r *NotificationMessageCategoryRepo) Update(ctx context.Context, req *inter
 		SetNillableName(req.Data.Name).
 		SetNillableCode(req.Data.Code).
 		SetNillableParentID(req.Data.ParentId).
-		SetNillableSortID(req.Data.SortId).
+		SetNillableSortOrder(req.Data.SortOrder).
 		SetNillableEnable(req.Data.Enable).
-		SetNillableUpdateBy(req.Data.UpdateBy).
-		SetNillableUpdateTime(timeutil.TimestamppbToTime(req.Data.UpdateTime))
+		SetNillableUpdatedBy(req.Data.UpdatedBy).
+		SetNillableUpdatedAt(timeutil.TimestamppbToTime(req.Data.UpdatedAt))
 
-	if req.Data.UpdateTime == nil {
-		builder.SetUpdateTime(time.Now())
+	if req.Data.UpdatedAt == nil {
+		builder.SetUpdatedAt(time.Now())
 	}
 
 	if req.UpdateMask != nil {

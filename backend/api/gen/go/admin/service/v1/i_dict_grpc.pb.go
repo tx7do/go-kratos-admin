@@ -22,41 +22,41 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	DictService_ListDictMain_FullMethodName   = "/admin.service.v1.DictService/ListDictMain"
-	DictService_GetDictMain_FullMethodName    = "/admin.service.v1.DictService/GetDictMain"
-	DictService_CreateDictMain_FullMethodName = "/admin.service.v1.DictService/CreateDictMain"
-	DictService_UpdateDictMain_FullMethodName = "/admin.service.v1.DictService/UpdateDictMain"
-	DictService_DeleteDictMain_FullMethodName = "/admin.service.v1.DictService/DeleteDictMain"
-	DictService_ListDictItem_FullMethodName   = "/admin.service.v1.DictService/ListDictItem"
-	DictService_CreateDictItem_FullMethodName = "/admin.service.v1.DictService/CreateDictItem"
-	DictService_UpdateDictItem_FullMethodName = "/admin.service.v1.DictService/UpdateDictItem"
-	DictService_DeleteDictItem_FullMethodName = "/admin.service.v1.DictService/DeleteDictItem"
+	DictService_ListDictType_FullMethodName    = "/admin.service.v1.DictService/ListDictType"
+	DictService_GetDictType_FullMethodName     = "/admin.service.v1.DictService/GetDictType"
+	DictService_CreateDictType_FullMethodName  = "/admin.service.v1.DictService/CreateDictType"
+	DictService_UpdateDictType_FullMethodName  = "/admin.service.v1.DictService/UpdateDictType"
+	DictService_DeleteDictType_FullMethodName  = "/admin.service.v1.DictService/DeleteDictType"
+	DictService_ListDictEntry_FullMethodName   = "/admin.service.v1.DictService/ListDictEntry"
+	DictService_CreateDictEntry_FullMethodName = "/admin.service.v1.DictService/CreateDictEntry"
+	DictService_UpdateDictEntry_FullMethodName = "/admin.service.v1.DictService/UpdateDictEntry"
+	DictService_DeleteDictEntry_FullMethodName = "/admin.service.v1.DictService/DeleteDictEntry"
 )
 
 // DictServiceClient is the client API for DictService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 //
-// 字典管理服务
+// 数据字典管理服务
 type DictServiceClient interface {
-	// 分页查询主字典列表
-	ListDictMain(ctx context.Context, in *v1.PagingRequest, opts ...grpc.CallOption) (*v11.ListDictMainResponse, error)
-	// 查询主字典详情
-	GetDictMain(ctx context.Context, in *v11.GetDictMainRequest, opts ...grpc.CallOption) (*v11.DictMain, error)
-	// 创建主字典
-	CreateDictMain(ctx context.Context, in *v11.CreateDictMainRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
-	// 更新主字典
-	UpdateDictMain(ctx context.Context, in *v11.UpdateDictMainRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
-	// 删除主字典
-	DeleteDictMain(ctx context.Context, in *v11.BatchDeleteDictRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
-	// 分页查询子字典列表
-	ListDictItem(ctx context.Context, in *v1.PagingRequest, opts ...grpc.CallOption) (*v11.ListDictItemResponse, error)
-	// 创建子字典
-	CreateDictItem(ctx context.Context, in *v11.CreateDictItemRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
-	// 更新子字典
-	UpdateDictItem(ctx context.Context, in *v11.UpdateDictItemRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
-	// 删除子字典
-	DeleteDictItem(ctx context.Context, in *v11.BatchDeleteDictRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	// 分页查询字典类型列表
+	ListDictType(ctx context.Context, in *v1.PagingRequest, opts ...grpc.CallOption) (*v11.ListDictTypeResponse, error)
+	// 查询字典类型详情
+	GetDictType(ctx context.Context, in *v11.GetDictTypeRequest, opts ...grpc.CallOption) (*v11.DictType, error)
+	// 创建字典类型
+	CreateDictType(ctx context.Context, in *v11.CreateDictTypeRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	// 更新字典类型
+	UpdateDictType(ctx context.Context, in *v11.UpdateDictTypeRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	// 删除字典类型
+	DeleteDictType(ctx context.Context, in *v11.BatchDeleteDictRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	// 分页查询字典条目列表
+	ListDictEntry(ctx context.Context, in *v1.PagingRequest, opts ...grpc.CallOption) (*v11.ListDictEntryResponse, error)
+	// 创建字典条目
+	CreateDictEntry(ctx context.Context, in *v11.CreateDictEntryRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	// 更新字典条目
+	UpdateDictEntry(ctx context.Context, in *v11.UpdateDictEntryRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	// 删除字典条目
+	DeleteDictEntry(ctx context.Context, in *v11.BatchDeleteDictRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 }
 
 type dictServiceClient struct {
@@ -67,90 +67,90 @@ func NewDictServiceClient(cc grpc.ClientConnInterface) DictServiceClient {
 	return &dictServiceClient{cc}
 }
 
-func (c *dictServiceClient) ListDictMain(ctx context.Context, in *v1.PagingRequest, opts ...grpc.CallOption) (*v11.ListDictMainResponse, error) {
+func (c *dictServiceClient) ListDictType(ctx context.Context, in *v1.PagingRequest, opts ...grpc.CallOption) (*v11.ListDictTypeResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(v11.ListDictMainResponse)
-	err := c.cc.Invoke(ctx, DictService_ListDictMain_FullMethodName, in, out, cOpts...)
+	out := new(v11.ListDictTypeResponse)
+	err := c.cc.Invoke(ctx, DictService_ListDictType_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *dictServiceClient) GetDictMain(ctx context.Context, in *v11.GetDictMainRequest, opts ...grpc.CallOption) (*v11.DictMain, error) {
+func (c *dictServiceClient) GetDictType(ctx context.Context, in *v11.GetDictTypeRequest, opts ...grpc.CallOption) (*v11.DictType, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(v11.DictMain)
-	err := c.cc.Invoke(ctx, DictService_GetDictMain_FullMethodName, in, out, cOpts...)
+	out := new(v11.DictType)
+	err := c.cc.Invoke(ctx, DictService_GetDictType_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *dictServiceClient) CreateDictMain(ctx context.Context, in *v11.CreateDictMainRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+func (c *dictServiceClient) CreateDictType(ctx context.Context, in *v11.CreateDictTypeRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(emptypb.Empty)
-	err := c.cc.Invoke(ctx, DictService_CreateDictMain_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, DictService_CreateDictType_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *dictServiceClient) UpdateDictMain(ctx context.Context, in *v11.UpdateDictMainRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+func (c *dictServiceClient) UpdateDictType(ctx context.Context, in *v11.UpdateDictTypeRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(emptypb.Empty)
-	err := c.cc.Invoke(ctx, DictService_UpdateDictMain_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, DictService_UpdateDictType_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *dictServiceClient) DeleteDictMain(ctx context.Context, in *v11.BatchDeleteDictRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+func (c *dictServiceClient) DeleteDictType(ctx context.Context, in *v11.BatchDeleteDictRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(emptypb.Empty)
-	err := c.cc.Invoke(ctx, DictService_DeleteDictMain_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, DictService_DeleteDictType_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *dictServiceClient) ListDictItem(ctx context.Context, in *v1.PagingRequest, opts ...grpc.CallOption) (*v11.ListDictItemResponse, error) {
+func (c *dictServiceClient) ListDictEntry(ctx context.Context, in *v1.PagingRequest, opts ...grpc.CallOption) (*v11.ListDictEntryResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(v11.ListDictItemResponse)
-	err := c.cc.Invoke(ctx, DictService_ListDictItem_FullMethodName, in, out, cOpts...)
+	out := new(v11.ListDictEntryResponse)
+	err := c.cc.Invoke(ctx, DictService_ListDictEntry_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *dictServiceClient) CreateDictItem(ctx context.Context, in *v11.CreateDictItemRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(emptypb.Empty)
-	err := c.cc.Invoke(ctx, DictService_CreateDictItem_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *dictServiceClient) UpdateDictItem(ctx context.Context, in *v11.UpdateDictItemRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+func (c *dictServiceClient) CreateDictEntry(ctx context.Context, in *v11.CreateDictEntryRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(emptypb.Empty)
-	err := c.cc.Invoke(ctx, DictService_UpdateDictItem_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, DictService_CreateDictEntry_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *dictServiceClient) DeleteDictItem(ctx context.Context, in *v11.BatchDeleteDictRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+func (c *dictServiceClient) UpdateDictEntry(ctx context.Context, in *v11.UpdateDictEntryRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(emptypb.Empty)
-	err := c.cc.Invoke(ctx, DictService_DeleteDictItem_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, DictService_UpdateDictEntry_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *dictServiceClient) DeleteDictEntry(ctx context.Context, in *v11.BatchDeleteDictRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(emptypb.Empty)
+	err := c.cc.Invoke(ctx, DictService_DeleteDictEntry_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -161,26 +161,26 @@ func (c *dictServiceClient) DeleteDictItem(ctx context.Context, in *v11.BatchDel
 // All implementations must embed UnimplementedDictServiceServer
 // for forward compatibility.
 //
-// 字典管理服务
+// 数据字典管理服务
 type DictServiceServer interface {
-	// 分页查询主字典列表
-	ListDictMain(context.Context, *v1.PagingRequest) (*v11.ListDictMainResponse, error)
-	// 查询主字典详情
-	GetDictMain(context.Context, *v11.GetDictMainRequest) (*v11.DictMain, error)
-	// 创建主字典
-	CreateDictMain(context.Context, *v11.CreateDictMainRequest) (*emptypb.Empty, error)
-	// 更新主字典
-	UpdateDictMain(context.Context, *v11.UpdateDictMainRequest) (*emptypb.Empty, error)
-	// 删除主字典
-	DeleteDictMain(context.Context, *v11.BatchDeleteDictRequest) (*emptypb.Empty, error)
-	// 分页查询子字典列表
-	ListDictItem(context.Context, *v1.PagingRequest) (*v11.ListDictItemResponse, error)
-	// 创建子字典
-	CreateDictItem(context.Context, *v11.CreateDictItemRequest) (*emptypb.Empty, error)
-	// 更新子字典
-	UpdateDictItem(context.Context, *v11.UpdateDictItemRequest) (*emptypb.Empty, error)
-	// 删除子字典
-	DeleteDictItem(context.Context, *v11.BatchDeleteDictRequest) (*emptypb.Empty, error)
+	// 分页查询字典类型列表
+	ListDictType(context.Context, *v1.PagingRequest) (*v11.ListDictTypeResponse, error)
+	// 查询字典类型详情
+	GetDictType(context.Context, *v11.GetDictTypeRequest) (*v11.DictType, error)
+	// 创建字典类型
+	CreateDictType(context.Context, *v11.CreateDictTypeRequest) (*emptypb.Empty, error)
+	// 更新字典类型
+	UpdateDictType(context.Context, *v11.UpdateDictTypeRequest) (*emptypb.Empty, error)
+	// 删除字典类型
+	DeleteDictType(context.Context, *v11.BatchDeleteDictRequest) (*emptypb.Empty, error)
+	// 分页查询字典条目列表
+	ListDictEntry(context.Context, *v1.PagingRequest) (*v11.ListDictEntryResponse, error)
+	// 创建字典条目
+	CreateDictEntry(context.Context, *v11.CreateDictEntryRequest) (*emptypb.Empty, error)
+	// 更新字典条目
+	UpdateDictEntry(context.Context, *v11.UpdateDictEntryRequest) (*emptypb.Empty, error)
+	// 删除字典条目
+	DeleteDictEntry(context.Context, *v11.BatchDeleteDictRequest) (*emptypb.Empty, error)
 	mustEmbedUnimplementedDictServiceServer()
 }
 
@@ -191,32 +191,32 @@ type DictServiceServer interface {
 // pointer dereference when methods are called.
 type UnimplementedDictServiceServer struct{}
 
-func (UnimplementedDictServiceServer) ListDictMain(context.Context, *v1.PagingRequest) (*v11.ListDictMainResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ListDictMain not implemented")
+func (UnimplementedDictServiceServer) ListDictType(context.Context, *v1.PagingRequest) (*v11.ListDictTypeResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListDictType not implemented")
 }
-func (UnimplementedDictServiceServer) GetDictMain(context.Context, *v11.GetDictMainRequest) (*v11.DictMain, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetDictMain not implemented")
+func (UnimplementedDictServiceServer) GetDictType(context.Context, *v11.GetDictTypeRequest) (*v11.DictType, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetDictType not implemented")
 }
-func (UnimplementedDictServiceServer) CreateDictMain(context.Context, *v11.CreateDictMainRequest) (*emptypb.Empty, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CreateDictMain not implemented")
+func (UnimplementedDictServiceServer) CreateDictType(context.Context, *v11.CreateDictTypeRequest) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateDictType not implemented")
 }
-func (UnimplementedDictServiceServer) UpdateDictMain(context.Context, *v11.UpdateDictMainRequest) (*emptypb.Empty, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UpdateDictMain not implemented")
+func (UnimplementedDictServiceServer) UpdateDictType(context.Context, *v11.UpdateDictTypeRequest) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateDictType not implemented")
 }
-func (UnimplementedDictServiceServer) DeleteDictMain(context.Context, *v11.BatchDeleteDictRequest) (*emptypb.Empty, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DeleteDictMain not implemented")
+func (UnimplementedDictServiceServer) DeleteDictType(context.Context, *v11.BatchDeleteDictRequest) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteDictType not implemented")
 }
-func (UnimplementedDictServiceServer) ListDictItem(context.Context, *v1.PagingRequest) (*v11.ListDictItemResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ListDictItem not implemented")
+func (UnimplementedDictServiceServer) ListDictEntry(context.Context, *v1.PagingRequest) (*v11.ListDictEntryResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListDictEntry not implemented")
 }
-func (UnimplementedDictServiceServer) CreateDictItem(context.Context, *v11.CreateDictItemRequest) (*emptypb.Empty, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CreateDictItem not implemented")
+func (UnimplementedDictServiceServer) CreateDictEntry(context.Context, *v11.CreateDictEntryRequest) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateDictEntry not implemented")
 }
-func (UnimplementedDictServiceServer) UpdateDictItem(context.Context, *v11.UpdateDictItemRequest) (*emptypb.Empty, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UpdateDictItem not implemented")
+func (UnimplementedDictServiceServer) UpdateDictEntry(context.Context, *v11.UpdateDictEntryRequest) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateDictEntry not implemented")
 }
-func (UnimplementedDictServiceServer) DeleteDictItem(context.Context, *v11.BatchDeleteDictRequest) (*emptypb.Empty, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DeleteDictItem not implemented")
+func (UnimplementedDictServiceServer) DeleteDictEntry(context.Context, *v11.BatchDeleteDictRequest) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteDictEntry not implemented")
 }
 func (UnimplementedDictServiceServer) mustEmbedUnimplementedDictServiceServer() {}
 func (UnimplementedDictServiceServer) testEmbeddedByValue()                     {}
@@ -239,164 +239,164 @@ func RegisterDictServiceServer(s grpc.ServiceRegistrar, srv DictServiceServer) {
 	s.RegisterService(&DictService_ServiceDesc, srv)
 }
 
-func _DictService_ListDictMain_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _DictService_ListDictType_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(v1.PagingRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(DictServiceServer).ListDictMain(ctx, in)
+		return srv.(DictServiceServer).ListDictType(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: DictService_ListDictMain_FullMethodName,
+		FullMethod: DictService_ListDictType_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(DictServiceServer).ListDictMain(ctx, req.(*v1.PagingRequest))
+		return srv.(DictServiceServer).ListDictType(ctx, req.(*v1.PagingRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _DictService_GetDictMain_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(v11.GetDictMainRequest)
+func _DictService_GetDictType_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(v11.GetDictTypeRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(DictServiceServer).GetDictMain(ctx, in)
+		return srv.(DictServiceServer).GetDictType(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: DictService_GetDictMain_FullMethodName,
+		FullMethod: DictService_GetDictType_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(DictServiceServer).GetDictMain(ctx, req.(*v11.GetDictMainRequest))
+		return srv.(DictServiceServer).GetDictType(ctx, req.(*v11.GetDictTypeRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _DictService_CreateDictMain_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(v11.CreateDictMainRequest)
+func _DictService_CreateDictType_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(v11.CreateDictTypeRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(DictServiceServer).CreateDictMain(ctx, in)
+		return srv.(DictServiceServer).CreateDictType(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: DictService_CreateDictMain_FullMethodName,
+		FullMethod: DictService_CreateDictType_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(DictServiceServer).CreateDictMain(ctx, req.(*v11.CreateDictMainRequest))
+		return srv.(DictServiceServer).CreateDictType(ctx, req.(*v11.CreateDictTypeRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _DictService_UpdateDictMain_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(v11.UpdateDictMainRequest)
+func _DictService_UpdateDictType_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(v11.UpdateDictTypeRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(DictServiceServer).UpdateDictMain(ctx, in)
+		return srv.(DictServiceServer).UpdateDictType(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: DictService_UpdateDictMain_FullMethodName,
+		FullMethod: DictService_UpdateDictType_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(DictServiceServer).UpdateDictMain(ctx, req.(*v11.UpdateDictMainRequest))
+		return srv.(DictServiceServer).UpdateDictType(ctx, req.(*v11.UpdateDictTypeRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _DictService_DeleteDictMain_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _DictService_DeleteDictType_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(v11.BatchDeleteDictRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(DictServiceServer).DeleteDictMain(ctx, in)
+		return srv.(DictServiceServer).DeleteDictType(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: DictService_DeleteDictMain_FullMethodName,
+		FullMethod: DictService_DeleteDictType_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(DictServiceServer).DeleteDictMain(ctx, req.(*v11.BatchDeleteDictRequest))
+		return srv.(DictServiceServer).DeleteDictType(ctx, req.(*v11.BatchDeleteDictRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _DictService_ListDictItem_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _DictService_ListDictEntry_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(v1.PagingRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(DictServiceServer).ListDictItem(ctx, in)
+		return srv.(DictServiceServer).ListDictEntry(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: DictService_ListDictItem_FullMethodName,
+		FullMethod: DictService_ListDictEntry_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(DictServiceServer).ListDictItem(ctx, req.(*v1.PagingRequest))
+		return srv.(DictServiceServer).ListDictEntry(ctx, req.(*v1.PagingRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _DictService_CreateDictItem_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(v11.CreateDictItemRequest)
+func _DictService_CreateDictEntry_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(v11.CreateDictEntryRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(DictServiceServer).CreateDictItem(ctx, in)
+		return srv.(DictServiceServer).CreateDictEntry(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: DictService_CreateDictItem_FullMethodName,
+		FullMethod: DictService_CreateDictEntry_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(DictServiceServer).CreateDictItem(ctx, req.(*v11.CreateDictItemRequest))
+		return srv.(DictServiceServer).CreateDictEntry(ctx, req.(*v11.CreateDictEntryRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _DictService_UpdateDictItem_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(v11.UpdateDictItemRequest)
+func _DictService_UpdateDictEntry_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(v11.UpdateDictEntryRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(DictServiceServer).UpdateDictItem(ctx, in)
+		return srv.(DictServiceServer).UpdateDictEntry(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: DictService_UpdateDictItem_FullMethodName,
+		FullMethod: DictService_UpdateDictEntry_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(DictServiceServer).UpdateDictItem(ctx, req.(*v11.UpdateDictItemRequest))
+		return srv.(DictServiceServer).UpdateDictEntry(ctx, req.(*v11.UpdateDictEntryRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _DictService_DeleteDictItem_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _DictService_DeleteDictEntry_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(v11.BatchDeleteDictRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(DictServiceServer).DeleteDictItem(ctx, in)
+		return srv.(DictServiceServer).DeleteDictEntry(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: DictService_DeleteDictItem_FullMethodName,
+		FullMethod: DictService_DeleteDictEntry_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(DictServiceServer).DeleteDictItem(ctx, req.(*v11.BatchDeleteDictRequest))
+		return srv.(DictServiceServer).DeleteDictEntry(ctx, req.(*v11.BatchDeleteDictRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -409,40 +409,40 @@ var DictService_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*DictServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "ListDictMain",
-			Handler:    _DictService_ListDictMain_Handler,
+			MethodName: "ListDictType",
+			Handler:    _DictService_ListDictType_Handler,
 		},
 		{
-			MethodName: "GetDictMain",
-			Handler:    _DictService_GetDictMain_Handler,
+			MethodName: "GetDictType",
+			Handler:    _DictService_GetDictType_Handler,
 		},
 		{
-			MethodName: "CreateDictMain",
-			Handler:    _DictService_CreateDictMain_Handler,
+			MethodName: "CreateDictType",
+			Handler:    _DictService_CreateDictType_Handler,
 		},
 		{
-			MethodName: "UpdateDictMain",
-			Handler:    _DictService_UpdateDictMain_Handler,
+			MethodName: "UpdateDictType",
+			Handler:    _DictService_UpdateDictType_Handler,
 		},
 		{
-			MethodName: "DeleteDictMain",
-			Handler:    _DictService_DeleteDictMain_Handler,
+			MethodName: "DeleteDictType",
+			Handler:    _DictService_DeleteDictType_Handler,
 		},
 		{
-			MethodName: "ListDictItem",
-			Handler:    _DictService_ListDictItem_Handler,
+			MethodName: "ListDictEntry",
+			Handler:    _DictService_ListDictEntry_Handler,
 		},
 		{
-			MethodName: "CreateDictItem",
-			Handler:    _DictService_CreateDictItem_Handler,
+			MethodName: "CreateDictEntry",
+			Handler:    _DictService_CreateDictEntry_Handler,
 		},
 		{
-			MethodName: "UpdateDictItem",
-			Handler:    _DictService_UpdateDictItem_Handler,
+			MethodName: "UpdateDictEntry",
+			Handler:    _DictService_UpdateDictEntry_Handler,
 		},
 		{
-			MethodName: "DeleteDictItem",
-			Handler:    _DictService_DeleteDictItem_Handler,
+			MethodName: "DeleteDictEntry",
+			Handler:    _DictService_DeleteDictEntry_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

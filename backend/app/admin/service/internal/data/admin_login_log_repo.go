@@ -68,7 +68,7 @@ func (r *AdminLoginLogRepo) List(ctx context.Context, req *pagination.PagingRequ
 	err, whereSelectors, querySelectors := entgo.BuildQuerySelector(
 		req.GetQuery(), req.GetOrQuery(),
 		req.GetPage(), req.GetPageSize(), req.GetNoPaging(),
-		req.GetOrderBy(), adminloginlog.FieldCreateTime,
+		req.GetOrderBy(), adminloginlog.FieldCreatedAt,
 		req.GetFieldMask().GetPaths(),
 	)
 	if err != nil {
@@ -156,14 +156,14 @@ func (r *AdminLoginLogRepo) Create(ctx context.Context, req *adminV1.CreateAdmin
 		SetNillableReason(req.Data.Reason).
 		SetNillableLocation(req.Data.Location).
 		SetNillableLoginTime(timeutil.TimestamppbToTime(req.Data.LoginTime)).
-		SetNillableCreateTime(timeutil.TimestamppbToTime(req.Data.CreateTime))
+		SetNillableCreatedAt(timeutil.TimestamppbToTime(req.Data.CreatedAt))
 
 	if req.Data.LoginTime == nil {
 		builder.SetLoginTime(time.Now())
 	}
 
-	if req.Data.CreateTime == nil {
-		builder.SetCreateTime(time.Now())
+	if req.Data.CreatedAt == nil {
+		builder.SetCreatedAt(time.Now())
 	}
 
 	if err := builder.Exec(ctx); err != nil {

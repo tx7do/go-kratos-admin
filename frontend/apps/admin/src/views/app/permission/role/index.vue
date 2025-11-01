@@ -106,7 +106,7 @@ const gridOptions: VxeGridProps<Role> = {
     { title: $t('ui.table.seq'), type: 'seq', width: 50 },
     { title: $t('page.role.name'), field: 'name', treeNode: true },
     { title: $t('page.role.code'), field: 'code', width: 140 },
-    { title: $t('ui.table.sortId'), field: 'sortId', width: 70 },
+    { title: $t('ui.table.sortOrder'), field: 'sortOrder', width: 70 },
     {
       title: $t('ui.table.status'),
       field: 'status',
@@ -115,8 +115,8 @@ const gridOptions: VxeGridProps<Role> = {
     },
     { title: $t('ui.table.remark'), field: 'remark' },
     {
-      title: $t('ui.table.createTime'),
-      field: 'createTime',
+      title: $t('ui.table.createdAt'),
+      field: 'createdAt',
       formatter: 'formatDateTime',
       width: 140,
     },

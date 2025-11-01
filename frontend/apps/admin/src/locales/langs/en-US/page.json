@@ -270,7 +270,7 @@
     "location": "Location",
     "clientName": "Platform",
     "clientIp": "Client IP",
-    "createTime": "Operation Time",
+    "createdAt": "Operation Time",
     "path": "Path",
     "method": "Method"
   },

@@ -92,14 +92,16 @@
   },
   "dict": {
     "moduleName": "字典",
-    "dictMain": "主字典",
-    "dictItem": "子字典",
-    "dictMainList": "主字典列表",
-    "dictItemList": "子字典列表",
-    "code": "字典编码",
-    "name": "字典名称",
-    "value": "数值型标识",
-    "mainId": "主字典",
+    "dictType": "字典类型",
+    "dictEntry": "字典条目",
+    "dictTypeList": "字典类型列表",
+    "dictEntryList": "字典条目列表",
+    "typeCode": "编码",
+    "typeName": "名称",
+    "entryLabel": "标签",
+    "entryValue": "值",
+    "numericValue": "数值",
+    "typeId": "字典类型",
     "button": {
       "create": "新增"
     }
@@ -289,7 +291,7 @@
     "location": "操作地",
     "clientName": "操作平台",
     "clientIp": "操作地址",
-    "createTime": "操作时间",
+    "createdAt": "操作时间",
     "path": "路径",
     "method": "方法"
   },

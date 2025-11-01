@@ -74,7 +74,7 @@ func (s *ApiResourceService) Create(ctx context.Context, req *adminV1.CreateApiR
 		return &emptypb.Empty{}, err
 	}
 
-	req.Data.CreateBy = trans.Ptr(operator.UserId)
+	req.Data.CreatedBy = trans.Ptr(operator.UserId)
 
 	if err = s.repo.Create(ctx, req); err != nil {
 		return nil, err
@@ -99,7 +99,7 @@ func (s *ApiResourceService) Update(ctx context.Context, req *adminV1.UpdateApiR
 		return &emptypb.Empty{}, err
 	}
 
-	req.Data.UpdateBy = trans.Ptr(operator.UserId)
+	req.Data.UpdatedBy = trans.Ptr(operator.UserId)
 
 	if err = s.repo.Update(ctx, req); err != nil {
 		return nil, err

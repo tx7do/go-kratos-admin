@@ -22,44 +22,44 @@ type UserCredentialCreate struct {
 	conflict []sql.ConflictOption
 }
 
-// SetCreateTime sets the "create_time" field.
-func (_c *UserCredentialCreate) SetCreateTime(v time.Time) *UserCredentialCreate {
-	_c.mutation.SetCreateTime(v)
+// SetCreatedAt sets the "created_at" field.
+func (_c *UserCredentialCreate) SetCreatedAt(v time.Time) *UserCredentialCreate {
+	_c.mutation.SetCreatedAt(v)
 	return _c
 }
 
-// SetNillableCreateTime sets the "create_time" field if the given value is not nil.
-func (_c *UserCredentialCreate) SetNillableCreateTime(v *time.Time) *UserCredentialCreate {
+// SetNillableCreatedAt sets the "created_at" field if the given value is not nil.
+func (_c *UserCredentialCreate) SetNillableCreatedAt(v *time.Time) *UserCredentialCreate {
 	if v != nil {
-		_c.SetCreateTime(*v)
+		_c.SetCreatedAt(*v)
 	}
 	return _c
 }
 
-// SetUpdateTime sets the "update_time" field.
-func (_c *UserCredentialCreate) SetUpdateTime(v time.Time) *UserCredentialCreate {
-	_c.mutation.SetUpdateTime(v)
+// SetUpdatedAt sets the "updated_at" field.
+func (_c *UserCredentialCreate) SetUpdatedAt(v time.Time) *UserCredentialCreate {
+	_c.mutation.SetUpdatedAt(v)
 	return _c
 }
 
-// SetNillableUpdateTime sets the "update_time" field if the given value is not nil.
-func (_c *UserCredentialCreate) SetNillableUpdateTime(v *time.Time) *UserCredentialCreate {
+// SetNillableUpdatedAt sets the "updated_at" field if the given value is not nil.
+func (_c *UserCredentialCreate) SetNillableUpdatedAt(v *time.Time) *UserCredentialCreate {
 	if v != nil {
-		_c.SetUpdateTime(*v)
+		_c.SetUpdatedAt(*v)
 	}
 	return _c
 }
 
-// SetDeleteTime sets the "delete_time" field.
-func (_c *UserCredentialCreate) SetDeleteTime(v time.Time) *UserCredentialCreate {
-	_c.mutation.SetDeleteTime(v)
+// SetDeletedAt sets the "deleted_at" field.
+func (_c *UserCredentialCreate) SetDeletedAt(v time.Time) *UserCredentialCreate {
+	_c.mutation.SetDeletedAt(v)
 	return _c
 }
 
-// SetNillableDeleteTime sets the "delete_time" field if the given value is not nil.
-func (_c *UserCredentialCreate) SetNillableDeleteTime(v *time.Time) *UserCredentialCreate {
+// SetNillableDeletedAt sets the "deleted_at" field if the given value is not nil.
+func (_c *UserCredentialCreate) SetNillableDeletedAt(v *time.Time) *UserCredentialCreate {
 	if v != nil {
-		_c.SetDeleteTime(*v)
+		_c.SetDeletedAt(*v)
 	}
 	return _c
 }
@@ -67,14 +67,6 @@ func (_c *UserCredentialCreate) SetNillableDeleteTime(v *time.Time) *UserCredent
 // SetTenantID sets the "tenant_id" field.
 func (_c *UserCredentialCreate) SetTenantID(v uint32) *UserCredentialCreate {
 	_c.mutation.SetTenantID(v)
-	return _c
-}
-
-// SetNillableTenantID sets the "tenant_id" field if the given value is not nil.
-func (_c *UserCredentialCreate) SetNillableTenantID(v *uint32) *UserCredentialCreate {
-	if v != nil {
-		_c.SetTenantID(*v)
-	}
 	return _c
 }
 
@@ -279,6 +271,9 @@ func (_c *UserCredentialCreate) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (_c *UserCredentialCreate) check() error {
+	if _, ok := _c.mutation.TenantID(); !ok {
+		return &ValidationError{Name: "tenant_id", err: errors.New(`ent: missing required field "UserCredential.tenant_id"`)}
+	}
 	if v, ok := _c.mutation.TenantID(); ok {
 		if err := usercredential.TenantIDValidator(v); err != nil {
 			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "UserCredential.tenant_id": %w`, err)}
@@ -357,21 +352,21 @@ func (_c *UserCredentialCreate) createSpec() (*UserCredential, *sqlgraph.CreateS
 		_node.ID = id
 		_spec.ID.Value = id
 	}
-	if value, ok := _c.mutation.CreateTime(); ok {
-		_spec.SetField(usercredential.FieldCreateTime, field.TypeTime, value)
-		_node.CreateTime = &value
+	if value, ok := _c.mutation.CreatedAt(); ok {
+		_spec.SetField(usercredential.FieldCreatedAt, field.TypeTime, value)
+		_node.CreatedAt = &value
 	}
-	if value, ok := _c.mutation.UpdateTime(); ok {
-		_spec.SetField(usercredential.FieldUpdateTime, field.TypeTime, value)
-		_node.UpdateTime = &value
+	if value, ok := _c.mutation.UpdatedAt(); ok {
+		_spec.SetField(usercredential.FieldUpdatedAt, field.TypeTime, value)
+		_node.UpdatedAt = &value
 	}
-	if value, ok := _c.mutation.DeleteTime(); ok {
-		_spec.SetField(usercredential.FieldDeleteTime, field.TypeTime, value)
-		_node.DeleteTime = &value
+	if value, ok := _c.mutation.DeletedAt(); ok {
+		_spec.SetField(usercredential.FieldDeletedAt, field.TypeTime, value)
+		_node.DeletedAt = &value
 	}
 	if value, ok := _c.mutation.TenantID(); ok {
 		_spec.SetField(usercredential.FieldTenantID, field.TypeUint32, value)
-		_node.TenantID = &value
+		_node.TenantID = value
 	}
 	if value, ok := _c.mutation.UserID(); ok {
 		_spec.SetField(usercredential.FieldUserID, field.TypeUint32, value)
@@ -420,7 +415,7 @@ func (_c *UserCredentialCreate) createSpec() (*UserCredential, *sqlgraph.CreateS
 // of the `INSERT` statement. For example:
 //
 //	client.UserCredential.Create().
-//		SetCreateTime(v).
+//		SetCreatedAt(v).
 //		OnConflict(
 //			// Update the row with the new values
 //			// the was proposed for insertion.
@@ -429,7 +424,7 @@ func (_c *UserCredentialCreate) createSpec() (*UserCredential, *sqlgraph.CreateS
 //		// Override some of the fields with custom
 //		// update values.
 //		Update(func(u *ent.UserCredentialUpsert) {
-//			SetCreateTime(v+v).
+//			SetCreatedAt(v+v).
 //		}).
 //		Exec(ctx)
 func (_c *UserCredentialCreate) OnConflict(opts ...sql.ConflictOption) *UserCredentialUpsertOne {
@@ -465,39 +460,39 @@ type (
 	}
 )
 
-// SetUpdateTime sets the "update_time" field.
-func (u *UserCredentialUpsert) SetUpdateTime(v time.Time) *UserCredentialUpsert {
-	u.Set(usercredential.FieldUpdateTime, v)
+// SetUpdatedAt sets the "updated_at" field.
+func (u *UserCredentialUpsert) SetUpdatedAt(v time.Time) *UserCredentialUpsert {
+	u.Set(usercredential.FieldUpdatedAt, v)
 	return u
 }
 
-// UpdateUpdateTime sets the "update_time" field to the value that was provided on create.
-func (u *UserCredentialUpsert) UpdateUpdateTime() *UserCredentialUpsert {
-	u.SetExcluded(usercredential.FieldUpdateTime)
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *UserCredentialUpsert) UpdateUpdatedAt() *UserCredentialUpsert {
+	u.SetExcluded(usercredential.FieldUpdatedAt)
 	return u
 }
 
-// ClearUpdateTime clears the value of the "update_time" field.
-func (u *UserCredentialUpsert) ClearUpdateTime() *UserCredentialUpsert {
-	u.SetNull(usercredential.FieldUpdateTime)
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (u *UserCredentialUpsert) ClearUpdatedAt() *UserCredentialUpsert {
+	u.SetNull(usercredential.FieldUpdatedAt)
 	return u
 }
 
-// SetDeleteTime sets the "delete_time" field.
-func (u *UserCredentialUpsert) SetDeleteTime(v time.Time) *UserCredentialUpsert {
-	u.Set(usercredential.FieldDeleteTime, v)
+// SetDeletedAt sets the "deleted_at" field.
+func (u *UserCredentialUpsert) SetDeletedAt(v time.Time) *UserCredentialUpsert {
+	u.Set(usercredential.FieldDeletedAt, v)
 	return u
 }
 
-// UpdateDeleteTime sets the "delete_time" field to the value that was provided on create.
-func (u *UserCredentialUpsert) UpdateDeleteTime() *UserCredentialUpsert {
-	u.SetExcluded(usercredential.FieldDeleteTime)
+// UpdateDeletedAt sets the "deleted_at" field to the value that was provided on create.
+func (u *UserCredentialUpsert) UpdateDeletedAt() *UserCredentialUpsert {
+	u.SetExcluded(usercredential.FieldDeletedAt)
 	return u
 }
 
-// ClearDeleteTime clears the value of the "delete_time" field.
-func (u *UserCredentialUpsert) ClearDeleteTime() *UserCredentialUpsert {
-	u.SetNull(usercredential.FieldDeleteTime)
+// ClearDeletedAt clears the value of the "deleted_at" field.
+func (u *UserCredentialUpsert) ClearDeletedAt() *UserCredentialUpsert {
+	u.SetNull(usercredential.FieldDeletedAt)
 	return u
 }
 
@@ -704,8 +699,8 @@ func (u *UserCredentialUpsertOne) UpdateNewValues() *UserCredentialUpsertOne {
 		if _, exists := u.create.mutation.ID(); exists {
 			s.SetIgnore(usercredential.FieldID)
 		}
-		if _, exists := u.create.mutation.CreateTime(); exists {
-			s.SetIgnore(usercredential.FieldCreateTime)
+		if _, exists := u.create.mutation.CreatedAt(); exists {
+			s.SetIgnore(usercredential.FieldCreatedAt)
 		}
 		if _, exists := u.create.mutation.TenantID(); exists {
 			s.SetIgnore(usercredential.FieldTenantID)
@@ -741,45 +736,45 @@ func (u *UserCredentialUpsertOne) Update(set func(*UserCredentialUpsert)) *UserC
 	return u
 }
 
-// SetUpdateTime sets the "update_time" field.
-func (u *UserCredentialUpsertOne) SetUpdateTime(v time.Time) *UserCredentialUpsertOne {
+// SetUpdatedAt sets the "updated_at" field.
+func (u *UserCredentialUpsertOne) SetUpdatedAt(v time.Time) *UserCredentialUpsertOne {
 	return u.Update(func(s *UserCredentialUpsert) {
-		s.SetUpdateTime(v)
+		s.SetUpdatedAt(v)
 	})
 }
 
-// UpdateUpdateTime sets the "update_time" field to the value that was provided on create.
-func (u *UserCredentialUpsertOne) UpdateUpdateTime() *UserCredentialUpsertOne {
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *UserCredentialUpsertOne) UpdateUpdatedAt() *UserCredentialUpsertOne {
 	return u.Update(func(s *UserCredentialUpsert) {
-		s.UpdateUpdateTime()
+		s.UpdateUpdatedAt()
 	})
 }
 
-// ClearUpdateTime clears the value of the "update_time" field.
-func (u *UserCredentialUpsertOne) ClearUpdateTime() *UserCredentialUpsertOne {
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (u *UserCredentialUpsertOne) ClearUpdatedAt() *UserCredentialUpsertOne {
 	return u.Update(func(s *UserCredentialUpsert) {
-		s.ClearUpdateTime()
+		s.ClearUpdatedAt()
 	})
 }
 
-// SetDeleteTime sets the "delete_time" field.
-func (u *UserCredentialUpsertOne) SetDeleteTime(v time.Time) *UserCredentialUpsertOne {
+// SetDeletedAt sets the "deleted_at" field.
+func (u *UserCredentialUpsertOne) SetDeletedAt(v time.Time) *UserCredentialUpsertOne {
 	return u.Update(func(s *UserCredentialUpsert) {
-		s.SetDeleteTime(v)
+		s.SetDeletedAt(v)
 	})
 }
 
-// UpdateDeleteTime sets the "delete_time" field to the value that was provided on create.
-func (u *UserCredentialUpsertOne) UpdateDeleteTime() *UserCredentialUpsertOne {
+// UpdateDeletedAt sets the "deleted_at" field to the value that was provided on create.
+func (u *UserCredentialUpsertOne) UpdateDeletedAt() *UserCredentialUpsertOne {
 	return u.Update(func(s *UserCredentialUpsert) {
-		s.UpdateDeleteTime()
+		s.UpdateDeletedAt()
 	})
 }
 
-// ClearDeleteTime clears the value of the "delete_time" field.
-func (u *UserCredentialUpsertOne) ClearDeleteTime() *UserCredentialUpsertOne {
+// ClearDeletedAt clears the value of the "deleted_at" field.
+func (u *UserCredentialUpsertOne) ClearDeletedAt() *UserCredentialUpsertOne {
 	return u.Update(func(s *UserCredentialUpsert) {
-		s.ClearDeleteTime()
+		s.ClearDeletedAt()
 	})
 }
 
@@ -1135,7 +1130,7 @@ func (_c *UserCredentialCreateBulk) ExecX(ctx context.Context) {
 //		// Override some of the fields with custom
 //		// update values.
 //		Update(func(u *ent.UserCredentialUpsert) {
-//			SetCreateTime(v+v).
+//			SetCreatedAt(v+v).
 //		}).
 //		Exec(ctx)
 func (_c *UserCredentialCreateBulk) OnConflict(opts ...sql.ConflictOption) *UserCredentialUpsertBulk {
@@ -1182,8 +1177,8 @@ func (u *UserCredentialUpsertBulk) UpdateNewValues() *UserCredentialUpsertBulk {
 			if _, exists := b.mutation.ID(); exists {
 				s.SetIgnore(usercredential.FieldID)
 			}
-			if _, exists := b.mutation.CreateTime(); exists {
-				s.SetIgnore(usercredential.FieldCreateTime)
+			if _, exists := b.mutation.CreatedAt(); exists {
+				s.SetIgnore(usercredential.FieldCreatedAt)
 			}
 			if _, exists := b.mutation.TenantID(); exists {
 				s.SetIgnore(usercredential.FieldTenantID)
@@ -1220,45 +1215,45 @@ func (u *UserCredentialUpsertBulk) Update(set func(*UserCredentialUpsert)) *User
 	return u
 }
 
-// SetUpdateTime sets the "update_time" field.
-func (u *UserCredentialUpsertBulk) SetUpdateTime(v time.Time) *UserCredentialUpsertBulk {
+// SetUpdatedAt sets the "updated_at" field.
+func (u *UserCredentialUpsertBulk) SetUpdatedAt(v time.Time) *UserCredentialUpsertBulk {
 	return u.Update(func(s *UserCredentialUpsert) {
-		s.SetUpdateTime(v)
+		s.SetUpdatedAt(v)
 	})
 }
 
-// UpdateUpdateTime sets the "update_time" field to the value that was provided on create.
-func (u *UserCredentialUpsertBulk) UpdateUpdateTime() *UserCredentialUpsertBulk {
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *UserCredentialUpsertBulk) UpdateUpdatedAt() *UserCredentialUpsertBulk {
 	return u.Update(func(s *UserCredentialUpsert) {
-		s.UpdateUpdateTime()
+		s.UpdateUpdatedAt()
 	})
 }
 
-// ClearUpdateTime clears the value of the "update_time" field.
-func (u *UserCredentialUpsertBulk) ClearUpdateTime() *UserCredentialUpsertBulk {
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (u *UserCredentialUpsertBulk) ClearUpdatedAt() *UserCredentialUpsertBulk {
 	return u.Update(func(s *UserCredentialUpsert) {
-		s.ClearUpdateTime()
+		s.ClearUpdatedAt()
 	})
 }
 
-// SetDeleteTime sets the "delete_time" field.
-func (u *UserCredentialUpsertBulk) SetDeleteTime(v time.Time) *UserCredentialUpsertBulk {
+// SetDeletedAt sets the "deleted_at" field.
+func (u *UserCredentialUpsertBulk) SetDeletedAt(v time.Time) *UserCredentialUpsertBulk {
 	return u.Update(func(s *UserCredentialUpsert) {
-		s.SetDeleteTime(v)
+		s.SetDeletedAt(v)
 	})
 }
 
-// UpdateDeleteTime sets the "delete_time" field to the value that was provided on create.
-func (u *UserCredentialUpsertBulk) UpdateDeleteTime() *UserCredentialUpsertBulk {
+// UpdateDeletedAt sets the "deleted_at" field to the value that was provided on create.
+func (u *UserCredentialUpsertBulk) UpdateDeletedAt() *UserCredentialUpsertBulk {
 	return u.Update(func(s *UserCredentialUpsert) {
-		s.UpdateDeleteTime()
+		s.UpdateDeletedAt()
 	})
 }
 
-// ClearDeleteTime clears the value of the "delete_time" field.
-func (u *UserCredentialUpsertBulk) ClearDeleteTime() *UserCredentialUpsertBulk {
+// ClearDeletedAt clears the value of the "deleted_at" field.
+func (u *UserCredentialUpsertBulk) ClearDeletedAt() *UserCredentialUpsertBulk {
 	return u.Update(func(s *UserCredentialUpsert) {
-		s.ClearDeleteTime()
+		s.ClearDeletedAt()
 	})
 }
 

@@ -88,11 +88,12 @@ type ApiResource struct {
 	ModuleDescription *string                `protobuf:"bytes,6,opt,name=module_description,json=moduleDescription,proto3,oneof" json:"module_description,omitempty"` // 模块描述
 	Description       *string                `protobuf:"bytes,7,opt,name=description,proto3,oneof" json:"description,omitempty"`                                      // 描述
 	Scope             *ApiResource_Scope     `protobuf:"varint,8,opt,name=scope,proto3,enum=admin.service.v1.ApiResource_Scope,oneof" json:"scope,omitempty"`         // 作用域
-	CreateBy          *uint32                `protobuf:"varint,100,opt,name=create_by,json=createBy,proto3,oneof" json:"create_by,omitempty"`                         // 创建者ID
-	UpdateBy          *uint32                `protobuf:"varint,101,opt,name=update_by,json=updateBy,proto3,oneof" json:"update_by,omitempty"`                         // 更新者ID
-	CreateTime        *timestamppb.Timestamp `protobuf:"bytes,200,opt,name=create_time,json=createTime,proto3,oneof" json:"create_time,omitempty"`                    // 创建时间
-	UpdateTime        *timestamppb.Timestamp `protobuf:"bytes,201,opt,name=update_time,json=updateTime,proto3,oneof" json:"update_time,omitempty"`                    // 更新时间
-	DeleteTime        *timestamppb.Timestamp `protobuf:"bytes,202,opt,name=delete_time,json=deleteTime,proto3,oneof" json:"delete_time,omitempty"`                    // 删除时间
+	CreatedBy         *uint32                `protobuf:"varint,100,opt,name=created_by,json=createdBy,proto3,oneof" json:"created_by,omitempty"`                      // 创建者ID
+	UpdatedBy         *uint32                `protobuf:"varint,101,opt,name=updated_by,json=updatedBy,proto3,oneof" json:"updated_by,omitempty"`                      // 更新者ID
+	DeletedBy         *uint32                `protobuf:"varint,102,opt,name=deleted_by,json=deletedBy,proto3,oneof" json:"deleted_by,omitempty"`                      // 删除者用户ID
+	CreatedAt         *timestamppb.Timestamp `protobuf:"bytes,200,opt,name=created_at,json=createdAt,proto3,oneof" json:"created_at,omitempty"`                       // 创建时间
+	UpdatedAt         *timestamppb.Timestamp `protobuf:"bytes,201,opt,name=updated_at,json=updatedAt,proto3,oneof" json:"updated_at,omitempty"`                       // 更新时间
+	DeletedAt         *timestamppb.Timestamp `protobuf:"bytes,202,opt,name=deleted_at,json=deletedAt,proto3,oneof" json:"deleted_at,omitempty"`                       // 删除时间
 	unknownFields     protoimpl.UnknownFields
 	sizeCache         protoimpl.SizeCache
 }
@@ -183,37 +184,44 @@ func (x *ApiResource) GetScope() ApiResource_Scope {
 	return ApiResource_API_SCOPE_INVALID
 }
 
-func (x *ApiResource) GetCreateBy() uint32 {
-	if x != nil && x.CreateBy != nil {
-		return *x.CreateBy
+func (x *ApiResource) GetCreatedBy() uint32 {
+	if x != nil && x.CreatedBy != nil {
+		return *x.CreatedBy
 	}
 	return 0
 }
 
-func (x *ApiResource) GetUpdateBy() uint32 {
-	if x != nil && x.UpdateBy != nil {
-		return *x.UpdateBy
+func (x *ApiResource) GetUpdatedBy() uint32 {
+	if x != nil && x.UpdatedBy != nil {
+		return *x.UpdatedBy
 	}
 	return 0
 }
 
-func (x *ApiResource) GetCreateTime() *timestamppb.Timestamp {
+func (x *ApiResource) GetDeletedBy() uint32 {
+	if x != nil && x.DeletedBy != nil {
+		return *x.DeletedBy
+	}
+	return 0
+}
+
+func (x *ApiResource) GetCreatedAt() *timestamppb.Timestamp {
 	if x != nil {
-		return x.CreateTime
+		return x.CreatedAt
 	}
 	return nil
 }
 
-func (x *ApiResource) GetUpdateTime() *timestamppb.Timestamp {
+func (x *ApiResource) GetUpdatedAt() *timestamppb.Timestamp {
 	if x != nil {
-		return x.UpdateTime
+		return x.UpdatedAt
 	}
 	return nil
 }
 
-func (x *ApiResource) GetDeleteTime() *timestamppb.Timestamp {
+func (x *ApiResource) GetDeletedAt() *timestamppb.Timestamp {
 	if x != nil {
-		return x.DeleteTime
+		return x.DeletedAt
 	}
 	return nil
 }
@@ -471,7 +479,7 @@ var File_admin_service_v1_i_api_resource_proto protoreflect.FileDescriptor
 
 const file_admin_service_v1_i_api_resource_proto_rawDesc = "" +
 	"\n" +
-	"%admin/service/v1/i_api_resource.proto\x12\x10admin.service.v1\x1a$gnostic/openapi/v3/annotations.proto\x1a\x1cgoogle/api/annotations.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a google/protobuf/field_mask.proto\x1a\x1epagination/v1/pagination.proto\"\xea\b\n" +
+	"%admin/service/v1/i_api_resource.proto\x12\x10admin.service.v1\x1a$gnostic/openapi/v3/annotations.proto\x1a\x1cgoogle/api/annotations.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a google/protobuf/field_mask.proto\x1a\x1epagination/v1/pagination.proto\"\xb3\t\n" +
 	"\vApiResource\x12#\n" +
 	"\x02id\x18\x01 \x01(\rB\x0e\xbaG\v\x92\x02\b资源IDH\x00R\x02id\x88\x01\x01\x128\n" +
 	"\toperation\x18\x02 \x01(\tB\x15\xbaG\x12\x92\x02\x0f接口操作名H\x01R\toperation\x88\x01\x01\x12+\n" +
@@ -480,16 +488,20 @@ const file_admin_service_v1_i_api_resource_proto_rawDesc = "" +
 	"\x06module\x18\x05 \x01(\tBF\xbaGC\x92\x02@所属业务模块（如 “用户管理”“支付系统”）H\x04R\x06module\x88\x01\x01\x12F\n" +
 	"\x12module_description\x18\x06 \x01(\tB\x12\xbaG\x0f\x92\x02\f模块描述H\x05R\x11moduleDescription\x88\x01\x01\x123\n" +
 	"\vdescription\x18\a \x01(\tB\f\xbaG\t\x92\x02\x06描述H\x06R\vdescription\x88\x01\x01\x12O\n" +
-	"\x05scope\x18\b \x01(\x0e2#.admin.service.v1.ApiResource.ScopeB\x0f\xbaG\f\x92\x02\t作用域H\aR\x05scope\x88\x01\x01\x123\n" +
-	"\tcreate_by\x18d \x01(\rB\x11\xbaG\x0e\x92\x02\v创建者IDH\bR\bcreateBy\x88\x01\x01\x123\n" +
-	"\tupdate_by\x18e \x01(\rB\x11\xbaG\x0e\x92\x02\v更新者IDH\tR\bupdateBy\x88\x01\x01\x12U\n" +
-	"\vcreate_time\x18\xc8\x01 \x01(\v2\x1a.google.protobuf.TimestampB\x12\xbaG\x0f\x92\x02\f创建时间H\n" +
-	"R\n" +
-	"createTime\x88\x01\x01\x12U\n" +
-	"\vupdate_time\x18\xc9\x01 \x01(\v2\x1a.google.protobuf.TimestampB\x12\xbaG\x0f\x92\x02\f更新时间H\vR\n" +
-	"updateTime\x88\x01\x01\x12U\n" +
-	"\vdelete_time\x18\xca\x01 \x01(\v2\x1a.google.protobuf.TimestampB\x12\xbaG\x0f\x92\x02\f删除时间H\fR\n" +
-	"deleteTime\x88\x01\x01\"2\n" +
+	"\x05scope\x18\b \x01(\x0e2#.admin.service.v1.ApiResource.ScopeB\x0f\xbaG\f\x92\x02\t作用域H\aR\x05scope\x88\x01\x01\x125\n" +
+	"\n" +
+	"created_by\x18d \x01(\rB\x11\xbaG\x0e\x92\x02\v创建者IDH\bR\tcreatedBy\x88\x01\x01\x125\n" +
+	"\n" +
+	"updated_by\x18e \x01(\rB\x11\xbaG\x0e\x92\x02\v更新者IDH\tR\tupdatedBy\x88\x01\x01\x12;\n" +
+	"\n" +
+	"deleted_by\x18f \x01(\rB\x17\xbaG\x14\x92\x02\x11删除者用户IDH\n" +
+	"R\tdeletedBy\x88\x01\x01\x12S\n" +
+	"\n" +
+	"created_at\x18\xc8\x01 \x01(\v2\x1a.google.protobuf.TimestampB\x12\xbaG\x0f\x92\x02\f创建时间H\vR\tcreatedAt\x88\x01\x01\x12S\n" +
+	"\n" +
+	"updated_at\x18\xc9\x01 \x01(\v2\x1a.google.protobuf.TimestampB\x12\xbaG\x0f\x92\x02\f更新时间H\fR\tupdatedAt\x88\x01\x01\x12S\n" +
+	"\n" +
+	"deleted_at\x18\xca\x01 \x01(\v2\x1a.google.protobuf.TimestampB\x12\xbaG\x0f\x92\x02\f删除时间H\rR\tdeletedAt\x88\x01\x01\"2\n" +
 	"\x05Scope\x12\x15\n" +
 	"\x11API_SCOPE_INVALID\x10\x00\x12\t\n" +
 	"\x05ADMIN\x10\x01\x12\a\n" +
@@ -502,14 +514,13 @@ const file_admin_service_v1_i_api_resource_proto_rawDesc = "" +
 	"\a_moduleB\x15\n" +
 	"\x13_module_descriptionB\x0e\n" +
 	"\f_descriptionB\b\n" +
-	"\x06_scopeB\f\n" +
-	"\n" +
-	"_create_byB\f\n" +
-	"\n" +
-	"_update_byB\x0e\n" +
-	"\f_create_timeB\x0e\n" +
-	"\f_update_timeB\x0e\n" +
-	"\f_delete_time\"d\n" +
+	"\x06_scopeB\r\n" +
+	"\v_created_byB\r\n" +
+	"\v_updated_byB\r\n" +
+	"\v_deleted_byB\r\n" +
+	"\v_created_atB\r\n" +
+	"\v_updated_atB\r\n" +
+	"\v_deleted_at\"d\n" +
 	"\x17ListApiResourceResponse\x123\n" +
 	"\x05items\x18\x01 \x03(\v2\x1d.admin.service.v1.ApiResourceR\x05items\x12\x14\n" +
 	"\x05total\x18\x02 \x01(\rR\x05total\"'\n" +
@@ -564,9 +575,9 @@ var file_admin_service_v1_i_api_resource_proto_goTypes = []any{
 }
 var file_admin_service_v1_i_api_resource_proto_depIdxs = []int32{
 	0,  // 0: admin.service.v1.ApiResource.scope:type_name -> admin.service.v1.ApiResource.Scope
-	7,  // 1: admin.service.v1.ApiResource.create_time:type_name -> google.protobuf.Timestamp
-	7,  // 2: admin.service.v1.ApiResource.update_time:type_name -> google.protobuf.Timestamp
-	7,  // 3: admin.service.v1.ApiResource.delete_time:type_name -> google.protobuf.Timestamp
+	7,  // 1: admin.service.v1.ApiResource.created_at:type_name -> google.protobuf.Timestamp
+	7,  // 2: admin.service.v1.ApiResource.updated_at:type_name -> google.protobuf.Timestamp
+	7,  // 3: admin.service.v1.ApiResource.deleted_at:type_name -> google.protobuf.Timestamp
 	1,  // 4: admin.service.v1.ListApiResourceResponse.items:type_name -> admin.service.v1.ApiResource
 	1,  // 5: admin.service.v1.CreateApiResourceRequest.data:type_name -> admin.service.v1.ApiResource
 	1,  // 6: admin.service.v1.UpdateApiResourceRequest.data:type_name -> admin.service.v1.ApiResource

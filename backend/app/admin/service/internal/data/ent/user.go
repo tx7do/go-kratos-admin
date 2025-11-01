@@ -20,19 +20,21 @@ type User struct {
 	// id
 	ID uint32 `json:"id,omitempty"`
 	// 创建者ID
-	CreateBy *uint32 `json:"create_by,omitempty"`
+	CreatedBy *uint32 `json:"created_by,omitempty"`
 	// 更新者ID
-	UpdateBy *uint32 `json:"update_by,omitempty"`
+	UpdatedBy *uint32 `json:"updated_by,omitempty"`
+	// 删除者ID
+	DeletedBy *uint32 `json:"deleted_by,omitempty"`
 	// 创建时间
-	CreateTime *time.Time `json:"create_time,omitempty"`
+	CreatedAt *time.Time `json:"created_at,omitempty"`
 	// 更新时间
-	UpdateTime *time.Time `json:"update_time,omitempty"`
+	UpdatedAt *time.Time `json:"updated_at,omitempty"`
 	// 删除时间
-	DeleteTime *time.Time `json:"delete_time,omitempty"`
+	DeletedAt *time.Time `json:"deleted_at,omitempty"`
 	// 备注
 	Remark *string `json:"remark,omitempty"`
 	// 租户ID
-	TenantID *uint32 `json:"tenant_id,omitempty"`
+	TenantID uint32 `json:"tenant_id,omitempty"`
 	// 用户名
 	Username *string `json:"username,omitempty"`
 	// 昵称
@@ -83,11 +85,11 @@ func (*User) scanValues(columns []string) ([]any, error) {
 		switch columns[i] {
 		case user.FieldRoleIds:
 			values[i] = new([]byte)
-		case user.FieldID, user.FieldCreateBy, user.FieldUpdateBy, user.FieldTenantID, user.FieldOrgID, user.FieldDepartmentID, user.FieldPositionID, user.FieldWorkID:
+		case user.FieldID, user.FieldCreatedBy, user.FieldUpdatedBy, user.FieldDeletedBy, user.FieldTenantID, user.FieldOrgID, user.FieldDepartmentID, user.FieldPositionID, user.FieldWorkID:
 			values[i] = new(sql.NullInt64)
 		case user.FieldRemark, user.FieldUsername, user.FieldNickname, user.FieldRealname, user.FieldEmail, user.FieldMobile, user.FieldTelephone, user.FieldAvatar, user.FieldAddress, user.FieldRegion, user.FieldDescription, user.FieldGender, user.FieldAuthority, user.FieldStatus, user.FieldLastLoginIP:
 			values[i] = new(sql.NullString)
-		case user.FieldCreateTime, user.FieldUpdateTime, user.FieldDeleteTime, user.FieldLastLoginTime:
+		case user.FieldCreatedAt, user.FieldUpdatedAt, user.FieldDeletedAt, user.FieldLastLoginTime:
 			values[i] = new(sql.NullTime)
 		default:
 			values[i] = new(sql.UnknownType)
@@ -110,40 +112,47 @@ func (_m *User) assignValues(columns []string, values []any) error {
 				return fmt.Errorf("unexpected type %T for field id", value)
 			}
 			_m.ID = uint32(value.Int64)
-		case user.FieldCreateBy:
+		case user.FieldCreatedBy:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for field create_by", values[i])
+				return fmt.Errorf("unexpected type %T for field created_by", values[i])
 			} else if value.Valid {
-				_m.CreateBy = new(uint32)
-				*_m.CreateBy = uint32(value.Int64)
+				_m.CreatedBy = new(uint32)
+				*_m.CreatedBy = uint32(value.Int64)
 			}
-		case user.FieldUpdateBy:
+		case user.FieldUpdatedBy:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for field update_by", values[i])
+				return fmt.Errorf("unexpected type %T for field updated_by", values[i])
 			} else if value.Valid {
-				_m.UpdateBy = new(uint32)
-				*_m.UpdateBy = uint32(value.Int64)
+				_m.UpdatedBy = new(uint32)
+				*_m.UpdatedBy = uint32(value.Int64)
 			}
-		case user.FieldCreateTime:
-			if value, ok := values[i].(*sql.NullTime); !ok {
-				return fmt.Errorf("unexpected type %T for field create_time", values[i])
+		case user.FieldDeletedBy:
+			if value, ok := values[i].(*sql.NullInt64); !ok {
+				return fmt.Errorf("unexpected type %T for field deleted_by", values[i])
 			} else if value.Valid {
-				_m.CreateTime = new(time.Time)
-				*_m.CreateTime = value.Time
+				_m.DeletedBy = new(uint32)
+				*_m.DeletedBy = uint32(value.Int64)
 			}
-		case user.FieldUpdateTime:
+		case user.FieldCreatedAt:
 			if value, ok := values[i].(*sql.NullTime); !ok {
-				return fmt.Errorf("unexpected type %T for field update_time", values[i])
+				return fmt.Errorf("unexpected type %T for field created_at", values[i])
 			} else if value.Valid {
-				_m.UpdateTime = new(time.Time)
-				*_m.UpdateTime = value.Time
+				_m.CreatedAt = new(time.Time)
+				*_m.CreatedAt = value.Time
 			}
-		case user.FieldDeleteTime:
+		case user.FieldUpdatedAt:
 			if value, ok := values[i].(*sql.NullTime); !ok {
-				return fmt.Errorf("unexpected type %T for field delete_time", values[i])
+				return fmt.Errorf("unexpected type %T for field updated_at", values[i])
 			} else if value.Valid {
-				_m.DeleteTime = new(time.Time)
-				*_m.DeleteTime = value.Time
+				_m.UpdatedAt = new(time.Time)
+				*_m.UpdatedAt = value.Time
+			}
+		case user.FieldDeletedAt:
+			if value, ok := values[i].(*sql.NullTime); !ok {
+				return fmt.Errorf("unexpected type %T for field deleted_at", values[i])
+			} else if value.Valid {
+				_m.DeletedAt = new(time.Time)
+				*_m.DeletedAt = value.Time
 			}
 		case user.FieldRemark:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -156,8 +165,7 @@ func (_m *User) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field tenant_id", values[i])
 			} else if value.Valid {
-				_m.TenantID = new(uint32)
-				*_m.TenantID = uint32(value.Int64)
+				_m.TenantID = uint32(value.Int64)
 			}
 		case user.FieldUsername:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -336,28 +344,33 @@ func (_m *User) String() string {
 	var builder strings.Builder
 	builder.WriteString("User(")
 	builder.WriteString(fmt.Sprintf("id=%v, ", _m.ID))
-	if v := _m.CreateBy; v != nil {
-		builder.WriteString("create_by=")
+	if v := _m.CreatedBy; v != nil {
+		builder.WriteString("created_by=")
 		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteString(", ")
-	if v := _m.UpdateBy; v != nil {
-		builder.WriteString("update_by=")
+	if v := _m.UpdatedBy; v != nil {
+		builder.WriteString("updated_by=")
 		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteString(", ")
-	if v := _m.CreateTime; v != nil {
-		builder.WriteString("create_time=")
+	if v := _m.DeletedBy; v != nil {
+		builder.WriteString("deleted_by=")
+		builder.WriteString(fmt.Sprintf("%v", *v))
+	}
+	builder.WriteString(", ")
+	if v := _m.CreatedAt; v != nil {
+		builder.WriteString("created_at=")
 		builder.WriteString(v.Format(time.ANSIC))
 	}
 	builder.WriteString(", ")
-	if v := _m.UpdateTime; v != nil {
-		builder.WriteString("update_time=")
+	if v := _m.UpdatedAt; v != nil {
+		builder.WriteString("updated_at=")
 		builder.WriteString(v.Format(time.ANSIC))
 	}
 	builder.WriteString(", ")
-	if v := _m.DeleteTime; v != nil {
-		builder.WriteString("delete_time=")
+	if v := _m.DeletedAt; v != nil {
+		builder.WriteString("deleted_at=")
 		builder.WriteString(v.Format(time.ANSIC))
 	}
 	builder.WriteString(", ")
@@ -366,10 +379,8 @@ func (_m *User) String() string {
 		builder.WriteString(*v)
 	}
 	builder.WriteString(", ")
-	if v := _m.TenantID; v != nil {
-		builder.WriteString("tenant_id=")
-		builder.WriteString(fmt.Sprintf("%v", *v))
-	}
+	builder.WriteString("tenant_id=")
+	builder.WriteString(fmt.Sprintf("%v", _m.TenantID))
 	builder.WriteString(", ")
 	if v := _m.Username; v != nil {
 		builder.WriteString("username=")

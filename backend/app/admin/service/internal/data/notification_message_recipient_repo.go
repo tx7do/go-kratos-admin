@@ -74,7 +74,7 @@ func (r *NotificationMessageRecipientRepo) List(ctx context.Context, req *pagina
 	err, whereSelectors, querySelectors := entgo.BuildQuerySelector(
 		req.GetQuery(), req.GetOrQuery(),
 		req.GetPage(), req.GetPageSize(), req.GetNoPaging(),
-		req.GetOrderBy(), notificationmessagerecipient.FieldCreateTime,
+		req.GetOrderBy(), notificationmessagerecipient.FieldCreatedAt,
 		req.GetFieldMask().GetPaths(),
 	)
 	if err != nil {
@@ -148,10 +148,10 @@ func (r *NotificationMessageRecipientRepo) Create(ctx context.Context, req *inte
 		SetNillableMessageID(req.Data.MessageId).
 		SetNillableRecipientID(req.Data.RecipientId).
 		SetNillableStatus(r.statusConverter.ToEntity(req.Data.Status)).
-		SetNillableCreateTime(timeutil.TimestamppbToTime(req.Data.CreateTime))
+		SetNillableCreatedAt(timeutil.TimestamppbToTime(req.Data.CreatedAt))
 
-	if req.Data.CreateTime == nil {
-		builder.SetCreateTime(time.Now())
+	if req.Data.CreatedAt == nil {
+		builder.SetCreatedAt(time.Now())
 	}
 
 	if err := builder.Exec(ctx); err != nil {
@@ -175,8 +175,8 @@ func (r *NotificationMessageRecipientRepo) Update(ctx context.Context, req *inte
 		}
 		if !exist {
 			createReq := &internalMessageV1.CreateNotificationMessageRecipientRequest{Data: req.Data}
-			createReq.Data.CreateBy = createReq.Data.UpdateBy
-			createReq.Data.UpdateBy = nil
+			createReq.Data.CreatedBy = createReq.Data.UpdatedBy
+			createReq.Data.UpdatedBy = nil
 			return r.Create(ctx, createReq)
 		}
 	}
@@ -194,10 +194,10 @@ func (r *NotificationMessageRecipientRepo) Update(ctx context.Context, req *inte
 		SetNillableMessageID(req.Data.MessageId).
 		SetNillableRecipientID(req.Data.RecipientId).
 		SetNillableStatus(r.statusConverter.ToEntity(req.Data.Status)).
-		SetNillableUpdateTime(timeutil.TimestamppbToTime(req.Data.UpdateTime))
+		SetNillableUpdatedAt(timeutil.TimestamppbToTime(req.Data.UpdatedAt))
 
-	if req.Data.UpdateTime == nil {
-		builder.SetUpdateTime(time.Now())
+	if req.Data.UpdatedAt == nil {
+		builder.SetUpdatedAt(time.Now())
 	}
 
 	if req.UpdateMask != nil {

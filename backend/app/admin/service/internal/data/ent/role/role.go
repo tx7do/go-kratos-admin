@@ -14,16 +14,18 @@ const (
 	Label = "role"
 	// FieldID holds the string denoting the id field in the database.
 	FieldID = "id"
-	// FieldCreateTime holds the string denoting the create_time field in the database.
-	FieldCreateTime = "create_time"
-	// FieldUpdateTime holds the string denoting the update_time field in the database.
-	FieldUpdateTime = "update_time"
-	// FieldDeleteTime holds the string denoting the delete_time field in the database.
-	FieldDeleteTime = "delete_time"
-	// FieldCreateBy holds the string denoting the create_by field in the database.
-	FieldCreateBy = "create_by"
-	// FieldUpdateBy holds the string denoting the update_by field in the database.
-	FieldUpdateBy = "update_by"
+	// FieldCreatedAt holds the string denoting the created_at field in the database.
+	FieldCreatedAt = "created_at"
+	// FieldUpdatedAt holds the string denoting the updated_at field in the database.
+	FieldUpdatedAt = "updated_at"
+	// FieldDeletedAt holds the string denoting the deleted_at field in the database.
+	FieldDeletedAt = "deleted_at"
+	// FieldCreatedBy holds the string denoting the created_by field in the database.
+	FieldCreatedBy = "created_by"
+	// FieldUpdatedBy holds the string denoting the updated_by field in the database.
+	FieldUpdatedBy = "updated_by"
+	// FieldDeletedBy holds the string denoting the deleted_by field in the database.
+	FieldDeletedBy = "deleted_by"
 	// FieldRemark holds the string denoting the remark field in the database.
 	FieldRemark = "remark"
 	// FieldTenantID holds the string denoting the tenant_id field in the database.
@@ -34,8 +36,8 @@ const (
 	FieldCode = "code"
 	// FieldParentID holds the string denoting the parent_id field in the database.
 	FieldParentID = "parent_id"
-	// FieldSortID holds the string denoting the sort_id field in the database.
-	FieldSortID = "sort_id"
+	// FieldSortOrder holds the string denoting the sort_order field in the database.
+	FieldSortOrder = "sort_order"
 	// FieldMenus holds the string denoting the menus field in the database.
 	FieldMenus = "menus"
 	// FieldApis holds the string denoting the apis field in the database.
@@ -63,17 +65,18 @@ const (
 // Columns holds all SQL columns for role fields.
 var Columns = []string{
 	FieldID,
-	FieldCreateTime,
-	FieldUpdateTime,
-	FieldDeleteTime,
-	FieldCreateBy,
-	FieldUpdateBy,
+	FieldCreatedAt,
+	FieldUpdatedAt,
+	FieldDeletedAt,
+	FieldCreatedBy,
+	FieldUpdatedBy,
+	FieldDeletedBy,
 	FieldRemark,
 	FieldTenantID,
 	FieldName,
 	FieldCode,
 	FieldParentID,
-	FieldSortID,
+	FieldSortOrder,
 	FieldMenus,
 	FieldApis,
 	FieldDataScope,
@@ -91,16 +94,14 @@ func ValidColumn(column string) bool {
 }
 
 var (
-	// DefaultRemark holds the default value on creation for the "remark" field.
-	DefaultRemark string
 	// TenantIDValidator is a validator for the "tenant_id" field. It is called by the builders before save.
 	TenantIDValidator func(uint32) error
 	// NameValidator is a validator for the "name" field. It is called by the builders before save.
 	NameValidator func(string) error
 	// CodeValidator is a validator for the "code" field. It is called by the builders before save.
 	CodeValidator func(string) error
-	// DefaultSortID holds the default value on creation for the "sort_id" field.
-	DefaultSortID int32
+	// DefaultSortOrder holds the default value on creation for the "sort_order" field.
+	DefaultSortOrder int32
 	// IDValidator is a validator for the "id" field. It is called by the builders before save.
 	IDValidator func(uint32) error
 )
@@ -167,29 +168,34 @@ func ByID(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldID, opts...).ToFunc()
 }
 
-// ByCreateTime orders the results by the create_time field.
-func ByCreateTime(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldCreateTime, opts...).ToFunc()
+// ByCreatedAt orders the results by the created_at field.
+func ByCreatedAt(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldCreatedAt, opts...).ToFunc()
 }
 
-// ByUpdateTime orders the results by the update_time field.
-func ByUpdateTime(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldUpdateTime, opts...).ToFunc()
+// ByUpdatedAt orders the results by the updated_at field.
+func ByUpdatedAt(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldUpdatedAt, opts...).ToFunc()
 }
 
-// ByDeleteTime orders the results by the delete_time field.
-func ByDeleteTime(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldDeleteTime, opts...).ToFunc()
+// ByDeletedAt orders the results by the deleted_at field.
+func ByDeletedAt(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldDeletedAt, opts...).ToFunc()
 }
 
-// ByCreateBy orders the results by the create_by field.
-func ByCreateBy(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldCreateBy, opts...).ToFunc()
+// ByCreatedBy orders the results by the created_by field.
+func ByCreatedBy(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldCreatedBy, opts...).ToFunc()
 }
 
-// ByUpdateBy orders the results by the update_by field.
-func ByUpdateBy(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldUpdateBy, opts...).ToFunc()
+// ByUpdatedBy orders the results by the updated_by field.
+func ByUpdatedBy(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldUpdatedBy, opts...).ToFunc()
+}
+
+// ByDeletedBy orders the results by the deleted_by field.
+func ByDeletedBy(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldDeletedBy, opts...).ToFunc()
 }
 
 // ByRemark orders the results by the remark field.
@@ -217,9 +223,9 @@ func ByParentID(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldParentID, opts...).ToFunc()
 }
 
-// BySortID orders the results by the sort_id field.
-func BySortID(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldSortID, opts...).ToFunc()
+// BySortOrder orders the results by the sort_order field.
+func BySortOrder(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldSortOrder, opts...).ToFunc()
 }
 
 // ByDataScope orders the results by the data_scope field.

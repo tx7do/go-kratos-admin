@@ -7,36 +7,36 @@
 /* eslint-disable */
 import type {
   BatchDeleteDictRequest,
-  CreateDictItemRequest,
-  CreateDictMainRequest,
-  DictMain,
-  GetDictMainRequest,
-  ListDictItemResponse,
-  ListDictMainResponse,
-  UpdateDictItemRequest,
-  UpdateDictMainRequest,
+  CreateDictEntryRequest,
+  CreateDictTypeRequest,
+  DictType,
+  GetDictTypeRequest,
+  ListDictEntryResponse,
+  ListDictTypeResponse,
+  UpdateDictEntryRequest,
+  UpdateDictTypeRequest,
 } from "../../../dict/service/v1/dict.pb";
 import type { Empty } from "../../../google/protobuf/empty.pb";
 import type { PagingRequest } from "../../../pagination/v1/pagination.pb";
 
-/** 字典管理服务 */
+/** 数据字典管理服务 */
 export interface DictService {
-  /** 分页查询主字典列表 */
-  ListDictMain(request: PagingRequest): Promise<ListDictMainResponse>;
-  /** 查询主字典详情 */
-  GetDictMain(request: GetDictMainRequest): Promise<DictMain>;
-  /** 创建主字典 */
-  CreateDictMain(request: CreateDictMainRequest): Promise<Empty>;
-  /** 更新主字典 */
-  UpdateDictMain(request: UpdateDictMainRequest): Promise<Empty>;
-  /** 删除主字典 */
-  DeleteDictMain(request: BatchDeleteDictRequest): Promise<Empty>;
-  /** 分页查询子字典列表 */
-  ListDictItem(request: PagingRequest): Promise<ListDictItemResponse>;
-  /** 创建子字典 */
-  CreateDictItem(request: CreateDictItemRequest): Promise<Empty>;
-  /** 更新子字典 */
-  UpdateDictItem(request: UpdateDictItemRequest): Promise<Empty>;
-  /** 删除子字典 */
-  DeleteDictItem(request: BatchDeleteDictRequest): Promise<Empty>;
+  /** 分页查询字典类型列表 */
+  ListDictType(request: PagingRequest): Promise<ListDictTypeResponse>;
+  /** 查询字典类型详情 */
+  GetDictType(request: GetDictTypeRequest): Promise<DictType>;
+  /** 创建字典类型 */
+  CreateDictType(request: CreateDictTypeRequest): Promise<Empty>;
+  /** 更新字典类型 */
+  UpdateDictType(request: UpdateDictTypeRequest): Promise<Empty>;
+  /** 删除字典类型 */
+  DeleteDictType(request: BatchDeleteDictRequest): Promise<Empty>;
+  /** 分页查询字典条目列表 */
+  ListDictEntry(request: PagingRequest): Promise<ListDictEntryResponse>;
+  /** 创建字典条目 */
+  CreateDictEntry(request: CreateDictEntryRequest): Promise<Empty>;
+  /** 更新字典条目 */
+  UpdateDictEntry(request: UpdateDictEntryRequest): Promise<Empty>;
+  /** 删除字典条目 */
+  DeleteDictEntry(request: BatchDeleteDictRequest): Promise<Empty>;
 }

@@ -22,72 +22,86 @@ type NotificationMessageCreate struct {
 	conflict []sql.ConflictOption
 }
 
-// SetCreateTime sets the "create_time" field.
-func (_c *NotificationMessageCreate) SetCreateTime(v time.Time) *NotificationMessageCreate {
-	_c.mutation.SetCreateTime(v)
+// SetCreatedAt sets the "created_at" field.
+func (_c *NotificationMessageCreate) SetCreatedAt(v time.Time) *NotificationMessageCreate {
+	_c.mutation.SetCreatedAt(v)
 	return _c
 }
 
-// SetNillableCreateTime sets the "create_time" field if the given value is not nil.
-func (_c *NotificationMessageCreate) SetNillableCreateTime(v *time.Time) *NotificationMessageCreate {
+// SetNillableCreatedAt sets the "created_at" field if the given value is not nil.
+func (_c *NotificationMessageCreate) SetNillableCreatedAt(v *time.Time) *NotificationMessageCreate {
 	if v != nil {
-		_c.SetCreateTime(*v)
+		_c.SetCreatedAt(*v)
 	}
 	return _c
 }
 
-// SetUpdateTime sets the "update_time" field.
-func (_c *NotificationMessageCreate) SetUpdateTime(v time.Time) *NotificationMessageCreate {
-	_c.mutation.SetUpdateTime(v)
+// SetUpdatedAt sets the "updated_at" field.
+func (_c *NotificationMessageCreate) SetUpdatedAt(v time.Time) *NotificationMessageCreate {
+	_c.mutation.SetUpdatedAt(v)
 	return _c
 }
 
-// SetNillableUpdateTime sets the "update_time" field if the given value is not nil.
-func (_c *NotificationMessageCreate) SetNillableUpdateTime(v *time.Time) *NotificationMessageCreate {
+// SetNillableUpdatedAt sets the "updated_at" field if the given value is not nil.
+func (_c *NotificationMessageCreate) SetNillableUpdatedAt(v *time.Time) *NotificationMessageCreate {
 	if v != nil {
-		_c.SetUpdateTime(*v)
+		_c.SetUpdatedAt(*v)
 	}
 	return _c
 }
 
-// SetDeleteTime sets the "delete_time" field.
-func (_c *NotificationMessageCreate) SetDeleteTime(v time.Time) *NotificationMessageCreate {
-	_c.mutation.SetDeleteTime(v)
+// SetDeletedAt sets the "deleted_at" field.
+func (_c *NotificationMessageCreate) SetDeletedAt(v time.Time) *NotificationMessageCreate {
+	_c.mutation.SetDeletedAt(v)
 	return _c
 }
 
-// SetNillableDeleteTime sets the "delete_time" field if the given value is not nil.
-func (_c *NotificationMessageCreate) SetNillableDeleteTime(v *time.Time) *NotificationMessageCreate {
+// SetNillableDeletedAt sets the "deleted_at" field if the given value is not nil.
+func (_c *NotificationMessageCreate) SetNillableDeletedAt(v *time.Time) *NotificationMessageCreate {
 	if v != nil {
-		_c.SetDeleteTime(*v)
+		_c.SetDeletedAt(*v)
 	}
 	return _c
 }
 
-// SetCreateBy sets the "create_by" field.
-func (_c *NotificationMessageCreate) SetCreateBy(v uint32) *NotificationMessageCreate {
-	_c.mutation.SetCreateBy(v)
+// SetCreatedBy sets the "created_by" field.
+func (_c *NotificationMessageCreate) SetCreatedBy(v uint32) *NotificationMessageCreate {
+	_c.mutation.SetCreatedBy(v)
 	return _c
 }
 
-// SetNillableCreateBy sets the "create_by" field if the given value is not nil.
-func (_c *NotificationMessageCreate) SetNillableCreateBy(v *uint32) *NotificationMessageCreate {
+// SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
+func (_c *NotificationMessageCreate) SetNillableCreatedBy(v *uint32) *NotificationMessageCreate {
 	if v != nil {
-		_c.SetCreateBy(*v)
+		_c.SetCreatedBy(*v)
 	}
 	return _c
 }
 
-// SetUpdateBy sets the "update_by" field.
-func (_c *NotificationMessageCreate) SetUpdateBy(v uint32) *NotificationMessageCreate {
-	_c.mutation.SetUpdateBy(v)
+// SetUpdatedBy sets the "updated_by" field.
+func (_c *NotificationMessageCreate) SetUpdatedBy(v uint32) *NotificationMessageCreate {
+	_c.mutation.SetUpdatedBy(v)
 	return _c
 }
 
-// SetNillableUpdateBy sets the "update_by" field if the given value is not nil.
-func (_c *NotificationMessageCreate) SetNillableUpdateBy(v *uint32) *NotificationMessageCreate {
+// SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
+func (_c *NotificationMessageCreate) SetNillableUpdatedBy(v *uint32) *NotificationMessageCreate {
 	if v != nil {
-		_c.SetUpdateBy(*v)
+		_c.SetUpdatedBy(*v)
+	}
+	return _c
+}
+
+// SetDeletedBy sets the "deleted_by" field.
+func (_c *NotificationMessageCreate) SetDeletedBy(v uint32) *NotificationMessageCreate {
+	_c.mutation.SetDeletedBy(v)
+	return _c
+}
+
+// SetNillableDeletedBy sets the "deleted_by" field if the given value is not nil.
+func (_c *NotificationMessageCreate) SetNillableDeletedBy(v *uint32) *NotificationMessageCreate {
+	if v != nil {
+		_c.SetDeletedBy(*v)
 	}
 	return _c
 }
@@ -95,14 +109,6 @@ func (_c *NotificationMessageCreate) SetNillableUpdateBy(v *uint32) *Notificatio
 // SetTenantID sets the "tenant_id" field.
 func (_c *NotificationMessageCreate) SetTenantID(v uint32) *NotificationMessageCreate {
 	_c.mutation.SetTenantID(v)
-	return _c
-}
-
-// SetNillableTenantID sets the "tenant_id" field if the given value is not nil.
-func (_c *NotificationMessageCreate) SetNillableTenantID(v *uint32) *NotificationMessageCreate {
-	if v != nil {
-		_c.SetTenantID(*v)
-	}
 	return _c
 }
 
@@ -211,6 +217,9 @@ func (_c *NotificationMessageCreate) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (_c *NotificationMessageCreate) check() error {
+	if _, ok := _c.mutation.TenantID(); !ok {
+		return &ValidationError{Name: "tenant_id", err: errors.New(`ent: missing required field "NotificationMessage.tenant_id"`)}
+	}
 	if v, ok := _c.mutation.TenantID(); ok {
 		if err := notificationmessage.TenantIDValidator(v); err != nil {
 			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "NotificationMessage.tenant_id": %w`, err)}
@@ -259,29 +268,33 @@ func (_c *NotificationMessageCreate) createSpec() (*NotificationMessage, *sqlgra
 		_node.ID = id
 		_spec.ID.Value = id
 	}
-	if value, ok := _c.mutation.CreateTime(); ok {
-		_spec.SetField(notificationmessage.FieldCreateTime, field.TypeTime, value)
-		_node.CreateTime = &value
+	if value, ok := _c.mutation.CreatedAt(); ok {
+		_spec.SetField(notificationmessage.FieldCreatedAt, field.TypeTime, value)
+		_node.CreatedAt = &value
 	}
-	if value, ok := _c.mutation.UpdateTime(); ok {
-		_spec.SetField(notificationmessage.FieldUpdateTime, field.TypeTime, value)
-		_node.UpdateTime = &value
+	if value, ok := _c.mutation.UpdatedAt(); ok {
+		_spec.SetField(notificationmessage.FieldUpdatedAt, field.TypeTime, value)
+		_node.UpdatedAt = &value
 	}
-	if value, ok := _c.mutation.DeleteTime(); ok {
-		_spec.SetField(notificationmessage.FieldDeleteTime, field.TypeTime, value)
-		_node.DeleteTime = &value
+	if value, ok := _c.mutation.DeletedAt(); ok {
+		_spec.SetField(notificationmessage.FieldDeletedAt, field.TypeTime, value)
+		_node.DeletedAt = &value
 	}
-	if value, ok := _c.mutation.CreateBy(); ok {
-		_spec.SetField(notificationmessage.FieldCreateBy, field.TypeUint32, value)
-		_node.CreateBy = &value
+	if value, ok := _c.mutation.CreatedBy(); ok {
+		_spec.SetField(notificationmessage.FieldCreatedBy, field.TypeUint32, value)
+		_node.CreatedBy = &value
 	}
-	if value, ok := _c.mutation.UpdateBy(); ok {
-		_spec.SetField(notificationmessage.FieldUpdateBy, field.TypeUint32, value)
-		_node.UpdateBy = &value
+	if value, ok := _c.mutation.UpdatedBy(); ok {
+		_spec.SetField(notificationmessage.FieldUpdatedBy, field.TypeUint32, value)
+		_node.UpdatedBy = &value
+	}
+	if value, ok := _c.mutation.DeletedBy(); ok {
+		_spec.SetField(notificationmessage.FieldDeletedBy, field.TypeUint32, value)
+		_node.DeletedBy = &value
 	}
 	if value, ok := _c.mutation.TenantID(); ok {
 		_spec.SetField(notificationmessage.FieldTenantID, field.TypeUint32, value)
-		_node.TenantID = &value
+		_node.TenantID = value
 	}
 	if value, ok := _c.mutation.Subject(); ok {
 		_spec.SetField(notificationmessage.FieldSubject, field.TypeString, value)
@@ -306,7 +319,7 @@ func (_c *NotificationMessageCreate) createSpec() (*NotificationMessage, *sqlgra
 // of the `INSERT` statement. For example:
 //
 //	client.NotificationMessage.Create().
-//		SetCreateTime(v).
+//		SetCreatedAt(v).
 //		OnConflict(
 //			// Update the row with the new values
 //			// the was proposed for insertion.
@@ -315,7 +328,7 @@ func (_c *NotificationMessageCreate) createSpec() (*NotificationMessage, *sqlgra
 //		// Override some of the fields with custom
 //		// update values.
 //		Update(func(u *ent.NotificationMessageUpsert) {
-//			SetCreateTime(v+v).
+//			SetCreatedAt(v+v).
 //		}).
 //		Exec(ctx)
 func (_c *NotificationMessageCreate) OnConflict(opts ...sql.ConflictOption) *NotificationMessageUpsertOne {
@@ -351,87 +364,111 @@ type (
 	}
 )
 
-// SetUpdateTime sets the "update_time" field.
-func (u *NotificationMessageUpsert) SetUpdateTime(v time.Time) *NotificationMessageUpsert {
-	u.Set(notificationmessage.FieldUpdateTime, v)
+// SetUpdatedAt sets the "updated_at" field.
+func (u *NotificationMessageUpsert) SetUpdatedAt(v time.Time) *NotificationMessageUpsert {
+	u.Set(notificationmessage.FieldUpdatedAt, v)
 	return u
 }
 
-// UpdateUpdateTime sets the "update_time" field to the value that was provided on create.
-func (u *NotificationMessageUpsert) UpdateUpdateTime() *NotificationMessageUpsert {
-	u.SetExcluded(notificationmessage.FieldUpdateTime)
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *NotificationMessageUpsert) UpdateUpdatedAt() *NotificationMessageUpsert {
+	u.SetExcluded(notificationmessage.FieldUpdatedAt)
 	return u
 }
 
-// ClearUpdateTime clears the value of the "update_time" field.
-func (u *NotificationMessageUpsert) ClearUpdateTime() *NotificationMessageUpsert {
-	u.SetNull(notificationmessage.FieldUpdateTime)
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (u *NotificationMessageUpsert) ClearUpdatedAt() *NotificationMessageUpsert {
+	u.SetNull(notificationmessage.FieldUpdatedAt)
 	return u
 }
 
-// SetDeleteTime sets the "delete_time" field.
-func (u *NotificationMessageUpsert) SetDeleteTime(v time.Time) *NotificationMessageUpsert {
-	u.Set(notificationmessage.FieldDeleteTime, v)
+// SetDeletedAt sets the "deleted_at" field.
+func (u *NotificationMessageUpsert) SetDeletedAt(v time.Time) *NotificationMessageUpsert {
+	u.Set(notificationmessage.FieldDeletedAt, v)
 	return u
 }
 
-// UpdateDeleteTime sets the "delete_time" field to the value that was provided on create.
-func (u *NotificationMessageUpsert) UpdateDeleteTime() *NotificationMessageUpsert {
-	u.SetExcluded(notificationmessage.FieldDeleteTime)
+// UpdateDeletedAt sets the "deleted_at" field to the value that was provided on create.
+func (u *NotificationMessageUpsert) UpdateDeletedAt() *NotificationMessageUpsert {
+	u.SetExcluded(notificationmessage.FieldDeletedAt)
 	return u
 }
 
-// ClearDeleteTime clears the value of the "delete_time" field.
-func (u *NotificationMessageUpsert) ClearDeleteTime() *NotificationMessageUpsert {
-	u.SetNull(notificationmessage.FieldDeleteTime)
+// ClearDeletedAt clears the value of the "deleted_at" field.
+func (u *NotificationMessageUpsert) ClearDeletedAt() *NotificationMessageUpsert {
+	u.SetNull(notificationmessage.FieldDeletedAt)
 	return u
 }
 
-// SetCreateBy sets the "create_by" field.
-func (u *NotificationMessageUpsert) SetCreateBy(v uint32) *NotificationMessageUpsert {
-	u.Set(notificationmessage.FieldCreateBy, v)
+// SetCreatedBy sets the "created_by" field.
+func (u *NotificationMessageUpsert) SetCreatedBy(v uint32) *NotificationMessageUpsert {
+	u.Set(notificationmessage.FieldCreatedBy, v)
 	return u
 }
 
-// UpdateCreateBy sets the "create_by" field to the value that was provided on create.
-func (u *NotificationMessageUpsert) UpdateCreateBy() *NotificationMessageUpsert {
-	u.SetExcluded(notificationmessage.FieldCreateBy)
+// UpdateCreatedBy sets the "created_by" field to the value that was provided on create.
+func (u *NotificationMessageUpsert) UpdateCreatedBy() *NotificationMessageUpsert {
+	u.SetExcluded(notificationmessage.FieldCreatedBy)
 	return u
 }
 
-// AddCreateBy adds v to the "create_by" field.
-func (u *NotificationMessageUpsert) AddCreateBy(v uint32) *NotificationMessageUpsert {
-	u.Add(notificationmessage.FieldCreateBy, v)
+// AddCreatedBy adds v to the "created_by" field.
+func (u *NotificationMessageUpsert) AddCreatedBy(v uint32) *NotificationMessageUpsert {
+	u.Add(notificationmessage.FieldCreatedBy, v)
 	return u
 }
 
-// ClearCreateBy clears the value of the "create_by" field.
-func (u *NotificationMessageUpsert) ClearCreateBy() *NotificationMessageUpsert {
-	u.SetNull(notificationmessage.FieldCreateBy)
+// ClearCreatedBy clears the value of the "created_by" field.
+func (u *NotificationMessageUpsert) ClearCreatedBy() *NotificationMessageUpsert {
+	u.SetNull(notificationmessage.FieldCreatedBy)
 	return u
 }
 
-// SetUpdateBy sets the "update_by" field.
-func (u *NotificationMessageUpsert) SetUpdateBy(v uint32) *NotificationMessageUpsert {
-	u.Set(notificationmessage.FieldUpdateBy, v)
+// SetUpdatedBy sets the "updated_by" field.
+func (u *NotificationMessageUpsert) SetUpdatedBy(v uint32) *NotificationMessageUpsert {
+	u.Set(notificationmessage.FieldUpdatedBy, v)
 	return u
 }
 
-// UpdateUpdateBy sets the "update_by" field to the value that was provided on create.
-func (u *NotificationMessageUpsert) UpdateUpdateBy() *NotificationMessageUpsert {
-	u.SetExcluded(notificationmessage.FieldUpdateBy)
+// UpdateUpdatedBy sets the "updated_by" field to the value that was provided on create.
+func (u *NotificationMessageUpsert) UpdateUpdatedBy() *NotificationMessageUpsert {
+	u.SetExcluded(notificationmessage.FieldUpdatedBy)
 	return u
 }
 
-// AddUpdateBy adds v to the "update_by" field.
-func (u *NotificationMessageUpsert) AddUpdateBy(v uint32) *NotificationMessageUpsert {
-	u.Add(notificationmessage.FieldUpdateBy, v)
+// AddUpdatedBy adds v to the "updated_by" field.
+func (u *NotificationMessageUpsert) AddUpdatedBy(v uint32) *NotificationMessageUpsert {
+	u.Add(notificationmessage.FieldUpdatedBy, v)
 	return u
 }
 
-// ClearUpdateBy clears the value of the "update_by" field.
-func (u *NotificationMessageUpsert) ClearUpdateBy() *NotificationMessageUpsert {
-	u.SetNull(notificationmessage.FieldUpdateBy)
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (u *NotificationMessageUpsert) ClearUpdatedBy() *NotificationMessageUpsert {
+	u.SetNull(notificationmessage.FieldUpdatedBy)
+	return u
+}
+
+// SetDeletedBy sets the "deleted_by" field.
+func (u *NotificationMessageUpsert) SetDeletedBy(v uint32) *NotificationMessageUpsert {
+	u.Set(notificationmessage.FieldDeletedBy, v)
+	return u
+}
+
+// UpdateDeletedBy sets the "deleted_by" field to the value that was provided on create.
+func (u *NotificationMessageUpsert) UpdateDeletedBy() *NotificationMessageUpsert {
+	u.SetExcluded(notificationmessage.FieldDeletedBy)
+	return u
+}
+
+// AddDeletedBy adds v to the "deleted_by" field.
+func (u *NotificationMessageUpsert) AddDeletedBy(v uint32) *NotificationMessageUpsert {
+	u.Add(notificationmessage.FieldDeletedBy, v)
+	return u
+}
+
+// ClearDeletedBy clears the value of the "deleted_by" field.
+func (u *NotificationMessageUpsert) ClearDeletedBy() *NotificationMessageUpsert {
+	u.SetNull(notificationmessage.FieldDeletedBy)
 	return u
 }
 
@@ -530,8 +567,8 @@ func (u *NotificationMessageUpsertOne) UpdateNewValues() *NotificationMessageUps
 		if _, exists := u.create.mutation.ID(); exists {
 			s.SetIgnore(notificationmessage.FieldID)
 		}
-		if _, exists := u.create.mutation.CreateTime(); exists {
-			s.SetIgnore(notificationmessage.FieldCreateTime)
+		if _, exists := u.create.mutation.CreatedAt(); exists {
+			s.SetIgnore(notificationmessage.FieldCreatedAt)
 		}
 		if _, exists := u.create.mutation.TenantID(); exists {
 			s.SetIgnore(notificationmessage.FieldTenantID)
@@ -567,101 +604,129 @@ func (u *NotificationMessageUpsertOne) Update(set func(*NotificationMessageUpser
 	return u
 }
 
-// SetUpdateTime sets the "update_time" field.
-func (u *NotificationMessageUpsertOne) SetUpdateTime(v time.Time) *NotificationMessageUpsertOne {
+// SetUpdatedAt sets the "updated_at" field.
+func (u *NotificationMessageUpsertOne) SetUpdatedAt(v time.Time) *NotificationMessageUpsertOne {
 	return u.Update(func(s *NotificationMessageUpsert) {
-		s.SetUpdateTime(v)
+		s.SetUpdatedAt(v)
 	})
 }
 
-// UpdateUpdateTime sets the "update_time" field to the value that was provided on create.
-func (u *NotificationMessageUpsertOne) UpdateUpdateTime() *NotificationMessageUpsertOne {
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *NotificationMessageUpsertOne) UpdateUpdatedAt() *NotificationMessageUpsertOne {
 	return u.Update(func(s *NotificationMessageUpsert) {
-		s.UpdateUpdateTime()
+		s.UpdateUpdatedAt()
 	})
 }
 
-// ClearUpdateTime clears the value of the "update_time" field.
-func (u *NotificationMessageUpsertOne) ClearUpdateTime() *NotificationMessageUpsertOne {
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (u *NotificationMessageUpsertOne) ClearUpdatedAt() *NotificationMessageUpsertOne {
 	return u.Update(func(s *NotificationMessageUpsert) {
-		s.ClearUpdateTime()
+		s.ClearUpdatedAt()
 	})
 }
 
-// SetDeleteTime sets the "delete_time" field.
-func (u *NotificationMessageUpsertOne) SetDeleteTime(v time.Time) *NotificationMessageUpsertOne {
+// SetDeletedAt sets the "deleted_at" field.
+func (u *NotificationMessageUpsertOne) SetDeletedAt(v time.Time) *NotificationMessageUpsertOne {
 	return u.Update(func(s *NotificationMessageUpsert) {
-		s.SetDeleteTime(v)
+		s.SetDeletedAt(v)
 	})
 }
 
-// UpdateDeleteTime sets the "delete_time" field to the value that was provided on create.
-func (u *NotificationMessageUpsertOne) UpdateDeleteTime() *NotificationMessageUpsertOne {
+// UpdateDeletedAt sets the "deleted_at" field to the value that was provided on create.
+func (u *NotificationMessageUpsertOne) UpdateDeletedAt() *NotificationMessageUpsertOne {
 	return u.Update(func(s *NotificationMessageUpsert) {
-		s.UpdateDeleteTime()
+		s.UpdateDeletedAt()
 	})
 }
 
-// ClearDeleteTime clears the value of the "delete_time" field.
-func (u *NotificationMessageUpsertOne) ClearDeleteTime() *NotificationMessageUpsertOne {
+// ClearDeletedAt clears the value of the "deleted_at" field.
+func (u *NotificationMessageUpsertOne) ClearDeletedAt() *NotificationMessageUpsertOne {
 	return u.Update(func(s *NotificationMessageUpsert) {
-		s.ClearDeleteTime()
+		s.ClearDeletedAt()
 	})
 }
 
-// SetCreateBy sets the "create_by" field.
-func (u *NotificationMessageUpsertOne) SetCreateBy(v uint32) *NotificationMessageUpsertOne {
+// SetCreatedBy sets the "created_by" field.
+func (u *NotificationMessageUpsertOne) SetCreatedBy(v uint32) *NotificationMessageUpsertOne {
 	return u.Update(func(s *NotificationMessageUpsert) {
-		s.SetCreateBy(v)
+		s.SetCreatedBy(v)
 	})
 }
 
-// AddCreateBy adds v to the "create_by" field.
-func (u *NotificationMessageUpsertOne) AddCreateBy(v uint32) *NotificationMessageUpsertOne {
+// AddCreatedBy adds v to the "created_by" field.
+func (u *NotificationMessageUpsertOne) AddCreatedBy(v uint32) *NotificationMessageUpsertOne {
 	return u.Update(func(s *NotificationMessageUpsert) {
-		s.AddCreateBy(v)
+		s.AddCreatedBy(v)
 	})
 }
 
-// UpdateCreateBy sets the "create_by" field to the value that was provided on create.
-func (u *NotificationMessageUpsertOne) UpdateCreateBy() *NotificationMessageUpsertOne {
+// UpdateCreatedBy sets the "created_by" field to the value that was provided on create.
+func (u *NotificationMessageUpsertOne) UpdateCreatedBy() *NotificationMessageUpsertOne {
 	return u.Update(func(s *NotificationMessageUpsert) {
-		s.UpdateCreateBy()
+		s.UpdateCreatedBy()
 	})
 }
 
-// ClearCreateBy clears the value of the "create_by" field.
-func (u *NotificationMessageUpsertOne) ClearCreateBy() *NotificationMessageUpsertOne {
+// ClearCreatedBy clears the value of the "created_by" field.
+func (u *NotificationMessageUpsertOne) ClearCreatedBy() *NotificationMessageUpsertOne {
 	return u.Update(func(s *NotificationMessageUpsert) {
-		s.ClearCreateBy()
+		s.ClearCreatedBy()
 	})
 }
 
-// SetUpdateBy sets the "update_by" field.
-func (u *NotificationMessageUpsertOne) SetUpdateBy(v uint32) *NotificationMessageUpsertOne {
+// SetUpdatedBy sets the "updated_by" field.
+func (u *NotificationMessageUpsertOne) SetUpdatedBy(v uint32) *NotificationMessageUpsertOne {
 	return u.Update(func(s *NotificationMessageUpsert) {
-		s.SetUpdateBy(v)
+		s.SetUpdatedBy(v)
 	})
 }
 
-// AddUpdateBy adds v to the "update_by" field.
-func (u *NotificationMessageUpsertOne) AddUpdateBy(v uint32) *NotificationMessageUpsertOne {
+// AddUpdatedBy adds v to the "updated_by" field.
+func (u *NotificationMessageUpsertOne) AddUpdatedBy(v uint32) *NotificationMessageUpsertOne {
 	return u.Update(func(s *NotificationMessageUpsert) {
-		s.AddUpdateBy(v)
+		s.AddUpdatedBy(v)
 	})
 }
 
-// UpdateUpdateBy sets the "update_by" field to the value that was provided on create.
-func (u *NotificationMessageUpsertOne) UpdateUpdateBy() *NotificationMessageUpsertOne {
+// UpdateUpdatedBy sets the "updated_by" field to the value that was provided on create.
+func (u *NotificationMessageUpsertOne) UpdateUpdatedBy() *NotificationMessageUpsertOne {
 	return u.Update(func(s *NotificationMessageUpsert) {
-		s.UpdateUpdateBy()
+		s.UpdateUpdatedBy()
 	})
 }
 
-// ClearUpdateBy clears the value of the "update_by" field.
-func (u *NotificationMessageUpsertOne) ClearUpdateBy() *NotificationMessageUpsertOne {
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (u *NotificationMessageUpsertOne) ClearUpdatedBy() *NotificationMessageUpsertOne {
 	return u.Update(func(s *NotificationMessageUpsert) {
-		s.ClearUpdateBy()
+		s.ClearUpdatedBy()
+	})
+}
+
+// SetDeletedBy sets the "deleted_by" field.
+func (u *NotificationMessageUpsertOne) SetDeletedBy(v uint32) *NotificationMessageUpsertOne {
+	return u.Update(func(s *NotificationMessageUpsert) {
+		s.SetDeletedBy(v)
+	})
+}
+
+// AddDeletedBy adds v to the "deleted_by" field.
+func (u *NotificationMessageUpsertOne) AddDeletedBy(v uint32) *NotificationMessageUpsertOne {
+	return u.Update(func(s *NotificationMessageUpsert) {
+		s.AddDeletedBy(v)
+	})
+}
+
+// UpdateDeletedBy sets the "deleted_by" field to the value that was provided on create.
+func (u *NotificationMessageUpsertOne) UpdateDeletedBy() *NotificationMessageUpsertOne {
+	return u.Update(func(s *NotificationMessageUpsert) {
+		s.UpdateDeletedBy()
+	})
+}
+
+// ClearDeletedBy clears the value of the "deleted_by" field.
+func (u *NotificationMessageUpsertOne) ClearDeletedBy() *NotificationMessageUpsertOne {
+	return u.Update(func(s *NotificationMessageUpsert) {
+		s.ClearDeletedBy()
 	})
 }
 
@@ -891,7 +956,7 @@ func (_c *NotificationMessageCreateBulk) ExecX(ctx context.Context) {
 //		// Override some of the fields with custom
 //		// update values.
 //		Update(func(u *ent.NotificationMessageUpsert) {
-//			SetCreateTime(v+v).
+//			SetCreatedAt(v+v).
 //		}).
 //		Exec(ctx)
 func (_c *NotificationMessageCreateBulk) OnConflict(opts ...sql.ConflictOption) *NotificationMessageUpsertBulk {
@@ -938,8 +1003,8 @@ func (u *NotificationMessageUpsertBulk) UpdateNewValues() *NotificationMessageUp
 			if _, exists := b.mutation.ID(); exists {
 				s.SetIgnore(notificationmessage.FieldID)
 			}
-			if _, exists := b.mutation.CreateTime(); exists {
-				s.SetIgnore(notificationmessage.FieldCreateTime)
+			if _, exists := b.mutation.CreatedAt(); exists {
+				s.SetIgnore(notificationmessage.FieldCreatedAt)
 			}
 			if _, exists := b.mutation.TenantID(); exists {
 				s.SetIgnore(notificationmessage.FieldTenantID)
@@ -976,101 +1041,129 @@ func (u *NotificationMessageUpsertBulk) Update(set func(*NotificationMessageUpse
 	return u
 }
 
-// SetUpdateTime sets the "update_time" field.
-func (u *NotificationMessageUpsertBulk) SetUpdateTime(v time.Time) *NotificationMessageUpsertBulk {
+// SetUpdatedAt sets the "updated_at" field.
+func (u *NotificationMessageUpsertBulk) SetUpdatedAt(v time.Time) *NotificationMessageUpsertBulk {
 	return u.Update(func(s *NotificationMessageUpsert) {
-		s.SetUpdateTime(v)
+		s.SetUpdatedAt(v)
 	})
 }
 
-// UpdateUpdateTime sets the "update_time" field to the value that was provided on create.
-func (u *NotificationMessageUpsertBulk) UpdateUpdateTime() *NotificationMessageUpsertBulk {
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *NotificationMessageUpsertBulk) UpdateUpdatedAt() *NotificationMessageUpsertBulk {
 	return u.Update(func(s *NotificationMessageUpsert) {
-		s.UpdateUpdateTime()
+		s.UpdateUpdatedAt()
 	})
 }
 
-// ClearUpdateTime clears the value of the "update_time" field.
-func (u *NotificationMessageUpsertBulk) ClearUpdateTime() *NotificationMessageUpsertBulk {
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (u *NotificationMessageUpsertBulk) ClearUpdatedAt() *NotificationMessageUpsertBulk {
 	return u.Update(func(s *NotificationMessageUpsert) {
-		s.ClearUpdateTime()
+		s.ClearUpdatedAt()
 	})
 }
 
-// SetDeleteTime sets the "delete_time" field.
-func (u *NotificationMessageUpsertBulk) SetDeleteTime(v time.Time) *NotificationMessageUpsertBulk {
+// SetDeletedAt sets the "deleted_at" field.
+func (u *NotificationMessageUpsertBulk) SetDeletedAt(v time.Time) *NotificationMessageUpsertBulk {
 	return u.Update(func(s *NotificationMessageUpsert) {
-		s.SetDeleteTime(v)
+		s.SetDeletedAt(v)
 	})
 }
 
-// UpdateDeleteTime sets the "delete_time" field to the value that was provided on create.
-func (u *NotificationMessageUpsertBulk) UpdateDeleteTime() *NotificationMessageUpsertBulk {
+// UpdateDeletedAt sets the "deleted_at" field to the value that was provided on create.
+func (u *NotificationMessageUpsertBulk) UpdateDeletedAt() *NotificationMessageUpsertBulk {
 	return u.Update(func(s *NotificationMessageUpsert) {
-		s.UpdateDeleteTime()
+		s.UpdateDeletedAt()
 	})
 }
 
-// ClearDeleteTime clears the value of the "delete_time" field.
-func (u *NotificationMessageUpsertBulk) ClearDeleteTime() *NotificationMessageUpsertBulk {
+// ClearDeletedAt clears the value of the "deleted_at" field.
+func (u *NotificationMessageUpsertBulk) ClearDeletedAt() *NotificationMessageUpsertBulk {
 	return u.Update(func(s *NotificationMessageUpsert) {
-		s.ClearDeleteTime()
+		s.ClearDeletedAt()
 	})
 }
 
-// SetCreateBy sets the "create_by" field.
-func (u *NotificationMessageUpsertBulk) SetCreateBy(v uint32) *NotificationMessageUpsertBulk {
+// SetCreatedBy sets the "created_by" field.
+func (u *NotificationMessageUpsertBulk) SetCreatedBy(v uint32) *NotificationMessageUpsertBulk {
 	return u.Update(func(s *NotificationMessageUpsert) {
-		s.SetCreateBy(v)
+		s.SetCreatedBy(v)
 	})
 }
 
-// AddCreateBy adds v to the "create_by" field.
-func (u *NotificationMessageUpsertBulk) AddCreateBy(v uint32) *NotificationMessageUpsertBulk {
+// AddCreatedBy adds v to the "created_by" field.
+func (u *NotificationMessageUpsertBulk) AddCreatedBy(v uint32) *NotificationMessageUpsertBulk {
 	return u.Update(func(s *NotificationMessageUpsert) {
-		s.AddCreateBy(v)
+		s.AddCreatedBy(v)
 	})
 }
 
-// UpdateCreateBy sets the "create_by" field to the value that was provided on create.
-func (u *NotificationMessageUpsertBulk) UpdateCreateBy() *NotificationMessageUpsertBulk {
+// UpdateCreatedBy sets the "created_by" field to the value that was provided on create.
+func (u *NotificationMessageUpsertBulk) UpdateCreatedBy() *NotificationMessageUpsertBulk {
 	return u.Update(func(s *NotificationMessageUpsert) {
-		s.UpdateCreateBy()
+		s.UpdateCreatedBy()
 	})
 }
 
-// ClearCreateBy clears the value of the "create_by" field.
-func (u *NotificationMessageUpsertBulk) ClearCreateBy() *NotificationMessageUpsertBulk {
+// ClearCreatedBy clears the value of the "created_by" field.
+func (u *NotificationMessageUpsertBulk) ClearCreatedBy() *NotificationMessageUpsertBulk {
 	return u.Update(func(s *NotificationMessageUpsert) {
-		s.ClearCreateBy()
+		s.ClearCreatedBy()
 	})
 }
 
-// SetUpdateBy sets the "update_by" field.
-func (u *NotificationMessageUpsertBulk) SetUpdateBy(v uint32) *NotificationMessageUpsertBulk {
+// SetUpdatedBy sets the "updated_by" field.
+func (u *NotificationMessageUpsertBulk) SetUpdatedBy(v uint32) *NotificationMessageUpsertBulk {
 	return u.Update(func(s *NotificationMessageUpsert) {
-		s.SetUpdateBy(v)
+		s.SetUpdatedBy(v)
 	})
 }
 
-// AddUpdateBy adds v to the "update_by" field.
-func (u *NotificationMessageUpsertBulk) AddUpdateBy(v uint32) *NotificationMessageUpsertBulk {
+// AddUpdatedBy adds v to the "updated_by" field.
+func (u *NotificationMessageUpsertBulk) AddUpdatedBy(v uint32) *NotificationMessageUpsertBulk {
 	return u.Update(func(s *NotificationMessageUpsert) {
-		s.AddUpdateBy(v)
+		s.AddUpdatedBy(v)
 	})
 }
 
-// UpdateUpdateBy sets the "update_by" field to the value that was provided on create.
-func (u *NotificationMessageUpsertBulk) UpdateUpdateBy() *NotificationMessageUpsertBulk {
+// UpdateUpdatedBy sets the "updated_by" field to the value that was provided on create.
+func (u *NotificationMessageUpsertBulk) UpdateUpdatedBy() *NotificationMessageUpsertBulk {
 	return u.Update(func(s *NotificationMessageUpsert) {
-		s.UpdateUpdateBy()
+		s.UpdateUpdatedBy()
 	})
 }
 
-// ClearUpdateBy clears the value of the "update_by" field.
-func (u *NotificationMessageUpsertBulk) ClearUpdateBy() *NotificationMessageUpsertBulk {
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (u *NotificationMessageUpsertBulk) ClearUpdatedBy() *NotificationMessageUpsertBulk {
 	return u.Update(func(s *NotificationMessageUpsert) {
-		s.ClearUpdateBy()
+		s.ClearUpdatedBy()
+	})
+}
+
+// SetDeletedBy sets the "deleted_by" field.
+func (u *NotificationMessageUpsertBulk) SetDeletedBy(v uint32) *NotificationMessageUpsertBulk {
+	return u.Update(func(s *NotificationMessageUpsert) {
+		s.SetDeletedBy(v)
+	})
+}
+
+// AddDeletedBy adds v to the "deleted_by" field.
+func (u *NotificationMessageUpsertBulk) AddDeletedBy(v uint32) *NotificationMessageUpsertBulk {
+	return u.Update(func(s *NotificationMessageUpsert) {
+		s.AddDeletedBy(v)
+	})
+}
+
+// UpdateDeletedBy sets the "deleted_by" field to the value that was provided on create.
+func (u *NotificationMessageUpsertBulk) UpdateDeletedBy() *NotificationMessageUpsertBulk {
+	return u.Update(func(s *NotificationMessageUpsert) {
+		s.UpdateDeletedBy()
+	})
+}
+
+// ClearDeletedBy clears the value of the "deleted_by" field.
+func (u *NotificationMessageUpsertBulk) ClearDeletedBy() *NotificationMessageUpsertBulk {
+	return u.Update(func(s *NotificationMessageUpsert) {
+		s.ClearDeletedBy()
 	})
 }
 

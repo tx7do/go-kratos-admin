@@ -67,8 +67,8 @@ const formOptions: VbenFormProps = {
     },
     {
       component: 'RangePicker',
-      fieldName: 'createTime',
-      label: $t('page.adminOperationLog.createTime'),
+      fieldName: 'createdAt',
+      label: $t('page.adminOperationLog.createdAt'),
       componentProps: {
         showTime: true,
         allowClear: true,
@@ -101,13 +101,13 @@ const gridOptions: VxeGridProps<AdminOperationLog> = {
         let startTime: any;
         let endTime: any;
         if (
-          formValues.createTime !== undefined &&
-          formValues.createTime.length === 2
+          formValues.createdAt !== undefined &&
+          formValues.createdAt.length === 2
         ) {
-          startTime = dayjs(formValues.createTime[0]).format(
+          startTime = dayjs(formValues.createdAt[0]).format(
             'YYYY-MM-DD HH:mm:ss',
           );
-          endTime = dayjs(formValues.createTime[1]).format(
+          endTime = dayjs(formValues.createdAt[1]).format(
             'YYYY-MM-DD HH:mm:ss',
           );
           console.log(startTime, endTime);
@@ -140,8 +140,8 @@ const gridOptions: VxeGridProps<AdminOperationLog> = {
       width: 80,
     },
     {
-      title: $t('page.adminOperationLog.createTime'),
-      field: 'createTime',
+      title: $t('page.adminOperationLog.createdAt'),
+      field: 'createdAt',
       formatter: 'formatDateTime',
       width: 140,
     },

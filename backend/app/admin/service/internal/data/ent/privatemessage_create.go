@@ -22,44 +22,44 @@ type PrivateMessageCreate struct {
 	conflict []sql.ConflictOption
 }
 
-// SetCreateTime sets the "create_time" field.
-func (_c *PrivateMessageCreate) SetCreateTime(v time.Time) *PrivateMessageCreate {
-	_c.mutation.SetCreateTime(v)
+// SetCreatedAt sets the "created_at" field.
+func (_c *PrivateMessageCreate) SetCreatedAt(v time.Time) *PrivateMessageCreate {
+	_c.mutation.SetCreatedAt(v)
 	return _c
 }
 
-// SetNillableCreateTime sets the "create_time" field if the given value is not nil.
-func (_c *PrivateMessageCreate) SetNillableCreateTime(v *time.Time) *PrivateMessageCreate {
+// SetNillableCreatedAt sets the "created_at" field if the given value is not nil.
+func (_c *PrivateMessageCreate) SetNillableCreatedAt(v *time.Time) *PrivateMessageCreate {
 	if v != nil {
-		_c.SetCreateTime(*v)
+		_c.SetCreatedAt(*v)
 	}
 	return _c
 }
 
-// SetUpdateTime sets the "update_time" field.
-func (_c *PrivateMessageCreate) SetUpdateTime(v time.Time) *PrivateMessageCreate {
-	_c.mutation.SetUpdateTime(v)
+// SetUpdatedAt sets the "updated_at" field.
+func (_c *PrivateMessageCreate) SetUpdatedAt(v time.Time) *PrivateMessageCreate {
+	_c.mutation.SetUpdatedAt(v)
 	return _c
 }
 
-// SetNillableUpdateTime sets the "update_time" field if the given value is not nil.
-func (_c *PrivateMessageCreate) SetNillableUpdateTime(v *time.Time) *PrivateMessageCreate {
+// SetNillableUpdatedAt sets the "updated_at" field if the given value is not nil.
+func (_c *PrivateMessageCreate) SetNillableUpdatedAt(v *time.Time) *PrivateMessageCreate {
 	if v != nil {
-		_c.SetUpdateTime(*v)
+		_c.SetUpdatedAt(*v)
 	}
 	return _c
 }
 
-// SetDeleteTime sets the "delete_time" field.
-func (_c *PrivateMessageCreate) SetDeleteTime(v time.Time) *PrivateMessageCreate {
-	_c.mutation.SetDeleteTime(v)
+// SetDeletedAt sets the "deleted_at" field.
+func (_c *PrivateMessageCreate) SetDeletedAt(v time.Time) *PrivateMessageCreate {
+	_c.mutation.SetDeletedAt(v)
 	return _c
 }
 
-// SetNillableDeleteTime sets the "delete_time" field if the given value is not nil.
-func (_c *PrivateMessageCreate) SetNillableDeleteTime(v *time.Time) *PrivateMessageCreate {
+// SetNillableDeletedAt sets the "deleted_at" field if the given value is not nil.
+func (_c *PrivateMessageCreate) SetNillableDeletedAt(v *time.Time) *PrivateMessageCreate {
 	if v != nil {
-		_c.SetDeleteTime(*v)
+		_c.SetDeletedAt(*v)
 	}
 	return _c
 }
@@ -67,14 +67,6 @@ func (_c *PrivateMessageCreate) SetNillableDeleteTime(v *time.Time) *PrivateMess
 // SetTenantID sets the "tenant_id" field.
 func (_c *PrivateMessageCreate) SetTenantID(v uint32) *PrivateMessageCreate {
 	_c.mutation.SetTenantID(v)
-	return _c
-}
-
-// SetNillableTenantID sets the "tenant_id" field if the given value is not nil.
-func (_c *PrivateMessageCreate) SetNillableTenantID(v *uint32) *PrivateMessageCreate {
-	if v != nil {
-		_c.SetTenantID(*v)
-	}
 	return _c
 }
 
@@ -188,6 +180,9 @@ func (_c *PrivateMessageCreate) ExecX(ctx context.Context) {
 
 // check runs all checks and user-defined validators on the builder.
 func (_c *PrivateMessageCreate) check() error {
+	if _, ok := _c.mutation.TenantID(); !ok {
+		return &ValidationError{Name: "tenant_id", err: errors.New(`ent: missing required field "PrivateMessage.tenant_id"`)}
+	}
 	if v, ok := _c.mutation.TenantID(); ok {
 		if err := privatemessage.TenantIDValidator(v); err != nil {
 			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "PrivateMessage.tenant_id": %w`, err)}
@@ -236,21 +231,21 @@ func (_c *PrivateMessageCreate) createSpec() (*PrivateMessage, *sqlgraph.CreateS
 		_node.ID = id
 		_spec.ID.Value = id
 	}
-	if value, ok := _c.mutation.CreateTime(); ok {
-		_spec.SetField(privatemessage.FieldCreateTime, field.TypeTime, value)
-		_node.CreateTime = &value
+	if value, ok := _c.mutation.CreatedAt(); ok {
+		_spec.SetField(privatemessage.FieldCreatedAt, field.TypeTime, value)
+		_node.CreatedAt = &value
 	}
-	if value, ok := _c.mutation.UpdateTime(); ok {
-		_spec.SetField(privatemessage.FieldUpdateTime, field.TypeTime, value)
-		_node.UpdateTime = &value
+	if value, ok := _c.mutation.UpdatedAt(); ok {
+		_spec.SetField(privatemessage.FieldUpdatedAt, field.TypeTime, value)
+		_node.UpdatedAt = &value
 	}
-	if value, ok := _c.mutation.DeleteTime(); ok {
-		_spec.SetField(privatemessage.FieldDeleteTime, field.TypeTime, value)
-		_node.DeleteTime = &value
+	if value, ok := _c.mutation.DeletedAt(); ok {
+		_spec.SetField(privatemessage.FieldDeletedAt, field.TypeTime, value)
+		_node.DeletedAt = &value
 	}
 	if value, ok := _c.mutation.TenantID(); ok {
 		_spec.SetField(privatemessage.FieldTenantID, field.TypeUint32, value)
-		_node.TenantID = &value
+		_node.TenantID = value
 	}
 	if value, ok := _c.mutation.Subject(); ok {
 		_spec.SetField(privatemessage.FieldSubject, field.TypeString, value)
@@ -279,7 +274,7 @@ func (_c *PrivateMessageCreate) createSpec() (*PrivateMessage, *sqlgraph.CreateS
 // of the `INSERT` statement. For example:
 //
 //	client.PrivateMessage.Create().
-//		SetCreateTime(v).
+//		SetCreatedAt(v).
 //		OnConflict(
 //			// Update the row with the new values
 //			// the was proposed for insertion.
@@ -288,7 +283,7 @@ func (_c *PrivateMessageCreate) createSpec() (*PrivateMessage, *sqlgraph.CreateS
 //		// Override some of the fields with custom
 //		// update values.
 //		Update(func(u *ent.PrivateMessageUpsert) {
-//			SetCreateTime(v+v).
+//			SetCreatedAt(v+v).
 //		}).
 //		Exec(ctx)
 func (_c *PrivateMessageCreate) OnConflict(opts ...sql.ConflictOption) *PrivateMessageUpsertOne {
@@ -324,39 +319,39 @@ type (
 	}
 )
 
-// SetUpdateTime sets the "update_time" field.
-func (u *PrivateMessageUpsert) SetUpdateTime(v time.Time) *PrivateMessageUpsert {
-	u.Set(privatemessage.FieldUpdateTime, v)
+// SetUpdatedAt sets the "updated_at" field.
+func (u *PrivateMessageUpsert) SetUpdatedAt(v time.Time) *PrivateMessageUpsert {
+	u.Set(privatemessage.FieldUpdatedAt, v)
 	return u
 }
 
-// UpdateUpdateTime sets the "update_time" field to the value that was provided on create.
-func (u *PrivateMessageUpsert) UpdateUpdateTime() *PrivateMessageUpsert {
-	u.SetExcluded(privatemessage.FieldUpdateTime)
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *PrivateMessageUpsert) UpdateUpdatedAt() *PrivateMessageUpsert {
+	u.SetExcluded(privatemessage.FieldUpdatedAt)
 	return u
 }
 
-// ClearUpdateTime clears the value of the "update_time" field.
-func (u *PrivateMessageUpsert) ClearUpdateTime() *PrivateMessageUpsert {
-	u.SetNull(privatemessage.FieldUpdateTime)
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (u *PrivateMessageUpsert) ClearUpdatedAt() *PrivateMessageUpsert {
+	u.SetNull(privatemessage.FieldUpdatedAt)
 	return u
 }
 
-// SetDeleteTime sets the "delete_time" field.
-func (u *PrivateMessageUpsert) SetDeleteTime(v time.Time) *PrivateMessageUpsert {
-	u.Set(privatemessage.FieldDeleteTime, v)
+// SetDeletedAt sets the "deleted_at" field.
+func (u *PrivateMessageUpsert) SetDeletedAt(v time.Time) *PrivateMessageUpsert {
+	u.Set(privatemessage.FieldDeletedAt, v)
 	return u
 }
 
-// UpdateDeleteTime sets the "delete_time" field to the value that was provided on create.
-func (u *PrivateMessageUpsert) UpdateDeleteTime() *PrivateMessageUpsert {
-	u.SetExcluded(privatemessage.FieldDeleteTime)
+// UpdateDeletedAt sets the "deleted_at" field to the value that was provided on create.
+func (u *PrivateMessageUpsert) UpdateDeletedAt() *PrivateMessageUpsert {
+	u.SetExcluded(privatemessage.FieldDeletedAt)
 	return u
 }
 
-// ClearDeleteTime clears the value of the "delete_time" field.
-func (u *PrivateMessageUpsert) ClearDeleteTime() *PrivateMessageUpsert {
-	u.SetNull(privatemessage.FieldDeleteTime)
+// ClearDeletedAt clears the value of the "deleted_at" field.
+func (u *PrivateMessageUpsert) ClearDeletedAt() *PrivateMessageUpsert {
+	u.SetNull(privatemessage.FieldDeletedAt)
 	return u
 }
 
@@ -479,8 +474,8 @@ func (u *PrivateMessageUpsertOne) UpdateNewValues() *PrivateMessageUpsertOne {
 		if _, exists := u.create.mutation.ID(); exists {
 			s.SetIgnore(privatemessage.FieldID)
 		}
-		if _, exists := u.create.mutation.CreateTime(); exists {
-			s.SetIgnore(privatemessage.FieldCreateTime)
+		if _, exists := u.create.mutation.CreatedAt(); exists {
+			s.SetIgnore(privatemessage.FieldCreatedAt)
 		}
 		if _, exists := u.create.mutation.TenantID(); exists {
 			s.SetIgnore(privatemessage.FieldTenantID)
@@ -516,45 +511,45 @@ func (u *PrivateMessageUpsertOne) Update(set func(*PrivateMessageUpsert)) *Priva
 	return u
 }
 
-// SetUpdateTime sets the "update_time" field.
-func (u *PrivateMessageUpsertOne) SetUpdateTime(v time.Time) *PrivateMessageUpsertOne {
+// SetUpdatedAt sets the "updated_at" field.
+func (u *PrivateMessageUpsertOne) SetUpdatedAt(v time.Time) *PrivateMessageUpsertOne {
 	return u.Update(func(s *PrivateMessageUpsert) {
-		s.SetUpdateTime(v)
+		s.SetUpdatedAt(v)
 	})
 }
 
-// UpdateUpdateTime sets the "update_time" field to the value that was provided on create.
-func (u *PrivateMessageUpsertOne) UpdateUpdateTime() *PrivateMessageUpsertOne {
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *PrivateMessageUpsertOne) UpdateUpdatedAt() *PrivateMessageUpsertOne {
 	return u.Update(func(s *PrivateMessageUpsert) {
-		s.UpdateUpdateTime()
+		s.UpdateUpdatedAt()
 	})
 }
 
-// ClearUpdateTime clears the value of the "update_time" field.
-func (u *PrivateMessageUpsertOne) ClearUpdateTime() *PrivateMessageUpsertOne {
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (u *PrivateMessageUpsertOne) ClearUpdatedAt() *PrivateMessageUpsertOne {
 	return u.Update(func(s *PrivateMessageUpsert) {
-		s.ClearUpdateTime()
+		s.ClearUpdatedAt()
 	})
 }
 
-// SetDeleteTime sets the "delete_time" field.
-func (u *PrivateMessageUpsertOne) SetDeleteTime(v time.Time) *PrivateMessageUpsertOne {
+// SetDeletedAt sets the "deleted_at" field.
+func (u *PrivateMessageUpsertOne) SetDeletedAt(v time.Time) *PrivateMessageUpsertOne {
 	return u.Update(func(s *PrivateMessageUpsert) {
-		s.SetDeleteTime(v)
+		s.SetDeletedAt(v)
 	})
 }
 
-// UpdateDeleteTime sets the "delete_time" field to the value that was provided on create.
-func (u *PrivateMessageUpsertOne) UpdateDeleteTime() *PrivateMessageUpsertOne {
+// UpdateDeletedAt sets the "deleted_at" field to the value that was provided on create.
+func (u *PrivateMessageUpsertOne) UpdateDeletedAt() *PrivateMessageUpsertOne {
 	return u.Update(func(s *PrivateMessageUpsert) {
-		s.UpdateDeleteTime()
+		s.UpdateDeletedAt()
 	})
 }
 
-// ClearDeleteTime clears the value of the "delete_time" field.
-func (u *PrivateMessageUpsertOne) ClearDeleteTime() *PrivateMessageUpsertOne {
+// ClearDeletedAt clears the value of the "deleted_at" field.
+func (u *PrivateMessageUpsertOne) ClearDeletedAt() *PrivateMessageUpsertOne {
 	return u.Update(func(s *PrivateMessageUpsert) {
-		s.ClearDeleteTime()
+		s.ClearDeletedAt()
 	})
 }
 
@@ -811,7 +806,7 @@ func (_c *PrivateMessageCreateBulk) ExecX(ctx context.Context) {
 //		// Override some of the fields with custom
 //		// update values.
 //		Update(func(u *ent.PrivateMessageUpsert) {
-//			SetCreateTime(v+v).
+//			SetCreatedAt(v+v).
 //		}).
 //		Exec(ctx)
 func (_c *PrivateMessageCreateBulk) OnConflict(opts ...sql.ConflictOption) *PrivateMessageUpsertBulk {
@@ -858,8 +853,8 @@ func (u *PrivateMessageUpsertBulk) UpdateNewValues() *PrivateMessageUpsertBulk {
 			if _, exists := b.mutation.ID(); exists {
 				s.SetIgnore(privatemessage.FieldID)
 			}
-			if _, exists := b.mutation.CreateTime(); exists {
-				s.SetIgnore(privatemessage.FieldCreateTime)
+			if _, exists := b.mutation.CreatedAt(); exists {
+				s.SetIgnore(privatemessage.FieldCreatedAt)
 			}
 			if _, exists := b.mutation.TenantID(); exists {
 				s.SetIgnore(privatemessage.FieldTenantID)
@@ -896,45 +891,45 @@ func (u *PrivateMessageUpsertBulk) Update(set func(*PrivateMessageUpsert)) *Priv
 	return u
 }
 
-// SetUpdateTime sets the "update_time" field.
-func (u *PrivateMessageUpsertBulk) SetUpdateTime(v time.Time) *PrivateMessageUpsertBulk {
+// SetUpdatedAt sets the "updated_at" field.
+func (u *PrivateMessageUpsertBulk) SetUpdatedAt(v time.Time) *PrivateMessageUpsertBulk {
 	return u.Update(func(s *PrivateMessageUpsert) {
-		s.SetUpdateTime(v)
+		s.SetUpdatedAt(v)
 	})
 }
 
-// UpdateUpdateTime sets the "update_time" field to the value that was provided on create.
-func (u *PrivateMessageUpsertBulk) UpdateUpdateTime() *PrivateMessageUpsertBulk {
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *PrivateMessageUpsertBulk) UpdateUpdatedAt() *PrivateMessageUpsertBulk {
 	return u.Update(func(s *PrivateMessageUpsert) {
-		s.UpdateUpdateTime()
+		s.UpdateUpdatedAt()
 	})
 }
 
-// ClearUpdateTime clears the value of the "update_time" field.
-func (u *PrivateMessageUpsertBulk) ClearUpdateTime() *PrivateMessageUpsertBulk {
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (u *PrivateMessageUpsertBulk) ClearUpdatedAt() *PrivateMessageUpsertBulk {
 	return u.Update(func(s *PrivateMessageUpsert) {
-		s.ClearUpdateTime()
+		s.ClearUpdatedAt()
 	})
 }
 
-// SetDeleteTime sets the "delete_time" field.
-func (u *PrivateMessageUpsertBulk) SetDeleteTime(v time.Time) *PrivateMessageUpsertBulk {
+// SetDeletedAt sets the "deleted_at" field.
+func (u *PrivateMessageUpsertBulk) SetDeletedAt(v time.Time) *PrivateMessageUpsertBulk {
 	return u.Update(func(s *PrivateMessageUpsert) {
-		s.SetDeleteTime(v)
+		s.SetDeletedAt(v)
 	})
 }
 
-// UpdateDeleteTime sets the "delete_time" field to the value that was provided on create.
-func (u *PrivateMessageUpsertBulk) UpdateDeleteTime() *PrivateMessageUpsertBulk {
+// UpdateDeletedAt sets the "deleted_at" field to the value that was provided on create.
+func (u *PrivateMessageUpsertBulk) UpdateDeletedAt() *PrivateMessageUpsertBulk {
 	return u.Update(func(s *PrivateMessageUpsert) {
-		s.UpdateDeleteTime()
+		s.UpdateDeletedAt()
 	})
 }
 
-// ClearDeleteTime clears the value of the "delete_time" field.
-func (u *PrivateMessageUpsertBulk) ClearDeleteTime() *PrivateMessageUpsertBulk {
+// ClearDeletedAt clears the value of the "deleted_at" field.
+func (u *PrivateMessageUpsertBulk) ClearDeletedAt() *PrivateMessageUpsertBulk {
 	return u.Update(func(s *PrivateMessageUpsert) {
-		s.ClearDeleteTime()
+		s.ClearDeletedAt()
 	})
 }
 

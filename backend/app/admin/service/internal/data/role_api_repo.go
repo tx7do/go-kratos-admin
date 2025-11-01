@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"github.com/go-kratos/kratos/v2/log"
+	"github.com/tx7do/go-utils/entgo"
 
 	"kratos-admin/app/admin/service/internal/data/ent"
 	"kratos-admin/app/admin/service/internal/data/ent/roleapi"
@@ -35,7 +36,7 @@ func (r *RoleApiRepo) AssignApis(ctx context.Context, roleId uint32, apiIds []ui
 
 	// 删除该角色的所有旧关联
 	if _, err = tx.RoleApi.Delete().Where(roleapi.RoleID(roleId)).Exec(ctx); err != nil {
-		err = rollback(tx, err)
+		err = entgo.Rollback(tx, err)
 		r.log.Errorf("delete old role apis failed: %s", err.Error())
 		return userV1.ErrorInternalServerError("delete old role apis failed")
 	}
@@ -56,14 +57,14 @@ func (r *RoleApiRepo) AssignApis(ctx context.Context, roleId uint32, apiIds []ui
 			Create().
 			SetRoleID(roleId).
 			SetAPIID(apiId).
-			SetCreateBy(operatorId).
-			SetCreateTime(time.Now())
+			SetCreatedBy(operatorId).
+			SetCreatedAt(time.Now())
 		roleApis = append(roleApis, rm)
 	}
 
 	_, err = r.data.db.Client().RoleApi.CreateBulk(roleApis...).Save(ctx)
 	if err != nil {
-		err = rollback(tx, err)
+		err = entgo.Rollback(tx, err)
 		r.log.Errorf("assign apis to role failed: %s", err.Error())
 		return userV1.ErrorInternalServerError("assign apis to role failed")
 	}

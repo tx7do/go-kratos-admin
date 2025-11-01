@@ -51,7 +51,7 @@ func (s *NotificationMessageService) Create(ctx context.Context, req *internalMe
 		return &emptypb.Empty{}, err
 	}
 
-	req.Data.CreateBy = trans.Ptr(operator.UserId)
+	req.Data.CreatedBy = trans.Ptr(operator.UserId)
 
 	if err = s.repo.Create(ctx, req); err != nil {
 		return nil, err
@@ -71,7 +71,7 @@ func (s *NotificationMessageService) Update(ctx context.Context, req *internalMe
 		return &emptypb.Empty{}, err
 	}
 
-	req.Data.UpdateBy = trans.Ptr(operator.UserId)
+	req.Data.UpdatedBy = trans.Ptr(operator.UserId)
 
 	if err = s.repo.Update(ctx, req); err != nil {
 		return nil, err

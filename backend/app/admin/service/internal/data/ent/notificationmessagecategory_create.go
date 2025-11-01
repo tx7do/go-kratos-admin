@@ -126,6 +126,14 @@ func (_c *NotificationMessageCategoryCreate) SetTenantID(v uint32) *Notification
 	return _c
 }
 
+// SetNillableTenantID sets the "tenant_id" field if the given value is not nil.
+func (_c *NotificationMessageCategoryCreate) SetNillableTenantID(v *uint32) *NotificationMessageCategoryCreate {
+	if v != nil {
+		_c.SetTenantID(*v)
+	}
+	return _c
+}
+
 // SetName sets the "name" field.
 func (_c *NotificationMessageCategoryCreate) SetName(v string) *NotificationMessageCategoryCreate {
 	_c.mutation.SetName(v)
@@ -265,14 +273,6 @@ func (_c *NotificationMessageCategoryCreate) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (_c *NotificationMessageCategoryCreate) check() error {
-	if _, ok := _c.mutation.TenantID(); !ok {
-		return &ValidationError{Name: "tenant_id", err: errors.New(`ent: missing required field "NotificationMessageCategory.tenant_id"`)}
-	}
-	if v, ok := _c.mutation.TenantID(); ok {
-		if err := notificationmessagecategory.TenantIDValidator(v); err != nil {
-			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "NotificationMessageCategory.tenant_id": %w`, err)}
-		}
-	}
 	if v, ok := _c.mutation.Name(); ok {
 		if err := notificationmessagecategory.NameValidator(v); err != nil {
 			return &ValidationError{Name: "name", err: fmt.Errorf(`ent: validator failed for field "NotificationMessageCategory.name": %w`, err)}
@@ -351,7 +351,7 @@ func (_c *NotificationMessageCategoryCreate) createSpec() (*NotificationMessageC
 	}
 	if value, ok := _c.mutation.TenantID(); ok {
 		_spec.SetField(notificationmessagecategory.FieldTenantID, field.TypeUint32, value)
-		_node.TenantID = value
+		_node.TenantID = &value
 	}
 	if value, ok := _c.mutation.Name(); ok {
 		_spec.SetField(notificationmessagecategory.FieldName, field.TypeString, value)

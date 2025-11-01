@@ -70,6 +70,14 @@ func (_c *UserCredentialCreate) SetTenantID(v uint32) *UserCredentialCreate {
 	return _c
 }
 
+// SetNillableTenantID sets the "tenant_id" field if the given value is not nil.
+func (_c *UserCredentialCreate) SetNillableTenantID(v *uint32) *UserCredentialCreate {
+	if v != nil {
+		_c.SetTenantID(*v)
+	}
+	return _c
+}
+
 // SetUserID sets the "user_id" field.
 func (_c *UserCredentialCreate) SetUserID(v uint32) *UserCredentialCreate {
 	_c.mutation.SetUserID(v)
@@ -271,14 +279,6 @@ func (_c *UserCredentialCreate) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (_c *UserCredentialCreate) check() error {
-	if _, ok := _c.mutation.TenantID(); !ok {
-		return &ValidationError{Name: "tenant_id", err: errors.New(`ent: missing required field "UserCredential.tenant_id"`)}
-	}
-	if v, ok := _c.mutation.TenantID(); ok {
-		if err := usercredential.TenantIDValidator(v); err != nil {
-			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "UserCredential.tenant_id": %w`, err)}
-		}
-	}
 	if v, ok := _c.mutation.IdentityType(); ok {
 		if err := usercredential.IdentityTypeValidator(v); err != nil {
 			return &ValidationError{Name: "identity_type", err: fmt.Errorf(`ent: validator failed for field "UserCredential.identity_type": %w`, err)}
@@ -366,7 +366,7 @@ func (_c *UserCredentialCreate) createSpec() (*UserCredential, *sqlgraph.CreateS
 	}
 	if value, ok := _c.mutation.TenantID(); ok {
 		_spec.SetField(usercredential.FieldTenantID, field.TypeUint32, value)
-		_node.TenantID = value
+		_node.TenantID = &value
 	}
 	if value, ok := _c.mutation.UserID(); ok {
 		_spec.SetField(usercredential.FieldUserID, field.TypeUint32, value)

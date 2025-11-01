@@ -549,6 +549,9 @@ func (_u *OrganizationUpdate) sqlSave(ctx context.Context) (_node int, err error
 	if _u.mutation.RemarkCleared() {
 		_spec.ClearField(organization.FieldRemark, field.TypeString)
 	}
+	if _u.mutation.TenantIDCleared() {
+		_spec.ClearField(organization.FieldTenantID, field.TypeUint32)
+	}
 	if value, ok := _u.mutation.Name(); ok {
 		_spec.SetField(organization.FieldName, field.TypeString, value)
 	}
@@ -1254,6 +1257,9 @@ func (_u *OrganizationUpdateOne) sqlSave(ctx context.Context) (_node *Organizati
 	}
 	if _u.mutation.RemarkCleared() {
 		_spec.ClearField(organization.FieldRemark, field.TypeString)
+	}
+	if _u.mutation.TenantIDCleared() {
+		_spec.ClearField(organization.FieldTenantID, field.TypeUint32)
 	}
 	if value, ok := _u.mutation.Name(); ok {
 		_spec.SetField(organization.FieldName, field.TypeString, value)

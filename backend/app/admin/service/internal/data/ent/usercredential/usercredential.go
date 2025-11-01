@@ -75,8 +75,6 @@ func ValidColumn(column string) bool {
 }
 
 var (
-	// TenantIDValidator is a validator for the "tenant_id" field. It is called by the builders before save.
-	TenantIDValidator func(uint32) error
 	// IdentifierValidator is a validator for the "identifier" field. It is called by the builders before save.
 	IdentifierValidator func(string) error
 	// CredentialValidator is a validator for the "credential" field. It is called by the builders before save.

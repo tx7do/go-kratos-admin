@@ -120,6 +120,6 @@ VALUES
     (15, 5, 'ALIPAY', '支付宝', 1, 1, '支持花呗、余额宝', true, now()),
     (16, 5, 'WECHAT', '微信支付', 2, 2, '需绑定微信', true, now()),
     (17, 5, 'UNIONPAY', '银联支付', 3, 3, '支持信用卡、储蓄卡', true, now()),
-    (18, 5, 'CASH', '现金支付', 4, 4, '线下支付，已废弃（2025-01停用）', true, now())
+    (18, 5, 'CASH', '现金支付', 4, 4, '线下支付，已废弃（2025-01停用）', false, now())
 ;
 SELECT setval('sys_dict_entries_id_seq', (SELECT MAX(id) FROM sys_dict_entries));

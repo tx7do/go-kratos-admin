@@ -339,6 +339,9 @@ func (_u *NotificationMessageUpdate) sqlSave(ctx context.Context) (_node int, er
 	if _u.mutation.DeletedByCleared() {
 		_spec.ClearField(notificationmessage.FieldDeletedBy, field.TypeUint32)
 	}
+	if _u.mutation.TenantIDCleared() {
+		_spec.ClearField(notificationmessage.FieldTenantID, field.TypeUint32)
+	}
 	if value, ok := _u.mutation.Subject(); ok {
 		_spec.SetField(notificationmessage.FieldSubject, field.TypeString, value)
 	}
@@ -727,6 +730,9 @@ func (_u *NotificationMessageUpdateOne) sqlSave(ctx context.Context) (_node *Not
 	}
 	if _u.mutation.DeletedByCleared() {
 		_spec.ClearField(notificationmessage.FieldDeletedBy, field.TypeUint32)
+	}
+	if _u.mutation.TenantIDCleared() {
+		_spec.ClearField(notificationmessage.FieldTenantID, field.TypeUint32)
 	}
 	if value, ok := _u.mutation.Subject(); ok {
 		_spec.SetField(notificationmessage.FieldSubject, field.TypeString, value)

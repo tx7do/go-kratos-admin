@@ -100,8 +100,6 @@ func ValidColumn(column string) bool {
 }
 
 var (
-	// TenantIDValidator is a validator for the "tenant_id" field. It is called by the builders before save.
-	TenantIDValidator func(uint32) error
 	// NameValidator is a validator for the "name" field. It is called by the builders before save.
 	NameValidator func(string) error
 	// DefaultSortOrder holds the default value on creation for the "sort_order" field.

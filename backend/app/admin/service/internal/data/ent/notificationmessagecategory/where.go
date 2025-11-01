@@ -535,6 +535,16 @@ func TenantIDLTE(v uint32) predicate.NotificationMessageCategory {
 	return predicate.NotificationMessageCategory(sql.FieldLTE(FieldTenantID, v))
 }
 
+// TenantIDIsNil applies the IsNil predicate on the "tenant_id" field.
+func TenantIDIsNil() predicate.NotificationMessageCategory {
+	return predicate.NotificationMessageCategory(sql.FieldIsNull(FieldTenantID))
+}
+
+// TenantIDNotNil applies the NotNil predicate on the "tenant_id" field.
+func TenantIDNotNil() predicate.NotificationMessageCategory {
+	return predicate.NotificationMessageCategory(sql.FieldNotNull(FieldTenantID))
+}
+
 // NameEQ applies the EQ predicate on the "name" field.
 func NameEQ(v string) predicate.NotificationMessageCategory {
 	return predicate.NotificationMessageCategory(sql.FieldEQ(FieldName, v))

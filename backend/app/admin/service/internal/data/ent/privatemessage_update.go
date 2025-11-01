@@ -258,6 +258,9 @@ func (_u *PrivateMessageUpdate) sqlSave(ctx context.Context) (_node int, err err
 	if _u.mutation.DeletedAtCleared() {
 		_spec.ClearField(privatemessage.FieldDeletedAt, field.TypeTime)
 	}
+	if _u.mutation.TenantIDCleared() {
+		_spec.ClearField(privatemessage.FieldTenantID, field.TypeUint32)
+	}
 	if value, ok := _u.mutation.Subject(); ok {
 		_spec.SetField(privatemessage.FieldSubject, field.TypeString, value)
 	}
@@ -574,6 +577,9 @@ func (_u *PrivateMessageUpdateOne) sqlSave(ctx context.Context) (_node *PrivateM
 	}
 	if _u.mutation.DeletedAtCleared() {
 		_spec.ClearField(privatemessage.FieldDeletedAt, field.TypeTime)
+	}
+	if _u.mutation.TenantIDCleared() {
+		_spec.ClearField(privatemessage.FieldTenantID, field.TypeUint32)
 	}
 	if value, ok := _u.mutation.Subject(); ok {
 		_spec.SetField(privatemessage.FieldSubject, field.TypeString, value)

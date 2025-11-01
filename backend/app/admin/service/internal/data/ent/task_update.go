@@ -396,6 +396,9 @@ func (_u *TaskUpdate) sqlSave(ctx context.Context) (_node int, err error) {
 	if _u.mutation.RemarkCleared() {
 		_spec.ClearField(task.FieldRemark, field.TypeString)
 	}
+	if _u.mutation.TenantIDCleared() {
+		_spec.ClearField(task.FieldTenantID, field.TypeUint32)
+	}
 	if value, ok := _u.mutation.GetType(); ok {
 		_spec.SetField(task.FieldType, field.TypeEnum, value)
 	}
@@ -849,6 +852,9 @@ func (_u *TaskUpdateOne) sqlSave(ctx context.Context) (_node *Task, err error) {
 	}
 	if _u.mutation.RemarkCleared() {
 		_spec.ClearField(task.FieldRemark, field.TypeString)
+	}
+	if _u.mutation.TenantIDCleared() {
+		_spec.ClearField(task.FieldTenantID, field.TypeUint32)
 	}
 	if value, ok := _u.mutation.GetType(); ok {
 		_spec.SetField(task.FieldType, field.TypeEnum, value)

@@ -38,7 +38,7 @@ type DictEntry struct {
 	// 是否启用
 	IsEnabled *bool `json:"is_enabled,omitempty"`
 	// 租户ID
-	TenantID uint32 `json:"tenant_id,omitempty"`
+	TenantID *uint32 `json:"tenant_id,omitempty"`
 	// 字典项的显示标签
 	EntryLabel *string `json:"entry_label,omitempty"`
 	// 字典项的实际值
@@ -177,7 +177,8 @@ func (_m *DictEntry) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field tenant_id", values[i])
 			} else if value.Valid {
-				_m.TenantID = uint32(value.Int64)
+				_m.TenantID = new(uint32)
+				*_m.TenantID = uint32(value.Int64)
 			}
 		case dictentry.FieldEntryLabel:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -300,8 +301,10 @@ func (_m *DictEntry) String() string {
 		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteString(", ")
-	builder.WriteString("tenant_id=")
-	builder.WriteString(fmt.Sprintf("%v", _m.TenantID))
+	if v := _m.TenantID; v != nil {
+		builder.WriteString("tenant_id=")
+		builder.WriteString(fmt.Sprintf("%v", *v))
+	}
 	builder.WriteString(", ")
 	if v := _m.EntryLabel; v != nil {
 		builder.WriteString("entry_label=")

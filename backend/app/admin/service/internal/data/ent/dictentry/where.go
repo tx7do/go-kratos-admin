@@ -610,6 +610,16 @@ func TenantIDLTE(v uint32) predicate.DictEntry {
 	return predicate.DictEntry(sql.FieldLTE(FieldTenantID, v))
 }
 
+// TenantIDIsNil applies the IsNil predicate on the "tenant_id" field.
+func TenantIDIsNil() predicate.DictEntry {
+	return predicate.DictEntry(sql.FieldIsNull(FieldTenantID))
+}
+
+// TenantIDNotNil applies the NotNil predicate on the "tenant_id" field.
+func TenantIDNotNil() predicate.DictEntry {
+	return predicate.DictEntry(sql.FieldNotNull(FieldTenantID))
+}
+
 // EntryLabelEQ applies the EQ predicate on the "entry_label" field.
 func EntryLabelEQ(v string) predicate.DictEntry {
 	return predicate.DictEntry(sql.FieldEQ(FieldEntryLabel, v))

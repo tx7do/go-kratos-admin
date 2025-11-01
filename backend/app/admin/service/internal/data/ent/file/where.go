@@ -559,6 +559,16 @@ func TenantIDLTE(v uint32) predicate.File {
 	return predicate.File(sql.FieldLTE(FieldTenantID, v))
 }
 
+// TenantIDIsNil applies the IsNil predicate on the "tenant_id" field.
+func TenantIDIsNil() predicate.File {
+	return predicate.File(sql.FieldIsNull(FieldTenantID))
+}
+
+// TenantIDNotNil applies the NotNil predicate on the "tenant_id" field.
+func TenantIDNotNil() predicate.File {
+	return predicate.File(sql.FieldNotNull(FieldTenantID))
+}
+
 // ProviderEQ applies the EQ predicate on the "provider" field.
 func ProviderEQ(v Provider) predicate.File {
 	return predicate.File(sql.FieldEQ(FieldProvider, v))

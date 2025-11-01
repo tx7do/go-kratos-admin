@@ -70,6 +70,14 @@ func (_c *PrivateMessageCreate) SetTenantID(v uint32) *PrivateMessageCreate {
 	return _c
 }
 
+// SetNillableTenantID sets the "tenant_id" field if the given value is not nil.
+func (_c *PrivateMessageCreate) SetNillableTenantID(v *uint32) *PrivateMessageCreate {
+	if v != nil {
+		_c.SetTenantID(*v)
+	}
+	return _c
+}
+
 // SetSubject sets the "subject" field.
 func (_c *PrivateMessageCreate) SetSubject(v string) *PrivateMessageCreate {
 	_c.mutation.SetSubject(v)
@@ -180,14 +188,6 @@ func (_c *PrivateMessageCreate) ExecX(ctx context.Context) {
 
 // check runs all checks and user-defined validators on the builder.
 func (_c *PrivateMessageCreate) check() error {
-	if _, ok := _c.mutation.TenantID(); !ok {
-		return &ValidationError{Name: "tenant_id", err: errors.New(`ent: missing required field "PrivateMessage.tenant_id"`)}
-	}
-	if v, ok := _c.mutation.TenantID(); ok {
-		if err := privatemessage.TenantIDValidator(v); err != nil {
-			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "PrivateMessage.tenant_id": %w`, err)}
-		}
-	}
 	if v, ok := _c.mutation.Status(); ok {
 		if err := privatemessage.StatusValidator(v); err != nil {
 			return &ValidationError{Name: "status", err: fmt.Errorf(`ent: validator failed for field "PrivateMessage.status": %w`, err)}
@@ -245,7 +245,7 @@ func (_c *PrivateMessageCreate) createSpec() (*PrivateMessage, *sqlgraph.CreateS
 	}
 	if value, ok := _c.mutation.TenantID(); ok {
 		_spec.SetField(privatemessage.FieldTenantID, field.TypeUint32, value)
-		_node.TenantID = value
+		_node.TenantID = &value
 	}
 	if value, ok := _c.mutation.Subject(); ok {
 		_spec.SetField(privatemessage.FieldSubject, field.TypeString, value)

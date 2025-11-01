@@ -299,6 +299,16 @@ func TenantIDLTE(v uint32) predicate.UserCredential {
 	return predicate.UserCredential(sql.FieldLTE(FieldTenantID, v))
 }
 
+// TenantIDIsNil applies the IsNil predicate on the "tenant_id" field.
+func TenantIDIsNil() predicate.UserCredential {
+	return predicate.UserCredential(sql.FieldIsNull(FieldTenantID))
+}
+
+// TenantIDNotNil applies the NotNil predicate on the "tenant_id" field.
+func TenantIDNotNil() predicate.UserCredential {
+	return predicate.UserCredential(sql.FieldNotNull(FieldTenantID))
+}
+
 // UserIDEQ applies the EQ predicate on the "user_id" field.
 func UserIDEQ(v uint32) predicate.UserCredential {
 	return predicate.UserCredential(sql.FieldEQ(FieldUserID, v))

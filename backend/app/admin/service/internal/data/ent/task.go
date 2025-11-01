@@ -35,7 +35,7 @@ type Task struct {
 	// 备注
 	Remark *string `json:"remark,omitempty"`
 	// 租户ID
-	TenantID uint32 `json:"tenant_id,omitempty"`
+	TenantID *uint32 `json:"tenant_id,omitempty"`
 	// 任务类型
 	Type *task.Type `json:"type,omitempty"`
 	// 任务执行类型名
@@ -140,7 +140,8 @@ func (_m *Task) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field tenant_id", values[i])
 			} else if value.Valid {
-				_m.TenantID = uint32(value.Int64)
+				_m.TenantID = new(uint32)
+				*_m.TenantID = uint32(value.Int64)
 			}
 		case task.FieldType:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -256,8 +257,10 @@ func (_m *Task) String() string {
 		builder.WriteString(*v)
 	}
 	builder.WriteString(", ")
-	builder.WriteString("tenant_id=")
-	builder.WriteString(fmt.Sprintf("%v", _m.TenantID))
+	if v := _m.TenantID; v != nil {
+		builder.WriteString("tenant_id=")
+		builder.WriteString(fmt.Sprintf("%v", *v))
+	}
 	builder.WriteString(", ")
 	if v := _m.Type; v != nil {
 		builder.WriteString("type=")

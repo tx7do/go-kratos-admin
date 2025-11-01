@@ -274,6 +274,16 @@ func TenantIDLTE(v uint32) predicate.NotificationMessageRecipient {
 	return predicate.NotificationMessageRecipient(sql.FieldLTE(FieldTenantID, v))
 }
 
+// TenantIDIsNil applies the IsNil predicate on the "tenant_id" field.
+func TenantIDIsNil() predicate.NotificationMessageRecipient {
+	return predicate.NotificationMessageRecipient(sql.FieldIsNull(FieldTenantID))
+}
+
+// TenantIDNotNil applies the NotNil predicate on the "tenant_id" field.
+func TenantIDNotNil() predicate.NotificationMessageRecipient {
+	return predicate.NotificationMessageRecipient(sql.FieldNotNull(FieldTenantID))
+}
+
 // MessageIDEQ applies the EQ predicate on the "message_id" field.
 func MessageIDEQ(v uint32) predicate.NotificationMessageRecipient {
 	return predicate.NotificationMessageRecipient(sql.FieldEQ(FieldMessageID, v))

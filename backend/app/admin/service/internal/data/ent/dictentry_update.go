@@ -453,6 +453,9 @@ func (_u *DictEntryUpdate) sqlSave(ctx context.Context) (_node int, err error) {
 	if _u.mutation.IsEnabledCleared() {
 		_spec.ClearField(dictentry.FieldIsEnabled, field.TypeBool)
 	}
+	if _u.mutation.TenantIDCleared() {
+		_spec.ClearField(dictentry.FieldTenantID, field.TypeUint32)
+	}
 	if value, ok := _u.mutation.EntryLabel(); ok {
 		_spec.SetField(dictentry.FieldEntryLabel, field.TypeString, value)
 	}
@@ -983,6 +986,9 @@ func (_u *DictEntryUpdateOne) sqlSave(ctx context.Context) (_node *DictEntry, er
 	}
 	if _u.mutation.IsEnabledCleared() {
 		_spec.ClearField(dictentry.FieldIsEnabled, field.TypeBool)
+	}
+	if _u.mutation.TenantIDCleared() {
+		_spec.ClearField(dictentry.FieldTenantID, field.TypeUint32)
 	}
 	if value, ok := _u.mutation.EntryLabel(); ok {
 		_spec.SetField(dictentry.FieldEntryLabel, field.TypeString, value)

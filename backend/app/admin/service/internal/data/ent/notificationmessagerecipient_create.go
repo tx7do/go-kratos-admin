@@ -70,6 +70,14 @@ func (_c *NotificationMessageRecipientCreate) SetTenantID(v uint32) *Notificatio
 	return _c
 }
 
+// SetNillableTenantID sets the "tenant_id" field if the given value is not nil.
+func (_c *NotificationMessageRecipientCreate) SetNillableTenantID(v *uint32) *NotificationMessageRecipientCreate {
+	if v != nil {
+		_c.SetTenantID(*v)
+	}
+	return _c
+}
+
 // SetMessageID sets the "message_id" field.
 func (_c *NotificationMessageRecipientCreate) SetMessageID(v uint32) *NotificationMessageRecipientCreate {
 	_c.mutation.SetMessageID(v)
@@ -152,14 +160,6 @@ func (_c *NotificationMessageRecipientCreate) ExecX(ctx context.Context) {
 
 // check runs all checks and user-defined validators on the builder.
 func (_c *NotificationMessageRecipientCreate) check() error {
-	if _, ok := _c.mutation.TenantID(); !ok {
-		return &ValidationError{Name: "tenant_id", err: errors.New(`ent: missing required field "NotificationMessageRecipient.tenant_id"`)}
-	}
-	if v, ok := _c.mutation.TenantID(); ok {
-		if err := notificationmessagerecipient.TenantIDValidator(v); err != nil {
-			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "NotificationMessageRecipient.tenant_id": %w`, err)}
-		}
-	}
 	if v, ok := _c.mutation.Status(); ok {
 		if err := notificationmessagerecipient.StatusValidator(v); err != nil {
 			return &ValidationError{Name: "status", err: fmt.Errorf(`ent: validator failed for field "NotificationMessageRecipient.status": %w`, err)}
@@ -217,7 +217,7 @@ func (_c *NotificationMessageRecipientCreate) createSpec() (*NotificationMessage
 	}
 	if value, ok := _c.mutation.TenantID(); ok {
 		_spec.SetField(notificationmessagerecipient.FieldTenantID, field.TypeUint32, value)
-		_node.TenantID = value
+		_node.TenantID = &value
 	}
 	if value, ok := _c.mutation.MessageID(); ok {
 		_spec.SetField(notificationmessagerecipient.FieldMessageID, field.TypeUint32, value)

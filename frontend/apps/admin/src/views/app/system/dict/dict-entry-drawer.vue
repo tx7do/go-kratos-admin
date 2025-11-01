@@ -43,7 +43,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
         valueField: 'id',
         api: async () => {
           const result = await dictStore.listDictType(true, null, null, {
-            isEnabled: true,
+            is_enabled: 'true',
           });
           return result.items;
         },

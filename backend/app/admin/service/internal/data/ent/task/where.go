@@ -529,6 +529,16 @@ func TenantIDLTE(v uint32) predicate.Task {
 	return predicate.Task(sql.FieldLTE(FieldTenantID, v))
 }
 
+// TenantIDIsNil applies the IsNil predicate on the "tenant_id" field.
+func TenantIDIsNil() predicate.Task {
+	return predicate.Task(sql.FieldIsNull(FieldTenantID))
+}
+
+// TenantIDNotNil applies the NotNil predicate on the "tenant_id" field.
+func TenantIDNotNil() predicate.Task {
+	return predicate.Task(sql.FieldNotNull(FieldTenantID))
+}
+
 // TypeEQ applies the EQ predicate on the "type" field.
 func TypeEQ(v Type) predicate.Task {
 	return predicate.Task(sql.FieldEQ(FieldType, v))

@@ -126,6 +126,14 @@ func (_c *DepartmentCreate) SetTenantID(v uint32) *DepartmentCreate {
 	return _c
 }
 
+// SetNillableTenantID sets the "tenant_id" field if the given value is not nil.
+func (_c *DepartmentCreate) SetNillableTenantID(v *uint32) *DepartmentCreate {
+	if v != nil {
+		_c.SetTenantID(*v)
+	}
+	return _c
+}
+
 // SetName sets the "name" field.
 func (_c *DepartmentCreate) SetName(v string) *DepartmentCreate {
 	_c.mutation.SetName(v)
@@ -289,14 +297,6 @@ func (_c *DepartmentCreate) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (_c *DepartmentCreate) check() error {
-	if _, ok := _c.mutation.TenantID(); !ok {
-		return &ValidationError{Name: "tenant_id", err: errors.New(`ent: missing required field "Department.tenant_id"`)}
-	}
-	if v, ok := _c.mutation.TenantID(); ok {
-		if err := department.TenantIDValidator(v); err != nil {
-			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "Department.tenant_id": %w`, err)}
-		}
-	}
 	if v, ok := _c.mutation.Name(); ok {
 		if err := department.NameValidator(v); err != nil {
 			return &ValidationError{Name: "name", err: fmt.Errorf(`ent: validator failed for field "Department.name": %w`, err)}
@@ -378,7 +378,7 @@ func (_c *DepartmentCreate) createSpec() (*Department, *sqlgraph.CreateSpec) {
 	}
 	if value, ok := _c.mutation.TenantID(); ok {
 		_spec.SetField(department.FieldTenantID, field.TypeUint32, value)
-		_node.TenantID = value
+		_node.TenantID = &value
 	}
 	if value, ok := _c.mutation.Name(); ok {
 		_spec.SetField(department.FieldName, field.TypeString, value)

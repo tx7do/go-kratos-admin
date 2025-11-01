@@ -600,6 +600,16 @@ func TenantIDLTE(v uint32) predicate.DictType {
 	return predicate.DictType(sql.FieldLTE(FieldTenantID, v))
 }
 
+// TenantIDIsNil applies the IsNil predicate on the "tenant_id" field.
+func TenantIDIsNil() predicate.DictType {
+	return predicate.DictType(sql.FieldIsNull(FieldTenantID))
+}
+
+// TenantIDNotNil applies the NotNil predicate on the "tenant_id" field.
+func TenantIDNotNil() predicate.DictType {
+	return predicate.DictType(sql.FieldNotNull(FieldTenantID))
+}
+
 // TypeCodeEQ applies the EQ predicate on the "type_code" field.
 func TypeCodeEQ(v string) predicate.DictType {
 	return predicate.DictType(sql.FieldEQ(FieldTypeCode, v))

@@ -155,6 +155,14 @@ func (_c *DictTypeCreate) SetTenantID(v uint32) *DictTypeCreate {
 	return _c
 }
 
+// SetNillableTenantID sets the "tenant_id" field if the given value is not nil.
+func (_c *DictTypeCreate) SetNillableTenantID(v *uint32) *DictTypeCreate {
+	if v != nil {
+		_c.SetTenantID(*v)
+	}
+	return _c
+}
+
 // SetTypeCode sets the "type_code" field.
 func (_c *DictTypeCreate) SetTypeCode(v string) *DictTypeCreate {
 	_c.mutation.SetTypeCode(v)
@@ -251,14 +259,6 @@ func (_c *DictTypeCreate) defaults() {
 
 // check runs all checks and user-defined validators on the builder.
 func (_c *DictTypeCreate) check() error {
-	if _, ok := _c.mutation.TenantID(); !ok {
-		return &ValidationError{Name: "tenant_id", err: errors.New(`ent: missing required field "DictType.tenant_id"`)}
-	}
-	if v, ok := _c.mutation.TenantID(); ok {
-		if err := dicttype.TenantIDValidator(v); err != nil {
-			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "DictType.tenant_id": %w`, err)}
-		}
-	}
 	if v, ok := _c.mutation.TypeCode(); ok {
 		if err := dicttype.TypeCodeValidator(v); err != nil {
 			return &ValidationError{Name: "type_code", err: fmt.Errorf(`ent: validator failed for field "DictType.type_code": %w`, err)}
@@ -345,7 +345,7 @@ func (_c *DictTypeCreate) createSpec() (*DictType, *sqlgraph.CreateSpec) {
 	}
 	if value, ok := _c.mutation.TenantID(); ok {
 		_spec.SetField(dicttype.FieldTenantID, field.TypeUint32, value)
-		_node.TenantID = value
+		_node.TenantID = &value
 	}
 	if value, ok := _c.mutation.TypeCode(); ok {
 		_spec.SetField(dicttype.FieldTypeCode, field.TypeString, value)

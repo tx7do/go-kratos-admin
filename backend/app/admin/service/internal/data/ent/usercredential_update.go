@@ -381,6 +381,9 @@ func (_u *UserCredentialUpdate) sqlSave(ctx context.Context) (_node int, err err
 	if _u.mutation.DeletedAtCleared() {
 		_spec.ClearField(usercredential.FieldDeletedAt, field.TypeTime)
 	}
+	if _u.mutation.TenantIDCleared() {
+		_spec.ClearField(usercredential.FieldTenantID, field.TypeUint32)
+	}
 	if value, ok := _u.mutation.UserID(); ok {
 		_spec.SetField(usercredential.FieldUserID, field.TypeUint32, value)
 	}
@@ -847,6 +850,9 @@ func (_u *UserCredentialUpdateOne) sqlSave(ctx context.Context) (_node *UserCred
 	}
 	if _u.mutation.DeletedAtCleared() {
 		_spec.ClearField(usercredential.FieldDeletedAt, field.TypeTime)
+	}
+	if _u.mutation.TenantIDCleared() {
+		_spec.ClearField(usercredential.FieldTenantID, field.TypeUint32)
 	}
 	if value, ok := _u.mutation.UserID(); ok {
 		_spec.SetField(usercredential.FieldUserID, field.TypeUint32, value)

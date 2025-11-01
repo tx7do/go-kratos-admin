@@ -540,6 +540,16 @@ func TenantIDLTE(v uint32) predicate.Department {
 	return predicate.Department(sql.FieldLTE(FieldTenantID, v))
 }
 
+// TenantIDIsNil applies the IsNil predicate on the "tenant_id" field.
+func TenantIDIsNil() predicate.Department {
+	return predicate.Department(sql.FieldIsNull(FieldTenantID))
+}
+
+// TenantIDNotNil applies the NotNil predicate on the "tenant_id" field.
+func TenantIDNotNil() predicate.Department {
+	return predicate.Department(sql.FieldNotNull(FieldTenantID))
+}
+
 // NameEQ applies the EQ predicate on the "name" field.
 func NameEQ(v string) predicate.Department {
 	return predicate.Department(sql.FieldEQ(FieldName, v))

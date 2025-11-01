@@ -98,8 +98,6 @@ var (
 	DefaultSortOrder int32
 	// DefaultIsEnabled holds the default value on creation for the "is_enabled" field.
 	DefaultIsEnabled bool
-	// TenantIDValidator is a validator for the "tenant_id" field. It is called by the builders before save.
-	TenantIDValidator func(uint32) error
 	// EntryLabelValidator is a validator for the "entry_label" field. It is called by the builders before save.
 	EntryLabelValidator func(string) error
 	// EntryValueValidator is a validator for the "entry_value" field. It is called by the builders before save.

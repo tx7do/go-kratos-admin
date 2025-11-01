@@ -32,7 +32,7 @@ SELECT setval('sys_user_credentials_id_seq', (SELECT MAX(id) FROM sys_user_crede
 
 -- 默认的角色
 TRUNCATE TABLE kratos_admin.public.sys_roles RESTART IDENTITY;
-INSERT INTO kratos_admin.public.sys_roles(id, parent_id, create_by, sort_order, name, code, status, remark, menus, apis, created_at)
+INSERT INTO kratos_admin.public.sys_roles(id, parent_id, created_by, sort_order, name, code, status, remark, menus, apis, created_at)
 VALUES (1, null, 0, 1, '超级管理员', 'super', 'ON', '拥有系统所有功能的操作权限，可管理租户、用户、角色及所有资源',
         '[1, 2, 10, 11, 20, 21, 22, 23, 24, 25, 30, 31, 32, 40, 41, 42, 43, 50, 51, 52, 60, 61, 62, 63, 64, 65]', '[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113]', now()),
        (2, null, 0, 2, '租户管理员', 'tenant_admin', 'ON', '管理当前租户下的用户、角色及资源，无跨租户操作权限', '[1, 2, 20, 21, 22, 23, 24, 25, 50, 51, 52]', '[105, 104, 35, 34, 16, 106, 93, 14, 1, 92, 91, 85, 79, 46, 24, 23, 78, 56, 55, 8, 7, 52, 51, 6, 5, 4, 31, 30, 20, 19, 53, 15]', now()),

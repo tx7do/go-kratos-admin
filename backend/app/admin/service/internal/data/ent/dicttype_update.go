@@ -422,6 +422,9 @@ func (_u *DictTypeUpdate) sqlSave(ctx context.Context) (_node int, err error) {
 	if _u.mutation.DescriptionCleared() {
 		_spec.ClearField(dicttype.FieldDescription, field.TypeString)
 	}
+	if _u.mutation.TenantIDCleared() {
+		_spec.ClearField(dicttype.FieldTenantID, field.TypeUint32)
+	}
 	if value, ok := _u.mutation.TypeCode(); ok {
 		_spec.SetField(dicttype.FieldTypeCode, field.TypeString, value)
 	}
@@ -922,6 +925,9 @@ func (_u *DictTypeUpdateOne) sqlSave(ctx context.Context) (_node *DictType, err 
 	}
 	if _u.mutation.DescriptionCleared() {
 		_spec.ClearField(dicttype.FieldDescription, field.TypeString)
+	}
+	if _u.mutation.TenantIDCleared() {
+		_spec.ClearField(dicttype.FieldTenantID, field.TypeUint32)
 	}
 	if value, ok := _u.mutation.TypeCode(); ok {
 		_spec.SetField(dicttype.FieldTypeCode, field.TypeString, value)

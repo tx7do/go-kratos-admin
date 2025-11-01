@@ -505,6 +505,9 @@ func (_u *FileUpdate) sqlSave(ctx context.Context) (_node int, err error) {
 	if _u.mutation.RemarkCleared() {
 		_spec.ClearField(file.FieldRemark, field.TypeString)
 	}
+	if _u.mutation.TenantIDCleared() {
+		_spec.ClearField(file.FieldTenantID, field.TypeUint32)
+	}
 	if value, ok := _u.mutation.Provider(); ok {
 		_spec.SetField(file.FieldProvider, field.TypeEnum, value)
 	}
@@ -1101,6 +1104,9 @@ func (_u *FileUpdateOne) sqlSave(ctx context.Context) (_node *File, err error) {
 	}
 	if _u.mutation.RemarkCleared() {
 		_spec.ClearField(file.FieldRemark, field.TypeString)
+	}
+	if _u.mutation.TenantIDCleared() {
+		_spec.ClearField(file.FieldTenantID, field.TypeUint32)
 	}
 	if value, ok := _u.mutation.Provider(); ok {
 		_spec.SetField(file.FieldProvider, field.TypeEnum, value)

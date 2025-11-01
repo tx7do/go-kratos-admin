@@ -7010,7 +7010,7 @@ func (m *DepartmentMutation) TenantID() (r uint32, exists bool) {
 // OldTenantID returns the old "tenant_id" field's value of the Department entity.
 // If the Department object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *DepartmentMutation) OldTenantID(ctx context.Context) (v uint32, err error) {
+func (m *DepartmentMutation) OldTenantID(ctx context.Context) (v *uint32, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldTenantID is only allowed on UpdateOne operations")
 	}
@@ -7042,10 +7042,24 @@ func (m *DepartmentMutation) AddedTenantID() (r int32, exists bool) {
 	return *v, true
 }
 
+// ClearTenantID clears the value of the "tenant_id" field.
+func (m *DepartmentMutation) ClearTenantID() {
+	m.tenant_id = nil
+	m.addtenant_id = nil
+	m.clearedFields[department.FieldTenantID] = struct{}{}
+}
+
+// TenantIDCleared returns if the "tenant_id" field was cleared in this mutation.
+func (m *DepartmentMutation) TenantIDCleared() bool {
+	_, ok := m.clearedFields[department.FieldTenantID]
+	return ok
+}
+
 // ResetTenantID resets all changes to the "tenant_id" field.
 func (m *DepartmentMutation) ResetTenantID() {
 	m.tenant_id = nil
 	m.addtenant_id = nil
+	delete(m.clearedFields, department.FieldTenantID)
 }
 
 // SetName sets the "name" field.
@@ -7930,6 +7944,9 @@ func (m *DepartmentMutation) ClearedFields() []string {
 	if m.FieldCleared(department.FieldRemark) {
 		fields = append(fields, department.FieldRemark)
 	}
+	if m.FieldCleared(department.FieldTenantID) {
+		fields = append(fields, department.FieldTenantID)
+	}
 	if m.FieldCleared(department.FieldName) {
 		fields = append(fields, department.FieldName)
 	}
@@ -7982,6 +7999,9 @@ func (m *DepartmentMutation) ClearField(name string) error {
 		return nil
 	case department.FieldRemark:
 		m.ClearRemark()
+		return nil
+	case department.FieldTenantID:
+		m.ClearTenantID()
 		return nil
 	case department.FieldName:
 		m.ClearName()
@@ -8841,7 +8861,7 @@ func (m *DictEntryMutation) TenantID() (r uint32, exists bool) {
 // OldTenantID returns the old "tenant_id" field's value of the DictEntry entity.
 // If the DictEntry object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *DictEntryMutation) OldTenantID(ctx context.Context) (v uint32, err error) {
+func (m *DictEntryMutation) OldTenantID(ctx context.Context) (v *uint32, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldTenantID is only allowed on UpdateOne operations")
 	}
@@ -8873,10 +8893,24 @@ func (m *DictEntryMutation) AddedTenantID() (r int32, exists bool) {
 	return *v, true
 }
 
+// ClearTenantID clears the value of the "tenant_id" field.
+func (m *DictEntryMutation) ClearTenantID() {
+	m.tenant_id = nil
+	m.addtenant_id = nil
+	m.clearedFields[dictentry.FieldTenantID] = struct{}{}
+}
+
+// TenantIDCleared returns if the "tenant_id" field was cleared in this mutation.
+func (m *DictEntryMutation) TenantIDCleared() bool {
+	_, ok := m.clearedFields[dictentry.FieldTenantID]
+	return ok
+}
+
 // ResetTenantID resets all changes to the "tenant_id" field.
 func (m *DictEntryMutation) ResetTenantID() {
 	m.tenant_id = nil
 	m.addtenant_id = nil
+	delete(m.clearedFields, dictentry.FieldTenantID)
 }
 
 // SetEntryLabel sets the "entry_label" field.
@@ -9524,6 +9558,9 @@ func (m *DictEntryMutation) ClearedFields() []string {
 	if m.FieldCleared(dictentry.FieldIsEnabled) {
 		fields = append(fields, dictentry.FieldIsEnabled)
 	}
+	if m.FieldCleared(dictentry.FieldTenantID) {
+		fields = append(fields, dictentry.FieldTenantID)
+	}
 	if m.FieldCleared(dictentry.FieldEntryLabel) {
 		fields = append(fields, dictentry.FieldEntryLabel)
 	}
@@ -9576,6 +9613,9 @@ func (m *DictEntryMutation) ClearField(name string) error {
 		return nil
 	case dictentry.FieldIsEnabled:
 		m.ClearIsEnabled()
+		return nil
+	case dictentry.FieldTenantID:
+		m.ClearTenantID()
 		return nil
 	case dictentry.FieldEntryLabel:
 		m.ClearEntryLabel()
@@ -10396,7 +10436,7 @@ func (m *DictTypeMutation) TenantID() (r uint32, exists bool) {
 // OldTenantID returns the old "tenant_id" field's value of the DictType entity.
 // If the DictType object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *DictTypeMutation) OldTenantID(ctx context.Context) (v uint32, err error) {
+func (m *DictTypeMutation) OldTenantID(ctx context.Context) (v *uint32, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldTenantID is only allowed on UpdateOne operations")
 	}
@@ -10428,10 +10468,24 @@ func (m *DictTypeMutation) AddedTenantID() (r int32, exists bool) {
 	return *v, true
 }
 
+// ClearTenantID clears the value of the "tenant_id" field.
+func (m *DictTypeMutation) ClearTenantID() {
+	m.tenant_id = nil
+	m.addtenant_id = nil
+	m.clearedFields[dicttype.FieldTenantID] = struct{}{}
+}
+
+// TenantIDCleared returns if the "tenant_id" field was cleared in this mutation.
+func (m *DictTypeMutation) TenantIDCleared() bool {
+	_, ok := m.clearedFields[dicttype.FieldTenantID]
+	return ok
+}
+
 // ResetTenantID resets all changes to the "tenant_id" field.
 func (m *DictTypeMutation) ResetTenantID() {
 	m.tenant_id = nil
 	m.addtenant_id = nil
+	delete(m.clearedFields, dicttype.FieldTenantID)
 }
 
 // SetTypeCode sets the "type_code" field.
@@ -10935,6 +10989,9 @@ func (m *DictTypeMutation) ClearedFields() []string {
 	if m.FieldCleared(dicttype.FieldDescription) {
 		fields = append(fields, dicttype.FieldDescription)
 	}
+	if m.FieldCleared(dicttype.FieldTenantID) {
+		fields = append(fields, dicttype.FieldTenantID)
+	}
 	if m.FieldCleared(dicttype.FieldTypeCode) {
 		fields = append(fields, dicttype.FieldTypeCode)
 	}
@@ -10981,6 +11038,9 @@ func (m *DictTypeMutation) ClearField(name string) error {
 		return nil
 	case dicttype.FieldDescription:
 		m.ClearDescription()
+		return nil
+	case dicttype.FieldTenantID:
+		m.ClearTenantID()
 		return nil
 	case dicttype.FieldTypeCode:
 		m.ClearTypeCode()
@@ -11684,7 +11744,7 @@ func (m *FileMutation) TenantID() (r uint32, exists bool) {
 // OldTenantID returns the old "tenant_id" field's value of the File entity.
 // If the File object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *FileMutation) OldTenantID(ctx context.Context) (v uint32, err error) {
+func (m *FileMutation) OldTenantID(ctx context.Context) (v *uint32, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldTenantID is only allowed on UpdateOne operations")
 	}
@@ -11716,10 +11776,24 @@ func (m *FileMutation) AddedTenantID() (r int32, exists bool) {
 	return *v, true
 }
 
+// ClearTenantID clears the value of the "tenant_id" field.
+func (m *FileMutation) ClearTenantID() {
+	m.tenant_id = nil
+	m.addtenant_id = nil
+	m.clearedFields[file.FieldTenantID] = struct{}{}
+}
+
+// TenantIDCleared returns if the "tenant_id" field was cleared in this mutation.
+func (m *FileMutation) TenantIDCleared() bool {
+	_, ok := m.clearedFields[file.FieldTenantID]
+	return ok
+}
+
 // ResetTenantID resets all changes to the "tenant_id" field.
 func (m *FileMutation) ResetTenantID() {
 	m.tenant_id = nil
 	m.addtenant_id = nil
+	delete(m.clearedFields, file.FieldTenantID)
 }
 
 // SetProvider sets the "provider" field.
@@ -12723,6 +12797,9 @@ func (m *FileMutation) ClearedFields() []string {
 	if m.FieldCleared(file.FieldRemark) {
 		fields = append(fields, file.FieldRemark)
 	}
+	if m.FieldCleared(file.FieldTenantID) {
+		fields = append(fields, file.FieldTenantID)
+	}
 	if m.FieldCleared(file.FieldProvider) {
 		fields = append(fields, file.FieldProvider)
 	}
@@ -12790,6 +12867,9 @@ func (m *FileMutation) ClearField(name string) error {
 		return nil
 	case file.FieldRemark:
 		m.ClearRemark()
+		return nil
+	case file.FieldTenantID:
+		m.ClearTenantID()
 		return nil
 	case file.FieldProvider:
 		m.ClearProvider()
@@ -16437,7 +16517,7 @@ func (m *NotificationMessageMutation) TenantID() (r uint32, exists bool) {
 // OldTenantID returns the old "tenant_id" field's value of the NotificationMessage entity.
 // If the NotificationMessage object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *NotificationMessageMutation) OldTenantID(ctx context.Context) (v uint32, err error) {
+func (m *NotificationMessageMutation) OldTenantID(ctx context.Context) (v *uint32, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldTenantID is only allowed on UpdateOne operations")
 	}
@@ -16469,10 +16549,24 @@ func (m *NotificationMessageMutation) AddedTenantID() (r int32, exists bool) {
 	return *v, true
 }
 
+// ClearTenantID clears the value of the "tenant_id" field.
+func (m *NotificationMessageMutation) ClearTenantID() {
+	m.tenant_id = nil
+	m.addtenant_id = nil
+	m.clearedFields[notificationmessage.FieldTenantID] = struct{}{}
+}
+
+// TenantIDCleared returns if the "tenant_id" field was cleared in this mutation.
+func (m *NotificationMessageMutation) TenantIDCleared() bool {
+	_, ok := m.clearedFields[notificationmessage.FieldTenantID]
+	return ok
+}
+
 // ResetTenantID resets all changes to the "tenant_id" field.
 func (m *NotificationMessageMutation) ResetTenantID() {
 	m.tenant_id = nil
 	m.addtenant_id = nil
+	delete(m.clearedFields, notificationmessage.FieldTenantID)
 }
 
 // SetSubject sets the "subject" field.
@@ -17018,6 +17112,9 @@ func (m *NotificationMessageMutation) ClearedFields() []string {
 	if m.FieldCleared(notificationmessage.FieldDeletedBy) {
 		fields = append(fields, notificationmessage.FieldDeletedBy)
 	}
+	if m.FieldCleared(notificationmessage.FieldTenantID) {
+		fields = append(fields, notificationmessage.FieldTenantID)
+	}
 	if m.FieldCleared(notificationmessage.FieldSubject) {
 		fields = append(fields, notificationmessage.FieldSubject)
 	}
@@ -17061,6 +17158,9 @@ func (m *NotificationMessageMutation) ClearField(name string) error {
 		return nil
 	case notificationmessage.FieldDeletedBy:
 		m.ClearDeletedBy()
+		return nil
+	case notificationmessage.FieldTenantID:
+		m.ClearTenantID()
 		return nil
 	case notificationmessage.FieldSubject:
 		m.ClearSubject()
@@ -17729,7 +17829,7 @@ func (m *NotificationMessageCategoryMutation) TenantID() (r uint32, exists bool)
 // OldTenantID returns the old "tenant_id" field's value of the NotificationMessageCategory entity.
 // If the NotificationMessageCategory object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *NotificationMessageCategoryMutation) OldTenantID(ctx context.Context) (v uint32, err error) {
+func (m *NotificationMessageCategoryMutation) OldTenantID(ctx context.Context) (v *uint32, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldTenantID is only allowed on UpdateOne operations")
 	}
@@ -17761,10 +17861,24 @@ func (m *NotificationMessageCategoryMutation) AddedTenantID() (r int32, exists b
 	return *v, true
 }
 
+// ClearTenantID clears the value of the "tenant_id" field.
+func (m *NotificationMessageCategoryMutation) ClearTenantID() {
+	m.tenant_id = nil
+	m.addtenant_id = nil
+	m.clearedFields[notificationmessagecategory.FieldTenantID] = struct{}{}
+}
+
+// TenantIDCleared returns if the "tenant_id" field was cleared in this mutation.
+func (m *NotificationMessageCategoryMutation) TenantIDCleared() bool {
+	_, ok := m.clearedFields[notificationmessagecategory.FieldTenantID]
+	return ok
+}
+
 // ResetTenantID resets all changes to the "tenant_id" field.
 func (m *NotificationMessageCategoryMutation) ResetTenantID() {
 	m.tenant_id = nil
 	m.addtenant_id = nil
+	delete(m.clearedFields, notificationmessagecategory.FieldTenantID)
 }
 
 // SetName sets the "name" field.
@@ -18471,6 +18585,9 @@ func (m *NotificationMessageCategoryMutation) ClearedFields() []string {
 	if m.FieldCleared(notificationmessagecategory.FieldRemark) {
 		fields = append(fields, notificationmessagecategory.FieldRemark)
 	}
+	if m.FieldCleared(notificationmessagecategory.FieldTenantID) {
+		fields = append(fields, notificationmessagecategory.FieldTenantID)
+	}
 	if m.FieldCleared(notificationmessagecategory.FieldName) {
 		fields = append(fields, notificationmessagecategory.FieldName)
 	}
@@ -18520,6 +18637,9 @@ func (m *NotificationMessageCategoryMutation) ClearField(name string) error {
 		return nil
 	case notificationmessagecategory.FieldRemark:
 		m.ClearRemark()
+		return nil
+	case notificationmessagecategory.FieldTenantID:
+		m.ClearTenantID()
 		return nil
 	case notificationmessagecategory.FieldName:
 		m.ClearName()
@@ -18980,7 +19100,7 @@ func (m *NotificationMessageRecipientMutation) TenantID() (r uint32, exists bool
 // OldTenantID returns the old "tenant_id" field's value of the NotificationMessageRecipient entity.
 // If the NotificationMessageRecipient object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *NotificationMessageRecipientMutation) OldTenantID(ctx context.Context) (v uint32, err error) {
+func (m *NotificationMessageRecipientMutation) OldTenantID(ctx context.Context) (v *uint32, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldTenantID is only allowed on UpdateOne operations")
 	}
@@ -19012,10 +19132,24 @@ func (m *NotificationMessageRecipientMutation) AddedTenantID() (r int32, exists 
 	return *v, true
 }
 
+// ClearTenantID clears the value of the "tenant_id" field.
+func (m *NotificationMessageRecipientMutation) ClearTenantID() {
+	m.tenant_id = nil
+	m.addtenant_id = nil
+	m.clearedFields[notificationmessagerecipient.FieldTenantID] = struct{}{}
+}
+
+// TenantIDCleared returns if the "tenant_id" field was cleared in this mutation.
+func (m *NotificationMessageRecipientMutation) TenantIDCleared() bool {
+	_, ok := m.clearedFields[notificationmessagerecipient.FieldTenantID]
+	return ok
+}
+
 // ResetTenantID resets all changes to the "tenant_id" field.
 func (m *NotificationMessageRecipientMutation) ResetTenantID() {
 	m.tenant_id = nil
 	m.addtenant_id = nil
+	delete(m.clearedFields, notificationmessagerecipient.FieldTenantID)
 }
 
 // SetMessageID sets the "message_id" field.
@@ -19444,6 +19578,9 @@ func (m *NotificationMessageRecipientMutation) ClearedFields() []string {
 	if m.FieldCleared(notificationmessagerecipient.FieldDeletedAt) {
 		fields = append(fields, notificationmessagerecipient.FieldDeletedAt)
 	}
+	if m.FieldCleared(notificationmessagerecipient.FieldTenantID) {
+		fields = append(fields, notificationmessagerecipient.FieldTenantID)
+	}
 	if m.FieldCleared(notificationmessagerecipient.FieldMessageID) {
 		fields = append(fields, notificationmessagerecipient.FieldMessageID)
 	}
@@ -19475,6 +19612,9 @@ func (m *NotificationMessageRecipientMutation) ClearField(name string) error {
 		return nil
 	case notificationmessagerecipient.FieldDeletedAt:
 		m.ClearDeletedAt()
+		return nil
+	case notificationmessagerecipient.FieldTenantID:
+		m.ClearTenantID()
 		return nil
 	case notificationmessagerecipient.FieldMessageID:
 		m.ClearMessageID()
@@ -20134,7 +20274,7 @@ func (m *OrganizationMutation) TenantID() (r uint32, exists bool) {
 // OldTenantID returns the old "tenant_id" field's value of the Organization entity.
 // If the Organization object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *OrganizationMutation) OldTenantID(ctx context.Context) (v uint32, err error) {
+func (m *OrganizationMutation) OldTenantID(ctx context.Context) (v *uint32, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldTenantID is only allowed on UpdateOne operations")
 	}
@@ -20166,10 +20306,24 @@ func (m *OrganizationMutation) AddedTenantID() (r int32, exists bool) {
 	return *v, true
 }
 
+// ClearTenantID clears the value of the "tenant_id" field.
+func (m *OrganizationMutation) ClearTenantID() {
+	m.tenant_id = nil
+	m.addtenant_id = nil
+	m.clearedFields[organization.FieldTenantID] = struct{}{}
+}
+
+// TenantIDCleared returns if the "tenant_id" field was cleared in this mutation.
+func (m *OrganizationMutation) TenantIDCleared() bool {
+	_, ok := m.clearedFields[organization.FieldTenantID]
+	return ok
+}
+
 // ResetTenantID resets all changes to the "tenant_id" field.
 func (m *OrganizationMutation) ResetTenantID() {
 	m.tenant_id = nil
 	m.addtenant_id = nil
+	delete(m.clearedFields, organization.FieldTenantID)
 }
 
 // SetName sets the "name" field.
@@ -21224,6 +21378,9 @@ func (m *OrganizationMutation) ClearedFields() []string {
 	if m.FieldCleared(organization.FieldRemark) {
 		fields = append(fields, organization.FieldRemark)
 	}
+	if m.FieldCleared(organization.FieldTenantID) {
+		fields = append(fields, organization.FieldTenantID)
+	}
 	if m.FieldCleared(organization.FieldName) {
 		fields = append(fields, organization.FieldName)
 	}
@@ -21288,6 +21445,9 @@ func (m *OrganizationMutation) ClearField(name string) error {
 		return nil
 	case organization.FieldRemark:
 		m.ClearRemark()
+		return nil
+	case organization.FieldTenantID:
+		m.ClearTenantID()
 		return nil
 	case organization.FieldName:
 		m.ClearName()
@@ -22056,7 +22216,7 @@ func (m *PositionMutation) TenantID() (r uint32, exists bool) {
 // OldTenantID returns the old "tenant_id" field's value of the Position entity.
 // If the Position object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *PositionMutation) OldTenantID(ctx context.Context) (v uint32, err error) {
+func (m *PositionMutation) OldTenantID(ctx context.Context) (v *uint32, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldTenantID is only allowed on UpdateOne operations")
 	}
@@ -22088,10 +22248,24 @@ func (m *PositionMutation) AddedTenantID() (r int32, exists bool) {
 	return *v, true
 }
 
+// ClearTenantID clears the value of the "tenant_id" field.
+func (m *PositionMutation) ClearTenantID() {
+	m.tenant_id = nil
+	m.addtenant_id = nil
+	m.clearedFields[position.FieldTenantID] = struct{}{}
+}
+
+// TenantIDCleared returns if the "tenant_id" field was cleared in this mutation.
+func (m *PositionMutation) TenantIDCleared() bool {
+	_, ok := m.clearedFields[position.FieldTenantID]
+	return ok
+}
+
 // ResetTenantID resets all changes to the "tenant_id" field.
 func (m *PositionMutation) ResetTenantID() {
 	m.tenant_id = nil
 	m.addtenant_id = nil
+	delete(m.clearedFields, position.FieldTenantID)
 }
 
 // SetName sets the "name" field.
@@ -23121,6 +23295,9 @@ func (m *PositionMutation) ClearedFields() []string {
 	if m.FieldCleared(position.FieldRemark) {
 		fields = append(fields, position.FieldRemark)
 	}
+	if m.FieldCleared(position.FieldTenantID) {
+		fields = append(fields, position.FieldTenantID)
+	}
 	if m.FieldCleared(position.FieldName) {
 		fields = append(fields, position.FieldName)
 	}
@@ -23176,6 +23353,9 @@ func (m *PositionMutation) ClearField(name string) error {
 		return nil
 	case position.FieldRemark:
 		m.ClearRemark()
+		return nil
+	case position.FieldTenantID:
+		m.ClearTenantID()
 		return nil
 	case position.FieldName:
 		m.ClearName()
@@ -23656,7 +23836,7 @@ func (m *PrivateMessageMutation) TenantID() (r uint32, exists bool) {
 // OldTenantID returns the old "tenant_id" field's value of the PrivateMessage entity.
 // If the PrivateMessage object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *PrivateMessageMutation) OldTenantID(ctx context.Context) (v uint32, err error) {
+func (m *PrivateMessageMutation) OldTenantID(ctx context.Context) (v *uint32, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldTenantID is only allowed on UpdateOne operations")
 	}
@@ -23688,10 +23868,24 @@ func (m *PrivateMessageMutation) AddedTenantID() (r int32, exists bool) {
 	return *v, true
 }
 
+// ClearTenantID clears the value of the "tenant_id" field.
+func (m *PrivateMessageMutation) ClearTenantID() {
+	m.tenant_id = nil
+	m.addtenant_id = nil
+	m.clearedFields[privatemessage.FieldTenantID] = struct{}{}
+}
+
+// TenantIDCleared returns if the "tenant_id" field was cleared in this mutation.
+func (m *PrivateMessageMutation) TenantIDCleared() bool {
+	_, ok := m.clearedFields[privatemessage.FieldTenantID]
+	return ok
+}
+
 // ResetTenantID resets all changes to the "tenant_id" field.
 func (m *PrivateMessageMutation) ResetTenantID() {
 	m.tenant_id = nil
 	m.addtenant_id = nil
+	delete(m.clearedFields, privatemessage.FieldTenantID)
 }
 
 // SetSubject sets the "subject" field.
@@ -24246,6 +24440,9 @@ func (m *PrivateMessageMutation) ClearedFields() []string {
 	if m.FieldCleared(privatemessage.FieldDeletedAt) {
 		fields = append(fields, privatemessage.FieldDeletedAt)
 	}
+	if m.FieldCleared(privatemessage.FieldTenantID) {
+		fields = append(fields, privatemessage.FieldTenantID)
+	}
 	if m.FieldCleared(privatemessage.FieldSubject) {
 		fields = append(fields, privatemessage.FieldSubject)
 	}
@@ -24283,6 +24480,9 @@ func (m *PrivateMessageMutation) ClearField(name string) error {
 		return nil
 	case privatemessage.FieldDeletedAt:
 		m.ClearDeletedAt()
+		return nil
+	case privatemessage.FieldTenantID:
+		m.ClearTenantID()
 		return nil
 	case privatemessage.FieldSubject:
 		m.ClearSubject()
@@ -24953,7 +25153,7 @@ func (m *RoleMutation) TenantID() (r uint32, exists bool) {
 // OldTenantID returns the old "tenant_id" field's value of the Role entity.
 // If the Role object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *RoleMutation) OldTenantID(ctx context.Context) (v uint32, err error) {
+func (m *RoleMutation) OldTenantID(ctx context.Context) (v *uint32, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldTenantID is only allowed on UpdateOne operations")
 	}
@@ -24985,10 +25185,24 @@ func (m *RoleMutation) AddedTenantID() (r int32, exists bool) {
 	return *v, true
 }
 
+// ClearTenantID clears the value of the "tenant_id" field.
+func (m *RoleMutation) ClearTenantID() {
+	m.tenant_id = nil
+	m.addtenant_id = nil
+	m.clearedFields[role.FieldTenantID] = struct{}{}
+}
+
+// TenantIDCleared returns if the "tenant_id" field was cleared in this mutation.
+func (m *RoleMutation) TenantIDCleared() bool {
+	_, ok := m.clearedFields[role.FieldTenantID]
+	return ok
+}
+
 // ResetTenantID resets all changes to the "tenant_id" field.
 func (m *RoleMutation) ResetTenantID() {
 	m.tenant_id = nil
 	m.addtenant_id = nil
+	delete(m.clearedFields, role.FieldTenantID)
 }
 
 // SetName sets the "name" field.
@@ -25916,6 +26130,9 @@ func (m *RoleMutation) ClearedFields() []string {
 	if m.FieldCleared(role.FieldRemark) {
 		fields = append(fields, role.FieldRemark)
 	}
+	if m.FieldCleared(role.FieldTenantID) {
+		fields = append(fields, role.FieldTenantID)
+	}
 	if m.FieldCleared(role.FieldName) {
 		fields = append(fields, role.FieldName)
 	}
@@ -25974,6 +26191,9 @@ func (m *RoleMutation) ClearField(name string) error {
 		return nil
 	case role.FieldRemark:
 		m.ClearRemark()
+		return nil
+	case role.FieldTenantID:
+		m.ClearTenantID()
 		return nil
 	case role.FieldName:
 		m.ClearName()
@@ -31709,7 +31929,7 @@ func (m *TaskMutation) TenantID() (r uint32, exists bool) {
 // OldTenantID returns the old "tenant_id" field's value of the Task entity.
 // If the Task object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *TaskMutation) OldTenantID(ctx context.Context) (v uint32, err error) {
+func (m *TaskMutation) OldTenantID(ctx context.Context) (v *uint32, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldTenantID is only allowed on UpdateOne operations")
 	}
@@ -31741,10 +31961,24 @@ func (m *TaskMutation) AddedTenantID() (r int32, exists bool) {
 	return *v, true
 }
 
+// ClearTenantID clears the value of the "tenant_id" field.
+func (m *TaskMutation) ClearTenantID() {
+	m.tenant_id = nil
+	m.addtenant_id = nil
+	m.clearedFields[task.FieldTenantID] = struct{}{}
+}
+
+// TenantIDCleared returns if the "tenant_id" field was cleared in this mutation.
+func (m *TaskMutation) TenantIDCleared() bool {
+	_, ok := m.clearedFields[task.FieldTenantID]
+	return ok
+}
+
 // ResetTenantID resets all changes to the "tenant_id" field.
 func (m *TaskMutation) ResetTenantID() {
 	m.tenant_id = nil
 	m.addtenant_id = nil
+	delete(m.clearedFields, task.FieldTenantID)
 }
 
 // SetType sets the "type" field.
@@ -32400,6 +32634,9 @@ func (m *TaskMutation) ClearedFields() []string {
 	if m.FieldCleared(task.FieldRemark) {
 		fields = append(fields, task.FieldRemark)
 	}
+	if m.FieldCleared(task.FieldTenantID) {
+		fields = append(fields, task.FieldTenantID)
+	}
 	if m.FieldCleared(task.FieldType) {
 		fields = append(fields, task.FieldType)
 	}
@@ -32452,6 +32689,9 @@ func (m *TaskMutation) ClearField(name string) error {
 		return nil
 	case task.FieldRemark:
 		m.ClearRemark()
+		return nil
+	case task.FieldTenantID:
+		m.ClearTenantID()
 		return nil
 	case task.FieldType:
 		m.ClearType()
@@ -35103,7 +35343,7 @@ func (m *UserMutation) TenantID() (r uint32, exists bool) {
 // OldTenantID returns the old "tenant_id" field's value of the User entity.
 // If the User object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *UserMutation) OldTenantID(ctx context.Context) (v uint32, err error) {
+func (m *UserMutation) OldTenantID(ctx context.Context) (v *uint32, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldTenantID is only allowed on UpdateOne operations")
 	}
@@ -35135,10 +35375,24 @@ func (m *UserMutation) AddedTenantID() (r int32, exists bool) {
 	return *v, true
 }
 
+// ClearTenantID clears the value of the "tenant_id" field.
+func (m *UserMutation) ClearTenantID() {
+	m.tenant_id = nil
+	m.addtenant_id = nil
+	m.clearedFields[user.FieldTenantID] = struct{}{}
+}
+
+// TenantIDCleared returns if the "tenant_id" field was cleared in this mutation.
+func (m *UserMutation) TenantIDCleared() bool {
+	_, ok := m.clearedFields[user.FieldTenantID]
+	return ok
+}
+
 // ResetTenantID resets all changes to the "tenant_id" field.
 func (m *UserMutation) ResetTenantID() {
 	m.tenant_id = nil
 	m.addtenant_id = nil
+	delete(m.clearedFields, user.FieldTenantID)
 }
 
 // SetUsername sets the "username" field.
@@ -36811,6 +37065,9 @@ func (m *UserMutation) ClearedFields() []string {
 	if m.FieldCleared(user.FieldRemark) {
 		fields = append(fields, user.FieldRemark)
 	}
+	if m.FieldCleared(user.FieldTenantID) {
+		fields = append(fields, user.FieldTenantID)
+	}
 	if m.FieldCleared(user.FieldUsername) {
 		fields = append(fields, user.FieldUsername)
 	}
@@ -36902,6 +37159,9 @@ func (m *UserMutation) ClearField(name string) error {
 		return nil
 	case user.FieldRemark:
 		m.ClearRemark()
+		return nil
+	case user.FieldTenantID:
+		m.ClearTenantID()
 		return nil
 	case user.FieldUsername:
 		m.ClearUsername()
@@ -37401,7 +37661,7 @@ func (m *UserCredentialMutation) TenantID() (r uint32, exists bool) {
 // OldTenantID returns the old "tenant_id" field's value of the UserCredential entity.
 // If the UserCredential object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *UserCredentialMutation) OldTenantID(ctx context.Context) (v uint32, err error) {
+func (m *UserCredentialMutation) OldTenantID(ctx context.Context) (v *uint32, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldTenantID is only allowed on UpdateOne operations")
 	}
@@ -37433,10 +37693,24 @@ func (m *UserCredentialMutation) AddedTenantID() (r int32, exists bool) {
 	return *v, true
 }
 
+// ClearTenantID clears the value of the "tenant_id" field.
+func (m *UserCredentialMutation) ClearTenantID() {
+	m.tenant_id = nil
+	m.addtenant_id = nil
+	m.clearedFields[usercredential.FieldTenantID] = struct{}{}
+}
+
+// TenantIDCleared returns if the "tenant_id" field was cleared in this mutation.
+func (m *UserCredentialMutation) TenantIDCleared() bool {
+	_, ok := m.clearedFields[usercredential.FieldTenantID]
+	return ok
+}
+
 // ResetTenantID resets all changes to the "tenant_id" field.
 func (m *UserCredentialMutation) ResetTenantID() {
 	m.tenant_id = nil
 	m.addtenant_id = nil
+	delete(m.clearedFields, usercredential.FieldTenantID)
 }
 
 // SetUserID sets the "user_id" field.
@@ -38273,6 +38547,9 @@ func (m *UserCredentialMutation) ClearedFields() []string {
 	if m.FieldCleared(usercredential.FieldDeletedAt) {
 		fields = append(fields, usercredential.FieldDeletedAt)
 	}
+	if m.FieldCleared(usercredential.FieldTenantID) {
+		fields = append(fields, usercredential.FieldTenantID)
+	}
 	if m.FieldCleared(usercredential.FieldUserID) {
 		fields = append(fields, usercredential.FieldUserID)
 	}
@@ -38325,6 +38602,9 @@ func (m *UserCredentialMutation) ClearField(name string) error {
 		return nil
 	case usercredential.FieldDeletedAt:
 		m.ClearDeletedAt()
+		return nil
+	case usercredential.FieldTenantID:
+		m.ClearTenantID()
 		return nil
 	case usercredential.FieldUserID:
 		m.ClearUserID()

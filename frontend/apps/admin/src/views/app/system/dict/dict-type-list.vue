@@ -71,7 +71,7 @@ const gridOptions: VxeGridProps<DictType> = {
 
   columns: [
     { title: $t('page.dict.typeName'), field: 'typeName' },
-    { title: $t('page.dict.typeName'), field: 'typeName' },
+    { title: $t('page.dict.typeCode'), field: 'typeCode' },
     { title: $t('ui.table.sortOrder'), field: 'sortOrder' },
     {
       title: $t('ui.table.status'),

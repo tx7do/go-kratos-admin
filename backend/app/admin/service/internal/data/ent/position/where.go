@@ -550,6 +550,16 @@ func TenantIDLTE(v uint32) predicate.Position {
 	return predicate.Position(sql.FieldLTE(FieldTenantID, v))
 }
 
+// TenantIDIsNil applies the IsNil predicate on the "tenant_id" field.
+func TenantIDIsNil() predicate.Position {
+	return predicate.Position(sql.FieldIsNull(FieldTenantID))
+}
+
+// TenantIDNotNil applies the NotNil predicate on the "tenant_id" field.
+func TenantIDNotNil() predicate.Position {
+	return predicate.Position(sql.FieldNotNull(FieldTenantID))
+}
+
 // NameEQ applies the EQ predicate on the "name" field.
 func NameEQ(v string) predicate.Position {
 	return predicate.Position(sql.FieldEQ(FieldName, v))

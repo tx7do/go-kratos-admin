@@ -284,6 +284,16 @@ func TenantIDLTE(v uint32) predicate.PrivateMessage {
 	return predicate.PrivateMessage(sql.FieldLTE(FieldTenantID, v))
 }
 
+// TenantIDIsNil applies the IsNil predicate on the "tenant_id" field.
+func TenantIDIsNil() predicate.PrivateMessage {
+	return predicate.PrivateMessage(sql.FieldIsNull(FieldTenantID))
+}
+
+// TenantIDNotNil applies the NotNil predicate on the "tenant_id" field.
+func TenantIDNotNil() predicate.PrivateMessage {
+	return predicate.PrivateMessage(sql.FieldNotNull(FieldTenantID))
+}
+
 // SubjectEQ applies the EQ predicate on the "subject" field.
 func SubjectEQ(v string) predicate.PrivateMessage {
 	return predicate.PrivateMessage(sql.FieldEQ(FieldSubject, v))

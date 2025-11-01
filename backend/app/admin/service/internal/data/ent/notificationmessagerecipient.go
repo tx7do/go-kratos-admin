@@ -25,7 +25,7 @@ type NotificationMessageRecipient struct {
 	// 删除时间
 	DeletedAt *time.Time `json:"deleted_at,omitempty"`
 	// 租户ID
-	TenantID uint32 `json:"tenant_id,omitempty"`
+	TenantID *uint32 `json:"tenant_id,omitempty"`
 	// 群发消息ID
 	MessageID *uint32 `json:"message_id,omitempty"`
 	// 接收者用户ID
@@ -92,7 +92,8 @@ func (_m *NotificationMessageRecipient) assignValues(columns []string, values []
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field tenant_id", values[i])
 			} else if value.Valid {
-				_m.TenantID = uint32(value.Int64)
+				_m.TenantID = new(uint32)
+				*_m.TenantID = uint32(value.Int64)
 			}
 		case notificationmessagerecipient.FieldMessageID:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
@@ -166,8 +167,10 @@ func (_m *NotificationMessageRecipient) String() string {
 		builder.WriteString(v.Format(time.ANSIC))
 	}
 	builder.WriteString(", ")
-	builder.WriteString("tenant_id=")
-	builder.WriteString(fmt.Sprintf("%v", _m.TenantID))
+	if v := _m.TenantID; v != nil {
+		builder.WriteString("tenant_id=")
+		builder.WriteString(fmt.Sprintf("%v", *v))
+	}
 	builder.WriteString(", ")
 	if v := _m.MessageID; v != nil {
 		builder.WriteString("message_id=")

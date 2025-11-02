@@ -273,7 +273,7 @@ func (s *UserService) Create(ctx context.Context, req *userV1.CreateUserRequest)
 	// 获取操作人信息
 	operator, err := auth.FromContext(ctx)
 	if err != nil {
-		return &emptypb.Empty{}, err
+		return nil, err
 	}
 
 	// 获取操作者的用户信息
@@ -344,7 +344,7 @@ func (s *UserService) Update(ctx context.Context, req *userV1.UpdateUserRequest)
 	// 获取操作人信息
 	operator, err := auth.FromContext(ctx)
 	if err != nil {
-		return &emptypb.Empty{}, err
+		return nil, err
 	}
 
 	// 获取操作者的用户信息
@@ -389,7 +389,7 @@ func (s *UserService) Delete(ctx context.Context, req *userV1.DeleteUserRequest)
 	// 获取操作人信息
 	operator, err := auth.FromContext(ctx)
 	if err != nil {
-		return &emptypb.Empty{}, err
+		return nil, err
 	}
 
 	// 获取操作者的用户信息

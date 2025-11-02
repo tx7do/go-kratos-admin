@@ -901,6 +901,381 @@ paths:
                 "200":
                     description: OK
                     content: {}
+    /admin/v1/internal-message/categories:
+        get:
+            tags:
+                - InternalMessageCategoryService
+            description: 查询站内信消息分类列表
+            operationId: InternalMessageCategoryService_List
+            parameters:
+                - name: page
+                  in: query
+                  description: 当前页码
+                  schema:
+                    type: integer
+                    format: int32
+                - name: pageSize
+                  in: query
+                  description: 每一页的行数
+                  schema:
+                    type: integer
+                    format: int32
+                - name: query
+                  in: query
+                  description: AND过滤参数，其语法为json格式的字符串，如：{"key1":"val1","key2":"val2"}，具体请参见：https://github.com/tx7do/go-utils/tree/main/entgo/query/README.md
+                  schema:
+                    type: string
+                - name: or
+                  in: query
+                  description: OR过滤参数，语法同AND过滤参数。
+                  schema:
+                    type: string
+                - name: orderBy
+                  in: query
+                  description: 排序条件，其语法为JSON字符串，例如：{"val1", "-val2"}。字段名前加'-'为降序，否则为升序。
+                  schema:
+                    type: array
+                    items:
+                        type: string
+                - name: noPaging
+                  in: query
+                  description: 是否不分页，如果为true，则page和pageSize参数无效。
+                  schema:
+                    type: boolean
+                - name: fieldMask
+                  in: query
+                  description: 字段掩码，其作用为SELECT中的字段，其语法为使用逗号分隔字段名，例如：id,realName,userName。如果为空则选中所有字段，即SELECT *。
+                  schema:
+                    type: string
+                    format: field-mask
+                - name: tenantId
+                  in: query
+                  schema:
+                    type: integer
+                    format: uint32
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ListInternalMessageCategoryResponse'
+        post:
+            tags:
+                - InternalMessageCategoryService
+            description: 创建站内信消息分类
+            operationId: InternalMessageCategoryService_Create
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/CreateInternalMessageCategoryRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content: {}
+    /admin/v1/internal-message/categories/{data.id}:
+        put:
+            tags:
+                - InternalMessageCategoryService
+            description: 更新站内信消息分类
+            operationId: InternalMessageCategoryService_Update
+            parameters:
+                - name: data.id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/UpdateInternalMessageCategoryRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content: {}
+    /admin/v1/internal-message/categories/{id}:
+        get:
+            tags:
+                - InternalMessageCategoryService
+            description: 查询站内信消息分类详情
+            operationId: InternalMessageCategoryService_Get
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: uint32
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/InternalMessageCategory'
+        delete:
+            tags:
+                - InternalMessageCategoryService
+            description: 删除站内信消息分类
+            operationId: InternalMessageCategoryService_Delete
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: uint32
+            responses:
+                "200":
+                    description: OK
+                    content: {}
+    /admin/v1/internal-message/inbox:
+        get:
+            tags:
+                - InternalMessageService
+            description: 获取用户的收件箱列表 (通知类)
+            operationId: InternalMessageService_ListUserInbox
+            parameters:
+                - name: page
+                  in: query
+                  description: 当前页码
+                  schema:
+                    type: integer
+                    format: int32
+                - name: pageSize
+                  in: query
+                  description: 每一页的行数
+                  schema:
+                    type: integer
+                    format: int32
+                - name: query
+                  in: query
+                  description: AND过滤参数，其语法为json格式的字符串，如：{"key1":"val1","key2":"val2"}，具体请参见：https://github.com/tx7do/go-utils/tree/main/entgo/query/README.md
+                  schema:
+                    type: string
+                - name: or
+                  in: query
+                  description: OR过滤参数，语法同AND过滤参数。
+                  schema:
+                    type: string
+                - name: orderBy
+                  in: query
+                  description: 排序条件，其语法为JSON字符串，例如：{"val1", "-val2"}。字段名前加'-'为降序，否则为升序。
+                  schema:
+                    type: array
+                    items:
+                        type: string
+                - name: noPaging
+                  in: query
+                  description: 是否不分页，如果为true，则page和pageSize参数无效。
+                  schema:
+                    type: boolean
+                - name: fieldMask
+                  in: query
+                  description: 字段掩码，其作用为SELECT中的字段，其语法为使用逗号分隔字段名，例如：id,realName,userName。如果为空则选中所有字段，即SELECT *。
+                  schema:
+                    type: string
+                    format: field-mask
+                - name: tenantId
+                  in: query
+                  schema:
+                    type: integer
+                    format: uint32
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ListUserInboxResponse'
+    /admin/v1/internal-message/inbox/delete:
+        post:
+            tags:
+                - InternalMessageService
+            description: 删除用户收件箱中的通知记录
+            operationId: InternalMessageService_DeleteNotificationFromInbox
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/DeleteNotificationFromInboxRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content: {}
+    /admin/v1/internal-message/messages:
+        get:
+            tags:
+                - InternalMessageService
+            description: 查询站内信消息列表
+            operationId: InternalMessageService_ListMessage
+            parameters:
+                - name: page
+                  in: query
+                  description: 当前页码
+                  schema:
+                    type: integer
+                    format: int32
+                - name: pageSize
+                  in: query
+                  description: 每一页的行数
+                  schema:
+                    type: integer
+                    format: int32
+                - name: query
+                  in: query
+                  description: AND过滤参数，其语法为json格式的字符串，如：{"key1":"val1","key2":"val2"}，具体请参见：https://github.com/tx7do/go-utils/tree/main/entgo/query/README.md
+                  schema:
+                    type: string
+                - name: or
+                  in: query
+                  description: OR过滤参数，语法同AND过滤参数。
+                  schema:
+                    type: string
+                - name: orderBy
+                  in: query
+                  description: 排序条件，其语法为JSON字符串，例如：{"val1", "-val2"}。字段名前加'-'为降序，否则为升序。
+                  schema:
+                    type: array
+                    items:
+                        type: string
+                - name: noPaging
+                  in: query
+                  description: 是否不分页，如果为true，则page和pageSize参数无效。
+                  schema:
+                    type: boolean
+                - name: fieldMask
+                  in: query
+                  description: 字段掩码，其作用为SELECT中的字段，其语法为使用逗号分隔字段名，例如：id,realName,userName。如果为空则选中所有字段，即SELECT *。
+                  schema:
+                    type: string
+                    format: field-mask
+                - name: tenantId
+                  in: query
+                  schema:
+                    type: integer
+                    format: uint32
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ListInternalMessageResponse'
+    /admin/v1/internal-message/messages/{data.id}:
+        put:
+            tags:
+                - InternalMessageService
+            description: 更新站内信消息
+            operationId: InternalMessageService_UpdateMessage
+            parameters:
+                - name: data.id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/UpdateInternalMessageRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content: {}
+    /admin/v1/internal-message/messages/{id}:
+        get:
+            tags:
+                - InternalMessageService
+            description: 查询站内信消息详情
+            operationId: InternalMessageService_GetMessage
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: uint32
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/InternalMessage'
+        delete:
+            tags:
+                - InternalMessageService
+            description: 删除站内信消息
+            operationId: InternalMessageService_DeleteMessage
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: uint32
+            responses:
+                "200":
+                    description: OK
+                    content: {}
+    /admin/v1/internal-message/read:
+        post:
+            tags:
+                - InternalMessageService
+            description: 将通知标记为已读
+            operationId: InternalMessageService_MarkNotificationAsRead
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/MarkNotificationAsReadRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content: {}
+    /admin/v1/internal-message/revoke:
+        post:
+            tags:
+                - InternalMessageService
+            description: 撤销某条消息
+            operationId: InternalMessageService_RevokeMessage
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/RevokeMessageRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content: {}
+    /admin/v1/internal-message/send:
+        post:
+            tags:
+                - InternalMessageService
+            description: 发送消息
+            operationId: InternalMessageService_SendMessage
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/SendMessageRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/SendMessageResponse'
     /admin/v1/login:
         post:
             tags:
@@ -1233,402 +1608,6 @@ paths:
                 "200":
                     description: OK
                     content: {}
-    /admin/v1/notifications:
-        get:
-            tags:
-                - NotificationMessageService
-            description: 查询通知消息列表
-            operationId: NotificationMessageService_List
-            parameters:
-                - name: page
-                  in: query
-                  description: 当前页码
-                  schema:
-                    type: integer
-                    format: int32
-                - name: pageSize
-                  in: query
-                  description: 每一页的行数
-                  schema:
-                    type: integer
-                    format: int32
-                - name: query
-                  in: query
-                  description: AND过滤参数，其语法为json格式的字符串，如：{"key1":"val1","key2":"val2"}，具体请参见：https://github.com/tx7do/go-utils/tree/main/entgo/query/README.md
-                  schema:
-                    type: string
-                - name: or
-                  in: query
-                  description: OR过滤参数，语法同AND过滤参数。
-                  schema:
-                    type: string
-                - name: orderBy
-                  in: query
-                  description: 排序条件，其语法为JSON字符串，例如：{"val1", "-val2"}。字段名前加'-'为降序，否则为升序。
-                  schema:
-                    type: array
-                    items:
-                        type: string
-                - name: noPaging
-                  in: query
-                  description: 是否不分页，如果为true，则page和pageSize参数无效。
-                  schema:
-                    type: boolean
-                - name: fieldMask
-                  in: query
-                  description: 字段掩码，其作用为SELECT中的字段，其语法为使用逗号分隔字段名，例如：id,realName,userName。如果为空则选中所有字段，即SELECT *。
-                  schema:
-                    type: string
-                    format: field-mask
-                - name: tenantId
-                  in: query
-                  schema:
-                    type: integer
-                    format: uint32
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/ListNotificationMessageResponse'
-        post:
-            tags:
-                - NotificationMessageService
-            description: 创建通知消息
-            operationId: NotificationMessageService_Create
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/CreateNotificationMessageRequest'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content: {}
-    /admin/v1/notifications/{data.id}:
-        put:
-            tags:
-                - NotificationMessageService
-            description: 更新通知消息
-            operationId: NotificationMessageService_Update
-            parameters:
-                - name: data.id
-                  in: path
-                  required: true
-                  schema:
-                    type: string
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/UpdateNotificationMessageRequest'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content: {}
-    /admin/v1/notifications/{id}:
-        get:
-            tags:
-                - NotificationMessageService
-            description: 查询通知消息详情
-            operationId: NotificationMessageService_Get
-            parameters:
-                - name: id
-                  in: path
-                  required: true
-                  schema:
-                    type: integer
-                    format: uint32
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/NotificationMessage'
-        delete:
-            tags:
-                - NotificationMessageService
-            description: 删除通知消息
-            operationId: NotificationMessageService_Delete
-            parameters:
-                - name: id
-                  in: path
-                  required: true
-                  schema:
-                    type: integer
-                    format: uint32
-            responses:
-                "200":
-                    description: OK
-                    content: {}
-    /admin/v1/notifications:categories:
-        get:
-            tags:
-                - NotificationMessageCategoryService
-            description: 查询通知消息分类列表
-            operationId: NotificationMessageCategoryService_List
-            parameters:
-                - name: page
-                  in: query
-                  description: 当前页码
-                  schema:
-                    type: integer
-                    format: int32
-                - name: pageSize
-                  in: query
-                  description: 每一页的行数
-                  schema:
-                    type: integer
-                    format: int32
-                - name: query
-                  in: query
-                  description: AND过滤参数，其语法为json格式的字符串，如：{"key1":"val1","key2":"val2"}，具体请参见：https://github.com/tx7do/go-utils/tree/main/entgo/query/README.md
-                  schema:
-                    type: string
-                - name: or
-                  in: query
-                  description: OR过滤参数，语法同AND过滤参数。
-                  schema:
-                    type: string
-                - name: orderBy
-                  in: query
-                  description: 排序条件，其语法为JSON字符串，例如：{"val1", "-val2"}。字段名前加'-'为降序，否则为升序。
-                  schema:
-                    type: array
-                    items:
-                        type: string
-                - name: noPaging
-                  in: query
-                  description: 是否不分页，如果为true，则page和pageSize参数无效。
-                  schema:
-                    type: boolean
-                - name: fieldMask
-                  in: query
-                  description: 字段掩码，其作用为SELECT中的字段，其语法为使用逗号分隔字段名，例如：id,realName,userName。如果为空则选中所有字段，即SELECT *。
-                  schema:
-                    type: string
-                    format: field-mask
-                - name: tenantId
-                  in: query
-                  schema:
-                    type: integer
-                    format: uint32
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/ListNotificationMessageCategoryResponse'
-        post:
-            tags:
-                - NotificationMessageCategoryService
-            description: 创建通知消息分类
-            operationId: NotificationMessageCategoryService_Create
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/CreateNotificationMessageCategoryRequest'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content: {}
-    /admin/v1/notifications:categories/{data.id}:
-        put:
-            tags:
-                - NotificationMessageCategoryService
-            description: 更新通知消息分类
-            operationId: NotificationMessageCategoryService_Update
-            parameters:
-                - name: data.id
-                  in: path
-                  required: true
-                  schema:
-                    type: string
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/UpdateNotificationMessageCategoryRequest'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content: {}
-    /admin/v1/notifications:categories/{id}:
-        get:
-            tags:
-                - NotificationMessageCategoryService
-            description: 查询通知消息分类详情
-            operationId: NotificationMessageCategoryService_Get
-            parameters:
-                - name: id
-                  in: path
-                  required: true
-                  schema:
-                    type: integer
-                    format: uint32
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/NotificationMessageCategory'
-        delete:
-            tags:
-                - NotificationMessageCategoryService
-            description: 删除通知消息分类
-            operationId: NotificationMessageCategoryService_Delete
-            parameters:
-                - name: id
-                  in: path
-                  required: true
-                  schema:
-                    type: integer
-                    format: uint32
-            responses:
-                "200":
-                    description: OK
-                    content: {}
-    /admin/v1/notifications:recipients:
-        get:
-            tags:
-                - NotificationMessageRecipientService
-            description: 查询通知消息接收者列表
-            operationId: NotificationMessageRecipientService_List
-            parameters:
-                - name: page
-                  in: query
-                  description: 当前页码
-                  schema:
-                    type: integer
-                    format: int32
-                - name: pageSize
-                  in: query
-                  description: 每一页的行数
-                  schema:
-                    type: integer
-                    format: int32
-                - name: query
-                  in: query
-                  description: AND过滤参数，其语法为json格式的字符串，如：{"key1":"val1","key2":"val2"}，具体请参见：https://github.com/tx7do/go-utils/tree/main/entgo/query/README.md
-                  schema:
-                    type: string
-                - name: or
-                  in: query
-                  description: OR过滤参数，语法同AND过滤参数。
-                  schema:
-                    type: string
-                - name: orderBy
-                  in: query
-                  description: 排序条件，其语法为JSON字符串，例如：{"val1", "-val2"}。字段名前加'-'为降序，否则为升序。
-                  schema:
-                    type: array
-                    items:
-                        type: string
-                - name: noPaging
-                  in: query
-                  description: 是否不分页，如果为true，则page和pageSize参数无效。
-                  schema:
-                    type: boolean
-                - name: fieldMask
-                  in: query
-                  description: 字段掩码，其作用为SELECT中的字段，其语法为使用逗号分隔字段名，例如：id,realName,userName。如果为空则选中所有字段，即SELECT *。
-                  schema:
-                    type: string
-                    format: field-mask
-                - name: tenantId
-                  in: query
-                  schema:
-                    type: integer
-                    format: uint32
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/ListNotificationMessageRecipientResponse'
-        post:
-            tags:
-                - NotificationMessageRecipientService
-            description: 创建通知消息接收者
-            operationId: NotificationMessageRecipientService_Create
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/CreateNotificationMessageRecipientRequest'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content: {}
-    /admin/v1/notifications:recipients/{data.id}:
-        put:
-            tags:
-                - NotificationMessageRecipientService
-            description: 更新通知消息接收者
-            operationId: NotificationMessageRecipientService_Update
-            parameters:
-                - name: data.id
-                  in: path
-                  required: true
-                  schema:
-                    type: string
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/UpdateNotificationMessageRecipientRequest'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content: {}
-    /admin/v1/notifications:recipients/{id}:
-        get:
-            tags:
-                - NotificationMessageRecipientService
-            description: 查询通知消息接收者详情
-            operationId: NotificationMessageRecipientService_Get
-            parameters:
-                - name: id
-                  in: path
-                  required: true
-                  schema:
-                    type: integer
-                    format: uint32
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/NotificationMessageRecipient'
-        delete:
-            tags:
-                - NotificationMessageRecipientService
-            description: 删除通知消息接收者
-            operationId: NotificationMessageRecipientService_Delete
-            parameters:
-                - name: id
-                  in: path
-                  required: true
-                  schema:
-                    type: integer
-                    format: uint32
-            responses:
-                "200":
-                    description: OK
-                    content: {}
     /admin/v1/organizations:
         get:
             tags:
@@ -1895,138 +1874,6 @@ paths:
                 - PositionService
             description: 删除职位
             operationId: PositionService_Delete
-            parameters:
-                - name: id
-                  in: path
-                  required: true
-                  schema:
-                    type: integer
-                    format: uint32
-            responses:
-                "200":
-                    description: OK
-                    content: {}
-    /admin/v1/private_messages:
-        get:
-            tags:
-                - PrivateMessageService
-            description: 查询私信消息列表
-            operationId: PrivateMessageService_List
-            parameters:
-                - name: page
-                  in: query
-                  description: 当前页码
-                  schema:
-                    type: integer
-                    format: int32
-                - name: pageSize
-                  in: query
-                  description: 每一页的行数
-                  schema:
-                    type: integer
-                    format: int32
-                - name: query
-                  in: query
-                  description: AND过滤参数，其语法为json格式的字符串，如：{"key1":"val1","key2":"val2"}，具体请参见：https://github.com/tx7do/go-utils/tree/main/entgo/query/README.md
-                  schema:
-                    type: string
-                - name: or
-                  in: query
-                  description: OR过滤参数，语法同AND过滤参数。
-                  schema:
-                    type: string
-                - name: orderBy
-                  in: query
-                  description: 排序条件，其语法为JSON字符串，例如：{"val1", "-val2"}。字段名前加'-'为降序，否则为升序。
-                  schema:
-                    type: array
-                    items:
-                        type: string
-                - name: noPaging
-                  in: query
-                  description: 是否不分页，如果为true，则page和pageSize参数无效。
-                  schema:
-                    type: boolean
-                - name: fieldMask
-                  in: query
-                  description: 字段掩码，其作用为SELECT中的字段，其语法为使用逗号分隔字段名，例如：id,realName,userName。如果为空则选中所有字段，即SELECT *。
-                  schema:
-                    type: string
-                    format: field-mask
-                - name: tenantId
-                  in: query
-                  schema:
-                    type: integer
-                    format: uint32
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/ListPrivateMessageResponse'
-        post:
-            tags:
-                - PrivateMessageService
-            description: 创建私信消息
-            operationId: PrivateMessageService_Create
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/CreatePrivateMessageRequest'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content: {}
-    /admin/v1/private_messages/{data.id}:
-        put:
-            tags:
-                - PrivateMessageService
-            description: 更新私信消息
-            operationId: PrivateMessageService_Update
-            parameters:
-                - name: data.id
-                  in: path
-                  required: true
-                  schema:
-                    type: string
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/UpdatePrivateMessageRequest'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content: {}
-    /admin/v1/private_messages/{id}:
-        get:
-            tags:
-                - PrivateMessageService
-            description: 查询私信消息详情
-            operationId: PrivateMessageService_Get
-            parameters:
-                - name: id
-                  in: path
-                  required: true
-                  schema:
-                    type: integer
-                    format: uint32
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/PrivateMessage'
-        delete:
-            tags:
-                - PrivateMessageService
-            description: 删除私信消息
-            operationId: PrivateMessageService_Delete
             parameters:
                 - name: id
                   in: path
@@ -3178,30 +3025,18 @@ components:
                 data:
                     $ref: '#/components/schemas/File'
             description: 创建 - 请求
+        CreateInternalMessageCategoryRequest:
+            type: object
+            properties:
+                data:
+                    $ref: '#/components/schemas/InternalMessageCategory'
+            description: 创建站内信消息分类 - 请求
         CreateMenuRequest:
             type: object
             properties:
                 data:
                     $ref: '#/components/schemas/Menu'
             description: 创建菜单 - 请求
-        CreateNotificationMessageCategoryRequest:
-            type: object
-            properties:
-                data:
-                    $ref: '#/components/schemas/NotificationMessageCategory'
-            description: 创建通知消息分类 - 请求
-        CreateNotificationMessageRecipientRequest:
-            type: object
-            properties:
-                data:
-                    $ref: '#/components/schemas/NotificationMessageRecipient'
-            description: 创建通知消息接收者 - 请求
-        CreateNotificationMessageRequest:
-            type: object
-            properties:
-                data:
-                    $ref: '#/components/schemas/NotificationMessage'
-            description: 创建通知消息 - 请求
         CreateOrganizationRequest:
             type: object
             properties:
@@ -3214,12 +3049,6 @@ components:
                 data:
                     $ref: '#/components/schemas/Position'
             description: 创建职位 - 请求
-        CreatePrivateMessageRequest:
-            type: object
-            properties:
-                data:
-                    $ref: '#/components/schemas/PrivateMessage'
-            description: 创建私信消息 - 请求
         CreateRoleRequest:
             type: object
             properties:
@@ -3258,6 +3087,19 @@ components:
                     type: string
                     description: 用户登录密码
             description: 创建用户 - 请求
+        DeleteNotificationFromInboxRequest:
+            type: object
+            properties:
+                userId:
+                    type: integer
+                    description: 用户ID
+                    format: uint32
+                recipientIds:
+                    type: array
+                    items:
+                        type: integer
+                        format: uint32
+                    description: 收件箱记录ID列表
         Department:
             type: object
             properties:
@@ -3533,6 +3375,198 @@ components:
                     description: 删除时间
                     format: date-time
             description: 文件
+        InternalMessage:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    description: 消息ID
+                    format: uint32
+                title:
+                    type: string
+                    description: 消息标题
+                content:
+                    type: string
+                    description: 消息内容
+                status:
+                    enum:
+                        - DRAFT
+                        - PUBLISHED
+                        - SCHEDULED
+                        - REVOKED
+                        - ARCHIVED
+                        - DELETED
+                    type: string
+                    description: 消息状态
+                    format: enum
+                type:
+                    enum:
+                        - NOTIFICATION
+                        - PRIVATE
+                        - GROUP
+                    type: string
+                    description: 消息类型
+                    format: enum
+                senderId:
+                    type: integer
+                    description: 发送者 ID（用户 ID，系统消息为0）
+                    format: uint32
+                senderName:
+                    type: string
+                    description: 发送者名称
+                categoryId:
+                    type: integer
+                    description: 分类ID
+                    format: uint32
+                categoryName:
+                    type: string
+                    description: 分类名称
+                createdBy:
+                    type: integer
+                    description: 创建者ID
+                    format: uint32
+                updatedBy:
+                    type: integer
+                    description: 更新者ID
+                    format: uint32
+                deletedBy:
+                    type: integer
+                    description: 删除者用户ID
+                    format: uint32
+                createdAt:
+                    type: string
+                    description: 创建时间
+                    format: date-time
+                updatedAt:
+                    type: string
+                    description: 更新时间
+                    format: date-time
+                deletedAt:
+                    type: string
+                    description: 删除时间
+                    format: date-time
+            description: 站内信消息
+        InternalMessageCategory:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    description: 分类ID
+                    format: uint32
+                name:
+                    type: string
+                    description: 名称
+                code:
+                    type: string
+                    description: 编码
+                iconUrl:
+                    type: string
+                    description: 图标URL
+                sortOrder:
+                    type: integer
+                    description: 排序顺序，值越小越靠前
+                    format: int32
+                isEnabled:
+                    type: boolean
+                    description: 是否启用
+                parentId:
+                    type: integer
+                    description: 父节点ID
+                    format: uint32
+                children:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/InternalMessageCategory'
+                    description: 子节点树
+                createdBy:
+                    type: integer
+                    description: 创建者ID
+                    format: uint32
+                updatedBy:
+                    type: integer
+                    description: 更新者ID
+                    format: uint32
+                deletedBy:
+                    type: integer
+                    description: 删除者用户ID
+                    format: uint32
+                createdAt:
+                    type: string
+                    description: 创建时间
+                    format: date-time
+                updatedAt:
+                    type: string
+                    description: 更新时间
+                    format: date-time
+                deletedAt:
+                    type: string
+                    description: 删除时间
+                    format: date-time
+            description: 站内信消息分类
+        InternalMessageRecipient:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    description: 记录ID
+                    format: uint32
+                messageId:
+                    type: integer
+                    description: 站内信内容ID
+                    format: uint32
+                recipientUserId:
+                    type: integer
+                    description: 接收者用户ID
+                    format: uint32
+                status:
+                    enum:
+                        - SENT
+                        - RECEIVED
+                        - READ
+                        - REVOKED
+                        - DELETED
+                    type: string
+                    description: 消息状态
+                    format: enum
+                receivedAt:
+                    type: string
+                    description: 消息到达用户收件箱的时间
+                    format: date-time
+                readAt:
+                    type: string
+                    description: 用户阅读消息的时间
+                    format: date-time
+                title:
+                    type: string
+                    description: 消息标题
+                content:
+                    type: string
+                    description: 消息内容
+                createdBy:
+                    type: integer
+                    description: 创建者ID
+                    format: uint32
+                updatedBy:
+                    type: integer
+                    description: 更新者ID
+                    format: uint32
+                deletedBy:
+                    type: integer
+                    description: 删除者用户ID
+                    format: uint32
+                createdAt:
+                    type: string
+                    description: 创建时间
+                    format: date-time
+                updatedAt:
+                    type: string
+                    description: 更新时间
+                    format: date-time
+                deletedAt:
+                    type: string
+                    description: 删除时间
+                    format: date-time
+            description: 站内信消息用户接收信息
         KratosStatus:
             type: object
             properties:
@@ -3638,6 +3672,28 @@ components:
                     type: integer
                     format: uint32
             description: 查询列表 - 回应
+        ListInternalMessageCategoryResponse:
+            type: object
+            properties:
+                items:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/InternalMessageCategory'
+                total:
+                    type: integer
+                    format: uint32
+            description: 查询站内信消息分类列表 - 回应
+        ListInternalMessageResponse:
+            type: object
+            properties:
+                items:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/InternalMessage'
+                total:
+                    type: integer
+                    format: uint32
+            description: 查询站内信消息列表 - 回应
         ListMenuResponse:
             type: object
             properties:
@@ -3649,39 +3705,6 @@ components:
                     type: integer
                     format: uint32
             description: 查询菜单列表 - 回应
-        ListNotificationMessageCategoryResponse:
-            type: object
-            properties:
-                items:
-                    type: array
-                    items:
-                        $ref: '#/components/schemas/NotificationMessageCategory'
-                total:
-                    type: integer
-                    format: uint32
-            description: 查询通知消息分类列表 - 回应
-        ListNotificationMessageRecipientResponse:
-            type: object
-            properties:
-                items:
-                    type: array
-                    items:
-                        $ref: '#/components/schemas/NotificationMessageRecipient'
-                total:
-                    type: integer
-                    format: uint32
-            description: 查询通知消息接收者列表 - 回应
-        ListNotificationMessageResponse:
-            type: object
-            properties:
-                items:
-                    type: array
-                    items:
-                        $ref: '#/components/schemas/NotificationMessage'
-                total:
-                    type: integer
-                    format: uint32
-            description: 查询通知消息列表 - 回应
         ListOrganizationResponse:
             type: object
             properties:
@@ -3712,17 +3735,6 @@ components:
                     type: integer
                     format: uint32
             description: 获取职位列表 - 答复
-        ListPrivateMessageResponse:
-            type: object
-            properties:
-                items:
-                    type: array
-                    items:
-                        $ref: '#/components/schemas/PrivateMessage'
-                total:
-                    type: integer
-                    format: uint32
-            description: 查询私信消息列表 - 回应
         ListRoleResponse:
             type: object
             properties:
@@ -3773,6 +3785,16 @@ components:
                     type: integer
                     format: uint32
             description: 租户列表 - 答复
+        ListUserInboxResponse:
+            type: object
+            properties:
+                items:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/InternalMessageRecipient'
+                total:
+                    type: integer
+                    format: uint32
         ListUserResponse:
             type: object
             properties:
@@ -3849,6 +3871,19 @@ components:
                     type: string
                     description: 以空格分隔的用户授予范围列表。如果未提供，scope则授权任何范围，默认为空列表。
             description: 用户后台登录 - 回应
+        MarkNotificationAsReadRequest:
+            type: object
+            properties:
+                userId:
+                    type: integer
+                    description: 用户ID
+                    format: uint32
+                recipientIds:
+                    type: array
+                    items:
+                        type: integer
+                        format: uint32
+                    description: 收件箱记录ID列表
         Menu:
             type: object
             properties:
@@ -3924,175 +3959,6 @@ components:
                     description: 删除时间
                     format: date-time
             description: 菜单
-        NotificationMessage:
-            type: object
-            properties:
-                id:
-                    type: integer
-                    description: 消息ID
-                    format: uint32
-                subject:
-                    type: string
-                    description: 主题
-                content:
-                    type: string
-                    description: 内容
-                status:
-                    enum:
-                        - MessageStatus_Unknown
-                        - DRAFT
-                        - PUBLISHED
-                        - SCHEDULED
-                        - REVOKED
-                        - ARCHIVED
-                        - DELETED
-                        - SENT
-                        - RECEIVED
-                        - READ
-                    type: string
-                    description: 消息状态
-                    format: enum
-                categoryId:
-                    type: integer
-                    description: 分类ID
-                    format: uint32
-                categoryName:
-                    type: string
-                    description: 分类名称
-                createdBy:
-                    type: integer
-                    description: 创建者ID
-                    format: uint32
-                updatedBy:
-                    type: integer
-                    description: 更新者ID
-                    format: uint32
-                deletedBy:
-                    type: integer
-                    description: 删除者用户ID
-                    format: uint32
-                createdAt:
-                    type: string
-                    description: 创建时间
-                    format: date-time
-                updatedAt:
-                    type: string
-                    description: 更新时间
-                    format: date-time
-                deletedAt:
-                    type: string
-                    description: 删除时间
-                    format: date-time
-            description: 通知消息
-        NotificationMessageCategory:
-            type: object
-            properties:
-                id:
-                    type: integer
-                    description: 分类ID
-                    format: uint32
-                name:
-                    type: string
-                    description: 名称
-                code:
-                    type: string
-                    description: 编码
-                sortOrder:
-                    type: integer
-                    description: 排序顺序，值越小越靠前
-                    format: int32
-                enable:
-                    type: boolean
-                    description: 是否启用
-                parentId:
-                    type: integer
-                    description: 父节点ID
-                    format: uint32
-                children:
-                    type: array
-                    items:
-                        $ref: '#/components/schemas/NotificationMessageCategory'
-                    description: 子节点树
-                createdBy:
-                    type: integer
-                    description: 创建者ID
-                    format: uint32
-                updatedBy:
-                    type: integer
-                    description: 更新者ID
-                    format: uint32
-                deletedBy:
-                    type: integer
-                    description: 删除者用户ID
-                    format: uint32
-                createdAt:
-                    type: string
-                    description: 创建时间
-                    format: date-time
-                updatedAt:
-                    type: string
-                    description: 更新时间
-                    format: date-time
-                deletedAt:
-                    type: string
-                    description: 删除时间
-                    format: date-time
-            description: 通知消息分类
-        NotificationMessageRecipient:
-            type: object
-            properties:
-                id:
-                    type: integer
-                    description: 记录ID
-                    format: uint32
-                messageId:
-                    type: integer
-                    description: 群发消息ID
-                    format: uint32
-                recipientId:
-                    type: integer
-                    description: 接收者用户ID
-                    format: uint32
-                status:
-                    enum:
-                        - MessageStatus_Unknown
-                        - DRAFT
-                        - PUBLISHED
-                        - SCHEDULED
-                        - REVOKED
-                        - ARCHIVED
-                        - DELETED
-                        - SENT
-                        - RECEIVED
-                        - READ
-                    type: string
-                    description: 消息状态
-                    format: enum
-                createdBy:
-                    type: integer
-                    description: 创建者ID
-                    format: uint32
-                updatedBy:
-                    type: integer
-                    description: 更新者ID
-                    format: uint32
-                deletedBy:
-                    type: integer
-                    description: 删除者用户ID
-                    format: uint32
-                createdAt:
-                    type: string
-                    description: 创建时间
-                    format: date-time
-                updatedAt:
-                    type: string
-                    description: 更新时间
-                    format: date-time
-                deletedAt:
-                    type: string
-                    description: 删除时间
-                    format: date-time
-            description: 通知消息接收者
         Organization:
             type: object
             properties:
@@ -4314,67 +4180,6 @@ components:
                     description: 删除时间
                     format: date-time
             description: 职位
-        PrivateMessage:
-            type: object
-            properties:
-                id:
-                    type: integer
-                    description: 消息ID
-                    format: uint32
-                subject:
-                    type: string
-                    description: 主题
-                content:
-                    type: string
-                    description: 内容
-                status:
-                    enum:
-                        - MessageStatus_Unknown
-                        - DRAFT
-                        - PUBLISHED
-                        - SCHEDULED
-                        - REVOKED
-                        - ARCHIVED
-                        - DELETED
-                        - SENT
-                        - RECEIVED
-                        - READ
-                    type: string
-                    description: 消息状态
-                    format: enum
-                senderId:
-                    type: integer
-                    description: 发送者用户ID
-                    format: uint32
-                senderName:
-                    type: string
-                    description: 发送者用户名称
-                senderAvatar:
-                    type: string
-                    description: 发送者用户头像
-                receiverId:
-                    type: integer
-                    description: 接收者用户ID
-                    format: uint32
-                receiverName:
-                    type: string
-                    description: 接收者用户名称
-                receiverAvatar:
-                    type: string
-                    description: 接收者用户头像
-                createdAt:
-                    type: string
-                    description: 创建时间
-                    format: date-time
-                updatedAt:
-                    type: string
-                    description: 更新时间
-                    format: date-time
-                deletedAt:
-                    type: string
-                    description: 删除时间
-                    format: date-time
-            description: 私信消息
         RestartAllTaskResponse:
             type: object
             properties:
@@ -4382,6 +4187,17 @@ components:
                     type: integer
                     format: int32
             description: 重启调度任务 - 回应
+        RevokeMessageRequest:
+            type: object
+            properties:
+                messageId:
+                    type: integer
+                    description: 消息ID
+                    format: uint32
+                userId:
+                    type: integer
+                    description: 用户ID
+                    format: uint32
         Role:
             type: object
             properties:
@@ -4588,6 +4404,51 @@ components:
                     type: string
                     description: 标题名称，路由上显示的标题
             description: 路由元数据
+        SendMessageRequest:
+            type: object
+            properties:
+                type:
+                    enum:
+                        - NOTIFICATION
+                        - PRIVATE
+                        - GROUP
+                    type: string
+                    description: 消息类型
+                    format: enum
+                recipientUserId:
+                    type: integer
+                    description: 接收者用户ID
+                    format: uint32
+                conversationId:
+                    type: integer
+                    description: 会话ID
+                    format: uint32
+                categoryId:
+                    type: integer
+                    description: 分类ID
+                    format: uint32
+                targetUserIds:
+                    type: array
+                    items:
+                        type: integer
+                        format: uint32
+                    description: 定向发送用户ID列表
+                targetAll:
+                    type: boolean
+                    description: 全员发送标志
+                title:
+                    type: string
+                    description: 消息标题
+                content:
+                    type: string
+                    description: 消息内容
+        SendMessageResponse:
+            type: object
+            properties:
+                messageId:
+                    type: integer
+                    description: 消息ID
+                    format: uint32
         Task:
             type: object
             properties:
@@ -5084,6 +4945,34 @@ components:
                     type: boolean
                     description: 如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。
             description: 更新 - 请求
+        UpdateInternalMessageCategoryRequest:
+            type: object
+            properties:
+                data:
+                    $ref: '#/components/schemas/InternalMessageCategory'
+                updateMask:
+                    example: id,realname,username
+                    type: string
+                    description: 要更新的字段列表
+                    format: field-mask
+                allowMissing:
+                    type: boolean
+                    description: 如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。
+            description: 更新站内信消息分类 - 请求
+        UpdateInternalMessageRequest:
+            type: object
+            properties:
+                data:
+                    $ref: '#/components/schemas/InternalMessage'
+                updateMask:
+                    example: id,realname,username
+                    type: string
+                    description: 要更新的字段列表
+                    format: field-mask
+                allowMissing:
+                    type: boolean
+                    description: 如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。
+            description: 更新站内信消息 - 请求
         UpdateMenuRequest:
             type: object
             properties:
@@ -5098,48 +4987,6 @@ components:
                     type: boolean
                     description: 如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。
             description: 更新菜单 - 请求
-        UpdateNotificationMessageCategoryRequest:
-            type: object
-            properties:
-                data:
-                    $ref: '#/components/schemas/NotificationMessageCategory'
-                updateMask:
-                    example: id,realname,username
-                    type: string
-                    description: 要更新的字段列表
-                    format: field-mask
-                allowMissing:
-                    type: boolean
-                    description: 如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。
-            description: 更新通知消息分类 - 请求
-        UpdateNotificationMessageRecipientRequest:
-            type: object
-            properties:
-                data:
-                    $ref: '#/components/schemas/NotificationMessageRecipient'
-                updateMask:
-                    example: id,realname,username
-                    type: string
-                    description: 要更新的字段列表
-                    format: field-mask
-                allowMissing:
-                    type: boolean
-                    description: 如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。
-            description: 更新通知消息接收者 - 请求
-        UpdateNotificationMessageRequest:
-            type: object
-            properties:
-                data:
-                    $ref: '#/components/schemas/NotificationMessage'
-                updateMask:
-                    example: id,realname,username
-                    type: string
-                    description: 要更新的字段列表
-                    format: field-mask
-                allowMissing:
-                    type: boolean
-                    description: 如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。
-            description: 更新通知消息 - 请求
         UpdateOrganizationRequest:
             type: object
             properties:
@@ -5168,20 +5015,6 @@ components:
                     type: boolean
                     description: 如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。
             description: 更新职位 - 请求
-        UpdatePrivateMessageRequest:
-            type: object
-            properties:
-                data:
-                    $ref: '#/components/schemas/PrivateMessage'
-                updateMask:
-                    example: id,realname,username
-                    type: string
-                    description: 要更新的字段列表
-                    format: field-mask
-                allowMissing:
-                    type: boolean
-                    description: 如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。
-            description: 更新私信消息 - 请求
         UpdateRoleRequest:
             type: object
             properties:
@@ -5453,22 +5286,18 @@ tags:
       description: 数据字典管理服务
     - name: FileService
       description: 文件管理服务
+    - name: InternalMessageCategoryService
+      description: 站内信消息分类管理服务
+    - name: InternalMessageService
+      description: 站内信消息管理服务
     - name: MenuService
       description: 后台菜单管理服务
-    - name: NotificationMessageCategoryService
-      description: 通知消息分类管理服务
-    - name: NotificationMessageRecipientService
-      description: 通知消息接收者管理服务
-    - name: NotificationMessageService
-      description: 通知消息管理服务
     - name: OrganizationService
       description: 组织管理服务
     - name: OssService
       description: OSS服务
     - name: PositionService
       description: 职位管理服务
-    - name: PrivateMessageService
-      description: 私信消息管理服务
     - name: RoleService
       description: 角色管理服务
     - name: RouterService

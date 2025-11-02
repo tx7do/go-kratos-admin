@@ -39,8 +39,7 @@
   },
   "internalMessage": {
     "moduleName": "站内消息",
-    "notificationMessage": "通知消息",
-    "notificationMessageCategory": "通知类型",
-    "privateMessage": "私信消息"
+    "internalMessage": "消息管理",
+    "internalMessageCategory": "消息分类"
   }
 }

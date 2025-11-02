@@ -39,8 +39,8 @@
   },
   "internalMessage": {
     "moduleName": "Internal Message",
-    "notificationMessage": "Notification Message",
-    "notificationMessageCategory": "Notification Type",
+    "internalMessage": "Notification Message",
+    "internalMessageCategory": "Notification Type",
     "privateMessage": "Private Message"
   },
   "organizationType": {

@@ -120,6 +120,34 @@ func (_c *OrganizationCreate) SetNillableRemark(v *string) *OrganizationCreate {
 	return _c
 }
 
+// SetSortOrder sets the "sort_order" field.
+func (_c *OrganizationCreate) SetSortOrder(v int32) *OrganizationCreate {
+	_c.mutation.SetSortOrder(v)
+	return _c
+}
+
+// SetNillableSortOrder sets the "sort_order" field if the given value is not nil.
+func (_c *OrganizationCreate) SetNillableSortOrder(v *int32) *OrganizationCreate {
+	if v != nil {
+		_c.SetSortOrder(*v)
+	}
+	return _c
+}
+
+// SetParentID sets the "parent_id" field.
+func (_c *OrganizationCreate) SetParentID(v uint32) *OrganizationCreate {
+	_c.mutation.SetParentID(v)
+	return _c
+}
+
+// SetNillableParentID sets the "parent_id" field if the given value is not nil.
+func (_c *OrganizationCreate) SetNillableParentID(v *uint32) *OrganizationCreate {
+	if v != nil {
+		_c.SetParentID(*v)
+	}
+	return _c
+}
+
 // SetTenantID sets the "tenant_id" field.
 func (_c *OrganizationCreate) SetTenantID(v uint32) *OrganizationCreate {
 	_c.mutation.SetTenantID(v)
@@ -144,34 +172,6 @@ func (_c *OrganizationCreate) SetName(v string) *OrganizationCreate {
 func (_c *OrganizationCreate) SetNillableName(v *string) *OrganizationCreate {
 	if v != nil {
 		_c.SetName(*v)
-	}
-	return _c
-}
-
-// SetParentID sets the "parent_id" field.
-func (_c *OrganizationCreate) SetParentID(v uint32) *OrganizationCreate {
-	_c.mutation.SetParentID(v)
-	return _c
-}
-
-// SetNillableParentID sets the "parent_id" field if the given value is not nil.
-func (_c *OrganizationCreate) SetNillableParentID(v *uint32) *OrganizationCreate {
-	if v != nil {
-		_c.SetParentID(*v)
-	}
-	return _c
-}
-
-// SetSortOrder sets the "sort_order" field.
-func (_c *OrganizationCreate) SetSortOrder(v int32) *OrganizationCreate {
-	_c.mutation.SetSortOrder(v)
-	return _c
-}
-
-// SetNillableSortOrder sets the "sort_order" field if the given value is not nil.
-func (_c *OrganizationCreate) SetNillableSortOrder(v *int32) *OrganizationCreate {
-	if v != nil {
-		_c.SetSortOrder(*v)
 	}
 	return _c
 }
@@ -428,6 +428,10 @@ func (_c *OrganizationCreate) createSpec() (*Organization, *sqlgraph.CreateSpec)
 		_spec.SetField(organization.FieldRemark, field.TypeString, value)
 		_node.Remark = &value
 	}
+	if value, ok := _c.mutation.SortOrder(); ok {
+		_spec.SetField(organization.FieldSortOrder, field.TypeInt32, value)
+		_node.SortOrder = &value
+	}
 	if value, ok := _c.mutation.TenantID(); ok {
 		_spec.SetField(organization.FieldTenantID, field.TypeUint32, value)
 		_node.TenantID = &value
@@ -435,10 +439,6 @@ func (_c *OrganizationCreate) createSpec() (*Organization, *sqlgraph.CreateSpec)
 	if value, ok := _c.mutation.Name(); ok {
 		_spec.SetField(organization.FieldName, field.TypeString, value)
 		_node.Name = &value
-	}
-	if value, ok := _c.mutation.SortOrder(); ok {
-		_spec.SetField(organization.FieldSortOrder, field.TypeInt32, value)
-		_node.SortOrder = &value
 	}
 	if value, ok := _c.mutation.Status(); ok {
 		_spec.SetField(organization.FieldStatus, field.TypeEnum, value)
@@ -679,42 +679,6 @@ func (u *OrganizationUpsert) ClearRemark() *OrganizationUpsert {
 	return u
 }
 
-// SetName sets the "name" field.
-func (u *OrganizationUpsert) SetName(v string) *OrganizationUpsert {
-	u.Set(organization.FieldName, v)
-	return u
-}
-
-// UpdateName sets the "name" field to the value that was provided on create.
-func (u *OrganizationUpsert) UpdateName() *OrganizationUpsert {
-	u.SetExcluded(organization.FieldName)
-	return u
-}
-
-// ClearName clears the value of the "name" field.
-func (u *OrganizationUpsert) ClearName() *OrganizationUpsert {
-	u.SetNull(organization.FieldName)
-	return u
-}
-
-// SetParentID sets the "parent_id" field.
-func (u *OrganizationUpsert) SetParentID(v uint32) *OrganizationUpsert {
-	u.Set(organization.FieldParentID, v)
-	return u
-}
-
-// UpdateParentID sets the "parent_id" field to the value that was provided on create.
-func (u *OrganizationUpsert) UpdateParentID() *OrganizationUpsert {
-	u.SetExcluded(organization.FieldParentID)
-	return u
-}
-
-// ClearParentID clears the value of the "parent_id" field.
-func (u *OrganizationUpsert) ClearParentID() *OrganizationUpsert {
-	u.SetNull(organization.FieldParentID)
-	return u
-}
-
 // SetSortOrder sets the "sort_order" field.
 func (u *OrganizationUpsert) SetSortOrder(v int32) *OrganizationUpsert {
 	u.Set(organization.FieldSortOrder, v)
@@ -736,6 +700,42 @@ func (u *OrganizationUpsert) AddSortOrder(v int32) *OrganizationUpsert {
 // ClearSortOrder clears the value of the "sort_order" field.
 func (u *OrganizationUpsert) ClearSortOrder() *OrganizationUpsert {
 	u.SetNull(organization.FieldSortOrder)
+	return u
+}
+
+// SetParentID sets the "parent_id" field.
+func (u *OrganizationUpsert) SetParentID(v uint32) *OrganizationUpsert {
+	u.Set(organization.FieldParentID, v)
+	return u
+}
+
+// UpdateParentID sets the "parent_id" field to the value that was provided on create.
+func (u *OrganizationUpsert) UpdateParentID() *OrganizationUpsert {
+	u.SetExcluded(organization.FieldParentID)
+	return u
+}
+
+// ClearParentID clears the value of the "parent_id" field.
+func (u *OrganizationUpsert) ClearParentID() *OrganizationUpsert {
+	u.SetNull(organization.FieldParentID)
+	return u
+}
+
+// SetName sets the "name" field.
+func (u *OrganizationUpsert) SetName(v string) *OrganizationUpsert {
+	u.Set(organization.FieldName, v)
+	return u
+}
+
+// UpdateName sets the "name" field to the value that was provided on create.
+func (u *OrganizationUpsert) UpdateName() *OrganizationUpsert {
+	u.SetExcluded(organization.FieldName)
+	return u
+}
+
+// ClearName clears the value of the "name" field.
+func (u *OrganizationUpsert) ClearName() *OrganizationUpsert {
+	u.SetNull(organization.FieldName)
 	return u
 }
 
@@ -1072,48 +1072,6 @@ func (u *OrganizationUpsertOne) ClearRemark() *OrganizationUpsertOne {
 	})
 }
 
-// SetName sets the "name" field.
-func (u *OrganizationUpsertOne) SetName(v string) *OrganizationUpsertOne {
-	return u.Update(func(s *OrganizationUpsert) {
-		s.SetName(v)
-	})
-}
-
-// UpdateName sets the "name" field to the value that was provided on create.
-func (u *OrganizationUpsertOne) UpdateName() *OrganizationUpsertOne {
-	return u.Update(func(s *OrganizationUpsert) {
-		s.UpdateName()
-	})
-}
-
-// ClearName clears the value of the "name" field.
-func (u *OrganizationUpsertOne) ClearName() *OrganizationUpsertOne {
-	return u.Update(func(s *OrganizationUpsert) {
-		s.ClearName()
-	})
-}
-
-// SetParentID sets the "parent_id" field.
-func (u *OrganizationUpsertOne) SetParentID(v uint32) *OrganizationUpsertOne {
-	return u.Update(func(s *OrganizationUpsert) {
-		s.SetParentID(v)
-	})
-}
-
-// UpdateParentID sets the "parent_id" field to the value that was provided on create.
-func (u *OrganizationUpsertOne) UpdateParentID() *OrganizationUpsertOne {
-	return u.Update(func(s *OrganizationUpsert) {
-		s.UpdateParentID()
-	})
-}
-
-// ClearParentID clears the value of the "parent_id" field.
-func (u *OrganizationUpsertOne) ClearParentID() *OrganizationUpsertOne {
-	return u.Update(func(s *OrganizationUpsert) {
-		s.ClearParentID()
-	})
-}
-
 // SetSortOrder sets the "sort_order" field.
 func (u *OrganizationUpsertOne) SetSortOrder(v int32) *OrganizationUpsertOne {
 	return u.Update(func(s *OrganizationUpsert) {
@@ -1139,6 +1097,48 @@ func (u *OrganizationUpsertOne) UpdateSortOrder() *OrganizationUpsertOne {
 func (u *OrganizationUpsertOne) ClearSortOrder() *OrganizationUpsertOne {
 	return u.Update(func(s *OrganizationUpsert) {
 		s.ClearSortOrder()
+	})
+}
+
+// SetParentID sets the "parent_id" field.
+func (u *OrganizationUpsertOne) SetParentID(v uint32) *OrganizationUpsertOne {
+	return u.Update(func(s *OrganizationUpsert) {
+		s.SetParentID(v)
+	})
+}
+
+// UpdateParentID sets the "parent_id" field to the value that was provided on create.
+func (u *OrganizationUpsertOne) UpdateParentID() *OrganizationUpsertOne {
+	return u.Update(func(s *OrganizationUpsert) {
+		s.UpdateParentID()
+	})
+}
+
+// ClearParentID clears the value of the "parent_id" field.
+func (u *OrganizationUpsertOne) ClearParentID() *OrganizationUpsertOne {
+	return u.Update(func(s *OrganizationUpsert) {
+		s.ClearParentID()
+	})
+}
+
+// SetName sets the "name" field.
+func (u *OrganizationUpsertOne) SetName(v string) *OrganizationUpsertOne {
+	return u.Update(func(s *OrganizationUpsert) {
+		s.SetName(v)
+	})
+}
+
+// UpdateName sets the "name" field to the value that was provided on create.
+func (u *OrganizationUpsertOne) UpdateName() *OrganizationUpsertOne {
+	return u.Update(func(s *OrganizationUpsert) {
+		s.UpdateName()
+	})
+}
+
+// ClearName clears the value of the "name" field.
+func (u *OrganizationUpsertOne) ClearName() *OrganizationUpsertOne {
+	return u.Update(func(s *OrganizationUpsert) {
+		s.ClearName()
 	})
 }
 
@@ -1663,48 +1663,6 @@ func (u *OrganizationUpsertBulk) ClearRemark() *OrganizationUpsertBulk {
 	})
 }
 
-// SetName sets the "name" field.
-func (u *OrganizationUpsertBulk) SetName(v string) *OrganizationUpsertBulk {
-	return u.Update(func(s *OrganizationUpsert) {
-		s.SetName(v)
-	})
-}
-
-// UpdateName sets the "name" field to the value that was provided on create.
-func (u *OrganizationUpsertBulk) UpdateName() *OrganizationUpsertBulk {
-	return u.Update(func(s *OrganizationUpsert) {
-		s.UpdateName()
-	})
-}
-
-// ClearName clears the value of the "name" field.
-func (u *OrganizationUpsertBulk) ClearName() *OrganizationUpsertBulk {
-	return u.Update(func(s *OrganizationUpsert) {
-		s.ClearName()
-	})
-}
-
-// SetParentID sets the "parent_id" field.
-func (u *OrganizationUpsertBulk) SetParentID(v uint32) *OrganizationUpsertBulk {
-	return u.Update(func(s *OrganizationUpsert) {
-		s.SetParentID(v)
-	})
-}
-
-// UpdateParentID sets the "parent_id" field to the value that was provided on create.
-func (u *OrganizationUpsertBulk) UpdateParentID() *OrganizationUpsertBulk {
-	return u.Update(func(s *OrganizationUpsert) {
-		s.UpdateParentID()
-	})
-}
-
-// ClearParentID clears the value of the "parent_id" field.
-func (u *OrganizationUpsertBulk) ClearParentID() *OrganizationUpsertBulk {
-	return u.Update(func(s *OrganizationUpsert) {
-		s.ClearParentID()
-	})
-}
-
 // SetSortOrder sets the "sort_order" field.
 func (u *OrganizationUpsertBulk) SetSortOrder(v int32) *OrganizationUpsertBulk {
 	return u.Update(func(s *OrganizationUpsert) {
@@ -1730,6 +1688,48 @@ func (u *OrganizationUpsertBulk) UpdateSortOrder() *OrganizationUpsertBulk {
 func (u *OrganizationUpsertBulk) ClearSortOrder() *OrganizationUpsertBulk {
 	return u.Update(func(s *OrganizationUpsert) {
 		s.ClearSortOrder()
+	})
+}
+
+// SetParentID sets the "parent_id" field.
+func (u *OrganizationUpsertBulk) SetParentID(v uint32) *OrganizationUpsertBulk {
+	return u.Update(func(s *OrganizationUpsert) {
+		s.SetParentID(v)
+	})
+}
+
+// UpdateParentID sets the "parent_id" field to the value that was provided on create.
+func (u *OrganizationUpsertBulk) UpdateParentID() *OrganizationUpsertBulk {
+	return u.Update(func(s *OrganizationUpsert) {
+		s.UpdateParentID()
+	})
+}
+
+// ClearParentID clears the value of the "parent_id" field.
+func (u *OrganizationUpsertBulk) ClearParentID() *OrganizationUpsertBulk {
+	return u.Update(func(s *OrganizationUpsert) {
+		s.ClearParentID()
+	})
+}
+
+// SetName sets the "name" field.
+func (u *OrganizationUpsertBulk) SetName(v string) *OrganizationUpsertBulk {
+	return u.Update(func(s *OrganizationUpsert) {
+		s.SetName(v)
+	})
+}
+
+// UpdateName sets the "name" field to the value that was provided on create.
+func (u *OrganizationUpsertBulk) UpdateName() *OrganizationUpsertBulk {
+	return u.Update(func(s *OrganizationUpsert) {
+		s.UpdateName()
+	})
+}
+
+// ClearName clears the value of the "name" field.
+func (u *OrganizationUpsertBulk) ClearName() *OrganizationUpsertBulk {
+	return u.Update(func(s *OrganizationUpsert) {
+		s.ClearName()
 	})
 }
 

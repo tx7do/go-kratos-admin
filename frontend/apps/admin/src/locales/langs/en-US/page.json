@@ -232,7 +232,7 @@
       "do_you_want_stop_task": "Are you sure you want to stop this task?"
     }
   },
-  "notificationMessage": {
+  "internalMessage": {
     "moduleName": "Notification",
     "subject": "Subject",
     "categoryName": "Category",
@@ -240,7 +240,7 @@
       "create": "Create"
     }
   },
-  "notificationMessageCategory": {
+  "internalMessageCategory": {
     "moduleName": "Notification Message Category",
     "name": "Name",
     "button": {

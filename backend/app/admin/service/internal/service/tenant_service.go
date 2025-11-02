@@ -97,7 +97,7 @@ func (s *TenantService) Create(ctx context.Context, req *userV1.CreateTenantRequ
 	// 获取操作人信息
 	operator, err := auth.FromContext(ctx)
 	if err != nil {
-		return &emptypb.Empty{}, err
+		return nil, err
 	}
 
 	req.Data.CreatedBy = trans.Ptr(operator.UserId)
@@ -117,7 +117,7 @@ func (s *TenantService) Update(ctx context.Context, req *userV1.UpdateTenantRequ
 	// 获取操作人信息
 	operator, err := auth.FromContext(ctx)
 	if err != nil {
-		return &emptypb.Empty{}, err
+		return nil, err
 	}
 
 	req.Data.UpdatedBy = trans.Ptr(operator.UserId)
@@ -150,7 +150,7 @@ func (s *TenantService) CreateTenantWithAdminUser(ctx context.Context, req *admi
 	// 获取操作人信息
 	operator, err := auth.FromContext(ctx)
 	if err != nil {
-		return &emptypb.Empty{}, err
+		return nil, err
 	}
 
 	req.Tenant.CreatedBy = trans.Ptr(operator.UserId)

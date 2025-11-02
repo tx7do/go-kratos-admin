@@ -182,3 +182,4 @@ catalog:
   zod-defaults: ^0.1.3
   vue-json-viewer: ^3.0.4
   json-bigint: ^1.0.0
+  "vue-ueditor-wrap": "~3.0.8"

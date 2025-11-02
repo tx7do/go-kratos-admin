@@ -43,14 +43,14 @@ type OrganizationServiceHTTPServer interface {
 
 func RegisterOrganizationServiceHTTPServer(s *http.Server, srv OrganizationServiceHTTPServer) {
 	r := s.Route("/")
-	r.GET("/admin/v1/organizations", _OrganizationService_List10_HTTP_Handler(srv))
-	r.GET("/admin/v1/organizations/{id}", _OrganizationService_Get10_HTTP_Handler(srv))
-	r.POST("/admin/v1/organizations", _OrganizationService_Create8_HTTP_Handler(srv))
-	r.PUT("/admin/v1/organizations/{data.id}", _OrganizationService_Update8_HTTP_Handler(srv))
-	r.DELETE("/admin/v1/organizations/{id}", _OrganizationService_Delete8_HTTP_Handler(srv))
+	r.GET("/admin/v1/organizations", _OrganizationService_List8_HTTP_Handler(srv))
+	r.GET("/admin/v1/organizations/{id}", _OrganizationService_Get8_HTTP_Handler(srv))
+	r.POST("/admin/v1/organizations", _OrganizationService_Create6_HTTP_Handler(srv))
+	r.PUT("/admin/v1/organizations/{data.id}", _OrganizationService_Update6_HTTP_Handler(srv))
+	r.DELETE("/admin/v1/organizations/{id}", _OrganizationService_Delete6_HTTP_Handler(srv))
 }
 
-func _OrganizationService_List10_HTTP_Handler(srv OrganizationServiceHTTPServer) func(ctx http.Context) error {
+func _OrganizationService_List8_HTTP_Handler(srv OrganizationServiceHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
 		var in v1.PagingRequest
 		if err := ctx.BindQuery(&in); err != nil {
@@ -69,7 +69,7 @@ func _OrganizationService_List10_HTTP_Handler(srv OrganizationServiceHTTPServer)
 	}
 }
 
-func _OrganizationService_Get10_HTTP_Handler(srv OrganizationServiceHTTPServer) func(ctx http.Context) error {
+func _OrganizationService_Get8_HTTP_Handler(srv OrganizationServiceHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
 		var in v11.GetOrganizationRequest
 		if err := ctx.BindQuery(&in); err != nil {
@@ -91,7 +91,7 @@ func _OrganizationService_Get10_HTTP_Handler(srv OrganizationServiceHTTPServer) 
 	}
 }
 
-func _OrganizationService_Create8_HTTP_Handler(srv OrganizationServiceHTTPServer) func(ctx http.Context) error {
+func _OrganizationService_Create6_HTTP_Handler(srv OrganizationServiceHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
 		var in v11.CreateOrganizationRequest
 		if err := ctx.Bind(&in); err != nil {
@@ -113,7 +113,7 @@ func _OrganizationService_Create8_HTTP_Handler(srv OrganizationServiceHTTPServer
 	}
 }
 
-func _OrganizationService_Update8_HTTP_Handler(srv OrganizationServiceHTTPServer) func(ctx http.Context) error {
+func _OrganizationService_Update6_HTTP_Handler(srv OrganizationServiceHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
 		var in v11.UpdateOrganizationRequest
 		if err := ctx.Bind(&in); err != nil {
@@ -138,7 +138,7 @@ func _OrganizationService_Update8_HTTP_Handler(srv OrganizationServiceHTTPServer
 	}
 }
 
-func _OrganizationService_Delete8_HTTP_Handler(srv OrganizationServiceHTTPServer) func(ctx http.Context) error {
+func _OrganizationService_Delete6_HTTP_Handler(srv OrganizationServiceHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
 		var in v11.DeleteOrganizationRequest
 		if err := ctx.BindQuery(&in); err != nil {

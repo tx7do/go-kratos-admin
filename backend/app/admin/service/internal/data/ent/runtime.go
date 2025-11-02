@@ -11,14 +11,13 @@ import (
 	"kratos-admin/app/admin/service/internal/data/ent/dictentry"
 	"kratos-admin/app/admin/service/internal/data/ent/dicttype"
 	"kratos-admin/app/admin/service/internal/data/ent/file"
+	"kratos-admin/app/admin/service/internal/data/ent/internalmessage"
+	"kratos-admin/app/admin/service/internal/data/ent/internalmessagecategory"
+	"kratos-admin/app/admin/service/internal/data/ent/internalmessagerecipient"
 	"kratos-admin/app/admin/service/internal/data/ent/language"
 	"kratos-admin/app/admin/service/internal/data/ent/menu"
-	"kratos-admin/app/admin/service/internal/data/ent/notificationmessage"
-	"kratos-admin/app/admin/service/internal/data/ent/notificationmessagecategory"
-	"kratos-admin/app/admin/service/internal/data/ent/notificationmessagerecipient"
 	"kratos-admin/app/admin/service/internal/data/ent/organization"
 	"kratos-admin/app/admin/service/internal/data/ent/position"
-	"kratos-admin/app/admin/service/internal/data/ent/privatemessage"
 	"kratos-admin/app/admin/service/internal/data/ent/role"
 	"kratos-admin/app/admin/service/internal/data/ent/roleapi"
 	"kratos-admin/app/admin/service/internal/data/ent/roledept"
@@ -77,16 +76,18 @@ func init() {
 	departmentMixin := schema.Department{}.Mixin()
 	departmentMixinFields0 := departmentMixin[0].Fields()
 	_ = departmentMixinFields0
+	departmentMixinFields3 := departmentMixin[3].Fields()
+	_ = departmentMixinFields3
 	departmentFields := schema.Department{}.Fields()
 	_ = departmentFields
+	// departmentDescSortOrder is the schema descriptor for sort_order field.
+	departmentDescSortOrder := departmentMixinFields3[0].Descriptor()
+	// department.DefaultSortOrder holds the default value on creation for the sort_order field.
+	department.DefaultSortOrder = departmentDescSortOrder.Default.(int32)
 	// departmentDescName is the schema descriptor for name field.
 	departmentDescName := departmentFields[0].Descriptor()
 	// department.NameValidator is a validator for the "name" field. It is called by the builders before save.
 	department.NameValidator = departmentDescName.Validators[0].(func(string) error)
-	// departmentDescSortOrder is the schema descriptor for sort_order field.
-	departmentDescSortOrder := departmentFields[4].Descriptor()
-	// department.DefaultSortOrder holds the default value on creation for the sort_order field.
-	department.DefaultSortOrder = departmentDescSortOrder.Default.(int32)
 	// departmentDescID is the schema descriptor for id field.
 	departmentDescID := departmentMixinFields0[0].Descriptor()
 	// department.IDValidator is a validator for the "id" field. It is called by the builders before save.
@@ -158,6 +159,53 @@ func init() {
 	fileDescID := fileMixinFields0[0].Descriptor()
 	// file.IDValidator is a validator for the "id" field. It is called by the builders before save.
 	file.IDValidator = fileDescID.Validators[0].(func(uint32) error)
+	internalmessageMixin := schema.InternalMessage{}.Mixin()
+	internalmessageMixinFields0 := internalmessageMixin[0].Fields()
+	_ = internalmessageMixinFields0
+	internalmessageFields := schema.InternalMessage{}.Fields()
+	_ = internalmessageFields
+	// internalmessageDescID is the schema descriptor for id field.
+	internalmessageDescID := internalmessageMixinFields0[0].Descriptor()
+	// internalmessage.IDValidator is a validator for the "id" field. It is called by the builders before save.
+	internalmessage.IDValidator = internalmessageDescID.Validators[0].(func(uint32) error)
+	internalmessagecategoryMixin := schema.InternalMessageCategory{}.Mixin()
+	internalmessagecategoryMixinFields0 := internalmessagecategoryMixin[0].Fields()
+	_ = internalmessagecategoryMixinFields0
+	internalmessagecategoryMixinFields3 := internalmessagecategoryMixin[3].Fields()
+	_ = internalmessagecategoryMixinFields3
+	internalmessagecategoryMixinFields4 := internalmessagecategoryMixin[4].Fields()
+	_ = internalmessagecategoryMixinFields4
+	internalmessagecategoryFields := schema.InternalMessageCategory{}.Fields()
+	_ = internalmessagecategoryFields
+	// internalmessagecategoryDescIsEnabled is the schema descriptor for is_enabled field.
+	internalmessagecategoryDescIsEnabled := internalmessagecategoryMixinFields3[0].Descriptor()
+	// internalmessagecategory.DefaultIsEnabled holds the default value on creation for the is_enabled field.
+	internalmessagecategory.DefaultIsEnabled = internalmessagecategoryDescIsEnabled.Default.(bool)
+	// internalmessagecategoryDescSortOrder is the schema descriptor for sort_order field.
+	internalmessagecategoryDescSortOrder := internalmessagecategoryMixinFields4[0].Descriptor()
+	// internalmessagecategory.DefaultSortOrder holds the default value on creation for the sort_order field.
+	internalmessagecategory.DefaultSortOrder = internalmessagecategoryDescSortOrder.Default.(int32)
+	// internalmessagecategoryDescName is the schema descriptor for name field.
+	internalmessagecategoryDescName := internalmessagecategoryFields[0].Descriptor()
+	// internalmessagecategory.NameValidator is a validator for the "name" field. It is called by the builders before save.
+	internalmessagecategory.NameValidator = internalmessagecategoryDescName.Validators[0].(func(string) error)
+	// internalmessagecategoryDescCode is the schema descriptor for code field.
+	internalmessagecategoryDescCode := internalmessagecategoryFields[1].Descriptor()
+	// internalmessagecategory.CodeValidator is a validator for the "code" field. It is called by the builders before save.
+	internalmessagecategory.CodeValidator = internalmessagecategoryDescCode.Validators[0].(func(string) error)
+	// internalmessagecategoryDescID is the schema descriptor for id field.
+	internalmessagecategoryDescID := internalmessagecategoryMixinFields0[0].Descriptor()
+	// internalmessagecategory.IDValidator is a validator for the "id" field. It is called by the builders before save.
+	internalmessagecategory.IDValidator = internalmessagecategoryDescID.Validators[0].(func(uint32) error)
+	internalmessagerecipientMixin := schema.InternalMessageRecipient{}.Mixin()
+	internalmessagerecipientMixinFields0 := internalmessagerecipientMixin[0].Fields()
+	_ = internalmessagerecipientMixinFields0
+	internalmessagerecipientFields := schema.InternalMessageRecipient{}.Fields()
+	_ = internalmessagerecipientFields
+	// internalmessagerecipientDescID is the schema descriptor for id field.
+	internalmessagerecipientDescID := internalmessagerecipientMixinFields0[0].Descriptor()
+	// internalmessagerecipient.IDValidator is a validator for the "id" field. It is called by the builders before save.
+	internalmessagerecipient.IDValidator = internalmessagerecipientDescID.Validators[0].(func(uint32) error)
 	languageMixin := schema.Language{}.Mixin()
 	languageMixinFields0 := languageMixin[0].Fields()
 	_ = languageMixinFields0
@@ -201,69 +249,32 @@ func init() {
 	menuFields := schema.Menu{}.Fields()
 	_ = menuFields
 	// menuDescPath is the schema descriptor for path field.
-	menuDescPath := menuFields[3].Descriptor()
+	menuDescPath := menuFields[2].Descriptor()
 	// menu.DefaultPath holds the default value on creation for the path field.
 	menu.DefaultPath = menuDescPath.Default.(string)
 	// menuDescComponent is the schema descriptor for component field.
-	menuDescComponent := menuFields[7].Descriptor()
+	menuDescComponent := menuFields[6].Descriptor()
 	// menu.DefaultComponent holds the default value on creation for the component field.
 	menu.DefaultComponent = menuDescComponent.Default.(string)
 	// menuDescID is the schema descriptor for id field.
 	menuDescID := menuMixinFields0[0].Descriptor()
 	// menu.IDValidator is a validator for the "id" field. It is called by the builders before save.
 	menu.IDValidator = menuDescID.Validators[0].(func(uint32) error)
-	notificationmessageMixin := schema.NotificationMessage{}.Mixin()
-	notificationmessageMixinFields0 := notificationmessageMixin[0].Fields()
-	_ = notificationmessageMixinFields0
-	notificationmessageFields := schema.NotificationMessage{}.Fields()
-	_ = notificationmessageFields
-	// notificationmessageDescID is the schema descriptor for id field.
-	notificationmessageDescID := notificationmessageMixinFields0[0].Descriptor()
-	// notificationmessage.IDValidator is a validator for the "id" field. It is called by the builders before save.
-	notificationmessage.IDValidator = notificationmessageDescID.Validators[0].(func(uint32) error)
-	notificationmessagecategoryMixin := schema.NotificationMessageCategory{}.Mixin()
-	notificationmessagecategoryMixinFields0 := notificationmessagecategoryMixin[0].Fields()
-	_ = notificationmessagecategoryMixinFields0
-	notificationmessagecategoryFields := schema.NotificationMessageCategory{}.Fields()
-	_ = notificationmessagecategoryFields
-	// notificationmessagecategoryDescName is the schema descriptor for name field.
-	notificationmessagecategoryDescName := notificationmessagecategoryFields[0].Descriptor()
-	// notificationmessagecategory.NameValidator is a validator for the "name" field. It is called by the builders before save.
-	notificationmessagecategory.NameValidator = notificationmessagecategoryDescName.Validators[0].(func(string) error)
-	// notificationmessagecategoryDescCode is the schema descriptor for code field.
-	notificationmessagecategoryDescCode := notificationmessagecategoryFields[1].Descriptor()
-	// notificationmessagecategory.CodeValidator is a validator for the "code" field. It is called by the builders before save.
-	notificationmessagecategory.CodeValidator = notificationmessagecategoryDescCode.Validators[0].(func(string) error)
-	// notificationmessagecategoryDescSortOrder is the schema descriptor for sort_order field.
-	notificationmessagecategoryDescSortOrder := notificationmessagecategoryFields[2].Descriptor()
-	// notificationmessagecategory.DefaultSortOrder holds the default value on creation for the sort_order field.
-	notificationmessagecategory.DefaultSortOrder = notificationmessagecategoryDescSortOrder.Default.(int32)
-	// notificationmessagecategoryDescID is the schema descriptor for id field.
-	notificationmessagecategoryDescID := notificationmessagecategoryMixinFields0[0].Descriptor()
-	// notificationmessagecategory.IDValidator is a validator for the "id" field. It is called by the builders before save.
-	notificationmessagecategory.IDValidator = notificationmessagecategoryDescID.Validators[0].(func(uint32) error)
-	notificationmessagerecipientMixin := schema.NotificationMessageRecipient{}.Mixin()
-	notificationmessagerecipientMixinFields0 := notificationmessagerecipientMixin[0].Fields()
-	_ = notificationmessagerecipientMixinFields0
-	notificationmessagerecipientFields := schema.NotificationMessageRecipient{}.Fields()
-	_ = notificationmessagerecipientFields
-	// notificationmessagerecipientDescID is the schema descriptor for id field.
-	notificationmessagerecipientDescID := notificationmessagerecipientMixinFields0[0].Descriptor()
-	// notificationmessagerecipient.IDValidator is a validator for the "id" field. It is called by the builders before save.
-	notificationmessagerecipient.IDValidator = notificationmessagerecipientDescID.Validators[0].(func(uint32) error)
 	organizationMixin := schema.Organization{}.Mixin()
 	organizationMixinFields0 := organizationMixin[0].Fields()
 	_ = organizationMixinFields0
+	organizationMixinFields4 := organizationMixin[4].Fields()
+	_ = organizationMixinFields4
 	organizationFields := schema.Organization{}.Fields()
 	_ = organizationFields
+	// organizationDescSortOrder is the schema descriptor for sort_order field.
+	organizationDescSortOrder := organizationMixinFields4[0].Descriptor()
+	// organization.DefaultSortOrder holds the default value on creation for the sort_order field.
+	organization.DefaultSortOrder = organizationDescSortOrder.Default.(int32)
 	// organizationDescName is the schema descriptor for name field.
 	organizationDescName := organizationFields[0].Descriptor()
 	// organization.NameValidator is a validator for the "name" field. It is called by the builders before save.
 	organization.NameValidator = organizationDescName.Validators[0].(func(string) error)
-	// organizationDescSortOrder is the schema descriptor for sort_order field.
-	organizationDescSortOrder := organizationFields[2].Descriptor()
-	// organization.DefaultSortOrder holds the default value on creation for the sort_order field.
-	organization.DefaultSortOrder = organizationDescSortOrder.Default.(int32)
 	// organizationDescID is the schema descriptor for id field.
 	organizationDescID := organizationMixinFields0[0].Descriptor()
 	// organization.IDValidator is a validator for the "id" field. It is called by the builders before save.
@@ -271,8 +282,14 @@ func init() {
 	positionMixin := schema.Position{}.Mixin()
 	positionMixinFields0 := positionMixin[0].Fields()
 	_ = positionMixinFields0
+	positionMixinFields3 := positionMixin[3].Fields()
+	_ = positionMixinFields3
 	positionFields := schema.Position{}.Fields()
 	_ = positionFields
+	// positionDescSortOrder is the schema descriptor for sort_order field.
+	positionDescSortOrder := positionMixinFields3[0].Descriptor()
+	// position.DefaultSortOrder holds the default value on creation for the sort_order field.
+	position.DefaultSortOrder = positionDescSortOrder.Default.(int32)
 	// positionDescName is the schema descriptor for name field.
 	positionDescName := positionFields[0].Descriptor()
 	// position.NameValidator is a validator for the "name" field. It is called by the builders before save.
@@ -281,28 +298,21 @@ func init() {
 	positionDescCode := positionFields[1].Descriptor()
 	// position.CodeValidator is a validator for the "code" field. It is called by the builders before save.
 	position.CodeValidator = positionDescCode.Validators[0].(func(string) error)
-	// positionDescSortOrder is the schema descriptor for sort_order field.
-	positionDescSortOrder := positionFields[3].Descriptor()
-	// position.DefaultSortOrder holds the default value on creation for the sort_order field.
-	position.DefaultSortOrder = positionDescSortOrder.Default.(int32)
 	// positionDescID is the schema descriptor for id field.
 	positionDescID := positionMixinFields0[0].Descriptor()
 	// position.IDValidator is a validator for the "id" field. It is called by the builders before save.
 	position.IDValidator = positionDescID.Validators[0].(func(uint32) error)
-	privatemessageMixin := schema.PrivateMessage{}.Mixin()
-	privatemessageMixinFields0 := privatemessageMixin[0].Fields()
-	_ = privatemessageMixinFields0
-	privatemessageFields := schema.PrivateMessage{}.Fields()
-	_ = privatemessageFields
-	// privatemessageDescID is the schema descriptor for id field.
-	privatemessageDescID := privatemessageMixinFields0[0].Descriptor()
-	// privatemessage.IDValidator is a validator for the "id" field. It is called by the builders before save.
-	privatemessage.IDValidator = privatemessageDescID.Validators[0].(func(uint32) error)
 	roleMixin := schema.Role{}.Mixin()
 	roleMixinFields0 := roleMixin[0].Fields()
 	_ = roleMixinFields0
+	roleMixinFields4 := roleMixin[4].Fields()
+	_ = roleMixinFields4
 	roleFields := schema.Role{}.Fields()
 	_ = roleFields
+	// roleDescSortOrder is the schema descriptor for sort_order field.
+	roleDescSortOrder := roleMixinFields4[0].Descriptor()
+	// role.DefaultSortOrder holds the default value on creation for the sort_order field.
+	role.DefaultSortOrder = roleDescSortOrder.Default.(int32)
 	// roleDescName is the schema descriptor for name field.
 	roleDescName := roleFields[0].Descriptor()
 	// role.NameValidator is a validator for the "name" field. It is called by the builders before save.
@@ -311,10 +321,6 @@ func init() {
 	roleDescCode := roleFields[1].Descriptor()
 	// role.CodeValidator is a validator for the "code" field. It is called by the builders before save.
 	role.CodeValidator = roleDescCode.Validators[0].(func(string) error)
-	// roleDescSortOrder is the schema descriptor for sort_order field.
-	roleDescSortOrder := roleFields[3].Descriptor()
-	// role.DefaultSortOrder holds the default value on creation for the sort_order field.
-	role.DefaultSortOrder = roleDescSortOrder.Default.(int32)
 	// roleDescID is the schema descriptor for id field.
 	roleDescID := roleMixinFields0[0].Descriptor()
 	// role.IDValidator is a validator for the "id" field. It is called by the builders before save.

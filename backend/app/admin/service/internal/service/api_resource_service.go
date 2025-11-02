@@ -71,7 +71,7 @@ func (s *ApiResourceService) Create(ctx context.Context, req *adminV1.CreateApiR
 	// 获取操作人信息
 	operator, err := auth.FromContext(ctx)
 	if err != nil {
-		return &emptypb.Empty{}, err
+		return nil, err
 	}
 
 	req.Data.CreatedBy = trans.Ptr(operator.UserId)
@@ -96,7 +96,7 @@ func (s *ApiResourceService) Update(ctx context.Context, req *adminV1.UpdateApiR
 	// 获取操作人信息
 	operator, err := auth.FromContext(ctx)
 	if err != nil {
-		return &emptypb.Empty{}, err
+		return nil, err
 	}
 
 	req.Data.UpdatedBy = trans.Ptr(operator.UserId)

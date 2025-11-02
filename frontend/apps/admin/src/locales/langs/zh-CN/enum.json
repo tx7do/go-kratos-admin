@@ -68,5 +68,25 @@
     "PENDING": "待审核",
     "APPROVED": "已通过",
     "REJECTED": "已拒绝"
+  },
+  "internalMessageStatus" : {
+    "DRAFT": "草稿",
+    "PUBLISHED": "已发布",
+    "SCHEDULED": "定时发布",
+    "REVOKED": "已撤销",
+    "ARCHIVED": "已归档",
+    "DELETED": "已删除"
+  },
+  "internalMessageType" : {
+    "NOTIFICATION": "通知",
+    "PRIVATE": "私信",
+    "GROUP": "群聊"
+  },
+  "internalMessageRecipientStatus" : {
+    "SENT": "已发送",
+    "RECEIVED": "已接收",
+    "READ": "已阅读",
+    "REVOKED": "已撤回",
+    "DELETED": "已删除"
   }
 }

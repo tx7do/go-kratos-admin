@@ -8,7 +8,6 @@ replace (
 )
 
 require (
-	entgo.io/contrib v0.7.0
 	entgo.io/ent v0.14.5
 	github.com/arrakis-digital/protoc-gen-redact/v3 v3.3.0
 	github.com/getkin/kin-openapi v0.133.0
@@ -28,7 +27,7 @@ require (
 	github.com/stretchr/testify v1.11.1
 	github.com/tx7do/go-utils v1.1.29
 	github.com/tx7do/go-utils/copierutil v0.0.5
-	github.com/tx7do/go-utils/entgo v1.1.37
+	github.com/tx7do/go-utils/entgo v1.1.38
 	github.com/tx7do/go-utils/geoip v1.1.6
 	github.com/tx7do/go-utils/jwtutil v0.0.2
 	github.com/tx7do/go-utils/mapper v0.0.3
@@ -61,6 +60,7 @@ require (
 	buf.build/go/protovalidate v0.14.0 // indirect
 	cel.dev/expr v0.24.0 // indirect
 	dario.cat/mergo v1.0.2 // indirect
+	entgo.io/contrib v0.7.0 // indirect
 	filippo.io/edwards25519 v1.1.0 // indirect
 	github.com/XSAM/otelsql v0.40.0 // indirect
 	github.com/agext/levenshtein v1.2.3 // indirect

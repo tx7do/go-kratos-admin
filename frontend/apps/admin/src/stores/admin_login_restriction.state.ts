@@ -4,10 +4,7 @@ import { $t } from '@vben/locales';
 
 import { defineStore } from 'pinia';
 
-import {
-  AdminLoginRestriction_Method,
-  AdminLoginRestriction_Type,
-} from '#/generated/api/admin/service/v1/i_admin_login_restriction.pb';
+import { AdminLoginRestriction_Type } from '#/generated/api/admin/service/v1/i_admin_login_restriction.pb';
 import { defAdminLoginRestrictionService } from '#/services';
 import { makeQueryString, makeUpdateMask } from '#/utils/query';
 
@@ -102,15 +99,9 @@ export const adminLoginRestrictionMethodList = computed(() => [
 ]);
 
 export function adminLoginRestrictionTypeToName(typeName: any) {
-  switch (typeName) {
-    case AdminLoginRestriction_Type.BLACKLIST: {
-      return $t('enum.adminLoginRestrictionType.BLACKLIST');
-    }
-
-    case AdminLoginRestriction_Type.WHITELIST: {
-      return $t('enum.adminLoginRestrictionType.WHITELIST');
-    }
-  }
+  const values = adminLoginRestrictionTypeList.value;
+  const matchedItem = values.find((item) => item.value === typeName);
+  return matchedItem ? matchedItem.label : '';
 }
 
 export function adminLoginRestrictionTypeToColor(typeName: any) {
@@ -129,25 +120,7 @@ export function adminLoginRestrictionTypeToColor(typeName: any) {
 }
 
 export function adminLoginRestrictionMethodToName(methodName: any) {
-  switch (methodName) {
-    case AdminLoginRestriction_Method.DEVICE: {
-      return $t('enum.adminLoginRestrictionMethod.DEVICE');
-    }
-
-    case AdminLoginRestriction_Method.IP: {
-      return $t('enum.adminLoginRestrictionMethod.IP');
-    }
-
-    case AdminLoginRestriction_Method.MAC: {
-      return $t('enum.adminLoginRestrictionMethod.MAC');
-    }
-
-    case AdminLoginRestriction_Method.REGION: {
-      return $t('enum.adminLoginRestrictionMethod.REGION');
-    }
-
-    case AdminLoginRestriction_Method.TIME: {
-      return $t('enum.adminLoginRestrictionMethod.TIME');
-    }
-  }
+  const values = adminLoginRestrictionMethodList.value;
+  const matchedItem = values.find((item) => item.value === methodName);
+  return matchedItem ? matchedItem.label : '';
 }

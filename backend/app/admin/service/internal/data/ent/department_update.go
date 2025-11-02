@@ -150,6 +150,33 @@ func (_u *DepartmentUpdate) ClearDeletedBy() *DepartmentUpdate {
 	return _u
 }
 
+// SetSortOrder sets the "sort_order" field.
+func (_u *DepartmentUpdate) SetSortOrder(v int32) *DepartmentUpdate {
+	_u.mutation.ResetSortOrder()
+	_u.mutation.SetSortOrder(v)
+	return _u
+}
+
+// SetNillableSortOrder sets the "sort_order" field if the given value is not nil.
+func (_u *DepartmentUpdate) SetNillableSortOrder(v *int32) *DepartmentUpdate {
+	if v != nil {
+		_u.SetSortOrder(*v)
+	}
+	return _u
+}
+
+// AddSortOrder adds value to the "sort_order" field.
+func (_u *DepartmentUpdate) AddSortOrder(v int32) *DepartmentUpdate {
+	_u.mutation.AddSortOrder(v)
+	return _u
+}
+
+// ClearSortOrder clears the value of the "sort_order" field.
+func (_u *DepartmentUpdate) ClearSortOrder() *DepartmentUpdate {
+	_u.mutation.ClearSortOrder()
+	return _u
+}
+
 // SetRemark sets the "remark" field.
 func (_u *DepartmentUpdate) SetRemark(v string) *DepartmentUpdate {
 	_u.mutation.SetRemark(v)
@@ -170,26 +197,6 @@ func (_u *DepartmentUpdate) ClearRemark() *DepartmentUpdate {
 	return _u
 }
 
-// SetName sets the "name" field.
-func (_u *DepartmentUpdate) SetName(v string) *DepartmentUpdate {
-	_u.mutation.SetName(v)
-	return _u
-}
-
-// SetNillableName sets the "name" field if the given value is not nil.
-func (_u *DepartmentUpdate) SetNillableName(v *string) *DepartmentUpdate {
-	if v != nil {
-		_u.SetName(*v)
-	}
-	return _u
-}
-
-// ClearName clears the value of the "name" field.
-func (_u *DepartmentUpdate) ClearName() *DepartmentUpdate {
-	_u.mutation.ClearName()
-	return _u
-}
-
 // SetParentID sets the "parent_id" field.
 func (_u *DepartmentUpdate) SetParentID(v uint32) *DepartmentUpdate {
 	_u.mutation.SetParentID(v)
@@ -207,6 +214,26 @@ func (_u *DepartmentUpdate) SetNillableParentID(v *uint32) *DepartmentUpdate {
 // ClearParentID clears the value of the "parent_id" field.
 func (_u *DepartmentUpdate) ClearParentID() *DepartmentUpdate {
 	_u.mutation.ClearParentID()
+	return _u
+}
+
+// SetName sets the "name" field.
+func (_u *DepartmentUpdate) SetName(v string) *DepartmentUpdate {
+	_u.mutation.SetName(v)
+	return _u
+}
+
+// SetNillableName sets the "name" field if the given value is not nil.
+func (_u *DepartmentUpdate) SetNillableName(v *string) *DepartmentUpdate {
+	if v != nil {
+		_u.SetName(*v)
+	}
+	return _u
+}
+
+// ClearName clears the value of the "name" field.
+func (_u *DepartmentUpdate) ClearName() *DepartmentUpdate {
+	_u.mutation.ClearName()
 	return _u
 }
 
@@ -255,33 +282,6 @@ func (_u *DepartmentUpdate) AddManagerID(v int32) *DepartmentUpdate {
 // ClearManagerID clears the value of the "manager_id" field.
 func (_u *DepartmentUpdate) ClearManagerID() *DepartmentUpdate {
 	_u.mutation.ClearManagerID()
-	return _u
-}
-
-// SetSortOrder sets the "sort_order" field.
-func (_u *DepartmentUpdate) SetSortOrder(v int32) *DepartmentUpdate {
-	_u.mutation.ResetSortOrder()
-	_u.mutation.SetSortOrder(v)
-	return _u
-}
-
-// SetNillableSortOrder sets the "sort_order" field if the given value is not nil.
-func (_u *DepartmentUpdate) SetNillableSortOrder(v *int32) *DepartmentUpdate {
-	if v != nil {
-		_u.SetSortOrder(*v)
-	}
-	return _u
-}
-
-// AddSortOrder adds value to the "sort_order" field.
-func (_u *DepartmentUpdate) AddSortOrder(v int32) *DepartmentUpdate {
-	_u.mutation.AddSortOrder(v)
-	return _u
-}
-
-// ClearSortOrder clears the value of the "sort_order" field.
-func (_u *DepartmentUpdate) ClearSortOrder() *DepartmentUpdate {
-	_u.mutation.ClearSortOrder()
 	return _u
 }
 
@@ -479,6 +479,15 @@ func (_u *DepartmentUpdate) sqlSave(ctx context.Context) (_node int, err error) 
 	if _u.mutation.DeletedByCleared() {
 		_spec.ClearField(department.FieldDeletedBy, field.TypeUint32)
 	}
+	if value, ok := _u.mutation.SortOrder(); ok {
+		_spec.SetField(department.FieldSortOrder, field.TypeInt32, value)
+	}
+	if value, ok := _u.mutation.AddedSortOrder(); ok {
+		_spec.AddField(department.FieldSortOrder, field.TypeInt32, value)
+	}
+	if _u.mutation.SortOrderCleared() {
+		_spec.ClearField(department.FieldSortOrder, field.TypeInt32)
+	}
 	if value, ok := _u.mutation.Remark(); ok {
 		_spec.SetField(department.FieldRemark, field.TypeString, value)
 	}
@@ -508,15 +517,6 @@ func (_u *DepartmentUpdate) sqlSave(ctx context.Context) (_node int, err error) 
 	}
 	if _u.mutation.ManagerIDCleared() {
 		_spec.ClearField(department.FieldManagerID, field.TypeUint32)
-	}
-	if value, ok := _u.mutation.SortOrder(); ok {
-		_spec.SetField(department.FieldSortOrder, field.TypeInt32, value)
-	}
-	if value, ok := _u.mutation.AddedSortOrder(); ok {
-		_spec.AddField(department.FieldSortOrder, field.TypeInt32, value)
-	}
-	if _u.mutation.SortOrderCleared() {
-		_spec.ClearField(department.FieldSortOrder, field.TypeInt32)
 	}
 	if value, ok := _u.mutation.Status(); ok {
 		_spec.SetField(department.FieldStatus, field.TypeEnum, value)
@@ -747,6 +747,33 @@ func (_u *DepartmentUpdateOne) ClearDeletedBy() *DepartmentUpdateOne {
 	return _u
 }
 
+// SetSortOrder sets the "sort_order" field.
+func (_u *DepartmentUpdateOne) SetSortOrder(v int32) *DepartmentUpdateOne {
+	_u.mutation.ResetSortOrder()
+	_u.mutation.SetSortOrder(v)
+	return _u
+}
+
+// SetNillableSortOrder sets the "sort_order" field if the given value is not nil.
+func (_u *DepartmentUpdateOne) SetNillableSortOrder(v *int32) *DepartmentUpdateOne {
+	if v != nil {
+		_u.SetSortOrder(*v)
+	}
+	return _u
+}
+
+// AddSortOrder adds value to the "sort_order" field.
+func (_u *DepartmentUpdateOne) AddSortOrder(v int32) *DepartmentUpdateOne {
+	_u.mutation.AddSortOrder(v)
+	return _u
+}
+
+// ClearSortOrder clears the value of the "sort_order" field.
+func (_u *DepartmentUpdateOne) ClearSortOrder() *DepartmentUpdateOne {
+	_u.mutation.ClearSortOrder()
+	return _u
+}
+
 // SetRemark sets the "remark" field.
 func (_u *DepartmentUpdateOne) SetRemark(v string) *DepartmentUpdateOne {
 	_u.mutation.SetRemark(v)
@@ -767,26 +794,6 @@ func (_u *DepartmentUpdateOne) ClearRemark() *DepartmentUpdateOne {
 	return _u
 }
 
-// SetName sets the "name" field.
-func (_u *DepartmentUpdateOne) SetName(v string) *DepartmentUpdateOne {
-	_u.mutation.SetName(v)
-	return _u
-}
-
-// SetNillableName sets the "name" field if the given value is not nil.
-func (_u *DepartmentUpdateOne) SetNillableName(v *string) *DepartmentUpdateOne {
-	if v != nil {
-		_u.SetName(*v)
-	}
-	return _u
-}
-
-// ClearName clears the value of the "name" field.
-func (_u *DepartmentUpdateOne) ClearName() *DepartmentUpdateOne {
-	_u.mutation.ClearName()
-	return _u
-}
-
 // SetParentID sets the "parent_id" field.
 func (_u *DepartmentUpdateOne) SetParentID(v uint32) *DepartmentUpdateOne {
 	_u.mutation.SetParentID(v)
@@ -804,6 +811,26 @@ func (_u *DepartmentUpdateOne) SetNillableParentID(v *uint32) *DepartmentUpdateO
 // ClearParentID clears the value of the "parent_id" field.
 func (_u *DepartmentUpdateOne) ClearParentID() *DepartmentUpdateOne {
 	_u.mutation.ClearParentID()
+	return _u
+}
+
+// SetName sets the "name" field.
+func (_u *DepartmentUpdateOne) SetName(v string) *DepartmentUpdateOne {
+	_u.mutation.SetName(v)
+	return _u
+}
+
+// SetNillableName sets the "name" field if the given value is not nil.
+func (_u *DepartmentUpdateOne) SetNillableName(v *string) *DepartmentUpdateOne {
+	if v != nil {
+		_u.SetName(*v)
+	}
+	return _u
+}
+
+// ClearName clears the value of the "name" field.
+func (_u *DepartmentUpdateOne) ClearName() *DepartmentUpdateOne {
+	_u.mutation.ClearName()
 	return _u
 }
 
@@ -852,33 +879,6 @@ func (_u *DepartmentUpdateOne) AddManagerID(v int32) *DepartmentUpdateOne {
 // ClearManagerID clears the value of the "manager_id" field.
 func (_u *DepartmentUpdateOne) ClearManagerID() *DepartmentUpdateOne {
 	_u.mutation.ClearManagerID()
-	return _u
-}
-
-// SetSortOrder sets the "sort_order" field.
-func (_u *DepartmentUpdateOne) SetSortOrder(v int32) *DepartmentUpdateOne {
-	_u.mutation.ResetSortOrder()
-	_u.mutation.SetSortOrder(v)
-	return _u
-}
-
-// SetNillableSortOrder sets the "sort_order" field if the given value is not nil.
-func (_u *DepartmentUpdateOne) SetNillableSortOrder(v *int32) *DepartmentUpdateOne {
-	if v != nil {
-		_u.SetSortOrder(*v)
-	}
-	return _u
-}
-
-// AddSortOrder adds value to the "sort_order" field.
-func (_u *DepartmentUpdateOne) AddSortOrder(v int32) *DepartmentUpdateOne {
-	_u.mutation.AddSortOrder(v)
-	return _u
-}
-
-// ClearSortOrder clears the value of the "sort_order" field.
-func (_u *DepartmentUpdateOne) ClearSortOrder() *DepartmentUpdateOne {
-	_u.mutation.ClearSortOrder()
 	return _u
 }
 
@@ -1106,6 +1106,15 @@ func (_u *DepartmentUpdateOne) sqlSave(ctx context.Context) (_node *Department, 
 	if _u.mutation.DeletedByCleared() {
 		_spec.ClearField(department.FieldDeletedBy, field.TypeUint32)
 	}
+	if value, ok := _u.mutation.SortOrder(); ok {
+		_spec.SetField(department.FieldSortOrder, field.TypeInt32, value)
+	}
+	if value, ok := _u.mutation.AddedSortOrder(); ok {
+		_spec.AddField(department.FieldSortOrder, field.TypeInt32, value)
+	}
+	if _u.mutation.SortOrderCleared() {
+		_spec.ClearField(department.FieldSortOrder, field.TypeInt32)
+	}
 	if value, ok := _u.mutation.Remark(); ok {
 		_spec.SetField(department.FieldRemark, field.TypeString, value)
 	}
@@ -1135,15 +1144,6 @@ func (_u *DepartmentUpdateOne) sqlSave(ctx context.Context) (_node *Department, 
 	}
 	if _u.mutation.ManagerIDCleared() {
 		_spec.ClearField(department.FieldManagerID, field.TypeUint32)
-	}
-	if value, ok := _u.mutation.SortOrder(); ok {
-		_spec.SetField(department.FieldSortOrder, field.TypeInt32, value)
-	}
-	if value, ok := _u.mutation.AddedSortOrder(); ok {
-		_spec.AddField(department.FieldSortOrder, field.TypeInt32, value)
-	}
-	if _u.mutation.SortOrderCleared() {
-		_spec.ClearField(department.FieldSortOrder, field.TypeInt32)
 	}
 	if value, ok := _u.mutation.Status(); ok {
 		_spec.SetField(department.FieldStatus, field.TypeEnum, value)

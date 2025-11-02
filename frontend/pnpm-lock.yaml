@@ -444,6 +444,9 @@ catalogs:
     vue-tsc:
       specifier: ^2.1.10
       version: 2.1.10
+    vue-ueditor-wrap:
+      specifier: ~3.0.8
+      version: 3.0.8
     vxe-pc-ui:
       specifier: ^4.3.27
       version: 4.3.29
@@ -648,6 +651,9 @@ importers:
       vue-router:
         specifier: 'catalog:'
         version: 4.5.0(vue@3.5.13(typescript@5.7.2))
+      vue-ueditor-wrap:
+        specifier: 'catalog:'
+        version: 3.0.8(vue@3.5.13(typescript@5.7.2))
 
   internal/lint-configs/commitlint-config:
     dependencies:
@@ -9691,6 +9697,11 @@ packages:
     peerDependencies:
       vue: ^3.5.13
 
+  vue-ueditor-wrap@3.0.8:
+    resolution: {integrity: sha512-U1s30pKcz8rr6v2F2ivnomOf1vF1N+n+aNClas4jXfiEf4E5FEtNwkFJBugcyf2VTRFK0UVpx5WspX5nwmImYw==}
+    peerDependencies:
+      vue: ^3.5.13
+
   vue@3.5.13:
     resolution: {integrity: sha512-wmeiSMxkZCSc+PM2w2VRsOYAZC8GdipNFRTsLSfodVqI9mbejKeXEGr8SckuLnrQPGe3oJN5c3K0vpoU9q/wCQ==}
     peerDependencies:
@@ -12010,7 +12021,7 @@ snapshots:
 
   '@manypkg/find-root@1.1.0':
     dependencies:
-      '@babel/runtime': 7.26.0
+      '@babel/runtime': 7.28.4
       '@types/node': 12.20.55
       find-up: 4.1.0
       fs-extra: 8.1.0
@@ -18956,6 +18967,11 @@ snapshots:
   vue-types@3.0.2(vue@3.5.13(typescript@5.7.2)):
     dependencies:
       is-plain-object: 3.0.1
+      vue: 3.5.13(typescript@5.7.2)
+
+  vue-ueditor-wrap@3.0.8(vue@3.5.13(typescript@5.7.2)):
+    dependencies:
+      '@babel/runtime': 7.28.4
       vue: 3.5.13(typescript@5.7.2)
 
   vue@3.5.13(typescript@5.6.3):

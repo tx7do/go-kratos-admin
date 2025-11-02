@@ -107,20 +107,6 @@ func (_c *MenuCreate) SetNillableDeletedBy(v *uint32) *MenuCreate {
 	return _c
 }
 
-// SetRemark sets the "remark" field.
-func (_c *MenuCreate) SetRemark(v string) *MenuCreate {
-	_c.mutation.SetRemark(v)
-	return _c
-}
-
-// SetNillableRemark sets the "remark" field if the given value is not nil.
-func (_c *MenuCreate) SetNillableRemark(v *string) *MenuCreate {
-	if v != nil {
-		_c.SetRemark(*v)
-	}
-	return _c
-}
-
 // SetParentID sets the "parent_id" field.
 func (_c *MenuCreate) SetParentID(v uint32) *MenuCreate {
 	_c.mutation.SetParentID(v)
@@ -131,6 +117,20 @@ func (_c *MenuCreate) SetParentID(v uint32) *MenuCreate {
 func (_c *MenuCreate) SetNillableParentID(v *uint32) *MenuCreate {
 	if v != nil {
 		_c.SetParentID(*v)
+	}
+	return _c
+}
+
+// SetRemark sets the "remark" field.
+func (_c *MenuCreate) SetRemark(v string) *MenuCreate {
+	_c.mutation.SetRemark(v)
+	return _c
+}
+
+// SetNillableRemark sets the "remark" field if the given value is not nil.
+func (_c *MenuCreate) SetNillableRemark(v *string) *MenuCreate {
+	if v != nil {
+		_c.SetRemark(*v)
 	}
 	return _c
 }
@@ -626,24 +626,6 @@ func (u *MenuUpsert) ClearDeletedBy() *MenuUpsert {
 	return u
 }
 
-// SetRemark sets the "remark" field.
-func (u *MenuUpsert) SetRemark(v string) *MenuUpsert {
-	u.Set(menu.FieldRemark, v)
-	return u
-}
-
-// UpdateRemark sets the "remark" field to the value that was provided on create.
-func (u *MenuUpsert) UpdateRemark() *MenuUpsert {
-	u.SetExcluded(menu.FieldRemark)
-	return u
-}
-
-// ClearRemark clears the value of the "remark" field.
-func (u *MenuUpsert) ClearRemark() *MenuUpsert {
-	u.SetNull(menu.FieldRemark)
-	return u
-}
-
 // SetParentID sets the "parent_id" field.
 func (u *MenuUpsert) SetParentID(v uint32) *MenuUpsert {
 	u.Set(menu.FieldParentID, v)
@@ -659,6 +641,24 @@ func (u *MenuUpsert) UpdateParentID() *MenuUpsert {
 // ClearParentID clears the value of the "parent_id" field.
 func (u *MenuUpsert) ClearParentID() *MenuUpsert {
 	u.SetNull(menu.FieldParentID)
+	return u
+}
+
+// SetRemark sets the "remark" field.
+func (u *MenuUpsert) SetRemark(v string) *MenuUpsert {
+	u.Set(menu.FieldRemark, v)
+	return u
+}
+
+// UpdateRemark sets the "remark" field to the value that was provided on create.
+func (u *MenuUpsert) UpdateRemark() *MenuUpsert {
+	u.SetExcluded(menu.FieldRemark)
+	return u
+}
+
+// ClearRemark clears the value of the "remark" field.
+func (u *MenuUpsert) ClearRemark() *MenuUpsert {
+	u.SetNull(menu.FieldRemark)
 	return u
 }
 
@@ -983,27 +983,6 @@ func (u *MenuUpsertOne) ClearDeletedBy() *MenuUpsertOne {
 	})
 }
 
-// SetRemark sets the "remark" field.
-func (u *MenuUpsertOne) SetRemark(v string) *MenuUpsertOne {
-	return u.Update(func(s *MenuUpsert) {
-		s.SetRemark(v)
-	})
-}
-
-// UpdateRemark sets the "remark" field to the value that was provided on create.
-func (u *MenuUpsertOne) UpdateRemark() *MenuUpsertOne {
-	return u.Update(func(s *MenuUpsert) {
-		s.UpdateRemark()
-	})
-}
-
-// ClearRemark clears the value of the "remark" field.
-func (u *MenuUpsertOne) ClearRemark() *MenuUpsertOne {
-	return u.Update(func(s *MenuUpsert) {
-		s.ClearRemark()
-	})
-}
-
 // SetParentID sets the "parent_id" field.
 func (u *MenuUpsertOne) SetParentID(v uint32) *MenuUpsertOne {
 	return u.Update(func(s *MenuUpsert) {
@@ -1022,6 +1001,27 @@ func (u *MenuUpsertOne) UpdateParentID() *MenuUpsertOne {
 func (u *MenuUpsertOne) ClearParentID() *MenuUpsertOne {
 	return u.Update(func(s *MenuUpsert) {
 		s.ClearParentID()
+	})
+}
+
+// SetRemark sets the "remark" field.
+func (u *MenuUpsertOne) SetRemark(v string) *MenuUpsertOne {
+	return u.Update(func(s *MenuUpsert) {
+		s.SetRemark(v)
+	})
+}
+
+// UpdateRemark sets the "remark" field to the value that was provided on create.
+func (u *MenuUpsertOne) UpdateRemark() *MenuUpsertOne {
+	return u.Update(func(s *MenuUpsert) {
+		s.UpdateRemark()
+	})
+}
+
+// ClearRemark clears the value of the "remark" field.
+func (u *MenuUpsertOne) ClearRemark() *MenuUpsertOne {
+	return u.Update(func(s *MenuUpsert) {
+		s.ClearRemark()
 	})
 }
 
@@ -1536,27 +1536,6 @@ func (u *MenuUpsertBulk) ClearDeletedBy() *MenuUpsertBulk {
 	})
 }
 
-// SetRemark sets the "remark" field.
-func (u *MenuUpsertBulk) SetRemark(v string) *MenuUpsertBulk {
-	return u.Update(func(s *MenuUpsert) {
-		s.SetRemark(v)
-	})
-}
-
-// UpdateRemark sets the "remark" field to the value that was provided on create.
-func (u *MenuUpsertBulk) UpdateRemark() *MenuUpsertBulk {
-	return u.Update(func(s *MenuUpsert) {
-		s.UpdateRemark()
-	})
-}
-
-// ClearRemark clears the value of the "remark" field.
-func (u *MenuUpsertBulk) ClearRemark() *MenuUpsertBulk {
-	return u.Update(func(s *MenuUpsert) {
-		s.ClearRemark()
-	})
-}
-
 // SetParentID sets the "parent_id" field.
 func (u *MenuUpsertBulk) SetParentID(v uint32) *MenuUpsertBulk {
 	return u.Update(func(s *MenuUpsert) {
@@ -1575,6 +1554,27 @@ func (u *MenuUpsertBulk) UpdateParentID() *MenuUpsertBulk {
 func (u *MenuUpsertBulk) ClearParentID() *MenuUpsertBulk {
 	return u.Update(func(s *MenuUpsert) {
 		s.ClearParentID()
+	})
+}
+
+// SetRemark sets the "remark" field.
+func (u *MenuUpsertBulk) SetRemark(v string) *MenuUpsertBulk {
+	return u.Update(func(s *MenuUpsert) {
+		s.SetRemark(v)
+	})
+}
+
+// UpdateRemark sets the "remark" field to the value that was provided on create.
+func (u *MenuUpsertBulk) UpdateRemark() *MenuUpsertBulk {
+	return u.Update(func(s *MenuUpsert) {
+		s.UpdateRemark()
+	})
+}
+
+// ClearRemark clears the value of the "remark" field.
+func (u *MenuUpsertBulk) ClearRemark() *MenuUpsertBulk {
+	return u.Update(func(s *MenuUpsert) {
+		s.ClearRemark()
 	})
 }
 

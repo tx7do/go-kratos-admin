@@ -73,7 +73,7 @@ func (s *TaskService) Create(ctx context.Context, req *adminV1.CreateTaskRequest
 	// 获取操作人信息
 	operator, err := auth.FromContext(ctx)
 	if err != nil {
-		return &emptypb.Empty{}, err
+		return nil, err
 	}
 
 	req.Data.CreatedBy = trans.Ptr(operator.UserId)
@@ -98,7 +98,7 @@ func (s *TaskService) Update(ctx context.Context, req *adminV1.UpdateTaskRequest
 	// 获取操作人信息
 	operator, err := auth.FromContext(ctx)
 	if err != nil {
-		return &emptypb.Empty{}, err
+		return nil, err
 	}
 
 	req.Data.UpdatedBy = trans.Ptr(operator.UserId)

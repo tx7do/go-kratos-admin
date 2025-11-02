@@ -48,7 +48,7 @@ func (s *FileService) Create(ctx context.Context, req *fileV1.CreateFileRequest)
 	// 获取操作人信息
 	operator, err := auth.FromContext(ctx)
 	if err != nil {
-		return &emptypb.Empty{}, err
+		return nil, err
 	}
 
 	req.Data.CreatedBy = trans.Ptr(operator.UserId)
@@ -68,7 +68,7 @@ func (s *FileService) Update(ctx context.Context, req *fileV1.UpdateFileRequest)
 	// 获取操作人信息
 	operator, err := auth.FromContext(ctx)
 	if err != nil {
-		return &emptypb.Empty{}, err
+		return nil, err
 	}
 
 	req.Data.UpdatedBy = trans.Ptr(operator.UserId)

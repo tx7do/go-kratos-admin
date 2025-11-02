@@ -1,4 +1,5 @@
 interface NotificationItem {
+  id: number;
   avatar: string;
   date: string;
   isRead?: boolean;

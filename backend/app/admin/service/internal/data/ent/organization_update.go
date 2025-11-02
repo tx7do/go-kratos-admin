@@ -170,46 +170,6 @@ func (_u *OrganizationUpdate) ClearRemark() *OrganizationUpdate {
 	return _u
 }
 
-// SetName sets the "name" field.
-func (_u *OrganizationUpdate) SetName(v string) *OrganizationUpdate {
-	_u.mutation.SetName(v)
-	return _u
-}
-
-// SetNillableName sets the "name" field if the given value is not nil.
-func (_u *OrganizationUpdate) SetNillableName(v *string) *OrganizationUpdate {
-	if v != nil {
-		_u.SetName(*v)
-	}
-	return _u
-}
-
-// ClearName clears the value of the "name" field.
-func (_u *OrganizationUpdate) ClearName() *OrganizationUpdate {
-	_u.mutation.ClearName()
-	return _u
-}
-
-// SetParentID sets the "parent_id" field.
-func (_u *OrganizationUpdate) SetParentID(v uint32) *OrganizationUpdate {
-	_u.mutation.SetParentID(v)
-	return _u
-}
-
-// SetNillableParentID sets the "parent_id" field if the given value is not nil.
-func (_u *OrganizationUpdate) SetNillableParentID(v *uint32) *OrganizationUpdate {
-	if v != nil {
-		_u.SetParentID(*v)
-	}
-	return _u
-}
-
-// ClearParentID clears the value of the "parent_id" field.
-func (_u *OrganizationUpdate) ClearParentID() *OrganizationUpdate {
-	_u.mutation.ClearParentID()
-	return _u
-}
-
 // SetSortOrder sets the "sort_order" field.
 func (_u *OrganizationUpdate) SetSortOrder(v int32) *OrganizationUpdate {
 	_u.mutation.ResetSortOrder()
@@ -234,6 +194,46 @@ func (_u *OrganizationUpdate) AddSortOrder(v int32) *OrganizationUpdate {
 // ClearSortOrder clears the value of the "sort_order" field.
 func (_u *OrganizationUpdate) ClearSortOrder() *OrganizationUpdate {
 	_u.mutation.ClearSortOrder()
+	return _u
+}
+
+// SetParentID sets the "parent_id" field.
+func (_u *OrganizationUpdate) SetParentID(v uint32) *OrganizationUpdate {
+	_u.mutation.SetParentID(v)
+	return _u
+}
+
+// SetNillableParentID sets the "parent_id" field if the given value is not nil.
+func (_u *OrganizationUpdate) SetNillableParentID(v *uint32) *OrganizationUpdate {
+	if v != nil {
+		_u.SetParentID(*v)
+	}
+	return _u
+}
+
+// ClearParentID clears the value of the "parent_id" field.
+func (_u *OrganizationUpdate) ClearParentID() *OrganizationUpdate {
+	_u.mutation.ClearParentID()
+	return _u
+}
+
+// SetName sets the "name" field.
+func (_u *OrganizationUpdate) SetName(v string) *OrganizationUpdate {
+	_u.mutation.SetName(v)
+	return _u
+}
+
+// SetNillableName sets the "name" field if the given value is not nil.
+func (_u *OrganizationUpdate) SetNillableName(v *string) *OrganizationUpdate {
+	if v != nil {
+		_u.SetName(*v)
+	}
+	return _u
+}
+
+// ClearName clears the value of the "name" field.
+func (_u *OrganizationUpdate) ClearName() *OrganizationUpdate {
+	_u.mutation.ClearName()
 	return _u
 }
 
@@ -549,15 +549,6 @@ func (_u *OrganizationUpdate) sqlSave(ctx context.Context) (_node int, err error
 	if _u.mutation.RemarkCleared() {
 		_spec.ClearField(organization.FieldRemark, field.TypeString)
 	}
-	if _u.mutation.TenantIDCleared() {
-		_spec.ClearField(organization.FieldTenantID, field.TypeUint32)
-	}
-	if value, ok := _u.mutation.Name(); ok {
-		_spec.SetField(organization.FieldName, field.TypeString, value)
-	}
-	if _u.mutation.NameCleared() {
-		_spec.ClearField(organization.FieldName, field.TypeString)
-	}
 	if value, ok := _u.mutation.SortOrder(); ok {
 		_spec.SetField(organization.FieldSortOrder, field.TypeInt32, value)
 	}
@@ -566,6 +557,15 @@ func (_u *OrganizationUpdate) sqlSave(ctx context.Context) (_node int, err error
 	}
 	if _u.mutation.SortOrderCleared() {
 		_spec.ClearField(organization.FieldSortOrder, field.TypeInt32)
+	}
+	if _u.mutation.TenantIDCleared() {
+		_spec.ClearField(organization.FieldTenantID, field.TypeUint32)
+	}
+	if value, ok := _u.mutation.Name(); ok {
+		_spec.SetField(organization.FieldName, field.TypeString, value)
+	}
+	if _u.mutation.NameCleared() {
+		_spec.ClearField(organization.FieldName, field.TypeString)
 	}
 	if value, ok := _u.mutation.Status(); ok {
 		_spec.SetField(organization.FieldStatus, field.TypeEnum, value)
@@ -849,46 +849,6 @@ func (_u *OrganizationUpdateOne) ClearRemark() *OrganizationUpdateOne {
 	return _u
 }
 
-// SetName sets the "name" field.
-func (_u *OrganizationUpdateOne) SetName(v string) *OrganizationUpdateOne {
-	_u.mutation.SetName(v)
-	return _u
-}
-
-// SetNillableName sets the "name" field if the given value is not nil.
-func (_u *OrganizationUpdateOne) SetNillableName(v *string) *OrganizationUpdateOne {
-	if v != nil {
-		_u.SetName(*v)
-	}
-	return _u
-}
-
-// ClearName clears the value of the "name" field.
-func (_u *OrganizationUpdateOne) ClearName() *OrganizationUpdateOne {
-	_u.mutation.ClearName()
-	return _u
-}
-
-// SetParentID sets the "parent_id" field.
-func (_u *OrganizationUpdateOne) SetParentID(v uint32) *OrganizationUpdateOne {
-	_u.mutation.SetParentID(v)
-	return _u
-}
-
-// SetNillableParentID sets the "parent_id" field if the given value is not nil.
-func (_u *OrganizationUpdateOne) SetNillableParentID(v *uint32) *OrganizationUpdateOne {
-	if v != nil {
-		_u.SetParentID(*v)
-	}
-	return _u
-}
-
-// ClearParentID clears the value of the "parent_id" field.
-func (_u *OrganizationUpdateOne) ClearParentID() *OrganizationUpdateOne {
-	_u.mutation.ClearParentID()
-	return _u
-}
-
 // SetSortOrder sets the "sort_order" field.
 func (_u *OrganizationUpdateOne) SetSortOrder(v int32) *OrganizationUpdateOne {
 	_u.mutation.ResetSortOrder()
@@ -913,6 +873,46 @@ func (_u *OrganizationUpdateOne) AddSortOrder(v int32) *OrganizationUpdateOne {
 // ClearSortOrder clears the value of the "sort_order" field.
 func (_u *OrganizationUpdateOne) ClearSortOrder() *OrganizationUpdateOne {
 	_u.mutation.ClearSortOrder()
+	return _u
+}
+
+// SetParentID sets the "parent_id" field.
+func (_u *OrganizationUpdateOne) SetParentID(v uint32) *OrganizationUpdateOne {
+	_u.mutation.SetParentID(v)
+	return _u
+}
+
+// SetNillableParentID sets the "parent_id" field if the given value is not nil.
+func (_u *OrganizationUpdateOne) SetNillableParentID(v *uint32) *OrganizationUpdateOne {
+	if v != nil {
+		_u.SetParentID(*v)
+	}
+	return _u
+}
+
+// ClearParentID clears the value of the "parent_id" field.
+func (_u *OrganizationUpdateOne) ClearParentID() *OrganizationUpdateOne {
+	_u.mutation.ClearParentID()
+	return _u
+}
+
+// SetName sets the "name" field.
+func (_u *OrganizationUpdateOne) SetName(v string) *OrganizationUpdateOne {
+	_u.mutation.SetName(v)
+	return _u
+}
+
+// SetNillableName sets the "name" field if the given value is not nil.
+func (_u *OrganizationUpdateOne) SetNillableName(v *string) *OrganizationUpdateOne {
+	if v != nil {
+		_u.SetName(*v)
+	}
+	return _u
+}
+
+// ClearName clears the value of the "name" field.
+func (_u *OrganizationUpdateOne) ClearName() *OrganizationUpdateOne {
+	_u.mutation.ClearName()
 	return _u
 }
 
@@ -1258,15 +1258,6 @@ func (_u *OrganizationUpdateOne) sqlSave(ctx context.Context) (_node *Organizati
 	if _u.mutation.RemarkCleared() {
 		_spec.ClearField(organization.FieldRemark, field.TypeString)
 	}
-	if _u.mutation.TenantIDCleared() {
-		_spec.ClearField(organization.FieldTenantID, field.TypeUint32)
-	}
-	if value, ok := _u.mutation.Name(); ok {
-		_spec.SetField(organization.FieldName, field.TypeString, value)
-	}
-	if _u.mutation.NameCleared() {
-		_spec.ClearField(organization.FieldName, field.TypeString)
-	}
 	if value, ok := _u.mutation.SortOrder(); ok {
 		_spec.SetField(organization.FieldSortOrder, field.TypeInt32, value)
 	}
@@ -1275,6 +1266,15 @@ func (_u *OrganizationUpdateOne) sqlSave(ctx context.Context) (_node *Organizati
 	}
 	if _u.mutation.SortOrderCleared() {
 		_spec.ClearField(organization.FieldSortOrder, field.TypeInt32)
+	}
+	if _u.mutation.TenantIDCleared() {
+		_spec.ClearField(organization.FieldTenantID, field.TypeUint32)
+	}
+	if value, ok := _u.mutation.Name(); ok {
+		_spec.SetField(organization.FieldName, field.TypeString, value)
+	}
+	if _u.mutation.NameCleared() {
+		_spec.ClearField(organization.FieldName, field.TypeString)
 	}
 	if value, ok := _u.mutation.Status(); ok {
 		_spec.SetField(organization.FieldStatus, field.TypeEnum, value)

@@ -85,9 +85,19 @@ func DeletedBy(v uint32) predicate.Department {
 	return predicate.Department(sql.FieldEQ(FieldDeletedBy, v))
 }
 
+// SortOrder applies equality check predicate on the "sort_order" field. It's identical to SortOrderEQ.
+func SortOrder(v int32) predicate.Department {
+	return predicate.Department(sql.FieldEQ(FieldSortOrder, v))
+}
+
 // Remark applies equality check predicate on the "remark" field. It's identical to RemarkEQ.
 func Remark(v string) predicate.Department {
 	return predicate.Department(sql.FieldEQ(FieldRemark, v))
+}
+
+// ParentID applies equality check predicate on the "parent_id" field. It's identical to ParentIDEQ.
+func ParentID(v uint32) predicate.Department {
+	return predicate.Department(sql.FieldEQ(FieldParentID, v))
 }
 
 // TenantID applies equality check predicate on the "tenant_id" field. It's identical to TenantIDEQ.
@@ -100,11 +110,6 @@ func Name(v string) predicate.Department {
 	return predicate.Department(sql.FieldEQ(FieldName, v))
 }
 
-// ParentID applies equality check predicate on the "parent_id" field. It's identical to ParentIDEQ.
-func ParentID(v uint32) predicate.Department {
-	return predicate.Department(sql.FieldEQ(FieldParentID, v))
-}
-
 // OrganizationID applies equality check predicate on the "organization_id" field. It's identical to OrganizationIDEQ.
 func OrganizationID(v uint32) predicate.Department {
 	return predicate.Department(sql.FieldEQ(FieldOrganizationID, v))
@@ -113,11 +118,6 @@ func OrganizationID(v uint32) predicate.Department {
 // ManagerID applies equality check predicate on the "manager_id" field. It's identical to ManagerIDEQ.
 func ManagerID(v uint32) predicate.Department {
 	return predicate.Department(sql.FieldEQ(FieldManagerID, v))
-}
-
-// SortOrder applies equality check predicate on the "sort_order" field. It's identical to SortOrderEQ.
-func SortOrder(v int32) predicate.Department {
-	return predicate.Department(sql.FieldEQ(FieldSortOrder, v))
 }
 
 // Description applies equality check predicate on the "description" field. It's identical to DescriptionEQ.
@@ -425,6 +425,56 @@ func DeletedByNotNil() predicate.Department {
 	return predicate.Department(sql.FieldNotNull(FieldDeletedBy))
 }
 
+// SortOrderEQ applies the EQ predicate on the "sort_order" field.
+func SortOrderEQ(v int32) predicate.Department {
+	return predicate.Department(sql.FieldEQ(FieldSortOrder, v))
+}
+
+// SortOrderNEQ applies the NEQ predicate on the "sort_order" field.
+func SortOrderNEQ(v int32) predicate.Department {
+	return predicate.Department(sql.FieldNEQ(FieldSortOrder, v))
+}
+
+// SortOrderIn applies the In predicate on the "sort_order" field.
+func SortOrderIn(vs ...int32) predicate.Department {
+	return predicate.Department(sql.FieldIn(FieldSortOrder, vs...))
+}
+
+// SortOrderNotIn applies the NotIn predicate on the "sort_order" field.
+func SortOrderNotIn(vs ...int32) predicate.Department {
+	return predicate.Department(sql.FieldNotIn(FieldSortOrder, vs...))
+}
+
+// SortOrderGT applies the GT predicate on the "sort_order" field.
+func SortOrderGT(v int32) predicate.Department {
+	return predicate.Department(sql.FieldGT(FieldSortOrder, v))
+}
+
+// SortOrderGTE applies the GTE predicate on the "sort_order" field.
+func SortOrderGTE(v int32) predicate.Department {
+	return predicate.Department(sql.FieldGTE(FieldSortOrder, v))
+}
+
+// SortOrderLT applies the LT predicate on the "sort_order" field.
+func SortOrderLT(v int32) predicate.Department {
+	return predicate.Department(sql.FieldLT(FieldSortOrder, v))
+}
+
+// SortOrderLTE applies the LTE predicate on the "sort_order" field.
+func SortOrderLTE(v int32) predicate.Department {
+	return predicate.Department(sql.FieldLTE(FieldSortOrder, v))
+}
+
+// SortOrderIsNil applies the IsNil predicate on the "sort_order" field.
+func SortOrderIsNil() predicate.Department {
+	return predicate.Department(sql.FieldIsNull(FieldSortOrder))
+}
+
+// SortOrderNotNil applies the NotNil predicate on the "sort_order" field.
+func SortOrderNotNil() predicate.Department {
+	return predicate.Department(sql.FieldNotNull(FieldSortOrder))
+}
+
 // RemarkEQ applies the EQ predicate on the "remark" field.
 func RemarkEQ(v string) predicate.Department {
 	return predicate.Department(sql.FieldEQ(FieldRemark, v))
@@ -498,6 +548,36 @@ func RemarkEqualFold(v string) predicate.Department {
 // RemarkContainsFold applies the ContainsFold predicate on the "remark" field.
 func RemarkContainsFold(v string) predicate.Department {
 	return predicate.Department(sql.FieldContainsFold(FieldRemark, v))
+}
+
+// ParentIDEQ applies the EQ predicate on the "parent_id" field.
+func ParentIDEQ(v uint32) predicate.Department {
+	return predicate.Department(sql.FieldEQ(FieldParentID, v))
+}
+
+// ParentIDNEQ applies the NEQ predicate on the "parent_id" field.
+func ParentIDNEQ(v uint32) predicate.Department {
+	return predicate.Department(sql.FieldNEQ(FieldParentID, v))
+}
+
+// ParentIDIn applies the In predicate on the "parent_id" field.
+func ParentIDIn(vs ...uint32) predicate.Department {
+	return predicate.Department(sql.FieldIn(FieldParentID, vs...))
+}
+
+// ParentIDNotIn applies the NotIn predicate on the "parent_id" field.
+func ParentIDNotIn(vs ...uint32) predicate.Department {
+	return predicate.Department(sql.FieldNotIn(FieldParentID, vs...))
+}
+
+// ParentIDIsNil applies the IsNil predicate on the "parent_id" field.
+func ParentIDIsNil() predicate.Department {
+	return predicate.Department(sql.FieldIsNull(FieldParentID))
+}
+
+// ParentIDNotNil applies the NotNil predicate on the "parent_id" field.
+func ParentIDNotNil() predicate.Department {
+	return predicate.Department(sql.FieldNotNull(FieldParentID))
 }
 
 // TenantIDEQ applies the EQ predicate on the "tenant_id" field.
@@ -625,36 +705,6 @@ func NameContainsFold(v string) predicate.Department {
 	return predicate.Department(sql.FieldContainsFold(FieldName, v))
 }
 
-// ParentIDEQ applies the EQ predicate on the "parent_id" field.
-func ParentIDEQ(v uint32) predicate.Department {
-	return predicate.Department(sql.FieldEQ(FieldParentID, v))
-}
-
-// ParentIDNEQ applies the NEQ predicate on the "parent_id" field.
-func ParentIDNEQ(v uint32) predicate.Department {
-	return predicate.Department(sql.FieldNEQ(FieldParentID, v))
-}
-
-// ParentIDIn applies the In predicate on the "parent_id" field.
-func ParentIDIn(vs ...uint32) predicate.Department {
-	return predicate.Department(sql.FieldIn(FieldParentID, vs...))
-}
-
-// ParentIDNotIn applies the NotIn predicate on the "parent_id" field.
-func ParentIDNotIn(vs ...uint32) predicate.Department {
-	return predicate.Department(sql.FieldNotIn(FieldParentID, vs...))
-}
-
-// ParentIDIsNil applies the IsNil predicate on the "parent_id" field.
-func ParentIDIsNil() predicate.Department {
-	return predicate.Department(sql.FieldIsNull(FieldParentID))
-}
-
-// ParentIDNotNil applies the NotNil predicate on the "parent_id" field.
-func ParentIDNotNil() predicate.Department {
-	return predicate.Department(sql.FieldNotNull(FieldParentID))
-}
-
 // OrganizationIDEQ applies the EQ predicate on the "organization_id" field.
 func OrganizationIDEQ(v uint32) predicate.Department {
 	return predicate.Department(sql.FieldEQ(FieldOrganizationID, v))
@@ -743,56 +793,6 @@ func ManagerIDIsNil() predicate.Department {
 // ManagerIDNotNil applies the NotNil predicate on the "manager_id" field.
 func ManagerIDNotNil() predicate.Department {
 	return predicate.Department(sql.FieldNotNull(FieldManagerID))
-}
-
-// SortOrderEQ applies the EQ predicate on the "sort_order" field.
-func SortOrderEQ(v int32) predicate.Department {
-	return predicate.Department(sql.FieldEQ(FieldSortOrder, v))
-}
-
-// SortOrderNEQ applies the NEQ predicate on the "sort_order" field.
-func SortOrderNEQ(v int32) predicate.Department {
-	return predicate.Department(sql.FieldNEQ(FieldSortOrder, v))
-}
-
-// SortOrderIn applies the In predicate on the "sort_order" field.
-func SortOrderIn(vs ...int32) predicate.Department {
-	return predicate.Department(sql.FieldIn(FieldSortOrder, vs...))
-}
-
-// SortOrderNotIn applies the NotIn predicate on the "sort_order" field.
-func SortOrderNotIn(vs ...int32) predicate.Department {
-	return predicate.Department(sql.FieldNotIn(FieldSortOrder, vs...))
-}
-
-// SortOrderGT applies the GT predicate on the "sort_order" field.
-func SortOrderGT(v int32) predicate.Department {
-	return predicate.Department(sql.FieldGT(FieldSortOrder, v))
-}
-
-// SortOrderGTE applies the GTE predicate on the "sort_order" field.
-func SortOrderGTE(v int32) predicate.Department {
-	return predicate.Department(sql.FieldGTE(FieldSortOrder, v))
-}
-
-// SortOrderLT applies the LT predicate on the "sort_order" field.
-func SortOrderLT(v int32) predicate.Department {
-	return predicate.Department(sql.FieldLT(FieldSortOrder, v))
-}
-
-// SortOrderLTE applies the LTE predicate on the "sort_order" field.
-func SortOrderLTE(v int32) predicate.Department {
-	return predicate.Department(sql.FieldLTE(FieldSortOrder, v))
-}
-
-// SortOrderIsNil applies the IsNil predicate on the "sort_order" field.
-func SortOrderIsNil() predicate.Department {
-	return predicate.Department(sql.FieldIsNull(FieldSortOrder))
-}
-
-// SortOrderNotNil applies the NotNil predicate on the "sort_order" field.
-func SortOrderNotNil() predicate.Department {
-	return predicate.Department(sql.FieldNotNull(FieldSortOrder))
 }
 
 // StatusEQ applies the EQ predicate on the "status" field.

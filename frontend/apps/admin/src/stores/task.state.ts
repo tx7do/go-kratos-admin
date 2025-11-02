@@ -138,19 +138,9 @@ export const taskTypeList = computed(() => [
 ]);
 
 export function taskTypeToName(taskType: any) {
-  switch (taskType) {
-    case Task_Type.DELAY: {
-      return $t('enum.taskType.Delay');
-    }
-
-    case Task_Type.PERIODIC: {
-      return $t('enum.taskType.Periodic');
-    }
-
-    case Task_Type.WAIT_RESULT: {
-      return $t('enum.taskType.WaitResult');
-    }
-  }
+  const values = taskTypeList.value;
+  const matchedItem = values.find((item) => item.value === taskType);
+  return matchedItem ? matchedItem.label : '';
 }
 
 export function taskTypeToColor(taskType: any) {

@@ -4,7 +4,6 @@ import (
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/entsql"
 	"entgo.io/ent/schema"
-	"entgo.io/ent/schema/edge"
 	"entgo.io/ent/schema/field"
 	"entgo.io/ent/schema/index"
 	"github.com/tx7do/go-utils/entgo/mixin"
@@ -34,17 +33,6 @@ func (Organization) Fields() []ent.Field {
 			Comment("组织名称").
 			//Unique().
 			NotEmpty().
-			Optional().
-			Nillable(),
-
-		field.Uint32("parent_id").
-			Comment("上一层组织ID").
-			Optional().
-			Nillable(),
-
-		field.Int32("sort_order").
-			Comment("排序顺序，值越小越靠前").
-			Default(0).
 			Optional().
 			Nillable(),
 
@@ -103,6 +91,8 @@ func (Organization) Mixin() []ent.Mixin {
 		mixin.TimeAt{},
 		mixin.OperatorID{},
 		mixin.Remark{},
+		mixin.SortOrder{},
+		mixin.Tree[Organization]{},
 		mixin.TenantID{},
 	}
 }
@@ -111,14 +101,5 @@ func (Organization) Mixin() []ent.Mixin {
 func (Organization) Indexes() []ent.Index {
 	return []ent.Index{
 		index.Fields("name").StorageKey("idx_sys_organization_name"),
-	}
-}
-
-// Edges of the Organization.
-func (Organization) Edges() []ent.Edge {
-	return []ent.Edge{
-		edge.
-			To("children", Organization.Type).
-			From("parent").Unique().Field("parent_id"),
 	}
 }

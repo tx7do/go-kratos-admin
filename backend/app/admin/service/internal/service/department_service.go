@@ -97,7 +97,7 @@ func (s *DepartmentService) Create(ctx context.Context, req *userV1.CreateDepart
 	// 获取操作人信息
 	operator, err := auth.FromContext(ctx)
 	if err != nil {
-		return &emptypb.Empty{}, err
+		return nil, err
 	}
 
 	req.Data.CreatedBy = trans.Ptr(operator.UserId)
@@ -117,7 +117,7 @@ func (s *DepartmentService) Update(ctx context.Context, req *userV1.UpdateDepart
 	// 获取操作人信息
 	operator, err := auth.FromContext(ctx)
 	if err != nil {
-		return &emptypb.Empty{}, err
+		return nil, err
 	}
 
 	req.Data.UpdatedBy = trans.Ptr(operator.UserId)

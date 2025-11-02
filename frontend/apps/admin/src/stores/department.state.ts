@@ -100,17 +100,9 @@ export const departmentStatusList = computed(() => [
  * @param status 状态值
  */
 export function departmentStatusToName(status: any) {
-  switch (status) {
-    case Department_Status.OFF: {
-      return $t('enum.status.OFF');
-    }
-    case Department_Status.ON: {
-      return $t('enum.status.ON');
-    }
-    default: {
-      return '';
-    }
-  }
+  const values = departmentStatusList.value;
+  const matchedItem = values.find((item) => item.value === status);
+  return matchedItem ? matchedItem.label : '';
 }
 
 /**

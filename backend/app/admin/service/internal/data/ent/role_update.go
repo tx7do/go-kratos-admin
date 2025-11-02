@@ -171,6 +171,53 @@ func (_u *RoleUpdate) ClearRemark() *RoleUpdate {
 	return _u
 }
 
+// SetSortOrder sets the "sort_order" field.
+func (_u *RoleUpdate) SetSortOrder(v int32) *RoleUpdate {
+	_u.mutation.ResetSortOrder()
+	_u.mutation.SetSortOrder(v)
+	return _u
+}
+
+// SetNillableSortOrder sets the "sort_order" field if the given value is not nil.
+func (_u *RoleUpdate) SetNillableSortOrder(v *int32) *RoleUpdate {
+	if v != nil {
+		_u.SetSortOrder(*v)
+	}
+	return _u
+}
+
+// AddSortOrder adds value to the "sort_order" field.
+func (_u *RoleUpdate) AddSortOrder(v int32) *RoleUpdate {
+	_u.mutation.AddSortOrder(v)
+	return _u
+}
+
+// ClearSortOrder clears the value of the "sort_order" field.
+func (_u *RoleUpdate) ClearSortOrder() *RoleUpdate {
+	_u.mutation.ClearSortOrder()
+	return _u
+}
+
+// SetParentID sets the "parent_id" field.
+func (_u *RoleUpdate) SetParentID(v uint32) *RoleUpdate {
+	_u.mutation.SetParentID(v)
+	return _u
+}
+
+// SetNillableParentID sets the "parent_id" field if the given value is not nil.
+func (_u *RoleUpdate) SetNillableParentID(v *uint32) *RoleUpdate {
+	if v != nil {
+		_u.SetParentID(*v)
+	}
+	return _u
+}
+
+// ClearParentID clears the value of the "parent_id" field.
+func (_u *RoleUpdate) ClearParentID() *RoleUpdate {
+	_u.mutation.ClearParentID()
+	return _u
+}
+
 // SetName sets the "name" field.
 func (_u *RoleUpdate) SetName(v string) *RoleUpdate {
 	_u.mutation.SetName(v)
@@ -208,53 +255,6 @@ func (_u *RoleUpdate) SetNillableCode(v *string) *RoleUpdate {
 // ClearCode clears the value of the "code" field.
 func (_u *RoleUpdate) ClearCode() *RoleUpdate {
 	_u.mutation.ClearCode()
-	return _u
-}
-
-// SetParentID sets the "parent_id" field.
-func (_u *RoleUpdate) SetParentID(v uint32) *RoleUpdate {
-	_u.mutation.SetParentID(v)
-	return _u
-}
-
-// SetNillableParentID sets the "parent_id" field if the given value is not nil.
-func (_u *RoleUpdate) SetNillableParentID(v *uint32) *RoleUpdate {
-	if v != nil {
-		_u.SetParentID(*v)
-	}
-	return _u
-}
-
-// ClearParentID clears the value of the "parent_id" field.
-func (_u *RoleUpdate) ClearParentID() *RoleUpdate {
-	_u.mutation.ClearParentID()
-	return _u
-}
-
-// SetSortOrder sets the "sort_order" field.
-func (_u *RoleUpdate) SetSortOrder(v int32) *RoleUpdate {
-	_u.mutation.ResetSortOrder()
-	_u.mutation.SetSortOrder(v)
-	return _u
-}
-
-// SetNillableSortOrder sets the "sort_order" field if the given value is not nil.
-func (_u *RoleUpdate) SetNillableSortOrder(v *int32) *RoleUpdate {
-	if v != nil {
-		_u.SetSortOrder(*v)
-	}
-	return _u
-}
-
-// AddSortOrder adds value to the "sort_order" field.
-func (_u *RoleUpdate) AddSortOrder(v int32) *RoleUpdate {
-	_u.mutation.AddSortOrder(v)
-	return _u
-}
-
-// ClearSortOrder clears the value of the "sort_order" field.
-func (_u *RoleUpdate) ClearSortOrder() *RoleUpdate {
-	_u.mutation.ClearSortOrder()
 	return _u
 }
 
@@ -504,6 +504,15 @@ func (_u *RoleUpdate) sqlSave(ctx context.Context) (_node int, err error) {
 	if _u.mutation.RemarkCleared() {
 		_spec.ClearField(role.FieldRemark, field.TypeString)
 	}
+	if value, ok := _u.mutation.SortOrder(); ok {
+		_spec.SetField(role.FieldSortOrder, field.TypeInt32, value)
+	}
+	if value, ok := _u.mutation.AddedSortOrder(); ok {
+		_spec.AddField(role.FieldSortOrder, field.TypeInt32, value)
+	}
+	if _u.mutation.SortOrderCleared() {
+		_spec.ClearField(role.FieldSortOrder, field.TypeInt32)
+	}
 	if _u.mutation.TenantIDCleared() {
 		_spec.ClearField(role.FieldTenantID, field.TypeUint32)
 	}
@@ -518,15 +527,6 @@ func (_u *RoleUpdate) sqlSave(ctx context.Context) (_node int, err error) {
 	}
 	if _u.mutation.CodeCleared() {
 		_spec.ClearField(role.FieldCode, field.TypeString)
-	}
-	if value, ok := _u.mutation.SortOrder(); ok {
-		_spec.SetField(role.FieldSortOrder, field.TypeInt32, value)
-	}
-	if value, ok := _u.mutation.AddedSortOrder(); ok {
-		_spec.AddField(role.FieldSortOrder, field.TypeInt32, value)
-	}
-	if _u.mutation.SortOrderCleared() {
-		_spec.ClearField(role.FieldSortOrder, field.TypeInt32)
 	}
 	if value, ok := _u.mutation.Menus(); ok {
 		_spec.SetField(role.FieldMenus, field.TypeJSON, value)
@@ -799,6 +799,53 @@ func (_u *RoleUpdateOne) ClearRemark() *RoleUpdateOne {
 	return _u
 }
 
+// SetSortOrder sets the "sort_order" field.
+func (_u *RoleUpdateOne) SetSortOrder(v int32) *RoleUpdateOne {
+	_u.mutation.ResetSortOrder()
+	_u.mutation.SetSortOrder(v)
+	return _u
+}
+
+// SetNillableSortOrder sets the "sort_order" field if the given value is not nil.
+func (_u *RoleUpdateOne) SetNillableSortOrder(v *int32) *RoleUpdateOne {
+	if v != nil {
+		_u.SetSortOrder(*v)
+	}
+	return _u
+}
+
+// AddSortOrder adds value to the "sort_order" field.
+func (_u *RoleUpdateOne) AddSortOrder(v int32) *RoleUpdateOne {
+	_u.mutation.AddSortOrder(v)
+	return _u
+}
+
+// ClearSortOrder clears the value of the "sort_order" field.
+func (_u *RoleUpdateOne) ClearSortOrder() *RoleUpdateOne {
+	_u.mutation.ClearSortOrder()
+	return _u
+}
+
+// SetParentID sets the "parent_id" field.
+func (_u *RoleUpdateOne) SetParentID(v uint32) *RoleUpdateOne {
+	_u.mutation.SetParentID(v)
+	return _u
+}
+
+// SetNillableParentID sets the "parent_id" field if the given value is not nil.
+func (_u *RoleUpdateOne) SetNillableParentID(v *uint32) *RoleUpdateOne {
+	if v != nil {
+		_u.SetParentID(*v)
+	}
+	return _u
+}
+
+// ClearParentID clears the value of the "parent_id" field.
+func (_u *RoleUpdateOne) ClearParentID() *RoleUpdateOne {
+	_u.mutation.ClearParentID()
+	return _u
+}
+
 // SetName sets the "name" field.
 func (_u *RoleUpdateOne) SetName(v string) *RoleUpdateOne {
 	_u.mutation.SetName(v)
@@ -836,53 +883,6 @@ func (_u *RoleUpdateOne) SetNillableCode(v *string) *RoleUpdateOne {
 // ClearCode clears the value of the "code" field.
 func (_u *RoleUpdateOne) ClearCode() *RoleUpdateOne {
 	_u.mutation.ClearCode()
-	return _u
-}
-
-// SetParentID sets the "parent_id" field.
-func (_u *RoleUpdateOne) SetParentID(v uint32) *RoleUpdateOne {
-	_u.mutation.SetParentID(v)
-	return _u
-}
-
-// SetNillableParentID sets the "parent_id" field if the given value is not nil.
-func (_u *RoleUpdateOne) SetNillableParentID(v *uint32) *RoleUpdateOne {
-	if v != nil {
-		_u.SetParentID(*v)
-	}
-	return _u
-}
-
-// ClearParentID clears the value of the "parent_id" field.
-func (_u *RoleUpdateOne) ClearParentID() *RoleUpdateOne {
-	_u.mutation.ClearParentID()
-	return _u
-}
-
-// SetSortOrder sets the "sort_order" field.
-func (_u *RoleUpdateOne) SetSortOrder(v int32) *RoleUpdateOne {
-	_u.mutation.ResetSortOrder()
-	_u.mutation.SetSortOrder(v)
-	return _u
-}
-
-// SetNillableSortOrder sets the "sort_order" field if the given value is not nil.
-func (_u *RoleUpdateOne) SetNillableSortOrder(v *int32) *RoleUpdateOne {
-	if v != nil {
-		_u.SetSortOrder(*v)
-	}
-	return _u
-}
-
-// AddSortOrder adds value to the "sort_order" field.
-func (_u *RoleUpdateOne) AddSortOrder(v int32) *RoleUpdateOne {
-	_u.mutation.AddSortOrder(v)
-	return _u
-}
-
-// ClearSortOrder clears the value of the "sort_order" field.
-func (_u *RoleUpdateOne) ClearSortOrder() *RoleUpdateOne {
-	_u.mutation.ClearSortOrder()
 	return _u
 }
 
@@ -1162,6 +1162,15 @@ func (_u *RoleUpdateOne) sqlSave(ctx context.Context) (_node *Role, err error) {
 	if _u.mutation.RemarkCleared() {
 		_spec.ClearField(role.FieldRemark, field.TypeString)
 	}
+	if value, ok := _u.mutation.SortOrder(); ok {
+		_spec.SetField(role.FieldSortOrder, field.TypeInt32, value)
+	}
+	if value, ok := _u.mutation.AddedSortOrder(); ok {
+		_spec.AddField(role.FieldSortOrder, field.TypeInt32, value)
+	}
+	if _u.mutation.SortOrderCleared() {
+		_spec.ClearField(role.FieldSortOrder, field.TypeInt32)
+	}
 	if _u.mutation.TenantIDCleared() {
 		_spec.ClearField(role.FieldTenantID, field.TypeUint32)
 	}
@@ -1176,15 +1185,6 @@ func (_u *RoleUpdateOne) sqlSave(ctx context.Context) (_node *Role, err error) {
 	}
 	if _u.mutation.CodeCleared() {
 		_spec.ClearField(role.FieldCode, field.TypeString)
-	}
-	if value, ok := _u.mutation.SortOrder(); ok {
-		_spec.SetField(role.FieldSortOrder, field.TypeInt32, value)
-	}
-	if value, ok := _u.mutation.AddedSortOrder(); ok {
-		_spec.AddField(role.FieldSortOrder, field.TypeInt32, value)
-	}
-	if _u.mutation.SortOrderCleared() {
-		_spec.ClearField(role.FieldSortOrder, field.TypeInt32)
 	}
 	if value, ok := _u.mutation.Menus(); ok {
 		_spec.SetField(role.FieldMenus, field.TypeJSON, value)

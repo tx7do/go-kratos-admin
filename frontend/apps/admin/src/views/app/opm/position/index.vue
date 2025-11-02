@@ -127,20 +127,18 @@ const gridOptions: VxeGridProps<Position> = {
     refresh: true,
     zoom: true,
   },
-  height: 'auto',
   exportConfig: {},
   pagerConfig: {},
   rowConfig: {
     isHover: true,
   },
-
-  // stripe: true,
-
   treeConfig: {
     childrenField: 'children',
     rowField: 'id',
     // transform: true,
   },
+  height: 'auto',
+  // stripe: true,
 
   proxyConfig: {
     ajax: {

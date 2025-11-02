@@ -151,26 +151,6 @@ func (_u *MenuUpdate) ClearDeletedBy() *MenuUpdate {
 	return _u
 }
 
-// SetRemark sets the "remark" field.
-func (_u *MenuUpdate) SetRemark(v string) *MenuUpdate {
-	_u.mutation.SetRemark(v)
-	return _u
-}
-
-// SetNillableRemark sets the "remark" field if the given value is not nil.
-func (_u *MenuUpdate) SetNillableRemark(v *string) *MenuUpdate {
-	if v != nil {
-		_u.SetRemark(*v)
-	}
-	return _u
-}
-
-// ClearRemark clears the value of the "remark" field.
-func (_u *MenuUpdate) ClearRemark() *MenuUpdate {
-	_u.mutation.ClearRemark()
-	return _u
-}
-
 // SetParentID sets the "parent_id" field.
 func (_u *MenuUpdate) SetParentID(v uint32) *MenuUpdate {
 	_u.mutation.SetParentID(v)
@@ -188,6 +168,26 @@ func (_u *MenuUpdate) SetNillableParentID(v *uint32) *MenuUpdate {
 // ClearParentID clears the value of the "parent_id" field.
 func (_u *MenuUpdate) ClearParentID() *MenuUpdate {
 	_u.mutation.ClearParentID()
+	return _u
+}
+
+// SetRemark sets the "remark" field.
+func (_u *MenuUpdate) SetRemark(v string) *MenuUpdate {
+	_u.mutation.SetRemark(v)
+	return _u
+}
+
+// SetNillableRemark sets the "remark" field if the given value is not nil.
+func (_u *MenuUpdate) SetNillableRemark(v *string) *MenuUpdate {
+	if v != nil {
+		_u.SetRemark(*v)
+	}
+	return _u
+}
+
+// ClearRemark clears the value of the "remark" field.
+func (_u *MenuUpdate) ClearRemark() *MenuUpdate {
+	_u.mutation.ClearRemark()
 	return _u
 }
 
@@ -773,26 +773,6 @@ func (_u *MenuUpdateOne) ClearDeletedBy() *MenuUpdateOne {
 	return _u
 }
 
-// SetRemark sets the "remark" field.
-func (_u *MenuUpdateOne) SetRemark(v string) *MenuUpdateOne {
-	_u.mutation.SetRemark(v)
-	return _u
-}
-
-// SetNillableRemark sets the "remark" field if the given value is not nil.
-func (_u *MenuUpdateOne) SetNillableRemark(v *string) *MenuUpdateOne {
-	if v != nil {
-		_u.SetRemark(*v)
-	}
-	return _u
-}
-
-// ClearRemark clears the value of the "remark" field.
-func (_u *MenuUpdateOne) ClearRemark() *MenuUpdateOne {
-	_u.mutation.ClearRemark()
-	return _u
-}
-
 // SetParentID sets the "parent_id" field.
 func (_u *MenuUpdateOne) SetParentID(v uint32) *MenuUpdateOne {
 	_u.mutation.SetParentID(v)
@@ -810,6 +790,26 @@ func (_u *MenuUpdateOne) SetNillableParentID(v *uint32) *MenuUpdateOne {
 // ClearParentID clears the value of the "parent_id" field.
 func (_u *MenuUpdateOne) ClearParentID() *MenuUpdateOne {
 	_u.mutation.ClearParentID()
+	return _u
+}
+
+// SetRemark sets the "remark" field.
+func (_u *MenuUpdateOne) SetRemark(v string) *MenuUpdateOne {
+	_u.mutation.SetRemark(v)
+	return _u
+}
+
+// SetNillableRemark sets the "remark" field if the given value is not nil.
+func (_u *MenuUpdateOne) SetNillableRemark(v *string) *MenuUpdateOne {
+	if v != nil {
+		_u.SetRemark(*v)
+	}
+	return _u
+}
+
+// ClearRemark clears the value of the "remark" field.
+func (_u *MenuUpdateOne) ClearRemark() *MenuUpdateOne {
+	_u.mutation.ClearRemark()
 	return _u
 }
 

@@ -134,26 +134,9 @@ export const tenantTypeList = computed(() => [
 ]);
 
 export function tenantTypeToName(tenantType: any) {
-  switch (tenantType) {
-    case Tenant_Type.CUSTOM: {
-      return $t('enum.tenantType.CUSTOM');
-    }
-    case Tenant_Type.INTERNAL: {
-      return $t('enum.tenantType.INTERNAL');
-    }
-    case Tenant_Type.PAID: {
-      return $t('enum.tenantType.PAID');
-    }
-    case Tenant_Type.PARTNER: {
-      return $t('enum.tenantType.PARTNER');
-    }
-    case Tenant_Type.TRIAL: {
-      return $t('enum.tenantType.TRIAL');
-    }
-    default: {
-      return '';
-    }
-  }
+  const values = tenantTypeList.value;
+  const matchedItem = values.find((item) => item.value === tenantType);
+  return matchedItem ? matchedItem.label : '';
 }
 
 export function tenantTypeToColor(tenantType: any) {
@@ -205,23 +188,9 @@ export const tenantStatusList = computed(() => [
 ]);
 
 export function tenantStatusToName(tenantStatus: any) {
-  switch (tenantStatus) {
-    case Tenant_Status.EXPIRED: {
-      return $t('enum.tenantStatus.EXPIRED');
-    }
-    case Tenant_Status.FREEZE: {
-      return $t('enum.tenantStatus.FREEZE');
-    }
-    case Tenant_Status.OFF: {
-      return $t('enum.tenantStatus.OFF');
-    }
-    case Tenant_Status.ON: {
-      return $t('enum.tenantStatus.ON');
-    }
-    default: {
-      return '';
-    }
-  }
+  const values = tenantStatusList.value;
+  const matchedItem = values.find((item) => item.value === tenantStatus);
+  return matchedItem ? matchedItem.label : '';
 }
 
 export function tenantStatusToColor(tenantStatus: any) {
@@ -265,20 +234,9 @@ export const tenantAuditStatusList = computed(() => [
 ]);
 
 export function tenantAuditStatusToName(tenantAuditStatus: any) {
-  switch (tenantAuditStatus) {
-    case Tenant_AuditStatus.APPROVED: {
-      return $t('enum.tenantAuditStatus.APPROVED');
-    }
-    case Tenant_AuditStatus.PENDING: {
-      return $t('enum.tenantAuditStatus.PENDING');
-    }
-    case Tenant_AuditStatus.REJECTED: {
-      return $t('enum.tenantAuditStatus.REJECTED');
-    }
-    default: {
-      return '';
-    }
-  }
+  const values = tenantAuditStatusList.value;
+  const matchedItem = values.find((item) => item.value === tenantAuditStatus);
+  return matchedItem ? matchedItem.label : '';
 }
 
 export function tenantAuditStatusToColor(tenantAuditStatus: any) {

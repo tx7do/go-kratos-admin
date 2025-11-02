@@ -30,29 +30,26 @@ type DictType func(*sql.Selector)
 // File is the predicate function for file builders.
 type File func(*sql.Selector)
 
+// InternalMessage is the predicate function for internalmessage builders.
+type InternalMessage func(*sql.Selector)
+
+// InternalMessageCategory is the predicate function for internalmessagecategory builders.
+type InternalMessageCategory func(*sql.Selector)
+
+// InternalMessageRecipient is the predicate function for internalmessagerecipient builders.
+type InternalMessageRecipient func(*sql.Selector)
+
 // Language is the predicate function for language builders.
 type Language func(*sql.Selector)
 
 // Menu is the predicate function for menu builders.
 type Menu func(*sql.Selector)
 
-// NotificationMessage is the predicate function for notificationmessage builders.
-type NotificationMessage func(*sql.Selector)
-
-// NotificationMessageCategory is the predicate function for notificationmessagecategory builders.
-type NotificationMessageCategory func(*sql.Selector)
-
-// NotificationMessageRecipient is the predicate function for notificationmessagerecipient builders.
-type NotificationMessageRecipient func(*sql.Selector)
-
 // Organization is the predicate function for organization builders.
 type Organization func(*sql.Selector)
 
 // Position is the predicate function for position builders.
 type Position func(*sql.Selector)
-
-// PrivateMessage is the predicate function for privatemessage builders.
-type PrivateMessage func(*sql.Selector)
 
 // Role is the predicate function for role builders.
 type Role func(*sql.Selector)

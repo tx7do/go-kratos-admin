@@ -139,23 +139,9 @@ export const authorityList = computed(() => [
  * @param authority 权限值
  */
 export function authorityToName(authority: any) {
-  switch (authority) {
-    case User_Authority.CUSTOMER_USER: {
-      return $t('enum.authority.CUSTOMER_USER');
-    }
-    case User_Authority.GUEST: {
-      return $t('enum.authority.GUEST');
-    }
-    case User_Authority.SYS_ADMIN: {
-      return $t('enum.authority.SYS_ADMIN');
-    }
-    case User_Authority.TENANT_ADMIN: {
-      return $t('enum.authority.TENANT_ADMIN');
-    }
-    default: {
-      return '';
-    }
-  }
+  const values = authorityList.value;
+  const matchedItem = values.find((item) => item.value === authority);
+  return matchedItem ? matchedItem.label : '';
 }
 
 /**
@@ -197,17 +183,9 @@ export const statusList = computed(() => [
  * @param status 状态值
  */
 export function statusToName(status: any) {
-  switch (status) {
-    case User_Status.OFF: {
-      return $t('enum.status.OFF');
-    }
-    case User_Status.ON: {
-      return $t('enum.status.ON');
-    }
-    default: {
-      return '';
-    }
-  }
+  const values = statusList.value;
+  const matchedItem = values.find((item) => item.value === status);
+  return matchedItem ? matchedItem.label : '';
 }
 
 /**
@@ -242,20 +220,9 @@ export const genderList = computed(() => [
  * @param gender 性别值
  */
 export function genderToName(gender: any) {
-  switch (gender) {
-    case User_Gender.FEMALE: {
-      return $t('enum.gender.FEMALE');
-    }
-    case User_Gender.MALE: {
-      return $t('enum.gender.MALE');
-    }
-    case User_Gender.SECRET: {
-      return $t('enum.gender.SECRET');
-    }
-    default: {
-      return '';
-    }
-  }
+  const values = genderList.value;
+  const matchedItem = values.find((item) => item.value === gender);
+  return matchedItem ? matchedItem.label : '';
 }
 
 /**

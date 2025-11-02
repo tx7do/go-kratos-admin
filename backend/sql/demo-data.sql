@@ -68,7 +68,7 @@ SELECT setval('sys_positions_id_seq', (SELECT MAX(id) FROM sys_positions));
 TRUNCATE TABLE kratos_admin.public.sys_tasks RESTART IDENTITY;
 INSERT INTO kratos_admin.public.sys_tasks(type, type_name, task_payload, cron_spec, enable, created_at)
 VALUES
-    ('PERIODIC', 'backup', '{ "name": "test"}', '*/1 * * * ?', true, now())
+    ('PERIODIC', 'backup', '{ "name": "test"}', '0 * * * *', true, now())
 ;
 SELECT setval('sys_tasks_id_seq', (SELECT MAX(id) FROM sys_tasks));
 
@@ -123,3 +123,39 @@ VALUES
     (18, 5, 'CASH', '现金支付', 4, 4, '线下支付，已废弃（2025-01停用）', false, now())
 ;
 SELECT setval('sys_dict_entries_id_seq', (SELECT MAX(id) FROM sys_dict_entries));
+
+-- 站内信分类 - 主分类
+TRUNCATE TABLE kratos_admin.public.internal_message_categories RESTART IDENTITY;
+INSERT INTO internal_message_categories (id, parent_id, code, name, remark, sort_order, is_enabled, created_at)
+VALUES
+    -- 订单相关主分类
+    (1, null, 'order', '订单通知', '包含订单支付、发货、退款等全流程通知', 1, true, NOW()),
+    -- 系统相关主分类
+    (2, null, 'system', '系统通知', '系统公告、维护提醒、版本更新等平台级通知', 2, true, NOW()),
+    -- 活动相关主分类
+    (3, null, 'activity', '活动通知', '营销活动报名、开始、结束等提醒', 3, true, NOW()),
+    -- 用户相关主分类
+    (4, null, 'user', '用户通知', '账号安全、信息变更、权限调整等个人相关通知', 4, true, NOW())
+;
+-- 站内信分类 - 子分类
+INSERT INTO internal_message_categories (id, parent_id, code, name, remark, sort_order, is_enabled, created_at)
+VALUES
+    -- 订单主分类（id=1）的子分类
+    (101, 1, 'order_paid', '支付成功', '订单支付完成时触发的通知', 1, true, NOW()),
+    (102, 1, 'order_unpaid', '支付超时', '订单未在规定时间内支付的提醒', 2, true, NOW()),
+    (103, 1, 'order_shipped', '已发货', '商家发货后通知用户', 3, true, NOW()),
+    (104, 1, 'order_refunded', '已退款', '订单退款流程完成的通知', 4, true, NOW()),
+    -- 系统主分类（id=2）的子分类
+    (201, 2, 'system_announcement', '系统公告', '平台规则更新、重要通知等', 1, true, NOW()),
+    (202, 2, 'system_maintenance', '维护通知', '系统计划内维护的时间提醒', 2, true, NOW()),
+    (203, 2, 'system_upgrade', '版本更新', '客户端或功能升级的提示', 3, true, NOW()),
+    -- 活动主分类（id=3）的子分类
+    (301, 3, 'activity_signup', '报名成功', '用户报名活动后确认通知', 1, true, NOW()),
+    (302, 3, 'activity_start', '活动开始', '活动即将开始的倒计时提醒', 2, true, NOW()),
+    (303, 3, 'activity_end', '活动结束', '活动结束及结果公示通知', 3, true, NOW()),
+    -- 用户主分类（id=4）的子分类
+    (401, 4, 'user_login_abnormal', '异地登录', '账号在陌生设备登录的安全提醒', 1, true, NOW()),
+    (402, 4, 'user_profile_updated', '资料变更', '用户手机号、邮箱等信息修改后通知', 2, true, NOW()),
+    (403, 4, 'user_permission_changed', '权限变更', '账号角色或功能权限调整通知', 3, true, NOW())
+;
+SELECT setval('internal_message_categories_id_seq', (SELECT MAX(id) FROM internal_message_categories));

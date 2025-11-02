@@ -2,11 +2,7 @@ package data
 
 import (
 	"context"
-	"errors"
-	"fmt"
 
-	"entgo.io/ent/dialect"
-	"entgo.io/ent/dialect/sql"
 	_ "github.com/go-sql-driver/mysql"
 	_ "github.com/jackc/pgx/v5/stdlib"
 	_ "github.com/lib/pq"
@@ -58,70 +54,4 @@ func NewEntClient(cfg *conf.Bootstrap, logger log.Logger) *entgo.EntClient[*ent.
 	)
 
 	return cli
-}
-
-// queryAllChildrenIDs 使用CTE递归查询所有子节点ID
-func queryAllChildrenIDs(ctx context.Context, entClient *entgo.EntClient[*ent.Client], tableName string, parentID uint32) ([]uint32, error) {
-	var query string
-	switch entClient.Driver().Dialect() {
-	case dialect.MySQL:
-		query = fmt.Sprintf(`
-			WITH RECURSIVE all_descendants AS (
-				SELECT 
-					id,
-					parent_id,
-					name,
-					1 AS depth
-				FROM %s
-				WHERE parent_id = ?
-				
-				UNION ALL
-				
-				SELECT 
-					p.id,
-					p.parent_id,
-					p.name,
-					ad.depth + 1 AS depth
-				FROM %s p
-					INNER JOIN all_descendants ad
-				ON p.parent_id = ad.id
-			)
-			SELECT id FROM all_descendants;
-		`, tableName, tableName)
-
-	case dialect.Postgres:
-		query = fmt.Sprintf(`
-        WITH RECURSIVE all_descendants AS (
-            SELECT *
-			FROM %s
-			WHERE parent_id = $1
-            UNION ALL
-            SELECT p.*
-			FROM %s p
-            	INNER JOIN all_descendants ad
-			ON p.parent_id = ad.id
-        )
-        SELECT id FROM all_descendants;
-    `, tableName, tableName)
-	}
-
-	rows := &sql.Rows{}
-	if err := entClient.Query(ctx, query, []any{parentID}, rows); err != nil {
-		return nil, errors.New("query child nodes failed: " + err.Error())
-	}
-	defer rows.Close()
-
-	childIDs := make([]uint32, 0)
-	for rows.Next() {
-		var id uint32
-
-		if err := rows.Scan(&id); err != nil {
-			log.Errorf("scan child node failed: %s", err.Error())
-			return nil, errors.New("scan child node failed")
-		}
-
-		childIDs = append(childIDs, id)
-	}
-
-	return childIDs, nil
 }

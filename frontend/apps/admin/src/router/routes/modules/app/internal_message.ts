@@ -18,41 +18,27 @@ const internal_message: RouteRecordRaw[] = [
     },
     children: [
       {
-        path: 'notifications',
-        name: 'NotificationMessageManagement',
-        meta: {
-          icon: 'lucide:bell',
-          title: $t('menu.internalMessage.notificationMessage'),
-          authority: ['super', 'admin'],
-        },
-        component: () =>
-          import('#/views/app/internal_message/notification_message/index.vue'),
-      },
-
-      {
-        path: 'notification_categories',
-        name: 'NotificationMessageCategoryManagement',
-        meta: {
-          icon: 'lucide:calendar-check',
-          title: $t('menu.internalMessage.notificationMessageCategory'),
-          authority: ['super', 'admin'],
-        },
-        component: () =>
-          import(
-            '#/views/app/internal_message/notification_message_category/index.vue'
-          ),
-      },
-
-      {
-        path: 'private_messages',
-        name: 'PrivateMessageManagement',
+        path: 'messages',
+        name: 'InternalMessageList',
         meta: {
           icon: 'lucide:message-circle-more',
-          title: $t('menu.internalMessage.privateMessage'),
+          title: $t('menu.internalMessage.internalMessage'),
           authority: ['super', 'admin'],
         },
         component: () =>
-          import('#/views/app/internal_message/private_message/index.vue'),
+          import('#/views/app/internal_message/message/index.vue'),
+      },
+
+      {
+        path: 'categories',
+        name: 'InternalMessageCategoryManagement',
+        meta: {
+          icon: 'lucide:calendar-check',
+          title: $t('menu.internalMessage.internalMessageCategory'),
+          authority: ['super', 'admin'],
+        },
+        component: () =>
+          import('#/views/app/internal_message/category/index.vue'),
       },
     ],
   },

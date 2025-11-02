@@ -7,9 +7,10 @@ import (
 
 	"entgo.io/ent/dialect/sql"
 	"github.com/go-kratos/kratos/v2/log"
+	"github.com/tx7do/go-utils/entgo"
 
 	"github.com/tx7do/go-utils/copierutil"
-	entgo "github.com/tx7do/go-utils/entgo/query"
+	entgoQuery "github.com/tx7do/go-utils/entgo/query"
 	entgoUpdate "github.com/tx7do/go-utils/entgo/update"
 	"github.com/tx7do/go-utils/fieldmaskutil"
 	"github.com/tx7do/go-utils/mapper"
@@ -99,7 +100,7 @@ func (r *DepartmentRepo) List(ctx context.Context, req *pagination.PagingRequest
 
 	builder := r.data.db.Client().Department.Query()
 
-	err, whereSelectors, querySelectors := entgo.BuildQuerySelector(
+	err, whereSelectors, querySelectors := entgoQuery.BuildQuerySelector(
 		req.GetQuery(), req.GetOrQuery(),
 		req.GetPage(), req.GetPageSize(), req.GetNoPaging(),
 		req.GetOrderBy(), department.FieldCreatedAt,
@@ -320,7 +321,7 @@ func (r *DepartmentRepo) Delete(ctx context.Context, req *userV1.DeleteDepartmen
 		return userV1.ErrorBadRequest("invalid parameter")
 	}
 
-	ids, err := queryAllChildrenIDs(ctx, r.data.db, "sys_departments", req.GetId())
+	ids, err := entgo.QueryAllChildrenIds(ctx, r.data.db, "sys_departments", req.GetId())
 	if err != nil {
 		r.log.Errorf("query child departments failed: %s", err.Error())
 		return userV1.ErrorInternalServerError("query child departments failed")

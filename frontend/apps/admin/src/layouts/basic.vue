@@ -15,46 +15,22 @@ import {
 } from '@vben/layouts';
 import { preferences } from '@vben/preferences';
 import { useAccessStore, useUserStore } from '@vben/stores';
-import { openWindow } from '@vben/utils';
+import { dateUtil, openWindow } from '@vben/utils';
 
+import { notification } from 'ant-design-vue';
+
+import { InternalMessageRecipient_Status } from '#/generated/api/internal_message/service/v1/internal_message.pb';
 import { $t } from '#/locales';
-import { useAuthStore } from '#/stores';
+import { useAuthStore, useInternalMessageStore } from '#/stores';
 import LoginForm from '#/views/_core/authentication/login.vue';
-
-const notifications = ref<NotificationItem[]>([
-  {
-    avatar: 'https://avatar.vercel.sh/vercel.svg?text=VB',
-    date: '3小时前',
-    isRead: true,
-    message: '描述信息描述信息描述信息',
-    title: '收到了 14 份新周报',
-  },
-  {
-    avatar: 'https://avatar.vercel.sh/1',
-    date: '刚刚',
-    isRead: false,
-    message: '描述信息描述信息描述信息',
-    title: '朱偏右 回复了你',
-  },
-  {
-    avatar: 'https://avatar.vercel.sh/1',
-    date: '2024-01-01',
-    isRead: false,
-    message: '描述信息描述信息描述信息',
-    title: '曲丽丽 评论了你',
-  },
-  {
-    avatar: 'https://avatar.vercel.sh/satori',
-    date: '1天前',
-    isRead: false,
-    message: '描述信息描述信息描述信息',
-    title: '代办提醒',
-  },
-]);
 
 const userStore = useUserStore();
 const authStore = useAuthStore();
 const accessStore = useAccessStore();
+const internalMessageStore = useInternalMessageStore();
+
+const notifications = ref<NotificationItem[]>([]);
+
 const { destroyWatermark, updateWatermark } = useWatermark();
 const showDot = computed(() =>
   notifications.value.some((item) => !item.isRead),
@@ -94,17 +70,146 @@ const avatar = computed(() => {
   return userStore.userInfo?.avatar ?? preferences.app.defaultAvatar;
 });
 
+/**
+ * 重载用户收件箱列表
+ */
+async function reloadMessages() {
+  const resp = await internalMessageStore.listUserInbox(
+    1,
+    5,
+    {
+      recipient_user_id: userStore.userInfo?.id.toString(),
+    },
+    null,
+    ['-created_at'],
+  );
+
+  for (const item of resp.items) {
+    const date = dateUtil(item.createdAt as string).fromNow();
+    notifications.value.push({
+      id: item.id ?? 0,
+      avatar: preferences.app.defaultAvatar,
+      date,
+      isRead: item.status === InternalMessageRecipient_Status.READ,
+      message: item.content || '',
+      title: item.title || '',
+    });
+  }
+}
+
+// function setDemoData() {
+//   notifications.value = [
+//     {
+//       avatar: 'https://avatar.vercel.sh/vercel.svg?text=VB',
+//       date: '3小时前',
+//       isRead: true,
+//       message: '描述信息描述信息描述信息',
+//       title: '收到了 14 份新周报',
+//     },
+//     {
+//       avatar: 'https://avatar.vercel.sh/1',
+//       date: '刚刚',
+//       isRead: false,
+//       message: '描述信息描述信息描述信息',
+//       title: '朱偏右 回复了你',
+//     },
+//     {
+//       avatar: 'https://avatar.vercel.sh/1',
+//       date: '2024-01-01',
+//       isRead: false,
+//       message: '描述信息描述信息描述信息',
+//       title: '曲丽丽 评论了你',
+//     },
+//     {
+//       avatar: 'https://avatar.vercel.sh/satori',
+//       date: '1天前',
+//       isRead: false,
+//       message: '描述信息描述信息描述信息',
+//       title: '代办提醒',
+//     },
+//   ];
+// }
+
+/**
+ * 登出账号
+ */
 async function handleLogout() {
   await authStore.logout(false);
 }
 
+/**
+ * 清空通知
+ */
 function handleNoticeClear() {
   notifications.value = [];
 }
 
-function handleMakeAll() {
-  notifications.value.forEach((item) => (item.isRead = true));
+/**
+ * 标记为已读
+ * @param item
+ */
+function handleMarkAsRead(item: NotificationItem) {
+  if (item.isRead) {
+    return;
+  }
+
+  try {
+    internalMessageStore.markNotificationAsRead(userStore.userInfo?.id ?? 0, [
+      item.id,
+    ]);
+
+    notification.success({
+      message: $t('ui.notification.update_success'),
+    });
+  } catch {
+    notification.error({
+      message: $t('ui.notification.update_failed'),
+    });
+  } finally {
+    for (const n of notifications.value) {
+      if (n.id === item.id) {
+        n.isRead = true;
+      }
+    }
+  }
 }
+
+/**
+ * 全部通知标识为已读
+ */
+function handleMakeAll() {
+  const ids: number[] = [];
+  for (const item of notifications.value) {
+    if (!item.isRead) {
+      ids.push(item.id);
+    }
+  }
+
+  if (ids.length === 0) {
+    return;
+  }
+
+  try {
+    internalMessageStore.markNotificationAsRead(
+      userStore.userInfo?.id ?? 0,
+      ids,
+    );
+
+    notification.success({
+      message: $t('ui.notification.update_success'),
+    });
+  } catch {
+    notification.error({
+      message: $t('ui.notification.update_failed'),
+    });
+  } finally {
+    notifications.value.forEach((item) => (item.isRead = true));
+  }
+}
+
+// setDemoData();
+reloadMessages();
+
 watch(
   () => preferences.app.watermark,
   async (enable) => {
@@ -140,6 +245,7 @@ watch(
         :notifications="notifications"
         @clear="handleNoticeClear"
         @make-all="handleMakeAll"
+        @read="handleMarkAsRead"
       />
     </template>
     <template #extra>

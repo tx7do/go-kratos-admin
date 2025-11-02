@@ -1,11 +1,9 @@
 package schema
 
 import (
-	"entgo.io/contrib/entproto"
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/entsql"
 	"entgo.io/ent/schema"
-	"entgo.io/ent/schema/edge"
 	"entgo.io/ent/schema/field"
 	"github.com/tx7do/go-utils/entgo/mixin"
 
@@ -32,11 +30,6 @@ func (Menu) Annotations() []schema.Annotation {
 // Fields of the Menu.
 func (Menu) Fields() []ent.Field {
 	return []ent.Field{
-		field.Uint32("parent_id").
-			Comment("上一层菜单ID").
-			Optional().
-			Nillable(),
-
 		field.Enum("status").
 			Comment("菜单状态").
 			NamedValues(
@@ -98,15 +91,7 @@ func (Menu) Mixin() []ent.Mixin {
 		mixin.AutoIncrementId{},
 		mixin.TimeAt{},
 		mixin.OperatorID{},
+		mixin.Tree[Menu]{},
 		mixin.Remark{},
-	}
-}
-
-// Edges of the Menu.
-func (Menu) Edges() []ent.Edge {
-	return []ent.Edge{
-		edge.
-			To("children", Menu.Type).Annotations(entproto.Field(10)).
-			From("parent").Unique().Field("parent_id").Annotations(entproto.Field(11)),
 	}
 }

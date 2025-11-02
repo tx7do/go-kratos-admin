@@ -106,6 +106,20 @@ func (_c *DepartmentCreate) SetNillableDeletedBy(v *uint32) *DepartmentCreate {
 	return _c
 }
 
+// SetSortOrder sets the "sort_order" field.
+func (_c *DepartmentCreate) SetSortOrder(v int32) *DepartmentCreate {
+	_c.mutation.SetSortOrder(v)
+	return _c
+}
+
+// SetNillableSortOrder sets the "sort_order" field if the given value is not nil.
+func (_c *DepartmentCreate) SetNillableSortOrder(v *int32) *DepartmentCreate {
+	if v != nil {
+		_c.SetSortOrder(*v)
+	}
+	return _c
+}
+
 // SetRemark sets the "remark" field.
 func (_c *DepartmentCreate) SetRemark(v string) *DepartmentCreate {
 	_c.mutation.SetRemark(v)
@@ -116,6 +130,20 @@ func (_c *DepartmentCreate) SetRemark(v string) *DepartmentCreate {
 func (_c *DepartmentCreate) SetNillableRemark(v *string) *DepartmentCreate {
 	if v != nil {
 		_c.SetRemark(*v)
+	}
+	return _c
+}
+
+// SetParentID sets the "parent_id" field.
+func (_c *DepartmentCreate) SetParentID(v uint32) *DepartmentCreate {
+	_c.mutation.SetParentID(v)
+	return _c
+}
+
+// SetNillableParentID sets the "parent_id" field if the given value is not nil.
+func (_c *DepartmentCreate) SetNillableParentID(v *uint32) *DepartmentCreate {
+	if v != nil {
+		_c.SetParentID(*v)
 	}
 	return _c
 }
@@ -148,20 +176,6 @@ func (_c *DepartmentCreate) SetNillableName(v *string) *DepartmentCreate {
 	return _c
 }
 
-// SetParentID sets the "parent_id" field.
-func (_c *DepartmentCreate) SetParentID(v uint32) *DepartmentCreate {
-	_c.mutation.SetParentID(v)
-	return _c
-}
-
-// SetNillableParentID sets the "parent_id" field if the given value is not nil.
-func (_c *DepartmentCreate) SetNillableParentID(v *uint32) *DepartmentCreate {
-	if v != nil {
-		_c.SetParentID(*v)
-	}
-	return _c
-}
-
 // SetOrganizationID sets the "organization_id" field.
 func (_c *DepartmentCreate) SetOrganizationID(v uint32) *DepartmentCreate {
 	_c.mutation.SetOrganizationID(v)
@@ -178,20 +192,6 @@ func (_c *DepartmentCreate) SetManagerID(v uint32) *DepartmentCreate {
 func (_c *DepartmentCreate) SetNillableManagerID(v *uint32) *DepartmentCreate {
 	if v != nil {
 		_c.SetManagerID(*v)
-	}
-	return _c
-}
-
-// SetSortOrder sets the "sort_order" field.
-func (_c *DepartmentCreate) SetSortOrder(v int32) *DepartmentCreate {
-	_c.mutation.SetSortOrder(v)
-	return _c
-}
-
-// SetNillableSortOrder sets the "sort_order" field if the given value is not nil.
-func (_c *DepartmentCreate) SetNillableSortOrder(v *int32) *DepartmentCreate {
-	if v != nil {
-		_c.SetSortOrder(*v)
 	}
 	return _c
 }
@@ -372,6 +372,10 @@ func (_c *DepartmentCreate) createSpec() (*Department, *sqlgraph.CreateSpec) {
 		_spec.SetField(department.FieldDeletedBy, field.TypeUint32, value)
 		_node.DeletedBy = &value
 	}
+	if value, ok := _c.mutation.SortOrder(); ok {
+		_spec.SetField(department.FieldSortOrder, field.TypeInt32, value)
+		_node.SortOrder = &value
+	}
 	if value, ok := _c.mutation.Remark(); ok {
 		_spec.SetField(department.FieldRemark, field.TypeString, value)
 		_node.Remark = &value
@@ -391,10 +395,6 @@ func (_c *DepartmentCreate) createSpec() (*Department, *sqlgraph.CreateSpec) {
 	if value, ok := _c.mutation.ManagerID(); ok {
 		_spec.SetField(department.FieldManagerID, field.TypeUint32, value)
 		_node.ManagerID = &value
-	}
-	if value, ok := _c.mutation.SortOrder(); ok {
-		_spec.SetField(department.FieldSortOrder, field.TypeInt32, value)
-		_node.SortOrder = &value
 	}
 	if value, ok := _c.mutation.Status(); ok {
 		_spec.SetField(department.FieldStatus, field.TypeEnum, value)
@@ -597,6 +597,30 @@ func (u *DepartmentUpsert) ClearDeletedBy() *DepartmentUpsert {
 	return u
 }
 
+// SetSortOrder sets the "sort_order" field.
+func (u *DepartmentUpsert) SetSortOrder(v int32) *DepartmentUpsert {
+	u.Set(department.FieldSortOrder, v)
+	return u
+}
+
+// UpdateSortOrder sets the "sort_order" field to the value that was provided on create.
+func (u *DepartmentUpsert) UpdateSortOrder() *DepartmentUpsert {
+	u.SetExcluded(department.FieldSortOrder)
+	return u
+}
+
+// AddSortOrder adds v to the "sort_order" field.
+func (u *DepartmentUpsert) AddSortOrder(v int32) *DepartmentUpsert {
+	u.Add(department.FieldSortOrder, v)
+	return u
+}
+
+// ClearSortOrder clears the value of the "sort_order" field.
+func (u *DepartmentUpsert) ClearSortOrder() *DepartmentUpsert {
+	u.SetNull(department.FieldSortOrder)
+	return u
+}
+
 // SetRemark sets the "remark" field.
 func (u *DepartmentUpsert) SetRemark(v string) *DepartmentUpsert {
 	u.Set(department.FieldRemark, v)
@@ -615,24 +639,6 @@ func (u *DepartmentUpsert) ClearRemark() *DepartmentUpsert {
 	return u
 }
 
-// SetName sets the "name" field.
-func (u *DepartmentUpsert) SetName(v string) *DepartmentUpsert {
-	u.Set(department.FieldName, v)
-	return u
-}
-
-// UpdateName sets the "name" field to the value that was provided on create.
-func (u *DepartmentUpsert) UpdateName() *DepartmentUpsert {
-	u.SetExcluded(department.FieldName)
-	return u
-}
-
-// ClearName clears the value of the "name" field.
-func (u *DepartmentUpsert) ClearName() *DepartmentUpsert {
-	u.SetNull(department.FieldName)
-	return u
-}
-
 // SetParentID sets the "parent_id" field.
 func (u *DepartmentUpsert) SetParentID(v uint32) *DepartmentUpsert {
 	u.Set(department.FieldParentID, v)
@@ -648,6 +654,24 @@ func (u *DepartmentUpsert) UpdateParentID() *DepartmentUpsert {
 // ClearParentID clears the value of the "parent_id" field.
 func (u *DepartmentUpsert) ClearParentID() *DepartmentUpsert {
 	u.SetNull(department.FieldParentID)
+	return u
+}
+
+// SetName sets the "name" field.
+func (u *DepartmentUpsert) SetName(v string) *DepartmentUpsert {
+	u.Set(department.FieldName, v)
+	return u
+}
+
+// UpdateName sets the "name" field to the value that was provided on create.
+func (u *DepartmentUpsert) UpdateName() *DepartmentUpsert {
+	u.SetExcluded(department.FieldName)
+	return u
+}
+
+// ClearName clears the value of the "name" field.
+func (u *DepartmentUpsert) ClearName() *DepartmentUpsert {
+	u.SetNull(department.FieldName)
 	return u
 }
 
@@ -690,30 +714,6 @@ func (u *DepartmentUpsert) AddManagerID(v uint32) *DepartmentUpsert {
 // ClearManagerID clears the value of the "manager_id" field.
 func (u *DepartmentUpsert) ClearManagerID() *DepartmentUpsert {
 	u.SetNull(department.FieldManagerID)
-	return u
-}
-
-// SetSortOrder sets the "sort_order" field.
-func (u *DepartmentUpsert) SetSortOrder(v int32) *DepartmentUpsert {
-	u.Set(department.FieldSortOrder, v)
-	return u
-}
-
-// UpdateSortOrder sets the "sort_order" field to the value that was provided on create.
-func (u *DepartmentUpsert) UpdateSortOrder() *DepartmentUpsert {
-	u.SetExcluded(department.FieldSortOrder)
-	return u
-}
-
-// AddSortOrder adds v to the "sort_order" field.
-func (u *DepartmentUpsert) AddSortOrder(v int32) *DepartmentUpsert {
-	u.Add(department.FieldSortOrder, v)
-	return u
-}
-
-// ClearSortOrder clears the value of the "sort_order" field.
-func (u *DepartmentUpsert) ClearSortOrder() *DepartmentUpsert {
-	u.SetNull(department.FieldSortOrder)
 	return u
 }
 
@@ -933,6 +933,34 @@ func (u *DepartmentUpsertOne) ClearDeletedBy() *DepartmentUpsertOne {
 	})
 }
 
+// SetSortOrder sets the "sort_order" field.
+func (u *DepartmentUpsertOne) SetSortOrder(v int32) *DepartmentUpsertOne {
+	return u.Update(func(s *DepartmentUpsert) {
+		s.SetSortOrder(v)
+	})
+}
+
+// AddSortOrder adds v to the "sort_order" field.
+func (u *DepartmentUpsertOne) AddSortOrder(v int32) *DepartmentUpsertOne {
+	return u.Update(func(s *DepartmentUpsert) {
+		s.AddSortOrder(v)
+	})
+}
+
+// UpdateSortOrder sets the "sort_order" field to the value that was provided on create.
+func (u *DepartmentUpsertOne) UpdateSortOrder() *DepartmentUpsertOne {
+	return u.Update(func(s *DepartmentUpsert) {
+		s.UpdateSortOrder()
+	})
+}
+
+// ClearSortOrder clears the value of the "sort_order" field.
+func (u *DepartmentUpsertOne) ClearSortOrder() *DepartmentUpsertOne {
+	return u.Update(func(s *DepartmentUpsert) {
+		s.ClearSortOrder()
+	})
+}
+
 // SetRemark sets the "remark" field.
 func (u *DepartmentUpsertOne) SetRemark(v string) *DepartmentUpsertOne {
 	return u.Update(func(s *DepartmentUpsert) {
@@ -954,27 +982,6 @@ func (u *DepartmentUpsertOne) ClearRemark() *DepartmentUpsertOne {
 	})
 }
 
-// SetName sets the "name" field.
-func (u *DepartmentUpsertOne) SetName(v string) *DepartmentUpsertOne {
-	return u.Update(func(s *DepartmentUpsert) {
-		s.SetName(v)
-	})
-}
-
-// UpdateName sets the "name" field to the value that was provided on create.
-func (u *DepartmentUpsertOne) UpdateName() *DepartmentUpsertOne {
-	return u.Update(func(s *DepartmentUpsert) {
-		s.UpdateName()
-	})
-}
-
-// ClearName clears the value of the "name" field.
-func (u *DepartmentUpsertOne) ClearName() *DepartmentUpsertOne {
-	return u.Update(func(s *DepartmentUpsert) {
-		s.ClearName()
-	})
-}
-
 // SetParentID sets the "parent_id" field.
 func (u *DepartmentUpsertOne) SetParentID(v uint32) *DepartmentUpsertOne {
 	return u.Update(func(s *DepartmentUpsert) {
@@ -993,6 +1000,27 @@ func (u *DepartmentUpsertOne) UpdateParentID() *DepartmentUpsertOne {
 func (u *DepartmentUpsertOne) ClearParentID() *DepartmentUpsertOne {
 	return u.Update(func(s *DepartmentUpsert) {
 		s.ClearParentID()
+	})
+}
+
+// SetName sets the "name" field.
+func (u *DepartmentUpsertOne) SetName(v string) *DepartmentUpsertOne {
+	return u.Update(func(s *DepartmentUpsert) {
+		s.SetName(v)
+	})
+}
+
+// UpdateName sets the "name" field to the value that was provided on create.
+func (u *DepartmentUpsertOne) UpdateName() *DepartmentUpsertOne {
+	return u.Update(func(s *DepartmentUpsert) {
+		s.UpdateName()
+	})
+}
+
+// ClearName clears the value of the "name" field.
+func (u *DepartmentUpsertOne) ClearName() *DepartmentUpsertOne {
+	return u.Update(func(s *DepartmentUpsert) {
+		s.ClearName()
 	})
 }
 
@@ -1042,34 +1070,6 @@ func (u *DepartmentUpsertOne) UpdateManagerID() *DepartmentUpsertOne {
 func (u *DepartmentUpsertOne) ClearManagerID() *DepartmentUpsertOne {
 	return u.Update(func(s *DepartmentUpsert) {
 		s.ClearManagerID()
-	})
-}
-
-// SetSortOrder sets the "sort_order" field.
-func (u *DepartmentUpsertOne) SetSortOrder(v int32) *DepartmentUpsertOne {
-	return u.Update(func(s *DepartmentUpsert) {
-		s.SetSortOrder(v)
-	})
-}
-
-// AddSortOrder adds v to the "sort_order" field.
-func (u *DepartmentUpsertOne) AddSortOrder(v int32) *DepartmentUpsertOne {
-	return u.Update(func(s *DepartmentUpsert) {
-		s.AddSortOrder(v)
-	})
-}
-
-// UpdateSortOrder sets the "sort_order" field to the value that was provided on create.
-func (u *DepartmentUpsertOne) UpdateSortOrder() *DepartmentUpsertOne {
-	return u.Update(func(s *DepartmentUpsert) {
-		s.UpdateSortOrder()
-	})
-}
-
-// ClearSortOrder clears the value of the "sort_order" field.
-func (u *DepartmentUpsertOne) ClearSortOrder() *DepartmentUpsertOne {
-	return u.Update(func(s *DepartmentUpsert) {
-		s.ClearSortOrder()
 	})
 }
 
@@ -1461,6 +1461,34 @@ func (u *DepartmentUpsertBulk) ClearDeletedBy() *DepartmentUpsertBulk {
 	})
 }
 
+// SetSortOrder sets the "sort_order" field.
+func (u *DepartmentUpsertBulk) SetSortOrder(v int32) *DepartmentUpsertBulk {
+	return u.Update(func(s *DepartmentUpsert) {
+		s.SetSortOrder(v)
+	})
+}
+
+// AddSortOrder adds v to the "sort_order" field.
+func (u *DepartmentUpsertBulk) AddSortOrder(v int32) *DepartmentUpsertBulk {
+	return u.Update(func(s *DepartmentUpsert) {
+		s.AddSortOrder(v)
+	})
+}
+
+// UpdateSortOrder sets the "sort_order" field to the value that was provided on create.
+func (u *DepartmentUpsertBulk) UpdateSortOrder() *DepartmentUpsertBulk {
+	return u.Update(func(s *DepartmentUpsert) {
+		s.UpdateSortOrder()
+	})
+}
+
+// ClearSortOrder clears the value of the "sort_order" field.
+func (u *DepartmentUpsertBulk) ClearSortOrder() *DepartmentUpsertBulk {
+	return u.Update(func(s *DepartmentUpsert) {
+		s.ClearSortOrder()
+	})
+}
+
 // SetRemark sets the "remark" field.
 func (u *DepartmentUpsertBulk) SetRemark(v string) *DepartmentUpsertBulk {
 	return u.Update(func(s *DepartmentUpsert) {
@@ -1482,27 +1510,6 @@ func (u *DepartmentUpsertBulk) ClearRemark() *DepartmentUpsertBulk {
 	})
 }
 
-// SetName sets the "name" field.
-func (u *DepartmentUpsertBulk) SetName(v string) *DepartmentUpsertBulk {
-	return u.Update(func(s *DepartmentUpsert) {
-		s.SetName(v)
-	})
-}
-
-// UpdateName sets the "name" field to the value that was provided on create.
-func (u *DepartmentUpsertBulk) UpdateName() *DepartmentUpsertBulk {
-	return u.Update(func(s *DepartmentUpsert) {
-		s.UpdateName()
-	})
-}
-
-// ClearName clears the value of the "name" field.
-func (u *DepartmentUpsertBulk) ClearName() *DepartmentUpsertBulk {
-	return u.Update(func(s *DepartmentUpsert) {
-		s.ClearName()
-	})
-}
-
 // SetParentID sets the "parent_id" field.
 func (u *DepartmentUpsertBulk) SetParentID(v uint32) *DepartmentUpsertBulk {
 	return u.Update(func(s *DepartmentUpsert) {
@@ -1521,6 +1528,27 @@ func (u *DepartmentUpsertBulk) UpdateParentID() *DepartmentUpsertBulk {
 func (u *DepartmentUpsertBulk) ClearParentID() *DepartmentUpsertBulk {
 	return u.Update(func(s *DepartmentUpsert) {
 		s.ClearParentID()
+	})
+}
+
+// SetName sets the "name" field.
+func (u *DepartmentUpsertBulk) SetName(v string) *DepartmentUpsertBulk {
+	return u.Update(func(s *DepartmentUpsert) {
+		s.SetName(v)
+	})
+}
+
+// UpdateName sets the "name" field to the value that was provided on create.
+func (u *DepartmentUpsertBulk) UpdateName() *DepartmentUpsertBulk {
+	return u.Update(func(s *DepartmentUpsert) {
+		s.UpdateName()
+	})
+}
+
+// ClearName clears the value of the "name" field.
+func (u *DepartmentUpsertBulk) ClearName() *DepartmentUpsertBulk {
+	return u.Update(func(s *DepartmentUpsert) {
+		s.ClearName()
 	})
 }
 
@@ -1570,34 +1598,6 @@ func (u *DepartmentUpsertBulk) UpdateManagerID() *DepartmentUpsertBulk {
 func (u *DepartmentUpsertBulk) ClearManagerID() *DepartmentUpsertBulk {
 	return u.Update(func(s *DepartmentUpsert) {
 		s.ClearManagerID()
-	})
-}
-
-// SetSortOrder sets the "sort_order" field.
-func (u *DepartmentUpsertBulk) SetSortOrder(v int32) *DepartmentUpsertBulk {
-	return u.Update(func(s *DepartmentUpsert) {
-		s.SetSortOrder(v)
-	})
-}
-
-// AddSortOrder adds v to the "sort_order" field.
-func (u *DepartmentUpsertBulk) AddSortOrder(v int32) *DepartmentUpsertBulk {
-	return u.Update(func(s *DepartmentUpsert) {
-		s.AddSortOrder(v)
-	})
-}
-
-// UpdateSortOrder sets the "sort_order" field to the value that was provided on create.
-func (u *DepartmentUpsertBulk) UpdateSortOrder() *DepartmentUpsertBulk {
-	return u.Update(func(s *DepartmentUpsert) {
-		s.UpdateSortOrder()
-	})
-}
-
-// ClearSortOrder clears the value of the "sort_order" field.
-func (u *DepartmentUpsertBulk) ClearSortOrder() *DepartmentUpsertBulk {
-	return u.Update(func(s *DepartmentUpsert) {
-		s.ClearSortOrder()
 	})
 }
 

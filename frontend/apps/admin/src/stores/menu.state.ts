@@ -133,27 +133,10 @@ export const menuTypeList = computed(() => [
  * 目录类型转名称
  * @param menuType 目录类型
  */
-export function menuTypeToName(menuType: any) {
-  switch (menuType) {
-    case Menu_Type.BUTTON: {
-      return $t('enum.menuType.BUTTON');
-    }
-    case Menu_Type.EMBEDDED: {
-      return $t('enum.menuType.EMBEDDED');
-    }
-    case Menu_Type.FOLDER: {
-      return $t('enum.menuType.FOLDER');
-    }
-    case Menu_Type.LINK: {
-      return $t('enum.menuType.LINK');
-    }
-    case Menu_Type.MENU: {
-      return $t('enum.menuType.MENU');
-    }
-    default: {
-      return '';
-    }
-  }
+export function menuTypeToName(menuType: any): string {
+  const values = menuTypeList.value;
+  const matchedItem = values.find((item) => item.value === menuType);
+  return matchedItem ? matchedItem.label : '';
 }
 
 /**

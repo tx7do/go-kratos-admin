@@ -76,6 +76,8 @@ export const useAuthStore = defineStore('auth', () => {
           fetchAccessCodes(),
         ]);
 
+        // console.log('fetchUserInfoResult', fetchUserInfoResult);
+
         userInfo = fetchUserInfoResult;
         if (!userInfo) {
           throw new Error($t('authentication.loginFailedDesc'));

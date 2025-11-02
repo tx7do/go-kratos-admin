@@ -30,18 +30,18 @@ type Position struct {
 	UpdatedBy *uint32 `json:"updated_by,omitempty"`
 	// 删除者ID
 	DeletedBy *uint32 `json:"deleted_by,omitempty"`
+	// 排序顺序，值越小越靠前
+	SortOrder *int32 `json:"sort_order,omitempty"`
 	// 备注
 	Remark *string `json:"remark,omitempty"`
+	// 父节点ID
+	ParentID *uint32 `json:"parent_id,omitempty"`
 	// 租户ID
 	TenantID *uint32 `json:"tenant_id,omitempty"`
 	// 职位名称
 	Name *string `json:"name,omitempty"`
 	// 唯一编码
 	Code *string `json:"code,omitempty"`
-	// 上一层职位ID
-	ParentID *uint32 `json:"parent_id,omitempty"`
-	// 排序顺序，值越小越靠前
-	SortOrder *int32 `json:"sort_order,omitempty"`
 	// 所属组织ID
 	OrganizationID *uint32 `json:"organization_id,omitempty"`
 	// 所属部门ID
@@ -94,7 +94,7 @@ func (*Position) scanValues(columns []string) ([]any, error) {
 	values := make([]any, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case position.FieldID, position.FieldCreatedBy, position.FieldUpdatedBy, position.FieldDeletedBy, position.FieldTenantID, position.FieldParentID, position.FieldSortOrder, position.FieldOrganizationID, position.FieldDepartmentID, position.FieldQuota:
+		case position.FieldID, position.FieldCreatedBy, position.FieldUpdatedBy, position.FieldDeletedBy, position.FieldSortOrder, position.FieldParentID, position.FieldTenantID, position.FieldOrganizationID, position.FieldDepartmentID, position.FieldQuota:
 			values[i] = new(sql.NullInt64)
 		case position.FieldRemark, position.FieldName, position.FieldCode, position.FieldStatus, position.FieldDescription:
 			values[i] = new(sql.NullString)
@@ -163,12 +163,26 @@ func (_m *Position) assignValues(columns []string, values []any) error {
 				_m.DeletedBy = new(uint32)
 				*_m.DeletedBy = uint32(value.Int64)
 			}
+		case position.FieldSortOrder:
+			if value, ok := values[i].(*sql.NullInt64); !ok {
+				return fmt.Errorf("unexpected type %T for field sort_order", values[i])
+			} else if value.Valid {
+				_m.SortOrder = new(int32)
+				*_m.SortOrder = int32(value.Int64)
+			}
 		case position.FieldRemark:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field remark", values[i])
 			} else if value.Valid {
 				_m.Remark = new(string)
 				*_m.Remark = value.String
+			}
+		case position.FieldParentID:
+			if value, ok := values[i].(*sql.NullInt64); !ok {
+				return fmt.Errorf("unexpected type %T for field parent_id", values[i])
+			} else if value.Valid {
+				_m.ParentID = new(uint32)
+				*_m.ParentID = uint32(value.Int64)
 			}
 		case position.FieldTenantID:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
@@ -190,20 +204,6 @@ func (_m *Position) assignValues(columns []string, values []any) error {
 			} else if value.Valid {
 				_m.Code = new(string)
 				*_m.Code = value.String
-			}
-		case position.FieldParentID:
-			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for field parent_id", values[i])
-			} else if value.Valid {
-				_m.ParentID = new(uint32)
-				*_m.ParentID = uint32(value.Int64)
-			}
-		case position.FieldSortOrder:
-			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for field sort_order", values[i])
-			} else if value.Valid {
-				_m.SortOrder = new(int32)
-				*_m.SortOrder = int32(value.Int64)
 			}
 		case position.FieldOrganizationID:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
@@ -316,9 +316,19 @@ func (_m *Position) String() string {
 		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteString(", ")
+	if v := _m.SortOrder; v != nil {
+		builder.WriteString("sort_order=")
+		builder.WriteString(fmt.Sprintf("%v", *v))
+	}
+	builder.WriteString(", ")
 	if v := _m.Remark; v != nil {
 		builder.WriteString("remark=")
 		builder.WriteString(*v)
+	}
+	builder.WriteString(", ")
+	if v := _m.ParentID; v != nil {
+		builder.WriteString("parent_id=")
+		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteString(", ")
 	if v := _m.TenantID; v != nil {
@@ -334,16 +344,6 @@ func (_m *Position) String() string {
 	if v := _m.Code; v != nil {
 		builder.WriteString("code=")
 		builder.WriteString(*v)
-	}
-	builder.WriteString(", ")
-	if v := _m.ParentID; v != nil {
-		builder.WriteString("parent_id=")
-		builder.WriteString(fmt.Sprintf("%v", *v))
-	}
-	builder.WriteString(", ")
-	if v := _m.SortOrder; v != nil {
-		builder.WriteString("sort_order=")
-		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteString(", ")
 	if v := _m.OrganizationID; v != nil {

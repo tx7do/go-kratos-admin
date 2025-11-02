@@ -47,10 +47,9 @@ var ProviderSet = wire.NewSet(
 
 	NewFileRepo,
 
-	NewNotificationMessageRepo,
-	NewNotificationMessageCategoryRepo,
-	NewNotificationMessageRecipientRepo,
-	NewPrivateMessageRepo,
+	NewInternalMessageRepo,
+	NewInternalMessageCategoryRepo,
+	NewInternalMessageRecipientRepo,
 
 	NewUserTokenRepo,
 )

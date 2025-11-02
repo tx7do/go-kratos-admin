@@ -100,17 +100,9 @@ export const positionStatusList = computed(() => [
  * @param status 状态值
  */
 export function positionStatusToName(status: any) {
-  switch (status) {
-    case Position_Status.OFF: {
-      return $t('enum.status.OFF');
-    }
-    case Position_Status.ON: {
-      return $t('enum.status.ON');
-    }
-    default: {
-      return '';
-    }
-  }
+  const values = positionStatusList.value;
+  const matchedItem = values.find((item) => item.value === status);
+  return matchedItem ? matchedItem.label : '';
 }
 
 /**

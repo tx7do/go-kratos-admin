@@ -253,19 +253,30 @@
       "do_you_want_stop_task": "您确定要停止该任务吗？"
     }
   },
-  "notificationMessage": {
-    "moduleName": "通知消息",
-    "subject": "通知主题",
+  "internalMessage": {
+    "moduleName": "消息管理",
+    "title": "消息主题",
+    "content": "消息内容",
+    "type": "消息类型",
+    "status": "消息状态",
     "categoryName": "消息分类",
+    "senderName": "发送者",
+    "categoryId": "消息分类",
     "button": {
-      "create": "创建通知"
+      "create": "发布消息"
+    },
+    "drawer": {
+      "create": "发布消息",
+      "update": "修改消息"
     }
   },
-  "notificationMessageCategory": {
-    "moduleName": "通知类型",
-    "name": "类型名称",
+  "internalMessageCategory": {
+    "moduleName": "消息分类",
+    "name": "分类名称",
+    "code": "分类编码",
+    "parentId": "父节点",
     "button": {
-      "create": "创建类型"
+      "create": "创建分类"
     }
   },
   "privateMessage": {

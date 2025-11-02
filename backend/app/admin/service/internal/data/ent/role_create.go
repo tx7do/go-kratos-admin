@@ -120,6 +120,34 @@ func (_c *RoleCreate) SetNillableRemark(v *string) *RoleCreate {
 	return _c
 }
 
+// SetSortOrder sets the "sort_order" field.
+func (_c *RoleCreate) SetSortOrder(v int32) *RoleCreate {
+	_c.mutation.SetSortOrder(v)
+	return _c
+}
+
+// SetNillableSortOrder sets the "sort_order" field if the given value is not nil.
+func (_c *RoleCreate) SetNillableSortOrder(v *int32) *RoleCreate {
+	if v != nil {
+		_c.SetSortOrder(*v)
+	}
+	return _c
+}
+
+// SetParentID sets the "parent_id" field.
+func (_c *RoleCreate) SetParentID(v uint32) *RoleCreate {
+	_c.mutation.SetParentID(v)
+	return _c
+}
+
+// SetNillableParentID sets the "parent_id" field if the given value is not nil.
+func (_c *RoleCreate) SetNillableParentID(v *uint32) *RoleCreate {
+	if v != nil {
+		_c.SetParentID(*v)
+	}
+	return _c
+}
+
 // SetTenantID sets the "tenant_id" field.
 func (_c *RoleCreate) SetTenantID(v uint32) *RoleCreate {
 	_c.mutation.SetTenantID(v)
@@ -158,34 +186,6 @@ func (_c *RoleCreate) SetCode(v string) *RoleCreate {
 func (_c *RoleCreate) SetNillableCode(v *string) *RoleCreate {
 	if v != nil {
 		_c.SetCode(*v)
-	}
-	return _c
-}
-
-// SetParentID sets the "parent_id" field.
-func (_c *RoleCreate) SetParentID(v uint32) *RoleCreate {
-	_c.mutation.SetParentID(v)
-	return _c
-}
-
-// SetNillableParentID sets the "parent_id" field if the given value is not nil.
-func (_c *RoleCreate) SetNillableParentID(v *uint32) *RoleCreate {
-	if v != nil {
-		_c.SetParentID(*v)
-	}
-	return _c
-}
-
-// SetSortOrder sets the "sort_order" field.
-func (_c *RoleCreate) SetSortOrder(v int32) *RoleCreate {
-	_c.mutation.SetSortOrder(v)
-	return _c
-}
-
-// SetNillableSortOrder sets the "sort_order" field if the given value is not nil.
-func (_c *RoleCreate) SetNillableSortOrder(v *int32) *RoleCreate {
-	if v != nil {
-		_c.SetSortOrder(*v)
 	}
 	return _c
 }
@@ -389,6 +389,10 @@ func (_c *RoleCreate) createSpec() (*Role, *sqlgraph.CreateSpec) {
 		_spec.SetField(role.FieldRemark, field.TypeString, value)
 		_node.Remark = &value
 	}
+	if value, ok := _c.mutation.SortOrder(); ok {
+		_spec.SetField(role.FieldSortOrder, field.TypeInt32, value)
+		_node.SortOrder = &value
+	}
 	if value, ok := _c.mutation.TenantID(); ok {
 		_spec.SetField(role.FieldTenantID, field.TypeUint32, value)
 		_node.TenantID = &value
@@ -400,10 +404,6 @@ func (_c *RoleCreate) createSpec() (*Role, *sqlgraph.CreateSpec) {
 	if value, ok := _c.mutation.Code(); ok {
 		_spec.SetField(role.FieldCode, field.TypeString, value)
 		_node.Code = &value
-	}
-	if value, ok := _c.mutation.SortOrder(); ok {
-		_spec.SetField(role.FieldSortOrder, field.TypeInt32, value)
-		_node.SortOrder = &value
 	}
 	if value, ok := _c.mutation.Menus(); ok {
 		_spec.SetField(role.FieldMenus, field.TypeJSON, value)
@@ -632,6 +632,48 @@ func (u *RoleUpsert) ClearRemark() *RoleUpsert {
 	return u
 }
 
+// SetSortOrder sets the "sort_order" field.
+func (u *RoleUpsert) SetSortOrder(v int32) *RoleUpsert {
+	u.Set(role.FieldSortOrder, v)
+	return u
+}
+
+// UpdateSortOrder sets the "sort_order" field to the value that was provided on create.
+func (u *RoleUpsert) UpdateSortOrder() *RoleUpsert {
+	u.SetExcluded(role.FieldSortOrder)
+	return u
+}
+
+// AddSortOrder adds v to the "sort_order" field.
+func (u *RoleUpsert) AddSortOrder(v int32) *RoleUpsert {
+	u.Add(role.FieldSortOrder, v)
+	return u
+}
+
+// ClearSortOrder clears the value of the "sort_order" field.
+func (u *RoleUpsert) ClearSortOrder() *RoleUpsert {
+	u.SetNull(role.FieldSortOrder)
+	return u
+}
+
+// SetParentID sets the "parent_id" field.
+func (u *RoleUpsert) SetParentID(v uint32) *RoleUpsert {
+	u.Set(role.FieldParentID, v)
+	return u
+}
+
+// UpdateParentID sets the "parent_id" field to the value that was provided on create.
+func (u *RoleUpsert) UpdateParentID() *RoleUpsert {
+	u.SetExcluded(role.FieldParentID)
+	return u
+}
+
+// ClearParentID clears the value of the "parent_id" field.
+func (u *RoleUpsert) ClearParentID() *RoleUpsert {
+	u.SetNull(role.FieldParentID)
+	return u
+}
+
 // SetName sets the "name" field.
 func (u *RoleUpsert) SetName(v string) *RoleUpsert {
 	u.Set(role.FieldName, v)
@@ -665,48 +707,6 @@ func (u *RoleUpsert) UpdateCode() *RoleUpsert {
 // ClearCode clears the value of the "code" field.
 func (u *RoleUpsert) ClearCode() *RoleUpsert {
 	u.SetNull(role.FieldCode)
-	return u
-}
-
-// SetParentID sets the "parent_id" field.
-func (u *RoleUpsert) SetParentID(v uint32) *RoleUpsert {
-	u.Set(role.FieldParentID, v)
-	return u
-}
-
-// UpdateParentID sets the "parent_id" field to the value that was provided on create.
-func (u *RoleUpsert) UpdateParentID() *RoleUpsert {
-	u.SetExcluded(role.FieldParentID)
-	return u
-}
-
-// ClearParentID clears the value of the "parent_id" field.
-func (u *RoleUpsert) ClearParentID() *RoleUpsert {
-	u.SetNull(role.FieldParentID)
-	return u
-}
-
-// SetSortOrder sets the "sort_order" field.
-func (u *RoleUpsert) SetSortOrder(v int32) *RoleUpsert {
-	u.Set(role.FieldSortOrder, v)
-	return u
-}
-
-// UpdateSortOrder sets the "sort_order" field to the value that was provided on create.
-func (u *RoleUpsert) UpdateSortOrder() *RoleUpsert {
-	u.SetExcluded(role.FieldSortOrder)
-	return u
-}
-
-// AddSortOrder adds v to the "sort_order" field.
-func (u *RoleUpsert) AddSortOrder(v int32) *RoleUpsert {
-	u.Add(role.FieldSortOrder, v)
-	return u
-}
-
-// ClearSortOrder clears the value of the "sort_order" field.
-func (u *RoleUpsert) ClearSortOrder() *RoleUpsert {
-	u.SetNull(role.FieldSortOrder)
 	return u
 }
 
@@ -983,6 +983,55 @@ func (u *RoleUpsertOne) ClearRemark() *RoleUpsertOne {
 	})
 }
 
+// SetSortOrder sets the "sort_order" field.
+func (u *RoleUpsertOne) SetSortOrder(v int32) *RoleUpsertOne {
+	return u.Update(func(s *RoleUpsert) {
+		s.SetSortOrder(v)
+	})
+}
+
+// AddSortOrder adds v to the "sort_order" field.
+func (u *RoleUpsertOne) AddSortOrder(v int32) *RoleUpsertOne {
+	return u.Update(func(s *RoleUpsert) {
+		s.AddSortOrder(v)
+	})
+}
+
+// UpdateSortOrder sets the "sort_order" field to the value that was provided on create.
+func (u *RoleUpsertOne) UpdateSortOrder() *RoleUpsertOne {
+	return u.Update(func(s *RoleUpsert) {
+		s.UpdateSortOrder()
+	})
+}
+
+// ClearSortOrder clears the value of the "sort_order" field.
+func (u *RoleUpsertOne) ClearSortOrder() *RoleUpsertOne {
+	return u.Update(func(s *RoleUpsert) {
+		s.ClearSortOrder()
+	})
+}
+
+// SetParentID sets the "parent_id" field.
+func (u *RoleUpsertOne) SetParentID(v uint32) *RoleUpsertOne {
+	return u.Update(func(s *RoleUpsert) {
+		s.SetParentID(v)
+	})
+}
+
+// UpdateParentID sets the "parent_id" field to the value that was provided on create.
+func (u *RoleUpsertOne) UpdateParentID() *RoleUpsertOne {
+	return u.Update(func(s *RoleUpsert) {
+		s.UpdateParentID()
+	})
+}
+
+// ClearParentID clears the value of the "parent_id" field.
+func (u *RoleUpsertOne) ClearParentID() *RoleUpsertOne {
+	return u.Update(func(s *RoleUpsert) {
+		s.ClearParentID()
+	})
+}
+
 // SetName sets the "name" field.
 func (u *RoleUpsertOne) SetName(v string) *RoleUpsertOne {
 	return u.Update(func(s *RoleUpsert) {
@@ -1022,55 +1071,6 @@ func (u *RoleUpsertOne) UpdateCode() *RoleUpsertOne {
 func (u *RoleUpsertOne) ClearCode() *RoleUpsertOne {
 	return u.Update(func(s *RoleUpsert) {
 		s.ClearCode()
-	})
-}
-
-// SetParentID sets the "parent_id" field.
-func (u *RoleUpsertOne) SetParentID(v uint32) *RoleUpsertOne {
-	return u.Update(func(s *RoleUpsert) {
-		s.SetParentID(v)
-	})
-}
-
-// UpdateParentID sets the "parent_id" field to the value that was provided on create.
-func (u *RoleUpsertOne) UpdateParentID() *RoleUpsertOne {
-	return u.Update(func(s *RoleUpsert) {
-		s.UpdateParentID()
-	})
-}
-
-// ClearParentID clears the value of the "parent_id" field.
-func (u *RoleUpsertOne) ClearParentID() *RoleUpsertOne {
-	return u.Update(func(s *RoleUpsert) {
-		s.ClearParentID()
-	})
-}
-
-// SetSortOrder sets the "sort_order" field.
-func (u *RoleUpsertOne) SetSortOrder(v int32) *RoleUpsertOne {
-	return u.Update(func(s *RoleUpsert) {
-		s.SetSortOrder(v)
-	})
-}
-
-// AddSortOrder adds v to the "sort_order" field.
-func (u *RoleUpsertOne) AddSortOrder(v int32) *RoleUpsertOne {
-	return u.Update(func(s *RoleUpsert) {
-		s.AddSortOrder(v)
-	})
-}
-
-// UpdateSortOrder sets the "sort_order" field to the value that was provided on create.
-func (u *RoleUpsertOne) UpdateSortOrder() *RoleUpsertOne {
-	return u.Update(func(s *RoleUpsert) {
-		s.UpdateSortOrder()
-	})
-}
-
-// ClearSortOrder clears the value of the "sort_order" field.
-func (u *RoleUpsertOne) ClearSortOrder() *RoleUpsertOne {
-	return u.Update(func(s *RoleUpsert) {
-		s.ClearSortOrder()
 	})
 }
 
@@ -1525,6 +1525,55 @@ func (u *RoleUpsertBulk) ClearRemark() *RoleUpsertBulk {
 	})
 }
 
+// SetSortOrder sets the "sort_order" field.
+func (u *RoleUpsertBulk) SetSortOrder(v int32) *RoleUpsertBulk {
+	return u.Update(func(s *RoleUpsert) {
+		s.SetSortOrder(v)
+	})
+}
+
+// AddSortOrder adds v to the "sort_order" field.
+func (u *RoleUpsertBulk) AddSortOrder(v int32) *RoleUpsertBulk {
+	return u.Update(func(s *RoleUpsert) {
+		s.AddSortOrder(v)
+	})
+}
+
+// UpdateSortOrder sets the "sort_order" field to the value that was provided on create.
+func (u *RoleUpsertBulk) UpdateSortOrder() *RoleUpsertBulk {
+	return u.Update(func(s *RoleUpsert) {
+		s.UpdateSortOrder()
+	})
+}
+
+// ClearSortOrder clears the value of the "sort_order" field.
+func (u *RoleUpsertBulk) ClearSortOrder() *RoleUpsertBulk {
+	return u.Update(func(s *RoleUpsert) {
+		s.ClearSortOrder()
+	})
+}
+
+// SetParentID sets the "parent_id" field.
+func (u *RoleUpsertBulk) SetParentID(v uint32) *RoleUpsertBulk {
+	return u.Update(func(s *RoleUpsert) {
+		s.SetParentID(v)
+	})
+}
+
+// UpdateParentID sets the "parent_id" field to the value that was provided on create.
+func (u *RoleUpsertBulk) UpdateParentID() *RoleUpsertBulk {
+	return u.Update(func(s *RoleUpsert) {
+		s.UpdateParentID()
+	})
+}
+
+// ClearParentID clears the value of the "parent_id" field.
+func (u *RoleUpsertBulk) ClearParentID() *RoleUpsertBulk {
+	return u.Update(func(s *RoleUpsert) {
+		s.ClearParentID()
+	})
+}
+
 // SetName sets the "name" field.
 func (u *RoleUpsertBulk) SetName(v string) *RoleUpsertBulk {
 	return u.Update(func(s *RoleUpsert) {
@@ -1564,55 +1613,6 @@ func (u *RoleUpsertBulk) UpdateCode() *RoleUpsertBulk {
 func (u *RoleUpsertBulk) ClearCode() *RoleUpsertBulk {
 	return u.Update(func(s *RoleUpsert) {
 		s.ClearCode()
-	})
-}
-
-// SetParentID sets the "parent_id" field.
-func (u *RoleUpsertBulk) SetParentID(v uint32) *RoleUpsertBulk {
-	return u.Update(func(s *RoleUpsert) {
-		s.SetParentID(v)
-	})
-}
-
-// UpdateParentID sets the "parent_id" field to the value that was provided on create.
-func (u *RoleUpsertBulk) UpdateParentID() *RoleUpsertBulk {
-	return u.Update(func(s *RoleUpsert) {
-		s.UpdateParentID()
-	})
-}
-
-// ClearParentID clears the value of the "parent_id" field.
-func (u *RoleUpsertBulk) ClearParentID() *RoleUpsertBulk {
-	return u.Update(func(s *RoleUpsert) {
-		s.ClearParentID()
-	})
-}
-
-// SetSortOrder sets the "sort_order" field.
-func (u *RoleUpsertBulk) SetSortOrder(v int32) *RoleUpsertBulk {
-	return u.Update(func(s *RoleUpsert) {
-		s.SetSortOrder(v)
-	})
-}
-
-// AddSortOrder adds v to the "sort_order" field.
-func (u *RoleUpsertBulk) AddSortOrder(v int32) *RoleUpsertBulk {
-	return u.Update(func(s *RoleUpsert) {
-		s.AddSortOrder(v)
-	})
-}
-
-// UpdateSortOrder sets the "sort_order" field to the value that was provided on create.
-func (u *RoleUpsertBulk) UpdateSortOrder() *RoleUpsertBulk {
-	return u.Update(func(s *RoleUpsert) {
-		s.UpdateSortOrder()
-	})
-}
-
-// ClearSortOrder clears the value of the "sort_order" field.
-func (u *RoleUpsertBulk) ClearSortOrder() *RoleUpsertBulk {
-	return u.Update(func(s *RoleUpsert) {
-		s.ClearSortOrder()
 	})
 }
 

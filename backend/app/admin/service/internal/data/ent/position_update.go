@@ -150,6 +150,33 @@ func (_u *PositionUpdate) ClearDeletedBy() *PositionUpdate {
 	return _u
 }
 
+// SetSortOrder sets the "sort_order" field.
+func (_u *PositionUpdate) SetSortOrder(v int32) *PositionUpdate {
+	_u.mutation.ResetSortOrder()
+	_u.mutation.SetSortOrder(v)
+	return _u
+}
+
+// SetNillableSortOrder sets the "sort_order" field if the given value is not nil.
+func (_u *PositionUpdate) SetNillableSortOrder(v *int32) *PositionUpdate {
+	if v != nil {
+		_u.SetSortOrder(*v)
+	}
+	return _u
+}
+
+// AddSortOrder adds value to the "sort_order" field.
+func (_u *PositionUpdate) AddSortOrder(v int32) *PositionUpdate {
+	_u.mutation.AddSortOrder(v)
+	return _u
+}
+
+// ClearSortOrder clears the value of the "sort_order" field.
+func (_u *PositionUpdate) ClearSortOrder() *PositionUpdate {
+	_u.mutation.ClearSortOrder()
+	return _u
+}
+
 // SetRemark sets the "remark" field.
 func (_u *PositionUpdate) SetRemark(v string) *PositionUpdate {
 	_u.mutation.SetRemark(v)
@@ -167,6 +194,26 @@ func (_u *PositionUpdate) SetNillableRemark(v *string) *PositionUpdate {
 // ClearRemark clears the value of the "remark" field.
 func (_u *PositionUpdate) ClearRemark() *PositionUpdate {
 	_u.mutation.ClearRemark()
+	return _u
+}
+
+// SetParentID sets the "parent_id" field.
+func (_u *PositionUpdate) SetParentID(v uint32) *PositionUpdate {
+	_u.mutation.SetParentID(v)
+	return _u
+}
+
+// SetNillableParentID sets the "parent_id" field if the given value is not nil.
+func (_u *PositionUpdate) SetNillableParentID(v *uint32) *PositionUpdate {
+	if v != nil {
+		_u.SetParentID(*v)
+	}
+	return _u
+}
+
+// ClearParentID clears the value of the "parent_id" field.
+func (_u *PositionUpdate) ClearParentID() *PositionUpdate {
+	_u.mutation.ClearParentID()
 	return _u
 }
 
@@ -207,53 +254,6 @@ func (_u *PositionUpdate) SetNillableCode(v *string) *PositionUpdate {
 // ClearCode clears the value of the "code" field.
 func (_u *PositionUpdate) ClearCode() *PositionUpdate {
 	_u.mutation.ClearCode()
-	return _u
-}
-
-// SetParentID sets the "parent_id" field.
-func (_u *PositionUpdate) SetParentID(v uint32) *PositionUpdate {
-	_u.mutation.SetParentID(v)
-	return _u
-}
-
-// SetNillableParentID sets the "parent_id" field if the given value is not nil.
-func (_u *PositionUpdate) SetNillableParentID(v *uint32) *PositionUpdate {
-	if v != nil {
-		_u.SetParentID(*v)
-	}
-	return _u
-}
-
-// ClearParentID clears the value of the "parent_id" field.
-func (_u *PositionUpdate) ClearParentID() *PositionUpdate {
-	_u.mutation.ClearParentID()
-	return _u
-}
-
-// SetSortOrder sets the "sort_order" field.
-func (_u *PositionUpdate) SetSortOrder(v int32) *PositionUpdate {
-	_u.mutation.ResetSortOrder()
-	_u.mutation.SetSortOrder(v)
-	return _u
-}
-
-// SetNillableSortOrder sets the "sort_order" field if the given value is not nil.
-func (_u *PositionUpdate) SetNillableSortOrder(v *int32) *PositionUpdate {
-	if v != nil {
-		_u.SetSortOrder(*v)
-	}
-	return _u
-}
-
-// AddSortOrder adds value to the "sort_order" field.
-func (_u *PositionUpdate) AddSortOrder(v int32) *PositionUpdate {
-	_u.mutation.AddSortOrder(v)
-	return _u
-}
-
-// ClearSortOrder clears the value of the "sort_order" field.
-func (_u *PositionUpdate) ClearSortOrder() *PositionUpdate {
-	_u.mutation.ClearSortOrder()
 	return _u
 }
 
@@ -525,6 +525,15 @@ func (_u *PositionUpdate) sqlSave(ctx context.Context) (_node int, err error) {
 	if _u.mutation.DeletedByCleared() {
 		_spec.ClearField(position.FieldDeletedBy, field.TypeUint32)
 	}
+	if value, ok := _u.mutation.SortOrder(); ok {
+		_spec.SetField(position.FieldSortOrder, field.TypeInt32, value)
+	}
+	if value, ok := _u.mutation.AddedSortOrder(); ok {
+		_spec.AddField(position.FieldSortOrder, field.TypeInt32, value)
+	}
+	if _u.mutation.SortOrderCleared() {
+		_spec.ClearField(position.FieldSortOrder, field.TypeInt32)
+	}
 	if value, ok := _u.mutation.Remark(); ok {
 		_spec.SetField(position.FieldRemark, field.TypeString, value)
 	}
@@ -545,15 +554,6 @@ func (_u *PositionUpdate) sqlSave(ctx context.Context) (_node int, err error) {
 	}
 	if _u.mutation.CodeCleared() {
 		_spec.ClearField(position.FieldCode, field.TypeString)
-	}
-	if value, ok := _u.mutation.SortOrder(); ok {
-		_spec.SetField(position.FieldSortOrder, field.TypeInt32, value)
-	}
-	if value, ok := _u.mutation.AddedSortOrder(); ok {
-		_spec.AddField(position.FieldSortOrder, field.TypeInt32, value)
-	}
-	if _u.mutation.SortOrderCleared() {
-		_spec.ClearField(position.FieldSortOrder, field.TypeInt32)
 	}
 	if value, ok := _u.mutation.OrganizationID(); ok {
 		_spec.SetField(position.FieldOrganizationID, field.TypeUint32, value)
@@ -805,6 +805,33 @@ func (_u *PositionUpdateOne) ClearDeletedBy() *PositionUpdateOne {
 	return _u
 }
 
+// SetSortOrder sets the "sort_order" field.
+func (_u *PositionUpdateOne) SetSortOrder(v int32) *PositionUpdateOne {
+	_u.mutation.ResetSortOrder()
+	_u.mutation.SetSortOrder(v)
+	return _u
+}
+
+// SetNillableSortOrder sets the "sort_order" field if the given value is not nil.
+func (_u *PositionUpdateOne) SetNillableSortOrder(v *int32) *PositionUpdateOne {
+	if v != nil {
+		_u.SetSortOrder(*v)
+	}
+	return _u
+}
+
+// AddSortOrder adds value to the "sort_order" field.
+func (_u *PositionUpdateOne) AddSortOrder(v int32) *PositionUpdateOne {
+	_u.mutation.AddSortOrder(v)
+	return _u
+}
+
+// ClearSortOrder clears the value of the "sort_order" field.
+func (_u *PositionUpdateOne) ClearSortOrder() *PositionUpdateOne {
+	_u.mutation.ClearSortOrder()
+	return _u
+}
+
 // SetRemark sets the "remark" field.
 func (_u *PositionUpdateOne) SetRemark(v string) *PositionUpdateOne {
 	_u.mutation.SetRemark(v)
@@ -822,6 +849,26 @@ func (_u *PositionUpdateOne) SetNillableRemark(v *string) *PositionUpdateOne {
 // ClearRemark clears the value of the "remark" field.
 func (_u *PositionUpdateOne) ClearRemark() *PositionUpdateOne {
 	_u.mutation.ClearRemark()
+	return _u
+}
+
+// SetParentID sets the "parent_id" field.
+func (_u *PositionUpdateOne) SetParentID(v uint32) *PositionUpdateOne {
+	_u.mutation.SetParentID(v)
+	return _u
+}
+
+// SetNillableParentID sets the "parent_id" field if the given value is not nil.
+func (_u *PositionUpdateOne) SetNillableParentID(v *uint32) *PositionUpdateOne {
+	if v != nil {
+		_u.SetParentID(*v)
+	}
+	return _u
+}
+
+// ClearParentID clears the value of the "parent_id" field.
+func (_u *PositionUpdateOne) ClearParentID() *PositionUpdateOne {
+	_u.mutation.ClearParentID()
 	return _u
 }
 
@@ -862,53 +909,6 @@ func (_u *PositionUpdateOne) SetNillableCode(v *string) *PositionUpdateOne {
 // ClearCode clears the value of the "code" field.
 func (_u *PositionUpdateOne) ClearCode() *PositionUpdateOne {
 	_u.mutation.ClearCode()
-	return _u
-}
-
-// SetParentID sets the "parent_id" field.
-func (_u *PositionUpdateOne) SetParentID(v uint32) *PositionUpdateOne {
-	_u.mutation.SetParentID(v)
-	return _u
-}
-
-// SetNillableParentID sets the "parent_id" field if the given value is not nil.
-func (_u *PositionUpdateOne) SetNillableParentID(v *uint32) *PositionUpdateOne {
-	if v != nil {
-		_u.SetParentID(*v)
-	}
-	return _u
-}
-
-// ClearParentID clears the value of the "parent_id" field.
-func (_u *PositionUpdateOne) ClearParentID() *PositionUpdateOne {
-	_u.mutation.ClearParentID()
-	return _u
-}
-
-// SetSortOrder sets the "sort_order" field.
-func (_u *PositionUpdateOne) SetSortOrder(v int32) *PositionUpdateOne {
-	_u.mutation.ResetSortOrder()
-	_u.mutation.SetSortOrder(v)
-	return _u
-}
-
-// SetNillableSortOrder sets the "sort_order" field if the given value is not nil.
-func (_u *PositionUpdateOne) SetNillableSortOrder(v *int32) *PositionUpdateOne {
-	if v != nil {
-		_u.SetSortOrder(*v)
-	}
-	return _u
-}
-
-// AddSortOrder adds value to the "sort_order" field.
-func (_u *PositionUpdateOne) AddSortOrder(v int32) *PositionUpdateOne {
-	_u.mutation.AddSortOrder(v)
-	return _u
-}
-
-// ClearSortOrder clears the value of the "sort_order" field.
-func (_u *PositionUpdateOne) ClearSortOrder() *PositionUpdateOne {
-	_u.mutation.ClearSortOrder()
 	return _u
 }
 
@@ -1210,6 +1210,15 @@ func (_u *PositionUpdateOne) sqlSave(ctx context.Context) (_node *Position, err 
 	if _u.mutation.DeletedByCleared() {
 		_spec.ClearField(position.FieldDeletedBy, field.TypeUint32)
 	}
+	if value, ok := _u.mutation.SortOrder(); ok {
+		_spec.SetField(position.FieldSortOrder, field.TypeInt32, value)
+	}
+	if value, ok := _u.mutation.AddedSortOrder(); ok {
+		_spec.AddField(position.FieldSortOrder, field.TypeInt32, value)
+	}
+	if _u.mutation.SortOrderCleared() {
+		_spec.ClearField(position.FieldSortOrder, field.TypeInt32)
+	}
 	if value, ok := _u.mutation.Remark(); ok {
 		_spec.SetField(position.FieldRemark, field.TypeString, value)
 	}
@@ -1230,15 +1239,6 @@ func (_u *PositionUpdateOne) sqlSave(ctx context.Context) (_node *Position, err 
 	}
 	if _u.mutation.CodeCleared() {
 		_spec.ClearField(position.FieldCode, field.TypeString)
-	}
-	if value, ok := _u.mutation.SortOrder(); ok {
-		_spec.SetField(position.FieldSortOrder, field.TypeInt32, value)
-	}
-	if value, ok := _u.mutation.AddedSortOrder(); ok {
-		_spec.AddField(position.FieldSortOrder, field.TypeInt32, value)
-	}
-	if _u.mutation.SortOrderCleared() {
-		_spec.ClearField(position.FieldSortOrder, field.TypeInt32)
 	}
 	if value, ok := _u.mutation.OrganizationID(); ok {
 		_spec.SetField(position.FieldOrganizationID, field.TypeUint32, value)

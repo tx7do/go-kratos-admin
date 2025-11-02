@@ -104,17 +104,9 @@ export const organizationStatusList = computed(() => [
  * @param status 状态值
  */
 export function organizationStatusToName(status: any) {
-  switch (status) {
-    case Organization_Status.OFF: {
-      return $t('enum.status.OFF');
-    }
-    case Organization_Status.ON: {
-      return $t('enum.status.ON');
-    }
-    default: {
-      return '';
-    }
-  }
+  const values = organizationStatusList.value;
+  const matchedItem = values.find((item) => item.value === status);
+  return matchedItem ? matchedItem.label : '';
 }
 
 /**
@@ -181,23 +173,9 @@ export const organizationTypeListForQuery = computed(() => [
  * @param organizationType
  */
 export function organizationTypeToName(organizationType: any) {
-  switch (organizationType) {
-    case Organization_Type.DIVISION: {
-      return $t('enum.organizationType.DIVISION');
-    }
-    case Organization_Type.FILIALE: {
-      return $t('enum.organizationType.FILIALE');
-    }
-    case Organization_Type.GROUP: {
-      return $t('enum.organizationType.GROUP');
-    }
-    case Organization_Type.SUBSIDIARY: {
-      return $t('enum.organizationType.SUBSIDIARY');
-    }
-    default: {
-      return '';
-    }
-  }
+  const values = organizationTypeList.value;
+  const matchedItem = values.find((item) => item.value === organizationType);
+  return matchedItem ? matchedItem.label : '';
 }
 
 /**

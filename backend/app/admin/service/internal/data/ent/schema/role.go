@@ -4,7 +4,6 @@ import (
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/entsql"
 	"entgo.io/ent/schema"
-	"entgo.io/ent/schema/edge"
 	"entgo.io/ent/schema/field"
 	"entgo.io/ent/schema/index"
 	"github.com/tx7do/go-utils/entgo/mixin"
@@ -32,26 +31,13 @@ func (Role) Fields() []ent.Field {
 	return []ent.Field{
 		field.String("name").
 			Comment("角色名称").
-			//Unique().
 			NotEmpty().
 			Optional().
 			Nillable(),
 
 		field.String("code").
 			Comment("角色标识").
-			//Unique().
 			NotEmpty().
-			Optional().
-			Nillable(),
-
-		field.Uint32("parent_id").
-			Comment("上一层角色ID").
-			Nillable().
-			Optional(),
-
-		field.Int32("sort_order").
-			Comment("排序顺序，值越小越靠前").
-			Default(0).
 			Optional().
 			Nillable(),
 
@@ -96,6 +82,8 @@ func (Role) Mixin() []ent.Mixin {
 		mixin.TimeAt{},
 		mixin.OperatorID{},
 		mixin.Remark{},
+		mixin.SortOrder{},
+		mixin.Tree[Role]{},
 		mixin.TenantID{},
 	}
 }
@@ -105,14 +93,5 @@ func (Role) Indexes() []ent.Index {
 	return []ent.Index{
 		index.Fields("name").Unique().StorageKey("idx_sys_role_name"),
 		index.Fields("code").Unique().StorageKey("idx_sys_role_code"),
-	}
-}
-
-// Edges of the Role.
-func (Role) Edges() []ent.Edge {
-	return []ent.Edge{
-		edge.
-			To("children", Role.Type).
-			From("parent").Unique().Field("parent_id"),
 	}
 }

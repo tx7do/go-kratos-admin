@@ -95,6 +95,8 @@ function setupAccessGuard(router: Router) {
     const userInfo = userStore.userInfo || (await authStore.fetchUserInfo());
     const userRoles = userInfo ? (userInfo.roles ?? []) : [];
 
+    userStore.setUserInfo(userInfo);
+
     // 生成菜单和路由
     const { accessibleMenus, accessibleRoutes } = await generateAccess({
       roles: userRoles,

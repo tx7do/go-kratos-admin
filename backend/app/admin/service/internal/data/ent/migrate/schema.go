@@ -135,15 +135,15 @@ var (
 		{Name: "created_by", Type: field.TypeUint32, Nullable: true, Comment: "创建者ID"},
 		{Name: "updated_by", Type: field.TypeUint32, Nullable: true, Comment: "更新者ID"},
 		{Name: "deleted_by", Type: field.TypeUint32, Nullable: true, Comment: "删除者ID"},
+		{Name: "sort_order", Type: field.TypeInt32, Nullable: true, Comment: "排序顺序，值越小越靠前", Default: 0},
 		{Name: "remark", Type: field.TypeString, Nullable: true, Comment: "备注"},
 		{Name: "tenant_id", Type: field.TypeUint32, Nullable: true, Comment: "租户ID"},
 		{Name: "name", Type: field.TypeString, Nullable: true, Comment: "部门名称"},
 		{Name: "organization_id", Type: field.TypeUint32, Comment: "所属组织ID"},
 		{Name: "manager_id", Type: field.TypeUint32, Nullable: true, Comment: "负责人ID"},
-		{Name: "sort_order", Type: field.TypeInt32, Nullable: true, Comment: "排序顺序，值越小越靠前", Default: 0},
 		{Name: "status", Type: field.TypeEnum, Nullable: true, Comment: "部门状态", Enums: []string{"ON", "OFF"}, Default: "ON"},
 		{Name: "description", Type: field.TypeString, Nullable: true, Comment: "职能描述"},
-		{Name: "parent_id", Type: field.TypeUint32, Nullable: true, Comment: "上一层部门ID"},
+		{Name: "parent_id", Type: field.TypeUint32, Nullable: true, Comment: "父节点ID"},
 	}
 	// SysDepartmentsTable holds the schema information for the "sys_departments" table.
 	SysDepartmentsTable = &schema.Table{
@@ -163,12 +163,12 @@ var (
 			{
 				Name:    "department_tenant_id",
 				Unique:  false,
-				Columns: []*schema.Column{SysDepartmentsColumns[8]},
+				Columns: []*schema.Column{SysDepartmentsColumns[9]},
 			},
 			{
 				Name:    "idx_sys_department_name",
 				Unique:  false,
-				Columns: []*schema.Column{SysDepartmentsColumns[9]},
+				Columns: []*schema.Column{SysDepartmentsColumns[10]},
 			},
 		},
 	}
@@ -300,6 +300,119 @@ var (
 			},
 		},
 	}
+	// InternalMessagesColumns holds the columns for the "internal_messages" table.
+	InternalMessagesColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeUint32, Increment: true, Comment: "id"},
+		{Name: "created_at", Type: field.TypeTime, Nullable: true, Comment: "创建时间"},
+		{Name: "updated_at", Type: field.TypeTime, Nullable: true, Comment: "更新时间"},
+		{Name: "deleted_at", Type: field.TypeTime, Nullable: true, Comment: "删除时间"},
+		{Name: "created_by", Type: field.TypeUint32, Nullable: true, Comment: "创建者ID"},
+		{Name: "updated_by", Type: field.TypeUint32, Nullable: true, Comment: "更新者ID"},
+		{Name: "deleted_by", Type: field.TypeUint32, Nullable: true, Comment: "删除者ID"},
+		{Name: "tenant_id", Type: field.TypeUint32, Nullable: true, Comment: "租户ID"},
+		{Name: "title", Type: field.TypeString, Nullable: true, Comment: "消息标题"},
+		{Name: "content", Type: field.TypeString, Nullable: true, Comment: "消息内容"},
+		{Name: "sender_id", Type: field.TypeUint32, Nullable: true, Comment: "发送者用户ID"},
+		{Name: "category_id", Type: field.TypeUint32, Nullable: true, Comment: "分类ID"},
+		{Name: "status", Type: field.TypeEnum, Nullable: true, Comment: "消息状态", Enums: []string{"DRAFT", "PUBLISHED", "SCHEDULED", "REVOKED", "ARCHIVED", "DELETED"}, Default: "DRAFT"},
+		{Name: "type", Type: field.TypeEnum, Nullable: true, Comment: "消息类型", Enums: []string{"NOTIFICATION", "PRIVATE", "GROUP"}, Default: "NOTIFICATION"},
+	}
+	// InternalMessagesTable holds the schema information for the "internal_messages" table.
+	InternalMessagesTable = &schema.Table{
+		Name:       "internal_messages",
+		Comment:    "站内信消息表",
+		Columns:    InternalMessagesColumns,
+		PrimaryKey: []*schema.Column{InternalMessagesColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "internalmessage_tenant_id",
+				Unique:  false,
+				Columns: []*schema.Column{InternalMessagesColumns[7]},
+			},
+		},
+	}
+	// InternalMessageCategoriesColumns holds the columns for the "internal_message_categories" table.
+	InternalMessageCategoriesColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeUint32, Increment: true, Comment: "id"},
+		{Name: "created_at", Type: field.TypeTime, Nullable: true, Comment: "创建时间"},
+		{Name: "updated_at", Type: field.TypeTime, Nullable: true, Comment: "更新时间"},
+		{Name: "deleted_at", Type: field.TypeTime, Nullable: true, Comment: "删除时间"},
+		{Name: "created_by", Type: field.TypeUint32, Nullable: true, Comment: "创建者ID"},
+		{Name: "updated_by", Type: field.TypeUint32, Nullable: true, Comment: "更新者ID"},
+		{Name: "deleted_by", Type: field.TypeUint32, Nullable: true, Comment: "删除者ID"},
+		{Name: "is_enabled", Type: field.TypeBool, Nullable: true, Comment: "是否启用", Default: true},
+		{Name: "sort_order", Type: field.TypeInt32, Nullable: true, Comment: "排序顺序，值越小越靠前", Default: 0},
+		{Name: "remark", Type: field.TypeString, Nullable: true, Comment: "备注"},
+		{Name: "tenant_id", Type: field.TypeUint32, Nullable: true, Comment: "租户ID"},
+		{Name: "name", Type: field.TypeString, Nullable: true, Comment: "名称"},
+		{Name: "code", Type: field.TypeString, Nullable: true, Comment: "编码"},
+		{Name: "icon_url", Type: field.TypeString, Nullable: true, Comment: "图标URL"},
+		{Name: "parent_id", Type: field.TypeUint32, Nullable: true, Comment: "父节点ID"},
+	}
+	// InternalMessageCategoriesTable holds the schema information for the "internal_message_categories" table.
+	InternalMessageCategoriesTable = &schema.Table{
+		Name:       "internal_message_categories",
+		Comment:    "站内信消息分类表",
+		Columns:    InternalMessageCategoriesColumns,
+		PrimaryKey: []*schema.Column{InternalMessageCategoriesColumns[0]},
+		ForeignKeys: []*schema.ForeignKey{
+			{
+				Symbol:     "internal_message_categories_internal_message_categories_children",
+				Columns:    []*schema.Column{InternalMessageCategoriesColumns[14]},
+				RefColumns: []*schema.Column{InternalMessageCategoriesColumns[0]},
+				OnDelete:   schema.SetNull,
+			},
+		},
+		Indexes: []*schema.Index{
+			{
+				Name:    "internalmessagecategory_is_enabled",
+				Unique:  false,
+				Columns: []*schema.Column{InternalMessageCategoriesColumns[7]},
+			},
+			{
+				Name:    "internalmessagecategory_tenant_id",
+				Unique:  false,
+				Columns: []*schema.Column{InternalMessageCategoriesColumns[10]},
+			},
+			{
+				Name:    "idx_internal_message_category_code",
+				Unique:  true,
+				Columns: []*schema.Column{InternalMessageCategoriesColumns[12]},
+			},
+			{
+				Name:    "idx_internal_message_category_name",
+				Unique:  false,
+				Columns: []*schema.Column{InternalMessageCategoriesColumns[11]},
+			},
+		},
+	}
+	// InternalMessageRecipientsColumns holds the columns for the "internal_message_recipients" table.
+	InternalMessageRecipientsColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeUint32, Increment: true, Comment: "id"},
+		{Name: "created_at", Type: field.TypeTime, Nullable: true, Comment: "创建时间"},
+		{Name: "updated_at", Type: field.TypeTime, Nullable: true, Comment: "更新时间"},
+		{Name: "deleted_at", Type: field.TypeTime, Nullable: true, Comment: "删除时间"},
+		{Name: "tenant_id", Type: field.TypeUint32, Nullable: true, Comment: "租户ID"},
+		{Name: "message_id", Type: field.TypeUint32, Nullable: true, Comment: "站内信内容ID"},
+		{Name: "recipient_user_id", Type: field.TypeUint32, Nullable: true, Comment: "接收者用户ID"},
+		{Name: "status", Type: field.TypeEnum, Nullable: true, Comment: "消息状态", Enums: []string{"SENT", "RECEIVED", "READ", "REVOKED", "DELETED"}},
+		{Name: "received_at", Type: field.TypeTime, Nullable: true, Comment: "消息到达用户收件箱的时间"},
+		{Name: "read_at", Type: field.TypeTime, Nullable: true, Comment: "用户阅读消息的时间"},
+	}
+	// InternalMessageRecipientsTable holds the schema information for the "internal_message_recipients" table.
+	InternalMessageRecipientsTable = &schema.Table{
+		Name:       "internal_message_recipients",
+		Comment:    "站内信消息用户接收信息表",
+		Columns:    InternalMessageRecipientsColumns,
+		PrimaryKey: []*schema.Column{InternalMessageRecipientsColumns[0]},
+		Indexes: []*schema.Index{
+			{
+				Name:    "internalmessagerecipient_tenant_id",
+				Unique:  false,
+				Columns: []*schema.Column{InternalMessageRecipientsColumns[4]},
+			},
+		},
+	}
 	// SysLanguagesColumns holds the columns for the "sys_languages" table.
 	SysLanguagesColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeUint32, Increment: true, Comment: "id"},
@@ -348,7 +461,7 @@ var (
 		{Name: "name", Type: field.TypeString, Nullable: true, Comment: "路由命名，然后我们可以使用 name 而不是 path 来传递 to 属性给 <router-link>。"},
 		{Name: "component", Type: field.TypeString, Nullable: true, Comment: "前端页面组件", Default: ""},
 		{Name: "meta", Type: field.TypeJSON, Nullable: true, Comment: "前端页面组件"},
-		{Name: "parent_id", Type: field.TypeUint32, Nullable: true, Comment: "上一层菜单ID"},
+		{Name: "parent_id", Type: field.TypeUint32, Nullable: true, Comment: "父节点ID"},
 	}
 	// SysMenusTable holds the schema information for the "sys_menus" table.
 	SysMenusTable = &schema.Table{
@@ -365,109 +478,6 @@ var (
 			},
 		},
 	}
-	// NotificationMessagesColumns holds the columns for the "notification_messages" table.
-	NotificationMessagesColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeUint32, Increment: true, Comment: "id"},
-		{Name: "created_at", Type: field.TypeTime, Nullable: true, Comment: "创建时间"},
-		{Name: "updated_at", Type: field.TypeTime, Nullable: true, Comment: "更新时间"},
-		{Name: "deleted_at", Type: field.TypeTime, Nullable: true, Comment: "删除时间"},
-		{Name: "created_by", Type: field.TypeUint32, Nullable: true, Comment: "创建者ID"},
-		{Name: "updated_by", Type: field.TypeUint32, Nullable: true, Comment: "更新者ID"},
-		{Name: "deleted_by", Type: field.TypeUint32, Nullable: true, Comment: "删除者ID"},
-		{Name: "tenant_id", Type: field.TypeUint32, Nullable: true, Comment: "租户ID"},
-		{Name: "subject", Type: field.TypeString, Nullable: true, Comment: "主题"},
-		{Name: "content", Type: field.TypeString, Nullable: true, Comment: "内容"},
-		{Name: "category_id", Type: field.TypeUint32, Nullable: true, Comment: "分类ID"},
-		{Name: "status", Type: field.TypeEnum, Nullable: true, Comment: "消息状态", Enums: []string{"UNKNOWN", "DRAFT", "PUBLISHED", "SCHEDULED", "REVOKED", "ARCHIVED", "DELETED"}, Default: "DRAFT"},
-	}
-	// NotificationMessagesTable holds the schema information for the "notification_messages" table.
-	NotificationMessagesTable = &schema.Table{
-		Name:       "notification_messages",
-		Comment:    "站内信通知消息表",
-		Columns:    NotificationMessagesColumns,
-		PrimaryKey: []*schema.Column{NotificationMessagesColumns[0]},
-		Indexes: []*schema.Index{
-			{
-				Name:    "notificationmessage_tenant_id",
-				Unique:  false,
-				Columns: []*schema.Column{NotificationMessagesColumns[7]},
-			},
-		},
-	}
-	// NotificationMessageCategoriesColumns holds the columns for the "notification_message_categories" table.
-	NotificationMessageCategoriesColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeUint32, Increment: true, Comment: "id"},
-		{Name: "created_at", Type: field.TypeTime, Nullable: true, Comment: "创建时间"},
-		{Name: "updated_at", Type: field.TypeTime, Nullable: true, Comment: "更新时间"},
-		{Name: "deleted_at", Type: field.TypeTime, Nullable: true, Comment: "删除时间"},
-		{Name: "created_by", Type: field.TypeUint32, Nullable: true, Comment: "创建者ID"},
-		{Name: "updated_by", Type: field.TypeUint32, Nullable: true, Comment: "更新者ID"},
-		{Name: "deleted_by", Type: field.TypeUint32, Nullable: true, Comment: "删除者ID"},
-		{Name: "remark", Type: field.TypeString, Nullable: true, Comment: "备注"},
-		{Name: "tenant_id", Type: field.TypeUint32, Nullable: true, Comment: "租户ID"},
-		{Name: "name", Type: field.TypeString, Nullable: true, Comment: "名称"},
-		{Name: "code", Type: field.TypeString, Nullable: true, Comment: "编码"},
-		{Name: "sort_order", Type: field.TypeInt32, Nullable: true, Comment: "排序顺序，值越小越靠前", Default: 0},
-		{Name: "enable", Type: field.TypeBool, Nullable: true, Comment: "是否启用"},
-		{Name: "parent_id", Type: field.TypeUint32, Nullable: true, Comment: "父节点ID"},
-	}
-	// NotificationMessageCategoriesTable holds the schema information for the "notification_message_categories" table.
-	NotificationMessageCategoriesTable = &schema.Table{
-		Name:       "notification_message_categories",
-		Comment:    "站内信通知消息分类表",
-		Columns:    NotificationMessageCategoriesColumns,
-		PrimaryKey: []*schema.Column{NotificationMessageCategoriesColumns[0]},
-		ForeignKeys: []*schema.ForeignKey{
-			{
-				Symbol:     "notification_message_categories_notification_message_categories_children",
-				Columns:    []*schema.Column{NotificationMessageCategoriesColumns[13]},
-				RefColumns: []*schema.Column{NotificationMessageCategoriesColumns[0]},
-				OnDelete:   schema.SetNull,
-			},
-		},
-		Indexes: []*schema.Index{
-			{
-				Name:    "notificationmessagecategory_tenant_id",
-				Unique:  false,
-				Columns: []*schema.Column{NotificationMessageCategoriesColumns[8]},
-			},
-			{
-				Name:    "idx_notification_message_category_code",
-				Unique:  true,
-				Columns: []*schema.Column{NotificationMessageCategoriesColumns[10]},
-			},
-			{
-				Name:    "idx_notification_message_category_name",
-				Unique:  false,
-				Columns: []*schema.Column{NotificationMessageCategoriesColumns[9]},
-			},
-		},
-	}
-	// NotificationMessageRecipientsColumns holds the columns for the "notification_message_recipients" table.
-	NotificationMessageRecipientsColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeUint32, Increment: true, Comment: "id"},
-		{Name: "created_at", Type: field.TypeTime, Nullable: true, Comment: "创建时间"},
-		{Name: "updated_at", Type: field.TypeTime, Nullable: true, Comment: "更新时间"},
-		{Name: "deleted_at", Type: field.TypeTime, Nullable: true, Comment: "删除时间"},
-		{Name: "tenant_id", Type: field.TypeUint32, Nullable: true, Comment: "租户ID"},
-		{Name: "message_id", Type: field.TypeUint32, Nullable: true, Comment: "群发消息ID"},
-		{Name: "recipient_id", Type: field.TypeUint32, Nullable: true, Comment: "接收者用户ID"},
-		{Name: "status", Type: field.TypeEnum, Nullable: true, Comment: "消息状态", Enums: []string{"UNKNOWN", "RECEIVED", "READ", "ARCHIVED", "DELETED"}},
-	}
-	// NotificationMessageRecipientsTable holds the schema information for the "notification_message_recipients" table.
-	NotificationMessageRecipientsTable = &schema.Table{
-		Name:       "notification_message_recipients",
-		Comment:    "站内信通知消息接收者表",
-		Columns:    NotificationMessageRecipientsColumns,
-		PrimaryKey: []*schema.Column{NotificationMessageRecipientsColumns[0]},
-		Indexes: []*schema.Index{
-			{
-				Name:    "notificationmessagerecipient_tenant_id",
-				Unique:  false,
-				Columns: []*schema.Column{NotificationMessageRecipientsColumns[4]},
-			},
-		},
-	}
 	// SysOrganizationsColumns holds the columns for the "sys_organizations" table.
 	SysOrganizationsColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeUint32, Increment: true, Comment: "id"},
@@ -478,9 +488,9 @@ var (
 		{Name: "updated_by", Type: field.TypeUint32, Nullable: true, Comment: "更新者ID"},
 		{Name: "deleted_by", Type: field.TypeUint32, Nullable: true, Comment: "删除者ID"},
 		{Name: "remark", Type: field.TypeString, Nullable: true, Comment: "备注"},
+		{Name: "sort_order", Type: field.TypeInt32, Nullable: true, Comment: "排序顺序，值越小越靠前", Default: 0},
 		{Name: "tenant_id", Type: field.TypeUint32, Nullable: true, Comment: "租户ID"},
 		{Name: "name", Type: field.TypeString, Nullable: true, Comment: "组织名称"},
-		{Name: "sort_order", Type: field.TypeInt32, Nullable: true, Comment: "排序顺序，值越小越靠前", Default: 0},
 		{Name: "status", Type: field.TypeEnum, Nullable: true, Comment: "组织状态", Enums: []string{"ON", "OFF"}, Default: "ON"},
 		{Name: "organization_type", Type: field.TypeEnum, Nullable: true, Comment: "组织类型", Enums: []string{"GROUP", "SUBSIDIARY", "FILIALE", "DIVISION"}},
 		{Name: "credit_code", Type: field.TypeString, Nullable: true, Comment: "统一社会信用代码"},
@@ -488,7 +498,7 @@ var (
 		{Name: "business_scope", Type: field.TypeString, Nullable: true, Comment: "核心业务范围"},
 		{Name: "is_legal_entity", Type: field.TypeBool, Nullable: true, Comment: "是否法人实体"},
 		{Name: "manager_id", Type: field.TypeUint32, Nullable: true, Comment: "负责人ID"},
-		{Name: "parent_id", Type: field.TypeUint32, Nullable: true, Comment: "上一层组织ID"},
+		{Name: "parent_id", Type: field.TypeUint32, Nullable: true, Comment: "父节点ID"},
 	}
 	// SysOrganizationsTable holds the schema information for the "sys_organizations" table.
 	SysOrganizationsTable = &schema.Table{
@@ -508,12 +518,12 @@ var (
 			{
 				Name:    "organization_tenant_id",
 				Unique:  false,
-				Columns: []*schema.Column{SysOrganizationsColumns[8]},
+				Columns: []*schema.Column{SysOrganizationsColumns[9]},
 			},
 			{
 				Name:    "idx_sys_organization_name",
 				Unique:  false,
-				Columns: []*schema.Column{SysOrganizationsColumns[9]},
+				Columns: []*schema.Column{SysOrganizationsColumns[10]},
 			},
 		},
 	}
@@ -526,17 +536,17 @@ var (
 		{Name: "created_by", Type: field.TypeUint32, Nullable: true, Comment: "创建者ID"},
 		{Name: "updated_by", Type: field.TypeUint32, Nullable: true, Comment: "更新者ID"},
 		{Name: "deleted_by", Type: field.TypeUint32, Nullable: true, Comment: "删除者ID"},
+		{Name: "sort_order", Type: field.TypeInt32, Nullable: true, Comment: "排序顺序，值越小越靠前", Default: 0},
 		{Name: "remark", Type: field.TypeString, Nullable: true, Comment: "备注"},
 		{Name: "tenant_id", Type: field.TypeUint32, Nullable: true, Comment: "租户ID"},
 		{Name: "name", Type: field.TypeString, Nullable: true, Comment: "职位名称"},
 		{Name: "code", Type: field.TypeString, Nullable: true, Comment: "唯一编码"},
-		{Name: "sort_order", Type: field.TypeInt32, Nullable: true, Comment: "排序顺序，值越小越靠前", Default: 0},
 		{Name: "organization_id", Type: field.TypeUint32, Comment: "所属组织ID"},
 		{Name: "department_id", Type: field.TypeUint32, Comment: "所属部门ID"},
 		{Name: "status", Type: field.TypeEnum, Nullable: true, Comment: "职位状态", Enums: []string{"ON", "OFF"}, Default: "ON"},
 		{Name: "description", Type: field.TypeString, Nullable: true, Comment: "职能描述"},
 		{Name: "quota", Type: field.TypeUint32, Nullable: true, Comment: "编制人数"},
-		{Name: "parent_id", Type: field.TypeUint32, Nullable: true, Comment: "上一层职位ID"},
+		{Name: "parent_id", Type: field.TypeUint32, Nullable: true, Comment: "父节点ID"},
 	}
 	// SysPositionsTable holds the schema information for the "sys_positions" table.
 	SysPositionsTable = &schema.Table{
@@ -556,44 +566,17 @@ var (
 			{
 				Name:    "position_tenant_id",
 				Unique:  false,
-				Columns: []*schema.Column{SysPositionsColumns[8]},
+				Columns: []*schema.Column{SysPositionsColumns[9]},
 			},
 			{
 				Name:    "idx_sys_position_code",
 				Unique:  true,
-				Columns: []*schema.Column{SysPositionsColumns[10]},
+				Columns: []*schema.Column{SysPositionsColumns[11]},
 			},
 			{
 				Name:    "idx_sys_position_name",
 				Unique:  false,
-				Columns: []*schema.Column{SysPositionsColumns[9]},
-			},
-		},
-	}
-	// PrivateMessagesColumns holds the columns for the "private_messages" table.
-	PrivateMessagesColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeUint32, Increment: true, Comment: "id"},
-		{Name: "created_at", Type: field.TypeTime, Nullable: true, Comment: "创建时间"},
-		{Name: "updated_at", Type: field.TypeTime, Nullable: true, Comment: "更新时间"},
-		{Name: "deleted_at", Type: field.TypeTime, Nullable: true, Comment: "删除时间"},
-		{Name: "tenant_id", Type: field.TypeUint32, Nullable: true, Comment: "租户ID"},
-		{Name: "subject", Type: field.TypeString, Nullable: true, Comment: "主题"},
-		{Name: "content", Type: field.TypeString, Nullable: true, Comment: "内容"},
-		{Name: "status", Type: field.TypeEnum, Nullable: true, Comment: "消息状态", Enums: []string{"UNKNOWN", "DRAFT", "SENT", "RECEIVED", "READ", "ARCHIVED", "DELETED"}},
-		{Name: "sender_id", Type: field.TypeUint32, Nullable: true, Comment: "发送者用户ID"},
-		{Name: "receiver_id", Type: field.TypeUint32, Nullable: true, Comment: "接收者用户ID"},
-	}
-	// PrivateMessagesTable holds the schema information for the "private_messages" table.
-	PrivateMessagesTable = &schema.Table{
-		Name:       "private_messages",
-		Comment:    "站内信私信消息表",
-		Columns:    PrivateMessagesColumns,
-		PrimaryKey: []*schema.Column{PrivateMessagesColumns[0]},
-		Indexes: []*schema.Index{
-			{
-				Name:    "privatemessage_tenant_id",
-				Unique:  false,
-				Columns: []*schema.Column{PrivateMessagesColumns[4]},
+				Columns: []*schema.Column{SysPositionsColumns[10]},
 			},
 		},
 	}
@@ -607,15 +590,15 @@ var (
 		{Name: "updated_by", Type: field.TypeUint32, Nullable: true, Comment: "更新者ID"},
 		{Name: "deleted_by", Type: field.TypeUint32, Nullable: true, Comment: "删除者ID"},
 		{Name: "remark", Type: field.TypeString, Nullable: true, Comment: "备注"},
+		{Name: "sort_order", Type: field.TypeInt32, Nullable: true, Comment: "排序顺序，值越小越靠前", Default: 0},
 		{Name: "tenant_id", Type: field.TypeUint32, Nullable: true, Comment: "租户ID"},
 		{Name: "name", Type: field.TypeString, Nullable: true, Comment: "角色名称"},
 		{Name: "code", Type: field.TypeString, Nullable: true, Comment: "角色标识"},
-		{Name: "sort_order", Type: field.TypeInt32, Nullable: true, Comment: "排序顺序，值越小越靠前", Default: 0},
 		{Name: "menus", Type: field.TypeJSON, Nullable: true, Comment: "分配的菜单列表"},
 		{Name: "apis", Type: field.TypeJSON, Nullable: true, Comment: "分配的API列表"},
 		{Name: "data_scope", Type: field.TypeEnum, Nullable: true, Comment: "数据权限范围", Enums: []string{"ALL", "CUSTOM", "SELF", "ORG", "ORG_AND_CHILD", "DEPT", "DEPT_AND_CHILD"}},
 		{Name: "status", Type: field.TypeEnum, Nullable: true, Comment: "角色状态", Enums: []string{"ON", "OFF"}, Default: "ON"},
-		{Name: "parent_id", Type: field.TypeUint32, Nullable: true, Comment: "上一层角色ID"},
+		{Name: "parent_id", Type: field.TypeUint32, Nullable: true, Comment: "父节点ID"},
 	}
 	// SysRolesTable holds the schema information for the "sys_roles" table.
 	SysRolesTable = &schema.Table{
@@ -635,17 +618,17 @@ var (
 			{
 				Name:    "role_tenant_id",
 				Unique:  false,
-				Columns: []*schema.Column{SysRolesColumns[8]},
+				Columns: []*schema.Column{SysRolesColumns[9]},
 			},
 			{
 				Name:    "idx_sys_role_name",
 				Unique:  true,
-				Columns: []*schema.Column{SysRolesColumns[9]},
+				Columns: []*schema.Column{SysRolesColumns[10]},
 			},
 			{
 				Name:    "idx_sys_role_code",
 				Unique:  true,
-				Columns: []*schema.Column{SysRolesColumns[10]},
+				Columns: []*schema.Column{SysRolesColumns[11]},
 			},
 		},
 	}
@@ -1085,14 +1068,13 @@ var (
 		SysDictEntriesTable,
 		SysDictTypesTable,
 		FilesTable,
+		InternalMessagesTable,
+		InternalMessageCategoriesTable,
+		InternalMessageRecipientsTable,
 		SysLanguagesTable,
 		SysMenusTable,
-		NotificationMessagesTable,
-		NotificationMessageCategoriesTable,
-		NotificationMessageRecipientsTable,
 		SysOrganizationsTable,
 		SysPositionsTable,
-		PrivateMessagesTable,
 		SysRolesTable,
 		SysRoleAPITable,
 		SysRoleDeptTable,
@@ -1151,6 +1133,22 @@ func init() {
 		Charset:   "utf8mb4",
 		Collation: "utf8mb4_bin",
 	}
+	InternalMessagesTable.Annotation = &entsql.Annotation{
+		Table:     "internal_messages",
+		Charset:   "utf8mb4",
+		Collation: "utf8mb4_bin",
+	}
+	InternalMessageCategoriesTable.ForeignKeys[0].RefTable = InternalMessageCategoriesTable
+	InternalMessageCategoriesTable.Annotation = &entsql.Annotation{
+		Table:     "internal_message_categories",
+		Charset:   "utf8mb4",
+		Collation: "utf8mb4_bin",
+	}
+	InternalMessageRecipientsTable.Annotation = &entsql.Annotation{
+		Table:     "internal_message_recipients",
+		Charset:   "utf8mb4",
+		Collation: "utf8mb4_bin",
+	}
 	SysLanguagesTable.Annotation = &entsql.Annotation{
 		Table:     "sys_languages",
 		Charset:   "utf8mb4",
@@ -1159,22 +1157,6 @@ func init() {
 	SysMenusTable.ForeignKeys[0].RefTable = SysMenusTable
 	SysMenusTable.Annotation = &entsql.Annotation{
 		Table:     "sys_menus",
-		Charset:   "utf8mb4",
-		Collation: "utf8mb4_bin",
-	}
-	NotificationMessagesTable.Annotation = &entsql.Annotation{
-		Table:     "notification_messages",
-		Charset:   "utf8mb4",
-		Collation: "utf8mb4_bin",
-	}
-	NotificationMessageCategoriesTable.ForeignKeys[0].RefTable = NotificationMessageCategoriesTable
-	NotificationMessageCategoriesTable.Annotation = &entsql.Annotation{
-		Table:     "notification_message_categories",
-		Charset:   "utf8mb4",
-		Collation: "utf8mb4_bin",
-	}
-	NotificationMessageRecipientsTable.Annotation = &entsql.Annotation{
-		Table:     "notification_message_recipients",
 		Charset:   "utf8mb4",
 		Collation: "utf8mb4_bin",
 	}
@@ -1187,11 +1169,6 @@ func init() {
 	SysPositionsTable.ForeignKeys[0].RefTable = SysPositionsTable
 	SysPositionsTable.Annotation = &entsql.Annotation{
 		Table:     "sys_positions",
-		Charset:   "utf8mb4",
-		Collation: "utf8mb4_bin",
-	}
-	PrivateMessagesTable.Annotation = &entsql.Annotation{
-		Table:     "private_messages",
 		Charset:   "utf8mb4",
 		Collation: "utf8mb4_bin",
 	}

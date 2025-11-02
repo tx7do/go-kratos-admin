@@ -106,6 +106,20 @@ func (_c *PositionCreate) SetNillableDeletedBy(v *uint32) *PositionCreate {
 	return _c
 }
 
+// SetSortOrder sets the "sort_order" field.
+func (_c *PositionCreate) SetSortOrder(v int32) *PositionCreate {
+	_c.mutation.SetSortOrder(v)
+	return _c
+}
+
+// SetNillableSortOrder sets the "sort_order" field if the given value is not nil.
+func (_c *PositionCreate) SetNillableSortOrder(v *int32) *PositionCreate {
+	if v != nil {
+		_c.SetSortOrder(*v)
+	}
+	return _c
+}
+
 // SetRemark sets the "remark" field.
 func (_c *PositionCreate) SetRemark(v string) *PositionCreate {
 	_c.mutation.SetRemark(v)
@@ -116,6 +130,20 @@ func (_c *PositionCreate) SetRemark(v string) *PositionCreate {
 func (_c *PositionCreate) SetNillableRemark(v *string) *PositionCreate {
 	if v != nil {
 		_c.SetRemark(*v)
+	}
+	return _c
+}
+
+// SetParentID sets the "parent_id" field.
+func (_c *PositionCreate) SetParentID(v uint32) *PositionCreate {
+	_c.mutation.SetParentID(v)
+	return _c
+}
+
+// SetNillableParentID sets the "parent_id" field if the given value is not nil.
+func (_c *PositionCreate) SetNillableParentID(v *uint32) *PositionCreate {
+	if v != nil {
+		_c.SetParentID(*v)
 	}
 	return _c
 }
@@ -158,34 +186,6 @@ func (_c *PositionCreate) SetCode(v string) *PositionCreate {
 func (_c *PositionCreate) SetNillableCode(v *string) *PositionCreate {
 	if v != nil {
 		_c.SetCode(*v)
-	}
-	return _c
-}
-
-// SetParentID sets the "parent_id" field.
-func (_c *PositionCreate) SetParentID(v uint32) *PositionCreate {
-	_c.mutation.SetParentID(v)
-	return _c
-}
-
-// SetNillableParentID sets the "parent_id" field if the given value is not nil.
-func (_c *PositionCreate) SetNillableParentID(v *uint32) *PositionCreate {
-	if v != nil {
-		_c.SetParentID(*v)
-	}
-	return _c
-}
-
-// SetSortOrder sets the "sort_order" field.
-func (_c *PositionCreate) SetSortOrder(v int32) *PositionCreate {
-	_c.mutation.SetSortOrder(v)
-	return _c
-}
-
-// SetNillableSortOrder sets the "sort_order" field if the given value is not nil.
-func (_c *PositionCreate) SetNillableSortOrder(v *int32) *PositionCreate {
-	if v != nil {
-		_c.SetSortOrder(*v)
 	}
 	return _c
 }
@@ -400,6 +400,10 @@ func (_c *PositionCreate) createSpec() (*Position, *sqlgraph.CreateSpec) {
 		_spec.SetField(position.FieldDeletedBy, field.TypeUint32, value)
 		_node.DeletedBy = &value
 	}
+	if value, ok := _c.mutation.SortOrder(); ok {
+		_spec.SetField(position.FieldSortOrder, field.TypeInt32, value)
+		_node.SortOrder = &value
+	}
 	if value, ok := _c.mutation.Remark(); ok {
 		_spec.SetField(position.FieldRemark, field.TypeString, value)
 		_node.Remark = &value
@@ -415,10 +419,6 @@ func (_c *PositionCreate) createSpec() (*Position, *sqlgraph.CreateSpec) {
 	if value, ok := _c.mutation.Code(); ok {
 		_spec.SetField(position.FieldCode, field.TypeString, value)
 		_node.Code = &value
-	}
-	if value, ok := _c.mutation.SortOrder(); ok {
-		_spec.SetField(position.FieldSortOrder, field.TypeInt32, value)
-		_node.SortOrder = &value
 	}
 	if value, ok := _c.mutation.OrganizationID(); ok {
 		_spec.SetField(position.FieldOrganizationID, field.TypeUint32, value)
@@ -633,6 +633,30 @@ func (u *PositionUpsert) ClearDeletedBy() *PositionUpsert {
 	return u
 }
 
+// SetSortOrder sets the "sort_order" field.
+func (u *PositionUpsert) SetSortOrder(v int32) *PositionUpsert {
+	u.Set(position.FieldSortOrder, v)
+	return u
+}
+
+// UpdateSortOrder sets the "sort_order" field to the value that was provided on create.
+func (u *PositionUpsert) UpdateSortOrder() *PositionUpsert {
+	u.SetExcluded(position.FieldSortOrder)
+	return u
+}
+
+// AddSortOrder adds v to the "sort_order" field.
+func (u *PositionUpsert) AddSortOrder(v int32) *PositionUpsert {
+	u.Add(position.FieldSortOrder, v)
+	return u
+}
+
+// ClearSortOrder clears the value of the "sort_order" field.
+func (u *PositionUpsert) ClearSortOrder() *PositionUpsert {
+	u.SetNull(position.FieldSortOrder)
+	return u
+}
+
 // SetRemark sets the "remark" field.
 func (u *PositionUpsert) SetRemark(v string) *PositionUpsert {
 	u.Set(position.FieldRemark, v)
@@ -648,6 +672,24 @@ func (u *PositionUpsert) UpdateRemark() *PositionUpsert {
 // ClearRemark clears the value of the "remark" field.
 func (u *PositionUpsert) ClearRemark() *PositionUpsert {
 	u.SetNull(position.FieldRemark)
+	return u
+}
+
+// SetParentID sets the "parent_id" field.
+func (u *PositionUpsert) SetParentID(v uint32) *PositionUpsert {
+	u.Set(position.FieldParentID, v)
+	return u
+}
+
+// UpdateParentID sets the "parent_id" field to the value that was provided on create.
+func (u *PositionUpsert) UpdateParentID() *PositionUpsert {
+	u.SetExcluded(position.FieldParentID)
+	return u
+}
+
+// ClearParentID clears the value of the "parent_id" field.
+func (u *PositionUpsert) ClearParentID() *PositionUpsert {
+	u.SetNull(position.FieldParentID)
 	return u
 }
 
@@ -684,48 +726,6 @@ func (u *PositionUpsert) UpdateCode() *PositionUpsert {
 // ClearCode clears the value of the "code" field.
 func (u *PositionUpsert) ClearCode() *PositionUpsert {
 	u.SetNull(position.FieldCode)
-	return u
-}
-
-// SetParentID sets the "parent_id" field.
-func (u *PositionUpsert) SetParentID(v uint32) *PositionUpsert {
-	u.Set(position.FieldParentID, v)
-	return u
-}
-
-// UpdateParentID sets the "parent_id" field to the value that was provided on create.
-func (u *PositionUpsert) UpdateParentID() *PositionUpsert {
-	u.SetExcluded(position.FieldParentID)
-	return u
-}
-
-// ClearParentID clears the value of the "parent_id" field.
-func (u *PositionUpsert) ClearParentID() *PositionUpsert {
-	u.SetNull(position.FieldParentID)
-	return u
-}
-
-// SetSortOrder sets the "sort_order" field.
-func (u *PositionUpsert) SetSortOrder(v int32) *PositionUpsert {
-	u.Set(position.FieldSortOrder, v)
-	return u
-}
-
-// UpdateSortOrder sets the "sort_order" field to the value that was provided on create.
-func (u *PositionUpsert) UpdateSortOrder() *PositionUpsert {
-	u.SetExcluded(position.FieldSortOrder)
-	return u
-}
-
-// AddSortOrder adds v to the "sort_order" field.
-func (u *PositionUpsert) AddSortOrder(v int32) *PositionUpsert {
-	u.Add(position.FieldSortOrder, v)
-	return u
-}
-
-// ClearSortOrder clears the value of the "sort_order" field.
-func (u *PositionUpsert) ClearSortOrder() *PositionUpsert {
-	u.SetNull(position.FieldSortOrder)
 	return u
 }
 
@@ -1005,6 +1005,34 @@ func (u *PositionUpsertOne) ClearDeletedBy() *PositionUpsertOne {
 	})
 }
 
+// SetSortOrder sets the "sort_order" field.
+func (u *PositionUpsertOne) SetSortOrder(v int32) *PositionUpsertOne {
+	return u.Update(func(s *PositionUpsert) {
+		s.SetSortOrder(v)
+	})
+}
+
+// AddSortOrder adds v to the "sort_order" field.
+func (u *PositionUpsertOne) AddSortOrder(v int32) *PositionUpsertOne {
+	return u.Update(func(s *PositionUpsert) {
+		s.AddSortOrder(v)
+	})
+}
+
+// UpdateSortOrder sets the "sort_order" field to the value that was provided on create.
+func (u *PositionUpsertOne) UpdateSortOrder() *PositionUpsertOne {
+	return u.Update(func(s *PositionUpsert) {
+		s.UpdateSortOrder()
+	})
+}
+
+// ClearSortOrder clears the value of the "sort_order" field.
+func (u *PositionUpsertOne) ClearSortOrder() *PositionUpsertOne {
+	return u.Update(func(s *PositionUpsert) {
+		s.ClearSortOrder()
+	})
+}
+
 // SetRemark sets the "remark" field.
 func (u *PositionUpsertOne) SetRemark(v string) *PositionUpsertOne {
 	return u.Update(func(s *PositionUpsert) {
@@ -1023,6 +1051,27 @@ func (u *PositionUpsertOne) UpdateRemark() *PositionUpsertOne {
 func (u *PositionUpsertOne) ClearRemark() *PositionUpsertOne {
 	return u.Update(func(s *PositionUpsert) {
 		s.ClearRemark()
+	})
+}
+
+// SetParentID sets the "parent_id" field.
+func (u *PositionUpsertOne) SetParentID(v uint32) *PositionUpsertOne {
+	return u.Update(func(s *PositionUpsert) {
+		s.SetParentID(v)
+	})
+}
+
+// UpdateParentID sets the "parent_id" field to the value that was provided on create.
+func (u *PositionUpsertOne) UpdateParentID() *PositionUpsertOne {
+	return u.Update(func(s *PositionUpsert) {
+		s.UpdateParentID()
+	})
+}
+
+// ClearParentID clears the value of the "parent_id" field.
+func (u *PositionUpsertOne) ClearParentID() *PositionUpsertOne {
+	return u.Update(func(s *PositionUpsert) {
+		s.ClearParentID()
 	})
 }
 
@@ -1065,55 +1114,6 @@ func (u *PositionUpsertOne) UpdateCode() *PositionUpsertOne {
 func (u *PositionUpsertOne) ClearCode() *PositionUpsertOne {
 	return u.Update(func(s *PositionUpsert) {
 		s.ClearCode()
-	})
-}
-
-// SetParentID sets the "parent_id" field.
-func (u *PositionUpsertOne) SetParentID(v uint32) *PositionUpsertOne {
-	return u.Update(func(s *PositionUpsert) {
-		s.SetParentID(v)
-	})
-}
-
-// UpdateParentID sets the "parent_id" field to the value that was provided on create.
-func (u *PositionUpsertOne) UpdateParentID() *PositionUpsertOne {
-	return u.Update(func(s *PositionUpsert) {
-		s.UpdateParentID()
-	})
-}
-
-// ClearParentID clears the value of the "parent_id" field.
-func (u *PositionUpsertOne) ClearParentID() *PositionUpsertOne {
-	return u.Update(func(s *PositionUpsert) {
-		s.ClearParentID()
-	})
-}
-
-// SetSortOrder sets the "sort_order" field.
-func (u *PositionUpsertOne) SetSortOrder(v int32) *PositionUpsertOne {
-	return u.Update(func(s *PositionUpsert) {
-		s.SetSortOrder(v)
-	})
-}
-
-// AddSortOrder adds v to the "sort_order" field.
-func (u *PositionUpsertOne) AddSortOrder(v int32) *PositionUpsertOne {
-	return u.Update(func(s *PositionUpsert) {
-		s.AddSortOrder(v)
-	})
-}
-
-// UpdateSortOrder sets the "sort_order" field to the value that was provided on create.
-func (u *PositionUpsertOne) UpdateSortOrder() *PositionUpsertOne {
-	return u.Update(func(s *PositionUpsert) {
-		s.UpdateSortOrder()
-	})
-}
-
-// ClearSortOrder clears the value of the "sort_order" field.
-func (u *PositionUpsertOne) ClearSortOrder() *PositionUpsertOne {
-	return u.Update(func(s *PositionUpsert) {
-		s.ClearSortOrder()
 	})
 }
 
@@ -1575,6 +1575,34 @@ func (u *PositionUpsertBulk) ClearDeletedBy() *PositionUpsertBulk {
 	})
 }
 
+// SetSortOrder sets the "sort_order" field.
+func (u *PositionUpsertBulk) SetSortOrder(v int32) *PositionUpsertBulk {
+	return u.Update(func(s *PositionUpsert) {
+		s.SetSortOrder(v)
+	})
+}
+
+// AddSortOrder adds v to the "sort_order" field.
+func (u *PositionUpsertBulk) AddSortOrder(v int32) *PositionUpsertBulk {
+	return u.Update(func(s *PositionUpsert) {
+		s.AddSortOrder(v)
+	})
+}
+
+// UpdateSortOrder sets the "sort_order" field to the value that was provided on create.
+func (u *PositionUpsertBulk) UpdateSortOrder() *PositionUpsertBulk {
+	return u.Update(func(s *PositionUpsert) {
+		s.UpdateSortOrder()
+	})
+}
+
+// ClearSortOrder clears the value of the "sort_order" field.
+func (u *PositionUpsertBulk) ClearSortOrder() *PositionUpsertBulk {
+	return u.Update(func(s *PositionUpsert) {
+		s.ClearSortOrder()
+	})
+}
+
 // SetRemark sets the "remark" field.
 func (u *PositionUpsertBulk) SetRemark(v string) *PositionUpsertBulk {
 	return u.Update(func(s *PositionUpsert) {
@@ -1593,6 +1621,27 @@ func (u *PositionUpsertBulk) UpdateRemark() *PositionUpsertBulk {
 func (u *PositionUpsertBulk) ClearRemark() *PositionUpsertBulk {
 	return u.Update(func(s *PositionUpsert) {
 		s.ClearRemark()
+	})
+}
+
+// SetParentID sets the "parent_id" field.
+func (u *PositionUpsertBulk) SetParentID(v uint32) *PositionUpsertBulk {
+	return u.Update(func(s *PositionUpsert) {
+		s.SetParentID(v)
+	})
+}
+
+// UpdateParentID sets the "parent_id" field to the value that was provided on create.
+func (u *PositionUpsertBulk) UpdateParentID() *PositionUpsertBulk {
+	return u.Update(func(s *PositionUpsert) {
+		s.UpdateParentID()
+	})
+}
+
+// ClearParentID clears the value of the "parent_id" field.
+func (u *PositionUpsertBulk) ClearParentID() *PositionUpsertBulk {
+	return u.Update(func(s *PositionUpsert) {
+		s.ClearParentID()
 	})
 }
 
@@ -1635,55 +1684,6 @@ func (u *PositionUpsertBulk) UpdateCode() *PositionUpsertBulk {
 func (u *PositionUpsertBulk) ClearCode() *PositionUpsertBulk {
 	return u.Update(func(s *PositionUpsert) {
 		s.ClearCode()
-	})
-}
-
-// SetParentID sets the "parent_id" field.
-func (u *PositionUpsertBulk) SetParentID(v uint32) *PositionUpsertBulk {
-	return u.Update(func(s *PositionUpsert) {
-		s.SetParentID(v)
-	})
-}
-
-// UpdateParentID sets the "parent_id" field to the value that was provided on create.
-func (u *PositionUpsertBulk) UpdateParentID() *PositionUpsertBulk {
-	return u.Update(func(s *PositionUpsert) {
-		s.UpdateParentID()
-	})
-}
-
-// ClearParentID clears the value of the "parent_id" field.
-func (u *PositionUpsertBulk) ClearParentID() *PositionUpsertBulk {
-	return u.Update(func(s *PositionUpsert) {
-		s.ClearParentID()
-	})
-}
-
-// SetSortOrder sets the "sort_order" field.
-func (u *PositionUpsertBulk) SetSortOrder(v int32) *PositionUpsertBulk {
-	return u.Update(func(s *PositionUpsert) {
-		s.SetSortOrder(v)
-	})
-}
-
-// AddSortOrder adds v to the "sort_order" field.
-func (u *PositionUpsertBulk) AddSortOrder(v int32) *PositionUpsertBulk {
-	return u.Update(func(s *PositionUpsert) {
-		s.AddSortOrder(v)
-	})
-}
-
-// UpdateSortOrder sets the "sort_order" field to the value that was provided on create.
-func (u *PositionUpsertBulk) UpdateSortOrder() *PositionUpsertBulk {
-	return u.Update(func(s *PositionUpsert) {
-		s.UpdateSortOrder()
-	})
-}
-
-// ClearSortOrder clears the value of the "sort_order" field.
-func (u *PositionUpsertBulk) ClearSortOrder() *PositionUpsertBulk {
-	return u.Update(func(s *PositionUpsert) {
-		s.ClearSortOrder()
 	})
 }
 

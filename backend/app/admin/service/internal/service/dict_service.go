@@ -54,7 +54,7 @@ func (s *DictService) CreateDictType(ctx context.Context, req *dictV1.CreateDict
 	// 获取操作人信息
 	operator, err := auth.FromContext(ctx)
 	if err != nil {
-		return &emptypb.Empty{}, err
+		return nil, err
 	}
 
 	req.Data.CreatedBy = trans.Ptr(operator.UserId)
@@ -74,7 +74,7 @@ func (s *DictService) UpdateDictType(ctx context.Context, req *dictV1.UpdateDict
 	// 获取操作人信息
 	operator, err := auth.FromContext(ctx)
 	if err != nil {
-		return &emptypb.Empty{}, err
+		return nil, err
 	}
 
 	req.Data.UpdatedBy = trans.Ptr(operator.UserId)
@@ -106,7 +106,7 @@ func (s *DictService) CreateDictEntry(ctx context.Context, req *dictV1.CreateDic
 	// 获取操作人信息
 	operator, err := auth.FromContext(ctx)
 	if err != nil {
-		return &emptypb.Empty{}, err
+		return nil, err
 	}
 
 	req.Data.CreatedBy = trans.Ptr(operator.UserId)
@@ -126,7 +126,7 @@ func (s *DictService) UpdateDictEntry(ctx context.Context, req *dictV1.UpdateDic
 	// 获取操作人信息
 	operator, err := auth.FromContext(ctx)
 	if err != nil {
-		return &emptypb.Empty{}, err
+		return nil, err
 	}
 
 	req.Data.UpdatedBy = trans.Ptr(operator.UserId)

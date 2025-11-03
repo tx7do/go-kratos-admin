@@ -40,6 +40,9 @@ const formOptions: VbenFormProps = {
 };
 
 const gridOptions: VxeGridProps<DictEntry> = {
+  stripe: true,
+  height: 'auto',
+
   toolbarConfig: {
     custom: false,
     export: true,
@@ -47,13 +50,12 @@ const gridOptions: VxeGridProps<DictEntry> = {
     refresh: true,
     zoom: false,
   },
-  height: 'auto',
   exportConfig: {},
   pagerConfig: {},
   rowConfig: {
     isHover: true,
+    isCurrent: false,
   },
-  stripe: true,
 
   proxyConfig: {
     ajax: {

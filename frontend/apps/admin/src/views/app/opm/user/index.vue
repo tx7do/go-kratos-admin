@@ -32,6 +32,7 @@ import {
   useTenantStore,
   useUserStore,
 } from '#/stores';
+import { getRandomColor } from '#/utils/color';
 
 import UserDrawer from './user-drawer.vue';
 
@@ -213,7 +214,7 @@ const gridOptions: VxeGridProps<User> = {
   toolbarConfig: {
     custom: true,
     export: true,
-    // import: true,
+    import: false,
     refresh: true,
     zoom: true,
   },
@@ -224,12 +225,23 @@ const gridOptions: VxeGridProps<User> = {
     resizable: true,
   },
   resizableConfig: {},
+  tooltipConfig: {
+    showAll: true,
+    enterable: true,
+    contentMethod: ({ column, row }) => {
+      const { field } = column;
+      if (field === 'roleNames') {
+        return `${row[field]}`;
+      }
+      // 其余的单元格使用默认行为
+      return null;
+    },
+  },
 
   proxyConfig: {
     ajax: {
       query: async ({ page }, formValues) => {
         // console.log('query:', filters, form, formValues);
-
         return await userStore.listUser(
           false,
           page.currentPage,
@@ -371,21 +383,6 @@ async function handleDelete(row: any) {
 function handleDetail(row: any) {
   router.push(`/opm/users/detail/${row.id}`);
 }
-
-// 生成基于字符串的固定随机色（HSL模式，保证饱和度和明度适中）
-const getRandomColor = (str: string) => {
-  // 1. 基于字符串生成哈希值（确保同字符串同结果）
-  let hash = 0;
-  for (let i = 0; i < str.length; i++) {
-    hash = str.charCodeAt(i) + ((hash << 5) - hash);
-  }
-
-  // 2. 色相（0-360）：基于哈希值取随机
-  const hue = Math.abs(hash % 360);
-
-  // 3. 固定饱和度（50%）和明度（85%）：避免颜色过深/过浅，保证文字可读
-  return `hsl(${hue}, 50%, 85%)`;
-};
 </script>
 
 <template>
@@ -457,27 +454,4 @@ const getRandomColor = (str: string) => {
   </Page>
 </template>
 
-<style scoped>
-.tag-container {
-  /* 1. 启用flex布局 */
-  display: flex;
-  /* 2. 允许换行 */
-  flex-wrap: wrap;
-  /* 3. 控制标签之间的间距（水平+垂直），替代mr-1 mb-1 */
-  gap: 4px; /* 等价于 margin-right:4px + margin-bottom:4px */
-  /* 4. 限制容器宽度（根据实际场景设置，如100%占满父容器） */
-  width: 100%;
-  /* 可选：避免内容溢出时隐藏 */
-  overflow: visible;
-}
-
-.visible-roles,
-.all-roles {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 4px;
-}
-.all-roles {
-  margin-top: 4px;
-}
-</style>
+<style scoped></style>

@@ -64,13 +64,13 @@ const formOptions: VbenFormProps = {
 };
 
 const gridOptions: VxeGridProps<AdminOperationLog> = {
+  stripe: true,
   height: 'auto',
   exportConfig: {},
   pagerConfig: {},
   rowConfig: {
     isHover: true,
   },
-  stripe: true,
 
   proxyConfig: {
     ajax: {

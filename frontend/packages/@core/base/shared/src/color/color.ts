@@ -7,3 +7,4 @@ export function isDarkColor(color: string) {
 export function isLightColor(color: string) {
   return new TinyColor(color).isLight();
 }
+

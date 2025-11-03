@@ -114,6 +114,7 @@ const gridOptions: VxeGridProps<InternalMessage> = {
   rowConfig: {
     isHover: true,
   },
+  stripe: true,
 
   proxyConfig: {
     ajax: {

@@ -97,14 +97,15 @@ const formOptions: VbenFormProps = {
 };
 
 const gridOptions: VxeGridProps<Tenant> = {
+  height: 'auto',
+  stripe: false,
   toolbarConfig: {
     custom: true,
     export: true,
-    // import: true,
+    import: false,
     refresh: true,
     zoom: true,
   },
-  height: 'auto',
   exportConfig: {},
   pagerConfig: {
     enabled: false,
@@ -112,18 +113,15 @@ const gridOptions: VxeGridProps<Tenant> = {
   rowConfig: {
     isHover: true,
   },
-
   treeConfig: {
     childrenField: 'children',
     rowField: 'id',
-    // transform: true,
   },
 
   proxyConfig: {
     ajax: {
       query: async ({ page }, formValues) => {
         console.log('query:', formValues);
-
         return await tenantStore.listTenant(
           true,
           page.currentPage,

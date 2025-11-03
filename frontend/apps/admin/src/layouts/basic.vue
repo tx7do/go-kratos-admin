@@ -21,7 +21,11 @@ import { notification } from 'ant-design-vue';
 
 import { InternalMessageRecipient_Status } from '#/generated/api/internal_message/service/v1/internal_message.pb';
 import { $t } from '#/locales';
-import { useAuthStore, useInternalMessageStore } from '#/stores';
+import {
+  authorityToName,
+  useAuthStore,
+  useInternalMessageStore,
+} from '#/stores';
 import LoginForm from '#/views/_core/authentication/login.vue';
 
 const userStore = useUserStore();
@@ -96,39 +100,6 @@ async function reloadMessages() {
     });
   }
 }
-
-// function setDemoData() {
-//   notifications.value = [
-//     {
-//       avatar: 'https://avatar.vercel.sh/vercel.svg?text=VB',
-//       date: '3小时前',
-//       isRead: true,
-//       message: '描述信息描述信息描述信息',
-//       title: '收到了 14 份新周报',
-//     },
-//     {
-//       avatar: 'https://avatar.vercel.sh/1',
-//       date: '刚刚',
-//       isRead: false,
-//       message: '描述信息描述信息描述信息',
-//       title: '朱偏右 回复了你',
-//     },
-//     {
-//       avatar: 'https://avatar.vercel.sh/1',
-//       date: '2024-01-01',
-//       isRead: false,
-//       message: '描述信息描述信息描述信息',
-//       title: '曲丽丽 评论了你',
-//     },
-//     {
-//       avatar: 'https://avatar.vercel.sh/satori',
-//       date: '1天前',
-//       isRead: false,
-//       message: '描述信息描述信息描述信息',
-//       title: '代办提醒',
-//     },
-//   ];
-// }
 
 /**
  * 登出账号
@@ -234,8 +205,8 @@ watch(
         :avatar
         :menus
         :text="userStore.userInfo?.realname"
-        description="ann.vben@gmail.com"
-        tag-text="Pro"
+        :description="userStore.userInfo?.email"
+        :tag-text="authorityToName(userStore.userInfo?.authority)"
         @logout="handleLogout"
       />
     </template>

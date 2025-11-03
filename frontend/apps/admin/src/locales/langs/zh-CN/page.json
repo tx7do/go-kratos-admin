@@ -63,7 +63,8 @@
       "tab": {
         "basicInfo": "基础信息",
         "permission": "权限信息",
-        "operationLog": "操作日志"
+        "operationLog": "操作日志",
+        "internalMessage": "收件箱"
       },
       "desc": {
         "username": "用户名",
@@ -72,6 +73,10 @@
         "gender": "性别",
         "mobile": "手机号",
         "email": "电子邮箱",
+        "region": "国家地区",
+        "address": "住址",
+        "roleNames": "角色列表",
+        "tenantName": "所属租户",
         "orgName": "所属组织",
         "departmentName": "所属部门",
         "positionName": "职位",
@@ -262,6 +267,7 @@
     "categoryName": "消息分类",
     "senderName": "发送者",
     "categoryId": "消息分类",
+    "readAt": "读取时间",
     "button": {
       "create": "发布消息"
     },

@@ -65,26 +65,23 @@ const formOptions: VbenFormProps = {
 };
 
 const gridOptions: VxeGridProps<Role> = {
+  height: 'auto',
+  stripe: false,
   toolbarConfig: {
     custom: true,
     export: true,
-    // import: true,
+    import: false,
     refresh: true,
     zoom: true,
   },
-  height: 'auto',
   exportConfig: {},
   pagerConfig: {},
   rowConfig: {
     isHover: true,
   },
-
-  // stripe: true,
-
   treeConfig: {
     childrenField: 'children',
     rowField: 'id',
-    // transform: true,
   },
 
   proxyConfig: {

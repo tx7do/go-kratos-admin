@@ -68,7 +68,6 @@ const gridOptions: VxeGridProps<InternalMessageCategory> = {
   treeConfig: {
     childrenField: 'children',
     rowField: 'id',
-    // transform: true,
   },
   height: 'auto',
 
@@ -76,7 +75,6 @@ const gridOptions: VxeGridProps<InternalMessageCategory> = {
     ajax: {
       query: async ({ page }, formValues) => {
         console.log('query:', formValues);
-
         return await internalMessageCategoryStore.listInternalMessageCategory(
           true,
           page.currentPage,

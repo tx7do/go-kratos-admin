@@ -139,9 +139,9 @@ func (r *InternalMessageRecipientRepo) Get(ctx context.Context, id uint32) (*int
 	return r.mapper.ToDTO(entity), nil
 }
 
-func (r *InternalMessageRecipientRepo) Create(ctx context.Context, req *internalMessageV1.InternalMessageRecipient) error {
+func (r *InternalMessageRecipientRepo) Create(ctx context.Context, req *internalMessageV1.InternalMessageRecipient) (*internalMessageV1.InternalMessageRecipient, error) {
 	if req == nil {
-		return internalMessageV1.ErrorBadRequest("invalid parameter")
+		return nil, internalMessageV1.ErrorBadRequest("invalid parameter")
 	}
 
 	builder := r.data.db.Client().InternalMessageRecipient.Create().
@@ -156,12 +156,14 @@ func (r *InternalMessageRecipientRepo) Create(ctx context.Context, req *internal
 		builder.SetCreatedAt(time.Now())
 	}
 
-	if err := builder.Exec(ctx); err != nil {
+	var err error
+	var entity *ent.InternalMessageRecipient
+	if entity, err = builder.Save(ctx); err != nil {
 		r.log.Errorf("insert one data failed: %s", err.Error())
-		return internalMessageV1.ErrorInternalServerError("insert data failed")
+		return nil, internalMessageV1.ErrorInternalServerError("insert data failed")
 	}
 
-	return nil
+	return r.mapper.ToDTO(entity), nil
 }
 
 func (r *InternalMessageRecipientRepo) Update(ctx context.Context, req *internalMessageV1.UpdateInternalMessageRecipientRequest) error {
@@ -178,7 +180,8 @@ func (r *InternalMessageRecipientRepo) Update(ctx context.Context, req *internal
 		if !exist {
 			req.Data.CreatedBy = req.Data.UpdatedBy
 			req.Data.UpdatedBy = nil
-			return r.Create(ctx, req.Data)
+			_, err = r.Create(ctx, req.Data)
+			return err
 		}
 	}
 

@@ -2,12 +2,15 @@ package service
 
 import (
 	"context"
+	"encoding/json"
 	"time"
 
 	"github.com/go-kratos/kratos/v2/log"
+	"github.com/google/uuid"
 	"github.com/tx7do/go-utils/timeutil"
 	"github.com/tx7do/go-utils/trans"
 	pagination "github.com/tx7do/kratos-bootstrap/api/gen/go/pagination/v1"
+	"github.com/tx7do/kratos-transport/transport/sse"
 	"google.golang.org/protobuf/types/known/emptypb"
 
 	"kratos-admin/app/admin/service/internal/data"
@@ -28,6 +31,9 @@ type InternalMessageService struct {
 	internalMessageCategoryRepo  *data.InternalMessageCategoryRepo
 	internalMessageRecipientRepo *data.InternalMessageRecipientRepo
 	userRepo                     *data.UserRepo
+
+	sseServer *sse.Server
+	userToken *data.UserTokenCacheRepo
 }
 
 func NewInternalMessageService(
@@ -36,6 +42,8 @@ func NewInternalMessageService(
 	internalMessageCategoryRepo *data.InternalMessageCategoryRepo,
 	internalMessageRecipientRepo *data.InternalMessageRecipientRepo,
 	userRepo *data.UserRepo,
+	sseServer *sse.Server,
+	userToken *data.UserTokenCacheRepo,
 ) *InternalMessageService {
 	l := log.NewHelper(log.With(logger, "module", "internal-message/service/admin-service"))
 	return &InternalMessageService{
@@ -44,6 +52,8 @@ func NewInternalMessageService(
 		internalMessageCategoryRepo:  internalMessageCategoryRepo,
 		internalMessageRecipientRepo: internalMessageRecipientRepo,
 		userRepo:                     userRepo,
+		sseServer:                    sseServer,
+		userToken:                    userToken,
 	}
 }
 
@@ -248,40 +258,16 @@ func (s *InternalMessageService) SendMessage(ctx context.Context, req *internalM
 			s.log.Errorf("send message failed, list users failed, %s", err)
 		} else {
 			for _, user := range users.Items {
-				if err = s.internalMessageRecipientRepo.Create(ctx, &internalMessageV1.InternalMessageRecipient{
-					MessageId:       msg.Id,
-					RecipientUserId: user.Id,
-					Status:          trans.Ptr(internalMessageV1.InternalMessageRecipient_SENT),
-					CreatedBy:       trans.Ptr(operator.GetUserId()),
-					CreatedAt:       timeutil.TimeToTimestamppb(&now),
-				}); err != nil {
-					s.log.Errorf("send message failed, send to user failed, %s", err)
-				}
+				_ = s.sendNotification(ctx, msg.GetId(), user.GetId(), operator.GetUserId(), &now, msg.GetTitle(), msg.GetContent())
 			}
 		}
 	} else {
 		if req.RecipientUserId != nil {
-			if err = s.internalMessageRecipientRepo.Create(ctx, &internalMessageV1.InternalMessageRecipient{
-				MessageId:       msg.Id,
-				RecipientUserId: req.RecipientUserId,
-				Status:          trans.Ptr(internalMessageV1.InternalMessageRecipient_SENT),
-				CreatedBy:       trans.Ptr(operator.GetUserId()),
-				CreatedAt:       timeutil.TimeToTimestamppb(&now),
-			}); err != nil {
-				s.log.Errorf("send message failed, send to user failed, %s", err)
-			}
+			_ = s.sendNotification(ctx, msg.GetId(), req.GetRecipientUserId(), operator.GetUserId(), &now, msg.GetTitle(), msg.GetContent())
 		} else {
 			if len(req.TargetUserIds) != 0 {
 				for _, uid := range req.TargetUserIds {
-					if err = s.internalMessageRecipientRepo.Create(ctx, &internalMessageV1.InternalMessageRecipient{
-						MessageId:       msg.Id,
-						RecipientUserId: trans.Ptr(uid),
-						Status:          trans.Ptr(internalMessageV1.InternalMessageRecipient_SENT),
-						CreatedBy:       trans.Ptr(operator.GetUserId()),
-						CreatedAt:       timeutil.TimeToTimestamppb(&now),
-					}); err != nil {
-						s.log.Errorf("send message failed, send to user failed, %s", err)
-					}
+					_ = s.sendNotification(ctx, msg.GetId(), uid, operator.GetUserId(), &now, msg.GetTitle(), msg.GetContent())
 				}
 			}
 		}
@@ -290,4 +276,38 @@ func (s *InternalMessageService) SendMessage(ctx context.Context, req *internalM
 	return &internalMessageV1.SendMessageResponse{
 		MessageId: msg.GetId(),
 	}, nil
+}
+
+// sendNotification 向客户端发送通知消息
+func (s *InternalMessageService) sendNotification(ctx context.Context, messageId uint32, recipientUserId uint32, senderUserId uint32, now *time.Time, title, content string) error {
+	recipient := &internalMessageV1.InternalMessageRecipient{
+		MessageId:       trans.Ptr(messageId),
+		RecipientUserId: trans.Ptr(recipientUserId),
+		Status:          trans.Ptr(internalMessageV1.InternalMessageRecipient_SENT),
+		CreatedBy:       trans.Ptr(senderUserId),
+		CreatedAt:       timeutil.TimeToTimestamppb(now),
+		Title:           trans.Ptr(title),
+		Content:         trans.Ptr(content),
+	}
+
+	var err error
+	var entity *internalMessageV1.InternalMessageRecipient
+	if entity, err = s.internalMessageRecipientRepo.Create(ctx, recipient); err != nil {
+		s.log.Errorf("send message failed, send to user failed, %s", err)
+		return err
+	}
+	recipient.Id = entity.Id
+
+	recipientJson, _ := json.Marshal(recipient)
+
+	recipientStreamIds := s.userToken.GetAccessToken(ctx, recipientUserId)
+	for _, streamId := range recipientStreamIds {
+		s.sseServer.Publish(ctx, sse.StreamID(streamId), &sse.Event{
+			ID:    []byte(uuid.New().String()),
+			Data:  recipientJson,
+			Event: []byte("notification"),
+		})
+	}
+
+	return nil
 }

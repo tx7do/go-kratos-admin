@@ -3,13 +3,10 @@ package data
 import (
 	"context"
 	"testing"
-	"time"
 
 	"github.com/go-kratos/kratos/v2/log"
 	"github.com/stretchr/testify/assert"
-	"github.com/tx7do/go-utils/trans"
 	conf "github.com/tx7do/kratos-bootstrap/api/gen/go/conf/v1"
-	"google.golang.org/protobuf/types/known/durationpb"
 )
 
 func TestUserTokenCache(t *testing.T) {
@@ -19,23 +16,16 @@ func TestUserTokenCache(t *testing.T) {
 	//l := log.NewHelper(log.With(log.DefaultLogger, "module", "test"))
 
 	var cfg = &conf.Bootstrap{
-		Server: &conf.Server{
-			Rest: &conf.Server_REST{
-				Middleware: &conf.Middleware{
-					Auth: &conf.Middleware_Auth{
-						Method:                "HS256",
-						Key:                   "some_api_key",
-						AccessTokenKeyPrefix:  trans.Ptr("aat_"),
-						RefreshTokenKeyPrefix: trans.Ptr("art_"),
-						AccessTokenExpires:    durationpb.New(0 * time.Second),
-						RefreshTokenExpires:   durationpb.New(0 * time.Second),
-					},
-				},
+		Authn: &conf.Authentication{
+			Type: "jwt",
+			Jwt: &conf.Authentication_Jwt{
+				Method: "HS256",
+				Key:    "some_api_key",
 			},
 		},
 		Data: &conf.Data{
 			Redis: &conf.Data_Redis{
-				Addr:     "redis:6379",
+				Addr:     "127.0.0.1:6379",
 				Password: "*Abcd123456",
 			},
 		},
@@ -57,6 +47,9 @@ func TestUserTokenCache(t *testing.T) {
 	assert.Nil(t, err)
 	exist := repo.IsExistAccessToken(ctx, userId, "access_token")
 	assert.True(t, exist)
+	accessTokens := repo.GetAccessToken(ctx, userId)
+	assert.NotEmpty(t, accessTokens)
+	assert.Equal(t, "access_token", accessTokens[0])
 	err = repo.RemoveAccessToken(ctx, userId, "access_token")
 	assert.Nil(t, err)
 
@@ -64,6 +57,9 @@ func TestUserTokenCache(t *testing.T) {
 	assert.Nil(t, err)
 	exist = repo.IsExistRefreshToken(ctx, userId, "refresh_token")
 	assert.True(t, exist)
+	refreshTokens := repo.GetRefreshToken(ctx, userId)
+	assert.NotEmpty(t, refreshTokens)
+	assert.Equal(t, "refresh_token", refreshTokens[0])
 	err = repo.RemoveRefreshToken(ctx, userId, "refresh_token")
 	assert.Nil(t, err)
 }

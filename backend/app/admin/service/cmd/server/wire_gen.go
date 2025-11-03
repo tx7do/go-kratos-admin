@@ -72,7 +72,8 @@ func initApp(logger log.Logger, registrar registry.Registrar, bootstrap *v1.Boot
 	internalMessageRepo := data.NewInternalMessageRepo(dataData, logger)
 	internalMessageCategoryRepo := data.NewInternalMessageCategoryRepo(dataData, logger)
 	internalMessageRecipientRepo := data.NewInternalMessageRecipientRepo(dataData, logger)
-	internalMessageService := service.NewInternalMessageService(logger, internalMessageRepo, internalMessageCategoryRepo, internalMessageRecipientRepo, userRepo)
+	sseServer := server.NewSseServer(bootstrap, logger)
+	internalMessageService := service.NewInternalMessageService(logger, internalMessageRepo, internalMessageCategoryRepo, internalMessageRecipientRepo, userRepo, sseServer, userTokenCacheRepo)
 	internalMessageCategoryService := service.NewInternalMessageCategoryService(logger, internalMessageCategoryRepo)
 	adminLoginRestrictionRepo := data.NewAdminLoginRestrictionRepo(dataData, logger)
 	adminLoginRestrictionService := service.NewAdminLoginRestrictionService(logger, adminLoginRestrictionRepo)
@@ -80,7 +81,6 @@ func initApp(logger log.Logger, registrar registry.Registrar, bootstrap *v1.Boot
 	apiResourceService := service.NewApiResourceService(logger, apiResourceRepo, authorizer)
 	httpServer := server.NewRESTServer(bootstrap, logger, authenticator, authorizer, adminOperationLogRepo, adminLoginLogRepo, authenticationService, userService, menuService, routerService, organizationService, roleService, positionService, dictService, departmentService, adminLoginLogService, adminOperationLogService, ossService, uEditorService, fileService, tenantService, taskService, internalMessageService, internalMessageCategoryService, adminLoginRestrictionService, userProfileService, apiResourceService)
 	asynqServer := server.NewAsynqServer(bootstrap, logger, taskService)
-	sseServer := server.NewSseServer(bootstrap, logger)
 	app := newApp(logger, registrar, httpServer, asynqServer, sseServer)
 	return app, func() {
 		cleanup()

@@ -159,7 +159,7 @@ func TestCopier(t *testing.T) {
 		entMsg.Nickname = trans.Ptr("NickName")
 		entMsg.Realname = trans.Ptr("RealName")
 		entMsg.Email = trans.Ptr("test@gmail.com")
-		entMsg.TenantID = uint32(2)
+		entMsg.TenantID = trans.Ptr(uint32(2))
 		entMsg.Status = trans.Ptr(user.StatusOn)
 
 		_ = copier.Copy(&protoMsg, entMsg)

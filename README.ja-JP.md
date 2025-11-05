@@ -69,35 +69,113 @@
 
 <table>
     <tr>
-        <td><img src="./docs/images/admin_login_page.png" alt="管理者ログインページ"/></td>
-        <td><img src="./docs/images/admin_dashboard.png" alt="管理者ダッシュボード"/></td>
+        <td>
+            <img src="./docs/images/admin_login_page.png" alt="管理画面ユーザーログイン画面"/>
+        </td>
+        <td>
+            <img src="./docs/images/admin_dashboard.png" alt="管理画面分析画面"/>
+        </td>
     </tr>
     <tr>
-        <td><img src="./docs/images/admin_user_management.png" alt="ユーザー管理ページ"/></td>
-        <td><img src="./docs/images/admin_create_user.png" alt="ユーザー作成ページ"/></td>
+        <td>
+            <img src="./docs/images/admin_user_list.png" alt="管理画面ユーザー一覧画面"/>
+        </td>
+        <td>
+            <img src="./docs/images/admin_user_create.png" alt="管理画面ユーザー作成画面"/>
+        </td>
     </tr>
     <tr>
-        <td><img src="./docs/images/admin_menu_management.png" alt="メニュー管理ページ"/></td>
-        <td><img src="./docs/images/admin_organization_management.png" alt="組織管理ページ"/></td>
+        <td>
+            <img src="./docs/images/admin_tenant_list.png" alt="管理画面テナント一覧画面"/>
+        </td>
+        <td>
+            <img src="./docs/images/admin_tenant_create.png" alt="管理画面テナント作成画面"/>
+        </td>
     </tr>
     <tr>
-        <td><img src="./docs/images/admin_department_management.png" alt="部門管理ページ"/></td>
-        <td><img src="./docs/images/admin_role_management.png" alt="役割管理ページ"/></td>
+        <td>
+            <img src="./docs/images/admin_organization_list.png" alt="管理画面組織一覧画面"/>
+        </td>
+        <td>
+            <img src="./docs/images/admin_organization_create.png" alt="管理画面組織作成画面"/>
+        </td>
     </tr>
     <tr>
-        <td><img src="./docs/images/admin_position_management.png" alt="ポジション管理ページ"/></td>
-        <td><img src="./docs/images/admin_tenant_management.png" alt="テナント管理ページ"/></td>
+        <td>
+            <img src="./docs/images/admin_department_list.png" alt="管理画面部署一覧画面"/>
+        </td>
+        <td>
+            <img src="./docs/images/admin_department_create.png" alt="管理画面部署作成画面"/>
+        </td>
     </tr>
     <tr>
-        <td><img src="./docs/images/admin_task_management.png" alt="タスク管理ページ"/></td>
-        <td><img src="./docs/images/admin_dict_management.png" alt="辞書管理ページ"/></td>
+        <td>
+            <img src="./docs/images/admin_position_list.png" alt="管理画面役職一覧画面"/>
+        </td>
+        <td>
+            <img src="./docs/images/admin_position_create.png" alt="管理画面役職作成画面"/>
+        </td>
     </tr>
     <tr>
-        <td><img src="./docs/images/admin_operation_log.png" alt="操作ログページ"/></td>
-        <td><img src="./docs/images/admin_login_log.png" alt="ログインログページ"/></td>
+        <td>
+            <img src="./docs/images/admin_role_list.png" alt="管理画面ロール一覧画面"/>
+        </td>
+        <td>
+            <img src="./docs/images/admin_role_create.png" alt="管理画面ロール作成画面"/>
+        </td>
     </tr>
     <tr>
-        <td><img src="./docs/images/api_swagger_ui.png" alt="Swagger UIページ"/></td>
+        <td>
+            <img src="./docs/images/admin_menu_list.png" alt="管理画面メニュー一覧画面"/>
+        </td>
+        <td>
+            <img src="./docs/images/admin_menu_create.png" alt="管理画面メニュー作成画面"/>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <img src="./docs/images/admin_task_list.png" alt="管理画面スケジュールタスク一覧画面"/>
+        </td>
+        <td>
+            <img src="./docs/images/admin_task_create.png" alt="管理画面スケジュールタスク作成画面"/>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <img src="./docs/images/admin_dict_list.png" alt="管理画面データディクショナリ一覧画面"/>
+        </td>
+        <td>
+            <img src="./docs/images/admin_dict_entry_create.png" alt="管理画面データディクショナリ項目作成画面"/>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <img src="./docs/images/admin_internal_message_list.png" alt="管理画面サイト内メッセージ一覧画面"/>
+        </td>
+        <td>
+            <img src="./docs/images/admin_internal_message_publish.png" alt="管理画面サイト内メッセージ発行画面"/>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <img src="./docs/images/admin_login_restriction_list.png" alt="管理画面ログイン制限一覧画面"/>
+        </td>
+        <td>
+            <img src="./docs/images/admin_api_resource_list.png" alt="管理画面APIリソース一覧画面"/>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <img src="./docs/images/admin_operation_log_list.png" alt="管理画面ログインログ画面"/>
+        </td>
+        <td>
+            <img src="./docs/images/admin_login_log_list.png" alt="管理画面操作ログ画面"/>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <img src="./docs/images/api_swagger_ui.png" alt="バックエンド内蔵Swagger UI画面"/>
+        </td>
     </tr>
 </table>
 
@@ -106,6 +184,6 @@
 - WeChat: `yang_lin_bo`（備考: `go-kratos-admin`）
 - Juejinコラム: [go-kratos-admin](https://juejin.cn/column/7541283508041826367)
 
-## [JetBrainsによる無料のGoLand提供に感謝](https://jb.gg/OpenSource)
+## [JetBrainsによる無料のGoLand & WebStorm提供に感謝](https://jb.gg/OpenSource)
 
 [![avatar](https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.svg)](https://jb.gg/OpenSource)

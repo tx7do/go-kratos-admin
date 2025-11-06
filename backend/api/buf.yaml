@@ -15,7 +15,7 @@ deps:
   #  - 'buf.build/envoyproxy/protoc-gen-validate'
   #  - 'buf.build/gogo/protobuf'
   - 'buf.build/tx7do/pagination'
-  - 'buf.build/arrakis-digital/redact'
+  - 'buf.build/menta2k-org/redact'
 
 breaking:
   use:

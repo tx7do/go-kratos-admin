@@ -9,7 +9,6 @@ replace (
 
 require (
 	entgo.io/ent v0.14.5
-	github.com/arrakis-digital/protoc-gen-redact/v3 v3.3.0
 	github.com/getkin/kin-openapi v0.133.0
 	github.com/go-kratos/kratos/v2 v2.9.1
 	github.com/go-sql-driver/mysql v1.9.3
@@ -21,6 +20,7 @@ require (
 	github.com/jackc/pgx/v5 v5.7.6
 	github.com/jinzhu/copier v0.4.0
 	github.com/lib/pq v1.10.9
+	github.com/menta2k/protoc-gen-redact/v3 v3.0.0-20251106150014-896cdd075ab1
 	github.com/mileusna/useragent v1.3.5
 	github.com/minio/minio-go/v7 v7.0.95
 	github.com/redis/go-redis/v9 v9.16.0
@@ -48,6 +48,7 @@ require (
 	github.com/tx7do/kratos-transport v1.1.17
 	github.com/tx7do/kratos-transport/transport/asynq v1.2.35
 	github.com/tx7do/kratos-transport/transport/sse v1.2.24
+	github.com/yuin/gopher-lua v1.1.1
 	google.golang.org/genproto v0.0.0-20251022142026-3a174f9686a8
 	google.golang.org/genproto/googleapis/api v0.0.0-20251022142026-3a174f9686a8
 	google.golang.org/grpc v1.76.0
@@ -267,7 +268,6 @@ require (
 	github.com/xeipuuv/gojsonpointer v0.0.0-20190905194746-02993c407bfb // indirect
 	github.com/xeipuuv/gojsonreference v0.0.0-20180127040603-bd5ef7bd5415 // indirect
 	github.com/yashtewari/glob-intersection v0.2.0 // indirect
-	github.com/yuin/gopher-lua v1.1.1 // indirect
 	github.com/yusufpapurcu/wmi v1.2.4 // indirect
 	github.com/zclconf/go-cty v1.17.0 // indirect
 	github.com/zclconf/go-cty-yaml v1.1.0 // indirect
@@ -300,7 +300,7 @@ require (
 	golang.org/x/text v0.30.0 // indirect
 	golang.org/x/time v0.14.0 // indirect
 	golang.org/x/tools v0.38.0 // indirect
-	google.golang.org/genproto/googleapis/rpc v0.0.0-20251022142026-3a174f9686a8 // indirect
+	google.golang.org/genproto/googleapis/rpc v0.0.0-20251103181224-f26f9409b101 // indirect
 	gopkg.in/cenkalti/backoff.v1 v1.1.0 // indirect
 	gopkg.in/ini.v1 v1.67.0 // indirect
 	gopkg.in/natefinch/lumberjack.v2 v2.2.1 // indirect

@@ -2,7 +2,7 @@
 import type { VxeGridListeners, VxeGridProps } from '#/adapter/vxe-table';
 import type { User } from '#/generated/api/user/service/v1/user.pb';
 
-import { h, ref } from 'vue';
+import { h } from 'vue';
 
 import { Page, useVbenDrawer, type VbenFormProps } from '@vben/common-ui';
 import { LucideFilePenLine, LucideInfo, LucideTrash2 } from '@vben/icons';
@@ -10,6 +10,11 @@ import { LucideFilePenLine, LucideInfo, LucideTrash2 } from '@vben/icons';
 import { notification } from 'ant-design-vue';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
+import { Department_Status } from '#/generated/api/user/service/v1/department.pb';
+import { Organization_Status } from '#/generated/api/user/service/v1/organization.pb';
+import { Position_Status } from '#/generated/api/user/service/v1/position.pb';
+import { Role_Status } from '#/generated/api/user/service/v1/role.pb';
+import { Tenant_Status } from '#/generated/api/user/service/v1/tenant.pb';
 import { $t } from '#/locales';
 import { router } from '#/router';
 import {
@@ -24,12 +29,15 @@ import {
   useOrganizationStore,
   usePositionStore,
   useRoleStore,
+  useTenantStore,
   useUserStore,
 } from '#/stores';
+import { getRandomColor } from '#/utils/color';
 
 import UserDrawer from './user-drawer.vue';
 
 const userStore = useUserStore();
+const tenantStore = useTenantStore();
 const roleStore = useRoleStore();
 const orgStore = useOrganizationStore();
 const deptStore = useDepartmentStore();
@@ -37,9 +45,9 @@ const positionStore = usePositionStore();
 
 const formOptions: VbenFormProps = {
   // 默认展开
-  collapsed: false,
+  collapsed: true,
   // 控制表单是否显示折叠按钮
-  showCollapseButton: false,
+  showCollapseButton: true,
   // 按下回车时是否提交表单
   submitOnEnter: true,
   schema: [
@@ -76,8 +84,11 @@ const formOptions: VbenFormProps = {
       label: $t('page.user.form.authority'),
       componentProps: {
         placeholder: $t('ui.placeholder.input'),
-        allowClear: true,
         options: authorityList,
+        filterOption: (input: string, option: any) =>
+          option.label.toLowerCase().includes(input.toLowerCase()),
+        allowClear: true,
+        showSearch: true,
       },
     },
     {
@@ -85,8 +96,11 @@ const formOptions: VbenFormProps = {
       fieldName: 'roleId',
       label: $t('page.user.form.role'),
       componentProps: {
-        placeholder: $t('ui.placeholder.select'),
         allowClear: true,
+        showSearch: true,
+        placeholder: $t('ui.placeholder.select'),
+        filterOption: (input: string, option: any) =>
+          option.label.toLowerCase().includes(input.toLowerCase()),
         afterFetch: (data: { name: string; path: string }[]) => {
           return data.map((item: any) => ({
             label: item.name,
@@ -94,7 +108,32 @@ const formOptions: VbenFormProps = {
           }));
         },
         api: async () => {
-          const result = await roleStore.listRole(true);
+          const result = await roleStore.listRole(true, null, null, {
+            // parent_id: 0,
+            status: Role_Status.ON,
+          });
+          return result.items;
+        },
+      },
+    },
+    {
+      component: 'ApiTreeSelect',
+      fieldName: 'tenantId',
+      label: $t('page.user.form.tenant'),
+      componentProps: {
+        placeholder: $t('ui.placeholder.select'),
+        numberToString: true,
+        showSearch: true,
+        treeDefaultExpandAll: true,
+        allowClear: true,
+        childrenField: 'children',
+        labelField: 'name',
+        valueField: 'id',
+        treeNodeFilterProp: 'label',
+        api: async () => {
+          const result = await tenantStore.listTenant(true, null, null, {
+            status: Tenant_Status.ON,
+          });
           return result.items;
         },
       },
@@ -106,15 +145,16 @@ const formOptions: VbenFormProps = {
       componentProps: {
         placeholder: $t('ui.placeholder.select'),
         numberToString: true,
-        childrenField: 'children',
-        labelField: 'name',
-        valueField: 'id',
         showSearch: true,
         treeDefaultExpandAll: true,
         allowClear: true,
+        childrenField: 'children',
+        labelField: 'name',
+        valueField: 'id',
+        treeNodeFilterProp: 'label',
         api: async () => {
           const result = await orgStore.listOrganization(true, null, null, {
-            status: 'ON',
+            status: Organization_Status.ON,
           });
           return result.items;
         },
@@ -127,15 +167,16 @@ const formOptions: VbenFormProps = {
       componentProps: {
         placeholder: $t('ui.placeholder.select'),
         numberToString: true,
-        childrenField: 'children',
-        labelField: 'name',
-        valueField: 'id',
         showSearch: true,
         treeDefaultExpandAll: true,
         allowClear: true,
+        childrenField: 'children',
+        labelField: 'name',
+        valueField: 'id',
+        treeNodeFilterProp: 'label',
         api: async () => {
           const result = await deptStore.listDepartment(true, null, null, {
-            status: 'ON',
+            status: Department_Status.ON,
           });
           return result.items;
         },
@@ -154,9 +195,10 @@ const formOptions: VbenFormProps = {
         childrenField: 'children',
         labelField: 'name',
         valueField: 'id',
+        treeNodeFilterProp: 'label',
         api: async () => {
           const result = await positionStore.listPosition(true, null, null, {
-            status: 'ON',
+            status: Position_Status.ON,
           });
           return result.items;
         },
@@ -172,7 +214,7 @@ const gridOptions: VxeGridProps<User> = {
   toolbarConfig: {
     custom: true,
     export: true,
-    // import: true,
+    import: false,
     refresh: true,
     zoom: true,
   },
@@ -183,12 +225,23 @@ const gridOptions: VxeGridProps<User> = {
     resizable: true,
   },
   resizableConfig: {},
+  tooltipConfig: {
+    showAll: true,
+    enterable: true,
+    contentMethod: ({ column, row }) => {
+      const { field } = column;
+      if (field === 'roleNames') {
+        return `${row[field]}`;
+      }
+      // 其余的单元格使用默认行为
+      return null;
+    },
+  },
 
   proxyConfig: {
     ajax: {
       query: async ({ page }, formValues) => {
         // console.log('query:', filters, form, formValues);
-
         return await userStore.listUser(
           false,
           page.currentPage,
@@ -212,6 +265,7 @@ const gridOptions: VxeGridProps<User> = {
     },
     { title: $t('page.user.table.email'), field: 'email', width: 160 },
     { title: $t('page.user.table.mobile'), field: 'mobile', width: 130 },
+    { title: $t('page.user.table.tenantId'), field: 'tenantName', width: 130 },
     { title: $t('page.user.table.orgId'), field: 'orgName', width: 130 },
     {
       title: $t('page.user.table.deptId'),
@@ -242,8 +296,8 @@ const gridOptions: VxeGridProps<User> = {
       width: 160,
     },
     {
-      title: $t('ui.table.createTime'),
-      field: 'createTime',
+      title: $t('ui.table.createdAt'),
+      field: 'createdAt',
       formatter: 'formatDateTime',
       width: 160,
     },
@@ -329,23 +383,6 @@ async function handleDelete(row: any) {
 function handleDetail(row: any) {
   router.push(`/opm/users/detail/${row.id}`);
 }
-
-const isExpand = ref(false);
-
-// 生成基于字符串的固定随机色（HSL模式，保证饱和度和明度适中）
-const getRandomColor = (str: string) => {
-  // 1. 基于字符串生成哈希值（确保同字符串同结果）
-  let hash = 0;
-  for (let i = 0; i < str.length; i++) {
-    hash = str.charCodeAt(i) + ((hash << 5) - hash);
-  }
-
-  // 2. 色相（0-360）：基于哈希值取随机
-  const hue = Math.abs(hash % 360);
-
-  // 3. 固定饱和度（50%）和明度（85%）：避免颜色过深/过浅，保证文字可读
-  return `hsl(${hue}, 50%, 85%)`;
-};
 </script>
 
 <template>
@@ -417,27 +454,4 @@ const getRandomColor = (str: string) => {
   </Page>
 </template>
 
-<style scoped>
-.tag-container {
-  /* 1. 启用flex布局 */
-  display: flex;
-  /* 2. 允许换行 */
-  flex-wrap: wrap;
-  /* 3. 控制标签之间的间距（水平+垂直），替代mr-1 mb-1 */
-  gap: 4px; /* 等价于 margin-right:4px + margin-bottom:4px */
-  /* 4. 限制容器宽度（根据实际场景设置，如100%占满父容器） */
-  width: 100%;
-  /* 可选：避免内容溢出时隐藏 */
-  overflow: visible;
-}
-
-.visible-roles,
-.all-roles {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 4px;
-}
-.all-roles {
-  margin-top: 4px;
-}
-</style>
+<style scoped></style>

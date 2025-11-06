@@ -68,16 +68,28 @@ func (f DepartmentFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, 
 	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.DepartmentMutation", m)
 }
 
-// The DictFunc type is an adapter to allow the use of ordinary
-// function as Dict mutator.
-type DictFunc func(context.Context, *ent.DictMutation) (ent.Value, error)
+// The DictEntryFunc type is an adapter to allow the use of ordinary
+// function as DictEntry mutator.
+type DictEntryFunc func(context.Context, *ent.DictEntryMutation) (ent.Value, error)
 
 // Mutate calls f(ctx, m).
-func (f DictFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
-	if mv, ok := m.(*ent.DictMutation); ok {
+func (f DictEntryFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.DictEntryMutation); ok {
 		return f(ctx, mv)
 	}
-	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.DictMutation", m)
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.DictEntryMutation", m)
+}
+
+// The DictTypeFunc type is an adapter to allow the use of ordinary
+// function as DictType mutator.
+type DictTypeFunc func(context.Context, *ent.DictTypeMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f DictTypeFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.DictTypeMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.DictTypeMutation", m)
 }
 
 // The FileFunc type is an adapter to allow the use of ordinary
@@ -92,6 +104,54 @@ func (f FileFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error)
 	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.FileMutation", m)
 }
 
+// The InternalMessageFunc type is an adapter to allow the use of ordinary
+// function as InternalMessage mutator.
+type InternalMessageFunc func(context.Context, *ent.InternalMessageMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f InternalMessageFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.InternalMessageMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.InternalMessageMutation", m)
+}
+
+// The InternalMessageCategoryFunc type is an adapter to allow the use of ordinary
+// function as InternalMessageCategory mutator.
+type InternalMessageCategoryFunc func(context.Context, *ent.InternalMessageCategoryMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f InternalMessageCategoryFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.InternalMessageCategoryMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.InternalMessageCategoryMutation", m)
+}
+
+// The InternalMessageRecipientFunc type is an adapter to allow the use of ordinary
+// function as InternalMessageRecipient mutator.
+type InternalMessageRecipientFunc func(context.Context, *ent.InternalMessageRecipientMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f InternalMessageRecipientFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.InternalMessageRecipientMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.InternalMessageRecipientMutation", m)
+}
+
+// The LanguageFunc type is an adapter to allow the use of ordinary
+// function as Language mutator.
+type LanguageFunc func(context.Context, *ent.LanguageMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f LanguageFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.LanguageMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.LanguageMutation", m)
+}
+
 // The MenuFunc type is an adapter to allow the use of ordinary
 // function as Menu mutator.
 type MenuFunc func(context.Context, *ent.MenuMutation) (ent.Value, error)
@@ -102,42 +162,6 @@ func (f MenuFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error)
 		return f(ctx, mv)
 	}
 	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.MenuMutation", m)
-}
-
-// The NotificationMessageFunc type is an adapter to allow the use of ordinary
-// function as NotificationMessage mutator.
-type NotificationMessageFunc func(context.Context, *ent.NotificationMessageMutation) (ent.Value, error)
-
-// Mutate calls f(ctx, m).
-func (f NotificationMessageFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
-	if mv, ok := m.(*ent.NotificationMessageMutation); ok {
-		return f(ctx, mv)
-	}
-	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.NotificationMessageMutation", m)
-}
-
-// The NotificationMessageCategoryFunc type is an adapter to allow the use of ordinary
-// function as NotificationMessageCategory mutator.
-type NotificationMessageCategoryFunc func(context.Context, *ent.NotificationMessageCategoryMutation) (ent.Value, error)
-
-// Mutate calls f(ctx, m).
-func (f NotificationMessageCategoryFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
-	if mv, ok := m.(*ent.NotificationMessageCategoryMutation); ok {
-		return f(ctx, mv)
-	}
-	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.NotificationMessageCategoryMutation", m)
-}
-
-// The NotificationMessageRecipientFunc type is an adapter to allow the use of ordinary
-// function as NotificationMessageRecipient mutator.
-type NotificationMessageRecipientFunc func(context.Context, *ent.NotificationMessageRecipientMutation) (ent.Value, error)
-
-// Mutate calls f(ctx, m).
-func (f NotificationMessageRecipientFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
-	if mv, ok := m.(*ent.NotificationMessageRecipientMutation); ok {
-		return f(ctx, mv)
-	}
-	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.NotificationMessageRecipientMutation", m)
 }
 
 // The OrganizationFunc type is an adapter to allow the use of ordinary
@@ -162,18 +186,6 @@ func (f PositionFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, er
 		return f(ctx, mv)
 	}
 	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.PositionMutation", m)
-}
-
-// The PrivateMessageFunc type is an adapter to allow the use of ordinary
-// function as PrivateMessage mutator.
-type PrivateMessageFunc func(context.Context, *ent.PrivateMessageMutation) (ent.Value, error)
-
-// Mutate calls f(ctx, m).
-func (f PrivateMessageFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
-	if mv, ok := m.(*ent.PrivateMessageMutation); ok {
-		return f(ctx, mv)
-	}
-	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.PrivateMessageMutation", m)
 }
 
 // The RoleFunc type is an adapter to allow the use of ordinary

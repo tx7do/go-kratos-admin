@@ -22,72 +22,100 @@ type DepartmentCreate struct {
 	conflict []sql.ConflictOption
 }
 
-// SetCreateTime sets the "create_time" field.
-func (_c *DepartmentCreate) SetCreateTime(v time.Time) *DepartmentCreate {
-	_c.mutation.SetCreateTime(v)
+// SetCreatedAt sets the "created_at" field.
+func (_c *DepartmentCreate) SetCreatedAt(v time.Time) *DepartmentCreate {
+	_c.mutation.SetCreatedAt(v)
 	return _c
 }
 
-// SetNillableCreateTime sets the "create_time" field if the given value is not nil.
-func (_c *DepartmentCreate) SetNillableCreateTime(v *time.Time) *DepartmentCreate {
+// SetNillableCreatedAt sets the "created_at" field if the given value is not nil.
+func (_c *DepartmentCreate) SetNillableCreatedAt(v *time.Time) *DepartmentCreate {
 	if v != nil {
-		_c.SetCreateTime(*v)
+		_c.SetCreatedAt(*v)
 	}
 	return _c
 }
 
-// SetUpdateTime sets the "update_time" field.
-func (_c *DepartmentCreate) SetUpdateTime(v time.Time) *DepartmentCreate {
-	_c.mutation.SetUpdateTime(v)
+// SetUpdatedAt sets the "updated_at" field.
+func (_c *DepartmentCreate) SetUpdatedAt(v time.Time) *DepartmentCreate {
+	_c.mutation.SetUpdatedAt(v)
 	return _c
 }
 
-// SetNillableUpdateTime sets the "update_time" field if the given value is not nil.
-func (_c *DepartmentCreate) SetNillableUpdateTime(v *time.Time) *DepartmentCreate {
+// SetNillableUpdatedAt sets the "updated_at" field if the given value is not nil.
+func (_c *DepartmentCreate) SetNillableUpdatedAt(v *time.Time) *DepartmentCreate {
 	if v != nil {
-		_c.SetUpdateTime(*v)
+		_c.SetUpdatedAt(*v)
 	}
 	return _c
 }
 
-// SetDeleteTime sets the "delete_time" field.
-func (_c *DepartmentCreate) SetDeleteTime(v time.Time) *DepartmentCreate {
-	_c.mutation.SetDeleteTime(v)
+// SetDeletedAt sets the "deleted_at" field.
+func (_c *DepartmentCreate) SetDeletedAt(v time.Time) *DepartmentCreate {
+	_c.mutation.SetDeletedAt(v)
 	return _c
 }
 
-// SetNillableDeleteTime sets the "delete_time" field if the given value is not nil.
-func (_c *DepartmentCreate) SetNillableDeleteTime(v *time.Time) *DepartmentCreate {
+// SetNillableDeletedAt sets the "deleted_at" field if the given value is not nil.
+func (_c *DepartmentCreate) SetNillableDeletedAt(v *time.Time) *DepartmentCreate {
 	if v != nil {
-		_c.SetDeleteTime(*v)
+		_c.SetDeletedAt(*v)
 	}
 	return _c
 }
 
-// SetCreateBy sets the "create_by" field.
-func (_c *DepartmentCreate) SetCreateBy(v uint32) *DepartmentCreate {
-	_c.mutation.SetCreateBy(v)
+// SetCreatedBy sets the "created_by" field.
+func (_c *DepartmentCreate) SetCreatedBy(v uint32) *DepartmentCreate {
+	_c.mutation.SetCreatedBy(v)
 	return _c
 }
 
-// SetNillableCreateBy sets the "create_by" field if the given value is not nil.
-func (_c *DepartmentCreate) SetNillableCreateBy(v *uint32) *DepartmentCreate {
+// SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
+func (_c *DepartmentCreate) SetNillableCreatedBy(v *uint32) *DepartmentCreate {
 	if v != nil {
-		_c.SetCreateBy(*v)
+		_c.SetCreatedBy(*v)
 	}
 	return _c
 }
 
-// SetUpdateBy sets the "update_by" field.
-func (_c *DepartmentCreate) SetUpdateBy(v uint32) *DepartmentCreate {
-	_c.mutation.SetUpdateBy(v)
+// SetUpdatedBy sets the "updated_by" field.
+func (_c *DepartmentCreate) SetUpdatedBy(v uint32) *DepartmentCreate {
+	_c.mutation.SetUpdatedBy(v)
 	return _c
 }
 
-// SetNillableUpdateBy sets the "update_by" field if the given value is not nil.
-func (_c *DepartmentCreate) SetNillableUpdateBy(v *uint32) *DepartmentCreate {
+// SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
+func (_c *DepartmentCreate) SetNillableUpdatedBy(v *uint32) *DepartmentCreate {
 	if v != nil {
-		_c.SetUpdateBy(*v)
+		_c.SetUpdatedBy(*v)
+	}
+	return _c
+}
+
+// SetDeletedBy sets the "deleted_by" field.
+func (_c *DepartmentCreate) SetDeletedBy(v uint32) *DepartmentCreate {
+	_c.mutation.SetDeletedBy(v)
+	return _c
+}
+
+// SetNillableDeletedBy sets the "deleted_by" field if the given value is not nil.
+func (_c *DepartmentCreate) SetNillableDeletedBy(v *uint32) *DepartmentCreate {
+	if v != nil {
+		_c.SetDeletedBy(*v)
+	}
+	return _c
+}
+
+// SetSortOrder sets the "sort_order" field.
+func (_c *DepartmentCreate) SetSortOrder(v int32) *DepartmentCreate {
+	_c.mutation.SetSortOrder(v)
+	return _c
+}
+
+// SetNillableSortOrder sets the "sort_order" field if the given value is not nil.
+func (_c *DepartmentCreate) SetNillableSortOrder(v *int32) *DepartmentCreate {
+	if v != nil {
+		_c.SetSortOrder(*v)
 	}
 	return _c
 }
@@ -102,6 +130,20 @@ func (_c *DepartmentCreate) SetRemark(v string) *DepartmentCreate {
 func (_c *DepartmentCreate) SetNillableRemark(v *string) *DepartmentCreate {
 	if v != nil {
 		_c.SetRemark(*v)
+	}
+	return _c
+}
+
+// SetParentID sets the "parent_id" field.
+func (_c *DepartmentCreate) SetParentID(v uint32) *DepartmentCreate {
+	_c.mutation.SetParentID(v)
+	return _c
+}
+
+// SetNillableParentID sets the "parent_id" field if the given value is not nil.
+func (_c *DepartmentCreate) SetNillableParentID(v *uint32) *DepartmentCreate {
+	if v != nil {
+		_c.SetParentID(*v)
 	}
 	return _c
 }
@@ -134,20 +176,6 @@ func (_c *DepartmentCreate) SetNillableName(v *string) *DepartmentCreate {
 	return _c
 }
 
-// SetParentID sets the "parent_id" field.
-func (_c *DepartmentCreate) SetParentID(v uint32) *DepartmentCreate {
-	_c.mutation.SetParentID(v)
-	return _c
-}
-
-// SetNillableParentID sets the "parent_id" field if the given value is not nil.
-func (_c *DepartmentCreate) SetNillableParentID(v *uint32) *DepartmentCreate {
-	if v != nil {
-		_c.SetParentID(*v)
-	}
-	return _c
-}
-
 // SetOrganizationID sets the "organization_id" field.
 func (_c *DepartmentCreate) SetOrganizationID(v uint32) *DepartmentCreate {
 	_c.mutation.SetOrganizationID(v)
@@ -164,20 +192,6 @@ func (_c *DepartmentCreate) SetManagerID(v uint32) *DepartmentCreate {
 func (_c *DepartmentCreate) SetNillableManagerID(v *uint32) *DepartmentCreate {
 	if v != nil {
 		_c.SetManagerID(*v)
-	}
-	return _c
-}
-
-// SetSortID sets the "sort_id" field.
-func (_c *DepartmentCreate) SetSortID(v int32) *DepartmentCreate {
-	_c.mutation.SetSortID(v)
-	return _c
-}
-
-// SetNillableSortID sets the "sort_id" field if the given value is not nil.
-func (_c *DepartmentCreate) SetNillableSortID(v *int32) *DepartmentCreate {
-	if v != nil {
-		_c.SetSortID(*v)
 	}
 	return _c
 }
@@ -271,23 +285,18 @@ func (_c *DepartmentCreate) ExecX(ctx context.Context) {
 
 // defaults sets the default values of the builder before save.
 func (_c *DepartmentCreate) defaults() {
-	if _, ok := _c.mutation.Remark(); !ok {
-		v := department.DefaultRemark
-		_c.mutation.SetRemark(v)
+	if _, ok := _c.mutation.SortOrder(); !ok {
+		v := department.DefaultSortOrder
+		_c.mutation.SetSortOrder(v)
 	}
-	if _, ok := _c.mutation.SortID(); !ok {
-		v := department.DefaultSortID
-		_c.mutation.SetSortID(v)
+	if _, ok := _c.mutation.Status(); !ok {
+		v := department.DefaultStatus
+		_c.mutation.SetStatus(v)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
 func (_c *DepartmentCreate) check() error {
-	if v, ok := _c.mutation.TenantID(); ok {
-		if err := department.TenantIDValidator(v); err != nil {
-			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "Department.tenant_id": %w`, err)}
-		}
-	}
 	if v, ok := _c.mutation.Name(); ok {
 		if err := department.NameValidator(v); err != nil {
 			return &ValidationError{Name: "name", err: fmt.Errorf(`ent: validator failed for field "Department.name": %w`, err)}
@@ -339,25 +348,33 @@ func (_c *DepartmentCreate) createSpec() (*Department, *sqlgraph.CreateSpec) {
 		_node.ID = id
 		_spec.ID.Value = id
 	}
-	if value, ok := _c.mutation.CreateTime(); ok {
-		_spec.SetField(department.FieldCreateTime, field.TypeTime, value)
-		_node.CreateTime = &value
+	if value, ok := _c.mutation.CreatedAt(); ok {
+		_spec.SetField(department.FieldCreatedAt, field.TypeTime, value)
+		_node.CreatedAt = &value
 	}
-	if value, ok := _c.mutation.UpdateTime(); ok {
-		_spec.SetField(department.FieldUpdateTime, field.TypeTime, value)
-		_node.UpdateTime = &value
+	if value, ok := _c.mutation.UpdatedAt(); ok {
+		_spec.SetField(department.FieldUpdatedAt, field.TypeTime, value)
+		_node.UpdatedAt = &value
 	}
-	if value, ok := _c.mutation.DeleteTime(); ok {
-		_spec.SetField(department.FieldDeleteTime, field.TypeTime, value)
-		_node.DeleteTime = &value
+	if value, ok := _c.mutation.DeletedAt(); ok {
+		_spec.SetField(department.FieldDeletedAt, field.TypeTime, value)
+		_node.DeletedAt = &value
 	}
-	if value, ok := _c.mutation.CreateBy(); ok {
-		_spec.SetField(department.FieldCreateBy, field.TypeUint32, value)
-		_node.CreateBy = &value
+	if value, ok := _c.mutation.CreatedBy(); ok {
+		_spec.SetField(department.FieldCreatedBy, field.TypeUint32, value)
+		_node.CreatedBy = &value
 	}
-	if value, ok := _c.mutation.UpdateBy(); ok {
-		_spec.SetField(department.FieldUpdateBy, field.TypeUint32, value)
-		_node.UpdateBy = &value
+	if value, ok := _c.mutation.UpdatedBy(); ok {
+		_spec.SetField(department.FieldUpdatedBy, field.TypeUint32, value)
+		_node.UpdatedBy = &value
+	}
+	if value, ok := _c.mutation.DeletedBy(); ok {
+		_spec.SetField(department.FieldDeletedBy, field.TypeUint32, value)
+		_node.DeletedBy = &value
+	}
+	if value, ok := _c.mutation.SortOrder(); ok {
+		_spec.SetField(department.FieldSortOrder, field.TypeInt32, value)
+		_node.SortOrder = &value
 	}
 	if value, ok := _c.mutation.Remark(); ok {
 		_spec.SetField(department.FieldRemark, field.TypeString, value)
@@ -378,10 +395,6 @@ func (_c *DepartmentCreate) createSpec() (*Department, *sqlgraph.CreateSpec) {
 	if value, ok := _c.mutation.ManagerID(); ok {
 		_spec.SetField(department.FieldManagerID, field.TypeUint32, value)
 		_node.ManagerID = &value
-	}
-	if value, ok := _c.mutation.SortID(); ok {
-		_spec.SetField(department.FieldSortID, field.TypeInt32, value)
-		_node.SortID = &value
 	}
 	if value, ok := _c.mutation.Status(); ok {
 		_spec.SetField(department.FieldStatus, field.TypeEnum, value)
@@ -431,7 +444,7 @@ func (_c *DepartmentCreate) createSpec() (*Department, *sqlgraph.CreateSpec) {
 // of the `INSERT` statement. For example:
 //
 //	client.Department.Create().
-//		SetCreateTime(v).
+//		SetCreatedAt(v).
 //		OnConflict(
 //			// Update the row with the new values
 //			// the was proposed for insertion.
@@ -440,7 +453,7 @@ func (_c *DepartmentCreate) createSpec() (*Department, *sqlgraph.CreateSpec) {
 //		// Override some of the fields with custom
 //		// update values.
 //		Update(func(u *ent.DepartmentUpsert) {
-//			SetCreateTime(v+v).
+//			SetCreatedAt(v+v).
 //		}).
 //		Exec(ctx)
 func (_c *DepartmentCreate) OnConflict(opts ...sql.ConflictOption) *DepartmentUpsertOne {
@@ -476,87 +489,135 @@ type (
 	}
 )
 
-// SetUpdateTime sets the "update_time" field.
-func (u *DepartmentUpsert) SetUpdateTime(v time.Time) *DepartmentUpsert {
-	u.Set(department.FieldUpdateTime, v)
+// SetUpdatedAt sets the "updated_at" field.
+func (u *DepartmentUpsert) SetUpdatedAt(v time.Time) *DepartmentUpsert {
+	u.Set(department.FieldUpdatedAt, v)
 	return u
 }
 
-// UpdateUpdateTime sets the "update_time" field to the value that was provided on create.
-func (u *DepartmentUpsert) UpdateUpdateTime() *DepartmentUpsert {
-	u.SetExcluded(department.FieldUpdateTime)
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *DepartmentUpsert) UpdateUpdatedAt() *DepartmentUpsert {
+	u.SetExcluded(department.FieldUpdatedAt)
 	return u
 }
 
-// ClearUpdateTime clears the value of the "update_time" field.
-func (u *DepartmentUpsert) ClearUpdateTime() *DepartmentUpsert {
-	u.SetNull(department.FieldUpdateTime)
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (u *DepartmentUpsert) ClearUpdatedAt() *DepartmentUpsert {
+	u.SetNull(department.FieldUpdatedAt)
 	return u
 }
 
-// SetDeleteTime sets the "delete_time" field.
-func (u *DepartmentUpsert) SetDeleteTime(v time.Time) *DepartmentUpsert {
-	u.Set(department.FieldDeleteTime, v)
+// SetDeletedAt sets the "deleted_at" field.
+func (u *DepartmentUpsert) SetDeletedAt(v time.Time) *DepartmentUpsert {
+	u.Set(department.FieldDeletedAt, v)
 	return u
 }
 
-// UpdateDeleteTime sets the "delete_time" field to the value that was provided on create.
-func (u *DepartmentUpsert) UpdateDeleteTime() *DepartmentUpsert {
-	u.SetExcluded(department.FieldDeleteTime)
+// UpdateDeletedAt sets the "deleted_at" field to the value that was provided on create.
+func (u *DepartmentUpsert) UpdateDeletedAt() *DepartmentUpsert {
+	u.SetExcluded(department.FieldDeletedAt)
 	return u
 }
 
-// ClearDeleteTime clears the value of the "delete_time" field.
-func (u *DepartmentUpsert) ClearDeleteTime() *DepartmentUpsert {
-	u.SetNull(department.FieldDeleteTime)
+// ClearDeletedAt clears the value of the "deleted_at" field.
+func (u *DepartmentUpsert) ClearDeletedAt() *DepartmentUpsert {
+	u.SetNull(department.FieldDeletedAt)
 	return u
 }
 
-// SetCreateBy sets the "create_by" field.
-func (u *DepartmentUpsert) SetCreateBy(v uint32) *DepartmentUpsert {
-	u.Set(department.FieldCreateBy, v)
+// SetCreatedBy sets the "created_by" field.
+func (u *DepartmentUpsert) SetCreatedBy(v uint32) *DepartmentUpsert {
+	u.Set(department.FieldCreatedBy, v)
 	return u
 }
 
-// UpdateCreateBy sets the "create_by" field to the value that was provided on create.
-func (u *DepartmentUpsert) UpdateCreateBy() *DepartmentUpsert {
-	u.SetExcluded(department.FieldCreateBy)
+// UpdateCreatedBy sets the "created_by" field to the value that was provided on create.
+func (u *DepartmentUpsert) UpdateCreatedBy() *DepartmentUpsert {
+	u.SetExcluded(department.FieldCreatedBy)
 	return u
 }
 
-// AddCreateBy adds v to the "create_by" field.
-func (u *DepartmentUpsert) AddCreateBy(v uint32) *DepartmentUpsert {
-	u.Add(department.FieldCreateBy, v)
+// AddCreatedBy adds v to the "created_by" field.
+func (u *DepartmentUpsert) AddCreatedBy(v uint32) *DepartmentUpsert {
+	u.Add(department.FieldCreatedBy, v)
 	return u
 }
 
-// ClearCreateBy clears the value of the "create_by" field.
-func (u *DepartmentUpsert) ClearCreateBy() *DepartmentUpsert {
-	u.SetNull(department.FieldCreateBy)
+// ClearCreatedBy clears the value of the "created_by" field.
+func (u *DepartmentUpsert) ClearCreatedBy() *DepartmentUpsert {
+	u.SetNull(department.FieldCreatedBy)
 	return u
 }
 
-// SetUpdateBy sets the "update_by" field.
-func (u *DepartmentUpsert) SetUpdateBy(v uint32) *DepartmentUpsert {
-	u.Set(department.FieldUpdateBy, v)
+// SetUpdatedBy sets the "updated_by" field.
+func (u *DepartmentUpsert) SetUpdatedBy(v uint32) *DepartmentUpsert {
+	u.Set(department.FieldUpdatedBy, v)
 	return u
 }
 
-// UpdateUpdateBy sets the "update_by" field to the value that was provided on create.
-func (u *DepartmentUpsert) UpdateUpdateBy() *DepartmentUpsert {
-	u.SetExcluded(department.FieldUpdateBy)
+// UpdateUpdatedBy sets the "updated_by" field to the value that was provided on create.
+func (u *DepartmentUpsert) UpdateUpdatedBy() *DepartmentUpsert {
+	u.SetExcluded(department.FieldUpdatedBy)
 	return u
 }
 
-// AddUpdateBy adds v to the "update_by" field.
-func (u *DepartmentUpsert) AddUpdateBy(v uint32) *DepartmentUpsert {
-	u.Add(department.FieldUpdateBy, v)
+// AddUpdatedBy adds v to the "updated_by" field.
+func (u *DepartmentUpsert) AddUpdatedBy(v uint32) *DepartmentUpsert {
+	u.Add(department.FieldUpdatedBy, v)
 	return u
 }
 
-// ClearUpdateBy clears the value of the "update_by" field.
-func (u *DepartmentUpsert) ClearUpdateBy() *DepartmentUpsert {
-	u.SetNull(department.FieldUpdateBy)
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (u *DepartmentUpsert) ClearUpdatedBy() *DepartmentUpsert {
+	u.SetNull(department.FieldUpdatedBy)
+	return u
+}
+
+// SetDeletedBy sets the "deleted_by" field.
+func (u *DepartmentUpsert) SetDeletedBy(v uint32) *DepartmentUpsert {
+	u.Set(department.FieldDeletedBy, v)
+	return u
+}
+
+// UpdateDeletedBy sets the "deleted_by" field to the value that was provided on create.
+func (u *DepartmentUpsert) UpdateDeletedBy() *DepartmentUpsert {
+	u.SetExcluded(department.FieldDeletedBy)
+	return u
+}
+
+// AddDeletedBy adds v to the "deleted_by" field.
+func (u *DepartmentUpsert) AddDeletedBy(v uint32) *DepartmentUpsert {
+	u.Add(department.FieldDeletedBy, v)
+	return u
+}
+
+// ClearDeletedBy clears the value of the "deleted_by" field.
+func (u *DepartmentUpsert) ClearDeletedBy() *DepartmentUpsert {
+	u.SetNull(department.FieldDeletedBy)
+	return u
+}
+
+// SetSortOrder sets the "sort_order" field.
+func (u *DepartmentUpsert) SetSortOrder(v int32) *DepartmentUpsert {
+	u.Set(department.FieldSortOrder, v)
+	return u
+}
+
+// UpdateSortOrder sets the "sort_order" field to the value that was provided on create.
+func (u *DepartmentUpsert) UpdateSortOrder() *DepartmentUpsert {
+	u.SetExcluded(department.FieldSortOrder)
+	return u
+}
+
+// AddSortOrder adds v to the "sort_order" field.
+func (u *DepartmentUpsert) AddSortOrder(v int32) *DepartmentUpsert {
+	u.Add(department.FieldSortOrder, v)
+	return u
+}
+
+// ClearSortOrder clears the value of the "sort_order" field.
+func (u *DepartmentUpsert) ClearSortOrder() *DepartmentUpsert {
+	u.SetNull(department.FieldSortOrder)
 	return u
 }
 
@@ -578,24 +639,6 @@ func (u *DepartmentUpsert) ClearRemark() *DepartmentUpsert {
 	return u
 }
 
-// SetName sets the "name" field.
-func (u *DepartmentUpsert) SetName(v string) *DepartmentUpsert {
-	u.Set(department.FieldName, v)
-	return u
-}
-
-// UpdateName sets the "name" field to the value that was provided on create.
-func (u *DepartmentUpsert) UpdateName() *DepartmentUpsert {
-	u.SetExcluded(department.FieldName)
-	return u
-}
-
-// ClearName clears the value of the "name" field.
-func (u *DepartmentUpsert) ClearName() *DepartmentUpsert {
-	u.SetNull(department.FieldName)
-	return u
-}
-
 // SetParentID sets the "parent_id" field.
 func (u *DepartmentUpsert) SetParentID(v uint32) *DepartmentUpsert {
 	u.Set(department.FieldParentID, v)
@@ -611,6 +654,24 @@ func (u *DepartmentUpsert) UpdateParentID() *DepartmentUpsert {
 // ClearParentID clears the value of the "parent_id" field.
 func (u *DepartmentUpsert) ClearParentID() *DepartmentUpsert {
 	u.SetNull(department.FieldParentID)
+	return u
+}
+
+// SetName sets the "name" field.
+func (u *DepartmentUpsert) SetName(v string) *DepartmentUpsert {
+	u.Set(department.FieldName, v)
+	return u
+}
+
+// UpdateName sets the "name" field to the value that was provided on create.
+func (u *DepartmentUpsert) UpdateName() *DepartmentUpsert {
+	u.SetExcluded(department.FieldName)
+	return u
+}
+
+// ClearName clears the value of the "name" field.
+func (u *DepartmentUpsert) ClearName() *DepartmentUpsert {
+	u.SetNull(department.FieldName)
 	return u
 }
 
@@ -653,30 +714,6 @@ func (u *DepartmentUpsert) AddManagerID(v uint32) *DepartmentUpsert {
 // ClearManagerID clears the value of the "manager_id" field.
 func (u *DepartmentUpsert) ClearManagerID() *DepartmentUpsert {
 	u.SetNull(department.FieldManagerID)
-	return u
-}
-
-// SetSortID sets the "sort_id" field.
-func (u *DepartmentUpsert) SetSortID(v int32) *DepartmentUpsert {
-	u.Set(department.FieldSortID, v)
-	return u
-}
-
-// UpdateSortID sets the "sort_id" field to the value that was provided on create.
-func (u *DepartmentUpsert) UpdateSortID() *DepartmentUpsert {
-	u.SetExcluded(department.FieldSortID)
-	return u
-}
-
-// AddSortID adds v to the "sort_id" field.
-func (u *DepartmentUpsert) AddSortID(v int32) *DepartmentUpsert {
-	u.Add(department.FieldSortID, v)
-	return u
-}
-
-// ClearSortID clears the value of the "sort_id" field.
-func (u *DepartmentUpsert) ClearSortID() *DepartmentUpsert {
-	u.SetNull(department.FieldSortID)
 	return u
 }
 
@@ -733,8 +770,8 @@ func (u *DepartmentUpsertOne) UpdateNewValues() *DepartmentUpsertOne {
 		if _, exists := u.create.mutation.ID(); exists {
 			s.SetIgnore(department.FieldID)
 		}
-		if _, exists := u.create.mutation.CreateTime(); exists {
-			s.SetIgnore(department.FieldCreateTime)
+		if _, exists := u.create.mutation.CreatedAt(); exists {
+			s.SetIgnore(department.FieldCreatedAt)
 		}
 		if _, exists := u.create.mutation.TenantID(); exists {
 			s.SetIgnore(department.FieldTenantID)
@@ -770,101 +807,157 @@ func (u *DepartmentUpsertOne) Update(set func(*DepartmentUpsert)) *DepartmentUps
 	return u
 }
 
-// SetUpdateTime sets the "update_time" field.
-func (u *DepartmentUpsertOne) SetUpdateTime(v time.Time) *DepartmentUpsertOne {
+// SetUpdatedAt sets the "updated_at" field.
+func (u *DepartmentUpsertOne) SetUpdatedAt(v time.Time) *DepartmentUpsertOne {
 	return u.Update(func(s *DepartmentUpsert) {
-		s.SetUpdateTime(v)
+		s.SetUpdatedAt(v)
 	})
 }
 
-// UpdateUpdateTime sets the "update_time" field to the value that was provided on create.
-func (u *DepartmentUpsertOne) UpdateUpdateTime() *DepartmentUpsertOne {
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *DepartmentUpsertOne) UpdateUpdatedAt() *DepartmentUpsertOne {
 	return u.Update(func(s *DepartmentUpsert) {
-		s.UpdateUpdateTime()
+		s.UpdateUpdatedAt()
 	})
 }
 
-// ClearUpdateTime clears the value of the "update_time" field.
-func (u *DepartmentUpsertOne) ClearUpdateTime() *DepartmentUpsertOne {
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (u *DepartmentUpsertOne) ClearUpdatedAt() *DepartmentUpsertOne {
 	return u.Update(func(s *DepartmentUpsert) {
-		s.ClearUpdateTime()
+		s.ClearUpdatedAt()
 	})
 }
 
-// SetDeleteTime sets the "delete_time" field.
-func (u *DepartmentUpsertOne) SetDeleteTime(v time.Time) *DepartmentUpsertOne {
+// SetDeletedAt sets the "deleted_at" field.
+func (u *DepartmentUpsertOne) SetDeletedAt(v time.Time) *DepartmentUpsertOne {
 	return u.Update(func(s *DepartmentUpsert) {
-		s.SetDeleteTime(v)
+		s.SetDeletedAt(v)
 	})
 }
 
-// UpdateDeleteTime sets the "delete_time" field to the value that was provided on create.
-func (u *DepartmentUpsertOne) UpdateDeleteTime() *DepartmentUpsertOne {
+// UpdateDeletedAt sets the "deleted_at" field to the value that was provided on create.
+func (u *DepartmentUpsertOne) UpdateDeletedAt() *DepartmentUpsertOne {
 	return u.Update(func(s *DepartmentUpsert) {
-		s.UpdateDeleteTime()
+		s.UpdateDeletedAt()
 	})
 }
 
-// ClearDeleteTime clears the value of the "delete_time" field.
-func (u *DepartmentUpsertOne) ClearDeleteTime() *DepartmentUpsertOne {
+// ClearDeletedAt clears the value of the "deleted_at" field.
+func (u *DepartmentUpsertOne) ClearDeletedAt() *DepartmentUpsertOne {
 	return u.Update(func(s *DepartmentUpsert) {
-		s.ClearDeleteTime()
+		s.ClearDeletedAt()
 	})
 }
 
-// SetCreateBy sets the "create_by" field.
-func (u *DepartmentUpsertOne) SetCreateBy(v uint32) *DepartmentUpsertOne {
+// SetCreatedBy sets the "created_by" field.
+func (u *DepartmentUpsertOne) SetCreatedBy(v uint32) *DepartmentUpsertOne {
 	return u.Update(func(s *DepartmentUpsert) {
-		s.SetCreateBy(v)
+		s.SetCreatedBy(v)
 	})
 }
 
-// AddCreateBy adds v to the "create_by" field.
-func (u *DepartmentUpsertOne) AddCreateBy(v uint32) *DepartmentUpsertOne {
+// AddCreatedBy adds v to the "created_by" field.
+func (u *DepartmentUpsertOne) AddCreatedBy(v uint32) *DepartmentUpsertOne {
 	return u.Update(func(s *DepartmentUpsert) {
-		s.AddCreateBy(v)
+		s.AddCreatedBy(v)
 	})
 }
 
-// UpdateCreateBy sets the "create_by" field to the value that was provided on create.
-func (u *DepartmentUpsertOne) UpdateCreateBy() *DepartmentUpsertOne {
+// UpdateCreatedBy sets the "created_by" field to the value that was provided on create.
+func (u *DepartmentUpsertOne) UpdateCreatedBy() *DepartmentUpsertOne {
 	return u.Update(func(s *DepartmentUpsert) {
-		s.UpdateCreateBy()
+		s.UpdateCreatedBy()
 	})
 }
 
-// ClearCreateBy clears the value of the "create_by" field.
-func (u *DepartmentUpsertOne) ClearCreateBy() *DepartmentUpsertOne {
+// ClearCreatedBy clears the value of the "created_by" field.
+func (u *DepartmentUpsertOne) ClearCreatedBy() *DepartmentUpsertOne {
 	return u.Update(func(s *DepartmentUpsert) {
-		s.ClearCreateBy()
+		s.ClearCreatedBy()
 	})
 }
 
-// SetUpdateBy sets the "update_by" field.
-func (u *DepartmentUpsertOne) SetUpdateBy(v uint32) *DepartmentUpsertOne {
+// SetUpdatedBy sets the "updated_by" field.
+func (u *DepartmentUpsertOne) SetUpdatedBy(v uint32) *DepartmentUpsertOne {
 	return u.Update(func(s *DepartmentUpsert) {
-		s.SetUpdateBy(v)
+		s.SetUpdatedBy(v)
 	})
 }
 
-// AddUpdateBy adds v to the "update_by" field.
-func (u *DepartmentUpsertOne) AddUpdateBy(v uint32) *DepartmentUpsertOne {
+// AddUpdatedBy adds v to the "updated_by" field.
+func (u *DepartmentUpsertOne) AddUpdatedBy(v uint32) *DepartmentUpsertOne {
 	return u.Update(func(s *DepartmentUpsert) {
-		s.AddUpdateBy(v)
+		s.AddUpdatedBy(v)
 	})
 }
 
-// UpdateUpdateBy sets the "update_by" field to the value that was provided on create.
-func (u *DepartmentUpsertOne) UpdateUpdateBy() *DepartmentUpsertOne {
+// UpdateUpdatedBy sets the "updated_by" field to the value that was provided on create.
+func (u *DepartmentUpsertOne) UpdateUpdatedBy() *DepartmentUpsertOne {
 	return u.Update(func(s *DepartmentUpsert) {
-		s.UpdateUpdateBy()
+		s.UpdateUpdatedBy()
 	})
 }
 
-// ClearUpdateBy clears the value of the "update_by" field.
-func (u *DepartmentUpsertOne) ClearUpdateBy() *DepartmentUpsertOne {
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (u *DepartmentUpsertOne) ClearUpdatedBy() *DepartmentUpsertOne {
 	return u.Update(func(s *DepartmentUpsert) {
-		s.ClearUpdateBy()
+		s.ClearUpdatedBy()
+	})
+}
+
+// SetDeletedBy sets the "deleted_by" field.
+func (u *DepartmentUpsertOne) SetDeletedBy(v uint32) *DepartmentUpsertOne {
+	return u.Update(func(s *DepartmentUpsert) {
+		s.SetDeletedBy(v)
+	})
+}
+
+// AddDeletedBy adds v to the "deleted_by" field.
+func (u *DepartmentUpsertOne) AddDeletedBy(v uint32) *DepartmentUpsertOne {
+	return u.Update(func(s *DepartmentUpsert) {
+		s.AddDeletedBy(v)
+	})
+}
+
+// UpdateDeletedBy sets the "deleted_by" field to the value that was provided on create.
+func (u *DepartmentUpsertOne) UpdateDeletedBy() *DepartmentUpsertOne {
+	return u.Update(func(s *DepartmentUpsert) {
+		s.UpdateDeletedBy()
+	})
+}
+
+// ClearDeletedBy clears the value of the "deleted_by" field.
+func (u *DepartmentUpsertOne) ClearDeletedBy() *DepartmentUpsertOne {
+	return u.Update(func(s *DepartmentUpsert) {
+		s.ClearDeletedBy()
+	})
+}
+
+// SetSortOrder sets the "sort_order" field.
+func (u *DepartmentUpsertOne) SetSortOrder(v int32) *DepartmentUpsertOne {
+	return u.Update(func(s *DepartmentUpsert) {
+		s.SetSortOrder(v)
+	})
+}
+
+// AddSortOrder adds v to the "sort_order" field.
+func (u *DepartmentUpsertOne) AddSortOrder(v int32) *DepartmentUpsertOne {
+	return u.Update(func(s *DepartmentUpsert) {
+		s.AddSortOrder(v)
+	})
+}
+
+// UpdateSortOrder sets the "sort_order" field to the value that was provided on create.
+func (u *DepartmentUpsertOne) UpdateSortOrder() *DepartmentUpsertOne {
+	return u.Update(func(s *DepartmentUpsert) {
+		s.UpdateSortOrder()
+	})
+}
+
+// ClearSortOrder clears the value of the "sort_order" field.
+func (u *DepartmentUpsertOne) ClearSortOrder() *DepartmentUpsertOne {
+	return u.Update(func(s *DepartmentUpsert) {
+		s.ClearSortOrder()
 	})
 }
 
@@ -889,27 +982,6 @@ func (u *DepartmentUpsertOne) ClearRemark() *DepartmentUpsertOne {
 	})
 }
 
-// SetName sets the "name" field.
-func (u *DepartmentUpsertOne) SetName(v string) *DepartmentUpsertOne {
-	return u.Update(func(s *DepartmentUpsert) {
-		s.SetName(v)
-	})
-}
-
-// UpdateName sets the "name" field to the value that was provided on create.
-func (u *DepartmentUpsertOne) UpdateName() *DepartmentUpsertOne {
-	return u.Update(func(s *DepartmentUpsert) {
-		s.UpdateName()
-	})
-}
-
-// ClearName clears the value of the "name" field.
-func (u *DepartmentUpsertOne) ClearName() *DepartmentUpsertOne {
-	return u.Update(func(s *DepartmentUpsert) {
-		s.ClearName()
-	})
-}
-
 // SetParentID sets the "parent_id" field.
 func (u *DepartmentUpsertOne) SetParentID(v uint32) *DepartmentUpsertOne {
 	return u.Update(func(s *DepartmentUpsert) {
@@ -928,6 +1000,27 @@ func (u *DepartmentUpsertOne) UpdateParentID() *DepartmentUpsertOne {
 func (u *DepartmentUpsertOne) ClearParentID() *DepartmentUpsertOne {
 	return u.Update(func(s *DepartmentUpsert) {
 		s.ClearParentID()
+	})
+}
+
+// SetName sets the "name" field.
+func (u *DepartmentUpsertOne) SetName(v string) *DepartmentUpsertOne {
+	return u.Update(func(s *DepartmentUpsert) {
+		s.SetName(v)
+	})
+}
+
+// UpdateName sets the "name" field to the value that was provided on create.
+func (u *DepartmentUpsertOne) UpdateName() *DepartmentUpsertOne {
+	return u.Update(func(s *DepartmentUpsert) {
+		s.UpdateName()
+	})
+}
+
+// ClearName clears the value of the "name" field.
+func (u *DepartmentUpsertOne) ClearName() *DepartmentUpsertOne {
+	return u.Update(func(s *DepartmentUpsert) {
+		s.ClearName()
 	})
 }
 
@@ -977,34 +1070,6 @@ func (u *DepartmentUpsertOne) UpdateManagerID() *DepartmentUpsertOne {
 func (u *DepartmentUpsertOne) ClearManagerID() *DepartmentUpsertOne {
 	return u.Update(func(s *DepartmentUpsert) {
 		s.ClearManagerID()
-	})
-}
-
-// SetSortID sets the "sort_id" field.
-func (u *DepartmentUpsertOne) SetSortID(v int32) *DepartmentUpsertOne {
-	return u.Update(func(s *DepartmentUpsert) {
-		s.SetSortID(v)
-	})
-}
-
-// AddSortID adds v to the "sort_id" field.
-func (u *DepartmentUpsertOne) AddSortID(v int32) *DepartmentUpsertOne {
-	return u.Update(func(s *DepartmentUpsert) {
-		s.AddSortID(v)
-	})
-}
-
-// UpdateSortID sets the "sort_id" field to the value that was provided on create.
-func (u *DepartmentUpsertOne) UpdateSortID() *DepartmentUpsertOne {
-	return u.Update(func(s *DepartmentUpsert) {
-		s.UpdateSortID()
-	})
-}
-
-// ClearSortID clears the value of the "sort_id" field.
-func (u *DepartmentUpsertOne) ClearSortID() *DepartmentUpsertOne {
-	return u.Update(func(s *DepartmentUpsert) {
-		s.ClearSortID()
 	})
 }
 
@@ -1185,7 +1250,7 @@ func (_c *DepartmentCreateBulk) ExecX(ctx context.Context) {
 //		// Override some of the fields with custom
 //		// update values.
 //		Update(func(u *ent.DepartmentUpsert) {
-//			SetCreateTime(v+v).
+//			SetCreatedAt(v+v).
 //		}).
 //		Exec(ctx)
 func (_c *DepartmentCreateBulk) OnConflict(opts ...sql.ConflictOption) *DepartmentUpsertBulk {
@@ -1232,8 +1297,8 @@ func (u *DepartmentUpsertBulk) UpdateNewValues() *DepartmentUpsertBulk {
 			if _, exists := b.mutation.ID(); exists {
 				s.SetIgnore(department.FieldID)
 			}
-			if _, exists := b.mutation.CreateTime(); exists {
-				s.SetIgnore(department.FieldCreateTime)
+			if _, exists := b.mutation.CreatedAt(); exists {
+				s.SetIgnore(department.FieldCreatedAt)
 			}
 			if _, exists := b.mutation.TenantID(); exists {
 				s.SetIgnore(department.FieldTenantID)
@@ -1270,101 +1335,157 @@ func (u *DepartmentUpsertBulk) Update(set func(*DepartmentUpsert)) *DepartmentUp
 	return u
 }
 
-// SetUpdateTime sets the "update_time" field.
-func (u *DepartmentUpsertBulk) SetUpdateTime(v time.Time) *DepartmentUpsertBulk {
+// SetUpdatedAt sets the "updated_at" field.
+func (u *DepartmentUpsertBulk) SetUpdatedAt(v time.Time) *DepartmentUpsertBulk {
 	return u.Update(func(s *DepartmentUpsert) {
-		s.SetUpdateTime(v)
+		s.SetUpdatedAt(v)
 	})
 }
 
-// UpdateUpdateTime sets the "update_time" field to the value that was provided on create.
-func (u *DepartmentUpsertBulk) UpdateUpdateTime() *DepartmentUpsertBulk {
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *DepartmentUpsertBulk) UpdateUpdatedAt() *DepartmentUpsertBulk {
 	return u.Update(func(s *DepartmentUpsert) {
-		s.UpdateUpdateTime()
+		s.UpdateUpdatedAt()
 	})
 }
 
-// ClearUpdateTime clears the value of the "update_time" field.
-func (u *DepartmentUpsertBulk) ClearUpdateTime() *DepartmentUpsertBulk {
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (u *DepartmentUpsertBulk) ClearUpdatedAt() *DepartmentUpsertBulk {
 	return u.Update(func(s *DepartmentUpsert) {
-		s.ClearUpdateTime()
+		s.ClearUpdatedAt()
 	})
 }
 
-// SetDeleteTime sets the "delete_time" field.
-func (u *DepartmentUpsertBulk) SetDeleteTime(v time.Time) *DepartmentUpsertBulk {
+// SetDeletedAt sets the "deleted_at" field.
+func (u *DepartmentUpsertBulk) SetDeletedAt(v time.Time) *DepartmentUpsertBulk {
 	return u.Update(func(s *DepartmentUpsert) {
-		s.SetDeleteTime(v)
+		s.SetDeletedAt(v)
 	})
 }
 
-// UpdateDeleteTime sets the "delete_time" field to the value that was provided on create.
-func (u *DepartmentUpsertBulk) UpdateDeleteTime() *DepartmentUpsertBulk {
+// UpdateDeletedAt sets the "deleted_at" field to the value that was provided on create.
+func (u *DepartmentUpsertBulk) UpdateDeletedAt() *DepartmentUpsertBulk {
 	return u.Update(func(s *DepartmentUpsert) {
-		s.UpdateDeleteTime()
+		s.UpdateDeletedAt()
 	})
 }
 
-// ClearDeleteTime clears the value of the "delete_time" field.
-func (u *DepartmentUpsertBulk) ClearDeleteTime() *DepartmentUpsertBulk {
+// ClearDeletedAt clears the value of the "deleted_at" field.
+func (u *DepartmentUpsertBulk) ClearDeletedAt() *DepartmentUpsertBulk {
 	return u.Update(func(s *DepartmentUpsert) {
-		s.ClearDeleteTime()
+		s.ClearDeletedAt()
 	})
 }
 
-// SetCreateBy sets the "create_by" field.
-func (u *DepartmentUpsertBulk) SetCreateBy(v uint32) *DepartmentUpsertBulk {
+// SetCreatedBy sets the "created_by" field.
+func (u *DepartmentUpsertBulk) SetCreatedBy(v uint32) *DepartmentUpsertBulk {
 	return u.Update(func(s *DepartmentUpsert) {
-		s.SetCreateBy(v)
+		s.SetCreatedBy(v)
 	})
 }
 
-// AddCreateBy adds v to the "create_by" field.
-func (u *DepartmentUpsertBulk) AddCreateBy(v uint32) *DepartmentUpsertBulk {
+// AddCreatedBy adds v to the "created_by" field.
+func (u *DepartmentUpsertBulk) AddCreatedBy(v uint32) *DepartmentUpsertBulk {
 	return u.Update(func(s *DepartmentUpsert) {
-		s.AddCreateBy(v)
+		s.AddCreatedBy(v)
 	})
 }
 
-// UpdateCreateBy sets the "create_by" field to the value that was provided on create.
-func (u *DepartmentUpsertBulk) UpdateCreateBy() *DepartmentUpsertBulk {
+// UpdateCreatedBy sets the "created_by" field to the value that was provided on create.
+func (u *DepartmentUpsertBulk) UpdateCreatedBy() *DepartmentUpsertBulk {
 	return u.Update(func(s *DepartmentUpsert) {
-		s.UpdateCreateBy()
+		s.UpdateCreatedBy()
 	})
 }
 
-// ClearCreateBy clears the value of the "create_by" field.
-func (u *DepartmentUpsertBulk) ClearCreateBy() *DepartmentUpsertBulk {
+// ClearCreatedBy clears the value of the "created_by" field.
+func (u *DepartmentUpsertBulk) ClearCreatedBy() *DepartmentUpsertBulk {
 	return u.Update(func(s *DepartmentUpsert) {
-		s.ClearCreateBy()
+		s.ClearCreatedBy()
 	})
 }
 
-// SetUpdateBy sets the "update_by" field.
-func (u *DepartmentUpsertBulk) SetUpdateBy(v uint32) *DepartmentUpsertBulk {
+// SetUpdatedBy sets the "updated_by" field.
+func (u *DepartmentUpsertBulk) SetUpdatedBy(v uint32) *DepartmentUpsertBulk {
 	return u.Update(func(s *DepartmentUpsert) {
-		s.SetUpdateBy(v)
+		s.SetUpdatedBy(v)
 	})
 }
 
-// AddUpdateBy adds v to the "update_by" field.
-func (u *DepartmentUpsertBulk) AddUpdateBy(v uint32) *DepartmentUpsertBulk {
+// AddUpdatedBy adds v to the "updated_by" field.
+func (u *DepartmentUpsertBulk) AddUpdatedBy(v uint32) *DepartmentUpsertBulk {
 	return u.Update(func(s *DepartmentUpsert) {
-		s.AddUpdateBy(v)
+		s.AddUpdatedBy(v)
 	})
 }
 
-// UpdateUpdateBy sets the "update_by" field to the value that was provided on create.
-func (u *DepartmentUpsertBulk) UpdateUpdateBy() *DepartmentUpsertBulk {
+// UpdateUpdatedBy sets the "updated_by" field to the value that was provided on create.
+func (u *DepartmentUpsertBulk) UpdateUpdatedBy() *DepartmentUpsertBulk {
 	return u.Update(func(s *DepartmentUpsert) {
-		s.UpdateUpdateBy()
+		s.UpdateUpdatedBy()
 	})
 }
 
-// ClearUpdateBy clears the value of the "update_by" field.
-func (u *DepartmentUpsertBulk) ClearUpdateBy() *DepartmentUpsertBulk {
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (u *DepartmentUpsertBulk) ClearUpdatedBy() *DepartmentUpsertBulk {
 	return u.Update(func(s *DepartmentUpsert) {
-		s.ClearUpdateBy()
+		s.ClearUpdatedBy()
+	})
+}
+
+// SetDeletedBy sets the "deleted_by" field.
+func (u *DepartmentUpsertBulk) SetDeletedBy(v uint32) *DepartmentUpsertBulk {
+	return u.Update(func(s *DepartmentUpsert) {
+		s.SetDeletedBy(v)
+	})
+}
+
+// AddDeletedBy adds v to the "deleted_by" field.
+func (u *DepartmentUpsertBulk) AddDeletedBy(v uint32) *DepartmentUpsertBulk {
+	return u.Update(func(s *DepartmentUpsert) {
+		s.AddDeletedBy(v)
+	})
+}
+
+// UpdateDeletedBy sets the "deleted_by" field to the value that was provided on create.
+func (u *DepartmentUpsertBulk) UpdateDeletedBy() *DepartmentUpsertBulk {
+	return u.Update(func(s *DepartmentUpsert) {
+		s.UpdateDeletedBy()
+	})
+}
+
+// ClearDeletedBy clears the value of the "deleted_by" field.
+func (u *DepartmentUpsertBulk) ClearDeletedBy() *DepartmentUpsertBulk {
+	return u.Update(func(s *DepartmentUpsert) {
+		s.ClearDeletedBy()
+	})
+}
+
+// SetSortOrder sets the "sort_order" field.
+func (u *DepartmentUpsertBulk) SetSortOrder(v int32) *DepartmentUpsertBulk {
+	return u.Update(func(s *DepartmentUpsert) {
+		s.SetSortOrder(v)
+	})
+}
+
+// AddSortOrder adds v to the "sort_order" field.
+func (u *DepartmentUpsertBulk) AddSortOrder(v int32) *DepartmentUpsertBulk {
+	return u.Update(func(s *DepartmentUpsert) {
+		s.AddSortOrder(v)
+	})
+}
+
+// UpdateSortOrder sets the "sort_order" field to the value that was provided on create.
+func (u *DepartmentUpsertBulk) UpdateSortOrder() *DepartmentUpsertBulk {
+	return u.Update(func(s *DepartmentUpsert) {
+		s.UpdateSortOrder()
+	})
+}
+
+// ClearSortOrder clears the value of the "sort_order" field.
+func (u *DepartmentUpsertBulk) ClearSortOrder() *DepartmentUpsertBulk {
+	return u.Update(func(s *DepartmentUpsert) {
+		s.ClearSortOrder()
 	})
 }
 
@@ -1389,27 +1510,6 @@ func (u *DepartmentUpsertBulk) ClearRemark() *DepartmentUpsertBulk {
 	})
 }
 
-// SetName sets the "name" field.
-func (u *DepartmentUpsertBulk) SetName(v string) *DepartmentUpsertBulk {
-	return u.Update(func(s *DepartmentUpsert) {
-		s.SetName(v)
-	})
-}
-
-// UpdateName sets the "name" field to the value that was provided on create.
-func (u *DepartmentUpsertBulk) UpdateName() *DepartmentUpsertBulk {
-	return u.Update(func(s *DepartmentUpsert) {
-		s.UpdateName()
-	})
-}
-
-// ClearName clears the value of the "name" field.
-func (u *DepartmentUpsertBulk) ClearName() *DepartmentUpsertBulk {
-	return u.Update(func(s *DepartmentUpsert) {
-		s.ClearName()
-	})
-}
-
 // SetParentID sets the "parent_id" field.
 func (u *DepartmentUpsertBulk) SetParentID(v uint32) *DepartmentUpsertBulk {
 	return u.Update(func(s *DepartmentUpsert) {
@@ -1428,6 +1528,27 @@ func (u *DepartmentUpsertBulk) UpdateParentID() *DepartmentUpsertBulk {
 func (u *DepartmentUpsertBulk) ClearParentID() *DepartmentUpsertBulk {
 	return u.Update(func(s *DepartmentUpsert) {
 		s.ClearParentID()
+	})
+}
+
+// SetName sets the "name" field.
+func (u *DepartmentUpsertBulk) SetName(v string) *DepartmentUpsertBulk {
+	return u.Update(func(s *DepartmentUpsert) {
+		s.SetName(v)
+	})
+}
+
+// UpdateName sets the "name" field to the value that was provided on create.
+func (u *DepartmentUpsertBulk) UpdateName() *DepartmentUpsertBulk {
+	return u.Update(func(s *DepartmentUpsert) {
+		s.UpdateName()
+	})
+}
+
+// ClearName clears the value of the "name" field.
+func (u *DepartmentUpsertBulk) ClearName() *DepartmentUpsertBulk {
+	return u.Update(func(s *DepartmentUpsert) {
+		s.ClearName()
 	})
 }
 
@@ -1477,34 +1598,6 @@ func (u *DepartmentUpsertBulk) UpdateManagerID() *DepartmentUpsertBulk {
 func (u *DepartmentUpsertBulk) ClearManagerID() *DepartmentUpsertBulk {
 	return u.Update(func(s *DepartmentUpsert) {
 		s.ClearManagerID()
-	})
-}
-
-// SetSortID sets the "sort_id" field.
-func (u *DepartmentUpsertBulk) SetSortID(v int32) *DepartmentUpsertBulk {
-	return u.Update(func(s *DepartmentUpsert) {
-		s.SetSortID(v)
-	})
-}
-
-// AddSortID adds v to the "sort_id" field.
-func (u *DepartmentUpsertBulk) AddSortID(v int32) *DepartmentUpsertBulk {
-	return u.Update(func(s *DepartmentUpsert) {
-		s.AddSortID(v)
-	})
-}
-
-// UpdateSortID sets the "sort_id" field to the value that was provided on create.
-func (u *DepartmentUpsertBulk) UpdateSortID() *DepartmentUpsertBulk {
-	return u.Update(func(s *DepartmentUpsert) {
-		s.UpdateSortID()
-	})
-}
-
-// ClearSortID clears the value of the "sort_id" field.
-func (u *DepartmentUpsertBulk) ClearSortID() *DepartmentUpsertBulk {
-	return u.Update(func(s *DepartmentUpsert) {
-		s.ClearSortID()
 	})
 }
 

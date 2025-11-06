@@ -24,32 +24,42 @@ type UserService struct {
 
 	log *log.Helper
 
-	userRepo            *data.UserRepo
-	roleRepo            *data.RoleRepo
-	userCredentialsRepo *data.UserCredentialRepo
-	positionRepo        *data.PositionRepo
-	departmentRepo      *data.DepartmentRepo
-	organizationRepo    *data.OrganizationRepo
+	userRepo           *data.UserRepo
+	roleRepo           *data.RoleRepo
+	userCredentialRepo *data.UserCredentialRepo
+	positionRepo       *data.PositionRepo
+	departmentRepo     *data.DepartmentRepo
+	organizationRepo   *data.OrganizationRepo
+	tenantRepo         *data.TenantRepo
+
+	userRoleRepo     *data.UserRoleRepo
+	userPositionRepo *data.UserPositionRepo
 }
 
 func NewUserService(
 	logger log.Logger,
 	userRepo *data.UserRepo,
 	roleRepo *data.RoleRepo,
-	userCredentialsRepo *data.UserCredentialRepo,
+	userCredentialRepo *data.UserCredentialRepo,
 	positionRepo *data.PositionRepo,
 	departmentRepo *data.DepartmentRepo,
 	organizationRepo *data.OrganizationRepo,
+	tenantRepo *data.TenantRepo,
+	userRoleRepo *data.UserRoleRepo,
+	userPositionRepo *data.UserPositionRepo,
 ) *UserService {
 	l := log.NewHelper(log.With(logger, "module", "user/service/admin-service"))
 	svc := &UserService{
-		log:                 l,
-		userRepo:            userRepo,
-		roleRepo:            roleRepo,
-		userCredentialsRepo: userCredentialsRepo,
-		positionRepo:        positionRepo,
-		departmentRepo:      departmentRepo,
-		organizationRepo:    organizationRepo,
+		log:                l,
+		userRepo:           userRepo,
+		roleRepo:           roleRepo,
+		userCredentialRepo: userCredentialRepo,
+		positionRepo:       positionRepo,
+		departmentRepo:     departmentRepo,
+		organizationRepo:   organizationRepo,
+		tenantRepo:         tenantRepo,
+		userRoleRepo:       userRoleRepo,
+		userPositionRepo:   userPositionRepo,
 	}
 
 	svc.init()
@@ -64,23 +74,64 @@ func (s *UserService) init() {
 	}
 }
 
+func (s *UserService) initUserNameSetMap(
+	users []*userV1.User,
+	tenantSet *name_set.UserNameSetMap,
+	orgSet *name_set.UserNameSetMap,
+	deptSet *name_set.UserNameSetMap,
+	posSet *name_set.UserNameSetMap,
+	roleSet *name_set.UserNameSetMap,
+) {
+	for _, v := range users {
+		if v.TenantId != nil {
+			(*tenantSet)[v.GetTenantId()] = nil
+		}
+		if v.OrgId != nil {
+			(*orgSet)[v.GetOrgId()] = nil
+		}
+		if v.DepartmentId != nil {
+			(*deptSet)[v.GetDepartmentId()] = nil
+		}
+		if v.PositionId != nil {
+			(*posSet)[v.GetPositionId()] = nil
+		}
+		for _, roleId := range v.RoleIds {
+			(*roleSet)[roleId] = nil
+		}
+	}
+}
+
 func (s *UserService) List(ctx context.Context, req *pagination.PagingRequest) (*userV1.ListUserResponse, error) {
 	resp, err := s.userRepo.List(ctx, req)
 	if err != nil {
 		return nil, err
 	}
 
+	var roleSet = make(name_set.UserNameSetMap)
+	var tenantSet = make(name_set.UserNameSetMap)
 	var orgSet = make(name_set.UserNameSetMap)
 	var deptSet = make(name_set.UserNameSetMap)
 	var posSet = make(name_set.UserNameSetMap)
-	var roleSet = make(name_set.UserNameSetMap)
 
-	InitUserNameSetMap(resp.Items, &orgSet, &deptSet, &posSet, &roleSet)
+	s.initUserNameSetMap(resp.Items, &tenantSet, &orgSet, &deptSet, &posSet, &roleSet)
 
+	QueryTenantInfoFromRepo(ctx, s.tenantRepo, &tenantSet)
 	QueryOrganizationInfoFromRepo(ctx, s.organizationRepo, &orgSet)
 	QueryDepartmentInfoFromRepo(ctx, s.departmentRepo, &deptSet)
 	QueryPositionInfoFromRepo(ctx, s.positionRepo, &posSet)
 	QueryRoleInfoFromRepo(ctx, s.roleRepo, &roleSet)
+
+	for k, v := range tenantSet {
+		if v == nil {
+			continue
+		}
+
+		for i := 0; i < len(resp.Items); i++ {
+			if resp.Items[i].TenantId != nil && resp.Items[i].GetTenantId() == k {
+				resp.Items[i].TenantName = &v.UserName
+			}
+		}
+	}
 
 	for k, v := range orgSet {
 		if v == nil {
@@ -93,6 +144,7 @@ func (s *UserService) List(ctx context.Context, req *pagination.PagingRequest) (
 			}
 		}
 	}
+
 	for k, v := range deptSet {
 		if v == nil {
 			continue
@@ -104,6 +156,7 @@ func (s *UserService) List(ctx context.Context, req *pagination.PagingRequest) (
 			}
 		}
 	}
+
 	for k, v := range posSet {
 		if v == nil {
 			continue
@@ -115,6 +168,7 @@ func (s *UserService) List(ctx context.Context, req *pagination.PagingRequest) (
 			}
 		}
 	}
+
 	for k, v := range roleSet {
 		if v == nil {
 			continue
@@ -133,7 +187,16 @@ func (s *UserService) List(ctx context.Context, req *pagination.PagingRequest) (
 	return resp, nil
 }
 
-func (s *UserService) fileUserInfo(ctx context.Context, user *userV1.User) error {
+func (s *UserService) fillUserInfo(ctx context.Context, user *userV1.User) error {
+	if user.TenantId != nil {
+		tenant, err := s.tenantRepo.Get(ctx, &userV1.GetTenantRequest{Id: user.GetTenantId()})
+		if err == nil && tenant != nil {
+			user.TenantName = tenant.Name
+		} else {
+			s.log.Warnf("Get user tenant failed: %v", err)
+		}
+	}
+
 	if user.OrgId != nil {
 		organization, err := s.organizationRepo.Get(ctx, &userV1.GetOrganizationRequest{Id: user.GetOrgId()})
 		if err == nil && organization != nil {
@@ -186,7 +249,7 @@ func (s *UserService) Get(ctx context.Context, req *userV1.GetUserRequest) (*use
 		return nil, err
 	}
 
-	_ = s.fileUserInfo(ctx, resp)
+	_ = s.fillUserInfo(ctx, resp)
 
 	return resp, nil
 }
@@ -197,7 +260,7 @@ func (s *UserService) GetUserByUserName(ctx context.Context, req *userV1.GetUser
 		return nil, err
 	}
 
-	_ = s.fileUserInfo(ctx, resp)
+	_ = s.fillUserInfo(ctx, resp)
 
 	return resp, nil
 }
@@ -210,7 +273,7 @@ func (s *UserService) Create(ctx context.Context, req *userV1.CreateUserRequest)
 	// 获取操作人信息
 	operator, err := auth.FromContext(ctx)
 	if err != nil {
-		return &emptypb.Empty{}, err
+		return nil, err
 	}
 
 	// 获取操作者的用户信息
@@ -220,13 +283,13 @@ func (s *UserService) Create(ctx context.Context, req *userV1.CreateUserRequest)
 	}
 
 	// 校验操作者的权限
-	if operatorUser.GetAuthority() != userV1.UserAuthority_SYS_ADMIN && operatorUser.GetAuthority() != userV1.UserAuthority_TENANT_ADMIN {
+	if operatorUser.GetAuthority() != userV1.User_SYS_ADMIN && operatorUser.GetAuthority() != userV1.User_TENANT_ADMIN {
 		s.log.Infof("operator authority: %v", operatorUser.GetAuthority())
 		return nil, adminV1.ErrorForbidden("权限不够")
 	}
 
 	if req.Data.Authority == nil {
-		req.Data.Authority = userV1.UserAuthority_CUSTOMER_USER.Enum()
+		req.Data.Authority = userV1.User_CUSTOMER_USER.Enum()
 	}
 
 	if req.Data.Authority != nil {
@@ -236,7 +299,7 @@ func (s *UserService) Create(ctx context.Context, req *userV1.CreateUserRequest)
 		}
 	}
 
-	req.Data.CreateBy = trans.Ptr(operator.UserId)
+	req.Data.CreatedBy = trans.Ptr(operator.UserId)
 	req.Data.TenantId = operator.TenantId
 
 	// 创建用户
@@ -251,7 +314,7 @@ func (s *UserService) Create(ctx context.Context, req *userV1.CreateUserRequest)
 	}
 
 	if len(req.GetPassword()) > 0 {
-		if err = s.userCredentialsRepo.Create(ctx, &authenticationV1.CreateUserCredentialRequest{
+		if err = s.userCredentialRepo.Create(ctx, &authenticationV1.CreateUserCredentialRequest{
 			Data: &authenticationV1.UserCredential{
 				UserId:   user.Id,
 				TenantId: user.TenantId,
@@ -259,11 +322,11 @@ func (s *UserService) Create(ctx context.Context, req *userV1.CreateUserRequest)
 				IdentityType: authenticationV1.IdentityType_USERNAME.Enum(),
 				Identifier:   req.Data.Username,
 
-				CredentialType: authenticationV1.CredentialType_PASSWORD_HASH.Enum(),
+				CredentialType: authenticationV1.UserCredential_PASSWORD_HASH.Enum(),
 				Credential:     req.Password,
 
 				IsPrimary: trans.Ptr(true),
-				Status:    authenticationV1.UserCredentialStatus_ENABLED.Enum(),
+				Status:    authenticationV1.UserCredential_ENABLED.Enum(),
 			},
 		}); err != nil {
 			return nil, err
@@ -281,7 +344,7 @@ func (s *UserService) Update(ctx context.Context, req *userV1.UpdateUserRequest)
 	// 获取操作人信息
 	operator, err := auth.FromContext(ctx)
 	if err != nil {
-		return &emptypb.Empty{}, err
+		return nil, err
 	}
 
 	// 获取操作者的用户信息
@@ -291,7 +354,7 @@ func (s *UserService) Update(ctx context.Context, req *userV1.UpdateUserRequest)
 	}
 
 	// 校验操作者的权限
-	if operatorUser.GetAuthority() != userV1.UserAuthority_SYS_ADMIN {
+	if operatorUser.GetAuthority() != userV1.User_SYS_ADMIN {
 		return nil, adminV1.ErrorForbidden("权限不够")
 	}
 
@@ -301,7 +364,7 @@ func (s *UserService) Update(ctx context.Context, req *userV1.UpdateUserRequest)
 		}
 	}
 
-	req.Data.UpdateBy = trans.Ptr(operator.UserId)
+	req.Data.UpdatedBy = trans.Ptr(operator.UserId)
 
 	// 更新用户
 	if err = s.userRepo.Update(ctx, req); err != nil {
@@ -310,7 +373,7 @@ func (s *UserService) Update(ctx context.Context, req *userV1.UpdateUserRequest)
 	}
 
 	if len(req.GetPassword()) > 0 {
-		if err = s.userCredentialsRepo.ResetCredential(ctx, &authenticationV1.ResetCredentialRequest{
+		if err = s.userCredentialRepo.ResetCredential(ctx, &authenticationV1.ResetCredentialRequest{
 			IdentityType:  authenticationV1.IdentityType_USERNAME,
 			Identifier:    req.Data.GetUsername(),
 			NewCredential: req.GetPassword(),
@@ -326,7 +389,7 @@ func (s *UserService) Delete(ctx context.Context, req *userV1.DeleteUserRequest)
 	// 获取操作人信息
 	operator, err := auth.FromContext(ctx)
 	if err != nil {
-		return &emptypb.Empty{}, err
+		return nil, err
 	}
 
 	// 获取操作者的用户信息
@@ -336,7 +399,7 @@ func (s *UserService) Delete(ctx context.Context, req *userV1.DeleteUserRequest)
 	}
 
 	// 校验操作者的权限
-	if operatorUser.GetAuthority() != userV1.UserAuthority_SYS_ADMIN {
+	if operatorUser.GetAuthority() != userV1.User_SYS_ADMIN {
 		return nil, adminV1.ErrorForbidden("权限不够")
 	}
 
@@ -347,7 +410,7 @@ func (s *UserService) Delete(ctx context.Context, req *userV1.DeleteUserRequest)
 	}
 
 	// 不能删除超级管理员
-	if user.GetAuthority() == userV1.UserAuthority_SYS_ADMIN {
+	if user.GetAuthority() == userV1.User_SYS_ADMIN {
 		return nil, adminV1.ErrorForbidden("闹哪样？不能删除超级管理员！")
 	}
 
@@ -366,14 +429,14 @@ func (s *UserService) UserExists(ctx context.Context, req *userV1.UserExistsRequ
 }
 
 // EditUserPassword 修改用户密码
-func (s *UserService) EditUserPassword(ctx context.Context, req *userV1.EditUserPasswordRequest) (*emptypb.Empty, error) {
+func (s *UserService) EditUserPassword(ctx context.Context, req *adminV1.EditUserPasswordRequest) (*emptypb.Empty, error) {
 	// 获取操作者的用户信息
 	u, err := s.userRepo.Get(ctx, req.GetUserId())
 	if err != nil {
 		return nil, err
 	}
 
-	if err = s.userCredentialsRepo.ResetCredential(ctx, &authenticationV1.ResetCredentialRequest{
+	if err = s.userCredentialRepo.ResetCredential(ctx, &authenticationV1.ResetCredentialRequest{
 		IdentityType:  authenticationV1.IdentityType_USERNAME,
 		Identifier:    u.GetUsername(),
 		NewCredential: req.GetNewPassword(),
@@ -384,6 +447,16 @@ func (s *UserService) EditUserPassword(ctx context.Context, req *userV1.EditUser
 	}
 
 	return &emptypb.Empty{}, nil
+}
+
+func (s *UserService) ChangePassword(ctx context.Context, req *adminV1.ChangePasswordRequest) (*emptypb.Empty, error) {
+	err := s.userCredentialRepo.ChangeCredential(ctx, &authenticationV1.ChangeCredentialRequest{
+		IdentityType:  authenticationV1.IdentityType_USERNAME,
+		Identifier:    req.GetUsername(),
+		OldCredential: req.GetOldPassword(),
+		NewCredential: req.GetNewPassword(),
+	})
+	return &emptypb.Empty{}, err
 }
 
 // CreateDefaultUser 创建默认用户，即超级用户
@@ -403,27 +476,25 @@ func (s *UserService) CreateDefaultUser(ctx context.Context) error {
 			Nickname:  trans.Ptr("鹳狸猿"),
 			Region:    trans.Ptr("中国"),
 			Email:     trans.Ptr("admin@gmail.com"),
-			Authority: userV1.UserAuthority_SYS_ADMIN.Enum(),
+			Authority: userV1.User_SYS_ADMIN.Enum(),
 			RoleIds:   []uint32{1},
-			Roles:     []string{"super"},
 		},
 	}); err != nil {
 		s.log.Errorf("create default user err: %v", err)
 		return err
 	}
 
-	err = s.userCredentialsRepo.Create(ctx, &authenticationV1.CreateUserCredentialRequest{
+	if err = s.userCredentialRepo.Create(ctx, &authenticationV1.CreateUserCredentialRequest{
 		Data: &authenticationV1.UserCredential{
 			UserId:         trans.Ptr(uint32(1)),
 			IdentityType:   authenticationV1.IdentityType_USERNAME.Enum(),
 			Identifier:     trans.Ptr(defaultUsername),
-			CredentialType: authenticationV1.CredentialType_PASSWORD_HASH.Enum(),
+			CredentialType: authenticationV1.UserCredential_PASSWORD_HASH.Enum(),
 			Credential:     trans.Ptr(defaultPassword),
 			IsPrimary:      trans.Ptr(true),
-			Status:         authenticationV1.UserCredentialStatus_ENABLED.Enum(),
+			Status:         authenticationV1.UserCredential_ENABLED.Enum(),
 		},
-	})
-	if err != nil {
+	}); err != nil {
 		s.log.Errorf("create default user credential err: %v", err)
 		return err
 	}

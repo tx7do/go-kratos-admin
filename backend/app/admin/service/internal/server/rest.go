@@ -95,10 +95,8 @@ func NewRESTServer(
 	fileService *service.FileService,
 	tenantService *service.TenantService,
 	taskService *service.TaskService,
-	notificationMessageService *service.NotificationMessageService,
-	notificationMessageCategoryService *service.NotificationMessageCategoryService,
-	notificationMessageRecipientService *service.NotificationMessageRecipientService,
-	privateMessageService *service.PrivateMessageService,
+	internalMessageService *service.InternalMessageService,
+	internalMessageCategoryService *service.InternalMessageCategoryService,
 	adminLoginRestrictionService *service.AdminLoginRestrictionService,
 	userProfileService *service.UserProfileService,
 	apiResourceService *service.ApiResourceService,
@@ -139,10 +137,8 @@ func NewRESTServer(
 
 	adminV1.RegisterUEditorServiceHTTPServer(srv, ueditorSvc)
 
-	adminV1.RegisterNotificationMessageServiceHTTPServer(srv, notificationMessageService)
-	adminV1.RegisterNotificationMessageCategoryServiceHTTPServer(srv, notificationMessageCategoryService)
-	adminV1.RegisterNotificationMessageRecipientServiceHTTPServer(srv, notificationMessageRecipientService)
-	adminV1.RegisterPrivateMessageServiceHTTPServer(srv, privateMessageService)
+	adminV1.RegisterInternalMessageServiceHTTPServer(srv, internalMessageService)
+	adminV1.RegisterInternalMessageCategoryServiceHTTPServer(srv, internalMessageCategoryService)
 
 	registerFileUploadHandler(srv, ossSvc)
 	registerUEditorUploadHandler(srv, ueditorSvc)

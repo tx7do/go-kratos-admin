@@ -336,12 +336,12 @@ func (_q *RoleQuery) WithChildren(opts ...func(*RoleQuery)) *RoleQuery {
 // Example:
 //
 //	var v []struct {
-//		CreateTime time.Time `json:"create_time,omitempty"`
+//		CreatedAt time.Time `json:"created_at,omitempty"`
 //		Count int `json:"count,omitempty"`
 //	}
 //
 //	client.Role.Query().
-//		GroupBy(role.FieldCreateTime).
+//		GroupBy(role.FieldCreatedAt).
 //		Aggregate(ent.Count()).
 //		Scan(ctx, &v)
 func (_q *RoleQuery) GroupBy(field string, fields ...string) *RoleGroupBy {
@@ -359,11 +359,11 @@ func (_q *RoleQuery) GroupBy(field string, fields ...string) *RoleGroupBy {
 // Example:
 //
 //	var v []struct {
-//		CreateTime time.Time `json:"create_time,omitempty"`
+//		CreatedAt time.Time `json:"created_at,omitempty"`
 //	}
 //
 //	client.Role.Query().
-//		Select(role.FieldCreateTime).
+//		Select(role.FieldCreatedAt).
 //		Scan(ctx, &v)
 func (_q *RoleQuery) Select(fields ...string) *RoleSelect {
 	_q.ctx.Fields = append(_q.ctx.Fields, fields...)

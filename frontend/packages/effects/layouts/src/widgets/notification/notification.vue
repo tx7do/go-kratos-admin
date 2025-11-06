@@ -107,13 +107,15 @@ function handleClick(item: NotificationItem) {
                   :src="item.avatar"
                   class="aspect-square h-full w-full object-cover"
                   role="img"
+                  alt=""
                 />
               </span>
               <div class="flex flex-col gap-1 leading-none">
                 <p class="font-semibold">{{ item.title }}</p>
-                <p class="text-muted-foreground my-1 line-clamp-2 text-xs">
-                  {{ item.message }}
-                </p>
+                <p
+                  class="text-muted-foreground my-1 line-clamp-2 text-xs"
+                  v-html="item.message"
+                ></p>
                 <p class="text-muted-foreground line-clamp-2 text-xs">
                   {{ item.date }}
                 </p>

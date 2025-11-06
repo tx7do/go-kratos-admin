@@ -97,6 +97,18 @@ func (r *UserTokenCacheRepo) GenerateRefreshToken(ctx context.Context, user *use
 	return
 }
 
+// GetAccessToken 获取访问令牌
+func (r *UserTokenCacheRepo) GetAccessToken(ctx context.Context, userId uint32) []string {
+	key := r.makeAccessTokenKey(userId)
+	return r.get(ctx, key)
+}
+
+// GetRefreshToken 获取刷新令牌
+func (r *UserTokenCacheRepo) GetRefreshToken(ctx context.Context, userId uint32) []string {
+	key := r.makeRefreshTokenKey(userId)
+	return r.get(ctx, key)
+}
+
 // RemoveToken 移除所有令牌
 func (r *UserTokenCacheRepo) RemoveToken(ctx context.Context, userId uint32) error {
 	var err error
@@ -154,6 +166,20 @@ func (r *UserTokenCacheRepo) set(ctx context.Context, key string, token string, 
 	}
 
 	return nil
+}
+
+func (r *UserTokenCacheRepo) get(ctx context.Context, key string) []string {
+	n, err := r.rdb.HGetAll(ctx, key).Result()
+	if err != nil {
+		return []string{}
+	}
+
+	var tokens []string
+	for k, _ := range n {
+		tokens = append(tokens, k)
+	}
+
+	return tokens
 }
 
 func (r *UserTokenCacheRepo) exists(ctx context.Context, key string, token string) bool {

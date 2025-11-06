@@ -63,20 +63,25 @@
       "tab": {
         "basicInfo": "基础信息",
         "permission": "权限信息",
-        "operationLog": "操作日志"
+        "operationLog": "操作日志",
+        "internalMessage": "收件箱"
       },
       "desc": {
-        "username" : "用户名",
-        "realname" : "真实姓名",
-        "nickname" : "昵称",
-        "gender" : "性别",
-        "mobile" : "手机号",
-        "email" : "电子邮箱",
-        "orgName" : "所属组织",
-        "departmentName" : "所属部门",
-        "positionName" : "职位",
-        "lastLoginTime" : "最后登录时间",
-        "lastLoginIp" : "最后登录IP"
+        "username": "用户名",
+        "realname": "真实姓名",
+        "nickname": "昵称",
+        "gender": "性别",
+        "mobile": "手机号",
+        "email": "电子邮箱",
+        "region": "国家地区",
+        "address": "住址",
+        "roleNames": "角色列表",
+        "tenantName": "所属租户",
+        "orgName": "所属组织",
+        "departmentName": "所属部门",
+        "positionName": "职位",
+        "lastLoginTime": "最后登录时间",
+        "lastLoginIp": "最后登录IP"
       }
     }
   },
@@ -92,13 +97,18 @@
   },
   "dict": {
     "moduleName": "字典",
-    "key": "字典键",
-    "category": "字典类型",
-    "categoryDesc": "字典类型名称",
-    "value": "字典值",
-    "valueDesc": "字典值名称",
+    "dictType": "字典类型",
+    "dictEntry": "字典条目",
+    "dictTypeList": "字典类型列表",
+    "dictEntryList": "字典条目列表",
+    "typeCode": "编码",
+    "typeName": "名称",
+    "entryLabel": "标签",
+    "entryValue": "条目值",
+    "numericValue": "数值",
+    "typeId": "字典类型",
     "button": {
-      "create": "创建条目"
+      "create": "新增"
     }
   },
   "menu": {
@@ -178,8 +188,29 @@
     "moduleName": "租户",
     "name": "租户名称",
     "code": "租户编码",
+    "type": "租户类型",
+    "auditStatus": "审核状态",
+    "adminSetting": "管理员账号配置",
+    "lastLoginTime": "最后登录时间",
+    "lastLoginIp": "最后登录IP",
+    "logoUrl": "LOGO地址",
+    "industry": "所属行业",
+    "subscriptionPlan": "订阅套餐",
+    "expiredAt": "到期时间",
+    "memberCount": "成员数量",
+    "subscriptionAt": "订阅时间",
+    "unsubscribeAt": "退订时间",
+    "adminUserName": "管理员用户名",
+    "adminPassword": "初始密码",
+    "adminPasswordConfirm": "确认密码",
+    "adminMobile": "手机号",
+    "adminEmail": "邮箱",
     "button": {
       "create": "创建租户"
+    },
+    "notification": {
+      "tenant_code_exists": "租户编码已存在，请更换后重新创建！",
+      "user_username_exists": "管理员用户名已存在，请更换后重新创建！"
     }
   },
   "file": {
@@ -199,27 +230,59 @@
   "task": {
     "moduleName": "任务",
     "type": "调度类型",
-    "typeName": "任务名",
-    "taskPayload": "任务参数",
+    "typeName": "调度方法",
+    "taskPayload": "任务数据",
+    "taskOptions": "任务选项",
+    "taskOptionsMaxRetry": "重试次数",
+    "taskOptionsTimeout": "超时时间",
+    "taskOptionsDeadline": "截止时间",
+    "taskOptionsProcessIn": "延迟时间",
+    "taskOptionsProcessAt": "执行时间",
     "cronSpec": "cron表达式",
     "enable": "启用状态",
     "button": {
-      "create": "创建任务"
+      "create": "创建任务",
+      "start": "启动任务",
+      "restart": "重启任务",
+      "stop": "停止任务",
+      "startAll": "启动全部任务",
+      "restartAll": "重启全部任务",
+      "stopAll": "停止全部任务"
+    },
+    "text": {
+      "do_you_want_start_all_task": "您确定要启动全部任务吗？",
+      "do_you_want_restart_all_task": "您确定要重启全部任务吗？",
+      "do_you_want_stop_all_task": "您确定要停止全部任务吗？",
+      "do_you_want_start_task": "您确定要启动该任务吗？",
+      "do_you_want_restart_task": "您确定要重启该任务吗？",
+      "do_you_want_stop_task": "您确定要停止该任务吗？"
     }
   },
-  "notificationMessage": {
-    "moduleName": "通知消息",
-    "subject": "通知主题",
+  "internalMessage": {
+    "moduleName": "消息管理",
+    "title": "消息主题",
+    "content": "消息内容",
+    "type": "消息类型",
+    "status": "消息状态",
     "categoryName": "消息分类",
+    "senderName": "发送者",
+    "categoryId": "消息分类",
+    "readAt": "读取时间",
     "button": {
-      "create": "创建通知"
+      "create": "发布消息"
+    },
+    "drawer": {
+      "create": "发布消息",
+      "update": "修改消息"
     }
   },
-  "notificationMessageCategory": {
-    "moduleName": "通知类型",
-    "name": "类型名称",
+  "internalMessageCategory": {
+    "moduleName": "消息分类",
+    "name": "分类名称",
+    "code": "分类编码",
+    "parentId": "父节点",
     "button": {
-      "create": "创建类型"
+      "create": "创建分类"
     }
   },
   "privateMessage": {
@@ -245,7 +308,7 @@
     "location": "操作地",
     "clientName": "操作平台",
     "clientIp": "操作地址",
-    "createTime": "操作时间",
+    "createdAt": "操作时间",
     "path": "路径",
     "method": "方法"
   },

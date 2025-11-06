@@ -29,43 +29,43 @@ func (_u *UserCredentialUpdate) Where(ps ...predicate.UserCredential) *UserCrede
 	return _u
 }
 
-// SetUpdateTime sets the "update_time" field.
-func (_u *UserCredentialUpdate) SetUpdateTime(v time.Time) *UserCredentialUpdate {
-	_u.mutation.SetUpdateTime(v)
+// SetUpdatedAt sets the "updated_at" field.
+func (_u *UserCredentialUpdate) SetUpdatedAt(v time.Time) *UserCredentialUpdate {
+	_u.mutation.SetUpdatedAt(v)
 	return _u
 }
 
-// SetNillableUpdateTime sets the "update_time" field if the given value is not nil.
-func (_u *UserCredentialUpdate) SetNillableUpdateTime(v *time.Time) *UserCredentialUpdate {
+// SetNillableUpdatedAt sets the "updated_at" field if the given value is not nil.
+func (_u *UserCredentialUpdate) SetNillableUpdatedAt(v *time.Time) *UserCredentialUpdate {
 	if v != nil {
-		_u.SetUpdateTime(*v)
+		_u.SetUpdatedAt(*v)
 	}
 	return _u
 }
 
-// ClearUpdateTime clears the value of the "update_time" field.
-func (_u *UserCredentialUpdate) ClearUpdateTime() *UserCredentialUpdate {
-	_u.mutation.ClearUpdateTime()
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (_u *UserCredentialUpdate) ClearUpdatedAt() *UserCredentialUpdate {
+	_u.mutation.ClearUpdatedAt()
 	return _u
 }
 
-// SetDeleteTime sets the "delete_time" field.
-func (_u *UserCredentialUpdate) SetDeleteTime(v time.Time) *UserCredentialUpdate {
-	_u.mutation.SetDeleteTime(v)
+// SetDeletedAt sets the "deleted_at" field.
+func (_u *UserCredentialUpdate) SetDeletedAt(v time.Time) *UserCredentialUpdate {
+	_u.mutation.SetDeletedAt(v)
 	return _u
 }
 
-// SetNillableDeleteTime sets the "delete_time" field if the given value is not nil.
-func (_u *UserCredentialUpdate) SetNillableDeleteTime(v *time.Time) *UserCredentialUpdate {
+// SetNillableDeletedAt sets the "deleted_at" field if the given value is not nil.
+func (_u *UserCredentialUpdate) SetNillableDeletedAt(v *time.Time) *UserCredentialUpdate {
 	if v != nil {
-		_u.SetDeleteTime(*v)
+		_u.SetDeletedAt(*v)
 	}
 	return _u
 }
 
-// ClearDeleteTime clears the value of the "delete_time" field.
-func (_u *UserCredentialUpdate) ClearDeleteTime() *UserCredentialUpdate {
-	_u.mutation.ClearDeleteTime()
+// ClearDeletedAt clears the value of the "deleted_at" field.
+func (_u *UserCredentialUpdate) ClearDeletedAt() *UserCredentialUpdate {
+	_u.mutation.ClearDeletedAt()
 	return _u
 }
 
@@ -366,20 +366,20 @@ func (_u *UserCredentialUpdate) sqlSave(ctx context.Context) (_node int, err err
 			}
 		}
 	}
-	if _u.mutation.CreateTimeCleared() {
-		_spec.ClearField(usercredential.FieldCreateTime, field.TypeTime)
+	if _u.mutation.CreatedAtCleared() {
+		_spec.ClearField(usercredential.FieldCreatedAt, field.TypeTime)
 	}
-	if value, ok := _u.mutation.UpdateTime(); ok {
-		_spec.SetField(usercredential.FieldUpdateTime, field.TypeTime, value)
+	if value, ok := _u.mutation.UpdatedAt(); ok {
+		_spec.SetField(usercredential.FieldUpdatedAt, field.TypeTime, value)
 	}
-	if _u.mutation.UpdateTimeCleared() {
-		_spec.ClearField(usercredential.FieldUpdateTime, field.TypeTime)
+	if _u.mutation.UpdatedAtCleared() {
+		_spec.ClearField(usercredential.FieldUpdatedAt, field.TypeTime)
 	}
-	if value, ok := _u.mutation.DeleteTime(); ok {
-		_spec.SetField(usercredential.FieldDeleteTime, field.TypeTime, value)
+	if value, ok := _u.mutation.DeletedAt(); ok {
+		_spec.SetField(usercredential.FieldDeletedAt, field.TypeTime, value)
 	}
-	if _u.mutation.DeleteTimeCleared() {
-		_spec.ClearField(usercredential.FieldDeleteTime, field.TypeTime)
+	if _u.mutation.DeletedAtCleared() {
+		_spec.ClearField(usercredential.FieldDeletedAt, field.TypeTime)
 	}
 	if _u.mutation.TenantIDCleared() {
 		_spec.ClearField(usercredential.FieldTenantID, field.TypeUint32)
@@ -469,43 +469,43 @@ type UserCredentialUpdateOne struct {
 	modifiers []func(*sql.UpdateBuilder)
 }
 
-// SetUpdateTime sets the "update_time" field.
-func (_u *UserCredentialUpdateOne) SetUpdateTime(v time.Time) *UserCredentialUpdateOne {
-	_u.mutation.SetUpdateTime(v)
+// SetUpdatedAt sets the "updated_at" field.
+func (_u *UserCredentialUpdateOne) SetUpdatedAt(v time.Time) *UserCredentialUpdateOne {
+	_u.mutation.SetUpdatedAt(v)
 	return _u
 }
 
-// SetNillableUpdateTime sets the "update_time" field if the given value is not nil.
-func (_u *UserCredentialUpdateOne) SetNillableUpdateTime(v *time.Time) *UserCredentialUpdateOne {
+// SetNillableUpdatedAt sets the "updated_at" field if the given value is not nil.
+func (_u *UserCredentialUpdateOne) SetNillableUpdatedAt(v *time.Time) *UserCredentialUpdateOne {
 	if v != nil {
-		_u.SetUpdateTime(*v)
+		_u.SetUpdatedAt(*v)
 	}
 	return _u
 }
 
-// ClearUpdateTime clears the value of the "update_time" field.
-func (_u *UserCredentialUpdateOne) ClearUpdateTime() *UserCredentialUpdateOne {
-	_u.mutation.ClearUpdateTime()
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (_u *UserCredentialUpdateOne) ClearUpdatedAt() *UserCredentialUpdateOne {
+	_u.mutation.ClearUpdatedAt()
 	return _u
 }
 
-// SetDeleteTime sets the "delete_time" field.
-func (_u *UserCredentialUpdateOne) SetDeleteTime(v time.Time) *UserCredentialUpdateOne {
-	_u.mutation.SetDeleteTime(v)
+// SetDeletedAt sets the "deleted_at" field.
+func (_u *UserCredentialUpdateOne) SetDeletedAt(v time.Time) *UserCredentialUpdateOne {
+	_u.mutation.SetDeletedAt(v)
 	return _u
 }
 
-// SetNillableDeleteTime sets the "delete_time" field if the given value is not nil.
-func (_u *UserCredentialUpdateOne) SetNillableDeleteTime(v *time.Time) *UserCredentialUpdateOne {
+// SetNillableDeletedAt sets the "deleted_at" field if the given value is not nil.
+func (_u *UserCredentialUpdateOne) SetNillableDeletedAt(v *time.Time) *UserCredentialUpdateOne {
 	if v != nil {
-		_u.SetDeleteTime(*v)
+		_u.SetDeletedAt(*v)
 	}
 	return _u
 }
 
-// ClearDeleteTime clears the value of the "delete_time" field.
-func (_u *UserCredentialUpdateOne) ClearDeleteTime() *UserCredentialUpdateOne {
-	_u.mutation.ClearDeleteTime()
+// ClearDeletedAt clears the value of the "deleted_at" field.
+func (_u *UserCredentialUpdateOne) ClearDeletedAt() *UserCredentialUpdateOne {
+	_u.mutation.ClearDeletedAt()
 	return _u
 }
 
@@ -836,20 +836,20 @@ func (_u *UserCredentialUpdateOne) sqlSave(ctx context.Context) (_node *UserCred
 			}
 		}
 	}
-	if _u.mutation.CreateTimeCleared() {
-		_spec.ClearField(usercredential.FieldCreateTime, field.TypeTime)
+	if _u.mutation.CreatedAtCleared() {
+		_spec.ClearField(usercredential.FieldCreatedAt, field.TypeTime)
 	}
-	if value, ok := _u.mutation.UpdateTime(); ok {
-		_spec.SetField(usercredential.FieldUpdateTime, field.TypeTime, value)
+	if value, ok := _u.mutation.UpdatedAt(); ok {
+		_spec.SetField(usercredential.FieldUpdatedAt, field.TypeTime, value)
 	}
-	if _u.mutation.UpdateTimeCleared() {
-		_spec.ClearField(usercredential.FieldUpdateTime, field.TypeTime)
+	if _u.mutation.UpdatedAtCleared() {
+		_spec.ClearField(usercredential.FieldUpdatedAt, field.TypeTime)
 	}
-	if value, ok := _u.mutation.DeleteTime(); ok {
-		_spec.SetField(usercredential.FieldDeleteTime, field.TypeTime, value)
+	if value, ok := _u.mutation.DeletedAt(); ok {
+		_spec.SetField(usercredential.FieldDeletedAt, field.TypeTime, value)
 	}
-	if _u.mutation.DeleteTimeCleared() {
-		_spec.ClearField(usercredential.FieldDeleteTime, field.TypeTime)
+	if _u.mutation.DeletedAtCleared() {
+		_spec.ClearField(usercredential.FieldDeletedAt, field.TypeTime)
 	}
 	if _u.mutation.TenantIDCleared() {
 		_spec.ClearField(usercredential.FieldTenantID, field.TypeUint32)

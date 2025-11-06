@@ -8,22 +8,15 @@ import { $t } from '@vben/locales';
 
 import { notification } from 'ant-design-vue';
 
-import { UserStatus } from '#/generated/api/user/service/v1/user.pb';
+import { User_Status } from '#/generated/api/user/service/v1/user.pb';
 import { router } from '#/router';
 import { useUserStore } from '#/stores';
+import { TabEnum } from '#/views/app/opm/user/detail/types';
 
 import BasicInfoPage from './basic-info-page.vue';
-import EditPasswordModal from './edit-password-modal.vue';
+import EditPasswordModal from './components/edit-password-modal.vue';
+import InternalMessagePage from './internal-message-page.vue';
 import OperationLogPage from './operation-log-page.vue';
-
-/**
- * 标签页枚举
- */
-enum TabEnum {
-  BASIC_INFO = 'basicInfo',
-  OPERATION_LOG = 'operationLog',
-  PERMISSION_INFO = 'permissionInfo',
-}
 
 const activeTab = ref<TabEnum>(TabEnum.BASIC_INFO);
 
@@ -63,7 +56,7 @@ function goBack() {
  */
 async function handleBanAccount() {
   try {
-    await userStore.updateUser(userId.value, { status: UserStatus.OFF });
+    await userStore.updateUser(userId.value, { status: User_Status.OFF });
 
     notification.success({
       message: $t('ui.notification.update_status_success'),
@@ -134,6 +127,10 @@ function handleEditPassword() {
           :key="TabEnum.OPERATION_LOG"
           :tab="$t('page.user.detail.tab.operationLog')"
         />
+        <a-tab-pane
+          :key="TabEnum.INTERNAL_MESSAGE"
+          :tab="$t('page.user.detail.tab.internalMessage')"
+        />
       </a-tabs>
     </template>
 
@@ -143,6 +140,10 @@ function handleEditPassword() {
     <a-card v-show="activeTab === TabEnum.OPERATION_LOG">
       <OperationLogPage :user-id="userId" />
     </a-card>
+    <a-card v-show="activeTab === TabEnum.INTERNAL_MESSAGE">
+      <InternalMessagePage :user-id="userId" />
+    </a-card>
+
     <Modal />
   </Page>
 </template>

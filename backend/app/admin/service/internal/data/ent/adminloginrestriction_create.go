@@ -22,72 +22,86 @@ type AdminLoginRestrictionCreate struct {
 	conflict []sql.ConflictOption
 }
 
-// SetCreateTime sets the "create_time" field.
-func (_c *AdminLoginRestrictionCreate) SetCreateTime(v time.Time) *AdminLoginRestrictionCreate {
-	_c.mutation.SetCreateTime(v)
+// SetCreatedAt sets the "created_at" field.
+func (_c *AdminLoginRestrictionCreate) SetCreatedAt(v time.Time) *AdminLoginRestrictionCreate {
+	_c.mutation.SetCreatedAt(v)
 	return _c
 }
 
-// SetNillableCreateTime sets the "create_time" field if the given value is not nil.
-func (_c *AdminLoginRestrictionCreate) SetNillableCreateTime(v *time.Time) *AdminLoginRestrictionCreate {
+// SetNillableCreatedAt sets the "created_at" field if the given value is not nil.
+func (_c *AdminLoginRestrictionCreate) SetNillableCreatedAt(v *time.Time) *AdminLoginRestrictionCreate {
 	if v != nil {
-		_c.SetCreateTime(*v)
+		_c.SetCreatedAt(*v)
 	}
 	return _c
 }
 
-// SetUpdateTime sets the "update_time" field.
-func (_c *AdminLoginRestrictionCreate) SetUpdateTime(v time.Time) *AdminLoginRestrictionCreate {
-	_c.mutation.SetUpdateTime(v)
+// SetUpdatedAt sets the "updated_at" field.
+func (_c *AdminLoginRestrictionCreate) SetUpdatedAt(v time.Time) *AdminLoginRestrictionCreate {
+	_c.mutation.SetUpdatedAt(v)
 	return _c
 }
 
-// SetNillableUpdateTime sets the "update_time" field if the given value is not nil.
-func (_c *AdminLoginRestrictionCreate) SetNillableUpdateTime(v *time.Time) *AdminLoginRestrictionCreate {
+// SetNillableUpdatedAt sets the "updated_at" field if the given value is not nil.
+func (_c *AdminLoginRestrictionCreate) SetNillableUpdatedAt(v *time.Time) *AdminLoginRestrictionCreate {
 	if v != nil {
-		_c.SetUpdateTime(*v)
+		_c.SetUpdatedAt(*v)
 	}
 	return _c
 }
 
-// SetDeleteTime sets the "delete_time" field.
-func (_c *AdminLoginRestrictionCreate) SetDeleteTime(v time.Time) *AdminLoginRestrictionCreate {
-	_c.mutation.SetDeleteTime(v)
+// SetDeletedAt sets the "deleted_at" field.
+func (_c *AdminLoginRestrictionCreate) SetDeletedAt(v time.Time) *AdminLoginRestrictionCreate {
+	_c.mutation.SetDeletedAt(v)
 	return _c
 }
 
-// SetNillableDeleteTime sets the "delete_time" field if the given value is not nil.
-func (_c *AdminLoginRestrictionCreate) SetNillableDeleteTime(v *time.Time) *AdminLoginRestrictionCreate {
+// SetNillableDeletedAt sets the "deleted_at" field if the given value is not nil.
+func (_c *AdminLoginRestrictionCreate) SetNillableDeletedAt(v *time.Time) *AdminLoginRestrictionCreate {
 	if v != nil {
-		_c.SetDeleteTime(*v)
+		_c.SetDeletedAt(*v)
 	}
 	return _c
 }
 
-// SetCreateBy sets the "create_by" field.
-func (_c *AdminLoginRestrictionCreate) SetCreateBy(v uint32) *AdminLoginRestrictionCreate {
-	_c.mutation.SetCreateBy(v)
+// SetCreatedBy sets the "created_by" field.
+func (_c *AdminLoginRestrictionCreate) SetCreatedBy(v uint32) *AdminLoginRestrictionCreate {
+	_c.mutation.SetCreatedBy(v)
 	return _c
 }
 
-// SetNillableCreateBy sets the "create_by" field if the given value is not nil.
-func (_c *AdminLoginRestrictionCreate) SetNillableCreateBy(v *uint32) *AdminLoginRestrictionCreate {
+// SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
+func (_c *AdminLoginRestrictionCreate) SetNillableCreatedBy(v *uint32) *AdminLoginRestrictionCreate {
 	if v != nil {
-		_c.SetCreateBy(*v)
+		_c.SetCreatedBy(*v)
 	}
 	return _c
 }
 
-// SetUpdateBy sets the "update_by" field.
-func (_c *AdminLoginRestrictionCreate) SetUpdateBy(v uint32) *AdminLoginRestrictionCreate {
-	_c.mutation.SetUpdateBy(v)
+// SetUpdatedBy sets the "updated_by" field.
+func (_c *AdminLoginRestrictionCreate) SetUpdatedBy(v uint32) *AdminLoginRestrictionCreate {
+	_c.mutation.SetUpdatedBy(v)
 	return _c
 }
 
-// SetNillableUpdateBy sets the "update_by" field if the given value is not nil.
-func (_c *AdminLoginRestrictionCreate) SetNillableUpdateBy(v *uint32) *AdminLoginRestrictionCreate {
+// SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
+func (_c *AdminLoginRestrictionCreate) SetNillableUpdatedBy(v *uint32) *AdminLoginRestrictionCreate {
 	if v != nil {
-		_c.SetUpdateBy(*v)
+		_c.SetUpdatedBy(*v)
+	}
+	return _c
+}
+
+// SetDeletedBy sets the "deleted_by" field.
+func (_c *AdminLoginRestrictionCreate) SetDeletedBy(v uint32) *AdminLoginRestrictionCreate {
+	_c.mutation.SetDeletedBy(v)
+	return _c
+}
+
+// SetNillableDeletedBy sets the "deleted_by" field if the given value is not nil.
+func (_c *AdminLoginRestrictionCreate) SetNillableDeletedBy(v *uint32) *AdminLoginRestrictionCreate {
+	if v != nil {
+		_c.SetDeletedBy(*v)
 	}
 	return _c
 }
@@ -263,25 +277,29 @@ func (_c *AdminLoginRestrictionCreate) createSpec() (*AdminLoginRestriction, *sq
 		_node.ID = id
 		_spec.ID.Value = id
 	}
-	if value, ok := _c.mutation.CreateTime(); ok {
-		_spec.SetField(adminloginrestriction.FieldCreateTime, field.TypeTime, value)
-		_node.CreateTime = &value
+	if value, ok := _c.mutation.CreatedAt(); ok {
+		_spec.SetField(adminloginrestriction.FieldCreatedAt, field.TypeTime, value)
+		_node.CreatedAt = &value
 	}
-	if value, ok := _c.mutation.UpdateTime(); ok {
-		_spec.SetField(adminloginrestriction.FieldUpdateTime, field.TypeTime, value)
-		_node.UpdateTime = &value
+	if value, ok := _c.mutation.UpdatedAt(); ok {
+		_spec.SetField(adminloginrestriction.FieldUpdatedAt, field.TypeTime, value)
+		_node.UpdatedAt = &value
 	}
-	if value, ok := _c.mutation.DeleteTime(); ok {
-		_spec.SetField(adminloginrestriction.FieldDeleteTime, field.TypeTime, value)
-		_node.DeleteTime = &value
+	if value, ok := _c.mutation.DeletedAt(); ok {
+		_spec.SetField(adminloginrestriction.FieldDeletedAt, field.TypeTime, value)
+		_node.DeletedAt = &value
 	}
-	if value, ok := _c.mutation.CreateBy(); ok {
-		_spec.SetField(adminloginrestriction.FieldCreateBy, field.TypeUint32, value)
-		_node.CreateBy = &value
+	if value, ok := _c.mutation.CreatedBy(); ok {
+		_spec.SetField(adminloginrestriction.FieldCreatedBy, field.TypeUint32, value)
+		_node.CreatedBy = &value
 	}
-	if value, ok := _c.mutation.UpdateBy(); ok {
-		_spec.SetField(adminloginrestriction.FieldUpdateBy, field.TypeUint32, value)
-		_node.UpdateBy = &value
+	if value, ok := _c.mutation.UpdatedBy(); ok {
+		_spec.SetField(adminloginrestriction.FieldUpdatedBy, field.TypeUint32, value)
+		_node.UpdatedBy = &value
+	}
+	if value, ok := _c.mutation.DeletedBy(); ok {
+		_spec.SetField(adminloginrestriction.FieldDeletedBy, field.TypeUint32, value)
+		_node.DeletedBy = &value
 	}
 	if value, ok := _c.mutation.TargetID(); ok {
 		_spec.SetField(adminloginrestriction.FieldTargetID, field.TypeUint32, value)
@@ -310,7 +328,7 @@ func (_c *AdminLoginRestrictionCreate) createSpec() (*AdminLoginRestriction, *sq
 // of the `INSERT` statement. For example:
 //
 //	client.AdminLoginRestriction.Create().
-//		SetCreateTime(v).
+//		SetCreatedAt(v).
 //		OnConflict(
 //			// Update the row with the new values
 //			// the was proposed for insertion.
@@ -319,7 +337,7 @@ func (_c *AdminLoginRestrictionCreate) createSpec() (*AdminLoginRestriction, *sq
 //		// Override some of the fields with custom
 //		// update values.
 //		Update(func(u *ent.AdminLoginRestrictionUpsert) {
-//			SetCreateTime(v+v).
+//			SetCreatedAt(v+v).
 //		}).
 //		Exec(ctx)
 func (_c *AdminLoginRestrictionCreate) OnConflict(opts ...sql.ConflictOption) *AdminLoginRestrictionUpsertOne {
@@ -355,87 +373,111 @@ type (
 	}
 )
 
-// SetUpdateTime sets the "update_time" field.
-func (u *AdminLoginRestrictionUpsert) SetUpdateTime(v time.Time) *AdminLoginRestrictionUpsert {
-	u.Set(adminloginrestriction.FieldUpdateTime, v)
+// SetUpdatedAt sets the "updated_at" field.
+func (u *AdminLoginRestrictionUpsert) SetUpdatedAt(v time.Time) *AdminLoginRestrictionUpsert {
+	u.Set(adminloginrestriction.FieldUpdatedAt, v)
 	return u
 }
 
-// UpdateUpdateTime sets the "update_time" field to the value that was provided on create.
-func (u *AdminLoginRestrictionUpsert) UpdateUpdateTime() *AdminLoginRestrictionUpsert {
-	u.SetExcluded(adminloginrestriction.FieldUpdateTime)
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *AdminLoginRestrictionUpsert) UpdateUpdatedAt() *AdminLoginRestrictionUpsert {
+	u.SetExcluded(adminloginrestriction.FieldUpdatedAt)
 	return u
 }
 
-// ClearUpdateTime clears the value of the "update_time" field.
-func (u *AdminLoginRestrictionUpsert) ClearUpdateTime() *AdminLoginRestrictionUpsert {
-	u.SetNull(adminloginrestriction.FieldUpdateTime)
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (u *AdminLoginRestrictionUpsert) ClearUpdatedAt() *AdminLoginRestrictionUpsert {
+	u.SetNull(adminloginrestriction.FieldUpdatedAt)
 	return u
 }
 
-// SetDeleteTime sets the "delete_time" field.
-func (u *AdminLoginRestrictionUpsert) SetDeleteTime(v time.Time) *AdminLoginRestrictionUpsert {
-	u.Set(adminloginrestriction.FieldDeleteTime, v)
+// SetDeletedAt sets the "deleted_at" field.
+func (u *AdminLoginRestrictionUpsert) SetDeletedAt(v time.Time) *AdminLoginRestrictionUpsert {
+	u.Set(adminloginrestriction.FieldDeletedAt, v)
 	return u
 }
 
-// UpdateDeleteTime sets the "delete_time" field to the value that was provided on create.
-func (u *AdminLoginRestrictionUpsert) UpdateDeleteTime() *AdminLoginRestrictionUpsert {
-	u.SetExcluded(adminloginrestriction.FieldDeleteTime)
+// UpdateDeletedAt sets the "deleted_at" field to the value that was provided on create.
+func (u *AdminLoginRestrictionUpsert) UpdateDeletedAt() *AdminLoginRestrictionUpsert {
+	u.SetExcluded(adminloginrestriction.FieldDeletedAt)
 	return u
 }
 
-// ClearDeleteTime clears the value of the "delete_time" field.
-func (u *AdminLoginRestrictionUpsert) ClearDeleteTime() *AdminLoginRestrictionUpsert {
-	u.SetNull(adminloginrestriction.FieldDeleteTime)
+// ClearDeletedAt clears the value of the "deleted_at" field.
+func (u *AdminLoginRestrictionUpsert) ClearDeletedAt() *AdminLoginRestrictionUpsert {
+	u.SetNull(adminloginrestriction.FieldDeletedAt)
 	return u
 }
 
-// SetCreateBy sets the "create_by" field.
-func (u *AdminLoginRestrictionUpsert) SetCreateBy(v uint32) *AdminLoginRestrictionUpsert {
-	u.Set(adminloginrestriction.FieldCreateBy, v)
+// SetCreatedBy sets the "created_by" field.
+func (u *AdminLoginRestrictionUpsert) SetCreatedBy(v uint32) *AdminLoginRestrictionUpsert {
+	u.Set(adminloginrestriction.FieldCreatedBy, v)
 	return u
 }
 
-// UpdateCreateBy sets the "create_by" field to the value that was provided on create.
-func (u *AdminLoginRestrictionUpsert) UpdateCreateBy() *AdminLoginRestrictionUpsert {
-	u.SetExcluded(adminloginrestriction.FieldCreateBy)
+// UpdateCreatedBy sets the "created_by" field to the value that was provided on create.
+func (u *AdminLoginRestrictionUpsert) UpdateCreatedBy() *AdminLoginRestrictionUpsert {
+	u.SetExcluded(adminloginrestriction.FieldCreatedBy)
 	return u
 }
 
-// AddCreateBy adds v to the "create_by" field.
-func (u *AdminLoginRestrictionUpsert) AddCreateBy(v uint32) *AdminLoginRestrictionUpsert {
-	u.Add(adminloginrestriction.FieldCreateBy, v)
+// AddCreatedBy adds v to the "created_by" field.
+func (u *AdminLoginRestrictionUpsert) AddCreatedBy(v uint32) *AdminLoginRestrictionUpsert {
+	u.Add(adminloginrestriction.FieldCreatedBy, v)
 	return u
 }
 
-// ClearCreateBy clears the value of the "create_by" field.
-func (u *AdminLoginRestrictionUpsert) ClearCreateBy() *AdminLoginRestrictionUpsert {
-	u.SetNull(adminloginrestriction.FieldCreateBy)
+// ClearCreatedBy clears the value of the "created_by" field.
+func (u *AdminLoginRestrictionUpsert) ClearCreatedBy() *AdminLoginRestrictionUpsert {
+	u.SetNull(adminloginrestriction.FieldCreatedBy)
 	return u
 }
 
-// SetUpdateBy sets the "update_by" field.
-func (u *AdminLoginRestrictionUpsert) SetUpdateBy(v uint32) *AdminLoginRestrictionUpsert {
-	u.Set(adminloginrestriction.FieldUpdateBy, v)
+// SetUpdatedBy sets the "updated_by" field.
+func (u *AdminLoginRestrictionUpsert) SetUpdatedBy(v uint32) *AdminLoginRestrictionUpsert {
+	u.Set(adminloginrestriction.FieldUpdatedBy, v)
 	return u
 }
 
-// UpdateUpdateBy sets the "update_by" field to the value that was provided on create.
-func (u *AdminLoginRestrictionUpsert) UpdateUpdateBy() *AdminLoginRestrictionUpsert {
-	u.SetExcluded(adminloginrestriction.FieldUpdateBy)
+// UpdateUpdatedBy sets the "updated_by" field to the value that was provided on create.
+func (u *AdminLoginRestrictionUpsert) UpdateUpdatedBy() *AdminLoginRestrictionUpsert {
+	u.SetExcluded(adminloginrestriction.FieldUpdatedBy)
 	return u
 }
 
-// AddUpdateBy adds v to the "update_by" field.
-func (u *AdminLoginRestrictionUpsert) AddUpdateBy(v uint32) *AdminLoginRestrictionUpsert {
-	u.Add(adminloginrestriction.FieldUpdateBy, v)
+// AddUpdatedBy adds v to the "updated_by" field.
+func (u *AdminLoginRestrictionUpsert) AddUpdatedBy(v uint32) *AdminLoginRestrictionUpsert {
+	u.Add(adminloginrestriction.FieldUpdatedBy, v)
 	return u
 }
 
-// ClearUpdateBy clears the value of the "update_by" field.
-func (u *AdminLoginRestrictionUpsert) ClearUpdateBy() *AdminLoginRestrictionUpsert {
-	u.SetNull(adminloginrestriction.FieldUpdateBy)
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (u *AdminLoginRestrictionUpsert) ClearUpdatedBy() *AdminLoginRestrictionUpsert {
+	u.SetNull(adminloginrestriction.FieldUpdatedBy)
+	return u
+}
+
+// SetDeletedBy sets the "deleted_by" field.
+func (u *AdminLoginRestrictionUpsert) SetDeletedBy(v uint32) *AdminLoginRestrictionUpsert {
+	u.Set(adminloginrestriction.FieldDeletedBy, v)
+	return u
+}
+
+// UpdateDeletedBy sets the "deleted_by" field to the value that was provided on create.
+func (u *AdminLoginRestrictionUpsert) UpdateDeletedBy() *AdminLoginRestrictionUpsert {
+	u.SetExcluded(adminloginrestriction.FieldDeletedBy)
+	return u
+}
+
+// AddDeletedBy adds v to the "deleted_by" field.
+func (u *AdminLoginRestrictionUpsert) AddDeletedBy(v uint32) *AdminLoginRestrictionUpsert {
+	u.Add(adminloginrestriction.FieldDeletedBy, v)
+	return u
+}
+
+// ClearDeletedBy clears the value of the "deleted_by" field.
+func (u *AdminLoginRestrictionUpsert) ClearDeletedBy() *AdminLoginRestrictionUpsert {
+	u.SetNull(adminloginrestriction.FieldDeletedBy)
 	return u
 }
 
@@ -552,8 +594,8 @@ func (u *AdminLoginRestrictionUpsertOne) UpdateNewValues() *AdminLoginRestrictio
 		if _, exists := u.create.mutation.ID(); exists {
 			s.SetIgnore(adminloginrestriction.FieldID)
 		}
-		if _, exists := u.create.mutation.CreateTime(); exists {
-			s.SetIgnore(adminloginrestriction.FieldCreateTime)
+		if _, exists := u.create.mutation.CreatedAt(); exists {
+			s.SetIgnore(adminloginrestriction.FieldCreatedAt)
 		}
 	}))
 	return u
@@ -586,101 +628,129 @@ func (u *AdminLoginRestrictionUpsertOne) Update(set func(*AdminLoginRestrictionU
 	return u
 }
 
-// SetUpdateTime sets the "update_time" field.
-func (u *AdminLoginRestrictionUpsertOne) SetUpdateTime(v time.Time) *AdminLoginRestrictionUpsertOne {
+// SetUpdatedAt sets the "updated_at" field.
+func (u *AdminLoginRestrictionUpsertOne) SetUpdatedAt(v time.Time) *AdminLoginRestrictionUpsertOne {
 	return u.Update(func(s *AdminLoginRestrictionUpsert) {
-		s.SetUpdateTime(v)
+		s.SetUpdatedAt(v)
 	})
 }
 
-// UpdateUpdateTime sets the "update_time" field to the value that was provided on create.
-func (u *AdminLoginRestrictionUpsertOne) UpdateUpdateTime() *AdminLoginRestrictionUpsertOne {
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *AdminLoginRestrictionUpsertOne) UpdateUpdatedAt() *AdminLoginRestrictionUpsertOne {
 	return u.Update(func(s *AdminLoginRestrictionUpsert) {
-		s.UpdateUpdateTime()
+		s.UpdateUpdatedAt()
 	})
 }
 
-// ClearUpdateTime clears the value of the "update_time" field.
-func (u *AdminLoginRestrictionUpsertOne) ClearUpdateTime() *AdminLoginRestrictionUpsertOne {
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (u *AdminLoginRestrictionUpsertOne) ClearUpdatedAt() *AdminLoginRestrictionUpsertOne {
 	return u.Update(func(s *AdminLoginRestrictionUpsert) {
-		s.ClearUpdateTime()
+		s.ClearUpdatedAt()
 	})
 }
 
-// SetDeleteTime sets the "delete_time" field.
-func (u *AdminLoginRestrictionUpsertOne) SetDeleteTime(v time.Time) *AdminLoginRestrictionUpsertOne {
+// SetDeletedAt sets the "deleted_at" field.
+func (u *AdminLoginRestrictionUpsertOne) SetDeletedAt(v time.Time) *AdminLoginRestrictionUpsertOne {
 	return u.Update(func(s *AdminLoginRestrictionUpsert) {
-		s.SetDeleteTime(v)
+		s.SetDeletedAt(v)
 	})
 }
 
-// UpdateDeleteTime sets the "delete_time" field to the value that was provided on create.
-func (u *AdminLoginRestrictionUpsertOne) UpdateDeleteTime() *AdminLoginRestrictionUpsertOne {
+// UpdateDeletedAt sets the "deleted_at" field to the value that was provided on create.
+func (u *AdminLoginRestrictionUpsertOne) UpdateDeletedAt() *AdminLoginRestrictionUpsertOne {
 	return u.Update(func(s *AdminLoginRestrictionUpsert) {
-		s.UpdateDeleteTime()
+		s.UpdateDeletedAt()
 	})
 }
 
-// ClearDeleteTime clears the value of the "delete_time" field.
-func (u *AdminLoginRestrictionUpsertOne) ClearDeleteTime() *AdminLoginRestrictionUpsertOne {
+// ClearDeletedAt clears the value of the "deleted_at" field.
+func (u *AdminLoginRestrictionUpsertOne) ClearDeletedAt() *AdminLoginRestrictionUpsertOne {
 	return u.Update(func(s *AdminLoginRestrictionUpsert) {
-		s.ClearDeleteTime()
+		s.ClearDeletedAt()
 	})
 }
 
-// SetCreateBy sets the "create_by" field.
-func (u *AdminLoginRestrictionUpsertOne) SetCreateBy(v uint32) *AdminLoginRestrictionUpsertOne {
+// SetCreatedBy sets the "created_by" field.
+func (u *AdminLoginRestrictionUpsertOne) SetCreatedBy(v uint32) *AdminLoginRestrictionUpsertOne {
 	return u.Update(func(s *AdminLoginRestrictionUpsert) {
-		s.SetCreateBy(v)
+		s.SetCreatedBy(v)
 	})
 }
 
-// AddCreateBy adds v to the "create_by" field.
-func (u *AdminLoginRestrictionUpsertOne) AddCreateBy(v uint32) *AdminLoginRestrictionUpsertOne {
+// AddCreatedBy adds v to the "created_by" field.
+func (u *AdminLoginRestrictionUpsertOne) AddCreatedBy(v uint32) *AdminLoginRestrictionUpsertOne {
 	return u.Update(func(s *AdminLoginRestrictionUpsert) {
-		s.AddCreateBy(v)
+		s.AddCreatedBy(v)
 	})
 }
 
-// UpdateCreateBy sets the "create_by" field to the value that was provided on create.
-func (u *AdminLoginRestrictionUpsertOne) UpdateCreateBy() *AdminLoginRestrictionUpsertOne {
+// UpdateCreatedBy sets the "created_by" field to the value that was provided on create.
+func (u *AdminLoginRestrictionUpsertOne) UpdateCreatedBy() *AdminLoginRestrictionUpsertOne {
 	return u.Update(func(s *AdminLoginRestrictionUpsert) {
-		s.UpdateCreateBy()
+		s.UpdateCreatedBy()
 	})
 }
 
-// ClearCreateBy clears the value of the "create_by" field.
-func (u *AdminLoginRestrictionUpsertOne) ClearCreateBy() *AdminLoginRestrictionUpsertOne {
+// ClearCreatedBy clears the value of the "created_by" field.
+func (u *AdminLoginRestrictionUpsertOne) ClearCreatedBy() *AdminLoginRestrictionUpsertOne {
 	return u.Update(func(s *AdminLoginRestrictionUpsert) {
-		s.ClearCreateBy()
+		s.ClearCreatedBy()
 	})
 }
 
-// SetUpdateBy sets the "update_by" field.
-func (u *AdminLoginRestrictionUpsertOne) SetUpdateBy(v uint32) *AdminLoginRestrictionUpsertOne {
+// SetUpdatedBy sets the "updated_by" field.
+func (u *AdminLoginRestrictionUpsertOne) SetUpdatedBy(v uint32) *AdminLoginRestrictionUpsertOne {
 	return u.Update(func(s *AdminLoginRestrictionUpsert) {
-		s.SetUpdateBy(v)
+		s.SetUpdatedBy(v)
 	})
 }
 
-// AddUpdateBy adds v to the "update_by" field.
-func (u *AdminLoginRestrictionUpsertOne) AddUpdateBy(v uint32) *AdminLoginRestrictionUpsertOne {
+// AddUpdatedBy adds v to the "updated_by" field.
+func (u *AdminLoginRestrictionUpsertOne) AddUpdatedBy(v uint32) *AdminLoginRestrictionUpsertOne {
 	return u.Update(func(s *AdminLoginRestrictionUpsert) {
-		s.AddUpdateBy(v)
+		s.AddUpdatedBy(v)
 	})
 }
 
-// UpdateUpdateBy sets the "update_by" field to the value that was provided on create.
-func (u *AdminLoginRestrictionUpsertOne) UpdateUpdateBy() *AdminLoginRestrictionUpsertOne {
+// UpdateUpdatedBy sets the "updated_by" field to the value that was provided on create.
+func (u *AdminLoginRestrictionUpsertOne) UpdateUpdatedBy() *AdminLoginRestrictionUpsertOne {
 	return u.Update(func(s *AdminLoginRestrictionUpsert) {
-		s.UpdateUpdateBy()
+		s.UpdateUpdatedBy()
 	})
 }
 
-// ClearUpdateBy clears the value of the "update_by" field.
-func (u *AdminLoginRestrictionUpsertOne) ClearUpdateBy() *AdminLoginRestrictionUpsertOne {
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (u *AdminLoginRestrictionUpsertOne) ClearUpdatedBy() *AdminLoginRestrictionUpsertOne {
 	return u.Update(func(s *AdminLoginRestrictionUpsert) {
-		s.ClearUpdateBy()
+		s.ClearUpdatedBy()
+	})
+}
+
+// SetDeletedBy sets the "deleted_by" field.
+func (u *AdminLoginRestrictionUpsertOne) SetDeletedBy(v uint32) *AdminLoginRestrictionUpsertOne {
+	return u.Update(func(s *AdminLoginRestrictionUpsert) {
+		s.SetDeletedBy(v)
+	})
+}
+
+// AddDeletedBy adds v to the "deleted_by" field.
+func (u *AdminLoginRestrictionUpsertOne) AddDeletedBy(v uint32) *AdminLoginRestrictionUpsertOne {
+	return u.Update(func(s *AdminLoginRestrictionUpsert) {
+		s.AddDeletedBy(v)
+	})
+}
+
+// UpdateDeletedBy sets the "deleted_by" field to the value that was provided on create.
+func (u *AdminLoginRestrictionUpsertOne) UpdateDeletedBy() *AdminLoginRestrictionUpsertOne {
+	return u.Update(func(s *AdminLoginRestrictionUpsert) {
+		s.UpdateDeletedBy()
+	})
+}
+
+// ClearDeletedBy clears the value of the "deleted_by" field.
+func (u *AdminLoginRestrictionUpsertOne) ClearDeletedBy() *AdminLoginRestrictionUpsertOne {
+	return u.Update(func(s *AdminLoginRestrictionUpsert) {
+		s.ClearDeletedBy()
 	})
 }
 
@@ -931,7 +1001,7 @@ func (_c *AdminLoginRestrictionCreateBulk) ExecX(ctx context.Context) {
 //		// Override some of the fields with custom
 //		// update values.
 //		Update(func(u *ent.AdminLoginRestrictionUpsert) {
-//			SetCreateTime(v+v).
+//			SetCreatedAt(v+v).
 //		}).
 //		Exec(ctx)
 func (_c *AdminLoginRestrictionCreateBulk) OnConflict(opts ...sql.ConflictOption) *AdminLoginRestrictionUpsertBulk {
@@ -978,8 +1048,8 @@ func (u *AdminLoginRestrictionUpsertBulk) UpdateNewValues() *AdminLoginRestricti
 			if _, exists := b.mutation.ID(); exists {
 				s.SetIgnore(adminloginrestriction.FieldID)
 			}
-			if _, exists := b.mutation.CreateTime(); exists {
-				s.SetIgnore(adminloginrestriction.FieldCreateTime)
+			if _, exists := b.mutation.CreatedAt(); exists {
+				s.SetIgnore(adminloginrestriction.FieldCreatedAt)
 			}
 		}
 	}))
@@ -1013,101 +1083,129 @@ func (u *AdminLoginRestrictionUpsertBulk) Update(set func(*AdminLoginRestriction
 	return u
 }
 
-// SetUpdateTime sets the "update_time" field.
-func (u *AdminLoginRestrictionUpsertBulk) SetUpdateTime(v time.Time) *AdminLoginRestrictionUpsertBulk {
+// SetUpdatedAt sets the "updated_at" field.
+func (u *AdminLoginRestrictionUpsertBulk) SetUpdatedAt(v time.Time) *AdminLoginRestrictionUpsertBulk {
 	return u.Update(func(s *AdminLoginRestrictionUpsert) {
-		s.SetUpdateTime(v)
+		s.SetUpdatedAt(v)
 	})
 }
 
-// UpdateUpdateTime sets the "update_time" field to the value that was provided on create.
-func (u *AdminLoginRestrictionUpsertBulk) UpdateUpdateTime() *AdminLoginRestrictionUpsertBulk {
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *AdminLoginRestrictionUpsertBulk) UpdateUpdatedAt() *AdminLoginRestrictionUpsertBulk {
 	return u.Update(func(s *AdminLoginRestrictionUpsert) {
-		s.UpdateUpdateTime()
+		s.UpdateUpdatedAt()
 	})
 }
 
-// ClearUpdateTime clears the value of the "update_time" field.
-func (u *AdminLoginRestrictionUpsertBulk) ClearUpdateTime() *AdminLoginRestrictionUpsertBulk {
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (u *AdminLoginRestrictionUpsertBulk) ClearUpdatedAt() *AdminLoginRestrictionUpsertBulk {
 	return u.Update(func(s *AdminLoginRestrictionUpsert) {
-		s.ClearUpdateTime()
+		s.ClearUpdatedAt()
 	})
 }
 
-// SetDeleteTime sets the "delete_time" field.
-func (u *AdminLoginRestrictionUpsertBulk) SetDeleteTime(v time.Time) *AdminLoginRestrictionUpsertBulk {
+// SetDeletedAt sets the "deleted_at" field.
+func (u *AdminLoginRestrictionUpsertBulk) SetDeletedAt(v time.Time) *AdminLoginRestrictionUpsertBulk {
 	return u.Update(func(s *AdminLoginRestrictionUpsert) {
-		s.SetDeleteTime(v)
+		s.SetDeletedAt(v)
 	})
 }
 
-// UpdateDeleteTime sets the "delete_time" field to the value that was provided on create.
-func (u *AdminLoginRestrictionUpsertBulk) UpdateDeleteTime() *AdminLoginRestrictionUpsertBulk {
+// UpdateDeletedAt sets the "deleted_at" field to the value that was provided on create.
+func (u *AdminLoginRestrictionUpsertBulk) UpdateDeletedAt() *AdminLoginRestrictionUpsertBulk {
 	return u.Update(func(s *AdminLoginRestrictionUpsert) {
-		s.UpdateDeleteTime()
+		s.UpdateDeletedAt()
 	})
 }
 
-// ClearDeleteTime clears the value of the "delete_time" field.
-func (u *AdminLoginRestrictionUpsertBulk) ClearDeleteTime() *AdminLoginRestrictionUpsertBulk {
+// ClearDeletedAt clears the value of the "deleted_at" field.
+func (u *AdminLoginRestrictionUpsertBulk) ClearDeletedAt() *AdminLoginRestrictionUpsertBulk {
 	return u.Update(func(s *AdminLoginRestrictionUpsert) {
-		s.ClearDeleteTime()
+		s.ClearDeletedAt()
 	})
 }
 
-// SetCreateBy sets the "create_by" field.
-func (u *AdminLoginRestrictionUpsertBulk) SetCreateBy(v uint32) *AdminLoginRestrictionUpsertBulk {
+// SetCreatedBy sets the "created_by" field.
+func (u *AdminLoginRestrictionUpsertBulk) SetCreatedBy(v uint32) *AdminLoginRestrictionUpsertBulk {
 	return u.Update(func(s *AdminLoginRestrictionUpsert) {
-		s.SetCreateBy(v)
+		s.SetCreatedBy(v)
 	})
 }
 
-// AddCreateBy adds v to the "create_by" field.
-func (u *AdminLoginRestrictionUpsertBulk) AddCreateBy(v uint32) *AdminLoginRestrictionUpsertBulk {
+// AddCreatedBy adds v to the "created_by" field.
+func (u *AdminLoginRestrictionUpsertBulk) AddCreatedBy(v uint32) *AdminLoginRestrictionUpsertBulk {
 	return u.Update(func(s *AdminLoginRestrictionUpsert) {
-		s.AddCreateBy(v)
+		s.AddCreatedBy(v)
 	})
 }
 
-// UpdateCreateBy sets the "create_by" field to the value that was provided on create.
-func (u *AdminLoginRestrictionUpsertBulk) UpdateCreateBy() *AdminLoginRestrictionUpsertBulk {
+// UpdateCreatedBy sets the "created_by" field to the value that was provided on create.
+func (u *AdminLoginRestrictionUpsertBulk) UpdateCreatedBy() *AdminLoginRestrictionUpsertBulk {
 	return u.Update(func(s *AdminLoginRestrictionUpsert) {
-		s.UpdateCreateBy()
+		s.UpdateCreatedBy()
 	})
 }
 
-// ClearCreateBy clears the value of the "create_by" field.
-func (u *AdminLoginRestrictionUpsertBulk) ClearCreateBy() *AdminLoginRestrictionUpsertBulk {
+// ClearCreatedBy clears the value of the "created_by" field.
+func (u *AdminLoginRestrictionUpsertBulk) ClearCreatedBy() *AdminLoginRestrictionUpsertBulk {
 	return u.Update(func(s *AdminLoginRestrictionUpsert) {
-		s.ClearCreateBy()
+		s.ClearCreatedBy()
 	})
 }
 
-// SetUpdateBy sets the "update_by" field.
-func (u *AdminLoginRestrictionUpsertBulk) SetUpdateBy(v uint32) *AdminLoginRestrictionUpsertBulk {
+// SetUpdatedBy sets the "updated_by" field.
+func (u *AdminLoginRestrictionUpsertBulk) SetUpdatedBy(v uint32) *AdminLoginRestrictionUpsertBulk {
 	return u.Update(func(s *AdminLoginRestrictionUpsert) {
-		s.SetUpdateBy(v)
+		s.SetUpdatedBy(v)
 	})
 }
 
-// AddUpdateBy adds v to the "update_by" field.
-func (u *AdminLoginRestrictionUpsertBulk) AddUpdateBy(v uint32) *AdminLoginRestrictionUpsertBulk {
+// AddUpdatedBy adds v to the "updated_by" field.
+func (u *AdminLoginRestrictionUpsertBulk) AddUpdatedBy(v uint32) *AdminLoginRestrictionUpsertBulk {
 	return u.Update(func(s *AdminLoginRestrictionUpsert) {
-		s.AddUpdateBy(v)
+		s.AddUpdatedBy(v)
 	})
 }
 
-// UpdateUpdateBy sets the "update_by" field to the value that was provided on create.
-func (u *AdminLoginRestrictionUpsertBulk) UpdateUpdateBy() *AdminLoginRestrictionUpsertBulk {
+// UpdateUpdatedBy sets the "updated_by" field to the value that was provided on create.
+func (u *AdminLoginRestrictionUpsertBulk) UpdateUpdatedBy() *AdminLoginRestrictionUpsertBulk {
 	return u.Update(func(s *AdminLoginRestrictionUpsert) {
-		s.UpdateUpdateBy()
+		s.UpdateUpdatedBy()
 	})
 }
 
-// ClearUpdateBy clears the value of the "update_by" field.
-func (u *AdminLoginRestrictionUpsertBulk) ClearUpdateBy() *AdminLoginRestrictionUpsertBulk {
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (u *AdminLoginRestrictionUpsertBulk) ClearUpdatedBy() *AdminLoginRestrictionUpsertBulk {
 	return u.Update(func(s *AdminLoginRestrictionUpsert) {
-		s.ClearUpdateBy()
+		s.ClearUpdatedBy()
+	})
+}
+
+// SetDeletedBy sets the "deleted_by" field.
+func (u *AdminLoginRestrictionUpsertBulk) SetDeletedBy(v uint32) *AdminLoginRestrictionUpsertBulk {
+	return u.Update(func(s *AdminLoginRestrictionUpsert) {
+		s.SetDeletedBy(v)
+	})
+}
+
+// AddDeletedBy adds v to the "deleted_by" field.
+func (u *AdminLoginRestrictionUpsertBulk) AddDeletedBy(v uint32) *AdminLoginRestrictionUpsertBulk {
+	return u.Update(func(s *AdminLoginRestrictionUpsert) {
+		s.AddDeletedBy(v)
+	})
+}
+
+// UpdateDeletedBy sets the "deleted_by" field to the value that was provided on create.
+func (u *AdminLoginRestrictionUpsertBulk) UpdateDeletedBy() *AdminLoginRestrictionUpsertBulk {
+	return u.Update(func(s *AdminLoginRestrictionUpsert) {
+		s.UpdateDeletedBy()
+	})
+}
+
+// ClearDeletedBy clears the value of the "deleted_by" field.
+func (u *AdminLoginRestrictionUpsertBulk) ClearDeletedBy() *AdminLoginRestrictionUpsertBulk {
+	return u.Update(func(s *AdminLoginRestrictionUpsert) {
+		s.ClearDeletedBy()
 	})
 }
 

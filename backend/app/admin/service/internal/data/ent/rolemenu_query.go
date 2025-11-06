@@ -265,12 +265,12 @@ func (_q *RoleMenuQuery) Clone() *RoleMenuQuery {
 // Example:
 //
 //	var v []struct {
-//		CreateTime time.Time `json:"create_time,omitempty"`
+//		CreatedAt time.Time `json:"created_at,omitempty"`
 //		Count int `json:"count,omitempty"`
 //	}
 //
 //	client.RoleMenu.Query().
-//		GroupBy(rolemenu.FieldCreateTime).
+//		GroupBy(rolemenu.FieldCreatedAt).
 //		Aggregate(ent.Count()).
 //		Scan(ctx, &v)
 func (_q *RoleMenuQuery) GroupBy(field string, fields ...string) *RoleMenuGroupBy {
@@ -288,11 +288,11 @@ func (_q *RoleMenuQuery) GroupBy(field string, fields ...string) *RoleMenuGroupB
 // Example:
 //
 //	var v []struct {
-//		CreateTime time.Time `json:"create_time,omitempty"`
+//		CreatedAt time.Time `json:"created_at,omitempty"`
 //	}
 //
 //	client.RoleMenu.Query().
-//		Select(rolemenu.FieldCreateTime).
+//		Select(rolemenu.FieldCreatedAt).
 //		Scan(ctx, &v)
 func (_q *RoleMenuQuery) Select(fields ...string) *RoleMenuSelect {
 	_q.ctx.Fields = append(_q.ctx.Fields, fields...)

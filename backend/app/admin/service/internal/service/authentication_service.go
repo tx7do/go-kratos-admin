@@ -57,13 +57,13 @@ func NewAuthenticationService(
 // Login 登录
 func (s *AuthenticationService) Login(ctx context.Context, req *authenticationV1.LoginRequest) (*authenticationV1.LoginResponse, error) {
 	switch req.GetGrantType() {
-	case authenticationV1.GrantType_password.String():
+	case authenticationV1.GrantType_password:
 		return s.doGrantTypePassword(ctx, req)
 
-	case authenticationV1.GrantType_refresh_token.String():
+	case authenticationV1.GrantType_refresh_token:
 		return s.doGrantTypeRefreshToken(ctx, req)
 
-	case authenticationV1.GrantType_client_credentials.String():
+	case authenticationV1.GrantType_client_credentials:
 		return s.doGrantTypeClientCredentials(ctx, req)
 
 	default:
@@ -78,7 +78,7 @@ func (s *AuthenticationService) checkAuthority(user *userV1.User) error {
 	}
 
 	// 仅允许系统管理员和租户管理员登录后台管理系统
-	if user.GetAuthority() != userV1.UserAuthority_SYS_ADMIN && user.GetAuthority() != userV1.UserAuthority_TENANT_ADMIN {
+	if user.GetAuthority() != userV1.User_SYS_ADMIN && user.GetAuthority() != userV1.User_TENANT_ADMIN {
 		s.log.Errorf("user [%d] authority [%s] is not allowed to login admin system", user.GetId(), user.GetAuthority().String())
 		return authenticationV1.ErrorForbidden("权限不够")
 	}
@@ -125,7 +125,7 @@ func (s *AuthenticationService) doGrantTypePassword(ctx context.Context, req *au
 	}
 
 	return &authenticationV1.LoginResponse{
-		TokenType:    authenticationV1.TokenType_bearer.String(),
+		TokenType:    authenticationV1.TokenType_bearer,
 		AccessToken:  accessToken,
 		RefreshToken: refreshToken,
 	}, nil
@@ -174,7 +174,7 @@ func (s *AuthenticationService) doGrantTypeRefreshToken(ctx context.Context, req
 	}
 
 	return &authenticationV1.LoginResponse{
-		TokenType:    authenticationV1.TokenType_bearer.String(),
+		TokenType:    authenticationV1.TokenType_bearer,
 		AccessToken:  accessToken,
 		RefreshToken: refreshToken,
 	}, nil
@@ -203,7 +203,7 @@ func (s *AuthenticationService) Logout(ctx context.Context, _ *emptypb.Empty) (*
 // RefreshToken 刷新令牌
 func (s *AuthenticationService) RefreshToken(ctx context.Context, req *authenticationV1.LoginRequest) (*authenticationV1.LoginResponse, error) {
 	// 校验授权类型
-	if req.GetGrantType() != authenticationV1.GrantType_refresh_token.String() {
+	if req.GetGrantType() != authenticationV1.GrantType_refresh_token {
 		return nil, authenticationV1.ErrorInvalidGrantType("invalid grant type")
 	}
 
@@ -247,8 +247,8 @@ func (s *AuthenticationService) RegisterUser(ctx context.Context, req *authentic
 			TenantId:  tenantId,
 			Username:  trans.Ptr(req.Username),
 			Email:     req.Email,
-			Authority: trans.Ptr(userV1.UserAuthority_CUSTOMER_USER),
-			Status:    trans.Ptr(userV1.UserStatus_ON),
+			Authority: trans.Ptr(userV1.User_CUSTOMER_USER),
+			Status:    trans.Ptr(userV1.User_ON),
 		},
 	})
 	if err != nil {
@@ -264,11 +264,11 @@ func (s *AuthenticationService) RegisterUser(ctx context.Context, req *authentic
 			IdentityType: authenticationV1.IdentityType_USERNAME.Enum(),
 			Identifier:   trans.Ptr(req.GetUsername()),
 
-			CredentialType: authenticationV1.CredentialType_PASSWORD_HASH.Enum(),
+			CredentialType: authenticationV1.UserCredential_PASSWORD_HASH.Enum(),
 			Credential:     trans.Ptr(req.GetPassword()),
 
 			IsPrimary: trans.Ptr(true),
-			Status:    authenticationV1.UserCredentialStatus_ENABLED.Enum(),
+			Status:    authenticationV1.UserCredential_ENABLED.Enum(),
 		},
 	}); err != nil {
 		s.log.Errorf("create user credentials error: %v", err)
@@ -278,16 +278,6 @@ func (s *AuthenticationService) RegisterUser(ctx context.Context, req *authentic
 	return &authenticationV1.RegisterUserResponse{
 		UserId: user.GetId(),
 	}, nil
-}
-
-func (s *AuthenticationService) ChangePassword(ctx context.Context, req *authenticationV1.ChangePasswordRequest) (*emptypb.Empty, error) {
-	err := s.userCredentialRepo.ChangeCredential(ctx, &authenticationV1.ChangeCredentialRequest{
-		IdentityType:  authenticationV1.IdentityType_USERNAME,
-		Identifier:    req.GetUsername(),
-		OldCredential: req.GetOldPassword(),
-		NewCredential: req.GetNewPassword(),
-	})
-	return &emptypb.Empty{}, err
 }
 
 func (s *AuthenticationService) WhoAmI(ctx context.Context, _ *emptypb.Empty) (*authenticationV1.WhoAmIResponse, error) {

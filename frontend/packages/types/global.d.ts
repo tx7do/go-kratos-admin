@@ -9,6 +9,7 @@ declare module 'vue-router' {
 
 export interface VbenAdminProAppConfigRaw {
   VITE_GLOB_API_URL: string;
+  VITE_GLOB_SSE_URL: string;
 }
 
 export interface ApplicationConfig {

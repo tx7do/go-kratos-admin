@@ -15,13 +15,10 @@ import (
 	"github.com/tx7do/go-utils/timeutil"
 	pagination "github.com/tx7do/kratos-bootstrap/api/gen/go/pagination/v1"
 
+	userV1 "kratos-admin/api/gen/go/user/service/v1"
 	"kratos-admin/app/admin/service/internal/data/ent"
 	_ "kratos-admin/app/admin/service/internal/data/ent/runtime"
 	"kratos-admin/app/admin/service/internal/data/ent/user"
-	"kratos-admin/app/admin/service/internal/data/ent/userposition"
-	"kratos-admin/app/admin/service/internal/data/ent/userrole"
-
-	userV1 "kratos-admin/api/gen/go/user/service/v1"
 )
 
 type UserRepo struct {
@@ -29,9 +26,9 @@ type UserRepo struct {
 	log  *log.Helper
 
 	mapper             *mapper.CopierMapper[userV1.User, ent.User]
-	statusConverter    *mapper.EnumTypeConverter[userV1.UserStatus, user.Status]
-	genderConverter    *mapper.EnumTypeConverter[userV1.UserGender, user.Gender]
-	authorityConverter *mapper.EnumTypeConverter[userV1.UserAuthority, user.Authority]
+	statusConverter    *mapper.EnumTypeConverter[userV1.User_Status, user.Status]
+	genderConverter    *mapper.EnumTypeConverter[userV1.User_Gender, user.Gender]
+	authorityConverter *mapper.EnumTypeConverter[userV1.User_Authority, user.Authority]
 }
 
 func NewUserRepo(logger log.Logger, data *Data) *UserRepo {
@@ -39,9 +36,9 @@ func NewUserRepo(logger log.Logger, data *Data) *UserRepo {
 		log:                log.NewHelper(log.With(logger, "module", "user/repo/admin-service")),
 		data:               data,
 		mapper:             mapper.NewCopierMapper[userV1.User, ent.User](),
-		statusConverter:    mapper.NewEnumTypeConverter[userV1.UserStatus, user.Status](userV1.UserStatus_name, userV1.UserStatus_value),
-		genderConverter:    mapper.NewEnumTypeConverter[userV1.UserGender, user.Gender](userV1.UserGender_name, userV1.UserGender_value),
-		authorityConverter: mapper.NewEnumTypeConverter[userV1.UserAuthority, user.Authority](userV1.UserAuthority_name, userV1.UserAuthority_value),
+		statusConverter:    mapper.NewEnumTypeConverter[userV1.User_Status, user.Status](userV1.User_Status_name, userV1.User_Status_value),
+		genderConverter:    mapper.NewEnumTypeConverter[userV1.User_Gender, user.Gender](userV1.User_Gender_name, userV1.User_Gender_value),
+		authorityConverter: mapper.NewEnumTypeConverter[userV1.User_Authority, user.Authority](userV1.User_Authority_name, userV1.User_Authority_value),
 	}
 
 	repo.init()
@@ -83,7 +80,7 @@ func (r *UserRepo) List(ctx context.Context, req *pagination.PagingRequest) (*us
 	err, whereSelectors, querySelectors := entgo.BuildQuerySelector(
 		req.GetQuery(), req.GetOrQuery(),
 		req.GetPage(), req.GetPageSize(), req.GetNoPaging(),
-		req.GetOrderBy(), user.FieldCreateTime,
+		req.GetOrderBy(), user.FieldCreatedAt,
 		req.GetFieldMask().GetPaths(),
 	)
 	if err != nil {
@@ -170,16 +167,18 @@ func (r *UserRepo) Create(ctx context.Context, req *userV1.CreateUserRequest) (*
 		SetNillableStatus(r.statusConverter.ToEntity(req.Data.Status)).
 		SetNillableGender(r.genderConverter.ToEntity(req.Data.Gender)).
 		SetNillableAuthority(r.authorityConverter.ToEntity(req.Data.Authority)).
-		SetNillableTenantID(req.Data.TenantId).
 		SetNillableOrgID(req.Data.OrgId).
 		SetNillableDepartmentID(req.Data.DepartmentId).
 		SetNillablePositionID(req.Data.PositionId).
 		SetNillableWorkID(req.Data.WorkId).
-		SetNillableCreateBy(req.Data.CreateBy).
-		SetNillableCreateTime(timeutil.TimestamppbToTime(req.Data.CreateTime))
+		SetNillableCreatedBy(req.Data.CreatedBy).
+		SetNillableCreatedAt(timeutil.TimestamppbToTime(req.Data.CreatedAt))
 
-	if req.Data.CreateTime == nil {
-		builder.SetCreateTime(time.Now())
+	if req.Data.TenantId == nil {
+		builder.SetTenantID(req.Data.GetTenantId())
+	}
+	if req.Data.CreatedAt == nil {
+		builder.SetCreatedAt(time.Now())
 	}
 
 	if req.Data.Id != nil {
@@ -219,8 +218,8 @@ func (r *UserRepo) Update(ctx context.Context, req *userV1.UpdateUserRequest) er
 		}
 		if !exist {
 			createReq := &userV1.CreateUserRequest{Data: req.Data}
-			createReq.Data.CreateBy = createReq.Data.UpdateBy
-			createReq.Data.UpdateBy = nil
+			createReq.Data.CreatedBy = createReq.Data.UpdatedBy
+			createReq.Data.UpdatedBy = nil
 			_, err = r.Create(ctx, createReq)
 			return err
 		}
@@ -265,11 +264,11 @@ func (r *UserRepo) Update(ctx context.Context, req *userV1.UpdateUserRequest) er
 		SetNillableDepartmentID(req.Data.DepartmentId).
 		SetNillablePositionID(req.Data.PositionId).
 		SetNillableWorkID(req.Data.WorkId).
-		SetNillableUpdateBy(req.Data.UpdateBy).
-		SetNillableUpdateTime(timeutil.TimestamppbToTime(req.Data.UpdateTime))
+		SetNillableUpdatedBy(req.Data.UpdatedBy).
+		SetNillableUpdatedAt(timeutil.TimestamppbToTime(req.Data.UpdatedAt))
 
-	if req.Data.UpdateTime == nil {
-		builder.SetUpdateTime(time.Now())
+	if req.Data.UpdatedAt == nil {
+		builder.SetUpdatedAt(time.Now())
 	}
 
 	//if req.Data.Roles != nil {
@@ -374,170 +373,4 @@ func (r *UserRepo) UserExists(ctx context.Context, req *userV1.UserExistsRequest
 	return &userV1.UserExistsResponse{
 		Exist: exist,
 	}, nil
-}
-
-// AssignRoles 分配角色给用户
-func (r *UserRepo) AssignRoles(ctx context.Context, userId uint32, ids []uint32, operatorId uint32) error {
-	// 开启事务
-	tx, err := r.data.db.Client().Tx(ctx)
-	if err != nil {
-		r.log.Errorf("start transaction failed: %s", err.Error())
-		return userV1.ErrorInternalServerError("start transaction failed")
-	}
-
-	// 删除该用户的所有旧关联
-	if _, err = tx.UserRole.Delete().Where(userrole.UserID(userId)).Exec(ctx); err != nil {
-		err = rollback(tx, err)
-		r.log.Errorf("delete old user roles failed: %s", err.Error())
-		return userV1.ErrorInternalServerError("delete old user roles failed")
-	}
-
-	// 如果没有分配任何，则直接提交事务返回
-	if len(ids) == 0 {
-		// 提交事务
-		if err = tx.Commit(); err != nil {
-			r.log.Errorf("commit transaction failed: %s", err.Error())
-			return userV1.ErrorInternalServerError("commit transaction failed")
-		}
-		return nil
-	}
-
-	var userRoles []*ent.UserRoleCreate
-	for _, id := range ids {
-		rm := r.data.db.Client().UserRole.
-			Create().
-			SetUserID(userId).
-			SetRoleID(id).
-			SetCreateBy(operatorId).
-			SetCreateTime(time.Now())
-		userRoles = append(userRoles, rm)
-	}
-
-	_, err = r.data.db.Client().UserRole.CreateBulk(userRoles...).Save(ctx)
-	if err != nil {
-		err = rollback(tx, err)
-		r.log.Errorf("assign roles to user failed: %s", err.Error())
-		return userV1.ErrorInternalServerError("assign roles to user failed")
-	}
-
-	// 提交事务
-	if err = tx.Commit(); err != nil {
-		r.log.Errorf("commit transaction failed: %s", err.Error())
-		return userV1.ErrorInternalServerError("commit transaction failed")
-	}
-
-	return nil
-}
-
-// GetRoleIdsByUserId 获取用户关联的角色ID列表
-func (r *UserRepo) GetRoleIdsByUserId(ctx context.Context, userId uint32) ([]uint32, error) {
-	ids, err := r.data.db.Client().UserRole.Query().
-		Where(userrole.UserIDEQ(userId)).
-		Select(userrole.FieldRoleID).
-		IDs(ctx)
-	if err != nil {
-		r.log.Errorf("query role ids by user id failed: %s", err.Error())
-		return nil, userV1.ErrorInternalServerError("query role ids by user id failed")
-	}
-	return ids, nil
-}
-
-// RemoveRoles 从用户移除角色
-func (r *UserRepo) RemoveRoles(ctx context.Context, userId uint32, ids []uint32) error {
-	_, err := r.data.db.Client().UserRole.Delete().
-		Where(
-			userrole.And(
-				userrole.UserIDEQ(userId),
-				userrole.RoleIDIn(ids...),
-			),
-		).
-		Exec(ctx)
-	if err != nil {
-		r.log.Errorf("remove roles from user failed: %s", err.Error())
-		return userV1.ErrorInternalServerError("remove roles from user failed")
-	}
-	return nil
-}
-
-// AssignPositions 分配岗位给用户
-func (r *UserRepo) AssignPositions(ctx context.Context, userId uint32, ids []uint32, operatorId uint32) error {
-	// 开启事务
-	tx, err := r.data.db.Client().Tx(ctx)
-	if err != nil {
-		r.log.Errorf("start transaction failed: %s", err.Error())
-		return userV1.ErrorInternalServerError("start transaction failed")
-	}
-
-	// 删除该用户的所有旧关联
-	if _, err = tx.UserPosition.Delete().Where(userposition.UserID(userId)).Exec(ctx); err != nil {
-		err = rollback(tx, err)
-		r.log.Errorf("delete old user positions failed: %s", err.Error())
-		return userV1.ErrorInternalServerError("delete old user positions failed")
-	}
-
-	// 如果没有分配任何，则直接提交事务返回
-	if len(ids) == 0 {
-		// 提交事务
-		if err = tx.Commit(); err != nil {
-			r.log.Errorf("commit transaction failed: %s", err.Error())
-			return userV1.ErrorInternalServerError("commit transaction failed")
-		}
-		return nil
-	}
-
-	var userPositions []*ent.UserPositionCreate
-	for _, id := range ids {
-		rm := r.data.db.Client().UserPosition.
-			Create().
-			SetUserID(userId).
-			SetPositionID(id).
-			SetCreateBy(operatorId).
-			SetCreateTime(time.Now())
-		userPositions = append(userPositions, rm)
-	}
-
-	_, err = r.data.db.Client().UserPosition.CreateBulk(userPositions...).Save(ctx)
-	if err != nil {
-		err = rollback(tx, err)
-		r.log.Errorf("assign positions to user failed: %s", err.Error())
-		return userV1.ErrorInternalServerError("assign positions to user failed")
-	}
-
-	// 提交事务
-	if err = tx.Commit(); err != nil {
-		r.log.Errorf("commit transaction failed: %s", err.Error())
-		return userV1.ErrorInternalServerError("commit transaction failed")
-	}
-
-	return nil
-}
-
-// GetPositionIdsByUserId 获取用户的岗位ID列表
-func (r *UserRepo) GetPositionIdsByUserId(ctx context.Context, userId uint32) ([]uint32, error) {
-	ids, err := r.data.db.Client().UserPosition.Query().
-		Where(userposition.UserIDEQ(userId)).
-		Select(userposition.FieldPositionID).
-		IDs(ctx)
-	if err != nil {
-		r.log.Errorf("query position ids by user id failed: %s", err.Error())
-		return nil, userV1.ErrorInternalServerError("query position ids by user id failed")
-	}
-	return ids, nil
-}
-
-// RemovePositions 从用户移除岗位
-func (r *UserRepo) RemovePositions(ctx context.Context, userId uint32, ids []uint32) error {
-	_, err := r.data.db.Client().UserPosition.Delete().
-		Where(
-			userposition.And(
-				userposition.UserIDEQ(userId),
-				userposition.PositionIDIn(ids...),
-			),
-		).
-		Exec(ctx)
-	if err != nil {
-		r.log.Errorf("remove positions from user failed: %s", err.Error())
-		return userV1.ErrorInternalServerError("remove positions from user failed")
-	}
-	return nil
 }

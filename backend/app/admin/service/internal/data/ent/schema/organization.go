@@ -4,11 +4,9 @@ import (
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/entsql"
 	"entgo.io/ent/schema"
-	"entgo.io/ent/schema/edge"
 	"entgo.io/ent/schema/field"
+	"entgo.io/ent/schema/index"
 	"github.com/tx7do/go-utils/entgo/mixin"
-
-	appmixin "kratos-admin/pkg/entgo/mixin"
 )
 
 // Organization holds the schema definition for the Organization entity.
@@ -33,37 +31,28 @@ func (Organization) Fields() []ent.Field {
 	return []ent.Field{
 		field.String("name").
 			Comment("组织名称").
+			//Unique().
 			NotEmpty().
-			Optional().
-			Nillable(),
-
-		field.Uint32("parent_id").
-			Comment("上一层组织ID").
-			Optional().
-			Nillable(),
-
-		field.Int32("sort_id").
-			Comment("排序ID").
-			Default(0).
 			Optional().
 			Nillable(),
 
 		field.Enum("status").
 			Comment("组织状态").
 			NamedValues(
-				"ORGANIZATION_STATUS_ON", "ON",
-				"ORGANIZATION_STATUS_OFF", "OFF",
+				"On", "ON",
+				"Off", "OFF",
 			).
+			Default("ON").
 			Optional().
 			Nillable(),
 
 		field.Enum("organization_type").
 			Comment("组织类型").
 			NamedValues(
-				"ORGANIZATION_TYPE_GROUP", "GROUP",
-				"ORGANIZATION_TYPE_SUBSIDIARY", "SUBSIDIARY",
-				"ORGANIZATION_TYPE_FILIALE", "FILIALE",
-				"ORGANIZATION_TYPE_DIVISION", "DIVISION",
+				"Group", "GROUP",
+				"Subsidiary", "SUBSIDIARY",
+				"Filiale", "FILIALE",
+				"Division", "DIVISION",
 			).
 			Optional().
 			Nillable(),
@@ -99,19 +88,18 @@ func (Organization) Fields() []ent.Field {
 func (Organization) Mixin() []ent.Mixin {
 	return []ent.Mixin{
 		mixin.AutoIncrementId{},
-		mixin.Time{},
-		mixin.CreateBy{},
-		mixin.UpdateBy{},
+		mixin.TimeAt{},
+		mixin.OperatorID{},
 		mixin.Remark{},
-		appmixin.TenantID{},
+		mixin.SortOrder{},
+		mixin.Tree[Organization]{},
+		mixin.TenantID{},
 	}
 }
 
-// Edges of the Organization.
-func (Organization) Edges() []ent.Edge {
-	return []ent.Edge{
-		edge.
-			To("children", Organization.Type).
-			From("parent").Unique().Field("parent_id"),
+// Indexes of the Organization.
+func (Organization) Indexes() []ent.Index {
+	return []ent.Index{
+		index.Fields("name").StorageKey("idx_sys_organization_name"),
 	}
 }

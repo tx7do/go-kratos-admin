@@ -83,7 +83,7 @@ func (r *AdminOperationLogRepo) List(ctx context.Context, req *pagination.Paging
 	err, whereSelectors, querySelectors := entgo.BuildQuerySelector(
 		req.GetQuery(), req.GetOrQuery(),
 		req.GetPage(), req.GetPageSize(), req.GetNoPaging(),
-		req.GetOrderBy(), adminoperationlog.FieldCreateTime,
+		req.GetOrderBy(), adminoperationlog.FieldCreatedAt,
 		req.GetFieldMask().GetPaths(),
 	)
 	if err != nil {
@@ -179,10 +179,10 @@ func (r *AdminOperationLogRepo) Create(ctx context.Context, req *adminV1.CreateA
 		SetNillableSuccess(req.Data.Success).
 		SetNillableReason(req.Data.Reason).
 		SetNillableLocation(req.Data.Location).
-		SetNillableCreateTime(timeutil.TimestamppbToTime(req.Data.CreateTime))
+		SetNillableCreatedAt(timeutil.TimestamppbToTime(req.Data.CreatedAt))
 
-	if req.Data.CreateTime == nil {
-		builder.SetCreateTime(time.Now())
+	if req.Data.CreatedAt == nil {
+		builder.SetCreatedAt(time.Now())
 	}
 
 	err := builder.Exec(ctx)

@@ -7,7 +7,7 @@ import { $t } from '@vben/locales';
 import { notification } from 'ant-design-vue';
 
 import { useVbenForm } from '#/adapter/form';
-import { TaskType } from '#/generated/api/admin/service/v1/i_task.pb';
+import { Task_Type } from '#/generated/api/admin/service/v1/i_task.pb';
 import { enableBoolList, taskTypeList, useTaskStore } from '#/stores';
 
 const taskStore = useTaskStore();
@@ -35,34 +35,38 @@ const [BaseForm, baseFormApi] = useVbenForm({
       component: 'Select',
       fieldName: 'type',
       label: $t('page.task.type'),
-      defaultValue: TaskType.PERIODIC,
+      defaultValue: Task_Type.PERIODIC,
       componentProps: {
         placeholder: $t('ui.placeholder.select'),
         options: taskTypeList,
+        filterOption: (input: string, option: any) =>
+          option.label.toLowerCase().includes(input.toLowerCase()),
+        allowClear: true,
+        showSearch: true,
       },
       rules: 'selectRequired',
     },
 
     {
-      component: 'Input',
+      component: 'ApiSelect',
       fieldName: 'typeName',
       label: $t('page.task.typeName'),
-      componentProps: {
-        placeholder: $t('ui.placeholder.input'),
-        allowClear: true,
-      },
       rules: 'required',
-    },
-
-    {
-      component: 'Input',
-      fieldName: 'cronSpec',
-      label: $t('page.task.cronSpec'),
       componentProps: {
-        placeholder: $t('ui.placeholder.input'),
         allowClear: true,
+        showSearch: true,
+        placeholder: $t('ui.placeholder.select'),
+        api: async () => {
+          const result = await taskStore.listTaskTypeName();
+          return result.typeNames;
+        },
+        afterFetch: (data: { name: string; path: string }[]) => {
+          return data.map((item: any) => ({
+            label: item,
+            value: item,
+          }));
+        },
       },
-      rules: 'required',
     },
 
     {
@@ -76,9 +80,103 @@ const [BaseForm, baseFormApi] = useVbenForm({
     },
 
     {
+      component: 'Input',
+      fieldName: 'cronSpec',
+      label: $t('page.task.cronSpec'),
+      componentProps: {
+        placeholder: $t('ui.placeholder.input'),
+        allowClear: true,
+      },
+      dependencies: {
+        show: (values) => {
+          return [Task_Type.PERIODIC].includes(values.type);
+        },
+        triggerFields: ['type'],
+      },
+    },
+
+    {
+      component: 'InputNumber',
+      fieldName: 'taskOptions.maxRetry',
+      label: $t('page.task.taskOptionsMaxRetry'),
+      componentProps: {
+        placeholder: $t('ui.placeholder.input'),
+        allowClear: true,
+        defaultValue: 3,
+      },
+    },
+
+    {
+      component: 'InputNumber',
+      fieldName: 'taskOptions.timeout',
+      label: $t('page.task.taskOptionsTimeout'),
+      componentProps: {
+        placeholder: $t('ui.placeholder.input'),
+        allowClear: true,
+      },
+      dependencies: {
+        show: (values) => {
+          return [Task_Type.DELAY, Task_Type.WAIT_RESULT].includes(values.type);
+        },
+        triggerFields: ['type'],
+      },
+    },
+
+    {
+      component: 'DatePicker',
+      fieldName: 'taskOptions.deadline',
+      label: $t('page.task.taskOptionsDeadline'),
+      componentProps: {
+        placeholder: $t('ui.placeholder.input'),
+        allowClear: true,
+        showTime: true,
+      },
+      dependencies: {
+        show: (values) => {
+          return [Task_Type.DELAY].includes(values.type);
+        },
+        triggerFields: ['type'],
+      },
+    },
+
+    {
+      component: 'DatePicker',
+      fieldName: 'taskOptions.processIn',
+      label: $t('page.task.taskOptionsProcessIn'),
+      componentProps: {
+        placeholder: $t('ui.placeholder.input'),
+        allowClear: true,
+        showTime: true,
+      },
+      dependencies: {
+        show: (values) => {
+          return [Task_Type.DELAY].includes(values.type);
+        },
+        triggerFields: ['type'],
+      },
+    },
+
+    {
+      component: 'DatePicker',
+      fieldName: 'taskOptions.processAt',
+      label: $t('page.task.taskOptionsProcessAt'),
+      componentProps: {
+        placeholder: $t('ui.placeholder.input'),
+        allowClear: true,
+        showTime: true,
+      },
+      dependencies: {
+        show: (values) => {
+          return [Task_Type.DELAY].includes(values.type);
+        },
+        triggerFields: ['type'],
+      },
+    },
+
+    {
       component: 'RadioGroup',
       fieldName: 'enable',
-      defaultValue: 'true',
+      defaultValue: true,
       label: $t('page.task.enable'),
       rules: 'selectRequired',
       componentProps: {

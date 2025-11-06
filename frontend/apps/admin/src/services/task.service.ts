@@ -5,6 +5,7 @@ import type {
   GetTaskByTypeNameRequest,
   GetTaskRequest,
   ListTaskResponse,
+  ListTaskTypeNameResponse,
   RestartAllTaskResponse,
   Task,
   TaskService,
@@ -12,8 +13,6 @@ import type {
 } from '#/generated/api/admin/service/v1/i_task.pb';
 import type { Empty } from '#/generated/api/google/protobuf/empty.pb';
 import type { PagingRequest } from '#/generated/api/pagination/v1/pagination.pb';
-
-import * as console from 'node:console';
 
 import { requestClient } from '#/utils/request';
 
@@ -45,11 +44,24 @@ class TaskServiceImpl implements TaskService {
     });
   }
 
+  async ListTaskTypeName(request: Empty): Promise<ListTaskTypeNameResponse> {
+    return await requestClient.get<ListTaskTypeNameResponse>(
+      '/tasks:type-names',
+      {
+        params: request,
+      },
+    );
+  }
+
   async RestartAllTask(request: Empty): Promise<RestartAllTaskResponse> {
     return await requestClient.post<RestartAllTaskResponse>(
       '/tasks:restart',
       request,
     );
+  }
+
+  async StartAllTask(_request: Empty): Promise<Empty> {
+    return await requestClient.post<Empty>('/tasks:start', _request);
   }
 
   async StopAllTask(_request: Empty): Promise<Empty> {
@@ -59,7 +71,7 @@ class TaskServiceImpl implements TaskService {
   async Update(request: UpdateTaskRequest): Promise<Empty> {
     const id = request.data?.id;
 
-    console.log('UpdateTask', request.data);
+    // console.log('UpdateTask', request.data);
     if (request.data !== null && request.data !== undefined) {
       request.data.id = undefined;
     }

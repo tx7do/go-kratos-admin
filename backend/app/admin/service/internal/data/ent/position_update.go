@@ -29,97 +29,151 @@ func (_u *PositionUpdate) Where(ps ...predicate.Position) *PositionUpdate {
 	return _u
 }
 
-// SetUpdateTime sets the "update_time" field.
-func (_u *PositionUpdate) SetUpdateTime(v time.Time) *PositionUpdate {
-	_u.mutation.SetUpdateTime(v)
+// SetUpdatedAt sets the "updated_at" field.
+func (_u *PositionUpdate) SetUpdatedAt(v time.Time) *PositionUpdate {
+	_u.mutation.SetUpdatedAt(v)
 	return _u
 }
 
-// SetNillableUpdateTime sets the "update_time" field if the given value is not nil.
-func (_u *PositionUpdate) SetNillableUpdateTime(v *time.Time) *PositionUpdate {
+// SetNillableUpdatedAt sets the "updated_at" field if the given value is not nil.
+func (_u *PositionUpdate) SetNillableUpdatedAt(v *time.Time) *PositionUpdate {
 	if v != nil {
-		_u.SetUpdateTime(*v)
+		_u.SetUpdatedAt(*v)
 	}
 	return _u
 }
 
-// ClearUpdateTime clears the value of the "update_time" field.
-func (_u *PositionUpdate) ClearUpdateTime() *PositionUpdate {
-	_u.mutation.ClearUpdateTime()
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (_u *PositionUpdate) ClearUpdatedAt() *PositionUpdate {
+	_u.mutation.ClearUpdatedAt()
 	return _u
 }
 
-// SetDeleteTime sets the "delete_time" field.
-func (_u *PositionUpdate) SetDeleteTime(v time.Time) *PositionUpdate {
-	_u.mutation.SetDeleteTime(v)
+// SetDeletedAt sets the "deleted_at" field.
+func (_u *PositionUpdate) SetDeletedAt(v time.Time) *PositionUpdate {
+	_u.mutation.SetDeletedAt(v)
 	return _u
 }
 
-// SetNillableDeleteTime sets the "delete_time" field if the given value is not nil.
-func (_u *PositionUpdate) SetNillableDeleteTime(v *time.Time) *PositionUpdate {
+// SetNillableDeletedAt sets the "deleted_at" field if the given value is not nil.
+func (_u *PositionUpdate) SetNillableDeletedAt(v *time.Time) *PositionUpdate {
 	if v != nil {
-		_u.SetDeleteTime(*v)
+		_u.SetDeletedAt(*v)
 	}
 	return _u
 }
 
-// ClearDeleteTime clears the value of the "delete_time" field.
-func (_u *PositionUpdate) ClearDeleteTime() *PositionUpdate {
-	_u.mutation.ClearDeleteTime()
+// ClearDeletedAt clears the value of the "deleted_at" field.
+func (_u *PositionUpdate) ClearDeletedAt() *PositionUpdate {
+	_u.mutation.ClearDeletedAt()
 	return _u
 }
 
-// SetCreateBy sets the "create_by" field.
-func (_u *PositionUpdate) SetCreateBy(v uint32) *PositionUpdate {
-	_u.mutation.ResetCreateBy()
-	_u.mutation.SetCreateBy(v)
+// SetCreatedBy sets the "created_by" field.
+func (_u *PositionUpdate) SetCreatedBy(v uint32) *PositionUpdate {
+	_u.mutation.ResetCreatedBy()
+	_u.mutation.SetCreatedBy(v)
 	return _u
 }
 
-// SetNillableCreateBy sets the "create_by" field if the given value is not nil.
-func (_u *PositionUpdate) SetNillableCreateBy(v *uint32) *PositionUpdate {
+// SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
+func (_u *PositionUpdate) SetNillableCreatedBy(v *uint32) *PositionUpdate {
 	if v != nil {
-		_u.SetCreateBy(*v)
+		_u.SetCreatedBy(*v)
 	}
 	return _u
 }
 
-// AddCreateBy adds value to the "create_by" field.
-func (_u *PositionUpdate) AddCreateBy(v int32) *PositionUpdate {
-	_u.mutation.AddCreateBy(v)
+// AddCreatedBy adds value to the "created_by" field.
+func (_u *PositionUpdate) AddCreatedBy(v int32) *PositionUpdate {
+	_u.mutation.AddCreatedBy(v)
 	return _u
 }
 
-// ClearCreateBy clears the value of the "create_by" field.
-func (_u *PositionUpdate) ClearCreateBy() *PositionUpdate {
-	_u.mutation.ClearCreateBy()
+// ClearCreatedBy clears the value of the "created_by" field.
+func (_u *PositionUpdate) ClearCreatedBy() *PositionUpdate {
+	_u.mutation.ClearCreatedBy()
 	return _u
 }
 
-// SetUpdateBy sets the "update_by" field.
-func (_u *PositionUpdate) SetUpdateBy(v uint32) *PositionUpdate {
-	_u.mutation.ResetUpdateBy()
-	_u.mutation.SetUpdateBy(v)
+// SetUpdatedBy sets the "updated_by" field.
+func (_u *PositionUpdate) SetUpdatedBy(v uint32) *PositionUpdate {
+	_u.mutation.ResetUpdatedBy()
+	_u.mutation.SetUpdatedBy(v)
 	return _u
 }
 
-// SetNillableUpdateBy sets the "update_by" field if the given value is not nil.
-func (_u *PositionUpdate) SetNillableUpdateBy(v *uint32) *PositionUpdate {
+// SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
+func (_u *PositionUpdate) SetNillableUpdatedBy(v *uint32) *PositionUpdate {
 	if v != nil {
-		_u.SetUpdateBy(*v)
+		_u.SetUpdatedBy(*v)
 	}
 	return _u
 }
 
-// AddUpdateBy adds value to the "update_by" field.
-func (_u *PositionUpdate) AddUpdateBy(v int32) *PositionUpdate {
-	_u.mutation.AddUpdateBy(v)
+// AddUpdatedBy adds value to the "updated_by" field.
+func (_u *PositionUpdate) AddUpdatedBy(v int32) *PositionUpdate {
+	_u.mutation.AddUpdatedBy(v)
 	return _u
 }
 
-// ClearUpdateBy clears the value of the "update_by" field.
-func (_u *PositionUpdate) ClearUpdateBy() *PositionUpdate {
-	_u.mutation.ClearUpdateBy()
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (_u *PositionUpdate) ClearUpdatedBy() *PositionUpdate {
+	_u.mutation.ClearUpdatedBy()
+	return _u
+}
+
+// SetDeletedBy sets the "deleted_by" field.
+func (_u *PositionUpdate) SetDeletedBy(v uint32) *PositionUpdate {
+	_u.mutation.ResetDeletedBy()
+	_u.mutation.SetDeletedBy(v)
+	return _u
+}
+
+// SetNillableDeletedBy sets the "deleted_by" field if the given value is not nil.
+func (_u *PositionUpdate) SetNillableDeletedBy(v *uint32) *PositionUpdate {
+	if v != nil {
+		_u.SetDeletedBy(*v)
+	}
+	return _u
+}
+
+// AddDeletedBy adds value to the "deleted_by" field.
+func (_u *PositionUpdate) AddDeletedBy(v int32) *PositionUpdate {
+	_u.mutation.AddDeletedBy(v)
+	return _u
+}
+
+// ClearDeletedBy clears the value of the "deleted_by" field.
+func (_u *PositionUpdate) ClearDeletedBy() *PositionUpdate {
+	_u.mutation.ClearDeletedBy()
+	return _u
+}
+
+// SetSortOrder sets the "sort_order" field.
+func (_u *PositionUpdate) SetSortOrder(v int32) *PositionUpdate {
+	_u.mutation.ResetSortOrder()
+	_u.mutation.SetSortOrder(v)
+	return _u
+}
+
+// SetNillableSortOrder sets the "sort_order" field if the given value is not nil.
+func (_u *PositionUpdate) SetNillableSortOrder(v *int32) *PositionUpdate {
+	if v != nil {
+		_u.SetSortOrder(*v)
+	}
+	return _u
+}
+
+// AddSortOrder adds value to the "sort_order" field.
+func (_u *PositionUpdate) AddSortOrder(v int32) *PositionUpdate {
+	_u.mutation.AddSortOrder(v)
+	return _u
+}
+
+// ClearSortOrder clears the value of the "sort_order" field.
+func (_u *PositionUpdate) ClearSortOrder() *PositionUpdate {
+	_u.mutation.ClearSortOrder()
 	return _u
 }
 
@@ -143,40 +197,6 @@ func (_u *PositionUpdate) ClearRemark() *PositionUpdate {
 	return _u
 }
 
-// SetName sets the "name" field.
-func (_u *PositionUpdate) SetName(v string) *PositionUpdate {
-	_u.mutation.SetName(v)
-	return _u
-}
-
-// SetNillableName sets the "name" field if the given value is not nil.
-func (_u *PositionUpdate) SetNillableName(v *string) *PositionUpdate {
-	if v != nil {
-		_u.SetName(*v)
-	}
-	return _u
-}
-
-// SetCode sets the "code" field.
-func (_u *PositionUpdate) SetCode(v string) *PositionUpdate {
-	_u.mutation.SetCode(v)
-	return _u
-}
-
-// SetNillableCode sets the "code" field if the given value is not nil.
-func (_u *PositionUpdate) SetNillableCode(v *string) *PositionUpdate {
-	if v != nil {
-		_u.SetCode(*v)
-	}
-	return _u
-}
-
-// ClearCode clears the value of the "code" field.
-func (_u *PositionUpdate) ClearCode() *PositionUpdate {
-	_u.mutation.ClearCode()
-	return _u
-}
-
 // SetParentID sets the "parent_id" field.
 func (_u *PositionUpdate) SetParentID(v uint32) *PositionUpdate {
 	_u.mutation.SetParentID(v)
@@ -197,30 +217,43 @@ func (_u *PositionUpdate) ClearParentID() *PositionUpdate {
 	return _u
 }
 
-// SetSortID sets the "sort_id" field.
-func (_u *PositionUpdate) SetSortID(v int32) *PositionUpdate {
-	_u.mutation.ResetSortID()
-	_u.mutation.SetSortID(v)
+// SetName sets the "name" field.
+func (_u *PositionUpdate) SetName(v string) *PositionUpdate {
+	_u.mutation.SetName(v)
 	return _u
 }
 
-// SetNillableSortID sets the "sort_id" field if the given value is not nil.
-func (_u *PositionUpdate) SetNillableSortID(v *int32) *PositionUpdate {
+// SetNillableName sets the "name" field if the given value is not nil.
+func (_u *PositionUpdate) SetNillableName(v *string) *PositionUpdate {
 	if v != nil {
-		_u.SetSortID(*v)
+		_u.SetName(*v)
 	}
 	return _u
 }
 
-// AddSortID adds value to the "sort_id" field.
-func (_u *PositionUpdate) AddSortID(v int32) *PositionUpdate {
-	_u.mutation.AddSortID(v)
+// ClearName clears the value of the "name" field.
+func (_u *PositionUpdate) ClearName() *PositionUpdate {
+	_u.mutation.ClearName()
 	return _u
 }
 
-// ClearSortID clears the value of the "sort_id" field.
-func (_u *PositionUpdate) ClearSortID() *PositionUpdate {
-	_u.mutation.ClearSortID()
+// SetCode sets the "code" field.
+func (_u *PositionUpdate) SetCode(v string) *PositionUpdate {
+	_u.mutation.SetCode(v)
+	return _u
+}
+
+// SetNillableCode sets the "code" field if the given value is not nil.
+func (_u *PositionUpdate) SetNillableCode(v *string) *PositionUpdate {
+	if v != nil {
+		_u.SetCode(*v)
+	}
+	return _u
+}
+
+// ClearCode clears the value of the "code" field.
+func (_u *PositionUpdate) ClearCode() *PositionUpdate {
+	_u.mutation.ClearCode()
 	return _u
 }
 
@@ -419,6 +452,11 @@ func (_u *PositionUpdate) check() error {
 			return &ValidationError{Name: "name", err: fmt.Errorf(`ent: validator failed for field "Position.name": %w`, err)}
 		}
 	}
+	if v, ok := _u.mutation.Code(); ok {
+		if err := position.CodeValidator(v); err != nil {
+			return &ValidationError{Name: "code", err: fmt.Errorf(`ent: validator failed for field "Position.code": %w`, err)}
+		}
+	}
 	if v, ok := _u.mutation.Status(); ok {
 		if err := position.StatusValidator(v); err != nil {
 			return &ValidationError{Name: "status", err: fmt.Errorf(`ent: validator failed for field "Position.status": %w`, err)}
@@ -445,38 +483,56 @@ func (_u *PositionUpdate) sqlSave(ctx context.Context) (_node int, err error) {
 			}
 		}
 	}
-	if _u.mutation.CreateTimeCleared() {
-		_spec.ClearField(position.FieldCreateTime, field.TypeTime)
+	if _u.mutation.CreatedAtCleared() {
+		_spec.ClearField(position.FieldCreatedAt, field.TypeTime)
 	}
-	if value, ok := _u.mutation.UpdateTime(); ok {
-		_spec.SetField(position.FieldUpdateTime, field.TypeTime, value)
+	if value, ok := _u.mutation.UpdatedAt(); ok {
+		_spec.SetField(position.FieldUpdatedAt, field.TypeTime, value)
 	}
-	if _u.mutation.UpdateTimeCleared() {
-		_spec.ClearField(position.FieldUpdateTime, field.TypeTime)
+	if _u.mutation.UpdatedAtCleared() {
+		_spec.ClearField(position.FieldUpdatedAt, field.TypeTime)
 	}
-	if value, ok := _u.mutation.DeleteTime(); ok {
-		_spec.SetField(position.FieldDeleteTime, field.TypeTime, value)
+	if value, ok := _u.mutation.DeletedAt(); ok {
+		_spec.SetField(position.FieldDeletedAt, field.TypeTime, value)
 	}
-	if _u.mutation.DeleteTimeCleared() {
-		_spec.ClearField(position.FieldDeleteTime, field.TypeTime)
+	if _u.mutation.DeletedAtCleared() {
+		_spec.ClearField(position.FieldDeletedAt, field.TypeTime)
 	}
-	if value, ok := _u.mutation.CreateBy(); ok {
-		_spec.SetField(position.FieldCreateBy, field.TypeUint32, value)
+	if value, ok := _u.mutation.CreatedBy(); ok {
+		_spec.SetField(position.FieldCreatedBy, field.TypeUint32, value)
 	}
-	if value, ok := _u.mutation.AddedCreateBy(); ok {
-		_spec.AddField(position.FieldCreateBy, field.TypeUint32, value)
+	if value, ok := _u.mutation.AddedCreatedBy(); ok {
+		_spec.AddField(position.FieldCreatedBy, field.TypeUint32, value)
 	}
-	if _u.mutation.CreateByCleared() {
-		_spec.ClearField(position.FieldCreateBy, field.TypeUint32)
+	if _u.mutation.CreatedByCleared() {
+		_spec.ClearField(position.FieldCreatedBy, field.TypeUint32)
 	}
-	if value, ok := _u.mutation.UpdateBy(); ok {
-		_spec.SetField(position.FieldUpdateBy, field.TypeUint32, value)
+	if value, ok := _u.mutation.UpdatedBy(); ok {
+		_spec.SetField(position.FieldUpdatedBy, field.TypeUint32, value)
 	}
-	if value, ok := _u.mutation.AddedUpdateBy(); ok {
-		_spec.AddField(position.FieldUpdateBy, field.TypeUint32, value)
+	if value, ok := _u.mutation.AddedUpdatedBy(); ok {
+		_spec.AddField(position.FieldUpdatedBy, field.TypeUint32, value)
 	}
-	if _u.mutation.UpdateByCleared() {
-		_spec.ClearField(position.FieldUpdateBy, field.TypeUint32)
+	if _u.mutation.UpdatedByCleared() {
+		_spec.ClearField(position.FieldUpdatedBy, field.TypeUint32)
+	}
+	if value, ok := _u.mutation.DeletedBy(); ok {
+		_spec.SetField(position.FieldDeletedBy, field.TypeUint32, value)
+	}
+	if value, ok := _u.mutation.AddedDeletedBy(); ok {
+		_spec.AddField(position.FieldDeletedBy, field.TypeUint32, value)
+	}
+	if _u.mutation.DeletedByCleared() {
+		_spec.ClearField(position.FieldDeletedBy, field.TypeUint32)
+	}
+	if value, ok := _u.mutation.SortOrder(); ok {
+		_spec.SetField(position.FieldSortOrder, field.TypeInt32, value)
+	}
+	if value, ok := _u.mutation.AddedSortOrder(); ok {
+		_spec.AddField(position.FieldSortOrder, field.TypeInt32, value)
+	}
+	if _u.mutation.SortOrderCleared() {
+		_spec.ClearField(position.FieldSortOrder, field.TypeInt32)
 	}
 	if value, ok := _u.mutation.Remark(); ok {
 		_spec.SetField(position.FieldRemark, field.TypeString, value)
@@ -490,20 +546,14 @@ func (_u *PositionUpdate) sqlSave(ctx context.Context) (_node int, err error) {
 	if value, ok := _u.mutation.Name(); ok {
 		_spec.SetField(position.FieldName, field.TypeString, value)
 	}
+	if _u.mutation.NameCleared() {
+		_spec.ClearField(position.FieldName, field.TypeString)
+	}
 	if value, ok := _u.mutation.Code(); ok {
 		_spec.SetField(position.FieldCode, field.TypeString, value)
 	}
 	if _u.mutation.CodeCleared() {
 		_spec.ClearField(position.FieldCode, field.TypeString)
-	}
-	if value, ok := _u.mutation.SortID(); ok {
-		_spec.SetField(position.FieldSortID, field.TypeInt32, value)
-	}
-	if value, ok := _u.mutation.AddedSortID(); ok {
-		_spec.AddField(position.FieldSortID, field.TypeInt32, value)
-	}
-	if _u.mutation.SortIDCleared() {
-		_spec.ClearField(position.FieldSortID, field.TypeInt32)
 	}
 	if value, ok := _u.mutation.OrganizationID(); ok {
 		_spec.SetField(position.FieldOrganizationID, field.TypeUint32, value)
@@ -634,97 +684,151 @@ type PositionUpdateOne struct {
 	modifiers []func(*sql.UpdateBuilder)
 }
 
-// SetUpdateTime sets the "update_time" field.
-func (_u *PositionUpdateOne) SetUpdateTime(v time.Time) *PositionUpdateOne {
-	_u.mutation.SetUpdateTime(v)
+// SetUpdatedAt sets the "updated_at" field.
+func (_u *PositionUpdateOne) SetUpdatedAt(v time.Time) *PositionUpdateOne {
+	_u.mutation.SetUpdatedAt(v)
 	return _u
 }
 
-// SetNillableUpdateTime sets the "update_time" field if the given value is not nil.
-func (_u *PositionUpdateOne) SetNillableUpdateTime(v *time.Time) *PositionUpdateOne {
+// SetNillableUpdatedAt sets the "updated_at" field if the given value is not nil.
+func (_u *PositionUpdateOne) SetNillableUpdatedAt(v *time.Time) *PositionUpdateOne {
 	if v != nil {
-		_u.SetUpdateTime(*v)
+		_u.SetUpdatedAt(*v)
 	}
 	return _u
 }
 
-// ClearUpdateTime clears the value of the "update_time" field.
-func (_u *PositionUpdateOne) ClearUpdateTime() *PositionUpdateOne {
-	_u.mutation.ClearUpdateTime()
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (_u *PositionUpdateOne) ClearUpdatedAt() *PositionUpdateOne {
+	_u.mutation.ClearUpdatedAt()
 	return _u
 }
 
-// SetDeleteTime sets the "delete_time" field.
-func (_u *PositionUpdateOne) SetDeleteTime(v time.Time) *PositionUpdateOne {
-	_u.mutation.SetDeleteTime(v)
+// SetDeletedAt sets the "deleted_at" field.
+func (_u *PositionUpdateOne) SetDeletedAt(v time.Time) *PositionUpdateOne {
+	_u.mutation.SetDeletedAt(v)
 	return _u
 }
 
-// SetNillableDeleteTime sets the "delete_time" field if the given value is not nil.
-func (_u *PositionUpdateOne) SetNillableDeleteTime(v *time.Time) *PositionUpdateOne {
+// SetNillableDeletedAt sets the "deleted_at" field if the given value is not nil.
+func (_u *PositionUpdateOne) SetNillableDeletedAt(v *time.Time) *PositionUpdateOne {
 	if v != nil {
-		_u.SetDeleteTime(*v)
+		_u.SetDeletedAt(*v)
 	}
 	return _u
 }
 
-// ClearDeleteTime clears the value of the "delete_time" field.
-func (_u *PositionUpdateOne) ClearDeleteTime() *PositionUpdateOne {
-	_u.mutation.ClearDeleteTime()
+// ClearDeletedAt clears the value of the "deleted_at" field.
+func (_u *PositionUpdateOne) ClearDeletedAt() *PositionUpdateOne {
+	_u.mutation.ClearDeletedAt()
 	return _u
 }
 
-// SetCreateBy sets the "create_by" field.
-func (_u *PositionUpdateOne) SetCreateBy(v uint32) *PositionUpdateOne {
-	_u.mutation.ResetCreateBy()
-	_u.mutation.SetCreateBy(v)
+// SetCreatedBy sets the "created_by" field.
+func (_u *PositionUpdateOne) SetCreatedBy(v uint32) *PositionUpdateOne {
+	_u.mutation.ResetCreatedBy()
+	_u.mutation.SetCreatedBy(v)
 	return _u
 }
 
-// SetNillableCreateBy sets the "create_by" field if the given value is not nil.
-func (_u *PositionUpdateOne) SetNillableCreateBy(v *uint32) *PositionUpdateOne {
+// SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
+func (_u *PositionUpdateOne) SetNillableCreatedBy(v *uint32) *PositionUpdateOne {
 	if v != nil {
-		_u.SetCreateBy(*v)
+		_u.SetCreatedBy(*v)
 	}
 	return _u
 }
 
-// AddCreateBy adds value to the "create_by" field.
-func (_u *PositionUpdateOne) AddCreateBy(v int32) *PositionUpdateOne {
-	_u.mutation.AddCreateBy(v)
+// AddCreatedBy adds value to the "created_by" field.
+func (_u *PositionUpdateOne) AddCreatedBy(v int32) *PositionUpdateOne {
+	_u.mutation.AddCreatedBy(v)
 	return _u
 }
 
-// ClearCreateBy clears the value of the "create_by" field.
-func (_u *PositionUpdateOne) ClearCreateBy() *PositionUpdateOne {
-	_u.mutation.ClearCreateBy()
+// ClearCreatedBy clears the value of the "created_by" field.
+func (_u *PositionUpdateOne) ClearCreatedBy() *PositionUpdateOne {
+	_u.mutation.ClearCreatedBy()
 	return _u
 }
 
-// SetUpdateBy sets the "update_by" field.
-func (_u *PositionUpdateOne) SetUpdateBy(v uint32) *PositionUpdateOne {
-	_u.mutation.ResetUpdateBy()
-	_u.mutation.SetUpdateBy(v)
+// SetUpdatedBy sets the "updated_by" field.
+func (_u *PositionUpdateOne) SetUpdatedBy(v uint32) *PositionUpdateOne {
+	_u.mutation.ResetUpdatedBy()
+	_u.mutation.SetUpdatedBy(v)
 	return _u
 }
 
-// SetNillableUpdateBy sets the "update_by" field if the given value is not nil.
-func (_u *PositionUpdateOne) SetNillableUpdateBy(v *uint32) *PositionUpdateOne {
+// SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
+func (_u *PositionUpdateOne) SetNillableUpdatedBy(v *uint32) *PositionUpdateOne {
 	if v != nil {
-		_u.SetUpdateBy(*v)
+		_u.SetUpdatedBy(*v)
 	}
 	return _u
 }
 
-// AddUpdateBy adds value to the "update_by" field.
-func (_u *PositionUpdateOne) AddUpdateBy(v int32) *PositionUpdateOne {
-	_u.mutation.AddUpdateBy(v)
+// AddUpdatedBy adds value to the "updated_by" field.
+func (_u *PositionUpdateOne) AddUpdatedBy(v int32) *PositionUpdateOne {
+	_u.mutation.AddUpdatedBy(v)
 	return _u
 }
 
-// ClearUpdateBy clears the value of the "update_by" field.
-func (_u *PositionUpdateOne) ClearUpdateBy() *PositionUpdateOne {
-	_u.mutation.ClearUpdateBy()
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (_u *PositionUpdateOne) ClearUpdatedBy() *PositionUpdateOne {
+	_u.mutation.ClearUpdatedBy()
+	return _u
+}
+
+// SetDeletedBy sets the "deleted_by" field.
+func (_u *PositionUpdateOne) SetDeletedBy(v uint32) *PositionUpdateOne {
+	_u.mutation.ResetDeletedBy()
+	_u.mutation.SetDeletedBy(v)
+	return _u
+}
+
+// SetNillableDeletedBy sets the "deleted_by" field if the given value is not nil.
+func (_u *PositionUpdateOne) SetNillableDeletedBy(v *uint32) *PositionUpdateOne {
+	if v != nil {
+		_u.SetDeletedBy(*v)
+	}
+	return _u
+}
+
+// AddDeletedBy adds value to the "deleted_by" field.
+func (_u *PositionUpdateOne) AddDeletedBy(v int32) *PositionUpdateOne {
+	_u.mutation.AddDeletedBy(v)
+	return _u
+}
+
+// ClearDeletedBy clears the value of the "deleted_by" field.
+func (_u *PositionUpdateOne) ClearDeletedBy() *PositionUpdateOne {
+	_u.mutation.ClearDeletedBy()
+	return _u
+}
+
+// SetSortOrder sets the "sort_order" field.
+func (_u *PositionUpdateOne) SetSortOrder(v int32) *PositionUpdateOne {
+	_u.mutation.ResetSortOrder()
+	_u.mutation.SetSortOrder(v)
+	return _u
+}
+
+// SetNillableSortOrder sets the "sort_order" field if the given value is not nil.
+func (_u *PositionUpdateOne) SetNillableSortOrder(v *int32) *PositionUpdateOne {
+	if v != nil {
+		_u.SetSortOrder(*v)
+	}
+	return _u
+}
+
+// AddSortOrder adds value to the "sort_order" field.
+func (_u *PositionUpdateOne) AddSortOrder(v int32) *PositionUpdateOne {
+	_u.mutation.AddSortOrder(v)
+	return _u
+}
+
+// ClearSortOrder clears the value of the "sort_order" field.
+func (_u *PositionUpdateOne) ClearSortOrder() *PositionUpdateOne {
+	_u.mutation.ClearSortOrder()
 	return _u
 }
 
@@ -748,40 +852,6 @@ func (_u *PositionUpdateOne) ClearRemark() *PositionUpdateOne {
 	return _u
 }
 
-// SetName sets the "name" field.
-func (_u *PositionUpdateOne) SetName(v string) *PositionUpdateOne {
-	_u.mutation.SetName(v)
-	return _u
-}
-
-// SetNillableName sets the "name" field if the given value is not nil.
-func (_u *PositionUpdateOne) SetNillableName(v *string) *PositionUpdateOne {
-	if v != nil {
-		_u.SetName(*v)
-	}
-	return _u
-}
-
-// SetCode sets the "code" field.
-func (_u *PositionUpdateOne) SetCode(v string) *PositionUpdateOne {
-	_u.mutation.SetCode(v)
-	return _u
-}
-
-// SetNillableCode sets the "code" field if the given value is not nil.
-func (_u *PositionUpdateOne) SetNillableCode(v *string) *PositionUpdateOne {
-	if v != nil {
-		_u.SetCode(*v)
-	}
-	return _u
-}
-
-// ClearCode clears the value of the "code" field.
-func (_u *PositionUpdateOne) ClearCode() *PositionUpdateOne {
-	_u.mutation.ClearCode()
-	return _u
-}
-
 // SetParentID sets the "parent_id" field.
 func (_u *PositionUpdateOne) SetParentID(v uint32) *PositionUpdateOne {
 	_u.mutation.SetParentID(v)
@@ -802,30 +872,43 @@ func (_u *PositionUpdateOne) ClearParentID() *PositionUpdateOne {
 	return _u
 }
 
-// SetSortID sets the "sort_id" field.
-func (_u *PositionUpdateOne) SetSortID(v int32) *PositionUpdateOne {
-	_u.mutation.ResetSortID()
-	_u.mutation.SetSortID(v)
+// SetName sets the "name" field.
+func (_u *PositionUpdateOne) SetName(v string) *PositionUpdateOne {
+	_u.mutation.SetName(v)
 	return _u
 }
 
-// SetNillableSortID sets the "sort_id" field if the given value is not nil.
-func (_u *PositionUpdateOne) SetNillableSortID(v *int32) *PositionUpdateOne {
+// SetNillableName sets the "name" field if the given value is not nil.
+func (_u *PositionUpdateOne) SetNillableName(v *string) *PositionUpdateOne {
 	if v != nil {
-		_u.SetSortID(*v)
+		_u.SetName(*v)
 	}
 	return _u
 }
 
-// AddSortID adds value to the "sort_id" field.
-func (_u *PositionUpdateOne) AddSortID(v int32) *PositionUpdateOne {
-	_u.mutation.AddSortID(v)
+// ClearName clears the value of the "name" field.
+func (_u *PositionUpdateOne) ClearName() *PositionUpdateOne {
+	_u.mutation.ClearName()
 	return _u
 }
 
-// ClearSortID clears the value of the "sort_id" field.
-func (_u *PositionUpdateOne) ClearSortID() *PositionUpdateOne {
-	_u.mutation.ClearSortID()
+// SetCode sets the "code" field.
+func (_u *PositionUpdateOne) SetCode(v string) *PositionUpdateOne {
+	_u.mutation.SetCode(v)
+	return _u
+}
+
+// SetNillableCode sets the "code" field if the given value is not nil.
+func (_u *PositionUpdateOne) SetNillableCode(v *string) *PositionUpdateOne {
+	if v != nil {
+		_u.SetCode(*v)
+	}
+	return _u
+}
+
+// ClearCode clears the value of the "code" field.
+func (_u *PositionUpdateOne) ClearCode() *PositionUpdateOne {
+	_u.mutation.ClearCode()
 	return _u
 }
 
@@ -1037,6 +1120,11 @@ func (_u *PositionUpdateOne) check() error {
 			return &ValidationError{Name: "name", err: fmt.Errorf(`ent: validator failed for field "Position.name": %w`, err)}
 		}
 	}
+	if v, ok := _u.mutation.Code(); ok {
+		if err := position.CodeValidator(v); err != nil {
+			return &ValidationError{Name: "code", err: fmt.Errorf(`ent: validator failed for field "Position.code": %w`, err)}
+		}
+	}
 	if v, ok := _u.mutation.Status(); ok {
 		if err := position.StatusValidator(v); err != nil {
 			return &ValidationError{Name: "status", err: fmt.Errorf(`ent: validator failed for field "Position.status": %w`, err)}
@@ -1080,38 +1168,56 @@ func (_u *PositionUpdateOne) sqlSave(ctx context.Context) (_node *Position, err 
 			}
 		}
 	}
-	if _u.mutation.CreateTimeCleared() {
-		_spec.ClearField(position.FieldCreateTime, field.TypeTime)
+	if _u.mutation.CreatedAtCleared() {
+		_spec.ClearField(position.FieldCreatedAt, field.TypeTime)
 	}
-	if value, ok := _u.mutation.UpdateTime(); ok {
-		_spec.SetField(position.FieldUpdateTime, field.TypeTime, value)
+	if value, ok := _u.mutation.UpdatedAt(); ok {
+		_spec.SetField(position.FieldUpdatedAt, field.TypeTime, value)
 	}
-	if _u.mutation.UpdateTimeCleared() {
-		_spec.ClearField(position.FieldUpdateTime, field.TypeTime)
+	if _u.mutation.UpdatedAtCleared() {
+		_spec.ClearField(position.FieldUpdatedAt, field.TypeTime)
 	}
-	if value, ok := _u.mutation.DeleteTime(); ok {
-		_spec.SetField(position.FieldDeleteTime, field.TypeTime, value)
+	if value, ok := _u.mutation.DeletedAt(); ok {
+		_spec.SetField(position.FieldDeletedAt, field.TypeTime, value)
 	}
-	if _u.mutation.DeleteTimeCleared() {
-		_spec.ClearField(position.FieldDeleteTime, field.TypeTime)
+	if _u.mutation.DeletedAtCleared() {
+		_spec.ClearField(position.FieldDeletedAt, field.TypeTime)
 	}
-	if value, ok := _u.mutation.CreateBy(); ok {
-		_spec.SetField(position.FieldCreateBy, field.TypeUint32, value)
+	if value, ok := _u.mutation.CreatedBy(); ok {
+		_spec.SetField(position.FieldCreatedBy, field.TypeUint32, value)
 	}
-	if value, ok := _u.mutation.AddedCreateBy(); ok {
-		_spec.AddField(position.FieldCreateBy, field.TypeUint32, value)
+	if value, ok := _u.mutation.AddedCreatedBy(); ok {
+		_spec.AddField(position.FieldCreatedBy, field.TypeUint32, value)
 	}
-	if _u.mutation.CreateByCleared() {
-		_spec.ClearField(position.FieldCreateBy, field.TypeUint32)
+	if _u.mutation.CreatedByCleared() {
+		_spec.ClearField(position.FieldCreatedBy, field.TypeUint32)
 	}
-	if value, ok := _u.mutation.UpdateBy(); ok {
-		_spec.SetField(position.FieldUpdateBy, field.TypeUint32, value)
+	if value, ok := _u.mutation.UpdatedBy(); ok {
+		_spec.SetField(position.FieldUpdatedBy, field.TypeUint32, value)
 	}
-	if value, ok := _u.mutation.AddedUpdateBy(); ok {
-		_spec.AddField(position.FieldUpdateBy, field.TypeUint32, value)
+	if value, ok := _u.mutation.AddedUpdatedBy(); ok {
+		_spec.AddField(position.FieldUpdatedBy, field.TypeUint32, value)
 	}
-	if _u.mutation.UpdateByCleared() {
-		_spec.ClearField(position.FieldUpdateBy, field.TypeUint32)
+	if _u.mutation.UpdatedByCleared() {
+		_spec.ClearField(position.FieldUpdatedBy, field.TypeUint32)
+	}
+	if value, ok := _u.mutation.DeletedBy(); ok {
+		_spec.SetField(position.FieldDeletedBy, field.TypeUint32, value)
+	}
+	if value, ok := _u.mutation.AddedDeletedBy(); ok {
+		_spec.AddField(position.FieldDeletedBy, field.TypeUint32, value)
+	}
+	if _u.mutation.DeletedByCleared() {
+		_spec.ClearField(position.FieldDeletedBy, field.TypeUint32)
+	}
+	if value, ok := _u.mutation.SortOrder(); ok {
+		_spec.SetField(position.FieldSortOrder, field.TypeInt32, value)
+	}
+	if value, ok := _u.mutation.AddedSortOrder(); ok {
+		_spec.AddField(position.FieldSortOrder, field.TypeInt32, value)
+	}
+	if _u.mutation.SortOrderCleared() {
+		_spec.ClearField(position.FieldSortOrder, field.TypeInt32)
 	}
 	if value, ok := _u.mutation.Remark(); ok {
 		_spec.SetField(position.FieldRemark, field.TypeString, value)
@@ -1125,20 +1231,14 @@ func (_u *PositionUpdateOne) sqlSave(ctx context.Context) (_node *Position, err 
 	if value, ok := _u.mutation.Name(); ok {
 		_spec.SetField(position.FieldName, field.TypeString, value)
 	}
+	if _u.mutation.NameCleared() {
+		_spec.ClearField(position.FieldName, field.TypeString)
+	}
 	if value, ok := _u.mutation.Code(); ok {
 		_spec.SetField(position.FieldCode, field.TypeString, value)
 	}
 	if _u.mutation.CodeCleared() {
 		_spec.ClearField(position.FieldCode, field.TypeString)
-	}
-	if value, ok := _u.mutation.SortID(); ok {
-		_spec.SetField(position.FieldSortID, field.TypeInt32, value)
-	}
-	if value, ok := _u.mutation.AddedSortID(); ok {
-		_spec.AddField(position.FieldSortID, field.TypeInt32, value)
-	}
-	if _u.mutation.SortIDCleared() {
-		_spec.ClearField(position.FieldSortID, field.TypeInt32)
 	}
 	if value, ok := _u.mutation.OrganizationID(); ok {
 		_spec.SetField(position.FieldOrganizationID, field.TypeUint32, value)

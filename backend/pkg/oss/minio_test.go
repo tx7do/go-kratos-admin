@@ -9,8 +9,9 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/tx7do/go-utils/trans"
 
-	conf "github.com/tx7do/kratos-bootstrap/api/gen/go/conf/v1"
 	v1 "kratos-admin/api/gen/go/file/service/v1"
+
+	conf "github.com/tx7do/kratos-bootstrap/api/gen/go/conf/v1"
 )
 
 func createTestClient() *MinIOClient {
@@ -32,7 +33,7 @@ func TestMinIoClient(t *testing.T) {
 	assert.NotNil(t, cli)
 
 	resp, err := cli.OssUploadUrl(context.Background(), &v1.OssUploadUrlRequest{
-		Method:      v1.UploadMethod_Put,
+		Method:      v1.OssUploadUrlRequest_Put,
 		ContentType: trans.String("image/jpeg"),
 		BucketName:  trans.String("images"),
 		FilePath:    trans.String("20221010"),

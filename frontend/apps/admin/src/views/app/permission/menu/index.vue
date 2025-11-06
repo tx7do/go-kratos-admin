@@ -49,7 +49,10 @@ const formOptions: VbenFormProps = {
       componentProps: {
         options: statusList,
         placeholder: $t('ui.placeholder.select'),
+        filterOption: (input: string, option: any) =>
+          option.label.toLowerCase().includes(input.toLowerCase()),
         allowClear: true,
+        showSearch: true,
       },
     },
   ],
@@ -120,10 +123,10 @@ const gridOptions: VxeGridProps<Menu> = {
       slots: { default: 'status' },
       width: 95,
     },
-    { title: $t('ui.table.sortId'), field: 'meta.order', width: 70 },
+    { title: $t('ui.table.sortOrder'), field: 'meta.order', width: 70 },
     {
-      title: $t('ui.table.updateTime'),
-      field: 'updateTime',
+      title: $t('ui.table.updatedAt'),
+      field: 'updatedAt',
       formatter: 'formatDateTime',
       width: 140,
     },
@@ -188,28 +191,6 @@ async function handleDelete(row: any) {
     notification.error({
       message: $t('ui.notification.delete_failed'),
     });
-  }
-}
-
-/* 修改菜单状态 */
-async function handleStatusChanged(row: any, checked: boolean) {
-  console.log('handleStatusChanged', row.status, checked);
-
-  row.pending = true;
-  row.status = checked ? 'ON' : 'OFF';
-
-  try {
-    await menuStore.updateMenu(row.id, { status: row.status });
-
-    notification.success({
-      message: $t('ui.notification.update_status_success'),
-    });
-  } catch {
-    notification.error({
-      message: $t('ui.notification.update_status_failed'),
-    });
-  } finally {
-    row.pending = false;
   }
 }
 

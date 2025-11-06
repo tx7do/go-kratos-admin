@@ -265,12 +265,12 @@ func (_q *AdminLoginRestrictionQuery) Clone() *AdminLoginRestrictionQuery {
 // Example:
 //
 //	var v []struct {
-//		CreateTime time.Time `json:"create_time,omitempty"`
+//		CreatedAt time.Time `json:"created_at,omitempty"`
 //		Count int `json:"count,omitempty"`
 //	}
 //
 //	client.AdminLoginRestriction.Query().
-//		GroupBy(adminloginrestriction.FieldCreateTime).
+//		GroupBy(adminloginrestriction.FieldCreatedAt).
 //		Aggregate(ent.Count()).
 //		Scan(ctx, &v)
 func (_q *AdminLoginRestrictionQuery) GroupBy(field string, fields ...string) *AdminLoginRestrictionGroupBy {
@@ -288,11 +288,11 @@ func (_q *AdminLoginRestrictionQuery) GroupBy(field string, fields ...string) *A
 // Example:
 //
 //	var v []struct {
-//		CreateTime time.Time `json:"create_time,omitempty"`
+//		CreatedAt time.Time `json:"created_at,omitempty"`
 //	}
 //
 //	client.AdminLoginRestriction.Query().
-//		Select(adminloginrestriction.FieldCreateTime).
+//		Select(adminloginrestriction.FieldCreatedAt).
 //		Scan(ctx, &v)
 func (_q *AdminLoginRestrictionQuery) Select(fields ...string) *AdminLoginRestrictionSelect {
 	_q.ctx.Fields = append(_q.ctx.Fields, fields...)

@@ -44,5 +44,23 @@
     "REGION": "Region",
     "TIME": "Time",
     "DEVICE": "Device"
+  },
+  "tenantStatus": {
+    "ON": "ON",
+    "OFF": "OFF",
+    "EXPIRED": "Expired",
+    "FREEZE": "Freeze"
+  },
+  "tenantType": {
+    "TRIAL": "Trial",
+    "PAID": "Paid",
+    "INTERNAL": "Internal",
+    "PARTNER": "Partner",
+    "CUSTOM": "Custom"
+  },
+  "tenantAuditStatus": {
+    "PENDING": "Pending",
+    "APPROVED": "Approved",
+    "REJECTED": "Rejected"
   }
 }

@@ -57,8 +57,8 @@ func (m *TaskOption) validate(all bool) error {
 
 	var errors []error
 
-	if m.RetryCount != nil {
-		// no validation rules for RetryCount
+	if m.MaxRetry != nil {
+		// no validation rules for MaxRetry
 	}
 
 	if m.Timeout != nil {
@@ -191,6 +191,80 @@ func (m *TaskOption) validate(all bool) error {
 			}
 		}
 
+	}
+
+	if m.UniqueTtl != nil {
+
+		if all {
+			switch v := interface{}(m.GetUniqueTtl()).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, TaskOptionValidationError{
+						field:  "UniqueTtl",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, TaskOptionValidationError{
+						field:  "UniqueTtl",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(m.GetUniqueTtl()).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return TaskOptionValidationError{
+					field:  "UniqueTtl",
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	if m.Retention != nil {
+
+		if all {
+			switch v := interface{}(m.GetRetention()).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, TaskOptionValidationError{
+						field:  "Retention",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, TaskOptionValidationError{
+						field:  "Retention",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(m.GetRetention()).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return TaskOptionValidationError{
+					field:  "Retention",
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	if m.Group != nil {
+		// no validation rules for Group
+	}
+
+	if m.TaskId != nil {
+		// no validation rules for TaskId
 	}
 
 	if len(errors) > 0 {
@@ -352,22 +426,26 @@ func (m *Task) validate(all bool) error {
 		// no validation rules for Remark
 	}
 
-	if m.CreateBy != nil {
-		// no validation rules for CreateBy
+	if m.CreatedBy != nil {
+		// no validation rules for CreatedBy
 	}
 
-	if m.UpdateBy != nil {
-		// no validation rules for UpdateBy
+	if m.UpdatedBy != nil {
+		// no validation rules for UpdatedBy
 	}
 
-	if m.CreateTime != nil {
+	if m.DeletedBy != nil {
+		// no validation rules for DeletedBy
+	}
+
+	if m.CreatedAt != nil {
 
 		if all {
-			switch v := interface{}(m.GetCreateTime()).(type) {
+			switch v := interface{}(m.GetCreatedAt()).(type) {
 			case interface{ ValidateAll() error }:
 				if err := v.ValidateAll(); err != nil {
 					errors = append(errors, TaskValidationError{
-						field:  "CreateTime",
+						field:  "CreatedAt",
 						reason: "embedded message failed validation",
 						cause:  err,
 					})
@@ -375,16 +453,16 @@ func (m *Task) validate(all bool) error {
 			case interface{ Validate() error }:
 				if err := v.Validate(); err != nil {
 					errors = append(errors, TaskValidationError{
-						field:  "CreateTime",
+						field:  "CreatedAt",
 						reason: "embedded message failed validation",
 						cause:  err,
 					})
 				}
 			}
-		} else if v, ok := interface{}(m.GetCreateTime()).(interface{ Validate() error }); ok {
+		} else if v, ok := interface{}(m.GetCreatedAt()).(interface{ Validate() error }); ok {
 			if err := v.Validate(); err != nil {
 				return TaskValidationError{
-					field:  "CreateTime",
+					field:  "CreatedAt",
 					reason: "embedded message failed validation",
 					cause:  err,
 				}
@@ -393,14 +471,14 @@ func (m *Task) validate(all bool) error {
 
 	}
 
-	if m.UpdateTime != nil {
+	if m.UpdatedAt != nil {
 
 		if all {
-			switch v := interface{}(m.GetUpdateTime()).(type) {
+			switch v := interface{}(m.GetUpdatedAt()).(type) {
 			case interface{ ValidateAll() error }:
 				if err := v.ValidateAll(); err != nil {
 					errors = append(errors, TaskValidationError{
-						field:  "UpdateTime",
+						field:  "UpdatedAt",
 						reason: "embedded message failed validation",
 						cause:  err,
 					})
@@ -408,16 +486,16 @@ func (m *Task) validate(all bool) error {
 			case interface{ Validate() error }:
 				if err := v.Validate(); err != nil {
 					errors = append(errors, TaskValidationError{
-						field:  "UpdateTime",
+						field:  "UpdatedAt",
 						reason: "embedded message failed validation",
 						cause:  err,
 					})
 				}
 			}
-		} else if v, ok := interface{}(m.GetUpdateTime()).(interface{ Validate() error }); ok {
+		} else if v, ok := interface{}(m.GetUpdatedAt()).(interface{ Validate() error }); ok {
 			if err := v.Validate(); err != nil {
 				return TaskValidationError{
-					field:  "UpdateTime",
+					field:  "UpdatedAt",
 					reason: "embedded message failed validation",
 					cause:  err,
 				}
@@ -426,14 +504,14 @@ func (m *Task) validate(all bool) error {
 
 	}
 
-	if m.DeleteTime != nil {
+	if m.DeletedAt != nil {
 
 		if all {
-			switch v := interface{}(m.GetDeleteTime()).(type) {
+			switch v := interface{}(m.GetDeletedAt()).(type) {
 			case interface{ ValidateAll() error }:
 				if err := v.ValidateAll(); err != nil {
 					errors = append(errors, TaskValidationError{
-						field:  "DeleteTime",
+						field:  "DeletedAt",
 						reason: "embedded message failed validation",
 						cause:  err,
 					})
@@ -441,16 +519,16 @@ func (m *Task) validate(all bool) error {
 			case interface{ Validate() error }:
 				if err := v.Validate(); err != nil {
 					errors = append(errors, TaskValidationError{
-						field:  "DeleteTime",
+						field:  "DeletedAt",
 						reason: "embedded message failed validation",
 						cause:  err,
 					})
 				}
 			}
-		} else if v, ok := interface{}(m.GetDeleteTime()).(interface{ Validate() error }); ok {
+		} else if v, ok := interface{}(m.GetDeletedAt()).(interface{ Validate() error }); ok {
 			if err := v.Validate(); err != nil {
 				return TaskValidationError{
-					field:  "DeleteTime",
+					field:  "DeletedAt",
 					reason: "embedded message failed validation",
 					cause:  err,
 				}
@@ -1486,3 +1564,105 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = ControlTaskRequestValidationError{}
+
+// Validate checks the field values on ListTaskTypeNameResponse with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *ListTaskTypeNameResponse) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on ListTaskTypeNameResponse with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// ListTaskTypeNameResponseMultiError, or nil if none found.
+func (m *ListTaskTypeNameResponse) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *ListTaskTypeNameResponse) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if len(errors) > 0 {
+		return ListTaskTypeNameResponseMultiError(errors)
+	}
+
+	return nil
+}
+
+// ListTaskTypeNameResponseMultiError is an error wrapping multiple validation
+// errors returned by ListTaskTypeNameResponse.ValidateAll() if the designated
+// constraints aren't met.
+type ListTaskTypeNameResponseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m ListTaskTypeNameResponseMultiError) Error() string {
+	msgs := make([]string, 0, len(m))
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m ListTaskTypeNameResponseMultiError) AllErrors() []error { return m }
+
+// ListTaskTypeNameResponseValidationError is the validation error returned by
+// ListTaskTypeNameResponse.Validate if the designated constraints aren't met.
+type ListTaskTypeNameResponseValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e ListTaskTypeNameResponseValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e ListTaskTypeNameResponseValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e ListTaskTypeNameResponseValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e ListTaskTypeNameResponseValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e ListTaskTypeNameResponseValidationError) ErrorName() string {
+	return "ListTaskTypeNameResponseValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e ListTaskTypeNameResponseValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sListTaskTypeNameResponse.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = ListTaskTypeNameResponseValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = ListTaskTypeNameResponseValidationError{}

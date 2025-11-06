@@ -11,6 +11,7 @@ import (
 	"kratos-admin/app/admin/service/internal/data"
 
 	adminV1 "kratos-admin/api/gen/go/admin/service/v1"
+	dictV1 "kratos-admin/api/gen/go/dict/service/v1"
 
 	"kratos-admin/pkg/middleware/auth"
 )
@@ -20,26 +21,32 @@ type DictService struct {
 
 	log *log.Helper
 
-	repo *data.DictRepo
+	dictTypeRepo  *data.DictTypeRepo
+	dictEntryRepo *data.DictEntryRepo
 }
 
-func NewDictService(logger log.Logger, repo *data.DictRepo) *DictService {
+func NewDictService(
+	logger log.Logger,
+	dictTypeRepo *data.DictTypeRepo,
+	dictEntryRepo *data.DictEntryRepo,
+) *DictService {
 	l := log.NewHelper(log.With(logger, "module", "dict/service/admin-service"))
 	return &DictService{
-		log:  l,
-		repo: repo,
+		log:           l,
+		dictTypeRepo:  dictTypeRepo,
+		dictEntryRepo: dictEntryRepo,
 	}
 }
 
-func (s *DictService) List(ctx context.Context, req *pagination.PagingRequest) (*adminV1.ListDictResponse, error) {
-	return s.repo.List(ctx, req)
+func (s *DictService) ListDictType(ctx context.Context, req *pagination.PagingRequest) (*dictV1.ListDictTypeResponse, error) {
+	return s.dictTypeRepo.List(ctx, req)
 }
 
-func (s *DictService) Get(ctx context.Context, req *adminV1.GetDictRequest) (*adminV1.Dict, error) {
-	return s.repo.Get(ctx, req)
+func (s *DictService) GetDictType(ctx context.Context, req *dictV1.GetDictTypeRequest) (*dictV1.DictType, error) {
+	return s.dictTypeRepo.Get(ctx, req)
 }
 
-func (s *DictService) Create(ctx context.Context, req *adminV1.CreateDictRequest) (*emptypb.Empty, error) {
+func (s *DictService) CreateDictType(ctx context.Context, req *dictV1.CreateDictTypeRequest) (*emptypb.Empty, error) {
 	if req.Data == nil {
 		return nil, adminV1.ErrorBadRequest("invalid parameter")
 	}
@@ -47,19 +54,19 @@ func (s *DictService) Create(ctx context.Context, req *adminV1.CreateDictRequest
 	// 获取操作人信息
 	operator, err := auth.FromContext(ctx)
 	if err != nil {
-		return &emptypb.Empty{}, err
+		return nil, err
 	}
 
-	req.Data.CreateBy = trans.Ptr(operator.UserId)
+	req.Data.CreatedBy = trans.Ptr(operator.UserId)
 
-	if err = s.repo.Create(ctx, req); err != nil {
+	if err = s.dictTypeRepo.Create(ctx, req); err != nil {
 		return nil, err
 	}
 
 	return &emptypb.Empty{}, nil
 }
 
-func (s *DictService) Update(ctx context.Context, req *adminV1.UpdateDictRequest) (*emptypb.Empty, error) {
+func (s *DictService) UpdateDictType(ctx context.Context, req *dictV1.UpdateDictTypeRequest) (*emptypb.Empty, error) {
 	if req.Data == nil {
 		return nil, adminV1.ErrorBadRequest("invalid parameter")
 	}
@@ -67,20 +74,72 @@ func (s *DictService) Update(ctx context.Context, req *adminV1.UpdateDictRequest
 	// 获取操作人信息
 	operator, err := auth.FromContext(ctx)
 	if err != nil {
-		return &emptypb.Empty{}, err
+		return nil, err
 	}
 
-	req.Data.UpdateBy = trans.Ptr(operator.UserId)
+	req.Data.UpdatedBy = trans.Ptr(operator.UserId)
 
-	if err = s.repo.Update(ctx, req); err != nil {
+	if err = s.dictTypeRepo.Update(ctx, req); err != nil {
 		return nil, err
 	}
 
 	return &emptypb.Empty{}, nil
 }
 
-func (s *DictService) Delete(ctx context.Context, req *adminV1.DeleteDictRequest) (*emptypb.Empty, error) {
-	if err := s.repo.Delete(ctx, req); err != nil {
+func (s *DictService) DeleteDictType(ctx context.Context, req *dictV1.BatchDeleteDictRequest) (*emptypb.Empty, error) {
+	if err := s.dictTypeRepo.BatchDelete(ctx, req.GetIds()); err != nil {
+		return nil, err
+	}
+
+	return &emptypb.Empty{}, nil
+}
+
+func (s *DictService) ListDictEntry(ctx context.Context, req *pagination.PagingRequest) (*dictV1.ListDictEntryResponse, error) {
+	return s.dictEntryRepo.List(ctx, req)
+}
+
+func (s *DictService) CreateDictEntry(ctx context.Context, req *dictV1.CreateDictEntryRequest) (*emptypb.Empty, error) {
+	if req.Data == nil {
+		return nil, adminV1.ErrorBadRequest("invalid parameter")
+	}
+
+	// 获取操作人信息
+	operator, err := auth.FromContext(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Data.CreatedBy = trans.Ptr(operator.UserId)
+
+	if err = s.dictEntryRepo.Create(ctx, req); err != nil {
+		return nil, err
+	}
+
+	return &emptypb.Empty{}, nil
+}
+
+func (s *DictService) UpdateDictEntry(ctx context.Context, req *dictV1.UpdateDictEntryRequest) (*emptypb.Empty, error) {
+	if req.Data == nil {
+		return nil, adminV1.ErrorBadRequest("invalid parameter")
+	}
+
+	// 获取操作人信息
+	operator, err := auth.FromContext(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Data.UpdatedBy = trans.Ptr(operator.UserId)
+
+	if err = s.dictEntryRepo.Update(ctx, req); err != nil {
+		return nil, err
+	}
+
+	return &emptypb.Empty{}, nil
+}
+
+func (s *DictService) DeleteDictEntry(ctx context.Context, req *dictV1.BatchDeleteDictRequest) (*emptypb.Empty, error) {
+	if err := s.dictEntryRepo.BatchDelete(ctx, req.GetIds()); err != nil {
 		return nil, err
 	}
 

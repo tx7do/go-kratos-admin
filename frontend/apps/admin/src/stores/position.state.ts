@@ -6,7 +6,7 @@ import { defineStore } from 'pinia';
 
 import {
   type Position,
-  PositionStatus,
+  Position_Status,
 } from '#/generated/api/user/service/v1/position.pb';
 import { defPositionService } from '#/services';
 import { makeQueryString, makeUpdateMask } from '#/utils/query';
@@ -88,9 +88,9 @@ export const usePositionStore = defineStore('position', () => {
 });
 
 export const positionStatusList = computed(() => [
-  { value: PositionStatus.POSITION_STATUS_ON, label: $t('enum.status.ON') },
+  { value: Position_Status.ON, label: $t('enum.status.ON') },
   {
-    value: PositionStatus.POSITION_STATUS_OFF,
+    value: Position_Status.OFF,
     label: $t('enum.status.OFF'),
   },
 ]);
@@ -100,17 +100,9 @@ export const positionStatusList = computed(() => [
  * @param status 状态值
  */
 export function positionStatusToName(status: any) {
-  switch (status) {
-    case PositionStatus.POSITION_STATUS_OFF: {
-      return $t('enum.status.OFF');
-    }
-    case PositionStatus.POSITION_STATUS_ON: {
-      return $t('enum.status.ON');
-    }
-    default: {
-      return '';
-    }
-  }
+  const values = positionStatusList.value;
+  const matchedItem = values.find((item) => item.value === status);
+  return matchedItem ? matchedItem.label : '';
 }
 
 /**
@@ -119,11 +111,11 @@ export function positionStatusToName(status: any) {
  */
 export function positionStatusToColor(status: any) {
   switch (status) {
-    case PositionStatus.POSITION_STATUS_OFF: {
+    case Position_Status.OFF: {
       // 关闭/停用：深灰色，明确非激活状态
       return '#8C8C8C';
     } // 中深灰色，与“关闭”语义匹配，区别于浅灰的“未知”
-    case PositionStatus.POSITION_STATUS_ON: {
+    case Position_Status.ON: {
       // 开启/激活：标准成功绿，体现正常运行
       return '#52C41A';
     } // 对应Element Plus的success色，大众认知中的“正常”色

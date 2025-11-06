@@ -29,97 +29,151 @@ func (_u *DepartmentUpdate) Where(ps ...predicate.Department) *DepartmentUpdate 
 	return _u
 }
 
-// SetUpdateTime sets the "update_time" field.
-func (_u *DepartmentUpdate) SetUpdateTime(v time.Time) *DepartmentUpdate {
-	_u.mutation.SetUpdateTime(v)
+// SetUpdatedAt sets the "updated_at" field.
+func (_u *DepartmentUpdate) SetUpdatedAt(v time.Time) *DepartmentUpdate {
+	_u.mutation.SetUpdatedAt(v)
 	return _u
 }
 
-// SetNillableUpdateTime sets the "update_time" field if the given value is not nil.
-func (_u *DepartmentUpdate) SetNillableUpdateTime(v *time.Time) *DepartmentUpdate {
+// SetNillableUpdatedAt sets the "updated_at" field if the given value is not nil.
+func (_u *DepartmentUpdate) SetNillableUpdatedAt(v *time.Time) *DepartmentUpdate {
 	if v != nil {
-		_u.SetUpdateTime(*v)
+		_u.SetUpdatedAt(*v)
 	}
 	return _u
 }
 
-// ClearUpdateTime clears the value of the "update_time" field.
-func (_u *DepartmentUpdate) ClearUpdateTime() *DepartmentUpdate {
-	_u.mutation.ClearUpdateTime()
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (_u *DepartmentUpdate) ClearUpdatedAt() *DepartmentUpdate {
+	_u.mutation.ClearUpdatedAt()
 	return _u
 }
 
-// SetDeleteTime sets the "delete_time" field.
-func (_u *DepartmentUpdate) SetDeleteTime(v time.Time) *DepartmentUpdate {
-	_u.mutation.SetDeleteTime(v)
+// SetDeletedAt sets the "deleted_at" field.
+func (_u *DepartmentUpdate) SetDeletedAt(v time.Time) *DepartmentUpdate {
+	_u.mutation.SetDeletedAt(v)
 	return _u
 }
 
-// SetNillableDeleteTime sets the "delete_time" field if the given value is not nil.
-func (_u *DepartmentUpdate) SetNillableDeleteTime(v *time.Time) *DepartmentUpdate {
+// SetNillableDeletedAt sets the "deleted_at" field if the given value is not nil.
+func (_u *DepartmentUpdate) SetNillableDeletedAt(v *time.Time) *DepartmentUpdate {
 	if v != nil {
-		_u.SetDeleteTime(*v)
+		_u.SetDeletedAt(*v)
 	}
 	return _u
 }
 
-// ClearDeleteTime clears the value of the "delete_time" field.
-func (_u *DepartmentUpdate) ClearDeleteTime() *DepartmentUpdate {
-	_u.mutation.ClearDeleteTime()
+// ClearDeletedAt clears the value of the "deleted_at" field.
+func (_u *DepartmentUpdate) ClearDeletedAt() *DepartmentUpdate {
+	_u.mutation.ClearDeletedAt()
 	return _u
 }
 
-// SetCreateBy sets the "create_by" field.
-func (_u *DepartmentUpdate) SetCreateBy(v uint32) *DepartmentUpdate {
-	_u.mutation.ResetCreateBy()
-	_u.mutation.SetCreateBy(v)
+// SetCreatedBy sets the "created_by" field.
+func (_u *DepartmentUpdate) SetCreatedBy(v uint32) *DepartmentUpdate {
+	_u.mutation.ResetCreatedBy()
+	_u.mutation.SetCreatedBy(v)
 	return _u
 }
 
-// SetNillableCreateBy sets the "create_by" field if the given value is not nil.
-func (_u *DepartmentUpdate) SetNillableCreateBy(v *uint32) *DepartmentUpdate {
+// SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
+func (_u *DepartmentUpdate) SetNillableCreatedBy(v *uint32) *DepartmentUpdate {
 	if v != nil {
-		_u.SetCreateBy(*v)
+		_u.SetCreatedBy(*v)
 	}
 	return _u
 }
 
-// AddCreateBy adds value to the "create_by" field.
-func (_u *DepartmentUpdate) AddCreateBy(v int32) *DepartmentUpdate {
-	_u.mutation.AddCreateBy(v)
+// AddCreatedBy adds value to the "created_by" field.
+func (_u *DepartmentUpdate) AddCreatedBy(v int32) *DepartmentUpdate {
+	_u.mutation.AddCreatedBy(v)
 	return _u
 }
 
-// ClearCreateBy clears the value of the "create_by" field.
-func (_u *DepartmentUpdate) ClearCreateBy() *DepartmentUpdate {
-	_u.mutation.ClearCreateBy()
+// ClearCreatedBy clears the value of the "created_by" field.
+func (_u *DepartmentUpdate) ClearCreatedBy() *DepartmentUpdate {
+	_u.mutation.ClearCreatedBy()
 	return _u
 }
 
-// SetUpdateBy sets the "update_by" field.
-func (_u *DepartmentUpdate) SetUpdateBy(v uint32) *DepartmentUpdate {
-	_u.mutation.ResetUpdateBy()
-	_u.mutation.SetUpdateBy(v)
+// SetUpdatedBy sets the "updated_by" field.
+func (_u *DepartmentUpdate) SetUpdatedBy(v uint32) *DepartmentUpdate {
+	_u.mutation.ResetUpdatedBy()
+	_u.mutation.SetUpdatedBy(v)
 	return _u
 }
 
-// SetNillableUpdateBy sets the "update_by" field if the given value is not nil.
-func (_u *DepartmentUpdate) SetNillableUpdateBy(v *uint32) *DepartmentUpdate {
+// SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
+func (_u *DepartmentUpdate) SetNillableUpdatedBy(v *uint32) *DepartmentUpdate {
 	if v != nil {
-		_u.SetUpdateBy(*v)
+		_u.SetUpdatedBy(*v)
 	}
 	return _u
 }
 
-// AddUpdateBy adds value to the "update_by" field.
-func (_u *DepartmentUpdate) AddUpdateBy(v int32) *DepartmentUpdate {
-	_u.mutation.AddUpdateBy(v)
+// AddUpdatedBy adds value to the "updated_by" field.
+func (_u *DepartmentUpdate) AddUpdatedBy(v int32) *DepartmentUpdate {
+	_u.mutation.AddUpdatedBy(v)
 	return _u
 }
 
-// ClearUpdateBy clears the value of the "update_by" field.
-func (_u *DepartmentUpdate) ClearUpdateBy() *DepartmentUpdate {
-	_u.mutation.ClearUpdateBy()
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (_u *DepartmentUpdate) ClearUpdatedBy() *DepartmentUpdate {
+	_u.mutation.ClearUpdatedBy()
+	return _u
+}
+
+// SetDeletedBy sets the "deleted_by" field.
+func (_u *DepartmentUpdate) SetDeletedBy(v uint32) *DepartmentUpdate {
+	_u.mutation.ResetDeletedBy()
+	_u.mutation.SetDeletedBy(v)
+	return _u
+}
+
+// SetNillableDeletedBy sets the "deleted_by" field if the given value is not nil.
+func (_u *DepartmentUpdate) SetNillableDeletedBy(v *uint32) *DepartmentUpdate {
+	if v != nil {
+		_u.SetDeletedBy(*v)
+	}
+	return _u
+}
+
+// AddDeletedBy adds value to the "deleted_by" field.
+func (_u *DepartmentUpdate) AddDeletedBy(v int32) *DepartmentUpdate {
+	_u.mutation.AddDeletedBy(v)
+	return _u
+}
+
+// ClearDeletedBy clears the value of the "deleted_by" field.
+func (_u *DepartmentUpdate) ClearDeletedBy() *DepartmentUpdate {
+	_u.mutation.ClearDeletedBy()
+	return _u
+}
+
+// SetSortOrder sets the "sort_order" field.
+func (_u *DepartmentUpdate) SetSortOrder(v int32) *DepartmentUpdate {
+	_u.mutation.ResetSortOrder()
+	_u.mutation.SetSortOrder(v)
+	return _u
+}
+
+// SetNillableSortOrder sets the "sort_order" field if the given value is not nil.
+func (_u *DepartmentUpdate) SetNillableSortOrder(v *int32) *DepartmentUpdate {
+	if v != nil {
+		_u.SetSortOrder(*v)
+	}
+	return _u
+}
+
+// AddSortOrder adds value to the "sort_order" field.
+func (_u *DepartmentUpdate) AddSortOrder(v int32) *DepartmentUpdate {
+	_u.mutation.AddSortOrder(v)
+	return _u
+}
+
+// ClearSortOrder clears the value of the "sort_order" field.
+func (_u *DepartmentUpdate) ClearSortOrder() *DepartmentUpdate {
+	_u.mutation.ClearSortOrder()
 	return _u
 }
 
@@ -143,26 +197,6 @@ func (_u *DepartmentUpdate) ClearRemark() *DepartmentUpdate {
 	return _u
 }
 
-// SetName sets the "name" field.
-func (_u *DepartmentUpdate) SetName(v string) *DepartmentUpdate {
-	_u.mutation.SetName(v)
-	return _u
-}
-
-// SetNillableName sets the "name" field if the given value is not nil.
-func (_u *DepartmentUpdate) SetNillableName(v *string) *DepartmentUpdate {
-	if v != nil {
-		_u.SetName(*v)
-	}
-	return _u
-}
-
-// ClearName clears the value of the "name" field.
-func (_u *DepartmentUpdate) ClearName() *DepartmentUpdate {
-	_u.mutation.ClearName()
-	return _u
-}
-
 // SetParentID sets the "parent_id" field.
 func (_u *DepartmentUpdate) SetParentID(v uint32) *DepartmentUpdate {
 	_u.mutation.SetParentID(v)
@@ -180,6 +214,26 @@ func (_u *DepartmentUpdate) SetNillableParentID(v *uint32) *DepartmentUpdate {
 // ClearParentID clears the value of the "parent_id" field.
 func (_u *DepartmentUpdate) ClearParentID() *DepartmentUpdate {
 	_u.mutation.ClearParentID()
+	return _u
+}
+
+// SetName sets the "name" field.
+func (_u *DepartmentUpdate) SetName(v string) *DepartmentUpdate {
+	_u.mutation.SetName(v)
+	return _u
+}
+
+// SetNillableName sets the "name" field if the given value is not nil.
+func (_u *DepartmentUpdate) SetNillableName(v *string) *DepartmentUpdate {
+	if v != nil {
+		_u.SetName(*v)
+	}
+	return _u
+}
+
+// ClearName clears the value of the "name" field.
+func (_u *DepartmentUpdate) ClearName() *DepartmentUpdate {
+	_u.mutation.ClearName()
 	return _u
 }
 
@@ -228,33 +282,6 @@ func (_u *DepartmentUpdate) AddManagerID(v int32) *DepartmentUpdate {
 // ClearManagerID clears the value of the "manager_id" field.
 func (_u *DepartmentUpdate) ClearManagerID() *DepartmentUpdate {
 	_u.mutation.ClearManagerID()
-	return _u
-}
-
-// SetSortID sets the "sort_id" field.
-func (_u *DepartmentUpdate) SetSortID(v int32) *DepartmentUpdate {
-	_u.mutation.ResetSortID()
-	_u.mutation.SetSortID(v)
-	return _u
-}
-
-// SetNillableSortID sets the "sort_id" field if the given value is not nil.
-func (_u *DepartmentUpdate) SetNillableSortID(v *int32) *DepartmentUpdate {
-	if v != nil {
-		_u.SetSortID(*v)
-	}
-	return _u
-}
-
-// AddSortID adds value to the "sort_id" field.
-func (_u *DepartmentUpdate) AddSortID(v int32) *DepartmentUpdate {
-	_u.mutation.AddSortID(v)
-	return _u
-}
-
-// ClearSortID clears the value of the "sort_id" field.
-func (_u *DepartmentUpdate) ClearSortID() *DepartmentUpdate {
-	_u.mutation.ClearSortID()
 	return _u
 }
 
@@ -410,38 +437,56 @@ func (_u *DepartmentUpdate) sqlSave(ctx context.Context) (_node int, err error) 
 			}
 		}
 	}
-	if _u.mutation.CreateTimeCleared() {
-		_spec.ClearField(department.FieldCreateTime, field.TypeTime)
+	if _u.mutation.CreatedAtCleared() {
+		_spec.ClearField(department.FieldCreatedAt, field.TypeTime)
 	}
-	if value, ok := _u.mutation.UpdateTime(); ok {
-		_spec.SetField(department.FieldUpdateTime, field.TypeTime, value)
+	if value, ok := _u.mutation.UpdatedAt(); ok {
+		_spec.SetField(department.FieldUpdatedAt, field.TypeTime, value)
 	}
-	if _u.mutation.UpdateTimeCleared() {
-		_spec.ClearField(department.FieldUpdateTime, field.TypeTime)
+	if _u.mutation.UpdatedAtCleared() {
+		_spec.ClearField(department.FieldUpdatedAt, field.TypeTime)
 	}
-	if value, ok := _u.mutation.DeleteTime(); ok {
-		_spec.SetField(department.FieldDeleteTime, field.TypeTime, value)
+	if value, ok := _u.mutation.DeletedAt(); ok {
+		_spec.SetField(department.FieldDeletedAt, field.TypeTime, value)
 	}
-	if _u.mutation.DeleteTimeCleared() {
-		_spec.ClearField(department.FieldDeleteTime, field.TypeTime)
+	if _u.mutation.DeletedAtCleared() {
+		_spec.ClearField(department.FieldDeletedAt, field.TypeTime)
 	}
-	if value, ok := _u.mutation.CreateBy(); ok {
-		_spec.SetField(department.FieldCreateBy, field.TypeUint32, value)
+	if value, ok := _u.mutation.CreatedBy(); ok {
+		_spec.SetField(department.FieldCreatedBy, field.TypeUint32, value)
 	}
-	if value, ok := _u.mutation.AddedCreateBy(); ok {
-		_spec.AddField(department.FieldCreateBy, field.TypeUint32, value)
+	if value, ok := _u.mutation.AddedCreatedBy(); ok {
+		_spec.AddField(department.FieldCreatedBy, field.TypeUint32, value)
 	}
-	if _u.mutation.CreateByCleared() {
-		_spec.ClearField(department.FieldCreateBy, field.TypeUint32)
+	if _u.mutation.CreatedByCleared() {
+		_spec.ClearField(department.FieldCreatedBy, field.TypeUint32)
 	}
-	if value, ok := _u.mutation.UpdateBy(); ok {
-		_spec.SetField(department.FieldUpdateBy, field.TypeUint32, value)
+	if value, ok := _u.mutation.UpdatedBy(); ok {
+		_spec.SetField(department.FieldUpdatedBy, field.TypeUint32, value)
 	}
-	if value, ok := _u.mutation.AddedUpdateBy(); ok {
-		_spec.AddField(department.FieldUpdateBy, field.TypeUint32, value)
+	if value, ok := _u.mutation.AddedUpdatedBy(); ok {
+		_spec.AddField(department.FieldUpdatedBy, field.TypeUint32, value)
 	}
-	if _u.mutation.UpdateByCleared() {
-		_spec.ClearField(department.FieldUpdateBy, field.TypeUint32)
+	if _u.mutation.UpdatedByCleared() {
+		_spec.ClearField(department.FieldUpdatedBy, field.TypeUint32)
+	}
+	if value, ok := _u.mutation.DeletedBy(); ok {
+		_spec.SetField(department.FieldDeletedBy, field.TypeUint32, value)
+	}
+	if value, ok := _u.mutation.AddedDeletedBy(); ok {
+		_spec.AddField(department.FieldDeletedBy, field.TypeUint32, value)
+	}
+	if _u.mutation.DeletedByCleared() {
+		_spec.ClearField(department.FieldDeletedBy, field.TypeUint32)
+	}
+	if value, ok := _u.mutation.SortOrder(); ok {
+		_spec.SetField(department.FieldSortOrder, field.TypeInt32, value)
+	}
+	if value, ok := _u.mutation.AddedSortOrder(); ok {
+		_spec.AddField(department.FieldSortOrder, field.TypeInt32, value)
+	}
+	if _u.mutation.SortOrderCleared() {
+		_spec.ClearField(department.FieldSortOrder, field.TypeInt32)
 	}
 	if value, ok := _u.mutation.Remark(); ok {
 		_spec.SetField(department.FieldRemark, field.TypeString, value)
@@ -472,15 +517,6 @@ func (_u *DepartmentUpdate) sqlSave(ctx context.Context) (_node int, err error) 
 	}
 	if _u.mutation.ManagerIDCleared() {
 		_spec.ClearField(department.FieldManagerID, field.TypeUint32)
-	}
-	if value, ok := _u.mutation.SortID(); ok {
-		_spec.SetField(department.FieldSortID, field.TypeInt32, value)
-	}
-	if value, ok := _u.mutation.AddedSortID(); ok {
-		_spec.AddField(department.FieldSortID, field.TypeInt32, value)
-	}
-	if _u.mutation.SortIDCleared() {
-		_spec.ClearField(department.FieldSortID, field.TypeInt32)
 	}
 	if value, ok := _u.mutation.Status(); ok {
 		_spec.SetField(department.FieldStatus, field.TypeEnum, value)
@@ -590,97 +626,151 @@ type DepartmentUpdateOne struct {
 	modifiers []func(*sql.UpdateBuilder)
 }
 
-// SetUpdateTime sets the "update_time" field.
-func (_u *DepartmentUpdateOne) SetUpdateTime(v time.Time) *DepartmentUpdateOne {
-	_u.mutation.SetUpdateTime(v)
+// SetUpdatedAt sets the "updated_at" field.
+func (_u *DepartmentUpdateOne) SetUpdatedAt(v time.Time) *DepartmentUpdateOne {
+	_u.mutation.SetUpdatedAt(v)
 	return _u
 }
 
-// SetNillableUpdateTime sets the "update_time" field if the given value is not nil.
-func (_u *DepartmentUpdateOne) SetNillableUpdateTime(v *time.Time) *DepartmentUpdateOne {
+// SetNillableUpdatedAt sets the "updated_at" field if the given value is not nil.
+func (_u *DepartmentUpdateOne) SetNillableUpdatedAt(v *time.Time) *DepartmentUpdateOne {
 	if v != nil {
-		_u.SetUpdateTime(*v)
+		_u.SetUpdatedAt(*v)
 	}
 	return _u
 }
 
-// ClearUpdateTime clears the value of the "update_time" field.
-func (_u *DepartmentUpdateOne) ClearUpdateTime() *DepartmentUpdateOne {
-	_u.mutation.ClearUpdateTime()
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (_u *DepartmentUpdateOne) ClearUpdatedAt() *DepartmentUpdateOne {
+	_u.mutation.ClearUpdatedAt()
 	return _u
 }
 
-// SetDeleteTime sets the "delete_time" field.
-func (_u *DepartmentUpdateOne) SetDeleteTime(v time.Time) *DepartmentUpdateOne {
-	_u.mutation.SetDeleteTime(v)
+// SetDeletedAt sets the "deleted_at" field.
+func (_u *DepartmentUpdateOne) SetDeletedAt(v time.Time) *DepartmentUpdateOne {
+	_u.mutation.SetDeletedAt(v)
 	return _u
 }
 
-// SetNillableDeleteTime sets the "delete_time" field if the given value is not nil.
-func (_u *DepartmentUpdateOne) SetNillableDeleteTime(v *time.Time) *DepartmentUpdateOne {
+// SetNillableDeletedAt sets the "deleted_at" field if the given value is not nil.
+func (_u *DepartmentUpdateOne) SetNillableDeletedAt(v *time.Time) *DepartmentUpdateOne {
 	if v != nil {
-		_u.SetDeleteTime(*v)
+		_u.SetDeletedAt(*v)
 	}
 	return _u
 }
 
-// ClearDeleteTime clears the value of the "delete_time" field.
-func (_u *DepartmentUpdateOne) ClearDeleteTime() *DepartmentUpdateOne {
-	_u.mutation.ClearDeleteTime()
+// ClearDeletedAt clears the value of the "deleted_at" field.
+func (_u *DepartmentUpdateOne) ClearDeletedAt() *DepartmentUpdateOne {
+	_u.mutation.ClearDeletedAt()
 	return _u
 }
 
-// SetCreateBy sets the "create_by" field.
-func (_u *DepartmentUpdateOne) SetCreateBy(v uint32) *DepartmentUpdateOne {
-	_u.mutation.ResetCreateBy()
-	_u.mutation.SetCreateBy(v)
+// SetCreatedBy sets the "created_by" field.
+func (_u *DepartmentUpdateOne) SetCreatedBy(v uint32) *DepartmentUpdateOne {
+	_u.mutation.ResetCreatedBy()
+	_u.mutation.SetCreatedBy(v)
 	return _u
 }
 
-// SetNillableCreateBy sets the "create_by" field if the given value is not nil.
-func (_u *DepartmentUpdateOne) SetNillableCreateBy(v *uint32) *DepartmentUpdateOne {
+// SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
+func (_u *DepartmentUpdateOne) SetNillableCreatedBy(v *uint32) *DepartmentUpdateOne {
 	if v != nil {
-		_u.SetCreateBy(*v)
+		_u.SetCreatedBy(*v)
 	}
 	return _u
 }
 
-// AddCreateBy adds value to the "create_by" field.
-func (_u *DepartmentUpdateOne) AddCreateBy(v int32) *DepartmentUpdateOne {
-	_u.mutation.AddCreateBy(v)
+// AddCreatedBy adds value to the "created_by" field.
+func (_u *DepartmentUpdateOne) AddCreatedBy(v int32) *DepartmentUpdateOne {
+	_u.mutation.AddCreatedBy(v)
 	return _u
 }
 
-// ClearCreateBy clears the value of the "create_by" field.
-func (_u *DepartmentUpdateOne) ClearCreateBy() *DepartmentUpdateOne {
-	_u.mutation.ClearCreateBy()
+// ClearCreatedBy clears the value of the "created_by" field.
+func (_u *DepartmentUpdateOne) ClearCreatedBy() *DepartmentUpdateOne {
+	_u.mutation.ClearCreatedBy()
 	return _u
 }
 
-// SetUpdateBy sets the "update_by" field.
-func (_u *DepartmentUpdateOne) SetUpdateBy(v uint32) *DepartmentUpdateOne {
-	_u.mutation.ResetUpdateBy()
-	_u.mutation.SetUpdateBy(v)
+// SetUpdatedBy sets the "updated_by" field.
+func (_u *DepartmentUpdateOne) SetUpdatedBy(v uint32) *DepartmentUpdateOne {
+	_u.mutation.ResetUpdatedBy()
+	_u.mutation.SetUpdatedBy(v)
 	return _u
 }
 
-// SetNillableUpdateBy sets the "update_by" field if the given value is not nil.
-func (_u *DepartmentUpdateOne) SetNillableUpdateBy(v *uint32) *DepartmentUpdateOne {
+// SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
+func (_u *DepartmentUpdateOne) SetNillableUpdatedBy(v *uint32) *DepartmentUpdateOne {
 	if v != nil {
-		_u.SetUpdateBy(*v)
+		_u.SetUpdatedBy(*v)
 	}
 	return _u
 }
 
-// AddUpdateBy adds value to the "update_by" field.
-func (_u *DepartmentUpdateOne) AddUpdateBy(v int32) *DepartmentUpdateOne {
-	_u.mutation.AddUpdateBy(v)
+// AddUpdatedBy adds value to the "updated_by" field.
+func (_u *DepartmentUpdateOne) AddUpdatedBy(v int32) *DepartmentUpdateOne {
+	_u.mutation.AddUpdatedBy(v)
 	return _u
 }
 
-// ClearUpdateBy clears the value of the "update_by" field.
-func (_u *DepartmentUpdateOne) ClearUpdateBy() *DepartmentUpdateOne {
-	_u.mutation.ClearUpdateBy()
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (_u *DepartmentUpdateOne) ClearUpdatedBy() *DepartmentUpdateOne {
+	_u.mutation.ClearUpdatedBy()
+	return _u
+}
+
+// SetDeletedBy sets the "deleted_by" field.
+func (_u *DepartmentUpdateOne) SetDeletedBy(v uint32) *DepartmentUpdateOne {
+	_u.mutation.ResetDeletedBy()
+	_u.mutation.SetDeletedBy(v)
+	return _u
+}
+
+// SetNillableDeletedBy sets the "deleted_by" field if the given value is not nil.
+func (_u *DepartmentUpdateOne) SetNillableDeletedBy(v *uint32) *DepartmentUpdateOne {
+	if v != nil {
+		_u.SetDeletedBy(*v)
+	}
+	return _u
+}
+
+// AddDeletedBy adds value to the "deleted_by" field.
+func (_u *DepartmentUpdateOne) AddDeletedBy(v int32) *DepartmentUpdateOne {
+	_u.mutation.AddDeletedBy(v)
+	return _u
+}
+
+// ClearDeletedBy clears the value of the "deleted_by" field.
+func (_u *DepartmentUpdateOne) ClearDeletedBy() *DepartmentUpdateOne {
+	_u.mutation.ClearDeletedBy()
+	return _u
+}
+
+// SetSortOrder sets the "sort_order" field.
+func (_u *DepartmentUpdateOne) SetSortOrder(v int32) *DepartmentUpdateOne {
+	_u.mutation.ResetSortOrder()
+	_u.mutation.SetSortOrder(v)
+	return _u
+}
+
+// SetNillableSortOrder sets the "sort_order" field if the given value is not nil.
+func (_u *DepartmentUpdateOne) SetNillableSortOrder(v *int32) *DepartmentUpdateOne {
+	if v != nil {
+		_u.SetSortOrder(*v)
+	}
+	return _u
+}
+
+// AddSortOrder adds value to the "sort_order" field.
+func (_u *DepartmentUpdateOne) AddSortOrder(v int32) *DepartmentUpdateOne {
+	_u.mutation.AddSortOrder(v)
+	return _u
+}
+
+// ClearSortOrder clears the value of the "sort_order" field.
+func (_u *DepartmentUpdateOne) ClearSortOrder() *DepartmentUpdateOne {
+	_u.mutation.ClearSortOrder()
 	return _u
 }
 
@@ -704,26 +794,6 @@ func (_u *DepartmentUpdateOne) ClearRemark() *DepartmentUpdateOne {
 	return _u
 }
 
-// SetName sets the "name" field.
-func (_u *DepartmentUpdateOne) SetName(v string) *DepartmentUpdateOne {
-	_u.mutation.SetName(v)
-	return _u
-}
-
-// SetNillableName sets the "name" field if the given value is not nil.
-func (_u *DepartmentUpdateOne) SetNillableName(v *string) *DepartmentUpdateOne {
-	if v != nil {
-		_u.SetName(*v)
-	}
-	return _u
-}
-
-// ClearName clears the value of the "name" field.
-func (_u *DepartmentUpdateOne) ClearName() *DepartmentUpdateOne {
-	_u.mutation.ClearName()
-	return _u
-}
-
 // SetParentID sets the "parent_id" field.
 func (_u *DepartmentUpdateOne) SetParentID(v uint32) *DepartmentUpdateOne {
 	_u.mutation.SetParentID(v)
@@ -741,6 +811,26 @@ func (_u *DepartmentUpdateOne) SetNillableParentID(v *uint32) *DepartmentUpdateO
 // ClearParentID clears the value of the "parent_id" field.
 func (_u *DepartmentUpdateOne) ClearParentID() *DepartmentUpdateOne {
 	_u.mutation.ClearParentID()
+	return _u
+}
+
+// SetName sets the "name" field.
+func (_u *DepartmentUpdateOne) SetName(v string) *DepartmentUpdateOne {
+	_u.mutation.SetName(v)
+	return _u
+}
+
+// SetNillableName sets the "name" field if the given value is not nil.
+func (_u *DepartmentUpdateOne) SetNillableName(v *string) *DepartmentUpdateOne {
+	if v != nil {
+		_u.SetName(*v)
+	}
+	return _u
+}
+
+// ClearName clears the value of the "name" field.
+func (_u *DepartmentUpdateOne) ClearName() *DepartmentUpdateOne {
+	_u.mutation.ClearName()
 	return _u
 }
 
@@ -789,33 +879,6 @@ func (_u *DepartmentUpdateOne) AddManagerID(v int32) *DepartmentUpdateOne {
 // ClearManagerID clears the value of the "manager_id" field.
 func (_u *DepartmentUpdateOne) ClearManagerID() *DepartmentUpdateOne {
 	_u.mutation.ClearManagerID()
-	return _u
-}
-
-// SetSortID sets the "sort_id" field.
-func (_u *DepartmentUpdateOne) SetSortID(v int32) *DepartmentUpdateOne {
-	_u.mutation.ResetSortID()
-	_u.mutation.SetSortID(v)
-	return _u
-}
-
-// SetNillableSortID sets the "sort_id" field if the given value is not nil.
-func (_u *DepartmentUpdateOne) SetNillableSortID(v *int32) *DepartmentUpdateOne {
-	if v != nil {
-		_u.SetSortID(*v)
-	}
-	return _u
-}
-
-// AddSortID adds value to the "sort_id" field.
-func (_u *DepartmentUpdateOne) AddSortID(v int32) *DepartmentUpdateOne {
-	_u.mutation.AddSortID(v)
-	return _u
-}
-
-// ClearSortID clears the value of the "sort_id" field.
-func (_u *DepartmentUpdateOne) ClearSortID() *DepartmentUpdateOne {
-	_u.mutation.ClearSortID()
 	return _u
 }
 
@@ -1001,38 +1064,56 @@ func (_u *DepartmentUpdateOne) sqlSave(ctx context.Context) (_node *Department, 
 			}
 		}
 	}
-	if _u.mutation.CreateTimeCleared() {
-		_spec.ClearField(department.FieldCreateTime, field.TypeTime)
+	if _u.mutation.CreatedAtCleared() {
+		_spec.ClearField(department.FieldCreatedAt, field.TypeTime)
 	}
-	if value, ok := _u.mutation.UpdateTime(); ok {
-		_spec.SetField(department.FieldUpdateTime, field.TypeTime, value)
+	if value, ok := _u.mutation.UpdatedAt(); ok {
+		_spec.SetField(department.FieldUpdatedAt, field.TypeTime, value)
 	}
-	if _u.mutation.UpdateTimeCleared() {
-		_spec.ClearField(department.FieldUpdateTime, field.TypeTime)
+	if _u.mutation.UpdatedAtCleared() {
+		_spec.ClearField(department.FieldUpdatedAt, field.TypeTime)
 	}
-	if value, ok := _u.mutation.DeleteTime(); ok {
-		_spec.SetField(department.FieldDeleteTime, field.TypeTime, value)
+	if value, ok := _u.mutation.DeletedAt(); ok {
+		_spec.SetField(department.FieldDeletedAt, field.TypeTime, value)
 	}
-	if _u.mutation.DeleteTimeCleared() {
-		_spec.ClearField(department.FieldDeleteTime, field.TypeTime)
+	if _u.mutation.DeletedAtCleared() {
+		_spec.ClearField(department.FieldDeletedAt, field.TypeTime)
 	}
-	if value, ok := _u.mutation.CreateBy(); ok {
-		_spec.SetField(department.FieldCreateBy, field.TypeUint32, value)
+	if value, ok := _u.mutation.CreatedBy(); ok {
+		_spec.SetField(department.FieldCreatedBy, field.TypeUint32, value)
 	}
-	if value, ok := _u.mutation.AddedCreateBy(); ok {
-		_spec.AddField(department.FieldCreateBy, field.TypeUint32, value)
+	if value, ok := _u.mutation.AddedCreatedBy(); ok {
+		_spec.AddField(department.FieldCreatedBy, field.TypeUint32, value)
 	}
-	if _u.mutation.CreateByCleared() {
-		_spec.ClearField(department.FieldCreateBy, field.TypeUint32)
+	if _u.mutation.CreatedByCleared() {
+		_spec.ClearField(department.FieldCreatedBy, field.TypeUint32)
 	}
-	if value, ok := _u.mutation.UpdateBy(); ok {
-		_spec.SetField(department.FieldUpdateBy, field.TypeUint32, value)
+	if value, ok := _u.mutation.UpdatedBy(); ok {
+		_spec.SetField(department.FieldUpdatedBy, field.TypeUint32, value)
 	}
-	if value, ok := _u.mutation.AddedUpdateBy(); ok {
-		_spec.AddField(department.FieldUpdateBy, field.TypeUint32, value)
+	if value, ok := _u.mutation.AddedUpdatedBy(); ok {
+		_spec.AddField(department.FieldUpdatedBy, field.TypeUint32, value)
 	}
-	if _u.mutation.UpdateByCleared() {
-		_spec.ClearField(department.FieldUpdateBy, field.TypeUint32)
+	if _u.mutation.UpdatedByCleared() {
+		_spec.ClearField(department.FieldUpdatedBy, field.TypeUint32)
+	}
+	if value, ok := _u.mutation.DeletedBy(); ok {
+		_spec.SetField(department.FieldDeletedBy, field.TypeUint32, value)
+	}
+	if value, ok := _u.mutation.AddedDeletedBy(); ok {
+		_spec.AddField(department.FieldDeletedBy, field.TypeUint32, value)
+	}
+	if _u.mutation.DeletedByCleared() {
+		_spec.ClearField(department.FieldDeletedBy, field.TypeUint32)
+	}
+	if value, ok := _u.mutation.SortOrder(); ok {
+		_spec.SetField(department.FieldSortOrder, field.TypeInt32, value)
+	}
+	if value, ok := _u.mutation.AddedSortOrder(); ok {
+		_spec.AddField(department.FieldSortOrder, field.TypeInt32, value)
+	}
+	if _u.mutation.SortOrderCleared() {
+		_spec.ClearField(department.FieldSortOrder, field.TypeInt32)
 	}
 	if value, ok := _u.mutation.Remark(); ok {
 		_spec.SetField(department.FieldRemark, field.TypeString, value)
@@ -1063,15 +1144,6 @@ func (_u *DepartmentUpdateOne) sqlSave(ctx context.Context) (_node *Department, 
 	}
 	if _u.mutation.ManagerIDCleared() {
 		_spec.ClearField(department.FieldManagerID, field.TypeUint32)
-	}
-	if value, ok := _u.mutation.SortID(); ok {
-		_spec.SetField(department.FieldSortID, field.TypeInt32, value)
-	}
-	if value, ok := _u.mutation.AddedSortID(); ok {
-		_spec.AddField(department.FieldSortID, field.TypeInt32, value)
-	}
-	if _u.mutation.SortIDCleared() {
-		_spec.ClearField(department.FieldSortID, field.TypeInt32)
 	}
 	if value, ok := _u.mutation.Status(); ok {
 		_spec.SetField(department.FieldStatus, field.TypeEnum, value)

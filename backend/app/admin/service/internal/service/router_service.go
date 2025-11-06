@@ -54,9 +54,9 @@ func (s *RouterService) menuListToQueryString(menus []uint32, onlyButton bool) s
 	query := map[string]string{"id__in": idsStr}
 
 	if onlyButton {
-		query["type"] = adminV1.MenuType_BUTTON.String()
+		query["type"] = adminV1.Menu_BUTTON.String()
 	} else {
-		query["type__not"] = adminV1.MenuType_BUTTON.String()
+		query["type__not"] = adminV1.Menu_BUTTON.String()
 	}
 
 	query["status"] = "ON"
@@ -177,10 +177,10 @@ func (s *RouterService) fillRouteItem(menus []*adminV1.Menu) []*adminV1.RouteIte
 	var routers []*adminV1.RouteItem
 
 	for _, v := range menus {
-		if v.GetStatus() != adminV1.MenuStatus_ON {
+		if v.GetStatus() != adminV1.Menu_ON {
 			continue
 		}
-		if v.GetType() == adminV1.MenuType_BUTTON {
+		if v.GetType() == adminV1.Menu_BUTTON {
 			continue
 		}
 

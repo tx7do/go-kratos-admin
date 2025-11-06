@@ -5,9 +5,10 @@ package admin.service.v1;
 import "gnostic/openapi/v3/annotations.proto";
 import "google/api/annotations.proto";
 import "google/protobuf/empty.proto";
+import "pagination/v1/pagination.proto";
 
 import "user/service/v1/tenant.proto";
-import "pagination/v1/pagination.proto";
+import "user/service/v1/user.proto";
 
 // 租户管理服务
 service TenantService {
@@ -47,4 +48,26 @@ service TenantService {
       delete: "/admin/v1/tenants/{id}"
     };
   }
+
+  // 创建租户及管理员用户
+  rpc CreateTenantWithAdminUser (CreateTenantWithAdminUserRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      post: "/admin/v1/tenants_with_admin"
+      body: "*"
+    };
+  }
+
+  // 租户是否存在
+  rpc TenantExists ( user.service.v1.TenantExistsRequest ) returns ( user.service.v1.TenantExistsResponse ) {
+    option (google.api.http) = {
+      get: "/admin/v1/tenants_exists"
+    };
+  }
+}
+
+// 创建租户及管理员用户 - 请求
+message CreateTenantWithAdminUserRequest {
+  user.service.v1.Tenant tenant = 1;
+  user.service.v1.User user = 2;
+  string password = 3;
 }

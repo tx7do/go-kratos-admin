@@ -46,9 +46,47 @@
     "DEVICE": "设备限制"
   },
   "organizationType": {
-    "ORGANIZATION_TYPE_GROUP": "集团",
-    "ORGANIZATION_TYPE_SUBSIDIARY": "子公司",
-    "ORGANIZATION_TYPE_FILIALE": "分公司",
-    "ORGANIZATION_TYPE_DIVISION": "事业部"
+    "GROUP": "集团",
+    "SUBSIDIARY": "子公司",
+    "FILIALE": "分公司",
+    "DIVISION": "事业部"
+  },
+  "tenantStatus": {
+    "ON": "启用",
+    "OFF": "禁用",
+    "EXPIRED": "过期",
+    "FREEZE": "冻结"
+  },
+  "tenantType": {
+    "TRIAL": "试用",
+    "PAID": "付费",
+    "INTERNAL": "内部",
+    "PARTNER": "合作伙伴",
+    "CUSTOM": "定制"
+  },
+  "tenantAuditStatus": {
+    "PENDING": "待审核",
+    "APPROVED": "已通过",
+    "REJECTED": "已拒绝"
+  },
+  "internalMessageStatus" : {
+    "DRAFT": "草稿",
+    "PUBLISHED": "已发布",
+    "SCHEDULED": "定时发布",
+    "REVOKED": "已撤销",
+    "ARCHIVED": "已归档",
+    "DELETED": "已删除"
+  },
+  "internalMessageType" : {
+    "NOTIFICATION": "通知",
+    "PRIVATE": "私信",
+    "GROUP": "群聊"
+  },
+  "internalMessageRecipientStatus" : {
+    "SENT": "已发送",
+    "RECEIVED": "已接收",
+    "READ": "已阅读",
+    "REVOKED": "已撤回",
+    "DELETED": "已删除"
   }
 }

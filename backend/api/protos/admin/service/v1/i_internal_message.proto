@@ -1,0 +1,83 @@
+syntax = "proto3";
+
+package admin.service.v1;
+
+import "gnostic/openapi/v3/annotations.proto";
+import "google/api/annotations.proto";
+import "google/protobuf/empty.proto";
+
+import "pagination/v1/pagination.proto";
+
+import "internal_message/service/v1/internal_message.proto";
+
+// 站内信消息管理服务
+service InternalMessageService {
+  // 查询站内信消息列表
+  rpc ListMessage(pagination.PagingRequest) returns (internal_message.service.v1.ListInternalMessageResponse) {
+    option (google.api.http) = {
+      get: "/admin/v1/internal-message/messages"
+    };
+  }
+
+  // 查询站内信消息详情
+  rpc GetMessage(internal_message.service.v1.GetInternalMessageRequest) returns (internal_message.service.v1.InternalMessage) {
+    option (google.api.http) = {
+      get: "/admin/v1/internal-message/messages/{id}"
+    };
+  }
+
+  // 更新站内信消息
+  rpc UpdateMessage(internal_message.service.v1.UpdateInternalMessageRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      put: "/admin/v1/internal-message/messages/{data.id}"
+      body: "*"
+    };
+  }
+
+  // 删除站内信消息
+  rpc DeleteMessage(internal_message.service.v1.DeleteInternalMessageRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      delete: "/admin/v1/internal-message/messages/{id}"
+    };
+  }
+
+
+  // 发送消息
+  rpc SendMessage(internal_message.service.v1.SendMessageRequest) returns (internal_message.service.v1.SendMessageResponse) {
+    option (google.api.http) = {
+      post: "/admin/v1/internal-message/send"
+      body: "*"
+    };
+  }
+
+  // 获取用户的收件箱列表 (通知类)
+  rpc ListUserInbox(pagination.PagingRequest) returns (internal_message.service.v1.ListUserInboxResponse) {
+    option (google.api.http) = {
+      get: "/admin/v1/internal-message/inbox"
+    };
+  }
+
+  // 删除用户收件箱中的通知记录
+  rpc DeleteNotificationFromInbox(internal_message.service.v1.DeleteNotificationFromInboxRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      post: "/admin/v1/internal-message/inbox/delete"
+      body: "*"
+    };
+  }
+
+  // 将通知标记为已读
+  rpc MarkNotificationAsRead(internal_message.service.v1.MarkNotificationAsReadRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      post: "/admin/v1/internal-message/read"
+      body: "*"
+    };
+  }
+
+  // 撤销某条消息
+  rpc RevokeMessage(internal_message.service.v1.RevokeMessageRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      post: "/admin/v1/internal-message/revoke"
+      body: "*"
+    };
+  }
+}

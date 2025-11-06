@@ -54,29 +54,34 @@ func IDLTE(id uint32) predicate.Tenant {
 	return predicate.Tenant(sql.FieldLTE(FieldID, id))
 }
 
-// CreateTime applies equality check predicate on the "create_time" field. It's identical to CreateTimeEQ.
-func CreateTime(v time.Time) predicate.Tenant {
-	return predicate.Tenant(sql.FieldEQ(FieldCreateTime, v))
+// CreatedAt applies equality check predicate on the "created_at" field. It's identical to CreatedAtEQ.
+func CreatedAt(v time.Time) predicate.Tenant {
+	return predicate.Tenant(sql.FieldEQ(FieldCreatedAt, v))
 }
 
-// UpdateTime applies equality check predicate on the "update_time" field. It's identical to UpdateTimeEQ.
-func UpdateTime(v time.Time) predicate.Tenant {
-	return predicate.Tenant(sql.FieldEQ(FieldUpdateTime, v))
+// UpdatedAt applies equality check predicate on the "updated_at" field. It's identical to UpdatedAtEQ.
+func UpdatedAt(v time.Time) predicate.Tenant {
+	return predicate.Tenant(sql.FieldEQ(FieldUpdatedAt, v))
 }
 
-// DeleteTime applies equality check predicate on the "delete_time" field. It's identical to DeleteTimeEQ.
-func DeleteTime(v time.Time) predicate.Tenant {
-	return predicate.Tenant(sql.FieldEQ(FieldDeleteTime, v))
+// DeletedAt applies equality check predicate on the "deleted_at" field. It's identical to DeletedAtEQ.
+func DeletedAt(v time.Time) predicate.Tenant {
+	return predicate.Tenant(sql.FieldEQ(FieldDeletedAt, v))
 }
 
-// CreateBy applies equality check predicate on the "create_by" field. It's identical to CreateByEQ.
-func CreateBy(v uint32) predicate.Tenant {
-	return predicate.Tenant(sql.FieldEQ(FieldCreateBy, v))
+// CreatedBy applies equality check predicate on the "created_by" field. It's identical to CreatedByEQ.
+func CreatedBy(v uint32) predicate.Tenant {
+	return predicate.Tenant(sql.FieldEQ(FieldCreatedBy, v))
 }
 
-// UpdateBy applies equality check predicate on the "update_by" field. It's identical to UpdateByEQ.
-func UpdateBy(v uint32) predicate.Tenant {
-	return predicate.Tenant(sql.FieldEQ(FieldUpdateBy, v))
+// UpdatedBy applies equality check predicate on the "updated_by" field. It's identical to UpdatedByEQ.
+func UpdatedBy(v uint32) predicate.Tenant {
+	return predicate.Tenant(sql.FieldEQ(FieldUpdatedBy, v))
+}
+
+// DeletedBy applies equality check predicate on the "deleted_by" field. It's identical to DeletedByEQ.
+func DeletedBy(v uint32) predicate.Tenant {
+	return predicate.Tenant(sql.FieldEQ(FieldDeletedBy, v))
 }
 
 // Remark applies equality check predicate on the "remark" field. It's identical to RemarkEQ.
@@ -94,9 +99,19 @@ func Code(v string) predicate.Tenant {
 	return predicate.Tenant(sql.FieldEQ(FieldCode, v))
 }
 
-// MemberCount applies equality check predicate on the "member_count" field. It's identical to MemberCountEQ.
-func MemberCount(v int32) predicate.Tenant {
-	return predicate.Tenant(sql.FieldEQ(FieldMemberCount, v))
+// LogoURL applies equality check predicate on the "logo_url" field. It's identical to LogoURLEQ.
+func LogoURL(v string) predicate.Tenant {
+	return predicate.Tenant(sql.FieldEQ(FieldLogoURL, v))
+}
+
+// Industry applies equality check predicate on the "industry" field. It's identical to IndustryEQ.
+func Industry(v string) predicate.Tenant {
+	return predicate.Tenant(sql.FieldEQ(FieldIndustry, v))
+}
+
+// AdminUserID applies equality check predicate on the "admin_user_id" field. It's identical to AdminUserIDEQ.
+func AdminUserID(v uint32) predicate.Tenant {
+	return predicate.Tenant(sql.FieldEQ(FieldAdminUserID, v))
 }
 
 // SubscriptionAt applies equality check predicate on the "subscription_at" field. It's identical to SubscriptionAtEQ.
@@ -109,284 +124,324 @@ func UnsubscribeAt(v time.Time) predicate.Tenant {
 	return predicate.Tenant(sql.FieldEQ(FieldUnsubscribeAt, v))
 }
 
-// CreateTimeEQ applies the EQ predicate on the "create_time" field.
-func CreateTimeEQ(v time.Time) predicate.Tenant {
-	return predicate.Tenant(sql.FieldEQ(FieldCreateTime, v))
+// SubscriptionPlan applies equality check predicate on the "subscription_plan" field. It's identical to SubscriptionPlanEQ.
+func SubscriptionPlan(v string) predicate.Tenant {
+	return predicate.Tenant(sql.FieldEQ(FieldSubscriptionPlan, v))
 }
 
-// CreateTimeNEQ applies the NEQ predicate on the "create_time" field.
-func CreateTimeNEQ(v time.Time) predicate.Tenant {
-	return predicate.Tenant(sql.FieldNEQ(FieldCreateTime, v))
+// ExpiredAt applies equality check predicate on the "expired_at" field. It's identical to ExpiredAtEQ.
+func ExpiredAt(v time.Time) predicate.Tenant {
+	return predicate.Tenant(sql.FieldEQ(FieldExpiredAt, v))
 }
 
-// CreateTimeIn applies the In predicate on the "create_time" field.
-func CreateTimeIn(vs ...time.Time) predicate.Tenant {
-	return predicate.Tenant(sql.FieldIn(FieldCreateTime, vs...))
+// LastLoginTime applies equality check predicate on the "last_login_time" field. It's identical to LastLoginTimeEQ.
+func LastLoginTime(v time.Time) predicate.Tenant {
+	return predicate.Tenant(sql.FieldEQ(FieldLastLoginTime, v))
 }
 
-// CreateTimeNotIn applies the NotIn predicate on the "create_time" field.
-func CreateTimeNotIn(vs ...time.Time) predicate.Tenant {
-	return predicate.Tenant(sql.FieldNotIn(FieldCreateTime, vs...))
+// LastLoginIP applies equality check predicate on the "last_login_ip" field. It's identical to LastLoginIPEQ.
+func LastLoginIP(v string) predicate.Tenant {
+	return predicate.Tenant(sql.FieldEQ(FieldLastLoginIP, v))
 }
 
-// CreateTimeGT applies the GT predicate on the "create_time" field.
-func CreateTimeGT(v time.Time) predicate.Tenant {
-	return predicate.Tenant(sql.FieldGT(FieldCreateTime, v))
+// CreatedAtEQ applies the EQ predicate on the "created_at" field.
+func CreatedAtEQ(v time.Time) predicate.Tenant {
+	return predicate.Tenant(sql.FieldEQ(FieldCreatedAt, v))
 }
 
-// CreateTimeGTE applies the GTE predicate on the "create_time" field.
-func CreateTimeGTE(v time.Time) predicate.Tenant {
-	return predicate.Tenant(sql.FieldGTE(FieldCreateTime, v))
+// CreatedAtNEQ applies the NEQ predicate on the "created_at" field.
+func CreatedAtNEQ(v time.Time) predicate.Tenant {
+	return predicate.Tenant(sql.FieldNEQ(FieldCreatedAt, v))
 }
 
-// CreateTimeLT applies the LT predicate on the "create_time" field.
-func CreateTimeLT(v time.Time) predicate.Tenant {
-	return predicate.Tenant(sql.FieldLT(FieldCreateTime, v))
+// CreatedAtIn applies the In predicate on the "created_at" field.
+func CreatedAtIn(vs ...time.Time) predicate.Tenant {
+	return predicate.Tenant(sql.FieldIn(FieldCreatedAt, vs...))
 }
 
-// CreateTimeLTE applies the LTE predicate on the "create_time" field.
-func CreateTimeLTE(v time.Time) predicate.Tenant {
-	return predicate.Tenant(sql.FieldLTE(FieldCreateTime, v))
+// CreatedAtNotIn applies the NotIn predicate on the "created_at" field.
+func CreatedAtNotIn(vs ...time.Time) predicate.Tenant {
+	return predicate.Tenant(sql.FieldNotIn(FieldCreatedAt, vs...))
 }
 
-// CreateTimeIsNil applies the IsNil predicate on the "create_time" field.
-func CreateTimeIsNil() predicate.Tenant {
-	return predicate.Tenant(sql.FieldIsNull(FieldCreateTime))
+// CreatedAtGT applies the GT predicate on the "created_at" field.
+func CreatedAtGT(v time.Time) predicate.Tenant {
+	return predicate.Tenant(sql.FieldGT(FieldCreatedAt, v))
 }
 
-// CreateTimeNotNil applies the NotNil predicate on the "create_time" field.
-func CreateTimeNotNil() predicate.Tenant {
-	return predicate.Tenant(sql.FieldNotNull(FieldCreateTime))
+// CreatedAtGTE applies the GTE predicate on the "created_at" field.
+func CreatedAtGTE(v time.Time) predicate.Tenant {
+	return predicate.Tenant(sql.FieldGTE(FieldCreatedAt, v))
 }
 
-// UpdateTimeEQ applies the EQ predicate on the "update_time" field.
-func UpdateTimeEQ(v time.Time) predicate.Tenant {
-	return predicate.Tenant(sql.FieldEQ(FieldUpdateTime, v))
+// CreatedAtLT applies the LT predicate on the "created_at" field.
+func CreatedAtLT(v time.Time) predicate.Tenant {
+	return predicate.Tenant(sql.FieldLT(FieldCreatedAt, v))
 }
 
-// UpdateTimeNEQ applies the NEQ predicate on the "update_time" field.
-func UpdateTimeNEQ(v time.Time) predicate.Tenant {
-	return predicate.Tenant(sql.FieldNEQ(FieldUpdateTime, v))
+// CreatedAtLTE applies the LTE predicate on the "created_at" field.
+func CreatedAtLTE(v time.Time) predicate.Tenant {
+	return predicate.Tenant(sql.FieldLTE(FieldCreatedAt, v))
 }
 
-// UpdateTimeIn applies the In predicate on the "update_time" field.
-func UpdateTimeIn(vs ...time.Time) predicate.Tenant {
-	return predicate.Tenant(sql.FieldIn(FieldUpdateTime, vs...))
+// CreatedAtIsNil applies the IsNil predicate on the "created_at" field.
+func CreatedAtIsNil() predicate.Tenant {
+	return predicate.Tenant(sql.FieldIsNull(FieldCreatedAt))
 }
 
-// UpdateTimeNotIn applies the NotIn predicate on the "update_time" field.
-func UpdateTimeNotIn(vs ...time.Time) predicate.Tenant {
-	return predicate.Tenant(sql.FieldNotIn(FieldUpdateTime, vs...))
+// CreatedAtNotNil applies the NotNil predicate on the "created_at" field.
+func CreatedAtNotNil() predicate.Tenant {
+	return predicate.Tenant(sql.FieldNotNull(FieldCreatedAt))
 }
 
-// UpdateTimeGT applies the GT predicate on the "update_time" field.
-func UpdateTimeGT(v time.Time) predicate.Tenant {
-	return predicate.Tenant(sql.FieldGT(FieldUpdateTime, v))
+// UpdatedAtEQ applies the EQ predicate on the "updated_at" field.
+func UpdatedAtEQ(v time.Time) predicate.Tenant {
+	return predicate.Tenant(sql.FieldEQ(FieldUpdatedAt, v))
 }
 
-// UpdateTimeGTE applies the GTE predicate on the "update_time" field.
-func UpdateTimeGTE(v time.Time) predicate.Tenant {
-	return predicate.Tenant(sql.FieldGTE(FieldUpdateTime, v))
+// UpdatedAtNEQ applies the NEQ predicate on the "updated_at" field.
+func UpdatedAtNEQ(v time.Time) predicate.Tenant {
+	return predicate.Tenant(sql.FieldNEQ(FieldUpdatedAt, v))
 }
 
-// UpdateTimeLT applies the LT predicate on the "update_time" field.
-func UpdateTimeLT(v time.Time) predicate.Tenant {
-	return predicate.Tenant(sql.FieldLT(FieldUpdateTime, v))
+// UpdatedAtIn applies the In predicate on the "updated_at" field.
+func UpdatedAtIn(vs ...time.Time) predicate.Tenant {
+	return predicate.Tenant(sql.FieldIn(FieldUpdatedAt, vs...))
 }
 
-// UpdateTimeLTE applies the LTE predicate on the "update_time" field.
-func UpdateTimeLTE(v time.Time) predicate.Tenant {
-	return predicate.Tenant(sql.FieldLTE(FieldUpdateTime, v))
+// UpdatedAtNotIn applies the NotIn predicate on the "updated_at" field.
+func UpdatedAtNotIn(vs ...time.Time) predicate.Tenant {
+	return predicate.Tenant(sql.FieldNotIn(FieldUpdatedAt, vs...))
 }
 
-// UpdateTimeIsNil applies the IsNil predicate on the "update_time" field.
-func UpdateTimeIsNil() predicate.Tenant {
-	return predicate.Tenant(sql.FieldIsNull(FieldUpdateTime))
+// UpdatedAtGT applies the GT predicate on the "updated_at" field.
+func UpdatedAtGT(v time.Time) predicate.Tenant {
+	return predicate.Tenant(sql.FieldGT(FieldUpdatedAt, v))
 }
 
-// UpdateTimeNotNil applies the NotNil predicate on the "update_time" field.
-func UpdateTimeNotNil() predicate.Tenant {
-	return predicate.Tenant(sql.FieldNotNull(FieldUpdateTime))
+// UpdatedAtGTE applies the GTE predicate on the "updated_at" field.
+func UpdatedAtGTE(v time.Time) predicate.Tenant {
+	return predicate.Tenant(sql.FieldGTE(FieldUpdatedAt, v))
 }
 
-// DeleteTimeEQ applies the EQ predicate on the "delete_time" field.
-func DeleteTimeEQ(v time.Time) predicate.Tenant {
-	return predicate.Tenant(sql.FieldEQ(FieldDeleteTime, v))
+// UpdatedAtLT applies the LT predicate on the "updated_at" field.
+func UpdatedAtLT(v time.Time) predicate.Tenant {
+	return predicate.Tenant(sql.FieldLT(FieldUpdatedAt, v))
 }
 
-// DeleteTimeNEQ applies the NEQ predicate on the "delete_time" field.
-func DeleteTimeNEQ(v time.Time) predicate.Tenant {
-	return predicate.Tenant(sql.FieldNEQ(FieldDeleteTime, v))
+// UpdatedAtLTE applies the LTE predicate on the "updated_at" field.
+func UpdatedAtLTE(v time.Time) predicate.Tenant {
+	return predicate.Tenant(sql.FieldLTE(FieldUpdatedAt, v))
 }
 
-// DeleteTimeIn applies the In predicate on the "delete_time" field.
-func DeleteTimeIn(vs ...time.Time) predicate.Tenant {
-	return predicate.Tenant(sql.FieldIn(FieldDeleteTime, vs...))
+// UpdatedAtIsNil applies the IsNil predicate on the "updated_at" field.
+func UpdatedAtIsNil() predicate.Tenant {
+	return predicate.Tenant(sql.FieldIsNull(FieldUpdatedAt))
 }
 
-// DeleteTimeNotIn applies the NotIn predicate on the "delete_time" field.
-func DeleteTimeNotIn(vs ...time.Time) predicate.Tenant {
-	return predicate.Tenant(sql.FieldNotIn(FieldDeleteTime, vs...))
+// UpdatedAtNotNil applies the NotNil predicate on the "updated_at" field.
+func UpdatedAtNotNil() predicate.Tenant {
+	return predicate.Tenant(sql.FieldNotNull(FieldUpdatedAt))
 }
 
-// DeleteTimeGT applies the GT predicate on the "delete_time" field.
-func DeleteTimeGT(v time.Time) predicate.Tenant {
-	return predicate.Tenant(sql.FieldGT(FieldDeleteTime, v))
+// DeletedAtEQ applies the EQ predicate on the "deleted_at" field.
+func DeletedAtEQ(v time.Time) predicate.Tenant {
+	return predicate.Tenant(sql.FieldEQ(FieldDeletedAt, v))
 }
 
-// DeleteTimeGTE applies the GTE predicate on the "delete_time" field.
-func DeleteTimeGTE(v time.Time) predicate.Tenant {
-	return predicate.Tenant(sql.FieldGTE(FieldDeleteTime, v))
+// DeletedAtNEQ applies the NEQ predicate on the "deleted_at" field.
+func DeletedAtNEQ(v time.Time) predicate.Tenant {
+	return predicate.Tenant(sql.FieldNEQ(FieldDeletedAt, v))
 }
 
-// DeleteTimeLT applies the LT predicate on the "delete_time" field.
-func DeleteTimeLT(v time.Time) predicate.Tenant {
-	return predicate.Tenant(sql.FieldLT(FieldDeleteTime, v))
+// DeletedAtIn applies the In predicate on the "deleted_at" field.
+func DeletedAtIn(vs ...time.Time) predicate.Tenant {
+	return predicate.Tenant(sql.FieldIn(FieldDeletedAt, vs...))
 }
 
-// DeleteTimeLTE applies the LTE predicate on the "delete_time" field.
-func DeleteTimeLTE(v time.Time) predicate.Tenant {
-	return predicate.Tenant(sql.FieldLTE(FieldDeleteTime, v))
+// DeletedAtNotIn applies the NotIn predicate on the "deleted_at" field.
+func DeletedAtNotIn(vs ...time.Time) predicate.Tenant {
+	return predicate.Tenant(sql.FieldNotIn(FieldDeletedAt, vs...))
 }
 
-// DeleteTimeIsNil applies the IsNil predicate on the "delete_time" field.
-func DeleteTimeIsNil() predicate.Tenant {
-	return predicate.Tenant(sql.FieldIsNull(FieldDeleteTime))
+// DeletedAtGT applies the GT predicate on the "deleted_at" field.
+func DeletedAtGT(v time.Time) predicate.Tenant {
+	return predicate.Tenant(sql.FieldGT(FieldDeletedAt, v))
 }
 
-// DeleteTimeNotNil applies the NotNil predicate on the "delete_time" field.
-func DeleteTimeNotNil() predicate.Tenant {
-	return predicate.Tenant(sql.FieldNotNull(FieldDeleteTime))
+// DeletedAtGTE applies the GTE predicate on the "deleted_at" field.
+func DeletedAtGTE(v time.Time) predicate.Tenant {
+	return predicate.Tenant(sql.FieldGTE(FieldDeletedAt, v))
 }
 
-// StatusEQ applies the EQ predicate on the "status" field.
-func StatusEQ(v Status) predicate.Tenant {
-	return predicate.Tenant(sql.FieldEQ(FieldStatus, v))
+// DeletedAtLT applies the LT predicate on the "deleted_at" field.
+func DeletedAtLT(v time.Time) predicate.Tenant {
+	return predicate.Tenant(sql.FieldLT(FieldDeletedAt, v))
 }
 
-// StatusNEQ applies the NEQ predicate on the "status" field.
-func StatusNEQ(v Status) predicate.Tenant {
-	return predicate.Tenant(sql.FieldNEQ(FieldStatus, v))
+// DeletedAtLTE applies the LTE predicate on the "deleted_at" field.
+func DeletedAtLTE(v time.Time) predicate.Tenant {
+	return predicate.Tenant(sql.FieldLTE(FieldDeletedAt, v))
 }
 
-// StatusIn applies the In predicate on the "status" field.
-func StatusIn(vs ...Status) predicate.Tenant {
-	return predicate.Tenant(sql.FieldIn(FieldStatus, vs...))
+// DeletedAtIsNil applies the IsNil predicate on the "deleted_at" field.
+func DeletedAtIsNil() predicate.Tenant {
+	return predicate.Tenant(sql.FieldIsNull(FieldDeletedAt))
 }
 
-// StatusNotIn applies the NotIn predicate on the "status" field.
-func StatusNotIn(vs ...Status) predicate.Tenant {
-	return predicate.Tenant(sql.FieldNotIn(FieldStatus, vs...))
+// DeletedAtNotNil applies the NotNil predicate on the "deleted_at" field.
+func DeletedAtNotNil() predicate.Tenant {
+	return predicate.Tenant(sql.FieldNotNull(FieldDeletedAt))
 }
 
-// StatusIsNil applies the IsNil predicate on the "status" field.
-func StatusIsNil() predicate.Tenant {
-	return predicate.Tenant(sql.FieldIsNull(FieldStatus))
+// CreatedByEQ applies the EQ predicate on the "created_by" field.
+func CreatedByEQ(v uint32) predicate.Tenant {
+	return predicate.Tenant(sql.FieldEQ(FieldCreatedBy, v))
 }
 
-// StatusNotNil applies the NotNil predicate on the "status" field.
-func StatusNotNil() predicate.Tenant {
-	return predicate.Tenant(sql.FieldNotNull(FieldStatus))
+// CreatedByNEQ applies the NEQ predicate on the "created_by" field.
+func CreatedByNEQ(v uint32) predicate.Tenant {
+	return predicate.Tenant(sql.FieldNEQ(FieldCreatedBy, v))
 }
 
-// CreateByEQ applies the EQ predicate on the "create_by" field.
-func CreateByEQ(v uint32) predicate.Tenant {
-	return predicate.Tenant(sql.FieldEQ(FieldCreateBy, v))
+// CreatedByIn applies the In predicate on the "created_by" field.
+func CreatedByIn(vs ...uint32) predicate.Tenant {
+	return predicate.Tenant(sql.FieldIn(FieldCreatedBy, vs...))
 }
 
-// CreateByNEQ applies the NEQ predicate on the "create_by" field.
-func CreateByNEQ(v uint32) predicate.Tenant {
-	return predicate.Tenant(sql.FieldNEQ(FieldCreateBy, v))
+// CreatedByNotIn applies the NotIn predicate on the "created_by" field.
+func CreatedByNotIn(vs ...uint32) predicate.Tenant {
+	return predicate.Tenant(sql.FieldNotIn(FieldCreatedBy, vs...))
 }
 
-// CreateByIn applies the In predicate on the "create_by" field.
-func CreateByIn(vs ...uint32) predicate.Tenant {
-	return predicate.Tenant(sql.FieldIn(FieldCreateBy, vs...))
+// CreatedByGT applies the GT predicate on the "created_by" field.
+func CreatedByGT(v uint32) predicate.Tenant {
+	return predicate.Tenant(sql.FieldGT(FieldCreatedBy, v))
 }
 
-// CreateByNotIn applies the NotIn predicate on the "create_by" field.
-func CreateByNotIn(vs ...uint32) predicate.Tenant {
-	return predicate.Tenant(sql.FieldNotIn(FieldCreateBy, vs...))
+// CreatedByGTE applies the GTE predicate on the "created_by" field.
+func CreatedByGTE(v uint32) predicate.Tenant {
+	return predicate.Tenant(sql.FieldGTE(FieldCreatedBy, v))
 }
 
-// CreateByGT applies the GT predicate on the "create_by" field.
-func CreateByGT(v uint32) predicate.Tenant {
-	return predicate.Tenant(sql.FieldGT(FieldCreateBy, v))
+// CreatedByLT applies the LT predicate on the "created_by" field.
+func CreatedByLT(v uint32) predicate.Tenant {
+	return predicate.Tenant(sql.FieldLT(FieldCreatedBy, v))
 }
 
-// CreateByGTE applies the GTE predicate on the "create_by" field.
-func CreateByGTE(v uint32) predicate.Tenant {
-	return predicate.Tenant(sql.FieldGTE(FieldCreateBy, v))
+// CreatedByLTE applies the LTE predicate on the "created_by" field.
+func CreatedByLTE(v uint32) predicate.Tenant {
+	return predicate.Tenant(sql.FieldLTE(FieldCreatedBy, v))
 }
 
-// CreateByLT applies the LT predicate on the "create_by" field.
-func CreateByLT(v uint32) predicate.Tenant {
-	return predicate.Tenant(sql.FieldLT(FieldCreateBy, v))
+// CreatedByIsNil applies the IsNil predicate on the "created_by" field.
+func CreatedByIsNil() predicate.Tenant {
+	return predicate.Tenant(sql.FieldIsNull(FieldCreatedBy))
 }
 
-// CreateByLTE applies the LTE predicate on the "create_by" field.
-func CreateByLTE(v uint32) predicate.Tenant {
-	return predicate.Tenant(sql.FieldLTE(FieldCreateBy, v))
+// CreatedByNotNil applies the NotNil predicate on the "created_by" field.
+func CreatedByNotNil() predicate.Tenant {
+	return predicate.Tenant(sql.FieldNotNull(FieldCreatedBy))
 }
 
-// CreateByIsNil applies the IsNil predicate on the "create_by" field.
-func CreateByIsNil() predicate.Tenant {
-	return predicate.Tenant(sql.FieldIsNull(FieldCreateBy))
+// UpdatedByEQ applies the EQ predicate on the "updated_by" field.
+func UpdatedByEQ(v uint32) predicate.Tenant {
+	return predicate.Tenant(sql.FieldEQ(FieldUpdatedBy, v))
 }
 
-// CreateByNotNil applies the NotNil predicate on the "create_by" field.
-func CreateByNotNil() predicate.Tenant {
-	return predicate.Tenant(sql.FieldNotNull(FieldCreateBy))
+// UpdatedByNEQ applies the NEQ predicate on the "updated_by" field.
+func UpdatedByNEQ(v uint32) predicate.Tenant {
+	return predicate.Tenant(sql.FieldNEQ(FieldUpdatedBy, v))
 }
 
-// UpdateByEQ applies the EQ predicate on the "update_by" field.
-func UpdateByEQ(v uint32) predicate.Tenant {
-	return predicate.Tenant(sql.FieldEQ(FieldUpdateBy, v))
+// UpdatedByIn applies the In predicate on the "updated_by" field.
+func UpdatedByIn(vs ...uint32) predicate.Tenant {
+	return predicate.Tenant(sql.FieldIn(FieldUpdatedBy, vs...))
 }
 
-// UpdateByNEQ applies the NEQ predicate on the "update_by" field.
-func UpdateByNEQ(v uint32) predicate.Tenant {
-	return predicate.Tenant(sql.FieldNEQ(FieldUpdateBy, v))
+// UpdatedByNotIn applies the NotIn predicate on the "updated_by" field.
+func UpdatedByNotIn(vs ...uint32) predicate.Tenant {
+	return predicate.Tenant(sql.FieldNotIn(FieldUpdatedBy, vs...))
 }
 
-// UpdateByIn applies the In predicate on the "update_by" field.
-func UpdateByIn(vs ...uint32) predicate.Tenant {
-	return predicate.Tenant(sql.FieldIn(FieldUpdateBy, vs...))
+// UpdatedByGT applies the GT predicate on the "updated_by" field.
+func UpdatedByGT(v uint32) predicate.Tenant {
+	return predicate.Tenant(sql.FieldGT(FieldUpdatedBy, v))
 }
 
-// UpdateByNotIn applies the NotIn predicate on the "update_by" field.
-func UpdateByNotIn(vs ...uint32) predicate.Tenant {
-	return predicate.Tenant(sql.FieldNotIn(FieldUpdateBy, vs...))
+// UpdatedByGTE applies the GTE predicate on the "updated_by" field.
+func UpdatedByGTE(v uint32) predicate.Tenant {
+	return predicate.Tenant(sql.FieldGTE(FieldUpdatedBy, v))
 }
 
-// UpdateByGT applies the GT predicate on the "update_by" field.
-func UpdateByGT(v uint32) predicate.Tenant {
-	return predicate.Tenant(sql.FieldGT(FieldUpdateBy, v))
+// UpdatedByLT applies the LT predicate on the "updated_by" field.
+func UpdatedByLT(v uint32) predicate.Tenant {
+	return predicate.Tenant(sql.FieldLT(FieldUpdatedBy, v))
 }
 
-// UpdateByGTE applies the GTE predicate on the "update_by" field.
-func UpdateByGTE(v uint32) predicate.Tenant {
-	return predicate.Tenant(sql.FieldGTE(FieldUpdateBy, v))
+// UpdatedByLTE applies the LTE predicate on the "updated_by" field.
+func UpdatedByLTE(v uint32) predicate.Tenant {
+	return predicate.Tenant(sql.FieldLTE(FieldUpdatedBy, v))
 }
 
-// UpdateByLT applies the LT predicate on the "update_by" field.
-func UpdateByLT(v uint32) predicate.Tenant {
-	return predicate.Tenant(sql.FieldLT(FieldUpdateBy, v))
+// UpdatedByIsNil applies the IsNil predicate on the "updated_by" field.
+func UpdatedByIsNil() predicate.Tenant {
+	return predicate.Tenant(sql.FieldIsNull(FieldUpdatedBy))
 }
 
-// UpdateByLTE applies the LTE predicate on the "update_by" field.
-func UpdateByLTE(v uint32) predicate.Tenant {
-	return predicate.Tenant(sql.FieldLTE(FieldUpdateBy, v))
+// UpdatedByNotNil applies the NotNil predicate on the "updated_by" field.
+func UpdatedByNotNil() predicate.Tenant {
+	return predicate.Tenant(sql.FieldNotNull(FieldUpdatedBy))
 }
 
-// UpdateByIsNil applies the IsNil predicate on the "update_by" field.
-func UpdateByIsNil() predicate.Tenant {
-	return predicate.Tenant(sql.FieldIsNull(FieldUpdateBy))
+// DeletedByEQ applies the EQ predicate on the "deleted_by" field.
+func DeletedByEQ(v uint32) predicate.Tenant {
+	return predicate.Tenant(sql.FieldEQ(FieldDeletedBy, v))
 }
 
-// UpdateByNotNil applies the NotNil predicate on the "update_by" field.
-func UpdateByNotNil() predicate.Tenant {
-	return predicate.Tenant(sql.FieldNotNull(FieldUpdateBy))
+// DeletedByNEQ applies the NEQ predicate on the "deleted_by" field.
+func DeletedByNEQ(v uint32) predicate.Tenant {
+	return predicate.Tenant(sql.FieldNEQ(FieldDeletedBy, v))
+}
+
+// DeletedByIn applies the In predicate on the "deleted_by" field.
+func DeletedByIn(vs ...uint32) predicate.Tenant {
+	return predicate.Tenant(sql.FieldIn(FieldDeletedBy, vs...))
+}
+
+// DeletedByNotIn applies the NotIn predicate on the "deleted_by" field.
+func DeletedByNotIn(vs ...uint32) predicate.Tenant {
+	return predicate.Tenant(sql.FieldNotIn(FieldDeletedBy, vs...))
+}
+
+// DeletedByGT applies the GT predicate on the "deleted_by" field.
+func DeletedByGT(v uint32) predicate.Tenant {
+	return predicate.Tenant(sql.FieldGT(FieldDeletedBy, v))
+}
+
+// DeletedByGTE applies the GTE predicate on the "deleted_by" field.
+func DeletedByGTE(v uint32) predicate.Tenant {
+	return predicate.Tenant(sql.FieldGTE(FieldDeletedBy, v))
+}
+
+// DeletedByLT applies the LT predicate on the "deleted_by" field.
+func DeletedByLT(v uint32) predicate.Tenant {
+	return predicate.Tenant(sql.FieldLT(FieldDeletedBy, v))
+}
+
+// DeletedByLTE applies the LTE predicate on the "deleted_by" field.
+func DeletedByLTE(v uint32) predicate.Tenant {
+	return predicate.Tenant(sql.FieldLTE(FieldDeletedBy, v))
+}
+
+// DeletedByIsNil applies the IsNil predicate on the "deleted_by" field.
+func DeletedByIsNil() predicate.Tenant {
+	return predicate.Tenant(sql.FieldIsNull(FieldDeletedBy))
+}
+
+// DeletedByNotNil applies the NotNil predicate on the "deleted_by" field.
+func DeletedByNotNil() predicate.Tenant {
+	return predicate.Tenant(sql.FieldNotNull(FieldDeletedBy))
 }
 
 // RemarkEQ applies the EQ predicate on the "remark" field.
@@ -614,54 +669,294 @@ func CodeContainsFold(v string) predicate.Tenant {
 	return predicate.Tenant(sql.FieldContainsFold(FieldCode, v))
 }
 
-// MemberCountEQ applies the EQ predicate on the "member_count" field.
-func MemberCountEQ(v int32) predicate.Tenant {
-	return predicate.Tenant(sql.FieldEQ(FieldMemberCount, v))
+// LogoURLEQ applies the EQ predicate on the "logo_url" field.
+func LogoURLEQ(v string) predicate.Tenant {
+	return predicate.Tenant(sql.FieldEQ(FieldLogoURL, v))
 }
 
-// MemberCountNEQ applies the NEQ predicate on the "member_count" field.
-func MemberCountNEQ(v int32) predicate.Tenant {
-	return predicate.Tenant(sql.FieldNEQ(FieldMemberCount, v))
+// LogoURLNEQ applies the NEQ predicate on the "logo_url" field.
+func LogoURLNEQ(v string) predicate.Tenant {
+	return predicate.Tenant(sql.FieldNEQ(FieldLogoURL, v))
 }
 
-// MemberCountIn applies the In predicate on the "member_count" field.
-func MemberCountIn(vs ...int32) predicate.Tenant {
-	return predicate.Tenant(sql.FieldIn(FieldMemberCount, vs...))
+// LogoURLIn applies the In predicate on the "logo_url" field.
+func LogoURLIn(vs ...string) predicate.Tenant {
+	return predicate.Tenant(sql.FieldIn(FieldLogoURL, vs...))
 }
 
-// MemberCountNotIn applies the NotIn predicate on the "member_count" field.
-func MemberCountNotIn(vs ...int32) predicate.Tenant {
-	return predicate.Tenant(sql.FieldNotIn(FieldMemberCount, vs...))
+// LogoURLNotIn applies the NotIn predicate on the "logo_url" field.
+func LogoURLNotIn(vs ...string) predicate.Tenant {
+	return predicate.Tenant(sql.FieldNotIn(FieldLogoURL, vs...))
 }
 
-// MemberCountGT applies the GT predicate on the "member_count" field.
-func MemberCountGT(v int32) predicate.Tenant {
-	return predicate.Tenant(sql.FieldGT(FieldMemberCount, v))
+// LogoURLGT applies the GT predicate on the "logo_url" field.
+func LogoURLGT(v string) predicate.Tenant {
+	return predicate.Tenant(sql.FieldGT(FieldLogoURL, v))
 }
 
-// MemberCountGTE applies the GTE predicate on the "member_count" field.
-func MemberCountGTE(v int32) predicate.Tenant {
-	return predicate.Tenant(sql.FieldGTE(FieldMemberCount, v))
+// LogoURLGTE applies the GTE predicate on the "logo_url" field.
+func LogoURLGTE(v string) predicate.Tenant {
+	return predicate.Tenant(sql.FieldGTE(FieldLogoURL, v))
 }
 
-// MemberCountLT applies the LT predicate on the "member_count" field.
-func MemberCountLT(v int32) predicate.Tenant {
-	return predicate.Tenant(sql.FieldLT(FieldMemberCount, v))
+// LogoURLLT applies the LT predicate on the "logo_url" field.
+func LogoURLLT(v string) predicate.Tenant {
+	return predicate.Tenant(sql.FieldLT(FieldLogoURL, v))
 }
 
-// MemberCountLTE applies the LTE predicate on the "member_count" field.
-func MemberCountLTE(v int32) predicate.Tenant {
-	return predicate.Tenant(sql.FieldLTE(FieldMemberCount, v))
+// LogoURLLTE applies the LTE predicate on the "logo_url" field.
+func LogoURLLTE(v string) predicate.Tenant {
+	return predicate.Tenant(sql.FieldLTE(FieldLogoURL, v))
 }
 
-// MemberCountIsNil applies the IsNil predicate on the "member_count" field.
-func MemberCountIsNil() predicate.Tenant {
-	return predicate.Tenant(sql.FieldIsNull(FieldMemberCount))
+// LogoURLContains applies the Contains predicate on the "logo_url" field.
+func LogoURLContains(v string) predicate.Tenant {
+	return predicate.Tenant(sql.FieldContains(FieldLogoURL, v))
 }
 
-// MemberCountNotNil applies the NotNil predicate on the "member_count" field.
-func MemberCountNotNil() predicate.Tenant {
-	return predicate.Tenant(sql.FieldNotNull(FieldMemberCount))
+// LogoURLHasPrefix applies the HasPrefix predicate on the "logo_url" field.
+func LogoURLHasPrefix(v string) predicate.Tenant {
+	return predicate.Tenant(sql.FieldHasPrefix(FieldLogoURL, v))
+}
+
+// LogoURLHasSuffix applies the HasSuffix predicate on the "logo_url" field.
+func LogoURLHasSuffix(v string) predicate.Tenant {
+	return predicate.Tenant(sql.FieldHasSuffix(FieldLogoURL, v))
+}
+
+// LogoURLIsNil applies the IsNil predicate on the "logo_url" field.
+func LogoURLIsNil() predicate.Tenant {
+	return predicate.Tenant(sql.FieldIsNull(FieldLogoURL))
+}
+
+// LogoURLNotNil applies the NotNil predicate on the "logo_url" field.
+func LogoURLNotNil() predicate.Tenant {
+	return predicate.Tenant(sql.FieldNotNull(FieldLogoURL))
+}
+
+// LogoURLEqualFold applies the EqualFold predicate on the "logo_url" field.
+func LogoURLEqualFold(v string) predicate.Tenant {
+	return predicate.Tenant(sql.FieldEqualFold(FieldLogoURL, v))
+}
+
+// LogoURLContainsFold applies the ContainsFold predicate on the "logo_url" field.
+func LogoURLContainsFold(v string) predicate.Tenant {
+	return predicate.Tenant(sql.FieldContainsFold(FieldLogoURL, v))
+}
+
+// IndustryEQ applies the EQ predicate on the "industry" field.
+func IndustryEQ(v string) predicate.Tenant {
+	return predicate.Tenant(sql.FieldEQ(FieldIndustry, v))
+}
+
+// IndustryNEQ applies the NEQ predicate on the "industry" field.
+func IndustryNEQ(v string) predicate.Tenant {
+	return predicate.Tenant(sql.FieldNEQ(FieldIndustry, v))
+}
+
+// IndustryIn applies the In predicate on the "industry" field.
+func IndustryIn(vs ...string) predicate.Tenant {
+	return predicate.Tenant(sql.FieldIn(FieldIndustry, vs...))
+}
+
+// IndustryNotIn applies the NotIn predicate on the "industry" field.
+func IndustryNotIn(vs ...string) predicate.Tenant {
+	return predicate.Tenant(sql.FieldNotIn(FieldIndustry, vs...))
+}
+
+// IndustryGT applies the GT predicate on the "industry" field.
+func IndustryGT(v string) predicate.Tenant {
+	return predicate.Tenant(sql.FieldGT(FieldIndustry, v))
+}
+
+// IndustryGTE applies the GTE predicate on the "industry" field.
+func IndustryGTE(v string) predicate.Tenant {
+	return predicate.Tenant(sql.FieldGTE(FieldIndustry, v))
+}
+
+// IndustryLT applies the LT predicate on the "industry" field.
+func IndustryLT(v string) predicate.Tenant {
+	return predicate.Tenant(sql.FieldLT(FieldIndustry, v))
+}
+
+// IndustryLTE applies the LTE predicate on the "industry" field.
+func IndustryLTE(v string) predicate.Tenant {
+	return predicate.Tenant(sql.FieldLTE(FieldIndustry, v))
+}
+
+// IndustryContains applies the Contains predicate on the "industry" field.
+func IndustryContains(v string) predicate.Tenant {
+	return predicate.Tenant(sql.FieldContains(FieldIndustry, v))
+}
+
+// IndustryHasPrefix applies the HasPrefix predicate on the "industry" field.
+func IndustryHasPrefix(v string) predicate.Tenant {
+	return predicate.Tenant(sql.FieldHasPrefix(FieldIndustry, v))
+}
+
+// IndustryHasSuffix applies the HasSuffix predicate on the "industry" field.
+func IndustryHasSuffix(v string) predicate.Tenant {
+	return predicate.Tenant(sql.FieldHasSuffix(FieldIndustry, v))
+}
+
+// IndustryIsNil applies the IsNil predicate on the "industry" field.
+func IndustryIsNil() predicate.Tenant {
+	return predicate.Tenant(sql.FieldIsNull(FieldIndustry))
+}
+
+// IndustryNotNil applies the NotNil predicate on the "industry" field.
+func IndustryNotNil() predicate.Tenant {
+	return predicate.Tenant(sql.FieldNotNull(FieldIndustry))
+}
+
+// IndustryEqualFold applies the EqualFold predicate on the "industry" field.
+func IndustryEqualFold(v string) predicate.Tenant {
+	return predicate.Tenant(sql.FieldEqualFold(FieldIndustry, v))
+}
+
+// IndustryContainsFold applies the ContainsFold predicate on the "industry" field.
+func IndustryContainsFold(v string) predicate.Tenant {
+	return predicate.Tenant(sql.FieldContainsFold(FieldIndustry, v))
+}
+
+// AdminUserIDEQ applies the EQ predicate on the "admin_user_id" field.
+func AdminUserIDEQ(v uint32) predicate.Tenant {
+	return predicate.Tenant(sql.FieldEQ(FieldAdminUserID, v))
+}
+
+// AdminUserIDNEQ applies the NEQ predicate on the "admin_user_id" field.
+func AdminUserIDNEQ(v uint32) predicate.Tenant {
+	return predicate.Tenant(sql.FieldNEQ(FieldAdminUserID, v))
+}
+
+// AdminUserIDIn applies the In predicate on the "admin_user_id" field.
+func AdminUserIDIn(vs ...uint32) predicate.Tenant {
+	return predicate.Tenant(sql.FieldIn(FieldAdminUserID, vs...))
+}
+
+// AdminUserIDNotIn applies the NotIn predicate on the "admin_user_id" field.
+func AdminUserIDNotIn(vs ...uint32) predicate.Tenant {
+	return predicate.Tenant(sql.FieldNotIn(FieldAdminUserID, vs...))
+}
+
+// AdminUserIDGT applies the GT predicate on the "admin_user_id" field.
+func AdminUserIDGT(v uint32) predicate.Tenant {
+	return predicate.Tenant(sql.FieldGT(FieldAdminUserID, v))
+}
+
+// AdminUserIDGTE applies the GTE predicate on the "admin_user_id" field.
+func AdminUserIDGTE(v uint32) predicate.Tenant {
+	return predicate.Tenant(sql.FieldGTE(FieldAdminUserID, v))
+}
+
+// AdminUserIDLT applies the LT predicate on the "admin_user_id" field.
+func AdminUserIDLT(v uint32) predicate.Tenant {
+	return predicate.Tenant(sql.FieldLT(FieldAdminUserID, v))
+}
+
+// AdminUserIDLTE applies the LTE predicate on the "admin_user_id" field.
+func AdminUserIDLTE(v uint32) predicate.Tenant {
+	return predicate.Tenant(sql.FieldLTE(FieldAdminUserID, v))
+}
+
+// AdminUserIDIsNil applies the IsNil predicate on the "admin_user_id" field.
+func AdminUserIDIsNil() predicate.Tenant {
+	return predicate.Tenant(sql.FieldIsNull(FieldAdminUserID))
+}
+
+// AdminUserIDNotNil applies the NotNil predicate on the "admin_user_id" field.
+func AdminUserIDNotNil() predicate.Tenant {
+	return predicate.Tenant(sql.FieldNotNull(FieldAdminUserID))
+}
+
+// StatusEQ applies the EQ predicate on the "status" field.
+func StatusEQ(v Status) predicate.Tenant {
+	return predicate.Tenant(sql.FieldEQ(FieldStatus, v))
+}
+
+// StatusNEQ applies the NEQ predicate on the "status" field.
+func StatusNEQ(v Status) predicate.Tenant {
+	return predicate.Tenant(sql.FieldNEQ(FieldStatus, v))
+}
+
+// StatusIn applies the In predicate on the "status" field.
+func StatusIn(vs ...Status) predicate.Tenant {
+	return predicate.Tenant(sql.FieldIn(FieldStatus, vs...))
+}
+
+// StatusNotIn applies the NotIn predicate on the "status" field.
+func StatusNotIn(vs ...Status) predicate.Tenant {
+	return predicate.Tenant(sql.FieldNotIn(FieldStatus, vs...))
+}
+
+// StatusIsNil applies the IsNil predicate on the "status" field.
+func StatusIsNil() predicate.Tenant {
+	return predicate.Tenant(sql.FieldIsNull(FieldStatus))
+}
+
+// StatusNotNil applies the NotNil predicate on the "status" field.
+func StatusNotNil() predicate.Tenant {
+	return predicate.Tenant(sql.FieldNotNull(FieldStatus))
+}
+
+// TypeEQ applies the EQ predicate on the "type" field.
+func TypeEQ(v Type) predicate.Tenant {
+	return predicate.Tenant(sql.FieldEQ(FieldType, v))
+}
+
+// TypeNEQ applies the NEQ predicate on the "type" field.
+func TypeNEQ(v Type) predicate.Tenant {
+	return predicate.Tenant(sql.FieldNEQ(FieldType, v))
+}
+
+// TypeIn applies the In predicate on the "type" field.
+func TypeIn(vs ...Type) predicate.Tenant {
+	return predicate.Tenant(sql.FieldIn(FieldType, vs...))
+}
+
+// TypeNotIn applies the NotIn predicate on the "type" field.
+func TypeNotIn(vs ...Type) predicate.Tenant {
+	return predicate.Tenant(sql.FieldNotIn(FieldType, vs...))
+}
+
+// TypeIsNil applies the IsNil predicate on the "type" field.
+func TypeIsNil() predicate.Tenant {
+	return predicate.Tenant(sql.FieldIsNull(FieldType))
+}
+
+// TypeNotNil applies the NotNil predicate on the "type" field.
+func TypeNotNil() predicate.Tenant {
+	return predicate.Tenant(sql.FieldNotNull(FieldType))
+}
+
+// AuditStatusEQ applies the EQ predicate on the "audit_status" field.
+func AuditStatusEQ(v AuditStatus) predicate.Tenant {
+	return predicate.Tenant(sql.FieldEQ(FieldAuditStatus, v))
+}
+
+// AuditStatusNEQ applies the NEQ predicate on the "audit_status" field.
+func AuditStatusNEQ(v AuditStatus) predicate.Tenant {
+	return predicate.Tenant(sql.FieldNEQ(FieldAuditStatus, v))
+}
+
+// AuditStatusIn applies the In predicate on the "audit_status" field.
+func AuditStatusIn(vs ...AuditStatus) predicate.Tenant {
+	return predicate.Tenant(sql.FieldIn(FieldAuditStatus, vs...))
+}
+
+// AuditStatusNotIn applies the NotIn predicate on the "audit_status" field.
+func AuditStatusNotIn(vs ...AuditStatus) predicate.Tenant {
+	return predicate.Tenant(sql.FieldNotIn(FieldAuditStatus, vs...))
+}
+
+// AuditStatusIsNil applies the IsNil predicate on the "audit_status" field.
+func AuditStatusIsNil() predicate.Tenant {
+	return predicate.Tenant(sql.FieldIsNull(FieldAuditStatus))
+}
+
+// AuditStatusNotNil applies the NotNil predicate on the "audit_status" field.
+func AuditStatusNotNil() predicate.Tenant {
+	return predicate.Tenant(sql.FieldNotNull(FieldAuditStatus))
 }
 
 // SubscriptionAtEQ applies the EQ predicate on the "subscription_at" field.
@@ -762,6 +1057,256 @@ func UnsubscribeAtIsNil() predicate.Tenant {
 // UnsubscribeAtNotNil applies the NotNil predicate on the "unsubscribe_at" field.
 func UnsubscribeAtNotNil() predicate.Tenant {
 	return predicate.Tenant(sql.FieldNotNull(FieldUnsubscribeAt))
+}
+
+// SubscriptionPlanEQ applies the EQ predicate on the "subscription_plan" field.
+func SubscriptionPlanEQ(v string) predicate.Tenant {
+	return predicate.Tenant(sql.FieldEQ(FieldSubscriptionPlan, v))
+}
+
+// SubscriptionPlanNEQ applies the NEQ predicate on the "subscription_plan" field.
+func SubscriptionPlanNEQ(v string) predicate.Tenant {
+	return predicate.Tenant(sql.FieldNEQ(FieldSubscriptionPlan, v))
+}
+
+// SubscriptionPlanIn applies the In predicate on the "subscription_plan" field.
+func SubscriptionPlanIn(vs ...string) predicate.Tenant {
+	return predicate.Tenant(sql.FieldIn(FieldSubscriptionPlan, vs...))
+}
+
+// SubscriptionPlanNotIn applies the NotIn predicate on the "subscription_plan" field.
+func SubscriptionPlanNotIn(vs ...string) predicate.Tenant {
+	return predicate.Tenant(sql.FieldNotIn(FieldSubscriptionPlan, vs...))
+}
+
+// SubscriptionPlanGT applies the GT predicate on the "subscription_plan" field.
+func SubscriptionPlanGT(v string) predicate.Tenant {
+	return predicate.Tenant(sql.FieldGT(FieldSubscriptionPlan, v))
+}
+
+// SubscriptionPlanGTE applies the GTE predicate on the "subscription_plan" field.
+func SubscriptionPlanGTE(v string) predicate.Tenant {
+	return predicate.Tenant(sql.FieldGTE(FieldSubscriptionPlan, v))
+}
+
+// SubscriptionPlanLT applies the LT predicate on the "subscription_plan" field.
+func SubscriptionPlanLT(v string) predicate.Tenant {
+	return predicate.Tenant(sql.FieldLT(FieldSubscriptionPlan, v))
+}
+
+// SubscriptionPlanLTE applies the LTE predicate on the "subscription_plan" field.
+func SubscriptionPlanLTE(v string) predicate.Tenant {
+	return predicate.Tenant(sql.FieldLTE(FieldSubscriptionPlan, v))
+}
+
+// SubscriptionPlanContains applies the Contains predicate on the "subscription_plan" field.
+func SubscriptionPlanContains(v string) predicate.Tenant {
+	return predicate.Tenant(sql.FieldContains(FieldSubscriptionPlan, v))
+}
+
+// SubscriptionPlanHasPrefix applies the HasPrefix predicate on the "subscription_plan" field.
+func SubscriptionPlanHasPrefix(v string) predicate.Tenant {
+	return predicate.Tenant(sql.FieldHasPrefix(FieldSubscriptionPlan, v))
+}
+
+// SubscriptionPlanHasSuffix applies the HasSuffix predicate on the "subscription_plan" field.
+func SubscriptionPlanHasSuffix(v string) predicate.Tenant {
+	return predicate.Tenant(sql.FieldHasSuffix(FieldSubscriptionPlan, v))
+}
+
+// SubscriptionPlanIsNil applies the IsNil predicate on the "subscription_plan" field.
+func SubscriptionPlanIsNil() predicate.Tenant {
+	return predicate.Tenant(sql.FieldIsNull(FieldSubscriptionPlan))
+}
+
+// SubscriptionPlanNotNil applies the NotNil predicate on the "subscription_plan" field.
+func SubscriptionPlanNotNil() predicate.Tenant {
+	return predicate.Tenant(sql.FieldNotNull(FieldSubscriptionPlan))
+}
+
+// SubscriptionPlanEqualFold applies the EqualFold predicate on the "subscription_plan" field.
+func SubscriptionPlanEqualFold(v string) predicate.Tenant {
+	return predicate.Tenant(sql.FieldEqualFold(FieldSubscriptionPlan, v))
+}
+
+// SubscriptionPlanContainsFold applies the ContainsFold predicate on the "subscription_plan" field.
+func SubscriptionPlanContainsFold(v string) predicate.Tenant {
+	return predicate.Tenant(sql.FieldContainsFold(FieldSubscriptionPlan, v))
+}
+
+// ExpiredAtEQ applies the EQ predicate on the "expired_at" field.
+func ExpiredAtEQ(v time.Time) predicate.Tenant {
+	return predicate.Tenant(sql.FieldEQ(FieldExpiredAt, v))
+}
+
+// ExpiredAtNEQ applies the NEQ predicate on the "expired_at" field.
+func ExpiredAtNEQ(v time.Time) predicate.Tenant {
+	return predicate.Tenant(sql.FieldNEQ(FieldExpiredAt, v))
+}
+
+// ExpiredAtIn applies the In predicate on the "expired_at" field.
+func ExpiredAtIn(vs ...time.Time) predicate.Tenant {
+	return predicate.Tenant(sql.FieldIn(FieldExpiredAt, vs...))
+}
+
+// ExpiredAtNotIn applies the NotIn predicate on the "expired_at" field.
+func ExpiredAtNotIn(vs ...time.Time) predicate.Tenant {
+	return predicate.Tenant(sql.FieldNotIn(FieldExpiredAt, vs...))
+}
+
+// ExpiredAtGT applies the GT predicate on the "expired_at" field.
+func ExpiredAtGT(v time.Time) predicate.Tenant {
+	return predicate.Tenant(sql.FieldGT(FieldExpiredAt, v))
+}
+
+// ExpiredAtGTE applies the GTE predicate on the "expired_at" field.
+func ExpiredAtGTE(v time.Time) predicate.Tenant {
+	return predicate.Tenant(sql.FieldGTE(FieldExpiredAt, v))
+}
+
+// ExpiredAtLT applies the LT predicate on the "expired_at" field.
+func ExpiredAtLT(v time.Time) predicate.Tenant {
+	return predicate.Tenant(sql.FieldLT(FieldExpiredAt, v))
+}
+
+// ExpiredAtLTE applies the LTE predicate on the "expired_at" field.
+func ExpiredAtLTE(v time.Time) predicate.Tenant {
+	return predicate.Tenant(sql.FieldLTE(FieldExpiredAt, v))
+}
+
+// ExpiredAtIsNil applies the IsNil predicate on the "expired_at" field.
+func ExpiredAtIsNil() predicate.Tenant {
+	return predicate.Tenant(sql.FieldIsNull(FieldExpiredAt))
+}
+
+// ExpiredAtNotNil applies the NotNil predicate on the "expired_at" field.
+func ExpiredAtNotNil() predicate.Tenant {
+	return predicate.Tenant(sql.FieldNotNull(FieldExpiredAt))
+}
+
+// LastLoginTimeEQ applies the EQ predicate on the "last_login_time" field.
+func LastLoginTimeEQ(v time.Time) predicate.Tenant {
+	return predicate.Tenant(sql.FieldEQ(FieldLastLoginTime, v))
+}
+
+// LastLoginTimeNEQ applies the NEQ predicate on the "last_login_time" field.
+func LastLoginTimeNEQ(v time.Time) predicate.Tenant {
+	return predicate.Tenant(sql.FieldNEQ(FieldLastLoginTime, v))
+}
+
+// LastLoginTimeIn applies the In predicate on the "last_login_time" field.
+func LastLoginTimeIn(vs ...time.Time) predicate.Tenant {
+	return predicate.Tenant(sql.FieldIn(FieldLastLoginTime, vs...))
+}
+
+// LastLoginTimeNotIn applies the NotIn predicate on the "last_login_time" field.
+func LastLoginTimeNotIn(vs ...time.Time) predicate.Tenant {
+	return predicate.Tenant(sql.FieldNotIn(FieldLastLoginTime, vs...))
+}
+
+// LastLoginTimeGT applies the GT predicate on the "last_login_time" field.
+func LastLoginTimeGT(v time.Time) predicate.Tenant {
+	return predicate.Tenant(sql.FieldGT(FieldLastLoginTime, v))
+}
+
+// LastLoginTimeGTE applies the GTE predicate on the "last_login_time" field.
+func LastLoginTimeGTE(v time.Time) predicate.Tenant {
+	return predicate.Tenant(sql.FieldGTE(FieldLastLoginTime, v))
+}
+
+// LastLoginTimeLT applies the LT predicate on the "last_login_time" field.
+func LastLoginTimeLT(v time.Time) predicate.Tenant {
+	return predicate.Tenant(sql.FieldLT(FieldLastLoginTime, v))
+}
+
+// LastLoginTimeLTE applies the LTE predicate on the "last_login_time" field.
+func LastLoginTimeLTE(v time.Time) predicate.Tenant {
+	return predicate.Tenant(sql.FieldLTE(FieldLastLoginTime, v))
+}
+
+// LastLoginTimeIsNil applies the IsNil predicate on the "last_login_time" field.
+func LastLoginTimeIsNil() predicate.Tenant {
+	return predicate.Tenant(sql.FieldIsNull(FieldLastLoginTime))
+}
+
+// LastLoginTimeNotNil applies the NotNil predicate on the "last_login_time" field.
+func LastLoginTimeNotNil() predicate.Tenant {
+	return predicate.Tenant(sql.FieldNotNull(FieldLastLoginTime))
+}
+
+// LastLoginIPEQ applies the EQ predicate on the "last_login_ip" field.
+func LastLoginIPEQ(v string) predicate.Tenant {
+	return predicate.Tenant(sql.FieldEQ(FieldLastLoginIP, v))
+}
+
+// LastLoginIPNEQ applies the NEQ predicate on the "last_login_ip" field.
+func LastLoginIPNEQ(v string) predicate.Tenant {
+	return predicate.Tenant(sql.FieldNEQ(FieldLastLoginIP, v))
+}
+
+// LastLoginIPIn applies the In predicate on the "last_login_ip" field.
+func LastLoginIPIn(vs ...string) predicate.Tenant {
+	return predicate.Tenant(sql.FieldIn(FieldLastLoginIP, vs...))
+}
+
+// LastLoginIPNotIn applies the NotIn predicate on the "last_login_ip" field.
+func LastLoginIPNotIn(vs ...string) predicate.Tenant {
+	return predicate.Tenant(sql.FieldNotIn(FieldLastLoginIP, vs...))
+}
+
+// LastLoginIPGT applies the GT predicate on the "last_login_ip" field.
+func LastLoginIPGT(v string) predicate.Tenant {
+	return predicate.Tenant(sql.FieldGT(FieldLastLoginIP, v))
+}
+
+// LastLoginIPGTE applies the GTE predicate on the "last_login_ip" field.
+func LastLoginIPGTE(v string) predicate.Tenant {
+	return predicate.Tenant(sql.FieldGTE(FieldLastLoginIP, v))
+}
+
+// LastLoginIPLT applies the LT predicate on the "last_login_ip" field.
+func LastLoginIPLT(v string) predicate.Tenant {
+	return predicate.Tenant(sql.FieldLT(FieldLastLoginIP, v))
+}
+
+// LastLoginIPLTE applies the LTE predicate on the "last_login_ip" field.
+func LastLoginIPLTE(v string) predicate.Tenant {
+	return predicate.Tenant(sql.FieldLTE(FieldLastLoginIP, v))
+}
+
+// LastLoginIPContains applies the Contains predicate on the "last_login_ip" field.
+func LastLoginIPContains(v string) predicate.Tenant {
+	return predicate.Tenant(sql.FieldContains(FieldLastLoginIP, v))
+}
+
+// LastLoginIPHasPrefix applies the HasPrefix predicate on the "last_login_ip" field.
+func LastLoginIPHasPrefix(v string) predicate.Tenant {
+	return predicate.Tenant(sql.FieldHasPrefix(FieldLastLoginIP, v))
+}
+
+// LastLoginIPHasSuffix applies the HasSuffix predicate on the "last_login_ip" field.
+func LastLoginIPHasSuffix(v string) predicate.Tenant {
+	return predicate.Tenant(sql.FieldHasSuffix(FieldLastLoginIP, v))
+}
+
+// LastLoginIPIsNil applies the IsNil predicate on the "last_login_ip" field.
+func LastLoginIPIsNil() predicate.Tenant {
+	return predicate.Tenant(sql.FieldIsNull(FieldLastLoginIP))
+}
+
+// LastLoginIPNotNil applies the NotNil predicate on the "last_login_ip" field.
+func LastLoginIPNotNil() predicate.Tenant {
+	return predicate.Tenant(sql.FieldNotNull(FieldLastLoginIP))
+}
+
+// LastLoginIPEqualFold applies the EqualFold predicate on the "last_login_ip" field.
+func LastLoginIPEqualFold(v string) predicate.Tenant {
+	return predicate.Tenant(sql.FieldEqualFold(FieldLastLoginIP, v))
+}
+
+// LastLoginIPContainsFold applies the ContainsFold predicate on the "last_login_ip" field.
+func LastLoginIPContainsFold(v string) predicate.Tenant {
+	return predicate.Tenant(sql.FieldContainsFold(FieldLastLoginIP, v))
 }
 
 // And groups predicates with the AND operator between them.

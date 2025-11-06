@@ -8,15 +8,16 @@ import (
 	"kratos-admin/app/admin/service/internal/data/ent/adminoperationlog"
 	"kratos-admin/app/admin/service/internal/data/ent/apiresource"
 	"kratos-admin/app/admin/service/internal/data/ent/department"
-	"kratos-admin/app/admin/service/internal/data/ent/dict"
+	"kratos-admin/app/admin/service/internal/data/ent/dictentry"
+	"kratos-admin/app/admin/service/internal/data/ent/dicttype"
 	"kratos-admin/app/admin/service/internal/data/ent/file"
+	"kratos-admin/app/admin/service/internal/data/ent/internalmessage"
+	"kratos-admin/app/admin/service/internal/data/ent/internalmessagecategory"
+	"kratos-admin/app/admin/service/internal/data/ent/internalmessagerecipient"
+	"kratos-admin/app/admin/service/internal/data/ent/language"
 	"kratos-admin/app/admin/service/internal/data/ent/menu"
-	"kratos-admin/app/admin/service/internal/data/ent/notificationmessage"
-	"kratos-admin/app/admin/service/internal/data/ent/notificationmessagecategory"
-	"kratos-admin/app/admin/service/internal/data/ent/notificationmessagerecipient"
 	"kratos-admin/app/admin/service/internal/data/ent/organization"
 	"kratos-admin/app/admin/service/internal/data/ent/position"
-	"kratos-admin/app/admin/service/internal/data/ent/privatemessage"
 	"kratos-admin/app/admin/service/internal/data/ent/role"
 	"kratos-admin/app/admin/service/internal/data/ent/roleapi"
 	"kratos-admin/app/admin/service/internal/data/ent/roledept"
@@ -30,7 +31,6 @@ import (
 	"kratos-admin/app/admin/service/internal/data/ent/usercredential"
 	"kratos-admin/app/admin/service/internal/data/ent/userposition"
 	"kratos-admin/app/admin/service/internal/data/ent/userrole"
-	"time"
 )
 
 // The init function reads all schema descriptors with runtime code
@@ -76,179 +76,205 @@ func init() {
 	departmentMixin := schema.Department{}.Mixin()
 	departmentMixinFields0 := departmentMixin[0].Fields()
 	_ = departmentMixinFields0
-	departmentMixinFields4 := departmentMixin[4].Fields()
-	_ = departmentMixinFields4
-	departmentMixinFields5 := departmentMixin[5].Fields()
-	_ = departmentMixinFields5
+	departmentMixinFields3 := departmentMixin[3].Fields()
+	_ = departmentMixinFields3
 	departmentFields := schema.Department{}.Fields()
 	_ = departmentFields
-	// departmentDescRemark is the schema descriptor for remark field.
-	departmentDescRemark := departmentMixinFields4[0].Descriptor()
-	// department.DefaultRemark holds the default value on creation for the remark field.
-	department.DefaultRemark = departmentDescRemark.Default.(string)
-	// departmentDescTenantID is the schema descriptor for tenant_id field.
-	departmentDescTenantID := departmentMixinFields5[0].Descriptor()
-	// department.TenantIDValidator is a validator for the "tenant_id" field. It is called by the builders before save.
-	department.TenantIDValidator = departmentDescTenantID.Validators[0].(func(uint32) error)
+	// departmentDescSortOrder is the schema descriptor for sort_order field.
+	departmentDescSortOrder := departmentMixinFields3[0].Descriptor()
+	// department.DefaultSortOrder holds the default value on creation for the sort_order field.
+	department.DefaultSortOrder = departmentDescSortOrder.Default.(int32)
 	// departmentDescName is the schema descriptor for name field.
 	departmentDescName := departmentFields[0].Descriptor()
 	// department.NameValidator is a validator for the "name" field. It is called by the builders before save.
 	department.NameValidator = departmentDescName.Validators[0].(func(string) error)
-	// departmentDescSortID is the schema descriptor for sort_id field.
-	departmentDescSortID := departmentFields[4].Descriptor()
-	// department.DefaultSortID holds the default value on creation for the sort_id field.
-	department.DefaultSortID = departmentDescSortID.Default.(int32)
 	// departmentDescID is the schema descriptor for id field.
 	departmentDescID := departmentMixinFields0[0].Descriptor()
 	// department.IDValidator is a validator for the "id" field. It is called by the builders before save.
 	department.IDValidator = departmentDescID.Validators[0].(func(uint32) error)
-	dictMixin := schema.Dict{}.Mixin()
-	dictMixinFields0 := dictMixin[0].Fields()
-	_ = dictMixinFields0
-	dictMixinFields2 := dictMixin[2].Fields()
-	_ = dictMixinFields2
-	dictMixinFields5 := dictMixin[5].Fields()
-	_ = dictMixinFields5
-	dictMixinFields6 := dictMixin[6].Fields()
-	_ = dictMixinFields6
-	dictFields := schema.Dict{}.Fields()
-	_ = dictFields
-	// dictDescRemark is the schema descriptor for remark field.
-	dictDescRemark := dictMixinFields5[0].Descriptor()
-	// dict.DefaultRemark holds the default value on creation for the remark field.
-	dict.DefaultRemark = dictDescRemark.Default.(string)
-	// dictDescTenantID is the schema descriptor for tenant_id field.
-	dictDescTenantID := dictMixinFields6[0].Descriptor()
-	// dict.TenantIDValidator is a validator for the "tenant_id" field. It is called by the builders before save.
-	dict.TenantIDValidator = dictDescTenantID.Validators[0].(func(uint32) error)
-	// dictDescSortID is the schema descriptor for sort_id field.
-	dictDescSortID := dictFields[6].Descriptor()
-	// dict.DefaultSortID holds the default value on creation for the sort_id field.
-	dict.DefaultSortID = dictDescSortID.Default.(int32)
-	// dictDescID is the schema descriptor for id field.
-	dictDescID := dictMixinFields0[0].Descriptor()
-	// dict.IDValidator is a validator for the "id" field. It is called by the builders before save.
-	dict.IDValidator = dictDescID.Validators[0].(func(uint32) error)
+	dictentryMixin := schema.DictEntry{}.Mixin()
+	dictentryMixinFields0 := dictentryMixin[0].Fields()
+	_ = dictentryMixinFields0
+	dictentryMixinFields4 := dictentryMixin[4].Fields()
+	_ = dictentryMixinFields4
+	dictentryMixinFields5 := dictentryMixin[5].Fields()
+	_ = dictentryMixinFields5
+	dictentryFields := schema.DictEntry{}.Fields()
+	_ = dictentryFields
+	// dictentryDescSortOrder is the schema descriptor for sort_order field.
+	dictentryDescSortOrder := dictentryMixinFields4[0].Descriptor()
+	// dictentry.DefaultSortOrder holds the default value on creation for the sort_order field.
+	dictentry.DefaultSortOrder = dictentryDescSortOrder.Default.(int32)
+	// dictentryDescIsEnabled is the schema descriptor for is_enabled field.
+	dictentryDescIsEnabled := dictentryMixinFields5[0].Descriptor()
+	// dictentry.DefaultIsEnabled holds the default value on creation for the is_enabled field.
+	dictentry.DefaultIsEnabled = dictentryDescIsEnabled.Default.(bool)
+	// dictentryDescEntryLabel is the schema descriptor for entry_label field.
+	dictentryDescEntryLabel := dictentryFields[0].Descriptor()
+	// dictentry.EntryLabelValidator is a validator for the "entry_label" field. It is called by the builders before save.
+	dictentry.EntryLabelValidator = dictentryDescEntryLabel.Validators[0].(func(string) error)
+	// dictentryDescEntryValue is the schema descriptor for entry_value field.
+	dictentryDescEntryValue := dictentryFields[1].Descriptor()
+	// dictentry.EntryValueValidator is a validator for the "entry_value" field. It is called by the builders before save.
+	dictentry.EntryValueValidator = dictentryDescEntryValue.Validators[0].(func(string) error)
+	// dictentryDescID is the schema descriptor for id field.
+	dictentryDescID := dictentryMixinFields0[0].Descriptor()
+	// dictentry.IDValidator is a validator for the "id" field. It is called by the builders before save.
+	dictentry.IDValidator = dictentryDescID.Validators[0].(func(uint32) error)
+	dicttypeMixin := schema.DictType{}.Mixin()
+	dicttypeMixinFields0 := dicttypeMixin[0].Fields()
+	_ = dicttypeMixinFields0
+	dicttypeMixinFields3 := dicttypeMixin[3].Fields()
+	_ = dicttypeMixinFields3
+	dicttypeMixinFields4 := dicttypeMixin[4].Fields()
+	_ = dicttypeMixinFields4
+	dicttypeFields := schema.DictType{}.Fields()
+	_ = dicttypeFields
+	// dicttypeDescIsEnabled is the schema descriptor for is_enabled field.
+	dicttypeDescIsEnabled := dicttypeMixinFields3[0].Descriptor()
+	// dicttype.DefaultIsEnabled holds the default value on creation for the is_enabled field.
+	dicttype.DefaultIsEnabled = dicttypeDescIsEnabled.Default.(bool)
+	// dicttypeDescSortOrder is the schema descriptor for sort_order field.
+	dicttypeDescSortOrder := dicttypeMixinFields4[0].Descriptor()
+	// dicttype.DefaultSortOrder holds the default value on creation for the sort_order field.
+	dicttype.DefaultSortOrder = dicttypeDescSortOrder.Default.(int32)
+	// dicttypeDescTypeCode is the schema descriptor for type_code field.
+	dicttypeDescTypeCode := dicttypeFields[0].Descriptor()
+	// dicttype.TypeCodeValidator is a validator for the "type_code" field. It is called by the builders before save.
+	dicttype.TypeCodeValidator = dicttypeDescTypeCode.Validators[0].(func(string) error)
+	// dicttypeDescTypeName is the schema descriptor for type_name field.
+	dicttypeDescTypeName := dicttypeFields[1].Descriptor()
+	// dicttype.TypeNameValidator is a validator for the "type_name" field. It is called by the builders before save.
+	dicttype.TypeNameValidator = dicttypeDescTypeName.Validators[0].(func(string) error)
+	// dicttypeDescID is the schema descriptor for id field.
+	dicttypeDescID := dicttypeMixinFields0[0].Descriptor()
+	// dicttype.IDValidator is a validator for the "id" field. It is called by the builders before save.
+	dicttype.IDValidator = dicttypeDescID.Validators[0].(func(uint32) error)
 	fileMixin := schema.File{}.Mixin()
 	fileMixinFields0 := fileMixin[0].Fields()
 	_ = fileMixinFields0
-	fileMixinFields3 := fileMixin[3].Fields()
-	_ = fileMixinFields3
-	fileMixinFields4 := fileMixin[4].Fields()
-	_ = fileMixinFields4
 	fileFields := schema.File{}.Fields()
 	_ = fileFields
-	// fileDescRemark is the schema descriptor for remark field.
-	fileDescRemark := fileMixinFields3[0].Descriptor()
-	// file.DefaultRemark holds the default value on creation for the remark field.
-	file.DefaultRemark = fileDescRemark.Default.(string)
-	// fileDescTenantID is the schema descriptor for tenant_id field.
-	fileDescTenantID := fileMixinFields4[0].Descriptor()
-	// file.TenantIDValidator is a validator for the "tenant_id" field. It is called by the builders before save.
-	file.TenantIDValidator = fileDescTenantID.Validators[0].(func(uint32) error)
 	// fileDescID is the schema descriptor for id field.
 	fileDescID := fileMixinFields0[0].Descriptor()
 	// file.IDValidator is a validator for the "id" field. It is called by the builders before save.
 	file.IDValidator = fileDescID.Validators[0].(func(uint32) error)
+	internalmessageMixin := schema.InternalMessage{}.Mixin()
+	internalmessageMixinFields0 := internalmessageMixin[0].Fields()
+	_ = internalmessageMixinFields0
+	internalmessageFields := schema.InternalMessage{}.Fields()
+	_ = internalmessageFields
+	// internalmessageDescID is the schema descriptor for id field.
+	internalmessageDescID := internalmessageMixinFields0[0].Descriptor()
+	// internalmessage.IDValidator is a validator for the "id" field. It is called by the builders before save.
+	internalmessage.IDValidator = internalmessageDescID.Validators[0].(func(uint32) error)
+	internalmessagecategoryMixin := schema.InternalMessageCategory{}.Mixin()
+	internalmessagecategoryMixinFields0 := internalmessagecategoryMixin[0].Fields()
+	_ = internalmessagecategoryMixinFields0
+	internalmessagecategoryMixinFields3 := internalmessagecategoryMixin[3].Fields()
+	_ = internalmessagecategoryMixinFields3
+	internalmessagecategoryMixinFields4 := internalmessagecategoryMixin[4].Fields()
+	_ = internalmessagecategoryMixinFields4
+	internalmessagecategoryFields := schema.InternalMessageCategory{}.Fields()
+	_ = internalmessagecategoryFields
+	// internalmessagecategoryDescIsEnabled is the schema descriptor for is_enabled field.
+	internalmessagecategoryDescIsEnabled := internalmessagecategoryMixinFields3[0].Descriptor()
+	// internalmessagecategory.DefaultIsEnabled holds the default value on creation for the is_enabled field.
+	internalmessagecategory.DefaultIsEnabled = internalmessagecategoryDescIsEnabled.Default.(bool)
+	// internalmessagecategoryDescSortOrder is the schema descriptor for sort_order field.
+	internalmessagecategoryDescSortOrder := internalmessagecategoryMixinFields4[0].Descriptor()
+	// internalmessagecategory.DefaultSortOrder holds the default value on creation for the sort_order field.
+	internalmessagecategory.DefaultSortOrder = internalmessagecategoryDescSortOrder.Default.(int32)
+	// internalmessagecategoryDescName is the schema descriptor for name field.
+	internalmessagecategoryDescName := internalmessagecategoryFields[0].Descriptor()
+	// internalmessagecategory.NameValidator is a validator for the "name" field. It is called by the builders before save.
+	internalmessagecategory.NameValidator = internalmessagecategoryDescName.Validators[0].(func(string) error)
+	// internalmessagecategoryDescCode is the schema descriptor for code field.
+	internalmessagecategoryDescCode := internalmessagecategoryFields[1].Descriptor()
+	// internalmessagecategory.CodeValidator is a validator for the "code" field. It is called by the builders before save.
+	internalmessagecategory.CodeValidator = internalmessagecategoryDescCode.Validators[0].(func(string) error)
+	// internalmessagecategoryDescID is the schema descriptor for id field.
+	internalmessagecategoryDescID := internalmessagecategoryMixinFields0[0].Descriptor()
+	// internalmessagecategory.IDValidator is a validator for the "id" field. It is called by the builders before save.
+	internalmessagecategory.IDValidator = internalmessagecategoryDescID.Validators[0].(func(uint32) error)
+	internalmessagerecipientMixin := schema.InternalMessageRecipient{}.Mixin()
+	internalmessagerecipientMixinFields0 := internalmessagerecipientMixin[0].Fields()
+	_ = internalmessagerecipientMixinFields0
+	internalmessagerecipientFields := schema.InternalMessageRecipient{}.Fields()
+	_ = internalmessagerecipientFields
+	// internalmessagerecipientDescID is the schema descriptor for id field.
+	internalmessagerecipientDescID := internalmessagerecipientMixinFields0[0].Descriptor()
+	// internalmessagerecipient.IDValidator is a validator for the "id" field. It is called by the builders before save.
+	internalmessagerecipient.IDValidator = internalmessagerecipientDescID.Validators[0].(func(uint32) error)
+	languageMixin := schema.Language{}.Mixin()
+	languageMixinFields0 := languageMixin[0].Fields()
+	_ = languageMixinFields0
+	languageMixinFields3 := languageMixin[3].Fields()
+	_ = languageMixinFields3
+	languageMixinFields4 := languageMixin[4].Fields()
+	_ = languageMixinFields4
+	languageFields := schema.Language{}.Fields()
+	_ = languageFields
+	// languageDescSortOrder is the schema descriptor for sort_order field.
+	languageDescSortOrder := languageMixinFields3[0].Descriptor()
+	// language.DefaultSortOrder holds the default value on creation for the sort_order field.
+	language.DefaultSortOrder = languageDescSortOrder.Default.(int32)
+	// languageDescIsEnabled is the schema descriptor for is_enabled field.
+	languageDescIsEnabled := languageMixinFields4[0].Descriptor()
+	// language.DefaultIsEnabled holds the default value on creation for the is_enabled field.
+	language.DefaultIsEnabled = languageDescIsEnabled.Default.(bool)
+	// languageDescLanguageCode is the schema descriptor for language_code field.
+	languageDescLanguageCode := languageFields[0].Descriptor()
+	// language.LanguageCodeValidator is a validator for the "language_code" field. It is called by the builders before save.
+	language.LanguageCodeValidator = languageDescLanguageCode.Validators[0].(func(string) error)
+	// languageDescLanguageName is the schema descriptor for language_name field.
+	languageDescLanguageName := languageFields[1].Descriptor()
+	// language.LanguageNameValidator is a validator for the "language_name" field. It is called by the builders before save.
+	language.LanguageNameValidator = languageDescLanguageName.Validators[0].(func(string) error)
+	// languageDescNativeName is the schema descriptor for native_name field.
+	languageDescNativeName := languageFields[2].Descriptor()
+	// language.NativeNameValidator is a validator for the "native_name" field. It is called by the builders before save.
+	language.NativeNameValidator = languageDescNativeName.Validators[0].(func(string) error)
+	// languageDescIsDefault is the schema descriptor for is_default field.
+	languageDescIsDefault := languageFields[3].Descriptor()
+	// language.DefaultIsDefault holds the default value on creation for the is_default field.
+	language.DefaultIsDefault = languageDescIsDefault.Default.(bool)
+	// languageDescID is the schema descriptor for id field.
+	languageDescID := languageMixinFields0[0].Descriptor()
+	// language.IDValidator is a validator for the "id" field. It is called by the builders before save.
+	language.IDValidator = languageDescID.Validators[0].(func(uint32) error)
 	menuMixin := schema.Menu{}.Mixin()
 	menuMixinFields0 := menuMixin[0].Fields()
 	_ = menuMixinFields0
-	menuMixinFields4 := menuMixin[4].Fields()
-	_ = menuMixinFields4
 	menuFields := schema.Menu{}.Fields()
 	_ = menuFields
-	// menuDescRemark is the schema descriptor for remark field.
-	menuDescRemark := menuMixinFields4[0].Descriptor()
-	// menu.DefaultRemark holds the default value on creation for the remark field.
-	menu.DefaultRemark = menuDescRemark.Default.(string)
 	// menuDescPath is the schema descriptor for path field.
-	menuDescPath := menuFields[3].Descriptor()
+	menuDescPath := menuFields[2].Descriptor()
 	// menu.DefaultPath holds the default value on creation for the path field.
 	menu.DefaultPath = menuDescPath.Default.(string)
 	// menuDescComponent is the schema descriptor for component field.
-	menuDescComponent := menuFields[7].Descriptor()
+	menuDescComponent := menuFields[6].Descriptor()
 	// menu.DefaultComponent holds the default value on creation for the component field.
 	menu.DefaultComponent = menuDescComponent.Default.(string)
 	// menuDescID is the schema descriptor for id field.
-	menuDescID := menuFields[0].Descriptor()
+	menuDescID := menuMixinFields0[0].Descriptor()
 	// menu.IDValidator is a validator for the "id" field. It is called by the builders before save.
-	menu.IDValidator = menuDescID.Validators[0].(func(int32) error)
-	notificationmessageMixin := schema.NotificationMessage{}.Mixin()
-	notificationmessageMixinFields0 := notificationmessageMixin[0].Fields()
-	_ = notificationmessageMixinFields0
-	notificationmessageMixinFields4 := notificationmessageMixin[4].Fields()
-	_ = notificationmessageMixinFields4
-	notificationmessageFields := schema.NotificationMessage{}.Fields()
-	_ = notificationmessageFields
-	// notificationmessageDescTenantID is the schema descriptor for tenant_id field.
-	notificationmessageDescTenantID := notificationmessageMixinFields4[0].Descriptor()
-	// notificationmessage.TenantIDValidator is a validator for the "tenant_id" field. It is called by the builders before save.
-	notificationmessage.TenantIDValidator = notificationmessageDescTenantID.Validators[0].(func(uint32) error)
-	// notificationmessageDescID is the schema descriptor for id field.
-	notificationmessageDescID := notificationmessageMixinFields0[0].Descriptor()
-	// notificationmessage.IDValidator is a validator for the "id" field. It is called by the builders before save.
-	notificationmessage.IDValidator = notificationmessageDescID.Validators[0].(func(uint32) error)
-	notificationmessagecategoryMixin := schema.NotificationMessageCategory{}.Mixin()
-	notificationmessagecategoryMixinFields0 := notificationmessagecategoryMixin[0].Fields()
-	_ = notificationmessagecategoryMixinFields0
-	notificationmessagecategoryMixinFields4 := notificationmessagecategoryMixin[4].Fields()
-	_ = notificationmessagecategoryMixinFields4
-	notificationmessagecategoryMixinFields5 := notificationmessagecategoryMixin[5].Fields()
-	_ = notificationmessagecategoryMixinFields5
-	notificationmessagecategoryFields := schema.NotificationMessageCategory{}.Fields()
-	_ = notificationmessagecategoryFields
-	// notificationmessagecategoryDescRemark is the schema descriptor for remark field.
-	notificationmessagecategoryDescRemark := notificationmessagecategoryMixinFields4[0].Descriptor()
-	// notificationmessagecategory.DefaultRemark holds the default value on creation for the remark field.
-	notificationmessagecategory.DefaultRemark = notificationmessagecategoryDescRemark.Default.(string)
-	// notificationmessagecategoryDescTenantID is the schema descriptor for tenant_id field.
-	notificationmessagecategoryDescTenantID := notificationmessagecategoryMixinFields5[0].Descriptor()
-	// notificationmessagecategory.TenantIDValidator is a validator for the "tenant_id" field. It is called by the builders before save.
-	notificationmessagecategory.TenantIDValidator = notificationmessagecategoryDescTenantID.Validators[0].(func(uint32) error)
-	// notificationmessagecategoryDescID is the schema descriptor for id field.
-	notificationmessagecategoryDescID := notificationmessagecategoryMixinFields0[0].Descriptor()
-	// notificationmessagecategory.IDValidator is a validator for the "id" field. It is called by the builders before save.
-	notificationmessagecategory.IDValidator = notificationmessagecategoryDescID.Validators[0].(func(uint32) error)
-	notificationmessagerecipientMixin := schema.NotificationMessageRecipient{}.Mixin()
-	notificationmessagerecipientMixinFields0 := notificationmessagerecipientMixin[0].Fields()
-	_ = notificationmessagerecipientMixinFields0
-	notificationmessagerecipientMixinFields2 := notificationmessagerecipientMixin[2].Fields()
-	_ = notificationmessagerecipientMixinFields2
-	notificationmessagerecipientFields := schema.NotificationMessageRecipient{}.Fields()
-	_ = notificationmessagerecipientFields
-	// notificationmessagerecipientDescTenantID is the schema descriptor for tenant_id field.
-	notificationmessagerecipientDescTenantID := notificationmessagerecipientMixinFields2[0].Descriptor()
-	// notificationmessagerecipient.TenantIDValidator is a validator for the "tenant_id" field. It is called by the builders before save.
-	notificationmessagerecipient.TenantIDValidator = notificationmessagerecipientDescTenantID.Validators[0].(func(uint32) error)
-	// notificationmessagerecipientDescID is the schema descriptor for id field.
-	notificationmessagerecipientDescID := notificationmessagerecipientMixinFields0[0].Descriptor()
-	// notificationmessagerecipient.IDValidator is a validator for the "id" field. It is called by the builders before save.
-	notificationmessagerecipient.IDValidator = notificationmessagerecipientDescID.Validators[0].(func(uint32) error)
+	menu.IDValidator = menuDescID.Validators[0].(func(uint32) error)
 	organizationMixin := schema.Organization{}.Mixin()
 	organizationMixinFields0 := organizationMixin[0].Fields()
 	_ = organizationMixinFields0
 	organizationMixinFields4 := organizationMixin[4].Fields()
 	_ = organizationMixinFields4
-	organizationMixinFields5 := organizationMixin[5].Fields()
-	_ = organizationMixinFields5
 	organizationFields := schema.Organization{}.Fields()
 	_ = organizationFields
-	// organizationDescRemark is the schema descriptor for remark field.
-	organizationDescRemark := organizationMixinFields4[0].Descriptor()
-	// organization.DefaultRemark holds the default value on creation for the remark field.
-	organization.DefaultRemark = organizationDescRemark.Default.(string)
-	// organizationDescTenantID is the schema descriptor for tenant_id field.
-	organizationDescTenantID := organizationMixinFields5[0].Descriptor()
-	// organization.TenantIDValidator is a validator for the "tenant_id" field. It is called by the builders before save.
-	organization.TenantIDValidator = organizationDescTenantID.Validators[0].(func(uint32) error)
+	// organizationDescSortOrder is the schema descriptor for sort_order field.
+	organizationDescSortOrder := organizationMixinFields4[0].Descriptor()
+	// organization.DefaultSortOrder holds the default value on creation for the sort_order field.
+	organization.DefaultSortOrder = organizationDescSortOrder.Default.(int32)
 	// organizationDescName is the schema descriptor for name field.
 	organizationDescName := organizationFields[0].Descriptor()
 	// organization.NameValidator is a validator for the "name" field. It is called by the builders before save.
 	organization.NameValidator = organizationDescName.Validators[0].(func(string) error)
-	// organizationDescSortID is the schema descriptor for sort_id field.
-	organizationDescSortID := organizationFields[2].Descriptor()
-	// organization.DefaultSortID holds the default value on creation for the sort_id field.
-	organization.DefaultSortID = organizationDescSortID.Default.(int32)
 	// organizationDescID is the schema descriptor for id field.
 	organizationDescID := organizationMixinFields0[0].Descriptor()
 	// organization.IDValidator is a validator for the "id" field. It is called by the builders before save.
@@ -256,86 +282,45 @@ func init() {
 	positionMixin := schema.Position{}.Mixin()
 	positionMixinFields0 := positionMixin[0].Fields()
 	_ = positionMixinFields0
-	positionMixinFields4 := positionMixin[4].Fields()
-	_ = positionMixinFields4
-	positionMixinFields5 := positionMixin[5].Fields()
-	_ = positionMixinFields5
+	positionMixinFields3 := positionMixin[3].Fields()
+	_ = positionMixinFields3
 	positionFields := schema.Position{}.Fields()
 	_ = positionFields
-	// positionDescRemark is the schema descriptor for remark field.
-	positionDescRemark := positionMixinFields4[0].Descriptor()
-	// position.DefaultRemark holds the default value on creation for the remark field.
-	position.DefaultRemark = positionDescRemark.Default.(string)
-	// positionDescTenantID is the schema descriptor for tenant_id field.
-	positionDescTenantID := positionMixinFields5[0].Descriptor()
-	// position.TenantIDValidator is a validator for the "tenant_id" field. It is called by the builders before save.
-	position.TenantIDValidator = positionDescTenantID.Validators[0].(func(uint32) error)
+	// positionDescSortOrder is the schema descriptor for sort_order field.
+	positionDescSortOrder := positionMixinFields3[0].Descriptor()
+	// position.DefaultSortOrder holds the default value on creation for the sort_order field.
+	position.DefaultSortOrder = positionDescSortOrder.Default.(int32)
 	// positionDescName is the schema descriptor for name field.
 	positionDescName := positionFields[0].Descriptor()
-	// position.DefaultName holds the default value on creation for the name field.
-	position.DefaultName = positionDescName.Default.(string)
 	// position.NameValidator is a validator for the "name" field. It is called by the builders before save.
 	position.NameValidator = positionDescName.Validators[0].(func(string) error)
-	// positionDescParentID is the schema descriptor for parent_id field.
-	positionDescParentID := positionFields[2].Descriptor()
-	// position.DefaultParentID holds the default value on creation for the parent_id field.
-	position.DefaultParentID = positionDescParentID.Default.(uint32)
-	// positionDescSortID is the schema descriptor for sort_id field.
-	positionDescSortID := positionFields[3].Descriptor()
-	// position.DefaultSortID holds the default value on creation for the sort_id field.
-	position.DefaultSortID = positionDescSortID.Default.(int32)
+	// positionDescCode is the schema descriptor for code field.
+	positionDescCode := positionFields[1].Descriptor()
+	// position.CodeValidator is a validator for the "code" field. It is called by the builders before save.
+	position.CodeValidator = positionDescCode.Validators[0].(func(string) error)
 	// positionDescID is the schema descriptor for id field.
 	positionDescID := positionMixinFields0[0].Descriptor()
 	// position.IDValidator is a validator for the "id" field. It is called by the builders before save.
 	position.IDValidator = positionDescID.Validators[0].(func(uint32) error)
-	privatemessageMixin := schema.PrivateMessage{}.Mixin()
-	privatemessageMixinFields0 := privatemessageMixin[0].Fields()
-	_ = privatemessageMixinFields0
-	privatemessageMixinFields2 := privatemessageMixin[2].Fields()
-	_ = privatemessageMixinFields2
-	privatemessageFields := schema.PrivateMessage{}.Fields()
-	_ = privatemessageFields
-	// privatemessageDescTenantID is the schema descriptor for tenant_id field.
-	privatemessageDescTenantID := privatemessageMixinFields2[0].Descriptor()
-	// privatemessage.TenantIDValidator is a validator for the "tenant_id" field. It is called by the builders before save.
-	privatemessage.TenantIDValidator = privatemessageDescTenantID.Validators[0].(func(uint32) error)
-	// privatemessageDescID is the schema descriptor for id field.
-	privatemessageDescID := privatemessageMixinFields0[0].Descriptor()
-	// privatemessage.IDValidator is a validator for the "id" field. It is called by the builders before save.
-	privatemessage.IDValidator = privatemessageDescID.Validators[0].(func(uint32) error)
 	roleMixin := schema.Role{}.Mixin()
 	roleMixinFields0 := roleMixin[0].Fields()
 	_ = roleMixinFields0
-	roleMixinFields2 := roleMixin[2].Fields()
-	_ = roleMixinFields2
-	roleMixinFields5 := roleMixin[5].Fields()
-	_ = roleMixinFields5
-	roleMixinFields6 := roleMixin[6].Fields()
-	_ = roleMixinFields6
+	roleMixinFields4 := roleMixin[4].Fields()
+	_ = roleMixinFields4
 	roleFields := schema.Role{}.Fields()
 	_ = roleFields
-	// roleDescRemark is the schema descriptor for remark field.
-	roleDescRemark := roleMixinFields5[0].Descriptor()
-	// role.DefaultRemark holds the default value on creation for the remark field.
-	role.DefaultRemark = roleDescRemark.Default.(string)
-	// roleDescTenantID is the schema descriptor for tenant_id field.
-	roleDescTenantID := roleMixinFields6[0].Descriptor()
-	// role.TenantIDValidator is a validator for the "tenant_id" field. It is called by the builders before save.
-	role.TenantIDValidator = roleDescTenantID.Validators[0].(func(uint32) error)
+	// roleDescSortOrder is the schema descriptor for sort_order field.
+	roleDescSortOrder := roleMixinFields4[0].Descriptor()
+	// role.DefaultSortOrder holds the default value on creation for the sort_order field.
+	role.DefaultSortOrder = roleDescSortOrder.Default.(int32)
 	// roleDescName is the schema descriptor for name field.
 	roleDescName := roleFields[0].Descriptor()
 	// role.NameValidator is a validator for the "name" field. It is called by the builders before save.
 	role.NameValidator = roleDescName.Validators[0].(func(string) error)
 	// roleDescCode is the schema descriptor for code field.
 	roleDescCode := roleFields[1].Descriptor()
-	// role.DefaultCode holds the default value on creation for the code field.
-	role.DefaultCode = roleDescCode.Default.(string)
 	// role.CodeValidator is a validator for the "code" field. It is called by the builders before save.
 	role.CodeValidator = roleDescCode.Validators[0].(func(string) error)
-	// roleDescSortID is the schema descriptor for sort_id field.
-	roleDescSortID := roleFields[3].Descriptor()
-	// role.DefaultSortID holds the default value on creation for the sort_id field.
-	role.DefaultSortID = roleDescSortID.Default.(int32)
 	// roleDescID is the schema descriptor for id field.
 	roleDescID := roleMixinFields0[0].Descriptor()
 	// role.IDValidator is a validator for the "id" field. It is called by the builders before save.
@@ -388,20 +373,8 @@ func init() {
 	taskMixin := schema.Task{}.Mixin()
 	taskMixinFields0 := taskMixin[0].Fields()
 	_ = taskMixinFields0
-	taskMixinFields4 := taskMixin[4].Fields()
-	_ = taskMixinFields4
-	taskMixinFields5 := taskMixin[5].Fields()
-	_ = taskMixinFields5
 	taskFields := schema.Task{}.Fields()
 	_ = taskFields
-	// taskDescRemark is the schema descriptor for remark field.
-	taskDescRemark := taskMixinFields4[0].Descriptor()
-	// task.DefaultRemark holds the default value on creation for the remark field.
-	task.DefaultRemark = taskDescRemark.Default.(string)
-	// taskDescTenantID is the schema descriptor for tenant_id field.
-	taskDescTenantID := taskMixinFields5[0].Descriptor()
-	// task.TenantIDValidator is a validator for the "tenant_id" field. It is called by the builders before save.
-	task.TenantIDValidator = taskDescTenantID.Validators[0].(func(uint32) error)
 	// taskDescID is the schema descriptor for id field.
 	taskDescID := taskMixinFields0[0].Descriptor()
 	// task.IDValidator is a validator for the "id" field. It is called by the builders before save.
@@ -409,16 +382,8 @@ func init() {
 	tenantMixin := schema.Tenant{}.Mixin()
 	tenantMixinFields0 := tenantMixin[0].Fields()
 	_ = tenantMixinFields0
-	tenantMixinFields2 := tenantMixin[2].Fields()
-	_ = tenantMixinFields2
-	tenantMixinFields5 := tenantMixin[5].Fields()
-	_ = tenantMixinFields5
 	tenantFields := schema.Tenant{}.Fields()
 	_ = tenantFields
-	// tenantDescRemark is the schema descriptor for remark field.
-	tenantDescRemark := tenantMixinFields5[0].Descriptor()
-	// tenant.DefaultRemark holds the default value on creation for the remark field.
-	tenant.DefaultRemark = tenantDescRemark.Default.(string)
 	// tenantDescName is the schema descriptor for name field.
 	tenantDescName := tenantFields[0].Descriptor()
 	// tenant.NameValidator is a validator for the "name" field. It is called by the builders before save.
@@ -426,33 +391,7 @@ func init() {
 	// tenantDescCode is the schema descriptor for code field.
 	tenantDescCode := tenantFields[1].Descriptor()
 	// tenant.CodeValidator is a validator for the "code" field. It is called by the builders before save.
-	tenant.CodeValidator = func() func(string) error {
-		validators := tenantDescCode.Validators
-		fns := [...]func(string) error{
-			validators[0].(func(string) error),
-			validators[1].(func(string) error),
-		}
-		return func(code string) error {
-			for _, fn := range fns {
-				if err := fn(code); err != nil {
-					return err
-				}
-			}
-			return nil
-		}
-	}()
-	// tenantDescMemberCount is the schema descriptor for member_count field.
-	tenantDescMemberCount := tenantFields[2].Descriptor()
-	// tenant.DefaultMemberCount holds the default value on creation for the member_count field.
-	tenant.DefaultMemberCount = tenantDescMemberCount.Default.(int32)
-	// tenantDescSubscriptionAt is the schema descriptor for subscription_at field.
-	tenantDescSubscriptionAt := tenantFields[3].Descriptor()
-	// tenant.DefaultSubscriptionAt holds the default value on creation for the subscription_at field.
-	tenant.DefaultSubscriptionAt = tenantDescSubscriptionAt.Default.(func() time.Time)
-	// tenantDescUnsubscribeAt is the schema descriptor for unsubscribe_at field.
-	tenantDescUnsubscribeAt := tenantFields[4].Descriptor()
-	// tenant.DefaultUnsubscribeAt holds the default value on creation for the unsubscribe_at field.
-	tenant.DefaultUnsubscribeAt = tenantDescUnsubscribeAt.Default.(func() time.Time)
+	tenant.CodeValidator = tenantDescCode.Validators[0].(func(string) error)
 	// tenantDescID is the schema descriptor for id field.
 	tenantDescID := tenantMixinFields0[0].Descriptor()
 	// tenant.IDValidator is a validator for the "id" field. It is called by the builders before save.
@@ -460,34 +399,12 @@ func init() {
 	userMixin := schema.User{}.Mixin()
 	userMixinFields0 := userMixin[0].Fields()
 	_ = userMixinFields0
-	userMixinFields4 := userMixin[4].Fields()
-	_ = userMixinFields4
-	userMixinFields5 := userMixin[5].Fields()
-	_ = userMixinFields5
-	userMixinFields6 := userMixin[6].Fields()
-	_ = userMixinFields6
 	userFields := schema.User{}.Fields()
 	_ = userFields
-	// userDescRemark is the schema descriptor for remark field.
-	userDescRemark := userMixinFields4[0].Descriptor()
-	// user.DefaultRemark holds the default value on creation for the remark field.
-	user.DefaultRemark = userDescRemark.Default.(string)
-	// userDescTenantID is the schema descriptor for tenant_id field.
-	userDescTenantID := userMixinFields6[0].Descriptor()
-	// user.TenantIDValidator is a validator for the "tenant_id" field. It is called by the builders before save.
-	user.TenantIDValidator = userDescTenantID.Validators[0].(func(uint32) error)
 	// userDescUsername is the schema descriptor for username field.
 	userDescUsername := userFields[0].Descriptor()
 	// user.UsernameValidator is a validator for the "username" field. It is called by the builders before save.
 	user.UsernameValidator = userDescUsername.Validators[0].(func(string) error)
-	// userDescNickname is the schema descriptor for nickname field.
-	userDescNickname := userFields[1].Descriptor()
-	// user.NicknameValidator is a validator for the "nickname" field. It is called by the builders before save.
-	user.NicknameValidator = userDescNickname.Validators[0].(func(string) error)
-	// userDescRealname is the schema descriptor for realname field.
-	userDescRealname := userFields[2].Descriptor()
-	// user.RealnameValidator is a validator for the "realname" field. It is called by the builders before save.
-	user.RealnameValidator = userDescRealname.Validators[0].(func(string) error)
 	// userDescEmail is the schema descriptor for email field.
 	userDescEmail := userFields[3].Descriptor()
 	// user.EmailValidator is a validator for the "email" field. It is called by the builders before save.
@@ -504,32 +421,18 @@ func init() {
 	user.DefaultTelephone = userDescTelephone.Default.(string)
 	// user.TelephoneValidator is a validator for the "telephone" field. It is called by the builders before save.
 	user.TelephoneValidator = userDescTelephone.Validators[0].(func(string) error)
-	// userDescAvatar is the schema descriptor for avatar field.
-	userDescAvatar := userFields[6].Descriptor()
-	// user.AvatarValidator is a validator for the "avatar" field. It is called by the builders before save.
-	user.AvatarValidator = userDescAvatar.Validators[0].(func(string) error)
 	// userDescAddress is the schema descriptor for address field.
 	userDescAddress := userFields[7].Descriptor()
 	// user.DefaultAddress holds the default value on creation for the address field.
 	user.DefaultAddress = userDescAddress.Default.(string)
-	// user.AddressValidator is a validator for the "address" field. It is called by the builders before save.
-	user.AddressValidator = userDescAddress.Validators[0].(func(string) error)
 	// userDescRegion is the schema descriptor for region field.
 	userDescRegion := userFields[8].Descriptor()
 	// user.DefaultRegion holds the default value on creation for the region field.
 	user.DefaultRegion = userDescRegion.Default.(string)
-	// user.RegionValidator is a validator for the "region" field. It is called by the builders before save.
-	user.RegionValidator = userDescRegion.Validators[0].(func(string) error)
 	// userDescDescription is the schema descriptor for description field.
 	userDescDescription := userFields[9].Descriptor()
 	// user.DescriptionValidator is a validator for the "description" field. It is called by the builders before save.
 	user.DescriptionValidator = userDescDescription.Validators[0].(func(string) error)
-	// userDescLastLoginIP is the schema descriptor for last_login_ip field.
-	userDescLastLoginIP := userFields[13].Descriptor()
-	// user.DefaultLastLoginIP holds the default value on creation for the last_login_ip field.
-	user.DefaultLastLoginIP = userDescLastLoginIP.Default.(string)
-	// user.LastLoginIPValidator is a validator for the "last_login_ip" field. It is called by the builders before save.
-	user.LastLoginIPValidator = userDescLastLoginIP.Validators[0].(func(string) error)
 	// userDescID is the schema descriptor for id field.
 	userDescID := userMixinFields0[0].Descriptor()
 	// user.IDValidator is a validator for the "id" field. It is called by the builders before save.
@@ -537,14 +440,8 @@ func init() {
 	usercredentialMixin := schema.UserCredential{}.Mixin()
 	usercredentialMixinFields1 := usercredentialMixin[1].Fields()
 	_ = usercredentialMixinFields1
-	usercredentialMixinFields2 := usercredentialMixin[2].Fields()
-	_ = usercredentialMixinFields2
 	usercredentialFields := schema.UserCredential{}.Fields()
 	_ = usercredentialFields
-	// usercredentialDescTenantID is the schema descriptor for tenant_id field.
-	usercredentialDescTenantID := usercredentialMixinFields2[0].Descriptor()
-	// usercredential.TenantIDValidator is a validator for the "tenant_id" field. It is called by the builders before save.
-	usercredential.TenantIDValidator = usercredentialDescTenantID.Validators[0].(func(uint32) error)
 	// usercredentialDescIdentifier is the schema descriptor for identifier field.
 	usercredentialDescIdentifier := usercredentialFields[2].Descriptor()
 	// usercredential.IdentifierValidator is a validator for the "identifier" field. It is called by the builders before save.

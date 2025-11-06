@@ -19,30 +19,48 @@ type Tenant struct {
 	// id
 	ID uint32 `json:"id,omitempty"`
 	// 创建时间
-	CreateTime *time.Time `json:"create_time,omitempty"`
+	CreatedAt *time.Time `json:"created_at,omitempty"`
 	// 更新时间
-	UpdateTime *time.Time `json:"update_time,omitempty"`
+	UpdatedAt *time.Time `json:"updated_at,omitempty"`
 	// 删除时间
-	DeleteTime *time.Time `json:"delete_time,omitempty"`
-	// 状态
-	Status *tenant.Status `json:"status,omitempty"`
+	DeletedAt *time.Time `json:"deleted_at,omitempty"`
 	// 创建者ID
-	CreateBy *uint32 `json:"create_by,omitempty"`
+	CreatedBy *uint32 `json:"created_by,omitempty"`
 	// 更新者ID
-	UpdateBy *uint32 `json:"update_by,omitempty"`
+	UpdatedBy *uint32 `json:"updated_by,omitempty"`
+	// 删除者ID
+	DeletedBy *uint32 `json:"deleted_by,omitempty"`
 	// 备注
 	Remark *string `json:"remark,omitempty"`
 	// 租户名称
 	Name *string `json:"name,omitempty"`
 	// 租户编号
 	Code *string `json:"code,omitempty"`
-	// 成员数
-	MemberCount *int32 `json:"member_count,omitempty"`
+	// 租户logo地址
+	LogoURL *string `json:"logo_url,omitempty"`
+	// 所属行业
+	Industry *string `json:"industry,omitempty"`
+	// 管理员用户ID
+	AdminUserID *uint32 `json:"admin_user_id,omitempty"`
+	// 租户状态
+	Status *tenant.Status `json:"status,omitempty"`
+	// 租户类型
+	Type *tenant.Type `json:"type,omitempty"`
+	// 审核状态
+	AuditStatus *tenant.AuditStatus `json:"audit_status,omitempty"`
 	// 订阅时间
 	SubscriptionAt *time.Time `json:"subscription_at,omitempty"`
 	// 取消订阅时间
 	UnsubscribeAt *time.Time `json:"unsubscribe_at,omitempty"`
-	selectValues  sql.SelectValues
+	// 订阅套餐
+	SubscriptionPlan *string `json:"subscription_plan,omitempty"`
+	// 租户有效期
+	ExpiredAt *time.Time `json:"expired_at,omitempty"`
+	// 最后一次登录的时间
+	LastLoginTime *time.Time `json:"last_login_time,omitempty"`
+	// 最后一次登录的IP
+	LastLoginIP  *string `json:"last_login_ip,omitempty"`
+	selectValues sql.SelectValues
 }
 
 // scanValues returns the types for scanning values from sql.Rows.
@@ -50,11 +68,11 @@ func (*Tenant) scanValues(columns []string) ([]any, error) {
 	values := make([]any, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case tenant.FieldID, tenant.FieldCreateBy, tenant.FieldUpdateBy, tenant.FieldMemberCount:
+		case tenant.FieldID, tenant.FieldCreatedBy, tenant.FieldUpdatedBy, tenant.FieldDeletedBy, tenant.FieldAdminUserID:
 			values[i] = new(sql.NullInt64)
-		case tenant.FieldStatus, tenant.FieldRemark, tenant.FieldName, tenant.FieldCode:
+		case tenant.FieldRemark, tenant.FieldName, tenant.FieldCode, tenant.FieldLogoURL, tenant.FieldIndustry, tenant.FieldStatus, tenant.FieldType, tenant.FieldAuditStatus, tenant.FieldSubscriptionPlan, tenant.FieldLastLoginIP:
 			values[i] = new(sql.NullString)
-		case tenant.FieldCreateTime, tenant.FieldUpdateTime, tenant.FieldDeleteTime, tenant.FieldSubscriptionAt, tenant.FieldUnsubscribeAt:
+		case tenant.FieldCreatedAt, tenant.FieldUpdatedAt, tenant.FieldDeletedAt, tenant.FieldSubscriptionAt, tenant.FieldUnsubscribeAt, tenant.FieldExpiredAt, tenant.FieldLastLoginTime:
 			values[i] = new(sql.NullTime)
 		default:
 			values[i] = new(sql.UnknownType)
@@ -77,47 +95,47 @@ func (_m *Tenant) assignValues(columns []string, values []any) error {
 				return fmt.Errorf("unexpected type %T for field id", value)
 			}
 			_m.ID = uint32(value.Int64)
-		case tenant.FieldCreateTime:
+		case tenant.FieldCreatedAt:
 			if value, ok := values[i].(*sql.NullTime); !ok {
-				return fmt.Errorf("unexpected type %T for field create_time", values[i])
+				return fmt.Errorf("unexpected type %T for field created_at", values[i])
 			} else if value.Valid {
-				_m.CreateTime = new(time.Time)
-				*_m.CreateTime = value.Time
+				_m.CreatedAt = new(time.Time)
+				*_m.CreatedAt = value.Time
 			}
-		case tenant.FieldUpdateTime:
+		case tenant.FieldUpdatedAt:
 			if value, ok := values[i].(*sql.NullTime); !ok {
-				return fmt.Errorf("unexpected type %T for field update_time", values[i])
+				return fmt.Errorf("unexpected type %T for field updated_at", values[i])
 			} else if value.Valid {
-				_m.UpdateTime = new(time.Time)
-				*_m.UpdateTime = value.Time
+				_m.UpdatedAt = new(time.Time)
+				*_m.UpdatedAt = value.Time
 			}
-		case tenant.FieldDeleteTime:
+		case tenant.FieldDeletedAt:
 			if value, ok := values[i].(*sql.NullTime); !ok {
-				return fmt.Errorf("unexpected type %T for field delete_time", values[i])
+				return fmt.Errorf("unexpected type %T for field deleted_at", values[i])
 			} else if value.Valid {
-				_m.DeleteTime = new(time.Time)
-				*_m.DeleteTime = value.Time
+				_m.DeletedAt = new(time.Time)
+				*_m.DeletedAt = value.Time
 			}
-		case tenant.FieldStatus:
-			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field status", values[i])
-			} else if value.Valid {
-				_m.Status = new(tenant.Status)
-				*_m.Status = tenant.Status(value.String)
-			}
-		case tenant.FieldCreateBy:
+		case tenant.FieldCreatedBy:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for field create_by", values[i])
+				return fmt.Errorf("unexpected type %T for field created_by", values[i])
 			} else if value.Valid {
-				_m.CreateBy = new(uint32)
-				*_m.CreateBy = uint32(value.Int64)
+				_m.CreatedBy = new(uint32)
+				*_m.CreatedBy = uint32(value.Int64)
 			}
-		case tenant.FieldUpdateBy:
+		case tenant.FieldUpdatedBy:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for field update_by", values[i])
+				return fmt.Errorf("unexpected type %T for field updated_by", values[i])
 			} else if value.Valid {
-				_m.UpdateBy = new(uint32)
-				*_m.UpdateBy = uint32(value.Int64)
+				_m.UpdatedBy = new(uint32)
+				*_m.UpdatedBy = uint32(value.Int64)
+			}
+		case tenant.FieldDeletedBy:
+			if value, ok := values[i].(*sql.NullInt64); !ok {
+				return fmt.Errorf("unexpected type %T for field deleted_by", values[i])
+			} else if value.Valid {
+				_m.DeletedBy = new(uint32)
+				*_m.DeletedBy = uint32(value.Int64)
 			}
 		case tenant.FieldRemark:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -140,12 +158,47 @@ func (_m *Tenant) assignValues(columns []string, values []any) error {
 				_m.Code = new(string)
 				*_m.Code = value.String
 			}
-		case tenant.FieldMemberCount:
-			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for field member_count", values[i])
+		case tenant.FieldLogoURL:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field logo_url", values[i])
 			} else if value.Valid {
-				_m.MemberCount = new(int32)
-				*_m.MemberCount = int32(value.Int64)
+				_m.LogoURL = new(string)
+				*_m.LogoURL = value.String
+			}
+		case tenant.FieldIndustry:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field industry", values[i])
+			} else if value.Valid {
+				_m.Industry = new(string)
+				*_m.Industry = value.String
+			}
+		case tenant.FieldAdminUserID:
+			if value, ok := values[i].(*sql.NullInt64); !ok {
+				return fmt.Errorf("unexpected type %T for field admin_user_id", values[i])
+			} else if value.Valid {
+				_m.AdminUserID = new(uint32)
+				*_m.AdminUserID = uint32(value.Int64)
+			}
+		case tenant.FieldStatus:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field status", values[i])
+			} else if value.Valid {
+				_m.Status = new(tenant.Status)
+				*_m.Status = tenant.Status(value.String)
+			}
+		case tenant.FieldType:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field type", values[i])
+			} else if value.Valid {
+				_m.Type = new(tenant.Type)
+				*_m.Type = tenant.Type(value.String)
+			}
+		case tenant.FieldAuditStatus:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field audit_status", values[i])
+			} else if value.Valid {
+				_m.AuditStatus = new(tenant.AuditStatus)
+				*_m.AuditStatus = tenant.AuditStatus(value.String)
 			}
 		case tenant.FieldSubscriptionAt:
 			if value, ok := values[i].(*sql.NullTime); !ok {
@@ -160,6 +213,34 @@ func (_m *Tenant) assignValues(columns []string, values []any) error {
 			} else if value.Valid {
 				_m.UnsubscribeAt = new(time.Time)
 				*_m.UnsubscribeAt = value.Time
+			}
+		case tenant.FieldSubscriptionPlan:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field subscription_plan", values[i])
+			} else if value.Valid {
+				_m.SubscriptionPlan = new(string)
+				*_m.SubscriptionPlan = value.String
+			}
+		case tenant.FieldExpiredAt:
+			if value, ok := values[i].(*sql.NullTime); !ok {
+				return fmt.Errorf("unexpected type %T for field expired_at", values[i])
+			} else if value.Valid {
+				_m.ExpiredAt = new(time.Time)
+				*_m.ExpiredAt = value.Time
+			}
+		case tenant.FieldLastLoginTime:
+			if value, ok := values[i].(*sql.NullTime); !ok {
+				return fmt.Errorf("unexpected type %T for field last_login_time", values[i])
+			} else if value.Valid {
+				_m.LastLoginTime = new(time.Time)
+				*_m.LastLoginTime = value.Time
+			}
+		case tenant.FieldLastLoginIP:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field last_login_ip", values[i])
+			} else if value.Valid {
+				_m.LastLoginIP = new(string)
+				*_m.LastLoginIP = value.String
 			}
 		default:
 			_m.selectValues.Set(columns[i], values[i])
@@ -197,33 +278,33 @@ func (_m *Tenant) String() string {
 	var builder strings.Builder
 	builder.WriteString("Tenant(")
 	builder.WriteString(fmt.Sprintf("id=%v, ", _m.ID))
-	if v := _m.CreateTime; v != nil {
-		builder.WriteString("create_time=")
+	if v := _m.CreatedAt; v != nil {
+		builder.WriteString("created_at=")
 		builder.WriteString(v.Format(time.ANSIC))
 	}
 	builder.WriteString(", ")
-	if v := _m.UpdateTime; v != nil {
-		builder.WriteString("update_time=")
+	if v := _m.UpdatedAt; v != nil {
+		builder.WriteString("updated_at=")
 		builder.WriteString(v.Format(time.ANSIC))
 	}
 	builder.WriteString(", ")
-	if v := _m.DeleteTime; v != nil {
-		builder.WriteString("delete_time=")
+	if v := _m.DeletedAt; v != nil {
+		builder.WriteString("deleted_at=")
 		builder.WriteString(v.Format(time.ANSIC))
 	}
 	builder.WriteString(", ")
-	if v := _m.Status; v != nil {
-		builder.WriteString("status=")
+	if v := _m.CreatedBy; v != nil {
+		builder.WriteString("created_by=")
 		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteString(", ")
-	if v := _m.CreateBy; v != nil {
-		builder.WriteString("create_by=")
+	if v := _m.UpdatedBy; v != nil {
+		builder.WriteString("updated_by=")
 		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteString(", ")
-	if v := _m.UpdateBy; v != nil {
-		builder.WriteString("update_by=")
+	if v := _m.DeletedBy; v != nil {
+		builder.WriteString("deleted_by=")
 		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteString(", ")
@@ -242,8 +323,33 @@ func (_m *Tenant) String() string {
 		builder.WriteString(*v)
 	}
 	builder.WriteString(", ")
-	if v := _m.MemberCount; v != nil {
-		builder.WriteString("member_count=")
+	if v := _m.LogoURL; v != nil {
+		builder.WriteString("logo_url=")
+		builder.WriteString(*v)
+	}
+	builder.WriteString(", ")
+	if v := _m.Industry; v != nil {
+		builder.WriteString("industry=")
+		builder.WriteString(*v)
+	}
+	builder.WriteString(", ")
+	if v := _m.AdminUserID; v != nil {
+		builder.WriteString("admin_user_id=")
+		builder.WriteString(fmt.Sprintf("%v", *v))
+	}
+	builder.WriteString(", ")
+	if v := _m.Status; v != nil {
+		builder.WriteString("status=")
+		builder.WriteString(fmt.Sprintf("%v", *v))
+	}
+	builder.WriteString(", ")
+	if v := _m.Type; v != nil {
+		builder.WriteString("type=")
+		builder.WriteString(fmt.Sprintf("%v", *v))
+	}
+	builder.WriteString(", ")
+	if v := _m.AuditStatus; v != nil {
+		builder.WriteString("audit_status=")
 		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteString(", ")
@@ -255,6 +361,26 @@ func (_m *Tenant) String() string {
 	if v := _m.UnsubscribeAt; v != nil {
 		builder.WriteString("unsubscribe_at=")
 		builder.WriteString(v.Format(time.ANSIC))
+	}
+	builder.WriteString(", ")
+	if v := _m.SubscriptionPlan; v != nil {
+		builder.WriteString("subscription_plan=")
+		builder.WriteString(*v)
+	}
+	builder.WriteString(", ")
+	if v := _m.ExpiredAt; v != nil {
+		builder.WriteString("expired_at=")
+		builder.WriteString(v.Format(time.ANSIC))
+	}
+	builder.WriteString(", ")
+	if v := _m.LastLoginTime; v != nil {
+		builder.WriteString("last_login_time=")
+		builder.WriteString(v.Format(time.ANSIC))
+	}
+	builder.WriteString(", ")
+	if v := _m.LastLoginIP; v != nil {
+		builder.WriteString("last_login_ip=")
+		builder.WriteString(*v)
 	}
 	builder.WriteByte(')')
 	return builder.String()

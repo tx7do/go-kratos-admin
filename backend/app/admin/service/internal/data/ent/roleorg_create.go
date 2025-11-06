@@ -22,58 +22,86 @@ type RoleOrgCreate struct {
 	conflict []sql.ConflictOption
 }
 
-// SetCreateTime sets the "create_time" field.
-func (_c *RoleOrgCreate) SetCreateTime(v time.Time) *RoleOrgCreate {
-	_c.mutation.SetCreateTime(v)
+// SetCreatedAt sets the "created_at" field.
+func (_c *RoleOrgCreate) SetCreatedAt(v time.Time) *RoleOrgCreate {
+	_c.mutation.SetCreatedAt(v)
 	return _c
 }
 
-// SetNillableCreateTime sets the "create_time" field if the given value is not nil.
-func (_c *RoleOrgCreate) SetNillableCreateTime(v *time.Time) *RoleOrgCreate {
+// SetNillableCreatedAt sets the "created_at" field if the given value is not nil.
+func (_c *RoleOrgCreate) SetNillableCreatedAt(v *time.Time) *RoleOrgCreate {
 	if v != nil {
-		_c.SetCreateTime(*v)
+		_c.SetCreatedAt(*v)
 	}
 	return _c
 }
 
-// SetUpdateTime sets the "update_time" field.
-func (_c *RoleOrgCreate) SetUpdateTime(v time.Time) *RoleOrgCreate {
-	_c.mutation.SetUpdateTime(v)
+// SetUpdatedAt sets the "updated_at" field.
+func (_c *RoleOrgCreate) SetUpdatedAt(v time.Time) *RoleOrgCreate {
+	_c.mutation.SetUpdatedAt(v)
 	return _c
 }
 
-// SetNillableUpdateTime sets the "update_time" field if the given value is not nil.
-func (_c *RoleOrgCreate) SetNillableUpdateTime(v *time.Time) *RoleOrgCreate {
+// SetNillableUpdatedAt sets the "updated_at" field if the given value is not nil.
+func (_c *RoleOrgCreate) SetNillableUpdatedAt(v *time.Time) *RoleOrgCreate {
 	if v != nil {
-		_c.SetUpdateTime(*v)
+		_c.SetUpdatedAt(*v)
 	}
 	return _c
 }
 
-// SetDeleteTime sets the "delete_time" field.
-func (_c *RoleOrgCreate) SetDeleteTime(v time.Time) *RoleOrgCreate {
-	_c.mutation.SetDeleteTime(v)
+// SetDeletedAt sets the "deleted_at" field.
+func (_c *RoleOrgCreate) SetDeletedAt(v time.Time) *RoleOrgCreate {
+	_c.mutation.SetDeletedAt(v)
 	return _c
 }
 
-// SetNillableDeleteTime sets the "delete_time" field if the given value is not nil.
-func (_c *RoleOrgCreate) SetNillableDeleteTime(v *time.Time) *RoleOrgCreate {
+// SetNillableDeletedAt sets the "deleted_at" field if the given value is not nil.
+func (_c *RoleOrgCreate) SetNillableDeletedAt(v *time.Time) *RoleOrgCreate {
 	if v != nil {
-		_c.SetDeleteTime(*v)
+		_c.SetDeletedAt(*v)
 	}
 	return _c
 }
 
-// SetCreateBy sets the "create_by" field.
-func (_c *RoleOrgCreate) SetCreateBy(v uint32) *RoleOrgCreate {
-	_c.mutation.SetCreateBy(v)
+// SetCreatedBy sets the "created_by" field.
+func (_c *RoleOrgCreate) SetCreatedBy(v uint32) *RoleOrgCreate {
+	_c.mutation.SetCreatedBy(v)
 	return _c
 }
 
-// SetNillableCreateBy sets the "create_by" field if the given value is not nil.
-func (_c *RoleOrgCreate) SetNillableCreateBy(v *uint32) *RoleOrgCreate {
+// SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
+func (_c *RoleOrgCreate) SetNillableCreatedBy(v *uint32) *RoleOrgCreate {
 	if v != nil {
-		_c.SetCreateBy(*v)
+		_c.SetCreatedBy(*v)
+	}
+	return _c
+}
+
+// SetUpdatedBy sets the "updated_by" field.
+func (_c *RoleOrgCreate) SetUpdatedBy(v uint32) *RoleOrgCreate {
+	_c.mutation.SetUpdatedBy(v)
+	return _c
+}
+
+// SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
+func (_c *RoleOrgCreate) SetNillableUpdatedBy(v *uint32) *RoleOrgCreate {
+	if v != nil {
+		_c.SetUpdatedBy(*v)
+	}
+	return _c
+}
+
+// SetDeletedBy sets the "deleted_by" field.
+func (_c *RoleOrgCreate) SetDeletedBy(v uint32) *RoleOrgCreate {
+	_c.mutation.SetDeletedBy(v)
+	return _c
+}
+
+// SetNillableDeletedBy sets the "deleted_by" field if the given value is not nil.
+func (_c *RoleOrgCreate) SetNillableDeletedBy(v *uint32) *RoleOrgCreate {
+	if v != nil {
+		_c.SetDeletedBy(*v)
 	}
 	return _c
 }
@@ -174,21 +202,29 @@ func (_c *RoleOrgCreate) createSpec() (*RoleOrg, *sqlgraph.CreateSpec) {
 		_node.ID = id
 		_spec.ID.Value = id
 	}
-	if value, ok := _c.mutation.CreateTime(); ok {
-		_spec.SetField(roleorg.FieldCreateTime, field.TypeTime, value)
-		_node.CreateTime = &value
+	if value, ok := _c.mutation.CreatedAt(); ok {
+		_spec.SetField(roleorg.FieldCreatedAt, field.TypeTime, value)
+		_node.CreatedAt = &value
 	}
-	if value, ok := _c.mutation.UpdateTime(); ok {
-		_spec.SetField(roleorg.FieldUpdateTime, field.TypeTime, value)
-		_node.UpdateTime = &value
+	if value, ok := _c.mutation.UpdatedAt(); ok {
+		_spec.SetField(roleorg.FieldUpdatedAt, field.TypeTime, value)
+		_node.UpdatedAt = &value
 	}
-	if value, ok := _c.mutation.DeleteTime(); ok {
-		_spec.SetField(roleorg.FieldDeleteTime, field.TypeTime, value)
-		_node.DeleteTime = &value
+	if value, ok := _c.mutation.DeletedAt(); ok {
+		_spec.SetField(roleorg.FieldDeletedAt, field.TypeTime, value)
+		_node.DeletedAt = &value
 	}
-	if value, ok := _c.mutation.CreateBy(); ok {
-		_spec.SetField(roleorg.FieldCreateBy, field.TypeUint32, value)
-		_node.CreateBy = &value
+	if value, ok := _c.mutation.CreatedBy(); ok {
+		_spec.SetField(roleorg.FieldCreatedBy, field.TypeUint32, value)
+		_node.CreatedBy = &value
+	}
+	if value, ok := _c.mutation.UpdatedBy(); ok {
+		_spec.SetField(roleorg.FieldUpdatedBy, field.TypeUint32, value)
+		_node.UpdatedBy = &value
+	}
+	if value, ok := _c.mutation.DeletedBy(); ok {
+		_spec.SetField(roleorg.FieldDeletedBy, field.TypeUint32, value)
+		_node.DeletedBy = &value
 	}
 	if value, ok := _c.mutation.RoleID(); ok {
 		_spec.SetField(roleorg.FieldRoleID, field.TypeUint32, value)
@@ -205,7 +241,7 @@ func (_c *RoleOrgCreate) createSpec() (*RoleOrg, *sqlgraph.CreateSpec) {
 // of the `INSERT` statement. For example:
 //
 //	client.RoleOrg.Create().
-//		SetCreateTime(v).
+//		SetCreatedAt(v).
 //		OnConflict(
 //			// Update the row with the new values
 //			// the was proposed for insertion.
@@ -214,7 +250,7 @@ func (_c *RoleOrgCreate) createSpec() (*RoleOrg, *sqlgraph.CreateSpec) {
 //		// Override some of the fields with custom
 //		// update values.
 //		Update(func(u *ent.RoleOrgUpsert) {
-//			SetCreateTime(v+v).
+//			SetCreatedAt(v+v).
 //		}).
 //		Exec(ctx)
 func (_c *RoleOrgCreate) OnConflict(opts ...sql.ConflictOption) *RoleOrgUpsertOne {
@@ -250,63 +286,111 @@ type (
 	}
 )
 
-// SetUpdateTime sets the "update_time" field.
-func (u *RoleOrgUpsert) SetUpdateTime(v time.Time) *RoleOrgUpsert {
-	u.Set(roleorg.FieldUpdateTime, v)
+// SetUpdatedAt sets the "updated_at" field.
+func (u *RoleOrgUpsert) SetUpdatedAt(v time.Time) *RoleOrgUpsert {
+	u.Set(roleorg.FieldUpdatedAt, v)
 	return u
 }
 
-// UpdateUpdateTime sets the "update_time" field to the value that was provided on create.
-func (u *RoleOrgUpsert) UpdateUpdateTime() *RoleOrgUpsert {
-	u.SetExcluded(roleorg.FieldUpdateTime)
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *RoleOrgUpsert) UpdateUpdatedAt() *RoleOrgUpsert {
+	u.SetExcluded(roleorg.FieldUpdatedAt)
 	return u
 }
 
-// ClearUpdateTime clears the value of the "update_time" field.
-func (u *RoleOrgUpsert) ClearUpdateTime() *RoleOrgUpsert {
-	u.SetNull(roleorg.FieldUpdateTime)
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (u *RoleOrgUpsert) ClearUpdatedAt() *RoleOrgUpsert {
+	u.SetNull(roleorg.FieldUpdatedAt)
 	return u
 }
 
-// SetDeleteTime sets the "delete_time" field.
-func (u *RoleOrgUpsert) SetDeleteTime(v time.Time) *RoleOrgUpsert {
-	u.Set(roleorg.FieldDeleteTime, v)
+// SetDeletedAt sets the "deleted_at" field.
+func (u *RoleOrgUpsert) SetDeletedAt(v time.Time) *RoleOrgUpsert {
+	u.Set(roleorg.FieldDeletedAt, v)
 	return u
 }
 
-// UpdateDeleteTime sets the "delete_time" field to the value that was provided on create.
-func (u *RoleOrgUpsert) UpdateDeleteTime() *RoleOrgUpsert {
-	u.SetExcluded(roleorg.FieldDeleteTime)
+// UpdateDeletedAt sets the "deleted_at" field to the value that was provided on create.
+func (u *RoleOrgUpsert) UpdateDeletedAt() *RoleOrgUpsert {
+	u.SetExcluded(roleorg.FieldDeletedAt)
 	return u
 }
 
-// ClearDeleteTime clears the value of the "delete_time" field.
-func (u *RoleOrgUpsert) ClearDeleteTime() *RoleOrgUpsert {
-	u.SetNull(roleorg.FieldDeleteTime)
+// ClearDeletedAt clears the value of the "deleted_at" field.
+func (u *RoleOrgUpsert) ClearDeletedAt() *RoleOrgUpsert {
+	u.SetNull(roleorg.FieldDeletedAt)
 	return u
 }
 
-// SetCreateBy sets the "create_by" field.
-func (u *RoleOrgUpsert) SetCreateBy(v uint32) *RoleOrgUpsert {
-	u.Set(roleorg.FieldCreateBy, v)
+// SetCreatedBy sets the "created_by" field.
+func (u *RoleOrgUpsert) SetCreatedBy(v uint32) *RoleOrgUpsert {
+	u.Set(roleorg.FieldCreatedBy, v)
 	return u
 }
 
-// UpdateCreateBy sets the "create_by" field to the value that was provided on create.
-func (u *RoleOrgUpsert) UpdateCreateBy() *RoleOrgUpsert {
-	u.SetExcluded(roleorg.FieldCreateBy)
+// UpdateCreatedBy sets the "created_by" field to the value that was provided on create.
+func (u *RoleOrgUpsert) UpdateCreatedBy() *RoleOrgUpsert {
+	u.SetExcluded(roleorg.FieldCreatedBy)
 	return u
 }
 
-// AddCreateBy adds v to the "create_by" field.
-func (u *RoleOrgUpsert) AddCreateBy(v uint32) *RoleOrgUpsert {
-	u.Add(roleorg.FieldCreateBy, v)
+// AddCreatedBy adds v to the "created_by" field.
+func (u *RoleOrgUpsert) AddCreatedBy(v uint32) *RoleOrgUpsert {
+	u.Add(roleorg.FieldCreatedBy, v)
 	return u
 }
 
-// ClearCreateBy clears the value of the "create_by" field.
-func (u *RoleOrgUpsert) ClearCreateBy() *RoleOrgUpsert {
-	u.SetNull(roleorg.FieldCreateBy)
+// ClearCreatedBy clears the value of the "created_by" field.
+func (u *RoleOrgUpsert) ClearCreatedBy() *RoleOrgUpsert {
+	u.SetNull(roleorg.FieldCreatedBy)
+	return u
+}
+
+// SetUpdatedBy sets the "updated_by" field.
+func (u *RoleOrgUpsert) SetUpdatedBy(v uint32) *RoleOrgUpsert {
+	u.Set(roleorg.FieldUpdatedBy, v)
+	return u
+}
+
+// UpdateUpdatedBy sets the "updated_by" field to the value that was provided on create.
+func (u *RoleOrgUpsert) UpdateUpdatedBy() *RoleOrgUpsert {
+	u.SetExcluded(roleorg.FieldUpdatedBy)
+	return u
+}
+
+// AddUpdatedBy adds v to the "updated_by" field.
+func (u *RoleOrgUpsert) AddUpdatedBy(v uint32) *RoleOrgUpsert {
+	u.Add(roleorg.FieldUpdatedBy, v)
+	return u
+}
+
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (u *RoleOrgUpsert) ClearUpdatedBy() *RoleOrgUpsert {
+	u.SetNull(roleorg.FieldUpdatedBy)
+	return u
+}
+
+// SetDeletedBy sets the "deleted_by" field.
+func (u *RoleOrgUpsert) SetDeletedBy(v uint32) *RoleOrgUpsert {
+	u.Set(roleorg.FieldDeletedBy, v)
+	return u
+}
+
+// UpdateDeletedBy sets the "deleted_by" field to the value that was provided on create.
+func (u *RoleOrgUpsert) UpdateDeletedBy() *RoleOrgUpsert {
+	u.SetExcluded(roleorg.FieldDeletedBy)
+	return u
+}
+
+// AddDeletedBy adds v to the "deleted_by" field.
+func (u *RoleOrgUpsert) AddDeletedBy(v uint32) *RoleOrgUpsert {
+	u.Add(roleorg.FieldDeletedBy, v)
+	return u
+}
+
+// ClearDeletedBy clears the value of the "deleted_by" field.
+func (u *RoleOrgUpsert) ClearDeletedBy() *RoleOrgUpsert {
+	u.SetNull(roleorg.FieldDeletedBy)
 	return u
 }
 
@@ -363,8 +447,8 @@ func (u *RoleOrgUpsertOne) UpdateNewValues() *RoleOrgUpsertOne {
 		if _, exists := u.create.mutation.ID(); exists {
 			s.SetIgnore(roleorg.FieldID)
 		}
-		if _, exists := u.create.mutation.CreateTime(); exists {
-			s.SetIgnore(roleorg.FieldCreateTime)
+		if _, exists := u.create.mutation.CreatedAt(); exists {
+			s.SetIgnore(roleorg.FieldCreatedAt)
 		}
 	}))
 	return u
@@ -397,73 +481,129 @@ func (u *RoleOrgUpsertOne) Update(set func(*RoleOrgUpsert)) *RoleOrgUpsertOne {
 	return u
 }
 
-// SetUpdateTime sets the "update_time" field.
-func (u *RoleOrgUpsertOne) SetUpdateTime(v time.Time) *RoleOrgUpsertOne {
+// SetUpdatedAt sets the "updated_at" field.
+func (u *RoleOrgUpsertOne) SetUpdatedAt(v time.Time) *RoleOrgUpsertOne {
 	return u.Update(func(s *RoleOrgUpsert) {
-		s.SetUpdateTime(v)
+		s.SetUpdatedAt(v)
 	})
 }
 
-// UpdateUpdateTime sets the "update_time" field to the value that was provided on create.
-func (u *RoleOrgUpsertOne) UpdateUpdateTime() *RoleOrgUpsertOne {
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *RoleOrgUpsertOne) UpdateUpdatedAt() *RoleOrgUpsertOne {
 	return u.Update(func(s *RoleOrgUpsert) {
-		s.UpdateUpdateTime()
+		s.UpdateUpdatedAt()
 	})
 }
 
-// ClearUpdateTime clears the value of the "update_time" field.
-func (u *RoleOrgUpsertOne) ClearUpdateTime() *RoleOrgUpsertOne {
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (u *RoleOrgUpsertOne) ClearUpdatedAt() *RoleOrgUpsertOne {
 	return u.Update(func(s *RoleOrgUpsert) {
-		s.ClearUpdateTime()
+		s.ClearUpdatedAt()
 	})
 }
 
-// SetDeleteTime sets the "delete_time" field.
-func (u *RoleOrgUpsertOne) SetDeleteTime(v time.Time) *RoleOrgUpsertOne {
+// SetDeletedAt sets the "deleted_at" field.
+func (u *RoleOrgUpsertOne) SetDeletedAt(v time.Time) *RoleOrgUpsertOne {
 	return u.Update(func(s *RoleOrgUpsert) {
-		s.SetDeleteTime(v)
+		s.SetDeletedAt(v)
 	})
 }
 
-// UpdateDeleteTime sets the "delete_time" field to the value that was provided on create.
-func (u *RoleOrgUpsertOne) UpdateDeleteTime() *RoleOrgUpsertOne {
+// UpdateDeletedAt sets the "deleted_at" field to the value that was provided on create.
+func (u *RoleOrgUpsertOne) UpdateDeletedAt() *RoleOrgUpsertOne {
 	return u.Update(func(s *RoleOrgUpsert) {
-		s.UpdateDeleteTime()
+		s.UpdateDeletedAt()
 	})
 }
 
-// ClearDeleteTime clears the value of the "delete_time" field.
-func (u *RoleOrgUpsertOne) ClearDeleteTime() *RoleOrgUpsertOne {
+// ClearDeletedAt clears the value of the "deleted_at" field.
+func (u *RoleOrgUpsertOne) ClearDeletedAt() *RoleOrgUpsertOne {
 	return u.Update(func(s *RoleOrgUpsert) {
-		s.ClearDeleteTime()
+		s.ClearDeletedAt()
 	})
 }
 
-// SetCreateBy sets the "create_by" field.
-func (u *RoleOrgUpsertOne) SetCreateBy(v uint32) *RoleOrgUpsertOne {
+// SetCreatedBy sets the "created_by" field.
+func (u *RoleOrgUpsertOne) SetCreatedBy(v uint32) *RoleOrgUpsertOne {
 	return u.Update(func(s *RoleOrgUpsert) {
-		s.SetCreateBy(v)
+		s.SetCreatedBy(v)
 	})
 }
 
-// AddCreateBy adds v to the "create_by" field.
-func (u *RoleOrgUpsertOne) AddCreateBy(v uint32) *RoleOrgUpsertOne {
+// AddCreatedBy adds v to the "created_by" field.
+func (u *RoleOrgUpsertOne) AddCreatedBy(v uint32) *RoleOrgUpsertOne {
 	return u.Update(func(s *RoleOrgUpsert) {
-		s.AddCreateBy(v)
+		s.AddCreatedBy(v)
 	})
 }
 
-// UpdateCreateBy sets the "create_by" field to the value that was provided on create.
-func (u *RoleOrgUpsertOne) UpdateCreateBy() *RoleOrgUpsertOne {
+// UpdateCreatedBy sets the "created_by" field to the value that was provided on create.
+func (u *RoleOrgUpsertOne) UpdateCreatedBy() *RoleOrgUpsertOne {
 	return u.Update(func(s *RoleOrgUpsert) {
-		s.UpdateCreateBy()
+		s.UpdateCreatedBy()
 	})
 }
 
-// ClearCreateBy clears the value of the "create_by" field.
-func (u *RoleOrgUpsertOne) ClearCreateBy() *RoleOrgUpsertOne {
+// ClearCreatedBy clears the value of the "created_by" field.
+func (u *RoleOrgUpsertOne) ClearCreatedBy() *RoleOrgUpsertOne {
 	return u.Update(func(s *RoleOrgUpsert) {
-		s.ClearCreateBy()
+		s.ClearCreatedBy()
+	})
+}
+
+// SetUpdatedBy sets the "updated_by" field.
+func (u *RoleOrgUpsertOne) SetUpdatedBy(v uint32) *RoleOrgUpsertOne {
+	return u.Update(func(s *RoleOrgUpsert) {
+		s.SetUpdatedBy(v)
+	})
+}
+
+// AddUpdatedBy adds v to the "updated_by" field.
+func (u *RoleOrgUpsertOne) AddUpdatedBy(v uint32) *RoleOrgUpsertOne {
+	return u.Update(func(s *RoleOrgUpsert) {
+		s.AddUpdatedBy(v)
+	})
+}
+
+// UpdateUpdatedBy sets the "updated_by" field to the value that was provided on create.
+func (u *RoleOrgUpsertOne) UpdateUpdatedBy() *RoleOrgUpsertOne {
+	return u.Update(func(s *RoleOrgUpsert) {
+		s.UpdateUpdatedBy()
+	})
+}
+
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (u *RoleOrgUpsertOne) ClearUpdatedBy() *RoleOrgUpsertOne {
+	return u.Update(func(s *RoleOrgUpsert) {
+		s.ClearUpdatedBy()
+	})
+}
+
+// SetDeletedBy sets the "deleted_by" field.
+func (u *RoleOrgUpsertOne) SetDeletedBy(v uint32) *RoleOrgUpsertOne {
+	return u.Update(func(s *RoleOrgUpsert) {
+		s.SetDeletedBy(v)
+	})
+}
+
+// AddDeletedBy adds v to the "deleted_by" field.
+func (u *RoleOrgUpsertOne) AddDeletedBy(v uint32) *RoleOrgUpsertOne {
+	return u.Update(func(s *RoleOrgUpsert) {
+		s.AddDeletedBy(v)
+	})
+}
+
+// UpdateDeletedBy sets the "deleted_by" field to the value that was provided on create.
+func (u *RoleOrgUpsertOne) UpdateDeletedBy() *RoleOrgUpsertOne {
+	return u.Update(func(s *RoleOrgUpsert) {
+		s.UpdateDeletedBy()
+	})
+}
+
+// ClearDeletedBy clears the value of the "deleted_by" field.
+func (u *RoleOrgUpsertOne) ClearDeletedBy() *RoleOrgUpsertOne {
+	return u.Update(func(s *RoleOrgUpsert) {
+		s.ClearDeletedBy()
 	})
 }
 
@@ -643,7 +783,7 @@ func (_c *RoleOrgCreateBulk) ExecX(ctx context.Context) {
 //		// Override some of the fields with custom
 //		// update values.
 //		Update(func(u *ent.RoleOrgUpsert) {
-//			SetCreateTime(v+v).
+//			SetCreatedAt(v+v).
 //		}).
 //		Exec(ctx)
 func (_c *RoleOrgCreateBulk) OnConflict(opts ...sql.ConflictOption) *RoleOrgUpsertBulk {
@@ -690,8 +830,8 @@ func (u *RoleOrgUpsertBulk) UpdateNewValues() *RoleOrgUpsertBulk {
 			if _, exists := b.mutation.ID(); exists {
 				s.SetIgnore(roleorg.FieldID)
 			}
-			if _, exists := b.mutation.CreateTime(); exists {
-				s.SetIgnore(roleorg.FieldCreateTime)
+			if _, exists := b.mutation.CreatedAt(); exists {
+				s.SetIgnore(roleorg.FieldCreatedAt)
 			}
 		}
 	}))
@@ -725,73 +865,129 @@ func (u *RoleOrgUpsertBulk) Update(set func(*RoleOrgUpsert)) *RoleOrgUpsertBulk 
 	return u
 }
 
-// SetUpdateTime sets the "update_time" field.
-func (u *RoleOrgUpsertBulk) SetUpdateTime(v time.Time) *RoleOrgUpsertBulk {
+// SetUpdatedAt sets the "updated_at" field.
+func (u *RoleOrgUpsertBulk) SetUpdatedAt(v time.Time) *RoleOrgUpsertBulk {
 	return u.Update(func(s *RoleOrgUpsert) {
-		s.SetUpdateTime(v)
+		s.SetUpdatedAt(v)
 	})
 }
 
-// UpdateUpdateTime sets the "update_time" field to the value that was provided on create.
-func (u *RoleOrgUpsertBulk) UpdateUpdateTime() *RoleOrgUpsertBulk {
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *RoleOrgUpsertBulk) UpdateUpdatedAt() *RoleOrgUpsertBulk {
 	return u.Update(func(s *RoleOrgUpsert) {
-		s.UpdateUpdateTime()
+		s.UpdateUpdatedAt()
 	})
 }
 
-// ClearUpdateTime clears the value of the "update_time" field.
-func (u *RoleOrgUpsertBulk) ClearUpdateTime() *RoleOrgUpsertBulk {
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (u *RoleOrgUpsertBulk) ClearUpdatedAt() *RoleOrgUpsertBulk {
 	return u.Update(func(s *RoleOrgUpsert) {
-		s.ClearUpdateTime()
+		s.ClearUpdatedAt()
 	})
 }
 
-// SetDeleteTime sets the "delete_time" field.
-func (u *RoleOrgUpsertBulk) SetDeleteTime(v time.Time) *RoleOrgUpsertBulk {
+// SetDeletedAt sets the "deleted_at" field.
+func (u *RoleOrgUpsertBulk) SetDeletedAt(v time.Time) *RoleOrgUpsertBulk {
 	return u.Update(func(s *RoleOrgUpsert) {
-		s.SetDeleteTime(v)
+		s.SetDeletedAt(v)
 	})
 }
 
-// UpdateDeleteTime sets the "delete_time" field to the value that was provided on create.
-func (u *RoleOrgUpsertBulk) UpdateDeleteTime() *RoleOrgUpsertBulk {
+// UpdateDeletedAt sets the "deleted_at" field to the value that was provided on create.
+func (u *RoleOrgUpsertBulk) UpdateDeletedAt() *RoleOrgUpsertBulk {
 	return u.Update(func(s *RoleOrgUpsert) {
-		s.UpdateDeleteTime()
+		s.UpdateDeletedAt()
 	})
 }
 
-// ClearDeleteTime clears the value of the "delete_time" field.
-func (u *RoleOrgUpsertBulk) ClearDeleteTime() *RoleOrgUpsertBulk {
+// ClearDeletedAt clears the value of the "deleted_at" field.
+func (u *RoleOrgUpsertBulk) ClearDeletedAt() *RoleOrgUpsertBulk {
 	return u.Update(func(s *RoleOrgUpsert) {
-		s.ClearDeleteTime()
+		s.ClearDeletedAt()
 	})
 }
 
-// SetCreateBy sets the "create_by" field.
-func (u *RoleOrgUpsertBulk) SetCreateBy(v uint32) *RoleOrgUpsertBulk {
+// SetCreatedBy sets the "created_by" field.
+func (u *RoleOrgUpsertBulk) SetCreatedBy(v uint32) *RoleOrgUpsertBulk {
 	return u.Update(func(s *RoleOrgUpsert) {
-		s.SetCreateBy(v)
+		s.SetCreatedBy(v)
 	})
 }
 
-// AddCreateBy adds v to the "create_by" field.
-func (u *RoleOrgUpsertBulk) AddCreateBy(v uint32) *RoleOrgUpsertBulk {
+// AddCreatedBy adds v to the "created_by" field.
+func (u *RoleOrgUpsertBulk) AddCreatedBy(v uint32) *RoleOrgUpsertBulk {
 	return u.Update(func(s *RoleOrgUpsert) {
-		s.AddCreateBy(v)
+		s.AddCreatedBy(v)
 	})
 }
 
-// UpdateCreateBy sets the "create_by" field to the value that was provided on create.
-func (u *RoleOrgUpsertBulk) UpdateCreateBy() *RoleOrgUpsertBulk {
+// UpdateCreatedBy sets the "created_by" field to the value that was provided on create.
+func (u *RoleOrgUpsertBulk) UpdateCreatedBy() *RoleOrgUpsertBulk {
 	return u.Update(func(s *RoleOrgUpsert) {
-		s.UpdateCreateBy()
+		s.UpdateCreatedBy()
 	})
 }
 
-// ClearCreateBy clears the value of the "create_by" field.
-func (u *RoleOrgUpsertBulk) ClearCreateBy() *RoleOrgUpsertBulk {
+// ClearCreatedBy clears the value of the "created_by" field.
+func (u *RoleOrgUpsertBulk) ClearCreatedBy() *RoleOrgUpsertBulk {
 	return u.Update(func(s *RoleOrgUpsert) {
-		s.ClearCreateBy()
+		s.ClearCreatedBy()
+	})
+}
+
+// SetUpdatedBy sets the "updated_by" field.
+func (u *RoleOrgUpsertBulk) SetUpdatedBy(v uint32) *RoleOrgUpsertBulk {
+	return u.Update(func(s *RoleOrgUpsert) {
+		s.SetUpdatedBy(v)
+	})
+}
+
+// AddUpdatedBy adds v to the "updated_by" field.
+func (u *RoleOrgUpsertBulk) AddUpdatedBy(v uint32) *RoleOrgUpsertBulk {
+	return u.Update(func(s *RoleOrgUpsert) {
+		s.AddUpdatedBy(v)
+	})
+}
+
+// UpdateUpdatedBy sets the "updated_by" field to the value that was provided on create.
+func (u *RoleOrgUpsertBulk) UpdateUpdatedBy() *RoleOrgUpsertBulk {
+	return u.Update(func(s *RoleOrgUpsert) {
+		s.UpdateUpdatedBy()
+	})
+}
+
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (u *RoleOrgUpsertBulk) ClearUpdatedBy() *RoleOrgUpsertBulk {
+	return u.Update(func(s *RoleOrgUpsert) {
+		s.ClearUpdatedBy()
+	})
+}
+
+// SetDeletedBy sets the "deleted_by" field.
+func (u *RoleOrgUpsertBulk) SetDeletedBy(v uint32) *RoleOrgUpsertBulk {
+	return u.Update(func(s *RoleOrgUpsert) {
+		s.SetDeletedBy(v)
+	})
+}
+
+// AddDeletedBy adds v to the "deleted_by" field.
+func (u *RoleOrgUpsertBulk) AddDeletedBy(v uint32) *RoleOrgUpsertBulk {
+	return u.Update(func(s *RoleOrgUpsert) {
+		s.AddDeletedBy(v)
+	})
+}
+
+// UpdateDeletedBy sets the "deleted_by" field to the value that was provided on create.
+func (u *RoleOrgUpsertBulk) UpdateDeletedBy() *RoleOrgUpsertBulk {
+	return u.Update(func(s *RoleOrgUpsert) {
+		s.UpdateDeletedBy()
+	})
+}
+
+// ClearDeletedBy clears the value of the "deleted_by" field.
+func (u *RoleOrgUpsertBulk) ClearDeletedBy() *RoleOrgUpsertBulk {
+	return u.Update(func(s *RoleOrgUpsert) {
+		s.ClearDeletedBy()
 	})
 }
 

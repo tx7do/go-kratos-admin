@@ -19,7 +19,7 @@ type AdminOperationLog struct {
 	// id
 	ID uint32 `json:"id,omitempty"`
 	// 创建时间
-	CreateTime *time.Time `json:"create_time,omitempty"`
+	CreatedAt *time.Time `json:"created_at,omitempty"`
 	// 请求ID
 	RequestID *string `json:"request_id,omitempty"`
 	// 请求方法
@@ -84,7 +84,7 @@ func (*AdminOperationLog) scanValues(columns []string) ([]any, error) {
 			values[i] = new(sql.NullInt64)
 		case adminoperationlog.FieldRequestID, adminoperationlog.FieldMethod, adminoperationlog.FieldOperation, adminoperationlog.FieldPath, adminoperationlog.FieldReferer, adminoperationlog.FieldRequestURI, adminoperationlog.FieldRequestBody, adminoperationlog.FieldRequestHeader, adminoperationlog.FieldResponse, adminoperationlog.FieldUsername, adminoperationlog.FieldClientIP, adminoperationlog.FieldReason, adminoperationlog.FieldLocation, adminoperationlog.FieldUserAgent, adminoperationlog.FieldBrowserName, adminoperationlog.FieldBrowserVersion, adminoperationlog.FieldClientID, adminoperationlog.FieldClientName, adminoperationlog.FieldOsName, adminoperationlog.FieldOsVersion:
 			values[i] = new(sql.NullString)
-		case adminoperationlog.FieldCreateTime:
+		case adminoperationlog.FieldCreatedAt:
 			values[i] = new(sql.NullTime)
 		default:
 			values[i] = new(sql.UnknownType)
@@ -107,12 +107,12 @@ func (_m *AdminOperationLog) assignValues(columns []string, values []any) error 
 				return fmt.Errorf("unexpected type %T for field id", value)
 			}
 			_m.ID = uint32(value.Int64)
-		case adminoperationlog.FieldCreateTime:
+		case adminoperationlog.FieldCreatedAt:
 			if value, ok := values[i].(*sql.NullTime); !ok {
-				return fmt.Errorf("unexpected type %T for field create_time", values[i])
+				return fmt.Errorf("unexpected type %T for field created_at", values[i])
 			} else if value.Valid {
-				_m.CreateTime = new(time.Time)
-				*_m.CreateTime = value.Time
+				_m.CreatedAt = new(time.Time)
+				*_m.CreatedAt = value.Time
 			}
 		case adminoperationlog.FieldRequestID:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -318,8 +318,8 @@ func (_m *AdminOperationLog) String() string {
 	var builder strings.Builder
 	builder.WriteString("AdminOperationLog(")
 	builder.WriteString(fmt.Sprintf("id=%v, ", _m.ID))
-	if v := _m.CreateTime; v != nil {
-		builder.WriteString("create_time=")
+	if v := _m.CreatedAt; v != nil {
+		builder.WriteString("created_at=")
 		builder.WriteString(v.Format(time.ANSIC))
 	}
 	builder.WriteString(", ")

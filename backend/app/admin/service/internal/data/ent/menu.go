@@ -19,23 +19,25 @@ type Menu struct {
 	config `json:"-"`
 	// ID of the ent.
 	// id
-	ID int32 `json:"id,omitempty"`
-	// 状态
-	Status *menu.Status `json:"status,omitempty"`
+	ID uint32 `json:"id,omitempty"`
 	// 创建时间
-	CreateTime *time.Time `json:"create_time,omitempty"`
+	CreatedAt *time.Time `json:"created_at,omitempty"`
 	// 更新时间
-	UpdateTime *time.Time `json:"update_time,omitempty"`
+	UpdatedAt *time.Time `json:"updated_at,omitempty"`
 	// 删除时间
-	DeleteTime *time.Time `json:"delete_time,omitempty"`
+	DeletedAt *time.Time `json:"deleted_at,omitempty"`
 	// 创建者ID
-	CreateBy *uint32 `json:"create_by,omitempty"`
+	CreatedBy *uint32 `json:"created_by,omitempty"`
 	// 更新者ID
-	UpdateBy *uint32 `json:"update_by,omitempty"`
+	UpdatedBy *uint32 `json:"updated_by,omitempty"`
+	// 删除者ID
+	DeletedBy *uint32 `json:"deleted_by,omitempty"`
+	// 父节点ID
+	ParentID *uint32 `json:"parent_id,omitempty"`
 	// 备注
 	Remark *string `json:"remark,omitempty"`
-	// 上一层菜单ID
-	ParentID *int32 `json:"parent_id,omitempty"`
+	// 菜单状态
+	Status *menu.Status `json:"status,omitempty"`
 	// 菜单类型 FOLDER: 目录 MENU: 菜单 BUTTON: 按钮 EMBEDDED: 内嵌 LINK: 外链
 	Type *menu.Type `json:"type,omitempty"`
 	// 路径,当其类型为'按钮'的时候对应的数据操作名,例如:/user.service.v1.UserService/Login
@@ -94,11 +96,11 @@ func (*Menu) scanValues(columns []string) ([]any, error) {
 		switch columns[i] {
 		case menu.FieldMeta:
 			values[i] = new([]byte)
-		case menu.FieldID, menu.FieldCreateBy, menu.FieldUpdateBy, menu.FieldParentID:
+		case menu.FieldID, menu.FieldCreatedBy, menu.FieldUpdatedBy, menu.FieldDeletedBy, menu.FieldParentID:
 			values[i] = new(sql.NullInt64)
-		case menu.FieldStatus, menu.FieldRemark, menu.FieldType, menu.FieldPath, menu.FieldRedirect, menu.FieldAlias, menu.FieldName, menu.FieldComponent:
+		case menu.FieldRemark, menu.FieldStatus, menu.FieldType, menu.FieldPath, menu.FieldRedirect, menu.FieldAlias, menu.FieldName, menu.FieldComponent:
 			values[i] = new(sql.NullString)
-		case menu.FieldCreateTime, menu.FieldUpdateTime, menu.FieldDeleteTime:
+		case menu.FieldCreatedAt, menu.FieldUpdatedAt, menu.FieldDeletedAt:
 			values[i] = new(sql.NullTime)
 		default:
 			values[i] = new(sql.UnknownType)
@@ -120,48 +122,55 @@ func (_m *Menu) assignValues(columns []string, values []any) error {
 			if !ok {
 				return fmt.Errorf("unexpected type %T for field id", value)
 			}
-			_m.ID = int32(value.Int64)
-		case menu.FieldStatus:
-			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field status", values[i])
-			} else if value.Valid {
-				_m.Status = new(menu.Status)
-				*_m.Status = menu.Status(value.String)
-			}
-		case menu.FieldCreateTime:
+			_m.ID = uint32(value.Int64)
+		case menu.FieldCreatedAt:
 			if value, ok := values[i].(*sql.NullTime); !ok {
-				return fmt.Errorf("unexpected type %T for field create_time", values[i])
+				return fmt.Errorf("unexpected type %T for field created_at", values[i])
 			} else if value.Valid {
-				_m.CreateTime = new(time.Time)
-				*_m.CreateTime = value.Time
+				_m.CreatedAt = new(time.Time)
+				*_m.CreatedAt = value.Time
 			}
-		case menu.FieldUpdateTime:
+		case menu.FieldUpdatedAt:
 			if value, ok := values[i].(*sql.NullTime); !ok {
-				return fmt.Errorf("unexpected type %T for field update_time", values[i])
+				return fmt.Errorf("unexpected type %T for field updated_at", values[i])
 			} else if value.Valid {
-				_m.UpdateTime = new(time.Time)
-				*_m.UpdateTime = value.Time
+				_m.UpdatedAt = new(time.Time)
+				*_m.UpdatedAt = value.Time
 			}
-		case menu.FieldDeleteTime:
+		case menu.FieldDeletedAt:
 			if value, ok := values[i].(*sql.NullTime); !ok {
-				return fmt.Errorf("unexpected type %T for field delete_time", values[i])
+				return fmt.Errorf("unexpected type %T for field deleted_at", values[i])
 			} else if value.Valid {
-				_m.DeleteTime = new(time.Time)
-				*_m.DeleteTime = value.Time
+				_m.DeletedAt = new(time.Time)
+				*_m.DeletedAt = value.Time
 			}
-		case menu.FieldCreateBy:
+		case menu.FieldCreatedBy:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for field create_by", values[i])
+				return fmt.Errorf("unexpected type %T for field created_by", values[i])
 			} else if value.Valid {
-				_m.CreateBy = new(uint32)
-				*_m.CreateBy = uint32(value.Int64)
+				_m.CreatedBy = new(uint32)
+				*_m.CreatedBy = uint32(value.Int64)
 			}
-		case menu.FieldUpdateBy:
+		case menu.FieldUpdatedBy:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for field update_by", values[i])
+				return fmt.Errorf("unexpected type %T for field updated_by", values[i])
 			} else if value.Valid {
-				_m.UpdateBy = new(uint32)
-				*_m.UpdateBy = uint32(value.Int64)
+				_m.UpdatedBy = new(uint32)
+				*_m.UpdatedBy = uint32(value.Int64)
+			}
+		case menu.FieldDeletedBy:
+			if value, ok := values[i].(*sql.NullInt64); !ok {
+				return fmt.Errorf("unexpected type %T for field deleted_by", values[i])
+			} else if value.Valid {
+				_m.DeletedBy = new(uint32)
+				*_m.DeletedBy = uint32(value.Int64)
+			}
+		case menu.FieldParentID:
+			if value, ok := values[i].(*sql.NullInt64); !ok {
+				return fmt.Errorf("unexpected type %T for field parent_id", values[i])
+			} else if value.Valid {
+				_m.ParentID = new(uint32)
+				*_m.ParentID = uint32(value.Int64)
 			}
 		case menu.FieldRemark:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -170,12 +179,12 @@ func (_m *Menu) assignValues(columns []string, values []any) error {
 				_m.Remark = new(string)
 				*_m.Remark = value.String
 			}
-		case menu.FieldParentID:
-			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for field parent_id", values[i])
+		case menu.FieldStatus:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field status", values[i])
 			} else if value.Valid {
-				_m.ParentID = new(int32)
-				*_m.ParentID = int32(value.Int64)
+				_m.Status = new(menu.Status)
+				*_m.Status = menu.Status(value.String)
 			}
 		case menu.FieldType:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -273,33 +282,38 @@ func (_m *Menu) String() string {
 	var builder strings.Builder
 	builder.WriteString("Menu(")
 	builder.WriteString(fmt.Sprintf("id=%v, ", _m.ID))
-	if v := _m.Status; v != nil {
-		builder.WriteString("status=")
+	if v := _m.CreatedAt; v != nil {
+		builder.WriteString("created_at=")
+		builder.WriteString(v.Format(time.ANSIC))
+	}
+	builder.WriteString(", ")
+	if v := _m.UpdatedAt; v != nil {
+		builder.WriteString("updated_at=")
+		builder.WriteString(v.Format(time.ANSIC))
+	}
+	builder.WriteString(", ")
+	if v := _m.DeletedAt; v != nil {
+		builder.WriteString("deleted_at=")
+		builder.WriteString(v.Format(time.ANSIC))
+	}
+	builder.WriteString(", ")
+	if v := _m.CreatedBy; v != nil {
+		builder.WriteString("created_by=")
 		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteString(", ")
-	if v := _m.CreateTime; v != nil {
-		builder.WriteString("create_time=")
-		builder.WriteString(v.Format(time.ANSIC))
-	}
-	builder.WriteString(", ")
-	if v := _m.UpdateTime; v != nil {
-		builder.WriteString("update_time=")
-		builder.WriteString(v.Format(time.ANSIC))
-	}
-	builder.WriteString(", ")
-	if v := _m.DeleteTime; v != nil {
-		builder.WriteString("delete_time=")
-		builder.WriteString(v.Format(time.ANSIC))
-	}
-	builder.WriteString(", ")
-	if v := _m.CreateBy; v != nil {
-		builder.WriteString("create_by=")
+	if v := _m.UpdatedBy; v != nil {
+		builder.WriteString("updated_by=")
 		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteString(", ")
-	if v := _m.UpdateBy; v != nil {
-		builder.WriteString("update_by=")
+	if v := _m.DeletedBy; v != nil {
+		builder.WriteString("deleted_by=")
+		builder.WriteString(fmt.Sprintf("%v", *v))
+	}
+	builder.WriteString(", ")
+	if v := _m.ParentID; v != nil {
+		builder.WriteString("parent_id=")
 		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteString(", ")
@@ -308,8 +322,8 @@ func (_m *Menu) String() string {
 		builder.WriteString(*v)
 	}
 	builder.WriteString(", ")
-	if v := _m.ParentID; v != nil {
-		builder.WriteString("parent_id=")
+	if v := _m.Status; v != nil {
+		builder.WriteString("status=")
 		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteString(", ")

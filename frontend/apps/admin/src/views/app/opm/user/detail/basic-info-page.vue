@@ -7,8 +7,18 @@ import { formatDateTime } from '@vben/utils';
 
 import { Avatar, Descriptions, DescriptionsItem } from 'ant-design-vue';
 
-import { type User, UserStatus } from '#/generated/api/user/service/v1/user.pb';
-import { genderToColor, genderToName, useUserStore } from '#/stores';
+import {
+  type User,
+  User_Status,
+} from '#/generated/api/user/service/v1/user.pb';
+import {
+  authorityToColor,
+  authorityToName,
+  genderToColor,
+  genderToName,
+  useUserStore,
+} from '#/stores';
+import { getCharColor, getRandomColor } from '#/utils/color';
 
 const props = defineProps({
   userId: { type: Number, default: undefined },
@@ -26,18 +36,7 @@ const getFirstChar = computed(() => {
 
 // 根据首字母生成固定随机色
 const getAvatarColor = () => {
-  const char = getFirstChar.value;
-  // 1. 将字符转换为哈希值（确保同一字符结果固定）
-  let hash = 0;
-  for (let i = 0; i < char.length; i++) {
-    hash = char.charCodeAt(i) + ((hash << 5) - hash);
-  }
-  // 2. 哈希值映射到HSL色相（0-360）
-  const hue = Math.abs(hash % 360);
-  // 3. 固定饱和度和亮度（确保颜色美观且文字清晰）
-  const saturation = 60; // 60% 饱和度（鲜艳但不刺眼）
-  const lightness = 45; // 45% 亮度（深色背景，白色文字更清晰）
-  return `hsl(${hue}, ${saturation}%, ${lightness}%)`;
+  return getCharColor(getFirstChar.value);
 };
 
 /**
@@ -71,10 +70,16 @@ reload();
           </Avatar>
           <a-tag
             class="status-badge"
-            :color="data?.status === UserStatus.ON ? 'success' : 'error'"
+            :color="authorityToColor(data?.authority)"
+          >
+            {{ authorityToName(data?.authority) }}
+          </a-tag>
+          <a-tag
+            class="status-badge"
+            :color="data?.status === User_Status.ON ? 'success' : 'error'"
           >
             {{
-              data?.status === UserStatus.ON
+              data?.status === User_Status.ON
                 ? $t('enum.status.ON')
                 : $t('enum.status.OFF')
             }}
@@ -97,11 +102,34 @@ reload();
               {{ genderToName(data?.gender) }}
             </a-tag>
           </DescriptionsItem>
+          <DescriptionsItem :label="$t('page.user.detail.desc.roleNames')">
+            <a-tag
+              v-for="role in data?.roleNames"
+              :key="role"
+              class="mb-1 mr-1"
+              :style="{
+                backgroundColor: getRandomColor(role), // 随机背景色
+                color: '#333', // 深色文字（适配浅色背景）
+                border: 'none', // 可选：去掉边框更美观
+              }"
+            >
+              {{ role }}
+            </a-tag>
+          </DescriptionsItem>
           <DescriptionsItem :label="$t('page.user.detail.desc.mobile')">
             {{ data?.mobile }}
           </DescriptionsItem>
           <DescriptionsItem :label="$t('page.user.detail.desc.email')">
             {{ data?.email }}
+          </DescriptionsItem>
+          <DescriptionsItem :label="$t('page.user.detail.desc.region')">
+            {{ data?.region }}
+          </DescriptionsItem>
+          <DescriptionsItem :label="$t('page.user.detail.desc.address')">
+            {{ data?.address }}
+          </DescriptionsItem>
+          <DescriptionsItem :label="$t('page.user.detail.desc.tenantName')">
+            {{ data?.tenantName }}
           </DescriptionsItem>
           <DescriptionsItem :label="$t('page.user.detail.desc.orgName')">
             {{ data?.orgName }}
@@ -112,8 +140,8 @@ reload();
           <DescriptionsItem :label="$t('page.user.detail.desc.positionName')">
             {{ data?.positionName }}
           </DescriptionsItem>
-          <DescriptionsItem :label="$t('ui.table.createTime')">
-            {{ formatDateTime(data?.createTime ?? '') }}
+          <DescriptionsItem :label="$t('ui.table.createdAt')">
+            {{ formatDateTime(data?.createdAt ?? '') }}
           </DescriptionsItem>
           <DescriptionsItem :label="$t('page.user.detail.desc.lastLoginTime')">
             {{ data?.lastLoginTime }}

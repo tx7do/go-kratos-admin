@@ -26,8 +26,8 @@ type AdminLoginRestrictionRepo struct {
 	log  *log.Helper
 
 	mapper          *mapper.CopierMapper[adminV1.AdminLoginRestriction, ent.AdminLoginRestriction]
-	typeConverter   *mapper.EnumTypeConverter[adminV1.AdminLoginRestrictionType, adminloginrestriction.Type]
-	methodConverter *mapper.EnumTypeConverter[adminV1.AdminLoginRestrictionMethod, adminloginrestriction.Method]
+	typeConverter   *mapper.EnumTypeConverter[adminV1.AdminLoginRestriction_Type, adminloginrestriction.Type]
+	methodConverter *mapper.EnumTypeConverter[adminV1.AdminLoginRestriction_Method, adminloginrestriction.Method]
 }
 
 func NewAdminLoginRestrictionRepo(data *Data, logger log.Logger) *AdminLoginRestrictionRepo {
@@ -35,8 +35,8 @@ func NewAdminLoginRestrictionRepo(data *Data, logger log.Logger) *AdminLoginRest
 		log:             log.NewHelper(log.With(logger, "module", "admin-login-restriction/repo/admin-service")),
 		data:            data,
 		mapper:          mapper.NewCopierMapper[adminV1.AdminLoginRestriction, ent.AdminLoginRestriction](),
-		typeConverter:   mapper.NewEnumTypeConverter[adminV1.AdminLoginRestrictionType, adminloginrestriction.Type](adminV1.AdminLoginRestrictionType_name, adminV1.AdminLoginRestrictionType_value),
-		methodConverter: mapper.NewEnumTypeConverter[adminV1.AdminLoginRestrictionMethod, adminloginrestriction.Method](adminV1.AdminLoginRestrictionMethod_name, adminV1.AdminLoginRestrictionMethod_value),
+		typeConverter:   mapper.NewEnumTypeConverter[adminV1.AdminLoginRestriction_Type, adminloginrestriction.Type](adminV1.AdminLoginRestriction_Type_name, adminV1.AdminLoginRestriction_Type_value),
+		methodConverter: mapper.NewEnumTypeConverter[adminV1.AdminLoginRestriction_Method, adminloginrestriction.Method](adminV1.AdminLoginRestriction_Method_name, adminV1.AdminLoginRestriction_Method_value),
 	}
 
 	repo.init()
@@ -77,7 +77,7 @@ func (r *AdminLoginRestrictionRepo) List(ctx context.Context, req *pagination.Pa
 	err, whereSelectors, querySelectors := entgo.BuildQuerySelector(
 		req.GetQuery(), req.GetOrQuery(),
 		req.GetPage(), req.GetPageSize(), req.GetNoPaging(),
-		req.GetOrderBy(), adminloginrestriction.FieldCreateTime,
+		req.GetOrderBy(), adminloginrestriction.FieldCreatedAt,
 		req.GetFieldMask().GetPaths(),
 	)
 	if err != nil {
@@ -153,11 +153,11 @@ func (r *AdminLoginRestrictionRepo) Create(ctx context.Context, req *adminV1.Cre
 		SetNillableMethod(r.methodConverter.ToEntity(req.Data.Method)).
 		SetNillableValue(req.Data.Value).
 		SetNillableReason(req.Data.Reason).
-		SetNillableCreateBy(req.Data.CreateBy).
-		SetNillableCreateTime(timeutil.TimestamppbToTime(req.Data.CreateTime))
+		SetNillableCreatedBy(req.Data.CreatedBy).
+		SetNillableCreatedAt(timeutil.TimestamppbToTime(req.Data.CreatedAt))
 
-	if req.Data.CreateTime == nil {
-		builder.SetCreateTime(time.Now())
+	if req.Data.CreatedAt == nil {
+		builder.SetCreatedAt(time.Now())
 	}
 
 	if err := builder.Exec(ctx); err != nil {
@@ -181,8 +181,8 @@ func (r *AdminLoginRestrictionRepo) Update(ctx context.Context, req *adminV1.Upd
 		}
 		if !exist {
 			createReq := &adminV1.CreateAdminLoginRestrictionRequest{Data: req.Data}
-			createReq.Data.CreateBy = createReq.Data.UpdateBy
-			createReq.Data.UpdateBy = nil
+			createReq.Data.CreatedBy = createReq.Data.UpdatedBy
+			createReq.Data.UpdatedBy = nil
 			return r.Create(ctx, createReq)
 		}
 	}
@@ -202,11 +202,11 @@ func (r *AdminLoginRestrictionRepo) Update(ctx context.Context, req *adminV1.Upd
 		SetNillableMethod(r.methodConverter.ToEntity(req.Data.Method)).
 		SetNillableValue(req.Data.Value).
 		SetNillableReason(req.Data.Reason).
-		SetNillableUpdateBy(req.Data.UpdateBy).
-		SetNillableUpdateTime(timeutil.TimestamppbToTime(req.Data.UpdateTime))
+		SetNillableUpdatedBy(req.Data.UpdatedBy).
+		SetNillableUpdatedAt(timeutil.TimestamppbToTime(req.Data.UpdatedAt))
 
-	if req.Data.UpdateTime == nil {
-		builder.SetUpdateTime(time.Now())
+	if req.Data.UpdatedAt == nil {
+		builder.SetUpdatedAt(time.Now())
 	}
 
 	if req.UpdateMask != nil {

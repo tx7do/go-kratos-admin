@@ -4,11 +4,9 @@ import (
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/entsql"
 	"entgo.io/ent/schema"
-	"entgo.io/ent/schema/edge"
 	"entgo.io/ent/schema/field"
+	"entgo.io/ent/schema/index"
 	"github.com/tx7do/go-utils/entgo/mixin"
-
-	appmixin "kratos-admin/pkg/entgo/mixin"
 )
 
 // Department holds the schema definition for the Department entity.
@@ -37,11 +35,6 @@ func (Department) Fields() []ent.Field {
 			Optional().
 			Nillable(),
 
-		field.Uint32("parent_id").
-			Comment("上一层部门ID").
-			Optional().
-			Nillable(),
-
 		field.Uint32("organization_id").
 			Comment("所属组织ID").
 			Nillable(),
@@ -51,18 +44,13 @@ func (Department) Fields() []ent.Field {
 			Optional().
 			Nillable(),
 
-		field.Int32("sort_id").
-			Comment("排序ID").
-			Default(0).
-			Optional().
-			Nillable(),
-
 		field.Enum("status").
 			Comment("部门状态").
 			NamedValues(
-				"DEPARTMENT_STATUS_ON", "ON",
-				"DEPARTMENT_STATUS_OFF", "OFF",
+				"On", "ON",
+				"Off", "OFF",
 			).
+			Default("ON").
 			Optional().
 			Nillable(),
 
@@ -77,19 +65,18 @@ func (Department) Fields() []ent.Field {
 func (Department) Mixin() []ent.Mixin {
 	return []ent.Mixin{
 		mixin.AutoIncrementId{},
-		mixin.Time{},
-		mixin.CreateBy{},
-		mixin.UpdateBy{},
+		mixin.TimeAt{},
+		mixin.OperatorID{},
+		mixin.SortOrder{},
 		mixin.Remark{},
-		appmixin.TenantID{},
+		mixin.Tree[Department]{},
+		mixin.TenantID{},
 	}
 }
 
-// Edges of the Department.
-func (Department) Edges() []ent.Edge {
-	return []ent.Edge{
-		edge.
-			To("children", Department.Type).
-			From("parent").Unique().Field("parent_id"),
+// Indexes of the Department.
+func (Department) Indexes() []ent.Index {
+	return []ent.Index{
+		index.Fields("name").StorageKey("idx_sys_department_name"),
 	}
 }

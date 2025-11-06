@@ -97,10 +97,10 @@ func (s *PositionService) Create(ctx context.Context, req *userV1.CreatePosition
 	// 获取操作人信息
 	operator, err := auth.FromContext(ctx)
 	if err != nil {
-		return &emptypb.Empty{}, err
+		return nil, err
 	}
 
-	req.Data.CreateBy = trans.Ptr(operator.UserId)
+	req.Data.CreatedBy = trans.Ptr(operator.UserId)
 
 	if err = s.positionRepo.Create(ctx, req); err != nil {
 		return nil, err
@@ -117,10 +117,10 @@ func (s *PositionService) Update(ctx context.Context, req *userV1.UpdatePosition
 	// 获取操作人信息
 	operator, err := auth.FromContext(ctx)
 	if err != nil {
-		return &emptypb.Empty{}, err
+		return nil, err
 	}
 
-	req.Data.UpdateBy = trans.Ptr(operator.UserId)
+	req.Data.UpdatedBy = trans.Ptr(operator.UserId)
 
 	if err = s.positionRepo.Update(ctx, req); err != nil {
 		return nil, err

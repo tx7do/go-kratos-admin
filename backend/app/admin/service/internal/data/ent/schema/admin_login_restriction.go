@@ -72,7 +72,7 @@ func (AdminLoginRestriction) Fields() []ent.Field {
 // Indexes of the AdminLoginRestriction.
 func (AdminLoginRestriction) Indexes() []ent.Index {
 	return []ent.Index{
-		index.Fields("target_id", "type", "method").Unique(),
+		index.Fields("target_id", "type", "method").Unique().StorageKey("idx_sys_admin_login_restriction_target_type_method"),
 	}
 }
 
@@ -80,8 +80,7 @@ func (AdminLoginRestriction) Indexes() []ent.Index {
 func (AdminLoginRestriction) Mixin() []ent.Mixin {
 	return []ent.Mixin{
 		mixin.AutoIncrementId{},
-		mixin.Time{},
-		mixin.CreateBy{},
-		mixin.UpdateBy{},
+		mixin.TimeAt{},
+		mixin.OperatorID{},
 	}
 }

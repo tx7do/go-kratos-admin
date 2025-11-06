@@ -1,7 +1,4 @@
 <script lang="ts" setup>
-import type { Department } from '#/generated/api/user/service/v1/department.pb';
-import type { Organization } from '#/generated/api/user/service/v1/organization.pb';
-
 import { computed, ref } from 'vue';
 
 import { useVbenDrawer } from '@vben/common-ui';
@@ -10,10 +7,23 @@ import { $t } from '@vben/locales';
 import { notification } from 'ant-design-vue';
 
 import { useVbenForm, z } from '#/adapter/form';
-import { type Position } from '#/generated/api/user/service/v1/position.pb';
 import {
-  UserAuthority,
-  UserGender,
+  type Department,
+  Department_Status,
+} from '#/generated/api/user/service/v1/department.pb';
+import {
+  type Organization,
+  Organization_Status,
+} from '#/generated/api/user/service/v1/organization.pb';
+import {
+  type Position,
+  Position_Status,
+} from '#/generated/api/user/service/v1/position.pb';
+import { Role_Status } from '#/generated/api/user/service/v1/role.pb';
+import {
+  User_Authority,
+  User_Gender,
+  User_Status,
 } from '#/generated/api/user/service/v1/user.pb';
 import {
   authorityList,
@@ -85,10 +95,14 @@ const [BaseForm, baseFormApi] = useVbenForm({
       component: 'Select',
       fieldName: 'authority',
       label: $t('page.user.table.authority'),
-      defaultValue: UserAuthority.CUSTOMER_USER,
+      defaultValue: User_Authority.CUSTOMER_USER,
       componentProps: {
         placeholder: $t('ui.placeholder.select'),
         options: authorityList,
+        filterOption: (input: string, option: any) =>
+          option.label.toLowerCase().includes(input.toLowerCase()),
+        allowClear: true,
+        showSearch: true,
       },
       rules: 'selectRequired',
       dependencies: {
@@ -110,8 +124,12 @@ const [BaseForm, baseFormApi] = useVbenForm({
         childrenField: 'children',
         labelField: 'name',
         valueField: 'id',
+        treeNodeFilterProp: 'label',
         api: async () => {
-          const result = await roleStore.listRole(true);
+          const result = await roleStore.listRole(true, null, null, {
+            // parent_id: 0,
+            status: Role_Status.ON,
+          });
 
           return result.items;
         },
@@ -130,9 +148,10 @@ const [BaseForm, baseFormApi] = useVbenForm({
         childrenField: 'children',
         labelField: 'name',
         valueField: 'id',
+        treeNodeFilterProp: 'label',
         api: async () => {
           const result = await orgStore.listOrganization(true, null, null, {
-            status: 'ON',
+            status: Organization_Status.ON,
           });
           orgList.value = result.items;
           return result.items;
@@ -166,12 +185,13 @@ const [BaseForm, baseFormApi] = useVbenForm({
         childrenField: 'children',
         labelField: 'name',
         valueField: 'id',
+        treeNodeFilterProp: 'label',
         api: async () => {
           const values = await baseFormApi.getValues();
           // console.log('values', values);
 
           const result = await deptStore.listDepartment(true, null, null, {
-            status: 'ON',
+            status: Department_Status.ON,
             organizationId: values.orgId,
           });
           deptList.value = result.items;
@@ -216,9 +236,10 @@ const [BaseForm, baseFormApi] = useVbenForm({
         childrenField: 'children',
         labelField: 'name',
         valueField: 'id',
+        treeNodeFilterProp: 'label',
         api: async () => {
           const result = await positionStore.listPosition(true, null, null, {
-            status: 'ON',
+            status: Position_Status.ON,
           });
           positionList.value = result.items;
           return result.items;
@@ -255,8 +276,12 @@ const [BaseForm, baseFormApi] = useVbenForm({
       component: 'Select',
       fieldName: 'gender',
       label: $t('page.user.table.gender'),
-      defaultValue: UserGender.SECRET,
+      defaultValue: User_Gender.SECRET,
       componentProps: {
+        filterOption: (input: string, option: any) =>
+          option.label.toLowerCase().includes(input.toLowerCase()),
+        allowClear: true,
+        showSearch: true,
         options: genderList,
         placeholder: $t('ui.placeholder.select'),
       },
@@ -305,7 +330,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
       component: 'RadioGroup',
       fieldName: 'status',
       label: $t('ui.table.status'),
-      defaultValue: 'ON',
+      defaultValue: User_Status.ON,
       rules: 'selectRequired',
       componentProps: {
         optionType: 'button',

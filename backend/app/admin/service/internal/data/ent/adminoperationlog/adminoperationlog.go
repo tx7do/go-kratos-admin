@@ -11,8 +11,8 @@ const (
 	Label = "admin_operation_log"
 	// FieldID holds the string denoting the id field in the database.
 	FieldID = "id"
-	// FieldCreateTime holds the string denoting the create_time field in the database.
-	FieldCreateTime = "create_time"
+	// FieldCreatedAt holds the string denoting the created_at field in the database.
+	FieldCreatedAt = "created_at"
 	// FieldRequestID holds the string denoting the request_id field in the database.
 	FieldRequestID = "request_id"
 	// FieldMethod holds the string denoting the method field in the database.
@@ -68,7 +68,7 @@ const (
 // Columns holds all SQL columns for adminoperationlog fields.
 var Columns = []string{
 	FieldID,
-	FieldCreateTime,
+	FieldCreatedAt,
 	FieldRequestID,
 	FieldMethod,
 	FieldOperation,
@@ -118,9 +118,9 @@ func ByID(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldID, opts...).ToFunc()
 }
 
-// ByCreateTime orders the results by the create_time field.
-func ByCreateTime(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldCreateTime, opts...).ToFunc()
+// ByCreatedAt orders the results by the created_at field.
+func ByCreatedAt(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldCreatedAt, opts...).ToFunc()
 }
 
 // ByRequestID orders the results by the request_id field.

@@ -37,3 +37,10 @@ export const LucideEllipsisVertical = createIconifyIcon(
   'lucide:ellipsis-vertical',
 );
 export const LucideEllipsis = createIconifyIcon('lucide:ellipsis');
+
+export const LucideCirclePlay = createIconifyIcon('lucide:circle-play');
+export const LucideCircleStop = createIconifyIcon('lucide:circle-stop');
+export const LucideRotateCcw = createIconifyIcon('lucide:rotate-ccw');
+
+export const LucidePlus = createIconifyIcon('lucide:plus');
+export const LucideCirclePlus = createIconifyIcon('lucide:circle-plus');

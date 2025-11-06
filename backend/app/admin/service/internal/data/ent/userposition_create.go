@@ -22,58 +22,86 @@ type UserPositionCreate struct {
 	conflict []sql.ConflictOption
 }
 
-// SetCreateTime sets the "create_time" field.
-func (_c *UserPositionCreate) SetCreateTime(v time.Time) *UserPositionCreate {
-	_c.mutation.SetCreateTime(v)
+// SetCreatedAt sets the "created_at" field.
+func (_c *UserPositionCreate) SetCreatedAt(v time.Time) *UserPositionCreate {
+	_c.mutation.SetCreatedAt(v)
 	return _c
 }
 
-// SetNillableCreateTime sets the "create_time" field if the given value is not nil.
-func (_c *UserPositionCreate) SetNillableCreateTime(v *time.Time) *UserPositionCreate {
+// SetNillableCreatedAt sets the "created_at" field if the given value is not nil.
+func (_c *UserPositionCreate) SetNillableCreatedAt(v *time.Time) *UserPositionCreate {
 	if v != nil {
-		_c.SetCreateTime(*v)
+		_c.SetCreatedAt(*v)
 	}
 	return _c
 }
 
-// SetUpdateTime sets the "update_time" field.
-func (_c *UserPositionCreate) SetUpdateTime(v time.Time) *UserPositionCreate {
-	_c.mutation.SetUpdateTime(v)
+// SetUpdatedAt sets the "updated_at" field.
+func (_c *UserPositionCreate) SetUpdatedAt(v time.Time) *UserPositionCreate {
+	_c.mutation.SetUpdatedAt(v)
 	return _c
 }
 
-// SetNillableUpdateTime sets the "update_time" field if the given value is not nil.
-func (_c *UserPositionCreate) SetNillableUpdateTime(v *time.Time) *UserPositionCreate {
+// SetNillableUpdatedAt sets the "updated_at" field if the given value is not nil.
+func (_c *UserPositionCreate) SetNillableUpdatedAt(v *time.Time) *UserPositionCreate {
 	if v != nil {
-		_c.SetUpdateTime(*v)
+		_c.SetUpdatedAt(*v)
 	}
 	return _c
 }
 
-// SetDeleteTime sets the "delete_time" field.
-func (_c *UserPositionCreate) SetDeleteTime(v time.Time) *UserPositionCreate {
-	_c.mutation.SetDeleteTime(v)
+// SetDeletedAt sets the "deleted_at" field.
+func (_c *UserPositionCreate) SetDeletedAt(v time.Time) *UserPositionCreate {
+	_c.mutation.SetDeletedAt(v)
 	return _c
 }
 
-// SetNillableDeleteTime sets the "delete_time" field if the given value is not nil.
-func (_c *UserPositionCreate) SetNillableDeleteTime(v *time.Time) *UserPositionCreate {
+// SetNillableDeletedAt sets the "deleted_at" field if the given value is not nil.
+func (_c *UserPositionCreate) SetNillableDeletedAt(v *time.Time) *UserPositionCreate {
 	if v != nil {
-		_c.SetDeleteTime(*v)
+		_c.SetDeletedAt(*v)
 	}
 	return _c
 }
 
-// SetCreateBy sets the "create_by" field.
-func (_c *UserPositionCreate) SetCreateBy(v uint32) *UserPositionCreate {
-	_c.mutation.SetCreateBy(v)
+// SetCreatedBy sets the "created_by" field.
+func (_c *UserPositionCreate) SetCreatedBy(v uint32) *UserPositionCreate {
+	_c.mutation.SetCreatedBy(v)
 	return _c
 }
 
-// SetNillableCreateBy sets the "create_by" field if the given value is not nil.
-func (_c *UserPositionCreate) SetNillableCreateBy(v *uint32) *UserPositionCreate {
+// SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
+func (_c *UserPositionCreate) SetNillableCreatedBy(v *uint32) *UserPositionCreate {
 	if v != nil {
-		_c.SetCreateBy(*v)
+		_c.SetCreatedBy(*v)
+	}
+	return _c
+}
+
+// SetUpdatedBy sets the "updated_by" field.
+func (_c *UserPositionCreate) SetUpdatedBy(v uint32) *UserPositionCreate {
+	_c.mutation.SetUpdatedBy(v)
+	return _c
+}
+
+// SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
+func (_c *UserPositionCreate) SetNillableUpdatedBy(v *uint32) *UserPositionCreate {
+	if v != nil {
+		_c.SetUpdatedBy(*v)
+	}
+	return _c
+}
+
+// SetDeletedBy sets the "deleted_by" field.
+func (_c *UserPositionCreate) SetDeletedBy(v uint32) *UserPositionCreate {
+	_c.mutation.SetDeletedBy(v)
+	return _c
+}
+
+// SetNillableDeletedBy sets the "deleted_by" field if the given value is not nil.
+func (_c *UserPositionCreate) SetNillableDeletedBy(v *uint32) *UserPositionCreate {
+	if v != nil {
+		_c.SetDeletedBy(*v)
 	}
 	return _c
 }
@@ -174,21 +202,29 @@ func (_c *UserPositionCreate) createSpec() (*UserPosition, *sqlgraph.CreateSpec)
 		_node.ID = id
 		_spec.ID.Value = id
 	}
-	if value, ok := _c.mutation.CreateTime(); ok {
-		_spec.SetField(userposition.FieldCreateTime, field.TypeTime, value)
-		_node.CreateTime = &value
+	if value, ok := _c.mutation.CreatedAt(); ok {
+		_spec.SetField(userposition.FieldCreatedAt, field.TypeTime, value)
+		_node.CreatedAt = &value
 	}
-	if value, ok := _c.mutation.UpdateTime(); ok {
-		_spec.SetField(userposition.FieldUpdateTime, field.TypeTime, value)
-		_node.UpdateTime = &value
+	if value, ok := _c.mutation.UpdatedAt(); ok {
+		_spec.SetField(userposition.FieldUpdatedAt, field.TypeTime, value)
+		_node.UpdatedAt = &value
 	}
-	if value, ok := _c.mutation.DeleteTime(); ok {
-		_spec.SetField(userposition.FieldDeleteTime, field.TypeTime, value)
-		_node.DeleteTime = &value
+	if value, ok := _c.mutation.DeletedAt(); ok {
+		_spec.SetField(userposition.FieldDeletedAt, field.TypeTime, value)
+		_node.DeletedAt = &value
 	}
-	if value, ok := _c.mutation.CreateBy(); ok {
-		_spec.SetField(userposition.FieldCreateBy, field.TypeUint32, value)
-		_node.CreateBy = &value
+	if value, ok := _c.mutation.CreatedBy(); ok {
+		_spec.SetField(userposition.FieldCreatedBy, field.TypeUint32, value)
+		_node.CreatedBy = &value
+	}
+	if value, ok := _c.mutation.UpdatedBy(); ok {
+		_spec.SetField(userposition.FieldUpdatedBy, field.TypeUint32, value)
+		_node.UpdatedBy = &value
+	}
+	if value, ok := _c.mutation.DeletedBy(); ok {
+		_spec.SetField(userposition.FieldDeletedBy, field.TypeUint32, value)
+		_node.DeletedBy = &value
 	}
 	if value, ok := _c.mutation.UserID(); ok {
 		_spec.SetField(userposition.FieldUserID, field.TypeUint32, value)
@@ -205,7 +241,7 @@ func (_c *UserPositionCreate) createSpec() (*UserPosition, *sqlgraph.CreateSpec)
 // of the `INSERT` statement. For example:
 //
 //	client.UserPosition.Create().
-//		SetCreateTime(v).
+//		SetCreatedAt(v).
 //		OnConflict(
 //			// Update the row with the new values
 //			// the was proposed for insertion.
@@ -214,7 +250,7 @@ func (_c *UserPositionCreate) createSpec() (*UserPosition, *sqlgraph.CreateSpec)
 //		// Override some of the fields with custom
 //		// update values.
 //		Update(func(u *ent.UserPositionUpsert) {
-//			SetCreateTime(v+v).
+//			SetCreatedAt(v+v).
 //		}).
 //		Exec(ctx)
 func (_c *UserPositionCreate) OnConflict(opts ...sql.ConflictOption) *UserPositionUpsertOne {
@@ -250,63 +286,111 @@ type (
 	}
 )
 
-// SetUpdateTime sets the "update_time" field.
-func (u *UserPositionUpsert) SetUpdateTime(v time.Time) *UserPositionUpsert {
-	u.Set(userposition.FieldUpdateTime, v)
+// SetUpdatedAt sets the "updated_at" field.
+func (u *UserPositionUpsert) SetUpdatedAt(v time.Time) *UserPositionUpsert {
+	u.Set(userposition.FieldUpdatedAt, v)
 	return u
 }
 
-// UpdateUpdateTime sets the "update_time" field to the value that was provided on create.
-func (u *UserPositionUpsert) UpdateUpdateTime() *UserPositionUpsert {
-	u.SetExcluded(userposition.FieldUpdateTime)
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *UserPositionUpsert) UpdateUpdatedAt() *UserPositionUpsert {
+	u.SetExcluded(userposition.FieldUpdatedAt)
 	return u
 }
 
-// ClearUpdateTime clears the value of the "update_time" field.
-func (u *UserPositionUpsert) ClearUpdateTime() *UserPositionUpsert {
-	u.SetNull(userposition.FieldUpdateTime)
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (u *UserPositionUpsert) ClearUpdatedAt() *UserPositionUpsert {
+	u.SetNull(userposition.FieldUpdatedAt)
 	return u
 }
 
-// SetDeleteTime sets the "delete_time" field.
-func (u *UserPositionUpsert) SetDeleteTime(v time.Time) *UserPositionUpsert {
-	u.Set(userposition.FieldDeleteTime, v)
+// SetDeletedAt sets the "deleted_at" field.
+func (u *UserPositionUpsert) SetDeletedAt(v time.Time) *UserPositionUpsert {
+	u.Set(userposition.FieldDeletedAt, v)
 	return u
 }
 
-// UpdateDeleteTime sets the "delete_time" field to the value that was provided on create.
-func (u *UserPositionUpsert) UpdateDeleteTime() *UserPositionUpsert {
-	u.SetExcluded(userposition.FieldDeleteTime)
+// UpdateDeletedAt sets the "deleted_at" field to the value that was provided on create.
+func (u *UserPositionUpsert) UpdateDeletedAt() *UserPositionUpsert {
+	u.SetExcluded(userposition.FieldDeletedAt)
 	return u
 }
 
-// ClearDeleteTime clears the value of the "delete_time" field.
-func (u *UserPositionUpsert) ClearDeleteTime() *UserPositionUpsert {
-	u.SetNull(userposition.FieldDeleteTime)
+// ClearDeletedAt clears the value of the "deleted_at" field.
+func (u *UserPositionUpsert) ClearDeletedAt() *UserPositionUpsert {
+	u.SetNull(userposition.FieldDeletedAt)
 	return u
 }
 
-// SetCreateBy sets the "create_by" field.
-func (u *UserPositionUpsert) SetCreateBy(v uint32) *UserPositionUpsert {
-	u.Set(userposition.FieldCreateBy, v)
+// SetCreatedBy sets the "created_by" field.
+func (u *UserPositionUpsert) SetCreatedBy(v uint32) *UserPositionUpsert {
+	u.Set(userposition.FieldCreatedBy, v)
 	return u
 }
 
-// UpdateCreateBy sets the "create_by" field to the value that was provided on create.
-func (u *UserPositionUpsert) UpdateCreateBy() *UserPositionUpsert {
-	u.SetExcluded(userposition.FieldCreateBy)
+// UpdateCreatedBy sets the "created_by" field to the value that was provided on create.
+func (u *UserPositionUpsert) UpdateCreatedBy() *UserPositionUpsert {
+	u.SetExcluded(userposition.FieldCreatedBy)
 	return u
 }
 
-// AddCreateBy adds v to the "create_by" field.
-func (u *UserPositionUpsert) AddCreateBy(v uint32) *UserPositionUpsert {
-	u.Add(userposition.FieldCreateBy, v)
+// AddCreatedBy adds v to the "created_by" field.
+func (u *UserPositionUpsert) AddCreatedBy(v uint32) *UserPositionUpsert {
+	u.Add(userposition.FieldCreatedBy, v)
 	return u
 }
 
-// ClearCreateBy clears the value of the "create_by" field.
-func (u *UserPositionUpsert) ClearCreateBy() *UserPositionUpsert {
-	u.SetNull(userposition.FieldCreateBy)
+// ClearCreatedBy clears the value of the "created_by" field.
+func (u *UserPositionUpsert) ClearCreatedBy() *UserPositionUpsert {
+	u.SetNull(userposition.FieldCreatedBy)
+	return u
+}
+
+// SetUpdatedBy sets the "updated_by" field.
+func (u *UserPositionUpsert) SetUpdatedBy(v uint32) *UserPositionUpsert {
+	u.Set(userposition.FieldUpdatedBy, v)
+	return u
+}
+
+// UpdateUpdatedBy sets the "updated_by" field to the value that was provided on create.
+func (u *UserPositionUpsert) UpdateUpdatedBy() *UserPositionUpsert {
+	u.SetExcluded(userposition.FieldUpdatedBy)
+	return u
+}
+
+// AddUpdatedBy adds v to the "updated_by" field.
+func (u *UserPositionUpsert) AddUpdatedBy(v uint32) *UserPositionUpsert {
+	u.Add(userposition.FieldUpdatedBy, v)
+	return u
+}
+
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (u *UserPositionUpsert) ClearUpdatedBy() *UserPositionUpsert {
+	u.SetNull(userposition.FieldUpdatedBy)
+	return u
+}
+
+// SetDeletedBy sets the "deleted_by" field.
+func (u *UserPositionUpsert) SetDeletedBy(v uint32) *UserPositionUpsert {
+	u.Set(userposition.FieldDeletedBy, v)
+	return u
+}
+
+// UpdateDeletedBy sets the "deleted_by" field to the value that was provided on create.
+func (u *UserPositionUpsert) UpdateDeletedBy() *UserPositionUpsert {
+	u.SetExcluded(userposition.FieldDeletedBy)
+	return u
+}
+
+// AddDeletedBy adds v to the "deleted_by" field.
+func (u *UserPositionUpsert) AddDeletedBy(v uint32) *UserPositionUpsert {
+	u.Add(userposition.FieldDeletedBy, v)
+	return u
+}
+
+// ClearDeletedBy clears the value of the "deleted_by" field.
+func (u *UserPositionUpsert) ClearDeletedBy() *UserPositionUpsert {
+	u.SetNull(userposition.FieldDeletedBy)
 	return u
 }
 
@@ -363,8 +447,8 @@ func (u *UserPositionUpsertOne) UpdateNewValues() *UserPositionUpsertOne {
 		if _, exists := u.create.mutation.ID(); exists {
 			s.SetIgnore(userposition.FieldID)
 		}
-		if _, exists := u.create.mutation.CreateTime(); exists {
-			s.SetIgnore(userposition.FieldCreateTime)
+		if _, exists := u.create.mutation.CreatedAt(); exists {
+			s.SetIgnore(userposition.FieldCreatedAt)
 		}
 	}))
 	return u
@@ -397,73 +481,129 @@ func (u *UserPositionUpsertOne) Update(set func(*UserPositionUpsert)) *UserPosit
 	return u
 }
 
-// SetUpdateTime sets the "update_time" field.
-func (u *UserPositionUpsertOne) SetUpdateTime(v time.Time) *UserPositionUpsertOne {
+// SetUpdatedAt sets the "updated_at" field.
+func (u *UserPositionUpsertOne) SetUpdatedAt(v time.Time) *UserPositionUpsertOne {
 	return u.Update(func(s *UserPositionUpsert) {
-		s.SetUpdateTime(v)
+		s.SetUpdatedAt(v)
 	})
 }
 
-// UpdateUpdateTime sets the "update_time" field to the value that was provided on create.
-func (u *UserPositionUpsertOne) UpdateUpdateTime() *UserPositionUpsertOne {
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *UserPositionUpsertOne) UpdateUpdatedAt() *UserPositionUpsertOne {
 	return u.Update(func(s *UserPositionUpsert) {
-		s.UpdateUpdateTime()
+		s.UpdateUpdatedAt()
 	})
 }
 
-// ClearUpdateTime clears the value of the "update_time" field.
-func (u *UserPositionUpsertOne) ClearUpdateTime() *UserPositionUpsertOne {
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (u *UserPositionUpsertOne) ClearUpdatedAt() *UserPositionUpsertOne {
 	return u.Update(func(s *UserPositionUpsert) {
-		s.ClearUpdateTime()
+		s.ClearUpdatedAt()
 	})
 }
 
-// SetDeleteTime sets the "delete_time" field.
-func (u *UserPositionUpsertOne) SetDeleteTime(v time.Time) *UserPositionUpsertOne {
+// SetDeletedAt sets the "deleted_at" field.
+func (u *UserPositionUpsertOne) SetDeletedAt(v time.Time) *UserPositionUpsertOne {
 	return u.Update(func(s *UserPositionUpsert) {
-		s.SetDeleteTime(v)
+		s.SetDeletedAt(v)
 	})
 }
 
-// UpdateDeleteTime sets the "delete_time" field to the value that was provided on create.
-func (u *UserPositionUpsertOne) UpdateDeleteTime() *UserPositionUpsertOne {
+// UpdateDeletedAt sets the "deleted_at" field to the value that was provided on create.
+func (u *UserPositionUpsertOne) UpdateDeletedAt() *UserPositionUpsertOne {
 	return u.Update(func(s *UserPositionUpsert) {
-		s.UpdateDeleteTime()
+		s.UpdateDeletedAt()
 	})
 }
 
-// ClearDeleteTime clears the value of the "delete_time" field.
-func (u *UserPositionUpsertOne) ClearDeleteTime() *UserPositionUpsertOne {
+// ClearDeletedAt clears the value of the "deleted_at" field.
+func (u *UserPositionUpsertOne) ClearDeletedAt() *UserPositionUpsertOne {
 	return u.Update(func(s *UserPositionUpsert) {
-		s.ClearDeleteTime()
+		s.ClearDeletedAt()
 	})
 }
 
-// SetCreateBy sets the "create_by" field.
-func (u *UserPositionUpsertOne) SetCreateBy(v uint32) *UserPositionUpsertOne {
+// SetCreatedBy sets the "created_by" field.
+func (u *UserPositionUpsertOne) SetCreatedBy(v uint32) *UserPositionUpsertOne {
 	return u.Update(func(s *UserPositionUpsert) {
-		s.SetCreateBy(v)
+		s.SetCreatedBy(v)
 	})
 }
 
-// AddCreateBy adds v to the "create_by" field.
-func (u *UserPositionUpsertOne) AddCreateBy(v uint32) *UserPositionUpsertOne {
+// AddCreatedBy adds v to the "created_by" field.
+func (u *UserPositionUpsertOne) AddCreatedBy(v uint32) *UserPositionUpsertOne {
 	return u.Update(func(s *UserPositionUpsert) {
-		s.AddCreateBy(v)
+		s.AddCreatedBy(v)
 	})
 }
 
-// UpdateCreateBy sets the "create_by" field to the value that was provided on create.
-func (u *UserPositionUpsertOne) UpdateCreateBy() *UserPositionUpsertOne {
+// UpdateCreatedBy sets the "created_by" field to the value that was provided on create.
+func (u *UserPositionUpsertOne) UpdateCreatedBy() *UserPositionUpsertOne {
 	return u.Update(func(s *UserPositionUpsert) {
-		s.UpdateCreateBy()
+		s.UpdateCreatedBy()
 	})
 }
 
-// ClearCreateBy clears the value of the "create_by" field.
-func (u *UserPositionUpsertOne) ClearCreateBy() *UserPositionUpsertOne {
+// ClearCreatedBy clears the value of the "created_by" field.
+func (u *UserPositionUpsertOne) ClearCreatedBy() *UserPositionUpsertOne {
 	return u.Update(func(s *UserPositionUpsert) {
-		s.ClearCreateBy()
+		s.ClearCreatedBy()
+	})
+}
+
+// SetUpdatedBy sets the "updated_by" field.
+func (u *UserPositionUpsertOne) SetUpdatedBy(v uint32) *UserPositionUpsertOne {
+	return u.Update(func(s *UserPositionUpsert) {
+		s.SetUpdatedBy(v)
+	})
+}
+
+// AddUpdatedBy adds v to the "updated_by" field.
+func (u *UserPositionUpsertOne) AddUpdatedBy(v uint32) *UserPositionUpsertOne {
+	return u.Update(func(s *UserPositionUpsert) {
+		s.AddUpdatedBy(v)
+	})
+}
+
+// UpdateUpdatedBy sets the "updated_by" field to the value that was provided on create.
+func (u *UserPositionUpsertOne) UpdateUpdatedBy() *UserPositionUpsertOne {
+	return u.Update(func(s *UserPositionUpsert) {
+		s.UpdateUpdatedBy()
+	})
+}
+
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (u *UserPositionUpsertOne) ClearUpdatedBy() *UserPositionUpsertOne {
+	return u.Update(func(s *UserPositionUpsert) {
+		s.ClearUpdatedBy()
+	})
+}
+
+// SetDeletedBy sets the "deleted_by" field.
+func (u *UserPositionUpsertOne) SetDeletedBy(v uint32) *UserPositionUpsertOne {
+	return u.Update(func(s *UserPositionUpsert) {
+		s.SetDeletedBy(v)
+	})
+}
+
+// AddDeletedBy adds v to the "deleted_by" field.
+func (u *UserPositionUpsertOne) AddDeletedBy(v uint32) *UserPositionUpsertOne {
+	return u.Update(func(s *UserPositionUpsert) {
+		s.AddDeletedBy(v)
+	})
+}
+
+// UpdateDeletedBy sets the "deleted_by" field to the value that was provided on create.
+func (u *UserPositionUpsertOne) UpdateDeletedBy() *UserPositionUpsertOne {
+	return u.Update(func(s *UserPositionUpsert) {
+		s.UpdateDeletedBy()
+	})
+}
+
+// ClearDeletedBy clears the value of the "deleted_by" field.
+func (u *UserPositionUpsertOne) ClearDeletedBy() *UserPositionUpsertOne {
+	return u.Update(func(s *UserPositionUpsert) {
+		s.ClearDeletedBy()
 	})
 }
 
@@ -643,7 +783,7 @@ func (_c *UserPositionCreateBulk) ExecX(ctx context.Context) {
 //		// Override some of the fields with custom
 //		// update values.
 //		Update(func(u *ent.UserPositionUpsert) {
-//			SetCreateTime(v+v).
+//			SetCreatedAt(v+v).
 //		}).
 //		Exec(ctx)
 func (_c *UserPositionCreateBulk) OnConflict(opts ...sql.ConflictOption) *UserPositionUpsertBulk {
@@ -690,8 +830,8 @@ func (u *UserPositionUpsertBulk) UpdateNewValues() *UserPositionUpsertBulk {
 			if _, exists := b.mutation.ID(); exists {
 				s.SetIgnore(userposition.FieldID)
 			}
-			if _, exists := b.mutation.CreateTime(); exists {
-				s.SetIgnore(userposition.FieldCreateTime)
+			if _, exists := b.mutation.CreatedAt(); exists {
+				s.SetIgnore(userposition.FieldCreatedAt)
 			}
 		}
 	}))
@@ -725,73 +865,129 @@ func (u *UserPositionUpsertBulk) Update(set func(*UserPositionUpsert)) *UserPosi
 	return u
 }
 
-// SetUpdateTime sets the "update_time" field.
-func (u *UserPositionUpsertBulk) SetUpdateTime(v time.Time) *UserPositionUpsertBulk {
+// SetUpdatedAt sets the "updated_at" field.
+func (u *UserPositionUpsertBulk) SetUpdatedAt(v time.Time) *UserPositionUpsertBulk {
 	return u.Update(func(s *UserPositionUpsert) {
-		s.SetUpdateTime(v)
+		s.SetUpdatedAt(v)
 	})
 }
 
-// UpdateUpdateTime sets the "update_time" field to the value that was provided on create.
-func (u *UserPositionUpsertBulk) UpdateUpdateTime() *UserPositionUpsertBulk {
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *UserPositionUpsertBulk) UpdateUpdatedAt() *UserPositionUpsertBulk {
 	return u.Update(func(s *UserPositionUpsert) {
-		s.UpdateUpdateTime()
+		s.UpdateUpdatedAt()
 	})
 }
 
-// ClearUpdateTime clears the value of the "update_time" field.
-func (u *UserPositionUpsertBulk) ClearUpdateTime() *UserPositionUpsertBulk {
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (u *UserPositionUpsertBulk) ClearUpdatedAt() *UserPositionUpsertBulk {
 	return u.Update(func(s *UserPositionUpsert) {
-		s.ClearUpdateTime()
+		s.ClearUpdatedAt()
 	})
 }
 
-// SetDeleteTime sets the "delete_time" field.
-func (u *UserPositionUpsertBulk) SetDeleteTime(v time.Time) *UserPositionUpsertBulk {
+// SetDeletedAt sets the "deleted_at" field.
+func (u *UserPositionUpsertBulk) SetDeletedAt(v time.Time) *UserPositionUpsertBulk {
 	return u.Update(func(s *UserPositionUpsert) {
-		s.SetDeleteTime(v)
+		s.SetDeletedAt(v)
 	})
 }
 
-// UpdateDeleteTime sets the "delete_time" field to the value that was provided on create.
-func (u *UserPositionUpsertBulk) UpdateDeleteTime() *UserPositionUpsertBulk {
+// UpdateDeletedAt sets the "deleted_at" field to the value that was provided on create.
+func (u *UserPositionUpsertBulk) UpdateDeletedAt() *UserPositionUpsertBulk {
 	return u.Update(func(s *UserPositionUpsert) {
-		s.UpdateDeleteTime()
+		s.UpdateDeletedAt()
 	})
 }
 
-// ClearDeleteTime clears the value of the "delete_time" field.
-func (u *UserPositionUpsertBulk) ClearDeleteTime() *UserPositionUpsertBulk {
+// ClearDeletedAt clears the value of the "deleted_at" field.
+func (u *UserPositionUpsertBulk) ClearDeletedAt() *UserPositionUpsertBulk {
 	return u.Update(func(s *UserPositionUpsert) {
-		s.ClearDeleteTime()
+		s.ClearDeletedAt()
 	})
 }
 
-// SetCreateBy sets the "create_by" field.
-func (u *UserPositionUpsertBulk) SetCreateBy(v uint32) *UserPositionUpsertBulk {
+// SetCreatedBy sets the "created_by" field.
+func (u *UserPositionUpsertBulk) SetCreatedBy(v uint32) *UserPositionUpsertBulk {
 	return u.Update(func(s *UserPositionUpsert) {
-		s.SetCreateBy(v)
+		s.SetCreatedBy(v)
 	})
 }
 
-// AddCreateBy adds v to the "create_by" field.
-func (u *UserPositionUpsertBulk) AddCreateBy(v uint32) *UserPositionUpsertBulk {
+// AddCreatedBy adds v to the "created_by" field.
+func (u *UserPositionUpsertBulk) AddCreatedBy(v uint32) *UserPositionUpsertBulk {
 	return u.Update(func(s *UserPositionUpsert) {
-		s.AddCreateBy(v)
+		s.AddCreatedBy(v)
 	})
 }
 
-// UpdateCreateBy sets the "create_by" field to the value that was provided on create.
-func (u *UserPositionUpsertBulk) UpdateCreateBy() *UserPositionUpsertBulk {
+// UpdateCreatedBy sets the "created_by" field to the value that was provided on create.
+func (u *UserPositionUpsertBulk) UpdateCreatedBy() *UserPositionUpsertBulk {
 	return u.Update(func(s *UserPositionUpsert) {
-		s.UpdateCreateBy()
+		s.UpdateCreatedBy()
 	})
 }
 
-// ClearCreateBy clears the value of the "create_by" field.
-func (u *UserPositionUpsertBulk) ClearCreateBy() *UserPositionUpsertBulk {
+// ClearCreatedBy clears the value of the "created_by" field.
+func (u *UserPositionUpsertBulk) ClearCreatedBy() *UserPositionUpsertBulk {
 	return u.Update(func(s *UserPositionUpsert) {
-		s.ClearCreateBy()
+		s.ClearCreatedBy()
+	})
+}
+
+// SetUpdatedBy sets the "updated_by" field.
+func (u *UserPositionUpsertBulk) SetUpdatedBy(v uint32) *UserPositionUpsertBulk {
+	return u.Update(func(s *UserPositionUpsert) {
+		s.SetUpdatedBy(v)
+	})
+}
+
+// AddUpdatedBy adds v to the "updated_by" field.
+func (u *UserPositionUpsertBulk) AddUpdatedBy(v uint32) *UserPositionUpsertBulk {
+	return u.Update(func(s *UserPositionUpsert) {
+		s.AddUpdatedBy(v)
+	})
+}
+
+// UpdateUpdatedBy sets the "updated_by" field to the value that was provided on create.
+func (u *UserPositionUpsertBulk) UpdateUpdatedBy() *UserPositionUpsertBulk {
+	return u.Update(func(s *UserPositionUpsert) {
+		s.UpdateUpdatedBy()
+	})
+}
+
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (u *UserPositionUpsertBulk) ClearUpdatedBy() *UserPositionUpsertBulk {
+	return u.Update(func(s *UserPositionUpsert) {
+		s.ClearUpdatedBy()
+	})
+}
+
+// SetDeletedBy sets the "deleted_by" field.
+func (u *UserPositionUpsertBulk) SetDeletedBy(v uint32) *UserPositionUpsertBulk {
+	return u.Update(func(s *UserPositionUpsert) {
+		s.SetDeletedBy(v)
+	})
+}
+
+// AddDeletedBy adds v to the "deleted_by" field.
+func (u *UserPositionUpsertBulk) AddDeletedBy(v uint32) *UserPositionUpsertBulk {
+	return u.Update(func(s *UserPositionUpsert) {
+		s.AddDeletedBy(v)
+	})
+}
+
+// UpdateDeletedBy sets the "deleted_by" field to the value that was provided on create.
+func (u *UserPositionUpsertBulk) UpdateDeletedBy() *UserPositionUpsertBulk {
+	return u.Update(func(s *UserPositionUpsert) {
+		s.UpdateDeletedBy()
+	})
+}
+
+// ClearDeletedBy clears the value of the "deleted_by" field.
+func (u *UserPositionUpsertBulk) ClearDeletedBy() *UserPositionUpsertBulk {
+	return u.Update(func(s *UserPositionUpsert) {
+		s.ClearDeletedBy()
 	})
 }
 

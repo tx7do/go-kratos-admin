@@ -1,4 +1,5 @@
 import type { App } from 'vue';
+import VueUeditorWrap from 'vue-ueditor-wrap';
 
 import {
   Button,
@@ -34,5 +35,6 @@ export function registerGlobComp(app: App) {
     .use(Tabs)
     .use(Divider)
     .use(Menu)
+    .use(VueUeditorWrap)
     .use(Tree);
 }

@@ -12,11 +12,10 @@ import { notification } from 'ant-design-vue';
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
 import { $t } from '#/locales';
 import {
-  departmentStatusToColor,
-  departmentStatusToName,
   statusList,
-  statusToColor, statusToName,
-  useRoleStore
+  statusToColor,
+  statusToName,
+  useRoleStore,
 } from '#/stores';
 
 import RoleDrawer from './role-drawer.vue';
@@ -56,33 +55,33 @@ const formOptions: VbenFormProps = {
       componentProps: {
         options: statusList,
         placeholder: $t('ui.placeholder.select'),
+        filterOption: (input: string, option: any) =>
+          option.label.toLowerCase().includes(input.toLowerCase()),
         allowClear: true,
+        showSearch: true,
       },
     },
   ],
 };
 
 const gridOptions: VxeGridProps<Role> = {
+  height: 'auto',
+  stripe: false,
   toolbarConfig: {
     custom: true,
     export: true,
-    // import: true,
+    import: false,
     refresh: true,
     zoom: true,
   },
-  height: 'auto',
   exportConfig: {},
   pagerConfig: {},
   rowConfig: {
     isHover: true,
   },
-
-  // stripe: true,
-
   treeConfig: {
     childrenField: 'children',
     rowField: 'id',
-    // transform: true,
   },
 
   proxyConfig: {
@@ -104,7 +103,7 @@ const gridOptions: VxeGridProps<Role> = {
     { title: $t('ui.table.seq'), type: 'seq', width: 50 },
     { title: $t('page.role.name'), field: 'name', treeNode: true },
     { title: $t('page.role.code'), field: 'code', width: 140 },
-    { title: $t('ui.table.sortId'), field: 'sortId', width: 70 },
+    { title: $t('ui.table.sortOrder'), field: 'sortOrder', width: 70 },
     {
       title: $t('ui.table.status'),
       field: 'status',
@@ -113,8 +112,8 @@ const gridOptions: VxeGridProps<Role> = {
     },
     { title: $t('ui.table.remark'), field: 'remark' },
     {
-      title: $t('ui.table.createTime'),
-      field: 'createTime',
+      title: $t('ui.table.createdAt'),
+      field: 'createdAt',
       formatter: 'formatDateTime',
       width: 140,
     },
@@ -179,28 +178,6 @@ async function handleDelete(row: any) {
     notification.error({
       message: $t('ui.notification.delete_failed'),
     });
-  }
-}
-
-/* 修改角色状态 */
-async function handleStatusChanged(row: any, checked: boolean) {
-  console.log('handleStatusChanged', row.status, checked);
-
-  row.pending = true;
-  row.status = checked ? 'ON' : 'OFF';
-
-  try {
-    await roleStore.updateRole(row.id, { status: row.status });
-
-    notification.success({
-      message: $t('ui.notification.update_status_success'),
-    });
-  } catch {
-    notification.error({
-      message: $t('ui.notification.update_status_failed'),
-    });
-  } finally {
-    row.pending = false;
   }
 }
 </script>

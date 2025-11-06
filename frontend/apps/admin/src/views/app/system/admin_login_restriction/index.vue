@@ -39,7 +39,10 @@ const formOptions: VbenFormProps = {
       componentProps: {
         options: adminLoginRestrictionTypeList,
         placeholder: $t('ui.placeholder.select'),
+        filterOption: (input: string, option: any) =>
+          option.label.toLowerCase().includes(input.toLowerCase()),
         allowClear: true,
+        showSearch: true,
       },
     },
     {
@@ -49,7 +52,10 @@ const formOptions: VbenFormProps = {
       componentProps: {
         options: adminLoginRestrictionMethodList,
         placeholder: $t('ui.placeholder.select'),
+        filterOption: (input: string, option: any) =>
+          option.label.toLowerCase().includes(input.toLowerCase()),
         allowClear: true,
+        showSearch: true,
       },
     },
   ],
@@ -102,8 +108,8 @@ const gridOptions: VxeGridProps<AdminLoginRestriction> = {
     { title: $t('page.adminLoginRestriction.value'), field: 'value' },
     { title: $t('page.adminLoginRestriction.reason'), field: 'reason' },
     {
-      title: $t('ui.table.createTime'),
-      field: 'createTime',
+      title: $t('ui.table.createdAt'),
+      field: 'createdAt',
       formatter: 'formatDateTime',
       width: 140,
     },

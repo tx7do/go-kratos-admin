@@ -8,8 +8,6 @@ import (
 	"entgo.io/ent/schema/field"
 	"entgo.io/ent/schema/index"
 	"github.com/tx7do/go-utils/entgo/mixin"
-
-	appmixin "kratos-admin/pkg/entgo/mixin"
 )
 
 // UserCredential holds the schema definition for the UserCredential entity.
@@ -175,14 +173,14 @@ func (UserCredential) Fields() []ent.Field {
 		field.String("activate_token").
 			Comment("激活账号用的令牌").
 			MaxLen(255).
-			Unique().
+			//Unique().
 			Optional().
 			Nillable(),
 
 		field.String("reset_token").
 			Comment("重置密码用的令牌").
 			MaxLen(255).
-			Unique().
+			//Unique().
 			Optional().
 			Nillable(),
 	}
@@ -191,9 +189,9 @@ func (UserCredential) Fields() []ent.Field {
 // Mixin of the UserCredential.
 func (UserCredential) Mixin() []ent.Mixin {
 	return []ent.Mixin{
-		mixin.Time{},
+		mixin.TimeAt{},
 		mixin.AutoIncrementId{},
-		appmixin.TenantID{},
+		mixin.TenantID{},
 	}
 }
 
@@ -205,8 +203,10 @@ func (UserCredential) Edges() []ent.Edge {
 // Indexes of the UserCredential.
 func (UserCredential) Indexes() []ent.Index {
 	return []ent.Index{
-		index.Fields("user_id", "identity_type", "identifier").Unique(),
-		index.Fields("identifier"),
-		index.Fields("user_id"),
+		index.Fields("user_id", "identity_type", "identifier").Unique().StorageKey("idx_sys_user_credential_uid_identity_identifier"),
+		index.Fields("identifier").StorageKey("idx_sys_user_credential_identifier"),
+		index.Fields("user_id").StorageKey("idx_sys_user_credential_user_id"),
+		index.Fields("activate_token").Unique().StorageKey("idx_sys_user_credential_activate_token"),
+		index.Fields("reset_token").Unique().StorageKey("idx_sys_user_credential_reset_token"),
 	}
 }

@@ -44,8 +44,8 @@ func (UserRole) Fields() []ent.Field {
 func (UserRole) Mixin() []ent.Mixin {
 	return []ent.Mixin{
 		mixin.AutoIncrementId{},
-		mixin.Time{},
-		mixin.CreateBy{},
+		mixin.TimeAt{},
+		mixin.OperatorID{},
 	}
 }
 
@@ -53,8 +53,8 @@ func (UserRole) Mixin() []ent.Mixin {
 func (UserRole) Indexes() []ent.Index {
 	return []ent.Index{
 		// 避免用户重复分配同一角色
-		index.Fields("user_id", "role_id").Unique(),
-		index.Fields("user_id"),
-		index.Fields("role_id"),
+		index.Fields("user_id", "role_id").Unique().StorageKey("idx_sys_user_role_user_id_role_id"),
+		index.Fields("user_id").StorageKey("idx_sys_user_role_user_id"),
+		index.Fields("role_id").StorageKey("idx_sys_user_role_role_id"),
 	}
 }

@@ -74,28 +74,52 @@
         <td><img src="./docs/images/admin_dashboard.png" alt="后台分析界面"/></td>
     </tr>
     <tr>
-        <td><img src="./docs/images/admin_user_management.png" alt="后台用户管理界面"/></td>
-        <td><img src="./docs/images/admin_create_user.png" alt="后台创建用户界面"/></td>
+        <td><img src="./docs/images/admin_user_list.png" alt="后台用户列表界面"/></td>
+        <td><img src="./docs/images/admin_user_create.png" alt="后台创建用户界面"/></td>
     </tr>
     <tr>
-        <td><img src="./docs/images/admin_menu_management.png" alt="后台目录管理界面"/></td>
-        <td><img src="./docs/images/admin_organization_management.png" alt="组织管理界面"/></td>
+        <td><img src="./docs/images/admin_tenant_list.png" alt="后台租户列表界面"/></td>
+        <td><img src="./docs/images/admin_tenant_create.png" alt="后台创建租户界面"/></td>
     </tr>
     <tr>
-        <td><img src="./docs/images/admin_department_management.png" alt="部门管理界面"/></td>
-        <td><img src="./docs/images/admin_role_management.png" alt="用户角色管理界面"/></td>
+        <td><img src="./docs/images/admin_organization_list.png" alt="后台组织列表界面"/></td>
+        <td><img src="./docs/images/admin_organization_create.png" alt="后台创建组织界面"/></td>
     </tr>
     <tr>
-        <td><img src="./docs/images/admin_position_management.png" alt="用户职位管理界面"/></td>
-        <td><img src="./docs/images/admin_tenant_management.png" alt="租户管理界面"/></td>
+        <td><img src="./docs/images/admin_department_list.png" alt="后台部门列表界面"/></td>
+        <td><img src="./docs/images/admin_department_create.png" alt="后台创建部门界面"/></td>
     </tr>
     <tr>
-        <td><img src="./docs/images/admin_task_management.png" alt="调度任务管理界面"/></td>
-        <td><img src="./docs/images/admin_dict_management.png" alt="字典管理界面"/></td>
+        <td><img src="./docs/images/admin_position_list.png" alt="后台职位列表界面"/></td>
+        <td><img src="./docs/images/admin_position_create.png" alt="后台创建职位界面"/></td>
     </tr>
     <tr>
-        <td><img src="./docs/images/admin_operation_log.png" alt="后台登录日志界面"/></td>
-        <td><img src="./docs/images/admin_login_log.png" alt="后台操作日志界面"/></td>
+        <td><img src="./docs/images/admin_role_list.png" alt="后台角色列表界面"/></td>
+        <td><img src="./docs/images/admin_role_create.png" alt="后台创建角色界面"/></td>
+    </tr>
+    <tr>
+        <td><img src="./docs/images/admin_menu_list.png" alt="后台目录列表界面"/></td>
+        <td><img src="./docs/images/admin_menu_create.png" alt="后台创建目录界面"/></td>
+    </tr>
+    <tr>
+        <td><img src="./docs/images/admin_task_list.png" alt="后台调度任务列表界面"/></td>
+        <td><img src="./docs/images/admin_task_create.png" alt="后台创建调度任务界面"/></td>
+    </tr>
+    <tr>
+        <td><img src="./docs/images/admin_dict_list.png" alt="后台数据字典列表界面"/></td>
+        <td><img src="./docs/images/admin_dict_entry_create.png" alt="后台创建数据字典条目界面"/></td>
+    </tr>
+    <tr>
+        <td><img src="./docs/images/admin_internal_message_list.png" alt="后台站内信消息列表界面"/></td>
+        <td><img src="./docs/images/admin_internal_message_publish.png" alt="后台发布站内信消息界面"/></td>
+    </tr>
+    <tr>
+        <td><img src="./docs/images/admin_login_restriction_list.png" alt="后台登录限制列表界面"/></td>
+        <td><img src="./docs/images/admin_api_resource_list.png" alt="后台API资源列表界面"/></td>
+    </tr>
+    <tr>
+        <td><img src="./docs/images/admin_operation_log_list.png" alt="后台登录日志界面"/></td>
+        <td><img src="./docs/images/admin_login_log_list.png" alt="后台操作日志界面"/></td>
     </tr>
     <tr>
         <td><img src="./docs/images/api_swagger_ui.png" alt="后端内置Swagger UI界面"/></td>
@@ -107,6 +131,6 @@
 - 微信个人号：`yang_lin_bo`（备注：`go-kratos-admin`）
 - 掘金专栏：[go-kratos-admin](https://juejin.cn/column/7541283508041826367)
 
-## [感谢JetBrains提供的免费GoLand](https://jb.gg/OpenSource)
+## [感谢JetBrains提供的免费GoLand & WebStorm](https://jb.gg/OpenSource)
 
 [![avatar](https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.svg)](https://jb.gg/OpenSource)

@@ -19,27 +19,29 @@ type Position struct {
 	// id
 	ID uint32 `json:"id,omitempty"`
 	// 创建时间
-	CreateTime *time.Time `json:"create_time,omitempty"`
+	CreatedAt *time.Time `json:"created_at,omitempty"`
 	// 更新时间
-	UpdateTime *time.Time `json:"update_time,omitempty"`
+	UpdatedAt *time.Time `json:"updated_at,omitempty"`
 	// 删除时间
-	DeleteTime *time.Time `json:"delete_time,omitempty"`
+	DeletedAt *time.Time `json:"deleted_at,omitempty"`
 	// 创建者ID
-	CreateBy *uint32 `json:"create_by,omitempty"`
+	CreatedBy *uint32 `json:"created_by,omitempty"`
 	// 更新者ID
-	UpdateBy *uint32 `json:"update_by,omitempty"`
+	UpdatedBy *uint32 `json:"updated_by,omitempty"`
+	// 删除者ID
+	DeletedBy *uint32 `json:"deleted_by,omitempty"`
+	// 排序顺序，值越小越靠前
+	SortOrder *int32 `json:"sort_order,omitempty"`
 	// 备注
 	Remark *string `json:"remark,omitempty"`
+	// 父节点ID
+	ParentID *uint32 `json:"parent_id,omitempty"`
 	// 租户ID
 	TenantID *uint32 `json:"tenant_id,omitempty"`
 	// 职位名称
-	Name string `json:"name,omitempty"`
+	Name *string `json:"name,omitempty"`
 	// 唯一编码
 	Code *string `json:"code,omitempty"`
-	// 上一层职位ID
-	ParentID *uint32 `json:"parent_id,omitempty"`
-	// 排序ID
-	SortID *int32 `json:"sort_id,omitempty"`
 	// 所属组织ID
 	OrganizationID *uint32 `json:"organization_id,omitempty"`
 	// 所属部门ID
@@ -92,11 +94,11 @@ func (*Position) scanValues(columns []string) ([]any, error) {
 	values := make([]any, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case position.FieldID, position.FieldCreateBy, position.FieldUpdateBy, position.FieldTenantID, position.FieldParentID, position.FieldSortID, position.FieldOrganizationID, position.FieldDepartmentID, position.FieldQuota:
+		case position.FieldID, position.FieldCreatedBy, position.FieldUpdatedBy, position.FieldDeletedBy, position.FieldSortOrder, position.FieldParentID, position.FieldTenantID, position.FieldOrganizationID, position.FieldDepartmentID, position.FieldQuota:
 			values[i] = new(sql.NullInt64)
 		case position.FieldRemark, position.FieldName, position.FieldCode, position.FieldStatus, position.FieldDescription:
 			values[i] = new(sql.NullString)
-		case position.FieldCreateTime, position.FieldUpdateTime, position.FieldDeleteTime:
+		case position.FieldCreatedAt, position.FieldUpdatedAt, position.FieldDeletedAt:
 			values[i] = new(sql.NullTime)
 		default:
 			values[i] = new(sql.UnknownType)
@@ -119,40 +121,54 @@ func (_m *Position) assignValues(columns []string, values []any) error {
 				return fmt.Errorf("unexpected type %T for field id", value)
 			}
 			_m.ID = uint32(value.Int64)
-		case position.FieldCreateTime:
+		case position.FieldCreatedAt:
 			if value, ok := values[i].(*sql.NullTime); !ok {
-				return fmt.Errorf("unexpected type %T for field create_time", values[i])
+				return fmt.Errorf("unexpected type %T for field created_at", values[i])
 			} else if value.Valid {
-				_m.CreateTime = new(time.Time)
-				*_m.CreateTime = value.Time
+				_m.CreatedAt = new(time.Time)
+				*_m.CreatedAt = value.Time
 			}
-		case position.FieldUpdateTime:
+		case position.FieldUpdatedAt:
 			if value, ok := values[i].(*sql.NullTime); !ok {
-				return fmt.Errorf("unexpected type %T for field update_time", values[i])
+				return fmt.Errorf("unexpected type %T for field updated_at", values[i])
 			} else if value.Valid {
-				_m.UpdateTime = new(time.Time)
-				*_m.UpdateTime = value.Time
+				_m.UpdatedAt = new(time.Time)
+				*_m.UpdatedAt = value.Time
 			}
-		case position.FieldDeleteTime:
+		case position.FieldDeletedAt:
 			if value, ok := values[i].(*sql.NullTime); !ok {
-				return fmt.Errorf("unexpected type %T for field delete_time", values[i])
+				return fmt.Errorf("unexpected type %T for field deleted_at", values[i])
 			} else if value.Valid {
-				_m.DeleteTime = new(time.Time)
-				*_m.DeleteTime = value.Time
+				_m.DeletedAt = new(time.Time)
+				*_m.DeletedAt = value.Time
 			}
-		case position.FieldCreateBy:
+		case position.FieldCreatedBy:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for field create_by", values[i])
+				return fmt.Errorf("unexpected type %T for field created_by", values[i])
 			} else if value.Valid {
-				_m.CreateBy = new(uint32)
-				*_m.CreateBy = uint32(value.Int64)
+				_m.CreatedBy = new(uint32)
+				*_m.CreatedBy = uint32(value.Int64)
 			}
-		case position.FieldUpdateBy:
+		case position.FieldUpdatedBy:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for field update_by", values[i])
+				return fmt.Errorf("unexpected type %T for field updated_by", values[i])
 			} else if value.Valid {
-				_m.UpdateBy = new(uint32)
-				*_m.UpdateBy = uint32(value.Int64)
+				_m.UpdatedBy = new(uint32)
+				*_m.UpdatedBy = uint32(value.Int64)
+			}
+		case position.FieldDeletedBy:
+			if value, ok := values[i].(*sql.NullInt64); !ok {
+				return fmt.Errorf("unexpected type %T for field deleted_by", values[i])
+			} else if value.Valid {
+				_m.DeletedBy = new(uint32)
+				*_m.DeletedBy = uint32(value.Int64)
+			}
+		case position.FieldSortOrder:
+			if value, ok := values[i].(*sql.NullInt64); !ok {
+				return fmt.Errorf("unexpected type %T for field sort_order", values[i])
+			} else if value.Valid {
+				_m.SortOrder = new(int32)
+				*_m.SortOrder = int32(value.Int64)
 			}
 		case position.FieldRemark:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -160,6 +176,13 @@ func (_m *Position) assignValues(columns []string, values []any) error {
 			} else if value.Valid {
 				_m.Remark = new(string)
 				*_m.Remark = value.String
+			}
+		case position.FieldParentID:
+			if value, ok := values[i].(*sql.NullInt64); !ok {
+				return fmt.Errorf("unexpected type %T for field parent_id", values[i])
+			} else if value.Valid {
+				_m.ParentID = new(uint32)
+				*_m.ParentID = uint32(value.Int64)
 			}
 		case position.FieldTenantID:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
@@ -172,7 +195,8 @@ func (_m *Position) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field name", values[i])
 			} else if value.Valid {
-				_m.Name = value.String
+				_m.Name = new(string)
+				*_m.Name = value.String
 			}
 		case position.FieldCode:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -180,20 +204,6 @@ func (_m *Position) assignValues(columns []string, values []any) error {
 			} else if value.Valid {
 				_m.Code = new(string)
 				*_m.Code = value.String
-			}
-		case position.FieldParentID:
-			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for field parent_id", values[i])
-			} else if value.Valid {
-				_m.ParentID = new(uint32)
-				*_m.ParentID = uint32(value.Int64)
-			}
-		case position.FieldSortID:
-			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for field sort_id", values[i])
-			} else if value.Valid {
-				_m.SortID = new(int32)
-				*_m.SortID = int32(value.Int64)
 			}
 		case position.FieldOrganizationID:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
@@ -276,28 +286,38 @@ func (_m *Position) String() string {
 	var builder strings.Builder
 	builder.WriteString("Position(")
 	builder.WriteString(fmt.Sprintf("id=%v, ", _m.ID))
-	if v := _m.CreateTime; v != nil {
-		builder.WriteString("create_time=")
+	if v := _m.CreatedAt; v != nil {
+		builder.WriteString("created_at=")
 		builder.WriteString(v.Format(time.ANSIC))
 	}
 	builder.WriteString(", ")
-	if v := _m.UpdateTime; v != nil {
-		builder.WriteString("update_time=")
+	if v := _m.UpdatedAt; v != nil {
+		builder.WriteString("updated_at=")
 		builder.WriteString(v.Format(time.ANSIC))
 	}
 	builder.WriteString(", ")
-	if v := _m.DeleteTime; v != nil {
-		builder.WriteString("delete_time=")
+	if v := _m.DeletedAt; v != nil {
+		builder.WriteString("deleted_at=")
 		builder.WriteString(v.Format(time.ANSIC))
 	}
 	builder.WriteString(", ")
-	if v := _m.CreateBy; v != nil {
-		builder.WriteString("create_by=")
+	if v := _m.CreatedBy; v != nil {
+		builder.WriteString("created_by=")
 		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteString(", ")
-	if v := _m.UpdateBy; v != nil {
-		builder.WriteString("update_by=")
+	if v := _m.UpdatedBy; v != nil {
+		builder.WriteString("updated_by=")
+		builder.WriteString(fmt.Sprintf("%v", *v))
+	}
+	builder.WriteString(", ")
+	if v := _m.DeletedBy; v != nil {
+		builder.WriteString("deleted_by=")
+		builder.WriteString(fmt.Sprintf("%v", *v))
+	}
+	builder.WriteString(", ")
+	if v := _m.SortOrder; v != nil {
+		builder.WriteString("sort_order=")
 		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteString(", ")
@@ -306,27 +326,24 @@ func (_m *Position) String() string {
 		builder.WriteString(*v)
 	}
 	builder.WriteString(", ")
-	if v := _m.TenantID; v != nil {
-		builder.WriteString("tenant_id=")
-		builder.WriteString(fmt.Sprintf("%v", *v))
-	}
-	builder.WriteString(", ")
-	builder.WriteString("name=")
-	builder.WriteString(_m.Name)
-	builder.WriteString(", ")
-	if v := _m.Code; v != nil {
-		builder.WriteString("code=")
-		builder.WriteString(*v)
-	}
-	builder.WriteString(", ")
 	if v := _m.ParentID; v != nil {
 		builder.WriteString("parent_id=")
 		builder.WriteString(fmt.Sprintf("%v", *v))
 	}
 	builder.WriteString(", ")
-	if v := _m.SortID; v != nil {
-		builder.WriteString("sort_id=")
+	if v := _m.TenantID; v != nil {
+		builder.WriteString("tenant_id=")
 		builder.WriteString(fmt.Sprintf("%v", *v))
+	}
+	builder.WriteString(", ")
+	if v := _m.Name; v != nil {
+		builder.WriteString("name=")
+		builder.WriteString(*v)
+	}
+	builder.WriteString(", ")
+	if v := _m.Code; v != nil {
+		builder.WriteString("code=")
+		builder.WriteString(*v)
 	}
 	builder.WriteString(", ")
 	if v := _m.OrganizationID; v != nil {

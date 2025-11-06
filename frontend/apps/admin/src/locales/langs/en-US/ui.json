@@ -12,12 +12,12 @@
   },
   "table": {
     "seq": "seq",
-    "createTime": "Create Time",
-    "updateTime": "Update Time",
+    "createdAt": "Create Time",
+    "updatedAt": "Update Time",
     "deleteTime": "Delete Time",
     "status": "Status",
     "action": "Action",
-    "sortId": "Sort ID",
+    "sortOrder": "Sort ID",
     "remark": "Remark"
   },
   "switch": {
@@ -51,6 +51,8 @@
     "update_status_failed": "Update Status Failed",
     "sync_success": "Sync Success",
     "sync_failed": "Sync Failed",
+    "operation_success": "Operation Success",
+    "operation_failed": "Operation Failed",
     "password_mismatch": "Password Mismatch"
   },
   "text": {

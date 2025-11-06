@@ -7,9 +7,10 @@ import (
 
 	"entgo.io/ent/dialect/sql"
 	"github.com/go-kratos/kratos/v2/log"
+	"github.com/tx7do/go-utils/entgo"
 
 	"github.com/tx7do/go-utils/copierutil"
-	entgo "github.com/tx7do/go-utils/entgo/query"
+	entgoQuery "github.com/tx7do/go-utils/entgo/query"
 	entgoUpdate "github.com/tx7do/go-utils/entgo/update"
 	"github.com/tx7do/go-utils/fieldmaskutil"
 	"github.com/tx7do/go-utils/mapper"
@@ -27,7 +28,7 @@ type DepartmentRepo struct {
 	log  *log.Helper
 
 	mapper          *mapper.CopierMapper[userV1.Department, ent.Department]
-	statusConverter *mapper.EnumTypeConverter[userV1.DepartmentStatus, department.Status]
+	statusConverter *mapper.EnumTypeConverter[userV1.Department_Status, department.Status]
 }
 
 func NewDepartmentRepo(data *Data, logger log.Logger) *DepartmentRepo {
@@ -35,7 +36,7 @@ func NewDepartmentRepo(data *Data, logger log.Logger) *DepartmentRepo {
 		log:             log.NewHelper(log.With(logger, "module", "department/repo/admin-service")),
 		data:            data,
 		mapper:          mapper.NewCopierMapper[userV1.Department, ent.Department](),
-		statusConverter: mapper.NewEnumTypeConverter[userV1.DepartmentStatus, department.Status](userV1.DepartmentStatus_name, userV1.DepartmentStatus_value),
+		statusConverter: mapper.NewEnumTypeConverter[userV1.Department_Status, department.Status](userV1.Department_Status_name, userV1.Department_Status_value),
 	}
 
 	repo.init()
@@ -99,10 +100,10 @@ func (r *DepartmentRepo) List(ctx context.Context, req *pagination.PagingRequest
 
 	builder := r.data.db.Client().Department.Query()
 
-	err, whereSelectors, querySelectors := entgo.BuildQuerySelector(
+	err, whereSelectors, querySelectors := entgoQuery.BuildQuerySelector(
 		req.GetQuery(), req.GetOrQuery(),
 		req.GetPage(), req.GetPageSize(), req.GetNoPaging(),
-		req.GetOrderBy(), department.FieldCreateTime,
+		req.GetOrderBy(), department.FieldCreatedAt,
 		req.GetFieldMask().GetPaths(),
 	)
 	if err != nil {
@@ -122,11 +123,11 @@ func (r *DepartmentRepo) List(ctx context.Context, req *pagination.PagingRequest
 
 	sort.SliceStable(entities, func(i, j int) bool {
 		var sortI, sortJ int32
-		if entities[i].SortID != nil {
-			sortI = *entities[i].SortID
+		if entities[i].SortOrder != nil {
+			sortI = *entities[i].SortOrder
 		}
-		if entities[j].SortID != nil {
-			sortJ = *entities[j].SortID
+		if entities[j].SortOrder != nil {
+			sortJ = *entities[j].SortOrder
 		}
 		return sortI < sortJ
 	})
@@ -224,18 +225,20 @@ func (r *DepartmentRepo) Create(ctx context.Context, req *userV1.CreateDepartmen
 	builder := r.data.db.Client().Department.Create().
 		SetNillableName(req.Data.Name).
 		SetNillableParentID(req.Data.ParentId).
-		SetNillableSortID(req.Data.SortId).
+		SetNillableSortOrder(req.Data.SortOrder).
 		SetNillableRemark(req.Data.Remark).
 		SetNillableStatus(r.statusConverter.ToEntity(req.Data.Status)).
 		SetOrganizationID(req.Data.GetOrganizationId()).
 		SetNillableManagerID(req.Data.ManagerId).
-		SetNillableTenantID(req.Data.TenantId).
 		SetNillableDescription(req.Data.Description).
-		SetNillableCreateBy(req.Data.CreateBy).
-		SetNillableCreateTime(timeutil.TimestamppbToTime(req.Data.CreateTime))
+		SetNillableCreatedBy(req.Data.CreatedBy).
+		SetNillableCreatedAt(timeutil.TimestamppbToTime(req.Data.CreatedAt))
 
-	if req.Data.CreateTime == nil {
-		builder.SetCreateTime(time.Now())
+	if req.Data.TenantId == nil {
+		builder.SetTenantID(req.Data.GetTenantId())
+	}
+	if req.Data.CreatedAt == nil {
+		builder.SetCreatedAt(time.Now())
 	}
 
 	if req.Data.Id != nil {
@@ -263,8 +266,8 @@ func (r *DepartmentRepo) Update(ctx context.Context, req *userV1.UpdateDepartmen
 		}
 		if !exist {
 			createReq := &userV1.CreateDepartmentRequest{Data: req.Data}
-			createReq.Data.CreateBy = createReq.Data.UpdateBy
-			createReq.Data.UpdateBy = nil
+			createReq.Data.CreatedBy = createReq.Data.UpdatedBy
+			createReq.Data.UpdatedBy = nil
 			return r.Create(ctx, createReq)
 		}
 	}
@@ -282,15 +285,15 @@ func (r *DepartmentRepo) Update(ctx context.Context, req *userV1.UpdateDepartmen
 		UpdateOneID(req.Data.GetId()).
 		SetNillableName(req.Data.Name).
 		SetNillableParentID(req.Data.ParentId).
-		SetNillableSortID(req.Data.SortId).
+		SetNillableSortOrder(req.Data.SortOrder).
 		SetNillableRemark(req.Data.Remark).
 		SetNillableStatus(r.statusConverter.ToEntity(req.Data.Status)).
 		SetNillableDescription(req.Data.Description).
-		SetNillableUpdateBy(req.Data.UpdateBy).
-		SetNillableUpdateTime(timeutil.TimestamppbToTime(req.Data.UpdateTime))
+		SetNillableUpdatedBy(req.Data.UpdatedBy).
+		SetNillableUpdatedAt(timeutil.TimestamppbToTime(req.Data.UpdatedAt))
 
-	if req.Data.UpdateTime == nil {
-		builder.SetUpdateTime(time.Now())
+	if req.Data.UpdatedAt == nil {
+		builder.SetUpdatedAt(time.Now())
 	}
 
 	if req.Data.OrganizationId == nil {
@@ -318,7 +321,7 @@ func (r *DepartmentRepo) Delete(ctx context.Context, req *userV1.DeleteDepartmen
 		return userV1.ErrorBadRequest("invalid parameter")
 	}
 
-	ids, err := queryAllChildrenIDs(ctx, r.data.db, "sys_departments", req.GetId())
+	ids, err := entgo.QueryAllChildrenIds(ctx, r.data.db, "sys_departments", req.GetId())
 	if err != nil {
 		r.log.Errorf("query child departments failed: %s", err.Error())
 		return userV1.ErrorInternalServerError("query child departments failed")

@@ -7,7 +7,8 @@ import { $t } from '@vben/locales';
 import { notification } from 'ant-design-vue';
 
 import { useVbenForm } from '#/adapter/form';
-import { OrganizationStatus } from '#/generated/api/user/service/v1/organization.pb';
+import { Organization_Status } from '#/generated/api/user/service/v1/organization.pb';
+import { User_Status } from '#/generated/api/user/service/v1/user.pb';
 import {
   organizationStatusList,
   organizationTypeList,
@@ -60,10 +61,11 @@ const [BaseForm, baseFormApi] = useVbenForm({
         childrenField: 'children',
         labelField: 'name',
         valueField: 'id',
+        treeNodeFilterProp: 'label',
         api: async () => {
           const result = await orgStore.listOrganization(true, null, null, {
             // parent_id: 0,
-            status: 'ON',
+            status: Organization_Status.ON,
           });
           return result.items;
         },
@@ -74,8 +76,11 @@ const [BaseForm, baseFormApi] = useVbenForm({
       fieldName: 'managerId',
       label: $t('page.org.managerId'),
       componentProps: {
-        placeholder: $t('ui.placeholder.select'),
         allowClear: true,
+        showSearch: true,
+        placeholder: $t('ui.placeholder.select'),
+        filterOption: (input: string, option: any) =>
+          option.label.toLowerCase().includes(input.toLowerCase()),
         afterFetch: (data: { name: string; path: string }[]) => {
           return data.map((item: any) => ({
             label: item.nickname,
@@ -85,7 +90,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
         api: async () => {
           const result = await userStore.listUser(true, null, null, {
             // parent_id: 0,
-            status: 'ON',
+            status: User_Status.ON,
           });
           return result.items;
         },
@@ -98,14 +103,17 @@ const [BaseForm, baseFormApi] = useVbenForm({
       componentProps: {
         placeholder: $t('ui.placeholder.select'),
         options: organizationTypeList,
+        filterOption: (input: string, option: any) =>
+          option.label.toLowerCase().includes(input.toLowerCase()),
         allowClear: true,
+        showSearch: true,
       },
       rules: 'selectRequired',
     },
     {
       component: 'InputNumber',
-      fieldName: 'sortId',
-      label: $t('ui.table.sortId'),
+      fieldName: 'sortOrder',
+      label: $t('ui.table.sortOrder'),
       componentProps: {
         placeholder: $t('ui.placeholder.input'),
         allowClear: true,
@@ -115,7 +123,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
     {
       component: 'RadioGroup',
       fieldName: 'status',
-      defaultValue: OrganizationStatus.ORGANIZATION_STATUS_ON,
+      defaultValue: Organization_Status.ON,
       label: $t('ui.table.status'),
       rules: 'selectRequired',
       componentProps: {

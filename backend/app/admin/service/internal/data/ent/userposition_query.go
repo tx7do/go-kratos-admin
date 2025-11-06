@@ -265,12 +265,12 @@ func (_q *UserPositionQuery) Clone() *UserPositionQuery {
 // Example:
 //
 //	var v []struct {
-//		CreateTime time.Time `json:"create_time,omitempty"`
+//		CreatedAt time.Time `json:"created_at,omitempty"`
 //		Count int `json:"count,omitempty"`
 //	}
 //
 //	client.UserPosition.Query().
-//		GroupBy(userposition.FieldCreateTime).
+//		GroupBy(userposition.FieldCreatedAt).
 //		Aggregate(ent.Count()).
 //		Scan(ctx, &v)
 func (_q *UserPositionQuery) GroupBy(field string, fields ...string) *UserPositionGroupBy {
@@ -288,11 +288,11 @@ func (_q *UserPositionQuery) GroupBy(field string, fields ...string) *UserPositi
 // Example:
 //
 //	var v []struct {
-//		CreateTime time.Time `json:"create_time,omitempty"`
+//		CreatedAt time.Time `json:"created_at,omitempty"`
 //	}
 //
 //	client.UserPosition.Query().
-//		Select(userposition.FieldCreateTime).
+//		Select(userposition.FieldCreatedAt).
 //		Scan(ctx, &v)
 func (_q *UserPositionQuery) Select(fields ...string) *UserPositionSelect {
 	_q.ctx.Fields = append(_q.ctx.Fields, fields...)

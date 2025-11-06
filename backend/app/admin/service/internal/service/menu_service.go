@@ -59,10 +59,10 @@ func (s *MenuService) Create(ctx context.Context, req *adminV1.CreateMenuRequest
 	// 获取操作人信息
 	operator, err := auth.FromContext(ctx)
 	if err != nil {
-		return &emptypb.Empty{}, err
+		return nil, err
 	}
 
-	req.Data.CreateBy = trans.Ptr(operator.UserId)
+	req.Data.CreatedBy = trans.Ptr(operator.UserId)
 
 	if err = s.repo.Create(ctx, req); err != nil {
 
@@ -80,10 +80,10 @@ func (s *MenuService) Update(ctx context.Context, req *adminV1.UpdateMenuRequest
 	// 获取操作人信息
 	operator, err := auth.FromContext(ctx)
 	if err != nil {
-		return &emptypb.Empty{}, err
+		return nil, err
 	}
 
-	req.Data.UpdateBy = trans.Ptr(operator.UserId)
+	req.Data.UpdatedBy = trans.Ptr(operator.UserId)
 
 	if err = s.repo.Update(ctx, req); err != nil {
 		return nil, err
@@ -96,7 +96,7 @@ func (s *MenuService) Delete(ctx context.Context, req *adminV1.DeleteMenuRequest
 	// 获取操作人信息
 	operator, err := auth.FromContext(ctx)
 	if err != nil {
-		return &emptypb.Empty{}, err
+		return nil, err
 	}
 
 	req.OperatorId = trans.Ptr(operator.UserId)

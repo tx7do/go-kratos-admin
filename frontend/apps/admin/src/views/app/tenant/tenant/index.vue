@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import type { VxeGridProps } from '#/adapter/vxe-table';
-import type { Tenant } from '#/generated/api/user/service/v1/tenant.pb';
 
 import { h } from 'vue';
 
@@ -10,11 +9,18 @@ import { LucideFilePenLine, LucideTrash2 } from '@vben/icons';
 import { notification } from 'ant-design-vue';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
+import { type Tenant } from '#/generated/api/user/service/v1/tenant.pb';
 import { $t } from '#/locales';
 import {
-  statusList,
-  statusToColor,
-  statusToName,
+  tenantAuditStatusList,
+  tenantAuditStatusToColor,
+  tenantAuditStatusToName,
+  tenantStatusList,
+  tenantStatusToColor,
+  tenantStatusToName,
+  tenantTypeList,
+  tenantTypeToColor,
+  tenantTypeToName,
   useTenantStore,
 } from '#/stores';
 
@@ -50,26 +56,56 @@ const formOptions: VbenFormProps = {
     },
     {
       component: 'Select',
+      fieldName: 'type',
+      label: $t('page.tenant.type'),
+      componentProps: {
+        placeholder: $t('ui.placeholder.select'),
+        options: tenantTypeList,
+        filterOption: (input: string, option: any) =>
+          option.label.toLowerCase().includes(input.toLowerCase()),
+        allowClear: true,
+        showSearch: true,
+      },
+    },
+    {
+      component: 'Select',
+      fieldName: 'auditStatus',
+      label: $t('page.tenant.auditStatus'),
+      componentProps: {
+        placeholder: $t('ui.placeholder.select'),
+        options: tenantAuditStatusList,
+        filterOption: (input: string, option: any) =>
+          option.label.toLowerCase().includes(input.toLowerCase()),
+        allowClear: true,
+        showSearch: true,
+      },
+    },
+    {
+      component: 'Select',
       fieldName: 'status',
       label: $t('ui.table.status'),
       componentProps: {
-        options: statusList,
+        options: tenantStatusList,
         placeholder: $t('ui.placeholder.select'),
+        filterOption: (input: string, option: any) =>
+          option.label.toLowerCase().includes(input.toLowerCase()),
         allowClear: true,
+        showSearch: true,
       },
     },
   ],
 };
 
 const gridOptions: VxeGridProps<Tenant> = {
+  height: 'auto',
+  stripe: false,
   toolbarConfig: {
     custom: true,
     export: true,
-    // import: true,
+    import: false,
     refresh: true,
     zoom: true,
   },
-  height: 'auto',
   exportConfig: {},
   pagerConfig: {
     enabled: false,
@@ -77,18 +113,15 @@ const gridOptions: VxeGridProps<Tenant> = {
   rowConfig: {
     isHover: true,
   },
-
   treeConfig: {
     childrenField: 'children',
     rowField: 'id',
-    // transform: true,
   },
 
   proxyConfig: {
     ajax: {
       query: async ({ page }, formValues) => {
         console.log('query:', formValues);
-
         return await tenantStore.listTenant(
           true,
           page.currentPage,
@@ -103,6 +136,19 @@ const gridOptions: VxeGridProps<Tenant> = {
     { title: $t('ui.table.seq'), type: 'seq', width: 50 },
     { title: $t('page.tenant.name'), field: 'name' },
     { title: $t('page.tenant.code'), field: 'code' },
+    { title: $t('page.tenant.adminUserName'), field: 'adminUserName' },
+    {
+      title: $t('page.tenant.type'),
+      field: 'type',
+      slots: { default: 'type' },
+      width: 95,
+    },
+    {
+      title: $t('page.tenant.auditStatus'),
+      field: 'auditStatus',
+      slots: { default: 'audit-status' },
+      width: 95,
+    },
     {
       title: $t('ui.table.status'),
       field: 'status',
@@ -110,8 +156,14 @@ const gridOptions: VxeGridProps<Tenant> = {
       width: 95,
     },
     {
-      title: $t('ui.table.createTime'),
-      field: 'createTime',
+      title: $t('page.user.table.lastLoginTime'),
+      field: 'lastLoginTime',
+      formatter: 'formatDateTime',
+      width: 160,
+    },
+    {
+      title: $t('ui.table.createdAt'),
+      field: 'createdAt',
       formatter: 'formatDateTime',
       width: 140,
     },
@@ -181,28 +233,6 @@ async function handleDelete(row: any) {
     });
   }
 }
-
-/* 修改状态 */
-async function handleStatusChanged(row: any, checked: boolean) {
-  console.log('handleStatusChanged', row.status, checked);
-
-  row.pending = true;
-  row.status = checked ? 'ON' : 'OFF';
-
-  try {
-    await tenantStore.updateTenant(row.id, { status: row.status });
-
-    notification.success({
-      message: $t('ui.notification.update_status_success'),
-    });
-  } catch {
-    notification.error({
-      message: $t('ui.notification.update_status_failed'),
-    });
-  } finally {
-    row.pending = false;
-  }
-}
 </script>
 
 <template>
@@ -213,9 +243,20 @@ async function handleStatusChanged(row: any, checked: boolean) {
           {{ $t('page.tenant.button.create') }}
         </a-button>
       </template>
+
       <template #status="{ row }">
-        <a-tag :color="statusToColor(row.status)">
-          {{ statusToName(row.status) }}
+        <a-tag :color="tenantStatusToColor(row.status)">
+          {{ tenantStatusToName(row.status) }}
+        </a-tag>
+      </template>
+      <template #type="{ row }">
+        <a-tag :color="tenantTypeToColor(row.type)">
+          {{ tenantTypeToName(row.type) }}
+        </a-tag>
+      </template>
+      <template #audit-status="{ row }">
+        <a-tag :color="tenantAuditStatusToColor(row.auditStatus)">
+          {{ tenantAuditStatusToName(row.auditStatus) }}
         </a-tag>
       </template>
       <template #action="{ row }">

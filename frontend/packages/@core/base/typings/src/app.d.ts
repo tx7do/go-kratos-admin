@@ -57,9 +57,8 @@ type BreadcrumbStyleType = 'background' | 'normal';
  * 权限模式
  * backend 后端权限模式
  * frontend 前端权限模式
- * mixed 混合权限模式
  */
-type AccessModeType = 'backend' | 'frontend' | 'mixed';
+type AccessModeType = 'backend' | 'frontend';
 
 /**
  * 导航风格

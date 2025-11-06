@@ -1,12 +1,15 @@
 import type {
-  CreateDictRequest,
-  DeleteDictRequest,
-  Dict,
+  BatchDeleteDictRequest,
+  CreateDictEntryRequest,
+  CreateDictTypeRequest,
   DictService,
-  GetDictRequest,
-  ListDictResponse,
-  UpdateDictRequest,
-} from '#/generated/api/admin/service/v1/i_dict.pb';
+  DictType,
+  GetDictTypeRequest,
+  ListDictEntryResponse,
+  ListDictTypeResponse,
+  UpdateDictEntryRequest,
+  UpdateDictTypeRequest,
+} from '#/generated/api/dict/service/v1/dict.pb';
 import type { Empty } from '#/generated/api/google/protobuf/empty.pb';
 import type { PagingRequest } from '#/generated/api/pagination/v1/pagination.pb';
 
@@ -14,30 +17,68 @@ import { requestClient } from '#/utils/request';
 
 /** 字典管理服务 */
 class DictServiceImpl implements DictService {
-  async Create(request: CreateDictRequest): Promise<Empty> {
-    return await requestClient.post<Empty>('/dict', request);
+  async CreateDictEntry(request: CreateDictEntryRequest): Promise<Empty> {
+    return await requestClient.post<Empty>('/dict-entries', request);
   }
 
-  async Delete(request: DeleteDictRequest): Promise<Empty> {
-    return await requestClient.delete<Empty>(`/dict/${request.id}`);
+  async CreateDictType(request: CreateDictTypeRequest): Promise<Empty> {
+    return await requestClient.post<Empty>('/dict-types', request);
   }
 
-  async Get(request: GetDictRequest): Promise<Dict> {
-    return await requestClient.get<Dict>(`/dict/${request.id}`);
-  }
-
-  async List(request: PagingRequest): Promise<ListDictResponse> {
-    return await requestClient.get<ListDictResponse>('/dict', {
+  async DeleteDictEntry(request: BatchDeleteDictRequest): Promise<Empty> {
+    return await requestClient.delete<Empty>(`/dict-entries`, {
       params: request,
     });
   }
 
-  async Update(request: UpdateDictRequest): Promise<Empty> {
+  async DeleteDictType(request: BatchDeleteDictRequest): Promise<Empty> {
+    return await requestClient.delete<Empty>(`/dict-types`, {
+      params: request,
+    });
+  }
+
+  async GetDictType(request: GetDictTypeRequest): Promise<DictType> {
+    switch (request.queryBy?.$case) {
+      case 'code': {
+        return await requestClient.get<DictType>(
+          `/dict-types/code/${request.queryBy.code}`,
+        );
+      }
+      case 'id': {
+        return await requestClient.get<DictType>(
+          `/dict-types/${request.queryBy.id}`,
+        );
+      }
+    }
+    throw new Error('GetDictType must set queryBy');
+  }
+
+  async ListDictEntry(request: PagingRequest): Promise<ListDictEntryResponse> {
+    return await requestClient.get<ListDictEntryResponse>('/dict-entries', {
+      params: request,
+    });
+  }
+
+  async ListDictType(request: PagingRequest): Promise<ListDictTypeResponse> {
+    return await requestClient.get<ListDictTypeResponse>('/dict-types', {
+      params: request,
+    });
+  }
+
+  async UpdateDictEntry(request: UpdateDictEntryRequest): Promise<Empty> {
     const id = request.data?.id;
     if (request.data !== null && request.data !== undefined) {
       request.data.id = undefined;
     }
-    return await requestClient.put<Empty>(`/dict/${id}`, request);
+    return await requestClient.put<Empty>(`/dict-entries/${id}`, request);
+  }
+
+  async UpdateDictType(request: UpdateDictTypeRequest): Promise<Empty> {
+    const id = request.data?.id;
+    if (request.data !== null && request.data !== undefined) {
+      request.data.id = undefined;
+    }
+    return await requestClient.put<Empty>(`/dict-types/${id}`, request);
   }
 }
 

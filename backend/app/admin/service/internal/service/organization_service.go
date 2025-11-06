@@ -82,10 +82,10 @@ func (s *OrganizationService) Create(ctx context.Context, req *userV1.CreateOrga
 	// 获取操作人信息
 	operator, err := auth.FromContext(ctx)
 	if err != nil {
-		return &emptypb.Empty{}, err
+		return nil, err
 	}
 
-	req.Data.CreateBy = trans.Ptr(operator.UserId)
+	req.Data.CreatedBy = trans.Ptr(operator.UserId)
 
 	if err = s.organizationRepo.Create(ctx, req); err != nil {
 		return nil, err
@@ -102,10 +102,10 @@ func (s *OrganizationService) Update(ctx context.Context, req *userV1.UpdateOrga
 	// 获取操作人信息
 	operator, err := auth.FromContext(ctx)
 	if err != nil {
-		return &emptypb.Empty{}, err
+		return nil, err
 	}
 
-	req.Data.UpdateBy = trans.Ptr(operator.UserId)
+	req.Data.UpdatedBy = trans.Ptr(operator.UserId)
 
 	if err = s.organizationRepo.Update(ctx, req); err != nil {
 		return nil, err

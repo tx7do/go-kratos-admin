@@ -32,7 +32,10 @@ const formOptions: VbenFormProps = {
       componentProps: {
         options: methodList,
         placeholder: $t('ui.placeholder.select'),
+        filterOption: (input: string, option: any) =>
+          option.label.toLowerCase().includes(input.toLowerCase()),
         allowClear: true,
+        showSearch: true,
       },
     },
     {
@@ -97,8 +100,8 @@ const gridOptions: VxeGridProps<ApiResource> = {
       field: 'moduleDescription',
     },
     {
-      title: $t('ui.table.createTime'),
-      field: 'createTime',
+      title: $t('ui.table.createdAt'),
+      field: 'createdAt',
       formatter: 'formatDateTime',
       width: 140,
     },

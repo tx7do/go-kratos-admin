@@ -71,12 +71,17 @@ func (s *ApiResourceService) Create(ctx context.Context, req *adminV1.CreateApiR
 	// 获取操作人信息
 	operator, err := auth.FromContext(ctx)
 	if err != nil {
-		return &emptypb.Empty{}, err
+		return nil, err
 	}
 
-	req.Data.CreateBy = trans.Ptr(operator.UserId)
+	req.Data.CreatedBy = trans.Ptr(operator.UserId)
 
 	if err = s.repo.Create(ctx, req); err != nil {
+		return nil, err
+	}
+
+	// 重置权限策略
+	if err = s.authorizer.ResetPolicies(ctx); err != nil {
 		return nil, err
 	}
 
@@ -91,12 +96,17 @@ func (s *ApiResourceService) Update(ctx context.Context, req *adminV1.UpdateApiR
 	// 获取操作人信息
 	operator, err := auth.FromContext(ctx)
 	if err != nil {
-		return &emptypb.Empty{}, err
+		return nil, err
 	}
 
-	req.Data.UpdateBy = trans.Ptr(operator.UserId)
+	req.Data.UpdatedBy = trans.Ptr(operator.UserId)
 
 	if err = s.repo.Update(ctx, req); err != nil {
+		return nil, err
+	}
+
+	// 重置权限策略
+	if err = s.authorizer.ResetPolicies(ctx); err != nil {
 		return nil, err
 	}
 
@@ -105,6 +115,11 @@ func (s *ApiResourceService) Update(ctx context.Context, req *adminV1.UpdateApiR
 
 func (s *ApiResourceService) Delete(ctx context.Context, req *adminV1.DeleteApiResourceRequest) (*emptypb.Empty, error) {
 	if err := s.repo.Delete(ctx, req); err != nil {
+		return nil, err
+	}
+
+	// 重置权限策略
+	if err := s.authorizer.ResetPolicies(ctx); err != nil {
 		return nil, err
 	}
 
@@ -122,9 +137,15 @@ func (s *ApiResourceService) SyncApiResources(ctx context.Context, _ *emptypb.Em
 		return nil, err
 	}
 
+	// 重置权限策略
+	if err := s.authorizer.ResetPolicies(ctx); err != nil {
+		return nil, err
+	}
+
 	return &emptypb.Empty{}, nil
 }
 
+// syncWithOpenAPI 使用 OpenAPI 文档同步 API 资源
 func (s *ApiResourceService) syncWithOpenAPI(ctx context.Context) error {
 	loader := openapi3.NewLoader()
 	doc, err := loader.LoadFromData(assets.OpenApiData)
@@ -143,54 +164,65 @@ func (s *ApiResourceService) syncWithOpenAPI(ctx context.Context) error {
 	}
 
 	var count uint32 = 0
-	var module string
-	var moduleDescription string
+	var apiResourceList []*adminV1.ApiResource
 
 	// 遍历所有路径和操作
 	for path, pathItem := range doc.Paths.Map() {
 		for method, operation := range pathItem.Operations() {
 
+			var module string
+			var moduleDescription string
 			if len(operation.Tags) > 0 {
 				tag := doc.Tags.Get(operation.Tags[0])
-				module = tag.Name
-				moduleDescription = tag.Description
+				if tag != nil {
+					module = tag.Name
+					moduleDescription = tag.Description
+				}
 			}
 
 			count++
-			_ = s.repo.Update(ctx, &adminV1.UpdateApiResourceRequest{
-				AllowMissing: trans.Ptr(true),
-				Data: &adminV1.ApiResource{
-					Id:                trans.Ptr(count),
-					Path:              trans.Ptr(path),
-					Method:            trans.Ptr(method),
-					Module:            trans.Ptr(module),
-					ModuleDescription: trans.Ptr(moduleDescription),
-					Description:       trans.Ptr(operation.Description),
-					Operation:         trans.Ptr(operation.OperationID),
-				},
+
+			apiResourceList = append(apiResourceList, &adminV1.ApiResource{
+				Id:                trans.Ptr(count),
+				Path:              trans.Ptr(path),
+				Method:            trans.Ptr(method),
+				Module:            trans.Ptr(module),
+				ModuleDescription: trans.Ptr(moduleDescription),
+				Description:       trans.Ptr(operation.Description),
+				Operation:         trans.Ptr(operation.OperationID),
 			})
 		}
+	}
+
+	for i, res := range apiResourceList {
+		res.Id = trans.Ptr(uint32(i + 1))
+		_ = s.repo.Update(ctx, &adminV1.UpdateApiResourceRequest{
+			AllowMissing: trans.Ptr(true),
+			Data:         res,
+		})
 	}
 
 	return nil
 }
 
+// syncWithWalkRoute 使用 WalkRoute 同步 API 资源
 func (s *ApiResourceService) syncWithWalkRoute(ctx context.Context) error {
 	if s.RestServer == nil {
 		return adminV1.ErrorInternalServerError("rest server is nil")
 	}
 
 	var count uint32 = 0
+
+	var apiResourceList []*adminV1.ApiResource
+
 	if err := s.RestServer.WalkRoute(func(info http.RouteInfo) error {
 		//log.Infof("Path[%s] Method[%s]", info.Path, info.Method)
 		count++
-		_ = s.repo.Update(ctx, &adminV1.UpdateApiResourceRequest{
-			AllowMissing: trans.Ptr(true),
-			Data: &adminV1.ApiResource{
-				Id:     trans.Ptr(count),
-				Path:   trans.Ptr(info.Path),
-				Method: trans.Ptr(info.Method),
-			},
+
+		apiResourceList = append(apiResourceList, &adminV1.ApiResource{
+			Id:     trans.Ptr(count),
+			Path:   trans.Ptr(info.Path),
+			Method: trans.Ptr(info.Method),
 		})
 
 		return nil
@@ -199,9 +231,18 @@ func (s *ApiResourceService) syncWithWalkRoute(ctx context.Context) error {
 		return adminV1.ErrorInternalServerError("failed to walk route")
 	}
 
+	for i, res := range apiResourceList {
+		res.Id = trans.Ptr(uint32(i + 1))
+		_ = s.repo.Update(ctx, &adminV1.UpdateApiResourceRequest{
+			AllowMissing: trans.Ptr(true),
+			Data:         res,
+		})
+	}
+
 	return nil
 }
 
+// GetWalkRouteData 获取通过 WalkRoute 获取的路由数据，用于调试
 func (s *ApiResourceService) GetWalkRouteData(_ context.Context, _ *emptypb.Empty) (*adminV1.ListApiResourceResponse, error) {
 	if s.RestServer == nil {
 		return nil, adminV1.ErrorInternalServerError("rest server is nil")

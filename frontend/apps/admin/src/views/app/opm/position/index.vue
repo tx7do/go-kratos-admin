@@ -9,9 +9,11 @@ import { LucideFilePenLine, LucideTrash2 } from '@vben/icons';
 import { notification } from 'ant-design-vue';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
+import { Department_Status } from '#/generated/api/user/service/v1/department.pb';
+import { Organization_Status } from '#/generated/api/user/service/v1/organization.pb';
 import {
   type Position,
-  PositionStatus,
+  Position_Status,
 } from '#/generated/api/user/service/v1/position.pb';
 import { $t } from '#/locales';
 import {
@@ -62,7 +64,10 @@ const formOptions: VbenFormProps = {
       componentProps: {
         options: statusList,
         placeholder: $t('ui.placeholder.select'),
+        filterOption: (input: string, option: any) =>
+          option.label.toLowerCase().includes(input.toLowerCase()),
         allowClear: true,
+        showSearch: true,
       },
     },
     {
@@ -78,10 +83,11 @@ const formOptions: VbenFormProps = {
         childrenField: 'children',
         labelField: 'name',
         valueField: 'id',
+        treeNodeFilterProp: 'label',
         api: async () => {
           const result = await orgStore.listOrganization(true, null, null, {
             // parent_id: 0,
-            status: 'ON',
+            status: Organization_Status.ON,
           });
           return result.items;
         },
@@ -100,10 +106,11 @@ const formOptions: VbenFormProps = {
         childrenField: 'children',
         labelField: 'name',
         valueField: 'id',
+        treeNodeFilterProp: 'label',
         api: async () => {
           const result = await deptStore.listDepartment(true, null, null, {
             // parent_id: 0,
-            status: 'ON',
+            status: Department_Status.ON,
           });
           return result.items;
         },
@@ -120,20 +127,18 @@ const gridOptions: VxeGridProps<Position> = {
     refresh: true,
     zoom: true,
   },
-  height: 'auto',
   exportConfig: {},
   pagerConfig: {},
   rowConfig: {
     isHover: true,
   },
-
-  // stripe: true,
-
   treeConfig: {
     childrenField: 'children',
     rowField: 'id',
     // transform: true,
   },
+  height: 'auto',
+  // stripe: true,
 
   proxyConfig: {
     ajax: {
@@ -171,10 +176,10 @@ const gridOptions: VxeGridProps<Position> = {
       slots: { default: 'status' },
       width: 95,
     },
-    { title: $t('ui.table.sortId'), field: 'sortId', width: 70 },
+    { title: $t('ui.table.sortOrder'), field: 'sortOrder', width: 70 },
     {
-      title: $t('ui.table.createTime'),
-      field: 'createTime',
+      title: $t('ui.table.createdAt'),
+      field: 'createdAt',
       formatter: 'formatDateTime',
       width: 140,
     },
@@ -248,9 +253,7 @@ async function handleStatusChanged(row: any, checked: boolean) {
   console.log('handleStatusChanged', row.status, checked);
 
   row.pending = true;
-  row.status = checked
-    ? PositionStatus.POSITION_STATUS_ON
-    : PositionStatus.POSITION_STATUS_OFF;
+  row.status = checked ? Position_Status.ON : Position_Status.OFF;
 
   try {
     await positionStore.updatePosition(row.id, { status: row.status });

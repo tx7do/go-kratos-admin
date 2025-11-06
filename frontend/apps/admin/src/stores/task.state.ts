@@ -4,7 +4,7 @@ import { $t } from '@vben/locales';
 
 import { defineStore } from 'pinia';
 
-import { TaskType } from '#/generated/api/admin/service/v1/i_task.pb';
+import { Task_Type } from '#/generated/api/admin/service/v1/i_task.pb';
 import { defTaskService } from '#/services';
 import { makeQueryString, makeUpdateMask } from '#/utils/query';
 
@@ -70,6 +70,41 @@ export const useTaskStore = defineStore('task', () => {
     return await defTaskService.Delete({ id });
   }
 
+  /**
+   * 获取任务类型名称列表
+   */
+  async function listTaskTypeName() {
+    return await defTaskService.ListTaskTypeName({});
+  }
+
+  /**
+   * 重启所有任务
+   */
+  async function restartAllTask() {
+    return await defTaskService.RestartAllTask({});
+  }
+
+  /**
+   * 停止所有任务
+   */
+  async function stopAllTask() {
+    return await defTaskService.StopAllTask({});
+  }
+
+  /**
+   * 启动所有任务
+   */
+  async function startAllTask() {
+    return await defTaskService.StartAllTask({});
+  }
+
+  /**
+   * 控制任务运行
+   */
+  async function controlTask(controlType: any, typeName: any) {
+    return await defTaskService.ControlTask({ controlType, typeName });
+  }
+
   function $reset() {}
 
   return {
@@ -79,59 +114,44 @@ export const useTaskStore = defineStore('task', () => {
     createTask,
     updateTask,
     deleteTask,
+    listTaskTypeName,
+    restartAllTask,
+    startAllTask,
+    stopAllTask,
+    controlTask,
   };
 });
 
-export const enableList = computed(() => [
-  { value: 'true', label: $t('enum.enable.true') },
-  { value: 'false', label: $t('enum.enable.false') },
-]);
-
-export const enableBoolList = computed(() => [
-  { value: true, label: $t('enum.enable.true') },
-  { value: false, label: $t('enum.enable.false') },
-]);
-
 export const taskTypeList = computed(() => [
   {
-    value: TaskType.PERIODIC,
+    value: Task_Type.PERIODIC,
     label: $t('enum.taskType.Periodic'),
   },
   {
-    value: TaskType.DELAY,
+    value: Task_Type.DELAY,
     label: $t('enum.taskType.Delay'),
   },
   {
-    value: TaskType.WAIT_RESULT,
+    value: Task_Type.WAIT_RESULT,
     label: $t('enum.taskType.WaitResult'),
   },
 ]);
 
 export function taskTypeToName(taskType: any) {
-  switch (taskType) {
-    case TaskType.DELAY: {
-      return $t('enum.taskType.Delay');
-    }
-
-    case TaskType.PERIODIC: {
-      return $t('enum.taskType.Periodic');
-    }
-
-    case TaskType.WAIT_RESULT: {
-      return $t('enum.taskType.WaitResult');
-    }
-  }
+  const values = taskTypeList.value;
+  const matchedItem = values.find((item) => item.value === taskType);
+  return matchedItem ? matchedItem.label : '';
 }
 
 export function taskTypeToColor(taskType: any) {
   switch (taskType) {
-    case TaskType.DELAY: {
+    case Task_Type.DELAY: {
       return 'blue'; // 延迟任务：蓝色（表示计划中、待执行的状态）
     }
-    case TaskType.PERIODIC: {
+    case Task_Type.PERIODIC: {
       return 'orange'; // 周期性任务：橙色（表示循环执行、持续运行的特性）
     }
-    case TaskType.WAIT_RESULT: {
+    case Task_Type.WAIT_RESULT: {
       return 'purple'; // 等待结果任务：紫色（表示过渡状态、等待响应）
     }
     default: {

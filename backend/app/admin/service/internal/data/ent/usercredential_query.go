@@ -265,12 +265,12 @@ func (_q *UserCredentialQuery) Clone() *UserCredentialQuery {
 // Example:
 //
 //	var v []struct {
-//		CreateTime time.Time `json:"create_time,omitempty"`
+//		CreatedAt time.Time `json:"created_at,omitempty"`
 //		Count int `json:"count,omitempty"`
 //	}
 //
 //	client.UserCredential.Query().
-//		GroupBy(usercredential.FieldCreateTime).
+//		GroupBy(usercredential.FieldCreatedAt).
 //		Aggregate(ent.Count()).
 //		Scan(ctx, &v)
 func (_q *UserCredentialQuery) GroupBy(field string, fields ...string) *UserCredentialGroupBy {
@@ -288,11 +288,11 @@ func (_q *UserCredentialQuery) GroupBy(field string, fields ...string) *UserCred
 // Example:
 //
 //	var v []struct {
-//		CreateTime time.Time `json:"create_time,omitempty"`
+//		CreatedAt time.Time `json:"created_at,omitempty"`
 //	}
 //
 //	client.UserCredential.Query().
-//		Select(usercredential.FieldCreateTime).
+//		Select(usercredential.FieldCreatedAt).
 //		Scan(ctx, &v)
 func (_q *UserCredentialQuery) Select(fields ...string) *UserCredentialSelect {
 	_q.ctx.Fields = append(_q.ctx.Fields, fields...)

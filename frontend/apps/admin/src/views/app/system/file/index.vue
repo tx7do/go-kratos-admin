@@ -76,8 +76,8 @@ const gridOptions: VxeGridProps<File> = {
     { title: $t('page.file.bucketName'), field: 'bucketName' },
     { title: $t('page.file.fileDirectory'), field: 'fileDirectory' },
     {
-      title: $t('ui.table.createTime'),
-      field: 'createTime',
+      title: $t('ui.table.createdAt'),
+      field: 'createdAt',
       formatter: 'formatDateTime',
       width: 140,
     },
@@ -143,28 +143,6 @@ async function handleDelete(row: any) {
     notification.error({
       message: $t('ui.notification.delete_failed'),
     });
-  }
-}
-
-/* 修改状态 */
-async function handleStatusChanged(row: any, checked: boolean) {
-  console.log('handleStatusChanged', row.status, checked);
-
-  row.pending = true;
-  row.status = checked ? 'ON' : 'OFF';
-
-  try {
-    await fileStore.updateFile(row.id, { status: row.status });
-
-    notification.success({
-      message: $t('ui.notification.update_status_success'),
-    });
-  } catch {
-    notification.error({
-      message: $t('ui.notification.update_status_failed'),
-    });
-  } finally {
-    row.pending = false;
   }
 }
 </script>

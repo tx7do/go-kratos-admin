@@ -114,6 +114,6 @@ func (AdminLoginLog) Fields() []ent.Field {
 func (AdminLoginLog) Mixin() []ent.Mixin {
 	return []ent.Mixin{
 		mixin.AutoIncrementId{},
-		mixin.CreateTime{},
+		mixin.CreatedAt{},
 	}
 }

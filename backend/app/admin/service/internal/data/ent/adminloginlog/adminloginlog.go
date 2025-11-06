@@ -11,8 +11,8 @@ const (
 	Label = "admin_login_log"
 	// FieldID holds the string denoting the id field in the database.
 	FieldID = "id"
-	// FieldCreateTime holds the string denoting the create_time field in the database.
-	FieldCreateTime = "create_time"
+	// FieldCreatedAt holds the string denoting the created_at field in the database.
+	FieldCreatedAt = "created_at"
 	// FieldLoginIP holds the string denoting the login_ip field in the database.
 	FieldLoginIP = "login_ip"
 	// FieldLoginMAC holds the string denoting the login_mac field in the database.
@@ -52,7 +52,7 @@ const (
 // Columns holds all SQL columns for adminloginlog fields.
 var Columns = []string{
 	FieldID,
-	FieldCreateTime,
+	FieldCreatedAt,
 	FieldLoginIP,
 	FieldLoginMAC,
 	FieldLoginTime,
@@ -94,9 +94,9 @@ func ByID(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldID, opts...).ToFunc()
 }
 
-// ByCreateTime orders the results by the create_time field.
-func ByCreateTime(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldCreateTime, opts...).ToFunc()
+// ByCreatedAt orders the results by the created_at field.
+func ByCreatedAt(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldCreatedAt, opts...).ToFunc()
 }
 
 // ByLoginIP orders the results by the login_ip field.

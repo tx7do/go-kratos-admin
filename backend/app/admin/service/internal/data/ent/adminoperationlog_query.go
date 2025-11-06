@@ -265,12 +265,12 @@ func (_q *AdminOperationLogQuery) Clone() *AdminOperationLogQuery {
 // Example:
 //
 //	var v []struct {
-//		CreateTime time.Time `json:"create_time,omitempty"`
+//		CreatedAt time.Time `json:"created_at,omitempty"`
 //		Count int `json:"count,omitempty"`
 //	}
 //
 //	client.AdminOperationLog.Query().
-//		GroupBy(adminoperationlog.FieldCreateTime).
+//		GroupBy(adminoperationlog.FieldCreatedAt).
 //		Aggregate(ent.Count()).
 //		Scan(ctx, &v)
 func (_q *AdminOperationLogQuery) GroupBy(field string, fields ...string) *AdminOperationLogGroupBy {
@@ -288,11 +288,11 @@ func (_q *AdminOperationLogQuery) GroupBy(field string, fields ...string) *Admin
 // Example:
 //
 //	var v []struct {
-//		CreateTime time.Time `json:"create_time,omitempty"`
+//		CreatedAt time.Time `json:"created_at,omitempty"`
 //	}
 //
 //	client.AdminOperationLog.Query().
-//		Select(adminoperationlog.FieldCreateTime).
+//		Select(adminoperationlog.FieldCreatedAt).
 //		Scan(ctx, &v)
 func (_q *AdminOperationLogQuery) Select(fields ...string) *AdminOperationLogSelect {
 	_q.ctx.Fields = append(_q.ctx.Fields, fields...)

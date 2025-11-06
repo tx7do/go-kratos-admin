@@ -87,9 +87,9 @@ func NewUserTokenPayloadWithClaims(claims *authn.AuthClaims) (*authenticationV1.
 		log.Errorf("GetString ClaimFieldAuthority failed: %v", err)
 	}
 	if authority != "" {
-		v, ok := userV1.UserAuthority_value[authority]
+		v, ok := userV1.User_Authority_value[authority]
 		if ok {
-			payload.Authority = userV1.UserAuthority(v)
+			payload.Authority = userV1.User_Authority(v)
 		}
 	}
 
@@ -132,9 +132,9 @@ func NewUserTokenPayloadWithJwtMapClaims(claims jwt.MapClaims) (*authenticationV
 
 	authority, _ := claims[ClaimFieldAuthority]
 	if authority != nil {
-		v, ok := userV1.UserAuthority_value[authority.(string)]
+		v, ok := userV1.User_Authority_value[authority.(string)]
 		if ok {
-			payload.Authority = userV1.UserAuthority(v)
+			payload.Authority = userV1.User_Authority(v)
 		}
 	}
 

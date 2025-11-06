@@ -5,9 +5,8 @@ import (
 	"entgo.io/ent/dialect/entsql"
 	"entgo.io/ent/schema"
 	"entgo.io/ent/schema/field"
+	"entgo.io/ent/schema/index"
 	"github.com/tx7do/go-utils/entgo/mixin"
-
-	appmixin "kratos-admin/pkg/entgo/mixin"
 )
 
 // User holds the schema definition for the User entity.
@@ -32,7 +31,7 @@ func (User) Fields() []ent.Field {
 	return []ent.Field{
 		field.String("username").
 			Comment("用户名").
-			Unique().
+			//Unique().
 			NotEmpty().
 			Immutable().
 			Optional().
@@ -40,13 +39,11 @@ func (User) Fields() []ent.Field {
 
 		field.String("nickname").
 			Comment("昵称").
-			MaxLen(255).
 			Optional().
 			Nillable(),
 
 		field.String("realname").
 			Comment("真实名字").
-			MaxLen(255).
 			Optional().
 			Nillable(),
 
@@ -72,21 +69,18 @@ func (User) Fields() []ent.Field {
 
 		field.String("avatar").
 			Comment("头像").
-			MaxLen(1023).
 			Optional().
 			Nillable(),
 
 		field.String("address").
 			Comment("地址").
 			Default("").
-			MaxLen(2048).
 			Optional().
 			Nillable(),
 
 		field.String("region").
 			Comment("国家地区").
 			Default("").
-			MaxLen(255).
 			Optional().
 			Nillable(),
 
@@ -103,6 +97,7 @@ func (User) Fields() []ent.Field {
 				"Male", "MALE",
 				"Female", "FEMALE",
 			).
+			Default("SECRET").
 			Optional().
 			Nillable(),
 
@@ -118,6 +113,16 @@ func (User) Fields() []ent.Field {
 			).
 			Default("CUSTOMER_USER"),
 
+		field.Enum("status").
+			Comment("用户状态").
+			NamedValues(
+				"On", "ON",
+				"Off", "OFF",
+			).
+			Default("ON").
+			Optional().
+			Nillable(),
+
 		field.Time("last_login_time").
 			Comment("最后一次登录的时间").
 			Optional().
@@ -125,8 +130,6 @@ func (User) Fields() []ent.Field {
 
 		field.String("last_login_ip").
 			Comment("最后一次登录的IP").
-			Default("").
-			MaxLen(64).
 			Optional().
 			Nillable(),
 
@@ -158,10 +161,6 @@ func (User) Fields() []ent.Field {
 		field.Ints("role_ids").
 			Comment("角色ID列表").
 			Optional(),
-
-		//field.Strings("roles").
-		//	Comment("角色码列表").
-		//	Optional(),
 	}
 }
 
@@ -169,12 +168,10 @@ func (User) Fields() []ent.Field {
 func (User) Mixin() []ent.Mixin {
 	return []ent.Mixin{
 		mixin.AutoIncrementId{},
-		mixin.CreateBy{},
-		mixin.UpdateBy{},
-		mixin.Time{},
+		mixin.OperatorID{},
+		mixin.TimeAt{},
 		mixin.Remark{},
-		mixin.SwitchStatus{},
-		appmixin.TenantID{},
+		mixin.TenantID{},
 	}
 }
 
@@ -185,5 +182,7 @@ func (User) Edges() []ent.Edge {
 
 // Indexes of the User.
 func (User) Indexes() []ent.Index {
-	return []ent.Index{}
+	return []ent.Index{
+		index.Fields("username").Unique().StorageKey("idx_sys_user_username"),
+	}
 }

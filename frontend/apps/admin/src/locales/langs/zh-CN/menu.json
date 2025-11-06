@@ -26,8 +26,8 @@
   },
   "system": {
     "moduleName": "系统管理",
-    "dict": "字典管理",
-    "task": "任务管理",
+    "dict": "数据字典",
+    "task": "任务调度",
     "file": "文件管理",
     "apiResource": "API  资源",
     "adminLoginRestriction": "登录限制"
@@ -39,8 +39,7 @@
   },
   "internalMessage": {
     "moduleName": "站内消息",
-    "notificationMessage": "通知消息",
-    "notificationMessageCategory": "通知类型",
-    "privateMessage": "私聊消息"
+    "internalMessage": "消息管理",
+    "internalMessageCategory": "消息分类"
   }
 }

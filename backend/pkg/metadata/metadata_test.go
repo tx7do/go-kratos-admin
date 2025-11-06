@@ -16,7 +16,7 @@ func TestFromMetadata(t *testing.T) {
 
 	userId := "123"
 	tenantId := "456"
-	authority := userV1.UserAuthority_SYS_ADMIN.String()
+	authority := userV1.User_SYS_ADMIN.String()
 
 	ctx = metadata.NewServerContext(ctx, metadata.Metadata{
 		mdOperatorId: []string{userId},
@@ -39,7 +39,7 @@ func TestFromMetadata(t *testing.T) {
 func TestNewOperatorMetadataContext(t *testing.T) {
 	userId := uint32(123)
 	tenantId := uint32(456)
-	authority := userV1.UserAuthority_SYS_ADMIN
+	authority := userV1.User_SYS_ADMIN
 
 	ctx := context.Background()
 

@@ -1,18 +1,28 @@
 <script lang="ts" setup>
 import type { VxeGridProps } from '#/adapter/vxe-table';
-import type { Task } from '#/generated/api/admin/service/v1/i_task.pb';
 
 import { h } from 'vue';
 
 import { Page, useVbenDrawer, type VbenFormProps } from '@vben/common-ui';
-import { LucideFilePenLine, LucideTrash2 } from '@vben/icons';
+import {
+  LucideCirclePlay,
+  LucideCircleStop,
+  LucideFilePenLine,
+  LucideRotateCcw,
+  LucideTrash2,
+} from '@vben/icons';
 
 import { notification } from 'ant-design-vue';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
+import {
+  ControlTaskRequest_ControlType,
+  type Task,
+} from '#/generated/api/admin/service/v1/i_task.pb';
 import { $t } from '#/locales';
 import {
   enableList,
+  taskTypeList,
   taskTypeToColor,
   taskTypeToName,
   useTaskStore,
@@ -31,12 +41,37 @@ const formOptions: VbenFormProps = {
   submitOnEnter: true,
   schema: [
     {
-      component: 'Input',
+      component: 'Select',
+      fieldName: 'type',
+      label: $t('page.task.type'),
+      componentProps: {
+        placeholder: $t('ui.placeholder.select'),
+        options: taskTypeList,
+        filterOption: (input: string, option: any) =>
+          option.label.toLowerCase().includes(input.toLowerCase()),
+        allowClear: true,
+        showSearch: true,
+      },
+    },
+
+    {
+      component: 'ApiSelect',
       fieldName: 'typeName',
       label: $t('page.task.typeName'),
       componentProps: {
-        placeholder: $t('ui.placeholder.input'),
         allowClear: true,
+        showSearch: true,
+        placeholder: $t('ui.placeholder.select'),
+        api: async () => {
+          const result = await taskStore.listTaskTypeName();
+          return result.typeNames;
+        },
+        afterFetch: (data: { name: string; path: string }[]) => {
+          return data.map((item: any) => ({
+            label: item,
+            value: item,
+          }));
+        },
       },
     },
     {
@@ -46,7 +81,10 @@ const formOptions: VbenFormProps = {
       componentProps: {
         options: enableList,
         placeholder: $t('ui.placeholder.select'),
+        filterOption: (input: string, option: any) =>
+          option.label.toLowerCase().includes(input.toLowerCase()),
         allowClear: true,
+        showSearch: true,
       },
     },
   ],
@@ -97,8 +135,8 @@ const gridOptions: VxeGridProps<Task> = {
       width: 95,
     },
     {
-      title: $t('ui.table.createTime'),
-      field: 'createTime',
+      title: $t('ui.table.createdAt'),
+      field: 'createdAt',
       formatter: 'formatDateTime',
       width: 140,
     },
@@ -108,7 +146,7 @@ const gridOptions: VxeGridProps<Task> = {
       field: 'action',
       fixed: 'right',
       slots: { default: 'action' },
-      width: 90,
+      width: 190,
     },
   ],
 };
@@ -142,6 +180,96 @@ function handleCreate() {
   console.log('创建');
 
   openModal(true);
+}
+
+async function handleRestartAllTask() {
+  console.log('重启所有任务');
+
+  try {
+    await taskStore.restartAllTask();
+
+    notification.success({
+      message: $t('ui.notification.operation_success'),
+    });
+
+    await gridApi.reload();
+  } catch {
+    notification.error({
+      message: $t('ui.notification.operation_failed'),
+    });
+  }
+}
+
+async function handleStartAllTask() {
+  console.log('启动所有任务');
+
+  try {
+    await taskStore.startAllTask();
+
+    notification.success({
+      message: $t('ui.notification.operation_success'),
+    });
+
+    await gridApi.reload();
+  } catch {
+    notification.error({
+      message: $t('ui.notification.operation_failed'),
+    });
+  }
+}
+
+async function handleStopAllTask() {
+  console.log('停止所有任务');
+
+  try {
+    await taskStore.stopAllTask();
+
+    notification.success({
+      message: $t('ui.notification.operation_success'),
+    });
+
+    await gridApi.reload();
+  } catch {
+    notification.error({
+      message: $t('ui.notification.operation_failed'),
+    });
+  }
+}
+
+/**
+ * 控制任务
+ * @param typeName 任务类型名称
+ * @param controlType 控制类型
+ */
+async function controlTask(
+  typeName: string,
+  controlType: ControlTaskRequest_ControlType,
+) {
+  try {
+    await taskStore.controlTask(typeName, controlType);
+
+    notification.success({
+      message: $t('ui.notification.operation_success'),
+    });
+
+    await gridApi.reload();
+  } catch {
+    notification.error({
+      message: $t('ui.notification.operation_failed'),
+    });
+  }
+}
+
+async function handleStartTask(row: any) {
+  await controlTask(row.typeName, ControlTaskRequest_ControlType.Start);
+}
+
+async function handleStopTask(row: any) {
+  await controlTask(row.typeName, ControlTaskRequest_ControlType.Stop);
+}
+
+async function handleRestartTask(row: any) {
+  await controlTask(row.typeName, ControlTaskRequest_ControlType.Restart);
 }
 
 /* 编辑 */
@@ -179,6 +307,13 @@ async function handleEnableChanged(row: any, checked: boolean) {
   try {
     await taskStore.updateTask(row.id, { enable: row.enable });
 
+    await controlTask(
+      row.typeName,
+      row.enable
+        ? ControlTaskRequest_ControlType.Start
+        : ControlTaskRequest_ControlType.Stop,
+    );
+
     notification.success({
       message: $t('ui.notification.update_status_success'),
     });
@@ -199,7 +334,53 @@ async function handleEnableChanged(row: any, checked: boolean) {
         <a-button class="mr-2" type="primary" @click="handleCreate">
           {{ $t('page.task.button.create') }}
         </a-button>
+
+        <a-popconfirm
+          :cancel-text="$t('ui.button.cancel')"
+          :ok-text="$t('ui.button.ok')"
+          :title="
+            $t('page.task.text.do_you_want_start_all_task', {
+              moduleName: $t('page.task.moduleName'),
+            })
+          "
+          @confirm="handleStartAllTask()"
+        >
+          <a-button class="btn-start-all mr-2" type="primary">
+            {{ $t('page.task.button.startAll') }}
+          </a-button>
+        </a-popconfirm>
+
+        <a-popconfirm
+          :cancel-text="$t('ui.button.cancel')"
+          :ok-text="$t('ui.button.ok')"
+          :title="
+            $t('page.task.text.do_you_want_stop_all_task', {
+              moduleName: $t('page.task.moduleName'),
+            })
+          "
+          @confirm="handleStopAllTask()"
+        >
+          <a-button danger class="mr-2" type="primary">
+            {{ $t('page.task.button.stopAll') }}
+          </a-button>
+        </a-popconfirm>
+
+        <a-popconfirm
+          :cancel-text="$t('ui.button.cancel')"
+          :ok-text="$t('ui.button.ok')"
+          :title="
+            $t('page.task.text.do_you_want_restart_all_task', {
+              moduleName: $t('page.task.moduleName'),
+            })
+          "
+          @confirm="handleRestartAllTask()"
+        >
+          <a-button class="mr-2" type="primary">
+            {{ $t('page.task.button.restartAll') }}
+          </a-button>
+        </a-popconfirm>
       </template>
+
       <template #enable="{ row }">
         <a-switch
           :checked="row.enable === true"
@@ -226,6 +407,46 @@ async function handleEnableChanged(row: any, checked: boolean) {
           :cancel-text="$t('ui.button.cancel')"
           :ok-text="$t('ui.button.ok')"
           :title="
+            $t('page.task.text.do_you_want_start_task', {
+              moduleName: $t('page.task.moduleName'),
+            })
+          "
+          @confirm="handleStartTask(row)"
+        >
+          <a-button
+            type="link"
+            class="green-link-btn"
+            :icon="h(LucideCirclePlay)"
+          />
+        </a-popconfirm>
+        <a-popconfirm
+          :cancel-text="$t('ui.button.cancel')"
+          :ok-text="$t('ui.button.ok')"
+          :title="
+            $t('page.task.text.do_you_want_stop_task', {
+              moduleName: $t('page.task.moduleName'),
+            })
+          "
+          @confirm="handleStopTask(row)"
+        >
+          <a-button danger type="link" :icon="h(LucideCircleStop)" />
+        </a-popconfirm>
+        <a-popconfirm
+          :cancel-text="$t('ui.button.cancel')"
+          :ok-text="$t('ui.button.ok')"
+          :title="
+            $t('page.task.text.do_you_want_restart_task', {
+              moduleName: $t('page.task.moduleName'),
+            })
+          "
+          @confirm="handleRestartTask(row)"
+        >
+          <a-button type="link" :icon="h(LucideRotateCcw)" />
+        </a-popconfirm>
+        <a-popconfirm
+          :cancel-text="$t('ui.button.cancel')"
+          :ok-text="$t('ui.button.ok')"
+          :title="
             $t('ui.text.do_you_want_delete', {
               moduleName: $t('page.task.moduleName'),
             })
@@ -239,3 +460,32 @@ async function handleEnableChanged(row: any, checked: boolean) {
     <Drawer />
   </Page>
 </template>
+
+<style scoped>
+.btn-start-all {
+  background-color: #52c41a !important;
+  border-color: #52c41a !important;
+  color: #fff !important;
+}
+
+.btn-start-all:hover,
+.btn-start-all:focus {
+  background-color: #4cae4c !important;
+  border-color: #4cae4c !important;
+}
+
+.btn-start-all[disabled] {
+  background-color: #c2e7b0 !important;
+  border-color: #c2e7b0 !important;
+  color: #86b379 !important;
+  cursor: not-allowed !important;
+}
+
+:deep(.green-link-btn) {
+  color: #52c41a !important;
+}
+
+:deep(.green-link-btn:hover) {
+  color: #4cae4c !important;
+}
+</style>

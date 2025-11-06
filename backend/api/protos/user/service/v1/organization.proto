@@ -27,45 +27,43 @@ service OrganizationService {
   rpc Delete (DeleteOrganizationRequest) returns (google.protobuf.Empty) {}
 
   // 批量创建组织
-  rpc BatchCreate ( BatchCreateOrganizationsRequest ) returns ( BatchCreateOrganizationsResponse ) {}
-}
-
-// 组织类型
-enum OrganizationType {
-  ORGANIZATION_TYPE_UNSPECIFIED = 0; // 未指定
-
-  ORGANIZATION_TYPE_GROUP = 1; // 集团
-  ORGANIZATION_TYPE_SUBSIDIARY = 2; // 子公司
-  ORGANIZATION_TYPE_FILIALE = 3; // 分公司
-  ORGANIZATION_TYPE_DIVISION = 4; // 事业部
-}
-
-// 组织状态
-enum OrganizationStatus {
-  ORGANIZATION_STATUS_UNSPECIFIED = 0; // 未指定
-
-  ORGANIZATION_STATUS_ON = 1; // 启用
-  ORGANIZATION_STATUS_OFF = 2; // 停用
+  rpc BatchCreate (BatchCreateOrganizationsRequest) returns (BatchCreateOrganizationsResponse) {}
 }
 
 // 组织
 message Organization {
+  // 组织类型
+  enum Type {
+    ORGANIZATION_TYPE_UNSPECIFIED = 0; // 未指定
+
+    GROUP = 1; // 集团
+    SUBSIDIARY = 2; // 子公司
+    FILIALE = 3; // 分公司
+    DIVISION = 4; // 事业部
+  }
+
+  // 组织状态
+  enum Status {
+    OFF = 0;         // 禁用
+    ON = 1;          // 启用
+  }
+
   optional uint32 id = 1 [
     json_name = "id",
     (gnostic.openapi.v3.property) = {description: "组织ID"}
   ];  // 组织ID
 
   optional string name = 2 [json_name = "name", (gnostic.openapi.v3.property) = {description: "组织名称"}];  // 组织名称
-  optional OrganizationType organization_type = 3 [json_name = "organizationType", (gnostic.openapi.v3.property) = {description: "组织类型"}];  // 组织类型
+  optional Type organization_type = 3 [json_name = "organizationType", (gnostic.openapi.v3.property) = {description: "组织类型"}];  // 组织类型
   optional bool is_legal_entity = 4 [json_name = "isLegalEntity", (gnostic.openapi.v3.property) = {description: "是否法人实体：1=是（集团/子公司），0=否（分公司/事业部）"}];  // 是否法人实体：1=是（集团/子公司），0=否（分公司/事业部）
 
   optional string business_scope = 5 [json_name = "businessScope", (gnostic.openapi.v3.property) = {description: "核心业务范围（如“新能源汽车研发与生产”）"}];  // 核心业务范围（如“新能源汽车研发与生产”）
   optional string credit_code = 6 [json_name = "creditCode", (gnostic.openapi.v3.property) = {description: "统一社会信用代码"}];  // 统一社会信用代码
   optional string address = 7 [json_name = "address", (gnostic.openapi.v3.property) = {description: "注册地址"}];  // 注册地址
 
-  optional int32 sort_id = 10 [json_name = "sortId", (gnostic.openapi.v3.property) = {description: "排序编号"}];  // 排序编号
+  optional int32 sort_order = 10 [json_name = "sortOrder", (gnostic.openapi.v3.property) = {description: "排序顺序，值越小越靠前"}];  // 排序顺序，值越小越靠前
 
-  optional OrganizationStatus status = 11 [(gnostic.openapi.v3.property) = {description: "状态"}]; // 状态
+  optional Status status = 11 [(gnostic.openapi.v3.property) = {description: "状态"}]; // 状态
 
   optional string remark = 12 [json_name = "remark", (gnostic.openapi.v3.property) = {description: "备注"}];  // 备注
 
@@ -84,12 +82,13 @@ message Organization {
   optional uint32 parent_id = 50 [json_name = "parentId", (gnostic.openapi.v3.property) = {description: "父节点ID"}];  // 父节点ID
   repeated Organization children = 51 [json_name = "children", (gnostic.openapi.v3.property) = {description: "子节点树"}];  // 子节点树
 
-  optional uint32 create_by = 100 [json_name = "createBy", (gnostic.openapi.v3.property) = {description: "创建者ID"}]; // 创建者ID
-  optional uint32 update_by = 101 [json_name = "updateBy", (gnostic.openapi.v3.property) = {description: "更新者ID"}]; // 更新者ID
+  optional uint32 created_by = 100 [json_name = "createdBy", (gnostic.openapi.v3.property) = {description: "创建者ID"}]; // 创建者ID
+  optional uint32 updated_by = 101 [json_name = "updatedBy", (gnostic.openapi.v3.property) = {description: "更新者ID"}]; // 更新者ID
+  optional uint32 deleted_by = 102 [json_name = "deletedBy", (gnostic.openapi.v3.property) = {description: "删除者用户ID"}]; // 删除者用户ID
 
-  optional google.protobuf.Timestamp create_time = 200 [json_name = "createTime", (gnostic.openapi.v3.property) = {description: "创建时间"}];// 创建时间
-  optional google.protobuf.Timestamp update_time = 201 [json_name = "updateTime", (gnostic.openapi.v3.property) = {description: "更新时间"}];// 更新时间
-  optional google.protobuf.Timestamp delete_time = 202 [json_name = "deleteTime", (gnostic.openapi.v3.property) = {description: "删除时间"}];// 删除时间
+  optional google.protobuf.Timestamp created_at = 200 [json_name = "createdAt", (gnostic.openapi.v3.property) = {description: "创建时间"}];// 创建时间
+  optional google.protobuf.Timestamp updated_at = 201 [json_name = "updatedAt", (gnostic.openapi.v3.property) = {description: "更新时间"}];// 更新时间
+  optional google.protobuf.Timestamp deleted_at = 202 [json_name = "deletedAt", (gnostic.openapi.v3.property) = {description: "删除时间"}];// 删除时间
 }
 
 // 组织列表 - 答复
@@ -135,5 +134,10 @@ message BatchCreateOrganizationsRequest {
   repeated Organization data = 1;
 }
 message BatchCreateOrganizationsResponse {
-  repeated Organization data = 1;
+  repeated int32 created_ids = 1 [
+    json_name = "createdIds",
+    (gnostic.openapi.v3.property) = {
+      description: "创建成功的组织ID列表"
+    }
+  ]; // 创建成功的组织ID列表
 }

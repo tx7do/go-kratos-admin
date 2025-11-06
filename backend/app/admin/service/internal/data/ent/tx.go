@@ -22,24 +22,26 @@ type Tx struct {
 	ApiResource *ApiResourceClient
 	// Department is the client for interacting with the Department builders.
 	Department *DepartmentClient
-	// Dict is the client for interacting with the Dict builders.
-	Dict *DictClient
+	// DictEntry is the client for interacting with the DictEntry builders.
+	DictEntry *DictEntryClient
+	// DictType is the client for interacting with the DictType builders.
+	DictType *DictTypeClient
 	// File is the client for interacting with the File builders.
 	File *FileClient
+	// InternalMessage is the client for interacting with the InternalMessage builders.
+	InternalMessage *InternalMessageClient
+	// InternalMessageCategory is the client for interacting with the InternalMessageCategory builders.
+	InternalMessageCategory *InternalMessageCategoryClient
+	// InternalMessageRecipient is the client for interacting with the InternalMessageRecipient builders.
+	InternalMessageRecipient *InternalMessageRecipientClient
+	// Language is the client for interacting with the Language builders.
+	Language *LanguageClient
 	// Menu is the client for interacting with the Menu builders.
 	Menu *MenuClient
-	// NotificationMessage is the client for interacting with the NotificationMessage builders.
-	NotificationMessage *NotificationMessageClient
-	// NotificationMessageCategory is the client for interacting with the NotificationMessageCategory builders.
-	NotificationMessageCategory *NotificationMessageCategoryClient
-	// NotificationMessageRecipient is the client for interacting with the NotificationMessageRecipient builders.
-	NotificationMessageRecipient *NotificationMessageRecipientClient
 	// Organization is the client for interacting with the Organization builders.
 	Organization *OrganizationClient
 	// Position is the client for interacting with the Position builders.
 	Position *PositionClient
-	// PrivateMessage is the client for interacting with the PrivateMessage builders.
-	PrivateMessage *PrivateMessageClient
 	// Role is the client for interacting with the Role builders.
 	Role *RoleClient
 	// RoleApi is the client for interacting with the RoleApi builders.
@@ -200,15 +202,16 @@ func (tx *Tx) init() {
 	tx.AdminOperationLog = NewAdminOperationLogClient(tx.config)
 	tx.ApiResource = NewApiResourceClient(tx.config)
 	tx.Department = NewDepartmentClient(tx.config)
-	tx.Dict = NewDictClient(tx.config)
+	tx.DictEntry = NewDictEntryClient(tx.config)
+	tx.DictType = NewDictTypeClient(tx.config)
 	tx.File = NewFileClient(tx.config)
+	tx.InternalMessage = NewInternalMessageClient(tx.config)
+	tx.InternalMessageCategory = NewInternalMessageCategoryClient(tx.config)
+	tx.InternalMessageRecipient = NewInternalMessageRecipientClient(tx.config)
+	tx.Language = NewLanguageClient(tx.config)
 	tx.Menu = NewMenuClient(tx.config)
-	tx.NotificationMessage = NewNotificationMessageClient(tx.config)
-	tx.NotificationMessageCategory = NewNotificationMessageCategoryClient(tx.config)
-	tx.NotificationMessageRecipient = NewNotificationMessageRecipientClient(tx.config)
 	tx.Organization = NewOrganizationClient(tx.config)
 	tx.Position = NewPositionClient(tx.config)
-	tx.PrivateMessage = NewPrivateMessageClient(tx.config)
 	tx.Role = NewRoleClient(tx.config)
 	tx.RoleApi = NewRoleApiClient(tx.config)
 	tx.RoleDept = NewRoleDeptClient(tx.config)

@@ -189,22 +189,26 @@ func (m *User) validate(all bool) error {
 		// no validation rules for Authority
 	}
 
-	if m.CreateBy != nil {
-		// no validation rules for CreateBy
+	if m.CreatedBy != nil {
+		// no validation rules for CreatedBy
 	}
 
-	if m.UpdateBy != nil {
-		// no validation rules for UpdateBy
+	if m.UpdatedBy != nil {
+		// no validation rules for UpdatedBy
 	}
 
-	if m.CreateTime != nil {
+	if m.DeletedBy != nil {
+		// no validation rules for DeletedBy
+	}
+
+	if m.CreatedAt != nil {
 
 		if all {
-			switch v := interface{}(m.GetCreateTime()).(type) {
+			switch v := interface{}(m.GetCreatedAt()).(type) {
 			case interface{ ValidateAll() error }:
 				if err := v.ValidateAll(); err != nil {
 					errors = append(errors, UserValidationError{
-						field:  "CreateTime",
+						field:  "CreatedAt",
 						reason: "embedded message failed validation",
 						cause:  err,
 					})
@@ -212,16 +216,16 @@ func (m *User) validate(all bool) error {
 			case interface{ Validate() error }:
 				if err := v.Validate(); err != nil {
 					errors = append(errors, UserValidationError{
-						field:  "CreateTime",
+						field:  "CreatedAt",
 						reason: "embedded message failed validation",
 						cause:  err,
 					})
 				}
 			}
-		} else if v, ok := interface{}(m.GetCreateTime()).(interface{ Validate() error }); ok {
+		} else if v, ok := interface{}(m.GetCreatedAt()).(interface{ Validate() error }); ok {
 			if err := v.Validate(); err != nil {
 				return UserValidationError{
-					field:  "CreateTime",
+					field:  "CreatedAt",
 					reason: "embedded message failed validation",
 					cause:  err,
 				}
@@ -230,14 +234,14 @@ func (m *User) validate(all bool) error {
 
 	}
 
-	if m.UpdateTime != nil {
+	if m.UpdatedAt != nil {
 
 		if all {
-			switch v := interface{}(m.GetUpdateTime()).(type) {
+			switch v := interface{}(m.GetUpdatedAt()).(type) {
 			case interface{ ValidateAll() error }:
 				if err := v.ValidateAll(); err != nil {
 					errors = append(errors, UserValidationError{
-						field:  "UpdateTime",
+						field:  "UpdatedAt",
 						reason: "embedded message failed validation",
 						cause:  err,
 					})
@@ -245,16 +249,16 @@ func (m *User) validate(all bool) error {
 			case interface{ Validate() error }:
 				if err := v.Validate(); err != nil {
 					errors = append(errors, UserValidationError{
-						field:  "UpdateTime",
+						field:  "UpdatedAt",
 						reason: "embedded message failed validation",
 						cause:  err,
 					})
 				}
 			}
-		} else if v, ok := interface{}(m.GetUpdateTime()).(interface{ Validate() error }); ok {
+		} else if v, ok := interface{}(m.GetUpdatedAt()).(interface{ Validate() error }); ok {
 			if err := v.Validate(); err != nil {
 				return UserValidationError{
-					field:  "UpdateTime",
+					field:  "UpdatedAt",
 					reason: "embedded message failed validation",
 					cause:  err,
 				}
@@ -263,14 +267,14 @@ func (m *User) validate(all bool) error {
 
 	}
 
-	if m.DeleteTime != nil {
+	if m.DeletedAt != nil {
 
 		if all {
-			switch v := interface{}(m.GetDeleteTime()).(type) {
+			switch v := interface{}(m.GetDeletedAt()).(type) {
 			case interface{ ValidateAll() error }:
 				if err := v.ValidateAll(); err != nil {
 					errors = append(errors, UserValidationError{
-						field:  "DeleteTime",
+						field:  "DeletedAt",
 						reason: "embedded message failed validation",
 						cause:  err,
 					})
@@ -278,16 +282,16 @@ func (m *User) validate(all bool) error {
 			case interface{ Validate() error }:
 				if err := v.Validate(); err != nil {
 					errors = append(errors, UserValidationError{
-						field:  "DeleteTime",
+						field:  "DeletedAt",
 						reason: "embedded message failed validation",
 						cause:  err,
 					})
 				}
 			}
-		} else if v, ok := interface{}(m.GetDeleteTime()).(interface{ Validate() error }); ok {
+		} else if v, ok := interface{}(m.GetDeletedAt()).(interface{ Validate() error }); ok {
 			if err := v.Validate(); err != nil {
 				return UserValidationError{
-					field:  "DeleteTime",
+					field:  "DeletedAt",
 					reason: "embedded message failed validation",
 					cause:  err,
 				}
@@ -1488,40 +1492,6 @@ func (m *BatchCreateUsersResponse) validate(all bool) error {
 
 	var errors []error
 
-	for idx, item := range m.GetData() {
-		_, _ = idx, item
-
-		if all {
-			switch v := interface{}(item).(type) {
-			case interface{ ValidateAll() error }:
-				if err := v.ValidateAll(); err != nil {
-					errors = append(errors, BatchCreateUsersResponseValidationError{
-						field:  fmt.Sprintf("Data[%v]", idx),
-						reason: "embedded message failed validation",
-						cause:  err,
-					})
-				}
-			case interface{ Validate() error }:
-				if err := v.Validate(); err != nil {
-					errors = append(errors, BatchCreateUsersResponseValidationError{
-						field:  fmt.Sprintf("Data[%v]", idx),
-						reason: "embedded message failed validation",
-						cause:  err,
-					})
-				}
-			}
-		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
-			if err := v.Validate(); err != nil {
-				return BatchCreateUsersResponseValidationError{
-					field:  fmt.Sprintf("Data[%v]", idx),
-					reason: "embedded message failed validation",
-					cause:  err,
-				}
-			}
-		}
-
-	}
-
 	if len(errors) > 0 {
 		return BatchCreateUsersResponseMultiError(errors)
 	}
@@ -1601,109 +1571,3 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = BatchCreateUsersResponseValidationError{}
-
-// Validate checks the field values on EditUserPasswordRequest with the rules
-// defined in the proto definition for this message. If any rules are
-// violated, the first error encountered is returned, or nil if there are no violations.
-func (m *EditUserPasswordRequest) Validate() error {
-	return m.validate(false)
-}
-
-// ValidateAll checks the field values on EditUserPasswordRequest with the
-// rules defined in the proto definition for this message. If any rules are
-// violated, the result is a list of violation errors wrapped in
-// EditUserPasswordRequestMultiError, or nil if none found.
-func (m *EditUserPasswordRequest) ValidateAll() error {
-	return m.validate(true)
-}
-
-func (m *EditUserPasswordRequest) validate(all bool) error {
-	if m == nil {
-		return nil
-	}
-
-	var errors []error
-
-	// no validation rules for UserId
-
-	// no validation rules for NewPassword
-
-	if len(errors) > 0 {
-		return EditUserPasswordRequestMultiError(errors)
-	}
-
-	return nil
-}
-
-// EditUserPasswordRequestMultiError is an error wrapping multiple validation
-// errors returned by EditUserPasswordRequest.ValidateAll() if the designated
-// constraints aren't met.
-type EditUserPasswordRequestMultiError []error
-
-// Error returns a concatenation of all the error messages it wraps.
-func (m EditUserPasswordRequestMultiError) Error() string {
-	msgs := make([]string, 0, len(m))
-	for _, err := range m {
-		msgs = append(msgs, err.Error())
-	}
-	return strings.Join(msgs, "; ")
-}
-
-// AllErrors returns a list of validation violation errors.
-func (m EditUserPasswordRequestMultiError) AllErrors() []error { return m }
-
-// EditUserPasswordRequestValidationError is the validation error returned by
-// EditUserPasswordRequest.Validate if the designated constraints aren't met.
-type EditUserPasswordRequestValidationError struct {
-	field  string
-	reason string
-	cause  error
-	key    bool
-}
-
-// Field function returns field value.
-func (e EditUserPasswordRequestValidationError) Field() string { return e.field }
-
-// Reason function returns reason value.
-func (e EditUserPasswordRequestValidationError) Reason() string { return e.reason }
-
-// Cause function returns cause value.
-func (e EditUserPasswordRequestValidationError) Cause() error { return e.cause }
-
-// Key function returns key value.
-func (e EditUserPasswordRequestValidationError) Key() bool { return e.key }
-
-// ErrorName returns error name.
-func (e EditUserPasswordRequestValidationError) ErrorName() string {
-	return "EditUserPasswordRequestValidationError"
-}
-
-// Error satisfies the builtin error interface
-func (e EditUserPasswordRequestValidationError) Error() string {
-	cause := ""
-	if e.cause != nil {
-		cause = fmt.Sprintf(" | caused by: %v", e.cause)
-	}
-
-	key := ""
-	if e.key {
-		key = "key for "
-	}
-
-	return fmt.Sprintf(
-		"invalid %sEditUserPasswordRequest.%s: %s%s",
-		key,
-		e.field,
-		e.reason,
-		cause)
-}
-
-var _ error = EditUserPasswordRequestValidationError{}
-
-var _ interface {
-	Field() string
-	Reason() string
-	Key() bool
-	Cause() error
-	ErrorName() string
-} = EditUserPasswordRequestValidationError{}

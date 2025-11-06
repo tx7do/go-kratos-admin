@@ -23,72 +23,86 @@ type TaskCreate struct {
 	conflict []sql.ConflictOption
 }
 
-// SetCreateTime sets the "create_time" field.
-func (_c *TaskCreate) SetCreateTime(v time.Time) *TaskCreate {
-	_c.mutation.SetCreateTime(v)
+// SetCreatedAt sets the "created_at" field.
+func (_c *TaskCreate) SetCreatedAt(v time.Time) *TaskCreate {
+	_c.mutation.SetCreatedAt(v)
 	return _c
 }
 
-// SetNillableCreateTime sets the "create_time" field if the given value is not nil.
-func (_c *TaskCreate) SetNillableCreateTime(v *time.Time) *TaskCreate {
+// SetNillableCreatedAt sets the "created_at" field if the given value is not nil.
+func (_c *TaskCreate) SetNillableCreatedAt(v *time.Time) *TaskCreate {
 	if v != nil {
-		_c.SetCreateTime(*v)
+		_c.SetCreatedAt(*v)
 	}
 	return _c
 }
 
-// SetUpdateTime sets the "update_time" field.
-func (_c *TaskCreate) SetUpdateTime(v time.Time) *TaskCreate {
-	_c.mutation.SetUpdateTime(v)
+// SetUpdatedAt sets the "updated_at" field.
+func (_c *TaskCreate) SetUpdatedAt(v time.Time) *TaskCreate {
+	_c.mutation.SetUpdatedAt(v)
 	return _c
 }
 
-// SetNillableUpdateTime sets the "update_time" field if the given value is not nil.
-func (_c *TaskCreate) SetNillableUpdateTime(v *time.Time) *TaskCreate {
+// SetNillableUpdatedAt sets the "updated_at" field if the given value is not nil.
+func (_c *TaskCreate) SetNillableUpdatedAt(v *time.Time) *TaskCreate {
 	if v != nil {
-		_c.SetUpdateTime(*v)
+		_c.SetUpdatedAt(*v)
 	}
 	return _c
 }
 
-// SetDeleteTime sets the "delete_time" field.
-func (_c *TaskCreate) SetDeleteTime(v time.Time) *TaskCreate {
-	_c.mutation.SetDeleteTime(v)
+// SetDeletedAt sets the "deleted_at" field.
+func (_c *TaskCreate) SetDeletedAt(v time.Time) *TaskCreate {
+	_c.mutation.SetDeletedAt(v)
 	return _c
 }
 
-// SetNillableDeleteTime sets the "delete_time" field if the given value is not nil.
-func (_c *TaskCreate) SetNillableDeleteTime(v *time.Time) *TaskCreate {
+// SetNillableDeletedAt sets the "deleted_at" field if the given value is not nil.
+func (_c *TaskCreate) SetNillableDeletedAt(v *time.Time) *TaskCreate {
 	if v != nil {
-		_c.SetDeleteTime(*v)
+		_c.SetDeletedAt(*v)
 	}
 	return _c
 }
 
-// SetCreateBy sets the "create_by" field.
-func (_c *TaskCreate) SetCreateBy(v uint32) *TaskCreate {
-	_c.mutation.SetCreateBy(v)
+// SetCreatedBy sets the "created_by" field.
+func (_c *TaskCreate) SetCreatedBy(v uint32) *TaskCreate {
+	_c.mutation.SetCreatedBy(v)
 	return _c
 }
 
-// SetNillableCreateBy sets the "create_by" field if the given value is not nil.
-func (_c *TaskCreate) SetNillableCreateBy(v *uint32) *TaskCreate {
+// SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
+func (_c *TaskCreate) SetNillableCreatedBy(v *uint32) *TaskCreate {
 	if v != nil {
-		_c.SetCreateBy(*v)
+		_c.SetCreatedBy(*v)
 	}
 	return _c
 }
 
-// SetUpdateBy sets the "update_by" field.
-func (_c *TaskCreate) SetUpdateBy(v uint32) *TaskCreate {
-	_c.mutation.SetUpdateBy(v)
+// SetUpdatedBy sets the "updated_by" field.
+func (_c *TaskCreate) SetUpdatedBy(v uint32) *TaskCreate {
+	_c.mutation.SetUpdatedBy(v)
 	return _c
 }
 
-// SetNillableUpdateBy sets the "update_by" field if the given value is not nil.
-func (_c *TaskCreate) SetNillableUpdateBy(v *uint32) *TaskCreate {
+// SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
+func (_c *TaskCreate) SetNillableUpdatedBy(v *uint32) *TaskCreate {
 	if v != nil {
-		_c.SetUpdateBy(*v)
+		_c.SetUpdatedBy(*v)
+	}
+	return _c
+}
+
+// SetDeletedBy sets the "deleted_by" field.
+func (_c *TaskCreate) SetDeletedBy(v uint32) *TaskCreate {
+	_c.mutation.SetDeletedBy(v)
+	return _c
+}
+
+// SetNillableDeletedBy sets the "deleted_by" field if the given value is not nil.
+func (_c *TaskCreate) SetNillableDeletedBy(v *uint32) *TaskCreate {
+	if v != nil {
+		_c.SetDeletedBy(*v)
 	}
 	return _c
 }
@@ -238,19 +252,14 @@ func (_c *TaskCreate) ExecX(ctx context.Context) {
 
 // defaults sets the default values of the builder before save.
 func (_c *TaskCreate) defaults() {
-	if _, ok := _c.mutation.Remark(); !ok {
-		v := task.DefaultRemark
-		_c.mutation.SetRemark(v)
+	if _, ok := _c.mutation.GetType(); !ok {
+		v := task.DefaultType
+		_c.mutation.SetType(v)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
 func (_c *TaskCreate) check() error {
-	if v, ok := _c.mutation.TenantID(); ok {
-		if err := task.TenantIDValidator(v); err != nil {
-			return &ValidationError{Name: "tenant_id", err: fmt.Errorf(`ent: validator failed for field "Task.tenant_id": %w`, err)}
-		}
-	}
 	if v, ok := _c.mutation.GetType(); ok {
 		if err := task.TypeValidator(v); err != nil {
 			return &ValidationError{Name: "type", err: fmt.Errorf(`ent: validator failed for field "Task.type": %w`, err)}
@@ -299,25 +308,29 @@ func (_c *TaskCreate) createSpec() (*Task, *sqlgraph.CreateSpec) {
 		_node.ID = id
 		_spec.ID.Value = id
 	}
-	if value, ok := _c.mutation.CreateTime(); ok {
-		_spec.SetField(task.FieldCreateTime, field.TypeTime, value)
-		_node.CreateTime = &value
+	if value, ok := _c.mutation.CreatedAt(); ok {
+		_spec.SetField(task.FieldCreatedAt, field.TypeTime, value)
+		_node.CreatedAt = &value
 	}
-	if value, ok := _c.mutation.UpdateTime(); ok {
-		_spec.SetField(task.FieldUpdateTime, field.TypeTime, value)
-		_node.UpdateTime = &value
+	if value, ok := _c.mutation.UpdatedAt(); ok {
+		_spec.SetField(task.FieldUpdatedAt, field.TypeTime, value)
+		_node.UpdatedAt = &value
 	}
-	if value, ok := _c.mutation.DeleteTime(); ok {
-		_spec.SetField(task.FieldDeleteTime, field.TypeTime, value)
-		_node.DeleteTime = &value
+	if value, ok := _c.mutation.DeletedAt(); ok {
+		_spec.SetField(task.FieldDeletedAt, field.TypeTime, value)
+		_node.DeletedAt = &value
 	}
-	if value, ok := _c.mutation.CreateBy(); ok {
-		_spec.SetField(task.FieldCreateBy, field.TypeUint32, value)
-		_node.CreateBy = &value
+	if value, ok := _c.mutation.CreatedBy(); ok {
+		_spec.SetField(task.FieldCreatedBy, field.TypeUint32, value)
+		_node.CreatedBy = &value
 	}
-	if value, ok := _c.mutation.UpdateBy(); ok {
-		_spec.SetField(task.FieldUpdateBy, field.TypeUint32, value)
-		_node.UpdateBy = &value
+	if value, ok := _c.mutation.UpdatedBy(); ok {
+		_spec.SetField(task.FieldUpdatedBy, field.TypeUint32, value)
+		_node.UpdatedBy = &value
+	}
+	if value, ok := _c.mutation.DeletedBy(); ok {
+		_spec.SetField(task.FieldDeletedBy, field.TypeUint32, value)
+		_node.DeletedBy = &value
 	}
 	if value, ok := _c.mutation.Remark(); ok {
 		_spec.SetField(task.FieldRemark, field.TypeString, value)
@@ -358,7 +371,7 @@ func (_c *TaskCreate) createSpec() (*Task, *sqlgraph.CreateSpec) {
 // of the `INSERT` statement. For example:
 //
 //	client.Task.Create().
-//		SetCreateTime(v).
+//		SetCreatedAt(v).
 //		OnConflict(
 //			// Update the row with the new values
 //			// the was proposed for insertion.
@@ -367,7 +380,7 @@ func (_c *TaskCreate) createSpec() (*Task, *sqlgraph.CreateSpec) {
 //		// Override some of the fields with custom
 //		// update values.
 //		Update(func(u *ent.TaskUpsert) {
-//			SetCreateTime(v+v).
+//			SetCreatedAt(v+v).
 //		}).
 //		Exec(ctx)
 func (_c *TaskCreate) OnConflict(opts ...sql.ConflictOption) *TaskUpsertOne {
@@ -403,87 +416,111 @@ type (
 	}
 )
 
-// SetUpdateTime sets the "update_time" field.
-func (u *TaskUpsert) SetUpdateTime(v time.Time) *TaskUpsert {
-	u.Set(task.FieldUpdateTime, v)
+// SetUpdatedAt sets the "updated_at" field.
+func (u *TaskUpsert) SetUpdatedAt(v time.Time) *TaskUpsert {
+	u.Set(task.FieldUpdatedAt, v)
 	return u
 }
 
-// UpdateUpdateTime sets the "update_time" field to the value that was provided on create.
-func (u *TaskUpsert) UpdateUpdateTime() *TaskUpsert {
-	u.SetExcluded(task.FieldUpdateTime)
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *TaskUpsert) UpdateUpdatedAt() *TaskUpsert {
+	u.SetExcluded(task.FieldUpdatedAt)
 	return u
 }
 
-// ClearUpdateTime clears the value of the "update_time" field.
-func (u *TaskUpsert) ClearUpdateTime() *TaskUpsert {
-	u.SetNull(task.FieldUpdateTime)
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (u *TaskUpsert) ClearUpdatedAt() *TaskUpsert {
+	u.SetNull(task.FieldUpdatedAt)
 	return u
 }
 
-// SetDeleteTime sets the "delete_time" field.
-func (u *TaskUpsert) SetDeleteTime(v time.Time) *TaskUpsert {
-	u.Set(task.FieldDeleteTime, v)
+// SetDeletedAt sets the "deleted_at" field.
+func (u *TaskUpsert) SetDeletedAt(v time.Time) *TaskUpsert {
+	u.Set(task.FieldDeletedAt, v)
 	return u
 }
 
-// UpdateDeleteTime sets the "delete_time" field to the value that was provided on create.
-func (u *TaskUpsert) UpdateDeleteTime() *TaskUpsert {
-	u.SetExcluded(task.FieldDeleteTime)
+// UpdateDeletedAt sets the "deleted_at" field to the value that was provided on create.
+func (u *TaskUpsert) UpdateDeletedAt() *TaskUpsert {
+	u.SetExcluded(task.FieldDeletedAt)
 	return u
 }
 
-// ClearDeleteTime clears the value of the "delete_time" field.
-func (u *TaskUpsert) ClearDeleteTime() *TaskUpsert {
-	u.SetNull(task.FieldDeleteTime)
+// ClearDeletedAt clears the value of the "deleted_at" field.
+func (u *TaskUpsert) ClearDeletedAt() *TaskUpsert {
+	u.SetNull(task.FieldDeletedAt)
 	return u
 }
 
-// SetCreateBy sets the "create_by" field.
-func (u *TaskUpsert) SetCreateBy(v uint32) *TaskUpsert {
-	u.Set(task.FieldCreateBy, v)
+// SetCreatedBy sets the "created_by" field.
+func (u *TaskUpsert) SetCreatedBy(v uint32) *TaskUpsert {
+	u.Set(task.FieldCreatedBy, v)
 	return u
 }
 
-// UpdateCreateBy sets the "create_by" field to the value that was provided on create.
-func (u *TaskUpsert) UpdateCreateBy() *TaskUpsert {
-	u.SetExcluded(task.FieldCreateBy)
+// UpdateCreatedBy sets the "created_by" field to the value that was provided on create.
+func (u *TaskUpsert) UpdateCreatedBy() *TaskUpsert {
+	u.SetExcluded(task.FieldCreatedBy)
 	return u
 }
 
-// AddCreateBy adds v to the "create_by" field.
-func (u *TaskUpsert) AddCreateBy(v uint32) *TaskUpsert {
-	u.Add(task.FieldCreateBy, v)
+// AddCreatedBy adds v to the "created_by" field.
+func (u *TaskUpsert) AddCreatedBy(v uint32) *TaskUpsert {
+	u.Add(task.FieldCreatedBy, v)
 	return u
 }
 
-// ClearCreateBy clears the value of the "create_by" field.
-func (u *TaskUpsert) ClearCreateBy() *TaskUpsert {
-	u.SetNull(task.FieldCreateBy)
+// ClearCreatedBy clears the value of the "created_by" field.
+func (u *TaskUpsert) ClearCreatedBy() *TaskUpsert {
+	u.SetNull(task.FieldCreatedBy)
 	return u
 }
 
-// SetUpdateBy sets the "update_by" field.
-func (u *TaskUpsert) SetUpdateBy(v uint32) *TaskUpsert {
-	u.Set(task.FieldUpdateBy, v)
+// SetUpdatedBy sets the "updated_by" field.
+func (u *TaskUpsert) SetUpdatedBy(v uint32) *TaskUpsert {
+	u.Set(task.FieldUpdatedBy, v)
 	return u
 }
 
-// UpdateUpdateBy sets the "update_by" field to the value that was provided on create.
-func (u *TaskUpsert) UpdateUpdateBy() *TaskUpsert {
-	u.SetExcluded(task.FieldUpdateBy)
+// UpdateUpdatedBy sets the "updated_by" field to the value that was provided on create.
+func (u *TaskUpsert) UpdateUpdatedBy() *TaskUpsert {
+	u.SetExcluded(task.FieldUpdatedBy)
 	return u
 }
 
-// AddUpdateBy adds v to the "update_by" field.
-func (u *TaskUpsert) AddUpdateBy(v uint32) *TaskUpsert {
-	u.Add(task.FieldUpdateBy, v)
+// AddUpdatedBy adds v to the "updated_by" field.
+func (u *TaskUpsert) AddUpdatedBy(v uint32) *TaskUpsert {
+	u.Add(task.FieldUpdatedBy, v)
 	return u
 }
 
-// ClearUpdateBy clears the value of the "update_by" field.
-func (u *TaskUpsert) ClearUpdateBy() *TaskUpsert {
-	u.SetNull(task.FieldUpdateBy)
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (u *TaskUpsert) ClearUpdatedBy() *TaskUpsert {
+	u.SetNull(task.FieldUpdatedBy)
+	return u
+}
+
+// SetDeletedBy sets the "deleted_by" field.
+func (u *TaskUpsert) SetDeletedBy(v uint32) *TaskUpsert {
+	u.Set(task.FieldDeletedBy, v)
+	return u
+}
+
+// UpdateDeletedBy sets the "deleted_by" field to the value that was provided on create.
+func (u *TaskUpsert) UpdateDeletedBy() *TaskUpsert {
+	u.SetExcluded(task.FieldDeletedBy)
+	return u
+}
+
+// AddDeletedBy adds v to the "deleted_by" field.
+func (u *TaskUpsert) AddDeletedBy(v uint32) *TaskUpsert {
+	u.Add(task.FieldDeletedBy, v)
+	return u
+}
+
+// ClearDeletedBy clears the value of the "deleted_by" field.
+func (u *TaskUpsert) ClearDeletedBy() *TaskUpsert {
+	u.SetNull(task.FieldDeletedBy)
 	return u
 }
 
@@ -630,8 +667,8 @@ func (u *TaskUpsertOne) UpdateNewValues() *TaskUpsertOne {
 		if _, exists := u.create.mutation.ID(); exists {
 			s.SetIgnore(task.FieldID)
 		}
-		if _, exists := u.create.mutation.CreateTime(); exists {
-			s.SetIgnore(task.FieldCreateTime)
+		if _, exists := u.create.mutation.CreatedAt(); exists {
+			s.SetIgnore(task.FieldCreatedAt)
 		}
 		if _, exists := u.create.mutation.TenantID(); exists {
 			s.SetIgnore(task.FieldTenantID)
@@ -667,101 +704,129 @@ func (u *TaskUpsertOne) Update(set func(*TaskUpsert)) *TaskUpsertOne {
 	return u
 }
 
-// SetUpdateTime sets the "update_time" field.
-func (u *TaskUpsertOne) SetUpdateTime(v time.Time) *TaskUpsertOne {
+// SetUpdatedAt sets the "updated_at" field.
+func (u *TaskUpsertOne) SetUpdatedAt(v time.Time) *TaskUpsertOne {
 	return u.Update(func(s *TaskUpsert) {
-		s.SetUpdateTime(v)
+		s.SetUpdatedAt(v)
 	})
 }
 
-// UpdateUpdateTime sets the "update_time" field to the value that was provided on create.
-func (u *TaskUpsertOne) UpdateUpdateTime() *TaskUpsertOne {
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *TaskUpsertOne) UpdateUpdatedAt() *TaskUpsertOne {
 	return u.Update(func(s *TaskUpsert) {
-		s.UpdateUpdateTime()
+		s.UpdateUpdatedAt()
 	})
 }
 
-// ClearUpdateTime clears the value of the "update_time" field.
-func (u *TaskUpsertOne) ClearUpdateTime() *TaskUpsertOne {
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (u *TaskUpsertOne) ClearUpdatedAt() *TaskUpsertOne {
 	return u.Update(func(s *TaskUpsert) {
-		s.ClearUpdateTime()
+		s.ClearUpdatedAt()
 	})
 }
 
-// SetDeleteTime sets the "delete_time" field.
-func (u *TaskUpsertOne) SetDeleteTime(v time.Time) *TaskUpsertOne {
+// SetDeletedAt sets the "deleted_at" field.
+func (u *TaskUpsertOne) SetDeletedAt(v time.Time) *TaskUpsertOne {
 	return u.Update(func(s *TaskUpsert) {
-		s.SetDeleteTime(v)
+		s.SetDeletedAt(v)
 	})
 }
 
-// UpdateDeleteTime sets the "delete_time" field to the value that was provided on create.
-func (u *TaskUpsertOne) UpdateDeleteTime() *TaskUpsertOne {
+// UpdateDeletedAt sets the "deleted_at" field to the value that was provided on create.
+func (u *TaskUpsertOne) UpdateDeletedAt() *TaskUpsertOne {
 	return u.Update(func(s *TaskUpsert) {
-		s.UpdateDeleteTime()
+		s.UpdateDeletedAt()
 	})
 }
 
-// ClearDeleteTime clears the value of the "delete_time" field.
-func (u *TaskUpsertOne) ClearDeleteTime() *TaskUpsertOne {
+// ClearDeletedAt clears the value of the "deleted_at" field.
+func (u *TaskUpsertOne) ClearDeletedAt() *TaskUpsertOne {
 	return u.Update(func(s *TaskUpsert) {
-		s.ClearDeleteTime()
+		s.ClearDeletedAt()
 	})
 }
 
-// SetCreateBy sets the "create_by" field.
-func (u *TaskUpsertOne) SetCreateBy(v uint32) *TaskUpsertOne {
+// SetCreatedBy sets the "created_by" field.
+func (u *TaskUpsertOne) SetCreatedBy(v uint32) *TaskUpsertOne {
 	return u.Update(func(s *TaskUpsert) {
-		s.SetCreateBy(v)
+		s.SetCreatedBy(v)
 	})
 }
 
-// AddCreateBy adds v to the "create_by" field.
-func (u *TaskUpsertOne) AddCreateBy(v uint32) *TaskUpsertOne {
+// AddCreatedBy adds v to the "created_by" field.
+func (u *TaskUpsertOne) AddCreatedBy(v uint32) *TaskUpsertOne {
 	return u.Update(func(s *TaskUpsert) {
-		s.AddCreateBy(v)
+		s.AddCreatedBy(v)
 	})
 }
 
-// UpdateCreateBy sets the "create_by" field to the value that was provided on create.
-func (u *TaskUpsertOne) UpdateCreateBy() *TaskUpsertOne {
+// UpdateCreatedBy sets the "created_by" field to the value that was provided on create.
+func (u *TaskUpsertOne) UpdateCreatedBy() *TaskUpsertOne {
 	return u.Update(func(s *TaskUpsert) {
-		s.UpdateCreateBy()
+		s.UpdateCreatedBy()
 	})
 }
 
-// ClearCreateBy clears the value of the "create_by" field.
-func (u *TaskUpsertOne) ClearCreateBy() *TaskUpsertOne {
+// ClearCreatedBy clears the value of the "created_by" field.
+func (u *TaskUpsertOne) ClearCreatedBy() *TaskUpsertOne {
 	return u.Update(func(s *TaskUpsert) {
-		s.ClearCreateBy()
+		s.ClearCreatedBy()
 	})
 }
 
-// SetUpdateBy sets the "update_by" field.
-func (u *TaskUpsertOne) SetUpdateBy(v uint32) *TaskUpsertOne {
+// SetUpdatedBy sets the "updated_by" field.
+func (u *TaskUpsertOne) SetUpdatedBy(v uint32) *TaskUpsertOne {
 	return u.Update(func(s *TaskUpsert) {
-		s.SetUpdateBy(v)
+		s.SetUpdatedBy(v)
 	})
 }
 
-// AddUpdateBy adds v to the "update_by" field.
-func (u *TaskUpsertOne) AddUpdateBy(v uint32) *TaskUpsertOne {
+// AddUpdatedBy adds v to the "updated_by" field.
+func (u *TaskUpsertOne) AddUpdatedBy(v uint32) *TaskUpsertOne {
 	return u.Update(func(s *TaskUpsert) {
-		s.AddUpdateBy(v)
+		s.AddUpdatedBy(v)
 	})
 }
 
-// UpdateUpdateBy sets the "update_by" field to the value that was provided on create.
-func (u *TaskUpsertOne) UpdateUpdateBy() *TaskUpsertOne {
+// UpdateUpdatedBy sets the "updated_by" field to the value that was provided on create.
+func (u *TaskUpsertOne) UpdateUpdatedBy() *TaskUpsertOne {
 	return u.Update(func(s *TaskUpsert) {
-		s.UpdateUpdateBy()
+		s.UpdateUpdatedBy()
 	})
 }
 
-// ClearUpdateBy clears the value of the "update_by" field.
-func (u *TaskUpsertOne) ClearUpdateBy() *TaskUpsertOne {
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (u *TaskUpsertOne) ClearUpdatedBy() *TaskUpsertOne {
 	return u.Update(func(s *TaskUpsert) {
-		s.ClearUpdateBy()
+		s.ClearUpdatedBy()
+	})
+}
+
+// SetDeletedBy sets the "deleted_by" field.
+func (u *TaskUpsertOne) SetDeletedBy(v uint32) *TaskUpsertOne {
+	return u.Update(func(s *TaskUpsert) {
+		s.SetDeletedBy(v)
+	})
+}
+
+// AddDeletedBy adds v to the "deleted_by" field.
+func (u *TaskUpsertOne) AddDeletedBy(v uint32) *TaskUpsertOne {
+	return u.Update(func(s *TaskUpsert) {
+		s.AddDeletedBy(v)
+	})
+}
+
+// UpdateDeletedBy sets the "deleted_by" field to the value that was provided on create.
+func (u *TaskUpsertOne) UpdateDeletedBy() *TaskUpsertOne {
+	return u.Update(func(s *TaskUpsert) {
+		s.UpdateDeletedBy()
+	})
+}
+
+// ClearDeletedBy clears the value of the "deleted_by" field.
+func (u *TaskUpsertOne) ClearDeletedBy() *TaskUpsertOne {
+	return u.Update(func(s *TaskUpsert) {
+		s.ClearDeletedBy()
 	})
 }
 
@@ -1047,7 +1112,7 @@ func (_c *TaskCreateBulk) ExecX(ctx context.Context) {
 //		// Override some of the fields with custom
 //		// update values.
 //		Update(func(u *ent.TaskUpsert) {
-//			SetCreateTime(v+v).
+//			SetCreatedAt(v+v).
 //		}).
 //		Exec(ctx)
 func (_c *TaskCreateBulk) OnConflict(opts ...sql.ConflictOption) *TaskUpsertBulk {
@@ -1094,8 +1159,8 @@ func (u *TaskUpsertBulk) UpdateNewValues() *TaskUpsertBulk {
 			if _, exists := b.mutation.ID(); exists {
 				s.SetIgnore(task.FieldID)
 			}
-			if _, exists := b.mutation.CreateTime(); exists {
-				s.SetIgnore(task.FieldCreateTime)
+			if _, exists := b.mutation.CreatedAt(); exists {
+				s.SetIgnore(task.FieldCreatedAt)
 			}
 			if _, exists := b.mutation.TenantID(); exists {
 				s.SetIgnore(task.FieldTenantID)
@@ -1132,101 +1197,129 @@ func (u *TaskUpsertBulk) Update(set func(*TaskUpsert)) *TaskUpsertBulk {
 	return u
 }
 
-// SetUpdateTime sets the "update_time" field.
-func (u *TaskUpsertBulk) SetUpdateTime(v time.Time) *TaskUpsertBulk {
+// SetUpdatedAt sets the "updated_at" field.
+func (u *TaskUpsertBulk) SetUpdatedAt(v time.Time) *TaskUpsertBulk {
 	return u.Update(func(s *TaskUpsert) {
-		s.SetUpdateTime(v)
+		s.SetUpdatedAt(v)
 	})
 }
 
-// UpdateUpdateTime sets the "update_time" field to the value that was provided on create.
-func (u *TaskUpsertBulk) UpdateUpdateTime() *TaskUpsertBulk {
+// UpdateUpdatedAt sets the "updated_at" field to the value that was provided on create.
+func (u *TaskUpsertBulk) UpdateUpdatedAt() *TaskUpsertBulk {
 	return u.Update(func(s *TaskUpsert) {
-		s.UpdateUpdateTime()
+		s.UpdateUpdatedAt()
 	})
 }
 
-// ClearUpdateTime clears the value of the "update_time" field.
-func (u *TaskUpsertBulk) ClearUpdateTime() *TaskUpsertBulk {
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (u *TaskUpsertBulk) ClearUpdatedAt() *TaskUpsertBulk {
 	return u.Update(func(s *TaskUpsert) {
-		s.ClearUpdateTime()
+		s.ClearUpdatedAt()
 	})
 }
 
-// SetDeleteTime sets the "delete_time" field.
-func (u *TaskUpsertBulk) SetDeleteTime(v time.Time) *TaskUpsertBulk {
+// SetDeletedAt sets the "deleted_at" field.
+func (u *TaskUpsertBulk) SetDeletedAt(v time.Time) *TaskUpsertBulk {
 	return u.Update(func(s *TaskUpsert) {
-		s.SetDeleteTime(v)
+		s.SetDeletedAt(v)
 	})
 }
 
-// UpdateDeleteTime sets the "delete_time" field to the value that was provided on create.
-func (u *TaskUpsertBulk) UpdateDeleteTime() *TaskUpsertBulk {
+// UpdateDeletedAt sets the "deleted_at" field to the value that was provided on create.
+func (u *TaskUpsertBulk) UpdateDeletedAt() *TaskUpsertBulk {
 	return u.Update(func(s *TaskUpsert) {
-		s.UpdateDeleteTime()
+		s.UpdateDeletedAt()
 	})
 }
 
-// ClearDeleteTime clears the value of the "delete_time" field.
-func (u *TaskUpsertBulk) ClearDeleteTime() *TaskUpsertBulk {
+// ClearDeletedAt clears the value of the "deleted_at" field.
+func (u *TaskUpsertBulk) ClearDeletedAt() *TaskUpsertBulk {
 	return u.Update(func(s *TaskUpsert) {
-		s.ClearDeleteTime()
+		s.ClearDeletedAt()
 	})
 }
 
-// SetCreateBy sets the "create_by" field.
-func (u *TaskUpsertBulk) SetCreateBy(v uint32) *TaskUpsertBulk {
+// SetCreatedBy sets the "created_by" field.
+func (u *TaskUpsertBulk) SetCreatedBy(v uint32) *TaskUpsertBulk {
 	return u.Update(func(s *TaskUpsert) {
-		s.SetCreateBy(v)
+		s.SetCreatedBy(v)
 	})
 }
 
-// AddCreateBy adds v to the "create_by" field.
-func (u *TaskUpsertBulk) AddCreateBy(v uint32) *TaskUpsertBulk {
+// AddCreatedBy adds v to the "created_by" field.
+func (u *TaskUpsertBulk) AddCreatedBy(v uint32) *TaskUpsertBulk {
 	return u.Update(func(s *TaskUpsert) {
-		s.AddCreateBy(v)
+		s.AddCreatedBy(v)
 	})
 }
 
-// UpdateCreateBy sets the "create_by" field to the value that was provided on create.
-func (u *TaskUpsertBulk) UpdateCreateBy() *TaskUpsertBulk {
+// UpdateCreatedBy sets the "created_by" field to the value that was provided on create.
+func (u *TaskUpsertBulk) UpdateCreatedBy() *TaskUpsertBulk {
 	return u.Update(func(s *TaskUpsert) {
-		s.UpdateCreateBy()
+		s.UpdateCreatedBy()
 	})
 }
 
-// ClearCreateBy clears the value of the "create_by" field.
-func (u *TaskUpsertBulk) ClearCreateBy() *TaskUpsertBulk {
+// ClearCreatedBy clears the value of the "created_by" field.
+func (u *TaskUpsertBulk) ClearCreatedBy() *TaskUpsertBulk {
 	return u.Update(func(s *TaskUpsert) {
-		s.ClearCreateBy()
+		s.ClearCreatedBy()
 	})
 }
 
-// SetUpdateBy sets the "update_by" field.
-func (u *TaskUpsertBulk) SetUpdateBy(v uint32) *TaskUpsertBulk {
+// SetUpdatedBy sets the "updated_by" field.
+func (u *TaskUpsertBulk) SetUpdatedBy(v uint32) *TaskUpsertBulk {
 	return u.Update(func(s *TaskUpsert) {
-		s.SetUpdateBy(v)
+		s.SetUpdatedBy(v)
 	})
 }
 
-// AddUpdateBy adds v to the "update_by" field.
-func (u *TaskUpsertBulk) AddUpdateBy(v uint32) *TaskUpsertBulk {
+// AddUpdatedBy adds v to the "updated_by" field.
+func (u *TaskUpsertBulk) AddUpdatedBy(v uint32) *TaskUpsertBulk {
 	return u.Update(func(s *TaskUpsert) {
-		s.AddUpdateBy(v)
+		s.AddUpdatedBy(v)
 	})
 }
 
-// UpdateUpdateBy sets the "update_by" field to the value that was provided on create.
-func (u *TaskUpsertBulk) UpdateUpdateBy() *TaskUpsertBulk {
+// UpdateUpdatedBy sets the "updated_by" field to the value that was provided on create.
+func (u *TaskUpsertBulk) UpdateUpdatedBy() *TaskUpsertBulk {
 	return u.Update(func(s *TaskUpsert) {
-		s.UpdateUpdateBy()
+		s.UpdateUpdatedBy()
 	})
 }
 
-// ClearUpdateBy clears the value of the "update_by" field.
-func (u *TaskUpsertBulk) ClearUpdateBy() *TaskUpsertBulk {
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (u *TaskUpsertBulk) ClearUpdatedBy() *TaskUpsertBulk {
 	return u.Update(func(s *TaskUpsert) {
-		s.ClearUpdateBy()
+		s.ClearUpdatedBy()
+	})
+}
+
+// SetDeletedBy sets the "deleted_by" field.
+func (u *TaskUpsertBulk) SetDeletedBy(v uint32) *TaskUpsertBulk {
+	return u.Update(func(s *TaskUpsert) {
+		s.SetDeletedBy(v)
+	})
+}
+
+// AddDeletedBy adds v to the "deleted_by" field.
+func (u *TaskUpsertBulk) AddDeletedBy(v uint32) *TaskUpsertBulk {
+	return u.Update(func(s *TaskUpsert) {
+		s.AddDeletedBy(v)
+	})
+}
+
+// UpdateDeletedBy sets the "deleted_by" field to the value that was provided on create.
+func (u *TaskUpsertBulk) UpdateDeletedBy() *TaskUpsertBulk {
+	return u.Update(func(s *TaskUpsert) {
+		s.UpdateDeletedBy()
+	})
+}
+
+// ClearDeletedBy clears the value of the "deleted_by" field.
+func (u *TaskUpsertBulk) ClearDeletedBy() *TaskUpsertBulk {
+	return u.Update(func(s *TaskUpsert) {
+		s.ClearDeletedBy()
 	})
 }
 

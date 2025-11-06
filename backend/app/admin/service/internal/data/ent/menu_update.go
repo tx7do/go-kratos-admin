@@ -30,117 +30,144 @@ func (_u *MenuUpdate) Where(ps ...predicate.Menu) *MenuUpdate {
 	return _u
 }
 
-// SetStatus sets the "status" field.
-func (_u *MenuUpdate) SetStatus(v menu.Status) *MenuUpdate {
-	_u.mutation.SetStatus(v)
+// SetUpdatedAt sets the "updated_at" field.
+func (_u *MenuUpdate) SetUpdatedAt(v time.Time) *MenuUpdate {
+	_u.mutation.SetUpdatedAt(v)
 	return _u
 }
 
-// SetNillableStatus sets the "status" field if the given value is not nil.
-func (_u *MenuUpdate) SetNillableStatus(v *menu.Status) *MenuUpdate {
+// SetNillableUpdatedAt sets the "updated_at" field if the given value is not nil.
+func (_u *MenuUpdate) SetNillableUpdatedAt(v *time.Time) *MenuUpdate {
 	if v != nil {
-		_u.SetStatus(*v)
+		_u.SetUpdatedAt(*v)
 	}
 	return _u
 }
 
-// ClearStatus clears the value of the "status" field.
-func (_u *MenuUpdate) ClearStatus() *MenuUpdate {
-	_u.mutation.ClearStatus()
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (_u *MenuUpdate) ClearUpdatedAt() *MenuUpdate {
+	_u.mutation.ClearUpdatedAt()
 	return _u
 }
 
-// SetUpdateTime sets the "update_time" field.
-func (_u *MenuUpdate) SetUpdateTime(v time.Time) *MenuUpdate {
-	_u.mutation.SetUpdateTime(v)
+// SetDeletedAt sets the "deleted_at" field.
+func (_u *MenuUpdate) SetDeletedAt(v time.Time) *MenuUpdate {
+	_u.mutation.SetDeletedAt(v)
 	return _u
 }
 
-// SetNillableUpdateTime sets the "update_time" field if the given value is not nil.
-func (_u *MenuUpdate) SetNillableUpdateTime(v *time.Time) *MenuUpdate {
+// SetNillableDeletedAt sets the "deleted_at" field if the given value is not nil.
+func (_u *MenuUpdate) SetNillableDeletedAt(v *time.Time) *MenuUpdate {
 	if v != nil {
-		_u.SetUpdateTime(*v)
+		_u.SetDeletedAt(*v)
 	}
 	return _u
 }
 
-// ClearUpdateTime clears the value of the "update_time" field.
-func (_u *MenuUpdate) ClearUpdateTime() *MenuUpdate {
-	_u.mutation.ClearUpdateTime()
+// ClearDeletedAt clears the value of the "deleted_at" field.
+func (_u *MenuUpdate) ClearDeletedAt() *MenuUpdate {
+	_u.mutation.ClearDeletedAt()
 	return _u
 }
 
-// SetDeleteTime sets the "delete_time" field.
-func (_u *MenuUpdate) SetDeleteTime(v time.Time) *MenuUpdate {
-	_u.mutation.SetDeleteTime(v)
+// SetCreatedBy sets the "created_by" field.
+func (_u *MenuUpdate) SetCreatedBy(v uint32) *MenuUpdate {
+	_u.mutation.ResetCreatedBy()
+	_u.mutation.SetCreatedBy(v)
 	return _u
 }
 
-// SetNillableDeleteTime sets the "delete_time" field if the given value is not nil.
-func (_u *MenuUpdate) SetNillableDeleteTime(v *time.Time) *MenuUpdate {
+// SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
+func (_u *MenuUpdate) SetNillableCreatedBy(v *uint32) *MenuUpdate {
 	if v != nil {
-		_u.SetDeleteTime(*v)
+		_u.SetCreatedBy(*v)
 	}
 	return _u
 }
 
-// ClearDeleteTime clears the value of the "delete_time" field.
-func (_u *MenuUpdate) ClearDeleteTime() *MenuUpdate {
-	_u.mutation.ClearDeleteTime()
+// AddCreatedBy adds value to the "created_by" field.
+func (_u *MenuUpdate) AddCreatedBy(v int32) *MenuUpdate {
+	_u.mutation.AddCreatedBy(v)
 	return _u
 }
 
-// SetCreateBy sets the "create_by" field.
-func (_u *MenuUpdate) SetCreateBy(v uint32) *MenuUpdate {
-	_u.mutation.ResetCreateBy()
-	_u.mutation.SetCreateBy(v)
+// ClearCreatedBy clears the value of the "created_by" field.
+func (_u *MenuUpdate) ClearCreatedBy() *MenuUpdate {
+	_u.mutation.ClearCreatedBy()
 	return _u
 }
 
-// SetNillableCreateBy sets the "create_by" field if the given value is not nil.
-func (_u *MenuUpdate) SetNillableCreateBy(v *uint32) *MenuUpdate {
+// SetUpdatedBy sets the "updated_by" field.
+func (_u *MenuUpdate) SetUpdatedBy(v uint32) *MenuUpdate {
+	_u.mutation.ResetUpdatedBy()
+	_u.mutation.SetUpdatedBy(v)
+	return _u
+}
+
+// SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
+func (_u *MenuUpdate) SetNillableUpdatedBy(v *uint32) *MenuUpdate {
 	if v != nil {
-		_u.SetCreateBy(*v)
+		_u.SetUpdatedBy(*v)
 	}
 	return _u
 }
 
-// AddCreateBy adds value to the "create_by" field.
-func (_u *MenuUpdate) AddCreateBy(v int32) *MenuUpdate {
-	_u.mutation.AddCreateBy(v)
+// AddUpdatedBy adds value to the "updated_by" field.
+func (_u *MenuUpdate) AddUpdatedBy(v int32) *MenuUpdate {
+	_u.mutation.AddUpdatedBy(v)
 	return _u
 }
 
-// ClearCreateBy clears the value of the "create_by" field.
-func (_u *MenuUpdate) ClearCreateBy() *MenuUpdate {
-	_u.mutation.ClearCreateBy()
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (_u *MenuUpdate) ClearUpdatedBy() *MenuUpdate {
+	_u.mutation.ClearUpdatedBy()
 	return _u
 }
 
-// SetUpdateBy sets the "update_by" field.
-func (_u *MenuUpdate) SetUpdateBy(v uint32) *MenuUpdate {
-	_u.mutation.ResetUpdateBy()
-	_u.mutation.SetUpdateBy(v)
+// SetDeletedBy sets the "deleted_by" field.
+func (_u *MenuUpdate) SetDeletedBy(v uint32) *MenuUpdate {
+	_u.mutation.ResetDeletedBy()
+	_u.mutation.SetDeletedBy(v)
 	return _u
 }
 
-// SetNillableUpdateBy sets the "update_by" field if the given value is not nil.
-func (_u *MenuUpdate) SetNillableUpdateBy(v *uint32) *MenuUpdate {
+// SetNillableDeletedBy sets the "deleted_by" field if the given value is not nil.
+func (_u *MenuUpdate) SetNillableDeletedBy(v *uint32) *MenuUpdate {
 	if v != nil {
-		_u.SetUpdateBy(*v)
+		_u.SetDeletedBy(*v)
 	}
 	return _u
 }
 
-// AddUpdateBy adds value to the "update_by" field.
-func (_u *MenuUpdate) AddUpdateBy(v int32) *MenuUpdate {
-	_u.mutation.AddUpdateBy(v)
+// AddDeletedBy adds value to the "deleted_by" field.
+func (_u *MenuUpdate) AddDeletedBy(v int32) *MenuUpdate {
+	_u.mutation.AddDeletedBy(v)
 	return _u
 }
 
-// ClearUpdateBy clears the value of the "update_by" field.
-func (_u *MenuUpdate) ClearUpdateBy() *MenuUpdate {
-	_u.mutation.ClearUpdateBy()
+// ClearDeletedBy clears the value of the "deleted_by" field.
+func (_u *MenuUpdate) ClearDeletedBy() *MenuUpdate {
+	_u.mutation.ClearDeletedBy()
+	return _u
+}
+
+// SetParentID sets the "parent_id" field.
+func (_u *MenuUpdate) SetParentID(v uint32) *MenuUpdate {
+	_u.mutation.SetParentID(v)
+	return _u
+}
+
+// SetNillableParentID sets the "parent_id" field if the given value is not nil.
+func (_u *MenuUpdate) SetNillableParentID(v *uint32) *MenuUpdate {
+	if v != nil {
+		_u.SetParentID(*v)
+	}
+	return _u
+}
+
+// ClearParentID clears the value of the "parent_id" field.
+func (_u *MenuUpdate) ClearParentID() *MenuUpdate {
+	_u.mutation.ClearParentID()
 	return _u
 }
 
@@ -164,23 +191,23 @@ func (_u *MenuUpdate) ClearRemark() *MenuUpdate {
 	return _u
 }
 
-// SetParentID sets the "parent_id" field.
-func (_u *MenuUpdate) SetParentID(v int32) *MenuUpdate {
-	_u.mutation.SetParentID(v)
+// SetStatus sets the "status" field.
+func (_u *MenuUpdate) SetStatus(v menu.Status) *MenuUpdate {
+	_u.mutation.SetStatus(v)
 	return _u
 }
 
-// SetNillableParentID sets the "parent_id" field if the given value is not nil.
-func (_u *MenuUpdate) SetNillableParentID(v *int32) *MenuUpdate {
+// SetNillableStatus sets the "status" field if the given value is not nil.
+func (_u *MenuUpdate) SetNillableStatus(v *menu.Status) *MenuUpdate {
 	if v != nil {
-		_u.SetParentID(*v)
+		_u.SetStatus(*v)
 	}
 	return _u
 }
 
-// ClearParentID clears the value of the "parent_id" field.
-func (_u *MenuUpdate) ClearParentID() *MenuUpdate {
-	_u.mutation.ClearParentID()
+// ClearStatus clears the value of the "status" field.
+func (_u *MenuUpdate) ClearStatus() *MenuUpdate {
+	_u.mutation.ClearStatus()
 	return _u
 }
 
@@ -322,14 +349,14 @@ func (_u *MenuUpdate) SetParent(v *Menu) *MenuUpdate {
 }
 
 // AddChildIDs adds the "children" edge to the Menu entity by IDs.
-func (_u *MenuUpdate) AddChildIDs(ids ...int32) *MenuUpdate {
+func (_u *MenuUpdate) AddChildIDs(ids ...uint32) *MenuUpdate {
 	_u.mutation.AddChildIDs(ids...)
 	return _u
 }
 
 // AddChildren adds the "children" edges to the Menu entity.
 func (_u *MenuUpdate) AddChildren(v ...*Menu) *MenuUpdate {
-	ids := make([]int32, len(v))
+	ids := make([]uint32, len(v))
 	for i := range v {
 		ids[i] = v[i].ID
 	}
@@ -354,14 +381,14 @@ func (_u *MenuUpdate) ClearChildren() *MenuUpdate {
 }
 
 // RemoveChildIDs removes the "children" edge to Menu entities by IDs.
-func (_u *MenuUpdate) RemoveChildIDs(ids ...int32) *MenuUpdate {
+func (_u *MenuUpdate) RemoveChildIDs(ids ...uint32) *MenuUpdate {
 	_u.mutation.RemoveChildIDs(ids...)
 	return _u
 }
 
 // RemoveChildren removes "children" edges to Menu entities.
 func (_u *MenuUpdate) RemoveChildren(v ...*Menu) *MenuUpdate {
-	ids := make([]int32, len(v))
+	ids := make([]uint32, len(v))
 	for i := range v {
 		ids[i] = v[i].ID
 	}
@@ -425,7 +452,7 @@ func (_u *MenuUpdate) sqlSave(ctx context.Context) (_node int, err error) {
 	if err := _u.check(); err != nil {
 		return _node, err
 	}
-	_spec := sqlgraph.NewUpdateSpec(menu.Table, menu.Columns, sqlgraph.NewFieldSpec(menu.FieldID, field.TypeInt32))
+	_spec := sqlgraph.NewUpdateSpec(menu.Table, menu.Columns, sqlgraph.NewFieldSpec(menu.FieldID, field.TypeUint32))
 	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
@@ -433,50 +460,59 @@ func (_u *MenuUpdate) sqlSave(ctx context.Context) (_node int, err error) {
 			}
 		}
 	}
-	if value, ok := _u.mutation.Status(); ok {
-		_spec.SetField(menu.FieldStatus, field.TypeEnum, value)
+	if _u.mutation.CreatedAtCleared() {
+		_spec.ClearField(menu.FieldCreatedAt, field.TypeTime)
 	}
-	if _u.mutation.StatusCleared() {
-		_spec.ClearField(menu.FieldStatus, field.TypeEnum)
+	if value, ok := _u.mutation.UpdatedAt(); ok {
+		_spec.SetField(menu.FieldUpdatedAt, field.TypeTime, value)
 	}
-	if _u.mutation.CreateTimeCleared() {
-		_spec.ClearField(menu.FieldCreateTime, field.TypeTime)
+	if _u.mutation.UpdatedAtCleared() {
+		_spec.ClearField(menu.FieldUpdatedAt, field.TypeTime)
 	}
-	if value, ok := _u.mutation.UpdateTime(); ok {
-		_spec.SetField(menu.FieldUpdateTime, field.TypeTime, value)
+	if value, ok := _u.mutation.DeletedAt(); ok {
+		_spec.SetField(menu.FieldDeletedAt, field.TypeTime, value)
 	}
-	if _u.mutation.UpdateTimeCleared() {
-		_spec.ClearField(menu.FieldUpdateTime, field.TypeTime)
+	if _u.mutation.DeletedAtCleared() {
+		_spec.ClearField(menu.FieldDeletedAt, field.TypeTime)
 	}
-	if value, ok := _u.mutation.DeleteTime(); ok {
-		_spec.SetField(menu.FieldDeleteTime, field.TypeTime, value)
+	if value, ok := _u.mutation.CreatedBy(); ok {
+		_spec.SetField(menu.FieldCreatedBy, field.TypeUint32, value)
 	}
-	if _u.mutation.DeleteTimeCleared() {
-		_spec.ClearField(menu.FieldDeleteTime, field.TypeTime)
+	if value, ok := _u.mutation.AddedCreatedBy(); ok {
+		_spec.AddField(menu.FieldCreatedBy, field.TypeUint32, value)
 	}
-	if value, ok := _u.mutation.CreateBy(); ok {
-		_spec.SetField(menu.FieldCreateBy, field.TypeUint32, value)
+	if _u.mutation.CreatedByCleared() {
+		_spec.ClearField(menu.FieldCreatedBy, field.TypeUint32)
 	}
-	if value, ok := _u.mutation.AddedCreateBy(); ok {
-		_spec.AddField(menu.FieldCreateBy, field.TypeUint32, value)
+	if value, ok := _u.mutation.UpdatedBy(); ok {
+		_spec.SetField(menu.FieldUpdatedBy, field.TypeUint32, value)
 	}
-	if _u.mutation.CreateByCleared() {
-		_spec.ClearField(menu.FieldCreateBy, field.TypeUint32)
+	if value, ok := _u.mutation.AddedUpdatedBy(); ok {
+		_spec.AddField(menu.FieldUpdatedBy, field.TypeUint32, value)
 	}
-	if value, ok := _u.mutation.UpdateBy(); ok {
-		_spec.SetField(menu.FieldUpdateBy, field.TypeUint32, value)
+	if _u.mutation.UpdatedByCleared() {
+		_spec.ClearField(menu.FieldUpdatedBy, field.TypeUint32)
 	}
-	if value, ok := _u.mutation.AddedUpdateBy(); ok {
-		_spec.AddField(menu.FieldUpdateBy, field.TypeUint32, value)
+	if value, ok := _u.mutation.DeletedBy(); ok {
+		_spec.SetField(menu.FieldDeletedBy, field.TypeUint32, value)
 	}
-	if _u.mutation.UpdateByCleared() {
-		_spec.ClearField(menu.FieldUpdateBy, field.TypeUint32)
+	if value, ok := _u.mutation.AddedDeletedBy(); ok {
+		_spec.AddField(menu.FieldDeletedBy, field.TypeUint32, value)
+	}
+	if _u.mutation.DeletedByCleared() {
+		_spec.ClearField(menu.FieldDeletedBy, field.TypeUint32)
 	}
 	if value, ok := _u.mutation.Remark(); ok {
 		_spec.SetField(menu.FieldRemark, field.TypeString, value)
 	}
 	if _u.mutation.RemarkCleared() {
 		_spec.ClearField(menu.FieldRemark, field.TypeString)
+	}
+	if value, ok := _u.mutation.Status(); ok {
+		_spec.SetField(menu.FieldStatus, field.TypeEnum, value)
+	}
+	if _u.mutation.StatusCleared() {
+		_spec.ClearField(menu.FieldStatus, field.TypeEnum)
 	}
 	if value, ok := _u.mutation.GetType(); ok {
 		_spec.SetField(menu.FieldType, field.TypeEnum, value)
@@ -528,7 +564,7 @@ func (_u *MenuUpdate) sqlSave(ctx context.Context) (_node int, err error) {
 			Columns: []string{menu.ParentColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(menu.FieldID, field.TypeInt32),
+				IDSpec: sqlgraph.NewFieldSpec(menu.FieldID, field.TypeUint32),
 			},
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
@@ -541,7 +577,7 @@ func (_u *MenuUpdate) sqlSave(ctx context.Context) (_node int, err error) {
 			Columns: []string{menu.ParentColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(menu.FieldID, field.TypeInt32),
+				IDSpec: sqlgraph.NewFieldSpec(menu.FieldID, field.TypeUint32),
 			},
 		}
 		for _, k := range nodes {
@@ -557,7 +593,7 @@ func (_u *MenuUpdate) sqlSave(ctx context.Context) (_node int, err error) {
 			Columns: []string{menu.ChildrenColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(menu.FieldID, field.TypeInt32),
+				IDSpec: sqlgraph.NewFieldSpec(menu.FieldID, field.TypeUint32),
 			},
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
@@ -570,7 +606,7 @@ func (_u *MenuUpdate) sqlSave(ctx context.Context) (_node int, err error) {
 			Columns: []string{menu.ChildrenColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(menu.FieldID, field.TypeInt32),
+				IDSpec: sqlgraph.NewFieldSpec(menu.FieldID, field.TypeUint32),
 			},
 		}
 		for _, k := range nodes {
@@ -586,7 +622,7 @@ func (_u *MenuUpdate) sqlSave(ctx context.Context) (_node int, err error) {
 			Columns: []string{menu.ChildrenColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(menu.FieldID, field.TypeInt32),
+				IDSpec: sqlgraph.NewFieldSpec(menu.FieldID, field.TypeUint32),
 			},
 		}
 		for _, k := range nodes {
@@ -616,117 +652,144 @@ type MenuUpdateOne struct {
 	modifiers []func(*sql.UpdateBuilder)
 }
 
-// SetStatus sets the "status" field.
-func (_u *MenuUpdateOne) SetStatus(v menu.Status) *MenuUpdateOne {
-	_u.mutation.SetStatus(v)
+// SetUpdatedAt sets the "updated_at" field.
+func (_u *MenuUpdateOne) SetUpdatedAt(v time.Time) *MenuUpdateOne {
+	_u.mutation.SetUpdatedAt(v)
 	return _u
 }
 
-// SetNillableStatus sets the "status" field if the given value is not nil.
-func (_u *MenuUpdateOne) SetNillableStatus(v *menu.Status) *MenuUpdateOne {
+// SetNillableUpdatedAt sets the "updated_at" field if the given value is not nil.
+func (_u *MenuUpdateOne) SetNillableUpdatedAt(v *time.Time) *MenuUpdateOne {
 	if v != nil {
-		_u.SetStatus(*v)
+		_u.SetUpdatedAt(*v)
 	}
 	return _u
 }
 
-// ClearStatus clears the value of the "status" field.
-func (_u *MenuUpdateOne) ClearStatus() *MenuUpdateOne {
-	_u.mutation.ClearStatus()
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (_u *MenuUpdateOne) ClearUpdatedAt() *MenuUpdateOne {
+	_u.mutation.ClearUpdatedAt()
 	return _u
 }
 
-// SetUpdateTime sets the "update_time" field.
-func (_u *MenuUpdateOne) SetUpdateTime(v time.Time) *MenuUpdateOne {
-	_u.mutation.SetUpdateTime(v)
+// SetDeletedAt sets the "deleted_at" field.
+func (_u *MenuUpdateOne) SetDeletedAt(v time.Time) *MenuUpdateOne {
+	_u.mutation.SetDeletedAt(v)
 	return _u
 }
 
-// SetNillableUpdateTime sets the "update_time" field if the given value is not nil.
-func (_u *MenuUpdateOne) SetNillableUpdateTime(v *time.Time) *MenuUpdateOne {
+// SetNillableDeletedAt sets the "deleted_at" field if the given value is not nil.
+func (_u *MenuUpdateOne) SetNillableDeletedAt(v *time.Time) *MenuUpdateOne {
 	if v != nil {
-		_u.SetUpdateTime(*v)
+		_u.SetDeletedAt(*v)
 	}
 	return _u
 }
 
-// ClearUpdateTime clears the value of the "update_time" field.
-func (_u *MenuUpdateOne) ClearUpdateTime() *MenuUpdateOne {
-	_u.mutation.ClearUpdateTime()
+// ClearDeletedAt clears the value of the "deleted_at" field.
+func (_u *MenuUpdateOne) ClearDeletedAt() *MenuUpdateOne {
+	_u.mutation.ClearDeletedAt()
 	return _u
 }
 
-// SetDeleteTime sets the "delete_time" field.
-func (_u *MenuUpdateOne) SetDeleteTime(v time.Time) *MenuUpdateOne {
-	_u.mutation.SetDeleteTime(v)
+// SetCreatedBy sets the "created_by" field.
+func (_u *MenuUpdateOne) SetCreatedBy(v uint32) *MenuUpdateOne {
+	_u.mutation.ResetCreatedBy()
+	_u.mutation.SetCreatedBy(v)
 	return _u
 }
 
-// SetNillableDeleteTime sets the "delete_time" field if the given value is not nil.
-func (_u *MenuUpdateOne) SetNillableDeleteTime(v *time.Time) *MenuUpdateOne {
+// SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
+func (_u *MenuUpdateOne) SetNillableCreatedBy(v *uint32) *MenuUpdateOne {
 	if v != nil {
-		_u.SetDeleteTime(*v)
+		_u.SetCreatedBy(*v)
 	}
 	return _u
 }
 
-// ClearDeleteTime clears the value of the "delete_time" field.
-func (_u *MenuUpdateOne) ClearDeleteTime() *MenuUpdateOne {
-	_u.mutation.ClearDeleteTime()
+// AddCreatedBy adds value to the "created_by" field.
+func (_u *MenuUpdateOne) AddCreatedBy(v int32) *MenuUpdateOne {
+	_u.mutation.AddCreatedBy(v)
 	return _u
 }
 
-// SetCreateBy sets the "create_by" field.
-func (_u *MenuUpdateOne) SetCreateBy(v uint32) *MenuUpdateOne {
-	_u.mutation.ResetCreateBy()
-	_u.mutation.SetCreateBy(v)
+// ClearCreatedBy clears the value of the "created_by" field.
+func (_u *MenuUpdateOne) ClearCreatedBy() *MenuUpdateOne {
+	_u.mutation.ClearCreatedBy()
 	return _u
 }
 
-// SetNillableCreateBy sets the "create_by" field if the given value is not nil.
-func (_u *MenuUpdateOne) SetNillableCreateBy(v *uint32) *MenuUpdateOne {
+// SetUpdatedBy sets the "updated_by" field.
+func (_u *MenuUpdateOne) SetUpdatedBy(v uint32) *MenuUpdateOne {
+	_u.mutation.ResetUpdatedBy()
+	_u.mutation.SetUpdatedBy(v)
+	return _u
+}
+
+// SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
+func (_u *MenuUpdateOne) SetNillableUpdatedBy(v *uint32) *MenuUpdateOne {
 	if v != nil {
-		_u.SetCreateBy(*v)
+		_u.SetUpdatedBy(*v)
 	}
 	return _u
 }
 
-// AddCreateBy adds value to the "create_by" field.
-func (_u *MenuUpdateOne) AddCreateBy(v int32) *MenuUpdateOne {
-	_u.mutation.AddCreateBy(v)
+// AddUpdatedBy adds value to the "updated_by" field.
+func (_u *MenuUpdateOne) AddUpdatedBy(v int32) *MenuUpdateOne {
+	_u.mutation.AddUpdatedBy(v)
 	return _u
 }
 
-// ClearCreateBy clears the value of the "create_by" field.
-func (_u *MenuUpdateOne) ClearCreateBy() *MenuUpdateOne {
-	_u.mutation.ClearCreateBy()
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (_u *MenuUpdateOne) ClearUpdatedBy() *MenuUpdateOne {
+	_u.mutation.ClearUpdatedBy()
 	return _u
 }
 
-// SetUpdateBy sets the "update_by" field.
-func (_u *MenuUpdateOne) SetUpdateBy(v uint32) *MenuUpdateOne {
-	_u.mutation.ResetUpdateBy()
-	_u.mutation.SetUpdateBy(v)
+// SetDeletedBy sets the "deleted_by" field.
+func (_u *MenuUpdateOne) SetDeletedBy(v uint32) *MenuUpdateOne {
+	_u.mutation.ResetDeletedBy()
+	_u.mutation.SetDeletedBy(v)
 	return _u
 }
 
-// SetNillableUpdateBy sets the "update_by" field if the given value is not nil.
-func (_u *MenuUpdateOne) SetNillableUpdateBy(v *uint32) *MenuUpdateOne {
+// SetNillableDeletedBy sets the "deleted_by" field if the given value is not nil.
+func (_u *MenuUpdateOne) SetNillableDeletedBy(v *uint32) *MenuUpdateOne {
 	if v != nil {
-		_u.SetUpdateBy(*v)
+		_u.SetDeletedBy(*v)
 	}
 	return _u
 }
 
-// AddUpdateBy adds value to the "update_by" field.
-func (_u *MenuUpdateOne) AddUpdateBy(v int32) *MenuUpdateOne {
-	_u.mutation.AddUpdateBy(v)
+// AddDeletedBy adds value to the "deleted_by" field.
+func (_u *MenuUpdateOne) AddDeletedBy(v int32) *MenuUpdateOne {
+	_u.mutation.AddDeletedBy(v)
 	return _u
 }
 
-// ClearUpdateBy clears the value of the "update_by" field.
-func (_u *MenuUpdateOne) ClearUpdateBy() *MenuUpdateOne {
-	_u.mutation.ClearUpdateBy()
+// ClearDeletedBy clears the value of the "deleted_by" field.
+func (_u *MenuUpdateOne) ClearDeletedBy() *MenuUpdateOne {
+	_u.mutation.ClearDeletedBy()
+	return _u
+}
+
+// SetParentID sets the "parent_id" field.
+func (_u *MenuUpdateOne) SetParentID(v uint32) *MenuUpdateOne {
+	_u.mutation.SetParentID(v)
+	return _u
+}
+
+// SetNillableParentID sets the "parent_id" field if the given value is not nil.
+func (_u *MenuUpdateOne) SetNillableParentID(v *uint32) *MenuUpdateOne {
+	if v != nil {
+		_u.SetParentID(*v)
+	}
+	return _u
+}
+
+// ClearParentID clears the value of the "parent_id" field.
+func (_u *MenuUpdateOne) ClearParentID() *MenuUpdateOne {
+	_u.mutation.ClearParentID()
 	return _u
 }
 
@@ -750,23 +813,23 @@ func (_u *MenuUpdateOne) ClearRemark() *MenuUpdateOne {
 	return _u
 }
 
-// SetParentID sets the "parent_id" field.
-func (_u *MenuUpdateOne) SetParentID(v int32) *MenuUpdateOne {
-	_u.mutation.SetParentID(v)
+// SetStatus sets the "status" field.
+func (_u *MenuUpdateOne) SetStatus(v menu.Status) *MenuUpdateOne {
+	_u.mutation.SetStatus(v)
 	return _u
 }
 
-// SetNillableParentID sets the "parent_id" field if the given value is not nil.
-func (_u *MenuUpdateOne) SetNillableParentID(v *int32) *MenuUpdateOne {
+// SetNillableStatus sets the "status" field if the given value is not nil.
+func (_u *MenuUpdateOne) SetNillableStatus(v *menu.Status) *MenuUpdateOne {
 	if v != nil {
-		_u.SetParentID(*v)
+		_u.SetStatus(*v)
 	}
 	return _u
 }
 
-// ClearParentID clears the value of the "parent_id" field.
-func (_u *MenuUpdateOne) ClearParentID() *MenuUpdateOne {
-	_u.mutation.ClearParentID()
+// ClearStatus clears the value of the "status" field.
+func (_u *MenuUpdateOne) ClearStatus() *MenuUpdateOne {
+	_u.mutation.ClearStatus()
 	return _u
 }
 
@@ -908,14 +971,14 @@ func (_u *MenuUpdateOne) SetParent(v *Menu) *MenuUpdateOne {
 }
 
 // AddChildIDs adds the "children" edge to the Menu entity by IDs.
-func (_u *MenuUpdateOne) AddChildIDs(ids ...int32) *MenuUpdateOne {
+func (_u *MenuUpdateOne) AddChildIDs(ids ...uint32) *MenuUpdateOne {
 	_u.mutation.AddChildIDs(ids...)
 	return _u
 }
 
 // AddChildren adds the "children" edges to the Menu entity.
 func (_u *MenuUpdateOne) AddChildren(v ...*Menu) *MenuUpdateOne {
-	ids := make([]int32, len(v))
+	ids := make([]uint32, len(v))
 	for i := range v {
 		ids[i] = v[i].ID
 	}
@@ -940,14 +1003,14 @@ func (_u *MenuUpdateOne) ClearChildren() *MenuUpdateOne {
 }
 
 // RemoveChildIDs removes the "children" edge to Menu entities by IDs.
-func (_u *MenuUpdateOne) RemoveChildIDs(ids ...int32) *MenuUpdateOne {
+func (_u *MenuUpdateOne) RemoveChildIDs(ids ...uint32) *MenuUpdateOne {
 	_u.mutation.RemoveChildIDs(ids...)
 	return _u
 }
 
 // RemoveChildren removes "children" edges to Menu entities.
 func (_u *MenuUpdateOne) RemoveChildren(v ...*Menu) *MenuUpdateOne {
-	ids := make([]int32, len(v))
+	ids := make([]uint32, len(v))
 	for i := range v {
 		ids[i] = v[i].ID
 	}
@@ -1024,7 +1087,7 @@ func (_u *MenuUpdateOne) sqlSave(ctx context.Context) (_node *Menu, err error) {
 	if err := _u.check(); err != nil {
 		return _node, err
 	}
-	_spec := sqlgraph.NewUpdateSpec(menu.Table, menu.Columns, sqlgraph.NewFieldSpec(menu.FieldID, field.TypeInt32))
+	_spec := sqlgraph.NewUpdateSpec(menu.Table, menu.Columns, sqlgraph.NewFieldSpec(menu.FieldID, field.TypeUint32))
 	id, ok := _u.mutation.ID()
 	if !ok {
 		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "Menu.id" for update`)}
@@ -1049,50 +1112,59 @@ func (_u *MenuUpdateOne) sqlSave(ctx context.Context) (_node *Menu, err error) {
 			}
 		}
 	}
-	if value, ok := _u.mutation.Status(); ok {
-		_spec.SetField(menu.FieldStatus, field.TypeEnum, value)
+	if _u.mutation.CreatedAtCleared() {
+		_spec.ClearField(menu.FieldCreatedAt, field.TypeTime)
 	}
-	if _u.mutation.StatusCleared() {
-		_spec.ClearField(menu.FieldStatus, field.TypeEnum)
+	if value, ok := _u.mutation.UpdatedAt(); ok {
+		_spec.SetField(menu.FieldUpdatedAt, field.TypeTime, value)
 	}
-	if _u.mutation.CreateTimeCleared() {
-		_spec.ClearField(menu.FieldCreateTime, field.TypeTime)
+	if _u.mutation.UpdatedAtCleared() {
+		_spec.ClearField(menu.FieldUpdatedAt, field.TypeTime)
 	}
-	if value, ok := _u.mutation.UpdateTime(); ok {
-		_spec.SetField(menu.FieldUpdateTime, field.TypeTime, value)
+	if value, ok := _u.mutation.DeletedAt(); ok {
+		_spec.SetField(menu.FieldDeletedAt, field.TypeTime, value)
 	}
-	if _u.mutation.UpdateTimeCleared() {
-		_spec.ClearField(menu.FieldUpdateTime, field.TypeTime)
+	if _u.mutation.DeletedAtCleared() {
+		_spec.ClearField(menu.FieldDeletedAt, field.TypeTime)
 	}
-	if value, ok := _u.mutation.DeleteTime(); ok {
-		_spec.SetField(menu.FieldDeleteTime, field.TypeTime, value)
+	if value, ok := _u.mutation.CreatedBy(); ok {
+		_spec.SetField(menu.FieldCreatedBy, field.TypeUint32, value)
 	}
-	if _u.mutation.DeleteTimeCleared() {
-		_spec.ClearField(menu.FieldDeleteTime, field.TypeTime)
+	if value, ok := _u.mutation.AddedCreatedBy(); ok {
+		_spec.AddField(menu.FieldCreatedBy, field.TypeUint32, value)
 	}
-	if value, ok := _u.mutation.CreateBy(); ok {
-		_spec.SetField(menu.FieldCreateBy, field.TypeUint32, value)
+	if _u.mutation.CreatedByCleared() {
+		_spec.ClearField(menu.FieldCreatedBy, field.TypeUint32)
 	}
-	if value, ok := _u.mutation.AddedCreateBy(); ok {
-		_spec.AddField(menu.FieldCreateBy, field.TypeUint32, value)
+	if value, ok := _u.mutation.UpdatedBy(); ok {
+		_spec.SetField(menu.FieldUpdatedBy, field.TypeUint32, value)
 	}
-	if _u.mutation.CreateByCleared() {
-		_spec.ClearField(menu.FieldCreateBy, field.TypeUint32)
+	if value, ok := _u.mutation.AddedUpdatedBy(); ok {
+		_spec.AddField(menu.FieldUpdatedBy, field.TypeUint32, value)
 	}
-	if value, ok := _u.mutation.UpdateBy(); ok {
-		_spec.SetField(menu.FieldUpdateBy, field.TypeUint32, value)
+	if _u.mutation.UpdatedByCleared() {
+		_spec.ClearField(menu.FieldUpdatedBy, field.TypeUint32)
 	}
-	if value, ok := _u.mutation.AddedUpdateBy(); ok {
-		_spec.AddField(menu.FieldUpdateBy, field.TypeUint32, value)
+	if value, ok := _u.mutation.DeletedBy(); ok {
+		_spec.SetField(menu.FieldDeletedBy, field.TypeUint32, value)
 	}
-	if _u.mutation.UpdateByCleared() {
-		_spec.ClearField(menu.FieldUpdateBy, field.TypeUint32)
+	if value, ok := _u.mutation.AddedDeletedBy(); ok {
+		_spec.AddField(menu.FieldDeletedBy, field.TypeUint32, value)
+	}
+	if _u.mutation.DeletedByCleared() {
+		_spec.ClearField(menu.FieldDeletedBy, field.TypeUint32)
 	}
 	if value, ok := _u.mutation.Remark(); ok {
 		_spec.SetField(menu.FieldRemark, field.TypeString, value)
 	}
 	if _u.mutation.RemarkCleared() {
 		_spec.ClearField(menu.FieldRemark, field.TypeString)
+	}
+	if value, ok := _u.mutation.Status(); ok {
+		_spec.SetField(menu.FieldStatus, field.TypeEnum, value)
+	}
+	if _u.mutation.StatusCleared() {
+		_spec.ClearField(menu.FieldStatus, field.TypeEnum)
 	}
 	if value, ok := _u.mutation.GetType(); ok {
 		_spec.SetField(menu.FieldType, field.TypeEnum, value)
@@ -1144,7 +1216,7 @@ func (_u *MenuUpdateOne) sqlSave(ctx context.Context) (_node *Menu, err error) {
 			Columns: []string{menu.ParentColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(menu.FieldID, field.TypeInt32),
+				IDSpec: sqlgraph.NewFieldSpec(menu.FieldID, field.TypeUint32),
 			},
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
@@ -1157,7 +1229,7 @@ func (_u *MenuUpdateOne) sqlSave(ctx context.Context) (_node *Menu, err error) {
 			Columns: []string{menu.ParentColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(menu.FieldID, field.TypeInt32),
+				IDSpec: sqlgraph.NewFieldSpec(menu.FieldID, field.TypeUint32),
 			},
 		}
 		for _, k := range nodes {
@@ -1173,7 +1245,7 @@ func (_u *MenuUpdateOne) sqlSave(ctx context.Context) (_node *Menu, err error) {
 			Columns: []string{menu.ChildrenColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(menu.FieldID, field.TypeInt32),
+				IDSpec: sqlgraph.NewFieldSpec(menu.FieldID, field.TypeUint32),
 			},
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
@@ -1186,7 +1258,7 @@ func (_u *MenuUpdateOne) sqlSave(ctx context.Context) (_node *Menu, err error) {
 			Columns: []string{menu.ChildrenColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(menu.FieldID, field.TypeInt32),
+				IDSpec: sqlgraph.NewFieldSpec(menu.FieldID, field.TypeUint32),
 			},
 		}
 		for _, k := range nodes {
@@ -1202,7 +1274,7 @@ func (_u *MenuUpdateOne) sqlSave(ctx context.Context) (_node *Menu, err error) {
 			Columns: []string{menu.ChildrenColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(menu.FieldID, field.TypeInt32),
+				IDSpec: sqlgraph.NewFieldSpec(menu.FieldID, field.TypeUint32),
 			},
 		}
 		for _, k := range nodes {

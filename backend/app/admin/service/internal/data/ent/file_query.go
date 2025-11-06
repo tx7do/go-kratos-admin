@@ -265,12 +265,12 @@ func (_q *FileQuery) Clone() *FileQuery {
 // Example:
 //
 //	var v []struct {
-//		CreateTime time.Time `json:"create_time,omitempty"`
+//		CreatedAt time.Time `json:"created_at,omitempty"`
 //		Count int `json:"count,omitempty"`
 //	}
 //
 //	client.File.Query().
-//		GroupBy(file.FieldCreateTime).
+//		GroupBy(file.FieldCreatedAt).
 //		Aggregate(ent.Count()).
 //		Scan(ctx, &v)
 func (_q *FileQuery) GroupBy(field string, fields ...string) *FileGroupBy {
@@ -288,11 +288,11 @@ func (_q *FileQuery) GroupBy(field string, fields ...string) *FileGroupBy {
 // Example:
 //
 //	var v []struct {
-//		CreateTime time.Time `json:"create_time,omitempty"`
+//		CreatedAt time.Time `json:"created_at,omitempty"`
 //	}
 //
 //	client.File.Query().
-//		Select(file.FieldCreateTime).
+//		Select(file.FieldCreatedAt).
 //		Scan(ctx, &v)
 func (_q *FileQuery) Select(fields ...string) *FileSelect {
 	_q.ctx.Fields = append(_q.ctx.Fields, fields...)

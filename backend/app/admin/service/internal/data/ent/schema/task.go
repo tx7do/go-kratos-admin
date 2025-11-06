@@ -6,10 +6,10 @@ import (
 	"entgo.io/ent/dialect/entsql"
 	"entgo.io/ent/schema"
 	"entgo.io/ent/schema/field"
+	"entgo.io/ent/schema/index"
 	"github.com/tx7do/go-utils/entgo/mixin"
 
 	adminV1 "kratos-admin/api/gen/go/admin/service/v1"
-	appmixin "kratos-admin/pkg/entgo/mixin"
 )
 
 // Task holds the schema definition for the Task entity.
@@ -39,12 +39,13 @@ func (Task) Fields() []ent.Field {
 				"Delay", "DELAY",
 				"WaitResult", "WAIT_RESULT",
 			).
+			Default("PERIODIC").
 			Optional().
 			Nillable(),
 
 		field.String("type_name").
 			Comment("任务执行类型名").
-			Unique().
+			//Unique().
 			Optional().
 			Nillable(),
 
@@ -77,10 +78,16 @@ func (Task) Fields() []ent.Field {
 func (Task) Mixin() []ent.Mixin {
 	return []ent.Mixin{
 		mixin.AutoIncrementId{},
-		mixin.Time{},
-		mixin.CreateBy{},
-		mixin.UpdateBy{},
+		mixin.TimeAt{},
+		mixin.OperatorID{},
 		mixin.Remark{},
-		appmixin.TenantID{},
+		mixin.TenantID{},
+	}
+}
+
+// Indexes of the Task.
+func (Task) Indexes() []ent.Index {
+	return []ent.Index{
+		index.Fields("type_name").Unique().StorageKey("idx_sys_task_type_name"),
 	}
 }

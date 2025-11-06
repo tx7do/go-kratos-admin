@@ -7,9 +7,24 @@ import { $t } from '@vben/locales';
 import { notification } from 'ant-design-vue';
 
 import { useVbenForm } from '#/adapter/form';
-import { statusList, useTenantStore } from '#/stores';
+import { Role_Status } from '#/generated/api/user/service/v1/role.pb';
+import {
+  Tenant_AuditStatus,
+  Tenant_Status,
+  Tenant_Type,
+} from '#/generated/api/user/service/v1/tenant.pb';
+import {
+  tenantAuditStatusList,
+  tenantStatusList,
+  tenantTypeList,
+  useRoleStore,
+  useTenantStore,
+  useUserStore,
+} from '#/stores';
 
 const tenantStore = useTenantStore();
+const userStore = useUserStore();
+const roleStore = useRoleStore();
 
 const data = ref();
 
@@ -51,16 +66,47 @@ const [BaseForm, baseFormApi] = useVbenForm({
       rules: 'required',
     },
     {
-      component: 'RadioGroup',
+      component: 'Select',
+      fieldName: 'type',
+      label: $t('page.tenant.type'),
+      defaultValue: Tenant_Type.PAID,
+      componentProps: {
+        placeholder: $t('ui.placeholder.select'),
+        options: tenantTypeList,
+        filterOption: (input: string, option: any) =>
+          option.label.toLowerCase().includes(input.toLowerCase()),
+        allowClear: true,
+        showSearch: true,
+      },
+      rules: 'selectRequired',
+    },
+    {
+      component: 'Select',
+      fieldName: 'auditStatus',
+      label: $t('page.tenant.auditStatus'),
+      defaultValue: Tenant_AuditStatus.APPROVED,
+      componentProps: {
+        placeholder: $t('ui.placeholder.select'),
+        options: tenantAuditStatusList,
+        filterOption: (input: string, option: any) =>
+          option.label.toLowerCase().includes(input.toLowerCase()),
+        allowClear: true,
+        showSearch: true,
+      },
+      rules: 'selectRequired',
+    },
+    {
+      component: 'Select',
       fieldName: 'status',
-      defaultValue: 'ON',
+      defaultValue: Tenant_Status.ON,
       label: $t('ui.table.status'),
       rules: 'selectRequired',
       componentProps: {
-        optionType: 'button',
-        buttonStyle: 'solid',
-        class: 'flex flex-wrap', // 如果选项过多，可以添加class来自动折叠
-        options: statusList,
+        options: tenantStatusList,
+        filterOption: (input: string, option: any) =>
+          option.label.toLowerCase().includes(input.toLowerCase()),
+        allowClear: true,
+        showSearch: true,
       },
     },
     {
@@ -70,6 +116,140 @@ const [BaseForm, baseFormApi] = useVbenForm({
       componentProps: {
         placeholder: $t('ui.placeholder.input'),
         allowClear: true,
+      },
+    },
+
+    {
+      component: 'Divider',
+      fieldName: 'divider1',
+      hideLabel: true,
+      dependencies: {
+        show: (_values) => {
+          return data.value?.create;
+        },
+        triggerFields: ['type'],
+      },
+      renderComponentContent() {
+        return {
+          default: () => $t('page.tenant.adminSetting'),
+        };
+      },
+    },
+
+    {
+      component: 'Input',
+      fieldName: 'user.username',
+      label: $t('page.tenant.adminUserName'),
+      rules: 'required',
+      componentProps: {
+        placeholder: $t('ui.placeholder.input'),
+        allowClear: true,
+      },
+      dependencies: {
+        show: (_values) => {
+          return data.value?.create;
+        },
+        triggerFields: ['type'],
+      },
+    },
+
+    {
+      component: 'VbenInputPassword',
+      fieldName: 'password',
+      label: $t('page.tenant.adminPassword'),
+      rules: 'required',
+      componentProps: {
+        passwordStrength: true,
+        placeholder: $t('ui.placeholder.input'),
+      },
+      dependencies: {
+        show: (_values) => {
+          return data.value?.create;
+        },
+        triggerFields: ['type'],
+      },
+    },
+
+    {
+      component: 'VbenInputPassword',
+      fieldName: 'passwordConfirm',
+      label: $t('page.tenant.adminPasswordConfirm'),
+      rules: 'required',
+      componentProps: {
+        passwordStrength: true,
+        placeholder: $t('ui.placeholder.input'),
+      },
+      dependencies: {
+        show: (_values) => {
+          return data.value?.create;
+        },
+        triggerFields: ['type'],
+      },
+    },
+
+    {
+      component: 'Input',
+      fieldName: 'user.mobile',
+      label: $t('page.tenant.adminMobile'),
+      rules: 'required',
+      componentProps: {
+        placeholder: $t('ui.placeholder.input'),
+        allowClear: true,
+      },
+      dependencies: {
+        show: (_values) => {
+          return data.value?.create;
+        },
+        triggerFields: ['type'],
+      },
+    },
+
+    {
+      component: 'Input',
+      fieldName: 'user.email',
+      label: $t('page.tenant.adminEmail'),
+      rules: 'required',
+      componentProps: {
+        placeholder: $t('ui.placeholder.input'),
+        allowClear: true,
+      },
+      dependencies: {
+        show: (_values) => {
+          return data.value?.create;
+        },
+        triggerFields: ['type'],
+      },
+    },
+
+    {
+      component: 'ApiTreeSelect',
+      fieldName: 'user.roleIds',
+      label: $t('page.user.form.role'),
+      componentProps: {
+        placeholder: $t('ui.placeholder.select'),
+        showSearch: true,
+        multiple: true,
+        treeDefaultExpandAll: false,
+        allowClear: true,
+        loadingSlot: 'suffixIcon',
+        childrenField: 'children',
+        labelField: 'name',
+        valueField: 'id',
+        treeNodeFilterProp: 'label',
+        api: async () => {
+          const result = await roleStore.listRole(true, null, null, {
+            // parent_id: 0,
+            status: Role_Status.ON,
+          });
+
+          return result.items;
+        },
+      },
+      dependencies: {
+        show: (_values) => {
+          return data.value?.create;
+        },
+        triggerFields: ['type'],
       },
     },
   ],
@@ -96,27 +276,9 @@ const [Drawer, drawerApi] = useVbenDrawer({
 
     console.log(getTitle.value, values);
 
-    try {
-      await (data.value?.create
-        ? tenantStore.createTenant(values)
-        : tenantStore.updateTenant(data.value.row.id, values));
-
-      notification.success({
-        message: data.value?.create
-          ? $t('ui.notification.create_success')
-          : $t('ui.notification.update_success'),
-      });
-    } catch {
-      notification.error({
-        message: data.value?.create
-          ? $t('ui.notification.create_failed')
-          : $t('ui.notification.update_failed'),
-      });
-    } finally {
-      // 关闭窗口
-      drawerApi.close();
-      setLoading(false);
-    }
+    await (data.value?.create
+      ? createTenantWithAdminUser(values)
+      : updateTenant(values));
   },
 
   onOpenChange(isOpen: boolean) {
@@ -136,6 +298,108 @@ const [Drawer, drawerApi] = useVbenDrawer({
 
 function setLoading(loading: boolean) {
   drawerApi.setState({ confirmLoading: loading });
+}
+
+// async function createTenant(values: any) {
+//   console.log('createTenant', values);
+//
+//   try {
+//     await tenantStore.createTenant(values);
+//
+//     notification.success({
+//       message: $t('ui.notification.create_success'),
+//     });
+//   } catch {
+//     notification.error({
+//       message: $t('ui.notification.create_failed'),
+//     });
+//   } finally {
+//     // 关闭窗口
+//     drawerApi.close();
+//     setLoading(false);
+//   }
+// }
+
+async function createTenantWithAdminUser(values: any) {
+  console.log('createTenantWithAdminUser', values);
+
+  // 检查密码和确认密码是否一致
+  if (values.password !== values.passwordConfirm) {
+    notification.error({
+      message: $t('page.notification.password_mismatch'),
+    });
+    setLoading(false);
+    return;
+  }
+
+  // 检查租户编码是否存在
+  try {
+    await tenantStore.tenantExists(values.code);
+  } catch {
+    notification.error({
+      message: $t('page.tenant.tenant_code_exists'),
+    });
+    setLoading(false);
+    return;
+  }
+
+  // 检查用户名是否存在
+  try {
+    await userStore.userExists(values.user.username);
+  } catch {
+    notification.error({
+      message: $t('page.tenant.notification.user_username_exists'),
+    });
+    setLoading(false);
+    return;
+  }
+
+  try {
+    await tenantStore.createTenantWithAdminUser({
+      tenant: {
+        name: values.name,
+        code: values.code,
+        type: values.type,
+        auditStatus: values.auditStatus,
+        status: values.status,
+        remark: values.remark,
+      },
+      user: values.user,
+      password: values.password,
+    });
+
+    notification.success({
+      message: $t('ui.notification.create_success'),
+    });
+  } catch {
+    notification.error({
+      message: $t('ui.notification.create_failed'),
+    });
+  } finally {
+    // 关闭窗口
+    drawerApi.close();
+    setLoading(false);
+  }
+}
+
+async function updateTenant(values: any) {
+  console.log('updateTenant', values);
+
+  try {
+    await tenantStore.updateTenant(data.value.row.id, values);
+
+    notification.success({
+      message: $t('ui.notification.update_success'),
+    });
+  } catch {
+    notification.error({
+      message: $t('ui.notification.update_failed'),
+    });
+  } finally {
+    // 关闭窗口
+    drawerApi.close();
+    setLoading(false);
+  }
 }
 </script>
 

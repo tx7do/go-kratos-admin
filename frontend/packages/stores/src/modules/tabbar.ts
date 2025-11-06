@@ -35,7 +35,7 @@ interface TabbarState {
   /**
    * @zh_CN 更新时间，用于一些更新场景，使用watch深度监听的话，会损耗性能
    */
-  updateTime?: number;
+  updatedAt?: number;
 }
 
 /**
@@ -381,7 +381,7 @@ export const useTabbarStore = defineStore('core-tabbar', {
     },
 
     setUpdateTime() {
-      this.updateTime = Date.now();
+      this.updatedAt = Date.now();
     },
     /**
      * @zh_CN 设置标签页顺序
@@ -489,7 +489,7 @@ export const useTabbarStore = defineStore('core-tabbar', {
     excludeCachedTabs: new Set(),
     renderRouteView: true,
     tabs: [],
-    updateTime: Date.now(),
+    updatedAt: Date.now(),
   }),
 });
 

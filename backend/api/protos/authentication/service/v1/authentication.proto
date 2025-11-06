@@ -3,11 +3,10 @@ syntax = "proto3";
 package authentication.service.v1;
 
 import "gnostic/openapi/v3/annotations.proto";
-
 import "google/protobuf/empty.proto";
-
 import "google/api/annotations.proto";
 import "google/api/field_behavior.proto";
+import "redact/v3/redact.proto";
 
 import "user/service/v1/user.proto";
 
@@ -30,10 +29,6 @@ service AuthenticationService {
   rpc ValidateToken(ValidateTokenRequest) returns (ValidateTokenResponse) {}
 
 
-  // 修改用户密码
-  rpc ChangePassword(ChangePasswordRequest) returns (google.protobuf.Empty);
-
-
   // 获取当前用户身份信息
   rpc WhoAmI(google.protobuf.Empty) returns (WhoAmIResponse) {}
 }
@@ -49,8 +44,8 @@ enum GrantType {
 
 // 令牌类型
 enum TokenType {
-  bearer = 0; //
-  mac = 1; //
+  bearer = 0; // Bearer
+  mac = 1; // MAC
 }
 
 // 客户端类型
@@ -61,7 +56,7 @@ enum ClientType {
 
 // 用户后台登录 - 请求
 message LoginRequest {
-  string grant_type = 1 [
+  GrantType grant_type = 1 [
     json_name = "grant_type",
     (google.api.field_behavior) = REQUIRED,
     (gnostic.openapi.v3.property) = {
@@ -92,17 +87,18 @@ message LoginRequest {
 
   optional string redirect_uri = 5 [
     json_name = "redirect_uri",
-    (gnostic.openapi.v3.property) = {
-      description: "跳转链接"
-    }
+    (gnostic.openapi.v3.property) = {description: "跳转链接"}
   ]; // 跳转链接
 
   optional string username = 10 [
-    json_name = "username"
+    json_name = "username",
+    (gnostic.openapi.v3.property) = {description: "用户名"}
   ]; // 用户名，必选项。
 
   optional string password = 11 [
-    json_name = "password"
+    (redact.v3.value).string = "",
+    json_name = "password",
+    (gnostic.openapi.v3.property) = {description: "用户的密码"}
   ]; // 用户的密码，必选项。
 
   optional string refresh_token = 20 [
@@ -136,7 +132,7 @@ message LoginResponse {
     }
   ]; // 更新令牌，用来获取下一次的访问令牌，可选项。
 
-  string token_type = 3 [
+  TokenType token_type = 3 [
     json_name = "token_type",
     (gnostic.openapi.v3.property) = {
       description: "令牌的类型，该值大小写不敏感，必选项，可以是bearer类型或mac类型，通常只是字符串“Bearer”。",
@@ -162,7 +158,7 @@ message LoginResponse {
 // 验证令牌 - 请求
 message ValidateTokenRequest {
   string token = 1 [
-    json_name = "isValid",
+    json_name = "token",
     (gnostic.openapi.v3.property) = {
       description: "令牌"
     }
@@ -171,9 +167,9 @@ message ValidateTokenRequest {
   ClientType client_type = 2 [
     json_name = "clientType",
     (gnostic.openapi.v3.property) = {
-      description: "客戶端類型"
+      description: "客户端类型"
     }
-  ]; // 客戶端類型
+  ]; // 客户端类型
 }
 
 // 验证令牌 - 回应
@@ -188,9 +184,9 @@ message ValidateTokenResponse {
   optional UserTokenPayload claim = 2 [
     json_name = "claim",
     (gnostic.openapi.v3.property) = {
-      description: "用戶令牌载体"
+      description: "用户令牌载体"
     }
-  ]; // 用戶令牌载体
+  ]; // 用户令牌载体
 }
 
 message RegisterUserRequest {
@@ -256,7 +252,7 @@ message UserTokenPayload {
     }
   ]; // 客户端ID
 
-  user.service.v1.UserAuthority authority = 5 [
+  user.service.v1.User.Authority authority = 5 [
     json_name = "aut",
     (gnostic.openapi.v3.property) = {
       description: "用户权限"
@@ -301,34 +297,10 @@ message WhoAmIResponse {
     }
   ]; // 当前用户的用户名
 
-  user.service.v1.UserAuthority authority = 3 [
+  user.service.v1.User.Authority authority = 3 [
     json_name = "authority",
     (gnostic.openapi.v3.property) = {
       description: "用户权限"
     }
   ]; // 用户权限
-}
-
-// 修改用户密码 - 请求
-message ChangePasswordRequest {
-  string username = 1 [
-    json_name = "username",
-    (gnostic.openapi.v3.property) = {
-      description: "用户名"
-    }
-  ]; // 用户名
-
-  string old_password = 2 [
-    json_name = "oldPassword",
-    (gnostic.openapi.v3.property) = {
-      description: "旧密码"
-    }
-  ]; // 旧密码
-
-  string new_password = 3 [
-    json_name = "newPassword",
-    (gnostic.openapi.v3.property) = {
-      description: "新密码"
-    }
-  ]; // 新密码
 }

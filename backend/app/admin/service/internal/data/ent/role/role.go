@@ -14,36 +14,38 @@ const (
 	Label = "role"
 	// FieldID holds the string denoting the id field in the database.
 	FieldID = "id"
-	// FieldCreateTime holds the string denoting the create_time field in the database.
-	FieldCreateTime = "create_time"
-	// FieldUpdateTime holds the string denoting the update_time field in the database.
-	FieldUpdateTime = "update_time"
-	// FieldDeleteTime holds the string denoting the delete_time field in the database.
-	FieldDeleteTime = "delete_time"
-	// FieldStatus holds the string denoting the status field in the database.
-	FieldStatus = "status"
-	// FieldCreateBy holds the string denoting the create_by field in the database.
-	FieldCreateBy = "create_by"
-	// FieldUpdateBy holds the string denoting the update_by field in the database.
-	FieldUpdateBy = "update_by"
+	// FieldCreatedAt holds the string denoting the created_at field in the database.
+	FieldCreatedAt = "created_at"
+	// FieldUpdatedAt holds the string denoting the updated_at field in the database.
+	FieldUpdatedAt = "updated_at"
+	// FieldDeletedAt holds the string denoting the deleted_at field in the database.
+	FieldDeletedAt = "deleted_at"
+	// FieldCreatedBy holds the string denoting the created_by field in the database.
+	FieldCreatedBy = "created_by"
+	// FieldUpdatedBy holds the string denoting the updated_by field in the database.
+	FieldUpdatedBy = "updated_by"
+	// FieldDeletedBy holds the string denoting the deleted_by field in the database.
+	FieldDeletedBy = "deleted_by"
 	// FieldRemark holds the string denoting the remark field in the database.
 	FieldRemark = "remark"
+	// FieldSortOrder holds the string denoting the sort_order field in the database.
+	FieldSortOrder = "sort_order"
+	// FieldParentID holds the string denoting the parent_id field in the database.
+	FieldParentID = "parent_id"
 	// FieldTenantID holds the string denoting the tenant_id field in the database.
 	FieldTenantID = "tenant_id"
 	// FieldName holds the string denoting the name field in the database.
 	FieldName = "name"
 	// FieldCode holds the string denoting the code field in the database.
 	FieldCode = "code"
-	// FieldParentID holds the string denoting the parent_id field in the database.
-	FieldParentID = "parent_id"
-	// FieldSortID holds the string denoting the sort_id field in the database.
-	FieldSortID = "sort_id"
 	// FieldMenus holds the string denoting the menus field in the database.
 	FieldMenus = "menus"
 	// FieldApis holds the string denoting the apis field in the database.
 	FieldApis = "apis"
 	// FieldDataScope holds the string denoting the data_scope field in the database.
 	FieldDataScope = "data_scope"
+	// FieldStatus holds the string denoting the status field in the database.
+	FieldStatus = "status"
 	// EdgeParent holds the string denoting the parent edge name in mutations.
 	EdgeParent = "parent"
 	// EdgeChildren holds the string denoting the children edge name in mutations.
@@ -63,21 +65,22 @@ const (
 // Columns holds all SQL columns for role fields.
 var Columns = []string{
 	FieldID,
-	FieldCreateTime,
-	FieldUpdateTime,
-	FieldDeleteTime,
-	FieldStatus,
-	FieldCreateBy,
-	FieldUpdateBy,
+	FieldCreatedAt,
+	FieldUpdatedAt,
+	FieldDeletedAt,
+	FieldCreatedBy,
+	FieldUpdatedBy,
+	FieldDeletedBy,
 	FieldRemark,
+	FieldSortOrder,
+	FieldParentID,
 	FieldTenantID,
 	FieldName,
 	FieldCode,
-	FieldParentID,
-	FieldSortID,
 	FieldMenus,
 	FieldApis,
 	FieldDataScope,
+	FieldStatus,
 }
 
 // ValidColumn reports if the column name is valid (part of the table columns).
@@ -91,60 +94,28 @@ func ValidColumn(column string) bool {
 }
 
 var (
-	// DefaultRemark holds the default value on creation for the "remark" field.
-	DefaultRemark string
-	// TenantIDValidator is a validator for the "tenant_id" field. It is called by the builders before save.
-	TenantIDValidator func(uint32) error
+	// DefaultSortOrder holds the default value on creation for the "sort_order" field.
+	DefaultSortOrder int32
 	// NameValidator is a validator for the "name" field. It is called by the builders before save.
 	NameValidator func(string) error
-	// DefaultCode holds the default value on creation for the "code" field.
-	DefaultCode string
 	// CodeValidator is a validator for the "code" field. It is called by the builders before save.
 	CodeValidator func(string) error
-	// DefaultSortID holds the default value on creation for the "sort_id" field.
-	DefaultSortID int32
 	// IDValidator is a validator for the "id" field. It is called by the builders before save.
 	IDValidator func(uint32) error
 )
-
-// Status defines the type for the "status" enum field.
-type Status string
-
-// StatusON is the default value of the Status enum.
-const DefaultStatus = StatusON
-
-// Status values.
-const (
-	StatusOFF Status = "OFF"
-	StatusON  Status = "ON"
-)
-
-func (s Status) String() string {
-	return string(s)
-}
-
-// StatusValidator is a validator for the "status" field enum values. It is called by the builders before save.
-func StatusValidator(s Status) error {
-	switch s {
-	case StatusOFF, StatusON:
-		return nil
-	default:
-		return fmt.Errorf("role: invalid enum value for status field: %q", s)
-	}
-}
 
 // DataScope defines the type for the "data_scope" enum field.
 type DataScope string
 
 // DataScope values.
 const (
-	DataScopeDATA_SCOPE_ALL            DataScope = "ALL"
-	DataScopeDATA_SCOPE_CUSTOM         DataScope = "CUSTOM"
-	DataScopeDATA_SCOPE_SELF           DataScope = "SELF"
-	DataScopeDATA_SCOPE_ORG            DataScope = "ORG"
-	DataScopeDATA_SCOPE_ORG_AND_CHILD  DataScope = "ORG_AND_CHILD"
-	DataScopeDATA_SCOPE_DEPT           DataScope = "DEPT"
-	DataScopeDATA_SCOPE_DEPT_AND_CHILD DataScope = "DEPT_AND_CHILD"
+	DataScopeAll          DataScope = "ALL"
+	DataScopeCustom       DataScope = "CUSTOM"
+	DataScopeSelf         DataScope = "SELF"
+	DataScopeOrg          DataScope = "ORG"
+	DataScopeOrgAndChild  DataScope = "ORG_AND_CHILD"
+	DataScopeDept         DataScope = "DEPT"
+	DataScopeDeptAndChild DataScope = "DEPT_AND_CHILD"
 )
 
 func (ds DataScope) String() string {
@@ -154,10 +125,36 @@ func (ds DataScope) String() string {
 // DataScopeValidator is a validator for the "data_scope" field enum values. It is called by the builders before save.
 func DataScopeValidator(ds DataScope) error {
 	switch ds {
-	case DataScopeDATA_SCOPE_ALL, DataScopeDATA_SCOPE_CUSTOM, DataScopeDATA_SCOPE_SELF, DataScopeDATA_SCOPE_ORG, DataScopeDATA_SCOPE_ORG_AND_CHILD, DataScopeDATA_SCOPE_DEPT, DataScopeDATA_SCOPE_DEPT_AND_CHILD:
+	case DataScopeAll, DataScopeCustom, DataScopeSelf, DataScopeOrg, DataScopeOrgAndChild, DataScopeDept, DataScopeDeptAndChild:
 		return nil
 	default:
 		return fmt.Errorf("role: invalid enum value for data_scope field: %q", ds)
+	}
+}
+
+// Status defines the type for the "status" enum field.
+type Status string
+
+// StatusOn is the default value of the Status enum.
+const DefaultStatus = StatusOn
+
+// Status values.
+const (
+	StatusOn  Status = "ON"
+	StatusOff Status = "OFF"
+)
+
+func (s Status) String() string {
+	return string(s)
+}
+
+// StatusValidator is a validator for the "status" field enum values. It is called by the builders before save.
+func StatusValidator(s Status) error {
+	switch s {
+	case StatusOn, StatusOff:
+		return nil
+	default:
+		return fmt.Errorf("role: invalid enum value for status field: %q", s)
 	}
 }
 
@@ -169,39 +166,49 @@ func ByID(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldID, opts...).ToFunc()
 }
 
-// ByCreateTime orders the results by the create_time field.
-func ByCreateTime(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldCreateTime, opts...).ToFunc()
+// ByCreatedAt orders the results by the created_at field.
+func ByCreatedAt(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldCreatedAt, opts...).ToFunc()
 }
 
-// ByUpdateTime orders the results by the update_time field.
-func ByUpdateTime(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldUpdateTime, opts...).ToFunc()
+// ByUpdatedAt orders the results by the updated_at field.
+func ByUpdatedAt(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldUpdatedAt, opts...).ToFunc()
 }
 
-// ByDeleteTime orders the results by the delete_time field.
-func ByDeleteTime(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldDeleteTime, opts...).ToFunc()
+// ByDeletedAt orders the results by the deleted_at field.
+func ByDeletedAt(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldDeletedAt, opts...).ToFunc()
 }
 
-// ByStatus orders the results by the status field.
-func ByStatus(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldStatus, opts...).ToFunc()
+// ByCreatedBy orders the results by the created_by field.
+func ByCreatedBy(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldCreatedBy, opts...).ToFunc()
 }
 
-// ByCreateBy orders the results by the create_by field.
-func ByCreateBy(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldCreateBy, opts...).ToFunc()
+// ByUpdatedBy orders the results by the updated_by field.
+func ByUpdatedBy(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldUpdatedBy, opts...).ToFunc()
 }
 
-// ByUpdateBy orders the results by the update_by field.
-func ByUpdateBy(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldUpdateBy, opts...).ToFunc()
+// ByDeletedBy orders the results by the deleted_by field.
+func ByDeletedBy(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldDeletedBy, opts...).ToFunc()
 }
 
 // ByRemark orders the results by the remark field.
 func ByRemark(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldRemark, opts...).ToFunc()
+}
+
+// BySortOrder orders the results by the sort_order field.
+func BySortOrder(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldSortOrder, opts...).ToFunc()
+}
+
+// ByParentID orders the results by the parent_id field.
+func ByParentID(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldParentID, opts...).ToFunc()
 }
 
 // ByTenantID orders the results by the tenant_id field.
@@ -219,19 +226,14 @@ func ByCode(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldCode, opts...).ToFunc()
 }
 
-// ByParentID orders the results by the parent_id field.
-func ByParentID(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldParentID, opts...).ToFunc()
-}
-
-// BySortID orders the results by the sort_id field.
-func BySortID(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldSortID, opts...).ToFunc()
-}
-
 // ByDataScope orders the results by the data_scope field.
 func ByDataScope(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldDataScope, opts...).ToFunc()
+}
+
+// ByStatus orders the results by the status field.
+func ByStatus(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldStatus, opts...).ToFunc()
 }
 
 // ByParentField orders the results by parent field.

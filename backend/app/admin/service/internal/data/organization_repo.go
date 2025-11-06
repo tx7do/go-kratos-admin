@@ -7,9 +7,10 @@ import (
 
 	"entgo.io/ent/dialect/sql"
 	"github.com/go-kratos/kratos/v2/log"
+	"github.com/tx7do/go-utils/entgo"
 
 	"github.com/tx7do/go-utils/copierutil"
-	entgo "github.com/tx7do/go-utils/entgo/query"
+	entgoQuery "github.com/tx7do/go-utils/entgo/query"
 	entgoUpdate "github.com/tx7do/go-utils/entgo/update"
 	"github.com/tx7do/go-utils/fieldmaskutil"
 	"github.com/tx7do/go-utils/mapper"
@@ -27,8 +28,8 @@ type OrganizationRepo struct {
 	log  *log.Helper
 
 	mapper          *mapper.CopierMapper[userV1.Organization, ent.Organization]
-	typeConverter   *mapper.EnumTypeConverter[userV1.OrganizationType, organization.OrganizationType]
-	statusConverter *mapper.EnumTypeConverter[userV1.OrganizationStatus, organization.Status]
+	typeConverter   *mapper.EnumTypeConverter[userV1.Organization_Type, organization.OrganizationType]
+	statusConverter *mapper.EnumTypeConverter[userV1.Organization_Status, organization.Status]
 }
 
 func NewOrganizationRepo(data *Data, logger log.Logger) *OrganizationRepo {
@@ -36,8 +37,8 @@ func NewOrganizationRepo(data *Data, logger log.Logger) *OrganizationRepo {
 		log:             log.NewHelper(log.With(logger, "module", "organization/repo/admin-service")),
 		data:            data,
 		mapper:          mapper.NewCopierMapper[userV1.Organization, ent.Organization](),
-		typeConverter:   mapper.NewEnumTypeConverter[userV1.OrganizationType, organization.OrganizationType](userV1.OrganizationType_name, userV1.OrganizationType_value),
-		statusConverter: mapper.NewEnumTypeConverter[userV1.OrganizationStatus, organization.Status](userV1.OrganizationStatus_name, userV1.OrganizationStatus_value),
+		typeConverter:   mapper.NewEnumTypeConverter[userV1.Organization_Type, organization.OrganizationType](userV1.Organization_Type_name, userV1.Organization_Type_value),
+		statusConverter: mapper.NewEnumTypeConverter[userV1.Organization_Status, organization.Status](userV1.Organization_Status_name, userV1.Organization_Status_value),
 	}
 
 	repo.init()
@@ -102,10 +103,10 @@ func (r *OrganizationRepo) List(ctx context.Context, req *pagination.PagingReque
 
 	builder := r.data.db.Client().Organization.Query()
 
-	err, whereSelectors, querySelectors := entgo.BuildQuerySelector(
+	err, whereSelectors, querySelectors := entgoQuery.BuildQuerySelector(
 		req.GetQuery(), req.GetOrQuery(),
 		req.GetPage(), req.GetPageSize(), req.GetNoPaging(),
-		req.GetOrderBy(), organization.FieldCreateTime,
+		req.GetOrderBy(), organization.FieldCreatedAt,
 		req.GetFieldMask().GetPaths(),
 	)
 	if err != nil {
@@ -125,11 +126,11 @@ func (r *OrganizationRepo) List(ctx context.Context, req *pagination.PagingReque
 
 	sort.SliceStable(entities, func(i, j int) bool {
 		var sortI, sortJ int32
-		if entities[i].SortID != nil {
-			sortI = *entities[i].SortID
+		if entities[i].SortOrder != nil {
+			sortI = *entities[i].SortOrder
 		}
-		if entities[j].SortID != nil {
-			sortJ = *entities[j].SortID
+		if entities[j].SortOrder != nil {
+			sortJ = *entities[j].SortOrder
 		}
 		return sortI < sortJ
 	})
@@ -225,7 +226,7 @@ func (r *OrganizationRepo) Create(ctx context.Context, req *userV1.CreateOrganiz
 	builder := r.data.db.Client().Organization.Create().
 		SetNillableName(req.Data.Name).
 		SetNillableParentID(req.Data.ParentId).
-		SetNillableSortID(req.Data.SortId).
+		SetNillableSortOrder(req.Data.SortOrder).
 		SetNillableRemark(req.Data.Remark).
 		SetNillableStatus(r.statusConverter.ToEntity(req.Data.Status)).
 		SetNillableOrganizationType(r.typeConverter.ToEntity(req.Data.OrganizationType)).
@@ -234,12 +235,14 @@ func (r *OrganizationRepo) Create(ctx context.Context, req *userV1.CreateOrganiz
 		SetNillableCreditCode(req.Data.CreditCode).
 		SetNillableAddress(req.Data.Address).
 		SetNillableManagerID(req.Data.ManagerId).
-		SetNillableTenantID(req.Data.TenantId).
-		SetNillableCreateBy(req.Data.CreateBy).
-		SetNillableCreateTime(timeutil.TimestamppbToTime(req.Data.CreateTime))
+		SetNillableCreatedBy(req.Data.CreatedBy).
+		SetNillableCreatedAt(timeutil.TimestamppbToTime(req.Data.CreatedAt))
 
-	if req.Data.CreateTime == nil {
-		builder.SetCreateTime(time.Now())
+	if req.Data.TenantId == nil {
+		builder.SetTenantID(req.Data.GetTenantId())
+	}
+	if req.Data.CreatedAt == nil {
+		builder.SetCreatedAt(time.Now())
 	}
 
 	if req.Data.Id != nil {
@@ -267,8 +270,8 @@ func (r *OrganizationRepo) Update(ctx context.Context, req *userV1.UpdateOrganiz
 		}
 		if !exist {
 			createReq := &userV1.CreateOrganizationRequest{Data: req.Data}
-			createReq.Data.CreateBy = createReq.Data.UpdateBy
-			createReq.Data.UpdateBy = nil
+			createReq.Data.CreatedBy = createReq.Data.UpdatedBy
+			createReq.Data.UpdatedBy = nil
 			return r.Create(ctx, createReq)
 		}
 	}
@@ -286,7 +289,7 @@ func (r *OrganizationRepo) Update(ctx context.Context, req *userV1.UpdateOrganiz
 		UpdateOneID(req.Data.GetId()).
 		SetNillableName(req.Data.Name).
 		SetNillableParentID(req.Data.ParentId).
-		SetNillableSortID(req.Data.SortId).
+		SetNillableSortOrder(req.Data.SortOrder).
 		SetNillableRemark(req.Data.Remark).
 		SetNillableStatus(r.statusConverter.ToEntity(req.Data.Status)).
 		SetNillableOrganizationType(r.typeConverter.ToEntity(req.Data.OrganizationType)).
@@ -295,11 +298,11 @@ func (r *OrganizationRepo) Update(ctx context.Context, req *userV1.UpdateOrganiz
 		SetNillableCreditCode(req.Data.CreditCode).
 		SetNillableAddress(req.Data.Address).
 		SetNillableManagerID(req.Data.ManagerId).
-		SetNillableUpdateBy(req.Data.UpdateBy).
-		SetNillableUpdateTime(timeutil.TimestamppbToTime(req.Data.UpdateTime))
+		SetNillableUpdatedBy(req.Data.UpdatedBy).
+		SetNillableUpdatedAt(timeutil.TimestamppbToTime(req.Data.UpdatedAt))
 
-	if req.Data.UpdateTime == nil {
-		builder.SetUpdateTime(time.Now())
+	if req.Data.UpdatedAt == nil {
+		builder.SetUpdatedAt(time.Now())
 	}
 
 	if req.UpdateMask != nil {
@@ -323,7 +326,7 @@ func (r *OrganizationRepo) Delete(ctx context.Context, req *userV1.DeleteOrganiz
 		return userV1.ErrorBadRequest("invalid parameter")
 	}
 
-	ids, err := queryAllChildrenIDs(ctx, r.data.db, "sys_organizations", req.GetId())
+	ids, err := entgo.QueryAllChildrenIds(ctx, r.data.db, "sys_organizations", req.GetId())
 	if err != nil {
 		r.log.Errorf("query child organizations failed: %s", err.Error())
 		return userV1.ErrorInternalServerError("query child organizations failed")

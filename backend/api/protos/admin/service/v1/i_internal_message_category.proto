@@ -1,0 +1,51 @@
+syntax = "proto3";
+
+package admin.service.v1;
+
+import "gnostic/openapi/v3/annotations.proto";
+import "google/api/annotations.proto";
+import "google/protobuf/empty.proto";
+
+import "pagination/v1/pagination.proto";
+
+import "internal_message/service/v1/internal_message_category.proto";
+
+// 站内信消息分类管理服务
+service InternalMessageCategoryService {
+  // 查询站内信消息分类列表
+  rpc List (pagination.PagingRequest) returns (internal_message.service.v1.ListInternalMessageCategoryResponse) {
+    option (google.api.http) = {
+      get: "/admin/v1/internal-message/categories"
+    };
+  }
+
+  // 查询站内信消息分类详情
+  rpc Get (internal_message.service.v1.GetInternalMessageCategoryRequest) returns (internal_message.service.v1.InternalMessageCategory) {
+    option (google.api.http) = {
+      get: "/admin/v1/internal-message/categories/{id}"
+    };
+  }
+
+  // 创建站内信消息分类
+  rpc Create (internal_message.service.v1.CreateInternalMessageCategoryRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      post: "/admin/v1/internal-message/categories"
+      body: "*"
+    };
+  }
+
+  // 更新站内信消息分类
+  rpc Update (internal_message.service.v1.UpdateInternalMessageCategoryRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      put: "/admin/v1/internal-message/categories/{data.id}"
+      body: "*"
+    };
+  }
+
+  // 删除站内信消息分类
+  rpc Delete (internal_message.service.v1.DeleteInternalMessageCategoryRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      delete: "/admin/v1/internal-message/categories/{id}"
+    };
+  }
+}

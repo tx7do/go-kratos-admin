@@ -44,15 +44,15 @@ func (RoleApi) Fields() []ent.Field {
 func (RoleApi) Mixin() []ent.Mixin {
 	return []ent.Mixin{
 		mixin.AutoIncrementId{},
-		mixin.Time{},
-		mixin.CreateBy{},
+		mixin.TimeAt{},
+		mixin.OperatorID{},
 	}
 }
 
 // Indexes of the RoleApi.
 func (RoleApi) Indexes() []ent.Index {
 	return []ent.Index{
-		index.Fields("role_id", "api_id").Unique(),
-		index.Fields("role_id"),
+		index.Fields("role_id", "api_id").Unique().StorageKey("idx_sys_role_api_role_id_api_id"),
+		index.Fields("role_id").StorageKey("idx_sys_role_api_role_id"),
 	}
 }

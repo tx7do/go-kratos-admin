@@ -54,29 +54,34 @@ func IDLTE(id uint32) predicate.ApiResource {
 	return predicate.ApiResource(sql.FieldLTE(FieldID, id))
 }
 
-// CreateTime applies equality check predicate on the "create_time" field. It's identical to CreateTimeEQ.
-func CreateTime(v time.Time) predicate.ApiResource {
-	return predicate.ApiResource(sql.FieldEQ(FieldCreateTime, v))
+// CreatedAt applies equality check predicate on the "created_at" field. It's identical to CreatedAtEQ.
+func CreatedAt(v time.Time) predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldEQ(FieldCreatedAt, v))
 }
 
-// UpdateTime applies equality check predicate on the "update_time" field. It's identical to UpdateTimeEQ.
-func UpdateTime(v time.Time) predicate.ApiResource {
-	return predicate.ApiResource(sql.FieldEQ(FieldUpdateTime, v))
+// UpdatedAt applies equality check predicate on the "updated_at" field. It's identical to UpdatedAtEQ.
+func UpdatedAt(v time.Time) predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldEQ(FieldUpdatedAt, v))
 }
 
-// DeleteTime applies equality check predicate on the "delete_time" field. It's identical to DeleteTimeEQ.
-func DeleteTime(v time.Time) predicate.ApiResource {
-	return predicate.ApiResource(sql.FieldEQ(FieldDeleteTime, v))
+// DeletedAt applies equality check predicate on the "deleted_at" field. It's identical to DeletedAtEQ.
+func DeletedAt(v time.Time) predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldEQ(FieldDeletedAt, v))
 }
 
-// CreateBy applies equality check predicate on the "create_by" field. It's identical to CreateByEQ.
-func CreateBy(v uint32) predicate.ApiResource {
-	return predicate.ApiResource(sql.FieldEQ(FieldCreateBy, v))
+// CreatedBy applies equality check predicate on the "created_by" field. It's identical to CreatedByEQ.
+func CreatedBy(v uint32) predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldEQ(FieldCreatedBy, v))
 }
 
-// UpdateBy applies equality check predicate on the "update_by" field. It's identical to UpdateByEQ.
-func UpdateBy(v uint32) predicate.ApiResource {
-	return predicate.ApiResource(sql.FieldEQ(FieldUpdateBy, v))
+// UpdatedBy applies equality check predicate on the "updated_by" field. It's identical to UpdatedByEQ.
+func UpdatedBy(v uint32) predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldEQ(FieldUpdatedBy, v))
+}
+
+// DeletedBy applies equality check predicate on the "deleted_by" field. It's identical to DeletedByEQ.
+func DeletedBy(v uint32) predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldEQ(FieldDeletedBy, v))
 }
 
 // Description applies equality check predicate on the "description" field. It's identical to DescriptionEQ.
@@ -109,254 +114,304 @@ func Method(v string) predicate.ApiResource {
 	return predicate.ApiResource(sql.FieldEQ(FieldMethod, v))
 }
 
-// CreateTimeEQ applies the EQ predicate on the "create_time" field.
-func CreateTimeEQ(v time.Time) predicate.ApiResource {
-	return predicate.ApiResource(sql.FieldEQ(FieldCreateTime, v))
+// CreatedAtEQ applies the EQ predicate on the "created_at" field.
+func CreatedAtEQ(v time.Time) predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldEQ(FieldCreatedAt, v))
 }
 
-// CreateTimeNEQ applies the NEQ predicate on the "create_time" field.
-func CreateTimeNEQ(v time.Time) predicate.ApiResource {
-	return predicate.ApiResource(sql.FieldNEQ(FieldCreateTime, v))
+// CreatedAtNEQ applies the NEQ predicate on the "created_at" field.
+func CreatedAtNEQ(v time.Time) predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldNEQ(FieldCreatedAt, v))
 }
 
-// CreateTimeIn applies the In predicate on the "create_time" field.
-func CreateTimeIn(vs ...time.Time) predicate.ApiResource {
-	return predicate.ApiResource(sql.FieldIn(FieldCreateTime, vs...))
+// CreatedAtIn applies the In predicate on the "created_at" field.
+func CreatedAtIn(vs ...time.Time) predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldIn(FieldCreatedAt, vs...))
 }
 
-// CreateTimeNotIn applies the NotIn predicate on the "create_time" field.
-func CreateTimeNotIn(vs ...time.Time) predicate.ApiResource {
-	return predicate.ApiResource(sql.FieldNotIn(FieldCreateTime, vs...))
+// CreatedAtNotIn applies the NotIn predicate on the "created_at" field.
+func CreatedAtNotIn(vs ...time.Time) predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldNotIn(FieldCreatedAt, vs...))
 }
 
-// CreateTimeGT applies the GT predicate on the "create_time" field.
-func CreateTimeGT(v time.Time) predicate.ApiResource {
-	return predicate.ApiResource(sql.FieldGT(FieldCreateTime, v))
+// CreatedAtGT applies the GT predicate on the "created_at" field.
+func CreatedAtGT(v time.Time) predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldGT(FieldCreatedAt, v))
 }
 
-// CreateTimeGTE applies the GTE predicate on the "create_time" field.
-func CreateTimeGTE(v time.Time) predicate.ApiResource {
-	return predicate.ApiResource(sql.FieldGTE(FieldCreateTime, v))
+// CreatedAtGTE applies the GTE predicate on the "created_at" field.
+func CreatedAtGTE(v time.Time) predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldGTE(FieldCreatedAt, v))
 }
 
-// CreateTimeLT applies the LT predicate on the "create_time" field.
-func CreateTimeLT(v time.Time) predicate.ApiResource {
-	return predicate.ApiResource(sql.FieldLT(FieldCreateTime, v))
+// CreatedAtLT applies the LT predicate on the "created_at" field.
+func CreatedAtLT(v time.Time) predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldLT(FieldCreatedAt, v))
 }
 
-// CreateTimeLTE applies the LTE predicate on the "create_time" field.
-func CreateTimeLTE(v time.Time) predicate.ApiResource {
-	return predicate.ApiResource(sql.FieldLTE(FieldCreateTime, v))
+// CreatedAtLTE applies the LTE predicate on the "created_at" field.
+func CreatedAtLTE(v time.Time) predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldLTE(FieldCreatedAt, v))
 }
 
-// CreateTimeIsNil applies the IsNil predicate on the "create_time" field.
-func CreateTimeIsNil() predicate.ApiResource {
-	return predicate.ApiResource(sql.FieldIsNull(FieldCreateTime))
+// CreatedAtIsNil applies the IsNil predicate on the "created_at" field.
+func CreatedAtIsNil() predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldIsNull(FieldCreatedAt))
 }
 
-// CreateTimeNotNil applies the NotNil predicate on the "create_time" field.
-func CreateTimeNotNil() predicate.ApiResource {
-	return predicate.ApiResource(sql.FieldNotNull(FieldCreateTime))
+// CreatedAtNotNil applies the NotNil predicate on the "created_at" field.
+func CreatedAtNotNil() predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldNotNull(FieldCreatedAt))
 }
 
-// UpdateTimeEQ applies the EQ predicate on the "update_time" field.
-func UpdateTimeEQ(v time.Time) predicate.ApiResource {
-	return predicate.ApiResource(sql.FieldEQ(FieldUpdateTime, v))
+// UpdatedAtEQ applies the EQ predicate on the "updated_at" field.
+func UpdatedAtEQ(v time.Time) predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldEQ(FieldUpdatedAt, v))
 }
 
-// UpdateTimeNEQ applies the NEQ predicate on the "update_time" field.
-func UpdateTimeNEQ(v time.Time) predicate.ApiResource {
-	return predicate.ApiResource(sql.FieldNEQ(FieldUpdateTime, v))
+// UpdatedAtNEQ applies the NEQ predicate on the "updated_at" field.
+func UpdatedAtNEQ(v time.Time) predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldNEQ(FieldUpdatedAt, v))
 }
 
-// UpdateTimeIn applies the In predicate on the "update_time" field.
-func UpdateTimeIn(vs ...time.Time) predicate.ApiResource {
-	return predicate.ApiResource(sql.FieldIn(FieldUpdateTime, vs...))
+// UpdatedAtIn applies the In predicate on the "updated_at" field.
+func UpdatedAtIn(vs ...time.Time) predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldIn(FieldUpdatedAt, vs...))
 }
 
-// UpdateTimeNotIn applies the NotIn predicate on the "update_time" field.
-func UpdateTimeNotIn(vs ...time.Time) predicate.ApiResource {
-	return predicate.ApiResource(sql.FieldNotIn(FieldUpdateTime, vs...))
+// UpdatedAtNotIn applies the NotIn predicate on the "updated_at" field.
+func UpdatedAtNotIn(vs ...time.Time) predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldNotIn(FieldUpdatedAt, vs...))
 }
 
-// UpdateTimeGT applies the GT predicate on the "update_time" field.
-func UpdateTimeGT(v time.Time) predicate.ApiResource {
-	return predicate.ApiResource(sql.FieldGT(FieldUpdateTime, v))
+// UpdatedAtGT applies the GT predicate on the "updated_at" field.
+func UpdatedAtGT(v time.Time) predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldGT(FieldUpdatedAt, v))
 }
 
-// UpdateTimeGTE applies the GTE predicate on the "update_time" field.
-func UpdateTimeGTE(v time.Time) predicate.ApiResource {
-	return predicate.ApiResource(sql.FieldGTE(FieldUpdateTime, v))
+// UpdatedAtGTE applies the GTE predicate on the "updated_at" field.
+func UpdatedAtGTE(v time.Time) predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldGTE(FieldUpdatedAt, v))
 }
 
-// UpdateTimeLT applies the LT predicate on the "update_time" field.
-func UpdateTimeLT(v time.Time) predicate.ApiResource {
-	return predicate.ApiResource(sql.FieldLT(FieldUpdateTime, v))
+// UpdatedAtLT applies the LT predicate on the "updated_at" field.
+func UpdatedAtLT(v time.Time) predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldLT(FieldUpdatedAt, v))
 }
 
-// UpdateTimeLTE applies the LTE predicate on the "update_time" field.
-func UpdateTimeLTE(v time.Time) predicate.ApiResource {
-	return predicate.ApiResource(sql.FieldLTE(FieldUpdateTime, v))
+// UpdatedAtLTE applies the LTE predicate on the "updated_at" field.
+func UpdatedAtLTE(v time.Time) predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldLTE(FieldUpdatedAt, v))
 }
 
-// UpdateTimeIsNil applies the IsNil predicate on the "update_time" field.
-func UpdateTimeIsNil() predicate.ApiResource {
-	return predicate.ApiResource(sql.FieldIsNull(FieldUpdateTime))
+// UpdatedAtIsNil applies the IsNil predicate on the "updated_at" field.
+func UpdatedAtIsNil() predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldIsNull(FieldUpdatedAt))
 }
 
-// UpdateTimeNotNil applies the NotNil predicate on the "update_time" field.
-func UpdateTimeNotNil() predicate.ApiResource {
-	return predicate.ApiResource(sql.FieldNotNull(FieldUpdateTime))
+// UpdatedAtNotNil applies the NotNil predicate on the "updated_at" field.
+func UpdatedAtNotNil() predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldNotNull(FieldUpdatedAt))
 }
 
-// DeleteTimeEQ applies the EQ predicate on the "delete_time" field.
-func DeleteTimeEQ(v time.Time) predicate.ApiResource {
-	return predicate.ApiResource(sql.FieldEQ(FieldDeleteTime, v))
+// DeletedAtEQ applies the EQ predicate on the "deleted_at" field.
+func DeletedAtEQ(v time.Time) predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldEQ(FieldDeletedAt, v))
 }
 
-// DeleteTimeNEQ applies the NEQ predicate on the "delete_time" field.
-func DeleteTimeNEQ(v time.Time) predicate.ApiResource {
-	return predicate.ApiResource(sql.FieldNEQ(FieldDeleteTime, v))
+// DeletedAtNEQ applies the NEQ predicate on the "deleted_at" field.
+func DeletedAtNEQ(v time.Time) predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldNEQ(FieldDeletedAt, v))
 }
 
-// DeleteTimeIn applies the In predicate on the "delete_time" field.
-func DeleteTimeIn(vs ...time.Time) predicate.ApiResource {
-	return predicate.ApiResource(sql.FieldIn(FieldDeleteTime, vs...))
+// DeletedAtIn applies the In predicate on the "deleted_at" field.
+func DeletedAtIn(vs ...time.Time) predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldIn(FieldDeletedAt, vs...))
 }
 
-// DeleteTimeNotIn applies the NotIn predicate on the "delete_time" field.
-func DeleteTimeNotIn(vs ...time.Time) predicate.ApiResource {
-	return predicate.ApiResource(sql.FieldNotIn(FieldDeleteTime, vs...))
+// DeletedAtNotIn applies the NotIn predicate on the "deleted_at" field.
+func DeletedAtNotIn(vs ...time.Time) predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldNotIn(FieldDeletedAt, vs...))
 }
 
-// DeleteTimeGT applies the GT predicate on the "delete_time" field.
-func DeleteTimeGT(v time.Time) predicate.ApiResource {
-	return predicate.ApiResource(sql.FieldGT(FieldDeleteTime, v))
+// DeletedAtGT applies the GT predicate on the "deleted_at" field.
+func DeletedAtGT(v time.Time) predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldGT(FieldDeletedAt, v))
 }
 
-// DeleteTimeGTE applies the GTE predicate on the "delete_time" field.
-func DeleteTimeGTE(v time.Time) predicate.ApiResource {
-	return predicate.ApiResource(sql.FieldGTE(FieldDeleteTime, v))
+// DeletedAtGTE applies the GTE predicate on the "deleted_at" field.
+func DeletedAtGTE(v time.Time) predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldGTE(FieldDeletedAt, v))
 }
 
-// DeleteTimeLT applies the LT predicate on the "delete_time" field.
-func DeleteTimeLT(v time.Time) predicate.ApiResource {
-	return predicate.ApiResource(sql.FieldLT(FieldDeleteTime, v))
+// DeletedAtLT applies the LT predicate on the "deleted_at" field.
+func DeletedAtLT(v time.Time) predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldLT(FieldDeletedAt, v))
 }
 
-// DeleteTimeLTE applies the LTE predicate on the "delete_time" field.
-func DeleteTimeLTE(v time.Time) predicate.ApiResource {
-	return predicate.ApiResource(sql.FieldLTE(FieldDeleteTime, v))
+// DeletedAtLTE applies the LTE predicate on the "deleted_at" field.
+func DeletedAtLTE(v time.Time) predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldLTE(FieldDeletedAt, v))
 }
 
-// DeleteTimeIsNil applies the IsNil predicate on the "delete_time" field.
-func DeleteTimeIsNil() predicate.ApiResource {
-	return predicate.ApiResource(sql.FieldIsNull(FieldDeleteTime))
+// DeletedAtIsNil applies the IsNil predicate on the "deleted_at" field.
+func DeletedAtIsNil() predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldIsNull(FieldDeletedAt))
 }
 
-// DeleteTimeNotNil applies the NotNil predicate on the "delete_time" field.
-func DeleteTimeNotNil() predicate.ApiResource {
-	return predicate.ApiResource(sql.FieldNotNull(FieldDeleteTime))
+// DeletedAtNotNil applies the NotNil predicate on the "deleted_at" field.
+func DeletedAtNotNil() predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldNotNull(FieldDeletedAt))
 }
 
-// CreateByEQ applies the EQ predicate on the "create_by" field.
-func CreateByEQ(v uint32) predicate.ApiResource {
-	return predicate.ApiResource(sql.FieldEQ(FieldCreateBy, v))
+// CreatedByEQ applies the EQ predicate on the "created_by" field.
+func CreatedByEQ(v uint32) predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldEQ(FieldCreatedBy, v))
 }
 
-// CreateByNEQ applies the NEQ predicate on the "create_by" field.
-func CreateByNEQ(v uint32) predicate.ApiResource {
-	return predicate.ApiResource(sql.FieldNEQ(FieldCreateBy, v))
+// CreatedByNEQ applies the NEQ predicate on the "created_by" field.
+func CreatedByNEQ(v uint32) predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldNEQ(FieldCreatedBy, v))
 }
 
-// CreateByIn applies the In predicate on the "create_by" field.
-func CreateByIn(vs ...uint32) predicate.ApiResource {
-	return predicate.ApiResource(sql.FieldIn(FieldCreateBy, vs...))
+// CreatedByIn applies the In predicate on the "created_by" field.
+func CreatedByIn(vs ...uint32) predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldIn(FieldCreatedBy, vs...))
 }
 
-// CreateByNotIn applies the NotIn predicate on the "create_by" field.
-func CreateByNotIn(vs ...uint32) predicate.ApiResource {
-	return predicate.ApiResource(sql.FieldNotIn(FieldCreateBy, vs...))
+// CreatedByNotIn applies the NotIn predicate on the "created_by" field.
+func CreatedByNotIn(vs ...uint32) predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldNotIn(FieldCreatedBy, vs...))
 }
 
-// CreateByGT applies the GT predicate on the "create_by" field.
-func CreateByGT(v uint32) predicate.ApiResource {
-	return predicate.ApiResource(sql.FieldGT(FieldCreateBy, v))
+// CreatedByGT applies the GT predicate on the "created_by" field.
+func CreatedByGT(v uint32) predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldGT(FieldCreatedBy, v))
 }
 
-// CreateByGTE applies the GTE predicate on the "create_by" field.
-func CreateByGTE(v uint32) predicate.ApiResource {
-	return predicate.ApiResource(sql.FieldGTE(FieldCreateBy, v))
+// CreatedByGTE applies the GTE predicate on the "created_by" field.
+func CreatedByGTE(v uint32) predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldGTE(FieldCreatedBy, v))
 }
 
-// CreateByLT applies the LT predicate on the "create_by" field.
-func CreateByLT(v uint32) predicate.ApiResource {
-	return predicate.ApiResource(sql.FieldLT(FieldCreateBy, v))
+// CreatedByLT applies the LT predicate on the "created_by" field.
+func CreatedByLT(v uint32) predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldLT(FieldCreatedBy, v))
 }
 
-// CreateByLTE applies the LTE predicate on the "create_by" field.
-func CreateByLTE(v uint32) predicate.ApiResource {
-	return predicate.ApiResource(sql.FieldLTE(FieldCreateBy, v))
+// CreatedByLTE applies the LTE predicate on the "created_by" field.
+func CreatedByLTE(v uint32) predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldLTE(FieldCreatedBy, v))
 }
 
-// CreateByIsNil applies the IsNil predicate on the "create_by" field.
-func CreateByIsNil() predicate.ApiResource {
-	return predicate.ApiResource(sql.FieldIsNull(FieldCreateBy))
+// CreatedByIsNil applies the IsNil predicate on the "created_by" field.
+func CreatedByIsNil() predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldIsNull(FieldCreatedBy))
 }
 
-// CreateByNotNil applies the NotNil predicate on the "create_by" field.
-func CreateByNotNil() predicate.ApiResource {
-	return predicate.ApiResource(sql.FieldNotNull(FieldCreateBy))
+// CreatedByNotNil applies the NotNil predicate on the "created_by" field.
+func CreatedByNotNil() predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldNotNull(FieldCreatedBy))
 }
 
-// UpdateByEQ applies the EQ predicate on the "update_by" field.
-func UpdateByEQ(v uint32) predicate.ApiResource {
-	return predicate.ApiResource(sql.FieldEQ(FieldUpdateBy, v))
+// UpdatedByEQ applies the EQ predicate on the "updated_by" field.
+func UpdatedByEQ(v uint32) predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldEQ(FieldUpdatedBy, v))
 }
 
-// UpdateByNEQ applies the NEQ predicate on the "update_by" field.
-func UpdateByNEQ(v uint32) predicate.ApiResource {
-	return predicate.ApiResource(sql.FieldNEQ(FieldUpdateBy, v))
+// UpdatedByNEQ applies the NEQ predicate on the "updated_by" field.
+func UpdatedByNEQ(v uint32) predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldNEQ(FieldUpdatedBy, v))
 }
 
-// UpdateByIn applies the In predicate on the "update_by" field.
-func UpdateByIn(vs ...uint32) predicate.ApiResource {
-	return predicate.ApiResource(sql.FieldIn(FieldUpdateBy, vs...))
+// UpdatedByIn applies the In predicate on the "updated_by" field.
+func UpdatedByIn(vs ...uint32) predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldIn(FieldUpdatedBy, vs...))
 }
 
-// UpdateByNotIn applies the NotIn predicate on the "update_by" field.
-func UpdateByNotIn(vs ...uint32) predicate.ApiResource {
-	return predicate.ApiResource(sql.FieldNotIn(FieldUpdateBy, vs...))
+// UpdatedByNotIn applies the NotIn predicate on the "updated_by" field.
+func UpdatedByNotIn(vs ...uint32) predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldNotIn(FieldUpdatedBy, vs...))
 }
 
-// UpdateByGT applies the GT predicate on the "update_by" field.
-func UpdateByGT(v uint32) predicate.ApiResource {
-	return predicate.ApiResource(sql.FieldGT(FieldUpdateBy, v))
+// UpdatedByGT applies the GT predicate on the "updated_by" field.
+func UpdatedByGT(v uint32) predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldGT(FieldUpdatedBy, v))
 }
 
-// UpdateByGTE applies the GTE predicate on the "update_by" field.
-func UpdateByGTE(v uint32) predicate.ApiResource {
-	return predicate.ApiResource(sql.FieldGTE(FieldUpdateBy, v))
+// UpdatedByGTE applies the GTE predicate on the "updated_by" field.
+func UpdatedByGTE(v uint32) predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldGTE(FieldUpdatedBy, v))
 }
 
-// UpdateByLT applies the LT predicate on the "update_by" field.
-func UpdateByLT(v uint32) predicate.ApiResource {
-	return predicate.ApiResource(sql.FieldLT(FieldUpdateBy, v))
+// UpdatedByLT applies the LT predicate on the "updated_by" field.
+func UpdatedByLT(v uint32) predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldLT(FieldUpdatedBy, v))
 }
 
-// UpdateByLTE applies the LTE predicate on the "update_by" field.
-func UpdateByLTE(v uint32) predicate.ApiResource {
-	return predicate.ApiResource(sql.FieldLTE(FieldUpdateBy, v))
+// UpdatedByLTE applies the LTE predicate on the "updated_by" field.
+func UpdatedByLTE(v uint32) predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldLTE(FieldUpdatedBy, v))
 }
 
-// UpdateByIsNil applies the IsNil predicate on the "update_by" field.
-func UpdateByIsNil() predicate.ApiResource {
-	return predicate.ApiResource(sql.FieldIsNull(FieldUpdateBy))
+// UpdatedByIsNil applies the IsNil predicate on the "updated_by" field.
+func UpdatedByIsNil() predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldIsNull(FieldUpdatedBy))
 }
 
-// UpdateByNotNil applies the NotNil predicate on the "update_by" field.
-func UpdateByNotNil() predicate.ApiResource {
-	return predicate.ApiResource(sql.FieldNotNull(FieldUpdateBy))
+// UpdatedByNotNil applies the NotNil predicate on the "updated_by" field.
+func UpdatedByNotNil() predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldNotNull(FieldUpdatedBy))
+}
+
+// DeletedByEQ applies the EQ predicate on the "deleted_by" field.
+func DeletedByEQ(v uint32) predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldEQ(FieldDeletedBy, v))
+}
+
+// DeletedByNEQ applies the NEQ predicate on the "deleted_by" field.
+func DeletedByNEQ(v uint32) predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldNEQ(FieldDeletedBy, v))
+}
+
+// DeletedByIn applies the In predicate on the "deleted_by" field.
+func DeletedByIn(vs ...uint32) predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldIn(FieldDeletedBy, vs...))
+}
+
+// DeletedByNotIn applies the NotIn predicate on the "deleted_by" field.
+func DeletedByNotIn(vs ...uint32) predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldNotIn(FieldDeletedBy, vs...))
+}
+
+// DeletedByGT applies the GT predicate on the "deleted_by" field.
+func DeletedByGT(v uint32) predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldGT(FieldDeletedBy, v))
+}
+
+// DeletedByGTE applies the GTE predicate on the "deleted_by" field.
+func DeletedByGTE(v uint32) predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldGTE(FieldDeletedBy, v))
+}
+
+// DeletedByLT applies the LT predicate on the "deleted_by" field.
+func DeletedByLT(v uint32) predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldLT(FieldDeletedBy, v))
+}
+
+// DeletedByLTE applies the LTE predicate on the "deleted_by" field.
+func DeletedByLTE(v uint32) predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldLTE(FieldDeletedBy, v))
+}
+
+// DeletedByIsNil applies the IsNil predicate on the "deleted_by" field.
+func DeletedByIsNil() predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldIsNull(FieldDeletedBy))
+}
+
+// DeletedByNotNil applies the NotNil predicate on the "deleted_by" field.
+func DeletedByNotNil() predicate.ApiResource {
+	return predicate.ApiResource(sql.FieldNotNull(FieldDeletedBy))
 }
 
 // DescriptionEQ applies the EQ predicate on the "description" field.

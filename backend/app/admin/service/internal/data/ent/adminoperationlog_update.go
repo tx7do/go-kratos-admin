@@ -576,8 +576,8 @@ func (_u *AdminOperationLogUpdate) sqlSave(ctx context.Context) (_node int, err 
 			}
 		}
 	}
-	if _u.mutation.CreateTimeCleared() {
-		_spec.ClearField(adminoperationlog.FieldCreateTime, field.TypeTime)
+	if _u.mutation.CreatedAtCleared() {
+		_spec.ClearField(adminoperationlog.FieldCreatedAt, field.TypeTime)
 	}
 	if value, ok := _u.mutation.RequestID(); ok {
 		_spec.SetField(adminoperationlog.FieldRequestID, field.TypeString, value)
@@ -1332,8 +1332,8 @@ func (_u *AdminOperationLogUpdateOne) sqlSave(ctx context.Context) (_node *Admin
 			}
 		}
 	}
-	if _u.mutation.CreateTimeCleared() {
-		_spec.ClearField(adminoperationlog.FieldCreateTime, field.TypeTime)
+	if _u.mutation.CreatedAtCleared() {
+		_spec.ClearField(adminoperationlog.FieldCreatedAt, field.TypeTime)
 	}
 	if value, ok := _u.mutation.RequestID(); ok {
 		_spec.SetField(adminoperationlog.FieldRequestID, field.TypeString, value)

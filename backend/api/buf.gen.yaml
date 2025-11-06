@@ -13,41 +13,49 @@ managed:
     - module: 'buf.build/gnostic/gnostic'
     - module: 'buf.build/gogo/protobuf'
     - module: 'buf.build/tx7do/pagination'
+    - module: 'buf.build/arrakis-digital/redact'
 
   override:
     - file_option: go_package_prefix
       value: kratos-admin/api/gen/go
 
 plugins:
-  # 使用go插件生成go代码
+  # generate go code
   #- plugin: buf.build/protocolbuffers/go
   - local: protoc-gen-go
     out: gen/go
-    opt: paths=source_relative # 使用相对路径
+    opt: paths=source_relative # use relative paths
 
-  # 使用go-grpc插件生成gRPC服务代码
+  # generate grpc service code
   #- plugin: buf.build/grpc/go
   - local: protoc-gen-go-grpc
     out: gen/go
     opt:
-      - paths=source_relative # 使用相对路径
+      - paths=source_relative # use relative paths
 
   # generate rest service code
   - local: protoc-gen-go-http
     out: gen/go
     opt:
-      - paths=source_relative # 使用相对路径
+      - paths=source_relative # use relative paths
 
   # generate kratos errors code
   - local: protoc-gen-go-errors
     out: gen/go
     opt:
-      - paths=source_relative # 使用相对路径
+      - paths=source_relative # use relative paths
 
   # generate message validator code
   #- plugin: buf.build/bufbuild/validate-go
   - local: protoc-gen-validate
     out: gen/go
     opt:
-      - paths=source_relative # 使用相对路径
+      - paths=source_relative # use relative paths
       - lang=go
+
+  # generate redact code
+#  - local: protoc-gen-redact
+#    out: gen/go
+#    opt:
+#      - paths=source_relative # use relative paths
+#      - lang=go

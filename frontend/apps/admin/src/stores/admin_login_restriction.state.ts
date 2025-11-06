@@ -2,12 +2,9 @@ import { computed } from 'vue';
 
 import { $t } from '@vben/locales';
 
-import {
-  AdminLoginRestrictionMethod,
-  AdminLoginRestrictionType,
-} from '#/generated/api/admin/service/v1/i_admin_login_restriction.pb';
 import { defineStore } from 'pinia';
 
+import { AdminLoginRestriction_Type } from '#/generated/api/admin/service/v1/i_admin_login_restriction.pb';
 import { defAdminLoginRestrictionService } from '#/services';
 import { makeQueryString, makeUpdateMask } from '#/utils/query';
 
@@ -102,23 +99,17 @@ export const adminLoginRestrictionMethodList = computed(() => [
 ]);
 
 export function adminLoginRestrictionTypeToName(typeName: any) {
-  switch (typeName) {
-    case AdminLoginRestrictionType.BLACKLIST: {
-      return $t('enum.adminLoginRestrictionType.BLACKLIST');
-    }
-
-    case AdminLoginRestrictionType.WHITELIST: {
-      return $t('enum.adminLoginRestrictionType.WHITELIST');
-    }
-  }
+  const values = adminLoginRestrictionTypeList.value;
+  const matchedItem = values.find((item) => item.value === typeName);
+  return matchedItem ? matchedItem.label : '';
 }
 
 export function adminLoginRestrictionTypeToColor(typeName: any) {
   switch (typeName) {
-    case AdminLoginRestrictionType.BLACKLIST: {
+    case AdminLoginRestriction_Type.BLACKLIST: {
       return 'red'; // 黑名单用红色（表示限制/禁止）
     }
-    case AdminLoginRestrictionType.WHITELIST: {
+    case AdminLoginRestriction_Type.WHITELIST: {
       return 'green'; // 白名单用绿色（表示允许/信任）
     }
     default: {
@@ -129,25 +120,7 @@ export function adminLoginRestrictionTypeToColor(typeName: any) {
 }
 
 export function adminLoginRestrictionMethodToName(methodName: any) {
-  switch (methodName) {
-    case AdminLoginRestrictionMethod.DEVICE: {
-      return $t('enum.adminLoginRestrictionMethod.DEVICE');
-    }
-
-    case AdminLoginRestrictionMethod.IP: {
-      return $t('enum.adminLoginRestrictionMethod.IP');
-    }
-
-    case AdminLoginRestrictionMethod.MAC: {
-      return $t('enum.adminLoginRestrictionMethod.MAC');
-    }
-
-    case AdminLoginRestrictionMethod.REGION: {
-      return $t('enum.adminLoginRestrictionMethod.REGION');
-    }
-
-    case AdminLoginRestrictionMethod.TIME: {
-      return $t('enum.adminLoginRestrictionMethod.TIME');
-    }
-  }
+  const values = adminLoginRestrictionMethodList.value;
+  const matchedItem = values.find((item) => item.value === methodName);
+  return matchedItem ? matchedItem.label : '';
 }

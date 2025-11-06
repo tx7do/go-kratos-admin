@@ -29,97 +29,124 @@ func (_u *OrganizationUpdate) Where(ps ...predicate.Organization) *OrganizationU
 	return _u
 }
 
-// SetUpdateTime sets the "update_time" field.
-func (_u *OrganizationUpdate) SetUpdateTime(v time.Time) *OrganizationUpdate {
-	_u.mutation.SetUpdateTime(v)
+// SetUpdatedAt sets the "updated_at" field.
+func (_u *OrganizationUpdate) SetUpdatedAt(v time.Time) *OrganizationUpdate {
+	_u.mutation.SetUpdatedAt(v)
 	return _u
 }
 
-// SetNillableUpdateTime sets the "update_time" field if the given value is not nil.
-func (_u *OrganizationUpdate) SetNillableUpdateTime(v *time.Time) *OrganizationUpdate {
+// SetNillableUpdatedAt sets the "updated_at" field if the given value is not nil.
+func (_u *OrganizationUpdate) SetNillableUpdatedAt(v *time.Time) *OrganizationUpdate {
 	if v != nil {
-		_u.SetUpdateTime(*v)
+		_u.SetUpdatedAt(*v)
 	}
 	return _u
 }
 
-// ClearUpdateTime clears the value of the "update_time" field.
-func (_u *OrganizationUpdate) ClearUpdateTime() *OrganizationUpdate {
-	_u.mutation.ClearUpdateTime()
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (_u *OrganizationUpdate) ClearUpdatedAt() *OrganizationUpdate {
+	_u.mutation.ClearUpdatedAt()
 	return _u
 }
 
-// SetDeleteTime sets the "delete_time" field.
-func (_u *OrganizationUpdate) SetDeleteTime(v time.Time) *OrganizationUpdate {
-	_u.mutation.SetDeleteTime(v)
+// SetDeletedAt sets the "deleted_at" field.
+func (_u *OrganizationUpdate) SetDeletedAt(v time.Time) *OrganizationUpdate {
+	_u.mutation.SetDeletedAt(v)
 	return _u
 }
 
-// SetNillableDeleteTime sets the "delete_time" field if the given value is not nil.
-func (_u *OrganizationUpdate) SetNillableDeleteTime(v *time.Time) *OrganizationUpdate {
+// SetNillableDeletedAt sets the "deleted_at" field if the given value is not nil.
+func (_u *OrganizationUpdate) SetNillableDeletedAt(v *time.Time) *OrganizationUpdate {
 	if v != nil {
-		_u.SetDeleteTime(*v)
+		_u.SetDeletedAt(*v)
 	}
 	return _u
 }
 
-// ClearDeleteTime clears the value of the "delete_time" field.
-func (_u *OrganizationUpdate) ClearDeleteTime() *OrganizationUpdate {
-	_u.mutation.ClearDeleteTime()
+// ClearDeletedAt clears the value of the "deleted_at" field.
+func (_u *OrganizationUpdate) ClearDeletedAt() *OrganizationUpdate {
+	_u.mutation.ClearDeletedAt()
 	return _u
 }
 
-// SetCreateBy sets the "create_by" field.
-func (_u *OrganizationUpdate) SetCreateBy(v uint32) *OrganizationUpdate {
-	_u.mutation.ResetCreateBy()
-	_u.mutation.SetCreateBy(v)
+// SetCreatedBy sets the "created_by" field.
+func (_u *OrganizationUpdate) SetCreatedBy(v uint32) *OrganizationUpdate {
+	_u.mutation.ResetCreatedBy()
+	_u.mutation.SetCreatedBy(v)
 	return _u
 }
 
-// SetNillableCreateBy sets the "create_by" field if the given value is not nil.
-func (_u *OrganizationUpdate) SetNillableCreateBy(v *uint32) *OrganizationUpdate {
+// SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
+func (_u *OrganizationUpdate) SetNillableCreatedBy(v *uint32) *OrganizationUpdate {
 	if v != nil {
-		_u.SetCreateBy(*v)
+		_u.SetCreatedBy(*v)
 	}
 	return _u
 }
 
-// AddCreateBy adds value to the "create_by" field.
-func (_u *OrganizationUpdate) AddCreateBy(v int32) *OrganizationUpdate {
-	_u.mutation.AddCreateBy(v)
+// AddCreatedBy adds value to the "created_by" field.
+func (_u *OrganizationUpdate) AddCreatedBy(v int32) *OrganizationUpdate {
+	_u.mutation.AddCreatedBy(v)
 	return _u
 }
 
-// ClearCreateBy clears the value of the "create_by" field.
-func (_u *OrganizationUpdate) ClearCreateBy() *OrganizationUpdate {
-	_u.mutation.ClearCreateBy()
+// ClearCreatedBy clears the value of the "created_by" field.
+func (_u *OrganizationUpdate) ClearCreatedBy() *OrganizationUpdate {
+	_u.mutation.ClearCreatedBy()
 	return _u
 }
 
-// SetUpdateBy sets the "update_by" field.
-func (_u *OrganizationUpdate) SetUpdateBy(v uint32) *OrganizationUpdate {
-	_u.mutation.ResetUpdateBy()
-	_u.mutation.SetUpdateBy(v)
+// SetUpdatedBy sets the "updated_by" field.
+func (_u *OrganizationUpdate) SetUpdatedBy(v uint32) *OrganizationUpdate {
+	_u.mutation.ResetUpdatedBy()
+	_u.mutation.SetUpdatedBy(v)
 	return _u
 }
 
-// SetNillableUpdateBy sets the "update_by" field if the given value is not nil.
-func (_u *OrganizationUpdate) SetNillableUpdateBy(v *uint32) *OrganizationUpdate {
+// SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
+func (_u *OrganizationUpdate) SetNillableUpdatedBy(v *uint32) *OrganizationUpdate {
 	if v != nil {
-		_u.SetUpdateBy(*v)
+		_u.SetUpdatedBy(*v)
 	}
 	return _u
 }
 
-// AddUpdateBy adds value to the "update_by" field.
-func (_u *OrganizationUpdate) AddUpdateBy(v int32) *OrganizationUpdate {
-	_u.mutation.AddUpdateBy(v)
+// AddUpdatedBy adds value to the "updated_by" field.
+func (_u *OrganizationUpdate) AddUpdatedBy(v int32) *OrganizationUpdate {
+	_u.mutation.AddUpdatedBy(v)
 	return _u
 }
 
-// ClearUpdateBy clears the value of the "update_by" field.
-func (_u *OrganizationUpdate) ClearUpdateBy() *OrganizationUpdate {
-	_u.mutation.ClearUpdateBy()
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (_u *OrganizationUpdate) ClearUpdatedBy() *OrganizationUpdate {
+	_u.mutation.ClearUpdatedBy()
+	return _u
+}
+
+// SetDeletedBy sets the "deleted_by" field.
+func (_u *OrganizationUpdate) SetDeletedBy(v uint32) *OrganizationUpdate {
+	_u.mutation.ResetDeletedBy()
+	_u.mutation.SetDeletedBy(v)
+	return _u
+}
+
+// SetNillableDeletedBy sets the "deleted_by" field if the given value is not nil.
+func (_u *OrganizationUpdate) SetNillableDeletedBy(v *uint32) *OrganizationUpdate {
+	if v != nil {
+		_u.SetDeletedBy(*v)
+	}
+	return _u
+}
+
+// AddDeletedBy adds value to the "deleted_by" field.
+func (_u *OrganizationUpdate) AddDeletedBy(v int32) *OrganizationUpdate {
+	_u.mutation.AddDeletedBy(v)
+	return _u
+}
+
+// ClearDeletedBy clears the value of the "deleted_by" field.
+func (_u *OrganizationUpdate) ClearDeletedBy() *OrganizationUpdate {
+	_u.mutation.ClearDeletedBy()
 	return _u
 }
 
@@ -143,23 +170,30 @@ func (_u *OrganizationUpdate) ClearRemark() *OrganizationUpdate {
 	return _u
 }
 
-// SetName sets the "name" field.
-func (_u *OrganizationUpdate) SetName(v string) *OrganizationUpdate {
-	_u.mutation.SetName(v)
+// SetSortOrder sets the "sort_order" field.
+func (_u *OrganizationUpdate) SetSortOrder(v int32) *OrganizationUpdate {
+	_u.mutation.ResetSortOrder()
+	_u.mutation.SetSortOrder(v)
 	return _u
 }
 
-// SetNillableName sets the "name" field if the given value is not nil.
-func (_u *OrganizationUpdate) SetNillableName(v *string) *OrganizationUpdate {
+// SetNillableSortOrder sets the "sort_order" field if the given value is not nil.
+func (_u *OrganizationUpdate) SetNillableSortOrder(v *int32) *OrganizationUpdate {
 	if v != nil {
-		_u.SetName(*v)
+		_u.SetSortOrder(*v)
 	}
 	return _u
 }
 
-// ClearName clears the value of the "name" field.
-func (_u *OrganizationUpdate) ClearName() *OrganizationUpdate {
-	_u.mutation.ClearName()
+// AddSortOrder adds value to the "sort_order" field.
+func (_u *OrganizationUpdate) AddSortOrder(v int32) *OrganizationUpdate {
+	_u.mutation.AddSortOrder(v)
+	return _u
+}
+
+// ClearSortOrder clears the value of the "sort_order" field.
+func (_u *OrganizationUpdate) ClearSortOrder() *OrganizationUpdate {
+	_u.mutation.ClearSortOrder()
 	return _u
 }
 
@@ -183,30 +217,23 @@ func (_u *OrganizationUpdate) ClearParentID() *OrganizationUpdate {
 	return _u
 }
 
-// SetSortID sets the "sort_id" field.
-func (_u *OrganizationUpdate) SetSortID(v int32) *OrganizationUpdate {
-	_u.mutation.ResetSortID()
-	_u.mutation.SetSortID(v)
+// SetName sets the "name" field.
+func (_u *OrganizationUpdate) SetName(v string) *OrganizationUpdate {
+	_u.mutation.SetName(v)
 	return _u
 }
 
-// SetNillableSortID sets the "sort_id" field if the given value is not nil.
-func (_u *OrganizationUpdate) SetNillableSortID(v *int32) *OrganizationUpdate {
+// SetNillableName sets the "name" field if the given value is not nil.
+func (_u *OrganizationUpdate) SetNillableName(v *string) *OrganizationUpdate {
 	if v != nil {
-		_u.SetSortID(*v)
+		_u.SetName(*v)
 	}
 	return _u
 }
 
-// AddSortID adds value to the "sort_id" field.
-func (_u *OrganizationUpdate) AddSortID(v int32) *OrganizationUpdate {
-	_u.mutation.AddSortID(v)
-	return _u
-}
-
-// ClearSortID clears the value of the "sort_id" field.
-func (_u *OrganizationUpdate) ClearSortID() *OrganizationUpdate {
-	_u.mutation.ClearSortID()
+// ClearName clears the value of the "name" field.
+func (_u *OrganizationUpdate) ClearName() *OrganizationUpdate {
+	_u.mutation.ClearName()
 	return _u
 }
 
@@ -474,44 +501,62 @@ func (_u *OrganizationUpdate) sqlSave(ctx context.Context) (_node int, err error
 			}
 		}
 	}
-	if _u.mutation.CreateTimeCleared() {
-		_spec.ClearField(organization.FieldCreateTime, field.TypeTime)
+	if _u.mutation.CreatedAtCleared() {
+		_spec.ClearField(organization.FieldCreatedAt, field.TypeTime)
 	}
-	if value, ok := _u.mutation.UpdateTime(); ok {
-		_spec.SetField(organization.FieldUpdateTime, field.TypeTime, value)
+	if value, ok := _u.mutation.UpdatedAt(); ok {
+		_spec.SetField(organization.FieldUpdatedAt, field.TypeTime, value)
 	}
-	if _u.mutation.UpdateTimeCleared() {
-		_spec.ClearField(organization.FieldUpdateTime, field.TypeTime)
+	if _u.mutation.UpdatedAtCleared() {
+		_spec.ClearField(organization.FieldUpdatedAt, field.TypeTime)
 	}
-	if value, ok := _u.mutation.DeleteTime(); ok {
-		_spec.SetField(organization.FieldDeleteTime, field.TypeTime, value)
+	if value, ok := _u.mutation.DeletedAt(); ok {
+		_spec.SetField(organization.FieldDeletedAt, field.TypeTime, value)
 	}
-	if _u.mutation.DeleteTimeCleared() {
-		_spec.ClearField(organization.FieldDeleteTime, field.TypeTime)
+	if _u.mutation.DeletedAtCleared() {
+		_spec.ClearField(organization.FieldDeletedAt, field.TypeTime)
 	}
-	if value, ok := _u.mutation.CreateBy(); ok {
-		_spec.SetField(organization.FieldCreateBy, field.TypeUint32, value)
+	if value, ok := _u.mutation.CreatedBy(); ok {
+		_spec.SetField(organization.FieldCreatedBy, field.TypeUint32, value)
 	}
-	if value, ok := _u.mutation.AddedCreateBy(); ok {
-		_spec.AddField(organization.FieldCreateBy, field.TypeUint32, value)
+	if value, ok := _u.mutation.AddedCreatedBy(); ok {
+		_spec.AddField(organization.FieldCreatedBy, field.TypeUint32, value)
 	}
-	if _u.mutation.CreateByCleared() {
-		_spec.ClearField(organization.FieldCreateBy, field.TypeUint32)
+	if _u.mutation.CreatedByCleared() {
+		_spec.ClearField(organization.FieldCreatedBy, field.TypeUint32)
 	}
-	if value, ok := _u.mutation.UpdateBy(); ok {
-		_spec.SetField(organization.FieldUpdateBy, field.TypeUint32, value)
+	if value, ok := _u.mutation.UpdatedBy(); ok {
+		_spec.SetField(organization.FieldUpdatedBy, field.TypeUint32, value)
 	}
-	if value, ok := _u.mutation.AddedUpdateBy(); ok {
-		_spec.AddField(organization.FieldUpdateBy, field.TypeUint32, value)
+	if value, ok := _u.mutation.AddedUpdatedBy(); ok {
+		_spec.AddField(organization.FieldUpdatedBy, field.TypeUint32, value)
 	}
-	if _u.mutation.UpdateByCleared() {
-		_spec.ClearField(organization.FieldUpdateBy, field.TypeUint32)
+	if _u.mutation.UpdatedByCleared() {
+		_spec.ClearField(organization.FieldUpdatedBy, field.TypeUint32)
+	}
+	if value, ok := _u.mutation.DeletedBy(); ok {
+		_spec.SetField(organization.FieldDeletedBy, field.TypeUint32, value)
+	}
+	if value, ok := _u.mutation.AddedDeletedBy(); ok {
+		_spec.AddField(organization.FieldDeletedBy, field.TypeUint32, value)
+	}
+	if _u.mutation.DeletedByCleared() {
+		_spec.ClearField(organization.FieldDeletedBy, field.TypeUint32)
 	}
 	if value, ok := _u.mutation.Remark(); ok {
 		_spec.SetField(organization.FieldRemark, field.TypeString, value)
 	}
 	if _u.mutation.RemarkCleared() {
 		_spec.ClearField(organization.FieldRemark, field.TypeString)
+	}
+	if value, ok := _u.mutation.SortOrder(); ok {
+		_spec.SetField(organization.FieldSortOrder, field.TypeInt32, value)
+	}
+	if value, ok := _u.mutation.AddedSortOrder(); ok {
+		_spec.AddField(organization.FieldSortOrder, field.TypeInt32, value)
+	}
+	if _u.mutation.SortOrderCleared() {
+		_spec.ClearField(organization.FieldSortOrder, field.TypeInt32)
 	}
 	if _u.mutation.TenantIDCleared() {
 		_spec.ClearField(organization.FieldTenantID, field.TypeUint32)
@@ -521,15 +566,6 @@ func (_u *OrganizationUpdate) sqlSave(ctx context.Context) (_node int, err error
 	}
 	if _u.mutation.NameCleared() {
 		_spec.ClearField(organization.FieldName, field.TypeString)
-	}
-	if value, ok := _u.mutation.SortID(); ok {
-		_spec.SetField(organization.FieldSortID, field.TypeInt32, value)
-	}
-	if value, ok := _u.mutation.AddedSortID(); ok {
-		_spec.AddField(organization.FieldSortID, field.TypeInt32, value)
-	}
-	if _u.mutation.SortIDCleared() {
-		_spec.ClearField(organization.FieldSortID, field.TypeInt32)
 	}
 	if value, ok := _u.mutation.Status(); ok {
 		_spec.SetField(organization.FieldStatus, field.TypeEnum, value)
@@ -672,97 +708,124 @@ type OrganizationUpdateOne struct {
 	modifiers []func(*sql.UpdateBuilder)
 }
 
-// SetUpdateTime sets the "update_time" field.
-func (_u *OrganizationUpdateOne) SetUpdateTime(v time.Time) *OrganizationUpdateOne {
-	_u.mutation.SetUpdateTime(v)
+// SetUpdatedAt sets the "updated_at" field.
+func (_u *OrganizationUpdateOne) SetUpdatedAt(v time.Time) *OrganizationUpdateOne {
+	_u.mutation.SetUpdatedAt(v)
 	return _u
 }
 
-// SetNillableUpdateTime sets the "update_time" field if the given value is not nil.
-func (_u *OrganizationUpdateOne) SetNillableUpdateTime(v *time.Time) *OrganizationUpdateOne {
+// SetNillableUpdatedAt sets the "updated_at" field if the given value is not nil.
+func (_u *OrganizationUpdateOne) SetNillableUpdatedAt(v *time.Time) *OrganizationUpdateOne {
 	if v != nil {
-		_u.SetUpdateTime(*v)
+		_u.SetUpdatedAt(*v)
 	}
 	return _u
 }
 
-// ClearUpdateTime clears the value of the "update_time" field.
-func (_u *OrganizationUpdateOne) ClearUpdateTime() *OrganizationUpdateOne {
-	_u.mutation.ClearUpdateTime()
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (_u *OrganizationUpdateOne) ClearUpdatedAt() *OrganizationUpdateOne {
+	_u.mutation.ClearUpdatedAt()
 	return _u
 }
 
-// SetDeleteTime sets the "delete_time" field.
-func (_u *OrganizationUpdateOne) SetDeleteTime(v time.Time) *OrganizationUpdateOne {
-	_u.mutation.SetDeleteTime(v)
+// SetDeletedAt sets the "deleted_at" field.
+func (_u *OrganizationUpdateOne) SetDeletedAt(v time.Time) *OrganizationUpdateOne {
+	_u.mutation.SetDeletedAt(v)
 	return _u
 }
 
-// SetNillableDeleteTime sets the "delete_time" field if the given value is not nil.
-func (_u *OrganizationUpdateOne) SetNillableDeleteTime(v *time.Time) *OrganizationUpdateOne {
+// SetNillableDeletedAt sets the "deleted_at" field if the given value is not nil.
+func (_u *OrganizationUpdateOne) SetNillableDeletedAt(v *time.Time) *OrganizationUpdateOne {
 	if v != nil {
-		_u.SetDeleteTime(*v)
+		_u.SetDeletedAt(*v)
 	}
 	return _u
 }
 
-// ClearDeleteTime clears the value of the "delete_time" field.
-func (_u *OrganizationUpdateOne) ClearDeleteTime() *OrganizationUpdateOne {
-	_u.mutation.ClearDeleteTime()
+// ClearDeletedAt clears the value of the "deleted_at" field.
+func (_u *OrganizationUpdateOne) ClearDeletedAt() *OrganizationUpdateOne {
+	_u.mutation.ClearDeletedAt()
 	return _u
 }
 
-// SetCreateBy sets the "create_by" field.
-func (_u *OrganizationUpdateOne) SetCreateBy(v uint32) *OrganizationUpdateOne {
-	_u.mutation.ResetCreateBy()
-	_u.mutation.SetCreateBy(v)
+// SetCreatedBy sets the "created_by" field.
+func (_u *OrganizationUpdateOne) SetCreatedBy(v uint32) *OrganizationUpdateOne {
+	_u.mutation.ResetCreatedBy()
+	_u.mutation.SetCreatedBy(v)
 	return _u
 }
 
-// SetNillableCreateBy sets the "create_by" field if the given value is not nil.
-func (_u *OrganizationUpdateOne) SetNillableCreateBy(v *uint32) *OrganizationUpdateOne {
+// SetNillableCreatedBy sets the "created_by" field if the given value is not nil.
+func (_u *OrganizationUpdateOne) SetNillableCreatedBy(v *uint32) *OrganizationUpdateOne {
 	if v != nil {
-		_u.SetCreateBy(*v)
+		_u.SetCreatedBy(*v)
 	}
 	return _u
 }
 
-// AddCreateBy adds value to the "create_by" field.
-func (_u *OrganizationUpdateOne) AddCreateBy(v int32) *OrganizationUpdateOne {
-	_u.mutation.AddCreateBy(v)
+// AddCreatedBy adds value to the "created_by" field.
+func (_u *OrganizationUpdateOne) AddCreatedBy(v int32) *OrganizationUpdateOne {
+	_u.mutation.AddCreatedBy(v)
 	return _u
 }
 
-// ClearCreateBy clears the value of the "create_by" field.
-func (_u *OrganizationUpdateOne) ClearCreateBy() *OrganizationUpdateOne {
-	_u.mutation.ClearCreateBy()
+// ClearCreatedBy clears the value of the "created_by" field.
+func (_u *OrganizationUpdateOne) ClearCreatedBy() *OrganizationUpdateOne {
+	_u.mutation.ClearCreatedBy()
 	return _u
 }
 
-// SetUpdateBy sets the "update_by" field.
-func (_u *OrganizationUpdateOne) SetUpdateBy(v uint32) *OrganizationUpdateOne {
-	_u.mutation.ResetUpdateBy()
-	_u.mutation.SetUpdateBy(v)
+// SetUpdatedBy sets the "updated_by" field.
+func (_u *OrganizationUpdateOne) SetUpdatedBy(v uint32) *OrganizationUpdateOne {
+	_u.mutation.ResetUpdatedBy()
+	_u.mutation.SetUpdatedBy(v)
 	return _u
 }
 
-// SetNillableUpdateBy sets the "update_by" field if the given value is not nil.
-func (_u *OrganizationUpdateOne) SetNillableUpdateBy(v *uint32) *OrganizationUpdateOne {
+// SetNillableUpdatedBy sets the "updated_by" field if the given value is not nil.
+func (_u *OrganizationUpdateOne) SetNillableUpdatedBy(v *uint32) *OrganizationUpdateOne {
 	if v != nil {
-		_u.SetUpdateBy(*v)
+		_u.SetUpdatedBy(*v)
 	}
 	return _u
 }
 
-// AddUpdateBy adds value to the "update_by" field.
-func (_u *OrganizationUpdateOne) AddUpdateBy(v int32) *OrganizationUpdateOne {
-	_u.mutation.AddUpdateBy(v)
+// AddUpdatedBy adds value to the "updated_by" field.
+func (_u *OrganizationUpdateOne) AddUpdatedBy(v int32) *OrganizationUpdateOne {
+	_u.mutation.AddUpdatedBy(v)
 	return _u
 }
 
-// ClearUpdateBy clears the value of the "update_by" field.
-func (_u *OrganizationUpdateOne) ClearUpdateBy() *OrganizationUpdateOne {
-	_u.mutation.ClearUpdateBy()
+// ClearUpdatedBy clears the value of the "updated_by" field.
+func (_u *OrganizationUpdateOne) ClearUpdatedBy() *OrganizationUpdateOne {
+	_u.mutation.ClearUpdatedBy()
+	return _u
+}
+
+// SetDeletedBy sets the "deleted_by" field.
+func (_u *OrganizationUpdateOne) SetDeletedBy(v uint32) *OrganizationUpdateOne {
+	_u.mutation.ResetDeletedBy()
+	_u.mutation.SetDeletedBy(v)
+	return _u
+}
+
+// SetNillableDeletedBy sets the "deleted_by" field if the given value is not nil.
+func (_u *OrganizationUpdateOne) SetNillableDeletedBy(v *uint32) *OrganizationUpdateOne {
+	if v != nil {
+		_u.SetDeletedBy(*v)
+	}
+	return _u
+}
+
+// AddDeletedBy adds value to the "deleted_by" field.
+func (_u *OrganizationUpdateOne) AddDeletedBy(v int32) *OrganizationUpdateOne {
+	_u.mutation.AddDeletedBy(v)
+	return _u
+}
+
+// ClearDeletedBy clears the value of the "deleted_by" field.
+func (_u *OrganizationUpdateOne) ClearDeletedBy() *OrganizationUpdateOne {
+	_u.mutation.ClearDeletedBy()
 	return _u
 }
 
@@ -786,23 +849,30 @@ func (_u *OrganizationUpdateOne) ClearRemark() *OrganizationUpdateOne {
 	return _u
 }
 
-// SetName sets the "name" field.
-func (_u *OrganizationUpdateOne) SetName(v string) *OrganizationUpdateOne {
-	_u.mutation.SetName(v)
+// SetSortOrder sets the "sort_order" field.
+func (_u *OrganizationUpdateOne) SetSortOrder(v int32) *OrganizationUpdateOne {
+	_u.mutation.ResetSortOrder()
+	_u.mutation.SetSortOrder(v)
 	return _u
 }
 
-// SetNillableName sets the "name" field if the given value is not nil.
-func (_u *OrganizationUpdateOne) SetNillableName(v *string) *OrganizationUpdateOne {
+// SetNillableSortOrder sets the "sort_order" field if the given value is not nil.
+func (_u *OrganizationUpdateOne) SetNillableSortOrder(v *int32) *OrganizationUpdateOne {
 	if v != nil {
-		_u.SetName(*v)
+		_u.SetSortOrder(*v)
 	}
 	return _u
 }
 
-// ClearName clears the value of the "name" field.
-func (_u *OrganizationUpdateOne) ClearName() *OrganizationUpdateOne {
-	_u.mutation.ClearName()
+// AddSortOrder adds value to the "sort_order" field.
+func (_u *OrganizationUpdateOne) AddSortOrder(v int32) *OrganizationUpdateOne {
+	_u.mutation.AddSortOrder(v)
+	return _u
+}
+
+// ClearSortOrder clears the value of the "sort_order" field.
+func (_u *OrganizationUpdateOne) ClearSortOrder() *OrganizationUpdateOne {
+	_u.mutation.ClearSortOrder()
 	return _u
 }
 
@@ -826,30 +896,23 @@ func (_u *OrganizationUpdateOne) ClearParentID() *OrganizationUpdateOne {
 	return _u
 }
 
-// SetSortID sets the "sort_id" field.
-func (_u *OrganizationUpdateOne) SetSortID(v int32) *OrganizationUpdateOne {
-	_u.mutation.ResetSortID()
-	_u.mutation.SetSortID(v)
+// SetName sets the "name" field.
+func (_u *OrganizationUpdateOne) SetName(v string) *OrganizationUpdateOne {
+	_u.mutation.SetName(v)
 	return _u
 }
 
-// SetNillableSortID sets the "sort_id" field if the given value is not nil.
-func (_u *OrganizationUpdateOne) SetNillableSortID(v *int32) *OrganizationUpdateOne {
+// SetNillableName sets the "name" field if the given value is not nil.
+func (_u *OrganizationUpdateOne) SetNillableName(v *string) *OrganizationUpdateOne {
 	if v != nil {
-		_u.SetSortID(*v)
+		_u.SetName(*v)
 	}
 	return _u
 }
 
-// AddSortID adds value to the "sort_id" field.
-func (_u *OrganizationUpdateOne) AddSortID(v int32) *OrganizationUpdateOne {
-	_u.mutation.AddSortID(v)
-	return _u
-}
-
-// ClearSortID clears the value of the "sort_id" field.
-func (_u *OrganizationUpdateOne) ClearSortID() *OrganizationUpdateOne {
-	_u.mutation.ClearSortID()
+// ClearName clears the value of the "name" field.
+func (_u *OrganizationUpdateOne) ClearName() *OrganizationUpdateOne {
+	_u.mutation.ClearName()
 	return _u
 }
 
@@ -1147,44 +1210,62 @@ func (_u *OrganizationUpdateOne) sqlSave(ctx context.Context) (_node *Organizati
 			}
 		}
 	}
-	if _u.mutation.CreateTimeCleared() {
-		_spec.ClearField(organization.FieldCreateTime, field.TypeTime)
+	if _u.mutation.CreatedAtCleared() {
+		_spec.ClearField(organization.FieldCreatedAt, field.TypeTime)
 	}
-	if value, ok := _u.mutation.UpdateTime(); ok {
-		_spec.SetField(organization.FieldUpdateTime, field.TypeTime, value)
+	if value, ok := _u.mutation.UpdatedAt(); ok {
+		_spec.SetField(organization.FieldUpdatedAt, field.TypeTime, value)
 	}
-	if _u.mutation.UpdateTimeCleared() {
-		_spec.ClearField(organization.FieldUpdateTime, field.TypeTime)
+	if _u.mutation.UpdatedAtCleared() {
+		_spec.ClearField(organization.FieldUpdatedAt, field.TypeTime)
 	}
-	if value, ok := _u.mutation.DeleteTime(); ok {
-		_spec.SetField(organization.FieldDeleteTime, field.TypeTime, value)
+	if value, ok := _u.mutation.DeletedAt(); ok {
+		_spec.SetField(organization.FieldDeletedAt, field.TypeTime, value)
 	}
-	if _u.mutation.DeleteTimeCleared() {
-		_spec.ClearField(organization.FieldDeleteTime, field.TypeTime)
+	if _u.mutation.DeletedAtCleared() {
+		_spec.ClearField(organization.FieldDeletedAt, field.TypeTime)
 	}
-	if value, ok := _u.mutation.CreateBy(); ok {
-		_spec.SetField(organization.FieldCreateBy, field.TypeUint32, value)
+	if value, ok := _u.mutation.CreatedBy(); ok {
+		_spec.SetField(organization.FieldCreatedBy, field.TypeUint32, value)
 	}
-	if value, ok := _u.mutation.AddedCreateBy(); ok {
-		_spec.AddField(organization.FieldCreateBy, field.TypeUint32, value)
+	if value, ok := _u.mutation.AddedCreatedBy(); ok {
+		_spec.AddField(organization.FieldCreatedBy, field.TypeUint32, value)
 	}
-	if _u.mutation.CreateByCleared() {
-		_spec.ClearField(organization.FieldCreateBy, field.TypeUint32)
+	if _u.mutation.CreatedByCleared() {
+		_spec.ClearField(organization.FieldCreatedBy, field.TypeUint32)
 	}
-	if value, ok := _u.mutation.UpdateBy(); ok {
-		_spec.SetField(organization.FieldUpdateBy, field.TypeUint32, value)
+	if value, ok := _u.mutation.UpdatedBy(); ok {
+		_spec.SetField(organization.FieldUpdatedBy, field.TypeUint32, value)
 	}
-	if value, ok := _u.mutation.AddedUpdateBy(); ok {
-		_spec.AddField(organization.FieldUpdateBy, field.TypeUint32, value)
+	if value, ok := _u.mutation.AddedUpdatedBy(); ok {
+		_spec.AddField(organization.FieldUpdatedBy, field.TypeUint32, value)
 	}
-	if _u.mutation.UpdateByCleared() {
-		_spec.ClearField(organization.FieldUpdateBy, field.TypeUint32)
+	if _u.mutation.UpdatedByCleared() {
+		_spec.ClearField(organization.FieldUpdatedBy, field.TypeUint32)
+	}
+	if value, ok := _u.mutation.DeletedBy(); ok {
+		_spec.SetField(organization.FieldDeletedBy, field.TypeUint32, value)
+	}
+	if value, ok := _u.mutation.AddedDeletedBy(); ok {
+		_spec.AddField(organization.FieldDeletedBy, field.TypeUint32, value)
+	}
+	if _u.mutation.DeletedByCleared() {
+		_spec.ClearField(organization.FieldDeletedBy, field.TypeUint32)
 	}
 	if value, ok := _u.mutation.Remark(); ok {
 		_spec.SetField(organization.FieldRemark, field.TypeString, value)
 	}
 	if _u.mutation.RemarkCleared() {
 		_spec.ClearField(organization.FieldRemark, field.TypeString)
+	}
+	if value, ok := _u.mutation.SortOrder(); ok {
+		_spec.SetField(organization.FieldSortOrder, field.TypeInt32, value)
+	}
+	if value, ok := _u.mutation.AddedSortOrder(); ok {
+		_spec.AddField(organization.FieldSortOrder, field.TypeInt32, value)
+	}
+	if _u.mutation.SortOrderCleared() {
+		_spec.ClearField(organization.FieldSortOrder, field.TypeInt32)
 	}
 	if _u.mutation.TenantIDCleared() {
 		_spec.ClearField(organization.FieldTenantID, field.TypeUint32)
@@ -1194,15 +1275,6 @@ func (_u *OrganizationUpdateOne) sqlSave(ctx context.Context) (_node *Organizati
 	}
 	if _u.mutation.NameCleared() {
 		_spec.ClearField(organization.FieldName, field.TypeString)
-	}
-	if value, ok := _u.mutation.SortID(); ok {
-		_spec.SetField(organization.FieldSortID, field.TypeInt32, value)
-	}
-	if value, ok := _u.mutation.AddedSortID(); ok {
-		_spec.AddField(organization.FieldSortID, field.TypeInt32, value)
-	}
-	if _u.mutation.SortIDCleared() {
-		_spec.ClearField(organization.FieldSortID, field.TypeInt32)
 	}
 	if value, ok := _u.mutation.Status(); ok {
 		_spec.SetField(organization.FieldStatus, field.TypeEnum, value)

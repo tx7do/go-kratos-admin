@@ -59,6 +59,7 @@ catalog:
   '@vue/test-utils': ^2.4.6
   '@vueuse/core': ^12.0.0
   '@vueuse/integrations': ^12.0.0
+  '@types/json-bigint': ^1.0.4
   ant-design-vue: ^4.2.6
   archiver: ^7.0.1
   autoprefixer: ^10.4.20
@@ -114,7 +115,7 @@ catalog:
   lodash.clonedeep: ^4.5.0
   lodash.get: ^4.4.2
   lodash.isequal: ^4.5.0
-  lucide-vue-next: ^0.465.0
+  lucide-vue-next: ^0.507.0
   medium-zoom: ^1.1.0
   naive-ui: ^2.40.3
   nitropack: ^2.10.4
@@ -179,3 +180,6 @@ catalog:
   watermark-js-plus: ^1.5.7
   zod: ^3.24.1
   zod-defaults: ^0.1.3
+  vue-json-viewer: ^3.0.4
+  json-bigint: ^1.0.0
+  "vue-ueditor-wrap": "~3.0.8"

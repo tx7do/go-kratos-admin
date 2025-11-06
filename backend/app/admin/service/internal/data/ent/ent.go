@@ -11,15 +11,16 @@ import (
 	"kratos-admin/app/admin/service/internal/data/ent/adminoperationlog"
 	"kratos-admin/app/admin/service/internal/data/ent/apiresource"
 	"kratos-admin/app/admin/service/internal/data/ent/department"
-	"kratos-admin/app/admin/service/internal/data/ent/dict"
+	"kratos-admin/app/admin/service/internal/data/ent/dictentry"
+	"kratos-admin/app/admin/service/internal/data/ent/dicttype"
 	"kratos-admin/app/admin/service/internal/data/ent/file"
+	"kratos-admin/app/admin/service/internal/data/ent/internalmessage"
+	"kratos-admin/app/admin/service/internal/data/ent/internalmessagecategory"
+	"kratos-admin/app/admin/service/internal/data/ent/internalmessagerecipient"
+	"kratos-admin/app/admin/service/internal/data/ent/language"
 	"kratos-admin/app/admin/service/internal/data/ent/menu"
-	"kratos-admin/app/admin/service/internal/data/ent/notificationmessage"
-	"kratos-admin/app/admin/service/internal/data/ent/notificationmessagecategory"
-	"kratos-admin/app/admin/service/internal/data/ent/notificationmessagerecipient"
 	"kratos-admin/app/admin/service/internal/data/ent/organization"
 	"kratos-admin/app/admin/service/internal/data/ent/position"
-	"kratos-admin/app/admin/service/internal/data/ent/privatemessage"
 	"kratos-admin/app/admin/service/internal/data/ent/role"
 	"kratos-admin/app/admin/service/internal/data/ent/roleapi"
 	"kratos-admin/app/admin/service/internal/data/ent/roledept"
@@ -98,32 +99,33 @@ var (
 func checkColumn(t, c string) error {
 	initCheck.Do(func() {
 		columnCheck = sql.NewColumnCheck(map[string]func(string) bool{
-			adminloginlog.Table:                adminloginlog.ValidColumn,
-			adminloginrestriction.Table:        adminloginrestriction.ValidColumn,
-			adminoperationlog.Table:            adminoperationlog.ValidColumn,
-			apiresource.Table:                  apiresource.ValidColumn,
-			department.Table:                   department.ValidColumn,
-			dict.Table:                         dict.ValidColumn,
-			file.Table:                         file.ValidColumn,
-			menu.Table:                         menu.ValidColumn,
-			notificationmessage.Table:          notificationmessage.ValidColumn,
-			notificationmessagecategory.Table:  notificationmessagecategory.ValidColumn,
-			notificationmessagerecipient.Table: notificationmessagerecipient.ValidColumn,
-			organization.Table:                 organization.ValidColumn,
-			position.Table:                     position.ValidColumn,
-			privatemessage.Table:               privatemessage.ValidColumn,
-			role.Table:                         role.ValidColumn,
-			roleapi.Table:                      roleapi.ValidColumn,
-			roledept.Table:                     roledept.ValidColumn,
-			rolemenu.Table:                     rolemenu.ValidColumn,
-			roleorg.Table:                      roleorg.ValidColumn,
-			roleposition.Table:                 roleposition.ValidColumn,
-			task.Table:                         task.ValidColumn,
-			tenant.Table:                       tenant.ValidColumn,
-			user.Table:                         user.ValidColumn,
-			usercredential.Table:               usercredential.ValidColumn,
-			userposition.Table:                 userposition.ValidColumn,
-			userrole.Table:                     userrole.ValidColumn,
+			adminloginlog.Table:            adminloginlog.ValidColumn,
+			adminloginrestriction.Table:    adminloginrestriction.ValidColumn,
+			adminoperationlog.Table:        adminoperationlog.ValidColumn,
+			apiresource.Table:              apiresource.ValidColumn,
+			department.Table:               department.ValidColumn,
+			dictentry.Table:                dictentry.ValidColumn,
+			dicttype.Table:                 dicttype.ValidColumn,
+			file.Table:                     file.ValidColumn,
+			internalmessage.Table:          internalmessage.ValidColumn,
+			internalmessagecategory.Table:  internalmessagecategory.ValidColumn,
+			internalmessagerecipient.Table: internalmessagerecipient.ValidColumn,
+			language.Table:                 language.ValidColumn,
+			menu.Table:                     menu.ValidColumn,
+			organization.Table:             organization.ValidColumn,
+			position.Table:                 position.ValidColumn,
+			role.Table:                     role.ValidColumn,
+			roleapi.Table:                  roleapi.ValidColumn,
+			roledept.Table:                 roledept.ValidColumn,
+			rolemenu.Table:                 rolemenu.ValidColumn,
+			roleorg.Table:                  roleorg.ValidColumn,
+			roleposition.Table:             roleposition.ValidColumn,
+			task.Table:                     task.ValidColumn,
+			tenant.Table:                   tenant.ValidColumn,
+			user.Table:                     user.ValidColumn,
+			usercredential.Table:           usercredential.ValidColumn,
+			userposition.Table:             userposition.ValidColumn,
+			userrole.Table:                 userrole.ValidColumn,
 		})
 	})
 	return columnCheck(t, c)

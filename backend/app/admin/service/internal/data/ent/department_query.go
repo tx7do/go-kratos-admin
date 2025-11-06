@@ -336,12 +336,12 @@ func (_q *DepartmentQuery) WithChildren(opts ...func(*DepartmentQuery)) *Departm
 // Example:
 //
 //	var v []struct {
-//		CreateTime time.Time `json:"create_time,omitempty"`
+//		CreatedAt time.Time `json:"created_at,omitempty"`
 //		Count int `json:"count,omitempty"`
 //	}
 //
 //	client.Department.Query().
-//		GroupBy(department.FieldCreateTime).
+//		GroupBy(department.FieldCreatedAt).
 //		Aggregate(ent.Count()).
 //		Scan(ctx, &v)
 func (_q *DepartmentQuery) GroupBy(field string, fields ...string) *DepartmentGroupBy {
@@ -359,11 +359,11 @@ func (_q *DepartmentQuery) GroupBy(field string, fields ...string) *DepartmentGr
 // Example:
 //
 //	var v []struct {
-//		CreateTime time.Time `json:"create_time,omitempty"`
+//		CreatedAt time.Time `json:"created_at,omitempty"`
 //	}
 //
 //	client.Department.Query().
-//		Select(department.FieldCreateTime).
+//		Select(department.FieldCreatedAt).
 //		Scan(ctx, &v)
 func (_q *DepartmentQuery) Select(fields ...string) *DepartmentSelect {
 	_q.ctx.Fields = append(_q.ctx.Fields, fields...)

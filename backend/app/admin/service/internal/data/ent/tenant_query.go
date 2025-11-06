@@ -265,12 +265,12 @@ func (_q *TenantQuery) Clone() *TenantQuery {
 // Example:
 //
 //	var v []struct {
-//		CreateTime time.Time `json:"create_time,omitempty"`
+//		CreatedAt time.Time `json:"created_at,omitempty"`
 //		Count int `json:"count,omitempty"`
 //	}
 //
 //	client.Tenant.Query().
-//		GroupBy(tenant.FieldCreateTime).
+//		GroupBy(tenant.FieldCreatedAt).
 //		Aggregate(ent.Count()).
 //		Scan(ctx, &v)
 func (_q *TenantQuery) GroupBy(field string, fields ...string) *TenantGroupBy {
@@ -288,11 +288,11 @@ func (_q *TenantQuery) GroupBy(field string, fields ...string) *TenantGroupBy {
 // Example:
 //
 //	var v []struct {
-//		CreateTime time.Time `json:"create_time,omitempty"`
+//		CreatedAt time.Time `json:"created_at,omitempty"`
 //	}
 //
 //	client.Tenant.Query().
-//		Select(tenant.FieldCreateTime).
+//		Select(tenant.FieldCreatedAt).
 //		Scan(ctx, &v)
 func (_q *TenantQuery) Select(fields ...string) *TenantSelect {
 	_q.ctx.Fields = append(_q.ctx.Fields, fields...)

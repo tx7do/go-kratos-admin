@@ -13,7 +13,7 @@ managed:
     - module: 'buf.build/gnostic/gnostic'
     - module: 'buf.build/gogo/protobuf'
     - module: 'buf.build/tx7do/pagination'
-    - module: 'buf.build/arrakis-digital/redact'
+    - module: 'buf.build/menta2k-org/redact'
 
   override:
     - file_option: go_package_prefix
@@ -54,8 +54,8 @@ plugins:
       - lang=go
 
   # generate redact code
-#  - local: protoc-gen-redact
-#    out: gen/go
-#    opt:
-#      - paths=source_relative # use relative paths
-#      - lang=go
+  - local: protoc-gen-redact
+    out: gen/go
+    opt:
+      - paths=source_relative # use relative paths
+      - lang=go

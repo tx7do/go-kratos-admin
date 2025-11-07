@@ -7,8 +7,8 @@
 package servicev1
 
 import (
-	_ "github.com/arrakis-digital/protoc-gen-redact/v3/redact/v3"
 	_ "github.com/google/gnostic/openapiv3"
+	_ "github.com/menta2k/protoc-gen-redact/v3/redact/v3"
 	_ "google.golang.org/genproto/googleapis/api/annotations"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"

@@ -1,0 +1,140 @@
+-- example_config_access.lua.example
+-- This is an example showing how to access configuration data in hooks
+-- Rename to .lua to activate
+
+hook.register("on_server_start", "Access configuration", function(ctx)
+    log.info("Accessing configuration from context...")
+
+    -- Get the config object passed from Go
+    local config = ctx.get("config")
+    local service = ctx.get("service")
+
+    -- Example 1: Check if config exists
+    if not config then
+        log.warn("No configuration provided")
+        return true
+    end
+
+    -- Example 2: Access nested configuration
+    -- Go structs are converted to Lua tables
+    -- Access fields using dot notation or bracket notation
+
+    -- Example: If your config has a Server section
+    -- type Config struct {
+    --     Server struct {
+    --         HTTP struct {
+    --             Addr string
+    --             Timeout time.Duration
+    --         }
+    --     }
+    -- }
+
+    -- Access in Lua:
+    local server = config.Server or config.server
+    if server then
+        local http = server.HTTP or server.http
+        if http then
+            local addr = http.Addr or http.addr
+            if addr then
+                log.info("HTTP server address: " .. tostring(addr))
+            end
+        end
+    end
+
+    -- Example 3: Iterate over table keys (if config is a map)
+    if type(config) == "table" then
+        log.info("Configuration keys:")
+        for key, value in pairs(config) do
+            -- Be careful with logging complex values
+            if type(value) == "string" or type(value) == "number" or type(value) == "boolean" then
+                log.info("  " .. key .. " = " .. tostring(value))
+            else
+                log.info("  " .. key .. " = [" .. type(value) .. "]")
+            end
+        end
+    end
+
+    -- Example 4: Use config values for conditional logic
+    local db_config = config.Database or config.database or config.data
+    if db_config then
+        local db_type = db_config.Type or db_config.type or "unknown"
+
+        if db_type == "postgres" then
+            log.info("PostgreSQL database detected")
+            -- Perform PostgreSQL-specific initialization
+        elseif db_type == "mysql" then
+            log.info("MySQL database detected")
+            -- Perform MySQL-specific initialization
+        end
+    end
+
+    -- Example 5: Store config values in cache for later use
+    -- cache.set("app:server:addr", tostring(server_addr), 0)
+
+    -- Example 6: Validate configuration
+    local required_fields = {"Server", "Database", "Redis"}
+    for _, field in ipairs(required_fields) do
+        if not config[field] then
+            log.error("Missing required configuration: " .. field)
+            ctx.stop("Missing configuration: " .. field)
+            return false
+        end
+    end
+
+    log.info("✓ Configuration validated")
+    return true
+end)
+
+-- Example: Using config to set up environment-specific hooks
+hook.register("on_server_start", "Environment setup", function(ctx)
+    local config = ctx.get("config")
+
+    -- Check environment
+    local env = "production"  -- default
+    if config.Env then
+        env = config.Env
+    elseif config.env then
+        env = config.env
+    elseif config.Environment then
+        env = config.Environment
+    end
+
+    log.info("Environment: " .. env)
+
+    if env == "development" then
+        log.info("Development mode: Enabling debug features")
+        -- Enable development-specific features
+    elseif env == "production" then
+        log.info("Production mode: Optimizing for performance")
+        -- Enable production-specific features
+    end
+
+    return true
+end)
+
+-- Example: Helper function to safely access nested config
+function get_config_value(config, path, default)
+    -- path is a dot-separated string like "Server.HTTP.Addr"
+    local current = config
+    for part in string.gmatch(path, "[^.]+") do
+        if type(current) == "table" then
+            current = current[part]
+        else
+            return default
+        end
+    end
+    return current or default
+end
+
+-- Usage:
+hook.register("on_server_start", "Use helper", function(ctx)
+    local config = ctx.get("config")
+
+    local http_addr = get_config_value(config, "Server.HTTP.Addr", "localhost:8080")
+    log.info("HTTP Address: " .. http_addr)
+
+    local db_host = get_config_value(config, "Database.Host", "localhost")
+    log.info("Database Host: " .. db_host)
+
+    return true
+end)

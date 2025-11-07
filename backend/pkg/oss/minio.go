@@ -3,6 +3,7 @@ package oss
 import (
 	"bytes"
 	"context"
+	"fmt"
 	"mime"
 	"net/url"
 	"strings"
@@ -92,6 +93,34 @@ func (c *MinIOClient) contentTypeToFileSuffix(contentType string) string {
 	}
 
 	return fileSuffix
+}
+
+// GetClient returns the underlying MinIO client
+func (c *MinIOClient) GetClient() *minio.Client {
+	return c.mc
+}
+
+// JointObjectName Spliced ..objectName, containing hash-based folder structure (exported version)
+func (c *MinIOClient) JointObjectName(contentType string, filePath, fileName *string) (string, string) {
+	return c.jointObjectName(contentType, filePath, fileName)
+}
+
+// EnsureBucketExists Ensure that the specified bucket exists
+func (c *MinIOClient) EnsureBucketExists(ctx context.Context, bucketName string) error {
+	exists, err := c.mc.BucketExists(ctx, bucketName)
+	if err != nil {
+		return fmt.Errorf("error checking bucket %s: %v", bucketName, err)
+	}
+
+	if !exists {
+		err = c.mc.MakeBucket(ctx, bucketName, minio.MakeBucketOptions{})
+		if err != nil {
+			return fmt.Errorf("error creating bucket %s: %v", bucketName, err)
+		}
+		c.log.Infof("Created bucket: %s", bucketName)
+	}
+
+	return nil
 }
 
 // jointObjectName 拼接objectName

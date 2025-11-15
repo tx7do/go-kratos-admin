@@ -61,7 +61,7 @@ SERVICE_NAME		:= $(shell a=`basename $$PWD` && cd .. && b=`basename $$PWD` && ec
 APP_NAME			:= $(shell echo $(APP_RELATIVE_PATH) | sed -En "s/\//-/p")
 
 # build golang application
-build:
+build: api openapi
 	@go build -ldflags "-X main.version=$(APP_VERSION)" -o ./bin/ ./...
 
 # clean build files

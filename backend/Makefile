@@ -109,7 +109,7 @@ ts:
 	buf generate --template buf.admin.typescript.gen.yaml
 
 # build all service applications
-build:
+build: api openapi
 	$(foreach dir, $(dir $(realpath $(SRCS_MK))),\
       cd $(dir);\
       make build;\

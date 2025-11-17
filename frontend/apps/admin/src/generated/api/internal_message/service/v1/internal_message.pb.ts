@@ -111,91 +111,6 @@ export enum InternalMessage_Type {
   GROUP = "GROUP",
 }
 
-/** 站内信消息用户接收信息 */
-export interface InternalMessageRecipient {
-  /** 记录ID */
-  id?:
-    | number
-    | null
-    | undefined;
-  /** 站内信内容ID */
-  messageId?:
-    | number
-    | null
-    | undefined;
-  /** 接收者用户ID */
-  recipientUserId?:
-    | number
-    | null
-    | undefined;
-  /** 消息状态 */
-  status?:
-    | InternalMessageRecipient_Status
-    | null
-    | undefined;
-  /** 消息到达用户收件箱的时间 */
-  receivedAt?:
-    | Timestamp
-    | null
-    | undefined;
-  /** 用户阅读消息的时间 */
-  readAt?:
-    | Timestamp
-    | null
-    | undefined;
-  /** 消息标题 */
-  title?:
-    | string
-    | null
-    | undefined;
-  /** 消息内容 */
-  content?:
-    | string
-    | null
-    | undefined;
-  /** 创建者ID */
-  createdBy?:
-    | number
-    | null
-    | undefined;
-  /** 更新者ID */
-  updatedBy?:
-    | number
-    | null
-    | undefined;
-  /** 删除者用户ID */
-  deletedBy?:
-    | number
-    | null
-    | undefined;
-  /** 创建时间 */
-  createdAt?:
-    | Timestamp
-    | null
-    | undefined;
-  /** 更新时间 */
-  updatedAt?:
-    | Timestamp
-    | null
-    | undefined;
-  /** 删除时间 */
-  deletedAt?: Timestamp | null | undefined;
-}
-
-/** 消息状态 */
-export enum InternalMessageRecipient_Status {
-  /** SENT - (系统状态) 消息已存入接收者收件箱，等待客户端拉取 */
-  SENT = "SENT",
-  /** RECEIVED - (客户端回执) 接收方客户端已成功接收/下载该消息 */
-  RECEIVED = "RECEIVED",
-  /** READ - (客户端回执) 接收方已读消息 */
-  READ = "READ",
-  /** REVOKED - (发送者动作) 消息被发送者撤销 */
-  REVOKED = "REVOKED",
-  /** DELETED - (接收者动作) 接收者删除该消息 */
-  DELETED = "DELETED",
-}
-
 /** 查询站内信消息列表 - 回应 */
 export interface ListInternalMessageResponse {
   items: InternalMessage[];
@@ -230,19 +145,6 @@ export interface UpdateInternalMessageRequest {
 /** 删除站内信消息 - 请求 */
 export interface DeleteInternalMessageRequest {
   id: number;
-}
-
-/** 更新站内信消息 - 请求 */
-export interface UpdateInternalMessageRecipientRequest {
-  data:
-    | InternalMessageRecipient
-    | null;
-  /** 要更新的字段列表 */
-  updateMask:
-    | string[]
-    | null;
-  /** 如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。 */
-  allowMissing?: boolean | null | undefined;
 }
 
 export interface SendMessageRequest {
@@ -284,39 +186,11 @@ export interface SendMessageResponse {
   messageId: number;
 }
 
-export interface ListUserInboxResponse {
-  items: InternalMessageRecipient[];
-  total: number;
-}
-
-export interface MarkNotificationAsReadRequest {
-  /** 用户ID */
-  userId: number;
-  /** 收件箱记录ID列表 */
-  recipientIds: number[];
-}
-
-export interface MarkNotificationsStatusRequest {
-  /** 用户ID */
-  userId: number;
-  /** 收件箱记录ID列表 */
-  recipientIds: number[];
-  /** 新的消息状态 */
-  newStatus: InternalMessageRecipient_Status;
-}
-
 export interface RevokeMessageRequest {
   /** 消息ID */
   messageId: number;
   /** 用户ID */
   userId: number;
-}
-
-export interface DeleteNotificationFromInboxRequest {
-  /** 用户ID */
-  userId: number;
-  /** 收件箱记录ID列表 */
-  recipientIds: number[];
 }
 
 /** 站内信消息服务 */
@@ -326,21 +200,13 @@ export interface InternalMessageService {
   /** 查询站内信消息详情 */
   GetMessage(request: GetInternalMessageRequest): Promise<InternalMessage>;
   /** 创建站内信消息 */
-  CreateMessage(request: CreateInternalMessageRequest): Promise<Empty>;
+  CreateMessage(request: CreateInternalMessageRequest): Promise<InternalMessage>;
   /** 更新站内信消息 */
   UpdateMessage(request: UpdateInternalMessageRequest): Promise<Empty>;
   /** 删除站内信消息 */
   DeleteMessage(request: DeleteInternalMessageRequest): Promise<Empty>;
   /** 发送消息 */
   SendMessage(request: SendMessageRequest): Promise<SendMessageResponse>;
-  /** 获取用户的收件箱列表 (通知类) */
-  ListUserInbox(request: PagingRequest): Promise<ListUserInboxResponse>;
-  /** 删除用户收件箱中的通知记录 */
-  DeleteNotificationFromInbox(request: DeleteNotificationFromInboxRequest): Promise<Empty>;
-  /** 将通知标记为已读 */
-  MarkNotificationAsRead(request: MarkNotificationAsReadRequest): Promise<Empty>;
-  /** 标记特定用户的某些或所有通知的状态 */
-  MarkNotificationsStatus(request: MarkNotificationsStatusRequest): Promise<Empty>;
-  /** 撤销某条消息 */
+  /** 撤销消息 */
   RevokeMessage(request: RevokeMessageRequest): Promise<Empty>;
 }

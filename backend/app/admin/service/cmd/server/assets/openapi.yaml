@@ -1071,9 +1071,9 @@ paths:
     /admin/v1/internal-message/inbox:
         get:
             tags:
-                - InternalMessageService
+                - InternalMessageRecipientService
             description: 获取用户的收件箱列表 (通知类)
-            operationId: InternalMessageService_ListUserInbox
+            operationId: InternalMessageRecipientService_ListUserInbox
             parameters:
                 - name: page
                   in: query
@@ -1130,9 +1130,9 @@ paths:
     /admin/v1/internal-message/inbox/delete:
         post:
             tags:
-                - InternalMessageService
+                - InternalMessageRecipientService
             description: 删除用户收件箱中的通知记录
-            operationId: InternalMessageService_DeleteNotificationFromInbox
+            operationId: InternalMessageRecipientService_DeleteNotificationFromInbox
             requestBody:
                 content:
                     application/json:
@@ -1268,9 +1268,9 @@ paths:
     /admin/v1/internal-message/read:
         post:
             tags:
-                - InternalMessageService
+                - InternalMessageRecipientService
             description: 将通知标记为已读
-            operationId: InternalMessageService_MarkNotificationAsRead
+            operationId: InternalMessageRecipientService_MarkNotificationAsRead
             requestBody:
                 content:
                     application/json:
@@ -5417,6 +5417,8 @@ tags:
       description: 文件管理服务
     - name: InternalMessageCategoryService
       description: 站内信消息分类管理服务
+    - name: InternalMessageRecipientService
+      description: 站内信消息管理服务
     - name: InternalMessageService
       description: 站内信消息管理服务
     - name: MenuService

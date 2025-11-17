@@ -97,6 +97,7 @@ func NewRESTServer(
 	taskService *service.TaskService,
 	internalMessageService *service.InternalMessageService,
 	internalMessageCategoryService *service.InternalMessageCategoryService,
+	internalMessageRecipientService *service.InternalMessageRecipientService,
 	adminLoginRestrictionService *service.AdminLoginRestrictionService,
 	userProfileService *service.UserProfileService,
 	apiResourceService *service.ApiResourceService,
@@ -139,6 +140,7 @@ func NewRESTServer(
 
 	adminV1.RegisterInternalMessageServiceHTTPServer(srv, internalMessageService)
 	adminV1.RegisterInternalMessageCategoryServiceHTTPServer(srv, internalMessageCategoryService)
+	adminV1.RegisterInternalMessageRecipientServiceHTTPServer(srv, internalMessageRecipientService)
 
 	registerFileUploadHandler(srv, ossSvc)
 	registerUEditorUploadHandler(srv, ueditorSvc)

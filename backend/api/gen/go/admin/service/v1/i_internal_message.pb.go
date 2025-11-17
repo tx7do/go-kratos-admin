@@ -29,7 +29,7 @@ var File_admin_service_v1_i_internal_message_proto protoreflect.FileDescriptor
 
 const file_admin_service_v1_i_internal_message_proto_rawDesc = "" +
 	"\n" +
-	")admin/service/v1/i_internal_message.proto\x12\x10admin.service.v1\x1a$gnostic/openapi/v3/annotations.proto\x1a\x1cgoogle/api/annotations.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1epagination/v1/pagination.proto\x1a2internal_message/service/v1/internal_message.proto2\x84\v\n" +
+	")admin/service/v1/i_internal_message.proto\x12\x10admin.service.v1\x1a$gnostic/openapi/v3/annotations.proto\x1a\x1cgoogle/api/annotations.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1epagination/v1/pagination.proto\x1a2internal_message/service/v1/internal_message.proto2\xb1\a\n" +
 	"\x16InternalMessageService\x12\x8f\x01\n" +
 	"\vListMessage\x12\x19.pagination.PagingRequest\x1a8.internal_message.service.v1.ListInternalMessageResponse\"+\x82\xd3\xe4\x93\x02%\x12#/admin/v1/internal-message/messages\x12\xa4\x01\n" +
 	"\n" +
@@ -37,51 +37,39 @@ const file_admin_service_v1_i_internal_message_proto_rawDesc = "" +
 	"\rUpdateMessage\x129.internal_message.service.v1.UpdateInternalMessageRequest\x1a\x16.google.protobuf.Empty\"8\x82\xd3\xe4\x93\x022:\x01*\x1a-/admin/v1/internal-message/messages/{data.id}\x12\x94\x01\n" +
 	"\rDeleteMessage\x129.internal_message.service.v1.DeleteInternalMessageRequest\x1a\x16.google.protobuf.Empty\"0\x82\xd3\xe4\x93\x02**(/admin/v1/internal-message/messages/{id}\x12\x9c\x01\n" +
 	"\vSendMessage\x12/.internal_message.service.v1.SendMessageRequest\x1a0.internal_message.service.v1.SendMessageResponse\"*\x82\xd3\xe4\x93\x02$:\x01*\"\x1f/admin/v1/internal-message/send\x12\x88\x01\n" +
-	"\rListUserInbox\x12\x19.pagination.PagingRequest\x1a2.internal_message.service.v1.ListUserInboxResponse\"(\x82\xd3\xe4\x93\x02\"\x12 /admin/v1/internal-message/inbox\x12\xaa\x01\n" +
-	"\x1bDeleteNotificationFromInbox\x12?.internal_message.service.v1.DeleteNotificationFromInboxRequest\x1a\x16.google.protobuf.Empty\"2\x82\xd3\xe4\x93\x02,:\x01*\"'/admin/v1/internal-message/inbox/delete\x12\x98\x01\n" +
-	"\x16MarkNotificationAsRead\x12:.internal_message.service.v1.MarkNotificationAsReadRequest\x1a\x16.google.protobuf.Empty\"*\x82\xd3\xe4\x93\x02$:\x01*\"\x1f/admin/v1/internal-message/read\x12\x88\x01\n" +
 	"\rRevokeMessage\x121.internal_message.service.v1.RevokeMessageRequest\x1a\x16.google.protobuf.Empty\",\x82\xd3\xe4\x93\x02&:\x01*\"!/admin/v1/internal-message/revokeB\xc3\x01\n" +
 	"\x14com.admin.service.v1B\x15IInternalMessageProtoP\x01Z2kratos-admin/api/gen/go/admin/service/v1;servicev1\xa2\x02\x03ASX\xaa\x02\x10Admin.Service.V1\xca\x02\x10Admin\\Service\\V1\xe2\x02\x1cAdmin\\Service\\V1\\GPBMetadata\xea\x02\x12Admin::Service::V1b\x06proto3"
 
 var file_admin_service_v1_i_internal_message_proto_goTypes = []any{
-	(*v1.PagingRequest)(nil),                       // 0: pagination.PagingRequest
-	(*v11.GetInternalMessageRequest)(nil),          // 1: internal_message.service.v1.GetInternalMessageRequest
-	(*v11.UpdateInternalMessageRequest)(nil),       // 2: internal_message.service.v1.UpdateInternalMessageRequest
-	(*v11.DeleteInternalMessageRequest)(nil),       // 3: internal_message.service.v1.DeleteInternalMessageRequest
-	(*v11.SendMessageRequest)(nil),                 // 4: internal_message.service.v1.SendMessageRequest
-	(*v11.DeleteNotificationFromInboxRequest)(nil), // 5: internal_message.service.v1.DeleteNotificationFromInboxRequest
-	(*v11.MarkNotificationAsReadRequest)(nil),      // 6: internal_message.service.v1.MarkNotificationAsReadRequest
-	(*v11.RevokeMessageRequest)(nil),               // 7: internal_message.service.v1.RevokeMessageRequest
-	(*v11.ListInternalMessageResponse)(nil),        // 8: internal_message.service.v1.ListInternalMessageResponse
-	(*v11.InternalMessage)(nil),                    // 9: internal_message.service.v1.InternalMessage
-	(*emptypb.Empty)(nil),                          // 10: google.protobuf.Empty
-	(*v11.SendMessageResponse)(nil),                // 11: internal_message.service.v1.SendMessageResponse
-	(*v11.ListUserInboxResponse)(nil),              // 12: internal_message.service.v1.ListUserInboxResponse
+	(*v1.PagingRequest)(nil),                 // 0: pagination.PagingRequest
+	(*v11.GetInternalMessageRequest)(nil),    // 1: internal_message.service.v1.GetInternalMessageRequest
+	(*v11.UpdateInternalMessageRequest)(nil), // 2: internal_message.service.v1.UpdateInternalMessageRequest
+	(*v11.DeleteInternalMessageRequest)(nil), // 3: internal_message.service.v1.DeleteInternalMessageRequest
+	(*v11.SendMessageRequest)(nil),           // 4: internal_message.service.v1.SendMessageRequest
+	(*v11.RevokeMessageRequest)(nil),         // 5: internal_message.service.v1.RevokeMessageRequest
+	(*v11.ListInternalMessageResponse)(nil),  // 6: internal_message.service.v1.ListInternalMessageResponse
+	(*v11.InternalMessage)(nil),              // 7: internal_message.service.v1.InternalMessage
+	(*emptypb.Empty)(nil),                    // 8: google.protobuf.Empty
+	(*v11.SendMessageResponse)(nil),          // 9: internal_message.service.v1.SendMessageResponse
 }
 var file_admin_service_v1_i_internal_message_proto_depIdxs = []int32{
-	0,  // 0: admin.service.v1.InternalMessageService.ListMessage:input_type -> pagination.PagingRequest
-	1,  // 1: admin.service.v1.InternalMessageService.GetMessage:input_type -> internal_message.service.v1.GetInternalMessageRequest
-	2,  // 2: admin.service.v1.InternalMessageService.UpdateMessage:input_type -> internal_message.service.v1.UpdateInternalMessageRequest
-	3,  // 3: admin.service.v1.InternalMessageService.DeleteMessage:input_type -> internal_message.service.v1.DeleteInternalMessageRequest
-	4,  // 4: admin.service.v1.InternalMessageService.SendMessage:input_type -> internal_message.service.v1.SendMessageRequest
-	0,  // 5: admin.service.v1.InternalMessageService.ListUserInbox:input_type -> pagination.PagingRequest
-	5,  // 6: admin.service.v1.InternalMessageService.DeleteNotificationFromInbox:input_type -> internal_message.service.v1.DeleteNotificationFromInboxRequest
-	6,  // 7: admin.service.v1.InternalMessageService.MarkNotificationAsRead:input_type -> internal_message.service.v1.MarkNotificationAsReadRequest
-	7,  // 8: admin.service.v1.InternalMessageService.RevokeMessage:input_type -> internal_message.service.v1.RevokeMessageRequest
-	8,  // 9: admin.service.v1.InternalMessageService.ListMessage:output_type -> internal_message.service.v1.ListInternalMessageResponse
-	9,  // 10: admin.service.v1.InternalMessageService.GetMessage:output_type -> internal_message.service.v1.InternalMessage
-	10, // 11: admin.service.v1.InternalMessageService.UpdateMessage:output_type -> google.protobuf.Empty
-	10, // 12: admin.service.v1.InternalMessageService.DeleteMessage:output_type -> google.protobuf.Empty
-	11, // 13: admin.service.v1.InternalMessageService.SendMessage:output_type -> internal_message.service.v1.SendMessageResponse
-	12, // 14: admin.service.v1.InternalMessageService.ListUserInbox:output_type -> internal_message.service.v1.ListUserInboxResponse
-	10, // 15: admin.service.v1.InternalMessageService.DeleteNotificationFromInbox:output_type -> google.protobuf.Empty
-	10, // 16: admin.service.v1.InternalMessageService.MarkNotificationAsRead:output_type -> google.protobuf.Empty
-	10, // 17: admin.service.v1.InternalMessageService.RevokeMessage:output_type -> google.protobuf.Empty
-	9,  // [9:18] is the sub-list for method output_type
-	0,  // [0:9] is the sub-list for method input_type
-	0,  // [0:0] is the sub-list for extension type_name
-	0,  // [0:0] is the sub-list for extension extendee
-	0,  // [0:0] is the sub-list for field type_name
+	0, // 0: admin.service.v1.InternalMessageService.ListMessage:input_type -> pagination.PagingRequest
+	1, // 1: admin.service.v1.InternalMessageService.GetMessage:input_type -> internal_message.service.v1.GetInternalMessageRequest
+	2, // 2: admin.service.v1.InternalMessageService.UpdateMessage:input_type -> internal_message.service.v1.UpdateInternalMessageRequest
+	3, // 3: admin.service.v1.InternalMessageService.DeleteMessage:input_type -> internal_message.service.v1.DeleteInternalMessageRequest
+	4, // 4: admin.service.v1.InternalMessageService.SendMessage:input_type -> internal_message.service.v1.SendMessageRequest
+	5, // 5: admin.service.v1.InternalMessageService.RevokeMessage:input_type -> internal_message.service.v1.RevokeMessageRequest
+	6, // 6: admin.service.v1.InternalMessageService.ListMessage:output_type -> internal_message.service.v1.ListInternalMessageResponse
+	7, // 7: admin.service.v1.InternalMessageService.GetMessage:output_type -> internal_message.service.v1.InternalMessage
+	8, // 8: admin.service.v1.InternalMessageService.UpdateMessage:output_type -> google.protobuf.Empty
+	8, // 9: admin.service.v1.InternalMessageService.DeleteMessage:output_type -> google.protobuf.Empty
+	9, // 10: admin.service.v1.InternalMessageService.SendMessage:output_type -> internal_message.service.v1.SendMessageResponse
+	8, // 11: admin.service.v1.InternalMessageService.RevokeMessage:output_type -> google.protobuf.Empty
+	6, // [6:12] is the sub-list for method output_type
+	0, // [0:6] is the sub-list for method input_type
+	0, // [0:0] is the sub-list for extension type_name
+	0, // [0:0] is the sub-list for extension extendee
+	0, // [0:0] is the sub-list for field type_name
 }
 
 func init() { file_admin_service_v1_i_internal_message_proto_init() }

@@ -99,39 +99,6 @@ func (s *redactedInternalMessageServiceServer) SendMessage(ctx context.Context, 
 	return res, err
 }
 
-// ListUserInbox is the redacted wrapper for the actual InternalMessageServiceServer.ListUserInbox method
-// Unary RPC
-func (s *redactedInternalMessageServiceServer) ListUserInbox(ctx context.Context, in *pagination.PagingRequest) (*servicev1.ListUserInboxResponse, error) {
-	res, err := s.srv.ListUserInbox(ctx, in)
-	if !s.bypass.CheckInternal(ctx) {
-		// Apply redaction to the response
-		redact.Apply(res)
-	}
-	return res, err
-}
-
-// DeleteNotificationFromInbox is the redacted wrapper for the actual InternalMessageServiceServer.DeleteNotificationFromInbox method
-// Unary RPC
-func (s *redactedInternalMessageServiceServer) DeleteNotificationFromInbox(ctx context.Context, in *servicev1.DeleteNotificationFromInboxRequest) (*emptypb.Empty, error) {
-	res, err := s.srv.DeleteNotificationFromInbox(ctx, in)
-	if !s.bypass.CheckInternal(ctx) {
-		// Apply redaction to the response
-		redact.Apply(res)
-	}
-	return res, err
-}
-
-// MarkNotificationAsRead is the redacted wrapper for the actual InternalMessageServiceServer.MarkNotificationAsRead method
-// Unary RPC
-func (s *redactedInternalMessageServiceServer) MarkNotificationAsRead(ctx context.Context, in *servicev1.MarkNotificationAsReadRequest) (*emptypb.Empty, error) {
-	res, err := s.srv.MarkNotificationAsRead(ctx, in)
-	if !s.bypass.CheckInternal(ctx) {
-		// Apply redaction to the response
-		redact.Apply(res)
-	}
-	return res, err
-}
-
 // RevokeMessage is the redacted wrapper for the actual InternalMessageServiceServer.RevokeMessage method
 // Unary RPC
 func (s *redactedInternalMessageServiceServer) RevokeMessage(ctx context.Context, in *servicev1.RevokeMessageRequest) (*emptypb.Empty, error) {

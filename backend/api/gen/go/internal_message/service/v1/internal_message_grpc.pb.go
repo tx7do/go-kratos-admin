@@ -21,17 +21,13 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	InternalMessageService_ListMessage_FullMethodName                 = "/internal_message.service.v1.InternalMessageService/ListMessage"
-	InternalMessageService_GetMessage_FullMethodName                  = "/internal_message.service.v1.InternalMessageService/GetMessage"
-	InternalMessageService_CreateMessage_FullMethodName               = "/internal_message.service.v1.InternalMessageService/CreateMessage"
-	InternalMessageService_UpdateMessage_FullMethodName               = "/internal_message.service.v1.InternalMessageService/UpdateMessage"
-	InternalMessageService_DeleteMessage_FullMethodName               = "/internal_message.service.v1.InternalMessageService/DeleteMessage"
-	InternalMessageService_SendMessage_FullMethodName                 = "/internal_message.service.v1.InternalMessageService/SendMessage"
-	InternalMessageService_ListUserInbox_FullMethodName               = "/internal_message.service.v1.InternalMessageService/ListUserInbox"
-	InternalMessageService_DeleteNotificationFromInbox_FullMethodName = "/internal_message.service.v1.InternalMessageService/DeleteNotificationFromInbox"
-	InternalMessageService_MarkNotificationAsRead_FullMethodName      = "/internal_message.service.v1.InternalMessageService/MarkNotificationAsRead"
-	InternalMessageService_MarkNotificationsStatus_FullMethodName     = "/internal_message.service.v1.InternalMessageService/MarkNotificationsStatus"
-	InternalMessageService_RevokeMessage_FullMethodName               = "/internal_message.service.v1.InternalMessageService/RevokeMessage"
+	InternalMessageService_ListMessage_FullMethodName   = "/internal_message.service.v1.InternalMessageService/ListMessage"
+	InternalMessageService_GetMessage_FullMethodName    = "/internal_message.service.v1.InternalMessageService/GetMessage"
+	InternalMessageService_CreateMessage_FullMethodName = "/internal_message.service.v1.InternalMessageService/CreateMessage"
+	InternalMessageService_UpdateMessage_FullMethodName = "/internal_message.service.v1.InternalMessageService/UpdateMessage"
+	InternalMessageService_DeleteMessage_FullMethodName = "/internal_message.service.v1.InternalMessageService/DeleteMessage"
+	InternalMessageService_SendMessage_FullMethodName   = "/internal_message.service.v1.InternalMessageService/SendMessage"
+	InternalMessageService_RevokeMessage_FullMethodName = "/internal_message.service.v1.InternalMessageService/RevokeMessage"
 )
 
 // InternalMessageServiceClient is the client API for InternalMessageService service.
@@ -45,22 +41,14 @@ type InternalMessageServiceClient interface {
 	// 查询站内信消息详情
 	GetMessage(ctx context.Context, in *GetInternalMessageRequest, opts ...grpc.CallOption) (*InternalMessage, error)
 	// 创建站内信消息
-	CreateMessage(ctx context.Context, in *CreateInternalMessageRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	CreateMessage(ctx context.Context, in *CreateInternalMessageRequest, opts ...grpc.CallOption) (*InternalMessage, error)
 	// 更新站内信消息
 	UpdateMessage(ctx context.Context, in *UpdateInternalMessageRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	// 删除站内信消息
 	DeleteMessage(ctx context.Context, in *DeleteInternalMessageRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	// 发送消息
 	SendMessage(ctx context.Context, in *SendMessageRequest, opts ...grpc.CallOption) (*SendMessageResponse, error)
-	// 获取用户的收件箱列表 (通知类)
-	ListUserInbox(ctx context.Context, in *v1.PagingRequest, opts ...grpc.CallOption) (*ListUserInboxResponse, error)
-	// 删除用户收件箱中的通知记录
-	DeleteNotificationFromInbox(ctx context.Context, in *DeleteNotificationFromInboxRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
-	// 将通知标记为已读
-	MarkNotificationAsRead(ctx context.Context, in *MarkNotificationAsReadRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
-	// 标记特定用户的某些或所有通知的状态
-	MarkNotificationsStatus(ctx context.Context, in *MarkNotificationsStatusRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
-	// 撤销某条消息
+	// 撤销消息
 	RevokeMessage(ctx context.Context, in *RevokeMessageRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 }
 
@@ -92,9 +80,9 @@ func (c *internalMessageServiceClient) GetMessage(ctx context.Context, in *GetIn
 	return out, nil
 }
 
-func (c *internalMessageServiceClient) CreateMessage(ctx context.Context, in *CreateInternalMessageRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+func (c *internalMessageServiceClient) CreateMessage(ctx context.Context, in *CreateInternalMessageRequest, opts ...grpc.CallOption) (*InternalMessage, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(emptypb.Empty)
+	out := new(InternalMessage)
 	err := c.cc.Invoke(ctx, InternalMessageService_CreateMessage_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -132,46 +120,6 @@ func (c *internalMessageServiceClient) SendMessage(ctx context.Context, in *Send
 	return out, nil
 }
 
-func (c *internalMessageServiceClient) ListUserInbox(ctx context.Context, in *v1.PagingRequest, opts ...grpc.CallOption) (*ListUserInboxResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(ListUserInboxResponse)
-	err := c.cc.Invoke(ctx, InternalMessageService_ListUserInbox_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *internalMessageServiceClient) DeleteNotificationFromInbox(ctx context.Context, in *DeleteNotificationFromInboxRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(emptypb.Empty)
-	err := c.cc.Invoke(ctx, InternalMessageService_DeleteNotificationFromInbox_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *internalMessageServiceClient) MarkNotificationAsRead(ctx context.Context, in *MarkNotificationAsReadRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(emptypb.Empty)
-	err := c.cc.Invoke(ctx, InternalMessageService_MarkNotificationAsRead_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *internalMessageServiceClient) MarkNotificationsStatus(ctx context.Context, in *MarkNotificationsStatusRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(emptypb.Empty)
-	err := c.cc.Invoke(ctx, InternalMessageService_MarkNotificationsStatus_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 func (c *internalMessageServiceClient) RevokeMessage(ctx context.Context, in *RevokeMessageRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(emptypb.Empty)
@@ -193,22 +141,14 @@ type InternalMessageServiceServer interface {
 	// 查询站内信消息详情
 	GetMessage(context.Context, *GetInternalMessageRequest) (*InternalMessage, error)
 	// 创建站内信消息
-	CreateMessage(context.Context, *CreateInternalMessageRequest) (*emptypb.Empty, error)
+	CreateMessage(context.Context, *CreateInternalMessageRequest) (*InternalMessage, error)
 	// 更新站内信消息
 	UpdateMessage(context.Context, *UpdateInternalMessageRequest) (*emptypb.Empty, error)
 	// 删除站内信消息
 	DeleteMessage(context.Context, *DeleteInternalMessageRequest) (*emptypb.Empty, error)
 	// 发送消息
 	SendMessage(context.Context, *SendMessageRequest) (*SendMessageResponse, error)
-	// 获取用户的收件箱列表 (通知类)
-	ListUserInbox(context.Context, *v1.PagingRequest) (*ListUserInboxResponse, error)
-	// 删除用户收件箱中的通知记录
-	DeleteNotificationFromInbox(context.Context, *DeleteNotificationFromInboxRequest) (*emptypb.Empty, error)
-	// 将通知标记为已读
-	MarkNotificationAsRead(context.Context, *MarkNotificationAsReadRequest) (*emptypb.Empty, error)
-	// 标记特定用户的某些或所有通知的状态
-	MarkNotificationsStatus(context.Context, *MarkNotificationsStatusRequest) (*emptypb.Empty, error)
-	// 撤销某条消息
+	// 撤销消息
 	RevokeMessage(context.Context, *RevokeMessageRequest) (*emptypb.Empty, error)
 	mustEmbedUnimplementedInternalMessageServiceServer()
 }
@@ -226,7 +166,7 @@ func (UnimplementedInternalMessageServiceServer) ListMessage(context.Context, *v
 func (UnimplementedInternalMessageServiceServer) GetMessage(context.Context, *GetInternalMessageRequest) (*InternalMessage, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetMessage not implemented")
 }
-func (UnimplementedInternalMessageServiceServer) CreateMessage(context.Context, *CreateInternalMessageRequest) (*emptypb.Empty, error) {
+func (UnimplementedInternalMessageServiceServer) CreateMessage(context.Context, *CreateInternalMessageRequest) (*InternalMessage, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateMessage not implemented")
 }
 func (UnimplementedInternalMessageServiceServer) UpdateMessage(context.Context, *UpdateInternalMessageRequest) (*emptypb.Empty, error) {
@@ -237,18 +177,6 @@ func (UnimplementedInternalMessageServiceServer) DeleteMessage(context.Context, 
 }
 func (UnimplementedInternalMessageServiceServer) SendMessage(context.Context, *SendMessageRequest) (*SendMessageResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SendMessage not implemented")
-}
-func (UnimplementedInternalMessageServiceServer) ListUserInbox(context.Context, *v1.PagingRequest) (*ListUserInboxResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ListUserInbox not implemented")
-}
-func (UnimplementedInternalMessageServiceServer) DeleteNotificationFromInbox(context.Context, *DeleteNotificationFromInboxRequest) (*emptypb.Empty, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DeleteNotificationFromInbox not implemented")
-}
-func (UnimplementedInternalMessageServiceServer) MarkNotificationAsRead(context.Context, *MarkNotificationAsReadRequest) (*emptypb.Empty, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method MarkNotificationAsRead not implemented")
-}
-func (UnimplementedInternalMessageServiceServer) MarkNotificationsStatus(context.Context, *MarkNotificationsStatusRequest) (*emptypb.Empty, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method MarkNotificationsStatus not implemented")
 }
 func (UnimplementedInternalMessageServiceServer) RevokeMessage(context.Context, *RevokeMessageRequest) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RevokeMessage not implemented")
@@ -383,78 +311,6 @@ func _InternalMessageService_SendMessage_Handler(srv interface{}, ctx context.Co
 	return interceptor(ctx, in, info, handler)
 }
 
-func _InternalMessageService_ListUserInbox_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(v1.PagingRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(InternalMessageServiceServer).ListUserInbox(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: InternalMessageService_ListUserInbox_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(InternalMessageServiceServer).ListUserInbox(ctx, req.(*v1.PagingRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _InternalMessageService_DeleteNotificationFromInbox_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DeleteNotificationFromInboxRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(InternalMessageServiceServer).DeleteNotificationFromInbox(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: InternalMessageService_DeleteNotificationFromInbox_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(InternalMessageServiceServer).DeleteNotificationFromInbox(ctx, req.(*DeleteNotificationFromInboxRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _InternalMessageService_MarkNotificationAsRead_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(MarkNotificationAsReadRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(InternalMessageServiceServer).MarkNotificationAsRead(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: InternalMessageService_MarkNotificationAsRead_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(InternalMessageServiceServer).MarkNotificationAsRead(ctx, req.(*MarkNotificationAsReadRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _InternalMessageService_MarkNotificationsStatus_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(MarkNotificationsStatusRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(InternalMessageServiceServer).MarkNotificationsStatus(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: InternalMessageService_MarkNotificationsStatus_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(InternalMessageServiceServer).MarkNotificationsStatus(ctx, req.(*MarkNotificationsStatusRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 func _InternalMessageService_RevokeMessage_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(RevokeMessageRequest)
 	if err := dec(in); err != nil {
@@ -503,22 +359,6 @@ var InternalMessageService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "SendMessage",
 			Handler:    _InternalMessageService_SendMessage_Handler,
-		},
-		{
-			MethodName: "ListUserInbox",
-			Handler:    _InternalMessageService_ListUserInbox_Handler,
-		},
-		{
-			MethodName: "DeleteNotificationFromInbox",
-			Handler:    _InternalMessageService_DeleteNotificationFromInbox_Handler,
-		},
-		{
-			MethodName: "MarkNotificationAsRead",
-			Handler:    _InternalMessageService_MarkNotificationAsRead_Handler,
-		},
-		{
-			MethodName: "MarkNotificationsStatus",
-			Handler:    _InternalMessageService_MarkNotificationsStatus_Handler,
 		},
 		{
 			MethodName: "RevokeMessage",

@@ -165,53 +165,6 @@ func (s *InternalMessageService) DeleteMessage(ctx context.Context, req *interna
 	return &emptypb.Empty{}, nil
 }
 
-// ListUserInbox 获取用户的收件箱列表 (通知类)
-func (s *InternalMessageService) ListUserInbox(ctx context.Context, req *pagination.PagingRequest) (*internalMessageV1.ListUserInboxResponse, error) {
-	resp, err := s.internalMessageRecipientRepo.List(ctx, req)
-	if err != nil {
-		return nil, err
-	}
-
-	for _, d := range resp.Items {
-		if d.MessageId == nil {
-			continue
-		}
-
-		msg, err := s.internalMessageRepo.Get(ctx, &internalMessageV1.GetInternalMessageRequest{
-			Id: d.GetMessageId(),
-		})
-		if err != nil {
-			s.log.Errorf("list user inbox failed, get message failed: %s", err)
-			continue
-		}
-
-		d.Title = msg.Title
-		d.Content = msg.Content
-	}
-
-	return resp, nil
-}
-
-func (s *InternalMessageService) DeleteNotificationFromInbox(ctx context.Context, req *internalMessageV1.DeleteNotificationFromInboxRequest) (*emptypb.Empty, error) {
-	var err error
-	err = s.internalMessageRecipientRepo.DeleteNotificationFromInbox(ctx, req)
-	return &emptypb.Empty{}, err
-}
-
-// MarkNotificationAsRead 将通知标记为已读
-func (s *InternalMessageService) MarkNotificationAsRead(ctx context.Context, req *internalMessageV1.MarkNotificationAsReadRequest) (*emptypb.Empty, error) {
-	var err error
-	err = s.internalMessageRecipientRepo.MarkNotificationAsRead(ctx, req)
-	return &emptypb.Empty{}, err
-}
-
-// MarkNotificationsStatus 标记特定用户的某些或所有通知的状态
-func (s *InternalMessageService) MarkNotificationsStatus(ctx context.Context, req *internalMessageV1.MarkNotificationsStatusRequest) (*emptypb.Empty, error) {
-	var err error
-	err = s.internalMessageRecipientRepo.MarkNotificationsStatus(ctx, req)
-	return &emptypb.Empty{}, err
-}
-
 // RevokeMessage 撤销某条消息
 func (s *InternalMessageService) RevokeMessage(ctx context.Context, req *internalMessageV1.RevokeMessageRequest) (*emptypb.Empty, error) {
 	var err error

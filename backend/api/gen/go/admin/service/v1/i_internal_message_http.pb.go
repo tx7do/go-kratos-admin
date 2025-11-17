@@ -23,11 +23,8 @@ var _ = binding.EncodeURL
 const _ = http.SupportPackageIsVersion1
 
 const OperationInternalMessageServiceDeleteMessage = "/admin.service.v1.InternalMessageService/DeleteMessage"
-const OperationInternalMessageServiceDeleteNotificationFromInbox = "/admin.service.v1.InternalMessageService/DeleteNotificationFromInbox"
 const OperationInternalMessageServiceGetMessage = "/admin.service.v1.InternalMessageService/GetMessage"
 const OperationInternalMessageServiceListMessage = "/admin.service.v1.InternalMessageService/ListMessage"
-const OperationInternalMessageServiceListUserInbox = "/admin.service.v1.InternalMessageService/ListUserInbox"
-const OperationInternalMessageServiceMarkNotificationAsRead = "/admin.service.v1.InternalMessageService/MarkNotificationAsRead"
 const OperationInternalMessageServiceRevokeMessage = "/admin.service.v1.InternalMessageService/RevokeMessage"
 const OperationInternalMessageServiceSendMessage = "/admin.service.v1.InternalMessageService/SendMessage"
 const OperationInternalMessageServiceUpdateMessage = "/admin.service.v1.InternalMessageService/UpdateMessage"
@@ -35,16 +32,10 @@ const OperationInternalMessageServiceUpdateMessage = "/admin.service.v1.Internal
 type InternalMessageServiceHTTPServer interface {
 	// DeleteMessage 删除站内信消息
 	DeleteMessage(context.Context, *v11.DeleteInternalMessageRequest) (*emptypb.Empty, error)
-	// DeleteNotificationFromInbox 删除用户收件箱中的通知记录
-	DeleteNotificationFromInbox(context.Context, *v11.DeleteNotificationFromInboxRequest) (*emptypb.Empty, error)
 	// GetMessage 查询站内信消息详情
 	GetMessage(context.Context, *v11.GetInternalMessageRequest) (*v11.InternalMessage, error)
 	// ListMessage 查询站内信消息列表
 	ListMessage(context.Context, *v1.PagingRequest) (*v11.ListInternalMessageResponse, error)
-	// ListUserInbox 获取用户的收件箱列表 (通知类)
-	ListUserInbox(context.Context, *v1.PagingRequest) (*v11.ListUserInboxResponse, error)
-	// MarkNotificationAsRead 将通知标记为已读
-	MarkNotificationAsRead(context.Context, *v11.MarkNotificationAsReadRequest) (*emptypb.Empty, error)
 	// RevokeMessage 撤销某条消息
 	RevokeMessage(context.Context, *v11.RevokeMessageRequest) (*emptypb.Empty, error)
 	// SendMessage 发送消息
@@ -60,9 +51,6 @@ func RegisterInternalMessageServiceHTTPServer(s *http.Server, srv InternalMessag
 	r.PUT("/admin/v1/internal-message/messages/{data.id}", _InternalMessageService_UpdateMessage0_HTTP_Handler(srv))
 	r.DELETE("/admin/v1/internal-message/messages/{id}", _InternalMessageService_DeleteMessage0_HTTP_Handler(srv))
 	r.POST("/admin/v1/internal-message/send", _InternalMessageService_SendMessage0_HTTP_Handler(srv))
-	r.GET("/admin/v1/internal-message/inbox", _InternalMessageService_ListUserInbox0_HTTP_Handler(srv))
-	r.POST("/admin/v1/internal-message/inbox/delete", _InternalMessageService_DeleteNotificationFromInbox0_HTTP_Handler(srv))
-	r.POST("/admin/v1/internal-message/read", _InternalMessageService_MarkNotificationAsRead0_HTTP_Handler(srv))
 	r.POST("/admin/v1/internal-message/revoke", _InternalMessageService_RevokeMessage0_HTTP_Handler(srv))
 }
 
@@ -176,69 +164,6 @@ func _InternalMessageService_SendMessage0_HTTP_Handler(srv InternalMessageServic
 	}
 }
 
-func _InternalMessageService_ListUserInbox0_HTTP_Handler(srv InternalMessageServiceHTTPServer) func(ctx http.Context) error {
-	return func(ctx http.Context) error {
-		var in v1.PagingRequest
-		if err := ctx.BindQuery(&in); err != nil {
-			return err
-		}
-		http.SetOperation(ctx, OperationInternalMessageServiceListUserInbox)
-		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
-			return srv.ListUserInbox(ctx, req.(*v1.PagingRequest))
-		})
-		out, err := h(ctx, &in)
-		if err != nil {
-			return err
-		}
-		reply := out.(*v11.ListUserInboxResponse)
-		return ctx.Result(200, reply)
-	}
-}
-
-func _InternalMessageService_DeleteNotificationFromInbox0_HTTP_Handler(srv InternalMessageServiceHTTPServer) func(ctx http.Context) error {
-	return func(ctx http.Context) error {
-		var in v11.DeleteNotificationFromInboxRequest
-		if err := ctx.Bind(&in); err != nil {
-			return err
-		}
-		if err := ctx.BindQuery(&in); err != nil {
-			return err
-		}
-		http.SetOperation(ctx, OperationInternalMessageServiceDeleteNotificationFromInbox)
-		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
-			return srv.DeleteNotificationFromInbox(ctx, req.(*v11.DeleteNotificationFromInboxRequest))
-		})
-		out, err := h(ctx, &in)
-		if err != nil {
-			return err
-		}
-		reply := out.(*emptypb.Empty)
-		return ctx.Result(200, reply)
-	}
-}
-
-func _InternalMessageService_MarkNotificationAsRead0_HTTP_Handler(srv InternalMessageServiceHTTPServer) func(ctx http.Context) error {
-	return func(ctx http.Context) error {
-		var in v11.MarkNotificationAsReadRequest
-		if err := ctx.Bind(&in); err != nil {
-			return err
-		}
-		if err := ctx.BindQuery(&in); err != nil {
-			return err
-		}
-		http.SetOperation(ctx, OperationInternalMessageServiceMarkNotificationAsRead)
-		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
-			return srv.MarkNotificationAsRead(ctx, req.(*v11.MarkNotificationAsReadRequest))
-		})
-		out, err := h(ctx, &in)
-		if err != nil {
-			return err
-		}
-		reply := out.(*emptypb.Empty)
-		return ctx.Result(200, reply)
-	}
-}
-
 func _InternalMessageService_RevokeMessage0_HTTP_Handler(srv InternalMessageServiceHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
 		var in v11.RevokeMessageRequest
@@ -264,16 +189,10 @@ func _InternalMessageService_RevokeMessage0_HTTP_Handler(srv InternalMessageServ
 type InternalMessageServiceHTTPClient interface {
 	// DeleteMessage 删除站内信消息
 	DeleteMessage(ctx context.Context, req *v11.DeleteInternalMessageRequest, opts ...http.CallOption) (rsp *emptypb.Empty, err error)
-	// DeleteNotificationFromInbox 删除用户收件箱中的通知记录
-	DeleteNotificationFromInbox(ctx context.Context, req *v11.DeleteNotificationFromInboxRequest, opts ...http.CallOption) (rsp *emptypb.Empty, err error)
 	// GetMessage 查询站内信消息详情
 	GetMessage(ctx context.Context, req *v11.GetInternalMessageRequest, opts ...http.CallOption) (rsp *v11.InternalMessage, err error)
 	// ListMessage 查询站内信消息列表
 	ListMessage(ctx context.Context, req *v1.PagingRequest, opts ...http.CallOption) (rsp *v11.ListInternalMessageResponse, err error)
-	// ListUserInbox 获取用户的收件箱列表 (通知类)
-	ListUserInbox(ctx context.Context, req *v1.PagingRequest, opts ...http.CallOption) (rsp *v11.ListUserInboxResponse, err error)
-	// MarkNotificationAsRead 将通知标记为已读
-	MarkNotificationAsRead(ctx context.Context, req *v11.MarkNotificationAsReadRequest, opts ...http.CallOption) (rsp *emptypb.Empty, err error)
 	// RevokeMessage 撤销某条消息
 	RevokeMessage(ctx context.Context, req *v11.RevokeMessageRequest, opts ...http.CallOption) (rsp *emptypb.Empty, err error)
 	// SendMessage 发送消息
@@ -304,20 +223,6 @@ func (c *InternalMessageServiceHTTPClientImpl) DeleteMessage(ctx context.Context
 	return &out, nil
 }
 
-// DeleteNotificationFromInbox 删除用户收件箱中的通知记录
-func (c *InternalMessageServiceHTTPClientImpl) DeleteNotificationFromInbox(ctx context.Context, in *v11.DeleteNotificationFromInboxRequest, opts ...http.CallOption) (*emptypb.Empty, error) {
-	var out emptypb.Empty
-	pattern := "/admin/v1/internal-message/inbox/delete"
-	path := binding.EncodeURL(pattern, in, false)
-	opts = append(opts, http.Operation(OperationInternalMessageServiceDeleteNotificationFromInbox))
-	opts = append(opts, http.PathTemplate(pattern))
-	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return &out, nil
-}
-
 // GetMessage 查询站内信消息详情
 func (c *InternalMessageServiceHTTPClientImpl) GetMessage(ctx context.Context, in *v11.GetInternalMessageRequest, opts ...http.CallOption) (*v11.InternalMessage, error) {
 	var out v11.InternalMessage
@@ -340,34 +245,6 @@ func (c *InternalMessageServiceHTTPClientImpl) ListMessage(ctx context.Context, 
 	opts = append(opts, http.Operation(OperationInternalMessageServiceListMessage))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return &out, nil
-}
-
-// ListUserInbox 获取用户的收件箱列表 (通知类)
-func (c *InternalMessageServiceHTTPClientImpl) ListUserInbox(ctx context.Context, in *v1.PagingRequest, opts ...http.CallOption) (*v11.ListUserInboxResponse, error) {
-	var out v11.ListUserInboxResponse
-	pattern := "/admin/v1/internal-message/inbox"
-	path := binding.EncodeURL(pattern, in, true)
-	opts = append(opts, http.Operation(OperationInternalMessageServiceListUserInbox))
-	opts = append(opts, http.PathTemplate(pattern))
-	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return &out, nil
-}
-
-// MarkNotificationAsRead 将通知标记为已读
-func (c *InternalMessageServiceHTTPClientImpl) MarkNotificationAsRead(ctx context.Context, in *v11.MarkNotificationAsReadRequest, opts ...http.CallOption) (*emptypb.Empty, error) {
-	var out emptypb.Empty
-	pattern := "/admin/v1/internal-message/read"
-	path := binding.EncodeURL(pattern, in, false)
-	opts = append(opts, http.Operation(OperationInternalMessageServiceMarkNotificationAsRead))
-	opts = append(opts, http.PathTemplate(pattern))
-	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
 	if err != nil {
 		return nil, err
 	}

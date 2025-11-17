@@ -8,12 +8,9 @@
 import type { Empty } from "../../../google/protobuf/empty.pb";
 import type {
   DeleteInternalMessageRequest,
-  DeleteNotificationFromInboxRequest,
   GetInternalMessageRequest,
   InternalMessage,
   ListInternalMessageResponse,
-  ListUserInboxResponse,
-  MarkNotificationAsReadRequest,
   RevokeMessageRequest,
   SendMessageRequest,
   SendMessageResponse,
@@ -33,12 +30,6 @@ export interface InternalMessageService {
   DeleteMessage(request: DeleteInternalMessageRequest): Promise<Empty>;
   /** 发送消息 */
   SendMessage(request: SendMessageRequest): Promise<SendMessageResponse>;
-  /** 获取用户的收件箱列表 (通知类) */
-  ListUserInbox(request: PagingRequest): Promise<ListUserInboxResponse>;
-  /** 删除用户收件箱中的通知记录 */
-  DeleteNotificationFromInbox(request: DeleteNotificationFromInboxRequest): Promise<Empty>;
-  /** 将通知标记为已读 */
-  MarkNotificationAsRead(request: MarkNotificationAsReadRequest): Promise<Empty>;
   /** 撤销某条消息 */
   RevokeMessage(request: RevokeMessageRequest): Promise<Empty>;
 }

@@ -72,7 +72,7 @@ func (s *redactedInternalMessageServiceServer) GetMessage(ctx context.Context, i
 
 // CreateMessage is the redacted wrapper for the actual InternalMessageServiceServer.CreateMessage method
 // Unary RPC
-func (s *redactedInternalMessageServiceServer) CreateMessage(ctx context.Context, in *CreateInternalMessageRequest) (*emptypb.Empty, error) {
+func (s *redactedInternalMessageServiceServer) CreateMessage(ctx context.Context, in *CreateInternalMessageRequest) (*InternalMessage, error) {
 	res, err := s.srv.CreateMessage(ctx, in)
 	if !s.bypass.CheckInternal(ctx) {
 		// Apply redaction to the response
@@ -114,50 +114,6 @@ func (s *redactedInternalMessageServiceServer) SendMessage(ctx context.Context, 
 	return res, err
 }
 
-// ListUserInbox is the redacted wrapper for the actual InternalMessageServiceServer.ListUserInbox method
-// Unary RPC
-func (s *redactedInternalMessageServiceServer) ListUserInbox(ctx context.Context, in *pagination.PagingRequest) (*ListUserInboxResponse, error) {
-	res, err := s.srv.ListUserInbox(ctx, in)
-	if !s.bypass.CheckInternal(ctx) {
-		// Apply redaction to the response
-		redact.Apply(res)
-	}
-	return res, err
-}
-
-// DeleteNotificationFromInbox is the redacted wrapper for the actual InternalMessageServiceServer.DeleteNotificationFromInbox method
-// Unary RPC
-func (s *redactedInternalMessageServiceServer) DeleteNotificationFromInbox(ctx context.Context, in *DeleteNotificationFromInboxRequest) (*emptypb.Empty, error) {
-	res, err := s.srv.DeleteNotificationFromInbox(ctx, in)
-	if !s.bypass.CheckInternal(ctx) {
-		// Apply redaction to the response
-		redact.Apply(res)
-	}
-	return res, err
-}
-
-// MarkNotificationAsRead is the redacted wrapper for the actual InternalMessageServiceServer.MarkNotificationAsRead method
-// Unary RPC
-func (s *redactedInternalMessageServiceServer) MarkNotificationAsRead(ctx context.Context, in *MarkNotificationAsReadRequest) (*emptypb.Empty, error) {
-	res, err := s.srv.MarkNotificationAsRead(ctx, in)
-	if !s.bypass.CheckInternal(ctx) {
-		// Apply redaction to the response
-		redact.Apply(res)
-	}
-	return res, err
-}
-
-// MarkNotificationsStatus is the redacted wrapper for the actual InternalMessageServiceServer.MarkNotificationsStatus method
-// Unary RPC
-func (s *redactedInternalMessageServiceServer) MarkNotificationsStatus(ctx context.Context, in *MarkNotificationsStatusRequest) (*emptypb.Empty, error) {
-	res, err := s.srv.MarkNotificationsStatus(ctx, in)
-	if !s.bypass.CheckInternal(ctx) {
-		// Apply redaction to the response
-		redact.Apply(res)
-	}
-	return res, err
-}
-
 // RevokeMessage is the redacted wrapper for the actual InternalMessageServiceServer.RevokeMessage method
 // Unary RPC
 func (s *redactedInternalMessageServiceServer) RevokeMessage(ctx context.Context, in *RevokeMessageRequest) (*emptypb.Empty, error) {
@@ -192,42 +148,6 @@ func (x *InternalMessage) Redact() string {
 	// Safe field: CategoryId
 
 	// Safe field: CategoryName
-
-	// Safe field: CreatedBy
-
-	// Safe field: UpdatedBy
-
-	// Safe field: DeletedBy
-
-	// Safe field: CreatedAt
-
-	// Safe field: UpdatedAt
-
-	// Safe field: DeletedAt
-	return x.String()
-}
-
-// Redact method implementation for InternalMessageRecipient
-func (x *InternalMessageRecipient) Redact() string {
-	if x == nil {
-		return ""
-	}
-
-	// Safe field: Id
-
-	// Safe field: MessageId
-
-	// Safe field: RecipientUserId
-
-	// Safe field: Status
-
-	// Safe field: ReceivedAt
-
-	// Safe field: ReadAt
-
-	// Safe field: Title
-
-	// Safe field: Content
 
 	// Safe field: CreatedBy
 
@@ -301,20 +221,6 @@ func (x *DeleteInternalMessageRequest) Redact() string {
 	return x.String()
 }
 
-// Redact method implementation for UpdateInternalMessageRecipientRequest
-func (x *UpdateInternalMessageRecipientRequest) Redact() string {
-	if x == nil {
-		return ""
-	}
-
-	// Safe field: Data
-
-	// Safe field: UpdateMask
-
-	// Safe field: AllowMissing
-	return x.String()
-}
-
 // Redact method implementation for SendMessageRequest
 func (x *SendMessageRequest) Redact() string {
 	if x == nil {
@@ -349,44 +255,6 @@ func (x *SendMessageResponse) Redact() string {
 	return x.String()
 }
 
-// Redact method implementation for ListUserInboxResponse
-func (x *ListUserInboxResponse) Redact() string {
-	if x == nil {
-		return ""
-	}
-
-	// Safe field: Items
-
-	// Safe field: Total
-	return x.String()
-}
-
-// Redact method implementation for MarkNotificationAsReadRequest
-func (x *MarkNotificationAsReadRequest) Redact() string {
-	if x == nil {
-		return ""
-	}
-
-	// Safe field: UserId
-
-	// Safe field: RecipientIds
-	return x.String()
-}
-
-// Redact method implementation for MarkNotificationsStatusRequest
-func (x *MarkNotificationsStatusRequest) Redact() string {
-	if x == nil {
-		return ""
-	}
-
-	// Safe field: UserId
-
-	// Safe field: RecipientIds
-
-	// Safe field: NewStatus
-	return x.String()
-}
-
 // Redact method implementation for RevokeMessageRequest
 func (x *RevokeMessageRequest) Redact() string {
 	if x == nil {
@@ -396,17 +264,5 @@ func (x *RevokeMessageRequest) Redact() string {
 	// Safe field: MessageId
 
 	// Safe field: UserId
-	return x.String()
-}
-
-// Redact method implementation for DeleteNotificationFromInboxRequest
-func (x *DeleteNotificationFromInboxRequest) Redact() string {
-	if x == nil {
-		return ""
-	}
-
-	// Safe field: UserId
-
-	// Safe field: RecipientIds
 	return x.String()
 }

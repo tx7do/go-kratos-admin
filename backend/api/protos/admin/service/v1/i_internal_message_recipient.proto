@@ -1,0 +1,37 @@
+syntax = "proto3";
+
+package admin.service.v1;
+
+import "gnostic/openapi/v3/annotations.proto";
+import "google/api/annotations.proto";
+import "google/protobuf/empty.proto";
+
+import "pagination/v1/pagination.proto";
+
+import "internal_message/service/v1/internal_message_recipient.proto";
+
+// 站内信消息管理服务
+service InternalMessageRecipientService {
+  // 获取用户的收件箱列表 (通知类)
+  rpc ListUserInbox(pagination.PagingRequest) returns (internal_message.service.v1.ListUserInboxResponse) {
+    option (google.api.http) = {
+      get: "/admin/v1/internal-message/inbox"
+    };
+  }
+
+  // 删除用户收件箱中的通知记录
+  rpc DeleteNotificationFromInbox(internal_message.service.v1.DeleteNotificationFromInboxRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      post: "/admin/v1/internal-message/inbox/delete"
+      body: "*"
+    };
+  }
+
+  // 将通知标记为已读
+  rpc MarkNotificationAsRead(internal_message.service.v1.MarkNotificationAsReadRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      post: "/admin/v1/internal-message/read"
+      body: "*"
+    };
+  }
+}

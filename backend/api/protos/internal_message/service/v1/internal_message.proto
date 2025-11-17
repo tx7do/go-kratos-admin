@@ -22,7 +22,7 @@ service InternalMessageService {
   rpc GetMessage(GetInternalMessageRequest) returns (InternalMessage) {}
 
   // 创建站内信消息
-  rpc CreateMessage(CreateInternalMessageRequest) returns (google.protobuf.Empty) {}
+  rpc CreateMessage(CreateInternalMessageRequest) returns (InternalMessage) {}
 
   // 更新站内信消息
   rpc UpdateMessage(UpdateInternalMessageRequest) returns (google.protobuf.Empty) {}
@@ -34,19 +34,7 @@ service InternalMessageService {
   // 发送消息
   rpc SendMessage(SendMessageRequest) returns (SendMessageResponse);
 
-  // 获取用户的收件箱列表 (通知类)
-  rpc ListUserInbox(pagination.PagingRequest) returns (ListUserInboxResponse);
-
-  // 删除用户收件箱中的通知记录
-  rpc DeleteNotificationFromInbox(DeleteNotificationFromInboxRequest) returns (google.protobuf.Empty);
-
-  // 将通知标记为已读
-  rpc MarkNotificationAsRead(MarkNotificationAsReadRequest) returns (google.protobuf.Empty);
-
-  // 标记特定用户的某些或所有通知的状态
-  rpc MarkNotificationsStatus(MarkNotificationsStatusRequest) returns (google.protobuf.Empty);
-
-  // 撤销某条消息
+  // 撤销消息
   rpc RevokeMessage(RevokeMessageRequest) returns (google.protobuf.Empty);
 }
 
@@ -124,59 +112,6 @@ message InternalMessage {
   optional google.protobuf.Timestamp deleted_at = 202 [json_name = "deletedAt", (gnostic.openapi.v3.property) = {description: "删除时间"}];// 删除时间
 }
 
-// 站内信消息用户接收信息
-message InternalMessageRecipient {
-  // 消息状态
-  enum Status {
-    SENT = 0;      // (系统状态) 消息已存入接收者收件箱，等待客户端拉取
-    RECEIVED = 1;  // (客户端回执) 接收方客户端已成功接收/下载该消息
-    READ = 2;      // (客户端回执) 接收方已读消息
-    REVOKED = 3;   // (发送者动作) 消息被发送者撤销
-    DELETED = 4;   // (接收者动作) 接收者删除该消息
-  }
-
-  optional uint32 id = 1 [
-    json_name = "id",
-    (gnostic.openapi.v3.property) = { description: "记录ID" }
-  ]; // 记录ID
-
-  optional uint32 message_id = 2 [
-    json_name = "messageId",
-    (gnostic.openapi.v3.property) = { description: "站内信内容ID" }
-  ]; // 站内信内容ID
-
-  optional uint32 recipient_user_id = 3 [
-    json_name = "recipientUserId",
-    (gnostic.openapi.v3.property) = { description: "接收者用户ID" }
-  ]; // 接收者用户ID
-
-  optional Status status = 4 [
-    json_name = "status",
-    (gnostic.openapi.v3.property) = { description: "消息状态" }
-  ]; // 消息状态
-
-  optional google.protobuf.Timestamp received_at = 5 [json_name = "receivedAt", (gnostic.openapi.v3.property) = {description: "消息到达用户收件箱的时间"}];// 消息到达用户收件箱的时间
-  optional google.protobuf.Timestamp read_at = 6 [json_name = "readAt", (gnostic.openapi.v3.property) = {description: "用户阅读消息的时间"}];// 用户阅读消息的时间
-
-  optional string title = 10 [
-    json_name = "title",
-    (gnostic.openapi.v3.property) = { description: "消息标题" }
-  ]; // 消息标题
-
-  optional string content = 11 [
-    json_name = "content",
-    (gnostic.openapi.v3.property) = { description: "消息内容" }
-  ]; // 消息内容
-
-  optional uint32 created_by = 100 [json_name = "createdBy", (gnostic.openapi.v3.property) = {description: "创建者ID"}]; // 创建者ID
-  optional uint32 updated_by = 101 [json_name = "updatedBy", (gnostic.openapi.v3.property) = {description: "更新者ID"}]; // 更新者ID
-  optional uint32 deleted_by = 102 [json_name = "deletedBy", (gnostic.openapi.v3.property) = {description: "删除者用户ID"}]; // 删除者用户ID
-
-  optional google.protobuf.Timestamp created_at = 200 [json_name = "createdAt", (gnostic.openapi.v3.property) = {description: "创建时间"}];// 创建时间
-  optional google.protobuf.Timestamp updated_at = 201 [json_name = "updatedAt", (gnostic.openapi.v3.property) = {description: "更新时间"}];// 更新时间
-  optional google.protobuf.Timestamp deleted_at = 202 [json_name = "deletedAt", (gnostic.openapi.v3.property) = {description: "删除时间"}];// 删除时间
-}
-
 // 查询站内信消息列表 - 回应
 message ListInternalMessageResponse {
   repeated InternalMessage items = 1;
@@ -222,25 +157,6 @@ message UpdateInternalMessageRequest {
 message DeleteInternalMessageRequest {
   uint32 id = 1;
 }
-
-// 更新站内信消息 - 请求
-message UpdateInternalMessageRecipientRequest {
-  InternalMessageRecipient data = 1;
-
-  google.protobuf.FieldMask update_mask = 2 [
-    (gnostic.openapi.v3.property) = {
-      description: "要更新的字段列表",
-      example: {yaml : "id,realname,username"}
-    },
-    json_name = "updateMask"
-  ]; // 要更新的字段列表
-
-  optional bool allow_missing = 3 [
-    (gnostic.openapi.v3.property) = {description: "如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。"},
-    json_name = "allowMissing"
-  ]; // 如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。
-}
-
 
 message SendMessageRequest {
   InternalMessage.Type type = 1 [
@@ -291,40 +207,6 @@ message SendMessageResponse {
   ]; // 消息ID
 }
 
-message ListUserInboxResponse {
-  repeated InternalMessageRecipient items = 1;
-  uint32 total = 2;
-}
-
-message MarkNotificationAsReadRequest {
-  uint32 user_id = 1 [
-    json_name = "userId",
-    (gnostic.openapi.v3.property) = { description: "用户ID" }
-  ]; // 用户ID
-
-  repeated uint32 recipient_ids = 2 [
-    json_name = "recipientIds",
-    (gnostic.openapi.v3.property) = { description: "收件箱记录ID列表" }
-  ]; // 收件箱记录ID列表
-}
-
-message MarkNotificationsStatusRequest {
-  uint32 user_id = 1 [
-    json_name = "userId",
-    (gnostic.openapi.v3.property) = { description: "用户ID" }
-  ]; // 用户ID
-
-  repeated uint32 recipient_ids = 2 [
-    json_name = "recipientIds",
-    (gnostic.openapi.v3.property) = { description: "收件箱记录ID列表" }
-  ]; // 收件箱记录ID列表
-
-  InternalMessageRecipient.Status new_status = 3 [
-    json_name = "newStatus",
-    (gnostic.openapi.v3.property) = { description: "新的消息状态" }
-  ]; // 新的消息状态
-}
-
 message RevokeMessageRequest {
   uint32 message_id = 1 [
     json_name = "messageId",
@@ -335,16 +217,4 @@ message RevokeMessageRequest {
     json_name = "userId",
     (gnostic.openapi.v3.property) = { description: "用户ID" }
   ]; // 用户ID
-}
-
-message DeleteNotificationFromInboxRequest {
-  uint32 user_id = 1 [
-    json_name = "userId",
-    (gnostic.openapi.v3.property) = { description: "用户ID" }
-  ]; // 用户ID
-
-  repeated uint32 recipient_ids = 2 [
-    json_name = "recipientIds",
-    (gnostic.openapi.v3.property) = { description: "收件箱记录ID列表" }
-  ]; // 收件箱记录ID列表
 }

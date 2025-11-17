@@ -27,6 +27,7 @@ var ProviderSet = wire.NewSet(
 	NewTenantService,
 	NewInternalMessageService,
 	NewInternalMessageCategoryService,
+	NewInternalMessageRecipientService,
 	NewAdminLoginRestrictionService,
 	NewUserProfileService,
 	NewUserCredentialService,

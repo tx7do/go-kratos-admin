@@ -122,12 +122,18 @@ func (r *RoleRepo) IsExist(ctx context.Context, id uint32) (bool, error) {
 	return exist, nil
 }
 
-func (r *RoleRepo) Get(ctx context.Context, id uint32) (*userV1.Role, error) {
-	if id == 0 {
+func (r *RoleRepo) Get(ctx context.Context, req *userV1.GetRoleRequest) (*userV1.Role, error) {
+	if req == nil {
 		return nil, userV1.ErrorBadRequest("invalid parameter")
 	}
 
-	entity, err := r.data.db.Client().Role.Get(ctx, id)
+	builder := r.data.db.Client().Role.Query()
+
+	builder.Where(role.IDEQ(req.GetId()))
+
+	entgoQuery.ApplyFieldMaskToBuilder(builder, req.ViewMask)
+
+	entity, err := builder.Only(ctx)
 	if err != nil {
 		if ent.IsNotFound(err) {
 			return nil, userV1.ErrorRoleNotFound("role not found")

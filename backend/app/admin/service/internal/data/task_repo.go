@@ -10,7 +10,7 @@ import (
 	"google.golang.org/protobuf/proto"
 
 	"github.com/tx7do/go-utils/copierutil"
-	"github.com/tx7do/go-utils/entgo/query"
+	entgoQuery "github.com/tx7do/go-utils/entgo/query"
 	entgoUpdate "github.com/tx7do/go-utils/entgo/update"
 	"github.com/tx7do/go-utils/fieldmaskutil"
 	"github.com/tx7do/go-utils/mapper"
@@ -73,7 +73,7 @@ func (r *TaskRepo) List(ctx context.Context, req *pagination.PagingRequest) (*ad
 
 	builder := r.data.db.Client().Task.Query()
 
-	err, whereSelectors, querySelectors := entgo.BuildQuerySelector(
+	err, whereSelectors, querySelectors := entgoQuery.BuildQuerySelector(
 		req.GetQuery(), req.GetOrQuery(),
 		req.GetPage(), req.GetPageSize(), req.GetNoPaging(),
 		req.GetOrderBy(), task.FieldCreatedAt,
@@ -122,12 +122,18 @@ func (r *TaskRepo) IsExist(ctx context.Context, id uint32) (bool, error) {
 	return exist, nil
 }
 
-func (r *TaskRepo) Get(ctx context.Context, id uint32) (*adminV1.Task, error) {
-	if id == 0 {
+func (r *TaskRepo) Get(ctx context.Context, req *adminV1.GetTaskRequest) (*adminV1.Task, error) {
+	if req == nil {
 		return nil, adminV1.ErrorBadRequest("invalid parameter")
 	}
 
-	entity, err := r.data.db.Client().Task.Get(ctx, id)
+	builder := r.data.db.Client().Task.Query()
+
+	builder.Where(task.IDEQ(req.GetId()))
+
+	entgoQuery.ApplyFieldMaskToBuilder(builder, req.ViewMask)
+
+	entity, err := builder.Only(ctx)
 	if err != nil {
 		if ent.IsNotFound(err) {
 			return nil, adminV1.ErrorNotFound("task not found")

@@ -51,7 +51,7 @@ func (s *TaskService) List(ctx context.Context, req *pagination.PagingRequest) (
 }
 
 func (s *TaskService) Get(ctx context.Context, req *adminV1.GetTaskRequest) (*adminV1.Task, error) {
-	return s.taskRepo.Get(ctx, req.GetId())
+	return s.taskRepo.Get(ctx, req)
 }
 
 func (s *TaskService) GetTaskByTypeName(ctx context.Context, req *adminV1.GetTaskByTypeNameRequest) (*adminV1.Task, error) {
@@ -119,7 +119,7 @@ func (s *TaskService) Update(ctx context.Context, req *adminV1.UpdateTaskRequest
 func (s *TaskService) Delete(ctx context.Context, req *adminV1.DeleteTaskRequest) (*emptypb.Empty, error) {
 	var err error
 	var t *adminV1.Task
-	if t, err = s.taskRepo.Get(ctx, req.GetId()); err != nil {
+	if t, err = s.taskRepo.Get(ctx, &adminV1.GetTaskRequest{Id: req.GetId()}); err != nil {
 		s.log.Error(err)
 	}
 

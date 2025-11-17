@@ -179,7 +179,13 @@ func (r *MenuRepo) Get(ctx context.Context, req *adminV1.GetMenuRequest) (*admin
 		return nil, adminV1.ErrorBadRequest("invalid parameter")
 	}
 
-	entity, err := r.data.db.Client().Menu.Get(ctx, req.GetId())
+	builder := r.data.db.Client().Menu.Query()
+
+	builder.Where(menu.IDEQ(req.GetId()))
+
+	entgoQuery.ApplyFieldMaskToBuilder(builder, req.ViewMask)
+
+	entity, err := builder.Only(ctx)
 	if err != nil {
 		if ent.IsNotFound(err) {
 			return nil, adminV1.ErrorNotFound("menu not found")

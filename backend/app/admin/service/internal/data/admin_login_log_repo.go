@@ -8,7 +8,7 @@ import (
 	"github.com/go-kratos/kratos/v2/log"
 
 	"github.com/tx7do/go-utils/copierutil"
-	entgo "github.com/tx7do/go-utils/entgo/query"
+	entgoQuery "github.com/tx7do/go-utils/entgo/query"
 	"github.com/tx7do/go-utils/mapper"
 	"github.com/tx7do/go-utils/timeutil"
 	pagination "github.com/tx7do/kratos-bootstrap/api/gen/go/pagination/v1"
@@ -65,7 +65,7 @@ func (r *AdminLoginLogRepo) List(ctx context.Context, req *pagination.PagingRequ
 
 	builder := r.data.db.Client().AdminLoginLog.Query()
 
-	err, whereSelectors, querySelectors := entgo.BuildQuerySelector(
+	err, whereSelectors, querySelectors := entgoQuery.BuildQuerySelector(
 		req.GetQuery(), req.GetOrQuery(),
 		req.GetPage(), req.GetPageSize(), req.GetNoPaging(),
 		req.GetOrderBy(), adminloginlog.FieldCreatedAt,
@@ -119,7 +119,13 @@ func (r *AdminLoginLogRepo) Get(ctx context.Context, req *adminV1.GetAdminLoginL
 		return nil, adminV1.ErrorBadRequest("invalid parameter")
 	}
 
-	entity, err := r.data.db.Client().AdminLoginLog.Get(ctx, req.GetId())
+	builder := r.data.db.Client().AdminLoginLog.Query()
+
+	builder.Where(adminloginlog.IDEQ(req.GetId()))
+
+	entgoQuery.ApplyFieldMaskToBuilder(builder, req.ViewMask)
+
+	entity, err := builder.Only(ctx)
 	if err != nil {
 		if ent.IsNotFound(err) {
 			return nil, adminV1.ErrorNotFound("admin login log not found")

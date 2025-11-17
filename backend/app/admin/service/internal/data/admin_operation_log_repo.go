@@ -10,7 +10,7 @@ import (
 	"google.golang.org/protobuf/types/known/durationpb"
 
 	"github.com/tx7do/go-utils/copierutil"
-	entgo "github.com/tx7do/go-utils/entgo/query"
+	entgoQuery "github.com/tx7do/go-utils/entgo/query"
 	"github.com/tx7do/go-utils/mapper"
 	"github.com/tx7do/go-utils/timeutil"
 	"github.com/tx7do/go-utils/trans"
@@ -80,7 +80,7 @@ func (r *AdminOperationLogRepo) List(ctx context.Context, req *pagination.Paging
 
 	builder := r.data.db.Client().AdminOperationLog.Query()
 
-	err, whereSelectors, querySelectors := entgo.BuildQuerySelector(
+	err, whereSelectors, querySelectors := entgoQuery.BuildQuerySelector(
 		req.GetQuery(), req.GetOrQuery(),
 		req.GetPage(), req.GetPageSize(), req.GetNoPaging(),
 		req.GetOrderBy(), adminoperationlog.FieldCreatedAt,
@@ -134,7 +134,13 @@ func (r *AdminOperationLogRepo) Get(ctx context.Context, req *adminV1.GetAdminOp
 		return nil, adminV1.ErrorBadRequest("invalid parameter")
 	}
 
-	entity, err := r.data.db.Client().AdminOperationLog.Get(ctx, req.GetId())
+	builder := r.data.db.Client().AdminOperationLog.Query()
+
+	builder.Where(adminoperationlog.IDEQ(req.GetId()))
+
+	entgoQuery.ApplyFieldMaskToBuilder(builder, req.ViewMask)
+
+	entity, err := builder.Only(ctx)
 	if err != nil {
 		if ent.IsNotFound(err) {
 			return nil, adminV1.ErrorNotFound("admin operation log not found")

@@ -180,7 +180,13 @@ func (r *PositionRepo) Get(ctx context.Context, req *userV1.GetPositionRequest) 
 		return nil, userV1.ErrorBadRequest("invalid parameter")
 	}
 
-	entity, err := r.data.db.Client().Position.Get(ctx, req.GetId())
+	builder := r.data.db.Client().Position.Query()
+
+	builder.Where(position.IDEQ(req.GetId()))
+
+	entgoQuery.ApplyFieldMaskToBuilder(builder, req.ViewMask)
+
+	entity, err := builder.Only(ctx)
 	if err != nil {
 		if ent.IsNotFound(err) {
 			return nil, userV1.ErrorPositionNotFound("position not found")

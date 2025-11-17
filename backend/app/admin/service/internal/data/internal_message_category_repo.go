@@ -175,7 +175,13 @@ func (r *InternalMessageCategoryRepo) Get(ctx context.Context, req *internalMess
 		return nil, internalMessageV1.ErrorBadRequest("invalid parameter")
 	}
 
-	entity, err := r.data.db.Client().InternalMessageCategory.Get(ctx, req.GetId())
+	builder := r.data.db.Client().InternalMessageCategory.Query()
+
+	builder.Where(internalmessagecategory.IDEQ(req.GetId()))
+
+	entgoQuery.ApplyFieldMaskToBuilder(builder, req.ViewMask)
+
+	entity, err := builder.Only(ctx)
 	if err != nil {
 		if ent.IsNotFound(err) {
 			return nil, internalMessageV1.ErrorNotFound("message category not found")

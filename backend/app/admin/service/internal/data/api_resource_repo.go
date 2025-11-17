@@ -10,7 +10,7 @@ import (
 	"google.golang.org/protobuf/proto"
 
 	"github.com/tx7do/go-utils/copierutil"
-	entgo "github.com/tx7do/go-utils/entgo/query"
+	entgoQuery "github.com/tx7do/go-utils/entgo/query"
 	entgoUpdate "github.com/tx7do/go-utils/entgo/update"
 	"github.com/tx7do/go-utils/fieldmaskutil"
 	"github.com/tx7do/go-utils/mapper"
@@ -73,7 +73,7 @@ func (r *ApiResourceRepo) List(ctx context.Context, req *pagination.PagingReques
 
 	builder := r.data.db.Client().ApiResource.Query()
 
-	err, whereSelectors, querySelectors := entgo.BuildQuerySelector(
+	err, whereSelectors, querySelectors := entgoQuery.BuildQuerySelector(
 		req.GetQuery(), req.GetOrQuery(),
 		req.GetPage(), req.GetPageSize(), req.GetNoPaging(),
 		req.GetOrderBy(), apiresource.FieldCreatedAt,
@@ -127,7 +127,13 @@ func (r *ApiResourceRepo) Get(ctx context.Context, req *adminV1.GetApiResourceRe
 		return nil, adminV1.ErrorBadRequest("invalid parameter")
 	}
 
-	entity, err := r.data.db.Client().ApiResource.Get(ctx, req.GetId())
+	builder := r.data.db.Client().ApiResource.Query()
+
+	builder.Where(apiresource.IDEQ(req.GetId()))
+
+	entgoQuery.ApplyFieldMaskToBuilder(builder, req.ViewMask)
+
+	entity, err := builder.Only(ctx)
 	if err != nil {
 		if ent.IsNotFound(err) {
 			return nil, adminV1.ErrorNotFound("api resource not found")

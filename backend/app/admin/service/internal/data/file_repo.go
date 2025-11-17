@@ -10,7 +10,7 @@ import (
 	"google.golang.org/protobuf/proto"
 
 	"github.com/tx7do/go-utils/copierutil"
-	entgo "github.com/tx7do/go-utils/entgo/query"
+	entgoQuery "github.com/tx7do/go-utils/entgo/query"
 	entgoUpdate "github.com/tx7do/go-utils/entgo/update"
 	"github.com/tx7do/go-utils/fieldmaskutil"
 	"github.com/tx7do/go-utils/mapper"
@@ -73,7 +73,7 @@ func (r *FileRepo) List(ctx context.Context, req *pagination.PagingRequest) (*fi
 
 	builder := r.data.db.Client().File.Query()
 
-	err, whereSelectors, querySelectors := entgo.BuildQuerySelector(
+	err, whereSelectors, querySelectors := entgoQuery.BuildQuerySelector(
 		req.GetQuery(), req.GetOrQuery(),
 		req.GetPage(), req.GetPageSize(), req.GetNoPaging(),
 		req.GetOrderBy(), file.FieldCreatedAt,
@@ -127,7 +127,13 @@ func (r *FileRepo) Get(ctx context.Context, req *fileV1.GetFileRequest) (*fileV1
 		return nil, fileV1.ErrorBadRequest("invalid parameter")
 	}
 
-	entity, err := r.data.db.Client().File.Get(ctx, req.GetId())
+	builder := r.data.db.Client().File.Query()
+
+	builder.Where(file.IDEQ(req.GetId()))
+
+	entgoQuery.ApplyFieldMaskToBuilder(builder, req.ViewMask)
+
+	entity, err := builder.Only(ctx)
 	if err != nil {
 		if ent.IsNotFound(err) {
 			return nil, fileV1.ErrorFileNotFound("file not found")

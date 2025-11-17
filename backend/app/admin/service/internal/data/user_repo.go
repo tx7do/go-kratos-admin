@@ -2,13 +2,12 @@ package data
 
 import (
 	"context"
-	dictV1 "kratos-admin/api/gen/go/dict/service/v1"
 	"time"
 
 	"entgo.io/ent/dialect/sql"
 	"github.com/go-kratos/kratos/v2/log"
 	"github.com/tx7do/go-utils/copierutil"
-	entgo "github.com/tx7do/go-utils/entgo/query"
+	entgoQuery "github.com/tx7do/go-utils/entgo/query"
 	entgoUpdate "github.com/tx7do/go-utils/entgo/update"
 	"github.com/tx7do/go-utils/fieldmaskutil"
 	"github.com/tx7do/go-utils/mapper"
@@ -17,10 +16,11 @@ import (
 	pagination "github.com/tx7do/kratos-bootstrap/api/gen/go/pagination/v1"
 	"google.golang.org/protobuf/proto"
 
-	userV1 "kratos-admin/api/gen/go/user/service/v1"
 	"kratos-admin/app/admin/service/internal/data/ent"
 	_ "kratos-admin/app/admin/service/internal/data/ent/runtime"
 	"kratos-admin/app/admin/service/internal/data/ent/user"
+
+	userV1 "kratos-admin/api/gen/go/user/service/v1"
 )
 
 type UserRepo struct {
@@ -79,7 +79,7 @@ func (r *UserRepo) List(ctx context.Context, req *pagination.PagingRequest) (*us
 
 	builder := r.data.db.Client().User.Query()
 
-	err, whereSelectors, querySelectors := entgo.BuildQuerySelector(
+	err, whereSelectors, querySelectors := entgoQuery.BuildQuerySelector(
 		req.GetQuery(), req.GetOrQuery(),
 		req.GetPage(), req.GetPageSize(), req.GetNoPaging(),
 		req.GetOrderBy(), user.FieldCreatedAt,
@@ -132,6 +132,7 @@ func (r *UserRepo) Get(ctx context.Context, req *userV1.GetUserRequest) (*userV1
 	if req == nil {
 		return nil, userV1.ErrorBadRequest("invalid parameter")
 	}
+
 	builder := r.data.db.Client().User.Query()
 
 	switch req.GetQueryBy().(type) {
@@ -140,8 +141,10 @@ func (r *UserRepo) Get(ctx context.Context, req *userV1.GetUserRequest) (*userV1
 	case *userV1.GetUserRequest_Username:
 		builder.Where(user.UsernameEQ(req.GetUsername()))
 	default:
-		return nil, dictV1.ErrorBadRequest("invalid query parameter")
+		return nil, userV1.ErrorBadRequest("invalid query parameter")
 	}
+
+	entgoQuery.ApplyFieldMaskToBuilder(builder, req.ViewMask)
 
 	entity, err := builder.Only(ctx)
 	if err != nil {

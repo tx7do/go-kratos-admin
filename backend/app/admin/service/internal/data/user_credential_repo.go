@@ -11,7 +11,7 @@ import (
 
 	"github.com/tx7do/go-utils/copierutil"
 	"github.com/tx7do/go-utils/crypto"
-	entgo "github.com/tx7do/go-utils/entgo/query"
+	entgoQuery "github.com/tx7do/go-utils/entgo/query"
 	entgoUpdate "github.com/tx7do/go-utils/entgo/update"
 	"github.com/tx7do/go-utils/fieldmaskutil"
 	"github.com/tx7do/go-utils/mapper"
@@ -96,7 +96,7 @@ func (r *UserCredentialRepo) List(ctx context.Context, req *pagination.PagingReq
 
 	builder := r.data.db.Client().UserCredential.Query()
 
-	err, whereSelectors, querySelectors := entgo.BuildQuerySelector(
+	err, whereSelectors, querySelectors := entgoQuery.BuildQuerySelector(
 		req.GetQuery(), req.GetOrQuery(),
 		req.GetPage(), req.GetPageSize(), req.GetNoPaging(),
 		req.GetOrderBy(), usercredential.FieldCreatedAt,

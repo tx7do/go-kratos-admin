@@ -183,7 +183,13 @@ func (r *OrganizationRepo) Get(ctx context.Context, req *userV1.GetOrganizationR
 		return nil, userV1.ErrorBadRequest("invalid parameter")
 	}
 
-	entity, err := r.data.db.Client().Organization.Get(ctx, req.GetId())
+	builder := r.data.db.Client().Organization.Query()
+
+	builder.Where(organization.IDEQ(req.GetId()))
+
+	entgoQuery.ApplyFieldMaskToBuilder(builder, req.ViewMask)
+
+	entity, err := builder.Only(ctx)
 	if err != nil {
 		if ent.IsNotFound(err) {
 			return nil, userV1.ErrorOrganizationNotFound("organization not found")

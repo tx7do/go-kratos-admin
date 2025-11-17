@@ -72,7 +72,7 @@ func (s *RoleService) List(ctx context.Context, req *pagination.PagingRequest) (
 }
 
 func (s *RoleService) Get(ctx context.Context, req *userV1.GetRoleRequest) (*userV1.Role, error) {
-	return s.roleRepo.Get(ctx, req.GetId())
+	return s.roleRepo.Get(ctx, req)
 }
 
 func (s *RoleService) Create(ctx context.Context, req *userV1.CreateRoleRequest) (*emptypb.Empty, error) {

@@ -10,7 +10,7 @@ import (
 	"google.golang.org/protobuf/proto"
 
 	"github.com/tx7do/go-utils/copierutil"
-	entgo "github.com/tx7do/go-utils/entgo/query"
+	entgoQuery "github.com/tx7do/go-utils/entgo/query"
 	entgoUpdate "github.com/tx7do/go-utils/entgo/update"
 	"github.com/tx7do/go-utils/fieldmaskutil"
 	"github.com/tx7do/go-utils/mapper"
@@ -69,7 +69,7 @@ func (r *DictTypeRepo) List(ctx context.Context, req *pagination.PagingRequest) 
 
 	builder := r.data.db.Client().DictType.Query()
 
-	err, whereSelectors, querySelectors := entgo.BuildQuerySelector(
+	err, whereSelectors, querySelectors := entgoQuery.BuildQuerySelector(
 		req.GetQuery(), req.GetOrQuery(),
 		req.GetPage(), req.GetPageSize(), req.GetNoPaging(),
 		req.GetOrderBy(), dicttype.FieldCreatedAt,
@@ -133,6 +133,8 @@ func (r *DictTypeRepo) Get(ctx context.Context, req *dictV1.GetDictTypeRequest) 
 	default:
 		return nil, dictV1.ErrorBadRequest("invalid query parameter")
 	}
+
+	entgoQuery.ApplyFieldMaskToBuilder(builder, req.ViewMask)
 
 	entity, err := builder.Only(ctx)
 	if err != nil {

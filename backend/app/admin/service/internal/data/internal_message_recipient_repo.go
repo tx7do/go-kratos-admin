@@ -14,6 +14,7 @@ import (
 	"github.com/tx7do/go-utils/timeutil"
 	"github.com/tx7do/go-utils/trans"
 	pagination "github.com/tx7do/kratos-bootstrap/api/gen/go/pagination/v1"
+	"google.golang.org/protobuf/proto"
 
 	"kratos-admin/app/admin/service/internal/data/ent"
 	"kratos-admin/app/admin/service/internal/data/ent/internalmessagerecipient"
@@ -185,13 +186,9 @@ func (r *InternalMessageRecipientRepo) Update(ctx context.Context, req *internal
 		}
 	}
 
-	if req.UpdateMask != nil {
-		req.UpdateMask.Normalize()
-		if !req.UpdateMask.IsValid(req.Data) {
-			r.log.Errorf("invalid field mask [%v]", req.UpdateMask)
-			return internalMessageV1.ErrorBadRequest("invalid field mask")
-		}
-		fieldmaskutil.Filter(req.GetData(), req.UpdateMask.GetPaths())
+	if err := fieldmaskutil.FilterByFieldMask(trans.Ptr(proto.Message(req.GetData())), req.UpdateMask); err != nil {
+		r.log.Errorf("invalid field mask [%v], error: %s", req.UpdateMask, err.Error())
+		return internalMessageV1.ErrorBadRequest("invalid field mask")
 	}
 
 	builder := r.data.db.Client().InternalMessageRecipient.UpdateOneID(req.Data.GetId()).
@@ -206,13 +203,7 @@ func (r *InternalMessageRecipientRepo) Update(ctx context.Context, req *internal
 		builder.SetUpdatedAt(time.Now())
 	}
 
-	if req.UpdateMask != nil {
-		nilPaths := fieldmaskutil.NilValuePaths(req.Data, req.GetUpdateMask().GetPaths())
-		nilUpdater := entgoUpdate.BuildSetNullUpdater(nilPaths)
-		if nilUpdater != nil {
-			builder.Modify(nilUpdater)
-		}
-	}
+	entgoUpdate.ApplyNilFieldMask(proto.Message(req.GetData()), req.UpdateMask, builder)
 
 	if err := builder.Exec(ctx); err != nil {
 		r.log.Errorf("update one data failed: %s", err.Error())

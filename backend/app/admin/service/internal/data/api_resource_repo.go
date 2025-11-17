@@ -6,6 +6,8 @@ import (
 
 	"entgo.io/ent/dialect/sql"
 	"github.com/go-kratos/kratos/v2/log"
+	"github.com/tx7do/go-utils/trans"
+	"google.golang.org/protobuf/proto"
 
 	"github.com/tx7do/go-utils/copierutil"
 	entgo "github.com/tx7do/go-utils/entgo/query"
@@ -215,13 +217,9 @@ func (r *ApiResourceRepo) Update(ctx context.Context, req *adminV1.UpdateApiReso
 		}
 	}
 
-	if req.UpdateMask != nil {
-		req.UpdateMask.Normalize()
-		if !req.UpdateMask.IsValid(req.Data) {
-			r.log.Errorf("invalid field mask [%v]", req.UpdateMask)
-			return adminV1.ErrorBadRequest("invalid field mask")
-		}
-		fieldmaskutil.Filter(req.GetData(), req.UpdateMask.GetPaths())
+	if err := fieldmaskutil.FilterByFieldMask(trans.Ptr(proto.Message(req.GetData())), req.UpdateMask); err != nil {
+		r.log.Errorf("invalid field mask [%v], error: %s", req.UpdateMask, err.Error())
+		return adminV1.ErrorBadRequest("invalid field mask")
 	}
 
 	builder := r.data.db.Client().ApiResource.
@@ -240,13 +238,7 @@ func (r *ApiResourceRepo) Update(ctx context.Context, req *adminV1.UpdateApiReso
 		builder.SetUpdatedAt(time.Now())
 	}
 
-	if req.UpdateMask != nil {
-		nilPaths := fieldmaskutil.NilValuePaths(req.Data, req.GetUpdateMask().GetPaths())
-		nilUpdater := entgoUpdate.BuildSetNullUpdater(nilPaths)
-		if nilUpdater != nil {
-			builder.Modify(nilUpdater)
-		}
-	}
+	entgoUpdate.ApplyNilFieldMask(proto.Message(req.GetData()), req.UpdateMask, builder)
 
 	if err := builder.Exec(ctx); err != nil {
 		r.log.Errorf("update one data failed: %s", err.Error())

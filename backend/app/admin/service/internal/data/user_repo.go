@@ -6,14 +6,15 @@ import (
 
 	"entgo.io/ent/dialect/sql"
 	"github.com/go-kratos/kratos/v2/log"
-
 	"github.com/tx7do/go-utils/copierutil"
 	entgo "github.com/tx7do/go-utils/entgo/query"
 	entgoUpdate "github.com/tx7do/go-utils/entgo/update"
 	"github.com/tx7do/go-utils/fieldmaskutil"
 	"github.com/tx7do/go-utils/mapper"
 	"github.com/tx7do/go-utils/timeutil"
+	"github.com/tx7do/go-utils/trans"
 	pagination "github.com/tx7do/kratos-bootstrap/api/gen/go/pagination/v1"
+	"google.golang.org/protobuf/proto"
 
 	userV1 "kratos-admin/api/gen/go/user/service/v1"
 	"kratos-admin/app/admin/service/internal/data/ent"
@@ -233,14 +234,11 @@ func (r *UserRepo) Update(ctx context.Context, req *userV1.UpdateUserRequest) er
 				continue
 			}
 		}
+	}
 
-		req.UpdateMask.Normalize()
-		if !req.UpdateMask.IsValid(req.Data) {
-			r.log.Errorf("invalid field mask [%v]", req.UpdateMask)
-			return userV1.ErrorBadRequest("invalid field mask")
-		}
-
-		fieldmaskutil.Filter(req.GetData(), req.UpdateMask.GetPaths())
+	if err := fieldmaskutil.FilterByFieldMask(trans.Ptr(proto.Message(req.GetData())), req.UpdateMask); err != nil {
+		r.log.Errorf("invalid field mask [%v], error: %s", req.UpdateMask, err.Error())
+		return userV1.ErrorBadRequest("invalid field mask")
 	}
 
 	builder := r.data.db.Client().User.
@@ -271,10 +269,6 @@ func (r *UserRepo) Update(ctx context.Context, req *userV1.UpdateUserRequest) er
 		builder.SetUpdatedAt(time.Now())
 	}
 
-	//if req.Data.Roles != nil {
-	//	builder.SetRoles(req.Data.GetRoles())
-	//}
-
 	if req.Data.RoleIds != nil {
 		var roleIds []int
 		for _, roleId := range req.Data.GetRoleIds() {
@@ -283,13 +277,7 @@ func (r *UserRepo) Update(ctx context.Context, req *userV1.UpdateUserRequest) er
 		builder.SetRoleIds(roleIds)
 	}
 
-	if req.UpdateMask != nil {
-		nilPaths := fieldmaskutil.NilValuePaths(req.Data, req.GetUpdateMask().GetPaths())
-		nilUpdater := entgoUpdate.BuildSetNullUpdater(nilPaths)
-		if nilUpdater != nil {
-			builder.Modify(nilUpdater)
-		}
-	}
+	entgoUpdate.ApplyNilFieldMask(proto.Message(req.GetData()), req.UpdateMask, builder)
 
 	if err := builder.Exec(ctx); err != nil {
 		r.log.Errorf("update one data failed: %s", err.Error())

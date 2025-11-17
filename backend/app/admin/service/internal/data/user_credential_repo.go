@@ -7,6 +7,7 @@ import (
 
 	"entgo.io/ent/dialect/sql"
 	"github.com/go-kratos/kratos/v2/log"
+	"google.golang.org/protobuf/proto"
 
 	"github.com/tx7do/go-utils/copierutil"
 	"github.com/tx7do/go-utils/crypto"
@@ -206,13 +207,9 @@ func (r *UserCredentialRepo) Update(ctx context.Context, req *authenticationV1.U
 		req.Data.Credential = trans.Ptr(newCredential)
 	}
 
-	if req.UpdateMask != nil {
-		req.UpdateMask.Normalize()
-		if !req.UpdateMask.IsValid(req.Data) {
-			r.log.Errorf("invalid field mask [%v]", req.UpdateMask)
-			return authenticationV1.ErrorBadRequest("invalid field mask")
-		}
-		fieldmaskutil.Filter(req.GetData(), req.UpdateMask.GetPaths())
+	if err = fieldmaskutil.FilterByFieldMask(trans.Ptr(proto.Message(req.GetData())), req.UpdateMask); err != nil {
+		r.log.Errorf("invalid field mask [%v], error: %s", req.UpdateMask, err.Error())
+		return authenticationV1.ErrorBadRequest("invalid field mask")
 	}
 
 	builder := r.data.db.Client().UserCredential.UpdateOneID(req.Data.Id).
@@ -229,13 +226,7 @@ func (r *UserCredentialRepo) Update(ctx context.Context, req *authenticationV1.U
 		builder.SetUpdatedAt(time.Now())
 	}
 
-	if req.UpdateMask != nil {
-		nilPaths := fieldmaskutil.NilValuePaths(req.Data, req.GetUpdateMask().GetPaths())
-		nilUpdater := entgoUpdate.BuildSetNullUpdater(nilPaths)
-		if nilUpdater != nil {
-			builder.Modify(nilUpdater)
-		}
-	}
+	entgoUpdate.ApplyNilFieldMask(proto.Message(req.GetData()), req.UpdateMask, builder)
 
 	if err = builder.Exec(ctx); err != nil {
 		r.log.Errorf("update one data failed: %s", err.Error())

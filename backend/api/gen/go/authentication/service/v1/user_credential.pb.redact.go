@@ -238,6 +238,8 @@ func (x *GetUserCredentialRequest) Redact() string {
 	}
 
 	// Safe field: Id
+
+	// Safe field: ViewMask
 	return x.String()
 }
 

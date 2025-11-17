@@ -48,16 +48,15 @@ func (s *UserProfileService) GetUser(ctx context.Context, _ *emptypb.Empty) (*us
 		return nil, err
 	}
 
-	user, err := s.userRepo.Get(ctx, operator.UserId)
+	user, err := s.userRepo.Get(ctx, &userV1.GetUserRequest{
+		QueryBy: &userV1.GetUserRequest_Id{
+			Id: operator.UserId,
+		},
+	})
 	if err != nil {
 		s.log.Errorf("查询用户失败[%s]", err.Error())
 		return nil, authenticationV1.ErrorNotFound("user not found")
 	}
-
-	//role, err := s.roleRepo.Get(ctx, user.GetRoleId())
-	//if err == nil && role != nil {
-	//	user.Roles = append(user.Roles, role.GetCode())
-	//}
 
 	roleCodes, err := s.roleRepo.GetRoleCodesByRoleIds(ctx, user.GetRoleIds())
 	if err != nil {

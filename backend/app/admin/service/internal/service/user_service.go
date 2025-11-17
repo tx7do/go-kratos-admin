@@ -244,18 +244,7 @@ func (s *UserService) fillUserInfo(ctx context.Context, user *userV1.User) error
 }
 
 func (s *UserService) Get(ctx context.Context, req *userV1.GetUserRequest) (*userV1.User, error) {
-	resp, err := s.userRepo.Get(ctx, req.GetId())
-	if err != nil {
-		return nil, err
-	}
-
-	_ = s.fillUserInfo(ctx, resp)
-
-	return resp, nil
-}
-
-func (s *UserService) GetUserByUserName(ctx context.Context, req *userV1.GetUserByUserNameRequest) (*userV1.User, error) {
-	resp, err := s.userRepo.GetUserByUserName(ctx, req.GetUsername())
+	resp, err := s.userRepo.Get(ctx, req)
 	if err != nil {
 		return nil, err
 	}
@@ -277,7 +266,11 @@ func (s *UserService) Create(ctx context.Context, req *userV1.CreateUserRequest)
 	}
 
 	// 获取操作者的用户信息
-	operatorUser, err := s.userRepo.Get(ctx, operator.UserId)
+	operatorUser, err := s.userRepo.Get(ctx, &userV1.GetUserRequest{
+		QueryBy: &userV1.GetUserRequest_Id{
+			Id: operator.UserId,
+		},
+	})
 	if err != nil {
 		return nil, err
 	}
@@ -348,7 +341,11 @@ func (s *UserService) Update(ctx context.Context, req *userV1.UpdateUserRequest)
 	}
 
 	// 获取操作者的用户信息
-	operatorUser, err := s.userRepo.Get(ctx, operator.UserId)
+	operatorUser, err := s.userRepo.Get(ctx, &userV1.GetUserRequest{
+		QueryBy: &userV1.GetUserRequest_Id{
+			Id: operator.UserId,
+		},
+	})
 	if err != nil {
 		return nil, err
 	}
@@ -393,7 +390,11 @@ func (s *UserService) Delete(ctx context.Context, req *userV1.DeleteUserRequest)
 	}
 
 	// 获取操作者的用户信息
-	operatorUser, err := s.userRepo.Get(ctx, operator.UserId)
+	operatorUser, err := s.userRepo.Get(ctx, &userV1.GetUserRequest{
+		QueryBy: &userV1.GetUserRequest_Id{
+			Id: operator.UserId,
+		},
+	})
 	if err != nil {
 		return nil, err
 	}
@@ -404,7 +405,11 @@ func (s *UserService) Delete(ctx context.Context, req *userV1.DeleteUserRequest)
 	}
 
 	// 获取将被删除的用户信息
-	user, err := s.userRepo.Get(ctx, req.GetId())
+	user, err := s.userRepo.Get(ctx, &userV1.GetUserRequest{
+		QueryBy: &userV1.GetUserRequest_Id{
+			Id: req.GetId(),
+		},
+	})
 	if err != nil {
 		return nil, err
 	}
@@ -431,7 +436,11 @@ func (s *UserService) UserExists(ctx context.Context, req *userV1.UserExistsRequ
 // EditUserPassword 修改用户密码
 func (s *UserService) EditUserPassword(ctx context.Context, req *adminV1.EditUserPasswordRequest) (*emptypb.Empty, error) {
 	// 获取操作者的用户信息
-	u, err := s.userRepo.Get(ctx, req.GetUserId())
+	u, err := s.userRepo.Get(ctx, &userV1.GetUserRequest{
+		QueryBy: &userV1.GetUserRequest_Id{
+			Id: req.GetUserId(),
+		},
+	})
 	if err != nil {
 		return nil, err
 	}

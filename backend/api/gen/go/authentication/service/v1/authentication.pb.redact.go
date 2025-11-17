@@ -58,7 +58,7 @@ func (s *redactedAuthenticationServiceServer) Login(ctx context.Context, in *Log
 
 // Logout is the redacted wrapper for the actual AuthenticationServiceServer.Logout method
 // Unary RPC
-func (s *redactedAuthenticationServiceServer) Logout(ctx context.Context, in *emptypb.Empty) (*emptypb.Empty, error) {
+func (s *redactedAuthenticationServiceServer) Logout(ctx context.Context, in *LogoutRequest) (*emptypb.Empty, error) {
 	res, err := s.srv.Logout(ctx, in)
 	if !s.bypass.CheckInternal(ctx) {
 		// Apply redaction to the response
@@ -133,9 +133,13 @@ func (x *LoginRequest) Redact() string {
 	PasswordTmp := ``
 	x.Password = &PasswordTmp
 
+	// Safe field: UserId
+
 	// Safe field: RefreshToken
 
 	// Safe field: Code
+
+	// Safe field: ClientType
 	return x.String()
 }
 
@@ -154,6 +158,18 @@ func (x *LoginResponse) Redact() string {
 	// Safe field: ExpiresIn
 
 	// Safe field: Scope
+	return x.String()
+}
+
+// Redact method implementation for LogoutRequest
+func (x *LogoutRequest) Redact() string {
+	if x == nil {
+		return ""
+	}
+
+	// Safe field: UserId
+
+	// Safe field: ClientType
 	return x.String()
 }
 

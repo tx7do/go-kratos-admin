@@ -233,6 +233,7 @@ func (x *ListInternalMessageCategoryResponse) GetTotal() uint32 {
 type GetInternalMessageCategoryRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            uint32                 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	ViewMask      *fieldmaskpb.FieldMask `protobuf:"bytes,100,opt,name=view_mask,json=viewMask,proto3,oneof" json:"view_mask,omitempty"` // 视图字段过滤器，用于控制返回的字段
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -272,6 +273,13 @@ func (x *GetInternalMessageCategoryRequest) GetId() uint32 {
 		return x.Id
 	}
 	return 0
+}
+
+func (x *GetInternalMessageCategoryRequest) GetViewMask() *fieldmaskpb.FieldMask {
+	if x != nil {
+		return x.ViewMask
+	}
+	return nil
 }
 
 // 创建站内信消息分类 - 请求
@@ -470,9 +478,12 @@ const file_internal_message_service_v1_internal_message_category_proto_rawDesc =
 	"\v_deleted_at\"\x87\x01\n" +
 	"#ListInternalMessageCategoryResponse\x12J\n" +
 	"\x05items\x18\x01 \x03(\v24.internal_message.service.v1.InternalMessageCategoryR\x05items\x12\x14\n" +
-	"\x05total\x18\x02 \x01(\rR\x05total\"3\n" +
+	"\x05total\x18\x02 \x01(\rR\x05total\"\xba\x01\n" +
 	"!GetInternalMessageCategoryRequest\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\rR\x02id\"p\n" +
+	"\x02id\x18\x01 \x01(\rR\x02id\x12w\n" +
+	"\tview_mask\x18d \x01(\v2\x1a.google.protobuf.FieldMaskB9\xbaG6\x92\x023视图字段过滤器，用于控制返回的字段H\x00R\bviewMask\x88\x01\x01B\f\n" +
+	"\n" +
+	"_view_mask\"p\n" +
 	"$CreateInternalMessageCategoryRequest\x12H\n" +
 	"\x04data\x18\x01 \x01(\v24.internal_message.service.v1.InternalMessageCategoryR\x04data\"\xae\x03\n" +
 	"$UpdateInternalMessageCategoryRequest\x12H\n" +
@@ -522,24 +533,25 @@ var file_internal_message_service_v1_internal_message_category_proto_depIdxs = [
 	6,  // 2: internal_message.service.v1.InternalMessageCategory.updated_at:type_name -> google.protobuf.Timestamp
 	6,  // 3: internal_message.service.v1.InternalMessageCategory.deleted_at:type_name -> google.protobuf.Timestamp
 	0,  // 4: internal_message.service.v1.ListInternalMessageCategoryResponse.items:type_name -> internal_message.service.v1.InternalMessageCategory
-	0,  // 5: internal_message.service.v1.CreateInternalMessageCategoryRequest.data:type_name -> internal_message.service.v1.InternalMessageCategory
-	0,  // 6: internal_message.service.v1.UpdateInternalMessageCategoryRequest.data:type_name -> internal_message.service.v1.InternalMessageCategory
-	7,  // 7: internal_message.service.v1.UpdateInternalMessageCategoryRequest.update_mask:type_name -> google.protobuf.FieldMask
-	8,  // 8: internal_message.service.v1.InternalMessageCategoryService.List:input_type -> pagination.PagingRequest
-	2,  // 9: internal_message.service.v1.InternalMessageCategoryService.Get:input_type -> internal_message.service.v1.GetInternalMessageCategoryRequest
-	3,  // 10: internal_message.service.v1.InternalMessageCategoryService.Create:input_type -> internal_message.service.v1.CreateInternalMessageCategoryRequest
-	4,  // 11: internal_message.service.v1.InternalMessageCategoryService.Update:input_type -> internal_message.service.v1.UpdateInternalMessageCategoryRequest
-	5,  // 12: internal_message.service.v1.InternalMessageCategoryService.Delete:input_type -> internal_message.service.v1.DeleteInternalMessageCategoryRequest
-	1,  // 13: internal_message.service.v1.InternalMessageCategoryService.List:output_type -> internal_message.service.v1.ListInternalMessageCategoryResponse
-	0,  // 14: internal_message.service.v1.InternalMessageCategoryService.Get:output_type -> internal_message.service.v1.InternalMessageCategory
-	9,  // 15: internal_message.service.v1.InternalMessageCategoryService.Create:output_type -> google.protobuf.Empty
-	9,  // 16: internal_message.service.v1.InternalMessageCategoryService.Update:output_type -> google.protobuf.Empty
-	9,  // 17: internal_message.service.v1.InternalMessageCategoryService.Delete:output_type -> google.protobuf.Empty
-	13, // [13:18] is the sub-list for method output_type
-	8,  // [8:13] is the sub-list for method input_type
-	8,  // [8:8] is the sub-list for extension type_name
-	8,  // [8:8] is the sub-list for extension extendee
-	0,  // [0:8] is the sub-list for field type_name
+	7,  // 5: internal_message.service.v1.GetInternalMessageCategoryRequest.view_mask:type_name -> google.protobuf.FieldMask
+	0,  // 6: internal_message.service.v1.CreateInternalMessageCategoryRequest.data:type_name -> internal_message.service.v1.InternalMessageCategory
+	0,  // 7: internal_message.service.v1.UpdateInternalMessageCategoryRequest.data:type_name -> internal_message.service.v1.InternalMessageCategory
+	7,  // 8: internal_message.service.v1.UpdateInternalMessageCategoryRequest.update_mask:type_name -> google.protobuf.FieldMask
+	8,  // 9: internal_message.service.v1.InternalMessageCategoryService.List:input_type -> pagination.PagingRequest
+	2,  // 10: internal_message.service.v1.InternalMessageCategoryService.Get:input_type -> internal_message.service.v1.GetInternalMessageCategoryRequest
+	3,  // 11: internal_message.service.v1.InternalMessageCategoryService.Create:input_type -> internal_message.service.v1.CreateInternalMessageCategoryRequest
+	4,  // 12: internal_message.service.v1.InternalMessageCategoryService.Update:input_type -> internal_message.service.v1.UpdateInternalMessageCategoryRequest
+	5,  // 13: internal_message.service.v1.InternalMessageCategoryService.Delete:input_type -> internal_message.service.v1.DeleteInternalMessageCategoryRequest
+	1,  // 14: internal_message.service.v1.InternalMessageCategoryService.List:output_type -> internal_message.service.v1.ListInternalMessageCategoryResponse
+	0,  // 15: internal_message.service.v1.InternalMessageCategoryService.Get:output_type -> internal_message.service.v1.InternalMessageCategory
+	9,  // 16: internal_message.service.v1.InternalMessageCategoryService.Create:output_type -> google.protobuf.Empty
+	9,  // 17: internal_message.service.v1.InternalMessageCategoryService.Update:output_type -> google.protobuf.Empty
+	9,  // 18: internal_message.service.v1.InternalMessageCategoryService.Delete:output_type -> google.protobuf.Empty
+	14, // [14:19] is the sub-list for method output_type
+	9,  // [9:14] is the sub-list for method input_type
+	9,  // [9:9] is the sub-list for extension type_name
+	9,  // [9:9] is the sub-list for extension extendee
+	0,  // [0:9] is the sub-list for field type_name
 }
 
 func init() { file_internal_message_service_v1_internal_message_category_proto_init() }
@@ -548,6 +560,7 @@ func file_internal_message_service_v1_internal_message_category_proto_init() {
 		return
 	}
 	file_internal_message_service_v1_internal_message_category_proto_msgTypes[0].OneofWrappers = []any{}
+	file_internal_message_service_v1_internal_message_category_proto_msgTypes[2].OneofWrappers = []any{}
 	file_internal_message_service_v1_internal_message_category_proto_msgTypes[4].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{

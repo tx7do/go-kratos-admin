@@ -217,6 +217,7 @@ func (x *ListLanguageResponse) GetTotal() uint32 {
 type GetLanguageRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            uint32                 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	ViewMask      *fieldmaskpb.FieldMask `protobuf:"bytes,100,opt,name=view_mask,json=viewMask,proto3,oneof" json:"view_mask,omitempty"` // 视图字段过滤器，用于控制返回的字段
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -256,6 +257,13 @@ func (x *GetLanguageRequest) GetId() uint32 {
 		return x.Id
 	}
 	return 0
+}
+
+func (x *GetLanguageRequest) GetViewMask() *fieldmaskpb.FieldMask {
+	if x != nil {
+		return x.ViewMask
+	}
+	return nil
 }
 
 // 创建语言 - 请求
@@ -539,9 +547,12 @@ const file_dict_service_v1_language_proto_rawDesc = "" +
 	"\v_deleted_at\"]\n" +
 	"\x14ListLanguageResponse\x12/\n" +
 	"\x05items\x18\x01 \x03(\v2\x19.dict.service.v1.LanguageR\x05items\x12\x14\n" +
-	"\x05total\x18\x02 \x01(\rR\x05total\"$\n" +
+	"\x05total\x18\x02 \x01(\rR\x05total\"\xab\x01\n" +
 	"\x12GetLanguageRequest\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\rR\x02id\"F\n" +
+	"\x02id\x18\x01 \x01(\rR\x02id\x12w\n" +
+	"\tview_mask\x18d \x01(\v2\x1a.google.protobuf.FieldMaskB9\xbaG6\x92\x023视图字段过滤器，用于控制返回的字段H\x00R\bviewMask\x88\x01\x01B\f\n" +
+	"\n" +
+	"_view_mask\"F\n" +
 	"\x15CreateLanguageRequest\x12-\n" +
 	"\x04data\x18\x01 \x01(\v2\x19.dict.service.v1.LanguageR\x04data\"\x84\x03\n" +
 	"\x15UpdateLanguageRequest\x12-\n" +
@@ -598,27 +609,28 @@ var file_dict_service_v1_language_proto_depIdxs = []int32{
 	8,  // 1: dict.service.v1.Language.updated_at:type_name -> google.protobuf.Timestamp
 	8,  // 2: dict.service.v1.Language.deleted_at:type_name -> google.protobuf.Timestamp
 	0,  // 3: dict.service.v1.ListLanguageResponse.items:type_name -> dict.service.v1.Language
-	0,  // 4: dict.service.v1.CreateLanguageRequest.data:type_name -> dict.service.v1.Language
-	0,  // 5: dict.service.v1.UpdateLanguageRequest.data:type_name -> dict.service.v1.Language
-	9,  // 6: dict.service.v1.UpdateLanguageRequest.update_mask:type_name -> google.protobuf.FieldMask
-	0,  // 7: dict.service.v1.BatchCreateLanguagesRequest.data:type_name -> dict.service.v1.Language
-	10, // 8: dict.service.v1.LanguageService.ListLanguage:input_type -> pagination.PagingRequest
-	2,  // 9: dict.service.v1.LanguageService.Get:input_type -> dict.service.v1.GetLanguageRequest
-	3,  // 10: dict.service.v1.LanguageService.Create:input_type -> dict.service.v1.CreateLanguageRequest
-	4,  // 11: dict.service.v1.LanguageService.Update:input_type -> dict.service.v1.UpdateLanguageRequest
-	5,  // 12: dict.service.v1.LanguageService.Delete:input_type -> dict.service.v1.DeleteLanguageRequest
-	6,  // 13: dict.service.v1.LanguageService.BatchCreate:input_type -> dict.service.v1.BatchCreateLanguagesRequest
-	1,  // 14: dict.service.v1.LanguageService.ListLanguage:output_type -> dict.service.v1.ListLanguageResponse
-	0,  // 15: dict.service.v1.LanguageService.Get:output_type -> dict.service.v1.Language
-	11, // 16: dict.service.v1.LanguageService.Create:output_type -> google.protobuf.Empty
-	11, // 17: dict.service.v1.LanguageService.Update:output_type -> google.protobuf.Empty
-	11, // 18: dict.service.v1.LanguageService.Delete:output_type -> google.protobuf.Empty
-	11, // 19: dict.service.v1.LanguageService.BatchCreate:output_type -> google.protobuf.Empty
-	14, // [14:20] is the sub-list for method output_type
-	8,  // [8:14] is the sub-list for method input_type
-	8,  // [8:8] is the sub-list for extension type_name
-	8,  // [8:8] is the sub-list for extension extendee
-	0,  // [0:8] is the sub-list for field type_name
+	9,  // 4: dict.service.v1.GetLanguageRequest.view_mask:type_name -> google.protobuf.FieldMask
+	0,  // 5: dict.service.v1.CreateLanguageRequest.data:type_name -> dict.service.v1.Language
+	0,  // 6: dict.service.v1.UpdateLanguageRequest.data:type_name -> dict.service.v1.Language
+	9,  // 7: dict.service.v1.UpdateLanguageRequest.update_mask:type_name -> google.protobuf.FieldMask
+	0,  // 8: dict.service.v1.BatchCreateLanguagesRequest.data:type_name -> dict.service.v1.Language
+	10, // 9: dict.service.v1.LanguageService.ListLanguage:input_type -> pagination.PagingRequest
+	2,  // 10: dict.service.v1.LanguageService.Get:input_type -> dict.service.v1.GetLanguageRequest
+	3,  // 11: dict.service.v1.LanguageService.Create:input_type -> dict.service.v1.CreateLanguageRequest
+	4,  // 12: dict.service.v1.LanguageService.Update:input_type -> dict.service.v1.UpdateLanguageRequest
+	5,  // 13: dict.service.v1.LanguageService.Delete:input_type -> dict.service.v1.DeleteLanguageRequest
+	6,  // 14: dict.service.v1.LanguageService.BatchCreate:input_type -> dict.service.v1.BatchCreateLanguagesRequest
+	1,  // 15: dict.service.v1.LanguageService.ListLanguage:output_type -> dict.service.v1.ListLanguageResponse
+	0,  // 16: dict.service.v1.LanguageService.Get:output_type -> dict.service.v1.Language
+	11, // 17: dict.service.v1.LanguageService.Create:output_type -> google.protobuf.Empty
+	11, // 18: dict.service.v1.LanguageService.Update:output_type -> google.protobuf.Empty
+	11, // 19: dict.service.v1.LanguageService.Delete:output_type -> google.protobuf.Empty
+	11, // 20: dict.service.v1.LanguageService.BatchCreate:output_type -> google.protobuf.Empty
+	15, // [15:21] is the sub-list for method output_type
+	9,  // [9:15] is the sub-list for method input_type
+	9,  // [9:9] is the sub-list for extension type_name
+	9,  // [9:9] is the sub-list for extension extendee
+	0,  // [0:9] is the sub-list for field type_name
 }
 
 func init() { file_dict_service_v1_language_proto_init() }
@@ -627,6 +639,7 @@ func file_dict_service_v1_language_proto_init() {
 		return
 	}
 	file_dict_service_v1_language_proto_msgTypes[0].OneofWrappers = []any{}
+	file_dict_service_v1_language_proto_msgTypes[2].OneofWrappers = []any{}
 	file_dict_service_v1_language_proto_msgTypes[4].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{

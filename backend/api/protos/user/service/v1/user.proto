@@ -31,9 +31,6 @@ service UserService {
   // 批量创建用户
   rpc BatchCreate (BatchCreateUsersRequest) returns (BatchCreateUsersResponse) {}
 
-  // 查询用户详情
-  rpc GetUserByUserName (GetUserByUserNameRequest) returns (User) {}
-
   // 用户是否存在
   rpc UserExists (UserExistsRequest) returns (UserExistsResponse) {}
 }
@@ -189,13 +186,24 @@ message ListUserResponse {
 
 // 获取用户数据 - 请求
 message GetUserRequest {
-  uint32 id = 1;
-}
-message GetUserByUserNameRequest {
-  string username = 1 [
-    (gnostic.openapi.v3.property) = {description: "用户登录名", read_only: true},
-    json_name = "username"
-  ]; // 用户登录名
+  oneof query_by {
+    uint32 id = 1 [
+      (gnostic.openapi.v3.property) = {description: "用户ID", read_only: true},
+      json_name = "id"
+    ]; // 用户ID
+
+    string username = 2 [
+      (gnostic.openapi.v3.property) = {description: "用户登录名", read_only: true},
+      json_name = "username"
+    ]; // 用户登录名
+  }
+
+  optional google.protobuf.FieldMask view_mask = 100 [
+    json_name = "viewMask",
+    (gnostic.openapi.v3.property) = {
+      description: "视图字段过滤器，用于控制返回的字段"
+    }
+  ]; // 视图字段过滤器，用于控制返回的字段
 }
 
 // 创建用户 - 请求

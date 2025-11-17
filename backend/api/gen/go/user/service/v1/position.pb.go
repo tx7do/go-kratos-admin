@@ -335,6 +335,7 @@ func (x *ListPositionResponse) GetTotal() uint32 {
 type GetPositionRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            uint32                 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	ViewMask      *fieldmaskpb.FieldMask `protobuf:"bytes,100,opt,name=view_mask,json=viewMask,proto3,oneof" json:"view_mask,omitempty"` // 视图字段过滤器，用于控制返回的字段
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -374,6 +375,13 @@ func (x *GetPositionRequest) GetId() uint32 {
 		return x.Id
 	}
 	return 0
+}
+
+func (x *GetPositionRequest) GetViewMask() *fieldmaskpb.FieldMask {
+	if x != nil {
+		return x.ViewMask
+	}
+	return nil
 }
 
 // 创建职位 - 请求
@@ -678,9 +686,12 @@ const file_user_service_v1_position_proto_rawDesc = "" +
 	"\v_deleted_at\"]\n" +
 	"\x14ListPositionResponse\x12/\n" +
 	"\x05items\x18\x01 \x03(\v2\x19.user.service.v1.PositionR\x05items\x12\x14\n" +
-	"\x05total\x18\x02 \x01(\rR\x05total\"$\n" +
+	"\x05total\x18\x02 \x01(\rR\x05total\"\xab\x01\n" +
 	"\x12GetPositionRequest\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\rR\x02id\"F\n" +
+	"\x02id\x18\x01 \x01(\rR\x02id\x12w\n" +
+	"\tview_mask\x18d \x01(\v2\x1a.google.protobuf.FieldMaskB9\xbaG6\x92\x023视图字段过滤器，用于控制返回的字段H\x00R\bviewMask\x88\x01\x01B\f\n" +
+	"\n" +
+	"_view_mask\"F\n" +
 	"\x15CreatePositionRequest\x12-\n" +
 	"\x04data\x18\x01 \x01(\v2\x19.user.service.v1.PositionR\x04data\"\x84\x03\n" +
 	"\x15UpdatePositionRequest\x12-\n" +
@@ -741,27 +752,28 @@ var file_user_service_v1_position_proto_depIdxs = []int32{
 	9,  // 3: user.service.v1.Position.updated_at:type_name -> google.protobuf.Timestamp
 	9,  // 4: user.service.v1.Position.deleted_at:type_name -> google.protobuf.Timestamp
 	1,  // 5: user.service.v1.ListPositionResponse.items:type_name -> user.service.v1.Position
-	1,  // 6: user.service.v1.CreatePositionRequest.data:type_name -> user.service.v1.Position
-	1,  // 7: user.service.v1.UpdatePositionRequest.data:type_name -> user.service.v1.Position
-	10, // 8: user.service.v1.UpdatePositionRequest.update_mask:type_name -> google.protobuf.FieldMask
-	1,  // 9: user.service.v1.BatchCreatePositionsRequest.data:type_name -> user.service.v1.Position
-	11, // 10: user.service.v1.PositionService.List:input_type -> pagination.PagingRequest
-	3,  // 11: user.service.v1.PositionService.Get:input_type -> user.service.v1.GetPositionRequest
-	4,  // 12: user.service.v1.PositionService.Create:input_type -> user.service.v1.CreatePositionRequest
-	5,  // 13: user.service.v1.PositionService.Update:input_type -> user.service.v1.UpdatePositionRequest
-	6,  // 14: user.service.v1.PositionService.Delete:input_type -> user.service.v1.DeletePositionRequest
-	7,  // 15: user.service.v1.PositionService.BatchCreate:input_type -> user.service.v1.BatchCreatePositionsRequest
-	2,  // 16: user.service.v1.PositionService.List:output_type -> user.service.v1.ListPositionResponse
-	1,  // 17: user.service.v1.PositionService.Get:output_type -> user.service.v1.Position
-	12, // 18: user.service.v1.PositionService.Create:output_type -> google.protobuf.Empty
-	12, // 19: user.service.v1.PositionService.Update:output_type -> google.protobuf.Empty
-	12, // 20: user.service.v1.PositionService.Delete:output_type -> google.protobuf.Empty
-	8,  // 21: user.service.v1.PositionService.BatchCreate:output_type -> user.service.v1.BatchCreatePositionsResponse
-	16, // [16:22] is the sub-list for method output_type
-	10, // [10:16] is the sub-list for method input_type
-	10, // [10:10] is the sub-list for extension type_name
-	10, // [10:10] is the sub-list for extension extendee
-	0,  // [0:10] is the sub-list for field type_name
+	10, // 6: user.service.v1.GetPositionRequest.view_mask:type_name -> google.protobuf.FieldMask
+	1,  // 7: user.service.v1.CreatePositionRequest.data:type_name -> user.service.v1.Position
+	1,  // 8: user.service.v1.UpdatePositionRequest.data:type_name -> user.service.v1.Position
+	10, // 9: user.service.v1.UpdatePositionRequest.update_mask:type_name -> google.protobuf.FieldMask
+	1,  // 10: user.service.v1.BatchCreatePositionsRequest.data:type_name -> user.service.v1.Position
+	11, // 11: user.service.v1.PositionService.List:input_type -> pagination.PagingRequest
+	3,  // 12: user.service.v1.PositionService.Get:input_type -> user.service.v1.GetPositionRequest
+	4,  // 13: user.service.v1.PositionService.Create:input_type -> user.service.v1.CreatePositionRequest
+	5,  // 14: user.service.v1.PositionService.Update:input_type -> user.service.v1.UpdatePositionRequest
+	6,  // 15: user.service.v1.PositionService.Delete:input_type -> user.service.v1.DeletePositionRequest
+	7,  // 16: user.service.v1.PositionService.BatchCreate:input_type -> user.service.v1.BatchCreatePositionsRequest
+	2,  // 17: user.service.v1.PositionService.List:output_type -> user.service.v1.ListPositionResponse
+	1,  // 18: user.service.v1.PositionService.Get:output_type -> user.service.v1.Position
+	12, // 19: user.service.v1.PositionService.Create:output_type -> google.protobuf.Empty
+	12, // 20: user.service.v1.PositionService.Update:output_type -> google.protobuf.Empty
+	12, // 21: user.service.v1.PositionService.Delete:output_type -> google.protobuf.Empty
+	8,  // 22: user.service.v1.PositionService.BatchCreate:output_type -> user.service.v1.BatchCreatePositionsResponse
+	17, // [17:23] is the sub-list for method output_type
+	11, // [11:17] is the sub-list for method input_type
+	11, // [11:11] is the sub-list for extension type_name
+	11, // [11:11] is the sub-list for extension extendee
+	0,  // [0:11] is the sub-list for field type_name
 }
 
 func init() { file_user_service_v1_position_proto_init() }
@@ -770,6 +782,7 @@ func file_user_service_v1_position_proto_init() {
 		return
 	}
 	file_user_service_v1_position_proto_msgTypes[0].OneofWrappers = []any{}
+	file_user_service_v1_position_proto_msgTypes[2].OneofWrappers = []any{}
 	file_user_service_v1_position_proto_msgTypes[4].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{

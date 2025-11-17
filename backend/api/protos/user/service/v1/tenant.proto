@@ -167,6 +167,13 @@ message ListTenantResponse {
 // 租户数据 - 请求
 message GetTenantRequest {
   uint32 id = 1;
+
+  optional google.protobuf.FieldMask view_mask = 100 [
+    json_name = "viewMask",
+    (gnostic.openapi.v3.property) = {
+      description: "视图字段过滤器，用于控制返回的字段"
+    }
+  ]; // 视图字段过滤器，用于控制返回的字段
 }
 
 // 创建租户 - 请求
@@ -226,4 +233,11 @@ message GetTenantByTenantCodeRequest {
     (gnostic.openapi.v3.property) = {description: "租户编码", read_only: true},
     json_name = "code"
   ]; // 租户编码
+
+  optional google.protobuf.FieldMask view_mask = 100 [
+    json_name = "viewMask",
+    (gnostic.openapi.v3.property) = {
+      description: "视图字段过滤器，用于控制返回的字段"
+    }
+  ]; // 视图字段过滤器，用于控制返回的字段
 }

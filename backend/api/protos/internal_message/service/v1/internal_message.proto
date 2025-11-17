@@ -186,6 +186,13 @@ message ListInternalMessageResponse {
 // 查询站内信消息详情 - 请求
 message GetInternalMessageRequest {
   uint32 id = 1;
+
+  optional google.protobuf.FieldMask view_mask = 100 [
+    json_name = "viewMask",
+    (gnostic.openapi.v3.property) = {
+      description: "视图字段过滤器，用于控制返回的字段"
+    }
+  ]; // 视图字段过滤器，用于控制返回的字段
 }
 
 // 创建站内信消息 - 请求

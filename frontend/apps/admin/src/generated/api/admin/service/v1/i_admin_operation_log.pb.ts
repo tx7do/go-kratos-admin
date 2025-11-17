@@ -159,6 +159,8 @@ export interface ListAdminOperationLogResponse {
 /** 查询后台操作日志详情 - 请求 */
 export interface GetAdminOperationLogRequest {
   id: number;
+  /** 视图字段过滤器，用于控制返回的字段 */
+  viewMask?: string[] | null;
 }
 
 /** 创建后台操作日志 - 请求 */

@@ -774,6 +774,39 @@ func (m *GetTaskRequest) validate(all bool) error {
 
 	// no validation rules for Id
 
+	if m.ViewMask != nil {
+
+		if all {
+			switch v := interface{}(m.GetViewMask()).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, GetTaskRequestValidationError{
+						field:  "ViewMask",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, GetTaskRequestValidationError{
+						field:  "ViewMask",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(m.GetViewMask()).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return GetTaskRequestValidationError{
+					field:  "ViewMask",
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
 	if len(errors) > 0 {
 		return GetTaskRequestMultiError(errors)
 	}
@@ -875,6 +908,39 @@ func (m *GetTaskByTypeNameRequest) validate(all bool) error {
 	var errors []error
 
 	// no validation rules for TypeName
+
+	if m.ViewMask != nil {
+
+		if all {
+			switch v := interface{}(m.GetViewMask()).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, GetTaskByTypeNameRequestValidationError{
+						field:  "ViewMask",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, GetTaskByTypeNameRequestValidationError{
+						field:  "ViewMask",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(m.GetViewMask()).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return GetTaskByTypeNameRequestValidationError{
+					field:  "ViewMask",
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
 
 	if len(errors) > 0 {
 		return GetTaskByTypeNameRequestMultiError(errors)

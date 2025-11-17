@@ -2,6 +2,7 @@ package data
 
 import (
 	"context"
+	dictV1 "kratos-admin/api/gen/go/dict/service/v1"
 	"time"
 
 	"entgo.io/ent/dialect/sql"
@@ -127,12 +128,22 @@ func (r *UserRepo) IsExist(ctx context.Context, id uint32) (bool, error) {
 	return exist, nil
 }
 
-func (r *UserRepo) Get(ctx context.Context, userId uint32) (*userV1.User, error) {
-	if userId == 0 {
+func (r *UserRepo) Get(ctx context.Context, req *userV1.GetUserRequest) (*userV1.User, error) {
+	if req == nil {
 		return nil, userV1.ErrorBadRequest("invalid parameter")
 	}
+	builder := r.data.db.Client().User.Query()
 
-	entity, err := r.data.db.Client().User.Get(ctx, userId)
+	switch req.GetQueryBy().(type) {
+	case *userV1.GetUserRequest_Id:
+		builder.Where(user.IDEQ(req.GetId()))
+	case *userV1.GetUserRequest_Username:
+		builder.Where(user.UsernameEQ(req.GetUsername()))
+	default:
+		return nil, dictV1.ErrorBadRequest("invalid query parameter")
+	}
+
+	entity, err := builder.Only(ctx)
 	if err != nil {
 		if ent.IsNotFound(err) {
 			return nil, userV1.ErrorUserNotFound("user not found")

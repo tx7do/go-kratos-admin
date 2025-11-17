@@ -129,6 +129,8 @@ export interface ListPositionResponse {
 /** 获取职位数据 - 请求 */
 export interface GetPositionRequest {
   id: number;
+  /** 视图字段过滤器，用于控制返回的字段 */
+  viewMask?: string[] | null;
 }
 
 /** 创建职位 - 请求 */

@@ -258,6 +258,13 @@ message ListTaskResponse {
 // 查询调度任务详情 - 请求
 message GetTaskRequest {
   uint32 id = 1;
+
+  optional google.protobuf.FieldMask view_mask = 100 [
+    json_name = "viewMask",
+    (gnostic.openapi.v3.property) = {
+      description: "视图字段过滤器，用于控制返回的字段"
+    }
+  ]; // 视图字段过滤器，用于控制返回的字段
 }
 message GetTaskByTypeNameRequest {
   string type_name = 1 [
@@ -267,6 +274,13 @@ message GetTaskByTypeNameRequest {
       description: "任务执行类型名，例如 \"send_email\"、\"generate_report\" 等，用于区分不同类型的任务"
     }
   ]; // 任务执行类型名
+
+  optional google.protobuf.FieldMask view_mask = 100 [
+    json_name = "viewMask",
+    (gnostic.openapi.v3.property) = {
+      description: "视图字段过滤器，用于控制返回的字段"
+    }
+  ]; // 视图字段过滤器，用于控制返回的字段
 }
 
 // 创建调度任务 - 请求

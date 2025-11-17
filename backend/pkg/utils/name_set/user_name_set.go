@@ -22,7 +22,11 @@ func FillUserInfoFromUserServiceClient(ctx context.Context, userClient userV1.Us
 	var err error
 	var user *userV1.User
 	for userId := range *nameSetMap {
-		user, err = userClient.Get(ctx, &userV1.GetUserRequest{Id: userId})
+		user, err = userClient.Get(ctx, &userV1.GetUserRequest{
+			QueryBy: &userV1.GetUserRequest_Id{
+				Id: userId,
+			},
+		})
 		if err != nil {
 			log.Errorf("query user err: %v", err)
 			continue

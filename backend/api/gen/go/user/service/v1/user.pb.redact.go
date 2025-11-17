@@ -115,17 +115,6 @@ func (s *redactedUserServiceServer) BatchCreate(ctx context.Context, in *BatchCr
 	return res, err
 }
 
-// GetUserByUserName is the redacted wrapper for the actual UserServiceServer.GetUserByUserName method
-// Unary RPC
-func (s *redactedUserServiceServer) GetUserByUserName(ctx context.Context, in *GetUserByUserNameRequest) (*User, error) {
-	res, err := s.srv.GetUserByUserName(ctx, in)
-	if !s.bypass.CheckInternal(ctx) {
-		// Apply redaction to the response
-		redact.Apply(res)
-	}
-	return res, err
-}
-
 // UserExists is the redacted wrapper for the actual UserServiceServer.UserExists method
 // Unary RPC
 func (s *redactedUserServiceServer) UserExists(ctx context.Context, in *UserExistsRequest) (*UserExistsResponse, error) {
@@ -236,16 +225,10 @@ func (x *GetUserRequest) Redact() string {
 	}
 
 	// Safe field: Id
-	return x.String()
-}
-
-// Redact method implementation for GetUserByUserNameRequest
-func (x *GetUserByUserNameRequest) Redact() string {
-	if x == nil {
-		return ""
-	}
 
 	// Safe field: Username
+
+	// Safe field: ViewMask
 	return x.String()
 }
 

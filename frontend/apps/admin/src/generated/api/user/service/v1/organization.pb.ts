@@ -143,6 +143,8 @@ export interface ListOrganizationResponse {
 /** 组织数据 - 请求 */
 export interface GetOrganizationRequest {
   id: number;
+  /** 视图字段过滤器，用于控制返回的字段 */
+  viewMask?: string[] | null;
 }
 
 /** 创建组织 - 请求 */

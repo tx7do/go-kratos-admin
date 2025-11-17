@@ -339,6 +339,7 @@ func (x *ListFileResponse) GetTotal() uint32 {
 type GetFileRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            uint32                 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	ViewMask      *fieldmaskpb.FieldMask `protobuf:"bytes,100,opt,name=view_mask,json=viewMask,proto3,oneof" json:"view_mask,omitempty"` // 视图字段过滤器，用于控制返回的字段
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -378,6 +379,13 @@ func (x *GetFileRequest) GetId() uint32 {
 		return x.Id
 	}
 	return 0
+}
+
+func (x *GetFileRequest) GetViewMask() *fieldmaskpb.FieldMask {
+	if x != nil {
+		return x.ViewMask
+	}
+	return nil
 }
 
 // 创建 - 请求
@@ -590,9 +598,12 @@ const file_file_service_v1_file_proto_rawDesc = "" +
 	"\v_deleted_at\"U\n" +
 	"\x10ListFileResponse\x12+\n" +
 	"\x05items\x18\x01 \x03(\v2\x15.file.service.v1.FileR\x05items\x12\x14\n" +
-	"\x05total\x18\x02 \x01(\rR\x05total\" \n" +
+	"\x05total\x18\x02 \x01(\rR\x05total\"\xa7\x01\n" +
 	"\x0eGetFileRequest\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\rR\x02id\">\n" +
+	"\x02id\x18\x01 \x01(\rR\x02id\x12w\n" +
+	"\tview_mask\x18d \x01(\v2\x1a.google.protobuf.FieldMaskB9\xbaG6\x92\x023视图字段过滤器，用于控制返回的字段H\x00R\bviewMask\x88\x01\x01B\f\n" +
+	"\n" +
+	"_view_mask\">\n" +
 	"\x11CreateFileRequest\x12)\n" +
 	"\x04data\x18\x01 \x01(\v2\x15.file.service.v1.FileR\x04data\"\xfc\x02\n" +
 	"\x11UpdateFileRequest\x12)\n" +
@@ -661,24 +672,25 @@ var file_file_service_v1_file_proto_depIdxs = []int32{
 	7,  // 2: file.service.v1.File.updated_at:type_name -> google.protobuf.Timestamp
 	7,  // 3: file.service.v1.File.deleted_at:type_name -> google.protobuf.Timestamp
 	1,  // 4: file.service.v1.ListFileResponse.items:type_name -> file.service.v1.File
-	1,  // 5: file.service.v1.CreateFileRequest.data:type_name -> file.service.v1.File
-	1,  // 6: file.service.v1.UpdateFileRequest.data:type_name -> file.service.v1.File
-	8,  // 7: file.service.v1.UpdateFileRequest.update_mask:type_name -> google.protobuf.FieldMask
-	9,  // 8: file.service.v1.FileService.List:input_type -> pagination.PagingRequest
-	3,  // 9: file.service.v1.FileService.Get:input_type -> file.service.v1.GetFileRequest
-	4,  // 10: file.service.v1.FileService.Create:input_type -> file.service.v1.CreateFileRequest
-	5,  // 11: file.service.v1.FileService.Update:input_type -> file.service.v1.UpdateFileRequest
-	6,  // 12: file.service.v1.FileService.Delete:input_type -> file.service.v1.DeleteFileRequest
-	2,  // 13: file.service.v1.FileService.List:output_type -> file.service.v1.ListFileResponse
-	1,  // 14: file.service.v1.FileService.Get:output_type -> file.service.v1.File
-	10, // 15: file.service.v1.FileService.Create:output_type -> google.protobuf.Empty
-	10, // 16: file.service.v1.FileService.Update:output_type -> google.protobuf.Empty
-	10, // 17: file.service.v1.FileService.Delete:output_type -> google.protobuf.Empty
-	13, // [13:18] is the sub-list for method output_type
-	8,  // [8:13] is the sub-list for method input_type
-	8,  // [8:8] is the sub-list for extension type_name
-	8,  // [8:8] is the sub-list for extension extendee
-	0,  // [0:8] is the sub-list for field type_name
+	8,  // 5: file.service.v1.GetFileRequest.view_mask:type_name -> google.protobuf.FieldMask
+	1,  // 6: file.service.v1.CreateFileRequest.data:type_name -> file.service.v1.File
+	1,  // 7: file.service.v1.UpdateFileRequest.data:type_name -> file.service.v1.File
+	8,  // 8: file.service.v1.UpdateFileRequest.update_mask:type_name -> google.protobuf.FieldMask
+	9,  // 9: file.service.v1.FileService.List:input_type -> pagination.PagingRequest
+	3,  // 10: file.service.v1.FileService.Get:input_type -> file.service.v1.GetFileRequest
+	4,  // 11: file.service.v1.FileService.Create:input_type -> file.service.v1.CreateFileRequest
+	5,  // 12: file.service.v1.FileService.Update:input_type -> file.service.v1.UpdateFileRequest
+	6,  // 13: file.service.v1.FileService.Delete:input_type -> file.service.v1.DeleteFileRequest
+	2,  // 14: file.service.v1.FileService.List:output_type -> file.service.v1.ListFileResponse
+	1,  // 15: file.service.v1.FileService.Get:output_type -> file.service.v1.File
+	10, // 16: file.service.v1.FileService.Create:output_type -> google.protobuf.Empty
+	10, // 17: file.service.v1.FileService.Update:output_type -> google.protobuf.Empty
+	10, // 18: file.service.v1.FileService.Delete:output_type -> google.protobuf.Empty
+	14, // [14:19] is the sub-list for method output_type
+	9,  // [9:14] is the sub-list for method input_type
+	9,  // [9:9] is the sub-list for extension type_name
+	9,  // [9:9] is the sub-list for extension extendee
+	0,  // [0:9] is the sub-list for field type_name
 }
 
 func init() { file_file_service_v1_file_proto_init() }
@@ -687,6 +699,7 @@ func file_file_service_v1_file_proto_init() {
 		return
 	}
 	file_file_service_v1_file_proto_msgTypes[0].OneofWrappers = []any{}
+	file_file_service_v1_file_proto_msgTypes[2].OneofWrappers = []any{}
 	file_file_service_v1_file_proto_msgTypes[4].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{

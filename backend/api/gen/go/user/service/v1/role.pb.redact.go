@@ -210,6 +210,8 @@ func (x *GetRoleRequest) Redact() string {
 	}
 
 	// Safe field: Id
+
+	// Safe field: ViewMask
 	return x.String()
 }
 
@@ -294,6 +296,8 @@ func (x *GetRolesByRoleCodesRequest) Redact() string {
 	}
 
 	// Safe field: RoleCodes
+
+	// Safe field: ViewMask
 	return x.String()
 }
 
@@ -304,5 +308,7 @@ func (x *GetRolesByRoleIdsRequest) Redact() string {
 	}
 
 	// Safe field: RoleIds
+
+	// Safe field: ViewMask
 	return x.String()
 }

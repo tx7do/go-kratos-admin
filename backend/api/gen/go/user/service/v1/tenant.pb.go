@@ -493,6 +493,7 @@ func (x *ListTenantResponse) GetTotal() uint32 {
 type GetTenantRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            uint32                 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	ViewMask      *fieldmaskpb.FieldMask `protobuf:"bytes,100,opt,name=view_mask,json=viewMask,proto3,oneof" json:"view_mask,omitempty"` // 视图字段过滤器，用于控制返回的字段
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -532,6 +533,13 @@ func (x *GetTenantRequest) GetId() uint32 {
 		return x.Id
 	}
 	return 0
+}
+
+func (x *GetTenantRequest) GetViewMask() *fieldmaskpb.FieldMask {
+	if x != nil {
+		return x.ViewMask
+	}
+	return nil
 }
 
 // 创建租户 - 请求
@@ -865,7 +873,8 @@ func (x *TenantExistsResponse) GetExist() bool {
 
 type GetTenantByTenantCodeRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Code          string                 `protobuf:"bytes,1,opt,name=code,proto3" json:"code,omitempty"` // 租户编码
+	Code          string                 `protobuf:"bytes,1,opt,name=code,proto3" json:"code,omitempty"`                                 // 租户编码
+	ViewMask      *fieldmaskpb.FieldMask `protobuf:"bytes,100,opt,name=view_mask,json=viewMask,proto3,oneof" json:"view_mask,omitempty"` // 视图字段过滤器，用于控制返回的字段
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -905,6 +914,13 @@ func (x *GetTenantByTenantCodeRequest) GetCode() string {
 		return x.Code
 	}
 	return ""
+}
+
+func (x *GetTenantByTenantCodeRequest) GetViewMask() *fieldmaskpb.FieldMask {
+	if x != nil {
+		return x.ViewMask
+	}
+	return nil
 }
 
 var File_user_service_v1_tenant_proto protoreflect.FileDescriptor
@@ -995,9 +1011,12 @@ const file_user_service_v1_tenant_proto_rawDesc = "" +
 	"\v_deleted_at\"Y\n" +
 	"\x12ListTenantResponse\x12-\n" +
 	"\x05items\x18\x01 \x03(\v2\x17.user.service.v1.TenantR\x05items\x12\x14\n" +
-	"\x05total\x18\x02 \x01(\rR\x05total\"\"\n" +
+	"\x05total\x18\x02 \x01(\rR\x05total\"\xa9\x01\n" +
 	"\x10GetTenantRequest\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\rR\x02id\"B\n" +
+	"\x02id\x18\x01 \x01(\rR\x02id\x12w\n" +
+	"\tview_mask\x18d \x01(\v2\x1a.google.protobuf.FieldMaskB9\xbaG6\x92\x023视图字段过滤器，用于控制返回的字段H\x00R\bviewMask\x88\x01\x01B\f\n" +
+	"\n" +
+	"_view_mask\"B\n" +
 	"\x13CreateTenantRequest\x12+\n" +
 	"\x04data\x18\x01 \x01(\v2\x17.user.service.v1.TenantR\x04data\"\x80\x03\n" +
 	"\x13UpdateTenantRequest\x12+\n" +
@@ -1016,9 +1035,12 @@ const file_user_service_v1_tenant_proto_rawDesc = "" +
 	"\x13TenantExistsRequest\x12(\n" +
 	"\x04code\x18\x01 \x01(\tB\x14\xbaG\x11\x18\x01\x92\x02\f租户编码R\x04code\",\n" +
 	"\x14TenantExistsResponse\x12\x14\n" +
-	"\x05exist\x18\x01 \x01(\bR\x05exist\"H\n" +
+	"\x05exist\x18\x01 \x01(\bR\x05exist\"\xcf\x01\n" +
 	"\x1cGetTenantByTenantCodeRequest\x12(\n" +
-	"\x04code\x18\x01 \x01(\tB\x14\xbaG\x11\x18\x01\x92\x02\f租户编码R\x04code2\xa8\x05\n" +
+	"\x04code\x18\x01 \x01(\tB\x14\xbaG\x11\x18\x01\x92\x02\f租户编码R\x04code\x12w\n" +
+	"\tview_mask\x18d \x01(\v2\x1a.google.protobuf.FieldMaskB9\xbaG6\x92\x023视图字段过滤器，用于控制返回的字段H\x00R\bviewMask\x88\x01\x01B\f\n" +
+	"\n" +
+	"_view_mask2\xa8\x05\n" +
 	"\rTenantService\x12H\n" +
 	"\x04List\x12\x19.pagination.PagingRequest\x1a#.user.service.v1.ListTenantResponse\"\x00\x12C\n" +
 	"\x03Get\x12!.user.service.v1.GetTenantRequest\x1a\x17.user.service.v1.Tenant\"\x00\x12H\n" +
@@ -1077,31 +1099,33 @@ var file_user_service_v1_tenant_proto_depIdxs = []int32{
 	14, // 9: user.service.v1.Tenant.updated_at:type_name -> google.protobuf.Timestamp
 	14, // 10: user.service.v1.Tenant.deleted_at:type_name -> google.protobuf.Timestamp
 	3,  // 11: user.service.v1.ListTenantResponse.items:type_name -> user.service.v1.Tenant
-	3,  // 12: user.service.v1.CreateTenantRequest.data:type_name -> user.service.v1.Tenant
-	3,  // 13: user.service.v1.UpdateTenantRequest.data:type_name -> user.service.v1.Tenant
-	15, // 14: user.service.v1.UpdateTenantRequest.update_mask:type_name -> google.protobuf.FieldMask
-	3,  // 15: user.service.v1.BatchCreateTenantsRequest.data:type_name -> user.service.v1.Tenant
-	16, // 16: user.service.v1.TenantService.List:input_type -> pagination.PagingRequest
-	5,  // 17: user.service.v1.TenantService.Get:input_type -> user.service.v1.GetTenantRequest
-	6,  // 18: user.service.v1.TenantService.Create:input_type -> user.service.v1.CreateTenantRequest
-	7,  // 19: user.service.v1.TenantService.Update:input_type -> user.service.v1.UpdateTenantRequest
-	8,  // 20: user.service.v1.TenantService.Delete:input_type -> user.service.v1.DeleteTenantRequest
-	9,  // 21: user.service.v1.TenantService.BatchCreate:input_type -> user.service.v1.BatchCreateTenantsRequest
-	11, // 22: user.service.v1.TenantService.TenantExists:input_type -> user.service.v1.TenantExistsRequest
-	13, // 23: user.service.v1.TenantService.GetTenantByTenantCode:input_type -> user.service.v1.GetTenantByTenantCodeRequest
-	4,  // 24: user.service.v1.TenantService.List:output_type -> user.service.v1.ListTenantResponse
-	3,  // 25: user.service.v1.TenantService.Get:output_type -> user.service.v1.Tenant
-	17, // 26: user.service.v1.TenantService.Create:output_type -> google.protobuf.Empty
-	17, // 27: user.service.v1.TenantService.Update:output_type -> google.protobuf.Empty
-	17, // 28: user.service.v1.TenantService.Delete:output_type -> google.protobuf.Empty
-	10, // 29: user.service.v1.TenantService.BatchCreate:output_type -> user.service.v1.BatchCreateTenantsResponse
-	12, // 30: user.service.v1.TenantService.TenantExists:output_type -> user.service.v1.TenantExistsResponse
-	3,  // 31: user.service.v1.TenantService.GetTenantByTenantCode:output_type -> user.service.v1.Tenant
-	24, // [24:32] is the sub-list for method output_type
-	16, // [16:24] is the sub-list for method input_type
-	16, // [16:16] is the sub-list for extension type_name
-	16, // [16:16] is the sub-list for extension extendee
-	0,  // [0:16] is the sub-list for field type_name
+	15, // 12: user.service.v1.GetTenantRequest.view_mask:type_name -> google.protobuf.FieldMask
+	3,  // 13: user.service.v1.CreateTenantRequest.data:type_name -> user.service.v1.Tenant
+	3,  // 14: user.service.v1.UpdateTenantRequest.data:type_name -> user.service.v1.Tenant
+	15, // 15: user.service.v1.UpdateTenantRequest.update_mask:type_name -> google.protobuf.FieldMask
+	3,  // 16: user.service.v1.BatchCreateTenantsRequest.data:type_name -> user.service.v1.Tenant
+	15, // 17: user.service.v1.GetTenantByTenantCodeRequest.view_mask:type_name -> google.protobuf.FieldMask
+	16, // 18: user.service.v1.TenantService.List:input_type -> pagination.PagingRequest
+	5,  // 19: user.service.v1.TenantService.Get:input_type -> user.service.v1.GetTenantRequest
+	6,  // 20: user.service.v1.TenantService.Create:input_type -> user.service.v1.CreateTenantRequest
+	7,  // 21: user.service.v1.TenantService.Update:input_type -> user.service.v1.UpdateTenantRequest
+	8,  // 22: user.service.v1.TenantService.Delete:input_type -> user.service.v1.DeleteTenantRequest
+	9,  // 23: user.service.v1.TenantService.BatchCreate:input_type -> user.service.v1.BatchCreateTenantsRequest
+	11, // 24: user.service.v1.TenantService.TenantExists:input_type -> user.service.v1.TenantExistsRequest
+	13, // 25: user.service.v1.TenantService.GetTenantByTenantCode:input_type -> user.service.v1.GetTenantByTenantCodeRequest
+	4,  // 26: user.service.v1.TenantService.List:output_type -> user.service.v1.ListTenantResponse
+	3,  // 27: user.service.v1.TenantService.Get:output_type -> user.service.v1.Tenant
+	17, // 28: user.service.v1.TenantService.Create:output_type -> google.protobuf.Empty
+	17, // 29: user.service.v1.TenantService.Update:output_type -> google.protobuf.Empty
+	17, // 30: user.service.v1.TenantService.Delete:output_type -> google.protobuf.Empty
+	10, // 31: user.service.v1.TenantService.BatchCreate:output_type -> user.service.v1.BatchCreateTenantsResponse
+	12, // 32: user.service.v1.TenantService.TenantExists:output_type -> user.service.v1.TenantExistsResponse
+	3,  // 33: user.service.v1.TenantService.GetTenantByTenantCode:output_type -> user.service.v1.Tenant
+	26, // [26:34] is the sub-list for method output_type
+	18, // [18:26] is the sub-list for method input_type
+	18, // [18:18] is the sub-list for extension type_name
+	18, // [18:18] is the sub-list for extension extendee
+	0,  // [0:18] is the sub-list for field type_name
 }
 
 func init() { file_user_service_v1_tenant_proto_init() }
@@ -1110,7 +1134,9 @@ func file_user_service_v1_tenant_proto_init() {
 		return
 	}
 	file_user_service_v1_tenant_proto_msgTypes[0].OneofWrappers = []any{}
+	file_user_service_v1_tenant_proto_msgTypes[2].OneofWrappers = []any{}
 	file_user_service_v1_tenant_proto_msgTypes[4].OneofWrappers = []any{}
+	file_user_service_v1_tenant_proto_msgTypes[10].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{

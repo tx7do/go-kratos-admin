@@ -108,6 +108,8 @@ export interface ListAdminLoginLogResponse {
 /** 查询后台登录日志详情 - 请求 */
 export interface GetAdminLoginLogRequest {
   id: number;
+  /** 视图字段过滤器，用于控制返回的字段 */
+  viewMask?: string[] | null;
 }
 
 /** 创建后台登录日志 - 请求 */

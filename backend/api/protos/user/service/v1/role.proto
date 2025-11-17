@@ -106,6 +106,13 @@ message ListRoleResponse {
 // 角色数据 - 请求
 message GetRoleRequest {
   uint32 id = 1;
+
+  optional google.protobuf.FieldMask view_mask = 100 [
+    json_name = "viewMask",
+    (gnostic.openapi.v3.property) = {
+      description: "视图字段过滤器，用于控制返回的字段"
+    }
+  ]; // 视图字段过滤器，用于控制返回的字段
 }
 
 // 创建角色 - 请求
@@ -157,8 +164,22 @@ message GetRoleCodesByRoleIdsResponse {
 
 message GetRolesByRoleCodesRequest {
   repeated string role_codes = 1 [json_name = "roleCodes", (gnostic.openapi.v3.property) = {description: "角色值列表"}];
+
+  optional google.protobuf.FieldMask view_mask = 100 [
+    json_name = "viewMask",
+    (gnostic.openapi.v3.property) = {
+      description: "视图字段过滤器，用于控制返回的字段"
+    }
+  ]; // 视图字段过滤器，用于控制返回的字段
 }
 
 message GetRolesByRoleIdsRequest {
   repeated uint32 role_ids = 1 [json_name = "roleIds", (gnostic.openapi.v3.property) = {description: "角色ID列表"}];
+
+  optional google.protobuf.FieldMask view_mask = 100 [
+    json_name = "viewMask",
+    (gnostic.openapi.v3.property) = {
+      description: "视图字段过滤器，用于控制返回的字段"
+    }
+  ]; // 视图字段过滤器，用于控制返回的字段
 }

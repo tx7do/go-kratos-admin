@@ -195,6 +195,12 @@ chmod +x ./script/*.sh
 ./script/prepare_ubuntu.sh
 ```
 
+#### Windows
+
+```bash
+./script/prepare_windows.ps1
+```
+
 ### Docker安装三方依赖中间件
 
 后端需要依赖一些三方中间件，比如：postgresql、redis、consul……，我们通过Docker来安装，这样会比较简单一些。

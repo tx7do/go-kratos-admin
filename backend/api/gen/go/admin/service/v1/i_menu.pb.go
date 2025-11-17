@@ -360,6 +360,7 @@ func (x *ListMenuResponse) GetTotal() uint32 {
 type GetMenuRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            uint32                 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	ViewMask      *fieldmaskpb.FieldMask `protobuf:"bytes,100,opt,name=view_mask,json=viewMask,proto3,oneof" json:"view_mask,omitempty"` // 视图字段过滤器，用于控制返回的字段
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -399,6 +400,13 @@ func (x *GetMenuRequest) GetId() uint32 {
 		return x.Id
 	}
 	return 0
+}
+
+func (x *GetMenuRequest) GetViewMask() *fieldmaskpb.FieldMask {
+	if x != nil {
+		return x.ViewMask
+	}
+	return nil
 }
 
 // 创建菜单 - 请求
@@ -622,9 +630,12 @@ const file_admin_service_v1_i_menu_proto_rawDesc = "" +
 	"\v_deleted_at\"V\n" +
 	"\x10ListMenuResponse\x12,\n" +
 	"\x05items\x18\x01 \x03(\v2\x16.admin.service.v1.MenuR\x05items\x12\x14\n" +
-	"\x05total\x18\x02 \x01(\rR\x05total\" \n" +
+	"\x05total\x18\x02 \x01(\rR\x05total\"\xa7\x01\n" +
 	"\x0eGetMenuRequest\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\rR\x02id\"?\n" +
+	"\x02id\x18\x01 \x01(\rR\x02id\x12w\n" +
+	"\tview_mask\x18d \x01(\v2\x1a.google.protobuf.FieldMaskB9\xbaG6\x92\x023视图字段过滤器，用于控制返回的字段H\x00R\bviewMask\x88\x01\x01B\f\n" +
+	"\n" +
+	"_view_mask\"?\n" +
 	"\x11CreateMenuRequest\x12*\n" +
 	"\x04data\x18\x01 \x01(\v2\x16.admin.service.v1.MenuR\x04data\"\xfd\x02\n" +
 	"\x11UpdateMenuRequest\x12*\n" +
@@ -685,24 +696,25 @@ var file_admin_service_v1_i_menu_proto_depIdxs = []int32{
 	9,  // 5: admin.service.v1.Menu.updated_at:type_name -> google.protobuf.Timestamp
 	9,  // 6: admin.service.v1.Menu.deleted_at:type_name -> google.protobuf.Timestamp
 	2,  // 7: admin.service.v1.ListMenuResponse.items:type_name -> admin.service.v1.Menu
-	2,  // 8: admin.service.v1.CreateMenuRequest.data:type_name -> admin.service.v1.Menu
-	2,  // 9: admin.service.v1.UpdateMenuRequest.data:type_name -> admin.service.v1.Menu
-	10, // 10: admin.service.v1.UpdateMenuRequest.update_mask:type_name -> google.protobuf.FieldMask
-	11, // 11: admin.service.v1.MenuService.List:input_type -> pagination.PagingRequest
-	4,  // 12: admin.service.v1.MenuService.Get:input_type -> admin.service.v1.GetMenuRequest
-	5,  // 13: admin.service.v1.MenuService.Create:input_type -> admin.service.v1.CreateMenuRequest
-	6,  // 14: admin.service.v1.MenuService.Update:input_type -> admin.service.v1.UpdateMenuRequest
-	7,  // 15: admin.service.v1.MenuService.Delete:input_type -> admin.service.v1.DeleteMenuRequest
-	3,  // 16: admin.service.v1.MenuService.List:output_type -> admin.service.v1.ListMenuResponse
-	2,  // 17: admin.service.v1.MenuService.Get:output_type -> admin.service.v1.Menu
-	12, // 18: admin.service.v1.MenuService.Create:output_type -> google.protobuf.Empty
-	12, // 19: admin.service.v1.MenuService.Update:output_type -> google.protobuf.Empty
-	12, // 20: admin.service.v1.MenuService.Delete:output_type -> google.protobuf.Empty
-	16, // [16:21] is the sub-list for method output_type
-	11, // [11:16] is the sub-list for method input_type
-	11, // [11:11] is the sub-list for extension type_name
-	11, // [11:11] is the sub-list for extension extendee
-	0,  // [0:11] is the sub-list for field type_name
+	10, // 8: admin.service.v1.GetMenuRequest.view_mask:type_name -> google.protobuf.FieldMask
+	2,  // 9: admin.service.v1.CreateMenuRequest.data:type_name -> admin.service.v1.Menu
+	2,  // 10: admin.service.v1.UpdateMenuRequest.data:type_name -> admin.service.v1.Menu
+	10, // 11: admin.service.v1.UpdateMenuRequest.update_mask:type_name -> google.protobuf.FieldMask
+	11, // 12: admin.service.v1.MenuService.List:input_type -> pagination.PagingRequest
+	4,  // 13: admin.service.v1.MenuService.Get:input_type -> admin.service.v1.GetMenuRequest
+	5,  // 14: admin.service.v1.MenuService.Create:input_type -> admin.service.v1.CreateMenuRequest
+	6,  // 15: admin.service.v1.MenuService.Update:input_type -> admin.service.v1.UpdateMenuRequest
+	7,  // 16: admin.service.v1.MenuService.Delete:input_type -> admin.service.v1.DeleteMenuRequest
+	3,  // 17: admin.service.v1.MenuService.List:output_type -> admin.service.v1.ListMenuResponse
+	2,  // 18: admin.service.v1.MenuService.Get:output_type -> admin.service.v1.Menu
+	12, // 19: admin.service.v1.MenuService.Create:output_type -> google.protobuf.Empty
+	12, // 20: admin.service.v1.MenuService.Update:output_type -> google.protobuf.Empty
+	12, // 21: admin.service.v1.MenuService.Delete:output_type -> google.protobuf.Empty
+	17, // [17:22] is the sub-list for method output_type
+	12, // [12:17] is the sub-list for method input_type
+	12, // [12:12] is the sub-list for extension type_name
+	12, // [12:12] is the sub-list for extension extendee
+	0,  // [0:12] is the sub-list for field type_name
 }
 
 func init() { file_admin_service_v1_i_menu_proto_init() }
@@ -712,6 +724,7 @@ func file_admin_service_v1_i_menu_proto_init() {
 	}
 	file_admin_service_v1_i_router_proto_init()
 	file_admin_service_v1_i_menu_proto_msgTypes[0].OneofWrappers = []any{}
+	file_admin_service_v1_i_menu_proto_msgTypes[2].OneofWrappers = []any{}
 	file_admin_service_v1_i_menu_proto_msgTypes[4].OneofWrappers = []any{}
 	file_admin_service_v1_i_menu_proto_msgTypes[5].OneofWrappers = []any{}
 	type x struct{}

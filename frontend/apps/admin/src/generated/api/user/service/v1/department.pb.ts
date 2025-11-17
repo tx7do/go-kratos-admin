@@ -119,6 +119,8 @@ export interface ListDepartmentResponse {
 /** 部门数据 - 请求 */
 export interface GetDepartmentRequest {
   id: number;
+  /** 视图字段过滤器，用于控制返回的字段 */
+  viewMask?: string[] | null;
 }
 
 /** 创建部门 - 请求 */

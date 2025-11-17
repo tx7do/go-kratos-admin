@@ -186,6 +186,8 @@ export interface ListTenantResponse {
 /** 租户数据 - 请求 */
 export interface GetTenantRequest {
   id: number;
+  /** 视图字段过滤器，用于控制返回的字段 */
+  viewMask?: string[] | null;
 }
 
 /** 创建租户 - 请求 */
@@ -234,6 +236,8 @@ export interface TenantExistsResponse {
 export interface GetTenantByTenantCodeRequest {
   /** 租户编码 */
   code: string;
+  /** 视图字段过滤器，用于控制返回的字段 */
+  viewMask?: string[] | null;
 }
 
 /** 租户服务 */

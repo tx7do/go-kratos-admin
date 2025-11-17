@@ -476,6 +476,39 @@ func (m *GetInternalMessageCategoryRequest) validate(all bool) error {
 
 	// no validation rules for Id
 
+	if m.ViewMask != nil {
+
+		if all {
+			switch v := interface{}(m.GetViewMask()).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, GetInternalMessageCategoryRequestValidationError{
+						field:  "ViewMask",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, GetInternalMessageCategoryRequestValidationError{
+						field:  "ViewMask",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(m.GetViewMask()).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return GetInternalMessageCategoryRequestValidationError{
+					field:  "ViewMask",
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
 	if len(errors) > 0 {
 		return GetInternalMessageCategoryRequestMultiError(errors)
 	}

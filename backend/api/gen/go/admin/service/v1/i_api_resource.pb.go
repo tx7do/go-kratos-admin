@@ -283,6 +283,7 @@ func (x *ListApiResourceResponse) GetTotal() uint32 {
 type GetApiResourceRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            uint32                 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	ViewMask      *fieldmaskpb.FieldMask `protobuf:"bytes,100,opt,name=view_mask,json=viewMask,proto3,oneof" json:"view_mask,omitempty"` // 视图字段过滤器，用于控制返回的字段
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -322,6 +323,13 @@ func (x *GetApiResourceRequest) GetId() uint32 {
 		return x.Id
 	}
 	return 0
+}
+
+func (x *GetApiResourceRequest) GetViewMask() *fieldmaskpb.FieldMask {
+	if x != nil {
+		return x.ViewMask
+	}
+	return nil
 }
 
 // 创建 - 请求
@@ -523,9 +531,12 @@ const file_admin_service_v1_i_api_resource_proto_rawDesc = "" +
 	"\v_deleted_at\"d\n" +
 	"\x17ListApiResourceResponse\x123\n" +
 	"\x05items\x18\x01 \x03(\v2\x1d.admin.service.v1.ApiResourceR\x05items\x12\x14\n" +
-	"\x05total\x18\x02 \x01(\rR\x05total\"'\n" +
+	"\x05total\x18\x02 \x01(\rR\x05total\"\xae\x01\n" +
 	"\x15GetApiResourceRequest\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\rR\x02id\"M\n" +
+	"\x02id\x18\x01 \x01(\rR\x02id\x12w\n" +
+	"\tview_mask\x18d \x01(\v2\x1a.google.protobuf.FieldMaskB9\xbaG6\x92\x023视图字段过滤器，用于控制返回的字段H\x00R\bviewMask\x88\x01\x01B\f\n" +
+	"\n" +
+	"_view_mask\"M\n" +
 	"\x18CreateApiResourceRequest\x121\n" +
 	"\x04data\x18\x01 \x01(\v2\x1d.admin.service.v1.ApiResourceR\x04data\"\x8b\x03\n" +
 	"\x18UpdateApiResourceRequest\x121\n" +
@@ -579,28 +590,29 @@ var file_admin_service_v1_i_api_resource_proto_depIdxs = []int32{
 	7,  // 2: admin.service.v1.ApiResource.updated_at:type_name -> google.protobuf.Timestamp
 	7,  // 3: admin.service.v1.ApiResource.deleted_at:type_name -> google.protobuf.Timestamp
 	1,  // 4: admin.service.v1.ListApiResourceResponse.items:type_name -> admin.service.v1.ApiResource
-	1,  // 5: admin.service.v1.CreateApiResourceRequest.data:type_name -> admin.service.v1.ApiResource
-	1,  // 6: admin.service.v1.UpdateApiResourceRequest.data:type_name -> admin.service.v1.ApiResource
-	8,  // 7: admin.service.v1.UpdateApiResourceRequest.update_mask:type_name -> google.protobuf.FieldMask
-	9,  // 8: admin.service.v1.ApiResourceService.List:input_type -> pagination.PagingRequest
-	3,  // 9: admin.service.v1.ApiResourceService.Get:input_type -> admin.service.v1.GetApiResourceRequest
-	4,  // 10: admin.service.v1.ApiResourceService.Create:input_type -> admin.service.v1.CreateApiResourceRequest
-	5,  // 11: admin.service.v1.ApiResourceService.Update:input_type -> admin.service.v1.UpdateApiResourceRequest
-	6,  // 12: admin.service.v1.ApiResourceService.Delete:input_type -> admin.service.v1.DeleteApiResourceRequest
-	10, // 13: admin.service.v1.ApiResourceService.SyncApiResources:input_type -> google.protobuf.Empty
-	10, // 14: admin.service.v1.ApiResourceService.GetWalkRouteData:input_type -> google.protobuf.Empty
-	2,  // 15: admin.service.v1.ApiResourceService.List:output_type -> admin.service.v1.ListApiResourceResponse
-	1,  // 16: admin.service.v1.ApiResourceService.Get:output_type -> admin.service.v1.ApiResource
-	10, // 17: admin.service.v1.ApiResourceService.Create:output_type -> google.protobuf.Empty
-	10, // 18: admin.service.v1.ApiResourceService.Update:output_type -> google.protobuf.Empty
-	10, // 19: admin.service.v1.ApiResourceService.Delete:output_type -> google.protobuf.Empty
-	10, // 20: admin.service.v1.ApiResourceService.SyncApiResources:output_type -> google.protobuf.Empty
-	2,  // 21: admin.service.v1.ApiResourceService.GetWalkRouteData:output_type -> admin.service.v1.ListApiResourceResponse
-	15, // [15:22] is the sub-list for method output_type
-	8,  // [8:15] is the sub-list for method input_type
-	8,  // [8:8] is the sub-list for extension type_name
-	8,  // [8:8] is the sub-list for extension extendee
-	0,  // [0:8] is the sub-list for field type_name
+	8,  // 5: admin.service.v1.GetApiResourceRequest.view_mask:type_name -> google.protobuf.FieldMask
+	1,  // 6: admin.service.v1.CreateApiResourceRequest.data:type_name -> admin.service.v1.ApiResource
+	1,  // 7: admin.service.v1.UpdateApiResourceRequest.data:type_name -> admin.service.v1.ApiResource
+	8,  // 8: admin.service.v1.UpdateApiResourceRequest.update_mask:type_name -> google.protobuf.FieldMask
+	9,  // 9: admin.service.v1.ApiResourceService.List:input_type -> pagination.PagingRequest
+	3,  // 10: admin.service.v1.ApiResourceService.Get:input_type -> admin.service.v1.GetApiResourceRequest
+	4,  // 11: admin.service.v1.ApiResourceService.Create:input_type -> admin.service.v1.CreateApiResourceRequest
+	5,  // 12: admin.service.v1.ApiResourceService.Update:input_type -> admin.service.v1.UpdateApiResourceRequest
+	6,  // 13: admin.service.v1.ApiResourceService.Delete:input_type -> admin.service.v1.DeleteApiResourceRequest
+	10, // 14: admin.service.v1.ApiResourceService.SyncApiResources:input_type -> google.protobuf.Empty
+	10, // 15: admin.service.v1.ApiResourceService.GetWalkRouteData:input_type -> google.protobuf.Empty
+	2,  // 16: admin.service.v1.ApiResourceService.List:output_type -> admin.service.v1.ListApiResourceResponse
+	1,  // 17: admin.service.v1.ApiResourceService.Get:output_type -> admin.service.v1.ApiResource
+	10, // 18: admin.service.v1.ApiResourceService.Create:output_type -> google.protobuf.Empty
+	10, // 19: admin.service.v1.ApiResourceService.Update:output_type -> google.protobuf.Empty
+	10, // 20: admin.service.v1.ApiResourceService.Delete:output_type -> google.protobuf.Empty
+	10, // 21: admin.service.v1.ApiResourceService.SyncApiResources:output_type -> google.protobuf.Empty
+	2,  // 22: admin.service.v1.ApiResourceService.GetWalkRouteData:output_type -> admin.service.v1.ListApiResourceResponse
+	16, // [16:23] is the sub-list for method output_type
+	9,  // [9:16] is the sub-list for method input_type
+	9,  // [9:9] is the sub-list for extension type_name
+	9,  // [9:9] is the sub-list for extension extendee
+	0,  // [0:9] is the sub-list for field type_name
 }
 
 func init() { file_admin_service_v1_i_api_resource_proto_init() }
@@ -609,6 +621,7 @@ func file_admin_service_v1_i_api_resource_proto_init() {
 		return
 	}
 	file_admin_service_v1_i_api_resource_proto_msgTypes[0].OneofWrappers = []any{}
+	file_admin_service_v1_i_api_resource_proto_msgTypes[2].OneofWrappers = []any{}
 	file_admin_service_v1_i_api_resource_proto_msgTypes[4].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{

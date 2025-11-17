@@ -5,11 +5,11 @@ import (
 
 	"github.com/go-kratos/kratos/v2/log"
 	"github.com/tx7do/go-utils/trans"
+	pagination "github.com/tx7do/kratos-bootstrap/api/gen/go/pagination/v1"
 	"google.golang.org/protobuf/types/known/emptypb"
 
 	"kratos-admin/app/admin/service/internal/data"
 
-	pagination "github.com/tx7do/kratos-bootstrap/api/gen/go/pagination/v1"
 	adminV1 "kratos-admin/api/gen/go/admin/service/v1"
 
 	"kratos-admin/pkg/middleware/auth"

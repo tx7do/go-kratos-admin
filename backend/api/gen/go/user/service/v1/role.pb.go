@@ -384,6 +384,7 @@ func (x *ListRoleResponse) GetTotal() uint32 {
 type GetRoleRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            uint32                 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	ViewMask      *fieldmaskpb.FieldMask `protobuf:"bytes,100,opt,name=view_mask,json=viewMask,proto3,oneof" json:"view_mask,omitempty"` // 视图字段过滤器，用于控制返回的字段
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -423,6 +424,13 @@ func (x *GetRoleRequest) GetId() uint32 {
 		return x.Id
 	}
 	return 0
+}
+
+func (x *GetRoleRequest) GetViewMask() *fieldmaskpb.FieldMask {
+	if x != nil {
+		return x.ViewMask
+	}
+	return nil
 }
 
 // 创建角色 - 请求
@@ -755,6 +763,7 @@ func (x *GetRoleCodesByRoleIdsResponse) GetRoleCodes() []string {
 type GetRolesByRoleCodesRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	RoleCodes     []string               `protobuf:"bytes,1,rep,name=role_codes,json=roleCodes,proto3" json:"role_codes,omitempty"`
+	ViewMask      *fieldmaskpb.FieldMask `protobuf:"bytes,100,opt,name=view_mask,json=viewMask,proto3,oneof" json:"view_mask,omitempty"` // 视图字段过滤器，用于控制返回的字段
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -796,9 +805,17 @@ func (x *GetRolesByRoleCodesRequest) GetRoleCodes() []string {
 	return nil
 }
 
+func (x *GetRolesByRoleCodesRequest) GetViewMask() *fieldmaskpb.FieldMask {
+	if x != nil {
+		return x.ViewMask
+	}
+	return nil
+}
+
 type GetRolesByRoleIdsRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	RoleIds       []uint32               `protobuf:"varint,1,rep,packed,name=role_ids,json=roleIds,proto3" json:"role_ids,omitempty"`
+	ViewMask      *fieldmaskpb.FieldMask `protobuf:"bytes,100,opt,name=view_mask,json=viewMask,proto3,oneof" json:"view_mask,omitempty"` // 视图字段过滤器，用于控制返回的字段
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -836,6 +853,13 @@ func (*GetRolesByRoleIdsRequest) Descriptor() ([]byte, []int) {
 func (x *GetRolesByRoleIdsRequest) GetRoleIds() []uint32 {
 	if x != nil {
 		return x.RoleIds
+	}
+	return nil
+}
+
+func (x *GetRolesByRoleIdsRequest) GetViewMask() *fieldmaskpb.FieldMask {
+	if x != nil {
+		return x.ViewMask
 	}
 	return nil
 }
@@ -908,9 +932,12 @@ const file_user_service_v1_role_proto_rawDesc = "" +
 	"\v_deleted_at\"U\n" +
 	"\x10ListRoleResponse\x12+\n" +
 	"\x05items\x18\x01 \x03(\v2\x15.user.service.v1.RoleR\x05items\x12\x14\n" +
-	"\x05total\x18\x02 \x01(\rR\x05total\" \n" +
+	"\x05total\x18\x02 \x01(\rR\x05total\"\xa7\x01\n" +
 	"\x0eGetRoleRequest\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\rR\x02id\">\n" +
+	"\x02id\x18\x01 \x01(\rR\x02id\x12w\n" +
+	"\tview_mask\x18d \x01(\v2\x1a.google.protobuf.FieldMaskB9\xbaG6\x92\x023视图字段过滤器，用于控制返回的字段H\x00R\bviewMask\x88\x01\x01B\f\n" +
+	"\n" +
+	"_view_mask\">\n" +
 	"\x11CreateRoleRequest\x12)\n" +
 	"\x04data\x18\x01 \x01(\v2\x15.user.service.v1.RoleR\x04data\"\xfc\x02\n" +
 	"\x11UpdateRoleRequest\x12)\n" +
@@ -930,12 +957,18 @@ const file_user_service_v1_role_proto_rawDesc = "" +
 	"\brole_ids\x18\x01 \x03(\rB\x14\xbaG\x11\x92\x02\x0e角色ID列表R\aroleIds\"U\n" +
 	"\x1dGetRoleCodesByRoleIdsResponse\x124\n" +
 	"\n" +
-	"role_codes\x18\x01 \x03(\tB\x15\xbaG\x12\x92\x02\x0f角色值列表R\troleCodes\"R\n" +
+	"role_codes\x18\x01 \x03(\tB\x15\xbaG\x12\x92\x02\x0f角色值列表R\troleCodes\"\xd9\x01\n" +
 	"\x1aGetRolesByRoleCodesRequest\x124\n" +
 	"\n" +
-	"role_codes\x18\x01 \x03(\tB\x15\xbaG\x12\x92\x02\x0f角色值列表R\troleCodes\"K\n" +
+	"role_codes\x18\x01 \x03(\tB\x15\xbaG\x12\x92\x02\x0f角色值列表R\troleCodes\x12w\n" +
+	"\tview_mask\x18d \x01(\v2\x1a.google.protobuf.FieldMaskB9\xbaG6\x92\x023视图字段过滤器，用于控制返回的字段H\x00R\bviewMask\x88\x01\x01B\f\n" +
+	"\n" +
+	"_view_mask\"\xd2\x01\n" +
 	"\x18GetRolesByRoleIdsRequest\x12/\n" +
-	"\brole_ids\x18\x01 \x03(\rB\x14\xbaG\x11\x92\x02\x0e角色ID列表R\aroleIds2\x9c\x06\n" +
+	"\brole_ids\x18\x01 \x03(\rB\x14\xbaG\x11\x92\x02\x0e角色ID列表R\aroleIds\x12w\n" +
+	"\tview_mask\x18d \x01(\v2\x1a.google.protobuf.FieldMaskB9\xbaG6\x92\x023视图字段过滤器，用于控制返回的字段H\x00R\bviewMask\x88\x01\x01B\f\n" +
+	"\n" +
+	"_view_mask2\x9c\x06\n" +
 	"\vRoleService\x12F\n" +
 	"\x04List\x12\x19.pagination.PagingRequest\x1a!.user.service.v1.ListRoleResponse\"\x00\x12?\n" +
 	"\x03Get\x12\x1f.user.service.v1.GetRoleRequest\x1a\x15.user.service.v1.Role\"\x00\x12F\n" +
@@ -990,33 +1023,36 @@ var file_user_service_v1_role_proto_depIdxs = []int32{
 	14, // 4: user.service.v1.Role.updated_at:type_name -> google.protobuf.Timestamp
 	14, // 5: user.service.v1.Role.deleted_at:type_name -> google.protobuf.Timestamp
 	2,  // 6: user.service.v1.ListRoleResponse.items:type_name -> user.service.v1.Role
-	2,  // 7: user.service.v1.CreateRoleRequest.data:type_name -> user.service.v1.Role
-	2,  // 8: user.service.v1.UpdateRoleRequest.data:type_name -> user.service.v1.Role
-	15, // 9: user.service.v1.UpdateRoleRequest.update_mask:type_name -> google.protobuf.FieldMask
-	2,  // 10: user.service.v1.BatchCreateRolesRequest.data:type_name -> user.service.v1.Role
-	16, // 11: user.service.v1.RoleService.List:input_type -> pagination.PagingRequest
-	4,  // 12: user.service.v1.RoleService.Get:input_type -> user.service.v1.GetRoleRequest
-	5,  // 13: user.service.v1.RoleService.Create:input_type -> user.service.v1.CreateRoleRequest
-	6,  // 14: user.service.v1.RoleService.Update:input_type -> user.service.v1.UpdateRoleRequest
-	7,  // 15: user.service.v1.RoleService.Delete:input_type -> user.service.v1.DeleteRoleRequest
-	8,  // 16: user.service.v1.RoleService.BatchCreate:input_type -> user.service.v1.BatchCreateRolesRequest
-	10, // 17: user.service.v1.RoleService.GetRoleCodesByRoleIds:input_type -> user.service.v1.GetRoleCodesByRoleIdsRequest
-	12, // 18: user.service.v1.RoleService.GetRolesByRoleCodes:input_type -> user.service.v1.GetRolesByRoleCodesRequest
-	13, // 19: user.service.v1.RoleService.GetRolesByRoleIds:input_type -> user.service.v1.GetRolesByRoleIdsRequest
-	3,  // 20: user.service.v1.RoleService.List:output_type -> user.service.v1.ListRoleResponse
-	2,  // 21: user.service.v1.RoleService.Get:output_type -> user.service.v1.Role
-	17, // 22: user.service.v1.RoleService.Create:output_type -> google.protobuf.Empty
-	17, // 23: user.service.v1.RoleService.Update:output_type -> google.protobuf.Empty
-	17, // 24: user.service.v1.RoleService.Delete:output_type -> google.protobuf.Empty
-	9,  // 25: user.service.v1.RoleService.BatchCreate:output_type -> user.service.v1.BatchCreateRolesResponse
-	11, // 26: user.service.v1.RoleService.GetRoleCodesByRoleIds:output_type -> user.service.v1.GetRoleCodesByRoleIdsResponse
-	3,  // 27: user.service.v1.RoleService.GetRolesByRoleCodes:output_type -> user.service.v1.ListRoleResponse
-	3,  // 28: user.service.v1.RoleService.GetRolesByRoleIds:output_type -> user.service.v1.ListRoleResponse
-	20, // [20:29] is the sub-list for method output_type
-	11, // [11:20] is the sub-list for method input_type
-	11, // [11:11] is the sub-list for extension type_name
-	11, // [11:11] is the sub-list for extension extendee
-	0,  // [0:11] is the sub-list for field type_name
+	15, // 7: user.service.v1.GetRoleRequest.view_mask:type_name -> google.protobuf.FieldMask
+	2,  // 8: user.service.v1.CreateRoleRequest.data:type_name -> user.service.v1.Role
+	2,  // 9: user.service.v1.UpdateRoleRequest.data:type_name -> user.service.v1.Role
+	15, // 10: user.service.v1.UpdateRoleRequest.update_mask:type_name -> google.protobuf.FieldMask
+	2,  // 11: user.service.v1.BatchCreateRolesRequest.data:type_name -> user.service.v1.Role
+	15, // 12: user.service.v1.GetRolesByRoleCodesRequest.view_mask:type_name -> google.protobuf.FieldMask
+	15, // 13: user.service.v1.GetRolesByRoleIdsRequest.view_mask:type_name -> google.protobuf.FieldMask
+	16, // 14: user.service.v1.RoleService.List:input_type -> pagination.PagingRequest
+	4,  // 15: user.service.v1.RoleService.Get:input_type -> user.service.v1.GetRoleRequest
+	5,  // 16: user.service.v1.RoleService.Create:input_type -> user.service.v1.CreateRoleRequest
+	6,  // 17: user.service.v1.RoleService.Update:input_type -> user.service.v1.UpdateRoleRequest
+	7,  // 18: user.service.v1.RoleService.Delete:input_type -> user.service.v1.DeleteRoleRequest
+	8,  // 19: user.service.v1.RoleService.BatchCreate:input_type -> user.service.v1.BatchCreateRolesRequest
+	10, // 20: user.service.v1.RoleService.GetRoleCodesByRoleIds:input_type -> user.service.v1.GetRoleCodesByRoleIdsRequest
+	12, // 21: user.service.v1.RoleService.GetRolesByRoleCodes:input_type -> user.service.v1.GetRolesByRoleCodesRequest
+	13, // 22: user.service.v1.RoleService.GetRolesByRoleIds:input_type -> user.service.v1.GetRolesByRoleIdsRequest
+	3,  // 23: user.service.v1.RoleService.List:output_type -> user.service.v1.ListRoleResponse
+	2,  // 24: user.service.v1.RoleService.Get:output_type -> user.service.v1.Role
+	17, // 25: user.service.v1.RoleService.Create:output_type -> google.protobuf.Empty
+	17, // 26: user.service.v1.RoleService.Update:output_type -> google.protobuf.Empty
+	17, // 27: user.service.v1.RoleService.Delete:output_type -> google.protobuf.Empty
+	9,  // 28: user.service.v1.RoleService.BatchCreate:output_type -> user.service.v1.BatchCreateRolesResponse
+	11, // 29: user.service.v1.RoleService.GetRoleCodesByRoleIds:output_type -> user.service.v1.GetRoleCodesByRoleIdsResponse
+	3,  // 30: user.service.v1.RoleService.GetRolesByRoleCodes:output_type -> user.service.v1.ListRoleResponse
+	3,  // 31: user.service.v1.RoleService.GetRolesByRoleIds:output_type -> user.service.v1.ListRoleResponse
+	23, // [23:32] is the sub-list for method output_type
+	14, // [14:23] is the sub-list for method input_type
+	14, // [14:14] is the sub-list for extension type_name
+	14, // [14:14] is the sub-list for extension extendee
+	0,  // [0:14] is the sub-list for field type_name
 }
 
 func init() { file_user_service_v1_role_proto_init() }
@@ -1025,7 +1061,10 @@ func file_user_service_v1_role_proto_init() {
 		return
 	}
 	file_user_service_v1_role_proto_msgTypes[0].OneofWrappers = []any{}
+	file_user_service_v1_role_proto_msgTypes[2].OneofWrappers = []any{}
 	file_user_service_v1_role_proto_msgTypes[4].OneofWrappers = []any{}
+	file_user_service_v1_role_proto_msgTypes[10].OneofWrappers = []any{}
+	file_user_service_v1_role_proto_msgTypes[11].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{

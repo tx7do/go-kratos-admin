@@ -26,6 +26,9 @@ service UserService {
     option (redact.v3.internal_method) = true;
     option (google.api.http) = {
       get: "/admin/v1/users/{id}"
+      additional_bindings {
+        get: "/api/v1/users/username/{username}"
+      }
     };
   }
 

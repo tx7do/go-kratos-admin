@@ -95,6 +95,13 @@ message ListPositionResponse {
 // 获取职位数据 - 请求
 message GetPositionRequest {
   uint32 id = 1;
+
+  optional google.protobuf.FieldMask view_mask = 100 [
+    json_name = "viewMask",
+    (gnostic.openapi.v3.property) = {
+      description: "视图字段过滤器，用于控制返回的字段"
+    }
+  ]; // 视图字段过滤器，用于控制返回的字段
 }
 
 // 创建职位 - 请求

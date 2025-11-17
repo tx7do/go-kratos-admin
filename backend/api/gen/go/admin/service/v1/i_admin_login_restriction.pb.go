@@ -326,6 +326,7 @@ func (x *ListAdminLoginRestrictionResponse) GetTotal() uint32 {
 type GetAdminLoginRestrictionRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            uint32                 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	ViewMask      *fieldmaskpb.FieldMask `protobuf:"bytes,100,opt,name=view_mask,json=viewMask,proto3,oneof" json:"view_mask,omitempty"` // 视图字段过滤器，用于控制返回的字段
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -365,6 +366,13 @@ func (x *GetAdminLoginRestrictionRequest) GetId() uint32 {
 		return x.Id
 	}
 	return 0
+}
+
+func (x *GetAdminLoginRestrictionRequest) GetViewMask() *fieldmaskpb.FieldMask {
+	if x != nil {
+		return x.ViewMask
+	}
+	return nil
 }
 
 // 创建后台登录限制 - 请求
@@ -571,9 +579,12 @@ const file_admin_service_v1_i_admin_login_restriction_proto_rawDesc = "" +
 	"\v_deleted_at\"x\n" +
 	"!ListAdminLoginRestrictionResponse\x12=\n" +
 	"\x05items\x18\x01 \x03(\v2'.admin.service.v1.AdminLoginRestrictionR\x05items\x12\x14\n" +
-	"\x05total\x18\x02 \x01(\rR\x05total\"1\n" +
+	"\x05total\x18\x02 \x01(\rR\x05total\"\xb8\x01\n" +
 	"\x1fGetAdminLoginRestrictionRequest\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\rR\x02id\"a\n" +
+	"\x02id\x18\x01 \x01(\rR\x02id\x12w\n" +
+	"\tview_mask\x18d \x01(\v2\x1a.google.protobuf.FieldMaskB9\xbaG6\x92\x023视图字段过滤器，用于控制返回的字段H\x00R\bviewMask\x88\x01\x01B\f\n" +
+	"\n" +
+	"_view_mask\"a\n" +
 	"\"CreateAdminLoginRestrictionRequest\x12;\n" +
 	"\x04data\x18\x01 \x01(\v2'.admin.service.v1.AdminLoginRestrictionR\x04data\"\x9f\x03\n" +
 	"\"UpdateAdminLoginRestrictionRequest\x12;\n" +
@@ -627,24 +638,25 @@ var file_admin_service_v1_i_admin_login_restriction_proto_depIdxs = []int32{
 	8,  // 3: admin.service.v1.AdminLoginRestriction.updated_at:type_name -> google.protobuf.Timestamp
 	8,  // 4: admin.service.v1.AdminLoginRestriction.deleted_at:type_name -> google.protobuf.Timestamp
 	2,  // 5: admin.service.v1.ListAdminLoginRestrictionResponse.items:type_name -> admin.service.v1.AdminLoginRestriction
-	2,  // 6: admin.service.v1.CreateAdminLoginRestrictionRequest.data:type_name -> admin.service.v1.AdminLoginRestriction
-	2,  // 7: admin.service.v1.UpdateAdminLoginRestrictionRequest.data:type_name -> admin.service.v1.AdminLoginRestriction
-	9,  // 8: admin.service.v1.UpdateAdminLoginRestrictionRequest.update_mask:type_name -> google.protobuf.FieldMask
-	10, // 9: admin.service.v1.AdminLoginRestrictionService.List:input_type -> pagination.PagingRequest
-	4,  // 10: admin.service.v1.AdminLoginRestrictionService.Get:input_type -> admin.service.v1.GetAdminLoginRestrictionRequest
-	5,  // 11: admin.service.v1.AdminLoginRestrictionService.Create:input_type -> admin.service.v1.CreateAdminLoginRestrictionRequest
-	6,  // 12: admin.service.v1.AdminLoginRestrictionService.Update:input_type -> admin.service.v1.UpdateAdminLoginRestrictionRequest
-	7,  // 13: admin.service.v1.AdminLoginRestrictionService.Delete:input_type -> admin.service.v1.DeleteAdminLoginRestrictionRequest
-	3,  // 14: admin.service.v1.AdminLoginRestrictionService.List:output_type -> admin.service.v1.ListAdminLoginRestrictionResponse
-	2,  // 15: admin.service.v1.AdminLoginRestrictionService.Get:output_type -> admin.service.v1.AdminLoginRestriction
-	11, // 16: admin.service.v1.AdminLoginRestrictionService.Create:output_type -> google.protobuf.Empty
-	11, // 17: admin.service.v1.AdminLoginRestrictionService.Update:output_type -> google.protobuf.Empty
-	11, // 18: admin.service.v1.AdminLoginRestrictionService.Delete:output_type -> google.protobuf.Empty
-	14, // [14:19] is the sub-list for method output_type
-	9,  // [9:14] is the sub-list for method input_type
-	9,  // [9:9] is the sub-list for extension type_name
-	9,  // [9:9] is the sub-list for extension extendee
-	0,  // [0:9] is the sub-list for field type_name
+	9,  // 6: admin.service.v1.GetAdminLoginRestrictionRequest.view_mask:type_name -> google.protobuf.FieldMask
+	2,  // 7: admin.service.v1.CreateAdminLoginRestrictionRequest.data:type_name -> admin.service.v1.AdminLoginRestriction
+	2,  // 8: admin.service.v1.UpdateAdminLoginRestrictionRequest.data:type_name -> admin.service.v1.AdminLoginRestriction
+	9,  // 9: admin.service.v1.UpdateAdminLoginRestrictionRequest.update_mask:type_name -> google.protobuf.FieldMask
+	10, // 10: admin.service.v1.AdminLoginRestrictionService.List:input_type -> pagination.PagingRequest
+	4,  // 11: admin.service.v1.AdminLoginRestrictionService.Get:input_type -> admin.service.v1.GetAdminLoginRestrictionRequest
+	5,  // 12: admin.service.v1.AdminLoginRestrictionService.Create:input_type -> admin.service.v1.CreateAdminLoginRestrictionRequest
+	6,  // 13: admin.service.v1.AdminLoginRestrictionService.Update:input_type -> admin.service.v1.UpdateAdminLoginRestrictionRequest
+	7,  // 14: admin.service.v1.AdminLoginRestrictionService.Delete:input_type -> admin.service.v1.DeleteAdminLoginRestrictionRequest
+	3,  // 15: admin.service.v1.AdminLoginRestrictionService.List:output_type -> admin.service.v1.ListAdminLoginRestrictionResponse
+	2,  // 16: admin.service.v1.AdminLoginRestrictionService.Get:output_type -> admin.service.v1.AdminLoginRestriction
+	11, // 17: admin.service.v1.AdminLoginRestrictionService.Create:output_type -> google.protobuf.Empty
+	11, // 18: admin.service.v1.AdminLoginRestrictionService.Update:output_type -> google.protobuf.Empty
+	11, // 19: admin.service.v1.AdminLoginRestrictionService.Delete:output_type -> google.protobuf.Empty
+	15, // [15:20] is the sub-list for method output_type
+	10, // [10:15] is the sub-list for method input_type
+	10, // [10:10] is the sub-list for extension type_name
+	10, // [10:10] is the sub-list for extension extendee
+	0,  // [0:10] is the sub-list for field type_name
 }
 
 func init() { file_admin_service_v1_i_admin_login_restriction_proto_init() }
@@ -653,6 +665,7 @@ func file_admin_service_v1_i_admin_login_restriction_proto_init() {
 		return
 	}
 	file_admin_service_v1_i_admin_login_restriction_proto_msgTypes[0].OneofWrappers = []any{}
+	file_admin_service_v1_i_admin_login_restriction_proto_msgTypes[2].OneofWrappers = []any{}
 	file_admin_service_v1_i_admin_login_restriction_proto_msgTypes[4].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{

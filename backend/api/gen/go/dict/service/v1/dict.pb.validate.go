@@ -704,6 +704,39 @@ func (m *GetDictTypeRequest) validate(all bool) error {
 		_ = v // ensures v is used
 	}
 
+	if m.ViewMask != nil {
+
+		if all {
+			switch v := interface{}(m.GetViewMask()).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, GetDictTypeRequestValidationError{
+						field:  "ViewMask",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, GetDictTypeRequestValidationError{
+						field:  "ViewMask",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(m.GetViewMask()).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return GetDictTypeRequestValidationError{
+					field:  "ViewMask",
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
 	if len(errors) > 0 {
 		return GetDictTypeRequestMultiError(errors)
 	}
@@ -1663,6 +1696,39 @@ func (m *GetDictEntryRequest) validate(all bool) error {
 		// no validation rules for Code
 	default:
 		_ = v // ensures v is used
+	}
+
+	if m.ViewMask != nil {
+
+		if all {
+			switch v := interface{}(m.GetViewMask()).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, GetDictEntryRequestValidationError{
+						field:  "ViewMask",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, GetDictEntryRequestValidationError{
+						field:  "ViewMask",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(m.GetViewMask()).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return GetDictEntryRequestValidationError{
+					field:  "ViewMask",
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
 	}
 
 	if len(errors) > 0 {

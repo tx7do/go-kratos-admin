@@ -214,12 +214,16 @@ export interface ListUserResponse {
 
 /** 获取用户数据 - 请求 */
 export interface GetUserRequest {
-  id: number;
-}
-
-export interface GetUserByUserNameRequest {
-  /** 用户登录名 */
-  username: string;
+  queryBy?:
+    | //
+    /** 用户ID */
+    { $case: "id"; id: number }
+    | //
+    /** 用户登录名 */
+    { $case: "username"; username: string }
+    | null;
+  /** 视图字段过滤器，用于控制返回的字段 */
+  viewMask?: string[] | null;
 }
 
 /** 创建用户 - 请求 */
@@ -289,8 +293,6 @@ export interface UserService {
   Delete(request: DeleteUserRequest): Promise<Empty>;
   /** 批量创建用户 */
   BatchCreate(request: BatchCreateUsersRequest): Promise<BatchCreateUsersResponse>;
-  /** 查询用户详情 */
-  GetUserByUserName(request: GetUserByUserNameRequest): Promise<User>;
   /** 用户是否存在 */
   UserExists(request: UserExistsRequest): Promise<UserExistsResponse>;
 }

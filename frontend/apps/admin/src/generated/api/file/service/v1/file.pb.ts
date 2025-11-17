@@ -124,6 +124,8 @@ export interface ListFileResponse {
 /** 查询 - 请求 */
 export interface GetFileRequest {
   id: number;
+  /** 视图字段过滤器，用于控制返回的字段 */
+  viewMask?: string[] | null;
 }
 
 /** 创建 - 请求 */

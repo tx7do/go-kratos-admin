@@ -105,6 +105,8 @@ export interface ListAdminLoginRestrictionResponse {
 /** 查询后台登录限制详情 - 请求 */
 export interface GetAdminLoginRestrictionRequest {
   id: number;
+  /** 视图字段过滤器，用于控制返回的字段 */
+  viewMask?: string[] | null;
 }
 
 /** 创建后台登录限制 - 请求 */

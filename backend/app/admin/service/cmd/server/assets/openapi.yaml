@@ -86,6 +86,11 @@ paths:
                   schema:
                     type: integer
                     format: uint32
+                - name: viewMask
+                  in: query
+                  schema:
+                    type: string
+                    format: field-mask
             responses:
                 "200":
                     description: OK
@@ -165,6 +170,11 @@ paths:
                   schema:
                     type: integer
                     format: uint32
+                - name: viewMask
+                  in: query
+                  schema:
+                    type: string
+                    format: field-mask
             responses:
                 "200":
                     description: OK
@@ -308,6 +318,11 @@ paths:
                   schema:
                     type: integer
                     format: uint32
+                - name: viewMask
+                  in: query
+                  schema:
+                    type: string
+                    format: field-mask
             responses:
                 "200":
                     description: OK
@@ -440,6 +455,11 @@ paths:
                   schema:
                     type: integer
                     format: uint32
+                - name: viewMask
+                  in: query
+                  schema:
+                    type: string
+                    format: field-mask
             responses:
                 "200":
                     description: OK
@@ -706,6 +726,11 @@ paths:
                   in: query
                   schema:
                     type: string
+                - name: viewMask
+                  in: query
+                  schema:
+                    type: string
+                    format: field-mask
             responses:
                 "200":
                     description: OK
@@ -878,6 +903,11 @@ paths:
                   schema:
                     type: integer
                     format: uint32
+                - name: viewMask
+                  in: query
+                  schema:
+                    type: string
+                    format: field-mask
             responses:
                 "200":
                     description: OK
@@ -1010,6 +1040,11 @@ paths:
                   schema:
                     type: integer
                     format: uint32
+                - name: viewMask
+                  in: query
+                  schema:
+                    type: string
+                    format: field-mask
             responses:
                 "200":
                     description: OK
@@ -1202,6 +1237,11 @@ paths:
                   schema:
                     type: integer
                     format: uint32
+                - name: viewMask
+                  in: query
+                  schema:
+                    type: string
+                    format: field-mask
             responses:
                 "200":
                     description: OK
@@ -1406,6 +1446,11 @@ paths:
                   schema:
                     type: integer
                     format: uint32
+                - name: viewMask
+                  in: query
+                  schema:
+                    type: string
+                    format: field-mask
             responses:
                 "200":
                     description: OK
@@ -1580,6 +1625,11 @@ paths:
                   schema:
                     type: integer
                     format: uint32
+                - name: viewMask
+                  in: query
+                  schema:
+                    type: string
+                    format: field-mask
             responses:
                 "200":
                     description: OK
@@ -1717,6 +1767,11 @@ paths:
                   schema:
                     type: integer
                     format: uint32
+                - name: viewMask
+                  in: query
+                  schema:
+                    type: string
+                    format: field-mask
             responses:
                 "200":
                     description: OK
@@ -1862,6 +1917,11 @@ paths:
                   schema:
                     type: integer
                     format: uint32
+                - name: viewMask
+                  in: query
+                  schema:
+                    type: string
+                    format: field-mask
             responses:
                 "200":
                     description: OK
@@ -2013,6 +2073,11 @@ paths:
                   schema:
                     type: integer
                     format: uint32
+                - name: viewMask
+                  in: query
+                  schema:
+                    type: string
+                    format: field-mask
             responses:
                 "200":
                     description: OK
@@ -2158,6 +2223,11 @@ paths:
                   schema:
                     type: integer
                     format: uint32
+                - name: viewMask
+                  in: query
+                  schema:
+                    type: string
+                    format: field-mask
             responses:
                 "200":
                     description: OK
@@ -2364,6 +2434,11 @@ paths:
                   schema:
                     type: integer
                     format: uint32
+                - name: viewMask
+                  in: query
+                  schema:
+                    type: string
+                    format: field-mask
             responses:
                 "200":
                     description: OK
@@ -2596,6 +2671,15 @@ paths:
                   schema:
                     type: integer
                     format: uint32
+                - name: username
+                  in: query
+                  schema:
+                    type: string
+                - name: viewMask
+                  in: query
+                  schema:
+                    type: string
+                    format: field-mask
             responses:
                 "200":
                     description: OK
@@ -2677,6 +2761,11 @@ paths:
                   schema:
                     type: integer
                     format: uint32
+                - name: viewMask
+                  in: query
+                  schema:
+                    type: string
+                    format: field-mask
             responses:
                 "200":
                     description: OK
@@ -2684,6 +2773,35 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/DictType'
+    /api/v1/users/username/{username}:
+        get:
+            tags:
+                - UserService
+            description: 获取用户数据
+            operationId: UserService_Get
+            parameters:
+                - name: username
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                - name: id
+                  in: query
+                  schema:
+                    type: integer
+                    format: uint32
+                - name: viewMask
+                  in: query
+                  schema:
+                    type: string
+                    format: field-mask
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/User'
 components:
     schemas:
         AdminLoginLog:
@@ -3840,12 +3958,23 @@ components:
                 password:
                     type: string
                     description: 用户的密码
+                user_id:
+                    type: integer
+                    description: 用户ID
+                    format: uint32
                 refresh_token:
                     type: string
                     description: 更新令牌，用来获取下一次的访问令牌，可选项。如果访问令牌将过期，则返回刷新令牌很有用，应用程序可以使用该刷新令牌来获取另一个访问令牌。但是，通过隐式授予颁发的令牌不能颁发刷新令牌。
                 code:
                     type: string
                     description: 授权请求中收到的一次性验证/认证码。(当使用授权码模式时)
+                client_type:
+                    enum:
+                        - admin
+                        - app
+                    type: string
+                    description: 客户端类型
+                    format: enum
             description: 用户后台登录 - 请求
         LoginResponse:
             type: object

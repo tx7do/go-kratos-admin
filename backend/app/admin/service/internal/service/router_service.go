@@ -16,6 +16,8 @@ import (
 	"kratos-admin/app/admin/service/internal/data"
 
 	adminV1 "kratos-admin/api/gen/go/admin/service/v1"
+	userV1 "kratos-admin/api/gen/go/user/service/v1"
+
 	"kratos-admin/pkg/middleware/auth"
 	"kratos-admin/pkg/utils/slice"
 )
@@ -122,7 +124,11 @@ func (s *RouterService) ListPermissionCode(ctx context.Context, _ *emptypb.Empty
 		return nil, err
 	}
 
-	user, err := s.userRepo.Get(ctx, operator.UserId)
+	user, err := s.userRepo.Get(ctx, &userV1.GetUserRequest{
+		QueryBy: &userV1.GetUserRequest_Id{
+			Id: operator.UserId,
+		},
+	})
 	if err != nil {
 		s.log.Errorf("query user failed[%s]", err.Error())
 		return nil, adminV1.ErrorInternalServerError("query user failed")
@@ -210,7 +216,11 @@ func (s *RouterService) ListRoute(ctx context.Context, _ *emptypb.Empty) (*admin
 		return nil, err
 	}
 
-	user, err := s.userRepo.Get(ctx, operator.UserId)
+	user, err := s.userRepo.Get(ctx, &userV1.GetUserRequest{
+		QueryBy: &userV1.GetUserRequest_Id{
+			Id: operator.UserId,
+		},
+	})
 	if err != nil {
 		s.log.Errorf("query user failed[%s]", err.Error())
 		return nil, adminV1.ErrorInternalServerError("query user failed")

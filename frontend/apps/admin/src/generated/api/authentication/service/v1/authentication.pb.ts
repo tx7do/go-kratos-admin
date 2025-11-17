@@ -67,13 +67,23 @@ export interface LoginRequest {
     | string
     | null
     | undefined;
+  /** 用户ID */
+  user_id?:
+    | number
+    | null
+    | undefined;
   /** 更新令牌，用来获取下一次的访问令牌，必选项。 */
   refresh_token?:
     | string
     | null
     | undefined;
   /** 授权请求中收到的一次性验证/认证码。(当使用授权码模式时) */
-  code?: string | null | undefined;
+  code?:
+    | string
+    | null
+    | undefined;
+  /** 客户端类型 */
+  client_type?: ClientType | null | undefined;
 }
 
 /** 用户后台登录 - 回应 */
@@ -91,6 +101,14 @@ export interface LoginResponse {
     | undefined;
   /** 以空格分隔的用户授予范围列表。如果未提供，scope则授权任何范围，默认为空列表。 */
   scope?: string | null | undefined;
+}
+
+/** 用户登出 - 请求 */
+export interface LogoutRequest {
+  /** 用户ID */
+  userId: number;
+  /** 客户端类型 */
+  clientType: ClientType;
 }
 
 /** 验证令牌 - 请求 */
@@ -166,7 +184,7 @@ export interface AuthenticationService {
   /** 用户登录 */
   Login(request: LoginRequest): Promise<LoginResponse>;
   /** 用户登出 */
-  Logout(request: Empty): Promise<Empty>;
+  Logout(request: LogoutRequest): Promise<Empty>;
   /** 注册用户 */
   RegisterUser(request: RegisterUserRequest): Promise<RegisterUserResponse>;
   /** 刷新认证令牌 */

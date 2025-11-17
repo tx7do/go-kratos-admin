@@ -63,7 +63,11 @@ func (s *OrganizationService) Get(ctx context.Context, req *userV1.GetOrganizati
 	}
 
 	if resp.ManagerId != nil {
-		manager, err := s.userRepo.Get(ctx, resp.GetManagerId())
+		manager, err := s.userRepo.Get(ctx, &userV1.GetUserRequest{
+			QueryBy: &userV1.GetUserRequest_Id{
+				Id: resp.GetManagerId(),
+			},
+		})
 		if err == nil && manager != nil {
 			resp.ManagerName = manager.Nickname
 		} else {

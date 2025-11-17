@@ -378,6 +378,7 @@ type GetDictTypeRequest struct {
 	//	*GetDictTypeRequest_Id
 	//	*GetDictTypeRequest_Code
 	QueryBy       isGetDictTypeRequest_QueryBy `protobuf_oneof:"query_by"`
+	ViewMask      *fieldmaskpb.FieldMask       `protobuf:"bytes,100,opt,name=view_mask,json=viewMask,proto3,oneof" json:"view_mask,omitempty"` // 视图字段过滤器，用于控制返回的字段
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -435,6 +436,13 @@ func (x *GetDictTypeRequest) GetCode() string {
 		}
 	}
 	return ""
+}
+
+func (x *GetDictTypeRequest) GetViewMask() *fieldmaskpb.FieldMask {
+	if x != nil {
+		return x.ViewMask
+	}
+	return nil
 }
 
 type isGetDictTypeRequest_QueryBy interface {
@@ -771,6 +779,7 @@ type GetDictEntryRequest struct {
 	//	*GetDictEntryRequest_Id
 	//	*GetDictEntryRequest_Code
 	QueryBy       isGetDictEntryRequest_QueryBy `protobuf_oneof:"query_by"`
+	ViewMask      *fieldmaskpb.FieldMask        `protobuf:"bytes,100,opt,name=view_mask,json=viewMask,proto3,oneof" json:"view_mask,omitempty"` // 视图字段过滤器，用于控制返回的字段
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -828,6 +837,13 @@ func (x *GetDictEntryRequest) GetCode() string {
 		}
 	}
 	return ""
+}
+
+func (x *GetDictEntryRequest) GetViewMask() *fieldmaskpb.FieldMask {
+	if x != nil {
+		return x.ViewMask
+	}
+	return nil
 }
 
 type isGetDictEntryRequest_QueryBy interface {
@@ -932,12 +948,15 @@ const file_dict_service_v1_dict_proto_rawDesc = "" +
 	"\v_deleted_at\"]\n" +
 	"\x14ListDictTypeResponse\x12/\n" +
 	"\x05items\x18\x01 \x03(\v2\x19.dict.service.v1.DictTypeR\x05items\x12\x14\n" +
-	"\x05total\x18\x02 \x01(\rR\x05total\"H\n" +
+	"\x05total\x18\x02 \x01(\rR\x05total\"\xcf\x01\n" +
 	"\x12GetDictTypeRequest\x12\x10\n" +
 	"\x02id\x18\x01 \x01(\rH\x00R\x02id\x12\x14\n" +
-	"\x04code\x18\x02 \x01(\tH\x00R\x04codeB\n" +
+	"\x04code\x18\x02 \x01(\tH\x00R\x04code\x12w\n" +
+	"\tview_mask\x18d \x01(\v2\x1a.google.protobuf.FieldMaskB9\xbaG6\x92\x023视图字段过滤器，用于控制返回的字段H\x01R\bviewMask\x88\x01\x01B\n" +
 	"\n" +
-	"\bquery_by\"F\n" +
+	"\bquery_byB\f\n" +
+	"\n" +
+	"_view_mask\"F\n" +
 	"\x15CreateDictTypeRequest\x12-\n" +
 	"\x04data\x18\x01 \x01(\v2\x19.dict.service.v1.DictTypeR\x04data\"\x84\x03\n" +
 	"\x15UpdateDictTypeRequest\x12-\n" +
@@ -958,12 +977,15 @@ const file_dict_service_v1_dict_proto_rawDesc = "" +
 	"\vupdate_mask\x18\x02 \x01(\v2\x1a.google.protobuf.FieldMaskB6\xbaG3:\x16\x12\x14id,realname,username\x92\x02\x18要更新的字段列表R\n" +
 	"updateMask\x12\xb4\x01\n" +
 	"\rallow_missing\x18\x03 \x01(\bB\x89\x01\xbaG\x85\x01\x92\x02\x81\x01如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。H\x00R\fallowMissing\x88\x01\x01B\x10\n" +
-	"\x0e_allow_missing\"I\n" +
+	"\x0e_allow_missing\"\xd0\x01\n" +
 	"\x13GetDictEntryRequest\x12\x10\n" +
 	"\x02id\x18\x01 \x01(\rH\x00R\x02id\x12\x14\n" +
-	"\x04code\x18\x02 \x01(\tH\x00R\x04codeB\n" +
+	"\x04code\x18\x02 \x01(\tH\x00R\x04code\x12w\n" +
+	"\tview_mask\x18d \x01(\v2\x1a.google.protobuf.FieldMaskB9\xbaG6\x92\x023视图字段过滤器，用于控制返回的字段H\x01R\bviewMask\x88\x01\x01B\n" +
 	"\n" +
-	"\bquery_by2\x87\x06\n" +
+	"\bquery_byB\f\n" +
+	"\n" +
+	"_view_mask2\x87\x06\n" +
 	"\vDictService\x12R\n" +
 	"\fListDictType\x12\x19.pagination.PagingRequest\x1a%.dict.service.v1.ListDictTypeResponse\"\x00\x12O\n" +
 	"\vGetDictType\x12#.dict.service.v1.GetDictTypeRequest\x1a\x19.dict.service.v1.DictType\"\x00\x12R\n" +
@@ -1014,36 +1036,38 @@ var file_dict_service_v1_dict_proto_depIdxs = []int32{
 	11, // 4: dict.service.v1.DictEntry.updated_at:type_name -> google.protobuf.Timestamp
 	11, // 5: dict.service.v1.DictEntry.deleted_at:type_name -> google.protobuf.Timestamp
 	0,  // 6: dict.service.v1.ListDictTypeResponse.items:type_name -> dict.service.v1.DictType
-	0,  // 7: dict.service.v1.CreateDictTypeRequest.data:type_name -> dict.service.v1.DictType
-	0,  // 8: dict.service.v1.UpdateDictTypeRequest.data:type_name -> dict.service.v1.DictType
-	12, // 9: dict.service.v1.UpdateDictTypeRequest.update_mask:type_name -> google.protobuf.FieldMask
-	1,  // 10: dict.service.v1.ListDictEntryResponse.items:type_name -> dict.service.v1.DictEntry
-	1,  // 11: dict.service.v1.CreateDictEntryRequest.data:type_name -> dict.service.v1.DictEntry
-	1,  // 12: dict.service.v1.UpdateDictEntryRequest.data:type_name -> dict.service.v1.DictEntry
-	12, // 13: dict.service.v1.UpdateDictEntryRequest.update_mask:type_name -> google.protobuf.FieldMask
-	13, // 14: dict.service.v1.DictService.ListDictType:input_type -> pagination.PagingRequest
-	3,  // 15: dict.service.v1.DictService.GetDictType:input_type -> dict.service.v1.GetDictTypeRequest
-	4,  // 16: dict.service.v1.DictService.CreateDictType:input_type -> dict.service.v1.CreateDictTypeRequest
-	5,  // 17: dict.service.v1.DictService.UpdateDictType:input_type -> dict.service.v1.UpdateDictTypeRequest
-	6,  // 18: dict.service.v1.DictService.DeleteDictType:input_type -> dict.service.v1.BatchDeleteDictRequest
-	13, // 19: dict.service.v1.DictService.ListDictEntry:input_type -> pagination.PagingRequest
-	8,  // 20: dict.service.v1.DictService.CreateDictEntry:input_type -> dict.service.v1.CreateDictEntryRequest
-	9,  // 21: dict.service.v1.DictService.UpdateDictEntry:input_type -> dict.service.v1.UpdateDictEntryRequest
-	6,  // 22: dict.service.v1.DictService.DeleteDictEntry:input_type -> dict.service.v1.BatchDeleteDictRequest
-	2,  // 23: dict.service.v1.DictService.ListDictType:output_type -> dict.service.v1.ListDictTypeResponse
-	0,  // 24: dict.service.v1.DictService.GetDictType:output_type -> dict.service.v1.DictType
-	14, // 25: dict.service.v1.DictService.CreateDictType:output_type -> google.protobuf.Empty
-	14, // 26: dict.service.v1.DictService.UpdateDictType:output_type -> google.protobuf.Empty
-	14, // 27: dict.service.v1.DictService.DeleteDictType:output_type -> google.protobuf.Empty
-	7,  // 28: dict.service.v1.DictService.ListDictEntry:output_type -> dict.service.v1.ListDictEntryResponse
-	14, // 29: dict.service.v1.DictService.CreateDictEntry:output_type -> google.protobuf.Empty
-	14, // 30: dict.service.v1.DictService.UpdateDictEntry:output_type -> google.protobuf.Empty
-	14, // 31: dict.service.v1.DictService.DeleteDictEntry:output_type -> google.protobuf.Empty
-	23, // [23:32] is the sub-list for method output_type
-	14, // [14:23] is the sub-list for method input_type
-	14, // [14:14] is the sub-list for extension type_name
-	14, // [14:14] is the sub-list for extension extendee
-	0,  // [0:14] is the sub-list for field type_name
+	12, // 7: dict.service.v1.GetDictTypeRequest.view_mask:type_name -> google.protobuf.FieldMask
+	0,  // 8: dict.service.v1.CreateDictTypeRequest.data:type_name -> dict.service.v1.DictType
+	0,  // 9: dict.service.v1.UpdateDictTypeRequest.data:type_name -> dict.service.v1.DictType
+	12, // 10: dict.service.v1.UpdateDictTypeRequest.update_mask:type_name -> google.protobuf.FieldMask
+	1,  // 11: dict.service.v1.ListDictEntryResponse.items:type_name -> dict.service.v1.DictEntry
+	1,  // 12: dict.service.v1.CreateDictEntryRequest.data:type_name -> dict.service.v1.DictEntry
+	1,  // 13: dict.service.v1.UpdateDictEntryRequest.data:type_name -> dict.service.v1.DictEntry
+	12, // 14: dict.service.v1.UpdateDictEntryRequest.update_mask:type_name -> google.protobuf.FieldMask
+	12, // 15: dict.service.v1.GetDictEntryRequest.view_mask:type_name -> google.protobuf.FieldMask
+	13, // 16: dict.service.v1.DictService.ListDictType:input_type -> pagination.PagingRequest
+	3,  // 17: dict.service.v1.DictService.GetDictType:input_type -> dict.service.v1.GetDictTypeRequest
+	4,  // 18: dict.service.v1.DictService.CreateDictType:input_type -> dict.service.v1.CreateDictTypeRequest
+	5,  // 19: dict.service.v1.DictService.UpdateDictType:input_type -> dict.service.v1.UpdateDictTypeRequest
+	6,  // 20: dict.service.v1.DictService.DeleteDictType:input_type -> dict.service.v1.BatchDeleteDictRequest
+	13, // 21: dict.service.v1.DictService.ListDictEntry:input_type -> pagination.PagingRequest
+	8,  // 22: dict.service.v1.DictService.CreateDictEntry:input_type -> dict.service.v1.CreateDictEntryRequest
+	9,  // 23: dict.service.v1.DictService.UpdateDictEntry:input_type -> dict.service.v1.UpdateDictEntryRequest
+	6,  // 24: dict.service.v1.DictService.DeleteDictEntry:input_type -> dict.service.v1.BatchDeleteDictRequest
+	2,  // 25: dict.service.v1.DictService.ListDictType:output_type -> dict.service.v1.ListDictTypeResponse
+	0,  // 26: dict.service.v1.DictService.GetDictType:output_type -> dict.service.v1.DictType
+	14, // 27: dict.service.v1.DictService.CreateDictType:output_type -> google.protobuf.Empty
+	14, // 28: dict.service.v1.DictService.UpdateDictType:output_type -> google.protobuf.Empty
+	14, // 29: dict.service.v1.DictService.DeleteDictType:output_type -> google.protobuf.Empty
+	7,  // 30: dict.service.v1.DictService.ListDictEntry:output_type -> dict.service.v1.ListDictEntryResponse
+	14, // 31: dict.service.v1.DictService.CreateDictEntry:output_type -> google.protobuf.Empty
+	14, // 32: dict.service.v1.DictService.UpdateDictEntry:output_type -> google.protobuf.Empty
+	14, // 33: dict.service.v1.DictService.DeleteDictEntry:output_type -> google.protobuf.Empty
+	25, // [25:34] is the sub-list for method output_type
+	16, // [16:25] is the sub-list for method input_type
+	16, // [16:16] is the sub-list for extension type_name
+	16, // [16:16] is the sub-list for extension extendee
+	0,  // [0:16] is the sub-list for field type_name
 }
 
 func init() { file_dict_service_v1_dict_proto_init() }

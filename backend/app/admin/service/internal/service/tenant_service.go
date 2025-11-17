@@ -78,7 +78,11 @@ func (s *TenantService) Get(ctx context.Context, req *userV1.GetTenantRequest) (
 	}
 
 	if resp.AdminUserId != nil {
-		userResp, err := s.userRepo.Get(ctx, resp.GetAdminUserId())
+		userResp, err := s.userRepo.Get(ctx, &userV1.GetUserRequest{
+			QueryBy: &userV1.GetUserRequest_Id{
+				Id: resp.GetAdminUserId(),
+			},
+		})
 		if err != nil {
 			s.log.Errorf("failed to get admin user info: %v", err)
 		} else {

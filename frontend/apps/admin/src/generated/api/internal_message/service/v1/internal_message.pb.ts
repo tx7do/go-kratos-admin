@@ -205,6 +205,8 @@ export interface ListInternalMessageResponse {
 /** 查询站内信消息详情 - 请求 */
 export interface GetInternalMessageRequest {
   id: number;
+  /** 视图字段过滤器，用于控制返回的字段 */
+  viewMask?: string[] | null;
 }
 
 /** 创建站内信消息 - 请求 */

@@ -154,7 +154,12 @@ export interface ListDictTypeResponse {
 
 /** 查询字典类型详情 - 请求 */
 export interface GetDictTypeRequest {
-  queryBy?: { $case: "id"; id: number } | { $case: "code"; code: string } | null;
+  queryBy?:
+    | { $case: "id"; id: number }
+    | { $case: "code"; code: string }
+    | null;
+  /** 视图字段过滤器，用于控制返回的字段 */
+  viewMask?: string[] | null;
 }
 
 /** 创建字典类型 - 请求 */
@@ -207,7 +212,12 @@ export interface UpdateDictEntryRequest {
 
 /** 查询字典条目详情 - 请求 */
 export interface GetDictEntryRequest {
-  queryBy?: { $case: "id"; id: number } | { $case: "code"; code: string } | null;
+  queryBy?:
+    | { $case: "id"; id: number }
+    | { $case: "code"; code: string }
+    | null;
+  /** 视图字段过滤器，用于控制返回的字段 */
+  viewMask?: string[] | null;
 }
 
 /** 数据字典管理服务 */

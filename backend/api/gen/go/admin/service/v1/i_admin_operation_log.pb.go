@@ -346,6 +346,7 @@ func (x *ListAdminOperationLogResponse) GetTotal() uint32 {
 type GetAdminOperationLogRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            uint32                 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	ViewMask      *fieldmaskpb.FieldMask `protobuf:"bytes,100,opt,name=view_mask,json=viewMask,proto3,oneof" json:"view_mask,omitempty"` // 视图字段过滤器，用于控制返回的字段
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -385,6 +386,13 @@ func (x *GetAdminOperationLogRequest) GetId() uint32 {
 		return x.Id
 	}
 	return 0
+}
+
+func (x *GetAdminOperationLogRequest) GetViewMask() *fieldmaskpb.FieldMask {
+	if x != nil {
+		return x.ViewMask
+	}
+	return nil
 }
 
 // 创建后台操作日志 - 请求
@@ -620,9 +628,12 @@ const file_admin_service_v1_i_admin_operation_log_proto_rawDesc = "" +
 	"\v_created_at\"p\n" +
 	"\x1dListAdminOperationLogResponse\x129\n" +
 	"\x05items\x18\x01 \x03(\v2#.admin.service.v1.AdminOperationLogR\x05items\x12\x14\n" +
-	"\x05total\x18\x02 \x01(\rR\x05total\"-\n" +
+	"\x05total\x18\x02 \x01(\rR\x05total\"\xb4\x01\n" +
 	"\x1bGetAdminOperationLogRequest\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\rR\x02id\"Y\n" +
+	"\x02id\x18\x01 \x01(\rR\x02id\x12w\n" +
+	"\tview_mask\x18d \x01(\v2\x1a.google.protobuf.FieldMaskB9\xbaG6\x92\x023视图字段过滤器，用于控制返回的字段H\x00R\bviewMask\x88\x01\x01B\f\n" +
+	"\n" +
+	"_view_mask\"Y\n" +
 	"\x1eCreateAdminOperationLogRequest\x127\n" +
 	"\x04data\x18\x01 \x01(\v2#.admin.service.v1.AdminOperationLogR\x04data\"\x97\x03\n" +
 	"\x1eUpdateAdminOperationLogRequest\x127\n" +
@@ -667,18 +678,19 @@ var file_admin_service_v1_i_admin_operation_log_proto_depIdxs = []int32{
 	6, // 0: admin.service.v1.AdminOperationLog.cost_time:type_name -> google.protobuf.Duration
 	7, // 1: admin.service.v1.AdminOperationLog.created_at:type_name -> google.protobuf.Timestamp
 	0, // 2: admin.service.v1.ListAdminOperationLogResponse.items:type_name -> admin.service.v1.AdminOperationLog
-	0, // 3: admin.service.v1.CreateAdminOperationLogRequest.data:type_name -> admin.service.v1.AdminOperationLog
-	0, // 4: admin.service.v1.UpdateAdminOperationLogRequest.data:type_name -> admin.service.v1.AdminOperationLog
-	8, // 5: admin.service.v1.UpdateAdminOperationLogRequest.update_mask:type_name -> google.protobuf.FieldMask
-	9, // 6: admin.service.v1.AdminOperationLogService.List:input_type -> pagination.PagingRequest
-	2, // 7: admin.service.v1.AdminOperationLogService.Get:input_type -> admin.service.v1.GetAdminOperationLogRequest
-	1, // 8: admin.service.v1.AdminOperationLogService.List:output_type -> admin.service.v1.ListAdminOperationLogResponse
-	0, // 9: admin.service.v1.AdminOperationLogService.Get:output_type -> admin.service.v1.AdminOperationLog
-	8, // [8:10] is the sub-list for method output_type
-	6, // [6:8] is the sub-list for method input_type
-	6, // [6:6] is the sub-list for extension type_name
-	6, // [6:6] is the sub-list for extension extendee
-	0, // [0:6] is the sub-list for field type_name
+	8, // 3: admin.service.v1.GetAdminOperationLogRequest.view_mask:type_name -> google.protobuf.FieldMask
+	0, // 4: admin.service.v1.CreateAdminOperationLogRequest.data:type_name -> admin.service.v1.AdminOperationLog
+	0, // 5: admin.service.v1.UpdateAdminOperationLogRequest.data:type_name -> admin.service.v1.AdminOperationLog
+	8, // 6: admin.service.v1.UpdateAdminOperationLogRequest.update_mask:type_name -> google.protobuf.FieldMask
+	9, // 7: admin.service.v1.AdminOperationLogService.List:input_type -> pagination.PagingRequest
+	2, // 8: admin.service.v1.AdminOperationLogService.Get:input_type -> admin.service.v1.GetAdminOperationLogRequest
+	1, // 9: admin.service.v1.AdminOperationLogService.List:output_type -> admin.service.v1.ListAdminOperationLogResponse
+	0, // 10: admin.service.v1.AdminOperationLogService.Get:output_type -> admin.service.v1.AdminOperationLog
+	9, // [9:11] is the sub-list for method output_type
+	7, // [7:9] is the sub-list for method input_type
+	7, // [7:7] is the sub-list for extension type_name
+	7, // [7:7] is the sub-list for extension extendee
+	0, // [0:7] is the sub-list for field type_name
 }
 
 func init() { file_admin_service_v1_i_admin_operation_log_proto_init() }
@@ -687,6 +699,7 @@ func file_admin_service_v1_i_admin_operation_log_proto_init() {
 		return
 	}
 	file_admin_service_v1_i_admin_operation_log_proto_msgTypes[0].OneofWrappers = []any{}
+	file_admin_service_v1_i_admin_operation_log_proto_msgTypes[2].OneofWrappers = []any{}
 	file_admin_service_v1_i_admin_operation_log_proto_msgTypes[4].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{

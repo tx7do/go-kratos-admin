@@ -140,7 +140,11 @@ func (s *AuthenticationService) doGrantTypeRefreshToken(ctx context.Context, req
 	}
 
 	// 获取用户信息
-	user, err := s.userRepo.Get(ctx, operator.UserId)
+	user, err := s.userRepo.Get(ctx, &userV1.GetUserRequest{
+		QueryBy: &userV1.GetUserRequest_Id{
+			Id: operator.UserId,
+		},
+	})
 	if err != nil {
 		return &authenticationV1.LoginResponse{}, err
 	}

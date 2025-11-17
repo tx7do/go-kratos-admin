@@ -124,6 +124,8 @@ export interface ListMenuResponse {
 /** 查询菜单详情 - 请求 */
 export interface GetMenuRequest {
   id: number;
+  /** 视图字段过滤器，用于控制返回的字段 */
+  viewMask?: string[] | null;
 }
 
 /** 创建菜单 - 请求 */

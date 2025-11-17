@@ -132,6 +132,8 @@ export interface ListRoleResponse {
 /** 角色数据 - 请求 */
 export interface GetRoleRequest {
   id: number;
+  /** 视图字段过滤器，用于控制返回的字段 */
+  viewMask?: string[] | null;
 }
 
 /** 创建角色 - 请求 */
@@ -176,10 +178,14 @@ export interface GetRoleCodesByRoleIdsResponse {
 
 export interface GetRolesByRoleCodesRequest {
   roleCodes: string[];
+  /** 视图字段过滤器，用于控制返回的字段 */
+  viewMask?: string[] | null;
 }
 
 export interface GetRolesByRoleIdsRequest {
   roleIds: number[];
+  /** 视图字段过滤器，用于控制返回的字段 */
+  viewMask?: string[] | null;
 }
 
 /** 角色服务 */

@@ -238,6 +238,8 @@ func (x *GetDictTypeRequest) Redact() string {
 	// Safe field: Id
 
 	// Safe field: Code
+
+	// Safe field: ViewMask
 	return x.String()
 }
 
@@ -320,5 +322,7 @@ func (x *GetDictEntryRequest) Redact() string {
 	// Safe field: Id
 
 	// Safe field: Code
+
+	// Safe field: ViewMask
 	return x.String()
 }

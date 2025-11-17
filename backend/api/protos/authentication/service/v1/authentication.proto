@@ -16,7 +16,7 @@ service AuthenticationService {
   rpc Login (LoginRequest) returns (LoginResponse) {}
 
   // 用户登出
-  rpc Logout (google.protobuf.Empty) returns (google.protobuf.Empty) {}
+  rpc Logout (LogoutRequest) returns (google.protobuf.Empty) {}
 
   // 注册用户
   rpc RegisterUser (RegisterUserRequest) returns (RegisterUserResponse) {}
@@ -101,6 +101,13 @@ message LoginRequest {
     (gnostic.openapi.v3.property) = {description: "用户的密码"}
   ]; // 用户的密码，必选项。
 
+  optional uint32 user_id = 12 [
+    json_name = "user_id",
+    (gnostic.openapi.v3.property) = {
+      description: "用户ID"
+    }
+  ]; // 用户ID
+
   optional string refresh_token = 20 [
     json_name = "refresh_token",
     (gnostic.openapi.v3.property) = {
@@ -114,6 +121,13 @@ message LoginRequest {
       description: "授权请求中收到的一次性验证/认证码。(当使用授权码模式时)"
     }
   ]; // 授权请求中收到的一次性验证/认证码。(当使用授权码模式时)
+
+  optional ClientType client_type = 40 [
+    json_name = "client_type",
+    (gnostic.openapi.v3.property) = {
+      description: "客户端类型"
+    }
+  ]; // 客户端类型
 }
 
 // 用户后台登录 - 回应
@@ -153,6 +167,23 @@ message LoginResponse {
       description: "以空格分隔的用户授予范围列表。如果未提供，scope则授权任何范围，默认为空列表。"
     }
   ]; // 以空格分隔的用户授予范围列表。如果未提供，scope则授权任何范围，默认为空列表。
+}
+
+// 用户登出 - 请求
+message LogoutRequest {
+  uint32 user_id = 1 [
+    json_name = "userId",
+    (gnostic.openapi.v3.property) = {
+      description: "用户ID"
+    }
+  ]; // 用户ID
+
+  ClientType client_type = 2 [
+    json_name = "clientType",
+    (gnostic.openapi.v3.property) = {
+      description: "客户端类型"
+    }
+  ]; // 客户端类型
 }
 
 // 验证令牌 - 请求
@@ -266,12 +297,12 @@ message UserTokenPayload {
     }
   ]; // 用户角色码列表
 
-//  repeated uint32 role_ids = 7 [
-//    json_name = "rid",
-//    (gnostic.openapi.v3.property) = {
-//      description: "角色ID列表"
-//    }
-//  ]; // 角色ID列表
+  //  repeated uint32 role_ids = 7 [
+  //    json_name = "rid",
+  //    (gnostic.openapi.v3.property) = {
+  //      description: "角色ID列表"
+  //    }
+  //  ]; // 角色ID列表
 
   optional string device_id = 8 [
     json_name = "did",

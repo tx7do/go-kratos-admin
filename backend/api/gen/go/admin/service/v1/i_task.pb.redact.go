@@ -252,6 +252,8 @@ func (x *GetTaskRequest) Redact() string {
 	}
 
 	// Safe field: Id
+
+	// Safe field: ViewMask
 	return x.String()
 }
 
@@ -262,6 +264,8 @@ func (x *GetTaskByTypeNameRequest) Redact() string {
 	}
 
 	// Safe field: TypeName
+
+	// Safe field: ViewMask
 	return x.String()
 }
 

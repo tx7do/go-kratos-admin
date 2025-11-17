@@ -146,11 +146,15 @@ export interface ListTaskResponse {
 /** 查询调度任务详情 - 请求 */
 export interface GetTaskRequest {
   id: number;
+  /** 视图字段过滤器，用于控制返回的字段 */
+  viewMask?: string[] | null;
 }
 
 export interface GetTaskByTypeNameRequest {
   /** 任务执行类型名 */
   typeName: string;
+  /** 视图字段过滤器，用于控制返回的字段 */
+  viewMask?: string[] | null;
 }
 
 /** 创建调度任务 - 请求 */

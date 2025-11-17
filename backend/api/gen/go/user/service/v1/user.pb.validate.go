@@ -535,7 +535,67 @@ func (m *GetUserRequest) validate(all bool) error {
 
 	var errors []error
 
-	// no validation rules for Id
+	switch v := m.QueryBy.(type) {
+	case *GetUserRequest_Id:
+		if v == nil {
+			err := GetUserRequestValidationError{
+				field:  "QueryBy",
+				reason: "oneof value cannot be a typed-nil",
+			}
+			if !all {
+				return err
+			}
+			errors = append(errors, err)
+		}
+		// no validation rules for Id
+	case *GetUserRequest_Username:
+		if v == nil {
+			err := GetUserRequestValidationError{
+				field:  "QueryBy",
+				reason: "oneof value cannot be a typed-nil",
+			}
+			if !all {
+				return err
+			}
+			errors = append(errors, err)
+		}
+		// no validation rules for Username
+	default:
+		_ = v // ensures v is used
+	}
+
+	if m.ViewMask != nil {
+
+		if all {
+			switch v := interface{}(m.GetViewMask()).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, GetUserRequestValidationError{
+						field:  "ViewMask",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, GetUserRequestValidationError{
+						field:  "ViewMask",
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(m.GetViewMask()).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return GetUserRequestValidationError{
+					field:  "ViewMask",
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
 
 	if len(errors) > 0 {
 		return GetUserRequestMultiError(errors)
@@ -614,110 +674,6 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = GetUserRequestValidationError{}
-
-// Validate checks the field values on GetUserByUserNameRequest with the rules
-// defined in the proto definition for this message. If any rules are
-// violated, the first error encountered is returned, or nil if there are no violations.
-func (m *GetUserByUserNameRequest) Validate() error {
-	return m.validate(false)
-}
-
-// ValidateAll checks the field values on GetUserByUserNameRequest with the
-// rules defined in the proto definition for this message. If any rules are
-// violated, the result is a list of violation errors wrapped in
-// GetUserByUserNameRequestMultiError, or nil if none found.
-func (m *GetUserByUserNameRequest) ValidateAll() error {
-	return m.validate(true)
-}
-
-func (m *GetUserByUserNameRequest) validate(all bool) error {
-	if m == nil {
-		return nil
-	}
-
-	var errors []error
-
-	// no validation rules for Username
-
-	if len(errors) > 0 {
-		return GetUserByUserNameRequestMultiError(errors)
-	}
-
-	return nil
-}
-
-// GetUserByUserNameRequestMultiError is an error wrapping multiple validation
-// errors returned by GetUserByUserNameRequest.ValidateAll() if the designated
-// constraints aren't met.
-type GetUserByUserNameRequestMultiError []error
-
-// Error returns a concatenation of all the error messages it wraps.
-func (m GetUserByUserNameRequestMultiError) Error() string {
-	msgs := make([]string, 0, len(m))
-	for _, err := range m {
-		msgs = append(msgs, err.Error())
-	}
-	return strings.Join(msgs, "; ")
-}
-
-// AllErrors returns a list of validation violation errors.
-func (m GetUserByUserNameRequestMultiError) AllErrors() []error { return m }
-
-// GetUserByUserNameRequestValidationError is the validation error returned by
-// GetUserByUserNameRequest.Validate if the designated constraints aren't met.
-type GetUserByUserNameRequestValidationError struct {
-	field  string
-	reason string
-	cause  error
-	key    bool
-}
-
-// Field function returns field value.
-func (e GetUserByUserNameRequestValidationError) Field() string { return e.field }
-
-// Reason function returns reason value.
-func (e GetUserByUserNameRequestValidationError) Reason() string { return e.reason }
-
-// Cause function returns cause value.
-func (e GetUserByUserNameRequestValidationError) Cause() error { return e.cause }
-
-// Key function returns key value.
-func (e GetUserByUserNameRequestValidationError) Key() bool { return e.key }
-
-// ErrorName returns error name.
-func (e GetUserByUserNameRequestValidationError) ErrorName() string {
-	return "GetUserByUserNameRequestValidationError"
-}
-
-// Error satisfies the builtin error interface
-func (e GetUserByUserNameRequestValidationError) Error() string {
-	cause := ""
-	if e.cause != nil {
-		cause = fmt.Sprintf(" | caused by: %v", e.cause)
-	}
-
-	key := ""
-	if e.key {
-		key = "key for "
-	}
-
-	return fmt.Sprintf(
-		"invalid %sGetUserByUserNameRequest.%s: %s%s",
-		key,
-		e.field,
-		e.reason,
-		cause)
-}
-
-var _ error = GetUserByUserNameRequestValidationError{}
-
-var _ interface {
-	Field() string
-	Reason() string
-	Key() bool
-	Cause() error
-	ErrorName() string
-} = GetUserByUserNameRequestValidationError{}
 
 // Validate checks the field values on CreateUserRequest with the rules defined
 // in the proto definition for this message. If any rules are violated, the

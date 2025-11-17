@@ -319,6 +319,7 @@ func (x *ListDepartmentResponse) GetTotal() uint32 {
 type GetDepartmentRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            uint32                 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	ViewMask      *fieldmaskpb.FieldMask `protobuf:"bytes,100,opt,name=view_mask,json=viewMask,proto3,oneof" json:"view_mask,omitempty"` // 视图字段过滤器，用于控制返回的字段
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -358,6 +359,13 @@ func (x *GetDepartmentRequest) GetId() uint32 {
 		return x.Id
 	}
 	return 0
+}
+
+func (x *GetDepartmentRequest) GetViewMask() *fieldmaskpb.FieldMask {
+	if x != nil {
+		return x.ViewMask
+	}
+	return nil
 }
 
 // 创建部门 - 请求
@@ -660,9 +668,12 @@ const file_user_service_v1_department_proto_rawDesc = "" +
 	"\v_deleted_at\"a\n" +
 	"\x16ListDepartmentResponse\x121\n" +
 	"\x05items\x18\x01 \x03(\v2\x1b.user.service.v1.DepartmentR\x05items\x12\x14\n" +
-	"\x05total\x18\x02 \x01(\rR\x05total\"&\n" +
+	"\x05total\x18\x02 \x01(\rR\x05total\"\xad\x01\n" +
 	"\x14GetDepartmentRequest\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\rR\x02id\"J\n" +
+	"\x02id\x18\x01 \x01(\rR\x02id\x12w\n" +
+	"\tview_mask\x18d \x01(\v2\x1a.google.protobuf.FieldMaskB9\xbaG6\x92\x023视图字段过滤器，用于控制返回的字段H\x00R\bviewMask\x88\x01\x01B\f\n" +
+	"\n" +
+	"_view_mask\"J\n" +
 	"\x17CreateDepartmentRequest\x12/\n" +
 	"\x04data\x18\x01 \x01(\v2\x1b.user.service.v1.DepartmentR\x04data\"\x88\x03\n" +
 	"\x17UpdateDepartmentRequest\x12/\n" +
@@ -723,27 +734,28 @@ var file_user_service_v1_department_proto_depIdxs = []int32{
 	9,  // 3: user.service.v1.Department.updated_at:type_name -> google.protobuf.Timestamp
 	9,  // 4: user.service.v1.Department.deleted_at:type_name -> google.protobuf.Timestamp
 	1,  // 5: user.service.v1.ListDepartmentResponse.items:type_name -> user.service.v1.Department
-	1,  // 6: user.service.v1.CreateDepartmentRequest.data:type_name -> user.service.v1.Department
-	1,  // 7: user.service.v1.UpdateDepartmentRequest.data:type_name -> user.service.v1.Department
-	10, // 8: user.service.v1.UpdateDepartmentRequest.update_mask:type_name -> google.protobuf.FieldMask
-	1,  // 9: user.service.v1.BatchCreateDepartmentsRequest.data:type_name -> user.service.v1.Department
-	11, // 10: user.service.v1.DepartmentService.List:input_type -> pagination.PagingRequest
-	3,  // 11: user.service.v1.DepartmentService.Get:input_type -> user.service.v1.GetDepartmentRequest
-	4,  // 12: user.service.v1.DepartmentService.Create:input_type -> user.service.v1.CreateDepartmentRequest
-	5,  // 13: user.service.v1.DepartmentService.Update:input_type -> user.service.v1.UpdateDepartmentRequest
-	6,  // 14: user.service.v1.DepartmentService.Delete:input_type -> user.service.v1.DeleteDepartmentRequest
-	7,  // 15: user.service.v1.DepartmentService.BatchCreate:input_type -> user.service.v1.BatchCreateDepartmentsRequest
-	2,  // 16: user.service.v1.DepartmentService.List:output_type -> user.service.v1.ListDepartmentResponse
-	1,  // 17: user.service.v1.DepartmentService.Get:output_type -> user.service.v1.Department
-	12, // 18: user.service.v1.DepartmentService.Create:output_type -> google.protobuf.Empty
-	12, // 19: user.service.v1.DepartmentService.Update:output_type -> google.protobuf.Empty
-	12, // 20: user.service.v1.DepartmentService.Delete:output_type -> google.protobuf.Empty
-	8,  // 21: user.service.v1.DepartmentService.BatchCreate:output_type -> user.service.v1.BatchCreateDepartmentsResponse
-	16, // [16:22] is the sub-list for method output_type
-	10, // [10:16] is the sub-list for method input_type
-	10, // [10:10] is the sub-list for extension type_name
-	10, // [10:10] is the sub-list for extension extendee
-	0,  // [0:10] is the sub-list for field type_name
+	10, // 6: user.service.v1.GetDepartmentRequest.view_mask:type_name -> google.protobuf.FieldMask
+	1,  // 7: user.service.v1.CreateDepartmentRequest.data:type_name -> user.service.v1.Department
+	1,  // 8: user.service.v1.UpdateDepartmentRequest.data:type_name -> user.service.v1.Department
+	10, // 9: user.service.v1.UpdateDepartmentRequest.update_mask:type_name -> google.protobuf.FieldMask
+	1,  // 10: user.service.v1.BatchCreateDepartmentsRequest.data:type_name -> user.service.v1.Department
+	11, // 11: user.service.v1.DepartmentService.List:input_type -> pagination.PagingRequest
+	3,  // 12: user.service.v1.DepartmentService.Get:input_type -> user.service.v1.GetDepartmentRequest
+	4,  // 13: user.service.v1.DepartmentService.Create:input_type -> user.service.v1.CreateDepartmentRequest
+	5,  // 14: user.service.v1.DepartmentService.Update:input_type -> user.service.v1.UpdateDepartmentRequest
+	6,  // 15: user.service.v1.DepartmentService.Delete:input_type -> user.service.v1.DeleteDepartmentRequest
+	7,  // 16: user.service.v1.DepartmentService.BatchCreate:input_type -> user.service.v1.BatchCreateDepartmentsRequest
+	2,  // 17: user.service.v1.DepartmentService.List:output_type -> user.service.v1.ListDepartmentResponse
+	1,  // 18: user.service.v1.DepartmentService.Get:output_type -> user.service.v1.Department
+	12, // 19: user.service.v1.DepartmentService.Create:output_type -> google.protobuf.Empty
+	12, // 20: user.service.v1.DepartmentService.Update:output_type -> google.protobuf.Empty
+	12, // 21: user.service.v1.DepartmentService.Delete:output_type -> google.protobuf.Empty
+	8,  // 22: user.service.v1.DepartmentService.BatchCreate:output_type -> user.service.v1.BatchCreateDepartmentsResponse
+	17, // [17:23] is the sub-list for method output_type
+	11, // [11:17] is the sub-list for method input_type
+	11, // [11:11] is the sub-list for extension type_name
+	11, // [11:11] is the sub-list for extension extendee
+	0,  // [0:11] is the sub-list for field type_name
 }
 
 func init() { file_user_service_v1_department_proto_init() }
@@ -752,6 +764,7 @@ func file_user_service_v1_department_proto_init() {
 		return
 	}
 	file_user_service_v1_department_proto_msgTypes[0].OneofWrappers = []any{}
+	file_user_service_v1_department_proto_msgTypes[2].OneofWrappers = []any{}
 	file_user_service_v1_department_proto_msgTypes[4].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{

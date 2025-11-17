@@ -391,6 +391,7 @@ func (x *ListOrganizationResponse) GetTotal() uint32 {
 type GetOrganizationRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            uint32                 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	ViewMask      *fieldmaskpb.FieldMask `protobuf:"bytes,100,opt,name=view_mask,json=viewMask,proto3,oneof" json:"view_mask,omitempty"` // 视图字段过滤器，用于控制返回的字段
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -430,6 +431,13 @@ func (x *GetOrganizationRequest) GetId() uint32 {
 		return x.Id
 	}
 	return 0
+}
+
+func (x *GetOrganizationRequest) GetViewMask() *fieldmaskpb.FieldMask {
+	if x != nil {
+		return x.ViewMask
+	}
+	return nil
 }
 
 // 创建组织 - 请求
@@ -744,9 +752,12 @@ const file_user_service_v1_organization_proto_rawDesc = "" +
 	"\v_deleted_at\"e\n" +
 	"\x18ListOrganizationResponse\x123\n" +
 	"\x05items\x18\x01 \x03(\v2\x1d.user.service.v1.OrganizationR\x05items\x12\x14\n" +
-	"\x05total\x18\x02 \x01(\rR\x05total\"(\n" +
+	"\x05total\x18\x02 \x01(\rR\x05total\"\xaf\x01\n" +
 	"\x16GetOrganizationRequest\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\rR\x02id\"N\n" +
+	"\x02id\x18\x01 \x01(\rR\x02id\x12w\n" +
+	"\tview_mask\x18d \x01(\v2\x1a.google.protobuf.FieldMaskB9\xbaG6\x92\x023视图字段过滤器，用于控制返回的字段H\x00R\bviewMask\x88\x01\x01B\f\n" +
+	"\n" +
+	"_view_mask\"N\n" +
 	"\x19CreateOrganizationRequest\x121\n" +
 	"\x04data\x18\x01 \x01(\v2\x1d.user.service.v1.OrganizationR\x04data\"\x8c\x03\n" +
 	"\x19UpdateOrganizationRequest\x121\n" +
@@ -809,27 +820,28 @@ var file_user_service_v1_organization_proto_depIdxs = []int32{
 	10, // 4: user.service.v1.Organization.updated_at:type_name -> google.protobuf.Timestamp
 	10, // 5: user.service.v1.Organization.deleted_at:type_name -> google.protobuf.Timestamp
 	2,  // 6: user.service.v1.ListOrganizationResponse.items:type_name -> user.service.v1.Organization
-	2,  // 7: user.service.v1.CreateOrganizationRequest.data:type_name -> user.service.v1.Organization
-	2,  // 8: user.service.v1.UpdateOrganizationRequest.data:type_name -> user.service.v1.Organization
-	11, // 9: user.service.v1.UpdateOrganizationRequest.update_mask:type_name -> google.protobuf.FieldMask
-	2,  // 10: user.service.v1.BatchCreateOrganizationsRequest.data:type_name -> user.service.v1.Organization
-	12, // 11: user.service.v1.OrganizationService.List:input_type -> pagination.PagingRequest
-	4,  // 12: user.service.v1.OrganizationService.Get:input_type -> user.service.v1.GetOrganizationRequest
-	5,  // 13: user.service.v1.OrganizationService.Create:input_type -> user.service.v1.CreateOrganizationRequest
-	6,  // 14: user.service.v1.OrganizationService.Update:input_type -> user.service.v1.UpdateOrganizationRequest
-	7,  // 15: user.service.v1.OrganizationService.Delete:input_type -> user.service.v1.DeleteOrganizationRequest
-	8,  // 16: user.service.v1.OrganizationService.BatchCreate:input_type -> user.service.v1.BatchCreateOrganizationsRequest
-	3,  // 17: user.service.v1.OrganizationService.List:output_type -> user.service.v1.ListOrganizationResponse
-	2,  // 18: user.service.v1.OrganizationService.Get:output_type -> user.service.v1.Organization
-	13, // 19: user.service.v1.OrganizationService.Create:output_type -> google.protobuf.Empty
-	13, // 20: user.service.v1.OrganizationService.Update:output_type -> google.protobuf.Empty
-	13, // 21: user.service.v1.OrganizationService.Delete:output_type -> google.protobuf.Empty
-	9,  // 22: user.service.v1.OrganizationService.BatchCreate:output_type -> user.service.v1.BatchCreateOrganizationsResponse
-	17, // [17:23] is the sub-list for method output_type
-	11, // [11:17] is the sub-list for method input_type
-	11, // [11:11] is the sub-list for extension type_name
-	11, // [11:11] is the sub-list for extension extendee
-	0,  // [0:11] is the sub-list for field type_name
+	11, // 7: user.service.v1.GetOrganizationRequest.view_mask:type_name -> google.protobuf.FieldMask
+	2,  // 8: user.service.v1.CreateOrganizationRequest.data:type_name -> user.service.v1.Organization
+	2,  // 9: user.service.v1.UpdateOrganizationRequest.data:type_name -> user.service.v1.Organization
+	11, // 10: user.service.v1.UpdateOrganizationRequest.update_mask:type_name -> google.protobuf.FieldMask
+	2,  // 11: user.service.v1.BatchCreateOrganizationsRequest.data:type_name -> user.service.v1.Organization
+	12, // 12: user.service.v1.OrganizationService.List:input_type -> pagination.PagingRequest
+	4,  // 13: user.service.v1.OrganizationService.Get:input_type -> user.service.v1.GetOrganizationRequest
+	5,  // 14: user.service.v1.OrganizationService.Create:input_type -> user.service.v1.CreateOrganizationRequest
+	6,  // 15: user.service.v1.OrganizationService.Update:input_type -> user.service.v1.UpdateOrganizationRequest
+	7,  // 16: user.service.v1.OrganizationService.Delete:input_type -> user.service.v1.DeleteOrganizationRequest
+	8,  // 17: user.service.v1.OrganizationService.BatchCreate:input_type -> user.service.v1.BatchCreateOrganizationsRequest
+	3,  // 18: user.service.v1.OrganizationService.List:output_type -> user.service.v1.ListOrganizationResponse
+	2,  // 19: user.service.v1.OrganizationService.Get:output_type -> user.service.v1.Organization
+	13, // 20: user.service.v1.OrganizationService.Create:output_type -> google.protobuf.Empty
+	13, // 21: user.service.v1.OrganizationService.Update:output_type -> google.protobuf.Empty
+	13, // 22: user.service.v1.OrganizationService.Delete:output_type -> google.protobuf.Empty
+	9,  // 23: user.service.v1.OrganizationService.BatchCreate:output_type -> user.service.v1.BatchCreateOrganizationsResponse
+	18, // [18:24] is the sub-list for method output_type
+	12, // [12:18] is the sub-list for method input_type
+	12, // [12:12] is the sub-list for extension type_name
+	12, // [12:12] is the sub-list for extension extendee
+	0,  // [0:12] is the sub-list for field type_name
 }
 
 func init() { file_user_service_v1_organization_proto_init() }
@@ -838,6 +850,7 @@ func file_user_service_v1_organization_proto_init() {
 		return
 	}
 	file_user_service_v1_organization_proto_msgTypes[0].OneofWrappers = []any{}
+	file_user_service_v1_organization_proto_msgTypes[2].OneofWrappers = []any{}
 	file_user_service_v1_organization_proto_msgTypes[4].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{

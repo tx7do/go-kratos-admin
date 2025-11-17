@@ -158,6 +158,8 @@ func (x *GetInternalMessageCategoryRequest) Redact() string {
 	}
 
 	// Safe field: Id
+
+	// Safe field: ViewMask
 	return x.String()
 }
 

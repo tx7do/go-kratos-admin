@@ -152,10 +152,10 @@ const file_admin_service_v1_i_user_proto_rawDesc = "" +
 	"\fnew_password\x18\x03 \x01(\tB\x0f\xbaG\f\x92\x02\t新密码R\vnewPassword\"v\n" +
 	"\x17EditUserPasswordRequest\x12'\n" +
 	"\auser_id\x18\x01 \x01(\rB\x0e\xbaG\v\x92\x02\b用户IDR\x06userId\x122\n" +
-	"\fnew_password\x18\x02 \x01(\tB\x0f\xbaG\f\x92\x02\t新密码R\vnewPassword2\x80\a\n" +
+	"\fnew_password\x18\x02 \x01(\tB\x0f\xbaG\f\x92\x02\t新密码R\vnewPassword2\xa6\a\n" +
 	"\vUserService\x12a\n" +
-	"\x04List\x12\x19.pagination.PagingRequest\x1a!.user.service.v1.ListUserResponse\"\x1b\xe0\xb6\x1a\x01\x82\xd3\xe4\x93\x02\x11\x12\x0f/admin/v1/users\x12_\n" +
-	"\x03Get\x12\x1f.user.service.v1.GetUserRequest\x1a\x15.user.service.v1.User\" \xe0\xb6\x1a\x01\x82\xd3\xe4\x93\x02\x16\x12\x14/admin/v1/users/{id}\x12`\n" +
+	"\x04List\x12\x19.pagination.PagingRequest\x1a!.user.service.v1.ListUserResponse\"\x1b\xe0\xb6\x1a\x01\x82\xd3\xe4\x93\x02\x11\x12\x0f/admin/v1/users\x12\x84\x01\n" +
+	"\x03Get\x12\x1f.user.service.v1.GetUserRequest\x1a\x15.user.service.v1.User\"E\xe0\xb6\x1a\x01\x82\xd3\xe4\x93\x02;Z#\x12!/api/v1/users/username/{username}\x12\x14/admin/v1/users/{id}\x12`\n" +
 	"\x06Create\x12\".user.service.v1.CreateUserRequest\x1a\x16.google.protobuf.Empty\"\x1a\x82\xd3\xe4\x93\x02\x14:\x01*\"\x0f/admin/v1/users\x12j\n" +
 	"\x06Update\x12\".user.service.v1.UpdateUserRequest\x1a\x16.google.protobuf.Empty\"$\x82\xd3\xe4\x93\x02\x1e:\x01*\x1a\x19/admin/v1/users/{data.id}\x12b\n" +
 	"\x06Delete\x12\".user.service.v1.DeleteUserRequest\x1a\x16.google.protobuf.Empty\"\x1c\x82\xd3\xe4\x93\x02\x16*\x14/admin/v1/users/{id}\x12u\n" +

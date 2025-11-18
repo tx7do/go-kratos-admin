@@ -7,9 +7,9 @@ import { defineStore } from 'pinia';
 import {
   InternalMessage_Status,
   InternalMessage_Type,
-  InternalMessageRecipient_Status,
   type SendMessageRequest,
 } from '#/generated/api/internal_message/service/v1/internal_message.pb';
+import { InternalMessageRecipient_Status } from '#/generated/api/internal_message/service/v1/internal_message_recipient.pb';
 import { defInternalMessageService } from '#/services';
 import { makeQueryString, makeUpdateMask } from '#/utils/query';
 

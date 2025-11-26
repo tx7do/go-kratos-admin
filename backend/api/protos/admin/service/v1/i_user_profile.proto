@@ -24,4 +24,41 @@ service UserProfileService {
       body: "*"
     };
   }
+
+  // 修改用户密码
+  rpc ChangePassword(user.service.v1.ChangePasswordRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      post: "/admin/v1/me/password"
+      body: "*"
+    };
+  }
+
+  // 上传头像
+  rpc UploadAvatar(user.service.v1.UploadAvatarRequest) returns (user.service.v1.UploadAvatarResponse) {
+    option (google.api.http) = {
+      post: "/admin/v1/me/avatar"
+      body: "*"
+    };
+  }
+  // 删除头像
+  rpc DeleteAvatar(google.protobuf.Empty) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      delete: "/admin/v1/me/avatar"
+    };
+  }
+
+  // 绑定手机号码/邮箱
+  rpc BindContact(user.service.v1.BindContactRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      post: "/admin/v1/me/contact"
+      body: "*"
+    };
+  }
+  // 验证手机号码/邮箱
+  rpc VerifyContact(user.service.v1.VerifyContactRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      post: "/admin/v1/me/contact/verify"
+      body: "*"
+    };
+  }
 }

@@ -42,11 +42,23 @@ type UserCredential struct {
 	Status *usercredential.Status `json:"status,omitempty"`
 	// 扩展信息
 	ExtraInfo *string `json:"extra_info,omitempty"`
-	// 激活账号用的令牌
-	ActivateToken *string `json:"activate_token,omitempty"`
-	// 重置密码用的令牌
-	ResetToken   *string `json:"reset_token,omitempty"`
-	selectValues sql.SelectValues
+	// 第三方平台标识
+	Provider *string `json:"provider,omitempty"`
+	// 第三方平台的账号唯一ID
+	ProviderAccountID *string `json:"provider_account_id,omitempty"`
+	// 激活令牌哈希（不要存明文）
+	ActivateTokenHash *string `json:"activate_token_hash,omitempty"`
+	// 激活令牌到期时间
+	ActivateTokenExpiresAt *time.Time `json:"activate_token_expires_at,omitempty"`
+	// 激活令牌使用时间，单次使用时记录
+	ActivateTokenUsedAt *time.Time `json:"activate_token_used_at,omitempty"`
+	// 重置密码令牌哈希（不要存明文）
+	ResetTokenHash *string `json:"reset_token_hash,omitempty"`
+	// 重置令牌到期时间
+	ResetTokenExpiresAt *time.Time `json:"reset_token_expires_at,omitempty"`
+	// 重置令牌使用时间
+	ResetTokenUsedAt *time.Time `json:"reset_token_used_at,omitempty"`
+	selectValues     sql.SelectValues
 }
 
 // scanValues returns the types for scanning values from sql.Rows.
@@ -58,9 +70,9 @@ func (*UserCredential) scanValues(columns []string) ([]any, error) {
 			values[i] = new(sql.NullBool)
 		case usercredential.FieldID, usercredential.FieldTenantID, usercredential.FieldUserID:
 			values[i] = new(sql.NullInt64)
-		case usercredential.FieldIdentityType, usercredential.FieldIdentifier, usercredential.FieldCredentialType, usercredential.FieldCredential, usercredential.FieldStatus, usercredential.FieldExtraInfo, usercredential.FieldActivateToken, usercredential.FieldResetToken:
+		case usercredential.FieldIdentityType, usercredential.FieldIdentifier, usercredential.FieldCredentialType, usercredential.FieldCredential, usercredential.FieldStatus, usercredential.FieldExtraInfo, usercredential.FieldProvider, usercredential.FieldProviderAccountID, usercredential.FieldActivateTokenHash, usercredential.FieldResetTokenHash:
 			values[i] = new(sql.NullString)
-		case usercredential.FieldCreatedAt, usercredential.FieldUpdatedAt, usercredential.FieldDeletedAt:
+		case usercredential.FieldCreatedAt, usercredential.FieldUpdatedAt, usercredential.FieldDeletedAt, usercredential.FieldActivateTokenExpiresAt, usercredential.FieldActivateTokenUsedAt, usercredential.FieldResetTokenExpiresAt, usercredential.FieldResetTokenUsedAt:
 			values[i] = new(sql.NullTime)
 		default:
 			values[i] = new(sql.UnknownType)
@@ -167,19 +179,61 @@ func (_m *UserCredential) assignValues(columns []string, values []any) error {
 				_m.ExtraInfo = new(string)
 				*_m.ExtraInfo = value.String
 			}
-		case usercredential.FieldActivateToken:
+		case usercredential.FieldProvider:
 			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field activate_token", values[i])
+				return fmt.Errorf("unexpected type %T for field provider", values[i])
 			} else if value.Valid {
-				_m.ActivateToken = new(string)
-				*_m.ActivateToken = value.String
+				_m.Provider = new(string)
+				*_m.Provider = value.String
 			}
-		case usercredential.FieldResetToken:
+		case usercredential.FieldProviderAccountID:
 			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field reset_token", values[i])
+				return fmt.Errorf("unexpected type %T for field provider_account_id", values[i])
 			} else if value.Valid {
-				_m.ResetToken = new(string)
-				*_m.ResetToken = value.String
+				_m.ProviderAccountID = new(string)
+				*_m.ProviderAccountID = value.String
+			}
+		case usercredential.FieldActivateTokenHash:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field activate_token_hash", values[i])
+			} else if value.Valid {
+				_m.ActivateTokenHash = new(string)
+				*_m.ActivateTokenHash = value.String
+			}
+		case usercredential.FieldActivateTokenExpiresAt:
+			if value, ok := values[i].(*sql.NullTime); !ok {
+				return fmt.Errorf("unexpected type %T for field activate_token_expires_at", values[i])
+			} else if value.Valid {
+				_m.ActivateTokenExpiresAt = new(time.Time)
+				*_m.ActivateTokenExpiresAt = value.Time
+			}
+		case usercredential.FieldActivateTokenUsedAt:
+			if value, ok := values[i].(*sql.NullTime); !ok {
+				return fmt.Errorf("unexpected type %T for field activate_token_used_at", values[i])
+			} else if value.Valid {
+				_m.ActivateTokenUsedAt = new(time.Time)
+				*_m.ActivateTokenUsedAt = value.Time
+			}
+		case usercredential.FieldResetTokenHash:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field reset_token_hash", values[i])
+			} else if value.Valid {
+				_m.ResetTokenHash = new(string)
+				*_m.ResetTokenHash = value.String
+			}
+		case usercredential.FieldResetTokenExpiresAt:
+			if value, ok := values[i].(*sql.NullTime); !ok {
+				return fmt.Errorf("unexpected type %T for field reset_token_expires_at", values[i])
+			} else if value.Valid {
+				_m.ResetTokenExpiresAt = new(time.Time)
+				*_m.ResetTokenExpiresAt = value.Time
+			}
+		case usercredential.FieldResetTokenUsedAt:
+			if value, ok := values[i].(*sql.NullTime); !ok {
+				return fmt.Errorf("unexpected type %T for field reset_token_used_at", values[i])
+			} else if value.Valid {
+				_m.ResetTokenUsedAt = new(time.Time)
+				*_m.ResetTokenUsedAt = value.Time
 			}
 		default:
 			_m.selectValues.Set(columns[i], values[i])
@@ -277,14 +331,44 @@ func (_m *UserCredential) String() string {
 		builder.WriteString(*v)
 	}
 	builder.WriteString(", ")
-	if v := _m.ActivateToken; v != nil {
-		builder.WriteString("activate_token=")
+	if v := _m.Provider; v != nil {
+		builder.WriteString("provider=")
 		builder.WriteString(*v)
 	}
 	builder.WriteString(", ")
-	if v := _m.ResetToken; v != nil {
-		builder.WriteString("reset_token=")
+	if v := _m.ProviderAccountID; v != nil {
+		builder.WriteString("provider_account_id=")
 		builder.WriteString(*v)
+	}
+	builder.WriteString(", ")
+	if v := _m.ActivateTokenHash; v != nil {
+		builder.WriteString("activate_token_hash=")
+		builder.WriteString(*v)
+	}
+	builder.WriteString(", ")
+	if v := _m.ActivateTokenExpiresAt; v != nil {
+		builder.WriteString("activate_token_expires_at=")
+		builder.WriteString(v.Format(time.ANSIC))
+	}
+	builder.WriteString(", ")
+	if v := _m.ActivateTokenUsedAt; v != nil {
+		builder.WriteString("activate_token_used_at=")
+		builder.WriteString(v.Format(time.ANSIC))
+	}
+	builder.WriteString(", ")
+	if v := _m.ResetTokenHash; v != nil {
+		builder.WriteString("reset_token_hash=")
+		builder.WriteString(*v)
+	}
+	builder.WriteString(", ")
+	if v := _m.ResetTokenExpiresAt; v != nil {
+		builder.WriteString("reset_token_expires_at=")
+		builder.WriteString(v.Format(time.ANSIC))
+	}
+	builder.WriteString(", ")
+	if v := _m.ResetTokenUsedAt; v != nil {
+		builder.WriteString("reset_token_used_at=")
+		builder.WriteString(v.Format(time.ANSIC))
 	}
 	builder.WriteByte(')')
 	return builder.String()

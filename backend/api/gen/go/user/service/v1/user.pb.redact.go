@@ -309,3 +309,133 @@ func (x *BatchCreateUsersResponse) Redact() string {
 	// Safe field: CreatedIds
 	return x.String()
 }
+
+// Redact method implementation for GetUsersByIdsRequest
+func (x *GetUsersByIdsRequest) Redact() string {
+	if x == nil {
+		return ""
+	}
+
+	// Safe field: Ids
+	return x.String()
+}
+
+// Redact method implementation for EditUserPasswordRequest
+func (x *EditUserPasswordRequest) Redact() string {
+	if x == nil {
+		return ""
+	}
+
+	// Safe field: UserId
+
+	// Safe field: NewPassword
+	return x.String()
+}
+
+// Redact method implementation for ChangePasswordRequest
+func (x *ChangePasswordRequest) Redact() string {
+	if x == nil {
+		return ""
+	}
+
+	// Safe field: OldPassword
+
+	// Safe field: NewPassword
+	return x.String()
+}
+
+// Redact method implementation for UploadAvatarRequest
+func (x *UploadAvatarRequest) Redact() string {
+	if x == nil {
+		return ""
+	}
+
+	// Safe field: ImageBase64
+
+	// Safe field: ImageUrl
+	return x.String()
+}
+
+// Redact method implementation for UploadAvatarResponse
+func (x *UploadAvatarResponse) Redact() string {
+	if x == nil {
+		return ""
+	}
+
+	// Safe field: Url
+	return x.String()
+}
+
+// Redact method implementation for BindContactRequest
+func (x *BindContactRequest) Redact() string {
+	if x == nil {
+		return ""
+	}
+
+	// Safe field: Phone
+
+	// Safe field: Email
+	return x.String()
+}
+
+// Redact method implementation for BindPhoneRequest
+func (x *BindPhoneRequest) Redact() string {
+	if x == nil {
+		return ""
+	}
+
+	// Safe field: Phone
+
+	// Safe field: Code
+	return x.String()
+}
+
+// Redact method implementation for BindEmailRequest
+func (x *BindEmailRequest) Redact() string {
+	if x == nil {
+		return ""
+	}
+
+	// Safe field: Email
+
+	// Safe field: VerificationCode
+	return x.String()
+}
+
+// Redact method implementation for VerifyContactRequest
+func (x *VerifyContactRequest) Redact() string {
+	if x == nil {
+		return ""
+	}
+
+	// Safe field: Phone
+
+	// Safe field: Email
+
+	// Safe field: VerificationId
+	return x.String()
+}
+
+// Redact method implementation for PhoneVerification
+func (x *PhoneVerification) Redact() string {
+	if x == nil {
+		return ""
+	}
+
+	// Safe field: Phone
+
+	// Safe field: Code
+	return x.String()
+}
+
+// Redact method implementation for EmailVerification
+func (x *EmailVerification) Redact() string {
+	if x == nil {
+		return ""
+	}
+
+	// Safe field: Email
+
+	// Safe field: Code
+	return x.String()
+}

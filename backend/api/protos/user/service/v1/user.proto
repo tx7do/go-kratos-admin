@@ -271,3 +271,113 @@ message BatchCreateUsersResponse {
     }
   ]; // 创建成功的用户ID列表
 }
+
+message GetUsersByIdsRequest {
+  repeated uint32 ids = 1;
+}
+
+// 强制修改用户密码（不验证） - 请求
+message EditUserPasswordRequest {
+  uint32 user_id = 1 [
+    json_name = "userId",
+    (gnostic.openapi.v3.property) = {
+      description: "用户ID"
+    }
+  ]; // 用户ID
+
+  string new_password = 2 [
+    json_name = "newPassword",
+    (gnostic.openapi.v3.property) = {
+      description: "新密码"
+    }
+  ]; // 新密码
+}
+
+
+// 修改用户密码（需要验证旧密码） - 请求
+message ChangePasswordRequest {
+  string old_password = 1 [
+    json_name = "oldPassword",
+    (gnostic.openapi.v3.property) = {
+      description: "旧密码"
+    }
+  ]; // 旧密码
+
+  string new_password = 2 [
+    json_name = "newPassword",
+    (gnostic.openapi.v3.property) = {
+      description: "新密码"
+    }
+  ]; // 新密码
+}
+
+message UploadAvatarRequest {
+  oneof source {
+    string image_base64 = 1;
+    string image_url = 2;
+  }
+}
+message UploadAvatarResponse {
+  string url = 1;
+}
+
+message BindContactRequest {
+  oneof contact {
+    BindPhoneRequest phone = 1;
+    BindEmailRequest email = 2;
+  }
+}
+message BindPhoneRequest {
+  string phone = 1 [(gnostic.openapi.v3.property) = { description: "手机号码" }];
+  string code = 2 [(gnostic.openapi.v3.property) = { description: "验证码" }];
+}
+message BindEmailRequest {
+  string email = 1 [(gnostic.openapi.v3.property) = { description: "邮箱地址" }];
+
+  optional string verification_code = 2 [
+    json_name = "verificationCode",
+    (gnostic.openapi.v3.property) = { description: "邮箱验证码（可选）" }
+  ];
+}
+
+
+message VerifyContactRequest {
+  oneof contact {
+    PhoneVerification phone = 1;
+    EmailVerification email = 2;
+  }
+
+  // 可选：服务端生成的验证码会话 id（用于多步骤或回调验证）
+  optional string verification_id = 3 [
+    json_name = "verificationId",
+    (gnostic.openapi.v3.property) = { description: "服务端生成的验证码会话ID（可选）" }
+  ];
+}
+
+// 手机验证
+message PhoneVerification {
+  string phone = 1 [
+    json_name = "phone",
+    (gnostic.openapi.v3.property) = { description: "手机号码，带国家码" }
+  ];
+
+  string code = 2 [
+    json_name = "code",
+    (google.api.field_behavior) = REQUIRED,
+    (gnostic.openapi.v3.property) = { description: "短信验证码" }
+  ];
+}
+
+// 邮箱验证
+message EmailVerification {
+  string email = 1 [
+    json_name = "email",
+    (gnostic.openapi.v3.property) = { description: "邮箱地址" }
+  ];
+
+  string code = 2 [
+    json_name = "code",
+    (google.api.field_behavior) = REQUIRED,
+    (gnostic.openapi.v3.property) = { description: "邮箱验证码" }
+  ];
+}

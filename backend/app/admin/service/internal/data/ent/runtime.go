@@ -454,14 +454,14 @@ func init() {
 	usercredentialDescIsPrimary := usercredentialFields[5].Descriptor()
 	// usercredential.DefaultIsPrimary holds the default value on creation for the is_primary field.
 	usercredential.DefaultIsPrimary = usercredentialDescIsPrimary.Default.(bool)
-	// usercredentialDescActivateToken is the schema descriptor for activate_token field.
-	usercredentialDescActivateToken := usercredentialFields[8].Descriptor()
-	// usercredential.ActivateTokenValidator is a validator for the "activate_token" field. It is called by the builders before save.
-	usercredential.ActivateTokenValidator = usercredentialDescActivateToken.Validators[0].(func(string) error)
-	// usercredentialDescResetToken is the schema descriptor for reset_token field.
-	usercredentialDescResetToken := usercredentialFields[9].Descriptor()
-	// usercredential.ResetTokenValidator is a validator for the "reset_token" field. It is called by the builders before save.
-	usercredential.ResetTokenValidator = usercredentialDescResetToken.Validators[0].(func(string) error)
+	// usercredentialDescActivateTokenHash is the schema descriptor for activate_token_hash field.
+	usercredentialDescActivateTokenHash := usercredentialFields[10].Descriptor()
+	// usercredential.ActivateTokenHashValidator is a validator for the "activate_token_hash" field. It is called by the builders before save.
+	usercredential.ActivateTokenHashValidator = usercredentialDescActivateTokenHash.Validators[0].(func(string) error)
+	// usercredentialDescResetTokenHash is the schema descriptor for reset_token_hash field.
+	usercredentialDescResetTokenHash := usercredentialFields[13].Descriptor()
+	// usercredential.ResetTokenHashValidator is a validator for the "reset_token_hash" field. It is called by the builders before save.
+	usercredential.ResetTokenHashValidator = usercredentialDescResetTokenHash.Validators[0].(func(string) error)
 	// usercredentialDescID is the schema descriptor for id field.
 	usercredentialDescID := usercredentialMixinFields1[0].Descriptor()
 	// usercredential.IDValidator is a validator for the "id" field. It is called by the builders before save.

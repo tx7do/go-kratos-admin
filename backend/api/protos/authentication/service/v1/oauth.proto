@@ -1,0 +1,229 @@
+﻿syntax = "proto3";
+
+package authentication.service.v1;
+
+import "gnostic/openapi/v3/annotations.proto";
+
+import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
+
+import "google/api/annotations.proto";
+import "google/api/field_behavior.proto";
+
+import "authentication/service/v1/user_credential.proto";
+
+// OAuth 服务接口
+service OAuthService {
+  // 列出当前用户所有已关联第三方账号（支持分页）
+  rpc ListLinkedAccounts(ListLinkedAccountsRequest) returns (ListLinkedAccountsResponse) {}
+
+  // 获取单个已关联账号详情（不返回明文 refresh/access）
+  rpc GetLinkedAccount(GetLinkedAccountRequest) returns (GetLinkedAccountResponse) {}
+
+  // 开始关联流程（返回 authorization_url 或 verification_id 等）
+  rpc StartLinkOAuth(StartLinkOAuthRequest) returns (StartLinkOAuthResponse) {}
+
+  // 确认关联：前端使用 code/token/verification_id 提交以完成关联
+  rpc ConfirmLinkOAuth(ConfirmLinkOAuthRequest) returns (ConfirmLinkOAuthResponse) {}
+
+  // 兼容：直接关联（若已有 oauth_token/code 可直接创建）
+  rpc LinkOAuth(LinkOAuthRequest) returns (LinkOAuthResponse) {}
+
+  // 解除关联（按 provider 或已关联凭证 id）
+  rpc UnlinkOAuth(UnlinkOAuthRequest) returns (google.protobuf.Empty) {}
+
+  // 撤销指定已关联凭证的所有令牌/访问权（偏向安全/强制撤销）
+  rpc RevokeLinkedAccount(RevokeLinkedAccountRequest) returns (google.protobuf.Empty) {}
+
+  // 使用 refresh token 刷新 access token（实现可选择只返回元信息）
+  rpc RefreshOAuthToken(RefreshOAuthTokenRequest) returns (RefreshOAuthTokenResponse) {}
+
+  // 使用服务端接收到的 code 交换 token（常用于 server-side OAuth 流程）
+  rpc ExchangeOAuthCode(ExchangeOAuthCodeRequest) returns (ExchangeOAuthCodeResponse) {}
+
+  // 列出支持的 OAuth 提供商与其元信息（授权端点、scope 建议等）
+  rpc ListProviders(ListProvidersRequest) returns (ListProvidersResponse) {}
+
+  // 获取单个提供商元信息
+  rpc GetProviderMetadata(GetProviderMetadataRequest) returns (ProviderMetadata) {}
+}
+
+// 第三方 OAuth 账号服务
+enum OAuthProvider {
+  OAUTH_PROVIDER_UNSPECIFIED = 0; // 未指定
+
+  WECHAT = 1; // 微信
+  QQ = 2; // QQ
+  WEIBO = 3; // 微博
+  DOUYIN = 4; // 抖音
+  KUAISHOU = 5; // 快手
+  BAIDU = 6; // 百度
+  ALIPAY = 7; // 支付宝
+  TAOBAO = 8; // 淘宝
+  JD = 9; // 京东
+  MEITUAN = 10; // 美团
+  DINGTALK = 11; // 钉钉
+  BILIBILI = 12; // 哔哩哔哩
+  XIAOHONGSHU = 13; // 小红书
+
+  GOOGLE = 100; // Google
+  FACEBOOK = 101; // Facebook
+  APPLE = 102; // Apple
+  TELEGRAM = 103; // Telegram
+  TWITTER = 104; // Twitter
+  LINKEDIN = 105; // LinkedIn
+  GITHUB = 106; // GitHub
+  MICROSOFT = 107; // Microsoft
+  DISCORD = 108; // Discord
+  SLACK = 109; // Slack
+  INSTAGRAM = 110; // Instagram
+  TIKTOK = 111; // TikTok
+  REDDIT = 112; // Reddit
+  YOUTUBE = 113; // YouTube
+  SPOTIFY = 114; // Spotify
+  PINTEREST = 115; // Pinterest
+  SNAPCHAT = 116; // Snapchat
+  TUMBLR = 117; // Tumblr
+  YAHOO = 118; // Yahoo
+  WHATSAPP = 119; // WhatsApp
+  LINE = 120; // LINE
+}
+
+// OAuth 授权类型
+enum OAuthGrantType {
+  OAUTH_GRANT_UNSPECIFIED = 0;
+
+  CLIENT_CREDENTIALS = 1; // client_credentials
+  AUTHORIZATION_CODE = 2; // authorization_code
+  IMPLICIT = 3;           // implicit
+  PASSWORD = 4;           // password
+  REFRESH_TOKEN = 5;      // refresh_token (用于标注凭证来源/用途)
+}
+
+// 简化的 token 表示（返回时需谨慎）
+message OAuthToken {
+  string access_token = 1;
+  optional string refresh_token = 2;
+  repeated string scopes = 3;
+  optional google.protobuf.Timestamp expires_at = 4;
+}
+
+message ListLinkedAccountsRequest {
+  optional string user_id = 1;
+  optional uint32 page_size = 2;
+  optional string page_token = 3;
+}
+message ListLinkedAccountsResponse {
+  repeated UserCredential items = 1 [json_name = "items"];
+  uint32 total = 2 [json_name = "total"];
+  string next_page_token = 3 [json_name = "nextPageToken"];
+}
+
+// 关联第三方账号请求
+message LinkOAuthRequest {
+  OAuthProvider provider = 1 [json_name = "provider"];
+  string provider_custom = 2 [json_name = "providerCustom"]; // 可选：当使用自定义平台或细化标识时填写
+  string oauth_token = 3 [json_name = "oauthToken"];         // 第三方返回的 token / code
+  string redirect_uri = 4 [json_name = "redirectUri"];       // 可选：用于某些平台回调验证
+}
+
+// 关联响应（包含已创建的 LinkedAccount）
+message LinkOAuthResponse {
+  UserCredential account = 1 [json_name = "account"];
+  // 可扩展字段：verification_id、state 等
+}
+
+// 解除关联请求
+message UnlinkOAuthRequest {
+  optional string credential_id = 1;
+  OAuthProvider provider = 2;
+  string provider_custom = 3;
+}
+
+message GetLinkedAccountRequest {
+  string credential_id = 1;
+}
+message GetLinkedAccountResponse {
+  UserCredential account = 1;
+}
+
+// Start / Confirm 流
+message StartLinkOAuthRequest {
+  OAuthProvider provider = 1 [(google.api.field_behavior) = REQUIRED];
+  string provider_custom = 2;
+  string redirect_uri = 3;
+  repeated string scopes = 4;
+  optional string state = 5;
+}
+message StartLinkOAuthResponse {
+  optional string authorization_url = 1;
+  optional string operation_id = 2;
+  optional google.protobuf.Timestamp expires_at = 3;
+  optional string display_hint = 4;
+}
+
+message ConfirmLinkOAuthRequest {
+  optional string operation_id = 1;
+  OAuthProvider provider = 2;
+  string provider_custom = 3;
+  oneof credential {
+    string oauth_token = 10;
+    string code = 11;
+    string authorization_response = 12;
+  }
+  optional string state = 20;
+  optional string display_name = 21;
+}
+message ConfirmLinkOAuthResponse {
+  UserCredential account = 1;
+  optional OAuthToken secret = 10;
+}
+
+// Refresh / Exchange / Revoke
+message RefreshOAuthTokenRequest {
+  string credential_id = 1;
+  optional string refresh_token = 2;
+}
+message RefreshOAuthTokenResponse {
+  optional string access_token = 1;
+  optional google.protobuf.Timestamp expires_at = 2;
+  repeated string scopes = 3;
+  optional bool refresh_token_present = 4;
+}
+
+message ExchangeOAuthCodeRequest {
+  OAuthProvider provider = 1;
+  string provider_custom = 2;
+  string code = 3;
+  string redirect_uri = 4;
+}
+message ExchangeOAuthCodeResponse {
+  OAuthToken token = 1;
+  ProviderMetadata provider = 2;
+}
+
+message RevokeLinkedAccountRequest {
+  string credential_id = 1;
+  optional string reason = 10;
+}
+
+// 提供商列表与元信息
+message ListProvidersRequest {}
+message ListProvidersResponse {
+  repeated ProviderMetadata items = 1;
+}
+
+message GetProviderMetadataRequest {
+  OAuthProvider provider = 1;
+  optional string provider_custom = 2;
+}
+message ProviderMetadata {
+  OAuthProvider provider = 1;
+  string provider_custom = 2;
+  string display_name = 3;
+  string authorization_endpoint = 4;
+  string token_endpoint = 5;
+  repeated string default_scopes = 6;
+  map<string, string> authorize_params = 10;
+  map<string, string> token_params = 11;
+}

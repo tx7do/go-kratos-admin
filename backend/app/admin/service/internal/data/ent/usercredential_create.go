@@ -190,30 +190,114 @@ func (_c *UserCredentialCreate) SetNillableExtraInfo(v *string) *UserCredentialC
 	return _c
 }
 
-// SetActivateToken sets the "activate_token" field.
-func (_c *UserCredentialCreate) SetActivateToken(v string) *UserCredentialCreate {
-	_c.mutation.SetActivateToken(v)
+// SetProvider sets the "provider" field.
+func (_c *UserCredentialCreate) SetProvider(v string) *UserCredentialCreate {
+	_c.mutation.SetProvider(v)
 	return _c
 }
 
-// SetNillableActivateToken sets the "activate_token" field if the given value is not nil.
-func (_c *UserCredentialCreate) SetNillableActivateToken(v *string) *UserCredentialCreate {
+// SetNillableProvider sets the "provider" field if the given value is not nil.
+func (_c *UserCredentialCreate) SetNillableProvider(v *string) *UserCredentialCreate {
 	if v != nil {
-		_c.SetActivateToken(*v)
+		_c.SetProvider(*v)
 	}
 	return _c
 }
 
-// SetResetToken sets the "reset_token" field.
-func (_c *UserCredentialCreate) SetResetToken(v string) *UserCredentialCreate {
-	_c.mutation.SetResetToken(v)
+// SetProviderAccountID sets the "provider_account_id" field.
+func (_c *UserCredentialCreate) SetProviderAccountID(v string) *UserCredentialCreate {
+	_c.mutation.SetProviderAccountID(v)
 	return _c
 }
 
-// SetNillableResetToken sets the "reset_token" field if the given value is not nil.
-func (_c *UserCredentialCreate) SetNillableResetToken(v *string) *UserCredentialCreate {
+// SetNillableProviderAccountID sets the "provider_account_id" field if the given value is not nil.
+func (_c *UserCredentialCreate) SetNillableProviderAccountID(v *string) *UserCredentialCreate {
 	if v != nil {
-		_c.SetResetToken(*v)
+		_c.SetProviderAccountID(*v)
+	}
+	return _c
+}
+
+// SetActivateTokenHash sets the "activate_token_hash" field.
+func (_c *UserCredentialCreate) SetActivateTokenHash(v string) *UserCredentialCreate {
+	_c.mutation.SetActivateTokenHash(v)
+	return _c
+}
+
+// SetNillableActivateTokenHash sets the "activate_token_hash" field if the given value is not nil.
+func (_c *UserCredentialCreate) SetNillableActivateTokenHash(v *string) *UserCredentialCreate {
+	if v != nil {
+		_c.SetActivateTokenHash(*v)
+	}
+	return _c
+}
+
+// SetActivateTokenExpiresAt sets the "activate_token_expires_at" field.
+func (_c *UserCredentialCreate) SetActivateTokenExpiresAt(v time.Time) *UserCredentialCreate {
+	_c.mutation.SetActivateTokenExpiresAt(v)
+	return _c
+}
+
+// SetNillableActivateTokenExpiresAt sets the "activate_token_expires_at" field if the given value is not nil.
+func (_c *UserCredentialCreate) SetNillableActivateTokenExpiresAt(v *time.Time) *UserCredentialCreate {
+	if v != nil {
+		_c.SetActivateTokenExpiresAt(*v)
+	}
+	return _c
+}
+
+// SetActivateTokenUsedAt sets the "activate_token_used_at" field.
+func (_c *UserCredentialCreate) SetActivateTokenUsedAt(v time.Time) *UserCredentialCreate {
+	_c.mutation.SetActivateTokenUsedAt(v)
+	return _c
+}
+
+// SetNillableActivateTokenUsedAt sets the "activate_token_used_at" field if the given value is not nil.
+func (_c *UserCredentialCreate) SetNillableActivateTokenUsedAt(v *time.Time) *UserCredentialCreate {
+	if v != nil {
+		_c.SetActivateTokenUsedAt(*v)
+	}
+	return _c
+}
+
+// SetResetTokenHash sets the "reset_token_hash" field.
+func (_c *UserCredentialCreate) SetResetTokenHash(v string) *UserCredentialCreate {
+	_c.mutation.SetResetTokenHash(v)
+	return _c
+}
+
+// SetNillableResetTokenHash sets the "reset_token_hash" field if the given value is not nil.
+func (_c *UserCredentialCreate) SetNillableResetTokenHash(v *string) *UserCredentialCreate {
+	if v != nil {
+		_c.SetResetTokenHash(*v)
+	}
+	return _c
+}
+
+// SetResetTokenExpiresAt sets the "reset_token_expires_at" field.
+func (_c *UserCredentialCreate) SetResetTokenExpiresAt(v time.Time) *UserCredentialCreate {
+	_c.mutation.SetResetTokenExpiresAt(v)
+	return _c
+}
+
+// SetNillableResetTokenExpiresAt sets the "reset_token_expires_at" field if the given value is not nil.
+func (_c *UserCredentialCreate) SetNillableResetTokenExpiresAt(v *time.Time) *UserCredentialCreate {
+	if v != nil {
+		_c.SetResetTokenExpiresAt(*v)
+	}
+	return _c
+}
+
+// SetResetTokenUsedAt sets the "reset_token_used_at" field.
+func (_c *UserCredentialCreate) SetResetTokenUsedAt(v time.Time) *UserCredentialCreate {
+	_c.mutation.SetResetTokenUsedAt(v)
+	return _c
+}
+
+// SetNillableResetTokenUsedAt sets the "reset_token_used_at" field if the given value is not nil.
+func (_c *UserCredentialCreate) SetNillableResetTokenUsedAt(v *time.Time) *UserCredentialCreate {
+	if v != nil {
+		_c.SetResetTokenUsedAt(*v)
 	}
 	return _c
 }
@@ -304,14 +388,14 @@ func (_c *UserCredentialCreate) check() error {
 			return &ValidationError{Name: "status", err: fmt.Errorf(`ent: validator failed for field "UserCredential.status": %w`, err)}
 		}
 	}
-	if v, ok := _c.mutation.ActivateToken(); ok {
-		if err := usercredential.ActivateTokenValidator(v); err != nil {
-			return &ValidationError{Name: "activate_token", err: fmt.Errorf(`ent: validator failed for field "UserCredential.activate_token": %w`, err)}
+	if v, ok := _c.mutation.ActivateTokenHash(); ok {
+		if err := usercredential.ActivateTokenHashValidator(v); err != nil {
+			return &ValidationError{Name: "activate_token_hash", err: fmt.Errorf(`ent: validator failed for field "UserCredential.activate_token_hash": %w`, err)}
 		}
 	}
-	if v, ok := _c.mutation.ResetToken(); ok {
-		if err := usercredential.ResetTokenValidator(v); err != nil {
-			return &ValidationError{Name: "reset_token", err: fmt.Errorf(`ent: validator failed for field "UserCredential.reset_token": %w`, err)}
+	if v, ok := _c.mutation.ResetTokenHash(); ok {
+		if err := usercredential.ResetTokenHashValidator(v); err != nil {
+			return &ValidationError{Name: "reset_token_hash", err: fmt.Errorf(`ent: validator failed for field "UserCredential.reset_token_hash": %w`, err)}
 		}
 	}
 	if v, ok := _c.mutation.ID(); ok {
@@ -400,13 +484,37 @@ func (_c *UserCredentialCreate) createSpec() (*UserCredential, *sqlgraph.CreateS
 		_spec.SetField(usercredential.FieldExtraInfo, field.TypeString, value)
 		_node.ExtraInfo = &value
 	}
-	if value, ok := _c.mutation.ActivateToken(); ok {
-		_spec.SetField(usercredential.FieldActivateToken, field.TypeString, value)
-		_node.ActivateToken = &value
+	if value, ok := _c.mutation.Provider(); ok {
+		_spec.SetField(usercredential.FieldProvider, field.TypeString, value)
+		_node.Provider = &value
 	}
-	if value, ok := _c.mutation.ResetToken(); ok {
-		_spec.SetField(usercredential.FieldResetToken, field.TypeString, value)
-		_node.ResetToken = &value
+	if value, ok := _c.mutation.ProviderAccountID(); ok {
+		_spec.SetField(usercredential.FieldProviderAccountID, field.TypeString, value)
+		_node.ProviderAccountID = &value
+	}
+	if value, ok := _c.mutation.ActivateTokenHash(); ok {
+		_spec.SetField(usercredential.FieldActivateTokenHash, field.TypeString, value)
+		_node.ActivateTokenHash = &value
+	}
+	if value, ok := _c.mutation.ActivateTokenExpiresAt(); ok {
+		_spec.SetField(usercredential.FieldActivateTokenExpiresAt, field.TypeTime, value)
+		_node.ActivateTokenExpiresAt = &value
+	}
+	if value, ok := _c.mutation.ActivateTokenUsedAt(); ok {
+		_spec.SetField(usercredential.FieldActivateTokenUsedAt, field.TypeTime, value)
+		_node.ActivateTokenUsedAt = &value
+	}
+	if value, ok := _c.mutation.ResetTokenHash(); ok {
+		_spec.SetField(usercredential.FieldResetTokenHash, field.TypeString, value)
+		_node.ResetTokenHash = &value
+	}
+	if value, ok := _c.mutation.ResetTokenExpiresAt(); ok {
+		_spec.SetField(usercredential.FieldResetTokenExpiresAt, field.TypeTime, value)
+		_node.ResetTokenExpiresAt = &value
+	}
+	if value, ok := _c.mutation.ResetTokenUsedAt(); ok {
+		_spec.SetField(usercredential.FieldResetTokenUsedAt, field.TypeTime, value)
+		_node.ResetTokenUsedAt = &value
 	}
 	return _node, _spec
 }
@@ -646,39 +754,147 @@ func (u *UserCredentialUpsert) ClearExtraInfo() *UserCredentialUpsert {
 	return u
 }
 
-// SetActivateToken sets the "activate_token" field.
-func (u *UserCredentialUpsert) SetActivateToken(v string) *UserCredentialUpsert {
-	u.Set(usercredential.FieldActivateToken, v)
+// SetProvider sets the "provider" field.
+func (u *UserCredentialUpsert) SetProvider(v string) *UserCredentialUpsert {
+	u.Set(usercredential.FieldProvider, v)
 	return u
 }
 
-// UpdateActivateToken sets the "activate_token" field to the value that was provided on create.
-func (u *UserCredentialUpsert) UpdateActivateToken() *UserCredentialUpsert {
-	u.SetExcluded(usercredential.FieldActivateToken)
+// UpdateProvider sets the "provider" field to the value that was provided on create.
+func (u *UserCredentialUpsert) UpdateProvider() *UserCredentialUpsert {
+	u.SetExcluded(usercredential.FieldProvider)
 	return u
 }
 
-// ClearActivateToken clears the value of the "activate_token" field.
-func (u *UserCredentialUpsert) ClearActivateToken() *UserCredentialUpsert {
-	u.SetNull(usercredential.FieldActivateToken)
+// ClearProvider clears the value of the "provider" field.
+func (u *UserCredentialUpsert) ClearProvider() *UserCredentialUpsert {
+	u.SetNull(usercredential.FieldProvider)
 	return u
 }
 
-// SetResetToken sets the "reset_token" field.
-func (u *UserCredentialUpsert) SetResetToken(v string) *UserCredentialUpsert {
-	u.Set(usercredential.FieldResetToken, v)
+// SetProviderAccountID sets the "provider_account_id" field.
+func (u *UserCredentialUpsert) SetProviderAccountID(v string) *UserCredentialUpsert {
+	u.Set(usercredential.FieldProviderAccountID, v)
 	return u
 }
 
-// UpdateResetToken sets the "reset_token" field to the value that was provided on create.
-func (u *UserCredentialUpsert) UpdateResetToken() *UserCredentialUpsert {
-	u.SetExcluded(usercredential.FieldResetToken)
+// UpdateProviderAccountID sets the "provider_account_id" field to the value that was provided on create.
+func (u *UserCredentialUpsert) UpdateProviderAccountID() *UserCredentialUpsert {
+	u.SetExcluded(usercredential.FieldProviderAccountID)
 	return u
 }
 
-// ClearResetToken clears the value of the "reset_token" field.
-func (u *UserCredentialUpsert) ClearResetToken() *UserCredentialUpsert {
-	u.SetNull(usercredential.FieldResetToken)
+// ClearProviderAccountID clears the value of the "provider_account_id" field.
+func (u *UserCredentialUpsert) ClearProviderAccountID() *UserCredentialUpsert {
+	u.SetNull(usercredential.FieldProviderAccountID)
+	return u
+}
+
+// SetActivateTokenHash sets the "activate_token_hash" field.
+func (u *UserCredentialUpsert) SetActivateTokenHash(v string) *UserCredentialUpsert {
+	u.Set(usercredential.FieldActivateTokenHash, v)
+	return u
+}
+
+// UpdateActivateTokenHash sets the "activate_token_hash" field to the value that was provided on create.
+func (u *UserCredentialUpsert) UpdateActivateTokenHash() *UserCredentialUpsert {
+	u.SetExcluded(usercredential.FieldActivateTokenHash)
+	return u
+}
+
+// ClearActivateTokenHash clears the value of the "activate_token_hash" field.
+func (u *UserCredentialUpsert) ClearActivateTokenHash() *UserCredentialUpsert {
+	u.SetNull(usercredential.FieldActivateTokenHash)
+	return u
+}
+
+// SetActivateTokenExpiresAt sets the "activate_token_expires_at" field.
+func (u *UserCredentialUpsert) SetActivateTokenExpiresAt(v time.Time) *UserCredentialUpsert {
+	u.Set(usercredential.FieldActivateTokenExpiresAt, v)
+	return u
+}
+
+// UpdateActivateTokenExpiresAt sets the "activate_token_expires_at" field to the value that was provided on create.
+func (u *UserCredentialUpsert) UpdateActivateTokenExpiresAt() *UserCredentialUpsert {
+	u.SetExcluded(usercredential.FieldActivateTokenExpiresAt)
+	return u
+}
+
+// ClearActivateTokenExpiresAt clears the value of the "activate_token_expires_at" field.
+func (u *UserCredentialUpsert) ClearActivateTokenExpiresAt() *UserCredentialUpsert {
+	u.SetNull(usercredential.FieldActivateTokenExpiresAt)
+	return u
+}
+
+// SetActivateTokenUsedAt sets the "activate_token_used_at" field.
+func (u *UserCredentialUpsert) SetActivateTokenUsedAt(v time.Time) *UserCredentialUpsert {
+	u.Set(usercredential.FieldActivateTokenUsedAt, v)
+	return u
+}
+
+// UpdateActivateTokenUsedAt sets the "activate_token_used_at" field to the value that was provided on create.
+func (u *UserCredentialUpsert) UpdateActivateTokenUsedAt() *UserCredentialUpsert {
+	u.SetExcluded(usercredential.FieldActivateTokenUsedAt)
+	return u
+}
+
+// ClearActivateTokenUsedAt clears the value of the "activate_token_used_at" field.
+func (u *UserCredentialUpsert) ClearActivateTokenUsedAt() *UserCredentialUpsert {
+	u.SetNull(usercredential.FieldActivateTokenUsedAt)
+	return u
+}
+
+// SetResetTokenHash sets the "reset_token_hash" field.
+func (u *UserCredentialUpsert) SetResetTokenHash(v string) *UserCredentialUpsert {
+	u.Set(usercredential.FieldResetTokenHash, v)
+	return u
+}
+
+// UpdateResetTokenHash sets the "reset_token_hash" field to the value that was provided on create.
+func (u *UserCredentialUpsert) UpdateResetTokenHash() *UserCredentialUpsert {
+	u.SetExcluded(usercredential.FieldResetTokenHash)
+	return u
+}
+
+// ClearResetTokenHash clears the value of the "reset_token_hash" field.
+func (u *UserCredentialUpsert) ClearResetTokenHash() *UserCredentialUpsert {
+	u.SetNull(usercredential.FieldResetTokenHash)
+	return u
+}
+
+// SetResetTokenExpiresAt sets the "reset_token_expires_at" field.
+func (u *UserCredentialUpsert) SetResetTokenExpiresAt(v time.Time) *UserCredentialUpsert {
+	u.Set(usercredential.FieldResetTokenExpiresAt, v)
+	return u
+}
+
+// UpdateResetTokenExpiresAt sets the "reset_token_expires_at" field to the value that was provided on create.
+func (u *UserCredentialUpsert) UpdateResetTokenExpiresAt() *UserCredentialUpsert {
+	u.SetExcluded(usercredential.FieldResetTokenExpiresAt)
+	return u
+}
+
+// ClearResetTokenExpiresAt clears the value of the "reset_token_expires_at" field.
+func (u *UserCredentialUpsert) ClearResetTokenExpiresAt() *UserCredentialUpsert {
+	u.SetNull(usercredential.FieldResetTokenExpiresAt)
+	return u
+}
+
+// SetResetTokenUsedAt sets the "reset_token_used_at" field.
+func (u *UserCredentialUpsert) SetResetTokenUsedAt(v time.Time) *UserCredentialUpsert {
+	u.Set(usercredential.FieldResetTokenUsedAt, v)
+	return u
+}
+
+// UpdateResetTokenUsedAt sets the "reset_token_used_at" field to the value that was provided on create.
+func (u *UserCredentialUpsert) UpdateResetTokenUsedAt() *UserCredentialUpsert {
+	u.SetExcluded(usercredential.FieldResetTokenUsedAt)
+	return u
+}
+
+// ClearResetTokenUsedAt clears the value of the "reset_token_used_at" field.
+func (u *UserCredentialUpsert) ClearResetTokenUsedAt() *UserCredentialUpsert {
+	u.SetNull(usercredential.FieldResetTokenUsedAt)
 	return u
 }
 
@@ -953,45 +1169,171 @@ func (u *UserCredentialUpsertOne) ClearExtraInfo() *UserCredentialUpsertOne {
 	})
 }
 
-// SetActivateToken sets the "activate_token" field.
-func (u *UserCredentialUpsertOne) SetActivateToken(v string) *UserCredentialUpsertOne {
+// SetProvider sets the "provider" field.
+func (u *UserCredentialUpsertOne) SetProvider(v string) *UserCredentialUpsertOne {
 	return u.Update(func(s *UserCredentialUpsert) {
-		s.SetActivateToken(v)
+		s.SetProvider(v)
 	})
 }
 
-// UpdateActivateToken sets the "activate_token" field to the value that was provided on create.
-func (u *UserCredentialUpsertOne) UpdateActivateToken() *UserCredentialUpsertOne {
+// UpdateProvider sets the "provider" field to the value that was provided on create.
+func (u *UserCredentialUpsertOne) UpdateProvider() *UserCredentialUpsertOne {
 	return u.Update(func(s *UserCredentialUpsert) {
-		s.UpdateActivateToken()
+		s.UpdateProvider()
 	})
 }
 
-// ClearActivateToken clears the value of the "activate_token" field.
-func (u *UserCredentialUpsertOne) ClearActivateToken() *UserCredentialUpsertOne {
+// ClearProvider clears the value of the "provider" field.
+func (u *UserCredentialUpsertOne) ClearProvider() *UserCredentialUpsertOne {
 	return u.Update(func(s *UserCredentialUpsert) {
-		s.ClearActivateToken()
+		s.ClearProvider()
 	})
 }
 
-// SetResetToken sets the "reset_token" field.
-func (u *UserCredentialUpsertOne) SetResetToken(v string) *UserCredentialUpsertOne {
+// SetProviderAccountID sets the "provider_account_id" field.
+func (u *UserCredentialUpsertOne) SetProviderAccountID(v string) *UserCredentialUpsertOne {
 	return u.Update(func(s *UserCredentialUpsert) {
-		s.SetResetToken(v)
+		s.SetProviderAccountID(v)
 	})
 }
 
-// UpdateResetToken sets the "reset_token" field to the value that was provided on create.
-func (u *UserCredentialUpsertOne) UpdateResetToken() *UserCredentialUpsertOne {
+// UpdateProviderAccountID sets the "provider_account_id" field to the value that was provided on create.
+func (u *UserCredentialUpsertOne) UpdateProviderAccountID() *UserCredentialUpsertOne {
 	return u.Update(func(s *UserCredentialUpsert) {
-		s.UpdateResetToken()
+		s.UpdateProviderAccountID()
 	})
 }
 
-// ClearResetToken clears the value of the "reset_token" field.
-func (u *UserCredentialUpsertOne) ClearResetToken() *UserCredentialUpsertOne {
+// ClearProviderAccountID clears the value of the "provider_account_id" field.
+func (u *UserCredentialUpsertOne) ClearProviderAccountID() *UserCredentialUpsertOne {
 	return u.Update(func(s *UserCredentialUpsert) {
-		s.ClearResetToken()
+		s.ClearProviderAccountID()
+	})
+}
+
+// SetActivateTokenHash sets the "activate_token_hash" field.
+func (u *UserCredentialUpsertOne) SetActivateTokenHash(v string) *UserCredentialUpsertOne {
+	return u.Update(func(s *UserCredentialUpsert) {
+		s.SetActivateTokenHash(v)
+	})
+}
+
+// UpdateActivateTokenHash sets the "activate_token_hash" field to the value that was provided on create.
+func (u *UserCredentialUpsertOne) UpdateActivateTokenHash() *UserCredentialUpsertOne {
+	return u.Update(func(s *UserCredentialUpsert) {
+		s.UpdateActivateTokenHash()
+	})
+}
+
+// ClearActivateTokenHash clears the value of the "activate_token_hash" field.
+func (u *UserCredentialUpsertOne) ClearActivateTokenHash() *UserCredentialUpsertOne {
+	return u.Update(func(s *UserCredentialUpsert) {
+		s.ClearActivateTokenHash()
+	})
+}
+
+// SetActivateTokenExpiresAt sets the "activate_token_expires_at" field.
+func (u *UserCredentialUpsertOne) SetActivateTokenExpiresAt(v time.Time) *UserCredentialUpsertOne {
+	return u.Update(func(s *UserCredentialUpsert) {
+		s.SetActivateTokenExpiresAt(v)
+	})
+}
+
+// UpdateActivateTokenExpiresAt sets the "activate_token_expires_at" field to the value that was provided on create.
+func (u *UserCredentialUpsertOne) UpdateActivateTokenExpiresAt() *UserCredentialUpsertOne {
+	return u.Update(func(s *UserCredentialUpsert) {
+		s.UpdateActivateTokenExpiresAt()
+	})
+}
+
+// ClearActivateTokenExpiresAt clears the value of the "activate_token_expires_at" field.
+func (u *UserCredentialUpsertOne) ClearActivateTokenExpiresAt() *UserCredentialUpsertOne {
+	return u.Update(func(s *UserCredentialUpsert) {
+		s.ClearActivateTokenExpiresAt()
+	})
+}
+
+// SetActivateTokenUsedAt sets the "activate_token_used_at" field.
+func (u *UserCredentialUpsertOne) SetActivateTokenUsedAt(v time.Time) *UserCredentialUpsertOne {
+	return u.Update(func(s *UserCredentialUpsert) {
+		s.SetActivateTokenUsedAt(v)
+	})
+}
+
+// UpdateActivateTokenUsedAt sets the "activate_token_used_at" field to the value that was provided on create.
+func (u *UserCredentialUpsertOne) UpdateActivateTokenUsedAt() *UserCredentialUpsertOne {
+	return u.Update(func(s *UserCredentialUpsert) {
+		s.UpdateActivateTokenUsedAt()
+	})
+}
+
+// ClearActivateTokenUsedAt clears the value of the "activate_token_used_at" field.
+func (u *UserCredentialUpsertOne) ClearActivateTokenUsedAt() *UserCredentialUpsertOne {
+	return u.Update(func(s *UserCredentialUpsert) {
+		s.ClearActivateTokenUsedAt()
+	})
+}
+
+// SetResetTokenHash sets the "reset_token_hash" field.
+func (u *UserCredentialUpsertOne) SetResetTokenHash(v string) *UserCredentialUpsertOne {
+	return u.Update(func(s *UserCredentialUpsert) {
+		s.SetResetTokenHash(v)
+	})
+}
+
+// UpdateResetTokenHash sets the "reset_token_hash" field to the value that was provided on create.
+func (u *UserCredentialUpsertOne) UpdateResetTokenHash() *UserCredentialUpsertOne {
+	return u.Update(func(s *UserCredentialUpsert) {
+		s.UpdateResetTokenHash()
+	})
+}
+
+// ClearResetTokenHash clears the value of the "reset_token_hash" field.
+func (u *UserCredentialUpsertOne) ClearResetTokenHash() *UserCredentialUpsertOne {
+	return u.Update(func(s *UserCredentialUpsert) {
+		s.ClearResetTokenHash()
+	})
+}
+
+// SetResetTokenExpiresAt sets the "reset_token_expires_at" field.
+func (u *UserCredentialUpsertOne) SetResetTokenExpiresAt(v time.Time) *UserCredentialUpsertOne {
+	return u.Update(func(s *UserCredentialUpsert) {
+		s.SetResetTokenExpiresAt(v)
+	})
+}
+
+// UpdateResetTokenExpiresAt sets the "reset_token_expires_at" field to the value that was provided on create.
+func (u *UserCredentialUpsertOne) UpdateResetTokenExpiresAt() *UserCredentialUpsertOne {
+	return u.Update(func(s *UserCredentialUpsert) {
+		s.UpdateResetTokenExpiresAt()
+	})
+}
+
+// ClearResetTokenExpiresAt clears the value of the "reset_token_expires_at" field.
+func (u *UserCredentialUpsertOne) ClearResetTokenExpiresAt() *UserCredentialUpsertOne {
+	return u.Update(func(s *UserCredentialUpsert) {
+		s.ClearResetTokenExpiresAt()
+	})
+}
+
+// SetResetTokenUsedAt sets the "reset_token_used_at" field.
+func (u *UserCredentialUpsertOne) SetResetTokenUsedAt(v time.Time) *UserCredentialUpsertOne {
+	return u.Update(func(s *UserCredentialUpsert) {
+		s.SetResetTokenUsedAt(v)
+	})
+}
+
+// UpdateResetTokenUsedAt sets the "reset_token_used_at" field to the value that was provided on create.
+func (u *UserCredentialUpsertOne) UpdateResetTokenUsedAt() *UserCredentialUpsertOne {
+	return u.Update(func(s *UserCredentialUpsert) {
+		s.UpdateResetTokenUsedAt()
+	})
+}
+
+// ClearResetTokenUsedAt clears the value of the "reset_token_used_at" field.
+func (u *UserCredentialUpsertOne) ClearResetTokenUsedAt() *UserCredentialUpsertOne {
+	return u.Update(func(s *UserCredentialUpsert) {
+		s.ClearResetTokenUsedAt()
 	})
 }
 
@@ -1432,45 +1774,171 @@ func (u *UserCredentialUpsertBulk) ClearExtraInfo() *UserCredentialUpsertBulk {
 	})
 }
 
-// SetActivateToken sets the "activate_token" field.
-func (u *UserCredentialUpsertBulk) SetActivateToken(v string) *UserCredentialUpsertBulk {
+// SetProvider sets the "provider" field.
+func (u *UserCredentialUpsertBulk) SetProvider(v string) *UserCredentialUpsertBulk {
 	return u.Update(func(s *UserCredentialUpsert) {
-		s.SetActivateToken(v)
+		s.SetProvider(v)
 	})
 }
 
-// UpdateActivateToken sets the "activate_token" field to the value that was provided on create.
-func (u *UserCredentialUpsertBulk) UpdateActivateToken() *UserCredentialUpsertBulk {
+// UpdateProvider sets the "provider" field to the value that was provided on create.
+func (u *UserCredentialUpsertBulk) UpdateProvider() *UserCredentialUpsertBulk {
 	return u.Update(func(s *UserCredentialUpsert) {
-		s.UpdateActivateToken()
+		s.UpdateProvider()
 	})
 }
 
-// ClearActivateToken clears the value of the "activate_token" field.
-func (u *UserCredentialUpsertBulk) ClearActivateToken() *UserCredentialUpsertBulk {
+// ClearProvider clears the value of the "provider" field.
+func (u *UserCredentialUpsertBulk) ClearProvider() *UserCredentialUpsertBulk {
 	return u.Update(func(s *UserCredentialUpsert) {
-		s.ClearActivateToken()
+		s.ClearProvider()
 	})
 }
 
-// SetResetToken sets the "reset_token" field.
-func (u *UserCredentialUpsertBulk) SetResetToken(v string) *UserCredentialUpsertBulk {
+// SetProviderAccountID sets the "provider_account_id" field.
+func (u *UserCredentialUpsertBulk) SetProviderAccountID(v string) *UserCredentialUpsertBulk {
 	return u.Update(func(s *UserCredentialUpsert) {
-		s.SetResetToken(v)
+		s.SetProviderAccountID(v)
 	})
 }
 
-// UpdateResetToken sets the "reset_token" field to the value that was provided on create.
-func (u *UserCredentialUpsertBulk) UpdateResetToken() *UserCredentialUpsertBulk {
+// UpdateProviderAccountID sets the "provider_account_id" field to the value that was provided on create.
+func (u *UserCredentialUpsertBulk) UpdateProviderAccountID() *UserCredentialUpsertBulk {
 	return u.Update(func(s *UserCredentialUpsert) {
-		s.UpdateResetToken()
+		s.UpdateProviderAccountID()
 	})
 }
 
-// ClearResetToken clears the value of the "reset_token" field.
-func (u *UserCredentialUpsertBulk) ClearResetToken() *UserCredentialUpsertBulk {
+// ClearProviderAccountID clears the value of the "provider_account_id" field.
+func (u *UserCredentialUpsertBulk) ClearProviderAccountID() *UserCredentialUpsertBulk {
 	return u.Update(func(s *UserCredentialUpsert) {
-		s.ClearResetToken()
+		s.ClearProviderAccountID()
+	})
+}
+
+// SetActivateTokenHash sets the "activate_token_hash" field.
+func (u *UserCredentialUpsertBulk) SetActivateTokenHash(v string) *UserCredentialUpsertBulk {
+	return u.Update(func(s *UserCredentialUpsert) {
+		s.SetActivateTokenHash(v)
+	})
+}
+
+// UpdateActivateTokenHash sets the "activate_token_hash" field to the value that was provided on create.
+func (u *UserCredentialUpsertBulk) UpdateActivateTokenHash() *UserCredentialUpsertBulk {
+	return u.Update(func(s *UserCredentialUpsert) {
+		s.UpdateActivateTokenHash()
+	})
+}
+
+// ClearActivateTokenHash clears the value of the "activate_token_hash" field.
+func (u *UserCredentialUpsertBulk) ClearActivateTokenHash() *UserCredentialUpsertBulk {
+	return u.Update(func(s *UserCredentialUpsert) {
+		s.ClearActivateTokenHash()
+	})
+}
+
+// SetActivateTokenExpiresAt sets the "activate_token_expires_at" field.
+func (u *UserCredentialUpsertBulk) SetActivateTokenExpiresAt(v time.Time) *UserCredentialUpsertBulk {
+	return u.Update(func(s *UserCredentialUpsert) {
+		s.SetActivateTokenExpiresAt(v)
+	})
+}
+
+// UpdateActivateTokenExpiresAt sets the "activate_token_expires_at" field to the value that was provided on create.
+func (u *UserCredentialUpsertBulk) UpdateActivateTokenExpiresAt() *UserCredentialUpsertBulk {
+	return u.Update(func(s *UserCredentialUpsert) {
+		s.UpdateActivateTokenExpiresAt()
+	})
+}
+
+// ClearActivateTokenExpiresAt clears the value of the "activate_token_expires_at" field.
+func (u *UserCredentialUpsertBulk) ClearActivateTokenExpiresAt() *UserCredentialUpsertBulk {
+	return u.Update(func(s *UserCredentialUpsert) {
+		s.ClearActivateTokenExpiresAt()
+	})
+}
+
+// SetActivateTokenUsedAt sets the "activate_token_used_at" field.
+func (u *UserCredentialUpsertBulk) SetActivateTokenUsedAt(v time.Time) *UserCredentialUpsertBulk {
+	return u.Update(func(s *UserCredentialUpsert) {
+		s.SetActivateTokenUsedAt(v)
+	})
+}
+
+// UpdateActivateTokenUsedAt sets the "activate_token_used_at" field to the value that was provided on create.
+func (u *UserCredentialUpsertBulk) UpdateActivateTokenUsedAt() *UserCredentialUpsertBulk {
+	return u.Update(func(s *UserCredentialUpsert) {
+		s.UpdateActivateTokenUsedAt()
+	})
+}
+
+// ClearActivateTokenUsedAt clears the value of the "activate_token_used_at" field.
+func (u *UserCredentialUpsertBulk) ClearActivateTokenUsedAt() *UserCredentialUpsertBulk {
+	return u.Update(func(s *UserCredentialUpsert) {
+		s.ClearActivateTokenUsedAt()
+	})
+}
+
+// SetResetTokenHash sets the "reset_token_hash" field.
+func (u *UserCredentialUpsertBulk) SetResetTokenHash(v string) *UserCredentialUpsertBulk {
+	return u.Update(func(s *UserCredentialUpsert) {
+		s.SetResetTokenHash(v)
+	})
+}
+
+// UpdateResetTokenHash sets the "reset_token_hash" field to the value that was provided on create.
+func (u *UserCredentialUpsertBulk) UpdateResetTokenHash() *UserCredentialUpsertBulk {
+	return u.Update(func(s *UserCredentialUpsert) {
+		s.UpdateResetTokenHash()
+	})
+}
+
+// ClearResetTokenHash clears the value of the "reset_token_hash" field.
+func (u *UserCredentialUpsertBulk) ClearResetTokenHash() *UserCredentialUpsertBulk {
+	return u.Update(func(s *UserCredentialUpsert) {
+		s.ClearResetTokenHash()
+	})
+}
+
+// SetResetTokenExpiresAt sets the "reset_token_expires_at" field.
+func (u *UserCredentialUpsertBulk) SetResetTokenExpiresAt(v time.Time) *UserCredentialUpsertBulk {
+	return u.Update(func(s *UserCredentialUpsert) {
+		s.SetResetTokenExpiresAt(v)
+	})
+}
+
+// UpdateResetTokenExpiresAt sets the "reset_token_expires_at" field to the value that was provided on create.
+func (u *UserCredentialUpsertBulk) UpdateResetTokenExpiresAt() *UserCredentialUpsertBulk {
+	return u.Update(func(s *UserCredentialUpsert) {
+		s.UpdateResetTokenExpiresAt()
+	})
+}
+
+// ClearResetTokenExpiresAt clears the value of the "reset_token_expires_at" field.
+func (u *UserCredentialUpsertBulk) ClearResetTokenExpiresAt() *UserCredentialUpsertBulk {
+	return u.Update(func(s *UserCredentialUpsert) {
+		s.ClearResetTokenExpiresAt()
+	})
+}
+
+// SetResetTokenUsedAt sets the "reset_token_used_at" field.
+func (u *UserCredentialUpsertBulk) SetResetTokenUsedAt(v time.Time) *UserCredentialUpsertBulk {
+	return u.Update(func(s *UserCredentialUpsert) {
+		s.SetResetTokenUsedAt(v)
+	})
+}
+
+// UpdateResetTokenUsedAt sets the "reset_token_used_at" field to the value that was provided on create.
+func (u *UserCredentialUpsertBulk) UpdateResetTokenUsedAt() *UserCredentialUpsertBulk {
+	return u.Update(func(s *UserCredentialUpsert) {
+		s.UpdateResetTokenUsedAt()
+	})
+}
+
+// ClearResetTokenUsedAt clears the value of the "reset_token_used_at" field.
+func (u *UserCredentialUpsertBulk) ClearResetTokenUsedAt() *UserCredentialUpsertBulk {
+	return u.Update(func(s *UserCredentialUpsert) {
+		s.ClearResetTokenUsedAt()
 	})
 }
 

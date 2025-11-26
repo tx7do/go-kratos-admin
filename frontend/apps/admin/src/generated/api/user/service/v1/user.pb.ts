@@ -279,6 +279,69 @@ export interface BatchCreateUsersResponse {
   createdIds: number[];
 }
 
+export interface GetUsersByIdsRequest {
+  ids: number[];
+}
+
+/** 强制修改用户密码（不验证） - 请求 */
+export interface EditUserPasswordRequest {
+  /** 用户ID */
+  userId: number;
+  /** 新密码 */
+  newPassword: string;
+}
+
+/** 修改用户密码（需要验证旧密码） - 请求 */
+export interface ChangePasswordRequest {
+  /** 旧密码 */
+  oldPassword: string;
+  /** 新密码 */
+  newPassword: string;
+}
+
+export interface UploadAvatarRequest {
+  source?: { $case: "imageBase64"; imageBase64: string } | { $case: "imageUrl"; imageUrl: string } | null;
+}
+
+export interface UploadAvatarResponse {
+  url: string;
+}
+
+export interface BindContactRequest {
+  contact?: { $case: "phone"; phone: BindPhoneRequest } | { $case: "email"; email: BindEmailRequest } | null;
+}
+
+export interface BindPhoneRequest {
+  phone: string;
+  code: string;
+}
+
+export interface BindEmailRequest {
+  email: string;
+  verificationCode?: string | null | undefined;
+}
+
+export interface VerifyContactRequest {
+  contact?:
+    | { $case: "phone"; phone: PhoneVerification }
+    | { $case: "email"; email: EmailVerification }
+    | null;
+  /** 可选：服务端生成的验证码会话 id（用于多步骤或回调验证） */
+  verificationId?: string | null | undefined;
+}
+
+/** 手机验证 */
+export interface PhoneVerification {
+  phone: string;
+  code: string;
+}
+
+/** 邮箱验证 */
+export interface EmailVerification {
+  email: string;
+  code: string;
+}
+
 /** 用户服务 */
 export interface UserService {
   /** 查询用户列表 */

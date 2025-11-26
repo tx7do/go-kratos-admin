@@ -109,48 +109,11 @@ func (s *redactedUserServiceServer) UserExists(ctx context.Context, in *servicev
 
 // EditUserPassword is the redacted wrapper for the actual UserServiceServer.EditUserPassword method
 // Unary RPC
-func (s *redactedUserServiceServer) EditUserPassword(ctx context.Context, in *EditUserPasswordRequest) (*emptypb.Empty, error) {
+func (s *redactedUserServiceServer) EditUserPassword(ctx context.Context, in *servicev1.EditUserPasswordRequest) (*emptypb.Empty, error) {
 	res, err := s.srv.EditUserPassword(ctx, in)
 	if !s.bypass.CheckInternal(ctx) {
 		// Apply redaction to the response
 		redact.Apply(res)
 	}
 	return res, err
-}
-
-// ChangePassword is the redacted wrapper for the actual UserServiceServer.ChangePassword method
-// Unary RPC
-func (s *redactedUserServiceServer) ChangePassword(ctx context.Context, in *ChangePasswordRequest) (*emptypb.Empty, error) {
-	res, err := s.srv.ChangePassword(ctx, in)
-	if !s.bypass.CheckInternal(ctx) {
-		// Apply redaction to the response
-		redact.Apply(res)
-	}
-	return res, err
-}
-
-// Redact method implementation for ChangePasswordRequest
-func (x *ChangePasswordRequest) Redact() string {
-	if x == nil {
-		return ""
-	}
-
-	// Safe field: Username
-
-	// Safe field: OldPassword
-
-	// Safe field: NewPassword
-	return x.String()
-}
-
-// Redact method implementation for EditUserPasswordRequest
-func (x *EditUserPasswordRequest) Redact() string {
-	if x == nil {
-		return ""
-	}
-
-	// Safe field: UserId
-
-	// Safe field: NewPassword
-	return x.String()
 }

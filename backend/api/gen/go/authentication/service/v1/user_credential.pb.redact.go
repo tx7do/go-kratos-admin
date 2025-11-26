@@ -171,11 +171,13 @@ func (x *UserCredential) Redact() string {
 
 	// Safe field: ExtraInfo
 
+	// Safe field: Provider
+
+	// Safe field: ProviderAccountId
+
 	// Safe field: CreatedBy
 
 	// Safe field: UpdatedBy
-
-	// Safe field: DeletedBy
 
 	// Safe field: CreatedAt
 
@@ -238,8 +240,6 @@ func (x *GetUserCredentialRequest) Redact() string {
 	}
 
 	// Safe field: Id
-
-	// Safe field: ViewMask
 	return x.String()
 }
 

@@ -78,7 +78,7 @@ func initApp(logger log.Logger, registrar registry.Registrar, bootstrap *v1.Boot
 	internalMessageRecipientService := service.NewInternalMessageRecipientService(logger, internalMessageRepo, internalMessageRecipientRepo)
 	adminLoginRestrictionRepo := data.NewAdminLoginRestrictionRepo(dataData, logger)
 	adminLoginRestrictionService := service.NewAdminLoginRestrictionService(logger, adminLoginRestrictionRepo)
-	userProfileService := service.NewUserProfileService(logger, userRepo, userTokenCacheRepo, roleRepo)
+	userProfileService := service.NewUserProfileService(logger, userRepo, userTokenCacheRepo, roleRepo, userCredentialRepo)
 	apiResourceService := service.NewApiResourceService(logger, apiResourceRepo, authorizer)
 	httpServer := server.NewRESTServer(bootstrap, logger, authenticator, authorizer, adminOperationLogRepo, adminLoginLogRepo, authenticationService, userService, menuService, routerService, organizationService, roleService, positionService, dictService, departmentService, adminLoginLogService, adminOperationLogService, ossService, uEditorService, fileService, tenantService, taskService, internalMessageService, internalMessageCategoryService, internalMessageRecipientService, adminLoginRestrictionService, userProfileService, apiResourceService)
 	asynqServer := server.NewAsynqServer(bootstrap, logger, taskService)

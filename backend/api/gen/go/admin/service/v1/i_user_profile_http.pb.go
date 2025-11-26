@@ -21,20 +21,40 @@ var _ = binding.EncodeURL
 
 const _ = http.SupportPackageIsVersion1
 
+const OperationUserProfileServiceBindContact = "/admin.service.v1.UserProfileService/BindContact"
+const OperationUserProfileServiceChangePassword = "/admin.service.v1.UserProfileService/ChangePassword"
+const OperationUserProfileServiceDeleteAvatar = "/admin.service.v1.UserProfileService/DeleteAvatar"
 const OperationUserProfileServiceGetUser = "/admin.service.v1.UserProfileService/GetUser"
 const OperationUserProfileServiceUpdateUser = "/admin.service.v1.UserProfileService/UpdateUser"
+const OperationUserProfileServiceUploadAvatar = "/admin.service.v1.UserProfileService/UploadAvatar"
+const OperationUserProfileServiceVerifyContact = "/admin.service.v1.UserProfileService/VerifyContact"
 
 type UserProfileServiceHTTPServer interface {
+	// BindContact 绑定手机号码/邮箱
+	BindContact(context.Context, *v1.BindContactRequest) (*emptypb.Empty, error)
+	// ChangePassword 修改用户密码
+	ChangePassword(context.Context, *v1.ChangePasswordRequest) (*emptypb.Empty, error)
+	// DeleteAvatar 删除头像
+	DeleteAvatar(context.Context, *emptypb.Empty) (*emptypb.Empty, error)
 	// GetUser 获取用户资料
 	GetUser(context.Context, *emptypb.Empty) (*v1.User, error)
 	// UpdateUser 更新用户资料
 	UpdateUser(context.Context, *v1.UpdateUserRequest) (*emptypb.Empty, error)
+	// UploadAvatar 上传头像
+	UploadAvatar(context.Context, *v1.UploadAvatarRequest) (*v1.UploadAvatarResponse, error)
+	// VerifyContact 验证手机号码/邮箱
+	VerifyContact(context.Context, *v1.VerifyContactRequest) (*emptypb.Empty, error)
 }
 
 func RegisterUserProfileServiceHTTPServer(s *http.Server, srv UserProfileServiceHTTPServer) {
 	r := s.Route("/")
 	r.GET("/admin/v1/me", _UserProfileService_GetUser0_HTTP_Handler(srv))
 	r.PUT("/admin/v1/me", _UserProfileService_UpdateUser0_HTTP_Handler(srv))
+	r.POST("/admin/v1/me/password", _UserProfileService_ChangePassword0_HTTP_Handler(srv))
+	r.POST("/admin/v1/me/avatar", _UserProfileService_UploadAvatar0_HTTP_Handler(srv))
+	r.DELETE("/admin/v1/me/avatar", _UserProfileService_DeleteAvatar0_HTTP_Handler(srv))
+	r.POST("/admin/v1/me/contact", _UserProfileService_BindContact0_HTTP_Handler(srv))
+	r.POST("/admin/v1/me/contact/verify", _UserProfileService_VerifyContact0_HTTP_Handler(srv))
 }
 
 func _UserProfileService_GetUser0_HTTP_Handler(srv UserProfileServiceHTTPServer) func(ctx http.Context) error {
@@ -78,11 +98,128 @@ func _UserProfileService_UpdateUser0_HTTP_Handler(srv UserProfileServiceHTTPServ
 	}
 }
 
+func _UserProfileService_ChangePassword0_HTTP_Handler(srv UserProfileServiceHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in v1.ChangePasswordRequest
+		if err := ctx.Bind(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationUserProfileServiceChangePassword)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.ChangePassword(ctx, req.(*v1.ChangePasswordRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*emptypb.Empty)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _UserProfileService_UploadAvatar0_HTTP_Handler(srv UserProfileServiceHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in v1.UploadAvatarRequest
+		if err := ctx.Bind(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationUserProfileServiceUploadAvatar)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.UploadAvatar(ctx, req.(*v1.UploadAvatarRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*v1.UploadAvatarResponse)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _UserProfileService_DeleteAvatar0_HTTP_Handler(srv UserProfileServiceHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in emptypb.Empty
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationUserProfileServiceDeleteAvatar)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.DeleteAvatar(ctx, req.(*emptypb.Empty))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*emptypb.Empty)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _UserProfileService_BindContact0_HTTP_Handler(srv UserProfileServiceHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in v1.BindContactRequest
+		if err := ctx.Bind(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationUserProfileServiceBindContact)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.BindContact(ctx, req.(*v1.BindContactRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*emptypb.Empty)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _UserProfileService_VerifyContact0_HTTP_Handler(srv UserProfileServiceHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in v1.VerifyContactRequest
+		if err := ctx.Bind(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationUserProfileServiceVerifyContact)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.VerifyContact(ctx, req.(*v1.VerifyContactRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*emptypb.Empty)
+		return ctx.Result(200, reply)
+	}
+}
+
 type UserProfileServiceHTTPClient interface {
+	// BindContact 绑定手机号码/邮箱
+	BindContact(ctx context.Context, req *v1.BindContactRequest, opts ...http.CallOption) (rsp *emptypb.Empty, err error)
+	// ChangePassword 修改用户密码
+	ChangePassword(ctx context.Context, req *v1.ChangePasswordRequest, opts ...http.CallOption) (rsp *emptypb.Empty, err error)
+	// DeleteAvatar 删除头像
+	DeleteAvatar(ctx context.Context, req *emptypb.Empty, opts ...http.CallOption) (rsp *emptypb.Empty, err error)
 	// GetUser 获取用户资料
 	GetUser(ctx context.Context, req *emptypb.Empty, opts ...http.CallOption) (rsp *v1.User, err error)
 	// UpdateUser 更新用户资料
 	UpdateUser(ctx context.Context, req *v1.UpdateUserRequest, opts ...http.CallOption) (rsp *emptypb.Empty, err error)
+	// UploadAvatar 上传头像
+	UploadAvatar(ctx context.Context, req *v1.UploadAvatarRequest, opts ...http.CallOption) (rsp *v1.UploadAvatarResponse, err error)
+	// VerifyContact 验证手机号码/邮箱
+	VerifyContact(ctx context.Context, req *v1.VerifyContactRequest, opts ...http.CallOption) (rsp *emptypb.Empty, err error)
 }
 
 type UserProfileServiceHTTPClientImpl struct {
@@ -91,6 +228,48 @@ type UserProfileServiceHTTPClientImpl struct {
 
 func NewUserProfileServiceHTTPClient(client *http.Client) UserProfileServiceHTTPClient {
 	return &UserProfileServiceHTTPClientImpl{client}
+}
+
+// BindContact 绑定手机号码/邮箱
+func (c *UserProfileServiceHTTPClientImpl) BindContact(ctx context.Context, in *v1.BindContactRequest, opts ...http.CallOption) (*emptypb.Empty, error) {
+	var out emptypb.Empty
+	pattern := "/admin/v1/me/contact"
+	path := binding.EncodeURL(pattern, in, false)
+	opts = append(opts, http.Operation(OperationUserProfileServiceBindContact))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
+// ChangePassword 修改用户密码
+func (c *UserProfileServiceHTTPClientImpl) ChangePassword(ctx context.Context, in *v1.ChangePasswordRequest, opts ...http.CallOption) (*emptypb.Empty, error) {
+	var out emptypb.Empty
+	pattern := "/admin/v1/me/password"
+	path := binding.EncodeURL(pattern, in, false)
+	opts = append(opts, http.Operation(OperationUserProfileServiceChangePassword))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
+// DeleteAvatar 删除头像
+func (c *UserProfileServiceHTTPClientImpl) DeleteAvatar(ctx context.Context, in *emptypb.Empty, opts ...http.CallOption) (*emptypb.Empty, error) {
+	var out emptypb.Empty
+	pattern := "/admin/v1/me/avatar"
+	path := binding.EncodeURL(pattern, in, true)
+	opts = append(opts, http.Operation(OperationUserProfileServiceDeleteAvatar))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "DELETE", path, nil, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
 }
 
 // GetUser 获取用户资料
@@ -115,6 +294,34 @@ func (c *UserProfileServiceHTTPClientImpl) UpdateUser(ctx context.Context, in *v
 	opts = append(opts, http.Operation(OperationUserProfileServiceUpdateUser))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "PUT", path, in, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
+// UploadAvatar 上传头像
+func (c *UserProfileServiceHTTPClientImpl) UploadAvatar(ctx context.Context, in *v1.UploadAvatarRequest, opts ...http.CallOption) (*v1.UploadAvatarResponse, error) {
+	var out v1.UploadAvatarResponse
+	pattern := "/admin/v1/me/avatar"
+	path := binding.EncodeURL(pattern, in, false)
+	opts = append(opts, http.Operation(OperationUserProfileServiceUploadAvatar))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
+// VerifyContact 验证手机号码/邮箱
+func (c *UserProfileServiceHTTPClientImpl) VerifyContact(ctx context.Context, in *v1.VerifyContactRequest, opts ...http.CallOption) (*emptypb.Empty, error) {
+	var out emptypb.Empty
+	pattern := "/admin/v1/me/contact/verify"
+	path := binding.EncodeURL(pattern, in, false)
+	opts = append(opts, http.Operation(OperationUserProfileServiceVerifyContact))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
 	if err != nil {
 		return nil, err
 	}

@@ -63,3 +63,58 @@ func (s *redactedUserProfileServiceServer) UpdateUser(ctx context.Context, in *s
 	}
 	return res, err
 }
+
+// ChangePassword is the redacted wrapper for the actual UserProfileServiceServer.ChangePassword method
+// Unary RPC
+func (s *redactedUserProfileServiceServer) ChangePassword(ctx context.Context, in *servicev1.ChangePasswordRequest) (*emptypb.Empty, error) {
+	res, err := s.srv.ChangePassword(ctx, in)
+	if !s.bypass.CheckInternal(ctx) {
+		// Apply redaction to the response
+		redact.Apply(res)
+	}
+	return res, err
+}
+
+// UploadAvatar is the redacted wrapper for the actual UserProfileServiceServer.UploadAvatar method
+// Unary RPC
+func (s *redactedUserProfileServiceServer) UploadAvatar(ctx context.Context, in *servicev1.UploadAvatarRequest) (*servicev1.UploadAvatarResponse, error) {
+	res, err := s.srv.UploadAvatar(ctx, in)
+	if !s.bypass.CheckInternal(ctx) {
+		// Apply redaction to the response
+		redact.Apply(res)
+	}
+	return res, err
+}
+
+// DeleteAvatar is the redacted wrapper for the actual UserProfileServiceServer.DeleteAvatar method
+// Unary RPC
+func (s *redactedUserProfileServiceServer) DeleteAvatar(ctx context.Context, in *emptypb.Empty) (*emptypb.Empty, error) {
+	res, err := s.srv.DeleteAvatar(ctx, in)
+	if !s.bypass.CheckInternal(ctx) {
+		// Apply redaction to the response
+		redact.Apply(res)
+	}
+	return res, err
+}
+
+// BindContact is the redacted wrapper for the actual UserProfileServiceServer.BindContact method
+// Unary RPC
+func (s *redactedUserProfileServiceServer) BindContact(ctx context.Context, in *servicev1.BindContactRequest) (*emptypb.Empty, error) {
+	res, err := s.srv.BindContact(ctx, in)
+	if !s.bypass.CheckInternal(ctx) {
+		// Apply redaction to the response
+		redact.Apply(res)
+	}
+	return res, err
+}
+
+// VerifyContact is the redacted wrapper for the actual UserProfileServiceServer.VerifyContact method
+// Unary RPC
+func (s *redactedUserProfileServiceServer) VerifyContact(ctx context.Context, in *servicev1.VerifyContactRequest) (*emptypb.Empty, error) {
+	res, err := s.srv.VerifyContact(ctx, in)
+	if !s.bypass.CheckInternal(ctx) {
+		// Apply redaction to the response
+		redact.Apply(res)
+	}
+	return res, err
+}

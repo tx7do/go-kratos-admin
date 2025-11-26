@@ -312,7 +312,7 @@ func (s *UserService) Create(ctx context.Context, req *userV1.CreateUserRequest)
 				UserId:   user.Id,
 				TenantId: user.TenantId,
 
-				IdentityType: authenticationV1.IdentityType_USERNAME.Enum(),
+				IdentityType: authenticationV1.UserCredential_USERNAME.Enum(),
 				Identifier:   req.Data.Username,
 
 				CredentialType: authenticationV1.UserCredential_PASSWORD_HASH.Enum(),
@@ -371,7 +371,7 @@ func (s *UserService) Update(ctx context.Context, req *userV1.UpdateUserRequest)
 
 	if len(req.GetPassword()) > 0 {
 		if err = s.userCredentialRepo.ResetCredential(ctx, &authenticationV1.ResetCredentialRequest{
-			IdentityType:  authenticationV1.IdentityType_USERNAME,
+			IdentityType:  authenticationV1.UserCredential_USERNAME,
 			Identifier:    req.Data.GetUsername(),
 			NewCredential: req.GetPassword(),
 		}); err != nil {
@@ -434,7 +434,7 @@ func (s *UserService) UserExists(ctx context.Context, req *userV1.UserExistsRequ
 }
 
 // EditUserPassword 修改用户密码
-func (s *UserService) EditUserPassword(ctx context.Context, req *adminV1.EditUserPasswordRequest) (*emptypb.Empty, error) {
+func (s *UserService) EditUserPassword(ctx context.Context, req *userV1.EditUserPasswordRequest) (*emptypb.Empty, error) {
 	// 获取操作者的用户信息
 	u, err := s.userRepo.Get(ctx, &userV1.GetUserRequest{
 		QueryBy: &userV1.GetUserRequest_Id{
@@ -446,7 +446,7 @@ func (s *UserService) EditUserPassword(ctx context.Context, req *adminV1.EditUse
 	}
 
 	if err = s.userCredentialRepo.ResetCredential(ctx, &authenticationV1.ResetCredentialRequest{
-		IdentityType:  authenticationV1.IdentityType_USERNAME,
+		IdentityType:  authenticationV1.UserCredential_USERNAME,
 		Identifier:    u.GetUsername(),
 		NewCredential: req.GetNewPassword(),
 		NeedDecrypt:   false,
@@ -456,16 +456,6 @@ func (s *UserService) EditUserPassword(ctx context.Context, req *adminV1.EditUse
 	}
 
 	return &emptypb.Empty{}, nil
-}
-
-func (s *UserService) ChangePassword(ctx context.Context, req *adminV1.ChangePasswordRequest) (*emptypb.Empty, error) {
-	err := s.userCredentialRepo.ChangeCredential(ctx, &authenticationV1.ChangeCredentialRequest{
-		IdentityType:  authenticationV1.IdentityType_USERNAME,
-		Identifier:    req.GetUsername(),
-		OldCredential: req.GetOldPassword(),
-		NewCredential: req.GetNewPassword(),
-	})
-	return &emptypb.Empty{}, err
 }
 
 // CreateDefaultUser 创建默认用户，即超级用户
@@ -496,7 +486,7 @@ func (s *UserService) CreateDefaultUser(ctx context.Context) error {
 	if err = s.userCredentialRepo.Create(ctx, &authenticationV1.CreateUserCredentialRequest{
 		Data: &authenticationV1.UserCredential{
 			UserId:         trans.Ptr(uint32(1)),
-			IdentityType:   authenticationV1.IdentityType_USERNAME.Enum(),
+			IdentityType:   authenticationV1.UserCredential_USERNAME.Enum(),
 			Identifier:     trans.Ptr(defaultUsername),
 			CredentialType: authenticationV1.UserCredential_PASSWORD_HASH.Enum(),
 			Credential:     trans.Ptr(defaultPassword),

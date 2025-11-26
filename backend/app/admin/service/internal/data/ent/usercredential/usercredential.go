@@ -37,10 +37,22 @@ const (
 	FieldStatus = "status"
 	// FieldExtraInfo holds the string denoting the extra_info field in the database.
 	FieldExtraInfo = "extra_info"
-	// FieldActivateToken holds the string denoting the activate_token field in the database.
-	FieldActivateToken = "activate_token"
-	// FieldResetToken holds the string denoting the reset_token field in the database.
-	FieldResetToken = "reset_token"
+	// FieldProvider holds the string denoting the provider field in the database.
+	FieldProvider = "provider"
+	// FieldProviderAccountID holds the string denoting the provider_account_id field in the database.
+	FieldProviderAccountID = "provider_account_id"
+	// FieldActivateTokenHash holds the string denoting the activate_token_hash field in the database.
+	FieldActivateTokenHash = "activate_token_hash"
+	// FieldActivateTokenExpiresAt holds the string denoting the activate_token_expires_at field in the database.
+	FieldActivateTokenExpiresAt = "activate_token_expires_at"
+	// FieldActivateTokenUsedAt holds the string denoting the activate_token_used_at field in the database.
+	FieldActivateTokenUsedAt = "activate_token_used_at"
+	// FieldResetTokenHash holds the string denoting the reset_token_hash field in the database.
+	FieldResetTokenHash = "reset_token_hash"
+	// FieldResetTokenExpiresAt holds the string denoting the reset_token_expires_at field in the database.
+	FieldResetTokenExpiresAt = "reset_token_expires_at"
+	// FieldResetTokenUsedAt holds the string denoting the reset_token_used_at field in the database.
+	FieldResetTokenUsedAt = "reset_token_used_at"
 	// Table holds the table name of the usercredential in the database.
 	Table = "sys_user_credentials"
 )
@@ -60,8 +72,14 @@ var Columns = []string{
 	FieldIsPrimary,
 	FieldStatus,
 	FieldExtraInfo,
-	FieldActivateToken,
-	FieldResetToken,
+	FieldProvider,
+	FieldProviderAccountID,
+	FieldActivateTokenHash,
+	FieldActivateTokenExpiresAt,
+	FieldActivateTokenUsedAt,
+	FieldResetTokenHash,
+	FieldResetTokenExpiresAt,
+	FieldResetTokenUsedAt,
 }
 
 // ValidColumn reports if the column name is valid (part of the table columns).
@@ -81,10 +99,10 @@ var (
 	CredentialValidator func(string) error
 	// DefaultIsPrimary holds the default value on creation for the "is_primary" field.
 	DefaultIsPrimary bool
-	// ActivateTokenValidator is a validator for the "activate_token" field. It is called by the builders before save.
-	ActivateTokenValidator func(string) error
-	// ResetTokenValidator is a validator for the "reset_token" field. It is called by the builders before save.
-	ResetTokenValidator func(string) error
+	// ActivateTokenHashValidator is a validator for the "activate_token_hash" field. It is called by the builders before save.
+	ActivateTokenHashValidator func(string) error
+	// ResetTokenHashValidator is a validator for the "reset_token_hash" field. It is called by the builders before save.
+	ResetTokenHashValidator func(string) error
 	// IDValidator is a validator for the "id" field. It is called by the builders before save.
 	IDValidator func(uint32) error
 )
@@ -97,44 +115,15 @@ const DefaultIdentityType = IdentityTypeUsername
 
 // IdentityType values.
 const (
-	IdentityTypeUsername    IdentityType = "USERNAME"
-	IdentityTypeUserId      IdentityType = "USERID"
-	IdentityTypeEmail       IdentityType = "EMAIL"
-	IdentityTypePhone       IdentityType = "PHONE"
-	IdentityTypeWechat      IdentityType = "WECHAT"
-	IdentityTypeQQ          IdentityType = "QQ"
-	IdentityTypeWeibo       IdentityType = "WEIBO"
-	IdentityTypeDouYin      IdentityType = "DOUYIN"
-	IdentityTypeKuaiShou    IdentityType = "KUAISHOU"
-	IdentityTypeBaidu       IdentityType = "BAIDU"
-	IdentityTypeAlipay      IdentityType = "ALIPAY"
-	IdentityTypeTaoBao      IdentityType = "TAOBAO"
-	IdentityTypeJD          IdentityType = "JD"
-	IdentityTypeMeiTuan     IdentityType = "MEITUAN"
-	IdentityTypeDingTalk    IdentityType = "DINGTALK"
-	IdentityTypeBiliBili    IdentityType = "BILIBILI"
-	IdentityTypeXiaohongshu IdentityType = "XIAOHONGSHU"
-	IdentityTypeGoogle      IdentityType = "GOOGLE"
-	IdentityTypeFacebook    IdentityType = "FACEBOOK"
-	IdentityTypeApple       IdentityType = "APPLE"
-	IdentityTypeTelegram    IdentityType = "TELEGRAM"
-	IdentityTypeTwitter     IdentityType = "TWITTER"
-	IdentityTypeLinkedIn    IdentityType = "LINKEDIN"
-	IdentityTypeGitHub      IdentityType = "GITHUB"
-	IdentityTypeMicrosoft   IdentityType = "MICROSOFT"
-	IdentityTypeDiscord     IdentityType = "DISCORD"
-	IdentityTypeSlack       IdentityType = "SLACK"
-	IdentityTypeInstagram   IdentityType = "INSTAGRAM"
-	IdentityTypeTikTok      IdentityType = "TIKTOK"
-	IdentityTypeReddit      IdentityType = "REDDIT"
-	IdentityTypeYouTube     IdentityType = "YOUTUBE"
-	IdentityTypeSpotify     IdentityType = "SPOTIFY"
-	IdentityTypePinterest   IdentityType = "PINTEREST"
-	IdentityTypeSnapchat    IdentityType = "SNAPCHAT"
-	IdentityTypeTumblr      IdentityType = "TUMBLR"
-	IdentityTypeYahoo       IdentityType = "YAHOO"
-	IdentityTypeWhatsApp    IdentityType = "WHATSAPP"
-	IdentityTypeLINE        IdentityType = "LINE"
+	IdentityTypeUsername       IdentityType = "USERNAME"
+	IdentityTypeUserId         IdentityType = "USERID"
+	IdentityTypeEmail          IdentityType = "EMAIL"
+	IdentityTypePhone          IdentityType = "PHONE"
+	IdentityTypeSocialOauth    IdentityType = "SOCIAL_OAUTH"
+	IdentityTypeEnterpriseSso  IdentityType = "ENTERPRISE_SSO"
+	IdentityTypeIdentityApiKey IdentityType = "IDENTITY_API_KEY"
+	IdentityTypeDeviceId       IdentityType = "DEVICE_ID"
+	IdentityTypeCustom         IdentityType = "CUSTOM"
 )
 
 func (it IdentityType) String() string {
@@ -144,7 +133,7 @@ func (it IdentityType) String() string {
 // IdentityTypeValidator is a validator for the "identity_type" field enum values. It is called by the builders before save.
 func IdentityTypeValidator(it IdentityType) error {
 	switch it {
-	case IdentityTypeUsername, IdentityTypeUserId, IdentityTypeEmail, IdentityTypePhone, IdentityTypeWechat, IdentityTypeQQ, IdentityTypeWeibo, IdentityTypeDouYin, IdentityTypeKuaiShou, IdentityTypeBaidu, IdentityTypeAlipay, IdentityTypeTaoBao, IdentityTypeJD, IdentityTypeMeiTuan, IdentityTypeDingTalk, IdentityTypeBiliBili, IdentityTypeXiaohongshu, IdentityTypeGoogle, IdentityTypeFacebook, IdentityTypeApple, IdentityTypeTelegram, IdentityTypeTwitter, IdentityTypeLinkedIn, IdentityTypeGitHub, IdentityTypeMicrosoft, IdentityTypeDiscord, IdentityTypeSlack, IdentityTypeInstagram, IdentityTypeTikTok, IdentityTypeReddit, IdentityTypeYouTube, IdentityTypeSpotify, IdentityTypePinterest, IdentityTypeSnapchat, IdentityTypeTumblr, IdentityTypeYahoo, IdentityTypeWhatsApp, IdentityTypeLINE:
+	case IdentityTypeUsername, IdentityTypeUserId, IdentityTypeEmail, IdentityTypePhone, IdentityTypeSocialOauth, IdentityTypeEnterpriseSso, IdentityTypeIdentityApiKey, IdentityTypeDeviceId, IdentityTypeCustom:
 		return nil
 	default:
 		return fmt.Errorf("usercredential: invalid enum value for identity_type field: %q", it)
@@ -159,43 +148,31 @@ const DefaultCredentialType = CredentialTypePasswordHash
 
 // CredentialType values.
 const (
-	CredentialTypePasswordHash               CredentialType = "PASSWORD_HASH"
-	CredentialTypeAccessToken                CredentialType = "ACCESS_TOKEN"
-	CredentialTypeRefreshToken               CredentialType = "REFRESH_TOKEN"
-	CredentialTypeEmailVerificationCode      CredentialType = "EMAIL_VERIFICATION_CODE"
-	CredentialTypePhoneVerificationCode      CredentialType = "PHONE_VERIFICATION_CODE"
-	CredentialTypeOauthToken                 CredentialType = "OAUTH_TOKEN"
-	CredentialTypeApiKey                     CredentialType = "API_KEY"
-	CredentialTypeSsoToken                   CredentialType = "SSO_TOKEN"
-	CredentialTypeJWT                        CredentialType = "JWT"
-	CredentialTypeSamlAssertion              CredentialType = "SAML_ASSERTION"
-	CredentialTypeOpenidConnectIdToken       CredentialType = "OPENID_CONNECT_ID_TOKEN"
-	CredentialTypeSessionCookie              CredentialType = "SESSION_COOKIE"
-	CredentialTypeTemporaryCredential        CredentialType = "TEMPORARY_CREDENTIAL"
-	CredentialTypeCustomCredential           CredentialType = "CUSTOM_CREDENTIAL"
-	CredentialTypeBiometricData              CredentialType = "BIOMETRIC_DATA"
-	CredentialTypeSecurityKey                CredentialType = "SECURITY_KEY"
-	CredentialTypeOTP                        CredentialType = "OTP"
-	CredentialTypeSmartCard                  CredentialType = "SMART_CARD"
-	CredentialTypeCryptographicCertificate   CredentialType = "CRYPTOGRAPHIC_CERTIFICATE"
-	CredentialTypeBiometricToken             CredentialType = "BIOMETRIC_TOKEN"
-	CredentialTypeDeviceFingerprint          CredentialType = "DEVICE_FINGERPRINT"
-	CredentialTypeHardwareToken              CredentialType = "HARDWARE_TOKEN"
-	CredentialTypeSoftwareToken              CredentialType = "SOFTWARE_TOKEN"
-	CredentialTypeSecurityQuestion           CredentialType = "SECURITY_QUESTION"
-	CredentialTypeSecurityPin                CredentialType = "SECURITY_PIN"
-	CredentialTypeTwoFactorAuthentication    CredentialType = "TWO_FACTOR_AUTHENTICATION"
-	CredentialTypeMultiFactorAuthentication  CredentialType = "MULTI_FACTOR_AUTHENTICATION"
-	CredentialTypePasswordlessAuthentication CredentialType = "PASSWORDLESS_AUTHENTICATION"
-	CredentialTypeSocialLoginToken           CredentialType = "SOCIAL_LOGIN_TOKEN"
-	CredentialTypeSsoSession                 CredentialType = "SSO_SESSION"
-	CredentialTypeApiSecret                  CredentialType = "API_SECRET"
-	CredentialTypeCustomToken                CredentialType = "CUSTOM_TOKEN"
-	CredentialTypeOauth2ClientCredentials    CredentialType = "OAUTH2_CLIENT_CREDENTIALS"
-	CredentialTypeOauth2AuthorizationCode    CredentialType = "OAUTH2_AUTHORIZATION_CODE"
-	CredentialTypeOauth2ImplicitGrant        CredentialType = "OAUTH2_IMPLICIT_GRANT"
-	CredentialTypeOauth2PasswordGrant        CredentialType = "OAUTH2_PASSWORD_GRANT"
-	CredentialTypeOauth2RefreshGrant         CredentialType = "OAUTH2_REFRESH_GRANT"
+	CredentialTypePasswordHash           CredentialType = "PASSWORD_HASH"
+	CredentialTypeApiKey                 CredentialType = "API_KEY"
+	CredentialTypeApiSecret              CredentialType = "API_SECRET"
+	CredentialTypeAccessToken            CredentialType = "ACCESS_TOKEN"
+	CredentialTypeRefreshToken           CredentialType = "REFRESH_TOKEN"
+	CredentialTypeJWT                    CredentialType = "JWT"
+	CredentialTypeOauthToken             CredentialType = "OAUTH_TOKEN"
+	CredentialTypeOauthAuthorizationCode CredentialType = "OAUTH_AUTHORIZATION_CODE"
+	CredentialTypeOauthClientCredentials CredentialType = "OAUTH_CLIENT_CREDENTIALS"
+	CredentialTypeOTP                    CredentialType = "OTP"
+	CredentialTypeTOTP                   CredentialType = "TOTP"
+	CredentialTypeSmsOtp                 CredentialType = "SMS_OTP"
+	CredentialTypeEmailOtp               CredentialType = "EMAIL_OTP"
+	CredentialTypeHardwareToken          CredentialType = "HARDWARE_TOKEN"
+	CredentialTypeSoftwareToken          CredentialType = "SOFTWARE_TOKEN"
+	CredentialTypeSecurityQuestion       CredentialType = "SECURITY_QUESTION"
+	CredentialTypeBiometric              CredentialType = "BIOMETRIC"
+	CredentialTypeBiometricToken         CredentialType = "BIOMETRIC_TOKEN"
+	CredentialTypeSsoToken               CredentialType = "SSO_TOKEN"
+	CredentialTypeSamlAssertion          CredentialType = "SAML_ASSERTION"
+	CredentialTypeOpenidConnectIdToken   CredentialType = "OPENID_CONNECT_ID_TOKEN"
+	CredentialTypeSessionCookie          CredentialType = "SESSION_COOKIE"
+	CredentialTypeTemporaryCredential    CredentialType = "TEMPORARY_CREDENTIAL"
+	CredentialTypeCustom                 CredentialType = "CUSTOM"
+	CredentialTypeReservedForFuture      CredentialType = "RESERVED_FOR_FUTURE"
 )
 
 func (ct CredentialType) String() string {
@@ -205,7 +182,7 @@ func (ct CredentialType) String() string {
 // CredentialTypeValidator is a validator for the "credential_type" field enum values. It is called by the builders before save.
 func CredentialTypeValidator(ct CredentialType) error {
 	switch ct {
-	case CredentialTypePasswordHash, CredentialTypeAccessToken, CredentialTypeRefreshToken, CredentialTypeEmailVerificationCode, CredentialTypePhoneVerificationCode, CredentialTypeOauthToken, CredentialTypeApiKey, CredentialTypeSsoToken, CredentialTypeJWT, CredentialTypeSamlAssertion, CredentialTypeOpenidConnectIdToken, CredentialTypeSessionCookie, CredentialTypeTemporaryCredential, CredentialTypeCustomCredential, CredentialTypeBiometricData, CredentialTypeSecurityKey, CredentialTypeOTP, CredentialTypeSmartCard, CredentialTypeCryptographicCertificate, CredentialTypeBiometricToken, CredentialTypeDeviceFingerprint, CredentialTypeHardwareToken, CredentialTypeSoftwareToken, CredentialTypeSecurityQuestion, CredentialTypeSecurityPin, CredentialTypeTwoFactorAuthentication, CredentialTypeMultiFactorAuthentication, CredentialTypePasswordlessAuthentication, CredentialTypeSocialLoginToken, CredentialTypeSsoSession, CredentialTypeApiSecret, CredentialTypeCustomToken, CredentialTypeOauth2ClientCredentials, CredentialTypeOauth2AuthorizationCode, CredentialTypeOauth2ImplicitGrant, CredentialTypeOauth2PasswordGrant, CredentialTypeOauth2RefreshGrant:
+	case CredentialTypePasswordHash, CredentialTypeApiKey, CredentialTypeApiSecret, CredentialTypeAccessToken, CredentialTypeRefreshToken, CredentialTypeJWT, CredentialTypeOauthToken, CredentialTypeOauthAuthorizationCode, CredentialTypeOauthClientCredentials, CredentialTypeOTP, CredentialTypeTOTP, CredentialTypeSmsOtp, CredentialTypeEmailOtp, CredentialTypeHardwareToken, CredentialTypeSoftwareToken, CredentialTypeSecurityQuestion, CredentialTypeBiometric, CredentialTypeBiometricToken, CredentialTypeSsoToken, CredentialTypeSamlAssertion, CredentialTypeOpenidConnectIdToken, CredentialTypeSessionCookie, CredentialTypeTemporaryCredential, CredentialTypeCustom, CredentialTypeReservedForFuture:
 		return nil
 	default:
 		return fmt.Errorf("usercredential: invalid enum value for credential_type field: %q", ct)
@@ -311,12 +288,42 @@ func ByExtraInfo(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldExtraInfo, opts...).ToFunc()
 }
 
-// ByActivateToken orders the results by the activate_token field.
-func ByActivateToken(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldActivateToken, opts...).ToFunc()
+// ByProvider orders the results by the provider field.
+func ByProvider(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldProvider, opts...).ToFunc()
 }
 
-// ByResetToken orders the results by the reset_token field.
-func ByResetToken(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldResetToken, opts...).ToFunc()
+// ByProviderAccountID orders the results by the provider_account_id field.
+func ByProviderAccountID(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldProviderAccountID, opts...).ToFunc()
+}
+
+// ByActivateTokenHash orders the results by the activate_token_hash field.
+func ByActivateTokenHash(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldActivateTokenHash, opts...).ToFunc()
+}
+
+// ByActivateTokenExpiresAt orders the results by the activate_token_expires_at field.
+func ByActivateTokenExpiresAt(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldActivateTokenExpiresAt, opts...).ToFunc()
+}
+
+// ByActivateTokenUsedAt orders the results by the activate_token_used_at field.
+func ByActivateTokenUsedAt(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldActivateTokenUsedAt, opts...).ToFunc()
+}
+
+// ByResetTokenHash orders the results by the reset_token_hash field.
+func ByResetTokenHash(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldResetTokenHash, opts...).ToFunc()
+}
+
+// ByResetTokenExpiresAt orders the results by the reset_token_expires_at field.
+func ByResetTokenExpiresAt(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldResetTokenExpiresAt, opts...).ToFunc()
+}
+
+// ByResetTokenUsedAt orders the results by the reset_token_used_at field.
+func ByResetTokenUsedAt(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldResetTokenUsedAt, opts...).ToFunc()
 }

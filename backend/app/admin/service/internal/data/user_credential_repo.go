@@ -32,8 +32,8 @@ type UserCredentialRepo struct {
 
 	mapper                  *mapper.CopierMapper[authenticationV1.UserCredential, ent.UserCredential]
 	statusConverter         *mapper.EnumTypeConverter[authenticationV1.UserCredential_Status, usercredential.Status]
-	identityTypeConverter   *mapper.EnumTypeConverter[authenticationV1.IdentityType, usercredential.IdentityType]
-	credentialTypeConverter *mapper.EnumTypeConverter[authenticationV1.UserCredential_Type, usercredential.CredentialType]
+	identityTypeConverter   *mapper.EnumTypeConverter[authenticationV1.UserCredential_IdentityType, usercredential.IdentityType]
+	credentialTypeConverter *mapper.EnumTypeConverter[authenticationV1.UserCredential_CredentialType, usercredential.CredentialType]
 
 	passwordCrypto password.Crypto
 }
@@ -45,8 +45,8 @@ func NewUserCredentialRepo(logger log.Logger, data *Data, passwordCrypto passwor
 		passwordCrypto:          passwordCrypto,
 		mapper:                  mapper.NewCopierMapper[authenticationV1.UserCredential, ent.UserCredential](),
 		statusConverter:         mapper.NewEnumTypeConverter[authenticationV1.UserCredential_Status, usercredential.Status](authenticationV1.UserCredential_Status_name, authenticationV1.UserCredential_Status_value),
-		identityTypeConverter:   mapper.NewEnumTypeConverter[authenticationV1.IdentityType, usercredential.IdentityType](authenticationV1.IdentityType_name, authenticationV1.IdentityType_value),
-		credentialTypeConverter: mapper.NewEnumTypeConverter[authenticationV1.UserCredential_Type, usercredential.CredentialType](authenticationV1.UserCredential_Type_name, authenticationV1.UserCredential_Type_value),
+		identityTypeConverter:   mapper.NewEnumTypeConverter[authenticationV1.UserCredential_IdentityType, usercredential.IdentityType](authenticationV1.UserCredential_IdentityType_name, authenticationV1.UserCredential_IdentityType_value),
+		credentialTypeConverter: mapper.NewEnumTypeConverter[authenticationV1.UserCredential_CredentialType, usercredential.CredentialType](authenticationV1.UserCredential_CredentialType_name, authenticationV1.UserCredential_CredentialType_value),
 	}
 
 	repo.init()
@@ -161,6 +161,8 @@ func (r *UserCredentialRepo) Create(ctx context.Context, req *authenticationV1.C
 		SetNillableIsPrimary(req.Data.IsPrimary).
 		SetNillableStatus(r.statusConverter.ToEntity(req.Data.Status)).
 		SetNillableExtraInfo(req.Data.ExtraInfo).
+		SetNillableProvider(req.Data.Provider).
+		SetNillableProviderAccountID(req.Data.ProviderAccountId).
 		SetNillableCreatedAt(timeutil.TimestamppbToTime(req.Data.CreatedAt))
 
 	if req.Data.TenantId == nil {
@@ -220,6 +222,8 @@ func (r *UserCredentialRepo) Update(ctx context.Context, req *authenticationV1.U
 		SetNillableIsPrimary(req.Data.IsPrimary).
 		SetNillableStatus(r.statusConverter.ToEntity(req.Data.Status)).
 		SetNillableExtraInfo(req.Data.ExtraInfo).
+		SetNillableProvider(req.Data.Provider).
+		SetNillableProviderAccountID(req.Data.ProviderAccountId).
 		SetNillableUpdatedAt(timeutil.TimestamppbToTime(req.Data.UpdatedAt))
 
 	if req.Data.UpdatedAt == nil {
@@ -276,7 +280,7 @@ func (r *UserCredentialRepo) DeleteByUserId(ctx context.Context, userId uint32) 
 	}
 }
 
-func (r *UserCredentialRepo) DeleteByIdentifier(ctx context.Context, identityType authenticationV1.IdentityType, identifier string) error {
+func (r *UserCredentialRepo) DeleteByIdentifier(ctx context.Context, identityType authenticationV1.UserCredential_IdentityType, identifier string) error {
 	builder := r.data.db.Client().UserCredential.Delete()
 	builder.Where(
 		usercredential.IdentityTypeEQ(*r.identityTypeConverter.ToEntity(&identityType)),

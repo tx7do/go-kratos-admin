@@ -1516,6 +1516,82 @@ paths:
                 "200":
                     description: OK
                     content: {}
+    /admin/v1/me/avatar:
+        post:
+            tags:
+                - UserProfileService
+            description: 上传头像
+            operationId: UserProfileService_UploadAvatar
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/UploadAvatarRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/UploadAvatarResponse'
+        delete:
+            tags:
+                - UserProfileService
+            description: 删除头像
+            operationId: UserProfileService_DeleteAvatar
+            responses:
+                "200":
+                    description: OK
+                    content: {}
+    /admin/v1/me/contact:
+        post:
+            tags:
+                - UserProfileService
+            description: 绑定手机号码/邮箱
+            operationId: UserProfileService_BindContact
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/BindContactRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content: {}
+    /admin/v1/me/contact/verify:
+        post:
+            tags:
+                - UserProfileService
+            description: 验证手机号码/邮箱
+            operationId: UserProfileService_VerifyContact
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/VerifyContactRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content: {}
+    /admin/v1/me/password:
+        post:
+            tags:
+                - UserProfileService
+            description: 修改用户密码
+            operationId: UserProfileService_ChangePassword
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/ChangePasswordRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content: {}
     /admin/v1/menus:
         get:
             tags:
@@ -2620,22 +2696,6 @@ paths:
                 "200":
                     description: OK
                     content: {}
-    /admin/v1/users/change-password:
-        post:
-            tags:
-                - UserService
-            description: 修改用户密码
-            operationId: UserService_ChangePassword
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/ChangePasswordRequest'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content: {}
     /admin/v1/users/{data.id}:
         put:
             tags:
@@ -2726,7 +2786,7 @@ paths:
                 "200":
                     description: OK
                     content: {}
-    /admin/v1/users_exists:
+    /admin/v1/users:exists:
         get:
             tags:
                 - UserService
@@ -3079,19 +3139,41 @@ components:
                     description: 删除时间
                     format: date-time
             description: API资源
+        BindContactRequest:
+            type: object
+            properties:
+                phone:
+                    $ref: '#/components/schemas/BindPhoneRequest'
+                email:
+                    $ref: '#/components/schemas/BindEmailRequest'
+        BindEmailRequest:
+            type: object
+            properties:
+                email:
+                    type: string
+                    description: 邮箱地址
+                verificationCode:
+                    type: string
+                    description: 邮箱验证码（可选）
+        BindPhoneRequest:
+            type: object
+            properties:
+                phone:
+                    type: string
+                    description: 手机号码
+                code:
+                    type: string
+                    description: 验证码
         ChangePasswordRequest:
             type: object
             properties:
-                username:
-                    type: string
-                    description: 用户名
                 oldPassword:
                     type: string
                     description: 旧密码
                 newPassword:
                     type: string
                     description: 新密码
-            description: 修改用户密码 - 请求
+            description: 修改用户密码（需要验证旧密码） - 请求
         ControlTaskRequest:
             type: object
             properties:
@@ -3414,7 +3496,19 @@ components:
                 newPassword:
                     type: string
                     description: 新密码
-            description: 修改用户密码 - 请求
+            description: 强制修改用户密码（不验证） - 请求
+        EmailVerification:
+            required:
+                - code
+            type: object
+            properties:
+                email:
+                    type: string
+                    description: 邮箱地址
+                code:
+                    type: string
+                    description: 邮箱验证码
+            description: 邮箱验证
         File:
             type: object
             properties:
@@ -4223,6 +4317,18 @@ components:
                         type: string
                     description: 表单数据，使用POST方法时填写
             description: 获取对象存储上传链接 - 回应
+        PhoneVerification:
+            required:
+                - code
+            type: object
+            properties:
+                phone:
+                    type: string
+                    description: 手机号码，带国家码
+                code:
+                    type: string
+                    description: 短信验证码
+            description: 手机验证
         Position:
             type: object
             properties:
@@ -5206,6 +5312,18 @@ components:
                     type: boolean
                     description: 如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。
             description: 更新用户 - 请求
+        UploadAvatarRequest:
+            type: object
+            properties:
+                imageBase64:
+                    type: string
+                imageUrl:
+                    type: string
+        UploadAvatarResponse:
+            type: object
+            properties:
+                url:
+                    type: string
         UploadOssFileRequest:
             type: object
             properties:
@@ -5381,6 +5499,16 @@ components:
                 exist:
                     type: boolean
             description: 用户是否存在 - 答复
+        VerifyContactRequest:
+            type: object
+            properties:
+                phone:
+                    $ref: '#/components/schemas/PhoneVerification'
+                email:
+                    $ref: '#/components/schemas/EmailVerification'
+                verificationId:
+                    type: string
+                    description: 服务端生成的验证码会话ID（可选）
     responses:
         default:
             description: default kratos response

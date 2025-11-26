@@ -985,6 +985,665 @@ func (x *BatchCreateUsersResponse) GetCreatedIds() []int32 {
 	return nil
 }
 
+type GetUsersByIdsRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Ids           []uint32               `protobuf:"varint,1,rep,packed,name=ids,proto3" json:"ids,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetUsersByIdsRequest) Reset() {
+	*x = GetUsersByIdsRequest{}
+	mi := &file_user_service_v1_user_proto_msgTypes[10]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetUsersByIdsRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetUsersByIdsRequest) ProtoMessage() {}
+
+func (x *GetUsersByIdsRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_user_service_v1_user_proto_msgTypes[10]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetUsersByIdsRequest.ProtoReflect.Descriptor instead.
+func (*GetUsersByIdsRequest) Descriptor() ([]byte, []int) {
+	return file_user_service_v1_user_proto_rawDescGZIP(), []int{10}
+}
+
+func (x *GetUsersByIdsRequest) GetIds() []uint32 {
+	if x != nil {
+		return x.Ids
+	}
+	return nil
+}
+
+// 强制修改用户密码（不验证） - 请求
+type EditUserPasswordRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	UserId        uint32                 `protobuf:"varint,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`               // 用户ID
+	NewPassword   string                 `protobuf:"bytes,2,opt,name=new_password,json=newPassword,proto3" json:"new_password,omitempty"` // 新密码
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *EditUserPasswordRequest) Reset() {
+	*x = EditUserPasswordRequest{}
+	mi := &file_user_service_v1_user_proto_msgTypes[11]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *EditUserPasswordRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*EditUserPasswordRequest) ProtoMessage() {}
+
+func (x *EditUserPasswordRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_user_service_v1_user_proto_msgTypes[11]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use EditUserPasswordRequest.ProtoReflect.Descriptor instead.
+func (*EditUserPasswordRequest) Descriptor() ([]byte, []int) {
+	return file_user_service_v1_user_proto_rawDescGZIP(), []int{11}
+}
+
+func (x *EditUserPasswordRequest) GetUserId() uint32 {
+	if x != nil {
+		return x.UserId
+	}
+	return 0
+}
+
+func (x *EditUserPasswordRequest) GetNewPassword() string {
+	if x != nil {
+		return x.NewPassword
+	}
+	return ""
+}
+
+// 修改用户密码（需要验证旧密码） - 请求
+type ChangePasswordRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	OldPassword   string                 `protobuf:"bytes,1,opt,name=old_password,json=oldPassword,proto3" json:"old_password,omitempty"` // 旧密码
+	NewPassword   string                 `protobuf:"bytes,2,opt,name=new_password,json=newPassword,proto3" json:"new_password,omitempty"` // 新密码
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ChangePasswordRequest) Reset() {
+	*x = ChangePasswordRequest{}
+	mi := &file_user_service_v1_user_proto_msgTypes[12]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ChangePasswordRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ChangePasswordRequest) ProtoMessage() {}
+
+func (x *ChangePasswordRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_user_service_v1_user_proto_msgTypes[12]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ChangePasswordRequest.ProtoReflect.Descriptor instead.
+func (*ChangePasswordRequest) Descriptor() ([]byte, []int) {
+	return file_user_service_v1_user_proto_rawDescGZIP(), []int{12}
+}
+
+func (x *ChangePasswordRequest) GetOldPassword() string {
+	if x != nil {
+		return x.OldPassword
+	}
+	return ""
+}
+
+func (x *ChangePasswordRequest) GetNewPassword() string {
+	if x != nil {
+		return x.NewPassword
+	}
+	return ""
+}
+
+type UploadAvatarRequest struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Types that are valid to be assigned to Source:
+	//
+	//	*UploadAvatarRequest_ImageBase64
+	//	*UploadAvatarRequest_ImageUrl
+	Source        isUploadAvatarRequest_Source `protobuf_oneof:"source"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UploadAvatarRequest) Reset() {
+	*x = UploadAvatarRequest{}
+	mi := &file_user_service_v1_user_proto_msgTypes[13]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UploadAvatarRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UploadAvatarRequest) ProtoMessage() {}
+
+func (x *UploadAvatarRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_user_service_v1_user_proto_msgTypes[13]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UploadAvatarRequest.ProtoReflect.Descriptor instead.
+func (*UploadAvatarRequest) Descriptor() ([]byte, []int) {
+	return file_user_service_v1_user_proto_rawDescGZIP(), []int{13}
+}
+
+func (x *UploadAvatarRequest) GetSource() isUploadAvatarRequest_Source {
+	if x != nil {
+		return x.Source
+	}
+	return nil
+}
+
+func (x *UploadAvatarRequest) GetImageBase64() string {
+	if x != nil {
+		if x, ok := x.Source.(*UploadAvatarRequest_ImageBase64); ok {
+			return x.ImageBase64
+		}
+	}
+	return ""
+}
+
+func (x *UploadAvatarRequest) GetImageUrl() string {
+	if x != nil {
+		if x, ok := x.Source.(*UploadAvatarRequest_ImageUrl); ok {
+			return x.ImageUrl
+		}
+	}
+	return ""
+}
+
+type isUploadAvatarRequest_Source interface {
+	isUploadAvatarRequest_Source()
+}
+
+type UploadAvatarRequest_ImageBase64 struct {
+	ImageBase64 string `protobuf:"bytes,1,opt,name=image_base64,json=imageBase64,proto3,oneof"`
+}
+
+type UploadAvatarRequest_ImageUrl struct {
+	ImageUrl string `protobuf:"bytes,2,opt,name=image_url,json=imageUrl,proto3,oneof"`
+}
+
+func (*UploadAvatarRequest_ImageBase64) isUploadAvatarRequest_Source() {}
+
+func (*UploadAvatarRequest_ImageUrl) isUploadAvatarRequest_Source() {}
+
+type UploadAvatarResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Url           string                 `protobuf:"bytes,1,opt,name=url,proto3" json:"url,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UploadAvatarResponse) Reset() {
+	*x = UploadAvatarResponse{}
+	mi := &file_user_service_v1_user_proto_msgTypes[14]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UploadAvatarResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UploadAvatarResponse) ProtoMessage() {}
+
+func (x *UploadAvatarResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_user_service_v1_user_proto_msgTypes[14]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UploadAvatarResponse.ProtoReflect.Descriptor instead.
+func (*UploadAvatarResponse) Descriptor() ([]byte, []int) {
+	return file_user_service_v1_user_proto_rawDescGZIP(), []int{14}
+}
+
+func (x *UploadAvatarResponse) GetUrl() string {
+	if x != nil {
+		return x.Url
+	}
+	return ""
+}
+
+type BindContactRequest struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Types that are valid to be assigned to Contact:
+	//
+	//	*BindContactRequest_Phone
+	//	*BindContactRequest_Email
+	Contact       isBindContactRequest_Contact `protobuf_oneof:"contact"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *BindContactRequest) Reset() {
+	*x = BindContactRequest{}
+	mi := &file_user_service_v1_user_proto_msgTypes[15]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *BindContactRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*BindContactRequest) ProtoMessage() {}
+
+func (x *BindContactRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_user_service_v1_user_proto_msgTypes[15]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use BindContactRequest.ProtoReflect.Descriptor instead.
+func (*BindContactRequest) Descriptor() ([]byte, []int) {
+	return file_user_service_v1_user_proto_rawDescGZIP(), []int{15}
+}
+
+func (x *BindContactRequest) GetContact() isBindContactRequest_Contact {
+	if x != nil {
+		return x.Contact
+	}
+	return nil
+}
+
+func (x *BindContactRequest) GetPhone() *BindPhoneRequest {
+	if x != nil {
+		if x, ok := x.Contact.(*BindContactRequest_Phone); ok {
+			return x.Phone
+		}
+	}
+	return nil
+}
+
+func (x *BindContactRequest) GetEmail() *BindEmailRequest {
+	if x != nil {
+		if x, ok := x.Contact.(*BindContactRequest_Email); ok {
+			return x.Email
+		}
+	}
+	return nil
+}
+
+type isBindContactRequest_Contact interface {
+	isBindContactRequest_Contact()
+}
+
+type BindContactRequest_Phone struct {
+	Phone *BindPhoneRequest `protobuf:"bytes,1,opt,name=phone,proto3,oneof"`
+}
+
+type BindContactRequest_Email struct {
+	Email *BindEmailRequest `protobuf:"bytes,2,opt,name=email,proto3,oneof"`
+}
+
+func (*BindContactRequest_Phone) isBindContactRequest_Contact() {}
+
+func (*BindContactRequest_Email) isBindContactRequest_Contact() {}
+
+type BindPhoneRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Phone         string                 `protobuf:"bytes,1,opt,name=phone,proto3" json:"phone,omitempty"`
+	Code          string                 `protobuf:"bytes,2,opt,name=code,proto3" json:"code,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *BindPhoneRequest) Reset() {
+	*x = BindPhoneRequest{}
+	mi := &file_user_service_v1_user_proto_msgTypes[16]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *BindPhoneRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*BindPhoneRequest) ProtoMessage() {}
+
+func (x *BindPhoneRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_user_service_v1_user_proto_msgTypes[16]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use BindPhoneRequest.ProtoReflect.Descriptor instead.
+func (*BindPhoneRequest) Descriptor() ([]byte, []int) {
+	return file_user_service_v1_user_proto_rawDescGZIP(), []int{16}
+}
+
+func (x *BindPhoneRequest) GetPhone() string {
+	if x != nil {
+		return x.Phone
+	}
+	return ""
+}
+
+func (x *BindPhoneRequest) GetCode() string {
+	if x != nil {
+		return x.Code
+	}
+	return ""
+}
+
+type BindEmailRequest struct {
+	state            protoimpl.MessageState `protogen:"open.v1"`
+	Email            string                 `protobuf:"bytes,1,opt,name=email,proto3" json:"email,omitempty"`
+	VerificationCode *string                `protobuf:"bytes,2,opt,name=verification_code,json=verificationCode,proto3,oneof" json:"verification_code,omitempty"`
+	unknownFields    protoimpl.UnknownFields
+	sizeCache        protoimpl.SizeCache
+}
+
+func (x *BindEmailRequest) Reset() {
+	*x = BindEmailRequest{}
+	mi := &file_user_service_v1_user_proto_msgTypes[17]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *BindEmailRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*BindEmailRequest) ProtoMessage() {}
+
+func (x *BindEmailRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_user_service_v1_user_proto_msgTypes[17]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use BindEmailRequest.ProtoReflect.Descriptor instead.
+func (*BindEmailRequest) Descriptor() ([]byte, []int) {
+	return file_user_service_v1_user_proto_rawDescGZIP(), []int{17}
+}
+
+func (x *BindEmailRequest) GetEmail() string {
+	if x != nil {
+		return x.Email
+	}
+	return ""
+}
+
+func (x *BindEmailRequest) GetVerificationCode() string {
+	if x != nil && x.VerificationCode != nil {
+		return *x.VerificationCode
+	}
+	return ""
+}
+
+type VerifyContactRequest struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Types that are valid to be assigned to Contact:
+	//
+	//	*VerifyContactRequest_Phone
+	//	*VerifyContactRequest_Email
+	Contact isVerifyContactRequest_Contact `protobuf_oneof:"contact"`
+	// 可选：服务端生成的验证码会话 id（用于多步骤或回调验证）
+	VerificationId *string `protobuf:"bytes,3,opt,name=verification_id,json=verificationId,proto3,oneof" json:"verification_id,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
+}
+
+func (x *VerifyContactRequest) Reset() {
+	*x = VerifyContactRequest{}
+	mi := &file_user_service_v1_user_proto_msgTypes[18]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *VerifyContactRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*VerifyContactRequest) ProtoMessage() {}
+
+func (x *VerifyContactRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_user_service_v1_user_proto_msgTypes[18]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use VerifyContactRequest.ProtoReflect.Descriptor instead.
+func (*VerifyContactRequest) Descriptor() ([]byte, []int) {
+	return file_user_service_v1_user_proto_rawDescGZIP(), []int{18}
+}
+
+func (x *VerifyContactRequest) GetContact() isVerifyContactRequest_Contact {
+	if x != nil {
+		return x.Contact
+	}
+	return nil
+}
+
+func (x *VerifyContactRequest) GetPhone() *PhoneVerification {
+	if x != nil {
+		if x, ok := x.Contact.(*VerifyContactRequest_Phone); ok {
+			return x.Phone
+		}
+	}
+	return nil
+}
+
+func (x *VerifyContactRequest) GetEmail() *EmailVerification {
+	if x != nil {
+		if x, ok := x.Contact.(*VerifyContactRequest_Email); ok {
+			return x.Email
+		}
+	}
+	return nil
+}
+
+func (x *VerifyContactRequest) GetVerificationId() string {
+	if x != nil && x.VerificationId != nil {
+		return *x.VerificationId
+	}
+	return ""
+}
+
+type isVerifyContactRequest_Contact interface {
+	isVerifyContactRequest_Contact()
+}
+
+type VerifyContactRequest_Phone struct {
+	Phone *PhoneVerification `protobuf:"bytes,1,opt,name=phone,proto3,oneof"`
+}
+
+type VerifyContactRequest_Email struct {
+	Email *EmailVerification `protobuf:"bytes,2,opt,name=email,proto3,oneof"`
+}
+
+func (*VerifyContactRequest_Phone) isVerifyContactRequest_Contact() {}
+
+func (*VerifyContactRequest_Email) isVerifyContactRequest_Contact() {}
+
+// 手机验证
+type PhoneVerification struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Phone         string                 `protobuf:"bytes,1,opt,name=phone,proto3" json:"phone,omitempty"`
+	Code          string                 `protobuf:"bytes,2,opt,name=code,proto3" json:"code,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *PhoneVerification) Reset() {
+	*x = PhoneVerification{}
+	mi := &file_user_service_v1_user_proto_msgTypes[19]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *PhoneVerification) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*PhoneVerification) ProtoMessage() {}
+
+func (x *PhoneVerification) ProtoReflect() protoreflect.Message {
+	mi := &file_user_service_v1_user_proto_msgTypes[19]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use PhoneVerification.ProtoReflect.Descriptor instead.
+func (*PhoneVerification) Descriptor() ([]byte, []int) {
+	return file_user_service_v1_user_proto_rawDescGZIP(), []int{19}
+}
+
+func (x *PhoneVerification) GetPhone() string {
+	if x != nil {
+		return x.Phone
+	}
+	return ""
+}
+
+func (x *PhoneVerification) GetCode() string {
+	if x != nil {
+		return x.Code
+	}
+	return ""
+}
+
+// 邮箱验证
+type EmailVerification struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Email         string                 `protobuf:"bytes,1,opt,name=email,proto3" json:"email,omitempty"`
+	Code          string                 `protobuf:"bytes,2,opt,name=code,proto3" json:"code,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *EmailVerification) Reset() {
+	*x = EmailVerification{}
+	mi := &file_user_service_v1_user_proto_msgTypes[20]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *EmailVerification) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*EmailVerification) ProtoMessage() {}
+
+func (x *EmailVerification) ProtoReflect() protoreflect.Message {
+	mi := &file_user_service_v1_user_proto_msgTypes[20]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use EmailVerification.ProtoReflect.Descriptor instead.
+func (*EmailVerification) Descriptor() ([]byte, []int) {
+	return file_user_service_v1_user_proto_rawDescGZIP(), []int{20}
+}
+
+func (x *EmailVerification) GetEmail() string {
+	if x != nil {
+		return x.Email
+	}
+	return ""
+}
+
+func (x *EmailVerification) GetCode() string {
+	if x != nil {
+		return x.Code
+	}
+	return ""
+}
+
 var File_user_service_v1_user_proto protoreflect.FileDescriptor
 
 const file_user_service_v1_user_proto_rawDesc = "" +
@@ -1122,7 +1781,44 @@ const file_user_service_v1_user_proto_rawDesc = "" +
 	"\x04data\x18\x01 \x03(\v2\x15.user.service.v1.UserR\x04data\"`\n" +
 	"\x18BatchCreateUsersResponse\x12D\n" +
 	"\vcreated_ids\x18\x01 \x03(\x05B#\xbaG \x92\x02\x1d创建成功的用户ID列表R\n" +
-	"createdIds2\xad\x04\n" +
+	"createdIds\"(\n" +
+	"\x14GetUsersByIdsRequest\x12\x10\n" +
+	"\x03ids\x18\x01 \x03(\rR\x03ids\"v\n" +
+	"\x17EditUserPasswordRequest\x12'\n" +
+	"\auser_id\x18\x01 \x01(\rB\x0e\xbaG\v\x92\x02\b用户IDR\x06userId\x122\n" +
+	"\fnew_password\x18\x02 \x01(\tB\x0f\xbaG\f\x92\x02\t新密码R\vnewPassword\"\x7f\n" +
+	"\x15ChangePasswordRequest\x122\n" +
+	"\fold_password\x18\x01 \x01(\tB\x0f\xbaG\f\x92\x02\t旧密码R\voldPassword\x122\n" +
+	"\fnew_password\x18\x02 \x01(\tB\x0f\xbaG\f\x92\x02\t新密码R\vnewPassword\"c\n" +
+	"\x13UploadAvatarRequest\x12#\n" +
+	"\fimage_base64\x18\x01 \x01(\tH\x00R\vimageBase64\x12\x1d\n" +
+	"\timage_url\x18\x02 \x01(\tH\x00R\bimageUrlB\b\n" +
+	"\x06source\"(\n" +
+	"\x14UploadAvatarResponse\x12\x10\n" +
+	"\x03url\x18\x01 \x01(\tR\x03url\"\x95\x01\n" +
+	"\x12BindContactRequest\x129\n" +
+	"\x05phone\x18\x01 \x01(\v2!.user.service.v1.BindPhoneRequestH\x00R\x05phone\x129\n" +
+	"\x05email\x18\x02 \x01(\v2!.user.service.v1.BindEmailRequestH\x00R\x05emailB\t\n" +
+	"\acontact\"a\n" +
+	"\x10BindPhoneRequest\x12(\n" +
+	"\x05phone\x18\x01 \x01(\tB\x12\xbaG\x0f\x92\x02\f手机号码R\x05phone\x12#\n" +
+	"\x04code\x18\x02 \x01(\tB\x0f\xbaG\f\x92\x02\t验证码R\x04code\"\xa7\x01\n" +
+	"\x10BindEmailRequest\x12(\n" +
+	"\x05email\x18\x01 \x01(\tB\x12\xbaG\x0f\x92\x02\f邮箱地址R\x05email\x12S\n" +
+	"\x11verification_code\x18\x02 \x01(\tB!\xbaG\x1e\x92\x02\x1b邮箱验证码（可选）H\x00R\x10verificationCode\x88\x01\x01B\x14\n" +
+	"\x12_verification_code\"\x92\x02\n" +
+	"\x14VerifyContactRequest\x12:\n" +
+	"\x05phone\x18\x01 \x01(\v2\".user.service.v1.PhoneVerificationH\x00R\x05phone\x12:\n" +
+	"\x05email\x18\x02 \x01(\v2\".user.service.v1.EmailVerificationH\x00R\x05email\x12c\n" +
+	"\x0fverification_id\x18\x03 \x01(\tB5\xbaG2\x92\x02/服务端生成的验证码会话ID（可选）H\x01R\x0everificationId\x88\x01\x01B\t\n" +
+	"\acontactB\x12\n" +
+	"\x10_verification_id\"z\n" +
+	"\x11PhoneVerification\x127\n" +
+	"\x05phone\x18\x01 \x01(\tB!\xbaG\x1e\x92\x02\x1b手机号码，带国家码R\x05phone\x12,\n" +
+	"\x04code\x18\x02 \x01(\tB\x18\xe0A\x02\xbaG\x12\x92\x02\x0f短信验证码R\x04code\"k\n" +
+	"\x11EmailVerification\x12(\n" +
+	"\x05email\x18\x01 \x01(\tB\x12\xbaG\x0f\x92\x02\f邮箱地址R\x05email\x12,\n" +
+	"\x04code\x18\x02 \x01(\tB\x18\xe0A\x02\xbaG\x12\x92\x02\x0f邮箱验证码R\x04code2\xad\x04\n" +
 	"\vUserService\x12F\n" +
 	"\x04List\x12\x19.pagination.PagingRequest\x1a!.user.service.v1.ListUserResponse\"\x00\x12?\n" +
 	"\x03Get\x12\x1f.user.service.v1.GetUserRequest\x1a\x15.user.service.v1.User\"\x00\x12F\n" +
@@ -1147,7 +1843,7 @@ func file_user_service_v1_user_proto_rawDescGZIP() []byte {
 }
 
 var file_user_service_v1_user_proto_enumTypes = make([]protoimpl.EnumInfo, 3)
-var file_user_service_v1_user_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
+var file_user_service_v1_user_proto_msgTypes = make([]protoimpl.MessageInfo, 21)
 var file_user_service_v1_user_proto_goTypes = []any{
 	(User_Status)(0),                 // 0: user.service.v1.User.Status
 	(User_Authority)(0),              // 1: user.service.v1.User.Authority
@@ -1162,44 +1858,59 @@ var file_user_service_v1_user_proto_goTypes = []any{
 	(*UserExistsResponse)(nil),       // 10: user.service.v1.UserExistsResponse
 	(*BatchCreateUsersRequest)(nil),  // 11: user.service.v1.BatchCreateUsersRequest
 	(*BatchCreateUsersResponse)(nil), // 12: user.service.v1.BatchCreateUsersResponse
-	(*timestamppb.Timestamp)(nil),    // 13: google.protobuf.Timestamp
-	(*fieldmaskpb.FieldMask)(nil),    // 14: google.protobuf.FieldMask
-	(*v1.PagingRequest)(nil),         // 15: pagination.PagingRequest
-	(*emptypb.Empty)(nil),            // 16: google.protobuf.Empty
+	(*GetUsersByIdsRequest)(nil),     // 13: user.service.v1.GetUsersByIdsRequest
+	(*EditUserPasswordRequest)(nil),  // 14: user.service.v1.EditUserPasswordRequest
+	(*ChangePasswordRequest)(nil),    // 15: user.service.v1.ChangePasswordRequest
+	(*UploadAvatarRequest)(nil),      // 16: user.service.v1.UploadAvatarRequest
+	(*UploadAvatarResponse)(nil),     // 17: user.service.v1.UploadAvatarResponse
+	(*BindContactRequest)(nil),       // 18: user.service.v1.BindContactRequest
+	(*BindPhoneRequest)(nil),         // 19: user.service.v1.BindPhoneRequest
+	(*BindEmailRequest)(nil),         // 20: user.service.v1.BindEmailRequest
+	(*VerifyContactRequest)(nil),     // 21: user.service.v1.VerifyContactRequest
+	(*PhoneVerification)(nil),        // 22: user.service.v1.PhoneVerification
+	(*EmailVerification)(nil),        // 23: user.service.v1.EmailVerification
+	(*timestamppb.Timestamp)(nil),    // 24: google.protobuf.Timestamp
+	(*fieldmaskpb.FieldMask)(nil),    // 25: google.protobuf.FieldMask
+	(*v1.PagingRequest)(nil),         // 26: pagination.PagingRequest
+	(*emptypb.Empty)(nil),            // 27: google.protobuf.Empty
 }
 var file_user_service_v1_user_proto_depIdxs = []int32{
 	2,  // 0: user.service.v1.User.gender:type_name -> user.service.v1.User.Gender
-	13, // 1: user.service.v1.User.last_login_time:type_name -> google.protobuf.Timestamp
+	24, // 1: user.service.v1.User.last_login_time:type_name -> google.protobuf.Timestamp
 	0,  // 2: user.service.v1.User.status:type_name -> user.service.v1.User.Status
 	1,  // 3: user.service.v1.User.authority:type_name -> user.service.v1.User.Authority
-	13, // 4: user.service.v1.User.created_at:type_name -> google.protobuf.Timestamp
-	13, // 5: user.service.v1.User.updated_at:type_name -> google.protobuf.Timestamp
-	13, // 6: user.service.v1.User.deleted_at:type_name -> google.protobuf.Timestamp
+	24, // 4: user.service.v1.User.created_at:type_name -> google.protobuf.Timestamp
+	24, // 5: user.service.v1.User.updated_at:type_name -> google.protobuf.Timestamp
+	24, // 6: user.service.v1.User.deleted_at:type_name -> google.protobuf.Timestamp
 	3,  // 7: user.service.v1.ListUserResponse.items:type_name -> user.service.v1.User
-	14, // 8: user.service.v1.GetUserRequest.view_mask:type_name -> google.protobuf.FieldMask
+	25, // 8: user.service.v1.GetUserRequest.view_mask:type_name -> google.protobuf.FieldMask
 	3,  // 9: user.service.v1.CreateUserRequest.data:type_name -> user.service.v1.User
 	3,  // 10: user.service.v1.UpdateUserRequest.data:type_name -> user.service.v1.User
-	14, // 11: user.service.v1.UpdateUserRequest.update_mask:type_name -> google.protobuf.FieldMask
+	25, // 11: user.service.v1.UpdateUserRequest.update_mask:type_name -> google.protobuf.FieldMask
 	3,  // 12: user.service.v1.BatchCreateUsersRequest.data:type_name -> user.service.v1.User
-	15, // 13: user.service.v1.UserService.List:input_type -> pagination.PagingRequest
-	5,  // 14: user.service.v1.UserService.Get:input_type -> user.service.v1.GetUserRequest
-	6,  // 15: user.service.v1.UserService.Create:input_type -> user.service.v1.CreateUserRequest
-	7,  // 16: user.service.v1.UserService.Update:input_type -> user.service.v1.UpdateUserRequest
-	8,  // 17: user.service.v1.UserService.Delete:input_type -> user.service.v1.DeleteUserRequest
-	11, // 18: user.service.v1.UserService.BatchCreate:input_type -> user.service.v1.BatchCreateUsersRequest
-	9,  // 19: user.service.v1.UserService.UserExists:input_type -> user.service.v1.UserExistsRequest
-	4,  // 20: user.service.v1.UserService.List:output_type -> user.service.v1.ListUserResponse
-	3,  // 21: user.service.v1.UserService.Get:output_type -> user.service.v1.User
-	16, // 22: user.service.v1.UserService.Create:output_type -> google.protobuf.Empty
-	16, // 23: user.service.v1.UserService.Update:output_type -> google.protobuf.Empty
-	16, // 24: user.service.v1.UserService.Delete:output_type -> google.protobuf.Empty
-	12, // 25: user.service.v1.UserService.BatchCreate:output_type -> user.service.v1.BatchCreateUsersResponse
-	10, // 26: user.service.v1.UserService.UserExists:output_type -> user.service.v1.UserExistsResponse
-	20, // [20:27] is the sub-list for method output_type
-	13, // [13:20] is the sub-list for method input_type
-	13, // [13:13] is the sub-list for extension type_name
-	13, // [13:13] is the sub-list for extension extendee
-	0,  // [0:13] is the sub-list for field type_name
+	19, // 13: user.service.v1.BindContactRequest.phone:type_name -> user.service.v1.BindPhoneRequest
+	20, // 14: user.service.v1.BindContactRequest.email:type_name -> user.service.v1.BindEmailRequest
+	22, // 15: user.service.v1.VerifyContactRequest.phone:type_name -> user.service.v1.PhoneVerification
+	23, // 16: user.service.v1.VerifyContactRequest.email:type_name -> user.service.v1.EmailVerification
+	26, // 17: user.service.v1.UserService.List:input_type -> pagination.PagingRequest
+	5,  // 18: user.service.v1.UserService.Get:input_type -> user.service.v1.GetUserRequest
+	6,  // 19: user.service.v1.UserService.Create:input_type -> user.service.v1.CreateUserRequest
+	7,  // 20: user.service.v1.UserService.Update:input_type -> user.service.v1.UpdateUserRequest
+	8,  // 21: user.service.v1.UserService.Delete:input_type -> user.service.v1.DeleteUserRequest
+	11, // 22: user.service.v1.UserService.BatchCreate:input_type -> user.service.v1.BatchCreateUsersRequest
+	9,  // 23: user.service.v1.UserService.UserExists:input_type -> user.service.v1.UserExistsRequest
+	4,  // 24: user.service.v1.UserService.List:output_type -> user.service.v1.ListUserResponse
+	3,  // 25: user.service.v1.UserService.Get:output_type -> user.service.v1.User
+	27, // 26: user.service.v1.UserService.Create:output_type -> google.protobuf.Empty
+	27, // 27: user.service.v1.UserService.Update:output_type -> google.protobuf.Empty
+	27, // 28: user.service.v1.UserService.Delete:output_type -> google.protobuf.Empty
+	12, // 29: user.service.v1.UserService.BatchCreate:output_type -> user.service.v1.BatchCreateUsersResponse
+	10, // 30: user.service.v1.UserService.UserExists:output_type -> user.service.v1.UserExistsResponse
+	24, // [24:31] is the sub-list for method output_type
+	17, // [17:24] is the sub-list for method input_type
+	17, // [17:17] is the sub-list for extension type_name
+	17, // [17:17] is the sub-list for extension extendee
+	0,  // [0:17] is the sub-list for field type_name
 }
 
 func init() { file_user_service_v1_user_proto_init() }
@@ -1214,13 +1925,26 @@ func file_user_service_v1_user_proto_init() {
 	}
 	file_user_service_v1_user_proto_msgTypes[3].OneofWrappers = []any{}
 	file_user_service_v1_user_proto_msgTypes[4].OneofWrappers = []any{}
+	file_user_service_v1_user_proto_msgTypes[13].OneofWrappers = []any{
+		(*UploadAvatarRequest_ImageBase64)(nil),
+		(*UploadAvatarRequest_ImageUrl)(nil),
+	}
+	file_user_service_v1_user_proto_msgTypes[15].OneofWrappers = []any{
+		(*BindContactRequest_Phone)(nil),
+		(*BindContactRequest_Email)(nil),
+	}
+	file_user_service_v1_user_proto_msgTypes[17].OneofWrappers = []any{}
+	file_user_service_v1_user_proto_msgTypes[18].OneofWrappers = []any{
+		(*VerifyContactRequest_Phone)(nil),
+		(*VerifyContactRequest_Email)(nil),
+	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_user_service_v1_user_proto_rawDesc), len(file_user_service_v1_user_proto_rawDesc)),
 			NumEnums:      3,
-			NumMessages:   10,
+			NumMessages:   21,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

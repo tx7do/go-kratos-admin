@@ -99,14 +99,44 @@ func ExtraInfo(v string) predicate.UserCredential {
 	return predicate.UserCredential(sql.FieldEQ(FieldExtraInfo, v))
 }
 
-// ActivateToken applies equality check predicate on the "activate_token" field. It's identical to ActivateTokenEQ.
-func ActivateToken(v string) predicate.UserCredential {
-	return predicate.UserCredential(sql.FieldEQ(FieldActivateToken, v))
+// Provider applies equality check predicate on the "provider" field. It's identical to ProviderEQ.
+func Provider(v string) predicate.UserCredential {
+	return predicate.UserCredential(sql.FieldEQ(FieldProvider, v))
 }
 
-// ResetToken applies equality check predicate on the "reset_token" field. It's identical to ResetTokenEQ.
-func ResetToken(v string) predicate.UserCredential {
-	return predicate.UserCredential(sql.FieldEQ(FieldResetToken, v))
+// ProviderAccountID applies equality check predicate on the "provider_account_id" field. It's identical to ProviderAccountIDEQ.
+func ProviderAccountID(v string) predicate.UserCredential {
+	return predicate.UserCredential(sql.FieldEQ(FieldProviderAccountID, v))
+}
+
+// ActivateTokenHash applies equality check predicate on the "activate_token_hash" field. It's identical to ActivateTokenHashEQ.
+func ActivateTokenHash(v string) predicate.UserCredential {
+	return predicate.UserCredential(sql.FieldEQ(FieldActivateTokenHash, v))
+}
+
+// ActivateTokenExpiresAt applies equality check predicate on the "activate_token_expires_at" field. It's identical to ActivateTokenExpiresAtEQ.
+func ActivateTokenExpiresAt(v time.Time) predicate.UserCredential {
+	return predicate.UserCredential(sql.FieldEQ(FieldActivateTokenExpiresAt, v))
+}
+
+// ActivateTokenUsedAt applies equality check predicate on the "activate_token_used_at" field. It's identical to ActivateTokenUsedAtEQ.
+func ActivateTokenUsedAt(v time.Time) predicate.UserCredential {
+	return predicate.UserCredential(sql.FieldEQ(FieldActivateTokenUsedAt, v))
+}
+
+// ResetTokenHash applies equality check predicate on the "reset_token_hash" field. It's identical to ResetTokenHashEQ.
+func ResetTokenHash(v string) predicate.UserCredential {
+	return predicate.UserCredential(sql.FieldEQ(FieldResetTokenHash, v))
+}
+
+// ResetTokenExpiresAt applies equality check predicate on the "reset_token_expires_at" field. It's identical to ResetTokenExpiresAtEQ.
+func ResetTokenExpiresAt(v time.Time) predicate.UserCredential {
+	return predicate.UserCredential(sql.FieldEQ(FieldResetTokenExpiresAt, v))
+}
+
+// ResetTokenUsedAt applies equality check predicate on the "reset_token_used_at" field. It's identical to ResetTokenUsedAtEQ.
+func ResetTokenUsedAt(v time.Time) predicate.UserCredential {
+	return predicate.UserCredential(sql.FieldEQ(FieldResetTokenUsedAt, v))
 }
 
 // CreatedAtEQ applies the EQ predicate on the "created_at" field.
@@ -694,154 +724,504 @@ func ExtraInfoContainsFold(v string) predicate.UserCredential {
 	return predicate.UserCredential(sql.FieldContainsFold(FieldExtraInfo, v))
 }
 
-// ActivateTokenEQ applies the EQ predicate on the "activate_token" field.
-func ActivateTokenEQ(v string) predicate.UserCredential {
-	return predicate.UserCredential(sql.FieldEQ(FieldActivateToken, v))
+// ProviderEQ applies the EQ predicate on the "provider" field.
+func ProviderEQ(v string) predicate.UserCredential {
+	return predicate.UserCredential(sql.FieldEQ(FieldProvider, v))
 }
 
-// ActivateTokenNEQ applies the NEQ predicate on the "activate_token" field.
-func ActivateTokenNEQ(v string) predicate.UserCredential {
-	return predicate.UserCredential(sql.FieldNEQ(FieldActivateToken, v))
+// ProviderNEQ applies the NEQ predicate on the "provider" field.
+func ProviderNEQ(v string) predicate.UserCredential {
+	return predicate.UserCredential(sql.FieldNEQ(FieldProvider, v))
 }
 
-// ActivateTokenIn applies the In predicate on the "activate_token" field.
-func ActivateTokenIn(vs ...string) predicate.UserCredential {
-	return predicate.UserCredential(sql.FieldIn(FieldActivateToken, vs...))
+// ProviderIn applies the In predicate on the "provider" field.
+func ProviderIn(vs ...string) predicate.UserCredential {
+	return predicate.UserCredential(sql.FieldIn(FieldProvider, vs...))
 }
 
-// ActivateTokenNotIn applies the NotIn predicate on the "activate_token" field.
-func ActivateTokenNotIn(vs ...string) predicate.UserCredential {
-	return predicate.UserCredential(sql.FieldNotIn(FieldActivateToken, vs...))
+// ProviderNotIn applies the NotIn predicate on the "provider" field.
+func ProviderNotIn(vs ...string) predicate.UserCredential {
+	return predicate.UserCredential(sql.FieldNotIn(FieldProvider, vs...))
 }
 
-// ActivateTokenGT applies the GT predicate on the "activate_token" field.
-func ActivateTokenGT(v string) predicate.UserCredential {
-	return predicate.UserCredential(sql.FieldGT(FieldActivateToken, v))
+// ProviderGT applies the GT predicate on the "provider" field.
+func ProviderGT(v string) predicate.UserCredential {
+	return predicate.UserCredential(sql.FieldGT(FieldProvider, v))
 }
 
-// ActivateTokenGTE applies the GTE predicate on the "activate_token" field.
-func ActivateTokenGTE(v string) predicate.UserCredential {
-	return predicate.UserCredential(sql.FieldGTE(FieldActivateToken, v))
+// ProviderGTE applies the GTE predicate on the "provider" field.
+func ProviderGTE(v string) predicate.UserCredential {
+	return predicate.UserCredential(sql.FieldGTE(FieldProvider, v))
 }
 
-// ActivateTokenLT applies the LT predicate on the "activate_token" field.
-func ActivateTokenLT(v string) predicate.UserCredential {
-	return predicate.UserCredential(sql.FieldLT(FieldActivateToken, v))
+// ProviderLT applies the LT predicate on the "provider" field.
+func ProviderLT(v string) predicate.UserCredential {
+	return predicate.UserCredential(sql.FieldLT(FieldProvider, v))
 }
 
-// ActivateTokenLTE applies the LTE predicate on the "activate_token" field.
-func ActivateTokenLTE(v string) predicate.UserCredential {
-	return predicate.UserCredential(sql.FieldLTE(FieldActivateToken, v))
+// ProviderLTE applies the LTE predicate on the "provider" field.
+func ProviderLTE(v string) predicate.UserCredential {
+	return predicate.UserCredential(sql.FieldLTE(FieldProvider, v))
 }
 
-// ActivateTokenContains applies the Contains predicate on the "activate_token" field.
-func ActivateTokenContains(v string) predicate.UserCredential {
-	return predicate.UserCredential(sql.FieldContains(FieldActivateToken, v))
+// ProviderContains applies the Contains predicate on the "provider" field.
+func ProviderContains(v string) predicate.UserCredential {
+	return predicate.UserCredential(sql.FieldContains(FieldProvider, v))
 }
 
-// ActivateTokenHasPrefix applies the HasPrefix predicate on the "activate_token" field.
-func ActivateTokenHasPrefix(v string) predicate.UserCredential {
-	return predicate.UserCredential(sql.FieldHasPrefix(FieldActivateToken, v))
+// ProviderHasPrefix applies the HasPrefix predicate on the "provider" field.
+func ProviderHasPrefix(v string) predicate.UserCredential {
+	return predicate.UserCredential(sql.FieldHasPrefix(FieldProvider, v))
 }
 
-// ActivateTokenHasSuffix applies the HasSuffix predicate on the "activate_token" field.
-func ActivateTokenHasSuffix(v string) predicate.UserCredential {
-	return predicate.UserCredential(sql.FieldHasSuffix(FieldActivateToken, v))
+// ProviderHasSuffix applies the HasSuffix predicate on the "provider" field.
+func ProviderHasSuffix(v string) predicate.UserCredential {
+	return predicate.UserCredential(sql.FieldHasSuffix(FieldProvider, v))
 }
 
-// ActivateTokenIsNil applies the IsNil predicate on the "activate_token" field.
-func ActivateTokenIsNil() predicate.UserCredential {
-	return predicate.UserCredential(sql.FieldIsNull(FieldActivateToken))
+// ProviderIsNil applies the IsNil predicate on the "provider" field.
+func ProviderIsNil() predicate.UserCredential {
+	return predicate.UserCredential(sql.FieldIsNull(FieldProvider))
 }
 
-// ActivateTokenNotNil applies the NotNil predicate on the "activate_token" field.
-func ActivateTokenNotNil() predicate.UserCredential {
-	return predicate.UserCredential(sql.FieldNotNull(FieldActivateToken))
+// ProviderNotNil applies the NotNil predicate on the "provider" field.
+func ProviderNotNil() predicate.UserCredential {
+	return predicate.UserCredential(sql.FieldNotNull(FieldProvider))
 }
 
-// ActivateTokenEqualFold applies the EqualFold predicate on the "activate_token" field.
-func ActivateTokenEqualFold(v string) predicate.UserCredential {
-	return predicate.UserCredential(sql.FieldEqualFold(FieldActivateToken, v))
+// ProviderEqualFold applies the EqualFold predicate on the "provider" field.
+func ProviderEqualFold(v string) predicate.UserCredential {
+	return predicate.UserCredential(sql.FieldEqualFold(FieldProvider, v))
 }
 
-// ActivateTokenContainsFold applies the ContainsFold predicate on the "activate_token" field.
-func ActivateTokenContainsFold(v string) predicate.UserCredential {
-	return predicate.UserCredential(sql.FieldContainsFold(FieldActivateToken, v))
+// ProviderContainsFold applies the ContainsFold predicate on the "provider" field.
+func ProviderContainsFold(v string) predicate.UserCredential {
+	return predicate.UserCredential(sql.FieldContainsFold(FieldProvider, v))
 }
 
-// ResetTokenEQ applies the EQ predicate on the "reset_token" field.
-func ResetTokenEQ(v string) predicate.UserCredential {
-	return predicate.UserCredential(sql.FieldEQ(FieldResetToken, v))
+// ProviderAccountIDEQ applies the EQ predicate on the "provider_account_id" field.
+func ProviderAccountIDEQ(v string) predicate.UserCredential {
+	return predicate.UserCredential(sql.FieldEQ(FieldProviderAccountID, v))
 }
 
-// ResetTokenNEQ applies the NEQ predicate on the "reset_token" field.
-func ResetTokenNEQ(v string) predicate.UserCredential {
-	return predicate.UserCredential(sql.FieldNEQ(FieldResetToken, v))
+// ProviderAccountIDNEQ applies the NEQ predicate on the "provider_account_id" field.
+func ProviderAccountIDNEQ(v string) predicate.UserCredential {
+	return predicate.UserCredential(sql.FieldNEQ(FieldProviderAccountID, v))
 }
 
-// ResetTokenIn applies the In predicate on the "reset_token" field.
-func ResetTokenIn(vs ...string) predicate.UserCredential {
-	return predicate.UserCredential(sql.FieldIn(FieldResetToken, vs...))
+// ProviderAccountIDIn applies the In predicate on the "provider_account_id" field.
+func ProviderAccountIDIn(vs ...string) predicate.UserCredential {
+	return predicate.UserCredential(sql.FieldIn(FieldProviderAccountID, vs...))
 }
 
-// ResetTokenNotIn applies the NotIn predicate on the "reset_token" field.
-func ResetTokenNotIn(vs ...string) predicate.UserCredential {
-	return predicate.UserCredential(sql.FieldNotIn(FieldResetToken, vs...))
+// ProviderAccountIDNotIn applies the NotIn predicate on the "provider_account_id" field.
+func ProviderAccountIDNotIn(vs ...string) predicate.UserCredential {
+	return predicate.UserCredential(sql.FieldNotIn(FieldProviderAccountID, vs...))
 }
 
-// ResetTokenGT applies the GT predicate on the "reset_token" field.
-func ResetTokenGT(v string) predicate.UserCredential {
-	return predicate.UserCredential(sql.FieldGT(FieldResetToken, v))
+// ProviderAccountIDGT applies the GT predicate on the "provider_account_id" field.
+func ProviderAccountIDGT(v string) predicate.UserCredential {
+	return predicate.UserCredential(sql.FieldGT(FieldProviderAccountID, v))
 }
 
-// ResetTokenGTE applies the GTE predicate on the "reset_token" field.
-func ResetTokenGTE(v string) predicate.UserCredential {
-	return predicate.UserCredential(sql.FieldGTE(FieldResetToken, v))
+// ProviderAccountIDGTE applies the GTE predicate on the "provider_account_id" field.
+func ProviderAccountIDGTE(v string) predicate.UserCredential {
+	return predicate.UserCredential(sql.FieldGTE(FieldProviderAccountID, v))
 }
 
-// ResetTokenLT applies the LT predicate on the "reset_token" field.
-func ResetTokenLT(v string) predicate.UserCredential {
-	return predicate.UserCredential(sql.FieldLT(FieldResetToken, v))
+// ProviderAccountIDLT applies the LT predicate on the "provider_account_id" field.
+func ProviderAccountIDLT(v string) predicate.UserCredential {
+	return predicate.UserCredential(sql.FieldLT(FieldProviderAccountID, v))
 }
 
-// ResetTokenLTE applies the LTE predicate on the "reset_token" field.
-func ResetTokenLTE(v string) predicate.UserCredential {
-	return predicate.UserCredential(sql.FieldLTE(FieldResetToken, v))
+// ProviderAccountIDLTE applies the LTE predicate on the "provider_account_id" field.
+func ProviderAccountIDLTE(v string) predicate.UserCredential {
+	return predicate.UserCredential(sql.FieldLTE(FieldProviderAccountID, v))
 }
 
-// ResetTokenContains applies the Contains predicate on the "reset_token" field.
-func ResetTokenContains(v string) predicate.UserCredential {
-	return predicate.UserCredential(sql.FieldContains(FieldResetToken, v))
+// ProviderAccountIDContains applies the Contains predicate on the "provider_account_id" field.
+func ProviderAccountIDContains(v string) predicate.UserCredential {
+	return predicate.UserCredential(sql.FieldContains(FieldProviderAccountID, v))
 }
 
-// ResetTokenHasPrefix applies the HasPrefix predicate on the "reset_token" field.
-func ResetTokenHasPrefix(v string) predicate.UserCredential {
-	return predicate.UserCredential(sql.FieldHasPrefix(FieldResetToken, v))
+// ProviderAccountIDHasPrefix applies the HasPrefix predicate on the "provider_account_id" field.
+func ProviderAccountIDHasPrefix(v string) predicate.UserCredential {
+	return predicate.UserCredential(sql.FieldHasPrefix(FieldProviderAccountID, v))
 }
 
-// ResetTokenHasSuffix applies the HasSuffix predicate on the "reset_token" field.
-func ResetTokenHasSuffix(v string) predicate.UserCredential {
-	return predicate.UserCredential(sql.FieldHasSuffix(FieldResetToken, v))
+// ProviderAccountIDHasSuffix applies the HasSuffix predicate on the "provider_account_id" field.
+func ProviderAccountIDHasSuffix(v string) predicate.UserCredential {
+	return predicate.UserCredential(sql.FieldHasSuffix(FieldProviderAccountID, v))
 }
 
-// ResetTokenIsNil applies the IsNil predicate on the "reset_token" field.
-func ResetTokenIsNil() predicate.UserCredential {
-	return predicate.UserCredential(sql.FieldIsNull(FieldResetToken))
+// ProviderAccountIDIsNil applies the IsNil predicate on the "provider_account_id" field.
+func ProviderAccountIDIsNil() predicate.UserCredential {
+	return predicate.UserCredential(sql.FieldIsNull(FieldProviderAccountID))
 }
 
-// ResetTokenNotNil applies the NotNil predicate on the "reset_token" field.
-func ResetTokenNotNil() predicate.UserCredential {
-	return predicate.UserCredential(sql.FieldNotNull(FieldResetToken))
+// ProviderAccountIDNotNil applies the NotNil predicate on the "provider_account_id" field.
+func ProviderAccountIDNotNil() predicate.UserCredential {
+	return predicate.UserCredential(sql.FieldNotNull(FieldProviderAccountID))
 }
 
-// ResetTokenEqualFold applies the EqualFold predicate on the "reset_token" field.
-func ResetTokenEqualFold(v string) predicate.UserCredential {
-	return predicate.UserCredential(sql.FieldEqualFold(FieldResetToken, v))
+// ProviderAccountIDEqualFold applies the EqualFold predicate on the "provider_account_id" field.
+func ProviderAccountIDEqualFold(v string) predicate.UserCredential {
+	return predicate.UserCredential(sql.FieldEqualFold(FieldProviderAccountID, v))
 }
 
-// ResetTokenContainsFold applies the ContainsFold predicate on the "reset_token" field.
-func ResetTokenContainsFold(v string) predicate.UserCredential {
-	return predicate.UserCredential(sql.FieldContainsFold(FieldResetToken, v))
+// ProviderAccountIDContainsFold applies the ContainsFold predicate on the "provider_account_id" field.
+func ProviderAccountIDContainsFold(v string) predicate.UserCredential {
+	return predicate.UserCredential(sql.FieldContainsFold(FieldProviderAccountID, v))
+}
+
+// ActivateTokenHashEQ applies the EQ predicate on the "activate_token_hash" field.
+func ActivateTokenHashEQ(v string) predicate.UserCredential {
+	return predicate.UserCredential(sql.FieldEQ(FieldActivateTokenHash, v))
+}
+
+// ActivateTokenHashNEQ applies the NEQ predicate on the "activate_token_hash" field.
+func ActivateTokenHashNEQ(v string) predicate.UserCredential {
+	return predicate.UserCredential(sql.FieldNEQ(FieldActivateTokenHash, v))
+}
+
+// ActivateTokenHashIn applies the In predicate on the "activate_token_hash" field.
+func ActivateTokenHashIn(vs ...string) predicate.UserCredential {
+	return predicate.UserCredential(sql.FieldIn(FieldActivateTokenHash, vs...))
+}
+
+// ActivateTokenHashNotIn applies the NotIn predicate on the "activate_token_hash" field.
+func ActivateTokenHashNotIn(vs ...string) predicate.UserCredential {
+	return predicate.UserCredential(sql.FieldNotIn(FieldActivateTokenHash, vs...))
+}
+
+// ActivateTokenHashGT applies the GT predicate on the "activate_token_hash" field.
+func ActivateTokenHashGT(v string) predicate.UserCredential {
+	return predicate.UserCredential(sql.FieldGT(FieldActivateTokenHash, v))
+}
+
+// ActivateTokenHashGTE applies the GTE predicate on the "activate_token_hash" field.
+func ActivateTokenHashGTE(v string) predicate.UserCredential {
+	return predicate.UserCredential(sql.FieldGTE(FieldActivateTokenHash, v))
+}
+
+// ActivateTokenHashLT applies the LT predicate on the "activate_token_hash" field.
+func ActivateTokenHashLT(v string) predicate.UserCredential {
+	return predicate.UserCredential(sql.FieldLT(FieldActivateTokenHash, v))
+}
+
+// ActivateTokenHashLTE applies the LTE predicate on the "activate_token_hash" field.
+func ActivateTokenHashLTE(v string) predicate.UserCredential {
+	return predicate.UserCredential(sql.FieldLTE(FieldActivateTokenHash, v))
+}
+
+// ActivateTokenHashContains applies the Contains predicate on the "activate_token_hash" field.
+func ActivateTokenHashContains(v string) predicate.UserCredential {
+	return predicate.UserCredential(sql.FieldContains(FieldActivateTokenHash, v))
+}
+
+// ActivateTokenHashHasPrefix applies the HasPrefix predicate on the "activate_token_hash" field.
+func ActivateTokenHashHasPrefix(v string) predicate.UserCredential {
+	return predicate.UserCredential(sql.FieldHasPrefix(FieldActivateTokenHash, v))
+}
+
+// ActivateTokenHashHasSuffix applies the HasSuffix predicate on the "activate_token_hash" field.
+func ActivateTokenHashHasSuffix(v string) predicate.UserCredential {
+	return predicate.UserCredential(sql.FieldHasSuffix(FieldActivateTokenHash, v))
+}
+
+// ActivateTokenHashIsNil applies the IsNil predicate on the "activate_token_hash" field.
+func ActivateTokenHashIsNil() predicate.UserCredential {
+	return predicate.UserCredential(sql.FieldIsNull(FieldActivateTokenHash))
+}
+
+// ActivateTokenHashNotNil applies the NotNil predicate on the "activate_token_hash" field.
+func ActivateTokenHashNotNil() predicate.UserCredential {
+	return predicate.UserCredential(sql.FieldNotNull(FieldActivateTokenHash))
+}
+
+// ActivateTokenHashEqualFold applies the EqualFold predicate on the "activate_token_hash" field.
+func ActivateTokenHashEqualFold(v string) predicate.UserCredential {
+	return predicate.UserCredential(sql.FieldEqualFold(FieldActivateTokenHash, v))
+}
+
+// ActivateTokenHashContainsFold applies the ContainsFold predicate on the "activate_token_hash" field.
+func ActivateTokenHashContainsFold(v string) predicate.UserCredential {
+	return predicate.UserCredential(sql.FieldContainsFold(FieldActivateTokenHash, v))
+}
+
+// ActivateTokenExpiresAtEQ applies the EQ predicate on the "activate_token_expires_at" field.
+func ActivateTokenExpiresAtEQ(v time.Time) predicate.UserCredential {
+	return predicate.UserCredential(sql.FieldEQ(FieldActivateTokenExpiresAt, v))
+}
+
+// ActivateTokenExpiresAtNEQ applies the NEQ predicate on the "activate_token_expires_at" field.
+func ActivateTokenExpiresAtNEQ(v time.Time) predicate.UserCredential {
+	return predicate.UserCredential(sql.FieldNEQ(FieldActivateTokenExpiresAt, v))
+}
+
+// ActivateTokenExpiresAtIn applies the In predicate on the "activate_token_expires_at" field.
+func ActivateTokenExpiresAtIn(vs ...time.Time) predicate.UserCredential {
+	return predicate.UserCredential(sql.FieldIn(FieldActivateTokenExpiresAt, vs...))
+}
+
+// ActivateTokenExpiresAtNotIn applies the NotIn predicate on the "activate_token_expires_at" field.
+func ActivateTokenExpiresAtNotIn(vs ...time.Time) predicate.UserCredential {
+	return predicate.UserCredential(sql.FieldNotIn(FieldActivateTokenExpiresAt, vs...))
+}
+
+// ActivateTokenExpiresAtGT applies the GT predicate on the "activate_token_expires_at" field.
+func ActivateTokenExpiresAtGT(v time.Time) predicate.UserCredential {
+	return predicate.UserCredential(sql.FieldGT(FieldActivateTokenExpiresAt, v))
+}
+
+// ActivateTokenExpiresAtGTE applies the GTE predicate on the "activate_token_expires_at" field.
+func ActivateTokenExpiresAtGTE(v time.Time) predicate.UserCredential {
+	return predicate.UserCredential(sql.FieldGTE(FieldActivateTokenExpiresAt, v))
+}
+
+// ActivateTokenExpiresAtLT applies the LT predicate on the "activate_token_expires_at" field.
+func ActivateTokenExpiresAtLT(v time.Time) predicate.UserCredential {
+	return predicate.UserCredential(sql.FieldLT(FieldActivateTokenExpiresAt, v))
+}
+
+// ActivateTokenExpiresAtLTE applies the LTE predicate on the "activate_token_expires_at" field.
+func ActivateTokenExpiresAtLTE(v time.Time) predicate.UserCredential {
+	return predicate.UserCredential(sql.FieldLTE(FieldActivateTokenExpiresAt, v))
+}
+
+// ActivateTokenExpiresAtIsNil applies the IsNil predicate on the "activate_token_expires_at" field.
+func ActivateTokenExpiresAtIsNil() predicate.UserCredential {
+	return predicate.UserCredential(sql.FieldIsNull(FieldActivateTokenExpiresAt))
+}
+
+// ActivateTokenExpiresAtNotNil applies the NotNil predicate on the "activate_token_expires_at" field.
+func ActivateTokenExpiresAtNotNil() predicate.UserCredential {
+	return predicate.UserCredential(sql.FieldNotNull(FieldActivateTokenExpiresAt))
+}
+
+// ActivateTokenUsedAtEQ applies the EQ predicate on the "activate_token_used_at" field.
+func ActivateTokenUsedAtEQ(v time.Time) predicate.UserCredential {
+	return predicate.UserCredential(sql.FieldEQ(FieldActivateTokenUsedAt, v))
+}
+
+// ActivateTokenUsedAtNEQ applies the NEQ predicate on the "activate_token_used_at" field.
+func ActivateTokenUsedAtNEQ(v time.Time) predicate.UserCredential {
+	return predicate.UserCredential(sql.FieldNEQ(FieldActivateTokenUsedAt, v))
+}
+
+// ActivateTokenUsedAtIn applies the In predicate on the "activate_token_used_at" field.
+func ActivateTokenUsedAtIn(vs ...time.Time) predicate.UserCredential {
+	return predicate.UserCredential(sql.FieldIn(FieldActivateTokenUsedAt, vs...))
+}
+
+// ActivateTokenUsedAtNotIn applies the NotIn predicate on the "activate_token_used_at" field.
+func ActivateTokenUsedAtNotIn(vs ...time.Time) predicate.UserCredential {
+	return predicate.UserCredential(sql.FieldNotIn(FieldActivateTokenUsedAt, vs...))
+}
+
+// ActivateTokenUsedAtGT applies the GT predicate on the "activate_token_used_at" field.
+func ActivateTokenUsedAtGT(v time.Time) predicate.UserCredential {
+	return predicate.UserCredential(sql.FieldGT(FieldActivateTokenUsedAt, v))
+}
+
+// ActivateTokenUsedAtGTE applies the GTE predicate on the "activate_token_used_at" field.
+func ActivateTokenUsedAtGTE(v time.Time) predicate.UserCredential {
+	return predicate.UserCredential(sql.FieldGTE(FieldActivateTokenUsedAt, v))
+}
+
+// ActivateTokenUsedAtLT applies the LT predicate on the "activate_token_used_at" field.
+func ActivateTokenUsedAtLT(v time.Time) predicate.UserCredential {
+	return predicate.UserCredential(sql.FieldLT(FieldActivateTokenUsedAt, v))
+}
+
+// ActivateTokenUsedAtLTE applies the LTE predicate on the "activate_token_used_at" field.
+func ActivateTokenUsedAtLTE(v time.Time) predicate.UserCredential {
+	return predicate.UserCredential(sql.FieldLTE(FieldActivateTokenUsedAt, v))
+}
+
+// ActivateTokenUsedAtIsNil applies the IsNil predicate on the "activate_token_used_at" field.
+func ActivateTokenUsedAtIsNil() predicate.UserCredential {
+	return predicate.UserCredential(sql.FieldIsNull(FieldActivateTokenUsedAt))
+}
+
+// ActivateTokenUsedAtNotNil applies the NotNil predicate on the "activate_token_used_at" field.
+func ActivateTokenUsedAtNotNil() predicate.UserCredential {
+	return predicate.UserCredential(sql.FieldNotNull(FieldActivateTokenUsedAt))
+}
+
+// ResetTokenHashEQ applies the EQ predicate on the "reset_token_hash" field.
+func ResetTokenHashEQ(v string) predicate.UserCredential {
+	return predicate.UserCredential(sql.FieldEQ(FieldResetTokenHash, v))
+}
+
+// ResetTokenHashNEQ applies the NEQ predicate on the "reset_token_hash" field.
+func ResetTokenHashNEQ(v string) predicate.UserCredential {
+	return predicate.UserCredential(sql.FieldNEQ(FieldResetTokenHash, v))
+}
+
+// ResetTokenHashIn applies the In predicate on the "reset_token_hash" field.
+func ResetTokenHashIn(vs ...string) predicate.UserCredential {
+	return predicate.UserCredential(sql.FieldIn(FieldResetTokenHash, vs...))
+}
+
+// ResetTokenHashNotIn applies the NotIn predicate on the "reset_token_hash" field.
+func ResetTokenHashNotIn(vs ...string) predicate.UserCredential {
+	return predicate.UserCredential(sql.FieldNotIn(FieldResetTokenHash, vs...))
+}
+
+// ResetTokenHashGT applies the GT predicate on the "reset_token_hash" field.
+func ResetTokenHashGT(v string) predicate.UserCredential {
+	return predicate.UserCredential(sql.FieldGT(FieldResetTokenHash, v))
+}
+
+// ResetTokenHashGTE applies the GTE predicate on the "reset_token_hash" field.
+func ResetTokenHashGTE(v string) predicate.UserCredential {
+	return predicate.UserCredential(sql.FieldGTE(FieldResetTokenHash, v))
+}
+
+// ResetTokenHashLT applies the LT predicate on the "reset_token_hash" field.
+func ResetTokenHashLT(v string) predicate.UserCredential {
+	return predicate.UserCredential(sql.FieldLT(FieldResetTokenHash, v))
+}
+
+// ResetTokenHashLTE applies the LTE predicate on the "reset_token_hash" field.
+func ResetTokenHashLTE(v string) predicate.UserCredential {
+	return predicate.UserCredential(sql.FieldLTE(FieldResetTokenHash, v))
+}
+
+// ResetTokenHashContains applies the Contains predicate on the "reset_token_hash" field.
+func ResetTokenHashContains(v string) predicate.UserCredential {
+	return predicate.UserCredential(sql.FieldContains(FieldResetTokenHash, v))
+}
+
+// ResetTokenHashHasPrefix applies the HasPrefix predicate on the "reset_token_hash" field.
+func ResetTokenHashHasPrefix(v string) predicate.UserCredential {
+	return predicate.UserCredential(sql.FieldHasPrefix(FieldResetTokenHash, v))
+}
+
+// ResetTokenHashHasSuffix applies the HasSuffix predicate on the "reset_token_hash" field.
+func ResetTokenHashHasSuffix(v string) predicate.UserCredential {
+	return predicate.UserCredential(sql.FieldHasSuffix(FieldResetTokenHash, v))
+}
+
+// ResetTokenHashIsNil applies the IsNil predicate on the "reset_token_hash" field.
+func ResetTokenHashIsNil() predicate.UserCredential {
+	return predicate.UserCredential(sql.FieldIsNull(FieldResetTokenHash))
+}
+
+// ResetTokenHashNotNil applies the NotNil predicate on the "reset_token_hash" field.
+func ResetTokenHashNotNil() predicate.UserCredential {
+	return predicate.UserCredential(sql.FieldNotNull(FieldResetTokenHash))
+}
+
+// ResetTokenHashEqualFold applies the EqualFold predicate on the "reset_token_hash" field.
+func ResetTokenHashEqualFold(v string) predicate.UserCredential {
+	return predicate.UserCredential(sql.FieldEqualFold(FieldResetTokenHash, v))
+}
+
+// ResetTokenHashContainsFold applies the ContainsFold predicate on the "reset_token_hash" field.
+func ResetTokenHashContainsFold(v string) predicate.UserCredential {
+	return predicate.UserCredential(sql.FieldContainsFold(FieldResetTokenHash, v))
+}
+
+// ResetTokenExpiresAtEQ applies the EQ predicate on the "reset_token_expires_at" field.
+func ResetTokenExpiresAtEQ(v time.Time) predicate.UserCredential {
+	return predicate.UserCredential(sql.FieldEQ(FieldResetTokenExpiresAt, v))
+}
+
+// ResetTokenExpiresAtNEQ applies the NEQ predicate on the "reset_token_expires_at" field.
+func ResetTokenExpiresAtNEQ(v time.Time) predicate.UserCredential {
+	return predicate.UserCredential(sql.FieldNEQ(FieldResetTokenExpiresAt, v))
+}
+
+// ResetTokenExpiresAtIn applies the In predicate on the "reset_token_expires_at" field.
+func ResetTokenExpiresAtIn(vs ...time.Time) predicate.UserCredential {
+	return predicate.UserCredential(sql.FieldIn(FieldResetTokenExpiresAt, vs...))
+}
+
+// ResetTokenExpiresAtNotIn applies the NotIn predicate on the "reset_token_expires_at" field.
+func ResetTokenExpiresAtNotIn(vs ...time.Time) predicate.UserCredential {
+	return predicate.UserCredential(sql.FieldNotIn(FieldResetTokenExpiresAt, vs...))
+}
+
+// ResetTokenExpiresAtGT applies the GT predicate on the "reset_token_expires_at" field.
+func ResetTokenExpiresAtGT(v time.Time) predicate.UserCredential {
+	return predicate.UserCredential(sql.FieldGT(FieldResetTokenExpiresAt, v))
+}
+
+// ResetTokenExpiresAtGTE applies the GTE predicate on the "reset_token_expires_at" field.
+func ResetTokenExpiresAtGTE(v time.Time) predicate.UserCredential {
+	return predicate.UserCredential(sql.FieldGTE(FieldResetTokenExpiresAt, v))
+}
+
+// ResetTokenExpiresAtLT applies the LT predicate on the "reset_token_expires_at" field.
+func ResetTokenExpiresAtLT(v time.Time) predicate.UserCredential {
+	return predicate.UserCredential(sql.FieldLT(FieldResetTokenExpiresAt, v))
+}
+
+// ResetTokenExpiresAtLTE applies the LTE predicate on the "reset_token_expires_at" field.
+func ResetTokenExpiresAtLTE(v time.Time) predicate.UserCredential {
+	return predicate.UserCredential(sql.FieldLTE(FieldResetTokenExpiresAt, v))
+}
+
+// ResetTokenExpiresAtIsNil applies the IsNil predicate on the "reset_token_expires_at" field.
+func ResetTokenExpiresAtIsNil() predicate.UserCredential {
+	return predicate.UserCredential(sql.FieldIsNull(FieldResetTokenExpiresAt))
+}
+
+// ResetTokenExpiresAtNotNil applies the NotNil predicate on the "reset_token_expires_at" field.
+func ResetTokenExpiresAtNotNil() predicate.UserCredential {
+	return predicate.UserCredential(sql.FieldNotNull(FieldResetTokenExpiresAt))
+}
+
+// ResetTokenUsedAtEQ applies the EQ predicate on the "reset_token_used_at" field.
+func ResetTokenUsedAtEQ(v time.Time) predicate.UserCredential {
+	return predicate.UserCredential(sql.FieldEQ(FieldResetTokenUsedAt, v))
+}
+
+// ResetTokenUsedAtNEQ applies the NEQ predicate on the "reset_token_used_at" field.
+func ResetTokenUsedAtNEQ(v time.Time) predicate.UserCredential {
+	return predicate.UserCredential(sql.FieldNEQ(FieldResetTokenUsedAt, v))
+}
+
+// ResetTokenUsedAtIn applies the In predicate on the "reset_token_used_at" field.
+func ResetTokenUsedAtIn(vs ...time.Time) predicate.UserCredential {
+	return predicate.UserCredential(sql.FieldIn(FieldResetTokenUsedAt, vs...))
+}
+
+// ResetTokenUsedAtNotIn applies the NotIn predicate on the "reset_token_used_at" field.
+func ResetTokenUsedAtNotIn(vs ...time.Time) predicate.UserCredential {
+	return predicate.UserCredential(sql.FieldNotIn(FieldResetTokenUsedAt, vs...))
+}
+
+// ResetTokenUsedAtGT applies the GT predicate on the "reset_token_used_at" field.
+func ResetTokenUsedAtGT(v time.Time) predicate.UserCredential {
+	return predicate.UserCredential(sql.FieldGT(FieldResetTokenUsedAt, v))
+}
+
+// ResetTokenUsedAtGTE applies the GTE predicate on the "reset_token_used_at" field.
+func ResetTokenUsedAtGTE(v time.Time) predicate.UserCredential {
+	return predicate.UserCredential(sql.FieldGTE(FieldResetTokenUsedAt, v))
+}
+
+// ResetTokenUsedAtLT applies the LT predicate on the "reset_token_used_at" field.
+func ResetTokenUsedAtLT(v time.Time) predicate.UserCredential {
+	return predicate.UserCredential(sql.FieldLT(FieldResetTokenUsedAt, v))
+}
+
+// ResetTokenUsedAtLTE applies the LTE predicate on the "reset_token_used_at" field.
+func ResetTokenUsedAtLTE(v time.Time) predicate.UserCredential {
+	return predicate.UserCredential(sql.FieldLTE(FieldResetTokenUsedAt, v))
+}
+
+// ResetTokenUsedAtIsNil applies the IsNil predicate on the "reset_token_used_at" field.
+func ResetTokenUsedAtIsNil() predicate.UserCredential {
+	return predicate.UserCredential(sql.FieldIsNull(FieldResetTokenUsedAt))
+}
+
+// ResetTokenUsedAtNotNil applies the NotNil predicate on the "reset_token_used_at" field.
+func ResetTokenUsedAtNotNil() predicate.UserCredential {
+	return predicate.UserCredential(sql.FieldNotNull(FieldResetTokenUsedAt))
 }
 
 // And groups predicates with the AND operator between them.

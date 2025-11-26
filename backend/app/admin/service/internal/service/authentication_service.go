@@ -90,7 +90,7 @@ func (s *AuthenticationService) checkAuthority(user *userV1.User) error {
 func (s *AuthenticationService) doGrantTypePassword(ctx context.Context, req *authenticationV1.LoginRequest) (*authenticationV1.LoginResponse, error) {
 	var err error
 	if _, err = s.userCredentialRepo.VerifyCredential(ctx, &authenticationV1.VerifyCredentialRequest{
-		IdentityType: authenticationV1.IdentityType_USERNAME,
+		IdentityType: authenticationV1.UserCredential_USERNAME,
 		Identifier:   req.GetUsername(),
 		Credential:   req.GetPassword(),
 		NeedDecrypt:  true,
@@ -265,7 +265,7 @@ func (s *AuthenticationService) RegisterUser(ctx context.Context, req *authentic
 			UserId:   user.Id,
 			TenantId: user.TenantId,
 
-			IdentityType: authenticationV1.IdentityType_USERNAME.Enum(),
+			IdentityType: authenticationV1.UserCredential_USERNAME.Enum(),
 			Identifier:   trans.Ptr(req.GetUsername()),
 
 			CredentialType: authenticationV1.UserCredential_PASSWORD_HASH.Enum(),

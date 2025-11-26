@@ -1,0 +1,226 @@
+﻿syntax = "proto3";
+
+package authentication.service.v1;
+
+import "gnostic/openapi/v3/annotations.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
+import "google/api/annotations.proto";
+import "google/api/field_behavior.proto";
+
+// 多因素认证（MFA）服务：分步注册、挑战/验证、管理已注册凭证与备份码
+service MFAService {
+  // 查询用户 MFA 总览（是否启用、已注册方法列表）
+  rpc GetMFAStatus(GetMFAStatusRequest) returns (GetMFAStatusResponse) {}
+
+  // 列出已注册的 MFA 凭证（多设备/多凭证场景）
+  rpc ListEnrolledMethods(ListEnrolledMethodsRequest) returns (ListEnrolledMethodsResponse) {}
+
+  // 开始注册某种 MFA 方法（返回 challenge/secret/verification id 等），前端应展示或触发相应流程
+  rpc StartEnrollMethod(StartEnrollMethodRequest) returns (StartEnrollMethodResponse) {}
+
+  // 确认注册（用户提交验证码/断言以完成注册），返回已创建的凭证 id
+  rpc ConfirmEnrollMethod(ConfirmEnrollMethodRequest) returns (ConfirmEnrollMethodResponse) {}
+
+  // 禁用/移除已注册凭证（可指定凭证 id 或方法）
+  rpc DisableMFA(DisableMFARequest) returns (google.protobuf.Empty) {}
+
+  // 发起登录时的 MFA 挑战（多步：Start->Verify）
+  rpc StartMFAChallenge(StartMFAChallengeRequest) returns (StartMFAChallengeResponse) {}
+
+  // 验证登录时的 MFA 挑战，返回是否通过及可选 session/token
+  rpc VerifyMFAChallenge(VerifyMFAChallengeRequest) returns (VerifyMFAChallengeResponse) {}
+
+  // 生成/刷新一次性备份码（返回明文备份码列表，调用方应仅展示一次并提示用户安全保存）
+  rpc GenerateBackupCodes(GenerateBackupCodesRequest) returns (GenerateBackupCodesResponse) {}
+
+  // 列出备份码的元信息（不返回明文）
+  rpc ListBackupCodes(ListBackupCodesRequest) returns (ListBackupCodesResponse) {}
+
+  // 撤销指定凭证（按 id）
+  rpc RevokeMFADevice(RevokeMFADeviceRequest) returns (google.protobuf.Empty) {}
+}
+
+// 多因素认证方法
+enum MFAMethod {
+  MFA_METHOD_UNSPECIFIED = 0;
+  TOTP = 1;
+  SMS = 2;
+  EMAIL = 3;
+  U2F = 4;
+  WEBAUTHN = 5;
+  BACKUP_CODE = 6;
+  
+  OTHER = 100;
+}
+
+// 请求/响应与数据结构
+
+message GetMFAStatusRequest {
+  // 可选：若服务端通过上下文识别用户，可不传 user_id
+  optional string user_id = 1;
+}
+
+message GetMFAStatusResponse {
+  bool enabled = 1;
+  repeated EnrolledMethod enrolled = 2;
+  MFAEnforcement enforcement = 3;
+}
+
+enum MFAEnforcement {
+  MFA_NOT_REQUIRED = 0;
+  MFA_OPTIONAL = 1;
+  MFA_REQUIRED = 2;
+}
+
+message EnrolledMethod {
+  string id = 1;                // 凭证 id（内部唯一标识）
+  MFAMethod method = 2;
+  string display = 3;           // 展示用（如掩码手机号、设备名）
+  bool enabled = 4;
+  optional google.protobuf.Timestamp created_at = 5;
+  optional google.protobuf.Timestamp last_used_at = 6;
+}
+
+// 列表已注册凭证
+message ListEnrolledMethodsRequest {
+  optional string user_id = 1;
+}
+message ListEnrolledMethodsResponse {
+  repeated EnrolledMethod items = 1;
+}
+
+// Start enroll
+message StartEnrollMethodRequest {
+  MFAMethod method = 1;
+  // 根据 method 可能需要额外参数（例如 SMS 需要 phone）
+  optional string phone = 2;
+  optional string email = 3;
+}
+message StartEnrollMethodResponse {
+  // 不同方法的启动结果
+  oneof result {
+    TOTPResult totp = 1;
+    SMSResult sms = 2;
+    WebAuthnResult webauthn = 3;
+  }
+  optional google.protobuf.Timestamp expires_at = 10;
+  // 临时操作 id，用于 ConfirmEnrollMethod / 后续验证
+  string operation_id = 11;
+}
+
+message TOTPResult {
+  // base32 secret：仅在注册时返回一次，服务端应只存哈希/引用
+  string secret = 1;
+  string otp_auth_url = 2;
+  string qr_code_data_uri = 3;
+}
+
+message SMSResult {
+  string verification_id = 1;
+  bool sms_sent = 2;
+  string masked_phone = 3;
+}
+
+message WebAuthnResult {
+  string challenge = 1;
+  string options_json = 2;
+  string rp_id = 3;
+}
+
+// Confirm enroll
+message ConfirmEnrollMethodRequest {
+  MFAMethod method = 1;
+  string operation_id = 2;
+  oneof credential {
+    string totp_code = 10;
+    SMSVerification sms = 11;
+    WebAuthnAssertion webauthn = 12;
+    string backup_code = 13;
+  }
+  // 可选：设备/显示名
+  optional string display = 20;
+}
+message ConfirmEnrollMethodResponse {
+  bool success = 1;
+  string credential_id = 2; // 新创建的凭证 id
+}
+
+// Disable / remove
+message DisableMFARequest {
+  // 指定凭证 id 或仅按方法禁用全部
+  optional string credential_id = 1;
+  optional MFAMethod method = 2;
+  // 验证凭证：密码或验证码
+  oneof verifier {
+    string password = 10;
+    string totp_code = 11;
+    SMSVerification sms = 12;
+    WebAuthnAssertion webauthn = 13;
+  }
+  optional string reason = 20;
+}
+
+// Start authentication challenge
+message StartMFAChallengeRequest {
+  optional string user_id = 1;
+  MFAMethod method = 2;
+  optional string credential_id = 3; // 指定凭证（若多设备）
+}
+message StartMFAChallengeResponse {
+  oneof challenge {
+    SMSResult sms = 1;
+    WebAuthnResult webauthn = 2;
+    // TOTP 无需服务端 challenge，前端直接提示输入
+  }
+  string operation_id = 10;
+  optional google.protobuf.Timestamp expires_at = 11;
+}
+
+message VerifyMFAChallengeRequest {
+  string operation_id = 1;
+  oneof response {
+    string totp_code = 10;
+    SMSVerification sms = 11;
+    WebAuthnAssertion webauthn = 12;
+    string backup_code = 13;
+  }
+}
+message VerifyMFAChallengeResponse {
+  bool success = 1;
+  // 可选：一次性登录令牌或 session id（实现可选）
+  optional string session_token = 2;
+}
+
+// 备份码管理
+message GenerateBackupCodesRequest {
+  // 要生成的数量
+  optional int32 count = 1 [(gnostic.openapi.v3.property) = { description: "生成备份码数量" }];
+}
+message GenerateBackupCodesResponse {
+  // 明文备份码：仅返回一次，客户端需提示用户保存
+  repeated string codes = 1;
+  optional google.protobuf.Timestamp generated_at = 2;
+}
+message ListBackupCodesRequest {}
+message ListBackupCodesResponse {
+  // 仅返回元信息（剩余可用数量），不返回明文
+  int32 remaining = 1;
+  optional google.protobuf.Timestamp generated_at = 2;
+}
+
+// 撤销设备/凭证
+message RevokeMFADeviceRequest {
+  string credential_id = 1;
+}
+message SMSVerification {
+  string verification_id = 1;
+  string code = 2;
+}
+message WebAuthnAssertion {
+  string id = 1;
+  string client_data_json = 2;
+  string authenticator_data = 3;
+  string signature = 4;
+  optional string user_handle = 5;
+}

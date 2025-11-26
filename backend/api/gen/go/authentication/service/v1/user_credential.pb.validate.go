@@ -95,16 +95,20 @@ func (m *UserCredential) validate(all bool) error {
 		// no validation rules for ExtraInfo
 	}
 
+	if m.Provider != nil {
+		// no validation rules for Provider
+	}
+
+	if m.ProviderAccountId != nil {
+		// no validation rules for ProviderAccountId
+	}
+
 	if m.CreatedBy != nil {
 		// no validation rules for CreatedBy
 	}
 
 	if m.UpdatedBy != nil {
 		// no validation rules for UpdatedBy
-	}
-
-	if m.DeletedBy != nil {
-		// no validation rules for DeletedBy
 	}
 
 	if m.CreatedAt != nil {
@@ -847,39 +851,6 @@ func (m *GetUserCredentialRequest) validate(all bool) error {
 	var errors []error
 
 	// no validation rules for Id
-
-	if m.ViewMask != nil {
-
-		if all {
-			switch v := interface{}(m.GetViewMask()).(type) {
-			case interface{ ValidateAll() error }:
-				if err := v.ValidateAll(); err != nil {
-					errors = append(errors, GetUserCredentialRequestValidationError{
-						field:  "ViewMask",
-						reason: "embedded message failed validation",
-						cause:  err,
-					})
-				}
-			case interface{ Validate() error }:
-				if err := v.Validate(); err != nil {
-					errors = append(errors, GetUserCredentialRequestValidationError{
-						field:  "ViewMask",
-						reason: "embedded message failed validation",
-						cause:  err,
-					})
-				}
-			}
-		} else if v, ok := interface{}(m.GetViewMask()).(interface{ Validate() error }); ok {
-			if err := v.Validate(); err != nil {
-				return GetUserCredentialRequestValidationError{
-					field:  "ViewMask",
-					reason: "embedded message failed validation",
-					cause:  err,
-				}
-			}
-		}
-
-	}
 
 	if len(errors) > 0 {
 		return GetUserCredentialRequestMultiError(errors)

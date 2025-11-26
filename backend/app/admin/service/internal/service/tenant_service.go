@@ -199,7 +199,7 @@ func (s *TenantService) CreateTenantWithAdminUser(ctx context.Context, req *admi
 	if err = s.userCredentialsRepo.Create(ctx, &authenticationV1.CreateUserCredentialRequest{
 		Data: &authenticationV1.UserCredential{
 			UserId:         adminUser.Id,
-			IdentityType:   authenticationV1.IdentityType_USERNAME.Enum(),
+			IdentityType:   authenticationV1.UserCredential_USERNAME.Enum(),
 			Identifier:     adminUser.Username,
 			CredentialType: authenticationV1.UserCredential_PASSWORD_HASH.Enum(),
 			Credential:     trans.Ptr(req.GetPassword()),

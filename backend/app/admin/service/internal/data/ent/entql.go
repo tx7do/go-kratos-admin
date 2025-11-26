@@ -708,20 +708,26 @@ var schemaGraph = func() *sqlgraph.Schema {
 		},
 		Type: "UserCredential",
 		Fields: map[string]*sqlgraph.FieldSpec{
-			usercredential.FieldCreatedAt:      {Type: field.TypeTime, Column: usercredential.FieldCreatedAt},
-			usercredential.FieldUpdatedAt:      {Type: field.TypeTime, Column: usercredential.FieldUpdatedAt},
-			usercredential.FieldDeletedAt:      {Type: field.TypeTime, Column: usercredential.FieldDeletedAt},
-			usercredential.FieldTenantID:       {Type: field.TypeUint32, Column: usercredential.FieldTenantID},
-			usercredential.FieldUserID:         {Type: field.TypeUint32, Column: usercredential.FieldUserID},
-			usercredential.FieldIdentityType:   {Type: field.TypeEnum, Column: usercredential.FieldIdentityType},
-			usercredential.FieldIdentifier:     {Type: field.TypeString, Column: usercredential.FieldIdentifier},
-			usercredential.FieldCredentialType: {Type: field.TypeEnum, Column: usercredential.FieldCredentialType},
-			usercredential.FieldCredential:     {Type: field.TypeString, Column: usercredential.FieldCredential},
-			usercredential.FieldIsPrimary:      {Type: field.TypeBool, Column: usercredential.FieldIsPrimary},
-			usercredential.FieldStatus:         {Type: field.TypeEnum, Column: usercredential.FieldStatus},
-			usercredential.FieldExtraInfo:      {Type: field.TypeString, Column: usercredential.FieldExtraInfo},
-			usercredential.FieldActivateToken:  {Type: field.TypeString, Column: usercredential.FieldActivateToken},
-			usercredential.FieldResetToken:     {Type: field.TypeString, Column: usercredential.FieldResetToken},
+			usercredential.FieldCreatedAt:              {Type: field.TypeTime, Column: usercredential.FieldCreatedAt},
+			usercredential.FieldUpdatedAt:              {Type: field.TypeTime, Column: usercredential.FieldUpdatedAt},
+			usercredential.FieldDeletedAt:              {Type: field.TypeTime, Column: usercredential.FieldDeletedAt},
+			usercredential.FieldTenantID:               {Type: field.TypeUint32, Column: usercredential.FieldTenantID},
+			usercredential.FieldUserID:                 {Type: field.TypeUint32, Column: usercredential.FieldUserID},
+			usercredential.FieldIdentityType:           {Type: field.TypeEnum, Column: usercredential.FieldIdentityType},
+			usercredential.FieldIdentifier:             {Type: field.TypeString, Column: usercredential.FieldIdentifier},
+			usercredential.FieldCredentialType:         {Type: field.TypeEnum, Column: usercredential.FieldCredentialType},
+			usercredential.FieldCredential:             {Type: field.TypeString, Column: usercredential.FieldCredential},
+			usercredential.FieldIsPrimary:              {Type: field.TypeBool, Column: usercredential.FieldIsPrimary},
+			usercredential.FieldStatus:                 {Type: field.TypeEnum, Column: usercredential.FieldStatus},
+			usercredential.FieldExtraInfo:              {Type: field.TypeString, Column: usercredential.FieldExtraInfo},
+			usercredential.FieldProvider:               {Type: field.TypeString, Column: usercredential.FieldProvider},
+			usercredential.FieldProviderAccountID:      {Type: field.TypeString, Column: usercredential.FieldProviderAccountID},
+			usercredential.FieldActivateTokenHash:      {Type: field.TypeString, Column: usercredential.FieldActivateTokenHash},
+			usercredential.FieldActivateTokenExpiresAt: {Type: field.TypeTime, Column: usercredential.FieldActivateTokenExpiresAt},
+			usercredential.FieldActivateTokenUsedAt:    {Type: field.TypeTime, Column: usercredential.FieldActivateTokenUsedAt},
+			usercredential.FieldResetTokenHash:         {Type: field.TypeString, Column: usercredential.FieldResetTokenHash},
+			usercredential.FieldResetTokenExpiresAt:    {Type: field.TypeTime, Column: usercredential.FieldResetTokenExpiresAt},
+			usercredential.FieldResetTokenUsedAt:       {Type: field.TypeTime, Column: usercredential.FieldResetTokenUsedAt},
 		},
 	}
 	graph.Nodes[25] = &sqlgraph.Node{
@@ -3919,14 +3925,44 @@ func (f *UserCredentialFilter) WhereExtraInfo(p entql.StringP) {
 	f.Where(p.Field(usercredential.FieldExtraInfo))
 }
 
-// WhereActivateToken applies the entql string predicate on the activate_token field.
-func (f *UserCredentialFilter) WhereActivateToken(p entql.StringP) {
-	f.Where(p.Field(usercredential.FieldActivateToken))
+// WhereProvider applies the entql string predicate on the provider field.
+func (f *UserCredentialFilter) WhereProvider(p entql.StringP) {
+	f.Where(p.Field(usercredential.FieldProvider))
 }
 
-// WhereResetToken applies the entql string predicate on the reset_token field.
-func (f *UserCredentialFilter) WhereResetToken(p entql.StringP) {
-	f.Where(p.Field(usercredential.FieldResetToken))
+// WhereProviderAccountID applies the entql string predicate on the provider_account_id field.
+func (f *UserCredentialFilter) WhereProviderAccountID(p entql.StringP) {
+	f.Where(p.Field(usercredential.FieldProviderAccountID))
+}
+
+// WhereActivateTokenHash applies the entql string predicate on the activate_token_hash field.
+func (f *UserCredentialFilter) WhereActivateTokenHash(p entql.StringP) {
+	f.Where(p.Field(usercredential.FieldActivateTokenHash))
+}
+
+// WhereActivateTokenExpiresAt applies the entql time.Time predicate on the activate_token_expires_at field.
+func (f *UserCredentialFilter) WhereActivateTokenExpiresAt(p entql.TimeP) {
+	f.Where(p.Field(usercredential.FieldActivateTokenExpiresAt))
+}
+
+// WhereActivateTokenUsedAt applies the entql time.Time predicate on the activate_token_used_at field.
+func (f *UserCredentialFilter) WhereActivateTokenUsedAt(p entql.TimeP) {
+	f.Where(p.Field(usercredential.FieldActivateTokenUsedAt))
+}
+
+// WhereResetTokenHash applies the entql string predicate on the reset_token_hash field.
+func (f *UserCredentialFilter) WhereResetTokenHash(p entql.StringP) {
+	f.Where(p.Field(usercredential.FieldResetTokenHash))
+}
+
+// WhereResetTokenExpiresAt applies the entql time.Time predicate on the reset_token_expires_at field.
+func (f *UserCredentialFilter) WhereResetTokenExpiresAt(p entql.TimeP) {
+	f.Where(p.Field(usercredential.FieldResetTokenExpiresAt))
+}
+
+// WhereResetTokenUsedAt applies the entql time.Time predicate on the reset_token_used_at field.
+func (f *UserCredentialFilter) WhereResetTokenUsedAt(p entql.TimeP) {
+	f.Where(p.Field(usercredential.FieldResetTokenUsedAt))
 }
 
 // addPredicate implements the predicateAdder interface.

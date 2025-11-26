@@ -27,310 +27,205 @@ const (
 )
 
 // 身份类型
-type IdentityType int32
+type UserCredential_IdentityType int32
 
 const (
-	IdentityType_USERNAME    IdentityType = 0   // 用户名
-	IdentityType_USERID      IdentityType = 1   // 用户ID
-	IdentityType_EMAIL       IdentityType = 2   // 邮箱地址
-	IdentityType_PHONE       IdentityType = 3   // 手机号
-	IdentityType_WECHAT      IdentityType = 100 // 微信
-	IdentityType_QQ          IdentityType = 101 // QQ
-	IdentityType_WEIBO       IdentityType = 102 // 微博
-	IdentityType_DOUYIN      IdentityType = 103 // 抖音
-	IdentityType_KUAISHOU    IdentityType = 104 // 快手
-	IdentityType_BAIDU       IdentityType = 105 // 百度
-	IdentityType_ALIPAY      IdentityType = 106 // 支付宝
-	IdentityType_TAOBAO      IdentityType = 107 // 淘宝
-	IdentityType_JD          IdentityType = 108 // 京东
-	IdentityType_MEITUAN     IdentityType = 109 // 美团
-	IdentityType_DINGTALK    IdentityType = 110 // 钉钉
-	IdentityType_BILIBILI    IdentityType = 111 // 哔哩哔哩
-	IdentityType_XIAOHONGSHU IdentityType = 112 // 小红书
-	IdentityType_GOOGLE      IdentityType = 200 // Google
-	IdentityType_FACEBOOK    IdentityType = 201 // Facebook
-	IdentityType_APPLE       IdentityType = 202 // Apple
-	IdentityType_TELEGRAM    IdentityType = 203 // Telegram
-	IdentityType_TWITTER     IdentityType = 204 // Twitter
-	IdentityType_LINKEDIN    IdentityType = 205 // LinkedIn
-	IdentityType_GITHUB      IdentityType = 206 // GitHub
-	IdentityType_MICROSOFT   IdentityType = 207 // Microsoft
-	IdentityType_DISCORD     IdentityType = 208 // Discord
-	IdentityType_SLACK       IdentityType = 209 // Slack
-	IdentityType_INSTAGRAM   IdentityType = 210 // Instagram
-	IdentityType_TIKTOK      IdentityType = 211 // TikTok
-	IdentityType_REDDIT      IdentityType = 212 // Reddit
-	IdentityType_YOUTUBE     IdentityType = 213 // YouTube
-	IdentityType_SPOTIFY     IdentityType = 214 // Spotify
-	IdentityType_PINTEREST   IdentityType = 215 // Pinterest
-	IdentityType_SNAPCHAT    IdentityType = 216 // Snapchat
-	IdentityType_TUMBLR      IdentityType = 217 // Tumblr
-	IdentityType_YAHOO       IdentityType = 218 // Yahoo
-	IdentityType_WHATSAPP    IdentityType = 219 // WhatsApp
-	IdentityType_LINE        IdentityType = 220 // LINE
+	UserCredential_USERNAME UserCredential_IdentityType = 0 // 用户名
+	UserCredential_USERID   UserCredential_IdentityType = 1 // 用户ID
+	UserCredential_EMAIL    UserCredential_IdentityType = 2 // 邮箱地址
+	UserCredential_PHONE    UserCredential_IdentityType = 3 // 手机号
+	// 通用的外部/第三方身份类型
+	UserCredential_SOCIAL_OAUTH     UserCredential_IdentityType = 100 // 社交平台 OAuth 认证
+	UserCredential_ENTERPRISE_SSO   UserCredential_IdentityType = 200 // 企业单点登录 (SAML/OIDC/AD)
+	UserCredential_IDENTITY_API_KEY UserCredential_IdentityType = 300 // API 密钥 (用于服务间认证等)
+	UserCredential_DEVICE_ID        UserCredential_IdentityType = 400 // 设备标识符
+	// 可扩展/自定义
+	UserCredential_IDENTITY_CUSTOM              UserCredential_IdentityType = 1000
+	UserCredential_IDENTITY_RESERVED_FOR_FUTURE UserCredential_IdentityType = 10000
 )
 
-// Enum value maps for IdentityType.
+// Enum value maps for UserCredential_IdentityType.
 var (
-	IdentityType_name = map[int32]string{
-		0:   "USERNAME",
-		1:   "USERID",
-		2:   "EMAIL",
-		3:   "PHONE",
-		100: "WECHAT",
-		101: "QQ",
-		102: "WEIBO",
-		103: "DOUYIN",
-		104: "KUAISHOU",
-		105: "BAIDU",
-		106: "ALIPAY",
-		107: "TAOBAO",
-		108: "JD",
-		109: "MEITUAN",
-		110: "DINGTALK",
-		111: "BILIBILI",
-		112: "XIAOHONGSHU",
-		200: "GOOGLE",
-		201: "FACEBOOK",
-		202: "APPLE",
-		203: "TELEGRAM",
-		204: "TWITTER",
-		205: "LINKEDIN",
-		206: "GITHUB",
-		207: "MICROSOFT",
-		208: "DISCORD",
-		209: "SLACK",
-		210: "INSTAGRAM",
-		211: "TIKTOK",
-		212: "REDDIT",
-		213: "YOUTUBE",
-		214: "SPOTIFY",
-		215: "PINTEREST",
-		216: "SNAPCHAT",
-		217: "TUMBLR",
-		218: "YAHOO",
-		219: "WHATSAPP",
-		220: "LINE",
+	UserCredential_IdentityType_name = map[int32]string{
+		0:     "USERNAME",
+		1:     "USERID",
+		2:     "EMAIL",
+		3:     "PHONE",
+		100:   "SOCIAL_OAUTH",
+		200:   "ENTERPRISE_SSO",
+		300:   "IDENTITY_API_KEY",
+		400:   "DEVICE_ID",
+		1000:  "IDENTITY_CUSTOM",
+		10000: "IDENTITY_RESERVED_FOR_FUTURE",
 	}
-	IdentityType_value = map[string]int32{
-		"USERNAME":    0,
-		"USERID":      1,
-		"EMAIL":       2,
-		"PHONE":       3,
-		"WECHAT":      100,
-		"QQ":          101,
-		"WEIBO":       102,
-		"DOUYIN":      103,
-		"KUAISHOU":    104,
-		"BAIDU":       105,
-		"ALIPAY":      106,
-		"TAOBAO":      107,
-		"JD":          108,
-		"MEITUAN":     109,
-		"DINGTALK":    110,
-		"BILIBILI":    111,
-		"XIAOHONGSHU": 112,
-		"GOOGLE":      200,
-		"FACEBOOK":    201,
-		"APPLE":       202,
-		"TELEGRAM":    203,
-		"TWITTER":     204,
-		"LINKEDIN":    205,
-		"GITHUB":      206,
-		"MICROSOFT":   207,
-		"DISCORD":     208,
-		"SLACK":       209,
-		"INSTAGRAM":   210,
-		"TIKTOK":      211,
-		"REDDIT":      212,
-		"YOUTUBE":     213,
-		"SPOTIFY":     214,
-		"PINTEREST":   215,
-		"SNAPCHAT":    216,
-		"TUMBLR":      217,
-		"YAHOO":       218,
-		"WHATSAPP":    219,
-		"LINE":        220,
+	UserCredential_IdentityType_value = map[string]int32{
+		"USERNAME":                     0,
+		"USERID":                       1,
+		"EMAIL":                        2,
+		"PHONE":                        3,
+		"SOCIAL_OAUTH":                 100,
+		"ENTERPRISE_SSO":               200,
+		"IDENTITY_API_KEY":             300,
+		"DEVICE_ID":                    400,
+		"IDENTITY_CUSTOM":              1000,
+		"IDENTITY_RESERVED_FOR_FUTURE": 10000,
 	}
 )
 
-func (x IdentityType) Enum() *IdentityType {
-	p := new(IdentityType)
+func (x UserCredential_IdentityType) Enum() *UserCredential_IdentityType {
+	p := new(UserCredential_IdentityType)
 	*p = x
 	return p
 }
 
-func (x IdentityType) String() string {
+func (x UserCredential_IdentityType) String() string {
 	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
 }
 
-func (IdentityType) Descriptor() protoreflect.EnumDescriptor {
+func (UserCredential_IdentityType) Descriptor() protoreflect.EnumDescriptor {
 	return file_authentication_service_v1_user_credential_proto_enumTypes[0].Descriptor()
 }
 
-func (IdentityType) Type() protoreflect.EnumType {
+func (UserCredential_IdentityType) Type() protoreflect.EnumType {
 	return &file_authentication_service_v1_user_credential_proto_enumTypes[0]
 }
 
-func (x IdentityType) Number() protoreflect.EnumNumber {
+func (x UserCredential_IdentityType) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use IdentityType.Descriptor instead.
-func (IdentityType) EnumDescriptor() ([]byte, []int) {
-	return file_authentication_service_v1_user_credential_proto_rawDescGZIP(), []int{0}
+// Deprecated: Use UserCredential_IdentityType.Descriptor instead.
+func (UserCredential_IdentityType) EnumDescriptor() ([]byte, []int) {
+	return file_authentication_service_v1_user_credential_proto_rawDescGZIP(), []int{0, 0}
 }
 
 // 凭证类型
-type UserCredential_Type int32
+type UserCredential_CredentialType int32
 
 const (
-	UserCredential_PASSWORD_HASH               UserCredential_Type = 0  // 加密密码
-	UserCredential_ACCESS_TOKEN                UserCredential_Type = 1  // 访问令牌
-	UserCredential_REFRESH_TOKEN               UserCredential_Type = 2  // 刷新令牌
-	UserCredential_EMAIL_VERIFICATION_CODE     UserCredential_Type = 3  // 邮箱验证码
-	UserCredential_PHONE_VERIFICATION_CODE     UserCredential_Type = 4  // 手机验证码
-	UserCredential_OAUTH_TOKEN                 UserCredential_Type = 5  // OAuth令牌
-	UserCredential_API_KEY                     UserCredential_Type = 6  // API密钥
-	UserCredential_SSO_TOKEN                   UserCredential_Type = 7  // 单点登录令牌
-	UserCredential_JWT                         UserCredential_Type = 8  // JSON Web Token
-	UserCredential_SAML_ASSERTION              UserCredential_Type = 9  // SAML断言
-	UserCredential_OPENID_CONNECT_ID_TOKEN     UserCredential_Type = 10 // OpenID Connect ID令牌
-	UserCredential_SESSION_COOKIE              UserCredential_Type = 11 // 会话Cookie
-	UserCredential_TEMPORARY_CREDENTIAL        UserCredential_Type = 12 // 临时凭证
-	UserCredential_CUSTOM_CREDENTIAL           UserCredential_Type = 13 // 自定义凭证类型
-	UserCredential_BIOMETRIC_DATA              UserCredential_Type = 14 // 生物识别数据（如指纹、面部识别等）
-	UserCredential_SECURITY_KEY                UserCredential_Type = 15 // 安全密钥（如FIDO2/WebAuthn等）
-	UserCredential_OTP                         UserCredential_Type = 16 // 一次性密码（One-Time Password）
-	UserCredential_SMART_CARD                  UserCredential_Type = 17 // 智能卡凭证
-	UserCredential_CRYPTOGRAPHIC_CERTIFICATE   UserCredential_Type = 18 // 加密证书
-	UserCredential_BIOMETRIC_TOKEN             UserCredential_Type = 19 // 生物识别令牌
-	UserCredential_DEVICE_FINGERPRINT          UserCredential_Type = 20 // 设备指纹
-	UserCredential_HARDWARE_TOKEN              UserCredential_Type = 21 // 硬件令牌
-	UserCredential_SOFTWARE_TOKEN              UserCredential_Type = 22 // 软件令牌
-	UserCredential_SECURITY_QUESTION           UserCredential_Type = 23 // 安全问题答案
-	UserCredential_SECURITY_PIN                UserCredential_Type = 24 // 安全PIN码
-	UserCredential_TWO_FACTOR_AUTHENTICATION   UserCredential_Type = 25 // 双因素认证
-	UserCredential_MULTI_FACTOR_AUTHENTICATION UserCredential_Type = 26 // 多因素认证
-	UserCredential_PASSWORDLESS_AUTHENTICATION UserCredential_Type = 27 // 无密码认证
-	UserCredential_SOCIAL_LOGIN_TOKEN          UserCredential_Type = 28 // 社交登录令牌
-	UserCredential_SSO_SESSION                 UserCredential_Type = 29 // 单点登录会话
-	UserCredential_API_SECRET                  UserCredential_Type = 30 // API密钥
-	UserCredential_CUSTOM_TOKEN                UserCredential_Type = 31 // 自定义令牌
-	UserCredential_OAUTH2_CLIENT_CREDENTIALS   UserCredential_Type = 32 // OAuth2客户端凭证
-	UserCredential_OAUTH2_AUTHORIZATION_CODE   UserCredential_Type = 33 // OAuth2授权码
-	UserCredential_OAUTH2_IMPLICIT_GRANT       UserCredential_Type = 34 // OAuth2隐式授权
-	UserCredential_OAUTH2_PASSWORD_GRANT       UserCredential_Type = 35 // OAuth2密码授权
-	UserCredential_OAUTH2_REFRESH_GRANT        UserCredential_Type = 36 // OAuth2刷新授权
+	UserCredential_TYPE_UNSPECIFIED UserCredential_CredentialType = 0
+	// 密码类
+	UserCredential_PASSWORD_HASH UserCredential_CredentialType = 1
+	// API / 静态密钥
+	UserCredential_API_KEY    UserCredential_CredentialType = 10
+	UserCredential_API_SECRET UserCredential_CredentialType = 11
+	// 访问/刷新令牌
+	UserCredential_ACCESS_TOKEN  UserCredential_CredentialType = 20
+	UserCredential_REFRESH_TOKEN UserCredential_CredentialType = 21
+	UserCredential_JWT           UserCredential_CredentialType = 22
+	// OAuth / Social
+	UserCredential_OAUTH_TOKEN              UserCredential_CredentialType = 30
+	UserCredential_OAUTH_AUTHORIZATION_CODE UserCredential_CredentialType = 31
+	UserCredential_OAUTH_CLIENT_CREDENTIALS UserCredential_CredentialType = 32
+	// OTP / 一次性密码与 MFA
+	UserCredential_OTP       UserCredential_CredentialType = 40
+	UserCredential_TOTP      UserCredential_CredentialType = 41
+	UserCredential_SMS_OTP   UserCredential_CredentialType = 42
+	UserCredential_EMAIL_OTP UserCredential_CredentialType = 43
+	// 设备 / 硬件 / 软件令牌
+	UserCredential_HARDWARE_TOKEN UserCredential_CredentialType = 50
+	UserCredential_SOFTWARE_TOKEN UserCredential_CredentialType = 51
+	UserCredential_SECURITY_KEY   UserCredential_CredentialType = 52
+	// 生物识别
+	UserCredential_BIOMETRIC       UserCredential_CredentialType = 60
+	UserCredential_BIOMETRIC_TOKEN UserCredential_CredentialType = 61
+	// SSO / 断言
+	UserCredential_SSO_TOKEN               UserCredential_CredentialType = 70
+	UserCredential_SAML_ASSERTION          UserCredential_CredentialType = 71
+	UserCredential_OPENID_CONNECT_ID_TOKEN UserCredential_CredentialType = 72
+	// 临时 / 会话类
+	UserCredential_SESSION_COOKIE       UserCredential_CredentialType = 80
+	UserCredential_TEMPORARY_CREDENTIAL UserCredential_CredentialType = 81
+	// 其他 / 自定义
+	UserCredential_CUSTOM              UserCredential_CredentialType = 200
+	UserCredential_RESERVED_FOR_FUTURE UserCredential_CredentialType = 1000
 )
 
-// Enum value maps for UserCredential_Type.
+// Enum value maps for UserCredential_CredentialType.
 var (
-	UserCredential_Type_name = map[int32]string{
-		0:  "PASSWORD_HASH",
-		1:  "ACCESS_TOKEN",
-		2:  "REFRESH_TOKEN",
-		3:  "EMAIL_VERIFICATION_CODE",
-		4:  "PHONE_VERIFICATION_CODE",
-		5:  "OAUTH_TOKEN",
-		6:  "API_KEY",
-		7:  "SSO_TOKEN",
-		8:  "JWT",
-		9:  "SAML_ASSERTION",
-		10: "OPENID_CONNECT_ID_TOKEN",
-		11: "SESSION_COOKIE",
-		12: "TEMPORARY_CREDENTIAL",
-		13: "CUSTOM_CREDENTIAL",
-		14: "BIOMETRIC_DATA",
-		15: "SECURITY_KEY",
-		16: "OTP",
-		17: "SMART_CARD",
-		18: "CRYPTOGRAPHIC_CERTIFICATE",
-		19: "BIOMETRIC_TOKEN",
-		20: "DEVICE_FINGERPRINT",
-		21: "HARDWARE_TOKEN",
-		22: "SOFTWARE_TOKEN",
-		23: "SECURITY_QUESTION",
-		24: "SECURITY_PIN",
-		25: "TWO_FACTOR_AUTHENTICATION",
-		26: "MULTI_FACTOR_AUTHENTICATION",
-		27: "PASSWORDLESS_AUTHENTICATION",
-		28: "SOCIAL_LOGIN_TOKEN",
-		29: "SSO_SESSION",
-		30: "API_SECRET",
-		31: "CUSTOM_TOKEN",
-		32: "OAUTH2_CLIENT_CREDENTIALS",
-		33: "OAUTH2_AUTHORIZATION_CODE",
-		34: "OAUTH2_IMPLICIT_GRANT",
-		35: "OAUTH2_PASSWORD_GRANT",
-		36: "OAUTH2_REFRESH_GRANT",
+	UserCredential_CredentialType_name = map[int32]string{
+		0:    "TYPE_UNSPECIFIED",
+		1:    "PASSWORD_HASH",
+		10:   "API_KEY",
+		11:   "API_SECRET",
+		20:   "ACCESS_TOKEN",
+		21:   "REFRESH_TOKEN",
+		22:   "JWT",
+		30:   "OAUTH_TOKEN",
+		31:   "OAUTH_AUTHORIZATION_CODE",
+		32:   "OAUTH_CLIENT_CREDENTIALS",
+		40:   "OTP",
+		41:   "TOTP",
+		42:   "SMS_OTP",
+		43:   "EMAIL_OTP",
+		50:   "HARDWARE_TOKEN",
+		51:   "SOFTWARE_TOKEN",
+		52:   "SECURITY_KEY",
+		60:   "BIOMETRIC",
+		61:   "BIOMETRIC_TOKEN",
+		70:   "SSO_TOKEN",
+		71:   "SAML_ASSERTION",
+		72:   "OPENID_CONNECT_ID_TOKEN",
+		80:   "SESSION_COOKIE",
+		81:   "TEMPORARY_CREDENTIAL",
+		200:  "CUSTOM",
+		1000: "RESERVED_FOR_FUTURE",
 	}
-	UserCredential_Type_value = map[string]int32{
-		"PASSWORD_HASH":               0,
-		"ACCESS_TOKEN":                1,
-		"REFRESH_TOKEN":               2,
-		"EMAIL_VERIFICATION_CODE":     3,
-		"PHONE_VERIFICATION_CODE":     4,
-		"OAUTH_TOKEN":                 5,
-		"API_KEY":                     6,
-		"SSO_TOKEN":                   7,
-		"JWT":                         8,
-		"SAML_ASSERTION":              9,
-		"OPENID_CONNECT_ID_TOKEN":     10,
-		"SESSION_COOKIE":              11,
-		"TEMPORARY_CREDENTIAL":        12,
-		"CUSTOM_CREDENTIAL":           13,
-		"BIOMETRIC_DATA":              14,
-		"SECURITY_KEY":                15,
-		"OTP":                         16,
-		"SMART_CARD":                  17,
-		"CRYPTOGRAPHIC_CERTIFICATE":   18,
-		"BIOMETRIC_TOKEN":             19,
-		"DEVICE_FINGERPRINT":          20,
-		"HARDWARE_TOKEN":              21,
-		"SOFTWARE_TOKEN":              22,
-		"SECURITY_QUESTION":           23,
-		"SECURITY_PIN":                24,
-		"TWO_FACTOR_AUTHENTICATION":   25,
-		"MULTI_FACTOR_AUTHENTICATION": 26,
-		"PASSWORDLESS_AUTHENTICATION": 27,
-		"SOCIAL_LOGIN_TOKEN":          28,
-		"SSO_SESSION":                 29,
-		"API_SECRET":                  30,
-		"CUSTOM_TOKEN":                31,
-		"OAUTH2_CLIENT_CREDENTIALS":   32,
-		"OAUTH2_AUTHORIZATION_CODE":   33,
-		"OAUTH2_IMPLICIT_GRANT":       34,
-		"OAUTH2_PASSWORD_GRANT":       35,
-		"OAUTH2_REFRESH_GRANT":        36,
+	UserCredential_CredentialType_value = map[string]int32{
+		"TYPE_UNSPECIFIED":         0,
+		"PASSWORD_HASH":            1,
+		"API_KEY":                  10,
+		"API_SECRET":               11,
+		"ACCESS_TOKEN":             20,
+		"REFRESH_TOKEN":            21,
+		"JWT":                      22,
+		"OAUTH_TOKEN":              30,
+		"OAUTH_AUTHORIZATION_CODE": 31,
+		"OAUTH_CLIENT_CREDENTIALS": 32,
+		"OTP":                      40,
+		"TOTP":                     41,
+		"SMS_OTP":                  42,
+		"EMAIL_OTP":                43,
+		"HARDWARE_TOKEN":           50,
+		"SOFTWARE_TOKEN":           51,
+		"SECURITY_KEY":             52,
+		"BIOMETRIC":                60,
+		"BIOMETRIC_TOKEN":          61,
+		"SSO_TOKEN":                70,
+		"SAML_ASSERTION":           71,
+		"OPENID_CONNECT_ID_TOKEN":  72,
+		"SESSION_COOKIE":           80,
+		"TEMPORARY_CREDENTIAL":     81,
+		"CUSTOM":                   200,
+		"RESERVED_FOR_FUTURE":      1000,
 	}
 )
 
-func (x UserCredential_Type) Enum() *UserCredential_Type {
-	p := new(UserCredential_Type)
+func (x UserCredential_CredentialType) Enum() *UserCredential_CredentialType {
+	p := new(UserCredential_CredentialType)
 	*p = x
 	return p
 }
 
-func (x UserCredential_Type) String() string {
+func (x UserCredential_CredentialType) String() string {
 	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
 }
 
-func (UserCredential_Type) Descriptor() protoreflect.EnumDescriptor {
+func (UserCredential_CredentialType) Descriptor() protoreflect.EnumDescriptor {
 	return file_authentication_service_v1_user_credential_proto_enumTypes[1].Descriptor()
 }
 
-func (UserCredential_Type) Type() protoreflect.EnumType {
+func (UserCredential_CredentialType) Type() protoreflect.EnumType {
 	return &file_authentication_service_v1_user_credential_proto_enumTypes[1]
 }
 
-func (x UserCredential_Type) Number() protoreflect.EnumNumber {
+func (x UserCredential_CredentialType) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use UserCredential_Type.Descriptor instead.
-func (UserCredential_Type) EnumDescriptor() ([]byte, []int) {
-	return file_authentication_service_v1_user_credential_proto_rawDescGZIP(), []int{0, 0}
+// Deprecated: Use UserCredential_CredentialType.Descriptor instead.
+func (UserCredential_CredentialType) EnumDescriptor() ([]byte, []int) {
+	return file_authentication_service_v1_user_credential_proto_rawDescGZIP(), []int{0, 1}
 }
 
 // 用户凭证状态
@@ -392,30 +287,31 @@ func (x UserCredential_Status) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use UserCredential_Status.Descriptor instead.
 func (UserCredential_Status) EnumDescriptor() ([]byte, []int) {
-	return file_authentication_service_v1_user_credential_proto_rawDescGZIP(), []int{0, 1}
+	return file_authentication_service_v1_user_credential_proto_rawDescGZIP(), []int{0, 2}
 }
 
 // 用户凭证
 type UserCredential struct {
-	state          protoimpl.MessageState `protogen:"open.v1"`
-	Id             uint32                 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`                                                                                                         // 主键ID
-	UserId         *uint32                `protobuf:"varint,2,opt,name=user_id,json=userId,proto3,oneof" json:"user_id,omitempty"`                                                                             // 关联主表的用户ID
-	TenantId       *uint32                `protobuf:"varint,3,opt,name=tenant_id,json=tenantId,proto3,oneof" json:"tenant_id,omitempty"`                                                                       // 租户ID
-	IdentityType   *IdentityType          `protobuf:"varint,10,opt,name=identity_type,json=identityType,proto3,enum=authentication.service.v1.IdentityType,oneof" json:"identity_type,omitempty"`              // 认证方式类型
-	Identifier     *string                `protobuf:"bytes,11,opt,name=identifier,proto3,oneof" json:"identifier,omitempty"`                                                                                   // 身份唯一标识符
-	CredentialType *UserCredential_Type   `protobuf:"varint,20,opt,name=credential_type,json=credentialType,proto3,enum=authentication.service.v1.UserCredential_Type,oneof" json:"credential_type,omitempty"` // 凭证类型
-	Credential     *string                `protobuf:"bytes,21,opt,name=credential,proto3,oneof" json:"credential,omitempty"`                                                                                   // 凭证
-	IsPrimary      *bool                  `protobuf:"varint,30,opt,name=is_primary,json=isPrimary,proto3,oneof" json:"is_primary,omitempty"`                                                                   // 是否主认证方式
-	Status         *UserCredential_Status `protobuf:"varint,31,opt,name=status,proto3,enum=authentication.service.v1.UserCredential_Status,oneof" json:"status,omitempty"`                                     // 凭证状态
-	ExtraInfo      *string                `protobuf:"bytes,32,opt,name=extra_info,json=extraInfo,proto3,oneof" json:"extra_info,omitempty"`                                                                    // 扩展信息
-	CreatedBy      *uint32                `protobuf:"varint,100,opt,name=created_by,json=createdBy,proto3,oneof" json:"created_by,omitempty"`                                                                  // 创建者ID
-	UpdatedBy      *uint32                `protobuf:"varint,101,opt,name=updated_by,json=updatedBy,proto3,oneof" json:"updated_by,omitempty"`                                                                  // 更新者ID
-	DeletedBy      *uint32                `protobuf:"varint,102,opt,name=deleted_by,json=deletedBy,proto3,oneof" json:"deleted_by,omitempty"`                                                                  // 删除者用户ID
-	CreatedAt      *timestamppb.Timestamp `protobuf:"bytes,200,opt,name=created_at,json=createdAt,proto3,oneof" json:"created_at,omitempty"`                                                                   // 创建时间
-	UpdatedAt      *timestamppb.Timestamp `protobuf:"bytes,201,opt,name=updated_at,json=updatedAt,proto3,oneof" json:"updated_at,omitempty"`                                                                   // 更新时间
-	DeletedAt      *timestamppb.Timestamp `protobuf:"bytes,202,opt,name=deleted_at,json=deletedAt,proto3,oneof" json:"deleted_at,omitempty"`                                                                   // 删除时间
-	unknownFields  protoimpl.UnknownFields
-	sizeCache      protoimpl.SizeCache
+	state             protoimpl.MessageState         `protogen:"open.v1"`
+	Id                uint32                         `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`                                                                                                                   // 主键ID
+	UserId            *uint32                        `protobuf:"varint,2,opt,name=user_id,json=userId,proto3,oneof" json:"user_id,omitempty"`                                                                                       // 关联主表的用户ID
+	TenantId          *uint32                        `protobuf:"varint,3,opt,name=tenant_id,json=tenantId,proto3,oneof" json:"tenant_id,omitempty"`                                                                                 // 租户ID
+	IdentityType      *UserCredential_IdentityType   `protobuf:"varint,10,opt,name=identity_type,json=identityType,proto3,enum=authentication.service.v1.UserCredential_IdentityType,oneof" json:"identity_type,omitempty"`         // 认证方式类型
+	Identifier        *string                        `protobuf:"bytes,11,opt,name=identifier,proto3,oneof" json:"identifier,omitempty"`                                                                                             // 身份唯一标识符
+	CredentialType    *UserCredential_CredentialType `protobuf:"varint,20,opt,name=credential_type,json=credentialType,proto3,enum=authentication.service.v1.UserCredential_CredentialType,oneof" json:"credential_type,omitempty"` // 凭证类型
+	Credential        *string                        `protobuf:"bytes,21,opt,name=credential,proto3,oneof" json:"credential,omitempty"`                                                                                             // 凭证
+	IsPrimary         *bool                          `protobuf:"varint,30,opt,name=is_primary,json=isPrimary,proto3,oneof" json:"is_primary,omitempty"`                                                                             // 是否主认证方式
+	Status            *UserCredential_Status         `protobuf:"varint,31,opt,name=status,proto3,enum=authentication.service.v1.UserCredential_Status,oneof" json:"status,omitempty"`                                               // 凭证状态
+	ExtraInfo         *string                        `protobuf:"bytes,32,opt,name=extra_info,json=extraInfo,proto3,oneof" json:"extra_info,omitempty"`                                                                              // 扩展信息
+	Provider          *string                        `protobuf:"bytes,33,opt,name=provider,proto3,oneof" json:"provider,omitempty"`                                                                                                 // 第三方平台标识（如 `google`, `wechat`），当 identity_type 为 SOCIAL_OAUTH/ENTERPRISE_SSO 时使用
+	ProviderAccountId *string                        `protobuf:"bytes,34,opt,name=provider_account_id,json=providerAccountId,proto3,oneof" json:"provider_account_id,omitempty"`                                                    // 第三方平台的账号唯一ID（如 OpenID / unionid / sub）
+	CreatedBy         *uint32                        `protobuf:"varint,100,opt,name=created_by,json=createdBy,proto3,oneof" json:"created_by,omitempty"`                                                                            // 创建者ID
+	UpdatedBy         *uint32                        `protobuf:"varint,101,opt,name=updated_by,json=updatedBy,proto3,oneof" json:"updated_by,omitempty"`                                                                            // 更新者ID
+	CreatedAt         *timestamppb.Timestamp         `protobuf:"bytes,200,opt,name=created_at,json=createdAt,proto3,oneof" json:"created_at,omitempty"`                                                                             // 创建时间
+	UpdatedAt         *timestamppb.Timestamp         `protobuf:"bytes,201,opt,name=updated_at,json=updatedAt,proto3,oneof" json:"updated_at,omitempty"`                                                                             // 更新时间
+	DeletedAt         *timestamppb.Timestamp         `protobuf:"bytes,202,opt,name=deleted_at,json=deletedAt,proto3,oneof" json:"deleted_at,omitempty"`                                                                             // 删除时间
+	unknownFields     protoimpl.UnknownFields
+	sizeCache         protoimpl.SizeCache
 }
 
 func (x *UserCredential) Reset() {
@@ -469,11 +365,11 @@ func (x *UserCredential) GetTenantId() uint32 {
 	return 0
 }
 
-func (x *UserCredential) GetIdentityType() IdentityType {
+func (x *UserCredential) GetIdentityType() UserCredential_IdentityType {
 	if x != nil && x.IdentityType != nil {
 		return *x.IdentityType
 	}
-	return IdentityType_USERNAME
+	return UserCredential_USERNAME
 }
 
 func (x *UserCredential) GetIdentifier() string {
@@ -483,11 +379,11 @@ func (x *UserCredential) GetIdentifier() string {
 	return ""
 }
 
-func (x *UserCredential) GetCredentialType() UserCredential_Type {
+func (x *UserCredential) GetCredentialType() UserCredential_CredentialType {
 	if x != nil && x.CredentialType != nil {
 		return *x.CredentialType
 	}
-	return UserCredential_PASSWORD_HASH
+	return UserCredential_TYPE_UNSPECIFIED
 }
 
 func (x *UserCredential) GetCredential() string {
@@ -518,6 +414,20 @@ func (x *UserCredential) GetExtraInfo() string {
 	return ""
 }
 
+func (x *UserCredential) GetProvider() string {
+	if x != nil && x.Provider != nil {
+		return *x.Provider
+	}
+	return ""
+}
+
+func (x *UserCredential) GetProviderAccountId() string {
+	if x != nil && x.ProviderAccountId != nil {
+		return *x.ProviderAccountId
+	}
+	return ""
+}
+
 func (x *UserCredential) GetCreatedBy() uint32 {
 	if x != nil && x.CreatedBy != nil {
 		return *x.CreatedBy
@@ -528,13 +438,6 @@ func (x *UserCredential) GetCreatedBy() uint32 {
 func (x *UserCredential) GetUpdatedBy() uint32 {
 	if x != nil && x.UpdatedBy != nil {
 		return *x.UpdatedBy
-	}
-	return 0
-}
-
-func (x *UserCredential) GetDeletedBy() uint32 {
-	if x != nil && x.DeletedBy != nil {
-		return *x.DeletedBy
 	}
 	return 0
 }
@@ -768,7 +671,6 @@ func (x *DeleteUserCredentialRequest) GetId() uint32 {
 type GetUserCredentialRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            uint32                 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
-	ViewMask      *fieldmaskpb.FieldMask `protobuf:"bytes,100,opt,name=view_mask,json=viewMask,proto3,oneof" json:"view_mask,omitempty"` // 视图字段过滤器，用于控制返回的字段
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -810,18 +712,11 @@ func (x *GetUserCredentialRequest) GetId() uint32 {
 	return 0
 }
 
-func (x *GetUserCredentialRequest) GetViewMask() *fieldmaskpb.FieldMask {
-	if x != nil {
-		return x.ViewMask
-	}
-	return nil
-}
-
 // 查询 - 请求
 type GetUserCredentialByIdentifierRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	IdentityType  IdentityType           `protobuf:"varint,1,opt,name=identity_type,json=identityType,proto3,enum=authentication.service.v1.IdentityType" json:"identity_type,omitempty"` // 身份类型
-	Identifier    string                 `protobuf:"bytes,2,opt,name=identifier,proto3" json:"identifier,omitempty"`                                                                      // 身份唯一标识符
+	state         protoimpl.MessageState      `protogen:"open.v1"`
+	IdentityType  UserCredential_IdentityType `protobuf:"varint,1,opt,name=identity_type,json=identityType,proto3,enum=authentication.service.v1.UserCredential_IdentityType" json:"identity_type,omitempty"` // 身份类型
+	Identifier    string                      `protobuf:"bytes,2,opt,name=identifier,proto3" json:"identifier,omitempty"`                                                                                     // 身份唯一标识符
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -856,11 +751,11 @@ func (*GetUserCredentialByIdentifierRequest) Descriptor() ([]byte, []int) {
 	return file_authentication_service_v1_user_credential_proto_rawDescGZIP(), []int{6}
 }
 
-func (x *GetUserCredentialByIdentifierRequest) GetIdentityType() IdentityType {
+func (x *GetUserCredentialByIdentifierRequest) GetIdentityType() UserCredential_IdentityType {
 	if x != nil {
 		return x.IdentityType
 	}
-	return IdentityType_USERNAME
+	return UserCredential_USERNAME
 }
 
 func (x *GetUserCredentialByIdentifierRequest) GetIdentifier() string {
@@ -872,11 +767,11 @@ func (x *GetUserCredentialByIdentifierRequest) GetIdentifier() string {
 
 // 验证凭证 - 请求
 type VerifyCredentialRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	IdentityType  IdentityType           `protobuf:"varint,1,opt,name=identity_type,json=identityType,proto3,enum=authentication.service.v1.IdentityType" json:"identity_type,omitempty"` // 身份类型
-	Identifier    string                 `protobuf:"bytes,2,opt,name=identifier,proto3" json:"identifier,omitempty"`                                                                      // 身份唯一标识符
-	Credential    string                 `protobuf:"bytes,3,opt,name=credential,proto3" json:"credential,omitempty"`                                                                      // 凭证
-	NeedDecrypt   bool                   `protobuf:"varint,4,opt,name=need_decrypt,json=needDecrypt,proto3" json:"need_decrypt,omitempty"`                                                // 是否需要解码
+	state         protoimpl.MessageState      `protogen:"open.v1"`
+	IdentityType  UserCredential_IdentityType `protobuf:"varint,1,opt,name=identity_type,json=identityType,proto3,enum=authentication.service.v1.UserCredential_IdentityType" json:"identity_type,omitempty"` // 身份类型
+	Identifier    string                      `protobuf:"bytes,2,opt,name=identifier,proto3" json:"identifier,omitempty"`                                                                                     // 身份唯一标识符
+	Credential    string                      `protobuf:"bytes,3,opt,name=credential,proto3" json:"credential,omitempty"`                                                                                     // 凭证
+	NeedDecrypt   bool                        `protobuf:"varint,4,opt,name=need_decrypt,json=needDecrypt,proto3" json:"need_decrypt,omitempty"`                                                               // 是否需要解码
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -911,11 +806,11 @@ func (*VerifyCredentialRequest) Descriptor() ([]byte, []int) {
 	return file_authentication_service_v1_user_credential_proto_rawDescGZIP(), []int{7}
 }
 
-func (x *VerifyCredentialRequest) GetIdentityType() IdentityType {
+func (x *VerifyCredentialRequest) GetIdentityType() UserCredential_IdentityType {
 	if x != nil {
 		return x.IdentityType
 	}
-	return IdentityType_USERNAME
+	return UserCredential_USERNAME
 }
 
 func (x *VerifyCredentialRequest) GetIdentifier() string {
@@ -986,12 +881,12 @@ func (x *VerifyCredentialResponse) GetSuccess() bool {
 
 // 修改凭证 - 请求
 type ChangeCredentialRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	IdentityType  IdentityType           `protobuf:"varint,1,opt,name=identity_type,json=identityType,proto3,enum=authentication.service.v1.IdentityType" json:"identity_type,omitempty"` // 身份类型
-	Identifier    string                 `protobuf:"bytes,2,opt,name=identifier,proto3" json:"identifier,omitempty"`                                                                      // 身份唯一标识符
-	OldCredential string                 `protobuf:"bytes,3,opt,name=old_credential,json=oldCredential,proto3" json:"old_credential,omitempty"`                                           // 旧凭证
-	NewCredential string                 `protobuf:"bytes,4,opt,name=new_credential,json=newCredential,proto3" json:"new_credential,omitempty"`                                           // 新凭证
-	NeedDecrypt   bool                   `protobuf:"varint,5,opt,name=need_decrypt,json=needDecrypt,proto3" json:"need_decrypt,omitempty"`                                                // 是否需要解码
+	state         protoimpl.MessageState      `protogen:"open.v1"`
+	IdentityType  UserCredential_IdentityType `protobuf:"varint,1,opt,name=identity_type,json=identityType,proto3,enum=authentication.service.v1.UserCredential_IdentityType" json:"identity_type,omitempty"` // 身份类型
+	Identifier    string                      `protobuf:"bytes,2,opt,name=identifier,proto3" json:"identifier,omitempty"`                                                                                     // 身份唯一标识符
+	OldCredential string                      `protobuf:"bytes,3,opt,name=old_credential,json=oldCredential,proto3" json:"old_credential,omitempty"`                                                          // 旧凭证
+	NewCredential string                      `protobuf:"bytes,4,opt,name=new_credential,json=newCredential,proto3" json:"new_credential,omitempty"`                                                          // 新凭证
+	NeedDecrypt   bool                        `protobuf:"varint,5,opt,name=need_decrypt,json=needDecrypt,proto3" json:"need_decrypt,omitempty"`                                                               // 是否需要解码
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1026,11 +921,11 @@ func (*ChangeCredentialRequest) Descriptor() ([]byte, []int) {
 	return file_authentication_service_v1_user_credential_proto_rawDescGZIP(), []int{9}
 }
 
-func (x *ChangeCredentialRequest) GetIdentityType() IdentityType {
+func (x *ChangeCredentialRequest) GetIdentityType() UserCredential_IdentityType {
 	if x != nil {
 		return x.IdentityType
 	}
-	return IdentityType_USERNAME
+	return UserCredential_USERNAME
 }
 
 func (x *ChangeCredentialRequest) GetIdentifier() string {
@@ -1063,11 +958,11 @@ func (x *ChangeCredentialRequest) GetNeedDecrypt() bool {
 
 // 重设凭证 - 请求
 type ResetCredentialRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	IdentityType  IdentityType           `protobuf:"varint,1,opt,name=identity_type,json=identityType,proto3,enum=authentication.service.v1.IdentityType" json:"identity_type,omitempty"` // 身份类型
-	Identifier    string                 `protobuf:"bytes,2,opt,name=identifier,proto3" json:"identifier,omitempty"`                                                                      // 身份唯一标识符
-	NewCredential string                 `protobuf:"bytes,3,opt,name=new_credential,json=newCredential,proto3" json:"new_credential,omitempty"`                                           // 新凭证
-	NeedDecrypt   bool                   `protobuf:"varint,4,opt,name=need_decrypt,json=needDecrypt,proto3" json:"need_decrypt,omitempty"`                                                // 是否需要解码
+	state         protoimpl.MessageState      `protogen:"open.v1"`
+	IdentityType  UserCredential_IdentityType `protobuf:"varint,1,opt,name=identity_type,json=identityType,proto3,enum=authentication.service.v1.UserCredential_IdentityType" json:"identity_type,omitempty"` // 身份类型
+	Identifier    string                      `protobuf:"bytes,2,opt,name=identifier,proto3" json:"identifier,omitempty"`                                                                                     // 身份唯一标识符
+	NewCredential string                      `protobuf:"bytes,3,opt,name=new_credential,json=newCredential,proto3" json:"new_credential,omitempty"`                                                          // 新凭证
+	NeedDecrypt   bool                        `protobuf:"varint,4,opt,name=need_decrypt,json=needDecrypt,proto3" json:"need_decrypt,omitempty"`                                                               // 是否需要解码
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1102,11 +997,11 @@ func (*ResetCredentialRequest) Descriptor() ([]byte, []int) {
 	return file_authentication_service_v1_user_credential_proto_rawDescGZIP(), []int{10}
 }
 
-func (x *ResetCredentialRequest) GetIdentityType() IdentityType {
+func (x *ResetCredentialRequest) GetIdentityType() UserCredential_IdentityType {
 	if x != nil {
 		return x.IdentityType
 	}
-	return IdentityType_USERNAME
+	return UserCredential_USERNAME
 }
 
 func (x *ResetCredentialRequest) GetIdentifier() string {
@@ -1134,17 +1029,17 @@ var File_authentication_service_v1_user_credential_proto protoreflect.FileDescri
 
 const file_authentication_service_v1_user_credential_proto_rawDesc = "" +
 	"\n" +
-	"/authentication/service/v1/user_credential.proto\x12\x19authentication.service.v1\x1a$gnostic/openapi/v3/annotations.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a google/protobuf/field_mask.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x1epagination/v1/pagination.proto\"\x81\x18\n" +
+	"/authentication/service/v1/user_credential.proto\x12\x19authentication.service.v1\x1a$gnostic/openapi/v3/annotations.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a google/protobuf/field_mask.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x1epagination/v1/pagination.proto\"\xa7\x18\n" +
 	"\x0eUserCredential\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\rR\x02id\x12;\n" +
 	"\auser_id\x18\x02 \x01(\rB\x1d\xbaG\x1a\x92\x02\x17关联主表的用户IDH\x00R\x06userId\x88\x01\x01\x120\n" +
-	"\ttenant_id\x18\x03 \x01(\rB\x0e\xbaG\v\x92\x02\b租户IDH\x01R\btenantId\x88\x01\x01\x12\xc2\x01\n" +
+	"\ttenant_id\x18\x03 \x01(\rB\x0e\xbaG\v\x92\x02\b租户IDH\x01R\btenantId\x88\x01\x01\x12\xd1\x01\n" +
 	"\ridentity_type\x18\n" +
-	" \x01(\x0e2'.authentication.service.v1.IdentityTypeBo\xbaGl\x92\x02i认证方式类型，如用户名+密码、邮箱+密码、手机号+验证码、第三方平台认证等H\x02R\fidentityType\x88\x01\x01\x12\xa3\x02\n" +
+	" \x01(\x0e26.authentication.service.v1.UserCredential.IdentityTypeBo\xbaGl\x92\x02i认证方式类型，如用户名+密码、邮箱+密码、手机号+验证码、第三方平台认证等H\x02R\fidentityType\x88\x01\x01\x12\xa3\x02\n" +
 	"\n" +
 	"identifier\x18\v \x01(\tB\xfd\x01\xbaG\xf9\x01\x92\x02\xf5\x01身份唯一标识符，如果是密码登录，则是用户名；如果是邮箱登录，则是邮箱地址；如果是手机号登录，则是手机号；如果是第三方平台登录，则是第三方平台的唯一ID（如微信的OpenID）H\x03R\n" +
-	"identifier\x88\x01\x01\x12\xa3\x01\n" +
-	"\x0fcredential_type\x18\x14 \x01(\x0e2..authentication.service.v1.UserCredential.TypeBE\xbaGB\x92\x02?凭证类型，如加密密码、访问令牌、刷新令牌等H\x04R\x0ecredentialType\x88\x01\x01\x12\x99\x02\n" +
+	"identifier\x88\x01\x01\x12\xad\x01\n" +
+	"\x0fcredential_type\x18\x14 \x01(\x0e28.authentication.service.v1.UserCredential.CredentialTypeBE\xbaGB\x92\x02?凭证类型，如加密密码、访问令牌、刷新令牌等H\x04R\x0ecredentialType\x88\x01\x01\x12\x99\x02\n" +
 	"\n" +
 	"credential\x18\x15 \x01(\tB\xf3\x01\xbaG\xef\x01\x92\x02\xeb\x01凭证，如果是密码登录，则是密码的hash值；如果是邮箱登录，则是邮箱的验证码；如果是手机号登录，则是手机号的验证码；如果是第三方平台登录，则是第三方平台的access_tokenH\x05R\n" +
 	"credential\x88\x01\x01\x12\xa2\x01\n" +
@@ -1152,61 +1047,61 @@ const file_authentication_service_v1_user_credential_proto_rawDesc = "" +
 	"is_primary\x18\x1e \x01(\bB~\xbaG{\x92\x02x是否主认证方式，如果用户同时绑定了邮箱和手机号，那么可以指定邮箱为主要认证方式。H\x06R\tisPrimary\x88\x01\x01\x12a\n" +
 	"\x06status\x18\x1f \x01(\x0e20.authentication.service.v1.UserCredential.StatusB\x12\xbaG\x0f\x92\x02\f凭证状态H\aR\x06status\x88\x01\x01\x12\x87\x01\n" +
 	"\n" +
-	"extra_info\x18  \x01(\tBc\xbaG`\x92\x02]扩展信息，如果是第三方平台认证，可以记录第三方平台的用户信息。H\bR\textraInfo\x88\x01\x01\x125\n" +
+	"extra_info\x18  \x01(\tBc\xbaG`\x92\x02]扩展信息，如果是第三方平台认证，可以记录第三方平台的用户信息。H\bR\textraInfo\x88\x01\x01\x12T\n" +
+	"\bprovider\x18! \x01(\tB3\xbaG0\x92\x02-第三方平台标识（如 google, wechat）H\tR\bprovider\x88\x01\x01\x12[\n" +
+	"\x13provider_account_id\x18\" \x01(\tB&\xbaG#\x92\x02 第三方平台的账号唯一IDH\n" +
+	"R\x11providerAccountId\x88\x01\x01\x125\n" +
 	"\n" +
-	"created_by\x18d \x01(\rB\x11\xbaG\x0e\x92\x02\v创建者IDH\tR\tcreatedBy\x88\x01\x01\x125\n" +
+	"created_by\x18d \x01(\rB\x11\xbaG\x0e\x92\x02\v创建者IDH\vR\tcreatedBy\x88\x01\x01\x125\n" +
 	"\n" +
-	"updated_by\x18e \x01(\rB\x11\xbaG\x0e\x92\x02\v更新者IDH\n" +
-	"R\tupdatedBy\x88\x01\x01\x12;\n" +
+	"updated_by\x18e \x01(\rB\x11\xbaG\x0e\x92\x02\v更新者IDH\fR\tupdatedBy\x88\x01\x01\x12S\n" +
 	"\n" +
-	"deleted_by\x18f \x01(\rB\x17\xbaG\x14\x92\x02\x11删除者用户IDH\vR\tdeletedBy\x88\x01\x01\x12S\n" +
+	"created_at\x18\xc8\x01 \x01(\v2\x1a.google.protobuf.TimestampB\x12\xbaG\x0f\x92\x02\f创建时间H\rR\tcreatedAt\x88\x01\x01\x12S\n" +
 	"\n" +
-	"created_at\x18\xc8\x01 \x01(\v2\x1a.google.protobuf.TimestampB\x12\xbaG\x0f\x92\x02\f创建时间H\fR\tcreatedAt\x88\x01\x01\x12S\n" +
+	"updated_at\x18\xc9\x01 \x01(\v2\x1a.google.protobuf.TimestampB\x12\xbaG\x0f\x92\x02\f更新时间H\x0eR\tupdatedAt\x88\x01\x01\x12S\n" +
 	"\n" +
-	"updated_at\x18\xc9\x01 \x01(\v2\x1a.google.protobuf.TimestampB\x12\xbaG\x0f\x92\x02\f更新时间H\rR\tupdatedAt\x88\x01\x01\x12S\n" +
+	"deleted_at\x18\xca\x01 \x01(\v2\x1a.google.protobuf.TimestampB\x12\xbaG\x0f\x92\x02\f删除时间H\x0fR\tdeletedAt\x88\x01\x01\"\xc5\x01\n" +
+	"\fIdentityType\x12\f\n" +
+	"\bUSERNAME\x10\x00\x12\n" +
 	"\n" +
-	"deleted_at\x18\xca\x01 \x01(\v2\x1a.google.protobuf.TimestampB\x12\xbaG\x0f\x92\x02\f删除时间H\x0eR\tdeletedAt\x88\x01\x01\"\xba\x06\n" +
-	"\x04Type\x12\x11\n" +
-	"\rPASSWORD_HASH\x10\x00\x12\x10\n" +
-	"\fACCESS_TOKEN\x10\x01\x12\x11\n" +
-	"\rREFRESH_TOKEN\x10\x02\x12\x1b\n" +
-	"\x17EMAIL_VERIFICATION_CODE\x10\x03\x12\x1b\n" +
-	"\x17PHONE_VERIFICATION_CODE\x10\x04\x12\x0f\n" +
-	"\vOAUTH_TOKEN\x10\x05\x12\v\n" +
-	"\aAPI_KEY\x10\x06\x12\r\n" +
-	"\tSSO_TOKEN\x10\a\x12\a\n" +
-	"\x03JWT\x10\b\x12\x12\n" +
-	"\x0eSAML_ASSERTION\x10\t\x12\x1b\n" +
-	"\x17OPENID_CONNECT_ID_TOKEN\x10\n" +
-	"\x12\x12\n" +
-	"\x0eSESSION_COOKIE\x10\v\x12\x18\n" +
-	"\x14TEMPORARY_CREDENTIAL\x10\f\x12\x15\n" +
-	"\x11CUSTOM_CREDENTIAL\x10\r\x12\x12\n" +
-	"\x0eBIOMETRIC_DATA\x10\x0e\x12\x10\n" +
-	"\fSECURITY_KEY\x10\x0f\x12\a\n" +
-	"\x03OTP\x10\x10\x12\x0e\n" +
+	"\x06USERID\x10\x01\x12\t\n" +
+	"\x05EMAIL\x10\x02\x12\t\n" +
+	"\x05PHONE\x10\x03\x12\x10\n" +
+	"\fSOCIAL_OAUTH\x10d\x12\x13\n" +
+	"\x0eENTERPRISE_SSO\x10\xc8\x01\x12\x15\n" +
+	"\x10IDENTITY_API_KEY\x10\xac\x02\x12\x0e\n" +
+	"\tDEVICE_ID\x10\x90\x03\x12\x14\n" +
+	"\x0fIDENTITY_CUSTOM\x10\xe8\a\x12!\n" +
+	"\x1cIDENTITY_RESERVED_FOR_FUTURE\x10\x90N\"\xf3\x03\n" +
+	"\x0eCredentialType\x12\x14\n" +
+	"\x10TYPE_UNSPECIFIED\x10\x00\x12\x11\n" +
+	"\rPASSWORD_HASH\x10\x01\x12\v\n" +
+	"\aAPI_KEY\x10\n" +
+	"\x12\x0e\n" +
 	"\n" +
-	"SMART_CARD\x10\x11\x12\x1d\n" +
-	"\x19CRYPTOGRAPHIC_CERTIFICATE\x10\x12\x12\x13\n" +
-	"\x0fBIOMETRIC_TOKEN\x10\x13\x12\x16\n" +
-	"\x12DEVICE_FINGERPRINT\x10\x14\x12\x12\n" +
-	"\x0eHARDWARE_TOKEN\x10\x15\x12\x12\n" +
-	"\x0eSOFTWARE_TOKEN\x10\x16\x12\x15\n" +
-	"\x11SECURITY_QUESTION\x10\x17\x12\x10\n" +
-	"\fSECURITY_PIN\x10\x18\x12\x1d\n" +
-	"\x19TWO_FACTOR_AUTHENTICATION\x10\x19\x12\x1f\n" +
-	"\x1bMULTI_FACTOR_AUTHENTICATION\x10\x1a\x12\x1f\n" +
-	"\x1bPASSWORDLESS_AUTHENTICATION\x10\x1b\x12\x16\n" +
-	"\x12SOCIAL_LOGIN_TOKEN\x10\x1c\x12\x0f\n" +
-	"\vSSO_SESSION\x10\x1d\x12\x0e\n" +
-	"\n" +
-	"API_SECRET\x10\x1e\x12\x10\n" +
-	"\fCUSTOM_TOKEN\x10\x1f\x12\x1d\n" +
-	"\x19OAUTH2_CLIENT_CREDENTIALS\x10 \x12\x1d\n" +
-	"\x19OAUTH2_AUTHORIZATION_CODE\x10!\x12\x19\n" +
-	"\x15OAUTH2_IMPLICIT_GRANT\x10\"\x12\x19\n" +
-	"\x15OAUTH2_PASSWORD_GRANT\x10#\x12\x18\n" +
-	"\x14OAUTH2_REFRESH_GRANT\x10$\"i\n" +
+	"API_SECRET\x10\v\x12\x10\n" +
+	"\fACCESS_TOKEN\x10\x14\x12\x11\n" +
+	"\rREFRESH_TOKEN\x10\x15\x12\a\n" +
+	"\x03JWT\x10\x16\x12\x0f\n" +
+	"\vOAUTH_TOKEN\x10\x1e\x12\x1c\n" +
+	"\x18OAUTH_AUTHORIZATION_CODE\x10\x1f\x12\x1c\n" +
+	"\x18OAUTH_CLIENT_CREDENTIALS\x10 \x12\a\n" +
+	"\x03OTP\x10(\x12\b\n" +
+	"\x04TOTP\x10)\x12\v\n" +
+	"\aSMS_OTP\x10*\x12\r\n" +
+	"\tEMAIL_OTP\x10+\x12\x12\n" +
+	"\x0eHARDWARE_TOKEN\x102\x12\x12\n" +
+	"\x0eSOFTWARE_TOKEN\x103\x12\x10\n" +
+	"\fSECURITY_KEY\x104\x12\r\n" +
+	"\tBIOMETRIC\x10<\x12\x13\n" +
+	"\x0fBIOMETRIC_TOKEN\x10=\x12\r\n" +
+	"\tSSO_TOKEN\x10F\x12\x12\n" +
+	"\x0eSAML_ASSERTION\x10G\x12\x1b\n" +
+	"\x17OPENID_CONNECT_ID_TOKEN\x10H\x12\x12\n" +
+	"\x0eSESSION_COOKIE\x10P\x12\x18\n" +
+	"\x14TEMPORARY_CREDENTIAL\x10Q\x12\v\n" +
+	"\x06CUSTOM\x10\xc8\x01\x12\x18\n" +
+	"\x13RESERVED_FOR_FUTURE\x10\xe8\a\"i\n" +
 	"\x06Status\x12\f\n" +
 	"\bDISABLED\x10\x00\x12\v\n" +
 	"\aENABLED\x10\x01\x12\v\n" +
@@ -1226,10 +1121,11 @@ const file_authentication_service_v1_user_credential_proto_rawDesc = "" +
 	"\v_credentialB\r\n" +
 	"\v_is_primaryB\t\n" +
 	"\a_statusB\r\n" +
-	"\v_extra_infoB\r\n" +
+	"\v_extra_infoB\v\n" +
+	"\t_providerB\x16\n" +
+	"\x14_provider_account_idB\r\n" +
 	"\v_created_byB\r\n" +
 	"\v_updated_byB\r\n" +
-	"\v_deleted_byB\r\n" +
 	"\v_created_atB\r\n" +
 	"\v_updated_atB\r\n" +
 	"\v_deleted_at\"s\n" +
@@ -1245,19 +1141,16 @@ const file_authentication_service_v1_user_credential_proto_rawDesc = "" +
 	"\x1bCreateUserCredentialRequest\x12=\n" +
 	"\x04data\x18\x01 \x01(\v2).authentication.service.v1.UserCredentialR\x04data\"-\n" +
 	"\x1bDeleteUserCredentialRequest\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\rR\x02id\"\xb1\x01\n" +
+	"\x02id\x18\x01 \x01(\rR\x02id\"*\n" +
 	"\x18GetUserCredentialRequest\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\rR\x02id\x12w\n" +
-	"\tview_mask\x18d \x01(\v2\x1a.google.protobuf.FieldMaskB9\xbaG6\x92\x023视图字段过滤器，用于控制返回的字段H\x00R\bviewMask\x88\x01\x01B\f\n" +
-	"\n" +
-	"_view_mask\"\xc5\x01\n" +
-	"$GetUserCredentialByIdentifierRequest\x12`\n" +
-	"\ridentity_type\x18\x01 \x01(\x0e2'.authentication.service.v1.IdentityTypeB\x12\xbaG\x0f\x92\x02\f身份类型R\fidentityType\x12;\n" +
+	"\x02id\x18\x01 \x01(\rR\x02id\"\xd4\x01\n" +
+	"$GetUserCredentialByIdentifierRequest\x12o\n" +
+	"\ridentity_type\x18\x01 \x01(\x0e26.authentication.service.v1.UserCredential.IdentityTypeB\x12\xbaG\x0f\x92\x02\f身份类型R\fidentityType\x12;\n" +
 	"\n" +
 	"identifier\x18\x02 \x01(\tB\x1b\xbaG\x18\x92\x02\x15身份唯一标识符R\n" +
-	"identifier\"\xa3\x02\n" +
-	"\x17VerifyCredentialRequest\x12`\n" +
-	"\ridentity_type\x18\x01 \x01(\x0e2'.authentication.service.v1.IdentityTypeB\x12\xbaG\x0f\x92\x02\f身份类型R\fidentityType\x12;\n" +
+	"identifier\"\xb2\x02\n" +
+	"\x17VerifyCredentialRequest\x12o\n" +
+	"\ridentity_type\x18\x01 \x01(\x0e26.authentication.service.v1.UserCredential.IdentityTypeB\x12\xbaG\x0f\x92\x02\f身份类型R\fidentityType\x12;\n" +
 	"\n" +
 	"identifier\x18\x02 \x01(\tB\x1b\xbaG\x18\x92\x02\x15身份唯一标识符R\n" +
 	"identifier\x12,\n" +
@@ -1266,69 +1159,22 @@ const file_authentication_service_v1_user_credential_proto_rawDesc = "" +
 	"credential\x12;\n" +
 	"\fneed_decrypt\x18\x04 \x01(\bB\x18\xbaG\x15\x92\x02\x12是否需要解码R\vneedDecrypt\"4\n" +
 	"\x18VerifyCredentialResponse\x12\x18\n" +
-	"\asuccess\x18\x01 \x01(\bR\asuccess\"\xe5\x02\n" +
-	"\x17ChangeCredentialRequest\x12`\n" +
-	"\ridentity_type\x18\x01 \x01(\x0e2'.authentication.service.v1.IdentityTypeB\x12\xbaG\x0f\x92\x02\f身份类型R\fidentityType\x12;\n" +
+	"\asuccess\x18\x01 \x01(\bR\asuccess\"\xf4\x02\n" +
+	"\x17ChangeCredentialRequest\x12o\n" +
+	"\ridentity_type\x18\x01 \x01(\x0e26.authentication.service.v1.UserCredential.IdentityTypeB\x12\xbaG\x0f\x92\x02\f身份类型R\fidentityType\x12;\n" +
 	"\n" +
 	"identifier\x18\x02 \x01(\tB\x1b\xbaG\x18\x92\x02\x15身份唯一标识符R\n" +
 	"identifier\x126\n" +
 	"\x0eold_credential\x18\x03 \x01(\tB\x0f\xbaG\f\x92\x02\t旧凭证R\roldCredential\x126\n" +
 	"\x0enew_credential\x18\x04 \x01(\tB\x0f\xbaG\f\x92\x02\t新凭证R\rnewCredential\x12;\n" +
-	"\fneed_decrypt\x18\x05 \x01(\bB\x18\xbaG\x15\x92\x02\x12是否需要解码R\vneedDecrypt\"\xac\x02\n" +
-	"\x16ResetCredentialRequest\x12`\n" +
-	"\ridentity_type\x18\x01 \x01(\x0e2'.authentication.service.v1.IdentityTypeB\x12\xbaG\x0f\x92\x02\f身份类型R\fidentityType\x12;\n" +
+	"\fneed_decrypt\x18\x05 \x01(\bB\x18\xbaG\x15\x92\x02\x12是否需要解码R\vneedDecrypt\"\xbb\x02\n" +
+	"\x16ResetCredentialRequest\x12o\n" +
+	"\ridentity_type\x18\x01 \x01(\x0e26.authentication.service.v1.UserCredential.IdentityTypeB\x12\xbaG\x0f\x92\x02\f身份类型R\fidentityType\x12;\n" +
 	"\n" +
 	"identifier\x18\x02 \x01(\tB\x1b\xbaG\x18\x92\x02\x15身份唯一标识符R\n" +
 	"identifier\x126\n" +
 	"\x0enew_credential\x18\x03 \x01(\tB\x0f\xbaG\f\x92\x02\t新凭证R\rnewCredential\x12;\n" +
-	"\fneed_decrypt\x18\x04 \x01(\bB\x18\xbaG\x15\x92\x02\x12是否需要解码R\vneedDecrypt*\xff\x03\n" +
-	"\fIdentityType\x12\f\n" +
-	"\bUSERNAME\x10\x00\x12\n" +
-	"\n" +
-	"\x06USERID\x10\x01\x12\t\n" +
-	"\x05EMAIL\x10\x02\x12\t\n" +
-	"\x05PHONE\x10\x03\x12\n" +
-	"\n" +
-	"\x06WECHAT\x10d\x12\x06\n" +
-	"\x02QQ\x10e\x12\t\n" +
-	"\x05WEIBO\x10f\x12\n" +
-	"\n" +
-	"\x06DOUYIN\x10g\x12\f\n" +
-	"\bKUAISHOU\x10h\x12\t\n" +
-	"\x05BAIDU\x10i\x12\n" +
-	"\n" +
-	"\x06ALIPAY\x10j\x12\n" +
-	"\n" +
-	"\x06TAOBAO\x10k\x12\x06\n" +
-	"\x02JD\x10l\x12\v\n" +
-	"\aMEITUAN\x10m\x12\f\n" +
-	"\bDINGTALK\x10n\x12\f\n" +
-	"\bBILIBILI\x10o\x12\x0f\n" +
-	"\vXIAOHONGSHU\x10p\x12\v\n" +
-	"\x06GOOGLE\x10\xc8\x01\x12\r\n" +
-	"\bFACEBOOK\x10\xc9\x01\x12\n" +
-	"\n" +
-	"\x05APPLE\x10\xca\x01\x12\r\n" +
-	"\bTELEGRAM\x10\xcb\x01\x12\f\n" +
-	"\aTWITTER\x10\xcc\x01\x12\r\n" +
-	"\bLINKEDIN\x10\xcd\x01\x12\v\n" +
-	"\x06GITHUB\x10\xce\x01\x12\x0e\n" +
-	"\tMICROSOFT\x10\xcf\x01\x12\f\n" +
-	"\aDISCORD\x10\xd0\x01\x12\n" +
-	"\n" +
-	"\x05SLACK\x10\xd1\x01\x12\x0e\n" +
-	"\tINSTAGRAM\x10\xd2\x01\x12\v\n" +
-	"\x06TIKTOK\x10\xd3\x01\x12\v\n" +
-	"\x06REDDIT\x10\xd4\x01\x12\f\n" +
-	"\aYOUTUBE\x10\xd5\x01\x12\f\n" +
-	"\aSPOTIFY\x10\xd6\x01\x12\x0e\n" +
-	"\tPINTEREST\x10\xd7\x01\x12\r\n" +
-	"\bSNAPCHAT\x10\xd8\x01\x12\v\n" +
-	"\x06TUMBLR\x10\xd9\x01\x12\n" +
-	"\n" +
-	"\x05YAHOO\x10\xda\x01\x12\r\n" +
-	"\bWHATSAPP\x10\xdb\x01\x12\t\n" +
-	"\x04LINE\x10\xdc\x012\xb2\a\n" +
+	"\fneed_decrypt\x18\x04 \x01(\bB\x18\xbaG\x15\x92\x02\x12是否需要解码R\vneedDecrypt2\xb2\a\n" +
 	"\x15UserCredentialService\x12Z\n" +
 	"\x04List\x12\x19.pagination.PagingRequest\x1a5.authentication.service.v1.ListUserCredentialResponse\"\x00\x12g\n" +
 	"\x03Get\x123.authentication.service.v1.GetUserCredentialRequest\x1a).authentication.service.v1.UserCredential\"\x00\x12\x7f\n" +
@@ -1356,8 +1202,8 @@ func file_authentication_service_v1_user_credential_proto_rawDescGZIP() []byte {
 var file_authentication_service_v1_user_credential_proto_enumTypes = make([]protoimpl.EnumInfo, 3)
 var file_authentication_service_v1_user_credential_proto_msgTypes = make([]protoimpl.MessageInfo, 11)
 var file_authentication_service_v1_user_credential_proto_goTypes = []any{
-	(IdentityType)(0),                            // 0: authentication.service.v1.IdentityType
-	(UserCredential_Type)(0),                     // 1: authentication.service.v1.UserCredential.Type
+	(UserCredential_IdentityType)(0),             // 0: authentication.service.v1.UserCredential.IdentityType
+	(UserCredential_CredentialType)(0),           // 1: authentication.service.v1.UserCredential.CredentialType
 	(UserCredential_Status)(0),                   // 2: authentication.service.v1.UserCredential.Status
 	(*UserCredential)(nil),                       // 3: authentication.service.v1.UserCredential
 	(*ListUserCredentialResponse)(nil),           // 4: authentication.service.v1.ListUserCredentialResponse
@@ -1376,8 +1222,8 @@ var file_authentication_service_v1_user_credential_proto_goTypes = []any{
 	(*emptypb.Empty)(nil),                        // 17: google.protobuf.Empty
 }
 var file_authentication_service_v1_user_credential_proto_depIdxs = []int32{
-	0,  // 0: authentication.service.v1.UserCredential.identity_type:type_name -> authentication.service.v1.IdentityType
-	1,  // 1: authentication.service.v1.UserCredential.credential_type:type_name -> authentication.service.v1.UserCredential.Type
+	0,  // 0: authentication.service.v1.UserCredential.identity_type:type_name -> authentication.service.v1.UserCredential.IdentityType
+	1,  // 1: authentication.service.v1.UserCredential.credential_type:type_name -> authentication.service.v1.UserCredential.CredentialType
 	2,  // 2: authentication.service.v1.UserCredential.status:type_name -> authentication.service.v1.UserCredential.Status
 	14, // 3: authentication.service.v1.UserCredential.created_at:type_name -> google.protobuf.Timestamp
 	14, // 4: authentication.service.v1.UserCredential.updated_at:type_name -> google.protobuf.Timestamp
@@ -1386,34 +1232,33 @@ var file_authentication_service_v1_user_credential_proto_depIdxs = []int32{
 	3,  // 7: authentication.service.v1.UpdateUserCredentialRequest.data:type_name -> authentication.service.v1.UserCredential
 	15, // 8: authentication.service.v1.UpdateUserCredentialRequest.update_mask:type_name -> google.protobuf.FieldMask
 	3,  // 9: authentication.service.v1.CreateUserCredentialRequest.data:type_name -> authentication.service.v1.UserCredential
-	15, // 10: authentication.service.v1.GetUserCredentialRequest.view_mask:type_name -> google.protobuf.FieldMask
-	0,  // 11: authentication.service.v1.GetUserCredentialByIdentifierRequest.identity_type:type_name -> authentication.service.v1.IdentityType
-	0,  // 12: authentication.service.v1.VerifyCredentialRequest.identity_type:type_name -> authentication.service.v1.IdentityType
-	0,  // 13: authentication.service.v1.ChangeCredentialRequest.identity_type:type_name -> authentication.service.v1.IdentityType
-	0,  // 14: authentication.service.v1.ResetCredentialRequest.identity_type:type_name -> authentication.service.v1.IdentityType
-	16, // 15: authentication.service.v1.UserCredentialService.List:input_type -> pagination.PagingRequest
-	8,  // 16: authentication.service.v1.UserCredentialService.Get:input_type -> authentication.service.v1.GetUserCredentialRequest
-	9,  // 17: authentication.service.v1.UserCredentialService.GetByIdentifier:input_type -> authentication.service.v1.GetUserCredentialByIdentifierRequest
-	6,  // 18: authentication.service.v1.UserCredentialService.Create:input_type -> authentication.service.v1.CreateUserCredentialRequest
-	5,  // 19: authentication.service.v1.UserCredentialService.Update:input_type -> authentication.service.v1.UpdateUserCredentialRequest
-	7,  // 20: authentication.service.v1.UserCredentialService.Delete:input_type -> authentication.service.v1.DeleteUserCredentialRequest
-	10, // 21: authentication.service.v1.UserCredentialService.VerifyCredential:input_type -> authentication.service.v1.VerifyCredentialRequest
-	12, // 22: authentication.service.v1.UserCredentialService.ChangeCredential:input_type -> authentication.service.v1.ChangeCredentialRequest
-	13, // 23: authentication.service.v1.UserCredentialService.ResetCredential:input_type -> authentication.service.v1.ResetCredentialRequest
-	4,  // 24: authentication.service.v1.UserCredentialService.List:output_type -> authentication.service.v1.ListUserCredentialResponse
-	3,  // 25: authentication.service.v1.UserCredentialService.Get:output_type -> authentication.service.v1.UserCredential
-	3,  // 26: authentication.service.v1.UserCredentialService.GetByIdentifier:output_type -> authentication.service.v1.UserCredential
-	17, // 27: authentication.service.v1.UserCredentialService.Create:output_type -> google.protobuf.Empty
-	17, // 28: authentication.service.v1.UserCredentialService.Update:output_type -> google.protobuf.Empty
-	17, // 29: authentication.service.v1.UserCredentialService.Delete:output_type -> google.protobuf.Empty
-	11, // 30: authentication.service.v1.UserCredentialService.VerifyCredential:output_type -> authentication.service.v1.VerifyCredentialResponse
-	17, // 31: authentication.service.v1.UserCredentialService.ChangeCredential:output_type -> google.protobuf.Empty
-	17, // 32: authentication.service.v1.UserCredentialService.ResetCredential:output_type -> google.protobuf.Empty
-	24, // [24:33] is the sub-list for method output_type
-	15, // [15:24] is the sub-list for method input_type
-	15, // [15:15] is the sub-list for extension type_name
-	15, // [15:15] is the sub-list for extension extendee
-	0,  // [0:15] is the sub-list for field type_name
+	0,  // 10: authentication.service.v1.GetUserCredentialByIdentifierRequest.identity_type:type_name -> authentication.service.v1.UserCredential.IdentityType
+	0,  // 11: authentication.service.v1.VerifyCredentialRequest.identity_type:type_name -> authentication.service.v1.UserCredential.IdentityType
+	0,  // 12: authentication.service.v1.ChangeCredentialRequest.identity_type:type_name -> authentication.service.v1.UserCredential.IdentityType
+	0,  // 13: authentication.service.v1.ResetCredentialRequest.identity_type:type_name -> authentication.service.v1.UserCredential.IdentityType
+	16, // 14: authentication.service.v1.UserCredentialService.List:input_type -> pagination.PagingRequest
+	8,  // 15: authentication.service.v1.UserCredentialService.Get:input_type -> authentication.service.v1.GetUserCredentialRequest
+	9,  // 16: authentication.service.v1.UserCredentialService.GetByIdentifier:input_type -> authentication.service.v1.GetUserCredentialByIdentifierRequest
+	6,  // 17: authentication.service.v1.UserCredentialService.Create:input_type -> authentication.service.v1.CreateUserCredentialRequest
+	5,  // 18: authentication.service.v1.UserCredentialService.Update:input_type -> authentication.service.v1.UpdateUserCredentialRequest
+	7,  // 19: authentication.service.v1.UserCredentialService.Delete:input_type -> authentication.service.v1.DeleteUserCredentialRequest
+	10, // 20: authentication.service.v1.UserCredentialService.VerifyCredential:input_type -> authentication.service.v1.VerifyCredentialRequest
+	12, // 21: authentication.service.v1.UserCredentialService.ChangeCredential:input_type -> authentication.service.v1.ChangeCredentialRequest
+	13, // 22: authentication.service.v1.UserCredentialService.ResetCredential:input_type -> authentication.service.v1.ResetCredentialRequest
+	4,  // 23: authentication.service.v1.UserCredentialService.List:output_type -> authentication.service.v1.ListUserCredentialResponse
+	3,  // 24: authentication.service.v1.UserCredentialService.Get:output_type -> authentication.service.v1.UserCredential
+	3,  // 25: authentication.service.v1.UserCredentialService.GetByIdentifier:output_type -> authentication.service.v1.UserCredential
+	17, // 26: authentication.service.v1.UserCredentialService.Create:output_type -> google.protobuf.Empty
+	17, // 27: authentication.service.v1.UserCredentialService.Update:output_type -> google.protobuf.Empty
+	17, // 28: authentication.service.v1.UserCredentialService.Delete:output_type -> google.protobuf.Empty
+	11, // 29: authentication.service.v1.UserCredentialService.VerifyCredential:output_type -> authentication.service.v1.VerifyCredentialResponse
+	17, // 30: authentication.service.v1.UserCredentialService.ChangeCredential:output_type -> google.protobuf.Empty
+	17, // 31: authentication.service.v1.UserCredentialService.ResetCredential:output_type -> google.protobuf.Empty
+	23, // [23:32] is the sub-list for method output_type
+	14, // [14:23] is the sub-list for method input_type
+	14, // [14:14] is the sub-list for extension type_name
+	14, // [14:14] is the sub-list for extension extendee
+	0,  // [0:14] is the sub-list for field type_name
 }
 
 func init() { file_authentication_service_v1_user_credential_proto_init() }
@@ -1423,7 +1268,6 @@ func file_authentication_service_v1_user_credential_proto_init() {
 	}
 	file_authentication_service_v1_user_credential_proto_msgTypes[0].OneofWrappers = []any{}
 	file_authentication_service_v1_user_credential_proto_msgTypes[2].OneofWrappers = []any{}
-	file_authentication_service_v1_user_credential_proto_msgTypes[5].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{

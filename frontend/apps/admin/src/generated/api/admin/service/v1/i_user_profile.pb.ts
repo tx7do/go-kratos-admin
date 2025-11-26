@@ -6,7 +6,15 @@
 
 /* eslint-disable */
 import type { Empty } from "../../../google/protobuf/empty.pb";
-import type { UpdateUserRequest, User } from "../../../user/service/v1/user.pb";
+import type {
+  BindContactRequest,
+  ChangePasswordRequest,
+  UpdateUserRequest,
+  UploadAvatarRequest,
+  UploadAvatarResponse,
+  User,
+  VerifyContactRequest,
+} from "../../../user/service/v1/user.pb";
 
 /** 用户个人资料服务 */
 export interface UserProfileService {
@@ -14,4 +22,14 @@ export interface UserProfileService {
   GetUser(request: Empty): Promise<User>;
   /** 更新用户资料 */
   UpdateUser(request: UpdateUserRequest): Promise<Empty>;
+  /** 修改用户密码 */
+  ChangePassword(request: ChangePasswordRequest): Promise<Empty>;
+  /** 上传头像 */
+  UploadAvatar(request: UploadAvatarRequest): Promise<UploadAvatarResponse>;
+  /** 删除头像 */
+  DeleteAvatar(request: Empty): Promise<Empty>;
+  /** 绑定手机号码/邮箱 */
+  BindContact(request: BindContactRequest): Promise<Empty>;
+  /** 验证手机号码/邮箱 */
+  VerifyContact(request: VerifyContactRequest): Promise<Empty>;
 }

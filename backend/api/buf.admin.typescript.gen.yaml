@@ -22,7 +22,6 @@ inputs:
 
 plugins:
   # generate typescript code
-  #  - remote: buf.build/community/stephenh-ts-proto
   - local: protoc-gen-ts_proto
     out: ../../frontend/apps/admin/src/generated/api
     opt:
@@ -56,5 +55,5 @@ plugins:
       - outputIndex=false # 生成index.ts文件
       - paths=source_relative # 使用相对路径
 
-#  - local: typescript-http
+#  - local: protoc-gen-typescript-http
 #    out: ../../frontend/apps/admin/src/generated/api

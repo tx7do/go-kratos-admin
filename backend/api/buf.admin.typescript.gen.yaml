@@ -55,3 +55,6 @@ plugins:
       - unrecognizedEnum=false # 未识别的枚举项，如果为true，默认会给enum增加一个UNRECOGNIZED枚举项。
       - outputIndex=false # 生成index.ts文件
       - paths=source_relative # 使用相对路径
+
+#  - local: typescript-http
+#    out: ../../frontend/apps/admin/src/generated/api

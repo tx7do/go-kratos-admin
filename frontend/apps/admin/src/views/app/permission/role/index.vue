@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import type { VxeGridProps } from '#/adapter/vxe-table';
-import type { Role } from '#/generated/api/user/service/v1/role.pb';
 
 import { h } from 'vue';
 
@@ -10,6 +9,7 @@ import { LucideFilePenLine, LucideTrash2 } from '@vben/icons';
 import { notification } from 'ant-design-vue';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
+import { type userservicev1_Role as Role } from '#/generated/api/admin/service/v1';
 import { $t } from '#/locales';
 import {
   statusList,

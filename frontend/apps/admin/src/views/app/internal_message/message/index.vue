@@ -9,7 +9,7 @@ import { LucideFilePenLine, LucideTrash2 } from '@vben/icons';
 import { notification } from 'ant-design-vue';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
-import { type InternalMessage } from '#/generated/api/internal_message/service/v1/internal_message.pb';
+import { type internal_messageservicev1_InternalMessage as InternalMessage } from '#/generated/api/admin/service/v1';
 import { $t } from '#/locales';
 import {
   internalMessageStatusColor,

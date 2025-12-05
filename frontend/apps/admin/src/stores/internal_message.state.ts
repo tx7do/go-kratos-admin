@@ -5,15 +5,23 @@ import { $t } from '@vben/locales';
 import { defineStore } from 'pinia';
 
 import {
-  InternalMessage_Status,
-  InternalMessage_Type,
-  type SendMessageRequest,
-} from '#/generated/api/internal_message/service/v1/internal_message.pb';
-import { InternalMessageRecipient_Status } from '#/generated/api/internal_message/service/v1/internal_message_recipient.pb';
-import { defInternalMessageService } from '#/services';
+  createInternalMessageRecipientServiceClient,
+  createInternalMessageServiceClient,
+  type internal_messageservicev1_InternalMessage_Status as InternalMessage_Status,
+  type internal_messageservicev1_InternalMessage_Type as InternalMessage_Type,
+  type internal_messageservicev1_InternalMessageRecipient_Status as InternalMessageRecipient_Status,
+} from '#/generated/api/admin/service/v1';
 import { makeQueryString, makeUpdateMask } from '#/utils/query';
+import { requestClientRequestHandler } from '#/utils/request';
 
 export const useInternalMessageStore = defineStore('internal_message', () => {
+  const internalMessageService = createInternalMessageServiceClient(
+    requestClientRequestHandler,
+  );
+
+  const internalMessageRecipientService =
+    createInternalMessageRecipientServiceClient(requestClientRequestHandler);
+
   /**
    * 查询消息列表
    */
@@ -25,7 +33,7 @@ export const useInternalMessageStore = defineStore('internal_message', () => {
     fieldMask?: null | string,
     orderBy?: null | string[],
   ) {
-    return await defInternalMessageService.ListMessage({
+    return await internalMessageService.ListMessage({
       // @ts-ignore proto generated code is error.
       fieldMask,
       orderBy: orderBy ?? [],
@@ -40,14 +48,14 @@ export const useInternalMessageStore = defineStore('internal_message', () => {
    * 获取消息
    */
   async function getMessage(id: number) {
-    return await defInternalMessageService.GetMessage({ id });
+    return await internalMessageService.GetMessage({ id });
   }
 
   /**
    * 更新消息
    */
   async function updateMessage(id: number, values: object) {
-    return await defInternalMessageService.UpdateMessage({
+    return await internalMessageService.UpdateMessage({
       data: {
         id,
         ...values,
@@ -61,7 +69,7 @@ export const useInternalMessageStore = defineStore('internal_message', () => {
    * 删除消息
    */
   async function deleteMessage(id: number) {
-    return await defInternalMessageService.DeleteMessage({
+    return await internalMessageService.DeleteMessage({
       id,
     });
   }
@@ -77,7 +85,7 @@ export const useInternalMessageStore = defineStore('internal_message', () => {
     orderBy?: null | string[],
   ) {
     const noPaging: boolean = page === null || pageSize === null;
-    return await defInternalMessageService.ListUserInbox({
+    return await internalMessageRecipientService.ListUserInbox({
       // @ts-ignore proto generated code is error.
       fieldMask,
       orderBy: orderBy ?? [],
@@ -95,7 +103,7 @@ export const useInternalMessageStore = defineStore('internal_message', () => {
     userId: number,
     recipientIds: number[],
   ) {
-    return await defInternalMessageService.MarkNotificationAsRead({
+    return await internalMessageRecipientService.MarkNotificationAsRead({
       userId,
       recipientIds,
     });
@@ -108,7 +116,7 @@ export const useInternalMessageStore = defineStore('internal_message', () => {
     userId: number,
     recipientIds: number[],
   ) {
-    return await defInternalMessageService.DeleteNotificationFromInbox({
+    return await internalMessageRecipientService.DeleteNotificationFromInbox({
       userId,
       recipientIds,
     });
@@ -118,7 +126,7 @@ export const useInternalMessageStore = defineStore('internal_message', () => {
    * 撤销某条消息
    */
   async function revokeMessage(userId: number, messageId: number) {
-    return await defInternalMessageService.RevokeMessage({
+    return await internalMessageService.RevokeMessage({
       messageId,
       userId,
     });
@@ -128,7 +136,7 @@ export const useInternalMessageStore = defineStore('internal_message', () => {
    * 发送消息
    */
   async function sendMessage(request: SendMessageRequest) {
-    return await defInternalMessageService.SendMessage(request);
+    return await internalMessageService.SendMessage(request);
   }
 
   function $reset() {}
@@ -149,65 +157,65 @@ export const useInternalMessageStore = defineStore('internal_message', () => {
 
 export const internalMessageStatusList = computed(() => [
   {
-    value: InternalMessage_Status.DRAFT,
+    value: 'DRAFT',
     label: $t('enum.internalMessageStatus.DRAFT'),
   },
   {
-    value: InternalMessage_Status.PUBLISHED,
+    value: 'PUBLISHED',
     label: $t('enum.internalMessageStatus.PUBLISHED'),
   },
   {
-    value: InternalMessage_Status.SCHEDULED,
+    value: 'SCHEDULED',
     label: $t('enum.internalMessageStatus.SCHEDULED'),
   },
   {
-    value: InternalMessage_Status.REVOKED,
+    value: 'REVOKED',
     label: $t('enum.internalMessageStatus.REVOKED'),
   },
   {
-    value: InternalMessage_Status.ARCHIVED,
+    value: 'ARCHIVED',
     label: $t('enum.internalMessageStatus.ARCHIVED'),
   },
   {
-    value: InternalMessage_Status.DELETED,
+    value: 'DELETED',
     label: $t('enum.internalMessageStatus.DELETED'),
   },
 ]);
 
 export const internalMessageTypeList = computed(() => [
   {
-    value: InternalMessage_Type.NOTIFICATION,
+    value: 'NOTIFICATION',
     label: $t('enum.internalMessageType.NOTIFICATION'),
   },
   {
-    value: InternalMessage_Type.PRIVATE,
+    value: 'PRIVATE',
     label: $t('enum.internalMessageType.PRIVATE'),
   },
   {
-    value: InternalMessage_Type.GROUP,
+    value: 'GROUP',
     label: $t('enum.internalMessageType.GROUP'),
   },
 ]);
 
 export const internalMessageRecipientStatusList = computed(() => [
   {
-    value: InternalMessageRecipient_Status.SENT,
+    value: 'SENT',
     label: $t('enum.internalMessageRecipientStatus.SENT'),
   },
   {
-    value: InternalMessageRecipient_Status.RECEIVED,
+    value: 'RECEIVED',
     label: $t('enum.internalMessageRecipientStatus.RECEIVED'),
   },
   {
-    value: InternalMessageRecipient_Status.READ,
+    value: 'READ',
     label: $t('enum.internalMessageRecipientStatus.READ'),
   },
   {
-    value: InternalMessageRecipient_Status.REVOKED,
+    value: 'REVOKED',
     label: $t('enum.internalMessageRecipientStatus.REVOKED'),
   },
   {
-    value: InternalMessageRecipient_Status.DELETED,
+    value: 'DELETED',
     label: $t('enum.internalMessageRecipientStatus.DELETED'),
   },
 ]);
@@ -224,27 +232,27 @@ export function internalMessageStatusColor(
   value: InternalMessage_Status,
 ): string {
   switch (value) {
-    case InternalMessage_Status.ARCHIVED: {
+    case 'ARCHIVED': {
       // 归档：已存档，用深灰色
       return '#6B7280';
     }
-    case InternalMessage_Status.DELETED: {
+    case 'DELETED': {
       // 已删除：弱化显示，用浅灰色
       return '#E5E7EB';
     }
-    case InternalMessage_Status.DRAFT: {
+    case 'DRAFT': {
       // 草稿：未完成，用中灰色
       return '#9CA3AF';
     }
-    case InternalMessage_Status.PUBLISHED: {
+    case 'PUBLISHED': {
       // 已发布：成功状态，用绿色
       return '#10B981';
     }
-    case InternalMessage_Status.REVOKED: {
+    case 'REVOKED': {
       // 已撤回：异常状态，用红色
       return '#EF4444';
     }
-    case InternalMessage_Status.SCHEDULED: {
+    case 'SCHEDULED': {
       // 计划发送：待执行，用蓝色
       return '#3B82F6';
     }
@@ -263,15 +271,15 @@ export function internalMessageTypeLabel(value: InternalMessage_Type): string {
 
 export function internalMessageTypeColor(value: InternalMessage_Type): string {
   switch (value) {
-    case InternalMessage_Type.GROUP: {
+    case 'GROUP': {
       // 群聊：多人互动，用活力感的颜色
       return '#10B981';
     } // 绿色（代表协作、活跃）
-    case InternalMessage_Type.NOTIFICATION: {
+    case 'NOTIFICATION': {
       // 通知：系统/平台推送，用正式感的颜色
       return '#3B82F6';
     } // 蓝色（代表官方、提醒）
-    case InternalMessage_Type.PRIVATE: {
+    case 'PRIVATE': {
       // 私信：一对一沟通，用私密感的颜色
       return '#8B5CF6';
     } // 紫色（代表个人、私密）
@@ -294,23 +302,23 @@ export function internalMessageRecipientStatusColor(
   value: InternalMessageRecipient_Status,
 ): string {
   switch (value) {
-    case InternalMessageRecipient_Status.DELETED: {
+    case 'DELETED': {
       // 已删除：用户主动删除，视觉上弱化显示
       return '#E5E7EB';
     } // 浅灰色
-    case InternalMessageRecipient_Status.READ: {
+    case 'READ': {
       // 已读：用户已查看，常规状态
       return '#6B7280';
     } // 深灰色
-    case InternalMessageRecipient_Status.RECEIVED: {
+    case 'RECEIVED': {
       // 已接收（未读）：用户收到但未查看，需突出提醒
       return '#3B82F6';
     } // 蓝色（醒目，提示未读）
-    case InternalMessageRecipient_Status.REVOKED: {
+    case 'REVOKED': {
       // 已撤回：消息失效，带有异常含义
       return '#EF4444';
     } // 红色（警示，表明消息已失效）
-    case InternalMessageRecipient_Status.SENT: {
+    case 'SENT': {
       // 已发送（未接收）：消息发出但对方未确认接收，过渡状态
       return '#93C5FD';
     } // 浅蓝色（柔和，表示待接收）

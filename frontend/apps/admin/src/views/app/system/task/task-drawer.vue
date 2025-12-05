@@ -7,7 +7,6 @@ import { $t } from '@vben/locales';
 import { notification } from 'ant-design-vue';
 
 import { useVbenForm } from '#/adapter/form';
-import { Task_Type } from '#/generated/api/admin/service/v1/i_task.pb';
 import { enableBoolList, taskTypeList, useTaskStore } from '#/stores';
 
 const taskStore = useTaskStore();
@@ -35,7 +34,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
       component: 'Select',
       fieldName: 'type',
       label: $t('page.task.type'),
-      defaultValue: Task_Type.PERIODIC,
+      defaultValue: 'PERIODIC',
       componentProps: {
         placeholder: $t('ui.placeholder.select'),
         options: taskTypeList,
@@ -89,7 +88,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
       },
       dependencies: {
         show: (values) => {
-          return [Task_Type.PERIODIC].includes(values.type);
+          return ['PERIODIC'].includes(values.type);
         },
         triggerFields: ['type'],
       },
@@ -116,7 +115,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
       },
       dependencies: {
         show: (values) => {
-          return [Task_Type.DELAY, Task_Type.WAIT_RESULT].includes(values.type);
+          return ['DELAY', 'WAIT_RESULT'].includes(values.type);
         },
         triggerFields: ['type'],
       },
@@ -133,7 +132,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
       },
       dependencies: {
         show: (values) => {
-          return [Task_Type.DELAY].includes(values.type);
+          return ['DELAY'].includes(values.type);
         },
         triggerFields: ['type'],
       },
@@ -150,7 +149,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
       },
       dependencies: {
         show: (values) => {
-          return [Task_Type.DELAY].includes(values.type);
+          return ['DELAY'].includes(values.type);
         },
         triggerFields: ['type'],
       },
@@ -167,7 +166,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
       },
       dependencies: {
         show: (values) => {
-          return [Task_Type.DELAY].includes(values.type);
+          return ['DELAY'].includes(values.type);
         },
         triggerFields: ['type'],
       },

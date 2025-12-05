@@ -9,12 +9,7 @@ import { LucideFilePenLine, LucideTrash2 } from '@vben/icons';
 import { notification } from 'ant-design-vue';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
-import { Department_Status } from '#/generated/api/user/service/v1/department.pb';
-import { Organization_Status } from '#/generated/api/user/service/v1/organization.pb';
-import {
-  type Position,
-  Position_Status,
-} from '#/generated/api/user/service/v1/position.pb';
+import { type userservicev1_Position as Position } from '#/generated/api/admin/service/v1';
 import { $t } from '#/locales';
 import {
   positionStatusToColor,
@@ -87,7 +82,7 @@ const formOptions: VbenFormProps = {
         api: async () => {
           const result = await orgStore.listOrganization(true, null, null, {
             // parent_id: 0,
-            status: Organization_Status.ON,
+            status: 'ON',
           });
           return result.items;
         },
@@ -110,7 +105,7 @@ const formOptions: VbenFormProps = {
         api: async () => {
           const result = await deptStore.listDepartment(true, null, null, {
             // parent_id: 0,
-            status: Department_Status.ON,
+            status: 'ON',
           });
           return result.items;
         },
@@ -245,28 +240,6 @@ async function handleDelete(row: any) {
     notification.error({
       message: $t('ui.notification.delete_failed'),
     });
-  }
-}
-
-/* 修改职位状态 */
-async function handleStatusChanged(row: any, checked: boolean) {
-  console.log('handleStatusChanged', row.status, checked);
-
-  row.pending = true;
-  row.status = checked ? Position_Status.ON : Position_Status.OFF;
-
-  try {
-    await positionStore.updatePosition(row.id, { status: row.status });
-
-    notification.success({
-      message: $t('ui.notification.update_status_success'),
-    });
-  } catch {
-    notification.error({
-      message: $t('ui.notification.update_status_failed'),
-    });
-  } finally {
-    row.pending = false;
   }
 }
 

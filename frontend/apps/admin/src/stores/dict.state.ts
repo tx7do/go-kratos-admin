@@ -1,9 +1,12 @@
 import { defineStore } from 'pinia';
 
-import { defDictService } from '#/services';
+import { createDictServiceClient } from '#/generated/api/admin/service/v1';
 import { makeQueryString, makeUpdateMask } from '#/utils/query';
+import { requestClientRequestHandler } from '#/utils/request';
 
 export const useDictStore = defineStore('dict', () => {
+  const service = createDictServiceClient(requestClientRequestHandler);
+
   /**
    * 查询字典类型列表
    */
@@ -15,7 +18,7 @@ export const useDictStore = defineStore('dict', () => {
     fieldMask?: null | string,
     orderBy?: null | string[],
   ) {
-    return await defDictService.ListDictType({
+    return await service.ListDictType({
       // @ts-ignore proto generated code is error.
       fieldMask,
       orderBy: orderBy ?? [],
@@ -37,7 +40,7 @@ export const useDictStore = defineStore('dict', () => {
     fieldMask?: null | string,
     orderBy?: null | string[],
   ) {
-    return await defDictService.ListDictEntry({
+    return await service.ListDictEntry({
       // @ts-ignore proto generated code is error.
       fieldMask,
       orderBy: orderBy ?? [],
@@ -52,7 +55,7 @@ export const useDictStore = defineStore('dict', () => {
    * 获取字典类型
    */
   async function getDictType(id: number) {
-    return await defDictService.GetDictType({
+    return await service.GetDictType({
       queryBy: { $case: 'id', id },
     });
   }
@@ -61,7 +64,7 @@ export const useDictStore = defineStore('dict', () => {
    * 获取字典类型
    */
   async function getDictTypeByCode(code: string) {
-    return await defDictService.GetDictType({
+    return await service.GetDictType({
       queryBy: { $case: 'code', code },
     });
   }
@@ -70,7 +73,7 @@ export const useDictStore = defineStore('dict', () => {
    * 创建字典类型
    */
   async function createDictType(values: object) {
-    return await defDictService.CreateDictType({
+    return await service.CreateDictType({
       data: {
         ...values,
       },
@@ -81,7 +84,7 @@ export const useDictStore = defineStore('dict', () => {
    * 创建字典条目
    */
   async function createDictEntry(values: object) {
-    return await defDictService.CreateDictEntry({
+    return await service.CreateDictEntry({
       data: {
         ...values,
       },
@@ -92,7 +95,7 @@ export const useDictStore = defineStore('dict', () => {
    * 更新字典类型
    */
   async function updateDictType(id: number, values: object) {
-    return await defDictService.UpdateDictType({
+    return await service.UpdateDictType({
       data: {
         id,
         ...values,
@@ -106,7 +109,7 @@ export const useDictStore = defineStore('dict', () => {
    * 更新字典条目
    */
   async function updateDictEntry(id: number, values: object) {
-    return await defDictService.UpdateDictEntry({
+    return await service.UpdateDictEntry({
       data: {
         id,
         ...values,
@@ -120,14 +123,14 @@ export const useDictStore = defineStore('dict', () => {
    * 删除字典类型
    */
   async function deleteDictType(ids: number[]) {
-    return await defDictService.DeleteDictType({ ids });
+    return await service.DeleteDictType({ ids });
   }
 
   /**
    * 删除字典条目
    */
   async function deleteDictEntry(ids: number[]) {
-    return await defDictService.DeleteDictEntry({ ids });
+    return await service.DeleteDictEntry({ ids });
   }
 
   function $reset() {}

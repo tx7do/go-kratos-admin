@@ -108,3 +108,22 @@ function createRequestClient(baseURL: string) {
 export const requestClient = createRequestClient(apiURL);
 
 export const baseRequestClient = new RequestClient({ baseURL: apiURL });
+
+type Request = {
+  body: null | string;
+  method: string;
+  path: string;
+};
+
+/**
+ * 通用请求处理器
+ * @param path 访问路径
+ * @param method 方法
+ * @param body 访问内容
+ */
+export function requestClientRequestHandler({ path, method, body }: Request) {
+  return requestClient.request(path, {
+    method,
+    data: body,
+  } as any);
+}

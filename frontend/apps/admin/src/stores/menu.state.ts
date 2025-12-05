@@ -5,11 +5,12 @@ import { $t } from '@vben/locales';
 import { defineStore } from 'pinia';
 
 import {
+  createMenuServiceClient,
   type Menu,
-  Menu_Type,
-} from '#/generated/api/admin/service/v1/i_menu.pb';
-import { defMenuService } from '#/services';
+  type Menu_Type,
+} from '#/generated/api/admin/service/v1';
 import { makeQueryString, makeUpdateMask } from '#/utils/query';
+import { requestClientRequestHandler } from '#/utils/request';
 
 const parseToArray = (str: string): string[] => {
   if (!str.trim()) {
@@ -23,6 +24,8 @@ const parseToArray = (str: string): string[] => {
 };
 
 export const useMenuStore = defineStore('menu', () => {
+  const service = createMenuServiceClient(requestClientRequestHandler);
+
   /**
    * 查询菜单列表
    */
@@ -34,7 +37,7 @@ export const useMenuStore = defineStore('menu', () => {
     fieldMask?: null | string,
     orderBy?: null | string[],
   ) {
-    return await defMenuService.List({
+    return await service.List({
       // @ts-ignore proto generated code is error.
       fieldMask,
       orderBy: orderBy ?? [],
@@ -49,7 +52,7 @@ export const useMenuStore = defineStore('menu', () => {
    * 获取菜单
    */
   async function getMenu(id: number) {
-    return await defMenuService.Get({ id });
+    return await service.Get({ id });
   }
 
   function prepareMenuData(values: object): Menu {
@@ -75,7 +78,7 @@ export const useMenuStore = defineStore('menu', () => {
   async function createMenu(values: object) {
     const copyData = prepareMenuData(values);
 
-    return await defMenuService.Create({
+    return await service.Create({
       data: {
         ...copyData,
         children: [],
@@ -91,7 +94,7 @@ export const useMenuStore = defineStore('menu', () => {
 
     console.log('updateMenu', copyData);
 
-    return await defMenuService.Update({
+    return await service.Update({
       data: {
         id,
         ...copyData,
@@ -106,7 +109,7 @@ export const useMenuStore = defineStore('menu', () => {
    * 删除菜单
    */
   async function deleteMenu(id: number) {
-    return await defMenuService.Delete({ id });
+    return await service.Delete({ id });
   }
 
   function $reset() {}
@@ -122,11 +125,11 @@ export const useMenuStore = defineStore('menu', () => {
 });
 
 export const menuTypeList = computed(() => [
-  { value: Menu_Type.FOLDER, label: $t('enum.menuType.FOLDER') },
-  { value: Menu_Type.MENU, label: $t('enum.menuType.MENU') },
-  { value: Menu_Type.BUTTON, label: $t('enum.menuType.BUTTON') },
-  { value: Menu_Type.EMBEDDED, label: $t('enum.menuType.EMBEDDED') },
-  { value: Menu_Type.LINK, label: $t('enum.menuType.LINK') },
+  { value: 'FOLDER', label: $t('enum.menuType.FOLDER') },
+  { value: 'MENU', label: $t('enum.menuType.MENU') },
+  { value: 'BUTTON', label: $t('enum.menuType.BUTTON') },
+  { value: 'EMBEDDED', label: $t('enum.menuType.EMBEDDED') },
+  { value: 'LINK', label: $t('enum.menuType.LINK') },
 ]);
 
 /**
@@ -144,25 +147,25 @@ export function menuTypeToName(menuType: any): string {
  * @param menuType 菜单类型枚举
  * @returns 十六进制颜色值（兼容所有UI框架）
  */
-export function menuTypeToColor(menuType: any) {
+export function menuTypeToColor(menuType: Menu_Type) {
   switch (menuType) {
-    case Menu_Type.BUTTON: {
+    case 'BUTTON': {
       // 按钮：操作型元素，醒目柔和
       return '#F56C6C';
     } // 柔和红色
-    case Menu_Type.EMBEDDED: {
+    case 'EMBEDDED': {
       // 嵌入式菜单：融合科技感
       return '#4096FF';
     } // 浅蓝色
-    case Menu_Type.FOLDER: {
+    case 'FOLDER': {
       // 文件夹：归类属性
       return '#27AE60';
     } // 深绿色
-    case Menu_Type.LINK: {
+    case 'LINK': {
       // 链接菜单：跳转属性
       return '#9B59B6';
     } // 紫色
-    case Menu_Type.MENU: {
+    case 'MENU': {
       // 普通菜单：基础导航
       return '#165DFF';
     } // 深蓝色
@@ -173,11 +176,11 @@ export function menuTypeToColor(menuType: any) {
   }
 }
 
-export const isFolder = (type: string) => type === Menu_Type.FOLDER;
-export const isMenu = (type: string) => type === Menu_Type.MENU;
-export const isButton = (type: string) => type === Menu_Type.BUTTON;
-export const isEmbedded = (type: string) => type === Menu_Type.EMBEDDED;
-export const isLink = (type: string) => type === Menu_Type.LINK;
+export const isFolder = (type: string) => type === 'FOLDER';
+export const isMenu = (type: string) => type === 'MENU';
+export const isButton = (type: string) => type === 'BUTTON';
+export const isEmbedded = (type: string) => type === 'EMBEDDED';
+export const isLink = (type: string) => type === 'LINK';
 
 /** 遍历菜单子节点
  * @param nodes 节点列表

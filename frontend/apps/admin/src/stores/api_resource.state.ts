@@ -1,23 +1,27 @@
-import type { ApiResource } from '#/generated/api/admin/service/v1/i_api_resource.pb';
-
 import { defineStore } from 'pinia';
 
-import { defApiResourceService } from '#/services';
+import {
+  type ApiResource,
+  createApiResourceServiceClient,
+} from '#/generated/api/admin/service/v1';
 import { makeQueryString, makeUpdateMask } from '#/utils/query';
+import { requestClientRequestHandler } from '#/utils/request';
 
 export const useApiResourceStore = defineStore('api-resource', () => {
+  const service = createApiResourceServiceClient(requestClientRequestHandler);
+
   /**
    * 查询API列表
    */
   async function listApiResource(
     noPaging: boolean = false,
-    page?: null | number,
-    pageSize?: null | number,
+    page?: number,
+    pageSize?: number,
     formValues?: null | object,
     fieldMask?: null | string,
     orderBy?: null | string[],
   ) {
-    return await defApiResourceService.List({
+    return await service.List({
       // @ts-ignore proto generated code is error.
       fieldMask,
       orderBy: orderBy ?? [],
@@ -32,14 +36,14 @@ export const useApiResourceStore = defineStore('api-resource', () => {
    * 获取API
    */
   async function getApiResource(id: number) {
-    return await defApiResourceService.Get({ id });
+    return await service.Get({ id });
   }
 
   /**
    * 创建API
    */
   async function createApiResource(values: object) {
-    return await defApiResourceService.Create({
+    return await service.Create({
       data: {
         ...values,
       },
@@ -50,7 +54,7 @@ export const useApiResourceStore = defineStore('api-resource', () => {
    * 更新API
    */
   async function updateApiResource(id: number, values: object) {
-    return await defApiResourceService.Update({
+    return await service.Update({
       data: {
         id,
         ...values,
@@ -64,15 +68,15 @@ export const useApiResourceStore = defineStore('api-resource', () => {
    * 删除API
    */
   async function deleteApiResource(id: number) {
-    return await defApiResourceService.Delete({ id });
+    return await service.Delete({ id });
   }
 
   async function getWalkRouteData() {
-    return await defApiResourceService.GetWalkRouteData({});
+    return await service.GetWalkRouteData({});
   }
 
   async function syncApiResources() {
-    return await defApiResourceService.SyncApiResources({});
+    return await service.SyncApiResources({});
   }
 
   function $reset() {}

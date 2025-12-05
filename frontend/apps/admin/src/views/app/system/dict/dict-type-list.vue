@@ -1,7 +1,5 @@
 <script lang="ts" setup>
 import type { VxeGridListeners, VxeGridProps } from '#/adapter/vxe-table';
-import type { DictType } from '#/generated/api/dict/service/v1/dict.pb';
-import type { User } from '#/generated/api/user/service/v1/user.pb';
 
 import { h } from 'vue';
 
@@ -11,6 +9,10 @@ import { LucideFilePenLine, LucideTrash2 } from '@vben/icons';
 import { notification } from 'ant-design-vue';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
+import {
+  type dictservicev1_DictType as DictType,
+  type userservicev1_User as User,
+} from '#/generated/api/admin/service/v1';
 import { $t } from '#/locales';
 import { enableBoolToColor, enableBoolToName, useDictStore } from '#/stores';
 import { useDictViewStore } from '#/views/app/system/dict/dict_view.state';

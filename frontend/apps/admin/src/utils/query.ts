@@ -9,7 +9,7 @@ const removeNullUndefined = (obj: any) =>
  * 创建查询字符串
  * @param formValues
  */
-export function makeQueryString(formValues: null | object): null | string {
+export function makeQueryString(formValues: null | object): string | undefined {
   if (formValues === null) {
     return null;
   }

@@ -9,14 +9,17 @@ import { preferences } from '@vben/preferences';
 
 import { message } from 'ant-design-vue';
 
+import { createRouterServiceClient } from '#/generated/api/admin/service/v1';
 import { BasicLayout, IFrameView } from '#/layouts';
 import { $t } from '#/locales';
-import { defRouterService } from '#/services';
+import { requestClientRequestHandler } from '#/utils/request';
+
+const routerService = createRouterServiceClient(requestClientRequestHandler);
 
 const forbiddenComponent = () => import('#/views/_core/fallback/forbidden.vue');
 
 async function getAllMenusApi(): Promise<RouteRecordStringComponent[]> {
-  const data = (await defRouterService.ListRoute({})) ?? [];
+  const data = (await routerService.ListRoute({})) ?? [];
   return <RouteRecordStringComponent[]>data.items ?? [];
 }
 

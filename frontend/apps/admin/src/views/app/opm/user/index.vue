@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import type { VxeGridListeners, VxeGridProps } from '#/adapter/vxe-table';
-import type { User } from '#/generated/api/user/service/v1/user.pb';
 
 import { h } from 'vue';
 
@@ -10,11 +9,7 @@ import { LucideFilePenLine, LucideInfo, LucideTrash2 } from '@vben/icons';
 import { notification } from 'ant-design-vue';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
-import { Department_Status } from '#/generated/api/user/service/v1/department.pb';
-import { Organization_Status } from '#/generated/api/user/service/v1/organization.pb';
-import { Position_Status } from '#/generated/api/user/service/v1/position.pb';
-import { Role_Status } from '#/generated/api/user/service/v1/role.pb';
-import { Tenant_Status } from '#/generated/api/user/service/v1/tenant.pb';
+import { type userservicev1_User as User } from '#/generated/api/admin/service/v1';
 import { $t } from '#/locales';
 import { router } from '#/router';
 import {
@@ -110,7 +105,7 @@ const formOptions: VbenFormProps = {
         api: async () => {
           const result = await roleStore.listRole(true, null, null, {
             // parent_id: 0,
-            status: Role_Status.ON,
+            status: 'ON',
           });
           return result.items;
         },
@@ -132,7 +127,7 @@ const formOptions: VbenFormProps = {
         treeNodeFilterProp: 'label',
         api: async () => {
           const result = await tenantStore.listTenant(true, null, null, {
-            status: Tenant_Status.ON,
+            status: 'ON',
           });
           return result.items;
         },
@@ -154,7 +149,7 @@ const formOptions: VbenFormProps = {
         treeNodeFilterProp: 'label',
         api: async () => {
           const result = await orgStore.listOrganization(true, null, null, {
-            status: Organization_Status.ON,
+            status: 'ON',
           });
           return result.items;
         },
@@ -176,7 +171,7 @@ const formOptions: VbenFormProps = {
         treeNodeFilterProp: 'label',
         api: async () => {
           const result = await deptStore.listDepartment(true, null, null, {
-            status: Department_Status.ON,
+            status: 'ON',
           });
           return result.items;
         },
@@ -198,7 +193,7 @@ const formOptions: VbenFormProps = {
         treeNodeFilterProp: 'label',
         api: async () => {
           const result = await positionStore.listPosition(true, null, null, {
-            status: Position_Status.ON,
+            status: 'ON',
           });
           return result.items;
         },

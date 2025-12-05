@@ -8,7 +8,6 @@ import { $t } from '@vben/locales';
 
 import { notification } from 'ant-design-vue';
 
-import { User_Status } from '#/generated/api/user/service/v1/user.pb';
 import { router } from '#/router';
 import { useUserStore } from '#/stores';
 import { TabEnum } from '#/views/app/opm/user/detail/types';
@@ -56,7 +55,7 @@ function goBack() {
  */
 async function handleBanAccount() {
   try {
-    await userStore.updateUser(userId.value, { status: User_Status.OFF });
+    await userStore.updateUser(userId.value, { status: 'OFF' });
 
     notification.success({
       message: $t('ui.notification.update_status_success'),

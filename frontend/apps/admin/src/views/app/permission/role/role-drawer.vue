@@ -7,8 +7,6 @@ import { $t } from '@vben/locales';
 import { notification } from 'ant-design-vue';
 
 import { useVbenForm } from '#/adapter/form';
-import { Menu_Status } from '#/generated/api/admin/service/v1/i_menu.pb';
-import { Role_Status } from '#/generated/api/user/service/v1/role.pb';
 import {
   buildMenuTree,
   convertApiToTree,
@@ -76,7 +74,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
       component: 'RadioGroup',
       fieldName: 'status',
       label: $t('ui.table.status'),
-      defaultValue: Role_Status.ON,
+      defaultValue: 'ON',
       rules: 'selectRequired',
       componentProps: {
         optionType: 'button',
@@ -108,7 +106,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
         resultField: 'items',
         api: async () => {
           return await menuStore.listMenu(true, null, null, {
-            status: Menu_Status.ON,
+            status: 'ON',
           });
         },
         afterFetch: (data: any) => {

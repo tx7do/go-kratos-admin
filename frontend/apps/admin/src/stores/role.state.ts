@@ -1,11 +1,12 @@
-import type { Role } from '#/generated/api/user/service/v1/role.pb';
-
 import { defineStore } from 'pinia';
 
-import { defRoleService } from '#/services';
+import { createRoleServiceClient } from '#/generated/api/admin/service/v1';
 import { makeQueryString, makeUpdateMask } from '#/utils/query';
+import { requestClientRequestHandler } from '#/utils/request';
 
 export const useRoleStore = defineStore('role', () => {
+  const service = createRoleServiceClient(requestClientRequestHandler);
+
   /**
    * 查询角色列表
    */
@@ -17,7 +18,7 @@ export const useRoleStore = defineStore('role', () => {
     fieldMask?: null | string,
     orderBy?: null | string[],
   ) {
-    return await defRoleService.List({
+    return await service.List({
       // @ts-ignore proto generated code is error.
       fieldMask,
       orderBy: orderBy ?? [],
@@ -32,14 +33,14 @@ export const useRoleStore = defineStore('role', () => {
    * 获取角色
    */
   async function getRole(id: number) {
-    return await defRoleService.Get({ id });
+    return await service.Get({ id });
   }
 
   /**
    * 创建角色
    */
   async function createRole(values: object) {
-    return await defRoleService.Create({
+    return await service.Create({
       // @ts-ignore proto generated code is error.
       data: {
         ...values,
@@ -52,7 +53,7 @@ export const useRoleStore = defineStore('role', () => {
    * 更新角色
    */
   async function updateRole(id: number, values: object) {
-    return await defRoleService.Update({
+    return await service.Update({
       // @ts-ignore proto generated code is error.
       data: {
         id,
@@ -68,7 +69,7 @@ export const useRoleStore = defineStore('role', () => {
    * 删除角色
    */
   async function deleteRole(id: number) {
-    return await defRoleService.Delete({ id });
+    return await service.Delete({ id });
   }
 
   function $reset() {}

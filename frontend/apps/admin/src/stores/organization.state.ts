@@ -4,15 +4,18 @@ import { $t } from '@vben/locales';
 
 import { defineStore } from 'pinia';
 
-import {
-  type Organization,
-  Organization_Status,
-  Organization_Type,
-} from '#/generated/api/user/service/v1/organization.pb';
-import { defOrganizationService } from '#/services';
+import { createOrganizationServiceClient } from '#/generated/api/admin/service/v1';
 import { makeQueryString, makeUpdateMask } from '#/utils/query';
+import {
+  type userservicev1_Organization as Organization,
+  type userservicev1_Organization_Status as Organization_Status,
+  type userservicev1_Organization_Type as Organization_Type,
+  requestClientRequestHandler,
+} from '#/utils/request';
 
 export const useOrganizationStore = defineStore('organization', () => {
+  const service = createOrganizationServiceClient(requestClientRequestHandler);
+
   /**
    * 查询组织列表
    */
@@ -24,7 +27,7 @@ export const useOrganizationStore = defineStore('organization', () => {
     fieldMask?: null | string,
     orderBy?: null | string[],
   ) {
-    return await defOrganizationService.List({
+    return await service.List({
       // @ts-ignore proto generated code is error.
       fieldMask,
       orderBy: orderBy ?? [],
@@ -39,14 +42,14 @@ export const useOrganizationStore = defineStore('organization', () => {
    * 获取组织
    */
   async function getOrganization(id: number) {
-    return await defOrganizationService.Get({ id });
+    return await service.Get({ id });
   }
 
   /**
    * 创建组织
    */
   async function createOrganization(values: object) {
-    return await defOrganizationService.Create({
+    return await service.Create({
       data: {
         ...values,
         children: [],
@@ -58,7 +61,7 @@ export const useOrganizationStore = defineStore('organization', () => {
    * 更新组织
    */
   async function updateOrganization(id: number, values: object) {
-    return await defOrganizationService.Update({
+    return await service.Update({
       data: {
         id,
         ...values,
@@ -73,7 +76,7 @@ export const useOrganizationStore = defineStore('organization', () => {
    * 删除组织
    */
   async function deleteOrganization(id: number) {
-    return await defOrganizationService.Delete({ id });
+    return await service.Delete({ id });
   }
 
   function $reset() {}
@@ -90,11 +93,11 @@ export const useOrganizationStore = defineStore('organization', () => {
 
 export const organizationStatusList = computed(() => [
   {
-    value: Organization_Status.ON,
+    value: 'ON',
     label: $t('enum.status.ON'),
   },
   {
-    value: Organization_Status.OFF,
+    value: 'OFF',
     label: $t('enum.status.OFF'),
   },
 ]);
@@ -103,7 +106,7 @@ export const organizationStatusList = computed(() => [
  * 状态转名称
  * @param status 状态值
  */
-export function organizationStatusToName(status: any) {
+export function organizationStatusToName(status: Organization_Status) {
   const values = organizationStatusList.value;
   const matchedItem = values.find((item) => item.value === status);
   return matchedItem ? matchedItem.label : '';
@@ -113,13 +116,13 @@ export function organizationStatusToName(status: any) {
  * 状态转颜色值
  * @param status 状态值
  */
-export function organizationStatusToColor(status: any) {
+export function organizationStatusToColor(status: Organization_Status) {
   switch (status) {
-    case Organization_Status.OFF: {
+    case 'OFF': {
       // 关闭/停用：深灰色，明确非激活状态
       return '#8C8C8C';
     } // 中深灰色，与“关闭”语义匹配，区别于浅灰的“未知”
-    case Organization_Status.ON: {
+    case 'ON': {
       // 开启/激活：标准成功绿，体现正常运行
       return '#52C41A';
     } // 对应Element Plus的success色，大众认知中的“正常”色
@@ -132,19 +135,19 @@ export function organizationStatusToColor(status: any) {
 
 export const organizationTypeList = computed(() => [
   {
-    value: Organization_Type.GROUP,
+    value: 'GROUP',
     label: $t('enum.organizationType.GROUP'),
   },
   {
-    value: Organization_Type.SUBSIDIARY,
+    value: 'SUBSIDIARY',
     label: $t('enum.organizationType.SUBSIDIARY'),
   },
   {
-    value: Organization_Type.FILIALE,
+    value: 'FILIALE',
     label: $t('enum.organizationType.FILIALE'),
   },
   {
-    value: Organization_Type.DIVISION,
+    value: 'DIVISION',
     label: $t('enum.organizationType.DIVISION'),
   },
 ]);
@@ -172,7 +175,7 @@ export const organizationTypeListForQuery = computed(() => [
  * 组织类型转名称
  * @param organizationType
  */
-export function organizationTypeToName(organizationType: any) {
+export function organizationTypeToName(organizationType: Organization_Type) {
   const values = organizationTypeList.value;
   const matchedItem = values.find((item) => item.value === organizationType);
   return matchedItem ? matchedItem.label : '';
@@ -182,21 +185,21 @@ export function organizationTypeToName(organizationType: any) {
  * 组织类型转颜色值
  * @param organizationType
  */
-export function organizationTypeToColor(organizationType: any) {
+export function organizationTypeToColor(organizationType: Organization_Type) {
   switch (organizationType) {
-    case Organization_Type.DIVISION: {
+    case 'DIVISION': {
       // 事业部
       return '#FF7D00';
     } // 橙色（活力，业务线特性）
-    case Organization_Type.FILIALE: {
+    case 'FILIALE': {
       // 分公司
       return '#4096FF';
     } // 浅蓝色（从属集团，区域分支）
-    case Organization_Type.GROUP: {
+    case 'GROUP': {
       // 集团
       return '#165DFF';
     } // 深蓝色（核心，权威）
-    case Organization_Type.SUBSIDIARY: {
+    case 'SUBSIDIARY': {
       // 子公司
       return '#722ED1';
     } // 紫色（独立法人，专业属性）

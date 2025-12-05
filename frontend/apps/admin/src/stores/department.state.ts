@@ -5,25 +5,28 @@ import { $t } from '@vben/locales';
 import { defineStore } from 'pinia';
 
 import {
-  type Department,
-  Department_Status,
-} from '#/generated/api/user/service/v1/department.pb';
-import { defDepartmentService } from '#/services';
+  createDepartmentServiceClient,
+  type userservicev1_Department as Department,
+  type userservicev1_Department_Status as Department_Status,
+} from '#/generated/api/admin/service/v1';
 import { makeQueryString, makeUpdateMask } from '#/utils/query';
+import { requestClientRequestHandler } from '#/utils/request';
 
 export const useDepartmentStore = defineStore('department', () => {
+  const service = createDepartmentServiceClient(requestClientRequestHandler);
+
   /**
    * 查询部门列表
    */
   async function listDepartment(
     noPaging: boolean = false,
-    page?: null | number,
-    pageSize?: null | number,
+    page?: number,
+    pageSize?: number,
     formValues?: null | object,
     fieldMask?: null | string,
     orderBy?: null | string[],
   ) {
-    return await defDepartmentService.List({
+    return await service.List({
       // @ts-ignore proto generated code is error.
       fieldMask,
       orderBy: orderBy ?? [],
@@ -38,14 +41,14 @@ export const useDepartmentStore = defineStore('department', () => {
    * 获取部门
    */
   async function getDepartment(id: number) {
-    return await defDepartmentService.Get({ id });
+    return await service.Get({ id });
   }
 
   /**
    * 创建部门
    */
   async function createDepartment(values: object) {
-    return await defDepartmentService.Create({
+    return await service.Create({
       data: {
         ...values,
         children: [],
@@ -57,7 +60,7 @@ export const useDepartmentStore = defineStore('department', () => {
    * 更新部门
    */
   async function updateDepartment(id: number, values: object) {
-    return await defDepartmentService.Update({
+    return await service.Update({
       data: {
         id,
         ...values,
@@ -72,7 +75,7 @@ export const useDepartmentStore = defineStore('department', () => {
    * 删除部门
    */
   async function deleteDepartment(id: number) {
-    return await defDepartmentService.Delete({ id });
+    return await service.Delete({ id });
   }
 
   function $reset() {}
@@ -88,9 +91,9 @@ export const useDepartmentStore = defineStore('department', () => {
 });
 
 export const departmentStatusList = computed(() => [
-  { value: Department_Status.ON, label: $t('enum.status.ON') },
+  { value: 'ON', label: $t('enum.status.ON') },
   {
-    value: Department_Status.OFF,
+    value: 'OFF',
     label: $t('enum.status.OFF'),
   },
 ]);
@@ -99,7 +102,7 @@ export const departmentStatusList = computed(() => [
  * 状态转名称
  * @param status 状态值
  */
-export function departmentStatusToName(status: any) {
+export function departmentStatusToName(status: Department_Status) {
   const values = departmentStatusList.value;
   const matchedItem = values.find((item) => item.value === status);
   return matchedItem ? matchedItem.label : '';
@@ -109,13 +112,13 @@ export function departmentStatusToName(status: any) {
  * 状态转颜色值
  * @param status 状态值
  */
-export function departmentStatusToColor(status: any) {
+export function departmentStatusToColor(status: Department_Status) {
   switch (status) {
-    case Department_Status.OFF: {
+    case 'OFF': {
       // 关闭/停用：深灰色，明确非激活状态
       return '#8C8C8C';
     } // 中深灰色，与“关闭”语义匹配，区别于浅灰的“未知”
-    case Department_Status.ON: {
+    case 'ON': {
       // 开启/激活：标准成功绿，体现正常运行
       return '#52C41A';
     } // 对应Element Plus的success色，大众认知中的“正常”色

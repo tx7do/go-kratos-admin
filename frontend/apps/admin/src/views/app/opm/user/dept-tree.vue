@@ -1,8 +1,6 @@
 <script lang="ts" setup>
 import type { TreeProps } from 'ant-design-vue';
 
-import type { Department } from '#/generated/api/user/service/v1/department.pb';
-
 import { onMounted, ref } from 'vue';
 
 import { LucideEllipsisVertical } from '@vben/icons';
@@ -11,6 +9,7 @@ import { VbenDropdownMenu, VbenIconButton } from '@vben-core/shadcn-ui';
 import { mapTree } from '@vben-core/shared/utils';
 
 import { TreeActionEnum } from '#/constants/tree';
+import { type userservicev1_Department as Department } from '#/generated/api/admin/service/v1';
 import { useDepartmentStore } from '#/stores';
 
 const emit = defineEmits(['select']);

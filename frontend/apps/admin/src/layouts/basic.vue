@@ -19,10 +19,7 @@ import { dateUtil, openWindow } from '@vben/utils';
 
 import { notification } from 'ant-design-vue';
 
-import {
-  type InternalMessageRecipient,
-  InternalMessageRecipient_Status,
-} from '#/generated/api/internal_message/service/v1/internal_message_recipient.pb';
+import { type internal_messageservicev1_InternalMessageRecipient as InternalMessageRecipient } from '#/generated/api/admin/service/v1';
 import { $t } from '#/locales';
 import {
   authorityToName,
@@ -109,7 +106,7 @@ function convertInternalMessageRecipient(item: InternalMessageRecipient) {
     messageId: item.messageId ?? 0,
     avatar: preferences.app.defaultAvatar,
     date,
-    isRead: item.status === InternalMessageRecipient_Status.READ,
+    isRead: item.status === 'READ',
     message: item.content || '',
     title: item.title || '',
   };

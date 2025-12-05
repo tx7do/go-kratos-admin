@@ -7,10 +7,7 @@ import { formatDateTime } from '@vben/utils';
 
 import { Avatar, Descriptions, DescriptionsItem } from 'ant-design-vue';
 
-import {
-  type User,
-  User_Status,
-} from '#/generated/api/user/service/v1/user.pb';
+import { type userservicev1_User as User } from '#/generated/api/admin/service/v1';
 import {
   authorityToColor,
   authorityToName,
@@ -76,10 +73,10 @@ reload();
           </a-tag>
           <a-tag
             class="status-badge"
-            :color="data?.status === User_Status.ON ? 'success' : 'error'"
+            :color="data?.status === 'ON' ? 'success' : 'error'"
           >
             {{
-              data?.status === User_Status.ON
+              data?.status === 'ON'
                 ? $t('enum.status.ON')
                 : $t('enum.status.OFF')
             }}

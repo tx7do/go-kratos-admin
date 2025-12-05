@@ -1,12 +1,12 @@
 <script lang="ts" setup>
 import type { VxeGridProps } from '#/adapter/vxe-table';
-import type { AdminOperationLog } from '#/generated/api/admin/service/v1/i_admin_operation_log.pb';
 
 import { Page, type VbenFormProps } from '@vben/common-ui';
 
 import dayjs from 'dayjs';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
+import { type AdminOperationLog } from '#/generated/api/admin/service/v1';
 import { $t } from '#/locales';
 import {
   methodList,

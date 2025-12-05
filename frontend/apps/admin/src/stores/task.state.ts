@@ -4,11 +4,16 @@ import { $t } from '@vben/locales';
 
 import { defineStore } from 'pinia';
 
-import { Task_Type } from '#/generated/api/admin/service/v1/i_task.pb';
-import { defTaskService } from '#/services';
+import {
+  createTaskServiceClient,
+  type Task_Type,
+} from '#/generated/api/admin/service/v1';
 import { makeQueryString, makeUpdateMask } from '#/utils/query';
+import { requestClientRequestHandler } from '#/utils/request';
 
 export const useTaskStore = defineStore('task', () => {
+  const service = createTaskServiceClient(requestClientRequestHandler);
+
   /**
    * 查询任务列表
    */
@@ -20,7 +25,7 @@ export const useTaskStore = defineStore('task', () => {
     fieldMask?: null | string,
     orderBy?: null | string[],
   ) {
-    return await defTaskService.List({
+    return await service.List({
       // @ts-ignore proto generated code is error.
       fieldMask,
       orderBy: orderBy ?? [],
@@ -35,14 +40,14 @@ export const useTaskStore = defineStore('task', () => {
    * 获取任务
    */
   async function getTask(id: number) {
-    return await defTaskService.Get({ id });
+    return await service.Get({ id });
   }
 
   /**
    * 创建任务
    */
   async function createTask(values: object) {
-    return await defTaskService.Create({
+    return await service.Create({
       data: {
         ...values,
       },
@@ -53,7 +58,7 @@ export const useTaskStore = defineStore('task', () => {
    * 更新任务
    */
   async function updateTask(id: number, values: object) {
-    return await defTaskService.Update({
+    return await service.Update({
       data: {
         id,
         ...values,
@@ -67,42 +72,42 @@ export const useTaskStore = defineStore('task', () => {
    * 删除任务
    */
   async function deleteTask(id: number) {
-    return await defTaskService.Delete({ id });
+    return await service.Delete({ id });
   }
 
   /**
    * 获取任务类型名称列表
    */
   async function listTaskTypeName() {
-    return await defTaskService.ListTaskTypeName({});
+    return await service.ListTaskTypeName({});
   }
 
   /**
    * 重启所有任务
    */
   async function restartAllTask() {
-    return await defTaskService.RestartAllTask({});
+    return await service.RestartAllTask({});
   }
 
   /**
    * 停止所有任务
    */
   async function stopAllTask() {
-    return await defTaskService.StopAllTask({});
+    return await service.StopAllTask({});
   }
 
   /**
    * 启动所有任务
    */
   async function startAllTask() {
-    return await defTaskService.StartAllTask({});
+    return await service.StartAllTask({});
   }
 
   /**
    * 控制任务运行
    */
   async function controlTask(controlType: any, typeName: any) {
-    return await defTaskService.ControlTask({ controlType, typeName });
+    return await service.ControlTask({ controlType, typeName });
   }
 
   function $reset() {}
@@ -124,34 +129,34 @@ export const useTaskStore = defineStore('task', () => {
 
 export const taskTypeList = computed(() => [
   {
-    value: Task_Type.PERIODIC,
+    value: 'PERIODIC',
     label: $t('enum.taskType.Periodic'),
   },
   {
-    value: Task_Type.DELAY,
+    value: 'DELAY',
     label: $t('enum.taskType.Delay'),
   },
   {
-    value: Task_Type.WAIT_RESULT,
+    value: 'WAIT_RESULT',
     label: $t('enum.taskType.WaitResult'),
   },
 ]);
 
-export function taskTypeToName(taskType: any) {
+export function taskTypeToName(taskType: Task_Type) {
   const values = taskTypeList.value;
   const matchedItem = values.find((item) => item.value === taskType);
   return matchedItem ? matchedItem.label : '';
 }
 
-export function taskTypeToColor(taskType: any) {
+export function taskTypeToColor(taskType: Task_Type) {
   switch (taskType) {
-    case Task_Type.DELAY: {
+    case 'DELAY': {
       return 'blue'; // 延迟任务：蓝色（表示计划中、待执行的状态）
     }
-    case Task_Type.PERIODIC: {
+    case 'PERIODIC': {
       return 'orange'; // 周期性任务：橙色（表示循环执行、持续运行的特性）
     }
-    case Task_Type.WAIT_RESULT: {
+    case 'WAIT_RESULT': {
       return 'purple'; // 等待结果任务：紫色（表示过渡状态、等待响应）
     }
     default: {

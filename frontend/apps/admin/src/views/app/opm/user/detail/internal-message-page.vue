@@ -1,12 +1,12 @@
 <script lang="ts" setup>
 import type { VxeGridProps } from '#/adapter/vxe-table';
-import type { InternalMessageRecipient } from '#/generated/api/internal_message/service/v1/internal_message.pb';
 
 import { Page, type VbenFormProps } from '@vben/common-ui';
 
 import dayjs from 'dayjs';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
+import { type internal_messageservicev1_InternalMessageRecipient as InternalMessageRecipient } from '#/generated/api/admin/service/v1';
 import { $t } from '#/locales';
 import {
   internalMessageRecipientStatusColor,

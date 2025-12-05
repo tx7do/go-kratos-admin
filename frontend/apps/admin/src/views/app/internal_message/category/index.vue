@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import type { VxeGridProps } from '#/adapter/vxe-table';
-import type { InternalMessageCategory } from '#/generated/api/internal_message/service/v1/internal_message_category.pb';
 
 import { h } from 'vue';
 
@@ -10,6 +9,7 @@ import { LucideFilePenLine, LucideTrash2 } from '@vben/icons';
 import { notification } from 'ant-design-vue';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
+import { type internal_messageservicev1_InternalMessageCategory as InternalMessageCategory } from '#/generated/api/admin/service/v1';
 import { $t } from '#/locales';
 import {
   enableBoolToColor,

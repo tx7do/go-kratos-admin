@@ -9,11 +9,9 @@ import { notification } from 'ant-design-vue';
 
 import { useVbenForm } from '#/adapter/form';
 import {
-  type InternalMessage,
-  InternalMessage_Status,
-  InternalMessage_Type,
-  type SendMessageRequest,
-} from '#/generated/api/internal_message/service/v1/internal_message.pb';
+  type internal_messageservicev1_InternalMessage as InternalMessage,
+  type internal_messageservicev1_SendMessageRequest as SendMessageRequest,
+} from '#/generated/api/admin/service/v1';
 import {
   internalMessageStatusList,
   internalMessageTypeList,
@@ -50,7 +48,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
       component: 'Select',
       fieldName: 'status',
       label: $t('page.internalMessage.status'),
-      defaultValue: InternalMessage_Status.DRAFT,
+      defaultValue: 'DRAFT',
       componentProps: {
         class: 'w-full',
         placeholder: $t('ui.placeholder.select'),
@@ -65,7 +63,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
       component: 'Select',
       fieldName: 'type',
       label: $t('page.internalMessage.type'),
-      defaultValue: InternalMessage_Type.NOTIFICATION,
+      defaultValue: 'NOTIFICATION',
       componentProps: {
         class: 'w-full',
         placeholder: $t('ui.placeholder.select'),

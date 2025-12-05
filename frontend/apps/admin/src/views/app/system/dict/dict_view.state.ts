@@ -1,10 +1,9 @@
-import type {
-  ListDictEntryResponse,
-  ListDictTypeResponse,
-} from '#/generated/api/dict/service/v1/dict.pb';
-
 import { defineStore } from 'pinia';
 
+import {
+  type dictservicev1_ListDictEntryResponse as ListDictEntryResponse,
+  type dictservicev1_ListDictTypeResponse as ListDictTypeResponse,
+} from '#/generated/api/admin/service/v1';
 import { useDictStore } from '#/stores';
 
 const dictStore = useDictStore();

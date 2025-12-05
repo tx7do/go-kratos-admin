@@ -7,9 +7,6 @@ import { $t } from '@vben/locales';
 import { notification } from 'ant-design-vue';
 
 import { useVbenForm } from '#/adapter/form';
-import { Department_Status } from '#/generated/api/user/service/v1/department.pb';
-import { Organization_Status } from '#/generated/api/user/service/v1/organization.pb';
-import { Position_Status } from '#/generated/api/user/service/v1/position.pb';
 import {
   positionStatusList,
   useDepartmentStore,
@@ -77,7 +74,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
         api: async () => {
           const result = await positionStore.listPosition(true, null, null, {
             // parent_id: 0,
-            status: Position_Status.ON,
+            status: 'ON',
           });
           return result.items;
         },
@@ -101,7 +98,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
         api: async () => {
           const result = await orgStore.listOrganization(true, null, null, {
             // parent_id: 0,
-            status: Organization_Status.ON,
+            status: 'ON',
           });
           return result.items;
         },
@@ -125,7 +122,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
         api: async () => {
           const result = await deptStore.listDepartment(true, null, null, {
             // parent_id: 0,
-            status: Department_Status.ON,
+            status: 'ON',
           });
           return result.items;
         },
@@ -156,7 +153,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
       component: 'RadioGroup',
       fieldName: 'status',
       label: $t('ui.table.status'),
-      defaultValue: Position_Status.ON,
+      defaultValue: 'ON',
       rules: 'selectRequired',
       componentProps: {
         optionType: 'button',

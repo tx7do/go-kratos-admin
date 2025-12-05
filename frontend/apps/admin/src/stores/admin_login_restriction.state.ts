@@ -4,25 +4,32 @@ import { $t } from '@vben/locales';
 
 import { defineStore } from 'pinia';
 
-import { AdminLoginRestriction_Type } from '#/generated/api/admin/service/v1/i_admin_login_restriction.pb';
-import { defAdminLoginRestrictionService } from '#/services';
+import {
+  type AdminLoginRestriction_Type,
+  createAdminLoginRestrictionServiceClient,
+} from '#/generated/api/admin/service/v1';
 import { makeQueryString, makeUpdateMask } from '#/utils/query';
+import { requestClientRequestHandler } from '#/utils/request';
 
 export const useAdminLoginRestrictionStore = defineStore(
   'admin_login_restriction',
   () => {
+    const service = createAdminLoginRestrictionServiceClient(
+      requestClientRequestHandler,
+    );
+
     /**
      * 查询后台登录限制列表
      */
     async function listAdminLoginRestriction(
       noPaging: boolean = false,
-      page?: null | number,
-      pageSize?: null | number,
+      page?: number,
+      pageSize?: number,
       formValues?: null | object,
       fieldMask?: null | string,
       orderBy?: null | string[],
     ) {
-      return await defAdminLoginRestrictionService.List({
+      return await service.List({
         // @ts-ignore proto generated code is error.
         fieldMask,
         orderBy: orderBy ?? [],
@@ -37,14 +44,14 @@ export const useAdminLoginRestrictionStore = defineStore(
      * 获取后台登录限制
      */
     async function getAdminLoginRestriction(id: number) {
-      return await defAdminLoginRestrictionService.Get({ id });
+      return await service.Get({ id });
     }
 
     /**
      * 创建后台登录限制
      */
     async function createAdminLoginRestriction(values: object) {
-      return await defAdminLoginRestrictionService.Create({
+      return await service.Create({
         data: {
           ...values,
         },
@@ -55,7 +62,7 @@ export const useAdminLoginRestrictionStore = defineStore(
      * 更新后台登录限制
      */
     async function updateAdminLoginRestriction(id: number, values: object) {
-      return await defAdminLoginRestrictionService.Update({
+      return await service.Update({
         data: {
           id,
           ...values,
@@ -69,7 +76,7 @@ export const useAdminLoginRestrictionStore = defineStore(
      * 删除后台登录限制
      */
     async function deleteAdminLoginRestriction(id: number) {
-      return await defAdminLoginRestrictionService.Delete({ id });
+      return await service.Delete({ id });
     }
 
     function $reset() {}
@@ -104,12 +111,14 @@ export function adminLoginRestrictionTypeToName(typeName: any) {
   return matchedItem ? matchedItem.label : '';
 }
 
-export function adminLoginRestrictionTypeToColor(typeName: any) {
+export function adminLoginRestrictionTypeToColor(
+  typeName: AdminLoginRestriction_Type,
+) {
   switch (typeName) {
-    case AdminLoginRestriction_Type.BLACKLIST: {
+    case 'BLACKLIST': {
       return 'red'; // 黑名单用红色（表示限制/禁止）
     }
-    case AdminLoginRestriction_Type.WHITELIST: {
+    case 'WHITELIST': {
       return 'green'; // 白名单用绿色（表示允许/信任）
     }
     default: {

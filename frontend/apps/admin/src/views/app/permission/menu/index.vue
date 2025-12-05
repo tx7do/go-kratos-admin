@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import type { VxeGridProps } from '#/adapter/vxe-table';
-import type { Menu } from '#/generated/api/admin/service/v1/i_menu.pb';
 
 import { h } from 'vue';
 
@@ -11,6 +10,7 @@ import { Icon } from '@iconify/vue';
 import { notification } from 'ant-design-vue';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
+import { type Menu } from '#/generated/api/admin/service/v1';
 import { $t } from '#/locales';
 import {
   menuTypeToColor,

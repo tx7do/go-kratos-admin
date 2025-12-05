@@ -11,13 +11,13 @@ import { notification } from 'ant-design-vue';
 import CryptoJS from 'crypto-js';
 import { defineStore } from 'pinia';
 
-import { GrantType } from '#/generated/api/authentication/service/v1/authentication.pb';
-import { $t } from '#/locales';
 import {
-  defAuthnService,
-  defRouterService,
-  defUserProfileService,
-} from '#/services';
+  createAuthenticationServiceClient,
+  createRouterServiceClient,
+  createUserProfileServiceClient,
+} from '#/generated/api/admin/service/v1';
+import { $t } from '#/locales';
+import { requestClientRequestHandler } from '#/utils/request';
 
 export const useAuthStore = defineStore('auth', () => {
   const accessStore = useAccessStore();
@@ -25,6 +25,14 @@ export const useAuthStore = defineStore('auth', () => {
   const router = useRouter();
 
   const loginLoading = ref(false);
+
+  const authnService = createAuthenticationServiceClient(
+    requestClientRequestHandler,
+  );
+  const routerService = createRouterServiceClient(requestClientRequestHandler);
+  const userProfileService = createUserProfileServiceClient(
+    requestClientRequestHandler,
+  );
 
   // 加密函数
   function encryptData(data: string, key: string, iv: string): string {
@@ -60,10 +68,10 @@ export const useAuthStore = defineStore('auth', () => {
     try {
       loginLoading.value = true;
 
-      const { access_token } = await defAuthnService.Login({
+      const { access_token } = await authnService.Login({
         username: params.username,
         password: encryptPassword(params.password),
-        grant_type: GrantType.password,
+        grant_type: 'password',
       });
 
       // 如果成功获取到 accessToken
@@ -84,7 +92,7 @@ export const useAuthStore = defineStore('auth', () => {
         }
 
         userStore.setUserInfo(userInfo);
-        accessStore.setAccessCodes(accessCodes.codes);
+        accessStore.setAccessCodes(accessCodes.codes ?? []);
 
         if (accessStore.loginExpired) {
           accessStore.setLoginExpired(false);
@@ -133,7 +141,7 @@ export const useAuthStore = defineStore('auth', () => {
    */
   async function logout(redirect: boolean = true) {
     try {
-      await defAuthnService.Logout({});
+      await authnService.Logout({});
     } catch {
       // 不做任何处理
     }
@@ -167,13 +175,13 @@ export const useAuthStore = defineStore('auth', () => {
   async function refreshToken() {
     const accessStore = useAccessStore();
 
-    const resp = await defAuthnService.RefreshToken({
-      grant_type: GrantType.password,
+    const resp = await authnService.RefreshToken({
+      grant_type: 'password',
       refresh_token: accessStore.refreshToken ?? '',
     });
     const newToken = resp.access_token;
 
-    accessStore.setAccessToken(newToken);
+    accessStore.setAccessToken(newToken ?? null);
 
     return newToken;
   }
@@ -204,7 +212,7 @@ export const useAuthStore = defineStore('auth', () => {
    */
   async function fetchUserInfo() {
     try {
-      return (await defUserProfileService.GetUser({})) as UserInfo;
+      return (await userProfileService.GetUser({})) as UserInfo;
     } catch (error) {
       console.error(error);
       await doLogout();
@@ -216,7 +224,7 @@ export const useAuthStore = defineStore('auth', () => {
    * 获取用户权限码
    */
   async function fetchAccessCodes() {
-    return await defRouterService.ListPermissionCode({});
+    return await routerService.ListPermissionCode({});
   }
 
   function $reset() {

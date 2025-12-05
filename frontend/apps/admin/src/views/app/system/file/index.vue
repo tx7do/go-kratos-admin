@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import type { VxeGridProps } from '#/adapter/vxe-table';
-import type { File } from '#/generated/api/file/service/v1/file.pb';
 
 import { h } from 'vue';
 
@@ -10,6 +9,7 @@ import { LucideFilePenLine, LucideTrash2 } from '@vben/icons';
 import { notification } from 'ant-design-vue';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
+import { type fileservicev1_File as File } from '#/generated/api/admin/service/v1';
 import { $t } from '#/locales';
 import { statusToColor, statusToName, useFileStore } from '#/stores';
 

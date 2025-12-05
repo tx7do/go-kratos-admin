@@ -7,9 +7,6 @@ import { $t } from '@vben/locales';
 import { notification } from 'ant-design-vue';
 
 import { useVbenForm } from '#/adapter/form';
-import { Department_Status } from '#/generated/api/user/service/v1/department.pb';
-import { Organization_Status } from '#/generated/api/user/service/v1/organization.pb';
-import { User_Status } from '#/generated/api/user/service/v1/user.pb';
 import {
   departmentStatusList,
   useDepartmentStore,
@@ -67,7 +64,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
         api: async () => {
           const result = await deptStore.listDepartment(true, null, null, {
             // parent_id: 0,
-            status: Department_Status.ON,
+            status: 'ON',
           });
           return result.items;
         },
@@ -91,7 +88,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
         api: async () => {
           const result = await orgStore.listOrganization(true, null, null, {
             // parent_id: 0,
-            status: Organization_Status.ON,
+            status: 'ON',
           });
           return result.items;
         },
@@ -116,7 +113,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
         api: async () => {
           const result = await userStore.listUser(true, null, null, {
             // parent_id: 0,
-            status: User_Status.ON,
+            status: 'ON',
           });
           return result.items;
         },
@@ -135,7 +132,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
     {
       component: 'RadioGroup',
       fieldName: 'status',
-      defaultValue: Department_Status.ON,
+      defaultValue: 'ON',
       label: $t('ui.table.status'),
       rules: 'selectRequired',
       componentProps: {

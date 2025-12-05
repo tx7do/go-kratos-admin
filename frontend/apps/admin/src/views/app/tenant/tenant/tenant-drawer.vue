@@ -7,12 +7,6 @@ import { $t } from '@vben/locales';
 import { notification } from 'ant-design-vue';
 
 import { useVbenForm } from '#/adapter/form';
-import { Role_Status } from '#/generated/api/user/service/v1/role.pb';
-import {
-  Tenant_AuditStatus,
-  Tenant_Status,
-  Tenant_Type,
-} from '#/generated/api/user/service/v1/tenant.pb';
 import {
   tenantAuditStatusList,
   tenantStatusList,
@@ -69,7 +63,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
       component: 'Select',
       fieldName: 'type',
       label: $t('page.tenant.type'),
-      defaultValue: Tenant_Type.PAID,
+      defaultValue: 'PAID',
       componentProps: {
         placeholder: $t('ui.placeholder.select'),
         options: tenantTypeList,
@@ -84,7 +78,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
       component: 'Select',
       fieldName: 'auditStatus',
       label: $t('page.tenant.auditStatus'),
-      defaultValue: Tenant_AuditStatus.APPROVED,
+      defaultValue: 'APPROVED',
       componentProps: {
         placeholder: $t('ui.placeholder.select'),
         options: tenantAuditStatusList,
@@ -98,7 +92,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
     {
       component: 'Select',
       fieldName: 'status',
-      defaultValue: Tenant_Status.ON,
+      defaultValue: 'ON',
       label: $t('ui.table.status'),
       rules: 'selectRequired',
       componentProps: {
@@ -239,7 +233,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
         api: async () => {
           const result = await roleStore.listRole(true, null, null, {
             // parent_id: 0,
-            status: Role_Status.ON,
+            status: 'ON',
           });
 
           return result.items;

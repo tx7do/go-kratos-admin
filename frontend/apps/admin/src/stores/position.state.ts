@@ -4,14 +4,17 @@ import { $t } from '@vben/locales';
 
 import { defineStore } from 'pinia';
 
-import {
-  type Position,
-  Position_Status,
-} from '#/generated/api/user/service/v1/position.pb';
-import { defPositionService } from '#/services';
+import { createPositionServiceClient } from '#/generated/api/admin/service/v1';
 import { makeQueryString, makeUpdateMask } from '#/utils/query';
+import {
+  type userservicev1_Position as Position,
+  type userservicev1_Position_Status as Position_Status,
+  requestClientRequestHandler,
+} from '#/utils/request';
 
 export const usePositionStore = defineStore('position', () => {
+  const service = createPositionServiceClient(requestClientRequestHandler);
+
   /**
    * 查询职位列表
    */
@@ -23,7 +26,7 @@ export const usePositionStore = defineStore('position', () => {
     fieldMask?: null | string,
     orderBy?: null | string[],
   ) {
-    return await defPositionService.List({
+    return await service.List({
       // @ts-ignore proto generated code is error.
       fieldMask,
       orderBy: orderBy ?? [],
@@ -38,14 +41,14 @@ export const usePositionStore = defineStore('position', () => {
    * 获取职位
    */
   async function getPosition(id: number) {
-    return await defPositionService.Get({ id });
+    return await service.Get({ id });
   }
 
   /**
    * 创建职位
    */
   async function createPosition(values: object) {
-    return await defPositionService.Create({
+    return await service.Create({
       data: {
         ...values,
         children: [],
@@ -57,7 +60,7 @@ export const usePositionStore = defineStore('position', () => {
    * 更新职位
    */
   async function updatePosition(id: number, values: object) {
-    return await defPositionService.Update({
+    return await service.Update({
       data: {
         id,
         ...values,
@@ -72,7 +75,7 @@ export const usePositionStore = defineStore('position', () => {
    * 删除职位
    */
   async function deletePosition(id: number) {
-    return await defPositionService.Delete({ id });
+    return await service.Delete({ id });
   }
 
   function $reset() {}
@@ -88,9 +91,9 @@ export const usePositionStore = defineStore('position', () => {
 });
 
 export const positionStatusList = computed(() => [
-  { value: Position_Status.ON, label: $t('enum.status.ON') },
+  { value: 'ON', label: $t('enum.status.ON') },
   {
-    value: Position_Status.OFF,
+    value: 'OFF',
     label: $t('enum.status.OFF'),
   },
 ]);
@@ -99,7 +102,7 @@ export const positionStatusList = computed(() => [
  * 状态转名称
  * @param status 状态值
  */
-export function positionStatusToName(status: any) {
+export function positionStatusToName(status: Position_Status) {
   const values = positionStatusList.value;
   const matchedItem = values.find((item) => item.value === status);
   return matchedItem ? matchedItem.label : '';
@@ -109,13 +112,13 @@ export function positionStatusToName(status: any) {
  * 状态转颜色值
  * @param status 状态值
  */
-export function positionStatusToColor(status: any) {
+export function positionStatusToColor(status: Position_Status) {
   switch (status) {
-    case Position_Status.OFF: {
+    case 'OFF': {
       // 关闭/停用：深灰色，明确非激活状态
       return '#8C8C8C';
     } // 中深灰色，与“关闭”语义匹配，区别于浅灰的“未知”
-    case Position_Status.ON: {
+    case 'ON': {
       // 开启/激活：标准成功绿，体现正常运行
       return '#52C41A';
     } // 对应Element Plus的success色，大众认知中的“正常”色

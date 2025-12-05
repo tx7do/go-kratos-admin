@@ -1,23 +1,28 @@
 import { defineStore } from 'pinia';
 
-import { defAdminOperationLogService } from '#/services';
+import { createAdminLoginLogServiceClient } from '#/generated/api/admin/service/v1';
 import { makeQueryString } from '#/utils/query';
+import { requestClientRequestHandler } from '#/utils/request';
 
 export const useAdminOperationLogStore = defineStore(
   'admin_operation_log',
   () => {
+    const service = createAdminLoginLogServiceClient(
+      requestClientRequestHandler,
+    );
+
     /**
      * 查询操作日志列表
      */
     async function listAdminOperationLog(
       noPaging: boolean = false,
-      page?: null | number,
-      pageSize?: null | number,
+      page?: number,
+      pageSize?: number,
       formValues?: null | object,
       fieldMask?: null | string,
       orderBy?: null | string[],
     ) {
-      return await defAdminOperationLogService.List({
+      return await service.List({
         // @ts-ignore proto generated code is error.
         fieldMask,
         orderBy: orderBy ?? [],
@@ -32,7 +37,7 @@ export const useAdminOperationLogStore = defineStore(
      * 查询操作日志
      */
     async function getAdminOperationLog(id: number) {
-      return await defAdminOperationLogService.Get({ id });
+      return await service.Get({ id });
     }
 
     function $reset() {}

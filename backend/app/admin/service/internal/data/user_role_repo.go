@@ -78,8 +78,8 @@ func (r *UserRoleRepo) AssignRoles(ctx context.Context, userId uint32, ids []uin
 	return nil
 }
 
-// GetRoleIdsByUserId 获取用户关联的角色ID列表
-func (r *UserRoleRepo) GetRoleIdsByUserId(ctx context.Context, userId uint32) ([]uint32, error) {
+// ListRoleIdsByUserId 获取用户关联的角色ID列表
+func (r *UserRoleRepo) ListRoleIdsByUserId(ctx context.Context, userId uint32) ([]uint32, error) {
 	ids, err := r.data.db.Client().UserRole.Query().
 		Where(userrole.UserIDEQ(userId)).
 		Select(userrole.FieldRoleID).

@@ -83,7 +83,7 @@ func (s *RouterService) queryOneRoleMenus(ctx context.Context, roleId uint32) ([
 
 // queryMultipleRolesMenusByRoleCodes 使用RoleCodes查询菜单，即多个角色的菜单
 func (s *RouterService) queryMultipleRolesMenusByRoleCodes(ctx context.Context, roleCodes []string) ([]uint32, error) {
-	roles, err := s.roleRepo.GetRolesByRoleCodes(ctx, roleCodes)
+	roles, err := s.roleRepo.ListRolesByRoleCodes(ctx, roleCodes)
 	if err != nil {
 		return nil, adminV1.ErrorInternalServerError("query roles failed")
 	}
@@ -101,7 +101,7 @@ func (s *RouterService) queryMultipleRolesMenusByRoleCodes(ctx context.Context, 
 
 // queryMultipleRolesMenusByRoleIds 使用RoleIDs查询菜单，即多个角色的菜单
 func (s *RouterService) queryMultipleRolesMenusByRoleIds(ctx context.Context, roleIds []uint32) ([]uint32, error) {
-	roles, err := s.roleRepo.GetRolesByRoleIds(ctx, roleIds)
+	roles, err := s.roleRepo.ListRolesByRoleIds(ctx, roleIds)
 	if err != nil {
 		return nil, adminV1.ErrorInternalServerError("query roles failed")
 	}

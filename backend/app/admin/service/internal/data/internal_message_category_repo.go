@@ -173,8 +173,8 @@ func (r *InternalMessageCategoryRepo) Get(ctx context.Context, req *internalMess
 	return dto, err
 }
 
-// GetCategoriesByIds 根据ID列表获取分类列表
-func (r *InternalMessageCategoryRepo) GetCategoriesByIds(ctx context.Context, ids []uint32) ([]*internalMessageV1.InternalMessageCategory, error) {
+// ListCategoriesByIds 根据ID列表获取分类列表
+func (r *InternalMessageCategoryRepo) ListCategoriesByIds(ctx context.Context, ids []uint32) ([]*internalMessageV1.InternalMessageCategory, error) {
 	if len(ids) == 0 {
 		return []*internalMessageV1.InternalMessageCategory{}, nil
 	}

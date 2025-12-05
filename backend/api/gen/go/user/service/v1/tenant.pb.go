@@ -495,6 +495,8 @@ type GetTenantRequest struct {
 	// Types that are valid to be assigned to QueryBy:
 	//
 	//	*GetTenantRequest_Id
+	//	*GetTenantRequest_Code
+	//	*GetTenantRequest_Name
 	QueryBy       isGetTenantRequest_QueryBy `protobuf_oneof:"query_by"`
 	ViewMask      *fieldmaskpb.FieldMask     `protobuf:"bytes,100,opt,name=view_mask,json=viewMask,proto3,oneof" json:"view_mask,omitempty"` // 视图字段过滤器，用于控制返回的字段
 	unknownFields protoimpl.UnknownFields
@@ -547,6 +549,24 @@ func (x *GetTenantRequest) GetId() uint32 {
 	return 0
 }
 
+func (x *GetTenantRequest) GetCode() string {
+	if x != nil {
+		if x, ok := x.QueryBy.(*GetTenantRequest_Code); ok {
+			return x.Code
+		}
+	}
+	return ""
+}
+
+func (x *GetTenantRequest) GetName() string {
+	if x != nil {
+		if x, ok := x.QueryBy.(*GetTenantRequest_Name); ok {
+			return x.Name
+		}
+	}
+	return ""
+}
+
 func (x *GetTenantRequest) GetViewMask() *fieldmaskpb.FieldMask {
 	if x != nil {
 		return x.ViewMask
@@ -562,7 +582,19 @@ type GetTenantRequest_Id struct {
 	Id uint32 `protobuf:"varint,1,opt,name=id,proto3,oneof"` // ID
 }
 
+type GetTenantRequest_Code struct {
+	Code string `protobuf:"bytes,2,opt,name=code,proto3,oneof"` // 租户编码
+}
+
+type GetTenantRequest_Name struct {
+	Name string `protobuf:"bytes,3,opt,name=name,proto3,oneof"` // 租户名称
+}
+
 func (*GetTenantRequest_Id) isGetTenantRequest_QueryBy() {}
+
+func (*GetTenantRequest_Code) isGetTenantRequest_QueryBy() {}
+
+func (*GetTenantRequest_Name) isGetTenantRequest_QueryBy() {}
 
 // 创建租户 - 请求
 type CreateTenantRequest struct {
@@ -893,58 +925,6 @@ func (x *TenantExistsResponse) GetExist() bool {
 	return false
 }
 
-type GetTenantByTenantCodeRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Code          string                 `protobuf:"bytes,1,opt,name=code,proto3" json:"code,omitempty"`                                 // 租户编码
-	ViewMask      *fieldmaskpb.FieldMask `protobuf:"bytes,100,opt,name=view_mask,json=viewMask,proto3,oneof" json:"view_mask,omitempty"` // 视图字段过滤器，用于控制返回的字段
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *GetTenantByTenantCodeRequest) Reset() {
-	*x = GetTenantByTenantCodeRequest{}
-	mi := &file_user_service_v1_tenant_proto_msgTypes[10]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *GetTenantByTenantCodeRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*GetTenantByTenantCodeRequest) ProtoMessage() {}
-
-func (x *GetTenantByTenantCodeRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_user_service_v1_tenant_proto_msgTypes[10]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use GetTenantByTenantCodeRequest.ProtoReflect.Descriptor instead.
-func (*GetTenantByTenantCodeRequest) Descriptor() ([]byte, []int) {
-	return file_user_service_v1_tenant_proto_rawDescGZIP(), []int{10}
-}
-
-func (x *GetTenantByTenantCodeRequest) GetCode() string {
-	if x != nil {
-		return x.Code
-	}
-	return ""
-}
-
-func (x *GetTenantByTenantCodeRequest) GetViewMask() *fieldmaskpb.FieldMask {
-	if x != nil {
-		return x.ViewMask
-	}
-	return nil
-}
-
 var File_user_service_v1_tenant_proto protoreflect.FileDescriptor
 
 const file_user_service_v1_tenant_proto_rawDesc = "" +
@@ -1033,10 +1013,12 @@ const file_user_service_v1_tenant_proto_rawDesc = "" +
 	"\v_deleted_at\"Y\n" +
 	"\x12ListTenantResponse\x12-\n" +
 	"\x05items\x18\x01 \x03(\v2\x17.user.service.v1.TenantR\x05items\x12\x14\n" +
-	"\x05total\x18\x02 \x01(\x04R\x05total\"\xc3\x01\n" +
+	"\x05total\x18\x02 \x01(\x04R\x05total\"\x9b\x02\n" +
 	"\x10GetTenantRequest\x12\x1c\n" +
 	"\x02id\x18\x01 \x01(\rB\n" +
-	"\xbaG\a\x18\x01\x92\x02\x02IDH\x00R\x02id\x12w\n" +
+	"\xbaG\a\x18\x01\x92\x02\x02IDH\x00R\x02id\x12*\n" +
+	"\x04code\x18\x02 \x01(\tB\x14\xbaG\x11\x18\x01\x92\x02\f租户编码H\x00R\x04code\x12*\n" +
+	"\x04name\x18\x03 \x01(\tB\x14\xbaG\x11\x18\x01\x92\x02\f租户名称H\x00R\x04name\x12w\n" +
 	"\tview_mask\x18d \x01(\v2\x1a.google.protobuf.FieldMaskB9\xbaG6\x92\x023视图字段过滤器，用于控制返回的字段H\x01R\bviewMask\x88\x01\x01B\n" +
 	"\n" +
 	"\bquery_byB\f\n" +
@@ -1060,12 +1042,7 @@ const file_user_service_v1_tenant_proto_rawDesc = "" +
 	"\x13TenantExistsRequest\x12(\n" +
 	"\x04code\x18\x01 \x01(\tB\x14\xbaG\x11\x18\x01\x92\x02\f租户编码R\x04code\",\n" +
 	"\x14TenantExistsResponse\x12\x14\n" +
-	"\x05exist\x18\x01 \x01(\bR\x05exist\"\xcf\x01\n" +
-	"\x1cGetTenantByTenantCodeRequest\x12(\n" +
-	"\x04code\x18\x01 \x01(\tB\x14\xbaG\x11\x18\x01\x92\x02\f租户编码R\x04code\x12w\n" +
-	"\tview_mask\x18d \x01(\v2\x1a.google.protobuf.FieldMaskB9\xbaG6\x92\x023视图字段过滤器，用于控制返回的字段H\x00R\bviewMask\x88\x01\x01B\f\n" +
-	"\n" +
-	"_view_mask2\xa8\x05\n" +
+	"\x05exist\x18\x01 \x01(\bR\x05exist2\xc5\x04\n" +
 	"\rTenantService\x12H\n" +
 	"\x04List\x12\x19.pagination.PagingRequest\x1a#.user.service.v1.ListTenantResponse\"\x00\x12C\n" +
 	"\x03Get\x12!.user.service.v1.GetTenantRequest\x1a\x17.user.service.v1.Tenant\"\x00\x12H\n" +
@@ -1073,8 +1050,7 @@ const file_user_service_v1_tenant_proto_rawDesc = "" +
 	"\x06Update\x12$.user.service.v1.UpdateTenantRequest\x1a\x16.google.protobuf.Empty\"\x00\x12H\n" +
 	"\x06Delete\x12$.user.service.v1.DeleteTenantRequest\x1a\x16.google.protobuf.Empty\"\x00\x12h\n" +
 	"\vBatchCreate\x12*.user.service.v1.BatchCreateTenantsRequest\x1a+.user.service.v1.BatchCreateTenantsResponse\"\x00\x12]\n" +
-	"\fTenantExists\x12$.user.service.v1.TenantExistsRequest\x1a%.user.service.v1.TenantExistsResponse\"\x00\x12a\n" +
-	"\x15GetTenantByTenantCode\x12-.user.service.v1.GetTenantByTenantCodeRequest\x1a\x17.user.service.v1.Tenant\"\x00B\xb3\x01\n" +
+	"\fTenantExists\x12$.user.service.v1.TenantExistsRequest\x1a%.user.service.v1.TenantExistsResponse\"\x00B\xb3\x01\n" +
 	"\x13com.user.service.v1B\vTenantProtoP\x01Z1kratos-admin/api/gen/go/user/service/v1;servicev1\xa2\x02\x03USX\xaa\x02\x0fUser.Service.V1\xca\x02\x0fUser\\Service\\V1\xe2\x02\x1bUser\\Service\\V1\\GPBMetadata\xea\x02\x11User::Service::V1b\x06proto3"
 
 var (
@@ -1090,67 +1066,63 @@ func file_user_service_v1_tenant_proto_rawDescGZIP() []byte {
 }
 
 var file_user_service_v1_tenant_proto_enumTypes = make([]protoimpl.EnumInfo, 3)
-var file_user_service_v1_tenant_proto_msgTypes = make([]protoimpl.MessageInfo, 11)
+var file_user_service_v1_tenant_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
 var file_user_service_v1_tenant_proto_goTypes = []any{
-	(Tenant_Status)(0),                   // 0: user.service.v1.Tenant.Status
-	(Tenant_Type)(0),                     // 1: user.service.v1.Tenant.Type
-	(Tenant_AuditStatus)(0),              // 2: user.service.v1.Tenant.AuditStatus
-	(*Tenant)(nil),                       // 3: user.service.v1.Tenant
-	(*ListTenantResponse)(nil),           // 4: user.service.v1.ListTenantResponse
-	(*GetTenantRequest)(nil),             // 5: user.service.v1.GetTenantRequest
-	(*CreateTenantRequest)(nil),          // 6: user.service.v1.CreateTenantRequest
-	(*UpdateTenantRequest)(nil),          // 7: user.service.v1.UpdateTenantRequest
-	(*DeleteTenantRequest)(nil),          // 8: user.service.v1.DeleteTenantRequest
-	(*BatchCreateTenantsRequest)(nil),    // 9: user.service.v1.BatchCreateTenantsRequest
-	(*BatchCreateTenantsResponse)(nil),   // 10: user.service.v1.BatchCreateTenantsResponse
-	(*TenantExistsRequest)(nil),          // 11: user.service.v1.TenantExistsRequest
-	(*TenantExistsResponse)(nil),         // 12: user.service.v1.TenantExistsResponse
-	(*GetTenantByTenantCodeRequest)(nil), // 13: user.service.v1.GetTenantByTenantCodeRequest
-	(*timestamppb.Timestamp)(nil),        // 14: google.protobuf.Timestamp
-	(*fieldmaskpb.FieldMask)(nil),        // 15: google.protobuf.FieldMask
-	(*v1.PagingRequest)(nil),             // 16: pagination.PagingRequest
-	(*emptypb.Empty)(nil),                // 17: google.protobuf.Empty
+	(Tenant_Status)(0),                 // 0: user.service.v1.Tenant.Status
+	(Tenant_Type)(0),                   // 1: user.service.v1.Tenant.Type
+	(Tenant_AuditStatus)(0),            // 2: user.service.v1.Tenant.AuditStatus
+	(*Tenant)(nil),                     // 3: user.service.v1.Tenant
+	(*ListTenantResponse)(nil),         // 4: user.service.v1.ListTenantResponse
+	(*GetTenantRequest)(nil),           // 5: user.service.v1.GetTenantRequest
+	(*CreateTenantRequest)(nil),        // 6: user.service.v1.CreateTenantRequest
+	(*UpdateTenantRequest)(nil),        // 7: user.service.v1.UpdateTenantRequest
+	(*DeleteTenantRequest)(nil),        // 8: user.service.v1.DeleteTenantRequest
+	(*BatchCreateTenantsRequest)(nil),  // 9: user.service.v1.BatchCreateTenantsRequest
+	(*BatchCreateTenantsResponse)(nil), // 10: user.service.v1.BatchCreateTenantsResponse
+	(*TenantExistsRequest)(nil),        // 11: user.service.v1.TenantExistsRequest
+	(*TenantExistsResponse)(nil),       // 12: user.service.v1.TenantExistsResponse
+	(*timestamppb.Timestamp)(nil),      // 13: google.protobuf.Timestamp
+	(*fieldmaskpb.FieldMask)(nil),      // 14: google.protobuf.FieldMask
+	(*v1.PagingRequest)(nil),           // 15: pagination.PagingRequest
+	(*emptypb.Empty)(nil),              // 16: google.protobuf.Empty
 }
 var file_user_service_v1_tenant_proto_depIdxs = []int32{
 	0,  // 0: user.service.v1.Tenant.status:type_name -> user.service.v1.Tenant.Status
 	1,  // 1: user.service.v1.Tenant.type:type_name -> user.service.v1.Tenant.Type
 	2,  // 2: user.service.v1.Tenant.audit_status:type_name -> user.service.v1.Tenant.AuditStatus
-	14, // 3: user.service.v1.Tenant.subscription_at:type_name -> google.protobuf.Timestamp
-	14, // 4: user.service.v1.Tenant.unsubscribe_at:type_name -> google.protobuf.Timestamp
-	14, // 5: user.service.v1.Tenant.expired_at:type_name -> google.protobuf.Timestamp
-	14, // 6: user.service.v1.Tenant.last_login_time:type_name -> google.protobuf.Timestamp
+	13, // 3: user.service.v1.Tenant.subscription_at:type_name -> google.protobuf.Timestamp
+	13, // 4: user.service.v1.Tenant.unsubscribe_at:type_name -> google.protobuf.Timestamp
+	13, // 5: user.service.v1.Tenant.expired_at:type_name -> google.protobuf.Timestamp
+	13, // 6: user.service.v1.Tenant.last_login_time:type_name -> google.protobuf.Timestamp
 	3,  // 7: user.service.v1.Tenant.children:type_name -> user.service.v1.Tenant
-	14, // 8: user.service.v1.Tenant.created_at:type_name -> google.protobuf.Timestamp
-	14, // 9: user.service.v1.Tenant.updated_at:type_name -> google.protobuf.Timestamp
-	14, // 10: user.service.v1.Tenant.deleted_at:type_name -> google.protobuf.Timestamp
+	13, // 8: user.service.v1.Tenant.created_at:type_name -> google.protobuf.Timestamp
+	13, // 9: user.service.v1.Tenant.updated_at:type_name -> google.protobuf.Timestamp
+	13, // 10: user.service.v1.Tenant.deleted_at:type_name -> google.protobuf.Timestamp
 	3,  // 11: user.service.v1.ListTenantResponse.items:type_name -> user.service.v1.Tenant
-	15, // 12: user.service.v1.GetTenantRequest.view_mask:type_name -> google.protobuf.FieldMask
+	14, // 12: user.service.v1.GetTenantRequest.view_mask:type_name -> google.protobuf.FieldMask
 	3,  // 13: user.service.v1.CreateTenantRequest.data:type_name -> user.service.v1.Tenant
 	3,  // 14: user.service.v1.UpdateTenantRequest.data:type_name -> user.service.v1.Tenant
-	15, // 15: user.service.v1.UpdateTenantRequest.update_mask:type_name -> google.protobuf.FieldMask
+	14, // 15: user.service.v1.UpdateTenantRequest.update_mask:type_name -> google.protobuf.FieldMask
 	3,  // 16: user.service.v1.BatchCreateTenantsRequest.data:type_name -> user.service.v1.Tenant
-	15, // 17: user.service.v1.GetTenantByTenantCodeRequest.view_mask:type_name -> google.protobuf.FieldMask
-	16, // 18: user.service.v1.TenantService.List:input_type -> pagination.PagingRequest
-	5,  // 19: user.service.v1.TenantService.Get:input_type -> user.service.v1.GetTenantRequest
-	6,  // 20: user.service.v1.TenantService.Create:input_type -> user.service.v1.CreateTenantRequest
-	7,  // 21: user.service.v1.TenantService.Update:input_type -> user.service.v1.UpdateTenantRequest
-	8,  // 22: user.service.v1.TenantService.Delete:input_type -> user.service.v1.DeleteTenantRequest
-	9,  // 23: user.service.v1.TenantService.BatchCreate:input_type -> user.service.v1.BatchCreateTenantsRequest
-	11, // 24: user.service.v1.TenantService.TenantExists:input_type -> user.service.v1.TenantExistsRequest
-	13, // 25: user.service.v1.TenantService.GetTenantByTenantCode:input_type -> user.service.v1.GetTenantByTenantCodeRequest
-	4,  // 26: user.service.v1.TenantService.List:output_type -> user.service.v1.ListTenantResponse
-	3,  // 27: user.service.v1.TenantService.Get:output_type -> user.service.v1.Tenant
-	17, // 28: user.service.v1.TenantService.Create:output_type -> google.protobuf.Empty
-	17, // 29: user.service.v1.TenantService.Update:output_type -> google.protobuf.Empty
-	17, // 30: user.service.v1.TenantService.Delete:output_type -> google.protobuf.Empty
-	10, // 31: user.service.v1.TenantService.BatchCreate:output_type -> user.service.v1.BatchCreateTenantsResponse
-	12, // 32: user.service.v1.TenantService.TenantExists:output_type -> user.service.v1.TenantExistsResponse
-	3,  // 33: user.service.v1.TenantService.GetTenantByTenantCode:output_type -> user.service.v1.Tenant
-	26, // [26:34] is the sub-list for method output_type
-	18, // [18:26] is the sub-list for method input_type
-	18, // [18:18] is the sub-list for extension type_name
-	18, // [18:18] is the sub-list for extension extendee
-	0,  // [0:18] is the sub-list for field type_name
+	15, // 17: user.service.v1.TenantService.List:input_type -> pagination.PagingRequest
+	5,  // 18: user.service.v1.TenantService.Get:input_type -> user.service.v1.GetTenantRequest
+	6,  // 19: user.service.v1.TenantService.Create:input_type -> user.service.v1.CreateTenantRequest
+	7,  // 20: user.service.v1.TenantService.Update:input_type -> user.service.v1.UpdateTenantRequest
+	8,  // 21: user.service.v1.TenantService.Delete:input_type -> user.service.v1.DeleteTenantRequest
+	9,  // 22: user.service.v1.TenantService.BatchCreate:input_type -> user.service.v1.BatchCreateTenantsRequest
+	11, // 23: user.service.v1.TenantService.TenantExists:input_type -> user.service.v1.TenantExistsRequest
+	4,  // 24: user.service.v1.TenantService.List:output_type -> user.service.v1.ListTenantResponse
+	3,  // 25: user.service.v1.TenantService.Get:output_type -> user.service.v1.Tenant
+	16, // 26: user.service.v1.TenantService.Create:output_type -> google.protobuf.Empty
+	16, // 27: user.service.v1.TenantService.Update:output_type -> google.protobuf.Empty
+	16, // 28: user.service.v1.TenantService.Delete:output_type -> google.protobuf.Empty
+	10, // 29: user.service.v1.TenantService.BatchCreate:output_type -> user.service.v1.BatchCreateTenantsResponse
+	12, // 30: user.service.v1.TenantService.TenantExists:output_type -> user.service.v1.TenantExistsResponse
+	24, // [24:31] is the sub-list for method output_type
+	17, // [17:24] is the sub-list for method input_type
+	17, // [17:17] is the sub-list for extension type_name
+	17, // [17:17] is the sub-list for extension extendee
+	0,  // [0:17] is the sub-list for field type_name
 }
 
 func init() { file_user_service_v1_tenant_proto_init() }
@@ -1161,16 +1133,17 @@ func file_user_service_v1_tenant_proto_init() {
 	file_user_service_v1_tenant_proto_msgTypes[0].OneofWrappers = []any{}
 	file_user_service_v1_tenant_proto_msgTypes[2].OneofWrappers = []any{
 		(*GetTenantRequest_Id)(nil),
+		(*GetTenantRequest_Code)(nil),
+		(*GetTenantRequest_Name)(nil),
 	}
 	file_user_service_v1_tenant_proto_msgTypes[4].OneofWrappers = []any{}
-	file_user_service_v1_tenant_proto_msgTypes[10].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_user_service_v1_tenant_proto_rawDesc), len(file_user_service_v1_tenant_proto_rawDesc)),
 			NumEnums:      3,
-			NumMessages:   11,
+			NumMessages:   10,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

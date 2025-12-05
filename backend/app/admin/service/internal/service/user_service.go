@@ -225,7 +225,7 @@ func (s *UserService) fillUserInfo(ctx context.Context, user *userV1.User) error
 	}
 
 	if len(user.RoleIds) > 0 {
-		roles, err := s.roleRepo.GetRolesByRoleIds(ctx, user.RoleIds)
+		roles, err := s.roleRepo.ListRolesByRoleIds(ctx, user.RoleIds)
 		if err == nil && roles != nil {
 			var roleNames []string
 			var roleCodes []string

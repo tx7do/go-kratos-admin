@@ -53,9 +53,6 @@ service TaskService {
     };
   }
 
-  // 根据任务类型名称查询调度任务详情
-  rpc GetTaskByTypeName (GetTaskByTypeNameRequest) returns (Task) {}
-
   // 任务类型名称列表
   rpc ListTaskTypeName (google.protobuf.Empty) returns (ListTaskTypeNameResponse) {
     option (google.api.http) = {
@@ -262,23 +259,15 @@ message GetTaskRequest {
       (gnostic.openapi.v3.property) = {description: "ID", read_only: true},
       json_name = "id"
     ]; // ID
-  }
 
-  optional google.protobuf.FieldMask view_mask = 100 [
-    json_name = "viewMask",
-    (gnostic.openapi.v3.property) = {
-      description: "视图字段过滤器，用于控制返回的字段"
-    }
-  ]; // 视图字段过滤器，用于控制返回的字段
-}
-message GetTaskByTypeNameRequest {
-  string type_name = 1 [
-    json_name = "typeName",
-    (google.api.field_behavior) = OPTIONAL,
-    (gnostic.openapi.v3.property) = {
-      description: "任务执行类型名，例如 \"send_email\"、\"generate_report\" 等，用于区分不同类型的任务"
-    }
-  ]; // 任务执行类型名
+    string type_name = 2 [
+      json_name = "typeName",
+      (google.api.field_behavior) = OPTIONAL,
+      (gnostic.openapi.v3.property) = {
+        description: "任务执行类型名，例如 \"send_email\"、\"generate_report\" 等，用于区分不同类型的任务"
+      }
+    ]; // 任务执行类型名
+  }
 
   optional google.protobuf.FieldMask view_mask = 100 [
     json_name = "viewMask",

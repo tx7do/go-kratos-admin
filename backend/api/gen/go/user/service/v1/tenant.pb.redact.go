@@ -123,17 +123,6 @@ func (s *redactedTenantServiceServer) TenantExists(ctx context.Context, in *Tena
 	return res, err
 }
 
-// GetTenantByTenantCode is the redacted wrapper for the actual TenantServiceServer.GetTenantByTenantCode method
-// Unary RPC
-func (s *redactedTenantServiceServer) GetTenantByTenantCode(ctx context.Context, in *GetTenantByTenantCodeRequest) (*Tenant, error) {
-	res, err := s.srv.GetTenantByTenantCode(ctx, in)
-	if !s.bypass.CheckInternal(ctx) {
-		// Apply redaction to the response
-		redact.Apply(res)
-	}
-	return res, err
-}
-
 // Redact method implementation for Tenant
 func (x *Tenant) Redact() string {
 	if x == nil {
@@ -214,6 +203,10 @@ func (x *GetTenantRequest) Redact() string {
 
 	// Safe field: Id
 
+	// Safe field: Code
+
+	// Safe field: Name
+
 	// Safe field: ViewMask
 	return x.String()
 }
@@ -289,17 +282,5 @@ func (x *TenantExistsResponse) Redact() string {
 	}
 
 	// Safe field: Exist
-	return x.String()
-}
-
-// Redact method implementation for GetTenantByTenantCodeRequest
-func (x *GetTenantByTenantCodeRequest) Redact() string {
-	if x == nil {
-		return ""
-	}
-
-	// Safe field: Code
-
-	// Safe field: ViewMask
 	return x.String()
 }

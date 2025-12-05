@@ -76,7 +76,7 @@ func (s *InternalMessageService) ListMessage(ctx context.Context, req *paginatio
 		ids = append(ids, id)
 	}
 
-	categories, err := s.internalMessageCategoryRepo.GetCategoriesByIds(ctx, ids)
+	categories, err := s.internalMessageCategoryRepo.ListCategoriesByIds(ctx, ids)
 	if err == nil {
 		for _, c := range categories {
 			categorySet[c.GetId()] = &name_set.UserNameSet{

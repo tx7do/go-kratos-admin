@@ -132,6 +132,12 @@ func (r *TenantRepo) Get(ctx context.Context, req *userV1.GetTenantRequest) (*us
 	default:
 	case *userV1.GetTenantRequest_Id:
 		whereCond = append(whereCond, tenant.IDEQ(req.GetId()))
+
+	case *userV1.GetTenantRequest_Code:
+		whereCond = append(whereCond, tenant.CodeEQ(req.GetCode()))
+
+	case *userV1.GetTenantRequest_Name:
+		whereCond = append(whereCond, tenant.NameEQ(req.GetName()))
 	}
 
 	dto, err := r.repository.Get(ctx, builder, req.GetViewMask(), whereCond...)
@@ -257,42 +263,6 @@ func (r *TenantRepo) Delete(ctx context.Context, req *userV1.DeleteTenantRequest
 	return nil
 }
 
-// GetTenantByTenantName gets tenant by tenant name.
-func (r *TenantRepo) GetTenantByTenantName(ctx context.Context, userName string) (*userV1.Tenant, error) {
-	entity, err := r.data.db.Client().Tenant.Query().
-		Where(tenant.NameEQ(userName)).
-		Only(ctx)
-	if err != nil {
-		if ent.IsNotFound(err) {
-			return nil, userV1.ErrorNotFound("tenant not found")
-		}
-
-		r.log.Errorf("query user data failed: %s", err.Error())
-
-		return nil, userV1.ErrorInternalServerError("query data failed")
-	}
-
-	return r.mapper.ToDTO(entity), nil
-}
-
-// GetTenantByTenantCode gets tenant by tenant code.
-func (r *TenantRepo) GetTenantByTenantCode(ctx context.Context, code string) (*userV1.Tenant, error) {
-	entity, err := r.data.db.Client().Tenant.Query().
-		Where(tenant.CodeEQ(code)).
-		Only(ctx)
-	if err != nil {
-		if ent.IsNotFound(err) {
-			return nil, userV1.ErrorNotFound("tenant not found")
-		}
-
-		r.log.Errorf("query user data failed: %s", err.Error())
-
-		return nil, userV1.ErrorInternalServerError("query data failed")
-	}
-
-	return r.mapper.ToDTO(entity), nil
-}
-
 // TenantExists checks if a tenant with the given username exists.
 func (r *TenantRepo) TenantExists(ctx context.Context, req *userV1.TenantExistsRequest) (*userV1.TenantExistsResponse, error) {
 	exist, err := r.data.db.Client().Tenant.Query().
@@ -308,8 +278,8 @@ func (r *TenantRepo) TenantExists(ctx context.Context, req *userV1.TenantExistsR
 	}, nil
 }
 
-// GetTenantsByIds gets tenants by a list of IDs.
-func (r *TenantRepo) GetTenantsByIds(ctx context.Context, ids []uint32) ([]*userV1.Tenant, error) {
+// ListTenantsByIds gets tenants by a list of IDs.
+func (r *TenantRepo) ListTenantsByIds(ctx context.Context, ids []uint32) ([]*userV1.Tenant, error) {
 	if len(ids) == 0 {
 		return []*userV1.Tenant{}, nil
 	}

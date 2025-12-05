@@ -78,8 +78,8 @@ func (r *RoleDeptRepo) AssignDepartments(ctx context.Context, roleId uint32, dep
 	return nil
 }
 
-// GetDepartmentIdsByRoleId 获取角色分配的部门ID列表
-func (r *RoleDeptRepo) GetDepartmentIdsByRoleId(ctx context.Context, roleId uint32) ([]uint32, error) {
+// ListDepartmentIdsByRoleId 获取角色分配的部门ID列表
+func (r *RoleDeptRepo) ListDepartmentIdsByRoleId(ctx context.Context, roleId uint32) ([]uint32, error) {
 	ids, err := r.data.db.Client().RoleDept.Query().
 		Where(roledept.RoleIDEQ(roleId)).
 		Select(roledept.FieldDeptID).

@@ -62,7 +62,7 @@ func (s *UserProfileService) GetUser(ctx context.Context, _ *emptypb.Empty) (*us
 		return nil, authenticationV1.ErrorNotFound("user not found")
 	}
 
-	roleCodes, err := s.roleRepo.GetRoleCodesByRoleIds(ctx, user.GetRoleIds())
+	roleCodes, err := s.roleRepo.ListRoleCodesByRoleIds(ctx, user.GetRoleIds())
 	if err != nil {
 		s.log.Errorf("get user role codes failed [%s]", err.Error())
 	}

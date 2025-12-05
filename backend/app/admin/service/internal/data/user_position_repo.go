@@ -78,8 +78,8 @@ func (r *UserPositionRepo) AssignPositions(ctx context.Context, userId uint32, i
 	return nil
 }
 
-// GetPositionIdsByUserId 获取用户的岗位ID列表
-func (r *UserPositionRepo) GetPositionIdsByUserId(ctx context.Context, userId uint32) ([]uint32, error) {
+// ListPositionIdsByUserId 获取用户的岗位ID列表
+func (r *UserPositionRepo) ListPositionIdsByUserId(ctx context.Context, userId uint32) ([]uint32, error) {
 	ids, err := r.data.db.Client().UserPosition.Query().
 		Where(userposition.UserIDEQ(userId)).
 		Select(userposition.FieldPositionID).

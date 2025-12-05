@@ -125,7 +125,7 @@ func (x ControlTaskRequest_ControlType) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use ControlTaskRequest_ControlType.Descriptor instead.
 func (ControlTaskRequest_ControlType) EnumDescriptor() ([]byte, []int) {
-	return file_admin_service_v1_i_task_proto_rawDescGZIP(), []int{9, 0}
+	return file_admin_service_v1_i_task_proto_rawDescGZIP(), []int{8, 0}
 }
 
 // 任务选项
@@ -445,6 +445,7 @@ type GetTaskRequest struct {
 	// Types that are valid to be assigned to QueryBy:
 	//
 	//	*GetTaskRequest_Id
+	//	*GetTaskRequest_TypeName
 	QueryBy       isGetTaskRequest_QueryBy `protobuf_oneof:"query_by"`
 	ViewMask      *fieldmaskpb.FieldMask   `protobuf:"bytes,100,opt,name=view_mask,json=viewMask,proto3,oneof" json:"view_mask,omitempty"` // 视图字段过滤器，用于控制返回的字段
 	unknownFields protoimpl.UnknownFields
@@ -497,6 +498,15 @@ func (x *GetTaskRequest) GetId() uint32 {
 	return 0
 }
 
+func (x *GetTaskRequest) GetTypeName() string {
+	if x != nil {
+		if x, ok := x.QueryBy.(*GetTaskRequest_TypeName); ok {
+			return x.TypeName
+		}
+	}
+	return ""
+}
+
 func (x *GetTaskRequest) GetViewMask() *fieldmaskpb.FieldMask {
 	if x != nil {
 		return x.ViewMask
@@ -512,59 +522,13 @@ type GetTaskRequest_Id struct {
 	Id uint32 `protobuf:"varint,1,opt,name=id,proto3,oneof"` // ID
 }
 
+type GetTaskRequest_TypeName struct {
+	TypeName string `protobuf:"bytes,2,opt,name=type_name,json=typeName,proto3,oneof"` // 任务执行类型名
+}
+
 func (*GetTaskRequest_Id) isGetTaskRequest_QueryBy() {}
 
-type GetTaskByTypeNameRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	TypeName      string                 `protobuf:"bytes,1,opt,name=type_name,json=typeName,proto3" json:"type_name,omitempty"`         // 任务执行类型名
-	ViewMask      *fieldmaskpb.FieldMask `protobuf:"bytes,100,opt,name=view_mask,json=viewMask,proto3,oneof" json:"view_mask,omitempty"` // 视图字段过滤器，用于控制返回的字段
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *GetTaskByTypeNameRequest) Reset() {
-	*x = GetTaskByTypeNameRequest{}
-	mi := &file_admin_service_v1_i_task_proto_msgTypes[4]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *GetTaskByTypeNameRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*GetTaskByTypeNameRequest) ProtoMessage() {}
-
-func (x *GetTaskByTypeNameRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_admin_service_v1_i_task_proto_msgTypes[4]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use GetTaskByTypeNameRequest.ProtoReflect.Descriptor instead.
-func (*GetTaskByTypeNameRequest) Descriptor() ([]byte, []int) {
-	return file_admin_service_v1_i_task_proto_rawDescGZIP(), []int{4}
-}
-
-func (x *GetTaskByTypeNameRequest) GetTypeName() string {
-	if x != nil {
-		return x.TypeName
-	}
-	return ""
-}
-
-func (x *GetTaskByTypeNameRequest) GetViewMask() *fieldmaskpb.FieldMask {
-	if x != nil {
-		return x.ViewMask
-	}
-	return nil
-}
+func (*GetTaskRequest_TypeName) isGetTaskRequest_QueryBy() {}
 
 // 创建调度任务 - 请求
 type CreateTaskRequest struct {
@@ -576,7 +540,7 @@ type CreateTaskRequest struct {
 
 func (x *CreateTaskRequest) Reset() {
 	*x = CreateTaskRequest{}
-	mi := &file_admin_service_v1_i_task_proto_msgTypes[5]
+	mi := &file_admin_service_v1_i_task_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -588,7 +552,7 @@ func (x *CreateTaskRequest) String() string {
 func (*CreateTaskRequest) ProtoMessage() {}
 
 func (x *CreateTaskRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_admin_service_v1_i_task_proto_msgTypes[5]
+	mi := &file_admin_service_v1_i_task_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -601,7 +565,7 @@ func (x *CreateTaskRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateTaskRequest.ProtoReflect.Descriptor instead.
 func (*CreateTaskRequest) Descriptor() ([]byte, []int) {
-	return file_admin_service_v1_i_task_proto_rawDescGZIP(), []int{5}
+	return file_admin_service_v1_i_task_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *CreateTaskRequest) GetData() *Task {
@@ -623,7 +587,7 @@ type UpdateTaskRequest struct {
 
 func (x *UpdateTaskRequest) Reset() {
 	*x = UpdateTaskRequest{}
-	mi := &file_admin_service_v1_i_task_proto_msgTypes[6]
+	mi := &file_admin_service_v1_i_task_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -635,7 +599,7 @@ func (x *UpdateTaskRequest) String() string {
 func (*UpdateTaskRequest) ProtoMessage() {}
 
 func (x *UpdateTaskRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_admin_service_v1_i_task_proto_msgTypes[6]
+	mi := &file_admin_service_v1_i_task_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -648,7 +612,7 @@ func (x *UpdateTaskRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateTaskRequest.ProtoReflect.Descriptor instead.
 func (*UpdateTaskRequest) Descriptor() ([]byte, []int) {
-	return file_admin_service_v1_i_task_proto_rawDescGZIP(), []int{6}
+	return file_admin_service_v1_i_task_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *UpdateTaskRequest) GetData() *Task {
@@ -682,7 +646,7 @@ type DeleteTaskRequest struct {
 
 func (x *DeleteTaskRequest) Reset() {
 	*x = DeleteTaskRequest{}
-	mi := &file_admin_service_v1_i_task_proto_msgTypes[7]
+	mi := &file_admin_service_v1_i_task_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -694,7 +658,7 @@ func (x *DeleteTaskRequest) String() string {
 func (*DeleteTaskRequest) ProtoMessage() {}
 
 func (x *DeleteTaskRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_admin_service_v1_i_task_proto_msgTypes[7]
+	mi := &file_admin_service_v1_i_task_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -707,7 +671,7 @@ func (x *DeleteTaskRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteTaskRequest.ProtoReflect.Descriptor instead.
 func (*DeleteTaskRequest) Descriptor() ([]byte, []int) {
-	return file_admin_service_v1_i_task_proto_rawDescGZIP(), []int{7}
+	return file_admin_service_v1_i_task_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *DeleteTaskRequest) GetId() uint32 {
@@ -727,7 +691,7 @@ type RestartAllTaskResponse struct {
 
 func (x *RestartAllTaskResponse) Reset() {
 	*x = RestartAllTaskResponse{}
-	mi := &file_admin_service_v1_i_task_proto_msgTypes[8]
+	mi := &file_admin_service_v1_i_task_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -739,7 +703,7 @@ func (x *RestartAllTaskResponse) String() string {
 func (*RestartAllTaskResponse) ProtoMessage() {}
 
 func (x *RestartAllTaskResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_admin_service_v1_i_task_proto_msgTypes[8]
+	mi := &file_admin_service_v1_i_task_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -752,7 +716,7 @@ func (x *RestartAllTaskResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RestartAllTaskResponse.ProtoReflect.Descriptor instead.
 func (*RestartAllTaskResponse) Descriptor() ([]byte, []int) {
-	return file_admin_service_v1_i_task_proto_rawDescGZIP(), []int{8}
+	return file_admin_service_v1_i_task_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *RestartAllTaskResponse) GetCount() int32 {
@@ -773,7 +737,7 @@ type ControlTaskRequest struct {
 
 func (x *ControlTaskRequest) Reset() {
 	*x = ControlTaskRequest{}
-	mi := &file_admin_service_v1_i_task_proto_msgTypes[9]
+	mi := &file_admin_service_v1_i_task_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -785,7 +749,7 @@ func (x *ControlTaskRequest) String() string {
 func (*ControlTaskRequest) ProtoMessage() {}
 
 func (x *ControlTaskRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_admin_service_v1_i_task_proto_msgTypes[9]
+	mi := &file_admin_service_v1_i_task_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -798,7 +762,7 @@ func (x *ControlTaskRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ControlTaskRequest.ProtoReflect.Descriptor instead.
 func (*ControlTaskRequest) Descriptor() ([]byte, []int) {
-	return file_admin_service_v1_i_task_proto_rawDescGZIP(), []int{9}
+	return file_admin_service_v1_i_task_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *ControlTaskRequest) GetControlType() ControlTaskRequest_ControlType {
@@ -825,7 +789,7 @@ type ListTaskTypeNameResponse struct {
 
 func (x *ListTaskTypeNameResponse) Reset() {
 	*x = ListTaskTypeNameResponse{}
-	mi := &file_admin_service_v1_i_task_proto_msgTypes[10]
+	mi := &file_admin_service_v1_i_task_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -837,7 +801,7 @@ func (x *ListTaskTypeNameResponse) String() string {
 func (*ListTaskTypeNameResponse) ProtoMessage() {}
 
 func (x *ListTaskTypeNameResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_admin_service_v1_i_task_proto_msgTypes[10]
+	mi := &file_admin_service_v1_i_task_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -850,7 +814,7 @@ func (x *ListTaskTypeNameResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListTaskTypeNameResponse.ProtoReflect.Descriptor instead.
 func (*ListTaskTypeNameResponse) Descriptor() ([]byte, []int) {
-	return file_admin_service_v1_i_task_proto_rawDescGZIP(), []int{10}
+	return file_admin_service_v1_i_task_proto_rawDescGZIP(), []int{9}
 }
 
 func (x *ListTaskTypeNameResponse) GetTypeNames() []string {
@@ -937,18 +901,14 @@ const file_admin_service_v1_i_task_proto_rawDesc = "" +
 	"\v_deleted_at\"V\n" +
 	"\x10ListTaskResponse\x12,\n" +
 	"\x05items\x18\x01 \x03(\v2\x16.admin.service.v1.TaskR\x05items\x12\x14\n" +
-	"\x05total\x18\x02 \x01(\x04R\x05total\"\xc1\x01\n" +
+	"\x05total\x18\x02 \x01(\x04R\x05total\"\xd3\x02\n" +
 	"\x0eGetTaskRequest\x12\x1c\n" +
 	"\x02id\x18\x01 \x01(\rB\n" +
-	"\xbaG\a\x18\x01\x92\x02\x02IDH\x00R\x02id\x12w\n" +
+	"\xbaG\a\x18\x01\x92\x02\x02IDH\x00R\x02id\x12\x8f\x01\n" +
+	"\ttype_name\x18\x02 \x01(\tBp\xe0A\x01\xbaGj\x92\x02g任务执行类型名，例如 \"send_email\"、\"generate_report\" 等，用于区分不同类型的任务H\x00R\btypeName\x12w\n" +
 	"\tview_mask\x18d \x01(\v2\x1a.google.protobuf.FieldMaskB9\xbaG6\x92\x023视图字段过滤器，用于控制返回的字段H\x01R\bviewMask\x88\x01\x01B\n" +
 	"\n" +
 	"\bquery_byB\f\n" +
-	"\n" +
-	"_view_mask\"\xb1\x02\n" +
-	"\x18GetTaskByTypeNameRequest\x12\x8d\x01\n" +
-	"\ttype_name\x18\x01 \x01(\tBp\xe0A\x01\xbaGj\x92\x02g任务执行类型名，例如 \"send_email\"、\"generate_report\" 等，用于区分不同类型的任务R\btypeName\x12w\n" +
-	"\tview_mask\x18d \x01(\v2\x1a.google.protobuf.FieldMaskB9\xbaG6\x92\x023视图字段过滤器，用于控制返回的字段H\x00R\bviewMask\x88\x01\x01B\f\n" +
 	"\n" +
 	"_view_mask\"?\n" +
 	"\x11CreateTaskRequest\x12*\n" +
@@ -972,14 +932,13 @@ const file_admin_service_v1_i_task_proto_rawDesc = "" +
 	"\aRestart\x10\x02\"S\n" +
 	"\x18ListTaskTypeNameResponse\x127\n" +
 	"\n" +
-	"type_names\x18\x01 \x03(\tB\x18\xbaG\x15\x92\x02\x12类型名称列表R\ttypeNames2\x83\t\n" +
+	"type_names\x18\x01 \x03(\tB\x18\xbaG\x15\x92\x02\x12类型名称列表R\ttypeNames2\xa8\b\n" +
 	"\vTaskService\x12^\n" +
 	"\x04List\x12\x19.pagination.PagingRequest\x1a\".admin.service.v1.ListTaskResponse\"\x17\x82\xd3\xe4\x93\x02\x11\x12\x0f/admin/v1/tasks\x12]\n" +
 	"\x03Get\x12 .admin.service.v1.GetTaskRequest\x1a\x16.admin.service.v1.Task\"\x1c\x82\xd3\xe4\x93\x02\x16\x12\x14/admin/v1/tasks/{id}\x12a\n" +
 	"\x06Create\x12#.admin.service.v1.CreateTaskRequest\x1a\x16.google.protobuf.Empty\"\x1a\x82\xd3\xe4\x93\x02\x14:\x01*\"\x0f/admin/v1/tasks\x12k\n" +
 	"\x06Update\x12#.admin.service.v1.UpdateTaskRequest\x1a\x16.google.protobuf.Empty\"$\x82\xd3\xe4\x93\x02\x1e:\x01*\x1a\x19/admin/v1/tasks/{data.id}\x12c\n" +
-	"\x06Delete\x12#.admin.service.v1.DeleteTaskRequest\x1a\x16.google.protobuf.Empty\"\x1c\x82\xd3\xe4\x93\x02\x16*\x14/admin/v1/tasks/{id}\x12Y\n" +
-	"\x11GetTaskByTypeName\x12*.admin.service.v1.GetTaskByTypeNameRequest\x1a\x16.admin.service.v1.Task\"\x00\x12z\n" +
+	"\x06Delete\x12#.admin.service.v1.DeleteTaskRequest\x1a\x16.google.protobuf.Empty\"\x1c\x82\xd3\xe4\x93\x02\x16*\x14/admin/v1/tasks/{id}\x12z\n" +
 	"\x10ListTaskTypeName\x12\x16.google.protobuf.Empty\x1a*.admin.service.v1.ListTaskTypeNameResponse\"\"\x82\xd3\xe4\x93\x02\x1c\x12\x1a/admin/v1/tasks:type-names\x12v\n" +
 	"\x0eRestartAllTask\x12\x16.google.protobuf.Empty\x1a(.admin.service.v1.RestartAllTaskResponse\"\"\x82\xd3\xe4\x93\x02\x1c:\x01*\"\x17/admin/v1/tasks:restart\x12`\n" +
 	"\fStartAllTask\x12\x16.google.protobuf.Empty\x1a\x16.google.protobuf.Empty\" \x82\xd3\xe4\x93\x02\x1a:\x01*\"\x15/admin/v1/tasks:start\x12^\n" +
@@ -1001,7 +960,7 @@ func file_admin_service_v1_i_task_proto_rawDescGZIP() []byte {
 }
 
 var file_admin_service_v1_i_task_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
-var file_admin_service_v1_i_task_proto_msgTypes = make([]protoimpl.MessageInfo, 11)
+var file_admin_service_v1_i_task_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
 var file_admin_service_v1_i_task_proto_goTypes = []any{
 	(Task_Type)(0),                      // 0: admin.service.v1.Task.Type
 	(ControlTaskRequest_ControlType)(0), // 1: admin.service.v1.ControlTaskRequest.ControlType
@@ -1009,65 +968,61 @@ var file_admin_service_v1_i_task_proto_goTypes = []any{
 	(*Task)(nil),                        // 3: admin.service.v1.Task
 	(*ListTaskResponse)(nil),            // 4: admin.service.v1.ListTaskResponse
 	(*GetTaskRequest)(nil),              // 5: admin.service.v1.GetTaskRequest
-	(*GetTaskByTypeNameRequest)(nil),    // 6: admin.service.v1.GetTaskByTypeNameRequest
-	(*CreateTaskRequest)(nil),           // 7: admin.service.v1.CreateTaskRequest
-	(*UpdateTaskRequest)(nil),           // 8: admin.service.v1.UpdateTaskRequest
-	(*DeleteTaskRequest)(nil),           // 9: admin.service.v1.DeleteTaskRequest
-	(*RestartAllTaskResponse)(nil),      // 10: admin.service.v1.RestartAllTaskResponse
-	(*ControlTaskRequest)(nil),          // 11: admin.service.v1.ControlTaskRequest
-	(*ListTaskTypeNameResponse)(nil),    // 12: admin.service.v1.ListTaskTypeNameResponse
-	(*durationpb.Duration)(nil),         // 13: google.protobuf.Duration
-	(*timestamppb.Timestamp)(nil),       // 14: google.protobuf.Timestamp
-	(*fieldmaskpb.FieldMask)(nil),       // 15: google.protobuf.FieldMask
-	(*v1.PagingRequest)(nil),            // 16: pagination.PagingRequest
-	(*emptypb.Empty)(nil),               // 17: google.protobuf.Empty
+	(*CreateTaskRequest)(nil),           // 6: admin.service.v1.CreateTaskRequest
+	(*UpdateTaskRequest)(nil),           // 7: admin.service.v1.UpdateTaskRequest
+	(*DeleteTaskRequest)(nil),           // 8: admin.service.v1.DeleteTaskRequest
+	(*RestartAllTaskResponse)(nil),      // 9: admin.service.v1.RestartAllTaskResponse
+	(*ControlTaskRequest)(nil),          // 10: admin.service.v1.ControlTaskRequest
+	(*ListTaskTypeNameResponse)(nil),    // 11: admin.service.v1.ListTaskTypeNameResponse
+	(*durationpb.Duration)(nil),         // 12: google.protobuf.Duration
+	(*timestamppb.Timestamp)(nil),       // 13: google.protobuf.Timestamp
+	(*fieldmaskpb.FieldMask)(nil),       // 14: google.protobuf.FieldMask
+	(*v1.PagingRequest)(nil),            // 15: pagination.PagingRequest
+	(*emptypb.Empty)(nil),               // 16: google.protobuf.Empty
 }
 var file_admin_service_v1_i_task_proto_depIdxs = []int32{
-	13, // 0: admin.service.v1.TaskOption.timeout:type_name -> google.protobuf.Duration
-	14, // 1: admin.service.v1.TaskOption.deadline:type_name -> google.protobuf.Timestamp
-	13, // 2: admin.service.v1.TaskOption.process_in:type_name -> google.protobuf.Duration
-	14, // 3: admin.service.v1.TaskOption.process_at:type_name -> google.protobuf.Timestamp
-	13, // 4: admin.service.v1.TaskOption.unique_ttl:type_name -> google.protobuf.Duration
-	13, // 5: admin.service.v1.TaskOption.retention:type_name -> google.protobuf.Duration
+	12, // 0: admin.service.v1.TaskOption.timeout:type_name -> google.protobuf.Duration
+	13, // 1: admin.service.v1.TaskOption.deadline:type_name -> google.protobuf.Timestamp
+	12, // 2: admin.service.v1.TaskOption.process_in:type_name -> google.protobuf.Duration
+	13, // 3: admin.service.v1.TaskOption.process_at:type_name -> google.protobuf.Timestamp
+	12, // 4: admin.service.v1.TaskOption.unique_ttl:type_name -> google.protobuf.Duration
+	12, // 5: admin.service.v1.TaskOption.retention:type_name -> google.protobuf.Duration
 	0,  // 6: admin.service.v1.Task.type:type_name -> admin.service.v1.Task.Type
 	2,  // 7: admin.service.v1.Task.task_options:type_name -> admin.service.v1.TaskOption
-	14, // 8: admin.service.v1.Task.created_at:type_name -> google.protobuf.Timestamp
-	14, // 9: admin.service.v1.Task.updated_at:type_name -> google.protobuf.Timestamp
-	14, // 10: admin.service.v1.Task.deleted_at:type_name -> google.protobuf.Timestamp
+	13, // 8: admin.service.v1.Task.created_at:type_name -> google.protobuf.Timestamp
+	13, // 9: admin.service.v1.Task.updated_at:type_name -> google.protobuf.Timestamp
+	13, // 10: admin.service.v1.Task.deleted_at:type_name -> google.protobuf.Timestamp
 	3,  // 11: admin.service.v1.ListTaskResponse.items:type_name -> admin.service.v1.Task
-	15, // 12: admin.service.v1.GetTaskRequest.view_mask:type_name -> google.protobuf.FieldMask
-	15, // 13: admin.service.v1.GetTaskByTypeNameRequest.view_mask:type_name -> google.protobuf.FieldMask
-	3,  // 14: admin.service.v1.CreateTaskRequest.data:type_name -> admin.service.v1.Task
-	3,  // 15: admin.service.v1.UpdateTaskRequest.data:type_name -> admin.service.v1.Task
-	15, // 16: admin.service.v1.UpdateTaskRequest.update_mask:type_name -> google.protobuf.FieldMask
-	1,  // 17: admin.service.v1.ControlTaskRequest.control_type:type_name -> admin.service.v1.ControlTaskRequest.ControlType
-	16, // 18: admin.service.v1.TaskService.List:input_type -> pagination.PagingRequest
-	5,  // 19: admin.service.v1.TaskService.Get:input_type -> admin.service.v1.GetTaskRequest
-	7,  // 20: admin.service.v1.TaskService.Create:input_type -> admin.service.v1.CreateTaskRequest
-	8,  // 21: admin.service.v1.TaskService.Update:input_type -> admin.service.v1.UpdateTaskRequest
-	9,  // 22: admin.service.v1.TaskService.Delete:input_type -> admin.service.v1.DeleteTaskRequest
-	6,  // 23: admin.service.v1.TaskService.GetTaskByTypeName:input_type -> admin.service.v1.GetTaskByTypeNameRequest
-	17, // 24: admin.service.v1.TaskService.ListTaskTypeName:input_type -> google.protobuf.Empty
-	17, // 25: admin.service.v1.TaskService.RestartAllTask:input_type -> google.protobuf.Empty
-	17, // 26: admin.service.v1.TaskService.StartAllTask:input_type -> google.protobuf.Empty
-	17, // 27: admin.service.v1.TaskService.StopAllTask:input_type -> google.protobuf.Empty
-	11, // 28: admin.service.v1.TaskService.ControlTask:input_type -> admin.service.v1.ControlTaskRequest
-	4,  // 29: admin.service.v1.TaskService.List:output_type -> admin.service.v1.ListTaskResponse
-	3,  // 30: admin.service.v1.TaskService.Get:output_type -> admin.service.v1.Task
-	17, // 31: admin.service.v1.TaskService.Create:output_type -> google.protobuf.Empty
-	17, // 32: admin.service.v1.TaskService.Update:output_type -> google.protobuf.Empty
-	17, // 33: admin.service.v1.TaskService.Delete:output_type -> google.protobuf.Empty
-	3,  // 34: admin.service.v1.TaskService.GetTaskByTypeName:output_type -> admin.service.v1.Task
-	12, // 35: admin.service.v1.TaskService.ListTaskTypeName:output_type -> admin.service.v1.ListTaskTypeNameResponse
-	10, // 36: admin.service.v1.TaskService.RestartAllTask:output_type -> admin.service.v1.RestartAllTaskResponse
-	17, // 37: admin.service.v1.TaskService.StartAllTask:output_type -> google.protobuf.Empty
-	17, // 38: admin.service.v1.TaskService.StopAllTask:output_type -> google.protobuf.Empty
-	17, // 39: admin.service.v1.TaskService.ControlTask:output_type -> google.protobuf.Empty
-	29, // [29:40] is the sub-list for method output_type
-	18, // [18:29] is the sub-list for method input_type
-	18, // [18:18] is the sub-list for extension type_name
-	18, // [18:18] is the sub-list for extension extendee
-	0,  // [0:18] is the sub-list for field type_name
+	14, // 12: admin.service.v1.GetTaskRequest.view_mask:type_name -> google.protobuf.FieldMask
+	3,  // 13: admin.service.v1.CreateTaskRequest.data:type_name -> admin.service.v1.Task
+	3,  // 14: admin.service.v1.UpdateTaskRequest.data:type_name -> admin.service.v1.Task
+	14, // 15: admin.service.v1.UpdateTaskRequest.update_mask:type_name -> google.protobuf.FieldMask
+	1,  // 16: admin.service.v1.ControlTaskRequest.control_type:type_name -> admin.service.v1.ControlTaskRequest.ControlType
+	15, // 17: admin.service.v1.TaskService.List:input_type -> pagination.PagingRequest
+	5,  // 18: admin.service.v1.TaskService.Get:input_type -> admin.service.v1.GetTaskRequest
+	6,  // 19: admin.service.v1.TaskService.Create:input_type -> admin.service.v1.CreateTaskRequest
+	7,  // 20: admin.service.v1.TaskService.Update:input_type -> admin.service.v1.UpdateTaskRequest
+	8,  // 21: admin.service.v1.TaskService.Delete:input_type -> admin.service.v1.DeleteTaskRequest
+	16, // 22: admin.service.v1.TaskService.ListTaskTypeName:input_type -> google.protobuf.Empty
+	16, // 23: admin.service.v1.TaskService.RestartAllTask:input_type -> google.protobuf.Empty
+	16, // 24: admin.service.v1.TaskService.StartAllTask:input_type -> google.protobuf.Empty
+	16, // 25: admin.service.v1.TaskService.StopAllTask:input_type -> google.protobuf.Empty
+	10, // 26: admin.service.v1.TaskService.ControlTask:input_type -> admin.service.v1.ControlTaskRequest
+	4,  // 27: admin.service.v1.TaskService.List:output_type -> admin.service.v1.ListTaskResponse
+	3,  // 28: admin.service.v1.TaskService.Get:output_type -> admin.service.v1.Task
+	16, // 29: admin.service.v1.TaskService.Create:output_type -> google.protobuf.Empty
+	16, // 30: admin.service.v1.TaskService.Update:output_type -> google.protobuf.Empty
+	16, // 31: admin.service.v1.TaskService.Delete:output_type -> google.protobuf.Empty
+	11, // 32: admin.service.v1.TaskService.ListTaskTypeName:output_type -> admin.service.v1.ListTaskTypeNameResponse
+	9,  // 33: admin.service.v1.TaskService.RestartAllTask:output_type -> admin.service.v1.RestartAllTaskResponse
+	16, // 34: admin.service.v1.TaskService.StartAllTask:output_type -> google.protobuf.Empty
+	16, // 35: admin.service.v1.TaskService.StopAllTask:output_type -> google.protobuf.Empty
+	16, // 36: admin.service.v1.TaskService.ControlTask:output_type -> google.protobuf.Empty
+	27, // [27:37] is the sub-list for method output_type
+	17, // [17:27] is the sub-list for method input_type
+	17, // [17:17] is the sub-list for extension type_name
+	17, // [17:17] is the sub-list for extension extendee
+	0,  // [0:17] is the sub-list for field type_name
 }
 
 func init() { file_admin_service_v1_i_task_proto_init() }
@@ -1079,16 +1034,16 @@ func file_admin_service_v1_i_task_proto_init() {
 	file_admin_service_v1_i_task_proto_msgTypes[1].OneofWrappers = []any{}
 	file_admin_service_v1_i_task_proto_msgTypes[3].OneofWrappers = []any{
 		(*GetTaskRequest_Id)(nil),
+		(*GetTaskRequest_TypeName)(nil),
 	}
-	file_admin_service_v1_i_task_proto_msgTypes[4].OneofWrappers = []any{}
-	file_admin_service_v1_i_task_proto_msgTypes[6].OneofWrappers = []any{}
+	file_admin_service_v1_i_task_proto_msgTypes[5].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_admin_service_v1_i_task_proto_rawDesc), len(file_admin_service_v1_i_task_proto_rawDesc)),
 			NumEnums:      2,
-			NumMessages:   11,
+			NumMessages:   10,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

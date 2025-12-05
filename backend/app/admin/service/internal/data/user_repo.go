@@ -286,30 +286,8 @@ func (r *UserRepo) Delete(ctx context.Context, userId uint32) error {
 	return nil
 }
 
-// GetUserByUserName 根据用户名获取用户
-func (r *UserRepo) GetUserByUserName(ctx context.Context, userName string) (*userV1.User, error) {
-	if userName == "" {
-		return nil, userV1.ErrorBadRequest("invalid parameter")
-	}
-
-	entity, err := r.data.db.Client().User.Query().
-		Where(user.UsernameEQ(userName)).
-		Only(ctx)
-	if err != nil {
-		if ent.IsNotFound(err) {
-			return nil, userV1.ErrorUserNotFound("user not found")
-		}
-
-		r.log.Errorf("query user data failed: %s", err.Error())
-
-		return nil, userV1.ErrorInternalServerError("query data failed")
-	}
-
-	return r.mapper.ToDTO(entity), nil
-}
-
-// GetUsersByIds 根据ID列表获取用户列表
-func (r *UserRepo) GetUsersByIds(ctx context.Context, ids []uint32) ([]*userV1.User, error) {
+// ListUsersByIds 根据ID列表获取用户列表
+func (r *UserRepo) ListUsersByIds(ctx context.Context, ids []uint32) ([]*userV1.User, error) {
 	if len(ids) == 0 {
 		return []*userV1.User{}, nil
 	}

@@ -126,6 +126,9 @@ func (r *TaskRepo) Get(ctx context.Context, req *adminV1.GetTaskRequest) (*admin
 	default:
 	case *adminV1.GetTaskRequest_Id:
 		whereCond = append(whereCond, task.IDEQ(req.GetId()))
+
+	case *adminV1.GetTaskRequest_TypeName:
+		whereCond = append(whereCond, task.TypeNameEQ(req.GetTypeName()))
 	}
 
 	dto, err := r.repository.Get(ctx, builder, req.GetViewMask(), whereCond...)
@@ -134,27 +137,6 @@ func (r *TaskRepo) Get(ctx context.Context, req *adminV1.GetTaskRequest) (*admin
 	}
 
 	return dto, err
-}
-
-func (r *TaskRepo) GetByTypeName(ctx context.Context, typeName string) (*adminV1.Task, error) {
-	if typeName == "" {
-		return nil, adminV1.ErrorBadRequest("invalid parameter")
-	}
-
-	entity, err := r.data.db.Client().Task.Query().
-		Where(task.TypeNameEQ(typeName)).
-		First(ctx)
-	if err != nil {
-		r.log.Errorf("query one data failed: %s", err.Error())
-
-		if ent.IsNotFound(err) {
-			return nil, adminV1.ErrorNotFound("task not found")
-		}
-
-		return nil, adminV1.ErrorInternalServerError("query data failed")
-	}
-
-	return r.mapper.ToDTO(entity), nil
 }
 
 func (r *TaskRepo) Create(ctx context.Context, req *adminV1.CreateTaskRequest) (*adminV1.Task, error) {

@@ -2635,6 +2635,10 @@ paths:
                   schema:
                     type: integer
                     format: uint32
+                - name: typeName
+                  in: query
+                  schema:
+                    type: string
                 - name: viewMask
                   in: query
                   schema:
@@ -2867,6 +2871,14 @@ paths:
                   schema:
                     type: integer
                     format: uint32
+                - name: code
+                  in: query
+                  schema:
+                    type: string
+                - name: name
+                  in: query
+                  schema:
+                    type: string
                 - name: viewMask
                   in: query
                   schema:

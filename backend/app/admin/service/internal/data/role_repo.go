@@ -136,30 +136,8 @@ func (r *RoleRepo) Get(ctx context.Context, req *userV1.GetRoleRequest) (*userV1
 	return dto, err
 }
 
-// GetRoleByCode 通过角色编码获取角色信息
-func (r *RoleRepo) GetRoleByCode(ctx context.Context, code string) (*userV1.Role, error) {
-	if code == "" {
-		return nil, userV1.ErrorBadRequest("invalid parameter")
-	}
-
-	entity, err := r.data.db.Client().Role.Query().
-		Where(role.CodeEQ(code)).
-		Only(ctx)
-	if err != nil {
-		if ent.IsNotFound(err) {
-			return nil, userV1.ErrorRoleNotFound("role not found")
-		}
-
-		r.log.Errorf("query one data failed: %s", err.Error())
-
-		return nil, userV1.ErrorInternalServerError("query data failed")
-	}
-
-	return r.mapper.ToDTO(entity), nil
-}
-
-// GetRolesByRoleCodes 通过角色编码列表获取角色列表
-func (r *RoleRepo) GetRolesByRoleCodes(ctx context.Context, codes []string) ([]*userV1.Role, error) {
+// ListRolesByRoleCodes 通过角色编码列表获取角色列表
+func (r *RoleRepo) ListRolesByRoleCodes(ctx context.Context, codes []string) ([]*userV1.Role, error) {
 	if len(codes) == 0 {
 		return []*userV1.Role{}, nil
 	}
@@ -181,8 +159,8 @@ func (r *RoleRepo) GetRolesByRoleCodes(ctx context.Context, codes []string) ([]*
 	return dtos, nil
 }
 
-// GetRolesByRoleIds 通过角色ID列表获取角色列表
-func (r *RoleRepo) GetRolesByRoleIds(ctx context.Context, ids []uint32) ([]*userV1.Role, error) {
+// ListRolesByRoleIds 通过角色ID列表获取角色列表
+func (r *RoleRepo) ListRolesByRoleIds(ctx context.Context, ids []uint32) ([]*userV1.Role, error) {
 	if len(ids) == 0 {
 		return []*userV1.Role{}, nil
 	}
@@ -204,8 +182,8 @@ func (r *RoleRepo) GetRolesByRoleIds(ctx context.Context, ids []uint32) ([]*user
 	return dtos, nil
 }
 
-// GetRoleCodesByRoleIds 通过角色ID列表获取角色编码列表
-func (r *RoleRepo) GetRoleCodesByRoleIds(ctx context.Context, ids []uint32) ([]string, error) {
+// ListRoleCodesByRoleIds 通过角色ID列表获取角色编码列表
+func (r *RoleRepo) ListRoleCodesByRoleIds(ctx context.Context, ids []uint32) ([]string, error) {
 	if len(ids) == 0 {
 		return []string{}, nil
 	}

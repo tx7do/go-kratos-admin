@@ -31,7 +31,7 @@ func QueryUserInfoFromRepo(ctx context.Context, userRepo *data.UserRepo, nameSet
 		userIds = append(userIds, userId)
 	}
 
-	users, err := userRepo.GetUsersByIds(ctx, userIds)
+	users, err := userRepo.ListUsersByIds(ctx, userIds)
 	if err != nil {
 		log.Errorf("query users err: %v", err)
 		return
@@ -84,7 +84,7 @@ func QueryTenantInfoFromRepo(ctx context.Context, tenantRepo *data.TenantRepo, n
 		ids = append(ids, id)
 	}
 
-	tenants, err := tenantRepo.GetTenantsByIds(ctx, ids)
+	tenants, err := tenantRepo.ListTenantsByIds(ctx, ids)
 	if err != nil {
 		log.Errorf("query tenants err: %v", err)
 		return
@@ -103,7 +103,7 @@ func QueryOrganizationInfoFromRepo(ctx context.Context, organizationRepo *data.O
 		ids = append(ids, id)
 	}
 
-	orgs, err := organizationRepo.GetOrganizationsByIds(ctx, ids)
+	orgs, err := organizationRepo.ListOrganizationsByIds(ctx, ids)
 	if err != nil {
 		log.Errorf("query organizations err: %v", err)
 		return
@@ -122,7 +122,7 @@ func QueryDepartmentInfoFromRepo(ctx context.Context, departmentRepo *data.Depar
 		ids = append(ids, id)
 	}
 
-	depts, err := departmentRepo.GetDepartmentsByIds(ctx, ids)
+	depts, err := departmentRepo.ListDepartmentsByIds(ctx, ids)
 	if err != nil {
 		log.Errorf("query departments err: %v", err)
 		return
@@ -220,7 +220,7 @@ func QueryPositionInfoFromRepo(ctx context.Context, positionRepo *data.PositionR
 		posIds = append(posIds, posId)
 	}
 
-	poss, err := positionRepo.GetPositionByIds(ctx, posIds)
+	poss, err := positionRepo.ListPositionByIds(ctx, posIds)
 	if err != nil {
 		log.Errorf("query positions err: %v", err)
 		return
@@ -239,7 +239,7 @@ func QueryRoleInfoFromRepo(ctx context.Context, roleRepo *data.RoleRepo, nameSet
 		roleIds = append(roleIds, roleId)
 	}
 
-	roles, err := roleRepo.GetRolesByRoleIds(ctx, roleIds)
+	roles, err := roleRepo.ListRolesByRoleIds(ctx, roleIds)
 	if err != nil {
 		log.Errorf("query roles err: %v", err)
 		return

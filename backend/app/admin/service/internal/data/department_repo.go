@@ -180,8 +180,8 @@ func (r *DepartmentRepo) Get(ctx context.Context, req *userV1.GetDepartmentReque
 	return dto, err
 }
 
-// GetDepartmentsByIds 通过多个ID获取部门信息列表
-func (r *DepartmentRepo) GetDepartmentsByIds(ctx context.Context, ids []uint32) ([]*userV1.Department, error) {
+// ListDepartmentsByIds 通过多个ID获取部门信息列表
+func (r *DepartmentRepo) ListDepartmentsByIds(ctx context.Context, ids []uint32) ([]*userV1.Department, error) {
 	if len(ids) == 0 {
 		return []*userV1.Department{}, nil
 	}

@@ -7,10 +7,10 @@ import (
 
 	"github.com/go-kratos/kratos/v2/log"
 	"github.com/hibiken/asynq"
-	"google.golang.org/protobuf/types/known/emptypb"
-
 	pagination "github.com/tx7do/go-crud/api/gen/go/pagination/v1"
 	"github.com/tx7do/go-utils/trans"
+	"google.golang.org/protobuf/types/known/emptypb"
+
 	"github.com/tx7do/kratos-transport/broker"
 	asynqServer "github.com/tx7do/kratos-transport/transport/asynq"
 
@@ -52,10 +52,6 @@ func (s *TaskService) List(ctx context.Context, req *pagination.PagingRequest) (
 
 func (s *TaskService) Get(ctx context.Context, req *adminV1.GetTaskRequest) (*adminV1.Task, error) {
 	return s.taskRepo.Get(ctx, req)
-}
-
-func (s *TaskService) GetTaskByTypeName(ctx context.Context, req *adminV1.GetTaskByTypeNameRequest) (*adminV1.Task, error) {
-	return s.taskRepo.GetByTypeName(ctx, req.GetTypeName())
 }
 
 func (s *TaskService) ListTaskTypeName(_ context.Context, _ *emptypb.Empty) (*adminV1.ListTaskTypeNameResponse, error) {
@@ -136,7 +132,7 @@ func (s *TaskService) Delete(ctx context.Context, req *adminV1.DeleteTaskRequest
 
 // ControlTask 控制调度任务
 func (s *TaskService) ControlTask(ctx context.Context, req *adminV1.ControlTaskRequest) (*emptypb.Empty, error) {
-	t, err := s.taskRepo.GetByTypeName(ctx, req.GetTypeName())
+	t, err := s.taskRepo.Get(ctx, &adminV1.GetTaskRequest{QueryBy: &adminV1.GetTaskRequest_TypeName{TypeName: req.GetTypeName()}})
 	if err != nil {
 		s.log.Errorf("获取任务失败[%s]", err.Error())
 		return nil, err

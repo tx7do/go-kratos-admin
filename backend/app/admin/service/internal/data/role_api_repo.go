@@ -78,8 +78,8 @@ func (r *RoleApiRepo) AssignApis(ctx context.Context, roleId uint32, apiIds []ui
 	return nil
 }
 
-// GetApiIdsByRoleId 获取角色分配的API ID列表
-func (r *RoleApiRepo) GetApiIdsByRoleId(ctx context.Context, roleId uint32) ([]uint32, error) {
+// ListApiIdsByRoleId 获取角色分配的API ID列表
+func (r *RoleApiRepo) ListApiIdsByRoleId(ctx context.Context, roleId uint32) ([]uint32, error) {
 	apiIds, err := r.data.db.Client().RoleApi.Query().
 		Where(roleapi.IDEQ(roleId)).
 		Select(roleapi.FieldAPIID).

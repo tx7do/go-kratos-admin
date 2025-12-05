@@ -78,8 +78,8 @@ func (r *RoleMenuRepo) AssignMenus(ctx context.Context, roleId uint32, menuIds [
 	return nil
 }
 
-// GetMenuIdsByRoleId 获取角色分配的菜单ID列表
-func (r *RoleMenuRepo) GetMenuIdsByRoleId(ctx context.Context, roleId uint32) ([]uint32, error) {
+// ListMenuIdsByRoleId 获取角色分配的菜单ID列表
+func (r *RoleMenuRepo) ListMenuIdsByRoleId(ctx context.Context, roleId uint32) ([]uint32, error) {
 	menuIds, err := r.data.db.Client().RoleMenu.Query().
 		Where(rolemenu.RoleIDEQ(roleId)).
 		Select(rolemenu.FieldMenuID).

@@ -178,8 +178,8 @@ func (r *PositionRepo) Get(ctx context.Context, req *userV1.GetPositionRequest) 
 	return dto, err
 }
 
-// GetPositionByIds 通过多个ID获取职位信息
-func (r *PositionRepo) GetPositionByIds(ctx context.Context, ids []uint32) ([]*userV1.Position, error) {
+// ListPositionByIds 通过多个ID获取职位信息
+func (r *PositionRepo) ListPositionByIds(ctx context.Context, ids []uint32) ([]*userV1.Position, error) {
 	if len(ids) == 0 {
 		return []*userV1.Position{}, nil
 	}

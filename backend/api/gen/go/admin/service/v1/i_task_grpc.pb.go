@@ -21,17 +21,16 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	TaskService_List_FullMethodName              = "/admin.service.v1.TaskService/List"
-	TaskService_Get_FullMethodName               = "/admin.service.v1.TaskService/Get"
-	TaskService_Create_FullMethodName            = "/admin.service.v1.TaskService/Create"
-	TaskService_Update_FullMethodName            = "/admin.service.v1.TaskService/Update"
-	TaskService_Delete_FullMethodName            = "/admin.service.v1.TaskService/Delete"
-	TaskService_GetTaskByTypeName_FullMethodName = "/admin.service.v1.TaskService/GetTaskByTypeName"
-	TaskService_ListTaskTypeName_FullMethodName  = "/admin.service.v1.TaskService/ListTaskTypeName"
-	TaskService_RestartAllTask_FullMethodName    = "/admin.service.v1.TaskService/RestartAllTask"
-	TaskService_StartAllTask_FullMethodName      = "/admin.service.v1.TaskService/StartAllTask"
-	TaskService_StopAllTask_FullMethodName       = "/admin.service.v1.TaskService/StopAllTask"
-	TaskService_ControlTask_FullMethodName       = "/admin.service.v1.TaskService/ControlTask"
+	TaskService_List_FullMethodName             = "/admin.service.v1.TaskService/List"
+	TaskService_Get_FullMethodName              = "/admin.service.v1.TaskService/Get"
+	TaskService_Create_FullMethodName           = "/admin.service.v1.TaskService/Create"
+	TaskService_Update_FullMethodName           = "/admin.service.v1.TaskService/Update"
+	TaskService_Delete_FullMethodName           = "/admin.service.v1.TaskService/Delete"
+	TaskService_ListTaskTypeName_FullMethodName = "/admin.service.v1.TaskService/ListTaskTypeName"
+	TaskService_RestartAllTask_FullMethodName   = "/admin.service.v1.TaskService/RestartAllTask"
+	TaskService_StartAllTask_FullMethodName     = "/admin.service.v1.TaskService/StartAllTask"
+	TaskService_StopAllTask_FullMethodName      = "/admin.service.v1.TaskService/StopAllTask"
+	TaskService_ControlTask_FullMethodName      = "/admin.service.v1.TaskService/ControlTask"
 )
 
 // TaskServiceClient is the client API for TaskService service.
@@ -50,8 +49,6 @@ type TaskServiceClient interface {
 	Update(ctx context.Context, in *UpdateTaskRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	// 删除调度任务
 	Delete(ctx context.Context, in *DeleteTaskRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
-	// 根据任务类型名称查询调度任务详情
-	GetTaskByTypeName(ctx context.Context, in *GetTaskByTypeNameRequest, opts ...grpc.CallOption) (*Task, error)
 	// 任务类型名称列表
 	ListTaskTypeName(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*ListTaskTypeNameResponse, error)
 	// 重启所有的调度任务
@@ -116,16 +113,6 @@ func (c *taskServiceClient) Delete(ctx context.Context, in *DeleteTaskRequest, o
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, TaskService_Delete_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *taskServiceClient) GetTaskByTypeName(ctx context.Context, in *GetTaskByTypeNameRequest, opts ...grpc.CallOption) (*Task, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(Task)
-	err := c.cc.Invoke(ctx, TaskService_GetTaskByTypeName_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -198,8 +185,6 @@ type TaskServiceServer interface {
 	Update(context.Context, *UpdateTaskRequest) (*emptypb.Empty, error)
 	// 删除调度任务
 	Delete(context.Context, *DeleteTaskRequest) (*emptypb.Empty, error)
-	// 根据任务类型名称查询调度任务详情
-	GetTaskByTypeName(context.Context, *GetTaskByTypeNameRequest) (*Task, error)
 	// 任务类型名称列表
 	ListTaskTypeName(context.Context, *emptypb.Empty) (*ListTaskTypeNameResponse, error)
 	// 重启所有的调度任务
@@ -234,9 +219,6 @@ func (UnimplementedTaskServiceServer) Update(context.Context, *UpdateTaskRequest
 }
 func (UnimplementedTaskServiceServer) Delete(context.Context, *DeleteTaskRequest) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Delete not implemented")
-}
-func (UnimplementedTaskServiceServer) GetTaskByTypeName(context.Context, *GetTaskByTypeNameRequest) (*Task, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetTaskByTypeName not implemented")
 }
 func (UnimplementedTaskServiceServer) ListTaskTypeName(context.Context, *emptypb.Empty) (*ListTaskTypeNameResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListTaskTypeName not implemented")
@@ -364,24 +346,6 @@ func _TaskService_Delete_Handler(srv interface{}, ctx context.Context, dec func(
 	return interceptor(ctx, in, info, handler)
 }
 
-func _TaskService_GetTaskByTypeName_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetTaskByTypeNameRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(TaskServiceServer).GetTaskByTypeName(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: TaskService_GetTaskByTypeName_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(TaskServiceServer).GetTaskByTypeName(ctx, req.(*GetTaskByTypeNameRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 func _TaskService_ListTaskTypeName_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(emptypb.Empty)
 	if err := dec(in); err != nil {
@@ -498,10 +462,6 @@ var TaskService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Delete",
 			Handler:    _TaskService_Delete_Handler,
-		},
-		{
-			MethodName: "GetTaskByTypeName",
-			Handler:    _TaskService_GetTaskByTypeName_Handler,
 		},
 		{
 			MethodName: "ListTaskTypeName",

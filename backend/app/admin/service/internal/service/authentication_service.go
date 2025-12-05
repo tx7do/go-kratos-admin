@@ -100,7 +100,7 @@ func (s *AuthenticationService) doGrantTypePassword(ctx context.Context, req *au
 
 	// 获取用户信息
 	var user *userV1.User
-	user, err = s.userRepo.GetUserByUserName(ctx, req.GetUsername())
+	user, err = s.userRepo.Get(ctx, &userV1.GetUserRequest{QueryBy: &userV1.GetUserRequest_UserName{UserName: req.GetUsername()}})
 	if err != nil {
 		return nil, err
 	}
@@ -110,7 +110,7 @@ func (s *AuthenticationService) doGrantTypePassword(ctx context.Context, req *au
 		return nil, err
 	}
 
-	roleCodes, err := s.roleRepo.GetRoleCodesByRoleIds(ctx, user.GetRoleIds())
+	roleCodes, err := s.roleRepo.ListRoleCodesByRoleIds(ctx, user.GetRoleIds())
 	if err != nil {
 		s.log.Errorf("get user role codes failed [%s]", err.Error())
 	}
@@ -163,7 +163,7 @@ func (s *AuthenticationService) doGrantTypeRefreshToken(ctx context.Context, req
 		s.log.Errorf("remove refresh token failed [%s]", err.Error())
 	}
 
-	roleCodes, err := s.roleRepo.GetRoleCodesByRoleIds(ctx, user.GetRoleIds())
+	roleCodes, err := s.roleRepo.ListRoleCodesByRoleIds(ctx, user.GetRoleIds())
 	if err != nil {
 		s.log.Errorf("get user role codes failed [%s]", err.Error())
 	}
@@ -241,7 +241,7 @@ func (s *AuthenticationService) RegisterUser(ctx context.Context, req *authentic
 	var err error
 
 	var tenantId *uint32
-	tenant, err := s.tenantRepo.GetTenantByTenantCode(ctx, req.GetTenantCode())
+	tenant, err := s.tenantRepo.Get(ctx, &userV1.GetTenantRequest{QueryBy: &userV1.GetTenantRequest_Code{Code: req.GetTenantCode()}})
 	if tenant != nil {
 		tenantId = tenant.Id
 	}

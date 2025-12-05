@@ -78,8 +78,8 @@ func (r *RolePositionRepo) AssignPositions(ctx context.Context, roleId uint32, p
 	return nil
 }
 
-// GetPositionIdsByRoleId 获取角色分配的岗位ID列表
-func (r *RolePositionRepo) GetPositionIdsByRoleId(ctx context.Context, roleId uint32) ([]uint32, error) {
+// ListPositionIdsByRoleId 获取角色分配的岗位ID列表
+func (r *RolePositionRepo) ListPositionIdsByRoleId(ctx context.Context, roleId uint32) ([]uint32, error) {
 	ids, err := r.data.db.Client().RolePosition.Query().
 		Where(roleposition.RoleIDEQ(roleId)).
 		Select(roleposition.FieldPositionID).

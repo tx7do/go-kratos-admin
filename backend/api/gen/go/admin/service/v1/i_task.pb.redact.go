@@ -105,17 +105,6 @@ func (s *redactedTaskServiceServer) Delete(ctx context.Context, in *DeleteTaskRe
 	return res, err
 }
 
-// GetTaskByTypeName is the redacted wrapper for the actual TaskServiceServer.GetTaskByTypeName method
-// Unary RPC
-func (s *redactedTaskServiceServer) GetTaskByTypeName(ctx context.Context, in *GetTaskByTypeNameRequest) (*Task, error) {
-	res, err := s.srv.GetTaskByTypeName(ctx, in)
-	if !s.bypass.CheckInternal(ctx) {
-		// Apply redaction to the response
-		redact.Apply(res)
-	}
-	return res, err
-}
-
 // ListTaskTypeName is the redacted wrapper for the actual TaskServiceServer.ListTaskTypeName method
 // Unary RPC
 func (s *redactedTaskServiceServer) ListTaskTypeName(ctx context.Context, in *emptypb.Empty) (*ListTaskTypeNameResponse, error) {
@@ -252,16 +241,6 @@ func (x *GetTaskRequest) Redact() string {
 	}
 
 	// Safe field: Id
-
-	// Safe field: ViewMask
-	return x.String()
-}
-
-// Redact method implementation for GetTaskByTypeNameRequest
-func (x *GetTaskByTypeNameRequest) Redact() string {
-	if x == nil {
-		return ""
-	}
 
 	// Safe field: TypeName
 

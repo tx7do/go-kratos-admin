@@ -78,8 +78,8 @@ func (r *RoleOrgRepo) AssignOrganizations(ctx context.Context, roleId uint32, or
 	return nil
 }
 
-// GetOrganizationIdsByRoleId 获取角色分配的组织ID列表
-func (r *RoleOrgRepo) GetOrganizationIdsByRoleId(ctx context.Context, roleId uint32) ([]uint32, error) {
+// ListOrganizationIdsByRoleId 获取角色分配的组织ID列表
+func (r *RoleOrgRepo) ListOrganizationIdsByRoleId(ctx context.Context, roleId uint32) ([]uint32, error) {
 	ids, err := r.data.db.Client().RoleOrg.Query().
 		Where(roleorg.RoleIDEQ(roleId)).
 		Select(roleorg.FieldOrgID).

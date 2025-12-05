@@ -181,8 +181,8 @@ func (r *OrganizationRepo) Get(ctx context.Context, req *userV1.GetOrganizationR
 	return dto, err
 }
 
-// GetOrganizationsByIds 通过多个ID获取组织列表
-func (r *OrganizationRepo) GetOrganizationsByIds(ctx context.Context, ids []uint32) ([]*userV1.Organization, error) {
+// ListOrganizationsByIds 通过多个ID获取组织列表
+func (r *OrganizationRepo) ListOrganizationsByIds(ctx context.Context, ids []uint32) ([]*userV1.Organization, error) {
 	if len(ids) == 0 {
 		return []*userV1.Organization{}, nil
 	}

@@ -138,7 +138,7 @@ func (s *RoleService) Delete(ctx context.Context, req *userV1.DeleteRoleRequest)
 }
 
 func (s *RoleService) GetRoleCodesByRoleIds(ctx context.Context, req *userV1.GetRoleCodesByRoleIdsRequest) (*userV1.GetRoleCodesByRoleIdsResponse, error) {
-	ids, err := s.roleRepo.GetRoleCodesByRoleIds(ctx, req.GetRoleIds())
+	ids, err := s.roleRepo.ListRoleCodesByRoleIds(ctx, req.GetRoleIds())
 	if err != nil {
 		return nil, err
 	}
@@ -149,7 +149,7 @@ func (s *RoleService) GetRoleCodesByRoleIds(ctx context.Context, req *userV1.Get
 }
 
 func (s *RoleService) GetRolesByRoleCodes(ctx context.Context, req *userV1.GetRolesByRoleCodesRequest) (*userV1.ListRoleResponse, error) {
-	roles, err := s.roleRepo.GetRolesByRoleCodes(ctx, req.GetRoleCodes())
+	roles, err := s.roleRepo.ListRolesByRoleCodes(ctx, req.GetRoleCodes())
 	if err != nil {
 		return nil, err
 	}
@@ -161,7 +161,7 @@ func (s *RoleService) GetRolesByRoleCodes(ctx context.Context, req *userV1.GetRo
 }
 
 func (s *RoleService) GetRolesByRoleIds(ctx context.Context, req *userV1.GetRolesByRoleIdsRequest) (*userV1.ListRoleResponse, error) {
-	roles, err := s.roleRepo.GetRolesByRoleIds(ctx, req.GetRoleIds())
+	roles, err := s.roleRepo.ListRolesByRoleIds(ctx, req.GetRoleIds())
 	if err != nil {
 		return nil, err
 	}

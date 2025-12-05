@@ -6,8 +6,6 @@ import (
 	"github.com/tx7do/go-crud/gorm"
 )
 
-var migrates []interface{}
-
 func init() {
 	RegisterMigrates()
 }

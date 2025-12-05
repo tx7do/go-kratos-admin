@@ -5,7 +5,6 @@ import (
 	"errors"
 
 	"github.com/go-kratos/kratos/v2/log"
-	"github.com/tx7do/go-utils/trans"
 
 	authzEngine "github.com/tx7do/kratos-authz/engine"
 	"github.com/tx7do/kratos-authz/engine/casbin"
@@ -13,6 +12,7 @@ import (
 	"github.com/tx7do/kratos-authz/engine/opa"
 
 	pagination "github.com/tx7do/go-crud/api/gen/go/pagination/v1"
+	"github.com/tx7do/go-utils/trans"
 	conf "github.com/tx7do/kratos-bootstrap/api/gen/go/conf/v1"
 
 	"kratos-admin/app/admin/service/cmd/server/assets"

@@ -149,7 +149,7 @@ export interface DictEntry {
 /** 查询字典类型列表 - 回应 */
 export interface ListDictTypeResponse {
   items: DictType[];
-  total: number;
+  total: string;
 }
 
 /** 查询字典类型详情 - 请求 */
@@ -189,7 +189,7 @@ export interface BatchDeleteDictRequest {
 /** 查询字典条目列表 - 回应 */
 export interface ListDictEntryResponse {
   items: DictEntry[];
-  total: number;
+  total: string;
 }
 
 /** 创建字典条目 - 请求 */

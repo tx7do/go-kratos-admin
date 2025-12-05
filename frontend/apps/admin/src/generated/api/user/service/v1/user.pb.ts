@@ -209,7 +209,7 @@ export enum User_Gender {
 /** 获取用户列表 - 答复 */
 export interface ListUserResponse {
   items: User[];
-  total: number;
+  total: string;
 }
 
 /** 获取用户数据 - 请求 */
@@ -220,7 +220,7 @@ export interface GetUserRequest {
     { $case: "id"; id: number }
     | //
     /** 用户登录名 */
-    { $case: "username"; username: string }
+    { $case: "userName"; userName: string }
     | null;
   /** 视图字段过滤器，用于控制返回的字段 */
   viewMask?: string[] | null;

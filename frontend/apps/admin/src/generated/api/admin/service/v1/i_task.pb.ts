@@ -140,19 +140,19 @@ export enum Task_Type {
 /** 查询调度任务列表 - 回应 */
 export interface ListTaskResponse {
   items: Task[];
-  total: number;
+  total: string;
 }
 
 /** 查询调度任务详情 - 请求 */
 export interface GetTaskRequest {
-  id: number;
-  /** 视图字段过滤器，用于控制返回的字段 */
-  viewMask?: string[] | null;
-}
-
-export interface GetTaskByTypeNameRequest {
-  /** 任务执行类型名 */
-  typeName: string;
+  queryBy?:
+    | //
+    /** ID */
+    { $case: "id"; id: number }
+    | //
+    /** 任务执行类型名 */
+    { $case: "typeName"; typeName: string }
+    | null;
   /** 视图字段过滤器，用于控制返回的字段 */
   viewMask?: string[] | null;
 }
@@ -221,8 +221,6 @@ export interface TaskService {
   Update(request: UpdateTaskRequest): Promise<Empty>;
   /** 删除调度任务 */
   Delete(request: DeleteTaskRequest): Promise<Empty>;
-  /** 根据任务类型名称查询调度任务详情 */
-  GetTaskByTypeName(request: GetTaskByTypeNameRequest): Promise<Task>;
   /** 任务类型名称列表 */
   ListTaskTypeName(request: Empty): Promise<ListTaskTypeNameResponse>;
   /** 重启所有的调度任务 */

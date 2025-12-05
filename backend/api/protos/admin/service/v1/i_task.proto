@@ -27,6 +27,9 @@ service TaskService {
   rpc Get (GetTaskRequest) returns (Task) {
     option (google.api.http) = {
       get: "/admin/v1/tasks/{id}"
+      additional_bindings {
+        get: "/admin/v1/tasks/type-name/{type_name}"
+      }
     };
   }
 

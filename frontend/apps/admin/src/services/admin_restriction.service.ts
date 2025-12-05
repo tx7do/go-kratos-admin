@@ -27,9 +27,14 @@ class AdminLoginRestrictionServiceImpl implements AdminLoginRestrictionService {
   async Get(
     request: GetAdminLoginRestrictionRequest,
   ): Promise<AdminLoginRestriction> {
-    return await requestClient.get<AdminLoginRestriction>(
-      `/login-restrictions/${request.id}`,
-    );
+    switch (request.queryBy?.$case) {
+      case 'id': {
+        return await requestClient.get<AdminLoginRestriction>(
+          `/login-restrictions/${request.queryBy.id}`,
+        );
+      }
+    }
+    throw new Error('GetAdminLoginRestriction must set queryBy');
   }
 
   async List(

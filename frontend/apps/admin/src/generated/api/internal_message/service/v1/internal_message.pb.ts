@@ -114,12 +114,16 @@ export enum InternalMessage_Type {
 /** 查询站内信消息列表 - 回应 */
 export interface ListInternalMessageResponse {
   items: InternalMessage[];
-  total: number;
+  total: string;
 }
 
 /** 查询站内信消息详情 - 请求 */
 export interface GetInternalMessageRequest {
-  id: number;
+  queryBy?:
+    | //
+    /** ID */
+    { $case: "id"; id: number }
+    | null;
   /** 视图字段过滤器，用于控制返回的字段 */
   viewMask?: string[] | null;
 }

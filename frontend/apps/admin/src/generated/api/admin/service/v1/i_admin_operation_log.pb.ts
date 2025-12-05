@@ -153,12 +153,16 @@ export interface AdminOperationLog {
 /** 查询后台操作日志列表 - 回应 */
 export interface ListAdminOperationLogResponse {
   items: AdminOperationLog[];
-  total: number;
+  total: string;
 }
 
 /** 查询后台操作日志详情 - 请求 */
 export interface GetAdminOperationLogRequest {
-  id: number;
+  queryBy?:
+    | //
+    /** ID */
+    { $case: "id"; id: number }
+    | null;
   /** 视图字段过滤器，用于控制返回的字段 */
   viewMask?: string[] | null;
 }

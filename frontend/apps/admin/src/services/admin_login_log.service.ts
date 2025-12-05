@@ -11,9 +11,14 @@ import { requestClient } from '#/utils/request';
 /** 后台登录日志管理服务 */
 class AdminLoginLogServiceImpl implements AdminLoginLogService {
   async Get(request: GetAdminLoginLogRequest): Promise<AdminLoginLog> {
-    return await requestClient.get<AdminLoginLog>(
-      `/admin_login_logs/${request.id}`,
-    );
+    switch (request.queryBy?.$case) {
+      case 'id': {
+        return await requestClient.get<AdminLoginLog>(
+          `/admin_login_logs/${request.queryBy.id}`,
+        );
+      }
+    }
+    throw new Error('GetAdminLoginLog must set queryBy');
   }
 
   async List(request: PagingRequest): Promise<ListAdminLoginLogResponse> {

@@ -102,12 +102,16 @@ export interface AdminLoginLog {
 /** 查询后台登录日志列表 - 回应 */
 export interface ListAdminLoginLogResponse {
   items: AdminLoginLog[];
-  total: number;
+  total: string;
 }
 
 /** 查询后台登录日志详情 - 请求 */
 export interface GetAdminLoginLogRequest {
-  id: number;
+  queryBy?:
+    | //
+    /** ID */
+    { $case: "id"; id: number }
+    | null;
   /** 视图字段过滤器，用于控制返回的字段 */
   viewMask?: string[] | null;
 }

@@ -932,10 +932,10 @@ const file_admin_service_v1_i_task_proto_rawDesc = "" +
 	"\aRestart\x10\x02\"S\n" +
 	"\x18ListTaskTypeNameResponse\x127\n" +
 	"\n" +
-	"type_names\x18\x01 \x03(\tB\x18\xbaG\x15\x92\x02\x12类型名称列表R\ttypeNames2\xa8\b\n" +
+	"type_names\x18\x01 \x03(\tB\x18\xbaG\x15\x92\x02\x12类型名称列表R\ttypeNames2\xd2\b\n" +
 	"\vTaskService\x12^\n" +
-	"\x04List\x12\x19.pagination.PagingRequest\x1a\".admin.service.v1.ListTaskResponse\"\x17\x82\xd3\xe4\x93\x02\x11\x12\x0f/admin/v1/tasks\x12]\n" +
-	"\x03Get\x12 .admin.service.v1.GetTaskRequest\x1a\x16.admin.service.v1.Task\"\x1c\x82\xd3\xe4\x93\x02\x16\x12\x14/admin/v1/tasks/{id}\x12a\n" +
+	"\x04List\x12\x19.pagination.PagingRequest\x1a\".admin.service.v1.ListTaskResponse\"\x17\x82\xd3\xe4\x93\x02\x11\x12\x0f/admin/v1/tasks\x12\x86\x01\n" +
+	"\x03Get\x12 .admin.service.v1.GetTaskRequest\x1a\x16.admin.service.v1.Task\"E\x82\xd3\xe4\x93\x02?Z'\x12%/admin/v1/tasks/type-name/{type_name}\x12\x14/admin/v1/tasks/{id}\x12a\n" +
 	"\x06Create\x12#.admin.service.v1.CreateTaskRequest\x1a\x16.google.protobuf.Empty\"\x1a\x82\xd3\xe4\x93\x02\x14:\x01*\"\x0f/admin/v1/tasks\x12k\n" +
 	"\x06Update\x12#.admin.service.v1.UpdateTaskRequest\x1a\x16.google.protobuf.Empty\"$\x82\xd3\xe4\x93\x02\x1e:\x01*\x1a\x19/admin/v1/tasks/{data.id}\x12c\n" +
 	"\x06Delete\x12#.admin.service.v1.DeleteTaskRequest\x1a\x16.google.protobuf.Empty\"\x1c\x82\xd3\xe4\x93\x02\x16*\x14/admin/v1/tasks/{id}\x12z\n" +

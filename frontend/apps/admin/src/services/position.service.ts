@@ -23,7 +23,14 @@ class PositionServiceImpl implements PositionService {
   }
 
   async Get(request: GetPositionRequest): Promise<Position> {
-    return await requestClient.get<Position>(`/positions/${request.id}`);
+    switch (request.queryBy?.$case) {
+      case 'id': {
+        return await requestClient.get<Position>(
+          `/positions/${request.queryBy.id}`,
+        );
+      }
+    }
+    throw new Error('GetPosition must set queryBy');
   }
 
   async List(request: PagingRequest): Promise<ListPositionResponse> {

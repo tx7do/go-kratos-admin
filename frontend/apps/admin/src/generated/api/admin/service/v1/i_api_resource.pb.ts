@@ -93,12 +93,16 @@ export enum ApiResource_Scope {
 /** 查询列表 - 回应 */
 export interface ListApiResourceResponse {
   items: ApiResource[];
-  total: number;
+  total: string;
 }
 
 /** 查询 - 请求 */
 export interface GetApiResourceRequest {
-  id: number;
+  queryBy?:
+    | //
+    /** ID */
+    { $case: "id"; id: number }
+    | null;
   /** 视图字段过滤器，用于控制返回的字段 */
   viewMask?: string[] | null;
 }

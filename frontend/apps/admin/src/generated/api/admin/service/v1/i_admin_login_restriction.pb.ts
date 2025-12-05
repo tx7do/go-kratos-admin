@@ -99,12 +99,16 @@ export enum AdminLoginRestriction_Method {
 /** 查询后台登录限制列表 - 回应 */
 export interface ListAdminLoginRestrictionResponse {
   items: AdminLoginRestriction[];
-  total: number;
+  total: string;
 }
 
 /** 查询后台登录限制详情 - 请求 */
 export interface GetAdminLoginRestrictionRequest {
-  id: number;
+  queryBy?:
+    | //
+    /** ID */
+    { $case: "id"; id: number }
+    | null;
   /** 视图字段过滤器，用于控制返回的字段 */
   viewMask?: string[] | null;
 }

@@ -23,7 +23,14 @@ class ApiResourceServiceImpl implements ApiResourceService {
   }
 
   async Get(request: GetApiResourceRequest): Promise<ApiResource> {
-    return await requestClient.get<ApiResource>(`/api-resources/${request.id}`);
+    switch (request.queryBy?.$case) {
+      case 'id': {
+        return await requestClient.get<ApiResource>(
+          `/api-resources/${request.queryBy.id}`,
+        );
+      }
+    }
+    throw new Error('GetApiResource must set queryBy');
   }
 
   GetWalkRouteData(request: Empty): Promise<ListApiResourceResponse> {

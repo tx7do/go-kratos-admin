@@ -2,17 +2,19 @@ import type { InternalMessageService } from '#/generated/api/admin/service/v1/i_
 import type { Empty } from '#/generated/api/google/protobuf/empty.pb';
 import type {
   DeleteInternalMessageRequest,
-  DeleteNotificationFromInboxRequest,
   GetInternalMessageRequest,
   InternalMessage,
   ListInternalMessageResponse,
-  ListUserInboxResponse,
-  MarkNotificationAsReadRequest,
   RevokeMessageRequest,
   SendMessageRequest,
   SendMessageResponse,
   UpdateInternalMessageRequest,
 } from '#/generated/api/internal_message/service/v1/internal_message.pb';
+import type {
+  DeleteNotificationFromInboxRequest,
+  ListUserInboxResponse,
+  MarkNotificationAsReadRequest,
+} from '#/generated/api/internal_message/service/v1/internal_message_recipient.pb';
 import type { PagingRequest } from '#/generated/api/pagination/v1/pagination.pb';
 
 import { requestClient } from '#/utils/request';
@@ -36,9 +38,14 @@ class InternalMessageServiceImpl implements InternalMessageService {
   async GetMessage(
     request: GetInternalMessageRequest,
   ): Promise<InternalMessage> {
-    return await requestClient.get<InternalMessage>(
-      `/internal-message/messages/${request.id}`,
-    );
+    switch (request.queryBy?.$case) {
+      case 'id': {
+        return await requestClient.get<InternalMessage>(
+          `/internal-message/messages/${request.queryBy.id}`,
+        );
+      }
+    }
+    throw new Error('GetInternalMessage must set queryBy');
   }
 
   async ListMessage(

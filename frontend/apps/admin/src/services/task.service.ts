@@ -31,7 +31,12 @@ class TaskServiceImpl implements TaskService {
   }
 
   async Get(request: GetTaskRequest): Promise<Task> {
-    return await requestClient.get<Task>(`/tasks/${request.id}`);
+    switch (request.queryBy?.$case) {
+      case 'id': {
+        return await requestClient.get<Task>(`/tasks/${request.queryBy.id}`);
+      }
+    }
+    throw new Error('GetTask must set queryBy');
   }
 
   GetTaskByTypeName(_request: GetTaskByTypeNameRequest): Promise<Task> {

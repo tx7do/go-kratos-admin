@@ -180,12 +180,22 @@ export enum Tenant_AuditStatus {
 /** 租户列表 - 答复 */
 export interface ListTenantResponse {
   items: Tenant[];
-  total: number;
+  total: string;
 }
 
 /** 租户数据 - 请求 */
 export interface GetTenantRequest {
-  id: number;
+  queryBy?:
+    | //
+    /** ID */
+    { $case: "id"; id: number }
+    | //
+    /** 租户编码 */
+    { $case: "code"; code: string }
+    | //
+    /** 租户名称 */
+    { $case: "name"; name: string }
+    | null;
   /** 视图字段过滤器，用于控制返回的字段 */
   viewMask?: string[] | null;
 }
@@ -233,13 +243,6 @@ export interface TenantExistsResponse {
   exist: boolean;
 }
 
-export interface GetTenantByTenantCodeRequest {
-  /** 租户编码 */
-  code: string;
-  /** 视图字段过滤器，用于控制返回的字段 */
-  viewMask?: string[] | null;
-}
-
 /** 租户服务 */
 export interface TenantService {
   /** 查询租户列表 */
@@ -256,6 +259,4 @@ export interface TenantService {
   BatchCreate(request: BatchCreateTenantsRequest): Promise<BatchCreateTenantsResponse>;
   /** 租户是否存在 */
   TenantExists(request: TenantExistsRequest): Promise<TenantExistsResponse>;
-  /** 根据租户编码获取租户信息 */
-  GetTenantByTenantCode(request: GetTenantByTenantCodeRequest): Promise<Tenant>;
 }

@@ -80,12 +80,16 @@ export interface InternalMessageCategory {
 /** 查询站内信消息分类列表 - 回应 */
 export interface ListInternalMessageCategoryResponse {
   items: InternalMessageCategory[];
-  total: number;
+  total: string;
 }
 
 /** 查询站内信消息分类详情 - 请求 */
 export interface GetInternalMessageCategoryRequest {
-  id: number;
+  queryBy?:
+    | //
+    /** ID */
+    { $case: "id"; id: number }
+    | null;
   /** 视图字段过滤器，用于控制返回的字段 */
   viewMask?: string[] | null;
 }

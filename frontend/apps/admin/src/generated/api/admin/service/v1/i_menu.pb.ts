@@ -118,12 +118,16 @@ export enum Menu_Status {
 /** 查询菜单列表 - 回应 */
 export interface ListMenuResponse {
   items: Menu[];
-  total: number;
+  total: string;
 }
 
 /** 查询菜单详情 - 请求 */
 export interface GetMenuRequest {
-  id: number;
+  queryBy?:
+    | //
+    /** ID */
+    { $case: "id"; id: number }
+    | null;
   /** 视图字段过滤器，用于控制返回的字段 */
   viewMask?: string[] | null;
 }

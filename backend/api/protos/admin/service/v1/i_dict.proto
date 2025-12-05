@@ -28,7 +28,7 @@ service DictService {
     option (google.api.http) = {
       get: "/admin/v1/dict-types/{id}"
       additional_bindings {
-        get: "/api/v1/dict-types/code/{code}"
+        get: "/admin/v1/dict-types/code/{code}"
       }
     };
   }

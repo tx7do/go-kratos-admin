@@ -23,7 +23,14 @@ class DepartmentServiceImpl implements DepartmentService {
   }
 
   async Get(request: GetDepartmentRequest): Promise<Department> {
-    return await requestClient.get<Department>(`/departments/${request.id}`);
+    switch (request.queryBy?.$case) {
+      case 'id': {
+        return await requestClient.get<Department>(
+          `/departments/${request.queryBy.id}`,
+        );
+      }
+    }
+    throw new Error('GetDepartment must set queryBy');
   }
 
   async List(request: PagingRequest): Promise<ListDepartmentResponse> {

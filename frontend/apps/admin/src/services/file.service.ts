@@ -23,7 +23,12 @@ class FileServiceImpl implements FileService {
   }
 
   async Get(request: GetFileRequest): Promise<File> {
-    return await requestClient.get<File>(`/files/${request.id}`);
+    switch (request.queryBy?.$case) {
+      case 'id': {
+        return await requestClient.get<File>(`/files/${request.queryBy.id}`);
+      }
+    }
+    throw new Error('GetFile must set queryBy');
   }
 
   async List(request: PagingRequest): Promise<ListFileResponse> {

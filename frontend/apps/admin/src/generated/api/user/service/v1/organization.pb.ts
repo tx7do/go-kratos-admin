@@ -137,12 +137,16 @@ export enum Organization_Status {
 /** 组织列表 - 答复 */
 export interface ListOrganizationResponse {
   items: Organization[];
-  total: number;
+  total: string;
 }
 
 /** 组织数据 - 请求 */
 export interface GetOrganizationRequest {
-  id: number;
+  queryBy?:
+    | //
+    /** ID */
+    { $case: "id"; id: number }
+    | null;
   /** 视图字段过滤器，用于控制返回的字段 */
   viewMask?: string[] | null;
 }

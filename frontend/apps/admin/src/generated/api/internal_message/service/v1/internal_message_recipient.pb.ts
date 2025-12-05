@@ -97,17 +97,21 @@ export enum InternalMessageRecipient_Status {
 /** 查询站内信消息收件箱列表 - 回应 */
 export interface ListInternalMessageRecipientResponse {
   items: InternalMessageRecipient[];
-  total: number;
+  total: string;
 }
 
 export interface ListUserInboxResponse {
   items: InternalMessageRecipient[];
-  total: number;
+  total: string;
 }
 
 /** 查询站内信消息收件箱详情 - 请求 */
 export interface GetInternalMessageRecipientRequest {
-  id: number;
+  queryBy?:
+    | //
+    /** ID */
+    { $case: "id"; id: number }
+    | null;
   /** 视图字段过滤器，用于控制返回的字段 */
   viewMask?: string[] | null;
 }

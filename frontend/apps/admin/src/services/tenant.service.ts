@@ -34,7 +34,14 @@ class TenantServiceImpl implements TenantService {
   }
 
   async Get(request: GetTenantRequest): Promise<Tenant> {
-    return await requestClient.get<Tenant>(`/tenants/${request.id}`);
+    switch (request.queryBy?.$case) {
+      case 'id': {
+        return await requestClient.get<Tenant>(
+          `/tenants/${request.queryBy.id}`,
+        );
+      }
+    }
+    throw new Error('GetTenant must set queryBy');
   }
 
   async List(request: PagingRequest): Promise<ListTenantResponse> {

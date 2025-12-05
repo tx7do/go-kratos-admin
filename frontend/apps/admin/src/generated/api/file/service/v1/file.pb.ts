@@ -118,12 +118,16 @@ export interface File {
 /** 查询列表 - 回应 */
 export interface ListFileResponse {
   items: File[];
-  total: number;
+  total: string;
 }
 
 /** 查询 - 请求 */
 export interface GetFileRequest {
-  id: number;
+  queryBy?:
+    | //
+    /** ID */
+    { $case: "id"; id: number }
+    | null;
   /** 视图字段过滤器，用于控制返回的字段 */
   viewMask?: string[] | null;
 }

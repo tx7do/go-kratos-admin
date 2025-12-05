@@ -56,7 +56,7 @@ type DictServiceHTTPServer interface {
 func RegisterDictServiceHTTPServer(s *http.Server, srv DictServiceHTTPServer) {
 	r := s.Route("/")
 	r.GET("/admin/v1/dict-types", _DictService_ListDictType0_HTTP_Handler(srv))
-	r.GET("/api/v1/dict-types/code/{code}", _DictService_GetDictType0_HTTP_Handler(srv))
+	r.GET("/admin/v1/dict-types/code/{code}", _DictService_GetDictType0_HTTP_Handler(srv))
 	r.GET("/admin/v1/dict-types/{id}", _DictService_GetDictType1_HTTP_Handler(srv))
 	r.POST("/admin/v1/dict-types", _DictService_CreateDictType0_HTTP_Handler(srv))
 	r.PUT("/admin/v1/dict-types/{data.id}", _DictService_UpdateDictType0_HTTP_Handler(srv))

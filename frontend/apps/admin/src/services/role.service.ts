@@ -23,7 +23,12 @@ class RoleServiceImpl implements RoleService {
   }
 
   async Get(request: GetRoleRequest): Promise<Role> {
-    return await requestClient.get<Role>(`/roles/${request.id}`);
+    switch (request.queryBy?.$case) {
+      case 'id': {
+        return await requestClient.get<Role>(`/roles/${request.queryBy.id}`);
+      }
+    }
+    throw new Error('GetRole must set queryBy');
   }
 
   async List(request: PagingRequest): Promise<ListRoleResponse> {

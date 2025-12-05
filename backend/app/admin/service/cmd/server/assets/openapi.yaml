@@ -813,6 +813,35 @@ paths:
                 "200":
                     description: OK
                     content: {}
+    /admin/v1/dict-types/code/{code}:
+        get:
+            tags:
+                - DictService
+            description: 查询字典类型详情
+            operationId: DictService_GetDictType
+            parameters:
+                - name: code
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                - name: id
+                  in: query
+                  schema:
+                    type: integer
+                    format: uint32
+                - name: viewMask
+                  in: query
+                  schema:
+                    type: string
+                    format: field-mask
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/DictType'
     /admin/v1/dict-types/{data.id}:
         put:
             tags:
@@ -2600,6 +2629,35 @@ paths:
                 "200":
                     description: OK
                     content: {}
+    /admin/v1/tasks/type-name/{typeName}:
+        get:
+            tags:
+                - TaskService
+            description: 查询调度任务详情
+            operationId: TaskService_Get
+            parameters:
+                - name: typeName
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                - name: id
+                  in: query
+                  schema:
+                    type: integer
+                    format: uint32
+                - name: viewMask
+                  in: query
+                  schema:
+                    type: string
+                    format: field-mask
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Task'
     /admin/v1/tasks/{data.id}:
         put:
             tags:
@@ -3086,6 +3144,35 @@ paths:
                 "200":
                     description: OK
                     content: {}
+    /admin/v1/users/username/{userName}:
+        get:
+            tags:
+                - UserService
+            description: 获取用户数据
+            operationId: UserService_Get
+            parameters:
+                - name: userName
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                - name: id
+                  in: query
+                  schema:
+                    type: integer
+                    format: uint32
+                - name: viewMask
+                  in: query
+                  schema:
+                    type: string
+                    format: field-mask
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/User'
     /admin/v1/users/{data.id}:
         put:
             tags:
@@ -3194,64 +3281,6 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/UserExistsResponse'
-    /api/v1/dict-types/code/{code}:
-        get:
-            tags:
-                - DictService
-            description: 查询字典类型详情
-            operationId: DictService_GetDictType
-            parameters:
-                - name: code
-                  in: path
-                  required: true
-                  schema:
-                    type: string
-                - name: id
-                  in: query
-                  schema:
-                    type: integer
-                    format: uint32
-                - name: viewMask
-                  in: query
-                  schema:
-                    type: string
-                    format: field-mask
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/DictType'
-    /api/v1/users/username/{userName}:
-        get:
-            tags:
-                - UserService
-            description: 获取用户数据
-            operationId: UserService_Get
-            parameters:
-                - name: userName
-                  in: path
-                  required: true
-                  schema:
-                    type: string
-                - name: id
-                  in: query
-                  schema:
-                    type: integer
-                    format: uint32
-                - name: viewMask
-                  in: query
-                  schema:
-                    type: string
-                    format: field-mask
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/User'
 components:
     schemas:
         AdminLoginLog:

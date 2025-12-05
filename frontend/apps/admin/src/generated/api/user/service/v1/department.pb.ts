@@ -113,12 +113,16 @@ export enum Department_Status {
 /** 部门列表 - 答复 */
 export interface ListDepartmentResponse {
   items: Department[];
-  total: number;
+  total: string;
 }
 
 /** 部门数据 - 请求 */
 export interface GetDepartmentRequest {
-  id: number;
+  queryBy?:
+    | //
+    /** ID */
+    { $case: "id"; id: number }
+    | null;
   /** 视图字段过滤器，用于控制返回的字段 */
   viewMask?: string[] | null;
 }

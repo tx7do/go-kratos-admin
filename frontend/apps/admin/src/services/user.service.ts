@@ -40,7 +40,12 @@ class UserServiceImpl implements UserService {
   }
 
   async Get(request: GetUserRequest): Promise<User> {
-    return await requestClient.get<User>(`/users/${request.id}`);
+    switch (request.queryBy?.$case) {
+      case 'id': {
+        return await requestClient.get<User>(`/users/${request.queryBy.id}`);
+      }
+    }
+    throw new Error('GetUser must set queryBy');
   }
 
   async List(request: PagingRequest): Promise<ListUserResponse> {

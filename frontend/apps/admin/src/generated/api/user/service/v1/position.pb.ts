@@ -123,12 +123,16 @@ export enum Position_Status {
 /** 获取职位列表 - 答复 */
 export interface ListPositionResponse {
   items: Position[];
-  total: number;
+  total: string;
 }
 
 /** 获取职位数据 - 请求 */
 export interface GetPositionRequest {
-  id: number;
+  queryBy?:
+    | //
+    /** ID */
+    { $case: "id"; id: number }
+    | null;
   /** 视图字段过滤器，用于控制返回的字段 */
   viewMask?: string[] | null;
 }

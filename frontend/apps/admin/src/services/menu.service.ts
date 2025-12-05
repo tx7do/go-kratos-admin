@@ -23,7 +23,12 @@ class MenuServiceImpl implements MenuService {
   }
 
   async Get(request: GetMenuRequest): Promise<Menu> {
-    return await requestClient.get<Menu>(`/menus/${request.id}`);
+    switch (request.queryBy?.$case) {
+      case 'id': {
+        return await requestClient.get<Menu>(`/menus/${request.queryBy.id}`);
+      }
+    }
+    throw new Error('GetMenu must set queryBy');
   }
 
   async List(request: PagingRequest): Promise<ListMenuResponse> {

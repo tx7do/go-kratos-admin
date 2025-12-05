@@ -23,9 +23,14 @@ class OrganizationServiceImpl implements OrganizationService {
   }
 
   async Get(request: GetOrganizationRequest): Promise<Organization> {
-    return await requestClient.get<Organization>(
-      `/organizations/${request.id}`,
-    );
+    switch (request.queryBy?.$case) {
+      case 'id': {
+        return await requestClient.get<Organization>(
+          `/organizations/${request.queryBy.id}`,
+        );
+      }
+    }
+    throw new Error('GetOrganization must set queryBy');
   }
 
   async List(request: PagingRequest): Promise<ListOrganizationResponse> {

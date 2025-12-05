@@ -50,7 +50,7 @@ type TenantServiceHTTPServer interface {
 func RegisterTenantServiceHTTPServer(s *http.Server, srv TenantServiceHTTPServer) {
 	r := s.Route("/")
 	r.GET("/admin/v1/tenants", _TenantService_List12_HTTP_Handler(srv))
-	r.GET("/admin/v1/tenants/{id}", _TenantService_Get12_HTTP_Handler(srv))
+	r.GET("/admin/v1/tenants/{id}", _TenantService_Get13_HTTP_Handler(srv))
 	r.POST("/admin/v1/tenants", _TenantService_Create10_HTTP_Handler(srv))
 	r.PUT("/admin/v1/tenants/{data.id}", _TenantService_Update10_HTTP_Handler(srv))
 	r.DELETE("/admin/v1/tenants/{id}", _TenantService_Delete10_HTTP_Handler(srv))
@@ -77,7 +77,7 @@ func _TenantService_List12_HTTP_Handler(srv TenantServiceHTTPServer) func(ctx ht
 	}
 }
 
-func _TenantService_Get12_HTTP_Handler(srv TenantServiceHTTPServer) func(ctx http.Context) error {
+func _TenantService_Get13_HTTP_Handler(srv TenantServiceHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
 		var in v11.GetTenantRequest
 		if err := ctx.BindQuery(&in); err != nil {

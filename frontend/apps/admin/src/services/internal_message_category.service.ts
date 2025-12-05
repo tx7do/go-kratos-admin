@@ -32,9 +32,14 @@ class InternalMessageCategoryServiceImpl
   async Get(
     request: GetInternalMessageCategoryRequest,
   ): Promise<InternalMessageCategory> {
-    return await requestClient.get<InternalMessageCategory>(
-      `/internal-message/categories/${request.id}`,
-    );
+    switch (request.queryBy?.$case) {
+      case 'id': {
+        return await requestClient.get<InternalMessageCategory>(
+          `/internal-message/categories/${request.queryBy.id}`,
+        );
+      }
+    }
+    throw new Error('GetInternalMessageCategory must set queryBy');
   }
 
   async List(

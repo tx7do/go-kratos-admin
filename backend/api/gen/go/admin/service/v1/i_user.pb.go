@@ -30,10 +30,10 @@ var File_admin_service_v1_i_user_proto protoreflect.FileDescriptor
 
 const file_admin_service_v1_i_user_proto_rawDesc = "" +
 	"\n" +
-	"\x1dadmin/service/v1/i_user.proto\x12\x10admin.service.v1\x1a$gnostic/openapi/v3/annotations.proto\x1a\x1cgoogle/api/annotations.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x16redact/v3/redact.proto\x1a\x1epagination/v1/pagination.proto\x1a\x1auser/service/v1/user.proto2\xa7\x06\n" +
+	"\x1dadmin/service/v1/i_user.proto\x12\x10admin.service.v1\x1a$gnostic/openapi/v3/annotations.proto\x1a\x1cgoogle/api/annotations.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x16redact/v3/redact.proto\x1a\x1epagination/v1/pagination.proto\x1a\x1auser/service/v1/user.proto2\xa9\x06\n" +
 	"\vUserService\x12a\n" +
-	"\x04List\x12\x19.pagination.PagingRequest\x1a!.user.service.v1.ListUserResponse\"\x1b\xe0\xb6\x1a\x01\x82\xd3\xe4\x93\x02\x11\x12\x0f/admin/v1/users\x12\x85\x01\n" +
-	"\x03Get\x12\x1f.user.service.v1.GetUserRequest\x1a\x15.user.service.v1.User\"F\xe0\xb6\x1a\x01\x82\xd3\xe4\x93\x02<Z$\x12\"/api/v1/users/username/{user_name}\x12\x14/admin/v1/users/{id}\x12`\n" +
+	"\x04List\x12\x19.pagination.PagingRequest\x1a!.user.service.v1.ListUserResponse\"\x1b\xe0\xb6\x1a\x01\x82\xd3\xe4\x93\x02\x11\x12\x0f/admin/v1/users\x12\x87\x01\n" +
+	"\x03Get\x12\x1f.user.service.v1.GetUserRequest\x1a\x15.user.service.v1.User\"H\xe0\xb6\x1a\x01\x82\xd3\xe4\x93\x02>Z&\x12$/admin/v1/users/username/{user_name}\x12\x14/admin/v1/users/{id}\x12`\n" +
 	"\x06Create\x12\".user.service.v1.CreateUserRequest\x1a\x16.google.protobuf.Empty\"\x1a\x82\xd3\xe4\x93\x02\x14:\x01*\"\x0f/admin/v1/users\x12j\n" +
 	"\x06Update\x12\".user.service.v1.UpdateUserRequest\x1a\x16.google.protobuf.Empty\"$\x82\xd3\xe4\x93\x02\x1e:\x01*\x1a\x19/admin/v1/users/{data.id}\x12b\n" +
 	"\x06Delete\x12\".user.service.v1.DeleteUserRequest\x1a\x16.google.protobuf.Empty\"\x1c\x82\xd3\xe4\x93\x02\x16*\x14/admin/v1/users/{id}\x12u\n" +

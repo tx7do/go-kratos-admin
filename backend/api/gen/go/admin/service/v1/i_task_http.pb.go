@@ -58,7 +58,8 @@ type TaskServiceHTTPServer interface {
 func RegisterTaskServiceHTTPServer(s *http.Server, srv TaskServiceHTTPServer) {
 	r := s.Route("/")
 	r.GET("/admin/v1/tasks", _TaskService_List11_HTTP_Handler(srv))
-	r.GET("/admin/v1/tasks/{id}", _TaskService_Get11_HTTP_Handler(srv))
+	r.GET("/admin/v1/tasks/type-name/{type_name}", _TaskService_Get11_HTTP_Handler(srv))
+	r.GET("/admin/v1/tasks/{id}", _TaskService_Get12_HTTP_Handler(srv))
 	r.POST("/admin/v1/tasks", _TaskService_Create9_HTTP_Handler(srv))
 	r.PUT("/admin/v1/tasks/{data.id}", _TaskService_Update9_HTTP_Handler(srv))
 	r.DELETE("/admin/v1/tasks/{id}", _TaskService_Delete9_HTTP_Handler(srv))
@@ -89,6 +90,28 @@ func _TaskService_List11_HTTP_Handler(srv TaskServiceHTTPServer) func(ctx http.C
 }
 
 func _TaskService_Get11_HTTP_Handler(srv TaskServiceHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in GetTaskRequest
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindVars(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationTaskServiceGet)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.Get(ctx, req.(*GetTaskRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*Task)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _TaskService_Get12_HTTP_Handler(srv TaskServiceHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
 		var in GetTaskRequest
 		if err := ctx.BindQuery(&in); err != nil {

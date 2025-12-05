@@ -12,8 +12,6 @@ deps:
   - 'buf.build/googleapis/googleapis'
   - 'buf.build/kratos/apis'
   - 'buf.build/gnostic/gnostic'
-  #  - 'buf.build/envoyproxy/protoc-gen-validate'
-  #  - 'buf.build/gogo/protobuf'
   - 'buf.build/tx7do/pagination'
   - 'buf.build/menta2k-org/redact'
 

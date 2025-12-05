@@ -6,18 +6,16 @@ import (
 
 	"entgo.io/ent/dialect/sql"
 	"github.com/go-kratos/kratos/v2/log"
-	"github.com/tx7do/go-utils/trans"
-	"google.golang.org/protobuf/proto"
+
+	pagination "github.com/tx7do/go-crud/api/gen/go/pagination/v1"
+	entCrud "github.com/tx7do/go-crud/entgo"
 
 	"github.com/tx7do/go-utils/copierutil"
-	entgoQuery "github.com/tx7do/go-utils/entgo/query"
-	entgoUpdate "github.com/tx7do/go-utils/entgo/update"
-	"github.com/tx7do/go-utils/fieldmaskutil"
 	"github.com/tx7do/go-utils/mapper"
 	"github.com/tx7do/go-utils/timeutil"
-	pagination "github.com/tx7do/kratos-bootstrap/api/gen/go/pagination/v1"
 
 	"kratos-admin/app/admin/service/internal/data/ent"
+	"kratos-admin/app/admin/service/internal/data/ent/predicate"
 	"kratos-admin/app/admin/service/internal/data/ent/task"
 
 	adminV1 "kratos-admin/api/gen/go/admin/service/v1"
@@ -29,6 +27,15 @@ type TaskRepo struct {
 
 	mapper        *mapper.CopierMapper[adminV1.Task, ent.Task]
 	typeConverter *mapper.EnumTypeConverter[adminV1.Task_Type, task.Type]
+
+	repository *entCrud.Repository[
+		ent.TaskQuery, ent.TaskSelect,
+		ent.TaskCreate, ent.TaskCreateBulk,
+		ent.TaskUpdate, ent.TaskUpdateOne,
+		ent.TaskDelete,
+		predicate.Task,
+		adminV1.Task, ent.Task,
+	]
 }
 
 func NewTaskRepo(data *Data, logger log.Logger) *TaskRepo {
@@ -45,6 +52,15 @@ func NewTaskRepo(data *Data, logger log.Logger) *TaskRepo {
 }
 
 func (r *TaskRepo) init() {
+	r.repository = entCrud.NewRepository[
+		ent.TaskQuery, ent.TaskSelect,
+		ent.TaskCreate, ent.TaskCreateBulk,
+		ent.TaskUpdate, ent.TaskUpdateOne,
+		ent.TaskDelete,
+		predicate.Task,
+		adminV1.Task, ent.Task,
+	](r.mapper)
+
 	r.mapper.AppendConverters(copierutil.NewTimeStringConverterPair())
 	r.mapper.AppendConverters(copierutil.NewTimeTimestamppbConverterPair())
 
@@ -73,41 +89,17 @@ func (r *TaskRepo) List(ctx context.Context, req *pagination.PagingRequest) (*ad
 
 	builder := r.data.db.Client().Task.Query()
 
-	err, whereSelectors, querySelectors := entgoQuery.BuildQuerySelector(
-		req.GetQuery(), req.GetOrQuery(),
-		req.GetPage(), req.GetPageSize(), req.GetNoPaging(),
-		req.GetOrderBy(), task.FieldCreatedAt,
-		req.GetFieldMask().GetPaths(),
-	)
-	if err != nil {
-		r.log.Errorf("parse list param error [%s]", err.Error())
-		return nil, adminV1.ErrorBadRequest("invalid query parameter")
-	}
-
-	if querySelectors != nil {
-		builder.Modify(querySelectors...)
-	}
-
-	entities, err := builder.All(ctx)
-	if err != nil {
-		r.log.Errorf("query list failed: %s", err.Error())
-		return nil, adminV1.ErrorInternalServerError("query list failed")
-	}
-
-	dtos := make([]*adminV1.Task, 0, len(entities))
-	for _, entity := range entities {
-		dto := r.mapper.ToDTO(entity)
-		dtos = append(dtos, dto)
-	}
-
-	count, err := r.Count(ctx, whereSelectors)
+	ret, err := r.repository.ListWithPaging(ctx, builder, builder.Clone(), req)
 	if err != nil {
 		return nil, err
 	}
+	if ret == nil {
+		return &adminV1.ListTaskResponse{Total: 0, Items: nil}, nil
+	}
 
 	return &adminV1.ListTaskResponse{
-		Total: uint32(count),
-		Items: dtos,
+		Total: ret.Total,
+		Items: ret.Items,
 	}, nil
 }
 
@@ -129,22 +121,19 @@ func (r *TaskRepo) Get(ctx context.Context, req *adminV1.GetTaskRequest) (*admin
 
 	builder := r.data.db.Client().Task.Query()
 
-	builder.Where(task.IDEQ(req.GetId()))
-
-	entgoQuery.ApplyFieldMaskToBuilder(builder, req.ViewMask)
-
-	entity, err := builder.Only(ctx)
-	if err != nil {
-		if ent.IsNotFound(err) {
-			return nil, adminV1.ErrorNotFound("task not found")
-		}
-
-		r.log.Errorf("query one data failed: %s", err.Error())
-
-		return nil, adminV1.ErrorInternalServerError("query data failed")
+	var whereCond []func(s *sql.Selector)
+	switch req.QueryBy.(type) {
+	default:
+	case *adminV1.GetTaskRequest_Id:
+		whereCond = append(whereCond, task.IDEQ(req.GetId()))
 	}
 
-	return r.mapper.ToDTO(entity), nil
+	dto, err := r.repository.Get(ctx, builder, req.GetViewMask(), whereCond...)
+	if err != nil {
+		return nil, err
+	}
+
+	return dto, err
 }
 
 func (r *TaskRepo) GetByTypeName(ctx context.Context, typeName string) (*adminV1.Task, error) {
@@ -223,40 +212,33 @@ func (r *TaskRepo) Update(ctx context.Context, req *adminV1.UpdateTaskRequest) (
 		}
 	}
 
-	if err := fieldmaskutil.FilterByFieldMask(trans.Ptr(proto.Message(req.GetData())), req.UpdateMask); err != nil {
-		r.log.Errorf("invalid field mask [%v], error: %s", req.UpdateMask, err.Error())
-		return nil, adminV1.ErrorBadRequest("invalid field mask")
-	}
+	builder := r.data.db.Client().Debug().Task.UpdateOneID(req.Data.GetId())
+	result, err := r.repository.UpdateOne(ctx, builder, req.Data, req.GetUpdateMask(),
+		func(dto *adminV1.Task) {
+			builder.
+				SetNillableType(r.typeConverter.ToEntity(req.Data.Type)).
+				SetNillableTypeName(req.Data.TypeName).
+				SetNillableTaskPayload(req.Data.TaskPayload).
+				SetNillableCronSpec(req.Data.CronSpec).
+				SetNillableEnable(req.Data.Enable).
+				SetNillableRemark(req.Data.Remark).
+				SetNillableUpdatedBy(req.Data.UpdatedBy).
+				SetNillableUpdatedAt(timeutil.TimestamppbToTime(req.Data.UpdatedAt))
 
-	builder := r.data.db.Client().
-		//Debug().
-		Task.UpdateOneID(req.Data.GetId()).
-		SetNillableType(r.typeConverter.ToEntity(req.Data.Type)).
-		SetNillableTypeName(req.Data.TypeName).
-		SetNillableTaskPayload(req.Data.TaskPayload).
-		SetNillableCronSpec(req.Data.CronSpec).
-		SetNillableEnable(req.Data.Enable).
-		SetNillableRemark(req.Data.Remark).
-		SetNillableUpdatedBy(req.Data.UpdatedBy).
-		SetNillableUpdatedAt(timeutil.TimestamppbToTime(req.Data.UpdatedAt))
+			if req.Data.TaskOptions != nil {
+				builder.SetTaskOptions(req.Data.TaskOptions)
+			}
 
-	if req.Data.TaskOptions != nil {
-		builder.SetTaskOptions(req.Data.TaskOptions)
-	}
+			if req.Data.UpdatedAt == nil {
+				builder.SetUpdatedAt(time.Now())
+			}
+		},
+		func(s *sql.Selector) {
+			s.Where(sql.EQ(task.FieldID, req.Data.GetId()))
+		},
+	)
 
-	if req.Data.UpdatedAt == nil {
-		builder.SetUpdatedAt(time.Now())
-	}
-
-	entgoUpdate.ApplyNilFieldMask(proto.Message(req.GetData()), req.UpdateMask, builder)
-
-	t, err := builder.Save(ctx)
-	if err != nil {
-		r.log.Errorf("update one data failed: %s", err.Error())
-		return nil, adminV1.ErrorInternalServerError("update data failed")
-	}
-
-	return r.mapper.ToDTO(t), nil
+	return result, err
 }
 
 func (r *TaskRepo) Delete(ctx context.Context, req *adminV1.DeleteTaskRequest) error {

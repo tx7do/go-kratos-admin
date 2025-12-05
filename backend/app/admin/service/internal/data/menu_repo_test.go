@@ -5,7 +5,7 @@ import (
 	"testing"
 
 	"github.com/go-kratos/kratos/v2/log"
-	entgoUpdate "github.com/tx7do/go-utils/entgo/update"
+	entgoUpdate "github.com/tx7do/go-crud/entgo/update"
 	"github.com/tx7do/go-utils/fieldmaskutil"
 	"github.com/tx7do/go-utils/trans"
 

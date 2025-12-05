@@ -8,7 +8,7 @@ package servicev1
 
 import (
 	_ "github.com/google/gnostic/openapiv3"
-	v1 "github.com/tx7do/kratos-bootstrap/api/gen/go/pagination/v1"
+	v1 "github.com/tx7do/go-crud/api/gen/go/pagination/v1"
 	_ "google.golang.org/genproto/googleapis/api/annotations"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
@@ -293,7 +293,7 @@ func (x *AdminOperationLog) GetCreatedAt() *timestamppb.Timestamp {
 type ListAdminOperationLogResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Items         []*AdminOperationLog   `protobuf:"bytes,1,rep,name=items,proto3" json:"items,omitempty"`
-	Total         uint32                 `protobuf:"varint,2,opt,name=total,proto3" json:"total,omitempty"`
+	Total         uint64                 `protobuf:"varint,2,opt,name=total,proto3" json:"total,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -335,7 +335,7 @@ func (x *ListAdminOperationLogResponse) GetItems() []*AdminOperationLog {
 	return nil
 }
 
-func (x *ListAdminOperationLogResponse) GetTotal() uint32 {
+func (x *ListAdminOperationLogResponse) GetTotal() uint64 {
 	if x != nil {
 		return x.Total
 	}
@@ -344,9 +344,12 @@ func (x *ListAdminOperationLogResponse) GetTotal() uint32 {
 
 // 查询后台操作日志详情 - 请求
 type GetAdminOperationLogRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            uint32                 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
-	ViewMask      *fieldmaskpb.FieldMask `protobuf:"bytes,100,opt,name=view_mask,json=viewMask,proto3,oneof" json:"view_mask,omitempty"` // 视图字段过滤器，用于控制返回的字段
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Types that are valid to be assigned to QueryBy:
+	//
+	//	*GetAdminOperationLogRequest_Id
+	QueryBy       isGetAdminOperationLogRequest_QueryBy `protobuf_oneof:"query_by"`
+	ViewMask      *fieldmaskpb.FieldMask                `protobuf:"bytes,100,opt,name=view_mask,json=viewMask,proto3,oneof" json:"view_mask,omitempty"` // 视图字段过滤器，用于控制返回的字段
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -381,9 +384,18 @@ func (*GetAdminOperationLogRequest) Descriptor() ([]byte, []int) {
 	return file_admin_service_v1_i_admin_operation_log_proto_rawDescGZIP(), []int{2}
 }
 
+func (x *GetAdminOperationLogRequest) GetQueryBy() isGetAdminOperationLogRequest_QueryBy {
+	if x != nil {
+		return x.QueryBy
+	}
+	return nil
+}
+
 func (x *GetAdminOperationLogRequest) GetId() uint32 {
 	if x != nil {
-		return x.Id
+		if x, ok := x.QueryBy.(*GetAdminOperationLogRequest_Id); ok {
+			return x.Id
+		}
 	}
 	return 0
 }
@@ -394,6 +406,16 @@ func (x *GetAdminOperationLogRequest) GetViewMask() *fieldmaskpb.FieldMask {
 	}
 	return nil
 }
+
+type isGetAdminOperationLogRequest_QueryBy interface {
+	isGetAdminOperationLogRequest_QueryBy()
+}
+
+type GetAdminOperationLogRequest_Id struct {
+	Id uint32 `protobuf:"varint,1,opt,name=id,proto3,oneof"` // ID
+}
+
+func (*GetAdminOperationLogRequest_Id) isGetAdminOperationLogRequest_QueryBy() {}
 
 // 创建后台操作日志 - 请求
 type CreateAdminOperationLogRequest struct {
@@ -628,10 +650,13 @@ const file_admin_service_v1_i_admin_operation_log_proto_rawDesc = "" +
 	"\v_created_at\"p\n" +
 	"\x1dListAdminOperationLogResponse\x129\n" +
 	"\x05items\x18\x01 \x03(\v2#.admin.service.v1.AdminOperationLogR\x05items\x12\x14\n" +
-	"\x05total\x18\x02 \x01(\rR\x05total\"\xb4\x01\n" +
-	"\x1bGetAdminOperationLogRequest\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\rR\x02id\x12w\n" +
-	"\tview_mask\x18d \x01(\v2\x1a.google.protobuf.FieldMaskB9\xbaG6\x92\x023视图字段过滤器，用于控制返回的字段H\x00R\bviewMask\x88\x01\x01B\f\n" +
+	"\x05total\x18\x02 \x01(\x04R\x05total\"\xce\x01\n" +
+	"\x1bGetAdminOperationLogRequest\x12\x1c\n" +
+	"\x02id\x18\x01 \x01(\rB\n" +
+	"\xbaG\a\x18\x01\x92\x02\x02IDH\x00R\x02id\x12w\n" +
+	"\tview_mask\x18d \x01(\v2\x1a.google.protobuf.FieldMaskB9\xbaG6\x92\x023视图字段过滤器，用于控制返回的字段H\x01R\bviewMask\x88\x01\x01B\n" +
+	"\n" +
+	"\bquery_byB\f\n" +
 	"\n" +
 	"_view_mask\"Y\n" +
 	"\x1eCreateAdminOperationLogRequest\x127\n" +
@@ -699,7 +724,9 @@ func file_admin_service_v1_i_admin_operation_log_proto_init() {
 		return
 	}
 	file_admin_service_v1_i_admin_operation_log_proto_msgTypes[0].OneofWrappers = []any{}
-	file_admin_service_v1_i_admin_operation_log_proto_msgTypes[2].OneofWrappers = []any{}
+	file_admin_service_v1_i_admin_operation_log_proto_msgTypes[2].OneofWrappers = []any{
+		(*GetAdminOperationLogRequest_Id)(nil),
+	}
 	file_admin_service_v1_i_admin_operation_log_proto_msgTypes[4].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{

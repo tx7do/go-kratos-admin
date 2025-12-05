@@ -5,22 +5,17 @@ import (
 	"sort"
 	"time"
 
-	"entgo.io/ent/dialect/sql"
-	"github.com/go-kratos/kratos/v2/log"
-	"github.com/tx7do/go-utils/entgo"
-	"github.com/tx7do/go-utils/trans"
-	"google.golang.org/protobuf/proto"
-
-	"github.com/tx7do/go-utils/copierutil"
-	entgoQuery "github.com/tx7do/go-utils/entgo/query"
-	entgoUpdate "github.com/tx7do/go-utils/entgo/update"
-	"github.com/tx7do/go-utils/fieldmaskutil"
-	"github.com/tx7do/go-utils/mapper"
-	"github.com/tx7do/go-utils/timeutil"
-	pagination "github.com/tx7do/kratos-bootstrap/api/gen/go/pagination/v1"
-
 	"kratos-admin/app/admin/service/internal/data/ent"
 	"kratos-admin/app/admin/service/internal/data/ent/internalmessagecategory"
+	"kratos-admin/app/admin/service/internal/data/ent/predicate"
+
+	"entgo.io/ent/dialect/sql"
+	"github.com/go-kratos/kratos/v2/log"
+	pagination "github.com/tx7do/go-crud/api/gen/go/pagination/v1"
+	entCrud "github.com/tx7do/go-crud/entgo"
+	"github.com/tx7do/go-utils/copierutil"
+	"github.com/tx7do/go-utils/mapper"
+	"github.com/tx7do/go-utils/timeutil"
 
 	internalMessageV1 "kratos-admin/api/gen/go/internal_message/service/v1"
 )
@@ -30,6 +25,15 @@ type InternalMessageCategoryRepo struct {
 	log  *log.Helper
 
 	mapper *mapper.CopierMapper[internalMessageV1.InternalMessageCategory, ent.InternalMessageCategory]
+
+	repository *entCrud.Repository[
+		ent.InternalMessageCategoryQuery, ent.InternalMessageCategorySelect,
+		ent.InternalMessageCategoryCreate, ent.InternalMessageCategoryCreateBulk,
+		ent.InternalMessageCategoryUpdate, ent.InternalMessageCategoryUpdateOne,
+		ent.InternalMessageCategoryDelete,
+		predicate.InternalMessageCategory,
+		internalMessageV1.InternalMessageCategory, ent.InternalMessageCategory,
+	]
 }
 
 func NewInternalMessageCategoryRepo(data *Data, logger log.Logger) *InternalMessageCategoryRepo {
@@ -45,35 +49,17 @@ func NewInternalMessageCategoryRepo(data *Data, logger log.Logger) *InternalMess
 }
 
 func (r *InternalMessageCategoryRepo) init() {
+	r.repository = entCrud.NewRepository[
+		ent.InternalMessageCategoryQuery, ent.InternalMessageCategorySelect,
+		ent.InternalMessageCategoryCreate, ent.InternalMessageCategoryCreateBulk,
+		ent.InternalMessageCategoryUpdate, ent.InternalMessageCategoryUpdateOne,
+		ent.InternalMessageCategoryDelete,
+		predicate.InternalMessageCategory,
+		internalMessageV1.InternalMessageCategory, ent.InternalMessageCategory,
+	](r.mapper)
+
 	r.mapper.AppendConverters(copierutil.NewTimeStringConverterPair())
 	r.mapper.AppendConverters(copierutil.NewTimeTimestamppbConverterPair())
-}
-
-func (r *InternalMessageCategoryRepo) travelChild(nodes []*internalMessageV1.InternalMessageCategory, node *internalMessageV1.InternalMessageCategory) bool {
-	if nodes == nil {
-		return false
-	}
-
-	if node.ParentId == nil {
-		nodes = append(nodes, node)
-		return true
-	}
-
-	for _, n := range nodes {
-		if node.ParentId == nil {
-			continue
-		}
-
-		if n.GetId() == node.GetParentId() {
-			n.Children = append(n.Children, node)
-			return true
-		} else {
-			if r.travelChild(n.Children, node) {
-				return true
-			}
-		}
-	}
-	return false
 }
 
 func (r *InternalMessageCategoryRepo) Count(ctx context.Context, whereCond []func(s *sql.Selector)) (int, error) {
@@ -98,19 +84,10 @@ func (r *InternalMessageCategoryRepo) List(ctx context.Context, req *pagination.
 
 	builder := r.data.db.Client().InternalMessageCategory.Query()
 
-	err, whereSelectors, querySelectors := entgoQuery.BuildQuerySelector(
-		req.GetQuery(), req.GetOrQuery(),
-		req.GetPage(), req.GetPageSize(), req.GetNoPaging(),
-		req.GetOrderBy(), internalmessagecategory.FieldCreatedAt,
-		req.GetFieldMask().GetPaths(),
-	)
+	whereSelectors, _, err := r.repository.BuildListSelectorWithPaging(builder, req)
 	if err != nil {
 		r.log.Errorf("parse list param error [%s]", err.Error())
 		return nil, internalMessageV1.ErrorBadRequest("invalid query parameter")
-	}
-
-	if querySelectors != nil {
-		builder.Modify(querySelectors...)
 	}
 
 	entities, err := builder.All(ctx)
@@ -140,7 +117,9 @@ func (r *InternalMessageCategoryRepo) List(ctx context.Context, req *pagination.
 		if entity.ParentID != nil {
 			dto := r.mapper.ToDTO(entity)
 
-			if r.travelChild(dtos, dto) {
+			if entCrud.TravelChild(&dtos, dto, func(parent *internalMessageV1.InternalMessageCategory, node *internalMessageV1.InternalMessageCategory) {
+				parent.Children = append(parent.Children, node)
+			}) {
 				continue
 			}
 
@@ -154,7 +133,7 @@ func (r *InternalMessageCategoryRepo) List(ctx context.Context, req *pagination.
 	}
 
 	return &internalMessageV1.ListInternalMessageCategoryResponse{
-		Total: uint32(count),
+		Total: uint64(count),
 		Items: dtos,
 	}, err
 }
@@ -177,22 +156,19 @@ func (r *InternalMessageCategoryRepo) Get(ctx context.Context, req *internalMess
 
 	builder := r.data.db.Client().InternalMessageCategory.Query()
 
-	builder.Where(internalmessagecategory.IDEQ(req.GetId()))
-
-	entgoQuery.ApplyFieldMaskToBuilder(builder, req.ViewMask)
-
-	entity, err := builder.Only(ctx)
-	if err != nil {
-		if ent.IsNotFound(err) {
-			return nil, internalMessageV1.ErrorNotFound("message category not found")
-		}
-
-		r.log.Errorf("query one data failed: %s", err.Error())
-
-		return nil, internalMessageV1.ErrorInternalServerError("query data failed")
+	var whereCond []func(s *sql.Selector)
+	switch req.QueryBy.(type) {
+	default:
+	case *internalMessageV1.GetInternalMessageCategoryRequest_Id:
+		whereCond = append(whereCond, internalmessagecategory.IDEQ(req.GetId()))
 	}
 
-	return r.mapper.ToDTO(entity), nil
+	dto, err := r.repository.Get(ctx, builder, req.GetViewMask(), whereCond...)
+	if err != nil {
+		return nil, err
+	}
+
+	return dto, err
 }
 
 // GetCategoriesByIds 根据ID列表获取分类列表
@@ -268,33 +244,29 @@ func (r *InternalMessageCategoryRepo) Update(ctx context.Context, req *internalM
 		}
 	}
 
-	if err := fieldmaskutil.FilterByFieldMask(trans.Ptr(proto.Message(req.GetData())), req.UpdateMask); err != nil {
-		r.log.Errorf("invalid field mask [%v], error: %s", req.UpdateMask, err.Error())
-		return internalMessageV1.ErrorBadRequest("invalid field mask")
-	}
+	builder := r.data.db.Client().Debug().InternalMessageCategory.Update()
+	err := r.repository.UpdateX(ctx, builder, req.Data, req.GetUpdateMask(),
+		func(dto *internalMessageV1.InternalMessageCategory) {
+			builder.
+				SetNillableName(req.Data.Name).
+				SetNillableCode(req.Data.Code).
+				SetNillableIconURL(req.Data.IconUrl).
+				SetNillableParentID(req.Data.ParentId).
+				SetNillableSortOrder(req.Data.SortOrder).
+				SetNillableIsEnabled(req.Data.IsEnabled).
+				SetNillableUpdatedBy(req.Data.UpdatedBy).
+				SetNillableUpdatedAt(timeutil.TimestamppbToTime(req.Data.UpdatedAt))
 
-	builder := r.data.db.Client().InternalMessageCategory.UpdateOneID(req.Data.GetId()).
-		SetNillableName(req.Data.Name).
-		SetNillableCode(req.Data.Code).
-		SetNillableIconURL(req.Data.IconUrl).
-		SetNillableParentID(req.Data.ParentId).
-		SetNillableSortOrder(req.Data.SortOrder).
-		SetNillableIsEnabled(req.Data.IsEnabled).
-		SetNillableUpdatedBy(req.Data.UpdatedBy).
-		SetNillableUpdatedAt(timeutil.TimestamppbToTime(req.Data.UpdatedAt))
+			if req.Data.UpdatedAt == nil {
+				builder.SetUpdatedAt(time.Now())
+			}
+		},
+		func(s *sql.Selector) {
+			s.Where(sql.EQ(internalmessagecategory.FieldID, req.Data.GetId()))
+		},
+	)
 
-	if req.Data.UpdatedAt == nil {
-		builder.SetUpdatedAt(time.Now())
-	}
-
-	entgoUpdate.ApplyNilFieldMask(proto.Message(req.GetData()), req.UpdateMask, builder)
-
-	if err := builder.Exec(ctx); err != nil {
-		r.log.Errorf("update one data failed: %s", err.Error())
-		return internalMessageV1.ErrorInternalServerError("update data failed")
-	}
-
-	return nil
+	return err
 }
 
 func (r *InternalMessageCategoryRepo) Delete(ctx context.Context, req *internalMessageV1.DeleteInternalMessageCategoryRequest) error {
@@ -302,7 +274,7 @@ func (r *InternalMessageCategoryRepo) Delete(ctx context.Context, req *internalM
 		return internalMessageV1.ErrorBadRequest("invalid parameter")
 	}
 
-	ids, err := entgo.QueryAllChildrenIds(ctx, r.data.db, "internal_message_categories", req.GetId())
+	ids, err := entCrud.QueryAllChildrenIds(ctx, r.data.db, "internal_message_categories", req.GetId())
 	if err != nil {
 		r.log.Errorf("query child internal message categories failed: %s", err.Error())
 		return internalMessageV1.ErrorInternalServerError("query child internal message categories failed")
@@ -311,9 +283,12 @@ func (r *InternalMessageCategoryRepo) Delete(ctx context.Context, req *internalM
 
 	//r.log.Info("internal message category ids to delete: ", ids)
 
-	if _, err = r.data.db.Client().InternalMessageCategory.Delete().
-		Where(internalmessagecategory.IDIn(ids...)).
-		Exec(ctx); err != nil {
+	builder := r.data.db.Client().Debug().InternalMessageCategory.Delete()
+
+	_, err = r.repository.Delete(ctx, builder, func(s *sql.Selector) {
+		s.Where(sql.In(internalmessagecategory.FieldID, ids))
+	})
+	if err != nil {
 		r.log.Errorf("delete internal message categories failed: %s", err.Error())
 		return internalMessageV1.ErrorInternalServerError("delete internal message categories failed")
 	}

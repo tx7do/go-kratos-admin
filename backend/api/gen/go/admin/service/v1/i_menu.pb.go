@@ -8,7 +8,7 @@ package servicev1
 
 import (
 	_ "github.com/google/gnostic/openapiv3"
-	v1 "github.com/tx7do/kratos-bootstrap/api/gen/go/pagination/v1"
+	v1 "github.com/tx7do/go-crud/api/gen/go/pagination/v1"
 	_ "google.golang.org/genproto/googleapis/api/annotations"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
@@ -307,7 +307,7 @@ func (x *Menu) GetDeletedAt() *timestamppb.Timestamp {
 type ListMenuResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Items         []*Menu                `protobuf:"bytes,1,rep,name=items,proto3" json:"items,omitempty"`
-	Total         uint32                 `protobuf:"varint,2,opt,name=total,proto3" json:"total,omitempty"`
+	Total         uint64                 `protobuf:"varint,2,opt,name=total,proto3" json:"total,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -349,7 +349,7 @@ func (x *ListMenuResponse) GetItems() []*Menu {
 	return nil
 }
 
-func (x *ListMenuResponse) GetTotal() uint32 {
+func (x *ListMenuResponse) GetTotal() uint64 {
 	if x != nil {
 		return x.Total
 	}
@@ -358,9 +358,12 @@ func (x *ListMenuResponse) GetTotal() uint32 {
 
 // 查询菜单详情 - 请求
 type GetMenuRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            uint32                 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
-	ViewMask      *fieldmaskpb.FieldMask `protobuf:"bytes,100,opt,name=view_mask,json=viewMask,proto3,oneof" json:"view_mask,omitempty"` // 视图字段过滤器，用于控制返回的字段
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Types that are valid to be assigned to QueryBy:
+	//
+	//	*GetMenuRequest_Id
+	QueryBy       isGetMenuRequest_QueryBy `protobuf_oneof:"query_by"`
+	ViewMask      *fieldmaskpb.FieldMask   `protobuf:"bytes,100,opt,name=view_mask,json=viewMask,proto3,oneof" json:"view_mask,omitempty"` // 视图字段过滤器，用于控制返回的字段
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -395,9 +398,18 @@ func (*GetMenuRequest) Descriptor() ([]byte, []int) {
 	return file_admin_service_v1_i_menu_proto_rawDescGZIP(), []int{2}
 }
 
+func (x *GetMenuRequest) GetQueryBy() isGetMenuRequest_QueryBy {
+	if x != nil {
+		return x.QueryBy
+	}
+	return nil
+}
+
 func (x *GetMenuRequest) GetId() uint32 {
 	if x != nil {
-		return x.Id
+		if x, ok := x.QueryBy.(*GetMenuRequest_Id); ok {
+			return x.Id
+		}
 	}
 	return 0
 }
@@ -408,6 +420,16 @@ func (x *GetMenuRequest) GetViewMask() *fieldmaskpb.FieldMask {
 	}
 	return nil
 }
+
+type isGetMenuRequest_QueryBy interface {
+	isGetMenuRequest_QueryBy()
+}
+
+type GetMenuRequest_Id struct {
+	Id uint32 `protobuf:"varint,1,opt,name=id,proto3,oneof"` // ID
+}
+
+func (*GetMenuRequest_Id) isGetMenuRequest_QueryBy() {}
 
 // 创建菜单 - 请求
 type CreateMenuRequest struct {
@@ -630,10 +652,13 @@ const file_admin_service_v1_i_menu_proto_rawDesc = "" +
 	"\v_deleted_at\"V\n" +
 	"\x10ListMenuResponse\x12,\n" +
 	"\x05items\x18\x01 \x03(\v2\x16.admin.service.v1.MenuR\x05items\x12\x14\n" +
-	"\x05total\x18\x02 \x01(\rR\x05total\"\xa7\x01\n" +
-	"\x0eGetMenuRequest\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\rR\x02id\x12w\n" +
-	"\tview_mask\x18d \x01(\v2\x1a.google.protobuf.FieldMaskB9\xbaG6\x92\x023视图字段过滤器，用于控制返回的字段H\x00R\bviewMask\x88\x01\x01B\f\n" +
+	"\x05total\x18\x02 \x01(\x04R\x05total\"\xc1\x01\n" +
+	"\x0eGetMenuRequest\x12\x1c\n" +
+	"\x02id\x18\x01 \x01(\rB\n" +
+	"\xbaG\a\x18\x01\x92\x02\x02IDH\x00R\x02id\x12w\n" +
+	"\tview_mask\x18d \x01(\v2\x1a.google.protobuf.FieldMaskB9\xbaG6\x92\x023视图字段过滤器，用于控制返回的字段H\x01R\bviewMask\x88\x01\x01B\n" +
+	"\n" +
+	"\bquery_byB\f\n" +
 	"\n" +
 	"_view_mask\"?\n" +
 	"\x11CreateMenuRequest\x12*\n" +
@@ -724,7 +749,9 @@ func file_admin_service_v1_i_menu_proto_init() {
 	}
 	file_admin_service_v1_i_router_proto_init()
 	file_admin_service_v1_i_menu_proto_msgTypes[0].OneofWrappers = []any{}
-	file_admin_service_v1_i_menu_proto_msgTypes[2].OneofWrappers = []any{}
+	file_admin_service_v1_i_menu_proto_msgTypes[2].OneofWrappers = []any{
+		(*GetMenuRequest_Id)(nil),
+	}
 	file_admin_service_v1_i_menu_proto_msgTypes[4].OneofWrappers = []any{}
 	file_admin_service_v1_i_menu_proto_msgTypes[5].OneofWrappers = []any{}
 	type x struct{}

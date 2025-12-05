@@ -5,22 +5,17 @@ import (
 	"sort"
 	"time"
 
-	"entgo.io/ent/dialect/sql"
-	"github.com/go-kratos/kratos/v2/log"
-	"github.com/tx7do/go-utils/entgo"
-	"github.com/tx7do/go-utils/trans"
-	"google.golang.org/protobuf/proto"
-
-	"github.com/tx7do/go-utils/copierutil"
-	entgoQuery "github.com/tx7do/go-utils/entgo/query"
-	entgoUpdate "github.com/tx7do/go-utils/entgo/update"
-	"github.com/tx7do/go-utils/fieldmaskutil"
-	"github.com/tx7do/go-utils/mapper"
-	"github.com/tx7do/go-utils/timeutil"
-	pagination "github.com/tx7do/kratos-bootstrap/api/gen/go/pagination/v1"
-
 	"kratos-admin/app/admin/service/internal/data/ent"
 	"kratos-admin/app/admin/service/internal/data/ent/position"
+	"kratos-admin/app/admin/service/internal/data/ent/predicate"
+
+	"entgo.io/ent/dialect/sql"
+	"github.com/go-kratos/kratos/v2/log"
+	pagination "github.com/tx7do/go-crud/api/gen/go/pagination/v1"
+	entCrud "github.com/tx7do/go-crud/entgo"
+	"github.com/tx7do/go-utils/copierutil"
+	"github.com/tx7do/go-utils/mapper"
+	"github.com/tx7do/go-utils/timeutil"
 
 	userV1 "kratos-admin/api/gen/go/user/service/v1"
 )
@@ -31,6 +26,15 @@ type PositionRepo struct {
 
 	mapper          *mapper.CopierMapper[userV1.Position, ent.Position]
 	statusConverter *mapper.EnumTypeConverter[userV1.Position_Status, position.Status]
+
+	repository *entCrud.Repository[
+		ent.PositionQuery, ent.PositionSelect,
+		ent.PositionCreate, ent.PositionCreateBulk,
+		ent.PositionUpdate, ent.PositionUpdateOne,
+		ent.PositionDelete,
+		predicate.Position,
+		userV1.Position, ent.Position,
+	]
 }
 
 func NewPositionRepo(data *Data, logger log.Logger) *PositionRepo {
@@ -47,37 +51,19 @@ func NewPositionRepo(data *Data, logger log.Logger) *PositionRepo {
 }
 
 func (r *PositionRepo) init() {
+	r.repository = entCrud.NewRepository[
+		ent.PositionQuery, ent.PositionSelect,
+		ent.PositionCreate, ent.PositionCreateBulk,
+		ent.PositionUpdate, ent.PositionUpdateOne,
+		ent.PositionDelete,
+		predicate.Position,
+		userV1.Position, ent.Position,
+	](r.mapper)
+
 	r.mapper.AppendConverters(copierutil.NewTimeStringConverterPair())
 	r.mapper.AppendConverters(copierutil.NewTimeTimestamppbConverterPair())
 
 	r.mapper.AppendConverters(r.statusConverter.NewConverterPair())
-}
-
-func (r *PositionRepo) travelChild(nodes []*userV1.Position, node *userV1.Position) bool {
-	if nodes == nil {
-		return false
-	}
-
-	if node.ParentId == nil {
-		nodes = append(nodes, node)
-		return true
-	}
-
-	for _, n := range nodes {
-		if node.ParentId == nil {
-			continue
-		}
-
-		if n.GetId() == node.GetParentId() {
-			n.Children = append(n.Children, node)
-			return true
-		} else {
-			if r.travelChild(n.Children, node) {
-				return true
-			}
-		}
-	}
-	return false
 }
 
 func (r *PositionRepo) Count(ctx context.Context, whereCond []func(s *sql.Selector)) (int, error) {
@@ -102,19 +88,10 @@ func (r *PositionRepo) List(ctx context.Context, req *pagination.PagingRequest) 
 
 	builder := r.data.db.Client().Position.Query()
 
-	err, whereSelectors, querySelectors := entgoQuery.BuildQuerySelector(
-		req.GetQuery(), req.GetOrQuery(),
-		req.GetPage(), req.GetPageSize(), req.GetNoPaging(),
-		req.GetOrderBy(), position.FieldCreatedAt,
-		req.GetFieldMask().GetPaths(),
-	)
+	whereSelectors, _, err := r.repository.BuildListSelectorWithPaging(builder, req)
 	if err != nil {
 		r.log.Errorf("parse list param error [%s]", err.Error())
 		return nil, userV1.ErrorBadRequest("invalid query parameter")
-	}
-
-	if querySelectors != nil {
-		builder.Modify(querySelectors...)
 	}
 
 	entities, err := builder.All(ctx)
@@ -145,7 +122,9 @@ func (r *PositionRepo) List(ctx context.Context, req *pagination.PagingRequest) 
 		if entity.ParentID != nil {
 			dto := r.mapper.ToDTO(entity)
 
-			if r.travelChild(dtos, dto) {
+			if entCrud.TravelChild(&dtos, dto, func(parent *userV1.Position, node *userV1.Position) {
+				parent.Children = append(parent.Children, node)
+			}) {
 				continue
 			}
 
@@ -159,7 +138,7 @@ func (r *PositionRepo) List(ctx context.Context, req *pagination.PagingRequest) 
 	}
 
 	return &userV1.ListPositionResponse{
-		Total: uint32(count),
+		Total: uint64(count),
 		Items: dtos,
 	}, err
 }
@@ -182,22 +161,19 @@ func (r *PositionRepo) Get(ctx context.Context, req *userV1.GetPositionRequest) 
 
 	builder := r.data.db.Client().Position.Query()
 
-	builder.Where(position.IDEQ(req.GetId()))
-
-	entgoQuery.ApplyFieldMaskToBuilder(builder, req.ViewMask)
-
-	entity, err := builder.Only(ctx)
-	if err != nil {
-		if ent.IsNotFound(err) {
-			return nil, userV1.ErrorPositionNotFound("position not found")
-		}
-
-		r.log.Errorf("query one data failed: %s", err.Error())
-
-		return nil, userV1.ErrorInternalServerError("query data failed")
+	var whereCond []func(s *sql.Selector)
+	switch req.QueryBy.(type) {
+	default:
+	case *userV1.GetPositionRequest_Id:
+		whereCond = append(whereCond, position.IDEQ(req.GetId()))
 	}
 
-	return r.mapper.ToDTO(entity), nil
+	dto, err := r.repository.Get(ctx, builder, req.GetViewMask(), whereCond...)
+	if err != nil {
+		return nil, err
+	}
+
+	return dto, err
 }
 
 // GetPositionByIds 通过多个ID获取职位信息
@@ -280,43 +256,39 @@ func (r *PositionRepo) Update(ctx context.Context, req *userV1.UpdatePositionReq
 		}
 	}
 
-	if err := fieldmaskutil.FilterByFieldMask(trans.Ptr(proto.Message(req.GetData())), req.UpdateMask); err != nil {
-		r.log.Errorf("invalid field mask [%v], error: %s", req.UpdateMask, err.Error())
-		return userV1.ErrorBadRequest("invalid field mask")
-	}
+	builder := r.data.db.Client().Debug().Position.Update()
+	err := r.repository.UpdateX(ctx, builder, req.Data, req.GetUpdateMask(),
+		func(dto *userV1.Position) {
+			builder.
+				SetNillableName(req.Data.Name).
+				SetNillableParentID(req.Data.ParentId).
+				SetNillableSortOrder(req.Data.SortOrder).
+				SetNillableCode(req.Data.Code).
+				SetNillableStatus(r.statusConverter.ToEntity(req.Data.Status)).
+				SetNillableRemark(req.Data.Remark).
+				SetNillableQuota(req.Data.Quota).
+				SetNillableDescription(req.Data.Description).
+				SetNillableUpdatedBy(req.Data.UpdatedBy).
+				SetNillableUpdatedAt(timeutil.TimestamppbToTime(req.Data.UpdatedAt))
 
-	builder := r.data.db.Client().Position.UpdateOneID(req.Data.GetId()).
-		SetNillableName(req.Data.Name).
-		SetNillableParentID(req.Data.ParentId).
-		SetNillableSortOrder(req.Data.SortOrder).
-		SetNillableCode(req.Data.Code).
-		SetNillableStatus(r.statusConverter.ToEntity(req.Data.Status)).
-		SetNillableRemark(req.Data.Remark).
-		SetNillableQuota(req.Data.Quota).
-		SetNillableDescription(req.Data.Description).
-		SetNillableUpdatedBy(req.Data.UpdatedBy).
-		SetNillableUpdatedAt(timeutil.TimestamppbToTime(req.Data.UpdatedAt))
+			if req.Data.UpdatedAt == nil {
+				builder.SetUpdatedAt(time.Now())
+			}
 
-	if req.Data.UpdatedAt == nil {
-		builder.SetUpdatedAt(time.Now())
-	}
+			if req.Data.OrganizationId == nil {
+				builder.SetOrganizationID(req.Data.GetOrganizationId())
+			}
 
-	if req.Data.OrganizationId == nil {
-		builder.SetOrganizationID(req.Data.GetOrganizationId())
-	}
+			if req.Data.DepartmentId == nil {
+				builder.SetDepartmentID(req.Data.GetDepartmentId())
+			}
+		},
+		func(s *sql.Selector) {
+			s.Where(sql.EQ(position.FieldID, req.Data.GetId()))
+		},
+	)
 
-	if req.Data.DepartmentId == nil {
-		builder.SetDepartmentID(req.Data.GetDepartmentId())
-	}
-
-	entgoUpdate.ApplyNilFieldMask(proto.Message(req.GetData()), req.UpdateMask, builder)
-
-	if err := builder.Exec(ctx); err != nil {
-		r.log.Errorf("update one data failed: %s", err.Error())
-		return userV1.ErrorInternalServerError("update data failed")
-	}
-
-	return nil
+	return err
 }
 
 func (r *PositionRepo) Delete(ctx context.Context, req *userV1.DeletePositionRequest) error {
@@ -324,7 +296,7 @@ func (r *PositionRepo) Delete(ctx context.Context, req *userV1.DeletePositionReq
 		return userV1.ErrorBadRequest("invalid parameter")
 	}
 
-	ids, err := entgo.QueryAllChildrenIds(ctx, r.data.db, "sys_positions", req.GetId())
+	ids, err := entCrud.QueryAllChildrenIds(ctx, r.data.db, "sys_positions", req.GetId())
 	if err != nil {
 		r.log.Errorf("query child positions failed: %s", err.Error())
 		return userV1.ErrorInternalServerError("query child positions failed")
@@ -333,11 +305,14 @@ func (r *PositionRepo) Delete(ctx context.Context, req *userV1.DeletePositionReq
 
 	//r.log.Infof("child positions to delete: %+v", ids)
 
-	if _, err = r.data.db.Client().Position.Delete().
-		Where(position.IDIn(ids...)).
-		Exec(ctx); err != nil {
-		r.log.Errorf("delete positions failed: %s", err.Error())
-		return userV1.ErrorInternalServerError("delete positions failed")
+	builder := r.data.db.Client().Debug().Position.Delete()
+
+	_, err = r.repository.Delete(ctx, builder, func(s *sql.Selector) {
+		s.Where(sql.In(position.FieldID, ids))
+	})
+	if err != nil {
+		r.log.Errorf("delete position failed: %s", err.Error())
+		return userV1.ErrorInternalServerError("delete position failed")
 	}
 
 	return nil

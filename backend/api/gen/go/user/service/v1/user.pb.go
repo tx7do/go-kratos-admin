@@ -9,7 +9,7 @@ package servicev1
 import (
 	_ "github.com/google/gnostic/openapiv3"
 	_ "github.com/menta2k/protoc-gen-redact/v3/redact/v3"
-	v1 "github.com/tx7do/kratos-bootstrap/api/gen/go/pagination/v1"
+	v1 "github.com/tx7do/go-crud/api/gen/go/pagination/v1"
 	_ "google.golang.org/genproto/googleapis/api/annotations"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
@@ -500,7 +500,7 @@ func (x *User) GetDeletedAt() *timestamppb.Timestamp {
 type ListUserResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Items         []*User                `protobuf:"bytes,1,rep,name=items,proto3" json:"items,omitempty"`
-	Total         uint32                 `protobuf:"varint,2,opt,name=total,proto3" json:"total,omitempty"`
+	Total         uint64                 `protobuf:"varint,2,opt,name=total,proto3" json:"total,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -542,7 +542,7 @@ func (x *ListUserResponse) GetItems() []*User {
 	return nil
 }
 
-func (x *ListUserResponse) GetTotal() uint32 {
+func (x *ListUserResponse) GetTotal() uint64 {
 	if x != nil {
 		return x.Total
 	}
@@ -555,7 +555,7 @@ type GetUserRequest struct {
 	// Types that are valid to be assigned to QueryBy:
 	//
 	//	*GetUserRequest_Id
-	//	*GetUserRequest_Username
+	//	*GetUserRequest_UserName
 	QueryBy       isGetUserRequest_QueryBy `protobuf_oneof:"query_by"`
 	ViewMask      *fieldmaskpb.FieldMask   `protobuf:"bytes,100,opt,name=view_mask,json=viewMask,proto3,oneof" json:"view_mask,omitempty"` // 视图字段过滤器，用于控制返回的字段
 	unknownFields protoimpl.UnknownFields
@@ -608,10 +608,10 @@ func (x *GetUserRequest) GetId() uint32 {
 	return 0
 }
 
-func (x *GetUserRequest) GetUsername() string {
+func (x *GetUserRequest) GetUserName() string {
 	if x != nil {
-		if x, ok := x.QueryBy.(*GetUserRequest_Username); ok {
-			return x.Username
+		if x, ok := x.QueryBy.(*GetUserRequest_UserName); ok {
+			return x.UserName
 		}
 	}
 	return ""
@@ -632,13 +632,13 @@ type GetUserRequest_Id struct {
 	Id uint32 `protobuf:"varint,1,opt,name=id,proto3,oneof"` // 用户ID
 }
 
-type GetUserRequest_Username struct {
-	Username string `protobuf:"bytes,2,opt,name=username,proto3,oneof"` // 用户登录名
+type GetUserRequest_UserName struct {
+	UserName string `protobuf:"bytes,2,opt,name=user_name,json=userName,proto3,oneof"` // 用户登录名
 }
 
 func (*GetUserRequest_Id) isGetUserRequest_QueryBy() {}
 
-func (*GetUserRequest_Username) isGetUserRequest_QueryBy() {}
+func (*GetUserRequest_UserName) isGetUserRequest_QueryBy() {}
 
 // 创建用户 - 请求
 type CreateUserRequest struct {
@@ -1750,10 +1750,10 @@ const file_user_service_v1_user_proto_rawDesc = "" +
 	"\v_deleted_at\"U\n" +
 	"\x10ListUserResponse\x12+\n" +
 	"\x05items\x18\x01 \x03(\v2\x15.user.service.v1.UserR\x05items\x12\x14\n" +
-	"\x05total\x18\x02 \x01(\rR\x05total\"\xfe\x01\n" +
+	"\x05total\x18\x02 \x01(\x04R\x05total\"\xff\x01\n" +
 	"\x0eGetUserRequest\x12\"\n" +
-	"\x02id\x18\x01 \x01(\rB\x10\xbaG\r\x18\x01\x92\x02\b用户IDH\x00R\x02id\x125\n" +
-	"\busername\x18\x02 \x01(\tB\x17\xbaG\x14\x18\x01\x92\x02\x0f用户登录名H\x00R\busername\x12w\n" +
+	"\x02id\x18\x01 \x01(\rB\x10\xbaG\r\x18\x01\x92\x02\b用户IDH\x00R\x02id\x126\n" +
+	"\tuser_name\x18\x02 \x01(\tB\x17\xbaG\x14\x18\x01\x92\x02\x0f用户登录名H\x00R\buserName\x12w\n" +
 	"\tview_mask\x18d \x01(\v2\x1a.google.protobuf.FieldMaskB9\xbaG6\x92\x023视图字段过滤器，用于控制返回的字段H\x01R\bviewMask\x88\x01\x01B\n" +
 	"\n" +
 	"\bquery_byB\f\n" +
@@ -1921,7 +1921,7 @@ func file_user_service_v1_user_proto_init() {
 	file_user_service_v1_user_proto_msgTypes[0].OneofWrappers = []any{}
 	file_user_service_v1_user_proto_msgTypes[2].OneofWrappers = []any{
 		(*GetUserRequest_Id)(nil),
-		(*GetUserRequest_Username)(nil),
+		(*GetUserRequest_UserName)(nil),
 	}
 	file_user_service_v1_user_proto_msgTypes[3].OneofWrappers = []any{}
 	file_user_service_v1_user_proto_msgTypes[4].OneofWrappers = []any{}

@@ -8,7 +8,7 @@ package servicev1
 
 import (
 	_ "github.com/google/gnostic/openapiv3"
-	v1 "github.com/tx7do/kratos-bootstrap/api/gen/go/pagination/v1"
+	v1 "github.com/tx7do/go-crud/api/gen/go/pagination/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	emptypb "google.golang.org/protobuf/types/known/emptypb"
@@ -440,7 +440,7 @@ func (x *Tenant) GetDeletedAt() *timestamppb.Timestamp {
 type ListTenantResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Items         []*Tenant              `protobuf:"bytes,1,rep,name=items,proto3" json:"items,omitempty"`
-	Total         uint32                 `protobuf:"varint,2,opt,name=total,proto3" json:"total,omitempty"`
+	Total         uint64                 `protobuf:"varint,2,opt,name=total,proto3" json:"total,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -482,7 +482,7 @@ func (x *ListTenantResponse) GetItems() []*Tenant {
 	return nil
 }
 
-func (x *ListTenantResponse) GetTotal() uint32 {
+func (x *ListTenantResponse) GetTotal() uint64 {
 	if x != nil {
 		return x.Total
 	}
@@ -491,9 +491,12 @@ func (x *ListTenantResponse) GetTotal() uint32 {
 
 // 租户数据 - 请求
 type GetTenantRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            uint32                 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
-	ViewMask      *fieldmaskpb.FieldMask `protobuf:"bytes,100,opt,name=view_mask,json=viewMask,proto3,oneof" json:"view_mask,omitempty"` // 视图字段过滤器，用于控制返回的字段
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Types that are valid to be assigned to QueryBy:
+	//
+	//	*GetTenantRequest_Id
+	QueryBy       isGetTenantRequest_QueryBy `protobuf_oneof:"query_by"`
+	ViewMask      *fieldmaskpb.FieldMask     `protobuf:"bytes,100,opt,name=view_mask,json=viewMask,proto3,oneof" json:"view_mask,omitempty"` // 视图字段过滤器，用于控制返回的字段
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -528,9 +531,18 @@ func (*GetTenantRequest) Descriptor() ([]byte, []int) {
 	return file_user_service_v1_tenant_proto_rawDescGZIP(), []int{2}
 }
 
+func (x *GetTenantRequest) GetQueryBy() isGetTenantRequest_QueryBy {
+	if x != nil {
+		return x.QueryBy
+	}
+	return nil
+}
+
 func (x *GetTenantRequest) GetId() uint32 {
 	if x != nil {
-		return x.Id
+		if x, ok := x.QueryBy.(*GetTenantRequest_Id); ok {
+			return x.Id
+		}
 	}
 	return 0
 }
@@ -541,6 +553,16 @@ func (x *GetTenantRequest) GetViewMask() *fieldmaskpb.FieldMask {
 	}
 	return nil
 }
+
+type isGetTenantRequest_QueryBy interface {
+	isGetTenantRequest_QueryBy()
+}
+
+type GetTenantRequest_Id struct {
+	Id uint32 `protobuf:"varint,1,opt,name=id,proto3,oneof"` // ID
+}
+
+func (*GetTenantRequest_Id) isGetTenantRequest_QueryBy() {}
 
 // 创建租户 - 请求
 type CreateTenantRequest struct {
@@ -1011,10 +1033,13 @@ const file_user_service_v1_tenant_proto_rawDesc = "" +
 	"\v_deleted_at\"Y\n" +
 	"\x12ListTenantResponse\x12-\n" +
 	"\x05items\x18\x01 \x03(\v2\x17.user.service.v1.TenantR\x05items\x12\x14\n" +
-	"\x05total\x18\x02 \x01(\rR\x05total\"\xa9\x01\n" +
-	"\x10GetTenantRequest\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\rR\x02id\x12w\n" +
-	"\tview_mask\x18d \x01(\v2\x1a.google.protobuf.FieldMaskB9\xbaG6\x92\x023视图字段过滤器，用于控制返回的字段H\x00R\bviewMask\x88\x01\x01B\f\n" +
+	"\x05total\x18\x02 \x01(\x04R\x05total\"\xc3\x01\n" +
+	"\x10GetTenantRequest\x12\x1c\n" +
+	"\x02id\x18\x01 \x01(\rB\n" +
+	"\xbaG\a\x18\x01\x92\x02\x02IDH\x00R\x02id\x12w\n" +
+	"\tview_mask\x18d \x01(\v2\x1a.google.protobuf.FieldMaskB9\xbaG6\x92\x023视图字段过滤器，用于控制返回的字段H\x01R\bviewMask\x88\x01\x01B\n" +
+	"\n" +
+	"\bquery_byB\f\n" +
 	"\n" +
 	"_view_mask\"B\n" +
 	"\x13CreateTenantRequest\x12+\n" +
@@ -1134,7 +1159,9 @@ func file_user_service_v1_tenant_proto_init() {
 		return
 	}
 	file_user_service_v1_tenant_proto_msgTypes[0].OneofWrappers = []any{}
-	file_user_service_v1_tenant_proto_msgTypes[2].OneofWrappers = []any{}
+	file_user_service_v1_tenant_proto_msgTypes[2].OneofWrappers = []any{
+		(*GetTenantRequest_Id)(nil),
+	}
 	file_user_service_v1_tenant_proto_msgTypes[4].OneofWrappers = []any{}
 	file_user_service_v1_tenant_proto_msgTypes[10].OneofWrappers = []any{}
 	type x struct{}

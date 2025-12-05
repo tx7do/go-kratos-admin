@@ -8,7 +8,7 @@ package servicev1
 
 import (
 	_ "github.com/google/gnostic/openapiv3"
-	v1 "github.com/tx7do/kratos-bootstrap/api/gen/go/pagination/v1"
+	v1 "github.com/tx7do/go-crud/api/gen/go/pagination/v1"
 	_ "google.golang.org/genproto/googleapis/api/annotations"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
@@ -321,7 +321,7 @@ func (x *DictEntry) GetDeletedAt() *timestamppb.Timestamp {
 type ListDictTypeResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Items         []*DictType            `protobuf:"bytes,1,rep,name=items,proto3" json:"items,omitempty"`
-	Total         uint32                 `protobuf:"varint,2,opt,name=total,proto3" json:"total,omitempty"`
+	Total         uint64                 `protobuf:"varint,2,opt,name=total,proto3" json:"total,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -363,7 +363,7 @@ func (x *ListDictTypeResponse) GetItems() []*DictType {
 	return nil
 }
 
-func (x *ListDictTypeResponse) GetTotal() uint32 {
+func (x *ListDictTypeResponse) GetTotal() uint64 {
 	if x != nil {
 		return x.Total
 	}
@@ -616,7 +616,7 @@ func (x *BatchDeleteDictRequest) GetIds() []uint32 {
 type ListDictEntryResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Items         []*DictEntry           `protobuf:"bytes,1,rep,name=items,proto3" json:"items,omitempty"`
-	Total         uint32                 `protobuf:"varint,2,opt,name=total,proto3" json:"total,omitempty"`
+	Total         uint64                 `protobuf:"varint,2,opt,name=total,proto3" json:"total,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -658,7 +658,7 @@ func (x *ListDictEntryResponse) GetItems() []*DictEntry {
 	return nil
 }
 
-func (x *ListDictEntryResponse) GetTotal() uint32 {
+func (x *ListDictEntryResponse) GetTotal() uint64 {
 	if x != nil {
 		return x.Total
 	}
@@ -948,7 +948,7 @@ const file_dict_service_v1_dict_proto_rawDesc = "" +
 	"\v_deleted_at\"]\n" +
 	"\x14ListDictTypeResponse\x12/\n" +
 	"\x05items\x18\x01 \x03(\v2\x19.dict.service.v1.DictTypeR\x05items\x12\x14\n" +
-	"\x05total\x18\x02 \x01(\rR\x05total\"\xcf\x01\n" +
+	"\x05total\x18\x02 \x01(\x04R\x05total\"\xcf\x01\n" +
 	"\x12GetDictTypeRequest\x12\x10\n" +
 	"\x02id\x18\x01 \x01(\rH\x00R\x02id\x12\x14\n" +
 	"\x04code\x18\x02 \x01(\tH\x00R\x04code\x12w\n" +
@@ -969,7 +969,7 @@ const file_dict_service_v1_dict_proto_rawDesc = "" +
 	"\x03ids\x18\x01 \x03(\rR\x03ids\"_\n" +
 	"\x15ListDictEntryResponse\x120\n" +
 	"\x05items\x18\x01 \x03(\v2\x1a.dict.service.v1.DictEntryR\x05items\x12\x14\n" +
-	"\x05total\x18\x02 \x01(\rR\x05total\"H\n" +
+	"\x05total\x18\x02 \x01(\x04R\x05total\"H\n" +
 	"\x16CreateDictEntryRequest\x12.\n" +
 	"\x04data\x18\x01 \x01(\v2\x1a.dict.service.v1.DictEntryR\x04data\"\x86\x03\n" +
 	"\x16UpdateDictEntryRequest\x12.\n" +

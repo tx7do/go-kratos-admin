@@ -4,23 +4,19 @@ import (
 	"context"
 	"time"
 
+	"kratos-admin/app/admin/service/internal/data/ent"
+	"kratos-admin/app/admin/service/internal/data/ent/predicate"
+	"kratos-admin/app/admin/service/internal/data/ent/role"
+
 	"entgo.io/ent/dialect/sql"
 	"github.com/go-kratos/kratos/v2/log"
-	"github.com/tx7do/go-utils/entgo"
-	"github.com/tx7do/go-utils/trans"
-	"google.golang.org/protobuf/proto"
-
+	pagination "github.com/tx7do/go-crud/api/gen/go/pagination/v1"
+	entCrud "github.com/tx7do/go-crud/entgo"
 	"github.com/tx7do/go-utils/copierutil"
-	entgoQuery "github.com/tx7do/go-utils/entgo/query"
-	entgoUpdate "github.com/tx7do/go-utils/entgo/update"
-	"github.com/tx7do/go-utils/fieldmaskutil"
 	"github.com/tx7do/go-utils/mapper"
 	"github.com/tx7do/go-utils/timeutil"
-	pagination "github.com/tx7do/kratos-bootstrap/api/gen/go/pagination/v1"
 
 	userV1 "kratos-admin/api/gen/go/user/service/v1"
-	"kratos-admin/app/admin/service/internal/data/ent"
-	"kratos-admin/app/admin/service/internal/data/ent/role"
 )
 
 type RoleRepo struct {
@@ -29,6 +25,15 @@ type RoleRepo struct {
 
 	mapper          *mapper.CopierMapper[userV1.Role, ent.Role]
 	statusConverter *mapper.EnumTypeConverter[userV1.Role_Status, role.Status]
+
+	repository *entCrud.Repository[
+		ent.RoleQuery, ent.RoleSelect,
+		ent.RoleCreate, ent.RoleCreateBulk,
+		ent.RoleUpdate, ent.RoleUpdateOne,
+		ent.RoleDelete,
+		predicate.Role,
+		userV1.Role, ent.Role,
+	]
 }
 
 func NewRoleRepo(data *Data, logger log.Logger) *RoleRepo {
@@ -45,6 +50,15 @@ func NewRoleRepo(data *Data, logger log.Logger) *RoleRepo {
 }
 
 func (r *RoleRepo) init() {
+	r.repository = entCrud.NewRepository[
+		ent.RoleQuery, ent.RoleSelect,
+		ent.RoleCreate, ent.RoleCreateBulk,
+		ent.RoleUpdate, ent.RoleUpdateOne,
+		ent.RoleDelete,
+		predicate.Role,
+		userV1.Role, ent.Role,
+	](r.mapper)
+
 	r.mapper.AppendConverters(copierutil.NewTimeStringConverterPair())
 	r.mapper.AppendConverters(copierutil.NewTimeTimestamppbConverterPair())
 
@@ -73,42 +87,18 @@ func (r *RoleRepo) List(ctx context.Context, req *pagination.PagingRequest) (*us
 
 	builder := r.data.db.Client().Role.Query()
 
-	err, whereSelectors, querySelectors := entgoQuery.BuildQuerySelector(
-		req.GetQuery(), req.GetOrQuery(),
-		req.GetPage(), req.GetPageSize(), req.GetNoPaging(),
-		req.GetOrderBy(), role.FieldCreatedAt,
-		req.GetFieldMask().GetPaths(),
-	)
-	if err != nil {
-		r.log.Errorf("parse list param error [%s]", err.Error())
-		return nil, userV1.ErrorBadRequest("invalid query parameter")
-	}
-
-	if querySelectors != nil {
-		builder.Modify(querySelectors...)
-	}
-
-	entities, err := builder.All(ctx)
-	if err != nil {
-		r.log.Errorf("query list failed: %s", err.Error())
-		return nil, userV1.ErrorInternalServerError("query list failed")
-	}
-
-	dtos := make([]*userV1.Role, 0, len(entities))
-	for _, entity := range entities {
-		dto := r.mapper.ToDTO(entity)
-		dtos = append(dtos, dto)
-	}
-
-	count, err := r.Count(ctx, whereSelectors)
+	ret, err := r.repository.ListWithPaging(ctx, builder, builder.Clone(), req)
 	if err != nil {
 		return nil, err
 	}
+	if ret == nil {
+		return &userV1.ListRoleResponse{Total: 0, Items: nil}, nil
+	}
 
 	return &userV1.ListRoleResponse{
-		Total: uint32(count),
-		Items: dtos,
-	}, err
+		Total: ret.Total,
+		Items: ret.Items,
+	}, nil
 }
 
 func (r *RoleRepo) IsExist(ctx context.Context, id uint32) (bool, error) {
@@ -129,22 +119,19 @@ func (r *RoleRepo) Get(ctx context.Context, req *userV1.GetRoleRequest) (*userV1
 
 	builder := r.data.db.Client().Role.Query()
 
-	builder.Where(role.IDEQ(req.GetId()))
-
-	entgoQuery.ApplyFieldMaskToBuilder(builder, req.ViewMask)
-
-	entity, err := builder.Only(ctx)
-	if err != nil {
-		if ent.IsNotFound(err) {
-			return nil, userV1.ErrorRoleNotFound("role not found")
-		}
-
-		r.log.Errorf("query one data failed: %s", err.Error())
-
-		return nil, userV1.ErrorInternalServerError("query data failed")
+	var whereCond []func(s *sql.Selector)
+	switch req.QueryBy.(type) {
+	default:
+	case *userV1.GetRoleRequest_Id:
+		whereCond = append(whereCond, role.IDEQ(req.GetId()))
 	}
 
-	return r.mapper.ToDTO(entity), nil
+	dto, err := r.repository.Get(ctx, builder, req.GetViewMask(), whereCond...)
+	if err != nil {
+		return nil, err
+	}
+
+	return dto, err
 }
 
 // GetRoleByCode 通过角色编码获取角色信息
@@ -299,40 +286,36 @@ func (r *RoleRepo) Update(ctx context.Context, req *userV1.UpdateRoleRequest) er
 		}
 	}
 
-	if err := fieldmaskutil.FilterByFieldMask(trans.Ptr(proto.Message(req.GetData())), req.UpdateMask); err != nil {
-		r.log.Errorf("invalid field mask [%v], error: %s", req.UpdateMask, err.Error())
-		return userV1.ErrorBadRequest("invalid field mask")
-	}
+	builder := r.data.db.Client().Debug().Role.Update()
+	err := r.repository.UpdateX(ctx, builder, req.Data, req.GetUpdateMask(),
+		func(dto *userV1.Role) {
+			builder.
+				SetNillableName(req.Data.Name).
+				SetNillableParentID(req.Data.ParentId).
+				SetNillableSortOrder(req.Data.SortOrder).
+				SetNillableCode(req.Data.Code).
+				SetNillableRemark(req.Data.Remark).
+				SetNillableStatus(r.statusConverter.ToEntity(req.Data.Status)).
+				SetNillableUpdatedBy(req.Data.UpdatedBy).
+				SetNillableUpdatedAt(timeutil.TimestamppbToTime(req.Data.UpdatedAt))
 
-	builder := r.data.db.Client().Role.UpdateOneID(req.Data.GetId()).
-		SetNillableName(req.Data.Name).
-		SetNillableParentID(req.Data.ParentId).
-		SetNillableSortOrder(req.Data.SortOrder).
-		SetNillableCode(req.Data.Code).
-		SetNillableRemark(req.Data.Remark).
-		SetNillableStatus(r.statusConverter.ToEntity(req.Data.Status)).
-		SetNillableUpdatedBy(req.Data.UpdatedBy).
-		SetNillableUpdatedAt(timeutil.TimestamppbToTime(req.Data.UpdatedAt))
+			if req.Data.UpdatedAt == nil {
+				builder.SetUpdatedAt(time.Now())
+			}
 
-	if req.Data.UpdatedAt == nil {
-		builder.SetUpdatedAt(time.Now())
-	}
+			if req.Data.Menus != nil {
+				builder.SetMenus(req.Data.Menus)
+			}
+			if req.Data.Apis != nil {
+				builder.SetApis(req.Data.Apis)
+			}
+		},
+		func(s *sql.Selector) {
+			s.Where(sql.EQ(role.FieldID, req.Data.GetId()))
+		},
+	)
 
-	if req.Data.Menus != nil {
-		builder.SetMenus(req.Data.Menus)
-	}
-	if req.Data.Apis != nil {
-		builder.SetApis(req.Data.Apis)
-	}
-
-	entgoUpdate.ApplyNilFieldMask(proto.Message(req.GetData()), req.UpdateMask, builder)
-
-	if err := builder.Exec(ctx); err != nil {
-		r.log.Errorf("update one data failed: %s", err.Error())
-		return userV1.ErrorInternalServerError("update data failed")
-	}
-
-	return nil
+	return err
 }
 
 func (r *RoleRepo) Delete(ctx context.Context, req *userV1.DeleteRoleRequest) error {
@@ -340,7 +323,7 @@ func (r *RoleRepo) Delete(ctx context.Context, req *userV1.DeleteRoleRequest) er
 		return userV1.ErrorBadRequest("invalid parameter")
 	}
 
-	ids, err := entgo.QueryAllChildrenIds(ctx, r.data.db, "sys_roles", req.GetId())
+	ids, err := entCrud.QueryAllChildrenIds(ctx, r.data.db, "sys_roles", req.GetId())
 	if err != nil {
 		r.log.Errorf("query child roles failed: %s", err.Error())
 		return userV1.ErrorInternalServerError("query child roles failed")

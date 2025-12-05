@@ -8,7 +8,7 @@ package servicev1
 
 import (
 	_ "github.com/google/gnostic/openapiv3"
-	v1 "github.com/tx7do/kratos-bootstrap/api/gen/go/pagination/v1"
+	v1 "github.com/tx7do/go-crud/api/gen/go/pagination/v1"
 	_ "google.golang.org/genproto/googleapis/api/annotations"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
@@ -230,7 +230,7 @@ func (x *ApiResource) GetDeletedAt() *timestamppb.Timestamp {
 type ListApiResourceResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Items         []*ApiResource         `protobuf:"bytes,1,rep,name=items,proto3" json:"items,omitempty"`
-	Total         uint32                 `protobuf:"varint,2,opt,name=total,proto3" json:"total,omitempty"`
+	Total         uint64                 `protobuf:"varint,2,opt,name=total,proto3" json:"total,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -272,7 +272,7 @@ func (x *ListApiResourceResponse) GetItems() []*ApiResource {
 	return nil
 }
 
-func (x *ListApiResourceResponse) GetTotal() uint32 {
+func (x *ListApiResourceResponse) GetTotal() uint64 {
 	if x != nil {
 		return x.Total
 	}
@@ -281,9 +281,12 @@ func (x *ListApiResourceResponse) GetTotal() uint32 {
 
 // 查询 - 请求
 type GetApiResourceRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            uint32                 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
-	ViewMask      *fieldmaskpb.FieldMask `protobuf:"bytes,100,opt,name=view_mask,json=viewMask,proto3,oneof" json:"view_mask,omitempty"` // 视图字段过滤器，用于控制返回的字段
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Types that are valid to be assigned to QueryBy:
+	//
+	//	*GetApiResourceRequest_Id
+	QueryBy       isGetApiResourceRequest_QueryBy `protobuf_oneof:"query_by"`
+	ViewMask      *fieldmaskpb.FieldMask          `protobuf:"bytes,100,opt,name=view_mask,json=viewMask,proto3,oneof" json:"view_mask,omitempty"` // 视图字段过滤器，用于控制返回的字段
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -318,9 +321,18 @@ func (*GetApiResourceRequest) Descriptor() ([]byte, []int) {
 	return file_admin_service_v1_i_api_resource_proto_rawDescGZIP(), []int{2}
 }
 
+func (x *GetApiResourceRequest) GetQueryBy() isGetApiResourceRequest_QueryBy {
+	if x != nil {
+		return x.QueryBy
+	}
+	return nil
+}
+
 func (x *GetApiResourceRequest) GetId() uint32 {
 	if x != nil {
-		return x.Id
+		if x, ok := x.QueryBy.(*GetApiResourceRequest_Id); ok {
+			return x.Id
+		}
 	}
 	return 0
 }
@@ -331,6 +343,16 @@ func (x *GetApiResourceRequest) GetViewMask() *fieldmaskpb.FieldMask {
 	}
 	return nil
 }
+
+type isGetApiResourceRequest_QueryBy interface {
+	isGetApiResourceRequest_QueryBy()
+}
+
+type GetApiResourceRequest_Id struct {
+	Id uint32 `protobuf:"varint,1,opt,name=id,proto3,oneof"` // ID
+}
+
+func (*GetApiResourceRequest_Id) isGetApiResourceRequest_QueryBy() {}
 
 // 创建 - 请求
 type CreateApiResourceRequest struct {
@@ -531,10 +553,13 @@ const file_admin_service_v1_i_api_resource_proto_rawDesc = "" +
 	"\v_deleted_at\"d\n" +
 	"\x17ListApiResourceResponse\x123\n" +
 	"\x05items\x18\x01 \x03(\v2\x1d.admin.service.v1.ApiResourceR\x05items\x12\x14\n" +
-	"\x05total\x18\x02 \x01(\rR\x05total\"\xae\x01\n" +
-	"\x15GetApiResourceRequest\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\rR\x02id\x12w\n" +
-	"\tview_mask\x18d \x01(\v2\x1a.google.protobuf.FieldMaskB9\xbaG6\x92\x023视图字段过滤器，用于控制返回的字段H\x00R\bviewMask\x88\x01\x01B\f\n" +
+	"\x05total\x18\x02 \x01(\x04R\x05total\"\xc8\x01\n" +
+	"\x15GetApiResourceRequest\x12\x1c\n" +
+	"\x02id\x18\x01 \x01(\rB\n" +
+	"\xbaG\a\x18\x01\x92\x02\x02IDH\x00R\x02id\x12w\n" +
+	"\tview_mask\x18d \x01(\v2\x1a.google.protobuf.FieldMaskB9\xbaG6\x92\x023视图字段过滤器，用于控制返回的字段H\x01R\bviewMask\x88\x01\x01B\n" +
+	"\n" +
+	"\bquery_byB\f\n" +
 	"\n" +
 	"_view_mask\"M\n" +
 	"\x18CreateApiResourceRequest\x121\n" +
@@ -621,7 +646,9 @@ func file_admin_service_v1_i_api_resource_proto_init() {
 		return
 	}
 	file_admin_service_v1_i_api_resource_proto_msgTypes[0].OneofWrappers = []any{}
-	file_admin_service_v1_i_api_resource_proto_msgTypes[2].OneofWrappers = []any{}
+	file_admin_service_v1_i_api_resource_proto_msgTypes[2].OneofWrappers = []any{
+		(*GetApiResourceRequest_Id)(nil),
+	}
 	file_admin_service_v1_i_api_resource_proto_msgTypes[4].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{

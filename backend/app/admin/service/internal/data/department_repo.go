@@ -5,22 +5,17 @@ import (
 	"sort"
 	"time"
 
-	"entgo.io/ent/dialect/sql"
-	"github.com/go-kratos/kratos/v2/log"
-	"github.com/tx7do/go-utils/entgo"
-	"github.com/tx7do/go-utils/trans"
-	"google.golang.org/protobuf/proto"
-
-	"github.com/tx7do/go-utils/copierutil"
-	entgoQuery "github.com/tx7do/go-utils/entgo/query"
-	entgoUpdate "github.com/tx7do/go-utils/entgo/update"
-	"github.com/tx7do/go-utils/fieldmaskutil"
-	"github.com/tx7do/go-utils/mapper"
-	"github.com/tx7do/go-utils/timeutil"
-	pagination "github.com/tx7do/kratos-bootstrap/api/gen/go/pagination/v1"
-
 	"kratos-admin/app/admin/service/internal/data/ent"
 	"kratos-admin/app/admin/service/internal/data/ent/department"
+	"kratos-admin/app/admin/service/internal/data/ent/predicate"
+
+	"entgo.io/ent/dialect/sql"
+	"github.com/go-kratos/kratos/v2/log"
+	pagination "github.com/tx7do/go-crud/api/gen/go/pagination/v1"
+	entCrud "github.com/tx7do/go-crud/entgo"
+	"github.com/tx7do/go-utils/copierutil"
+	"github.com/tx7do/go-utils/mapper"
+	"github.com/tx7do/go-utils/timeutil"
 
 	userV1 "kratos-admin/api/gen/go/user/service/v1"
 )
@@ -31,6 +26,15 @@ type DepartmentRepo struct {
 
 	mapper          *mapper.CopierMapper[userV1.Department, ent.Department]
 	statusConverter *mapper.EnumTypeConverter[userV1.Department_Status, department.Status]
+
+	repository *entCrud.Repository[
+		ent.DepartmentQuery, ent.DepartmentSelect,
+		ent.DepartmentCreate, ent.DepartmentCreateBulk,
+		ent.DepartmentUpdate, ent.DepartmentUpdateOne,
+		ent.DepartmentDelete,
+		predicate.Department,
+		userV1.Department, ent.Department,
+	]
 }
 
 func NewDepartmentRepo(data *Data, logger log.Logger) *DepartmentRepo {
@@ -47,37 +51,19 @@ func NewDepartmentRepo(data *Data, logger log.Logger) *DepartmentRepo {
 }
 
 func (r *DepartmentRepo) init() {
+	r.repository = entCrud.NewRepository[
+		ent.DepartmentQuery, ent.DepartmentSelect,
+		ent.DepartmentCreate, ent.DepartmentCreateBulk,
+		ent.DepartmentUpdate, ent.DepartmentUpdateOne,
+		ent.DepartmentDelete,
+		predicate.Department,
+		userV1.Department, ent.Department,
+	](r.mapper)
+
 	r.mapper.AppendConverters(copierutil.NewTimeStringConverterPair())
 	r.mapper.AppendConverters(copierutil.NewTimeTimestamppbConverterPair())
 
 	r.mapper.AppendConverters(r.statusConverter.NewConverterPair())
-}
-
-func (r *DepartmentRepo) travelChild(nodes []*userV1.Department, node *userV1.Department) bool {
-	if nodes == nil {
-		return false
-	}
-
-	if node.ParentId == nil {
-		nodes = append(nodes, node)
-		return true
-	}
-
-	for _, n := range nodes {
-		if node.ParentId == nil {
-			continue
-		}
-
-		if n.GetId() == node.GetParentId() {
-			n.Children = append(n.Children, node)
-			return true
-		} else {
-			if r.travelChild(n.Children, node) {
-				return true
-			}
-		}
-	}
-	return false
 }
 
 func (r *DepartmentRepo) Count(ctx context.Context, whereCond []func(s *sql.Selector)) (int, error) {
@@ -102,19 +88,10 @@ func (r *DepartmentRepo) List(ctx context.Context, req *pagination.PagingRequest
 
 	builder := r.data.db.Client().Department.Query()
 
-	err, whereSelectors, querySelectors := entgoQuery.BuildQuerySelector(
-		req.GetQuery(), req.GetOrQuery(),
-		req.GetPage(), req.GetPageSize(), req.GetNoPaging(),
-		req.GetOrderBy(), department.FieldCreatedAt,
-		req.GetFieldMask().GetPaths(),
-	)
+	whereSelectors, _, err := r.repository.BuildListSelectorWithPaging(builder, req)
 	if err != nil {
 		r.log.Errorf("parse list param error [%s]", err.Error())
 		return nil, userV1.ErrorBadRequest("invalid query parameter")
-	}
-
-	if querySelectors != nil {
-		builder.Modify(querySelectors...)
 	}
 
 	entities, err := builder.All(ctx)
@@ -145,7 +122,9 @@ func (r *DepartmentRepo) List(ctx context.Context, req *pagination.PagingRequest
 		if entity.ParentID != nil {
 			dto := r.mapper.ToDTO(entity)
 
-			if r.travelChild(dtos, dto) {
+			if entCrud.TravelChild(&dtos, dto, func(parent *userV1.Department, node *userV1.Department) {
+				parent.Children = append(parent.Children, node)
+			}) {
 				continue
 			}
 
@@ -159,7 +138,7 @@ func (r *DepartmentRepo) List(ctx context.Context, req *pagination.PagingRequest
 	}
 
 	ret := userV1.ListDepartmentResponse{
-		Total: uint32(count),
+		Total: uint64(count),
 		Items: dtos,
 	}
 
@@ -184,22 +163,19 @@ func (r *DepartmentRepo) Get(ctx context.Context, req *userV1.GetDepartmentReque
 
 	builder := r.data.db.Client().Department.Query()
 
-	builder.Where(department.IDEQ(req.GetId()))
-
-	entgoQuery.ApplyFieldMaskToBuilder(builder, req.ViewMask)
-
-	entity, err := builder.Only(ctx)
-	if err != nil {
-		if ent.IsNotFound(err) {
-			return nil, userV1.ErrorDepartmentNotFound("department not found")
-		}
-
-		r.log.Errorf("query one data failed: %s", err.Error())
-
-		return nil, userV1.ErrorInternalServerError("query data failed")
+	var whereCond []func(s *sql.Selector)
+	switch req.QueryBy.(type) {
+	default:
+	case *userV1.GetDepartmentRequest_Id:
+		whereCond = append(whereCond, department.IDEQ(req.GetId()))
 	}
 
-	return r.mapper.ToDTO(entity), nil
+	dto, err := r.repository.Get(ctx, builder, req.GetViewMask(), whereCond...)
+	if err != nil {
+		return nil, err
+	}
+
+	return dto, err
 }
 
 // GetDepartmentsByIds 通过多个ID获取部门信息列表
@@ -280,38 +256,33 @@ func (r *DepartmentRepo) Update(ctx context.Context, req *userV1.UpdateDepartmen
 		}
 	}
 
-	if err := fieldmaskutil.FilterByFieldMask(trans.Ptr(proto.Message(req.GetData())), req.UpdateMask); err != nil {
-		r.log.Errorf("invalid field mask [%v], error: %s", req.UpdateMask, err.Error())
-		return userV1.ErrorBadRequest("invalid field mask")
-	}
+	builder := r.data.db.Client().Debug().Department.Update()
+	err := r.repository.UpdateX(ctx, builder, req.Data, req.GetUpdateMask(),
+		func(dto *userV1.Department) {
+			builder.
+				SetNillableName(req.Data.Name).
+				SetNillableParentID(req.Data.ParentId).
+				SetNillableSortOrder(req.Data.SortOrder).
+				SetNillableRemark(req.Data.Remark).
+				SetNillableStatus(r.statusConverter.ToEntity(req.Data.Status)).
+				SetNillableDescription(req.Data.Description).
+				SetNillableUpdatedBy(req.Data.UpdatedBy).
+				SetNillableUpdatedAt(timeutil.TimestamppbToTime(req.Data.UpdatedAt))
 
-	builder := r.data.db.Client().Department.
-		UpdateOneID(req.Data.GetId()).
-		SetNillableName(req.Data.Name).
-		SetNillableParentID(req.Data.ParentId).
-		SetNillableSortOrder(req.Data.SortOrder).
-		SetNillableRemark(req.Data.Remark).
-		SetNillableStatus(r.statusConverter.ToEntity(req.Data.Status)).
-		SetNillableDescription(req.Data.Description).
-		SetNillableUpdatedBy(req.Data.UpdatedBy).
-		SetNillableUpdatedAt(timeutil.TimestamppbToTime(req.Data.UpdatedAt))
+			if req.Data.UpdatedAt == nil {
+				builder.SetUpdatedAt(time.Now())
+			}
 
-	if req.Data.UpdatedAt == nil {
-		builder.SetUpdatedAt(time.Now())
-	}
+			if req.Data.OrganizationId == nil {
+				builder.SetOrganizationID(req.Data.GetOrganizationId())
+			}
+		},
+		func(s *sql.Selector) {
+			s.Where(sql.EQ(department.FieldID, req.Data.GetId()))
+		},
+	)
 
-	if req.Data.OrganizationId == nil {
-		builder.SetOrganizationID(req.Data.GetOrganizationId())
-	}
-
-	entgoUpdate.ApplyNilFieldMask(proto.Message(req.GetData()), req.UpdateMask, builder)
-
-	if err := builder.Exec(ctx); err != nil {
-		r.log.Errorf("update one data failed: %s", err.Error())
-		return userV1.ErrorInternalServerError("update data failed")
-	}
-
-	return nil
+	return err
 }
 
 func (r *DepartmentRepo) Delete(ctx context.Context, req *userV1.DeleteDepartmentRequest) error {
@@ -319,7 +290,7 @@ func (r *DepartmentRepo) Delete(ctx context.Context, req *userV1.DeleteDepartmen
 		return userV1.ErrorBadRequest("invalid parameter")
 	}
 
-	ids, err := entgo.QueryAllChildrenIds(ctx, r.data.db, "sys_departments", req.GetId())
+	ids, err := entCrud.QueryAllChildrenIds(ctx, r.data.db, "sys_departments", req.GetId())
 	if err != nil {
 		r.log.Errorf("query child departments failed: %s", err.Error())
 		return userV1.ErrorInternalServerError("query child departments failed")
@@ -328,11 +299,14 @@ func (r *DepartmentRepo) Delete(ctx context.Context, req *userV1.DeleteDepartmen
 
 	//r.log.Info("department ids to delete: ", ids)
 
-	if _, err = r.data.db.Client().Department.Delete().
-		Where(department.IDIn(ids...)).
-		Exec(ctx); err != nil {
-		r.log.Errorf("delete departments failed: %s", err.Error())
-		return userV1.ErrorInternalServerError("delete departments failed")
+	builder := r.data.db.Client().Debug().Department.Delete()
+
+	_, err = r.repository.Delete(ctx, builder, func(s *sql.Selector) {
+		s.Where(sql.In(department.FieldID, ids))
+	})
+	if err != nil {
+		r.log.Errorf("delete department failed: %s", err.Error())
+		return userV1.ErrorInternalServerError("delete department failed")
 	}
 
 	return nil

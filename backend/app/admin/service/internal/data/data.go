@@ -7,7 +7,7 @@ import (
 	authnEngine "github.com/tx7do/kratos-authn/engine"
 	"github.com/tx7do/kratos-authn/engine/jwt"
 
-	"github.com/tx7do/go-utils/entgo"
+	"github.com/tx7do/go-crud/entgo"
 	"github.com/tx7do/go-utils/password"
 
 	conf "github.com/tx7do/kratos-bootstrap/api/gen/go/conf/v1"

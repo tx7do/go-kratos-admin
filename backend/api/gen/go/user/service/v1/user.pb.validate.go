@@ -548,7 +548,7 @@ func (m *GetUserRequest) validate(all bool) error {
 			errors = append(errors, err)
 		}
 		// no validation rules for Id
-	case *GetUserRequest_Username:
+	case *GetUserRequest_UserName:
 		if v == nil {
 			err := GetUserRequestValidationError{
 				field:  "QueryBy",
@@ -559,7 +559,7 @@ func (m *GetUserRequest) validate(all bool) error {
 			}
 			errors = append(errors, err)
 		}
-		// no validation rules for Username
+		// no validation rules for UserName
 	default:
 		_ = v // ensures v is used
 	}

@@ -4,21 +4,18 @@ import (
 	"context"
 	"time"
 
-	"entgo.io/ent/dialect/sql"
-	"github.com/go-kratos/kratos/v2/log"
-	"github.com/tx7do/go-utils/copierutil"
-	entgoQuery "github.com/tx7do/go-utils/entgo/query"
-	entgoUpdate "github.com/tx7do/go-utils/entgo/update"
-	"github.com/tx7do/go-utils/fieldmaskutil"
-	"github.com/tx7do/go-utils/mapper"
-	"github.com/tx7do/go-utils/timeutil"
-	"github.com/tx7do/go-utils/trans"
-	pagination "github.com/tx7do/kratos-bootstrap/api/gen/go/pagination/v1"
-	"google.golang.org/protobuf/proto"
-
 	"kratos-admin/app/admin/service/internal/data/ent"
+	"kratos-admin/app/admin/service/internal/data/ent/predicate"
 	_ "kratos-admin/app/admin/service/internal/data/ent/runtime"
 	"kratos-admin/app/admin/service/internal/data/ent/user"
+
+	"entgo.io/ent/dialect/sql"
+	"github.com/go-kratos/kratos/v2/log"
+	pagination "github.com/tx7do/go-crud/api/gen/go/pagination/v1"
+	entCrud "github.com/tx7do/go-crud/entgo"
+	"github.com/tx7do/go-utils/copierutil"
+	"github.com/tx7do/go-utils/mapper"
+	"github.com/tx7do/go-utils/timeutil"
 
 	userV1 "kratos-admin/api/gen/go/user/service/v1"
 )
@@ -31,6 +28,15 @@ type UserRepo struct {
 	statusConverter    *mapper.EnumTypeConverter[userV1.User_Status, user.Status]
 	genderConverter    *mapper.EnumTypeConverter[userV1.User_Gender, user.Gender]
 	authorityConverter *mapper.EnumTypeConverter[userV1.User_Authority, user.Authority]
+
+	repository *entCrud.Repository[
+		ent.UserQuery, ent.UserSelect,
+		ent.UserCreate, ent.UserCreateBulk,
+		ent.UserUpdate, ent.UserUpdateOne,
+		ent.UserDelete,
+		predicate.User,
+		userV1.User, ent.User,
+	]
 }
 
 func NewUserRepo(logger log.Logger, data *Data) *UserRepo {
@@ -49,6 +55,15 @@ func NewUserRepo(logger log.Logger, data *Data) *UserRepo {
 }
 
 func (r *UserRepo) init() {
+	r.repository = entCrud.NewRepository[
+		ent.UserQuery, ent.UserSelect,
+		ent.UserCreate, ent.UserCreateBulk,
+		ent.UserUpdate, ent.UserUpdateOne,
+		ent.UserDelete,
+		predicate.User,
+		userV1.User, ent.User,
+	](r.mapper)
+
 	r.mapper.AppendConverters(copierutil.NewTimeStringConverterPair())
 	r.mapper.AppendConverters(copierutil.NewTimeTimestamppbConverterPair())
 
@@ -79,41 +94,17 @@ func (r *UserRepo) List(ctx context.Context, req *pagination.PagingRequest) (*us
 
 	builder := r.data.db.Client().User.Query()
 
-	err, whereSelectors, querySelectors := entgoQuery.BuildQuerySelector(
-		req.GetQuery(), req.GetOrQuery(),
-		req.GetPage(), req.GetPageSize(), req.GetNoPaging(),
-		req.GetOrderBy(), user.FieldCreatedAt,
-		req.GetFieldMask().GetPaths(),
-	)
-	if err != nil {
-		r.log.Errorf("parse list param error [%s]", err.Error())
-		return nil, userV1.ErrorBadRequest("invalid query parameter")
-	}
-
-	if querySelectors != nil {
-		builder.Modify(querySelectors...)
-	}
-
-	entities, err := builder.All(ctx)
-	if err != nil {
-		r.log.Errorf("query list failed: %s", err.Error())
-		return nil, userV1.ErrorInternalServerError("query list failed")
-	}
-
-	dtos := make([]*userV1.User, 0, len(entities))
-	for _, entity := range entities {
-		dto := r.mapper.ToDTO(entity)
-		dtos = append(dtos, dto)
-	}
-
-	count, err := r.Count(ctx, whereSelectors)
+	ret, err := r.repository.ListWithPaging(ctx, builder, builder.Clone(), req)
 	if err != nil {
 		return nil, err
 	}
+	if ret == nil {
+		return &userV1.ListUserResponse{Total: 0, Items: nil}, nil
+	}
 
 	return &userV1.ListUserResponse{
-		Total: uint32(count),
-		Items: dtos,
+		Total: ret.Total,
+		Items: ret.Items,
 	}, nil
 }
 
@@ -135,29 +126,22 @@ func (r *UserRepo) Get(ctx context.Context, req *userV1.GetUserRequest) (*userV1
 
 	builder := r.data.db.Client().User.Query()
 
-	switch req.GetQueryBy().(type) {
+	var whereCond []func(s *sql.Selector)
+	switch req.QueryBy.(type) {
 	case *userV1.GetUserRequest_Id:
-		builder.Where(user.IDEQ(req.GetId()))
-	case *userV1.GetUserRequest_Username:
-		builder.Where(user.UsernameEQ(req.GetUsername()))
+		whereCond = append(whereCond, user.IDEQ(req.GetId()))
+	case *userV1.GetUserRequest_UserName:
+		whereCond = append(whereCond, user.UsernameEQ(req.GetUserName()))
 	default:
-		return nil, userV1.ErrorBadRequest("invalid query parameter")
+		whereCond = append(whereCond, user.IDEQ(req.GetId()))
 	}
 
-	entgoQuery.ApplyFieldMaskToBuilder(builder, req.ViewMask)
-
-	entity, err := builder.Only(ctx)
+	dto, err := r.repository.Get(ctx, builder, req.GetViewMask(), whereCond...)
 	if err != nil {
-		if ent.IsNotFound(err) {
-			return nil, userV1.ErrorUserNotFound("user not found")
-		}
-
-		r.log.Errorf("query one data failed: %s", err.Error())
-
-		return nil, userV1.ErrorInternalServerError("query data failed")
+		return nil, err
 	}
 
-	return r.mapper.ToDTO(entity), nil
+	return dto, err
 }
 
 func (r *UserRepo) Create(ctx context.Context, req *userV1.CreateUserRequest) (*userV1.User, error) {
@@ -240,65 +224,50 @@ func (r *UserRepo) Update(ctx context.Context, req *userV1.UpdateUserRequest) er
 		}
 	}
 
-	if req.UpdateMask != nil {
-		for i := 0; i < len(req.UpdateMask.GetPaths()); i++ {
-			if req.UpdateMask.Paths[i] == "password" {
-				req.UpdateMask.Paths = append(req.UpdateMask.Paths[:i], req.UpdateMask.Paths[i+1:]...)
-				i = i - 1
-				continue
+	builder := r.data.db.Client().Debug().User.Update()
+	err := r.repository.UpdateX(ctx, builder, req.Data, req.GetUpdateMask(),
+		func(dto *userV1.User) {
+			builder.
+				SetNillableNickname(req.Data.Nickname).
+				SetNillableRealname(req.Data.Realname).
+				SetNillableAvatar(req.Data.Avatar).
+				SetNillableEmail(req.Data.Email).
+				SetNillableMobile(req.Data.Mobile).
+				SetNillableTelephone(req.Data.Telephone).
+				SetNillableRegion(req.Data.Region).
+				SetNillableAddress(req.Data.Address).
+				SetNillableDescription(req.Data.Description).
+				SetNillableRemark(req.Data.Remark).
+				SetNillableLastLoginTime(timeutil.TimestamppbToTime(req.Data.LastLoginTime)).
+				SetNillableLastLoginIP(req.Data.LastLoginIp).
+				SetNillableStatus(r.statusConverter.ToEntity(req.Data.Status)).
+				SetNillableGender(r.genderConverter.ToEntity(req.Data.Gender)).
+				//SetNillableAuthority(r.authorityConverter.ToEntity(req.Data.Authority)).
+				SetNillableOrgID(req.Data.OrgId).
+				SetNillableDepartmentID(req.Data.DepartmentId).
+				SetNillablePositionID(req.Data.PositionId).
+				SetNillableWorkID(req.Data.WorkId).
+				SetNillableUpdatedBy(req.Data.UpdatedBy).
+				SetNillableUpdatedAt(timeutil.TimestamppbToTime(req.Data.UpdatedAt))
+
+			if req.Data.UpdatedAt == nil {
+				builder.SetUpdatedAt(time.Now())
 			}
-		}
-	}
 
-	if err := fieldmaskutil.FilterByFieldMask(trans.Ptr(proto.Message(req.GetData())), req.UpdateMask); err != nil {
-		r.log.Errorf("invalid field mask [%v], error: %s", req.UpdateMask, err.Error())
-		return userV1.ErrorBadRequest("invalid field mask")
-	}
+			if req.Data.RoleIds != nil {
+				var roleIds []int
+				for _, roleId := range req.Data.GetRoleIds() {
+					roleIds = append(roleIds, int(roleId))
+				}
+				builder.SetRoleIds(roleIds)
+			}
+		},
+		func(s *sql.Selector) {
+			s.Where(sql.EQ(user.FieldID, req.Data.GetId()))
+		},
+	)
 
-	builder := r.data.db.Client().User.
-		UpdateOneID(req.Data.GetId()).
-		SetNillableNickname(req.Data.Nickname).
-		SetNillableRealname(req.Data.Realname).
-		SetNillableAvatar(req.Data.Avatar).
-		SetNillableEmail(req.Data.Email).
-		SetNillableMobile(req.Data.Mobile).
-		SetNillableTelephone(req.Data.Telephone).
-		SetNillableRegion(req.Data.Region).
-		SetNillableAddress(req.Data.Address).
-		SetNillableDescription(req.Data.Description).
-		SetNillableRemark(req.Data.Remark).
-		SetNillableLastLoginTime(timeutil.TimestamppbToTime(req.Data.LastLoginTime)).
-		SetNillableLastLoginIP(req.Data.LastLoginIp).
-		SetNillableStatus(r.statusConverter.ToEntity(req.Data.Status)).
-		SetNillableGender(r.genderConverter.ToEntity(req.Data.Gender)).
-		//SetNillableAuthority(r.authorityConverter.ToEntity(req.Data.Authority)).
-		SetNillableOrgID(req.Data.OrgId).
-		SetNillableDepartmentID(req.Data.DepartmentId).
-		SetNillablePositionID(req.Data.PositionId).
-		SetNillableWorkID(req.Data.WorkId).
-		SetNillableUpdatedBy(req.Data.UpdatedBy).
-		SetNillableUpdatedAt(timeutil.TimestamppbToTime(req.Data.UpdatedAt))
-
-	if req.Data.UpdatedAt == nil {
-		builder.SetUpdatedAt(time.Now())
-	}
-
-	if req.Data.RoleIds != nil {
-		var roleIds []int
-		for _, roleId := range req.Data.GetRoleIds() {
-			roleIds = append(roleIds, int(roleId))
-		}
-		builder.SetRoleIds(roleIds)
-	}
-
-	entgoUpdate.ApplyNilFieldMask(proto.Message(req.GetData()), req.UpdateMask, builder)
-
-	if err := builder.Exec(ctx); err != nil {
-		r.log.Errorf("update one data failed: %s", err.Error())
-		return userV1.ErrorInternalServerError("update data failed")
-	}
-
-	return nil
+	return err
 }
 
 func (r *UserRepo) Delete(ctx context.Context, userId uint32) error {

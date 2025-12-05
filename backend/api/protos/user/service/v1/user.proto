@@ -181,7 +181,7 @@ message User {
 // 获取用户列表 - 答复
 message ListUserResponse {
   repeated User items = 1;
-  uint32 total = 2;
+  uint64 total = 2;
 }
 
 // 获取用户数据 - 请求
@@ -192,9 +192,9 @@ message GetUserRequest {
       json_name = "id"
     ]; // 用户ID
 
-    string username = 2 [
+    string user_name = 2 [
       (gnostic.openapi.v3.property) = {description: "用户登录名", read_only: true},
-      json_name = "username"
+      json_name = "userName"
     ]; // 用户登录名
   }
 

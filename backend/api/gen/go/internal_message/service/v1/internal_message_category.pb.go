@@ -8,7 +8,7 @@ package servicev1
 
 import (
 	_ "github.com/google/gnostic/openapiv3"
-	v1 "github.com/tx7do/kratos-bootstrap/api/gen/go/pagination/v1"
+	v1 "github.com/tx7do/go-crud/api/gen/go/pagination/v1"
 	_ "google.golang.org/genproto/googleapis/api/annotations"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
@@ -180,7 +180,7 @@ func (x *InternalMessageCategory) GetDeletedAt() *timestamppb.Timestamp {
 type ListInternalMessageCategoryResponse struct {
 	state         protoimpl.MessageState     `protogen:"open.v1"`
 	Items         []*InternalMessageCategory `protobuf:"bytes,1,rep,name=items,proto3" json:"items,omitempty"`
-	Total         uint32                     `protobuf:"varint,2,opt,name=total,proto3" json:"total,omitempty"`
+	Total         uint64                     `protobuf:"varint,2,opt,name=total,proto3" json:"total,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -222,7 +222,7 @@ func (x *ListInternalMessageCategoryResponse) GetItems() []*InternalMessageCateg
 	return nil
 }
 
-func (x *ListInternalMessageCategoryResponse) GetTotal() uint32 {
+func (x *ListInternalMessageCategoryResponse) GetTotal() uint64 {
 	if x != nil {
 		return x.Total
 	}
@@ -231,9 +231,12 @@ func (x *ListInternalMessageCategoryResponse) GetTotal() uint32 {
 
 // 查询站内信消息分类详情 - 请求
 type GetInternalMessageCategoryRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            uint32                 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
-	ViewMask      *fieldmaskpb.FieldMask `protobuf:"bytes,100,opt,name=view_mask,json=viewMask,proto3,oneof" json:"view_mask,omitempty"` // 视图字段过滤器，用于控制返回的字段
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Types that are valid to be assigned to QueryBy:
+	//
+	//	*GetInternalMessageCategoryRequest_Id
+	QueryBy       isGetInternalMessageCategoryRequest_QueryBy `protobuf_oneof:"query_by"`
+	ViewMask      *fieldmaskpb.FieldMask                      `protobuf:"bytes,100,opt,name=view_mask,json=viewMask,proto3,oneof" json:"view_mask,omitempty"` // 视图字段过滤器，用于控制返回的字段
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -268,9 +271,18 @@ func (*GetInternalMessageCategoryRequest) Descriptor() ([]byte, []int) {
 	return file_internal_message_service_v1_internal_message_category_proto_rawDescGZIP(), []int{2}
 }
 
+func (x *GetInternalMessageCategoryRequest) GetQueryBy() isGetInternalMessageCategoryRequest_QueryBy {
+	if x != nil {
+		return x.QueryBy
+	}
+	return nil
+}
+
 func (x *GetInternalMessageCategoryRequest) GetId() uint32 {
 	if x != nil {
-		return x.Id
+		if x, ok := x.QueryBy.(*GetInternalMessageCategoryRequest_Id); ok {
+			return x.Id
+		}
 	}
 	return 0
 }
@@ -281,6 +293,16 @@ func (x *GetInternalMessageCategoryRequest) GetViewMask() *fieldmaskpb.FieldMask
 	}
 	return nil
 }
+
+type isGetInternalMessageCategoryRequest_QueryBy interface {
+	isGetInternalMessageCategoryRequest_QueryBy()
+}
+
+type GetInternalMessageCategoryRequest_Id struct {
+	Id uint32 `protobuf:"varint,1,opt,name=id,proto3,oneof"` // ID
+}
+
+func (*GetInternalMessageCategoryRequest_Id) isGetInternalMessageCategoryRequest_QueryBy() {}
 
 // 创建站内信消息分类 - 请求
 type CreateInternalMessageCategoryRequest struct {
@@ -478,10 +500,13 @@ const file_internal_message_service_v1_internal_message_category_proto_rawDesc =
 	"\v_deleted_at\"\x87\x01\n" +
 	"#ListInternalMessageCategoryResponse\x12J\n" +
 	"\x05items\x18\x01 \x03(\v24.internal_message.service.v1.InternalMessageCategoryR\x05items\x12\x14\n" +
-	"\x05total\x18\x02 \x01(\rR\x05total\"\xba\x01\n" +
-	"!GetInternalMessageCategoryRequest\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\rR\x02id\x12w\n" +
-	"\tview_mask\x18d \x01(\v2\x1a.google.protobuf.FieldMaskB9\xbaG6\x92\x023视图字段过滤器，用于控制返回的字段H\x00R\bviewMask\x88\x01\x01B\f\n" +
+	"\x05total\x18\x02 \x01(\x04R\x05total\"\xd4\x01\n" +
+	"!GetInternalMessageCategoryRequest\x12\x1c\n" +
+	"\x02id\x18\x01 \x01(\rB\n" +
+	"\xbaG\a\x18\x01\x92\x02\x02IDH\x00R\x02id\x12w\n" +
+	"\tview_mask\x18d \x01(\v2\x1a.google.protobuf.FieldMaskB9\xbaG6\x92\x023视图字段过滤器，用于控制返回的字段H\x01R\bviewMask\x88\x01\x01B\n" +
+	"\n" +
+	"\bquery_byB\f\n" +
 	"\n" +
 	"_view_mask\"p\n" +
 	"$CreateInternalMessageCategoryRequest\x12H\n" +
@@ -560,7 +585,9 @@ func file_internal_message_service_v1_internal_message_category_proto_init() {
 		return
 	}
 	file_internal_message_service_v1_internal_message_category_proto_msgTypes[0].OneofWrappers = []any{}
-	file_internal_message_service_v1_internal_message_category_proto_msgTypes[2].OneofWrappers = []any{}
+	file_internal_message_service_v1_internal_message_category_proto_msgTypes[2].OneofWrappers = []any{
+		(*GetInternalMessageCategoryRequest_Id)(nil),
+	}
 	file_internal_message_service_v1_internal_message_category_proto_msgTypes[4].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{

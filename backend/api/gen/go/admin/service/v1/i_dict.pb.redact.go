@@ -6,7 +6,7 @@ package servicev1
 import (
 	context "context"
 	redact "github.com/menta2k/protoc-gen-redact/v3/redact/v3"
-	pagination "github.com/tx7do/kratos-bootstrap/api/gen/go/pagination/v1"
+	pagination "github.com/tx7do/go-crud/api/gen/go/pagination/v1"
 	annotations "google.golang.org/genproto/googleapis/api/annotations"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
@@ -28,7 +28,7 @@ var (
 	_ emptypb.Empty
 	_ timestamppb.Timestamp
 	_ fieldmaskpb.FieldMask
-	_ pagination.PagingRequest
+	_ pagination.Sorting
 	_ servicev1.DictType
 )
 

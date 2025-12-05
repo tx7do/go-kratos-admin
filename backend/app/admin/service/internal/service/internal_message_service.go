@@ -7,9 +7,9 @@ import (
 
 	"github.com/go-kratos/kratos/v2/log"
 	"github.com/google/uuid"
+	pagination "github.com/tx7do/go-crud/api/gen/go/pagination/v1"
 	"github.com/tx7do/go-utils/timeutil"
 	"github.com/tx7do/go-utils/trans"
-	pagination "github.com/tx7do/kratos-bootstrap/api/gen/go/pagination/v1"
 	"github.com/tx7do/kratos-transport/transport/sse"
 	"google.golang.org/protobuf/types/known/emptypb"
 
@@ -107,7 +107,9 @@ func (s *InternalMessageService) GetMessage(ctx context.Context, req *internalMe
 	}
 
 	if resp.CategoryId != nil {
-		category, err := s.internalMessageCategoryRepo.Get(ctx, &internalMessageV1.GetInternalMessageCategoryRequest{Id: resp.GetCategoryId()})
+		category, err := s.internalMessageCategoryRepo.Get(ctx, &internalMessageV1.GetInternalMessageCategoryRequest{
+			QueryBy: &internalMessageV1.GetInternalMessageCategoryRequest_Id{Id: resp.GetCategoryId()},
+		})
 		if err == nil && category != nil {
 			resp.CategoryName = category.Name
 		} else {

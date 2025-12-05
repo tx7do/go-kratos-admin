@@ -6,19 +6,17 @@ import (
 
 	"entgo.io/ent/dialect/sql"
 	"github.com/go-kratos/kratos/v2/log"
-	"github.com/tx7do/go-utils/trans"
-	"google.golang.org/protobuf/proto"
+
+	pagination "github.com/tx7do/go-crud/api/gen/go/pagination/v1"
+	entCrud "github.com/tx7do/go-crud/entgo"
 
 	"github.com/tx7do/go-utils/copierutil"
-	entgoQuery "github.com/tx7do/go-utils/entgo/query"
-	entgoUpdate "github.com/tx7do/go-utils/entgo/update"
-	"github.com/tx7do/go-utils/fieldmaskutil"
 	"github.com/tx7do/go-utils/mapper"
 	"github.com/tx7do/go-utils/timeutil"
-	pagination "github.com/tx7do/kratos-bootstrap/api/gen/go/pagination/v1"
 
 	"kratos-admin/app/admin/service/internal/data/ent"
 	"kratos-admin/app/admin/service/internal/data/ent/adminloginrestriction"
+	"kratos-admin/app/admin/service/internal/data/ent/predicate"
 
 	adminV1 "kratos-admin/api/gen/go/admin/service/v1"
 )
@@ -30,6 +28,15 @@ type AdminLoginRestrictionRepo struct {
 	mapper          *mapper.CopierMapper[adminV1.AdminLoginRestriction, ent.AdminLoginRestriction]
 	typeConverter   *mapper.EnumTypeConverter[adminV1.AdminLoginRestriction_Type, adminloginrestriction.Type]
 	methodConverter *mapper.EnumTypeConverter[adminV1.AdminLoginRestriction_Method, adminloginrestriction.Method]
+
+	repository *entCrud.Repository[
+		ent.AdminLoginRestrictionQuery, ent.AdminLoginRestrictionSelect,
+		ent.AdminLoginRestrictionCreate, ent.AdminLoginRestrictionCreateBulk,
+		ent.AdminLoginRestrictionUpdate, ent.AdminLoginRestrictionUpdateOne,
+		ent.AdminLoginRestrictionDelete,
+		predicate.AdminLoginRestriction,
+		adminV1.AdminLoginRestriction, ent.AdminLoginRestriction,
+	]
 }
 
 func NewAdminLoginRestrictionRepo(data *Data, logger log.Logger) *AdminLoginRestrictionRepo {
@@ -47,6 +54,15 @@ func NewAdminLoginRestrictionRepo(data *Data, logger log.Logger) *AdminLoginRest
 }
 
 func (r *AdminLoginRestrictionRepo) init() {
+	r.repository = entCrud.NewRepository[
+		ent.AdminLoginRestrictionQuery, ent.AdminLoginRestrictionSelect,
+		ent.AdminLoginRestrictionCreate, ent.AdminLoginRestrictionCreateBulk,
+		ent.AdminLoginRestrictionUpdate, ent.AdminLoginRestrictionUpdateOne,
+		ent.AdminLoginRestrictionDelete,
+		predicate.AdminLoginRestriction,
+		adminV1.AdminLoginRestriction, ent.AdminLoginRestriction,
+	](r.mapper)
+
 	r.mapper.AppendConverters(copierutil.NewTimeStringConverterPair())
 	r.mapper.AppendConverters(copierutil.NewTimeTimestamppbConverterPair())
 
@@ -76,42 +92,18 @@ func (r *AdminLoginRestrictionRepo) List(ctx context.Context, req *pagination.Pa
 
 	builder := r.data.db.Client().AdminLoginRestriction.Query()
 
-	err, whereSelectors, querySelectors := entgoQuery.BuildQuerySelector(
-		req.GetQuery(), req.GetOrQuery(),
-		req.GetPage(), req.GetPageSize(), req.GetNoPaging(),
-		req.GetOrderBy(), adminloginrestriction.FieldCreatedAt,
-		req.GetFieldMask().GetPaths(),
-	)
-	if err != nil {
-		r.log.Errorf("parse list param error [%s]", err.Error())
-		return nil, adminV1.ErrorBadRequest("invalid query parameter")
-	}
-
-	if querySelectors != nil {
-		builder.Modify(querySelectors...)
-	}
-
-	entities, err := builder.All(ctx)
-	if err != nil {
-		r.log.Errorf("query list failed: %s", err.Error())
-		return nil, adminV1.ErrorInternalServerError("query list failed")
-	}
-
-	dtos := make([]*adminV1.AdminLoginRestriction, 0, len(entities))
-	for _, entity := range entities {
-		dto := r.mapper.ToDTO(entity)
-		dtos = append(dtos, dto)
-	}
-
-	count, err := r.Count(ctx, whereSelectors)
+	ret, err := r.repository.ListWithPaging(ctx, builder, builder.Clone(), req)
 	if err != nil {
 		return nil, err
 	}
+	if ret == nil {
+		return &adminV1.ListAdminLoginRestrictionResponse{Total: 0, Items: nil}, nil
+	}
 
 	return &adminV1.ListAdminLoginRestrictionResponse{
-		Total: uint32(count),
-		Items: dtos,
-	}, err
+		Total: ret.Total,
+		Items: ret.Items,
+	}, nil
 }
 
 func (r *AdminLoginRestrictionRepo) IsExist(ctx context.Context, id uint32) (bool, error) {
@@ -132,22 +124,19 @@ func (r *AdminLoginRestrictionRepo) Get(ctx context.Context, req *adminV1.GetAdm
 
 	builder := r.data.db.Client().AdminLoginRestriction.Query()
 
-	builder.Where(adminloginrestriction.IDEQ(req.GetId()))
-
-	entgoQuery.ApplyFieldMaskToBuilder(builder, req.ViewMask)
-
-	entity, err := builder.Only(ctx)
-	if err != nil {
-		if ent.IsNotFound(err) {
-			return nil, adminV1.ErrorNotFound("admin login restriction not found")
-		}
-
-		r.log.Errorf("query one data failed: %s", err.Error())
-
-		return nil, adminV1.ErrorInternalServerError("query data failed")
+	var whereCond []func(s *sql.Selector)
+	switch req.QueryBy.(type) {
+	default:
+	case *adminV1.GetAdminLoginRestrictionRequest_Id:
+		whereCond = append(whereCond, adminloginrestriction.IDEQ(req.GetId()))
 	}
 
-	return r.mapper.ToDTO(entity), nil
+	dto, err := r.repository.Get(ctx, builder, req.GetViewMask(), whereCond...)
+	if err != nil {
+		return nil, err
+	}
+
+	return dto, err
 }
 
 func (r *AdminLoginRestrictionRepo) Create(ctx context.Context, req *adminV1.CreateAdminLoginRestrictionRequest) error {
@@ -195,32 +184,28 @@ func (r *AdminLoginRestrictionRepo) Update(ctx context.Context, req *adminV1.Upd
 		}
 	}
 
-	if err := fieldmaskutil.FilterByFieldMask(trans.Ptr(proto.Message(req.GetData())), req.UpdateMask); err != nil {
-		r.log.Errorf("invalid field mask [%v], error: %s", req.UpdateMask, err.Error())
-		return adminV1.ErrorBadRequest("invalid field mask")
-	}
+	builder := r.data.db.Client().Debug().AdminLoginRestriction.Update()
+	err := r.repository.UpdateX(ctx, builder, req.Data, req.GetUpdateMask(),
+		func(dto *adminV1.AdminLoginRestriction) {
+			builder.
+				SetNillableTargetID(req.Data.TargetId).
+				SetNillableType(r.typeConverter.ToEntity(req.Data.Type)).
+				SetNillableMethod(r.methodConverter.ToEntity(req.Data.Method)).
+				SetNillableValue(req.Data.Value).
+				SetNillableReason(req.Data.Reason).
+				SetNillableUpdatedBy(req.Data.UpdatedBy).
+				SetNillableUpdatedAt(timeutil.TimestamppbToTime(req.Data.UpdatedAt))
 
-	builder := r.data.db.Client().AdminLoginRestriction.UpdateOneID(req.Data.GetId()).
-		SetNillableTargetID(req.Data.TargetId).
-		SetNillableType(r.typeConverter.ToEntity(req.Data.Type)).
-		SetNillableMethod(r.methodConverter.ToEntity(req.Data.Method)).
-		SetNillableValue(req.Data.Value).
-		SetNillableReason(req.Data.Reason).
-		SetNillableUpdatedBy(req.Data.UpdatedBy).
-		SetNillableUpdatedAt(timeutil.TimestamppbToTime(req.Data.UpdatedAt))
+			if req.Data.UpdatedAt == nil {
+				builder.SetUpdatedAt(time.Now())
+			}
+		},
+		func(s *sql.Selector) {
+			s.Where(sql.EQ(adminloginrestriction.FieldID, req.Data.GetId()))
+		},
+	)
 
-	if req.Data.UpdatedAt == nil {
-		builder.SetUpdatedAt(time.Now())
-	}
-
-	entgoUpdate.ApplyNilFieldMask(proto.Message(req.GetData()), req.UpdateMask, builder)
-
-	if err := builder.Exec(ctx); err != nil {
-		r.log.Errorf("update one data failed: %s", err.Error())
-		return adminV1.ErrorInternalServerError("update data failed")
-	}
-
-	return nil
+	return err
 }
 
 func (r *AdminLoginRestrictionRepo) Delete(ctx context.Context, req *adminV1.DeleteAdminLoginRestrictionRequest) error {
@@ -228,14 +213,13 @@ func (r *AdminLoginRestrictionRepo) Delete(ctx context.Context, req *adminV1.Del
 		return adminV1.ErrorBadRequest("invalid parameter")
 	}
 
-	if err := r.data.db.Client().AdminLoginRestriction.DeleteOneID(req.GetId()).Exec(ctx); err != nil {
-		if ent.IsNotFound(err) {
-			return adminV1.ErrorNotFound("admin login restriction not found")
-		}
-
-		r.log.Errorf("delete one data failed: %s", err.Error())
-
-		return adminV1.ErrorInternalServerError("delete failed")
+	builder := r.data.db.Client().Debug().AdminLoginRestriction.Delete()
+	_, err := r.repository.Delete(ctx, builder, func(s *sql.Selector) {
+		s.Where(sql.EQ(adminloginrestriction.FieldID, req.GetId()))
+	})
+	if err != nil {
+		r.log.Errorf("delete internal message categories failed: %s", err.Error())
+		return adminV1.ErrorInternalServerError("delete admin login restriction failed")
 	}
 
 	return nil

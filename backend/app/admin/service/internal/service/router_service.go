@@ -10,8 +10,8 @@ import (
 	"google.golang.org/protobuf/types/known/emptypb"
 	"google.golang.org/protobuf/types/known/fieldmaskpb"
 
+	pagination "github.com/tx7do/go-crud/api/gen/go/pagination/v1"
 	"github.com/tx7do/go-utils/trans"
-	pagination "github.com/tx7do/kratos-bootstrap/api/gen/go/pagination/v1"
 
 	"kratos-admin/app/admin/service/internal/data"
 
@@ -73,7 +73,7 @@ func (s *RouterService) menuListToQueryString(menus []uint32, onlyButton bool) s
 
 // queryOneRoleMenus 使用RoleID查询菜单，即单个角色的菜单
 func (s *RouterService) queryOneRoleMenus(ctx context.Context, roleId uint32) ([]uint32, error) {
-	role, err := s.roleRepo.Get(ctx, &userV1.GetRoleRequest{Id: roleId})
+	role, err := s.roleRepo.Get(ctx, &userV1.GetRoleRequest{QueryBy: &userV1.GetRoleRequest_Id{Id: roleId}})
 	if err != nil {
 		s.log.Errorf("query role by role id failed[%s]", err.Error())
 		return nil, adminV1.ErrorInternalServerError("query role failed")

@@ -7,14 +7,16 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"github.com/go-kratos/kratos/v2/log"
 
+	pagination "github.com/tx7do/go-crud/api/gen/go/pagination/v1"
+	entCrud "github.com/tx7do/go-crud/entgo"
+
 	"github.com/tx7do/go-utils/copierutil"
-	entgoQuery "github.com/tx7do/go-utils/entgo/query"
 	"github.com/tx7do/go-utils/mapper"
 	"github.com/tx7do/go-utils/timeutil"
-	pagination "github.com/tx7do/kratos-bootstrap/api/gen/go/pagination/v1"
 
 	"kratos-admin/app/admin/service/internal/data/ent"
 	"kratos-admin/app/admin/service/internal/data/ent/adminloginlog"
+	"kratos-admin/app/admin/service/internal/data/ent/predicate"
 
 	adminV1 "kratos-admin/api/gen/go/admin/service/v1"
 )
@@ -24,6 +26,14 @@ type AdminLoginLogRepo struct {
 	log  *log.Helper
 
 	mapper *mapper.CopierMapper[adminV1.AdminLoginLog, ent.AdminLoginLog]
+
+	repository *entCrud.Repository[
+		ent.AdminLoginLogQuery, ent.AdminLoginLogSelect,
+		ent.AdminLoginLogCreate, ent.AdminLoginLogCreateBulk,
+		ent.AdminLoginLogUpdate, ent.AdminLoginLogUpdateOne,
+		ent.AdminLoginLogDelete,
+		predicate.AdminLoginLog, adminV1.AdminLoginLog, ent.AdminLoginLog,
+	]
 }
 
 func NewAdminLoginLogRepo(data *Data, logger log.Logger) *AdminLoginLogRepo {
@@ -39,6 +49,14 @@ func NewAdminLoginLogRepo(data *Data, logger log.Logger) *AdminLoginLogRepo {
 }
 
 func (r *AdminLoginLogRepo) init() {
+	r.repository = entCrud.NewRepository[
+		ent.AdminLoginLogQuery, ent.AdminLoginLogSelect,
+		ent.AdminLoginLogCreate, ent.AdminLoginLogCreateBulk,
+		ent.AdminLoginLogUpdate, ent.AdminLoginLogUpdateOne,
+		ent.AdminLoginLogDelete,
+		predicate.AdminLoginLog, adminV1.AdminLoginLog, ent.AdminLoginLog,
+	](r.mapper)
+
 	r.mapper.AppendConverters(copierutil.NewTimeStringConverterPair())
 	r.mapper.AppendConverters(copierutil.NewTimeTimestamppbConverterPair())
 }
@@ -65,42 +83,18 @@ func (r *AdminLoginLogRepo) List(ctx context.Context, req *pagination.PagingRequ
 
 	builder := r.data.db.Client().AdminLoginLog.Query()
 
-	err, whereSelectors, querySelectors := entgoQuery.BuildQuerySelector(
-		req.GetQuery(), req.GetOrQuery(),
-		req.GetPage(), req.GetPageSize(), req.GetNoPaging(),
-		req.GetOrderBy(), adminloginlog.FieldCreatedAt,
-		req.GetFieldMask().GetPaths(),
-	)
-	if err != nil {
-		r.log.Errorf("parse list param error [%s]", err.Error())
-		return nil, adminV1.ErrorBadRequest("invalid query parameter")
-	}
-
-	if querySelectors != nil {
-		builder.Modify(querySelectors...)
-	}
-
-	entities, err := builder.All(ctx)
-	if err != nil {
-		r.log.Errorf("query list failed: %s", err.Error())
-		return nil, adminV1.ErrorInternalServerError("query list failed")
-	}
-
-	dtos := make([]*adminV1.AdminLoginLog, 0, len(entities))
-	for _, entity := range entities {
-		dto := r.mapper.ToDTO(entity)
-		dtos = append(dtos, dto)
-	}
-
-	count, err := r.Count(ctx, whereSelectors)
+	ret, err := r.repository.ListWithPaging(ctx, builder, builder.Clone(), req)
 	if err != nil {
 		return nil, err
 	}
+	if ret == nil {
+		return &adminV1.ListAdminLoginLogResponse{Total: 0, Items: nil}, nil
+	}
 
 	return &adminV1.ListAdminLoginLogResponse{
-		Total: uint32(count),
-		Items: dtos,
-	}, err
+		Total: ret.Total,
+		Items: ret.Items,
+	}, nil
 }
 
 func (r *AdminLoginLogRepo) IsExist(ctx context.Context, id uint32) (bool, error) {
@@ -119,24 +113,21 @@ func (r *AdminLoginLogRepo) Get(ctx context.Context, req *adminV1.GetAdminLoginL
 		return nil, adminV1.ErrorBadRequest("invalid parameter")
 	}
 
-	builder := r.data.db.Client().AdminLoginLog.Query()
+	builder := r.data.db.Client().Debug().AdminLoginLog.Query()
 
-	builder.Where(adminloginlog.IDEQ(req.GetId()))
-
-	entgoQuery.ApplyFieldMaskToBuilder(builder, req.ViewMask)
-
-	entity, err := builder.Only(ctx)
-	if err != nil {
-		if ent.IsNotFound(err) {
-			return nil, adminV1.ErrorNotFound("admin login log not found")
-		}
-
-		r.log.Errorf("query one data failed: %s", err.Error())
-
-		return nil, adminV1.ErrorInternalServerError("query data failed")
+	var whereCond []func(s *sql.Selector)
+	switch req.QueryBy.(type) {
+	default:
+	case *adminV1.GetAdminLoginLogRequest_Id:
+		whereCond = append(whereCond, adminloginlog.IDEQ(req.GetId()))
 	}
 
-	return r.mapper.ToDTO(entity), nil
+	dto, err := r.repository.Get(ctx, builder, req.GetViewMask(), whereCond...)
+	if err != nil {
+		return nil, err
+	}
+
+	return dto, err
 }
 
 func (r *AdminLoginLogRepo) Create(ctx context.Context, req *adminV1.CreateAdminLoginLogRequest) error {

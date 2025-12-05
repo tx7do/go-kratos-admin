@@ -8,8 +8,8 @@ import (
 
 	"entgo.io/ent/dialect/sql"
 	"github.com/getkin/kin-openapi/openapi3"
+	pagination "github.com/tx7do/go-crud/api/gen/go/pagination/v1"
 	"github.com/tx7do/go-utils/trans"
-	pagination "github.com/tx7do/kratos-bootstrap/api/gen/go/pagination/v1"
 	"google.golang.org/protobuf/types/known/emptypb"
 
 	"kratos-admin/app/admin/service/cmd/server/assets"
@@ -265,7 +265,7 @@ func (s *ApiResourceService) GetWalkRouteData(_ context.Context, _ *emptypb.Empt
 		s.log.Errorf("failed to walk route: %v", err)
 		return nil, adminV1.ErrorInternalServerError("failed to walk route")
 	}
-	resp.Total = count
+	resp.Total = uint64(count)
 
 	return resp, nil
 }

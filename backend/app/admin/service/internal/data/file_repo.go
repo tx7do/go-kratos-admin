@@ -4,21 +4,17 @@ import (
 	"context"
 	"time"
 
-	"entgo.io/ent/dialect/sql"
-	"github.com/go-kratos/kratos/v2/log"
-	"github.com/tx7do/go-utils/trans"
-	"google.golang.org/protobuf/proto"
-
-	"github.com/tx7do/go-utils/copierutil"
-	entgoQuery "github.com/tx7do/go-utils/entgo/query"
-	entgoUpdate "github.com/tx7do/go-utils/entgo/update"
-	"github.com/tx7do/go-utils/fieldmaskutil"
-	"github.com/tx7do/go-utils/mapper"
-	"github.com/tx7do/go-utils/timeutil"
-	pagination "github.com/tx7do/kratos-bootstrap/api/gen/go/pagination/v1"
-
 	"kratos-admin/app/admin/service/internal/data/ent"
 	"kratos-admin/app/admin/service/internal/data/ent/file"
+	"kratos-admin/app/admin/service/internal/data/ent/predicate"
+
+	"entgo.io/ent/dialect/sql"
+	"github.com/go-kratos/kratos/v2/log"
+	pagination "github.com/tx7do/go-crud/api/gen/go/pagination/v1"
+	entCrud "github.com/tx7do/go-crud/entgo"
+	"github.com/tx7do/go-utils/copierutil"
+	"github.com/tx7do/go-utils/mapper"
+	"github.com/tx7do/go-utils/timeutil"
 
 	fileV1 "kratos-admin/api/gen/go/file/service/v1"
 )
@@ -29,6 +25,15 @@ type FileRepo struct {
 
 	mapper            *mapper.CopierMapper[fileV1.File, ent.File]
 	providerConverter *mapper.EnumTypeConverter[fileV1.OSSProvider, file.Provider]
+
+	repository *entCrud.Repository[
+		ent.FileQuery, ent.FileSelect,
+		ent.FileCreate, ent.FileCreateBulk,
+		ent.FileUpdate, ent.FileUpdateOne,
+		ent.FileDelete,
+		predicate.File,
+		fileV1.File, ent.File,
+	]
 }
 
 func NewFileRepo(data *Data, logger log.Logger) *FileRepo {
@@ -45,6 +50,15 @@ func NewFileRepo(data *Data, logger log.Logger) *FileRepo {
 }
 
 func (r *FileRepo) init() {
+	r.repository = entCrud.NewRepository[
+		ent.FileQuery, ent.FileSelect,
+		ent.FileCreate, ent.FileCreateBulk,
+		ent.FileUpdate, ent.FileUpdateOne,
+		ent.FileDelete,
+		predicate.File,
+		fileV1.File, ent.File,
+	](r.mapper)
+
 	r.mapper.AppendConverters(copierutil.NewTimeStringConverterPair())
 	r.mapper.AppendConverters(copierutil.NewTimeTimestamppbConverterPair())
 
@@ -73,42 +87,18 @@ func (r *FileRepo) List(ctx context.Context, req *pagination.PagingRequest) (*fi
 
 	builder := r.data.db.Client().File.Query()
 
-	err, whereSelectors, querySelectors := entgoQuery.BuildQuerySelector(
-		req.GetQuery(), req.GetOrQuery(),
-		req.GetPage(), req.GetPageSize(), req.GetNoPaging(),
-		req.GetOrderBy(), file.FieldCreatedAt,
-		req.GetFieldMask().GetPaths(),
-	)
-	if err != nil {
-		r.log.Errorf("parse list param error [%s]", err.Error())
-		return nil, fileV1.ErrorBadRequest("invalid query parameter")
-	}
-
-	if querySelectors != nil {
-		builder.Modify(querySelectors...)
-	}
-
-	entities, err := builder.All(ctx)
-	if err != nil {
-		r.log.Errorf("query list failed: %s", err.Error())
-		return nil, fileV1.ErrorInternalServerError("query list failed")
-	}
-
-	dtos := make([]*fileV1.File, 0, len(entities))
-	for _, entity := range entities {
-		dto := r.mapper.ToDTO(entity)
-		dtos = append(dtos, dto)
-	}
-
-	count, err := r.Count(ctx, whereSelectors)
+	ret, err := r.repository.ListWithPaging(ctx, builder, builder.Clone(), req)
 	if err != nil {
 		return nil, err
 	}
+	if ret == nil {
+		return &fileV1.ListFileResponse{Total: 0, Items: nil}, nil
+	}
 
 	return &fileV1.ListFileResponse{
-		Total: uint32(count),
-		Items: dtos,
-	}, err
+		Total: ret.Total,
+		Items: ret.Items,
+	}, nil
 }
 
 func (r *FileRepo) IsExist(ctx context.Context, id uint32) (bool, error) {
@@ -129,22 +119,19 @@ func (r *FileRepo) Get(ctx context.Context, req *fileV1.GetFileRequest) (*fileV1
 
 	builder := r.data.db.Client().File.Query()
 
-	builder.Where(file.IDEQ(req.GetId()))
-
-	entgoQuery.ApplyFieldMaskToBuilder(builder, req.ViewMask)
-
-	entity, err := builder.Only(ctx)
-	if err != nil {
-		if ent.IsNotFound(err) {
-			return nil, fileV1.ErrorFileNotFound("file not found")
-		}
-
-		r.log.Errorf("query one data failed: %s", err.Error())
-
-		return nil, fileV1.ErrorInternalServerError("query data failed")
+	var whereCond []func(s *sql.Selector)
+	switch req.QueryBy.(type) {
+	default:
+	case *fileV1.GetFileRequest_Id:
+		whereCond = append(whereCond, file.IDEQ(req.GetId()))
 	}
 
-	return r.mapper.ToDTO(entity), nil
+	dto, err := r.repository.Get(ctx, builder, req.GetViewMask(), whereCond...)
+	if err != nil {
+		return nil, err
+	}
+
+	return dto, err
 }
 
 func (r *FileRepo) Create(ctx context.Context, req *fileV1.CreateFileRequest) error {
@@ -202,38 +189,34 @@ func (r *FileRepo) Update(ctx context.Context, req *fileV1.UpdateFileRequest) er
 		}
 	}
 
-	if err := fieldmaskutil.FilterByFieldMask(trans.Ptr(proto.Message(req.GetData())), req.UpdateMask); err != nil {
-		r.log.Errorf("invalid field mask [%v], error: %s", req.UpdateMask, err.Error())
-		return fileV1.ErrorBadRequest("invalid field mask")
-	}
+	builder := r.data.db.Client().Debug().File.Update()
+	err := r.repository.UpdateX(ctx, builder, req.Data, req.GetUpdateMask(),
+		func(dto *fileV1.File) {
+			builder.
+				SetNillableProvider(r.providerConverter.ToEntity(req.Data.Provider)).
+				SetNillableBucketName(req.Data.BucketName).
+				SetNillableFileDirectory(req.Data.FileDirectory).
+				SetNillableFileGUID(req.Data.FileGuid).
+				SetNillableSaveFileName(req.Data.SaveFileName).
+				SetNillableFileName(req.Data.FileName).
+				SetNillableExtension(req.Data.Extension).
+				SetNillableSize(req.Data.Size).
+				SetNillableSizeFormat(req.Data.SizeFormat).
+				SetNillableLinkURL(req.Data.LinkUrl).
+				SetNillableMd5(req.Data.Md5).
+				//SetNillableUpdatedBy(trans.Ptr(operator.UserId)).
+				SetNillableUpdatedAt(timeutil.TimestamppbToTime(req.Data.UpdatedAt))
 
-	builder := r.data.db.Client().File.UpdateOneID(req.Data.GetId()).
-		SetNillableProvider(r.providerConverter.ToEntity(req.Data.Provider)).
-		SetNillableBucketName(req.Data.BucketName).
-		SetNillableFileDirectory(req.Data.FileDirectory).
-		SetNillableFileGUID(req.Data.FileGuid).
-		SetNillableSaveFileName(req.Data.SaveFileName).
-		SetNillableFileName(req.Data.FileName).
-		SetNillableExtension(req.Data.Extension).
-		SetNillableSize(req.Data.Size).
-		SetNillableSizeFormat(req.Data.SizeFormat).
-		SetNillableLinkURL(req.Data.LinkUrl).
-		SetNillableMd5(req.Data.Md5).
-		//SetNillableUpdatedBy(trans.Ptr(operator.UserId)).
-		SetNillableUpdatedAt(timeutil.TimestamppbToTime(req.Data.UpdatedAt))
+			if req.Data.UpdatedAt == nil {
+				builder.SetUpdatedAt(time.Now())
+			}
+		},
+		func(s *sql.Selector) {
+			s.Where(sql.EQ(file.FieldID, req.Data.GetId()))
+		},
+	)
 
-	if req.Data.UpdatedAt == nil {
-		builder.SetUpdatedAt(time.Now())
-	}
-
-	entgoUpdate.ApplyNilFieldMask(proto.Message(req.GetData()), req.UpdateMask, builder)
-
-	if err := builder.Exec(ctx); err != nil {
-		r.log.Errorf("update one data failed: %s", err.Error())
-		return fileV1.ErrorInternalServerError("update data failed")
-	}
-
-	return nil
+	return err
 }
 
 func (r *FileRepo) Delete(ctx context.Context, req *fileV1.DeleteFileRequest) error {

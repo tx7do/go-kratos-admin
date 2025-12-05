@@ -9,8 +9,8 @@ import (
 	"github.com/hibiken/asynq"
 	"google.golang.org/protobuf/types/known/emptypb"
 
+	pagination "github.com/tx7do/go-crud/api/gen/go/pagination/v1"
 	"github.com/tx7do/go-utils/trans"
-	pagination "github.com/tx7do/kratos-bootstrap/api/gen/go/pagination/v1"
 	"github.com/tx7do/kratos-transport/broker"
 	asynqServer "github.com/tx7do/kratos-transport/transport/asynq"
 
@@ -119,7 +119,7 @@ func (s *TaskService) Update(ctx context.Context, req *adminV1.UpdateTaskRequest
 func (s *TaskService) Delete(ctx context.Context, req *adminV1.DeleteTaskRequest) (*emptypb.Empty, error) {
 	var err error
 	var t *adminV1.Task
-	if t, err = s.taskRepo.Get(ctx, &adminV1.GetTaskRequest{Id: req.GetId()}); err != nil {
+	if t, err = s.taskRepo.Get(ctx, &adminV1.GetTaskRequest{QueryBy: &adminV1.GetTaskRequest_Id{Id: req.GetId()}}); err != nil {
 		s.log.Error(err)
 	}
 

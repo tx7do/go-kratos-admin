@@ -170,7 +170,7 @@ message DictEntry {
 // 查询字典类型列表 - 回应
 message ListDictTypeResponse {
   repeated DictType items = 1;
-  uint32 total = 2;
+  uint64 total = 2;
 }
 
 // 查询字典类型详情 - 请求
@@ -219,7 +219,7 @@ message BatchDeleteDictRequest {
 // 查询字典条目列表 - 回应
 message ListDictEntryResponse {
   repeated DictEntry items = 1;
-  uint32 total = 2;
+  uint64 total = 2;
 }
 
 // 创建字典条目 - 请求

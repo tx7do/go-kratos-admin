@@ -159,12 +159,17 @@ message AdminLoginLog {
 // 查询后台登录日志列表 - 回应
 message ListAdminLoginLogResponse {
   repeated AdminLoginLog items = 1;
-  uint32 total = 2;
+  uint64 total = 2;
 }
 
 // 查询后台登录日志详情 - 请求
 message GetAdminLoginLogRequest {
-  uint32 id = 1;
+  oneof query_by {
+    uint32 id = 1 [
+      (gnostic.openapi.v3.property) = {description: "ID", read_only: true},
+      json_name = "id"
+    ]; // ID
+  }
 
   optional google.protobuf.FieldMask view_mask = 100 [
     json_name = "viewMask",

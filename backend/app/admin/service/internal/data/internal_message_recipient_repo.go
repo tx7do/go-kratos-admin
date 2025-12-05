@@ -6,18 +6,16 @@ import (
 
 	"entgo.io/ent/dialect/sql"
 	"github.com/go-kratos/kratos/v2/log"
+	pagination "github.com/tx7do/go-crud/api/gen/go/pagination/v1"
+	entCrud "github.com/tx7do/go-crud/entgo"
 	"github.com/tx7do/go-utils/copierutil"
-	entgoQuery "github.com/tx7do/go-utils/entgo/query"
-	entgoUpdate "github.com/tx7do/go-utils/entgo/update"
-	"github.com/tx7do/go-utils/fieldmaskutil"
 	"github.com/tx7do/go-utils/mapper"
 	"github.com/tx7do/go-utils/timeutil"
 	"github.com/tx7do/go-utils/trans"
-	pagination "github.com/tx7do/kratos-bootstrap/api/gen/go/pagination/v1"
-	"google.golang.org/protobuf/proto"
 
 	"kratos-admin/app/admin/service/internal/data/ent"
 	"kratos-admin/app/admin/service/internal/data/ent/internalmessagerecipient"
+	"kratos-admin/app/admin/service/internal/data/ent/predicate"
 
 	internalMessageV1 "kratos-admin/api/gen/go/internal_message/service/v1"
 )
@@ -28,6 +26,15 @@ type InternalMessageRecipientRepo struct {
 
 	mapper          *mapper.CopierMapper[internalMessageV1.InternalMessageRecipient, ent.InternalMessageRecipient]
 	statusConverter *mapper.EnumTypeConverter[internalMessageV1.InternalMessageRecipient_Status, internalmessagerecipient.Status]
+
+	repository *entCrud.Repository[
+		ent.InternalMessageRecipientQuery, ent.InternalMessageRecipientSelect,
+		ent.InternalMessageRecipientCreate, ent.InternalMessageRecipientCreateBulk,
+		ent.InternalMessageRecipientUpdate, ent.InternalMessageRecipientUpdateOne,
+		ent.InternalMessageRecipientDelete,
+		predicate.InternalMessageRecipient,
+		internalMessageV1.InternalMessageRecipient, ent.InternalMessageRecipient,
+	]
 }
 
 func NewInternalMessageRecipientRepo(data *Data, logger log.Logger) *InternalMessageRecipientRepo {
@@ -44,6 +51,15 @@ func NewInternalMessageRecipientRepo(data *Data, logger log.Logger) *InternalMes
 }
 
 func (r *InternalMessageRecipientRepo) init() {
+	r.repository = entCrud.NewRepository[
+		ent.InternalMessageRecipientQuery, ent.InternalMessageRecipientSelect,
+		ent.InternalMessageRecipientCreate, ent.InternalMessageRecipientCreateBulk,
+		ent.InternalMessageRecipientUpdate, ent.InternalMessageRecipientUpdateOne,
+		ent.InternalMessageRecipientDelete,
+		predicate.InternalMessageRecipient,
+		internalMessageV1.InternalMessageRecipient, ent.InternalMessageRecipient,
+	](r.mapper)
+
 	r.mapper.AppendConverters(copierutil.NewTimeStringConverterPair())
 	r.mapper.AppendConverters(copierutil.NewTimeTimestamppbConverterPair())
 
@@ -83,61 +99,40 @@ func (r *InternalMessageRecipientRepo) List(ctx context.Context, req *pagination
 
 	builder := r.data.db.Client().InternalMessageRecipient.Query()
 
-	err, whereSelectors, querySelectors := entgoQuery.BuildQuerySelector(
-		req.GetQuery(), req.GetOrQuery(),
-		req.GetPage(), req.GetPageSize(), req.GetNoPaging(),
-		req.GetOrderBy(), internalmessagerecipient.FieldCreatedAt,
-		req.GetFieldMask().GetPaths(),
-	)
+	ret, err := r.repository.ListWithPaging(ctx, builder, builder.Clone(), req)
 	if err != nil {
-		r.log.Errorf("parse list param error [%s]", err.Error())
-		return nil, internalMessageV1.ErrorBadRequest("invalid query parameter")
+		return nil, err
+	}
+	if ret == nil {
+		return &internalMessageV1.ListUserInboxResponse{Total: 0, Items: nil}, nil
 	}
 
-	if querySelectors != nil {
-		builder.Modify(querySelectors...)
+	return &internalMessageV1.ListUserInboxResponse{
+		Total: ret.Total,
+		Items: ret.Items,
+	}, nil
+}
+
+func (r *InternalMessageRecipientRepo) Get(ctx context.Context, req *internalMessageV1.GetInternalMessageRecipientRequest) (*internalMessageV1.InternalMessageRecipient, error) {
+	if req == nil {
+		return nil, internalMessageV1.ErrorBadRequest("invalid parameter")
 	}
 
-	entities, err := builder.All(ctx)
-	if err != nil {
-		r.log.Errorf("query list failed: %s", err.Error())
-		return nil, internalMessageV1.ErrorInternalServerError("query list failed")
+	builder := r.data.db.Client().InternalMessageRecipient.Query()
+
+	var whereCond []func(s *sql.Selector)
+	switch req.QueryBy.(type) {
+	default:
+	case *internalMessageV1.GetInternalMessageRecipientRequest_Id:
+		whereCond = append(whereCond, internalmessagerecipient.IDEQ(req.GetId()))
 	}
 
-	dtos := make([]*internalMessageV1.InternalMessageRecipient, 0, len(entities))
-	for _, entity := range entities {
-		dto := r.mapper.ToDTO(entity)
-		dtos = append(dtos, dto)
-	}
-
-	count, err := r.Count(ctx, whereSelectors)
+	dto, err := r.repository.Get(ctx, builder, req.GetViewMask(), whereCond...)
 	if err != nil {
 		return nil, err
 	}
 
-	return &internalMessageV1.ListUserInboxResponse{
-		Total: uint32(count),
-		Items: dtos,
-	}, err
-}
-
-func (r *InternalMessageRecipientRepo) Get(ctx context.Context, id uint32) (*internalMessageV1.InternalMessageRecipient, error) {
-	if id == 0 {
-		return nil, internalMessageV1.ErrorBadRequest("invalid parameter")
-	}
-
-	entity, err := r.data.db.Client().InternalMessageRecipient.Get(ctx, id)
-	if err != nil {
-		if ent.IsNotFound(err) {
-			return nil, internalMessageV1.ErrorNotFound("message not found")
-		}
-
-		r.log.Errorf("query one data failed: %s", err.Error())
-
-		return nil, internalMessageV1.ErrorInternalServerError("query data failed")
-	}
-
-	return r.mapper.ToDTO(entity), nil
+	return dto, err
 }
 
 func (r *InternalMessageRecipientRepo) Create(ctx context.Context, req *internalMessageV1.InternalMessageRecipient) (*internalMessageV1.InternalMessageRecipient, error) {
@@ -186,31 +181,27 @@ func (r *InternalMessageRecipientRepo) Update(ctx context.Context, req *internal
 		}
 	}
 
-	if err := fieldmaskutil.FilterByFieldMask(trans.Ptr(proto.Message(req.GetData())), req.UpdateMask); err != nil {
-		r.log.Errorf("invalid field mask [%v], error: %s", req.UpdateMask, err.Error())
-		return internalMessageV1.ErrorBadRequest("invalid field mask")
-	}
+	builder := r.data.db.Client().Debug().InternalMessageRecipient.Update()
+	err := r.repository.UpdateX(ctx, builder, req.Data, req.GetUpdateMask(),
+		func(dto *internalMessageV1.InternalMessageRecipient) {
+			builder.
+				SetNillableMessageID(req.Data.MessageId).
+				SetNillableRecipientUserID(req.Data.RecipientUserId).
+				SetNillableStatus(r.statusConverter.ToEntity(req.Data.Status)).
+				SetNillableReceivedAt(timeutil.TimestamppbToTime(req.Data.ReceivedAt)).
+				SetNillableReadAt(timeutil.TimestamppbToTime(req.Data.ReadAt)).
+				SetNillableUpdatedAt(timeutil.TimestamppbToTime(req.Data.UpdatedAt))
 
-	builder := r.data.db.Client().InternalMessageRecipient.UpdateOneID(req.Data.GetId()).
-		SetNillableMessageID(req.Data.MessageId).
-		SetNillableRecipientUserID(req.Data.RecipientUserId).
-		SetNillableStatus(r.statusConverter.ToEntity(req.Data.Status)).
-		SetNillableReceivedAt(timeutil.TimestamppbToTime(req.Data.ReceivedAt)).
-		SetNillableReadAt(timeutil.TimestamppbToTime(req.Data.ReadAt)).
-		SetNillableUpdatedAt(timeutil.TimestamppbToTime(req.Data.UpdatedAt))
+			if req.Data.UpdatedAt == nil {
+				builder.SetUpdatedAt(time.Now())
+			}
+		},
+		func(s *sql.Selector) {
+			s.Where(sql.EQ(internalmessagerecipient.FieldID, req.Data.GetId()))
+		},
+	)
 
-	if req.Data.UpdatedAt == nil {
-		builder.SetUpdatedAt(time.Now())
-	}
-
-	entgoUpdate.ApplyNilFieldMask(proto.Message(req.GetData()), req.UpdateMask, builder)
-
-	if err := builder.Exec(ctx); err != nil {
-		r.log.Errorf("update one data failed: %s", err.Error())
-		return internalMessageV1.ErrorInternalServerError("update data failed")
-	}
-
-	return nil
+	return err
 }
 
 func (r *InternalMessageRecipientRepo) Delete(ctx context.Context, id uint32) error {

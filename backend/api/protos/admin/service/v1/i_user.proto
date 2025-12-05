@@ -27,7 +27,7 @@ service UserService {
     option (google.api.http) = {
       get: "/admin/v1/users/{id}"
       additional_bindings {
-        get: "/api/v1/users/username/{username}"
+        get: "/api/v1/users/username/{user_name}"
       }
     };
   }

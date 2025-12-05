@@ -6,7 +6,7 @@ import (
 	"entgo.io/ent/schema"
 	"entgo.io/ent/schema/field"
 	"entgo.io/ent/schema/index"
-	"github.com/tx7do/go-utils/entgo/mixin"
+	"github.com/tx7do/go-crud/entgo/mixin"
 )
 
 // User holds the schema definition for the User entity.

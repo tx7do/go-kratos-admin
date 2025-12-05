@@ -5,8 +5,8 @@ import (
 
 	"entgo.io/ent/dialect/sql"
 	"github.com/go-kratos/kratos/v2/log"
+	pagination "github.com/tx7do/go-crud/api/gen/go/pagination/v1"
 	"github.com/tx7do/go-utils/trans"
-	pagination "github.com/tx7do/kratos-bootstrap/api/gen/go/pagination/v1"
 	"google.golang.org/protobuf/types/known/emptypb"
 
 	"kratos-admin/app/admin/service/internal/data"
@@ -189,7 +189,7 @@ func (s *UserService) List(ctx context.Context, req *pagination.PagingRequest) (
 
 func (s *UserService) fillUserInfo(ctx context.Context, user *userV1.User) error {
 	if user.TenantId != nil {
-		tenant, err := s.tenantRepo.Get(ctx, &userV1.GetTenantRequest{Id: user.GetTenantId()})
+		tenant, err := s.tenantRepo.Get(ctx, &userV1.GetTenantRequest{QueryBy: &userV1.GetTenantRequest_Id{Id: user.GetTenantId()}})
 		if err == nil && tenant != nil {
 			user.TenantName = tenant.Name
 		} else {
@@ -198,7 +198,7 @@ func (s *UserService) fillUserInfo(ctx context.Context, user *userV1.User) error
 	}
 
 	if user.OrgId != nil {
-		organization, err := s.organizationRepo.Get(ctx, &userV1.GetOrganizationRequest{Id: user.GetOrgId()})
+		organization, err := s.organizationRepo.Get(ctx, &userV1.GetOrganizationRequest{QueryBy: &userV1.GetOrganizationRequest_Id{Id: user.GetOrgId()}})
 		if err == nil && organization != nil {
 			user.OrgName = organization.Name
 		} else {
@@ -207,7 +207,7 @@ func (s *UserService) fillUserInfo(ctx context.Context, user *userV1.User) error
 	}
 
 	if user.DepartmentId != nil {
-		department, err := s.departmentRepo.Get(ctx, &userV1.GetDepartmentRequest{Id: user.GetDepartmentId()})
+		department, err := s.departmentRepo.Get(ctx, &userV1.GetDepartmentRequest{QueryBy: &userV1.GetDepartmentRequest_Id{Id: user.GetDepartmentId()}})
 		if err == nil && department != nil {
 			user.DepartmentName = department.Name
 		} else {
@@ -216,7 +216,7 @@ func (s *UserService) fillUserInfo(ctx context.Context, user *userV1.User) error
 	}
 
 	if user.PositionId != nil {
-		position, err := s.positionRepo.Get(ctx, &userV1.GetPositionRequest{Id: user.GetPositionId()})
+		position, err := s.positionRepo.Get(ctx, &userV1.GetPositionRequest{QueryBy: &userV1.GetPositionRequest_Id{Id: user.GetPositionId()}})
 		if err == nil && position != nil {
 			user.PositionName = position.Name
 		} else {

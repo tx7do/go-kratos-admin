@@ -4,21 +4,17 @@ import (
 	"context"
 	"time"
 
+	"kratos-admin/app/admin/service/internal/data/ent"
+	"kratos-admin/app/admin/service/internal/data/ent/predicate"
+	"kratos-admin/app/admin/service/internal/data/ent/tenant"
+
 	"entgo.io/ent/dialect/sql"
 	"github.com/go-kratos/kratos/v2/log"
-	"github.com/tx7do/go-utils/trans"
-	"google.golang.org/protobuf/proto"
-
+	pagination "github.com/tx7do/go-crud/api/gen/go/pagination/v1"
+	entCrud "github.com/tx7do/go-crud/entgo"
 	"github.com/tx7do/go-utils/copierutil"
-	entgoQuery "github.com/tx7do/go-utils/entgo/query"
-	entgoUpdate "github.com/tx7do/go-utils/entgo/update"
-	"github.com/tx7do/go-utils/fieldmaskutil"
 	"github.com/tx7do/go-utils/mapper"
 	"github.com/tx7do/go-utils/timeutil"
-	pagination "github.com/tx7do/kratos-bootstrap/api/gen/go/pagination/v1"
-
-	"kratos-admin/app/admin/service/internal/data/ent"
-	"kratos-admin/app/admin/service/internal/data/ent/tenant"
 
 	userV1 "kratos-admin/api/gen/go/user/service/v1"
 )
@@ -31,6 +27,15 @@ type TenantRepo struct {
 	statusConverter      *mapper.EnumTypeConverter[userV1.Tenant_Status, tenant.Status]
 	typeConverter        *mapper.EnumTypeConverter[userV1.Tenant_Type, tenant.Type]
 	auditStatusConverter *mapper.EnumTypeConverter[userV1.Tenant_AuditStatus, tenant.AuditStatus]
+
+	repository *entCrud.Repository[
+		ent.TenantQuery, ent.TenantSelect,
+		ent.TenantCreate, ent.TenantCreateBulk,
+		ent.TenantUpdate, ent.TenantUpdateOne,
+		ent.TenantDelete,
+		predicate.Tenant,
+		userV1.Tenant, ent.Tenant,
+	]
 }
 
 func NewTenantRepo(data *Data, logger log.Logger) *TenantRepo {
@@ -49,6 +54,15 @@ func NewTenantRepo(data *Data, logger log.Logger) *TenantRepo {
 }
 
 func (r *TenantRepo) init() {
+	r.repository = entCrud.NewRepository[
+		ent.TenantQuery, ent.TenantSelect,
+		ent.TenantCreate, ent.TenantCreateBulk,
+		ent.TenantUpdate, ent.TenantUpdateOne,
+		ent.TenantDelete,
+		predicate.Tenant,
+		userV1.Tenant, ent.Tenant,
+	](r.mapper)
+
 	r.mapper.AppendConverters(copierutil.NewTimeStringConverterPair())
 	r.mapper.AppendConverters(copierutil.NewTimeTimestamppbConverterPair())
 
@@ -79,42 +93,18 @@ func (r *TenantRepo) List(ctx context.Context, req *pagination.PagingRequest) (*
 
 	builder := r.data.db.Client().Tenant.Query()
 
-	err, whereSelectors, querySelectors := entgoQuery.BuildQuerySelector(
-		req.GetQuery(), req.GetOrQuery(),
-		req.GetPage(), req.GetPageSize(), req.GetNoPaging(),
-		req.GetOrderBy(), tenant.FieldCreatedAt,
-		req.GetFieldMask().GetPaths(),
-	)
-	if err != nil {
-		r.log.Errorf("parse list param error [%s]", err.Error())
-		return nil, userV1.ErrorBadRequest("invalid query parameter")
-	}
-
-	if querySelectors != nil {
-		builder.Modify(querySelectors...)
-	}
-
-	entities, err := builder.All(ctx)
-	if err != nil {
-		r.log.Errorf("query list failed: %s", err.Error())
-		return nil, userV1.ErrorInternalServerError("query list failed")
-	}
-
-	dtos := make([]*userV1.Tenant, 0, len(entities))
-	for _, entity := range entities {
-		dto := r.mapper.ToDTO(entity)
-		dtos = append(dtos, dto)
-	}
-
-	count, err := r.Count(ctx, whereSelectors)
+	ret, err := r.repository.ListWithPaging(ctx, builder, builder.Clone(), req)
 	if err != nil {
 		return nil, err
 	}
+	if ret == nil {
+		return &userV1.ListTenantResponse{Total: 0, Items: nil}, nil
+	}
 
 	return &userV1.ListTenantResponse{
-		Total: uint32(count),
-		Items: dtos,
-	}, err
+		Total: ret.Total,
+		Items: ret.Items,
+	}, nil
 }
 
 func (r *TenantRepo) IsExist(ctx context.Context, id uint32) (bool, error) {
@@ -135,22 +125,19 @@ func (r *TenantRepo) Get(ctx context.Context, req *userV1.GetTenantRequest) (*us
 
 	builder := r.data.db.Client().Tenant.Query()
 
-	builder.Where(tenant.IDEQ(req.GetId()))
-
-	entgoQuery.ApplyFieldMaskToBuilder(builder, req.ViewMask)
-
-	entity, err := builder.Only(ctx)
-	if err != nil {
-		if ent.IsNotFound(err) {
-			return nil, userV1.ErrorTenantNotFound("tenant not found")
-		}
-
-		r.log.Errorf("query one data failed: %s", err.Error())
-
-		return nil, userV1.ErrorInternalServerError("query data failed")
+	var whereCond []func(s *sql.Selector)
+	switch req.QueryBy.(type) {
+	default:
+	case *userV1.GetTenantRequest_Id:
+		whereCond = append(whereCond, tenant.IDEQ(req.GetId()))
 	}
 
-	return r.mapper.ToDTO(entity), nil
+	dto, err := r.repository.Get(ctx, builder, req.GetViewMask(), whereCond...)
+	if err != nil {
+		return nil, err
+	}
+
+	return dto, err
 }
 
 func (r *TenantRepo) Create(ctx context.Context, data *userV1.Tenant) (*userV1.Tenant, error) {
@@ -215,44 +202,39 @@ func (r *TenantRepo) Update(ctx context.Context, req *userV1.UpdateTenantRequest
 		}
 	}
 
-	if err := fieldmaskutil.FilterByFieldMask(trans.Ptr(proto.Message(req.GetData())), req.UpdateMask); err != nil {
-		r.log.Errorf("invalid field mask [%v], error: %s", req.UpdateMask, err.Error())
-		return userV1.ErrorBadRequest("invalid field mask")
-	}
+	builder := r.data.db.Client().Debug().Tenant.Update()
+	err := r.repository.UpdateX(ctx, builder, req.Data, req.GetUpdateMask(),
+		func(dto *userV1.Tenant) {
+			builder.
+				SetNillableName(req.Data.Name).
+				SetNillableCode(req.Data.Code).
+				SetNillableLogoURL(req.Data.LogoUrl).
+				SetNillableRemark(req.Data.Remark).
+				SetNillableIndustry(req.Data.Industry).
+				SetNillableAdminUserID(req.Data.AdminUserId).
+				SetNillableStatus(r.statusConverter.ToEntity(req.Data.Status)).
+				SetNillableType(r.typeConverter.ToEntity(req.Data.Type)).
+				SetNillableAuditStatus(r.auditStatusConverter.ToEntity(req.Data.AuditStatus)).
+				SetNillableLastLoginTime(timeutil.TimestamppbToTime(req.Data.LastLoginTime)).
+				SetNillableLastLoginIP(req.Data.LastLoginIp).
+				SetNillableSubscriptionPlan(req.Data.SubscriptionPlan).
+				SetNillableExpiredAt(timeutil.TimestamppbToTime(req.Data.ExpiredAt)).
+				SetNillableSubscriptionAt(timeutil.TimestamppbToTime(req.Data.SubscriptionAt)).
+				SetNillableUnsubscribeAt(timeutil.TimestamppbToTime(req.Data.UnsubscribeAt)).
+				SetNillableUpdatedBy(req.Data.UpdatedBy)
 
-	builder := r.data.db.Client().Tenant.UpdateOneID(req.Data.GetId()).
-		SetNillableName(req.Data.Name).
-		SetNillableCode(req.Data.Code).
-		SetNillableLogoURL(req.Data.LogoUrl).
-		SetNillableRemark(req.Data.Remark).
-		SetNillableIndustry(req.Data.Industry).
-		SetNillableAdminUserID(req.Data.AdminUserId).
-		SetNillableStatus(r.statusConverter.ToEntity(req.Data.Status)).
-		SetNillableType(r.typeConverter.ToEntity(req.Data.Type)).
-		SetNillableAuditStatus(r.auditStatusConverter.ToEntity(req.Data.AuditStatus)).
-		SetNillableLastLoginTime(timeutil.TimestamppbToTime(req.Data.LastLoginTime)).
-		SetNillableLastLoginIP(req.Data.LastLoginIp).
-		SetNillableSubscriptionPlan(req.Data.SubscriptionPlan).
-		SetNillableExpiredAt(timeutil.TimestamppbToTime(req.Data.ExpiredAt)).
-		SetNillableSubscriptionAt(timeutil.TimestamppbToTime(req.Data.SubscriptionAt)).
-		SetNillableUnsubscribeAt(timeutil.TimestamppbToTime(req.Data.UnsubscribeAt))
+			if req.Data.UpdatedAt == nil {
+				builder.SetUpdatedAt(time.Now())
+			} else {
+				builder.SetNillableUpdatedAt(timeutil.TimestamppbToTime(req.Data.UpdatedAt))
+			}
+		},
+		func(s *sql.Selector) {
+			s.Where(sql.EQ(tenant.FieldID, req.Data.GetId()))
+		},
+	)
 
-	builder.SetNillableUpdatedBy(req.Data.UpdatedBy)
-
-	if req.Data.UpdatedAt == nil {
-		builder.SetUpdatedAt(time.Now())
-	} else {
-		builder.SetNillableUpdatedAt(timeutil.TimestamppbToTime(req.Data.UpdatedAt))
-	}
-
-	entgoUpdate.ApplyNilFieldMask(proto.Message(req.GetData()), req.UpdateMask, builder)
-
-	if err := builder.Exec(ctx); err != nil {
-		r.log.Errorf("update one data failed: %s", err.Error())
-		return userV1.ErrorInternalServerError("update data failed")
-	}
-
-	return nil
+	return err
 }
 
 func (r *TenantRepo) Delete(ctx context.Context, req *userV1.DeleteTenantRequest) error {

@@ -4,21 +4,17 @@ import (
 	"context"
 	"time"
 
-	"entgo.io/ent/dialect/sql"
-	"github.com/go-kratos/kratos/v2/log"
-	"github.com/tx7do/go-utils/trans"
-	"google.golang.org/protobuf/proto"
-
-	"github.com/tx7do/go-utils/copierutil"
-	entgoQuery "github.com/tx7do/go-utils/entgo/query"
-	entgoUpdate "github.com/tx7do/go-utils/entgo/update"
-	"github.com/tx7do/go-utils/fieldmaskutil"
-	"github.com/tx7do/go-utils/mapper"
-	"github.com/tx7do/go-utils/timeutil"
-	pagination "github.com/tx7do/kratos-bootstrap/api/gen/go/pagination/v1"
-
 	"kratos-admin/app/admin/service/internal/data/ent"
 	"kratos-admin/app/admin/service/internal/data/ent/apiresource"
+	"kratos-admin/app/admin/service/internal/data/ent/predicate"
+
+	"entgo.io/ent/dialect/sql"
+	"github.com/go-kratos/kratos/v2/log"
+	pagination "github.com/tx7do/go-crud/api/gen/go/pagination/v1"
+	entCrud "github.com/tx7do/go-crud/entgo"
+	"github.com/tx7do/go-utils/copierutil"
+	"github.com/tx7do/go-utils/mapper"
+	"github.com/tx7do/go-utils/timeutil"
 
 	adminV1 "kratos-admin/api/gen/go/admin/service/v1"
 )
@@ -29,6 +25,15 @@ type ApiResourceRepo struct {
 
 	mapper         *mapper.CopierMapper[adminV1.ApiResource, ent.ApiResource]
 	scopeConverter *mapper.EnumTypeConverter[adminV1.ApiResource_Scope, apiresource.Scope]
+
+	repository *entCrud.Repository[
+		ent.ApiResourceQuery, ent.ApiResourceSelect,
+		ent.ApiResourceCreate, ent.ApiResourceCreateBulk,
+		ent.ApiResourceUpdate, ent.ApiResourceUpdateOne,
+		ent.ApiResourceDelete,
+		predicate.ApiResource,
+		adminV1.ApiResource, ent.ApiResource,
+	]
 }
 
 func NewApiResourceRepo(data *Data, logger log.Logger) *ApiResourceRepo {
@@ -45,6 +50,15 @@ func NewApiResourceRepo(data *Data, logger log.Logger) *ApiResourceRepo {
 }
 
 func (r *ApiResourceRepo) init() {
+	r.repository = entCrud.NewRepository[
+		ent.ApiResourceQuery, ent.ApiResourceSelect,
+		ent.ApiResourceCreate, ent.ApiResourceCreateBulk,
+		ent.ApiResourceUpdate, ent.ApiResourceUpdateOne,
+		ent.ApiResourceDelete,
+		predicate.ApiResource,
+		adminV1.ApiResource, ent.ApiResource,
+	](r.mapper)
+
 	r.mapper.AppendConverters(copierutil.NewTimeStringConverterPair())
 	r.mapper.AppendConverters(copierutil.NewTimeTimestamppbConverterPair())
 
@@ -73,42 +87,18 @@ func (r *ApiResourceRepo) List(ctx context.Context, req *pagination.PagingReques
 
 	builder := r.data.db.Client().ApiResource.Query()
 
-	err, whereSelectors, querySelectors := entgoQuery.BuildQuerySelector(
-		req.GetQuery(), req.GetOrQuery(),
-		req.GetPage(), req.GetPageSize(), req.GetNoPaging(),
-		req.GetOrderBy(), apiresource.FieldCreatedAt,
-		req.GetFieldMask().GetPaths(),
-	)
-	if err != nil {
-		r.log.Errorf("parse list param error [%s]", err.Error())
-		return nil, adminV1.ErrorBadRequest("invalid query parameter")
-	}
-
-	if querySelectors != nil {
-		builder.Modify(querySelectors...)
-	}
-
-	entities, err := builder.All(ctx)
-	if err != nil {
-		r.log.Errorf("query list failed: %s", err.Error())
-		return nil, adminV1.ErrorInternalServerError("query list failed")
-	}
-
-	dtos := make([]*adminV1.ApiResource, 0, len(entities))
-	for _, entity := range entities {
-		dto := r.mapper.ToDTO(entity)
-		dtos = append(dtos, dto)
-	}
-
-	count, err := r.Count(ctx, whereSelectors)
+	ret, err := r.repository.ListWithPaging(ctx, builder, builder.Clone(), req)
 	if err != nil {
 		return nil, err
 	}
+	if ret == nil {
+		return &adminV1.ListApiResourceResponse{Total: 0, Items: nil}, nil
+	}
 
 	return &adminV1.ListApiResourceResponse{
-		Total: uint32(count),
-		Items: dtos,
-	}, err
+		Total: ret.Total,
+		Items: ret.Items,
+	}, nil
 }
 
 func (r *ApiResourceRepo) IsExist(ctx context.Context, id uint32) (bool, error) {
@@ -129,22 +119,19 @@ func (r *ApiResourceRepo) Get(ctx context.Context, req *adminV1.GetApiResourceRe
 
 	builder := r.data.db.Client().ApiResource.Query()
 
-	builder.Where(apiresource.IDEQ(req.GetId()))
-
-	entgoQuery.ApplyFieldMaskToBuilder(builder, req.ViewMask)
-
-	entity, err := builder.Only(ctx)
-	if err != nil {
-		if ent.IsNotFound(err) {
-			return nil, adminV1.ErrorNotFound("api resource not found")
-		}
-
-		r.log.Errorf("query one data failed: %s", err.Error())
-
-		return nil, adminV1.ErrorInternalServerError("query data failed")
+	var whereCond []func(s *sql.Selector)
+	switch req.QueryBy.(type) {
+	default:
+	case *adminV1.GetApiResourceRequest_Id:
+		whereCond = append(whereCond, apiresource.IDEQ(req.GetId()))
 	}
 
-	return r.mapper.ToDTO(entity), nil
+	dto, err := r.repository.Get(ctx, builder, req.GetViewMask(), whereCond...)
+	if err != nil {
+		return nil, err
+	}
+
+	return dto, err
 }
 
 // GetApiResourceByEndpoint 根据路径和方法获取API资源
@@ -223,35 +210,30 @@ func (r *ApiResourceRepo) Update(ctx context.Context, req *adminV1.UpdateApiReso
 		}
 	}
 
-	if err := fieldmaskutil.FilterByFieldMask(trans.Ptr(proto.Message(req.GetData())), req.UpdateMask); err != nil {
-		r.log.Errorf("invalid field mask [%v], error: %s", req.UpdateMask, err.Error())
-		return adminV1.ErrorBadRequest("invalid field mask")
-	}
+	builder := r.data.db.Client().Debug().ApiResource.Update()
+	err := r.repository.UpdateX(ctx, builder, req.Data, req.GetUpdateMask(),
+		func(dto *adminV1.ApiResource) {
+			builder.
+				SetNillableDescription(req.Data.Description).
+				SetNillableModule(req.Data.Module).
+				SetNillableModuleDescription(req.Data.ModuleDescription).
+				SetNillableOperation(req.Data.Operation).
+				SetNillablePath(req.Data.Path).
+				SetNillableMethod(req.Data.Method).
+				SetNillableScope(r.scopeConverter.ToEntity(req.Data.Scope)).
+				SetNillableUpdatedBy(req.Data.UpdatedBy).
+				SetNillableUpdatedAt(timeutil.TimestamppbToTime(req.Data.UpdatedAt))
 
-	builder := r.data.db.Client().ApiResource.
-		UpdateOneID(req.Data.GetId()).
-		SetNillableDescription(req.Data.Description).
-		SetNillableModule(req.Data.Module).
-		SetNillableModuleDescription(req.Data.ModuleDescription).
-		SetNillableOperation(req.Data.Operation).
-		SetNillablePath(req.Data.Path).
-		SetNillableMethod(req.Data.Method).
-		SetNillableScope(r.scopeConverter.ToEntity(req.Data.Scope)).
-		SetNillableUpdatedBy(req.Data.UpdatedBy).
-		SetNillableUpdatedAt(timeutil.TimestamppbToTime(req.Data.UpdatedAt))
+			if req.Data.UpdatedAt == nil {
+				builder.SetUpdatedAt(time.Now())
+			}
+		},
+		func(s *sql.Selector) {
+			s.Where(sql.EQ(apiresource.FieldID, req.Data.GetId()))
+		},
+	)
 
-	if req.Data.UpdatedAt == nil {
-		builder.SetUpdatedAt(time.Now())
-	}
-
-	entgoUpdate.ApplyNilFieldMask(proto.Message(req.GetData()), req.UpdateMask, builder)
-
-	if err := builder.Exec(ctx); err != nil {
-		r.log.Errorf("update one data failed: %s", err.Error())
-		return adminV1.ErrorInternalServerError("update data failed")
-	}
-
-	return nil
+	return err
 }
 
 func (r *ApiResourceRepo) Delete(ctx context.Context, req *adminV1.DeleteApiResourceRequest) error {
@@ -259,14 +241,14 @@ func (r *ApiResourceRepo) Delete(ctx context.Context, req *adminV1.DeleteApiReso
 		return adminV1.ErrorBadRequest("invalid parameter")
 	}
 
-	if err := r.data.db.Client().ApiResource.DeleteOneID(req.GetId()).Exec(ctx); err != nil {
-		if ent.IsNotFound(err) {
-			return adminV1.ErrorNotFound("api resource not found")
-		}
+	builder := r.data.db.Client().Debug().ApiResource.Delete()
 
-		r.log.Errorf("delete one data failed: %s", err.Error())
-
-		return adminV1.ErrorInternalServerError("delete failed")
+	_, err := r.repository.Delete(ctx, builder, func(s *sql.Selector) {
+		s.Where(sql.EQ(apiresource.FieldID, req.GetId()))
+	})
+	if err != nil {
+		r.log.Errorf("delete api resource failed: %s", err.Error())
+		return adminV1.ErrorInternalServerError("delete api resource failed")
 	}
 
 	return nil

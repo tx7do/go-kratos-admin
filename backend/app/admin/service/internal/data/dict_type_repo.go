@@ -4,21 +4,17 @@ import (
 	"context"
 	"time"
 
-	"entgo.io/ent/dialect/sql"
-	"github.com/go-kratos/kratos/v2/log"
-	"github.com/tx7do/go-utils/trans"
-	"google.golang.org/protobuf/proto"
-
-	"github.com/tx7do/go-utils/copierutil"
-	entgoQuery "github.com/tx7do/go-utils/entgo/query"
-	entgoUpdate "github.com/tx7do/go-utils/entgo/update"
-	"github.com/tx7do/go-utils/fieldmaskutil"
-	"github.com/tx7do/go-utils/mapper"
-	"github.com/tx7do/go-utils/timeutil"
-	pagination "github.com/tx7do/kratos-bootstrap/api/gen/go/pagination/v1"
-
 	"kratos-admin/app/admin/service/internal/data/ent"
 	"kratos-admin/app/admin/service/internal/data/ent/dicttype"
+	"kratos-admin/app/admin/service/internal/data/ent/predicate"
+
+	"entgo.io/ent/dialect/sql"
+	"github.com/go-kratos/kratos/v2/log"
+	pagination "github.com/tx7do/go-crud/api/gen/go/pagination/v1"
+	entCrud "github.com/tx7do/go-crud/entgo"
+	"github.com/tx7do/go-utils/copierutil"
+	"github.com/tx7do/go-utils/mapper"
+	"github.com/tx7do/go-utils/timeutil"
 
 	dictV1 "kratos-admin/api/gen/go/dict/service/v1"
 )
@@ -28,6 +24,15 @@ type DictTypeRepo struct {
 	log  *log.Helper
 
 	mapper *mapper.CopierMapper[dictV1.DictType, ent.DictType]
+
+	repository *entCrud.Repository[
+		ent.DictTypeQuery, ent.DictTypeSelect,
+		ent.DictTypeCreate, ent.DictTypeCreateBulk,
+		ent.DictTypeUpdate, ent.DictTypeUpdateOne,
+		ent.DictTypeDelete,
+		predicate.DictType,
+		dictV1.DictType, ent.DictType,
+	]
 }
 
 func NewDictTypeRepo(data *Data, logger log.Logger) *DictTypeRepo {
@@ -43,6 +48,15 @@ func NewDictTypeRepo(data *Data, logger log.Logger) *DictTypeRepo {
 }
 
 func (r *DictTypeRepo) init() {
+	r.repository = entCrud.NewRepository[
+		ent.DictTypeQuery, ent.DictTypeSelect,
+		ent.DictTypeCreate, ent.DictTypeCreateBulk,
+		ent.DictTypeUpdate, ent.DictTypeUpdateOne,
+		ent.DictTypeDelete,
+		predicate.DictType,
+		dictV1.DictType, ent.DictType,
+	](r.mapper)
+
 	r.mapper.AppendConverters(copierutil.NewTimeStringConverterPair())
 	r.mapper.AppendConverters(copierutil.NewTimeTimestamppbConverterPair())
 }
@@ -69,42 +83,18 @@ func (r *DictTypeRepo) List(ctx context.Context, req *pagination.PagingRequest) 
 
 	builder := r.data.db.Client().DictType.Query()
 
-	err, whereSelectors, querySelectors := entgoQuery.BuildQuerySelector(
-		req.GetQuery(), req.GetOrQuery(),
-		req.GetPage(), req.GetPageSize(), req.GetNoPaging(),
-		req.GetOrderBy(), dicttype.FieldCreatedAt,
-		req.GetFieldMask().GetPaths(),
-	)
-	if err != nil {
-		r.log.Errorf("parse list param error [%s]", err.Error())
-		return nil, dictV1.ErrorBadRequest("invalid query parameter")
-	}
-
-	if querySelectors != nil {
-		builder.Modify(querySelectors...)
-	}
-
-	entities, err := builder.All(ctx)
-	if err != nil {
-		r.log.Errorf("query list failed: %s", err.Error())
-		return nil, dictV1.ErrorInternalServerError("query list failed")
-	}
-
-	dtos := make([]*dictV1.DictType, 0, len(entities))
-	for _, entity := range entities {
-		dto := r.mapper.ToDTO(entity)
-		dtos = append(dtos, dto)
-	}
-
-	count, err := r.Count(ctx, whereSelectors)
+	ret, err := r.repository.ListWithPaging(ctx, builder, builder.Clone(), req)
 	if err != nil {
 		return nil, err
 	}
+	if ret == nil {
+		return &dictV1.ListDictTypeResponse{Total: 0, Items: nil}, nil
+	}
 
 	return &dictV1.ListDictTypeResponse{
-		Total: uint32(count),
-		Items: dtos,
-	}, err
+		Total: ret.Total,
+		Items: ret.Items,
+	}, nil
 }
 
 func (r *DictTypeRepo) IsExist(ctx context.Context, id uint32) (bool, error) {
@@ -125,29 +115,21 @@ func (r *DictTypeRepo) Get(ctx context.Context, req *dictV1.GetDictTypeRequest) 
 
 	builder := r.data.db.Client().DictType.Query()
 
-	switch req.GetQueryBy().(type) {
+	var whereCond []func(s *sql.Selector)
+	switch req.QueryBy.(type) {
+	default:
 	case *dictV1.GetDictTypeRequest_Id:
-		builder.Where(dicttype.IDEQ(req.GetId()))
+		whereCond = append(whereCond, dicttype.IDEQ(req.GetId()))
 	case *dictV1.GetDictTypeRequest_Code:
 		builder.Where(dicttype.TypeCodeEQ(req.GetCode()))
-	default:
-		return nil, dictV1.ErrorBadRequest("invalid query parameter")
 	}
 
-	entgoQuery.ApplyFieldMaskToBuilder(builder, req.ViewMask)
-
-	entity, err := builder.Only(ctx)
+	dto, err := r.repository.Get(ctx, builder, req.GetViewMask(), whereCond...)
 	if err != nil {
-		if ent.IsNotFound(err) {
-			return nil, dictV1.ErrorNotFound("dict not found")
-		}
-
-		r.log.Errorf("query one data failed: %s", err.Error())
-
-		return nil, dictV1.ErrorInternalServerError("query data failed")
+		return nil, err
 	}
 
-	return r.mapper.ToDTO(entity), nil
+	return dto, err
 }
 
 func (r *DictTypeRepo) Create(ctx context.Context, req *dictV1.CreateDictTypeRequest) error {
@@ -199,33 +181,28 @@ func (r *DictTypeRepo) Update(ctx context.Context, req *dictV1.UpdateDictTypeReq
 		}
 	}
 
-	if err := fieldmaskutil.FilterByFieldMask(trans.Ptr(proto.Message(req.GetData())), req.UpdateMask); err != nil {
-		r.log.Errorf("invalid field mask [%v], error: %s", req.UpdateMask, err.Error())
-		return dictV1.ErrorBadRequest("invalid field mask")
-	}
+	builder := r.data.db.Client().Debug().DictType.Update()
+	err := r.repository.UpdateX(ctx, builder, req.Data, req.GetUpdateMask(),
+		func(dto *dictV1.DictType) {
+			builder.
+				SetNillableTypeCode(req.Data.TypeCode).
+				SetNillableTypeName(req.Data.TypeName).
+				SetNillableSortOrder(req.Data.SortOrder).
+				SetNillableIsEnabled(req.Data.IsEnabled).
+				SetNillableDescription(req.Data.Description).
+				SetNillableUpdatedBy(req.Data.UpdatedBy).
+				SetNillableUpdatedAt(timeutil.TimestamppbToTime(req.Data.UpdatedAt))
 
-	builder := r.data.db.Client().DictType.
-		UpdateOneID(req.Data.GetId()).
-		SetNillableTypeCode(req.Data.TypeCode).
-		SetNillableTypeName(req.Data.TypeName).
-		SetNillableSortOrder(req.Data.SortOrder).
-		SetNillableIsEnabled(req.Data.IsEnabled).
-		SetNillableDescription(req.Data.Description).
-		SetNillableUpdatedBy(req.Data.UpdatedBy).
-		SetNillableUpdatedAt(timeutil.TimestamppbToTime(req.Data.UpdatedAt))
+			if req.Data.UpdatedAt == nil {
+				builder.SetUpdatedAt(time.Now())
+			}
+		},
+		func(s *sql.Selector) {
+			s.Where(sql.EQ(dicttype.FieldID, req.Data.GetId()))
+		},
+	)
 
-	if req.Data.UpdatedAt == nil {
-		builder.SetUpdatedAt(time.Now())
-	}
-
-	entgoUpdate.ApplyNilFieldMask(proto.Message(req.GetData()), req.UpdateMask, builder)
-
-	if err := builder.Exec(ctx); err != nil {
-		r.log.Errorf("update one data failed: %s", err.Error())
-		return dictV1.ErrorInternalServerError("update data failed")
-	}
-
-	return nil
+	return err
 }
 
 func (r *DictTypeRepo) Delete(ctx context.Context, id uint32) error {

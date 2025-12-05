@@ -10,7 +10,7 @@ import (
 	context "context"
 	http "github.com/go-kratos/kratos/v2/transport/http"
 	binding "github.com/go-kratos/kratos/v2/transport/http/binding"
-	v1 "github.com/tx7do/kratos-bootstrap/api/gen/go/pagination/v1"
+	v1 "github.com/tx7do/go-crud/api/gen/go/pagination/v1"
 	emptypb "google.golang.org/protobuf/types/known/emptypb"
 	v11 "kratos-admin/api/gen/go/user/service/v1"
 )
@@ -50,7 +50,7 @@ type UserServiceHTTPServer interface {
 func RegisterUserServiceHTTPServer(s *http.Server, srv UserServiceHTTPServer) {
 	r := s.Route("/")
 	r.GET("/admin/v1/users", _UserService_List13_HTTP_Handler(srv))
-	r.GET("/api/v1/users/username/{username}", _UserService_Get13_HTTP_Handler(srv))
+	r.GET("/api/v1/users/username/{user_name}", _UserService_Get13_HTTP_Handler(srv))
 	r.GET("/admin/v1/users/{id}", _UserService_Get14_HTTP_Handler(srv))
 	r.POST("/admin/v1/users", _UserService_Create11_HTTP_Handler(srv))
 	r.PUT("/admin/v1/users/{data.id}", _UserService_Update11_HTTP_Handler(srv))

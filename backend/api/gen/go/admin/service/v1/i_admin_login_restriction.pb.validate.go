@@ -435,7 +435,22 @@ func (m *GetAdminLoginRestrictionRequest) validate(all bool) error {
 
 	var errors []error
 
-	// no validation rules for Id
+	switch v := m.QueryBy.(type) {
+	case *GetAdminLoginRestrictionRequest_Id:
+		if v == nil {
+			err := GetAdminLoginRestrictionRequestValidationError{
+				field:  "QueryBy",
+				reason: "oneof value cannot be a typed-nil",
+			}
+			if !all {
+				return err
+			}
+			errors = append(errors, err)
+		}
+		// no validation rules for Id
+	default:
+		_ = v // ensures v is used
+	}
 
 	if m.ViewMask != nil {
 

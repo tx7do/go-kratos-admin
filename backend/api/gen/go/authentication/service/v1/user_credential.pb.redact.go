@@ -6,7 +6,7 @@ package servicev1
 import (
 	context "context"
 	redact "github.com/menta2k/protoc-gen-redact/v3/redact/v3"
-	pagination "github.com/tx7do/kratos-bootstrap/api/gen/go/pagination/v1"
+	pagination "github.com/tx7do/go-crud/api/gen/go/pagination/v1"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
@@ -25,7 +25,7 @@ var (
 	_ emptypb.Empty
 	_ fieldmaskpb.FieldMask
 	_ timestamppb.Timestamp
-	_ pagination.PagingRequest
+	_ pagination.Sorting
 )
 
 // RegisterRedactedUserCredentialServiceServer wraps the UserCredentialServiceServer with the redacted server and registers the service in GRPC
@@ -240,6 +240,8 @@ func (x *GetUserCredentialRequest) Redact() string {
 	}
 
 	// Safe field: Id
+
+	// Safe field: ViewMask
 	return x.String()
 }
 

@@ -8,7 +8,7 @@ package servicev1
 
 import (
 	_ "github.com/google/gnostic/openapiv3"
-	v1 "github.com/tx7do/kratos-bootstrap/api/gen/go/pagination/v1"
+	v1 "github.com/tx7do/go-crud/api/gen/go/pagination/v1"
 	_ "google.golang.org/genproto/googleapis/api/annotations"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
@@ -390,7 +390,7 @@ func (x *Task) GetDeletedAt() *timestamppb.Timestamp {
 type ListTaskResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Items         []*Task                `protobuf:"bytes,1,rep,name=items,proto3" json:"items,omitempty"`
-	Total         uint32                 `protobuf:"varint,2,opt,name=total,proto3" json:"total,omitempty"`
+	Total         uint64                 `protobuf:"varint,2,opt,name=total,proto3" json:"total,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -432,7 +432,7 @@ func (x *ListTaskResponse) GetItems() []*Task {
 	return nil
 }
 
-func (x *ListTaskResponse) GetTotal() uint32 {
+func (x *ListTaskResponse) GetTotal() uint64 {
 	if x != nil {
 		return x.Total
 	}
@@ -441,9 +441,12 @@ func (x *ListTaskResponse) GetTotal() uint32 {
 
 // 查询调度任务详情 - 请求
 type GetTaskRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            uint32                 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
-	ViewMask      *fieldmaskpb.FieldMask `protobuf:"bytes,100,opt,name=view_mask,json=viewMask,proto3,oneof" json:"view_mask,omitempty"` // 视图字段过滤器，用于控制返回的字段
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Types that are valid to be assigned to QueryBy:
+	//
+	//	*GetTaskRequest_Id
+	QueryBy       isGetTaskRequest_QueryBy `protobuf_oneof:"query_by"`
+	ViewMask      *fieldmaskpb.FieldMask   `protobuf:"bytes,100,opt,name=view_mask,json=viewMask,proto3,oneof" json:"view_mask,omitempty"` // 视图字段过滤器，用于控制返回的字段
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -478,9 +481,18 @@ func (*GetTaskRequest) Descriptor() ([]byte, []int) {
 	return file_admin_service_v1_i_task_proto_rawDescGZIP(), []int{3}
 }
 
+func (x *GetTaskRequest) GetQueryBy() isGetTaskRequest_QueryBy {
+	if x != nil {
+		return x.QueryBy
+	}
+	return nil
+}
+
 func (x *GetTaskRequest) GetId() uint32 {
 	if x != nil {
-		return x.Id
+		if x, ok := x.QueryBy.(*GetTaskRequest_Id); ok {
+			return x.Id
+		}
 	}
 	return 0
 }
@@ -491,6 +503,16 @@ func (x *GetTaskRequest) GetViewMask() *fieldmaskpb.FieldMask {
 	}
 	return nil
 }
+
+type isGetTaskRequest_QueryBy interface {
+	isGetTaskRequest_QueryBy()
+}
+
+type GetTaskRequest_Id struct {
+	Id uint32 `protobuf:"varint,1,opt,name=id,proto3,oneof"` // ID
+}
+
+func (*GetTaskRequest_Id) isGetTaskRequest_QueryBy() {}
 
 type GetTaskByTypeNameRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
@@ -915,10 +937,13 @@ const file_admin_service_v1_i_task_proto_rawDesc = "" +
 	"\v_deleted_at\"V\n" +
 	"\x10ListTaskResponse\x12,\n" +
 	"\x05items\x18\x01 \x03(\v2\x16.admin.service.v1.TaskR\x05items\x12\x14\n" +
-	"\x05total\x18\x02 \x01(\rR\x05total\"\xa7\x01\n" +
-	"\x0eGetTaskRequest\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\rR\x02id\x12w\n" +
-	"\tview_mask\x18d \x01(\v2\x1a.google.protobuf.FieldMaskB9\xbaG6\x92\x023视图字段过滤器，用于控制返回的字段H\x00R\bviewMask\x88\x01\x01B\f\n" +
+	"\x05total\x18\x02 \x01(\x04R\x05total\"\xc1\x01\n" +
+	"\x0eGetTaskRequest\x12\x1c\n" +
+	"\x02id\x18\x01 \x01(\rB\n" +
+	"\xbaG\a\x18\x01\x92\x02\x02IDH\x00R\x02id\x12w\n" +
+	"\tview_mask\x18d \x01(\v2\x1a.google.protobuf.FieldMaskB9\xbaG6\x92\x023视图字段过滤器，用于控制返回的字段H\x01R\bviewMask\x88\x01\x01B\n" +
+	"\n" +
+	"\bquery_byB\f\n" +
 	"\n" +
 	"_view_mask\"\xb1\x02\n" +
 	"\x18GetTaskByTypeNameRequest\x12\x8d\x01\n" +
@@ -1052,7 +1077,9 @@ func file_admin_service_v1_i_task_proto_init() {
 	}
 	file_admin_service_v1_i_task_proto_msgTypes[0].OneofWrappers = []any{}
 	file_admin_service_v1_i_task_proto_msgTypes[1].OneofWrappers = []any{}
-	file_admin_service_v1_i_task_proto_msgTypes[3].OneofWrappers = []any{}
+	file_admin_service_v1_i_task_proto_msgTypes[3].OneofWrappers = []any{
+		(*GetTaskRequest_Id)(nil),
+	}
 	file_admin_service_v1_i_task_proto_msgTypes[4].OneofWrappers = []any{}
 	file_admin_service_v1_i_task_proto_msgTypes[6].OneofWrappers = []any{}
 	type x struct{}

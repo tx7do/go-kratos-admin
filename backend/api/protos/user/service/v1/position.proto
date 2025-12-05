@@ -89,12 +89,17 @@ message Position {
 // 获取职位列表 - 答复
 message ListPositionResponse {
   repeated Position items = 1;
-  uint32 total = 2;
+  uint64 total = 2;
 }
 
 // 获取职位数据 - 请求
 message GetPositionRequest {
-  uint32 id = 1;
+  oneof query_by {
+    uint32 id = 1 [
+      (gnostic.openapi.v3.property) = {description: "ID", read_only: true},
+      json_name = "id"
+    ]; // ID
+  }
 
   optional google.protobuf.FieldMask view_mask = 100 [
     json_name = "viewMask",

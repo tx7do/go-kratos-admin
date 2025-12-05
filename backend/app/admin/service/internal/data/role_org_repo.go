@@ -10,7 +10,7 @@ import (
 	userV1 "kratos-admin/api/gen/go/user/service/v1"
 
 	"github.com/go-kratos/kratos/v2/log"
-	"github.com/tx7do/go-utils/entgo"
+	"github.com/tx7do/go-crud/entgo"
 )
 
 type RoleOrgRepo struct {

@@ -12,8 +12,8 @@ import (
 	"github.com/tx7do/kratos-authz/engine/noop"
 	"github.com/tx7do/kratos-authz/engine/opa"
 
+	pagination "github.com/tx7do/go-crud/api/gen/go/pagination/v1"
 	conf "github.com/tx7do/kratos-bootstrap/api/gen/go/conf/v1"
-	pagination "github.com/tx7do/kratos-bootstrap/api/gen/go/pagination/v1"
 
 	"kratos-admin/app/admin/service/cmd/server/assets"
 

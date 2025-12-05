@@ -5,22 +5,17 @@ import (
 	"sort"
 	"time"
 
-	"entgo.io/ent/dialect/sql"
-	"github.com/go-kratos/kratos/v2/log"
-	"github.com/tx7do/go-utils/entgo"
-	"github.com/tx7do/go-utils/trans"
-	"google.golang.org/protobuf/proto"
-
-	"github.com/tx7do/go-utils/copierutil"
-	entgoQuery "github.com/tx7do/go-utils/entgo/query"
-	entgoUpdate "github.com/tx7do/go-utils/entgo/update"
-	"github.com/tx7do/go-utils/fieldmaskutil"
-	"github.com/tx7do/go-utils/mapper"
-	"github.com/tx7do/go-utils/timeutil"
-	pagination "github.com/tx7do/kratos-bootstrap/api/gen/go/pagination/v1"
-
 	"kratos-admin/app/admin/service/internal/data/ent"
 	"kratos-admin/app/admin/service/internal/data/ent/organization"
+	"kratos-admin/app/admin/service/internal/data/ent/predicate"
+
+	"entgo.io/ent/dialect/sql"
+	"github.com/go-kratos/kratos/v2/log"
+	pagination "github.com/tx7do/go-crud/api/gen/go/pagination/v1"
+	entCrud "github.com/tx7do/go-crud/entgo"
+	"github.com/tx7do/go-utils/copierutil"
+	"github.com/tx7do/go-utils/mapper"
+	"github.com/tx7do/go-utils/timeutil"
 
 	userV1 "kratos-admin/api/gen/go/user/service/v1"
 )
@@ -32,6 +27,15 @@ type OrganizationRepo struct {
 	mapper          *mapper.CopierMapper[userV1.Organization, ent.Organization]
 	typeConverter   *mapper.EnumTypeConverter[userV1.Organization_Type, organization.OrganizationType]
 	statusConverter *mapper.EnumTypeConverter[userV1.Organization_Status, organization.Status]
+
+	repository *entCrud.Repository[
+		ent.OrganizationQuery, ent.OrganizationSelect,
+		ent.OrganizationCreate, ent.OrganizationCreateBulk,
+		ent.OrganizationUpdate, ent.OrganizationUpdateOne,
+		ent.OrganizationDelete,
+		predicate.Organization,
+		userV1.Organization, ent.Organization,
+	]
 }
 
 func NewOrganizationRepo(data *Data, logger log.Logger) *OrganizationRepo {
@@ -49,38 +53,20 @@ func NewOrganizationRepo(data *Data, logger log.Logger) *OrganizationRepo {
 }
 
 func (r *OrganizationRepo) init() {
+	r.repository = entCrud.NewRepository[
+		ent.OrganizationQuery, ent.OrganizationSelect,
+		ent.OrganizationCreate, ent.OrganizationCreateBulk,
+		ent.OrganizationUpdate, ent.OrganizationUpdateOne,
+		ent.OrganizationDelete,
+		predicate.Organization,
+		userV1.Organization, ent.Organization,
+	](r.mapper)
+
 	r.mapper.AppendConverters(copierutil.NewTimeStringConverterPair())
 	r.mapper.AppendConverters(copierutil.NewTimeTimestamppbConverterPair())
 
 	r.mapper.AppendConverters(r.typeConverter.NewConverterPair())
 	r.mapper.AppendConverters(r.statusConverter.NewConverterPair())
-}
-
-func (r *OrganizationRepo) travelChild(nodes []*userV1.Organization, node *userV1.Organization) bool {
-	if nodes == nil {
-		return false
-	}
-
-	if node.ParentId == nil {
-		nodes = append(nodes, node)
-		return true
-	}
-
-	for _, n := range nodes {
-		if node.ParentId == nil {
-			continue
-		}
-
-		if n.GetId() == node.GetParentId() {
-			n.Children = append(n.Children, node)
-			return true
-		} else {
-			if r.travelChild(n.Children, node) {
-				return true
-			}
-		}
-	}
-	return false
 }
 
 func (r *OrganizationRepo) Count(ctx context.Context, whereCond []func(s *sql.Selector)) (int, error) {
@@ -105,19 +91,10 @@ func (r *OrganizationRepo) List(ctx context.Context, req *pagination.PagingReque
 
 	builder := r.data.db.Client().Organization.Query()
 
-	err, whereSelectors, querySelectors := entgoQuery.BuildQuerySelector(
-		req.GetQuery(), req.GetOrQuery(),
-		req.GetPage(), req.GetPageSize(), req.GetNoPaging(),
-		req.GetOrderBy(), organization.FieldCreatedAt,
-		req.GetFieldMask().GetPaths(),
-	)
+	whereSelectors, _, err := r.repository.BuildListSelectorWithPaging(builder, req)
 	if err != nil {
 		r.log.Errorf("parse list param error [%s]", err.Error())
 		return nil, userV1.ErrorBadRequest("invalid query parameter")
-	}
-
-	if querySelectors != nil {
-		builder.Modify(querySelectors...)
 	}
 
 	entities, err := builder.All(ctx)
@@ -148,7 +125,9 @@ func (r *OrganizationRepo) List(ctx context.Context, req *pagination.PagingReque
 		if entity.ParentID != nil {
 			dto := r.mapper.ToDTO(entity)
 
-			if r.travelChild(dtos, dto) {
+			if entCrud.TravelChild(&dtos, dto, func(parent *userV1.Organization, node *userV1.Organization) {
+				parent.Children = append(parent.Children, node)
+			}) {
 				continue
 			}
 
@@ -162,7 +141,7 @@ func (r *OrganizationRepo) List(ctx context.Context, req *pagination.PagingReque
 	}
 
 	return &userV1.ListOrganizationResponse{
-		Total: uint32(count),
+		Total: uint64(count),
 		Items: dtos,
 	}, err
 }
@@ -185,22 +164,19 @@ func (r *OrganizationRepo) Get(ctx context.Context, req *userV1.GetOrganizationR
 
 	builder := r.data.db.Client().Organization.Query()
 
-	builder.Where(organization.IDEQ(req.GetId()))
-
-	entgoQuery.ApplyFieldMaskToBuilder(builder, req.ViewMask)
-
-	entity, err := builder.Only(ctx)
-	if err != nil {
-		if ent.IsNotFound(err) {
-			return nil, userV1.ErrorOrganizationNotFound("organization not found")
-		}
-
-		r.log.Errorf("query one data failed: %s", err.Error())
-
-		return nil, userV1.ErrorInternalServerError("query data failed")
+	var whereCond []func(s *sql.Selector)
+	switch req.QueryBy.(type) {
+	default:
+	case *userV1.GetOrganizationRequest_Id:
+		whereCond = append(whereCond, organization.IDEQ(req.GetId()))
 	}
 
-	return r.mapper.ToDTO(entity), nil
+	dto, err := r.repository.Get(ctx, builder, req.GetViewMask(), whereCond...)
+	if err != nil {
+		return nil, err
+	}
+
+	return dto, err
 }
 
 // GetOrganizationsByIds 通过多个ID获取组织列表
@@ -284,39 +260,34 @@ func (r *OrganizationRepo) Update(ctx context.Context, req *userV1.UpdateOrganiz
 		}
 	}
 
-	if err := fieldmaskutil.FilterByFieldMask(trans.Ptr(proto.Message(req.GetData())), req.UpdateMask); err != nil {
-		r.log.Errorf("invalid field mask [%v], error: %s", req.UpdateMask, err.Error())
-		return userV1.ErrorBadRequest("invalid field mask")
-	}
+	builder := r.data.db.Client().Debug().Organization.Update()
+	err := r.repository.UpdateX(ctx, builder, req.Data, req.GetUpdateMask(),
+		func(dto *userV1.Organization) {
+			builder.
+				SetNillableName(req.Data.Name).
+				SetNillableParentID(req.Data.ParentId).
+				SetNillableSortOrder(req.Data.SortOrder).
+				SetNillableRemark(req.Data.Remark).
+				SetNillableStatus(r.statusConverter.ToEntity(req.Data.Status)).
+				SetNillableOrganizationType(r.typeConverter.ToEntity(req.Data.OrganizationType)).
+				SetNillableIsLegalEntity(req.Data.IsLegalEntity).
+				SetNillableBusinessScope(req.Data.BusinessScope).
+				SetNillableCreditCode(req.Data.CreditCode).
+				SetNillableAddress(req.Data.Address).
+				SetNillableManagerID(req.Data.ManagerId).
+				SetNillableUpdatedBy(req.Data.UpdatedBy).
+				SetNillableUpdatedAt(timeutil.TimestamppbToTime(req.Data.UpdatedAt))
 
-	builder := r.data.db.Client().Organization.
-		UpdateOneID(req.Data.GetId()).
-		SetNillableName(req.Data.Name).
-		SetNillableParentID(req.Data.ParentId).
-		SetNillableSortOrder(req.Data.SortOrder).
-		SetNillableRemark(req.Data.Remark).
-		SetNillableStatus(r.statusConverter.ToEntity(req.Data.Status)).
-		SetNillableOrganizationType(r.typeConverter.ToEntity(req.Data.OrganizationType)).
-		SetNillableIsLegalEntity(req.Data.IsLegalEntity).
-		SetNillableBusinessScope(req.Data.BusinessScope).
-		SetNillableCreditCode(req.Data.CreditCode).
-		SetNillableAddress(req.Data.Address).
-		SetNillableManagerID(req.Data.ManagerId).
-		SetNillableUpdatedBy(req.Data.UpdatedBy).
-		SetNillableUpdatedAt(timeutil.TimestamppbToTime(req.Data.UpdatedAt))
+			if req.Data.UpdatedAt == nil {
+				builder.SetUpdatedAt(time.Now())
+			}
+		},
+		func(s *sql.Selector) {
+			s.Where(sql.EQ(organization.FieldID, req.Data.GetId()))
+		},
+	)
 
-	if req.Data.UpdatedAt == nil {
-		builder.SetUpdatedAt(time.Now())
-	}
-
-	entgoUpdate.ApplyNilFieldMask(proto.Message(req.GetData()), req.UpdateMask, builder)
-
-	if err := builder.Exec(ctx); err != nil {
-		r.log.Errorf("update one data failed: %s", err.Error())
-		return userV1.ErrorInternalServerError("update data failed")
-	}
-
-	return nil
+	return err
 }
 
 func (r *OrganizationRepo) Delete(ctx context.Context, req *userV1.DeleteOrganizationRequest) error {
@@ -324,7 +295,7 @@ func (r *OrganizationRepo) Delete(ctx context.Context, req *userV1.DeleteOrganiz
 		return userV1.ErrorBadRequest("invalid parameter")
 	}
 
-	ids, err := entgo.QueryAllChildrenIds(ctx, r.data.db, "sys_organizations", req.GetId())
+	ids, err := entCrud.QueryAllChildrenIds(ctx, r.data.db, "sys_organizations", req.GetId())
 	if err != nil {
 		r.log.Errorf("query child organizations failed: %s", err.Error())
 		return userV1.ErrorInternalServerError("query child organizations failed")
@@ -333,11 +304,14 @@ func (r *OrganizationRepo) Delete(ctx context.Context, req *userV1.DeleteOrganiz
 
 	//r.log.Info("organizations ids to delete: ", ids)
 
-	if _, err = r.data.db.Client().Organization.Delete().
-		Where(organization.IDIn(ids...)).
-		Exec(ctx); err != nil {
-		r.log.Errorf("delete organizations failed: %s", err.Error())
-		return userV1.ErrorInternalServerError("delete organizations failed")
+	builder := r.data.db.Client().Debug().Organization.Delete()
+
+	_, err = r.repository.Delete(ctx, builder, func(s *sql.Selector) {
+		s.Where(sql.In(organization.FieldID, ids))
+	})
+	if err != nil {
+		r.log.Errorf("delete organization failed: %s", err.Error())
+		return userV1.ErrorInternalServerError("delete organization failed")
 	}
 
 	return nil

@@ -115,12 +115,17 @@ message InternalMessage {
 // 查询站内信消息列表 - 回应
 message ListInternalMessageResponse {
   repeated InternalMessage items = 1;
-  uint32 total = 2;
+  uint64 total = 2;
 }
 
 // 查询站内信消息详情 - 请求
 message GetInternalMessageRequest {
-  uint32 id = 1;
+  oneof query_by {
+    uint32 id = 1 [
+      (gnostic.openapi.v3.property) = {description: "ID", read_only: true},
+      json_name = "id"
+    ]; // ID
+  }
 
   optional google.protobuf.FieldMask view_mask = 100 [
     json_name = "viewMask",

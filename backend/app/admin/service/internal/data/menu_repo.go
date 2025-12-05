@@ -7,20 +7,17 @@ import (
 
 	"entgo.io/ent/dialect/sql"
 	"github.com/go-kratos/kratos/v2/log"
-	"github.com/tx7do/go-utils/entgo"
-	"github.com/tx7do/go-utils/trans"
-	"google.golang.org/protobuf/proto"
-
-	"github.com/tx7do/go-utils/copierutil"
-	entgoQuery "github.com/tx7do/go-utils/entgo/query"
-	entgoUpdate "github.com/tx7do/go-utils/entgo/update"
-	"github.com/tx7do/go-utils/fieldmaskutil"
-	"github.com/tx7do/go-utils/mapper"
-	"github.com/tx7do/go-utils/timeutil"
-	pagination "github.com/tx7do/kratos-bootstrap/api/gen/go/pagination/v1"
+	pagination "github.com/tx7do/go-crud/api/gen/go/pagination/v1"
+	entCrud "github.com/tx7do/go-crud/entgo"
+	entgoUpdate "github.com/tx7do/go-crud/entgo/update"
 
 	"kratos-admin/app/admin/service/internal/data/ent"
 	"kratos-admin/app/admin/service/internal/data/ent/menu"
+	"kratos-admin/app/admin/service/internal/data/ent/predicate"
+
+	"github.com/tx7do/go-utils/copierutil"
+	"github.com/tx7do/go-utils/mapper"
+	"github.com/tx7do/go-utils/timeutil"
 
 	adminV1 "kratos-admin/api/gen/go/admin/service/v1"
 )
@@ -32,6 +29,15 @@ type MenuRepo struct {
 	mapper          *mapper.CopierMapper[adminV1.Menu, ent.Menu]
 	statusConverter *mapper.EnumTypeConverter[adminV1.Menu_Status, menu.Status]
 	typeConverter   *mapper.EnumTypeConverter[adminV1.Menu_Type, menu.Type]
+
+	repository *entCrud.Repository[
+		ent.MenuQuery, ent.MenuSelect,
+		ent.MenuCreate, ent.MenuCreateBulk,
+		ent.MenuUpdate, ent.MenuUpdateOne,
+		ent.MenuDelete,
+		predicate.Menu,
+		adminV1.Menu, ent.Menu,
+	]
 }
 
 func NewMenuRepo(data *Data, logger log.Logger) *MenuRepo {
@@ -49,38 +55,20 @@ func NewMenuRepo(data *Data, logger log.Logger) *MenuRepo {
 }
 
 func (r *MenuRepo) init() {
+	r.repository = entCrud.NewRepository[
+		ent.MenuQuery, ent.MenuSelect,
+		ent.MenuCreate, ent.MenuCreateBulk,
+		ent.MenuUpdate, ent.MenuUpdateOne,
+		ent.MenuDelete,
+		predicate.Menu,
+		adminV1.Menu, ent.Menu,
+	](r.mapper)
+
 	r.mapper.AppendConverters(copierutil.NewTimeStringConverterPair())
 	r.mapper.AppendConverters(copierutil.NewTimeTimestamppbConverterPair())
 
 	r.mapper.AppendConverters(r.statusConverter.NewConverterPair())
 	r.mapper.AppendConverters(r.typeConverter.NewConverterPair())
-}
-
-func (r *MenuRepo) travelChild(nodes []*adminV1.Menu, node *adminV1.Menu) bool {
-	if nodes == nil {
-		return false
-	}
-
-	if node.ParentId == nil {
-		nodes = append(nodes, node)
-		return true
-	}
-
-	for _, n := range nodes {
-		if node.ParentId == nil {
-			continue
-		}
-
-		if n.GetId() == node.GetParentId() {
-			n.Children = append(n.Children, node)
-			return true
-		} else {
-			if r.travelChild(n.Children, node) {
-				return true
-			}
-		}
-	}
-	return false
 }
 
 func (r *MenuRepo) Count(ctx context.Context, whereCond []func(s *sql.Selector)) (int, error) {
@@ -105,19 +93,10 @@ func (r *MenuRepo) List(ctx context.Context, req *pagination.PagingRequest, tree
 
 	builder := r.data.db.Client().Menu.Query()
 
-	err, whereSelectors, querySelectors := entgoQuery.BuildQuerySelector(
-		req.GetQuery(), req.GetOrQuery(),
-		req.GetPage(), req.GetPageSize(), req.GetNoPaging(),
-		req.GetOrderBy(), menu.FieldCreatedAt,
-		req.GetFieldMask().GetPaths(),
-	)
+	whereSelectors, _, err := r.repository.BuildListSelectorWithPaging(builder, req)
 	if err != nil {
 		r.log.Errorf("parse list param error [%s]", err.Error())
 		return nil, adminV1.ErrorBadRequest("invalid query parameter")
-	}
-
-	if querySelectors != nil {
-		builder.Modify(querySelectors...)
 	}
 
 	entities, err := builder.All(ctx)
@@ -138,7 +117,9 @@ func (r *MenuRepo) List(ctx context.Context, req *pagination.PagingRequest, tree
 			if entity.ParentID != nil {
 				dto := r.mapper.ToDTO(entity)
 
-				if r.travelChild(dtos, dto) {
+				if entCrud.TravelChild(&dtos, dto, func(parent *adminV1.Menu, node *adminV1.Menu) {
+					parent.Children = append(parent.Children, node)
+				}) {
 					continue
 				}
 
@@ -158,7 +139,7 @@ func (r *MenuRepo) List(ctx context.Context, req *pagination.PagingRequest, tree
 	}
 
 	return &adminV1.ListMenuResponse{
-		Total: uint32(count),
+		Total: uint64(count),
 		Items: dtos,
 	}, nil
 }
@@ -181,22 +162,19 @@ func (r *MenuRepo) Get(ctx context.Context, req *adminV1.GetMenuRequest) (*admin
 
 	builder := r.data.db.Client().Menu.Query()
 
-	builder.Where(menu.IDEQ(req.GetId()))
-
-	entgoQuery.ApplyFieldMaskToBuilder(builder, req.ViewMask)
-
-	entity, err := builder.Only(ctx)
-	if err != nil {
-		if ent.IsNotFound(err) {
-			return nil, adminV1.ErrorNotFound("menu not found")
-		}
-
-		r.log.Errorf("query one data failed: %s", err.Error())
-
-		return nil, adminV1.ErrorInternalServerError("query data failed")
+	var whereCond []func(s *sql.Selector)
+	switch req.QueryBy.(type) {
+	default:
+	case *adminV1.GetMenuRequest_Id:
+		whereCond = append(whereCond, menu.IDEQ(req.GetId()))
 	}
 
-	return r.mapper.ToDTO(entity), nil
+	dto, err := r.repository.Get(ctx, builder, req.GetViewMask(), whereCond...)
+	if err != nil {
+		return nil, err
+	}
+
+	return dto, err
 }
 
 func (r *MenuRepo) Create(ctx context.Context, req *adminV1.CreateMenuRequest) error {
@@ -264,44 +242,38 @@ func (r *MenuRepo) Update(ctx context.Context, req *adminV1.UpdateMenuRequest) e
 		}
 	}
 
-	if err := fieldmaskutil.FilterByFieldMask(trans.Ptr(proto.Message(req.GetData())), req.UpdateMask); err != nil {
-		r.log.Errorf("invalid field mask [%v], error: %s", req.UpdateMask, err.Error())
-		return adminV1.ErrorBadRequest("invalid field mask")
-	}
+	builder := r.data.db.Client().Debug().Menu.Update()
+	err := r.repository.UpdateX(ctx, builder, req.Data, req.GetUpdateMask(),
+		func(dto *adminV1.Menu) {
+			builder.
+				SetNillableParentID(req.Data.ParentId).
+				SetNillableType(r.typeConverter.ToEntity(req.Data.Type)).
+				SetNillablePath(req.Data.Path).
+				SetNillableRedirect(req.Data.Redirect).
+				SetNillableAlias(req.Data.Alias).
+				SetNillableName(req.Data.Name).
+				SetNillableComponent(req.Data.Component).
+				SetNillableStatus(r.statusConverter.ToEntity(req.Data.Status)).
+				SetNillableUpdatedBy(req.Data.UpdatedBy).
+				SetNillableUpdatedAt(timeutil.TimestamppbToTime(req.Data.UpdatedAt))
 
-	builder := r.data.db.Client().
-		//Debug().
-		Menu.UpdateOneID(req.Data.GetId()).
-		SetNillableParentID(req.Data.ParentId).
-		SetNillableType(r.typeConverter.ToEntity(req.Data.Type)).
-		SetNillablePath(req.Data.Path).
-		SetNillableRedirect(req.Data.Redirect).
-		SetNillableAlias(req.Data.Alias).
-		SetNillableName(req.Data.Name).
-		SetNillableComponent(req.Data.Component).
-		SetNillableStatus(r.statusConverter.ToEntity(req.Data.Status)).
-		SetNillableUpdatedBy(req.Data.UpdatedBy).
-		SetNillableUpdatedAt(timeutil.TimestamppbToTime(req.Data.UpdatedAt))
+			if req.Data.UpdatedAt == nil {
+				builder.SetUpdatedAt(time.Now())
+			}
 
-	if req.Data.UpdatedAt == nil {
-		builder.SetUpdatedAt(time.Now())
-	}
+			if req.Data.Meta != nil {
+				r.updateMetaField(builder, req.Data.Meta, metaPaths)
+			}
+		},
+		func(s *sql.Selector) {
+			s.Where(sql.EQ(menu.FieldID, req.Data.GetId()))
+		},
+	)
 
-	if req.Data.Meta != nil {
-		r.updateMetaField(builder, req.Data.Meta, metaPaths)
-	}
-
-	entgoUpdate.ApplyNilFieldMask(proto.Message(req.GetData()), req.UpdateMask, builder)
-
-	if err := builder.Exec(ctx); err != nil {
-		r.log.Errorf("update one data failed: %s", err.Error())
-		return adminV1.ErrorInternalServerError("update data failed")
-	}
-
-	return nil
+	return err
 }
 
-func (r *MenuRepo) updateMetaField(builder *ent.MenuUpdateOne, meta *adminV1.RouteMeta, metaPaths []string) {
+func (r *MenuRepo) updateMetaField(builder *ent.MenuUpdate, meta *adminV1.RouteMeta, metaPaths []string) {
 	//builder.SetMeta(meta)
 
 	// 删除空值
@@ -321,7 +293,7 @@ func (r *MenuRepo) Delete(ctx context.Context, req *adminV1.DeleteMenuRequest) e
 		return adminV1.ErrorBadRequest("invalid parameter")
 	}
 
-	ids, err := entgo.QueryAllChildrenIds(ctx, r.data.db, "sys_menus", req.GetId())
+	ids, err := entCrud.QueryAllChildrenIds(ctx, r.data.db, "sys_menus", req.GetId())
 	if err != nil {
 		r.log.Errorf("query child menus failed: %s", err.Error())
 		return adminV1.ErrorInternalServerError("query child menus failed")
@@ -330,11 +302,14 @@ func (r *MenuRepo) Delete(ctx context.Context, req *adminV1.DeleteMenuRequest) e
 
 	//r.log.Info("menu ids to delete: ", ids)
 
-	if _, err = r.data.db.Client().Menu.Delete().
-		Where(menu.IDIn(ids...)).
-		Exec(ctx); err != nil {
-		r.log.Errorf("delete menus failed: %s", err.Error())
-		return adminV1.ErrorInternalServerError("delete menus failed")
+	builder := r.data.db.Client().Debug().Menu.Delete()
+
+	_, err = r.repository.Delete(ctx, builder, func(s *sql.Selector) {
+		s.Where(sql.In(menu.FieldID, ids))
+	})
+	if err != nil {
+		r.log.Errorf("delete menu failed: %s", err.Error())
+		return adminV1.ErrorInternalServerError("delete menu failed")
 	}
 
 	return nil

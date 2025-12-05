@@ -8,7 +8,7 @@ import (
 	_ "github.com/lib/pq"
 
 	"github.com/go-kratos/kratos/v2/log"
-	"github.com/tx7do/go-utils/entgo"
+	"github.com/tx7do/go-crud/entgo"
 
 	"kratos-admin/app/admin/service/internal/data/ent"
 	"kratos-admin/app/admin/service/internal/data/ent/migrate"

@@ -5,8 +5,8 @@ import (
 
 	"entgo.io/ent/dialect/sql"
 	"github.com/go-kratos/kratos/v2/log"
+	pagination "github.com/tx7do/go-crud/api/gen/go/pagination/v1"
 	"github.com/tx7do/go-utils/trans"
-	pagination "github.com/tx7do/kratos-bootstrap/api/gen/go/pagination/v1"
 	"google.golang.org/protobuf/types/known/emptypb"
 
 	"kratos-admin/app/admin/service/internal/data"
@@ -156,7 +156,7 @@ func (s *RoleService) GetRolesByRoleCodes(ctx context.Context, req *userV1.GetRo
 
 	return &userV1.ListRoleResponse{
 		Items: roles,
-		Total: uint32(len(roles)),
+		Total: uint64(len(roles)),
 	}, nil
 }
 
@@ -168,7 +168,7 @@ func (s *RoleService) GetRolesByRoleIds(ctx context.Context, req *userV1.GetRole
 
 	return &userV1.ListRoleResponse{
 		Items: roles,
-		Total: uint32(len(roles)),
+		Total: uint64(len(roles)),
 	}, nil
 }
 

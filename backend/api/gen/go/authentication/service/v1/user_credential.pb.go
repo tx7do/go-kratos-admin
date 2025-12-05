@@ -8,7 +8,7 @@ package servicev1
 
 import (
 	_ "github.com/google/gnostic/openapiv3"
-	v1 "github.com/tx7do/kratos-bootstrap/api/gen/go/pagination/v1"
+	v1 "github.com/tx7do/go-crud/api/gen/go/pagination/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	emptypb "google.golang.org/protobuf/types/known/emptypb"
@@ -467,7 +467,7 @@ func (x *UserCredential) GetDeletedAt() *timestamppb.Timestamp {
 type ListUserCredentialResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Items         []*UserCredential      `protobuf:"bytes,1,rep,name=items,proto3" json:"items,omitempty"`
-	Total         uint32                 `protobuf:"varint,2,opt,name=total,proto3" json:"total,omitempty"`
+	Total         uint64                 `protobuf:"varint,2,opt,name=total,proto3" json:"total,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -509,7 +509,7 @@ func (x *ListUserCredentialResponse) GetItems() []*UserCredential {
 	return nil
 }
 
-func (x *ListUserCredentialResponse) GetTotal() uint32 {
+func (x *ListUserCredentialResponse) GetTotal() uint64 {
 	if x != nil {
 		return x.Total
 	}
@@ -669,8 +669,12 @@ func (x *DeleteUserCredentialRequest) GetId() uint32 {
 
 // 查询 - 请求
 type GetUserCredentialRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            uint32                 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Types that are valid to be assigned to QueryBy:
+	//
+	//	*GetUserCredentialRequest_Id
+	QueryBy       isGetUserCredentialRequest_QueryBy `protobuf_oneof:"query_by"`
+	ViewMask      *fieldmaskpb.FieldMask             `protobuf:"bytes,100,opt,name=view_mask,json=viewMask,proto3,oneof" json:"view_mask,omitempty"` // 视图字段过滤器，用于控制返回的字段
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -705,12 +709,38 @@ func (*GetUserCredentialRequest) Descriptor() ([]byte, []int) {
 	return file_authentication_service_v1_user_credential_proto_rawDescGZIP(), []int{5}
 }
 
+func (x *GetUserCredentialRequest) GetQueryBy() isGetUserCredentialRequest_QueryBy {
+	if x != nil {
+		return x.QueryBy
+	}
+	return nil
+}
+
 func (x *GetUserCredentialRequest) GetId() uint32 {
 	if x != nil {
-		return x.Id
+		if x, ok := x.QueryBy.(*GetUserCredentialRequest_Id); ok {
+			return x.Id
+		}
 	}
 	return 0
 }
+
+func (x *GetUserCredentialRequest) GetViewMask() *fieldmaskpb.FieldMask {
+	if x != nil {
+		return x.ViewMask
+	}
+	return nil
+}
+
+type isGetUserCredentialRequest_QueryBy interface {
+	isGetUserCredentialRequest_QueryBy()
+}
+
+type GetUserCredentialRequest_Id struct {
+	Id uint32 `protobuf:"varint,1,opt,name=id,proto3,oneof"` // ID
+}
+
+func (*GetUserCredentialRequest_Id) isGetUserCredentialRequest_QueryBy() {}
 
 // 查询 - 请求
 type GetUserCredentialByIdentifierRequest struct {
@@ -1131,7 +1161,7 @@ const file_authentication_service_v1_user_credential_proto_rawDesc = "" +
 	"\v_deleted_at\"s\n" +
 	"\x1aListUserCredentialResponse\x12?\n" +
 	"\x05items\x18\x01 \x03(\v2).authentication.service.v1.UserCredentialR\x05items\x12\x14\n" +
-	"\x05total\x18\x02 \x01(\rR\x05total\"\x9a\x03\n" +
+	"\x05total\x18\x02 \x01(\x04R\x05total\"\x9a\x03\n" +
 	"\x1bUpdateUserCredentialRequest\x12=\n" +
 	"\x04data\x18\x01 \x01(\v2).authentication.service.v1.UserCredentialR\x04data\x12s\n" +
 	"\vupdate_mask\x18\x02 \x01(\v2\x1a.google.protobuf.FieldMaskB6\xbaG3:\x16\x12\x14id,realname,username\x92\x02\x18要更新的字段列表R\n" +
@@ -1141,9 +1171,15 @@ const file_authentication_service_v1_user_credential_proto_rawDesc = "" +
 	"\x1bCreateUserCredentialRequest\x12=\n" +
 	"\x04data\x18\x01 \x01(\v2).authentication.service.v1.UserCredentialR\x04data\"-\n" +
 	"\x1bDeleteUserCredentialRequest\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\rR\x02id\"*\n" +
-	"\x18GetUserCredentialRequest\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\rR\x02id\"\xd4\x01\n" +
+	"\x02id\x18\x01 \x01(\rR\x02id\"\xcb\x01\n" +
+	"\x18GetUserCredentialRequest\x12\x1c\n" +
+	"\x02id\x18\x01 \x01(\rB\n" +
+	"\xbaG\a\x18\x01\x92\x02\x02IDH\x00R\x02id\x12w\n" +
+	"\tview_mask\x18d \x01(\v2\x1a.google.protobuf.FieldMaskB9\xbaG6\x92\x023视图字段过滤器，用于控制返回的字段H\x01R\bviewMask\x88\x01\x01B\n" +
+	"\n" +
+	"\bquery_byB\f\n" +
+	"\n" +
+	"_view_mask\"\xd4\x01\n" +
 	"$GetUserCredentialByIdentifierRequest\x12o\n" +
 	"\ridentity_type\x18\x01 \x01(\x0e26.authentication.service.v1.UserCredential.IdentityTypeB\x12\xbaG\x0f\x92\x02\f身份类型R\fidentityType\x12;\n" +
 	"\n" +
@@ -1232,33 +1268,34 @@ var file_authentication_service_v1_user_credential_proto_depIdxs = []int32{
 	3,  // 7: authentication.service.v1.UpdateUserCredentialRequest.data:type_name -> authentication.service.v1.UserCredential
 	15, // 8: authentication.service.v1.UpdateUserCredentialRequest.update_mask:type_name -> google.protobuf.FieldMask
 	3,  // 9: authentication.service.v1.CreateUserCredentialRequest.data:type_name -> authentication.service.v1.UserCredential
-	0,  // 10: authentication.service.v1.GetUserCredentialByIdentifierRequest.identity_type:type_name -> authentication.service.v1.UserCredential.IdentityType
-	0,  // 11: authentication.service.v1.VerifyCredentialRequest.identity_type:type_name -> authentication.service.v1.UserCredential.IdentityType
-	0,  // 12: authentication.service.v1.ChangeCredentialRequest.identity_type:type_name -> authentication.service.v1.UserCredential.IdentityType
-	0,  // 13: authentication.service.v1.ResetCredentialRequest.identity_type:type_name -> authentication.service.v1.UserCredential.IdentityType
-	16, // 14: authentication.service.v1.UserCredentialService.List:input_type -> pagination.PagingRequest
-	8,  // 15: authentication.service.v1.UserCredentialService.Get:input_type -> authentication.service.v1.GetUserCredentialRequest
-	9,  // 16: authentication.service.v1.UserCredentialService.GetByIdentifier:input_type -> authentication.service.v1.GetUserCredentialByIdentifierRequest
-	6,  // 17: authentication.service.v1.UserCredentialService.Create:input_type -> authentication.service.v1.CreateUserCredentialRequest
-	5,  // 18: authentication.service.v1.UserCredentialService.Update:input_type -> authentication.service.v1.UpdateUserCredentialRequest
-	7,  // 19: authentication.service.v1.UserCredentialService.Delete:input_type -> authentication.service.v1.DeleteUserCredentialRequest
-	10, // 20: authentication.service.v1.UserCredentialService.VerifyCredential:input_type -> authentication.service.v1.VerifyCredentialRequest
-	12, // 21: authentication.service.v1.UserCredentialService.ChangeCredential:input_type -> authentication.service.v1.ChangeCredentialRequest
-	13, // 22: authentication.service.v1.UserCredentialService.ResetCredential:input_type -> authentication.service.v1.ResetCredentialRequest
-	4,  // 23: authentication.service.v1.UserCredentialService.List:output_type -> authentication.service.v1.ListUserCredentialResponse
-	3,  // 24: authentication.service.v1.UserCredentialService.Get:output_type -> authentication.service.v1.UserCredential
-	3,  // 25: authentication.service.v1.UserCredentialService.GetByIdentifier:output_type -> authentication.service.v1.UserCredential
-	17, // 26: authentication.service.v1.UserCredentialService.Create:output_type -> google.protobuf.Empty
-	17, // 27: authentication.service.v1.UserCredentialService.Update:output_type -> google.protobuf.Empty
-	17, // 28: authentication.service.v1.UserCredentialService.Delete:output_type -> google.protobuf.Empty
-	11, // 29: authentication.service.v1.UserCredentialService.VerifyCredential:output_type -> authentication.service.v1.VerifyCredentialResponse
-	17, // 30: authentication.service.v1.UserCredentialService.ChangeCredential:output_type -> google.protobuf.Empty
-	17, // 31: authentication.service.v1.UserCredentialService.ResetCredential:output_type -> google.protobuf.Empty
-	23, // [23:32] is the sub-list for method output_type
-	14, // [14:23] is the sub-list for method input_type
-	14, // [14:14] is the sub-list for extension type_name
-	14, // [14:14] is the sub-list for extension extendee
-	0,  // [0:14] is the sub-list for field type_name
+	15, // 10: authentication.service.v1.GetUserCredentialRequest.view_mask:type_name -> google.protobuf.FieldMask
+	0,  // 11: authentication.service.v1.GetUserCredentialByIdentifierRequest.identity_type:type_name -> authentication.service.v1.UserCredential.IdentityType
+	0,  // 12: authentication.service.v1.VerifyCredentialRequest.identity_type:type_name -> authentication.service.v1.UserCredential.IdentityType
+	0,  // 13: authentication.service.v1.ChangeCredentialRequest.identity_type:type_name -> authentication.service.v1.UserCredential.IdentityType
+	0,  // 14: authentication.service.v1.ResetCredentialRequest.identity_type:type_name -> authentication.service.v1.UserCredential.IdentityType
+	16, // 15: authentication.service.v1.UserCredentialService.List:input_type -> pagination.PagingRequest
+	8,  // 16: authentication.service.v1.UserCredentialService.Get:input_type -> authentication.service.v1.GetUserCredentialRequest
+	9,  // 17: authentication.service.v1.UserCredentialService.GetByIdentifier:input_type -> authentication.service.v1.GetUserCredentialByIdentifierRequest
+	6,  // 18: authentication.service.v1.UserCredentialService.Create:input_type -> authentication.service.v1.CreateUserCredentialRequest
+	5,  // 19: authentication.service.v1.UserCredentialService.Update:input_type -> authentication.service.v1.UpdateUserCredentialRequest
+	7,  // 20: authentication.service.v1.UserCredentialService.Delete:input_type -> authentication.service.v1.DeleteUserCredentialRequest
+	10, // 21: authentication.service.v1.UserCredentialService.VerifyCredential:input_type -> authentication.service.v1.VerifyCredentialRequest
+	12, // 22: authentication.service.v1.UserCredentialService.ChangeCredential:input_type -> authentication.service.v1.ChangeCredentialRequest
+	13, // 23: authentication.service.v1.UserCredentialService.ResetCredential:input_type -> authentication.service.v1.ResetCredentialRequest
+	4,  // 24: authentication.service.v1.UserCredentialService.List:output_type -> authentication.service.v1.ListUserCredentialResponse
+	3,  // 25: authentication.service.v1.UserCredentialService.Get:output_type -> authentication.service.v1.UserCredential
+	3,  // 26: authentication.service.v1.UserCredentialService.GetByIdentifier:output_type -> authentication.service.v1.UserCredential
+	17, // 27: authentication.service.v1.UserCredentialService.Create:output_type -> google.protobuf.Empty
+	17, // 28: authentication.service.v1.UserCredentialService.Update:output_type -> google.protobuf.Empty
+	17, // 29: authentication.service.v1.UserCredentialService.Delete:output_type -> google.protobuf.Empty
+	11, // 30: authentication.service.v1.UserCredentialService.VerifyCredential:output_type -> authentication.service.v1.VerifyCredentialResponse
+	17, // 31: authentication.service.v1.UserCredentialService.ChangeCredential:output_type -> google.protobuf.Empty
+	17, // 32: authentication.service.v1.UserCredentialService.ResetCredential:output_type -> google.protobuf.Empty
+	24, // [24:33] is the sub-list for method output_type
+	15, // [15:24] is the sub-list for method input_type
+	15, // [15:15] is the sub-list for extension type_name
+	15, // [15:15] is the sub-list for extension extendee
+	0,  // [0:15] is the sub-list for field type_name
 }
 
 func init() { file_authentication_service_v1_user_credential_proto_init() }
@@ -1268,6 +1305,9 @@ func file_authentication_service_v1_user_credential_proto_init() {
 	}
 	file_authentication_service_v1_user_credential_proto_msgTypes[0].OneofWrappers = []any{}
 	file_authentication_service_v1_user_credential_proto_msgTypes[2].OneofWrappers = []any{}
+	file_authentication_service_v1_user_credential_proto_msgTypes[5].OneofWrappers = []any{
+		(*GetUserCredentialRequest_Id)(nil),
+	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{

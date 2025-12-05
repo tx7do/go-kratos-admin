@@ -362,7 +362,7 @@ func (x *ListLinkedAccountsRequest) GetPageToken() string {
 type ListLinkedAccountsResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Items         []*UserCredential      `protobuf:"bytes,1,rep,name=items,proto3" json:"items,omitempty"`
-	Total         uint32                 `protobuf:"varint,2,opt,name=total,proto3" json:"total,omitempty"`
+	Total         uint64                 `protobuf:"varint,2,opt,name=total,proto3" json:"total,omitempty"`
 	NextPageToken string                 `protobuf:"bytes,3,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -405,7 +405,7 @@ func (x *ListLinkedAccountsResponse) GetItems() []*UserCredential {
 	return nil
 }
 
-func (x *ListLinkedAccountsResponse) GetTotal() uint32 {
+func (x *ListLinkedAccountsResponse) GetTotal() uint64 {
 	if x != nil {
 		return x.Total
 	}
@@ -1569,7 +1569,7 @@ const file_authentication_service_v1_oauth_proto_rawDesc = "" +
 	"\v_page_token\"\x9b\x01\n" +
 	"\x1aListLinkedAccountsResponse\x12?\n" +
 	"\x05items\x18\x01 \x03(\v2).authentication.service.v1.UserCredentialR\x05items\x12\x14\n" +
-	"\x05total\x18\x02 \x01(\rR\x05total\x12&\n" +
+	"\x05total\x18\x02 \x01(\x04R\x05total\x12&\n" +
 	"\x0fnext_page_token\x18\x03 \x01(\tR\rnextPageToken\"\xc5\x01\n" +
 	"\x10LinkOAuthRequest\x12D\n" +
 	"\bprovider\x18\x01 \x01(\x0e2(.authentication.service.v1.OAuthProviderR\bprovider\x12'\n" +

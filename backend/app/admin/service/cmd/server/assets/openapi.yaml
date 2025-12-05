@@ -23,16 +23,44 @@ paths:
             parameters:
                 - name: page
                   in: query
-                  description: 当前页码
+                  description: 当前页码（从1开始，默认1）
                   schema:
                     type: integer
-                    format: int32
+                    format: uint32
                 - name: pageSize
                   in: query
-                  description: 每一页的行数
+                  description: 每页条数（默认10，建议设置上限如100）
                   schema:
                     type: integer
-                    format: int32
+                    format: uint32
+                - name: offset
+                  in: query
+                  description: 跳过的记录数（从0开始，默认0）
+                  schema:
+                    type: string
+                - name: limit
+                  in: query
+                  description: 最多返回的记录数（默认10，建议设置上限如100）
+                  schema:
+                    type: integer
+                    format: uint32
+                - name: token
+                  in: query
+                  description: 上一页最后一条记录的游标（如ID/时间戳+ID，首次请求为空）
+                  schema:
+                    type: string
+                - name: noPaging
+                  in: query
+                  description: 是否不分页，如果为true，则page和pageSize参数无效。
+                  schema:
+                    type: boolean
+                - name: orderBy
+                  in: query
+                  description: 排序条件，其语法为JSON字符串，例如：{"val1", "-val2"}。字段名前加'-'为降序，否则为升序。
+                  schema:
+                    type: array
+                    items:
+                        type: string
                 - name: query
                   in: query
                   description: AND过滤参数，其语法为json格式的字符串，如：{"key1":"val1","key2":"val2"}，具体请参见：https://github.com/tx7do/go-utils/tree/main/entgo/query/README.md
@@ -43,29 +71,22 @@ paths:
                   description: OR过滤参数，语法同AND过滤参数。
                   schema:
                     type: string
-                - name: orderBy
+                - name: filterExpr.type
                   in: query
-                  description: 排序条件，其语法为JSON字符串，例如：{"val1", "-val2"}。字段名前加'-'为降序，否则为升序。
+                  description: 过滤表达式类型
                   schema:
-                    type: array
-                    items:
-                        type: string
-                - name: noPaging
-                  in: query
-                  description: 是否不分页，如果为true，则page和pageSize参数无效。
-                  schema:
-                    type: boolean
+                    enum:
+                        - EXPR_TYPE_UNSPECIFIED
+                        - AND
+                        - OR
+                    type: string
+                    format: enum
                 - name: fieldMask
                   in: query
                   description: 字段掩码，其作用为SELECT中的字段，其语法为使用逗号分隔字段名，例如：id,realName,userName。如果为空则选中所有字段，即SELECT *。
                   schema:
                     type: string
                     format: field-mask
-                - name: tenantId
-                  in: query
-                  schema:
-                    type: integer
-                    format: uint32
             responses:
                 "200":
                     description: OK
@@ -107,16 +128,44 @@ paths:
             parameters:
                 - name: page
                   in: query
-                  description: 当前页码
+                  description: 当前页码（从1开始，默认1）
                   schema:
                     type: integer
-                    format: int32
+                    format: uint32
                 - name: pageSize
                   in: query
-                  description: 每一页的行数
+                  description: 每页条数（默认10，建议设置上限如100）
                   schema:
                     type: integer
-                    format: int32
+                    format: uint32
+                - name: offset
+                  in: query
+                  description: 跳过的记录数（从0开始，默认0）
+                  schema:
+                    type: string
+                - name: limit
+                  in: query
+                  description: 最多返回的记录数（默认10，建议设置上限如100）
+                  schema:
+                    type: integer
+                    format: uint32
+                - name: token
+                  in: query
+                  description: 上一页最后一条记录的游标（如ID/时间戳+ID，首次请求为空）
+                  schema:
+                    type: string
+                - name: noPaging
+                  in: query
+                  description: 是否不分页，如果为true，则page和pageSize参数无效。
+                  schema:
+                    type: boolean
+                - name: orderBy
+                  in: query
+                  description: 排序条件，其语法为JSON字符串，例如：{"val1", "-val2"}。字段名前加'-'为降序，否则为升序。
+                  schema:
+                    type: array
+                    items:
+                        type: string
                 - name: query
                   in: query
                   description: AND过滤参数，其语法为json格式的字符串，如：{"key1":"val1","key2":"val2"}，具体请参见：https://github.com/tx7do/go-utils/tree/main/entgo/query/README.md
@@ -127,29 +176,22 @@ paths:
                   description: OR过滤参数，语法同AND过滤参数。
                   schema:
                     type: string
-                - name: orderBy
+                - name: filterExpr.type
                   in: query
-                  description: 排序条件，其语法为JSON字符串，例如：{"val1", "-val2"}。字段名前加'-'为降序，否则为升序。
+                  description: 过滤表达式类型
                   schema:
-                    type: array
-                    items:
-                        type: string
-                - name: noPaging
-                  in: query
-                  description: 是否不分页，如果为true，则page和pageSize参数无效。
-                  schema:
-                    type: boolean
+                    enum:
+                        - EXPR_TYPE_UNSPECIFIED
+                        - AND
+                        - OR
+                    type: string
+                    format: enum
                 - name: fieldMask
                   in: query
                   description: 字段掩码，其作用为SELECT中的字段，其语法为使用逗号分隔字段名，例如：id,realName,userName。如果为空则选中所有字段，即SELECT *。
                   schema:
                     type: string
                     format: field-mask
-                - name: tenantId
-                  in: query
-                  schema:
-                    type: integer
-                    format: uint32
             responses:
                 "200":
                     description: OK
@@ -191,16 +233,44 @@ paths:
             parameters:
                 - name: page
                   in: query
-                  description: 当前页码
+                  description: 当前页码（从1开始，默认1）
                   schema:
                     type: integer
-                    format: int32
+                    format: uint32
                 - name: pageSize
                   in: query
-                  description: 每一页的行数
+                  description: 每页条数（默认10，建议设置上限如100）
                   schema:
                     type: integer
-                    format: int32
+                    format: uint32
+                - name: offset
+                  in: query
+                  description: 跳过的记录数（从0开始，默认0）
+                  schema:
+                    type: string
+                - name: limit
+                  in: query
+                  description: 最多返回的记录数（默认10，建议设置上限如100）
+                  schema:
+                    type: integer
+                    format: uint32
+                - name: token
+                  in: query
+                  description: 上一页最后一条记录的游标（如ID/时间戳+ID，首次请求为空）
+                  schema:
+                    type: string
+                - name: noPaging
+                  in: query
+                  description: 是否不分页，如果为true，则page和pageSize参数无效。
+                  schema:
+                    type: boolean
+                - name: orderBy
+                  in: query
+                  description: 排序条件，其语法为JSON字符串，例如：{"val1", "-val2"}。字段名前加'-'为降序，否则为升序。
+                  schema:
+                    type: array
+                    items:
+                        type: string
                 - name: query
                   in: query
                   description: AND过滤参数，其语法为json格式的字符串，如：{"key1":"val1","key2":"val2"}，具体请参见：https://github.com/tx7do/go-utils/tree/main/entgo/query/README.md
@@ -211,29 +281,22 @@ paths:
                   description: OR过滤参数，语法同AND过滤参数。
                   schema:
                     type: string
-                - name: orderBy
+                - name: filterExpr.type
                   in: query
-                  description: 排序条件，其语法为JSON字符串，例如：{"val1", "-val2"}。字段名前加'-'为降序，否则为升序。
+                  description: 过滤表达式类型
                   schema:
-                    type: array
-                    items:
-                        type: string
-                - name: noPaging
-                  in: query
-                  description: 是否不分页，如果为true，则page和pageSize参数无效。
-                  schema:
-                    type: boolean
+                    enum:
+                        - EXPR_TYPE_UNSPECIFIED
+                        - AND
+                        - OR
+                    type: string
+                    format: enum
                 - name: fieldMask
                   in: query
                   description: 字段掩码，其作用为SELECT中的字段，其语法为使用逗号分隔字段名，例如：id,realName,userName。如果为空则选中所有字段，即SELECT *。
                   schema:
                     type: string
                     format: field-mask
-                - name: tenantId
-                  in: query
-                  schema:
-                    type: integer
-                    format: uint32
             responses:
                 "200":
                     description: OK
@@ -355,16 +418,44 @@ paths:
             parameters:
                 - name: page
                   in: query
-                  description: 当前页码
+                  description: 当前页码（从1开始，默认1）
                   schema:
                     type: integer
-                    format: int32
+                    format: uint32
                 - name: pageSize
                   in: query
-                  description: 每一页的行数
+                  description: 每页条数（默认10，建议设置上限如100）
                   schema:
                     type: integer
-                    format: int32
+                    format: uint32
+                - name: offset
+                  in: query
+                  description: 跳过的记录数（从0开始，默认0）
+                  schema:
+                    type: string
+                - name: limit
+                  in: query
+                  description: 最多返回的记录数（默认10，建议设置上限如100）
+                  schema:
+                    type: integer
+                    format: uint32
+                - name: token
+                  in: query
+                  description: 上一页最后一条记录的游标（如ID/时间戳+ID，首次请求为空）
+                  schema:
+                    type: string
+                - name: noPaging
+                  in: query
+                  description: 是否不分页，如果为true，则page和pageSize参数无效。
+                  schema:
+                    type: boolean
+                - name: orderBy
+                  in: query
+                  description: 排序条件，其语法为JSON字符串，例如：{"val1", "-val2"}。字段名前加'-'为降序，否则为升序。
+                  schema:
+                    type: array
+                    items:
+                        type: string
                 - name: query
                   in: query
                   description: AND过滤参数，其语法为json格式的字符串，如：{"key1":"val1","key2":"val2"}，具体请参见：https://github.com/tx7do/go-utils/tree/main/entgo/query/README.md
@@ -375,29 +466,22 @@ paths:
                   description: OR过滤参数，语法同AND过滤参数。
                   schema:
                     type: string
-                - name: orderBy
+                - name: filterExpr.type
                   in: query
-                  description: 排序条件，其语法为JSON字符串，例如：{"val1", "-val2"}。字段名前加'-'为降序，否则为升序。
+                  description: 过滤表达式类型
                   schema:
-                    type: array
-                    items:
-                        type: string
-                - name: noPaging
-                  in: query
-                  description: 是否不分页，如果为true，则page和pageSize参数无效。
-                  schema:
-                    type: boolean
+                    enum:
+                        - EXPR_TYPE_UNSPECIFIED
+                        - AND
+                        - OR
+                    type: string
+                    format: enum
                 - name: fieldMask
                   in: query
                   description: 字段掩码，其作用为SELECT中的字段，其语法为使用逗号分隔字段名，例如：id,realName,userName。如果为空则选中所有字段，即SELECT *。
                   schema:
                     type: string
                     format: field-mask
-                - name: tenantId
-                  in: query
-                  schema:
-                    type: integer
-                    format: uint32
             responses:
                 "200":
                     description: OK
@@ -492,16 +576,44 @@ paths:
             parameters:
                 - name: page
                   in: query
-                  description: 当前页码
+                  description: 当前页码（从1开始，默认1）
                   schema:
                     type: integer
-                    format: int32
+                    format: uint32
                 - name: pageSize
                   in: query
-                  description: 每一页的行数
+                  description: 每页条数（默认10，建议设置上限如100）
                   schema:
                     type: integer
-                    format: int32
+                    format: uint32
+                - name: offset
+                  in: query
+                  description: 跳过的记录数（从0开始，默认0）
+                  schema:
+                    type: string
+                - name: limit
+                  in: query
+                  description: 最多返回的记录数（默认10，建议设置上限如100）
+                  schema:
+                    type: integer
+                    format: uint32
+                - name: token
+                  in: query
+                  description: 上一页最后一条记录的游标（如ID/时间戳+ID，首次请求为空）
+                  schema:
+                    type: string
+                - name: noPaging
+                  in: query
+                  description: 是否不分页，如果为true，则page和pageSize参数无效。
+                  schema:
+                    type: boolean
+                - name: orderBy
+                  in: query
+                  description: 排序条件，其语法为JSON字符串，例如：{"val1", "-val2"}。字段名前加'-'为降序，否则为升序。
+                  schema:
+                    type: array
+                    items:
+                        type: string
                 - name: query
                   in: query
                   description: AND过滤参数，其语法为json格式的字符串，如：{"key1":"val1","key2":"val2"}，具体请参见：https://github.com/tx7do/go-utils/tree/main/entgo/query/README.md
@@ -512,29 +624,22 @@ paths:
                   description: OR过滤参数，语法同AND过滤参数。
                   schema:
                     type: string
-                - name: orderBy
+                - name: filterExpr.type
                   in: query
-                  description: 排序条件，其语法为JSON字符串，例如：{"val1", "-val2"}。字段名前加'-'为降序，否则为升序。
+                  description: 过滤表达式类型
                   schema:
-                    type: array
-                    items:
-                        type: string
-                - name: noPaging
-                  in: query
-                  description: 是否不分页，如果为true，则page和pageSize参数无效。
-                  schema:
-                    type: boolean
+                    enum:
+                        - EXPR_TYPE_UNSPECIFIED
+                        - AND
+                        - OR
+                    type: string
+                    format: enum
                 - name: fieldMask
                   in: query
                   description: 字段掩码，其作用为SELECT中的字段，其语法为使用逗号分隔字段名，例如：id,realName,userName。如果为空则选中所有字段，即SELECT *。
                   schema:
                     type: string
                     format: field-mask
-                - name: tenantId
-                  in: query
-                  schema:
-                    type: integer
-                    format: uint32
             responses:
                 "200":
                     description: OK
@@ -605,16 +710,44 @@ paths:
             parameters:
                 - name: page
                   in: query
-                  description: 当前页码
+                  description: 当前页码（从1开始，默认1）
                   schema:
                     type: integer
-                    format: int32
+                    format: uint32
                 - name: pageSize
                   in: query
-                  description: 每一页的行数
+                  description: 每页条数（默认10，建议设置上限如100）
                   schema:
                     type: integer
-                    format: int32
+                    format: uint32
+                - name: offset
+                  in: query
+                  description: 跳过的记录数（从0开始，默认0）
+                  schema:
+                    type: string
+                - name: limit
+                  in: query
+                  description: 最多返回的记录数（默认10，建议设置上限如100）
+                  schema:
+                    type: integer
+                    format: uint32
+                - name: token
+                  in: query
+                  description: 上一页最后一条记录的游标（如ID/时间戳+ID，首次请求为空）
+                  schema:
+                    type: string
+                - name: noPaging
+                  in: query
+                  description: 是否不分页，如果为true，则page和pageSize参数无效。
+                  schema:
+                    type: boolean
+                - name: orderBy
+                  in: query
+                  description: 排序条件，其语法为JSON字符串，例如：{"val1", "-val2"}。字段名前加'-'为降序，否则为升序。
+                  schema:
+                    type: array
+                    items:
+                        type: string
                 - name: query
                   in: query
                   description: AND过滤参数，其语法为json格式的字符串，如：{"key1":"val1","key2":"val2"}，具体请参见：https://github.com/tx7do/go-utils/tree/main/entgo/query/README.md
@@ -625,29 +758,22 @@ paths:
                   description: OR过滤参数，语法同AND过滤参数。
                   schema:
                     type: string
-                - name: orderBy
+                - name: filterExpr.type
                   in: query
-                  description: 排序条件，其语法为JSON字符串，例如：{"val1", "-val2"}。字段名前加'-'为降序，否则为升序。
+                  description: 过滤表达式类型
                   schema:
-                    type: array
-                    items:
-                        type: string
-                - name: noPaging
-                  in: query
-                  description: 是否不分页，如果为true，则page和pageSize参数无效。
-                  schema:
-                    type: boolean
+                    enum:
+                        - EXPR_TYPE_UNSPECIFIED
+                        - AND
+                        - OR
+                    type: string
+                    format: enum
                 - name: fieldMask
                   in: query
                   description: 字段掩码，其作用为SELECT中的字段，其语法为使用逗号分隔字段名，例如：id,realName,userName。如果为空则选中所有字段，即SELECT *。
                   schema:
                     type: string
                     format: field-mask
-                - name: tenantId
-                  in: query
-                  schema:
-                    type: integer
-                    format: uint32
             responses:
                 "200":
                     description: OK
@@ -803,16 +929,44 @@ paths:
             parameters:
                 - name: page
                   in: query
-                  description: 当前页码
+                  description: 当前页码（从1开始，默认1）
                   schema:
                     type: integer
-                    format: int32
+                    format: uint32
                 - name: pageSize
                   in: query
-                  description: 每一页的行数
+                  description: 每页条数（默认10，建议设置上限如100）
                   schema:
                     type: integer
-                    format: int32
+                    format: uint32
+                - name: offset
+                  in: query
+                  description: 跳过的记录数（从0开始，默认0）
+                  schema:
+                    type: string
+                - name: limit
+                  in: query
+                  description: 最多返回的记录数（默认10，建议设置上限如100）
+                  schema:
+                    type: integer
+                    format: uint32
+                - name: token
+                  in: query
+                  description: 上一页最后一条记录的游标（如ID/时间戳+ID，首次请求为空）
+                  schema:
+                    type: string
+                - name: noPaging
+                  in: query
+                  description: 是否不分页，如果为true，则page和pageSize参数无效。
+                  schema:
+                    type: boolean
+                - name: orderBy
+                  in: query
+                  description: 排序条件，其语法为JSON字符串，例如：{"val1", "-val2"}。字段名前加'-'为降序，否则为升序。
+                  schema:
+                    type: array
+                    items:
+                        type: string
                 - name: query
                   in: query
                   description: AND过滤参数，其语法为json格式的字符串，如：{"key1":"val1","key2":"val2"}，具体请参见：https://github.com/tx7do/go-utils/tree/main/entgo/query/README.md
@@ -823,29 +977,22 @@ paths:
                   description: OR过滤参数，语法同AND过滤参数。
                   schema:
                     type: string
-                - name: orderBy
+                - name: filterExpr.type
                   in: query
-                  description: 排序条件，其语法为JSON字符串，例如：{"val1", "-val2"}。字段名前加'-'为降序，否则为升序。
+                  description: 过滤表达式类型
                   schema:
-                    type: array
-                    items:
-                        type: string
-                - name: noPaging
-                  in: query
-                  description: 是否不分页，如果为true，则page和pageSize参数无效。
-                  schema:
-                    type: boolean
+                    enum:
+                        - EXPR_TYPE_UNSPECIFIED
+                        - AND
+                        - OR
+                    type: string
+                    format: enum
                 - name: fieldMask
                   in: query
                   description: 字段掩码，其作用为SELECT中的字段，其语法为使用逗号分隔字段名，例如：id,realName,userName。如果为空则选中所有字段，即SELECT *。
                   schema:
                     type: string
                     format: field-mask
-                - name: tenantId
-                  in: query
-                  schema:
-                    type: integer
-                    format: uint32
             responses:
                 "200":
                     description: OK
@@ -940,16 +1087,44 @@ paths:
             parameters:
                 - name: page
                   in: query
-                  description: 当前页码
+                  description: 当前页码（从1开始，默认1）
                   schema:
                     type: integer
-                    format: int32
+                    format: uint32
                 - name: pageSize
                   in: query
-                  description: 每一页的行数
+                  description: 每页条数（默认10，建议设置上限如100）
                   schema:
                     type: integer
-                    format: int32
+                    format: uint32
+                - name: offset
+                  in: query
+                  description: 跳过的记录数（从0开始，默认0）
+                  schema:
+                    type: string
+                - name: limit
+                  in: query
+                  description: 最多返回的记录数（默认10，建议设置上限如100）
+                  schema:
+                    type: integer
+                    format: uint32
+                - name: token
+                  in: query
+                  description: 上一页最后一条记录的游标（如ID/时间戳+ID，首次请求为空）
+                  schema:
+                    type: string
+                - name: noPaging
+                  in: query
+                  description: 是否不分页，如果为true，则page和pageSize参数无效。
+                  schema:
+                    type: boolean
+                - name: orderBy
+                  in: query
+                  description: 排序条件，其语法为JSON字符串，例如：{"val1", "-val2"}。字段名前加'-'为降序，否则为升序。
+                  schema:
+                    type: array
+                    items:
+                        type: string
                 - name: query
                   in: query
                   description: AND过滤参数，其语法为json格式的字符串，如：{"key1":"val1","key2":"val2"}，具体请参见：https://github.com/tx7do/go-utils/tree/main/entgo/query/README.md
@@ -960,29 +1135,22 @@ paths:
                   description: OR过滤参数，语法同AND过滤参数。
                   schema:
                     type: string
-                - name: orderBy
+                - name: filterExpr.type
                   in: query
-                  description: 排序条件，其语法为JSON字符串，例如：{"val1", "-val2"}。字段名前加'-'为降序，否则为升序。
+                  description: 过滤表达式类型
                   schema:
-                    type: array
-                    items:
-                        type: string
-                - name: noPaging
-                  in: query
-                  description: 是否不分页，如果为true，则page和pageSize参数无效。
-                  schema:
-                    type: boolean
+                    enum:
+                        - EXPR_TYPE_UNSPECIFIED
+                        - AND
+                        - OR
+                    type: string
+                    format: enum
                 - name: fieldMask
                   in: query
                   description: 字段掩码，其作用为SELECT中的字段，其语法为使用逗号分隔字段名，例如：id,realName,userName。如果为空则选中所有字段，即SELECT *。
                   schema:
                     type: string
                     format: field-mask
-                - name: tenantId
-                  in: query
-                  schema:
-                    type: integer
-                    format: uint32
             responses:
                 "200":
                     description: OK
@@ -1077,16 +1245,44 @@ paths:
             parameters:
                 - name: page
                   in: query
-                  description: 当前页码
+                  description: 当前页码（从1开始，默认1）
                   schema:
                     type: integer
-                    format: int32
+                    format: uint32
                 - name: pageSize
                   in: query
-                  description: 每一页的行数
+                  description: 每页条数（默认10，建议设置上限如100）
                   schema:
                     type: integer
-                    format: int32
+                    format: uint32
+                - name: offset
+                  in: query
+                  description: 跳过的记录数（从0开始，默认0）
+                  schema:
+                    type: string
+                - name: limit
+                  in: query
+                  description: 最多返回的记录数（默认10，建议设置上限如100）
+                  schema:
+                    type: integer
+                    format: uint32
+                - name: token
+                  in: query
+                  description: 上一页最后一条记录的游标（如ID/时间戳+ID，首次请求为空）
+                  schema:
+                    type: string
+                - name: noPaging
+                  in: query
+                  description: 是否不分页，如果为true，则page和pageSize参数无效。
+                  schema:
+                    type: boolean
+                - name: orderBy
+                  in: query
+                  description: 排序条件，其语法为JSON字符串，例如：{"val1", "-val2"}。字段名前加'-'为降序，否则为升序。
+                  schema:
+                    type: array
+                    items:
+                        type: string
                 - name: query
                   in: query
                   description: AND过滤参数，其语法为json格式的字符串，如：{"key1":"val1","key2":"val2"}，具体请参见：https://github.com/tx7do/go-utils/tree/main/entgo/query/README.md
@@ -1097,29 +1293,22 @@ paths:
                   description: OR过滤参数，语法同AND过滤参数。
                   schema:
                     type: string
-                - name: orderBy
+                - name: filterExpr.type
                   in: query
-                  description: 排序条件，其语法为JSON字符串，例如：{"val1", "-val2"}。字段名前加'-'为降序，否则为升序。
+                  description: 过滤表达式类型
                   schema:
-                    type: array
-                    items:
-                        type: string
-                - name: noPaging
-                  in: query
-                  description: 是否不分页，如果为true，则page和pageSize参数无效。
-                  schema:
-                    type: boolean
+                    enum:
+                        - EXPR_TYPE_UNSPECIFIED
+                        - AND
+                        - OR
+                    type: string
+                    format: enum
                 - name: fieldMask
                   in: query
                   description: 字段掩码，其作用为SELECT中的字段，其语法为使用逗号分隔字段名，例如：id,realName,userName。如果为空则选中所有字段，即SELECT *。
                   schema:
                     type: string
                     format: field-mask
-                - name: tenantId
-                  in: query
-                  schema:
-                    type: integer
-                    format: uint32
             responses:
                 "200":
                     description: OK
@@ -1152,16 +1341,44 @@ paths:
             parameters:
                 - name: page
                   in: query
-                  description: 当前页码
+                  description: 当前页码（从1开始，默认1）
                   schema:
                     type: integer
-                    format: int32
+                    format: uint32
                 - name: pageSize
                   in: query
-                  description: 每一页的行数
+                  description: 每页条数（默认10，建议设置上限如100）
                   schema:
                     type: integer
-                    format: int32
+                    format: uint32
+                - name: offset
+                  in: query
+                  description: 跳过的记录数（从0开始，默认0）
+                  schema:
+                    type: string
+                - name: limit
+                  in: query
+                  description: 最多返回的记录数（默认10，建议设置上限如100）
+                  schema:
+                    type: integer
+                    format: uint32
+                - name: token
+                  in: query
+                  description: 上一页最后一条记录的游标（如ID/时间戳+ID，首次请求为空）
+                  schema:
+                    type: string
+                - name: noPaging
+                  in: query
+                  description: 是否不分页，如果为true，则page和pageSize参数无效。
+                  schema:
+                    type: boolean
+                - name: orderBy
+                  in: query
+                  description: 排序条件，其语法为JSON字符串，例如：{"val1", "-val2"}。字段名前加'-'为降序，否则为升序。
+                  schema:
+                    type: array
+                    items:
+                        type: string
                 - name: query
                   in: query
                   description: AND过滤参数，其语法为json格式的字符串，如：{"key1":"val1","key2":"val2"}，具体请参见：https://github.com/tx7do/go-utils/tree/main/entgo/query/README.md
@@ -1172,29 +1389,22 @@ paths:
                   description: OR过滤参数，语法同AND过滤参数。
                   schema:
                     type: string
-                - name: orderBy
+                - name: filterExpr.type
                   in: query
-                  description: 排序条件，其语法为JSON字符串，例如：{"val1", "-val2"}。字段名前加'-'为降序，否则为升序。
+                  description: 过滤表达式类型
                   schema:
-                    type: array
-                    items:
-                        type: string
-                - name: noPaging
-                  in: query
-                  description: 是否不分页，如果为true，则page和pageSize参数无效。
-                  schema:
-                    type: boolean
+                    enum:
+                        - EXPR_TYPE_UNSPECIFIED
+                        - AND
+                        - OR
+                    type: string
+                    format: enum
                 - name: fieldMask
                   in: query
                   description: 字段掩码，其作用为SELECT中的字段，其语法为使用逗号分隔字段名，例如：id,realName,userName。如果为空则选中所有字段，即SELECT *。
                   schema:
                     type: string
                     format: field-mask
-                - name: tenantId
-                  in: query
-                  schema:
-                    type: integer
-                    format: uint32
             responses:
                 "200":
                     description: OK
@@ -1346,16 +1556,44 @@ paths:
             parameters:
                 - name: page
                   in: query
-                  description: 当前页码
+                  description: 当前页码（从1开始，默认1）
                   schema:
                     type: integer
-                    format: int32
+                    format: uint32
                 - name: pageSize
                   in: query
-                  description: 每一页的行数
+                  description: 每页条数（默认10，建议设置上限如100）
                   schema:
                     type: integer
-                    format: int32
+                    format: uint32
+                - name: offset
+                  in: query
+                  description: 跳过的记录数（从0开始，默认0）
+                  schema:
+                    type: string
+                - name: limit
+                  in: query
+                  description: 最多返回的记录数（默认10，建议设置上限如100）
+                  schema:
+                    type: integer
+                    format: uint32
+                - name: token
+                  in: query
+                  description: 上一页最后一条记录的游标（如ID/时间戳+ID，首次请求为空）
+                  schema:
+                    type: string
+                - name: noPaging
+                  in: query
+                  description: 是否不分页，如果为true，则page和pageSize参数无效。
+                  schema:
+                    type: boolean
+                - name: orderBy
+                  in: query
+                  description: 排序条件，其语法为JSON字符串，例如：{"val1", "-val2"}。字段名前加'-'为降序，否则为升序。
+                  schema:
+                    type: array
+                    items:
+                        type: string
                 - name: query
                   in: query
                   description: AND过滤参数，其语法为json格式的字符串，如：{"key1":"val1","key2":"val2"}，具体请参见：https://github.com/tx7do/go-utils/tree/main/entgo/query/README.md
@@ -1366,29 +1604,22 @@ paths:
                   description: OR过滤参数，语法同AND过滤参数。
                   schema:
                     type: string
-                - name: orderBy
+                - name: filterExpr.type
                   in: query
-                  description: 排序条件，其语法为JSON字符串，例如：{"val1", "-val2"}。字段名前加'-'为降序，否则为升序。
+                  description: 过滤表达式类型
                   schema:
-                    type: array
-                    items:
-                        type: string
-                - name: noPaging
-                  in: query
-                  description: 是否不分页，如果为true，则page和pageSize参数无效。
-                  schema:
-                    type: boolean
+                    enum:
+                        - EXPR_TYPE_UNSPECIFIED
+                        - AND
+                        - OR
+                    type: string
+                    format: enum
                 - name: fieldMask
                   in: query
                   description: 字段掩码，其作用为SELECT中的字段，其语法为使用逗号分隔字段名，例如：id,realName,userName。如果为空则选中所有字段，即SELECT *。
                   schema:
                     type: string
                     format: field-mask
-                - name: tenantId
-                  in: query
-                  schema:
-                    type: integer
-                    format: uint32
             responses:
                 "200":
                     description: OK
@@ -1601,16 +1832,44 @@ paths:
             parameters:
                 - name: page
                   in: query
-                  description: 当前页码
+                  description: 当前页码（从1开始，默认1）
                   schema:
                     type: integer
-                    format: int32
+                    format: uint32
                 - name: pageSize
                   in: query
-                  description: 每一页的行数
+                  description: 每页条数（默认10，建议设置上限如100）
                   schema:
                     type: integer
-                    format: int32
+                    format: uint32
+                - name: offset
+                  in: query
+                  description: 跳过的记录数（从0开始，默认0）
+                  schema:
+                    type: string
+                - name: limit
+                  in: query
+                  description: 最多返回的记录数（默认10，建议设置上限如100）
+                  schema:
+                    type: integer
+                    format: uint32
+                - name: token
+                  in: query
+                  description: 上一页最后一条记录的游标（如ID/时间戳+ID，首次请求为空）
+                  schema:
+                    type: string
+                - name: noPaging
+                  in: query
+                  description: 是否不分页，如果为true，则page和pageSize参数无效。
+                  schema:
+                    type: boolean
+                - name: orderBy
+                  in: query
+                  description: 排序条件，其语法为JSON字符串，例如：{"val1", "-val2"}。字段名前加'-'为降序，否则为升序。
+                  schema:
+                    type: array
+                    items:
+                        type: string
                 - name: query
                   in: query
                   description: AND过滤参数，其语法为json格式的字符串，如：{"key1":"val1","key2":"val2"}，具体请参见：https://github.com/tx7do/go-utils/tree/main/entgo/query/README.md
@@ -1621,29 +1880,22 @@ paths:
                   description: OR过滤参数，语法同AND过滤参数。
                   schema:
                     type: string
-                - name: orderBy
+                - name: filterExpr.type
                   in: query
-                  description: 排序条件，其语法为JSON字符串，例如：{"val1", "-val2"}。字段名前加'-'为降序，否则为升序。
+                  description: 过滤表达式类型
                   schema:
-                    type: array
-                    items:
-                        type: string
-                - name: noPaging
-                  in: query
-                  description: 是否不分页，如果为true，则page和pageSize参数无效。
-                  schema:
-                    type: boolean
+                    enum:
+                        - EXPR_TYPE_UNSPECIFIED
+                        - AND
+                        - OR
+                    type: string
+                    format: enum
                 - name: fieldMask
                   in: query
                   description: 字段掩码，其作用为SELECT中的字段，其语法为使用逗号分隔字段名，例如：id,realName,userName。如果为空则选中所有字段，即SELECT *。
                   schema:
                     type: string
                     format: field-mask
-                - name: tenantId
-                  in: query
-                  schema:
-                    type: integer
-                    format: uint32
             responses:
                 "200":
                     description: OK
@@ -1743,16 +1995,44 @@ paths:
             parameters:
                 - name: page
                   in: query
-                  description: 当前页码
+                  description: 当前页码（从1开始，默认1）
                   schema:
                     type: integer
-                    format: int32
+                    format: uint32
                 - name: pageSize
                   in: query
-                  description: 每一页的行数
+                  description: 每页条数（默认10，建议设置上限如100）
                   schema:
                     type: integer
-                    format: int32
+                    format: uint32
+                - name: offset
+                  in: query
+                  description: 跳过的记录数（从0开始，默认0）
+                  schema:
+                    type: string
+                - name: limit
+                  in: query
+                  description: 最多返回的记录数（默认10，建议设置上限如100）
+                  schema:
+                    type: integer
+                    format: uint32
+                - name: token
+                  in: query
+                  description: 上一页最后一条记录的游标（如ID/时间戳+ID，首次请求为空）
+                  schema:
+                    type: string
+                - name: noPaging
+                  in: query
+                  description: 是否不分页，如果为true，则page和pageSize参数无效。
+                  schema:
+                    type: boolean
+                - name: orderBy
+                  in: query
+                  description: 排序条件，其语法为JSON字符串，例如：{"val1", "-val2"}。字段名前加'-'为降序，否则为升序。
+                  schema:
+                    type: array
+                    items:
+                        type: string
                 - name: query
                   in: query
                   description: AND过滤参数，其语法为json格式的字符串，如：{"key1":"val1","key2":"val2"}，具体请参见：https://github.com/tx7do/go-utils/tree/main/entgo/query/README.md
@@ -1763,29 +2043,22 @@ paths:
                   description: OR过滤参数，语法同AND过滤参数。
                   schema:
                     type: string
-                - name: orderBy
+                - name: filterExpr.type
                   in: query
-                  description: 排序条件，其语法为JSON字符串，例如：{"val1", "-val2"}。字段名前加'-'为降序，否则为升序。
+                  description: 过滤表达式类型
                   schema:
-                    type: array
-                    items:
-                        type: string
-                - name: noPaging
-                  in: query
-                  description: 是否不分页，如果为true，则page和pageSize参数无效。
-                  schema:
-                    type: boolean
+                    enum:
+                        - EXPR_TYPE_UNSPECIFIED
+                        - AND
+                        - OR
+                    type: string
+                    format: enum
                 - name: fieldMask
                   in: query
                   description: 字段掩码，其作用为SELECT中的字段，其语法为使用逗号分隔字段名，例如：id,realName,userName。如果为空则选中所有字段，即SELECT *。
                   schema:
                     type: string
                     format: field-mask
-                - name: tenantId
-                  in: query
-                  schema:
-                    type: integer
-                    format: uint32
             responses:
                 "200":
                     description: OK
@@ -1893,16 +2166,44 @@ paths:
             parameters:
                 - name: page
                   in: query
-                  description: 当前页码
+                  description: 当前页码（从1开始，默认1）
                   schema:
                     type: integer
-                    format: int32
+                    format: uint32
                 - name: pageSize
                   in: query
-                  description: 每一页的行数
+                  description: 每页条数（默认10，建议设置上限如100）
                   schema:
                     type: integer
-                    format: int32
+                    format: uint32
+                - name: offset
+                  in: query
+                  description: 跳过的记录数（从0开始，默认0）
+                  schema:
+                    type: string
+                - name: limit
+                  in: query
+                  description: 最多返回的记录数（默认10，建议设置上限如100）
+                  schema:
+                    type: integer
+                    format: uint32
+                - name: token
+                  in: query
+                  description: 上一页最后一条记录的游标（如ID/时间戳+ID，首次请求为空）
+                  schema:
+                    type: string
+                - name: noPaging
+                  in: query
+                  description: 是否不分页，如果为true，则page和pageSize参数无效。
+                  schema:
+                    type: boolean
+                - name: orderBy
+                  in: query
+                  description: 排序条件，其语法为JSON字符串，例如：{"val1", "-val2"}。字段名前加'-'为降序，否则为升序。
+                  schema:
+                    type: array
+                    items:
+                        type: string
                 - name: query
                   in: query
                   description: AND过滤参数，其语法为json格式的字符串，如：{"key1":"val1","key2":"val2"}，具体请参见：https://github.com/tx7do/go-utils/tree/main/entgo/query/README.md
@@ -1913,29 +2214,22 @@ paths:
                   description: OR过滤参数，语法同AND过滤参数。
                   schema:
                     type: string
-                - name: orderBy
+                - name: filterExpr.type
                   in: query
-                  description: 排序条件，其语法为JSON字符串，例如：{"val1", "-val2"}。字段名前加'-'为降序，否则为升序。
+                  description: 过滤表达式类型
                   schema:
-                    type: array
-                    items:
-                        type: string
-                - name: noPaging
-                  in: query
-                  description: 是否不分页，如果为true，则page和pageSize参数无效。
-                  schema:
-                    type: boolean
+                    enum:
+                        - EXPR_TYPE_UNSPECIFIED
+                        - AND
+                        - OR
+                    type: string
+                    format: enum
                 - name: fieldMask
                   in: query
                   description: 字段掩码，其作用为SELECT中的字段，其语法为使用逗号分隔字段名，例如：id,realName,userName。如果为空则选中所有字段，即SELECT *。
                   schema:
                     type: string
                     format: field-mask
-                - name: tenantId
-                  in: query
-                  schema:
-                    type: integer
-                    format: uint32
             responses:
                 "200":
                     description: OK
@@ -2049,16 +2343,44 @@ paths:
             parameters:
                 - name: page
                   in: query
-                  description: 当前页码
+                  description: 当前页码（从1开始，默认1）
                   schema:
                     type: integer
-                    format: int32
+                    format: uint32
                 - name: pageSize
                   in: query
-                  description: 每一页的行数
+                  description: 每页条数（默认10，建议设置上限如100）
                   schema:
                     type: integer
-                    format: int32
+                    format: uint32
+                - name: offset
+                  in: query
+                  description: 跳过的记录数（从0开始，默认0）
+                  schema:
+                    type: string
+                - name: limit
+                  in: query
+                  description: 最多返回的记录数（默认10，建议设置上限如100）
+                  schema:
+                    type: integer
+                    format: uint32
+                - name: token
+                  in: query
+                  description: 上一页最后一条记录的游标（如ID/时间戳+ID，首次请求为空）
+                  schema:
+                    type: string
+                - name: noPaging
+                  in: query
+                  description: 是否不分页，如果为true，则page和pageSize参数无效。
+                  schema:
+                    type: boolean
+                - name: orderBy
+                  in: query
+                  description: 排序条件，其语法为JSON字符串，例如：{"val1", "-val2"}。字段名前加'-'为降序，否则为升序。
+                  schema:
+                    type: array
+                    items:
+                        type: string
                 - name: query
                   in: query
                   description: AND过滤参数，其语法为json格式的字符串，如：{"key1":"val1","key2":"val2"}，具体请参见：https://github.com/tx7do/go-utils/tree/main/entgo/query/README.md
@@ -2069,29 +2391,22 @@ paths:
                   description: OR过滤参数，语法同AND过滤参数。
                   schema:
                     type: string
-                - name: orderBy
+                - name: filterExpr.type
                   in: query
-                  description: 排序条件，其语法为JSON字符串，例如：{"val1", "-val2"}。字段名前加'-'为降序，否则为升序。
+                  description: 过滤表达式类型
                   schema:
-                    type: array
-                    items:
-                        type: string
-                - name: noPaging
-                  in: query
-                  description: 是否不分页，如果为true，则page和pageSize参数无效。
-                  schema:
-                    type: boolean
+                    enum:
+                        - EXPR_TYPE_UNSPECIFIED
+                        - AND
+                        - OR
+                    type: string
+                    format: enum
                 - name: fieldMask
                   in: query
                   description: 字段掩码，其作用为SELECT中的字段，其语法为使用逗号分隔字段名，例如：id,realName,userName。如果为空则选中所有字段，即SELECT *。
                   schema:
                     type: string
                     format: field-mask
-                - name: tenantId
-                  in: query
-                  schema:
-                    type: integer
-                    format: uint32
             responses:
                 "200":
                     description: OK
@@ -2199,16 +2514,44 @@ paths:
             parameters:
                 - name: page
                   in: query
-                  description: 当前页码
+                  description: 当前页码（从1开始，默认1）
                   schema:
                     type: integer
-                    format: int32
+                    format: uint32
                 - name: pageSize
                   in: query
-                  description: 每一页的行数
+                  description: 每页条数（默认10，建议设置上限如100）
                   schema:
                     type: integer
-                    format: int32
+                    format: uint32
+                - name: offset
+                  in: query
+                  description: 跳过的记录数（从0开始，默认0）
+                  schema:
+                    type: string
+                - name: limit
+                  in: query
+                  description: 最多返回的记录数（默认10，建议设置上限如100）
+                  schema:
+                    type: integer
+                    format: uint32
+                - name: token
+                  in: query
+                  description: 上一页最后一条记录的游标（如ID/时间戳+ID，首次请求为空）
+                  schema:
+                    type: string
+                - name: noPaging
+                  in: query
+                  description: 是否不分页，如果为true，则page和pageSize参数无效。
+                  schema:
+                    type: boolean
+                - name: orderBy
+                  in: query
+                  description: 排序条件，其语法为JSON字符串，例如：{"val1", "-val2"}。字段名前加'-'为降序，否则为升序。
+                  schema:
+                    type: array
+                    items:
+                        type: string
                 - name: query
                   in: query
                   description: AND过滤参数，其语法为json格式的字符串，如：{"key1":"val1","key2":"val2"}，具体请参见：https://github.com/tx7do/go-utils/tree/main/entgo/query/README.md
@@ -2219,29 +2562,22 @@ paths:
                   description: OR过滤参数，语法同AND过滤参数。
                   schema:
                     type: string
-                - name: orderBy
+                - name: filterExpr.type
                   in: query
-                  description: 排序条件，其语法为JSON字符串，例如：{"val1", "-val2"}。字段名前加'-'为降序，否则为升序。
+                  description: 过滤表达式类型
                   schema:
-                    type: array
-                    items:
-                        type: string
-                - name: noPaging
-                  in: query
-                  description: 是否不分页，如果为true，则page和pageSize参数无效。
-                  schema:
-                    type: boolean
+                    enum:
+                        - EXPR_TYPE_UNSPECIFIED
+                        - AND
+                        - OR
+                    type: string
+                    format: enum
                 - name: fieldMask
                   in: query
                   description: 字段掩码，其作用为SELECT中的字段，其语法为使用逗号分隔字段名，例如：id,realName,userName。如果为空则选中所有字段，即SELECT *。
                   schema:
                     type: string
                     format: field-mask
-                - name: tenantId
-                  in: query
-                  schema:
-                    type: integer
-                    format: uint32
             responses:
                 "200":
                     description: OK
@@ -2410,16 +2746,44 @@ paths:
             parameters:
                 - name: page
                   in: query
-                  description: 当前页码
+                  description: 当前页码（从1开始，默认1）
                   schema:
                     type: integer
-                    format: int32
+                    format: uint32
                 - name: pageSize
                   in: query
-                  description: 每一页的行数
+                  description: 每页条数（默认10，建议设置上限如100）
                   schema:
                     type: integer
-                    format: int32
+                    format: uint32
+                - name: offset
+                  in: query
+                  description: 跳过的记录数（从0开始，默认0）
+                  schema:
+                    type: string
+                - name: limit
+                  in: query
+                  description: 最多返回的记录数（默认10，建议设置上限如100）
+                  schema:
+                    type: integer
+                    format: uint32
+                - name: token
+                  in: query
+                  description: 上一页最后一条记录的游标（如ID/时间戳+ID，首次请求为空）
+                  schema:
+                    type: string
+                - name: noPaging
+                  in: query
+                  description: 是否不分页，如果为true，则page和pageSize参数无效。
+                  schema:
+                    type: boolean
+                - name: orderBy
+                  in: query
+                  description: 排序条件，其语法为JSON字符串，例如：{"val1", "-val2"}。字段名前加'-'为降序，否则为升序。
+                  schema:
+                    type: array
+                    items:
+                        type: string
                 - name: query
                   in: query
                   description: AND过滤参数，其语法为json格式的字符串，如：{"key1":"val1","key2":"val2"}，具体请参见：https://github.com/tx7do/go-utils/tree/main/entgo/query/README.md
@@ -2430,29 +2794,22 @@ paths:
                   description: OR过滤参数，语法同AND过滤参数。
                   schema:
                     type: string
-                - name: orderBy
+                - name: filterExpr.type
                   in: query
-                  description: 排序条件，其语法为JSON字符串，例如：{"val1", "-val2"}。字段名前加'-'为降序，否则为升序。
+                  description: 过滤表达式类型
                   schema:
-                    type: array
-                    items:
-                        type: string
-                - name: noPaging
-                  in: query
-                  description: 是否不分页，如果为true，则page和pageSize参数无效。
-                  schema:
-                    type: boolean
+                    enum:
+                        - EXPR_TYPE_UNSPECIFIED
+                        - AND
+                        - OR
+                    type: string
+                    format: enum
                 - name: fieldMask
                   in: query
                   description: 字段掩码，其作用为SELECT中的字段，其语法为使用逗号分隔字段名，例如：id,realName,userName。如果为空则选中所有字段，即SELECT *。
                   schema:
                     type: string
                     format: field-mask
-                - name: tenantId
-                  in: query
-                  schema:
-                    type: integer
-                    format: uint32
             responses:
                 "200":
                     description: OK
@@ -2631,16 +2988,44 @@ paths:
             parameters:
                 - name: page
                   in: query
-                  description: 当前页码
+                  description: 当前页码（从1开始，默认1）
                   schema:
                     type: integer
-                    format: int32
+                    format: uint32
                 - name: pageSize
                   in: query
-                  description: 每一页的行数
+                  description: 每页条数（默认10，建议设置上限如100）
                   schema:
                     type: integer
-                    format: int32
+                    format: uint32
+                - name: offset
+                  in: query
+                  description: 跳过的记录数（从0开始，默认0）
+                  schema:
+                    type: string
+                - name: limit
+                  in: query
+                  description: 最多返回的记录数（默认10，建议设置上限如100）
+                  schema:
+                    type: integer
+                    format: uint32
+                - name: token
+                  in: query
+                  description: 上一页最后一条记录的游标（如ID/时间戳+ID，首次请求为空）
+                  schema:
+                    type: string
+                - name: noPaging
+                  in: query
+                  description: 是否不分页，如果为true，则page和pageSize参数无效。
+                  schema:
+                    type: boolean
+                - name: orderBy
+                  in: query
+                  description: 排序条件，其语法为JSON字符串，例如：{"val1", "-val2"}。字段名前加'-'为降序，否则为升序。
+                  schema:
+                    type: array
+                    items:
+                        type: string
                 - name: query
                   in: query
                   description: AND过滤参数，其语法为json格式的字符串，如：{"key1":"val1","key2":"val2"}，具体请参见：https://github.com/tx7do/go-utils/tree/main/entgo/query/README.md
@@ -2651,29 +3036,22 @@ paths:
                   description: OR过滤参数，语法同AND过滤参数。
                   schema:
                     type: string
-                - name: orderBy
+                - name: filterExpr.type
                   in: query
-                  description: 排序条件，其语法为JSON字符串，例如：{"val1", "-val2"}。字段名前加'-'为降序，否则为升序。
+                  description: 过滤表达式类型
                   schema:
-                    type: array
-                    items:
-                        type: string
-                - name: noPaging
-                  in: query
-                  description: 是否不分页，如果为true，则page和pageSize参数无效。
-                  schema:
-                    type: boolean
+                    enum:
+                        - EXPR_TYPE_UNSPECIFIED
+                        - AND
+                        - OR
+                    type: string
+                    format: enum
                 - name: fieldMask
                   in: query
                   description: 字段掩码，其作用为SELECT中的字段，其语法为使用逗号分隔字段名，例如：id,realName,userName。如果为空则选中所有字段，即SELECT *。
                   schema:
                     type: string
                     format: field-mask
-                - name: tenantId
-                  in: query
-                  schema:
-                    type: integer
-                    format: uint32
             responses:
                 "200":
                     description: OK
@@ -2731,7 +3109,7 @@ paths:
                   schema:
                     type: integer
                     format: uint32
-                - name: username
+                - name: userName
                   in: query
                   schema:
                     type: string
@@ -2833,14 +3211,14 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/DictType'
-    /api/v1/users/username/{username}:
+    /api/v1/users/username/{userName}:
         get:
             tags:
                 - UserService
             description: 获取用户数据
             operationId: UserService_Get
             parameters:
-                - name: username
+                - name: userName
                   in: path
                   required: true
                   schema:
@@ -3804,8 +4182,7 @@ components:
                     items:
                         $ref: '#/components/schemas/AdminLoginLog'
                 total:
-                    type: integer
-                    format: uint32
+                    type: string
             description: 查询后台登录日志列表 - 回应
         ListAdminLoginRestrictionResponse:
             type: object
@@ -3815,8 +4192,7 @@ components:
                     items:
                         $ref: '#/components/schemas/AdminLoginRestriction'
                 total:
-                    type: integer
-                    format: uint32
+                    type: string
             description: 查询后台登录限制列表 - 回应
         ListAdminOperationLogResponse:
             type: object
@@ -3826,8 +4202,7 @@ components:
                     items:
                         $ref: '#/components/schemas/AdminOperationLog'
                 total:
-                    type: integer
-                    format: uint32
+                    type: string
             description: 查询后台操作日志列表 - 回应
         ListApiResourceResponse:
             type: object
@@ -3837,8 +4212,7 @@ components:
                     items:
                         $ref: '#/components/schemas/ApiResource'
                 total:
-                    type: integer
-                    format: uint32
+                    type: string
             description: 查询列表 - 回应
         ListDepartmentResponse:
             type: object
@@ -3848,8 +4222,7 @@ components:
                     items:
                         $ref: '#/components/schemas/Department'
                 total:
-                    type: integer
-                    format: uint32
+                    type: string
             description: 部门列表 - 答复
         ListDictEntryResponse:
             type: object
@@ -3859,8 +4232,7 @@ components:
                     items:
                         $ref: '#/components/schemas/DictEntry'
                 total:
-                    type: integer
-                    format: uint32
+                    type: string
             description: 查询字典条目列表 - 回应
         ListDictTypeResponse:
             type: object
@@ -3870,8 +4242,7 @@ components:
                     items:
                         $ref: '#/components/schemas/DictType'
                 total:
-                    type: integer
-                    format: uint32
+                    type: string
             description: 查询字典类型列表 - 回应
         ListFileResponse:
             type: object
@@ -3881,8 +4252,7 @@ components:
                     items:
                         $ref: '#/components/schemas/File'
                 total:
-                    type: integer
-                    format: uint32
+                    type: string
             description: 查询列表 - 回应
         ListInternalMessageCategoryResponse:
             type: object
@@ -3892,8 +4262,7 @@ components:
                     items:
                         $ref: '#/components/schemas/InternalMessageCategory'
                 total:
-                    type: integer
-                    format: uint32
+                    type: string
             description: 查询站内信消息分类列表 - 回应
         ListInternalMessageResponse:
             type: object
@@ -3903,8 +4272,7 @@ components:
                     items:
                         $ref: '#/components/schemas/InternalMessage'
                 total:
-                    type: integer
-                    format: uint32
+                    type: string
             description: 查询站内信消息列表 - 回应
         ListMenuResponse:
             type: object
@@ -3914,8 +4282,7 @@ components:
                     items:
                         $ref: '#/components/schemas/Menu'
                 total:
-                    type: integer
-                    format: uint32
+                    type: string
             description: 查询菜单列表 - 回应
         ListOrganizationResponse:
             type: object
@@ -3925,8 +4292,7 @@ components:
                     items:
                         $ref: '#/components/schemas/Organization'
                 total:
-                    type: integer
-                    format: uint32
+                    type: string
             description: 组织列表 - 答复
         ListPermissionCodeResponse:
             type: object
@@ -3944,8 +4310,7 @@ components:
                     items:
                         $ref: '#/components/schemas/Position'
                 total:
-                    type: integer
-                    format: uint32
+                    type: string
             description: 获取职位列表 - 答复
         ListRoleResponse:
             type: object
@@ -3955,8 +4320,7 @@ components:
                     items:
                         $ref: '#/components/schemas/Role'
                 total:
-                    type: integer
-                    format: uint32
+                    type: string
             description: 角色列表 - 答复
         ListRouteResponse:
             type: object
@@ -3974,8 +4338,7 @@ components:
                     items:
                         $ref: '#/components/schemas/Task'
                 total:
-                    type: integer
-                    format: uint32
+                    type: string
             description: 查询调度任务列表 - 回应
         ListTaskTypeNameResponse:
             type: object
@@ -3994,8 +4357,7 @@ components:
                     items:
                         $ref: '#/components/schemas/Tenant'
                 total:
-                    type: integer
-                    format: uint32
+                    type: string
             description: 租户列表 - 答复
         ListUserInboxResponse:
             type: object
@@ -4005,8 +4367,7 @@ components:
                     items:
                         $ref: '#/components/schemas/InternalMessageRecipient'
                 total:
-                    type: integer
-                    format: uint32
+                    type: string
         ListUserResponse:
             type: object
             properties:
@@ -4015,8 +4376,7 @@ components:
                     items:
                         $ref: '#/components/schemas/User'
                 total:
-                    type: integer
-                    format: uint32
+                    type: string
             description: 获取用户列表 - 答复
         LoginRequest:
             required:

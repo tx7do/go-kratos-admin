@@ -5,7 +5,7 @@ import (
 	"entgo.io/ent/dialect/entsql"
 	"entgo.io/ent/schema"
 	"entgo.io/ent/schema/field"
-	"github.com/tx7do/go-utils/entgo/mixin"
+	"github.com/tx7do/go-crud/entgo/mixin"
 )
 
 // AdminLoginLog holds the schema definition for the AdminLoginLog entity.

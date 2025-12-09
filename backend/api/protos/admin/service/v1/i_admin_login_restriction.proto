@@ -40,7 +40,7 @@ service AdminLoginRestrictionService {
   // 更新后台登录限制
   rpc Update (UpdateAdminLoginRestrictionRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
-      put: "/admin/v1/login-restrictions/{data.id}"
+      put: "/admin/v1/login-restrictions/{id}"
       body: "*"
     };
   }
@@ -154,9 +154,11 @@ message CreateAdminLoginRestrictionRequest {
 
 // 更新后台登录限制 - 请求
 message UpdateAdminLoginRestrictionRequest {
-  AdminLoginRestriction data = 1;
+  uint32 id = 1;
 
-  google.protobuf.FieldMask update_mask = 2 [
+  AdminLoginRestriction data = 2;
+
+  google.protobuf.FieldMask update_mask = 3 [
     (gnostic.openapi.v3.property) = {
       description: "要更新的字段列表",
       example: {yaml : "id,realname,username"}
@@ -164,7 +166,7 @@ message UpdateAdminLoginRestrictionRequest {
     json_name = "updateMask"
   ]; // 要更新的字段列表
 
-  optional bool allow_missing = 3 [
+  optional bool allow_missing = 4 [
     (gnostic.openapi.v3.property) = {description: "如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。"},
     json_name = "allowMissing"
   ]; // 如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。

@@ -73,9 +73,9 @@ export const useTenantStore = defineStore('tenant', () => {
    */
   async function updateTenant(id: number, values: object) {
     return await service.Update({
+      id,
       // @ts-ignore proto generated code is error.
       data: {
-        id,
         ...values,
       },
       // @ts-ignore proto generated code is error.

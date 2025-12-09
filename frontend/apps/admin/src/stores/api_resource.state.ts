@@ -55,8 +55,8 @@ export const useApiResourceStore = defineStore('api-resource', () => {
    */
   async function updateApiResource(id: number, values: object) {
     return await service.Update({
+      id,
       data: {
-        id,
         ...values,
       },
       // @ts-ignore proto generated code is error.

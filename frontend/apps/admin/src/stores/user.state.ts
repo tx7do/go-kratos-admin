@@ -65,9 +65,9 @@ export const useUserStore = defineStore('user', () => {
   async function updateUser(id: number, values: object) {
     const updateMask = makeUpdateMask(Object.keys(values ?? []));
     return await service.Update({
+      id,
       // @ts-ignore proto generated code is error.
       data: {
-        id,
         ...values,
       },
       // @ts-ignore proto generated code is error.

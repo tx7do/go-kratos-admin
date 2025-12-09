@@ -236,7 +236,7 @@ func (r *RoleRepo) Create(ctx context.Context, req *userV1.CreateRoleRequest) er
 	}
 
 	if req.Data.Id != nil {
-		builder.SetID(req.Data.GetId())
+		builder.SetID(req.GetData().GetId())
 	}
 
 	if err := builder.Exec(ctx); err != nil {
@@ -254,7 +254,7 @@ func (r *RoleRepo) Update(ctx context.Context, req *userV1.UpdateRoleRequest) er
 
 	// 如果不存在则创建
 	if req.GetAllowMissing() {
-		exist, err := r.IsExist(ctx, req.GetData().GetId())
+		exist, err := r.IsExist(ctx, req.GetId())
 		if err != nil {
 			return err
 		}
@@ -291,7 +291,7 @@ func (r *RoleRepo) Update(ctx context.Context, req *userV1.UpdateRoleRequest) er
 			}
 		},
 		func(s *sql.Selector) {
-			s.Where(sql.EQ(role.FieldID, req.Data.GetId()))
+			s.Where(sql.EQ(role.FieldID, req.GetId()))
 		},
 	)
 

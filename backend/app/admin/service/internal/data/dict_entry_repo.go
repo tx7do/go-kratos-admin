@@ -134,7 +134,7 @@ func (r *DictEntryRepo) Create(ctx context.Context, req *dictV1.CreateDictEntryR
 	}
 
 	if req.Data.Id != nil {
-		builder.SetID(req.Data.GetId())
+		builder.SetID(req.GetData().GetId())
 	}
 
 	if err := builder.Exec(ctx); err != nil {
@@ -152,7 +152,7 @@ func (r *DictEntryRepo) Update(ctx context.Context, req *dictV1.UpdateDictEntryR
 
 	// 如果不存在则创建
 	if req.GetAllowMissing() {
-		exist, err := r.IsExist(ctx, req.GetData().GetId())
+		exist, err := r.IsExist(ctx, req.GetId())
 		if err != nil {
 			return err
 		}
@@ -183,7 +183,7 @@ func (r *DictEntryRepo) Update(ctx context.Context, req *dictV1.UpdateDictEntryR
 			}
 		},
 		func(s *sql.Selector) {
-			s.Where(sql.EQ(dictentry.FieldID, req.Data.GetId()))
+			s.Where(sql.EQ(dictentry.FieldID, req.GetId()))
 		},
 	)
 

@@ -199,6 +199,8 @@ func (x *UpdateApiResourceRequest) Redact() string {
 		return ""
 	}
 
+	// Safe field: Id
+
 	// Safe field: Data
 
 	// Safe field: UpdateMask

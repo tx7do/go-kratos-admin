@@ -46,7 +46,7 @@ func RegisterInternalMessageCategoryServiceHTTPServer(s *http.Server, srv Intern
 	r.GET("/admin/v1/internal-message/categories", _InternalMessageCategoryService_List6_HTTP_Handler(srv))
 	r.GET("/admin/v1/internal-message/categories/{id}", _InternalMessageCategoryService_Get6_HTTP_Handler(srv))
 	r.POST("/admin/v1/internal-message/categories", _InternalMessageCategoryService_Create4_HTTP_Handler(srv))
-	r.PUT("/admin/v1/internal-message/categories/{data.id}", _InternalMessageCategoryService_Update4_HTTP_Handler(srv))
+	r.PUT("/admin/v1/internal-message/categories/{id}", _InternalMessageCategoryService_Update4_HTTP_Handler(srv))
 	r.DELETE("/admin/v1/internal-message/categories/{id}", _InternalMessageCategoryService_Delete4_HTTP_Handler(srv))
 }
 
@@ -240,7 +240,7 @@ func (c *InternalMessageCategoryServiceHTTPClientImpl) List(ctx context.Context,
 // Update 更新站内信消息分类
 func (c *InternalMessageCategoryServiceHTTPClientImpl) Update(ctx context.Context, in *v11.UpdateInternalMessageCategoryRequest, opts ...http.CallOption) (*emptypb.Empty, error) {
 	var out emptypb.Empty
-	pattern := "/admin/v1/internal-message/categories/{data.id}"
+	pattern := "/admin/v1/internal-message/categories/{id}"
 	path := binding.EncodeURL(pattern, in, false)
 	opts = append(opts, http.Operation(OperationInternalMessageCategoryServiceUpdate))
 	opts = append(opts, http.PathTemplate(pattern))

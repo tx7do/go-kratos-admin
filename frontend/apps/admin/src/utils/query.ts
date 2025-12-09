@@ -30,8 +30,8 @@ export function makeUpdateMask(keys: string[]): string {
   if (keys.length === 0) {
     return '';
   }
-  if (!keys.includes('id')) {
-    keys.push('id');
-  }
+  // if (!keys.includes('id')) {
+  //   keys.push('id');
+  // }
   return keys.join(',');
 }

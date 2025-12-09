@@ -107,12 +107,14 @@ func (s *RoleService) Update(ctx context.Context, req *userV1.UpdateRoleRequest)
 	// 获取操作人信息
 	operator, err := auth.FromContext(ctx)
 	if err != nil {
+		s.log.Errorf("get operator from context error: %v", err)
 		return nil, err
 	}
 
 	req.Data.UpdatedBy = trans.Ptr(operator.UserId)
 
 	if err = s.roleRepo.Update(ctx, req); err != nil {
+		s.log.Errorf("update role error: %v", err)
 		return nil, err
 	}
 

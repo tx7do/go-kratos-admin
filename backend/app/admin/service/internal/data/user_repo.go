@@ -183,7 +183,7 @@ func (r *UserRepo) Create(ctx context.Context, req *userV1.CreateUserRequest) (*
 	}
 
 	if req.Data.Id != nil {
-		builder.SetID(req.Data.GetId())
+		builder.SetID(req.GetData().GetId())
 	}
 
 	//if req.Data.Roles != nil {
@@ -213,7 +213,7 @@ func (r *UserRepo) Update(ctx context.Context, req *userV1.UpdateUserRequest) er
 
 	// 如果不存在则创建
 	if req.GetAllowMissing() {
-		exist, err := r.IsExist(ctx, req.GetData().GetId())
+		exist, err := r.IsExist(ctx, req.GetId())
 		if err != nil {
 			return err
 		}
@@ -265,7 +265,7 @@ func (r *UserRepo) Update(ctx context.Context, req *userV1.UpdateUserRequest) er
 			}
 		},
 		func(s *sql.Selector) {
-			s.Where(sql.EQ(user.FieldID, req.Data.GetId()))
+			s.Where(sql.EQ(user.FieldID, req.GetId()))
 		},
 	)
 

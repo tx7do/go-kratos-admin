@@ -48,7 +48,7 @@ func RegisterInternalMessageServiceHTTPServer(s *http.Server, srv InternalMessag
 	r := s.Route("/")
 	r.GET("/admin/v1/internal-message/messages", _InternalMessageService_ListMessage0_HTTP_Handler(srv))
 	r.GET("/admin/v1/internal-message/messages/{id}", _InternalMessageService_GetMessage0_HTTP_Handler(srv))
-	r.PUT("/admin/v1/internal-message/messages/{data.id}", _InternalMessageService_UpdateMessage0_HTTP_Handler(srv))
+	r.PUT("/admin/v1/internal-message/messages/{id}", _InternalMessageService_UpdateMessage0_HTTP_Handler(srv))
 	r.DELETE("/admin/v1/internal-message/messages/{id}", _InternalMessageService_DeleteMessage0_HTTP_Handler(srv))
 	r.POST("/admin/v1/internal-message/send", _InternalMessageService_SendMessage0_HTTP_Handler(srv))
 	r.POST("/admin/v1/internal-message/revoke", _InternalMessageService_RevokeMessage0_HTTP_Handler(srv))
@@ -282,7 +282,7 @@ func (c *InternalMessageServiceHTTPClientImpl) SendMessage(ctx context.Context, 
 // UpdateMessage 更新站内信消息
 func (c *InternalMessageServiceHTTPClientImpl) UpdateMessage(ctx context.Context, in *v11.UpdateInternalMessageRequest, opts ...http.CallOption) (*emptypb.Empty, error) {
 	var out emptypb.Empty
-	pattern := "/admin/v1/internal-message/messages/{data.id}"
+	pattern := "/admin/v1/internal-message/messages/{id}"
 	path := binding.EncodeURL(pattern, in, false)
 	opts = append(opts, http.Operation(OperationInternalMessageServiceUpdateMessage))
 	opts = append(opts, http.PathTemplate(pattern))

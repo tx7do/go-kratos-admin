@@ -46,7 +46,7 @@ func RegisterDepartmentServiceHTTPServer(s *http.Server, srv DepartmentServiceHT
 	r.GET("/admin/v1/departments", _DepartmentService_List4_HTTP_Handler(srv))
 	r.GET("/admin/v1/departments/{id}", _DepartmentService_Get4_HTTP_Handler(srv))
 	r.POST("/admin/v1/departments", _DepartmentService_Create2_HTTP_Handler(srv))
-	r.PUT("/admin/v1/departments/{data.id}", _DepartmentService_Update2_HTTP_Handler(srv))
+	r.PUT("/admin/v1/departments/{id}", _DepartmentService_Update2_HTTP_Handler(srv))
 	r.DELETE("/admin/v1/departments/{id}", _DepartmentService_Delete2_HTTP_Handler(srv))
 }
 
@@ -240,7 +240,7 @@ func (c *DepartmentServiceHTTPClientImpl) List(ctx context.Context, in *v1.Pagin
 // Update 更新部门
 func (c *DepartmentServiceHTTPClientImpl) Update(ctx context.Context, in *v11.UpdateDepartmentRequest, opts ...http.CallOption) (*emptypb.Empty, error) {
 	var out emptypb.Empty
-	pattern := "/admin/v1/departments/{data.id}"
+	pattern := "/admin/v1/departments/{id}"
 	path := binding.EncodeURL(pattern, in, false)
 	opts = append(opts, http.Operation(OperationDepartmentServiceUpdate))
 	opts = append(opts, http.PathTemplate(pattern))

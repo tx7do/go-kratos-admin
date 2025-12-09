@@ -46,7 +46,7 @@ func RegisterOrganizationServiceHTTPServer(s *http.Server, srv OrganizationServi
 	r.GET("/admin/v1/organizations", _OrganizationService_List8_HTTP_Handler(srv))
 	r.GET("/admin/v1/organizations/{id}", _OrganizationService_Get8_HTTP_Handler(srv))
 	r.POST("/admin/v1/organizations", _OrganizationService_Create6_HTTP_Handler(srv))
-	r.PUT("/admin/v1/organizations/{data.id}", _OrganizationService_Update6_HTTP_Handler(srv))
+	r.PUT("/admin/v1/organizations/{id}", _OrganizationService_Update6_HTTP_Handler(srv))
 	r.DELETE("/admin/v1/organizations/{id}", _OrganizationService_Delete6_HTTP_Handler(srv))
 }
 
@@ -240,7 +240,7 @@ func (c *OrganizationServiceHTTPClientImpl) List(ctx context.Context, in *v1.Pag
 // Update 更新组织
 func (c *OrganizationServiceHTTPClientImpl) Update(ctx context.Context, in *v11.UpdateOrganizationRequest, opts ...http.CallOption) (*emptypb.Empty, error) {
 	var out emptypb.Empty
-	pattern := "/admin/v1/organizations/{data.id}"
+	pattern := "/admin/v1/organizations/{id}"
 	path := binding.EncodeURL(pattern, in, false)
 	opts = append(opts, http.Operation(OperationOrganizationServiceUpdate))
 	opts = append(opts, http.PathTemplate(pattern))

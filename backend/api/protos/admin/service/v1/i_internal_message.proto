@@ -29,7 +29,7 @@ service InternalMessageService {
   // 更新站内信消息
   rpc UpdateMessage(internal_message.service.v1.UpdateInternalMessageRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
-      put: "/admin/v1/internal-message/messages/{data.id}"
+      put: "/admin/v1/internal-message/messages/{id}"
       body: "*"
     };
   }

@@ -1065,6 +1065,8 @@ func (m *UpdateTaskRequest) validate(all bool) error {
 
 	var errors []error
 
+	// no validation rules for Id
+
 	if all {
 		switch v := interface{}(m.GetData()).(type) {
 		case interface{ ValidateAll() error }:

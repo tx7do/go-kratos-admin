@@ -46,7 +46,7 @@ func RegisterPositionServiceHTTPServer(s *http.Server, srv PositionServiceHTTPSe
 	r.GET("/admin/v1/positions", _PositionService_List9_HTTP_Handler(srv))
 	r.GET("/admin/v1/positions/{id}", _PositionService_Get9_HTTP_Handler(srv))
 	r.POST("/admin/v1/positions", _PositionService_Create7_HTTP_Handler(srv))
-	r.PUT("/admin/v1/positions/{data.id}", _PositionService_Update7_HTTP_Handler(srv))
+	r.PUT("/admin/v1/positions/{id}", _PositionService_Update7_HTTP_Handler(srv))
 	r.DELETE("/admin/v1/positions/{id}", _PositionService_Delete7_HTTP_Handler(srv))
 }
 
@@ -240,7 +240,7 @@ func (c *PositionServiceHTTPClientImpl) List(ctx context.Context, in *v1.PagingR
 // Update 更新职位
 func (c *PositionServiceHTTPClientImpl) Update(ctx context.Context, in *v11.UpdatePositionRequest, opts ...http.CallOption) (*emptypb.Empty, error) {
 	var out emptypb.Empty
-	pattern := "/admin/v1/positions/{data.id}"
+	pattern := "/admin/v1/positions/{id}"
 	path := binding.EncodeURL(pattern, in, false)
 	opts = append(opts, http.Operation(OperationPositionServiceUpdate))
 	opts = append(opts, http.PathTemplate(pattern))

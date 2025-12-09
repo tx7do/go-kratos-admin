@@ -438,9 +438,10 @@ func (x *CreateDepartmentRequest) GetData() *Department {
 // 更新部门 - 请求
 type UpdateDepartmentRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Data          *Department            `protobuf:"bytes,1,opt,name=data,proto3" json:"data,omitempty"`
-	UpdateMask    *fieldmaskpb.FieldMask `protobuf:"bytes,2,opt,name=update_mask,json=updateMask,proto3" json:"update_mask,omitempty"`              // 要更新的字段列表
-	AllowMissing  *bool                  `protobuf:"varint,3,opt,name=allow_missing,json=allowMissing,proto3,oneof" json:"allow_missing,omitempty"` // 如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。
+	Id            uint32                 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	Data          *Department            `protobuf:"bytes,2,opt,name=data,proto3" json:"data,omitempty"`
+	UpdateMask    *fieldmaskpb.FieldMask `protobuf:"bytes,3,opt,name=update_mask,json=updateMask,proto3" json:"update_mask,omitempty"`              // 要更新的字段列表
+	AllowMissing  *bool                  `protobuf:"varint,4,opt,name=allow_missing,json=allowMissing,proto3,oneof" json:"allow_missing,omitempty"` // 如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -473,6 +474,13 @@ func (x *UpdateDepartmentRequest) ProtoReflect() protoreflect.Message {
 // Deprecated: Use UpdateDepartmentRequest.ProtoReflect.Descriptor instead.
 func (*UpdateDepartmentRequest) Descriptor() ([]byte, []int) {
 	return file_user_service_v1_department_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *UpdateDepartmentRequest) GetId() uint32 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
 }
 
 func (x *UpdateDepartmentRequest) GetData() *Department {
@@ -700,12 +708,13 @@ const file_user_service_v1_department_proto_rawDesc = "" +
 	"\n" +
 	"_view_mask\"J\n" +
 	"\x17CreateDepartmentRequest\x12/\n" +
-	"\x04data\x18\x01 \x01(\v2\x1b.user.service.v1.DepartmentR\x04data\"\x88\x03\n" +
-	"\x17UpdateDepartmentRequest\x12/\n" +
-	"\x04data\x18\x01 \x01(\v2\x1b.user.service.v1.DepartmentR\x04data\x12s\n" +
-	"\vupdate_mask\x18\x02 \x01(\v2\x1a.google.protobuf.FieldMaskB6\xbaG3:\x16\x12\x14id,realname,username\x92\x02\x18要更新的字段列表R\n" +
+	"\x04data\x18\x01 \x01(\v2\x1b.user.service.v1.DepartmentR\x04data\"\x98\x03\n" +
+	"\x17UpdateDepartmentRequest\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\rR\x02id\x12/\n" +
+	"\x04data\x18\x02 \x01(\v2\x1b.user.service.v1.DepartmentR\x04data\x12s\n" +
+	"\vupdate_mask\x18\x03 \x01(\v2\x1a.google.protobuf.FieldMaskB6\xbaG3:\x16\x12\x14id,realname,username\x92\x02\x18要更新的字段列表R\n" +
 	"updateMask\x12\xb4\x01\n" +
-	"\rallow_missing\x18\x03 \x01(\bB\x89\x01\xbaG\x85\x01\x92\x02\x81\x01如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。H\x00R\fallowMissing\x88\x01\x01B\x10\n" +
+	"\rallow_missing\x18\x04 \x01(\bB\x89\x01\xbaG\x85\x01\x92\x02\x81\x01如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。H\x00R\fallowMissing\x88\x01\x01B\x10\n" +
 	"\x0e_allow_missing\")\n" +
 	"\x17DeleteDepartmentRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\rR\x02id\"P\n" +

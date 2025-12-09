@@ -336,9 +336,10 @@ func (x *CreateLanguageRequest) GetData() *Language {
 // 更新语言 - 请求
 type UpdateLanguageRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Data          *Language              `protobuf:"bytes,1,opt,name=data,proto3" json:"data,omitempty"`
-	UpdateMask    *fieldmaskpb.FieldMask `protobuf:"bytes,2,opt,name=update_mask,json=updateMask,proto3" json:"update_mask,omitempty"`              // 要更新的字段列表
-	AllowMissing  *bool                  `protobuf:"varint,3,opt,name=allow_missing,json=allowMissing,proto3,oneof" json:"allow_missing,omitempty"` // 如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。
+	Id            uint32                 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	Data          *Language              `protobuf:"bytes,2,opt,name=data,proto3" json:"data,omitempty"`
+	UpdateMask    *fieldmaskpb.FieldMask `protobuf:"bytes,3,opt,name=update_mask,json=updateMask,proto3" json:"update_mask,omitempty"`              // 要更新的字段列表
+	AllowMissing  *bool                  `protobuf:"varint,4,opt,name=allow_missing,json=allowMissing,proto3,oneof" json:"allow_missing,omitempty"` // 如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -371,6 +372,13 @@ func (x *UpdateLanguageRequest) ProtoReflect() protoreflect.Message {
 // Deprecated: Use UpdateLanguageRequest.ProtoReflect.Descriptor instead.
 func (*UpdateLanguageRequest) Descriptor() ([]byte, []int) {
 	return file_dict_service_v1_language_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *UpdateLanguageRequest) GetId() uint32 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
 }
 
 func (x *UpdateLanguageRequest) GetData() *Language {
@@ -579,12 +587,13 @@ const file_dict_service_v1_language_proto_rawDesc = "" +
 	"\n" +
 	"_view_mask\"F\n" +
 	"\x15CreateLanguageRequest\x12-\n" +
-	"\x04data\x18\x01 \x01(\v2\x19.dict.service.v1.LanguageR\x04data\"\x84\x03\n" +
-	"\x15UpdateLanguageRequest\x12-\n" +
-	"\x04data\x18\x01 \x01(\v2\x19.dict.service.v1.LanguageR\x04data\x12s\n" +
-	"\vupdate_mask\x18\x02 \x01(\v2\x1a.google.protobuf.FieldMaskB6\xbaG3:\x16\x12\x14id,realname,username\x92\x02\x18要更新的字段列表R\n" +
+	"\x04data\x18\x01 \x01(\v2\x19.dict.service.v1.LanguageR\x04data\"\x94\x03\n" +
+	"\x15UpdateLanguageRequest\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\rR\x02id\x12-\n" +
+	"\x04data\x18\x02 \x01(\v2\x19.dict.service.v1.LanguageR\x04data\x12s\n" +
+	"\vupdate_mask\x18\x03 \x01(\v2\x1a.google.protobuf.FieldMaskB6\xbaG3:\x16\x12\x14id,realname,username\x92\x02\x18要更新的字段列表R\n" +
 	"updateMask\x12\xb4\x01\n" +
-	"\rallow_missing\x18\x03 \x01(\bB\x89\x01\xbaG\x85\x01\x92\x02\x81\x01如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。H\x00R\fallowMissing\x88\x01\x01B\x10\n" +
+	"\rallow_missing\x18\x04 \x01(\bB\x89\x01\xbaG\x85\x01\x92\x02\x81\x01如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。H\x00R\fallowMissing\x88\x01\x01B\x10\n" +
 	"\x0e_allow_missing\"'\n" +
 	"\x15DeleteLanguageRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\rR\x02id\"L\n" +

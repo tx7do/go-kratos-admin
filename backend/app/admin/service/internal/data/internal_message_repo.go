@@ -159,7 +159,7 @@ func (r *InternalMessageRepo) Create(ctx context.Context, req *internalMessageV1
 	}
 
 	if req.Data.Id != nil {
-		builder.SetID(req.Data.GetId())
+		builder.SetID(req.GetData().GetId())
 	}
 
 	var err error
@@ -179,7 +179,7 @@ func (r *InternalMessageRepo) Update(ctx context.Context, req *internalMessageV1
 
 	// 如果不存在则创建
 	if req.GetAllowMissing() {
-		exist, err := r.IsExist(ctx, req.GetData().GetId())
+		exist, err := r.IsExist(ctx, req.GetId())
 		if err != nil {
 			return err
 		}
@@ -210,7 +210,7 @@ func (r *InternalMessageRepo) Update(ctx context.Context, req *internalMessageV1
 			}
 		},
 		func(s *sql.Selector) {
-			s.Where(sql.EQ(internalmessage.FieldID, req.Data.GetId()))
+			s.Where(sql.EQ(internalmessage.FieldID, req.GetId()))
 		},
 	)
 

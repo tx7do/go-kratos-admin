@@ -29,12 +29,12 @@ var File_admin_service_v1_i_role_proto protoreflect.FileDescriptor
 
 const file_admin_service_v1_i_role_proto_rawDesc = "" +
 	"\n" +
-	"\x1dadmin/service/v1/i_role.proto\x12\x10admin.service.v1\x1a$gnostic/openapi/v3/annotations.proto\x1a\x1cgoogle/api/annotations.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1epagination/v1/pagination.proto\x1a\x1auser/service/v1/role.proto2\xfb\x03\n" +
+	"\x1dadmin/service/v1/i_role.proto\x12\x10admin.service.v1\x1a$gnostic/openapi/v3/annotations.proto\x1a\x1cgoogle/api/annotations.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1epagination/v1/pagination.proto\x1a\x1auser/service/v1/role.proto2\xf6\x03\n" +
 	"\vRoleService\x12]\n" +
 	"\x04List\x12\x19.pagination.PagingRequest\x1a!.user.service.v1.ListRoleResponse\"\x17\x82\xd3\xe4\x93\x02\x11\x12\x0f/admin/v1/roles\x12[\n" +
 	"\x03Get\x12\x1f.user.service.v1.GetRoleRequest\x1a\x15.user.service.v1.Role\"\x1c\x82\xd3\xe4\x93\x02\x16\x12\x14/admin/v1/roles/{id}\x12`\n" +
-	"\x06Create\x12\".user.service.v1.CreateRoleRequest\x1a\x16.google.protobuf.Empty\"\x1a\x82\xd3\xe4\x93\x02\x14:\x01*\"\x0f/admin/v1/roles\x12j\n" +
-	"\x06Update\x12\".user.service.v1.UpdateRoleRequest\x1a\x16.google.protobuf.Empty\"$\x82\xd3\xe4\x93\x02\x1e:\x01*\x1a\x19/admin/v1/roles/{data.id}\x12b\n" +
+	"\x06Create\x12\".user.service.v1.CreateRoleRequest\x1a\x16.google.protobuf.Empty\"\x1a\x82\xd3\xe4\x93\x02\x14:\x01*\"\x0f/admin/v1/roles\x12e\n" +
+	"\x06Update\x12\".user.service.v1.UpdateRoleRequest\x1a\x16.google.protobuf.Empty\"\x1f\x82\xd3\xe4\x93\x02\x19:\x01*\x1a\x14/admin/v1/roles/{id}\x12b\n" +
 	"\x06Delete\x12\".user.service.v1.DeleteRoleRequest\x1a\x16.google.protobuf.Empty\"\x1c\x82\xd3\xe4\x93\x02\x16*\x14/admin/v1/roles/{id}B\xb8\x01\n" +
 	"\x14com.admin.service.v1B\n" +
 	"IRoleProtoP\x01Z2kratos-admin/api/gen/go/admin/service/v1;servicev1\xa2\x02\x03ASX\xaa\x02\x10Admin.Service.V1\xca\x02\x10Admin\\Service\\V1\xe2\x02\x1cAdmin\\Service\\V1\\GPBMetadata\xea\x02\x12Admin::Service::V1b\x06proto3"

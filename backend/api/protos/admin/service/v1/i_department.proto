@@ -37,7 +37,7 @@ service DepartmentService {
   // 更新部门
   rpc Update (user.service.v1.UpdateDepartmentRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
-      put: "/admin/v1/departments/{data.id}"
+      put: "/admin/v1/departments/{id}"
       body: "*"
     };
   }

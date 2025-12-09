@@ -51,7 +51,7 @@ func RegisterApiResourceServiceHTTPServer(s *http.Server, srv ApiResourceService
 	r.GET("/admin/v1/api-resources", _ApiResourceService_List3_HTTP_Handler(srv))
 	r.GET("/admin/v1/api-resources/{id}", _ApiResourceService_Get3_HTTP_Handler(srv))
 	r.POST("/admin/v1/api-resources", _ApiResourceService_Create1_HTTP_Handler(srv))
-	r.PUT("/admin/v1/api-resources/{data.id}", _ApiResourceService_Update1_HTTP_Handler(srv))
+	r.PUT("/admin/v1/api-resources/{id}", _ApiResourceService_Update1_HTTP_Handler(srv))
 	r.DELETE("/admin/v1/api-resources/{id}", _ApiResourceService_Delete1_HTTP_Handler(srv))
 	r.POST("/admin/v1/api-resources/sync", _ApiResourceService_SyncApiResources0_HTTP_Handler(srv))
 	r.GET("/admin/v1/api-resources/walk-route", _ApiResourceService_GetWalkRouteData0_HTTP_Handler(srv))
@@ -320,7 +320,7 @@ func (c *ApiResourceServiceHTTPClientImpl) SyncApiResources(ctx context.Context,
 // Update 更新API资源
 func (c *ApiResourceServiceHTTPClientImpl) Update(ctx context.Context, in *UpdateApiResourceRequest, opts ...http.CallOption) (*emptypb.Empty, error) {
 	var out emptypb.Empty
-	pattern := "/admin/v1/api-resources/{data.id}"
+	pattern := "/admin/v1/api-resources/{id}"
 	path := binding.EncodeURL(pattern, in, false)
 	opts = append(opts, http.Operation(OperationApiResourceServiceUpdate))
 	opts = append(opts, http.PathTemplate(pattern))

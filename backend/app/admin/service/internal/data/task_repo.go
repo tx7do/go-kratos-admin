@@ -163,7 +163,7 @@ func (r *TaskRepo) Create(ctx context.Context, req *adminV1.CreateTaskRequest) (
 	}
 
 	if req.Data.Id != nil {
-		builder.SetID(req.Data.GetId())
+		builder.SetID(req.GetData().GetId())
 	}
 
 	t, err := builder.Save(ctx)
@@ -182,7 +182,7 @@ func (r *TaskRepo) Update(ctx context.Context, req *adminV1.UpdateTaskRequest) (
 
 	// 如果不存在则创建
 	if req.GetAllowMissing() {
-		exist, err := r.IsExist(ctx, req.GetData().GetId())
+		exist, err := r.IsExist(ctx, req.GetId())
 		if err != nil {
 			return nil, err
 		}
@@ -194,7 +194,7 @@ func (r *TaskRepo) Update(ctx context.Context, req *adminV1.UpdateTaskRequest) (
 		}
 	}
 
-	builder := r.data.db.Client().Debug().Task.UpdateOneID(req.Data.GetId())
+	builder := r.data.db.Client().Debug().Task.UpdateOneID(req.GetId())
 	result, err := r.repository.UpdateOne(ctx, builder, req.Data, req.GetUpdateMask(),
 		func(dto *adminV1.Task) {
 			builder.
@@ -216,7 +216,7 @@ func (r *TaskRepo) Update(ctx context.Context, req *adminV1.UpdateTaskRequest) (
 			}
 		},
 		func(s *sql.Selector) {
-			s.Where(sql.EQ(task.FieldID, req.Data.GetId()))
+			s.Where(sql.EQ(task.FieldID, req.GetId()))
 		},
 	)
 

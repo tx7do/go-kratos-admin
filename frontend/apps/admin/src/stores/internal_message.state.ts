@@ -56,8 +56,8 @@ export const useInternalMessageStore = defineStore('internal_message', () => {
    */
   async function updateMessage(id: number, values: object) {
     return await internalMessageService.UpdateMessage({
+      id,
       data: {
-        id,
         ...values,
       },
       // @ts-ignore proto generated code is error.

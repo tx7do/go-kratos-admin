@@ -95,8 +95,8 @@ export const useMenuStore = defineStore('menu', () => {
     console.log('updateMenu', copyData);
 
     return await service.Update({
+      id,
       data: {
-        id,
         ...copyData,
         children: [],
       },

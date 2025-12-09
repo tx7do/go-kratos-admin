@@ -180,7 +180,7 @@ func (r *UserCredentialRepo) Update(ctx context.Context, req *authenticationV1.U
 
 	// 如果不存在则创建
 	if req.GetAllowMissing() {
-		exist, err := r.IsExist(ctx, req.GetData().GetId())
+		exist, err := r.IsExist(ctx, req.GetId())
 		if err != nil {
 			return err
 		}
@@ -222,7 +222,7 @@ func (r *UserCredentialRepo) Update(ctx context.Context, req *authenticationV1.U
 			}
 		},
 		func(s *sql.Selector) {
-			s.Where(sql.EQ(usercredential.FieldID, req.Data.GetId()))
+			s.Where(sql.EQ(usercredential.FieldID, req.GetId()))
 		},
 	)
 

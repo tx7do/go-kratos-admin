@@ -46,7 +46,7 @@ func RegisterRoleServiceHTTPServer(s *http.Server, srv RoleServiceHTTPServer) {
 	r.GET("/admin/v1/roles", _RoleService_List10_HTTP_Handler(srv))
 	r.GET("/admin/v1/roles/{id}", _RoleService_Get10_HTTP_Handler(srv))
 	r.POST("/admin/v1/roles", _RoleService_Create8_HTTP_Handler(srv))
-	r.PUT("/admin/v1/roles/{data.id}", _RoleService_Update8_HTTP_Handler(srv))
+	r.PUT("/admin/v1/roles/{id}", _RoleService_Update8_HTTP_Handler(srv))
 	r.DELETE("/admin/v1/roles/{id}", _RoleService_Delete8_HTTP_Handler(srv))
 }
 
@@ -240,7 +240,7 @@ func (c *RoleServiceHTTPClientImpl) List(ctx context.Context, in *v1.PagingReque
 // Update 更新角色
 func (c *RoleServiceHTTPClientImpl) Update(ctx context.Context, in *v11.UpdateRoleRequest, opts ...http.CallOption) (*emptypb.Empty, error) {
 	var out emptypb.Empty
-	pattern := "/admin/v1/roles/{data.id}"
+	pattern := "/admin/v1/roles/{id}"
 	path := binding.EncodeURL(pattern, in, false)
 	opts = append(opts, http.Operation(OperationRoleServiceUpdate))
 	opts = append(opts, http.PathTemplate(pattern))

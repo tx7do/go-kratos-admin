@@ -154,6 +154,8 @@ func (x *UpdateAdminLoginLogRequest) Redact() string {
 		return ""
 	}
 
+	// Safe field: Id
+
 	// Safe field: Data
 
 	// Safe field: UpdateMask

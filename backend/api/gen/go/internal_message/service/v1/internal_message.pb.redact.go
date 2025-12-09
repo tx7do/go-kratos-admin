@@ -203,6 +203,8 @@ func (x *UpdateInternalMessageRequest) Redact() string {
 		return ""
 	}
 
+	// Safe field: Id
+
 	// Safe field: Data
 
 	// Safe field: UpdateMask

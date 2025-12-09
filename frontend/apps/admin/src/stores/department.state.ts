@@ -61,8 +61,8 @@ export const useDepartmentStore = defineStore('department', () => {
    */
   async function updateDepartment(id: number, values: object) {
     return await service.Update({
+      id,
       data: {
-        id,
         ...values,
         children: [],
       },

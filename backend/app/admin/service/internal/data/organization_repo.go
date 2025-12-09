@@ -232,7 +232,7 @@ func (r *OrganizationRepo) Create(ctx context.Context, req *userV1.CreateOrganiz
 	}
 
 	if req.Data.Id != nil {
-		builder.SetID(req.Data.GetId())
+		builder.SetID(req.GetData().GetId())
 	}
 
 	if err := builder.Exec(ctx); err != nil {
@@ -250,7 +250,7 @@ func (r *OrganizationRepo) Update(ctx context.Context, req *userV1.UpdateOrganiz
 
 	// 如果不存在则创建
 	if req.GetAllowMissing() {
-		exist, err := r.IsExist(ctx, req.GetData().GetId())
+		exist, err := r.IsExist(ctx, req.GetId())
 		if err != nil {
 			return err
 		}
@@ -285,7 +285,7 @@ func (r *OrganizationRepo) Update(ctx context.Context, req *userV1.UpdateOrganiz
 			}
 		},
 		func(s *sql.Selector) {
-			s.Where(sql.EQ(organization.FieldID, req.Data.GetId()))
+			s.Where(sql.EQ(organization.FieldID, req.GetId()))
 		},
 	)
 

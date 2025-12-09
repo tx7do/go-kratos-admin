@@ -402,9 +402,10 @@ func (x *CreateApiResourceRequest) GetData() *ApiResource {
 // 更新 - 请求
 type UpdateApiResourceRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Data          *ApiResource           `protobuf:"bytes,1,opt,name=data,proto3" json:"data,omitempty"`
-	UpdateMask    *fieldmaskpb.FieldMask `protobuf:"bytes,2,opt,name=update_mask,json=updateMask,proto3" json:"update_mask,omitempty"`              // 要更新的字段列表
-	AllowMissing  *bool                  `protobuf:"varint,3,opt,name=allow_missing,json=allowMissing,proto3,oneof" json:"allow_missing,omitempty"` // 如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。
+	Id            uint32                 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	Data          *ApiResource           `protobuf:"bytes,2,opt,name=data,proto3" json:"data,omitempty"`
+	UpdateMask    *fieldmaskpb.FieldMask `protobuf:"bytes,3,opt,name=update_mask,json=updateMask,proto3" json:"update_mask,omitempty"`              // 要更新的字段列表
+	AllowMissing  *bool                  `protobuf:"varint,4,opt,name=allow_missing,json=allowMissing,proto3,oneof" json:"allow_missing,omitempty"` // 如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -437,6 +438,13 @@ func (x *UpdateApiResourceRequest) ProtoReflect() protoreflect.Message {
 // Deprecated: Use UpdateApiResourceRequest.ProtoReflect.Descriptor instead.
 func (*UpdateApiResourceRequest) Descriptor() ([]byte, []int) {
 	return file_admin_service_v1_i_api_resource_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *UpdateApiResourceRequest) GetId() uint32 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
 }
 
 func (x *UpdateApiResourceRequest) GetData() *ApiResource {
@@ -563,20 +571,21 @@ const file_admin_service_v1_i_api_resource_proto_rawDesc = "" +
 	"\n" +
 	"_view_mask\"M\n" +
 	"\x18CreateApiResourceRequest\x121\n" +
-	"\x04data\x18\x01 \x01(\v2\x1d.admin.service.v1.ApiResourceR\x04data\"\x8b\x03\n" +
-	"\x18UpdateApiResourceRequest\x121\n" +
-	"\x04data\x18\x01 \x01(\v2\x1d.admin.service.v1.ApiResourceR\x04data\x12s\n" +
-	"\vupdate_mask\x18\x02 \x01(\v2\x1a.google.protobuf.FieldMaskB6\xbaG3:\x16\x12\x14id,realname,username\x92\x02\x18要更新的字段列表R\n" +
+	"\x04data\x18\x01 \x01(\v2\x1d.admin.service.v1.ApiResourceR\x04data\"\x9b\x03\n" +
+	"\x18UpdateApiResourceRequest\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\rR\x02id\x121\n" +
+	"\x04data\x18\x02 \x01(\v2\x1d.admin.service.v1.ApiResourceR\x04data\x12s\n" +
+	"\vupdate_mask\x18\x03 \x01(\v2\x1a.google.protobuf.FieldMaskB6\xbaG3:\x16\x12\x14id,realname,username\x92\x02\x18要更新的字段列表R\n" +
 	"updateMask\x12\xb4\x01\n" +
-	"\rallow_missing\x18\x03 \x01(\bB\x89\x01\xbaG\x85\x01\x92\x02\x81\x01如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。H\x00R\fallowMissing\x88\x01\x01B\x10\n" +
+	"\rallow_missing\x18\x04 \x01(\bB\x89\x01\xbaG\x85\x01\x92\x02\x81\x01如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。H\x00R\fallowMissing\x88\x01\x01B\x10\n" +
 	"\x0e_allow_missing\"*\n" +
 	"\x18DeleteApiResourceRequest\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\rR\x02id2\xcb\x06\n" +
+	"\x02id\x18\x01 \x01(\rR\x02id2\xc6\x06\n" +
 	"\x12ApiResourceService\x12m\n" +
 	"\x04List\x12\x19.pagination.PagingRequest\x1a).admin.service.v1.ListApiResourceResponse\"\x1f\x82\xd3\xe4\x93\x02\x19\x12\x17/admin/v1/api-resources\x12s\n" +
 	"\x03Get\x12'.admin.service.v1.GetApiResourceRequest\x1a\x1d.admin.service.v1.ApiResource\"$\x82\xd3\xe4\x93\x02\x1e\x12\x1c/admin/v1/api-resources/{id}\x12p\n" +
-	"\x06Create\x12*.admin.service.v1.CreateApiResourceRequest\x1a\x16.google.protobuf.Empty\"\"\x82\xd3\xe4\x93\x02\x1c:\x01*\"\x17/admin/v1/api-resources\x12z\n" +
-	"\x06Update\x12*.admin.service.v1.UpdateApiResourceRequest\x1a\x16.google.protobuf.Empty\",\x82\xd3\xe4\x93\x02&:\x01*\x1a!/admin/v1/api-resources/{data.id}\x12r\n" +
+	"\x06Create\x12*.admin.service.v1.CreateApiResourceRequest\x1a\x16.google.protobuf.Empty\"\"\x82\xd3\xe4\x93\x02\x1c:\x01*\"\x17/admin/v1/api-resources\x12u\n" +
+	"\x06Update\x12*.admin.service.v1.UpdateApiResourceRequest\x1a\x16.google.protobuf.Empty\"'\x82\xd3\xe4\x93\x02!:\x01*\x1a\x1c/admin/v1/api-resources/{id}\x12r\n" +
 	"\x06Delete\x12*.admin.service.v1.DeleteApiResourceRequest\x1a\x16.google.protobuf.Empty\"$\x82\xd3\xe4\x93\x02\x1e*\x1c/admin/v1/api-resources/{id}\x12k\n" +
 	"\x10SyncApiResources\x12\x16.google.protobuf.Empty\x1a\x16.google.protobuf.Empty\"'\x82\xd3\xe4\x93\x02!:\x01*\"\x1c/admin/v1/api-resources/sync\x12\x81\x01\n" +
 	"\x10GetWalkRouteData\x12\x16.google.protobuf.Empty\x1a).admin.service.v1.ListApiResourceResponse\"*\x82\xd3\xe4\x93\x02$\x12\"/admin/v1/api-resources/walk-routeB\xbf\x01\n" +

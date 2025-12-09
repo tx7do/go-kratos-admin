@@ -43,7 +43,7 @@ service UserService {
   // 更新用户
   rpc Update (user.service.v1.UpdateUserRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
-      put: "/admin/v1/users/{data.id}"
+      put: "/admin/v1/users/{id}"
       body: "*"
     };
   }

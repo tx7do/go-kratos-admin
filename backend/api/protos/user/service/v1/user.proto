@@ -218,18 +218,20 @@ message CreateUserRequest {
 
 // 更新用户 - 请求
 message UpdateUserRequest {
-  User data = 1 [
+  uint32 id = 1;
+
+  User data = 2 [
     json_name = "data",
     (google.api.field_behavior) = REQUIRED,
     (gnostic.openapi.v3.property) = {description: "用户的数据"}
   ]; // 用户的数据
 
-  optional string password = 2 [
+  optional string password = 3 [
     (gnostic.openapi.v3.property) = {description: "用户登录密码", read_only: true},
     json_name = "password"
   ]; // 用户登录密码
 
-  google.protobuf.FieldMask update_mask = 3 [
+  google.protobuf.FieldMask update_mask = 4 [
     json_name = "updateMask",
     (gnostic.openapi.v3.property) = {
       description: "要更新的字段列表",
@@ -237,7 +239,7 @@ message UpdateUserRequest {
     }
   ]; // 要更新的字段列表
 
-  optional bool allow_missing = 4 [
+  optional bool allow_missing = 5 [
     json_name = "allowMissing",
     (gnostic.openapi.v3.property) = {description: "如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。"}
   ]; // 如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。

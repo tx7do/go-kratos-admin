@@ -42,7 +42,7 @@ service MenuService {
   // 更新菜单
   rpc Update (UpdateMenuRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
-      put: "/admin/v1/menus/{data.id}"
+      put: "/admin/v1/menus/{id}"
       body: "*"
     };
   }
@@ -176,9 +176,11 @@ message CreateMenuRequest {
 
 // 更新菜单 - 请求
 message UpdateMenuRequest {
-  Menu data = 1;
+  uint32 id = 1;
 
-  google.protobuf.FieldMask update_mask = 2 [
+  Menu data = 2;
+
+  google.protobuf.FieldMask update_mask = 3 [
     (gnostic.openapi.v3.property) = {
       description: "要更新的字段列表",
       example: {yaml : "id,realname,username"}
@@ -186,7 +188,7 @@ message UpdateMenuRequest {
     json_name = "updateMask"
   ]; // 要更新的字段列表
 
-  optional bool allow_missing = 3 [
+  optional bool allow_missing = 4 [
     (gnostic.openapi.v3.property) = {description: "如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。"},
     json_name = "allowMissing"
   ]; // 如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。

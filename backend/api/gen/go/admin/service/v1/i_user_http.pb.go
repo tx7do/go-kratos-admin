@@ -53,7 +53,7 @@ func RegisterUserServiceHTTPServer(s *http.Server, srv UserServiceHTTPServer) {
 	r.GET("/admin/v1/users/username/{user_name}", _UserService_Get14_HTTP_Handler(srv))
 	r.GET("/admin/v1/users/{id}", _UserService_Get15_HTTP_Handler(srv))
 	r.POST("/admin/v1/users", _UserService_Create11_HTTP_Handler(srv))
-	r.PUT("/admin/v1/users/{data.id}", _UserService_Update11_HTTP_Handler(srv))
+	r.PUT("/admin/v1/users/{id}", _UserService_Update11_HTTP_Handler(srv))
 	r.DELETE("/admin/v1/users/{id}", _UserService_Delete11_HTTP_Handler(srv))
 	r.GET("/admin/v1/users:exists", _UserService_UserExists0_HTTP_Handler(srv))
 	r.POST("/admin/v1/users/{user_id}/password", _UserService_EditUserPassword0_HTTP_Handler(srv))
@@ -333,7 +333,7 @@ func (c *UserServiceHTTPClientImpl) List(ctx context.Context, in *v1.PagingReque
 // Update 更新用户
 func (c *UserServiceHTTPClientImpl) Update(ctx context.Context, in *v11.UpdateUserRequest, opts ...http.CallOption) (*emptypb.Empty, error) {
 	var out emptypb.Empty
-	pattern := "/admin/v1/users/{data.id}"
+	pattern := "/admin/v1/users/{id}"
 	path := binding.EncodeURL(pattern, in, false)
 	opts = append(opts, http.Operation(OperationUserServiceUpdate))
 	opts = append(opts, http.PathTemplate(pattern))

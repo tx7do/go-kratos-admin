@@ -63,8 +63,8 @@ export const useAdminLoginRestrictionStore = defineStore(
      */
     async function updateAdminLoginRestriction(id: number, values: object) {
       return await service.Update({
+        id,
         data: {
-          id,
           ...values,
         },
         // @ts-ignore proto generated code is error.

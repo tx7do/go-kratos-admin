@@ -202,6 +202,8 @@ func (x *UpdateOrganizationRequest) Redact() string {
 		return ""
 	}
 
+	// Safe field: Id
+
 	// Safe field: Data
 
 	// Safe field: UpdateMask

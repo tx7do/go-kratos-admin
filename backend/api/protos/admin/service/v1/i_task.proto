@@ -44,7 +44,7 @@ service TaskService {
   // 更新调度任务
   rpc Update (UpdateTaskRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
-      put: "/admin/v1/tasks/{data.id}"
+      put: "/admin/v1/tasks/{id}"
       body: "*"
     };
   }
@@ -287,9 +287,11 @@ message CreateTaskRequest {
 
 // 更新调度任务 - 请求
 message UpdateTaskRequest {
-  Task data = 1;
+  uint32 id = 1;
 
-  google.protobuf.FieldMask update_mask = 2 [
+  Task data = 2;
+
+  google.protobuf.FieldMask update_mask = 3 [
     (gnostic.openapi.v3.property) = {
       description: "要更新的字段列表",
       example: {yaml : "id,realname,username"}
@@ -297,7 +299,7 @@ message UpdateTaskRequest {
     json_name = "updateMask"
   ]; // 要更新的字段列表
 
-  optional bool allow_missing = 3 [
+  optional bool allow_missing = 4 [
     (gnostic.openapi.v3.property) = {description: "如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。"},
     json_name = "allowMissing"
   ]; // 如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。

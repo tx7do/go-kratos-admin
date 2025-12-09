@@ -45,7 +45,7 @@ func RegisterAdminLoginRestrictionServiceHTTPServer(s *http.Server, srv AdminLog
 	r.GET("/admin/v1/login-restrictions", _AdminLoginRestrictionService_List1_HTTP_Handler(srv))
 	r.GET("/admin/v1/login-restrictions/{id}", _AdminLoginRestrictionService_Get1_HTTP_Handler(srv))
 	r.POST("/admin/v1/login-restrictions", _AdminLoginRestrictionService_Create0_HTTP_Handler(srv))
-	r.PUT("/admin/v1/login-restrictions/{data.id}", _AdminLoginRestrictionService_Update0_HTTP_Handler(srv))
+	r.PUT("/admin/v1/login-restrictions/{id}", _AdminLoginRestrictionService_Update0_HTTP_Handler(srv))
 	r.DELETE("/admin/v1/login-restrictions/{id}", _AdminLoginRestrictionService_Delete0_HTTP_Handler(srv))
 }
 
@@ -239,7 +239,7 @@ func (c *AdminLoginRestrictionServiceHTTPClientImpl) List(ctx context.Context, i
 // Update 更新后台登录限制
 func (c *AdminLoginRestrictionServiceHTTPClientImpl) Update(ctx context.Context, in *UpdateAdminLoginRestrictionRequest, opts ...http.CallOption) (*emptypb.Empty, error) {
 	var out emptypb.Empty
-	pattern := "/admin/v1/login-restrictions/{data.id}"
+	pattern := "/admin/v1/login-restrictions/{id}"
 	path := binding.EncodeURL(pattern, in, false)
 	opts = append(opts, http.Operation(OperationAdminLoginRestrictionServiceUpdate))
 	opts = append(opts, http.PathTemplate(pattern))

@@ -161,7 +161,7 @@ func (r *FileRepo) Create(ctx context.Context, req *fileV1.CreateFileRequest) er
 	}
 
 	if req.Data.Id != nil {
-		builder.SetID(req.Data.GetId())
+		builder.SetID(req.GetData().GetId())
 	}
 
 	if err := builder.Exec(ctx); err != nil {
@@ -179,7 +179,7 @@ func (r *FileRepo) Update(ctx context.Context, req *fileV1.UpdateFileRequest) er
 
 	// 如果不存在则创建
 	if req.GetAllowMissing() {
-		exist, err := r.IsExist(ctx, req.GetData().GetId())
+		exist, err := r.IsExist(ctx, req.GetId())
 		if err != nil {
 			return err
 		}
@@ -214,7 +214,7 @@ func (r *FileRepo) Update(ctx context.Context, req *fileV1.UpdateFileRequest) er
 			}
 		},
 		func(s *sql.Selector) {
-			s.Where(sql.EQ(file.FieldID, req.Data.GetId()))
+			s.Where(sql.EQ(file.FieldID, req.GetId()))
 		},
 	)
 

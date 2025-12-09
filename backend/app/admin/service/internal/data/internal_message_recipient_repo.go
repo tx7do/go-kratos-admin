@@ -171,7 +171,7 @@ func (r *InternalMessageRecipientRepo) Update(ctx context.Context, req *internal
 
 	// 如果不存在则创建
 	if req.GetAllowMissing() {
-		exist, err := r.IsExist(ctx, req.GetData().GetId())
+		exist, err := r.IsExist(ctx, req.GetId())
 		if err != nil {
 			return err
 		}
@@ -199,7 +199,7 @@ func (r *InternalMessageRecipientRepo) Update(ctx context.Context, req *internal
 			}
 		},
 		func(s *sql.Selector) {
-			s.Where(sql.EQ(internalmessagerecipient.FieldID, req.Data.GetId()))
+			s.Where(sql.EQ(internalmessagerecipient.FieldID, req.GetId()))
 		},
 	)
 

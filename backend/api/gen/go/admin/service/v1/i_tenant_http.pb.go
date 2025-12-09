@@ -52,7 +52,7 @@ func RegisterTenantServiceHTTPServer(s *http.Server, srv TenantServiceHTTPServer
 	r.GET("/admin/v1/tenants", _TenantService_List12_HTTP_Handler(srv))
 	r.GET("/admin/v1/tenants/{id}", _TenantService_Get13_HTTP_Handler(srv))
 	r.POST("/admin/v1/tenants", _TenantService_Create10_HTTP_Handler(srv))
-	r.PUT("/admin/v1/tenants/{data.id}", _TenantService_Update10_HTTP_Handler(srv))
+	r.PUT("/admin/v1/tenants/{id}", _TenantService_Update10_HTTP_Handler(srv))
 	r.DELETE("/admin/v1/tenants/{id}", _TenantService_Delete10_HTTP_Handler(srv))
 	r.POST("/admin/v1/tenants_with_admin", _TenantService_CreateTenantWithAdminUser0_HTTP_Handler(srv))
 	r.GET("/admin/v1/tenants_exists", _TenantService_TenantExists0_HTTP_Handler(srv))
@@ -321,7 +321,7 @@ func (c *TenantServiceHTTPClientImpl) TenantExists(ctx context.Context, in *v11.
 // Update 更新租户
 func (c *TenantServiceHTTPClientImpl) Update(ctx context.Context, in *v11.UpdateTenantRequest, opts ...http.CallOption) (*emptypb.Empty, error) {
 	var out emptypb.Empty
-	pattern := "/admin/v1/tenants/{data.id}"
+	pattern := "/admin/v1/tenants/{id}"
 	path := binding.EncodeURL(pattern, in, false)
 	opts = append(opts, http.Operation(OperationTenantServiceUpdate))
 	opts = append(opts, http.PathTemplate(pattern))

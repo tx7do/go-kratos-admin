@@ -186,6 +186,8 @@ func (x *UpdateLanguageRequest) Redact() string {
 		return ""
 	}
 
+	// Safe field: Id
+
 	// Safe field: Data
 
 	// Safe field: UpdateMask

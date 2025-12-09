@@ -29,12 +29,12 @@ var File_admin_service_v1_i_internal_message_proto protoreflect.FileDescriptor
 
 const file_admin_service_v1_i_internal_message_proto_rawDesc = "" +
 	"\n" +
-	")admin/service/v1/i_internal_message.proto\x12\x10admin.service.v1\x1a$gnostic/openapi/v3/annotations.proto\x1a\x1cgoogle/api/annotations.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1epagination/v1/pagination.proto\x1a2internal_message/service/v1/internal_message.proto2\xb1\a\n" +
+	")admin/service/v1/i_internal_message.proto\x12\x10admin.service.v1\x1a$gnostic/openapi/v3/annotations.proto\x1a\x1cgoogle/api/annotations.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1epagination/v1/pagination.proto\x1a2internal_message/service/v1/internal_message.proto2\xac\a\n" +
 	"\x16InternalMessageService\x12\x8f\x01\n" +
 	"\vListMessage\x12\x19.pagination.PagingRequest\x1a8.internal_message.service.v1.ListInternalMessageResponse\"+\x82\xd3\xe4\x93\x02%\x12#/admin/v1/internal-message/messages\x12\xa4\x01\n" +
 	"\n" +
-	"GetMessage\x126.internal_message.service.v1.GetInternalMessageRequest\x1a,.internal_message.service.v1.InternalMessage\"0\x82\xd3\xe4\x93\x02*\x12(/admin/v1/internal-message/messages/{id}\x12\x9c\x01\n" +
-	"\rUpdateMessage\x129.internal_message.service.v1.UpdateInternalMessageRequest\x1a\x16.google.protobuf.Empty\"8\x82\xd3\xe4\x93\x022:\x01*\x1a-/admin/v1/internal-message/messages/{data.id}\x12\x94\x01\n" +
+	"GetMessage\x126.internal_message.service.v1.GetInternalMessageRequest\x1a,.internal_message.service.v1.InternalMessage\"0\x82\xd3\xe4\x93\x02*\x12(/admin/v1/internal-message/messages/{id}\x12\x97\x01\n" +
+	"\rUpdateMessage\x129.internal_message.service.v1.UpdateInternalMessageRequest\x1a\x16.google.protobuf.Empty\"3\x82\xd3\xe4\x93\x02-:\x01*\x1a(/admin/v1/internal-message/messages/{id}\x12\x94\x01\n" +
 	"\rDeleteMessage\x129.internal_message.service.v1.DeleteInternalMessageRequest\x1a\x16.google.protobuf.Empty\"0\x82\xd3\xe4\x93\x02**(/admin/v1/internal-message/messages/{id}\x12\x9c\x01\n" +
 	"\vSendMessage\x12/.internal_message.service.v1.SendMessageRequest\x1a0.internal_message.service.v1.SendMessageResponse\"*\x82\xd3\xe4\x93\x02$:\x01*\"\x1f/admin/v1/internal-message/send\x12\x88\x01\n" +
 	"\rRevokeMessage\x121.internal_message.service.v1.RevokeMessageRequest\x1a\x16.google.protobuf.Empty\",\x82\xd3\xe4\x93\x02&:\x01*\"!/admin/v1/internal-message/revokeB\xc3\x01\n" +

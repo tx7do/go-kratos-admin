@@ -228,7 +228,7 @@ func (r *DepartmentRepo) Create(ctx context.Context, req *userV1.CreateDepartmen
 	}
 
 	if req.Data.Id != nil {
-		builder.SetID(req.Data.GetId())
+		builder.SetID(req.GetData().GetId())
 	}
 
 	if err := builder.Exec(ctx); err != nil {
@@ -246,7 +246,7 @@ func (r *DepartmentRepo) Update(ctx context.Context, req *userV1.UpdateDepartmen
 
 	// 如果不存在则创建
 	if req.GetAllowMissing() {
-		exist, err := r.IsExist(ctx, req.GetData().GetId())
+		exist, err := r.IsExist(ctx, req.GetId())
 		if err != nil {
 			return err
 		}
@@ -280,7 +280,7 @@ func (r *DepartmentRepo) Update(ctx context.Context, req *userV1.UpdateDepartmen
 			}
 		},
 		func(s *sql.Selector) {
-			s.Where(sql.EQ(department.FieldID, req.Data.GetId()))
+			s.Where(sql.EQ(department.FieldID, req.GetId()))
 		},
 	)
 

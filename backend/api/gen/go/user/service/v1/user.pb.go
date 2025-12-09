@@ -696,10 +696,11 @@ func (x *CreateUserRequest) GetPassword() string {
 // 更新用户 - 请求
 type UpdateUserRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Data          *User                  `protobuf:"bytes,1,opt,name=data,proto3" json:"data,omitempty"`                                            // 用户的数据
-	Password      *string                `protobuf:"bytes,2,opt,name=password,proto3,oneof" json:"password,omitempty"`                              // 用户登录密码
-	UpdateMask    *fieldmaskpb.FieldMask `protobuf:"bytes,3,opt,name=update_mask,json=updateMask,proto3" json:"update_mask,omitempty"`              // 要更新的字段列表
-	AllowMissing  *bool                  `protobuf:"varint,4,opt,name=allow_missing,json=allowMissing,proto3,oneof" json:"allow_missing,omitempty"` // 如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。
+	Id            uint32                 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	Data          *User                  `protobuf:"bytes,2,opt,name=data,proto3" json:"data,omitempty"`                                            // 用户的数据
+	Password      *string                `protobuf:"bytes,3,opt,name=password,proto3,oneof" json:"password,omitempty"`                              // 用户登录密码
+	UpdateMask    *fieldmaskpb.FieldMask `protobuf:"bytes,4,opt,name=update_mask,json=updateMask,proto3" json:"update_mask,omitempty"`              // 要更新的字段列表
+	AllowMissing  *bool                  `protobuf:"varint,5,opt,name=allow_missing,json=allowMissing,proto3,oneof" json:"allow_missing,omitempty"` // 如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -732,6 +733,13 @@ func (x *UpdateUserRequest) ProtoReflect() protoreflect.Message {
 // Deprecated: Use UpdateUserRequest.ProtoReflect.Descriptor instead.
 func (*UpdateUserRequest) Descriptor() ([]byte, []int) {
 	return file_user_service_v1_user_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *UpdateUserRequest) GetId() uint32 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
 }
 
 func (x *UpdateUserRequest) GetData() *User {
@@ -1762,13 +1770,14 @@ const file_user_service_v1_user_proto_rawDesc = "" +
 	"\x11CreateUserRequest\x12)\n" +
 	"\x04data\x18\x01 \x01(\v2\x15.user.service.v1.UserR\x04data\x12;\n" +
 	"\bpassword\x18\x02 \x01(\tB\x1a\xbaG\x17\x18\x01\x92\x02\x12用户登录密码H\x00R\bpassword\x88\x01\x01B\v\n" +
-	"\t_password\"\xe0\x03\n" +
-	"\x11UpdateUserRequest\x12C\n" +
-	"\x04data\x18\x01 \x01(\v2\x15.user.service.v1.UserB\x18\xe0A\x02\xbaG\x12\x92\x02\x0f用户的数据R\x04data\x12;\n" +
-	"\bpassword\x18\x02 \x01(\tB\x1a\xbaG\x17\x18\x01\x92\x02\x12用户登录密码H\x00R\bpassword\x88\x01\x01\x12s\n" +
-	"\vupdate_mask\x18\x03 \x01(\v2\x1a.google.protobuf.FieldMaskB6\xbaG3:\x16\x12\x14id,realname,username\x92\x02\x18要更新的字段列表R\n" +
+	"\t_password\"\xf0\x03\n" +
+	"\x11UpdateUserRequest\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\rR\x02id\x12C\n" +
+	"\x04data\x18\x02 \x01(\v2\x15.user.service.v1.UserB\x18\xe0A\x02\xbaG\x12\x92\x02\x0f用户的数据R\x04data\x12;\n" +
+	"\bpassword\x18\x03 \x01(\tB\x1a\xbaG\x17\x18\x01\x92\x02\x12用户登录密码H\x00R\bpassword\x88\x01\x01\x12s\n" +
+	"\vupdate_mask\x18\x04 \x01(\v2\x1a.google.protobuf.FieldMaskB6\xbaG3:\x16\x12\x14id,realname,username\x92\x02\x18要更新的字段列表R\n" +
 	"updateMask\x12\xb4\x01\n" +
-	"\rallow_missing\x18\x04 \x01(\bB\x89\x01\xbaG\x85\x01\x92\x02\x81\x01如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。H\x01R\fallowMissing\x88\x01\x01B\v\n" +
+	"\rallow_missing\x18\x05 \x01(\bB\x89\x01\xbaG\x85\x01\x92\x02\x81\x01如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。H\x01R\fallowMissing\x88\x01\x01B\v\n" +
 	"\t_passwordB\x10\n" +
 	"\x0e_allow_missing\"#\n" +
 	"\x11DeleteUserRequest\x12\x0e\n" +

@@ -197,7 +197,7 @@ func (r *TenantRepo) Update(ctx context.Context, req *userV1.UpdateTenantRequest
 
 	// 如果不存在则创建
 	if req.GetAllowMissing() {
-		exist, err := r.IsExist(ctx, req.GetData().GetId())
+		exist, err := r.IsExist(ctx, req.GetId())
 		if err != nil {
 			return err
 		}
@@ -238,7 +238,7 @@ func (r *TenantRepo) Update(ctx context.Context, req *userV1.UpdateTenantRequest
 			}
 		},
 		func(s *sql.Selector) {
-			s.Where(sql.EQ(tenant.FieldID, req.Data.GetId()))
+			s.Where(sql.EQ(tenant.FieldID, req.GetId()))
 		},
 	)
 

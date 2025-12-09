@@ -45,7 +45,7 @@ func RegisterMenuServiceHTTPServer(s *http.Server, srv MenuServiceHTTPServer) {
 	r.GET("/admin/v1/menus", _MenuService_List7_HTTP_Handler(srv))
 	r.GET("/admin/v1/menus/{id}", _MenuService_Get7_HTTP_Handler(srv))
 	r.POST("/admin/v1/menus", _MenuService_Create5_HTTP_Handler(srv))
-	r.PUT("/admin/v1/menus/{data.id}", _MenuService_Update5_HTTP_Handler(srv))
+	r.PUT("/admin/v1/menus/{id}", _MenuService_Update5_HTTP_Handler(srv))
 	r.DELETE("/admin/v1/menus/{id}", _MenuService_Delete5_HTTP_Handler(srv))
 }
 
@@ -239,7 +239,7 @@ func (c *MenuServiceHTTPClientImpl) List(ctx context.Context, in *v1.PagingReque
 // Update 更新菜单
 func (c *MenuServiceHTTPClientImpl) Update(ctx context.Context, in *UpdateMenuRequest, opts ...http.CallOption) (*emptypb.Empty, error) {
 	var out emptypb.Empty
-	pattern := "/admin/v1/menus/{data.id}"
+	pattern := "/admin/v1/menus/{id}"
 	path := binding.EncodeURL(pattern, in, false)
 	opts = append(opts, http.Operation(OperationMenuServiceUpdate))
 	opts = append(opts, http.PathTemplate(pattern))

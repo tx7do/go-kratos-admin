@@ -61,7 +61,7 @@ func RegisterTaskServiceHTTPServer(s *http.Server, srv TaskServiceHTTPServer) {
 	r.GET("/admin/v1/tasks/type-name/{type_name}", _TaskService_Get11_HTTP_Handler(srv))
 	r.GET("/admin/v1/tasks/{id}", _TaskService_Get12_HTTP_Handler(srv))
 	r.POST("/admin/v1/tasks", _TaskService_Create9_HTTP_Handler(srv))
-	r.PUT("/admin/v1/tasks/{data.id}", _TaskService_Update9_HTTP_Handler(srv))
+	r.PUT("/admin/v1/tasks/{id}", _TaskService_Update9_HTTP_Handler(srv))
 	r.DELETE("/admin/v1/tasks/{id}", _TaskService_Delete9_HTTP_Handler(srv))
 	r.GET("/admin/v1/tasks:type-names", _TaskService_ListTaskTypeName0_HTTP_Handler(srv))
 	r.POST("/admin/v1/tasks:restart", _TaskService_RestartAllTask0_HTTP_Handler(srv))
@@ -469,7 +469,7 @@ func (c *TaskServiceHTTPClientImpl) StopAllTask(ctx context.Context, in *emptypb
 // Update 更新调度任务
 func (c *TaskServiceHTTPClientImpl) Update(ctx context.Context, in *UpdateTaskRequest, opts ...http.CallOption) (*emptypb.Empty, error) {
 	var out emptypb.Empty
-	pattern := "/admin/v1/tasks/{data.id}"
+	pattern := "/admin/v1/tasks/{id}"
 	path := binding.EncodeURL(pattern, in, false)
 	opts = append(opts, http.Operation(OperationTaskServiceUpdate))
 	opts = append(opts, http.PathTemplate(pattern))

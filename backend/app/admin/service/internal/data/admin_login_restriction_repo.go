@@ -172,7 +172,7 @@ func (r *AdminLoginRestrictionRepo) Update(ctx context.Context, req *adminV1.Upd
 
 	// 如果不存在则创建
 	if req.GetAllowMissing() {
-		exist, err := r.IsExist(ctx, req.GetData().GetId())
+		exist, err := r.IsExist(ctx, req.GetId())
 		if err != nil {
 			return err
 		}
@@ -201,7 +201,7 @@ func (r *AdminLoginRestrictionRepo) Update(ctx context.Context, req *adminV1.Upd
 			}
 		},
 		func(s *sql.Selector) {
-			s.Where(sql.EQ(adminloginrestriction.FieldID, req.Data.GetId()))
+			s.Where(sql.EQ(adminloginrestriction.FieldID, req.GetId()))
 		},
 	)
 

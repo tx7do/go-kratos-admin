@@ -37,7 +37,7 @@ service InternalMessageCategoryService {
   // 更新站内信消息分类
   rpc Update (internal_message.service.v1.UpdateInternalMessageCategoryRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
-      put: "/admin/v1/internal-message/categories/{data.id}"
+      put: "/admin/v1/internal-message/categories/{id}"
       body: "*"
     };
   }

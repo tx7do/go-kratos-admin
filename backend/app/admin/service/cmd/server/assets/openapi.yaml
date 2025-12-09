@@ -346,28 +346,6 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/ListApiResourceResponse'
-    /admin/v1/api-resources/{data.id}:
-        put:
-            tags:
-                - ApiResourceService
-            description: 更新API资源
-            operationId: ApiResourceService_Update
-            parameters:
-                - name: data.id
-                  in: path
-                  required: true
-                  schema:
-                    type: string
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/UpdateApiResourceRequest'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content: {}
     /admin/v1/api-resources/{id}:
         get:
             tags:
@@ -393,6 +371,28 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/ApiResource'
+        put:
+            tags:
+                - ApiResourceService
+            description: 更新API资源
+            operationId: ApiResourceService_Update
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: uint32
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/UpdateApiResourceRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content: {}
         delete:
             tags:
                 - ApiResourceService
@@ -504,28 +504,6 @@ paths:
                 "200":
                     description: OK
                     content: {}
-    /admin/v1/departments/{data.id}:
-        put:
-            tags:
-                - DepartmentService
-            description: 更新部门
-            operationId: DepartmentService_Update
-            parameters:
-                - name: data.id
-                  in: path
-                  required: true
-                  schema:
-                    type: string
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/UpdateDepartmentRequest'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content: {}
     /admin/v1/departments/{id}:
         get:
             tags:
@@ -551,6 +529,28 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/Department'
+        put:
+            tags:
+                - DepartmentService
+            description: 更新部门
+            operationId: DepartmentService_Update
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: uint32
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/UpdateDepartmentRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content: {}
         delete:
             tags:
                 - DepartmentService
@@ -679,18 +679,19 @@ paths:
                 "200":
                     description: OK
                     content: {}
-    /admin/v1/dict-entries/{data.id}:
+    /admin/v1/dict-entries/{id}:
         put:
             tags:
                 - DictService
             description: 更新字典条目
             operationId: DictService_UpdateDictEntry
             parameters:
-                - name: data.id
+                - name: id
                   in: path
                   required: true
                   schema:
-                    type: string
+                    type: integer
+                    format: uint32
             requestBody:
                 content:
                     application/json:
@@ -842,28 +843,6 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/DictType'
-    /admin/v1/dict-types/{data.id}:
-        put:
-            tags:
-                - DictService
-            description: 更新字典类型
-            operationId: DictService_UpdateDictType
-            parameters:
-                - name: data.id
-                  in: path
-                  required: true
-                  schema:
-                    type: string
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/UpdateDictTypeRequest'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content: {}
     /admin/v1/dict-types/{id}:
         get:
             tags:
@@ -893,6 +872,28 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/DictType'
+        put:
+            tags:
+                - DictService
+            description: 更新字典类型
+            operationId: DictService_UpdateDictType
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: uint32
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/UpdateDictTypeRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content: {}
     /admin/v1/file:upload:
         put:
             tags:
@@ -1044,28 +1045,6 @@ paths:
                 "200":
                     description: OK
                     content: {}
-    /admin/v1/files/{data.id}:
-        put:
-            tags:
-                - FileService
-            description: 更新文件
-            operationId: FileService_Update
-            parameters:
-                - name: data.id
-                  in: path
-                  required: true
-                  schema:
-                    type: string
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/UpdateFileRequest'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content: {}
     /admin/v1/files/{id}:
         get:
             tags:
@@ -1091,6 +1070,28 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/File'
+        put:
+            tags:
+                - FileService
+            description: 更新文件
+            operationId: FileService_Update
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: uint32
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/UpdateFileRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content: {}
         delete:
             tags:
                 - FileService
@@ -1202,28 +1203,6 @@ paths:
                 "200":
                     description: OK
                     content: {}
-    /admin/v1/internal-message/categories/{data.id}:
-        put:
-            tags:
-                - InternalMessageCategoryService
-            description: 更新站内信消息分类
-            operationId: InternalMessageCategoryService_Update
-            parameters:
-                - name: data.id
-                  in: path
-                  required: true
-                  schema:
-                    type: string
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/UpdateInternalMessageCategoryRequest'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content: {}
     /admin/v1/internal-message/categories/{id}:
         get:
             tags:
@@ -1249,6 +1228,28 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/InternalMessageCategory'
+        put:
+            tags:
+                - InternalMessageCategoryService
+            description: 更新站内信消息分类
+            operationId: InternalMessageCategoryService_Update
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: uint32
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/UpdateInternalMessageCategoryRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content: {}
         delete:
             tags:
                 - InternalMessageCategoryService
@@ -1441,28 +1442,6 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/ListInternalMessageResponse'
-    /admin/v1/internal-message/messages/{data.id}:
-        put:
-            tags:
-                - InternalMessageService
-            description: 更新站内信消息
-            operationId: InternalMessageService_UpdateMessage
-            parameters:
-                - name: data.id
-                  in: path
-                  required: true
-                  schema:
-                    type: string
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/UpdateInternalMessageRequest'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content: {}
     /admin/v1/internal-message/messages/{id}:
         get:
             tags:
@@ -1488,6 +1467,28 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/InternalMessage'
+        put:
+            tags:
+                - InternalMessageService
+            description: 更新站内信消息
+            operationId: InternalMessageService_UpdateMessage
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: uint32
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/UpdateInternalMessageRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content: {}
         delete:
             tags:
                 - InternalMessageService
@@ -1671,28 +1672,6 @@ paths:
                 "200":
                     description: OK
                     content: {}
-    /admin/v1/login-restrictions/{data.id}:
-        put:
-            tags:
-                - AdminLoginRestrictionService
-            description: 更新后台登录限制
-            operationId: AdminLoginRestrictionService_Update
-            parameters:
-                - name: data.id
-                  in: path
-                  required: true
-                  schema:
-                    type: string
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/UpdateAdminLoginRestrictionRequest'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content: {}
     /admin/v1/login-restrictions/{id}:
         get:
             tags:
@@ -1718,6 +1697,28 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/AdminLoginRestriction'
+        put:
+            tags:
+                - AdminLoginRestrictionService
+            description: 更新后台登录限制
+            operationId: AdminLoginRestrictionService_Update
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: uint32
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/UpdateAdminLoginRestrictionRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content: {}
         delete:
             tags:
                 - AdminLoginRestrictionService
@@ -1947,28 +1948,6 @@ paths:
                 "200":
                     description: OK
                     content: {}
-    /admin/v1/menus/{data.id}:
-        put:
-            tags:
-                - MenuService
-            description: 更新菜单
-            operationId: MenuService_Update
-            parameters:
-                - name: data.id
-                  in: path
-                  required: true
-                  schema:
-                    type: string
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/UpdateMenuRequest'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content: {}
     /admin/v1/menus/{id}:
         get:
             tags:
@@ -1994,6 +1973,28 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/Menu'
+        put:
+            tags:
+                - MenuService
+            description: 更新菜单
+            operationId: MenuService_Update
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: uint32
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/UpdateMenuRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content: {}
         delete:
             tags:
                 - MenuService
@@ -2110,28 +2111,6 @@ paths:
                 "200":
                     description: OK
                     content: {}
-    /admin/v1/organizations/{data.id}:
-        put:
-            tags:
-                - OrganizationService
-            description: 更新组织
-            operationId: OrganizationService_Update
-            parameters:
-                - name: data.id
-                  in: path
-                  required: true
-                  schema:
-                    type: string
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/UpdateOrganizationRequest'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content: {}
     /admin/v1/organizations/{id}:
         get:
             tags:
@@ -2157,6 +2136,28 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/Organization'
+        put:
+            tags:
+                - OrganizationService
+            description: 更新组织
+            operationId: OrganizationService_Update
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: uint32
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/UpdateOrganizationRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content: {}
         delete:
             tags:
                 - OrganizationService
@@ -2281,28 +2282,6 @@ paths:
                 "200":
                     description: OK
                     content: {}
-    /admin/v1/positions/{data.id}:
-        put:
-            tags:
-                - PositionService
-            description: 更新职位
-            operationId: PositionService_Update
-            parameters:
-                - name: data.id
-                  in: path
-                  required: true
-                  schema:
-                    type: string
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/UpdatePositionRequest'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content: {}
     /admin/v1/positions/{id}:
         get:
             tags:
@@ -2328,6 +2307,28 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/Position'
+        put:
+            tags:
+                - PositionService
+            description: 更新职位
+            operationId: PositionService_Update
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: uint32
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/UpdatePositionRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content: {}
         delete:
             tags:
                 - PositionService
@@ -2458,28 +2459,6 @@ paths:
                 "200":
                     description: OK
                     content: {}
-    /admin/v1/roles/{data.id}:
-        put:
-            tags:
-                - RoleService
-            description: 更新角色
-            operationId: RoleService_Update
-            parameters:
-                - name: data.id
-                  in: path
-                  required: true
-                  schema:
-                    type: string
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/UpdateRoleRequest'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content: {}
     /admin/v1/roles/{id}:
         get:
             tags:
@@ -2505,6 +2484,28 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/Role'
+        put:
+            tags:
+                - RoleService
+            description: 更新角色
+            operationId: RoleService_Update
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: uint32
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/UpdateRoleRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content: {}
         delete:
             tags:
                 - RoleService
@@ -2658,28 +2659,6 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/Task'
-    /admin/v1/tasks/{data.id}:
-        put:
-            tags:
-                - TaskService
-            description: 更新调度任务
-            operationId: TaskService_Update
-            parameters:
-                - name: data.id
-                  in: path
-                  required: true
-                  schema:
-                    type: string
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/UpdateTaskRequest'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content: {}
     /admin/v1/tasks/{id}:
         get:
             tags:
@@ -2709,6 +2688,28 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/Task'
+        put:
+            tags:
+                - TaskService
+            description: 更新调度任务
+            operationId: TaskService_Update
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: uint32
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/UpdateTaskRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content: {}
         delete:
             tags:
                 - TaskService
@@ -2894,28 +2895,6 @@ paths:
                 "200":
                     description: OK
                     content: {}
-    /admin/v1/tenants/{data.id}:
-        put:
-            tags:
-                - TenantService
-            description: 更新租户
-            operationId: TenantService_Update
-            parameters:
-                - name: data.id
-                  in: path
-                  required: true
-                  schema:
-                    type: string
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/UpdateTenantRequest'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content: {}
     /admin/v1/tenants/{id}:
         get:
             tags:
@@ -2949,6 +2928,28 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/Tenant'
+        put:
+            tags:
+                - TenantService
+            description: 更新租户
+            operationId: TenantService_Update
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: uint32
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/UpdateTenantRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content: {}
         delete:
             tags:
                 - TenantService
@@ -3173,28 +3174,6 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/User'
-    /admin/v1/users/{data.id}:
-        put:
-            tags:
-                - UserService
-            description: 更新用户
-            operationId: UserService_Update
-            parameters:
-                - name: data.id
-                  in: path
-                  required: true
-                  schema:
-                    type: string
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/UpdateUserRequest'
-                required: true
-            responses:
-                "200":
-                    description: OK
-                    content: {}
     /admin/v1/users/{id}:
         get:
             tags:
@@ -3224,6 +3203,28 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/User'
+        put:
+            tags:
+                - UserService
+            description: 更新用户
+            operationId: UserService_Update
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: uint32
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/UpdateUserRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content: {}
         delete:
             tags:
                 - UserService
@@ -5500,6 +5501,9 @@ components:
         UpdateAdminLoginRestrictionRequest:
             type: object
             properties:
+                id:
+                    type: integer
+                    format: uint32
                 data:
                     $ref: '#/components/schemas/AdminLoginRestriction'
                 updateMask:
@@ -5514,6 +5518,9 @@ components:
         UpdateApiResourceRequest:
             type: object
             properties:
+                id:
+                    type: integer
+                    format: uint32
                 data:
                     $ref: '#/components/schemas/ApiResource'
                 updateMask:
@@ -5528,6 +5535,9 @@ components:
         UpdateDepartmentRequest:
             type: object
             properties:
+                id:
+                    type: integer
+                    format: uint32
                 data:
                     $ref: '#/components/schemas/Department'
                 updateMask:
@@ -5542,6 +5552,9 @@ components:
         UpdateDictEntryRequest:
             type: object
             properties:
+                id:
+                    type: integer
+                    format: uint32
                 data:
                     $ref: '#/components/schemas/DictEntry'
                 updateMask:
@@ -5556,6 +5569,9 @@ components:
         UpdateDictTypeRequest:
             type: object
             properties:
+                id:
+                    type: integer
+                    format: uint32
                 data:
                     $ref: '#/components/schemas/DictType'
                 updateMask:
@@ -5570,6 +5586,9 @@ components:
         UpdateFileRequest:
             type: object
             properties:
+                id:
+                    type: integer
+                    format: uint32
                 data:
                     $ref: '#/components/schemas/File'
                 updateMask:
@@ -5584,6 +5603,9 @@ components:
         UpdateInternalMessageCategoryRequest:
             type: object
             properties:
+                id:
+                    type: integer
+                    format: uint32
                 data:
                     $ref: '#/components/schemas/InternalMessageCategory'
                 updateMask:
@@ -5598,6 +5620,9 @@ components:
         UpdateInternalMessageRequest:
             type: object
             properties:
+                id:
+                    type: integer
+                    format: uint32
                 data:
                     $ref: '#/components/schemas/InternalMessage'
                 updateMask:
@@ -5612,6 +5637,9 @@ components:
         UpdateMenuRequest:
             type: object
             properties:
+                id:
+                    type: integer
+                    format: uint32
                 data:
                     $ref: '#/components/schemas/Menu'
                 updateMask:
@@ -5626,6 +5654,9 @@ components:
         UpdateOrganizationRequest:
             type: object
             properties:
+                id:
+                    type: integer
+                    format: uint32
                 data:
                     $ref: '#/components/schemas/Organization'
                 updateMask:
@@ -5640,6 +5671,9 @@ components:
         UpdatePositionRequest:
             type: object
             properties:
+                id:
+                    type: integer
+                    format: uint32
                 data:
                     $ref: '#/components/schemas/Position'
                 updateMask:
@@ -5654,6 +5688,9 @@ components:
         UpdateRoleRequest:
             type: object
             properties:
+                id:
+                    type: integer
+                    format: uint32
                 data:
                     $ref: '#/components/schemas/Role'
                 updateMask:
@@ -5668,6 +5705,9 @@ components:
         UpdateTaskRequest:
             type: object
             properties:
+                id:
+                    type: integer
+                    format: uint32
                 data:
                     $ref: '#/components/schemas/Task'
                 updateMask:
@@ -5682,6 +5722,9 @@ components:
         UpdateTenantRequest:
             type: object
             properties:
+                id:
+                    type: integer
+                    format: uint32
                 data:
                     $ref: '#/components/schemas/Tenant'
                 updateMask:
@@ -5698,6 +5741,9 @@ components:
                 - data
             type: object
             properties:
+                id:
+                    type: integer
+                    format: uint32
                 data:
                     $ref: '#/components/schemas/User'
                 password:

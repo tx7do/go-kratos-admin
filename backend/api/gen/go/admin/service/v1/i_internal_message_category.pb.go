@@ -29,12 +29,12 @@ var File_admin_service_v1_i_internal_message_category_proto protoreflect.FileDes
 
 const file_admin_service_v1_i_internal_message_category_proto_rawDesc = "" +
 	"\n" +
-	"2admin/service/v1/i_internal_message_category.proto\x12\x10admin.service.v1\x1a$gnostic/openapi/v3/annotations.proto\x1a\x1cgoogle/api/annotations.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1epagination/v1/pagination.proto\x1a;internal_message/service/v1/internal_message_category.proto2\xbb\x06\n" +
+	"2admin/service/v1/i_internal_message_category.proto\x12\x10admin.service.v1\x1a$gnostic/openapi/v3/annotations.proto\x1a\x1cgoogle/api/annotations.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1epagination/v1/pagination.proto\x1a;internal_message/service/v1/internal_message_category.proto2\xb6\x06\n" +
 	"\x1eInternalMessageCategoryService\x12\x92\x01\n" +
 	"\x04List\x12\x19.pagination.PagingRequest\x1a@.internal_message.service.v1.ListInternalMessageCategoryResponse\"-\x82\xd3\xe4\x93\x02'\x12%/admin/v1/internal-message/categories\x12\xaf\x01\n" +
 	"\x03Get\x12>.internal_message.service.v1.GetInternalMessageCategoryRequest\x1a4.internal_message.service.v1.InternalMessageCategory\"2\x82\xd3\xe4\x93\x02,\x12*/admin/v1/internal-message/categories/{id}\x12\x95\x01\n" +
-	"\x06Create\x12A.internal_message.service.v1.CreateInternalMessageCategoryRequest\x1a\x16.google.protobuf.Empty\"0\x82\xd3\xe4\x93\x02*:\x01*\"%/admin/v1/internal-message/categories\x12\x9f\x01\n" +
-	"\x06Update\x12A.internal_message.service.v1.UpdateInternalMessageCategoryRequest\x1a\x16.google.protobuf.Empty\":\x82\xd3\xe4\x93\x024:\x01*\x1a//admin/v1/internal-message/categories/{data.id}\x12\x97\x01\n" +
+	"\x06Create\x12A.internal_message.service.v1.CreateInternalMessageCategoryRequest\x1a\x16.google.protobuf.Empty\"0\x82\xd3\xe4\x93\x02*:\x01*\"%/admin/v1/internal-message/categories\x12\x9a\x01\n" +
+	"\x06Update\x12A.internal_message.service.v1.UpdateInternalMessageCategoryRequest\x1a\x16.google.protobuf.Empty\"5\x82\xd3\xe4\x93\x02/:\x01*\x1a*/admin/v1/internal-message/categories/{id}\x12\x97\x01\n" +
 	"\x06Delete\x12A.internal_message.service.v1.DeleteInternalMessageCategoryRequest\x1a\x16.google.protobuf.Empty\"2\x82\xd3\xe4\x93\x02,**/admin/v1/internal-message/categories/{id}B\xcb\x01\n" +
 	"\x14com.admin.service.v1B\x1dIInternalMessageCategoryProtoP\x01Z2kratos-admin/api/gen/go/admin/service/v1;servicev1\xa2\x02\x03ASX\xaa\x02\x10Admin.Service.V1\xca\x02\x10Admin\\Service\\V1\xe2\x02\x1cAdmin\\Service\\V1\\GPBMetadata\xea\x02\x12Admin::Service::V1b\x06proto3"
 

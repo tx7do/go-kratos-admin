@@ -185,6 +185,8 @@ func (x *UpdateMenuRequest) Redact() string {
 		return ""
 	}
 
+	// Safe field: Id
+
 	// Safe field: Data
 
 	// Safe field: UpdateMask

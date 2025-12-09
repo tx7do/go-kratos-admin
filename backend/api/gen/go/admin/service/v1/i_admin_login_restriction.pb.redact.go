@@ -175,6 +175,8 @@ func (x *UpdateAdminLoginRestrictionRequest) Redact() string {
 		return ""
 	}
 
+	// Safe field: Id
+
 	// Safe field: Data
 
 	// Safe field: UpdateMask

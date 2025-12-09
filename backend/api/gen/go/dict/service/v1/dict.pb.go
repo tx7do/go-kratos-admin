@@ -509,9 +509,10 @@ func (x *CreateDictTypeRequest) GetData() *DictType {
 // 更新字典类型 - 请求
 type UpdateDictTypeRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Data          *DictType              `protobuf:"bytes,1,opt,name=data,proto3" json:"data,omitempty"`
-	UpdateMask    *fieldmaskpb.FieldMask `protobuf:"bytes,2,opt,name=update_mask,json=updateMask,proto3" json:"update_mask,omitempty"`              // 要更新的字段列表
-	AllowMissing  *bool                  `protobuf:"varint,3,opt,name=allow_missing,json=allowMissing,proto3,oneof" json:"allow_missing,omitempty"` // 如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。
+	Id            uint32                 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	Data          *DictType              `protobuf:"bytes,2,opt,name=data,proto3" json:"data,omitempty"`
+	UpdateMask    *fieldmaskpb.FieldMask `protobuf:"bytes,3,opt,name=update_mask,json=updateMask,proto3" json:"update_mask,omitempty"`              // 要更新的字段列表
+	AllowMissing  *bool                  `protobuf:"varint,4,opt,name=allow_missing,json=allowMissing,proto3,oneof" json:"allow_missing,omitempty"` // 如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -544,6 +545,13 @@ func (x *UpdateDictTypeRequest) ProtoReflect() protoreflect.Message {
 // Deprecated: Use UpdateDictTypeRequest.ProtoReflect.Descriptor instead.
 func (*UpdateDictTypeRequest) Descriptor() ([]byte, []int) {
 	return file_dict_service_v1_dict_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *UpdateDictTypeRequest) GetId() uint32 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
 }
 
 func (x *UpdateDictTypeRequest) GetData() *DictType {
@@ -713,9 +721,10 @@ func (x *CreateDictEntryRequest) GetData() *DictEntry {
 // 更新字典条目 - 请求
 type UpdateDictEntryRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Data          *DictEntry             `protobuf:"bytes,1,opt,name=data,proto3" json:"data,omitempty"`
-	UpdateMask    *fieldmaskpb.FieldMask `protobuf:"bytes,2,opt,name=update_mask,json=updateMask,proto3" json:"update_mask,omitempty"`              // 要更新的字段列表
-	AllowMissing  *bool                  `protobuf:"varint,3,opt,name=allow_missing,json=allowMissing,proto3,oneof" json:"allow_missing,omitempty"` // 如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。
+	Id            uint32                 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	Data          *DictEntry             `protobuf:"bytes,2,opt,name=data,proto3" json:"data,omitempty"`
+	UpdateMask    *fieldmaskpb.FieldMask `protobuf:"bytes,3,opt,name=update_mask,json=updateMask,proto3" json:"update_mask,omitempty"`              // 要更新的字段列表
+	AllowMissing  *bool                  `protobuf:"varint,4,opt,name=allow_missing,json=allowMissing,proto3,oneof" json:"allow_missing,omitempty"` // 如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -748,6 +757,13 @@ func (x *UpdateDictEntryRequest) ProtoReflect() protoreflect.Message {
 // Deprecated: Use UpdateDictEntryRequest.ProtoReflect.Descriptor instead.
 func (*UpdateDictEntryRequest) Descriptor() ([]byte, []int) {
 	return file_dict_service_v1_dict_proto_rawDescGZIP(), []int{9}
+}
+
+func (x *UpdateDictEntryRequest) GetId() uint32 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
 }
 
 func (x *UpdateDictEntryRequest) GetData() *DictEntry {
@@ -958,12 +974,13 @@ const file_dict_service_v1_dict_proto_rawDesc = "" +
 	"\n" +
 	"_view_mask\"F\n" +
 	"\x15CreateDictTypeRequest\x12-\n" +
-	"\x04data\x18\x01 \x01(\v2\x19.dict.service.v1.DictTypeR\x04data\"\x84\x03\n" +
-	"\x15UpdateDictTypeRequest\x12-\n" +
-	"\x04data\x18\x01 \x01(\v2\x19.dict.service.v1.DictTypeR\x04data\x12s\n" +
-	"\vupdate_mask\x18\x02 \x01(\v2\x1a.google.protobuf.FieldMaskB6\xbaG3:\x16\x12\x14id,realname,username\x92\x02\x18要更新的字段列表R\n" +
+	"\x04data\x18\x01 \x01(\v2\x19.dict.service.v1.DictTypeR\x04data\"\x94\x03\n" +
+	"\x15UpdateDictTypeRequest\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\rR\x02id\x12-\n" +
+	"\x04data\x18\x02 \x01(\v2\x19.dict.service.v1.DictTypeR\x04data\x12s\n" +
+	"\vupdate_mask\x18\x03 \x01(\v2\x1a.google.protobuf.FieldMaskB6\xbaG3:\x16\x12\x14id,realname,username\x92\x02\x18要更新的字段列表R\n" +
 	"updateMask\x12\xb4\x01\n" +
-	"\rallow_missing\x18\x03 \x01(\bB\x89\x01\xbaG\x85\x01\x92\x02\x81\x01如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。H\x00R\fallowMissing\x88\x01\x01B\x10\n" +
+	"\rallow_missing\x18\x04 \x01(\bB\x89\x01\xbaG\x85\x01\x92\x02\x81\x01如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。H\x00R\fallowMissing\x88\x01\x01B\x10\n" +
 	"\x0e_allow_missing\"*\n" +
 	"\x16BatchDeleteDictRequest\x12\x10\n" +
 	"\x03ids\x18\x01 \x03(\rR\x03ids\"_\n" +
@@ -971,12 +988,13 @@ const file_dict_service_v1_dict_proto_rawDesc = "" +
 	"\x05items\x18\x01 \x03(\v2\x1a.dict.service.v1.DictEntryR\x05items\x12\x14\n" +
 	"\x05total\x18\x02 \x01(\x04R\x05total\"H\n" +
 	"\x16CreateDictEntryRequest\x12.\n" +
-	"\x04data\x18\x01 \x01(\v2\x1a.dict.service.v1.DictEntryR\x04data\"\x86\x03\n" +
-	"\x16UpdateDictEntryRequest\x12.\n" +
-	"\x04data\x18\x01 \x01(\v2\x1a.dict.service.v1.DictEntryR\x04data\x12s\n" +
-	"\vupdate_mask\x18\x02 \x01(\v2\x1a.google.protobuf.FieldMaskB6\xbaG3:\x16\x12\x14id,realname,username\x92\x02\x18要更新的字段列表R\n" +
+	"\x04data\x18\x01 \x01(\v2\x1a.dict.service.v1.DictEntryR\x04data\"\x96\x03\n" +
+	"\x16UpdateDictEntryRequest\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\rR\x02id\x12.\n" +
+	"\x04data\x18\x02 \x01(\v2\x1a.dict.service.v1.DictEntryR\x04data\x12s\n" +
+	"\vupdate_mask\x18\x03 \x01(\v2\x1a.google.protobuf.FieldMaskB6\xbaG3:\x16\x12\x14id,realname,username\x92\x02\x18要更新的字段列表R\n" +
 	"updateMask\x12\xb4\x01\n" +
-	"\rallow_missing\x18\x03 \x01(\bB\x89\x01\xbaG\x85\x01\x92\x02\x81\x01如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。H\x00R\fallowMissing\x88\x01\x01B\x10\n" +
+	"\rallow_missing\x18\x04 \x01(\bB\x89\x01\xbaG\x85\x01\x92\x02\x81\x01如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。H\x00R\fallowMissing\x88\x01\x01B\x10\n" +
 	"\x0e_allow_missing\"\xd0\x01\n" +
 	"\x13GetDictEntryRequest\x12\x10\n" +
 	"\x02id\x18\x01 \x01(\rH\x00R\x02id\x12\x14\n" +

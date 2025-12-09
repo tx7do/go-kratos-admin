@@ -578,9 +578,10 @@ func (x *CreateTaskRequest) GetData() *Task {
 // 更新调度任务 - 请求
 type UpdateTaskRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Data          *Task                  `protobuf:"bytes,1,opt,name=data,proto3" json:"data,omitempty"`
-	UpdateMask    *fieldmaskpb.FieldMask `protobuf:"bytes,2,opt,name=update_mask,json=updateMask,proto3" json:"update_mask,omitempty"`              // 要更新的字段列表
-	AllowMissing  *bool                  `protobuf:"varint,3,opt,name=allow_missing,json=allowMissing,proto3,oneof" json:"allow_missing,omitempty"` // 如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。
+	Id            uint32                 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	Data          *Task                  `protobuf:"bytes,2,opt,name=data,proto3" json:"data,omitempty"`
+	UpdateMask    *fieldmaskpb.FieldMask `protobuf:"bytes,3,opt,name=update_mask,json=updateMask,proto3" json:"update_mask,omitempty"`              // 要更新的字段列表
+	AllowMissing  *bool                  `protobuf:"varint,4,opt,name=allow_missing,json=allowMissing,proto3,oneof" json:"allow_missing,omitempty"` // 如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -613,6 +614,13 @@ func (x *UpdateTaskRequest) ProtoReflect() protoreflect.Message {
 // Deprecated: Use UpdateTaskRequest.ProtoReflect.Descriptor instead.
 func (*UpdateTaskRequest) Descriptor() ([]byte, []int) {
 	return file_admin_service_v1_i_task_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *UpdateTaskRequest) GetId() uint32 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
 }
 
 func (x *UpdateTaskRequest) GetData() *Task {
@@ -912,12 +920,13 @@ const file_admin_service_v1_i_task_proto_rawDesc = "" +
 	"\n" +
 	"_view_mask\"?\n" +
 	"\x11CreateTaskRequest\x12*\n" +
-	"\x04data\x18\x01 \x01(\v2\x16.admin.service.v1.TaskR\x04data\"\xfd\x02\n" +
-	"\x11UpdateTaskRequest\x12*\n" +
-	"\x04data\x18\x01 \x01(\v2\x16.admin.service.v1.TaskR\x04data\x12s\n" +
-	"\vupdate_mask\x18\x02 \x01(\v2\x1a.google.protobuf.FieldMaskB6\xbaG3:\x16\x12\x14id,realname,username\x92\x02\x18要更新的字段列表R\n" +
+	"\x04data\x18\x01 \x01(\v2\x16.admin.service.v1.TaskR\x04data\"\x8d\x03\n" +
+	"\x11UpdateTaskRequest\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\rR\x02id\x12*\n" +
+	"\x04data\x18\x02 \x01(\v2\x16.admin.service.v1.TaskR\x04data\x12s\n" +
+	"\vupdate_mask\x18\x03 \x01(\v2\x1a.google.protobuf.FieldMaskB6\xbaG3:\x16\x12\x14id,realname,username\x92\x02\x18要更新的字段列表R\n" +
 	"updateMask\x12\xb4\x01\n" +
-	"\rallow_missing\x18\x03 \x01(\bB\x89\x01\xbaG\x85\x01\x92\x02\x81\x01如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。H\x00R\fallowMissing\x88\x01\x01B\x10\n" +
+	"\rallow_missing\x18\x04 \x01(\bB\x89\x01\xbaG\x85\x01\x92\x02\x81\x01如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。H\x00R\fallowMissing\x88\x01\x01B\x10\n" +
 	"\x0e_allow_missing\"#\n" +
 	"\x11DeleteTaskRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\rR\x02id\".\n" +
@@ -932,12 +941,12 @@ const file_admin_service_v1_i_task_proto_rawDesc = "" +
 	"\aRestart\x10\x02\"S\n" +
 	"\x18ListTaskTypeNameResponse\x127\n" +
 	"\n" +
-	"type_names\x18\x01 \x03(\tB\x18\xbaG\x15\x92\x02\x12类型名称列表R\ttypeNames2\xd2\b\n" +
+	"type_names\x18\x01 \x03(\tB\x18\xbaG\x15\x92\x02\x12类型名称列表R\ttypeNames2\xcd\b\n" +
 	"\vTaskService\x12^\n" +
 	"\x04List\x12\x19.pagination.PagingRequest\x1a\".admin.service.v1.ListTaskResponse\"\x17\x82\xd3\xe4\x93\x02\x11\x12\x0f/admin/v1/tasks\x12\x86\x01\n" +
 	"\x03Get\x12 .admin.service.v1.GetTaskRequest\x1a\x16.admin.service.v1.Task\"E\x82\xd3\xe4\x93\x02?Z'\x12%/admin/v1/tasks/type-name/{type_name}\x12\x14/admin/v1/tasks/{id}\x12a\n" +
-	"\x06Create\x12#.admin.service.v1.CreateTaskRequest\x1a\x16.google.protobuf.Empty\"\x1a\x82\xd3\xe4\x93\x02\x14:\x01*\"\x0f/admin/v1/tasks\x12k\n" +
-	"\x06Update\x12#.admin.service.v1.UpdateTaskRequest\x1a\x16.google.protobuf.Empty\"$\x82\xd3\xe4\x93\x02\x1e:\x01*\x1a\x19/admin/v1/tasks/{data.id}\x12c\n" +
+	"\x06Create\x12#.admin.service.v1.CreateTaskRequest\x1a\x16.google.protobuf.Empty\"\x1a\x82\xd3\xe4\x93\x02\x14:\x01*\"\x0f/admin/v1/tasks\x12f\n" +
+	"\x06Update\x12#.admin.service.v1.UpdateTaskRequest\x1a\x16.google.protobuf.Empty\"\x1f\x82\xd3\xe4\x93\x02\x19:\x01*\x1a\x14/admin/v1/tasks/{id}\x12c\n" +
 	"\x06Delete\x12#.admin.service.v1.DeleteTaskRequest\x1a\x16.google.protobuf.Empty\"\x1c\x82\xd3\xe4\x93\x02\x16*\x14/admin/v1/tasks/{id}\x12z\n" +
 	"\x10ListTaskTypeName\x12\x16.google.protobuf.Empty\x1a*.admin.service.v1.ListTaskTypeNameResponse\"\"\x82\xd3\xe4\x93\x02\x1c\x12\x1a/admin/v1/tasks:type-names\x12v\n" +
 	"\x0eRestartAllTask\x12\x16.google.protobuf.Empty\x1a(.admin.service.v1.RestartAllTaskResponse\"\"\x82\xd3\xe4\x93\x02\x1c:\x01*\"\x17/admin/v1/tasks:restart\x12`\n" +

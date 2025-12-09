@@ -175,6 +175,7 @@ export type CreateAdminLoginLogRequest = {
 
 // 更新后台登录日志 - 请求
 export type UpdateAdminLoginLogRequest = {
+  id: number | undefined;
   data: AdminLoginLog | undefined;
   updateMask: wellKnownFieldMask | undefined;
   allowMissing?: boolean;
@@ -459,6 +460,7 @@ export type CreateAdminLoginRestrictionRequest = {
 
 // 更新后台登录限制 - 请求
 export type UpdateAdminLoginRestrictionRequest = {
+  id: number | undefined;
   data: AdminLoginRestriction | undefined;
   updateMask: wellKnownFieldMask | undefined;
   allowMissing?: boolean;
@@ -600,10 +602,10 @@ export function createAdminLoginRestrictionServiceClient(
       }) as Promise<wellKnownEmpty>;
     },
     Update(request) { // eslint-disable-line @typescript-eslint/no-unused-vars
-      if (!request.data?.id) {
-        throw new Error("missing required field request.data.id");
+      if (!request.id) {
+        throw new Error("missing required field request.id");
       }
-      const path = `admin/v1/login-restrictions/${request.data.id}`; // eslint-disable-line quotes
+      const path = `admin/v1/login-restrictions/${request.id}`; // eslint-disable-line quotes
       const body = JSON.stringify(request);
       const queryParams: string[] = [];
       let uri = path;
@@ -703,6 +705,7 @@ export type CreateAdminOperationLogRequest = {
 
 // 更新后台操作日志 - 请求
 export type UpdateAdminOperationLogRequest = {
+  id: number | undefined;
   data: AdminOperationLog | undefined;
   updateMask: wellKnownFieldMask | undefined;
   allowMissing?: boolean;
@@ -864,6 +867,7 @@ export type CreateApiResourceRequest = {
 
 // 更新 - 请求
 export type UpdateApiResourceRequest = {
+  id: number | undefined;
   data: ApiResource | undefined;
   updateMask: wellKnownFieldMask | undefined;
   allowMissing?: boolean;
@@ -1009,10 +1013,10 @@ export function createApiResourceServiceClient(
       }) as Promise<wellKnownEmpty>;
     },
     Update(request) { // eslint-disable-line @typescript-eslint/no-unused-vars
-      if (!request.data?.id) {
-        throw new Error("missing required field request.data.id");
+      if (!request.id) {
+        throw new Error("missing required field request.id");
       }
-      const path = `admin/v1/api-resources/${request.data.id}`; // eslint-disable-line quotes
+      const path = `admin/v1/api-resources/${request.id}`; // eslint-disable-line quotes
       const body = JSON.stringify(request);
       const queryParams: string[] = [];
       let uri = path;
@@ -1323,10 +1327,10 @@ export function createDepartmentServiceClient(
       }) as Promise<wellKnownEmpty>;
     },
     Update(request) { // eslint-disable-line @typescript-eslint/no-unused-vars
-      if (!request.data?.id) {
-        throw new Error("missing required field request.data.id");
+      if (!request.id) {
+        throw new Error("missing required field request.id");
       }
-      const path = `admin/v1/departments/${request.data.id}`; // eslint-disable-line quotes
+      const path = `admin/v1/departments/${request.id}`; // eslint-disable-line quotes
       const body = JSON.stringify(request);
       const queryParams: string[] = [];
       let uri = path;
@@ -1410,6 +1414,7 @@ export type userservicev1_CreateDepartmentRequest = {
 
 // 更新部门 - 请求
 export type userservicev1_UpdateDepartmentRequest = {
+  id: number | undefined;
   data: userservicev1_Department | undefined;
   updateMask: wellKnownFieldMask | undefined;
   allowMissing?: boolean;
@@ -1562,10 +1567,10 @@ export function createDictServiceClient(
       }) as Promise<wellKnownEmpty>;
     },
     UpdateDictType(request) { // eslint-disable-line @typescript-eslint/no-unused-vars
-      if (!request.data?.id) {
-        throw new Error("missing required field request.data.id");
+      if (!request.id) {
+        throw new Error("missing required field request.id");
       }
-      const path = `admin/v1/dict-types/${request.data.id}`; // eslint-disable-line quotes
+      const path = `admin/v1/dict-types/${request.id}`; // eslint-disable-line quotes
       const body = JSON.stringify(request);
       const queryParams: string[] = [];
       let uri = path;
@@ -1693,10 +1698,10 @@ export function createDictServiceClient(
       }) as Promise<wellKnownEmpty>;
     },
     UpdateDictEntry(request) { // eslint-disable-line @typescript-eslint/no-unused-vars
-      if (!request.data?.id) {
-        throw new Error("missing required field request.data.id");
+      if (!request.id) {
+        throw new Error("missing required field request.id");
       }
-      const path = `admin/v1/dict-entries/${request.data.id}`; // eslint-disable-line quotes
+      const path = `admin/v1/dict-entries/${request.id}`; // eslint-disable-line quotes
       const body = JSON.stringify(request);
       const queryParams: string[] = [];
       let uri = path;
@@ -1772,6 +1777,7 @@ export type dictservicev1_CreateDictTypeRequest = {
 
 // 更新字典类型 - 请求
 export type dictservicev1_UpdateDictTypeRequest = {
+  id: number | undefined;
   data: dictservicev1_DictType | undefined;
   updateMask: wellKnownFieldMask | undefined;
   allowMissing?: boolean;
@@ -1814,6 +1820,7 @@ export type dictservicev1_CreateDictEntryRequest = {
 
 // 更新字典条目 - 请求
 export type dictservicev1_UpdateDictEntryRequest = {
+  id: number | undefined;
   data: dictservicev1_DictEntry | undefined;
   updateMask: wellKnownFieldMask | undefined;
   allowMissing?: boolean;
@@ -1950,10 +1957,10 @@ export function createFileServiceClient(
       }) as Promise<wellKnownEmpty>;
     },
     Update(request) { // eslint-disable-line @typescript-eslint/no-unused-vars
-      if (!request.data?.id) {
-        throw new Error("missing required field request.data.id");
+      if (!request.id) {
+        throw new Error("missing required field request.id");
       }
-      const path = `admin/v1/files/${request.data.id}`; // eslint-disable-line quotes
+      const path = `admin/v1/files/${request.id}`; // eslint-disable-line quotes
       const body = JSON.stringify(request);
       const queryParams: string[] = [];
       let uri = path;
@@ -2047,6 +2054,7 @@ export type fileservicev1_CreateFileRequest = {
 
 // 更新 - 请求
 export type fileservicev1_UpdateFileRequest = {
+  id: number | undefined;
   data: fileservicev1_File | undefined;
   updateMask: wellKnownFieldMask | undefined;
   allowMissing?: boolean;
@@ -2173,10 +2181,10 @@ export function createInternalMessageServiceClient(
       }) as Promise<internal_messageservicev1_InternalMessage>;
     },
     UpdateMessage(request) { // eslint-disable-line @typescript-eslint/no-unused-vars
-      if (!request.data?.id) {
-        throw new Error("missing required field request.data.id");
+      if (!request.id) {
+        throw new Error("missing required field request.id");
       }
-      const path = `admin/v1/internal-message/messages/${request.data.id}`; // eslint-disable-line quotes
+      const path = `admin/v1/internal-message/messages/${request.id}`; // eslint-disable-line quotes
       const body = JSON.stringify(request);
       const queryParams: string[] = [];
       let uri = path;
@@ -2296,6 +2304,7 @@ export type internal_messageservicev1_GetInternalMessageRequest = {
 
 // 更新站内信消息 - 请求
 export type internal_messageservicev1_UpdateInternalMessageRequest = {
+  id: number | undefined;
   data: internal_messageservicev1_InternalMessage | undefined;
   updateMask: wellKnownFieldMask | undefined;
   allowMissing?: boolean;
@@ -2457,10 +2466,10 @@ export function createInternalMessageCategoryServiceClient(
       }) as Promise<wellKnownEmpty>;
     },
     Update(request) { // eslint-disable-line @typescript-eslint/no-unused-vars
-      if (!request.data?.id) {
-        throw new Error("missing required field request.data.id");
+      if (!request.id) {
+        throw new Error("missing required field request.id");
       }
-      const path = `admin/v1/internal-message/categories/${request.data.id}`; // eslint-disable-line quotes
+      const path = `admin/v1/internal-message/categories/${request.id}`; // eslint-disable-line quotes
       const body = JSON.stringify(request);
       const queryParams: string[] = [];
       let uri = path;
@@ -2535,6 +2544,7 @@ export type internal_messageservicev1_CreateInternalMessageCategoryRequest = {
 
 // 更新站内信消息分类 - 请求
 export type internal_messageservicev1_UpdateInternalMessageCategoryRequest = {
+  id: number | undefined;
   data: internal_messageservicev1_InternalMessageCategory | undefined;
   updateMask: wellKnownFieldMask | undefined;
   allowMissing?: boolean;
@@ -2932,6 +2942,7 @@ export type CreateMenuRequest = {
 
 // 更新菜单 - 请求
 export type UpdateMenuRequest = {
+  id: number | undefined;
   data: Menu | undefined;
   updateMask: wellKnownFieldMask | undefined;
   allowMissing?: boolean;
@@ -3074,10 +3085,10 @@ export function createMenuServiceClient(
       }) as Promise<wellKnownEmpty>;
     },
     Update(request) { // eslint-disable-line @typescript-eslint/no-unused-vars
-      if (!request.data?.id) {
-        throw new Error("missing required field request.data.id");
+      if (!request.id) {
+        throw new Error("missing required field request.id");
       }
-      const path = `admin/v1/menus/${request.data.id}`; // eslint-disable-line quotes
+      const path = `admin/v1/menus/${request.id}`; // eslint-disable-line quotes
       const body = JSON.stringify(request);
       const queryParams: string[] = [];
       let uri = path;
@@ -3249,10 +3260,10 @@ export function createOrganizationServiceClient(
       }) as Promise<wellKnownEmpty>;
     },
     Update(request) { // eslint-disable-line @typescript-eslint/no-unused-vars
-      if (!request.data?.id) {
-        throw new Error("missing required field request.data.id");
+      if (!request.id) {
+        throw new Error("missing required field request.id");
       }
-      const path = `admin/v1/organizations/${request.data.id}`; // eslint-disable-line quotes
+      const path = `admin/v1/organizations/${request.id}`; // eslint-disable-line quotes
       const body = JSON.stringify(request);
       const queryParams: string[] = [];
       let uri = path;
@@ -3345,6 +3356,7 @@ export type userservicev1_CreateOrganizationRequest = {
 
 // 更新组织 - 请求
 export type userservicev1_UpdateOrganizationRequest = {
+  id: number | undefined;
   data: userservicev1_Organization | undefined;
   updateMask: wellKnownFieldMask | undefined;
   allowMissing?: boolean;
@@ -3583,10 +3595,10 @@ export function createPositionServiceClient(
       }) as Promise<wellKnownEmpty>;
     },
     Update(request) { // eslint-disable-line @typescript-eslint/no-unused-vars
-      if (!request.data?.id) {
-        throw new Error("missing required field request.data.id");
+      if (!request.id) {
+        throw new Error("missing required field request.id");
       }
-      const path = `admin/v1/positions/${request.data.id}`; // eslint-disable-line quotes
+      const path = `admin/v1/positions/${request.id}`; // eslint-disable-line quotes
       const body = JSON.stringify(request);
       const queryParams: string[] = [];
       let uri = path;
@@ -3672,6 +3684,7 @@ export type userservicev1_CreatePositionRequest = {
 
 // 更新职位 - 请求
 export type userservicev1_UpdatePositionRequest = {
+  id: number | undefined;
   data: userservicev1_Position | undefined;
   updateMask: wellKnownFieldMask | undefined;
   allowMissing?: boolean;
@@ -3813,10 +3826,10 @@ export function createRoleServiceClient(
       }) as Promise<wellKnownEmpty>;
     },
     Update(request) { // eslint-disable-line @typescript-eslint/no-unused-vars
-      if (!request.data?.id) {
-        throw new Error("missing required field request.data.id");
+      if (!request.id) {
+        throw new Error("missing required field request.id");
       }
-      const path = `admin/v1/roles/${request.data.id}`; // eslint-disable-line quotes
+      const path = `admin/v1/roles/${request.id}`; // eslint-disable-line quotes
       const body = JSON.stringify(request);
       const queryParams: string[] = [];
       let uri = path;
@@ -3910,6 +3923,7 @@ export type userservicev1_CreateRoleRequest = {
 
 // 更新角色 - 请求
 export type userservicev1_UpdateRoleRequest = {
+  id: number | undefined;
   data: userservicev1_Role | undefined;
   updateMask: wellKnownFieldMask | undefined;
   allowMissing?: boolean;
@@ -4008,6 +4022,7 @@ export type CreateTaskRequest = {
 
 // 更新调度任务 - 请求
 export type UpdateTaskRequest = {
+  id: number | undefined;
   data: Task | undefined;
   updateMask: wellKnownFieldMask | undefined;
   allowMissing?: boolean;
@@ -4185,10 +4200,10 @@ export function createTaskServiceClient(
       }) as Promise<wellKnownEmpty>;
     },
     Update(request) { // eslint-disable-line @typescript-eslint/no-unused-vars
-      if (!request.data?.id) {
-        throw new Error("missing required field request.data.id");
+      if (!request.id) {
+        throw new Error("missing required field request.id");
       }
-      const path = `admin/v1/tasks/${request.data.id}`; // eslint-disable-line quotes
+      const path = `admin/v1/tasks/${request.id}`; // eslint-disable-line quotes
       const body = JSON.stringify(request);
       const queryParams: string[] = [];
       let uri = path;
@@ -4564,10 +4579,10 @@ export function createTenantServiceClient(
       }) as Promise<wellKnownEmpty>;
     },
     Update(request) { // eslint-disable-line @typescript-eslint/no-unused-vars
-      if (!request.data?.id) {
-        throw new Error("missing required field request.data.id");
+      if (!request.id) {
+        throw new Error("missing required field request.id");
       }
-      const path = `admin/v1/tenants/${request.data.id}`; // eslint-disable-line quotes
+      const path = `admin/v1/tenants/${request.id}`; // eslint-disable-line quotes
       const body = JSON.stringify(request);
       const queryParams: string[] = [];
       let uri = path;
@@ -4663,6 +4678,7 @@ export type userservicev1_CreateTenantRequest = {
 
 // 更新租户 -请求
 export type userservicev1_UpdateTenantRequest = {
+  id: number | undefined;
   data: userservicev1_Tenant | undefined;
   updateMask: wellKnownFieldMask | undefined;
   allowMissing?: boolean;
@@ -4978,10 +4994,10 @@ export function createUserServiceClient(
       }) as Promise<wellKnownEmpty>;
     },
     Update(request) { // eslint-disable-line @typescript-eslint/no-unused-vars
-      if (!request.data?.id) {
-        throw new Error("missing required field request.data.id");
+      if (!request.id) {
+        throw new Error("missing required field request.id");
       }
-      const path = `admin/v1/users/${request.data.id}`; // eslint-disable-line quotes
+      const path = `admin/v1/users/${request.id}`; // eslint-disable-line quotes
       const body = JSON.stringify(request);
       const queryParams: string[] = [];
       let uri = path;
@@ -5080,6 +5096,7 @@ export type userservicev1_CreateUserRequest = {
 
 // 更新用户 - 请求
 export type userservicev1_UpdateUserRequest = {
+  id: number | undefined;
   //
   // Behaviors: REQUIRED
   data: userservicev1_User | undefined;

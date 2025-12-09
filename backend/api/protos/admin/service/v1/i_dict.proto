@@ -44,7 +44,7 @@ service DictService {
   // 更新字典类型
   rpc UpdateDictType (dict.service.v1.UpdateDictTypeRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
-      put: "/admin/v1/dict-types/{data.id}"
+      put: "/admin/v1/dict-types/{id}"
       body: "*"
     };
   }
@@ -75,7 +75,7 @@ service DictService {
   // 更新字典条目
   rpc UpdateDictEntry (dict.service.v1.UpdateDictEntryRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
-      put: "/admin/v1/dict-entries/{data.id}"
+      put: "/admin/v1/dict-entries/{id}"
       body: "*"
     };
   }

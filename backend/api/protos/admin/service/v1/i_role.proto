@@ -37,7 +37,7 @@ service RoleService {
   // 更新角色
   rpc Update (user.service.v1.UpdateRoleRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
-      put: "/admin/v1/roles/{data.id}"
+      put: "/admin/v1/roles/{id}"
       body: "*"
     };
   }

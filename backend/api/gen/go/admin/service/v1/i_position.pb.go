@@ -29,12 +29,12 @@ var File_admin_service_v1_i_position_proto protoreflect.FileDescriptor
 
 const file_admin_service_v1_i_position_proto_rawDesc = "" +
 	"\n" +
-	"!admin/service/v1/i_position.proto\x12\x10admin.service.v1\x1a$gnostic/openapi/v3/annotations.proto\x1a\x1cgoogle/api/annotations.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1epagination/v1/pagination.proto\x1a\x1euser/service/v1/position.proto2\xab\x04\n" +
+	"!admin/service/v1/i_position.proto\x12\x10admin.service.v1\x1a$gnostic/openapi/v3/annotations.proto\x1a\x1cgoogle/api/annotations.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1epagination/v1/pagination.proto\x1a\x1euser/service/v1/position.proto2\xa6\x04\n" +
 	"\x0fPositionService\x12e\n" +
 	"\x04List\x12\x19.pagination.PagingRequest\x1a%.user.service.v1.ListPositionResponse\"\x1b\x82\xd3\xe4\x93\x02\x15\x12\x13/admin/v1/positions\x12g\n" +
 	"\x03Get\x12#.user.service.v1.GetPositionRequest\x1a\x19.user.service.v1.Position\" \x82\xd3\xe4\x93\x02\x1a\x12\x18/admin/v1/positions/{id}\x12h\n" +
-	"\x06Create\x12&.user.service.v1.CreatePositionRequest\x1a\x16.google.protobuf.Empty\"\x1e\x82\xd3\xe4\x93\x02\x18:\x01*\"\x13/admin/v1/positions\x12r\n" +
-	"\x06Update\x12&.user.service.v1.UpdatePositionRequest\x1a\x16.google.protobuf.Empty\"(\x82\xd3\xe4\x93\x02\":\x01*\x1a\x1d/admin/v1/positions/{data.id}\x12j\n" +
+	"\x06Create\x12&.user.service.v1.CreatePositionRequest\x1a\x16.google.protobuf.Empty\"\x1e\x82\xd3\xe4\x93\x02\x18:\x01*\"\x13/admin/v1/positions\x12m\n" +
+	"\x06Update\x12&.user.service.v1.UpdatePositionRequest\x1a\x16.google.protobuf.Empty\"#\x82\xd3\xe4\x93\x02\x1d:\x01*\x1a\x18/admin/v1/positions/{id}\x12j\n" +
 	"\x06Delete\x12&.user.service.v1.DeletePositionRequest\x1a\x16.google.protobuf.Empty\" \x82\xd3\xe4\x93\x02\x1a*\x18/admin/v1/positions/{id}B\xbc\x01\n" +
 	"\x14com.admin.service.v1B\x0eIPositionProtoP\x01Z2kratos-admin/api/gen/go/admin/service/v1;servicev1\xa2\x02\x03ASX\xaa\x02\x10Admin.Service.V1\xca\x02\x10Admin\\Service\\V1\xe2\x02\x1cAdmin\\Service\\V1\\GPBMetadata\xea\x02\x12Admin::Service::V1b\x06proto3"
 

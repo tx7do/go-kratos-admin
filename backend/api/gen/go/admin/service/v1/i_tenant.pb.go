@@ -95,12 +95,12 @@ const file_admin_service_v1_i_tenant_proto_rawDesc = "" +
 	" CreateTenantWithAdminUserRequest\x12/\n" +
 	"\x06tenant\x18\x01 \x01(\v2\x17.user.service.v1.TenantR\x06tenant\x12)\n" +
 	"\x04user\x18\x02 \x01(\v2\x15.user.service.v1.UserR\x04user\x12\x1a\n" +
-	"\bpassword\x18\x03 \x01(\tR\bpassword2\xa5\x06\n" +
+	"\bpassword\x18\x03 \x01(\tR\bpassword2\xa0\x06\n" +
 	"\rTenantService\x12a\n" +
 	"\x04List\x12\x19.pagination.PagingRequest\x1a#.user.service.v1.ListTenantResponse\"\x19\x82\xd3\xe4\x93\x02\x13\x12\x11/admin/v1/tenants\x12a\n" +
 	"\x03Get\x12!.user.service.v1.GetTenantRequest\x1a\x17.user.service.v1.Tenant\"\x1e\x82\xd3\xe4\x93\x02\x18\x12\x16/admin/v1/tenants/{id}\x12d\n" +
-	"\x06Create\x12$.user.service.v1.CreateTenantRequest\x1a\x16.google.protobuf.Empty\"\x1c\x82\xd3\xe4\x93\x02\x16:\x01*\"\x11/admin/v1/tenants\x12n\n" +
-	"\x06Update\x12$.user.service.v1.UpdateTenantRequest\x1a\x16.google.protobuf.Empty\"&\x82\xd3\xe4\x93\x02 :\x01*\x1a\x1b/admin/v1/tenants/{data.id}\x12f\n" +
+	"\x06Create\x12$.user.service.v1.CreateTenantRequest\x1a\x16.google.protobuf.Empty\"\x1c\x82\xd3\xe4\x93\x02\x16:\x01*\"\x11/admin/v1/tenants\x12i\n" +
+	"\x06Update\x12$.user.service.v1.UpdateTenantRequest\x1a\x16.google.protobuf.Empty\"!\x82\xd3\xe4\x93\x02\x1b:\x01*\x1a\x16/admin/v1/tenants/{id}\x12f\n" +
 	"\x06Delete\x12$.user.service.v1.DeleteTenantRequest\x1a\x16.google.protobuf.Empty\"\x1e\x82\xd3\xe4\x93\x02\x18*\x16/admin/v1/tenants/{id}\x12\x90\x01\n" +
 	"\x19CreateTenantWithAdminUser\x122.admin.service.v1.CreateTenantWithAdminUserRequest\x1a\x16.google.protobuf.Empty\"'\x82\xd3\xe4\x93\x02!:\x01*\"\x1c/admin/v1/tenants_with_admin\x12}\n" +
 	"\fTenantExists\x12$.user.service.v1.TenantExistsRequest\x1a%.user.service.v1.TenantExistsResponse\" \x82\xd3\xe4\x93\x02\x1a\x12\x18/admin/v1/tenants_existsB\xba\x01\n" +

@@ -182,7 +182,7 @@ func (r *ApiResourceRepo) Create(ctx context.Context, req *adminV1.CreateApiReso
 	}
 
 	if req.Data.Id != nil {
-		builder.SetID(req.Data.GetId())
+		builder.SetID(req.GetData().GetId())
 	}
 
 	if err := builder.Exec(ctx); err != nil {
@@ -200,7 +200,7 @@ func (r *ApiResourceRepo) Update(ctx context.Context, req *adminV1.UpdateApiReso
 
 	// 如果不存在则创建
 	if req.GetAllowMissing() {
-		exist, err := r.IsExist(ctx, req.GetData().GetId())
+		exist, err := r.IsExist(ctx, req.GetId())
 		if err != nil {
 			return err
 		}
@@ -231,7 +231,7 @@ func (r *ApiResourceRepo) Update(ctx context.Context, req *adminV1.UpdateApiReso
 			}
 		},
 		func(s *sql.Selector) {
-			s.Where(sql.EQ(apiresource.FieldID, req.Data.GetId()))
+			s.Where(sql.EQ(apiresource.FieldID, req.GetId()))
 		},
 	)
 

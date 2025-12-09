@@ -53,10 +53,12 @@ export const useRoleStore = defineStore('role', () => {
    * 更新角色
    */
   async function updateRole(id: number, values: object) {
+    if ('id' in values) delete values.id;
+
     return await service.Update({
+      id,
       // @ts-ignore proto generated code is error.
       data: {
-        id,
         ...values,
         children: [],
       },

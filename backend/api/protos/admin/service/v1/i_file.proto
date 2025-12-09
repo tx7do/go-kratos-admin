@@ -37,7 +37,7 @@ service FileService {
   // 更新文件
   rpc Update (file.service.v1.UpdateFileRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
-      put: "/admin/v1/files/{data.id}"
+      put: "/admin/v1/files/{id}"
       body: "*"
     };
   }

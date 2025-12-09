@@ -61,8 +61,8 @@ export const usePositionStore = defineStore('position', () => {
    */
   async function updatePosition(id: number, values: object) {
     return await service.Update({
+      id,
       data: {
-        id,
         ...values,
         children: [],
       },

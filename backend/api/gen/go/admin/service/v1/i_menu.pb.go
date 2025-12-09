@@ -479,9 +479,10 @@ func (x *CreateMenuRequest) GetData() *Menu {
 // 更新菜单 - 请求
 type UpdateMenuRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Data          *Menu                  `protobuf:"bytes,1,opt,name=data,proto3" json:"data,omitempty"`
-	UpdateMask    *fieldmaskpb.FieldMask `protobuf:"bytes,2,opt,name=update_mask,json=updateMask,proto3" json:"update_mask,omitempty"`              // 要更新的字段列表
-	AllowMissing  *bool                  `protobuf:"varint,3,opt,name=allow_missing,json=allowMissing,proto3,oneof" json:"allow_missing,omitempty"` // 如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。
+	Id            uint32                 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	Data          *Menu                  `protobuf:"bytes,2,opt,name=data,proto3" json:"data,omitempty"`
+	UpdateMask    *fieldmaskpb.FieldMask `protobuf:"bytes,3,opt,name=update_mask,json=updateMask,proto3" json:"update_mask,omitempty"`              // 要更新的字段列表
+	AllowMissing  *bool                  `protobuf:"varint,4,opt,name=allow_missing,json=allowMissing,proto3,oneof" json:"allow_missing,omitempty"` // 如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -514,6 +515,13 @@ func (x *UpdateMenuRequest) ProtoReflect() protoreflect.Message {
 // Deprecated: Use UpdateMenuRequest.ProtoReflect.Descriptor instead.
 func (*UpdateMenuRequest) Descriptor() ([]byte, []int) {
 	return file_admin_service_v1_i_menu_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *UpdateMenuRequest) GetId() uint32 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
 }
 
 func (x *UpdateMenuRequest) GetData() *Menu {
@@ -662,23 +670,24 @@ const file_admin_service_v1_i_menu_proto_rawDesc = "" +
 	"\n" +
 	"_view_mask\"?\n" +
 	"\x11CreateMenuRequest\x12*\n" +
-	"\x04data\x18\x01 \x01(\v2\x16.admin.service.v1.MenuR\x04data\"\xfd\x02\n" +
-	"\x11UpdateMenuRequest\x12*\n" +
-	"\x04data\x18\x01 \x01(\v2\x16.admin.service.v1.MenuR\x04data\x12s\n" +
-	"\vupdate_mask\x18\x02 \x01(\v2\x1a.google.protobuf.FieldMaskB6\xbaG3:\x16\x12\x14id,realname,username\x92\x02\x18要更新的字段列表R\n" +
+	"\x04data\x18\x01 \x01(\v2\x16.admin.service.v1.MenuR\x04data\"\x8d\x03\n" +
+	"\x11UpdateMenuRequest\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\rR\x02id\x12*\n" +
+	"\x04data\x18\x02 \x01(\v2\x16.admin.service.v1.MenuR\x04data\x12s\n" +
+	"\vupdate_mask\x18\x03 \x01(\v2\x1a.google.protobuf.FieldMaskB6\xbaG3:\x16\x12\x14id,realname,username\x92\x02\x18要更新的字段列表R\n" +
 	"updateMask\x12\xb4\x01\n" +
-	"\rallow_missing\x18\x03 \x01(\bB\x89\x01\xbaG\x85\x01\x92\x02\x81\x01如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。H\x00R\fallowMissing\x88\x01\x01B\x10\n" +
+	"\rallow_missing\x18\x04 \x01(\bB\x89\x01\xbaG\x85\x01\x92\x02\x81\x01如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。H\x00R\fallowMissing\x88\x01\x01B\x10\n" +
 	"\x0e_allow_missing\"q\n" +
 	"\x11DeleteMenuRequest\x12<\n" +
 	"\voperator_id\x18\x01 \x01(\rB\x16\xbaG\x13\x18\x01\x92\x02\x0e操作用户IDH\x00R\n" +
 	"operatorId\x88\x01\x01\x12\x0e\n" +
 	"\x02id\x18\x02 \x01(\rR\x02idB\x0e\n" +
-	"\f_operator_id2\x81\x04\n" +
+	"\f_operator_id2\xfc\x03\n" +
 	"\vMenuService\x12^\n" +
 	"\x04List\x12\x19.pagination.PagingRequest\x1a\".admin.service.v1.ListMenuResponse\"\x17\x82\xd3\xe4\x93\x02\x11\x12\x0f/admin/v1/menus\x12]\n" +
 	"\x03Get\x12 .admin.service.v1.GetMenuRequest\x1a\x16.admin.service.v1.Menu\"\x1c\x82\xd3\xe4\x93\x02\x16\x12\x14/admin/v1/menus/{id}\x12a\n" +
-	"\x06Create\x12#.admin.service.v1.CreateMenuRequest\x1a\x16.google.protobuf.Empty\"\x1a\x82\xd3\xe4\x93\x02\x14:\x01*\"\x0f/admin/v1/menus\x12k\n" +
-	"\x06Update\x12#.admin.service.v1.UpdateMenuRequest\x1a\x16.google.protobuf.Empty\"$\x82\xd3\xe4\x93\x02\x1e:\x01*\x1a\x19/admin/v1/menus/{data.id}\x12c\n" +
+	"\x06Create\x12#.admin.service.v1.CreateMenuRequest\x1a\x16.google.protobuf.Empty\"\x1a\x82\xd3\xe4\x93\x02\x14:\x01*\"\x0f/admin/v1/menus\x12f\n" +
+	"\x06Update\x12#.admin.service.v1.UpdateMenuRequest\x1a\x16.google.protobuf.Empty\"\x1f\x82\xd3\xe4\x93\x02\x19:\x01*\x1a\x14/admin/v1/menus/{id}\x12c\n" +
 	"\x06Delete\x12#.admin.service.v1.DeleteMenuRequest\x1a\x16.google.protobuf.Empty\"\x1c\x82\xd3\xe4\x93\x02\x16*\x14/admin/v1/menus/{id}B\xb8\x01\n" +
 	"\x14com.admin.service.v1B\n" +
 	"IMenuProtoP\x01Z2kratos-admin/api/gen/go/admin/service/v1;servicev1\xa2\x02\x03ASX\xaa\x02\x10Admin.Service.V1\xca\x02\x10Admin\\Service\\V1\xe2\x02\x1cAdmin\\Service\\V1\\GPBMetadata\xea\x02\x12Admin::Service::V1b\x06proto3"

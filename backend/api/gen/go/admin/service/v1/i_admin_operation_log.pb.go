@@ -465,9 +465,10 @@ func (x *CreateAdminOperationLogRequest) GetData() *AdminOperationLog {
 // 更新后台操作日志 - 请求
 type UpdateAdminOperationLogRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Data          *AdminOperationLog     `protobuf:"bytes,1,opt,name=data,proto3" json:"data,omitempty"`
-	UpdateMask    *fieldmaskpb.FieldMask `protobuf:"bytes,2,opt,name=update_mask,json=updateMask,proto3" json:"update_mask,omitempty"`              // 要更新的字段列表
-	AllowMissing  *bool                  `protobuf:"varint,3,opt,name=allow_missing,json=allowMissing,proto3,oneof" json:"allow_missing,omitempty"` // 如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。
+	Id            uint32                 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	Data          *AdminOperationLog     `protobuf:"bytes,2,opt,name=data,proto3" json:"data,omitempty"`
+	UpdateMask    *fieldmaskpb.FieldMask `protobuf:"bytes,3,opt,name=update_mask,json=updateMask,proto3" json:"update_mask,omitempty"`              // 要更新的字段列表
+	AllowMissing  *bool                  `protobuf:"varint,4,opt,name=allow_missing,json=allowMissing,proto3,oneof" json:"allow_missing,omitempty"` // 如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -500,6 +501,13 @@ func (x *UpdateAdminOperationLogRequest) ProtoReflect() protoreflect.Message {
 // Deprecated: Use UpdateAdminOperationLogRequest.ProtoReflect.Descriptor instead.
 func (*UpdateAdminOperationLogRequest) Descriptor() ([]byte, []int) {
 	return file_admin_service_v1_i_admin_operation_log_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *UpdateAdminOperationLogRequest) GetId() uint32 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
 }
 
 func (x *UpdateAdminOperationLogRequest) GetData() *AdminOperationLog {
@@ -660,12 +668,13 @@ const file_admin_service_v1_i_admin_operation_log_proto_rawDesc = "" +
 	"\n" +
 	"_view_mask\"Y\n" +
 	"\x1eCreateAdminOperationLogRequest\x127\n" +
-	"\x04data\x18\x01 \x01(\v2#.admin.service.v1.AdminOperationLogR\x04data\"\x97\x03\n" +
-	"\x1eUpdateAdminOperationLogRequest\x127\n" +
-	"\x04data\x18\x01 \x01(\v2#.admin.service.v1.AdminOperationLogR\x04data\x12s\n" +
-	"\vupdate_mask\x18\x02 \x01(\v2\x1a.google.protobuf.FieldMaskB6\xbaG3:\x16\x12\x14id,realname,username\x92\x02\x18要更新的字段列表R\n" +
+	"\x04data\x18\x01 \x01(\v2#.admin.service.v1.AdminOperationLogR\x04data\"\xa7\x03\n" +
+	"\x1eUpdateAdminOperationLogRequest\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\rR\x02id\x127\n" +
+	"\x04data\x18\x02 \x01(\v2#.admin.service.v1.AdminOperationLogR\x04data\x12s\n" +
+	"\vupdate_mask\x18\x03 \x01(\v2\x1a.google.protobuf.FieldMaskB6\xbaG3:\x16\x12\x14id,realname,username\x92\x02\x18要更新的字段列表R\n" +
 	"updateMask\x12\xb4\x01\n" +
-	"\rallow_missing\x18\x03 \x01(\bB\x89\x01\xbaG\x85\x01\x92\x02\x81\x01如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。H\x00R\fallowMissing\x88\x01\x01B\x10\n" +
+	"\rallow_missing\x18\x04 \x01(\bB\x89\x01\xbaG\x85\x01\x92\x02\x81\x01如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。H\x00R\fallowMissing\x88\x01\x01B\x10\n" +
 	"\x0e_allow_missing\"0\n" +
 	"\x1eDeleteAdminOperationLogRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\rR\x02id2\x9f\x02\n" +

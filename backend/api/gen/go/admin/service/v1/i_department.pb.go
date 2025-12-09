@@ -29,12 +29,12 @@ var File_admin_service_v1_i_department_proto protoreflect.FileDescriptor
 
 const file_admin_service_v1_i_department_proto_rawDesc = "" +
 	"\n" +
-	"#admin/service/v1/i_department.proto\x12\x10admin.service.v1\x1a$gnostic/openapi/v3/annotations.proto\x1a\x1cgoogle/api/annotations.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1epagination/v1/pagination.proto\x1a user/service/v1/department.proto2\xc3\x04\n" +
+	"#admin/service/v1/i_department.proto\x12\x10admin.service.v1\x1a$gnostic/openapi/v3/annotations.proto\x1a\x1cgoogle/api/annotations.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1epagination/v1/pagination.proto\x1a user/service/v1/department.proto2\xbe\x04\n" +
 	"\x11DepartmentService\x12i\n" +
 	"\x04List\x12\x19.pagination.PagingRequest\x1a'.user.service.v1.ListDepartmentResponse\"\x1d\x82\xd3\xe4\x93\x02\x17\x12\x15/admin/v1/departments\x12m\n" +
 	"\x03Get\x12%.user.service.v1.GetDepartmentRequest\x1a\x1b.user.service.v1.Department\"\"\x82\xd3\xe4\x93\x02\x1c\x12\x1a/admin/v1/departments/{id}\x12l\n" +
-	"\x06Create\x12(.user.service.v1.CreateDepartmentRequest\x1a\x16.google.protobuf.Empty\" \x82\xd3\xe4\x93\x02\x1a:\x01*\"\x15/admin/v1/departments\x12v\n" +
-	"\x06Update\x12(.user.service.v1.UpdateDepartmentRequest\x1a\x16.google.protobuf.Empty\"*\x82\xd3\xe4\x93\x02$:\x01*\x1a\x1f/admin/v1/departments/{data.id}\x12n\n" +
+	"\x06Create\x12(.user.service.v1.CreateDepartmentRequest\x1a\x16.google.protobuf.Empty\" \x82\xd3\xe4\x93\x02\x1a:\x01*\"\x15/admin/v1/departments\x12q\n" +
+	"\x06Update\x12(.user.service.v1.UpdateDepartmentRequest\x1a\x16.google.protobuf.Empty\"%\x82\xd3\xe4\x93\x02\x1f:\x01*\x1a\x1a/admin/v1/departments/{id}\x12n\n" +
 	"\x06Delete\x12(.user.service.v1.DeleteDepartmentRequest\x1a\x16.google.protobuf.Empty\"\"\x82\xd3\xe4\x93\x02\x1c*\x1a/admin/v1/departments/{id}B\xbe\x01\n" +
 	"\x14com.admin.service.v1B\x10IDepartmentProtoP\x01Z2kratos-admin/api/gen/go/admin/service/v1;servicev1\xa2\x02\x03ASX\xaa\x02\x10Admin.Service.V1\xca\x02\x10Admin\\Service\\V1\xe2\x02\x1cAdmin\\Service\\V1\\GPBMetadata\xea\x02\x12Admin::Service::V1b\x06proto3"
 

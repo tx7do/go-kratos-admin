@@ -37,7 +37,7 @@ service PositionService {
   // 更新职位
   rpc Update (user.service.v1.UpdatePositionRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
-      put: "/admin/v1/positions/{data.id}"
+      put: "/admin/v1/positions/{id}"
       body: "*"
     };
   }

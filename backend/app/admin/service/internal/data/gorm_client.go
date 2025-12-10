@@ -9,7 +9,7 @@ import (
 	gormBootstrap "github.com/tx7do/kratos-bootstrap/database/gorm"
 )
 
-// NewGormClient 创建数据库客户端
+// NewGormClient 创建GORM ORM数据库客户端
 func NewGormClient(cfg *conf.Bootstrap, logger log.Logger) *gormCrud.Client {
 	l := log.NewHelper(log.With(logger, "module", "gorm/data/admin-service"))
 	return gormBootstrap.NewGormClient(cfg, l, nil)

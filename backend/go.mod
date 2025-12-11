@@ -49,9 +49,9 @@ require (
 	github.com/tx7do/kratos-bootstrap/oss/minio v0.0.13
 	github.com/tx7do/kratos-bootstrap/rpc v0.0.21
 	github.com/tx7do/kratos-swagger-ui v0.0.0-20250528131001-09c0dbdb208d
-	github.com/tx7do/kratos-transport v1.1.17
-	github.com/tx7do/kratos-transport/transport/asynq v1.2.35
-	github.com/tx7do/kratos-transport/transport/sse v1.2.24
+	github.com/tx7do/kratos-transport v1.1.18
+	github.com/tx7do/kratos-transport/transport/asynq v1.2.37
+	github.com/tx7do/kratos-transport/transport/sse v1.2.25
 	github.com/yuin/gopher-lua v1.1.1
 	google.golang.org/genproto v0.0.0-20251202230838-ff82c1b0f217
 	google.golang.org/genproto/googleapis/api v0.0.0-20251202230838-ff82c1b0f217
@@ -298,10 +298,10 @@ require (
 	github.com/tx7do/kratos-bootstrap/remoteconfig/polaris v0.1.3 // indirect
 	github.com/tx7do/kratos-bootstrap/tracer v0.0.14 // indirect
 	github.com/tx7do/kratos-bootstrap/utils v0.1.8 // indirect
-	github.com/tx7do/kratos-transport/transport/keepalive v1.0.6 // indirect
+	github.com/tx7do/kratos-transport/transport/keepalive v1.0.7 // indirect
 	github.com/valyala/fastjson v1.6.4 // indirect
 	github.com/vearutop/statigz v1.5.0 // indirect
-	github.com/vektah/gqlparser/v2 v2.5.30 // indirect
+	github.com/vektah/gqlparser/v2 v2.5.31 // indirect
 	github.com/woodsbury/decimal128 v1.3.0 // indirect
 	github.com/xeipuuv/gojsonpointer v0.0.0-20190905194746-02993c407bfb // indirect
 	github.com/xeipuuv/gojsonreference v0.0.0-20180127040603-bd5ef7bd5415 // indirect

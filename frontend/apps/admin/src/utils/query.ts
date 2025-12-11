@@ -11,7 +11,7 @@ const removeNullUndefined = (obj: any) =>
  */
 export function makeQueryString(formValues: null | object): string | undefined {
   if (formValues === null) {
-    return null;
+    return undefined;
   }
 
   // 去除掉空值
@@ -19,7 +19,7 @@ export function makeQueryString(formValues: null | object): string | undefined {
 
   // 过滤掉空对象
   if (Object.keys(formValues).length === 0) {
-    return null;
+    return undefined;
   }
 
   // 简单的序列化成json字符串

@@ -11,11 +11,11 @@ import (
 	"github.com/redis/go-redis/v9"
 	lua "github.com/yuin/gopher-lua"
 
-	"kratos-admin/pkg/eventbus"
-	"kratos-admin/pkg/lua/api"
-	"kratos-admin/pkg/lua/hook"
-	"kratos-admin/pkg/lua/internal/convert"
-	"kratos-admin/pkg/oss"
+	"go-wind-admin/pkg/eventbus"
+	"go-wind-admin/pkg/lua/api"
+	"go-wind-admin/pkg/lua/hook"
+	"go-wind-admin/pkg/lua/internal/convert"
+	"go-wind-admin/pkg/oss"
 )
 
 // CallbackInfo stores information about a registered callback
@@ -31,11 +31,11 @@ type Engine struct {
 	pool            *vmPool
 	logger          *log.Helper
 	registry        *hook.Registry
-	rdb             *redis.Client         // Redis client for cache operations
-	eventbusManager *eventbus.Manager     // EventBus manager
-	ossClient       *oss.MinIOClient      // OSS/MinIO client
+	rdb             *redis.Client              // Redis client for cache operations
+	eventbusManager *eventbus.Manager          // EventBus manager
+	ossClient       *oss.MinIOClient           // OSS/MinIO client
 	callbacks       map[string][]*CallbackInfo // Hook callbacks (hook name -> multiple callbacks)
-	dedicatedVMs    map[*lua.LState]bool     // VMs that should not be pooled
+	dedicatedVMs    map[*lua.LState]bool       // VMs that should not be pooled
 	mu              sync.RWMutex
 }
 

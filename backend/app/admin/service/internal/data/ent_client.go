@@ -16,8 +16,8 @@ import (
 	conf "github.com/tx7do/kratos-bootstrap/api/gen/go/conf/v1"
 	entBootstrap "github.com/tx7do/kratos-bootstrap/database/ent"
 
-	"kratos-admin/app/admin/service/internal/data/ent"
-	"kratos-admin/app/admin/service/internal/data/ent/migrate"
+	"go-wind-admin/app/admin/service/internal/data/ent"
+	"go-wind-admin/app/admin/service/internal/data/ent/migrate"
 )
 
 // NewEntClient 创建Ent ORM数据库客户端

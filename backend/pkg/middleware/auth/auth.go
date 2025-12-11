@@ -20,11 +20,11 @@ import (
 	"github.com/tx7do/go-utils/stringutil"
 	"github.com/tx7do/go-utils/trans"
 
-	authenticationV1 "kratos-admin/api/gen/go/authentication/service/v1"
+	authenticationV1 "go-wind-admin/api/gen/go/authentication/service/v1"
 
-	"kratos-admin/pkg/entgo/viewer"
-	"kratos-admin/pkg/jwt"
-	"kratos-admin/pkg/metadata"
+	"go-wind-admin/pkg/entgo/viewer"
+	"go-wind-admin/pkg/jwt"
+	"go-wind-admin/pkg/metadata"
 )
 
 var defaultAction = authzEngine.Action("ANY")

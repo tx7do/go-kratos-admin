@@ -6,8 +6,8 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"kratos-admin/app/admin/service/internal/data/ent/adminloginrestriction"
-	"kratos-admin/app/admin/service/internal/data/ent/predicate"
+	"go-wind-admin/app/admin/service/internal/data/ent/adminloginrestriction"
+	"go-wind-admin/app/admin/service/internal/data/ent/predicate"
 	"time"
 
 	"entgo.io/ent/dialect/sql"

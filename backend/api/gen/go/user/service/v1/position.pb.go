@@ -747,8 +747,8 @@ const file_user_service_v1_position_proto_rawDesc = "" +
 	"\x06Create\x12&.user.service.v1.CreatePositionRequest\x1a\x16.google.protobuf.Empty\"\x00\x12J\n" +
 	"\x06Update\x12&.user.service.v1.UpdatePositionRequest\x1a\x16.google.protobuf.Empty\"\x00\x12J\n" +
 	"\x06Delete\x12&.user.service.v1.DeletePositionRequest\x1a\x16.google.protobuf.Empty\"\x00\x12l\n" +
-	"\vBatchCreate\x12,.user.service.v1.BatchCreatePositionsRequest\x1a-.user.service.v1.BatchCreatePositionsResponse\"\x00B\xb5\x01\n" +
-	"\x13com.user.service.v1B\rPositionProtoP\x01Z1kratos-admin/api/gen/go/user/service/v1;servicev1\xa2\x02\x03USX\xaa\x02\x0fUser.Service.V1\xca\x02\x0fUser\\Service\\V1\xe2\x02\x1bUser\\Service\\V1\\GPBMetadata\xea\x02\x11User::Service::V1b\x06proto3"
+	"\vBatchCreate\x12,.user.service.v1.BatchCreatePositionsRequest\x1a-.user.service.v1.BatchCreatePositionsResponse\"\x00B\xb6\x01\n" +
+	"\x13com.user.service.v1B\rPositionProtoP\x01Z2go-wind-admin/api/gen/go/user/service/v1;servicev1\xa2\x02\x03USX\xaa\x02\x0fUser.Service.V1\xca\x02\x0fUser\\Service\\V1\xe2\x02\x1bUser\\Service\\V1\\GPBMetadata\xea\x02\x11User::Service::V1b\x06proto3"
 
 var (
 	file_user_service_v1_position_proto_rawDescOnce sync.Once

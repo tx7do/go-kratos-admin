@@ -7,7 +7,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	lua "github.com/yuin/gopher-lua"
 
-	"kratos-admin/pkg/crypto"
+	"go-wind-admin/pkg/crypto"
 )
 
 func TestRegisterCrypto_Module(t *testing.T) {

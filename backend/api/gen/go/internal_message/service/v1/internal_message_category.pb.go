@@ -533,8 +533,8 @@ const file_internal_message_service_v1_internal_message_category_proto_rawDesc =
 	"\x03Get\x12>.internal_message.service.v1.GetInternalMessageCategoryRequest\x1a4.internal_message.service.v1.InternalMessageCategory\"\x00\x12e\n" +
 	"\x06Create\x12A.internal_message.service.v1.CreateInternalMessageCategoryRequest\x1a\x16.google.protobuf.Empty\"\x00\x12e\n" +
 	"\x06Update\x12A.internal_message.service.v1.UpdateInternalMessageCategoryRequest\x1a\x16.google.protobuf.Empty\"\x00\x12e\n" +
-	"\x06Delete\x12A.internal_message.service.v1.DeleteInternalMessageCategoryRequest\x1a\x16.google.protobuf.Empty\"\x00B\x88\x02\n" +
-	"\x1fcom.internal_message.service.v1B\x1cInternalMessageCategoryProtoP\x01Z=kratos-admin/api/gen/go/internal_message/service/v1;servicev1\xa2\x02\x03ISX\xaa\x02\x1aInternalMessage.Service.V1\xca\x02\x1aInternalMessage\\Service\\V1\xe2\x02&InternalMessage\\Service\\V1\\GPBMetadata\xea\x02\x1cInternalMessage::Service::V1b\x06proto3"
+	"\x06Delete\x12A.internal_message.service.v1.DeleteInternalMessageCategoryRequest\x1a\x16.google.protobuf.Empty\"\x00B\x89\x02\n" +
+	"\x1fcom.internal_message.service.v1B\x1cInternalMessageCategoryProtoP\x01Z>go-wind-admin/api/gen/go/internal_message/service/v1;servicev1\xa2\x02\x03ISX\xaa\x02\x1aInternalMessage.Service.V1\xca\x02\x1aInternalMessage\\Service\\V1\xe2\x02&InternalMessage\\Service\\V1\\GPBMetadata\xea\x02\x1cInternalMessage::Service::V1b\x06proto3"
 
 var (
 	file_internal_message_service_v1_internal_message_category_proto_rawDescOnce sync.Once

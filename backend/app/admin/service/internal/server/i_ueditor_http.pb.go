@@ -8,9 +8,9 @@ import (
 	"github.com/go-kratos/kratos/v2/transport/http"
 	"github.com/tx7do/go-utils/trans"
 
-	"kratos-admin/app/admin/service/internal/service"
+	"go-wind-admin/app/admin/service/internal/service"
 
-	fileV1 "kratos-admin/api/gen/go/file/service/v1"
+	fileV1 "go-wind-admin/api/gen/go/file/service/v1"
 )
 
 func registerUEditorUploadHandler(srv *http.Server, svc *service.UEditorService) {

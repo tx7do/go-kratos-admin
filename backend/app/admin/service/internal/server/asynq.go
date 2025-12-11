@@ -8,9 +8,9 @@ import (
 	"github.com/tx7do/kratos-transport/transport/asynq"
 	"google.golang.org/protobuf/types/known/emptypb"
 
-	"kratos-admin/app/admin/service/internal/service"
+	"go-wind-admin/app/admin/service/internal/service"
 
-	"kratos-admin/pkg/task"
+	"go-wind-admin/pkg/task"
 )
 
 // NewAsynqServer creates a new asynq server.

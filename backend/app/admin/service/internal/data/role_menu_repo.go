@@ -7,10 +7,10 @@ import (
 	"github.com/go-kratos/kratos/v2/log"
 	"github.com/tx7do/go-crud/entgo"
 
-	"kratos-admin/app/admin/service/internal/data/ent"
-	"kratos-admin/app/admin/service/internal/data/ent/rolemenu"
+	"go-wind-admin/app/admin/service/internal/data/ent"
+	"go-wind-admin/app/admin/service/internal/data/ent/rolemenu"
 
-	userV1 "kratos-admin/api/gen/go/user/service/v1"
+	userV1 "go-wind-admin/api/gen/go/user/service/v1"
 )
 
 type RoleMenuRepo struct {

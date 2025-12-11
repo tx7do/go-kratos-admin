@@ -729,8 +729,8 @@ const file_user_service_v1_department_proto_rawDesc = "" +
 	"\x06Create\x12(.user.service.v1.CreateDepartmentRequest\x1a\x16.google.protobuf.Empty\"\x00\x12L\n" +
 	"\x06Update\x12(.user.service.v1.UpdateDepartmentRequest\x1a\x16.google.protobuf.Empty\"\x00\x12L\n" +
 	"\x06Delete\x12(.user.service.v1.DeleteDepartmentRequest\x1a\x16.google.protobuf.Empty\"\x00\x12p\n" +
-	"\vBatchCreate\x12..user.service.v1.BatchCreateDepartmentsRequest\x1a/.user.service.v1.BatchCreateDepartmentsResponse\"\x00B\xb7\x01\n" +
-	"\x13com.user.service.v1B\x0fDepartmentProtoP\x01Z1kratos-admin/api/gen/go/user/service/v1;servicev1\xa2\x02\x03USX\xaa\x02\x0fUser.Service.V1\xca\x02\x0fUser\\Service\\V1\xe2\x02\x1bUser\\Service\\V1\\GPBMetadata\xea\x02\x11User::Service::V1b\x06proto3"
+	"\vBatchCreate\x12..user.service.v1.BatchCreateDepartmentsRequest\x1a/.user.service.v1.BatchCreateDepartmentsResponse\"\x00B\xb8\x01\n" +
+	"\x13com.user.service.v1B\x0fDepartmentProtoP\x01Z2go-wind-admin/api/gen/go/user/service/v1;servicev1\xa2\x02\x03USX\xaa\x02\x0fUser.Service.V1\xca\x02\x0fUser\\Service\\V1\xe2\x02\x1bUser\\Service\\V1\\GPBMetadata\xea\x02\x11User::Service::V1b\x06proto3"
 
 var (
 	file_user_service_v1_department_proto_rawDescOnce sync.Once

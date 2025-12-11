@@ -881,8 +881,8 @@ const file_internal_message_service_v1_internal_message_recipient_proto_rawDesc 
 	"\rListUserInbox\x12\x19.pagination.PagingRequest\x1a2.internal_message.service.v1.ListUserInboxResponse\x12v\n" +
 	"\x1bDeleteNotificationFromInbox\x12?.internal_message.service.v1.DeleteNotificationFromInboxRequest\x1a\x16.google.protobuf.Empty\x12l\n" +
 	"\x16MarkNotificationAsRead\x12:.internal_message.service.v1.MarkNotificationAsReadRequest\x1a\x16.google.protobuf.Empty\x12n\n" +
-	"\x17MarkNotificationsStatus\x12;.internal_message.service.v1.MarkNotificationsStatusRequest\x1a\x16.google.protobuf.EmptyB\x89\x02\n" +
-	"\x1fcom.internal_message.service.v1B\x1dInternalMessageRecipientProtoP\x01Z=kratos-admin/api/gen/go/internal_message/service/v1;servicev1\xa2\x02\x03ISX\xaa\x02\x1aInternalMessage.Service.V1\xca\x02\x1aInternalMessage\\Service\\V1\xe2\x02&InternalMessage\\Service\\V1\\GPBMetadata\xea\x02\x1cInternalMessage::Service::V1b\x06proto3"
+	"\x17MarkNotificationsStatus\x12;.internal_message.service.v1.MarkNotificationsStatusRequest\x1a\x16.google.protobuf.EmptyB\x8a\x02\n" +
+	"\x1fcom.internal_message.service.v1B\x1dInternalMessageRecipientProtoP\x01Z>go-wind-admin/api/gen/go/internal_message/service/v1;servicev1\xa2\x02\x03ISX\xaa\x02\x1aInternalMessage.Service.V1\xca\x02\x1aInternalMessage\\Service\\V1\xe2\x02&InternalMessage\\Service\\V1\\GPBMetadata\xea\x02\x1cInternalMessage::Service::V1b\x06proto3"
 
 var (
 	file_internal_message_service_v1_internal_message_recipient_proto_rawDescOnce sync.Once

@@ -325,8 +325,8 @@ const file_admin_service_v1_admin_error_proto_rawDesc = "" +
 	"\fNOT_EXTENDED\x10\xd4\x16\x1a\x04\xa8E\xfe\x03\x12*\n" +
 	"\x1fNETWORK_AUTHENTICATION_REQUIRED\x10\xb8\x17\x1a\x04\xa8E\xff\x03\x12%\n" +
 	"\x1aNETWORK_READ_TIMEOUT_ERROR\x10\x9c\x18\x1a\x04\xa8E\xd6\x04\x12(\n" +
-	"\x1dNETWORK_CONNECT_TIMEOUT_ERROR\x10\x80\x19\x1a\x04\xa8E\xd7\x04\x1a\x04\xa0E\xf4\x03B\xbd\x01\n" +
-	"\x14com.admin.service.v1B\x0fAdminErrorProtoP\x01Z2kratos-admin/api/gen/go/admin/service/v1;servicev1\xa2\x02\x03ASX\xaa\x02\x10Admin.Service.V1\xca\x02\x10Admin\\Service\\V1\xe2\x02\x1cAdmin\\Service\\V1\\GPBMetadata\xea\x02\x12Admin::Service::V1b\x06proto3"
+	"\x1dNETWORK_CONNECT_TIMEOUT_ERROR\x10\x80\x19\x1a\x04\xa8E\xd7\x04\x1a\x04\xa0E\xf4\x03B\xbe\x01\n" +
+	"\x14com.admin.service.v1B\x0fAdminErrorProtoP\x01Z3go-wind-admin/api/gen/go/admin/service/v1;servicev1\xa2\x02\x03ASX\xaa\x02\x10Admin.Service.V1\xca\x02\x10Admin\\Service\\V1\xe2\x02\x1cAdmin\\Service\\V1\\GPBMetadata\xea\x02\x12Admin::Service::V1b\x06proto3"
 
 var (
 	file_admin_service_v1_admin_error_proto_rawDescOnce sync.Once

@@ -9,11 +9,11 @@ package servicev1
 import (
 	_ "github.com/google/gnostic/openapiv3"
 	v11 "github.com/tx7do/go-crud/api/gen/go/pagination/v1"
+	v1 "go-wind-admin/api/gen/go/user/service/v1"
 	_ "google.golang.org/genproto/googleapis/api/annotations"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	emptypb "google.golang.org/protobuf/types/known/emptypb"
-	v1 "kratos-admin/api/gen/go/user/service/v1"
 	reflect "reflect"
 	sync "sync"
 	unsafe "unsafe"
@@ -103,8 +103,8 @@ const file_admin_service_v1_i_tenant_proto_rawDesc = "" +
 	"\x06Update\x12$.user.service.v1.UpdateTenantRequest\x1a\x16.google.protobuf.Empty\"!\x82\xd3\xe4\x93\x02\x1b:\x01*\x1a\x16/admin/v1/tenants/{id}\x12f\n" +
 	"\x06Delete\x12$.user.service.v1.DeleteTenantRequest\x1a\x16.google.protobuf.Empty\"\x1e\x82\xd3\xe4\x93\x02\x18*\x16/admin/v1/tenants/{id}\x12\x90\x01\n" +
 	"\x19CreateTenantWithAdminUser\x122.admin.service.v1.CreateTenantWithAdminUserRequest\x1a\x16.google.protobuf.Empty\"'\x82\xd3\xe4\x93\x02!:\x01*\"\x1c/admin/v1/tenants_with_admin\x12}\n" +
-	"\fTenantExists\x12$.user.service.v1.TenantExistsRequest\x1a%.user.service.v1.TenantExistsResponse\" \x82\xd3\xe4\x93\x02\x1a\x12\x18/admin/v1/tenants_existsB\xba\x01\n" +
-	"\x14com.admin.service.v1B\fITenantProtoP\x01Z2kratos-admin/api/gen/go/admin/service/v1;servicev1\xa2\x02\x03ASX\xaa\x02\x10Admin.Service.V1\xca\x02\x10Admin\\Service\\V1\xe2\x02\x1cAdmin\\Service\\V1\\GPBMetadata\xea\x02\x12Admin::Service::V1b\x06proto3"
+	"\fTenantExists\x12$.user.service.v1.TenantExistsRequest\x1a%.user.service.v1.TenantExistsResponse\" \x82\xd3\xe4\x93\x02\x1a\x12\x18/admin/v1/tenants_existsB\xbb\x01\n" +
+	"\x14com.admin.service.v1B\fITenantProtoP\x01Z3go-wind-admin/api/gen/go/admin/service/v1;servicev1\xa2\x02\x03ASX\xaa\x02\x10Admin.Service.V1\xca\x02\x10Admin\\Service\\V1\xe2\x02\x1cAdmin\\Service\\V1\\GPBMetadata\xea\x02\x12Admin::Service::V1b\x06proto3"
 
 var (
 	file_admin_service_v1_i_tenant_proto_rawDescOnce sync.Once

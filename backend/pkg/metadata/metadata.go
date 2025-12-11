@@ -6,7 +6,7 @@ import (
 
 	"github.com/go-kratos/kratos/v2/metadata"
 
-	userV1 "kratos-admin/api/gen/go/user/service/v1"
+	userV1 "go-wind-admin/api/gen/go/user/service/v1"
 )
 
 const (

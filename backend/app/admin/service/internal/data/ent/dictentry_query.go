@@ -5,9 +5,9 @@ package ent
 import (
 	"context"
 	"fmt"
-	"kratos-admin/app/admin/service/internal/data/ent/dictentry"
-	"kratos-admin/app/admin/service/internal/data/ent/dicttype"
-	"kratos-admin/app/admin/service/internal/data/ent/predicate"
+	"go-wind-admin/app/admin/service/internal/data/ent/dictentry"
+	"go-wind-admin/app/admin/service/internal/data/ent/dicttype"
+	"go-wind-admin/app/admin/service/internal/data/ent/predicate"
 	"math"
 
 	"entgo.io/ent"

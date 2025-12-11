@@ -55,7 +55,7 @@ VERSION		?= $(DEFAULT_VERSION)
 # GOFLAGS is the flags for the go compiler.
 GOFLAGS		?= -ldflags "-X main.version=$(VERSION)"
 
-PROJECT_NAME		:= kratos-admin
+PROJECT_NAME		:= go-wind-admin
 APP_RELATIVE_PATH	:= $(shell a=`basename $$PWD` && cd .. && b=`basename $$PWD` && echo $$b/$$a)
 SERVICE_NAME		:= $(shell a=`basename $$PWD` && cd .. && b=`basename $$PWD` && echo $$b)
 APP_NAME			:= $(shell echo $(APP_RELATIVE_PATH) | sed -En "s/\//-/p")

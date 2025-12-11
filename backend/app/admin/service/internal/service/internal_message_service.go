@@ -13,13 +13,13 @@ import (
 	"github.com/tx7do/kratos-transport/transport/sse"
 	"google.golang.org/protobuf/types/known/emptypb"
 
-	"kratos-admin/app/admin/service/internal/data"
+	"go-wind-admin/app/admin/service/internal/data"
 
-	adminV1 "kratos-admin/api/gen/go/admin/service/v1"
-	internalMessageV1 "kratos-admin/api/gen/go/internal_message/service/v1"
+	adminV1 "go-wind-admin/api/gen/go/admin/service/v1"
+	internalMessageV1 "go-wind-admin/api/gen/go/internal_message/service/v1"
 
-	"kratos-admin/pkg/middleware/auth"
-	"kratos-admin/pkg/utils/name_set"
+	"go-wind-admin/pkg/middleware/auth"
+	"go-wind-admin/pkg/utils/name_set"
 )
 
 type InternalMessageService struct {

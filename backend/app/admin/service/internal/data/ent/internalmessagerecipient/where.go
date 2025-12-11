@@ -3,7 +3,7 @@
 package internalmessagerecipient
 
 import (
-	"kratos-admin/app/admin/service/internal/data/ent/predicate"
+	"go-wind-admin/app/admin/service/internal/data/ent/predicate"
 	"time"
 
 	"entgo.io/ent/dialect/sql"

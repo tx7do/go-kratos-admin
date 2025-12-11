@@ -6,8 +6,8 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"kratos-admin/app/admin/service/internal/data/ent/dictentry"
-	"kratos-admin/app/admin/service/internal/data/ent/dicttype"
+	"go-wind-admin/app/admin/service/internal/data/ent/dictentry"
+	"go-wind-admin/app/admin/service/internal/data/ent/dicttype"
 	"time"
 
 	"entgo.io/ent/dialect/sql"

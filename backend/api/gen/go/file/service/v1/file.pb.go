@@ -670,8 +670,8 @@ const file_file_service_v1_file_proto_rawDesc = "" +
 	"\x03Get\x12\x1f.file.service.v1.GetFileRequest\x1a\x15.file.service.v1.File\"\x00\x12F\n" +
 	"\x06Create\x12\".file.service.v1.CreateFileRequest\x1a\x16.google.protobuf.Empty\"\x00\x12F\n" +
 	"\x06Update\x12\".file.service.v1.UpdateFileRequest\x1a\x16.google.protobuf.Empty\"\x00\x12F\n" +
-	"\x06Delete\x12\".file.service.v1.DeleteFileRequest\x1a\x16.google.protobuf.Empty\"\x00B\xb1\x01\n" +
-	"\x13com.file.service.v1B\tFileProtoP\x01Z1kratos-admin/api/gen/go/file/service/v1;servicev1\xa2\x02\x03FSX\xaa\x02\x0fFile.Service.V1\xca\x02\x0fFile\\Service\\V1\xe2\x02\x1bFile\\Service\\V1\\GPBMetadata\xea\x02\x11File::Service::V1b\x06proto3"
+	"\x06Delete\x12\".file.service.v1.DeleteFileRequest\x1a\x16.google.protobuf.Empty\"\x00B\xb2\x01\n" +
+	"\x13com.file.service.v1B\tFileProtoP\x01Z2go-wind-admin/api/gen/go/file/service/v1;servicev1\xa2\x02\x03FSX\xaa\x02\x0fFile.Service.V1\xca\x02\x0fFile\\Service\\V1\xe2\x02\x1bFile\\Service\\V1\\GPBMetadata\xea\x02\x11File::Service::V1b\x06proto3"
 
 var (
 	file_file_service_v1_file_proto_rawDescOnce sync.Once

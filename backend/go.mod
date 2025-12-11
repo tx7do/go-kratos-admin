@@ -1,4 +1,4 @@
-module kratos-admin
+module go-wind-admin
 
 go 1.25.4
 

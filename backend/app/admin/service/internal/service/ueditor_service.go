@@ -7,10 +7,10 @@ import (
 	"github.com/go-kratos/kratos/v2/log"
 	"github.com/tx7do/go-utils/trans"
 
-	adminV1 "kratos-admin/api/gen/go/admin/service/v1"
-	fileV1 "kratos-admin/api/gen/go/file/service/v1"
+	adminV1 "go-wind-admin/api/gen/go/admin/service/v1"
+	fileV1 "go-wind-admin/api/gen/go/file/service/v1"
 
-	"kratos-admin/pkg/oss"
+	"go-wind-admin/pkg/oss"
 )
 
 const (

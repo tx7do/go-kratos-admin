@@ -6,8 +6,8 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"kratos-admin/app/admin/service/internal/data/ent/adminloginlog"
-	"kratos-admin/app/admin/service/internal/data/ent/predicate"
+	"go-wind-admin/app/admin/service/internal/data/ent/adminloginlog"
+	"go-wind-admin/app/admin/service/internal/data/ent/predicate"
 	"time"
 
 	"entgo.io/ent/dialect/sql"

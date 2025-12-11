@@ -12,7 +12,7 @@ import (
 
 	"github.com/tx7do/go-utils/trans"
 
-	"kratos-admin/pkg/service"
+	"go-wind-admin/pkg/service"
 )
 
 var version string

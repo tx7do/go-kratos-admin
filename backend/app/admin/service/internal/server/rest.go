@@ -19,15 +19,15 @@ import (
 	conf "github.com/tx7do/kratos-bootstrap/api/gen/go/conf/v1"
 	"github.com/tx7do/kratos-bootstrap/rpc"
 
-	"kratos-admin/app/admin/service/cmd/server/assets"
+	"go-wind-admin/app/admin/service/cmd/server/assets"
 
-	"kratos-admin/app/admin/service/internal/data"
-	"kratos-admin/app/admin/service/internal/service"
+	"go-wind-admin/app/admin/service/internal/data"
+	"go-wind-admin/app/admin/service/internal/service"
 
-	adminV1 "kratos-admin/api/gen/go/admin/service/v1"
+	adminV1 "go-wind-admin/api/gen/go/admin/service/v1"
 
-	"kratos-admin/pkg/middleware/auth"
-	applogging "kratos-admin/pkg/middleware/logging"
+	"go-wind-admin/pkg/middleware/auth"
+	applogging "go-wind-admin/pkg/middleware/logging"
 )
 
 // NewWhiteListMatcher 创建jwt白名单

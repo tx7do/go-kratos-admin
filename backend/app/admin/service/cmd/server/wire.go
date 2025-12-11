@@ -14,9 +14,9 @@ import (
 
 	conf "github.com/tx7do/kratos-bootstrap/api/gen/go/conf/v1"
 
-	"kratos-admin/app/admin/service/internal/data"
-	"kratos-admin/app/admin/service/internal/server"
-	"kratos-admin/app/admin/service/internal/service"
+	"go-wind-admin/app/admin/service/internal/data"
+	"go-wind-admin/app/admin/service/internal/server"
+	"go-wind-admin/app/admin/service/internal/service"
 )
 
 // initApp init kratos application.

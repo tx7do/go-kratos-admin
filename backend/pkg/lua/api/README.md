@@ -22,8 +22,8 @@ This directory contains the Lua API modules that expose Go functionality to Lua 
 
 ```go
 import (
-    "kratos-admin/pkg/lua"
-    "kratos-admin/pkg/oss"
+    "go-wind-admin/pkg/lua"
+    "go-wind-admin/pkg/oss"
 )
 
 // Create Lua engine

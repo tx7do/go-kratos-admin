@@ -17,7 +17,7 @@ managed:
 
   override:
     - file_option: go_package_prefix
-      value: kratos-admin/api/gen/go
+      value: go-wind-admin/api/gen/go
 
 plugins:
   # generate go code

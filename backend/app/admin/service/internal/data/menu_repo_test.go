@@ -12,7 +12,7 @@ import (
 	"github.com/tx7do/go-utils/fieldmaskutil"
 	"github.com/tx7do/go-utils/trans"
 
-	adminV1 "kratos-admin/api/gen/go/admin/service/v1"
+	adminV1 "go-wind-admin/api/gen/go/admin/service/v1"
 )
 
 func TestMenuMetaFieldMask(t *testing.T) {

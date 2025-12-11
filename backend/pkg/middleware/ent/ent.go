@@ -5,8 +5,8 @@ import (
 
 	"github.com/go-kratos/kratos/v2/middleware"
 
-	"kratos-admin/pkg/entgo/viewer"
-	"kratos-admin/pkg/metadata"
+	"go-wind-admin/pkg/entgo/viewer"
+	"go-wind-admin/pkg/metadata"
 )
 
 // Server .

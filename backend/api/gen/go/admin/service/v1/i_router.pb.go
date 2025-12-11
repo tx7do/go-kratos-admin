@@ -589,8 +589,8 @@ const file_admin_service_v1_i_router_proto_rawDesc = "" +
 	"\x05codes\x18\x01 \x03(\tR\x05codes2\xed\x01\n" +
 	"\rRouterService\x12b\n" +
 	"\tListRoute\x12\x16.google.protobuf.Empty\x1a#.admin.service.v1.ListRouteResponse\"\x18\x82\xd3\xe4\x93\x02\x12\x12\x10/admin/v1/routes\x12x\n" +
-	"\x12ListPermissionCode\x12\x16.google.protobuf.Empty\x1a,.admin.service.v1.ListPermissionCodeResponse\"\x1c\x82\xd3\xe4\x93\x02\x16\x12\x14/admin/v1/perm-codesB\xba\x01\n" +
-	"\x14com.admin.service.v1B\fIRouterProtoP\x01Z2kratos-admin/api/gen/go/admin/service/v1;servicev1\xa2\x02\x03ASX\xaa\x02\x10Admin.Service.V1\xca\x02\x10Admin\\Service\\V1\xe2\x02\x1cAdmin\\Service\\V1\\GPBMetadata\xea\x02\x12Admin::Service::V1b\x06proto3"
+	"\x12ListPermissionCode\x12\x16.google.protobuf.Empty\x1a,.admin.service.v1.ListPermissionCodeResponse\"\x1c\x82\xd3\xe4\x93\x02\x16\x12\x14/admin/v1/perm-codesB\xbb\x01\n" +
+	"\x14com.admin.service.v1B\fIRouterProtoP\x01Z3go-wind-admin/api/gen/go/admin/service/v1;servicev1\xa2\x02\x03ASX\xaa\x02\x10Admin.Service.V1\xca\x02\x10Admin\\Service\\V1\xe2\x02\x1cAdmin\\Service\\V1\\GPBMetadata\xea\x02\x12Admin::Service::V1b\x06proto3"
 
 var (
 	file_admin_service_v1_i_router_proto_rawDescOnce sync.Once

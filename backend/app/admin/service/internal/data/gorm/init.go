@@ -1,7 +1,7 @@
 package gorm
 
 import (
-	"kratos-admin/app/admin/service/internal/data/gorm/models"
+	"go-wind-admin/app/admin/service/internal/data/gorm/models"
 
 	"github.com/tx7do/go-crud/gorm"
 )

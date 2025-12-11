@@ -9,9 +9,9 @@ import (
 	"github.com/tx7do/go-utils/trans"
 	"google.golang.org/protobuf/types/known/emptypb"
 
-	"kratos-admin/app/admin/service/internal/data"
+	"go-wind-admin/app/admin/service/internal/data"
 
-	adminV1 "kratos-admin/api/gen/go/admin/service/v1"
+	adminV1 "go-wind-admin/api/gen/go/admin/service/v1"
 )
 
 type AdminOperationLogService struct {

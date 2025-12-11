@@ -6,7 +6,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"kratos-admin/app/admin/service/internal/data/ent/userposition"
+	"go-wind-admin/app/admin/service/internal/data/ent/userposition"
 	"time"
 
 	"entgo.io/ent/dialect/sql"

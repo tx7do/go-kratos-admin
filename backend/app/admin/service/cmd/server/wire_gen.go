@@ -11,9 +11,9 @@ import (
 	"github.com/go-kratos/kratos/v2/log"
 	"github.com/go-kratos/kratos/v2/registry"
 	"github.com/tx7do/kratos-bootstrap/api/gen/go/conf/v1"
-	"kratos-admin/app/admin/service/internal/data"
-	"kratos-admin/app/admin/service/internal/server"
-	"kratos-admin/app/admin/service/internal/service"
+	"go-wind-admin/app/admin/service/internal/data"
+	"go-wind-admin/app/admin/service/internal/server"
+	"go-wind-admin/app/admin/service/internal/service"
 )
 
 // Injectors from wire.go:

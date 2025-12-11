@@ -13,7 +13,7 @@ services:
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=*Abcd123456
-      - POSTGRES_DB=kratos_admin
+      - POSTGRES_DB=go_wind_admin
 
 #  mysql:
 #    image: docker.io/bitnami/mariadb:latest
@@ -26,7 +26,7 @@ services:
 #      - MARIADB_ROOT_PASSWORD=*Abcd123456
 #      - MARIADB_USER=admin
 #      - MARIADB_PASSWORD=*Abcd123456
-#      - MARIADB_DATABASE=kratos_admin
+#      - MARIADB_DATABASE=go_wind_admin
 #      - ALLOW_EMPTY_PASSWORD=yes
 #      - TZ=Asia/Shanghai
 

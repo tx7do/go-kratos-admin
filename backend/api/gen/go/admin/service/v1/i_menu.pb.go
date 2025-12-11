@@ -688,9 +688,9 @@ const file_admin_service_v1_i_menu_proto_rawDesc = "" +
 	"\x03Get\x12 .admin.service.v1.GetMenuRequest\x1a\x16.admin.service.v1.Menu\"\x1c\x82\xd3\xe4\x93\x02\x16\x12\x14/admin/v1/menus/{id}\x12a\n" +
 	"\x06Create\x12#.admin.service.v1.CreateMenuRequest\x1a\x16.google.protobuf.Empty\"\x1a\x82\xd3\xe4\x93\x02\x14:\x01*\"\x0f/admin/v1/menus\x12f\n" +
 	"\x06Update\x12#.admin.service.v1.UpdateMenuRequest\x1a\x16.google.protobuf.Empty\"\x1f\x82\xd3\xe4\x93\x02\x19:\x01*\x1a\x14/admin/v1/menus/{id}\x12c\n" +
-	"\x06Delete\x12#.admin.service.v1.DeleteMenuRequest\x1a\x16.google.protobuf.Empty\"\x1c\x82\xd3\xe4\x93\x02\x16*\x14/admin/v1/menus/{id}B\xb8\x01\n" +
+	"\x06Delete\x12#.admin.service.v1.DeleteMenuRequest\x1a\x16.google.protobuf.Empty\"\x1c\x82\xd3\xe4\x93\x02\x16*\x14/admin/v1/menus/{id}B\xb9\x01\n" +
 	"\x14com.admin.service.v1B\n" +
-	"IMenuProtoP\x01Z2kratos-admin/api/gen/go/admin/service/v1;servicev1\xa2\x02\x03ASX\xaa\x02\x10Admin.Service.V1\xca\x02\x10Admin\\Service\\V1\xe2\x02\x1cAdmin\\Service\\V1\\GPBMetadata\xea\x02\x12Admin::Service::V1b\x06proto3"
+	"IMenuProtoP\x01Z3go-wind-admin/api/gen/go/admin/service/v1;servicev1\xa2\x02\x03ASX\xaa\x02\x10Admin.Service.V1\xca\x02\x10Admin\\Service\\V1\xe2\x02\x1cAdmin\\Service\\V1\\GPBMetadata\xea\x02\x12Admin::Service::V1b\x06proto3"
 
 var (
 	file_admin_service_v1_i_menu_proto_rawDescOnce sync.Once

@@ -9,11 +9,11 @@ package servicev1
 import (
 	_ "github.com/google/gnostic/openapiv3"
 	_ "github.com/menta2k/protoc-gen-redact/v3/redact/v3"
+	v1 "go-wind-admin/api/gen/go/user/service/v1"
 	_ "google.golang.org/genproto/googleapis/api/annotations"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	emptypb "google.golang.org/protobuf/types/known/emptypb"
-	v1 "kratos-admin/api/gen/go/user/service/v1"
 	reflect "reflect"
 	sync "sync"
 	unsafe "unsafe"
@@ -909,8 +909,8 @@ const file_authentication_service_v1_authentication_proto_rawDesc = "" +
 	"\fRegisterUser\x12..authentication.service.v1.RegisterUserRequest\x1a/.authentication.service.v1.RegisterUserResponse\"\x00\x12c\n" +
 	"\fRefreshToken\x12'.authentication.service.v1.LoginRequest\x1a(.authentication.service.v1.LoginResponse\"\x00\x12t\n" +
 	"\rValidateToken\x12/.authentication.service.v1.ValidateTokenRequest\x1a0.authentication.service.v1.ValidateTokenResponse\"\x00\x12M\n" +
-	"\x06WhoAmI\x12\x16.google.protobuf.Empty\x1a).authentication.service.v1.WhoAmIResponse\"\x00B\xf7\x01\n" +
-	"\x1dcom.authentication.service.v1B\x13AuthenticationProtoP\x01Z;kratos-admin/api/gen/go/authentication/service/v1;servicev1\xa2\x02\x03ASX\xaa\x02\x19Authentication.Service.V1\xca\x02\x19Authentication\\Service\\V1\xe2\x02%Authentication\\Service\\V1\\GPBMetadata\xea\x02\x1bAuthentication::Service::V1b\x06proto3"
+	"\x06WhoAmI\x12\x16.google.protobuf.Empty\x1a).authentication.service.v1.WhoAmIResponse\"\x00B\xf8\x01\n" +
+	"\x1dcom.authentication.service.v1B\x13AuthenticationProtoP\x01Z<go-wind-admin/api/gen/go/authentication/service/v1;servicev1\xa2\x02\x03ASX\xaa\x02\x19Authentication.Service.V1\xca\x02\x19Authentication\\Service\\V1\xe2\x02%Authentication\\Service\\V1\\GPBMetadata\xea\x02\x1bAuthentication::Service::V1b\x06proto3"
 
 var (
 	file_authentication_service_v1_authentication_proto_rawDescOnce sync.Once

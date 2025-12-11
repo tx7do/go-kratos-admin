@@ -6,7 +6,7 @@ import (
 	"time"
 
 	"github.com/go-kratos/kratos/v2/log"
-	"kratos-admin/pkg/eventbus"
+	"go-wind-admin/pkg/eventbus"
 )
 
 // Example_basic demonstrates basic event bus usage

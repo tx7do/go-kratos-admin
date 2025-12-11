@@ -15,11 +15,11 @@ import (
 	"github.com/tx7do/go-utils/mapper"
 	"github.com/tx7do/go-utils/timeutil"
 
-	"kratos-admin/app/admin/service/internal/data/ent"
-	"kratos-admin/app/admin/service/internal/data/ent/organization"
-	"kratos-admin/app/admin/service/internal/data/ent/predicate"
+	"go-wind-admin/app/admin/service/internal/data/ent"
+	"go-wind-admin/app/admin/service/internal/data/ent/organization"
+	"go-wind-admin/app/admin/service/internal/data/ent/predicate"
 
-	userV1 "kratos-admin/api/gen/go/user/service/v1"
+	userV1 "go-wind-admin/api/gen/go/user/service/v1"
 )
 
 type OrganizationRepo struct {

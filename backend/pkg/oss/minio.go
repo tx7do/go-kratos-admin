@@ -17,7 +17,7 @@ import (
 	conf "github.com/tx7do/kratos-bootstrap/api/gen/go/conf/v1"
 	ossMinio "github.com/tx7do/kratos-bootstrap/oss/minio"
 
-	fileV1 "kratos-admin/api/gen/go/file/service/v1"
+	fileV1 "go-wind-admin/api/gen/go/file/service/v1"
 )
 
 const (

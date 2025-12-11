@@ -15,10 +15,10 @@ import (
 	"github.com/tx7do/go-utils/trans"
 	conf "github.com/tx7do/kratos-bootstrap/api/gen/go/conf/v1"
 
-	"kratos-admin/app/admin/service/cmd/server/assets"
+	"go-wind-admin/app/admin/service/cmd/server/assets"
 
-	adminV1 "kratos-admin/api/gen/go/admin/service/v1"
-	userV1 "kratos-admin/api/gen/go/user/service/v1"
+	adminV1 "go-wind-admin/api/gen/go/admin/service/v1"
+	userV1 "go-wind-admin/api/gen/go/user/service/v1"
 )
 
 type Authorizer struct {

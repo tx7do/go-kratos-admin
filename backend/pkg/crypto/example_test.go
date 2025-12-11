@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"log"
 
-	"kratos-admin/pkg/crypto"
+	"go-wind-admin/pkg/crypto"
 )
 
 func ExampleEncryptor_Encrypt() {

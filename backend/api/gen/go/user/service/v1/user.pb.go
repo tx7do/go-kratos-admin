@@ -1836,8 +1836,8 @@ const file_user_service_v1_user_proto_rawDesc = "" +
 	"\x06Delete\x12\".user.service.v1.DeleteUserRequest\x1a\x16.google.protobuf.Empty\"\x00\x12d\n" +
 	"\vBatchCreate\x12(.user.service.v1.BatchCreateUsersRequest\x1a).user.service.v1.BatchCreateUsersResponse\"\x00\x12W\n" +
 	"\n" +
-	"UserExists\x12\".user.service.v1.UserExistsRequest\x1a#.user.service.v1.UserExistsResponse\"\x00B\xb1\x01\n" +
-	"\x13com.user.service.v1B\tUserProtoP\x01Z1kratos-admin/api/gen/go/user/service/v1;servicev1\xa2\x02\x03USX\xaa\x02\x0fUser.Service.V1\xca\x02\x0fUser\\Service\\V1\xe2\x02\x1bUser\\Service\\V1\\GPBMetadata\xea\x02\x11User::Service::V1b\x06proto3"
+	"UserExists\x12\".user.service.v1.UserExistsRequest\x1a#.user.service.v1.UserExistsResponse\"\x00B\xb2\x01\n" +
+	"\x13com.user.service.v1B\tUserProtoP\x01Z2go-wind-admin/api/gen/go/user/service/v1;servicev1\xa2\x02\x03USX\xaa\x02\x0fUser.Service.V1\xca\x02\x0fUser\\Service\\V1\xe2\x02\x1bUser\\Service\\V1\\GPBMetadata\xea\x02\x11User::Service::V1b\x06proto3"
 
 var (
 	file_user_service_v1_user_proto_rawDescOnce sync.Once

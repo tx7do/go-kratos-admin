@@ -1,9 +1,8 @@
-# Go Kratos Admin
+# GoWindAdmin（风行后台管理系统）
 
-开箱即用的Golang全栈Admin。
+> GoWindAdmin（风行后台管理系统）——**高效构建企业级管理系统，让开发如风随行。**
 
-其后端是基于的GO微服务框架[go-kratos](https://go-kratos.dev/)
-，前端也是基于Vue微服务框架的[Vben Admin](https://doc.vben.pro/)。
+开箱即用的Golang全栈后台管理系统，其后端是基于的GO微服务框架[go-kratos](https://go-kratos.dev/)，前端基于Vue微服务框架[Vben Admin](https://doc.vben.pro/)。
 
 虽然都是使用的微服务的框架，但是前后端都是可以使用单体架构的方式进行开发和部署的。
 
@@ -128,8 +127,8 @@
 
 ## 联系我们
 
-- 微信个人号：`yang_lin_bo`（备注：`go-kratos-admin`）
-- 掘金专栏：[go-kratos-admin](https://juejin.cn/column/7541283508041826367)
+- 微信个人号：`yang_lin_bo`（备注：`go-wind-admin`）
+- 掘金专栏：[go-wind-admin](https://juejin.cn/column/7541283508041826367)
 
 ## [感谢JetBrains提供的免费GoLand & WebStorm](https://jb.gg/OpenSource)
 

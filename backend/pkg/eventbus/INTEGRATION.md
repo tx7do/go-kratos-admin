@@ -10,7 +10,7 @@ Here's how to integrate the EventBus with the email processing system:
 // In your main.go or initialization code
 import (
     "github.com/go-kratos/kratos/v2/log"
-    "kratos-admin/pkg/eventbus"
+    "go-wind-admin/pkg/eventbus"
 )
 
 // Create event bus manager
@@ -134,7 +134,7 @@ package handlers
 
 import (
     "context"
-    "kratos-admin/pkg/eventbus"
+    "go-wind-admin/pkg/eventbus"
     "github.com/go-kratos/kratos/v2/log"
 )
 

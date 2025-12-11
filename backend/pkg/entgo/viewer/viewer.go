@@ -3,7 +3,7 @@ package viewer
 import (
 	"context"
 
-	userV1 "kratos-admin/api/gen/go/user/service/v1"
+	userV1 "go-wind-admin/api/gen/go/user/service/v1"
 )
 
 // Viewer describes the query/mutation viewer-context.

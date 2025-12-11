@@ -8,10 +8,10 @@ package servicev1
 
 import (
 	context "context"
+	v1 "go-wind-admin/api/gen/go/file/service/v1"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
-	v1 "kratos-admin/api/gen/go/file/service/v1"
 )
 
 // This is a compile-time assertion to ensure that this generated file

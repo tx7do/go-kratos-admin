@@ -4,8 +4,8 @@ package ent
 
 import (
 	"context"
-	"kratos-admin/app/admin/service/internal/data/ent/predicate"
-	"kratos-admin/app/admin/service/internal/data/ent/role"
+	"go-wind-admin/app/admin/service/internal/data/ent/predicate"
+	"go-wind-admin/app/admin/service/internal/data/ent/role"
 
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"

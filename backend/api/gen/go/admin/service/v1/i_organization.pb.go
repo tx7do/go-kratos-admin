@@ -9,11 +9,11 @@ package servicev1
 import (
 	_ "github.com/google/gnostic/openapiv3"
 	v1 "github.com/tx7do/go-crud/api/gen/go/pagination/v1"
+	v11 "go-wind-admin/api/gen/go/user/service/v1"
 	_ "google.golang.org/genproto/googleapis/api/annotations"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	emptypb "google.golang.org/protobuf/types/known/emptypb"
-	v11 "kratos-admin/api/gen/go/user/service/v1"
 	reflect "reflect"
 	unsafe "unsafe"
 )
@@ -35,8 +35,8 @@ const file_admin_service_v1_i_organization_proto_rawDesc = "" +
 	"\x03Get\x12'.user.service.v1.GetOrganizationRequest\x1a\x1d.user.service.v1.Organization\"$\x82\xd3\xe4\x93\x02\x1e\x12\x1c/admin/v1/organizations/{id}\x12p\n" +
 	"\x06Create\x12*.user.service.v1.CreateOrganizationRequest\x1a\x16.google.protobuf.Empty\"\"\x82\xd3\xe4\x93\x02\x1c:\x01*\"\x17/admin/v1/organizations\x12u\n" +
 	"\x06Update\x12*.user.service.v1.UpdateOrganizationRequest\x1a\x16.google.protobuf.Empty\"'\x82\xd3\xe4\x93\x02!:\x01*\x1a\x1c/admin/v1/organizations/{id}\x12r\n" +
-	"\x06Delete\x12*.user.service.v1.DeleteOrganizationRequest\x1a\x16.google.protobuf.Empty\"$\x82\xd3\xe4\x93\x02\x1e*\x1c/admin/v1/organizations/{id}B\xc0\x01\n" +
-	"\x14com.admin.service.v1B\x12IOrganizationProtoP\x01Z2kratos-admin/api/gen/go/admin/service/v1;servicev1\xa2\x02\x03ASX\xaa\x02\x10Admin.Service.V1\xca\x02\x10Admin\\Service\\V1\xe2\x02\x1cAdmin\\Service\\V1\\GPBMetadata\xea\x02\x12Admin::Service::V1b\x06proto3"
+	"\x06Delete\x12*.user.service.v1.DeleteOrganizationRequest\x1a\x16.google.protobuf.Empty\"$\x82\xd3\xe4\x93\x02\x1e*\x1c/admin/v1/organizations/{id}B\xc1\x01\n" +
+	"\x14com.admin.service.v1B\x12IOrganizationProtoP\x01Z3go-wind-admin/api/gen/go/admin/service/v1;servicev1\xa2\x02\x03ASX\xaa\x02\x10Admin.Service.V1\xca\x02\x10Admin\\Service\\V1\xe2\x02\x1cAdmin\\Service\\V1\\GPBMetadata\xea\x02\x12Admin::Service::V1b\x06proto3"
 
 var file_admin_service_v1_i_organization_proto_goTypes = []any{
 	(*v1.PagingRequest)(nil),              // 0: pagination.PagingRequest

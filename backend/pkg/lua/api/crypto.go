@@ -8,8 +8,8 @@ import (
 	"github.com/go-kratos/kratos/v2/log"
 	lua "github.com/yuin/gopher-lua"
 
-	"kratos-admin/pkg/crypto"
-	"kratos-admin/pkg/lua/internal/convert"
+	"go-wind-admin/pkg/crypto"
+	"go-wind-admin/pkg/lua/internal/convert"
 )
 
 // RegisterCrypto registers the Crypto API for Lua as a requireable module

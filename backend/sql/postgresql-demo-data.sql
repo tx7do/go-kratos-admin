@@ -1,6 +1,21 @@
+BEGIN;
+
+SET LOCAL search_path = public, pg_catalog;
+
+-- 一次性清理相关表并重置自增（包含外键依赖）
+TRUNCATE TABLE public.sys_tenants,
+               public.sys_organizations,
+               public.sys_departments,
+               public.sys_positions,
+               public.sys_tasks,
+               public.sys_admin_login_restrictions,
+               public.sys_dict_types,
+               public.sys_dict_entries,
+               public.internal_message_categories
+RESTART IDENTITY CASCADE;
+
 -- 租户
-TRUNCATE TABLE kratos_admin.public.sys_tenants RESTART IDENTITY;
-INSERT INTO kratos_admin.public.sys_tenants(id, name, code, type, audit_status, status, admin_user_id, created_at)
+INSERT INTO public.sys_tenants(id, name, code, type, audit_status, status, admin_user_id, created_at)
 VALUES
     (1, '超级租户', 'super', 'PAID', 'APPROVED', 'ON', 1, now()),
     (2, '测试租户', 'test', 'PAID', 'APPROVED', 'ON', null, now()),
@@ -9,8 +24,7 @@ VALUES
 SELECT setval('sys_tenants_id_seq', (SELECT MAX(id) FROM sys_tenants));
 
 -- 组织
-TRUNCATE TABLE kratos_admin.public.sys_organizations RESTART IDENTITY;
-INSERT INTO kratos_admin.public.sys_organizations(id, parent_id, sort_order, manager_id, name, organization_type, is_legal_entity, business_scope, status, created_at)
+INSERT INTO public.sys_organizations(id, parent_id, sort_order, manager_id, name, organization_type, is_legal_entity, business_scope, status, created_at)
 VALUES
     (1, null, 1, 1,'虾米集团', 'GROUP', true, '综合型集团企业，涵盖多领域', 'ON', now()),
     (2, 1, 2, 1,'北京分公司', 'SUBSIDIARY', false, '负责华北区域业务运营', 'ON', now()),
@@ -20,8 +34,7 @@ VALUES
 SELECT setval('sys_organizations_id_seq', (SELECT MAX(id) FROM sys_organizations));
 
 -- 部门
-TRUNCATE TABLE kratos_admin.public.sys_departments RESTART IDENTITY;
-INSERT INTO kratos_admin.public.sys_departments(id, parent_id, sort_order, organization_id, manager_id, name, description, status, created_at)
+INSERT INTO public.sys_departments(id, parent_id, sort_order, organization_id, manager_id, name, description, status, created_at)
 VALUES
     (1, null, 1, 2, 1, '技术部', '负责北京分公司系统开发','ON', now()),
     (2, null, 2, 2, 1, '财务部', '负责北京分公司财务核算','ON', now()),
@@ -33,8 +46,7 @@ VALUES
 SELECT setval('sys_departments_id_seq', (SELECT MAX(id) FROM sys_departments));
 
 -- 职位
-TRUNCATE TABLE kratos_admin.public.sys_positions RESTART IDENTITY;
-INSERT INTO kratos_admin.public.sys_positions (id, name, code, parent_id, department_id, organization_id, quota, description, status, sort_order, created_at)
+INSERT INTO public.sys_positions (id, name, code, parent_id, department_id, organization_id, quota, description, status, sort_order, created_at)
 VALUES
     -- 技术部(dept_id=1) 北京分公司(org_id=2)
     (1, '技术总监', 'TECH-DIRECTOR-001', null, 1, 2, 1, '负责公司整体技术战略规划、团队管理及核心技术决策', 'ON', 1, now()),
@@ -65,16 +77,14 @@ VALUES
 SELECT setval('sys_positions_id_seq', (SELECT MAX(id) FROM sys_positions));
 
 -- 调度任务
-TRUNCATE TABLE kratos_admin.public.sys_tasks RESTART IDENTITY;
-INSERT INTO kratos_admin.public.sys_tasks(type, type_name, task_payload, cron_spec, enable, created_at)
+INSERT INTO public.sys_tasks(type, type_name, task_payload, cron_spec, enable, created_at)
 VALUES
     ('PERIODIC', 'backup', '{ "name": "test"}', '0 * * * *', true, now())
 ;
 SELECT setval('sys_tasks_id_seq', (SELECT MAX(id) FROM sys_tasks));
 
 -- 后台登录限制
-TRUNCATE TABLE kratos_admin.public.sys_admin_login_restrictions RESTART IDENTITY;
-INSERT INTO kratos_admin.public.sys_admin_login_restrictions(id, target_id, type, method, value, reason, created_at)
+INSERT INTO public.sys_admin_login_restrictions(id, target_id, type, method, value, reason, created_at)
 VALUES
 (1, 1, 'BLACKLIST', 'IP', '127.0.0.1', '无理由', now()),
 (2, 1, 'WHITELIST', 'MAC', '00:1B:44:11:3A:B7 ', '无理由', now())
@@ -82,9 +92,8 @@ VALUES
 SELECT setval('sys_admin_login_restrictions_id_seq', (SELECT MAX(id) FROM sys_admin_login_restrictions));
 
 -- 字典类型
-TRUNCATE TABLE kratos_admin.public.sys_dict_types CASCADE;
-ALTER SEQUENCE kratos_admin.public.sys_dict_types_id_seq RESTART WITH 1;
-INSERT INTO kratos_admin.public.sys_dict_types(id, type_code, type_name, sort_order, description, is_enabled, created_at)
+ALTER SEQUENCE public.sys_dict_types_id_seq RESTART WITH 1;
+INSERT INTO public.sys_dict_types(id, type_code, type_name, sort_order, description, is_enabled, created_at)
 VALUES
     (1, 'USER_STATUS', '用户状态', 10, '系统用户的状态管理，包括正常、冻结、注销', true, now()),
     (2, 'DEVICE_TYPE', '设备类型', 20, 'IoT平台接入的设备品类，新增需同步至设备接入模块', true, now()),
@@ -95,8 +104,7 @@ VALUES
 SELECT setval('sys_dict_types_id_seq', (SELECT MAX(id) FROM sys_dict_types));
 
 -- 字典条目
-TRUNCATE TABLE kratos_admin.public.sys_dict_entries RESTART IDENTITY;
-INSERT INTO kratos_admin.public.sys_dict_entries(id, type_id, entry_value, entry_label, numeric_value, sort_order, description, is_enabled, created_at)
+INSERT INTO public.sys_dict_entries(id, type_id, entry_value, entry_label, numeric_value, sort_order, description, is_enabled, created_at)
 VALUES
     -- 用户状态
     (1, 1, 'NORMAL', '正常', 1, 1, '用户可正常登录和操作', true, now()),
@@ -125,7 +133,6 @@ VALUES
 SELECT setval('sys_dict_entries_id_seq', (SELECT MAX(id) FROM sys_dict_entries));
 
 -- 站内信分类 - 主分类
-TRUNCATE TABLE kratos_admin.public.internal_message_categories RESTART IDENTITY;
 INSERT INTO internal_message_categories (id, parent_id, code, name, remark, sort_order, is_enabled, created_at)
 VALUES
     -- 订单相关主分类
@@ -138,7 +145,7 @@ VALUES
     (4, null, 'user', '用户通知', '账号安全、信息变更、权限调整等个人相关通知', 4, true, NOW())
 ;
 -- 站内信分类 - 子分类
-INSERT INTO internal_message_categories (id, parent_id, code, name, remark, sort_order, is_enabled, created_at)
+INSERT INTO public.internal_message_categories (id, parent_id, code, name, remark, sort_order, is_enabled, created_at)
 VALUES
     -- 订单主分类（id=1）的子分类
     (101, 1, 'order_paid', '支付成功', '订单支付完成时触发的通知', 1, true, NOW()),
@@ -159,3 +166,5 @@ VALUES
     (403, 4, 'user_permission_changed', '权限变更', '账号角色或功能权限调整通知', 3, true, NOW())
 ;
 SELECT setval('internal_message_categories_id_seq', (SELECT MAX(id) FROM internal_message_categories));
+
+COMMIT;

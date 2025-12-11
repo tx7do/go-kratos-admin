@@ -65,7 +65,7 @@ task, err := taskService.Get(ctx, &adminV1.GetTaskRequest{Id: 1})
 ### Manual Encryption/Decryption
 
 ```go
-import "kratos-admin/pkg/crypto"
+import "go-wind-admin/pkg/crypto"
 
 // Initialize encryptor
 encryptor, err := crypto.NewEncryptor("your-secret-key")
@@ -296,4 +296,4 @@ After encryption, credentials are protected in the database.
 
 ## License
 
-This encryption implementation is part of the kratos-admin project.
+This encryption implementation is part of the go-wind-admin project.

@@ -14,11 +14,11 @@ import (
 	"github.com/tx7do/go-utils/mapper"
 	"github.com/tx7do/go-utils/timeutil"
 
-	"kratos-admin/app/admin/service/internal/data/ent"
-	"kratos-admin/app/admin/service/internal/data/ent/file"
-	"kratos-admin/app/admin/service/internal/data/ent/predicate"
+	"go-wind-admin/app/admin/service/internal/data/ent"
+	"go-wind-admin/app/admin/service/internal/data/ent/file"
+	"go-wind-admin/app/admin/service/internal/data/ent/predicate"
 
-	fileV1 "kratos-admin/api/gen/go/file/service/v1"
+	fileV1 "go-wind-admin/api/gen/go/file/service/v1"
 )
 
 type FileRepo struct {

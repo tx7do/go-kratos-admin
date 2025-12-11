@@ -588,8 +588,8 @@ const file_admin_service_v1_i_api_resource_proto_rawDesc = "" +
 	"\x06Update\x12*.admin.service.v1.UpdateApiResourceRequest\x1a\x16.google.protobuf.Empty\"'\x82\xd3\xe4\x93\x02!:\x01*\x1a\x1c/admin/v1/api-resources/{id}\x12r\n" +
 	"\x06Delete\x12*.admin.service.v1.DeleteApiResourceRequest\x1a\x16.google.protobuf.Empty\"$\x82\xd3\xe4\x93\x02\x1e*\x1c/admin/v1/api-resources/{id}\x12k\n" +
 	"\x10SyncApiResources\x12\x16.google.protobuf.Empty\x1a\x16.google.protobuf.Empty\"'\x82\xd3\xe4\x93\x02!:\x01*\"\x1c/admin/v1/api-resources/sync\x12\x81\x01\n" +
-	"\x10GetWalkRouteData\x12\x16.google.protobuf.Empty\x1a).admin.service.v1.ListApiResourceResponse\"*\x82\xd3\xe4\x93\x02$\x12\"/admin/v1/api-resources/walk-routeB\xbf\x01\n" +
-	"\x14com.admin.service.v1B\x11IApiResourceProtoP\x01Z2kratos-admin/api/gen/go/admin/service/v1;servicev1\xa2\x02\x03ASX\xaa\x02\x10Admin.Service.V1\xca\x02\x10Admin\\Service\\V1\xe2\x02\x1cAdmin\\Service\\V1\\GPBMetadata\xea\x02\x12Admin::Service::V1b\x06proto3"
+	"\x10GetWalkRouteData\x12\x16.google.protobuf.Empty\x1a).admin.service.v1.ListApiResourceResponse\"*\x82\xd3\xe4\x93\x02$\x12\"/admin/v1/api-resources/walk-routeB\xc0\x01\n" +
+	"\x14com.admin.service.v1B\x11IApiResourceProtoP\x01Z3go-wind-admin/api/gen/go/admin/service/v1;servicev1\xa2\x02\x03ASX\xaa\x02\x10Admin.Service.V1\xca\x02\x10Admin\\Service\\V1\xe2\x02\x1cAdmin\\Service\\V1\\GPBMetadata\xea\x02\x12Admin::Service::V1b\x06proto3"
 
 var (
 	file_admin_service_v1_i_api_resource_proto_rawDescOnce sync.Once

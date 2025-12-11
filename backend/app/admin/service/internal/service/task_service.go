@@ -14,12 +14,12 @@ import (
 	"github.com/tx7do/kratos-transport/broker"
 	asynqServer "github.com/tx7do/kratos-transport/transport/asynq"
 
-	"kratos-admin/app/admin/service/internal/data"
+	"go-wind-admin/app/admin/service/internal/data"
 
-	adminV1 "kratos-admin/api/gen/go/admin/service/v1"
+	adminV1 "go-wind-admin/api/gen/go/admin/service/v1"
 
-	"kratos-admin/pkg/middleware/auth"
-	"kratos-admin/pkg/task"
+	"go-wind-admin/pkg/middleware/auth"
+	"go-wind-admin/pkg/task"
 )
 
 type TaskService struct {

@@ -5,7 +5,7 @@ package ent
 import (
 	"encoding/json"
 	"fmt"
-	"kratos-admin/app/admin/service/internal/data/ent/user"
+	"go-wind-admin/app/admin/service/internal/data/ent/user"
 	"strings"
 	"time"
 

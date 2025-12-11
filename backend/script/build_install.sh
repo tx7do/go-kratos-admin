@@ -5,7 +5,7 @@ cd ..
 # 编译服务
 make build
 
-project_name=kratos_admin
+project_name=go_wind_admin
 install_root=~/app/$project_name
 project_root=$(cd $(dirname $0);pwd)
 app_root=$project_root/app

@@ -9,11 +9,11 @@ package servicev1
 import (
 	_ "github.com/google/gnostic/openapiv3"
 	v1 "github.com/tx7do/go-crud/api/gen/go/pagination/v1"
+	v11 "go-wind-admin/api/gen/go/internal_message/service/v1"
 	_ "google.golang.org/genproto/googleapis/api/annotations"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	emptypb "google.golang.org/protobuf/types/known/emptypb"
-	v11 "kratos-admin/api/gen/go/internal_message/service/v1"
 	reflect "reflect"
 	unsafe "unsafe"
 )
@@ -37,8 +37,8 @@ const file_admin_service_v1_i_internal_message_proto_rawDesc = "" +
 	"\rUpdateMessage\x129.internal_message.service.v1.UpdateInternalMessageRequest\x1a\x16.google.protobuf.Empty\"3\x82\xd3\xe4\x93\x02-:\x01*\x1a(/admin/v1/internal-message/messages/{id}\x12\x94\x01\n" +
 	"\rDeleteMessage\x129.internal_message.service.v1.DeleteInternalMessageRequest\x1a\x16.google.protobuf.Empty\"0\x82\xd3\xe4\x93\x02**(/admin/v1/internal-message/messages/{id}\x12\x9c\x01\n" +
 	"\vSendMessage\x12/.internal_message.service.v1.SendMessageRequest\x1a0.internal_message.service.v1.SendMessageResponse\"*\x82\xd3\xe4\x93\x02$:\x01*\"\x1f/admin/v1/internal-message/send\x12\x88\x01\n" +
-	"\rRevokeMessage\x121.internal_message.service.v1.RevokeMessageRequest\x1a\x16.google.protobuf.Empty\",\x82\xd3\xe4\x93\x02&:\x01*\"!/admin/v1/internal-message/revokeB\xc3\x01\n" +
-	"\x14com.admin.service.v1B\x15IInternalMessageProtoP\x01Z2kratos-admin/api/gen/go/admin/service/v1;servicev1\xa2\x02\x03ASX\xaa\x02\x10Admin.Service.V1\xca\x02\x10Admin\\Service\\V1\xe2\x02\x1cAdmin\\Service\\V1\\GPBMetadata\xea\x02\x12Admin::Service::V1b\x06proto3"
+	"\rRevokeMessage\x121.internal_message.service.v1.RevokeMessageRequest\x1a\x16.google.protobuf.Empty\",\x82\xd3\xe4\x93\x02&:\x01*\"!/admin/v1/internal-message/revokeB\xc4\x01\n" +
+	"\x14com.admin.service.v1B\x15IInternalMessageProtoP\x01Z3go-wind-admin/api/gen/go/admin/service/v1;servicev1\xa2\x02\x03ASX\xaa\x02\x10Admin.Service.V1\xca\x02\x10Admin\\Service\\V1\xe2\x02\x1cAdmin\\Service\\V1\\GPBMetadata\xea\x02\x12Admin::Service::V1b\x06proto3"
 
 var file_admin_service_v1_i_internal_message_proto_goTypes = []any{
 	(*v1.PagingRequest)(nil),                 // 0: pagination.PagingRequest

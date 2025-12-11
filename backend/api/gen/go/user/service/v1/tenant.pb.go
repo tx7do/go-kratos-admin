@@ -1059,8 +1059,8 @@ const file_user_service_v1_tenant_proto_rawDesc = "" +
 	"\x06Update\x12$.user.service.v1.UpdateTenantRequest\x1a\x16.google.protobuf.Empty\"\x00\x12H\n" +
 	"\x06Delete\x12$.user.service.v1.DeleteTenantRequest\x1a\x16.google.protobuf.Empty\"\x00\x12h\n" +
 	"\vBatchCreate\x12*.user.service.v1.BatchCreateTenantsRequest\x1a+.user.service.v1.BatchCreateTenantsResponse\"\x00\x12]\n" +
-	"\fTenantExists\x12$.user.service.v1.TenantExistsRequest\x1a%.user.service.v1.TenantExistsResponse\"\x00B\xb3\x01\n" +
-	"\x13com.user.service.v1B\vTenantProtoP\x01Z1kratos-admin/api/gen/go/user/service/v1;servicev1\xa2\x02\x03USX\xaa\x02\x0fUser.Service.V1\xca\x02\x0fUser\\Service\\V1\xe2\x02\x1bUser\\Service\\V1\\GPBMetadata\xea\x02\x11User::Service::V1b\x06proto3"
+	"\fTenantExists\x12$.user.service.v1.TenantExistsRequest\x1a%.user.service.v1.TenantExistsResponse\"\x00B\xb4\x01\n" +
+	"\x13com.user.service.v1B\vTenantProtoP\x01Z2go-wind-admin/api/gen/go/user/service/v1;servicev1\xa2\x02\x03USX\xaa\x02\x0fUser.Service.V1\xca\x02\x0fUser\\Service\\V1\xe2\x02\x1bUser\\Service\\V1\\GPBMetadata\xea\x02\x11User::Service::V1b\x06proto3"
 
 var (
 	file_user_service_v1_tenant_proto_rawDescOnce sync.Once

@@ -15,11 +15,11 @@ import (
 	"github.com/tx7do/go-utils/timeutil"
 	"github.com/tx7do/go-utils/trans"
 
-	"kratos-admin/app/admin/service/internal/data/ent"
-	"kratos-admin/app/admin/service/internal/data/ent/internalmessagerecipient"
-	"kratos-admin/app/admin/service/internal/data/ent/predicate"
+	"go-wind-admin/app/admin/service/internal/data/ent"
+	"go-wind-admin/app/admin/service/internal/data/ent/internalmessagerecipient"
+	"go-wind-admin/app/admin/service/internal/data/ent/predicate"
 
-	internalMessageV1 "kratos-admin/api/gen/go/internal_message/service/v1"
+	internalMessageV1 "go-wind-admin/api/gen/go/internal_message/service/v1"
 )
 
 type InternalMessageRecipientRepo struct {

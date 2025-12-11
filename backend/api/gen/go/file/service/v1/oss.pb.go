@@ -684,8 +684,8 @@ const file_file_service_v1_oss_proto_rawDesc = "" +
 	"\x0eGetDownloadUrl\x12&.file.service.v1.GetDownloadUrlRequest\x1a'.file.service.v1.GetDownloadUrlResponse\"\x00\x12Z\n" +
 	"\vListOssFile\x12#.file.service.v1.ListOssFileRequest\x1a$.file.service.v1.ListOssFileResponse\"\x00\x12`\n" +
 	"\rDeleteOssFile\x12%.file.service.v1.DeleteOssFileRequest\x1a&.file.service.v1.DeleteOssFileResponse\"\x00\x12`\n" +
-	"\rUploadOssFile\x12%.file.service.v1.UploadOssFileRequest\x1a&.file.service.v1.UploadOssFileResponse\"\x00B\xb0\x01\n" +
-	"\x13com.file.service.v1B\bOssProtoP\x01Z1kratos-admin/api/gen/go/file/service/v1;servicev1\xa2\x02\x03FSX\xaa\x02\x0fFile.Service.V1\xca\x02\x0fFile\\Service\\V1\xe2\x02\x1bFile\\Service\\V1\\GPBMetadata\xea\x02\x11File::Service::V1b\x06proto3"
+	"\rUploadOssFile\x12%.file.service.v1.UploadOssFileRequest\x1a&.file.service.v1.UploadOssFileResponse\"\x00B\xb1\x01\n" +
+	"\x13com.file.service.v1B\bOssProtoP\x01Z2go-wind-admin/api/gen/go/file/service/v1;servicev1\xa2\x02\x03FSX\xaa\x02\x0fFile.Service.V1\xca\x02\x0fFile\\Service\\V1\xe2\x02\x1bFile\\Service\\V1\\GPBMetadata\xea\x02\x11File::Service::V1b\x06proto3"
 
 var (
 	file_file_service_v1_oss_proto_rawDescOnce sync.Once

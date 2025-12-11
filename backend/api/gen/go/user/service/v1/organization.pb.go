@@ -813,8 +813,8 @@ const file_user_service_v1_organization_proto_rawDesc = "" +
 	"\x06Create\x12*.user.service.v1.CreateOrganizationRequest\x1a\x16.google.protobuf.Empty\"\x00\x12N\n" +
 	"\x06Update\x12*.user.service.v1.UpdateOrganizationRequest\x1a\x16.google.protobuf.Empty\"\x00\x12N\n" +
 	"\x06Delete\x12*.user.service.v1.DeleteOrganizationRequest\x1a\x16.google.protobuf.Empty\"\x00\x12t\n" +
-	"\vBatchCreate\x120.user.service.v1.BatchCreateOrganizationsRequest\x1a1.user.service.v1.BatchCreateOrganizationsResponse\"\x00B\xb9\x01\n" +
-	"\x13com.user.service.v1B\x11OrganizationProtoP\x01Z1kratos-admin/api/gen/go/user/service/v1;servicev1\xa2\x02\x03USX\xaa\x02\x0fUser.Service.V1\xca\x02\x0fUser\\Service\\V1\xe2\x02\x1bUser\\Service\\V1\\GPBMetadata\xea\x02\x11User::Service::V1b\x06proto3"
+	"\vBatchCreate\x120.user.service.v1.BatchCreateOrganizationsRequest\x1a1.user.service.v1.BatchCreateOrganizationsResponse\"\x00B\xba\x01\n" +
+	"\x13com.user.service.v1B\x11OrganizationProtoP\x01Z2go-wind-admin/api/gen/go/user/service/v1;servicev1\xa2\x02\x03USX\xaa\x02\x0fUser.Service.V1\xca\x02\x0fUser\\Service\\V1\xe2\x02\x1bUser\\Service\\V1\\GPBMetadata\xea\x02\x11User::Service::V1b\x06proto3"
 
 var (
 	file_user_service_v1_organization_proto_rawDescOnce sync.Once

@@ -41,6 +41,6 @@ npx eslint --inspect-config
 
 https://apifoxmock.com/m1/5619700-5299226-default/admin/v1
 
-## Webstorm相关
+## WebStorm相关
 
 1. `Ctrl+Alt+L`的格式化快捷键需要手动绑定到ESlint fix。

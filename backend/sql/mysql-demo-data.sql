@@ -1,4 +1,4 @@
-USE `kratos_admin`;
+USE `go_wind_admin`;
 
 SET FOREIGN_KEY_CHECKS = 0;
 

@@ -18,7 +18,7 @@ import (
 
 	"google.golang.org/protobuf/types/known/anypb"
 
-	servicev1 "kratos-admin/api/gen/go/user/service/v1"
+	servicev1 "go-wind-admin/api/gen/go/user/service/v1"
 )
 
 // ensure the imports are used

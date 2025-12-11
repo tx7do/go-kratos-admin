@@ -17,12 +17,12 @@ import (
 	"github.com/tx7do/go-utils/timeutil"
 	"github.com/tx7do/go-utils/trans"
 
-	"kratos-admin/app/admin/service/internal/data/ent"
-	"kratos-admin/app/admin/service/internal/data/ent/department"
-	"kratos-admin/app/admin/service/internal/data/ent/user"
+	"go-wind-admin/app/admin/service/internal/data/ent"
+	"go-wind-admin/app/admin/service/internal/data/ent/department"
+	"go-wind-admin/app/admin/service/internal/data/ent/user"
 
-	authenticationV1 "kratos-admin/api/gen/go/authentication/service/v1"
-	userV1 "kratos-admin/api/gen/go/user/service/v1"
+	authenticationV1 "go-wind-admin/api/gen/go/authentication/service/v1"
+	userV1 "go-wind-admin/api/gen/go/user/service/v1"
 )
 
 var reSpaces = regexp.MustCompile(`\s+`)

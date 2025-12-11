@@ -4,7 +4,7 @@ package ent
 
 import (
 	"fmt"
-	"kratos-admin/app/admin/service/internal/data/ent/usercredential"
+	"go-wind-admin/app/admin/service/internal/data/ent/usercredential"
 	"strings"
 	"time"
 

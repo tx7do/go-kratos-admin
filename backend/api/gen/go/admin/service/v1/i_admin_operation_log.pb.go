@@ -680,8 +680,8 @@ const file_admin_service_v1_i_admin_operation_log_proto_rawDesc = "" +
 	"\x02id\x18\x01 \x01(\rR\x02id2\x9f\x02\n" +
 	"\x18AdminOperationLogService\x12z\n" +
 	"\x04List\x12\x19.pagination.PagingRequest\x1a/.admin.service.v1.ListAdminOperationLogResponse\"&\x82\xd3\xe4\x93\x02 \x12\x1e/admin/v1/admin_operation_logs\x12\x86\x01\n" +
-	"\x03Get\x12-.admin.service.v1.GetAdminOperationLogRequest\x1a#.admin.service.v1.AdminOperationLog\"+\x82\xd3\xe4\x93\x02%\x12#/admin/v1/admin_operation_logs/{id}B\xc5\x01\n" +
-	"\x14com.admin.service.v1B\x17IAdminOperationLogProtoP\x01Z2kratos-admin/api/gen/go/admin/service/v1;servicev1\xa2\x02\x03ASX\xaa\x02\x10Admin.Service.V1\xca\x02\x10Admin\\Service\\V1\xe2\x02\x1cAdmin\\Service\\V1\\GPBMetadata\xea\x02\x12Admin::Service::V1b\x06proto3"
+	"\x03Get\x12-.admin.service.v1.GetAdminOperationLogRequest\x1a#.admin.service.v1.AdminOperationLog\"+\x82\xd3\xe4\x93\x02%\x12#/admin/v1/admin_operation_logs/{id}B\xc6\x01\n" +
+	"\x14com.admin.service.v1B\x17IAdminOperationLogProtoP\x01Z3go-wind-admin/api/gen/go/admin/service/v1;servicev1\xa2\x02\x03ASX\xaa\x02\x10Admin.Service.V1\xca\x02\x10Admin\\Service\\V1\xe2\x02\x1cAdmin\\Service\\V1\\GPBMetadata\xea\x02\x12Admin::Service::V1b\x06proto3"
 
 var (
 	file_admin_service_v1_i_admin_operation_log_proto_rawDescOnce sync.Once

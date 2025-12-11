@@ -9,7 +9,7 @@ import (
 	"github.com/go-kratos/kratos/v2/log"
 	lua "github.com/yuin/gopher-lua"
 
-	"kratos-admin/pkg/eventbus"
+	"go-wind-admin/pkg/eventbus"
 )
 
 func TestEventBusAPI_PublishSubscribe(t *testing.T) {

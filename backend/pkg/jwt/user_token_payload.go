@@ -9,8 +9,8 @@ import (
 
 	authn "github.com/tx7do/kratos-authn/engine"
 
-	authenticationV1 "kratos-admin/api/gen/go/authentication/service/v1"
-	userV1 "kratos-admin/api/gen/go/user/service/v1"
+	authenticationV1 "go-wind-admin/api/gen/go/authentication/service/v1"
+	userV1 "go-wind-admin/api/gen/go/user/service/v1"
 )
 
 const (

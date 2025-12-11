@@ -6,8 +6,8 @@ import (
 	"context"
 	"database/sql/driver"
 	"fmt"
-	"kratos-admin/app/admin/service/internal/data/ent/position"
-	"kratos-admin/app/admin/service/internal/data/ent/predicate"
+	"go-wind-admin/app/admin/service/internal/data/ent/position"
+	"go-wind-admin/app/admin/service/internal/data/ent/predicate"
 	"math"
 
 	"entgo.io/ent"

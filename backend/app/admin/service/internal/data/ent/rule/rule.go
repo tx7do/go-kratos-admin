@@ -4,9 +4,9 @@ import (
 	"context"
 	"entgo.io/ent/entql"
 
-	"kratos-admin/app/admin/service/internal/data/ent/privacy"
+	"go-wind-admin/app/admin/service/internal/data/ent/privacy"
 
-	"kratos-admin/pkg/entgo/viewer"
+	"go-wind-admin/pkg/entgo/viewer"
 )
 
 // FilterTenantRule is a query/mutation rule that filters out entities that are not in the tenant.

@@ -1013,8 +1013,8 @@ const file_dict_service_v1_dict_proto_rawDesc = "" +
 	"\rListDictEntry\x12\x19.pagination.PagingRequest\x1a&.dict.service.v1.ListDictEntryResponse\"\x00\x12T\n" +
 	"\x0fCreateDictEntry\x12'.dict.service.v1.CreateDictEntryRequest\x1a\x16.google.protobuf.Empty\"\x00\x12T\n" +
 	"\x0fUpdateDictEntry\x12'.dict.service.v1.UpdateDictEntryRequest\x1a\x16.google.protobuf.Empty\"\x00\x12T\n" +
-	"\x0fDeleteDictEntry\x12'.dict.service.v1.BatchDeleteDictRequest\x1a\x16.google.protobuf.Empty\"\x00B\xb1\x01\n" +
-	"\x13com.dict.service.v1B\tDictProtoP\x01Z1kratos-admin/api/gen/go/dict/service/v1;servicev1\xa2\x02\x03DSX\xaa\x02\x0fDict.Service.V1\xca\x02\x0fDict\\Service\\V1\xe2\x02\x1bDict\\Service\\V1\\GPBMetadata\xea\x02\x11Dict::Service::V1b\x06proto3"
+	"\x0fDeleteDictEntry\x12'.dict.service.v1.BatchDeleteDictRequest\x1a\x16.google.protobuf.Empty\"\x00B\xb2\x01\n" +
+	"\x13com.dict.service.v1B\tDictProtoP\x01Z2go-wind-admin/api/gen/go/dict/service/v1;servicev1\xa2\x02\x03DSX\xaa\x02\x0fDict.Service.V1\xca\x02\x0fDict\\Service\\V1\xe2\x02\x1bDict\\Service\\V1\\GPBMetadata\xea\x02\x11Dict::Service::V1b\x06proto3"
 
 var (
 	file_dict_service_v1_dict_proto_rawDescOnce sync.Once

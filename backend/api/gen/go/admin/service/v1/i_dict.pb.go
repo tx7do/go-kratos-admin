@@ -9,13 +9,13 @@ package servicev1
 import (
 	_ "github.com/google/gnostic/openapiv3"
 	v1 "github.com/tx7do/go-crud/api/gen/go/pagination/v1"
+	v11 "go-wind-admin/api/gen/go/dict/service/v1"
 	_ "google.golang.org/genproto/googleapis/api/annotations"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	emptypb "google.golang.org/protobuf/types/known/emptypb"
 	_ "google.golang.org/protobuf/types/known/fieldmaskpb"
 	_ "google.golang.org/protobuf/types/known/timestamppb"
-	v11 "kratos-admin/api/gen/go/dict/service/v1"
 	reflect "reflect"
 	unsafe "unsafe"
 )
@@ -41,9 +41,9 @@ const file_admin_service_v1_i_dict_proto_rawDesc = "" +
 	"\rListDictEntry\x12\x19.pagination.PagingRequest\x1a&.dict.service.v1.ListDictEntryResponse\"\x1e\x82\xd3\xe4\x93\x02\x18\x12\x16/admin/v1/dict-entries\x12u\n" +
 	"\x0fCreateDictEntry\x12'.dict.service.v1.CreateDictEntryRequest\x1a\x16.google.protobuf.Empty\"!\x82\xd3\xe4\x93\x02\x1b:\x01*\"\x16/admin/v1/dict-entries\x12z\n" +
 	"\x0fUpdateDictEntry\x12'.dict.service.v1.UpdateDictEntryRequest\x1a\x16.google.protobuf.Empty\"&\x82\xd3\xe4\x93\x02 :\x01*\x1a\x1b/admin/v1/dict-entries/{id}\x12r\n" +
-	"\x0fDeleteDictEntry\x12'.dict.service.v1.BatchDeleteDictRequest\x1a\x16.google.protobuf.Empty\"\x1e\x82\xd3\xe4\x93\x02\x18*\x16/admin/v1/dict-entriesB\xb8\x01\n" +
+	"\x0fDeleteDictEntry\x12'.dict.service.v1.BatchDeleteDictRequest\x1a\x16.google.protobuf.Empty\"\x1e\x82\xd3\xe4\x93\x02\x18*\x16/admin/v1/dict-entriesB\xb9\x01\n" +
 	"\x14com.admin.service.v1B\n" +
-	"IDictProtoP\x01Z2kratos-admin/api/gen/go/admin/service/v1;servicev1\xa2\x02\x03ASX\xaa\x02\x10Admin.Service.V1\xca\x02\x10Admin\\Service\\V1\xe2\x02\x1cAdmin\\Service\\V1\\GPBMetadata\xea\x02\x12Admin::Service::V1b\x06proto3"
+	"IDictProtoP\x01Z3go-wind-admin/api/gen/go/admin/service/v1;servicev1\xa2\x02\x03ASX\xaa\x02\x10Admin.Service.V1\xca\x02\x10Admin\\Service\\V1\xe2\x02\x1cAdmin\\Service\\V1\\GPBMetadata\xea\x02\x12Admin::Service::V1b\x06proto3"
 
 var file_admin_service_v1_i_dict_proto_goTypes = []any{
 	(*v1.PagingRequest)(nil),           // 0: pagination.PagingRequest

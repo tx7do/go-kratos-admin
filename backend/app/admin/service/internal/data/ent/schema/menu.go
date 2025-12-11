@@ -7,7 +7,7 @@ import (
 	"entgo.io/ent/schema/field"
 	"github.com/tx7do/go-crud/entgo/mixin"
 
-	adminV1 "kratos-admin/api/gen/go/admin/service/v1"
+	adminV1 "go-wind-admin/api/gen/go/admin/service/v1"
 )
 
 // Menu holds the schema definition for the Menu entity.

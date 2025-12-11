@@ -13,9 +13,9 @@ import (
 	conf "github.com/tx7do/kratos-bootstrap/api/gen/go/conf/v1"
 	redisClient "github.com/tx7do/kratos-bootstrap/cache/redis"
 
-	"kratos-admin/app/admin/service/internal/data/ent"
+	"go-wind-admin/app/admin/service/internal/data/ent"
 
-	"kratos-admin/pkg/oss"
+	"go-wind-admin/pkg/oss"
 )
 
 // Data .

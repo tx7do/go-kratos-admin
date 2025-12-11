@@ -1,196 +1,135 @@
-# Go Kratos Admin
+# GoWindAdmin (GoWind Admin System)
 
-Out-of-the-box Golang full-stack Admin.
+> GoWindAdmin — **Efficiently build enterprise-grade admin systems, making development as smooth as the wind.**
 
-The backend is based on the GO microservice framework [go-kratos](https://go-kratos.dev/), and the frontend is based on
-the Vue microservice framework [Vben Admin](https://doc.vben.pro/).
+An out-of-the-box Golang full-stack admin system. The backend is based on the GO microservice framework [go-kratos](https://go-kratos.dev/), and the frontend is based on the Vue microservice framework [Vben Admin](https://doc.vben.pro/).
 
-Although both use microservice frameworks, the frontend and backend can be developed and deployed in a monolithic
-architecture.
+Although both use microservice frameworks, the frontend and backend can be developed and deployed as monoliths.
 
-Easy to get started, feature-rich, and suitable for rapid development of enterprise-level management systems.
+Easy to get started, feature-rich, suitable for rapid development of enterprise admin systems.
 
-**English** | [中文](./README.md) | [日本語](./README.ja-JP.md)
+[English](./README.en-US.md) | **中文** | [日本語](./README.ja-JP.md)
 
-## Demo Address
+## Demo
 
 > Frontend: <http://124.221.26.30:8080/>
 >
 > Backend Swagger: <http://124.221.26.30:7788/docs/>
 >
-> Default username and password: `admin` / `admin`
+> Default account/password: `admin` / `admin`
 
-## Technology Stack
+## Tech Stack
 
--
-Backend: [Golang](https://go.dev/) + [go-kratos](https://go-kratos.dev/) + [wire](https://github.com/google/wire) + [ent](https://entgo.io/docs/getting-started/)
--
-Frontend: [Vue](https://vuejs.org/) + [TypeScript](https://www.typescriptlang.org/) + [Ant Design Vue](https://antdv.com/) + [Vben Admin](https://doc.vben.pro/)
+- Backend: [Golang](https://go.dev/) + [go-kratos](https://go-kratos.dev/) + [wire](https://github.com/google/wire) + [ent](https://entgo.io/docs/getting-started/)
+- Frontend: [Vue](https://vuejs.org/) + [TypeScript](https://www.typescriptlang.org/) + [Ant Design Vue](https://antdv.com/) + [Vben Admin](https://doc.vben.pro/)
 
-## Quick Start Guide
+## Quick Start
 
-1. Install Docker and Golang (refer to `backend/script/prepare_ubuntu.sh`, `backend/script/prepare_centos.sh`,
-   `backend/script/prepare_rocky.sh`).
-2. Navigate to the `backend` directory and execute the following commands to compile the backend service `kratos-admin`,
-   build the Docker image, and start it along with the dependent Docker services:
+1. Install Docker and Go (see `backend/script/prepare_ubuntu.sh`, `backend/script/prepare_centos.sh`, `backend/script/prepare_rocky.sh`)
+2. Go to the `backend` directory and run the following commands to compile the backend service `kratos-admin`, build Docker images and start services along with required dependent Docker services:
     ```bash
     make init
     make docker
     make compose-up
     ```
-3. Install npm and pnpm (installation methods can be queried from AI).
-4. Navigate to the `frontend` directory and execute the following commands to compile and start the frontend (
-   development mode):
+3. Install npm and pnpm (installation instructions can be requested from AI)
+4. Go to the `frontend` directory and run the following commands to build and start the frontend (development mode):
     ```bash
     pnpm install
     pnpm dev
     ```
-5. Access the test environment:
+5. Access for testing
 
-- Frontend: <http://localhost:5666>, login credentials: `admin` / `admin`
+- Frontend: <http://localhost:5666>, login: `admin` / `admin`
 - Backend: <http://localhost:7788/docs/openapi.yaml>
 
-## Feature List
+## Features
 
-| Feature                 | Description                                                                                                                                                                                                                                               |
-|-------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| User Management         | Manage and query users, support advanced queries and department-linked users. Users can be enabled/disabled, set/unset supervisors, reset passwords, configure multiple roles, departments, and supervisors, and log in as specific users with one click. |
-| Tenant Management       | Manage tenants. After adding a tenant, the tenant's department, default role, and administrator are automatically initialized. Supports package configuration, enable/disable, and one-click login to the tenant administrator.                           |
-| Role Management         | Manage roles and role groups, support user linkage by role, set menu and data permissions, and batch add/remove employees.                                                                                                                                |
-| Organization Management | Manage organizations, support tree list display.                                                                                                                                                                                                          |
-| Department Management   | Manage departments, support tree list display.                                                                                                                                                                                                            |
-| Permission Management   | Manage permission groups, menus, and permission points. Support tree list display.                                                                                                                                                                        |
-| API Management          | Manage APIs, support API synchronization for selecting APIs when adding permission points. Support tree list display and configuration of request parameters and response results in operation logs.                                                      |
-| Dictionary Management   | Manage data dictionary categories and their subcategories. Support dictionary category linkage, multi-column sorting on the server, and data import/export.                                                                                               |
-| Task Scheduling         | Manage and view tasks and their execution logs. Support adding, modifying, deleting, starting, pausing, and executing tasks immediately.                                                                                                                  |
-| File Management         | Manage file uploads. Support file queries, uploads to OSS or local storage, downloads, copying file addresses, deleting files, and viewing images in full size.                                                                                           |
-| Message Categories      | Manage message categories, support two-level custom message categories for message management.                                                                                                                                                            |
-| Message Management      | Manage messages, support sending messages to specific users, and view whether users have read the messages and the read time.                                                                                                                             |
-| Inbox                   | Manage internal messages, support detailed message viewing, deletion, marking as read, and marking all as read.                                                                                                                                           |
-| Personal Center         | Display and modify personal information, view last login information, change passwords, etc.                                                                                                                                                              |
-| Cache Management        | Query cache list, support clearing cache by cache key.                                                                                                                                                                                                    |
-| Login Logs              | Query login logs, record user login success and failure logs, support IP location records.                                                                                                                                                                |
-| Operation Logs          | Query operation logs, record user operation success and failure logs, support IP location records, and view operation log details.                                                                                                                        |
+| Feature | Description |
+|------|--------------------------------------------------------------------------|
+| User Management | Manage and query users, support advanced search and department-linked users; enable/disable users, set/unset manager, reset password, configure multiple roles/departments/managers, one-click login as specified user. |
+| Tenant Management | Manage tenants. Adding a tenant auto-initializes tenant departments, default roles, and admin. Support plan configuration, enable/disable, one-click login as tenant admin. |
+| Role Management | Manage roles and role groups; support user selection by role, set menu and data permissions, batch add/remove employees. |
+| Organization Management | Manage organizations with tree-view listing. |
+| Department Management | Manage departments with tree-view listing. |
+| Permission Management | Manage permission groups, menus, permission points with tree-view listing. |
+| API Management | Manage APIs, support API synchronization (mainly for selecting interfaces when adding permission points), tree-view listing, configure operation log request parameters and responses. |
+| Dictionary Management | Manage dictionary categories and entries, support category-linked entries, server-side multi-column sorting, data import/export. |
+| Task Scheduler | Manage tasks and task run logs; support create, update, delete, start, pause, and run immediately. |
+| File Management | Manage file uploads, search files, upload to OSS or local storage, download, copy file address, delete files, support image preview (large view). |
+| Message Categories | Manage message categories (2-level custom categories) for message management category selection. |
+| Message Management | Manage messages, send messages to specified users, view read status and read time. |
+| Internal Mail | Manage internal messages, view details, delete, mark as read, mark all as read. |
+| Personal Center | View and edit personal info, view last login info, change password, etc. |
+| Cache Management | Query cache list and clear cache by key. |
+| Login Logs | Query login logs for successful and failed logins; supports IP geolocation. |
+| Operation Logs | Query operation logs for normal and abnormal operations; supports IP geolocation and viewing operation details. |
 
 ## Backend Screenshots
 
 <table>
     <tr>
-        <td>
-            <img src="./docs/images/admin_login_page.png" alt="Backend User Login Page"/>
-        </td>
-        <td>
-            <img src="./docs/images/admin_dashboard.png" alt="Backend Dashboard"/>
-        </td>
+        <td><img src="./docs/images/admin_login_page.png" alt="Admin login page"/></td>
+        <td><img src="./docs/images/admin_dashboard.png" alt="Admin dashboard"/></td>
     </tr>
     <tr>
-        <td>
-            <img src="./docs/images/admin_user_list.png" alt="Backend User List Page"/>
-        </td>
-        <td>
-            <img src="./docs/images/admin_user_create.png" alt="Backend User Creation Page"/>
-        </td>
+        <td><img src="./docs/images/admin_user_list.png" alt="User list"/></td>
+        <td><img src="./docs/images/admin_user_create.png" alt="Create user"/></td>
     </tr>
     <tr>
-        <td>
-            <img src="./docs/images/admin_tenant_list.png" alt="Backend Tenant List Page"/>
-        </td>
-        <td>
-            <img src="./docs/images/admin_tenant_create.png" alt="Backend Tenant Creation Page"/>
-        </td>
+        <td><img src="./docs/images/admin_tenant_list.png" alt="Tenant list"/></td>
+        <td><img src="./docs/images/admin_tenant_create.png" alt="Create tenant"/></td>
     </tr>
     <tr>
-        <td>
-            <img src="./docs/images/admin_organization_list.png" alt="Backend Organization List Page"/>
-        </td>
-        <td>
-            <img src="./docs/images/admin_organization_create.png" alt="Backend Organization Creation Page"/>
-        </td>
+        <td><img src="./docs/images/admin_organization_list.png" alt="Organization list"/></td>
+        <td><img src="./docs/images/admin_organization_create.png" alt="Create organization"/></td>
     </tr>
     <tr>
-        <td>
-            <img src="./docs/images/admin_department_list.png" alt="Backend Department List Page"/>
-        </td>
-        <td>
-            <img src="./docs/images/admin_department_create.png" alt="Backend Department Creation Page"/>
-        </td>
+        <td><img src="./docs/images/admin_department_list.png" alt="Department list"/></td>
+        <td><img src="./docs/images/admin_department_create.png" alt="Create department"/></td>
     </tr>
     <tr>
-        <td>
-            <img src="./docs/images/admin_position_list.png" alt="Backend Position List Page"/>
-        </td>
-        <td>
-            <img src="./docs/images/admin_position_create.png" alt="Backend Position Creation Page"/>
-        </td>
+        <td><img src="./docs/images/admin_position_list.png" alt="Position list"/></td>
+        <td><img src="./docs/images/admin_position_create.png" alt="Create position"/></td>
     </tr>
     <tr>
-        <td>
-            <img src="./docs/images/admin_role_list.png" alt="Backend Role List Page"/>
-        </td>
-        <td>
-            <img src="./docs/images/admin_role_create.png" alt="Backend Role Creation Page"/>
-        </td>
+        <td><img src="./docs/images/admin_role_list.png" alt="Role list"/></td>
+        <td><img src="./docs/images/admin_role_create.png" alt="Create role"/></td>
     </tr>
     <tr>
-        <td>
-            <img src="./docs/images/admin_menu_list.png" alt="Backend Menu List Page"/>
-        </td>
-        <td>
-            <img src="./docs/images/admin_menu_create.png" alt="Backend Menu Creation Page"/>
-        </td>
+        <td><img src="./docs/images/admin_menu_list.png" alt="Menu list"/></td>
+        <td><img src="./docs/images/admin_menu_create.png" alt="Create menu"/></td>
     </tr>
     <tr>
-        <td>
-            <img src="./docs/images/admin_task_list.png" alt="Backend Scheduled Task List Page"/>
-        </td>
-        <td>
-            <img src="./docs/images/admin_task_create.png" alt="Backend Scheduled Task Creation Page"/>
-        </td>
+        <td><img src="./docs/images/admin_task_list.png" alt="Task list"/></td>
+        <td><img src="./docs/images/admin_task_create.png" alt="Create task"/></td>
     </tr>
     <tr>
-        <td>
-            <img src="./docs/images/admin_dict_list.png" alt="Backend Data Dictionary List Page"/>
-        </td>
-        <td>
-            <img src="./docs/images/admin_dict_entry_create.png" alt="Backend Data Dictionary Entry Creation Page"/>
-        </td>
+        <td><img src="./docs/images/admin_dict_list.png" alt="Dictionary list"/></td>
+        <td><img src="./docs/images/admin_dict_entry_create.png" alt="Create dictionary entry"/></td>
     </tr>
     <tr>
-        <td>
-            <img src="./docs/images/admin_internal_message_list.png" alt="Backend Internal Message List Page"/>
-        </td>
-        <td>
-            <img src="./docs/images/admin_internal_message_publish.png" alt="Backend Internal Message Publishing Page"/>
-        </td>
+        <td><img src="./docs/images/admin_internal_message_list.png" alt="Internal message list"/></td>
+        <td><img src="./docs/images/admin_internal_message_publish.png" alt="Publish internal message"/></td>
     </tr>
     <tr>
-        <td>
-            <img src="./docs/images/admin_login_restriction_list.png" alt="Backend Login Restriction List Page"/>
-        </td>
-        <td>
-            <img src="./docs/images/admin_api_resource_list.png" alt="Backend API Resource List Page"/>
-        </td>
+        <td><img src="./docs/images/admin_login_restriction_list.png" alt="Login restriction list"/></td>
+        <td><img src="./docs/images/admin_api_resource_list.png" alt="API resource list"/></td>
     </tr>
     <tr>
-        <td>
-            <img src="./docs/images/admin_operation_log_list.png" alt="Backend Operation Log List Page"/>
-        </td>
-        <td>
-            <img src="./docs/images/admin_login_log_list.png" alt="Backend Login Log List Page"/>
-        </td>
+        <td><img src="./docs/images/admin_operation_log_list.png" alt="Operation log list"/></td>
+        <td><img src="./docs/images/admin_login_log_list.png" alt="Login log list"/></td>
     </tr>
     <tr>
-        <td>
-            <img src="./docs/images/api_swagger_ui.png" alt="Backend Built-in Swagger UI Page"/>
-        </td>
+        <td><img src="./docs/images/api_swagger_ui.png" alt="Backend Swagger UI"/></td>
     </tr>
 </table>
 
-## Contact Us
+## Contact
 
-- WeChat: `yang_lin_bo` (Note: `go-kratos-admin`)
-- Juejin Column: [go-kratos-admin](https://juejin.cn/column/7541283508041826367)
+- WeChat: `yang_lin_bo` (note: `go-wind-admin`)
+- Juejin column: [go-wind-admin](https://juejin.cn/column/7541283508041826367)
 
-## [Thanks to JetBrains for providing free GoLand & WebStorm](https://jb.gg/OpenSource)
+## Thanks to JetBrains for providing free GoLand & WebStorm
 
 [![avatar](https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.svg)](https://jb.gg/OpenSource)

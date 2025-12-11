@@ -17,9 +17,9 @@ import (
 	"github.com/tx7do/go-utils/geoip/geolite"
 	"github.com/tx7do/go-utils/jwtutil"
 
-	authenticationV1 "kratos-admin/api/gen/go/authentication/service/v1"
+	authenticationV1 "go-wind-admin/api/gen/go/authentication/service/v1"
 
-	"kratos-admin/pkg/jwt"
+	"go-wind-admin/pkg/jwt"
 )
 
 var ipClient, _ = geolite.NewClient()

@@ -5,8 +5,8 @@ package ent
 import (
 	"context"
 	"fmt"
-	"kratos-admin/app/admin/service/internal/data/ent/adminloginrestriction"
-	"kratos-admin/app/admin/service/internal/data/ent/predicate"
+	"go-wind-admin/app/admin/service/internal/data/ent/adminloginrestriction"
+	"go-wind-admin/app/admin/service/internal/data/ent/predicate"
 	"math"
 
 	"entgo.io/ent"

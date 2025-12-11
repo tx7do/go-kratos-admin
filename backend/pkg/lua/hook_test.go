@@ -7,7 +7,7 @@ import (
 	"github.com/go-kratos/kratos/v2/log"
 	lua "github.com/yuin/gopher-lua"
 
-	"kratos-admin/pkg/lua/api"
+	"go-wind-admin/pkg/lua/api"
 )
 
 func TestHookAPI_RegisterHook(t *testing.T) {

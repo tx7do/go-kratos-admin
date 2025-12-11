@@ -6,12 +6,12 @@ package servicev1
 import (
 	context "context"
 	redact "github.com/menta2k/protoc-gen-redact/v3/redact/v3"
+	servicev1 "go-wind-admin/api/gen/go/user/service/v1"
 	annotations "google.golang.org/genproto/googleapis/api/annotations"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
 	emptypb "google.golang.org/protobuf/types/known/emptypb"
-	servicev1 "kratos-admin/api/gen/go/user/service/v1"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.

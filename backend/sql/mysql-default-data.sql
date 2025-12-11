@@ -1,4 +1,4 @@
-USE `kratos_admin`;
+USE `go_wind_admin`;
 
 -- 插入4个权限的用户
 TRUNCATE TABLE `sys_users`;

@@ -1,6 +1,17 @@
+BEGIN;
+
+SET LOCAL search_path = public, pg_catalog;
+
+-- 一次性清理相关表并重置自增（包含外键依赖）
+TRUNCATE TABLE public.sys_user_credentials,
+               public.sys_users,
+               public.sys_roles,
+               public.sys_menus,
+               public.sys_api_resources
+RESTART IDENTITY CASCADE;
+
 -- 插入4个权限的用户
-TRUNCATE TABLE kratos_admin.public.sys_users RESTART IDENTITY;
-INSERT INTO kratos_admin.public.sys_users (username, nickname, realname, email, authority, role_ids, gender, tenant_id, created_at)
+INSERT INTO public.sys_users (username, nickname, realname, email, authority, role_ids, gender, tenant_id, created_at)
 VALUES ('admin', '鹳狸猿', '喵个咪', 'admin@gmail.com', 'SYS_ADMIN', '[1]', 'MALE', null, now()),
        -- 2. 租户管理员（TENANT_ADMIN）
        ('tenant_admin', '租户管理', '张管理员', 'tenant@company.com', 'TENANT_ADMIN', '[2]', 'MALE', 1, now()),
@@ -12,8 +23,7 @@ VALUES ('admin', '鹳狸猿', '喵个咪', 'admin@gmail.com', 'SYS_ADMIN', '[1]'
 SELECT setval('sys_users_id_seq', (SELECT MAX(id) FROM sys_users));
 
 -- 插入4个用户的凭证（密码统一为admin，哈希值与原admin一致，方便测试）
-TRUNCATE TABLE sys_user_credentials RESTART IDENTITY;
-INSERT INTO sys_user_credentials (user_id, identity_type, identifier, credential_type, credential, status, is_primary, created_at)
+INSERT INTO public.sys_user_credentials (user_id, identity_type, identifier, credential_type, credential, status, is_primary, created_at)
 VALUES (1, 'USERNAME', 'admin', 'PASSWORD_HASH', '$2a$10$yajZDX20Y40FkG0Bu4N19eXNqRizez/S9fK63.JxGkfLq.RoNKR/a', 'ENABLED', true, now()),
        (1, 'EMAIL', 'admin@gmail.com', 'PASSWORD_HASH', '$2a$10$yajZDX20Y40FkG0Bu4N19eXNqRizez/S9fK63.JxGkfLq.RoNKR/a', 'ENABLED', false, now()),
        -- 租户管理员（对应users表id=2）
@@ -31,8 +41,7 @@ VALUES (1, 'USERNAME', 'admin', 'PASSWORD_HASH', '$2a$10$yajZDX20Y40FkG0Bu4N19eX
 SELECT setval('sys_user_credentials_id_seq', (SELECT MAX(id) FROM sys_user_credentials));
 
 -- 默认的角色
-TRUNCATE TABLE kratos_admin.public.sys_roles RESTART IDENTITY;
-INSERT INTO kratos_admin.public.sys_roles(id, parent_id, created_by, sort_order, name, code, status, remark, menus, apis, created_at)
+INSERT INTO public.sys_roles(id, parent_id, created_by, sort_order, name, code, status, remark, menus, apis, created_at)
 VALUES (1, null, 0, 1, '超级管理员', 'super', 'ON', '拥有系统所有功能的操作权限，可管理租户、用户、角色及所有资源',
         '[1, 2, 10, 11, 20, 21, 22, 23, 24, 25, 30, 31, 32, 40, 41, 42, 50, 51, 52, 60, 61, 62, 63, 64, 65]', '[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107]', now()),
        (2, null, 0, 2, '租户管理员', 'tenant_admin', 'ON', '管理当前租户下的用户、角色及资源，无跨租户操作权限', '[1, 2, 20, 21, 22, 23, 24, 25, 50, 51, 52]', '[105, 104, 35, 34, 16, 106, 93, 14, 1, 92, 91, 85, 79, 46, 24, 23, 78, 56, 55, 8, 7, 52, 51, 6, 5, 4, 31, 30, 20, 19, 53, 15]', now()),
@@ -43,8 +52,7 @@ VALUES (1, null, 0, 1, '超级管理员', 'super', 'ON', '拥有系统所有功�
 SELECT setval('sys_roles_id_seq', (SELECT MAX(id) FROM sys_roles));
 
 -- 后台目录
-TRUNCATE TABLE kratos_admin.public.sys_menus RESTART IDENTITY;
-INSERT INTO kratos_admin.public.sys_menus(id, parent_id, type, name, path, redirect, component, status, created_at, meta)
+INSERT INTO public.sys_menus(id, parent_id, type, name, path, redirect, component, status, created_at, meta)
 VALUES (1, null, 'FOLDER', 'Dashboard', '/', null, 'BasicLayout', 'ON', now(), '{"order":-1, "title":"page.dashboard.title", "icon":"lucide:layout-dashboard", "keepAlive":false, "hideInBreadcrumb":false, "hideInMenu":false, "hideInTab":false}'),
        (2, 1, 'MENU', 'Analytics', '/analytics', null, 'dashboard/analytics/index.vue', 'ON', now(), '{"order":-1, "title":"page.dashboard.analytics", "icon":"lucide:area-chart", "affixTab": true, "keepAlive":false, "hideInBreadcrumb":false, "hideInMenu":false, "hideInTab":false}'),
 
@@ -80,7 +88,6 @@ VALUES (1, null, 'FOLDER', 'Dashboard', '/', null, 'BasicLayout', 'ON', now(), '
 SELECT setval('sys_menus_id_seq', (SELECT MAX(id) FROM sys_menus));
 
 -- API资源表数据
-TRUNCATE TABLE kratos_admin.public.sys_api_resources RESTART IDENTITY;
 INSERT INTO public.sys_api_resources (
     id, created_at, updated_at, deleted_at, created_by, updated_by, deleted_by,
     description, module, module_description, operation, path, method, scope
@@ -194,3 +201,5 @@ INSERT INTO public.sys_api_resources (
       (107, now(), null, null, null, null, null, '更新用户', 'UserService', '用户管理服务', 'UserService_Update', '/admin/v1/users/{id}', 'PUT', 'ADMIN')
 ;
 SELECT setval('sys_api_resources_id_seq', (SELECT MAX(id) FROM sys_api_resources));
+
+COMMIT;

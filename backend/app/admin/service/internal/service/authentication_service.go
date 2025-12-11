@@ -8,14 +8,14 @@ import (
 	authnEngine "github.com/tx7do/kratos-authn/engine"
 	"google.golang.org/protobuf/types/known/emptypb"
 
-	"kratos-admin/app/admin/service/internal/data"
+	"go-wind-admin/app/admin/service/internal/data"
 
-	adminV1 "kratos-admin/api/gen/go/admin/service/v1"
-	authenticationV1 "kratos-admin/api/gen/go/authentication/service/v1"
-	userV1 "kratos-admin/api/gen/go/user/service/v1"
+	adminV1 "go-wind-admin/api/gen/go/admin/service/v1"
+	authenticationV1 "go-wind-admin/api/gen/go/authentication/service/v1"
+	userV1 "go-wind-admin/api/gen/go/user/service/v1"
 
-	"kratos-admin/pkg/jwt"
-	"kratos-admin/pkg/middleware/auth"
+	"go-wind-admin/pkg/jwt"
+	"go-wind-admin/pkg/middleware/auth"
 )
 
 type AuthenticationService struct {

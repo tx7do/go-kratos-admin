@@ -9,7 +9,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/tx7do/go-utils/trans"
 
-	v1 "kratos-admin/api/gen/go/file/service/v1"
+	v1 "go-wind-admin/api/gen/go/file/service/v1"
 
 	conf "github.com/tx7do/kratos-bootstrap/api/gen/go/conf/v1"
 )

@@ -608,8 +608,8 @@ const file_dict_service_v1_language_proto_rawDesc = "" +
 	"\x06Create\x12&.dict.service.v1.CreateLanguageRequest\x1a\x16.google.protobuf.Empty\"\x00\x12J\n" +
 	"\x06Update\x12&.dict.service.v1.UpdateLanguageRequest\x1a\x16.google.protobuf.Empty\"\x00\x12J\n" +
 	"\x06Delete\x12&.dict.service.v1.DeleteLanguageRequest\x1a\x16.google.protobuf.Empty\"\x00\x12U\n" +
-	"\vBatchCreate\x12,.dict.service.v1.BatchCreateLanguagesRequest\x1a\x16.google.protobuf.Empty\"\x00B\xb5\x01\n" +
-	"\x13com.dict.service.v1B\rLanguageProtoP\x01Z1kratos-admin/api/gen/go/dict/service/v1;servicev1\xa2\x02\x03DSX\xaa\x02\x0fDict.Service.V1\xca\x02\x0fDict\\Service\\V1\xe2\x02\x1bDict\\Service\\V1\\GPBMetadata\xea\x02\x11Dict::Service::V1b\x06proto3"
+	"\vBatchCreate\x12,.dict.service.v1.BatchCreateLanguagesRequest\x1a\x16.google.protobuf.Empty\"\x00B\xb6\x01\n" +
+	"\x13com.dict.service.v1B\rLanguageProtoP\x01Z2go-wind-admin/api/gen/go/dict/service/v1;servicev1\xa2\x02\x03DSX\xaa\x02\x0fDict.Service.V1\xca\x02\x0fDict\\Service\\V1\xe2\x02\x1bDict\\Service\\V1\\GPBMetadata\xea\x02\x11Dict::Service::V1b\x06proto3"
 
 var (
 	file_dict_service_v1_language_proto_rawDescOnce sync.Once

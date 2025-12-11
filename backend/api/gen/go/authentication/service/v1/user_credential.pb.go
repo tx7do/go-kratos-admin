@@ -1229,8 +1229,8 @@ const file_authentication_service_v1_user_credential_proto_rawDesc = "" +
 	"\x06Delete\x126.authentication.service.v1.DeleteUserCredentialRequest\x1a\x16.google.protobuf.Empty\"\x00\x12}\n" +
 	"\x10VerifyCredential\x122.authentication.service.v1.VerifyCredentialRequest\x1a3.authentication.service.v1.VerifyCredentialResponse\"\x00\x12`\n" +
 	"\x10ChangeCredential\x122.authentication.service.v1.ChangeCredentialRequest\x1a\x16.google.protobuf.Empty\"\x00\x12^\n" +
-	"\x0fResetCredential\x121.authentication.service.v1.ResetCredentialRequest\x1a\x16.google.protobuf.Empty\"\x00B\xf7\x01\n" +
-	"\x1dcom.authentication.service.v1B\x13UserCredentialProtoP\x01Z;kratos-admin/api/gen/go/authentication/service/v1;servicev1\xa2\x02\x03ASX\xaa\x02\x19Authentication.Service.V1\xca\x02\x19Authentication\\Service\\V1\xe2\x02%Authentication\\Service\\V1\\GPBMetadata\xea\x02\x1bAuthentication::Service::V1b\x06proto3"
+	"\x0fResetCredential\x121.authentication.service.v1.ResetCredentialRequest\x1a\x16.google.protobuf.Empty\"\x00B\xf8\x01\n" +
+	"\x1dcom.authentication.service.v1B\x13UserCredentialProtoP\x01Z<go-wind-admin/api/gen/go/authentication/service/v1;servicev1\xa2\x02\x03ASX\xaa\x02\x19Authentication.Service.V1\xca\x02\x19Authentication\\Service\\V1\xe2\x02%Authentication\\Service\\V1\\GPBMetadata\xea\x02\x1bAuthentication::Service::V1b\x06proto3"
 
 var (
 	file_authentication_service_v1_user_credential_proto_rawDescOnce sync.Once

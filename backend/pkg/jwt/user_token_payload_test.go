@@ -7,7 +7,7 @@ import (
 	"github.com/tx7do/go-utils/trans"
 	authn "github.com/tx7do/kratos-authn/engine"
 
-	userV1 "kratos-admin/api/gen/go/user/service/v1"
+	userV1 "go-wind-admin/api/gen/go/user/service/v1"
 )
 
 func TestNewUserTokenPayload(t *testing.T) {

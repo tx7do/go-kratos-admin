@@ -128,7 +128,7 @@ export:
 	@cfgexp \
 		--type=etcd \
 		--addr=localhost:2379 \
-		--proj=kratos_admin
+		--proj=go_wind_admin
 
 # generate & build all service applications
 all:

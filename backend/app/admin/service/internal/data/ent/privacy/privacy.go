@@ -5,7 +5,7 @@ package privacy
 import (
 	"context"
 
-	"kratos-admin/app/admin/service/internal/data/ent"
+	"go-wind-admin/app/admin/service/internal/data/ent"
 
 	"entgo.io/ent/entql"
 	"entgo.io/ent/privacy"

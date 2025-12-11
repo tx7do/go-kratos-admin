@@ -5,11 +5,11 @@ import (
 
 	"github.com/go-kratos/kratos/v2/log"
 
-	"kratos-admin/app/admin/service/internal/data"
+	"go-wind-admin/app/admin/service/internal/data"
 
-	userV1 "kratos-admin/api/gen/go/user/service/v1"
+	userV1 "go-wind-admin/api/gen/go/user/service/v1"
 
-	"kratos-admin/pkg/utils/name_set"
+	"go-wind-admin/pkg/utils/name_set"
 )
 
 // InitOrganizationNameSetMap initializes the organization manager IDs into the userSet map.

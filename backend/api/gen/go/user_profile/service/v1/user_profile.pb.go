@@ -8,11 +8,11 @@ package servicev1
 
 import (
 	_ "github.com/google/gnostic/openapiv3"
+	v1 "go-wind-admin/api/gen/go/user/service/v1"
 	_ "google.golang.org/genproto/googleapis/api/annotations"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	emptypb "google.golang.org/protobuf/types/known/emptypb"
-	v1 "kratos-admin/api/gen/go/user/service/v1"
 	reflect "reflect"
 	unsafe "unsafe"
 )
@@ -32,8 +32,8 @@ const file_user_profile_service_v1_user_profile_proto_rawDesc = "" +
 	"\x12UserProfileService\x12:\n" +
 	"\aGetUser\x12\x16.google.protobuf.Empty\x1a\x15.user.service.v1.User\"\x00\x12J\n" +
 	"\n" +
-	"UpdateUser\x12\".user.service.v1.UpdateUserRequest\x1a\x16.google.protobuf.Empty\"\x00B\xe4\x01\n" +
-	"\x1bcom.user_profile.service.v1B\x10UserProfileProtoP\x01Z9kratos-admin/api/gen/go/user_profile/service/v1;servicev1\xa2\x02\x03USX\xaa\x02\x16UserProfile.Service.V1\xca\x02\x16UserProfile\\Service\\V1\xe2\x02\"UserProfile\\Service\\V1\\GPBMetadata\xea\x02\x18UserProfile::Service::V1b\x06proto3"
+	"UpdateUser\x12\".user.service.v1.UpdateUserRequest\x1a\x16.google.protobuf.Empty\"\x00B\xe5\x01\n" +
+	"\x1bcom.user_profile.service.v1B\x10UserProfileProtoP\x01Z:go-wind-admin/api/gen/go/user_profile/service/v1;servicev1\xa2\x02\x03USX\xaa\x02\x16UserProfile.Service.V1\xca\x02\x16UserProfile\\Service\\V1\xe2\x02\"UserProfile\\Service\\V1\\GPBMetadata\xea\x02\x18UserProfile::Service::V1b\x06proto3"
 
 var file_user_profile_service_v1_user_profile_proto_goTypes = []any{
 	(*emptypb.Empty)(nil),        // 0: google.protobuf.Empty

@@ -31,7 +31,7 @@ func TestOnServerStartScript(t *testing.T) {
 				"port":   8080,
 			},
 			"service": map[string]interface{}{
-				"name":    "kratos-admin",
+				"name":    "go-wind-admin",
 				"version": "1.0.0",
 			},
 		},

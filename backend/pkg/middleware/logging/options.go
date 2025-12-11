@@ -3,7 +3,7 @@ package logging
 import (
 	"context"
 
-	adminV1 "kratos-admin/api/gen/go/admin/service/v1"
+	adminV1 "go-wind-admin/api/gen/go/admin/service/v1"
 )
 
 type WriteOperationLogFunc func(ctx context.Context, data *adminV1.AdminOperationLog) error

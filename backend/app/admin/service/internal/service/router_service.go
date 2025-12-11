@@ -13,13 +13,13 @@ import (
 	pagination "github.com/tx7do/go-crud/api/gen/go/pagination/v1"
 	"github.com/tx7do/go-utils/trans"
 
-	"kratos-admin/app/admin/service/internal/data"
+	"go-wind-admin/app/admin/service/internal/data"
 
-	adminV1 "kratos-admin/api/gen/go/admin/service/v1"
-	userV1 "kratos-admin/api/gen/go/user/service/v1"
+	adminV1 "go-wind-admin/api/gen/go/admin/service/v1"
+	userV1 "go-wind-admin/api/gen/go/user/service/v1"
 
-	"kratos-admin/pkg/middleware/auth"
-	"kratos-admin/pkg/utils/slice"
+	"go-wind-admin/pkg/middleware/auth"
+	"go-wind-admin/pkg/utils/slice"
 )
 
 type RouterService struct {

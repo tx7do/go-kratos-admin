@@ -8,11 +8,11 @@ package servicev1
 
 import (
 	_ "github.com/google/gnostic/openapiv3"
+	v1 "go-wind-admin/api/gen/go/file/service/v1"
 	_ "google.golang.org/genproto/googleapis/api/annotations"
 	_ "google.golang.org/genproto/googleapis/api/httpbody"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
-	v1 "kratos-admin/api/gen/go/file/service/v1"
 	reflect "reflect"
 	unsafe "unsafe"
 )
@@ -33,8 +33,8 @@ const file_admin_service_v1_i_ueditor_proto_rawDesc = "" +
 	"\n" +
 	"UEditorAPI\x12\x1f.file.service.v1.UEditorRequest\x1a .file.service.v1.UEditorResponse\"\x19\x82\xd3\xe4\x93\x02\x13\x12\x11/admin/v1/ueditor\x12{\n" +
 	"\n" +
-	"UploadFile\x12%.file.service.v1.UEditorUploadRequest\x1a&.file.service.v1.UEditorUploadResponse\"\x1c\x82\xd3\xe4\x93\x02\x16:\x01*\"\x11/admin/v1/ueditor(\x01B\xbb\x01\n" +
-	"\x14com.admin.service.v1B\rIUeditorProtoP\x01Z2kratos-admin/api/gen/go/admin/service/v1;servicev1\xa2\x02\x03ASX\xaa\x02\x10Admin.Service.V1\xca\x02\x10Admin\\Service\\V1\xe2\x02\x1cAdmin\\Service\\V1\\GPBMetadata\xea\x02\x12Admin::Service::V1b\x06proto3"
+	"UploadFile\x12%.file.service.v1.UEditorUploadRequest\x1a&.file.service.v1.UEditorUploadResponse\"\x1c\x82\xd3\xe4\x93\x02\x16:\x01*\"\x11/admin/v1/ueditor(\x01B\xbc\x01\n" +
+	"\x14com.admin.service.v1B\rIUeditorProtoP\x01Z3go-wind-admin/api/gen/go/admin/service/v1;servicev1\xa2\x02\x03ASX\xaa\x02\x10Admin.Service.V1\xca\x02\x10Admin\\Service\\V1\xe2\x02\x1cAdmin\\Service\\V1\\GPBMetadata\xea\x02\x12Admin::Service::V1b\x06proto3"
 
 var file_admin_service_v1_i_ueditor_proto_goTypes = []any{
 	(*v1.UEditorRequest)(nil),        // 0: file.service.v1.UEditorRequest

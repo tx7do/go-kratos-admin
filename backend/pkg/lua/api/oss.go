@@ -9,7 +9,7 @@ import (
 	"github.com/minio/minio-go/v7"
 	lua "github.com/yuin/gopher-lua"
 
-	"kratos-admin/pkg/oss"
+	"go-wind-admin/pkg/oss"
 )
 
 // RegisterOSS registers the OSS (Object Storage Service) API for Lua as a requireable module

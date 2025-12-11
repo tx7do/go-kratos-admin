@@ -6,9 +6,9 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	servicev1 "kratos-admin/api/gen/go/admin/service/v1"
-	"kratos-admin/app/admin/service/internal/data/ent/predicate"
-	"kratos-admin/app/admin/service/internal/data/ent/task"
+	servicev1 "go-wind-admin/api/gen/go/admin/service/v1"
+	"go-wind-admin/app/admin/service/internal/data/ent/predicate"
+	"go-wind-admin/app/admin/service/internal/data/ent/task"
 	"time"
 
 	"entgo.io/ent/dialect/sql"

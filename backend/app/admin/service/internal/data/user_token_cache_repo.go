@@ -12,9 +12,9 @@ import (
 
 	authnEngine "github.com/tx7do/kratos-authn/engine"
 
-	userV1 "kratos-admin/api/gen/go/user/service/v1"
+	userV1 "go-wind-admin/api/gen/go/user/service/v1"
 
-	"kratos-admin/pkg/jwt"
+	"go-wind-admin/pkg/jwt"
 )
 
 type UserTokenCacheRepo struct {

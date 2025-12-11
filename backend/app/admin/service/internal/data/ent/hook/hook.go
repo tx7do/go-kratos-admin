@@ -5,7 +5,7 @@ package hook
 import (
 	"context"
 	"fmt"
-	"kratos-admin/app/admin/service/internal/data/ent"
+	"go-wind-admin/app/admin/service/internal/data/ent"
 )
 
 // The AdminLoginLogFunc type is an adapter to allow the use of ordinary

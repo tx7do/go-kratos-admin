@@ -11,12 +11,12 @@ option (gnostic.openapi.v3.document) = {
     description: "Kratos Admin API";
     contact: {
       name: "tx7do";
-      url: "https://github.com/tx7do/kratos-admin";
+      url: "https://github.com/tx7do/go-wind-admin";
       email: "yanglinbo@gmail.com";
     }
     license: {
       name: "MIT License";
-      url: "https://github.com/tx7do/kratos-admin/blob/master/LICENSE";
+      url: "https://github.com/tx7do/go-wind-admin/blob/master/LICENSE";
     }
   }
 

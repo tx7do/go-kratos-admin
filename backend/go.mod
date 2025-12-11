@@ -26,8 +26,8 @@ require (
 	github.com/redis/go-redis/v9 v9.17.2
 	github.com/stretchr/testify v1.11.1
 	github.com/tx7do/go-crud v0.0.5
-	github.com/tx7do/go-crud/entgo v0.0.13
-	github.com/tx7do/go-crud/gorm v0.0.7
+	github.com/tx7do/go-crud/entgo v0.0.14
+	github.com/tx7do/go-crud/gorm v0.0.11
 	github.com/tx7do/go-utils v1.1.34
 	github.com/tx7do/go-utils/copierutil v0.0.6
 	github.com/tx7do/go-utils/geoip v1.1.7
@@ -44,8 +44,8 @@ require (
 	github.com/tx7do/kratos-bootstrap/api v0.0.29
 	github.com/tx7do/kratos-bootstrap/bootstrap v0.0.21
 	github.com/tx7do/kratos-bootstrap/cache/redis v0.0.14
-	github.com/tx7do/kratos-bootstrap/database/ent v0.0.14
-	github.com/tx7do/kratos-bootstrap/database/gorm v0.0.13
+	github.com/tx7do/kratos-bootstrap/database/ent v0.0.15
+	github.com/tx7do/kratos-bootstrap/database/gorm v0.0.16
 	github.com/tx7do/kratos-bootstrap/oss/minio v0.0.13
 	github.com/tx7do/kratos-bootstrap/rpc v0.0.21
 	github.com/tx7do/kratos-swagger-ui v0.0.0-20250528131001-09c0dbdb208d
@@ -62,8 +62,8 @@ require (
 
 require (
 	ariga.io/atlas v0.38.0 // indirect
-	buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go v1.36.10-20251209175733-2a1774d88802.1 // indirect
-	buf.build/go/protovalidate v1.1.0 // indirect
+	buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go v1.36.10-20250912141014-52f32327d4b0.1 // indirect
+	buf.build/go/protovalidate v1.0.1 // indirect
 	cel.dev/expr v0.25.1 // indirect
 	cloud.google.com/go v0.123.0 // indirect
 	cloud.google.com/go/auth v0.17.0 // indirect
@@ -77,7 +77,6 @@ require (
 	github.com/ClickHouse/ch-go v0.69.0 // indirect
 	github.com/ClickHouse/clickhouse-go/v2 v2.41.0 // indirect
 	github.com/HuaweiCloudDeveloper/gaussdb-go v1.0.0-rc1 // indirect
-	github.com/VictoriaMetrics/easyproto v1.1.3 // indirect
 	github.com/XSAM/otelsql v0.40.0 // indirect
 	github.com/agext/levenshtein v1.2.3 // indirect
 	github.com/agnivade/levenshtein v1.2.1 // indirect
@@ -147,7 +146,6 @@ require (
 	github.com/go-kratos/kratos/contrib/log/logrus/v2 v2.0.0-20251205160234-b9fab9a5a5ab // indirect
 	github.com/go-kratos/kratos/contrib/log/tencent/v2 v2.0.0-20251205160234-b9fab9a5a5ab // indirect
 	github.com/go-kratos/kratos/contrib/log/zap/v2 v2.0.0-20251205160234-b9fab9a5a5ab // indirect
-	github.com/go-logfmt/logfmt v0.6.1 // indirect
 	github.com/go-logr/logr v1.4.3 // indirect
 	github.com/go-logr/stdr v1.2.2 // indirect
 	github.com/go-ole/go-ole v1.3.0 // indirect
@@ -159,8 +157,6 @@ require (
 	github.com/go-zookeeper/zk v1.0.4 // indirect
 	github.com/gobwas/glob v0.2.3 // indirect
 	github.com/goccy/go-json v0.10.5 // indirect
-	github.com/godror/godror v0.49.6 // indirect
-	github.com/godror/knownpb v0.3.0 // indirect
 	github.com/gofrs/uuid v4.4.0+incompatible // indirect
 	github.com/gogo/protobuf v1.3.2 // indirect
 	github.com/golang-sql/civil v0.0.0-20220223132316-b832511892a9 // indirect
@@ -241,7 +237,6 @@ require (
 	github.com/open-policy-agent/opa v1.9.0 // indirect
 	github.com/opentracing/opentracing-go v1.2.1-0.20220228012449-10b1cf09e00b // indirect
 	github.com/openzipkin/zipkin-go v0.4.3 // indirect
-	github.com/oracle-samples/gorm-oracle v1.1.0 // indirect
 	github.com/orcaman/concurrent-map v1.0.0 // indirect
 	github.com/oschwald/geoip2-golang v1.13.0 // indirect
 	github.com/oschwald/maxminddb-golang v1.13.1 // indirect

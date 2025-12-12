@@ -8,7 +8,7 @@ Although both use microservice frameworks, the frontend and backend can be devel
 
 Easy to get started, feature-rich, suitable for rapid development of enterprise admin systems.
 
-[English](./README.en-US.md) | **中文** | [日本語](./README.ja-JP.md)
+**English** | [中文](./README.md) | [日本語](./README.ja-JP.md)
 
 ## Demo
 

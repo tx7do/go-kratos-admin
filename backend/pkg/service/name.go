@@ -7,5 +7,5 @@ package service
 // Nacos:
 
 const (
-	AdminService = "kratosAdmin-admin-gateway" // 后台BFF
+	AdminService = "gowind-admin-gateway" // 后台BFF
 )

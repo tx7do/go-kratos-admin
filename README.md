@@ -1,12 +1,14 @@
-# GoWindAdmin（风行后台管理系统）
+# 开箱即用的 GoWind Admin｜风行，企业级前后端一体中后台框架
 
-> GoWindAdmin（风行后台管理系统）——**高效构建企业级管理系统，让开发如风随行。**
+> **让中后台开发如风般自由 — GoWind Admin**
 
-开箱即用的Golang全栈后台管理系统，其后端是基于的GO微服务框架[go-kratos](https://go-kratos.dev/)，前端基于Vue微服务框架[Vben Admin](https://doc.vben.pro/)。
+风行（Go Wind Admin）是一款开箱即用的企业级Golang全栈后台管理系统。
 
-虽然都是使用的微服务的框架，但是前后端都是可以使用单体架构的方式进行开发和部署的。
+系统后端基于GO微服务框架[go-kratos](https://go-kratos.dev/)，前端基于Vue微服务框架[Vben Admin](https://doc.vben.pro/)，兼顾微服务的扩展性与单体部署的便捷性。
 
-上手容易，功能丰富，适合快速开发企业级管理系统。
+尽管依托微服务框架设计，但系统前后端均支持单体架构模式开发与部署，灵活适配不同团队规模及项目复杂度需求，平衡灵活性与易用性。
+
+产品具备上手简易、功能完备的核心优势，依托风行对企业级场景的深度适配能力，可助力开发者快速落地各类企业级管理系统项目，大幅提升开发效率。
 
 [English](./README.en-US.md) | **中文** | [日本語](./README.ja-JP.md)
 
@@ -18,32 +20,76 @@
 >
 > 默认账号密码: `admin` / `admin`
 
-## 技术栈
+## 风行·核心技术栈
+
+秉持高效、稳定、可扩展的技术选型理念，系统核心技术栈如下：
 
 - 后端基于 [Golang](https://go.dev/) + [go-kratos](https://go-kratos.dev/) + [wire](https://github.com/google/wire) + [ent](https://entgo.io/docs/getting-started/)
 - 前端基于 [Vue](https://vuejs.org/) + [TypeScript](https://www.typescriptlang.org/) + [Ant Design Vue](https://antdv.com/) + [Vben Admin](https://doc.vben.pro/)
 
-## 快速上手指南
+## 风行·快速上手指南
 
-1. 安装完成docker和golang（参考`backend/script/prepare_ubuntu.sh`、`backend/script/prepare_centos.sh`、`backend/script/prepare_rocky.sh`）
-2. 进入backend目录，执行以下命令，完成后端服务kratos-admin编译和docker镜像构建并启动，同时启动依赖的docker镜像服务
-    ```bash
-    make init
-    make docker
-    make compose-up
-    ```
-3. 安装npm和pnpm(安装方法可询问AI)
-4. 进入frontend目录，执行以下命令，完成前端的编译并启动(开发模式)
-    ```bash
-    pnpm install
-    pnpm dev
-    ```
-5. 访问测试
+### 后端
 
-- 前端：<http://localhost:5666>， 登录账号：`admin`，密码：`admin`
-- 后端：<http://localhost:7788/docs/openapi.yaml>
+一键安装`golang`和`docker`等前置依赖：
 
-## 功能列表
+```bash
+# Ubuntu
+./backend/script/prepare_ubuntu.sh
+
+# Centos
+./backend/script/prepare_centos.sh
+
+# Rocky
+./backend/script/prepare_rocky.sh
+
+# Windows
+./backend/script/prepare_windows.ps1
+
+# MacOS
+./backend/script/prepare_macos.sh
+```
+
+一键安装三方组件和`go-wind-admin`服务：
+
+```bash
+./backend/script/docker_compose_install.sh
+```
+
+### 前端
+
+#### 1. 安装 Node.js（npm 随 Node.js 自带）：
+
+访问Node.js官方下载页：<https://nodejs.org/>，下载对应系统（Windows/macOS/Linux）的LTS稳定版本并安装。
+
+安装完成后，打开终端/命令提示符，输入以下命令验证安装成功：
+
+```bash
+node -v  # 输出Node.js版本号即成功
+npm -v   # 输出npm版本号即成功
+```
+
+#### 2. 安装 pnpm：
+
+```bash
+npm install -g pnpm
+```
+
+#### 3. 启动前端服务：
+
+进入 frontend 目录，执行以下命令，完成前端依赖安装、编译并启动开发模式：
+
+```bash
+pnpm install
+pnpm dev
+```
+
+### 访问测试
+
+- 前端地址：<http://localhost:5666>， 登录账号：`admin`，密码：`admin`
+- 后端文档地址：<http://localhost:7788/docs/openapi.yaml>
+
+## 风行·核心功能列表
 
 | 功能   | 说明                                                                       |
 |------|--------------------------------------------------------------------------|
@@ -65,7 +111,7 @@
 | 登录日志 | 登录日志列表查询，记录用户登录成功和失败日志，支持IP归属地记录。                                        |
 | 操作日志 | 操作日志列表查询，记录用户操作正常和异常日志，支持IP归属地记录，查看操作日志详情。                               |
 
-## 后台截图
+## 风行·后台截图展示
 
 <table>
     <tr>

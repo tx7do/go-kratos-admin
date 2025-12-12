@@ -3,8 +3,8 @@
 
 openapi: 3.0.3
 info:
-    title: Kratos Admin API
-    description: Kratos Admin API
+    title: GoWind Admin API
+    description: GoWind Admin API
     contact:
         name: tx7do
         url: https://github.com/tx7do/go-wind-admin

@@ -6,9 +6,9 @@ import "gnostic/openapi/v3/annotations.proto";
 
 option (gnostic.openapi.v3.document) = {
   info: {
-    title: "Kratos Admin API";
+    title: "GoWind Admin API";
     version: "1.0";
-    description: "Kratos Admin API";
+    description: "GoWind Admin API";
     contact: {
       name: "tx7do";
       url: "https://github.com/tx7do/go-wind-admin";

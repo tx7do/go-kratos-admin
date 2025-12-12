@@ -26,7 +26,7 @@ var File_admin_service_v1_admin_doc_proto protoreflect.FileDescriptor
 const file_admin_service_v1_admin_doc_proto_rawDesc = "" +
 	"\n" +
 	" admin/service/v1/admin_doc.proto\x12\x10admin.service.v1\x1a$gnostic/openapi/v3/annotations.protoB\xb2\x06\xbaG\xf2\x04\x12\xba\x01\n" +
-	"\x10Kratos Admin API\x12\x10Kratos Admin API\"D\n" +
+	"\x10GoWind Admin API\x12\x10GoWind Admin API\"D\n" +
 	"\x05tx7do\x12&https://github.com/tx7do/go-wind-admin\x1a\x13yanglinbo@gmail.com*I\n" +
 	"\vMIT License\x12:https://github.com/tx7do/go-wind-admin/blob/master/LICENSE2\x031.0*\x96\x03\n" +
 	"\xd4\x01\n" +

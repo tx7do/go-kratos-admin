@@ -148,7 +148,7 @@ func NewRESTServer(
 	if cfg.GetServer().GetRest().GetEnableSwagger() {
 		swaggerUI.RegisterSwaggerUIServerWithOption(
 			srv,
-			swaggerUI.WithTitle("Kratos Admin"),
+			swaggerUI.WithTitle("GoWind Admin"),
 			swaggerUI.WithMemoryData(assets.OpenApiData, "yaml"),
 		)
 	}

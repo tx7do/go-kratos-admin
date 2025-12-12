@@ -8,7 +8,7 @@
 
 導入が容易で機能が充実しており、企業向け管理システムの迅速な開発に適しています。
 
-[English](./README.en-US.md) | **中文** | [日本語](./README.ja-JP.md)
+[English](./README.en-US.md) | [中文](./README.md) | **日本語**
 
 ## デモ
 

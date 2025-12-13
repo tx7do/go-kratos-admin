@@ -91,6 +91,10 @@ env:
 build: api openapi
 	@go build $(GOFLAGS) -ldflags "$(LDFLAGS)" -o ./bin/ ./...
 
+# build golang application only
+build_only:
+	@go build $(GOFLAGS) -ldflags "$(LDFLAGS)" -o ./bin/ ./...
+
 # run application
 run: api openapi
 	-@go run $(GOFLAGS) -ldflags "$(LDFLAGS)" ./cmd/server -conf ./configs

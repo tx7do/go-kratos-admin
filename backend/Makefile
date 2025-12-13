@@ -117,6 +117,13 @@ build: api openapi
       make build;\
     )
 
+# only build all service applications without generating api and openapi
+build_only:
+	$(foreach dir, $(dir $(realpath $(SRCS_MK))),\
+      cd $(dir);\
+      make build_only;\
+    )
+
 # export configuration to etcd
 export:
 	@cfgexp \

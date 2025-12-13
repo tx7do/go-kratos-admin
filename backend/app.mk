@@ -1,4 +1,14 @@
-.PHONY: build clean docker gen ent wire api openapi run app help
+# Makefile for building the GoWind micro service application
+
+MKFILE_PATH := $(abspath $(lastword $(MAKEFILE_LIST)))
+MKFILE_DIR  := $(dir $(MKFILE_PATH))
+ENV_FILE    := $(MKFILE_DIR).env
+
+# load environment variables from .env file if it exists
+ifneq (,$(wildcard $(ENV_FILE)))
+    include $(ENV_FILE)
+    export
+endif
 
 GOPATH ?= $(shell go env GOPATH)
 # GOVERSION is the current go version, e.g. go1.9.2
@@ -18,7 +28,7 @@ ARCH			:= "`uname -s`"
 LINUX			:= "Linux"
 MAC				:= "Darwin"
 
-DEFAULT_VERSION	:= 0.0.1
+DEFAULT_VERSION	?= $(SERVICE_APP_VERSION)
 
 ifeq ($(OS),Windows_NT)
     IS_WINDOWS	:= TRUE
@@ -53,33 +63,50 @@ LAST_TAG	?= v$(DEFAULT_VERSION)
 VERSION		?= $(DEFAULT_VERSION)
 
 # GOFLAGS is the flags for the go compiler.
-GOFLAGS		?= -ldflags "-X main.version=$(VERSION)"
+LDFLAGS ?= -X main.version=$(VERSION)
+GOFLAGS ?=
 
-PROJECT_NAME		:= go-wind-admin
 APP_RELATIVE_PATH	:= $(shell a=`basename $$PWD` && cd .. && b=`basename $$PWD` && echo $$b/$$a)
 SERVICE_NAME		:= $(shell a=`basename $$PWD` && cd .. && b=`basename $$PWD` && echo $$b)
 APP_NAME			:= $(shell echo $(APP_RELATIVE_PATH) | sed -En "s/\//-/p")
 
+.PHONY: build clean docker gen ent wire api openapi run app help
+
+# show environment variables
+env:
+	@echo "GOPATH: $(GOPATH)"
+	@echo "GOVERSION: $(GOVERSION)"
+	@echo "GOFLAGS: $(GOFLAGS)"
+	@echo "LDFLAGS: $(LDFLAGS)"
+	@echo "PROJECT_NAME: $(PROJECT_NAME)"
+	@echo "SERVICE_APP_VERSION: $(SERVICE_APP_VERSION)"
+	@echo "APP_RELATIVE_PATH: $(APP_RELATIVE_PATH)"
+	@echo "SERVICE_NAME: $(SERVICE_NAME)"
+	@echo "APP_NAME: $(APP_NAME)"
+	@echo "CUR_TAG: $(CUR_TAG)"
+	@echo "LAST_TAG: $(LAST_TAG)"
+	@echo "VERSION: $(VERSION)"
+
 # build golang application
 build: api openapi
-	@go build -ldflags "-X main.version=$(APP_VERSION)" -o ./bin/ ./...
+	@go build $(GOFLAGS) -ldflags "$(LDFLAGS)" -o ./bin/ ./...
+
+# run application
+run: api openapi
+	-@go run $(GOFLAGS) -ldflags "$(LDFLAGS)" ./cmd/server -conf ./configs
+
+# build service app
+app: api openapi wire ent build
 
 # clean build files
 clean:
 	@go clean
 	$(if $(IS_WINDOWS), del "coverage.out", rm -f "coverage.out")
 
-# build docker image
-docker:
-	@docker build -t $(PROJECT_NAME)/$(APP_NAME) \
-				  --build-arg SERVICE_NAME=$(SERVICE_NAME) \
-				  --build-arg APP_VERSION=$(APP_VERSION) \
-				  -f ../../../Dockerfile ../../../
-
 # generate code
 gen: ent wire api openapi
 
-# generate ent code
+# generate ent code, if ent schema exist in the project's internal/data/ent folder
 ent:
 ifneq ("$(wildcard ./internal/data/ent)","")
 	@ent generate \
@@ -100,17 +127,17 @@ api:
 	@cd ../../../api && \
 	buf generate
 
-# generate OpenAPI v3 doc
+# generate protobuf api OpenAPI v3 docs
 openapi:
 	@cd ../../../api && \
 	buf generate --template buf.admin.openapi.gen.yaml
 
-# run application
-run: api openapi
-	-@go run ./cmd/server -conf ./configs
-
-# build service app
-app: api openapi wire ent build
+# build docker image
+docker:
+	@docker build -t $(PROJECT_NAME)/$(APP_NAME) \
+				  --build-arg SERVICE_NAME=$(SERVICE_NAME) \
+				  --build-arg APP_VERSION=$(APP_VERSION) \
+				  -f ../../../Dockerfile ../../../
 
 # show help
 help:
@@ -118,7 +145,7 @@ help:
 	@echo "Usage:"
 	@echo " make [target]"
 	@echo ""
-	@echo 'Targets:'
+	@echo "Targets:"
 	@awk '/^[a-zA-Z\-_0-9]+:/ { \
 	helpMessage = match(lastLine, /^# (.*)/); \
 		if (helpMessage) { \

@@ -1,4 +1,4 @@
-USE `go_wind_admin`;
+USE `gwa`;
 
 -- 插入4个权限的用户
 TRUNCATE TABLE `sys_users`;

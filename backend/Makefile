@@ -1,15 +1,27 @@
-# Not Support Windows
-
-.PHONY: help wire gen ent build api openapi init all vendor dep test cover vet lint docker
+# Makefile for managing the Go microservices project
 
 ifeq ($(OS),Windows_NT)
     IS_WINDOWS := 1
+endif
+
+# load environment variables from .env file if it exists
+ifneq (,$(wildcard .env))
+    include .env
+    export
 endif
 
 CURRENT_DIR	:= $(patsubst %/,%,$(dir $(abspath $(lastword $(MAKEFILE_LIST)))))
 ROOT_DIR	:= $(dir $(realpath $(lastword $(MAKEFILE_LIST))))
 
 SRCS_MK		:= $(foreach dir, app, $(wildcard $(dir)/*/*/Makefile))
+
+.PHONY: help wire gen ent build api openapi init all vendor dep test cover vet lint docker
+
+# show environment variables
+env:
+	@echo "CURRENT_DIR: $(CURRENT_DIR)"
+	@echo "ROOT_DIR: $(ROOT_DIR)"
+	@echo "SRCS_MK: $(SRCS_MK)"
 
 # initialize develop environment
 init: plugin cli
@@ -42,13 +54,6 @@ cli:
 	@go install github.com/tx7do/kratos-cli/sql-proto/cmd/sql2proto@latest
 	@go install github.com/tx7do/kratos-cli/sql-kratos/cmd/sql2kratos@latest
 
-# use docker compose to run backend services and all its dependency services like redis, mysql, etc.
-compose-up:
-	@docker compose up -d --force-recreate
-
-compose-down:
-	@docker compose down
-
 # download dependencies of module
 dep:
 	@go mod download
@@ -80,13 +85,6 @@ wire:
       make wire;\
     )
 
-# generate code by go:generate
-gen:
-	$(foreach dir, $(dir $(realpath $(SRCS_MK))),\
-      cd $(dir);\
-      make gen;\
-    )
-
 # generate ent code
 ent:
 	$(foreach dir, $(dir $(realpath $(SRCS_MK))),\
@@ -94,17 +92,20 @@ ent:
       make ent;\
     )
 
+# generate code
+gen: ent wire api openapi
+
 # generate protobuf api go code
 api:
 	@cd api && \
 	buf generate
 
-# generate OpenAPI v3 docs.
+# generate protobuf api OpenAPI v3 docs.
 openapi:
 	@cd api && \
 	buf generate --template buf.admin.openapi.gen.yaml
 
-# generate typescript.
+# generate protobuf api Typescript code
 ts:
 	@cd api && \
 	buf generate --template buf.admin.typescript.gen.yaml
@@ -116,19 +117,12 @@ build: api openapi
       make build;\
     )
 
-# build docker image
-docker:
-	$(foreach dir, $(dir $(realpath $(SRCS_MK))),\
-      cd $(dir);\
-      make docker;\
-    )
-
 # export configuration to etcd
 export:
 	@cfgexp \
 		--type=etcd \
 		--addr=localhost:2379 \
-		--proj=go_wind_admin
+		--proj=$(PROJECT_NAME)
 
 # generate & build all service applications
 all:
@@ -137,13 +131,36 @@ all:
       make app;\
     )
 
+# use docker compose to run backend services and all its dependency services like redis, mysql, etc.
+compose-up:
+	@docker compose up -d --force-recreate
+
+# use docker compose to restart backend services and all its dependency services like redis, mysql, etc.
+compose-restart:
+	@docker compose restart
+
+# use docker compose to down backend services and all its dependency services like redis, mysql, etc.
+compose-down:
+	@docker compose down
+
+# use docker compose to run only dependency services like redis, mysql, etc. without backend services.
+compose-up-without-service:
+	@docker compose -f `docker-compose-without-services.yaml` up -d
+
+# build docker image
+docker:
+	$(foreach dir, $(dir $(realpath $(SRCS_MK))),\
+      cd $(dir);\
+      make docker;\
+    )
+
 # show help
 help:
 	@echo ""
 	@echo "Usage:"
 	@echo " make [target]"
 	@echo ""
-	@echo 'Targets:'
+	@echo "Targets:"
 	@awk '/^[a-zA-Z\-_0-9]+:/ { \
 	helpMessage = match(lastLine, /^# (.*)/); \
 		if (helpMessage) { \

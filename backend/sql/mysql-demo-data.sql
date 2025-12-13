@@ -1,4 +1,4 @@
-USE `go_wind_admin`;
+USE `gwa`;
 
 SET FOREIGN_KEY_CHECKS = 0;
 

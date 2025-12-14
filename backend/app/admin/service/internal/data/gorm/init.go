@@ -1,16 +1,17 @@
 package gorm
 
 import (
-	"go-wind-admin/app/admin/service/internal/data/gorm/models"
-
 	"github.com/tx7do/go-crud/gorm"
+
+	"go-wind-admin/app/admin/service/internal/data/gorm/models"
 )
 
 func init() {
-	RegisterMigrates()
+	RegisterMigrateModels()
 }
 
-func RegisterMigrates() {
+// RegisterMigrateModels registers all GORM models for migration.
+func RegisterMigrateModels() {
 	gorm.RegisterMigrateModels(
 		&models.AdminLoginLog{},
 		&models.AdminLoginRestriction{},

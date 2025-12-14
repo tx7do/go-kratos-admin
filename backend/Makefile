@@ -53,6 +53,7 @@ cli:
 	@go install github.com/tx7do/kratos-cli/sql-orm/cmd/sql2orm@latest
 	@go install github.com/tx7do/kratos-cli/sql-proto/cmd/sql2proto@latest
 	@go install github.com/tx7do/kratos-cli/sql-kratos/cmd/sql2kratos@latest
+	@go install github.com/tx7do/kratos-cli/gowind/cmd/gow@latest
 
 # download dependencies of module
 dep:

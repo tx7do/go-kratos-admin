@@ -21,6 +21,7 @@ import (
 	userV1 "go-wind-admin/api/gen/go/user/service/v1"
 )
 
+// Authorizer 权限管理器
 type Authorizer struct {
 	log *log.Helper
 
@@ -74,7 +75,7 @@ func (a *Authorizer) newEngine(cfg *conf.Bootstrap) authzEngine.Engine {
 		return state
 
 	case "casbin":
-		state, err := casbin.NewEngine(ctx)
+		state, err := casbin.NewEngine(ctx, casbin.WithStringModel(string(assets.OpaRbacRego)))
 		if err != nil {
 			a.log.Errorf("init casbin engine error: %v", err)
 			return nil

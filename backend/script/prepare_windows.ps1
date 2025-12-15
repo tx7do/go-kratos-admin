@@ -1,167 +1,228 @@
+<#
+.SYNOPSIS
+Windows 开发环境自动配置脚本（Scoop/Docker/Node/Go/PM2）
+.NOTES
+保存编码：UTF-8 with BOM | 运行权限：普通/管理员均可 | 兼容：PowerShell 5.1+、所有 Scoop 版本
+#>
 Set-StrictMode -Version Latest
-$ErrorActionPreference = 'Stop'
+$ErrorActionPreference = 'Continue'  # 改为Continue，避免非致命错误直接退出
 
-function Log { param($m) Write-Host "==> $m" }
-function ErrTrap { param($Line) Write-Host "Error at line $Line" -ForegroundColor Red ; exit 1 }
-trap { ErrTrap $($_.InvocationInfo.ScriptLineNumber) }
+# 日志函数（纯英文避免编码问题）
+function Log { param($m) Write-Host "==> $m" -ForegroundColor Cyan }
+function Warn { param($m) Write-Host "⚠️ $m" -ForegroundColor Yellow }
+function ErrorLog { param($m) Write-Host "❌ $m" -ForegroundColor Red }
 
-# 检测是否以管理员运行
-$IsAdmin = ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
+# 错误处理：仅严重错误提示，不强制退出
+function ErrTrap {
+    param($Line, $Exception)
+    ErrorLog "Error at line $Line : $($Exception.Message)"
+    # 仅记录错误，不退出（避免整个脚本中断）
+}
+trap {
+    # 过滤已知非致命错误
+    if ($_.Exception.Message -match '不支持所指定的方法|not supported|permission denied|权限|Option -q not recognized') {
+        Warn "Non-critical error: $($_.Exception.Message)"
+        continue
+    } elseif ($_.Exception.Message -notmatch 'exists|已存在|skip|跳过') {
+        ErrTrap $($_.InvocationInfo.ScriptLineNumber) $_.Exception
+        continue
+    } else {
+        Warn $_.Exception.Message
+        continue
+    }
+}
+
+# 检测管理员权限
+$currentPrincipal = New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())
+$IsAdmin = $currentPrincipal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
 if (-not $IsAdmin) {
-    Log "未以管理员身份运行，某些操作（安装系统服务、Docker Desktop）可能会被跳过或提示权限错误。"
+    Warn "Not running as administrator! PM2 service install/Docker auto-start will be skipped."
 }
 
-# 确保 Scoop 存在
+# ========== Scoop 安装 ==========
 if (-not (Get-Command scoop -ErrorAction SilentlyContinue)) {
-    Log "安装 Scoop（非交互）"
-    Try {
-        Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned -Force
+    Log "Installing Scoop (non-interactive)"
+    try {
+        Set-ExecutionPolicy RemoteSigned -Scope CurrentUser -Force -ErrorAction Stop
+        [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
         Invoke-RestMethod -Uri https://get.scoop.sh -UseBasicParsing | Invoke-Expression
-    } Catch {
-        Write-Warning "Scoop 安装失败：$($_.Exception.Message)"
-        throw
+    } catch {
+        ErrorLog "Scoop install failed: $($_.Exception.Message)"
     }
 }
 
-# 确保常用 buckets 存在
+# 配置 Scoop Buckets
 $neededBuckets = @('main','extras')
+$bucketList = @(& scoop bucket list 2>$null)
 foreach ($b in $neededBuckets) {
-    $exists = (& scoop bucket list) -match "^$b`$"
-    if (-not $exists) {
-        Log "添加 scoop bucket: $b"
-        & scoop bucket add $b
+    if ($bucketList -notcontains $b) {
+        Log "Adding Scoop bucket: $b"
+        try { & scoop bucket add $b --no-update 2>$null }
+        catch { Warn "Failed to add bucket $b : $($_.Exception.Message)" }
+    } else {
+        Log "Bucket $b already exists, skip"
     }
 }
 
-# 基础工具清单并安装（使用 scoop）
+# 安装基础工具（移除 -q 参数，兼容旧版 Scoop）
 $pkgs = @('wget','unzip','git','jq','make','grep','gawk','sed','touch','mingw','nodejs','go')
 foreach ($p in $pkgs) {
     if (-not (Get-Command $p -ErrorAction SilentlyContinue)) {
-        Log "安装 $p"
-        & scoop install $p
+        Log "Installing tool: $p"
+        try { & scoop install $p 2>$null }  # 移除 -q 参数
+        catch { Warn "Failed to install $p : $($_.Exception.Message)" }
     } else {
-        Log "$p 已存在，跳过"
+        Log "$p already installed, skip"
     }
 }
 
-# 优先使用 winget 安装 Docker Desktop（非交互），若不存在再尝试 scoop
+# ========== Docker 安装 ==========
 function Install-DockerDesktop {
+    Log "Installing Docker Desktop"
     if (Get-Command winget -ErrorAction SilentlyContinue) {
-        Log "使用 winget 安装 Docker Desktop（可能需要管理员）"
-        & winget install --id Docker.DockerDesktop -e --accept-package-agreements --accept-source-agreements
-    } else {
-        Log "winget 不可用，尝试使用 scoop 安装 docker（可能仅为 CLI）"
-        & scoop install docker
-    }
-}
-
-# 安装或确保 Docker
-try {
-    Install-DockerDesktop
-} catch {
-    Write-Warning "安装 Docker 失败：$($_.Exception.Message)"
-}
-
-# 启动并设置 Docker 服务自动启动（如果存在）
-try {
-    if (Get-Service -Name docker -ErrorAction SilentlyContinue) {
-        Log "启动 docker 服务并设为自动"
-        if ($IsAdmin) {
-            Start-Service docker -ErrorAction SilentlyContinue
-            Set-Service -Name docker -StartupType Automatic
-        } else {
-            Write-Warning "非管理员：无法修改服务启动类型，请以管理员身份运行以启用 docker 服务开机自启。"
-        }
-    } else {
-        Log "docker 服务不存在（可能使用 Docker Desktop），请手动确认。"
-    }
-} catch {
-    Write-Warning "操作 Docker 服务出错：$($_.Exception.Message)"
-}
-
-# 安装 npm 全局工具 (pm2, pm2-windows-service) 并处理权限问题
-function Npm-GlobalInstall {
-    param($packages)
-
-    # 检查是否有权限写入全局 npm 前缀
-    try {
-        $globalPrefix = npm config get prefix 2>$null
-    } catch {
-        $globalPrefix = $null
-    }
-
-    $needsUserPrefix = $false
-    if ($globalPrefix) {
         try {
-            $testFile = Join-Path $globalPrefix "npm_install_test.txt"
-            New-Item -Path $testFile -ItemType File -Force | Out-Null
-            Remove-Item $testFile -Force
+            & winget install --id Docker.DockerDesktop `
+                -e --accept-package-agreements --accept-source-agreements `
+                --silent --disable-interactivity 2>$null
+            Log "Docker Desktop install submitted via Winget (wait for background completion)"
         } catch {
-            $needsUserPrefix = $true
+            Warn "Winget install Docker failed: $($_.Exception.Message)"
         }
     } else {
-        $needsUserPrefix = $true
+        Warn "Winget not found, try install Docker CLI via Scoop"
+        try { & scoop install docker 2>$null }  # 移除 -q 参数
+        catch { Warn "Scoop install Docker CLI failed: $($_.Exception.Message)" }
     }
-
-    if ($needsUserPrefix) {
-        Log "设置 npm 全局前缀到用户目录以避免权限问题"
-        $userPrefix = Join-Path $env:USERPROFILE ".npm-global"
-        New-Item -ItemType Directory -Path $userPrefix -Force | Out-Null
-        & npm config set prefix $userPrefix
-        $profilePath = "$env:USERPROFILE\Documents\WindowsPowerShell\profile.ps1"
-        $pathLine = "if (-not ($env:PATH -like '*$userPrefix*')) { [Environment]::SetEnvironmentVariable('PATH', [Environment]::GetEnvironmentVariable('PATH','User') + ';$userPrefix\bin','User') }"
-        if (-not (Test-Path $profilePath)) { New-Item -ItemType File -Path $profilePath -Force | Out-Null }
-        if (-not (Select-String -Path $profilePath -Pattern [regex]::Escape($userPrefix) -Quiet)) {
-            Add-Content -Path $profilePath -Value $pathLine
-            Log "已在 $profilePath 写入 PATH 更新，请重新打开终端以生效"
-        }
-    }
-
-    Log "通过 npm 全局安装: $packages"
-    & npm install -g $packages
 }
 
-Npm-GlobalInstall "pm2 pm2-windows-service"
+# 执行 Docker 安装
+try { Install-DockerDesktop }
+catch { Warn "Docker install process error: $($_.Exception.Message)" }
 
-# 尝试自动为 pm2 安装 Windows 服务（仅在管理员下）
-if ($IsAdmin) {
+# 配置 Docker 服务（仅管理员）
+$dockerServiceName = $null
+if (Get-Service -Name com.docker.service -ErrorAction SilentlyContinue) {
+    $dockerServiceName = "com.docker.service"
+} elseif (Get-Service -Name docker -ErrorAction SilentlyContinue) {
+    $dockerServiceName = "docker"
+}
+
+if ($dockerServiceName -and $IsAdmin) {
+    Log "Configuring Docker service: $dockerServiceName"
     try {
-        Log "尝试以非交互方式安装 pm2 Windows 服务（若脚本提示交互则会失败）"
-        # pm2-windows-service 的交互选项可能有限，先尝试直接调用安装命令
-        & pm2-service-install --name "pm2" --pm2-path (Join-Path (Split-Path (Get-Command npm).Path) '..\node_modules\pm2\bin\pm2') 2>$null
-        Log "pm2 Windows 服务安装命令已执行（检查服务状态以确认）"
+        Set-Service -Name $dockerServiceName -StartupType Automatic -ErrorAction Stop
+        Start-Service -Name $dockerServiceName -ErrorAction Stop
+        Log "Docker service set to auto-start and started successfully"
     } catch {
-        Write-Warning "自动安装 pm2 Windows 服务失败，请以管理员手动运行 `pm2-service-install` 或使用 pm2-windows-service 文档中的非交互方式。"
+        Warn "Failed to operate Docker service: $($_.Exception.Message)"
+    }
+} elseif ($dockerServiceName) {
+    Warn "Non-admin: skip Docker service configuration (run as admin to auto-start)"
+} else {
+    Warn "Docker service not found (Docker Desktop may not be installed)"
+}
+
+# ========== NPM 全局工具（仅当前会话生效，避免权限错误） ==========
+function Npm-GlobalInstall {
+    param([string[]]$packages)
+
+    if (-not (Get-Command npm -ErrorAction SilentlyContinue)) {
+        Warn "NPM not installed, skip global packages: $($packages -join ', ')"
+        return
+    }
+
+    # 强制使用用户目录安装（不修改全局配置，避免权限错误）
+    Log "Installing NPM packages to user directory (no global config change)"
+    $userNpmDir = Join-Path $env:USERPROFILE ".npm-global"
+    New-Item -Path $userNpmDir -ItemType Directory -Force | Out-Null
+
+    try {
+        # 直接指定--prefix安装，不修改npm全局配置
+        & npm install --prefix "$userNpmDir" -g $packages --silent 2>$null
+        # 仅当前会话添加PATH
+        $npmBinPath = Join-Path $userNpmDir "bin"
+        if (-not ($env:PATH -like "*$npmBinPath*")) {
+            $env:PATH += ";$npmBinPath"
+            Log "Added NPM bin path to current session: $npmBinPath"
+        }
+    } catch {
+        Warn "NPM global install failed: $($_.Exception.Message)"
+        Warn "Manual install: npm install -g --prefix ""$userNpmDir"" pm2 pm2-windows-service"
+    }
+}
+
+# 安装 PM2（仅用户目录）
+Npm-GlobalInstall @('pm2', 'pm2-windows-service')
+
+# ========== PM2 服务安装（仅管理员，且简化逻辑） ==========
+if ($IsAdmin) {
+    Log "Configuring PM2 Windows service (unattended)"
+    try {
+        # 查找PM2路径（用户目录）
+        $userNpmDir = Join-Path $env:USERPROFILE ".npm-global"
+        $pm2Path = Join-Path $userNpmDir "bin\pm2.cmd"
+
+        if (Test-Path $pm2Path) {
+            & $pm2Path service-install --name pm2 --unattended 2>$null
+            # 检查服务是否存在再启动
+            if (Get-Service -Name pm2 -ErrorAction SilentlyContinue) {
+                Start-Service -Name pm2 -ErrorAction SilentlyContinue
+                Log "PM2 service installed (check status with Get-Service pm2)"
+            } else {
+                Warn "PM2 service install completed but service not found (manual check required)"
+            }
+        } else {
+            Warn "PM2 executable not found at $pm2Path (install may have failed)"
+        }
+    } catch {
+        Warn "PM2 service install failed: $($_.Exception.Message)"
+        Warn "Manual install: cd ""$userNpmDir\bin"" && .\pm2.cmd service-install --unattended"
     }
 } else {
-    Write-Warning "非管理员：跳过 pm2 Windows 服务自动安装。请以管理员运行 `pm2-service-install` 来完成服务注册。"
+    Warn "Non-admin: skip PM2 service install (run as admin to install)"
+    Warn "Manual PM2 install: npm install -g --prefix ""$env:USERPROFILE\.npm-global"" pm2 pm2-windows-service"
 }
 
-# 安装 Go（若未通过 scoop 安装）
+# ========== Go 环境配置（仅当前会话生效，避免写入错误） ==========
 if (-not (Get-Command go -ErrorAction SilentlyContinue)) {
-    Log "安装 Go"
-    & scoop install go
+    Log "Installing Go environment"
+    try { & scoop install go 2>$null }  # 移除 -q 参数
+    catch { Warn "Scoop install Go failed: $($_.Exception.Message)" }
 }
 
-# 设置 GOPATH（写入用户 profile，如未存在）
+# 配置GOPATH（仅当前会话）
 $gopath = Join-Path $env:USERPROFILE "go"
-if (-not (Test-Path $gopath)) { New-Item -ItemType Directory -Path $gopath | Out-Null }
-$profileFile = "$env:USERPROFILE\Documents\WindowsPowerShell\profile.ps1"
-$gopathLine = @"
+New-Item -Path $gopath -ItemType Directory -Force | Out-Null
 if (-not (Test-Path env:GOPATH)) {
-    [Environment]::SetEnvironmentVariable('GOPATH', '$gopath', 'User')
-    [Environment]::SetEnvironmentVariable('PATH', [Environment]::GetEnvironmentVariable('PATH','User') + ';' + '$gopath\bin', 'User')
+    $env:GOPATH = $gopath
+    Log "Set GOPATH for current session: $gopath"
 }
-"@
-if (-not (Select-String -Path $profileFile -Pattern 'GOPATH' -Quiet)) {
-    Add-Content -Path $profileFile -Value $gopathLine
-    Log "已在 $profileFile 写入 GOPATH 设置，请重新打开终端以生效"
+$goBinPath = Join-Path $gopath "bin"
+if (-not ($env:PATH -like "*$goBinPath*")) {
+    $env:PATH += ";$goBinPath"
+    Log "Added GOPATH/bin to current session: $goBinPath"
 }
 
-# 清理与状态输出
-Log "安装完成。请注意："
-if (-not $IsAdmin) {
-    Write-Host "- 当前非管理员，部分步骤（Docker Desktop 安装、服务注册）需要管理员权限完成。" -ForegroundColor Yellow
-}
-Write-Host "- 如更改了用户级 PATH 或 npm prefix，请重新启动终端。" -ForegroundColor Green
-Write-Host "- 检查 pm2 服务：Get-Service -Name pm2 (或在服务管理器中查找)" -ForegroundColor Green
+# ========== 手动配置提示（避免自动写入Profile触发错误） ==========
+Log "✅ Environment setup completed (current session only)!"
+Write-Host @"
+
+==================== MANUAL CONFIG TIPS ====================
+1. To make NPM path permanent:
+   Add this line to your PowerShell Profile:
+   `$env:PATH += ";$($env:USERPROFILE)\.npm-global\bin"
+
+2. To make GOPATH permanent:
+   Add these lines to your PowerShell Profile:
+   `$env:GOPATH = "$gopath"
+   `$env:PATH += ";$gopath\bin"
+
+3. To find PowerShell Profile path:
+   echo `$PROFILE
+
+4. PM2 service install (run as admin):
+   cd "$($env:USERPROFILE)\.npm-global\bin" && .\pm2.cmd service-install --unattended
+
+5. Check service status (admin):
+   Get-Service com.docker.service, pm2
+"@ -ForegroundColor Green

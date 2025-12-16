@@ -1,6 +1,8 @@
 //go:build wireinject
 // +build wireinject
 
+//go:generate go run github.com/google/wire/cmd/wire
+
 // The build tag makes sure the stub is not built in the final build.
 
 package main

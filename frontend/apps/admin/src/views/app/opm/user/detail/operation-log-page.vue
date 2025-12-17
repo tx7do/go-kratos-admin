@@ -102,8 +102,8 @@ const gridOptions: VxeGridProps<AdminOperationLog> = {
             username: formValues.username,
             method: formValues.method,
             path: formValues.path,
-            create_time__gte: startTime,
-            create_time__lte: endTime,
+            created_at__gte: startTime,
+            created_at__lte: endTime,
           },
         );
       },

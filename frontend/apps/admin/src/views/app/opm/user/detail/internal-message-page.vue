@@ -77,8 +77,8 @@ const gridOptions: VxeGridProps<InternalMessageRecipient> = {
           },
           {
             recipient_user_id: props.userId?.toString(),
-            create_time__gte: startTime,
-            create_time__lte: endTime,
+            created_at__gte: startTime,
+            created_at__lte: endTime,
           },
         );
       },

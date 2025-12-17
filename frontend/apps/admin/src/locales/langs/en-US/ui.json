@@ -14,7 +14,7 @@
     "seq": "seq",
     "createdAt": "Create Time",
     "updatedAt": "Update Time",
-    "deleteTime": "Delete Time",
+    "deletedAt": "Delete Time",
     "status": "Status",
     "action": "Action",
     "sortOrder": "Sort ID",

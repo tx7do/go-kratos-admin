@@ -14,7 +14,7 @@
     "seq": "序号",
     "createdAt": "创建时间",
     "updatedAt": "更新时间",
-    "deleteTime": "删除时间",
+    "deletedAt": "删除时间",
     "status": "状态",
     "action": "操作",
     "sortOrder": "排序",

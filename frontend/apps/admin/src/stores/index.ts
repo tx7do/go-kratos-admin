@@ -16,6 +16,7 @@ export * from './menu.state';
 export * from './organization.state';
 export * from './position.state';
 export * from './role.state';
+export * from './router.state';
 export * from './task.state';
 export * from './tenant.state';
 export * from './user.state';

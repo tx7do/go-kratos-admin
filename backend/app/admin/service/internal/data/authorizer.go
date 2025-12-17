@@ -179,7 +179,6 @@ func (a *Authorizer) ResetPolicies(ctx context.Context) error {
 // generateCasbinPolicies 生成 Casbin 策略
 func (a *Authorizer) generateCasbinPolicies(roles *userV1.ListRoleResponse, apis *adminV1.ListApiResourceResponse) (authzEngine.PolicyMap, error) {
 	var rules []casbin.PolicyRule
-	apiSet := make(map[uint32]struct{})
 
 	domain := "*"
 
@@ -187,6 +186,8 @@ func (a *Authorizer) generateCasbinPolicies(roles *userV1.ListRoleResponse, apis
 		if role.GetId() == 0 {
 			continue // Skip if role or API ID is not set
 		}
+
+		apiSet := make(map[uint32]struct{}) // API set for current role
 
 		for _, apiId := range role.GetApis() {
 			apiSet[apiId] = struct{}{}
@@ -229,14 +230,13 @@ func (a *Authorizer) generateOpaPolicies(roles *userV1.ListRoleResponse, apis *a
 
 	//policies["projects"] = authzEngine.MakeProjects("api")
 
-	apiSet := make(map[uint32]struct{})
-
 	for _, role := range roles.Items {
 		if role.GetId() == 0 {
 			continue // Skip if role or API ID is not set
 		}
 
-		paths = paths[:0] // Reset paths for each role
+		paths = paths[:0]                   // Reset paths for each role
+		apiSet := make(map[uint32]struct{}) // API set for current role
 
 		for _, apiId := range role.GetApis() {
 			apiSet[apiId] = struct{}{}

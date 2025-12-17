@@ -238,8 +238,10 @@ const gridOptions: VxeGridProps<User> = {
       query: async ({ page }, formValues) => {
         // console.log('query:', filters, form, formValues);
         return await userStore.listUser(
-          page.currentPage,
-          page.pageSize,
+          {
+            page: page.currentPage,
+            pageSize: page.pageSize,
+          },
           formValues,
         );
       },

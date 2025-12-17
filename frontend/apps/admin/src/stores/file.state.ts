@@ -2,7 +2,7 @@ import { defineStore } from 'pinia';
 
 import { createFileServiceClient } from '#/generated/api/admin/service/v1';
 import { makeQueryString, makeUpdateMask } from '#/utils/query';
-import { requestClientRequestHandler } from '#/utils/request';
+import { type Paging, requestClientRequestHandler } from '#/utils/request';
 
 export const useFileStore = defineStore('file', () => {
   const service = createFileServiceClient(requestClientRequestHandler);
@@ -11,20 +11,20 @@ export const useFileStore = defineStore('file', () => {
    * 查询文件列表
    */
   async function listFile(
-    noPaging: boolean = false,
-    page?: number,
-    pageSize?: number,
+    paging?: Paging,
     formValues?: null | object,
     fieldMask?: null | string,
     orderBy?: null | string[],
   ) {
+    const noPaging =
+      paging?.page === undefined && paging?.pageSize === undefined;
     return await service.List({
       // @ts-ignore proto generated code is error.
       fieldMask,
       orderBy: orderBy ?? [],
       query: makeQueryString(formValues ?? null),
-      page,
-      pageSize,
+      page: paging?.page,
+      pageSize: paging?.pageSize,
       noPaging,
     });
   }

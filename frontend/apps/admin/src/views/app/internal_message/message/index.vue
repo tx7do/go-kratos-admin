@@ -84,9 +84,7 @@ const formOptions: VbenFormProps = {
         api: async () => {
           const result =
             await internalMessageCategoryStore.listInternalMessageCategory(
-              true,
-              null,
-              null,
+              undefined,
               {
                 is_enabled: 'true',
               },
@@ -122,9 +120,10 @@ const gridOptions: VxeGridProps<InternalMessage> = {
         console.log('query:', formValues);
 
         return await internalMessageStore.listMessage(
-          true,
-          page.currentPage,
-          page.pageSize,
+          {
+            page: page.currentPage,
+            pageSize: page.pageSize,
+          },
           formValues,
         );
       },

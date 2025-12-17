@@ -48,9 +48,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
         api: async () => {
           const result =
             await internalMessageCategoryStore.listInternalMessageCategory(
-              true,
-              null,
-              null,
+              undefined,
               {
                 is_enabled: 'true',
               },

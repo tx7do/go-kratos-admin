@@ -61,7 +61,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
         valueField: 'id',
         treeNodeFilterProp: 'label',
         api: async () => {
-          const result = await orgStore.listOrganization(true, null, null, {
+          const result = await orgStore.listOrganization(undefined, {
             // parent_id: 0,
             status: 'ON',
           });
@@ -86,7 +86,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
           }));
         },
         api: async () => {
-          const result = await userStore.listUser(true, null, null, {
+          const result = await userStore.listUser(undefined, {
             // parent_id: 0,
             status: 'ON',
           });

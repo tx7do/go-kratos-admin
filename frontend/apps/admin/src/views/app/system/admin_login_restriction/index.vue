@@ -83,9 +83,10 @@ const gridOptions: VxeGridProps<AdminLoginRestriction> = {
         // console.log('query:', filters, form, formValues);
 
         return await adminLoginRestrictionStore.listAdminLoginRestriction(
-          false,
-          page.currentPage,
-          page.pageSize,
+          {
+            page: page.currentPage,
+            pageSize: page.pageSize,
+          },
           formValues,
         );
       },

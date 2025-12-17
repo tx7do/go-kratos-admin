@@ -113,9 +113,10 @@ const gridOptions: VxeGridProps<Task> = {
         console.log('query:', formValues);
 
         return await taskStore.listTask(
-          true,
-          page.currentPage,
-          page.pageSize,
+          {
+            page: page.currentPage,
+            pageSize: page.pageSize,
+          },
           formValues,
         );
       },
@@ -261,15 +262,15 @@ async function controlTask(
 }
 
 async function handleStartTask(row: any) {
-  await controlTask(row.typeName, ControlTaskRequest_ControlType.Start);
+  await controlTask(row.typeName, 'Start');
 }
 
 async function handleStopTask(row: any) {
-  await controlTask(row.typeName, ControlTaskRequest_ControlType.Stop);
+  await controlTask(row.typeName, 'Stop');
 }
 
 async function handleRestartTask(row: any) {
-  await controlTask(row.typeName, ControlTaskRequest_ControlType.Restart);
+  await controlTask(row.typeName, 'Restart');
 }
 
 /* 编辑 */
@@ -307,12 +308,7 @@ async function handleEnableChanged(row: any, checked: boolean) {
   try {
     await taskStore.updateTask(row.id, { enable: row.enable });
 
-    await controlTask(
-      row.typeName,
-      row.enable
-        ? ControlTaskRequest_ControlType.Start
-        : ControlTaskRequest_ControlType.Stop,
-    );
+    await controlTask(row.typeName, row.enable ? 'Start' : 'Stop');
 
     notification.success({
       message: $t('ui.notification.update_status_success'),

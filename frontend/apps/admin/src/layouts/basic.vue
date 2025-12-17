@@ -81,8 +81,10 @@ const avatar = computed(() => {
  */
 async function reloadMessages() {
   const resp = await internalMessageStore.listUserInbox(
-    1,
-    5,
+    {
+      page: 1,
+      pageSize: 5,
+    },
     {
       recipient_user_id: userStore.userInfo?.id.toString(),
     },
@@ -90,7 +92,7 @@ async function reloadMessages() {
     ['-created_at'],
   );
 
-  for (const item of resp.items) {
+  for (const item of resp.items ?? []) {
     notifications.value.push(convertInternalMessageRecipient(item));
   }
 }
@@ -210,7 +212,7 @@ function handleSseNotification(
 }
 
 function initSseClient() {
-  const targetSseUrl = `${import.meta.env.VITE_GLOB_SSE_URL}?stream=${encodeURIComponent(accessStore.accessToken)}`;
+  const targetSseUrl = `${import.meta.env.VITE_GLOB_SSE_URL}?stream=${encodeURIComponent(accessStore.accessToken ?? '')}`;
   const sseClient = new SSEClient({
     url: targetSseUrl,
     withCredentials: false,

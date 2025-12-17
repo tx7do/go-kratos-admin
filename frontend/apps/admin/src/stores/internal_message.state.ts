@@ -13,7 +13,7 @@ import {
   type internal_messageservicev1_SendMessageRequest as SendMessageRequest,
 } from '#/generated/api/admin/service/v1';
 import { makeQueryString, makeUpdateMask } from '#/utils/query';
-import { requestClientRequestHandler } from '#/utils/request';
+import { type Paging, requestClientRequestHandler } from '#/utils/request';
 
 export const useInternalMessageStore = defineStore('internal_message', () => {
   const internalMessageService = createInternalMessageServiceClient(
@@ -27,20 +27,20 @@ export const useInternalMessageStore = defineStore('internal_message', () => {
    * 查询消息列表
    */
   async function listMessage(
-    noPaging: boolean = false,
-    page?: number,
-    pageSize?: number,
+    paging?: Paging,
     formValues?: null | object,
     fieldMask?: null | string,
     orderBy?: null | string[],
   ) {
+    const noPaging =
+      paging?.page === undefined && paging?.pageSize === undefined;
     return await internalMessageService.ListMessage({
       // @ts-ignore proto generated code is error.
       fieldMask,
       orderBy: orderBy ?? [],
       query: makeQueryString(formValues ?? null),
-      page,
-      pageSize,
+      page: paging?.page,
+      pageSize: paging?.pageSize,
       noPaging,
     });
   }
@@ -79,20 +79,20 @@ export const useInternalMessageStore = defineStore('internal_message', () => {
    * 获取用户的收件箱列表
    */
   async function listUserInbox(
-    page?: number,
-    pageSize?: number,
+    paging?: Paging,
     formValues?: null | object,
     fieldMask?: null | string,
     orderBy?: null | string[],
   ) {
-    const noPaging: boolean = page === null || pageSize === null;
+    const noPaging =
+      paging?.page === undefined && paging?.pageSize === undefined;
     return await internalMessageRecipientService.ListUserInbox({
       // @ts-ignore proto generated code is error.
       fieldMask,
       orderBy: orderBy ?? [],
       query: makeQueryString(formValues ?? null),
-      page,
-      pageSize,
+      page: paging?.page,
+      pageSize: paging?.pageSize,
       noPaging,
     });
   }

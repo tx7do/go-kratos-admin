@@ -78,9 +78,10 @@ const gridOptions: VxeGridProps<AdminLoginLog> = {
         }
 
         return await adminLoginLogStore.listAdminLoginLog(
-          false,
-          page.currentPage,
-          page.pageSize,
+          {
+            page: page.currentPage,
+            pageSize: page.pageSize,
+          },
           {
             username: formValues.username,
             login_time__gte: startTime,

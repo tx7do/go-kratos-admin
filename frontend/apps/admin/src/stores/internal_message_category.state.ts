@@ -2,7 +2,7 @@ import { defineStore } from 'pinia';
 
 import { createInternalMessageCategoryServiceClient } from '#/generated/api/admin/service/v1';
 import { makeQueryString, makeUpdateMask } from '#/utils/query';
-import { requestClientRequestHandler } from '#/utils/request';
+import { type Paging, requestClientRequestHandler } from '#/utils/request';
 
 export const useInternalMessageCategoryStore = defineStore(
   'internal_message_category',
@@ -15,20 +15,20 @@ export const useInternalMessageCategoryStore = defineStore(
      * 查询通知消息列表
      */
     async function listInternalMessageCategory(
-      noPaging: boolean = false,
-      page?: number,
-      pageSize?: number,
+      paging?: Paging,
       formValues?: null | object,
       fieldMask?: null | string,
       orderBy?: null | string[],
     ) {
+      const noPaging =
+        paging?.page === undefined && paging?.pageSize === undefined;
       return await service.List({
         // @ts-ignore proto generated code is error.
         fieldMask,
         orderBy: orderBy ?? [],
         query: makeQueryString(formValues ?? null),
-        page,
-        pageSize,
+        page: paging?.page,
+        pageSize: paging?.pageSize,
         noPaging,
       });
     }

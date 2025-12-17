@@ -90,9 +90,10 @@ const gridOptions: VxeGridProps<Role> = {
         console.log('query:', formValues);
 
         return await roleStore.listRole(
-          false,
-          page.currentPage,
-          page.pageSize,
+          {
+            page: page.currentPage,
+            pageSize: page.pageSize,
+          },
           formValues,
         );
       },

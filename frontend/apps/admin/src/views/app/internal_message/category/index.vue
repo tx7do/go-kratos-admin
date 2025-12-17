@@ -76,9 +76,10 @@ const gridOptions: VxeGridProps<InternalMessageCategory> = {
       query: async ({ page }, formValues) => {
         console.log('query:', formValues);
         return await internalMessageCategoryStore.listInternalMessageCategory(
-          true,
-          page.currentPage,
-          page.pageSize,
+          {
+            page: page.currentPage,
+            pageSize: page.pageSize,
+          },
           formValues,
         );
       },

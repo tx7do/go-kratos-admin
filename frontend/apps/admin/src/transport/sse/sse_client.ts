@@ -98,13 +98,13 @@ export class SSEClient {
     });
 
     // 监听默认消息事件（服务器未指定 event 字段时触发）
-    this.eventSource.onmessage = (event) => {
+    this.eventSource.addEventListener('message', (event: MessageEvent) => {
       const data = this.parseData(event.data);
       this.triggerHandler('message', data, event);
-    };
+    });
 
     // 监听错误事件（连接断开、网络异常等）
-    this.eventSource.onerror = (event) => {
+    this.eventSource.addEventListener('error', (event: Event) => {
       this.status = 'error';
       this.triggerHandler('error', undefined, event as MessageEvent);
 
@@ -113,7 +113,7 @@ export class SSEClient {
         this.status = 'disconnected';
         setTimeout(() => this.connect(), this.config.reconnectDelay);
       }
-    };
+    });
   }
 
   /**

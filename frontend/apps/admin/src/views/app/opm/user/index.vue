@@ -103,7 +103,7 @@ const formOptions: VbenFormProps = {
           }));
         },
         api: async () => {
-          const result = await roleStore.listRole(true, null, null, {
+          const result = await roleStore.listRole(undefined, {
             // parent_id: 0,
             status: 'ON',
           });
@@ -126,7 +126,7 @@ const formOptions: VbenFormProps = {
         valueField: 'id',
         treeNodeFilterProp: 'label',
         api: async () => {
-          const result = await tenantStore.listTenant(true, null, null, {
+          const result = await tenantStore.listTenant(undefined, {
             status: 'ON',
           });
           return result.items;
@@ -148,7 +148,7 @@ const formOptions: VbenFormProps = {
         valueField: 'id',
         treeNodeFilterProp: 'label',
         api: async () => {
-          const result = await orgStore.listOrganization(true, null, null, {
+          const result = await orgStore.listOrganization(undefined, {
             status: 'ON',
           });
           return result.items;
@@ -170,7 +170,7 @@ const formOptions: VbenFormProps = {
         valueField: 'id',
         treeNodeFilterProp: 'label',
         api: async () => {
-          const result = await deptStore.listDepartment(true, null, null, {
+          const result = await deptStore.listDepartment(undefined, {
             status: 'ON',
           });
           return result.items;
@@ -192,7 +192,7 @@ const formOptions: VbenFormProps = {
         valueField: 'id',
         treeNodeFilterProp: 'label',
         api: async () => {
-          const result = await positionStore.listPosition(true, null, null, {
+          const result = await positionStore.listPosition(undefined, {
             status: 'ON',
           });
           return result.items;
@@ -238,7 +238,6 @@ const gridOptions: VxeGridProps<User> = {
       query: async ({ page }, formValues) => {
         // console.log('query:', filters, form, formValues);
         return await userStore.listUser(
-          false,
           page.currentPage,
           page.pageSize,
           formValues,

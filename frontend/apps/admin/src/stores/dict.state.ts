@@ -2,7 +2,7 @@ import { defineStore } from 'pinia';
 
 import { createDictServiceClient } from '#/generated/api/admin/service/v1';
 import { makeQueryString, makeUpdateMask } from '#/utils/query';
-import { requestClientRequestHandler } from '#/utils/request';
+import { type Paging, requestClientRequestHandler } from '#/utils/request';
 
 export const useDictStore = defineStore('dict', () => {
   const service = createDictServiceClient(requestClientRequestHandler);
@@ -11,20 +11,20 @@ export const useDictStore = defineStore('dict', () => {
    * 查询字典类型列表
    */
   async function listDictType(
-    noPaging: boolean = false,
-    page?: number,
-    pageSize?: number,
+    paging?: Paging,
     formValues?: null | object,
     fieldMask?: null | string,
     orderBy?: null | string[],
   ) {
+    const noPaging =
+      paging?.page === undefined && paging?.pageSize === undefined;
     return await service.ListDictType({
       // @ts-ignore proto generated code is error.
       fieldMask,
       orderBy: orderBy ?? [],
       query: makeQueryString(formValues ?? null),
-      page,
-      pageSize,
+      page: paging?.page,
+      pageSize: paging?.pageSize,
       noPaging,
     });
   }
@@ -33,20 +33,20 @@ export const useDictStore = defineStore('dict', () => {
    * 查询字典条目列表
    */
   async function listDictEntry(
-    noPaging: boolean = false,
-    page?: number,
-    pageSize?: number,
+    paging?: Paging,
     formValues?: null | object,
     fieldMask?: null | string,
     orderBy?: null | string[],
   ) {
+    const noPaging =
+      paging?.page === undefined && paging?.pageSize === undefined;
     return await service.ListDictEntry({
       // @ts-ignore proto generated code is error.
       fieldMask,
       orderBy: orderBy ?? [],
       query: makeQueryString(formValues ?? null),
-      page,
-      pageSize,
+      page: paging?.page,
+      pageSize: paging?.pageSize,
       noPaging,
     });
   }

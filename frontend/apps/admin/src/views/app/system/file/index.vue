@@ -60,9 +60,10 @@ const gridOptions: VxeGridProps<File> = {
         console.log('query:', formValues);
 
         return await fileStore.listFile(
-          true,
-          page.currentPage,
-          page.pageSize,
+          {
+            page: page.currentPage,
+            pageSize: page.pageSize,
+          },
           formValues,
         );
       },

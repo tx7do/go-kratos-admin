@@ -72,7 +72,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
         valueField: 'id',
         treeNodeFilterProp: 'label',
         api: async () => {
-          const result = await positionStore.listPosition(true, null, null, {
+          const result = await positionStore.listPosition(undefined, {
             // parent_id: 0,
             status: 'ON',
           });
@@ -96,7 +96,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
         valueField: 'id',
         treeNodeFilterProp: 'label',
         api: async () => {
-          const result = await orgStore.listOrganization(true, null, null, {
+          const result = await orgStore.listOrganization(undefined, {
             // parent_id: 0,
             status: 'ON',
           });
@@ -120,7 +120,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
         valueField: 'id',
         treeNodeFilterProp: 'label',
         api: async () => {
-          const result = await deptStore.listDepartment(true, null, null, {
+          const result = await deptStore.listDepartment(undefined, {
             // parent_id: 0,
             status: 'ON',
           });

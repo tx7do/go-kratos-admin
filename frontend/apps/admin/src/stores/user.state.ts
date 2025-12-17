@@ -11,7 +11,7 @@ import {
   type userservicev1_User_Status as User_Status,
 } from '#/generated/api/admin/service/v1';
 import { makeQueryString, makeUpdateMask } from '#/utils/query';
-import { requestClientRequestHandler } from '#/utils/request';
+import { type Paging, requestClientRequestHandler } from '#/utils/request';
 
 export const useUserStore = defineStore('user', () => {
   const service = createUserServiceClient(requestClientRequestHandler);
@@ -20,20 +20,20 @@ export const useUserStore = defineStore('user', () => {
    * 查询用户列表
    */
   async function listUser(
-    noPaging: boolean = false,
-    page?: number,
-    pageSize?: number,
+    paging?: Paging,
     formValues?: null | object,
     fieldMask?: null | string,
     orderBy?: null | string[],
   ) {
+    const noPaging =
+      paging?.page === undefined && paging?.pageSize === undefined;
     return await service.List({
       // @ts-ignore proto generated code is error.
       fieldMask,
       orderBy: orderBy ?? [],
       query: makeQueryString(formValues ?? null),
-      page,
-      pageSize,
+      page: paging?.page,
+      pageSize: paging?.pageSize,
       noPaging,
     });
   }
@@ -141,7 +141,7 @@ export const authorityList = computed(() => [
  * 权限转名称
  * @param authority 权限值
  */
-export function authorityToName(authority: User_Authority) {
+export function authorityToName(authority?: User_Authority) {
   const values = authorityList.value;
   const matchedItem = values.find((item) => item.value === authority);
   return matchedItem ? matchedItem.label : '';
@@ -151,7 +151,7 @@ export function authorityToName(authority: User_Authority) {
  * 权限转颜色值
  * @param authority 权限值
  */
-export function authorityToColor(authority: User_Authority) {
+export function authorityToColor(authority?: User_Authority) {
   switch (authority) {
     case 'CUSTOMER_USER': {
       // 普通客户用户：基础权限，友好绿色
@@ -222,7 +222,7 @@ export const genderList = computed(() => [
  * 性别转名称
  * @param gender 性别值
  */
-export function genderToName(gender: User_Gender) {
+export function genderToName(gender?: User_Gender) {
   const values = genderList.value;
   const matchedItem = values.find((item) => item.value === gender);
   return matchedItem ? matchedItem.label : '';
@@ -232,7 +232,7 @@ export function genderToName(gender: User_Gender) {
  * 性别转颜色值
  * @param gender 性别值
  */
-export function genderToColor(gender: User_Gender) {
+export function genderToColor(gender?: User_Gender) {
   switch (gender) {
     case 'FEMALE': {
       // 女性：温和粉色，符合大众视觉认知

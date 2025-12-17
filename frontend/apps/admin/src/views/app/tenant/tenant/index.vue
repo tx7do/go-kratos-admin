@@ -123,9 +123,10 @@ const gridOptions: VxeGridProps<Tenant> = {
       query: async ({ page }, formValues) => {
         console.log('query:', formValues);
         return await tenantStore.listTenant(
-          true,
-          page.currentPage,
-          page.pageSize,
+          {
+            page: page.currentPage,
+            pageSize: page.pageSize,
+          },
           formValues,
         );
       },

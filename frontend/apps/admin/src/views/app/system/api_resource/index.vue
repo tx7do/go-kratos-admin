@@ -81,9 +81,10 @@ const gridOptions: VxeGridProps<ApiResource> = {
         // console.log('query:', filters, form, formValues);
 
         return await apiResourceStore.listApiResource(
-          false,
-          page.currentPage,
-          page.pageSize,
+          {
+            page: page.currentPage,
+            pageSize: page.pageSize,
+          },
           formValues,
         );
       },

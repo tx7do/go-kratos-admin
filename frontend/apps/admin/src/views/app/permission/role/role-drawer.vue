@@ -105,7 +105,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
         valueField: 'id',
         resultField: 'items',
         api: async () => {
-          return await menuStore.listMenu(true, null, null, {
+          return await menuStore.listMenu(undefined, {
             status: 'ON',
           });
         },
@@ -126,8 +126,8 @@ const [BaseForm, baseFormApi] = useVbenForm({
         labelField: 'title',
         valueField: 'key',
         api: async () => {
-          const data = await apiStore.listApiResource(true, null, null, {});
-          return convertApiToTree(data.items);
+          const data = await apiStore.listApiResource(undefined, {});
+          return convertApiToTree(data.items ?? []);
         },
       },
     },
@@ -152,6 +152,7 @@ const [Drawer, drawerApi] = useVbenDrawer({
 
     // 获取表单数据
     const values = await baseFormApi.getValues();
+    // @ts-ignore JSON.stringify
     const finalValues = JSON.parse(JSON.stringify(values));
 
     if (

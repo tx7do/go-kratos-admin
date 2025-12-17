@@ -90,10 +90,16 @@ const gridOptions: VxeGridProps<Menu> = {
       query: async ({ page }, formValues) => {
         console.log('query:', formValues);
 
-        return await menuStore.listMenu(true, page.currentPage, page.pageSize, {
-          'meta.title': formValues.name,
-          status: formValues.status,
-        });
+        return await menuStore.listMenu(
+          {
+            page: page.currentPage,
+            pageSize: page.pageSize,
+          },
+          {
+            'meta.title': formValues.name,
+            status: formValues.status,
+          },
+        );
       },
     },
   },

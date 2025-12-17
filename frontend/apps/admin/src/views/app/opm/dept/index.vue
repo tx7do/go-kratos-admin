@@ -69,7 +69,7 @@ const formOptions: VbenFormProps = {
         valueField: 'id',
         treeNodeFilterProp: 'label',
         api: async () => {
-          const result = await orgStore.listOrganization(true, null, null, {
+          const result = await orgStore.listOrganization(undefined, {
             // parent_id: 0,
             status: 'ON',
           });
@@ -109,9 +109,10 @@ const gridOptions: VxeGridProps<Department> = {
         console.log('query:', formValues);
 
         return await deptStore.listDepartment(
-          true,
-          page.currentPage,
-          page.pageSize,
+          {
+            page: page.currentPage,
+            pageSize: page.pageSize,
+          },
           formValues,
         );
       },

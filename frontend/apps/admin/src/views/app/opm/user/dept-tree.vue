@@ -38,15 +38,16 @@ const treeData = ref<TreeProps['treeData']>([]);
 
 async function fetch() {
   try {
-    const response = await deptStore.listDepartment(true);
+    const response = await deptStore.listDepartment();
 
-    const newTree = mapTree(response.items, (node: Department) => ({
+    const newTree = mapTree(response.items ?? [], (node: Department) => ({
       ...node,
       key: `${node.parentId}-${node.id}`,
       title: node.name,
       isLeaf: !node.children || node.children.length === 0,
     }));
     console.log('newTree', newTree);
+    // @ts-ignore treeData
     treeData.value = newTree ?? [];
   } catch (error) {
     console.error(error);

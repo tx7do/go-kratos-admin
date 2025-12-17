@@ -39,9 +39,10 @@ export const useDictViewStore = defineStore('dict-view', {
       this.loading = true;
       try {
         this.typeList = await dictStore.listDictType(
-          false,
-          currentPage,
-          pageSize,
+          {
+            page: currentPage,
+            pageSize,
+          },
           formValues,
         );
         return this.typeList;
@@ -77,9 +78,10 @@ export const useDictViewStore = defineStore('dict-view', {
       this.loading = true;
       try {
         this.entryList = await dictStore.listDictEntry(
-          false,
-          currentPage,
-          pageSize,
+          {
+            page: currentPage,
+            pageSize,
+          },
           {
             ...formValues,
             type_id: typeId.toString(),

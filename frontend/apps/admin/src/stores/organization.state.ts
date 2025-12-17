@@ -11,7 +11,7 @@ import {
   type userservicev1_Organization_Type as Organization_Type,
 } from '#/generated/api/admin/service/v1';
 import { makeQueryString, makeUpdateMask } from '#/utils/query';
-import { requestClientRequestHandler } from '#/utils/request';
+import { type Paging, requestClientRequestHandler } from '#/utils/request';
 
 export const useOrganizationStore = defineStore('organization', () => {
   const service = createOrganizationServiceClient(requestClientRequestHandler);
@@ -20,20 +20,20 @@ export const useOrganizationStore = defineStore('organization', () => {
    * 查询组织列表
    */
   async function listOrganization(
-    noPaging: boolean = false,
-    page?: number,
-    pageSize?: number,
+    paging?: Paging,
     formValues?: null | object,
     fieldMask?: null | string,
     orderBy?: null | string[],
   ) {
+    const noPaging =
+      paging?.page === undefined && paging?.pageSize === undefined;
     return await service.List({
       // @ts-ignore proto generated code is error.
       fieldMask,
       orderBy: orderBy ?? [],
       query: makeQueryString(formValues ?? null),
-      page,
-      pageSize,
+      page: paging?.page,
+      pageSize: paging?.pageSize,
       noPaging,
     });
   }

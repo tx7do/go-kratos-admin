@@ -71,8 +71,10 @@ const gridOptions: VxeGridProps<InternalMessageRecipient> = {
         }
 
         return await internalMessageStore.listUserInbox(
-          page.currentPage,
-          page.pageSize,
+          {
+            page: page.currentPage,
+            pageSize: page.pageSize,
+          },
           {
             recipient_user_id: props.userId?.toString(),
             create_time__gte: startTime,

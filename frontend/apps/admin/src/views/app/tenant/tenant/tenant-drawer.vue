@@ -231,7 +231,7 @@ const [BaseForm, baseFormApi] = useVbenForm({
         valueField: 'id',
         treeNodeFilterProp: 'label',
         api: async () => {
-          const result = await roleStore.listRole(true, null, null, {
+          const result = await roleStore.listRole(undefined, {
             // parent_id: 0,
             status: 'ON',
           });

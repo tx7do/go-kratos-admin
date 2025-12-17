@@ -80,7 +80,7 @@ const formOptions: VbenFormProps = {
         valueField: 'id',
         treeNodeFilterProp: 'label',
         api: async () => {
-          const result = await orgStore.listOrganization(true, null, null, {
+          const result = await orgStore.listOrganization(undefined, {
             // parent_id: 0,
             status: 'ON',
           });
@@ -103,7 +103,7 @@ const formOptions: VbenFormProps = {
         valueField: 'id',
         treeNodeFilterProp: 'label',
         api: async () => {
-          const result = await deptStore.listDepartment(true, null, null, {
+          const result = await deptStore.listDepartment(undefined, {
             // parent_id: 0,
             status: 'ON',
           });
@@ -141,9 +141,10 @@ const gridOptions: VxeGridProps<Position> = {
         console.log('query:', formValues);
 
         return await positionStore.listPosition(
-          true,
-          page.currentPage,
-          page.pageSize,
+          {
+            page: page.currentPage,
+            pageSize: page.pageSize,
+          },
           formValues,
         );
       },

@@ -15,6 +15,7 @@ import {
   useMenuStore,
   useRoleStore,
 } from '#/stores';
+import { deepClone } from '#/utils';
 
 const roleStore = useRoleStore();
 const apiStore = useApiResourceStore();
@@ -153,7 +154,7 @@ const [Drawer, drawerApi] = useVbenDrawer({
     // 获取表单数据
     const values = await baseFormApi.getValues();
     // @ts-ignore JSON.stringify
-    const finalValues = JSON.parse(JSON.stringify(values));
+    const finalValues = deepClone(values);
 
     if (
       finalValues.apis !== null &&

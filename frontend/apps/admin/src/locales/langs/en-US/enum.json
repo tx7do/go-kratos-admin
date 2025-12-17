@@ -62,5 +62,11 @@
     "PENDING": "Pending",
     "APPROVED": "Approved",
     "REJECTED": "Rejected"
+  },
+  "organizationType": {
+    "ORGANIZATION_TYPE_GROUP": "Group",
+    "ORGANIZATION_TYPE_SUBSIDIARY": "Subsidiary",
+    "ORGANIZATION_TYPE_FILIALE": "Filiale",
+    "ORGANIZATION_TYPE_DIVISION": "Division"
   }
 }

@@ -117,9 +117,6 @@ type Request = {
 
 /**
  * 通用请求处理器
- * @param path 访问路径
- * @param method 方法
- * @param body 访问内容
  */
 export function requestClientRequestHandler({ path, method, body }: Request) {
   return requestClient.request(path, {

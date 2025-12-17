@@ -134,6 +134,7 @@ export const findDepartment = (
   id: number,
 ): Department | null | undefined => {
   for (const item of list) {
+    // eslint-disable-next-line eqeqeq
     if (item.id == id) {
       return item;
     }

@@ -4,14 +4,14 @@ import { $t } from '@vben/locales';
 
 import { defineStore } from 'pinia';
 
-import { createOrganizationServiceClient } from '#/generated/api/admin/service/v1';
-import { makeQueryString, makeUpdateMask } from '#/utils/query';
 import {
+  createOrganizationServiceClient,
   type userservicev1_Organization as Organization,
   type userservicev1_Organization_Status as Organization_Status,
   type userservicev1_Organization_Type as Organization_Type,
-  requestClientRequestHandler,
-} from '#/utils/request';
+} from '#/generated/api/admin/service/v1';
+import { makeQueryString, makeUpdateMask } from '#/utils/query';
+import { requestClientRequestHandler } from '#/utils/request';
 
 export const useOrganizationStore = defineStore('organization', () => {
   const service = createOrganizationServiceClient(requestClientRequestHandler);
@@ -21,8 +21,8 @@ export const useOrganizationStore = defineStore('organization', () => {
    */
   async function listOrganization(
     noPaging: boolean = false,
-    page?: null | number,
-    pageSize?: null | number,
+    page?: number,
+    pageSize?: number,
     formValues?: null | object,
     fieldMask?: null | string,
     orderBy?: null | string[],
@@ -214,6 +214,7 @@ export const findOrganization = (
   id: number,
 ): null | Organization | undefined => {
   for (const item of list) {
+    // eslint-disable-next-line eqeqeq
     if (item.id == id) {
       return item;
     }

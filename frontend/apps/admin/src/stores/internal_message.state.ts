@@ -10,6 +10,7 @@ import {
   type internal_messageservicev1_InternalMessage_Status as InternalMessage_Status,
   type internal_messageservicev1_InternalMessage_Type as InternalMessage_Type,
   type internal_messageservicev1_InternalMessageRecipient_Status as InternalMessageRecipient_Status,
+  type internal_messageservicev1_SendMessageRequest as SendMessageRequest,
 } from '#/generated/api/admin/service/v1';
 import { makeQueryString, makeUpdateMask } from '#/utils/query';
 import { requestClientRequestHandler } from '#/utils/request';
@@ -27,8 +28,8 @@ export const useInternalMessageStore = defineStore('internal_message', () => {
    */
   async function listMessage(
     noPaging: boolean = false,
-    page?: null | number,
-    pageSize?: null | number,
+    page?: number,
+    pageSize?: number,
     formValues?: null | object,
     fieldMask?: null | string,
     orderBy?: null | string[],
@@ -78,8 +79,8 @@ export const useInternalMessageStore = defineStore('internal_message', () => {
    * 获取用户的收件箱列表
    */
   async function listUserInbox(
-    page?: null | number,
-    pageSize?: null | number,
+    page?: number,
+    pageSize?: number,
     formValues?: null | object,
     fieldMask?: null | string,
     orderBy?: null | string[],

@@ -21,8 +21,8 @@ export const useUserStore = defineStore('user', () => {
    */
   async function listUser(
     noPaging: boolean = false,
-    page?: null | number,
-    pageSize?: null | number,
+    page?: number,
+    pageSize?: number,
     formValues?: null | object,
     fieldMask?: null | string,
     orderBy?: null | string[],

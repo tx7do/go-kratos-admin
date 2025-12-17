@@ -1,6 +1,9 @@
 import { defineStore } from 'pinia';
 
-import { createRoleServiceClient } from '#/generated/api/admin/service/v1';
+import {
+  createRoleServiceClient,
+  type userservicev1_Role as Role,
+} from '#/generated/api/admin/service/v1';
 import { makeQueryString, makeUpdateMask } from '#/utils/query';
 import { requestClientRequestHandler } from '#/utils/request';
 
@@ -12,8 +15,8 @@ export const useRoleStore = defineStore('role', () => {
    */
   async function listRole(
     noPaging: boolean = false,
-    page?: null | number,
-    pageSize?: null | number,
+    page?: number,
+    pageSize?: number,
     formValues?: null | object,
     fieldMask?: null | string,
     orderBy?: null | string[],
@@ -88,6 +91,7 @@ export const useRoleStore = defineStore('role', () => {
 
 export const findRole = (list: Role[], id: number): null | Role | undefined => {
   for (const item of list) {
+    // eslint-disable-next-line eqeqeq
     if (item.id == id) {
       return item;
     }

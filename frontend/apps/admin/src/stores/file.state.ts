@@ -12,8 +12,8 @@ export const useFileStore = defineStore('file', () => {
    */
   async function listFile(
     noPaging: boolean = false,
-    page?: null | number,
-    pageSize?: null | number,
+    page?: number,
+    pageSize?: number,
     formValues?: null | object,
     fieldMask?: null | string,
     orderBy?: null | string[],

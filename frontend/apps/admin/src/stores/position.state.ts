@@ -4,13 +4,13 @@ import { $t } from '@vben/locales';
 
 import { defineStore } from 'pinia';
 
-import { createPositionServiceClient } from '#/generated/api/admin/service/v1';
-import { makeQueryString, makeUpdateMask } from '#/utils/query';
 import {
+  createPositionServiceClient,
   type userservicev1_Position as Position,
   type userservicev1_Position_Status as Position_Status,
-  requestClientRequestHandler,
-} from '#/utils/request';
+} from '#/generated/api/admin/service/v1';
+import { makeQueryString, makeUpdateMask } from '#/utils/query';
+import { requestClientRequestHandler } from '#/utils/request';
 
 export const usePositionStore = defineStore('position', () => {
   const service = createPositionServiceClient(requestClientRequestHandler);
@@ -20,8 +20,8 @@ export const usePositionStore = defineStore('position', () => {
    */
   async function listPosition(
     noPaging: boolean = false,
-    page?: null | number,
-    pageSize?: null | number,
+    page?: number,
+    pageSize?: number,
     formValues?: null | object,
     fieldMask?: null | string,
     orderBy?: null | string[],
@@ -134,6 +134,7 @@ export const findPosition = (
   id: number,
 ): null | Position | undefined => {
   for (const item of list) {
+    // eslint-disable-next-line eqeqeq
     if (item.id == id) {
       return item;
     }

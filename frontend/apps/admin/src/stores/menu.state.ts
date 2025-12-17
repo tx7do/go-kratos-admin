@@ -12,7 +12,10 @@ import {
 import { makeQueryString, makeUpdateMask } from '#/utils/query';
 import { requestClientRequestHandler } from '#/utils/request';
 
-const parseToArray = (str: string): string[] => {
+const parseToArray = (str: string | string[] | undefined): string[] => {
+  if (str === undefined || str === null) return [];
+  if (Array.isArray(str)) return str;
+
   if (!str.trim()) {
     return []; // 空输入返回空数组
   }
@@ -31,8 +34,8 @@ export const useMenuStore = defineStore('menu', () => {
    */
   async function listMenu(
     noPaging: boolean = false,
-    page?: null | number,
-    pageSize?: null | number,
+    page?: number,
+    pageSize?: number,
     formValues?: null | object,
     fieldMask?: null | string,
     orderBy?: null | string[],
@@ -59,11 +62,12 @@ export const useMenuStore = defineStore('menu', () => {
     // eslint-disable-next-line unicorn/prefer-structured-clone
     const copyData: Menu = JSON.parse(JSON.stringify(values));
 
-    // noinspection TypeScriptUnresolvedReference
+    // @ts-ignore divider1
     delete copyData.divider1;
     if (
       copyData.meta?.authority !== undefined &&
       copyData.meta?.authority !== null &&
+      // @ts-ignore string to array
       copyData.meta?.authority !== ''
     ) {
       copyData.meta.authority = parseToArray(copyData.meta?.authority);
@@ -187,7 +191,10 @@ export const isLink = (type: string) => type === 'LINK';
  * @param parent 父节点
  * @return 是否找到并添加
  */
-export function travelMenuChild(nodes: Menu[], parent: Menu): boolean {
+export function travelMenuChild(
+  nodes: Menu[] | undefined,
+  parent: Menu,
+): boolean {
   if (nodes === undefined) {
     return false;
   }
@@ -201,11 +208,16 @@ export function travelMenuChild(nodes: Menu[], parent: Menu): boolean {
   }
 
   for (const node of nodes) {
+    if (node === undefined) {
+      continue;
+    }
     if (node.id === parent.parentId) {
       if (parent?.meta?.title) {
         parent.meta.title = $t(parent?.meta?.title ?? '');
       }
-      node.children.push(parent);
+      if (node.children !== undefined) {
+        node.children.push(parent);
+      }
       return true;
     }
 

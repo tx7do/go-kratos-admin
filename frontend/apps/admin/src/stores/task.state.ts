@@ -19,8 +19,8 @@ export const useTaskStore = defineStore('task', () => {
    */
   async function listTask(
     noPaging: boolean = false,
-    page?: null | number,
-    pageSize?: null | number,
+    page?: number,
+    pageSize?: number,
     formValues?: null | object,
     fieldMask?: null | string,
     orderBy?: null | string[],

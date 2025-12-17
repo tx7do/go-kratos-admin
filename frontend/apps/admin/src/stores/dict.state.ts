@@ -12,8 +12,8 @@ export const useDictStore = defineStore('dict', () => {
    */
   async function listDictType(
     noPaging: boolean = false,
-    page?: null | number,
-    pageSize?: null | number,
+    page?: number,
+    pageSize?: number,
     formValues?: null | object,
     fieldMask?: null | string,
     orderBy?: null | string[],
@@ -34,8 +34,8 @@ export const useDictStore = defineStore('dict', () => {
    */
   async function listDictEntry(
     noPaging: boolean = false,
-    page?: null | number,
-    pageSize?: null | number,
+    page?: number,
+    pageSize?: number,
     formValues?: null | object,
     fieldMask?: null | string,
     orderBy?: null | string[],
@@ -56,7 +56,7 @@ export const useDictStore = defineStore('dict', () => {
    */
   async function getDictType(id: number) {
     return await service.GetDictType({
-      queryBy: { $case: 'id', id },
+      id,
     });
   }
 
@@ -65,7 +65,7 @@ export const useDictStore = defineStore('dict', () => {
    */
   async function getDictTypeByCode(code: string) {
     return await service.GetDictType({
-      queryBy: { $case: 'code', code },
+      code,
     });
   }
 

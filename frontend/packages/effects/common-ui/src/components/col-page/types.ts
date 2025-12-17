@@ -1,4 +1,4 @@
-import type { PageProps } from '../page/types';
+import type { PageProps } from '../page';
 
 export interface ColPageProps extends PageProps {
   /**

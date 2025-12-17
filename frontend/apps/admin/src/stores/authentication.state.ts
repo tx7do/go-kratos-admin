@@ -183,7 +183,7 @@ export const useAuthStore = defineStore('auth', () => {
 
     accessStore.setAccessToken(newToken ?? null);
 
-    return newToken;
+    return newToken ?? '';
   }
 
   /**
@@ -212,7 +212,7 @@ export const useAuthStore = defineStore('auth', () => {
    */
   async function fetchUserInfo() {
     try {
-      return (await userProfileService.GetUser({})) as UserInfo;
+      return (await userProfileService.GetUser({})) as unknown as UserInfo;
     } catch (error) {
       console.error(error);
       await doLogout();

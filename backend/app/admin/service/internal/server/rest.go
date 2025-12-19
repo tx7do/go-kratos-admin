@@ -106,9 +106,12 @@ func NewRESTServer(
 		return nil
 	}
 
-	srv := rpc.CreateRestServer(cfg,
+	srv, err := rpc.CreateRestServer(cfg,
 		newRestMiddleware(logger, authenticator, authorizer, operationLogRepo, loginLogRepo)...,
 	)
+	if err != nil {
+		panic(err)
+	}
 
 	adminV1.RegisterAuthenticationServiceHTTPServer(srv, authnSvc)
 

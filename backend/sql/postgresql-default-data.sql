@@ -1,3 +1,6 @@
+-- Description: 初始化默认用户、角色、菜单和API资源数据
+-- Note: 需要有表结构之后再执行此脚本。另，请确保在执行此脚本前已备份相关数据，以防数据丢失。
+
 BEGIN;
 
 SET LOCAL search_path = public, pg_catalog;

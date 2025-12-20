@@ -97,7 +97,7 @@ build_only:
 
 # run application
 run: api openapi
-	-@go run $(GOFLAGS) -ldflags "$(LDFLAGS)" ./cmd/server -conf ./configs
+	-@go run $(GOFLAGS) -ldflags "$(LDFLAGS)" ./cmd/server -c ./configs
 
 # build service app
 app: api openapi wire ent build

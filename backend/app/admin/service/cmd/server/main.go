@@ -58,6 +58,17 @@ func newApp(
 	)
 }
 
+func runApp() error {
+	return bootstrap.RunApp(func(ctx *bootstrap.Context) (app *kratos.App, cleanup func(), err error) {
+		return initApp(ctx.Logger, ctx.Registrar, ctx.Config)
+	},
+		trans.Ptr(service.AdminService),
+		trans.Ptr(version),
+	)
+}
+
 func main() {
-	bootstrap.Bootstrap(initApp, trans.Ptr(service.AdminService), trans.Ptr(version))
+	if err := runApp(); err != nil {
+		panic(err)
+	}
 }

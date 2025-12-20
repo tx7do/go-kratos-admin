@@ -57,4 +57,4 @@ USER appuser:appuser
 # 暴露服务端口，根据你的实际服务端口进行修改
 
 # 设置容器启动时执行的命令
-CMD ["/app/bin/server", "-conf", "/app/configs"]
+CMD ["/app/bin/server", "-c", "/app/configs"]

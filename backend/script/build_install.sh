@@ -110,7 +110,7 @@ for app_dir in "${apps[@]}"; do
   fi
 
   pushd "$app_install_root/service/bin" >/dev/null
-  pm2 start "$bin_path" --name "$app" --namespace "$project_name" -- -conf "$configs_rel"
+  pm2 start "$bin_path" --name "$app" --namespace "$project_name" -- -c "$configs_rel"
   popd >/dev/null
 done
 

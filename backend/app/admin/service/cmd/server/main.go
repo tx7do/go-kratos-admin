@@ -35,6 +35,8 @@ import (
 	//_ "github.com/tx7do/kratos-bootstrap/registry/servicecomb"
 	//_ "github.com/tx7do/kratos-bootstrap/registry/zookeeper"
 
+	//_ "github.com/tx7do/kratos-bootstrap/tracer"
+
 	"go-wind-admin/pkg/service"
 )
 

@@ -1,33 +1,40 @@
 package authz.introspection
 
-import future.keywords.if
-import future.keywords.in
+import rego.v1
 
+# 安全的 policies 访问：当 data.policies 缺失时返回空对象
+policies := data.policies if data.policies
+else := {}
+
+# defaults
 default authorized := false
-
 default authorized_project := ""
-
 default authorized_pair := []
 
-# Check if the input is authorized based on the policies and pairs provided.
+# 输入安全取值：如果 input.subjects 或 input.pairs 缺失，则使用空数组
+subjects := input.subjects if input.subjects
+else := []
+
+pairs := input.pairs if input.pairs
+else := []
+
+# 判断是否有任一 subject 对任一 pair 被授权
 authorized if {
-	some input_sub in input.subjects
-	some grant in data.policies[input_sub]
-
-	some input_pair in input.pairs
-	input_pair.resource == grant.pattern
-	input_pair.action == grant.method
+	some s in subjects
+	some grant in policies[s]
+	some p in pairs
+	p.resource == grant.pattern
+	p.action == grant.method
 }
 
-# Check if the input pair is authorized based on the policies and pairs provided.
-authorized_pair := [pair] if {
-	authorized
+# 返回所有被授权的 (resource, action) 对
+authorized_pair := [p |
+	some s in subjects
+	some grant in policies[s]
+	some p in pairs
+	p.resource == grant.pattern
+	p.action == grant.method
+]
 
-	some input_pair in input.pairs
-	pair := {"resource": input_pair.resource, "action": input_pair.action}
-}
-
-# Check if the input is authorized for a specific project.
-authorized_project := "api" if {
-	authorized
-}
+# 项目字段目前写死为 "api"
+authorized_project := "api" if authorized

@@ -1,93 +1,95 @@
-package authz.introspection
+package authz.introspection_test
 
-import future.keywords.if
+import data.authz.introspection
+
+import rego.v1
 
 # 测试：授权成功
-test_authorized_success {
-    data.policies := {
+test_authorized_success if {
+    mock_policies := {
         "user1": [
-            {"pattern": "resource1", "method": "read"}
+            {"pattern": "resource1", "method": "GET"}
         ]
     }
 
-    input := {
+    test_input := {
         "subjects": ["user1"],
         "pairs": [
-            {"resource": "resource1", "action": "read"}
+            {"resource": "resource1", "action": "GET"}
         ]
     }
 
-    authorized
+    introspection.authorized with data.policies as mock_policies with input as test_input
 }
 
 # 测试：授权失败（资源不匹配）
-test_authorized_resource_mismatch {
-    data.policies := {
+test_authorized_resource_mismatch if {
+    policies := {
         "user1": [
-            {"pattern": "resource1", "method": "read"}
+            {"pattern": "resource1", "method": "GET"}
         ]
     }
 
-    input := {
+    test_input := {
         "subjects": ["user1"],
         "pairs": [
-            {"resource": "resource2", "action": "read"}
+            {"resource": "resource2", "action": "GET"}
         ]
     }
 
-    not authorized
+    not data.authz.introspection.authorized with data.policies as policies with input as test_input
 }
 
 # 测试：授权失败（方法不匹配）
-test_authorized_method_mismatch {
-    data.policies := {
+test_authorized_method_mismatch if {
+    policies := {
         "user1": [
-            {"pattern": "resource1", "method": "read"}
+            {"pattern": "resource1", "method": "GET"}
         ]
     }
 
-    input := {
+    test_input := {
         "subjects": ["user1"],
         "pairs": [
-            {"resource": "resource1", "action": "write"}
+            {"resource": "resource1", "action": "POST"}
         ]
     }
 
-    not authorized
+    not data.authz.introspection.authorized with data.policies as policies with input as test_input
 }
 
 # 测试：授权项目
-test_authorized_project {
-    data.policies := {
+test_authorized_project if {
+    policies := {
         "user1": [
-            {"pattern": "resource1", "method": "read"}
+            {"pattern": "resource1", "method": "GET"}
         ]
     }
 
-    input := {
+    test_input := {
         "subjects": ["user1"],
         "pairs": [
-            {"resource": "resource1", "action": "read"}
+            {"resource": "resource1", "action": "GET"}
         ]
     }
 
-    authorized_project == "api"
+    data.authz.introspection.authorized_project with data.policies as policies with input as test_input == "api"
 }
 
 # 测试：授权对
-test_authorized_pair {
-    data.policies := {
+test_authorized_pair if {
+    policies := {
         "user1": [
-            {"pattern": "resource1", "method": "read"}
+            {"pattern": "resource1", "method": "GET"}
         ]
     }
 
-    input := {
+    test_input := {
         "subjects": ["user1"],
         "pairs": [
-            {"resource": "resource1", "action": "read"}
+            {"resource": "resource1", "action": "GET"}
         ]
     }
 
-    authorized_pair == [{"resource": "resource1", "action": "read"}]
+    data.authz.introspection.authorized_pair with data.policies as policies with input as test_input == [{"resource": "resource1", "action": "GET"}]
 }

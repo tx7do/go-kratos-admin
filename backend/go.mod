@@ -37,10 +37,10 @@ require (
 	github.com/tx7do/kratos-authn v1.1.8
 	github.com/tx7do/kratos-authn/engine/jwt v1.1.8
 	github.com/tx7do/kratos-authn/middleware v1.1.9
-	github.com/tx7do/kratos-authz v1.1.6
-	github.com/tx7do/kratos-authz/engine/casbin v1.1.10
-	github.com/tx7do/kratos-authz/engine/opa v1.1.13
-	github.com/tx7do/kratos-authz/middleware v1.1.11
+	github.com/tx7do/kratos-authz v1.1.7
+	github.com/tx7do/kratos-authz/engine/casbin v1.1.11
+	github.com/tx7do/kratos-authz/engine/opa v1.1.14
+	github.com/tx7do/kratos-authz/middleware v1.1.12
 	github.com/tx7do/kratos-bootstrap/api v0.0.32
 	github.com/tx7do/kratos-bootstrap/bootstrap v0.1.10
 	github.com/tx7do/kratos-bootstrap/cache/redis v0.1.0

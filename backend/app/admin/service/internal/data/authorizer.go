@@ -2,7 +2,7 @@ package data
 
 import (
 	"context"
-	"errors"
+	"fmt"
 
 	"github.com/go-kratos/kratos/v2/log"
 
@@ -141,6 +141,7 @@ func (a *Authorizer) ResetPolicies(ctx context.Context) error {
 	}
 
 	//a.log.Debugf("roles [%d] apis [%d]", len(roles.Items), len(apis.Items))
+	//a.log.Debugf("Generating policies for engine: %s", a.engine.Name())
 
 	var policies authzEngine.PolicyMap
 
@@ -161,17 +162,19 @@ func (a *Authorizer) ResetPolicies(ctx context.Context) error {
 		return nil
 
 	default:
-		a.log.Warnf("unknown engine name: %s", a.engine.Name())
-		return errors.New("unknown authz engine name")
+		err = fmt.Errorf("unknown engine name: %s", a.engine.Name())
+		a.log.Warnf(err.Error())
+		return err
 	}
 
-	//a.log.Debugf("***************** policy rules len: %v", len(rules))
+	//a.log.Debugf("***************** policy rules len: %v", len(policies))
 
-	if err = a.engine.SetPolicies(context.Background(), policies, nil); err != nil {
+	if err = a.engine.SetPolicies(ctx, policies, nil); err != nil {
 		a.log.Errorf("set policies error: %v", err)
 		return err
 	}
-	a.log.Infof("Reloaded policy rules")
+
+	a.log.Infof("reloaded policy rules [%d] successfully for engine: %s", len(policies), a.engine.Name())
 
 	return nil
 }
@@ -226,17 +229,16 @@ func (a *Authorizer) generateOpaPolicies(roles *userV1.ListRoleResponse, apis *a
 	}
 
 	policies := make(authzEngine.PolicyMap, len(roles.Items))
-	paths := make([]OpaPolicyPath, 0, len(roles.Items)*len(apis.Items))
-
-	//policies["projects"] = authzEngine.MakeProjects("api")
 
 	for _, role := range roles.Items {
 		if role.GetId() == 0 {
 			continue // Skip if role or API ID is not set
 		}
 
-		paths = paths[:0]                   // Reset paths for each role
+		paths := make([]OpaPolicyPath, 0, len(apis.Items))
 		apiSet := make(map[uint32]struct{}) // API set for current role
+
+		//a.log.Debugf("Processing Role: [%s] with APIs: [%v]", role.GetCode(), role.GetApis())
 
 		for _, apiId := range role.GetApis() {
 			apiSet[apiId] = struct{}{}
@@ -252,6 +254,8 @@ func (a *Authorizer) generateOpaPolicies(roles *userV1.ListRoleResponse, apis *a
 					Pattern: api.GetPath(),
 					Method:  api.GetMethod(),
 				})
+
+				//a.log.Debugf("OPA Policy - Role: [%s], Path: [%s], Method: [%s]", role.GetCode(), api.GetPath(), api.GetMethod())
 			}
 		}
 

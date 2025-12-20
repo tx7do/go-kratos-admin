@@ -2,11 +2,6 @@ module go-wind-admin
 
 go 1.25.4
 
-replace (
-	github.com/armon/go-metrics => github.com/hashicorp/go-metrics v0.4.1
-	github.com/bufbuild/protovalidate-go => buf.build/go/protovalidate v0.10.1
-)
-
 require (
 	entgo.io/ent v0.14.5
 	github.com/getkin/kin-openapi v0.133.0

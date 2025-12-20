@@ -30,18 +30,6 @@ import (
 	applogging "go-wind-admin/pkg/middleware/logging"
 )
 
-// NewWhiteListMatcher 创建jwt白名单
-func newRestWhiteListMatcher() selector.MatchFunc {
-	whiteList := make(map[string]bool)
-	whiteList[adminV1.OperationAuthenticationServiceLogin] = true
-	return func(ctx context.Context, operation string) bool {
-		if _, ok := whiteList[operation]; ok {
-			return false
-		}
-		return true
-	}
-}
-
 // NewMiddleware 创建中间件
 func newRestMiddleware(
 	logger log.Logger,
@@ -64,17 +52,22 @@ func newRestMiddleware(
 		}),
 	))
 
+	// add white list for authentication.
+	rpc.AddWhiteList(
+		adminV1.OperationAuthenticationServiceLogin,
+	)
+
 	ms = append(ms, selector.Server(
 		authn.Server(authenticator),
 		auth.Server(),
 		authz.Server(authorizer.Engine()),
-	).Match(newRestWhiteListMatcher()).Build())
+	).Match(rpc.NewRestWhiteListMatcher()).Build())
 
 	return ms
 }
 
-// NewRESTServer new an HTTP server.
-func NewRESTServer(
+// NewRestServer new an HTTP server.
+func NewRestServer(
 	cfg *conf.Bootstrap, logger log.Logger,
 	authenticator authnEngine.Authenticator, authorizer *data.Authorizer,
 	operationLogRepo *data.AdminOperationLogRepo,
@@ -158,7 +151,7 @@ func NewRESTServer(
 
 	// Trigger policy reload after all services are initialized to ensure that the policy rules are up to date.
 	ctx := context.Background()
-	if err := authorizer.ResetPolicies(ctx); err != nil {
+	if err = authorizer.ResetPolicies(ctx); err != nil {
 		log.Errorf("Failed to reload policies after service initialization: %v", err)
 	} else {
 		log.Info("Successfully reloaded policies after service initialization")

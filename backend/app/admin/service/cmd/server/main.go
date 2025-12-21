@@ -58,9 +58,7 @@ func newApp(
 
 func runApp() error {
 	return bootstrap.RunApp(
-		func(ctx *bootstrap.Context) (app *kratos.App, cleanup func(), err error) {
-			return initApp(ctx)
-		},
+		initApp,
 		&conf.AppInfo{
 			Project: service.Project,
 			AppId:   service.AdminService,

@@ -36,8 +36,8 @@ require (
 	github.com/tx7do/kratos-authz/engine/casbin v1.1.11
 	github.com/tx7do/kratos-authz/engine/opa v1.1.14
 	github.com/tx7do/kratos-authz/middleware v1.1.12
-	github.com/tx7do/kratos-bootstrap/api v0.0.32
-	github.com/tx7do/kratos-bootstrap/bootstrap v0.1.11
+	github.com/tx7do/kratos-bootstrap/api v0.0.33
+	github.com/tx7do/kratos-bootstrap/bootstrap v0.1.12
 	github.com/tx7do/kratos-bootstrap/cache/redis v0.1.0
 	github.com/tx7do/kratos-bootstrap/database/ent v0.1.1
 	github.com/tx7do/kratos-bootstrap/database/gorm v0.1.1
@@ -208,10 +208,10 @@ require (
 	github.com/tklauser/go-sysconf v0.3.16 // indirect
 	github.com/tklauser/numcpus v0.11.0 // indirect
 	github.com/tx7do/go-utils/id v0.0.2 // indirect
-	github.com/tx7do/kratos-bootstrap/config v0.2.0 // indirect
-	github.com/tx7do/kratos-bootstrap/logger v0.1.1 // indirect
-	github.com/tx7do/kratos-bootstrap/registry v0.2.1 // indirect
-	github.com/tx7do/kratos-bootstrap/tracer v0.1.1 // indirect
+	github.com/tx7do/kratos-bootstrap/config v0.2.2 // indirect
+	github.com/tx7do/kratos-bootstrap/logger v0.1.2 // indirect
+	github.com/tx7do/kratos-bootstrap/registry v0.2.2 // indirect
+	github.com/tx7do/kratos-bootstrap/tracer v0.1.3 // indirect
 	github.com/tx7do/kratos-transport/transport/keepalive v1.0.7 // indirect
 	github.com/valyala/fastjson v1.6.7 // indirect
 	github.com/vearutop/statigz v1.5.0 // indirect

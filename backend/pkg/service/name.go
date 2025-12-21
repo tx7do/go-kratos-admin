@@ -7,7 +7,7 @@ package service
 // Nacos:
 
 const (
-	Prefix = "gowind/"
+	Project = "gowind"
 
-	AdminService = Prefix + "admin-gateway" // 后台BFF
+	AdminService = "admin-gateway" // 后台BFF
 )

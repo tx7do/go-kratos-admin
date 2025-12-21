@@ -4,13 +4,13 @@ import (
 	"github.com/go-kratos/kratos/v2"
 	"github.com/go-kratos/kratos/v2/log"
 	"github.com/go-kratos/kratos/v2/registry"
-	"github.com/go-kratos/kratos/v2/transport/http"
 
-	"github.com/tx7do/kratos-bootstrap/bootstrap"
+	"github.com/go-kratos/kratos/v2/transport/http"
 	"github.com/tx7do/kratos-transport/transport/asynq"
 	"github.com/tx7do/kratos-transport/transport/sse"
 
-	"github.com/tx7do/go-utils/trans"
+	conf "github.com/tx7do/kratos-bootstrap/api/gen/go/conf/v1"
+	"github.com/tx7do/kratos-bootstrap/bootstrap"
 
 	//_ "github.com/tx7do/kratos-bootstrap/config/apollo"
 	//_ "github.com/tx7do/kratos-bootstrap/config/consul"
@@ -61,11 +61,15 @@ func newApp(
 }
 
 func runApp() error {
-	return bootstrap.RunApp(func(ctx *bootstrap.Context) (app *kratos.App, cleanup func(), err error) {
-		return initApp(ctx.Logger, ctx.Registrar, ctx.Config)
-	},
-		trans.Ptr(service.AdminService),
-		trans.Ptr(version),
+	return bootstrap.RunApp(
+		func(ctx *bootstrap.Context) (app *kratos.App, cleanup func(), err error) {
+			return initApp(ctx.Logger, ctx.Registrar, ctx.Config)
+		},
+		&conf.AppInfo{
+			Project: service.Project,
+			AppId:   service.AdminService,
+			Version: version,
+		},
 	)
 }
 

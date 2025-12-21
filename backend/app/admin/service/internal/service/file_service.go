@@ -26,9 +26,8 @@ type FileService struct {
 }
 
 func NewFileService(ctx *bootstrap.Context, repo *data.FileRepo) *FileService {
-	l := log.NewHelper(log.With(ctx.Logger, "module", "file/service/admin-service"))
 	return &FileService{
-		log:      l,
+		log:      ctx.NewLoggerHelper("file/service/admin-service"),
 		fileRepo: repo,
 	}
 }

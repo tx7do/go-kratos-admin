@@ -44,7 +44,7 @@ type MenuRepo struct {
 
 func NewMenuRepo(ctx *bootstrap.Context, data *Data) *MenuRepo {
 	repo := &MenuRepo{
-		log:             log.NewHelper(log.With(ctx.Logger, "module", "menu/repo/admin-service")),
+		log:             ctx.NewLoggerHelper("menu/repo/admin-service"),
 		data:            data,
 		mapper:          mapper.NewCopierMapper[adminV1.Menu, ent.Menu](),
 		statusConverter: mapper.NewEnumTypeConverter[adminV1.Menu_Status, menu.Status](adminV1.Menu_Status_name, adminV1.Menu_Status_value),

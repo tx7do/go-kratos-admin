@@ -5,7 +5,6 @@ import (
 	"fmt"
 
 	"github.com/go-kratos/kratos/v2/log"
-	"github.com/tx7do/kratos-bootstrap/bootstrap"
 
 	authzEngine "github.com/tx7do/kratos-authz/engine"
 	"github.com/tx7do/kratos-authz/engine/casbin"
@@ -14,7 +13,9 @@ import (
 
 	pagination "github.com/tx7do/go-crud/api/gen/go/pagination/v1"
 	"github.com/tx7do/go-utils/trans"
+
 	conf "github.com/tx7do/kratos-bootstrap/api/gen/go/conf/v1"
+	"github.com/tx7do/kratos-bootstrap/bootstrap"
 
 	"go-wind-admin/app/admin/service/cmd/server/assets"
 
@@ -38,12 +39,12 @@ func NewAuthorizer(
 	apiResourceRepo *ApiResourceRepo,
 ) *Authorizer {
 	a := &Authorizer{
-		log:             log.NewHelper(log.With(ctx.Logger, "module", "authorizer/repo/admin-service")),
+		log:             ctx.NewLoggerHelper("authorizer/data/admin-service"),
 		roleRepo:        roleRepo,
 		apiResourceRepo: apiResourceRepo,
 	}
 
-	a.init(ctx.Config)
+	a.init(ctx.GetConfig())
 
 	return a
 }

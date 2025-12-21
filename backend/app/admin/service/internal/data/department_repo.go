@@ -42,7 +42,7 @@ type DepartmentRepo struct {
 
 func NewDepartmentRepo(ctx *bootstrap.Context, data *Data) *DepartmentRepo {
 	repo := &DepartmentRepo{
-		log:             log.NewHelper(log.With(ctx.Logger, "module", "department/repo/admin-service")),
+		log:             ctx.NewLoggerHelper("department/repo/admin-service"),
 		data:            data,
 		mapper:          mapper.NewCopierMapper[userV1.Department, ent.Department](),
 		statusConverter: mapper.NewEnumTypeConverter[userV1.Department_Status, department.Status](userV1.Department_Status_name, userV1.Department_Status_value),

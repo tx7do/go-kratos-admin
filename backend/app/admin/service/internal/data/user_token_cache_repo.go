@@ -41,10 +41,9 @@ func NewUserTokenCacheRepo(
 	accessTokenExpires time.Duration,
 	refreshTokenExpires time.Duration,
 ) *UserTokenCacheRepo {
-	l := log.NewHelper(log.With(ctx.Logger, "module", "user-token/cache"))
 	return &UserTokenCacheRepo{
 		rdb:                   rdb,
-		log:                   l,
+		log:                   ctx.NewLoggerHelper("user-token/cache/admin-service"),
 		authenticator:         authenticator,
 		accessTokenKeyPrefix:  accessTokenKeyPrefix,
 		refreshTokenKeyPrefix: refreshTokenKeyPrefix,

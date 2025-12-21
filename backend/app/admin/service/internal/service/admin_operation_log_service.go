@@ -32,9 +32,8 @@ func NewAdminOperationLogService(
 	operationLogRepo *data.AdminOperationLogRepo,
 	apiResourceRepo *data.ApiResourceRepo,
 ) *AdminOperationLogService {
-	l := log.NewHelper(log.With(ctx.Logger, "module", "admin-operation-log/service/admin-service"))
 	return &AdminOperationLogService{
-		log:              l,
+		log:              ctx.NewLoggerHelper("admin-operation-log/service/admin-service"),
 		operationLogRepo: operationLogRepo,
 		apiResourceRepo:  apiResourceRepo,
 	}

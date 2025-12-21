@@ -3,14 +3,13 @@ package data
 import (
 	"github.com/go-kratos/kratos/v2/log"
 	"github.com/redis/go-redis/v9"
-	"github.com/tx7do/kratos-bootstrap/bootstrap"
+	entCrud "github.com/tx7do/go-crud/entgo"
+	"github.com/tx7do/go-utils/password"
 
 	authnEngine "github.com/tx7do/kratos-authn/engine"
 	"github.com/tx7do/kratos-authn/engine/jwt"
 
-	entCrud "github.com/tx7do/go-crud/entgo"
-	"github.com/tx7do/go-utils/password"
-
+	"github.com/tx7do/kratos-bootstrap/bootstrap"
 	redisClient "github.com/tx7do/kratos-bootstrap/cache/redis"
 
 	"go-wind-admin/app/admin/service/internal/data/ent"
@@ -35,27 +34,25 @@ func NewData(
 	db *entCrud.EntClient[*ent.Client],
 	rdb *redis.Client,
 ) (*Data, func(), error) {
-	l := log.NewHelper(log.With(ctx.Logger, "module", "data/admin-service"))
-
 	d := &Data{
-		log: l,
+		log: ctx.NewLoggerHelper("data/admin-service"),
 
 		db:  db,
 		rdb: rdb,
 	}
 
 	return d, func() {
-		l.Info("closing the data resources")
+		d.log.Info("closing the data resources")
 
 		if d.db != nil {
 			if err := d.db.Close(); err != nil {
-				l.Error(err)
+				d.log.Error(err)
 			}
 		}
 
 		if d.rdb != nil {
 			if err := d.rdb.Close(); err != nil {
-				l.Error(err)
+				d.log.Error(err)
 			}
 		}
 	}, nil
@@ -63,24 +60,28 @@ func NewData(
 
 // NewRedisClient 创建Redis客户端
 func NewRedisClient(ctx *bootstrap.Context) *redis.Client {
-	l := log.NewHelper(log.With(ctx.Logger, "module", "redis/data/admin-service"))
-	return redisClient.NewClient(ctx.Config.Data, l)
+	cfg := ctx.GetConfig()
+	if cfg == nil {
+		return nil
+	}
+	return redisClient.NewClient(cfg.Data, ctx.NewLoggerHelper("redis/data/admin-service"))
 }
 
 // NewAuthenticator 创建认证器
 func NewAuthenticator(ctx *bootstrap.Context) authnEngine.Authenticator {
-	if ctx.Config.Authn == nil {
+	cfg := ctx.GetConfig()
+	if cfg == nil || cfg.Authn == nil {
 		return nil
 	}
 
-	switch ctx.Config.GetAuthn().GetType() {
+	switch cfg.GetAuthn().GetType() {
 	default:
 		return nil
 
 	case "jwt":
 		authenticator, err := jwt.NewAuthenticator(
-			jwt.WithKey([]byte(ctx.Config.Authn.GetJwt().GetKey())),
-			jwt.WithSigningMethod(ctx.Config.Authn.GetJwt().GetMethod()),
+			jwt.WithKey([]byte(cfg.Authn.GetJwt().GetKey())),
+			jwt.WithSigningMethod(cfg.Authn.GetJwt().GetMethod()),
 		)
 		if err != nil {
 			return nil
@@ -96,19 +97,24 @@ func NewAuthenticator(ctx *bootstrap.Context) authnEngine.Authenticator {
 }
 
 func NewUserTokenRepo(ctx *bootstrap.Context, rdb *redis.Client, authenticator authnEngine.Authenticator) *UserTokenCacheRepo {
+	cfg := ctx.GetConfig()
+	if cfg == nil || cfg.Server == nil || cfg.Server.Rest == nil {
+		return nil
+	}
+
 	return NewUserTokenCacheRepo(
 		ctx,
 		rdb,
 		authenticator,
-		ctx.Config.GetServer().GetRest().GetMiddleware().GetAuth().GetAccessTokenKeyPrefix(),
-		ctx.Config.GetServer().GetRest().GetMiddleware().GetAuth().GetRefreshTokenKeyPrefix(),
-		ctx.Config.GetServer().GetRest().GetMiddleware().GetAuth().GetAccessTokenExpires().AsDuration(),
-		ctx.Config.GetServer().GetRest().GetMiddleware().GetAuth().GetRefreshTokenExpires().AsDuration(),
+		cfg.GetServer().GetRest().GetMiddleware().GetAuth().GetAccessTokenKeyPrefix(),
+		cfg.GetServer().GetRest().GetMiddleware().GetAuth().GetRefreshTokenKeyPrefix(),
+		cfg.GetServer().GetRest().GetMiddleware().GetAuth().GetAccessTokenExpires().AsDuration(),
+		cfg.GetServer().GetRest().GetMiddleware().GetAuth().GetRefreshTokenExpires().AsDuration(),
 	)
 }
 
 func NewMinIoClient(ctx *bootstrap.Context) *oss.MinIOClient {
-	return oss.NewMinIoClient(ctx.Config, ctx.Logger)
+	return oss.NewMinIoClient(ctx.GetConfig(), ctx.GetLogger())
 }
 
 func NewPasswordCrypto() password.Crypto {

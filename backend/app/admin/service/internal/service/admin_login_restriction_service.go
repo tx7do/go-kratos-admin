@@ -25,9 +25,8 @@ type AdminLoginRestrictionService struct {
 }
 
 func NewAdminLoginRestrictionService(ctx *bootstrap.Context, repo *data.AdminLoginRestrictionRepo) *AdminLoginRestrictionService {
-	l := log.NewHelper(log.With(ctx.Logger, "module", "admin-login-restriction/service/admin-service"))
 	return &AdminLoginRestrictionService{
-		log:  l,
+		log:  ctx.NewLoggerHelper("admin-login-restriction/service/admin-service"),
 		repo: repo,
 	}
 }

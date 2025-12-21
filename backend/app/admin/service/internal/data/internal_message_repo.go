@@ -42,7 +42,7 @@ type InternalMessageRepo struct {
 
 func NewInternalMessageRepo(ctx *bootstrap.Context, data *Data) *InternalMessageRepo {
 	repo := &InternalMessageRepo{
-		log:             log.NewHelper(log.With(ctx.Logger, "module", "internal-message/repo/admin-service")),
+		log:             ctx.NewLoggerHelper("internal-message/repo/admin-service"),
 		data:            data,
 		mapper:          mapper.NewCopierMapper[internalMessageV1.InternalMessage, ent.InternalMessage](),
 		statusConverter: mapper.NewEnumTypeConverter[internalMessageV1.InternalMessage_Status, internalmessage.Status](internalMessageV1.InternalMessage_Status_name, internalMessageV1.InternalMessage_Status_value),

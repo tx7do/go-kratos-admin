@@ -44,7 +44,7 @@ type UserRepo struct {
 
 func NewUserRepo(ctx *bootstrap.Context, data *Data) *UserRepo {
 	repo := &UserRepo{
-		log:                log.NewHelper(log.With(ctx.Logger, "module", "user/repo/admin-service")),
+		log:                ctx.NewLoggerHelper("user/repo/admin-service"),
 		data:               data,
 		mapper:             mapper.NewCopierMapper[userV1.User, ent.User](),
 		statusConverter:    mapper.NewEnumTypeConverter[userV1.User_Status, user.Status](userV1.User_Status_name, userV1.User_Status_value),

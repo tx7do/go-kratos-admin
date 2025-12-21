@@ -44,9 +44,8 @@ func NewRoleService(
 	roleDeptRepo *data.RoleDeptRepo,
 	rolePositionRepo *data.RolePositionRepo,
 ) *RoleService {
-	l := log.NewHelper(log.With(ctx.Logger, "module", "role/service/admin-service"))
 	svc := &RoleService{
-		log:              l,
+		log:              ctx.NewLoggerHelper("role/service/admin-service"),
 		authorizer:       authorizer,
 		roleRepo:         roleRepo,
 		roleApiRepo:      roleApiRepo,

@@ -21,7 +21,7 @@ type RoleMenuRepo struct {
 
 func NewRoleMenuRepo(ctx *bootstrap.Context, data *Data) *RoleMenuRepo {
 	return &RoleMenuRepo{
-		log:  log.NewHelper(log.With(ctx.Logger, "module", "role-menu/repo/admin-service")),
+		log:  ctx.NewLoggerHelper("role-menu/repo/admin-service"),
 		data: data,
 	}
 }

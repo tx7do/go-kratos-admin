@@ -6,14 +6,14 @@ import (
 
 	"github.com/go-kratos/kratos/v2/log"
 	"github.com/stretchr/testify/assert"
+
 	conf "github.com/tx7do/kratos-bootstrap/api/gen/go/conf/v1"
+	"github.com/tx7do/kratos-bootstrap/bootstrap"
 )
 
 func TestUserTokenCache(t *testing.T) {
 	ctx := context.Background()
-
 	l := log.DefaultLogger
-	//l := log.NewHelper(log.With(log.DefaultLogger, "module", "test"))
 
 	var cfg = &conf.Bootstrap{
 		Authn: &conf.Authentication{
@@ -30,14 +30,15 @@ func TestUserTokenCache(t *testing.T) {
 			},
 		},
 	}
+	bctx := bootstrap.NewContextWithParam(ctx, &conf.AppInfo{}, cfg, l)
 
-	authenticator := NewAuthenticator(cfg)
+	authenticator := NewAuthenticator(bctx)
 	assert.NotNil(t, authenticator)
 
-	rdb := NewRedisClient(cfg, l)
+	rdb := NewRedisClient(bctx)
 	assert.NotNil(t, rdb)
 
-	repo := NewUserTokenRepo(l, rdb, authenticator, cfg)
+	repo := NewUserTokenRepo(bctx, rdb, authenticator)
 	assert.NotNil(t, repo)
 
 	var userId uint32 = 0

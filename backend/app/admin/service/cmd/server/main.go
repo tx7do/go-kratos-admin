@@ -49,9 +49,7 @@ func newApp(
 	as *asynq.Server,
 	ss *sse.Server,
 ) *kratos.App {
-	return bootstrap.NewApp(
-		ctx.Logger,
-		ctx.Registrar,
+	return bootstrap.NewApp(ctx,
 		hs,
 		as,
 		ss,
@@ -59,16 +57,15 @@ func newApp(
 }
 
 func runApp() error {
-	ctx := bootstrap.NewContext(context.Background())
-	return bootstrap.RunApp(
-		ctx,
-		initApp,
+	ctx := bootstrap.NewContext(
+		context.Background(),
 		&conf.AppInfo{
 			Project: service.Project,
 			AppId:   service.AdminService,
 			Version: version,
 		},
 	)
+	return bootstrap.RunApp(ctx, initApp)
 }
 
 func main() {

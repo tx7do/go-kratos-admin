@@ -36,9 +36,8 @@ func NewUserProfileService(
 	roleRepo *data.RoleRepo,
 	userCredentialRepo *data.UserCredentialRepo,
 ) *UserProfileService {
-	l := log.NewHelper(log.With(ctx.Logger, "module", "user-profile/service/admin-service"))
 	return &UserProfileService{
-		log:                l,
+		log:                ctx.NewLoggerHelper("user-profile/service/admin-service"),
 		userRepo:           userRepo,
 		userToken:          userToken,
 		roleRepo:           roleRepo,

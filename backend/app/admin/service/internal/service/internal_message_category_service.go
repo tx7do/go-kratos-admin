@@ -26,9 +26,8 @@ type InternalMessageCategoryService struct {
 }
 
 func NewInternalMessageCategoryService(ctx *bootstrap.Context, repo *data.InternalMessageCategoryRepo) *InternalMessageCategoryService {
-	l := log.NewHelper(log.With(ctx.Logger, "module", "internal-message-category/service/admin-service"))
 	return &InternalMessageCategoryService{
-		log:  l,
+		log:  ctx.NewLoggerHelper("internal-message-category/service/admin-service"),
 		repo: repo,
 	}
 }

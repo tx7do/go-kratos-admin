@@ -49,7 +49,7 @@ type UserCredentialRepo struct {
 
 func NewUserCredentialRepo(ctx *bootstrap.Context, data *Data, passwordCrypto password.Crypto) *UserCredentialRepo {
 	repo := &UserCredentialRepo{
-		log:                     log.NewHelper(log.With(ctx.Logger, "module", "user-credentials/repo/admin-service")),
+		log:                     ctx.NewLoggerHelper("user-credentials/repo/admin-service"),
 		data:                    data,
 		passwordCrypto:          passwordCrypto,
 		mapper:                  mapper.NewCopierMapper[authenticationV1.UserCredential, ent.UserCredential](),

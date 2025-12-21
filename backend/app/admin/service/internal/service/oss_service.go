@@ -22,9 +22,8 @@ type OssService struct {
 }
 
 func NewOssService(ctx *bootstrap.Context, mc *oss.MinIOClient) *OssService {
-	l := log.NewHelper(log.With(ctx.Logger, "module", "oss/service/admin-service"))
 	return &OssService{
-		log: l,
+		log: ctx.NewLoggerHelper("oss/service/admin-service"),
 		mc:  mc,
 	}
 }

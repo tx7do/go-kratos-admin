@@ -43,7 +43,7 @@ type AdminOperationLogRepo struct {
 
 func NewAdminOperationLogRepo(ctx *bootstrap.Context, data *Data) *AdminOperationLogRepo {
 	repo := &AdminOperationLogRepo{
-		log:    log.NewHelper(log.With(ctx.Logger, "module", "admin-operation-log/repo/admin-service")),
+		log:    ctx.NewLoggerHelper("admin-operation-log/repo/admin-service"),
 		data:   data,
 		mapper: mapper.NewCopierMapper[adminV1.AdminOperationLog, ent.AdminOperationLog](),
 	}

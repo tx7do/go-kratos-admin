@@ -21,7 +21,7 @@ type UserPositionRepo struct {
 
 func NewUserPositionRepo(ctx *bootstrap.Context, data *Data) *UserPositionRepo {
 	return &UserPositionRepo{
-		log:  log.NewHelper(log.With(ctx.Logger, "module", "user-position/repo/admin-service")),
+		log:  ctx.NewLoggerHelper("user-position/repo/admin-service"),
 		data: data,
 	}
 }

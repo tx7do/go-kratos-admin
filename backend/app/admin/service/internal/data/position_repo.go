@@ -42,7 +42,7 @@ type PositionRepo struct {
 
 func NewPositionRepo(ctx *bootstrap.Context, data *Data) *PositionRepo {
 	repo := &PositionRepo{
-		log:             log.NewHelper(log.With(ctx.Logger, "module", "position/repo/admin-service")),
+		log:             ctx.NewLoggerHelper("position/repo/admin-service"),
 		data:            data,
 		mapper:          mapper.NewCopierMapper[userV1.Position, ent.Position](),
 		statusConverter: mapper.NewEnumTypeConverter[userV1.Position_Status, position.Status](userV1.Position_Status_name, userV1.Position_Status_value),

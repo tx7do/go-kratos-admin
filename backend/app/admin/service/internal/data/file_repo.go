@@ -41,7 +41,7 @@ type FileRepo struct {
 
 func NewFileRepo(ctx *bootstrap.Context, data *Data) *FileRepo {
 	repo := &FileRepo{
-		log:               log.NewHelper(log.With(ctx.Logger, "module", "file/repo/admin-service")),
+		log:               ctx.NewLoggerHelper("file/repo/admin-service"),
 		data:              data,
 		mapper:            mapper.NewCopierMapper[fileV1.File, ent.File](),
 		providerConverter: mapper.NewEnumTypeConverter[fileV1.OSSProvider, file.Provider](fileV1.OSSProvider_name, fileV1.OSSProvider_value),

@@ -28,9 +28,8 @@ func NewInternalMessageRecipientService(
 	internalMessageRepo *data.InternalMessageRepo,
 	internalMessageRecipientRepo *data.InternalMessageRecipientRepo,
 ) *InternalMessageRecipientService {
-	l := log.NewHelper(log.With(ctx.Logger, "module", "internal-message-recipient/service/admin-service"))
 	return &InternalMessageRecipientService{
-		log:                          l,
+		log:                          ctx.NewLoggerHelper("internal-message-recipient/service/admin-service"),
 		internalMessageRepo:          internalMessageRepo,
 		internalMessageRecipientRepo: internalMessageRecipientRepo,
 	}

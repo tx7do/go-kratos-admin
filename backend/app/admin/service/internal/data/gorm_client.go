@@ -1,19 +1,23 @@
 package data
 
 import (
-	"github.com/go-kratos/kratos/v2/log"
-
 	gormCrud "github.com/tx7do/go-crud/gorm"
 
-	conf "github.com/tx7do/kratos-bootstrap/api/gen/go/conf/v1"
+	"github.com/tx7do/kratos-bootstrap/bootstrap"
 	gormBootstrap "github.com/tx7do/kratos-bootstrap/database/gorm"
 
 	"go-wind-admin/app/admin/service/internal/data/gorm"
 )
 
 // NewGormClient 创建GORM ORM数据库客户端
-func NewGormClient(cfg *conf.Bootstrap, logger log.Logger) *gormCrud.Client {
-	l := log.NewHelper(log.With(logger, "module", "gorm/data/admin-service"))
+func NewGormClient(ctx *bootstrap.Context) *gormCrud.Client {
+	l := ctx.NewLoggerHelper("gorm/data/admin-service")
+
+	cfg := ctx.GetConfig()
+	if cfg == nil || cfg.Data == nil {
+		l.Fatalf("failed getting config")
+		return nil
+	}
 
 	gorm.RegisterMigrateModels()
 

@@ -95,12 +95,14 @@ func NewRestServer(
 	userProfileService *service.UserProfileService,
 	apiResourceService *service.ApiResourceService,
 ) *http.Server {
-	if ctx.Config == nil || ctx.Config.Server == nil || ctx.Config.Server.Rest == nil {
+	cfg := ctx.GetConfig()
+
+	if cfg == nil || cfg.Server == nil || cfg.Server.Rest == nil {
 		return nil
 	}
 
-	srv, err := rpc.CreateRestServer(ctx.Config,
-		newRestMiddleware(ctx.Logger, authenticator, authorizer, operationLogRepo, loginLogRepo)...,
+	srv, err := rpc.CreateRestServer(cfg,
+		newRestMiddleware(ctx.GetLogger(), authenticator, authorizer, operationLogRepo, loginLogRepo)...,
 	)
 	if err != nil {
 		panic(err)
@@ -141,7 +143,7 @@ func NewRestServer(
 	registerFileUploadHandler(srv, ossSvc)
 	registerUEditorUploadHandler(srv, ueditorSvc)
 
-	if ctx.Config.GetServer().GetRest().GetEnableSwagger() {
+	if cfg.GetServer().GetRest().GetEnableSwagger() {
 		swaggerUI.RegisterSwaggerUIServerWithOption(
 			srv,
 			swaggerUI.WithTitle("GoWind Admin"),

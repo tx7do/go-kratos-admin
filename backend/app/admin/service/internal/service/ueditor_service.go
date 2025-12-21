@@ -27,9 +27,8 @@ type UEditorService struct {
 }
 
 func NewUEditorService(ctx *bootstrap.Context, mc *oss.MinIOClient) *UEditorService {
-	l := log.NewHelper(log.With(ctx.Logger, "module", "ueditor/service/admin-service"))
 	return &UEditorService{
-		log: l,
+		log: ctx.NewLoggerHelper("ueditor/service/admin-service"),
 		mc:  mc,
 	}
 }

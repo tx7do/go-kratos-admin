@@ -37,9 +37,8 @@ func NewApiResourceService(
 	repo *data.ApiResourceRepo,
 	authorizer *data.Authorizer,
 ) *ApiResourceService {
-	l := log.NewHelper(log.With(ctx.Logger, "module", "api-resource/service/admin-service"))
 	svc := &ApiResourceService{
-		log:        l,
+		log:        ctx.NewLoggerHelper("api-resource/service/admin-service"),
 		repo:       repo,
 		authorizer: authorizer,
 	}

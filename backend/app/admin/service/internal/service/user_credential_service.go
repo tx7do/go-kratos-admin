@@ -25,9 +25,8 @@ func NewUserCredentialService(
 	ctx *bootstrap.Context,
 	userCredentialRepo *data.UserCredentialRepo,
 ) *UserCredentialService {
-	l := log.NewHelper(log.With(ctx.Logger, "module", "user-credential/service/admin-service"))
 	return &UserCredentialService{
-		log:                 l,
+		log:                 ctx.NewLoggerHelper("user-credential/service/admin-service"),
 		userCredentialsRepo: userCredentialRepo,
 	}
 }

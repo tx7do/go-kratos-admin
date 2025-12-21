@@ -37,7 +37,7 @@ require (
 	github.com/tx7do/kratos-authz/engine/opa v1.1.14
 	github.com/tx7do/kratos-authz/middleware v1.1.12
 	github.com/tx7do/kratos-bootstrap/api v0.0.33
-	github.com/tx7do/kratos-bootstrap/bootstrap v0.1.14
+	github.com/tx7do/kratos-bootstrap/bootstrap v0.1.16
 	github.com/tx7do/kratos-bootstrap/cache/redis v0.1.1
 	github.com/tx7do/kratos-bootstrap/database/ent v0.1.2
 	github.com/tx7do/kratos-bootstrap/database/gorm v0.1.2

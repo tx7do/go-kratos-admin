@@ -21,7 +21,7 @@ type RoleOrgRepo struct {
 
 func NewRoleOrgRepo(ctx *bootstrap.Context, data *Data) *RoleOrgRepo {
 	return &RoleOrgRepo{
-		log:  log.NewHelper(log.With(ctx.Logger, "module", "role-org/repo/admin-service")),
+		log:  ctx.NewLoggerHelper("role-org/repo/admin-service"),
 		data: data,
 	}
 }

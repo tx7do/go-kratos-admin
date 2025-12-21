@@ -43,7 +43,7 @@ type TenantRepo struct {
 
 func NewTenantRepo(ctx *bootstrap.Context, data *Data) *TenantRepo {
 	repo := &TenantRepo{
-		log:                  log.NewHelper(log.With(ctx.Logger, "module", "tenant/repo/admin-service")),
+		log:                  ctx.NewLoggerHelper("tenant/repo/admin-service"),
 		data:                 data,
 		mapper:               mapper.NewCopierMapper[userV1.Tenant, ent.Tenant](),
 		statusConverter:      mapper.NewEnumTypeConverter[userV1.Tenant_Status, tenant.Status](userV1.Tenant_Status_name, userV1.Tenant_Status_value),

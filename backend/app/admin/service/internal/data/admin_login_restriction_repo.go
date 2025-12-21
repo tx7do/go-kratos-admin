@@ -42,7 +42,7 @@ type AdminLoginRestrictionRepo struct {
 
 func NewAdminLoginRestrictionRepo(ctx *bootstrap.Context, data *Data) *AdminLoginRestrictionRepo {
 	repo := &AdminLoginRestrictionRepo{
-		log:             log.NewHelper(log.With(ctx.Logger, "module", "admin-login-restriction/repo/admin-service")),
+		log:             ctx.NewLoggerHelper("admin-login-restriction/repo/admin-service"),
 		data:            data,
 		mapper:          mapper.NewCopierMapper[adminV1.AdminLoginRestriction, ent.AdminLoginRestriction](),
 		typeConverter:   mapper.NewEnumTypeConverter[adminV1.AdminLoginRestriction_Type, adminloginrestriction.Type](adminV1.AdminLoginRestriction_Type_name, adminV1.AdminLoginRestriction_Type_value),

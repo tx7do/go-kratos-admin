@@ -15,16 +15,18 @@ import (
 
 // NewAsynqServer creates a new asynq server.
 func NewAsynqServer(ctx *bootstrap.Context, svc *service.TaskService) *asynq.Server {
-	if ctx.Config == nil || ctx.Config.Server == nil || ctx.Config.Server.Asynq == nil {
+	cfg := ctx.GetConfig()
+
+	if cfg == nil || cfg.Server == nil || cfg.Server.Asynq == nil {
 		return nil
 	}
 
 	srv := asynq.NewServer(
-		asynq.WithCodec(ctx.Config.Server.Asynq.GetCodec()),
-		asynq.WithRedisURI(ctx.Config.Server.Asynq.GetUri()),
-		asynq.WithLocation(ctx.Config.Server.Asynq.GetLocation()),
-		asynq.WithGracefullyShutdown(ctx.Config.Server.Asynq.GetEnableGracefullyShutdown()),
-		asynq.WithShutdownTimeout(ctx.Config.Server.Asynq.GetShutdownTimeout().AsDuration()),
+		asynq.WithCodec(cfg.Server.Asynq.GetCodec()),
+		asynq.WithRedisURI(cfg.Server.Asynq.GetUri()),
+		asynq.WithLocation(cfg.Server.Asynq.GetLocation()),
+		asynq.WithGracefullyShutdown(cfg.Server.Asynq.GetEnableGracefullyShutdown()),
+		asynq.WithShutdownTimeout(cfg.Server.Asynq.GetShutdownTimeout().AsDuration()),
 	)
 
 	svc.Server = srv

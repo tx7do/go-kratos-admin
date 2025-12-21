@@ -25,9 +25,8 @@ type MenuService struct {
 }
 
 func NewMenuService(ctx *bootstrap.Context, repo *data.MenuRepo) *MenuService {
-	l := log.NewHelper(log.With(ctx.Logger, "module", "menu/service/admin-service"))
 	return &MenuService{
-		log:  l,
+		log:  ctx.NewLoggerHelper("menu/service/admin-service"),
 		repo: repo,
 	}
 }

@@ -36,9 +36,8 @@ func NewTenantService(
 	userRepo *data.UserRepo,
 	userCredentialsRepo *data.UserCredentialRepo,
 ) *TenantService {
-	l := log.NewHelper(log.With(ctx.Logger, "module", "tenant/service/admin-service"))
 	return &TenantService{
-		log:                 l,
+		log:                 ctx.NewLoggerHelper("tenant/service/admin-service"),
 		tenantRepo:          tenantRepo,
 		userRepo:            userRepo,
 		userCredentialsRepo: userCredentialsRepo,

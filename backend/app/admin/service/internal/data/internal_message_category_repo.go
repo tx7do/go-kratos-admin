@@ -41,7 +41,7 @@ type InternalMessageCategoryRepo struct {
 
 func NewInternalMessageCategoryRepo(ctx *bootstrap.Context, data *Data) *InternalMessageCategoryRepo {
 	repo := &InternalMessageCategoryRepo{
-		log:    log.NewHelper(log.With(ctx.Logger, "module", "internal-message-category/repo/admin-service")),
+		log:    ctx.NewLoggerHelper("internal-message-category/repo/admin-service"),
 		data:   data,
 		mapper: mapper.NewCopierMapper[internalMessageV1.InternalMessageCategory, ent.InternalMessageCategory](),
 	}

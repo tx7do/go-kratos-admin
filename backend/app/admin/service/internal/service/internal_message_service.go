@@ -46,9 +46,8 @@ func NewInternalMessageService(
 	sseServer *sse.Server,
 	userToken *data.UserTokenCacheRepo,
 ) *InternalMessageService {
-	l := log.NewHelper(log.With(ctx.Logger, "module", "internal-message/service/admin-service"))
 	return &InternalMessageService{
-		log:                          l,
+		log:                          ctx.NewLoggerHelper("internal-message/service/admin-service"),
 		internalMessageRepo:          internalMessageRepo,
 		internalMessageCategoryRepo:  internalMessageCategoryRepo,
 		internalMessageRecipientRepo: internalMessageRecipientRepo,

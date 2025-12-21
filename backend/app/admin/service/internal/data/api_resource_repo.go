@@ -41,7 +41,7 @@ type ApiResourceRepo struct {
 
 func NewApiResourceRepo(ctx *bootstrap.Context, data *Data) *ApiResourceRepo {
 	repo := &ApiResourceRepo{
-		log:            log.NewHelper(log.With(ctx.Logger, "module", "api-resource/repo/admin-service")),
+		log:            ctx.NewLoggerHelper("api-resource/repo/admin-service"),
 		data:           data,
 		mapper:         mapper.NewCopierMapper[adminV1.ApiResource, ent.ApiResource](),
 		scopeConverter: mapper.NewEnumTypeConverter[adminV1.ApiResource_Scope, apiresource.Scope](adminV1.ApiResource_Scope_name, adminV1.ApiResource_Scope_value),

@@ -43,9 +43,8 @@ func NewAuthenticationService(
 	userToken *data.UserTokenCacheRepo,
 	authenticator authnEngine.Authenticator,
 ) *AuthenticationService {
-	l := log.NewHelper(log.With(ctx.Logger, "module", "authn/service/admin-service"))
 	return &AuthenticationService{
-		log:                l,
+		log:                ctx.NewLoggerHelper("authn/service/admin-service"),
 		userRepo:           userRepo,
 		userCredentialRepo: userCredentialRepo,
 		tenantRepo:         tenantRepo,

@@ -32,9 +32,8 @@ func NewOrganizationService(
 	organizationRepo *data.OrganizationRepo,
 	userRepo *data.UserRepo,
 ) *OrganizationService {
-	l := log.NewHelper(log.With(ctx.Logger, "module", "organization/service/admin-service"))
 	return &OrganizationService{
-		log:              l,
+		log:              ctx.NewLoggerHelper("organization/service/admin-service"),
 		organizationRepo: organizationRepo,
 		userRepo:         userRepo,
 	}

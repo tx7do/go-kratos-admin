@@ -31,9 +31,8 @@ func NewDictService(
 	dictTypeRepo *data.DictTypeRepo,
 	dictEntryRepo *data.DictEntryRepo,
 ) *DictService {
-	l := log.NewHelper(log.With(ctx.Logger, "module", "dict/service/admin-service"))
 	return &DictService{
-		log:           l,
+		log:           ctx.NewLoggerHelper("dict/service/admin-service"),
 		dictTypeRepo:  dictTypeRepo,
 		dictEntryRepo: dictEntryRepo,
 	}

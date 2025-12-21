@@ -23,9 +23,8 @@ type AdminLoginLogService struct {
 }
 
 func NewAdminLoginLogService(ctx *bootstrap.Context, repo *data.AdminLoginLogRepo) *AdminLoginLogService {
-	l := log.NewHelper(log.With(ctx.Logger, "module", "admin-login-log/service/admin-service"))
 	return &AdminLoginLogService{
-		log:  l,
+		log:  ctx.NewLoggerHelper("admin-login-log/service/admin-service"),
 		repo: repo,
 	}
 }

@@ -43,7 +43,7 @@ type OrganizationRepo struct {
 
 func NewOrganizationRepo(ctx *bootstrap.Context, data *Data) *OrganizationRepo {
 	repo := &OrganizationRepo{
-		log:             log.NewHelper(log.With(ctx.Logger, "module", "organization/repo/admin-service")),
+		log:             ctx.NewLoggerHelper("organization/repo/admin-service"),
 		data:            data,
 		mapper:          mapper.NewCopierMapper[userV1.Organization, ent.Organization](),
 		typeConverter:   mapper.NewEnumTypeConverter[userV1.Organization_Type, organization.OrganizationType](userV1.Organization_Type_name, userV1.Organization_Type_value),

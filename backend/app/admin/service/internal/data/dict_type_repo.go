@@ -40,7 +40,7 @@ type DictTypeRepo struct {
 
 func NewDictTypeRepo(ctx *bootstrap.Context, data *Data) *DictTypeRepo {
 	repo := &DictTypeRepo{
-		log:    log.NewHelper(log.With(ctx.Logger, "module", "dict-main/repo/admin-service")),
+		log:    ctx.NewLoggerHelper("dict-type/repo/admin-service"),
 		data:   data,
 		mapper: mapper.NewCopierMapper[dictV1.DictType, ent.DictType](),
 	}

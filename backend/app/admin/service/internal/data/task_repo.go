@@ -41,7 +41,7 @@ type TaskRepo struct {
 
 func NewTaskRepo(ctx *bootstrap.Context, data *Data) *TaskRepo {
 	repo := &TaskRepo{
-		log:           log.NewHelper(log.With(ctx.Logger, "module", "task/repo/admin-service")),
+		log:           ctx.NewLoggerHelper("task/repo/admin-service"),
 		data:          data,
 		mapper:        mapper.NewCopierMapper[adminV1.Task, ent.Task](),
 		typeConverter: mapper.NewEnumTypeConverter[adminV1.Task_Type, task.Type](adminV1.Task_Type_name, adminV1.Task_Type_value),

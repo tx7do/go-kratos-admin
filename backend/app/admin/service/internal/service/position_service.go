@@ -34,9 +34,8 @@ func NewPositionService(
 	departmentRepo *data.DepartmentRepo,
 	organizationRepo *data.OrganizationRepo,
 ) *PositionService {
-	l := log.NewHelper(log.With(ctx.Logger, "module", "position/service/admin-service"))
 	return &PositionService{
-		log:              l,
+		log:              ctx.NewLoggerHelper("position/service/admin-service"),
 		positionRepo:     positionRepo,
 		departmentRepo:   departmentRepo,
 		organizationRepo: organizationRepo,

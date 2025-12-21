@@ -39,9 +39,8 @@ func NewRouterService(
 	roleRepo *data.RoleRepo,
 	userRepo *data.UserRepo,
 ) *RouterService {
-	l := log.NewHelper(log.With(ctx.Logger, "module", "router/service/admin-service"))
 	return &RouterService{
-		log:      l,
+		log:      ctx.NewLoggerHelper("router/service/admin-service"),
 		menuRepo: menuRepo,
 		roleRepo: roleRepo,
 		userRepo: userRepo,

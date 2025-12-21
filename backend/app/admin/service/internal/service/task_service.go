@@ -39,9 +39,8 @@ func NewTaskService(
 	taskRepo *data.TaskRepo,
 	userRepo *data.UserRepo,
 ) *TaskService {
-	l := log.NewHelper(log.With(ctx.Logger, "module", "task/service/admin-service"))
 	return &TaskService{
-		log:      l,
+		log:      ctx.NewLoggerHelper("task/service/admin-service"),
 		taskRepo: taskRepo,
 		userRepo: userRepo,
 	}

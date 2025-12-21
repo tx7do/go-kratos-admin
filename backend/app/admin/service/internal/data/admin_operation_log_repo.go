@@ -7,6 +7,7 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"github.com/go-kratos/kratos/v2/log"
 	"github.com/jinzhu/copier"
+	"github.com/tx7do/kratos-bootstrap/bootstrap"
 	"google.golang.org/protobuf/types/known/durationpb"
 
 	pagination "github.com/tx7do/go-crud/api/gen/go/pagination/v1"
@@ -40,9 +41,9 @@ type AdminOperationLogRepo struct {
 	]
 }
 
-func NewAdminOperationLogRepo(data *Data, logger log.Logger) *AdminOperationLogRepo {
+func NewAdminOperationLogRepo(ctx *bootstrap.Context, data *Data) *AdminOperationLogRepo {
 	repo := &AdminOperationLogRepo{
-		log:    log.NewHelper(log.With(logger, "module", "admin-operation-log/repo/admin-service")),
+		log:    log.NewHelper(log.With(ctx.Logger, "module", "admin-operation-log/repo/admin-service")),
 		data:   data,
 		mapper: mapper.NewCopierMapper[adminV1.AdminOperationLog, ent.AdminOperationLog](),
 	}

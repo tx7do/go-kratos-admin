@@ -6,6 +6,7 @@ import (
 	"github.com/go-kratos/kratos/v2/log"
 	pagination "github.com/tx7do/go-crud/api/gen/go/pagination/v1"
 	"github.com/tx7do/go-utils/trans"
+	"github.com/tx7do/kratos-bootstrap/bootstrap"
 	"google.golang.org/genproto/protobuf/field_mask"
 	"google.golang.org/protobuf/types/known/emptypb"
 
@@ -30,12 +31,12 @@ type TenantService struct {
 }
 
 func NewTenantService(
-	logger log.Logger,
+	ctx *bootstrap.Context,
 	tenantRepo *data.TenantRepo,
 	userRepo *data.UserRepo,
 	userCredentialsRepo *data.UserCredentialRepo,
 ) *TenantService {
-	l := log.NewHelper(log.With(logger, "module", "tenant/service/admin-service"))
+	l := log.NewHelper(log.With(ctx.Logger, "module", "tenant/service/admin-service"))
 	return &TenantService{
 		log:                 l,
 		tenantRepo:          tenantRepo,

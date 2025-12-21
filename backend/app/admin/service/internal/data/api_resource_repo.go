@@ -6,6 +6,7 @@ import (
 
 	"entgo.io/ent/dialect/sql"
 	"github.com/go-kratos/kratos/v2/log"
+	"github.com/tx7do/kratos-bootstrap/bootstrap"
 
 	pagination "github.com/tx7do/go-crud/api/gen/go/pagination/v1"
 	entCrud "github.com/tx7do/go-crud/entgo"
@@ -38,9 +39,9 @@ type ApiResourceRepo struct {
 	]
 }
 
-func NewApiResourceRepo(data *Data, logger log.Logger) *ApiResourceRepo {
+func NewApiResourceRepo(ctx *bootstrap.Context, data *Data) *ApiResourceRepo {
 	repo := &ApiResourceRepo{
-		log:            log.NewHelper(log.With(logger, "module", "api-resource/repo/admin-service")),
+		log:            log.NewHelper(log.With(ctx.Logger, "module", "api-resource/repo/admin-service")),
 		data:           data,
 		mapper:         mapper.NewCopierMapper[adminV1.ApiResource, ent.ApiResource](),
 		scopeConverter: mapper.NewEnumTypeConverter[adminV1.ApiResource_Scope, apiresource.Scope](adminV1.ApiResource_Scope_name, adminV1.ApiResource_Scope_value),

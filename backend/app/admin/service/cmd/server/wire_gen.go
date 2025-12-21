@@ -8,9 +8,7 @@ package main
 
 import (
 	"github.com/go-kratos/kratos/v2"
-	"github.com/go-kratos/kratos/v2/log"
-	"github.com/go-kratos/kratos/v2/registry"
-	"github.com/tx7do/kratos-bootstrap/api/gen/go/conf/v1"
+	"github.com/tx7do/kratos-bootstrap/bootstrap"
 	"go-wind-admin/app/admin/service/internal/data"
 	"go-wind-admin/app/admin/service/internal/server"
 	"go-wind-admin/app/admin/service/internal/service"
@@ -18,71 +16,82 @@ import (
 
 // Injectors from wire.go:
 
-// initApp init kratos application.
-func initApp(logger log.Logger, registrar registry.Registrar, bootstrap *v1.Bootstrap) (*kratos.App, func(), error) {
-	authenticator := data.NewAuthenticator(bootstrap)
-	entClient := data.NewEntClient(bootstrap, logger)
-	client := data.NewRedisClient(bootstrap, logger)
-	dataData, cleanup, err := data.NewData(logger, entClient, client)
+// initApp 初始化 kratos 应用的 Wire provider 入口。
+// initApp initializes the Wire provider entry for the kratos application.
+//
+// 参数 / Parameters:
+//   - logger: 日志记录器 (log.Logger) / logger (log.Logger)
+//   - registrar: 服务注册器 (registry.Registrar) / registrar (registry.Registrar)
+//   - cfg: 引导配置 (*conf.Bootstrap) / cfg (*conf.Bootstrap)
+//
+// 返回 / Returns:
+//   - *kratos.App: 已构建的应用实例 / *kratos.App: constructed application instance
+//   - func(): 应用关闭时的清理函数 / func(): cleanup function to run on shutdown
+//   - error: 构建过程中可能发生的错误 / error: possible construction error
+func initApp(context *bootstrap.Context) (*kratos.App, func(), error) {
+	authenticator := data.NewAuthenticator(context)
+	entClient := data.NewEntClient(context)
+	client := data.NewRedisClient(context)
+	dataData, cleanup, err := data.NewData(context, entClient, client)
 	if err != nil {
 		return nil, nil, err
 	}
-	roleRepo := data.NewRoleRepo(dataData, logger)
-	apiResourceRepo := data.NewApiResourceRepo(dataData, logger)
-	authorizer := data.NewAuthorizer(logger, bootstrap, roleRepo, apiResourceRepo)
-	adminOperationLogRepo := data.NewAdminOperationLogRepo(dataData, logger)
-	adminLoginLogRepo := data.NewAdminLoginLogRepo(dataData, logger)
-	userRepo := data.NewUserRepo(logger, dataData)
+	roleRepo := data.NewRoleRepo(context, dataData)
+	apiResourceRepo := data.NewApiResourceRepo(context, dataData)
+	authorizer := data.NewAuthorizer(context, roleRepo, apiResourceRepo)
+	adminOperationLogRepo := data.NewAdminOperationLogRepo(context, dataData)
+	adminLoginLogRepo := data.NewAdminLoginLogRepo(context, dataData)
+	userRepo := data.NewUserRepo(context, dataData)
 	crypto := data.NewPasswordCrypto()
-	userCredentialRepo := data.NewUserCredentialRepo(logger, dataData, crypto)
-	tenantRepo := data.NewTenantRepo(dataData, logger)
-	userTokenCacheRepo := data.NewUserTokenRepo(logger, client, authenticator, bootstrap)
-	authenticationService := service.NewAuthenticationService(logger, userRepo, userCredentialRepo, tenantRepo, roleRepo, userTokenCacheRepo, authenticator)
-	positionRepo := data.NewPositionRepo(dataData, logger)
-	departmentRepo := data.NewDepartmentRepo(dataData, logger)
-	organizationRepo := data.NewOrganizationRepo(dataData, logger)
-	userRoleRepo := data.NewUserRoleRepo(dataData, logger)
-	userPositionRepo := data.NewUserPositionRepo(dataData, logger)
-	userService := service.NewUserService(logger, userRepo, roleRepo, userCredentialRepo, positionRepo, departmentRepo, organizationRepo, tenantRepo, userRoleRepo, userPositionRepo)
-	menuRepo := data.NewMenuRepo(dataData, logger)
-	menuService := service.NewMenuService(logger, menuRepo)
-	routerService := service.NewRouterService(logger, menuRepo, roleRepo, userRepo)
-	organizationService := service.NewOrganizationService(logger, organizationRepo, userRepo)
-	roleApiRepo := data.NewRoleApiRepo(dataData, logger)
-	roleMenuRepo := data.NewRoleMenuRepo(dataData, logger)
-	roleOrgRepo := data.NewRoleOrgRepo(dataData, logger)
-	roleDeptRepo := data.NewRoleDeptRepo(dataData, logger)
-	rolePositionRepo := data.NewRolePositionRepo(dataData, logger)
-	roleService := service.NewRoleService(logger, authorizer, roleRepo, roleApiRepo, roleMenuRepo, roleOrgRepo, roleDeptRepo, rolePositionRepo)
-	positionService := service.NewPositionService(logger, positionRepo, departmentRepo, organizationRepo)
-	dictTypeRepo := data.NewDictTypeRepo(dataData, logger)
-	dictEntryRepo := data.NewDictEntryRepo(dataData, logger)
-	dictService := service.NewDictService(logger, dictTypeRepo, dictEntryRepo)
-	departmentService := service.NewDepartmentService(logger, departmentRepo, organizationRepo, userRepo)
-	adminLoginLogService := service.NewAdminLoginLogService(logger, adminLoginLogRepo)
-	adminOperationLogService := service.NewAdminOperationLogService(logger, adminOperationLogRepo, apiResourceRepo)
-	minIOClient := data.NewMinIoClient(bootstrap, logger)
-	ossService := service.NewOssService(logger, minIOClient)
-	uEditorService := service.NewUEditorService(logger, minIOClient)
-	fileRepo := data.NewFileRepo(dataData, logger)
-	fileService := service.NewFileService(logger, fileRepo)
-	tenantService := service.NewTenantService(logger, tenantRepo, userRepo, userCredentialRepo)
-	taskRepo := data.NewTaskRepo(dataData, logger)
-	taskService := service.NewTaskService(logger, taskRepo, userRepo)
-	internalMessageRepo := data.NewInternalMessageRepo(dataData, logger)
-	internalMessageCategoryRepo := data.NewInternalMessageCategoryRepo(dataData, logger)
-	internalMessageRecipientRepo := data.NewInternalMessageRecipientRepo(dataData, logger)
-	sseServer := server.NewSseServer(bootstrap, logger)
-	internalMessageService := service.NewInternalMessageService(logger, internalMessageRepo, internalMessageCategoryRepo, internalMessageRecipientRepo, userRepo, sseServer, userTokenCacheRepo)
-	internalMessageCategoryService := service.NewInternalMessageCategoryService(logger, internalMessageCategoryRepo)
-	internalMessageRecipientService := service.NewInternalMessageRecipientService(logger, internalMessageRepo, internalMessageRecipientRepo)
-	adminLoginRestrictionRepo := data.NewAdminLoginRestrictionRepo(dataData, logger)
-	adminLoginRestrictionService := service.NewAdminLoginRestrictionService(logger, adminLoginRestrictionRepo)
-	userProfileService := service.NewUserProfileService(logger, userRepo, userTokenCacheRepo, roleRepo, userCredentialRepo)
-	apiResourceService := service.NewApiResourceService(logger, apiResourceRepo, authorizer)
-	httpServer := server.NewRestServer(bootstrap, logger, authenticator, authorizer, adminOperationLogRepo, adminLoginLogRepo, authenticationService, userService, menuService, routerService, organizationService, roleService, positionService, dictService, departmentService, adminLoginLogService, adminOperationLogService, ossService, uEditorService, fileService, tenantService, taskService, internalMessageService, internalMessageCategoryService, internalMessageRecipientService, adminLoginRestrictionService, userProfileService, apiResourceService)
-	asynqServer := server.NewAsynqServer(bootstrap, logger, taskService)
-	app := newApp(logger, registrar, httpServer, asynqServer, sseServer)
+	userCredentialRepo := data.NewUserCredentialRepo(context, dataData, crypto)
+	tenantRepo := data.NewTenantRepo(context, dataData)
+	userTokenCacheRepo := data.NewUserTokenRepo(context, client, authenticator)
+	authenticationService := service.NewAuthenticationService(context, userRepo, userCredentialRepo, tenantRepo, roleRepo, userTokenCacheRepo, authenticator)
+	positionRepo := data.NewPositionRepo(context, dataData)
+	departmentRepo := data.NewDepartmentRepo(context, dataData)
+	organizationRepo := data.NewOrganizationRepo(context, dataData)
+	userRoleRepo := data.NewUserRoleRepo(context, dataData)
+	userPositionRepo := data.NewUserPositionRepo(context, dataData)
+	userService := service.NewUserService(context, userRepo, roleRepo, userCredentialRepo, positionRepo, departmentRepo, organizationRepo, tenantRepo, userRoleRepo, userPositionRepo)
+	menuRepo := data.NewMenuRepo(context, dataData)
+	menuService := service.NewMenuService(context, menuRepo)
+	routerService := service.NewRouterService(context, menuRepo, roleRepo, userRepo)
+	organizationService := service.NewOrganizationService(context, organizationRepo, userRepo)
+	roleApiRepo := data.NewRoleApiRepo(context, dataData)
+	roleMenuRepo := data.NewRoleMenuRepo(context, dataData)
+	roleOrgRepo := data.NewRoleOrgRepo(context, dataData)
+	roleDeptRepo := data.NewRoleDeptRepo(context, dataData)
+	rolePositionRepo := data.NewRolePositionRepo(context, dataData)
+	roleService := service.NewRoleService(context, authorizer, roleRepo, roleApiRepo, roleMenuRepo, roleOrgRepo, roleDeptRepo, rolePositionRepo)
+	positionService := service.NewPositionService(context, positionRepo, departmentRepo, organizationRepo)
+	dictTypeRepo := data.NewDictTypeRepo(context, dataData)
+	dictEntryRepo := data.NewDictEntryRepo(context, dataData)
+	dictService := service.NewDictService(context, dictTypeRepo, dictEntryRepo)
+	departmentService := service.NewDepartmentService(context, departmentRepo, organizationRepo, userRepo)
+	adminLoginLogService := service.NewAdminLoginLogService(context, adminLoginLogRepo)
+	adminOperationLogService := service.NewAdminOperationLogService(context, adminOperationLogRepo, apiResourceRepo)
+	minIOClient := data.NewMinIoClient(context)
+	ossService := service.NewOssService(context, minIOClient)
+	uEditorService := service.NewUEditorService(context, minIOClient)
+	fileRepo := data.NewFileRepo(context, dataData)
+	fileService := service.NewFileService(context, fileRepo)
+	tenantService := service.NewTenantService(context, tenantRepo, userRepo, userCredentialRepo)
+	taskRepo := data.NewTaskRepo(context, dataData)
+	taskService := service.NewTaskService(context, taskRepo, userRepo)
+	internalMessageRepo := data.NewInternalMessageRepo(context, dataData)
+	internalMessageCategoryRepo := data.NewInternalMessageCategoryRepo(context, dataData)
+	internalMessageRecipientRepo := data.NewInternalMessageRecipientRepo(context, dataData)
+	sseServer := server.NewSseServer(context)
+	internalMessageService := service.NewInternalMessageService(context, internalMessageRepo, internalMessageCategoryRepo, internalMessageRecipientRepo, userRepo, sseServer, userTokenCacheRepo)
+	internalMessageCategoryService := service.NewInternalMessageCategoryService(context, internalMessageCategoryRepo)
+	internalMessageRecipientService := service.NewInternalMessageRecipientService(context, internalMessageRepo, internalMessageRecipientRepo)
+	adminLoginRestrictionRepo := data.NewAdminLoginRestrictionRepo(context, dataData)
+	adminLoginRestrictionService := service.NewAdminLoginRestrictionService(context, adminLoginRestrictionRepo)
+	userProfileService := service.NewUserProfileService(context, userRepo, userTokenCacheRepo, roleRepo, userCredentialRepo)
+	apiResourceService := service.NewApiResourceService(context, apiResourceRepo, authorizer)
+	httpServer := server.NewRestServer(context, authenticator, authorizer, adminOperationLogRepo, adminLoginLogRepo, authenticationService, userService, menuService, routerService, organizationService, roleService, positionService, dictService, departmentService, adminLoginLogService, adminOperationLogService, ossService, uEditorService, fileService, tenantService, taskService, internalMessageService, internalMessageCategoryService, internalMessageRecipientService, adminLoginRestrictionService, userProfileService, apiResourceService)
+	asynqServer := server.NewAsynqServer(context, taskService)
+	app := newApp(context, httpServer, asynqServer, sseServer)
 	return app, func() {
 		cleanup()
 	}, nil

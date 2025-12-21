@@ -6,6 +6,7 @@ import (
 
 	"entgo.io/ent/dialect/sql"
 	"github.com/go-kratos/kratos/v2/log"
+	"github.com/tx7do/kratos-bootstrap/bootstrap"
 
 	pagination "github.com/tx7do/go-crud/api/gen/go/pagination/v1"
 	entCrud "github.com/tx7do/go-crud/entgo"
@@ -39,9 +40,9 @@ type InternalMessageRepo struct {
 	]
 }
 
-func NewInternalMessageRepo(data *Data, logger log.Logger) *InternalMessageRepo {
+func NewInternalMessageRepo(ctx *bootstrap.Context, data *Data) *InternalMessageRepo {
 	repo := &InternalMessageRepo{
-		log:             log.NewHelper(log.With(logger, "module", "internal-message/repo/admin-service")),
+		log:             log.NewHelper(log.With(ctx.Logger, "module", "internal-message/repo/admin-service")),
 		data:            data,
 		mapper:          mapper.NewCopierMapper[internalMessageV1.InternalMessage, ent.InternalMessage](),
 		statusConverter: mapper.NewEnumTypeConverter[internalMessageV1.InternalMessage_Status, internalmessage.Status](internalMessageV1.InternalMessage_Status_name, internalMessageV1.InternalMessage_Status_value),

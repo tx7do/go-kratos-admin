@@ -7,6 +7,7 @@ import (
 
 	"entgo.io/ent/dialect/sql"
 	"github.com/go-kratos/kratos/v2/log"
+	"github.com/tx7do/kratos-bootstrap/bootstrap"
 
 	pagination "github.com/tx7do/go-crud/api/gen/go/pagination/v1"
 	entCrud "github.com/tx7do/go-crud/entgo"
@@ -41,9 +42,9 @@ type MenuRepo struct {
 	]
 }
 
-func NewMenuRepo(data *Data, logger log.Logger) *MenuRepo {
+func NewMenuRepo(ctx *bootstrap.Context, data *Data) *MenuRepo {
 	repo := &MenuRepo{
-		log:             log.NewHelper(log.With(logger, "module", "menu/repo/admin-service")),
+		log:             log.NewHelper(log.With(ctx.Logger, "module", "menu/repo/admin-service")),
 		data:            data,
 		mapper:          mapper.NewCopierMapper[adminV1.Menu, ent.Menu](),
 		statusConverter: mapper.NewEnumTypeConverter[adminV1.Menu_Status, menu.Status](adminV1.Menu_Status_name, adminV1.Menu_Status_value),

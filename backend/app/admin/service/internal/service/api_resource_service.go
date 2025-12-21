@@ -5,6 +5,7 @@ import (
 
 	"github.com/go-kratos/kratos/v2/log"
 	"github.com/go-kratos/kratos/v2/transport/http"
+	"github.com/tx7do/kratos-bootstrap/bootstrap"
 
 	"entgo.io/ent/dialect/sql"
 	"github.com/getkin/kin-openapi/openapi3"
@@ -32,11 +33,11 @@ type ApiResourceService struct {
 }
 
 func NewApiResourceService(
-	logger log.Logger,
+	ctx *bootstrap.Context,
 	repo *data.ApiResourceRepo,
 	authorizer *data.Authorizer,
 ) *ApiResourceService {
-	l := log.NewHelper(log.With(logger, "module", "api-resource/service/admin-service"))
+	l := log.NewHelper(log.With(ctx.Logger, "module", "api-resource/service/admin-service"))
 	svc := &ApiResourceService{
 		log:        l,
 		repo:       repo,

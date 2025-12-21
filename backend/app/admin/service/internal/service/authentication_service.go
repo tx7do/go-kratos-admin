@@ -6,6 +6,7 @@ import (
 	"github.com/go-kratos/kratos/v2/log"
 	"github.com/tx7do/go-utils/trans"
 	authnEngine "github.com/tx7do/kratos-authn/engine"
+	"github.com/tx7do/kratos-bootstrap/bootstrap"
 	"google.golang.org/protobuf/types/known/emptypb"
 
 	"go-wind-admin/app/admin/service/internal/data"
@@ -34,7 +35,7 @@ type AuthenticationService struct {
 }
 
 func NewAuthenticationService(
-	logger log.Logger,
+	ctx *bootstrap.Context,
 	userRepo *data.UserRepo,
 	userCredentialRepo *data.UserCredentialRepo,
 	tenantRepo *data.TenantRepo,
@@ -42,7 +43,7 @@ func NewAuthenticationService(
 	userToken *data.UserTokenCacheRepo,
 	authenticator authnEngine.Authenticator,
 ) *AuthenticationService {
-	l := log.NewHelper(log.With(logger, "module", "authn/service/admin-service"))
+	l := log.NewHelper(log.With(ctx.Logger, "module", "authn/service/admin-service"))
 	return &AuthenticationService{
 		log:                l,
 		userRepo:           userRepo,

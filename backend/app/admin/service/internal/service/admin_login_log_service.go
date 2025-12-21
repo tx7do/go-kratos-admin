@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/go-kratos/kratos/v2/log"
+	"github.com/tx7do/kratos-bootstrap/bootstrap"
 	"google.golang.org/protobuf/types/known/emptypb"
 
 	pagination "github.com/tx7do/go-crud/api/gen/go/pagination/v1"
@@ -21,8 +22,8 @@ type AdminLoginLogService struct {
 	repo *data.AdminLoginLogRepo
 }
 
-func NewAdminLoginLogService(logger log.Logger, repo *data.AdminLoginLogRepo) *AdminLoginLogService {
-	l := log.NewHelper(log.With(logger, "module", "admin-login-log/service/admin-service"))
+func NewAdminLoginLogService(ctx *bootstrap.Context, repo *data.AdminLoginLogRepo) *AdminLoginLogService {
+	l := log.NewHelper(log.With(ctx.Logger, "module", "admin-login-log/service/admin-service"))
 	return &AdminLoginLogService{
 		log:  l,
 		repo: repo,

@@ -5,6 +5,7 @@ import (
 
 	"github.com/go-kratos/kratos/v2/log"
 	"github.com/tx7do/go-utils/trans"
+	"github.com/tx7do/kratos-bootstrap/bootstrap"
 
 	adminV1 "go-wind-admin/api/gen/go/admin/service/v1"
 	fileV1 "go-wind-admin/api/gen/go/file/service/v1"
@@ -20,8 +21,8 @@ type OssService struct {
 	mc *oss.MinIOClient
 }
 
-func NewOssService(logger log.Logger, mc *oss.MinIOClient) *OssService {
-	l := log.NewHelper(log.With(logger, "module", "oss/service/admin-service"))
+func NewOssService(ctx *bootstrap.Context, mc *oss.MinIOClient) *OssService {
+	l := log.NewHelper(log.With(ctx.Logger, "module", "oss/service/admin-service"))
 	return &OssService{
 		log: l,
 		mc:  mc,

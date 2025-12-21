@@ -10,6 +10,7 @@ import (
 	pagination "github.com/tx7do/go-crud/api/gen/go/pagination/v1"
 	"github.com/tx7do/go-utils/timeutil"
 	"github.com/tx7do/go-utils/trans"
+	"github.com/tx7do/kratos-bootstrap/bootstrap"
 	"github.com/tx7do/kratos-transport/transport/sse"
 	"google.golang.org/protobuf/types/known/emptypb"
 
@@ -37,7 +38,7 @@ type InternalMessageService struct {
 }
 
 func NewInternalMessageService(
-	logger log.Logger,
+	ctx *bootstrap.Context,
 	internalMessageRepo *data.InternalMessageRepo,
 	internalMessageCategoryRepo *data.InternalMessageCategoryRepo,
 	internalMessageRecipientRepo *data.InternalMessageRecipientRepo,
@@ -45,7 +46,7 @@ func NewInternalMessageService(
 	sseServer *sse.Server,
 	userToken *data.UserTokenCacheRepo,
 ) *InternalMessageService {
-	l := log.NewHelper(log.With(logger, "module", "internal-message/service/admin-service"))
+	l := log.NewHelper(log.With(ctx.Logger, "module", "internal-message/service/admin-service"))
 	return &InternalMessageService{
 		log:                          l,
 		internalMessageRepo:          internalMessageRepo,

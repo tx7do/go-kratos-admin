@@ -7,6 +7,7 @@ import (
 
 	"entgo.io/ent/dialect/sql"
 	"github.com/go-kratos/kratos/v2/log"
+	"github.com/tx7do/kratos-bootstrap/bootstrap"
 
 	pagination "github.com/tx7do/go-crud/api/gen/go/pagination/v1"
 	entCrud "github.com/tx7do/go-crud/entgo"
@@ -39,9 +40,9 @@ type DepartmentRepo struct {
 	]
 }
 
-func NewDepartmentRepo(data *Data, logger log.Logger) *DepartmentRepo {
+func NewDepartmentRepo(ctx *bootstrap.Context, data *Data) *DepartmentRepo {
 	repo := &DepartmentRepo{
-		log:             log.NewHelper(log.With(logger, "module", "department/repo/admin-service")),
+		log:             log.NewHelper(log.With(ctx.Logger, "module", "department/repo/admin-service")),
 		data:            data,
 		mapper:          mapper.NewCopierMapper[userV1.Department, ent.Department](),
 		statusConverter: mapper.NewEnumTypeConverter[userV1.Department_Status, department.Status](userV1.Department_Status_name, userV1.Department_Status_value),

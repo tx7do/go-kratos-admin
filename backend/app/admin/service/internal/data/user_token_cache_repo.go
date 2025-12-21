@@ -9,6 +9,7 @@ import (
 	"github.com/go-kratos/kratos/v2/log"
 	"github.com/google/uuid"
 	"github.com/redis/go-redis/v9"
+	"github.com/tx7do/kratos-bootstrap/bootstrap"
 
 	authnEngine "github.com/tx7do/kratos-authn/engine"
 
@@ -32,7 +33,7 @@ type UserTokenCacheRepo struct {
 }
 
 func NewUserTokenCacheRepo(
-	logger log.Logger,
+	ctx *bootstrap.Context,
 	rdb *redis.Client,
 	authenticator authnEngine.Authenticator,
 	accessTokenKeyPrefix string,
@@ -40,7 +41,7 @@ func NewUserTokenCacheRepo(
 	accessTokenExpires time.Duration,
 	refreshTokenExpires time.Duration,
 ) *UserTokenCacheRepo {
-	l := log.NewHelper(log.With(logger, "module", "user-token/cache"))
+	l := log.NewHelper(log.With(ctx.Logger, "module", "user-token/cache"))
 	return &UserTokenCacheRepo{
 		rdb:                   rdb,
 		log:                   l,

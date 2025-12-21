@@ -4,7 +4,7 @@ import (
 	"context"
 
 	"github.com/go-kratos/kratos/v2/log"
-	conf "github.com/tx7do/kratos-bootstrap/api/gen/go/conf/v1"
+	"github.com/tx7do/kratos-bootstrap/bootstrap"
 	"github.com/tx7do/kratos-transport/transport/asynq"
 	"google.golang.org/protobuf/types/known/emptypb"
 
@@ -14,17 +14,17 @@ import (
 )
 
 // NewAsynqServer creates a new asynq server.
-func NewAsynqServer(cfg *conf.Bootstrap, _ log.Logger, svc *service.TaskService) *asynq.Server {
-	if cfg == nil || cfg.Server == nil || cfg.Server.Asynq == nil {
+func NewAsynqServer(ctx *bootstrap.Context, svc *service.TaskService) *asynq.Server {
+	if ctx.Config == nil || ctx.Config.Server == nil || ctx.Config.Server.Asynq == nil {
 		return nil
 	}
 
 	srv := asynq.NewServer(
-		asynq.WithCodec(cfg.Server.Asynq.GetCodec()),
-		asynq.WithRedisURI(cfg.Server.Asynq.GetUri()),
-		asynq.WithLocation(cfg.Server.Asynq.GetLocation()),
-		asynq.WithGracefullyShutdown(cfg.Server.Asynq.GetEnableGracefullyShutdown()),
-		asynq.WithShutdownTimeout(cfg.Server.Asynq.GetShutdownTimeout().AsDuration()),
+		asynq.WithCodec(ctx.Config.Server.Asynq.GetCodec()),
+		asynq.WithRedisURI(ctx.Config.Server.Asynq.GetUri()),
+		asynq.WithLocation(ctx.Config.Server.Asynq.GetLocation()),
+		asynq.WithGracefullyShutdown(ctx.Config.Server.Asynq.GetEnableGracefullyShutdown()),
+		asynq.WithShutdownTimeout(ctx.Config.Server.Asynq.GetShutdownTimeout().AsDuration()),
 	)
 
 	svc.Server = srv

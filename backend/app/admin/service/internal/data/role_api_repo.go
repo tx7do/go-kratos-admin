@@ -6,6 +6,7 @@ import (
 
 	"github.com/go-kratos/kratos/v2/log"
 	"github.com/tx7do/go-crud/entgo"
+	"github.com/tx7do/kratos-bootstrap/bootstrap"
 
 	"go-wind-admin/app/admin/service/internal/data/ent"
 	"go-wind-admin/app/admin/service/internal/data/ent/roleapi"
@@ -18,9 +19,9 @@ type RoleApiRepo struct {
 	log  *log.Helper
 }
 
-func NewRoleApiRepo(data *Data, logger log.Logger) *RoleApiRepo {
+func NewRoleApiRepo(ctx *bootstrap.Context, data *Data) *RoleApiRepo {
 	return &RoleApiRepo{
-		log:  log.NewHelper(log.With(logger, "module", "role-api/repo/admin-service")),
+		log:  log.NewHelper(log.With(ctx.Logger, "module", "role-api/repo/admin-service")),
 		data: data,
 	}
 }

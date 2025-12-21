@@ -16,15 +16,13 @@ package main
 import (
 	"github.com/google/wire"
 
-	"github.com/go-kratos/kratos/v2"
-	"github.com/go-kratos/kratos/v2/log"
-	"github.com/go-kratos/kratos/v2/registry"
-
-	conf "github.com/tx7do/kratos-bootstrap/api/gen/go/conf/v1"
+	"github.com/tx7do/kratos-bootstrap/bootstrap"
 
 	dataProviders "go-wind-admin/app/admin/service/internal/data/providers"
 	serverProviders "go-wind-admin/app/admin/service/internal/server/providers"
 	serviceProviders "go-wind-admin/app/admin/service/internal/service/providers"
+
+	"github.com/go-kratos/kratos/v2"
 )
 
 // initApp 初始化 kratos 应用的 Wire provider 入口。
@@ -39,7 +37,7 @@ import (
 //   - *kratos.App: 已构建的应用实例 / *kratos.App: constructed application instance
 //   - func(): 应用关闭时的清理函数 / func(): cleanup function to run on shutdown
 //   - error: 构建过程中可能发生的错误 / error: possible construction error
-func initApp(log.Logger, registry.Registrar, *conf.Bootstrap) (*kratos.App, func(), error) {
+func initApp(*bootstrap.Context) (*kratos.App, func(), error) {
 	panic(
 		wire.Build(
 			serverProviders.ProviderSet,

@@ -5,6 +5,7 @@ import (
 
 	"github.com/go-kratos/kratos/v2/log"
 	"github.com/tx7do/go-utils/trans"
+	"github.com/tx7do/kratos-bootstrap/bootstrap"
 	"google.golang.org/genproto/protobuf/field_mask"
 	"google.golang.org/protobuf/types/known/emptypb"
 
@@ -29,13 +30,13 @@ type UserProfileService struct {
 }
 
 func NewUserProfileService(
-	logger log.Logger,
+	ctx *bootstrap.Context,
 	userRepo *data.UserRepo,
 	userToken *data.UserTokenCacheRepo,
 	roleRepo *data.RoleRepo,
 	userCredentialRepo *data.UserCredentialRepo,
 ) *UserProfileService {
-	l := log.NewHelper(log.With(logger, "module", "user-profile/service/admin-service"))
+	l := log.NewHelper(log.With(ctx.Logger, "module", "user-profile/service/admin-service"))
 	return &UserProfileService{
 		log:                l,
 		userRepo:           userRepo,

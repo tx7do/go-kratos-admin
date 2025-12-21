@@ -6,6 +6,7 @@ import (
 
 	"entgo.io/ent/dialect/sql"
 	"github.com/go-kratos/kratos/v2/log"
+	"github.com/tx7do/kratos-bootstrap/bootstrap"
 
 	pagination "github.com/tx7do/go-crud/api/gen/go/pagination/v1"
 	entCrud "github.com/tx7do/go-crud/entgo"
@@ -37,9 +38,9 @@ type DictEntryRepo struct {
 	]
 }
 
-func NewDictEntryRepo(data *Data, logger log.Logger) *DictEntryRepo {
+func NewDictEntryRepo(ctx *bootstrap.Context, data *Data) *DictEntryRepo {
 	repo := &DictEntryRepo{
-		log:    log.NewHelper(log.With(logger, "module", "dict-item/repo/admin-service")),
+		log:    log.NewHelper(log.With(ctx.Logger, "module", "dict-item/repo/admin-service")),
 		data:   data,
 		mapper: mapper.NewCopierMapper[dictV1.DictEntry, ent.DictEntry](),
 	}

@@ -6,6 +6,7 @@ import (
 
 	"entgo.io/ent/dialect/sql"
 	"github.com/go-kratos/kratos/v2/log"
+	"github.com/tx7do/kratos-bootstrap/bootstrap"
 
 	pagination "github.com/tx7do/go-crud/api/gen/go/pagination/v1"
 	entCrud "github.com/tx7do/go-crud/entgo"
@@ -41,9 +42,9 @@ type UserRepo struct {
 	]
 }
 
-func NewUserRepo(logger log.Logger, data *Data) *UserRepo {
+func NewUserRepo(ctx *bootstrap.Context, data *Data) *UserRepo {
 	repo := &UserRepo{
-		log:                log.NewHelper(log.With(logger, "module", "user/repo/admin-service")),
+		log:                log.NewHelper(log.With(ctx.Logger, "module", "user/repo/admin-service")),
 		data:               data,
 		mapper:             mapper.NewCopierMapper[userV1.User, ent.User](),
 		statusConverter:    mapper.NewEnumTypeConverter[userV1.User_Status, user.Status](userV1.User_Status_name, userV1.User_Status_value),

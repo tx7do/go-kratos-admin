@@ -7,6 +7,7 @@ import (
 
 	"entgo.io/ent/dialect/sql"
 	"github.com/go-kratos/kratos/v2/log"
+	"github.com/tx7do/kratos-bootstrap/bootstrap"
 
 	pagination "github.com/tx7do/go-crud/api/gen/go/pagination/v1"
 	entCrud "github.com/tx7do/go-crud/entgo"
@@ -46,9 +47,9 @@ type UserCredentialRepo struct {
 	]
 }
 
-func NewUserCredentialRepo(logger log.Logger, data *Data, passwordCrypto password.Crypto) *UserCredentialRepo {
+func NewUserCredentialRepo(ctx *bootstrap.Context, data *Data, passwordCrypto password.Crypto) *UserCredentialRepo {
 	repo := &UserCredentialRepo{
-		log:                     log.NewHelper(log.With(logger, "module", "user-credentials/repo/admin-service")),
+		log:                     log.NewHelper(log.With(ctx.Logger, "module", "user-credentials/repo/admin-service")),
 		data:                    data,
 		passwordCrypto:          passwordCrypto,
 		mapper:                  mapper.NewCopierMapper[authenticationV1.UserCredential, ent.UserCredential](),

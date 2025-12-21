@@ -6,6 +6,7 @@ import (
 
 	"github.com/go-kratos/kratos/v2/log"
 	"github.com/tx7do/go-utils/trans"
+	"github.com/tx7do/kratos-bootstrap/bootstrap"
 
 	adminV1 "go-wind-admin/api/gen/go/admin/service/v1"
 	fileV1 "go-wind-admin/api/gen/go/file/service/v1"
@@ -25,8 +26,8 @@ type UEditorService struct {
 	mc *oss.MinIOClient
 }
 
-func NewUEditorService(logger log.Logger, mc *oss.MinIOClient) *UEditorService {
-	l := log.NewHelper(log.With(logger, "module", "ueditor/service/admin-service"))
+func NewUEditorService(ctx *bootstrap.Context, mc *oss.MinIOClient) *UEditorService {
+	l := log.NewHelper(log.With(ctx.Logger, "module", "ueditor/service/admin-service"))
 	return &UEditorService{
 		log: l,
 		mc:  mc,

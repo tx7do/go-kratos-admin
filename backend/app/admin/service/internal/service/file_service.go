@@ -6,6 +6,7 @@ import (
 	"github.com/go-kratos/kratos/v2/log"
 	pagination "github.com/tx7do/go-crud/api/gen/go/pagination/v1"
 	"github.com/tx7do/go-utils/trans"
+	"github.com/tx7do/kratos-bootstrap/bootstrap"
 	"google.golang.org/protobuf/types/known/emptypb"
 
 	"go-wind-admin/app/admin/service/internal/data"
@@ -24,8 +25,8 @@ type FileService struct {
 	fileRepo *data.FileRepo
 }
 
-func NewFileService(logger log.Logger, repo *data.FileRepo) *FileService {
-	l := log.NewHelper(log.With(logger, "module", "file/service/admin-service"))
+func NewFileService(ctx *bootstrap.Context, repo *data.FileRepo) *FileService {
+	l := log.NewHelper(log.With(ctx.Logger, "module", "file/service/admin-service"))
 	return &FileService{
 		log:      l,
 		fileRepo: repo,

@@ -5,6 +5,7 @@ import (
 	"fmt"
 
 	"github.com/go-kratos/kratos/v2/log"
+	"github.com/tx7do/kratos-bootstrap/bootstrap"
 
 	authzEngine "github.com/tx7do/kratos-authz/engine"
 	"github.com/tx7do/kratos-authz/engine/casbin"
@@ -32,18 +33,17 @@ type Authorizer struct {
 }
 
 func NewAuthorizer(
-	logger log.Logger,
-	cfg *conf.Bootstrap,
+	ctx *bootstrap.Context,
 	roleRepo *RoleRepo,
 	apiResourceRepo *ApiResourceRepo,
 ) *Authorizer {
 	a := &Authorizer{
-		log:             log.NewHelper(log.With(logger, "module", "authorizer/repo/admin-service")),
+		log:             log.NewHelper(log.With(ctx.Logger, "module", "authorizer/repo/admin-service")),
 		roleRepo:        roleRepo,
 		apiResourceRepo: apiResourceRepo,
 	}
 
-	a.init(cfg)
+	a.init(ctx.Config)
 
 	return a
 }

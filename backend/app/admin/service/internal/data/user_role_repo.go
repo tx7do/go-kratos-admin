@@ -6,6 +6,7 @@ import (
 
 	"github.com/go-kratos/kratos/v2/log"
 	"github.com/tx7do/go-crud/entgo"
+	"github.com/tx7do/kratos-bootstrap/bootstrap"
 
 	"go-wind-admin/app/admin/service/internal/data/ent"
 	"go-wind-admin/app/admin/service/internal/data/ent/userrole"
@@ -18,9 +19,9 @@ type UserRoleRepo struct {
 	log  *log.Helper
 }
 
-func NewUserRoleRepo(data *Data, logger log.Logger) *UserRoleRepo {
+func NewUserRoleRepo(ctx *bootstrap.Context, data *Data) *UserRoleRepo {
 	return &UserRoleRepo{
-		log:  log.NewHelper(log.With(logger, "module", "user-role/repo/admin-service")),
+		log:  log.NewHelper(log.With(ctx.Logger, "module", "user-role/repo/admin-service")),
 		data: data,
 	}
 }

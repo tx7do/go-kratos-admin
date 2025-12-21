@@ -6,6 +6,7 @@ import (
 	"github.com/go-kratos/kratos/v2/log"
 	pagination "github.com/tx7do/go-crud/api/gen/go/pagination/v1"
 	"github.com/tx7do/go-utils/trans"
+	"github.com/tx7do/kratos-bootstrap/bootstrap"
 	"google.golang.org/protobuf/types/known/emptypb"
 
 	"go-wind-admin/app/admin/service/internal/data"
@@ -23,8 +24,8 @@ type MenuService struct {
 	repo *data.MenuRepo
 }
 
-func NewMenuService(logger log.Logger, repo *data.MenuRepo) *MenuService {
-	l := log.NewHelper(log.With(logger, "module", "menu/service/admin-service"))
+func NewMenuService(ctx *bootstrap.Context, repo *data.MenuRepo) *MenuService {
+	l := log.NewHelper(log.With(ctx.Logger, "module", "menu/service/admin-service"))
 	return &MenuService{
 		log:  l,
 		repo: repo,

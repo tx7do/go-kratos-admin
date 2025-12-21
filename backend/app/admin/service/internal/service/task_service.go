@@ -9,6 +9,7 @@ import (
 	"github.com/hibiken/asynq"
 	pagination "github.com/tx7do/go-crud/api/gen/go/pagination/v1"
 	"github.com/tx7do/go-utils/trans"
+	"github.com/tx7do/kratos-bootstrap/bootstrap"
 	"google.golang.org/protobuf/types/known/emptypb"
 
 	"github.com/tx7do/kratos-transport/broker"
@@ -34,11 +35,11 @@ type TaskService struct {
 }
 
 func NewTaskService(
-	logger log.Logger,
+	ctx *bootstrap.Context,
 	taskRepo *data.TaskRepo,
 	userRepo *data.UserRepo,
 ) *TaskService {
-	l := log.NewHelper(log.With(logger, "module", "task/service/admin-service"))
+	l := log.NewHelper(log.With(ctx.Logger, "module", "task/service/admin-service"))
 	return &TaskService{
 		log:      l,
 		taskRepo: taskRepo,

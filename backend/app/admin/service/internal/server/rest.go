@@ -8,6 +8,7 @@ import (
 	"github.com/go-kratos/kratos/v2/middleware/logging"
 	"github.com/go-kratos/kratos/v2/middleware/selector"
 	"github.com/go-kratos/kratos/v2/transport/http"
+	"github.com/tx7do/kratos-bootstrap/bootstrap"
 
 	authnEngine "github.com/tx7do/kratos-authn/engine"
 	authn "github.com/tx7do/kratos-authn/middleware"
@@ -16,7 +17,6 @@ import (
 
 	swaggerUI "github.com/tx7do/kratos-swagger-ui"
 
-	conf "github.com/tx7do/kratos-bootstrap/api/gen/go/conf/v1"
 	"github.com/tx7do/kratos-bootstrap/rpc"
 
 	"go-wind-admin/app/admin/service/cmd/server/assets"
@@ -68,7 +68,7 @@ func newRestMiddleware(
 
 // NewRestServer new an HTTP server.
 func NewRestServer(
-	cfg *conf.Bootstrap, logger log.Logger,
+	ctx *bootstrap.Context,
 	authenticator authnEngine.Authenticator, authorizer *data.Authorizer,
 	operationLogRepo *data.AdminOperationLogRepo,
 	loginLogRepo *data.AdminLoginLogRepo,
@@ -95,12 +95,12 @@ func NewRestServer(
 	userProfileService *service.UserProfileService,
 	apiResourceService *service.ApiResourceService,
 ) *http.Server {
-	if cfg == nil || cfg.Server == nil || cfg.Server.Rest == nil {
+	if ctx.Config == nil || ctx.Config.Server == nil || ctx.Config.Server.Rest == nil {
 		return nil
 	}
 
-	srv, err := rpc.CreateRestServer(cfg,
-		newRestMiddleware(logger, authenticator, authorizer, operationLogRepo, loginLogRepo)...,
+	srv, err := rpc.CreateRestServer(ctx.Config,
+		newRestMiddleware(ctx.Logger, authenticator, authorizer, operationLogRepo, loginLogRepo)...,
 	)
 	if err != nil {
 		panic(err)
@@ -141,7 +141,7 @@ func NewRestServer(
 	registerFileUploadHandler(srv, ossSvc)
 	registerUEditorUploadHandler(srv, ueditorSvc)
 
-	if cfg.GetServer().GetRest().GetEnableSwagger() {
+	if ctx.Config.GetServer().GetRest().GetEnableSwagger() {
 		swaggerUI.RegisterSwaggerUIServerWithOption(
 			srv,
 			swaggerUI.WithTitle("GoWind Admin"),
@@ -150,8 +150,7 @@ func NewRestServer(
 	}
 
 	// Trigger policy reload after all services are initialized to ensure that the policy rules are up to date.
-	ctx := context.Background()
-	if err = authorizer.ResetPolicies(ctx); err != nil {
+	if err = authorizer.ResetPolicies(context.Background()); err != nil {
 		log.Errorf("Failed to reload policies after service initialization: %v", err)
 	} else {
 		log.Info("Successfully reloaded policies after service initialization")

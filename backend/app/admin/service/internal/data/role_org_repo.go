@@ -6,6 +6,7 @@ import (
 
 	"github.com/go-kratos/kratos/v2/log"
 	"github.com/tx7do/go-crud/entgo"
+	"github.com/tx7do/kratos-bootstrap/bootstrap"
 
 	"go-wind-admin/app/admin/service/internal/data/ent"
 	"go-wind-admin/app/admin/service/internal/data/ent/roleorg"
@@ -18,9 +19,9 @@ type RoleOrgRepo struct {
 	log  *log.Helper
 }
 
-func NewRoleOrgRepo(data *Data, logger log.Logger) *RoleOrgRepo {
+func NewRoleOrgRepo(ctx *bootstrap.Context, data *Data) *RoleOrgRepo {
 	return &RoleOrgRepo{
-		log:  log.NewHelper(log.With(logger, "module", "role-org/repo/admin-service")),
+		log:  log.NewHelper(log.With(ctx.Logger, "module", "role-org/repo/admin-service")),
 		data: data,
 	}
 }

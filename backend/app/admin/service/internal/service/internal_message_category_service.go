@@ -6,6 +6,7 @@ import (
 	"github.com/go-kratos/kratos/v2/log"
 	pagination "github.com/tx7do/go-crud/api/gen/go/pagination/v1"
 	"github.com/tx7do/go-utils/trans"
+	"github.com/tx7do/kratos-bootstrap/bootstrap"
 	"google.golang.org/protobuf/types/known/emptypb"
 
 	"go-wind-admin/app/admin/service/internal/data"
@@ -24,8 +25,8 @@ type InternalMessageCategoryService struct {
 	repo *data.InternalMessageCategoryRepo
 }
 
-func NewInternalMessageCategoryService(logger log.Logger, repo *data.InternalMessageCategoryRepo) *InternalMessageCategoryService {
-	l := log.NewHelper(log.With(logger, "module", "internal-message-category/service/admin-service"))
+func NewInternalMessageCategoryService(ctx *bootstrap.Context, repo *data.InternalMessageCategoryRepo) *InternalMessageCategoryService {
+	l := log.NewHelper(log.With(ctx.Logger, "module", "internal-message-category/service/admin-service"))
 	return &InternalMessageCategoryService{
 		log:  l,
 		repo: repo,

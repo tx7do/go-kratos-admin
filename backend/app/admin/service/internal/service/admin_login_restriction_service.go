@@ -6,6 +6,7 @@ import (
 	"github.com/go-kratos/kratos/v2/log"
 	pagination "github.com/tx7do/go-crud/api/gen/go/pagination/v1"
 	"github.com/tx7do/go-utils/trans"
+	"github.com/tx7do/kratos-bootstrap/bootstrap"
 	"google.golang.org/protobuf/types/known/emptypb"
 
 	"go-wind-admin/app/admin/service/internal/data"
@@ -23,8 +24,8 @@ type AdminLoginRestrictionService struct {
 	repo *data.AdminLoginRestrictionRepo
 }
 
-func NewAdminLoginRestrictionService(logger log.Logger, repo *data.AdminLoginRestrictionRepo) *AdminLoginRestrictionService {
-	l := log.NewHelper(log.With(logger, "module", "admin-login-restriction/service/admin-service"))
+func NewAdminLoginRestrictionService(ctx *bootstrap.Context, repo *data.AdminLoginRestrictionRepo) *AdminLoginRestrictionService {
+	l := log.NewHelper(log.With(ctx.Logger, "module", "admin-login-restriction/service/admin-service"))
 	return &AdminLoginRestrictionService{
 		log:  l,
 		repo: repo,

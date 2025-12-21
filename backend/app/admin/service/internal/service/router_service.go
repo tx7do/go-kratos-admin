@@ -7,6 +7,7 @@ import (
 	"strings"
 
 	"github.com/go-kratos/kratos/v2/log"
+	"github.com/tx7do/kratos-bootstrap/bootstrap"
 	"google.golang.org/protobuf/types/known/emptypb"
 	"google.golang.org/protobuf/types/known/fieldmaskpb"
 
@@ -33,12 +34,12 @@ type RouterService struct {
 }
 
 func NewRouterService(
-	logger log.Logger,
+	ctx *bootstrap.Context,
 	menuRepo *data.MenuRepo,
 	roleRepo *data.RoleRepo,
 	userRepo *data.UserRepo,
 ) *RouterService {
-	l := log.NewHelper(log.With(logger, "module", "router/service/admin-service"))
+	l := log.NewHelper(log.With(ctx.Logger, "module", "router/service/admin-service"))
 	return &RouterService{
 		log:      l,
 		menuRepo: menuRepo,

@@ -6,6 +6,7 @@ import (
 	"github.com/go-kratos/kratos/v2/log"
 	pagination "github.com/tx7do/go-crud/api/gen/go/pagination/v1"
 	"github.com/tx7do/go-utils/trans"
+	"github.com/tx7do/kratos-bootstrap/bootstrap"
 	"google.golang.org/protobuf/types/known/emptypb"
 
 	"go-wind-admin/app/admin/service/internal/data"
@@ -28,12 +29,12 @@ type PositionService struct {
 }
 
 func NewPositionService(
-	logger log.Logger,
+	ctx *bootstrap.Context,
 	positionRepo *data.PositionRepo,
 	departmentRepo *data.DepartmentRepo,
 	organizationRepo *data.OrganizationRepo,
 ) *PositionService {
-	l := log.NewHelper(log.With(logger, "module", "position/service/admin-service"))
+	l := log.NewHelper(log.With(ctx.Logger, "module", "position/service/admin-service"))
 	return &PositionService{
 		log:              l,
 		positionRepo:     positionRepo,

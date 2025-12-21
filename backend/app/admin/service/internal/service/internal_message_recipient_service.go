@@ -5,6 +5,7 @@ import (
 
 	"github.com/go-kratos/kratos/v2/log"
 	pagination "github.com/tx7do/go-crud/api/gen/go/pagination/v1"
+	"github.com/tx7do/kratos-bootstrap/bootstrap"
 	"google.golang.org/protobuf/types/known/emptypb"
 
 	"go-wind-admin/app/admin/service/internal/data"
@@ -23,11 +24,11 @@ type InternalMessageRecipientService struct {
 }
 
 func NewInternalMessageRecipientService(
-	logger log.Logger,
+	ctx *bootstrap.Context,
 	internalMessageRepo *data.InternalMessageRepo,
 	internalMessageRecipientRepo *data.InternalMessageRecipientRepo,
 ) *InternalMessageRecipientService {
-	l := log.NewHelper(log.With(logger, "module", "internal-message-recipient/service/admin-service"))
+	l := log.NewHelper(log.With(ctx.Logger, "module", "internal-message-recipient/service/admin-service"))
 	return &InternalMessageRecipientService{
 		log:                          l,
 		internalMessageRepo:          internalMessageRepo,

@@ -7,6 +7,7 @@ import (
 	"github.com/go-kratos/kratos/v2/log"
 	pagination "github.com/tx7do/go-crud/api/gen/go/pagination/v1"
 	"github.com/tx7do/go-utils/trans"
+	"github.com/tx7do/kratos-bootstrap/bootstrap"
 	"google.golang.org/protobuf/types/known/emptypb"
 
 	"go-wind-admin/app/admin/service/internal/data"
@@ -27,11 +28,11 @@ type AdminOperationLogService struct {
 }
 
 func NewAdminOperationLogService(
-	logger log.Logger,
+	ctx *bootstrap.Context,
 	operationLogRepo *data.AdminOperationLogRepo,
 	apiResourceRepo *data.ApiResourceRepo,
 ) *AdminOperationLogService {
-	l := log.NewHelper(log.With(logger, "module", "admin-operation-log/service/admin-service"))
+	l := log.NewHelper(log.With(ctx.Logger, "module", "admin-operation-log/service/admin-service"))
 	return &AdminOperationLogService{
 		log:              l,
 		operationLogRepo: operationLogRepo,

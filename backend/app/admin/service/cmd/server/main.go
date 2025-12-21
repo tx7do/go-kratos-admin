@@ -2,9 +2,6 @@ package main
 
 import (
 	"github.com/go-kratos/kratos/v2"
-	"github.com/go-kratos/kratos/v2/log"
-	"github.com/go-kratos/kratos/v2/registry"
-
 	"github.com/go-kratos/kratos/v2/transport/http"
 	"github.com/tx7do/kratos-transport/transport/asynq"
 	"github.com/tx7do/kratos-transport/transport/sse"
@@ -45,15 +42,14 @@ var version string
 // go build -ldflags "-X main.version=x.y.z"
 
 func newApp(
-	lg log.Logger,
-	re registry.Registrar,
+	ctx *bootstrap.Context,
 	hs *http.Server,
 	as *asynq.Server,
 	ss *sse.Server,
 ) *kratos.App {
 	return bootstrap.NewApp(
-		lg,
-		re,
+		ctx.Logger,
+		ctx.Registrar,
 		hs,
 		as,
 		ss,
@@ -63,7 +59,7 @@ func newApp(
 func runApp() error {
 	return bootstrap.RunApp(
 		func(ctx *bootstrap.Context) (app *kratos.App, cleanup func(), err error) {
-			return initApp(ctx.Logger, ctx.Registrar, ctx.Config)
+			return initApp(ctx)
 		},
 		&conf.AppInfo{
 			Project: service.Project,

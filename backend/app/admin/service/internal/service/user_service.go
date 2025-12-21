@@ -7,6 +7,7 @@ import (
 	"github.com/go-kratos/kratos/v2/log"
 	pagination "github.com/tx7do/go-crud/api/gen/go/pagination/v1"
 	"github.com/tx7do/go-utils/trans"
+	"github.com/tx7do/kratos-bootstrap/bootstrap"
 	"google.golang.org/protobuf/types/known/emptypb"
 
 	"go-wind-admin/app/admin/service/internal/data"
@@ -37,7 +38,7 @@ type UserService struct {
 }
 
 func NewUserService(
-	logger log.Logger,
+	ctx *bootstrap.Context,
 	userRepo *data.UserRepo,
 	roleRepo *data.RoleRepo,
 	userCredentialRepo *data.UserCredentialRepo,
@@ -48,7 +49,7 @@ func NewUserService(
 	userRoleRepo *data.UserRoleRepo,
 	userPositionRepo *data.UserPositionRepo,
 ) *UserService {
-	l := log.NewHelper(log.With(logger, "module", "user/service/admin-service"))
+	l := log.NewHelper(log.With(ctx.Logger, "module", "user/service/admin-service"))
 	svc := &UserService{
 		log:                l,
 		userRepo:           userRepo,

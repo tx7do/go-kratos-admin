@@ -16,22 +16,19 @@ package main
 import (
 	"github.com/google/wire"
 
+	"github.com/go-kratos/kratos/v2"
 	"github.com/tx7do/kratos-bootstrap/bootstrap"
 
 	dataProviders "go-wind-admin/app/admin/service/internal/data/providers"
 	serverProviders "go-wind-admin/app/admin/service/internal/server/providers"
 	serviceProviders "go-wind-admin/app/admin/service/internal/service/providers"
-
-	"github.com/go-kratos/kratos/v2"
 )
 
 // initApp 初始化 kratos 应用的 Wire provider 入口。
 // initApp initializes the Wire provider entry for the kratos application.
 //
 // 参数 / Parameters:
-//   - logger: 日志记录器 (log.Logger) / logger (log.Logger)
-//   - registrar: 服务注册器 (registry.Registrar) / registrar (registry.Registrar)
-//   - cfg: 引导配置 (*conf.Bootstrap) / cfg (*conf.Bootstrap)
+//   - *bootstrap.Context: 引导上下文 / *bootstrap.Context: bootstrap context
 //
 // 返回 / Returns:
 //   - *kratos.App: 已构建的应用实例 / *kratos.App: constructed application instance

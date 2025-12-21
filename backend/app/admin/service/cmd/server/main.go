@@ -39,7 +39,7 @@ import (
 	"go-wind-admin/pkg/service"
 )
 
-var version string
+var version = "1.0.0"
 
 // go build -ldflags "-X main.version=x.y.z"
 

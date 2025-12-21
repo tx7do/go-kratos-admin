@@ -1,6 +1,8 @@
 package main
 
 import (
+	"context"
+
 	"github.com/go-kratos/kratos/v2"
 	"github.com/go-kratos/kratos/v2/transport/http"
 	"github.com/tx7do/kratos-transport/transport/asynq"
@@ -57,7 +59,9 @@ func newApp(
 }
 
 func runApp() error {
+	ctx := bootstrap.NewContext(context.Background())
 	return bootstrap.RunApp(
+		ctx,
 		initApp,
 		&conf.AppInfo{
 			Project: service.Project,

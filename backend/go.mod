@@ -37,12 +37,12 @@ require (
 	github.com/tx7do/kratos-authz/engine/opa v1.1.14
 	github.com/tx7do/kratos-authz/middleware v1.1.12
 	github.com/tx7do/kratos-bootstrap/api v0.0.33
-	github.com/tx7do/kratos-bootstrap/bootstrap v0.1.12
-	github.com/tx7do/kratos-bootstrap/cache/redis v0.1.0
-	github.com/tx7do/kratos-bootstrap/database/ent v0.1.1
-	github.com/tx7do/kratos-bootstrap/database/gorm v0.1.1
-	github.com/tx7do/kratos-bootstrap/oss/minio v0.1.0
-	github.com/tx7do/kratos-bootstrap/rpc v0.1.0
+	github.com/tx7do/kratos-bootstrap/bootstrap v0.1.14
+	github.com/tx7do/kratos-bootstrap/cache/redis v0.1.1
+	github.com/tx7do/kratos-bootstrap/database/ent v0.1.2
+	github.com/tx7do/kratos-bootstrap/database/gorm v0.1.2
+	github.com/tx7do/kratos-bootstrap/oss/minio v0.1.1
+	github.com/tx7do/kratos-bootstrap/rpc v0.1.1
 	github.com/tx7do/kratos-swagger-ui v0.0.0-20250528131001-09c0dbdb208d
 	github.com/tx7do/kratos-transport v1.1.18
 	github.com/tx7do/kratos-transport/transport/asynq v1.2.37

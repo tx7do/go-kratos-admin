@@ -49,9 +49,8 @@ func NewUserService(
 	userRoleRepo *data.UserRoleRepo,
 	userPositionRepo *data.UserPositionRepo,
 ) *UserService {
-	l := log.NewHelper(log.With(ctx.Logger, "module", "user/service/admin-service"))
 	svc := &UserService{
-		log:                l,
+		log:                ctx.NewLoggerHelper("user/service/admin-service"),
 		userRepo:           userRepo,
 		roleRepo:           roleRepo,
 		userCredentialRepo: userCredentialRepo,

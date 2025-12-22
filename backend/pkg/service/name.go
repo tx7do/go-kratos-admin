@@ -14,5 +14,5 @@ const (
 
 // NewDiscoveryName 构建服务发现名称
 func NewDiscoveryName(serviceName string) string {
-	return "discovery:///" + Project + "/" + serviceName
+	return Project + "/" + serviceName
 }

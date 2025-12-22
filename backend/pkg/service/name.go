@@ -11,3 +11,8 @@ const (
 
 	AdminService = "admin-gateway" // 后台BFF
 )
+
+// NewDiscoveryName 构建服务发现名称
+func NewDiscoveryName(serviceName string) string {
+	return "discovery:///" + Project + "/" + serviceName
+}

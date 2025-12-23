@@ -43,13 +43,15 @@ require (
 	github.com/tx7do/kratos-bootstrap/database/gorm v0.1.2
 	github.com/tx7do/kratos-bootstrap/oss/minio v0.1.1
 	github.com/tx7do/kratos-bootstrap/rpc v0.1.1
+	github.com/tx7do/kratos-bootstrap/transport/asynq v0.0.2
+	github.com/tx7do/kratos-bootstrap/transport/sse v0.0.2
 	github.com/tx7do/kratos-swagger-ui v0.0.0-20250528131001-09c0dbdb208d
 	github.com/tx7do/kratos-transport v1.1.18
 	github.com/tx7do/kratos-transport/transport/asynq v1.2.37
 	github.com/tx7do/kratos-transport/transport/sse v1.2.25
 	github.com/yuin/gopher-lua v1.1.1
-	google.golang.org/genproto v0.0.0-20251213004720-97cd9d5aeac2
-	google.golang.org/genproto/googleapis/api v0.0.0-20251213004720-97cd9d5aeac2
+	google.golang.org/genproto v0.0.0-20251222181119-0a764e51fe1b
+	google.golang.org/genproto/googleapis/api v0.0.0-20251222181119-0a764e51fe1b
 	google.golang.org/grpc v1.77.0
 	google.golang.org/protobuf v1.36.11
 	gorm.io/datatypes v1.2.7
@@ -146,7 +148,7 @@ require (
 	github.com/lestrrat-go/dsig v1.0.0 // indirect
 	github.com/lestrrat-go/dsig-secp256k1 v1.0.0 // indirect
 	github.com/lestrrat-go/httpcc v1.0.1 // indirect
-	github.com/lestrrat-go/httprc/v3 v3.0.2 // indirect
+	github.com/lestrrat-go/httprc/v3 v3.0.3 // indirect
 	github.com/lestrrat-go/jwx/v3 v3.0.12 // indirect
 	github.com/lestrrat-go/option/v2 v2.0.0 // indirect
 	github.com/lithammer/shortuuid/v4 v4.2.0 // indirect
@@ -248,13 +250,13 @@ require (
 	golang.org/x/oauth2 v0.34.0 // indirect
 	golang.org/x/sync v0.19.0 // indirect
 	golang.org/x/sys v0.39.0 // indirect
-	golang.org/x/telemetry v0.0.0-20251219171224-e0dd3dd4fbaf // indirect
+	golang.org/x/telemetry v0.0.0-20251222180846-3f2a21fb04ff // indirect
 	golang.org/x/text v0.32.0 // indirect
 	golang.org/x/time v0.14.0 // indirect
 	golang.org/x/tools v0.40.0 // indirect
 	golang.org/x/xerrors v0.0.0-20240903120638-7835f813f4da // indirect
 	google.golang.org/api v0.258.0 // indirect
-	google.golang.org/genproto/googleapis/rpc v0.0.0-20251213004720-97cd9d5aeac2 // indirect
+	google.golang.org/genproto/googleapis/rpc v0.0.0-20251222181119-0a764e51fe1b // indirect
 	gopkg.in/cenkalti/backoff.v1 v1.1.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 	gorm.io/driver/bigquery v1.2.0 // indirect

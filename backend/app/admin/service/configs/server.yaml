@@ -43,3 +43,5 @@ server:
     addr: ":7789"
     codec: "json"
     path: "/events"
+    auto_stream: true
+    auto_reply: false

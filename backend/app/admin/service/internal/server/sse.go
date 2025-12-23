@@ -2,12 +2,13 @@ package server
 
 import (
 	"github.com/tx7do/kratos-bootstrap/bootstrap"
+	"github.com/tx7do/kratos-bootstrap/transport/sse"
 
-	"github.com/tx7do/kratos-transport/transport/sse"
+	sseServer "github.com/tx7do/kratos-transport/transport/sse"
 )
 
 // NewSseServer creates a new SSE server.
-func NewSseServer(ctx *bootstrap.Context) *sse.Server {
+func NewSseServer(ctx *bootstrap.Context) *sseServer.Server {
 	cfg := ctx.GetConfig()
 
 	if cfg == nil || cfg.Server == nil || cfg.Server.Sse == nil {
@@ -16,19 +17,14 @@ func NewSseServer(ctx *bootstrap.Context) *sse.Server {
 
 	l := ctx.NewLoggerHelper("sse-server/admin-service")
 
-	s := sse.NewServer(
-		sse.WithAddress(cfg.Server.Sse.GetAddr()),
-		sse.WithCodec(cfg.Server.Sse.GetCodec()),
-		sse.WithPath(cfg.Server.Sse.GetPath()),
-		sse.WithAutoStream(true),
-		sse.WithAutoReply(false),
-		sse.WithSubscriberFunction(func(streamID sse.StreamID, sub *sse.Subscriber) {
+	srv := sse.NewSseServer(cfg.Server.Sse,
+		sseServer.WithSubscriberFunction(func(streamID sseServer.StreamID, sub *sseServer.Subscriber) {
 			//l.Infof("SSE: [%s]", sub.URL)
 			l.Infof("subscriber [%s] connected", streamID)
 		}),
 	)
 
-	//s.CreateStream("test")
+	//srv.CreateStream("test")
 
-	return s
+	return srv
 }

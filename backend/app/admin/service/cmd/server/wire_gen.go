@@ -74,8 +74,9 @@ func initApp(context *bootstrap.Context) (*kratos.App, func(), error) {
 	fileRepo := data.NewFileRepo(context, dataData)
 	fileService := service.NewFileService(context, fileRepo)
 	tenantService := service.NewTenantService(context, tenantRepo, userRepo, userCredentialRepo)
+	asynqServer := server.NewAsynqServer(context)
 	taskRepo := data.NewTaskRepo(context, dataData)
-	taskService := service.NewTaskService(context, taskRepo, userRepo)
+	taskService := service.NewTaskService(context, asynqServer, taskRepo, userRepo)
 	internalMessageRepo := data.NewInternalMessageRepo(context, dataData)
 	internalMessageCategoryRepo := data.NewInternalMessageCategoryRepo(context, dataData)
 	internalMessageRecipientRepo := data.NewInternalMessageRecipientRepo(context, dataData)
@@ -88,7 +89,6 @@ func initApp(context *bootstrap.Context) (*kratos.App, func(), error) {
 	userProfileService := service.NewUserProfileService(context, userRepo, userTokenCacheRepo, roleRepo, userCredentialRepo)
 	apiResourceService := service.NewApiResourceService(context, apiResourceRepo, authorizer)
 	httpServer := server.NewRestServer(context, authenticator, authorizer, adminOperationLogRepo, adminLoginLogRepo, authenticationService, userService, menuService, routerService, organizationService, roleService, positionService, dictService, departmentService, adminLoginLogService, adminOperationLogService, ossService, uEditorService, fileService, tenantService, taskService, internalMessageService, internalMessageCategoryService, internalMessageRecipientService, adminLoginRestrictionService, userProfileService, apiResourceService)
-	asynqServer := server.NewAsynqServer(context, taskService)
 	app := newApp(context, httpServer, asynqServer, sseServer)
 	return app, func() {
 		cleanup()

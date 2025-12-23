@@ -28,7 +28,7 @@ type TaskService struct {
 
 	log *log.Helper
 
-	Server *asynqServer.Server
+	asynqServer *asynqServer.Server
 
 	userRepo *data.UserRepo
 	taskRepo *data.TaskRepo
@@ -36,14 +36,32 @@ type TaskService struct {
 
 func NewTaskService(
 	ctx *bootstrap.Context,
+	asynqServer *asynqServer.Server,
 	taskRepo *data.TaskRepo,
 	userRepo *data.UserRepo,
 ) *TaskService {
-	return &TaskService{
-		log:      ctx.NewLoggerHelper("task/service/admin-service"),
-		taskRepo: taskRepo,
-		userRepo: userRepo,
+	svc := &TaskService{
+		log:         ctx.NewLoggerHelper("task/service/admin-service"),
+		taskRepo:    taskRepo,
+		userRepo:    userRepo,
+		asynqServer: asynqServer,
 	}
+
+	svc.init(ctx.Context())
+
+	return svc
+}
+
+func (s *TaskService) init(ctx context.Context) {
+	var err error
+
+	// 注册任务
+	if err = asynqServer.RegisterSubscriber(s.asynqServer, task.BackupTaskType, s.AsyncBackup); err != nil {
+		log.Error(err)
+	}
+
+	// 启动所有的任务
+	_, _ = s.StartAllTask(ctx, &emptypb.Empty{})
 }
 
 func (s *TaskService) List(ctx context.Context, req *pagination.PagingRequest) (*adminV1.ListTaskResponse, error) {
@@ -55,7 +73,7 @@ func (s *TaskService) Get(ctx context.Context, req *adminV1.GetTaskRequest) (*ad
 }
 
 func (s *TaskService) ListTaskTypeName(_ context.Context, _ *emptypb.Empty) (*adminV1.ListTaskTypeNameResponse, error) {
-	typeNames := s.Server.GetRegisteredTaskTypes()
+	typeNames := s.asynqServer.GetRegisteredTaskTypes()
 	return &adminV1.ListTaskTypeNameResponse{
 		TypeNames: typeNames,
 	}, nil
@@ -191,7 +209,7 @@ func (s *TaskService) RestartAllTask(ctx context.Context, _ *emptypb.Empty) (*ad
 
 // StartAllTask 启动所有的任务
 func (s *TaskService) startAllTask(ctx context.Context) (int32, error) {
-	//_, _ = s.Server.NewPeriodicTask("*/1 * * * ?", task.BackupTaskType, task.BackupTaskData{Name: "test"})
+	//_, _ = s.asynqServer.NewPeriodicTask("*/1 * * * ?", task.BackupTaskType, task.BackupTaskData{Name: "test"})
 
 	resp, err := s.List(ctx, &pagination.PagingRequest{
 		NoPaging: trans.Ptr(true),
@@ -224,7 +242,7 @@ func (s *TaskService) stopAllTask() {
 	s.log.Infof("开始清除所有的定时任务...")
 
 	// 清除所有的定时任务
-	s.Server.RemoveAllPeriodicTask()
+	s.asynqServer.RemoveAllPeriodicTask()
 
 	s.log.Infof("完成清除所有的定时任务")
 }
@@ -241,7 +259,7 @@ func (s *TaskService) stopTask(t *adminV1.Task) error {
 
 	switch t.GetType() {
 	case adminV1.Task_PERIODIC:
-		return s.Server.RemovePeriodicTask(t.GetTypeName())
+		return s.asynqServer.RemovePeriodicTask(t.GetTypeName())
 
 	case adminV1.Task_DELAY:
 
@@ -311,21 +329,21 @@ func (s *TaskService) startTask(t *adminV1.Task) error {
 	switch t.GetType() {
 	case adminV1.Task_PERIODIC:
 		opts, payload = s.convertTaskOption(t)
-		if _, err = s.Server.NewPeriodicTask(t.GetCronSpec(), task.CreateBackupTaskID(t.GetId()), t.GetTypeName(), payload, opts...); err != nil {
+		if _, err = s.asynqServer.NewPeriodicTask(t.GetCronSpec(), task.CreateBackupTaskID(t.GetId()), t.GetTypeName(), payload, opts...); err != nil {
 			s.log.Errorf("[%s] 创建定时任务失败[%s]", t.GetTypeName(), err.Error())
 			return err
 		}
 
 	case adminV1.Task_DELAY:
 		opts, payload = s.convertTaskOption(t)
-		if err = s.Server.NewTask(t.GetTypeName(), payload, opts...); err != nil {
+		if err = s.asynqServer.NewTask(t.GetTypeName(), payload, opts...); err != nil {
 			s.log.Errorf("[%s] 创建延迟任务失败[%s]", t.GetTypeName(), err.Error())
 			return err
 		}
 
 	case adminV1.Task_WAIT_RESULT:
 		opts, payload = s.convertTaskOption(t)
-		if err = s.Server.NewWaitResultTask(t.GetTypeName(), payload, opts...); err != nil {
+		if err = s.asynqServer.NewWaitResultTask(t.GetTypeName(), payload, opts...); err != nil {
 			s.log.Errorf("[%s] 创建等待结果任务失败[%s]", t.GetTypeName(), err.Error())
 			return err
 		}

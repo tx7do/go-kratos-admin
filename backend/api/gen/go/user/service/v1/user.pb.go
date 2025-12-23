@@ -555,7 +555,7 @@ type GetUserRequest struct {
 	// Types that are valid to be assigned to QueryBy:
 	//
 	//	*GetUserRequest_Id
-	//	*GetUserRequest_UserName
+	//	*GetUserRequest_Username
 	QueryBy       isGetUserRequest_QueryBy `protobuf_oneof:"query_by"`
 	ViewMask      *fieldmaskpb.FieldMask   `protobuf:"bytes,100,opt,name=view_mask,json=viewMask,proto3,oneof" json:"view_mask,omitempty"` // 视图字段过滤器，用于控制返回的字段
 	unknownFields protoimpl.UnknownFields
@@ -608,10 +608,10 @@ func (x *GetUserRequest) GetId() uint32 {
 	return 0
 }
 
-func (x *GetUserRequest) GetUserName() string {
+func (x *GetUserRequest) GetUsername() string {
 	if x != nil {
-		if x, ok := x.QueryBy.(*GetUserRequest_UserName); ok {
-			return x.UserName
+		if x, ok := x.QueryBy.(*GetUserRequest_Username); ok {
+			return x.Username
 		}
 	}
 	return ""
@@ -632,13 +632,13 @@ type GetUserRequest_Id struct {
 	Id uint32 `protobuf:"varint,1,opt,name=id,proto3,oneof"` // 用户ID
 }
 
-type GetUserRequest_UserName struct {
-	UserName string `protobuf:"bytes,2,opt,name=user_name,json=userName,proto3,oneof"` // 用户登录名
+type GetUserRequest_Username struct {
+	Username string `protobuf:"bytes,2,opt,name=username,proto3,oneof"` // 用户登录名
 }
 
 func (*GetUserRequest_Id) isGetUserRequest_QueryBy() {}
 
-func (*GetUserRequest_UserName) isGetUserRequest_QueryBy() {}
+func (*GetUserRequest_Username) isGetUserRequest_QueryBy() {}
 
 // 创建用户 - 请求
 type CreateUserRequest struct {
@@ -772,8 +772,12 @@ func (x *UpdateUserRequest) GetAllowMissing() bool {
 
 // 删除用户 - 请求
 type DeleteUserRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            uint32                 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Types that are valid to be assigned to DeleteBy:
+	//
+	//	*DeleteUserRequest_Id
+	//	*DeleteUserRequest_Username
+	DeleteBy      isDeleteUserRequest_DeleteBy `protobuf_oneof:"delete_by"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -808,17 +812,55 @@ func (*DeleteUserRequest) Descriptor() ([]byte, []int) {
 	return file_user_service_v1_user_proto_rawDescGZIP(), []int{5}
 }
 
+func (x *DeleteUserRequest) GetDeleteBy() isDeleteUserRequest_DeleteBy {
+	if x != nil {
+		return x.DeleteBy
+	}
+	return nil
+}
+
 func (x *DeleteUserRequest) GetId() uint32 {
 	if x != nil {
-		return x.Id
+		if x, ok := x.DeleteBy.(*DeleteUserRequest_Id); ok {
+			return x.Id
+		}
 	}
 	return 0
 }
 
+func (x *DeleteUserRequest) GetUsername() string {
+	if x != nil {
+		if x, ok := x.DeleteBy.(*DeleteUserRequest_Username); ok {
+			return x.Username
+		}
+	}
+	return ""
+}
+
+type isDeleteUserRequest_DeleteBy interface {
+	isDeleteUserRequest_DeleteBy()
+}
+
+type DeleteUserRequest_Id struct {
+	Id uint32 `protobuf:"varint,1,opt,name=id,proto3,oneof"` // 用户ID
+}
+
+type DeleteUserRequest_Username struct {
+	Username string `protobuf:"bytes,2,opt,name=username,proto3,oneof"` // 用户登录名
+}
+
+func (*DeleteUserRequest_Id) isDeleteUserRequest_DeleteBy() {}
+
+func (*DeleteUserRequest_Username) isDeleteUserRequest_DeleteBy() {}
+
 // 用户是否存在 - 请求
 type UserExistsRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Username      string                 `protobuf:"bytes,1,opt,name=username,proto3" json:"username,omitempty"` // 用户登录名
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Types that are valid to be assigned to QueryBy:
+	//
+	//	*UserExistsRequest_Id
+	//	*UserExistsRequest_Username
+	QueryBy       isUserExistsRequest_QueryBy `protobuf_oneof:"query_by"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -853,12 +895,46 @@ func (*UserExistsRequest) Descriptor() ([]byte, []int) {
 	return file_user_service_v1_user_proto_rawDescGZIP(), []int{6}
 }
 
+func (x *UserExistsRequest) GetQueryBy() isUserExistsRequest_QueryBy {
+	if x != nil {
+		return x.QueryBy
+	}
+	return nil
+}
+
+func (x *UserExistsRequest) GetId() uint32 {
+	if x != nil {
+		if x, ok := x.QueryBy.(*UserExistsRequest_Id); ok {
+			return x.Id
+		}
+	}
+	return 0
+}
+
 func (x *UserExistsRequest) GetUsername() string {
 	if x != nil {
-		return x.Username
+		if x, ok := x.QueryBy.(*UserExistsRequest_Username); ok {
+			return x.Username
+		}
 	}
 	return ""
 }
+
+type isUserExistsRequest_QueryBy interface {
+	isUserExistsRequest_QueryBy()
+}
+
+type UserExistsRequest_Id struct {
+	Id uint32 `protobuf:"varint,1,opt,name=id,proto3,oneof"` // 用户ID
+}
+
+type UserExistsRequest_Username struct {
+	Username string `protobuf:"bytes,2,opt,name=username,proto3,oneof"` // 用户登录名
+}
+
+func (*UserExistsRequest_Id) isUserExistsRequest_QueryBy() {}
+
+func (*UserExistsRequest_Username) isUserExistsRequest_QueryBy() {}
 
 // 用户是否存在 - 答复
 type UserExistsResponse struct {
@@ -1758,10 +1834,10 @@ const file_user_service_v1_user_proto_rawDesc = "" +
 	"\v_deleted_at\"U\n" +
 	"\x10ListUserResponse\x12+\n" +
 	"\x05items\x18\x01 \x03(\v2\x15.user.service.v1.UserR\x05items\x12\x14\n" +
-	"\x05total\x18\x02 \x01(\x04R\x05total\"\xff\x01\n" +
+	"\x05total\x18\x02 \x01(\x04R\x05total\"\xfe\x01\n" +
 	"\x0eGetUserRequest\x12\"\n" +
-	"\x02id\x18\x01 \x01(\rB\x10\xbaG\r\x18\x01\x92\x02\b用户IDH\x00R\x02id\x126\n" +
-	"\tuser_name\x18\x02 \x01(\tB\x17\xbaG\x14\x18\x01\x92\x02\x0f用户登录名H\x00R\buserName\x12w\n" +
+	"\x02id\x18\x01 \x01(\rB\x10\xbaG\r\x18\x01\x92\x02\b用户IDH\x00R\x02id\x125\n" +
+	"\busername\x18\x02 \x01(\tB\x17\xbaG\x14\x18\x01\x92\x02\x0f用户登录名H\x00R\busername\x12w\n" +
 	"\tview_mask\x18d \x01(\v2\x1a.google.protobuf.FieldMaskB9\xbaG6\x92\x023视图字段过滤器，用于控制返回的字段H\x01R\bviewMask\x88\x01\x01B\n" +
 	"\n" +
 	"\bquery_byB\f\n" +
@@ -1779,11 +1855,16 @@ const file_user_service_v1_user_proto_rawDesc = "" +
 	"updateMask\x12\xb4\x01\n" +
 	"\rallow_missing\x18\x05 \x01(\bB\x89\x01\xbaG\x85\x01\x92\x02\x81\x01如果设置为true的时候，资源不存在则会新增(插入)，并且在这种情况下`updateMask`字段将会被忽略。H\x01R\fallowMissing\x88\x01\x01B\v\n" +
 	"\t_passwordB\x10\n" +
-	"\x0e_allow_missing\"#\n" +
-	"\x11DeleteUserRequest\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\rR\x02id\"H\n" +
-	"\x11UserExistsRequest\x123\n" +
-	"\busername\x18\x01 \x01(\tB\x17\xbaG\x14\x18\x01\x92\x02\x0f用户登录名R\busername\"*\n" +
+	"\x0e_allow_missing\"{\n" +
+	"\x11DeleteUserRequest\x12\"\n" +
+	"\x02id\x18\x01 \x01(\rB\x10\xbaG\r\x18\x01\x92\x02\b用户IDH\x00R\x02id\x125\n" +
+	"\busername\x18\x02 \x01(\tB\x17\xbaG\x14\x18\x01\x92\x02\x0f用户登录名H\x00R\busernameB\v\n" +
+	"\tdelete_by\"z\n" +
+	"\x11UserExistsRequest\x12\"\n" +
+	"\x02id\x18\x01 \x01(\rB\x10\xbaG\r\x18\x01\x92\x02\b用户IDH\x00R\x02id\x125\n" +
+	"\busername\x18\x02 \x01(\tB\x17\xbaG\x14\x18\x01\x92\x02\x0f用户登录名H\x00R\busernameB\n" +
+	"\n" +
+	"\bquery_by\"*\n" +
 	"\x12UserExistsResponse\x12\x14\n" +
 	"\x05exist\x18\x01 \x01(\bR\x05exist\"D\n" +
 	"\x17BatchCreateUsersRequest\x12)\n" +
@@ -1930,10 +2011,18 @@ func file_user_service_v1_user_proto_init() {
 	file_user_service_v1_user_proto_msgTypes[0].OneofWrappers = []any{}
 	file_user_service_v1_user_proto_msgTypes[2].OneofWrappers = []any{
 		(*GetUserRequest_Id)(nil),
-		(*GetUserRequest_UserName)(nil),
+		(*GetUserRequest_Username)(nil),
 	}
 	file_user_service_v1_user_proto_msgTypes[3].OneofWrappers = []any{}
 	file_user_service_v1_user_proto_msgTypes[4].OneofWrappers = []any{}
+	file_user_service_v1_user_proto_msgTypes[5].OneofWrappers = []any{
+		(*DeleteUserRequest_Id)(nil),
+		(*DeleteUserRequest_Username)(nil),
+	}
+	file_user_service_v1_user_proto_msgTypes[6].OneofWrappers = []any{
+		(*UserExistsRequest_Id)(nil),
+		(*UserExistsRequest_Username)(nil),
+	}
 	file_user_service_v1_user_proto_msgTypes[13].OneofWrappers = []any{
 		(*UploadAvatarRequest_ImageBase64)(nil),
 		(*UploadAvatarRequest_ImageUrl)(nil),

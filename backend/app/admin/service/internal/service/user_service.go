@@ -3,7 +3,6 @@ package service
 import (
 	"context"
 
-	"entgo.io/ent/dialect/sql"
 	"github.com/go-kratos/kratos/v2/log"
 	pagination "github.com/tx7do/go-crud/api/gen/go/pagination/v1"
 	"github.com/tx7do/go-utils/trans"
@@ -25,7 +24,7 @@ type UserService struct {
 
 	log *log.Helper
 
-	userRepo           *data.UserRepo
+	userRepo           data.UserRepo
 	roleRepo           *data.RoleRepo
 	userCredentialRepo *data.UserCredentialRepo
 	positionRepo       *data.PositionRepo
@@ -39,7 +38,7 @@ type UserService struct {
 
 func NewUserService(
 	ctx *bootstrap.Context,
-	userRepo *data.UserRepo,
+	userRepo data.UserRepo,
 	roleRepo *data.RoleRepo,
 	userCredentialRepo *data.UserCredentialRepo,
 	positionRepo *data.PositionRepo,
@@ -69,7 +68,7 @@ func NewUserService(
 
 func (s *UserService) init() {
 	ctx := context.Background()
-	if count, _ := s.userRepo.Count(ctx, []func(s *sql.Selector){}); count == 0 {
+	if count, _ := s.userRepo.Count(ctx); count == 0 {
 		_ = s.CreateDefaultUser(ctx)
 	}
 }
@@ -424,7 +423,7 @@ func (s *UserService) Delete(ctx context.Context, req *userV1.DeleteUserRequest)
 	}
 
 	// 删除用户
-	err = s.userRepo.Delete(ctx, req.GetId())
+	err = s.userRepo.Delete(ctx, req)
 
 	return &emptypb.Empty{}, err
 }

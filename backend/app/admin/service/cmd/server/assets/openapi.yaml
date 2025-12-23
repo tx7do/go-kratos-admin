@@ -3145,14 +3145,14 @@ paths:
                 "200":
                     description: OK
                     content: {}
-    /admin/v1/users/username/{userName}:
+    /admin/v1/users/username/{username}:
         get:
             tags:
                 - UserService
             description: 获取用户数据
             operationId: UserService_Get
             parameters:
-                - name: userName
+                - name: username
                   in: path
                   required: true
                   schema:
@@ -3174,6 +3174,26 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/User'
+        delete:
+            tags:
+                - UserService
+            description: 删除用户
+            operationId: UserService_Delete
+            parameters:
+                - name: username
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                - name: id
+                  in: query
+                  schema:
+                    type: integer
+                    format: uint32
+            responses:
+                "200":
+                    description: OK
+                    content: {}
     /admin/v1/users/{id}:
         get:
             tags:
@@ -3187,7 +3207,7 @@ paths:
                   schema:
                     type: integer
                     format: uint32
-                - name: userName
+                - name: username
                   in: query
                   schema:
                     type: string
@@ -3237,6 +3257,10 @@ paths:
                   schema:
                     type: integer
                     format: uint32
+                - name: username
+                  in: query
+                  schema:
+                    type: string
             responses:
                 "200":
                     description: OK
@@ -3271,6 +3295,11 @@ paths:
             description: 用户是否存在
             operationId: UserService_UserExists
             parameters:
+                - name: id
+                  in: query
+                  schema:
+                    type: integer
+                    format: uint32
                 - name: username
                   in: query
                   schema:

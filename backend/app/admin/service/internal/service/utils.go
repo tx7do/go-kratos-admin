@@ -25,7 +25,7 @@ func InitOrganizationNameSetMap(organizations []*userV1.Organization, userSet *n
 }
 
 // QueryUserInfoFromRepo queries user information from user repository and fills the nameSetMap.
-func QueryUserInfoFromRepo(ctx context.Context, userRepo *data.UserRepo, nameSetMap *name_set.UserNameSetMap) {
+func QueryUserInfoFromRepo(ctx context.Context, userRepo data.UserRepo, nameSetMap *name_set.UserNameSetMap) {
 	userIds := make([]uint32, 0, len(*nameSetMap))
 	for userId := range *nameSetMap {
 		userIds = append(userIds, userId)

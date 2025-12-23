@@ -22,7 +22,7 @@ import (
 type AuthenticationService struct {
 	adminV1.AuthenticationServiceHTTPServer
 
-	userRepo           *data.UserRepo
+	userRepo           data.UserRepo
 	userCredentialRepo *data.UserCredentialRepo
 	roleRepo           *data.RoleRepo
 	tenantRepo         *data.TenantRepo
@@ -36,7 +36,7 @@ type AuthenticationService struct {
 
 func NewAuthenticationService(
 	ctx *bootstrap.Context,
-	userRepo *data.UserRepo,
+	userRepo data.UserRepo,
 	userCredentialRepo *data.UserCredentialRepo,
 	tenantRepo *data.TenantRepo,
 	roleRepo *data.RoleRepo,
@@ -100,7 +100,7 @@ func (s *AuthenticationService) doGrantTypePassword(ctx context.Context, req *au
 
 	// 获取用户信息
 	var user *userV1.User
-	user, err = s.userRepo.Get(ctx, &userV1.GetUserRequest{QueryBy: &userV1.GetUserRequest_UserName{UserName: req.GetUsername()}})
+	user, err = s.userRepo.Get(ctx, &userV1.GetUserRequest{QueryBy: &userV1.GetUserRequest_Username{Username: req.GetUsername()}})
 	if err != nil {
 		return nil, err
 	}

@@ -4957,8 +4957,8 @@ export function createUserServiceClient(
       const path = `admin/v1/users/${request.id}`; // eslint-disable-line quotes
       const body = null;
       const queryParams: string[] = [];
-      if (request.userName) {
-        queryParams.push(`userName=${encodeURIComponent(request.userName.toString())}`)
+      if (request.username) {
+        queryParams.push(`username=${encodeURIComponent(request.username.toString())}`)
       }
       if (request.viewMask) {
         queryParams.push(`viewMask=${encodeURIComponent(request.viewMask.toString())}`)
@@ -5020,6 +5020,9 @@ export function createUserServiceClient(
       const path = `admin/v1/users/${request.id}`; // eslint-disable-line quotes
       const body = null;
       const queryParams: string[] = [];
+      if (request.username) {
+        queryParams.push(`username=${encodeURIComponent(request.username.toString())}`)
+      }
       let uri = path;
       if (queryParams.length > 0) {
         uri += `?${queryParams.join("&")}`
@@ -5037,6 +5040,9 @@ export function createUserServiceClient(
       const path = `admin/v1/users:exists`; // eslint-disable-line quotes
       const body = null;
       const queryParams: string[] = [];
+      if (request.id) {
+        queryParams.push(`id=${encodeURIComponent(request.id.toString())}`)
+      }
       if (request.username) {
         queryParams.push(`username=${encodeURIComponent(request.username.toString())}`)
       }
@@ -5084,7 +5090,7 @@ export type userservicev1_ListUserResponse = {
 // 获取用户数据 - 请求
 export type userservicev1_GetUserRequest = {
   id?: number;
-  userName?: string;
+  username?: string;
   viewMask?: wellKnownFieldMask;
 };
 
@@ -5107,12 +5113,14 @@ export type userservicev1_UpdateUserRequest = {
 
 // 删除用户 - 请求
 export type userservicev1_DeleteUserRequest = {
-  id: number | undefined;
+  id?: number;
+  username?: string;
 };
 
 // 用户是否存在 - 请求
 export type userservicev1_UserExistsRequest = {
-  username: string | undefined;
+  id?: number;
+  username?: string;
 };
 
 // 用户是否存在 - 答复

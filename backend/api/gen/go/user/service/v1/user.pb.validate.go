@@ -548,7 +548,7 @@ func (m *GetUserRequest) validate(all bool) error {
 			errors = append(errors, err)
 		}
 		// no validation rules for Id
-	case *GetUserRequest_UserName:
+	case *GetUserRequest_Username:
 		if v == nil {
 			err := GetUserRequestValidationError{
 				field:  "QueryBy",
@@ -559,7 +559,7 @@ func (m *GetUserRequest) validate(all bool) error {
 			}
 			errors = append(errors, err)
 		}
-		// no validation rules for UserName
+		// no validation rules for Username
 	default:
 		_ = v // ensures v is used
 	}
@@ -1002,7 +1002,34 @@ func (m *DeleteUserRequest) validate(all bool) error {
 
 	var errors []error
 
-	// no validation rules for Id
+	switch v := m.DeleteBy.(type) {
+	case *DeleteUserRequest_Id:
+		if v == nil {
+			err := DeleteUserRequestValidationError{
+				field:  "DeleteBy",
+				reason: "oneof value cannot be a typed-nil",
+			}
+			if !all {
+				return err
+			}
+			errors = append(errors, err)
+		}
+		// no validation rules for Id
+	case *DeleteUserRequest_Username:
+		if v == nil {
+			err := DeleteUserRequestValidationError{
+				field:  "DeleteBy",
+				reason: "oneof value cannot be a typed-nil",
+			}
+			if !all {
+				return err
+			}
+			errors = append(errors, err)
+		}
+		// no validation rules for Username
+	default:
+		_ = v // ensures v is used
+	}
 
 	if len(errors) > 0 {
 		return DeleteUserRequestMultiError(errors)
@@ -1106,7 +1133,34 @@ func (m *UserExistsRequest) validate(all bool) error {
 
 	var errors []error
 
-	// no validation rules for Username
+	switch v := m.QueryBy.(type) {
+	case *UserExistsRequest_Id:
+		if v == nil {
+			err := UserExistsRequestValidationError{
+				field:  "QueryBy",
+				reason: "oneof value cannot be a typed-nil",
+			}
+			if !all {
+				return err
+			}
+			errors = append(errors, err)
+		}
+		// no validation rules for Id
+	case *UserExistsRequest_Username:
+		if v == nil {
+			err := UserExistsRequestValidationError{
+				field:  "QueryBy",
+				reason: "oneof value cannot be a typed-nil",
+			}
+			if !all {
+				return err
+			}
+			errors = append(errors, err)
+		}
+		// no validation rules for Username
+	default:
+		_ = v // ensures v is used
+	}
 
 	if len(errors) > 0 {
 		return UserExistsRequestMultiError(errors)

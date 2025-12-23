@@ -50,11 +50,12 @@ type UserServiceHTTPServer interface {
 func RegisterUserServiceHTTPServer(s *http.Server, srv UserServiceHTTPServer) {
 	r := s.Route("/")
 	r.GET("/admin/v1/users", _UserService_List13_HTTP_Handler(srv))
-	r.GET("/admin/v1/users/username/{user_name}", _UserService_Get14_HTTP_Handler(srv))
+	r.GET("/admin/v1/users/username/{username}", _UserService_Get14_HTTP_Handler(srv))
 	r.GET("/admin/v1/users/{id}", _UserService_Get15_HTTP_Handler(srv))
 	r.POST("/admin/v1/users", _UserService_Create11_HTTP_Handler(srv))
 	r.PUT("/admin/v1/users/{id}", _UserService_Update11_HTTP_Handler(srv))
-	r.DELETE("/admin/v1/users/{id}", _UserService_Delete11_HTTP_Handler(srv))
+	r.DELETE("/admin/v1/users/username/{username}", _UserService_Delete11_HTTP_Handler(srv))
+	r.DELETE("/admin/v1/users/{id}", _UserService_Delete12_HTTP_Handler(srv))
 	r.GET("/admin/v1/users:exists", _UserService_UserExists0_HTTP_Handler(srv))
 	r.POST("/admin/v1/users/{user_id}/password", _UserService_EditUserPassword0_HTTP_Handler(srv))
 }
@@ -170,6 +171,28 @@ func _UserService_Update11_HTTP_Handler(srv UserServiceHTTPServer) func(ctx http
 }
 
 func _UserService_Delete11_HTTP_Handler(srv UserServiceHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in v11.DeleteUserRequest
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindVars(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationUserServiceDelete)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.Delete(ctx, req.(*v11.DeleteUserRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*emptypb.Empty)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _UserService_Delete12_HTTP_Handler(srv UserServiceHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
 		var in v11.DeleteUserRequest
 		if err := ctx.BindQuery(&in); err != nil {

@@ -24,13 +24,13 @@ type OrganizationService struct {
 	log *log.Helper
 
 	organizationRepo *data.OrganizationRepo
-	userRepo         *data.UserRepo
+	userRepo         data.UserRepo
 }
 
 func NewOrganizationService(
 	ctx *bootstrap.Context,
 	organizationRepo *data.OrganizationRepo,
-	userRepo *data.UserRepo,
+	userRepo data.UserRepo,
 ) *OrganizationService {
 	return &OrganizationService{
 		log:              ctx.NewLoggerHelper("organization/service/admin-service"),

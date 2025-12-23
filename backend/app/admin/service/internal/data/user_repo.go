@@ -23,7 +23,25 @@ import (
 	userV1 "go-wind-admin/api/gen/go/user/service/v1"
 )
 
-type UserRepo struct {
+type UserRepo interface {
+	List(ctx context.Context, req *pagination.PagingRequest) (*userV1.ListUserResponse, error)
+
+	Get(ctx context.Context, req *userV1.GetUserRequest) (*userV1.User, error)
+
+	Create(ctx context.Context, req *userV1.CreateUserRequest) (*userV1.User, error)
+
+	Update(ctx context.Context, req *userV1.UpdateUserRequest) error
+
+	Delete(ctx context.Context, req *userV1.DeleteUserRequest) error
+
+	Count(ctx context.Context) (int, error)
+
+	ListUsersByIds(ctx context.Context, ids []uint32) ([]*userV1.User, error)
+
+	UserExists(ctx context.Context, req *userV1.UserExistsRequest) (*userV1.UserExistsResponse, error)
+}
+
+type userRepo struct {
 	data *Data
 	log  *log.Helper
 
@@ -42,8 +60,8 @@ type UserRepo struct {
 	]
 }
 
-func NewUserRepo(ctx *bootstrap.Context, data *Data) *UserRepo {
-	repo := &UserRepo{
+func NewUserRepo(ctx *bootstrap.Context, data *Data) UserRepo {
+	repo := &userRepo{
 		log:                ctx.NewLoggerHelper("user/repo/admin-service"),
 		data:               data,
 		mapper:             mapper.NewCopierMapper[userV1.User, ent.User](),
@@ -57,7 +75,7 @@ func NewUserRepo(ctx *bootstrap.Context, data *Data) *UserRepo {
 	return repo
 }
 
-func (r *UserRepo) init() {
+func (r *userRepo) init() {
 	r.repository = entCrud.NewRepository[
 		ent.UserQuery, ent.UserSelect,
 		ent.UserCreate, ent.UserCreateBulk,
@@ -75,11 +93,8 @@ func (r *UserRepo) init() {
 	r.mapper.AppendConverters(r.authorityConverter.NewConverterPair())
 }
 
-func (r *UserRepo) Count(ctx context.Context, whereCond []func(s *sql.Selector)) (int, error) {
+func (r *userRepo) Count(ctx context.Context) (int, error) {
 	builder := r.data.db.Client().User.Query()
-	if len(whereCond) != 0 {
-		builder.Modify(whereCond...)
-	}
 
 	count, err := builder.Count(ctx)
 	if err != nil {
@@ -90,7 +105,7 @@ func (r *UserRepo) Count(ctx context.Context, whereCond []func(s *sql.Selector))
 	return count, nil
 }
 
-func (r *UserRepo) List(ctx context.Context, req *pagination.PagingRequest) (*userV1.ListUserResponse, error) {
+func (r *userRepo) List(ctx context.Context, req *pagination.PagingRequest) (*userV1.ListUserResponse, error) {
 	if req == nil {
 		return nil, userV1.ErrorBadRequest("invalid parameter")
 	}
@@ -111,18 +126,7 @@ func (r *UserRepo) List(ctx context.Context, req *pagination.PagingRequest) (*us
 	}, nil
 }
 
-func (r *UserRepo) IsExist(ctx context.Context, id uint32) (bool, error) {
-	exist, err := r.data.db.Client().User.Query().
-		Where(user.IDEQ(id)).
-		Exist(ctx)
-	if err != nil {
-		r.log.Errorf("query exist failed: %s", err.Error())
-		return false, userV1.ErrorInternalServerError("query exist failed")
-	}
-	return exist, nil
-}
-
-func (r *UserRepo) Get(ctx context.Context, req *userV1.GetUserRequest) (*userV1.User, error) {
+func (r *userRepo) Get(ctx context.Context, req *userV1.GetUserRequest) (*userV1.User, error) {
 	if req == nil {
 		return nil, userV1.ErrorBadRequest("invalid parameter")
 	}
@@ -133,8 +137,8 @@ func (r *UserRepo) Get(ctx context.Context, req *userV1.GetUserRequest) (*userV1
 	switch req.QueryBy.(type) {
 	case *userV1.GetUserRequest_Id:
 		whereCond = append(whereCond, user.IDEQ(req.GetId()))
-	case *userV1.GetUserRequest_UserName:
-		whereCond = append(whereCond, user.UsernameEQ(req.GetUserName()))
+	case *userV1.GetUserRequest_Username:
+		whereCond = append(whereCond, user.UsernameEQ(req.GetUsername()))
 	default:
 		whereCond = append(whereCond, user.IDEQ(req.GetId()))
 	}
@@ -147,7 +151,7 @@ func (r *UserRepo) Get(ctx context.Context, req *userV1.GetUserRequest) (*userV1
 	return dto, err
 }
 
-func (r *UserRepo) Create(ctx context.Context, req *userV1.CreateUserRequest) (*userV1.User, error) {
+func (r *userRepo) Create(ctx context.Context, req *userV1.CreateUserRequest) (*userV1.User, error) {
 	if req == nil || req.Data == nil {
 		return nil, userV1.ErrorBadRequest("invalid parameter")
 	}
@@ -207,18 +211,20 @@ func (r *UserRepo) Create(ctx context.Context, req *userV1.CreateUserRequest) (*
 	}
 }
 
-func (r *UserRepo) Update(ctx context.Context, req *userV1.UpdateUserRequest) error {
+func (r *userRepo) Update(ctx context.Context, req *userV1.UpdateUserRequest) error {
 	if req == nil || req.Data == nil {
 		return userV1.ErrorBadRequest("invalid parameter")
 	}
 
 	// 如果不存在则创建
 	if req.GetAllowMissing() {
-		exist, err := r.IsExist(ctx, req.GetId())
+		exist, err := r.UserExists(ctx, &userV1.UserExistsRequest{
+			QueryBy: &userV1.UserExistsRequest_Id{Id: req.GetData().GetId()},
+		})
 		if err != nil {
 			return err
 		}
-		if !exist {
+		if !exist.Exist {
 			createReq := &userV1.CreateUserRequest{Data: req.Data}
 			createReq.Data.CreatedBy = createReq.Data.UpdatedBy
 			createReq.Data.UpdatedBy = nil
@@ -273,8 +279,19 @@ func (r *UserRepo) Update(ctx context.Context, req *userV1.UpdateUserRequest) er
 	return err
 }
 
-func (r *UserRepo) Delete(ctx context.Context, userId uint32) error {
-	if err := r.data.db.Client().User.DeleteOneID(userId).Exec(ctx); err != nil {
+func (r *userRepo) Delete(ctx context.Context, req *userV1.DeleteUserRequest) error {
+	builder := r.data.db.Client().User.Delete()
+
+	switch req.DeleteBy.(type) {
+	case *userV1.DeleteUserRequest_Id:
+		builder.Where(user.IDEQ(req.GetId()))
+	case *userV1.DeleteUserRequest_Username:
+		builder.Where(user.UsernameEQ(req.GetUsername()))
+	default:
+		builder.Where(user.IDEQ(req.GetId()))
+	}
+
+	if _, err := builder.Exec(ctx); err != nil {
 		if ent.IsNotFound(err) {
 			return userV1.ErrorNotFound("user not found")
 		}
@@ -288,7 +305,7 @@ func (r *UserRepo) Delete(ctx context.Context, userId uint32) error {
 }
 
 // ListUsersByIds 根据ID列表获取用户列表
-func (r *UserRepo) ListUsersByIds(ctx context.Context, ids []uint32) ([]*userV1.User, error) {
+func (r *userRepo) ListUsersByIds(ctx context.Context, ids []uint32) ([]*userV1.User, error) {
 	if len(ids) == 0 {
 		return []*userV1.User{}, nil
 	}
@@ -311,10 +328,21 @@ func (r *UserRepo) ListUsersByIds(ctx context.Context, ids []uint32) ([]*userV1.
 }
 
 // UserExists 检查用户是否存在
-func (r *UserRepo) UserExists(ctx context.Context, req *userV1.UserExistsRequest) (*userV1.UserExistsResponse, error) {
-	exist, err := r.data.db.Client().User.Query().
-		Where(user.UsernameEQ(req.GetUsername())).
-		Exist(ctx)
+func (r *userRepo) UserExists(ctx context.Context, req *userV1.UserExistsRequest) (*userV1.UserExistsResponse, error) {
+	builder := r.data.db.Client().User.Query()
+
+	switch req.QueryBy.(type) {
+	case *userV1.UserExistsRequest_Id:
+		builder.Where(user.IDEQ(req.GetId()))
+	case *userV1.UserExistsRequest_Username:
+		builder.Where(user.UsernameEQ(req.GetUsername()))
+	default:
+		return &userV1.UserExistsResponse{
+			Exist: false,
+		}, userV1.ErrorBadRequest("invalid query by type")
+	}
+
+	exist, err := builder.Exist(ctx)
 	if err != nil {
 		r.log.Errorf("query exist failed: %s", err.Error())
 		return &userV1.UserExistsResponse{

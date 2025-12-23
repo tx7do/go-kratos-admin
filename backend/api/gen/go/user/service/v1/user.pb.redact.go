@@ -226,7 +226,7 @@ func (x *GetUserRequest) Redact() string {
 
 	// Safe field: Id
 
-	// Safe field: UserName
+	// Safe field: Username
 
 	// Safe field: ViewMask
 	return x.String()
@@ -269,6 +269,8 @@ func (x *DeleteUserRequest) Redact() string {
 	}
 
 	// Safe field: Id
+
+	// Safe field: Username
 	return x.String()
 }
 
@@ -277,6 +279,8 @@ func (x *UserExistsRequest) Redact() string {
 	if x == nil {
 		return ""
 	}
+
+	// Safe field: Id
 
 	// Safe field: Username
 	return x.String()

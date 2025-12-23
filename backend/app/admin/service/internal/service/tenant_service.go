@@ -26,14 +26,14 @@ type TenantService struct {
 	log *log.Helper
 
 	tenantRepo          *data.TenantRepo
-	userRepo            *data.UserRepo
+	userRepo            data.UserRepo
 	userCredentialsRepo *data.UserCredentialRepo
 }
 
 func NewTenantService(
 	ctx *bootstrap.Context,
 	tenantRepo *data.TenantRepo,
-	userRepo *data.UserRepo,
+	userRepo data.UserRepo,
 	userCredentialsRepo *data.UserCredentialRepo,
 ) *TenantService {
 	return &TenantService{
@@ -170,7 +170,7 @@ func (s *TenantService) CreateTenantWithAdminUser(ctx context.Context, req *admi
 
 	// Check if admin user exists
 	if _, err = s.userRepo.UserExists(ctx, &userV1.UserExistsRequest{
-		Username: req.GetUser().GetUsername(),
+		QueryBy: &userV1.UserExistsRequest_Username{Username: req.GetUser().GetUsername()},
 	}); err != nil {
 		s.log.Errorf("check admin user exists err: %v", err)
 		return nil, err

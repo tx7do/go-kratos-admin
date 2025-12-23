@@ -21,7 +21,7 @@ import (
 type UserProfileService struct {
 	adminV1.UserProfileServiceHTTPServer
 
-	userRepo           *data.UserRepo
+	userRepo           data.UserRepo
 	userToken          *data.UserTokenCacheRepo
 	roleRepo           *data.RoleRepo
 	userCredentialRepo *data.UserCredentialRepo
@@ -31,7 +31,7 @@ type UserProfileService struct {
 
 func NewUserProfileService(
 	ctx *bootstrap.Context,
-	userRepo *data.UserRepo,
+	userRepo data.UserRepo,
 	userToken *data.UserTokenCacheRepo,
 	roleRepo *data.RoleRepo,
 	userCredentialRepo *data.UserCredentialRepo,

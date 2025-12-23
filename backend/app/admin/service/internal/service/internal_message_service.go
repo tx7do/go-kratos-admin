@@ -31,7 +31,7 @@ type InternalMessageService struct {
 	internalMessageRepo          *data.InternalMessageRepo
 	internalMessageCategoryRepo  *data.InternalMessageCategoryRepo
 	internalMessageRecipientRepo *data.InternalMessageRecipientRepo
-	userRepo                     *data.UserRepo
+	userRepo                     data.UserRepo
 
 	sseServer *sse.Server
 	userToken *data.UserTokenCacheRepo
@@ -42,7 +42,7 @@ func NewInternalMessageService(
 	internalMessageRepo *data.InternalMessageRepo,
 	internalMessageCategoryRepo *data.InternalMessageCategoryRepo,
 	internalMessageRecipientRepo *data.InternalMessageRecipientRepo,
-	userRepo *data.UserRepo,
+	userRepo data.UserRepo,
 	sseServer *sse.Server,
 	userToken *data.UserTokenCacheRepo,
 ) *InternalMessageService {

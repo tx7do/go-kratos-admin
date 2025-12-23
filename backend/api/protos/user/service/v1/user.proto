@@ -192,9 +192,9 @@ message GetUserRequest {
       json_name = "id"
     ]; // 用户ID
 
-    string user_name = 2 [
+    string username = 2 [
       (gnostic.openapi.v3.property) = {description: "用户登录名", read_only: true},
-      json_name = "userName"
+      json_name = "username"
     ]; // 用户登录名
   }
 
@@ -247,15 +247,32 @@ message UpdateUserRequest {
 
 // 删除用户 - 请求
 message DeleteUserRequest {
-  uint32 id = 1;
+  oneof delete_by {
+    uint32 id = 1 [
+      (gnostic.openapi.v3.property) = {description: "用户ID", read_only: true},
+      json_name = "id"
+    ]; // 用户ID
+
+    string username = 2 [
+      (gnostic.openapi.v3.property) = {description: "用户登录名", read_only: true},
+      json_name = "username"
+    ]; // 用户登录名
+  }
 }
 
 // 用户是否存在 - 请求
 message UserExistsRequest {
-  string username = 1 [
-    (gnostic.openapi.v3.property) = {description: "用户登录名", read_only: true},
-    json_name = "username"
-  ]; // 用户登录名
+  oneof query_by {
+    uint32 id = 1 [
+      (gnostic.openapi.v3.property) = {description: "用户ID", read_only: true},
+      json_name = "id"
+    ]; // 用户ID
+
+    string username = 2 [
+      (gnostic.openapi.v3.property) = {description: "用户登录名", read_only: true},
+      json_name = "username"
+    ]; // 用户登录名
+  }
 }
 // 用户是否存在 - 答复
 message UserExistsResponse {

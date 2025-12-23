@@ -27,7 +27,7 @@ service UserService {
     option (google.api.http) = {
       get: "/admin/v1/users/{id}"
       additional_bindings {
-        get: "/admin/v1/users/username/{user_name}"
+        get: "/admin/v1/users/username/{username}"
       }
     };
   }
@@ -52,6 +52,9 @@ service UserService {
   rpc Delete (user.service.v1.DeleteUserRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
       delete: "/admin/v1/users/{id}"
+      additional_bindings {
+        delete: "/admin/v1/users/username/{username}"
+      }
     };
   }
 

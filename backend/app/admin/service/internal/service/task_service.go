@@ -42,14 +42,14 @@ type TaskService struct {
 
 	taskScheduler TaskScheduler
 
-	userRepo *data.UserRepo
+	userRepo data.UserRepo
 	taskRepo *data.TaskRepo
 }
 
 func NewTaskService(
 	ctx *bootstrap.Context,
 	taskRepo *data.TaskRepo,
-	userRepo *data.UserRepo,
+	userRepo data.UserRepo,
 ) *TaskService {
 	svc := &TaskService{
 		log:      ctx.NewLoggerHelper("task/service/admin-service"),

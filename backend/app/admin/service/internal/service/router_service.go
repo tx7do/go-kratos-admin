@@ -30,14 +30,14 @@ type RouterService struct {
 
 	menuRepo *data.MenuRepo
 	roleRepo *data.RoleRepo
-	userRepo *data.UserRepo
+	userRepo data.UserRepo
 }
 
 func NewRouterService(
 	ctx *bootstrap.Context,
 	menuRepo *data.MenuRepo,
 	roleRepo *data.RoleRepo,
-	userRepo *data.UserRepo,
+	userRepo data.UserRepo,
 ) *RouterService {
 	return &RouterService{
 		log:      ctx.NewLoggerHelper("router/service/admin-service"),

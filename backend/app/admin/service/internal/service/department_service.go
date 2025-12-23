@@ -25,14 +25,14 @@ type DepartmentService struct {
 
 	departmentRepo   *data.DepartmentRepo
 	organizationRepo *data.OrganizationRepo
-	userRepo         *data.UserRepo
+	userRepo         data.UserRepo
 }
 
 func NewDepartmentService(
 	ctx *bootstrap.Context,
 	departmentRepo *data.DepartmentRepo,
 	organizationRepo *data.OrganizationRepo,
-	userRepo *data.UserRepo,
+	userRepo data.UserRepo,
 ) *DepartmentService {
 	return &DepartmentService{
 		log:              ctx.NewLoggerHelper("department/service/admin-service"),

@@ -94,19 +94,21 @@ func NewRestServer(
 	adminLoginRestrictionService *service.AdminLoginRestrictionService,
 	userProfileService *service.UserProfileService,
 	apiResourceService *service.ApiResourceService,
-) *http.Server {
+) (*http.Server, error) {
 	cfg := ctx.GetConfig()
 
 	if cfg == nil || cfg.Server == nil || cfg.Server.Rest == nil {
-		return nil
+		return nil, nil
 	}
 
 	srv, err := rpc.CreateRestServer(cfg,
 		newRestMiddleware(ctx.GetLogger(), authenticator, authorizer, operationLogRepo, loginLogRepo)...,
 	)
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
+
+	apiResourceService.RegisterRouteWalker(srv)
 
 	adminV1.RegisterAuthenticationServiceHTTPServer(srv, authnSvc)
 
@@ -118,8 +120,6 @@ func NewRestServer(
 	adminV1.RegisterTaskServiceHTTPServer(srv, taskService)
 	adminV1.RegisterAdminLoginRestrictionServiceHTTPServer(srv, adminLoginRestrictionService)
 	adminV1.RegisterApiResourceServiceHTTPServer(srv, apiResourceService)
-
-	apiResourceService.RestServer = srv
 
 	adminV1.RegisterUserServiceHTTPServer(srv, userSvc)
 	adminV1.RegisterOrganizationServiceHTTPServer(srv, orgSvc)
@@ -158,5 +158,5 @@ func NewRestServer(
 		log.Info("Successfully reloaded policies after service initialization")
 	}
 
-	return srv
+	return srv, nil
 }

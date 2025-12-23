@@ -10,10 +10,8 @@ import (
 	pagination "github.com/tx7do/go-crud/api/gen/go/pagination/v1"
 	"github.com/tx7do/go-utils/trans"
 	"github.com/tx7do/kratos-bootstrap/bootstrap"
-	"google.golang.org/protobuf/types/known/emptypb"
-
 	"github.com/tx7do/kratos-transport/broker"
-	asynqServer "github.com/tx7do/kratos-transport/transport/asynq"
+	"google.golang.org/protobuf/types/known/emptypb"
 
 	"go-wind-admin/app/admin/service/internal/data"
 
@@ -23,12 +21,26 @@ import (
 	"go-wind-admin/pkg/task"
 )
 
+// TaskScheduler 任务调度接口
+type TaskScheduler interface {
+	TaskTypeExists(taskType string) bool
+	GetRegisteredTaskTypes() []string
+
+	NewTask(typeName string, msg broker.Any, opts ...asynq.Option) error
+	NewWaitResultTask(typeName string, msg broker.Any, opts ...asynq.Option) error
+	NewPeriodicTask(cronSpec, taskId, typeName string, msg broker.Any, opts ...asynq.Option) (string, error)
+
+	RemovePeriodicTask(id string) error
+	RemoveAllPeriodicTask()
+}
+
+// TaskService 任务服务
 type TaskService struct {
 	adminV1.TaskServiceHTTPServer
 
 	log *log.Helper
 
-	asynqServer *asynqServer.Server
+	taskScheduler TaskScheduler
 
 	userRepo *data.UserRepo
 	taskRepo *data.TaskRepo
@@ -36,32 +48,20 @@ type TaskService struct {
 
 func NewTaskService(
 	ctx *bootstrap.Context,
-	asynqServer *asynqServer.Server,
 	taskRepo *data.TaskRepo,
 	userRepo *data.UserRepo,
 ) *TaskService {
 	svc := &TaskService{
-		log:         ctx.NewLoggerHelper("task/service/admin-service"),
-		taskRepo:    taskRepo,
-		userRepo:    userRepo,
-		asynqServer: asynqServer,
+		log:      ctx.NewLoggerHelper("task/service/admin-service"),
+		taskRepo: taskRepo,
+		userRepo: userRepo,
 	}
-
-	svc.init(ctx.Context())
 
 	return svc
 }
 
-func (s *TaskService) init(ctx context.Context) {
-	var err error
-
-	// 注册任务
-	if err = asynqServer.RegisterSubscriber(s.asynqServer, task.BackupTaskType, s.AsyncBackup); err != nil {
-		log.Error(err)
-	}
-
-	// 启动所有的任务
-	_, _ = s.StartAllTask(ctx, &emptypb.Empty{})
+func (s *TaskService) RegisterTaskScheduler(taskScheduler TaskScheduler) {
+	s.taskScheduler = taskScheduler
 }
 
 func (s *TaskService) List(ctx context.Context, req *pagination.PagingRequest) (*adminV1.ListTaskResponse, error) {
@@ -73,7 +73,7 @@ func (s *TaskService) Get(ctx context.Context, req *adminV1.GetTaskRequest) (*ad
 }
 
 func (s *TaskService) ListTaskTypeName(_ context.Context, _ *emptypb.Empty) (*adminV1.ListTaskTypeNameResponse, error) {
-	typeNames := s.asynqServer.GetRegisteredTaskTypes()
+	typeNames := s.taskScheduler.GetRegisteredTaskTypes()
 	return &adminV1.ListTaskTypeNameResponse{
 		TypeNames: typeNames,
 	}, nil
@@ -242,7 +242,7 @@ func (s *TaskService) stopAllTask() {
 	s.log.Infof("开始清除所有的定时任务...")
 
 	// 清除所有的定时任务
-	s.asynqServer.RemoveAllPeriodicTask()
+	s.taskScheduler.RemoveAllPeriodicTask()
 
 	s.log.Infof("完成清除所有的定时任务")
 }
@@ -259,7 +259,7 @@ func (s *TaskService) stopTask(t *adminV1.Task) error {
 
 	switch t.GetType() {
 	case adminV1.Task_PERIODIC:
-		return s.asynqServer.RemovePeriodicTask(t.GetTypeName())
+		return s.taskScheduler.RemovePeriodicTask(t.GetTypeName())
 
 	case adminV1.Task_DELAY:
 
@@ -329,21 +329,21 @@ func (s *TaskService) startTask(t *adminV1.Task) error {
 	switch t.GetType() {
 	case adminV1.Task_PERIODIC:
 		opts, payload = s.convertTaskOption(t)
-		if _, err = s.asynqServer.NewPeriodicTask(t.GetCronSpec(), task.CreateBackupTaskID(t.GetId()), t.GetTypeName(), payload, opts...); err != nil {
+		if _, err = s.taskScheduler.NewPeriodicTask(t.GetCronSpec(), task.CreateBackupTaskID(t.GetId()), t.GetTypeName(), payload, opts...); err != nil {
 			s.log.Errorf("[%s] 创建定时任务失败[%s]", t.GetTypeName(), err.Error())
 			return err
 		}
 
 	case adminV1.Task_DELAY:
 		opts, payload = s.convertTaskOption(t)
-		if err = s.asynqServer.NewTask(t.GetTypeName(), payload, opts...); err != nil {
+		if err = s.taskScheduler.NewTask(t.GetTypeName(), payload, opts...); err != nil {
 			s.log.Errorf("[%s] 创建延迟任务失败[%s]", t.GetTypeName(), err.Error())
 			return err
 		}
 
 	case adminV1.Task_WAIT_RESULT:
 		opts, payload = s.convertTaskOption(t)
-		if err = s.asynqServer.NewWaitResultTask(t.GetTypeName(), payload, opts...); err != nil {
+		if err = s.taskScheduler.NewWaitResultTask(t.GetTypeName(), payload, opts...); err != nil {
 			s.log.Errorf("[%s] 创建等待结果任务失败[%s]", t.GetTypeName(), err.Error())
 			return err
 		}

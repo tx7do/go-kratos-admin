@@ -21,15 +21,18 @@ import (
 	"go-wind-admin/pkg/middleware/auth"
 )
 
+type RouteWalker interface {
+	WalkRoute(fn http.WalkRouteFunc) error
+}
+
 type ApiResourceService struct {
 	adminV1.ApiResourceServiceHTTPServer
 
-	RestServer *http.Server
-
 	log *log.Helper
 
-	repo       *data.ApiResourceRepo
-	authorizer *data.Authorizer
+	repo        *data.ApiResourceRepo
+	authorizer  *data.Authorizer
+	routeWalker RouteWalker
 }
 
 func NewApiResourceService(
@@ -53,6 +56,10 @@ func (s *ApiResourceService) init() {
 	if count, _ := s.repo.Count(ctx, []func(s *sql.Selector){}); count == 0 {
 		_, _ = s.SyncApiResources(ctx, &emptypb.Empty{})
 	}
+}
+
+func (s *ApiResourceService) RegisterRouteWalker(routeWalker RouteWalker) {
+	s.routeWalker = routeWalker
 }
 
 func (s *ApiResourceService) List(ctx context.Context, req *pagination.PagingRequest) (*adminV1.ListApiResourceResponse, error) {
@@ -207,15 +214,15 @@ func (s *ApiResourceService) syncWithOpenAPI(ctx context.Context) error {
 
 // syncWithWalkRoute 使用 WalkRoute 同步 API 资源
 func (s *ApiResourceService) syncWithWalkRoute(ctx context.Context) error {
-	if s.RestServer == nil {
-		return adminV1.ErrorInternalServerError("rest server is nil")
+	if s.routeWalker == nil {
+		return adminV1.ErrorInternalServerError("router walker is nil")
 	}
 
 	var count uint32 = 0
 
 	var apiResourceList []*adminV1.ApiResource
 
-	if err := s.RestServer.WalkRoute(func(info http.RouteInfo) error {
+	if err := s.routeWalker.WalkRoute(func(info http.RouteInfo) error {
 		//log.Infof("Path[%s] Method[%s]", info.Path, info.Method)
 		count++
 
@@ -244,15 +251,15 @@ func (s *ApiResourceService) syncWithWalkRoute(ctx context.Context) error {
 
 // GetWalkRouteData 获取通过 WalkRoute 获取的路由数据，用于调试
 func (s *ApiResourceService) GetWalkRouteData(_ context.Context, _ *emptypb.Empty) (*adminV1.ListApiResourceResponse, error) {
-	if s.RestServer == nil {
-		return nil, adminV1.ErrorInternalServerError("rest server is nil")
+	if s.routeWalker == nil {
+		return nil, adminV1.ErrorInternalServerError("router walker is nil")
 	}
 
 	resp := &adminV1.ListApiResourceResponse{
 		Items: []*adminV1.ApiResource{},
 	}
 	var count uint32 = 0
-	if err := s.RestServer.WalkRoute(func(info http.RouteInfo) error {
+	if err := s.routeWalker.WalkRoute(func(info http.RouteInfo) error {
 		//log.Infof("Path[%s] Method[%s]", info.Path, info.Method)
 		count++
 		resp.Items = append(resp.Items, &adminV1.ApiResource{

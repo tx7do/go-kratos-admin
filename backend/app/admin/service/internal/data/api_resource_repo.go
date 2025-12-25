@@ -23,8 +23,8 @@ import (
 )
 
 type ApiResourceRepo struct {
-	data *Data
-	log  *log.Helper
+	entClient *entCrud.EntClient[*ent.Client]
+	log       *log.Helper
 
 	mapper         *mapper.CopierMapper[adminV1.ApiResource, ent.ApiResource]
 	scopeConverter *mapper.EnumTypeConverter[adminV1.ApiResource_Scope, apiresource.Scope]
@@ -39,10 +39,10 @@ type ApiResourceRepo struct {
 	]
 }
 
-func NewApiResourceRepo(ctx *bootstrap.Context, data *Data) *ApiResourceRepo {
+func NewApiResourceRepo(ctx *bootstrap.Context, entClient *entCrud.EntClient[*ent.Client]) *ApiResourceRepo {
 	repo := &ApiResourceRepo{
 		log:            ctx.NewLoggerHelper("api-resource/repo/admin-service"),
-		data:           data,
+		entClient:      entClient,
 		mapper:         mapper.NewCopierMapper[adminV1.ApiResource, ent.ApiResource](),
 		scopeConverter: mapper.NewEnumTypeConverter[adminV1.ApiResource_Scope, apiresource.Scope](adminV1.ApiResource_Scope_name, adminV1.ApiResource_Scope_value),
 	}
@@ -69,7 +69,7 @@ func (r *ApiResourceRepo) init() {
 }
 
 func (r *ApiResourceRepo) Count(ctx context.Context, whereCond []func(s *sql.Selector)) (int, error) {
-	builder := r.data.db.Client().ApiResource.Query()
+	builder := r.entClient.Client().ApiResource.Query()
 	if len(whereCond) != 0 {
 		builder.Modify(whereCond...)
 	}
@@ -88,7 +88,7 @@ func (r *ApiResourceRepo) List(ctx context.Context, req *pagination.PagingReques
 		return nil, adminV1.ErrorBadRequest("invalid parameter")
 	}
 
-	builder := r.data.db.Client().ApiResource.Query()
+	builder := r.entClient.Client().ApiResource.Query()
 
 	ret, err := r.repository.ListWithPaging(ctx, builder, builder.Clone(), req)
 	if err != nil {
@@ -105,7 +105,7 @@ func (r *ApiResourceRepo) List(ctx context.Context, req *pagination.PagingReques
 }
 
 func (r *ApiResourceRepo) IsExist(ctx context.Context, id uint32) (bool, error) {
-	exist, err := r.data.db.Client().ApiResource.Query().
+	exist, err := r.entClient.Client().ApiResource.Query().
 		Where(apiresource.IDEQ(id)).
 		Exist(ctx)
 	if err != nil {
@@ -120,7 +120,7 @@ func (r *ApiResourceRepo) Get(ctx context.Context, req *adminV1.GetApiResourceRe
 		return nil, adminV1.ErrorBadRequest("invalid parameter")
 	}
 
-	builder := r.data.db.Client().ApiResource.Query()
+	builder := r.entClient.Client().ApiResource.Query()
 
 	var whereCond []func(s *sql.Selector)
 	switch req.QueryBy.(type) {
@@ -143,7 +143,7 @@ func (r *ApiResourceRepo) GetApiResourceByEndpoint(ctx context.Context, path, me
 		return nil, adminV1.ErrorBadRequest("invalid parameter")
 	}
 
-	entity, err := r.data.db.Client().ApiResource.Query().
+	entity, err := r.entClient.Client().ApiResource.Query().
 		Where(
 			apiresource.PathEQ(path),
 			apiresource.MethodEQ(method),
@@ -167,7 +167,7 @@ func (r *ApiResourceRepo) Create(ctx context.Context, req *adminV1.CreateApiReso
 		return adminV1.ErrorBadRequest("invalid parameter")
 	}
 
-	builder := r.data.db.Client().ApiResource.Create().
+	builder := r.entClient.Client().ApiResource.Create().
 		SetNillableDescription(req.Data.Description).
 		SetNillableModule(req.Data.Module).
 		SetNillableModuleDescription(req.Data.ModuleDescription).
@@ -213,7 +213,7 @@ func (r *ApiResourceRepo) Update(ctx context.Context, req *adminV1.UpdateApiReso
 		}
 	}
 
-	builder := r.data.db.Client().Debug().ApiResource.Update()
+	builder := r.entClient.Client().Debug().ApiResource.Update()
 	err := r.repository.UpdateX(ctx, builder, req.Data, req.GetUpdateMask(),
 		func(dto *adminV1.ApiResource) {
 			builder.
@@ -244,7 +244,7 @@ func (r *ApiResourceRepo) Delete(ctx context.Context, req *adminV1.DeleteApiReso
 		return adminV1.ErrorBadRequest("invalid parameter")
 	}
 
-	builder := r.data.db.Client().Debug().ApiResource.Delete()
+	builder := r.entClient.Client().Debug().ApiResource.Delete()
 
 	_, err := r.repository.Delete(ctx, builder, func(s *sql.Selector) {
 		s.Where(sql.EQ(apiresource.FieldID, req.GetId()))
@@ -259,7 +259,7 @@ func (r *ApiResourceRepo) Delete(ctx context.Context, req *adminV1.DeleteApiReso
 
 // Truncate 清空表数据
 func (r *ApiResourceRepo) Truncate(ctx context.Context) error {
-	if _, err := r.data.db.Client().ApiResource.Delete().Exec(ctx); err != nil {
+	if _, err := r.entClient.Client().ApiResource.Delete().Exec(ctx); err != nil {
 		r.log.Errorf("failed to truncate api_resources table: %s", err.Error())
 		return adminV1.ErrorInternalServerError("truncate failed")
 	}

@@ -24,8 +24,8 @@ import (
 )
 
 type DepartmentRepo struct {
-	data *Data
-	log  *log.Helper
+	entClient *entCrud.EntClient[*ent.Client]
+	log       *log.Helper
 
 	mapper          *mapper.CopierMapper[userV1.Department, ent.Department]
 	statusConverter *mapper.EnumTypeConverter[userV1.Department_Status, department.Status]
@@ -40,10 +40,10 @@ type DepartmentRepo struct {
 	]
 }
 
-func NewDepartmentRepo(ctx *bootstrap.Context, data *Data) *DepartmentRepo {
+func NewDepartmentRepo(ctx *bootstrap.Context, entClient *entCrud.EntClient[*ent.Client]) *DepartmentRepo {
 	repo := &DepartmentRepo{
 		log:             ctx.NewLoggerHelper("department/repo/admin-service"),
-		data:            data,
+		entClient:       entClient,
 		mapper:          mapper.NewCopierMapper[userV1.Department, ent.Department](),
 		statusConverter: mapper.NewEnumTypeConverter[userV1.Department_Status, department.Status](userV1.Department_Status_name, userV1.Department_Status_value),
 	}
@@ -70,7 +70,7 @@ func (r *DepartmentRepo) init() {
 }
 
 func (r *DepartmentRepo) Count(ctx context.Context, whereCond []func(s *sql.Selector)) (int, error) {
-	builder := r.data.db.Client().Department.Query()
+	builder := r.entClient.Client().Department.Query()
 	if len(whereCond) != 0 {
 		builder.Modify(whereCond...)
 	}
@@ -89,7 +89,7 @@ func (r *DepartmentRepo) List(ctx context.Context, req *pagination.PagingRequest
 		return nil, userV1.ErrorBadRequest("invalid parameter")
 	}
 
-	builder := r.data.db.Client().Department.Query()
+	builder := r.entClient.Client().Department.Query()
 
 	whereSelectors, _, err := r.repository.BuildListSelectorWithPaging(builder, req)
 	if err != nil {
@@ -149,7 +149,7 @@ func (r *DepartmentRepo) List(ctx context.Context, req *pagination.PagingRequest
 }
 
 func (r *DepartmentRepo) IsExist(ctx context.Context, id uint32) (bool, error) {
-	exist, err := r.data.db.Client().Department.Query().
+	exist, err := r.entClient.Client().Department.Query().
 		Where(department.IDEQ(id)).
 		Exist(ctx)
 	if err != nil {
@@ -164,7 +164,7 @@ func (r *DepartmentRepo) Get(ctx context.Context, req *userV1.GetDepartmentReque
 		return nil, userV1.ErrorBadRequest("invalid parameter")
 	}
 
-	builder := r.data.db.Client().Department.Query()
+	builder := r.entClient.Client().Department.Query()
 
 	var whereCond []func(s *sql.Selector)
 	switch req.QueryBy.(type) {
@@ -187,7 +187,7 @@ func (r *DepartmentRepo) ListDepartmentsByIds(ctx context.Context, ids []uint32)
 		return []*userV1.Department{}, nil
 	}
 
-	entities, err := r.data.db.Client().Department.Query().
+	entities, err := r.entClient.Client().Department.Query().
 		Where(department.IDIn(ids...)).
 		All(ctx)
 	if err != nil {
@@ -209,7 +209,7 @@ func (r *DepartmentRepo) Create(ctx context.Context, req *userV1.CreateDepartmen
 		return userV1.ErrorBadRequest("invalid parameter")
 	}
 
-	builder := r.data.db.Client().Department.Create().
+	builder := r.entClient.Client().Department.Create().
 		SetNillableName(req.Data.Name).
 		SetNillableParentID(req.Data.ParentId).
 		SetNillableSortOrder(req.Data.SortOrder).
@@ -259,7 +259,7 @@ func (r *DepartmentRepo) Update(ctx context.Context, req *userV1.UpdateDepartmen
 		}
 	}
 
-	builder := r.data.db.Client().Debug().Department.Update()
+	builder := r.entClient.Client().Debug().Department.Update()
 	err := r.repository.UpdateX(ctx, builder, req.Data, req.GetUpdateMask(),
 		func(dto *userV1.Department) {
 			builder.
@@ -293,7 +293,7 @@ func (r *DepartmentRepo) Delete(ctx context.Context, req *userV1.DeleteDepartmen
 		return userV1.ErrorBadRequest("invalid parameter")
 	}
 
-	ids, err := entCrud.QueryAllChildrenIds(ctx, r.data.db, "sys_departments", req.GetId())
+	ids, err := entCrud.QueryAllChildrenIds(ctx, r.entClient, "sys_departments", req.GetId())
 	if err != nil {
 		r.log.Errorf("query child departments failed: %s", err.Error())
 		return userV1.ErrorInternalServerError("query child departments failed")
@@ -302,7 +302,7 @@ func (r *DepartmentRepo) Delete(ctx context.Context, req *userV1.DeleteDepartmen
 
 	//r.log.Info("department ids to delete: ", ids)
 
-	builder := r.data.db.Client().Debug().Department.Delete()
+	builder := r.entClient.Client().Debug().Department.Delete()
 
 	_, err = r.repository.Delete(ctx, builder, func(s *sql.Selector) {
 		s.Where(sql.In(department.FieldID, ids))

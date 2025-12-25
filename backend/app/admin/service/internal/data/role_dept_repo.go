@@ -5,7 +5,7 @@ import (
 	"time"
 
 	"github.com/go-kratos/kratos/v2/log"
-	"github.com/tx7do/go-crud/entgo"
+	entCrud "github.com/tx7do/go-crud/entgo"
 	"github.com/tx7do/kratos-bootstrap/bootstrap"
 
 	"go-wind-admin/app/admin/service/internal/data/ent"
@@ -15,21 +15,21 @@ import (
 )
 
 type RoleDeptRepo struct {
-	data *Data
-	log  *log.Helper
+	entClient *entCrud.EntClient[*ent.Client]
+	log       *log.Helper
 }
 
-func NewRoleDeptRepo(ctx *bootstrap.Context, data *Data) *RoleDeptRepo {
+func NewRoleDeptRepo(ctx *bootstrap.Context, entClient *entCrud.EntClient[*ent.Client]) *RoleDeptRepo {
 	return &RoleDeptRepo{
-		log:  ctx.NewLoggerHelper("role-dept/repo/admin-service"),
-		data: data,
+		log:       ctx.NewLoggerHelper("role-dept/repo/admin-service"),
+		entClient: entClient,
 	}
 }
 
 // AssignDepartments 给角色分配部门
 func (r *RoleDeptRepo) AssignDepartments(ctx context.Context, roleId uint32, deptIds []uint32, operatorId uint32) error {
 	// 开启事务
-	tx, err := r.data.db.Client().Tx(ctx)
+	tx, err := r.entClient.Client().Tx(ctx)
 	if err != nil {
 		r.log.Errorf("start transaction failed: %s", err.Error())
 		return userV1.ErrorInternalServerError("start transaction failed")
@@ -37,7 +37,7 @@ func (r *RoleDeptRepo) AssignDepartments(ctx context.Context, roleId uint32, dep
 
 	// 删除该角色的所有旧关联
 	if _, err = tx.RoleDept.Delete().Where(roledept.RoleID(roleId)).Exec(ctx); err != nil {
-		err = entgo.Rollback(tx, err)
+		err = entCrud.Rollback(tx, err)
 		r.log.Errorf("delete old role departments failed: %s", err.Error())
 		return userV1.ErrorInternalServerError("delete old role departments failed")
 	}
@@ -54,7 +54,7 @@ func (r *RoleDeptRepo) AssignDepartments(ctx context.Context, roleId uint32, dep
 
 	var roleDepts []*ent.RoleDeptCreate
 	for _, deptId := range deptIds {
-		rm := r.data.db.Client().RoleDept.
+		rm := r.entClient.Client().RoleDept.
 			Create().
 			SetRoleID(roleId).
 			SetDeptID(deptId).
@@ -63,9 +63,9 @@ func (r *RoleDeptRepo) AssignDepartments(ctx context.Context, roleId uint32, dep
 		roleDepts = append(roleDepts, rm)
 	}
 
-	_, err = r.data.db.Client().RoleDept.CreateBulk(roleDepts...).Save(ctx)
+	_, err = r.entClient.Client().RoleDept.CreateBulk(roleDepts...).Save(ctx)
 	if err != nil {
-		err = entgo.Rollback(tx, err)
+		err = entCrud.Rollback(tx, err)
 		r.log.Errorf("assign departments to role failed: %s", err.Error())
 		return userV1.ErrorInternalServerError("assign departments to role failed")
 	}
@@ -81,7 +81,7 @@ func (r *RoleDeptRepo) AssignDepartments(ctx context.Context, roleId uint32, dep
 
 // ListDepartmentIdsByRoleId 获取角色分配的部门ID列表
 func (r *RoleDeptRepo) ListDepartmentIdsByRoleId(ctx context.Context, roleId uint32) ([]uint32, error) {
-	ids, err := r.data.db.Client().RoleDept.Query().
+	ids, err := r.entClient.Client().RoleDept.Query().
 		Where(roledept.RoleIDEQ(roleId)).
 		Select(roledept.FieldDeptID).
 		IDs(ctx)
@@ -94,7 +94,7 @@ func (r *RoleDeptRepo) ListDepartmentIdsByRoleId(ctx context.Context, roleId uin
 
 // RemoveDepartments 从角色移除部门
 func (r *RoleDeptRepo) RemoveDepartments(ctx context.Context, roleId uint32, ids []uint32) error {
-	_, err := r.data.db.Client().RoleDept.Delete().
+	_, err := r.entClient.Client().RoleDept.Delete().
 		Where(
 			roledept.And(
 				roledept.RoleIDEQ(roleId),

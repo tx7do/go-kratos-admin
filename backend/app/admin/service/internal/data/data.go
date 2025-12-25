@@ -1,9 +1,7 @@
 package data
 
 import (
-	"github.com/go-kratos/kratos/v2/log"
 	"github.com/redis/go-redis/v9"
-	entCrud "github.com/tx7do/go-crud/entgo"
 	"github.com/tx7do/go-utils/password"
 
 	authnEngine "github.com/tx7do/kratos-authn/engine"
@@ -12,59 +10,25 @@ import (
 	"github.com/tx7do/kratos-bootstrap/bootstrap"
 	redisClient "github.com/tx7do/kratos-bootstrap/cache/redis"
 
-	"go-wind-admin/app/admin/service/internal/data/ent"
-
 	"go-wind-admin/pkg/oss"
 )
 
-// Data .
-type Data struct {
-	log *log.Helper
-
-	rdb *redis.Client
-	db  *entCrud.EntClient[*ent.Client]
-
-	authenticator authnEngine.Authenticator
-	authorizer    *Authorizer
-}
-
-// NewData .
-func NewData(
-	ctx *bootstrap.Context,
-	db *entCrud.EntClient[*ent.Client],
-	rdb *redis.Client,
-) (*Data, func(), error) {
-	d := &Data{
-		log: ctx.NewLoggerHelper("data/admin-service"),
-
-		db:  db,
-		rdb: rdb,
-	}
-
-	return d, func() {
-		d.log.Info("closing the data resources")
-
-		if d.db != nil {
-			if err := d.db.Close(); err != nil {
-				d.log.Error(err)
-			}
-		}
-
-		if d.rdb != nil {
-			if err := d.rdb.Close(); err != nil {
-				d.log.Error(err)
-			}
-		}
-	}, nil
-}
-
 // NewRedisClient 创建Redis客户端
-func NewRedisClient(ctx *bootstrap.Context) *redis.Client {
+func NewRedisClient(ctx *bootstrap.Context) (*redis.Client, func(), error) {
 	cfg := ctx.GetConfig()
 	if cfg == nil {
-		return nil
+		return nil, func() {}, nil
 	}
-	return redisClient.NewClient(cfg.Data, ctx.NewLoggerHelper("redis/data/admin-service"))
+
+	l := ctx.NewLoggerHelper("redis/data/admin-service")
+
+	cli := redisClient.NewClient(cfg.Data, l)
+
+	return cli, func() {
+		if err := cli.Close(); err != nil {
+			l.Error(err)
+		}
+	}, nil
 }
 
 // NewAuthenticator 创建认证器

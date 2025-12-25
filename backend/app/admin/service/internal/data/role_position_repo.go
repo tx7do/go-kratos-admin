@@ -5,7 +5,7 @@ import (
 	"time"
 
 	"github.com/go-kratos/kratos/v2/log"
-	"github.com/tx7do/go-crud/entgo"
+	entCrud "github.com/tx7do/go-crud/entgo"
 	"github.com/tx7do/kratos-bootstrap/bootstrap"
 
 	"go-wind-admin/app/admin/service/internal/data/ent"
@@ -15,21 +15,21 @@ import (
 )
 
 type RolePositionRepo struct {
-	data *Data
-	log  *log.Helper
+	entClient *entCrud.EntClient[*ent.Client]
+	log       *log.Helper
 }
 
-func NewRolePositionRepo(ctx *bootstrap.Context, data *Data) *RolePositionRepo {
+func NewRolePositionRepo(ctx *bootstrap.Context, entClient *entCrud.EntClient[*ent.Client]) *RolePositionRepo {
 	return &RolePositionRepo{
-		log:  ctx.NewLoggerHelper("role-position/repo/admin-service"),
-		data: data,
+		log:       ctx.NewLoggerHelper("role-position/repo/admin-service"),
+		entClient: entClient,
 	}
 }
 
 // AssignPositions 给角色分配岗位
 func (r *RolePositionRepo) AssignPositions(ctx context.Context, roleId uint32, positionIds []uint32, operatorId uint32) error {
 	// 开启事务
-	tx, err := r.data.db.Client().Tx(ctx)
+	tx, err := r.entClient.Client().Tx(ctx)
 	if err != nil {
 		r.log.Errorf("start transaction failed: %s", err.Error())
 		return userV1.ErrorInternalServerError("start transaction failed")
@@ -37,7 +37,7 @@ func (r *RolePositionRepo) AssignPositions(ctx context.Context, roleId uint32, p
 
 	// 删除该角色的所有旧关联
 	if _, err = tx.RolePosition.Delete().Where(roleposition.RoleID(roleId)).Exec(ctx); err != nil {
-		err = entgo.Rollback(tx, err)
+		err = entCrud.Rollback(tx, err)
 		r.log.Errorf("delete old role positions failed: %s", err.Error())
 		return userV1.ErrorInternalServerError("delete old role positions failed")
 	}
@@ -54,7 +54,7 @@ func (r *RolePositionRepo) AssignPositions(ctx context.Context, roleId uint32, p
 
 	var rolePositions []*ent.RolePositionCreate
 	for _, positionId := range positionIds {
-		rm := r.data.db.Client().RolePosition.
+		rm := r.entClient.Client().RolePosition.
 			Create().
 			SetRoleID(roleId).
 			SetPositionID(positionId).
@@ -63,9 +63,9 @@ func (r *RolePositionRepo) AssignPositions(ctx context.Context, roleId uint32, p
 		rolePositions = append(rolePositions, rm)
 	}
 
-	_, err = r.data.db.Client().RolePosition.CreateBulk(rolePositions...).Save(ctx)
+	_, err = r.entClient.Client().RolePosition.CreateBulk(rolePositions...).Save(ctx)
 	if err != nil {
-		err = entgo.Rollback(tx, err)
+		err = entCrud.Rollback(tx, err)
 		r.log.Errorf("assign positions to role failed: %s", err.Error())
 		return userV1.ErrorInternalServerError("assign positions to role failed")
 	}
@@ -81,7 +81,7 @@ func (r *RolePositionRepo) AssignPositions(ctx context.Context, roleId uint32, p
 
 // ListPositionIdsByRoleId 获取角色分配的岗位ID列表
 func (r *RolePositionRepo) ListPositionIdsByRoleId(ctx context.Context, roleId uint32) ([]uint32, error) {
-	ids, err := r.data.db.Client().RolePosition.Query().
+	ids, err := r.entClient.Client().RolePosition.Query().
 		Where(roleposition.RoleIDEQ(roleId)).
 		Select(roleposition.FieldPositionID).
 		IDs(ctx)
@@ -94,7 +94,7 @@ func (r *RolePositionRepo) ListPositionIdsByRoleId(ctx context.Context, roleId u
 
 // RemovePositions 从角色移除岗位
 func (r *RolePositionRepo) RemovePositions(ctx context.Context, roleId uint32, ids []uint32) error {
-	_, err := r.data.db.Client().RolePosition.Delete().
+	_, err := r.entClient.Client().RolePosition.Delete().
 		Where(
 			roleposition.And(
 				roleposition.RoleIDEQ(roleId),

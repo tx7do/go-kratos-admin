@@ -24,8 +24,8 @@ import (
 )
 
 type PositionRepo struct {
-	data *Data
-	log  *log.Helper
+	entClient *entCrud.EntClient[*ent.Client]
+	log       *log.Helper
 
 	mapper          *mapper.CopierMapper[userV1.Position, ent.Position]
 	statusConverter *mapper.EnumTypeConverter[userV1.Position_Status, position.Status]
@@ -40,10 +40,10 @@ type PositionRepo struct {
 	]
 }
 
-func NewPositionRepo(ctx *bootstrap.Context, data *Data) *PositionRepo {
+func NewPositionRepo(ctx *bootstrap.Context, entClient *entCrud.EntClient[*ent.Client]) *PositionRepo {
 	repo := &PositionRepo{
 		log:             ctx.NewLoggerHelper("position/repo/admin-service"),
-		data:            data,
+		entClient:       entClient,
 		mapper:          mapper.NewCopierMapper[userV1.Position, ent.Position](),
 		statusConverter: mapper.NewEnumTypeConverter[userV1.Position_Status, position.Status](userV1.Position_Status_name, userV1.Position_Status_value),
 	}
@@ -70,7 +70,7 @@ func (r *PositionRepo) init() {
 }
 
 func (r *PositionRepo) Count(ctx context.Context, whereCond []func(s *sql.Selector)) (int, error) {
-	builder := r.data.db.Client().Position.Query()
+	builder := r.entClient.Client().Position.Query()
 	if len(whereCond) != 0 {
 		builder.Modify(whereCond...)
 	}
@@ -89,7 +89,7 @@ func (r *PositionRepo) List(ctx context.Context, req *pagination.PagingRequest) 
 		return nil, userV1.ErrorBadRequest("invalid parameter")
 	}
 
-	builder := r.data.db.Client().Position.Query()
+	builder := r.entClient.Client().Position.Query()
 
 	whereSelectors, _, err := r.repository.BuildListSelectorWithPaging(builder, req)
 	if err != nil {
@@ -147,7 +147,7 @@ func (r *PositionRepo) List(ctx context.Context, req *pagination.PagingRequest) 
 }
 
 func (r *PositionRepo) IsExist(ctx context.Context, id uint32) (bool, error) {
-	exist, err := r.data.db.Client().Position.Query().
+	exist, err := r.entClient.Client().Position.Query().
 		Where(position.IDEQ(id)).
 		Exist(ctx)
 	if err != nil {
@@ -162,7 +162,7 @@ func (r *PositionRepo) Get(ctx context.Context, req *userV1.GetPositionRequest) 
 		return nil, userV1.ErrorBadRequest("invalid parameter")
 	}
 
-	builder := r.data.db.Client().Position.Query()
+	builder := r.entClient.Client().Position.Query()
 
 	var whereCond []func(s *sql.Selector)
 	switch req.QueryBy.(type) {
@@ -185,7 +185,7 @@ func (r *PositionRepo) ListPositionByIds(ctx context.Context, ids []uint32) ([]*
 		return []*userV1.Position{}, nil
 	}
 
-	entities, err := r.data.db.Client().Position.Query().
+	entities, err := r.entClient.Client().Position.Query().
 		Where(position.IDIn(ids...)).
 		All(ctx)
 	if err != nil {
@@ -207,7 +207,7 @@ func (r *PositionRepo) Create(ctx context.Context, req *userV1.CreatePositionReq
 		return userV1.ErrorBadRequest("invalid parameter")
 	}
 
-	builder := r.data.db.Client().Position.Create().
+	builder := r.entClient.Client().Position.Create().
 		SetNillableName(req.Data.Name).
 		SetNillableParentID(req.Data.ParentId).
 		SetNillableSortOrder(req.Data.SortOrder).
@@ -259,7 +259,7 @@ func (r *PositionRepo) Update(ctx context.Context, req *userV1.UpdatePositionReq
 		}
 	}
 
-	builder := r.data.db.Client().Debug().Position.Update()
+	builder := r.entClient.Client().Debug().Position.Update()
 	err := r.repository.UpdateX(ctx, builder, req.Data, req.GetUpdateMask(),
 		func(dto *userV1.Position) {
 			builder.
@@ -299,7 +299,7 @@ func (r *PositionRepo) Delete(ctx context.Context, req *userV1.DeletePositionReq
 		return userV1.ErrorBadRequest("invalid parameter")
 	}
 
-	ids, err := entCrud.QueryAllChildrenIds(ctx, r.data.db, "sys_positions", req.GetId())
+	ids, err := entCrud.QueryAllChildrenIds(ctx, r.entClient, "sys_positions", req.GetId())
 	if err != nil {
 		r.log.Errorf("query child positions failed: %s", err.Error())
 		return userV1.ErrorInternalServerError("query child positions failed")
@@ -308,7 +308,7 @@ func (r *PositionRepo) Delete(ctx context.Context, req *userV1.DeletePositionReq
 
 	//r.log.Infof("child positions to delete: %+v", ids)
 
-	builder := r.data.db.Client().Debug().Position.Delete()
+	builder := r.entClient.Client().Debug().Position.Delete()
 
 	_, err = r.repository.Delete(ctx, builder, func(s *sql.Selector) {
 		s.Where(sql.In(position.FieldID, ids))

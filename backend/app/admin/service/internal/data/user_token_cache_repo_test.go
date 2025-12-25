@@ -35,7 +35,7 @@ func TestUserTokenCache(t *testing.T) {
 	authenticator := NewAuthenticator(bctx)
 	assert.NotNil(t, authenticator)
 
-	rdb := NewRedisClient(bctx)
+	rdb, _, _ := NewRedisClient(bctx)
 	assert.NotNil(t, rdb)
 
 	repo := NewUserTokenRepo(bctx, rdb, authenticator)

@@ -23,8 +23,8 @@ import (
 )
 
 type InternalMessageRepo struct {
-	data *Data
-	log  *log.Helper
+	entClient *entCrud.EntClient[*ent.Client]
+	log       *log.Helper
 
 	mapper          *mapper.CopierMapper[internalMessageV1.InternalMessage, ent.InternalMessage]
 	statusConverter *mapper.EnumTypeConverter[internalMessageV1.InternalMessage_Status, internalmessage.Status]
@@ -40,10 +40,10 @@ type InternalMessageRepo struct {
 	]
 }
 
-func NewInternalMessageRepo(ctx *bootstrap.Context, data *Data) *InternalMessageRepo {
+func NewInternalMessageRepo(ctx *bootstrap.Context, entClient *entCrud.EntClient[*ent.Client]) *InternalMessageRepo {
 	repo := &InternalMessageRepo{
 		log:             ctx.NewLoggerHelper("internal-message/repo/admin-service"),
-		data:            data,
+		entClient:       entClient,
 		mapper:          mapper.NewCopierMapper[internalMessageV1.InternalMessage, ent.InternalMessage](),
 		statusConverter: mapper.NewEnumTypeConverter[internalMessageV1.InternalMessage_Status, internalmessage.Status](internalMessageV1.InternalMessage_Status_name, internalMessageV1.InternalMessage_Status_value),
 		typeConverter:   mapper.NewEnumTypeConverter[internalMessageV1.InternalMessage_Type, internalmessage.Type](internalMessageV1.InternalMessage_Type_name, internalMessageV1.InternalMessage_Type_value),
@@ -72,7 +72,7 @@ func (r *InternalMessageRepo) init() {
 }
 
 func (r *InternalMessageRepo) Count(ctx context.Context, whereCond []func(s *sql.Selector)) (int, error) {
-	builder := r.data.db.Client().InternalMessage.Query()
+	builder := r.entClient.Client().InternalMessage.Query()
 	if len(whereCond) != 0 {
 		builder.Modify(whereCond...)
 	}
@@ -91,7 +91,7 @@ func (r *InternalMessageRepo) List(ctx context.Context, req *pagination.PagingRe
 		return nil, internalMessageV1.ErrorBadRequest("invalid parameter")
 	}
 
-	builder := r.data.db.Client().InternalMessage.Query()
+	builder := r.entClient.Client().InternalMessage.Query()
 
 	ret, err := r.repository.ListWithPaging(ctx, builder, builder.Clone(), req)
 	if err != nil {
@@ -108,7 +108,7 @@ func (r *InternalMessageRepo) List(ctx context.Context, req *pagination.PagingRe
 }
 
 func (r *InternalMessageRepo) IsExist(ctx context.Context, id uint32) (bool, error) {
-	exist, err := r.data.db.Client().InternalMessage.Query().
+	exist, err := r.entClient.Client().InternalMessage.Query().
 		Where(internalmessage.IDEQ(id)).
 		Exist(ctx)
 	if err != nil {
@@ -123,7 +123,7 @@ func (r *InternalMessageRepo) Get(ctx context.Context, req *internalMessageV1.Ge
 		return nil, internalMessageV1.ErrorBadRequest("invalid parameter")
 	}
 
-	builder := r.data.db.Client().InternalMessage.Query()
+	builder := r.entClient.Client().InternalMessage.Query()
 
 	var whereCond []func(s *sql.Selector)
 	switch req.QueryBy.(type) {
@@ -145,7 +145,7 @@ func (r *InternalMessageRepo) Create(ctx context.Context, req *internalMessageV1
 		return nil, internalMessageV1.ErrorBadRequest("invalid parameter")
 	}
 
-	builder := r.data.db.Client().InternalMessage.Create().
+	builder := r.entClient.Client().InternalMessage.Create().
 		SetNillableTitle(req.Data.Title).
 		SetNillableContent(req.Data.Content).
 		SetNillableSenderID(req.Data.SenderId).
@@ -193,7 +193,7 @@ func (r *InternalMessageRepo) Update(ctx context.Context, req *internalMessageV1
 		}
 	}
 
-	builder := r.data.db.Client().Debug().InternalMessage.Update()
+	builder := r.entClient.Client().Debug().InternalMessage.Update()
 	err := r.repository.UpdateX(ctx, builder, req.Data, req.GetUpdateMask(),
 		func(dto *internalMessageV1.InternalMessage) {
 			builder.
@@ -223,7 +223,7 @@ func (r *InternalMessageRepo) Delete(ctx context.Context, id uint32) error {
 		return internalMessageV1.ErrorBadRequest("invalid parameter")
 	}
 
-	if err := r.data.db.Client().InternalMessage.DeleteOneID(id).Exec(ctx); err != nil {
+	if err := r.entClient.Client().InternalMessage.DeleteOneID(id).Exec(ctx); err != nil {
 		if ent.IsNotFound(err) {
 			return internalMessageV1.ErrorNotFound("internal message not found")
 		}

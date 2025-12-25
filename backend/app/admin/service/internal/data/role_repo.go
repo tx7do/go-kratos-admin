@@ -23,8 +23,8 @@ import (
 )
 
 type RoleRepo struct {
-	data *Data
-	log  *log.Helper
+	entClient *entCrud.EntClient[*ent.Client]
+	log       *log.Helper
 
 	mapper          *mapper.CopierMapper[userV1.Role, ent.Role]
 	statusConverter *mapper.EnumTypeConverter[userV1.Role_Status, role.Status]
@@ -39,10 +39,10 @@ type RoleRepo struct {
 	]
 }
 
-func NewRoleRepo(ctx *bootstrap.Context, data *Data) *RoleRepo {
+func NewRoleRepo(ctx *bootstrap.Context, entClient *entCrud.EntClient[*ent.Client]) *RoleRepo {
 	repo := &RoleRepo{
 		log:             ctx.NewLoggerHelper("role/repo/admin-service"),
-		data:            data,
+		entClient:       entClient,
 		mapper:          mapper.NewCopierMapper[userV1.Role, ent.Role](),
 		statusConverter: mapper.NewEnumTypeConverter[userV1.Role_Status, role.Status](userV1.Role_Status_name, userV1.Role_Status_value),
 	}
@@ -69,7 +69,7 @@ func (r *RoleRepo) init() {
 }
 
 func (r *RoleRepo) Count(ctx context.Context, whereCond []func(s *sql.Selector)) (int, error) {
-	builder := r.data.db.Client().Role.Query()
+	builder := r.entClient.Client().Role.Query()
 	if len(whereCond) != 0 {
 		builder.Modify(whereCond...)
 	}
@@ -88,7 +88,7 @@ func (r *RoleRepo) List(ctx context.Context, req *pagination.PagingRequest) (*us
 		return nil, userV1.ErrorBadRequest("invalid parameter")
 	}
 
-	builder := r.data.db.Client().Role.Query()
+	builder := r.entClient.Client().Role.Query()
 
 	ret, err := r.repository.ListWithPaging(ctx, builder, builder.Clone(), req)
 	if err != nil {
@@ -105,7 +105,7 @@ func (r *RoleRepo) List(ctx context.Context, req *pagination.PagingRequest) (*us
 }
 
 func (r *RoleRepo) IsExist(ctx context.Context, id uint32) (bool, error) {
-	exist, err := r.data.db.Client().Role.Query().
+	exist, err := r.entClient.Client().Role.Query().
 		Where(role.IDEQ(id)).
 		Exist(ctx)
 	if err != nil {
@@ -120,7 +120,7 @@ func (r *RoleRepo) Get(ctx context.Context, req *userV1.GetRoleRequest) (*userV1
 		return nil, userV1.ErrorBadRequest("invalid parameter")
 	}
 
-	builder := r.data.db.Client().Role.Query()
+	builder := r.entClient.Client().Role.Query()
 
 	var whereCond []func(s *sql.Selector)
 	switch req.QueryBy.(type) {
@@ -143,7 +143,7 @@ func (r *RoleRepo) ListRolesByRoleCodes(ctx context.Context, codes []string) ([]
 		return []*userV1.Role{}, nil
 	}
 
-	entities, err := r.data.db.Client().Role.Query().
+	entities, err := r.entClient.Client().Role.Query().
 		Where(role.CodeIn(codes...)).
 		All(ctx)
 	if err != nil {
@@ -166,7 +166,7 @@ func (r *RoleRepo) ListRolesByRoleIds(ctx context.Context, ids []uint32) ([]*use
 		return []*userV1.Role{}, nil
 	}
 
-	entities, err := r.data.db.Client().Role.Query().
+	entities, err := r.entClient.Client().Role.Query().
 		Where(role.IDIn(ids...)).
 		All(ctx)
 	if err != nil {
@@ -189,7 +189,7 @@ func (r *RoleRepo) ListRoleCodesByRoleIds(ctx context.Context, ids []uint32) ([]
 		return []string{}, nil
 	}
 
-	entities, err := r.data.db.Client().Role.Query().
+	entities, err := r.entClient.Client().Role.Query().
 		Where(role.IDIn(ids...)).
 		All(ctx)
 	if err != nil {
@@ -212,7 +212,7 @@ func (r *RoleRepo) Create(ctx context.Context, req *userV1.CreateRoleRequest) er
 		return userV1.ErrorBadRequest("invalid parameter")
 	}
 
-	builder := r.data.db.Client().Role.Create().
+	builder := r.entClient.Client().Role.Create().
 		SetNillableName(req.Data.Name).
 		SetNillableParentID(req.Data.ParentId).
 		SetNillableSortOrder(req.Data.SortOrder).
@@ -267,7 +267,7 @@ func (r *RoleRepo) Update(ctx context.Context, req *userV1.UpdateRoleRequest) er
 		}
 	}
 
-	builder := r.data.db.Client().Debug().Role.Update()
+	builder := r.entClient.Client().Debug().Role.Update()
 	err := r.repository.UpdateX(ctx, builder, req.Data, req.GetUpdateMask(),
 		func(dto *userV1.Role) {
 			builder.
@@ -304,7 +304,7 @@ func (r *RoleRepo) Delete(ctx context.Context, req *userV1.DeleteRoleRequest) er
 		return userV1.ErrorBadRequest("invalid parameter")
 	}
 
-	ids, err := entCrud.QueryAllChildrenIds(ctx, r.data.db, "sys_roles", req.GetId())
+	ids, err := entCrud.QueryAllChildrenIds(ctx, r.entClient, "sys_roles", req.GetId())
 	if err != nil {
 		r.log.Errorf("query child roles failed: %s", err.Error())
 		return userV1.ErrorInternalServerError("query child roles failed")
@@ -313,7 +313,7 @@ func (r *RoleRepo) Delete(ctx context.Context, req *userV1.DeleteRoleRequest) er
 
 	//r.log.Info("roles ids to delete: ", ids)
 
-	if _, err = r.data.db.Client().Role.Delete().
+	if _, err = r.entClient.Client().Role.Delete().
 		Where(role.IDIn(ids...)).
 		Exec(ctx); err != nil {
 		r.log.Errorf("delete roles failed: %s", err.Error())

@@ -24,8 +24,8 @@ import (
 )
 
 type InternalMessageRecipientRepo struct {
-	data *Data
-	log  *log.Helper
+	entClient *entCrud.EntClient[*ent.Client]
+	log       *log.Helper
 
 	mapper          *mapper.CopierMapper[internalMessageV1.InternalMessageRecipient, ent.InternalMessageRecipient]
 	statusConverter *mapper.EnumTypeConverter[internalMessageV1.InternalMessageRecipient_Status, internalmessagerecipient.Status]
@@ -40,10 +40,10 @@ type InternalMessageRecipientRepo struct {
 	]
 }
 
-func NewInternalMessageRecipientRepo(ctx *bootstrap.Context, data *Data) *InternalMessageRecipientRepo {
+func NewInternalMessageRecipientRepo(ctx *bootstrap.Context, entClient *entCrud.EntClient[*ent.Client]) *InternalMessageRecipientRepo {
 	repo := &InternalMessageRecipientRepo{
 		log:             ctx.NewLoggerHelper("internal-message-recipient/repo/admin-service"),
-		data:            data,
+		entClient:       entClient,
 		mapper:          mapper.NewCopierMapper[internalMessageV1.InternalMessageRecipient, ent.InternalMessageRecipient](),
 		statusConverter: mapper.NewEnumTypeConverter[internalMessageV1.InternalMessageRecipient_Status, internalmessagerecipient.Status](internalMessageV1.InternalMessageRecipient_Status_name, internalMessageV1.InternalMessageRecipient_Status_value),
 	}
@@ -70,7 +70,7 @@ func (r *InternalMessageRecipientRepo) init() {
 }
 
 func (r *InternalMessageRecipientRepo) Count(ctx context.Context, whereCond []func(s *sql.Selector)) (int, error) {
-	builder := r.data.db.Client().InternalMessageRecipient.Query()
+	builder := r.entClient.Client().InternalMessageRecipient.Query()
 	if len(whereCond) != 0 {
 		builder.Modify(whereCond...)
 	}
@@ -85,7 +85,7 @@ func (r *InternalMessageRecipientRepo) Count(ctx context.Context, whereCond []fu
 }
 
 func (r *InternalMessageRecipientRepo) IsExist(ctx context.Context, id uint32) (bool, error) {
-	exist, err := r.data.db.Client().InternalMessageRecipient.Query().
+	exist, err := r.entClient.Client().InternalMessageRecipient.Query().
 		Where(internalmessagerecipient.IDEQ(id)).
 		Exist(ctx)
 	if err != nil {
@@ -100,7 +100,7 @@ func (r *InternalMessageRecipientRepo) List(ctx context.Context, req *pagination
 		return nil, internalMessageV1.ErrorBadRequest("invalid parameter")
 	}
 
-	builder := r.data.db.Client().InternalMessageRecipient.Query()
+	builder := r.entClient.Client().InternalMessageRecipient.Query()
 
 	ret, err := r.repository.ListWithPaging(ctx, builder, builder.Clone(), req)
 	if err != nil {
@@ -121,7 +121,7 @@ func (r *InternalMessageRecipientRepo) Get(ctx context.Context, req *internalMes
 		return nil, internalMessageV1.ErrorBadRequest("invalid parameter")
 	}
 
-	builder := r.data.db.Client().InternalMessageRecipient.Query()
+	builder := r.entClient.Client().InternalMessageRecipient.Query()
 
 	var whereCond []func(s *sql.Selector)
 	switch req.QueryBy.(type) {
@@ -143,7 +143,7 @@ func (r *InternalMessageRecipientRepo) Create(ctx context.Context, req *internal
 		return nil, internalMessageV1.ErrorBadRequest("invalid parameter")
 	}
 
-	builder := r.data.db.Client().InternalMessageRecipient.Create().
+	builder := r.entClient.Client().InternalMessageRecipient.Create().
 		SetNillableMessageID(req.MessageId).
 		SetNillableRecipientUserID(req.RecipientUserId).
 		SetNillableStatus(r.statusConverter.ToEntity(req.Status)).
@@ -184,7 +184,7 @@ func (r *InternalMessageRecipientRepo) Update(ctx context.Context, req *internal
 		}
 	}
 
-	builder := r.data.db.Client().Debug().InternalMessageRecipient.Update()
+	builder := r.entClient.Client().Debug().InternalMessageRecipient.Update()
 	err := r.repository.UpdateX(ctx, builder, req.Data, req.GetUpdateMask(),
 		func(dto *internalMessageV1.InternalMessageRecipient) {
 			builder.
@@ -212,7 +212,7 @@ func (r *InternalMessageRecipientRepo) Delete(ctx context.Context, id uint32) er
 		return internalMessageV1.ErrorBadRequest("invalid parameter")
 	}
 
-	if err := r.data.db.Client().InternalMessageRecipient.DeleteOneID(id).Exec(ctx); err != nil {
+	if err := r.entClient.Client().InternalMessageRecipient.DeleteOneID(id).Exec(ctx); err != nil {
 		if ent.IsNotFound(err) {
 			return internalMessageV1.ErrorNotFound("internal message recipient not found")
 		}
@@ -235,7 +235,7 @@ func (r *InternalMessageRecipientRepo) MarkNotificationAsRead(ctx context.Contex
 	}
 
 	now := time.Now()
-	_, err := r.data.db.Client().InternalMessageRecipient.Update().
+	_, err := r.entClient.Client().InternalMessageRecipient.Update().
 		Where(
 			internalmessagerecipient.IDIn(req.GetRecipientIds()...),
 			internalmessagerecipient.RecipientUserIDEQ(req.GetUserId()),
@@ -267,7 +267,7 @@ func (r *InternalMessageRecipientRepo) MarkNotificationsStatus(ctx context.Conte
 		receiveAt = trans.Ptr(now)
 	}
 
-	_, err := r.data.db.Client().InternalMessageRecipient.Update().
+	_, err := r.entClient.Client().InternalMessageRecipient.Update().
 		Where(
 			internalmessagerecipient.IDIn(req.GetRecipientIds()...),
 			internalmessagerecipient.RecipientUserIDEQ(req.GetUserId()),
@@ -283,7 +283,7 @@ func (r *InternalMessageRecipientRepo) MarkNotificationsStatus(ctx context.Conte
 
 // RevokeMessage 撤销某条消息
 func (r *InternalMessageRecipientRepo) RevokeMessage(ctx context.Context, req *internalMessageV1.RevokeMessageRequest) error {
-	_, err := r.data.db.Client().InternalMessageRecipient.Delete().
+	_, err := r.entClient.Client().InternalMessageRecipient.Delete().
 		Where(
 			internalmessagerecipient.MessageIDEQ(req.GetMessageId()),
 			internalmessagerecipient.RecipientUserIDEQ(req.GetUserId()),
@@ -293,7 +293,7 @@ func (r *InternalMessageRecipientRepo) RevokeMessage(ctx context.Context, req *i
 }
 
 func (r *InternalMessageRecipientRepo) DeleteNotificationFromInbox(ctx context.Context, req *internalMessageV1.DeleteNotificationFromInboxRequest) error {
-	_, err := r.data.db.Client().InternalMessageRecipient.Delete().
+	_, err := r.entClient.Client().InternalMessageRecipient.Delete().
 		Where(
 			internalmessagerecipient.IDIn(req.GetRecipientIds()...),
 			internalmessagerecipient.RecipientUserIDEQ(req.GetUserId()),

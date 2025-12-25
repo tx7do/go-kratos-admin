@@ -24,8 +24,8 @@ import (
 )
 
 type InternalMessageCategoryRepo struct {
-	data *Data
-	log  *log.Helper
+	entClient *entCrud.EntClient[*ent.Client]
+	log       *log.Helper
 
 	mapper *mapper.CopierMapper[internalMessageV1.InternalMessageCategory, ent.InternalMessageCategory]
 
@@ -39,11 +39,11 @@ type InternalMessageCategoryRepo struct {
 	]
 }
 
-func NewInternalMessageCategoryRepo(ctx *bootstrap.Context, data *Data) *InternalMessageCategoryRepo {
+func NewInternalMessageCategoryRepo(ctx *bootstrap.Context, entClient *entCrud.EntClient[*ent.Client]) *InternalMessageCategoryRepo {
 	repo := &InternalMessageCategoryRepo{
-		log:    ctx.NewLoggerHelper("internal-message-category/repo/admin-service"),
-		data:   data,
-		mapper: mapper.NewCopierMapper[internalMessageV1.InternalMessageCategory, ent.InternalMessageCategory](),
+		log:       ctx.NewLoggerHelper("internal-message-category/repo/admin-service"),
+		entClient: entClient,
+		mapper:    mapper.NewCopierMapper[internalMessageV1.InternalMessageCategory, ent.InternalMessageCategory](),
 	}
 
 	repo.init()
@@ -66,7 +66,7 @@ func (r *InternalMessageCategoryRepo) init() {
 }
 
 func (r *InternalMessageCategoryRepo) Count(ctx context.Context, whereCond []func(s *sql.Selector)) (int, error) {
-	builder := r.data.db.Client().InternalMessageCategory.Query()
+	builder := r.entClient.Client().InternalMessageCategory.Query()
 	if len(whereCond) != 0 {
 		builder.Modify(whereCond...)
 	}
@@ -85,7 +85,7 @@ func (r *InternalMessageCategoryRepo) List(ctx context.Context, req *pagination.
 		return nil, internalMessageV1.ErrorBadRequest("invalid parameter")
 	}
 
-	builder := r.data.db.Client().InternalMessageCategory.Query()
+	builder := r.entClient.Client().InternalMessageCategory.Query()
 
 	whereSelectors, _, err := r.repository.BuildListSelectorWithPaging(builder, req)
 	if err != nil {
@@ -142,7 +142,7 @@ func (r *InternalMessageCategoryRepo) List(ctx context.Context, req *pagination.
 }
 
 func (r *InternalMessageCategoryRepo) IsExist(ctx context.Context, id uint32) (bool, error) {
-	exist, err := r.data.db.Client().InternalMessageCategory.Query().
+	exist, err := r.entClient.Client().InternalMessageCategory.Query().
 		Where(internalmessagecategory.IDEQ(id)).
 		Exist(ctx)
 	if err != nil {
@@ -157,7 +157,7 @@ func (r *InternalMessageCategoryRepo) Get(ctx context.Context, req *internalMess
 		return nil, internalMessageV1.ErrorBadRequest("invalid parameter")
 	}
 
-	builder := r.data.db.Client().InternalMessageCategory.Query()
+	builder := r.entClient.Client().InternalMessageCategory.Query()
 
 	var whereCond []func(s *sql.Selector)
 	switch req.QueryBy.(type) {
@@ -180,7 +180,7 @@ func (r *InternalMessageCategoryRepo) ListCategoriesByIds(ctx context.Context, i
 		return []*internalMessageV1.InternalMessageCategory{}, nil
 	}
 
-	entities, err := r.data.db.Client().InternalMessageCategory.Query().
+	entities, err := r.entClient.Client().InternalMessageCategory.Query().
 		Where(internalmessagecategory.IDIn(ids...)).
 		All(ctx)
 	if err != nil {
@@ -202,7 +202,7 @@ func (r *InternalMessageCategoryRepo) Create(ctx context.Context, req *internalM
 		return internalMessageV1.ErrorBadRequest("invalid parameter")
 	}
 
-	builder := r.data.db.Client().InternalMessageCategory.Create().
+	builder := r.entClient.Client().InternalMessageCategory.Create().
 		SetNillableName(req.Data.Name).
 		SetNillableCode(req.Data.Code).
 		SetNillableIconURL(req.Data.IconUrl).
@@ -247,7 +247,7 @@ func (r *InternalMessageCategoryRepo) Update(ctx context.Context, req *internalM
 		}
 	}
 
-	builder := r.data.db.Client().Debug().InternalMessageCategory.Update()
+	builder := r.entClient.Client().Debug().InternalMessageCategory.Update()
 	err := r.repository.UpdateX(ctx, builder, req.Data, req.GetUpdateMask(),
 		func(dto *internalMessageV1.InternalMessageCategory) {
 			builder.
@@ -277,7 +277,7 @@ func (r *InternalMessageCategoryRepo) Delete(ctx context.Context, req *internalM
 		return internalMessageV1.ErrorBadRequest("invalid parameter")
 	}
 
-	ids, err := entCrud.QueryAllChildrenIds(ctx, r.data.db, "internal_message_categories", req.GetId())
+	ids, err := entCrud.QueryAllChildrenIds(ctx, r.entClient, "internal_message_categories", req.GetId())
 	if err != nil {
 		r.log.Errorf("query child internal message categories failed: %s", err.Error())
 		return internalMessageV1.ErrorInternalServerError("query child internal message categories failed")
@@ -286,7 +286,7 @@ func (r *InternalMessageCategoryRepo) Delete(ctx context.Context, req *internalM
 
 	//r.log.Info("internal message category ids to delete: ", ids)
 
-	builder := r.data.db.Client().Debug().InternalMessageCategory.Delete()
+	builder := r.entClient.Client().Debug().InternalMessageCategory.Delete()
 
 	_, err = r.repository.Delete(ctx, builder, func(s *sql.Selector) {
 		s.Where(sql.In(internalmessagecategory.FieldID, ids))

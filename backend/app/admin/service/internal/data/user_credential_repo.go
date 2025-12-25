@@ -27,8 +27,8 @@ import (
 )
 
 type UserCredentialRepo struct {
-	data *Data
-	log  *log.Helper
+	entClient *entCrud.EntClient[*ent.Client]
+	log       *log.Helper
 
 	mapper                  *mapper.CopierMapper[authenticationV1.UserCredential, ent.UserCredential]
 	statusConverter         *mapper.EnumTypeConverter[authenticationV1.UserCredential_Status, usercredential.Status]
@@ -47,10 +47,10 @@ type UserCredentialRepo struct {
 	]
 }
 
-func NewUserCredentialRepo(ctx *bootstrap.Context, data *Data, passwordCrypto password.Crypto) *UserCredentialRepo {
+func NewUserCredentialRepo(ctx *bootstrap.Context, entClient *entCrud.EntClient[*ent.Client], passwordCrypto password.Crypto) *UserCredentialRepo {
 	repo := &UserCredentialRepo{
 		log:                     ctx.NewLoggerHelper("user-credentials/repo/admin-service"),
-		data:                    data,
+		entClient:               entClient,
 		passwordCrypto:          passwordCrypto,
 		mapper:                  mapper.NewCopierMapper[authenticationV1.UserCredential, ent.UserCredential](),
 		statusConverter:         mapper.NewEnumTypeConverter[authenticationV1.UserCredential_Status, usercredential.Status](authenticationV1.UserCredential_Status_name, authenticationV1.UserCredential_Status_value),
@@ -82,7 +82,7 @@ func (r *UserCredentialRepo) init() {
 }
 
 func (r *UserCredentialRepo) IsExist(ctx context.Context, id uint32) (bool, error) {
-	exist, err := r.data.db.Client().UserCredential.Query().
+	exist, err := r.entClient.Client().UserCredential.Query().
 		Where(usercredential.IDEQ(id)).
 		Exist(ctx)
 	if err != nil {
@@ -93,7 +93,7 @@ func (r *UserCredentialRepo) IsExist(ctx context.Context, id uint32) (bool, erro
 }
 
 func (r *UserCredentialRepo) Count(ctx context.Context, whereCond []func(s *sql.Selector)) (int, error) {
-	builder := r.data.db.Client().UserCredential.Query()
+	builder := r.entClient.Client().UserCredential.Query()
 	if len(whereCond) != 0 {
 		builder.Modify(whereCond...)
 	}
@@ -112,7 +112,7 @@ func (r *UserCredentialRepo) List(ctx context.Context, req *pagination.PagingReq
 		return nil, authenticationV1.ErrorBadRequest("invalid parameter")
 	}
 
-	builder := r.data.db.Client().UserCredential.Query()
+	builder := r.entClient.Client().UserCredential.Query()
 
 	ret, err := r.repository.ListWithPaging(ctx, builder, builder.Clone(), req)
 	if err != nil {
@@ -145,7 +145,7 @@ func (r *UserCredentialRepo) Create(ctx context.Context, req *authenticationV1.C
 		req.Data.Credential = trans.Ptr(newCredential)
 	}
 
-	builder := r.data.db.Client().UserCredential.Create()
+	builder := r.entClient.Client().UserCredential.Create()
 	builder.
 		SetUserID(req.Data.GetUserId()).
 		SetNillableIdentityType(r.identityTypeConverter.ToEntity(req.Data.IdentityType)).
@@ -203,7 +203,7 @@ func (r *UserCredentialRepo) Update(ctx context.Context, req *authenticationV1.U
 		req.Data.Credential = trans.Ptr(newCredential)
 	}
 
-	builder := r.data.db.Client().Debug().UserCredential.Update()
+	builder := r.entClient.Client().Debug().UserCredential.Update()
 	err = r.repository.UpdateX(ctx, builder, req.Data, req.GetUpdateMask(),
 		func(dto *authenticationV1.UserCredential) {
 			builder.
@@ -231,7 +231,7 @@ func (r *UserCredentialRepo) Update(ctx context.Context, req *authenticationV1.U
 }
 
 func (r *UserCredentialRepo) Delete(ctx context.Context, id uint32) error {
-	builder := r.data.db.Client().UserCredential.Delete()
+	builder := r.entClient.Client().UserCredential.Delete()
 	builder.Where(usercredential.IDEQ(id))
 	if affected, err := builder.Exec(ctx); err != nil {
 		if ent.IsNotFound(err) {
@@ -251,7 +251,7 @@ func (r *UserCredentialRepo) Delete(ctx context.Context, id uint32) error {
 }
 
 func (r *UserCredentialRepo) DeleteByUserId(ctx context.Context, userId uint32) error {
-	builder := r.data.db.Client().UserCredential.Delete()
+	builder := r.entClient.Client().UserCredential.Delete()
 	builder.Where(usercredential.UserIDEQ(userId))
 	if affected, err := builder.Exec(ctx); err != nil {
 		if ent.IsNotFound(err) {
@@ -271,7 +271,7 @@ func (r *UserCredentialRepo) DeleteByUserId(ctx context.Context, userId uint32) 
 }
 
 func (r *UserCredentialRepo) DeleteByIdentifier(ctx context.Context, identityType authenticationV1.UserCredential_IdentityType, identifier string) error {
-	builder := r.data.db.Client().UserCredential.Delete()
+	builder := r.entClient.Client().UserCredential.Delete()
 	builder.Where(
 		usercredential.IdentityTypeEQ(*r.identityTypeConverter.ToEntity(&identityType)),
 		usercredential.IdentifierEQ(identifier),
@@ -298,7 +298,7 @@ func (r *UserCredentialRepo) Get(ctx context.Context, req *authenticationV1.GetU
 		return nil, authenticationV1.ErrorBadRequest("invalid parameter")
 	}
 
-	builder := r.data.db.Client().UserCredential.Query()
+	builder := r.entClient.Client().UserCredential.Query()
 
 	var whereCond []func(s *sql.Selector)
 	switch req.QueryBy.(type) {
@@ -316,7 +316,7 @@ func (r *UserCredentialRepo) Get(ctx context.Context, req *authenticationV1.GetU
 }
 
 func (r *UserCredentialRepo) GetByIdentifier(ctx context.Context, req *authenticationV1.GetUserCredentialByIdentifierRequest) (*authenticationV1.UserCredential, error) {
-	builder := r.data.db.Client().UserCredential.Query()
+	builder := r.entClient.Client().UserCredential.Query()
 
 	builder.Where(
 		usercredential.IdentityTypeEQ(*r.identityTypeConverter.ToEntity(trans.Ptr(req.GetIdentityType()))),
@@ -354,7 +354,7 @@ func (r *UserCredentialRepo) VerifyCredential(ctx context.Context, req *authenti
 		req.Credential = string(plainPassword)
 	}
 
-	entity, err := r.data.db.Client().UserCredential.Query().
+	entity, err := r.entClient.Client().UserCredential.Query().
 		Select(usercredential.FieldCredentialType, usercredential.FieldCredential, usercredential.FieldStatus).
 		Where(
 			usercredential.IdentityTypeEQ(*r.identityTypeConverter.ToEntity(trans.Ptr(req.GetIdentityType()))),
@@ -434,7 +434,7 @@ func (r *UserCredentialRepo) ChangeCredential(ctx context.Context, req *authenti
 		req.NewCredential = string(plainPassword)
 	}
 
-	entity, err := r.data.db.Client().UserCredential.
+	entity, err := r.entClient.Client().UserCredential.
 		Query().
 		Select(
 			usercredential.FieldCredentialType,
@@ -470,7 +470,7 @@ func (r *UserCredentialRepo) ChangeCredential(ctx context.Context, req *authenti
 		return authenticationV1.ErrorBadRequest("new credential cannot be empty")
 	}
 
-	builder := r.data.db.Client().UserCredential.Update()
+	builder := r.entClient.Client().UserCredential.Update()
 	builder.Where(
 		usercredential.IdentityTypeEQ(*r.identityTypeConverter.ToEntity(trans.Ptr(req.GetIdentityType()))),
 		usercredential.IdentifierEQ(req.GetIdentifier()),
@@ -495,7 +495,7 @@ func (r *UserCredentialRepo) ResetCredential(ctx context.Context, req *authentic
 		req.NewCredential = string(plainPassword)
 	}
 
-	entity, err := r.data.db.Client().UserCredential.
+	entity, err := r.entClient.Client().UserCredential.
 		Query().
 		Select(
 			usercredential.FieldCredentialType,
@@ -525,7 +525,7 @@ func (r *UserCredentialRepo) ResetCredential(ctx context.Context, req *authentic
 		return authenticationV1.ErrorBadRequest("new credential cannot be empty")
 	}
 
-	builder := r.data.db.Client().UserCredential.Update()
+	builder := r.entClient.Client().UserCredential.Update()
 	builder.Where(
 		usercredential.IdentityTypeEQ(*r.identityTypeConverter.ToEntity(trans.Ptr(req.GetIdentityType()))),
 		usercredential.IdentifierEQ(req.GetIdentifier()),

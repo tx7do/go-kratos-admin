@@ -23,8 +23,8 @@ import (
 )
 
 type DictEntryRepo struct {
-	data *Data
-	log  *log.Helper
+	entClient *entCrud.EntClient[*ent.Client]
+	log       *log.Helper
 
 	mapper *mapper.CopierMapper[dictV1.DictEntry, ent.DictEntry]
 
@@ -38,11 +38,11 @@ type DictEntryRepo struct {
 	]
 }
 
-func NewDictEntryRepo(ctx *bootstrap.Context, data *Data) *DictEntryRepo {
+func NewDictEntryRepo(ctx *bootstrap.Context, entClient *entCrud.EntClient[*ent.Client]) *DictEntryRepo {
 	repo := &DictEntryRepo{
-		log:    ctx.NewLoggerHelper("dict-item/repo/admin-service"),
-		data:   data,
-		mapper: mapper.NewCopierMapper[dictV1.DictEntry, ent.DictEntry](),
+		log:       ctx.NewLoggerHelper("dict-item/repo/admin-service"),
+		entClient: entClient,
+		mapper:    mapper.NewCopierMapper[dictV1.DictEntry, ent.DictEntry](),
 	}
 
 	repo.init()
@@ -65,7 +65,7 @@ func (r *DictEntryRepo) init() {
 }
 
 func (r *DictEntryRepo) Count(ctx context.Context, whereCond []func(s *sql.Selector)) (int, error) {
-	builder := r.data.db.Client().DictEntry.Query()
+	builder := r.entClient.Client().DictEntry.Query()
 	if len(whereCond) != 0 {
 		builder.Modify(whereCond...)
 	}
@@ -84,7 +84,7 @@ func (r *DictEntryRepo) List(ctx context.Context, req *pagination.PagingRequest)
 		return nil, dictV1.ErrorBadRequest("invalid parameter")
 	}
 
-	builder := r.data.db.Client().DictEntry.Query()
+	builder := r.entClient.Client().DictEntry.Query()
 
 	ret, err := r.repository.ListWithPaging(ctx, builder, builder.Clone(), req)
 	if err != nil {
@@ -101,7 +101,7 @@ func (r *DictEntryRepo) List(ctx context.Context, req *pagination.PagingRequest)
 }
 
 func (r *DictEntryRepo) IsExist(ctx context.Context, id uint32) (bool, error) {
-	exist, err := r.data.db.Client().DictEntry.Query().
+	exist, err := r.entClient.Client().DictEntry.Query().
 		Where(dictentry.IDEQ(id)).
 		Exist(ctx)
 	if err != nil {
@@ -116,7 +116,7 @@ func (r *DictEntryRepo) Create(ctx context.Context, req *dictV1.CreateDictEntryR
 		return dictV1.ErrorBadRequest("invalid parameter")
 	}
 
-	builder := r.data.db.Client().DictEntry.Create().
+	builder := r.entClient.Client().DictEntry.Create().
 		SetNillableEntryLabel(req.Data.EntryLabel).
 		SetNillableEntryValue(req.Data.EntryValue).
 		SetNillableNumericValue(req.Data.NumericValue).
@@ -165,7 +165,7 @@ func (r *DictEntryRepo) Update(ctx context.Context, req *dictV1.UpdateDictEntryR
 		}
 	}
 
-	builder := r.data.db.Client().Debug().DictEntry.Update()
+	builder := r.entClient.Client().Debug().DictEntry.Update()
 	err := r.repository.UpdateX(ctx, builder, req.Data, req.GetUpdateMask(),
 		func(dto *dictV1.DictEntry) {
 			builder.
@@ -196,7 +196,7 @@ func (r *DictEntryRepo) Delete(ctx context.Context, id uint32) error {
 		return dictV1.ErrorBadRequest("invalid parameter")
 	}
 
-	if err := r.data.db.Client().DictEntry.DeleteOneID(id).Exec(ctx); err != nil {
+	if err := r.entClient.Client().DictEntry.DeleteOneID(id).Exec(ctx); err != nil {
 		if ent.IsNotFound(err) {
 			return dictV1.ErrorNotFound("dict not found")
 		}
@@ -214,7 +214,7 @@ func (r *DictEntryRepo) BatchDelete(ctx context.Context, ids []uint32) error {
 		return dictV1.ErrorBadRequest("invalid parameter")
 	}
 
-	if _, err := r.data.db.Client().DictEntry.Delete().
+	if _, err := r.entClient.Client().DictEntry.Delete().
 		Where(dictentry.IDIn(ids...)).
 		Exec(ctx); err != nil {
 		if ent.IsNotFound(err) {

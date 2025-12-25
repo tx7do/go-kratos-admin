@@ -19,16 +19,16 @@ import (
 )
 
 // NewEntClient 创建Ent ORM数据库客户端
-func NewEntClient(ctx *bootstrap.Context) *entCrud.EntClient[*ent.Client] {
+func NewEntClient(ctx *bootstrap.Context) (*entCrud.EntClient[*ent.Client], func(), error) {
 	l := ctx.NewLoggerHelper("ent/data/admin-service")
 
 	cfg := ctx.GetConfig()
 	if cfg == nil || cfg.Data == nil {
 		l.Fatalf("failed getting config")
-		return nil
+		return nil, func() {}, nil
 	}
 
-	return entBootstrap.NewEntClient(cfg, func(drv *sql.Driver) *ent.Client {
+	cli := entBootstrap.NewEntClient(cfg, func(drv *sql.Driver) *ent.Client {
 		client := ent.NewClient(
 			ent.Driver(drv),
 			ent.Log(func(a ...any) {
@@ -49,4 +49,10 @@ func NewEntClient(ctx *bootstrap.Context) *entCrud.EntClient[*ent.Client] {
 
 		return client
 	})
+
+	return cli, func() {
+		if err := cli.Close(); err != nil {
+			l.Error(err)
+		}
+	}, nil
 }

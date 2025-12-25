@@ -23,8 +23,8 @@ import (
 )
 
 type AdminLoginRestrictionRepo struct {
-	data *Data
-	log  *log.Helper
+	entClient *entCrud.EntClient[*ent.Client]
+	log       *log.Helper
 
 	mapper          *mapper.CopierMapper[adminV1.AdminLoginRestriction, ent.AdminLoginRestriction]
 	typeConverter   *mapper.EnumTypeConverter[adminV1.AdminLoginRestriction_Type, adminloginrestriction.Type]
@@ -40,10 +40,10 @@ type AdminLoginRestrictionRepo struct {
 	]
 }
 
-func NewAdminLoginRestrictionRepo(ctx *bootstrap.Context, data *Data) *AdminLoginRestrictionRepo {
+func NewAdminLoginRestrictionRepo(ctx *bootstrap.Context, entClient *entCrud.EntClient[*ent.Client]) *AdminLoginRestrictionRepo {
 	repo := &AdminLoginRestrictionRepo{
 		log:             ctx.NewLoggerHelper("admin-login-restriction/repo/admin-service"),
-		data:            data,
+		entClient:       entClient,
 		mapper:          mapper.NewCopierMapper[adminV1.AdminLoginRestriction, ent.AdminLoginRestriction](),
 		typeConverter:   mapper.NewEnumTypeConverter[adminV1.AdminLoginRestriction_Type, adminloginrestriction.Type](adminV1.AdminLoginRestriction_Type_name, adminV1.AdminLoginRestriction_Type_value),
 		methodConverter: mapper.NewEnumTypeConverter[adminV1.AdminLoginRestriction_Method, adminloginrestriction.Method](adminV1.AdminLoginRestriction_Method_name, adminV1.AdminLoginRestriction_Method_value),
@@ -72,7 +72,7 @@ func (r *AdminLoginRestrictionRepo) init() {
 }
 
 func (r *AdminLoginRestrictionRepo) Count(ctx context.Context, whereCond []func(s *sql.Selector)) (int, error) {
-	builder := r.data.db.Client().AdminLoginRestriction.Query()
+	builder := r.entClient.Client().AdminLoginRestriction.Query()
 	if len(whereCond) != 0 {
 		builder.Modify(whereCond...)
 	}
@@ -91,7 +91,7 @@ func (r *AdminLoginRestrictionRepo) List(ctx context.Context, req *pagination.Pa
 		return nil, adminV1.ErrorBadRequest("invalid parameter")
 	}
 
-	builder := r.data.db.Client().AdminLoginRestriction.Query()
+	builder := r.entClient.Client().AdminLoginRestriction.Query()
 
 	ret, err := r.repository.ListWithPaging(ctx, builder, builder.Clone(), req)
 	if err != nil {
@@ -108,7 +108,7 @@ func (r *AdminLoginRestrictionRepo) List(ctx context.Context, req *pagination.Pa
 }
 
 func (r *AdminLoginRestrictionRepo) IsExist(ctx context.Context, id uint32) (bool, error) {
-	exist, err := r.data.db.Client().AdminLoginRestriction.Query().
+	exist, err := r.entClient.Client().AdminLoginRestriction.Query().
 		Where(adminloginrestriction.IDEQ(id)).
 		Exist(ctx)
 	if err != nil {
@@ -123,7 +123,7 @@ func (r *AdminLoginRestrictionRepo) Get(ctx context.Context, req *adminV1.GetAdm
 		return nil, adminV1.ErrorBadRequest("invalid parameter")
 	}
 
-	builder := r.data.db.Client().AdminLoginRestriction.Query()
+	builder := r.entClient.Client().AdminLoginRestriction.Query()
 
 	var whereCond []func(s *sql.Selector)
 	switch req.QueryBy.(type) {
@@ -145,7 +145,7 @@ func (r *AdminLoginRestrictionRepo) Create(ctx context.Context, req *adminV1.Cre
 		return adminV1.ErrorBadRequest("invalid request")
 	}
 
-	builder := r.data.db.Client().AdminLoginRestriction.Create().
+	builder := r.entClient.Client().AdminLoginRestriction.Create().
 		SetNillableTargetID(req.Data.TargetId).
 		SetNillableType(r.typeConverter.ToEntity(req.Data.Type)).
 		SetNillableMethod(r.methodConverter.ToEntity(req.Data.Method)).
@@ -185,7 +185,7 @@ func (r *AdminLoginRestrictionRepo) Update(ctx context.Context, req *adminV1.Upd
 		}
 	}
 
-	builder := r.data.db.Client().Debug().AdminLoginRestriction.Update()
+	builder := r.entClient.Client().Debug().AdminLoginRestriction.Update()
 	err := r.repository.UpdateX(ctx, builder, req.Data, req.GetUpdateMask(),
 		func(dto *adminV1.AdminLoginRestriction) {
 			builder.
@@ -214,7 +214,7 @@ func (r *AdminLoginRestrictionRepo) Delete(ctx context.Context, req *adminV1.Del
 		return adminV1.ErrorBadRequest("invalid parameter")
 	}
 
-	builder := r.data.db.Client().Debug().AdminLoginRestriction.Delete()
+	builder := r.entClient.Client().Debug().AdminLoginRestriction.Delete()
 	_, err := r.repository.Delete(ctx, builder, func(s *sql.Selector) {
 		s.Where(sql.EQ(adminloginrestriction.FieldID, req.GetId()))
 	})

@@ -26,8 +26,8 @@ import (
 )
 
 type AdminOperationLogRepo struct {
-	data *Data
-	log  *log.Helper
+	entClient *entCrud.EntClient[*ent.Client]
+	log       *log.Helper
 
 	mapper *mapper.CopierMapper[adminV1.AdminOperationLog, ent.AdminOperationLog]
 
@@ -41,11 +41,11 @@ type AdminOperationLogRepo struct {
 	]
 }
 
-func NewAdminOperationLogRepo(ctx *bootstrap.Context, data *Data) *AdminOperationLogRepo {
+func NewAdminOperationLogRepo(ctx *bootstrap.Context, entClient *entCrud.EntClient[*ent.Client]) *AdminOperationLogRepo {
 	repo := &AdminOperationLogRepo{
-		log:    ctx.NewLoggerHelper("admin-operation-log/repo/admin-service"),
-		data:   data,
-		mapper: mapper.NewCopierMapper[adminV1.AdminOperationLog, ent.AdminOperationLog](),
+		log:       ctx.NewLoggerHelper("admin-operation-log/repo/admin-service"),
+		entClient: entClient,
+		mapper:    mapper.NewCopierMapper[adminV1.AdminOperationLog, ent.AdminOperationLog](),
 	}
 
 	repo.init()
@@ -80,7 +80,7 @@ func (r *AdminOperationLogRepo) NewFloatSecondConverterPair() []copier.TypeConve
 }
 
 func (r *AdminOperationLogRepo) Count(ctx context.Context, whereCond []func(s *sql.Selector)) (int, error) {
-	builder := r.data.db.Client().AdminOperationLog.Query()
+	builder := r.entClient.Client().AdminOperationLog.Query()
 	if len(whereCond) != 0 {
 		builder.Modify(whereCond...)
 	}
@@ -99,7 +99,7 @@ func (r *AdminOperationLogRepo) List(ctx context.Context, req *pagination.Paging
 		return nil, adminV1.ErrorBadRequest("invalid parameter")
 	}
 
-	builder := r.data.db.Client().AdminOperationLog.Query()
+	builder := r.entClient.Client().AdminOperationLog.Query()
 
 	ret, err := r.repository.ListWithPaging(ctx, builder, builder.Clone(), req)
 	if err != nil {
@@ -116,7 +116,7 @@ func (r *AdminOperationLogRepo) List(ctx context.Context, req *pagination.Paging
 }
 
 func (r *AdminOperationLogRepo) IsExist(ctx context.Context, id uint32) (bool, error) {
-	exist, err := r.data.db.Client().AdminOperationLog.Query().
+	exist, err := r.entClient.Client().AdminOperationLog.Query().
 		Where(adminoperationlog.IDEQ(id)).
 		Exist(ctx)
 	if err != nil {
@@ -131,7 +131,7 @@ func (r *AdminOperationLogRepo) Get(ctx context.Context, req *adminV1.GetAdminOp
 		return nil, adminV1.ErrorBadRequest("invalid parameter")
 	}
 
-	builder := r.data.db.Client().AdminOperationLog.Query()
+	builder := r.entClient.Client().AdminOperationLog.Query()
 
 	var whereCond []func(s *sql.Selector)
 	switch req.QueryBy.(type) {
@@ -153,7 +153,7 @@ func (r *AdminOperationLogRepo) Create(ctx context.Context, req *adminV1.CreateA
 		return adminV1.ErrorBadRequest("invalid parameter")
 	}
 
-	builder := r.data.db.Client().AdminOperationLog.
+	builder := r.entClient.Client().AdminOperationLog.
 		Create().
 		SetNillableRequestID(req.Data.RequestId).
 		SetNillableMethod(req.Data.Method).

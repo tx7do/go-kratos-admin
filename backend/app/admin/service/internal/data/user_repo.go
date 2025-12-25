@@ -42,8 +42,8 @@ type UserRepo interface {
 }
 
 type userRepo struct {
-	data *Data
-	log  *log.Helper
+	entClient *entCrud.EntClient[*ent.Client]
+	log       *log.Helper
 
 	mapper             *mapper.CopierMapper[userV1.User, ent.User]
 	statusConverter    *mapper.EnumTypeConverter[userV1.User_Status, user.Status]
@@ -60,10 +60,10 @@ type userRepo struct {
 	]
 }
 
-func NewUserRepo(ctx *bootstrap.Context, data *Data) UserRepo {
+func NewUserRepo(ctx *bootstrap.Context, entClient *entCrud.EntClient[*ent.Client]) UserRepo {
 	repo := &userRepo{
 		log:                ctx.NewLoggerHelper("user/repo/admin-service"),
-		data:               data,
+		entClient:          entClient,
 		mapper:             mapper.NewCopierMapper[userV1.User, ent.User](),
 		statusConverter:    mapper.NewEnumTypeConverter[userV1.User_Status, user.Status](userV1.User_Status_name, userV1.User_Status_value),
 		genderConverter:    mapper.NewEnumTypeConverter[userV1.User_Gender, user.Gender](userV1.User_Gender_name, userV1.User_Gender_value),
@@ -94,7 +94,7 @@ func (r *userRepo) init() {
 }
 
 func (r *userRepo) Count(ctx context.Context) (int, error) {
-	builder := r.data.db.Client().User.Query()
+	builder := r.entClient.Client().User.Query()
 
 	count, err := builder.Count(ctx)
 	if err != nil {
@@ -110,7 +110,7 @@ func (r *userRepo) List(ctx context.Context, req *pagination.PagingRequest) (*us
 		return nil, userV1.ErrorBadRequest("invalid parameter")
 	}
 
-	builder := r.data.db.Client().User.Query()
+	builder := r.entClient.Client().User.Query()
 
 	ret, err := r.repository.ListWithPaging(ctx, builder, builder.Clone(), req)
 	if err != nil {
@@ -131,7 +131,7 @@ func (r *userRepo) Get(ctx context.Context, req *userV1.GetUserRequest) (*userV1
 		return nil, userV1.ErrorBadRequest("invalid parameter")
 	}
 
-	builder := r.data.db.Client().User.Query()
+	builder := r.entClient.Client().User.Query()
 
 	var whereCond []func(s *sql.Selector)
 	switch req.QueryBy.(type) {
@@ -156,7 +156,7 @@ func (r *userRepo) Create(ctx context.Context, req *userV1.CreateUserRequest) (*
 		return nil, userV1.ErrorBadRequest("invalid parameter")
 	}
 
-	builder := r.data.db.Client().User.Create().
+	builder := r.entClient.Client().User.Create().
 		SetNillableUsername(req.Data.Username).
 		SetNillableNickname(req.Data.Nickname).
 		SetNillableRealname(req.Data.Realname).
@@ -233,7 +233,7 @@ func (r *userRepo) Update(ctx context.Context, req *userV1.UpdateUserRequest) er
 		}
 	}
 
-	builder := r.data.db.Client().Debug().User.Update()
+	builder := r.entClient.Client().Debug().User.Update()
 	err := r.repository.UpdateX(ctx, builder, req.Data, req.GetUpdateMask(),
 		func(dto *userV1.User) {
 			builder.
@@ -280,7 +280,7 @@ func (r *userRepo) Update(ctx context.Context, req *userV1.UpdateUserRequest) er
 }
 
 func (r *userRepo) Delete(ctx context.Context, req *userV1.DeleteUserRequest) error {
-	builder := r.data.db.Client().User.Delete()
+	builder := r.entClient.Client().User.Delete()
 
 	switch req.DeleteBy.(type) {
 	case *userV1.DeleteUserRequest_Id:
@@ -310,7 +310,7 @@ func (r *userRepo) ListUsersByIds(ctx context.Context, ids []uint32) ([]*userV1.
 		return []*userV1.User{}, nil
 	}
 
-	entities, err := r.data.db.Client().User.Query().
+	entities, err := r.entClient.Client().User.Query().
 		Where(user.IDIn(ids...)).
 		All(ctx)
 	if err != nil {
@@ -329,7 +329,7 @@ func (r *userRepo) ListUsersByIds(ctx context.Context, ids []uint32) ([]*userV1.
 
 // UserExists 检查用户是否存在
 func (r *userRepo) UserExists(ctx context.Context, req *userV1.UserExistsRequest) (*userV1.UserExistsResponse, error) {
-	builder := r.data.db.Client().User.Query()
+	builder := r.entClient.Client().User.Query()
 
 	switch req.QueryBy.(type) {
 	case *userV1.UserExistsRequest_Id:

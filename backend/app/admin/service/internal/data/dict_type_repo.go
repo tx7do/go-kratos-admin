@@ -23,8 +23,8 @@ import (
 )
 
 type DictTypeRepo struct {
-	data *Data
-	log  *log.Helper
+	entClient *entCrud.EntClient[*ent.Client]
+	log       *log.Helper
 
 	mapper *mapper.CopierMapper[dictV1.DictType, ent.DictType]
 
@@ -38,11 +38,11 @@ type DictTypeRepo struct {
 	]
 }
 
-func NewDictTypeRepo(ctx *bootstrap.Context, data *Data) *DictTypeRepo {
+func NewDictTypeRepo(ctx *bootstrap.Context, entClient *entCrud.EntClient[*ent.Client]) *DictTypeRepo {
 	repo := &DictTypeRepo{
-		log:    ctx.NewLoggerHelper("dict-type/repo/admin-service"),
-		data:   data,
-		mapper: mapper.NewCopierMapper[dictV1.DictType, ent.DictType](),
+		log:       ctx.NewLoggerHelper("dict-type/repo/admin-service"),
+		entClient: entClient,
+		mapper:    mapper.NewCopierMapper[dictV1.DictType, ent.DictType](),
 	}
 
 	repo.init()
@@ -65,7 +65,7 @@ func (r *DictTypeRepo) init() {
 }
 
 func (r *DictTypeRepo) Count(ctx context.Context, whereCond []func(s *sql.Selector)) (int, error) {
-	builder := r.data.db.Client().DictType.Query()
+	builder := r.entClient.Client().DictType.Query()
 	if len(whereCond) != 0 {
 		builder.Modify(whereCond...)
 	}
@@ -84,7 +84,7 @@ func (r *DictTypeRepo) List(ctx context.Context, req *pagination.PagingRequest) 
 		return nil, dictV1.ErrorBadRequest("invalid parameter")
 	}
 
-	builder := r.data.db.Client().DictType.Query()
+	builder := r.entClient.Client().DictType.Query()
 
 	ret, err := r.repository.ListWithPaging(ctx, builder, builder.Clone(), req)
 	if err != nil {
@@ -101,7 +101,7 @@ func (r *DictTypeRepo) List(ctx context.Context, req *pagination.PagingRequest) 
 }
 
 func (r *DictTypeRepo) IsExist(ctx context.Context, id uint32) (bool, error) {
-	exist, err := r.data.db.Client().DictType.Query().
+	exist, err := r.entClient.Client().DictType.Query().
 		Where(dicttype.IDEQ(id)).
 		Exist(ctx)
 	if err != nil {
@@ -116,7 +116,7 @@ func (r *DictTypeRepo) Get(ctx context.Context, req *dictV1.GetDictTypeRequest) 
 		return nil, dictV1.ErrorBadRequest("invalid parameter")
 	}
 
-	builder := r.data.db.Client().DictType.Query()
+	builder := r.entClient.Client().DictType.Query()
 
 	var whereCond []func(s *sql.Selector)
 	switch req.QueryBy.(type) {
@@ -140,7 +140,7 @@ func (r *DictTypeRepo) Create(ctx context.Context, req *dictV1.CreateDictTypeReq
 		return dictV1.ErrorBadRequest("invalid parameter")
 	}
 
-	builder := r.data.db.Client().DictType.Create().
+	builder := r.entClient.Client().DictType.Create().
 		SetNillableTypeCode(req.Data.TypeCode).
 		SetNillableTypeName(req.Data.TypeName).
 		SetNillableSortOrder(req.Data.SortOrder).
@@ -184,7 +184,7 @@ func (r *DictTypeRepo) Update(ctx context.Context, req *dictV1.UpdateDictTypeReq
 		}
 	}
 
-	builder := r.data.db.Client().Debug().DictType.Update()
+	builder := r.entClient.Client().Debug().DictType.Update()
 	err := r.repository.UpdateX(ctx, builder, req.Data, req.GetUpdateMask(),
 		func(dto *dictV1.DictType) {
 			builder.
@@ -213,7 +213,7 @@ func (r *DictTypeRepo) Delete(ctx context.Context, id uint32) error {
 		return dictV1.ErrorBadRequest("invalid parameter")
 	}
 
-	if err := r.data.db.Client().DictType.DeleteOneID(id).Exec(ctx); err != nil {
+	if err := r.entClient.Client().DictType.DeleteOneID(id).Exec(ctx); err != nil {
 		if ent.IsNotFound(err) {
 			return dictV1.ErrorNotFound("dict not found")
 		}
@@ -231,7 +231,7 @@ func (r *DictTypeRepo) BatchDelete(ctx context.Context, ids []uint32) error {
 		return dictV1.ErrorBadRequest("invalid parameter")
 	}
 
-	if _, err := r.data.db.Client().DictType.Delete().
+	if _, err := r.entClient.Client().DictType.Delete().
 		Where(dicttype.IDIn(ids...)).
 		Exec(ctx); err != nil {
 		if ent.IsNotFound(err) {

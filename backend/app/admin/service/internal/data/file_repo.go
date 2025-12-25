@@ -23,8 +23,8 @@ import (
 )
 
 type FileRepo struct {
-	data *Data
-	log  *log.Helper
+	entClient *entCrud.EntClient[*ent.Client]
+	log       *log.Helper
 
 	mapper            *mapper.CopierMapper[fileV1.File, ent.File]
 	providerConverter *mapper.EnumTypeConverter[fileV1.OSSProvider, file.Provider]
@@ -39,10 +39,10 @@ type FileRepo struct {
 	]
 }
 
-func NewFileRepo(ctx *bootstrap.Context, data *Data) *FileRepo {
+func NewFileRepo(ctx *bootstrap.Context, entClient *entCrud.EntClient[*ent.Client]) *FileRepo {
 	repo := &FileRepo{
 		log:               ctx.NewLoggerHelper("file/repo/admin-service"),
-		data:              data,
+		entClient:         entClient,
 		mapper:            mapper.NewCopierMapper[fileV1.File, ent.File](),
 		providerConverter: mapper.NewEnumTypeConverter[fileV1.OSSProvider, file.Provider](fileV1.OSSProvider_name, fileV1.OSSProvider_value),
 	}
@@ -69,7 +69,7 @@ func (r *FileRepo) init() {
 }
 
 func (r *FileRepo) Count(ctx context.Context, whereCond []func(s *sql.Selector)) (int, error) {
-	builder := r.data.db.Client().File.Query()
+	builder := r.entClient.Client().File.Query()
 	if len(whereCond) != 0 {
 		builder.Modify(whereCond...)
 	}
@@ -88,7 +88,7 @@ func (r *FileRepo) List(ctx context.Context, req *pagination.PagingRequest) (*fi
 		return nil, fileV1.ErrorBadRequest("invalid parameter")
 	}
 
-	builder := r.data.db.Client().File.Query()
+	builder := r.entClient.Client().File.Query()
 
 	ret, err := r.repository.ListWithPaging(ctx, builder, builder.Clone(), req)
 	if err != nil {
@@ -105,7 +105,7 @@ func (r *FileRepo) List(ctx context.Context, req *pagination.PagingRequest) (*fi
 }
 
 func (r *FileRepo) IsExist(ctx context.Context, id uint32) (bool, error) {
-	exist, err := r.data.db.Client().File.Query().
+	exist, err := r.entClient.Client().File.Query().
 		Where(file.IDEQ(id)).
 		Exist(ctx)
 	if err != nil {
@@ -120,7 +120,7 @@ func (r *FileRepo) Get(ctx context.Context, req *fileV1.GetFileRequest) (*fileV1
 		return nil, fileV1.ErrorBadRequest("invalid parameter")
 	}
 
-	builder := r.data.db.Client().File.Query()
+	builder := r.entClient.Client().File.Query()
 
 	var whereCond []func(s *sql.Selector)
 	switch req.QueryBy.(type) {
@@ -142,7 +142,7 @@ func (r *FileRepo) Create(ctx context.Context, req *fileV1.CreateFileRequest) er
 		return fileV1.ErrorBadRequest("invalid parameter")
 	}
 
-	builder := r.data.db.Client().File.Create().
+	builder := r.entClient.Client().File.Create().
 		SetNillableProvider(r.providerConverter.ToEntity(req.Data.Provider)).
 		SetNillableBucketName(req.Data.BucketName).
 		SetNillableFileDirectory(req.Data.FileDirectory).
@@ -192,7 +192,7 @@ func (r *FileRepo) Update(ctx context.Context, req *fileV1.UpdateFileRequest) er
 		}
 	}
 
-	builder := r.data.db.Client().Debug().File.Update()
+	builder := r.entClient.Client().Debug().File.Update()
 	err := r.repository.UpdateX(ctx, builder, req.Data, req.GetUpdateMask(),
 		func(dto *fileV1.File) {
 			builder.
@@ -227,7 +227,7 @@ func (r *FileRepo) Delete(ctx context.Context, req *fileV1.DeleteFileRequest) er
 		return fileV1.ErrorBadRequest("invalid parameter")
 	}
 
-	if err := r.data.db.Client().File.DeleteOneID(req.GetId()).Exec(ctx); err != nil {
+	if err := r.entClient.Client().File.DeleteOneID(req.GetId()).Exec(ctx); err != nil {
 		if ent.IsNotFound(err) {
 			return fileV1.ErrorNotFound("file not found")
 		}

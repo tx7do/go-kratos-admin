@@ -25,8 +25,8 @@ import (
 )
 
 type MenuRepo struct {
-	data *Data
-	log  *log.Helper
+	entClient *entCrud.EntClient[*ent.Client]
+	log       *log.Helper
 
 	mapper          *mapper.CopierMapper[adminV1.Menu, ent.Menu]
 	statusConverter *mapper.EnumTypeConverter[adminV1.Menu_Status, menu.Status]
@@ -42,10 +42,10 @@ type MenuRepo struct {
 	]
 }
 
-func NewMenuRepo(ctx *bootstrap.Context, data *Data) *MenuRepo {
+func NewMenuRepo(ctx *bootstrap.Context, entClient *entCrud.EntClient[*ent.Client]) *MenuRepo {
 	repo := &MenuRepo{
 		log:             ctx.NewLoggerHelper("menu/repo/admin-service"),
-		data:            data,
+		entClient:       entClient,
 		mapper:          mapper.NewCopierMapper[adminV1.Menu, ent.Menu](),
 		statusConverter: mapper.NewEnumTypeConverter[adminV1.Menu_Status, menu.Status](adminV1.Menu_Status_name, adminV1.Menu_Status_value),
 		typeConverter:   mapper.NewEnumTypeConverter[adminV1.Menu_Type, menu.Type](adminV1.Menu_Type_name, adminV1.Menu_Type_value),
@@ -74,7 +74,7 @@ func (r *MenuRepo) init() {
 }
 
 func (r *MenuRepo) Count(ctx context.Context, whereCond []func(s *sql.Selector)) (int, error) {
-	builder := r.data.db.Client().Menu.Query()
+	builder := r.entClient.Client().Menu.Query()
 	if len(whereCond) != 0 {
 		builder.Modify(whereCond...)
 	}
@@ -93,7 +93,7 @@ func (r *MenuRepo) List(ctx context.Context, req *pagination.PagingRequest, tree
 		return nil, adminV1.ErrorBadRequest("invalid parameter")
 	}
 
-	builder := r.data.db.Client().Menu.Query()
+	builder := r.entClient.Client().Menu.Query()
 
 	whereSelectors, _, err := r.repository.BuildListSelectorWithPaging(builder, req)
 	if err != nil {
@@ -147,7 +147,7 @@ func (r *MenuRepo) List(ctx context.Context, req *pagination.PagingRequest, tree
 }
 
 func (r *MenuRepo) IsExist(ctx context.Context, id uint32) (bool, error) {
-	exist, err := r.data.db.Client().Menu.Query().
+	exist, err := r.entClient.Client().Menu.Query().
 		Where(menu.IDEQ(id)).
 		Exist(ctx)
 	if err != nil {
@@ -162,7 +162,7 @@ func (r *MenuRepo) Get(ctx context.Context, req *adminV1.GetMenuRequest) (*admin
 		return nil, adminV1.ErrorBadRequest("invalid parameter")
 	}
 
-	builder := r.data.db.Client().Menu.Query()
+	builder := r.entClient.Client().Menu.Query()
 
 	var whereCond []func(s *sql.Selector)
 	switch req.QueryBy.(type) {
@@ -184,7 +184,7 @@ func (r *MenuRepo) Create(ctx context.Context, req *adminV1.CreateMenuRequest) e
 		return adminV1.ErrorBadRequest("invalid parameter")
 	}
 
-	builder := r.data.db.Client().Menu.Create().
+	builder := r.entClient.Client().Menu.Create().
 		SetNillableParentID(req.Data.ParentId).
 		SetNillableType(r.typeConverter.ToEntity(req.Data.Type)).
 		SetNillablePath(req.Data.Path).
@@ -244,7 +244,7 @@ func (r *MenuRepo) Update(ctx context.Context, req *adminV1.UpdateMenuRequest) e
 		}
 	}
 
-	builder := r.data.db.Client().Debug().Menu.Update()
+	builder := r.entClient.Client().Debug().Menu.Update()
 	err := r.repository.UpdateX(ctx, builder, req.Data, req.GetUpdateMask(),
 		func(dto *adminV1.Menu) {
 			builder.
@@ -295,7 +295,7 @@ func (r *MenuRepo) Delete(ctx context.Context, req *adminV1.DeleteMenuRequest) e
 		return adminV1.ErrorBadRequest("invalid parameter")
 	}
 
-	ids, err := entCrud.QueryAllChildrenIds(ctx, r.data.db, "sys_menus", req.GetId())
+	ids, err := entCrud.QueryAllChildrenIds(ctx, r.entClient, "sys_menus", req.GetId())
 	if err != nil {
 		r.log.Errorf("query child menus failed: %s", err.Error())
 		return adminV1.ErrorInternalServerError("query child menus failed")
@@ -304,7 +304,7 @@ func (r *MenuRepo) Delete(ctx context.Context, req *adminV1.DeleteMenuRequest) e
 
 	//r.log.Info("menu ids to delete: ", ids)
 
-	builder := r.data.db.Client().Debug().Menu.Delete()
+	builder := r.entClient.Client().Debug().Menu.Delete()
 
 	_, err = r.repository.Delete(ctx, builder, func(s *sql.Selector) {
 		s.Where(sql.In(menu.FieldID, ids))

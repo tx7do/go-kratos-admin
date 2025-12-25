@@ -24,8 +24,8 @@ import (
 )
 
 type OrganizationRepo struct {
-	data *Data
-	log  *log.Helper
+	entClient *entCrud.EntClient[*ent.Client]
+	log       *log.Helper
 
 	mapper          *mapper.CopierMapper[userV1.Organization, ent.Organization]
 	typeConverter   *mapper.EnumTypeConverter[userV1.Organization_Type, organization.OrganizationType]
@@ -41,10 +41,10 @@ type OrganizationRepo struct {
 	]
 }
 
-func NewOrganizationRepo(ctx *bootstrap.Context, data *Data) *OrganizationRepo {
+func NewOrganizationRepo(ctx *bootstrap.Context, entClient *entCrud.EntClient[*ent.Client]) *OrganizationRepo {
 	repo := &OrganizationRepo{
 		log:             ctx.NewLoggerHelper("organization/repo/admin-service"),
-		data:            data,
+		entClient:       entClient,
 		mapper:          mapper.NewCopierMapper[userV1.Organization, ent.Organization](),
 		typeConverter:   mapper.NewEnumTypeConverter[userV1.Organization_Type, organization.OrganizationType](userV1.Organization_Type_name, userV1.Organization_Type_value),
 		statusConverter: mapper.NewEnumTypeConverter[userV1.Organization_Status, organization.Status](userV1.Organization_Status_name, userV1.Organization_Status_value),
@@ -73,7 +73,7 @@ func (r *OrganizationRepo) init() {
 }
 
 func (r *OrganizationRepo) Count(ctx context.Context, whereCond []func(s *sql.Selector)) (int, error) {
-	builder := r.data.db.Client().Organization.Query()
+	builder := r.entClient.Client().Organization.Query()
 	if len(whereCond) != 0 {
 		builder.Modify(whereCond...)
 	}
@@ -92,7 +92,7 @@ func (r *OrganizationRepo) List(ctx context.Context, req *pagination.PagingReque
 		return nil, userV1.ErrorBadRequest("invalid parameter")
 	}
 
-	builder := r.data.db.Client().Organization.Query()
+	builder := r.entClient.Client().Organization.Query()
 
 	whereSelectors, _, err := r.repository.BuildListSelectorWithPaging(builder, req)
 	if err != nil {
@@ -150,7 +150,7 @@ func (r *OrganizationRepo) List(ctx context.Context, req *pagination.PagingReque
 }
 
 func (r *OrganizationRepo) IsExist(ctx context.Context, id uint32) (bool, error) {
-	exist, err := r.data.db.Client().Organization.Query().
+	exist, err := r.entClient.Client().Organization.Query().
 		Where(organization.IDEQ(id)).
 		Exist(ctx)
 	if err != nil {
@@ -165,7 +165,7 @@ func (r *OrganizationRepo) Get(ctx context.Context, req *userV1.GetOrganizationR
 		return nil, userV1.ErrorBadRequest("invalid parameter")
 	}
 
-	builder := r.data.db.Client().Organization.Query()
+	builder := r.entClient.Client().Organization.Query()
 
 	var whereCond []func(s *sql.Selector)
 	switch req.QueryBy.(type) {
@@ -188,7 +188,7 @@ func (r *OrganizationRepo) ListOrganizationsByIds(ctx context.Context, ids []uin
 		return []*userV1.Organization{}, nil
 	}
 
-	entities, err := r.data.db.Client().Organization.Query().
+	entities, err := r.entClient.Client().Organization.Query().
 		Where(organization.IDIn(ids...)).
 		All(ctx)
 	if err != nil {
@@ -210,7 +210,7 @@ func (r *OrganizationRepo) Create(ctx context.Context, req *userV1.CreateOrganiz
 		return userV1.ErrorBadRequest("invalid parameter")
 	}
 
-	builder := r.data.db.Client().Organization.Create().
+	builder := r.entClient.Client().Organization.Create().
 		SetNillableName(req.Data.Name).
 		SetNillableParentID(req.Data.ParentId).
 		SetNillableSortOrder(req.Data.SortOrder).
@@ -263,7 +263,7 @@ func (r *OrganizationRepo) Update(ctx context.Context, req *userV1.UpdateOrganiz
 		}
 	}
 
-	builder := r.data.db.Client().Debug().Organization.Update()
+	builder := r.entClient.Client().Debug().Organization.Update()
 	err := r.repository.UpdateX(ctx, builder, req.Data, req.GetUpdateMask(),
 		func(dto *userV1.Organization) {
 			builder.
@@ -298,7 +298,7 @@ func (r *OrganizationRepo) Delete(ctx context.Context, req *userV1.DeleteOrganiz
 		return userV1.ErrorBadRequest("invalid parameter")
 	}
 
-	ids, err := entCrud.QueryAllChildrenIds(ctx, r.data.db, "sys_organizations", req.GetId())
+	ids, err := entCrud.QueryAllChildrenIds(ctx, r.entClient, "sys_organizations", req.GetId())
 	if err != nil {
 		r.log.Errorf("query child organizations failed: %s", err.Error())
 		return userV1.ErrorInternalServerError("query child organizations failed")
@@ -307,7 +307,7 @@ func (r *OrganizationRepo) Delete(ctx context.Context, req *userV1.DeleteOrganiz
 
 	//r.log.Info("organizations ids to delete: ", ids)
 
-	builder := r.data.db.Client().Debug().Organization.Delete()
+	builder := r.entClient.Client().Debug().Organization.Delete()
 
 	_, err = r.repository.Delete(ctx, builder, func(s *sql.Selector) {
 		s.Where(sql.In(organization.FieldID, ids))

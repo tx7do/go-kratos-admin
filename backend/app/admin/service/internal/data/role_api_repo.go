@@ -5,7 +5,7 @@ import (
 	"time"
 
 	"github.com/go-kratos/kratos/v2/log"
-	"github.com/tx7do/go-crud/entgo"
+	entCrud "github.com/tx7do/go-crud/entgo"
 	"github.com/tx7do/kratos-bootstrap/bootstrap"
 
 	"go-wind-admin/app/admin/service/internal/data/ent"
@@ -15,21 +15,21 @@ import (
 )
 
 type RoleApiRepo struct {
-	data *Data
-	log  *log.Helper
+	entClient *entCrud.EntClient[*ent.Client]
+	log       *log.Helper
 }
 
-func NewRoleApiRepo(ctx *bootstrap.Context, data *Data) *RoleApiRepo {
+func NewRoleApiRepo(ctx *bootstrap.Context, entClient *entCrud.EntClient[*ent.Client]) *RoleApiRepo {
 	return &RoleApiRepo{
-		log:  ctx.NewLoggerHelper("role-api/repo/admin-service"),
-		data: data,
+		log:       ctx.NewLoggerHelper("role-api/repo/admin-service"),
+		entClient: entClient,
 	}
 }
 
 // AssignApis 给角色分配API
 func (r *RoleApiRepo) AssignApis(ctx context.Context, roleId uint32, apiIds []uint32, operatorId uint32) error {
 	// 开启事务
-	tx, err := r.data.db.Client().Tx(ctx)
+	tx, err := r.entClient.Client().Tx(ctx)
 	if err != nil {
 		r.log.Errorf("start transaction failed: %s", err.Error())
 		return userV1.ErrorInternalServerError("start transaction failed")
@@ -37,7 +37,7 @@ func (r *RoleApiRepo) AssignApis(ctx context.Context, roleId uint32, apiIds []ui
 
 	// 删除该角色的所有旧关联
 	if _, err = tx.RoleApi.Delete().Where(roleapi.RoleID(roleId)).Exec(ctx); err != nil {
-		err = entgo.Rollback(tx, err)
+		err = entCrud.Rollback(tx, err)
 		r.log.Errorf("delete old role apis failed: %s", err.Error())
 		return userV1.ErrorInternalServerError("delete old role apis failed")
 	}
@@ -54,7 +54,7 @@ func (r *RoleApiRepo) AssignApis(ctx context.Context, roleId uint32, apiIds []ui
 
 	var roleApis []*ent.RoleApiCreate
 	for _, apiId := range apiIds {
-		rm := r.data.db.Client().RoleApi.
+		rm := r.entClient.Client().RoleApi.
 			Create().
 			SetRoleID(roleId).
 			SetAPIID(apiId).
@@ -63,9 +63,9 @@ func (r *RoleApiRepo) AssignApis(ctx context.Context, roleId uint32, apiIds []ui
 		roleApis = append(roleApis, rm)
 	}
 
-	_, err = r.data.db.Client().RoleApi.CreateBulk(roleApis...).Save(ctx)
+	_, err = r.entClient.Client().RoleApi.CreateBulk(roleApis...).Save(ctx)
 	if err != nil {
-		err = entgo.Rollback(tx, err)
+		err = entCrud.Rollback(tx, err)
 		r.log.Errorf("assign apis to role failed: %s", err.Error())
 		return userV1.ErrorInternalServerError("assign apis to role failed")
 	}
@@ -81,7 +81,7 @@ func (r *RoleApiRepo) AssignApis(ctx context.Context, roleId uint32, apiIds []ui
 
 // ListApiIdsByRoleId 获取角色分配的API ID列表
 func (r *RoleApiRepo) ListApiIdsByRoleId(ctx context.Context, roleId uint32) ([]uint32, error) {
-	apiIds, err := r.data.db.Client().RoleApi.Query().
+	apiIds, err := r.entClient.Client().RoleApi.Query().
 		Where(roleapi.IDEQ(roleId)).
 		Select(roleapi.FieldAPIID).
 		IDs(ctx)
@@ -94,7 +94,7 @@ func (r *RoleApiRepo) ListApiIdsByRoleId(ctx context.Context, roleId uint32) ([]
 
 // RemoveApis 从角色移除API
 func (r *RoleApiRepo) RemoveApis(ctx context.Context, roleId uint32, apiIds []uint32) error {
-	_, err := r.data.db.Client().RoleApi.Delete().
+	_, err := r.entClient.Client().RoleApi.Delete().
 		Where(
 			roleapi.And(
 				roleapi.RoleIDEQ(roleId),

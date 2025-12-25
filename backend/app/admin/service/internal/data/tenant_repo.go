@@ -23,8 +23,8 @@ import (
 )
 
 type TenantRepo struct {
-	data *Data
-	log  *log.Helper
+	entClient *entCrud.EntClient[*ent.Client]
+	log       *log.Helper
 
 	mapper               *mapper.CopierMapper[userV1.Tenant, ent.Tenant]
 	statusConverter      *mapper.EnumTypeConverter[userV1.Tenant_Status, tenant.Status]
@@ -41,10 +41,10 @@ type TenantRepo struct {
 	]
 }
 
-func NewTenantRepo(ctx *bootstrap.Context, data *Data) *TenantRepo {
+func NewTenantRepo(ctx *bootstrap.Context, entClient *entCrud.EntClient[*ent.Client]) *TenantRepo {
 	repo := &TenantRepo{
 		log:                  ctx.NewLoggerHelper("tenant/repo/admin-service"),
-		data:                 data,
+		entClient:            entClient,
 		mapper:               mapper.NewCopierMapper[userV1.Tenant, ent.Tenant](),
 		statusConverter:      mapper.NewEnumTypeConverter[userV1.Tenant_Status, tenant.Status](userV1.Tenant_Status_name, userV1.Tenant_Status_value),
 		typeConverter:        mapper.NewEnumTypeConverter[userV1.Tenant_Type, tenant.Type](userV1.Tenant_Type_name, userV1.Tenant_Type_value),
@@ -75,7 +75,7 @@ func (r *TenantRepo) init() {
 }
 
 func (r *TenantRepo) Count(ctx context.Context, whereCond []func(s *sql.Selector)) (int, error) {
-	builder := r.data.db.Client().Tenant.Query()
+	builder := r.entClient.Client().Tenant.Query()
 	if len(whereCond) != 0 {
 		builder.Modify(whereCond...)
 	}
@@ -94,7 +94,7 @@ func (r *TenantRepo) List(ctx context.Context, req *pagination.PagingRequest) (*
 		return nil, userV1.ErrorBadRequest("invalid parameter")
 	}
 
-	builder := r.data.db.Client().Tenant.Query()
+	builder := r.entClient.Client().Tenant.Query()
 
 	ret, err := r.repository.ListWithPaging(ctx, builder, builder.Clone(), req)
 	if err != nil {
@@ -111,7 +111,7 @@ func (r *TenantRepo) List(ctx context.Context, req *pagination.PagingRequest) (*
 }
 
 func (r *TenantRepo) IsExist(ctx context.Context, id uint32) (bool, error) {
-	exist, err := r.data.db.Client().Tenant.Query().
+	exist, err := r.entClient.Client().Tenant.Query().
 		Where(tenant.IDEQ(id)).
 		Exist(ctx)
 	if err != nil {
@@ -126,7 +126,7 @@ func (r *TenantRepo) Get(ctx context.Context, req *userV1.GetTenantRequest) (*us
 		return nil, userV1.ErrorBadRequest("invalid parameter")
 	}
 
-	builder := r.data.db.Client().Tenant.Query()
+	builder := r.entClient.Client().Tenant.Query()
 
 	var whereCond []func(s *sql.Selector)
 	switch req.QueryBy.(type) {
@@ -154,7 +154,7 @@ func (r *TenantRepo) Create(ctx context.Context, data *userV1.Tenant) (*userV1.T
 		return nil, userV1.ErrorBadRequest("invalid parameter")
 	}
 
-	builder := r.data.db.Client().Tenant.Create().
+	builder := r.entClient.Client().Tenant.Create().
 		SetNillableName(data.Name).
 		SetNillableCode(data.Code).
 		SetNillableLogoURL(data.LogoUrl).
@@ -211,7 +211,7 @@ func (r *TenantRepo) Update(ctx context.Context, req *userV1.UpdateTenantRequest
 		}
 	}
 
-	builder := r.data.db.Client().Debug().Tenant.Update()
+	builder := r.entClient.Client().Debug().Tenant.Update()
 	err := r.repository.UpdateX(ctx, builder, req.Data, req.GetUpdateMask(),
 		func(dto *userV1.Tenant) {
 			builder.
@@ -251,7 +251,7 @@ func (r *TenantRepo) Delete(ctx context.Context, req *userV1.DeleteTenantRequest
 		return userV1.ErrorBadRequest("invalid parameter")
 	}
 
-	if err := r.data.db.Client().Tenant.DeleteOneID(req.GetId()).Exec(ctx); err != nil {
+	if err := r.entClient.Client().Tenant.DeleteOneID(req.GetId()).Exec(ctx); err != nil {
 		if ent.IsNotFound(err) {
 			return userV1.ErrorNotFound("tenant not found")
 		}
@@ -266,7 +266,7 @@ func (r *TenantRepo) Delete(ctx context.Context, req *userV1.DeleteTenantRequest
 
 // TenantExists checks if a tenant with the given username exists.
 func (r *TenantRepo) TenantExists(ctx context.Context, req *userV1.TenantExistsRequest) (*userV1.TenantExistsResponse, error) {
-	exist, err := r.data.db.Client().Tenant.Query().
+	exist, err := r.entClient.Client().Tenant.Query().
 		Where(tenant.CodeEQ(req.GetCode())).
 		Exist(ctx)
 	if err != nil {
@@ -285,7 +285,7 @@ func (r *TenantRepo) ListTenantsByIds(ctx context.Context, ids []uint32) ([]*use
 		return []*userV1.Tenant{}, nil
 	}
 
-	entities, err := r.data.db.Client().Tenant.Query().
+	entities, err := r.entClient.Client().Tenant.Query().
 		Where(tenant.IDIn(ids...)).
 		All(ctx)
 	if err != nil {

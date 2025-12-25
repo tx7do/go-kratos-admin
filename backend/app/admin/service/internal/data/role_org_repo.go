@@ -5,7 +5,7 @@ import (
 	"time"
 
 	"github.com/go-kratos/kratos/v2/log"
-	"github.com/tx7do/go-crud/entgo"
+	entCrud "github.com/tx7do/go-crud/entgo"
 	"github.com/tx7do/kratos-bootstrap/bootstrap"
 
 	"go-wind-admin/app/admin/service/internal/data/ent"
@@ -15,21 +15,21 @@ import (
 )
 
 type RoleOrgRepo struct {
-	data *Data
-	log  *log.Helper
+	entClient *entCrud.EntClient[*ent.Client]
+	log       *log.Helper
 }
 
-func NewRoleOrgRepo(ctx *bootstrap.Context, data *Data) *RoleOrgRepo {
+func NewRoleOrgRepo(ctx *bootstrap.Context, entClient *entCrud.EntClient[*ent.Client]) *RoleOrgRepo {
 	return &RoleOrgRepo{
-		log:  ctx.NewLoggerHelper("role-org/repo/admin-service"),
-		data: data,
+		log:       ctx.NewLoggerHelper("role-org/repo/admin-service"),
+		entClient: entClient,
 	}
 }
 
 // AssignOrganizations 给角色分配组织
 func (r *RoleOrgRepo) AssignOrganizations(ctx context.Context, roleId uint32, orgIds []uint32, operatorId uint32) error {
 	// 开启事务
-	tx, err := r.data.db.Client().Tx(ctx)
+	tx, err := r.entClient.Client().Tx(ctx)
 	if err != nil {
 		r.log.Errorf("start transaction failed: %s", err.Error())
 		return userV1.ErrorInternalServerError("start transaction failed")
@@ -37,7 +37,7 @@ func (r *RoleOrgRepo) AssignOrganizations(ctx context.Context, roleId uint32, or
 
 	// 删除该角色的所有旧关联
 	if _, err = tx.RoleOrg.Delete().Where(roleorg.RoleID(roleId)).Exec(ctx); err != nil {
-		err = entgo.Rollback(tx, err)
+		err = entCrud.Rollback(tx, err)
 		r.log.Errorf("delete old role organizations failed: %s", err.Error())
 		return userV1.ErrorInternalServerError("delete old role organizations failed")
 	}
@@ -54,7 +54,7 @@ func (r *RoleOrgRepo) AssignOrganizations(ctx context.Context, roleId uint32, or
 
 	var roleOrgs []*ent.RoleOrgCreate
 	for _, orgId := range orgIds {
-		rm := r.data.db.Client().RoleOrg.
+		rm := r.entClient.Client().RoleOrg.
 			Create().
 			SetRoleID(roleId).
 			SetOrgID(orgId).
@@ -63,9 +63,9 @@ func (r *RoleOrgRepo) AssignOrganizations(ctx context.Context, roleId uint32, or
 		roleOrgs = append(roleOrgs, rm)
 	}
 
-	_, err = r.data.db.Client().RoleOrg.CreateBulk(roleOrgs...).Save(ctx)
+	_, err = r.entClient.Client().RoleOrg.CreateBulk(roleOrgs...).Save(ctx)
 	if err != nil {
-		err = entgo.Rollback(tx, err)
+		err = entCrud.Rollback(tx, err)
 		r.log.Errorf("assign organizations to role failed: %s", err.Error())
 		return userV1.ErrorInternalServerError("assign organizations to role failed")
 	}
@@ -81,7 +81,7 @@ func (r *RoleOrgRepo) AssignOrganizations(ctx context.Context, roleId uint32, or
 
 // ListOrganizationIdsByRoleId 获取角色分配的组织ID列表
 func (r *RoleOrgRepo) ListOrganizationIdsByRoleId(ctx context.Context, roleId uint32) ([]uint32, error) {
-	ids, err := r.data.db.Client().RoleOrg.Query().
+	ids, err := r.entClient.Client().RoleOrg.Query().
 		Where(roleorg.RoleIDEQ(roleId)).
 		Select(roleorg.FieldOrgID).
 		IDs(ctx)
@@ -94,7 +94,7 @@ func (r *RoleOrgRepo) ListOrganizationIdsByRoleId(ctx context.Context, roleId ui
 
 // RemoveOrganizations 从角色移除组织
 func (r *RoleOrgRepo) RemoveOrganizations(ctx context.Context, roleId uint32, ids []uint32) error {
-	_, err := r.data.db.Client().RoleOrg.Delete().
+	_, err := r.entClient.Client().RoleOrg.Delete().
 		Where(
 			roleorg.And(
 				roleorg.RoleIDEQ(roleId),

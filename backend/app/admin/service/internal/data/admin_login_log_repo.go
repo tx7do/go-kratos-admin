@@ -23,8 +23,8 @@ import (
 )
 
 type AdminLoginLogRepo struct {
-	data *Data
-	log  *log.Helper
+	entClient *entCrud.EntClient[*ent.Client]
+	log       *log.Helper
 
 	mapper *mapper.CopierMapper[adminV1.AdminLoginLog, ent.AdminLoginLog]
 
@@ -37,11 +37,11 @@ type AdminLoginLogRepo struct {
 	]
 }
 
-func NewAdminLoginLogRepo(ctx *bootstrap.Context, data *Data) *AdminLoginLogRepo {
+func NewAdminLoginLogRepo(ctx *bootstrap.Context, entClient *entCrud.EntClient[*ent.Client]) *AdminLoginLogRepo {
 	repo := &AdminLoginLogRepo{
-		log:    ctx.NewLoggerHelper("admin-login-log/repo/admin-service"),
-		data:   data,
-		mapper: mapper.NewCopierMapper[adminV1.AdminLoginLog, ent.AdminLoginLog](),
+		log:       ctx.NewLoggerHelper("admin-login-log/repo/admin-service"),
+		entClient: entClient,
+		mapper:    mapper.NewCopierMapper[adminV1.AdminLoginLog, ent.AdminLoginLog](),
 	}
 
 	repo.init()
@@ -63,7 +63,7 @@ func (r *AdminLoginLogRepo) init() {
 }
 
 func (r *AdminLoginLogRepo) Count(ctx context.Context, whereCond []func(s *sql.Selector)) (int, error) {
-	builder := r.data.db.Client().AdminLoginLog.Query()
+	builder := r.entClient.Client().AdminLoginLog.Query()
 	if len(whereCond) != 0 {
 		builder.Modify(whereCond...)
 	}
@@ -82,7 +82,7 @@ func (r *AdminLoginLogRepo) List(ctx context.Context, req *pagination.PagingRequ
 		return nil, adminV1.ErrorBadRequest("invalid parameter")
 	}
 
-	builder := r.data.db.Client().AdminLoginLog.Query()
+	builder := r.entClient.Client().AdminLoginLog.Query()
 
 	ret, err := r.repository.ListWithPaging(ctx, builder, builder.Clone(), req)
 	if err != nil {
@@ -99,7 +99,7 @@ func (r *AdminLoginLogRepo) List(ctx context.Context, req *pagination.PagingRequ
 }
 
 func (r *AdminLoginLogRepo) IsExist(ctx context.Context, id uint32) (bool, error) {
-	exist, err := r.data.db.Client().AdminLoginLog.Query().
+	exist, err := r.entClient.Client().AdminLoginLog.Query().
 		Where(adminloginlog.IDEQ(id)).
 		Exist(ctx)
 	if err != nil {
@@ -114,7 +114,7 @@ func (r *AdminLoginLogRepo) Get(ctx context.Context, req *adminV1.GetAdminLoginL
 		return nil, adminV1.ErrorBadRequest("invalid parameter")
 	}
 
-	builder := r.data.db.Client().Debug().AdminLoginLog.Query()
+	builder := r.entClient.Client().Debug().AdminLoginLog.Query()
 
 	var whereCond []func(s *sql.Selector)
 	switch req.QueryBy.(type) {
@@ -136,7 +136,7 @@ func (r *AdminLoginLogRepo) Create(ctx context.Context, req *adminV1.CreateAdmin
 		return adminV1.ErrorBadRequest("invalid parameter")
 	}
 
-	builder := r.data.db.Client().AdminLoginLog.
+	builder := r.entClient.Client().AdminLoginLog.
 		Create().
 		SetNillableLoginIP(req.Data.LoginIp).
 		SetNillableLoginMAC(req.Data.LoginMac).

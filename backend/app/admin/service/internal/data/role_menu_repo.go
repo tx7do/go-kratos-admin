@@ -5,7 +5,7 @@ import (
 	"time"
 
 	"github.com/go-kratos/kratos/v2/log"
-	"github.com/tx7do/go-crud/entgo"
+	entCrud "github.com/tx7do/go-crud/entgo"
 	"github.com/tx7do/kratos-bootstrap/bootstrap"
 
 	"go-wind-admin/app/admin/service/internal/data/ent"
@@ -15,21 +15,21 @@ import (
 )
 
 type RoleMenuRepo struct {
-	data *Data
-	log  *log.Helper
+	entClient *entCrud.EntClient[*ent.Client]
+	log       *log.Helper
 }
 
-func NewRoleMenuRepo(ctx *bootstrap.Context, data *Data) *RoleMenuRepo {
+func NewRoleMenuRepo(ctx *bootstrap.Context, entClient *entCrud.EntClient[*ent.Client]) *RoleMenuRepo {
 	return &RoleMenuRepo{
-		log:  ctx.NewLoggerHelper("role-menu/repo/admin-service"),
-		data: data,
+		log:       ctx.NewLoggerHelper("role-menu/repo/admin-service"),
+		entClient: entClient,
 	}
 }
 
 // AssignMenus 给角色分配菜单
 func (r *RoleMenuRepo) AssignMenus(ctx context.Context, roleId uint32, menuIds []uint32, operatorId uint32) error {
 	// 开启事务
-	tx, err := r.data.db.Client().Tx(ctx)
+	tx, err := r.entClient.Client().Tx(ctx)
 	if err != nil {
 		r.log.Errorf("start transaction failed: %s", err.Error())
 		return userV1.ErrorInternalServerError("start transaction failed")
@@ -37,7 +37,7 @@ func (r *RoleMenuRepo) AssignMenus(ctx context.Context, roleId uint32, menuIds [
 
 	// 删除该角色的所有旧关联
 	if _, err = tx.RoleMenu.Delete().Where(rolemenu.RoleID(roleId)).Exec(ctx); err != nil {
-		err = entgo.Rollback(tx, err)
+		err = entCrud.Rollback(tx, err)
 		r.log.Errorf("delete old role menus failed: %s", err.Error())
 		return userV1.ErrorInternalServerError("delete old role menus failed")
 	}
@@ -54,7 +54,7 @@ func (r *RoleMenuRepo) AssignMenus(ctx context.Context, roleId uint32, menuIds [
 
 	var roleMenus []*ent.RoleMenuCreate
 	for _, menuID := range menuIds {
-		rm := r.data.db.Client().RoleMenu.
+		rm := r.entClient.Client().RoleMenu.
 			Create().
 			SetRoleID(roleId).
 			SetMenuID(menuID).
@@ -63,9 +63,9 @@ func (r *RoleMenuRepo) AssignMenus(ctx context.Context, roleId uint32, menuIds [
 		roleMenus = append(roleMenus, rm)
 	}
 
-	_, err = r.data.db.Client().RoleMenu.CreateBulk(roleMenus...).Save(ctx)
+	_, err = r.entClient.Client().RoleMenu.CreateBulk(roleMenus...).Save(ctx)
 	if err != nil {
-		err = entgo.Rollback(tx, err)
+		err = entCrud.Rollback(tx, err)
 		r.log.Errorf("assign menus to role failed: %s", err.Error())
 		return userV1.ErrorInternalServerError("assign menus to role failed")
 	}
@@ -81,7 +81,7 @@ func (r *RoleMenuRepo) AssignMenus(ctx context.Context, roleId uint32, menuIds [
 
 // ListMenuIdsByRoleId 获取角色分配的菜单ID列表
 func (r *RoleMenuRepo) ListMenuIdsByRoleId(ctx context.Context, roleId uint32) ([]uint32, error) {
-	menuIds, err := r.data.db.Client().RoleMenu.Query().
+	menuIds, err := r.entClient.Client().RoleMenu.Query().
 		Where(rolemenu.RoleIDEQ(roleId)).
 		Select(rolemenu.FieldMenuID).
 		IDs(ctx)
@@ -94,7 +94,7 @@ func (r *RoleMenuRepo) ListMenuIdsByRoleId(ctx context.Context, roleId uint32) (
 
 // RemoveMenus 从角色移除菜单
 func (r *RoleMenuRepo) RemoveMenus(ctx context.Context, roleId uint32, menuIds []uint32) error {
-	_, err := r.data.db.Client().RoleMenu.Delete().
+	_, err := r.entClient.Client().RoleMenu.Delete().
 		Where(
 			rolemenu.And(
 				rolemenu.RoleIDEQ(roleId),
